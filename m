@@ -1,57 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB22316ADE
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 17:14:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB888316ADF
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 17:15:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42FD86ECA9;
-	Wed, 10 Feb 2021 16:14:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D590D6ECAC;
+	Wed, 10 Feb 2021 16:14:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B20646ECA9
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 16:14:44 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 7A0FE64E66
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 16:14:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612973684;
- bh=QKA8W0XNJ0l6U1P5mlplCmlAF/jlPuvWLjrBjqEze0k=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=K4Kp6AQ5MVLWHtk7V4vODJ1qjMMo/oxGdrTLLZu8BjcXaGuzIm0O6dU/us5TexKi3
- mhq6SP1t+bCovwQS8IlrxGH6fgepQj5J/j9cSPQqlop+cawszibixpI17m1jhXsUP3
- dj7Sh9OCDequEip44AXbGI8uI/tsCqj+uSguBtz/eGl6XBMtLSyDHFM1BKMTFGk/r8
- 3EPa13QCg53sJZ8+VbB7J4zHgDKPlI+ADg9iECQXuIN4RXWt6r+1X/6J759sAItqnU
- nK3mVfJCVT1cIxuSAS3NqdnCe1w9mdDywYLQ7ff7nJu7GWCUvlneYb85oPLtHREc6/
- G4iO/HVGS+Icw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 66AC06146F; Wed, 10 Feb 2021 16:14:44 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211649] "drm/amd/display: reuse current context instead of
- recreating one" cause hdmi hotplug blackscreen on amdgpu
-Date: Wed, 10 Feb 2021 16:14:44 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: youling257@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211649-2300-gGZYky9WPO@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211649-2300@https.bugzilla.kernel.org/>
-References: <bug-211649-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D401D6ECAA
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 16:14:56 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 60C8DAC97;
+ Wed, 10 Feb 2021 16:14:55 +0000 (UTC)
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200625120011.16168-1-tzimmermann@suse.de>
+ <20200625120011.16168-4-tzimmermann@suse.de>
+ <20200629090657.GN3278063@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 3/9] drm: Add simplekms driver
+Message-ID: <31669899-3047-92aa-6b2a-a87b7177251f@suse.de>
+Date: Wed, 10 Feb 2021 17:14:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200629090657.GN3278063@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,132 +40,248 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: geert+renesas@glider.be, airlied@linux.ie, emil.l.velikov@gmail.com,
+ lgirdwood@gmail.com, dri-devel@lists.freedesktop.org, hdegoede@redhat.com,
+ broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
+Content-Type: multipart/mixed; boundary="===============1669086393=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=211649
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1669086393==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="hTWJvh9mbW2PYokMdITrAxucsWu2BYmiL"
 
---- Comment #3 from youling257@gmail.com ---
-replug hdmi, [drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]]
-*ERROR* [CRTC:67:crtc-0] flip_done timed out
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--hTWJvh9mbW2PYokMdITrAxucsWu2BYmiL
+Content-Type: multipart/mixed; boundary="nWtHMFgY1dvd8mTqzNrNT8JMJTVAcvKNb";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: geert+renesas@glider.be, airlied@linux.ie, emil.l.velikov@gmail.com,
+ dri-devel@lists.freedesktop.org, lgirdwood@gmail.com, hdegoede@redhat.com,
+ broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
+Message-ID: <31669899-3047-92aa-6b2a-a87b7177251f@suse.de>
+Subject: Re: [PATCH 3/9] drm: Add simplekms driver
+References: <20200625120011.16168-1-tzimmermann@suse.de>
+ <20200625120011.16168-4-tzimmermann@suse.de>
+ <20200629090657.GN3278063@phenom.ffwll.local>
+In-Reply-To: <20200629090657.GN3278063@phenom.ffwll.local>
+
+--nWtHMFgY1dvd8mTqzNrNT8JMJTVAcvKNb
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 29.06.20 um 11:06 schrieb Daniel Vetter:
+>=20
+>> +					   ARRAY_SIZE(simplekms_formats),
+>> +					   simplekms_format_modifiers,
+>> +					   connector);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	drm_mode_config_reset(dev);
+>=20
+> This breaks fastboot. I think ideally we'd have the state represent
+> everything is on, and allocate an fb + buffer with the current contents=
+ of
+> the framebuffer. Since we can allocate an fb that matches this shouldn'=
+t
+> be a problem, just a raw memcpy_fromio should do the job.
+>=20
+> Having a nice new simplekms drm driver and then losing fastboot feels l=
+ike
+> slightly off tradeoff.
+>=20
+> Maybe in a follow-up patch, but before fbcon setup? Since ideally fbcon=
+
+> also takes over the already existing framebuffer we allocated, so that =
+as
+> long as nothing clears the fb (i.e. fbcon is quiet) we'd preserve the
+> original framebuffer throughout the boot-up sequence.
+
+I recently looked at how to implement this and it seems fairly complicate=
+d.
+
+What we want it to adopt the current mode config into fbcon (and=20
+probably other in-kernel clients). The kernel client code uses it's own=20
+file instance to allocate the framebuffer objects against. So we cannot=20
+read-out the framebuffer state here. We'd ideally do this in the fbdev co=
+de.
+
+I read through the proposal for read-out helpers. i915 seems to have=20
+lots of special cases. Can we adopt a simplified version that is just=20
+good enough to get the initial state for fbdev?
+
+Best regards
+Thomas
+
+>=20
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +/*
+>> + * Init / Cleanup
+>> + */
+>> +
+>> +static void simplekms_device_cleanup(struct simplekms_device* sdev)
+>> +{
+>> +	struct drm_device *dev =3D &sdev->dev;
+>> +
+>> +	drm_dev_unregister(dev);
+>=20
+> I'd inline this, I guess there was once more before you switched
+> everything over to devm_
+>=20
+>> +}
+>> +
+>> +static struct simplekms_device *
+>> +simplekms_device_create(struct drm_driver *drv, struct platform_devic=
+e *pdev)
+>> +{
+>> +	struct simplekms_device *sdev;
+>> +	int ret;
+>> +
+>> +	sdev =3D devm_drm_dev_alloc(&pdev->dev, drv, struct simplekms_device=
+,
+>> +				  dev);
+>> +	if (IS_ERR(sdev))
+>> +		return ERR_CAST(sdev);
+>> +	sdev->pdev =3D pdev;
+>> +
+>> +	ret =3D simplekms_device_init_fb(sdev);
+>> +	if (ret)
+>> +		return ERR_PTR(ret);
+>> +	ret =3D simplekms_device_init_mm(sdev);
+>> +	if (ret)
+>> +		return ERR_PTR(ret);
+>> +	ret =3D simplekms_device_init_modeset(sdev);
+>> +	if (ret)
+>> +		return ERR_PTR(ret);
+>> +
+>> +	return sdev;
+>> +}
+>> +
+>> +/*
+>> + * DRM driver
+>> + */
+>> +
+>> +DEFINE_DRM_GEM_FOPS(simplekms_fops);
+>> +
+>> +static struct drm_driver simplekms_driver =3D {
+>> +	DRM_GEM_SHMEM_DRIVER_OPS,
+>> +	.name			=3D DRIVER_NAME,
+>> +	.desc			=3D DRIVER_DESC,
+>> +	.date			=3D DRIVER_DATE,
+>> +	.major			=3D DRIVER_MAJOR,
+>> +	.minor			=3D DRIVER_MINOR,
+>> +	.driver_features	=3D DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
+>> +	.fops			=3D &simplekms_fops,
+>> +};
+>> +
+>> +/*
+>> + * Platform driver
+>> + */
+>> +
+>> +static int simplekms_probe(struct platform_device *pdev)
+>> +{
+>> +	struct simplekms_device *sdev;
+>> +	struct drm_device *dev;
+>> +	int ret;
+>> +
+>> +	sdev =3D simplekms_device_create(&simplekms_driver, pdev);
+>> +	if (IS_ERR(sdev))
+>> +		return PTR_ERR(sdev);
+>> +	dev =3D &sdev->dev;
+>> +
+>> +	ret =3D drm_dev_register(dev, 0);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int simplekms_remove(struct platform_device *pdev)
+>> +{
+>> +	struct simplekms_device *sdev =3D platform_get_drvdata(pdev);
+>> +
+>> +	simplekms_device_cleanup(sdev);
+>=20
+> If you add the ->disable hook then a comment here that we don't want to=
+
+> shut down to allow fastboot would be nice.
+>=20
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static struct platform_driver simplekms_platform_driver =3D {
+>> +	.driver =3D {
+>> +		.name =3D "simple-framebuffer", /* connect to sysfb */
+>> +	},
+>> +	.probe =3D simplekms_probe,
+>> +	.remove =3D simplekms_remove,
+>> +};
+>> +
+>> +module_platform_driver(simplekms_platform_driver);
+>> +
+>> +MODULE_DESCRIPTION(DRIVER_DESC);
+>> +MODULE_LICENSE("GPL v2");
+>> --=20
+>> 2.27.0
+>>
+>=20
+> Cheers, Daniel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
-[  252.377374] [drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]]
-*ERROR* [CRTC:67:crtc-0] flip_done timed out
+--nWtHMFgY1dvd8mTqzNrNT8JMJTVAcvKNb--
 
-[  262.617295] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [CRTC:67:crtc-0] flip_done timed out
+--hTWJvh9mbW2PYokMdITrAxucsWu2BYmiL
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-[  270.268771] [drm] amdgpu_dm_irq_schedule_work FAILED src 2
-[  272.857440] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [PLANE:55:plane-3] flip_done timed out
-[  272.906034] ------------[ cut here ]------------
-[  272.906037] WARNING: CPU: 0 PID: 15 at
-amdgpu_dm_atomic_commit_tail+0x2582/0x25f0 [amdgpu]
-[  272.906404] Modules linked in: nct6775 hwmon_vid ccm binfmt_misc overlay
-exportfs kvm_amd kvm crc32c_intel crc32_pclmul snd_hda_codec_realtek
-snd_hda_codec_generic ledtrig_audio snd_hda_codec_hdmi snd_hda_intel
-snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_timer snd soundcore
-snd_intel_dspcfg amdgpu drm_kms_helper cec fb_sys_fops syscopyarea sysfillrect
-sysimgblt gpu_sched drm_ttm_helper ttm drm ccp rng_core hid_multitouch btusb
-iwlmvm btrtl btintel btbcm bluetooth ecdh_generic ecc mac80211 libarc4 iwlwifi
-cfg80211 igb i2c_algo_bit k10temp gpio_amdpt gpio_generic efi_pstore sdcardfs
-[  272.906461] CPU: 0 PID: 15 Comm: kworker/0:1 Tainted: G        W        
-5.11.0-rc5-android-x86_64+ #1
-[  272.906466] Hardware name: To Be Filled By O.E.M. To Be Filled By
-O.E.M./B450 Gaming-ITX/ac, BIOS P4.10 07/08/2020
-[  272.906468] Workqueue: events dm_irq_work_func [amdgpu]
-[  272.906826] RIP: 0010:amdgpu_dm_atomic_commit_tail+0x2582/0x25f0 [amdgpu]
-[  272.907181] Code: a0 fd ff ff 01 c7 85 9c fd ff ff 37 00 00 00 c7 85 a4 fd
-ff ff 20 00 00 00 e8 5a 30 13 00 e9 a0 fa ff ff 0f 0b e9 f0 f8 ff ff <0f> 0b e9
-3f f9 ff ff 0f 0b 0f 0b e9 55 f9 ff ff 49 8b 06 41 0f b6
-[  272.907185] RSP: 0018:ffffa0a8000a3ab8 EFLAGS: 00210002
-[  272.907189] RAX: 0000000000000002 RBX: 0000000000000003 RCX:
-ffff996d91211918
-[  272.907191] RDX: 0000000000000001 RSI: 0000000000200297 RDI:
-ffff996d510a0178
-[  272.907194] RBP: ffffa0a8000a3db8 R08: 0000000000000005 R09:
-0000000000000000
-[  272.907196] R10: ffffa0a8000a3a18 R11: ffffa0a8000a3a1c R12:
-0000000000200287
-[  272.907198] R13: ffff996d6c35d800 R14: ffff996d91211800 R15:
-ffff996d6f4d3600
-[  272.907200] FS:  0000000000000000(0000) GS:ffff996e56e00000(0000)
-knlGS:0000000000000000
-[  272.907203] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  272.907206] CR2: 00000000144c2000 CR3: 000000010e262000 CR4:
-00000000001506f0
-[  272.907209] Call Trace:
-[  272.907219]  commit_tail+0x94/0x130 [drm_kms_helper]
-[  272.907251]  drm_atomic_helper_commit+0x113/0x140 [drm_kms_helper]
-[  272.907280]  dm_restore_drm_connector_state+0xef/0x170 [amdgpu]
-[  272.907635]  handle_hpd_irq+0x118/0x150 [amdgpu]
-[  272.907990]  dm_irq_work_func+0x49/0x60 [amdgpu]
-[  272.908346]  process_one_work+0x1c1/0x3c0
-[  272.908353]  worker_thread+0x4d/0x3d0
-[  272.908357]  ? rescuer_thread+0x3b0/0x3b0
-[  272.908362]  kthread+0x133/0x150
-[  272.908367]  ? kthread_create_worker_on_cpu+0x70/0x70
-[  272.908373]  ret_from_fork+0x22/0x30
-[  272.908379] ---[ end trace 9e7a0ad9c8574ed6 ]---
-[  272.908402] ------------[ cut here ]------------
-[  272.908403] WARNING: CPU: 0 PID: 15 at
-amdgpu_dm_atomic_commit_tail+0x258b/0x25f0 [amdgpu]
-[  272.908757] Modules linked in: nct6775 hwmon_vid ccm binfmt_misc overlay
-exportfs kvm_amd kvm crc32c_intel crc32_pclmul snd_hda_codec_realtek
-snd_hda_codec_generic ledtrig_audio snd_hda_codec_hdmi snd_hda_intel
-snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_timer snd soundcore
-snd_intel_dspcfg amdgpu drm_kms_helper cec fb_sys_fops syscopyarea sysfillrect
-sysimgblt gpu_sched drm_ttm_helper ttm drm ccp rng_core hid_multitouch btusb
-iwlmvm btrtl btintel btbcm bluetooth ecdh_generic ecc mac80211 libarc4 iwlwifi
-cfg80211 igb i2c_algo_bit k10temp gpio_amdpt gpio_generic efi_pstore sdcardfs
-[  272.908803] CPU: 0 PID: 15 Comm: kworker/0:1 Tainted: G        W        
-5.11.0-rc5-android-x86_64+ #1
-[  272.908807] Hardware name: To Be Filled By O.E.M. To Be Filled By
-O.E.M./B450 Gaming-ITX/ac, BIOS P4.10 07/08/2020
-[  272.908809] Workqueue: events dm_irq_work_func [amdgpu]
-[  272.909163] RIP: 0010:amdgpu_dm_atomic_commit_tail+0x258b/0x25f0 [amdgpu]
-[  272.909517] Code: ff ff 37 00 00 00 c7 85 a4 fd ff ff 20 00 00 00 e8 5a 30
-13 00 e9 a0 fa ff ff 0f 0b e9 f0 f8 ff ff 0f 0b e9 3f f9 ff ff 0f 0b <0f> 0b e9
-55 f9 ff ff 49 8b 06 41 0f b6 8e 2d 01 00 00 48 c7 c6 38
-[  272.909521] RSP: 0018:ffffa0a8000a3ab8 EFLAGS: 00210086
-[  272.909524] RAX: 0000000000000001 RBX: 0000000000000003 RCX:
-ffff996d91211918
-[  272.909526] RDX: 0000000000000001 RSI: 0000000000200297 RDI:
-ffff996d510a0178
-[  272.909528] RBP: ffffa0a8000a3db8 R08: 0000000000000005 R09:
-0000000000000000
-[  272.909530] R10: ffffa0a8000a3a18 R11: ffffa0a8000a3a1c R12:
-0000000000200287
-[  272.909532] R13: ffff996d6c35d800 R14: ffff996d91211800 R15:
-ffff996d6f4d3600
-[  272.909534] FS:  0000000000000000(0000) GS:ffff996e56e00000(0000)
-knlGS:0000000000000000
-[  272.909537] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  272.909539] CR2: 00000000144c2000 CR3: 000000010e262000 CR4:
-00000000001506f0
-[  272.909541] Call Trace:
-[  272.909549]  commit_tail+0x94/0x130 [drm_kms_helper]
-[  272.909579]  drm_atomic_helper_commit+0x113/0x140 [drm_kms_helper]
-[  272.909608]  dm_restore_drm_connector_state+0xef/0x170 [amdgpu]
-[  272.909961]  handle_hpd_irq+0x118/0x150 [amdgpu]
-[  272.910315]  dm_irq_work_func+0x49/0x60 [amdgpu]
-[  272.910669]  process_one_work+0x1c1/0x3c0
-[  272.910674]  worker_thread+0x4d/0x3d0
-[  272.910678]  ? rescuer_thread+0x3b0/0x3b0
-[  272.910682]  kthread+0x133/0x150
-[  272.910687]  ? kthread_create_worker_on_cpu+0x70/0x70
-[  272.910692]  ret_from_fork+0x22/0x30
-[  272.910697] ---[ end trace 9e7a0ad9c8574ed7 ]---
+-----BEGIN PGP SIGNATURE-----
 
--- 
-You may reply to this email to add a comment.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAkBn4FAwAAAAAACgkQlh/E3EQov+Bo
+aBAApTkgXbTbi+2ZBiInPRSrqo8wbvH/gDXacx0OxjhfFgZdwrmBoqm7ov0fK+C9rMw2pUccP1IR
+Jx3JHF5Lhiyui2H3FD+IiP5pMrvTQX+mXh5mmxWBMBi7FeGLfyCC8gzr3NkEJzpiz3IifrfF1FZa
++G+/j2yRloGa+aUDO8CAF/xgU1ZMb9Dz/5bNiXKC1Zu+sV7u5NymJTtUwXwsJyVGl4KWEuPFtKRo
+s6pYy+5v0MZw6YpivYoqcBxxc6SteanCVb0046liZUQi1pB4zwsdCV9JB8IgjyVnotqVT0ZVg6vO
+7DiFFrILjGAqyKCZw1Z1zefWlffJyFiy5g83dm3Eh3eY+ZEUU1Kna63VBbccTYbVZvRqcbTZRR8q
+HQ8qN3D2HheGnRI5jGMwgdUSgE/r7ICGFSmey2I03KM74CZC58P6oiLGcwtjJgpESMnuYqIGeBSI
+7kXtmFcwgn/cmSR8m0mNShuYziT+H4fPKquqRFkg6b+r42zyS8d9KB3mkZT8dGNwn9z+1rIdeDlr
+ayDCwjTUiUI8XH8+tR4PfHdrkJKvyfZHq8j7lN04x50xpDP2luiHSn7XcGsv+WpxVt7pTByn3uUb
+OYCQN3WQg29Txe9OxUZfZTlWs3S9rwbRyhFZqhlwIDWvxKrqmweJvA8nf7PfR3VqrRwlwDzIPdfH
+vIU=
+=ZOVn
+-----END PGP SIGNATURE-----
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+--hTWJvh9mbW2PYokMdITrAxucsWu2BYmiL--
+
+--===============1669086393==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1669086393==--
