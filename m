@@ -2,38 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52EDD317388
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 23:40:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D4D317392
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 23:45:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 147AE6ED13;
-	Wed, 10 Feb 2021 22:40:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38FB16ED16;
+	Wed, 10 Feb 2021 22:45:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 560B26ED13;
- Wed, 10 Feb 2021 22:40:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5898164E8A;
- Wed, 10 Feb 2021 22:40:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612996834;
- bh=fv/SaLX4OCbE+8LRP74tQIUI6aMJIwiNKHsef7saXqc=;
- h=Date:From:To:Cc:Subject:From;
- b=FkYmsTOayGNs35h2mi4e3gHIin0mbtpK2ov/p/hu4m8hqbmEhw/0DqAIgEXpBoASj
- KQeYDvQm1/rLMnskdVd+UI5fa1ALYJu+o8LAVNiqlTRqC+rDAU0bnBwUgTesuUdd2D
- 1lgRYeXqomTOCcsk7//NjPkKqhyjGqgROfv86HXmp2VZ3Ml4zVqweoMaoRkgGwL1UW
- fTWSdj8qf7m93PrvcAmB9YlOrhzo9EHfG5UBqUeW3d6v4wEqyD1Cvp1mXyX3qD8kEY
- IPwFcbcmzxz/OOCaRn/3nugCqG5Ebh7sLJJ0i1DPMn2kQMBREZ4EbgSSamz452Ugha
- a5mbXO/6nUSgQ==
-Date: Wed, 10 Feb 2021 16:40:31 -0600
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Evan Quan <evan.quan@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH][next] drm/amd/pm: Replace one-element array with
- flexible-array in struct SISLANDS_SMC_SWSTATE
-Message-ID: <20210210224031.GA8795@embeddedor>
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
+ [209.85.210.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 486056ED16
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 22:45:05 +0000 (UTC)
+Received: by mail-ot1-f45.google.com with SMTP id e5so3417760otb.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 14:45:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=NTjPSQnNqlFRAkz0a6xaD4E0SOmzHGZrh2Mkjc0lXfA=;
+ b=MYRsKrwwU6hp55ShiAWK35d3AvyvAjS3JWmnwn8bZoC1CeYOBXz4FRgN4xjC8qZT8J
+ ZqecJffM9Jom0TvBrF4bj8fs7HL6aLU+L9StHnfExo6ZnX335uokGqz4q2tjHOz2F2o/
+ IyzuZU9Ap8SvJRDc04i8qzreMM8TIV6xtQzAlBA0qPcOZtMsFSddBp4rpsPwhT0Vr1Ap
+ 2ynot86oplZn/jt4oAzefiRfKQFpnH69Tg4UMyE8ZPj/lMHcfvu8t2RO6OEBQOdjZOpQ
+ e4PBwkMvhysXnbZo0qytWZh56Gy+F1JsUiy4ZAy4u25HOC1zuO66nI5iiesOFP4j3utQ
+ NJTA==
+X-Gm-Message-State: AOAM530t4NrZAOdlIH9Hz9nF3ViqQKnf99iqdJjBTRyOvfMDBnnUu0WF
+ L/Yap8E4qZUgWVnxCoOymw==
+X-Google-Smtp-Source: ABdhPJyPJiR05AIrtKUTCS8xD+LsyHECj9z0LbPXixoaHK1zkj0KdQ/1Cl58xPOLrZ6Vlws8Zi/D8g==
+X-Received: by 2002:a05:6830:140a:: with SMTP id
+ v10mr3787221otp.355.1612997104577; 
+ Wed, 10 Feb 2021 14:45:04 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id j25sm379707otn.55.2021.02.10.14.45.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Feb 2021 14:45:03 -0800 (PST)
+Received: (nullmailer pid 2951110 invoked by uid 1000);
+ Wed, 10 Feb 2021 22:45:02 -0000
+Date: Wed, 10 Feb 2021 16:45:02 -0600
+From: Rob Herring <robh@kernel.org>
+To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Subject: Re: [RFC/PATCH v2 11/16] dt-bindings: gpu: v3d: Add BCM2711's
+ compatible
+Message-ID: <20210210224502.GA2951054@robh.at.kernel.org>
+References: <20210209125912.3398-1-nsaenzjulienne@suse.de>
+ <20210209125912.3398-12-nsaenzjulienne@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
+In-Reply-To: <20210209125912.3398-12-nsaenzjulienne@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,92 +62,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, f.fainelli@gmail.com,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ bcm-kernel-feedback-list@broadcom.com, wahrenst@gmx.net, phil@raspberrypi.com,
+ linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlcmUgaXMgYSByZWd1bGFyIG5lZWQgaW4gdGhlIGtlcm5lbCB0byBwcm92aWRlIGEgd2F5IHRv
-IGRlY2xhcmUgaGF2aW5nCmEgZHluYW1pY2FsbHkgc2l6ZWQgc2V0IG9mIHRyYWlsaW5nIGVsZW1l
-bnRzIGluIGEgc3RydWN0dXJlLiBLZXJuZWwgY29kZQpzaG91bGQgYWx3YXlzIHVzZSDigJxmbGV4
-aWJsZSBhcnJheSBtZW1iZXJz4oCdWzFdIGZvciB0aGVzZSBjYXNlcy4gVGhlIG9sZGVyCnN0eWxl
-IG9mIG9uZS1lbGVtZW50IG9yIHplcm8tbGVuZ3RoIGFycmF5cyBzaG91bGQgbm8gbG9uZ2VyIGJl
-IHVzZWRbMl0uCgpSZWZhY3RvciB0aGUgY29kZSBhY2NvcmRpbmcgdG8gdGhlIHVzZSBvZiBhIGZs
-ZXhpYmxlLWFycmF5IG1lbWJlciBpbgpzdHJ1Y3QgU0lTTEFORFNfU01DX1NXU1RBVEUsIGluc3Rl
-YWQgb2YgYSBvbmUtZWxlbWVudCBhcnJheSwgYW5kIHVzZQp0aGUgc3RydWN0X3NpemUoKSBoZWxw
-ZXIgdG8gY2FsY3VsYXRlIHRoZSBzaXplIGZvciB0aGUgYWxsb2NhdGlvbi4KCkFsc28sIHRoaXMg
-aGVscHMgd2l0aCB0aGUgb25nb2luZyBlZmZvcnRzIHRvIGVuYWJsZSAtV2FycmF5LWJvdW5kcyBh
-bmQKZml4IHRoZSBmb2xsb3dpbmcgd2FybmluZ3M6Cgpkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
-dS8uLi9wbS9wb3dlcnBsYXkvc2lfZHBtLmM6MjQ0ODoyMDogd2FybmluZzogYXJyYXkKc3Vic2Ny
-aXB0IDEgaXMgYWJvdmUgYXJyYXkgYm91bmRzIG9mIOKAmFNJU0xBTkRTX1NNQ19IV19QRVJGT1JN
-QU5DRV9MRVZFTFsxXeKAmQp7YWthIOKAmHN0cnVjdCBTSVNMQU5EU19TTUNfSFdfUEVSRk9STUFO
-Q0VfTEVWRUxbMV3igJl9IFstV2FycmF5LWJvdW5kc10KZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
-cHUvLi4vcG0vcG93ZXJwbGF5L3NpX2RwbS5jOjI0NDk6MjA6IHdhcm5pbmc6IGFycmF5CnN1YnNj
-cmlwdCAxIGlzIGFib3ZlIGFycmF5IGJvdW5kcyBvZiDigJhTSVNMQU5EU19TTUNfSFdfUEVSRk9S
-TUFOQ0VfTEVWRUxbMV3igJkKe2FrYSDigJhzdHJ1Y3QgU0lTTEFORFNfU01DX0hXX1BFUkZPUk1B
-TkNFX0xFVkVMWzFd4oCZfSBbLVdhcnJheS1ib3VuZHNdCmRyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1Ly4uL3BtL3Bvd2VycGxheS9zaV9kcG0uYzoyNDUwOjIwOiB3YXJuaW5nOiBhcnJheQpzdWJz
-Y3JpcHQgMSBpcyBhYm92ZSBhcnJheSBib3VuZHMgb2Yg4oCYU0lTTEFORFNfU01DX0hXX1BFUkZP
-Uk1BTkNFX0xFVkVMWzFd4oCZCntha2Eg4oCYc3RydWN0IFNJU0xBTkRTX1NNQ19IV19QRVJGT1JN
-QU5DRV9MRVZFTFsxXeKAmX0gWy1XYXJyYXktYm91bmRzXQpkcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
-ZGdwdS8uLi9wbS9wb3dlcnBsYXkvc2lfZHBtLmM6MjQ1MToyMDogd2FybmluZzogYXJyYXkKc3Vi
-c2NyaXB0IDEgaXMgYWJvdmUgYXJyYXkgYm91bmRzIG9mIOKAmFNJU0xBTkRTX1NNQ19IV19QRVJG
-T1JNQU5DRV9MRVZFTFsxXeKAmQp7YWthIOKAmHN0cnVjdCBTSVNMQU5EU19TTUNfSFdfUEVSRk9S
-TUFOQ0VfTEVWRUxbMV3igJl9IFstV2FycmF5LWJvdW5kc10KZHJpdmVycy9ncHUvZHJtL2FtZC9h
-bWRncHUvLi4vcG0vcG93ZXJwbGF5L3NpX2RwbS5jOjI0NTI6MjA6IHdhcm5pbmc6IGFycmF5CnN1
-YnNjcmlwdCAxIGlzIGFib3ZlIGFycmF5IGJvdW5kcyBvZiDigJhTSVNMQU5EU19TTUNfSFdfUEVS
-Rk9STUFOQ0VfTEVWRUxbMV3igJkKe2FrYSDigJhzdHJ1Y3QgU0lTTEFORFNfU01DX0hXX1BFUkZP
-Uk1BTkNFX0xFVkVMWzFd4oCZfSBbLVdhcnJheS1ib3VuZHNdCmRyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1Ly4uL3BtL3Bvd2VycGxheS9zaV9kcG0uYzo1NTcwOjIwOiB3YXJuaW5nOiBhcnJheQpz
-dWJzY3JpcHQgMSBpcyBhYm92ZSBhcnJheSBib3VuZHMgb2Yg4oCYU0lTTEFORFNfU01DX0hXX1BF
-UkZPUk1BTkNFX0xFVkVMWzFd4oCZCntha2Eg4oCYc3RydWN0IFNJU0xBTkRTX1NNQ19IV19QRVJG
-T1JNQU5DRV9MRVZFTFsxXeKAmX0gWy1XYXJyYXktYm91bmRzXQoKWzFdIGh0dHBzOi8vZW4ud2lr
-aXBlZGlhLm9yZy93aWtpL0ZsZXhpYmxlX2FycmF5X21lbWJlcgpbMl0gaHR0cHM6Ly93d3cua2Vy
-bmVsLm9yZy9kb2MvaHRtbC92NS45L3Byb2Nlc3MvZGVwcmVjYXRlZC5odG1sI3plcm8tbGVuZ3Ro
-LWFuZC1vbmUtZWxlbWVudC1hcnJheXMKCkxpbms6IGh0dHBzOi8vZ2l0aHViLmNvbS9LU1BQL2xp
-bnV4L2lzc3Vlcy83OQpMaW5rOiBodHRwczovL2dpdGh1Yi5jb20vS1NQUC9saW51eC9pc3N1ZXMv
-MTA5CkJ1aWxkLXRlc3RlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Ckxp
-bms6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xrbWwvNjAyM2JlNTguc2s2NkwlMkZWNHZ1U0pJ
-NW1JJTI1bGtwQGludGVsLmNvbS8gClNpZ25lZC1vZmYtYnk6IEd1c3Rhdm8gQS4gUi4gU2lsdmEg
-PGd1c3Rhdm9hcnNAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3Bvd2Vy
-cGxheS9zaV9kcG0uYyAgICAgICB8ICA2ICsrLS0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9w
-b3dlcnBsYXkvc2lzbGFuZHNfc21jLmggfCAxMCArKysrKy0tLS0tCiAyIGZpbGVzIGNoYW5nZWQs
-IDcgaW5zZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vYW1kL3BtL3Bvd2VycGxheS9zaV9kcG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0v
-cG93ZXJwbGF5L3NpX2RwbS5jCmluZGV4IGFmYTE3MTFjOTYyMC4uNjIyOTEzNThmYjFjIDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3Bvd2VycGxheS9zaV9kcG0uYworKysgYi9k
-cml2ZXJzL2dwdS9kcm0vYW1kL3BtL3Bvd2VycGxheS9zaV9kcG0uYwpAQCAtNTcxNSwxMSArNTcx
-NSw5IEBAIHN0YXRpYyBpbnQgc2lfdXBsb2FkX3N3X3N0YXRlKHN0cnVjdCBhbWRncHVfZGV2aWNl
-ICphZGV2LAogCWludCByZXQ7CiAJdTMyIGFkZHJlc3MgPSBzaV9waS0+c3RhdGVfdGFibGVfc3Rh
-cnQgKwogCQlvZmZzZXRvZihTSVNMQU5EU19TTUNfU1RBVEVUQUJMRSwgZHJpdmVyU3RhdGUpOwot
-CXUzMiBzdGF0ZV9zaXplID0gc2l6ZW9mKFNJU0xBTkRTX1NNQ19TV1NUQVRFKSArCi0JCSgobmV3
-X3N0YXRlLT5wZXJmb3JtYW5jZV9sZXZlbF9jb3VudCAtIDEpICoKLQkJIHNpemVvZihTSVNMQU5E
-U19TTUNfSFdfUEVSRk9STUFOQ0VfTEVWRUwpKTsKIAlTSVNMQU5EU19TTUNfU1dTVEFURSAqc21j
-X3N0YXRlID0gJnNpX3BpLT5zbWNfc3RhdGV0YWJsZS5kcml2ZXJTdGF0ZTsKLQorCXNpemVfdCBz
-dGF0ZV9zaXplID0gc3RydWN0X3NpemUoc21jX3N0YXRlLCBsZXZlbHMsCisJCQkJCW5ld19zdGF0
-ZS0+cGVyZm9ybWFuY2VfbGV2ZWxfY291bnQpOwogCW1lbXNldChzbWNfc3RhdGUsIDAsIHN0YXRl
-X3NpemUpOwogCiAJcmV0ID0gc2lfY29udmVydF9wb3dlcl9zdGF0ZV90b19zbWMoYWRldiwgYW1k
-Z3B1X25ld19zdGF0ZSwgc21jX3N0YXRlKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9h
-bWQvcG0vcG93ZXJwbGF5L3Npc2xhbmRzX3NtYy5oIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9w
-b3dlcnBsYXkvc2lzbGFuZHNfc21jLmgKaW5kZXggZDI5MzBlY2VhZjNjLi4wZjc1NTQwNTJjOTAg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L3Npc2xhbmRzX3Nt
-Yy5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L3Npc2xhbmRzX3NtYy5o
-CkBAIC0xODIsMTEgKzE4MiwxMSBAQCB0eXBlZGVmIHN0cnVjdCBTSVNMQU5EU19TTUNfSFdfUEVS
-Rk9STUFOQ0VfTEVWRUwgU0lTTEFORFNfU01DX0hXX1BFUkZPUk1BTkNFX0xFVgogCiBzdHJ1Y3Qg
-U0lTTEFORFNfU01DX1NXU1RBVEUKIHsKLSAgICB1aW50OF90ICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBmbGFnczsKLSAgICB1aW50OF90ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBs
-ZXZlbENvdW50OwotICAgIHVpbnQ4X3QgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHBhZGRp
-bmcyOwotICAgIHVpbnQ4X3QgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHBhZGRpbmczOwot
-ICAgIFNJU0xBTkRTX1NNQ19IV19QRVJGT1JNQU5DRV9MRVZFTCAgIGxldmVsc1sxXTsKKwl1aW50
-OF90ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmbGFnczsKKwl1aW50OF90ICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBsZXZlbENvdW50OworCXVpbnQ4X3QgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHBhZGRpbmcyOworCXVpbnQ4X3QgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIHBhZGRpbmczOworCVNJU0xBTkRTX1NNQ19IV19QRVJGT1JNQU5DRV9MRVZFTCAgIGxldmVs
-c1tdOwogfTsKIAogdHlwZWRlZiBzdHJ1Y3QgU0lTTEFORFNfU01DX1NXU1RBVEUgU0lTTEFORFNf
-U01DX1NXU1RBVEU7Ci0tIAoyLjI3LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+On Tue, 09 Feb 2021 13:59:07 +0100, Nicolas Saenz Julienne wrote:
+> BCM2711, Raspberry Pi 4's SoC, contains a V3D core. So add its specific
+> compatible to the bindings.
+> 
+> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> ---
+>  Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+
+Acked-by: Rob Herring <robh@kernel.org>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
