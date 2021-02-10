@@ -2,48 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B68B731721F
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 22:14:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1299131723A
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 22:23:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C1916E069;
-	Wed, 10 Feb 2021 21:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD4EE6E17D;
+	Wed, 10 Feb 2021 21:23:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
- [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9C7C6E069
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 21:14:22 +0000 (UTC)
-Date: Wed, 10 Feb 2021 21:14:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1612991660;
- bh=x/QFFZ4nnm+frCzG67M32HkJVKSDhD+w/dnc6LIIcRA=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=oU8BTEkMw7hYeCYYb865tOdd3/BVphhBzACqIgk5znw5cbILjOqCivb02rg6RY6Dy
- dzjXAWBHgKaG/sejJFkkOFQnws7xfIX0fD9bOGcD4nZA+d9xo5lgLdNyIpqRl3efN7
- 7r/Ua9gXxQ7OHKcvBhhV5lpXG9NjUF2/u95OvG56UUXO6ry0RG1jECyz2xF6kOdBbe
- nzSy4F0l8bflKw4uZj8XLCC+7EyUBdE/3Uzb7R6aOIoAAyy/S6mwWqRuHlozH8r5kt
- CRhp7AYeer4nMspbsbaNar2cMR3VXJ0SMKlKNu7mk/ny5LR0PTD2QirMbplVyJACfd
- a2tnrGcFENkdA==
-To: Mario Kleiner <mario.kleiner.de@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: Fix HDMI_STATIC_METADATA_TYPE1 constant.
-Message-ID: <n2gjLlZ27Z0RAqlk7YhAi09RO_MKDmgP8crN2oeu-4O8pivnXph2Awy1ArYl61paax544su5pq13634h3Pm9OGB9QKt-RZ7mfz49aj64xy0=@emersion.fr>
-In-Reply-To: <CAEsyxyiPCXVmD-StDm+ZgOvDPASzXHci9dTaOWNf+VYFDEo97A@mail.gmail.com>
-References: <20210124044010.18678-1-mario.kleiner.de@gmail.com>
- <yEq1_Ipkzm_vP4BD6cKlonRVfMbfGXrlvxOG4XDkk_wg1UkPCdLj95I8pknonGjf2Bs1zYeErr1WXerrQjprE3k1vswj3E2Nzq-imF58ytM=@emersion.fr>
- <CAEsyxyhXhJohDYuDDLoQeg-QqhnWQ953GRO0Kf6Puj=f_NkU4w@mail.gmail.com>
- <YA61Aa07PhDucMyG@intel.com>
- <-NvMjiGAV79IMWvTOWrb2u_SHe2U36XumXbITMgCCqpMVg-FcvGRJbeTHaiUwkBSxZS5XaXYziZnoTdXJENA-JYQWNi-28F01___0SsWvv0=@emersion.fr>
- <CAEsyxyiK+bDyLDsk-jG3GGYWBjkGZeFamutmtDiNYvJSm4qegg@mail.gmail.com>
- <7Zl9uZ-uolN1JkU8Muxro-A5gTSN2SmmxYhs9g2UYfTFCJIoZVMIdkcPBbR6nkTxb3gWSwqTAsCfnlrtNzH133HdIZ9dCYcwZchv0iXZCnA=@emersion.fr>
- <CAEsyxygB-VZHg9a68Qb3XJ+xULwEeCkUFfthN4H+sdoVRXmJ2Q@mail.gmail.com>
- <CAEsyxyiPCXVmD-StDm+ZgOvDPASzXHci9dTaOWNf+VYFDEo97A@mail.gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBE4F6EC7E;
+ Wed, 10 Feb 2021 21:23:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8865A64E25;
+ Wed, 10 Feb 2021 21:23:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612992213;
+ bh=k3bbAR+QQBOR7zd9whmQpQntZ79/acFM/RObzEoAatE=;
+ h=Date:From:To:Cc:Subject:From;
+ b=BqgEJkVCl0KGcfVOtXDwLivOod3poKWl51r6qsc1KvoGcbt2+SMFUVP7Pn33CoPtx
+ 4BTBUxGWmk3jirdxVDFeqeLr0lYHm9c3MYOANm+2xiL4KBiSY7gseZEAIDdm92aSQ1
+ 5NISc/OT1CVUYEmOJ5d2WHKsGYUDvC5QlSc7n7s/7+67IVg3k00gFYjyuDwA7lm5Gu
+ 1dTeSOnBYXVLq2ZKlqalDU+mZOXAvb6TvObkSKCHqtR1MIxnvWsDkrkwWE/lEB7th0
+ 6YSOov/V1LzFUuSQrmkQbr+mBDrX8YiAq9nUhn5/xJGwOOHYrevHtdMMxn0vZXoTgM
+ cksH2GFNWTrpg==
+Date: Wed, 10 Feb 2021 15:23:30 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Huang Rui <ray.huang@amd.com>, Anson Jacob <Anson.Jacob@amd.com>,
+ Lang Yu <Lang.Yu@amd.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Subject: [PATCH][next] drm/amd/display: Fix potential integer overflow
+Message-ID: <20210210212330.GA880153@embeddedor>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,24 +49,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Uma Shankar <uma.shankar@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, February 10th, 2021 at 10:04 PM, Mario Kleiner <mario.kleiner.de@gmail.com> wrote:
+Fix potential integer overflow by casting actual_calculated_clock_100hz
+to u64, in order to give the compiler complete information about the
+proper arithmetic to use.
 
-> Ping!
+Notice that such variable is used in a context that expects
+an expression of type u64 (64 bits, unsigned) and the following
+expression is currently being evaluated using 32-bit arithmetic:
 
-I now understand the problem better.
+actual_calculated_clock_100hz * post_divider
 
-Reviewed-by: Simon Ser <contact@emersion.fr>
+Fixes: 7a03fdf628af ("drm/amd/display: fix 64bit division issue on 32bit OS")
+Addresses-Coverity-ID: 1501691 ("Unintentional integer overflow")
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'll push to drm-misc-next in a few days if no-one complains. Ping me
-again if I forget.
+diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c b/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
+index bc942725b9d8..dec58b3c42e4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
++++ b/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
+@@ -240,7 +240,7 @@ static bool calc_fb_divider_checking_tolerance(
+ 		pll_settings->calculated_pix_clk_100hz =
+ 			actual_calculated_clock_100hz;
+ 		pll_settings->vco_freq =
+-			div_u64(actual_calculated_clock_100hz * post_divider, 10);
++			div_u64((u64)actual_calculated_clock_100hz * post_divider, 10);
+ 		return true;
+ 	}
+ 	return false;
+-- 
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
