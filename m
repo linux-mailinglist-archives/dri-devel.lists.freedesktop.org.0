@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BEB316109
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 09:31:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD73031610C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 09:32:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC7789BF4;
-	Wed, 10 Feb 2021 08:31:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F03C6EB12;
+	Wed, 10 Feb 2021 08:31:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E26B89BF4;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F219B89BF4;
  Wed, 10 Feb 2021 08:31:53 +0000 (UTC)
-IronPort-SDR: b8bPAII28ogPUX8p+U74hyFVOMzEhxk5n2KiX6mlczyXUFcBjlUHQ+KYTVxEFQbmmZOSbz/Wcp
- z73CxN6CKWMQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9890"; a="161183223"
-X-IronPort-AV: E=Sophos;i="5.81,167,1610438400"; d="scan'208";a="161183223"
+IronPort-SDR: FRlQP5hcI301hR7jBP5ev9S6gVOOSk8NrhfMbVm07GhdcNslCbkE7mlDwvkhWBbaL6ilyL/gvL
+ dhSTQeutNmCw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9890"; a="161183226"
+X-IronPort-AV: E=Sophos;i="5.81,167,1610438400"; d="scan'208";a="161183226"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2021 00:31:34 -0800
-IronPort-SDR: cMot+QnVB3nGtIBsiSGXLR1jtBFJtVepq1iZ0PuEeDHg7/Vv+GQJ/kcGKkNqp2ffK9jPsXs7XU
- UjNqi7SVdTuA==
+ 10 Feb 2021 00:31:35 -0800
+IronPort-SDR: 7/5C9DyRREDl6tV9ed8o8ID1Gt1sGDSjYsDntFtBNlPuY5Fhp05Ta/RFTcxZ30h1jd5vUWbeaR
+ hpcZFgXosmVA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,167,1610438400"; d="scan'208";a="361212725"
+X-IronPort-AV: E=Sophos;i="5.81,167,1610438400"; d="scan'208";a="361212728"
 Received: from kialmah1-desk.jf.intel.com ([10.23.15.164])
- by fmsmga007.fm.intel.com with ESMTP; 10 Feb 2021 00:31:34 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 10 Feb 2021 00:31:35 -0800
 From: Khaled Almahallawy <khaled.almahallawy@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 1/2] drm/dp: Make number of AUX retries configurable by
- display drivers.
-Date: Wed, 10 Feb 2021 00:33:37 -0800
-Message-Id: <20210210083338.100068-1-khaled.almahallawy@intel.com>
+Subject: [RFC PATCH 2/2] drm/i915/dp: Retry AUX requests 7 times.
+Date: Wed, 10 Feb 2021 00:33:38 -0800
+Message-Id: <20210210083338.100068-2-khaled.almahallawy@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210210083338.100068-1-khaled.almahallawy@intel.com>
+References: <20210210083338.100068-1-khaled.almahallawy@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,57 +53,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The number of AUX retries specified in the DP specs is 7. Currently, to make Dell 4k monitors happier, the number of retries are 32.
-i915 also retries 5 times (intel_dp_aux_xfer) which means in the case of AUX timeout we actually retries 32 * 5 = 160 times.
-
-So making the number of aux retires a variable to allow for fine tuning and optimization of aux timing.
+Given that intel_dp_aux_xfer retries 5 times, so configure drm_dpcd_access to retry only 7 times,
+which means the max number of retries for i915 = 7 * 5 = 35 times.
 
 Signed-off-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
 ---
- drivers/gpu/drm/drm_dp_helper.c | 10 +++-------
- include/drm/drm_dp_helper.h     |  1 +
- 2 files changed, 4 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp_aux.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index eedbb48815b7..8fdf57b4a06c 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -249,13 +249,7 @@ static int drm_dp_dpcd_access(struct drm_dp_aux *aux, u8 request,
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux.c b/drivers/gpu/drm/i915/display/intel_dp_aux.c
+index eaebf123310a..73d711a94000 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_aux.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_aux.c
+@@ -688,5 +688,7 @@ void intel_dp_aux_init(struct intel_dp *intel_dp)
+ 					       encoder->base.name);
  
- 	mutex_lock(&aux->hw_mutex);
- 
--	/*
--	 * The specification doesn't give any recommendation on how often to
--	 * retry native transactions. We used to retry 7 times like for
--	 * aux i2c transactions but real world devices this wasn't
--	 * sufficient, bump to 32 which makes Dell 4k monitors happier.
--	 */
--	for (retry = 0; retry < 32; retry++) {
-+	for (retry = 0; retry < aux->num_retries; retry++) {
- 		if (ret != 0 && ret != -ETIMEDOUT) {
- 			usleep_range(AUX_RETRY_INTERVAL,
- 				     AUX_RETRY_INTERVAL + 100);
-@@ -1744,6 +1738,8 @@ void drm_dp_aux_init(struct drm_dp_aux *aux)
- 	aux->ddc.retries = 3;
- 
- 	aux->ddc.lock_ops = &drm_dp_i2c_lock_ops;
-+	/*Still making the Dell 4k monitors happier*/
-+	aux->num_retries = 32;
+ 	intel_dp->aux.transfer = intel_dp_aux_transfer;
++	/* Follow DP specs*/
++	intel_dp->aux.num_retries = 7;
+ 	cpu_latency_qos_add_request(&intel_dp->pm_qos, PM_QOS_DEFAULT_VALUE);
  }
- EXPORT_SYMBOL(drm_dp_aux_init);
- 
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index edffd1dcca3e..16cbfc8f5e66 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1876,6 +1876,7 @@ struct drm_dp_aux {
- 	struct mutex hw_mutex;
- 	struct work_struct crc_work;
- 	u8 crc_count;
-+	int num_retries;
- 	ssize_t (*transfer)(struct drm_dp_aux *aux,
- 			    struct drm_dp_aux_msg *msg);
- 	/**
 -- 
 2.25.1
 
