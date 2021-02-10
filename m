@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 958473163A3
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 11:22:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7BCB3163D1
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 11:29:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B17656E1B2;
-	Wed, 10 Feb 2021 10:22:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A39FC6E162;
+	Wed, 10 Feb 2021 10:29:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE75C6E1B2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 10:22:05 +0000 (UTC)
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADD2E6E162
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 10:29:12 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id A4818CC2;
- Wed, 10 Feb 2021 05:22:02 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id 7A5D61E8;
+ Wed, 10 Feb 2021 05:29:10 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Wed, 10 Feb 2021 05:22:03 -0500
+ by compute6.internal (MEProxy); Wed, 10 Feb 2021 05:29:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=HHZt6j9O5o44t0OiG/8pfemJcp1
- BVpkkyyBwZovhCjQ=; b=e1N4YEievDuoAZ5mZhIrzE733ZtydE1tIicwabkU1Sk
- Adphc4DuFR/601M2O7gPBk8FfkaXnvvOJtbLffRm7/STqmnURFeAEvPxh7gCSPMO
- vZFDvSl0JXqUzKOxzf0JkIoZIxjgNAk0xm/fLBktyGZFXoMm5/Nilz1LJz8k2U1g
- XtDJpgGjBfW7EsooMpxQLuRh4LNwLIKOd1ZK7Bp6EF3QLiKjLRyF/m24NtRy6w/b
- 8N1SPqZLKItP/yuzXfIRLiskMMr6Refy+Na0nzrzd6fN+Lmm+dkk3GWnBwCQW/vp
- usLlBlIb/gSNqCxyHo2HUuFQhYYYVtLKIogblGi1BOQ==
+ :content-type:in-reply-to; s=fm2; bh=vSJktypk+0gSWXPCPFGKpFcPuoX
+ wRrsOYAYhT/imrH0=; b=M38STHTwDPw1JYBSTUwPHk7j7dWhAVO/DedfkPZOfHv
+ +QXofmdRlbkfMYkUAHhsQvGbt8/ISAbf1PI/FEohwXO/qtFHiJr044I32f6bkaUb
+ jwxSbGxS3r+r508ME/+5RRLar6mWI1XdIZWxYx59o0lsZ2rA0an8zNprPukyAYX0
+ 8FVJnlzq6g4TgXof4wosdSkL9e6bupZP5Pbpu8pQHn0icgJNhvKOCCs/4aN8bfyM
+ +wCve5xFsFlJ8wmy4RssoC8dtH5fc2GvVMuAS7Tl64UthE+gqdDNF5OAMDHv8lnH
+ chyB2wEzubToP2L5y8tgLIJ4hN1qOj1Dl66K6PDnw0A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=HHZt6j
- 9O5o44t0OiG/8pfemJcp1BVpkkyyBwZovhCjQ=; b=NgE/eBmBrD0/rOx+cNzjM5
- oFFWlpcd72qIbtg7Y4Vgs8rVdxs8oBSsNpzkBsDP4+SFx4aEyOFoGYQY0Wne9McH
- YkW7AhLvswMA74DAcZIwQQ3rfPYQgELNkrTpPJJoUIIItfYZK4rH69EpMhBAzxHo
- SZjTKsQD+Hzmv8e00LdtR8wFqERK6cp7wwkTHlYMNaINltHap8FswNJcsMc71GeC
- MAuSfioqvilpyzn87s7S9ovpzsjB1Q2SpGmH+hU7klow52WLyPgGvM4eeJeDF7uf
- xwJa1vFPxzrK1u4umUoiWEYy8VtnAA8iMxZJFRZPHKcUECirmFAWvrT6ozt9daUg
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=vSJkty
+ pk+0gSWXPCPFGKpFcPuoXwRrsOYAYhT/imrH0=; b=ECzMHNW2q5v4WI2SGmHaCn
+ 9vBwlnvtg2HbLp/MLibWmSPoNeojC29Mz9LG2gGv/1DN6CJM2qe52Uj18lHCCh3C
+ 49VldFfVxUMDPWjB+rxX6eny8vV7tRzGh3aBXzn4ncNdEQWh0x4mq4ktDbZSKia7
+ 62KfQqkl4AKpUmznc3MMdgTqn0SrSJ482CIZola7CoHj3A/FjiB4MUHhoBh1+71h
+ bDNBlZk6gdTHXBsaOFi91fDBlywlu1q9xPh9vKycA/48DqIY9UaBMzk0xGPt/cFW
+ I/UhqEh6QxM8eoZudDJRmkVJMjBoaxfWruuPTPWMPFptHxBIhHynKFNbqs0JAC8A
  ==
-X-ME-Sender: <xms:x7MjYMivYxljRUd0mVD1OAW0CBx2kzOY5i9nAZGZWFtUSdI7bJ5NXw>
- <xme:x7MjYFCktSP0rx8ZmXpl0BMVsPLJlWzyLLHNiig3J8ptObtW1CgkA_2UvLwrmBsHI
- S0ARpGCDJQLhnxFMYI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheejgddugecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:crUjYNY1W0bqMzDIWym36U6_1sMDJwgfcL0o5PKOOgSuPq7AJJ0ePQ>
+ <xme:crUjYEZMcmTNlq_S6ymB4XeUKiYOMACExtdCemY5ZZK7-DVMeee7YvQLi4kxxwoAA
+ wCjzhSEcT5UXRh_nts>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheejgdduhecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
@@ -49,22 +49,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheejgddugecutefuodetggdote
  gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
  udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
  grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:x7MjYEEuFzcl3qSEaS9XxNSbFZ0IfYa_VAdrmTJ80uyJX1hmjGGPUw>
- <xmx:x7MjYNSDPI8uLC4Oj49GxocqW58NhjZiYvCVfF7RrIMAactclTphWg>
- <xmx:x7MjYJxd6PaWkp4ospj6r1qHVPK02cBA9dqr_OiLn5inE6cVjIX04w>
- <xmx:yrMjYLsZP48tcv-YYxZk4MBBTSBcuphYcRwcN102fc2Yte4vKn87Ng>
+X-ME-Proxy: <xmx:crUjYP-1GXGz2xWw4xMfjdXfMLLXquBOSu2xGfrLJREX4TwM65EeVA>
+ <xmx:crUjYLoDbW_x-j1qrpoKi-SgxHGKKEF3qAe-9gLxfws-2i9uwSngtg>
+ <xmx:crUjYIp2f1rnWfoU1MaAs5PtL7yAU5VSyAhGdzzvXwBjysXMdQqRSw>
+ <xmx:dbUjYP2GErLeImKD1qOFYywyyOuPrROKOsE3SkoNPm6rAQeqQ1MfEWKsD48>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id A0A7E240065;
- Wed, 10 Feb 2021 05:21:59 -0500 (EST)
-Date: Wed, 10 Feb 2021 11:21:56 +0100
+ by mail.messagingengine.com (Postfix) with ESMTPA id D1C57240057;
+ Wed, 10 Feb 2021 05:29:05 -0500 (EST)
+Date: Wed, 10 Feb 2021 11:29:04 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Roman Stratiienko <r.stratiienko@gmail.com>
-Subject: Re: [PATCH v5 0/2] Implement DE2.0 and DE3.0 per-plane alpha support
-Message-ID: <20210210102156.e6n6eyuks5ibdn7m@gilmour>
-References: <20210128113940.347013-1-r.stratiienko@gmail.com>
+To: mturquette@baylibre.com, sboyd@kernel.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>
+Subject: Re: [PATCH v3 1/5] clk: sunxi-ng: mp: fix parent rate change flag
+ check
+Message-ID: <20210210102904.xyr6bftn4ueuu74z@gilmour>
+References: <20210209175900.7092-1-jernej.skrabec@siol.net>
+ <20210209175900.7092-2-jernej.skrabec@siol.net>
 MIME-Version: 1.0
-In-Reply-To: <20210128113940.347013-1-r.stratiienko@gmail.com>
+In-Reply-To: <20210209175900.7092-2-jernej.skrabec@siol.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,57 +80,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: megous@megous.com, jernej.skrabec@siol.net, linux-sunxi@googlegroups.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, wens@csie.org
-Content-Type: multipart/mixed; boundary="===============1614942111=="
+Cc: airlied@linux.ie, linux-sunxi@googlegroups.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0932735393=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1614942111==
+--===============0932735393==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="dso2ssdrx6p64rlp"
+	protocol="application/pgp-signature"; boundary="4bswe2phsqldjycj"
 Content-Disposition: inline
 
 
---dso2ssdrx6p64rlp
+--4bswe2phsqldjycj
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 28, 2021 at 01:39:38PM +0200, Roman Stratiienko wrote:
->=20
-> Please review/merge.
->=20
-> v2:
-> Initial patch
->=20
-> v3:
-> - Skip adding & applying alpha property if VI count > 1 (v3s case)
->=20
-> v4:
-> Resend (author's email changed)
->=20
-> v5:
-> Resend
+Hi Mike, Stephen,
 
-Applied, thanks
+On Tue, Feb 09, 2021 at 06:58:56PM +0100, Jernej Skrabec wrote:
+> CLK_SET_RATE_PARENT flag is checked on parent clock instead of current
+> one. Fix that.
+>=20
+> Fixes: 3f790433c3cb ("clk: sunxi-ng: Adjust MP clock parent rate when all=
+owed")
+> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+> Tested-by: Andre Heider <a.heider@gmail.com>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+
+This is a last minute fix for us, can you merge it into clk-fixes directly?
+
+Acked-by: Maxime Ripard <mripard@kernel.org>
+
+Thanks!
 Maxime
 
---dso2ssdrx6p64rlp
+--4bswe2phsqldjycj
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYCOzxAAKCRDj7w1vZxhR
-xbWJAQDuwFmBjnNnn8ZO8Op7wExYzbYJvkQV3In271yxLkzeEgD/f26+65IQW2Fd
-jtqVmN+mA6PSsWNs13bcX5Ge/RENZwU=
-=FXLO
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYCO1cAAKCRDj7w1vZxhR
+xemkAP9EZrTfS3MLqZS0TFmQCpjpepJKYBSXfVmBrrhQUnpdtAD+IqB9xEG1je9U
+b0OFT5usCtuJSpLSoRk9oXA3Vo4z8wQ=
+=eVo7
 -----END PGP SIGNATURE-----
 
---dso2ssdrx6p64rlp--
+--4bswe2phsqldjycj--
 
---===============1614942111==
+--===============0932735393==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -138,4 +142,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1614942111==--
+--===============0932735393==--
