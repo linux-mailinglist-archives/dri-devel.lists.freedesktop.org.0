@@ -1,44 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D18318873
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 11:45:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4489331886E
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 11:44:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A4666EDFF;
-	Thu, 11 Feb 2021 10:45:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5713C6E1BC;
+	Thu, 11 Feb 2021 10:44:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net
- [194.109.24.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C218B6E5AE
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 10:37:11 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
- by smtp-cloud9.xs4all.net with ESMTPA
- id A9LMlXsw2Zvk6A9LRlud2r; Thu, 11 Feb 2021 11:37:10 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
- t=1613039830; bh=7vv8Zq5ueB4PQjpkMshes9HEfaPbs32Qu9KVZZjtkgA=;
- h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
- b=sqeJHknh0nE18+Vr9xLDCTkY7bhVZ1X/y0Q/KciAV+M7116HjxZlUi2ti5BjoO7cB
- bG7bmuvTJo2zAflfWcO4I74d+TgtKVHvEMct9ddHIzX5H+mIhYWx8MGQQgPDpc3Dok
- Fn55RQFyvVM5oLRCEODhZBV9sP5qNpcCkgGkc5nNv6mfGqKo6t0VSE5L/pWXAtXy0e
- GLPM1Vf4HucbgTIV20akkwsyXuIj4JsUKemRJYlMvKb8iZddb4afzOc7bXN7KuSfYR
- 5+JA57tVdArfxcYynmxXB0JDUC+CcL0UvEH3A88j9iUqWzxSlKyf5eons0tY/7VSd9
- S8xrqfDmJ55/w==
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: [PATCH 5/5] ARM: dts: dra7/omap5: add cec clock
-Date: Thu, 11 Feb 2021 11:37:03 +0100
-Message-Id: <20210211103703.444625-6-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210211103703.444625-1-hverkuil-cisco@xs4all.nl>
-References: <20210211103703.444625-1-hverkuil-cisco@xs4all.nl>
+Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch
+ [185.70.40.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 148FE6E1BC
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 10:44:30 +0000 (UTC)
+Date: Thu, 11 Feb 2021 10:44:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1613040267;
+ bh=TiejeRaZQWyg1RPQIBLyHW4IBn+RhTGA6PzWxdVHgkE=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=iXbH4Byjg/9vVEbPzaG8iLt4rlJ/u46F0yARneenfUQDL9CBlc4+Mu9oAFU69xVEJ
+ L7VJVRZed61GopwiFPbouSyZjsF5WUAHbPHKTHWOReaNUX9tKrBLMhU++MSZf3CT+Z
+ lmc5wwPKwTUssA6RwI1xSeAiZfB5EELzYlDlXsJZkUPegV9E4vlU1WwMEwWvu8OiD2
+ Eg9k+2eV1u3mOxaqN296R1QDxYNQutJJcf+ZchuOvrITzxEM3SlurJn3vGoxOgqH+9
+ fXodmCmC4BRJ0on7g4yXtyqkH90ei4YIAdrqv85x49U+ZGdKxMiYoxmgQz9t4TRXnX
+ Z32adNsIMEJEw==
+To: Mario Kleiner <mario.kleiner.de@gmail.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm: Fix HDMI_STATIC_METADATA_TYPE1 constant.
+Message-ID: <i1dksO6waKRbZE3gZaRpbDVEqdzpI10SrgvB9bEO2fbDeKQXUonBwCNEgtFHDn-lirZN52seQQusGiKDtRUGKRxG8WY2x46QnNRw_cd2FKg=@emersion.fr>
+In-Reply-To: <CAEsyxyjxdqKrxkd=J9Tvi8wKQDLBMHv3yhgdu-eOQx5GXuWdbA@mail.gmail.com>
+References: <20210124044010.18678-1-mario.kleiner.de@gmail.com>
+ <YA61Aa07PhDucMyG@intel.com>
+ <-NvMjiGAV79IMWvTOWrb2u_SHe2U36XumXbITMgCCqpMVg-FcvGRJbeTHaiUwkBSxZS5XaXYziZnoTdXJENA-JYQWNi-28F01___0SsWvv0=@emersion.fr>
+ <CAEsyxyiK+bDyLDsk-jG3GGYWBjkGZeFamutmtDiNYvJSm4qegg@mail.gmail.com>
+ <7Zl9uZ-uolN1JkU8Muxro-A5gTSN2SmmxYhs9g2UYfTFCJIoZVMIdkcPBbR6nkTxb3gWSwqTAsCfnlrtNzH133HdIZ9dCYcwZchv0iXZCnA=@emersion.fr>
+ <CAEsyxygB-VZHg9a68Qb3XJ+xULwEeCkUFfthN4H+sdoVRXmJ2Q@mail.gmail.com>
+ <CAEsyxyiPCXVmD-StDm+ZgOvDPASzXHci9dTaOWNf+VYFDEo97A@mail.gmail.com>
+ <n2gjLlZ27Z0RAqlk7YhAi09RO_MKDmgP8crN2oeu-4O8pivnXph2Awy1ArYl61paax544su5pq13634h3Pm9OGB9QKt-RZ7mfz49aj64xy0=@emersion.fr>
+ <CAEsyxyjxdqKrxkd=J9Tvi8wKQDLBMHv3yhgdu-eOQx5GXuWdbA@mail.gmail.com>
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4xfNEPV5trBOdUFJkU/q7gPA/oLKp4ICGDInS3lmKd/qbVi4uzGyZ0iHSVxDiSpXIdZ7AxLat7wXkpvTzKx3fz8gcShYjdQUcacCTQmLVvDm9+jfiFgHV6
- auago6tub5JSEG94VylRbjLmpRYac+/jRq1z0lNkmw/GKwOyiGFwM9FiZZP9pyR2M4q//VvSrIR0LUEibJ6F5pRFRlZLd55mdYDy/r7DOA1Ts/IoIw3+2B3V
- XnVqqdRTYgAb0b3R0/yWiaRQK7Vb4QyJlhLFmdxZnyDPl8XUbzjbP37cD7DNoBiW1icn1dBxhmXmDDFSthYgrm1oKNJnUGcUsTsBxPcVcqpJAFj75ELMH3gk
- rvcj3BUp6Eb+AUaxmIevUSO4zzTUrZ0aQP6/tRCjczo1GGYdg4n8YKttXJR2AXmpVGUZjWN8Lj/OP0u7JIYgXKT6gTQREGuDWv7VGZd4yeAwH5JILm4=
-X-Mailman-Approved-At: Thu, 11 Feb 2021 10:45:19 +0000
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,58 +56,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
- dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-omap@vger.kernel.org
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Uma Shankar <uma.shankar@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add cec clock to the dra7 and omap5 device trees.
+On Wednesday, February 10th, 2021 at 11:02 PM, Mario Kleiner <mario.kleiner.de@gmail.com> wrote:
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- arch/arm/boot/dts/dra7.dtsi  | 5 +++--
- arch/arm/boot/dts/omap5.dtsi | 5 +++--
- 2 files changed, 6 insertions(+), 4 deletions(-)
+> I'll prepare patches with the same fix for libdrm and igt as well soon.
 
-diff --git a/arch/arm/boot/dts/dra7.dtsi b/arch/arm/boot/dts/dra7.dtsi
-index ce1194744f84..efe579ddb324 100644
---- a/arch/arm/boot/dts/dra7.dtsi
-+++ b/arch/arm/boot/dts/dra7.dtsi
-@@ -879,8 +879,9 @@ hdmi: encoder@0 {
- 						interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>;
- 						status = "disabled";
- 						clocks = <&dss_clkctrl DRA7_DSS_DSS_CORE_CLKCTRL 9>,
--							 <&dss_clkctrl DRA7_DSS_DSS_CORE_CLKCTRL 10>;
--						clock-names = "fck", "sys_clk";
-+							 <&dss_clkctrl DRA7_DSS_DSS_CORE_CLKCTRL 10>,
-+							 <&dss_clkctrl DRA7_DSS_DSS_CORE_CLKCTRL 11>;
-+						clock-names = "fck", "sys_clk", "cec";
- 						dmas = <&sdma_xbar 76>;
- 						dma-names = "audio_tx";
- 					};
-diff --git a/arch/arm/boot/dts/omap5.dtsi b/arch/arm/boot/dts/omap5.dtsi
-index 5f1a8bd13880..2bb1000aeae9 100644
---- a/arch/arm/boot/dts/omap5.dtsi
-+++ b/arch/arm/boot/dts/omap5.dtsi
-@@ -580,8 +580,9 @@ hdmi: encoder@0 {
- 						interrupts = <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>;
- 						status = "disabled";
- 						clocks = <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 9>,
--							 <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 10>;
--						clock-names = "fck", "sys_clk";
-+							 <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 10>,
-+							 <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 11>;
-+						clock-names = "fck", "sys_clk", "cec";
- 						dmas = <&sdma 76>;
- 						dma-names = "audio_tx";
- 					};
--- 
-2.30.0
+Please don't submit patches for drm_fourcc.h to downstream if they vendor the
+whole file. Instead, update it from the kernel once your patch is merged to
+drm-next. For instance, see [1] for libdrm.
 
+Simon
+
+[1]: https://gitlab.freedesktop.org/mesa/drm/-/blob/master/include/drm/README
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
