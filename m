@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2740318BB7
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 14:17:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1EAA318BD4
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 14:20:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECBF06EE2A;
-	Thu, 11 Feb 2021 13:17:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A80B6EE2B;
+	Thu, 11 Feb 2021 13:20:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFD546EE28
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 13:17:04 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id sa23so10044711ejb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 05:17:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=Qyl1Cv0RkWhnH4SsQA7PTYC9tnxOwwL9kZv06Is3RlA=;
- b=IdKjKzPqsBu55vTr6QppB/HLS9WcYwElbfDi1KRjRxDJ1B8sG/ZY6SYpZamZvD4Zxv
- uarN39XNuAR94ZlNBh4x4Vz7jrKsRhzxQp78wD8ORce+LjPh47911lBDGcSEif/VFz1l
- BSD74b0b4N2ayEk6NpcHozigcO4jtDYImog3KwDfCCpGOXs7tWaODnYNh0s+6rkeR8od
- r6kuMxOTBKWItotHyGaJYM564vPTao86Og3GGCVSgAurR3wSwpJFangFnUulaZj6/3lC
- 3tApNlPlEjE21vss52rqpqoUZaMrJT06BMWLADse1pDKXzOJ40f7eE93+ldy6V6fyD/f
- 0ugg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Qyl1Cv0RkWhnH4SsQA7PTYC9tnxOwwL9kZv06Is3RlA=;
- b=l5LFVShfk4WrpkSN95IfeMf79MHO0IwLYyYoNCBpRxSLv9pW7LDyQIF7Av/PAAAV4x
- M+yj8xbD4S81mo6mdFeNBX1MoN47JH0XHDegYar4K0YiIOg3NFr2vn2hIerON5cOkYKI
- rNucMiR2yHaMgVfrozQEtahAq5gLymbPa7pX5XEf+M4N2+gATuzZxajl05kmMuVP7hSt
- ZOcdUMAl2JsO7gaSm1zPmzzYFDFeNY2INopXSg4t8MmkRVgJjX43ukuzABTPs8OGDfMv
- Xjn1p4jZlwbMbmbId2TdX4BElq8b8u5c/Rn74owA2bhskNq8dUaWQfwVWuqvlwxActai
- 32bg==
-X-Gm-Message-State: AOAM5335wyLZg7CZR4Km7dpYqPRscy1F2JnclsNk9kud9SD8HRvzudxq
- IGycbecJAU26JgEioxnZgXc=
-X-Google-Smtp-Source: ABdhPJyCTki5/rqQH3oIuWh8JxkD8LRHAqIEwEzjmDGVg/8rTMu5l2W9/VPVCDoauWhq/pH0vw+b0w==
-X-Received: by 2002:a17:906:43d7:: with SMTP id
- j23mr8397837ejn.519.1613049423541; 
- Thu, 11 Feb 2021 05:17:03 -0800 (PST)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:820:5af6:9146:2c9f])
- by smtp.gmail.com with ESMTPSA id l1sm4168614eje.12.2021.02.11.05.17.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 05:17:03 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
- zackr@vmware.com, dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/vmwgfx: clean up vmw_move_notify
-Date: Thu, 11 Feb 2021 14:16:59 +0100
-Message-Id: <20210211131659.276275-4-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210211131659.276275-1-christian.koenig@amd.com>
-References: <20210211131659.276275-1-christian.koenig@amd.com>
+Received: from so15.mailgun.net (so15.mailgun.net [198.61.254.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 472656EE32
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 13:20:44 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1613049648; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=Y/PupSDFI54PfGk5fJZwK971L/Lu0319ZmiSaKec4xM=;
+ b=RAgy6mnVk2RWzJBGQfwE4Yu4s5LrsibC5hlhihALGTi9WhIpveuMDg4g7mu3xZEBVsOIhwa8
+ ue4JJgDiCHjwe1B0ixbdYhj978p4A40DtfP6kzHN2wHSIDa3HGbPpXCiKPq6fY+9fyUJCtmO
+ BICoRhprhxegs4/J6D2A0mLV+bI=
+X-Mailgun-Sending-Ip: 198.61.254.15
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 60252f25830f898bac0bfe26 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 11 Feb 2021 13:20:37
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id D9DD8C43462; Thu, 11 Feb 2021 13:20:37 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-3.0 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
+ version=3.4.0
+Received: from [192.168.1.105] (unknown [117.210.187.64])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 00002C433C6;
+ Thu, 11 Feb 2021 13:20:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 00002C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+Subject: Re: [PATCH v2] drm/msm: a6xx: Make sure the SQE microcode is safe
+To: Jordan Crouse <jcrouse@codeaurora.org>, linux-arm-msm@vger.kernel.org
+References: <20210210005205.783377-1-jcrouse@codeaurora.org>
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+Message-ID: <8aa916f9-238a-779c-bcaf-51bfb2b761d2@codeaurora.org>
+Date: Thu, 11 Feb 2021 18:50:28 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
+In-Reply-To: <20210210005205.783377-1-jcrouse@codeaurora.org>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,92 +69,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ freedreno@lists.freedesktop.org, Sharat Masetty <smasetty@codeaurora.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SW5zdGVhZCBvZiBzd2FwcGluZyBiby0+bWVtIGp1c3QgZ2l2ZSBvbGQgYW5kIG5ldyBhcyBwYXJh
-bWV0ZXJzLgoKQWxzbyBkcm9wIHVudXNlZCBwYXJhbWV0ZXJzIGFuZCBjb2RlLgoKU2lnbmVkLW9m
-Zi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgotLS0KIGRy
-aXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Rydi5oICAgICAgICB8ICAzICsrLQogZHJpdmVy
-cy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfcmVzb3VyY2UuYyAgIHwgIDkgKysrKystLS0KIGRyaXZl
-cnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYyB8IDI2ICsrKysrKystLS0tLS0t
-LS0tLS0tLS0KIDMgZmlsZXMgY2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKSwgMjIgZGVsZXRpb25z
-KC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmggYi9k
-cml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuaAppbmRleCBlNjViMDBmODMzNmQuLjIx
-YTcyZmE3YjlmZCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2
-LmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmgKQEAgLTc3NSw3ICs3
-NzUsOCBAQCBleHRlcm4gdm9pZCB2bXdfcmVzb3VyY2VfdW5yZXNlcnZlKHN0cnVjdCB2bXdfcmVz
-b3VyY2UgKnJlcywKIAkJCQkgICBzdHJ1Y3Qgdm13X2J1ZmZlcl9vYmplY3QgKm5ld19iYWNrdXAs
-CiAJCQkJICAgdW5zaWduZWQgbG9uZyBuZXdfYmFja3VwX29mZnNldCk7CiBleHRlcm4gdm9pZCB2
-bXdfcXVlcnlfbW92ZV9ub3RpZnkoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKLQkJCQkg
-IHN0cnVjdCB0dG1fcmVzb3VyY2UgKm1lbSk7CisJCQkJICBzdHJ1Y3QgdHRtX3Jlc291cmNlICpv
-bGRfbWVtLAorCQkJCSAgc3RydWN0IHR0bV9yZXNvdXJjZSAqbmV3X21lbSk7CiBleHRlcm4gaW50
-IHZtd19xdWVyeV9yZWFkYmFja19hbGwoc3RydWN0IHZtd19idWZmZXJfb2JqZWN0ICpkeF9xdWVy
-eV9tb2IpOwogZXh0ZXJuIHZvaWQgdm13X3Jlc291cmNlX2V2aWN0X2FsbChzdHJ1Y3Qgdm13X3By
-aXZhdGUgKmRldl9wcml2KTsKIGV4dGVybiB2b2lkIHZtd19yZXNvdXJjZV91bmJpbmRfbGlzdChz
-dHJ1Y3Qgdm13X2J1ZmZlcl9vYmplY3QgKnZibyk7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vdm13Z2Z4L3Ztd2dmeF9yZXNvdXJjZS5jIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdn
-ZnhfcmVzb3VyY2UuYwppbmRleCBjM2E3MjRlMzcxMDQuLjM1ZjAyOTU4ZWUyYyAxMDA2NDQKLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfcmVzb3VyY2UuYworKysgYi9kcml2ZXJz
-L2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9yZXNvdXJjZS5jCkBAIC04NDcsMTMgKzg0NywxNSBAQCBp
-bnQgdm13X3F1ZXJ5X3JlYWRiYWNrX2FsbChzdHJ1Y3Qgdm13X2J1ZmZlcl9vYmplY3QgKmR4X3F1
-ZXJ5X21vYikKICAqIHZtd19xdWVyeV9tb3ZlX25vdGlmeSAtIFJlYWQgYmFjayBjYWNoZWQgcXVl
-cnkgc3RhdGVzCiAgKgogICogQGJvOiBUaGUgVFRNIGJ1ZmZlciBvYmplY3QgYWJvdXQgdG8gbW92
-ZS4KLSAqIEBtZW06IFRoZSBtZW1vcnkgcmVnaW9uIEBibyBpcyBtb3ZpbmcgdG8uCisgKiBAb2xk
-X21lbTogVGhlIG1lbW9yeSByZWdpb24gQGJvIGlzIG1vdmluZyBmcm9tLgorICogQG5ld19tZW06
-IFRoZSBtZW1vcnkgcmVnaW9uIEBibyBpcyBtb3ZpbmcgdG8uCiAgKgogICogQ2FsbGVkIGJlZm9y
-ZSB0aGUgcXVlcnkgTU9CIGlzIHN3YXBwZWQgb3V0IHRvIHJlYWQgYmFjayBjYWNoZWQgcXVlcnkK
-ICAqIHN0YXRlcyBmcm9tIHRoZSBkZXZpY2UuCiAgKi8KIHZvaWQgdm13X3F1ZXJ5X21vdmVfbm90
-aWZ5KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sCi0JCQkgICBzdHJ1Y3QgdHRtX3Jlc291
-cmNlICptZW0pCisJCQkgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICpvbGRfbWVtLAorCQkJICAgc3Ry
-dWN0IHR0bV9yZXNvdXJjZSAqbmV3X21lbSkKIHsKIAlzdHJ1Y3Qgdm13X2J1ZmZlcl9vYmplY3Qg
-KmR4X3F1ZXJ5X21vYjsKIAlzdHJ1Y3QgdHRtX2RldmljZSAqYmRldiA9IGJvLT5iZGV2OwpAQCAt
-ODcxLDcgKzg3Myw4IEBAIHZvaWQgdm13X3F1ZXJ5X21vdmVfbm90aWZ5KHN0cnVjdCB0dG1fYnVm
-ZmVyX29iamVjdCAqYm8sCiAJfQogCiAJLyogSWYgQk8gaXMgYmVpbmcgbW92ZWQgZnJvbSBNT0Ig
-dG8gc3lzdGVtIG1lbW9yeSAqLwotCWlmIChtZW0tPm1lbV90eXBlID09IFRUTV9QTF9TWVNURU0g
-JiYgYm8tPm1lbS5tZW1fdHlwZSA9PSBWTVdfUExfTU9CKSB7CisJaWYgKG5ld19tZW0tPm1lbV90
-eXBlID09IFRUTV9QTF9TWVNURU0gJiYKKwkgICAgb2xkX21lbS0+bWVtX3R5cGUgPT0gVk1XX1BM
-X01PQikgewogCQlzdHJ1Y3Qgdm13X2ZlbmNlX29iaiAqZmVuY2U7CiAKIAkJKHZvaWQpIHZtd19x
-dWVyeV9yZWFkYmFja19hbGwoZHhfcXVlcnlfbW9iKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngv
-dm13Z2Z4X3R0bV9idWZmZXIuYwppbmRleCA2M2YxMGM4NjUwNjEuLjM4ODAxNDYyMTM0ZSAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfdHRtX2J1ZmZlci5jCisrKyBi
-L2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYwpAQCAtNjkyLDIwICs2
-OTIsMTkgQEAgc3RhdGljIGludCB2bXdfdHRtX2lvX21lbV9yZXNlcnZlKHN0cnVjdCB0dG1fZGV2
-aWNlICpiZGV2LCBzdHJ1Y3QgdHRtX3Jlc291cmNlICoKICAqCiAgKiBAYm86IFRoZSBUVE0gYnVm
-ZmVyIG9iamVjdCBhYm91dCB0byBtb3ZlLgogICogQGV2aWN0OiBVbnVzZWQKLSAqIEBtZW06IFRo
-ZSBzdHJ1Y3QgdHRtX3Jlc291cmNlIGluZGljYXRpbmcgdG8gd2hhdCBtZW1vcnkKKyAqIEBvbGRf
-bWVtOiBUaGUgb2xkIG1lbW9yeSB3aGVyZSB3ZSBtb3ZlIGZyb20KKyAqIEBuZXdfbWVtOiBUaGUg
-c3RydWN0IHR0bV9yZXNvdXJjZSBpbmRpY2F0aW5nIHRvIHdoYXQgbWVtb3J5CiAgKiAgICAgICBy
-ZWdpb24gdGhlIG1vdmUgaXMgdGFraW5nIHBsYWNlLgogICoKICAqIENhbGxzIG1vdmVfbm90aWZ5
-IGZvciBhbGwgc3Vic3lzdGVtcyBuZWVkaW5nIGl0LgogICogKGN1cnJlbnRseSBvbmx5IHJlc291
-cmNlcykuCiAgKi8KIHN0YXRpYyB2b2lkIHZtd19tb3ZlX25vdGlmeShzdHJ1Y3QgdHRtX2J1ZmZl
-cl9vYmplY3QgKmJvLAotCQkJICAgIGJvb2wgZXZpY3QsCi0JCQkgICAgc3RydWN0IHR0bV9yZXNv
-dXJjZSAqbWVtKQorCQkJICAgIHN0cnVjdCB0dG1fcmVzb3VyY2UgKm9sZF9tZW0sCisJCQkgICAg
-c3RydWN0IHR0bV9yZXNvdXJjZSAqbmV3X21lbSkKIHsKLQlpZiAoIW1lbSkKLQkJcmV0dXJuOwot
-CXZtd19ib19tb3ZlX25vdGlmeShibywgbWVtKTsKLQl2bXdfcXVlcnlfbW92ZV9ub3RpZnkoYm8s
-IG1lbSk7CisJdm13X2JvX21vdmVfbm90aWZ5KGJvLCBuZXdfbWVtKTsKKwl2bXdfcXVlcnlfbW92
-ZV9ub3RpZnkoYm8sIG9sZF9tZW0sIG5ld19tZW0pOwogfQogCiAKQEAgLTczNiw3ICs3MzUsNyBA
-QCBzdGF0aWMgaW50IHZtd19tb3ZlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sCiAJCQly
-ZXR1cm4gcmV0OwogCX0KIAotCXZtd19tb3ZlX25vdGlmeShibywgZXZpY3QsIG5ld19tZW0pOwor
-CXZtd19tb3ZlX25vdGlmeShibywgJmJvLT5tZW0sIG5ld19tZW0pOwogCiAJaWYgKG9sZF9tYW4t
-PnVzZV90dCAmJiBuZXdfbWFuLT51c2VfdHQpIHsKIAkJaWYgKGJvLT5tZW0ubWVtX3R5cGUgPT0g
-VFRNX1BMX1NZU1RFTSkgewpAQCAtNzU4LDE4ICs3NTcsMTAgQEAgc3RhdGljIGludCB2bXdfbW92
-ZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAogCX0KIAlyZXR1cm4gMDsKIGZhaWw6Ci0J
-c3dhcCgqbmV3X21lbSwgYm8tPm1lbSk7Ci0Jdm13X21vdmVfbm90aWZ5KGJvLCBmYWxzZSwgbmV3
-X21lbSk7Ci0Jc3dhcCgqbmV3X21lbSwgYm8tPm1lbSk7CisJdm13X21vdmVfbm90aWZ5KGJvLCBu
-ZXdfbWVtLCAmYm8tPm1lbSk7CiAJcmV0dXJuIHJldDsKIH0KIAotc3RhdGljIHZvaWQKLXZtd19k
-ZWxldGVfbWVtX25vdGlmeShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvKQotewotCXZtd19t
-b3ZlX25vdGlmeShibywgZmFsc2UsIE5VTEwpOwotfQotCiBzdHJ1Y3QgdHRtX2RldmljZV9mdW5j
-cyB2bXdfYm9fZHJpdmVyID0gewogCS50dG1fdHRfY3JlYXRlID0gJnZtd190dG1fdHRfY3JlYXRl
-LAogCS50dG1fdHRfcG9wdWxhdGUgPSAmdm13X3R0bV9wb3B1bGF0ZSwKQEAgLTc3OSw3ICs3NzAs
-NiBAQCBzdHJ1Y3QgdHRtX2RldmljZV9mdW5jcyB2bXdfYm9fZHJpdmVyID0gewogCS5ldmljdF9m
-bGFncyA9IHZtd19ldmljdF9mbGFncywKIAkubW92ZSA9IHZtd19tb3ZlLAogCS52ZXJpZnlfYWNj
-ZXNzID0gdm13X3ZlcmlmeV9hY2Nlc3MsCi0JLmRlbGV0ZV9tZW1fbm90aWZ5ID0gdm13X2RlbGV0
-ZV9tZW1fbm90aWZ5LAogCS5zd2FwX25vdGlmeSA9IHZtd19zd2FwX25vdGlmeSwKIAkuaW9fbWVt
-X3Jlc2VydmUgPSAmdm13X3R0bV9pb19tZW1fcmVzZXJ2ZSwKIH07Ci0tIAoyLjI1LjEKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 2/10/2021 6:22 AM, Jordan Crouse wrote:
+> Most a6xx targets have security issues that were fixed with new versions
+> of the microcode(s). Make sure that we are booting with a safe version of
+> the microcode for the target and print a message and error if not.
+> 
+> v2: Add more informative error messages and fix typos
+> 
+> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+> ---
+> 
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 77 ++++++++++++++++++++++-----
+>   1 file changed, 64 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index ba8e9d3cf0fe..064b7face504 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -522,28 +522,73 @@ static int a6xx_cp_init(struct msm_gpu *gpu)
+>   	return a6xx_idle(gpu, ring) ? 0 : -EINVAL;
+>   }
+>   
+> -static void a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
+> +/*
+> + * Check that the microcode version is new enough to include several key
+> + * security fixes. Return true if the ucode is safe.
+> + */
+> +static bool a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
+>   		struct drm_gem_object *obj)
+>   {
+> +	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+> +	struct msm_gpu *gpu = &adreno_gpu->base;
+>   	u32 *buf = msm_gem_get_vaddr(obj);
+> +	bool ret = false;
+>   
+>   	if (IS_ERR(buf))
+> -		return;
+> +		return false;
+>   
+>   	/*
+> -	 * If the lowest nibble is 0xa that is an indication that this microcode
+> -	 * has been patched. The actual version is in dword [3] but we only care
+> -	 * about the patchlevel which is the lowest nibble of dword [3]
+> -	 *
+> -	 * Otherwise check that the firmware is greater than or equal to 1.90
+> -	 * which was the first version that had this fix built in
+> +	 * Targets up to a640 (a618, a630 and a640) need to check for a
+> +	 * microcode version that is patched to support the whereami opcode or
+> +	 * one that is new enough to include it by default.
+>   	 */
+> -	if (((buf[0] & 0xf) == 0xa) && (buf[2] & 0xf) >= 1)
+> -		a6xx_gpu->has_whereami = true;
+> -	else if ((buf[0] & 0xfff) > 0x190)
+> -		a6xx_gpu->has_whereami = true;
+> +	if (adreno_is_a618(adreno_gpu) || adreno_is_a630(adreno_gpu) ||
+> +		adreno_is_a640(adreno_gpu)) {
+> +		/*
+> +		 * If the lowest nibble is 0xa that is an indication that this
+> +		 * microcode has been patched. The actual version is in dword
+> +		 * [3] but we only care about the patchlevel which is the lowest
+> +		 * nibble of dword [3]
+> +		 *
+> +		 * Otherwise check that the firmware is greater than or equal
+> +		 * to 1.90 which was the first version that had this fix built
+> +		 * in
+> +		 */
+> +		if ((((buf[0] & 0xf) == 0xa) && (buf[2] & 0xf) >= 1) ||
+> +			(buf[0] & 0xfff) >= 0x190) {
+> +			a6xx_gpu->has_whereami = true;
+> +			ret = true;
+> +			goto out;
+> +		}
+>   
+> +		DRM_DEV_ERROR(&gpu->pdev->dev,
+> +			"a630 SQE ucode is too old. Have version %x need at least %x\n",
+> +			buf[0] & 0xfff, 0x190);
+> +	}  else {
+> +		/*
+> +		 * a650 tier targets don't need whereami but still need to be
+> +		 * equal to or newer than 1.95 for other security fixes
+> +		 */
+> +		if (adreno_is_a650(adreno_gpu)) {
+> +			if ((buf[0] & 0xfff) >= 0x195) {
+> +				ret = true;
+> +				goto out;
+> +			}
+> +
+> +			DRM_DEV_ERROR(&gpu->pdev->dev,
+> +				"a650 SQE ucode is too old. Have version %x need at least %x\n",
+> +				buf[0] & 0xfff, 0x195);
+> +		}
+> +
+> +		/*
+> +		 * When a660 is added those targets should return true here
+> +		 * since those have all the critical security fixes built in
+> +		 * from the start
+> +		 */
+Or we can just initialize 'ret' as true.
+
+-Akhil
+> +	}
+> +out:
+>   	msm_gem_put_vaddr(obj);
+> +	return ret;
+>   }
+>   
+>   static int a6xx_ucode_init(struct msm_gpu *gpu)
+> @@ -566,7 +611,13 @@ static int a6xx_ucode_init(struct msm_gpu *gpu)
+>   		}
+>   
+>   		msm_gem_object_set_name(a6xx_gpu->sqe_bo, "sqefw");
+> -		a6xx_ucode_check_version(a6xx_gpu, a6xx_gpu->sqe_bo);
+> +		if (!a6xx_ucode_check_version(a6xx_gpu, a6xx_gpu->sqe_bo)) {
+> +			msm_gem_unpin_iova(a6xx_gpu->sqe_bo, gpu->aspace);
+> +			drm_gem_object_put(a6xx_gpu->sqe_bo);
+> +
+> +			a6xx_gpu->sqe_bo = NULL;
+> +			return -EPERM;
+> +		}
+>   	}
+>   
+>   	gpu_write64(gpu, REG_A6XX_CP_SQE_INSTR_BASE_LO,
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
