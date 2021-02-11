@@ -2,60 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBF0031840A
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 04:40:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC1DF318411
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 04:47:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73D9A6EDE8;
-	Thu, 11 Feb 2021 03:40:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 849C16E3D8;
+	Thu, 11 Feb 2021 03:47:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
- [IPv6:2607:f8b0:4864:20::829])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 528646EDE1;
- Thu, 11 Feb 2021 03:40:35 +0000 (UTC)
-Received: by mail-qt1-x829.google.com with SMTP id o21so3286354qtr.3;
- Wed, 10 Feb 2021 19:40:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=jy8TwQ9J8I3zdoXkycD6WlxbE6nIvABZoAByZOKkXPI=;
- b=mEYWfhCGJKsG/WfDMij28AVXL92G4onC0k4bnBj2VTqHRYRyC9GmlYf0dzX2QTmuco
- Rcr+u6dNeoV9qvHES+OHtI9daW7lT0g1dpjbKgFwVA8Oqg/A9OGTc1wtEVjunpBhY0Yi
- Js1ujz+Rwy/VXLg4kTG12RGcuV325yBesoDlMBj/qs+xfX+bjVSBbyenb9fOPfwsN09Q
- ZTnaV6Krr7UpYciInPyUf/NAGjBTmo7JqVcgbg6fbsk4hdjrfNC34Luy9uyyAkAJAieZ
- WPE1Ra0ddXZ4ruWPdZbZaQZtSYtTcP3jvhUaRJUGAVZ5KoZcLElKFxJxrf9PqjJXHDTU
- RB8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=jy8TwQ9J8I3zdoXkycD6WlxbE6nIvABZoAByZOKkXPI=;
- b=DtpLduu23yE6s1JouI35bIFFNiGbQAwNArBxujG1qs9c3iQgoa+imf8msgJYiigSPF
- Va505+2boihwXGtpB0uzSzV/b3+un6hvs5VuSSX4BOXYnoC4z/X47uSIdzrQ+HPbz8yh
- BiH+dV/L/HpAnhmwZdcq9Ik+N3MKHZLIa2v4lVviIepnme18DW5Iz5LbgAeo2oouV+xb
- W6eyTpyv+VKdVM5LCveywSlAIfzuli4ZsAqnru2shY/X/IfL10s3s9oKj7rZgThjrBUS
- Hp2Q/8BjYllu8U9Q93z8uWug+1QoAKn3J2mkco17wZZ0rh44RbHqseZPNrXkdvAgnvtX
- X2gg==
-X-Gm-Message-State: AOAM530Xv7GxRVwg9yMb8jsmUSU4bmrtz0ETU472csoWVHq2LnyTgLXN
- I/IRXDdbdiChOS+iOQcA40h7syclmo0ZbA==
-X-Google-Smtp-Source: ABdhPJzUTpTsQAq0hQZ0YzYh4iAuqc4CDM7p3L5kvb88XMbxUvS/sWHQYvpZOyautPdLNqA/7qjvLg==
-X-Received: by 2002:ac8:59d6:: with SMTP id f22mr5975489qtf.230.1613014834162; 
- Wed, 10 Feb 2021 19:40:34 -0800 (PST)
-Received: from localhost (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
- by smtp.gmail.com with ESMTPSA id m190sm2967164qkc.66.2021.02.10.19.40.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Feb 2021 19:40:33 -0800 (PST)
-Date: Wed, 10 Feb 2021 22:40:31 -0500
-From: Trevor Woerner <twoerner@gmail.com>
-To: Omar Emara <mail@omaremara.dev>
-Subject: Re: [Mesa-dev] should we do GSoC 2021?
-Message-ID: <20210211034031.GA23116@localhost>
-References: <CAHUNapTB1tt6T931LfBWVWreXGFwd6tTPqH58i7s3WKivCDT4g@mail.gmail.com>
- <C95UP3DDQ1NM.2OISU75W7OYFU@omar>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A2126E3D8;
+ Thu, 11 Feb 2021 03:47:39 +0000 (UTC)
+IronPort-SDR: OMTUMG4eLa/GjPN+WIfehlYWRYmIQgFaYeykWiM0h8KxSdAoF58mDm6vFFl/YJLEA4ARBzHAh9
+ eM1dfZ2LByoA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9891"; a="182325118"
+X-IronPort-AV: E=Sophos;i="5.81,169,1610438400"; d="scan'208";a="182325118"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2021 19:47:38 -0800
+IronPort-SDR: D79RmPro2ikoHal05Bqao7dl+nS+OQR55mXgHRmdSUyJ9kwjfiGz8ZoTRBgU6GgVI8dGdaCYIk
+ jsgg0Gnq3T2A==
+X-IronPort-AV: E=Sophos;i="5.81,169,1610438400"; d="scan'208";a="380436336"
+Received: from rontiver-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.212.99.95])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2021 19:47:37 -0800
+Date: Wed, 10 Feb 2021 22:47:36 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [Intel-gfx] [RFC v4 09/11] drm/i915/dpcd_bl: Print return codes
+ for VESA backlight failures
+Message-ID: <20210211034736.GF82362@intel.com>
+References: <20210208233902.1289693-1-lyude@redhat.com>
+ <20210208233902.1289693-10-lyude@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <C95UP3DDQ1NM.2OISU75W7OYFU@omar>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210208233902.1289693-10-lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,36 +49,247 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mesa-dev@lists.freedesktop.org, xorg-devel@lists.x.org,
- dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Omar,
+On Mon, Feb 08, 2021 at 06:38:59PM -0500, Lyude Paul wrote:
+> Also, stop printing the DPCD register that failed, and just describe it
+> instead. Saves us from having to look up each register offset when reading
+> through kernel logs (plus, DPCD dumping with drm.debug |= 0x100 will give
+> us that anyway).
+> 
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
 
-On Wed 2021-02-10 @ 02:31:11 PM, Omar Emara wrote:
-> If applying to GSoC will not take much time from you, I think you should apply
-> regardless and leave the acceptance decision on a per-project basis.
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-GSoC works, literally, the other way around. Unfortunately GSoC doesn't start
-with students expressing their interest, then organizations applying based
-on the student interest they receive. GSoC starts with mentors willing to
-volunteer to mentor, then organizations deciding to apply based on the level
-of interest expressed by potential volunteers, then google selecting which
-organizations can participate, then students expressing an interest.
-
-Without a proper task list XOrg will not be selected by Google to participate
-in GSoC. Google has always been clear that the task list is one of the most
-important criteria for deciding which organizations they pick to participate.
-Mentors need to update the task list with ideas they're willing to mentor. So
-far nobody has volunteered to mentor, and by extension, nobody has volunteered
-to update the tasks to fit into the new constraints Google is applying to GSoC
-2021.
-
-Organization applications close Feb 19, if there are no mentors we can't
-possibly consider participating.
+> ---
+>  .../drm/i915/display/intel_dp_aux_backlight.c | 101 +++++++++---------
+>  1 file changed, 52 insertions(+), 49 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> index a139f0e08839..a98d9bd4b0ed 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> @@ -274,14 +274,12 @@ static bool intel_dp_aux_vesa_backlight_dpcd_mode(struct intel_connector *connec
+>  {
+>  	struct intel_dp *intel_dp = intel_attached_dp(connector);
+>  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+> +	int ret;
+>  	u8 mode_reg;
+>  
+> -	if (drm_dp_dpcd_readb(&intel_dp->aux,
+> -			      DP_EDP_BACKLIGHT_MODE_SET_REGISTER,
+> -			      &mode_reg) != 1) {
+> -		drm_dbg_kms(&i915->drm,
+> -			    "Failed to read the DPCD register 0x%x\n",
+> -			    DP_EDP_BACKLIGHT_MODE_SET_REGISTER);
+> +	ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_BACKLIGHT_MODE_SET_REGISTER, &mode_reg);
+> +	if (ret != 1) {
+> +		drm_dbg_kms(&i915->drm, "Failed to read backlight mode: %d\n", ret);
+>  		return false;
+>  	}
+>  
+> @@ -297,6 +295,7 @@ static u32 intel_dp_aux_vesa_get_backlight(struct intel_connector *connector, en
+>  {
+>  	struct intel_dp *intel_dp = intel_attached_dp(connector);
+>  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+> +	int ret;
+>  	u8 read_val[2] = { 0x0 };
+>  	u16 level = 0;
+>  
+> @@ -307,10 +306,10 @@ static u32 intel_dp_aux_vesa_get_backlight(struct intel_connector *connector, en
+>  	if (!intel_dp_aux_vesa_backlight_dpcd_mode(connector))
+>  		return connector->panel.backlight.max;
+>  
+> -	if (drm_dp_dpcd_read(&intel_dp->aux, DP_EDP_BACKLIGHT_BRIGHTNESS_MSB, &read_val,
+> -			     sizeof(read_val)) != sizeof(read_val)) {
+> -		drm_dbg_kms(&i915->drm, "Failed to read DPCD register 0x%x\n",
+> -			    DP_EDP_BACKLIGHT_BRIGHTNESS_MSB);
+> +	ret = drm_dp_dpcd_read(&intel_dp->aux, DP_EDP_BACKLIGHT_BRIGHTNESS_MSB, &read_val,
+> +			       sizeof(read_val));
+> +	if (ret != sizeof(read_val)) {
+> +		drm_dbg_kms(&i915->drm, "Failed to read brightness level: %d\n", ret);
+>  		return 0;
+>  	}
+>  
+> @@ -333,6 +332,7 @@ intel_dp_aux_vesa_set_backlight(const struct drm_connector_state *conn_state,
+>  	struct intel_connector *connector = to_intel_connector(conn_state->connector);
+>  	struct intel_dp *intel_dp = intel_attached_dp(connector);
+>  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+> +	int ret;
+>  	u8 vals[2] = { 0x0 };
+>  
+>  	/* Write the MSB and/or LSB */
+> @@ -343,10 +343,10 @@ intel_dp_aux_vesa_set_backlight(const struct drm_connector_state *conn_state,
+>  		vals[0] = level;
+>  	}
+>  
+> -	if (drm_dp_dpcd_write(&intel_dp->aux, DP_EDP_BACKLIGHT_BRIGHTNESS_MSB, vals,
+> -			      sizeof(vals)) != sizeof(vals)) {
+> -		drm_dbg_kms(&i915->drm,
+> -			    "Failed to write aux backlight level\n");
+> +	ret = drm_dp_dpcd_write(&intel_dp->aux, DP_EDP_BACKLIGHT_BRIGHTNESS_MSB, vals,
+> +				sizeof(vals));
+> +	if (ret != sizeof(vals)) {
+> +		drm_dbg_kms(&i915->drm, "Failed to write aux backlight level: %d\n", ret);
+>  		return;
+>  	}
+>  }
+> @@ -355,26 +355,28 @@ static void set_vesa_backlight_enable(struct intel_connector *connector, bool en
+>  {
+>  	struct intel_dp *intel_dp = intel_attached_dp(connector);
+>  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+> +	int ret;
+>  	u8 reg_val = 0;
+>  
+>  	/* Early return when display use other mechanism to enable backlight. */
+>  	if (!connector->panel.backlight.edp.vesa.aux_enable)
+>  		return;
+>  
+> -	if (drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_DISPLAY_CONTROL_REGISTER, &reg_val) != 1) {
+> -		drm_dbg_kms(&i915->drm, "Failed to read DPCD register 0x%x\n",
+> -			    DP_EDP_DISPLAY_CONTROL_REGISTER);
+> +	ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_DISPLAY_CONTROL_REGISTER, &reg_val);
+> +	if (ret != 1) {
+> +		drm_dbg_kms(&i915->drm, "Failed to read eDP display control register: %d\n", ret);
+>  		return;
+>  	}
+> +
+>  	if (enable)
+>  		reg_val |= DP_EDP_BACKLIGHT_ENABLE;
+>  	else
+>  		reg_val &= ~(DP_EDP_BACKLIGHT_ENABLE);
+>  
+> -	if (drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_DISPLAY_CONTROL_REGISTER,
+> -			       reg_val) != 1) {
+> -		drm_dbg_kms(&i915->drm, "Failed to %s aux backlight\n",
+> -			    enable ? "enable" : "disable");
+> +	ret = drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_DISPLAY_CONTROL_REGISTER, reg_val);
+> +	if (ret != 1) {
+> +		drm_dbg_kms(&i915->drm, "Failed to %s aux backlight: %d\n",
+> +			    enable ? "enable" : "disable", ret);
+>  	}
+>  }
+>  
+> @@ -386,13 +388,13 @@ intel_dp_aux_vesa_enable_backlight(const struct intel_crtc_state *crtc_state,
+>  	struct intel_dp *intel_dp = intel_attached_dp(connector);
+>  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+>  	struct intel_panel *panel = &connector->panel;
+> +	int ret;
+>  	u8 dpcd_buf, new_dpcd_buf;
+>  	u8 pwmgen_bit_count = panel->backlight.edp.vesa.pwmgen_bit_count;
+>  
+> -	if (drm_dp_dpcd_readb(&intel_dp->aux,
+> -			DP_EDP_BACKLIGHT_MODE_SET_REGISTER, &dpcd_buf) != 1) {
+> -		drm_dbg_kms(&i915->drm, "Failed to read DPCD register 0x%x\n",
+> -			    DP_EDP_BACKLIGHT_MODE_SET_REGISTER);
+> +	ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_BACKLIGHT_MODE_SET_REGISTER, &dpcd_buf);
+> +	if (ret != 1) {
+> +		drm_dbg_kms(&i915->drm, "Failed to read backlight mode: %d\n", ret);
+>  		return;
+>  	}
+>  
+> @@ -402,24 +404,26 @@ intel_dp_aux_vesa_enable_backlight(const struct intel_crtc_state *crtc_state,
+>  		new_dpcd_buf &= ~DP_EDP_BACKLIGHT_CONTROL_MODE_MASK;
+>  		new_dpcd_buf |= DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD;
+>  
+> -		if (drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT,
+> -				       pwmgen_bit_count) != 1)
+> -			drm_dbg_kms(&i915->drm,
+> -				    "Failed to write aux pwmgen bit count\n");
+> +		ret = drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT, pwmgen_bit_count);
+> +		if (ret != 1)
+> +			drm_dbg_kms(&i915->drm, "Failed to write aux pwmgen bit count: %d\n", ret);
+>  	}
+>  
+>  	if (panel->backlight.edp.vesa.pwm_freq_pre_divider) {
+> -		if (drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_BACKLIGHT_FREQ_SET,
+> -				       panel->backlight.edp.vesa.pwm_freq_pre_divider) == 1)
+> +		ret = drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_BACKLIGHT_FREQ_SET,
+> +					 panel->backlight.edp.vesa.pwm_freq_pre_divider);
+> +		if (ret == 1)
+>  			new_dpcd_buf |= DP_EDP_BACKLIGHT_FREQ_AUX_SET_ENABLE;
+>  		else
+> -			drm_dbg_kms(&i915->drm, "Failed to write aux backlight frequency\n");
+> +			drm_dbg_kms(&i915->drm, "Failed to write aux backlight frequency: %d\n",
+> +				    ret);
+>  	}
+>  
+>  	if (new_dpcd_buf != dpcd_buf) {
+> -		if (drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_BACKLIGHT_MODE_SET_REGISTER,
+> -				       new_dpcd_buf) != 1)
+> -			drm_dbg_kms(&i915->drm, "Failed to write aux backlight mode\n");
+> +		ret = drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_BACKLIGHT_MODE_SET_REGISTER,
+> +					 new_dpcd_buf);
+> +		if (ret != 1)
+> +			drm_dbg_kms(&i915->drm, "Failed to write aux backlight mode: %d\n", ret);
+>  	}
+>  
+>  	intel_dp_aux_vesa_set_backlight(conn_state, level);
+> @@ -446,11 +450,12 @@ static u32 intel_dp_aux_vesa_calc_max_backlight(struct intel_connector *connecto
+>  	struct intel_dp *intel_dp = intel_attached_dp(connector);
+>  	struct intel_panel *panel = &connector->panel;
+>  	u32 max_backlight = 0;
+> -	int freq, fxp, fxp_min, fxp_max, fxp_actual, f = 1;
+> +	int ret, freq, fxp, fxp_min, fxp_max, fxp_actual, f = 1;
+>  	u8 pn, pn_min, pn_max;
+>  
+> -	if (drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT, &pn) != 1) {
+> -		drm_dbg_kms(&i915->drm, "Failed to read pwmgen bit count cap\n");
+> +	ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT, &pn);
+> +	if (ret != 1) {
+> +		drm_dbg_kms(&i915->drm, "Failed to read pwmgen bit count cap: %d\n", ret);
+>  		return 0;
+>  	}
+>  
+> @@ -479,16 +484,14 @@ static u32 intel_dp_aux_vesa_calc_max_backlight(struct intel_connector *connecto
+>  	 * - FxP is within 25% of desired value.
+>  	 *   Note: 25% is arbitrary value and may need some tweak.
+>  	 */
+> -	if (drm_dp_dpcd_readb(&intel_dp->aux,
+> -			      DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN, &pn_min) != 1) {
+> -		drm_dbg_kms(&i915->drm,
+> -			    "Failed to read pwmgen bit count cap min\n");
+> +	ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN, &pn_min);
+> +	if (ret != 1) {
+> +		drm_dbg_kms(&i915->drm, "Failed to read pwmgen bit count cap min: %d\n", ret);
+>  		return max_backlight;
+>  	}
+> -	if (drm_dp_dpcd_readb(&intel_dp->aux,
+> -			      DP_EDP_PWMGEN_BIT_COUNT_CAP_MAX, &pn_max) != 1) {
+> -		drm_dbg_kms(&i915->drm,
+> -			    "Failed to read pwmgen bit count cap max\n");
+> +	ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MAX, &pn_max);
+> +	if (ret != 1) {
+> +		drm_dbg_kms(&i915->drm, "Failed to read pwmgen bit count cap max: %d\n", ret);
+>  		return max_backlight;
+>  	}
+>  	pn_min &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
+> @@ -512,9 +515,9 @@ static u32 intel_dp_aux_vesa_calc_max_backlight(struct intel_connector *connecto
+>  	}
+>  
+>  	drm_dbg_kms(&i915->drm, "Using eDP pwmgen bit count of %d\n", pn);
+> -	if (drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT, pn) != 1) {
+> -		drm_dbg_kms(&i915->drm,
+> -			    "Failed to write aux pwmgen bit count\n");
+> +	ret = drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT, pn);
+> +	if (ret != 1) {
+> +		drm_dbg_kms(&i915->drm, "Failed to write aux pwmgen bit count: %d\n", ret);
+>  		return max_backlight;
+>  	}
+>  
+> -- 
+> 2.29.2
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
