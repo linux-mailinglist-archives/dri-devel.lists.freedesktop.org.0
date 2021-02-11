@@ -1,122 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75670318E5F
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 16:27:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36DCD318E87
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 16:31:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 586206EE41;
-	Thu, 11 Feb 2021 15:27:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA296E44C;
+	Thu, 11 Feb 2021 15:31:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2081.outbound.protection.outlook.com [40.107.93.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F1A86EE36
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 15:27:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H4Xn5IdYWQg8qM0RuCaoO+GmFaBpWn5cDlzByG2gmvWYHd+9ab4MHrT2pW3DCxLi7pIgvvuBzjeXbKIKxsd7jP0yVwPP/buwUvCR1P7AtQYPRmU0aCC+swNM6mOiKigSYUwfxVa+4f0IaWDMe8JCsryrQfVcX7sgLaYJk//N17/EcOnrcCuKnB8LaP0oyRo1zkozokGhHYRrkHoSdXNid4ybiW6wnMgCAo3giyBEFdKdeLYzF2hGBabudqAocEqD1a44u0av8MWIQR+TfmE/Di2ASro1pwZCwIHMj/4i/ab20ZZ+gwIhxe8670S3i3iSg7yXnOrLz9UzwEXzbI/9Xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hfeKpuM6qmrAGRaCGhv46ArXElCre5YNnZpn4giCdRo=;
- b=cbV1qCNY+Slcd8tjZ7+PIhWdZ3A8luYWagPTQaF+Y3DiuDOZsMwVxx0tQvfF0t4/bN59eL7y5JLNzXSpAIcXWWO7VUwD7RVQT7MESg6lrBLP+GhR0t3Ss2pyiA/DZZyjoAecrNx6aQZivaXb4xsMOrcazn6qAAuPCmGLutYRA4ObcOrpmQ5DUz46ICQnIAbAsaMee9dT+b6ZZKVGoGMc2hGnEDLvrgw9pOfnwUh0HH9oDyxKFNujuJUWsQ4YGBBQjWnt5vpIMWxnkihzQQhaDRu5I+zobcKaRxvepq0eEFJUMI3yCDzUklcwabjnfKrvmjB2bdNA/oVaNpO40xjugQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hfeKpuM6qmrAGRaCGhv46ArXElCre5YNnZpn4giCdRo=;
- b=rdigxt1Np2IF31qtpLVUJfh4JVMeKVItTnH/HcJBu8EJbdtPl0K+PlvFnBQVKSwYE25idxOpiTjSo2VR29epxe460C36KTTAn2ZiatvoRohH3triM96FHLHH2Ca2gkSxRz8FAcGbqnV7ixmrGqteB5sIjeRvCC997+QNnrtmSro=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3774.namprd12.prod.outlook.com (2603:10b6:208:16a::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.27; Thu, 11 Feb
- 2021 15:27:33 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3846.027; Thu, 11 Feb 2021
- 15:27:33 +0000
-Subject: Re: Not 100% sure if I correctly fixed drm-tip
-To: Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter
- <daniel@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>
-References: <b313d0b2-9589-8209-54a3-f44dc137164e@amd.com>
- <87o8gqd4vw.fsf@intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <3b20fc5a-e6ff-d1f9-a4f6-6b5c21ca94fc@amd.com>
-Date: Thu, 11 Feb 2021 16:27:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <87o8gqd4vw.fsf@intel.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:128e:c59b:ac8b:316f]
-X-ClientProxiedBy: AM0PR04CA0044.eurprd04.prod.outlook.com
- (2603:10a6:208:1::21) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+ [104.130.122.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A867D6EE52
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 15:31:17 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1613057479; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=08lYzY4knhRRjPTGNwPj0l5bPNiwLguw0JDjr88yZUQ=;
+ b=Tw/nousdfUumkWksoqTfWichXGCA+xObOa6Fe6Xd7/QCap1eNDs0lg5Vm0P7iBC8XKmnv3Xj
+ 6PVi9OGmIWYQfFvL5VOBGV/TYNw9I0CM2wo08U2S9YgjLuCMwv72QfLY64SO6e6ISzDXU7DK
+ bzUnuTkKtx4tiJYeV2TvyM6ZH9k=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 60254dc1e3df861f4b938ffc (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 11 Feb 2021 15:31:12
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 2CBD7C433CA; Thu, 11 Feb 2021 15:31:12 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: kalyan_t)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 9DA46C433C6;
+ Thu, 11 Feb 2021 15:31:08 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:128e:c59b:ac8b:316f]
- (2a02:908:1252:fb60:128e:c59b:ac8b:316f) by
- AM0PR04CA0044.eurprd04.prod.outlook.com (2603:10a6:208:1::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3846.25 via Frontend Transport; Thu, 11 Feb 2021 15:27:32 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: f2143739-ec5d-43f4-3934-08d8cea18d9b
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3774:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB377460C09EF4CFE73070F3A5838C9@MN2PR12MB3774.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: M4RUPwLtBkiUfS/BfJvUePL27JmoPcCZR//q074/qoZYjjeZ1eZPc/ZVE4rZZJAjDpwwrSY+XnvhUbQFGQizbA2+IAcYzbM+SVqW7uBNyo5x7kMSw4mQy1qxuuiKllUbz3qQ9hr+DM6413vMzoxzgJjGUoNmK1eye5VnXer0K5fDh/58KQde2O6/5aMsurVqn5tnfS+RMjUdY1brjQT0TVQUvt/mlh4V/Cqm0mmWwJ0X+4Q/hrKX+XVwr8nhRrsBExdqIh2CqeHE4ZUSdp5fW1uPSbDQrLOFrGhvkXm4fNFABu9xazDRUux84kKNoMtrOI3KmyjdNRARasUAH8cepv9V7/oecK6CHrZhTQc6j+L6cM0820iFWRtjZgxWkXhp2eAd1o3kvoOAe5cTX30xoQlqWqxE4WoBrVygvyRsESCF3BWMPLeMExdc/YtdKrH778l6VcnKIE2ziox/XkPhiIflDbE9lj/iKu9rQiv33sAmWR9OUYPN1UOJsu+tZNqxcpgnoUO/1mkEykz2oBCm11/jz+dmQUW3XpvAH63UpPW6YtNr3v0FFaxRlZcWvU6yaFmEF/5oHsuhAZis9dGPKWVRMKmwGZw0uOIdWANRsoQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(346002)(396003)(376002)(39860400002)(136003)(31686004)(83380400001)(31696002)(66946007)(86362001)(66574015)(478600001)(5660300002)(8676002)(66476007)(6666004)(16526019)(8936002)(186003)(6486002)(36756003)(2616005)(52116002)(110136005)(66556008)(2906002)(316002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cnRqZjlQZFg0YzJMR2ttSERtT053aGtiRjhrTklIbVFWd1c1YklJTkNPaHJq?=
- =?utf-8?B?Z1lxQ0FtT1Q0ekxXVWxUdUJYaUxkd1JHWW1WV2hoMTNuK0lUcXY1WHBscXJj?=
- =?utf-8?B?Sm9YYzcwRVVkUFJodHJiNEpTSmF0WUJhMnZRQlhWbFZBWm51SHdyWmpIenly?=
- =?utf-8?B?bDFvbFpnNkJuclUySUIyc2IrdVlKZGprTWxsWG16OWhoZDgxc3huTUJuSW0w?=
- =?utf-8?B?NjJFeUwybHlUOW01YjlKc0Nna2c3b1BNVEhSdUpIc200SVZLQzdXOENVZ2Vm?=
- =?utf-8?B?R3dNdlZiRFhkL3I3Qk9NcTJobHN3bFhnc1F0MzVWaFU0ZGlZcDdIZ2UxS2U0?=
- =?utf-8?B?T2JhTVVHOExjS2FEdjNPNUdVUURaVGM0bGJLYzFkTWlGT0hrOTltZElhVDFE?=
- =?utf-8?B?SHBLbDVmZS95TDJBRjBzQ091TDUxTkRFVVErVms3SVpucDhORW5mTlZWWkJk?=
- =?utf-8?B?NTk2RThMcEtsblVSL2dkZzZPRXdlTnM5T2g3YUYwUXhBN285bmNkcERFam42?=
- =?utf-8?B?ZTlYMnRKVTJ1R3pPM2ZYbThpRHprREdLMGx1aHBLZllQc0tLNm5SeFBPTnRw?=
- =?utf-8?B?Mlg5V3BuUmtScGE0eXUyVWVPQnZTUmU5K3doOSt1VzQrM01uVjRPK2I0VGNy?=
- =?utf-8?B?UTlmREVTUGRwSm9WRzFBR28rQTVSTUZFWG5KZ05nQVcxVnhhWWZoNTJZVEl0?=
- =?utf-8?B?bmVyeE5VMDJveDVtVU1nWUdObS9uR2J0a296N2Zvc2p5NVJaZ2s1bCtXTW9K?=
- =?utf-8?B?MzdXekRBWS93a3NER2RNSStXSzZmT3lMYnhWblh6N2xKeHZzSFM2MHp5K2tV?=
- =?utf-8?B?dTl6R0U2eWNyRCtBNkRHNDM5YlVZbGplOTczL2FkaXNJeFBqRCtvbUF2dXo4?=
- =?utf-8?B?cnpzdC9qSEUzeWQ4VjUwb1cvV0tjdndpUGNzemVCcnY1b1JRNkd5UTUwYmwr?=
- =?utf-8?B?b0tHdW1WUjVSV3Q1eEY0Z2RBeDduNUJFWFptMStNUU5BSi9lNE5OeXl4d2k1?=
- =?utf-8?B?OXlkQmhhT1lWc29ydTQ0YytSQldMM1hTTmt2OFlNcWtlRTFyamw1N1IyYit3?=
- =?utf-8?B?cEVzNXhXTS9pa2VGUkpPRVVFSHhNdCs4UnlSY0M3Zk91cTd6bFdJRXNUVnJ0?=
- =?utf-8?B?eGx2dVV1TVlxNmhtcnVianZpNzh0MXlXMzhNR2lSNDRvaGhtY2RickJ1cE1P?=
- =?utf-8?B?TVcvWjNEcERpMFNRa0FIOFp3bFJoK3R0TnptOGVXaWdGNlVCNFZGQzVTbFZh?=
- =?utf-8?B?RUVwcHNRaGpITWs3L3ZkamRsRFVsbWI1bUl3RnMvcFlyUDBLb2oxSUlGY3NM?=
- =?utf-8?B?UjJHMDRwNFdEd1JJbXYvMGJBaGxja3d6SVJYUkFONmxpbVJHZ0VDNGdJeE5x?=
- =?utf-8?B?K0FGMFE5S3plRWtiWlBuSWVjZitPRS9sNFYxZjk1Nk5zRDgyRU5GMnh1MWwx?=
- =?utf-8?B?aEhYdnJYeXJSY2lERFhobGVrZzg2Z3B0N3ZwVDJUWXlNMGdsOFNDVkNDUHhY?=
- =?utf-8?B?eVJyZUVScGZ3OTFvaURRSndVb2lRUThuT09DYy9mNThJa1EycmJqclpBcVRF?=
- =?utf-8?B?eU1FVElzeTJVV0ZzaWxINm5ubnlXbGp0QVZLWjZ5ZDFZOGIzRE8zL1JQRnc4?=
- =?utf-8?B?dkNrZkJ5VjNlNkkwMmhUdDdFY0pyWFlSd2xmOG9IWURqTnNYSGl1VWxTU1V0?=
- =?utf-8?B?Nldaa1BTbmdXd2VaVWJpYklxdTNpcUhOalJKYm9IKzVXTXVMTlM2NjhnV2Ur?=
- =?utf-8?B?RWNWR0ZIM29WMWFvckY5K29LWk1EYXpIRWJWVll5WStQZGYwQlJDbUdYV2xw?=
- =?utf-8?B?OWxRZlI1dkFjTFJHM3pqUjJvQ3dqZldyN1VMSHRpekdPUDZBVWRtOHZaRkdC?=
- =?utf-8?Q?uYxf3ycQ415fB?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2143739-ec5d-43f4-3934-08d8cea18d9b
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2021 15:27:33.7129 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uixWAIKXzgIM3YvtOdFi0lZA5zKVqdN4WeXMNpmbJqvr2ERT4lLClCeGF7Lk5lu+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3774
+Date: Thu, 11 Feb 2021 21:01:08 +0530
+From: kalyan_t@codeaurora.org
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [Freedreno] [v2] drm/msm/disp/dpu1: turn off vblank irqs
+ aggressively in dpu driver
+In-Reply-To: <CAF6AEGviZ3UssYHa6-Fg2n2tjRmx5-b5FqVxWSY0Z_BqUtQqSQ@mail.gmail.com>
+References: <1608287227-17685-1-git-send-email-kalyan_t@codeaurora.org>
+ <CAF6AEGvvtDq7FK4NcKCc2FG2sbArBU-YboEA4u73oPR9o3coag@mail.gmail.com>
+ <fda3742598a6952c4e6797f31763aea8@codeaurora.org>
+ <CAF6AEGviZ3UssYHa6-Fg2n2tjRmx5-b5FqVxWSY0Z_BqUtQqSQ@mail.gmail.com>
+Message-ID: <fc3b3e609f07603ab6e6f12f2045bfca@codeaurora.org>
+X-Sender: kalyan_t@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,37 +67,508 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Krishna Manikandan <mkrishn@codeaurora.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Sean Paul <seanpaul@chromium.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Drew Davenport <ddavenport@chromium.org>,
+ "Kristian H. Kristensen" <hoegsberg@chromium.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpBbSAxMS4wMi4yMSB1bSAxNjowMiBzY2hyaWViIEphbmkgTmlrdWxhOgo+IE9uIFRodSwgMTEg
-RmViIDIwMjEsIENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4gd3Jv
-dGU6Cj4+IEhpIGd1eXMsCj4+Cj4+IEkgaGFkIGEgY29uZmxpY3QgdGhpcyBtb3JuaW5nIGluIHRo
-ZSB0dG0gcG9vbCB3aGlsZSBwdXNoaW5nIGFuIGltcG9ydGFudAo+PiBmaXggdG8gZHJtLW1pc2Mt
-Zml4ZXMuCj4+Cj4+IEknbSBub3QgMTAwJSBzdXJlIGlmIEkgY29ycmVjdGx5IGZpeGVkIHVwIGRy
-bS10aXAuIEhvdyBjYW4gdGhpcyBiZQo+PiBkb3VibGUgY2hlY2tlZD8gQW5kIGhvdyBjYW4gaXQg
-YmUgZml4ZWQgaWYgdGhlIG1lcmdlIGhhcyBnb25lIGJhZD8KPiBJJ20gYWZyYWlkIHRoZXJlJ3Mg
-YSBwcm9ibGVtOyBiYjUyY2IwZGVjOGQgKCJkcm0vdHRtOiBtYWtlIHRoZSBwb29sCj4gc2hyaW5r
-ZXIgbG9jayBhIG11dGV4IikgaW4gdXBzdHJlYW0gYW5kIGRybS1taXNjLWZpeGVzIGNyZWF0ZXMg
-YSBzaWxlbnQKPiBjb25mbGljdCB3aXRoIGJhMDUxOTAxZDEwZiAoImRybS90dG06IGFkZCBhIGRl
-YnVnZnMgZmlsZSBmb3IgdGhlIGdsb2JhbAo+IHBhZ2UgcG9vbHMiKSBpbiBkcm0tbWlzYy1uZXh0
-LCBjYXVzaW5nIHRoZSBsYXR0ZXIgdG8gdXNlCj4gc3Bpbl9sb2NrL3VubG9jayBvbiBhIG11dGV4
-Lgo+Cj4gQnV0IHdoaWxlIHlvdSBoaXQgYSBjb25mbGljdCwgaXQgZG9lcyBsb29rIGxpa2UgdGhl
-IGNvbmZsaWN0IGJyZWFraW5nCj4gdGhlIGJ1aWxkIGlzIHNpbGVudCwgQUZBSUNUIHRoZSBzcGlu
-bG9jayBwYXJ0IGRvZXMgbm90IGNvbmZsaWN0LiBTbyBhCj4gZml4dXAgcGF0Y2ggaW4gZHJtLXJl
-cmVyZSBpcyBwcm9iYWJseSBuZWVkZWQgdW50aWwgdGhlcmUgYXJlIHNvbWUKPiBiYWNrbWVyZ2Vz
-LgoKV2VsbCBleGFjdGx5IHRoYXQncyB0aGUgaXNzdWUuIEkndmUgYWxyZWFkeSBoYWQgYSBmaXh1
-cCBpbiBkcm0tcmVyZXJlIApmb3IgdGhpcy4KCkJ1dCB0b2RheSBJJ3ZlIHB1c2hlZCBhbm90aGVy
-IGZpeCB0byBkcm0tbWlzYy1maXhlcyB3aGljaCBhbHNvIGNvbmZsaWN0cyAKd2l0aCBiYTA1MTkw
-MWQxMGYgKCJkcm0vdHRtOiBhZGQgYSBkZWJ1Z2ZzIGZpbGUgZm9yIHRoZSBnbG9iYWwgcGFnZSBw
-b29scyIpLgoKSSd2ZSBmaXhlZCB0aGlzIHVwIGFzIHdlbGwgYW5kIGNvbW1pdHRlZCB0aGUgc29s
-dXRpb24uIEJ1dCBkaW0gdGhlbiAKY29tcGxhaW5lZCB0aGF0IHRoZSBvcmlnaW5hbCBmaXh1cCBp
-cyBub3cgbm90IGFwcGxpY2FibGUgYW55IG1vcmUgKHdoaWNoIAppcyB0cnVlIGFzIGZhciBhcyBJ
-IGtub3cpLgoKVGhpcyBzb21laG93IHdlbnQgYXdheSB3aGVuIEkgc2FpZCB0aGF0IGRpbSBzaG91
-bGQgYXNzdW1lIHBhdGNoIApyZXZlcnNhbCwgYnV0IEknbSBub3Qgc3VyZSBpZiB0aGF0J3MgdGhl
-IHJpZ2h0IHRoaW5nIHRvIGRvLgoKVGhhbmtzLApDaHJpc3RpYW4uCgo+Cj4KPiBCUiwKPiBKYW5p
-Lgo+Cj4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 2021-02-11 01:56, Rob Clark wrote:
+> On Wed, Feb 10, 2021 at 3:41 AM <kalyan_t@codeaurora.org> wrote:
+>> 
+>> On 2021-02-01 00:46, Rob Clark wrote:
+>> > On Fri, Dec 18, 2020 at 2:27 AM Kalyan Thota <kalyan_t@codeaurora.org>
+>> > wrote:
+>> >>
+>> >> Set the flag vblank_disable_immediate = true to turn off vblank irqs
+>> >> immediately as soon as drm_vblank_put is requested so that there are
+>> >> no irqs triggered during idle state. This will reduce cpu wakeups
+>> >> and help in power saving.
+>> >>
+>> >> To enable vblank_disable_immediate flag the underlying KMS driver
+>> >> needs to support high precision vblank timestamping and also a
+>> >> reliable way of providing vblank counter which is incrementing
+>> >> at the leading edge of vblank.
+>> >>
+>> >> This patch also brings in changes to support vblank_disable_immediate
+>> >> requirement in dpu driver.
+>> >>
+>> >> Changes in v1:
+>> >>  - Specify reason to add vblank timestamp support. (Rob)
+>> >>  - Add changes to provide vblank counter from dpu driver.
+>> >>
+>> >> Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+>> >
+>> > This seems to be triggering:
+>> >
+>> > [  +0.032668] ------------[ cut here ]------------
+>> > [  +0.004759] msm ae00000.mdss: drm_WARN_ON_ONCE(cur_vblank !=
+>> > vblank->last)
+>> > [  +0.000024] WARNING: CPU: 0 PID: 362 at
+>> > drivers/gpu/drm/drm_vblank.c:354 drm_update_vblank_count+0x1e4/0x258
+>> > [  +0.017154] Modules linked in: joydev
+>> > [  +0.003784] CPU: 0 PID: 362 Comm: frecon Not tainted
+>> > 5.11.0-rc5-00037-g33d3504871dd #2
+>> > [  +0.008135] Hardware name: Google Lazor (rev1 - 2) with LTE (DT)
+>> > [  +0.006167] pstate: 60400089 (nZCv daIf +PAN -UAO -TCO BTYPE=--)
+>> > [  +0.006169] pc : drm_update_vblank_count+0x1e4/0x258
+>> > [  +0.005105] lr : drm_update_vblank_count+0x1e4/0x258
+>> > [  +0.005106] sp : ffffffc010003b70
+>> > [  +0.003409] x29: ffffffc010003b70 x28: ffffff80855d9d98
+>> > [  +0.005466] x27: 0000000000000000 x26: 0000000000fe502a
+>> > [  +0.005458] x25: 0000000000000001 x24: 0000000000000001
+>> > [  +0.005466] x23: 0000000000000001 x22: ffffff808561ce80
+>> > [  +0.005465] x21: 0000000000000000 x20: 0000000000000000
+>> > [  +0.005468] x19: ffffff80850d6800 x18: 0000000000000000
+>> > [  +0.005466] x17: 0000000000000000 x16: 0000000000000000
+>> > [  +0.005465] x15: 000000000000000a x14: 000000000000263b
+>> > [  +0.005466] x13: 0000000000000006 x12: ffffffffffffffff
+>> > [  +0.005465] x11: 0000000000000010 x10: ffffffc090003797
+>> > [  +0.005466] x9 : ffffffed200e2a8c x8 : 0000000000000000
+>> > [  +0.005466] x7 : 00000000ffffffff x6 : ffffffed213b2b51
+>> > [  +0.005465] x5 : c0000000ffffdfff x4 : ffffffed21218048
+>> > [  +0.005465] x3 : 0000000000000000 x2 : 0000000000000000
+>> > [  +0.005465] x1 : 0000000000000000 x0 : 0000000000000000
+>> > [  +0.005466] Call trace:
+>> > [  +0.002520]  drm_update_vblank_count+0x1e4/0x258
+>> > [  +0.004748]  drm_handle_vblank+0xd0/0x35c
+>> > [  +0.004130]  drm_crtc_handle_vblank+0x24/0x30
+>> > [  +0.004487]  dpu_crtc_vblank_callback+0x3c/0xc4
+>> > [  +0.004662]  dpu_encoder_vblank_callback+0x70/0xc4
+>> > [  +0.004931]  dpu_encoder_phys_vid_vblank_irq+0x50/0x12c
+>> > [  +0.005378]  dpu_core_irq_callback_handler+0xf4/0xfc
+>> > [  +0.005107]  dpu_hw_intr_dispatch_irq+0x100/0x120
+>> > [  +0.004834]  dpu_core_irq+0x44/0x5c
+>> > [  +0.003597]  dpu_irq+0x1c/0x28
+>> > [  +0.003141]  msm_irq+0x34/0x40
+>> > [  +0.003153]  __handle_irq_event_percpu+0xfc/0x254
+>> > [  +0.004838]  handle_irq_event_percpu+0x3c/0x94
+>> > [  +0.004574]  handle_irq_event+0x54/0x98
+>> > [  +0.003944]  handle_level_irq+0xa0/0xd0
+>> > [  +0.003943]  generic_handle_irq+0x30/0x48
+>> > [  +0.004131]  dpu_mdss_irq+0xe4/0x118
+>> > [  +0.003684]  generic_handle_irq+0x30/0x48
+>> > [  +0.004127]  __handle_domain_irq+0xa8/0xac
+>> > [  +0.004215]  gic_handle_irq+0xdc/0x150
+>> > [  +0.003856]  el1_irq+0xb4/0x180
+>> > [  +0.003237]  dpu_encoder_vsync_time+0x78/0x230
+>> > [  +0.004574]  dpu_encoder_kickoff+0x190/0x354
+>> > [  +0.004386]  dpu_crtc_commit_kickoff+0x194/0x1a0
+>> > [  +0.004748]  dpu_kms_flush_commit+0xf4/0x108
+>> > [  +0.004390]  msm_atomic_commit_tail+0x2e8/0x384
+>> > [  +0.004661]  commit_tail+0x80/0x108
+>> > [  +0.003588]  drm_atomic_helper_commit+0x118/0x11c
+>> > [  +0.004834]  drm_atomic_commit+0x58/0x68
+>> > [  +0.004033]  drm_atomic_helper_set_config+0x70/0x9c
+>> > [  +0.005018]  drm_mode_setcrtc+0x390/0x584
+>> > [  +0.004131]  drm_ioctl_kernel+0xc8/0x11c
+>> > [  +0.004035]  drm_ioctl+0x2f8/0x34c
+>> > [  +0.003500]  drm_compat_ioctl+0x48/0xe8
+>> > [  +0.003945]  __arm64_compat_sys_ioctl+0xe8/0x104
+>> > [  +0.004750]  el0_svc_common.constprop.0+0x114/0x188
+>> > [  +0.005019]  do_el0_svc_compat+0x28/0x38
+>> > [  +0.004031]  el0_svc_compat+0x20/0x30
+>> > [  +0.003772]  el0_sync_compat_handler+0x104/0x18c
+>> > [  +0.004749]  el0_sync_compat+0x178/0x180
+>> > [  +0.004034] ---[ end trace 2959d178e74f2555 ]---
+>> >
+>> >
+>> > BR,
+>> > -R
+>> >
+>> Hi Rob,
+>> 
+>> on DPU HW, with prefetch enabled, the frame count increment and vsync
+>> irq are not happening at same instance. This is causing the frame 
+>> count
+>> to mismatch.
+>> 
+>> Example:
+>> |----###########--^--|----###########--^--|
+>> 
+>> for the above vsync cycle with prefetch enabled "^" --> marks a fetch
+>> counter where in we are asking the hw to start fetching in the front
+>> porch so that we will have more time to fetch data by first active 
+>> line
+>> of next frame.
+>> 
+>> In this case, the vsync irq will be triggered at fetch start marker
+>> ("^") so that double buffered updates are submitted to HW and the 
+>> frame
+>> count update will happen at the end of front porch ("|")
+> 
+> hmm, this sounds like the difference between a frame-done irq and a
+> vsync irq?  IIRC older gens had both..
+> 
+AFAIK frame_done and vblank are more relevant to the command mode 
+panels,
+where in you can transfer to panel G-RAM faster, so that buffers can be
+released early when your frame transfer is complete and retire the 
+composition
+on vsync.
+
+In this case, we have a video mode panel where panel strictly adheres to 
+the
+timings i.e we can't transfer faster. however in dpu hw we can still 
+mark an
+interrupt once active period is complete such that HW latency lines can 
+be
+prefilled in the blanking.
+
+>> to handle this, can we fallback on the SW vblank counter
+>> (drm_vblank_no_hw_counter) ? another way is to run a static counter in
+>> the driver irq handler and return that to drm_vblank framework instead
+>> reading from the HW block.  can you share your thoughts ?
+> 
+> I'm not quite sure what the best answer is here.. is there actually a
+> "real vsync" irq that is signalled when the frame counter increments?
+> 
+> drm is kinda blending two usages with "vsync".. one is "frame done",
+> ie we are ready to submit the next frame, userspace is ready to re-use
+> the previously on-screen buffer.  And the other is for actual precise
+> frame timings.  IIRC some people ultra-precise audio and video
+> synchronization (maybe someone else remembers the use-case here?).
+> Using frame-done is sufficient for the first case, but I think you
+> want to use real vblank for the 2nd
+> 
+> Keeping a counter might work, but what happens when vblank irqs are
+> disabled?  Could we record the frame counter when we flush the
+> previous atomic update and just detect this case?  What is the
+> line-count in this period before the real vblank?
+> 
+Here in our case
+dpu_vsync --> triggers on the first line of vertical front porch.
+frame_count --> increments at the end of the frame.
+
+The HW behavior is such that, if prefetch is enabled then vsync will
+be triggered at first line of vfp, else it will at end of frame.
+
+we can turn off prefetch, but it will increase the BW vote for prefill
+for panels with low vertical back porch.
+
+can we do as below snip ?
+
+int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc)
+{
+...
+
+        if (phys && phys->ops.get_frame_count)
++ //               framecount = phys->ops.get_frame_count(phys);
++        return atomic_read(&phys->vsync_cnt);
+...
+}
+
+we already have a running counter of vsync, and it is incremented upon
+the vsync callback, returning that as frame count.
+https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c#L1297
+
+If irq's are off then we will still get the last frame count.
+
+
+> BR,
+> -R
+> 
+>> -Kalyan
+>> >> ---
+>> >>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           | 80
+>> >> ++++++++++++++++++++++
+>> >>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 30 ++++++++
+>> >>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        | 11 +++
+>> >>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  1 +
+>> >>  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   | 17 +++++
+>> >>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  5 ++
+>> >>  6 files changed, 144 insertions(+)
+>> >>
+>> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> >> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> >> index d4662e8..9a80981 100644
+>> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> >> @@ -65,6 +65,83 @@ static void dpu_crtc_destroy(struct drm_crtc *crtc)
+>> >>         kfree(dpu_crtc);
+>> >>  }
+>> >>
+>> >> +static struct drm_encoder *get_encoder_from_crtc(struct drm_crtc
+>> >> *crtc)
+>> >> +{
+>> >> +       struct drm_device *dev = crtc->dev;
+>> >> +       struct drm_encoder *encoder;
+>> >> +
+>> >> +       drm_for_each_encoder(encoder, dev)
+>> >> +               if (encoder->crtc == crtc)
+>> >> +                       return encoder;
+>> >> +
+>> >> +       return NULL;
+>> >> +}
+>> >> +
+>> >> +static u32 dpu_crtc_get_vblank_counter(struct drm_crtc *crtc)
+>> >> +{
+>> >> +       struct drm_encoder *encoder;
+>> >> +
+>> >> +       encoder = get_encoder_from_crtc(crtc);
+>> >> +       if (!encoder) {
+>> >> +               DRM_ERROR("no encoder found for crtc %d\n",
+>> >> crtc->index);
+>> >> +               return false;
+>> >> +       }
+>> >> +
+>> >> +       return dpu_encoder_get_frame_count(encoder);
+>> >> +}
+>> >> +
+>> >> +static bool dpu_crtc_get_scanout_position(struct drm_crtc *crtc,
+>> >> +                                          bool in_vblank_irq,
+>> >> +                                          int *vpos, int *hpos,
+>> >> +                                          ktime_t *stime, ktime_t
+>> >> *etime,
+>> >> +                                          const struct
+>> >> drm_display_mode *mode)
+>> >> +{
+>> >> +       unsigned int pipe = crtc->index;
+>> >> +       struct drm_encoder *encoder;
+>> >> +       int line, vsw, vbp, vactive_start, vactive_end, vfp_end;
+>> >> +
+>> >> +       encoder = get_encoder_from_crtc(crtc);
+>> >> +       if (!encoder) {
+>> >> +               DRM_ERROR("no encoder found for crtc %d\n", pipe);
+>> >> +               return false;
+>> >> +       }
+>> >> +
+>> >> +       vsw = mode->crtc_vsync_end - mode->crtc_vsync_start;
+>> >> +       vbp = mode->crtc_vtotal - mode->crtc_vsync_end;
+>> >> +
+>> >> +       /*
+>> >> +        * the line counter is 1 at the start of the VSYNC pulse and
+>> >> VTOTAL at
+>> >> +        * the end of VFP. Translate the porch values relative to the
+>> >> line
+>> >> +        * counter positions.
+>> >> +        */
+>> >> +
+>> >> +       vactive_start = vsw + vbp + 1;
+>> >> +       vactive_end = vactive_start + mode->crtc_vdisplay;
+>> >> +
+>> >> +       /* last scan line before VSYNC */
+>> >> +       vfp_end = mode->crtc_vtotal;
+>> >> +
+>> >> +       if (stime)
+>> >> +               *stime = ktime_get();
+>> >> +
+>> >> +       line = dpu_encoder_get_linecount(encoder);
+>> >> +
+>> >> +       if (line < vactive_start)
+>> >> +               line -= vactive_start;
+>> >> +       else if (line > vactive_end)
+>> >> +               line = line - vfp_end - vactive_start;
+>> >> +       else
+>> >> +               line -= vactive_start;
+>> >> +
+>> >> +       *vpos = line;
+>> >> +       *hpos = 0;
+>> >> +
+>> >> +       if (etime)
+>> >> +               *etime = ktime_get();
+>> >> +
+>> >> +       return true;
+>> >> +}
+>> >> +
+>> >>  static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
+>> >>                 struct dpu_plane_state *pstate, struct dpu_format
+>> >> *format)
+>> >>  {
+>> >> @@ -1243,6 +1320,8 @@ static const struct drm_crtc_funcs
+>> >> dpu_crtc_funcs = {
+>> >>         .early_unregister = dpu_crtc_early_unregister,
+>> >>         .enable_vblank  = msm_crtc_enable_vblank,
+>> >>         .disable_vblank = msm_crtc_disable_vblank,
+>> >> +       .get_vblank_timestamp =
+>> >> drm_crtc_vblank_helper_get_vblank_timestamp,
+>> >> +       .get_vblank_counter = dpu_crtc_get_vblank_counter,
+>> >>  };
+>> >>
+>> >>  static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
+>> >> @@ -1251,6 +1330,7 @@ static const struct drm_crtc_helper_funcs
+>> >> dpu_crtc_helper_funcs = {
+>> >>         .atomic_check = dpu_crtc_atomic_check,
+>> >>         .atomic_begin = dpu_crtc_atomic_begin,
+>> >>         .atomic_flush = dpu_crtc_atomic_flush,
+>> >> +       .get_scanout_position = dpu_crtc_get_scanout_position,
+>> >>  };
+>> >>
+>> >>  /* initialize crtc */
+>> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> >> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> >> index f7f5c25..5cd3f31 100644
+>> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> >> @@ -425,6 +425,36 @@ int dpu_encoder_helper_unregister_irq(struct
+>> >> dpu_encoder_phys *phys_enc,
+>> >>         return 0;
+>> >>  }
+>> >>
+>> >> +int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc)
+>> >> +{
+>> >> +       struct dpu_encoder_virt *dpu_enc;
+>> >> +       struct dpu_encoder_phys *phys;
+>> >> +       int framecount = 0;
+>> >> +
+>> >> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
+>> >> +       phys = dpu_enc ? dpu_enc->cur_master : NULL;
+>> >> +
+>> >> +       if (phys && phys->ops.get_frame_count)
+>> >> +               framecount = phys->ops.get_frame_count(phys);
+>> >> +
+>> >> +       return framecount;
+>> >> +}
+>> >> +
+>> >> +int dpu_encoder_get_linecount(struct drm_encoder *drm_enc)
+>> >> +{
+>> >> +       struct dpu_encoder_virt *dpu_enc;
+>> >> +       struct dpu_encoder_phys *phys;
+>> >> +       int linecount = 0;
+>> >> +
+>> >> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
+>> >> +       phys = dpu_enc ? dpu_enc->cur_master : NULL;
+>> >> +
+>> >> +       if (phys && phys->ops.get_line_count)
+>> >> +               linecount = phys->ops.get_line_count(phys);
+>> >> +
+>> >> +       return linecount;
+>> >> +}
+>> >> +
+>> >>  void dpu_encoder_get_hw_resources(struct drm_encoder *drm_enc,
+>> >>                                   struct dpu_encoder_hw_resources
+>> >> *hw_res)
+>> >>  {
+>> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> >> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> >> index b491346..99a5d73 100644
+>> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> >> @@ -156,5 +156,16 @@ void dpu_encoder_prepare_commit(struct
+>> >> drm_encoder *drm_enc);
+>> >>   */
+>> >>  void dpu_encoder_set_idle_timeout(struct drm_encoder *drm_enc,
+>> >>                                                         u32
+>> >> idle_timeout);
+>> >> +/**
+>> >> + * dpu_encoder_get_linecount - get interface line count for the
+>> >> encoder.
+>> >> + * @drm_enc:    Pointer to previously created drm encoder structure
+>> >> + */
+>> >> +int dpu_encoder_get_linecount(struct drm_encoder *drm_enc);
+>> >> +
+>> >> +/**
+>> >> + * dpu_encoder_get_frame_count - get interface frame count for the
+>> >> encoder.
+>> >> + * @drm_enc:    Pointer to previously created drm encoder structure
+>> >> + */
+>> >> +int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc);
+>> >>
+>> >>  #endif /* __DPU_ENCODER_H__ */
+>> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>> >> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>> >> index f8f2515..ecbc4be 100644
+>> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>> >> @@ -143,6 +143,7 @@ struct dpu_encoder_phys_ops {
+>> >>         void (*prepare_idle_pc)(struct dpu_encoder_phys *phys_enc);
+>> >>         void (*restore)(struct dpu_encoder_phys *phys);
+>> >>         int (*get_line_count)(struct dpu_encoder_phys *phys);
+>> >> +       int (*get_frame_count)(struct dpu_encoder_phys *phys);
+>> >>  };
+>> >>
+>> >>  /**
+>> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+>> >> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+>> >> index 9a69fad..f983595 100644
+>> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+>> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+>> >> @@ -658,6 +658,22 @@ static int dpu_encoder_phys_vid_get_line_count(
+>> >>         return
+>> >> phys_enc->hw_intf->ops.get_line_count(phys_enc->hw_intf);
+>> >>  }
+>> >>
+>> >> +static int dpu_encoder_phys_vid_get_frame_count(
+>> >> +               struct dpu_encoder_phys *phys_enc)
+>> >> +{
+>> >> +       struct intf_status s = {0};
+>> >> +
+>> >> +       if (!dpu_encoder_phys_vid_is_master(phys_enc))
+>> >> +               return -EINVAL;
+>> >> +
+>> >> +       if (!phys_enc->hw_intf || !phys_enc->hw_intf->ops.get_status)
+>> >> +               return -EINVAL;
+>> >> +
+>> >> +       phys_enc->hw_intf->ops.get_status(phys_enc->hw_intf, &s);
+>> >> +
+>> >> +       return s.frame_count;
+>> >> +}
+>> >> +
+>> >>  static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops
+>> >> *ops)
+>> >>  {
+>> >>         ops->is_master = dpu_encoder_phys_vid_is_master;
+>> >> @@ -676,6 +692,7 @@ static void dpu_encoder_phys_vid_init_ops(struct
+>> >> dpu_encoder_phys_ops *ops)
+>> >>         ops->handle_post_kickoff =
+>> >> dpu_encoder_phys_vid_handle_post_kickoff;
+>> >>         ops->needs_single_flush =
+>> >> dpu_encoder_phys_vid_needs_single_flush;
+>> >>         ops->get_line_count = dpu_encoder_phys_vid_get_line_count;
+>> >> +       ops->get_frame_count = dpu_encoder_phys_vid_get_frame_count;
+>> >>  }
+>> >>
+>> >>  struct dpu_encoder_phys *dpu_encoder_phys_vid_init(
+>> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> >> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> >> index 374b0e8..764a773 100644
+>> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> >> @@ -14,6 +14,7 @@
+>> >>
+>> >>  #include <drm/drm_crtc.h>
+>> >>  #include <drm/drm_file.h>
+>> >> +#include <drm/drm_vblank.h>
+>> >>
+>> >>  #include "msm_drv.h"
+>> >>  #include "msm_mmu.h"
+>> >> @@ -1020,6 +1021,10 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+>> >>          */
+>> >>         dev->mode_config.allow_fb_modifiers = true;
+>> >>
+>> >> +       dev->max_vblank_count = 0;
+>> >> +       /* Disable vblank irqs aggressively for power-saving */
+>> >> +       dev->vblank_disable_immediate = true;
+>> >> +
+>> >>         /*
+>> >>          * _dpu_kms_drm_obj_init should create the DRM related objects
+>> >>          * i.e. CRTCs, planes, encoders, connectors and so forth
+>> >> --
+>> >> 2.7.4
+>> >>
+>> > _______________________________________________
+>> > Freedreno mailing list
+>> > Freedreno@lists.freedesktop.org
+>> > https://lists.freedesktop.org/mailman/listinfo/freedreno
+>> _______________________________________________
+>> Freedreno mailing list
+>> Freedreno@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/freedreno
+> _______________________________________________
+> Freedreno mailing list
+> Freedreno@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/freedreno
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
