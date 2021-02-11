@@ -2,71 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD4F9318F55
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 17:02:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D113318F57
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 17:04:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C26B66EE53;
-	Thu, 11 Feb 2021 16:02:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17A256EE54;
+	Thu, 11 Feb 2021 16:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so15.mailgun.net (so15.mailgun.net [198.61.254.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D1B76EE54
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 16:02:46 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1613059369; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=dND8Fw/N2yqIwZD3O288QSZRIeAgRKtIgjzd8mBfxKs=;
- b=qqgJgCISZrVLXy3lwLGO6CZitLWcVyzsp6SiHji+52iRSYj7LvBu3lKnWD7vHAT3aEo1wd+P
- io+8/YDYBk67AhooMcro0EsFWGDxJu0UzwYlPrI6nIaU26WGFnwPaxmGuv+Y3oeGPHejU3Lo
- k4JuUgbH9V4wcefSUvX6vkFlkFQ=
-X-Mailgun-Sending-Ip: 198.61.254.15
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 602555233919dfb455636b0f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 11 Feb 2021 16:02:43
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id E8422C43462; Thu, 11 Feb 2021 16:02:42 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id BF261C433C6;
- Thu, 11 Feb 2021 16:02:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BF261C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=jcrouse@codeaurora.org
-Date: Thu, 11 Feb 2021 09:02:37 -0700
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Akhil P Oommen <akhilpo@codeaurora.org>
-Subject: Re: [PATCH v2] drm/msm: a6xx: Make sure the SQE microcode is safe
-Message-ID: <20210211160237.GB26503@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Akhil P Oommen <akhilpo@codeaurora.org>,
- linux-arm-msm@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Eric Anholt <eric@anholt.net>,
- Jonathan Marek <jonathan@marek.ca>, Rob Clark <robdclark@gmail.com>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Sean Paul <sean@poorly.run>,
- Sharat Masetty <smasetty@codeaurora.org>,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20210210005205.783377-1-jcrouse@codeaurora.org>
- <8aa916f9-238a-779c-bcaf-51bfb2b761d2@codeaurora.org>
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F04A6EE54
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 16:04:48 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id t5so7455873eds.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 08:04:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=+8nzVvhvn6fHaXRSAqdpbj00caaTjqJoc5fHwVKcFuI=;
+ b=Qb+C+82QKByysuPGH49AaRvfNYf1ELw5sATxedKBXn9c1aU9KzpIJzVPg/pB/VaD8G
+ lKi2PldMCF3ECKGSZh3v+9BLaxOf39xUh+3szOVNUcbVmeDQvwrEb7RS3AzrVU7wvGv2
+ KeECuvkAVIZ8r8YqxmkeeX6jeKDwQuUHGWK7p4o+xOk25VGoW5S7mt6K8Gq83MflvSxE
+ LEfvZ5xYkSVDV53vDbRlIBNnck9onSW3ewy2Nicf+JT/W2nXgurmoZTkneXSqJL/77om
+ 4hclp+j1mkO0xe1vp0h7i1Gc3OoUBzTRKe/ZV5mYgMJQqm965Se8Q5ooJjU5qQBD472C
+ InmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=+8nzVvhvn6fHaXRSAqdpbj00caaTjqJoc5fHwVKcFuI=;
+ b=QkUG/3vBqlYD/5gTP+DGTuPYBvVazzOqIxZ76wptLqBU7dMOFX7LilHkb6sP7LCcML
+ VGIxxUGtHkTlaki54YgVoxHUdi92148K1ldKIcLOTnMCpEM5Cyg+pl4f+xX9Bcc3mdPh
+ mWkY6fcaj8s7+S9G0avxOMrDRNQyv9fHyj2XWwXuSOVj8PwvhCXpoewC8v/XOfHLs+0q
+ XZnN5lG0hElSGLGLRzUKjpKJuFtoukmnVxXbye6iuXlPwhxDpoz1WekKMizQX/m4t5GJ
+ lSOC6y4bQ0SwDaZBzlpQ0qnDaeKFEy2AzlM6egWhNzmAPr+kGdCz5iMwVMulRxlArGTL
+ Vemw==
+X-Gm-Message-State: AOAM533cNmGAHwd/WeeEXBv97IS7cZBFADPUDk7dMfR/kl+EHlvfTeEN
+ 4gzU6vMqSsPlr7mzoXmua9o=
+X-Google-Smtp-Source: ABdhPJxZFb7nOdftfGC0ZSoSAnsGafnhoNMKlThpzjPeOY7IIiqCGjMB5xQJaukdUi7Wd/C9fZuOgg==
+X-Received: by 2002:aa7:d3c7:: with SMTP id o7mr8970830edr.23.1613059487080;
+ Thu, 11 Feb 2021 08:04:47 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:128e:c59b:ac8b:316f?
+ ([2a02:908:1252:fb60:128e:c59b:ac8b:316f])
+ by smtp.gmail.com with ESMTPSA id ha21sm5104787ejb.97.2021.02.11.08.04.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Feb 2021 08:04:46 -0800 (PST)
+Subject: Re: [PATCH] drm/ttm: make sure pool pages are cleared
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210210160549.1462-1-christian.koenig@amd.com>
+ <CAKMK7uHYoxc81QW+gDTVVaXdKizSLogr_TfzWyL_8caOx+0JgA@mail.gmail.com>
+ <6ea6a18b-e7df-ce8c-903d-a5edd6ef85b6@gmail.com>
+ <YCVUDYYQJ4PtwzVI@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <be27c04f-bb27-fab2-a4d6-c5f9b2d9ea0c@gmail.com>
+Date: Thu, 11 Feb 2021 17:04:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8aa916f9-238a-779c-bcaf-51bfb2b761d2@codeaurora.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <YCVUDYYQJ4PtwzVI@phenom.ffwll.local>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,144 +73,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Huang Rui <ray.huang@amd.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ efault@gmx.de
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 11, 2021 at 06:50:28PM +0530, Akhil P Oommen wrote:
-> On 2/10/2021 6:22 AM, Jordan Crouse wrote:
-> >Most a6xx targets have security issues that were fixed with new versions
-> >of the microcode(s). Make sure that we are booting with a safe version of
-> >the microcode for the target and print a message and error if not.
-> >
-> >v2: Add more informative error messages and fix typos
-> >
-> >Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-> >---
-> >
-> >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 77 ++++++++++++++++++++++-----
-> >  1 file changed, 64 insertions(+), 13 deletions(-)
-> >
-> >diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >index ba8e9d3cf0fe..064b7face504 100644
-> >--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >@@ -522,28 +522,73 @@ static int a6xx_cp_init(struct msm_gpu *gpu)
-> >  	return a6xx_idle(gpu, ring) ? 0 : -EINVAL;
-> >  }
-> >-static void a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
-> >+/*
-> >+ * Check that the microcode version is new enough to include several key
-> >+ * security fixes. Return true if the ucode is safe.
-> >+ */
-> >+static bool a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
-> >  		struct drm_gem_object *obj)
-> >  {
-> >+	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
-> >+	struct msm_gpu *gpu = &adreno_gpu->base;
-> >  	u32 *buf = msm_gem_get_vaddr(obj);
-> >+	bool ret = false;
-> >  	if (IS_ERR(buf))
-> >-		return;
-> >+		return false;
-> >  	/*
-> >-	 * If the lowest nibble is 0xa that is an indication that this microcode
-> >-	 * has been patched. The actual version is in dword [3] but we only care
-> >-	 * about the patchlevel which is the lowest nibble of dword [3]
-> >-	 *
-> >-	 * Otherwise check that the firmware is greater than or equal to 1.90
-> >-	 * which was the first version that had this fix built in
-> >+	 * Targets up to a640 (a618, a630 and a640) need to check for a
-> >+	 * microcode version that is patched to support the whereami opcode or
-> >+	 * one that is new enough to include it by default.
-> >  	 */
-> >-	if (((buf[0] & 0xf) == 0xa) && (buf[2] & 0xf) >= 1)
-> >-		a6xx_gpu->has_whereami = true;
-> >-	else if ((buf[0] & 0xfff) > 0x190)
-> >-		a6xx_gpu->has_whereami = true;
-> >+	if (adreno_is_a618(adreno_gpu) || adreno_is_a630(adreno_gpu) ||
-> >+		adreno_is_a640(adreno_gpu)) {
-> >+		/*
-> >+		 * If the lowest nibble is 0xa that is an indication that this
-> >+		 * microcode has been patched. The actual version is in dword
-> >+		 * [3] but we only care about the patchlevel which is the lowest
-> >+		 * nibble of dword [3]
-> >+		 *
-> >+		 * Otherwise check that the firmware is greater than or equal
-> >+		 * to 1.90 which was the first version that had this fix built
-> >+		 * in
-> >+		 */
-> >+		if ((((buf[0] & 0xf) == 0xa) && (buf[2] & 0xf) >= 1) ||
-> >+			(buf[0] & 0xfff) >= 0x190) {
-> >+			a6xx_gpu->has_whereami = true;
-> >+			ret = true;
-> >+			goto out;
-> >+		}
-> >+		DRM_DEV_ERROR(&gpu->pdev->dev,
-> >+			"a630 SQE ucode is too old. Have version %x need at least %x\n",
-> >+			buf[0] & 0xfff, 0x190);
-> >+	}  else {
-> >+		/*
-> >+		 * a650 tier targets don't need whereami but still need to be
-> >+		 * equal to or newer than 1.95 for other security fixes
-> >+		 */
-> >+		if (adreno_is_a650(adreno_gpu)) {
-> >+			if ((buf[0] & 0xfff) >= 0x195) {
-> >+				ret = true;
-> >+				goto out;
-> >+			}
-> >+
-> >+			DRM_DEV_ERROR(&gpu->pdev->dev,
-> >+				"a650 SQE ucode is too old. Have version %x need at least %x\n",
-> >+				buf[0] & 0xfff, 0x195);
-> >+		}
-> >+
-> >+		/*
-> >+		 * When a660 is added those targets should return true here
-> >+		 * since those have all the critical security fixes built in
-> >+		 * from the start
-> >+		 */
-> Or we can just initialize 'ret' as true.
-
-I thought about it and I think I want to force an accept list here instead of
-letting new targets get by with an implicit pass.
-
-Jordan
-
-> -Akhil
-> >+	}
-> >+out:
-> >  	msm_gem_put_vaddr(obj);
-> >+	return ret;
-> >  }
-> >  static int a6xx_ucode_init(struct msm_gpu *gpu)
-> >@@ -566,7 +611,13 @@ static int a6xx_ucode_init(struct msm_gpu *gpu)
-> >  		}
-> >  		msm_gem_object_set_name(a6xx_gpu->sqe_bo, "sqefw");
-> >-		a6xx_ucode_check_version(a6xx_gpu, a6xx_gpu->sqe_bo);
-> >+		if (!a6xx_ucode_check_version(a6xx_gpu, a6xx_gpu->sqe_bo)) {
-> >+			msm_gem_unpin_iova(a6xx_gpu->sqe_bo, gpu->aspace);
-> >+			drm_gem_object_put(a6xx_gpu->sqe_bo);
-> >+
-> >+			a6xx_gpu->sqe_bo = NULL;
-> >+			return -EPERM;
-> >+		}
-> >  	}
-> >  	gpu_write64(gpu, REG_A6XX_CP_SQE_INSTR_BASE_LO,
-> >
-> 
-
--- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpBbSAxMS4wMi4yMSB1bSAxNjo1OCBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gT24gV2VkLCBG
+ZWIgMTAsIDIwMjEgYXQgMDk6MjM6NTJQTSArMDEwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToK
+Pj4KPj4gQW0gMTAuMDIuMjEgdW0gMTk6MTUgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+Pj4gT24g
+V2VkLCBGZWIgMTAsIDIwMjEgYXQgNTowNSBQTSBDaHJpc3RpYW4gS8O2bmlnCj4+PiA8Y2tvZW5p
+Zy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Pj4+IFRoZSBvbGQgaW1wbGVtZW50
+YXRpb24gd2Fzbid0IGNvbnNpc3RlbmQgb24gdGhpcy4KPj4+Pgo+Pj4+IEJ1dCBpdCBsb29rcyBs
+aWtlIHdlIGRlcGVuZCBvbiB0aGlzIHNvIGJldHRlciBicmluZyBpdCBiYWNrLgo+Pj4+Cj4+Pj4g
+U2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29t
+Pgo+Pj4+IFJlcG9ydGVkLWFuZC10ZXN0ZWQtYnk6IE1pa2UgR2FsYnJhaXRoIDxlZmF1bHRAZ214
+LmRlPgo+Pj4+IEZpeGVzOiBkMDk5ZmM4ZjU0MGEgKCJkcm0vdHRtOiBuZXcgVFQgYmFja2VuZCBh
+bGxvY2F0aW9uIHBvb2wgdjMiKQo+Pj4gV2VsbCBJIHRoaW5rIGluIGdlbmVyYWwgdGhlcmUncyBh
+IGJpdCBhbiBpc3N1ZSBpbiB0dG0gd2l0aCBub3QKPj4+IGNsZWFyaW5nIHN0dWZmIGV2ZXJ5d2hl
+cmUuIFNvIGRlZmluaXRlbHkgaW4gZmF2b3VyIG9mIGNsZWFyaW5nIHN0dWZmLgo+Pj4gTG9va2lu
+ZyBhdCB0aGUgY29kZSB0aGlzIG9ubHkgZml4ZXMgdGhlIGNsZWFyaW5nLCBhdCBhbGxvYyB0aW1l
+IHdlJ3JlCj4+PiBzdGlsbCB2ZXJ5IG9wdGlvbmFsIHdpdGggY2xlYXJpbmcuIEkgdGhpbmsgd2Ug
+c2hvdWxkIGp1c3Qgc2V0Cj4+PiBfX0dGUF9aRVJPIHVuY29uZGl0aW9uYWxseSB0aGVyZSB0b28u
+Cj4+IE5vLCB0aGUgYWxsb2MgaGFuZGxpbmcgaXMgYWN0dWFsbHkgY29ycmVjdC4KPj4KPj4gV2Ug
+YXJlIGNsZWFyaW5nIG9ubHkgd2hlbiB3ZSBhbGxvY2F0ZSBwYWdlcyBmb3IgdXNlcnNwYWNlLiBO
+b3QgZm9yIHRoZQo+PiBrZXJuZWwgbm9yIGZvciBldmljdGlvbiB3aGVuIHBhZ2VzIGFyZSBvdmVy
+d3JpdHRlbiBhbnl3YXkuCj4+Cj4+IFRoZSBrZXkgcG9pbnQgaXMgdGhhdCB0aGUgb2xkIHBhZ2Ug
+cG9vbCB3YXMgaWdub3JpbmcgdGhlIGZsYWcgZm9yIHRoaXMgaW4KPj4gc29tZSBjb2RlIHBhdGhz
+IGFuZCBJIHdhc24ndCBzdXJlIGlmIHRoYXQncyBzdGlsbCBuZWNlc3Nhcnkgb3Igbm90Lgo+Pgo+
+PiBUdXJuZWQgb3V0IGl0IHdhcyBuZWNlc3NhcnkgYWZ0ZXIgYWxsLgo+IFNvbWVob3cgbXkgZ2l0
+IGdyZXAgd2VudCB3cm9uZyBhbmQgSSBkaWRuJ3QgZmluZCB0aGUgdXNlcnMuIFlvdSdyZSByaWdo
+dCwKPiBhbmQgSSBsZWFybmVkIGEgZmV3IHRoaW5ncyBtb3JlIDotKQo+Cj4gSSdtIGtpbmRhIHdv
+bmRlcmluZywgc2hvdWxkIHdlIHBlcmhhcHMgbW92ZSB0aGUgY2xlYXJpbmcgdG8gdGhlIHVzZSBz
+aWRlLAo+IGFuZCB0aGVuIG9ubHkgZG8gd2hlbiByZXF1aXJlZD8gTWlnaHQgYWxsb3cgdXMgdG8g
+c2F2ZSBpdCBxdWl0ZSBhIGZldwo+IHRpbWVzIHdoZW4gd2UncmUgdGhyYXNoaW5nIGFyb3VuZCBi
+dWZmZXJzIGluL291dCBvZiB2cmFtLCBhdCB0aGUgY29zdCBvZgo+IG1vdmluZyBpdCB0byB0aGUg
+YWxsb2Mgc2lkZSBmb3Igb3RoZXIgY2FzZXMuCgpJIHdhcyBwbGF5aW5nIHdpdGggdGhhdCBpZGVh
+IGluIG15IG1pbmQgYXMgd2VsbC4KClRoZSBrZXkgYXJndW1lbnQgYWdhaW5zdCBpdCBpcyB0aGF0
+IHRoZSBwb29sIGNhbiBvcHRpbWl6ZSBieSBjbGVhcmluZyBvbiAKZnJlZSBpbnN0ZWFkIG9mIGR1
+cmluZyBhbGxvY2F0aW9uLgoKVGhpcyB3YXkgd2UgYWxzbyBpbXBsZW1lbnQgYSBiaXQgaGV1cmlz
+dGljIGluIHRoZSBwb29sIGFuZCBoYXZlIGEgbGlzdCAKb2YgY2xlYXJlZCBhbmQgbm90IGNsZWFy
+ZWQgcGFnZXMuCgpSZWdhcmRzLApDaHJpc3RpYW4uCgo+Cj4gSnVzdCBhbiBpZGVhLgo+IC1EYW5p
+ZWwKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
