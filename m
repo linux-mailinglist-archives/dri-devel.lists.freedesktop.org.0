@@ -1,57 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAFDE318F40
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 17:00:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4F9318F55
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 17:02:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77CC16E45E;
-	Thu, 11 Feb 2021 16:00:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C26B66EE53;
+	Thu, 11 Feb 2021 16:02:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A66A46E45E
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 16:00:41 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id w4so6016018wmi.4
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 08:00:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=cNgaaVQs3zU0kVtFJkNNjRwEemEYCxMfHaxR3Iu2GSA=;
- b=YjRhF/fO3Jfe7TwAutq5x/1cKNp0hOUlf5NGBnK5CYJpAi/Jo5mPLj4bSBx3EH7w/r
- sf+edUcYOuFCFgmM9KTKZ2Dlu6ZIwBYlY+hBAsSc0Tz5T30qxh3ZpJ2zDG/CXyDasgUH
- 32ejh5G73mq/pD+Zhjj0DrSKS/B/wuQcwtOao=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=cNgaaVQs3zU0kVtFJkNNjRwEemEYCxMfHaxR3Iu2GSA=;
- b=WIiw+DJci7m558SJobjBQXhMb9LseMa6QPNjgxGVYkCRY15k+/QIHGOYFJxbCvpHK6
- 4l2DUJXEwtmp7qqQZu+izDt2x2leIlKhxmjE9nEiL7VrNeGHbRPSro5WChTDNNLG3m5/
- +LU2t/sLBEkjrlhmClYwSGri7YkjxmRUVSczlKesHN8zsYSwKln4SlxqyyE/59lYgTHL
- VqI0MA45eKYmIraWDq7Ncsr9E4cflPF/+Op7cyXa9tgw3RjKdM9rFydeSKVv4Guuisf3
- qnIfZs50iLWVQ+WGlWIfkFlmjMg5trK6m81plskVD2tj/FzuY2Rx5sIsGDgiTGgRfGGK
- Ugmg==
-X-Gm-Message-State: AOAM533TeZa8fMY/CHFrXfy1MqBvERlp8ontT8k0O93ID69OjGsej3Bv
- IlQ+B/9QUg5uqhZ+yAsM02Y//g==
-X-Google-Smtp-Source: ABdhPJwTrkUWbcBUs0xKAFu10mjk9CwME3Yrm/himWB+SbYd5Wi1f1ZhM0bO+wt5Ys38oAZAAOtT9g==
-X-Received: by 2002:a1c:29c6:: with SMTP id p189mr5961481wmp.110.1613059240253; 
- Thu, 11 Feb 2021 08:00:40 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d9sm5757477wrq.74.2021.02.11.08.00.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 08:00:39 -0800 (PST)
-Date: Thu, 11 Feb 2021 17:00:38 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Daniel Mack <daniel@zonque.org>
-Subject: Re: [PATCH] drm/tiny: add driver for newhaven,1.8-128160EF
-Message-ID: <YCVUphWtO7YLkyUu@phenom.ffwll.local>
-References: <20210211095058.473776-1-daniel@zonque.org>
+Received: from so15.mailgun.net (so15.mailgun.net [198.61.254.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D1B76EE54
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 16:02:46 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1613059369; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=dND8Fw/N2yqIwZD3O288QSZRIeAgRKtIgjzd8mBfxKs=;
+ b=qqgJgCISZrVLXy3lwLGO6CZitLWcVyzsp6SiHji+52iRSYj7LvBu3lKnWD7vHAT3aEo1wd+P
+ io+8/YDYBk67AhooMcro0EsFWGDxJu0UzwYlPrI6nIaU26WGFnwPaxmGuv+Y3oeGPHejU3Lo
+ k4JuUgbH9V4wcefSUvX6vkFlkFQ=
+X-Mailgun-Sending-Ip: 198.61.254.15
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 602555233919dfb455636b0f (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 11 Feb 2021 16:02:43
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id E8422C43462; Thu, 11 Feb 2021 16:02:42 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id BF261C433C6;
+ Thu, 11 Feb 2021 16:02:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BF261C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=jcrouse@codeaurora.org
+Date: Thu, 11 Feb 2021 09:02:37 -0700
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Akhil P Oommen <akhilpo@codeaurora.org>
+Subject: Re: [PATCH v2] drm/msm: a6xx: Make sure the SQE microcode is safe
+Message-ID: <20210211160237.GB26503@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Akhil P Oommen <akhilpo@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Eric Anholt <eric@anholt.net>,
+ Jonathan Marek <jonathan@marek.ca>, Rob Clark <robdclark@gmail.com>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Sean Paul <sean@poorly.run>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20210210005205.783377-1-jcrouse@codeaurora.org>
+ <8aa916f9-238a-779c-bcaf-51bfb2b761d2@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210211095058.473776-1-daniel@zonque.org>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <8aa916f9-238a-779c-bcaf-51bfb2b761d2@codeaurora.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,348 +79,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, robh+dt@kernel.org, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 11, 2021 at 10:50:58AM +0100, Daniel Mack wrote:
-> This patch adds support for Newhaven's NHD-1.8-128160EF display, featuring
-> an Ilitek ILI9163 controller.
-> 
-> Signed-off-by: Daniel Mack <daniel@zonque.org>
-> ---
->  .../bindings/display/ilitek,ili9163.txt       |  27 +++
+On Thu, Feb 11, 2021 at 06:50:28PM +0530, Akhil P Oommen wrote:
+> On 2/10/2021 6:22 AM, Jordan Crouse wrote:
+> >Most a6xx targets have security issues that were fixed with new versions
+> >of the microcode(s). Make sure that we are booting with a safe version of
+> >the microcode for the target and print a message and error if not.
+> >
+> >v2: Add more informative error messages and fix typos
+> >
+> >Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+> >---
+> >
+> >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 77 ++++++++++++++++++++++-----
+> >  1 file changed, 64 insertions(+), 13 deletions(-)
+> >
+> >diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >index ba8e9d3cf0fe..064b7face504 100644
+> >--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >@@ -522,28 +522,73 @@ static int a6xx_cp_init(struct msm_gpu *gpu)
+> >  	return a6xx_idle(gpu, ring) ? 0 : -EINVAL;
+> >  }
+> >-static void a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
+> >+/*
+> >+ * Check that the microcode version is new enough to include several key
+> >+ * security fixes. Return true if the ucode is safe.
+> >+ */
+> >+static bool a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
+> >  		struct drm_gem_object *obj)
+> >  {
+> >+	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+> >+	struct msm_gpu *gpu = &adreno_gpu->base;
+> >  	u32 *buf = msm_gem_get_vaddr(obj);
+> >+	bool ret = false;
+> >  	if (IS_ERR(buf))
+> >-		return;
+> >+		return false;
+> >  	/*
+> >-	 * If the lowest nibble is 0xa that is an indication that this microcode
+> >-	 * has been patched. The actual version is in dword [3] but we only care
+> >-	 * about the patchlevel which is the lowest nibble of dword [3]
+> >-	 *
+> >-	 * Otherwise check that the firmware is greater than or equal to 1.90
+> >-	 * which was the first version that had this fix built in
+> >+	 * Targets up to a640 (a618, a630 and a640) need to check for a
+> >+	 * microcode version that is patched to support the whereami opcode or
+> >+	 * one that is new enough to include it by default.
+> >  	 */
+> >-	if (((buf[0] & 0xf) == 0xa) && (buf[2] & 0xf) >= 1)
+> >-		a6xx_gpu->has_whereami = true;
+> >-	else if ((buf[0] & 0xfff) > 0x190)
+> >-		a6xx_gpu->has_whereami = true;
+> >+	if (adreno_is_a618(adreno_gpu) || adreno_is_a630(adreno_gpu) ||
+> >+		adreno_is_a640(adreno_gpu)) {
+> >+		/*
+> >+		 * If the lowest nibble is 0xa that is an indication that this
+> >+		 * microcode has been patched. The actual version is in dword
+> >+		 * [3] but we only care about the patchlevel which is the lowest
+> >+		 * nibble of dword [3]
+> >+		 *
+> >+		 * Otherwise check that the firmware is greater than or equal
+> >+		 * to 1.90 which was the first version that had this fix built
+> >+		 * in
+> >+		 */
+> >+		if ((((buf[0] & 0xf) == 0xa) && (buf[2] & 0xf) >= 1) ||
+> >+			(buf[0] & 0xfff) >= 0x190) {
+> >+			a6xx_gpu->has_whereami = true;
+> >+			ret = true;
+> >+			goto out;
+> >+		}
+> >+		DRM_DEV_ERROR(&gpu->pdev->dev,
+> >+			"a630 SQE ucode is too old. Have version %x need at least %x\n",
+> >+			buf[0] & 0xfff, 0x190);
+> >+	}  else {
+> >+		/*
+> >+		 * a650 tier targets don't need whereami but still need to be
+> >+		 * equal to or newer than 1.95 for other security fixes
+> >+		 */
+> >+		if (adreno_is_a650(adreno_gpu)) {
+> >+			if ((buf[0] & 0xfff) >= 0x195) {
+> >+				ret = true;
+> >+				goto out;
+> >+			}
+> >+
+> >+			DRM_DEV_ERROR(&gpu->pdev->dev,
+> >+				"a650 SQE ucode is too old. Have version %x need at least %x\n",
+> >+				buf[0] & 0xfff, 0x195);
+> >+		}
+> >+
+> >+		/*
+> >+		 * When a660 is added those targets should return true here
+> >+		 * since those have all the critical security fixes built in
+> >+		 * from the start
+> >+		 */
+> Or we can just initialize 'ret' as true.
 
-I think the dt stuff needs to be split up and cc'ed to dt maintainers for
-ack.
+I thought about it and I think I want to force an accept list here instead of
+letting new targets get by with an implicit pass.
 
->  drivers/gpu/drm/tiny/Kconfig                  |  13 +
->  drivers/gpu/drm/tiny/Makefile                 |   1 +
->  drivers/gpu/drm/tiny/ili9163.c                | 224 ++++++++++++++++++
->  4 files changed, 265 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/ilitek,ili9163.txt
->  create mode 100644 drivers/gpu/drm/tiny/ili9163.c
-> 
-> diff --git a/Documentation/devicetree/bindings/display/ilitek,ili9163.txt b/Documentation/devicetree/bindings/display/ilitek,ili9163.txt
-> new file mode 100644
-> index 0000000000000..fee119991c14e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/ilitek,ili9163.txt
-> @@ -0,0 +1,27 @@
-> +Ilitek ILI9163 display panels
-> +
-> +This binding is for display panels using an Ilitek ILI9163 controller in SPI
-> +mode.
-> +
-> +Required properties:
-> +- compatible:	"newhaven,1.8-128160EF", "ilitek,ili9163"
-> +- dc-gpios:	D/C pin
-> +- reset-gpios:	Reset pin
-> +
-> +The node for this driver must be a child node of a SPI controller, hence
-> +all mandatory properties described in ../spi/spi-bus.txt must be specified.
-> +
-> +Optional properties:
-> +- rotation:	panel rotation in degrees counter clockwise (0,90,180,270)
-> +- backlight:	phandle of the backlight device attached to the panel
-> +
-> +Example:
-> +	display@0{
-> +		compatible = "newhaven,1.8-128160EF", "ilitek,ili9163"
-> +		reg = <0>;
-> +		spi-max-frequency = <32000000>;
-> +		dc-gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
-> +		reset-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;
-> +		rotation = <270>;
-> +		backlight = <&backlight>;
-> +	};
-> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-> index 2b6414f0fa759..9de0c0eeea6f5 100644
-> --- a/drivers/gpu/drm/tiny/Kconfig
-> +++ b/drivers/gpu/drm/tiny/Kconfig
-> @@ -41,6 +41,19 @@ config TINYDRM_HX8357D
->  
->  	  If M is selected the module will be called hx8357d.
->  
-> +config TINYDRM_ILI9163
-> +	tristate "DRM support for ILI9163 display panels"
-> +	depends on DRM && SPI
-> +	select DRM_KMS_HELPER
-> +	select DRM_KMS_CMA_HELPER
-> +	select DRM_MIPI_DBI
-> +	select BACKLIGHT_CLASS_DEVICE
-> +	help
-> +	  DRM driver for the following Ilitek ILI9163 panels:
-> +	  * NHD-1.8-128160EF 128x160 TFT
-> +
-> +	  If M is selected the module will be called ili9163.
-> +
->  config TINYDRM_ILI9225
->  	tristate "DRM support for ILI9225 display panels"
->  	depends on DRM && SPI
-> diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
-> index 6ae4e9e5a35fb..78016b2ed11b5 100644
-> --- a/drivers/gpu/drm/tiny/Makefile
-> +++ b/drivers/gpu/drm/tiny/Makefile
-> @@ -3,6 +3,7 @@
->  obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus.o
->  obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
->  obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
-> +obj-$(CONFIG_TINYDRM_ILI9163)		+= ili9163.o
->  obj-$(CONFIG_TINYDRM_ILI9225)		+= ili9225.o
->  obj-$(CONFIG_TINYDRM_ILI9341)		+= ili9341.o
->  obj-$(CONFIG_TINYDRM_ILI9486)		+= ili9486.o
-> diff --git a/drivers/gpu/drm/tiny/ili9163.c b/drivers/gpu/drm/tiny/ili9163.c
-> new file mode 100644
-> index 0000000000000..9f90ea9556c4d
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tiny/ili9163.c
-> @@ -0,0 +1,224 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +#include <linux/backlight.h>
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/module.h>
-> +#include <linux/property.h>
-> +#include <linux/spi/spi.h>
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_fb_helper.h>
-> +#include <drm/drm_gem_cma_helper.h>
-> +#include <drm/drm_gem_framebuffer_helper.h>
-> +#include <drm/drm_mipi_dbi.h>
-> +#include <drm/drm_modeset_helper.h>
-> +#include <video/mipi_display.h>
-> +
-> +#define ILI9163_FRMCTR1		0xb1
-> +
-> +#define ILI9163_PWCTRL1		0xc0
-> +#define ILI9163_PWCTRL2		0xc1
-> +#define ILI9163_VMCTRL1		0xc5
-> +#define ILI9163_VMCTRL2		0xc7
-> +#define ILI9163_PWCTRLA		0xcb
-> +#define ILI9163_PWCTRLB		0xcf
-> +
-> +#define ILI9163_EN3GAM		0xf2
-> +
-> +#define ILI9163_MADCTL_BGR	BIT(3)
-> +#define ILI9163_MADCTL_MV	BIT(5)
-> +#define ILI9163_MADCTL_MX	BIT(6)
-> +#define ILI9163_MADCTL_MY	BIT(7)
-> +
-> +static void yx240qv29_enable(struct drm_simple_display_pipe *pipe,
-> +			     struct drm_crtc_state *crtc_state,
-> +			     struct drm_plane_state *plane_state)
-> +{
-> +	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-> +	struct mipi_dbi *dbi = &dbidev->dbi;
-> +	u8 addr_mode;
-> +	int ret, idx;
-> +
-> +	if (!drm_dev_enter(pipe->crtc.dev, &idx))
-> +		return;
-> +
-> +	DRM_DEBUG_KMS("\n");
-> +
-> +	ret = mipi_dbi_poweron_conditional_reset(dbidev);
-> +	if (ret < 0)
-> +		goto out_exit;
-> +	if (ret == 1)
-> +		goto out_enable;
-> +
-> +	/* Gamma */
-> +	mipi_dbi_command(dbi, MIPI_DCS_SET_GAMMA_CURVE, 0x04);
-> +	mipi_dbi_command(dbi, ILI9163_EN3GAM, 0x00);
-> +
-> +	/* Frame Rate */
-> +	mipi_dbi_command(dbi, ILI9163_FRMCTR1, 0x0a, 0x14);
-> +
-> +	/* Power Control */
-> +	mipi_dbi_command(dbi, ILI9163_PWCTRL1, 0x0a, 0x00);
-> +	mipi_dbi_command(dbi, ILI9163_PWCTRL2, 0x02);
-> +
-> +	/* VCOM */
-> +	mipi_dbi_command(dbi, ILI9163_VMCTRL1, 0x2f, 0x3e);
-> +	mipi_dbi_command(dbi, ILI9163_VMCTRL2, 0x40);
-> +
-> +	/* Memory Access Control */
-> +	mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT, MIPI_DCS_PIXEL_FMT_16BIT);
-> +
-> +	mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
-> +	msleep(100);
-> +
-> +	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
-> +	msleep(100);
-> +
-> +out_enable:
-> +	switch (dbidev->rotation) {
-> +	default:
-> +		addr_mode = 0;
-> +		break;
-> +	case 90:
-> +		addr_mode = ILI9163_MADCTL_MV | ILI9163_MADCTL_MX;
-> +		break;
-> +	case 180:
-> +		addr_mode = ILI9163_MADCTL_MX | ILI9163_MADCTL_MY;
-> +		break;
-> +	case 270:
-> +		addr_mode = ILI9163_MADCTL_MV | ILI9163_MADCTL_MY;
-> +		break;
-> +	}
-> +	addr_mode |= ILI9163_MADCTL_BGR;
-> +	mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
-> +	mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
-> +out_exit:
-> +	drm_dev_exit(idx);
-> +}
-> +
-> +static const struct drm_simple_display_pipe_funcs ili9163_pipe_funcs = {
-> +	.enable = yx240qv29_enable,
-> +	.disable = mipi_dbi_pipe_disable,
-> +	.update = mipi_dbi_pipe_update,
-> +	.prepare_fb = drm_gem_fb_simple_display_pipe_prepare_fb,
-> +};
-> +
-> +static const struct drm_display_mode yx240qv29_mode = {
-> +	DRM_SIMPLE_MODE(128, 160, 28, 35),
-> +};
-> +
-> +DEFINE_DRM_GEM_CMA_FOPS(ili9163_fops);
-> +
-> +static struct drm_driver ili9163_driver = {
-> +	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-> +	.fops			= &ili9163_fops,
-> +	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-> +	.debugfs_init		= mipi_dbi_debugfs_init,
-> +	.name			= "ili9163",
-> +	.desc			= "Ilitek ILI9163",
-> +	.date			= "20210208",
-> +	.major			= 1,
-> +	.minor			= 0,
-> +};
-> +
-> +static const struct of_device_id ili9163_of_match[] = {
-> +	{ .compatible = "newhaven,1.8-128160EF" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, ili9163_of_match);
-> +
-> +static const struct spi_device_id ili9163_id[] = {
-> +	{ "nhd-1.8-128160EF", 0 },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(spi, ili9163_id);
-> +
-> +static int ili9163_probe(struct spi_device *spi)
-> +{
-> +	struct device *dev = &spi->dev;
-> +	struct mipi_dbi_dev *dbidev;
-> +	struct drm_device *drm;
-> +	struct mipi_dbi *dbi;
-> +	struct gpio_desc *dc;
-> +	u32 rotation = 0;
-> +	int ret;
-> +
-> +	dbidev = devm_drm_dev_alloc(dev, &ili9163_driver,
-> +				    struct mipi_dbi_dev, drm);
-> +	if (IS_ERR(dbidev))
-> +		return PTR_ERR(dbidev);
-> +
-> +	dbi = &dbidev->dbi;
-> +	drm = &dbidev->drm;
-> +
-> +	dbi->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(dbi->reset)) {
-> +		DRM_DEV_ERROR(dev, "Failed to get gpio 'reset'\n");
-> +		return PTR_ERR(dbi->reset);
-> +	}
-> +
-> +	dc = devm_gpiod_get_optional(dev, "dc", GPIOD_OUT_LOW);
-> +	if (IS_ERR(dc)) {
-> +		DRM_DEV_ERROR(dev, "Failed to get gpio 'dc'\n");
-> +		return PTR_ERR(dc);
-> +	}
-> +
-> +	dbidev->backlight = devm_of_find_backlight(dev);
-> +	if (IS_ERR(dbidev->backlight))
-> +		return PTR_ERR(dbidev->backlight);
-> +
-> +	device_property_read_u32(dev, "rotation", &rotation);
-> +
-> +	ret = mipi_dbi_spi_init(spi, dbi, dc);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = mipi_dbi_dev_init(dbidev, &ili9163_pipe_funcs, &yx240qv29_mode, rotation);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_mode_config_reset(drm);
-> +
-> +	ret = drm_dev_register(drm, 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	spi_set_drvdata(spi, drm);
-> +
-> +	drm_fbdev_generic_setup(drm, 0);
-> +
-> +	return 0;
-> +}
-> +
-> +static int ili9163_remove(struct spi_device *spi)
-> +{
-> +	struct drm_device *drm = spi_get_drvdata(spi);
-> +
-> +	drm_dev_unplug(drm);
-> +	drm_atomic_helper_shutdown(drm);
-> +
-> +	return 0;
+Jordan
 
-Nice tidy driver and I think you're on top of all the latest cleanups and
-refactors (I didn't check it applies&compiles on top of drm-misc-next, pls
-double check that).
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-I can apply once you've got the dt ack.
-
-Cheers, Daniel
-
-> +}
-> +
-> +static void ili9163_shutdown(struct spi_device *spi)
-> +{
-> +	drm_atomic_helper_shutdown(spi_get_drvdata(spi));
-> +}
-> +
-> +static struct spi_driver ili9163_spi_driver = {
-> +	.driver = {
-> +		.name = "ili9163",
-> +		.of_match_table = ili9163_of_match,
-> +	},
-> +	.id_table = ili9163_id,
-> +	.probe = ili9163_probe,
-> +	.remove = ili9163_remove,
-> +	.shutdown = ili9163_shutdown,
-> +};
-> +module_spi_driver(ili9163_spi_driver);
-> +
-> +MODULE_DESCRIPTION("Ilitek ILI9163 DRM driver");
-> +MODULE_AUTHOR("Daniel Mack <daniel@zonque.org>");
-> +MODULE_LICENSE("GPL");
-> -- 
-> 2.29.2
+> -Akhil
+> >+	}
+> >+out:
+> >  	msm_gem_put_vaddr(obj);
+> >+	return ret;
+> >  }
+> >  static int a6xx_ucode_init(struct msm_gpu *gpu)
+> >@@ -566,7 +611,13 @@ static int a6xx_ucode_init(struct msm_gpu *gpu)
+> >  		}
+> >  		msm_gem_object_set_name(a6xx_gpu->sqe_bo, "sqefw");
+> >-		a6xx_ucode_check_version(a6xx_gpu, a6xx_gpu->sqe_bo);
+> >+		if (!a6xx_ucode_check_version(a6xx_gpu, a6xx_gpu->sqe_bo)) {
+> >+			msm_gem_unpin_iova(a6xx_gpu->sqe_bo, gpu->aspace);
+> >+			drm_gem_object_put(a6xx_gpu->sqe_bo);
+> >+
+> >+			a6xx_gpu->sqe_bo = NULL;
+> >+			return -EPERM;
+> >+		}
+> >  	}
+> >  	gpu_write64(gpu, REG_A6XX_CP_SQE_INSTR_BASE_LO,
+> >
 > 
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
