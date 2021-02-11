@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36DCD318E87
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 16:31:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1FFF318EBB
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 16:34:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA296E44C;
-	Thu, 11 Feb 2021 15:31:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C92486E44D;
+	Thu, 11 Feb 2021 15:34:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A867D6EE52
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 15:31:17 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1613057479; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=08lYzY4knhRRjPTGNwPj0l5bPNiwLguw0JDjr88yZUQ=;
- b=Tw/nousdfUumkWksoqTfWichXGCA+xObOa6Fe6Xd7/QCap1eNDs0lg5Vm0P7iBC8XKmnv3Xj
- 6PVi9OGmIWYQfFvL5VOBGV/TYNw9I0CM2wo08U2S9YgjLuCMwv72QfLY64SO6e6ISzDXU7DK
- bzUnuTkKtx4tiJYeV2TvyM6ZH9k=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 60254dc1e3df861f4b938ffc (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 11 Feb 2021 15:31:12
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 2CBD7C433CA; Thu, 11 Feb 2021 15:31:12 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: kalyan_t)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 9DA46C433C6;
- Thu, 11 Feb 2021 15:31:08 +0000 (UTC)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05A9B6E084
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 15:34:51 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id u16so2296906wmq.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 07:34:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=YiO4YBxo5TAk5u+vjQ05MHs/C7RLL8aWvDBGX7r8+/I=;
+ b=Ycak3/tZiINiOGiQPA//H9zGD3DQG+ZSCUZHbhuzVcPwJnjnH7T1RSl/2CDqsOOGHG
+ 9OREgwzKygBumrh3rCt+tvCgQ3IKBD60gliHM8OfZBfRAuOzxZL8iTwmI6B+PAd6GKMq
+ 4QyHjIevuicMj79oUYn6u1ALADWLaB3FhMOy0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=YiO4YBxo5TAk5u+vjQ05MHs/C7RLL8aWvDBGX7r8+/I=;
+ b=NDzI1rpSqA2tpWcZpkzGWrCHaf8xiHWY//6oClgBuxvyQu6vxl0j5QlArAP+6dgIdA
+ Rdv7d1IgQX2YvwKXJVGew7tL7DJw+Q/pT5LxExzdvfgPyzHL6xceL8/lZDEa0TeFPorC
+ Kl9Lrw76w+t5VcYjs3qB885o+EC7aiNm78UnROx9tOsoiETMeXPtxTP8SlhVMpypFTUs
+ 26BLAmpLKBoFjYafYyKYy7EFLaGgakLt1xPwNP4iVGMCwwbU7CI/IIbRyqEJItcMGzZe
+ e3BQ3z0FrZxRvhHmwPk7eSUXYVgLq8uOCbG4JkFLa80dosCGzFYxeiCLEtKudCpZ3i0z
+ 2M+Q==
+X-Gm-Message-State: AOAM533E40q+cSXvg8t9opzZYeb1qCJBDAIi0NLnVITVj6nfmpGRYxpZ
+ //Ili5wnIlbPX/Dp6/+M+WLtpBwW1ik+IeCc
+X-Google-Smtp-Source: ABdhPJy27ZVzMSUC8gVc8IcQPNYfCby9jG8Gl8hCwK2JGwOHY98GI2CNA2oFc8fuqtzUwL+mHSvzww==
+X-Received: by 2002:a1c:4e17:: with SMTP id g23mr5943980wmh.4.1613057690392;
+ Thu, 11 Feb 2021 07:34:50 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id g16sm9742447wmi.30.2021.02.11.07.34.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Feb 2021 07:34:49 -0800 (PST)
+Date: Thu, 11 Feb 2021 16:34:47 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Brian Welty <brian.welty@intel.com>
+Subject: Re: [RFC PATCH 8/9] drm/gem: Associate GEM objects with drm cgroup
+Message-ID: <YCVOl8/87bqRSQei@phenom.ffwll.local>
+References: <20210126214626.16260-1-brian.welty@intel.com>
+ <20210126214626.16260-9-brian.welty@intel.com>
+ <YCJp//kMC7YjVMXv@phenom.ffwll.local>
+ <dffeb6a7-90f1-e17c-9695-44678e7a39cb@intel.com>
 MIME-Version: 1.0
-Date: Thu, 11 Feb 2021 21:01:08 +0530
-From: kalyan_t@codeaurora.org
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [Freedreno] [v2] drm/msm/disp/dpu1: turn off vblank irqs
- aggressively in dpu driver
-In-Reply-To: <CAF6AEGviZ3UssYHa6-Fg2n2tjRmx5-b5FqVxWSY0Z_BqUtQqSQ@mail.gmail.com>
-References: <1608287227-17685-1-git-send-email-kalyan_t@codeaurora.org>
- <CAF6AEGvvtDq7FK4NcKCc2FG2sbArBU-YboEA4u73oPR9o3coag@mail.gmail.com>
- <fda3742598a6952c4e6797f31763aea8@codeaurora.org>
- <CAF6AEGviZ3UssYHa6-Fg2n2tjRmx5-b5FqVxWSY0Z_BqUtQqSQ@mail.gmail.com>
-Message-ID: <fc3b3e609f07603ab6e6f12f2045bfca@codeaurora.org>
-X-Sender: kalyan_t@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Disposition: inline
+In-Reply-To: <dffeb6a7-90f1-e17c-9695-44678e7a39cb@intel.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,507 +67,342 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Krishna Manikandan <mkrishn@codeaurora.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Sean Paul <seanpaul@chromium.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
- Drew Davenport <ddavenport@chromium.org>,
- "Kristian H. Kristensen" <hoegsberg@chromium.org>,
- Stephen Boyd <swboyd@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Eero Tamminen <eero.t.tamminen@intel.com>, David Airlie <airlied@linux.ie>,
+ Kenny Ho <Kenny.Ho@amd.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ amd-gfx@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
+ cgroups@vger.kernel.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-02-11 01:56, Rob Clark wrote:
-> On Wed, Feb 10, 2021 at 3:41 AM <kalyan_t@codeaurora.org> wrote:
->> 
->> On 2021-02-01 00:46, Rob Clark wrote:
->> > On Fri, Dec 18, 2020 at 2:27 AM Kalyan Thota <kalyan_t@codeaurora.org>
->> > wrote:
->> >>
->> >> Set the flag vblank_disable_immediate = true to turn off vblank irqs
->> >> immediately as soon as drm_vblank_put is requested so that there are
->> >> no irqs triggered during idle state. This will reduce cpu wakeups
->> >> and help in power saving.
->> >>
->> >> To enable vblank_disable_immediate flag the underlying KMS driver
->> >> needs to support high precision vblank timestamping and also a
->> >> reliable way of providing vblank counter which is incrementing
->> >> at the leading edge of vblank.
->> >>
->> >> This patch also brings in changes to support vblank_disable_immediate
->> >> requirement in dpu driver.
->> >>
->> >> Changes in v1:
->> >>  - Specify reason to add vblank timestamp support. (Rob)
->> >>  - Add changes to provide vblank counter from dpu driver.
->> >>
->> >> Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
->> >
->> > This seems to be triggering:
->> >
->> > [  +0.032668] ------------[ cut here ]------------
->> > [  +0.004759] msm ae00000.mdss: drm_WARN_ON_ONCE(cur_vblank !=
->> > vblank->last)
->> > [  +0.000024] WARNING: CPU: 0 PID: 362 at
->> > drivers/gpu/drm/drm_vblank.c:354 drm_update_vblank_count+0x1e4/0x258
->> > [  +0.017154] Modules linked in: joydev
->> > [  +0.003784] CPU: 0 PID: 362 Comm: frecon Not tainted
->> > 5.11.0-rc5-00037-g33d3504871dd #2
->> > [  +0.008135] Hardware name: Google Lazor (rev1 - 2) with LTE (DT)
->> > [  +0.006167] pstate: 60400089 (nZCv daIf +PAN -UAO -TCO BTYPE=--)
->> > [  +0.006169] pc : drm_update_vblank_count+0x1e4/0x258
->> > [  +0.005105] lr : drm_update_vblank_count+0x1e4/0x258
->> > [  +0.005106] sp : ffffffc010003b70
->> > [  +0.003409] x29: ffffffc010003b70 x28: ffffff80855d9d98
->> > [  +0.005466] x27: 0000000000000000 x26: 0000000000fe502a
->> > [  +0.005458] x25: 0000000000000001 x24: 0000000000000001
->> > [  +0.005466] x23: 0000000000000001 x22: ffffff808561ce80
->> > [  +0.005465] x21: 0000000000000000 x20: 0000000000000000
->> > [  +0.005468] x19: ffffff80850d6800 x18: 0000000000000000
->> > [  +0.005466] x17: 0000000000000000 x16: 0000000000000000
->> > [  +0.005465] x15: 000000000000000a x14: 000000000000263b
->> > [  +0.005466] x13: 0000000000000006 x12: ffffffffffffffff
->> > [  +0.005465] x11: 0000000000000010 x10: ffffffc090003797
->> > [  +0.005466] x9 : ffffffed200e2a8c x8 : 0000000000000000
->> > [  +0.005466] x7 : 00000000ffffffff x6 : ffffffed213b2b51
->> > [  +0.005465] x5 : c0000000ffffdfff x4 : ffffffed21218048
->> > [  +0.005465] x3 : 0000000000000000 x2 : 0000000000000000
->> > [  +0.005465] x1 : 0000000000000000 x0 : 0000000000000000
->> > [  +0.005466] Call trace:
->> > [  +0.002520]  drm_update_vblank_count+0x1e4/0x258
->> > [  +0.004748]  drm_handle_vblank+0xd0/0x35c
->> > [  +0.004130]  drm_crtc_handle_vblank+0x24/0x30
->> > [  +0.004487]  dpu_crtc_vblank_callback+0x3c/0xc4
->> > [  +0.004662]  dpu_encoder_vblank_callback+0x70/0xc4
->> > [  +0.004931]  dpu_encoder_phys_vid_vblank_irq+0x50/0x12c
->> > [  +0.005378]  dpu_core_irq_callback_handler+0xf4/0xfc
->> > [  +0.005107]  dpu_hw_intr_dispatch_irq+0x100/0x120
->> > [  +0.004834]  dpu_core_irq+0x44/0x5c
->> > [  +0.003597]  dpu_irq+0x1c/0x28
->> > [  +0.003141]  msm_irq+0x34/0x40
->> > [  +0.003153]  __handle_irq_event_percpu+0xfc/0x254
->> > [  +0.004838]  handle_irq_event_percpu+0x3c/0x94
->> > [  +0.004574]  handle_irq_event+0x54/0x98
->> > [  +0.003944]  handle_level_irq+0xa0/0xd0
->> > [  +0.003943]  generic_handle_irq+0x30/0x48
->> > [  +0.004131]  dpu_mdss_irq+0xe4/0x118
->> > [  +0.003684]  generic_handle_irq+0x30/0x48
->> > [  +0.004127]  __handle_domain_irq+0xa8/0xac
->> > [  +0.004215]  gic_handle_irq+0xdc/0x150
->> > [  +0.003856]  el1_irq+0xb4/0x180
->> > [  +0.003237]  dpu_encoder_vsync_time+0x78/0x230
->> > [  +0.004574]  dpu_encoder_kickoff+0x190/0x354
->> > [  +0.004386]  dpu_crtc_commit_kickoff+0x194/0x1a0
->> > [  +0.004748]  dpu_kms_flush_commit+0xf4/0x108
->> > [  +0.004390]  msm_atomic_commit_tail+0x2e8/0x384
->> > [  +0.004661]  commit_tail+0x80/0x108
->> > [  +0.003588]  drm_atomic_helper_commit+0x118/0x11c
->> > [  +0.004834]  drm_atomic_commit+0x58/0x68
->> > [  +0.004033]  drm_atomic_helper_set_config+0x70/0x9c
->> > [  +0.005018]  drm_mode_setcrtc+0x390/0x584
->> > [  +0.004131]  drm_ioctl_kernel+0xc8/0x11c
->> > [  +0.004035]  drm_ioctl+0x2f8/0x34c
->> > [  +0.003500]  drm_compat_ioctl+0x48/0xe8
->> > [  +0.003945]  __arm64_compat_sys_ioctl+0xe8/0x104
->> > [  +0.004750]  el0_svc_common.constprop.0+0x114/0x188
->> > [  +0.005019]  do_el0_svc_compat+0x28/0x38
->> > [  +0.004031]  el0_svc_compat+0x20/0x30
->> > [  +0.003772]  el0_sync_compat_handler+0x104/0x18c
->> > [  +0.004749]  el0_sync_compat+0x178/0x180
->> > [  +0.004034] ---[ end trace 2959d178e74f2555 ]---
->> >
->> >
->> > BR,
->> > -R
->> >
->> Hi Rob,
->> 
->> on DPU HW, with prefetch enabled, the frame count increment and vsync
->> irq are not happening at same instance. This is causing the frame 
->> count
->> to mismatch.
->> 
->> Example:
->> |----###########--^--|----###########--^--|
->> 
->> for the above vsync cycle with prefetch enabled "^" --> marks a fetch
->> counter where in we are asking the hw to start fetching in the front
->> porch so that we will have more time to fetch data by first active 
->> line
->> of next frame.
->> 
->> In this case, the vsync irq will be triggered at fetch start marker
->> ("^") so that double buffered updates are submitted to HW and the 
->> frame
->> count update will happen at the end of front porch ("|")
+On Wed, Feb 10, 2021 at 02:00:57PM -0800, Brian Welty wrote:
 > 
-> hmm, this sounds like the difference between a frame-done irq and a
-> vsync irq?  IIRC older gens had both..
+> On 2/9/2021 2:54 AM, Daniel Vetter wrote:
+> > On Tue, Jan 26, 2021 at 01:46:25PM -0800, Brian Welty wrote:
+> >> This patch adds tracking of which cgroup to make charges against for a
+> >> given GEM object.  We associate the current task's cgroup with GEM objects
+> >> as they are created.  First user of this is for charging DRM cgroup for
+> >> device memory allocations.  The intended behavior is for device drivers to
+> >> make the cgroup charging calls at the time that backing store is allocated
+> >> or deallocated for the object.
+> >>
+> >> Exported functions are provided for charging memory allocations for a
+> >> GEM object to DRM cgroup. To aid in debugging, we store how many bytes
+> >> have been charged inside the GEM object.  Add helpers for setting and
+> >> clearing the object's associated cgroup which will check that charges are
+> >> not being leaked.
+> >>
+> >> For shared objects, this may make the charge against a cgroup that is
+> >> potentially not the same cgroup as the process using the memory.  Based
+> >> on the memory cgroup's discussion of "memory ownership", this seems
+> >> acceptable [1].
+> >>
+> >> [1] https://www.kernel.org/doc/Documentation/cgroup-v2.txt, "Memory Ownership"
+> >>
+> >> Signed-off-by: Brian Welty <brian.welty@intel.com>
+> > 
+> > Since for now we only have the generic gpu/xpu/bikeshed.memory bucket that
+> > counts everything, why don't we also charge in these gem functions?
 > 
-AFAIK frame_done and vblank are more relevant to the command mode 
-panels,
-where in you can transfer to panel G-RAM faster, so that buffers can be
-released early when your frame transfer is complete and retire the 
-composition
-on vsync.
-
-In this case, we have a video mode panel where panel strictly adheres to 
-the
-timings i.e we can't transfer faster. however in dpu hw we can still 
-mark an
-interrupt once active period is complete such that HW latency lines can 
-be
-prefilled in the blanking.
-
->> to handle this, can we fallback on the SW vblank counter
->> (drm_vblank_no_hw_counter) ? another way is to run a static counter in
->> the driver irq handler and return that to drm_vblank framework instead
->> reading from the HW block.  can you share your thoughts ?
+> I'm not sure what you mean exactly.  You want to merge/move the charging logic
+> proposed in patch #5 (drm_cgroup_try_charge in kernel/cgroup/drm.c) into
+> drm_gem_object_charge_mem() ?
 > 
-> I'm not quite sure what the best answer is here.. is there actually a
-> "real vsync" irq that is signalled when the frame counter increments?
+> Or reading below, I think you are okay keeping the logic separated as is, but
+> you want much of the code in kernel/cgroup/drm.c moved to drivers/gpu/cgroup ?
+> Yes, I see that should allow to reduce number of exported functions.
+
+Both. I mean we'd need to look at the code again when it's shuffled, but
+I'd say:
+
+- cgroup code and the charging for general gpu memory moves to
+  drivers/gpu/cgroup, so dma-buf heaps can use it too.
+
+- the charging for gem buffers moves into core gem code, so it happens for
+  all gpu drivers and all gem buffer allocations.
+
+- this might or might not mean a bunch less exported stuff from the
+  cgroups files (since you don't need separate steps for linking a gem
+  object to a cgroup from the actual charging), and probably no exports
+  anymore for drivers (since they charge nothing). That will change
+  when we add charging for specific memory pools I guess, but we add that
+  when we add tha functionality.
+
+> > Also, that would remove the need for all these functions exported to
+> > drivers. Plus the cgroups setup could also move fully into drm core code,
+> > since all drivers (*) support it
+> > That way this would really be a fully
+> > generic cgroups controller, and we could land it.
 > 
-> drm is kinda blending two usages with "vsync".. one is "frame done",
-> ie we are ready to submit the next frame, userspace is ready to re-use
-> the previously on-screen buffer.  And the other is for actual precise
-> frame timings.  IIRC some people ultra-precise audio and video
-> synchronization (maybe someone else remembers the use-case here?).
-> Using frame-done is sufficient for the first case, but I think you
-> want to use real vblank for the 2nd
 > 
-> Keeping a counter might work, but what happens when vblank irqs are
-> disabled?  Could we record the frame counter when we flush the
-> previous atomic update and just detect this case?  What is the
-> line-count in this period before the real vblank?
+> Patch #2 proposed to have a few setup functions called during drm device
+> registration.
+> You are suggesting to have this more tightly integrated?
+
+Yeah essentially if DRIVER_GEM is set drm core would simply set this all
+up. Since with this we'd always account all gem buffers in cgroups, and it
+would make basic cgroup support a non-optional part of drm drivers.
+
+> Okay, can see what that looks like.  It's true most of the exported functions from
+> kernel/cgroup/drm.c were taking a struct drm_device pointer, so seems it can be
+> restructured as you suggest.  But I guess we will always need some logic in
+> kernel/cgroup/drm.c to encapsulate the allocation of the 'struct cgroup_subsys_state'
+> for this new controller.
+> But I'm not sure I see how this makes the controller 'fully generic' as you describe.
+
+All DRIVER_GEM would automatacially support it. And yes there'll still be
+some encapsulation ofc.
+
+> > The other things I'd do:
+> > - drop gpu scheduling controller from the initial patch series. Yes we'll
+> >   need it, but we also need vram limits and all these things for full
+> >   featured controller. Having the minimal viable cgroup controller in
+> >   upstream would unblock all these other things, and we could discuss them
+> >   in separate patch series, instead of one big bikeshed that never reaches
+> >   full consensus.
+> > 
+> > - the xpu thing is probably real, I just chatted with Android people for
+> >   their gpu memory accounting needs, and cgroups sounds like a solution
+> >   for them too. But unlike on desktop/server linux, on Android all shared
+> >   buffers are allocated from dma-buf heaps, so outside of drm, and hence a
+> >   cgroup controller that's tightly tied to drm isn't that useful. So I
+> >   think we should move the controller/charge functions up one level into
+> >   drivers/gpu/cgroups.
 > 
-Here in our case
-dpu_vsync --> triggers on the first line of vertical front porch.
-frame_count --> increments at the end of the frame.
+> Hmm, so for this, you are asking for the cgroup logic to not directly use
+> DRM data structures?  Okay, that's why you suggest drivers/gpu/cgroups and
+> not drivers/gpu/drm/cgroups.  So this is your angle to make it 'fully
+> generic' then.....
 
-The HW behavior is such that, if prefetch is enabled then vsync will
-be triggered at first line of vfp, else it will at end of frame.
+This is another flavour of "generic", maybe need to split them up:
+- make it more generic by rolling it out for all DRIVER_GEM
+- make it more generic by allowing non-drm code to charge gpu memory
+  (android's dma-buf heaps will need that, maybe v4l eventually too)
 
-we can turn off prefetch, but it will increase the BW vote for prefill
-for panels with low vertical back porch.
-
-can we do as below snip ?
-
-int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc)
-{
-...
-
-        if (phys && phys->ops.get_frame_count)
-+ //               framecount = phys->ops.get_frame_count(phys);
-+        return atomic_read(&phys->vsync_cnt);
-...
-}
-
-we already have a running counter of vsync, and it is incremented upon
-the vsync callback, returning that as frame count.
-https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c#L1297
-
-If irq's are off then we will still get the last frame count.
-
-
-> BR,
-> -R
+> >   On the naming bikeshed I think gpu is perfectly fine, just explain in
+> >   the docs that the G stands for "general" :-) Otherwise we might need to
+> >   rename drivers/gpu to drivers/xpu too, and that's maybe one bikeshed too
+> >   far. Plus, right now it really is the controller for gpu related memory,
+> >   even if we extend it to Android (where it would also include
+> >   video/camera allocatioons). Extending this cgroup controller to
+> >   accelerators in general is maybe a bit too much.
+> >  
+> > - The other disambiguation is how we account dma-buf (well, buffer based)
+> >   gpu allocations vs HMM gpu memory allocations, that might be worth
+> >   clarifying in the docs.
+> > 
+> > - Finally to accelerate this further, I think it'd be good to pull out the
+> >   cgroup spec for this more minimized series into patch 1, as a draft.
+> >   That way we could get all stakeholders to ack on that ack, so hopefully
+> >   we're building something that will work for everyone. That way we can
+> >   hopefully untangle the controller design discussions from the
+> >   implementation bikeshedding as much as possible.
 > 
->> -Kalyan
->> >> ---
->> >>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           | 80
->> >> ++++++++++++++++++++++
->> >>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 30 ++++++++
->> >>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        | 11 +++
->> >>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  1 +
->> >>  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   | 17 +++++
->> >>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  5 ++
->> >>  6 files changed, 144 insertions(+)
->> >>
->> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> >> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> >> index d4662e8..9a80981 100644
->> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> >> @@ -65,6 +65,83 @@ static void dpu_crtc_destroy(struct drm_crtc *crtc)
->> >>         kfree(dpu_crtc);
->> >>  }
->> >>
->> >> +static struct drm_encoder *get_encoder_from_crtc(struct drm_crtc
->> >> *crtc)
->> >> +{
->> >> +       struct drm_device *dev = crtc->dev;
->> >> +       struct drm_encoder *encoder;
->> >> +
->> >> +       drm_for_each_encoder(encoder, dev)
->> >> +               if (encoder->crtc == crtc)
->> >> +                       return encoder;
->> >> +
->> >> +       return NULL;
->> >> +}
->> >> +
->> >> +static u32 dpu_crtc_get_vblank_counter(struct drm_crtc *crtc)
->> >> +{
->> >> +       struct drm_encoder *encoder;
->> >> +
->> >> +       encoder = get_encoder_from_crtc(crtc);
->> >> +       if (!encoder) {
->> >> +               DRM_ERROR("no encoder found for crtc %d\n",
->> >> crtc->index);
->> >> +               return false;
->> >> +       }
->> >> +
->> >> +       return dpu_encoder_get_frame_count(encoder);
->> >> +}
->> >> +
->> >> +static bool dpu_crtc_get_scanout_position(struct drm_crtc *crtc,
->> >> +                                          bool in_vblank_irq,
->> >> +                                          int *vpos, int *hpos,
->> >> +                                          ktime_t *stime, ktime_t
->> >> *etime,
->> >> +                                          const struct
->> >> drm_display_mode *mode)
->> >> +{
->> >> +       unsigned int pipe = crtc->index;
->> >> +       struct drm_encoder *encoder;
->> >> +       int line, vsw, vbp, vactive_start, vactive_end, vfp_end;
->> >> +
->> >> +       encoder = get_encoder_from_crtc(crtc);
->> >> +       if (!encoder) {
->> >> +               DRM_ERROR("no encoder found for crtc %d\n", pipe);
->> >> +               return false;
->> >> +       }
->> >> +
->> >> +       vsw = mode->crtc_vsync_end - mode->crtc_vsync_start;
->> >> +       vbp = mode->crtc_vtotal - mode->crtc_vsync_end;
->> >> +
->> >> +       /*
->> >> +        * the line counter is 1 at the start of the VSYNC pulse and
->> >> VTOTAL at
->> >> +        * the end of VFP. Translate the porch values relative to the
->> >> line
->> >> +        * counter positions.
->> >> +        */
->> >> +
->> >> +       vactive_start = vsw + vbp + 1;
->> >> +       vactive_end = vactive_start + mode->crtc_vdisplay;
->> >> +
->> >> +       /* last scan line before VSYNC */
->> >> +       vfp_end = mode->crtc_vtotal;
->> >> +
->> >> +       if (stime)
->> >> +               *stime = ktime_get();
->> >> +
->> >> +       line = dpu_encoder_get_linecount(encoder);
->> >> +
->> >> +       if (line < vactive_start)
->> >> +               line -= vactive_start;
->> >> +       else if (line > vactive_end)
->> >> +               line = line - vfp_end - vactive_start;
->> >> +       else
->> >> +               line -= vactive_start;
->> >> +
->> >> +       *vpos = line;
->> >> +       *hpos = 0;
->> >> +
->> >> +       if (etime)
->> >> +               *etime = ktime_get();
->> >> +
->> >> +       return true;
->> >> +}
->> >> +
->> >>  static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
->> >>                 struct dpu_plane_state *pstate, struct dpu_format
->> >> *format)
->> >>  {
->> >> @@ -1243,6 +1320,8 @@ static const struct drm_crtc_funcs
->> >> dpu_crtc_funcs = {
->> >>         .early_unregister = dpu_crtc_early_unregister,
->> >>         .enable_vblank  = msm_crtc_enable_vblank,
->> >>         .disable_vblank = msm_crtc_disable_vblank,
->> >> +       .get_vblank_timestamp =
->> >> drm_crtc_vblank_helper_get_vblank_timestamp,
->> >> +       .get_vblank_counter = dpu_crtc_get_vblank_counter,
->> >>  };
->> >>
->> >>  static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
->> >> @@ -1251,6 +1330,7 @@ static const struct drm_crtc_helper_funcs
->> >> dpu_crtc_helper_funcs = {
->> >>         .atomic_check = dpu_crtc_atomic_check,
->> >>         .atomic_begin = dpu_crtc_atomic_begin,
->> >>         .atomic_flush = dpu_crtc_atomic_flush,
->> >> +       .get_scanout_position = dpu_crtc_get_scanout_position,
->> >>  };
->> >>
->> >>  /* initialize crtc */
->> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> >> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> >> index f7f5c25..5cd3f31 100644
->> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> >> @@ -425,6 +425,36 @@ int dpu_encoder_helper_unregister_irq(struct
->> >> dpu_encoder_phys *phys_enc,
->> >>         return 0;
->> >>  }
->> >>
->> >> +int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc)
->> >> +{
->> >> +       struct dpu_encoder_virt *dpu_enc;
->> >> +       struct dpu_encoder_phys *phys;
->> >> +       int framecount = 0;
->> >> +
->> >> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
->> >> +       phys = dpu_enc ? dpu_enc->cur_master : NULL;
->> >> +
->> >> +       if (phys && phys->ops.get_frame_count)
->> >> +               framecount = phys->ops.get_frame_count(phys);
->> >> +
->> >> +       return framecount;
->> >> +}
->> >> +
->> >> +int dpu_encoder_get_linecount(struct drm_encoder *drm_enc)
->> >> +{
->> >> +       struct dpu_encoder_virt *dpu_enc;
->> >> +       struct dpu_encoder_phys *phys;
->> >> +       int linecount = 0;
->> >> +
->> >> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
->> >> +       phys = dpu_enc ? dpu_enc->cur_master : NULL;
->> >> +
->> >> +       if (phys && phys->ops.get_line_count)
->> >> +               linecount = phys->ops.get_line_count(phys);
->> >> +
->> >> +       return linecount;
->> >> +}
->> >> +
->> >>  void dpu_encoder_get_hw_resources(struct drm_encoder *drm_enc,
->> >>                                   struct dpu_encoder_hw_resources
->> >> *hw_res)
->> >>  {
->> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->> >> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->> >> index b491346..99a5d73 100644
->> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->> >> @@ -156,5 +156,16 @@ void dpu_encoder_prepare_commit(struct
->> >> drm_encoder *drm_enc);
->> >>   */
->> >>  void dpu_encoder_set_idle_timeout(struct drm_encoder *drm_enc,
->> >>                                                         u32
->> >> idle_timeout);
->> >> +/**
->> >> + * dpu_encoder_get_linecount - get interface line count for the
->> >> encoder.
->> >> + * @drm_enc:    Pointer to previously created drm encoder structure
->> >> + */
->> >> +int dpu_encoder_get_linecount(struct drm_encoder *drm_enc);
->> >> +
->> >> +/**
->> >> + * dpu_encoder_get_frame_count - get interface frame count for the
->> >> encoder.
->> >> + * @drm_enc:    Pointer to previously created drm encoder structure
->> >> + */
->> >> +int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc);
->> >>
->> >>  #endif /* __DPU_ENCODER_H__ */
->> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->> >> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->> >> index f8f2515..ecbc4be 100644
->> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->> >> @@ -143,6 +143,7 @@ struct dpu_encoder_phys_ops {
->> >>         void (*prepare_idle_pc)(struct dpu_encoder_phys *phys_enc);
->> >>         void (*restore)(struct dpu_encoder_phys *phys);
->> >>         int (*get_line_count)(struct dpu_encoder_phys *phys);
->> >> +       int (*get_frame_count)(struct dpu_encoder_phys *phys);
->> >>  };
->> >>
->> >>  /**
->> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
->> >> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
->> >> index 9a69fad..f983595 100644
->> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
->> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
->> >> @@ -658,6 +658,22 @@ static int dpu_encoder_phys_vid_get_line_count(
->> >>         return
->> >> phys_enc->hw_intf->ops.get_line_count(phys_enc->hw_intf);
->> >>  }
->> >>
->> >> +static int dpu_encoder_phys_vid_get_frame_count(
->> >> +               struct dpu_encoder_phys *phys_enc)
->> >> +{
->> >> +       struct intf_status s = {0};
->> >> +
->> >> +       if (!dpu_encoder_phys_vid_is_master(phys_enc))
->> >> +               return -EINVAL;
->> >> +
->> >> +       if (!phys_enc->hw_intf || !phys_enc->hw_intf->ops.get_status)
->> >> +               return -EINVAL;
->> >> +
->> >> +       phys_enc->hw_intf->ops.get_status(phys_enc->hw_intf, &s);
->> >> +
->> >> +       return s.frame_count;
->> >> +}
->> >> +
->> >>  static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops
->> >> *ops)
->> >>  {
->> >>         ops->is_master = dpu_encoder_phys_vid_is_master;
->> >> @@ -676,6 +692,7 @@ static void dpu_encoder_phys_vid_init_ops(struct
->> >> dpu_encoder_phys_ops *ops)
->> >>         ops->handle_post_kickoff =
->> >> dpu_encoder_phys_vid_handle_post_kickoff;
->> >>         ops->needs_single_flush =
->> >> dpu_encoder_phys_vid_needs_single_flush;
->> >>         ops->get_line_count = dpu_encoder_phys_vid_get_line_count;
->> >> +       ops->get_frame_count = dpu_encoder_phys_vid_get_frame_count;
->> >>  }
->> >>
->> >>  struct dpu_encoder_phys *dpu_encoder_phys_vid_init(
->> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> >> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> >> index 374b0e8..764a773 100644
->> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> >> @@ -14,6 +14,7 @@
->> >>
->> >>  #include <drm/drm_crtc.h>
->> >>  #include <drm/drm_file.h>
->> >> +#include <drm/drm_vblank.h>
->> >>
->> >>  #include "msm_drv.h"
->> >>  #include "msm_mmu.h"
->> >> @@ -1020,6 +1021,10 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->> >>          */
->> >>         dev->mode_config.allow_fb_modifiers = true;
->> >>
->> >> +       dev->max_vblank_count = 0;
->> >> +       /* Disable vblank irqs aggressively for power-saving */
->> >> +       dev->vblank_disable_immediate = true;
->> >> +
->> >>         /*
->> >>          * _dpu_kms_drm_obj_init should create the DRM related objects
->> >>          * i.e. CRTCs, planes, encoders, connectors and so forth
->> >> --
->> >> 2.7.4
->> >>
->> > _______________________________________________
->> > Freedreno mailing list
->> > Freedreno@lists.freedesktop.org
->> > https://lists.freedesktop.org/mailman/listinfo/freedreno
->> _______________________________________________
->> Freedreno mailing list
->> Freedreno@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/freedreno
-> _______________________________________________
-> Freedreno mailing list
-> Freedreno@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/freedreno
+> Okay, thanks for all the inputs.
+> I agree the 'cgroup spec' should be in first patch.  Can redo this way as well.
+> 
+> As much of the code here for the controller was Kenny's work...
+> Kenny, any input on Daniel's suggestions?
+> Otherwise, I can proceed to rework as suggested.
+
+If you're worried about acknowledgement if you end up fully rewriting
+code: Reference an old version from Kenny from archive and mention in the
+commit log it's based on that work. There's no requirement that you can
+only reuse patches from other people entirely unchanged, this kind of
+collaborative patch development mode happens all the time.
+
+Cheers, Daniel
+
+> 
+> Thanks,
+> -Brian
+> 
+> 
+> > 
+> > Cheers, Daniel
+> > 
+> > *: vmwgfx is the only non-gem driver, but there's plans to move at least
+> > vmwgfx internals (maybe not the uapi, we'll see) over to gem. Once that's
+> > done it's truly all gpu memory.
+> >> ---
+> >>  drivers/gpu/drm/drm_gem.c | 89 +++++++++++++++++++++++++++++++++++++++
+> >>  include/drm/drm_gem.h     | 17 ++++++++
+> >>  2 files changed, 106 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> >> index c2ce78c4edc3..a12da41eaafe 100644
+> >> --- a/drivers/gpu/drm/drm_gem.c
+> >> +++ b/drivers/gpu/drm/drm_gem.c
+> >> @@ -29,6 +29,7 @@
+> >>  #include <linux/slab.h>
+> >>  #include <linux/mm.h>
+> >>  #include <linux/uaccess.h>
+> >> +#include <linux/cgroup_drm.h>
+> >>  #include <linux/fs.h>
+> >>  #include <linux/file.h>
+> >>  #include <linux/module.h>
+> >> @@ -112,6 +113,89 @@ drm_gem_init(struct drm_device *dev)
+> >>  	return drmm_add_action(dev, drm_gem_init_release, NULL);
+> >>  }
+> >>  
+> >> +/**
+> >> + * drm_gem_object_set_cgroup - associate GEM object with a cgroup
+> >> + * @obj: GEM object which is being associated with a cgroup
+> >> + * @task: task associated with process control group to use
+> >> + *
+> >> + * This will acquire a reference on cgroup and use for charging GEM
+> >> + * memory allocations.
+> >> + * This helper could be extended in future to migrate charges to another
+> >> + * cgroup, print warning if this usage occurs.
+> >> + */
+> >> +void drm_gem_object_set_cgroup(struct drm_gem_object *obj,
+> >> +			       struct task_struct *task)
+> >> +{
+> >> +	/* if object has existing cgroup, we migrate the charge... */
+> >> +	if (obj->drmcg) {
+> >> +		pr_warn("DRM: need to migrate cgroup charge of %lld\n",
+> >> +			atomic64_read(&obj->drmcg_bytes_charged));
+> >> +	}
+> >> +	obj->drmcg = drmcg_get(task);
+> >> +}
+> >> +EXPORT_SYMBOL(drm_gem_object_set_cgroup);
+> >> +
+> >> +/**
+> >> + * drm_gem_object_unset_cgroup - clear GEM object's associated cgroup
+> >> + * @obj: GEM object
+> >> + *
+> >> + * This will release a reference on cgroup.
+> >> + */
+> >> +void drm_gem_object_unset_cgroup(struct drm_gem_object *obj)
+> >> +{
+> >> +	WARN_ON(atomic64_read(&obj->drmcg_bytes_charged));
+> >> +	drmcg_put(obj->drmcg);
+> >> +}
+> >> +EXPORT_SYMBOL(drm_gem_object_unset_cgroup);
+> >> +
+> >> +/**
+> >> + * drm_gem_object_charge_mem - try charging size bytes to DRM cgroup
+> >> + * @obj: GEM object which is being charged
+> >> + * @size: number of bytes to charge
+> >> + *
+> >> + * Try to charge @size bytes to GEM object's associated DRM cgroup.  This
+> >> + * will fail if a successful charge would cause the current device memory
+> >> + * usage to go above the cgroup's GPU memory maximum limit.
+> >> + *
+> >> + * Returns 0 on success.  Otherwise, an error code is returned.
+> >> + */
+> >> +int drm_gem_object_charge_mem(struct drm_gem_object *obj, u64 size)
+> >> +{
+> >> +	int ret;
+> >> +
+> >> +	ret = drm_cgroup_try_charge(obj->drmcg, obj->dev,
+> >> +				    DRMCG_TYPE_MEM_CURRENT, size);
+> >> +	if (!ret)
+> >> +		atomic64_add(size, &obj->drmcg_bytes_charged);
+> >> +	return ret;
+> >> +}
+> >> +EXPORT_SYMBOL(drm_gem_object_charge_mem);
+> >> +
+> >> +/**
+> >> + * drm_gem_object_uncharge_mem - uncharge size bytes from DRM cgroup
+> >> + * @obj: GEM object which is being uncharged
+> >> + * @size: number of bytes to uncharge
+> >> + *
+> >> + * Uncharge @size bytes from the DRM cgroup associated with specified
+> >> + * GEM object.
+> >> + *
+> >> + * Returns 0 on success.  Otherwise, an error code is returned.
+> >> + */
+> >> +void drm_gem_object_uncharge_mem(struct drm_gem_object *obj, u64 size)
+> >> +{
+> >> +	u64 charged = atomic64_read(&obj->drmcg_bytes_charged);
+> >> +
+> >> +	if (WARN_ON(!charged))
+> >> +		return;
+> >> +	if (WARN_ON(size > charged))
+> >> +		size = charged;
+> >> +
+> >> +	atomic64_sub(size, &obj->drmcg_bytes_charged);
+> >> +	drm_cgroup_uncharge(obj->drmcg, obj->dev, DRMCG_TYPE_MEM_CURRENT,
+> >> +			    size);
+> >> +}
+> >> +EXPORT_SYMBOL(drm_gem_object_uncharge_mem);
+> >> +
+> >>  /**
+> >>   * drm_gem_object_init - initialize an allocated shmem-backed GEM object
+> >>   * @dev: drm_device the object should be initialized for
+> >> @@ -156,6 +240,8 @@ void drm_gem_private_object_init(struct drm_device *dev,
+> >>  	obj->dev = dev;
+> >>  	obj->filp = NULL;
+> >>  
+> >> +	drm_gem_object_set_cgroup(obj, current);
+> >> +
+> >>  	kref_init(&obj->refcount);
+> >>  	obj->handle_count = 0;
+> >>  	obj->size = size;
+> >> @@ -950,6 +1036,9 @@ drm_gem_object_release(struct drm_gem_object *obj)
+> >>  
+> >>  	dma_resv_fini(&obj->_resv);
+> >>  	drm_gem_free_mmap_offset(obj);
+> >> +
+> >> +	/* Release reference on cgroup used with GEM object charging */
+> >> +	drm_gem_object_unset_cgroup(obj);
+> >>  }
+> >>  EXPORT_SYMBOL(drm_gem_object_release);
+> >>  
+> >> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> >> index 240049566592..06ea10fc17bc 100644
+> >> --- a/include/drm/drm_gem.h
+> >> +++ b/include/drm/drm_gem.h
+> >> @@ -37,6 +37,7 @@
+> >>  #include <linux/kref.h>
+> >>  #include <linux/dma-resv.h>
+> >>  
+> >> +#include <drm/drm_cgroup.h>
+> >>  #include <drm/drm_vma_manager.h>
+> >>  
+> >>  struct dma_buf_map;
+> >> @@ -222,6 +223,17 @@ struct drm_gem_object {
+> >>  	 */
+> >>  	struct file *filp;
+> >>  
+> >> +	/**
+> >> +	 * @drmcg:
+> >> +	 *
+> >> +	 * cgroup used for charging GEM object page allocations against. This
+> >> +	 * is set to the current cgroup during GEM object creation.
+> >> +	 * Charging policy is up to the DRM driver to implement and should be
+> >> +	 * charged when allocating backing store from device memory.
+> >> +	 */
+> >> +	struct drmcg *drmcg;
+> >> +	atomic64_t drmcg_bytes_charged;
+> >> +
+> >>  	/**
+> >>  	 * @vma_node:
+> >>  	 *
+> >> @@ -417,4 +429,9 @@ int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
+> >>  int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
+> >>  			    u32 handle, u64 *offset);
+> >>  
+> >> +void drm_gem_object_set_cgroup(struct drm_gem_object *obj,
+> >> +			       struct task_struct *task);
+> >> +void drm_gem_object_unset_cgroup(struct drm_gem_object *obj);
+> >> +int drm_gem_object_charge_mem(struct drm_gem_object *obj, u64 size);
+> >> +void drm_gem_object_uncharge_mem(struct drm_gem_object *obj, u64 size);
+> >>  #endif /* __DRM_GEM_H__ */
+> >> -- 
+> >> 2.20.1
+> >>
+> > 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
