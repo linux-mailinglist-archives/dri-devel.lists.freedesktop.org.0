@@ -2,61 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1EAA318BD4
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 14:20:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F14318C01
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 14:29:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A80B6EE2B;
-	Thu, 11 Feb 2021 13:20:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E9FF6E0EB;
+	Thu, 11 Feb 2021 13:29:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so15.mailgun.net (so15.mailgun.net [198.61.254.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 472656EE32
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 13:20:44 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1613049648; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=Y/PupSDFI54PfGk5fJZwK971L/Lu0319ZmiSaKec4xM=;
- b=RAgy6mnVk2RWzJBGQfwE4Yu4s5LrsibC5hlhihALGTi9WhIpveuMDg4g7mu3xZEBVsOIhwa8
- ue4JJgDiCHjwe1B0ixbdYhj978p4A40DtfP6kzHN2wHSIDa3HGbPpXCiKPq6fY+9fyUJCtmO
- BICoRhprhxegs4/J6D2A0mLV+bI=
-X-Mailgun-Sending-Ip: 198.61.254.15
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 60252f25830f898bac0bfe26 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 11 Feb 2021 13:20:37
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id D9DD8C43462; Thu, 11 Feb 2021 13:20:37 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.0 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
- version=3.4.0
-Received: from [192.168.1.105] (unknown [117.210.187.64])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 00002C433C6;
- Thu, 11 Feb 2021 13:20:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 00002C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-Subject: Re: [PATCH v2] drm/msm: a6xx: Make sure the SQE microcode is safe
-To: Jordan Crouse <jcrouse@codeaurora.org>, linux-arm-msm@vger.kernel.org
-References: <20210210005205.783377-1-jcrouse@codeaurora.org>
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-Message-ID: <8aa916f9-238a-779c-bcaf-51bfb2b761d2@codeaurora.org>
-Date: Thu, 11 Feb 2021 18:50:28 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C9E96E0EB
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 13:29:44 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id i8so10045849ejc.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 05:29:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6kVXaL62eNbd5DKEqcS0gAZae+RIUEySQd7TZO396/4=;
+ b=fp8Cww/poZLvPSoQrQb0Av793kYNMCzcd6sx8uNYrQeLvW5SNSAtk7VZht9IwRosWQ
+ hKz4HhTbfilpVy4HkivFQGxjVopXTjMrTcvPMpqgrldLI5y1A1lrT2In5e48F5olm2wK
+ AIQmAuND567T9xMaaKQO/iWPcSASPZyf2hbRrCsFiJK6Zbsy8IX7uKIRJlLul+BRiPmi
+ 6zZmOSZqVeYC6NI7cI6JLoa9XOxrVpst2ga5fXzeNqgPQax/E6RfMFV3TdAT75TaLrgE
+ jxMdh8/o9w5QNoQDn2f4tQ0ueNarYOR1sZukuqvAzeY+91I03uz/pekhpGog/JNi/DN9
+ Ir+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6kVXaL62eNbd5DKEqcS0gAZae+RIUEySQd7TZO396/4=;
+ b=HCobuhnQ14uiDmzRXcL1JSLViwn7lotTU2BOhZm9r8WQxNCVpQf4JxleFgAiWZWsXb
+ 8Nlz7aBkWhsvfRqNWF/ND7Op1byJ0ZlV5mwFrnNpuHeXAWytBnLPpBSgjBS59sAr81PV
+ hiF1M+MKblNdoWAeMpUpQ3nwnDk1mgq6yvTT0IPcbanewkfXECfoAtM6RK6/T3h5PY5B
+ vGSeXr4gRaY1cybRvWNd8Bkxl+OzQRE4iZTsc9+qGWWxWrvElc1OHV43TBbHpejSlipM
+ bTzRyK4Ut1Cc3oGThvPhJPiiLYoATRbVDqMTJmxpmwuWHdHcxsxcR4tHyFuByVhytc07
+ kPQg==
+X-Gm-Message-State: AOAM533RbsSiOk+cucPjhAjDs6fomWC79w4c8dV/YYe6i7lH1CO14SyS
+ OjW8zFFnU5HmpzcUZqDYTDuLOfXTM9lLbw==
+X-Google-Smtp-Source: ABdhPJzYjErSh4w1eGF/cBMekDvjolEDcGNYJq2/8Ah0UtHujHr+6noGDVlsemx4tKoFUJZzMxOydw==
+X-Received: by 2002:a17:906:5390:: with SMTP id
+ g16mr8592285ejo.19.1613050183175; 
+ Thu, 11 Feb 2021 05:29:43 -0800 (PST)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:820:5af6:9146:2c9f])
+ by smtp.gmail.com with ESMTPSA id w26sm3862627edq.46.2021.02.11.05.29.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Feb 2021 05:29:42 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3] drm/ttm: move swapout logic around
+Date: Thu, 11 Feb 2021 14:29:39 +0100
+Message-Id: <20210211132941.290772-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210210005205.783377-1-jcrouse@codeaurora.org>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,140 +67,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org, Sharat Masetty <smasetty@codeaurora.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: ray.huang@amd.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/10/2021 6:22 AM, Jordan Crouse wrote:
-> Most a6xx targets have security issues that were fixed with new versions
-> of the microcode(s). Make sure that we are booting with a safe version of
-> the microcode for the target and print a message and error if not.
-> 
-> v2: Add more informative error messages and fix typos
-> 
-> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-> ---
-> 
->   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 77 ++++++++++++++++++++++-----
->   1 file changed, 64 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index ba8e9d3cf0fe..064b7face504 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -522,28 +522,73 @@ static int a6xx_cp_init(struct msm_gpu *gpu)
->   	return a6xx_idle(gpu, ring) ? 0 : -EINVAL;
->   }
->   
-> -static void a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
-> +/*
-> + * Check that the microcode version is new enough to include several key
-> + * security fixes. Return true if the ucode is safe.
-> + */
-> +static bool a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
->   		struct drm_gem_object *obj)
->   {
-> +	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
-> +	struct msm_gpu *gpu = &adreno_gpu->base;
->   	u32 *buf = msm_gem_get_vaddr(obj);
-> +	bool ret = false;
->   
->   	if (IS_ERR(buf))
-> -		return;
-> +		return false;
->   
->   	/*
-> -	 * If the lowest nibble is 0xa that is an indication that this microcode
-> -	 * has been patched. The actual version is in dword [3] but we only care
-> -	 * about the patchlevel which is the lowest nibble of dword [3]
-> -	 *
-> -	 * Otherwise check that the firmware is greater than or equal to 1.90
-> -	 * which was the first version that had this fix built in
-> +	 * Targets up to a640 (a618, a630 and a640) need to check for a
-> +	 * microcode version that is patched to support the whereami opcode or
-> +	 * one that is new enough to include it by default.
->   	 */
-> -	if (((buf[0] & 0xf) == 0xa) && (buf[2] & 0xf) >= 1)
-> -		a6xx_gpu->has_whereami = true;
-> -	else if ((buf[0] & 0xfff) > 0x190)
-> -		a6xx_gpu->has_whereami = true;
-> +	if (adreno_is_a618(adreno_gpu) || adreno_is_a630(adreno_gpu) ||
-> +		adreno_is_a640(adreno_gpu)) {
-> +		/*
-> +		 * If the lowest nibble is 0xa that is an indication that this
-> +		 * microcode has been patched. The actual version is in dword
-> +		 * [3] but we only care about the patchlevel which is the lowest
-> +		 * nibble of dword [3]
-> +		 *
-> +		 * Otherwise check that the firmware is greater than or equal
-> +		 * to 1.90 which was the first version that had this fix built
-> +		 * in
-> +		 */
-> +		if ((((buf[0] & 0xf) == 0xa) && (buf[2] & 0xf) >= 1) ||
-> +			(buf[0] & 0xfff) >= 0x190) {
-> +			a6xx_gpu->has_whereami = true;
-> +			ret = true;
-> +			goto out;
-> +		}
->   
-> +		DRM_DEV_ERROR(&gpu->pdev->dev,
-> +			"a630 SQE ucode is too old. Have version %x need at least %x\n",
-> +			buf[0] & 0xfff, 0x190);
-> +	}  else {
-> +		/*
-> +		 * a650 tier targets don't need whereami but still need to be
-> +		 * equal to or newer than 1.95 for other security fixes
-> +		 */
-> +		if (adreno_is_a650(adreno_gpu)) {
-> +			if ((buf[0] & 0xfff) >= 0x195) {
-> +				ret = true;
-> +				goto out;
-> +			}
-> +
-> +			DRM_DEV_ERROR(&gpu->pdev->dev,
-> +				"a650 SQE ucode is too old. Have version %x need at least %x\n",
-> +				buf[0] & 0xfff, 0x195);
-> +		}
-> +
-> +		/*
-> +		 * When a660 is added those targets should return true here
-> +		 * since those have all the critical security fixes built in
-> +		 * from the start
-> +		 */
-Or we can just initialize 'ret' as true.
-
--Akhil
-> +	}
-> +out:
->   	msm_gem_put_vaddr(obj);
-> +	return ret;
->   }
->   
->   static int a6xx_ucode_init(struct msm_gpu *gpu)
-> @@ -566,7 +611,13 @@ static int a6xx_ucode_init(struct msm_gpu *gpu)
->   		}
->   
->   		msm_gem_object_set_name(a6xx_gpu->sqe_bo, "sqefw");
-> -		a6xx_ucode_check_version(a6xx_gpu, a6xx_gpu->sqe_bo);
-> +		if (!a6xx_ucode_check_version(a6xx_gpu, a6xx_gpu->sqe_bo)) {
-> +			msm_gem_unpin_iova(a6xx_gpu->sqe_bo, gpu->aspace);
-> +			drm_gem_object_put(a6xx_gpu->sqe_bo);
-> +
-> +			a6xx_gpu->sqe_bo = NULL;
-> +			return -EPERM;
-> +		}
->   	}
->   
->   	gpu_write64(gpu, REG_A6XX_CP_SQE_INSTR_BASE_LO,
-> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TW92ZSB0aGUgaXRlcmF0aW9uIG9mIHRoZSBnbG9iYWwgbHJ1IGludG8gdGhlIG5ldyBmdW5jdGlv
+bgp0dG1fZ2xvYmFsX3N3YXBvdXQoKSBhbmQgdXNlIHRoYXQgaW5zdGVhZCBpbiBkcml2ZXJzLgoK
+U2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29t
+PgotLS0KIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgICAgICAgIHwgNTcgKysrKysrKyst
+LS0tLS0tLS0tLS0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2RldmljZS5jICAg
+IHwgMjkgKysrKysrKysrKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jICAgICAg
+ICB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3R0bV9tZW1vcnkuYyB8ICAzICstCiBk
+cml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYyB8ICAyICstCiBpbmNsdWRlL2RybS90
+dG0vdHRtX2JvX2FwaS5oICAgICAgICB8ICAzICstCiBpbmNsdWRlL2RybS90dG0vdHRtX2Rldmlj
+ZS5oICAgICAgICB8ICAyICsKIDcgZmlsZXMgY2hhbmdlZCwgNTMgaW5zZXJ0aW9ucygrKSwgNDUg
+ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYyBi
+L2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKaW5kZXggZTM4MTAyMjgyZmQ1Li5kMzM1Nzhh
+MTEyYjQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKKysrIGIvZHJp
+dmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwpAQCAtMTE4NCw1NiArMTE4NCwzNSBAQCBpbnQgdHRt
+X2JvX3dhaXQoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKIH0KIEVYUE9SVF9TWU1CT0wo
+dHRtX2JvX3dhaXQpOwogCi0vKgotICogQSBidWZmZXIgb2JqZWN0IHNocmluayBtZXRob2QgdGhh
+dCB0cmllcyB0byBzd2FwIG91dCB0aGUgZmlyc3QKLSAqIGJ1ZmZlciBvYmplY3Qgb24gdGhlIGJv
+X2dsb2JhbDo6c3dhcF9scnUgbGlzdC4KLSAqLwotaW50IHR0bV9ib19zd2Fwb3V0KHN0cnVjdCB0
+dG1fb3BlcmF0aW9uX2N0eCAqY3R4LCBnZnBfdCBnZnBfZmxhZ3MpCitpbnQgdHRtX2JvX3N3YXBv
+dXQoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywgc3RydWN0IHR0bV9vcGVyYXRpb25fY3R4
+ICpjdHgsCisJCSAgIGdmcF90IGdmcF9mbGFncykKIHsKIAlzdHJ1Y3QgdHRtX2dsb2JhbCAqZ2xv
+YiA9ICZ0dG1fZ2xvYjsKLQlzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvOwotCWludCByZXQg
+PSAtRUJVU1k7CiAJYm9vbCBsb2NrZWQ7Ci0JdW5zaWduZWQgaTsKLQotCXNwaW5fbG9jaygmZ2xv
+Yi0+bHJ1X2xvY2spOwotCWZvciAoaSA9IDA7IGkgPCBUVE1fTUFYX0JPX1BSSU9SSVRZOyArK2kp
+IHsKLQkJbGlzdF9mb3JfZWFjaF9lbnRyeShibywgJmdsb2ItPnN3YXBfbHJ1W2ldLCBzd2FwKSB7
+Ci0JCQlpZiAoIXR0bV9ib19ldmljdF9zd2Fwb3V0X2FsbG93YWJsZShibywgY3R4LCAmbG9ja2Vk
+LAotCQkJCQkJCSAgICBOVUxMKSkKLQkJCQljb250aW51ZTsKLQotCQkJaWYgKCF0dG1fYm9fZ2V0
+X3VubGVzc196ZXJvKGJvKSkgewotCQkJCWlmIChsb2NrZWQpCi0JCQkJCWRtYV9yZXN2X3VubG9j
+ayhiby0+YmFzZS5yZXN2KTsKLQkJCQljb250aW51ZTsKLQkJCX0KKwlpbnQgcmV0OwogCi0JCQly
+ZXQgPSAwOwotCQkJYnJlYWs7Ci0JCX0KLQkJaWYgKCFyZXQpCi0JCQlicmVhazsKLQl9CisJaWYg
+KCF0dG1fYm9fZXZpY3Rfc3dhcG91dF9hbGxvd2FibGUoYm8sIGN0eCwgJmxvY2tlZCwgTlVMTCkp
+CisJCXJldHVybiAtRUJVU1k7CiAKLQlpZiAocmV0KSB7Ci0JCXNwaW5fdW5sb2NrKCZnbG9iLT5s
+cnVfbG9jayk7Ci0JCXJldHVybiByZXQ7CisJaWYgKCF0dG1fYm9fZ2V0X3VubGVzc196ZXJvKGJv
+KSkgeworCQlpZiAobG9ja2VkKQorCQkJZG1hX3Jlc3ZfdW5sb2NrKGJvLT5iYXNlLnJlc3YpOwor
+CQlyZXR1cm4gLUVCVVNZOwogCX0KIAogCWlmIChiby0+ZGVsZXRlZCkgewotCQlyZXQgPSB0dG1f
+Ym9fY2xlYW51cF9yZWZzKGJvLCBmYWxzZSwgZmFsc2UsIGxvY2tlZCk7CisJCXR0bV9ib19jbGVh
+bnVwX3JlZnMoYm8sIGZhbHNlLCBmYWxzZSwgbG9ja2VkKTsKIAkJdHRtX2JvX3B1dChibyk7Ci0J
+CXJldHVybiByZXQ7CisJCXJldHVybiAwOwogCX0KIAogCXR0bV9ib19kZWxfZnJvbV9scnUoYm8p
+OworCS8qIFRPRE86IENsZWFudXAgdGhlIGxvY2tpbmcgKi8KIAlzcGluX3VubG9jaygmZ2xvYi0+
+bHJ1X2xvY2spOwogCi0JLyoqCisJLyoKIAkgKiBNb3ZlIHRvIHN5c3RlbSBjYWNoZWQKIAkgKi8K
+LQogCWlmIChiby0+bWVtLm1lbV90eXBlICE9IFRUTV9QTF9TWVNURU0pIHsKIAkJc3RydWN0IHR0
+bV9vcGVyYXRpb25fY3R4IGN0eCA9IHsgZmFsc2UsIGZhbHNlIH07CiAJCXN0cnVjdCB0dG1fcmVz
+b3VyY2UgZXZpY3RfbWVtOwpAQCAtMTI1MywyOSArMTIzMiwyNiBAQCBpbnQgdHRtX2JvX3N3YXBv
+dXQoc3RydWN0IHR0bV9vcGVyYXRpb25fY3R4ICpjdHgsIGdmcF90IGdmcF9mbGFncykKIAkJfQog
+CX0KIAotCS8qKgorCS8qCiAJICogTWFrZSBzdXJlIEJPIGlzIGlkbGUuCiAJICovCi0KIAlyZXQg
+PSB0dG1fYm9fd2FpdChibywgZmFsc2UsIGZhbHNlKTsKIAlpZiAodW5saWtlbHkocmV0ICE9IDAp
+KQogCQlnb3RvIG91dDsKIAogCXR0bV9ib191bm1hcF92aXJ0dWFsKGJvKTsKIAotCS8qKgorCS8q
+CiAJICogU3dhcCBvdXQuIEJ1ZmZlciB3aWxsIGJlIHN3YXBwZWQgaW4gYWdhaW4gYXMgc29vbiBh
+cwogCSAqIGFueW9uZSB0cmllcyB0byBhY2Nlc3MgYSB0dG0gcGFnZS4KIAkgKi8KLQogCWlmIChi
+by0+YmRldi0+ZnVuY3MtPnN3YXBfbm90aWZ5KQogCQliby0+YmRldi0+ZnVuY3MtPnN3YXBfbm90
+aWZ5KGJvKTsKIAogCXJldCA9IHR0bV90dF9zd2Fwb3V0KGJvLT5iZGV2LCBiby0+dHRtLCBnZnBf
+ZmxhZ3MpOwogb3V0OgogCi0JLyoqCi0JICoKKwkvKgogCSAqIFVucmVzZXJ2ZSB3aXRob3V0IHB1
+dHRpbmcgb24gTFJVIHRvIGF2b2lkIHN3YXBwaW5nIG91dCBhbgogCSAqIGFscmVhZHkgc3dhcHBl
+ZCBidWZmZXIuCiAJICovCkBAIC0xMjg0LDcgKzEyNjAsNiBAQCBpbnQgdHRtX2JvX3N3YXBvdXQo
+c3RydWN0IHR0bV9vcGVyYXRpb25fY3R4ICpjdHgsIGdmcF90IGdmcF9mbGFncykKIAl0dG1fYm9f
+cHV0KGJvKTsKIAlyZXR1cm4gcmV0OwogfQotRVhQT1JUX1NZTUJPTCh0dG1fYm9fc3dhcG91dCk7
+CiAKIHZvaWQgdHRtX2JvX3R0X2Rlc3Ryb3koc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibykK
+IHsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2RldmljZS5jIGIvZHJpdmVy
+cy9ncHUvZHJtL3R0bS90dG1fZGV2aWNlLmMKaW5kZXggOTVlMWI3YjFmMmU2Li5kZmMyYTdlNGU0
+OTAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2RldmljZS5jCisrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS90dG0vdHRtX2RldmljZS5jCkBAIC0xMDIsNiArMTAyLDM1IEBAIHN0YXRp
+YyBpbnQgdHRtX2dsb2JhbF9pbml0KHZvaWQpCiAJcmV0dXJuIHJldDsKIH0KIAorLyoqCisgKiBB
+IGJ1ZmZlciBvYmplY3Qgc2hyaW5rIG1ldGhvZCB0aGF0IHRyaWVzIHRvIHN3YXAgb3V0IHRoZSBm
+aXJzdAorICogYnVmZmVyIG9iamVjdCBvbiB0aGUgZ2xvYmFsOjpzd2FwX2xydSBsaXN0LgorICov
+Citsb25nIHR0bV9nbG9iYWxfc3dhcG91dChzdHJ1Y3QgdHRtX29wZXJhdGlvbl9jdHggKmN0eCwg
+Z2ZwX3QgZ2ZwX2ZsYWdzKQoreworCXN0cnVjdCB0dG1fZ2xvYmFsICpnbG9iID0gJnR0bV9nbG9i
+OworCXN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm87CisJdW5zaWduZWQgaTsKKwlpbnQgcmV0
+OworCisJc3Bpbl9sb2NrKCZnbG9iLT5scnVfbG9jayk7CisJZm9yIChpID0gMDsgaSA8IFRUTV9N
+QVhfQk9fUFJJT1JJVFk7ICsraSkgeworCQlsaXN0X2Zvcl9lYWNoX2VudHJ5KGJvLCAmZ2xvYi0+
+c3dhcF9scnVbaV0sIHN3YXApIHsKKwkJCXVpbnQzMl90IG51bV9wYWdlcyA9IGJvLT50dG0tPm51
+bV9wYWdlczsKKworCQkJcmV0ID0gdHRtX2JvX3N3YXBvdXQoYm8sIGN0eCwgZ2ZwX2ZsYWdzKTsK
+KwkJCS8qIHR0bV9ib19zd2Fwb3V0IGhhcyBkcm9wcGVkIHRoZSBscnVfbG9jayAqLworCQkJaWYg
+KCFyZXQpCisJCQkJcmV0dXJuIG51bV9wYWdlczsKKwkJCWlmIChyZXQgIT0gLUVCVVNZKQorCQkJ
+CXJldHVybiByZXQ7CisJCX0KKwl9CisJc3Bpbl91bmxvY2soJmdsb2ItPmxydV9sb2NrKTsKKwly
+ZXR1cm4gMDsKK30KK0VYUE9SVF9TWU1CT0wodHRtX2dsb2JhbF9zd2Fwb3V0KTsKKwogc3RhdGlj
+IHZvaWQgdHRtX2luaXRfc3lzbWFuKHN0cnVjdCB0dG1fZGV2aWNlICpiZGV2KQogewogCXN0cnVj
+dCB0dG1fcmVzb3VyY2VfbWFuYWdlciAqbWFuID0gJmJkZXYtPnN5c21hbjsKZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0LmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV90
+dC5jCmluZGV4IDJmMDgzM2M5OGQyYy4uOTViNWNmZjI1ZjRjIDEwMDY0NAotLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vdHRtL3R0bV90dC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0LmMK
+QEAgLTM2OSw3ICszNjksNyBAQCBzdGF0aWMgdW5zaWduZWQgbG9uZyB0dG1fdHRfc2hyaW5rZXJf
+c2NhbihzdHJ1Y3Qgc2hyaW5rZXIgKnNocmluaywKIAl9OwogCWludCByZXQ7CiAKLQlyZXQgPSB0
+dG1fYm9fc3dhcG91dCgmY3R4LCBHRlBfTk9GUyk7CisJcmV0ID0gdHRtX2dsb2JhbF9zd2Fwb3V0
+KCZjdHgsIEdGUF9OT0ZTKTsKIAlyZXR1cm4gcmV0IDwgMCA/IFNIUklOS19FTVBUWSA6IHJldDsK
+IH0KIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC90dG1fbWVtb3J5LmMgYi9k
+cml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3R0bV9tZW1vcnkuYwppbmRleCBlOTcyYWYwN2QwMjkuLjEw
+NGI5NWE4YzdhMiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC90dG1fbWVtb3J5
+LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC90dG1fbWVtb3J5LmMKQEAgLTM4LDYgKzM4
+LDcgQEAKIAogI2luY2x1ZGUgPGRybS9kcm1fZGV2aWNlLmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9m
+aWxlLmg+CisjaW5jbHVkZSA8ZHJtL3R0bS90dG1fZGV2aWNlLmg+CiAKICNpbmNsdWRlICJ0dG1f
+bWVtb3J5LmgiCiAKQEAgLTI3Nyw3ICsyNzgsNyBAQCBzdGF0aWMgdm9pZCB0dG1fc2hyaW5rKHN0
+cnVjdCB0dG1fbWVtX2dsb2JhbCAqZ2xvYiwgYm9vbCBmcm9tX3dxLAogCiAJd2hpbGUgKHR0bV96
+b25lc19hYm92ZV9zd2FwX3RhcmdldChnbG9iLCBmcm9tX3dxLCBleHRyYSkpIHsKIAkJc3Bpbl91
+bmxvY2soJmdsb2ItPmxvY2spOwotCQlyZXQgPSB0dG1fYm9fc3dhcG91dChjdHgsIEdGUF9LRVJO
+RUwpOworCQlyZXQgPSB0dG1fZ2xvYmFsX3N3YXBvdXQoY3R4LCBHRlBfS0VSTkVMKTsKIAkJc3Bp
+bl9sb2NrKCZnbG9iLT5sb2NrKTsKIAkJaWYgKHVubGlrZWx5KHJldCA8IDApKQogCQkJYnJlYWs7
+CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYyBiL2RyaXZl
+cnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Rydi5jCmluZGV4IDRlZmVkM2JmMGVmOS4uMDFkYTM1
+NWI4NmYzIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYwor
+KysgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYwpAQCAtMTM4NCw3ICsxMzg0
+LDcgQEAgc3RhdGljIGludCB2bXdfcG1fZnJlZXplKHN0cnVjdCBkZXZpY2UgKmtkZXYpCiAJdm13
+X2V4ZWNidWZfcmVsZWFzZV9waW5uZWRfYm8oZGV2X3ByaXYpOwogCXZtd19yZXNvdXJjZV9ldmlj
+dF9hbGwoZGV2X3ByaXYpOwogCXZtd19yZWxlYXNlX2RldmljZV9lYXJseShkZXZfcHJpdik7Ci0J
+d2hpbGUgKHR0bV9ib19zd2Fwb3V0KCZjdHgsIEdGUF9LRVJORUwpID4gMCk7CisJd2hpbGUgKHR0
+bV9nbG9iYWxfc3dhcG91dCgmY3R4LCBHRlBfS0VSTkVMKSA+IDApOwogCWlmIChkZXZfcHJpdi0+
+ZW5hYmxlX2ZiKQogCQl2bXdfZmlmb19yZXNvdXJjZV9kZWMoZGV2X3ByaXYpOwogCWlmIChhdG9t
+aWNfcmVhZCgmZGV2X3ByaXYtPm51bV9maWZvX3Jlc291cmNlcykgIT0gMCkgewpkaWZmIC0tZ2l0
+IGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaCBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9f
+YXBpLmgKaW5kZXggNGZiNTIzZGZhYjMyLi41MDQ0YWMzMzA4NTggMTAwNjQ0Ci0tLSBhL2luY2x1
+ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgKKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGku
+aApAQCAtNTYwLDcgKzU2MCw4IEBAIHNzaXplX3QgdHRtX2JvX2lvKHN0cnVjdCB0dG1fZGV2aWNl
+ICpiZGV2LCBzdHJ1Y3QgZmlsZSAqZmlscCwKIAkJICBjb25zdCBjaGFyIF9fdXNlciAqd2J1Ziwg
+Y2hhciBfX3VzZXIgKnJidWYsCiAJCSAgc2l6ZV90IGNvdW50LCBsb2ZmX3QgKmZfcG9zLCBib29s
+IHdyaXRlKTsKIAotaW50IHR0bV9ib19zd2Fwb3V0KHN0cnVjdCB0dG1fb3BlcmF0aW9uX2N0eCAq
+Y3R4LCBnZnBfdCBnZnBfZmxhZ3MpOworaW50IHR0bV9ib19zd2Fwb3V0KHN0cnVjdCB0dG1fYnVm
+ZmVyX29iamVjdCAqYm8sIHN0cnVjdCB0dG1fb3BlcmF0aW9uX2N0eCAqY3R4LAorCQkgICBnZnBf
+dCBnZnBfZmxhZ3MpOwogCiAvKioKICAqIHR0bV9ib191c2VzX2VtYmVkZGVkX2dlbV9vYmplY3Qg
+LSBjaGVjayBpZiB0aGUgZ2l2ZW4gYm8gdXNlcyB0aGUKZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJt
+L3R0bS90dG1fZGV2aWNlLmggYi9pbmNsdWRlL2RybS90dG0vdHRtX2RldmljZS5oCmluZGV4IDAz
+NWJiYzA0NGEzYi4uNmEwYjI2N2Q0ZmU2IDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS90dG0vdHRt
+X2RldmljZS5oCisrKyBiL2luY2x1ZGUvZHJtL3R0bS90dG1fZGV2aWNlLmgKQEAgLTI5Nyw2ICsy
+OTcsOCBAQCBzdHJ1Y3QgdHRtX2RldmljZSB7CiAJc3RydWN0IGRlbGF5ZWRfd29yayB3cTsKIH07
+CiAKK2xvbmcgdHRtX2dsb2JhbF9zd2Fwb3V0KHN0cnVjdCB0dG1fb3BlcmF0aW9uX2N0eCAqY3R4
+LCBnZnBfdCBnZnBfZmxhZ3MpOworCiBzdGF0aWMgaW5saW5lIHN0cnVjdCB0dG1fcmVzb3VyY2Vf
+bWFuYWdlciAqCiB0dG1fbWFuYWdlcl90eXBlKHN0cnVjdCB0dG1fZGV2aWNlICpiZGV2LCBpbnQg
+bWVtX3R5cGUpCiB7Ci0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
