@@ -1,53 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 253233190E9
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 18:23:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5064931912A
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 18:35:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B318E6E3D0;
-	Thu, 11 Feb 2021 17:22:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 994416E466;
+	Thu, 11 Feb 2021 17:35:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 612946E3D0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 17:22:57 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id q4so5842404otm.9
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 09:22:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=bqd9qGZaexiIQNqrsno9HS2pI7qikrVpmA3lH+Y0LDk=;
- b=eQTvdVDYACJ/N2l4uMXz/fzng3NkvOsj3tNm8dLXa3CqkFKlCAT/ZZR3yXgJVvhUhz
- KgTQOM/9dVw4Uk78jdzaJ7VQobTh/bQfbWnGyhsCJ2rlNXdpXjsbQrmyRhQA4NGhWpxU
- agx+neQha/On5AKaucnI7BATHpka78TcS1VWQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bqd9qGZaexiIQNqrsno9HS2pI7qikrVpmA3lH+Y0LDk=;
- b=A1AP0HiTUlFshoSTrctXLkGJ5k1ViyMmX4onfpg+1EQIzRKVXpBsEEwnZ7qOsslDvN
- oFOwUlcA6fKUXXS51zLHjJs18kQCwKC+gwp0lFzlIlE9n6T8TTp54dkcXvw0Q8GBw2Q1
- 7rKZRYKSdPLxa8C7GqLT2rfuZeqdowCWRFTpKNUUf0G5ZTtSopuL/VxpK43jnKHmcvDq
- G5ioVAXYDudAnIthpdkdDZjnyimJhKD1NCaltVIrDhn6SH3GrdWSRzKM9FC94n3ocgsp
- XydhUR25ExxuVVOQVSz+dA1cIRibqTAbJxwBzepdPHuX8EjjP+UxSKTXrrlmjY7JvKDK
- T6FQ==
-X-Gm-Message-State: AOAM5328F+g2IINP28KLbcDlaGT9OqPRbu9oYA6ty9IjyK3lYPDsrKQ1
- OoMdK5Mbv1fB4LJsfajBehzb3q1PGjtPnSNrsjDa425OfH3vPw==
-X-Google-Smtp-Source: ABdhPJwycinxSV+ITNBSHA4rqTchp4IfJwF+7aazowMLxc77nRYRYhPRGY57KnYEwOKzAPAdBNk7z+6kkb42gzrgt0M=
-X-Received: by 2002:a9d:2270:: with SMTP id o103mr6271092ota.303.1613064175256; 
- Thu, 11 Feb 2021 09:22:55 -0800 (PST)
+Received: from muru.com (muru.com [72.249.23.125])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6112D6E466
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 17:35:49 +0000 (UTC)
+Received: from atomide.com (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTPS id 54A06804D;
+ Thu, 11 Feb 2021 17:36:06 +0000 (UTC)
+Date: Thu, 11 Feb 2021 19:35:44 +0200
+From: Tony Lindgren <tony@atomide.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v4 24/80] drm/omap: dsi: move TE GPIO handling into core
+Message-ID: <YCVq8JnuMLQq6FEc@atomide.com>
+References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
+ <20201124124538.660710-25-tomi.valkeinen@ti.com>
+ <YCF7ARchcMKvWa4s@atomide.com>
+ <5b469566-c926-7e1f-8872-84774b96f389@ideasonboard.com>
 MIME-Version: 1.0
-References: <b313d0b2-9589-8209-54a3-f44dc137164e@amd.com>
- <87o8gqd4vw.fsf@intel.com>
- <3b20fc5a-e6ff-d1f9-a4f6-6b5c21ca94fc@amd.com>
-In-Reply-To: <3b20fc5a-e6ff-d1f9-a4f6-6b5c21ca94fc@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 11 Feb 2021 18:22:42 +0100
-Message-ID: <CAKMK7uEAMST0dOzFDuRYoDh=QgGDQm-7qepfaF+wAnJwbSTGzw@mail.gmail.com>
-Subject: Re: Not 100% sure if I correctly fixed drm-tip
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Disposition: inline
+In-Reply-To: <5b469566-c926-7e1f-8872-84774b96f389@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,48 +39,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: hns@goldelico.com, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBGZWIgMTEsIDIwMjEgYXQgNDoyNyBQTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
-YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4KPgo+IEFtIDExLjAyLjIxIHVtIDE2OjAyIHNj
-aHJpZWIgSmFuaSBOaWt1bGE6Cj4gPiBPbiBUaHUsIDExIEZlYiAyMDIxLCBDaHJpc3RpYW4gS8O2
-bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+ID4+IEhpIGd1eXMsCj4gPj4K
-PiA+PiBJIGhhZCBhIGNvbmZsaWN0IHRoaXMgbW9ybmluZyBpbiB0aGUgdHRtIHBvb2wgd2hpbGUg
-cHVzaGluZyBhbiBpbXBvcnRhbnQKPiA+PiBmaXggdG8gZHJtLW1pc2MtZml4ZXMuCj4gPj4KPiA+
-PiBJJ20gbm90IDEwMCUgc3VyZSBpZiBJIGNvcnJlY3RseSBmaXhlZCB1cCBkcm0tdGlwLiBIb3cg
-Y2FuIHRoaXMgYmUKPiA+PiBkb3VibGUgY2hlY2tlZD8gQW5kIGhvdyBjYW4gaXQgYmUgZml4ZWQg
-aWYgdGhlIG1lcmdlIGhhcyBnb25lIGJhZD8KPiA+IEknbSBhZnJhaWQgdGhlcmUncyBhIHByb2Js
-ZW07IGJiNTJjYjBkZWM4ZCAoImRybS90dG06IG1ha2UgdGhlIHBvb2wKPiA+IHNocmlua2VyIGxv
-Y2sgYSBtdXRleCIpIGluIHVwc3RyZWFtIGFuZCBkcm0tbWlzYy1maXhlcyBjcmVhdGVzIGEgc2ls
-ZW50Cj4gPiBjb25mbGljdCB3aXRoIGJhMDUxOTAxZDEwZiAoImRybS90dG06IGFkZCBhIGRlYnVn
-ZnMgZmlsZSBmb3IgdGhlIGdsb2JhbAo+ID4gcGFnZSBwb29scyIpIGluIGRybS1taXNjLW5leHQs
-IGNhdXNpbmcgdGhlIGxhdHRlciB0byB1c2UKPiA+IHNwaW5fbG9jay91bmxvY2sgb24gYSBtdXRl
-eC4KPiA+Cj4gPiBCdXQgd2hpbGUgeW91IGhpdCBhIGNvbmZsaWN0LCBpdCBkb2VzIGxvb2sgbGlr
-ZSB0aGUgY29uZmxpY3QgYnJlYWtpbmcKPiA+IHRoZSBidWlsZCBpcyBzaWxlbnQsIEFGQUlDVCB0
-aGUgc3BpbmxvY2sgcGFydCBkb2VzIG5vdCBjb25mbGljdC4gU28gYQo+ID4gZml4dXAgcGF0Y2gg
-aW4gZHJtLXJlcmVyZSBpcyBwcm9iYWJseSBuZWVkZWQgdW50aWwgdGhlcmUgYXJlIHNvbWUKPiA+
-IGJhY2ttZXJnZXMuCj4KPiBXZWxsIGV4YWN0bHkgdGhhdCdzIHRoZSBpc3N1ZS4gSSd2ZSBhbHJl
-YWR5IGhhZCBhIGZpeHVwIGluIGRybS1yZXJlcmUKPiBmb3IgdGhpcy4KPgo+IEJ1dCB0b2RheSBJ
-J3ZlIHB1c2hlZCBhbm90aGVyIGZpeCB0byBkcm0tbWlzYy1maXhlcyB3aGljaCBhbHNvIGNvbmZs
-aWN0cwo+IHdpdGggYmEwNTE5MDFkMTBmICgiZHJtL3R0bTogYWRkIGEgZGVidWdmcyBmaWxlIGZv
-ciB0aGUgZ2xvYmFsIHBhZ2UgcG9vbHMiKS4KPgo+IEkndmUgZml4ZWQgdGhpcyB1cCBhcyB3ZWxs
-IGFuZCBjb21taXR0ZWQgdGhlIHNvbHV0aW9uLiBCdXQgZGltIHRoZW4KPiBjb21wbGFpbmVkIHRo
-YXQgdGhlIG9yaWdpbmFsIGZpeHVwIGlzIG5vdyBub3QgYXBwbGljYWJsZSBhbnkgbW9yZSAod2hp
-Y2gKPiBpcyB0cnVlIGFzIGZhciBhcyBJIGtub3cpLgo+Cj4gVGhpcyBzb21laG93IHdlbnQgYXdh
-eSB3aGVuIEkgc2FpZCB0aGF0IGRpbSBzaG91bGQgYXNzdW1lIHBhdGNoCj4gcmV2ZXJzYWwsIGJ1
-dCBJJ20gbm90IHN1cmUgaWYgdGhhdCdzIHRoZSByaWdodCB0aGluZyB0byBkby4KCk5vdGhpbmcs
-IGl0J3MgYWxsIHN0aWxsIGJyb2tlbi4gWW91IG5lZWQgdG8gZGVsZXRlIHRoZSBub3cgdW5lY2Vz
-c2FyeQpmaXh1cC4gQXMgYSBydWxlLCB3aGVuIHJlYnVpbGRpbmcgZHJtLXRpcCBmYWlsZWQgYWx3
-YXlzIHRyeSBhZ2FpbiB0bwpjb25maXJtIHRoYXQgd2hhdCB5b3UndmUgZG9uZSBhY3R1YWxseSBm
-aXhlZCB0aGluZ3MgKHNpbmNlIHNvbWV0aW1lcwpnaXQgY2FuIGFsc28gbm90IHJlbWVtYmVyIHdo
-ZXJlIHRvIGFwcGx5IHRoZSByZXNvbHV0aW9uIGZvciBzb21lIG9kZApyZWFzb25zKS4KCkknbSBm
-aXhpbmcgdGhpcyBub3cuCi1EYW5pZWwKCj4KPiBUaGFua3MsCj4gQ2hyaXN0aWFuLgo+Cj4gPgo+
-ID4KPiA+IEJSLAo+ID4gSmFuaS4KPiA+Cj4gPgo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdh
-cmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+* Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> [210211 07:35]:
+> On 08/02/2021 19:55, Tony Lindgren wrote:
+> > Hi,
+> > 
+> > * Tomi Valkeinen <tomi.valkeinen@ti.com> [201124 12:47]:
+> >> From: Sebastian Reichel <sebastian.reichel@collabora.com>
+> >>
+> >> In preparation for removing custom DSS calls from the DSI
+> >> panel driver, this moves support for external tearing event
+> >> GPIOs into the DSI host driver. This way tearing events are
+> >> always handled in the core resulting in simplification of
+> >> the panel drivers.
+> >>
+> >> The TE GPIO acquisition follows works in the same way as the
+> >> exynos DSI implementation.
+> > 
+> > Looks like this patch causes the following warnings:
+> > 
+> > DSI: omapdss DSI error: Failed to receive BTA
+> > DSI: omapdss DSI error: bta sync failed
+> > DSI: omapdss DSI error: vc(0) busy when trying to config for VP
+> > DSI: omapdss DSI error: Failed to receive BTA
+> > DSI: omapdss DSI error: bta sync failed
+> > DSI: omapdss DSI error: vc(0) busy when trying to config for VP
+> > DSI: omapdss DSI error: Failed to receive BTA
+> > DSI: omapdss DSI error: bta sync failed
+> > DSI: omapdss DSI error: vc(0) busy when trying to config for VP
+> > ...
+> > 
+> > Any ideas? The display works for me despite the constant
+> > warnings.
+> 
+> Which board is that? Do the errors start right from the boot, or only
+> after running something in userspace?
+
+This is with droid4, that's about the only device I use with a display
+on regular basis. I'm pretty sure some earlier version of Sebastian's
+patches worked fine.
+
+Regards,
+
+Tony
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
