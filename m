@@ -1,108 +1,143 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9722431845E
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 05:39:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D78318475
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Feb 2021 06:07:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C5D76EDEC;
-	Thu, 11 Feb 2021 04:39:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3D416E055;
+	Thu, 11 Feb 2021 05:07:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2058.outbound.protection.outlook.com [40.107.22.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4EBB6EDEC
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 04:39:29 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D76C6E055;
+ Thu, 11 Feb 2021 05:07:29 +0000 (UTC)
+IronPort-SDR: vZT/RrLpAeQ+j3eMrrrC59eBU0+9Nv7Fg8TfSuCiN/Tl7ayANHLOFLaktl2xb8ov59aahZelEe
+ 2E68GDkUHSOA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9891"; a="161339171"
+X-IronPort-AV: E=Sophos;i="5.81,169,1610438400"; d="scan'208";a="161339171"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2021 21:07:28 -0800
+IronPort-SDR: IdPNw3tY69jmd6VWDR+6I0i9Gjf8V6yk12JsQQzLzalA9/TX05ltAbMFXnuGlrod9KutKmGoJN
+ xxDOr5HZTIjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,169,1610438400"; d="scan'208";a="397095717"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+ by orsmga008.jf.intel.com with ESMTP; 10 Feb 2021 21:07:28 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Wed, 10 Feb 2021 21:07:27 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
+ via Frontend Transport; Wed, 10 Feb 2021 21:07:27 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.43) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2106.2; Wed, 10 Feb 2021 21:07:27 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ndSbW3YLgp1LrGRT3cTzBArFYX0NkJujQTNoEYB95Ip4Wz1AocccXaubU1tcKahkGzNBus1WbuI9yoFtMik0lYPUwOeECvrgrWMIXnSc/WX7SGVF96i3YMtXuvhZtqLcDriI5S2+Do34ho5yy7uzQejgxwdrYl3sX39YM5Cd9cfjNLXSi9ggmqci0Z5vsBv8HB3Q3ArswGs90PyNGOe4vZbKPoLEhy5+p0jlFET2ecPhLxr4qXtPRcAu5MTrB7kKRqQ2NSfqHXE+E2txYsCmfBEsMzHp+7kua3lngf9e2U7B0ykuv7acijv6xLgegM12yYsPe5qHGEKCQZWxWqhURg==
+ b=SVkGTLop27WFoo2Q2Ug08M6hfarNIm72O+HpDU/4anukotrkr/nlUB9e+uh2IlabJtLv+H5egbonsw+EpNjxaSeZMXnd9dFrjAvolhq+83OhOrUX9z3ShonDMKAJiGspFvEEzQxZVazfBLd5ShA08LbQlH6eOu0GdtscQf2n3eDX+5rqV5ckFNvcMfUZwarJF2JRdUzM91l0RgdtdrZ9JQBacAUWP0TunmeIwDNm75akiibO1XwEgdNk1ysN8UlBLVONczgsPTHWqScFzr3yaR1z/JQi40620Hm4VHV62BgZDLTHbzFVUePxmNo6QQ8QrJzGuiEs3CELnMfyg8rmgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SO/NuhRfKHm7qm/YP9neBbXmKvrvEWJIv3Hlu52aRn4=;
- b=FG+9zYXaBL0nUOW0VRjmgHEnfk/VqCuphcXkwNTyQMuK/0YH2zoKpce0msUsaAFo3+NtGYIfMQOkSNWuHhdQ06wxWlC+QFQvePpTL0oEvyN9xuX7cB117KpzSqONBhkoiNVlONIrKH/TBj5txHXBMytNSZ6A6JwjocDF++ZKxCVfxjpwYXu1zM/pZpOmJVUcsMA90Ty3Tc4P/2vFMnXBHO273u0qhPWC1nnoaP3GJSLjhQFJ0AX6osMbw8fIesMqdWyRhLDeDJ2L6NRw8s9jo1/GtMBjUVn8ilZhSh9ZB65Q1k6W2xg1mapxEonmpWWXQl0z4K0sQMiuFVC9R7x2gg==
+ bh=3FFQqsuzP64peBGxf2ymJpY1GAccQ6TSJEHwXETGRYQ=;
+ b=eq1kiH38PqGOmUF7Zl3UntfHKXbS6TdUxCUwXQO4DZgNPLGmO3oQISPtCdpC0B7QKvlyTHkvBRBYD2Z9kspdwPXkhRiuSMr+t0CgQq6+GMA1Klq9/7DPk5Utllf7s6S9Ot2CmwcZqN8Agdd6rBsM2T9w9BgGxJXdn7WbHPFC/7UryvS9nPM9AEgvsIs9wbhqRhCuBvle670qBD7ISQsD3BDmTXKRNAZciLah+dBdoC5BdlMSoI69b97Mp9phYBQgxHM22UJXZQYROauwO4bFEJIJCXS8UblgKygmSkScLIHrcfY9fQuD7ifSkL9JwUAmdwegjVR5DTNF2iu1XQdkdw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SO/NuhRfKHm7qm/YP9neBbXmKvrvEWJIv3Hlu52aRn4=;
- b=XSFlsVZix/X5yfner4M56UbwZxYzGyJcfx1eyKRwQhkANFnBCBYwV+lhYu7k62Olaj/R94mrFauhJtb7/F19JocHrvaSRSlydjXNrBbr9pyxbSwAgrWWueyeYWd6VSpqMfqj/9BAn+3WY4TGtsQ0CmaLX4npyBq6v6mudlSTrYo=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=nxp.com;
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VE1PR04MB6351.eurprd04.prod.outlook.com (2603:10a6:803:128::12)
+ bh=3FFQqsuzP64peBGxf2ymJpY1GAccQ6TSJEHwXETGRYQ=;
+ b=qPWj1ZUpFHVay+oS/u6NTgTBaW5lkuaHz4hhpPBIttewzcJFImvJ6wr4BHRjyWqLAVPmDBIU6O24S9DO7Lr7YvG+qGO2dewuHxa9ODuWM5X/cTG7MPp+ZSvArfMoItKBZ7FwqzaPkGY2qRKwQAp5YiWzqP1nRWsl/zEEiXYmMPs=
+Received: from SA2PR11MB5068.namprd11.prod.outlook.com (2603:10b6:806:116::10)
+ by SN6PR11MB3184.namprd11.prod.outlook.com (2603:10b6:805:bd::17)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.24; Thu, 11 Feb
- 2021 04:39:27 +0000
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3825.030; Thu, 11 Feb 2021
- 04:39:27 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v7] dt-bindings: display: panel: one file of all simple LVDS
- panels with dual ports
-Date: Thu, 11 Feb 2021 12:27:52 +0800
-Message-Id: <1613017672-2734-1-git-send-email-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.7.4
-X-Originating-IP: [119.31.174.66]
-X-ClientProxiedBy: SG2PR06CA0201.apcprd06.prod.outlook.com (2603:1096:4:1::33)
- To VI1PR04MB3983.eurprd04.prod.outlook.com
- (2603:10a6:803:4c::16)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.25; Thu, 11 Feb
+ 2021 05:07:16 +0000
+Received: from SA2PR11MB5068.namprd11.prod.outlook.com
+ ([fe80::d9fb:7552:f19b:402b]) by SA2PR11MB5068.namprd11.prod.outlook.com
+ ([fe80::d9fb:7552:f19b:402b%3]) with mapi id 15.20.3825.032; Thu, 11 Feb 2021
+ 05:07:16 +0000
+From: "Ram Moon, AnandX" <anandx.ram.moon@intel.com>
+To: "Swarup, Aditya" <aditya.swarup@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Roper,
+ Matthew D" <matthew.d.roper@intel.com>, "Auld, Matthew"
+ <matthew.auld@intel.com>, "Surendrakumar Upadhyay, TejaskumarX"
+ <tejaskumarx.surendrakumar.upadhyay@intel.com>
+Subject: RE: [PATCH] drm/i915/adl_s: Add gmbus pin mapping
+Thread-Topic: [PATCH] drm/i915/adl_s: Add gmbus pin mapping
+Thread-Index: AQHW/6NYzv5egIFjlE+7ubcZnwGZO6pRkwqAgADLiLA=
+Date: Thu, 11 Feb 2021 05:07:16 +0000
+Message-ID: <SA2PR11MB5068E455C10A33AE70A5D416AE8C9@SA2PR11MB5068.namprd11.prod.outlook.com>
+References: <20210210115441.6703-1-anandx.ram.moon@intel.com>
+ <1d8a1fa5-0d74-abd7-983f-b597c4307bd5@intel.com>
+In-Reply-To: <1d8a1fa5-0d74-abd7-983f-b597c4307bd5@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [183.83.139.121]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7f3537c9-5b12-49d1-559f-08d8ce4ae6c4
+x-ms-traffictypediagnostic: SN6PR11MB3184:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN6PR11MB3184C532195C5A61AF9EFFE7AE8C9@SN6PR11MB3184.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: O0ZR6BxFAZP3g+4mkxNZxyFkkNzAH5UUptZXGLbiUdTQsaHaVMcRz0lQHXMWyxjfoqYbmhRpeAoRLVI8xdGwGL/BKchUrSF5DG0Ly1fe5LkUkbISO03RxC8Dw8STfiRDu9/8q7gbLewjDgwZhfpAC6HsN8N4dRjf8TQLCoUM++vfaIz9UIfT5GwhNte+4xh3AxNn57X8uArKynFlLr+QkdX5iaofNuj3adyWfYNB7B7jjKovmtV7W7JSQainzLLEvW476hNSAObVI9bORPESXVVxqfJ8qAJCpQGtOktVQKuWDHiEYu7iTR+B6QP1Bp5RBW2jg3pHyTG/3vzzVskiMma/z00qp8fJy3KHHhxWfGLH+/zAcd/dcMgC3Stg5f+0e9oDgOFsOq0Pjr3SkhRkzrjVLHRwACEHfE0A3Hc4RiXQN9Vx1evV5TZGRO7kivYynMA2+oLmiR/+IAeL9vvS4I7ZbZA5a+UDazPOcbBUI0DIRU3ssMIqnKlPpRycBa0duw8zuLwPc9/cLpRtj/jw8NxNMS8mgEip0ejMpecE48qWWpVaT5MdI7aJFyy5RozL
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA2PR11MB5068.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(39860400002)(396003)(346002)(366004)(376002)(450100002)(478600001)(66946007)(186003)(71200400001)(53546011)(83380400001)(86362001)(26005)(6506007)(7696005)(33656002)(8936002)(66556008)(6636002)(64756008)(66476007)(2906002)(76116006)(8676002)(66446008)(110136005)(316002)(55016002)(9686003)(921005)(52536014)(5660300002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?QVFHcVRtbDlPRmpwRkhUMUQycVNIK3B3VGs0NExBV2o5bkx2ZGkxWDJaaDN6?=
+ =?utf-8?B?cnFaYXA1U1V0Y3ZtRUp2QU45OTdObmFnU0dVY3JSTFR6RkV2S243TUxWd1l2?=
+ =?utf-8?B?QkUyVzJMN3h5NEZTVENOMjBHUHAyU1dVdmdPQ2lIZHRhV21QbmNhY3Z6SHY5?=
+ =?utf-8?B?ZlgweGxQSWMxWDRZeC9vb0U2Q3ZtUnhaTWZhaWlKL3EvSFBlN1JnWW9ERGw2?=
+ =?utf-8?B?dVhIcktyTUJVK3hLUkREbGJZNWYyN0N3OUdaM3BEZG9mT0dLMm1xVVYvK3V6?=
+ =?utf-8?B?YXVMYVVhSVY3VXAxa2FqZVVQOWgxelhCZUpzeTI3UmNOVzFXMy9UTEVOYjJw?=
+ =?utf-8?B?aWc3V2Y1TXhBQVh4ejRXVGNCMmEwT0Z2T2hXUnNJbzhWQXhrbGdHTmlVdGoz?=
+ =?utf-8?B?cDA4OHk2VmFnWk5JVmFFQ1pXc3VOVXJOZ1lQbFU4YmdoRklFOU5LWXllSTJo?=
+ =?utf-8?B?VjV1WUZmL0NhUW9PZjJJWTI2YVUzS0FFVVMrVzNKMldleno0S0VYSzkyd0R5?=
+ =?utf-8?B?UE5wd1h0dFFXNWdtYXlFZFdJQVZ3czZ6TDBoMGNkdjR6SkZlY0JLQm4wMXEr?=
+ =?utf-8?B?ZkxDRzkwTEZKaXlJa0lKcGFjaVN0cUo4a2s2Y1dPZDlzSytZRzFuKzdTZHpm?=
+ =?utf-8?B?YmdxdTA4WUxVd3F6VG5iWnBGZ3hFVU5hekhaUGhQM1c2ZkR6L2xSb0lmZHBt?=
+ =?utf-8?B?T256YS93TzJhV2E4dFlRN2FFYTY4OUlueHp4M21FSk9Dd0RpaS9DT0dsRkZE?=
+ =?utf-8?B?enA4UzJTUzgzeW8zRzdIUEEzQWtHc1NTT1B5WEFQVTRGb3UxdERZSGxVaXV0?=
+ =?utf-8?B?dndieFo3NFlYWFlFVFByNW5hNFkwM2NLUFhGNDk4Ylc5Ymw3bEppeEpUS3VK?=
+ =?utf-8?B?alZ5MWpYb1hyL3E1L2lRT3VTakh2S0hlK2QzZTFTU3lOYmxoMGVadUgxQ2tO?=
+ =?utf-8?B?cEtJek1jTFh6SGxBSmtTNFFqaDQyM3dTc2szU2h1aElDa21qMlRzdUZiSm1Y?=
+ =?utf-8?B?TElGbTRzRkhlMWZ1cENxTlNUNFBZakpqTUV5a3hUQWk3Q2QvZGJHYkd6VlNl?=
+ =?utf-8?B?WGxkNjd0UnVjVGFZL2pKSEV6Um1pRXkyQ3ByN0RFcGR1K0JUTnZtZjBLYUdl?=
+ =?utf-8?B?U1ViaWNSRmJJa05hSmU5N0ZJakhYeUkyMU1ndmhqL1lsZW0yRlVQUHg5T3Q3?=
+ =?utf-8?B?M2lMN3F3TjhjZm8zWXlLNkxNVFFGZlFyN2h3b0FOcFY0R0ZObFNRZU1xSnJz?=
+ =?utf-8?B?Mlo3Zk5GT0hYUDNLaGtjWmovQU5VTENqdElGMERTS0pzMFhsbStBUDNkZWZy?=
+ =?utf-8?B?LzlnemdJei9XdkFqTUREMjR0M1g5Y08yYjBaL1ViNmFzN241a0Z6U3UvTEdo?=
+ =?utf-8?B?OFY5NVQrOCtLUlFzcW1MMldOZzRuNHh0ZXlIcGhNTktReUNLTVB5cjVMa1VU?=
+ =?utf-8?B?NUNvQ3lmNHVGeGRDOGIzT1FNUm8vRVFUS1FUQ0padG9xREtOUTNTVVIycDdX?=
+ =?utf-8?B?SGJkN3JHU3liT3dUOHNYVk5yL05aczlwdGorOUVSdG9DUWlnQkdPMURkNGdT?=
+ =?utf-8?B?OHhPQko1eTdLVDBZbXhHQXRrcC9iRmZKbVI3N2UzOVhYUWRkVGNQUTNEWGtU?=
+ =?utf-8?B?aWsxWHpvbmkzbDE1RGVxd0haN2VWTXJmTk5JVXBMQXUyaVhoYktsaStjM1Fk?=
+ =?utf-8?B?c2ZJRGJZK202dWMyZXpZV1JBV240YWEzNEU4RTFKemdyM0dReVNGNWRvdUd1?=
+ =?utf-8?Q?7g+BA4S1dydWbGHVhlxyFjhlGR7JWPevKafxmDm?=
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (119.31.174.66) by
- SG2PR06CA0201.apcprd06.prod.outlook.com (2603:1096:4:1::33) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.3846.26 via Frontend Transport; Thu, 11 Feb 2021 04:39:24 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: d6af9752-768e-48a0-e8fb-08d8ce47034f
-X-MS-TrafficTypeDiagnostic: VE1PR04MB6351:
-X-Microsoft-Antispam-PRVS: <VE1PR04MB6351A37F8EB9F546DCA9AAE2988C9@VE1PR04MB6351.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4CCn1iXcJZ5gqn5yolliHgOEUoUbWc/3KH1CuoCXnKiHyKIT+03JzC22ozkCjXRMz/Rssq4n/688P6eu6Opz+2qRZ8t9F9TICBDm2p16IC+PXf5TIdkjs0Nkr7cXuzE9urR/wAmXhlF62K5mw9L/NygfCYFqbfvYZtEGoGmPhNG13jUICxCFfvyTTNh1HY4iZF2+T4+NzcJwqFK8eio92RaJkNW7NXVT65b5gL9albzv0Voc9zEsKQfPB3/XsYvGLy9X+X1ar2EBgCvv/UUaXYDy88jNlaOYc+IEBa0wBgDWZgGZWXhJ+aA0Iou2YbJy2Oh3x5msCDy/xaXoC6g5k+whmkBIMsae/bZB25TUAXjVnSJ4Sj9zuDJacB7Zucf3qSKnyerQ3Urr/cd8ieE7CdpHdWrOGnQ9AUxPOGX555mM/hTYXHONGtRb4Dv4PeCH35k6lBzMrcyjFzKP2CGg+hIRZNUQsnztvI74SLgSRXYwwYVwIH3+89JYTXlscxwlWDv3HpAEgDvxjYaCyEF/yiunqXZkP5kwFyDnc+l2JC2R/BvqJP8SdyQNVLeu4OlRJyWBmi70FwWymWyiEBuPRW3bpUVogS69t5MOZKZJ9p29hMxxIdssWtkZMURqIq3RyAu6znDxNtT9FHFXpup2TA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(136003)(346002)(366004)(396003)(376002)(26005)(69590400011)(83380400001)(6506007)(16526019)(966005)(6486002)(5660300002)(52116002)(186003)(316002)(4326008)(956004)(36756003)(66556008)(66476007)(66946007)(6666004)(8936002)(478600001)(6512007)(54906003)(8676002)(2906002)(86362001)(2616005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?rSoqQ8pps6H60Y0FPfphdWlj6H4P7gUv+C3a4ZNvvqvrIOU9sAtNBTS8q3Gv?=
- =?us-ascii?Q?nnAE8HUvT3KeF41bSL5aMYyFYr7mDars65WGrw8XXXUY6SPHmC2iyU5dGaX5?=
- =?us-ascii?Q?ALXRw6GUzl38Sx97phm9MTyOGvgufXetWdevWUUZF2cK+TI+9ViAvRpgCoiT?=
- =?us-ascii?Q?VBgahL9QwvvA7xV9ac+QpA0h/nHeoyJcd9AgptbsbPm547TEn6K+6S8sgb5X?=
- =?us-ascii?Q?QKJyRal7FodNV1VsoTcS/cdCdKiDioJjdEkkhc1RnDxlqzV2FK3qoSSAJw2p?=
- =?us-ascii?Q?Z/GO+GQTISRgXhsS8Fj+MrzMfZquY2ykp2pRSUzsAF4LCEXPdXrz/xkjrJ9v?=
- =?us-ascii?Q?kLOJOWwpNusAD3ComfBB44ZfKGK552hi0F05JWmzW9DA7v2mvb4W42I5PMOL?=
- =?us-ascii?Q?YSLykh6tbSJE8lld6/oGPvl63I13+KyLih4mX+eBWgerFuVsa01je1oFSKZr?=
- =?us-ascii?Q?4tJjGkqtlg6WmtWbu92gWuUe3X4Y+ruV3GbUQwX7Z/iHVBKi5MoXt9+YYUY8?=
- =?us-ascii?Q?mSTlY0p5S7bhBOq2y/5PnZpV7baiZFQV3RNxddFERa7tu0kjh5NFeiLVWFrU?=
- =?us-ascii?Q?WCYQg5Ni3+y4T/9nfplkNxVyG5IVde6pzPW1UMov1O95cEJxdalD+SaNR/Jw?=
- =?us-ascii?Q?N4aOQCjxuRPgdToO9gWBQs2VyI+oX36JjzLc69fPQWR4y8wJYDBxwaaQ+OfU?=
- =?us-ascii?Q?lyJD7TTWh8+tGz3xQzmwvO43TGR8zI/yeQJvfBxgzKiREU2fllAgVuV65/2X?=
- =?us-ascii?Q?Sj1IHJ9dEoOrXhf9s9BQir6qOArJZwEP/tOYsx03TuTJYQnW3aJtql/u6wkA?=
- =?us-ascii?Q?ZnW1u0WFZmiYmbm8tGMxyMvAmV8GGyxdfI2CWvnzqY61BLHvdIvmTEWEeuCE?=
- =?us-ascii?Q?1db37EcP/YphRHkEqz1prFWH7EYjhz6OORJ+MerYNgEbEMOvviqVUcSxGGzF?=
- =?us-ascii?Q?9vD8pINN4aqVVy4byBvdv+k/cyNI2HY8InomOgHZe7NXMJXz2Kfq+YOueJ9B?=
- =?us-ascii?Q?kmB/tNnoZi8JQYan2kURPRv/zgpvYM6JpOn+3TfWNr+f8OfKs2SZxWggWA4A?=
- =?us-ascii?Q?iXfBEs68u3ZVkovxkK0LCSPyZbpLvZhLjxdO0yp0myN4y19MKd463A/IBBod?=
- =?us-ascii?Q?EGoSkZJ/IzlTFOjVROBwp30XkPTzMwJgI550rCr4sx5RE680YIRNBCASVQ7D?=
- =?us-ascii?Q?8AVOm7B8qTrY9U/P2oRbE0B4UmpySiY0QkYr7+4L8fjnDY2E4dpY2woWTvF7?=
- =?us-ascii?Q?nl1AVKyhVMRBtydUzmS7Vsfu9ZMTALo8LytYWoAIKI+WAWl0wTTk435XUFrM?=
- =?us-ascii?Q?AkJLzryhszvELWs3I9asCtho?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d6af9752-768e-48a0-e8fb-08d8ce47034f
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2021 04:39:27.1300 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u8DH+w+pJ+Hl+5t3DFO3SHQNckIF4nbjQgysucdaz1CmNtBryzFkPPiu7aEjEQ4YfqKCGMvyXT4BxgiYqD/W7A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6351
+X-MS-Exchange-CrossTenant-AuthSource: SA2PR11MB5068.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f3537c9-5b12-49d1-559f-08d8ce4ae6c4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2021 05:07:16.6029 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Pm3FZT+xc2g52M59bNgL6t27zZCmKfvpBGQML/6fFFADclqQjrhUqPjMMJGo77XDEZIby2NfDvHccYaUSlTwGFPudDoutpwFutNcB7ZAvkk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3184
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,235 +150,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To complement panel-simple.yaml, create panel-simple-lvds-dual-ports.yaml.
-panel-simple-lvds-dual-ports.yaml is for all simple LVDS panels that
-have dual LVDS ports and require only a single power-supply.
-The first port receives odd pixels, and the second port receives even pixels.
-Optionally, a backlight and an enable GPIO can be specified as properties.
+Hi Aditya,
 
-Panels with swapped pixel order, if any, need dedicated bindings.
+Thanks for your review comments.
 
-Migrate 'auo,g133han01', 'auo,g185han01', 'auo,g190ean01',
-'koe,tx26d202vm0bwa' and 'nlt,nl192108ac18-02d' over to the new file.
+-----Original Message-----
+From: Aditya Swarup <aditya.swarup@intel.com> 
+Sent: Wednesday, February 10, 2021 9:54 PM
+To: Ram Moon, AnandX <anandx.ram.moon@intel.com>; intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Roper, Matthew D <matthew.d.roper@intel.com>; Auld, Matthew <matthew.auld@intel.com>; Surendrakumar Upadhyay, TejaskumarX <tejaskumarx.surendrakumar.upadhyay@intel.com>
+Subject: Re: [PATCH] drm/i915/adl_s: Add gmbus pin mapping
 
-The objectives with one file for all the simple LVDS panels with dual ports are:
-- Make it simpler to add bindings for this kind of LVDS panels
-- Keep the number of bindings file lower
-- Keep the binding documentation for this kind of LVDS panels more consistent
-- Make it possible for drivers to get pixel order via
-  drm_of_lvds_get_dual_link_pixel_order(), as the 'ports' property is required
+On 2/10/21 3:54 AM, Anand Moon wrote:
+> Add table to map the GMBUS pin pairs to GPIO registers and port to DDC 
+> mapping for ADL_S as per below Bspec.
 
-Suggested-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
-v6->v7:
-* Reference '#/$defs/port-base' instead of '#/properties/port'. (Rob)
+Has this patch been tested on an ADLS system? Upstream CI AFAIK doesn't have support for ADL-S. Also comments below..
 
-v5->v6:
-* Use OF graph schema.
-* Drop Rob's R-b tag, as review is needed.
+Reason I send this patch so that I could get more review comments for this below changes.
+I have gone through the Bspec 20124 and I have debug this patch earlier,  
+so that the mapping with DDC pin is correctly mapped
+with respect to the configuration table in the Bspec, 
+but still we observe GMBUS i2c handshake failure. 
+How can we debug this further. 
 
-v4->v5:
-* Require the 'ports' property and update commit message accordingly. (Rob)
-* Add Rob's R-b tag.
+> 
+> Bspec:20124, 53597.
+> 
+> Cc: Aditya Swarup <aditya.swarup@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Signed-off-by: Anand Moon <anandx.ram.moon@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_gmbus.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_gmbus.c 
+> b/drivers/gpu/drm/i915/display/intel_gmbus.c
+> index 0c952e1d720e..58b8e42d4f90 100644
+> --- a/drivers/gpu/drm/i915/display/intel_gmbus.c
+> +++ b/drivers/gpu/drm/i915/display/intel_gmbus.c
+> @@ -52,6 +52,14 @@ static const struct gmbus_pin gmbus_pins[] = {
+>  	[GMBUS_PIN_DPD] = { "dpd", GPIOF },
+>  };
+>  
+> +static const struct gmbus_pin gmbus_pins_adls[] = {
+> +	[GMBUS_PIN_1_BXT] = { "edp", GPIOA },
 
-v3->v4:
-* Add type and descriptions for dual-lvds-{odd,even}-pixels properties.
-  Also, update descriptions for port@0 and port@1 properties accordingly. (Rob)
+I am pretty sure that GMBUS_PIN_1_BXT should map to GPIOB(1) and not GPIOA(0) like what we have for ICP.
 
-v2->v3:
-* Do not allow 'port' property. (Rob)
-* Define port number. (Rob)
-* Specify 'dual-lvds-odd-pixels' and 'dual-lvds-even-pixels' properties. (Rob)
+Ok, will update this in next version.
 
-v1->v2:
-* Correct pixel order in example LVDS panel node.
+> +	[GMBUS_PIN_9_TC1_ICP] = { "tc1", GPIOD },
+> +	[GMBUS_PIN_10_TC2_ICP] = { "tc2", GPIOE },
+> +	[GMBUS_PIN_11_TC3_ICP] = { "tc3", GPIOF },
+> +	[GMBUS_PIN_12_TC4_ICP] = { "tc4", GPIOG }, };
+> +
+>  static const struct gmbus_pin gmbus_pins_bdw[] = {
+>  	[GMBUS_PIN_VGADDC] = { "vga", GPIOA },
+>  	[GMBUS_PIN_DPC] = { "dpc", GPIOD },
+> @@ -101,7 +109,9 @@ static const struct gmbus_pin gmbus_pins_dg1[] = {  
+> static const struct gmbus_pin *get_gmbus_pin(struct drm_i915_private *dev_priv,
+>  					     unsigned int pin)
+>  {
+> -	if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
+> +	if (INTEL_PCH_TYPE(dev_priv) == PCH_ADP)
 
- .../panel/panel-simple-lvds-dual-ports.yaml        | 118 +++++++++++++++++++++
- .../bindings/display/panel/panel-simple.yaml       |  10 --
- 2 files changed, 118 insertions(+), 10 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+This check should be converted to IS_ALDERLAKE_S(dev_priv) instead of PCH check for PCH_ADP.
+Unfortunately, we are reusing PCH_ADP for ADLS and ADLP which have different mappings but the same ADP PCH.
+This will break ADLP. 
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-new file mode 100644
-index 00000000..a5a596f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-@@ -0,0 +1,118 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/panel-simple-lvds-dual-ports.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Simple LVDS panels with one power supply and dual LVDS ports
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+  - Thierry Reding <thierry.reding@gmail.com>
-+  - Sam Ravnborg <sam@ravnborg.org>
-+
-+description: |
-+  This binding file is a collection of the LVDS panels that
-+  has dual LVDS ports and requires only a single power-supply.
-+  The first port receives odd pixels, and the second port receives even pixels.
-+  There are optionally a backlight and an enable GPIO.
-+  The panel may use an OF graph binding for the association to the display,
-+  or it may be a direct child node of the display.
-+
-+  If the panel is more advanced a dedicated binding file is required.
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+
-+properties:
-+
-+  compatible:
-+    enum:
-+    # compatible must be listed in alphabetical order, ordered by compatible.
-+    # The description in the comment is mandatory for each compatible.
-+
-+        # AU Optronics Corporation 13.3" FHD (1920x1080) TFT LCD panel
-+      - auo,g133han01
-+        # AU Optronics Corporation 18.5" FHD (1920x1080) TFT LCD panel
-+      - auo,g185han01
-+        # AU Optronics Corporation 19.0" (1280x1024) TFT LCD panel
-+      - auo,g190ean01
-+        # Kaohsiung Opto-Electronics Inc. 10.1" WUXGA (1920 x 1200) LVDS TFT LCD panel
-+      - koe,tx26d202vm0bwa
-+        # NLT Technologies, Ltd. 15.6" FHD (1920x1080) LVDS TFT LCD panel
-+      - nlt,nl192108ac18-02d
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description: The first sink port.
-+
-+        properties:
-+          dual-lvds-odd-pixels:
-+            type: boolean
-+            description: The first sink port for odd pixels.
-+
-+        required:
-+          - dual-lvds-odd-pixels
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description: The second sink port.
-+
-+        properties:
-+          dual-lvds-even-pixels:
-+            type: boolean
-+            description: The second sink port for even pixels.
-+
-+        required:
-+          - dual-lvds-even-pixels
-+
-+    required:
-+      - port@0
-+      - port@1
-+
-+  backlight: true
-+  enable-gpios: true
-+  power-supply: true
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - ports
-+  - power-supply
-+
-+examples:
-+  - |
-+    panel: panel-lvds {
-+      compatible = "koe,tx26d202vm0bwa";
-+      power-supply = <&vdd_lcd_reg>;
-+
-+      ports {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        port@0 {
-+          dual-lvds-odd-pixels;
-+          reg = <0>;
-+
-+          panel_lvds0_in: endpoint {
-+            remote-endpoint = <&lvds0_out>;
-+          };
-+        };
-+
-+        port@1 {
-+          dual-lvds-even-pixels;
-+          reg = <1>;
-+
-+          panel_lvds1_in: endpoint {
-+            remote-endpoint = <&lvds1_out>;
-+          };
-+        };
-+      };
-+    };
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 35b42ee..e7718d2 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -57,14 +57,8 @@ properties:
-       - auo,g104sn02
-         # AU Optronics Corporation 12.1" (1280x800) TFT LCD panel
-       - auo,g121ean01
--        # AU Optronics Corporation 13.3" FHD (1920x1080) TFT LCD panel
--      - auo,g133han01
-         # AU Optronics Corporation 15.6" (1366x768) TFT LCD panel
-       - auo,g156xtn01
--        # AU Optronics Corporation 18.5" FHD (1920x1080) TFT LCD panel
--      - auo,g185han01
--        # AU Optronics Corporation 19.0" (1280x1024) TFT LCD panel
--      - auo,g190ean01
-         # AU Optronics Corporation 31.5" FHD (1920x1080) TFT LCD panel
-       - auo,p320hvn03
-         # AU Optronics Corporation 21.5" FHD (1920x1080) color TFT LCD panel
-@@ -171,8 +165,6 @@ properties:
-       - kingdisplay,kd116n21-30nv-a010
-         # Kaohsiung Opto-Electronics Inc. 5.7" QVGA (320 x 240) TFT LCD panel
-       - koe,tx14d24vm1bpa
--        # Kaohsiung Opto-Electronics Inc. 10.1" WUXGA (1920 x 1200) LVDS TFT LCD panel
--      - koe,tx26d202vm0bwa
-         # Kaohsiung Opto-Electronics. TX31D200VM0BAA 12.3" HSXGA LVDS panel
-       - koe,tx31d200vm0baa
-         # Kyocera Corporation 12.1" XGA (1024x768) TFT LCD panel
-@@ -209,8 +201,6 @@ properties:
-       - neweast,wjfh116008a
-         # Newhaven Display International 480 x 272 TFT LCD panel
-       - newhaven,nhd-4.3-480272ef-atxl
--        # NLT Technologies, Ltd. 15.6" FHD (1920x1080) LVDS TFT LCD panel
--      - nlt,nl192108ac18-02d
-         # New Vision Display 7.0" 800 RGB x 480 TFT LCD panel
-       - nvd,9128
-         # OKAYA Electric America, Inc. RS800480T-7X0GP 7" WVGA LCD panel
--- 
-2.7.4
+The PCH_ADP check for ADLS in intel_bios.c will also be changed in the ADLP patches that are going to be submitted upstream.
 
+So might as well do the correct thing now and change this to IS_ALDERLAKE_S(dev_priv).
+
+Ok will update this in next version.
+
+> +		return &gmbus_pins_adls[pin];
+> +	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
+>  		return &gmbus_pins_dg1[pin];
+>  	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
+>  		return &gmbus_pins_icp[pin];
+> @@ -122,7 +132,9 @@ bool intel_gmbus_is_valid_pin(struct 
+> drm_i915_private *dev_priv,  {
+>  	unsigned int size;
+>  
+> -	if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
+> +	if (INTEL_PCH_TYPE(dev_priv) == PCH_ADP)
+
+See comment above. Change to IS_ALDERLAKE_S(dev_priv)
+
+Ok.
+
+Aditya Swarup
+
+> +		size = ARRAY_SIZE(gmbus_pins_adls);
+> +	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
+>  		size = ARRAY_SIZE(gmbus_pins_dg1);
+>  	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
+>  		size = ARRAY_SIZE(gmbus_pins_icp);
+> 
+
+Thanks
+-Anand
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
