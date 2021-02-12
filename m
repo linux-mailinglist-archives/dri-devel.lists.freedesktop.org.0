@@ -2,38 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B43A31A38E
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 18:28:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB70A31A3F5
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 18:46:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0900A6E193;
-	Fri, 12 Feb 2021 17:28:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3814B6E197;
+	Fri, 12 Feb 2021 17:46:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 373936E193
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 17:28:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E0AED64E95;
- Fri, 12 Feb 2021 17:28:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1613150935;
- bh=GFtq0B3Onk0lHTm0ppoQIGAxNpPaVFOx5jJLCzZQSQ8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Bb3gzoBWSN8jfLP4qc0LoBX5luPDYRAPNv5tC4lFWG9a2Uyg3WAPitKNT5ppP502v
- aNRnvDjnINauiA7JNG13YIO5ZklqTH3QgOaJ5aG4wlT+4FR9usLObfdXTZBRNUJfr/
- 49WdWAGRFHS3HkhXHoigFM5GaLTsgN0r3BzNRBhSU8aJgnjkphovMswQ7YqZXoC3zA
- t6Nw3G4m8/FRD53QoDq5kouPV6FP8dKEfrRT72147hLUNiZqVrgHgE5880hJCkb+6c
- wMcOsn9QR8VVUyuQUvQzR1wtJ12lwuS5sGT5rWBGRR7PFMC5OBYXjRvXMSZIW9XEO7
- hVtHZRxDO+0Pw==
-Received: by earth.universe (Postfix, from userid 1000)
- id E02143C0C96; Fri, 12 Feb 2021 18:28:52 +0100 (CET)
-Date: Fri, 12 Feb 2021 18:28:52 +0100
-From: Sebastian Reichel <sre@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH v4] MAINTAINERS: move Milo Kim to credits
-Message-ID: <20210212172852.hplx6ly3m5ixrw4o@earth.universe>
-References: <20210212163229.68270-1-krzk@kernel.org>
+Received: from asav21.altibox.net (asav21.altibox.net [109.247.116.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E6AC6E155
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 17:46:28 +0000 (UTC)
+Received: from localhost.localdomain (unknown [81.166.168.211])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: noralf.tronnes@ebnett.no)
+ by asav21.altibox.net (Postfix) with ESMTPSA id AED6980380;
+ Fri, 12 Feb 2021 18:46:23 +0100 (CET)
+From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 0/3] GUD USB Display driver
+Date: Fri, 12 Feb 2021 18:46:06 +0100
+Message-Id: <20210212174609.58977-1-noralf@tronnes.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20210212163229.68270-1-krzk@kernel.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=Kb38TzQD c=1 sm=1 tr=0
+ a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
+ a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=gAmX6pxEAAAA:20
+ a=bKmTZf8EAmjS18ln50IA:9 a=QEXdDO2ut3YA:10 a=7zwkRhCwzGnCyznlyk9i:22
+ a=Z5ABNNGmrOfJ6cZ5bIyy:22 a=jd6J4Gguk5HxikPWLKER:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,163 +43,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Jonathan Cameron <jic23@kernel.org>,
- Peter Meerwald-Stadler <pmeerw@pmeerw.net>, linux-pm@vger.kernel.org,
- linux-iio@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Daniel Thompson <daniel.thompson@linaro.org>, Lee Jones <lee.jones@linaro.org>,
- linux-leds@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1487315298=="
+Cc: hudson@trmm.net, markus@raatikainen.cc, sam@ravnborg.org,
+ linux-usb@vger.kernel.org, th020394@gmail.com, lkundrak@v3.sk,
+ pontus.fuchs@gmail.com, peter@stuge.se
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1487315298==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="56e5d2djjx3fcdkn"
-Content-Disposition: inline
-
-
---56e5d2djjx3fcdkn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Fri, Feb 12, 2021 at 05:32:29PM +0100, Krzysztof Kozlowski wrote:
-> Milo Kim's email in TI bounces with permanent error (550: Invalid
-> recipient).  Last email from him on LKML was in 2017.  Move Milo Kim to
-> credits and remove the separate driver entries for:
->  - TI LP855x backlight driver,
->  - TI LP8727 charger driver,
->  - TI LP8788 MFD (ADC, LEDs, charger and regulator) drivers.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
->=20
-> ---
->
-> Dear Lee,
->=20
-> Could you take care about this patch?
->=20
-> Best regards,
-> Krzysztof
->=20
-> Changes since v3:
-> 1. Remove the entries as Dan Murphy won't be mainaining them.
->=20
-> Changes since v2:
-> 1. Fix subject (TP -> TI).
->=20
-> Changes since v1:
-> 1. Add Dan Murphy, do not remove the entries.
-> ---
-
-Acked-by: Sebastian Reichel <sre@kernel.org>
-
--- Sebastian
-
->  CREDITS     |  3 +++
->  MAINTAINERS | 23 -----------------------
->  2 files changed, 3 insertions(+), 23 deletions(-)
->=20
-> diff --git a/CREDITS b/CREDITS
-> index be097156bd71..71552790774d 100644
-> --- a/CREDITS
-> +++ b/CREDITS
-> @@ -1933,6 +1933,9 @@ N: Kukjin Kim
->  E: kgene@kernel.org
->  D: Samsung S3C, S5P and Exynos ARM architectures
-> =20
-> +N: Milo Kim
-> +D: TI LP855x, LP8727 and LP8788 drivers
-> +
->  N: Sangbeom Kim
->  E: sbkim73@samsung.com
->  D: Samsung SoC Audio (ASoC) drivers
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 00bca3e220cc..3478082debd1 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17880,29 +17880,6 @@ S:	Maintained
->  F:	sound/soc/codecs/isabelle*
->  F:	sound/soc/codecs/lm49453*
-> =20
-> -TI LP855x BACKLIGHT DRIVER
-> -M:	Milo Kim <milo.kim@ti.com>
-> -S:	Maintained
-> -F:	Documentation/driver-api/backlight/lp855x-driver.rst
-> -F:	drivers/video/backlight/lp855x_bl.c
-> -F:	include/linux/platform_data/lp855x.h
-> -
-> -TI LP8727 CHARGER DRIVER
-> -M:	Milo Kim <milo.kim@ti.com>
-> -S:	Maintained
-> -F:	drivers/power/supply/lp8727_charger.c
-> -F:	include/linux/platform_data/lp8727.h
-> -
-> -TI LP8788 MFD DRIVER
-> -M:	Milo Kim <milo.kim@ti.com>
-> -S:	Maintained
-> -F:	drivers/iio/adc/lp8788_adc.c
-> -F:	drivers/leds/leds-lp8788.c
-> -F:	drivers/mfd/lp8788*.c
-> -F:	drivers/power/supply/lp8788-charger.c
-> -F:	drivers/regulator/lp8788-*.c
-> -F:	include/linux/mfd/lp8788*.h
-> -
->  TI NETCP ETHERNET DRIVER
->  M:	Wingman Kwok <w-kwok2@ti.com>
->  M:	Murali Karicheri <m-karicheri2@ti.com>
-> --=20
-> 2.25.1
->=20
-
---56e5d2djjx3fcdkn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmAmusMACgkQ2O7X88g7
-+pq5YxAAi9sMZJ6My43p1X33t66UXnrR6iZir+yvyHCur564wWsRrT+XCPKJJVGX
-JYMtku40qwJSzvF9ZBR5otvlXdPq592MuTPhdq81AE5W/NiS2PBWwn6WFOVMwQe/
-to4K+oaOLiOfVAkMeV8jZQeFlJrKtCJIm05K+rVTJKI8ZDW2ggY/eLygzzrAsXH9
-xD/9aCxyU7ra5mWiBC+8+Z8szKt6lc4rqrc98uEZTOJL244YUprtOI3Qzz2oC5Dx
-o/YUOEhtiAH9zeQZTNBBllfg/HUMtKzEcKA/a7zbA1Pv7RRpldr7Jv9N8a03F6Xr
-Y84j9Iay39KOMGbJuDG0QGTMlP0cmgZKsJ8+gk9jyT5YGLSuPFEQdwZjEZu6Fgxb
-iHUqAybdZIwEqgOA+hzsxFXbL3dHTKLbvuUjEtcMhdythDZCLVpN5vGCGsbn46vB
-lzENDVKf/yYY3HJYqJCY5XbIABTqX6yOxjUPxOMjyDc8PpY4tFppASJ92i3z9XXI
-ayWP4rCaEhKFiviGrrA7CQQaMo+n1B1k5vfXkYMuwjwG4L5upXiBYOgwxx/XB8bs
-5vbXTwC2JBb2mHKKxrWRZIbDJNaBn55A6oYOeGoznLRkUYytsLsAKJ244lw4CKy3
-HVH6yTNna7+Xzm6m2HF6y8xN8xO0nSw4lXamSGUF6y8G8x+fM6g=
-=QaBn
------END PGP SIGNATURE-----
-
---56e5d2djjx3fcdkn--
-
---===============1487315298==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1487315298==--
+SGksCgpBIHdoaWxlIGJhY2sgSSBoYWQgdGhlIGlkZWEgdG8gdHVybiBhIFJhc3BiZXJyeSBQaSBa
+ZXJvIGludG8gYSAkNQpVU0IgdG8gSERNSS9TRFRWL0RQSSBkaXNwbGF5IGFkYXB0ZXIuCgpUaGUg
+cHJvdG9jb2wgaXMgb3BlbiBzbyBwZW9wbGUgYXJlIGZyZWUgdG8gbWFrZSBkaXNwbGF5cyBpbXBs
+ZW1lbnRpbmcgaXQgYW5kCnVzZSB0aGlzIGRyaXZlciwgYWxsIHRoYXQncyBuZWVkZWQgaXMgdG8g
+YWRkIGEgVVNCIHZpZDpwaWQgdG8gdGhlIGRyaXZlciBmb3IKdGhlIGRpc3BsYXkuCgpTZWUgdGhl
+IHdpa2lbMV0gZm9yIG1vcmUgaW5mb3JtYXRpb24gYW5kIGltYWdlcyBmb3IgdGhlIFJhc3BiZXJy
+eSBQaSBaZXJvLzQuCgpNaW5vciBjaGFuZ2VzIHRoaXMgdGltZSwgbm8gcHJvdG9jb2wgY2hhbmdl
+cy4KCk5vcmFsZi4KClsxXSBodHRwczovL2dpdGh1Yi5jb20vbm90cm8vZ3VkL3dpa2kKCgpOb3Jh
+bGYgVHLDuG5uZXMgKDMpOgogIGRybS91YXBpOiBBZGQgVVNCIGNvbm5lY3RvciB0eXBlCiAgZHJt
+L3Byb2JlLWhlbHBlcjogQ2hlY2sgZXBvY2ggY291bnRlciBpbiBvdXRwdXRfcG9sbF9leGVjdXRl
+KCkKICBkcm06IEFkZCBHZW5lcmljIFVTQiBEaXNwbGF5IGRyaXZlcgoKIE1BSU5UQUlORVJTICAg
+ICAgICAgICAgICAgICAgICAgICAgIHwgICA4ICsKIGRyaXZlcnMvZ3B1L2RybS9LY29uZmlnICAg
+ICAgICAgICAgIHwgICAyICsKIGRyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZSAgICAgICAgICAgIHwg
+ICAxICsKIGRyaXZlcnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMgICAgIHwgICAxICsKIGRyaXZl
+cnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVyLmMgIHwgICA3ICstCiBkcml2ZXJzL2dwdS9kcm0v
+Z3VkL0tjb25maWcgICAgICAgICB8ICAxNCArCiBkcml2ZXJzL2dwdS9kcm0vZ3VkL01ha2VmaWxl
+ICAgICAgICB8ICAgNCArCiBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9jb25uZWN0b3IuYyB8IDcz
+NyArKysrKysrKysrKysrKysrKysrKysrKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9k
+cnYuYyAgICAgICB8IDYyNSArKysrKysrKysrKysrKysrKysrKysrKwogZHJpdmVycy9ncHUvZHJt
+L2d1ZC9ndWRfaW50ZXJuYWwuaCAgfCAxNDkgKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1
+ZF9waXBlLmMgICAgICB8IDQ3NSArKysrKysrKysrKysrKysrKysKIGluY2x1ZGUvZHJtL2d1ZC5o
+ICAgICAgICAgICAgICAgICAgIHwgMzU2ICsrKysrKysrKysrKysrCiBpbmNsdWRlL3VhcGkvZHJt
+L2RybV9tb2RlLmggICAgICAgICB8ICAgMSArCiAxMyBmaWxlcyBjaGFuZ2VkLCAyMzc5IGluc2Vy
+dGlvbnMoKyksIDEgZGVsZXRpb24oLSkKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9k
+cm0vZ3VkL0tjb25maWcKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZ3VkL01h
+a2VmaWxlCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfY29ubmVj
+dG9yLmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9kcnYuYwog
+Y3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2ludGVybmFsLmgKIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9waXBlLmMKIGNyZWF0ZSBt
+b2RlIDEwMDY0NCBpbmNsdWRlL2RybS9ndWQuaAoKLS0gCjIuMjMuMAoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
