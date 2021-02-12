@@ -1,41 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15881319FBF
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 14:26:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D15319F92
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 14:14:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C11256E15E;
-	Fri, 12 Feb 2021 13:25:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8A1C6E57A;
+	Fri, 12 Feb 2021 13:14:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 365 seconds by postgrey-1.36 at gabe;
- Fri, 12 Feb 2021 11:51:31 UTC
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32A1C6E5B6;
- Fri, 12 Feb 2021 11:51:31 +0000 (UTC)
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 12 Feb 2021 03:45:25 -0800
-X-QCInternal: smtphost
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 12 Feb 2021 03:45:23 -0800
-X-QCInternal: smtphost
-Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
- by ironmsg02-blr.qualcomm.com with ESMTP; 12 Feb 2021 17:14:50 +0530
-Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
- id 1E25C427B; Fri, 12 Feb 2021 03:44:51 -0800 (PST)
-From: Kalyan Thota <kalyant@codeaurora.org>
-To: y@qualcomm.com, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject: [v3] drm/msm/disp/dpu1: turn off vblank irqs aggressively in dpu
-Date: Fri, 12 Feb 2021 03:44:49 -0800
-Message-Id: <1613130289-16280-1-git-send-email-kalyant@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <y>
-References: <y>
-X-Mailman-Approved-At: Fri, 12 Feb 2021 13:25:55 +0000
+Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
+ [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CC6F6E57A
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 13:14:43 +0000 (UTC)
+Date: Fri, 12 Feb 2021 13:14:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1613135680;
+ bh=3kzHPPEfw1Oh/I2MyZYvqJOoI3OUAOuTBbGYxZ6hJXU=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=QJUxtEvMZXp/osU9H8/N9GbtIb0yBNvkFGeCOL83GaSoAQ4Y5uzywHWQ5KupwWfZZ
+ dxXwtjq9n3nTzUsXXDQpC0e8gEpkSpIsFpQ+g+3LAMSPZmgku7VGXWKhBE9ICCCAdn
+ gGM4UJQ1XQmA4LCV0sNYK7v3dwHFEZOYYryZbtwmFdKey+Sb8bPuM5v/mJs0VMSt5q
+ SATj5yWIEkdvvnpW6dHFbUG3Qy9rcx6t3CLkgA8O6fUkpDg535qZLcMk2Tf4gh6Ysl
+ Pk4V0rUV5z6hgP8HNxDAh1AjvCHYnxiqIqgPy4H8+FjxNRaA+NQi++RR4j6vymslB8
+ 7mfCBayLxA0xA==
+To: Emil Velikov <emil.l.velikov@gmail.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v3] kcmp: Support selection of SYS_kcmp without
+ CHECKPOINT_RESTORE
+Message-ID: <pIyZ-Jj7O2MYk1vKeyghnFmiFWk_5ZWm-Ze1gUqdDaXzImOVjVdjPh2uyHa-sxOPovRk1ApSKk_5zKBvOrzoSwXeXUu0LbZ75Q1D3gIK2Kk=@emersion.fr>
+In-Reply-To: <CACvgo52u1ASWXOuWuDwoXvbZhoq+RHn_GTxD5y9k+kO_dzmT7w@mail.gmail.com>
+References: <20210205163752.11932-1-chris@chris-wilson.co.uk>
+ <20210205220012.1983-1-chris@chris-wilson.co.uk>
+ <CACvgo52u1ASWXOuWuDwoXvbZhoq+RHn_GTxD5y9k+kO_dzmT7w@mail.gmail.com>
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,247 +51,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mkrishn@codeaurora.org, dianders@chromium.org, abhinavk@codeaurora.org,
- linux-kernel@vger.kernel.org, seanpaul@chromium.org, ddavenport@chromium.org,
- hoegsberg@chromium.org, swboyd@chromium.org,
- Kalyan Thota <kalyant@codeaurora.org>
-MIME-Version: 1.0
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Will Drewry <wad@chromium.org>, Kees Cook <keescook@chromium.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Cyrill Gorcunov <gorcunov@gmail.com>,
+ "# 3.13+" <stable@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Andy Lutomirski <luto@amacapital.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set the flag vblank_disable_immediate = true to turn off vblank irqs
-immediately as soon as drm_vblank_put is requested so that there are
-no irqs triggered during idle state. This will reduce cpu wakeups
-and help in power saving.
+On Friday, February 12th, 2021 at 1:57 PM, Emil Velikov <emil.l.velikov@gmail.com> wrote:
 
-To enable vblank_disable_immediate flag the underlying KMS driver
-needs to support high precision vblank timestamping and also a
-reliable way of providing vblank counter which is incrementing
-at the leading edge of vblank.
+> On Fri, 5 Feb 2021 at 22:01, Chris Wilson <chris@chris-wilson.co.uk> wrote:
+> >
+> > Userspace has discovered the functionality offered by SYS_kcmp and has
+> > started to depend upon it. In particular, Mesa uses SYS_kcmp for
+> > os_same_file_description() in order to identify when two fd (e.g. device
+> > or dmabuf)
+>
+> As you rightfully point out, SYS_kcmp is a bit of a two edged sword.
+> While you mention the CONFIG issue, there is also a portability aspect
+> (mesa runs on more than just linux) and as well as sandbox filtering
+> of the extra syscall.
+>
+> Last time I looked, the latter was still an issue and mesa was using
+> SYS_kcmp to compare device node fds.
+> A far shorter and more portable solution is possible, so let me
+> prepare a Mesa patch.
 
-This patch also brings in changes to support vblank_disable_immediate
-requirement in dpu driver.
+Comparing two DMA-BUFs can be done with their inode number, I think.
 
-Changes in v1:
- - Specify reason to add vblank timestamp support. (Rob)
- - Add changes to provide vblank counter from dpu driver.
+Comparing two device FDs is more subtle, because of GEM handle
+ref'counting. You sometimes really want to check whether two FDs are
+backed by the same file *description*. See [1] for details.
 
-Changes in v2:
- - fix warn stack reported by Rob with v2 patch
-
-Signed-off-by: Kalyan Thota <kalyant@codeaurora.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 80 +++++++++++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 28 +++++++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h | 11 ++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  5 ++
- 4 files changed, 123 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index d4662e8..9a80981 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -65,6 +65,83 @@ static void dpu_crtc_destroy(struct drm_crtc *crtc)
- 	kfree(dpu_crtc);
- }
- 
-+static struct drm_encoder *get_encoder_from_crtc(struct drm_crtc *crtc)
-+{
-+	struct drm_device *dev = crtc->dev;
-+	struct drm_encoder *encoder;
-+
-+	drm_for_each_encoder(encoder, dev)
-+		if (encoder->crtc == crtc)
-+			return encoder;
-+
-+	return NULL;
-+}
-+
-+static u32 dpu_crtc_get_vblank_counter(struct drm_crtc *crtc)
-+{
-+	struct drm_encoder *encoder;
-+
-+	encoder = get_encoder_from_crtc(crtc);
-+	if (!encoder) {
-+		DRM_ERROR("no encoder found for crtc %d\n", crtc->index);
-+		return false;
-+	}
-+
-+	return dpu_encoder_get_frame_count(encoder);
-+}
-+
-+static bool dpu_crtc_get_scanout_position(struct drm_crtc *crtc,
-+					   bool in_vblank_irq,
-+					   int *vpos, int *hpos,
-+					   ktime_t *stime, ktime_t *etime,
-+					   const struct drm_display_mode *mode)
-+{
-+	unsigned int pipe = crtc->index;
-+	struct drm_encoder *encoder;
-+	int line, vsw, vbp, vactive_start, vactive_end, vfp_end;
-+
-+	encoder = get_encoder_from_crtc(crtc);
-+	if (!encoder) {
-+		DRM_ERROR("no encoder found for crtc %d\n", pipe);
-+		return false;
-+	}
-+
-+	vsw = mode->crtc_vsync_end - mode->crtc_vsync_start;
-+	vbp = mode->crtc_vtotal - mode->crtc_vsync_end;
-+
-+	/*
-+	 * the line counter is 1 at the start of the VSYNC pulse and VTOTAL at
-+	 * the end of VFP. Translate the porch values relative to the line
-+	 * counter positions.
-+	 */
-+
-+	vactive_start = vsw + vbp + 1;
-+	vactive_end = vactive_start + mode->crtc_vdisplay;
-+
-+	/* last scan line before VSYNC */
-+	vfp_end = mode->crtc_vtotal;
-+
-+	if (stime)
-+		*stime = ktime_get();
-+
-+	line = dpu_encoder_get_linecount(encoder);
-+
-+	if (line < vactive_start)
-+		line -= vactive_start;
-+	else if (line > vactive_end)
-+		line = line - vfp_end - vactive_start;
-+	else
-+		line -= vactive_start;
-+
-+	*vpos = line;
-+	*hpos = 0;
-+
-+	if (etime)
-+		*etime = ktime_get();
-+
-+	return true;
-+}
-+
- static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
- 		struct dpu_plane_state *pstate, struct dpu_format *format)
- {
-@@ -1243,6 +1320,8 @@ static const struct drm_crtc_funcs dpu_crtc_funcs = {
- 	.early_unregister = dpu_crtc_early_unregister,
- 	.enable_vblank  = msm_crtc_enable_vblank,
- 	.disable_vblank = msm_crtc_disable_vblank,
-+	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
-+	.get_vblank_counter = dpu_crtc_get_vblank_counter,
- };
- 
- static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
-@@ -1251,6 +1330,7 @@ static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
- 	.atomic_check = dpu_crtc_atomic_check,
- 	.atomic_begin = dpu_crtc_atomic_begin,
- 	.atomic_flush = dpu_crtc_atomic_flush,
-+	.get_scanout_position = dpu_crtc_get_scanout_position,
- };
- 
- /* initialize crtc */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index f7f5c25..fb6546c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -425,6 +425,32 @@ int dpu_encoder_helper_unregister_irq(struct dpu_encoder_phys *phys_enc,
- 	return 0;
- }
- 
-+int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc)
-+{
-+	struct dpu_encoder_virt *dpu_enc;
-+	struct dpu_encoder_phys *phy_enc;
-+
-+	dpu_enc = to_dpu_encoder_virt(drm_enc);
-+	phy_enc = dpu_enc ? dpu_enc->cur_master : NULL;
-+
-+	return phy_enc ? atomic_read(&phy_enc->vsync_cnt) : 0;
-+}
-+
-+int dpu_encoder_get_linecount(struct drm_encoder *drm_enc)
-+{
-+	struct dpu_encoder_virt *dpu_enc;
-+	struct dpu_encoder_phys *phys;
-+	int linecount = 0;
-+
-+	dpu_enc = to_dpu_encoder_virt(drm_enc);
-+	phys = dpu_enc ? dpu_enc->cur_master : NULL;
-+
-+	if (phys && phys->ops.get_line_count)
-+		linecount = phys->ops.get_line_count(phys);
-+
-+	return linecount;
-+}
-+
- void dpu_encoder_get_hw_resources(struct drm_encoder *drm_enc,
- 				  struct dpu_encoder_hw_resources *hw_res)
- {
-@@ -1296,12 +1322,12 @@ static void dpu_encoder_vblank_callback(struct drm_encoder *drm_enc,
- 	DPU_ATRACE_BEGIN("encoder_vblank_callback");
- 	dpu_enc = to_dpu_encoder_virt(drm_enc);
- 
-+	atomic_inc(&phy_enc->vsync_cnt);
- 	spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
- 	if (dpu_enc->crtc)
- 		dpu_crtc_vblank_callback(dpu_enc->crtc);
- 	spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
- 
--	atomic_inc(&phy_enc->vsync_cnt);
- 	DPU_ATRACE_END("encoder_vblank_callback");
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index b491346..99a5d73 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -156,5 +156,16 @@ void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc);
-  */
- void dpu_encoder_set_idle_timeout(struct drm_encoder *drm_enc,
- 							u32 idle_timeout);
-+/**
-+ * dpu_encoder_get_linecount - get interface line count for the encoder.
-+ * @drm_enc:    Pointer to previously created drm encoder structure
-+ */
-+int dpu_encoder_get_linecount(struct drm_encoder *drm_enc);
-+
-+/**
-+ * dpu_encoder_get_frame_count - get interface frame count for the encoder.
-+ * @drm_enc:    Pointer to previously created drm encoder structure
-+ */
-+int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc);
- 
- #endif /* __DPU_ENCODER_H__ */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 374b0e8..ed636f1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -14,6 +14,7 @@
- 
- #include <drm/drm_crtc.h>
- #include <drm/drm_file.h>
-+#include <drm/drm_vblank.h>
- 
- #include "msm_drv.h"
- #include "msm_mmu.h"
-@@ -1020,6 +1021,10 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
- 	 */
- 	dev->mode_config.allow_fb_modifiers = true;
- 
-+	dev->max_vblank_count = 0xffffffff;
-+	/* Disable vblank irqs aggressively for power-saving */
-+	dev->vblank_disable_immediate = true;
-+
- 	/*
- 	 * _dpu_kms_drm_obj_init should create the DRM related objects
- 	 * i.e. CRTCs, planes, encoders, connectors and so forth
--- 
-2.7.4
-
+[1]: https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/110
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
