@@ -1,46 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C284319DD6
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 13:07:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB28319F47
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 13:58:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E42D789CF2;
-	Fri, 12 Feb 2021 12:07:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99C786E0E3;
+	Fri, 12 Feb 2021 12:58:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15B3D8997E
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 12:07:01 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1613131619; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EowUVygo2zWBdYrKdInlBnVZElDG6W1BRBMq1KZA4PQ=;
- b=VTNBckwI8AjjwpldT/Cw6nYYZkAJXHBsQuKpKnappgkHfBohpi1dV883BSuClkE1ERXoYd
- CeOwxX5M1cEtQt4k1RppQq/lbhyfLREHEI3PAaZ+QSGRlcegRvS0uU88MnEzl1thCTgRR/
- j6O7xaWR5wVlFGaE8xjuG5Zmw57fFbY=
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 95D77AC90;
- Fri, 12 Feb 2021 12:06:59 +0000 (UTC)
-Date: Fri, 12 Feb 2021 13:06:59 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH v6 1/3] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-Message-ID: <YCZvY7tc2xCmtrZ6@alley>
-References: <20210208200903.28084-1-sakari.ailus@linux.intel.com>
- <20210208200903.28084-2-sakari.ailus@linux.intel.com>
- <CAHp75VciFMKrWM2zJZ6dppuL5M-7BLPGQfcnzkd9pQzY1bRWsQ@mail.gmail.com>
- <20210209092032.GC32460@paasikivi.fi.intel.com>
- <YCJc0LWBiQLwdmkN@smile.fi.intel.com>
- <20210209174755.GH32460@paasikivi.fi.intel.com>
- <YCVl9BWZQn1TgT2Q@alley>
- <20210212112856.GE3@paasikivi.fi.intel.com>
+Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com
+ [IPv6:2607:f8b0:4864:20::e35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62B016E0E3;
+ Fri, 12 Feb 2021 12:58:11 +0000 (UTC)
+Received: by mail-vs1-xe35.google.com with SMTP id 68so3237310vsk.11;
+ Fri, 12 Feb 2021 04:58:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=z12PhhCoyKbGlotTE60lQTToSx/Gs5QgkUPZavQ8JyM=;
+ b=WakuNUrLlqX3/pBx8Z5QWInFd2yPiItuIQv0HfK2RuT6FZ9GV1Q9EesYKehz/9zq1u
+ 0i0yYGb1RCCwH546iOAiodn/t4q/0NkGapIQt7gnyZh02Ne55TgDkxsWlqq8CTP7s3wH
+ Y1jKc3TFbigc+4YZ9EuPwZDO+NA9XsJ7bGDB+lz/vBkm0pXIPcY5J7i4FOEyC/4aSRmX
+ tYDbM+tQZ42kmiykaxMwTzg/KXgn7XJJ/gCtC/pIJNDopm9nxhKRUNxIdar8a595ou4B
+ MCpj3dHuI7QKp0t2WwOnEJOhQQKGIatIobHB8tUp4ZBC2f4x43D+9V/LSZOVcB1b51Qn
+ Y6Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=z12PhhCoyKbGlotTE60lQTToSx/Gs5QgkUPZavQ8JyM=;
+ b=UNuWl3Frb1H1mA3J9Ldq3u1ljhlQbzdvOR2S+ciyP6/40w38ILMl0IHRIdZn+2hPXz
+ TyiFTpBNctylTN59ygdYP1Uo16nKJwB08O1TWIJXdo9wrpFbJJfDKu63KsiZZhr7V7lX
+ np9tBy+sPXiL/NXBKltafpnEQKX56MBbhepffYARmfGQsQH6ZMvdBBZyAipoA3JrjkMo
+ vouHC3AeUk0XN2m5CeSgt4UfJY7I9Msu08/OqYwzpC1R9Jl2y6bRqiXFGWSKYjlKmvtn
+ f0GiVzACyOD5iFHnlLSbhe2TNv6qbvd0dWA1gE808NsliFkSbyFiDmqRvEUSHnBzhPw4
+ gZAg==
+X-Gm-Message-State: AOAM532S4IM+LPWXqysXCg7MBigjZNqTZUUMLjjpWUKXhKtbMsToMTFj
+ Eb9PADIFcAozG8GvTGiiNOastq1tyv3txPsZsMM=
+X-Google-Smtp-Source: ABdhPJz3FJd2niEkts/x/fUwfjf6jSSgG5LfMcil8AoCJ8Ae9QFcx8LfcFbVGYiker6htZZ0mPPuDZXC92wGm/H7das=
+X-Received: by 2002:a67:882:: with SMTP id 124mr998667vsi.33.1613134690545;
+ Fri, 12 Feb 2021 04:58:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210212112856.GE3@paasikivi.fi.intel.com>
+References: <20210205163752.11932-1-chris@chris-wilson.co.uk>
+ <20210205220012.1983-1-chris@chris-wilson.co.uk>
+In-Reply-To: <20210205220012.1983-1-chris@chris-wilson.co.uk>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Fri, 12 Feb 2021 12:57:59 +0000
+Message-ID: <CACvgo52u1ASWXOuWuDwoXvbZhoq+RHn_GTxD5y9k+kO_dzmT7w@mail.gmail.com>
+Subject: Re: [PATCH v3] kcmp: Support selection of SYS_kcmp without
+ CHECKPOINT_RESTORE
+To: Chris Wilson <chris@chris-wilson.co.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,83 +62,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+Cc: Will Drewry <wad@chromium.org>, Kees Cook <keescook@chromium.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Joe Perches <joe@perches.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Andy Lutomirski <luto@amacapital.net>, Cyrill Gorcunov <gorcunov@gmail.com>,
+ "# 3.13+" <stable@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri 2021-02-12 13:28:56, Sakari Ailus wrote:
-> On Thu, Feb 11, 2021 at 06:14:28PM +0100, Petr Mladek wrote:
-> > On Tue 2021-02-09 19:47:55, Sakari Ailus wrote:
-> > > Hi Andy,
-> > > 
-> > > On Tue, Feb 09, 2021 at 11:58:40AM +0200, Andy Shevchenko wrote:
-> > > > On Tue, Feb 09, 2021 at 11:20:32AM +0200, Sakari Ailus wrote:
-> > > > > On Mon, Feb 08, 2021 at 10:43:30PM +0200, Andy Shevchenko wrote:
-> > > > > > On Mon, Feb 8, 2021 at 10:11 PM Sakari Ailus
-> > > > > > <sakari.ailus@linux.intel.com> wrote:
-> > > > 
-> > > > > > > +       %p4cc   BG12 little-endian (0x32314742)
-> > > > > > 
-> > > > > > This misses examples of the (strange) escaping cases and wiped
-> > > > > > whitespaces to make sure everybody understands that 'D 12' will be the
-> > > > > > same as 'D1 2' (side note: which I disagree on, perhaps something
-> > > > > > should be added into documentation why).
-> 
-> I discussed this with Hans and we concluded spaces shouldn't be dropped.
-> 
-> Spaces can be present in the codes themselves in any case.
+On Fri, 5 Feb 2021 at 22:01, Chris Wilson <chris@chris-wilson.co.uk> wrote:
+>
+> Userspace has discovered the functionality offered by SYS_kcmp and has
+> started to depend upon it. In particular, Mesa uses SYS_kcmp for
+> os_same_file_description() in order to identify when two fd (e.g. device
+> or dmabuf)
 
-Great!
+As you rightfully point out, SYS_kcmp is a bit of a two edged sword.
+While you mention the CONFIG issue, there is also a portability aspect
+(mesa runs on more than just linux) and as well as sandbox filtering
+of the extra syscall.
 
-> > 
-> > > > 
-> > > > ...
-> > > > 
-> > > > > > > +static noinline_for_stack
-> > > > > > > +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
-> > > > > > > +                   struct printf_spec spec, const char *fmt)
-> > > > > > > +{
-> > > > > > 
-> > > > > > > +       char output[sizeof("(xx)(xx)(xx)(xx) little-endian (0x01234567)")];
-> > > > > > 
-> > > > > > Do we have any evidence / document / standard that the above format is
-> > > > > > what people would find good? From existing practices (I consider other
-> > > > > > printings elsewhere and users in this series) I find '(xx)' form for
-> > > > > > hex numbers is weird. The standard practice is to use \xHH (without
-> > > > > > parentheses).
-> > > > > 
-> > > > > Earlier in the review it was proposed that special handling of codes below
-> > > > > 32 should be added, which I did. Using the parentheses is apparently an
-> > > > > existing practice elsewhere.
-> > > > 
-> > > > Where? \xHH is quite well established format for escaping. Never heard about
-> > > > '(xx)' variant before this very series.
-> > 
-> > What about using the same approach as drm_get_format_name()?
-> > I mean printing '?' when the character is not printable.
-> > The exact value is printed later anyway.
-> > 
-> > The advantage is that it will always printk 4 characters.
-> 
-> "?" can be expanded by the shell. We (me and Hans) both though a dot (".")
-> would be good. These aren't going to be present in valid fourcc codes in
-> any case.
+Last time I looked, the latter was still an issue and mesa was using
+SYS_kcmp to compare device node fds.
+A far shorter and more portable solution is possible, so let me
+prepare a Mesa patch.
 
-The dot (".") looks fine to me.
-
-Best Regards,
-Petr
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
