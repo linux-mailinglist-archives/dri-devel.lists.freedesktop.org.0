@@ -2,47 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB8B31A4BE
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 19:51:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF4ED31A50D
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 20:11:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C8176E22B;
-	Fri, 12 Feb 2021 18:51:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE4A86E201;
+	Fri, 12 Feb 2021 19:11:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2B996E0D0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 18:51:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613155909;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=da6s7P7IlSNAeSqqosARqkvFvXSTPR626wK9BcIsjkc=;
- b=IXVsZ0s40gVeXGHnZrph4BgCvc3bUxvOSreTcNwcrdzj+zPl/1Yni3Eb3fgbHqH7F0T/Wy
- W15PaatXBvDV6xMRNMVe5urSpSLQNErLpL2S9F9gHlkxXS877f4Bz2WK3ciAHiCYVTPtFd
- jwVi7y0re1SuvViIf/rmry2gH4Jb4sk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-GbPTAnNnMvyBcXdH5bgGQw-1; Fri, 12 Feb 2021 13:51:45 -0500
-X-MC-Unique: GbPTAnNnMvyBcXdH5bgGQw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 148956EE20;
- Fri, 12 Feb 2021 18:51:43 +0000 (UTC)
-Received: from Whitewolf.redhat.com (ovpn-114-167.rdu2.redhat.com
- [10.10.114.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3FDD75C3E0;
- Fri, 12 Feb 2021 18:51:41 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2] drm/i915/gen9bc: Handle TGP PCH during suspend/resume
-Date: Fri, 12 Feb 2021 13:50:53 -0500
-Message-Id: <20210212185053.1689716-1-lyude@redhat.com>
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F9CE6E201
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 19:11:08 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id a24so337955plm.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 11:11:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dUQPqGrqOjvv+mPHTG6J4xufRDhb/jwG8dfmae0QgUA=;
+ b=toh7dDdb0nclYftk7bpns5Fsk1Xg81Vo3sQTpUVnKXXdrY1jgRgMj9LYsN7+ssU+Wj
+ 1MEf6A1x0Of/nqpi6xcBgNBxZMLfKtkFoZsyE1VsNveM6/2YjmqBUKtChvxdgw+s9UPH
+ tY9wPpmE2y/xYtV7xO+AK1uDuBV7UXbT7MTGRNwn7cI+S76+Jn8L4AwlnLmLc0x9YzSB
+ 9Sf3F5HTmC0/+BCTsGH8+9Arkb3BO8jugZ58e/5yRg0bi9olri7c7IJNVWIahCpbmJWi
+ Mw/pSg4Sz3o8EdQg/cjmkn6BTBbu3x4+yqVVEjizE4/PwbPtaIfpu7cNeaxQUYotfxh0
+ znnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dUQPqGrqOjvv+mPHTG6J4xufRDhb/jwG8dfmae0QgUA=;
+ b=H7bcFd+rifFwHtYeWGvAscw+ll9rKMeNmv+TIPB+LI/3k2/Q5g4Mr+kPWSfStjCHY0
+ 2Ami8lEv1/MfjHWjqOoqgxP5Q4uPbNC0OiBozjh0E+/1JI1ab3e4aA+9qy9QCISRgXli
+ j5jAudxoQ1YDzBJWtvFFHf6yqhHwGhRM3GlYR8FxaksPdUGRGq0t7Fe03ANKC+4HUk9X
+ ymBan2eEr/4xAjzrZr7Cdh9yw4KPe/GzoMc1I4Xt2l5K2Q6LdlpMI62v6jeWNtC+ykYQ
+ qqNzISCqeuVywRUgas/twxu61AaKA+9/sW1Ff+IUc/0XoRXlWvILtl1pP8Olw8FXFMWm
+ UY/w==
+X-Gm-Message-State: AOAM533UnObieebOkfLbBN+VNZVxk92Ox2Yq96K1EfRYUg8d+fLHwXq0
+ X79IruPhs1yhHE8zWLN5HZA=
+X-Google-Smtp-Source: ABdhPJzFJrubDP2iMk1Rg4vVAO4Pk2i8PW6t8ita0jcI9KziOc69D9GASt3DCwIgqERu6wx/KarI4A==
+X-Received: by 2002:a17:90a:657:: with SMTP id
+ q23mr4082954pje.192.1613157068162; 
+ Fri, 12 Feb 2021 11:11:08 -0800 (PST)
+Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
+ by smtp.gmail.com with ESMTPSA id 21sm9453862pfh.56.2021.02.12.11.11.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Feb 2021 11:11:07 -0800 (PST)
+From: Florian Fainelli <f.fainelli@gmail.com>
+To: linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] Revert "ARM: dts: bcm2711: Add the BSC interrupt controller"
+Date: Fri, 12 Feb 2021 11:11:04 -0800
+Message-Id: <20210212191104.2365912-1-f.fainelli@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,136 +65,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Florian Fainelli <f.fainelli@gmail.com>,
+ maxime@cerno.tech, dave.stevenson@raspberrypi.com, maz@kernel.org,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, tzimmermann@suse.de,
+ hverkuil-cisco@xs4all.nl, mchehab@kernel.org, nsaenzjulienne@suse.de,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+As Dave reported:
 
-For Legacy S3 suspend/resume GEN9 BC needs to enable and
-setup TGP PCH.
+This seems to have unintended side effects.  GIC interrupt 117 is shared
+between the standard I2C controllers (i2c-bcm2835) and the l2-intc block
+handling the HDMI I2C interrupts.
 
-v2:
-* Move Wa_14010685332 into it's own function - vsyrjala
-* Add TODO comment about figuring out if we can move this workaround - imre
+There is not a great way to share an interrupt between an interrupt
+controller using the chained IRQ handler which is an interrupt flow and
+another driver like i2c-bcm2835 which uses an interrupt handler
+(although it specifies IRQF_SHARED).
 
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-Signed-off-by: Lyude Paul <lyude@redhat.com>
+Simply revert this change for now which will mean that HDMI I2C will be
+polled, like it was before.
+
+Reported-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
 ---
- drivers/gpu/drm/i915/i915_irq.c | 53 ++++++++++++++++++++++-----------
- 1 file changed, 36 insertions(+), 17 deletions(-)
+ arch/arm/boot/dts/bcm2711.dtsi | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-index 98145a7f28a4..7d912aa950ee 100644
---- a/drivers/gpu/drm/i915/i915_irq.c
-+++ b/drivers/gpu/drm/i915/i915_irq.c
-@@ -3040,6 +3040,19 @@ static void valleyview_irq_reset(struct drm_i915_private *dev_priv)
- 	spin_unlock_irq(&dev_priv->irq_lock);
- }
+diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
+index 462b1dfb0385..720beec54d61 100644
+--- a/arch/arm/boot/dts/bcm2711.dtsi
++++ b/arch/arm/boot/dts/bcm2711.dtsi
+@@ -308,14 +308,6 @@ dvp: clock@7ef00000 {
+ 			#reset-cells = <1>;
+ 		};
  
-+static void cnp_irq_post_reset(struct drm_i915_private *dev_priv)
-+{
-+	struct intel_uncore *uncore = &dev_priv->uncore;
-+
-+	/*
-+	 * Wa_14010685332:cnp/cmp,tgp,adp
-+	 * TODO: Figure out if this workaround can be applied in the s0ix suspend/resume handlers as
-+	 * on earlier platforms and whether the workaround is also needed for runtime suspend/resume
-+	 */
-+	intel_uncore_rmw(uncore, SOUTH_CHICKEN1, SBCLK_RUN_REFCLK_DIS, SBCLK_RUN_REFCLK_DIS);
-+	intel_uncore_rmw(uncore, SOUTH_CHICKEN1, SBCLK_RUN_REFCLK_DIS, 0);
-+}
-+
- static void gen8_irq_reset(struct drm_i915_private *dev_priv)
- {
- 	struct intel_uncore *uncore = &dev_priv->uncore;
-@@ -3061,8 +3074,14 @@ static void gen8_irq_reset(struct drm_i915_private *dev_priv)
- 	GEN3_IRQ_RESET(uncore, GEN8_DE_MISC_);
- 	GEN3_IRQ_RESET(uncore, GEN8_PCU_);
- 
--	if (HAS_PCH_SPLIT(dev_priv))
-+	if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
-+		GEN3_IRQ_RESET(uncore, SDE);
-+	else if (HAS_PCH_SPLIT(dev_priv))
- 		ibx_irq_reset(dev_priv);
-+
-+	if (INTEL_PCH_TYPE(dev_priv) == PCH_CNP ||
-+	    (INTEL_PCH_TYPE(dev_priv) >= PCH_TGP && INTEL_PCH_TYPE(dev_priv) < PCH_DG1))
-+		cnp_irq_post_reset(dev_priv);
- }
- 
- static void gen11_display_irq_reset(struct drm_i915_private *dev_priv)
-@@ -3104,15 +3123,9 @@ static void gen11_display_irq_reset(struct drm_i915_private *dev_priv)
- 	if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
- 		GEN3_IRQ_RESET(uncore, SDE);
- 
--	/* Wa_14010685332:cnp/cmp,tgp,adp */
- 	if (INTEL_PCH_TYPE(dev_priv) == PCH_CNP ||
--	    (INTEL_PCH_TYPE(dev_priv) >= PCH_TGP &&
--	     INTEL_PCH_TYPE(dev_priv) < PCH_DG1)) {
--		intel_uncore_rmw(uncore, SOUTH_CHICKEN1,
--				 SBCLK_RUN_REFCLK_DIS, SBCLK_RUN_REFCLK_DIS);
--		intel_uncore_rmw(uncore, SOUTH_CHICKEN1,
--				 SBCLK_RUN_REFCLK_DIS, 0);
--	}
-+	    (INTEL_PCH_TYPE(dev_priv) >= PCH_TGP && INTEL_PCH_TYPE(dev_priv) < PCH_DG1))
-+		cnp_irq_post_reset(dev_priv);
- }
- 
- static void gen11_irq_reset(struct drm_i915_private *dev_priv)
-@@ -3474,6 +3487,9 @@ static void spt_hpd_irq_setup(struct drm_i915_private *dev_priv)
- 	ibx_display_interrupt_update(dev_priv, hotplug_irqs, enabled_irqs);
- 
- 	spt_hpd_detection_setup(dev_priv);
-+
-+	if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
-+		icp_hpd_irq_setup(dev_priv);
- }
- 
- static u32 ilk_hotplug_enables(struct drm_i915_private *i915,
-@@ -3764,9 +3780,19 @@ static void gen8_de_irq_postinstall(struct drm_i915_private *dev_priv)
- 	}
- }
- 
-+static void icp_irq_postinstall(struct drm_i915_private *dev_priv)
-+{
-+	struct intel_uncore *uncore = &dev_priv->uncore;
-+	u32 mask = SDE_GMBUS_ICP;
-+
-+	GEN3_IRQ_INIT(uncore, SDE, ~mask, 0xffffffff);
-+}
-+
- static void gen8_irq_postinstall(struct drm_i915_private *dev_priv)
- {
--	if (HAS_PCH_SPLIT(dev_priv))
-+	if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
-+		icp_irq_postinstall(dev_priv);
-+	else if (HAS_PCH_SPLIT(dev_priv))
- 		ibx_irq_postinstall(dev_priv);
- 
- 	gen8_gt_irq_postinstall(&dev_priv->gt);
-@@ -3775,13 +3801,6 @@ static void gen8_irq_postinstall(struct drm_i915_private *dev_priv)
- 	gen8_master_intr_enable(dev_priv->uncore.regs);
- }
- 
--static void icp_irq_postinstall(struct drm_i915_private *dev_priv)
--{
--	struct intel_uncore *uncore = &dev_priv->uncore;
--	u32 mask = SDE_GMBUS_ICP;
+-		bsc_intr: interrupt-controller@7ef00040 {
+-			compatible = "brcm,bcm2711-l2-intc", "brcm,l2-intc";
+-			reg = <0x7ef00040 0x30>;
+-			interrupts = <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>;
+-			interrupt-controller;
+-			#interrupt-cells = <1>;
+-		};
 -
--	GEN3_IRQ_INIT(uncore, SDE, ~mask, 0xffffffff);
--}
+ 		aon_intr: interrupt-controller@7ef00100 {
+ 			compatible = "brcm,bcm2711-l2-intc", "brcm,l2-intc";
+ 			reg = <0x7ef00100 0x30>;
+@@ -362,8 +354,6 @@ ddc0: i2c@7ef04500 {
+ 			reg = <0x7ef04500 0x100>, <0x7ef00b00 0x300>;
+ 			reg-names = "bsc", "auto-i2c";
+ 			clock-frequency = <97500>;
+-			interrupt-parent = <&bsc_intr>;
+-			interrupts = <0>;
+ 			status = "disabled";
+ 		};
  
- static void gen11_irq_postinstall(struct drm_i915_private *dev_priv)
- {
+@@ -405,8 +395,6 @@ ddc1: i2c@7ef09500 {
+ 			reg = <0x7ef09500 0x100>, <0x7ef05b00 0x300>;
+ 			reg-names = "bsc", "auto-i2c";
+ 			clock-frequency = <97500>;
+-			interrupt-parent = <&bsc_intr>;
+-			interrupts = <1>;
+ 			status = "disabled";
+ 		};
+ 	};
 -- 
-2.29.2
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
