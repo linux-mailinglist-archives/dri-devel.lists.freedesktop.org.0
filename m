@@ -1,60 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7A9319C42
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 11:03:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62448319C6B
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 11:14:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF83C6E570;
-	Fri, 12 Feb 2021 10:03:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F6EF6E578;
+	Fri, 12 Feb 2021 10:14:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 522696E570
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 10:03:00 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id u14so426798wmq.4
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 02:03:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=6QG81ZJM4e0Z54tok2YgM5IGXnuCS+PLSTvaXCs4Z2g=;
- b=E49ErNQfQ4F7JxhwHQzgTeuC30dIMojbTZRbamSdRwdB3czRTqDszNo7Sn28rJt8uz
- pSHlux1bTy4D8YSk1yTP8mIijFRDhlzYmH2FHRhXwzEYCsl3lb/DVyLWpaQjnD3rifEe
- AcPp6Pv/KAcjhfVAMxvUUaTfgr+4ih/AK6xnkbQewosmXjyliD9D132vlCeyqD0iCIB6
- 07Tdh35P84eeMy37RQ39pXsCdHM8NNLteZHW3YplNJwEPGBYAn7fFj1nGDXSmQmW7Wtm
- rVvVYkGhsS7vplIxHyOpOTwh4QmNkwNUokld7BmA+QRJE6qRJc6PYSUmA0+yAENfJZhB
- 1+oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=6QG81ZJM4e0Z54tok2YgM5IGXnuCS+PLSTvaXCs4Z2g=;
- b=XMZR4u0rIEQ6A6KN60irSnZ8lJBQ62Y20wQKY1T/tm0ilqLbU2CKt0QIrMmwZC8Xmo
- 8miV0ACNS+auSGAbWuH2Wr8YeXxUxVg/1+cBb8C4FFbza7G6O7YTReM6v3oeWZriKUw1
- 2N9BvUTDtO+7JFyFbBvQGh5lKblYZ8pKpGbpGth2nSSUylraT05ieXScg42Qj8V93fz5
- vTapBDznXHn/XtTLT0VocKRuJoYoAmxmBptVmsIEhiJAp+A6oIC/UnN5m8PW4LLI2Jn5
- sV5kP8xVH5GK9TSSOTtibCPWs05a69xciWqybAyc8lVRSlSgXkD51ZnHapj0ycb9Mm3k
- vZ3A==
-X-Gm-Message-State: AOAM531coNwjR09oJ8THFSvkWu0KzN5KUWhDpLYjx50gZDyQqO0cqZBG
- xH9N7akxrk5TlSw26ma5B89pfg==
-X-Google-Smtp-Source: ABdhPJwSdOB4cVf8xwsazH54/QT4EC/+//VnZHLp3grjPTZFnxNJeQp+4pBdBM3/PFw9nPHrQYh9LQ==
-X-Received: by 2002:a1c:6487:: with SMTP id y129mr1865928wmb.106.1613124178877; 
- Fri, 12 Feb 2021 02:02:58 -0800 (PST)
-Received: from dell ([91.110.221.187])
- by smtp.gmail.com with ESMTPSA id u14sm9972510wro.10.2021.02.12.02.02.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Feb 2021 02:02:58 -0800 (PST)
-Date: Fri, 12 Feb 2021 10:02:56 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Julia Lawall <Julia.Lawall@inria.fr>
-Subject: Re: [PATCH] video: use getter/setter functions
-Message-ID: <20210212100256.GB179940@dell>
-References: <20210209211325.1261842-1-Julia.Lawall@inria.fr>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04B9C6E588
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 10:14:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613124880;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hQ4s2GKq0YTzgoAQssPGg5wIJASO0/s1pAuGBl1EvYw=;
+ b=FsKw44aeNZkaiaZt/ss6LD5YyC8ndbiRUjUzOpW/Jspu3rulyYTALhh+E1BDJGN/S+DF/y
+ 2KYEAVoAb/9YzW7x58j4IxWQ7Wpp43C2HgZ/jQ0geVVdHztpdTzB17pox9k6ldfut1SYiF
+ YHeJB9weMOK/QFLl76d96FUj00QUHlY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-326-lK_x5n1dMNiEVwnPBr3ZVg-1; Fri, 12 Feb 2021 05:14:38 -0500
+X-MC-Unique: lK_x5n1dMNiEVwnPBr3ZVg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D072801962;
+ Fri, 12 Feb 2021 10:14:37 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-161.ams2.redhat.com
+ [10.36.112.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E423A10016F9;
+ Fri, 12 Feb 2021 10:14:35 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id B8A5418003AF; Fri, 12 Feb 2021 11:14:33 +0100 (CET)
+Date: Fri, 12 Feb 2021 11:14:33 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
+Message-ID: <20210212101433.prcjjktmhqyjasnj@sirius.home.kraxel.org>
+References: <20210203073517.1908882-3-vivek.kasireddy@intel.com>
+ <YB1sRx1GrT8rATEg@phenom.ffwll.local>
+ <20210208075748.xejgcb4il2egow2u@sirius.home.kraxel.org>
+ <YCEGrrT0/eqqz/ok@phenom.ffwll.local>
+ <8ba4ad64be3546bda9a2ed2129bf98e4@intel.com>
+ <20210209084453.5oqepy7zdwtxgrpu@sirius.home.kraxel.org>
+ <2ef01dc941684a15a4f30e6239ae42df@intel.com>
+ <8ac10b1d-3d64-4e39-42e6-6c65b61f0794@amd.com>
+ <fd23d4d08ea84ca3b8a7610a8fb866d5@intel.com>
+ <e3222c34-31ee-b43e-65b0-6ab01423d52b@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210209211325.1261842-1-Julia.Lawall@inria.fr>
+In-Reply-To: <e3222c34-31ee-b43e-65b0-6ab01423d52b@amd.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,44 +69,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>, linux-kernel@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Jingoo Han <jingoohan1@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- kernel-janitors@vger.kernel.org, Michal Simek <michal.simek@xilinx.com>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andy Gross <agross@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- linux-fbdev@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Shawn Guo <shawnguo@kernel.org>, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>, "Kasireddy,
+ Vivek" <vivek.kasireddy@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>, "Vetter,
+ Daniel" <daniel.vetter@intel.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAwOSBGZWIgMjAyMSwgSnVsaWEgTGF3YWxsIHdyb3RlOgoKPiBVc2UgZ2V0dGVyIGFu
-ZCBzZXR0ZXIgZnVuY3Rpb25zLCBmb3IgcGxhdGZvcm1fZGV2aWNlIHN0cnVjdHVyZXMgYW5kIGEK
-PiBzcGlfZGV2aWNlIHN0cnVjdHVyZS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBKdWxpYSBMYXdhbGwg
-PEp1bGlhLkxhd2FsbEBpbnJpYS5mcj4KPiAKPiAtLS0KPiAgZHJpdmVycy92aWRlby9iYWNrbGln
-aHQvcWNvbS13bGVkLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICAyICst
-Cj4gIGRyaXZlcnMvdmlkZW8vZmJkZXYvYW1pZmIuYyAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHwgICAgNCArKy0tCj4gIGRyaXZlcnMvdmlkZW8vZmJkZXYvZGE4eHgt
-ZmIuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgNCArKy0tCj4g
-IGRyaXZlcnMvdmlkZW8vZmJkZXYvaW14ZmIuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHwgICAgMiArLQo+ICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L29tYXAyL29tYXBm
-Yi9kaXNwbGF5cy9wYW5lbC1sZ3BoaWxpcHMtbGIwMzVxMDIuYyB8ICAgIDYgKysrLS0tCj4gIGRy
-aXZlcnMvdmlkZW8vZmJkZXYvb21hcDIvb21hcGZiL2Rzcy9kcGkuYyAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIHwgICAgNCArKy0tCj4gIGRyaXZlcnMvdmlkZW8vZmJkZXYvb21hcDIvb21hcGZi
-L2Rzcy9kc2kuYyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgNCArKy0tCj4gIGRyaXZl
-cnMvdmlkZW8vZmJkZXYvb21hcDIvb21hcGZiL2Rzcy9oZG1pNC5jICAgICAgICAgICAgICAgICAg
-ICAgICAgIHwgICAgMiArLQo+ICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L29tYXAyL29tYXBmYi9kc3Mv
-aGRtaTUuYyAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgIDIgKy0KPiAgZHJpdmVycy92aWRl
-by9mYmRldi94aWxpbnhmYi5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-fCAgICAyICstCj4gIDEwIGZpbGVzIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDE2IGRlbGV0
-aW9ucygtKQoKSSBmaXhlZC11cCB0aGUgc3ViamVjdCBsaW5lIGFuZCBjb21taXQgbWVzc2FnZSBh
-IGJpdCBhbmQgYXBwbGllZC4KClRoYW5rcy4KCi0tIApMZWUgSm9uZXMgW+adjueQvOaWr10KU2Vu
-aW9yIFRlY2huaWNhbCBMZWFkIC0gRGV2ZWxvcGVyIFNlcnZpY2VzCkxpbmFyby5vcmcg4pSCIE9w
-ZW4gc291cmNlIHNvZnR3YXJlIGZvciBBcm0gU29DcwpGb2xsb3cgTGluYXJvOiBGYWNlYm9vayB8
-IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo=
+  Hi,
+
+> This is because of the fundamental concept of DMA-buf that the exporter
+> needs to setup mappings (both CPU page tables as well as stuff like IOMMU).
+> When the guest exports something it would mean that you give the guest
+> control over the IOMMU and/or host page tables. And that is not something
+> you can do as far as I can see.
+
+Correct.
+
+> You can only export stuff the other way around so that the host is providing
+> the memory and the guest is consuming it. If I understand it correctly
+> that's exactly what Gerd is suggesting here.
+
+It can also work the other way around (guest allocating and host
+consuming).  That is just an implementation detail.  The /important/
+thing is that the driver which exports the dma-buf (and thus handles the
+mappings) must be aware of the virtualization so it can properly
+coordinate things with the host side.
+
+So vdmabuf allocating and exporting dma-bufs works.
+
+But vdmabuf importing dma-bufs doesn't because you can't ask the
+exporter to create *host* mappings as Christian outlined above.  Sure,
+you can try to sidestep the exporter, fish the list of pages out of the
+scatter list and run with that.  That will explode as soon as you meet a
+dma-buf which is not backed by pages in the first place.  And even for
+page-backed dma-bufs you can run into trouble, for example due to
+mapping pages with the wrong caching attributes.  Alternatively you can
+double-buffer and copy data from the imported dma-buf to some
+host-shared memory, but I guess you don't want that for performance
+reasons ...
+
+take care,
+  Gerd
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
