@@ -2,30 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323D6319C25
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 10:53:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE8E319C2C
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 10:57:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87E586E563;
-	Fri, 12 Feb 2021 09:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE23893B8;
+	Fri, 12 Feb 2021 09:56:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.bugwerft.de (mail.bugwerft.de [IPv6:2a03:6000:1011::59])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8D3EC6E563
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 09:53:47 +0000 (UTC)
-Received: from hq-00021.fritz.box (p57bc9f25.dip0.t-ipconnect.de
- [87.188.159.37])
- by mail.bugwerft.de (Postfix) with ESMTPSA id 760574AADD5;
- Fri, 12 Feb 2021 09:53:45 +0000 (UTC)
-From: Daniel Mack <daniel@zonque.org>
-To: airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: [PATCH v2 2/2] drm/tiny: add driver for newhaven,1.8-128160EF
-Date: Fri, 12 Feb 2021 10:53:36 +0100
-Message-Id: <20210212095336.635701-2-daniel@zonque.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210212095336.635701-1-daniel@zonque.org>
-References: <20210212095336.635701-1-daniel@zonque.org>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D195989129
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 09:56:54 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 632DFB7CA;
+ Fri, 12 Feb 2021 09:56:53 +0000 (UTC)
+Subject: Re: [PATCH] drm/tiny: add driver for newhaven,1.8-128160EF
+To: Daniel Mack <daniel@zonque.org>, airlied@linux.ie, daniel@ffwll.ch
+References: <20210211095058.473776-1-daniel@zonque.org>
+ <00f588fe-3820-7754-4e24-5789795e21e4@suse.de>
+ <0faf3979-f2c2-a654-df72-2824c761fa16@zonque.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <5fd71903-3767-2a9c-2381-f7bdda88e9c9@suse.de>
+Date: Fri, 12 Feb 2021 10:56:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <0faf3979-f2c2-a654-df72-2824c761fa16@zonque.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,301 +40,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, robh+dt@kernel.org,
- Daniel Mack <daniel@zonque.org>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: robh+dt@kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1226408253=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds support for Newhaven's NHD-1.8-128160EF display, featuring
-an Ilitek ILI9163 controller.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1226408253==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="zgusBKcQfKyj3IY6kfVzUlfQ3PYyGH4mr"
 
-Signed-off-by: Daniel Mack <daniel@zonque.org>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
----
-v2:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--zgusBKcQfKyj3IY6kfVzUlfQ3PYyGH4mr
+Content-Type: multipart/mixed; boundary="ZKWqt2svfdoKMxwzhR7uJ8uiOuHILxULi";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Mack <daniel@zonque.org>, airlied@linux.ie, daniel@ffwll.ch
+Cc: robh+dt@kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <5fd71903-3767-2a9c-2381-f7bdda88e9c9@suse.de>
+Subject: Re: [PATCH] drm/tiny: add driver for newhaven,1.8-128160EF
+References: <20210211095058.473776-1-daniel@zonque.org>
+ <00f588fe-3820-7754-4e24-5789795e21e4@suse.de>
+ <0faf3979-f2c2-a654-df72-2824c761fa16@zonque.org>
+In-Reply-To: <0faf3979-f2c2-a654-df72-2824c761fa16@zonque.org>
 
-* Address comments from Thomas Zimmermann
-* Split patch in DT and implementation part
+--ZKWqt2svfdoKMxwzhR7uJ8uiOuHILxULi
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
- drivers/gpu/drm/tiny/Kconfig   |  13 ++
- drivers/gpu/drm/tiny/Makefile  |   1 +
- drivers/gpu/drm/tiny/ili9163.c | 224 +++++++++++++++++++++++++++++++++
- 3 files changed, 238 insertions(+)
- create mode 100644 drivers/gpu/drm/tiny/ili9163.c
+Hi
 
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index 2b6414f0fa759..9de0c0eeea6f5 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -41,6 +41,19 @@ config TINYDRM_HX8357D
- 
- 	  If M is selected the module will be called hx8357d.
- 
-+config TINYDRM_ILI9163
-+	tristate "DRM support for ILI9163 display panels"
-+	depends on DRM && SPI
-+	select DRM_KMS_HELPER
-+	select DRM_KMS_CMA_HELPER
-+	select DRM_MIPI_DBI
-+	select BACKLIGHT_CLASS_DEVICE
-+	help
-+	  DRM driver for the following Ilitek ILI9163 panels:
-+	  * NHD-1.8-128160EF 128x160 TFT
-+
-+	  If M is selected the module will be called ili9163.
-+
- config TINYDRM_ILI9225
- 	tristate "DRM support for ILI9225 display panels"
- 	depends on DRM && SPI
-diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
-index 6ae4e9e5a35fb..78016b2ed11b5 100644
---- a/drivers/gpu/drm/tiny/Makefile
-+++ b/drivers/gpu/drm/tiny/Makefile
-@@ -3,6 +3,7 @@
- obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus.o
- obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
- obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
-+obj-$(CONFIG_TINYDRM_ILI9163)		+= ili9163.o
- obj-$(CONFIG_TINYDRM_ILI9225)		+= ili9225.o
- obj-$(CONFIG_TINYDRM_ILI9341)		+= ili9341.o
- obj-$(CONFIG_TINYDRM_ILI9486)		+= ili9486.o
-diff --git a/drivers/gpu/drm/tiny/ili9163.c b/drivers/gpu/drm/tiny/ili9163.c
-new file mode 100644
-index 0000000000000..6fa9e59b69321
---- /dev/null
-+++ b/drivers/gpu/drm/tiny/ili9163.c
-@@ -0,0 +1,224 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+
-+#include <linux/backlight.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/property.h>
-+#include <linux/spi/spi.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_fb_helper.h>
-+#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_mipi_dbi.h>
-+#include <drm/drm_modeset_helper.h>
-+#include <video/mipi_display.h>
-+
-+#define ILI9163_FRMCTR1		0xb1
-+
-+#define ILI9163_PWCTRL1		0xc0
-+#define ILI9163_PWCTRL2		0xc1
-+#define ILI9163_VMCTRL1		0xc5
-+#define ILI9163_VMCTRL2		0xc7
-+#define ILI9163_PWCTRLA		0xcb
-+#define ILI9163_PWCTRLB		0xcf
-+
-+#define ILI9163_EN3GAM		0xf2
-+
-+#define ILI9163_MADCTL_BGR	BIT(3)
-+#define ILI9163_MADCTL_MV	BIT(5)
-+#define ILI9163_MADCTL_MX	BIT(6)
-+#define ILI9163_MADCTL_MY	BIT(7)
-+
-+static void yx240qv29_enable(struct drm_simple_display_pipe *pipe,
-+			     struct drm_crtc_state *crtc_state,
-+			     struct drm_plane_state *plane_state)
-+{
-+	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-+	struct mipi_dbi *dbi = &dbidev->dbi;
-+	u8 addr_mode;
-+	int ret, idx;
-+
-+	if (!drm_dev_enter(pipe->crtc.dev, &idx))
-+		return;
-+
-+	drm_dbg_kms(&dbidev->drm, "\n");
-+
-+	ret = mipi_dbi_poweron_conditional_reset(dbidev);
-+	if (ret < 0)
-+		goto out_exit;
-+	if (ret == 1)
-+		goto out_enable;
-+
-+	/* Gamma */
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_GAMMA_CURVE, 0x04);
-+	mipi_dbi_command(dbi, ILI9163_EN3GAM, 0x00);
-+
-+	/* Frame Rate */
-+	mipi_dbi_command(dbi, ILI9163_FRMCTR1, 0x0a, 0x14);
-+
-+	/* Power Control */
-+	mipi_dbi_command(dbi, ILI9163_PWCTRL1, 0x0a, 0x00);
-+	mipi_dbi_command(dbi, ILI9163_PWCTRL2, 0x02);
-+
-+	/* VCOM */
-+	mipi_dbi_command(dbi, ILI9163_VMCTRL1, 0x2f, 0x3e);
-+	mipi_dbi_command(dbi, ILI9163_VMCTRL2, 0x40);
-+
-+	/* Memory Access Control */
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT, MIPI_DCS_PIXEL_FMT_16BIT);
-+
-+	mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
-+	msleep(100);
-+
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
-+	msleep(100);
-+
-+out_enable:
-+	switch (dbidev->rotation) {
-+	default:
-+		addr_mode = 0;
-+		break;
-+	case 90:
-+		addr_mode = ILI9163_MADCTL_MV | ILI9163_MADCTL_MX;
-+		break;
-+	case 180:
-+		addr_mode = ILI9163_MADCTL_MX | ILI9163_MADCTL_MY;
-+		break;
-+	case 270:
-+		addr_mode = ILI9163_MADCTL_MV | ILI9163_MADCTL_MY;
-+		break;
-+	}
-+	addr_mode |= ILI9163_MADCTL_BGR;
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
-+	mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
-+out_exit:
-+	drm_dev_exit(idx);
-+}
-+
-+static const struct drm_simple_display_pipe_funcs ili9163_pipe_funcs = {
-+	.enable = yx240qv29_enable,
-+	.disable = mipi_dbi_pipe_disable,
-+	.update = mipi_dbi_pipe_update,
-+	.prepare_fb = drm_gem_fb_simple_display_pipe_prepare_fb,
-+};
-+
-+static const struct drm_display_mode yx240qv29_mode = {
-+	DRM_SIMPLE_MODE(128, 160, 28, 35),
-+};
-+
-+DEFINE_DRM_GEM_CMA_FOPS(ili9163_fops);
-+
-+static struct drm_driver ili9163_driver = {
-+	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	.date			= "20210208",
-+	.debugfs_init		= mipi_dbi_debugfs_init,
-+	.desc			= "Ilitek ILI9163",
-+	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-+	.fops			= &ili9163_fops,
-+	.major			= 1,
-+	.minor			= 0,
-+	.name			= "ili9163",
-+};
-+
-+static const struct of_device_id ili9163_of_match[] = {
-+	{ .compatible = "newhaven,1.8-128160EF" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ili9163_of_match);
-+
-+static const struct spi_device_id ili9163_id[] = {
-+	{ "nhd-1.8-128160EF", 0 },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(spi, ili9163_id);
-+
-+static int ili9163_probe(struct spi_device *spi)
-+{
-+	struct device *dev = &spi->dev;
-+	struct mipi_dbi_dev *dbidev;
-+	struct drm_device *drm;
-+	struct mipi_dbi *dbi;
-+	struct gpio_desc *dc;
-+	u32 rotation = 0;
-+	int ret;
-+
-+	dbidev = devm_drm_dev_alloc(dev, &ili9163_driver,
-+				    struct mipi_dbi_dev, drm);
-+	if (IS_ERR(dbidev))
-+		return PTR_ERR(dbidev);
-+
-+	dbi = &dbidev->dbi;
-+	drm = &dbidev->drm;
-+
-+	dbi->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(dbi->reset)) {
-+		drm_err(drm, "Failed to get gpio 'reset'\n");
-+		return PTR_ERR(dbi->reset);
-+	}
-+
-+	dc = devm_gpiod_get_optional(dev, "dc", GPIOD_OUT_LOW);
-+	if (IS_ERR(dc)) {
-+		drm_err(drm, "Failed to get gpio 'dc'\n");
-+		return PTR_ERR(dc);
-+	}
-+
-+	dbidev->backlight = devm_of_find_backlight(dev);
-+	if (IS_ERR(dbidev->backlight))
-+		return PTR_ERR(dbidev->backlight);
-+
-+	device_property_read_u32(dev, "rotation", &rotation);
-+
-+	ret = mipi_dbi_spi_init(spi, dbi, dc);
-+	if (ret)
-+		return ret;
-+
-+	ret = mipi_dbi_dev_init(dbidev, &ili9163_pipe_funcs, &yx240qv29_mode, rotation);
-+	if (ret)
-+		return ret;
-+
-+	drm_mode_config_reset(drm);
-+
-+	ret = drm_dev_register(drm, 0);
-+	if (ret)
-+		return ret;
-+
-+	drm_fbdev_generic_setup(drm, 0);
-+
-+	spi_set_drvdata(spi, drm);
-+
-+	return 0;
-+}
-+
-+static int ili9163_remove(struct spi_device *spi)
-+{
-+	struct drm_device *drm = spi_get_drvdata(spi);
-+
-+	drm_dev_unplug(drm);
-+	drm_atomic_helper_shutdown(drm);
-+
-+	return 0;
-+}
-+
-+static void ili9163_shutdown(struct spi_device *spi)
-+{
-+	drm_atomic_helper_shutdown(spi_get_drvdata(spi));
-+}
-+
-+static struct spi_driver ili9163_spi_driver = {
-+	.driver = {
-+		.name = "ili9163",
-+		.of_match_table = ili9163_of_match,
-+	},
-+	.id_table = ili9163_id,
-+	.probe = ili9163_probe,
-+	.remove = ili9163_remove,
-+	.shutdown = ili9163_shutdown,
-+};
-+module_spi_driver(ili9163_spi_driver);
-+
-+MODULE_DESCRIPTION("Ilitek ILI9163 DRM driver");
-+MODULE_AUTHOR("Daniel Mack <daniel@zonque.org>");
-+MODULE_LICENSE("GPL");
--- 
-2.29.2
+Am 12.02.21 um 10:47 schrieb Daniel Mack:
+> Hi,
+>=20
+> Thanks for the review!
+>=20
+> On 2/12/21 8:13 AM, Thomas Zimmermann wrote:
+>> thanks for the driver. I only have some minor comments
+>>
+>> Am 11.02.21 um 10:50 schrieb Daniel Mack:
+>>> +#define ILI9163_MADCTL_BGR=C2=A0=C2=A0=C2=A0 BIT(3)
+>>> +#define ILI9163_MADCTL_MV=C2=A0=C2=A0=C2=A0 BIT(5)
+>>> +#define ILI9163_MADCTL_MX=C2=A0=C2=A0=C2=A0 BIT(6)
+>>> +#define ILI9163_MADCTL_MY=C2=A0=C2=A0=C2=A0 BIT(7)
+>>
+>> The indention is inconsistent. Or maybe it's just my email client.
+>=20
+> Yes, the latter :)
+>=20
+> Addressed the rest of your remarks. Will send a v2.
+
+You should also add yourself to MAINTAINERS for this driver.
+
+Best regards
+Thomas
+
+>=20
+>=20
+> Thanks,
+> Daniel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--ZKWqt2svfdoKMxwzhR7uJ8uiOuHILxULi--
+
+--zgusBKcQfKyj3IY6kfVzUlfQ3PYyGH4mr
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAmUOQFAwAAAAAACgkQlh/E3EQov+Au
+FBAAqQnAq4DSLI/CjUEiGpQWqNM0JbbgRXfkH7q7HitGPU9y8J5SKxWXql4GtnMvKbu4rz+NcbtZ
+ZlJ3OALPN2YIZEHq4flmsnasOMQmVsEdJClCDvfk3abqqCa1rxoNKkHyZUDLF8gMT6Zi4hCj8u8+
+533y3EAimXr3VLPXneORfoKX0w+MFOtIdUn1kfhNd9n6A/zoo/fyNPR/XT9V8sMmZzgLrL76yHHO
+DG69c6N/Y/AGgh7Kvr2HwG4/DRTuFeX2cca8yDFYredKoGkiYGnd32LHhfHu9xe7+bgAgbmUfkBM
+M+8AXdnppnBXNFT2B5YP7YAhcyOhU5GRJYIHq9djzcNmNU8rE0LY99b/mvy8MlFQOR5I0eXCSauN
+Zwib67VubUKcot+pAKPFiy8Umfv6E0/WK0esw+xQGbQWJBzjSbVhVNkWg3TOeMPA7YPEvjcHQawv
+z8a+7UVbCCN+lGZvj5YpbQkdMPp6FwIKPoOMKeBxyk+g4gmuMNNKj694dI/GxOE+7asa8vdV2GQ+
+UDtvyGqcsbGgvHkryTSR9Uj8MMefw0MEyKoEdmz8EIOSH45Q0AslJeXfB5ljN1ECrYezcYDDcnve
+9bQYXXJlvLS1tCVnErWWLuEaJpjRdpPzqJCUo/5Pha1VUCK38KnG2waAeq3othLZbnIyEO2S1uIR
+xDA=
+=d40z
+-----END PGP SIGNATURE-----
+
+--zgusBKcQfKyj3IY6kfVzUlfQ3PYyGH4mr--
+
+--===============1226408253==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1226408253==--
