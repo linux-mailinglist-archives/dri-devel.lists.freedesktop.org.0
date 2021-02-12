@@ -1,34 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE80319B26
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 09:26:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E6C9319B33
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 09:27:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 202046E53C;
-	Fri, 12 Feb 2021 08:26:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75F2A6E532;
+	Fri, 12 Feb 2021 08:27:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D95C6E53C
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 08:26:49 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 08B1BB95F;
- Fri, 12 Feb 2021 08:26:48 +0000 (UTC)
-Subject: Re: [PATCH 1/4] drm/vram-helper: cleanup
- drm_gem_vram_bo_driver_move_notify
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com, zackr@vmware.com,
- dri-devel@lists.freedesktop.org
-References: <20210211131659.276275-1-christian.koenig@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <e354a681-8ba5-4c8c-216c-399e257f8eb1@suse.de>
-Date: Fri, 12 Feb 2021 09:26:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D168B6E532
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 08:27:32 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id v1so3324434wrd.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 00:27:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=nkQB7fQz1SUeSfVdwOpJWrzPaD7OcGNtSfRRSX6AyDE=;
+ b=lh71PKNULKyfbZwBerIDfxo+WIp5WMl1b6V2nySVckFa5G6q+yNQdP8yl43kvmm6h4
+ NXWI7W+UFctBqe77+lXxq40o7xQcTt7ekxodrwa3f3VH42my9KoIV3wuh46OwDizPWB1
+ Tco2JXLsMaaxtTMz9pJEWr7ITaPjylK1Q5eo8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=nkQB7fQz1SUeSfVdwOpJWrzPaD7OcGNtSfRRSX6AyDE=;
+ b=ROIKDJc2dX1CWSvuCC7AXh9CZl8LpPNfuV9klsNxmH3nAPCa53fxUSYgTu0N+jXlZQ
+ ubDxlofZWTrjSFBYxfe72cn/RJvBtqsJRcbuSFHIIHcTZUkbmLQaoL3gjtJ62sPFqETp
+ QvY4vLa80Z5Htxd6f/0vwfgVypmchaVPPoJuPW7KYuwOrj+OOhyJv560/gjJ6GUcv7/r
+ WZnO2zjW/Mf01lZwSXrSwIpi4FhMIm/Jnylm8hQobXsKeLTU4+uUw7ZuB9+5AmDOq0Vy
+ 7A0Y3Lw4ZFwqGt5DvZh8J2C/+4kadqrlewZNcmZXjFg2uMSOtwbgf7VBIVgGl9J0dwMz
+ NlAA==
+X-Gm-Message-State: AOAM531VefdpRjhtog9VWS0Jc2W9e+m1OZwIMMUNVzSpxqFq7+m8czG3
+ iFaFxKicf3qQUkBGxwDoZS4aow==
+X-Google-Smtp-Source: ABdhPJxtLzLzwmsnIEoeacUxyWsGZkwB/W6pBDAKk6zgenFqNUANNeB4QheLVkgdiGXPFAh7wUTOqA==
+X-Received: by 2002:a5d:6684:: with SMTP id l4mr2106647wru.111.1613118451417; 
+ Fri, 12 Feb 2021 00:27:31 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v204sm13855104wmg.38.2021.02.12.00.27.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Feb 2021 00:27:30 -0800 (PST)
+Date: Fri, 12 Feb 2021 09:27:29 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: Not 100% sure if I correctly fixed drm-tip
+Message-ID: <YCY78eKShg4/gfFx@phenom.ffwll.local>
+References: <b313d0b2-9589-8209-54a3-f44dc137164e@amd.com>
+ <87o8gqd4vw.fsf@intel.com>
+ <3b20fc5a-e6ff-d1f9-a4f6-6b5c21ca94fc@amd.com>
+ <CAKMK7uEAMST0dOzFDuRYoDh=QgGDQm-7qepfaF+wAnJwbSTGzw@mail.gmail.com>
+ <64da0f52-e2e9-b7cb-d104-52079896041a@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20210211131659.276275-1-christian.koenig@amd.com>
+Content-Disposition: inline
+In-Reply-To: <64da0f52-e2e9-b7cb-d104-52079896041a@amd.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,146 +69,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1558946799=="
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1558946799==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="6PiFtFxCmJ5OPHqBhMwXjZgJFqWSvKXB0"
+On Fri, Feb 12, 2021 at 08:51:19AM +0100, Christian K=F6nig wrote:
+> =
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---6PiFtFxCmJ5OPHqBhMwXjZgJFqWSvKXB0
-Content-Type: multipart/mixed; boundary="KwPXPDhevUrRytDoDSkRrxLbV6BY1wCeh";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com, zackr@vmware.com,
- dri-devel@lists.freedesktop.org
-Message-ID: <e354a681-8ba5-4c8c-216c-399e257f8eb1@suse.de>
-Subject: Re: [PATCH 1/4] drm/vram-helper: cleanup
- drm_gem_vram_bo_driver_move_notify
-References: <20210211131659.276275-1-christian.koenig@amd.com>
-In-Reply-To: <20210211131659.276275-1-christian.koenig@amd.com>
+> =
 
---KwPXPDhevUrRytDoDSkRrxLbV6BY1wCeh
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> Am 11.02.21 um 18:22 schrieb Daniel Vetter:
+> > On Thu, Feb 11, 2021 at 4:27 PM Christian K=F6nig
+> > <christian.koenig@amd.com> wrote:
+> > > =
 
-Hi
+> > > =
 
-Am 11.02.21 um 14:16 schrieb Christian K=C3=B6nig:
-> Swapping bo->mem was completely unecessary. Cleanup the function which
-> is just a leftover from a TTM cleanup.
->=20
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > Am 11.02.21 um 16:02 schrieb Jani Nikula:
+> > > > On Thu, 11 Feb 2021, Christian K=F6nig <christian.koenig@amd.com> w=
+rote:
+> > > > > Hi guys,
+> > > > > =
 
-Appears to work.
+> > > > > I had a conflict this morning in the ttm pool while pushing an im=
+portant
+> > > > > fix to drm-misc-fixes.
+> > > > > =
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > > > I'm not 100% sure if I correctly fixed up drm-tip. How can this be
+> > > > > double checked? And how can it be fixed if the merge has gone bad?
+> > > > I'm afraid there's a problem; bb52cb0dec8d ("drm/ttm: make the pool
+> > > > shrinker lock a mutex") in upstream and drm-misc-fixes creates a si=
+lent
+> > > > conflict with ba051901d10f ("drm/ttm: add a debugfs file for the gl=
+obal
+> > > > page pools") in drm-misc-next, causing the latter to use
+> > > > spin_lock/unlock on a mutex.
+> > > > =
 
-> ---
->   drivers/gpu/drm/drm_gem_vram_helper.c | 18 ++++--------------
->   1 file changed, 4 insertions(+), 14 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/dr=
-m_gem_vram_helper.c
-> index a0992f0b8afd..0c2233ee6029 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -564,9 +564,7 @@ static void drm_gem_vram_bo_driver_evict_flags(stru=
-ct drm_gem_vram_object *gbo,
->   	*pl =3D gbo->placement;
->   }
->  =20
-> -static void drm_gem_vram_bo_driver_move_notify(struct drm_gem_vram_obj=
-ect *gbo,
-> -					       bool evict,
-> -					       struct ttm_resource *new_mem)
-> +static void drm_gem_vram_bo_driver_move_notify(struct drm_gem_vram_obj=
-ect *gbo)
->   {
->   	struct ttm_buffer_object *bo =3D &gbo->bo;
->   	struct drm_device *dev =3D bo->base.dev;
-> @@ -582,16 +580,8 @@ static int drm_gem_vram_bo_driver_move(struct drm_=
-gem_vram_object *gbo,
->   				       struct ttm_operation_ctx *ctx,
->   				       struct ttm_resource *new_mem)
->   {
-> -	int ret;
-> -
-> -	drm_gem_vram_bo_driver_move_notify(gbo, evict, new_mem);
-> -	ret =3D ttm_bo_move_memcpy(&gbo->bo, ctx, new_mem);
-> -	if (ret) {
-> -		swap(*new_mem, gbo->bo.mem);
-> -		drm_gem_vram_bo_driver_move_notify(gbo, false, new_mem);
-> -		swap(*new_mem, gbo->bo.mem);
-> -	}
-> -	return ret;
-> +	drm_gem_vram_bo_driver_move_notify(gbo);
-> +	return ttm_bo_move_memcpy(&gbo->bo, ctx, new_mem);
->   }
->  =20
->   /*
-> @@ -947,7 +937,7 @@ static void bo_driver_delete_mem_notify(struct ttm_=
-buffer_object *bo)
->  =20
->   	gbo =3D drm_gem_vram_of_bo(bo);
->  =20
-> -	drm_gem_vram_bo_driver_move_notify(gbo, false, NULL);
-> +	drm_gem_vram_bo_driver_move_notify(gbo);
->   }
->  =20
->   static int bo_driver_move(struct ttm_buffer_object *bo,
->=20
+> > > > But while you hit a conflict, it does look like the conflict breaki=
+ng
+> > > > the build is silent, AFAICT the spinlock part does not conflict. So=
+ a
+> > > > fixup patch in drm-rerere is probably needed until there are some
+> > > > backmerges.
+> > > Well exactly that's the issue. I've already had a fixup in drm-rerere
+> > > for this.
+> > > =
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> > > But today I've pushed another fix to drm-misc-fixes which also confli=
+cts
+> > > with ba051901d10f ("drm/ttm: add a debugfs file for the global page p=
+ools").
+> > > =
+
+> > > I've fixed this up as well and committed the solution. But dim then
+> > > complained that the original fixup is now not applicable any more (wh=
+ich
+> > > is true as far as I know).
+> > > =
+
+> > > This somehow went away when I said that dim should assume patch
+> > > reversal, but I'm not sure if that's the right thing to do.
+> > Nothing, it's all still broken. You need to delete the now unecessary
+> > fixup. As a rule, when rebuilding drm-tip failed always try again to
+> > confirm that what you've done actually fixed things (since sometimes
+> > git can also not remember where to apply the resolution for some odd
+> > reasons).
+> =
+
+> My question is how to I remove the fixup now?
+> =
+
+> E.g. where can I find it?
+
+In the rerere branch under the fixup/ directory. That's also the place
+where rerere solutions are carried around. I guess docs don't explain this
+well how drm-tip is rebuilt :-/
+-Daniel
+> =
+
+> Thanks,
+> Christian.
+> =
+
+> > =
+
+> > I'm fixing this now.
+> > -Daniel
+> > =
+
+> > > Thanks,
+> > > Christian.
+> > > =
+
+> > > > =
+
+> > > > BR,
+> > > > Jani.
+> > > > =
+
+> > > > =
+
+> > =
+
+> =
 
 
---KwPXPDhevUrRytDoDSkRrxLbV6BY1wCeh--
+-- =
 
---6PiFtFxCmJ5OPHqBhMwXjZgJFqWSvKXB0
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAmO8YFAwAAAAAACgkQlh/E3EQov+Bj
-aBAAjoMW42z+t5B89M2zvYXUPUBh0H0hG2oVu2TssdwhtPHGtE68vRufVXCA/X0dyOralSDFSvAY
-6uun0Ps+hyvlkNLhTe5sNd4T7h28KFfEJKGqzJqyEbziL/L7BnPb/xD1DIjV+6wb/PLfWwrujq2y
-IFfJttqqtW8iUHxO8+KBaRXZktHT7ETLXYctdYu7ms2VC8n2Rl1S+iSAr+4BRn6v+Sv9eBJc6xX0
-i+zNVLscYKkn0TjE2drxiCxCAFarYor5zCK3VSq0+VFGdsmoOYJHWbaQiA/AjQBS3Ao5HQ9JfIp4
-JlixlfSI1t4ofa/yxlayAJCcbnwXAfd+SUWirzDjeSS9J9IBxV1CBzS1GTw5TeuKPaEdEPYQcSkq
-U+NCnKKCrkejLI8AG5QiV/kzTQl55lAWbtrUV2O/j+yZ6wSGy5bg4vu94o2qHFftO/06NCd3btx5
-qp64C1WKKqwW4MFf9jjiPR0B3OjEI+2ldAXZrwiuMrZAfn7wZkWOPCcBgZH64xTT14gMaAVUfBNX
-mkhGLTJ5rbk8KTEQvqResoalsAkAA3YooJENLTf+huYsdPR1YhLwru/rGj4vNN4nB+Ut80PoMfZL
-X7Rey7bMyYFxk9MHboPqpvuzVt45d/mcfZsQ5Xoa0h3NW92vV5dWNpJYh9p5ZFAbj8hQXDNzEuh6
-8UQ=
-=SUYT
------END PGP SIGNATURE-----
-
---6PiFtFxCmJ5OPHqBhMwXjZgJFqWSvKXB0--
-
---===============1558946799==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1558946799==--
