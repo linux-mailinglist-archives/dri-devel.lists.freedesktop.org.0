@@ -2,37 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38842319D97
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 12:52:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C284319DD6
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 13:07:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03ADD6E5B6;
-	Fri, 12 Feb 2021 11:52:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E42D789CF2;
+	Fri, 12 Feb 2021 12:07:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2997C6E0E4;
- Fri, 12 Feb 2021 11:52:21 +0000 (UTC)
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 12 Feb 2021 03:52:20 -0800
-X-QCInternal: smtphost
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 12 Feb 2021 03:52:18 -0800
-X-QCInternal: smtphost
-Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
- by ironmsg02-blr.qualcomm.com with ESMTP; 12 Feb 2021 17:22:09 +0530
-Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
- id 8C5FC427B; Fri, 12 Feb 2021 03:52:09 -0800 (PST)
-From: Kalyan Thota <kalyan_t@codeaurora.org>
-To: y@qualcomm.com, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject: [v3] drm/msm/disp/dpu1: turn off vblank irqs aggressively in dpu
-Date: Fri, 12 Feb 2021 03:52:07 -0800
-Message-Id: <1613130727-18094-1-git-send-email-kalyan_t@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <y>
-References: <y>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15B3D8997E
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 12:07:01 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1613131619; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EowUVygo2zWBdYrKdInlBnVZElDG6W1BRBMq1KZA4PQ=;
+ b=VTNBckwI8AjjwpldT/Cw6nYYZkAJXHBsQuKpKnappgkHfBohpi1dV883BSuClkE1ERXoYd
+ CeOwxX5M1cEtQt4k1RppQq/lbhyfLREHEI3PAaZ+QSGRlcegRvS0uU88MnEzl1thCTgRR/
+ j6O7xaWR5wVlFGaE8xjuG5Zmw57fFbY=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 95D77AC90;
+ Fri, 12 Feb 2021 12:06:59 +0000 (UTC)
+Date: Fri, 12 Feb 2021 13:06:59 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v6 1/3] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+Message-ID: <YCZvY7tc2xCmtrZ6@alley>
+References: <20210208200903.28084-1-sakari.ailus@linux.intel.com>
+ <20210208200903.28084-2-sakari.ailus@linux.intel.com>
+ <CAHp75VciFMKrWM2zJZ6dppuL5M-7BLPGQfcnzkd9pQzY1bRWsQ@mail.gmail.com>
+ <20210209092032.GC32460@paasikivi.fi.intel.com>
+ <YCJc0LWBiQLwdmkN@smile.fi.intel.com>
+ <20210209174755.GH32460@paasikivi.fi.intel.com>
+ <YCVl9BWZQn1TgT2Q@alley>
+ <20210212112856.GE3@paasikivi.fi.intel.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210212112856.GE3@paasikivi.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,249 +53,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mkrishn@codeaurora.org, travitej@codeaurora.org, dianders@chromium.org,
- linux-kernel@vger.kernel.org, seanpaul@chromium.org,
- Kalyan Thota <kalyan_t@codeaurora.org>, hoegsberg@chromium.org,
- swboyd@chromium.org, Kalyan Thota <kalyant@codeaurora.org>
-MIME-Version: 1.0
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Joe Perches <joe@perches.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kalyan Thota <kalyant@codeaurora.org>
+On Fri 2021-02-12 13:28:56, Sakari Ailus wrote:
+> On Thu, Feb 11, 2021 at 06:14:28PM +0100, Petr Mladek wrote:
+> > On Tue 2021-02-09 19:47:55, Sakari Ailus wrote:
+> > > Hi Andy,
+> > > 
+> > > On Tue, Feb 09, 2021 at 11:58:40AM +0200, Andy Shevchenko wrote:
+> > > > On Tue, Feb 09, 2021 at 11:20:32AM +0200, Sakari Ailus wrote:
+> > > > > On Mon, Feb 08, 2021 at 10:43:30PM +0200, Andy Shevchenko wrote:
+> > > > > > On Mon, Feb 8, 2021 at 10:11 PM Sakari Ailus
+> > > > > > <sakari.ailus@linux.intel.com> wrote:
+> > > > 
+> > > > > > > +       %p4cc   BG12 little-endian (0x32314742)
+> > > > > > 
+> > > > > > This misses examples of the (strange) escaping cases and wiped
+> > > > > > whitespaces to make sure everybody understands that 'D 12' will be the
+> > > > > > same as 'D1 2' (side note: which I disagree on, perhaps something
+> > > > > > should be added into documentation why).
+> 
+> I discussed this with Hans and we concluded spaces shouldn't be dropped.
+> 
+> Spaces can be present in the codes themselves in any case.
 
-Set the flag vblank_disable_immediate = true to turn off vblank irqs
-immediately as soon as drm_vblank_put is requested so that there are
-no irqs triggered during idle state. This will reduce cpu wakeups
-and help in power saving.
+Great!
 
-To enable vblank_disable_immediate flag the underlying KMS driver
-needs to support high precision vblank timestamping and also a
-reliable way of providing vblank counter which is incrementing
-at the leading edge of vblank.
+> > 
+> > > > 
+> > > > ...
+> > > > 
+> > > > > > > +static noinline_for_stack
+> > > > > > > +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+> > > > > > > +                   struct printf_spec spec, const char *fmt)
+> > > > > > > +{
+> > > > > > 
+> > > > > > > +       char output[sizeof("(xx)(xx)(xx)(xx) little-endian (0x01234567)")];
+> > > > > > 
+> > > > > > Do we have any evidence / document / standard that the above format is
+> > > > > > what people would find good? From existing practices (I consider other
+> > > > > > printings elsewhere and users in this series) I find '(xx)' form for
+> > > > > > hex numbers is weird. The standard practice is to use \xHH (without
+> > > > > > parentheses).
+> > > > > 
+> > > > > Earlier in the review it was proposed that special handling of codes below
+> > > > > 32 should be added, which I did. Using the parentheses is apparently an
+> > > > > existing practice elsewhere.
+> > > > 
+> > > > Where? \xHH is quite well established format for escaping. Never heard about
+> > > > '(xx)' variant before this very series.
+> > 
+> > What about using the same approach as drm_get_format_name()?
+> > I mean printing '?' when the character is not printable.
+> > The exact value is printed later anyway.
+> > 
+> > The advantage is that it will always printk 4 characters.
+> 
+> "?" can be expanded by the shell. We (me and Hans) both though a dot (".")
+> would be good. These aren't going to be present in valid fourcc codes in
+> any case.
 
-This patch also brings in changes to support vblank_disable_immediate
-requirement in dpu driver.
+The dot (".") looks fine to me.
 
-Changes in v1:
- - Specify reason to add vblank timestamp support. (Rob Clark)
- - Add changes to provide vblank counter from dpu driver.
-
-Changes in v2:
- - Fix warn stack reported by Rob Clark with v2 patch
-
-Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 80 +++++++++++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 28 +++++++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h | 11 ++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  5 ++
- 4 files changed, 123 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index d4662e8..9a80981 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -65,6 +65,83 @@ static void dpu_crtc_destroy(struct drm_crtc *crtc)
- 	kfree(dpu_crtc);
- }
- 
-+static struct drm_encoder *get_encoder_from_crtc(struct drm_crtc *crtc)
-+{
-+	struct drm_device *dev = crtc->dev;
-+	struct drm_encoder *encoder;
-+
-+	drm_for_each_encoder(encoder, dev)
-+		if (encoder->crtc == crtc)
-+			return encoder;
-+
-+	return NULL;
-+}
-+
-+static u32 dpu_crtc_get_vblank_counter(struct drm_crtc *crtc)
-+{
-+	struct drm_encoder *encoder;
-+
-+	encoder = get_encoder_from_crtc(crtc);
-+	if (!encoder) {
-+		DRM_ERROR("no encoder found for crtc %d\n", crtc->index);
-+		return false;
-+	}
-+
-+	return dpu_encoder_get_frame_count(encoder);
-+}
-+
-+static bool dpu_crtc_get_scanout_position(struct drm_crtc *crtc,
-+					   bool in_vblank_irq,
-+					   int *vpos, int *hpos,
-+					   ktime_t *stime, ktime_t *etime,
-+					   const struct drm_display_mode *mode)
-+{
-+	unsigned int pipe = crtc->index;
-+	struct drm_encoder *encoder;
-+	int line, vsw, vbp, vactive_start, vactive_end, vfp_end;
-+
-+	encoder = get_encoder_from_crtc(crtc);
-+	if (!encoder) {
-+		DRM_ERROR("no encoder found for crtc %d\n", pipe);
-+		return false;
-+	}
-+
-+	vsw = mode->crtc_vsync_end - mode->crtc_vsync_start;
-+	vbp = mode->crtc_vtotal - mode->crtc_vsync_end;
-+
-+	/*
-+	 * the line counter is 1 at the start of the VSYNC pulse and VTOTAL at
-+	 * the end of VFP. Translate the porch values relative to the line
-+	 * counter positions.
-+	 */
-+
-+	vactive_start = vsw + vbp + 1;
-+	vactive_end = vactive_start + mode->crtc_vdisplay;
-+
-+	/* last scan line before VSYNC */
-+	vfp_end = mode->crtc_vtotal;
-+
-+	if (stime)
-+		*stime = ktime_get();
-+
-+	line = dpu_encoder_get_linecount(encoder);
-+
-+	if (line < vactive_start)
-+		line -= vactive_start;
-+	else if (line > vactive_end)
-+		line = line - vfp_end - vactive_start;
-+	else
-+		line -= vactive_start;
-+
-+	*vpos = line;
-+	*hpos = 0;
-+
-+	if (etime)
-+		*etime = ktime_get();
-+
-+	return true;
-+}
-+
- static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
- 		struct dpu_plane_state *pstate, struct dpu_format *format)
- {
-@@ -1243,6 +1320,8 @@ static const struct drm_crtc_funcs dpu_crtc_funcs = {
- 	.early_unregister = dpu_crtc_early_unregister,
- 	.enable_vblank  = msm_crtc_enable_vblank,
- 	.disable_vblank = msm_crtc_disable_vblank,
-+	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
-+	.get_vblank_counter = dpu_crtc_get_vblank_counter,
- };
- 
- static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
-@@ -1251,6 +1330,7 @@ static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
- 	.atomic_check = dpu_crtc_atomic_check,
- 	.atomic_begin = dpu_crtc_atomic_begin,
- 	.atomic_flush = dpu_crtc_atomic_flush,
-+	.get_scanout_position = dpu_crtc_get_scanout_position,
- };
- 
- /* initialize crtc */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index f7f5c25..fb6546c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -425,6 +425,32 @@ int dpu_encoder_helper_unregister_irq(struct dpu_encoder_phys *phys_enc,
- 	return 0;
- }
- 
-+int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc)
-+{
-+	struct dpu_encoder_virt *dpu_enc;
-+	struct dpu_encoder_phys *phy_enc;
-+
-+	dpu_enc = to_dpu_encoder_virt(drm_enc);
-+	phy_enc = dpu_enc ? dpu_enc->cur_master : NULL;
-+
-+	return phy_enc ? atomic_read(&phy_enc->vsync_cnt) : 0;
-+}
-+
-+int dpu_encoder_get_linecount(struct drm_encoder *drm_enc)
-+{
-+	struct dpu_encoder_virt *dpu_enc;
-+	struct dpu_encoder_phys *phys;
-+	int linecount = 0;
-+
-+	dpu_enc = to_dpu_encoder_virt(drm_enc);
-+	phys = dpu_enc ? dpu_enc->cur_master : NULL;
-+
-+	if (phys && phys->ops.get_line_count)
-+		linecount = phys->ops.get_line_count(phys);
-+
-+	return linecount;
-+}
-+
- void dpu_encoder_get_hw_resources(struct drm_encoder *drm_enc,
- 				  struct dpu_encoder_hw_resources *hw_res)
- {
-@@ -1296,12 +1322,12 @@ static void dpu_encoder_vblank_callback(struct drm_encoder *drm_enc,
- 	DPU_ATRACE_BEGIN("encoder_vblank_callback");
- 	dpu_enc = to_dpu_encoder_virt(drm_enc);
- 
-+	atomic_inc(&phy_enc->vsync_cnt);
- 	spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
- 	if (dpu_enc->crtc)
- 		dpu_crtc_vblank_callback(dpu_enc->crtc);
- 	spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
- 
--	atomic_inc(&phy_enc->vsync_cnt);
- 	DPU_ATRACE_END("encoder_vblank_callback");
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index b491346..99a5d73 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -156,5 +156,16 @@ void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc);
-  */
- void dpu_encoder_set_idle_timeout(struct drm_encoder *drm_enc,
- 							u32 idle_timeout);
-+/**
-+ * dpu_encoder_get_linecount - get interface line count for the encoder.
-+ * @drm_enc:    Pointer to previously created drm encoder structure
-+ */
-+int dpu_encoder_get_linecount(struct drm_encoder *drm_enc);
-+
-+/**
-+ * dpu_encoder_get_frame_count - get interface frame count for the encoder.
-+ * @drm_enc:    Pointer to previously created drm encoder structure
-+ */
-+int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc);
- 
- #endif /* __DPU_ENCODER_H__ */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 374b0e8..ed636f1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -14,6 +14,7 @@
- 
- #include <drm/drm_crtc.h>
- #include <drm/drm_file.h>
-+#include <drm/drm_vblank.h>
- 
- #include "msm_drv.h"
- #include "msm_mmu.h"
-@@ -1020,6 +1021,10 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
- 	 */
- 	dev->mode_config.allow_fb_modifiers = true;
- 
-+	dev->max_vblank_count = 0xffffffff;
-+	/* Disable vblank irqs aggressively for power-saving */
-+	dev->vblank_disable_immediate = true;
-+
- 	/*
- 	 * _dpu_kms_drm_obj_init should create the DRM related objects
- 	 * i.e. CRTCs, planes, encoders, connectors and so forth
--- 
-2.7.4
-
+Best Regards,
+Petr
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
