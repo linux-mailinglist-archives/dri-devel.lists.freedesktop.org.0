@@ -2,81 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3401F3197A0
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 01:51:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC388319890
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 04:06:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8228289C96;
-	Fri, 12 Feb 2021 00:51:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B78B86E20C;
+	Fri, 12 Feb 2021 03:06:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82E5389C85
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 00:51:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613091072;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZxoBTDgOaqZQBNOrKdaLrKN7bLlOrEKTIHBE2A4ZKlg=;
- b=cQgZHnjmMoKOJ+/SzDDd0BE40g2g+kwNewHszOJ+lvnZnUs9B2e7ZXLfhhw45dLa1YOp20
- VCDpXqD4KoY6fuqtv9Qsy8V0vbOKs5d2+eJlZQpLYKcwbKDS03QLFu63FuA/2ZRS831WiT
- KNLejPX88iOrYiSL5WANBCa3bfSYc94=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-509-3ZpbyvTZNseGedd9wAPvuw-1; Thu, 11 Feb 2021 19:51:10 -0500
-X-MC-Unique: 3ZpbyvTZNseGedd9wAPvuw-1
-Received: by mail-qk1-f199.google.com with SMTP id f16so6048965qke.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Feb 2021 16:51:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=ZxoBTDgOaqZQBNOrKdaLrKN7bLlOrEKTIHBE2A4ZKlg=;
- b=pccq+01lnklWXXPaC8+10yaIsimFpYY1fJX+A/mZDsCKP6wuPscJ7X3tw4mp/qqvua
- 8oduU0NIqGp/HqOLLDCHH8+qmWtigIDRRa/YbGoTMfDyZSx0MFJli5kJ+mXJXjM5/kPp
- UHP9f11qgEq2TLeYZHHPUolUNt6J3B70dyQYBz2tkNvf2p0zNMzPkQxUqZR7zcawLVPC
- BjgMVXchgzCuY+qm1HoOrxcqUciJE8xTOnMaImr1rgVxXjKjN39YPzRjMyQTzv7mfoMs
- Zaqec86+iaswI7f4/aBMPCSVnQvyAukTOEYJkfHnWM/KZ8876ufEDBUNkC4nC+/+5b64
- 9Eug==
-X-Gm-Message-State: AOAM530lT7qFvO7m7AmY1TUNLmEeBZl8GTgHhf3a/FQ5ws0q2BV3dtoA
- GcXnXeVBOiW6g9/MmWG3bnWuQUByHIpaK8/4L4Akp1IrPhWzNVGCio+sknmllIxR98/9KbA/oUv
- 1+vyAH6RHPn44UlQf3b7Yfla+NjUx
-X-Received: by 2002:a05:622a:303:: with SMTP id
- q3mr364243qtw.235.1613091069666; 
- Thu, 11 Feb 2021 16:51:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwFBn/0km4/aoRLYUyYZP2v1VIUEXzhFgFK2fdyq5UwcVYTU7ZuMdEEX1XZO142YkAQ57LUZg==
-X-Received: by 2002:a05:622a:303:: with SMTP id
- q3mr364221qtw.235.1613091069407; 
- Thu, 11 Feb 2021 16:51:09 -0800 (PST)
-Received: from Whitewolf.lyude.net
- (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id n35sm4605255qte.19.2021.02.11.16.51.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 16:51:08 -0800 (PST)
-Message-ID: <acd6a015b12a7fd32ca2cf89c2572d4ed0b26b15.camel@redhat.com>
-Subject: Re: [RFC PATCH 1/2] drm/dp: Make number of AUX retries configurable
- by display drivers.
-From: Lyude Paul <lyude@redhat.com>
-To: "Almahallawy, Khaled" <khaled.almahallawy@intel.com>, 
- "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-Date: Thu, 11 Feb 2021 19:51:07 -0500
-In-Reply-To: <c72586deb3c529096f0e943f2fe1707db73658fe.camel@intel.com>
-References: <20210210083338.100068-1-khaled.almahallawy@intel.com>
- <d8606a5519a777c6531accdd8406b17a1dac3c66.camel@redhat.com>
- <c72586deb3c529096f0e943f2fe1707db73658fe.camel@intel.com>
-Organization: Red Hat
-User-Agent: Evolution 3.38.3 (3.38.3-1.fc33)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E47716E20C
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 03:06:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7BCC564D8F;
+ Fri, 12 Feb 2021 03:06:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1613099193;
+ bh=Y5jlZ1AxNHbt3YDm7bqmvIY0oj4JfdcMXAG3Sn9zFww=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=LUYfOHY5xWeHN5nIymwETMGQtD84vyNSuj+XDv/VGEX+hqHmfnzXIthcbeZyWqMjW
+ QeVDX23eU689XSQdw9ePn3JohaTJn3Xxsra5o1D0Ll3UWfmK+IW5vjlH5l2W3tsGLf
+ bku87/bIuj4QkmbmUX6k62E2TBqIFCHBMyg0gSquH3vmN9Qpz69f3+PqOs8H5LnfRX
+ JOHwou6cPmbJxWVBS5k6us+DXe26owh6u/Jh00mvNVhcGo+XccaIVDP6tF4dVBJ4x9
+ VKSHLcbizp351h5j7mhEkQduqNEZG5t+ndFUNEqsAszCgrr/W37xmDl4Ty+bTt0yuW
+ bI/RrooWldyTQ==
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210209175900.7092-2-jernej.skrabec@siol.net>
+References: <20210209175900.7092-1-jernej.skrabec@siol.net>
+ <20210209175900.7092-2-jernej.skrabec@siol.net>
+Subject: Re: [PATCH v3 1/5] clk: sunxi-ng: mp: fix parent rate change flag
+ check
+From: Stephen Boyd <sboyd@kernel.org>
+To: Jernej Skrabec <jernej.skrabec@siol.net>, mripard@kernel.org, wens@csie.org
+Date: Thu, 11 Feb 2021 19:06:32 -0800
+Message-ID: <161309919221.1254594.13394926523127979721@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,128 +47,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: "seanpaul@chromium.org" <seanpaul@chromium.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, mturquette@baylibre.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sunxi@googlegroups.com,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-KEpGWUkgSSBoYXZlIHNlZW4gdGhpcyBlbWFpbCwgYnV0IGhhdmVuJ3QgZ290dGVuIGEgY2hhbmNl
-IHRvIGFjdHVhbGx5IHJlYWQKdGhyb3VnaCBpdCB5ZXQuIEkgc2hvdWxkIGhhdmUgdGhlIHRpbWUg
-dG8gZG8gc28gdG9tb3Jyb3cpCgpPbiBUaHUsIDIwMjEtMDItMTEgYXQgMDY6NTYgKzAwMDAsIEFs
-bWFoYWxsYXd5LCBLaGFsZWQgd3JvdGU6Cj4gT24gV2VkLCAyMDIxLTAyLTEwIGF0IDEzOjAzIC0w
-NTAwLCBMeXVkZSBQYXVsIHdyb3RlOgo+ID4gT24gV2VkLCAyMDIxLTAyLTEwIGF0IDAwOjMzIC0w
-ODAwLCBLaGFsZWQgQWxtYWhhbGxhd3kgd3JvdGU6Cj4gPiA+IFRoZSBudW1iZXIgb2YgQVVYIHJl
-dHJpZXMgc3BlY2lmaWVkIGluIHRoZSBEUCBzcGVjcyBpcyA3Lgo+ID4gPiBDdXJyZW50bHksIHRv
-IG1ha2UKPiA+ID4gRGVsbCA0ayBtb25pdG9ycyBoYXBwaWVyLCB0aGUgbnVtYmVyIG9mIHJldHJp
-ZXMgYXJlIDMyLgo+ID4gPiBpOTE1IGFsc28gcmV0cmllcyA1IHRpbWVzIChpbnRlbF9kcF9hdXhf
-eGZlcikgd2hpY2ggbWVhbnMgaW4gdGhlCj4gPiA+IGNhc2Ugb2YgQVVYCj4gPiA+IHRpbWVvdXQg
-d2UgYWN0dWFsbHkgcmV0cmllcyAzMiAqIDUgPSAxNjAgdGltZXMuCj4gPiAKPiA+IElzIHRoZXJl
-IGFueSBnb29kIHJlYXNvbiBmb3IgaTkxNSB0byBhY3R1YWxseSBiZSBkb2luZyByZXRyaWVzCj4g
-PiBpdHNlbGY/IEl0IHNlZW1zCj4gPiBsaWtlIGFuIGVhc2llciBzb2x1dGlvbiBoZXJlIG1pZ2h0
-IGp1c3QgdG8gYmUgdG8gZml4IGk5MTUgc28gaXQKPiA+IGRvZXNuJ3QgcmV0cnksCj4gPiBhbmQg
-anVzdCByZWx5IG9uIERSTSB0byBkbyB0aGUgcmV0cmllcyBhcyBhcHByb3ByaWF0ZS4KPiA+IAo+
-ID4gVGhhdCBiZWluZyBzYWlkIHRob3VnaCwgSSdtIG9wZW4gdG8gdGhpcyBpZiB0aGVyZSBpcyBh
-IGxlZ2l0aW1hdGUKPiA+IHJlYXNvbiBmb3IKPiA+IGk5MTUgdG8gYmUgaGFuZGxpbmcgcmV0cmll
-cyBvbiBpdHMgb3duCj4gCj4gaTkxNSBvciBvdGhlcnMgbWF5IGJlbmVmaXQgZnJvbSBjb250cm9s
-bGluZyBBVVggcmV0cmllcyB0byBvcHRpbWl6ZSBhbmQKPiBtaW5pbWl6ZSB0aW1pbmcgc3BlbnQg
-b24gdGhlIGF1eCB0cmFuc2FjdGlvbnMuCj4gwqAKPiBkcm1fZHBjZF9hY2Nlc3MgaGFuZGxlcyBt
-dWx0aXBsZSBhdXggcmV0cmllcyBjYXNlcyB0aGUgc2FtZSB3YXkgKHJldHJ5Cj4gMzIgdGltZXMg
-YXQgd29yc3QgY2FzZSkuIFRoZSA0IGNhc2VzIGFyZToKPiAxLSAqQVVYIHJlY2VpdmUgb3IgSU8g
-ZXJyb3IqLiBJIGJlbGlldmUgaXQgaXMgdXAgdG8gc3BlY2lmaWMKPiBpbXBsZW1lbnRhdGlvbi9I
-VyBvbmNlIGl0IGRldGVjdHMgYSByZWNlaXZlIGVycm9yIHRvIHJldHJ5IGJhc2VkIG9uCj4gdGhl
-aXIgaW50ZXJuYWwgdW5kZXJzdGFuZGluZyB1c2luZyB0aGUgdGltZW91dCBhcHByb3ByaWF0ZSB0
-byB0aGUgSFcKPiBjYXBhYmlsaXRpZXMuCj4gwqAKPiAyLSAqQVVYIFRpbWVvdXQqIEFzIHRoZSBk
-cml2ZXIgZm9sbG93cyB0aGUgc3BlY3MgZm9yIHRoZSByZWNvbW1lbmRlZAo+IHRpbWVvdXQgdGlt
-ZXIgYXMgZGVmaW5lZCBpbiBzZWN0aW9uwqAgKDIuMTEuMiBBVVggVHJhbnNhY3Rpb24KPiBSZXNw
-b25zZS9SZXBseSBUaW1lb3V0cyksIHRoZSBkcml2ZXIgaGFzIG1vcmUgaW50ZWxsaWdlbmNlIHRv
-IGtub3cgaG93Cj4gbWFueSByZXRyaWVzIGl0IG5lZWRzLiBUaGlzIGlzIG1vcmUgdXNlZnVsIGlu
-IGNhc2Ugb2YgRFAtQUxUIGlmIHNvbWUKPiBpc3N1ZXMgaGFwcGVuIGluIFR5cGUtQyBzdGFjayB0
-aGF0IGNhdXNlIEFVWCB0aW1lb3V0IChlLmcuIFVTQjMgZG9jawo+IGRldGVjdGVkIGFzIGhpZ2gg
-c3BlZWQgKFVTQjIpIGNhdXNpbmcgU0JVL0FVWCBsaW5lcyB0byBiZSBkaXNhYmxlZCkuCj4gQWxz
-byB0aGUgZGlzY29ubmVjdCBvZiBNU1QgaHViL2RvY2tzIGlzIGRlcGVuZGVudCBob3cgZmFzdCBh
-IHVzZXJzcGFjZQo+IGRpc2Nvbm5lY3QgYWxsIE1TVCBjb25uZWN0b3JzLsKgIE5vdCBhbGwgdXNl
-ciBzcGFjZXMgZG8gaXQgYXMgZmFzdCBsaWtlCj4gQ2hyb21lICh1YnVudHUgaXMgYW4gZXhhbXBs
-ZSk6IAo+IGh0dHBzOi8vY2hyb21pdW0tcmV2aWV3Lmdvb2dsZXNvdXJjZS5jb20vYy9jaHJvbWl1
-bS9zcmMvKy8yNTEyNTUwL8KgIAo+IAo+IDMtICpBVVhfTkFDSyogRFAgc3BlYyBtZW50aW9ucyBy
-ZXRyeSAzIHRpbWVzIGZvciBOQUNLKDIuMTYuMS4zIEdUQyBMb2NrCj4gQWNxdWlzaXRpb24pLiBI
-b3dldmVyLCBzb21ldGltZXMgd2UgcmVhbGx5IGRvbuKAmXQgbmVlZCBhbnkgcmV0cnkgZm9yCj4g
-TkFDSywgaWYgRFBSWCByZXBsaWVkIEFVWF9OQUNLIGZvciBEUENEIHRoYXQgaXQgZG9lc27igJl0
-IHN1cHBvcnQgKGUuZy4KPiByZWFkaW5nIExUVFBSIENhcGFiaWxpdHkgYW5kIElEIEZpZWxkIGF0
-IERQQ0QgRjAwMDBoIH4gRjAwMDcpLgo+IAo+IDQtICpBVVhfREVGRVIqIFRoZSBzcGVjcyBzdGF0
-ZWQgd2UgbWF5IHJldHJ5IDcgdGltZXMgb24gQVVYX0RFRkVSCj4gKDMuNS4xLjIuMyBMQU5FeF9D
-SEFOTkVMX0VRX0RPTkUgU2VxdWVuY2UpIGFuZCBtYXkgdGVybWluYXRlIExULiBBbHNvCj4gd2l0
-aCB0aGUgaW5jcmVhc2VkIHVzYWdlIG9mIFVTQjQsIFRCVC9UeXBlLUMgRG9ja3MvRGlzcGxheXMs
-IGFuZCBhY3RpdmUKPiBjYWJsZXMsIHRoZSB1c2Ugb2YgTFRUUFIgYmVjb21lcyBjb21tb24gd2hp
-Y2ggYWRkcyBtb3JlIGNoYWxsZW5nZQo+IGVzcGVjaWFsbHkgaWYgd2UgaGF2ZSBtdWx0aXBsZSBM
-VFRQUnMgYW5kIGFsbCBvcGVyYXRlIGluIG5vbi1MVFRQUgo+IG1vZGUuIEluIHRoaXMgY2FzZSBh
-bGwgTFRUUFJzIHdpbGwgcmVwbHkgQVVYX0RFRkVSIGluIDMwMHVzIGlmIGl0IGRpZAo+IG5vdCBy
-ZWNlaXZlIGFueSBhdXggcmVzcG9uc2UgZnJvbSBvdGhlciBMVFRQUnMgYW5kIERQUlguIFRoZSBT
-Q1Igc3RhdGVzCj4gd2UgbmVlZCB0byByZXRyeSA3IHRpbWVzIGFuZCBub3QgbW9yZSB0aGFuIDUw
-bXMgKERQIHYyLjAgU0NSIG9uIDhiLzEwYgo+IERQVFggYW5kIExUVFBSIFJlcXVpcmVtZW50cyBV
-cGRhdGUgdG8gU2VjdGlvbiAzLjYpCj4gCj4gSW4gYWRkaXRpb24gSSBiZWxpZXZlIHRoaXMgZnVu
-Y3Rpb24gaXMgbm90IGNvcnJlY3QgaW4gdHJlYXRpbmcKPiBBVVhfREVGRVIgYW5kIEFVWF9OQUNL
-IGFzIC1FSU8uIEVzcGVjaWFsbHkgZm9yIEFVWF9ERUZFUiwgaXQgaXMgYSB2YWxpZAo+IDEgYnl0
-ZSByZXNwb25zZSB0aGF0IGNhbiBwcm92aWRlIGEgdmFsdWFibGUgZGVidWdnaW5nIGluZm9ybWF0
-aW9uCj4gZXNwZWNpYWxseSBpbiB0aGUgY2FzZSBvZiBvbi1ib2FyZCBMVFRQUiB3aGVyZSB0aGVy
-ZSBpcyBubyB3YXkgdG8KPiBjYXB0dXJlIHRoaXMgQVVYIHJlc3BvbnNlIGJldHdlZW4gdGhlIFNv
-QyBhbmQgTFRUUFIgdW5sZXNzIHlvdSBzb2xkZXIKPiB0d28gd2lyZXMgb24gQVVYX1AgYW5kIEFV
-WF9OIGxpbmVzIGFuZCB1c2UgaTJjL2F1eCBhbmFseXplciB0byBkZWNvZGUuCj4gQXQgbGVhc3Qg
-d2Ugc2hvdWxkIHByb3ZpZGUgdGhlIHNhbWUgZGVidWcgaW5mb3JtYXRpb24gYXMgd2UgZG8gaW4K
-PiBkcm1fZHBfaTJjX2RvX21zZyBieSBwcmludGluZyBBVVhfREVGRVIgYW5kIEFVWF9OQUNLLgo+
-IAo+IFRoYW5rIHlvdSBmb3IgeW91ciBmZWVkYmFjayBhbmQgcmV2aWV3Lgo+IAo+IC0tS2hhbGVk
-Cj4gPiAKPiA+ID4gU28gbWFraW5nIHRoZSBudW1iZXIgb2YgYXV4IHJldGlyZXMgYSB2YXJpYWJs
-ZSB0byBhbGxvdyBmb3IgZmluZQo+ID4gPiB0dW5pbmcgYW5kCj4gPiA+IG9wdGltaXphdGlvbiBv
-ZiBhdXggdGltaW5nLgo+ID4gPiAKPiA+ID4gU2lnbmVkLW9mZi1ieTogS2hhbGVkIEFsbWFoYWxs
-YXd5IDxraGFsZWQuYWxtYWhhbGxhd3lAaW50ZWwuY29tPgo+ID4gPiAtLS0KPiA+ID4gwqBkcml2
-ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBlci5jIHwgMTAgKysrLS0tLS0tLQo+ID4gPiDCoGluY2x1
-ZGUvZHJtL2RybV9kcF9oZWxwZXIuaMKgwqDCoMKgIHzCoCAxICsKPiA+ID4gwqAyIGZpbGVzIGNo
-YW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKPiA+ID4gCj4gPiA+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBlci5jCj4gPiA+IGIvZHJpdmVycy9n
-cHUvZHJtL2RybV9kcF9oZWxwZXIuYwo+ID4gPiBpbmRleCBlZWRiYjQ4ODE1YjcuLjhmZGY1N2I0
-YTA2YyAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9oZWxwZXIuYwo+
-ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBlci5jCj4gPiA+IEBAIC0yNDks
-MTMgKzI0OSw3IEBAIHN0YXRpYyBpbnQgZHJtX2RwX2RwY2RfYWNjZXNzKHN0cnVjdAo+ID4gPiBk
-cm1fZHBfYXV4ICphdXgsIHU4Cj4gPiA+IHJlcXVlc3QsCj4gPiA+IMKgCj4gPiA+IMKgwqDCoMKg
-wqDCoMKgIG11dGV4X2xvY2soJmF1eC0+aHdfbXV0ZXgpOwo+ID4gPiDCoAo+ID4gPiAtwqDCoMKg
-wqDCoMKgIC8qCj4gPiA+IC3CoMKgwqDCoMKgwqDCoCAqIFRoZSBzcGVjaWZpY2F0aW9uIGRvZXNu
-J3QgZ2l2ZSBhbnkgcmVjb21tZW5kYXRpb24gb24gaG93Cj4gPiA+IG9mdGVuIHRvCj4gPiA+IC3C
-oMKgwqDCoMKgwqDCoCAqIHJldHJ5IG5hdGl2ZSB0cmFuc2FjdGlvbnMuIFdlIHVzZWQgdG8gcmV0
-cnkgNyB0aW1lcyBsaWtlCj4gPiA+IGZvcgo+ID4gPiAtwqDCoMKgwqDCoMKgwqAgKiBhdXggaTJj
-IHRyYW5zYWN0aW9ucyBidXQgcmVhbCB3b3JsZCBkZXZpY2VzIHRoaXMgd2Fzbid0Cj4gPiA+IC3C
-oMKgwqDCoMKgwqDCoCAqIHN1ZmZpY2llbnQsIGJ1bXAgdG8gMzIgd2hpY2ggbWFrZXMgRGVsbCA0
-ayBtb25pdG9ycwo+ID4gPiBoYXBwaWVyLgo+ID4gPiAtwqDCoMKgwqDCoMKgwqAgKi8KPiA+ID4g
-LcKgwqDCoMKgwqDCoCBmb3IgKHJldHJ5ID0gMDsgcmV0cnkgPCAzMjsgcmV0cnkrKykgewo+ID4g
-PiArwqDCoMKgwqDCoMKgIGZvciAocmV0cnkgPSAwOyByZXRyeSA8IGF1eC0+bnVtX3JldHJpZXM7
-IHJldHJ5KyspIHsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChyZXQg
-IT0gMCAmJiByZXQgIT0gLUVUSU1FRE9VVCkgewo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHVzbGVlcF9yYW5nZShBVVhfUkVUUllfSU5URVJWQUws
-Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBBVVhfUkVUUllfSU5URVJWQUwgKyAxMDApOwo+ID4gPiBA
-QCAtMTc0NCw2ICsxNzM4LDggQEAgdm9pZCBkcm1fZHBfYXV4X2luaXQoc3RydWN0IGRybV9kcF9h
-dXggKmF1eCkKPiA+ID4gwqDCoMKgwqDCoMKgwqAgYXV4LT5kZGMucmV0cmllcyA9IDM7Cj4gPiA+
-IMKgCj4gPiA+IMKgwqDCoMKgwqDCoMKgIGF1eC0+ZGRjLmxvY2tfb3BzID0gJmRybV9kcF9pMmNf
-bG9ja19vcHM7Cj4gPiA+ICvCoMKgwqDCoMKgwqAgLypTdGlsbCBtYWtpbmcgdGhlIERlbGwgNGsg
-bW9uaXRvcnMgaGFwcGllciovCj4gPiA+ICvCoMKgwqDCoMKgwqAgYXV4LT5udW1fcmV0cmllcyA9
-IDMyOwo+ID4gPiDCoH0KPiA+ID4gwqBFWFBPUlRfU1lNQk9MKGRybV9kcF9hdXhfaW5pdCk7Cj4g
-PiA+IMKgCj4gPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZHBfaGVscGVyLmgKPiA+
-ID4gYi9pbmNsdWRlL2RybS9kcm1fZHBfaGVscGVyLmgKPiA+ID4gaW5kZXggZWRmZmQxZGNjYTNl
-Li4xNmNiZmM4ZjVlNjYgMTAwNjQ0Cj4gPiA+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxw
-ZXIuaAo+ID4gPiArKysgYi9pbmNsdWRlL2RybS9kcm1fZHBfaGVscGVyLmgKPiA+ID4gQEAgLTE4
-NzYsNiArMTg3Niw3IEBAIHN0cnVjdCBkcm1fZHBfYXV4IHsKPiA+ID4gwqDCoMKgwqDCoMKgwqAg
-c3RydWN0IG11dGV4IGh3X211dGV4Owo+ID4gPiDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3Qgd29ya19z
-dHJ1Y3QgY3JjX3dvcms7Cj4gPiA+IMKgwqDCoMKgwqDCoMKgIHU4IGNyY19jb3VudDsKPiA+ID4g
-K8KgwqDCoMKgwqDCoCBpbnQgbnVtX3JldHJpZXM7Cj4gPiA+IMKgwqDCoMKgwqDCoMKgIHNzaXpl
-X3QgKCp0cmFuc2Zlcikoc3RydWN0IGRybV9kcF9hdXggKmF1eCwKPiA+ID4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fZHBf
-YXV4X21zZyAqbXNnKTsKPiA+ID4gwqDCoMKgwqDCoMKgwqAgLyoqCgotLSAKU2luY2VyZWx5LAog
-ICBMeXVkZSBQYXVsIChzaGUvaGVyKQogICBTb2Z0d2FyZSBFbmdpbmVlciBhdCBSZWQgSGF0CiAg
-IApOb3RlOiBJIGRlYWwgd2l0aCBhIGxvdCBvZiBlbWFpbHMgYW5kIGhhdmUgYSBsb3Qgb2YgYnVn
-cyBvbiBteSBwbGF0ZS4gSWYgeW91J3ZlCmFza2VkIG1lIGEgcXVlc3Rpb24sIGFyZSB3YWl0aW5n
-IGZvciBhIHJldmlldy9tZXJnZSBvbiBhIHBhdGNoLCBldGMuIGFuZCBJCmhhdmVuJ3QgcmVzcG9u
-ZGVkIGluIGEgd2hpbGUsIHBsZWFzZSBmZWVsIGZyZWUgdG8gc2VuZCBtZSBhbm90aGVyIGVtYWls
-IHRvIGNoZWNrCm9uIG15IHN0YXR1cy4gSSBkb24ndCBiaXRlIQoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Quoting Jernej Skrabec (2021-02-09 09:58:56)
+> CLK_SET_RATE_PARENT flag is checked on parent clock instead of current
+> one. Fix that.
+> 
+> Fixes: 3f790433c3cb ("clk: sunxi-ng: Adjust MP clock parent rate when allowed")
+> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+> Tested-by: Andre Heider <a.heider@gmail.com>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> ---
+
+Ok, Applied to clk-fixes
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
