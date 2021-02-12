@@ -1,33 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 262E6319C0E
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 10:47:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3B3319C24
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 10:53:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D29446E55C;
-	Fri, 12 Feb 2021 09:47:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 790BD6E560;
+	Fri, 12 Feb 2021 09:53:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.bugwerft.de (mail.bugwerft.de [46.23.86.59])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1CAF46E55C
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 09:47:24 +0000 (UTC)
-Received: from [192.168.178.106] (p57bc9f25.dip0.t-ipconnect.de
+X-Greylist: delayed 384 seconds by postgrey-1.36 at gabe;
+ Fri, 12 Feb 2021 09:53:46 UTC
+Received: from mail.bugwerft.de (mail.bugwerft.de [IPv6:2a03:6000:1011::59])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2B3D36E560
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 09:53:46 +0000 (UTC)
+Received: from hq-00021.fritz.box (p57bc9f25.dip0.t-ipconnect.de
  [87.188.159.37])
- by mail.bugwerft.de (Postfix) with ESMTPSA id 521984AADC2;
- Fri, 12 Feb 2021 09:47:21 +0000 (UTC)
-Subject: Re: [PATCH] drm/tiny: add driver for newhaven,1.8-128160EF
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie, daniel@ffwll.ch
-References: <20210211095058.473776-1-daniel@zonque.org>
- <00f588fe-3820-7754-4e24-5789795e21e4@suse.de>
+ by mail.bugwerft.de (Postfix) with ESMTPSA id C3A284AADCF;
+ Fri, 12 Feb 2021 09:53:44 +0000 (UTC)
 From: Daniel Mack <daniel@zonque.org>
-Message-ID: <0faf3979-f2c2-a654-df72-2824c761fa16@zonque.org>
-Date: Fri, 12 Feb 2021 10:47:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+To: airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH v2 1/2] dt-bindings: display: add bindings for newhaven,
+ 1.8-128160EF
+Date: Fri, 12 Feb 2021 10:53:35 +0100
+Message-Id: <20210212095336.635701-1-daniel@zonque.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <00f588fe-3820-7754-4e24-5789795e21e4@suse.de>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,21 +39,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robh+dt@kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, robh+dt@kernel.org,
+ Daniel Mack <daniel@zonque.org>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpUaGFua3MgZm9yIHRoZSByZXZpZXchCgpPbiAyLzEyLzIxIDg6MTMgQU0sIFRob21hcyBa
-aW1tZXJtYW5uIHdyb3RlOgo+IHRoYW5rcyBmb3IgdGhlIGRyaXZlci4gSSBvbmx5IGhhdmUgc29t
-ZSBtaW5vciBjb21tZW50cwo+IAo+IEFtIDExLjAyLjIxIHVtIDEwOjUwIHNjaHJpZWIgRGFuaWVs
-IE1hY2s6Cj4+ICsjZGVmaW5lIElMSTkxNjNfTUFEQ1RMX0JHUsKgwqDCoCBCSVQoMykKPj4gKyNk
-ZWZpbmUgSUxJOTE2M19NQURDVExfTVbCoMKgwqAgQklUKDUpCj4+ICsjZGVmaW5lIElMSTkxNjNf
-TUFEQ1RMX01YwqDCoMKgIEJJVCg2KQo+PiArI2RlZmluZSBJTEk5MTYzX01BRENUTF9NWcKgwqDC
-oCBCSVQoNykKPiAKPiBUaGUgaW5kZW50aW9uIGlzIGluY29uc2lzdGVudC4gT3IgbWF5YmUgaXQn
-cyBqdXN0IG15IGVtYWlsIGNsaWVudC4KClllcywgdGhlIGxhdHRlciA6KQoKQWRkcmVzc2VkIHRo
-ZSByZXN0IG9mIHlvdXIgcmVtYXJrcy4gV2lsbCBzZW5kIGEgdjIuCgoKVGhhbmtzLApEYW5pZWwK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+This adds documentation for a new ILI9163 based, SPI connected display.
+
+Signed-off-by: Daniel Mack <daniel@zonque.org>
+---
+ .../bindings/display/ilitek,ili9163.txt       | 27 +++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/ilitek,ili9163.txt
+
+diff --git a/Documentation/devicetree/bindings/display/ilitek,ili9163.txt b/Documentation/devicetree/bindings/display/ilitek,ili9163.txt
+new file mode 100644
+index 0000000000000..fee119991c14e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/ilitek,ili9163.txt
+@@ -0,0 +1,27 @@
++Ilitek ILI9163 display panels
++
++This binding is for display panels using an Ilitek ILI9163 controller in SPI
++mode.
++
++Required properties:
++- compatible:	"newhaven,1.8-128160EF", "ilitek,ili9163"
++- dc-gpios:	D/C pin
++- reset-gpios:	Reset pin
++
++The node for this driver must be a child node of a SPI controller, hence
++all mandatory properties described in ../spi/spi-bus.txt must be specified.
++
++Optional properties:
++- rotation:	panel rotation in degrees counter clockwise (0,90,180,270)
++- backlight:	phandle of the backlight device attached to the panel
++
++Example:
++	display@0{
++		compatible = "newhaven,1.8-128160EF", "ilitek,ili9163"
++		reg = <0>;
++		spi-max-frequency = <32000000>;
++		dc-gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
++		reset-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;
++		rotation = <270>;
++		backlight = <&backlight>;
++	};
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
