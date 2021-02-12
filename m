@@ -1,37 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4269319D32
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 12:20:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE858319D58
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 12:28:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4063F6E59B;
-	Fri, 12 Feb 2021 11:20:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77FC36E098;
+	Fri, 12 Feb 2021 11:28:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B3F16E59B
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 11:20:18 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 6DE31AC69;
- Fri, 12 Feb 2021 11:20:17 +0000 (UTC)
-Message-ID: <97eef5ad872b08b174dfd4ed903508371b1baaa5.camel@suse.de>
-Subject: Re: [PATCH v2 14/15] ARM: dts: bcm2711: Add the BSC interrupt
- controller
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To: Florian Fainelli <f.fainelli@gmail.com>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, Marc Zyngier <maz@kernel.org>
-Date: Fri, 12 Feb 2021 12:20:14 +0100
-In-Reply-To: <d4f8c89b-9bab-3dce-1f05-aeef39f64211@gmail.com>
-References: <20210111142309.193441-1-maxime@cerno.tech>
- <20210111142309.193441-15-maxime@cerno.tech>
- <CAPY8ntC7U1BAVT8xe0emX19p4mCu-BQOeBeC-CDgKjE+asZKRQ@mail.gmail.com>
- <20210210144043.s4plyc7ekwnnu7k4@gilmour>
- <9d868bf76072fee7838b6f2ff73a575c@kernel.org>
- <CAPY8ntCG3vLy1NWNF09DEZWE-t_xc+q5m89Jv8GB8GofBLVp3Q@mail.gmail.com>
- <d4f8c89b-9bab-3dce-1f05-aeef39f64211@gmail.com>
-User-Agent: Evolution 3.38.3 
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F4106E098;
+ Fri, 12 Feb 2021 11:28:42 +0000 (UTC)
+IronPort-SDR: aJKvRe8W5BIxSFi5KXutJrHnrCExR4RntJQi+Af91MHAqXBqg2WRkfx+C7rh4XviI6beZ7E6QD
+ O5gxp35U8n+Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9892"; a="178889862"
+X-IronPort-AV: E=Sophos;i="5.81,173,1610438400"; d="scan'208";a="178889862"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2021 03:28:42 -0800
+IronPort-SDR: 10O1SAjzXR69ChWDX/cN8MLqIhMl+B9DJrP/wpC0lbj/31h38bep16Q2KxFSH6WHcCsqjDYRfk
+ 71qik/sLdFaA==
+X-IronPort-AV: E=Sophos;i="5.81,173,1610438400"; d="scan'208";a="397943677"
+Received: from mpetrica-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.54.176])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2021 03:28:38 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [RFC v4 05/11] drm/i915/dpcd_bl: Cleanup
+ intel_dp_aux_vesa_enable_backlight() a bit
+In-Reply-To: <20210208233902.1289693-6-lyude@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210208233902.1289693-1-lyude@redhat.com>
+ <20210208233902.1289693-6-lyude@redhat.com>
+Date: Fri, 12 Feb 2021 13:28:35 +0200
+Message-ID: <87h7mhcyos.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,136 +50,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============2105569188=="
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ Sean Paul <seanpaul@chromium.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 08 Feb 2021, Lyude Paul <lyude@redhat.com> wrote:
+> Get rid of the extraneous switch case in here, and just open code
+> edp_backlight_mode as we only ever use it once.
+>
+> v4:
+> * Check that backlight mode is DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD, not
+>   DP_EDP_BACKLIGHT_CONTROL_MODE_MASK - imirkin
+>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+>  .../gpu/drm/i915/display/intel_dp_aux_backlight.c | 15 ++-------------
+>  1 file changed, 2 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> index c37ccc8538cb..57218faed4a3 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> @@ -382,7 +382,7 @@ intel_dp_aux_vesa_enable_backlight(const struct intel_crtc_state *crtc_state,
+>  	struct intel_dp *intel_dp = intel_attached_dp(connector);
+>  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+>  	struct intel_panel *panel = &connector->panel;
+> -	u8 dpcd_buf, new_dpcd_buf, edp_backlight_mode;
+> +	u8 dpcd_buf, new_dpcd_buf;
+>  	u8 pwmgen_bit_count = panel->backlight.edp.vesa.pwmgen_bit_count;
+>  
+>  	if (drm_dp_dpcd_readb(&intel_dp->aux,
+> @@ -393,12 +393,8 @@ intel_dp_aux_vesa_enable_backlight(const struct intel_crtc_state *crtc_state,
+>  	}
+>  
+>  	new_dpcd_buf = dpcd_buf;
+> -	edp_backlight_mode = dpcd_buf & DP_EDP_BACKLIGHT_CONTROL_MODE_MASK;
+>  
+> -	switch (edp_backlight_mode) {
+> -	case DP_EDP_BACKLIGHT_CONTROL_MODE_PWM:
+> -	case DP_EDP_BACKLIGHT_CONTROL_MODE_PRESET:
+> -	case DP_EDP_BACKLIGHT_CONTROL_MODE_PRODUCT:
+> +	if ((dpcd_buf & DP_EDP_BACKLIGHT_CONTROL_MODE_MASK) != DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD) {
+>  		new_dpcd_buf &= ~DP_EDP_BACKLIGHT_CONTROL_MODE_MASK;
+>  		new_dpcd_buf |= DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD;
+>  
+> @@ -406,13 +402,6 @@ intel_dp_aux_vesa_enable_backlight(const struct intel_crtc_state *crtc_state,
+>  				       pwmgen_bit_count) != 1)
 
---===============2105569188==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-c2ZiMS/8MK1k9wh+A4JP"
+What baseline is this on? None that I can think of have the above != 1,
+they're all < 0 AFAICT.
 
-
---=-c2ZiMS/8MK1k9wh+A4JP
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, 2021-02-10 at 10:49 -0800, Florian Fainelli wrote:
-> On 2/10/21 7:49 AM, Dave Stevenson wrote:
-> > Hi Marc.
-> >=20
-> > On Wed, 10 Feb 2021 at 15:30, Marc Zyngier <maz@kernel.org> wrote:
-> > >=20
-> > > Hi Maxime,
-> > >=20
-> > > On 2021-02-10 14:40, Maxime Ripard wrote:
-> > > > Hi Dave,
-> > > >=20
-> > > > On Tue, Feb 09, 2021 at 09:49:05AM +0000, Dave Stevenson wrote:
-> > > > > On Mon, 11 Jan 2021 at 14:23, Maxime Ripard <maxime@cerno.tech> w=
-rote:
-> > > > > >=20
-> > > > > > The BSC controllers used for the HDMI DDC have an interrupt con=
-troller
-> > > > > > shared between both instances. Let's add it to avoid polling.
-> > > > >=20
-> > > > > This seems to have unintended side effects.
-> > > > > GIC interrupt 117 is shared between the standard I2C controllers
-> > > > > (i2c-bcm2835) and the l2-intc block handling the HDMI I2C interru=
-pts.
-> > > > >=20
-> > > > > Whilst i2c-bcm2835 requests the interrupt with IRQF_SHARED, that
-> > > > > doesn't appear to be an option for l2-intc registering as an inte=
-rrupt
-> > > > > controller. i2c-bcm2835 therefore loses out and fails to register=
- for
-> > > > > the interrupt.
-> > > > >=20
-> > > > > Is there an equivalent flag that an interrupt controller can add =
-to
-> > > > > say that the parent interrupt is shared? Is that even supported?
-> > > >=20
-> > > > Indeed, it looks like setting an equivalent to IRQF_SHARED would be=
- the
-> > > > solution, but I couldn't find anything that would allow us to in th=
-e
-> > > > irqchip code.
-> > > >=20
-> > > > Marc, Thomas, is it something that is allowed?
-> > >=20
-> > > No, not really. That's because the chained handler is actually an
-> > > interrupt flow, and not a normal handler. IRQF_SHARED acts at the wro=
-ng
-> > > level for that.
-> > >=20
-> > > I can see two possibilities:
-> > >=20
-> > > - the l2-intc gets turned into a normal handler, and does the demux
-> > > =C2=A0=C2=A0=C2=A0from there. Horrible stuff.
-> > >=20
-> > > - the i2c controller gets parented to the l2c-int as a fake interrupt=
-,
-> > > =C2=A0=C2=A0=C2=A0and gets called from there. Horrible stuff.
-> > >=20
-> > > Pick your poison... :-/
-> >=20
-> > Thanks for the info.
-> >=20
-> > Option 3 - remove l2-intc and drop back to polling the i2c-brcmstb
-> > blocks (which the driver supports anyway).
-> > HDMI I2C generally isn't heavily used once displays are connected, so
-> > I'd be OK with that.
-> >=20
-> > (We can keep the l2-intc that handles CEC and HPD as that is on a
-> > unique GIC interrupt).
->=20
-> Agreed, Maxime or Nicolas do you want me to send a revert of this patch?
-
-Reverting seems the safe move, but I'll defer to whatever Maxime says.
-
-Regards,
-Nicolas
+BR,
+Jani.
 
 
---=-c2ZiMS/8MK1k9wh+A4JP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+>  			drm_dbg_kms(&i915->drm,
+>  				    "Failed to write aux pwmgen bit count\n");
+> -
+> -		break;
+> -
+> -	/* Do nothing when it is already DPCD mode */
+> -	case DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD:
+> -	default:
+> -		break;
+>  	}
+>  
+>  	if (panel->backlight.edp.vesa.pwm_freq_pre_divider) {
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmAmZG4ACgkQlfZmHno8
-x/5YOgf/R/l8SyblxkstWXvc6zfCjfB89hKUbIctbdEK1RHkvwIvanO4qScRUL4d
-EaUHq3za69fXEHf6Uplk+nANGMncTVG3nDlpD60vjf1/v4hixsn+7j8bf1eFiKF3
-i71eFfzGgEjh2v5k+qjzfDdjYbs5y2QuT7u1Dfrr+RmRt/vX2MB/8yuByXHl5+iV
-54WT4Qo9BRUIWeAIPBg9ewTT9+d/Fg+NcxjPxe5daoYJcj6VLRcr61MG2QK7+t/d
-LoxHQGBqkWdrBE930lYCGMeA/NtMExYdiUEyf0jHhDMkONb+lvQ8F3Hy5aK6bqcK
-SfTZI6wEcCZkB2q+GrVmTXf5EE6BXA==
-=TacG
------END PGP SIGNATURE-----
-
---=-c2ZiMS/8MK1k9wh+A4JP--
-
-
---===============2105569188==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2105569188==--
-
