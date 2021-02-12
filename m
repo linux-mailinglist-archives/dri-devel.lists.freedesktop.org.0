@@ -1,59 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B92931A312
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 17:47:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B43A31A38E
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Feb 2021 18:28:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0471589CA4;
-	Fri, 12 Feb 2021 16:47:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0900A6E193;
+	Fri, 12 Feb 2021 17:28:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2550F89AA6
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 16:47:01 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id v15so8937352wrx.4
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 08:47:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=QprvEJuF+nfD2ydCNF6Q3BdtFfg1p0zzHMXF8BvwmIc=;
- b=LJhSo62JVcozKOW7EPqNSvJ5tNUxExfN1SlyJHHA9A/ED9y874BbyY5vPOJImCU9cC
- QirF7yyoyk0H459gkSYtjc70iARC1kIs3r3kaoO8O/x9+b6guKxCtbiTpEYmWvABxz6Y
- OIzgUSoOTrdW/b4zfLw6kWjfgb5JQ4bZJPBfE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=QprvEJuF+nfD2ydCNF6Q3BdtFfg1p0zzHMXF8BvwmIc=;
- b=Cg0bBtR+WwLxNC3XB3QAhCW8uwCmSvpgXBfAe2FdsM9Afalq9/1uFm+wapQ70kXgYY
- U6ed4bA0jqzDo89Dm0unBJSIrS1XjbVBWIvc5J4EX9tOdtoF7cgplDsDNTU6NYRTcxNn
- oQvQpgY91K7rVk9InCLSK6eIpjfgH4nu5ALDunQVqBGk/CZsIE2IuYv9rn7VGQcZKvoi
- kPG5CdQKYgrR6xkrG9DXUhBqndlc7tbTKlqjLXGMoiltiCdeKtdmqjmR+pVcAzJ5T2pz
- NYE98AeU0GKA1e+yQXOzySIWPniRzIXZ0Dpw3Nlvhvnt5FhFgpMbjqfPnAWMZPF50PNi
- AdCw==
-X-Gm-Message-State: AOAM532xrMOO/F6kzcfjgekVAPgXKoGIncHQzMxDg4jk5aTp0ly4snM1
- 01+vBBi9w781HLARKgxal+gTrQ==
-X-Google-Smtp-Source: ABdhPJyX5tEL++58uiXXsNYyG2EC9A2Ba9ZwW2T8D0LyV6xb+XWC4JdLqHY3o+XtLxs57hgXqjKlQw==
-X-Received: by 2002:a5d:618e:: with SMTP id j14mr4355198wru.377.1613148419768; 
- Fri, 12 Feb 2021 08:46:59 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u14sm11674794wro.10.2021.02.12.08.46.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Feb 2021 08:46:58 -0800 (PST)
-Date: Fri, 12 Feb 2021 17:46:57 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: Proposed Changes to Elida-KD35T133 Panel Driver
-Message-ID: <YCaxAbctJz5l0N4R@phenom.ffwll.local>
-References: <SN6PR06MB53426C7236890DEEDE4EE632A58C9@SN6PR06MB5342.namprd06.prod.outlook.com>
- <484adfab-24b6-f141-fde1-d7acc184a8d1@suse.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 373936E193
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Feb 2021 17:28:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E0AED64E95;
+ Fri, 12 Feb 2021 17:28:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1613150935;
+ bh=GFtq0B3Onk0lHTm0ppoQIGAxNpPaVFOx5jJLCzZQSQ8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Bb3gzoBWSN8jfLP4qc0LoBX5luPDYRAPNv5tC4lFWG9a2Uyg3WAPitKNT5ppP502v
+ aNRnvDjnINauiA7JNG13YIO5ZklqTH3QgOaJ5aG4wlT+4FR9usLObfdXTZBRNUJfr/
+ 49WdWAGRFHS3HkhXHoigFM5GaLTsgN0r3BzNRBhSU8aJgnjkphovMswQ7YqZXoC3zA
+ t6Nw3G4m8/FRD53QoDq5kouPV6FP8dKEfrRT72147hLUNiZqVrgHgE5880hJCkb+6c
+ wMcOsn9QR8VVUyuQUvQzR1wtJ12lwuS5sGT5rWBGRR7PFMC5OBYXjRvXMSZIW9XEO7
+ hVtHZRxDO+0Pw==
+Received: by earth.universe (Postfix, from userid 1000)
+ id E02143C0C96; Fri, 12 Feb 2021 18:28:52 +0100 (CET)
+Date: Fri, 12 Feb 2021 18:28:52 +0100
+From: Sebastian Reichel <sre@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v4] MAINTAINERS: move Milo Kim to credits
+Message-ID: <20210212172852.hplx6ly3m5ixrw4o@earth.universe>
+References: <20210212163229.68270-1-krzk@kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <484adfab-24b6-f141-fde1-d7acc184a8d1@suse.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20210212163229.68270-1-krzk@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,84 +46,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christopher Morgan <macromorgan@hotmail.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "sam@ravnborg.org" <sam@ravnborg.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Jonathan Cameron <jic23@kernel.org>,
+ Peter Meerwald-Stadler <pmeerw@pmeerw.net>, linux-pm@vger.kernel.org,
+ linux-iio@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Lee Jones <lee.jones@linaro.org>,
+ linux-leds@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1487315298=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 12, 2021 at 08:16:13AM +0100, Thomas Zimmermann wrote:
-> Hi
-> =
 
-> Am 11.02.21 um 18:51 schrieb Christopher Morgan:
-> > I'd like to make the following changes to this panel driver.  The first=
- patch is to add rotation support (rotates only the DRM connector at this t=
-ime).  The panel is currently rotated 270 degrees in the Odroid Go Advance,=
- and this change allows us to describe that hardware better.
-> > =
-
-> > The second patch just fixes a typo.  The panel in question is 3.5 inche=
-s in size not 5.5 inches.
-> =
-
-> The patches are attached as files. Could you re-send them as inline
-> attachments?
-
-Some tips here if there's trouble:
-
-https://dri.freedesktop.org/docs/drm/process/submitting-patches.html#no-mim=
-e-no-links-no-compression-no-attachments-just-plain-text
-
-Cheers, Daniel
-
-> =
-
-> Best regards
-> Thomas
-> =
-
-> > =
-
-> > Thank you.
-> > =
-
-> > =
-
-> > =
-
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > =
-
-> =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
+--===============1487315298==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="56e5d2djjx3fcdkn"
+Content-Disposition: inline
 
 
+--56e5d2djjx3fcdkn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
+On Fri, Feb 12, 2021 at 05:32:29PM +0100, Krzysztof Kozlowski wrote:
+> Milo Kim's email in TI bounces with permanent error (550: Invalid
+> recipient).  Last email from him on LKML was in 2017.  Move Milo Kim to
+> credits and remove the separate driver entries for:
+>  - TI LP855x backlight driver,
+>  - TI LP8727 charger driver,
+>  - TI LP8788 MFD (ADC, LEDs, charger and regulator) drivers.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+>=20
+> ---
+>
+> Dear Lee,
+>=20
+> Could you take care about this patch?
+>=20
+> Best regards,
+> Krzysztof
+>=20
+> Changes since v3:
+> 1. Remove the entries as Dan Murphy won't be mainaining them.
+>=20
+> Changes since v2:
+> 1. Fix subject (TP -> TI).
+>=20
+> Changes since v1:
+> 1. Add Dan Murphy, do not remove the entries.
+> ---
 
--- =
+Acked-by: Sebastian Reichel <sre@kernel.org>
 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+-- Sebastian
+
+>  CREDITS     |  3 +++
+>  MAINTAINERS | 23 -----------------------
+>  2 files changed, 3 insertions(+), 23 deletions(-)
+>=20
+> diff --git a/CREDITS b/CREDITS
+> index be097156bd71..71552790774d 100644
+> --- a/CREDITS
+> +++ b/CREDITS
+> @@ -1933,6 +1933,9 @@ N: Kukjin Kim
+>  E: kgene@kernel.org
+>  D: Samsung S3C, S5P and Exynos ARM architectures
+> =20
+> +N: Milo Kim
+> +D: TI LP855x, LP8727 and LP8788 drivers
+> +
+>  N: Sangbeom Kim
+>  E: sbkim73@samsung.com
+>  D: Samsung SoC Audio (ASoC) drivers
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 00bca3e220cc..3478082debd1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -17880,29 +17880,6 @@ S:	Maintained
+>  F:	sound/soc/codecs/isabelle*
+>  F:	sound/soc/codecs/lm49453*
+> =20
+> -TI LP855x BACKLIGHT DRIVER
+> -M:	Milo Kim <milo.kim@ti.com>
+> -S:	Maintained
+> -F:	Documentation/driver-api/backlight/lp855x-driver.rst
+> -F:	drivers/video/backlight/lp855x_bl.c
+> -F:	include/linux/platform_data/lp855x.h
+> -
+> -TI LP8727 CHARGER DRIVER
+> -M:	Milo Kim <milo.kim@ti.com>
+> -S:	Maintained
+> -F:	drivers/power/supply/lp8727_charger.c
+> -F:	include/linux/platform_data/lp8727.h
+> -
+> -TI LP8788 MFD DRIVER
+> -M:	Milo Kim <milo.kim@ti.com>
+> -S:	Maintained
+> -F:	drivers/iio/adc/lp8788_adc.c
+> -F:	drivers/leds/leds-lp8788.c
+> -F:	drivers/mfd/lp8788*.c
+> -F:	drivers/power/supply/lp8788-charger.c
+> -F:	drivers/regulator/lp8788-*.c
+> -F:	include/linux/mfd/lp8788*.h
+> -
+>  TI NETCP ETHERNET DRIVER
+>  M:	Wingman Kwok <w-kwok2@ti.com>
+>  M:	Murali Karicheri <m-karicheri2@ti.com>
+> --=20
+> 2.25.1
+>=20
+
+--56e5d2djjx3fcdkn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmAmusMACgkQ2O7X88g7
++pq5YxAAi9sMZJ6My43p1X33t66UXnrR6iZir+yvyHCur564wWsRrT+XCPKJJVGX
+JYMtku40qwJSzvF9ZBR5otvlXdPq592MuTPhdq81AE5W/NiS2PBWwn6WFOVMwQe/
+to4K+oaOLiOfVAkMeV8jZQeFlJrKtCJIm05K+rVTJKI8ZDW2ggY/eLygzzrAsXH9
+xD/9aCxyU7ra5mWiBC+8+Z8szKt6lc4rqrc98uEZTOJL244YUprtOI3Qzz2oC5Dx
+o/YUOEhtiAH9zeQZTNBBllfg/HUMtKzEcKA/a7zbA1Pv7RRpldr7Jv9N8a03F6Xr
+Y84j9Iay39KOMGbJuDG0QGTMlP0cmgZKsJ8+gk9jyT5YGLSuPFEQdwZjEZu6Fgxb
+iHUqAybdZIwEqgOA+hzsxFXbL3dHTKLbvuUjEtcMhdythDZCLVpN5vGCGsbn46vB
+lzENDVKf/yYY3HJYqJCY5XbIABTqX6yOxjUPxOMjyDc8PpY4tFppASJ92i3z9XXI
+ayWP4rCaEhKFiviGrrA7CQQaMo+n1B1k5vfXkYMuwjwG4L5upXiBYOgwxx/XB8bs
+5vbXTwC2JBb2mHKKxrWRZIbDJNaBn55A6oYOeGoznLRkUYytsLsAKJ244lw4CKy3
+HVH6yTNna7+Xzm6m2HF6y8xN8xO0nSw4lXamSGUF6y8G8x+fM6g=
+=QaBn
+-----END PGP SIGNATURE-----
+
+--56e5d2djjx3fcdkn--
+
+--===============1487315298==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1487315298==--
