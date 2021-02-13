@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C37231AD1F
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Feb 2021 17:30:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C70231AD48
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Feb 2021 17:55:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1504F898C0;
-	Sat, 13 Feb 2021 16:30:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E95946E855;
+	Sat, 13 Feb 2021 16:55:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 004FA898C0
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Feb 2021 16:30:25 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id o10so2248723wmc.1
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Feb 2021 08:30:25 -0800 (PST)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8258D6E855
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Feb 2021 16:55:28 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id g11so2771606ljj.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Feb 2021 08:55:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+xRJmgNnZI5oBoy/qOldulk8C27pru0CLldGbgzGjlE=;
- b=Ct7DasOzI9ms7VEv6ymzANVeKP4XPjrAASbNj9tFEOeqflRrLzBnHICv4RjjTd4z8S
- zyKWk5Xqw+zBs9SdToWV4w302Tt/5K6LdoFU9/bu2ALX4f8TUs8s3+MtVJihTg0iIPT1
- cPq9mEdrcu78Xgfg6hihytVrl5i+zQCWmat7YjEyqu9PFFkvGPu6to/OBc4Z8zKKvXPR
- YcfA7tAEUexcQDMBVCxuFnGzBASG9aUmkvasz1NfwO8g0HpU0NAB1Q3lNcG3FbVc9zto
- V/pwf3PvbIvCmDBvdsM12OAwf5vedM98ow2f03VLRHpE6PI4kG8prQxO7f90Gjm9/GqU
- uzFg==
+ :cc; bh=a64DVGAk4IpMOjuNB0XREgTUzoxrBQCXFSPA+wKiAVc=;
+ b=HqSt/pyGKzOs9d7qWg7/jyOoGXQscQPu7nd37aE5mDgYlb4V2FVxhkjCaKN05oEWBU
+ Uik/vTxQUk8jL3nPTluJnvOSoUf5hqxFsO74n7zKB0c+/vbGguweW5rl18/X4rhlUCLr
+ jplVGkqIjQbSaq5Ujtd7OCuj1SWSccqtb6R7l7OY2oF+3XlpuOgOq6wT7HNuY4scwT8s
+ DIw9al4TaAN68aZNA9Z96C7RP4BrwgIyff89OmftA2p7WO4KdcLiC3lv1w5w+63kUs2U
+ 2PZXkV6H4zMnBk9mvJ4M7OIvp4bLaigqvEyCXmvyjUKuUU+kuHR/ft9T8xSptpmQfIXB
+ 9X4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+xRJmgNnZI5oBoy/qOldulk8C27pru0CLldGbgzGjlE=;
- b=nYJrP8GfiKTccf4kmc5s+Ap0GrwPMhNvh6jhWJiCHhd2EuPFza8V8X5Xrb7lq51CEF
- oibMQ78/Uim2FL1AmywR88w8Wr7wxUpmu55H9jgmi48SRB+KYqKiRqCA+i1OP8UNSb7P
- 3gre76vSEU5l1jfAbkxcJfaBMLq/HgVdfbbuXjH42BIEbtpDdlRxz7+09wsXR17tNS2s
- FZCC1f0go/tI88FJrxPpLsM6UCBF8rMftgmA0SV8U6Xj2f/Ftfu7XxG3tZ7t7nPGnUVY
- btToykXJJeWqvTQAZuPRZGA467D3WltF/4Og9/rLyP4e8eCaab+cYd0J6krILc8n1n1e
- 1NLA==
-X-Gm-Message-State: AOAM532VZVKtkpyurQvBIv6RUbpXVx1fBjFaE4oJWxcLSVYk7qGlQ5ST
- 7GZLePipBzKIcrn+Kjp1ocrVJ6gFYwI5DLprSrg=
-X-Google-Smtp-Source: ABdhPJzwQrwu3ktt9jCT6CtfqJ9HPvGqfb5yJJw1Za4C4pw3RY9c79xV9Kn84HwGwMXnn7Q3/3LeeVfSiUEfacCUc54=
-X-Received: by 2002:a1c:3cd6:: with SMTP id j205mr7154447wma.166.1613233824393; 
- Sat, 13 Feb 2021 08:30:24 -0800 (PST)
+ bh=a64DVGAk4IpMOjuNB0XREgTUzoxrBQCXFSPA+wKiAVc=;
+ b=JL/vgOOmtheNiy0r9a1JHrnx2UtAODfuYXzigY3Dq76URdTSer1FHit8EtM9vJQDdL
+ OH0ei/0L7h8MU9vNjndh6Kt0e07H1QEB3EzTN65UQfsd1I0L14xbuCk7BkvKDaDPBcay
+ bCDBrU0rl+iT4gvbEklVilD8Mv1XjfEdVVq1e7v/mqPFrLd1ISjcS1Xn7QltN1XpOFBY
+ QHF8gX4C79iKRA6AhAtd1pfMJPA0VvqbL3JmdVtrNW8hNXVN/u4TJdZIe6mB9ebyHmu1
+ T/xVncT40+rtBS/Xtb4gP6EaNzNhbI54RN2Dl8OffpzUW5rZjhzuyzP9cfQl5Gzm2es7
+ 3Wlw==
+X-Gm-Message-State: AOAM533v8doBGp04AH3+0aW7zIAA/DVFJui+mfqkJhO+QANCDcDW1/PX
+ 3Gt2sqe1mAQmGmA/65ODqmQzrf17CeuGQsYxWV4=
+X-Google-Smtp-Source: ABdhPJybLxy4IWY0AUL8Qj75bbM7G8+YgPW7OT5HlKruXcIgUKCJyL3u5b/JeSlLVjtcvU7hRlB7h+4fZb6zD2QOCN8=
+X-Received: by 2002:a2e:9cca:: with SMTP id g10mr4743698ljj.115.1613235326766; 
+ Sat, 13 Feb 2021 08:55:26 -0800 (PST)
 MIME-Version: 1.0
 References: <1609854367-2720-1-git-send-email-kevin3.tang@gmail.com>
  <1609854367-2720-5-git-send-email-kevin3.tang@gmail.com>
- <YBqwA7ixagBBZBbP@phenom.ffwll.local>
-In-Reply-To: <YBqwA7ixagBBZBbP@phenom.ffwll.local>
+ <YBqx8qlbSEQWJTY+@phenom.ffwll.local>
+In-Reply-To: <YBqx8qlbSEQWJTY+@phenom.ffwll.local>
 From: Kevin Tang <kevin3.tang@gmail.com>
-Date: Sun, 14 Feb 2021 00:30:12 +0800
-Message-ID: <CAFPSGXb1v-Bur9sNMmqJhQCZuq+KfcgM71yMWuTh5Ozkgt83Dw@mail.gmail.com>
+Date: Sun, 14 Feb 2021 00:55:14 +0800
+Message-ID: <CAFPSGXa1dJfz+MnAFGbFqvvuGMKmBpiWz66jv6TbcnSixaA-Lg@mail.gmail.com>
 Subject: Re: [PATCH v3 4/6] drm/sprd: add Unisoc's drm display controller
  driver
 To: Kevin Tang <kevin3.tang@gmail.com>, 
@@ -71,19 +71,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1294752795=="
+Content-Type: multipart/mixed; boundary="===============0997632514=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1294752795==
-Content-Type: multipart/alternative; boundary="0000000000000af07a05bb3a457e"
+--===============0997632514==
+Content-Type: multipart/alternative; boundary="00000000000097504905bb3a9e45"
 
---0000000000000af07a05bb3a457e
+--00000000000097504905bb3a9e45
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Daniel Vetter <daniel@ffwll.ch> =E4=BA=8E2021=E5=B9=B42=E6=9C=883=E6=97=A5=
-=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=8810:15=E5=86=99=E9=81=93=EF=BC=9A
+=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=8810:23=E5=86=99=E9=81=93=EF=BC=9A
 
 > On Tue, Jan 05, 2021 at 09:46:05PM +0800, Kevin Tang wrote:
 > > Adds DPU(Display Processor Unit) support for the Unisoc's display
@@ -102,16 +102,11 @@ Daniel Vetter <daniel@ffwll.ch> =E4=BA=8E2021=E5=B9=B42=E6=9C=883=E6=97=A5=
 > > v3:
 > >   - Remove dpu_layer stuff layer and commit layers by aotmic_update
 >
-> Scrolling through the code looks very tidy&neat, only thing I spotted is
-> that you could use the new drmm_ infrastructure we just landed. See
-> comments below, with that addressed:
+> Ok noticed one more, see below.
 >
-Hi Daniel,
-Thank you for taking the time to review, i will update my patch on the
-drm-misc-next and replace drm_helpers with drmm_helpers.
+thks
 
 >
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > > ---
 > >  drivers/gpu/drm/sprd/Kconfig    |   1 +
 > >  drivers/gpu/drm/sprd/Makefile   |   4 +-
@@ -851,14 +846,6 @@ te,
 > > +
 > > +     for (i =3D 0; i < 6; i++) {
 > > +             p =3D devm_kzalloc(drm->dev, sizeof(*p), GFP_KERNEL);
->
-> You still have a devm_kzalloc here. We've just landed some neat new drmm_
-> helpers to allocate planes, please use these instead. See
-> drmm_universal_plane_alloc().
->
-Got it!
-
->
 > > +             if (!p)
 > > +                     return ERR_PTR(-ENOMEM);
 > > +
@@ -1164,14 +1151,6 @@ c,
 > > +     }
 > > +
 > > +     platform_set_drvdata(pdev, dpu);
->
-> The above should be moved into your bind function, with that you can
-> allocate the struct sprd_dpu with drmm_crtc_alloc_with_planes() and remov=
-e
-> a bunch of cleanup code.
->
-Got it, it seems unbind ops(drm_crtc_cleanup) is also no need here.
-
 > > +
 > > +     return component_add(&pdev->dev, &dpu_component_ops);
 > > +}
@@ -1183,16 +1162,6 @@ Got it, it seems unbind ops(drm_crtc_cleanup) is also no need here.
 > > +     component_del(&pdev->dev, &dpu_component_ops);
 > > +
 > > +     kfree(dpu);
->
-> The kfree here is wrong, you'd need to hook into the ->destroy hook of th=
-e
-> drm_crtc_funcs, but if you're using drmm_ like suggested above it should
-> all work including driver unload and any ordering issues with
-> deferred_probe.
->
-Got it!
-
->
 > > +     return 0;
 > > +}
 > > +
@@ -1247,6 +1216,14 @@ Got it!
 > > +     SPRD_DPU_IF_EDPI,
 > > +     SPRD_DPU_IF_LIMIT
 > > +};
+> Above seems unused, so not sure what it is?
+>
+DPI(dsi video mode) and EDPI(dsi cmd mode) definition are needed, used in
+mode_valid and crtc layer flip.
+maybe DBI definition is no need, a duplication of definitions with EDPI, i
+will delete it.
+
+>
 > > +
 > > +enum {
 > > +     DPU_LAYER_ROTATION_0,
@@ -1258,6 +1235,15 @@ Got it!
 > > +     DPU_LAYER_ROTATION_180_M,
 > > +     DPU_LAYER_ROTATION_270_M,
 > > +};
+>
+> Since this seems to be hw register definitions please use #define
+> constants and maybe move them to all the other register definitions too?
+> -Daniel
+>
+Yeah, it's h/w register bitfield definitions, i will move to crtc layer reg
+bitfields.
+
+>
 > > +
 > > +/**
 > > + * Sprd DPU context structure
@@ -1374,14 +1360,14 @@ e
 > http://blog.ffwll.ch
 >
 
---0000000000000af07a05bb3a457e
+--00000000000097504905bb3a9e45
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
 <div dir=3D"ltr" class=3D"gmail_attr">Daniel Vetter &lt;<a href=3D"mailto:d=
 aniel@ffwll.ch" target=3D"_blank">daniel@ffwll.ch</a>&gt; =E4=BA=8E2021=E5=
-=B9=B42=E6=9C=883=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=8810:15=E5=86=
+=B9=B42=E6=9C=883=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=8810:23=E5=86=
 =99=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"m=
 argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
 :1ex">On Tue, Jan 05, 2021 at 09:46:05PM +0800, Kevin Tang wrote:<br>
@@ -1406,19 +1392,10 @@ re init.<br>
 &gt;=C2=A0 =C2=A0- Remove dpu_layer stuff layer and commit layers by aotmic=
 _update<br>
 <br>
-Scrolling through the code looks very tidy&amp;neat, only thing I spotted i=
-s<br>
-that you could use the new drmm_ infrastructure we just landed. See<br>
-comments below, with that addressed:<br></blockquote><div>Hi Daniel,</div><=
-div><span lang=3D"en"><span><span>Thank you for taking the time to review, =
-<span lang=3D"en"><span><span>i will update my patch on the drm-misc-next a=
-nd <span lang=3D"en"><span><span>replace drm_helpers with drmm_helpers.</sp=
-an></span></span> </span></span></span> </span></span></span>  </div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">
+Ok noticed one more, see below.<br></blockquote><div>thks <br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">
 <br>
-Acked-by: Daniel Vetter &lt;<a href=3D"mailto:daniel.vetter@ffwll.ch" targe=
-t=3D"_blank">daniel.vetter@ffwll.ch</a>&gt;<br>
 &gt; ---<br>
 &gt;=C2=A0 drivers/gpu/drm/sprd/Kconfig=C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
 &gt;=C2=A0 drivers/gpu/drm/sprd/Makefile=C2=A0 =C2=A0|=C2=A0 =C2=A04 +-<br>
@@ -2410,14 +2387,6 @@ dpu *dpu)<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; 6; i++) {<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p =3D devm_kzalloc(dr=
 m-&gt;dev, sizeof(*p), GFP_KERNEL);<br>
-<br>
-You still have a devm_kzalloc here. We&#39;ve just landed some neat new drm=
-m_<br>
-helpers to allocate planes, please use these instead. See<br>
-drmm_universal_plane_alloc().<br></blockquote><div>Got it! <br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">
-<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!p)<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
  =C2=A0return ERR_PTR(-ENOMEM);<br>
@@ -2805,14 +2774,6 @@ dev);<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0}<br>
 &gt; +<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0platform_set_drvdata(pdev, dpu);<br>
-<br>
-The above should be moved into your bind function, with that you can<br>
-allocate the struct sprd_dpu with drmm_crtc_alloc_with_planes() and remove<=
-br>
-a bunch of cleanup code.<br></blockquote><div>Got it, it seems unbind ops(d=
-rm_crtc_cleanup) is also no need here. </div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">
 &gt; +<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0return component_add(&amp;pdev-&gt;dev, &amp;dpu_=
 component_ops);<br>
@@ -2827,16 +2788,6 @@ v);<br>
 nt_ops);<br>
 &gt; +<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0kfree(dpu);<br>
-<br>
-The kfree here is wrong, you&#39;d need to hook into the -&gt;destroy hook =
-of the<br>
-drm_crtc_funcs, but if you&#39;re using drmm_ like suggested above it shoul=
-d<br>
-all work including driver unload and any ordering issues with<br>
-deferred_probe.<br></blockquote><div>Got it!<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">
-<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0return 0;<br>
 &gt; +}<br>
 &gt; +<br>
@@ -2895,6 +2846,17 @@ rd_dpu.h<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0SPRD_DPU_IF_EDPI,<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0SPRD_DPU_IF_LIMIT<br>
 &gt; +};<br>
+Above seems unused, so not sure what it is?<br></blockquote><div>DPI(dsi vi=
+deo mode) and EDPI(dsi cmd mode) <span lang=3D"en"><span><span><span lang=
+=3D"en"><span><span>definition </span></span></span>are needed</span></span=
+></span>, <span class=3D"gmail-VIiyi" lang=3D"en"><span class=3D"gmail-JLqJ=
+4b gmail-ChMk0b"><span>used in mode_valid and crtc layer flip.</span></span=
+></span> </div><div>maybe DBI <span lang=3D"en"><span><span>definition</spa=
+n></span></span> is no need,<span lang=3D"en"><span><span> a duplication of=
+ definitions with EDPI, i will delete it.</span></span></span> </div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">
+<br>
 &gt; +<br>
 &gt; +enum {<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0DPU_LAYER_ROTATION_0,<br>
@@ -2906,6 +2868,15 @@ rd_dpu.h<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0DPU_LAYER_ROTATION_180_M,<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0DPU_LAYER_ROTATION_270_M,<br>
 &gt; +};<br>
+<br>
+Since this seems to be hw register definitions please use #define<br>
+constants and maybe move them to all the other register definitions too?<br=
+>
+-Daniel<br></blockquote><div>Yeah, it&#39;s h/w register bitfield definitio=
+ns, i will move to crtc layer reg bitfields.</div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">
+<br>
 &gt; +<br>
 &gt; +/**<br>
 &gt; + * Sprd DPU context structure<br>
@@ -3034,9 +3005,9 @@ Software Engineer, Intel Corporation<br>
 //blog.ffwll.ch</a><br>
 </blockquote></div></div>
 
---0000000000000af07a05bb3a457e--
+--00000000000097504905bb3a9e45--
 
---===============1294752795==
+--===============0997632514==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -3047,4 +3018,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1294752795==--
+--===============0997632514==--
