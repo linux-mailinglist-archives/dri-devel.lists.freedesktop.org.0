@@ -1,28 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8DFC31AD66
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Feb 2021 18:40:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1076C31ADD0
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Feb 2021 20:48:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7CD488E53;
-	Sat, 13 Feb 2021 17:40:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A8D96E88A;
+	Sat, 13 Feb 2021 19:48:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B77A88E53
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Feb 2021 17:40:05 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id A53E41C0B77; Sat, 13 Feb 2021 18:40:00 +0100 (CET)
-Date: Sat, 13 Feb 2021 18:40:00 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [PATCH] kernel: Expose SYS_kcmp by default
-Message-ID: <20210213174000.GA31409@duo.ucw.cz>
-References: <20210205163752.11932-1-chris@chris-wilson.co.uk>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44F556E88A
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Feb 2021 19:48:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 0A1D464E39
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Feb 2021 19:48:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1613245690;
+ bh=PJucx52/bT5bN5xkwUxvqqgWmAu25vQEZzaHxVzuDQ0=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=U1ndRKsO85EIBtVHpdwFyUlyPZdV6GCxy5kRgLJpBOwebiOeRiHJ/Ms1DAeZ6mZx2
+ unNdJjV11uEwwZ2Wm6HtRBUQn/X2rlRmRTtqfaV6jJcHvQg3l0RXaT9ryYwum0fb/3
+ iWJdeUwjnQjLXoVAIwTiItutbYjhx77x0jTZc/I5jP4fGYaOmHT/IPIZj7j3qd24N8
+ e85/rpgyotJt9p2fh8AXyh5z/aCJk+AYLcwBLDaFlHIIyc6j70nt3RsNLcRkun2RJ4
+ vktf/oj2uqXeE4lNep7HSEoWJeP9VBmoThgS66CpeX0fQKrwtAa5OzCL3/aLbNCu1u
+ ZUQJpFIk5M5pw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id EE3BC65361; Sat, 13 Feb 2021 19:48:09 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211425] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
+ more than 20secs aborting
+Date: Sat, 13 Feb 2021 19:48:09 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: icedragon.aw@web.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211425-2300-AI1utxHNDY@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211425-2300@https.bugzilla.kernel.org/>
+References: <bug-211425-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20210205163752.11932-1-chris@chris-wilson.co.uk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -35,67 +64,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Will Drewry <wad@chromium.org>, Kees Cook <keescook@chromium.org>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andy Lutomirski <luto@amacapital.net>,
- Andrew Morton <akpm@linux-foundation.org>
-Content-Type: multipart/mixed; boundary="===============0187049777=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=211425
 
---===============0187049777==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="yrj/dFKFPuw6o+aM"
-Content-Disposition: inline
+--- Comment #7 from Andreas (icedragon.aw@web.de) ---
+OK, I could successfully bisect the right point.
+- last good kernel version was 5.8.18 (latest 5.8.)
+- first bad kernel version was 5.9.0 until latest 5.10.16!
 
+On the kernel 5.4 until 5.8.18 I could only get the 'warnings' like:
+[Sa Feb 13 20:37:08 2021] [drm] Failed to add display topology, DTM TA is not
+initialized.
+-> with kernel prior to and with 5.8.18 no real issue with resuming the screen
+(only the topology message above).
 
---yrj/dFKFPuw6o+aM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Since 5.9.0:
+Feb 13 20:33:53 localhost kernel: [   16.924598] [drm] Failed to add display
+topology, DTM TA is not initialized.
+Feb 13 20:33:53 localhost kernel: [   71.826161] [drm:atom_op_jump] *ERROR*
+atombios stuck in loop for more than 20secs aborting
+Feb 13 20:33:53 localhost kernel: [   71.826168]
+[drm:amdgpu_atom_execute_table_locked] *ERROR* atombios stuck executing B200
+(len 3615, WS 8, PS 0) @ 0xB34E
+Feb 13 20:33:53 localhost kernel: [   71.826172]
+[drm:amdgpu_atom_execute_table_locked] *ERROR* atombios stuck executing B0F4
+(len 268, WS 4, PS 0) @ 0xB147
+Feb 13 20:33:53 localhost kernel: [   71.826178]
+[drm:dcn10_link_encoder_enable_dp_output] *ERROR*
+dcn10_link_encoder_enable_dp_output: Failed to execute VBIOS command table!
+Feb 13 20:33:54 localhost kernel: [   73.389814] [drm]
+amdgpu_dm_irq_schedule_work FAILED src 2
 
-Hi!
+Also the current latest 5.10.16 produces the errors:
+Feb 13 17:41:21 localhost kernel: [   92.580071] [drm:atom_op_jump] *ERROR*
+atombios stuck in loop for more than 20secs aborting
+Feb 13 17:41:21 localhost kernel: [   92.580079]
+[drm:amdgpu_atom_execute_table_locked] *ERROR* atombios stuck executing B200
+(len 3615, WS 8, PS 0) @ 0xB34E
+Feb 13 17:41:21 localhost kernel: [   92.580083]
+[drm:amdgpu_atom_execute_table_locked] *ERROR* atombios stuck executing B0F4
+(len 268, WS 4, PS 0) @ 0xB147
+Feb 13 17:41:21 localhost kernel: [   92.580089]
+[drm:dcn10_link_encoder_enable_dp_output] *ERROR*
+dcn10_link_encoder_enable_dp_output: Failed to execute VBIOS command table!
+Feb 13 17:41:23 localhost kernel: [   94.143214] [drm]
+amdgpu_dm_irq_schedule_work FAILED src 2
 
-> Userspace has discovered the functionality offered by SYS_kcmp and has
-> started to depend upon it. In particular, Mesa uses SYS_kcmp for
-> os_same_file_description() in order to identify when two fd (e.g. device
-> or dmabuf) point to the same struct file. Since they depend on it for
-> core functionality, lift SYS_kcmp out of the non-default
-> CONFIG_CHECKPOINT_RESTORE into the selectable syscall category.
+-- 
+You may reply to this email to add a comment.
 
-Is it good idea to enable everything because Mesa uses it for file
-descriptors?
-
-This is really interesting syscall...
-
-Best regards,
-								Pavel
-
---=20
-http://www.livejournal.com/~pavelmachek
-
---yrj/dFKFPuw6o+aM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYCgO8AAKCRAw5/Bqldv6
-8viIAJ4mzr9pSE2O/4OwUYOLcFI483BApQCgniMQxMn6hxhFTRfMPW42oJKV/iU=
-=X1NG
------END PGP SIGNATURE-----
-
---yrj/dFKFPuw6o+aM--
-
---===============0187049777==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0187049777==--
