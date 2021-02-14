@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C14E31B2CA
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Feb 2021 22:35:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5FD531B2CB
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Feb 2021 22:35:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67F1E6E0C8;
-	Sun, 14 Feb 2021 21:35:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A89036E0C5;
+	Sun, 14 Feb 2021 21:35:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC1A6E0C8
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 21:35:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 4D1EF64E26
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 21:35:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCA916E0C5
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 21:35:34 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id AC30664DE0
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 21:35:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1613338511;
- bh=2R4+Vlep9UhMgaIwh9l41LDVI+GfeHCM96lVih1XTrs=;
+ s=k20201202; t=1613338534;
+ bh=tHoaySEuHfDGmetsMZ6mBDIkkotkv5QChdeUCRwAfFg=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=FFU49Qkl8C4lhvj5wZp81W8O03iZa7OV1i9yENow3cHEiHpHJhSzhVLl8Vb6NxAN7
- jMNhgnToCxgpvyKON4aCIzofYJHZ3XFqu4JOUZafdja8W9xxL8JtDzT701twvjL8D8
- TJ2DjfyArkqojEeyrXWn2H3e6eBMX48y6orTCIQ36Mt1zy6oYSCvdouoi1/P9YrvED
- 9qkBIWjXU0FG3uoFE8fRgj7bJXSrBh1S62xiABmIpcc5Ewg/aChX2bLUxSpEHWmPJ1
- rVQOiCQ5IQIX0BsD7hglOjo3rdTfBZ+tfGNnBEvtcaoeNJXX8vU4Sam4DgYct7ibDY
- HJF9mnRrn0Z1g==
+ b=bTmGTFavt2qRNSFr+3BfR275FG266a0wIY0K34DUBrs9bpDJlVeChi1eQ+IGd7ckt
+ 0ejZZr1K41GzVjLsYkRyS8xLF1SzFdLAGyNlEEX/hYQ61Par1u5bqdUzVMtD1+EeUo
+ lt1uvrOA7dY5Ojy4KUdsO7frUg6tDlo+IGoB+RXeB2vOF14XXRioXmrxH9keNqMaO0
+ 3Btqx/tC6FqXlB+35Ptzyq09cPK1BFp/CJFAw/e73zJYlQ+GSn9QiqIjCs5rqttW+q
+ WdPDoYAdGXvdq1hF6wxBOSguxnXDM/R8EfDRIQz+ZMLpMqv5nrso6dGy/ZD4FDK+Lc
+ sXhejDk2bmgZQ==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 49A8865374; Sun, 14 Feb 2021 21:35:11 +0000 (UTC)
+ id A943F65374; Sun, 14 Feb 2021 21:35:34 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211745] Latest 5.11 git doesn't boot.
-Date: Sun, 14 Feb 2021 21:35:11 +0000
+Date: Sun, 14 Feb 2021 21:35:34 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,7 +45,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-211745-2300-Hv9tScaB5y@https.bugzilla.kernel.org/>
+Message-ID: <bug-211745-2300-baagTIA4W0@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211745-2300@https.bugzilla.kernel.org/>
 References: <bug-211745-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -70,10 +70,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=211745
 
---- Comment #2 from Robert M. Muncrief (rmuncrief@humanavance.com) ---
-Created attachment 295275
-  --> https://bugzilla.kernel.org/attachment.cgi?id=295275&action=edit
-Good journalctl
+--- Comment #3 from Robert M. Muncrief (rmuncrief@humanavance.com) ---
+Created attachment 295277
+  --> https://bugzilla.kernel.org/attachment.cgi?id=295277&action=edit
+Bad dmesg
 
 -- 
 You may reply to this email to add a comment.
