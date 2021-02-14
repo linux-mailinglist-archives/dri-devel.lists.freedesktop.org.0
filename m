@@ -2,44 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94EF31B088
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Feb 2021 14:25:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1204E31B19B
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Feb 2021 18:45:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67ED86E02B;
-	Sun, 14 Feb 2021 13:25:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BE8F6E06D;
+	Sun, 14 Feb 2021 17:45:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 491 seconds by postgrey-1.36 at gabe;
- Sun, 14 Feb 2021 13:25:31 UTC
-Received: from libero.it (smtp-17.italiaonline.it [213.209.10.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C1176E02B
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 13:25:31 +0000 (UTC)
-Received: from passgat-Modern-14-A10M.homenet.telecomitalia.it
- ([87.20.116.197]) by smtp-17.iol.local with ESMTPA
- id BHGzlGzOglChfBHH2lSOc0; Sun, 14 Feb 2021 14:17:18 +0100
-x-libjamoibt: 1601
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2014;
- t=1613308638; bh=E6mT1eLy2BbvLR20EYpVVGUzTe4X8rj8sSx2cY7U1BQ=;
- h=From;
- b=ZpAmYi+IKCWgHyj28z6lIn5HVGK9sxHytuyDiudYb43ITPihegRI1MRIRM6maa9Bh
- G6HjbgVTEtUX72n0XTVEBXRZ/igelUyzADGaKGFzKaylFr0ODvv6A0krtp4Rgacwnq
- uByYETt7a33t3e7vMhI7xZw0hIrlHOdK4iFh9pvzrdw4GXJIsKGxxydJ0DAVOnOQAZ
- +/NxqqeprMWMoGHI1Z07AySxQ6bhRbbzqik2lClJYBbaaI3pVjWjG6SxzquyfydkPV
- QI63zqXI/JhAAAF2ZJQFmwRup+B+WSEQizn7CO92CkDsF1H5GOQb9Uy//62GqQJbjM
- rFODGn0aQ3T+w==
-X-CNFS-Analysis: v=2.4 cv=S6McfKgP c=1 sm=1 tr=0 ts=602922de cx=a_exe
- a=AVqmXbCQpuNSdJmApS5GbQ==:117 a=AVqmXbCQpuNSdJmApS5GbQ==:17
- a=toUk0IfjeMrTqMqL6ioA:9
-From: Dario Binacchi <dariobin@libero.it>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/tilcdc: fix raster control register setting
-Date: Sun, 14 Feb 2021 14:16:33 +0100
-Message-Id: <20210214131633.8742-1-dariobin@libero.it>
-X-Mailer: git-send-email 2.17.1
-X-CMAE-Envelope: MS4xfMWdaqhQ+nSGvZCap5fuCPf8jL9YHqt+DWi5pPLGDMgmPnom2IIJHhAhuxJSRQZJmBSK2X3uzoM7Qmktkqz0w7y1AmIsrLflB2ipm2vuEsbsNyYTJ/vp
- 5tV6EgywFwK0mibn6E+Ey77YTfpCyNr0s1hzC15RekyHEBqHm/kOZzgfvUhHjMJMRHF1XLM0vMIqGDPrn2A4RswurykyjdR4PvictSH6FoKyZu3bcp+ejMsS
- 0OZCGPQ9pwEi0ulA3BoZI5qKse7C1QS9F29QWzQOz8SMw1QvZ53VcCE8ZImPdbmXdKdThVhMomCecDKXPNCzs6UgiAiWcGbIzezeMEqP3xm8UbyxGUFnX1Kf
- RxxejY4AKuoY78Id2sL7gJRlc/Ah2TLOlMPZotJyN/LLPJDY50gNSRg/tM6deA0PwIU/s9bi
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 803B76E06D
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 17:45:16 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id m2so2949238pgq.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 09:45:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Yf033zbvp9pxo0s9URPAho62aiEWTfxuw67OJFPXTEA=;
+ b=PuAAqVaJh5jAn0NamzSuv82QYpI0zmuAO3SMkuF9aOwqyL6Cih2DxG+g1Y2DJpTaEL
+ tqyAJP5/Ak0qUzw8zJNTcq/D8WIfDsniRgNVX1WjQFzh6XQ7JQF+GoYg1AiaIpFY1Ynh
+ hYRwF20v658pXJihgJqyN5cRf9Yk2nVAqf+nI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Yf033zbvp9pxo0s9URPAho62aiEWTfxuw67OJFPXTEA=;
+ b=JPKcmmrXz9yU5ruPXHmeomrfSkm2ahk+aR/GlH37RsADQPCKlYfvZ0zDY3nvRXft8c
+ Th80nh9YeeERth+AuUObEk51RrIFBE7W0IDlWIkKdY//M4BLFgRpKyddhflOsVQA8Wx+
+ rBS+SpQT7R88ngyfkE4Wuj+Sf6xoPU1akGqOQ28rgJZOxtgteGOVXb9SvHnvkpRIg0vR
+ pZpW3YBVRFnkTDWat3bqEJQt4+6kj52OE6LV1Z2Kkar01XNAiUcatm53R4a/usDt/PQN
+ v1Yd4gsSUiA45uswM3s8c9kqC/4SWQ7Z+4rMuNp7ty1hSIZWFcNtk7MHmckD7zGXtpNS
+ Rz6g==
+X-Gm-Message-State: AOAM531MHdFFbgnqIE3bI22FaxT0AE7//NZOM61hydvlc+wF1y1zfhow
+ /kVE+s1d6hwWy2mWyiPW9slt0A==
+X-Google-Smtp-Source: ABdhPJyHUQGyBnnPXCBvYOS14gWTLx7BW3BHq55wj63qQ+hemI+ja+3iq8ue8PjSgKlBfz5XBYFFWw==
+X-Received: by 2002:a62:644f:0:b029:1d3:b559:fe7a with SMTP id
+ y76-20020a62644f0000b02901d3b559fe7amr11803213pfb.21.1613324716287; 
+ Sun, 14 Feb 2021 09:45:16 -0800 (PST)
+Received: from ub-XPS-13-9350.domain.name ([45.249.78.214])
+ by smtp.gmail.com with ESMTPSA id r205sm4794137pfr.128.2021.02.14.09.45.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 Feb 2021 09:45:15 -0800 (PST)
+From: Jagan Teki <jagan@amarulasolutions.com>
+To: Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH v3 1/2] dt-bindings: display: bridge: Add bindings for
+ SN65DSI83/84/85
+Date: Sun, 14 Feb 2021 23:14:52 +0530
+Message-Id: <20210214174453.104616-1-jagan@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,41 +68,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Jyri Sarha <jsarha@ti.com>,
- Dario Binacchi <dariobin@libero.it>
-MIME-Version: 1.0
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jagan Teki <jagan@amarulasolutions.com>, linux-amarula@amarulasolutions.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The fdd property of the tilcdc_panel_info structure must set the reqdly
-bit field  (bit 12 to 19) of the raster control register. The previous
-statement set the least significant bit instead.
+SN65DSI83/84/85 devices are MIPI DSI to LVDS based bridge
+controller IC's from Texas Instruments.
 
-Signed-off-by: Dario Binacchi <dariobin@libero.it>
+SN65DSI83 - Single Channel DSI to Single-link LVDS bridge
+SN65DSI84 - Single Channel DSI to Dual-link LVDS bridge
+SN65DSI85 - Dual Channel DSI to Dual-link LVDS bridge
 
+Right now the bridge driver is supporting Channel A with single
+link, so dt-bindings documented according to it.
+
+Cc: Marek Vasut <marex@denx.de>
+Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
+Changes for v3:
+- fixed Rob comments
+- updated commit message and file name to support all chip variants 
+Changes for v2:
+- none
 
- drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../bindings/display/bridge/ti,sn65dsi8x.yaml | 122 ++++++++++++++++++
+ 1 file changed, 122 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/ti,sn65dsi8x.yaml
 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-index 30213708fc99..238068e28729 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-@@ -393,7 +393,7 @@ static void tilcdc_crtc_set_mode(struct drm_crtc *crtc)
- 			return;
- 		}
- 	}
--	reg |= info->fdd < 12;
-+	reg |= info->fdd << 12;
- 	tilcdc_write(dev, LCDC_RASTER_CTRL_REG, reg);
- 
- 	if (info->invert_pxl_clk)
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi8x.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi8x.yaml
+new file mode 100644
+index 000000000000..7f9f8cd6e786
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi8x.yaml
+@@ -0,0 +1,122 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi8x.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: TI SN65DSI83/84/85 MIPI DSI to LVDS bridge bindings
++
++maintainers:
++  - Jagan Teki <jagan@amarulasolutions.com>
++
++description: |
++  SN65DSI83/84/85 devices are MIPI DSI to LVDS based bridge controller
++  IC's from Texas Instruments.
++
++  SN65DSI83 - Single Channel DSI to Single-link LVDS bridge
++  SN65DSI84 - Single Channel DSI to Dual-link LVDS bridge
++  SN65DSI85 - Dual Channel DSI to Dual-link LVDS bridge
++
++  Bridge decodes MIPI DSI 18bpp RGB666 and 240bpp RG888 packets and
++  converts the formatted video data stream to a FlatLink compatible
++  LVDS output operating at pixel clocks operating from 25 MHx to
++  154 MHz.
++
++properties:
++  compatible:
++    enum:
++      - ti,sn65dsi83
++      - ti,sn65dsi84
++
++  reg:
++    const: 0x2c
++
++  enable-gpios:
++    maxItems: 1
++    description: GPIO specifier for bridge enable pin (active high).
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: |
++          DSI Input. The remote endpoint phandle should be a
++          reference to a valid mipi_dsi_host device node.
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: |
++          Video port for LVDS output (panel or connector).
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - enable-gpios
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++       #address-cells = <1>;
++       #size-cells = <0>;
++
++       ports {
++           #address-cells = <1>;
++           #size-cells = <0>;
++
++           port@0 {
++               reg = <0>;
++               dsi_in: endpoint {
++                   remote-endpoint = <&ltdc_ep0_out>;
++               };
++           };
++
++           port@1 {
++               reg = <1>;
++               dsi_out: endpoint {
++                   remote-endpoint = <&bridge_in>;
++                   data-lanes = <0 1>;
++               };
++           };
++       };
++    };
++
++    i2c6 {
++       #address-cells = <1>;
++       #size-cells = <0>;
++
++       bridge@2c {
++           compatible = "ti,sn65dsi84";
++           reg = <0x2c>;
++           enable-gpios = <&gpiof 15 GPIO_ACTIVE_HIGH>;
++
++           ports {
++               #address-cells = <1>;
++               #size-cells = <0>;
++
++               port@0 {
++                   reg = <0>;
++                   bridge_in: endpoint {
++                        remote-endpoint = <&dsi_out>;
++                   };
++               };
++
++               port@1 {
++                   reg = <1>;
++                   bridge_out: endpoint {
++                        remote-endpoint = <&panel_in_lvds>;
++                   };
++               };
++           };
++       };
++    };
 -- 
-2.17.1
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
