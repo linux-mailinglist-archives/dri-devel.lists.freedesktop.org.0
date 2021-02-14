@@ -1,61 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207B931B073
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Feb 2021 14:16:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C94EF31B088
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Feb 2021 14:25:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AE6889ECB;
-	Sun, 14 Feb 2021 13:16:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67ED86E02B;
+	Sun, 14 Feb 2021 13:25:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48B3989ECB
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 13:16:18 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id o7so2729668pgl.1
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 05:16:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=UOKkIESa+1l6tDO7IwKvBCYjTQ2JXj8kdAURTiXPxqk=;
- b=s2QG+peNg54RW8TjZ2ocQPwXkt+lU6accdFnZISh1sEGOZw0GIrXL54BjozEt87CEx
- 6MsJ0YwKOUTh7R7BprK0jBY7hnsWf5ejM7d8jxBWPbsTELzPjBQKrH1Ka6HvMjIp/R1x
- Pzsy8ry7Zg1Kr9AjqJOwgOqB9dVrZDPq/Zgn+gfYJBC/1Ukr3BWWhrtFB+4/oSkMsdsi
- 7UQEu0xfHlR2t9v0/NEVhgrEKLlAgF6znd/mWf4V8OoLdiu6omRRw9a8JF5ski2dyZd+
- 2N94S4JuQCa0cVHAUQgSrkht4RaKm8FcztMT36UPTsGpjn+5+oroUMmj34JxXGhdWJQ6
- rrnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=UOKkIESa+1l6tDO7IwKvBCYjTQ2JXj8kdAURTiXPxqk=;
- b=U5S4Nw9GawYtlR633Pims5APpg79qW64j0yV5SnTa2OD14ZEriV7iCssS+yhnwKkMB
- fxrjzGiErXJuTaaDlcWtgC42o5kJuYe7xCVohVbf24TYFWjHBt2YxF0BkX+HzuPQKP3+
- sdGXm+5uGuOHSAmnArb6eByBBWOIrwfVuXHJSBilEkf2+XyJW0vWzPGTNZ88ytnMClyE
- 0fKzgVOMeJ/GhuBb22sca4yXGyZUDhyP09JG6ycooIKZylqWjo0VWiSjB1re7Kt4tSlP
- vpMJd7PlvGLcpplq608LfgFElRRfGfubRn+iASXADhvahQ1aKDUAbkd9xCKe+UMJ6Zaw
- kxGw==
-X-Gm-Message-State: AOAM532q+ZO9LR9xBWQSgsPI5w/2N1SuYgyR/+rI1Cmg9vnJAcXOT4Jw
- SfULZ10pPxjfWnP9aeZVXmrH9w==
-X-Google-Smtp-Source: ABdhPJycqFS1bHAf7kwjytC57TzvGIgE2cXkwMSE5Iqx82KXRREJgJ5+AqpF5P+tR9B9sGl8KqvNyA==
-X-Received: by 2002:a62:f942:0:b029:1c0:aed6:fd57 with SMTP id
- g2-20020a62f9420000b02901c0aed6fd57mr11733121pfm.70.1613308577942; 
- Sun, 14 Feb 2021 05:16:17 -0800 (PST)
-Received: from ubuntu.huaqin.com ([101.78.151.214])
- by smtp.gmail.com with ESMTPSA id c4sm15224625pfj.113.2021.02.14.05.16.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Feb 2021 05:16:17 -0800 (PST)
-From: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
-To: sam@ravnborg.org, thierry.reding@gmail.com, airlied@linux.ie,
- daniel@ffwll.ch, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: drm/panel: Add inx Himax8279d MIPI-DSI LCD panel
-Date: Sun, 14 Feb 2021 21:16:12 +0800
-Message-Id: <20210214131612.30491-1-xiazhengqiao@huaqin.corp-partner.google.com>
+X-Greylist: delayed 491 seconds by postgrey-1.36 at gabe;
+ Sun, 14 Feb 2021 13:25:31 UTC
+Received: from libero.it (smtp-17.italiaonline.it [213.209.10.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C1176E02B
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 13:25:31 +0000 (UTC)
+Received: from passgat-Modern-14-A10M.homenet.telecomitalia.it
+ ([87.20.116.197]) by smtp-17.iol.local with ESMTPA
+ id BHGzlGzOglChfBHH2lSOc0; Sun, 14 Feb 2021 14:17:18 +0100
+x-libjamoibt: 1601
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2014;
+ t=1613308638; bh=E6mT1eLy2BbvLR20EYpVVGUzTe4X8rj8sSx2cY7U1BQ=;
+ h=From;
+ b=ZpAmYi+IKCWgHyj28z6lIn5HVGK9sxHytuyDiudYb43ITPihegRI1MRIRM6maa9Bh
+ G6HjbgVTEtUX72n0XTVEBXRZ/igelUyzADGaKGFzKaylFr0ODvv6A0krtp4Rgacwnq
+ uByYETt7a33t3e7vMhI7xZw0hIrlHOdK4iFh9pvzrdw4GXJIsKGxxydJ0DAVOnOQAZ
+ +/NxqqeprMWMoGHI1Z07AySxQ6bhRbbzqik2lClJYBbaaI3pVjWjG6SxzquyfydkPV
+ QI63zqXI/JhAAAF2ZJQFmwRup+B+WSEQizn7CO92CkDsF1H5GOQb9Uy//62GqQJbjM
+ rFODGn0aQ3T+w==
+X-CNFS-Analysis: v=2.4 cv=S6McfKgP c=1 sm=1 tr=0 ts=602922de cx=a_exe
+ a=AVqmXbCQpuNSdJmApS5GbQ==:117 a=AVqmXbCQpuNSdJmApS5GbQ==:17
+ a=toUk0IfjeMrTqMqL6ioA:9
+From: Dario Binacchi <dariobin@libero.it>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/tilcdc: fix raster control register setting
+Date: Sun, 14 Feb 2021 14:16:33 +0100
+Message-Id: <20210214131633.8742-1-dariobin@libero.it>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210208162453.7319-1-xiazhengqiao@huaqin.corp-partner.google.com>
-References: <20210208162453.7319-1-xiazhengqiao@huaqin.corp-partner.google.com>
+X-CMAE-Envelope: MS4xfMWdaqhQ+nSGvZCap5fuCPf8jL9YHqt+DWi5pPLGDMgmPnom2IIJHhAhuxJSRQZJmBSK2X3uzoM7Qmktkqz0w7y1AmIsrLflB2ipm2vuEsbsNyYTJ/vp
+ 5tV6EgywFwK0mibn6E+Ey77YTfpCyNr0s1hzC15RekyHEBqHm/kOZzgfvUhHjMJMRHF1XLM0vMIqGDPrn2A4RswurykyjdR4PvictSH6FoKyZu3bcp+ejMsS
+ 0OZCGPQ9pwEi0ulA3BoZI5qKse7C1QS9F29QWzQOz8SMw1QvZ53VcCE8ZImPdbmXdKdThVhMomCecDKXPNCzs6UgiAiWcGbIzezeMEqP3xm8UbyxGUFnX1Kf
+ RxxejY4AKuoY78Id2sL7gJRlc/Ah2TLOlMPZotJyN/LLPJDY50gNSRg/tM6deA0PwIU/s9bi
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,21 +52,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Jyri Sarha <jsarha@ti.com>,
+ Dario Binacchi <dariobin@libero.it>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The fdd property of the tilcdc_panel_info structure must set the reqdly
+bit field  (bit 12 to 19) of the raster control register. The previous
+statement set the least significant bit instead.
 
-	
-I am sorry that I am the first time to upload codes, and I mean to 
-upload codes to kernel branch v4.19, Do we have to upload the code 
-to upstream/master?
+Signed-off-by: Dario Binacchi <dariobin@libero.it>
 
-	zhengqiao
+---
+
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+index 30213708fc99..238068e28729 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+@@ -393,7 +393,7 @@ static void tilcdc_crtc_set_mode(struct drm_crtc *crtc)
+ 			return;
+ 		}
+ 	}
+-	reg |= info->fdd < 12;
++	reg |= info->fdd << 12;
+ 	tilcdc_write(dev, LCDC_RASTER_CTRL_REG, reg);
+ 
+ 	if (info->invert_pxl_clk)
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
