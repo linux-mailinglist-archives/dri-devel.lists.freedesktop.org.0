@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A644F31B2C7
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Feb 2021 22:33:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C42E731B2C8
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Feb 2021 22:34:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E16A6E054;
-	Sun, 14 Feb 2021 21:33:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 026D56E09A;
+	Sun, 14 Feb 2021 21:34:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDCD86E054
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 21:33:43 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 7661B64DE0
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 21:33:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF8F76E09A
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 21:34:35 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 9956A64E29
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 21:34:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1613338423;
- bh=WIazoV1QZ+C9VuqfMXLt9yF4y0D6OJLHiiRBy7JFPuM=;
- h=From:To:Subject:Date:From;
- b=kysS53ipcF41TsMDXOjOy2p2aJjSFykzX+ekRmyDjTzVjWgAYj690/b2wncrdwfGE
- ynqbnIzaHcvWObnntDFoZwO7jtBQKIIfN7hOQ/7DrWirL/uuvzb1gcmON/XjFMjRrm
- eZcBdVwgDuEzY8LqmVAnSSYEkoA61XSpSY43UntH88aimP5Tg9tPJVpxB0Pg/9gmHf
- OivTcqZvCC/zsIcJHwopdQM+eZWdJ0yMgPWHyNtzV4kXwwUP335rDYu6CUmdxU5hZA
- hjycLoe9zK2dEYz3BHyiGknfVT/16IGahDjlnrU20gAwxGJD+fU2wHRVl9VdEu9QXu
- o1XcWhc2MbRwA==
+ s=k20201202; t=1613338475;
+ bh=2PWmkgqfT1YxA1xs70gUwWuqza790qA+bPo/ceFf1vE=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=aDPE5agvGtlcWXw+Rv17lqr0nRumS4NtUNJASobBB8ERApMz4hydDwQyQbrulJBvp
+ TpBvU2dvrza7VqCMuv7w46MBi3UHYb0DKuRgBf6qquMxIJ7HtaW7ueC6C6lA2SF6YC
+ 2QfE3QzTY/rn3GZB3FZbAybQb4eSEs9tC7eQuAjIPcYgENTZKv4VXRVNOTwGNzj6rp
+ ZkkQIi5cfYWy12PvwY5K32SMNxswDcpur85y74Qi+nF1g3mI2iF9BfaH5QMilQzwTg
+ WA7Jn/nCvTyAvspKi4AJsQyHeRThnI0lyXo8fDfLIgJ1JjxNUrqtmGpMylgt8bDp+1
+ Ypvr+92f8ncCw==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 61B8E65374; Sun, 14 Feb 2021 21:33:43 +0000 (UTC)
+ id 962B365374; Sun, 14 Feb 2021 21:34:35 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211745] New: Latest 5.11 git doesn't boot.
-Date: Sun, 14 Feb 2021 21:33:43 +0000
+Subject: [Bug 211745] Latest 5.11 git doesn't boot.
+Date: Sun, 14 Feb 2021 21:34:35 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -44,10 +44,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-211745-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-211745-2300-a2nTEkLIYd@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211745-2300@https.bugzilla.kernel.org/>
+References: <bug-211745-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -70,41 +70,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=211745
 
-            Bug ID: 211745
-           Summary: Latest 5.11 git doesn't boot.
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: linux-git-5.11rc7.r141.g358feceebbf6
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: blocking
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: rmuncrief@humanavance.com
-        Regression: No
-
-Created attachment 295271
-  --> https://bugzilla.kernel.org/attachment.cgi?id=295271&action=edit
-Good dmesg
-
-I started testing kernel 5.11 around rc5 and it has never booted. However the
-logs always seemed to be truncated, and I couldn't ssh into my system until
-today.  
-
-However I compiled the latest git today andd ssh in and get useful information. 
-
-Everything works great with 5.10.16, so I've attached dmesg_5.10.16_good.txt,
-Xorg.0.log_5.10.16_good.txt, and journalctl_5.10.16_good.txt to show what
-happens during a successful boot.  
-
-And attached dmesg_5.11-git_fail.txt, Xorg.0.log_5.11-git_fail.txt, and
-journalctl_5.11-git_fail.txt to show what happens during the failed boot with
-5.11 git.  
-
-By the way, the journalctl log was produced with journalctl -b -k.
+--- Comment #1 from Robert M. Muncrief (rmuncrief@humanavance.com) ---
+Created attachment 295273
+  --> https://bugzilla.kernel.org/attachment.cgi?id=295273&action=edit
+Good Xorg
 
 -- 
 You may reply to this email to add a comment.
