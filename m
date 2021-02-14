@@ -2,39 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B15531B3A2
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 01:39:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E0831B5DC
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 09:22:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ECBB6E8C0;
-	Mon, 15 Feb 2021 00:39:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B582C89E50;
+	Mon, 15 Feb 2021 08:22:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 360696E8C0;
- Mon, 15 Feb 2021 00:39:44 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Df4xT22D4z9sCD;
- Mon, 15 Feb 2021 11:39:41 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1613349583;
- bh=uFXs6FazZwdmJJXEDY5BMxYgEb6dBY8CHEHbCc+nb8g=;
- h=Date:From:To:Cc:Subject:From;
- b=Yc31lJoiwdrZ3b8r9XLxGiC0W9oyIHxCk3e0XmiinlKyv6bgpxhlLrfQnIFWteiMD
- IIqp6hKnuZ1FVHBM+jnUFvgUDZebfItBriXn7Xt/cCNSf1K1kwokcGmMs0rfWqDH85
- mKdzeGbjX+DZa3vdQQQyG4A9Scu3+aa7Ek/+k3uU0eiocx86obE1SsgeSzG7IiGX9x
- ugd7btL3PZ1JJGlw8uO4Kj50oPjzgEOYtJbgaxrp5rrJxPJZ2w5XGPJHlYuNGqRgBh
- XNB1WOGXua57LsjPr9OhmR+7unJ3BnIQgXb5Qg3JNiD7vg6KS/1+HSbxIv3oZQKeB1
- 1Yj4xJBA1VbYA==
-Date: Mon, 15 Feb 2021 11:39:39 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>, Hans de Goede
- <hdegoede@redhat.com>, Mark Gross <mark.gross@intel.com>
-Subject: linux-next: build warning after merge of the pm tree
-Message-ID: <20210215113939.03e44e3c@canb.auug.org.au>
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA11F6E141
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 23:29:38 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id o15so4582508wmq.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 15:29:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=evlyv8cW4AaH5I2gOc3PmwqIiElKj0kJaTfG3XXnM1U=;
+ b=ecDlWsOnQELKqf0jvx4yn2aud0nXYXVZmT3PWOMXEZinickGNSRou3xYFv+YvI/9g4
+ AwFipmpoybrdtvzINATFrILSiCrPHXAbnHwQPYpWK7ou39NQPczu00tkqH3+QZ75vHat
+ yBwWXqwuqElsDi6nGrdKjKUXdVN/iMg79xtNcNT8RqypWSOZVlZOYzmaTbLMbQFnhnoQ
+ D3hYRBqMFrtdEKsskoa+n3x4tJpwyoKWAsixTcNEjynI7Z417krJ17JeGkS6Qc8t+2SZ
+ 25fFodTOfnAMGzZLkLsT6EQO/f+dgL/ZdkF57+DTWEs+nEC4ysGt5vfbcJTA+Y3qtZZ4
+ 4oCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=evlyv8cW4AaH5I2gOc3PmwqIiElKj0kJaTfG3XXnM1U=;
+ b=q701wAlbBObTJtaRKtTcOKS9PcejX7Jt0vH7r0cx+mS7myU0TQKUhEf0rohWIG6DzJ
+ vDONTyV5OAe1tXSrPXFD+skK9RAmXDQcvz//pDi0L74BXGOJofBUDGSMQS9rdP2W2HfF
+ JGR4q2KlhiU8yvkowi/QVtqUPodT9rEaMZiYrCHnUafonu0ttK/HY1a2hokTPtpUegtT
+ yBGBuyw9sXxqnEspBbjNW+uzkEijNmKXGdqlUCjSzhLmviH/psWyjLNY/ljl7yzWqt/m
+ vtCI0rcI+rZ5VYIpJ1gXAl6k+aVNaj/HzLSakrbOuhJWQII8+lLUVKx0QzLYGG4WFb/H
+ 3zVw==
+X-Gm-Message-State: AOAM5307K6R8DARTwuUWK8EBADj9MV3eTkM0GBglKAizR6ymAmwoeBgI
+ M8D3vqTrIdcC+VJ57ZdfCiM=
+X-Google-Smtp-Source: ABdhPJzUE8PaFQc9mUFNlvbSd5ayCBji/He2N37077krd9VhHiU9FPE0Pb3yXOkXJW165LSDI9k/dQ==
+X-Received: by 2002:a05:600c:3595:: with SMTP id
+ p21mr852143wmq.127.1613345377556; 
+ Sun, 14 Feb 2021 15:29:37 -0800 (PST)
+Received: from adgra-XPS-15-9570.home
+ (2a01cb0008bd2700341b9a8437bdab47.ipv6.abo.wanadoo.fr.
+ [2a01:cb00:8bd:2700:341b:9a84:37bd:ab47])
+ by smtp.gmail.com with ESMTPSA id l1sm19522478wmq.17.2021.02.14.15.29.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 Feb 2021 15:29:37 -0800 (PST)
+From: Adrien Grassein <adrien.grassein@gmail.com>
+To: 
+Subject: [PATCH v2 0/2] Add support of Lontium lt8912 MIPI to HDMI bridge
+Date: Mon, 15 Feb 2021 00:29:02 +0100
+Message-Id: <20210214232904.1142706-1-adrien.grassein@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+X-Mailman-Approved-At: Mon, 15 Feb 2021 08:22:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,84 +68,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: multipart/mixed; boundary="===============0043604059=="
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net,
+ narmstrong@baylibre.com, airlied@linux.ie, jonas@kwiboo.se,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ a.hajda@samsung.com, robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com,
+ Adrien Grassein <adrien.grassein@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0043604059==
-Content-Type: multipart/signed; boundary="Sig_/PDghjjOr9SVghXChJ=m6El4";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Hello,
 
---Sig_/PDghjjOr9SVghXChJ=m6El4
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+this patch set adds the support of the Lontium lt8912 MIPI to HDMI
+bridge in the kernel.
 
-Hi all,
+It's only support the video part, not the audio part yet
+since I don't have the datasheet of this component.
+I get the current i2c configuration from Digi and
+Boundary drivers.
+Developed using the DB_DSIHD board from BoundaryDevices.
 
-After merging the pm tree, today's linux-next build (x86_64 allmodconfig)
-produced this warning:
+Update in v2
+  - Use standard data-lanes instead of a custom prop;
+  - Use hdmi-connector node.
 
-In file included from drivers/gpu/drm/gma500/mdfld_output.c:28:
-arch/x86/include/asm/intel_scu_ipc.h:23:12: warning: 'struct module' declar=
-ed inside parameter list will not be visible outside of this definition or =
-declaration
-   23 |     struct module *owner);
-      |            ^~~~~~
-arch/x86/include/asm/intel_scu_ipc.h:33:17: warning: 'struct module' declar=
-ed inside parameter list will not be visible outside of this definition or =
-declaration
-   33 |          struct module *owner);
-      |                 ^~~~~~
+Thanks,
+Adrien Grassein
 
-Introduced by commit
+Adrien Grassein (2):
+  dt-bindings: display: bridge: Add documentation for LT8912
+  drm/bridge: Introduce LT8912 DSI to HDMI bridge
 
-  bfc838f8598e ("drm/gma500: Convert to use new SCU IPC API")
+ .../display/bridge/lontium,lt8912.yaml        | 102 +++
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/bridge/Kconfig                |  14 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ drivers/gpu/drm/bridge/lontium-lt8912.c       | 719 ++++++++++++++++++
+ 5 files changed, 842 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt8912.yaml
+ create mode 100644 drivers/gpu/drm/bridge/lontium-lt8912.c
 
-OK, these will go away when the drm-misc tree removes this file in commit
-
-  e1da811218d2 ("drm/gma500: Remove Medfield support")
-
-So, if you don't want to see these warnings in Linus' build testing,
-you need to make sure that the drm-misc tree is merged before the pm
-tree (or the drivers-x86 tree).  Or you need to include module.h in
-mdfld_output.c before intel_scu_ipc.h (or in intel_scu_ipc.h itself).
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/PDghjjOr9SVghXChJ=m6El4
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmApwswACgkQAVBC80lX
-0Gx1PAgApAm7IJ91caUkHXOEEGcUtLHEugWxn52HSOHgE7cxWCbdbjiZs0rJMfk/
-J0miNgljVhx6JZ/MfpGuzdDLGeJjZu/zuqFf6V9ues4oXwS0FjSxWc28lJyGDcQL
-K2qgZQTFFnWtxP7Cr1sPAgzWR/IuJKttUNXkiAe+686+hOJwGRHN6s/bRKbyVWeN
-rYTXgpnuuKhJjUfaccsCtqZd4gqpgfg1e2zfvI/bVLJgrtmWzouu4D/U/pDH0s7C
-6HhHlct01UccTWFlxG+45pD+lSRtnxLl+4srJ1KLvBZmXD2Z4zvlTXEIKLkW0Wwm
-GkrCLriLDcDfP6zXcVpCkTnEgV5s5A==
-=nKkW
------END PGP SIGNATURE-----
-
---Sig_/PDghjjOr9SVghXChJ=m6El4--
-
---===============0043604059==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0043604059==--
