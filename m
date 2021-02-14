@@ -2,40 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E26A031AEEC
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Feb 2021 05:52:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82AF431AFA3
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Feb 2021 08:49:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8FBC6E30D;
-	Sun, 14 Feb 2021 04:52:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEAD66E8A7;
+	Sun, 14 Feb 2021 07:49:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52FFA6E30D
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 04:52:11 +0000 (UTC)
-Received: from submission (posteo.de [89.146.220.130]) 
- by mout01.posteo.de (Postfix) with ESMTPS id EB7FC160060
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 05:52:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
- t=1613278329; bh=N2OFag51Yk707V6y0F3zYvO9dt8D3xrSs1fvn36Gyis=;
- h=Date:From:To:Cc:Subject:From;
- b=IziuXCnWpKYaoaVXJKT+kkTieF8H5YnmT0pAs4epzJThVbqDDYiwKI2KEL9kRhZ33
- 0dnh+TMSMX4r+ndVuS/v+I/2iLFnR1JrH8AumHf7JRsmmjdsDDQ+9tSKatbgrAWNHI
- 26ynq8McsRJKhYjxmm3g0QPPKECFm4Wz1ASoDWM4FPNEJiPjeSmo50MYDU36i39Rit
- Ro+YsGPy1nVJ/VNZ2EBvyLnGkaGYoeLrJNSZwxB+0E43reO1hwUVVXLVpsU71mWS4X
- VzIGuOxu+B67caK2mZ7q2NOl73OqBTbGK1x91BYhaOjz9Nwk+X+yfW4shggf6OEsXw
- G66+f0mnfnYsg==
-Received: from customer (localhost [127.0.0.1])
- by submission (posteo.de) with ESMTPSA id 4DdZbB5ZDhz9rxH;
- Sun, 14 Feb 2021 05:52:06 +0100 (CET)
-Date: Sun, 14 Feb 2021 05:52:06 +0100
-From: Sebastian Fricke <sebastian.fricke@posteo.net>
-To: Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH v2 0/6] Support second Image Signal Processor on rk3399
-Message-ID: <20210214045206.4jqae2yuolgdxwad@basti-TUXEDO-Book-XA1510>
-References: <20210210111020.2476369-1-heiko@sntech.de>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210210111020.2476369-1-heiko@sntech.de>
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3CC46E8A7
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Feb 2021 07:49:52 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id x136so2325997pfc.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Feb 2021 23:49:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=Wih16HSatVXdvXOx66yUm+mckH3unmlIZxuy5E5dQJE=;
+ b=GJpdY0oawUtAK48cBfcYCDz1VyS53aaKxJ8gdW3ToveA9MHLzK47OJjUlLZ7scmw+8
+ 1/JoBnE53pIVzqXAQrqoemBhX+TQuJDqRQOfv8Rh0LnDel36a1LW1fxn4lScPGBQ0Kme
+ 8AdkaIgduPMEIQjRc56QZBzQiF+CCKrtKtP6QHoHWhJRDLTpXGNiEpSQOYzgs2Livz8O
+ B1jF427GpY9ymBKkKZ+2op0tv5VqqsE4FC9BrlqPxIlUgqzQ5PCMHzUBC6vB1FPlmbJy
+ /jiuqY2+1uWG7afxSIIzNLF5HujFpDbHqnlbdq/KxFqw53VX+XPcNoTxCPx6muAy8D8i
+ T2Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=Wih16HSatVXdvXOx66yUm+mckH3unmlIZxuy5E5dQJE=;
+ b=k3FVi35oKEh0sC9XYdhvgGHnYDNZyyDL5zpJWGJ3BPVAQF+64aorlLeHDS/nPXgIz6
+ kT+wojQkG29ZbP3y9ZswqmT4CfDwTXuol4XNslIUOeJfj+1wmF9/0/RxfDJyNm+aRb8I
+ 537V+od4wbXGUw955uE/Uvc7V/NerbvigAO74APuTFocKBZ98Ch/JVgWMlMST2c+4rPX
+ NaxTKPsmWbyoSg24PTdQCOA4FOi04yakKyDES2Wv2hTjg6kYC0nauQo3EPW8hk5kmrwU
+ NhIRZ/vluZiPWtI/jWsC8TjSdVagCgbameSdAQNrOGvwEBJS9nmCg88QvuLE9IeWJqn1
+ MQqQ==
+X-Gm-Message-State: AOAM532ArksvdzXm9fOsCd5CXu8LZtUltAD972dxkH9BKBIov7tmLJFy
+ 3vh6U93+vyFDRH3nMPahcsGxJg==
+X-Google-Smtp-Source: ABdhPJwcXFMdswJMBjyUAd89GLKRnCn9VYLP+vpN8AsbonURO1qrHZyTDs1mgS8gtQDL92mEwQbzdQ==
+X-Received: by 2002:a65:4781:: with SMTP id e1mr10671155pgs.30.1613288992040; 
+ Sat, 13 Feb 2021 23:49:52 -0800 (PST)
+Received: from ubuntu.huaqin.com ([101.78.151.214])
+ by smtp.gmail.com with ESMTPSA id h3sm13928394pgm.67.2021.02.13.23.49.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 13 Feb 2021 23:49:51 -0800 (PST)
+From: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, drinkcat@chromium.org,
+ jitao.shi@mediatek.corp-partner.google.com
+Subject: [PATCH 1/2] dt-bindings: display: tv101wum: Add STARRY
+ 2081101QFH032011-53G
+Date: Sun, 14 Feb 2021 15:49:27 +0800
+Message-Id: <20210214074928.31901-1-xiazhengqiao@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,64 +66,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dafna.hirschfeld@collabora.com,
- cmuellner@linux.com, hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- helen.koike@collabora.com, robh+dt@kernel.org, ezequiel@collabora.com,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Heiko,
+Add dt-bindings for 10.1" TFT LCD module called STARRY 2081101
+QFH032011-53G.
 
-I have tested your series and it successfully fixes the problem with the
-2nd camera when HDMI is connected at boot. Besides that the patch looks
-good and my tests have confirmed that both cameras have the same output
-quality when I exchange the connected ISP instances.
+Signed-off-by: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+---
+ .../devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml     | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Tested-by: Sebastian Fricke <sebastian.fricke@posteo.net>
+diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+index 38bc1d1b511e..01c2bf7321ae 100644
+--- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
++++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+@@ -26,6 +26,8 @@ properties:
+       - auo,b101uan08.3
+         # BOE TV105WUM-NW0 10.5" WUXGA TFT LCD panel
+       - boe,tv105wum-nw0
++        # STARRY 2081101QFH032011-53G 10.1" WUXGA TFT LCD panel
++      - starry,qfh032011_53g
+ 
+   reg:
+     description: the virtual channel number of a DSI peripheral
+-- 
+2.17.1
 
-Greetings,
-Sebastian
-
-On 10.02.2021 12:10, Heiko Stuebner wrote:
->The rk3399 has two ISPs and right now only the first one is usable.
->The second ISP is connected to the TXRX dphy on the soc.
->
->The phy of ISP1 is only accessible through the DSI controller's
->io-memory, so this series adds support for simply using the dsi
->controller is a phy if needed.
->
->That solution is needed at least on rk3399 and rk3288 but no-one
->has looked at camera support on rk3288 at all, so right now
->only implement the rk3399 specifics.
->
->changes in v2:
->- enable grf-clock also for init callback
->  to not break if for example hdmi is connected on boot
->  and disabled the grf clock during its probe
->- add Sebastian's Tested-by
->- add Rob's Ack for the phy-cells property
->
->Heiko Stuebner (6):
->  drm/rockchip: dsi: add own additional pclk handling
->  dt-bindings: display: rockchip-dsi: add optional #phy-cells property
->  drm/rockchip: dsi: add ability to work as a phy instead of full dsi
->  arm64: dts: rockchip: add #phy-cells to mipi-dsi1
->  arm64: dts: rockchip: add cif clk-control pinctrl for rk3399
->  arm64: dts: rockchip: add isp1 node on rk3399
->
-> .../display/rockchip/dw_mipi_dsi_rockchip.txt |   1 +
-> arch/arm64/boot/dts/rockchip/rk3399.dtsi      |  39 ++
-> drivers/gpu/drm/rockchip/Kconfig              |   2 +
-> .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 349 ++++++++++++++++++
-> 4 files changed, 391 insertions(+)
->
->-- 
->2.29.2
->
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
