@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B46D31C2A0
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 20:48:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A1531C2AC
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 20:55:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C27776E2D7;
-	Mon, 15 Feb 2021 19:48:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A85B46E342;
+	Mon, 15 Feb 2021 19:55:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2E6F6E0D1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 19:48:15 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id C5FC764DE0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 19:48:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B56326E342
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 19:55:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 8581564E1E
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 19:55:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1613418495;
- bh=zcdmIQsAuVupghMaCV6hkClNrx9dbpMGXl7gnsyRN+A=;
+ s=k20201202; t=1613418940;
+ bh=Bz42HrUZimUGlJ9gHl1URaMhaULR7kFc56BUWBKd3yk=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=vAjjioduJenprixwMF/lPoE8P424yvoVOROTQWxiUX1pah1Vr3GPwCjsbN9z6nJ8/
- BuzIpHLk9yidszCPIz5t8UTDbP1TVdvMB3BxW4wU5PCEvIp9hsuaRY6W58QxiIeRRp
- S8pW2ByMHLNsVCegj5ksOS4mrepH4ZPm57OkhRNLsLtckNNQAd1v2LRJDD/dCtgSpK
- oTyRZbFzkg1qEQWdINI+YcKoVUegphFAKIk/oJ5E3OudhWs4jFWPLf5QzDO+XI66pv
- 0UwMPDjY7zY2Amu+vpMQ2sbZptrBHoHig6sPcqahR3dlYVnoiVM1/2r81KaPn+lYh/
- 9QX21cFlfPMLw==
+ b=iHrNh3VgfDN1ASUmiHkmFsqLBvYP2PRCKHrd+KFmOF84OrJbO3MZ4lwVDA05xig8n
+ Pj2u2zhH3f88WgiGEvOd8pKIwnV/zNmvBl4fJ84tkyzDajh7PCBuieTwz3Rf5Xh3cR
+ ZZX1mgUMpOE/L4Un2bLQ6V8/tOUE4AkJkx/nqdB7mDvtc3+Js9O+UbhG+A9tyFAyoX
+ TH/nU2JFGAqoL/00VZ9Uaf3uz2sA7GqHek7/J3Nh4Y1jcJ5IE8H+2k2kZRYrlU6V0f
+ EPLau9DeeK2E7VS7QxdEIeexgRbqmSSH2QZkcORSiLD3lUB1zJjkGCR77ywU8ksoIt
+ CGdwguvxjlpOw==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id B4780653BA; Mon, 15 Feb 2021 19:48:15 +0000 (UTC)
+ id 76039653BB; Mon, 15 Feb 2021 19:55:40 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211745] Latest 5.11 git doesn't boot.
-Date: Mon, 15 Feb 2021 19:48:15 +0000
+Date: Mon, 15 Feb 2021 19:55:40 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -38,14 +38,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Who: rmuncrief@humanavance.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211745-2300-bXd1kVWpmz@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-211745-2300-c4G2XWOpgk@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211745-2300@https.bugzilla.kernel.org/>
 References: <bug-211745-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -70,8 +70,19 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=211745
 
---- Comment #9 from Alex Deucher (alexdeucher@gmail.com) ---
-Only reporters can close kernel bugs.  Please close if this is not an issue.
+Robert M. Muncrief (rmuncrief@humanavance.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |INVALID
+
+--- Comment #10 from Robert M. Muncrief (rmuncrief@humanavance.com) ---
+(In reply to Alex Deucher from comment #9)
+> Only reporters can close kernel bugs.  Please close if this is not an issue.
+
+I've closed it as invalid since I'm not sure what the issue was and there was
+no specific code fix I'm aware of.
 
 -- 
 You may reply to this email to add a comment.
