@@ -2,46 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B953B31B983
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 13:45:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D2331B96F
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 13:40:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D04C16E24D;
-	Mon, 15 Feb 2021 12:45:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5E766E3C1;
+	Mon, 15 Feb 2021 12:39:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C4DA89C08
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 11:11:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1613387495;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=K9idY10taL60f48UStUVqH7VeUDlqoBOrxbno4VV8tc=;
- b=IqjYqGtPe3yTGwDa9CtGQa5Q5yUlijfqsQP9vgbxRVFel3fpRaUgVo6eA9z0NcSnas
- CMcRN/QLaG+1LL49Ta0PUxPPwLm+axDnZ85qVP7xOmVZAZur/VXxV/EtA/Yf5JAzwX/8
- CRhk8AdUHEGlPUfHzEZZlwyaN0Js8j22DlxCMgvuhIYtHSwe6AjEoIckBhwE9EB8sgwu
- 86ZTQoQCu1eq+oJOTcIewvlJxV7+vJnoPE358ywWh97pDW2/1UWBQbZo1PmM15uaEeb+
- gJVflsHr+xsYmXpsN56wCL/8USb6rnDBCbgsq2+aTJKLD2GGt+X8T51NHuduOY54y5mI
- RjOg==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NMGHPruwDvG"
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.18.0 DYNA|AUTH)
- with ESMTPSA id v00cf5x1FBBC0xX
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Mon, 15 Feb 2021 12:11:12 +0100 (CET)
-Subject: Re: [PATCH 0/5] drm/omap: hdmi: improve hdmi4 CEC, add CEC for hdmi5
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: H. Nikolaus Schaller <hns@goldelico.com>
-In-Reply-To: <20210211103703.444625-1-hverkuil-cisco@xs4all.nl>
-Date: Mon, 15 Feb 2021 12:11:11 +0100
-Message-Id: <1707AE88-75E5-4B61-B336-09757674B6A1@goldelico.com>
-References: <20210211103703.444625-1-hverkuil-cisco@xs4all.nl>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-X-Mailer: Apple Mail (2.3124)
-X-Mailman-Approved-At: Mon, 15 Feb 2021 12:45:13 +0000
+Received: from fireflyinternet.com (unknown [77.68.26.236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 633346E202;
+ Mon, 15 Feb 2021 12:39:55 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.69.177; 
+Received: from localhost (unverified [78.156.69.177]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 23871276-1500050 for multiple; Mon, 15 Feb 2021 12:39:52 +0000
+MIME-Version: 1.0
+In-Reply-To: <SA2PR11MB50685BFD01D8C6318437AD59AE889@SA2PR11MB5068.namprd11.prod.outlook.com>
+References: <20210210075929.5357-1-anandx.ram.moon@intel.com>
+ <161295390650.6673.18431407043692596805@build.alporthouse.com>
+ <SA2PR11MB50685BFD01D8C6318437AD59AE889@SA2PR11MB5068.namprd11.prod.outlook.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/gem: Add a check for object size for
+ corner cases
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: "Auld, Matthew" <matthew.auld@intel.com>, "Ram Moon,
+ AnandX" <anandx.ram.moon@intel.com>, "Surendrakumar Upadhyay,
+ TejaskumarX" <tejaskumarx.surendrakumar.upadhyay@intel.com>, "Ursulin,
+ Tvrtko" <tvrtko.ursulin@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Date: Mon, 15 Feb 2021 12:39:51 +0000
+Message-ID: <161339279139.27357.6733884217281880617@build.alporthouse.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,83 +45,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel@pyra-handheld.com,
- Linux-OMAP <linux-omap@vger.kernel.org>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Quoting Ram Moon, AnandX (2021-02-15 12:29:17)
+> Hi Chris,
+> 
+> -----Original Message-----
+> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Chris Wilson
+> Sent: Wednesday, February 10, 2021 4:15 PM
+> To: Ram Moon, AnandX <anandx.ram.moon@intel.com>; Jani Nikula <jani.nikula@linux.intel.com>; Auld, Matthew <matthew.auld@intel.com>; Surendrakumar Upadhyay, TejaskumarX <tejaskumarx.surendrakumar.upadhyay@intel.com>; Ursulin, Tvrtko <tvrtko.ursulin@intel.com>; dri-devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.org
+> Cc: Ram Moon, AnandX <anandx.ram.moon@intel.com>
+> Subject: Re: [Intel-gfx] [PATCH] drm/i915/gem: Add a check for object size for corner cases
+> 
+> Quoting Anand Moon (2021-02-10 07:59:29)
+> > Add check for object size to return appropriate error -E2BIG or 
+> > -EINVAL to avoid WARM_ON and successful return for some testcase.
+> 
+> No. You miss the point of having those warnings. We need to inspect the code to remove the last remaining "int pagenum", and then we can remove the GEM_WARN_ON((sz) >> PAGE_SHIFT > INT_MAX). These are not emitted for users, only for us to motivate us into finally fixing the code.
+> -Chris
+> 
+> Yes, I got your point these check are meant to catch up integer overflow.
+> 
+> I have check with the IGT testcase case  _gem_create_ and _gem_userptr_blits_  
+> which fails pass size *-1ull << 32*  left shift and *0~* which leads to integer overflow 
+> ie  _negative_ size passed to create  i915_gem_create via ioctl  this leads to GM_WARN_ON. 
+> 
+> Can we drop these testcase so that we don't break the kernel ?
 
-> Am 11.02.2021 um 11:36 schrieb Hans Verkuil <hverkuil-cisco@xs4all.nl>:
-> 
-> This series improves the drm_bridge support for CEC by introducing two
-> new bridge ops in the first patch, and using those in the second patch.
-> 
-> This makes it possible to call cec_s_conn_info() and set
-> CEC_CAP_CONNECTOR_INFO for the CEC adapter, so userspace can associate
-> the CEC adapter with the corresponding DRM connector.
-> 
-> The third patch simplifies CEC physical address handling by using the
-> cec_s_phys_addr_from_edid helper function that didn't exist when this
-> code was originally written.
-> 
-> The fourth patch adds CEC support to the OMAP5 driver and the last
-> patch adds the missing cec clock to the dra7 and omap5 device tree.
-> 
-> Tested with a Pandaboard and a Beagle X15 board.
-
-Tested to have no adverse effect on Pyra (omap5432).
-But I have not tested if CEC itself is working.
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> Hans Verkuil (5):
->  drm: drm_bridge: add cec_init/exit bridge ops
->  drm/omap: hdmi4: switch to the cec bridge ops
->  drm/omap: hdmi4: simplify CEC Phys Addr handling
->  drm/omap: hdmi5: add CEC support
->  ARM: dts: dra7/omap5: add cec clock
-> 
-> arch/arm/boot/dts/dra7.dtsi              |   5 +-
-> arch/arm/boot/dts/omap5.dtsi             |   5 +-
-> drivers/gpu/drm/drm_bridge_connector.c   |  23 +++
-> drivers/gpu/drm/omapdrm/dss/Kconfig      |   8 +
-> drivers/gpu/drm/omapdrm/dss/Makefile     |   1 +
-
-Merging with patch series by Tomi Valkeinen and Sebastian Reichel
-for omapdrm/dsi will need to move the Kconfig and Makefile one level
-up.
-
-> drivers/gpu/drm/omapdrm/dss/hdmi.h       |   1 +
-> drivers/gpu/drm/omapdrm/dss/hdmi4.c      |  41 ++---
-> drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c  |  12 +-
-> drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h  |  12 +-
-> drivers/gpu/drm/omapdrm/dss/hdmi5.c      |  63 +++++--
-> drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c  | 201 +++++++++++++++++++++++
-> drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h  |  42 +++++
-> drivers/gpu/drm/omapdrm/dss/hdmi5_core.c |  28 +++-
-> drivers/gpu/drm/omapdrm/dss/hdmi5_core.h |  33 +++-
-> include/drm/drm_bridge.h                 |  31 ++++
-> 15 files changed, 453 insertions(+), 53 deletions(-)
-> create mode 100644 drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c
-> create mode 100644 drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h
-> 
-> -- 
-> 2.30.0
-> 
-
-BR and thanks,
-Nikolaus Schaller
-
+The kernel rejects the ioctl with the expected errno. We leave a warning
+purely for the benefit of CI, only when compiled for debugging and not by
+default, so that we have a persistent reminder to do the code review.
+What's broken?
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
