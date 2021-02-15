@@ -2,61 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990B931B61A
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 10:02:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6554831B625
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 10:05:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74DCB6E14D;
-	Mon, 15 Feb 2021 09:02:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC6A18881E;
+	Mon, 15 Feb 2021 09:05:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 736666E14D
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 09:02:56 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id r21so7926415wrr.9
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 01:02:56 -0800 (PST)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 842368881E
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 09:05:39 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id v7so7915976wrr.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 01:05:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=oxng+iLTqqX8u5ivqtnCjUwXLDUqWJ1hcpwFjRoA3VA=;
- b=ac688awfA3FPRyNpqL3gz2V/rX+S8U5zTQRtMRo6icLd2KKc2Q0vJRIGoh9eutOswf
- Yrq3HZUkcs8iv8oiCGSfcXjYNE+/SNK8A9RMz72KvK/2uv7PvOxRBIXriw8ojqK43u5O
- MxFLuwhOzZFa2Asy6mJXPBHp5Ry+81qdM1G/uF//ca4CQU66Sm49He6efgMffWH2wzV9
- d3F82w2n4q6TW+eYGN6j433Jb/E0RZAGD48o56/Rw42ewbPl30JJZz48qystNsggrNm3
- c0w0cj1ZRzEJIcZw/paHy0IUgb+FAPWAJBBuhKOGGho/yYY5A2AAf4RKZ1pvK8CsDLBQ
- H99w==
+ bh=j3SbvoUjx28C9hUPTUEkplA1dEhQMjuQbXHqWAwrpiw=;
+ b=dNgSi+xAVhwhQSUztzeNejhPJBWmJDGPYd+eNe2IjSwXvEbRkznSb3iYOPfPoY35FL
+ 7Nq429p75Wc9PV6D0+FnUxlngtNSfVICV/zYerhDc+e5J1LixlVFRNzXuTdXFyoZfreB
+ Bzqp2rVoZvH4q5kCY5/LTL4gCDYjSEvgggzz/1p/VUaEhL8f3UuRkciobi/4k+b9eXYB
+ UEvX2dndwRMEZyuGnfl6xm0hibZJ1WfLDf6/i+929y2vDX1q0TRIMZcB5BBwbX3P/7Jv
+ MbUatfl4Ot5EY6LE45zDuZzI89oa7pyP867zPIUr7cCe30EoLbUXP38fFbdHwSxtEGub
+ r2VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=oxng+iLTqqX8u5ivqtnCjUwXLDUqWJ1hcpwFjRoA3VA=;
- b=lC6Y4QXwpoP/Sjk3L1lCuWhtKuAu/Vcb57nJJ6JzcdSBE1/+Mr+AjFDRVyLoOLWYju
- J7e8kQH7ovkefiFziCeImZDSVUKIPYq3bytW5iCGhiPUwzDQmue4AHNyVrO8/02/wmsR
- iuoTo8KerQhEHlLrR/23SzNi1iqAbs6cSDgaRZTQ+MEK9nr5vPgNw6i3qAd7MiWMElTQ
- Y8LQ6bnPg/BMDifZUJvfuQwwD3L7j2Gr2zeta8dDPSLlK0h3xQJ5SWWk+Ps08RiEZ1MC
- MHnqIp8wHE2RmdoX+Es2PDqhvuZumQlt8p0hOwBEU5/JpMvjSbYyijdodj0EUey6L51J
- cTRA==
-X-Gm-Message-State: AOAM531fStrUY8zOMmlpn6Juiyd0M9cxCM8Fk/2ZuWfUuKXGk0vsHWJi
- t5f8MMTcyxkfj0UiaPwB/UZN5A==
-X-Google-Smtp-Source: ABdhPJw9V7cNWKzDbfSUv8B57NHph44XaDLrcPA6q6O1NqcDCMjI2y8gkBhlh76py+jkM/KamN5Dsw==
-X-Received: by 2002:a5d:4651:: with SMTP id j17mr17448450wrs.64.1613379774832; 
- Mon, 15 Feb 2021 01:02:54 -0800 (PST)
+ bh=j3SbvoUjx28C9hUPTUEkplA1dEhQMjuQbXHqWAwrpiw=;
+ b=OMB0MLoNTU1zSjAWofxX/W6ByqcD8Z1XENP7H3KSwCClfNOWq2e86XeLKvOGd1Cbzm
+ U6wdR7Rpalb2eGvO37W3oy9p6U+QLLNzmsqXndUZo52nC537tN1D+gfxSqul/bj1zwrs
+ 5SHEDnmDrIpZ09wUTM/rCE8blGn3+sFgfQp5V+/1RzXQkVnoyNUWUBLtMQWHtGh8sJB5
+ E3qli1/mgKb1RR8ullvgDqHhh7FrV6/OjR7XYIDsRvf3TIPWa/vCogQeNVo/XgDKusFL
+ WX48dbplCmF/klkhWVEpR2pIb+LeuRTWMdP/MZR/Q60kb4FUeRvkCKn/x9FYNuEUXk5c
+ Rlkw==
+X-Gm-Message-State: AOAM533EUvlepAxHaRWkgMoz5GfYqEX0e5ZoQqZn3qwVigTwBQGzZ8Xz
+ JY/lhnALvllPC8vvWoRZIjjTb5isX6GcjJRX
+X-Google-Smtp-Source: ABdhPJzOSy6IGTqrXuvAkNkX91SrSUlktdfvYZk1DAioCbaiUBC6pHoD92hxSkwLIh0w8v9bpeDVEQ==
+X-Received: by 2002:adf:e411:: with SMTP id g17mr18525804wrm.250.1613379937763; 
+ Mon, 15 Feb 2021 01:05:37 -0800 (PST)
 Received: from ?IPv6:2a01:e0a:90c:e290:3627:e500:c425:5f5c?
  ([2a01:e0a:90c:e290:3627:e500:c425:5f5c])
- by smtp.gmail.com with ESMTPSA id t9sm18140381wrw.76.2021.02.15.01.02.53
+ by smtp.gmail.com with ESMTPSA id x13sm384175wmi.17.2021.02.15.01.05.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 01:02:54 -0800 (PST)
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: Add bindings for
- SN65DSI83/84/85
-To: Jagan Teki <jagan@amarulasolutions.com>, Rob Herring
- <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Sam Ravnborg <sam@ravnborg.org>
-References: <20210214174453.104616-1-jagan@amarulasolutions.com>
+ Mon, 15 Feb 2021 01:05:37 -0800 (PST)
+Subject: Re: ITE66121 HDMI driver
+To: Paul Cercueil <paul@crapouillou.net>, Phong LE <ple@baylibre.com>
+References: <DRRHOQ.EW1770YWN4DN@crapouillou.net>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  mQENBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -108,12 +103,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
  ZaTUOEkgIor5losDrePdPgE=
 Organization: Baylibre
-Message-ID: <8330126a-b2f4-5991-a2fa-37776cb412d0@baylibre.com>
-Date: Mon, 15 Feb 2021 10:02:56 +0100
+Message-ID: <828487f5-1cbf-1763-94c3-f0c722fcf2aa@baylibre.com>
+Date: Mon, 15 Feb 2021 10:05:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210214174453.104616-1-jagan@amarulasolutions.com>
+In-Reply-To: <DRRHOQ.EW1770YWN4DN@crapouillou.net>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -127,8 +122,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- linux-amarula@amarulasolutions.com, linux-kernel@vger.kernel.org,
+Cc: od@zcrc.me, Sam Ravnborg <sam@ravnborg.org>,
  dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -137,163 +131,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 14/02/2021 18:44, Jagan Teki wrote:
-> SN65DSI83/84/85 devices are MIPI DSI to LVDS based bridge
-> controller IC's from Texas Instruments.
+On 14/02/2021 00:54, Paul Cercueil wrote:
+> Hi Phong and Neil,
 > 
-> SN65DSI83 - Single Channel DSI to Single-link LVDS bridge
-> SN65DSI84 - Single Channel DSI to Dual-link LVDS bridge
-> SN65DSI85 - Dual Channel DSI to Dual-link LVDS bridge
+> I see you sent a patchset to support the ITE66121 HDMI transmitter, last version being the V2 back in March 2020.
 > 
-> Right now the bridge driver is supporting Channel A with single
-> link, so dt-bindings documented according to it.
+> Do you still plan to mainline it?
 
-Shouldn't it describe Dual-link LVDS already for SN65DSI84/85 and Dual Channel DSI for SN65DSI85 even if not implemented in the driver ?
+Yes, we still plan to mainline it.
+
+> 
+> I do have a device with a ITE66121 chip, so I can help to clean the driver and have it mainlined. But right now I cannot get the driver to work, while the chip is properly detected and correct DDC data is read,, my PC monitor does not detect any signal.
+
+Having DDC read working is a good point...
+
+Did you check the DPI data setup ? the chip supports dual data rate input, and the last version only supported it via a DT property.
 
 Neil
 
+
 > 
-> Cc: Marek Vasut <marex@denx.de>
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> ---
-> Changes for v3:
-> - fixed Rob comments
-> - updated commit message and file name to support all chip variants 
-> Changes for v2:
-> - none
+> Cheers,
+> -Paul
 > 
->  .../bindings/display/bridge/ti,sn65dsi8x.yaml | 122 ++++++++++++++++++
->  1 file changed, 122 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/ti,sn65dsi8x.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi8x.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi8x.yaml
-> new file mode 100644
-> index 000000000000..7f9f8cd6e786
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi8x.yaml
-> @@ -0,0 +1,122 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi8x.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: TI SN65DSI83/84/85 MIPI DSI to LVDS bridge bindings
-> +
-> +maintainers:
-> +  - Jagan Teki <jagan@amarulasolutions.com>
-> +
-> +description: |
-> +  SN65DSI83/84/85 devices are MIPI DSI to LVDS based bridge controller
-> +  IC's from Texas Instruments.
-> +
-> +  SN65DSI83 - Single Channel DSI to Single-link LVDS bridge
-> +  SN65DSI84 - Single Channel DSI to Dual-link LVDS bridge
-> +  SN65DSI85 - Dual Channel DSI to Dual-link LVDS bridge
-> +
-> +  Bridge decodes MIPI DSI 18bpp RGB666 and 240bpp RG888 packets and
-> +  converts the formatted video data stream to a FlatLink compatible
-> +  LVDS output operating at pixel clocks operating from 25 MHx to
-> +  154 MHz.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ti,sn65dsi83
-> +      - ti,sn65dsi84
-> +
-> +  reg:
-> +    const: 0x2c
-> +
-> +  enable-gpios:
-> +    maxItems: 1
-> +    description: GPIO specifier for bridge enable pin (active high).
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: |
-> +          DSI Input. The remote endpoint phandle should be a
-> +          reference to a valid mipi_dsi_host device node.
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: |
-> +          Video port for LVDS output (panel or connector).
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - enable-gpios
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    dsi {
-> +       #address-cells = <1>;
-> +       #size-cells = <0>;
-> +
-> +       ports {
-> +           #address-cells = <1>;
-> +           #size-cells = <0>;
-> +
-> +           port@0 {
-> +               reg = <0>;
-> +               dsi_in: endpoint {
-> +                   remote-endpoint = <&ltdc_ep0_out>;
-> +               };
-> +           };
-> +
-> +           port@1 {
-> +               reg = <1>;
-> +               dsi_out: endpoint {
-> +                   remote-endpoint = <&bridge_in>;
-> +                   data-lanes = <0 1>;
-> +               };
-> +           };
-> +       };
-> +    };
-> +
-> +    i2c6 {
-> +       #address-cells = <1>;
-> +       #size-cells = <0>;
-> +
-> +       bridge@2c {
-> +           compatible = "ti,sn65dsi84";
-> +           reg = <0x2c>;
-> +           enable-gpios = <&gpiof 15 GPIO_ACTIVE_HIGH>;
-> +
-> +           ports {
-> +               #address-cells = <1>;
-> +               #size-cells = <0>;
-> +
-> +               port@0 {
-> +                   reg = <0>;
-> +                   bridge_in: endpoint {
-> +                        remote-endpoint = <&dsi_out>;
-> +                   };
-> +               };
-> +
-> +               port@1 {
-> +                   reg = <1>;
-> +                   bridge_out: endpoint {
-> +                        remote-endpoint = <&panel_in_lvds>;
-> +                   };
-> +               };
-> +           };
-> +       };
-> +    };
 > 
 
 _______________________________________________
