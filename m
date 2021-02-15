@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2EC531C1EB
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 19:49:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231C931C1F0
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 19:51:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05A046E913;
-	Mon, 15 Feb 2021 18:49:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6F56E91D;
+	Mon, 15 Feb 2021 18:51:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
- [IPv6:2607:f8b0:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 720FD6E910;
- Mon, 15 Feb 2021 18:49:31 +0000 (UTC)
-Received: by mail-oi1-x236.google.com with SMTP id r75so8697479oie.11;
- Mon, 15 Feb 2021 10:49:31 -0800 (PST)
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 845BA6E91D;
+ Mon, 15 Feb 2021 18:51:29 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id 18so8748334oiz.7;
+ Mon, 15 Feb 2021 10:51:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DB2e39wmNlyzoYXIMSc69EsNZtZJAfxV8F103w5KYGI=;
- b=oXYEVDu4uTGML/zfEiarbYcXKEQcPNMwtPPdMJWa4jXS30e2OU6f48biZk7RQwqezn
- 99bmlupbkxFnjs1aK+hmbuDi5sgbHqikxMjQuhR3nlbWMQZrHGQXO5B7nUbN5CN+y761
- OcZBPECUbFKAjQu/gRUi8gaLlNr0mQQeMDv/AHfHGDll26NYz7i31vmUqzFXeSn1M/d8
- 9H0NZQVdCFuK29XYKlKDPSHbpZI/IBWB21DvxEJvSaKew3bEFNhPEFWBY9bsWQMYP8H4
- tLb8MiNcg+rw7Xa7SL0rDxpLM/IIfUTwqQra1hwYVEFfDTslvHgYosDGhWxaBUJstbPQ
- FgLg==
+ :cc; bh=FXWa925AIO3LIH/jmOKxAvLuXR6xeq8EAPoo9G/LVPs=;
+ b=mwJuO+uIPO1JIGp9GCaya7q/7P2IO6XqwIU5FmY3duvnqxZe2Ayg2KCoQq2PupLGY7
+ ET5ehCApl/uoprsXlCr/EdyCQqMkQGiQu2sVM3H9at/K2AwzZXuBisDJvjx/GPgn9SD2
+ kpoe689fJBRTXXED7iD7X6yNb5YlEA0NO37Z2tW4tLXZ6Fq2h/Sig+NPemq/fmdGO/Nb
+ 2SUXtkZFFQyVHHgzVClcOobK3CGveDpq9cD+AM1k06eEbhMS0DVzTEKQIAlaHjgQoikJ
+ /Xiw5e5kNE01cmS8WbFFNFS/gGfzQ0haxRZQX9Uvc00ND8eHXnK41wbXD67rC8HGg2Bq
+ /Rhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=DB2e39wmNlyzoYXIMSc69EsNZtZJAfxV8F103w5KYGI=;
- b=AVYtsenqzi3CkVwyRnGzsztZTFgdmdO+udXV5o5XLwdRiKvuyibL23VDTIPNtdVRAl
- YmUDrlFJ2cuGg/MLpzzio6S2aqXpS3g/AOIwEd0uYQDBjxRPLE/zTcKtpOJDlCJ8ppMx
- 53ANopI7T5Tj6cUGV8+mk81R2L8d9U2f5zvzE5YuNpwcXYf8gqhAF8le/cgRLDJFph0i
- ob0h7uAaDljCDBsgVb2IzHauJc/PImbRHtkHkv//mc+K+yBY+vkehFWxuHDR0I2KCGvO
- 9kZ0m0ZIUkcsdHmFWfzkPWjPIhcMHc0rwgA4M37E7Lha4ShRKFGXSjuzq7/jPziZn/nj
- fkKg==
-X-Gm-Message-State: AOAM533tAssz599JUObfUw+bD7H7xTxfnIXW/bzAC8P4s76UzQhwgGV6
- MoYYuVY9IVGAEBO8fO4GO/V04gX/FFjL3BdDJAm2kLb9
-X-Google-Smtp-Source: ABdhPJwtNcR+iy1OFkd46IBqezbb6PuDuK3CNJ9h15rAjsTAG8bDhXVe9+Ue5E0HqMfp7H7iOOiO4n6Ukn2d+9HXkyM=
-X-Received: by 2002:aca:c786:: with SMTP id x128mr208317oif.120.1613414970760; 
- Mon, 15 Feb 2021 10:49:30 -0800 (PST)
+ bh=FXWa925AIO3LIH/jmOKxAvLuXR6xeq8EAPoo9G/LVPs=;
+ b=h1DCVPuKNrJ1w3B1MSC1BPcr05/csHShCdoFIAX03L5UFZCJQ38K1mbzVSUd1wYqH9
+ BlCfdz39mx2lk8ztbc8RHdio3EwsS5Ygz9yyPGl2S7bhQkjdvKnNWJDoNSfteHeSf5SK
+ FW4It6DqXebFTVTEbzD9yylgtxlw5LA6aofx+Xf/W4W7zdv7whHDXaFuJc3QdAxYdKYy
+ NaHUZxjGNzLsEwMPMp1Bh4O+J32v+TU9YmYEd76tmuvqCC+8dJXoswKJzUaxqJQccUjy
+ QQgkHIA7lbe4WmRyBYX7cwaBYckUsXMhi4QbV5lqNwnAKYIPsjBb02vRkW6vN/ChHoY5
+ mtVg==
+X-Gm-Message-State: AOAM533Kn+ZF7B/TLXPiOKPwMI6g/tnxrsOwTSJe/SBe12nEcHBuEoxm
+ 6YI1rzPq7xR+CR5Q8uCbcTcT1UfuKSe+NUDg4+k=
+X-Google-Smtp-Source: ABdhPJyLYFB1RDFzHl/QlWTxY2E2uXWJGecQ9goXZar9CqZ/0/4BNdZH10F461PkX/NmhdAYNOv0kFtTPoixlBXZyqU=
+X-Received: by 2002:aca:c786:: with SMTP id x128mr212794oif.120.1613415088943; 
+ Mon, 15 Feb 2021 10:51:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20210210120330.54066-1-colin.king@canonical.com>
-In-Reply-To: <20210210120330.54066-1-colin.king@canonical.com>
+References: <20210210212330.GA880153@embeddedor>
+In-Reply-To: <20210210212330.GA880153@embeddedor>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 15 Feb 2021 13:49:19 -0500
-Message-ID: <CADnq5_NHvHgUzd=3xS0VTKVTWyQx2uQn5d2cMrDMso_o0UiUOA@mail.gmail.com>
-Subject: Re: [PATCH][next] drm/amd/pm: fix spelling mistake in various
- messages "power_dpm_force_perfomance_level"
-To: Colin King <colin.king@canonical.com>
+Date: Mon, 15 Feb 2021 13:51:17 -0500
+Message-ID: <CADnq5_MTPKXA_1G+=zVVH+G3Eqs-DZGH_2pW0=uUT0SMHbs5HQ@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amd/display: Fix potential integer overflow
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,26 +60,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
+Cc: Anson Jacob <Anson.Jacob@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Lang Yu <Lang.Yu@amd.com>, LKML <linux-kernel@vger.kernel.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
+ David Airlie <airlied@linux.ie>, Huang Rui <ray.huang@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 10, 2021 at 7:03 AM Colin King <colin.king@canonical.com> wrote:
+On Wed, Feb 10, 2021 at 4:23 PM Gustavo A. R. Silva
+<gustavoars@kernel.org> wrote:
 >
-> From: Colin Ian King <colin.king@canonical.com>
+> Fix potential integer overflow by casting actual_calculated_clock_100hz
+> to u64, in order to give the compiler complete information about the
+> proper arithmetic to use.
 >
-> There are spelling mistakes in error and warning messages, the text
-> power_dpm_force_perfomance_level is missing a letter r and should be
-> power_dpm_force_performance_level.  Fix them.
+> Notice that such variable is used in a context that expects
+> an expression of type u64 (64 bits, unsigned) and the following
+> expression is currently being evaluated using 32-bit arithmetic:
 >
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> actual_calculated_clock_100hz * post_divider
+>
+> Fixes: 7a03fdf628af ("drm/amd/display: fix 64bit division issue on 32bit OS")
+> Addresses-Coverity-ID: 1501691 ("Unintentional integer overflow")
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
 Applied.  Thanks!
 
@@ -88,57 +96,29 @@ Alex
 
 
 > ---
->  drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c | 2 +-
->  drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c     | 2 +-
->  drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c      | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-> index ed05a30d1139..d1358a6dd2c8 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-> @@ -1487,7 +1487,7 @@ static int smu10_set_fine_grain_clk_vol(struct pp_hwmgr *hwmgr,
+> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c b/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
+> index bc942725b9d8..dec58b3c42e4 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
+> @@ -240,7 +240,7 @@ static bool calc_fb_divider_checking_tolerance(
+>                 pll_settings->calculated_pix_clk_100hz =
+>                         actual_calculated_clock_100hz;
+>                 pll_settings->vco_freq =
+> -                       div_u64(actual_calculated_clock_100hz * post_divider, 10);
+> +                       div_u64((u64)actual_calculated_clock_100hz * post_divider, 10);
+>                 return true;
 >         }
->
->         if (!smu10_data->fine_grain_enabled) {
-> -               pr_err("pp_od_clk_voltage is not accessible if power_dpm_force_perfomance_level is not in manual mode!\n");
-> +               pr_err("pp_od_clk_voltage is not accessible if power_dpm_force_performance_level is not in manual mode!\n");
->                 return -EINVAL;
->         }
->
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
-> index 093b01159408..8abb25a28117 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
-> @@ -1462,7 +1462,7 @@ static int vangogh_od_edit_dpm_table(struct smu_context *smu, enum PP_OD_DPM_TAB
->
->         if (!(smu_dpm_ctx->dpm_level == AMD_DPM_FORCED_LEVEL_MANUAL)) {
->                 dev_warn(smu->adev->dev,
-> -                       "pp_od_clk_voltage is not accessible if power_dpm_force_perfomance_level is not in manual mode!\n");
-> +                       "pp_od_clk_voltage is not accessible if power_dpm_force_performance_level is not in manual mode!\n");
->                 return -EINVAL;
->         }
->
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c
-> index 5faa509f0dba..b59156dfca19 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c
-> @@ -351,7 +351,7 @@ static int renoir_od_edit_dpm_table(struct smu_context *smu,
->
->         if (!(smu_dpm_ctx->dpm_level == AMD_DPM_FORCED_LEVEL_MANUAL)) {
->                 dev_warn(smu->adev->dev,
-> -                       "pp_od_clk_voltage is not accessible if power_dpm_force_perfomance_level is not in manual mode!\n");
-> +                       "pp_od_clk_voltage is not accessible if power_dpm_force_performance_level is not in manual mode!\n");
->                 return -EINVAL;
->         }
->
+>         return false;
 > --
-> 2.30.0
+> 2.27.0
 >
 > _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
