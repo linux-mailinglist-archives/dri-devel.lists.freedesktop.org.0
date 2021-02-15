@@ -2,32 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553DD31B60D
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 09:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A72331B613
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 09:58:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F70B6E116;
-	Mon, 15 Feb 2021 08:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05AB26E131;
+	Mon, 15 Feb 2021 08:58:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A53B6E116;
- Mon, 15 Feb 2021 08:56:19 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 7EACAADE0;
- Mon, 15 Feb 2021 08:56:17 +0000 (UTC)
-Subject: Re: [PATCH v3] kcmp: Support selection of SYS_kcmp without
- CHECKPOINT_RESTORE
-To: Chris Wilson <chris@chris-wilson.co.uk>, linux-kernel@vger.kernel.org
-References: <20210205163752.11932-1-chris@chris-wilson.co.uk>
- <20210205220012.1983-1-chris@chris-wilson.co.uk>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <f3b09921-df08-b4fc-bd3b-1aaf583bc9a8@suse.de>
-Date: Mon, 15 Feb 2021 09:56:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+ (mail-eopbgr750089.outbound.protection.outlook.com [40.107.75.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65EF26E131
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 08:58:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nPE4C+J/9YNlENgEAirRYWmkJbkz5BU8OGdsCdJ68Y1x2TMeZINYIU0U/0cySxh8CXB3CEycFcjZbyVKRsLXDBwoyXHBO+BmP9Qt1AeqorjBWnQBl208aRZfk6JcJ3y3VrgmseijPi92yPLEv1M/4A5YG4plFf6AfDayIGDlt+RLgiosLUBrde4lfkiC1WSc/bFU+P2dP9Js4sJS0L5JQ7yURyfgWunXE7GBxpFlOAmMOd711qhI6wdtRYocoEA551YqmyTQsmYAbtoEC8y/n5GA8t6SoPTtpmzrB9Npc5SWFmx24tPXKjCkkisl5Zw6/Wi6S48QdihqhbIY94xfAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e/BQLYL4uVTeviBGAjcGjIyZIdXI3FutVY3H7syj9jI=;
+ b=c6DTzZnoXz3Sn0DK65w6M0vdGR5jGTb0O8ODG7jkeiTAZGUKWAhCc/k9KciR8ZaFfO7XjDagB+MTytdj05CDh2236bVPI7/Fz2Evm8IIHbqI8JotMMKXeBOe++07ttsjYMHopGaKujeKgyHQqLPOYNX8fplKZbdNRtrxS7i7P+IKrHaF4w+htOAE4Hsd0WH7X2r6MklUSf71f+EjRtRT2QBAjSjPwihNyRDsaRXX2JqQ4QqBBZ/7s2cjTfTgEMVZIrDe1NfhwTDTRuP99AmHVLaxc2YBAFcCMAJyJ4CyUlYwyyxBITOFapSE051ihrngBpXUy7ahjKL10ntYb9keiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e/BQLYL4uVTeviBGAjcGjIyZIdXI3FutVY3H7syj9jI=;
+ b=FV3qtAO3V2xMkpUlG8wa4gTB5GGPD+nP16pt/bUPEkQBX8xBFqNHm/2vV8mZwzvU0oNsasjB4pj3JWKNT37lDLl2+GVMRGsY0rh+ZWPehyUncVr7EMmPuq6qI9/h0qKoOkSKbSBy0Z3AVCQ3NewLtljfEYbHMvV2jd9kKoTrcck=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4208.namprd12.prod.outlook.com (2603:10b6:208:1d0::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.27; Mon, 15 Feb
+ 2021 08:58:14 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3846.038; Mon, 15 Feb 2021
+ 08:58:14 +0000
+To: linux-media <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ lkml <linux-kernel@vger.kernel.org>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Subject: DMA-buf and uncached system memory
+Message-ID: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+Date: Mon, 15 Feb 2021 09:58:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:e074:3b37:7224:b69f]
+X-ClientProxiedBy: AM4PR0302CA0004.eurprd03.prod.outlook.com
+ (2603:10a6:205:2::17) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-In-Reply-To: <20210205220012.1983-1-chris@chris-wilson.co.uk>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:e074:3b37:7224:b69f]
+ (2a02:908:1252:fb60:e074:3b37:7224:b69f) by
+ AM4PR0302CA0004.eurprd03.prod.outlook.com (2603:10a6:205:2::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.25 via Frontend
+ Transport; Mon, 15 Feb 2021 08:58:12 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: c468d075-c780-4af9-2843-08d8d18fd393
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4208:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4208FBFE133EB0E475D4BDB383889@MN2PR12MB4208.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4P+aZ7r5rGSjLjn4mpGVUh7Lh3t2/Hu6NPU8RBBsjEFczduFVjYTW1M9NHEC7d9eXPbmxXPLP35+p222QBk6uydLvVCchFr5j9lNUnd2OEQAPjXkk+odGYrx5fZIyFx0WkBBKxYaq2lPBfCU0ELUvMQT6CF0uGmJSaqMSrJ0EZXo7gMuUYrKNuGFOFNE7BNBcIT/6l37ahFI5LWUsone/OJOe7LanaYdCjKaNiM5USBr1E6QIGx0dB4PLgzxBZCI6vSg9EpUM4DNjPnF9pG6uzZcL3mvmBVbCtr6E3HKiW8gTNixNHzthjSSiYzODxycHr3UtSaDcTWVmSRB0vQa75JLHI6RF8UvE1WXZ4Qd8baHd/kZpdACDe2xCCMb8JJk2L45h/mo1l7y/GL/Ow3khtjsBRRBy5MHipmYiEwSNVNldia0YF0GMDwpnp72Gp50Od0ieVHngOn8licDwAOHKu6eEg6c8wvaXiUml/JqtkYtA56CzAl4YveE0GtBx1d9d9rIByZvhhJFRNk5YdUE4wlvKt64Ykx/JTeVXsvrDSIezzhbcpIYRwvoDLx053zVNLFAYAw6K1y4KNP0YtlrFl7or4yOeO0QQEjGFj4RzzY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(366004)(346002)(136003)(376002)(31686004)(52116002)(8936002)(4744005)(86362001)(110136005)(6486002)(5660300002)(316002)(31696002)(8676002)(478600001)(4326008)(36756003)(66556008)(2616005)(66946007)(66476007)(6666004)(83380400001)(54906003)(186003)(16526019)(2906002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cll0aFB5NHFDRUt4TytRVlNoWGFOb0FaeUFVVmhsVXNkWmw1bzhuRnhyNWRh?=
+ =?utf-8?B?NTNBdTE3YnZQbkxsTlNWNTZBNWFyeXJ2UHpZSGtWTWg0OHVzVXlzZGpqUC85?=
+ =?utf-8?B?Z1BYcXN4czVpRmcxUXplV3FMcm1DQ2thZGlac3g4cFd3SEVJQ005WU5OUkxW?=
+ =?utf-8?B?NSt6cHEycUFNbHA1Qkw4OTV3d1Z3LzVDY1dtUnJ6NFVPNXhPK0FwTXBGOS9h?=
+ =?utf-8?B?YXgxNk1tdjU1TTFCb2NVbFovSHROUUlaNlVydXJPZFFteVRKcGd3Tm5ncnQ0?=
+ =?utf-8?B?R3ZzTFNXVkgxakhGM0w4TTN3UVRIQy9nMkRpSkNlQWhGUXhtTkszRnI2dTdU?=
+ =?utf-8?B?bU9xbkthS0wyOXJZQmp5Smx4NXowNmpTalI5aUs3Zml0NjNPR09udGhIK2t6?=
+ =?utf-8?B?cngxdFNnQk9jVVVaSmFFSTEwdGFLK0RPMUNZZjk1eTJtWlEvYk5yYWZjSEUx?=
+ =?utf-8?B?Q2tsRyt1NXRSL2FsUGhjRUNEUUw1b2w2WUxJSlpHTzNEakNkbUx1ZDNtMG5Y?=
+ =?utf-8?B?ekw2bmJtTzRpUFpmVXN1cEZDWmtkWDIyVGIySEYzWXBrZzRxbTc4VmQyRWh5?=
+ =?utf-8?B?aVo4TEg0YmpSYmVkTDlTaGRpa2x3dzJ4Y0VjdDVHWGdJQUpNNHhUMmV6dGJw?=
+ =?utf-8?B?R0dDM3ZHY0EvK1lkSHI5UHhlVk9oamUxNFNDWmwyQnFTZ2poUEtXTy9GZDV2?=
+ =?utf-8?B?ZWZnM25xdWp0YzhaaFAzSDhRT2xORHJsMStkWkhxTjdobTh4azdGaUtJMXd5?=
+ =?utf-8?B?a0poYU51eXllZkU0V1pGSzN6T3dCZklqOEZIc1RYMlNGTzk5Q25MK2hCamhh?=
+ =?utf-8?B?eldIREZBNDVnZlNNWkpkckVBSjF6VERJQnJUTkp2RVZnUi9SQ1Npc2FtVVBi?=
+ =?utf-8?B?dHY0cU5HVkp1clFWVFhyWXExZnBvcmdNcDNYZlhqZzBSTVBRVSt5U2xJdU9J?=
+ =?utf-8?B?T0hEa3VyM0szSkIwVEk2ODE4eWRpUCtjOU9RWTNLckdDRXdFdTJYWkRiNURu?=
+ =?utf-8?B?T3BoUDdVTnZReUVvSUgzRHVITWtHU1VFcFlyR2lGajBvZlBqRld4OUpvbVAr?=
+ =?utf-8?B?Z2xVQkYwa2VDU2NUem5UUjN2RmVPTEs3b2YrWHh3d0FKblMxa2V6OW90aGYv?=
+ =?utf-8?B?TTJyYTdacTRLWGR4QWJqM2NZY0pKMThMeWVEWTd4UTBIMVhBcTVoS2trSk9J?=
+ =?utf-8?B?Y2M1cWJNbm8zVk1xWnNmMk04RG5FTmtMem1IVCtZSEpPT3Z3d1kvSVpEMFYw?=
+ =?utf-8?B?SWdVcjZwWDNsTXphZHBKc2tyZGFRT1UvaXhjOEFRV3lRcnp3OFJUdmRtR3Mz?=
+ =?utf-8?B?eWxuMVRia3BiVHVHR1RpQ1NOM0JsT3c1RnVvdGc2RFdjVFpuZ01NaTBwNENZ?=
+ =?utf-8?B?a1RGV2IxSFVkTTdFWU54amZ0MCs1bXJheWIwdmhNZ3lDOE50THkwbVpDSWFT?=
+ =?utf-8?B?WmlWQzBmOVpTZ3ZlVVhURnFFemVrL3hkUTd2V0g3TjM1R3dkV1J1RTlLWlJl?=
+ =?utf-8?B?S1VTeU1jeHgyYXl2dEFzTDljUXNwYUg1ajM4OVcra0FCWmlIalRLU25nK3I0?=
+ =?utf-8?B?NS9hL2FIUElkd2doKzNkU3hMUG5IMUQwRTE3cUU1NGlnMFBsOXpPdzlrUVdQ?=
+ =?utf-8?B?Wk13NjhyTEw2RElvV2M1cklhVVFsbG43aHdZWDExU1dkdlZzWjU2amVTMTl5?=
+ =?utf-8?B?Q1pvMmNFOCtnb01mYkZscXpoYmVZcnFEbjkrdTFaTWFwcURZVW9JaithWlFn?=
+ =?utf-8?B?eVRsUXkyb3IwQWRLQWxyK3BWSW5EL3FWMlhFakhkRmYreDJUVkRXTm11c3Zw?=
+ =?utf-8?B?WXZPeTJULytPR1ZEOTdqZVhHR2F0TlpkcXFWSjZya1R1ckpsUEdaMVNWNUFp?=
+ =?utf-8?Q?CGPsyfA9JvPXe?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c468d075-c780-4af9-2843-08d8d18fd393
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2021 08:58:14.1595 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kIJ4xds2SByyQPvx/AwBuUuqolcjTc2txibnwtFQ5HlfGIMpqxHAt6Cf79ITpRco
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4208
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,261 +128,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Will Drewry <wad@chromium.org>, Kees Cook <keescook@chromium.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, dri-devel@lists.freedesktop.org,
- Andy Lutomirski <luto@amacapital.net>, Cyrill Gorcunov <gorcunov@gmail.com>,
- stable@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
-Content-Type: multipart/mixed; boundary="===============1038414503=="
+Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1038414503==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="StY4QkOf8VnBZ9PWJHOu8j2lZZxSHqhoO"
+Hi guys,
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---StY4QkOf8VnBZ9PWJHOu8j2lZZxSHqhoO
-Content-Type: multipart/mixed; boundary="DQ9J4BgxYOiXYYmKggX3lsPoJY3gULU7G";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Chris Wilson <chris@chris-wilson.co.uk>, linux-kernel@vger.kernel.org
-Cc: Will Drewry <wad@chromium.org>, Kees Cook <keescook@chromium.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel@lists.freedesktop.org, Andy Lutomirski <luto@amacapital.net>,
- Cyrill Gorcunov <gorcunov@gmail.com>, stable@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>
-Message-ID: <f3b09921-df08-b4fc-bd3b-1aaf583bc9a8@suse.de>
-Subject: Re: [PATCH v3] kcmp: Support selection of SYS_kcmp without
- CHECKPOINT_RESTORE
-References: <20210205163752.11932-1-chris@chris-wilson.co.uk>
- <20210205220012.1983-1-chris@chris-wilson.co.uk>
-In-Reply-To: <20210205220012.1983-1-chris@chris-wilson.co.uk>
+we are currently working an Freesync and direct scan out from system 
+memory on AMD APUs in A+A laptops.
 
---DQ9J4BgxYOiXYYmKggX3lsPoJY3gULU7G
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On problem we stumbled over is that our display hardware needs to scan 
+out from uncached system memory and we currently don't have a way to 
+communicate that through DMA-buf.
 
-Hi
+For our specific use case at hand we are going to implement something 
+driver specific, but the question is should we have something more 
+generic for this?
 
-Am 05.02.21 um 23:00 schrieb Chris Wilson:
-> Userspace has discovered the functionality offered by SYS_kcmp and has
-> started to depend upon it. In particular, Mesa uses SYS_kcmp for
-> os_same_file_description() in order to identify when two fd (e.g. devic=
-e
-> or dmabuf) point to the same struct file. Since they depend on it for
-> core functionality, lift SYS_kcmp out of the non-default
-> CONFIG_CHECKPOINT_RESTORE into the selectable syscall category.
->=20
-> Rasmus Villemoes also pointed out that systemd uses SYS_kcmp to
-> deduplicate the per-service file descriptor store.
+After all the system memory access pattern is a PCIe extension and as 
+such something generic.
 
-This helps a lot with transactional programming in userspace system=20
-code. So FWIW
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
->=20
-> Note that some distributions such as Ubuntu are already enabling
-> CHECKPOINT_RESTORE in their configs and so, by extension, SYS_kcmp.
->=20
-> References: https://gitlab.freedesktop.org/drm/intel/-/issues/3046
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Andy Lutomirski <luto@amacapital.net>
-> Cc: Will Drewry <wad@chromium.org>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Dave Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> Cc: Cyrill Gorcunov <gorcunov@gmail.com>
-> Cc: stable@vger.kernel.org
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch> # DRM depends on kcmp
-> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk> # systemd uses kc=
-mp
->=20
-> ---
-> v2:
->    - Default n.
->    - Borrrow help message from man kcmp.
->    - Export get_epoll_tfile_raw_ptr() for CONFIG_KCMP
-> v3:
->    - Select KCMP for CONFIG_DRM
-> ---
->   drivers/gpu/drm/Kconfig                       |  3 +++
->   fs/eventpoll.c                                |  4 ++--
->   include/linux/eventpoll.h                     |  2 +-
->   init/Kconfig                                  | 11 +++++++++++
->   kernel/Makefile                               |  2 +-
->   tools/testing/selftests/seccomp/seccomp_bpf.c |  2 +-
->   6 files changed, 19 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 0973f408d75f..af6c6d214d91 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -15,6 +15,9 @@ menuconfig DRM
->   	select I2C_ALGOBIT
->   	select DMA_SHARED_BUFFER
->   	select SYNC_FILE
-> +# gallium uses SYS_kcmp for os_same_file_description() to de-duplicate=
-
-> +# device and dmabuf fd. Let's make sure that is available for our user=
-space.
-> +	select KCMP
->   	help
->   	  Kernel-level support for the Direct Rendering Infrastructure (DRI)=
-
->   	  introduced in XFree86 4.0. If you say Y here, you need to select
-> diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-> index a829af074eb5..3196474cbe24 100644
-> --- a/fs/eventpoll.c
-> +++ b/fs/eventpoll.c
-> @@ -979,7 +979,7 @@ static struct epitem *ep_find(struct eventpoll *ep,=
- struct file *file, int fd)
->   	return epir;
->   }
->  =20
-> -#ifdef CONFIG_CHECKPOINT_RESTORE
-> +#ifdef CONFIG_KCMP
->   static struct epitem *ep_find_tfd(struct eventpoll *ep, int tfd, unsi=
-gned long toff)
->   {
->   	struct rb_node *rbp;
-> @@ -1021,7 +1021,7 @@ struct file *get_epoll_tfile_raw_ptr(struct file =
-*file, int tfd,
->  =20
->   	return file_raw;
->   }
-> -#endif /* CONFIG_CHECKPOINT_RESTORE */
-> +#endif /* CONFIG_KCMP */
->  =20
->   /**
->    * Adds a new entry to the tail of the list in a lockless way, i.e.
-> diff --git a/include/linux/eventpoll.h b/include/linux/eventpoll.h
-> index 0350393465d4..593322c946e6 100644
-> --- a/include/linux/eventpoll.h
-> +++ b/include/linux/eventpoll.h
-> @@ -18,7 +18,7 @@ struct file;
->  =20
->   #ifdef CONFIG_EPOLL
->  =20
-> -#ifdef CONFIG_CHECKPOINT_RESTORE
-> +#ifdef CONFIG_KCMP
->   struct file *get_epoll_tfile_raw_ptr(struct file *file, int tfd, unsi=
-gned long toff);
->   #endif
->  =20
-> diff --git a/init/Kconfig b/init/Kconfig
-> index b77c60f8b963..9cc7436b2f73 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -1194,6 +1194,7 @@ endif # NAMESPACES
->   config CHECKPOINT_RESTORE
->   	bool "Checkpoint/restore support"
->   	select PROC_CHILDREN
-> +	select KCMP
->   	default n
->   	help
->   	  Enables additional kernel features in a sake of checkpoint/restore=
-=2E
-> @@ -1737,6 +1738,16 @@ config ARCH_HAS_MEMBARRIER_CALLBACKS
->   config ARCH_HAS_MEMBARRIER_SYNC_CORE
->   	bool
->  =20
-> +config KCMP
-> +	bool "Enable kcmp() system call" if EXPERT
-> +	help
-> +	  Enable the kernel resource comparison system call. It provides
-> +	  user-space with the ability to compare two processes to see if they=
-
-> +	  share a common resource, such as a file descriptor or even virtual
-> +	  memory space.
-> +
-> +	  If unsure, say N.
-> +
->   config RSEQ
->   	bool "Enable rseq() system call" if EXPERT
->   	default y
-> diff --git a/kernel/Makefile b/kernel/Makefile
-> index aa7368c7eabf..320f1f3941b7 100644
-> --- a/kernel/Makefile
-> +++ b/kernel/Makefile
-> @@ -51,7 +51,7 @@ obj-y +=3D livepatch/
->   obj-y +=3D dma/
->   obj-y +=3D entry/
->  =20
-> -obj-$(CONFIG_CHECKPOINT_RESTORE) +=3D kcmp.o
-> +obj-$(CONFIG_KCMP) +=3D kcmp.o
->   obj-$(CONFIG_FREEZER) +=3D freezer.o
->   obj-$(CONFIG_PROFILING) +=3D profile.o
->   obj-$(CONFIG_STACKTRACE) +=3D stacktrace.o
-> diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/test=
-ing/selftests/seccomp/seccomp_bpf.c
-> index 26c72f2b61b1..1b6c7d33c4ff 100644
-> --- a/tools/testing/selftests/seccomp/seccomp_bpf.c
-> +++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
-> @@ -315,7 +315,7 @@ TEST(kcmp)
->   	ret =3D __filecmp(getpid(), getpid(), 1, 1);
->   	EXPECT_EQ(ret, 0);
->   	if (ret !=3D 0 && errno =3D=3D ENOSYS)
-> -		SKIP(return, "Kernel does not support kcmp() (missing CONFIG_CHECKPO=
-INT_RESTORE?)");
-> +		SKIP(return, "Kernel does not support kcmp() (missing CONFIG_KCMP?)"=
-);
->   }
->  =20
->   TEST(mode_strict_support)
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---DQ9J4BgxYOiXYYmKggX3lsPoJY3gULU7G--
-
---StY4QkOf8VnBZ9PWJHOu8j2lZZxSHqhoO
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAqNy4FAwAAAAAACgkQlh/E3EQov+D5
-zRAArRuP1f2kfckNRiTbiUHOWtnyMziX9iF0ptq+QvAII1SBqhTurNJAsJ7vkWFXtFKSzs6A7he4
-nzylEw83a7LJwNSn2rmxXM8sxZuUC+44arhPhEjangMbVgdiaiQZvcTSGmE3tks4FJIJdUQbEEkX
-1o+0ZOQwMSy0vy2iJ/Sv1SDxZgpLAhC/m6gTX+1KQFbSxPKGkQ8xOdI++zk341j00Rgf6E+GjQoD
-z5li+N6dfqmxPqSssx+q2ztzwYKfL9DMkzfwouIoYbI1Z9rtXjALaDVfu1LOYBCyvqsBF95xj00V
-lkAJ65L/3bPO4b/KS5g0QSB5VrM/z+efpDZfRZWo5jRCBYDXORZPVKe/ohlu8pNQ9cOnkyYHBw4v
-P4+xanjQJ7YgF2imNTR/DPMoCRZLc6tQd2+Xt0uYqLSN3Vc8BdoAipYDnsu2aHMBWYOP2GpUY95Z
-B5l5MBB/6acok9167jl0O3z4ON6rOcT4WnBPjJwkS+1pWI7FL72C3Y2UrmkssZN0P+bptw/wJJPY
-QrhU0+8Zi7TE1bwDR41Pg3Rg4md6pyNCdwC9TfwZS5ApsqfGpT0kWJmeXJ8NXWMVcrEhOILmbWuq
-KCCSZybSYuKwiSLPqSM/I/ozP1lUDNoltxTFNc2WjNgG/zL4qS4pZYgg7H3f4LdwETdBwtiEcfu2
-tsE=
-=kzOS
------END PGP SIGNATURE-----
-
---StY4QkOf8VnBZ9PWJHOu8j2lZZxSHqhoO--
-
---===============1038414503==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Regards,
+Christian.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1038414503==--
