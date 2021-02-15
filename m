@@ -1,44 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F0FF31B312
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Feb 2021 23:39:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B15531B3A2
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 01:39:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA1A66E104;
-	Sun, 14 Feb 2021 22:39:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ECBB6E8C0;
+	Mon, 15 Feb 2021 00:39:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71C146E103;
- Sun, 14 Feb 2021 22:39:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 360696E8C0;
+ Mon, 15 Feb 2021 00:39:44 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Df2GP3p41z9rx8;
- Mon, 15 Feb 2021 09:39:09 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Df4xT22D4z9sCD;
+ Mon, 15 Feb 2021 11:39:41 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1613342353;
- bh=VMHVI12n/sYnj/11+gz6BWBErWtIiDEN9XaqwRspFDg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Q5UFaagv1VaKmBvQCvXt+ry3l6YMuxH1CffIWUubOAutw4CXE2ZhJdZpDWx0EGEb5
- Texqy0X+K0clqEwC2oDzsCuLGHLiBcxrnaYDzWam7Q0zbg5OJgH4haeQG0Y1l/BnJC
- TOpI0T5NxkLYYaOBSGhXMjMDu4Pxh6ah8JJit2SoIHVOvmLnkXEt/Q5ytuRIhPOLRK
- qZ86Uk9l7Yu8iut7dxfHmp6Vx3uTM5e7+mpBrQlL3d8PIloxLA0N9DhUERpjz9DVH3
- ak6nxqeZGLgiH5Pp9DPWP1K+NY5uedchMD9ahmdr+u09FSA3oHIfeT8vhWxT+AHaTg
- Y2qJ0/FyXk0DQ==
-Date: Mon, 15 Feb 2021 09:39:08 +1100
+ s=201702; t=1613349583;
+ bh=uFXs6FazZwdmJJXEDY5BMxYgEb6dBY8CHEHbCc+nb8g=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Yc31lJoiwdrZ3b8r9XLxGiC0W9oyIHxCk3e0XmiinlKyv6bgpxhlLrfQnIFWteiMD
+ IIqp6hKnuZ1FVHBM+jnUFvgUDZebfItBriXn7Xt/cCNSf1K1kwokcGmMs0rfWqDH85
+ mKdzeGbjX+DZa3vdQQQyG4A9Scu3+aa7Ek/+k3uU0eiocx86obE1SsgeSzG7IiGX9x
+ ugd7btL3PZ1JJGlw8uO4Kj50oPjzgEOYtJbgaxrp5rrJxPJZ2w5XGPJHlYuNGqRgBh
+ XNB1WOGXua57LsjPr9OhmR+7unJ3BnIQgXb5Qg3JNiD7vg6KS/1+HSbxIv3oZQKeB1
+ 1Yj4xJBA1VbYA==
+Date: Mon, 15 Feb 2021 11:39:39 +1100
 From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Hans de Goede <hdegoede@redhat.com>, Mark Gross <mark.gross@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: Re: linux-next: manual merge of the drivers-x86 tree with the
- drm-misc tree
-Message-ID: <20210215093908.06e349bf@canb.auug.org.au>
-In-Reply-To: <20210204155846.5aef94a8@canb.auug.org.au>
-References: <20210204155846.5aef94a8@canb.auug.org.au>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>, Hans de Goede
+ <hdegoede@redhat.com>, Mark Gross <mark.gross@intel.com>
+Subject: linux-next: build warning after merge of the pm tree
+Message-ID: <20210215113939.03e44e3c@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,92 +47,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: multipart/mixed; boundary="===============1054593303=="
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: multipart/mixed; boundary="===============0043604059=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1054593303==
-Content-Type: multipart/signed; boundary="Sig_/fcEgAKpFpYpY8sFQopChY8R";
+--===============0043604059==
+Content-Type: multipart/signed; boundary="Sig_/PDghjjOr9SVghXChJ=m6El4";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/fcEgAKpFpYpY8sFQopChY8R
+--Sig_/PDghjjOr9SVghXChJ=m6El4
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
-On Thu, 4 Feb 2021 15:58:46 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
->=20
-> Today's linux-next merge of the drivers-x86 tree got a conflict in:
->=20
->   drivers/gpu/drm/gma500/Kconfig
->   drivers/gpu/drm/gma500/mdfld_device.c
->   drivers/gpu/drm/gma500/mdfld_dsi_output.c
->   drivers/gpu/drm/gma500/mdfld_output.c
->   drivers/gpu/drm/gma500/tc35876x-dsi-lvds.c
->=20
-> between commits:
->=20
->   b51035c200bd ("drm/gma500: Remove Medfield support")
+After merging the pm tree, today's linux-next build (x86_64 allmodconfig)
+produced this warning:
 
-Now
+In file included from drivers/gpu/drm/gma500/mdfld_output.c:28:
+arch/x86/include/asm/intel_scu_ipc.h:23:12: warning: 'struct module' declar=
+ed inside parameter list will not be visible outside of this definition or =
+declaration
+   23 |     struct module *owner);
+      |            ^~~~~~
+arch/x86/include/asm/intel_scu_ipc.h:33:17: warning: 'struct module' declar=
+ed inside parameter list will not be visible outside of this definition or =
+declaration
+   33 |          struct module *owner);
+      |                 ^~~~~~
+
+Introduced by commit
+
+  bfc838f8598e ("drm/gma500: Convert to use new SCU IPC API")
+
+OK, these will go away when the drm-misc tree removes this file in commit
 
   e1da811218d2 ("drm/gma500: Remove Medfield support")
 
->   837f23bb4b60 ("drm/gma500: Drop DRM_GMA3600 config option")
-
-Now
-
-  26499e0518a7 ("drm/gma500: Drop DRM_GMA3600 config option")
-
->=20
-> from the drm-misc tree and commit:
->=20
->   bfc838f8598e ("drm/gma500: Convert to use new SCU IPC API")
->   25ded39ad064 ("drm/gma500: Get rid of duplicate NULL checks")
->=20
-> from the drivers-x86 tree.
->=20
-> I fixed it up (the former removed the text that was updated by the
-> latter and removed the last 4 files) and can carry the fix as
-> necessary. This is now fixed as far as linux-next is concerned, but any
-> non trivial conflicts should be mentioned to your upstream maintainer
-> when your tree is submitted for merging.  You may also want to consider
-> cooperating with the maintainer of the conflicting tree to minimise any
-> particularly complex conflicts.
-
-With the merge window about to open, this is a reminder that this
-conflict still exists.
-
-The two drivers-x86 tree commits have also been merged into the pm tree.
+So, if you don't want to see these warnings in Linus' build testing,
+you need to make sure that the drm-misc tree is merged before the pm
+tree (or the drivers-x86 tree).  Or you need to include module.h in
+mdfld_output.c before intel_scu_ipc.h (or in intel_scu_ipc.h itself).
 --=20
 Cheers,
 Stephen Rothwell
 
---Sig_/fcEgAKpFpYpY8sFQopChY8R
+--Sig_/PDghjjOr9SVghXChJ=m6El4
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmAppowACgkQAVBC80lX
-0Gxl3wgAhhEyvRY4qiXMEtT4FpGLU1UyQNXQFRtdXb/dKQVXzZZCuqH3Gx5V18i/
-mcXC55FKpS2uPSBUdk37HTQTdrhtolvI2CN52jB3afpcVQgIt+g13WkPl1oYil9v
-NxvZsMn8RV1Hdy/9ROGxb5I3ASENJsCEpTwzByMU19C3udFB/PGTBSkanYoxuES+
-fsrBPbGw9/s6GQWsrC4opfCDE+gUdehkRambSJhWjbAS0MeWdOD6oaqLJp5bZm3A
-55AO0txPTZLKfbcW5l/sXCHJz3OUulfLNnih0LlZtvxtPJ8TDwzWmpP2uAeV0ZX0
-I/gYSyPFNwwlMmXbToELUic6I6BStA==
-=wY4n
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmApwswACgkQAVBC80lX
+0Gx1PAgApAm7IJ91caUkHXOEEGcUtLHEugWxn52HSOHgE7cxWCbdbjiZs0rJMfk/
+J0miNgljVhx6JZ/MfpGuzdDLGeJjZu/zuqFf6V9ues4oXwS0FjSxWc28lJyGDcQL
+K2qgZQTFFnWtxP7Cr1sPAgzWR/IuJKttUNXkiAe+686+hOJwGRHN6s/bRKbyVWeN
+rYTXgpnuuKhJjUfaccsCtqZd4gqpgfg1e2zfvI/bVLJgrtmWzouu4D/U/pDH0s7C
+6HhHlct01UccTWFlxG+45pD+lSRtnxLl+4srJ1KLvBZmXD2Z4zvlTXEIKLkW0Wwm
+GkrCLriLDcDfP6zXcVpCkTnEgV5s5A==
+=nKkW
 -----END PGP SIGNATURE-----
 
---Sig_/fcEgAKpFpYpY8sFQopChY8R--
+--Sig_/PDghjjOr9SVghXChJ=m6El4--
 
---===============1054593303==
+--===============0043604059==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -148,4 +127,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1054593303==--
+--===============0043604059==--
