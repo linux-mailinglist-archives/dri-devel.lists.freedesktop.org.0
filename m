@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB28431C210
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 19:59:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D91B31C234
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 20:09:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 798AE6E936;
-	Mon, 15 Feb 2021 18:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11D5A6E926;
+	Mon, 15 Feb 2021 19:09:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB7DE6E92D;
- Mon, 15 Feb 2021 18:59:49 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id r21so6895683otk.13;
- Mon, 15 Feb 2021 10:59:49 -0800 (PST)
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 649A46E925;
+ Mon, 15 Feb 2021 19:09:18 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id u66so8758625oig.9;
+ Mon, 15 Feb 2021 11:09:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3X1XsNstRQL1WuFYlu8xsGr7F4oO4915n9l7ICDbNJc=;
- b=ijbDE8T+6hMwQkB7YtZfsrwTUXMkA40VHqTtLgkX+SpejZr2FXaiSWKcEZFQ+Q7ZAb
- m5YIn1Piclp1rFKqj/5QqUnUJS/U5AwqlnWd6MYMj/ywAqE/u1/6llFicvdsLtxpAFD0
- uIKYUmHQGyni4fKHZKX8HwZvKORfZGj/XIVTFUyF4zXbhHHfs+rm8S70RbHYJaddcZpn
- waVPbRVmAtMDDOxWWyMos+rNJvCyObHTG3bzx6uLhC9ETQnUxaKGHvu+wG158mORL+gJ
- uHut6PZ97L6Pqcj0bup7zC650WvlLNmI9F/xnP1Ax08VynkJEvkMJakUayuH8+2sL3bG
- aTEQ==
+ :cc; bh=GClquQcAvL3ODjC4fKRgV6AWuLnyOd0CieFT5ljIGg8=;
+ b=taj7fGCvjY4kZfKOHznRrl1eWou+/GeW+2Pk5HdH+qvf8ZlNmgb//Tl7QA0+1OZbwD
+ QLg+RZ/y4hNC1LaPD5ZB6hJzy9WNNg+d8yDDHR5CUjGz4UY1XjH3/acruXWhokGY76hC
+ 9ry09Fu7O7Hdd4lmrKiiiR/aciVULTwIE0HicKv3mK9sycJmrVb5JG4UVM0ZLPE78kFh
+ nUybjGwt9T7fUh+RHHijuSEIdQcxQDlihqh3+IsHpbrND4oE4E9UyTpKCKUNJl1F34iP
+ ue9PqvcZ0DfKtVEUVmzbj49eyYkwPYZjfx/KSuHdssQ/4DCLnIkOJQauGYSPEqigJTyc
+ cLDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3X1XsNstRQL1WuFYlu8xsGr7F4oO4915n9l7ICDbNJc=;
- b=gJKjKnWG6CpstaRAIHW8+ra5TzZ2/CIvUBsFjGQeb7GXQncojbdpPXq0Mdr86mTc17
- w9J0TByJbIzMxje4YcWux+6bhj2Cwv/Z/+Z2AFkB5k0Y2T0kqipjR37RCjH17HMMysVc
- Qu4JQBsb6MiCriG44hVlEsNHtW3lwsdf4sPFBSANaoeGXWVgnxqHuN7Ew4iadw9p8O0q
- fd1VFAupnXiP7y9r7hb4n4KNOQ3vn54mfTfanp+MP4/bRH37q3zJ1/smf/WQ970QrIeN
- FUZvxZl4xe0DkhWiTndlH1YJP/komDhRvgrINwdd6w639j0mGXnW6r/d7Bgcuo9uqa4S
- Ufbw==
-X-Gm-Message-State: AOAM533FEy4b+214sSIO8I2DeJC5SicVE7+OiSMcAxP4Fu6bQGdYcz4l
- hNteWqVwzM2kpWEC52g/HPCyBR2clMuTYKAVzrw=
-X-Google-Smtp-Source: ABdhPJxZ/l9Glmq2B/ll9Rne/71EAAOPsrnC19WDBNhkBmmZM+3dkyVXeylQO4TogazhV72/FnMuquUuIvVF3iui9ak=
-X-Received: by 2002:a9d:ec7:: with SMTP id 65mr12345634otj.311.1613415588997; 
- Mon, 15 Feb 2021 10:59:48 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=GClquQcAvL3ODjC4fKRgV6AWuLnyOd0CieFT5ljIGg8=;
+ b=GZ1c3O8P4EIPm2UAdHq0aPIfGZ0tU9uAvUMAM30VjZxRbjH6/5F0bEGsO4t9rZcG4f
+ OhX1j3P6LDdJSskS0ZaznJmbpiLexzQqo6RA67tp6MCGVxTHi6P2kBLJilptkzm3Sckt
+ S5QNhBs/iTNXFUMNytAvIw15PsVDz2+Ph8JxzJC4xkomhfHgqOoiyX3zkigt7JqP69sP
+ uApfMIkwXUrI1BckJKUCtismNs4XCfO5uHYpkeCNPo+/jg2OdNQ70bqiu/OGfsAYwOsw
+ gb2On0CFKovaNFwkXpxBt0/6pxhmNTxZ7IOuOJ7ctBzPk2XyQWP0vfdtlkyNYbp2mbq4
+ 2jmg==
+X-Gm-Message-State: AOAM532WHwktTVNofQOSTfnInpvYw6r/CyAyICaX8sZokEm4dM1rJujv
+ KW5q0Fs/jB9O7H7XESmfK4u0HV6x3lbFf/Kea6M=
+X-Google-Smtp-Source: ABdhPJzgAEqiVGVhF8zQSY7YeQUWYWVibxqUAQIKX3OliJx9GWkVb7ps+03mCfHf22m+ZnMZ8l+TvD5ydzyuR8ucRJc=
+X-Received: by 2002:aca:5404:: with SMTP id i4mr227737oib.123.1613416157760;
+ Mon, 15 Feb 2021 11:09:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20210210234927.GA68137@embeddedor>
-In-Reply-To: <20210210234927.GA68137@embeddedor>
+References: <20210212222954.6510-1-mario.kleiner.de@gmail.com>
+In-Reply-To: <20210212222954.6510-1-mario.kleiner.de@gmail.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 15 Feb 2021 13:59:38 -0500
-Message-ID: <CADnq5_NjBspgusW73UNXb2sLiOtsKiAvXTby0zg+OiL1DuEXFA@mail.gmail.com>
-Subject: Re: [PATCH][next] drm/radeon/nislands_smc.h: Replace one-element
- array with flexible-array member in struct NISLANDS_SMC_SWSTATE
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Date: Mon, 15 Feb 2021 14:09:07 -0500
+Message-ID: <CADnq5_OwuiAjDcP+xwspbN+H7+=aLdnGE51O0qiALnHhmjaZiQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Allow spatial dither to 10 bpc on all !=
+ DCE-11.0.
+To: Mario Kleiner <mario.kleiner.de@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,101 +61,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- linux-hardening@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBGZWIgMTAsIDIwMjEgYXQgNjo0OSBQTSBHdXN0YXZvIEEuIFIuIFNpbHZhCjxndXN0
-YXZvYXJzQGtlcm5lbC5vcmc+IHdyb3RlOgo+Cj4gVGhlcmUgaXMgYSByZWd1bGFyIG5lZWQgaW4g
-dGhlIGtlcm5lbCB0byBwcm92aWRlIGEgd2F5IHRvIGRlY2xhcmUgaGF2aW5nCj4gYSBkeW5hbWlj
-YWxseSBzaXplZCBzZXQgb2YgdHJhaWxpbmcgZWxlbWVudHMgaW4gYSBzdHJ1Y3R1cmUuIEtlcm5l
-bCBjb2RlCj4gc2hvdWxkIGFsd2F5cyB1c2Ug4oCcZmxleGlibGUgYXJyYXkgbWVtYmVyc+KAnVsx
-XSBmb3IgdGhlc2UgY2FzZXMuIFRoZSBvbGRlcgo+IHN0eWxlIG9mIG9uZS1lbGVtZW50IG9yIHpl
-cm8tbGVuZ3RoIGFycmF5cyBzaG91bGQgbm8gbG9uZ2VyIGJlIHVzZWRbMl0uCj4KPiBVc2UgZmxl
-eGlibGUtYXJyYXkgbWVtYmVyIGluIHN0cnVjdCBOSVNMQU5EU19TTUNfU1dTVEFURSwgaW5zdGVh
-ZCBvZgo+IG9uZS1lbGVtZW50IGFycmF5Lgo+Cj4gQWxzbywgdGhpcyBoZWxwcyB3aXRoIHRoZSBv
-bmdvaW5nIGVmZm9ydHMgdG8gZW5hYmxlIC1XYXJyYXktYm91bmRzIGJ5Cj4gZml4aW5nIHRoZSBm
-b2xsb3dpbmcgd2FybmluZ3M6Cj4KPiBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL25pX2RwbS5jOiBJ
-biBmdW5jdGlvbiDigJhuaV9jb252ZXJ0X3Bvd2VyX3N0YXRlX3RvX3NtY+KAmToKPiBkcml2ZXJz
-L2dwdS9kcm0vcmFkZW9uL25pX2RwbS5jOjI1MjE6MjA6IHdhcm5pbmc6IGFycmF5IHN1YnNjcmlw
-dCAxIGlzIGFib3ZlIGFycmF5IGJvdW5kcyBvZiDigJhOSVNMQU5EU19TTUNfSFdfUEVSRk9STUFO
-Q0VfTEVWRUxbMV3igJkge2FrYSDigJhzdHJ1Y3QgTklTTEFORFNfU01DX0hXX1BFUkZPUk1BTkNF
-X0xFVkVMWzFd4oCZfSBbLVdhcnJheS1ib3VuZHNdCj4gIDI1MjEgfCAgIHNtY19zdGF0ZS0+bGV2
-ZWxzW2ldLmRwbTIuTWF4UFMgPQo+ICAgICAgIHwgICB+fn5+fn5+fn5+fn5+fn5+fl5+fgo+IGRy
-aXZlcnMvZ3B1L2RybS9yYWRlb24vbmlfZHBtLmM6MjUyMzoyMDogd2FybmluZzogYXJyYXkgc3Vi
-c2NyaXB0IDEgaXMgYWJvdmUgYXJyYXkgYm91bmRzIG9mIOKAmE5JU0xBTkRTX1NNQ19IV19QRVJG
-T1JNQU5DRV9MRVZFTFsxXeKAmSB7YWthIOKAmHN0cnVjdCBOSVNMQU5EU19TTUNfSFdfUEVSRk9S
-TUFOQ0VfTEVWRUxbMV3igJl9IFstV2FycmF5LWJvdW5kc10KPiAgMjUyMyB8ICAgc21jX3N0YXRl
-LT5sZXZlbHNbaV0uZHBtMi5OZWFyVERQRGVjID0gTklTTEFORFNfRFBNMl9ORUFSX1REUF9ERUM7
-Cj4gICAgICAgfCAgIH5+fn5+fn5+fn5+fn5+fn5+Xn5+Cj4gZHJpdmVycy9ncHUvZHJtL3JhZGVv
-bi9uaV9kcG0uYzoyNTI0OjIwOiB3YXJuaW5nOiBhcnJheSBzdWJzY3JpcHQgMSBpcyBhYm92ZSBh
-cnJheSBib3VuZHMgb2Yg4oCYTklTTEFORFNfU01DX0hXX1BFUkZPUk1BTkNFX0xFVkVMWzFd4oCZ
-IHtha2Eg4oCYc3RydWN0IE5JU0xBTkRTX1NNQ19IV19QRVJGT1JNQU5DRV9MRVZFTFsxXeKAmX0g
-Wy1XYXJyYXktYm91bmRzXQo+ICAyNTI0IHwgICBzbWNfc3RhdGUtPmxldmVsc1tpXS5kcG0yLkFi
-b3ZlU2FmZUluYyA9IE5JU0xBTkRTX0RQTTJfQUJPVkVfU0FGRV9JTkM7Cj4gICAgICAgfCAgIH5+
-fn5+fn5+fn5+fn5+fn5+Xn5+Cj4gZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9uaV9kcG0uYzoyNTI1
-OjIwOiB3YXJuaW5nOiBhcnJheSBzdWJzY3JpcHQgMSBpcyBhYm92ZSBhcnJheSBib3VuZHMgb2Yg
-4oCYTklTTEFORFNfU01DX0hXX1BFUkZPUk1BTkNFX0xFVkVMWzFd4oCZIHtha2Eg4oCYc3RydWN0
-IE5JU0xBTkRTX1NNQ19IV19QRVJGT1JNQU5DRV9MRVZFTFsxXeKAmX0gWy1XYXJyYXktYm91bmRz
-XQo+ICAyNTI1IHwgICBzbWNfc3RhdGUtPmxldmVsc1tpXS5kcG0yLkJlbG93U2FmZUluYyA9IE5J
-U0xBTkRTX0RQTTJfQkVMT1dfU0FGRV9JTkM7Cj4gICAgICAgfCAgIH5+fn5+fn5+fn5+fn5+fn5+
-Xn5+Cj4gZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9uaV9kcG0uYzoyNTI2OjM1OiB3YXJuaW5nOiBh
-cnJheSBzdWJzY3JpcHQgMSBpcyBhYm92ZSBhcnJheSBib3VuZHMgb2Yg4oCYTklTTEFORFNfU01D
-X0hXX1BFUkZPUk1BTkNFX0xFVkVMWzFd4oCZIHtha2Eg4oCYc3RydWN0IE5JU0xBTkRTX1NNQ19I
-V19QRVJGT1JNQU5DRV9MRVZFTFsxXeKAmX0gWy1XYXJyYXktYm91bmRzXQo+ICAyNTI2IHwgICBz
-bWNfc3RhdGUtPmxldmVsc1tpXS5zdGF0ZUZsYWdzIHw9Cj4gICAgICAgfCAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgXn4KPiBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL25pX2RwbS5j
-OjI1MjY6MzU6IHdhcm5pbmc6IGFycmF5IHN1YnNjcmlwdCAxIGlzIGFib3ZlIGFycmF5IGJvdW5k
-cyBvZiDigJhOSVNMQU5EU19TTUNfSFdfUEVSRk9STUFOQ0VfTEVWRUxbMV3igJkge2FrYSDigJhz
-dHJ1Y3QgTklTTEFORFNfU01DX0hXX1BFUkZPUk1BTkNFX0xFVkVMWzFd4oCZfSBbLVdhcnJheS1i
-b3VuZHNdCj4gIDI1MjYgfCAgIHNtY19zdGF0ZS0+bGV2ZWxzW2ldLnN0YXRlRmxhZ3MgfD0KPiAg
-ICAgICB8ICAgfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5efgo+ICAyNTI3IHwgICAg
-KChpICE9IChzdGF0ZS0+cGVyZm9ybWFuY2VfbGV2ZWxfY291bnQgLSAxKSkgJiYgcG93ZXJfYm9v
-c3RfbGltaXQpID8KPiAgICAgICB8ICAgIH5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+Cj4gIDI1MjggfCAgICBQUFNNQ19T
-VEFURUZMQUdfUE9XRVJCT09TVCA6IDA7Cj4gICAgICAgfCAgICB+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn4KPiBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL25pX2RwbS5jOjI0NDI6MjA6IHdh
-cm5pbmc6IGFycmF5IHN1YnNjcmlwdCAxIGlzIGFib3ZlIGFycmF5IGJvdW5kcyBvZiDigJhOSVNM
-QU5EU19TTUNfSFdfUEVSRk9STUFOQ0VfTEVWRUxbMV3igJkge2FrYSDigJhzdHJ1Y3QgTklTTEFO
-RFNfU01DX0hXX1BFUkZPUk1BTkNFX0xFVkVMWzFd4oCZfSBbLVdhcnJheS1ib3VuZHNdCj4gIDI0
-NDIgfCAgIHNtY19zdGF0ZS0+bGV2ZWxzW2kgKyAxXS5hVCA9IGNwdV90b19iZTMyKGFfdCk7Cj4K
-PiBbMV0gaHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvRmxleGlibGVfYXJyYXlfbWVtYmVy
-Cj4gWzJdIGh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL2h0bWwvdjUuOS9wcm9jZXNzL2RlcHJl
-Y2F0ZWQuaHRtbCN6ZXJvLWxlbmd0aC1hbmQtb25lLWVsZW1lbnQtYXJyYXlzCj4KPiBMaW5rOiBo
-dHRwczovL2dpdGh1Yi5jb20vS1NQUC9saW51eC9pc3N1ZXMvNzkKPiBMaW5rOiBodHRwczovL2dp
-dGh1Yi5jb20vS1NQUC9saW51eC9pc3N1ZXMvMTA5Cj4gQnVpbGQtdGVzdGVkLWJ5OiBrZXJuZWwg
-dGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4KPiBMaW5rOiBodHRwczovL2xvcmUua2VybmVsLm9y
-Zy9sa21sLzYwMjNlZDU0LkJmSVkrOVV6ODFJNm5xMTklMjVsa3BAaW50ZWwuY29tLwo+IFNpZ25l
-ZC1vZmYtYnk6IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGd1c3Rhdm9hcnNAa2VybmVsLm9yZz4KCkFw
-cGxpZWQuICBUaGFua3MhCgpBbGV4Cgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL25p
-c2xhbmRzX3NtYy5oIHwgMTAgKysrKystLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRp
-b25zKCspLCA1IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9y
-YWRlb24vbmlzbGFuZHNfc21jLmggYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL25pc2xhbmRzX3Nt
-Yy5oCj4gaW5kZXggM2NmOGZjMGQ4M2Y0Li43Mzk1Y2I2YjNjYWMgMTAwNjQ0Cj4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL3JhZGVvbi9uaXNsYW5kc19zbWMuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9yYWRlb24vbmlzbGFuZHNfc21jLmgKPiBAQCAtMTM0LDExICsxMzQsMTEgQEAgdHlwZWRlZiBz
-dHJ1Y3QgTklTTEFORFNfU01DX0hXX1BFUkZPUk1BTkNFX0xFVkVMIE5JU0xBTkRTX1NNQ19IV19Q
-RVJGT1JNQU5DRV9MRVYKPgo+ICBzdHJ1Y3QgTklTTEFORFNfU01DX1NXU1RBVEUKPiAgewo+IC0g
-ICAgdWludDhfdCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZmxhZ3M7Cj4gLSAgICB1aW50
-OF90ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsZXZlbENvdW50Owo+IC0gICAgdWludDhf
-dCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcGFkZGluZzI7Cj4gLSAgICB1aW50OF90ICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBwYWRkaW5nMzsKPiAtICAgIE5JU0xBTkRTX1NNQ19I
-V19QRVJGT1JNQU5DRV9MRVZFTCAgIGxldmVsc1sxXTsKPiArICAgICAgIHVpbnQ4X3QgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIGZsYWdzOwo+ICsgICAgICAgdWludDhfdCAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgbGV2ZWxDb3VudDsKPiArICAgICAgIHVpbnQ4X3QgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHBhZGRpbmcyOwo+ICsgICAgICAgdWludDhfdCAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgcGFkZGluZzM7Cj4gKyAgICAgICBOSVNMQU5EU19TTUNfSFdfUEVS
-Rk9STUFOQ0VfTEVWRUwgICBsZXZlbHNbXTsKPiAgfTsKPgo+ICB0eXBlZGVmIHN0cnVjdCBOSVNM
-QU5EU19TTUNfU1dTVEFURSBOSVNMQU5EU19TTUNfU1dTVEFURTsKPiAtLQo+IDIuMjcuMAo+Cj4g
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Fri, Feb 12, 2021 at 5:30 PM Mario Kleiner
+<mario.kleiner.de@gmail.com> wrote:
+>
+> Spatial dithering to 10 bpc depth was disabled for all DCE's.
+> Restrict this to DCE-11.0, but allow it on other DCE's.
+>
+> Testing on DCE-8.3 and DCE-11.2 did not show any obvious ill
+> effects, but a measureable precision improvement (via colorimeter)
+> when displaying a fp16 framebuffer to a 10 bpc DP or HDMI connected
+> HDR-10 monitor.
+>
+> Alex suggests this may have been a workaround for some DCE-11.0
+> Carrizo and Stoney Asics, so lets try to restrict this to DCE 11.0.
+>
+> Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+> Cc: Alex Deucher <alexdeucher@gmail.com>
+> ---
+>  drivers/gpu/drm/amd/display/dc/dce/dce_opp.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_opp.c b/drivers/gpu/drm/amd/display/dc/dce/dce_opp.c
+> index 4600231da6cb..4ed886cdb8d8 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dce/dce_opp.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dce/dce_opp.c
+> @@ -216,9 +216,12 @@ static void set_spatial_dither(
+>         REG_UPDATE(FMT_BIT_DEPTH_CONTROL,
+>                 FMT_TEMPORAL_DITHER_EN, 0);
+>
+> -       /* no 10bpc on DCE11*/
+> -       if (params->flags.SPATIAL_DITHER_ENABLED == 0 ||
+> -               params->flags.SPATIAL_DITHER_DEPTH == 2)
+> +       if (params->flags.SPATIAL_DITHER_ENABLED == 0)
+> +               return;
+> +
+> +       /* No dithering to 10 bpc on DCE-11.0 */
+> +       if (params->flags.SPATIAL_DITHER_DEPTH == 2 &&
+> +               opp110->base.ctx->dce_version == DCE_VERSION_11_0)
+>                 return;
+
+I'm inclined to just remove this check altogether.  This is just the
+dithering control.  I think the limitations are more around the
+formats (e.g., FP formats) than the dithering.
+
+Alex
+
+
+>
+>         /* only use FRAME_COUNTER_MAX if frameRandom == 1*/
+> --
+> 2.25.1
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
