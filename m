@@ -2,53 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 193C831B87A
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 12:58:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D6F231B88E
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 13:00:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 526716E196;
-	Mon, 15 Feb 2021 11:58:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABD956E198;
+	Mon, 15 Feb 2021 12:00:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F01726E196
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 11:58:18 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id u11so3588330plg.13
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 03:58:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=STe5WvrkatZVjS+sJ4Z+wGsil/9GokGdjFMxGOL/bOc=;
- b=rOy7yc79FkXAeqXnzqAOUPdOnDZamQGVPBA3hpVjZCIQU/goE5UEQfXd5mUXQao5UK
- m/DJbTklI8pDUuwioaLXSTNLUlDP3Nckrp8NInNDSueIPnE5pKxgjeLKa6aIFQZFwT9Z
- 0dovhEJUhwovJVGEJotPI6D8SdsVCI1eCxCU2s4Xi6ggw5jZv3AkjXAjTM1s90QEhQRk
- vAkJQcvh/MBgkmAOwoDqPewoTjYiMgnTAeMNa0mx2lFJWiJCoeBvd+CZ1O6w3Ikjh9vc
- WzoRoJXkiATMuEVpISR7/1ELUjlmCJbExQk60m1SgfTjVIEhTi7yRf7nFeys00egz/nD
- e9yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=STe5WvrkatZVjS+sJ4Z+wGsil/9GokGdjFMxGOL/bOc=;
- b=PRWqy3WdMi+DsPm61QVGbVlALSQOI3Fm/EgaOlcrClm3SX/hOc/2F6pNSEVRe9UGdQ
- K+VO5O8jnOoantOdJfN41s3c7vwWUCF4eySdO/BIpUWtkD+mB+dFhti1KxSviu0y2Yx+
- kFmiypbVBh9D1nh1enKPs5gBPCa1d0+VENnfssvN2alB+kzKxhsy6ORH4kUZ8saaHN3F
- wOa+I0m+lay9os3cQhDsHd9T7V8xcfDQD/AJEzigW0nntwYsWRVD8TAtJVqgnI2uDuAo
- bBusJ80CMcw+ENI5w+JYjRQr1hIu+GxIkq6k2wpctbQakg/gYCSUB2NMDNrFJuh0MJUB
- c/8g==
-X-Gm-Message-State: AOAM532j/EcCaIJ7mtWcmZ0GeAbXS235a7/ZPSUwN0vM5eD/nP3Zj+u1
- /XtHw7V9bCeoYyOwq5ZBE5WMJax3XxvOqzrpkN9wrw==
-X-Google-Smtp-Source: ABdhPJzjaKl4tw8H7uvDqKaROVYcze200koH64YBlRr2JiPQ8jGf9Eev6HGBZKF5irx2c5L89qBvK4Hn3stNj2Ilz8k=
-X-Received: by 2002:a17:90a:70c1:: with SMTP id a1mr592704pjm.19.1613390298541; 
- Mon, 15 Feb 2021 03:58:18 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE6D66E198
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 12:00:49 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 7F02BACD4;
+ Mon, 15 Feb 2021 12:00:48 +0000 (UTC)
+Subject: Re: DMA-buf and uncached system memory
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ linux-media <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ lkml <linux-kernel@vger.kernel.org>
+References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+ <e6897f92-4c61-cd42-2822-43c50a744d4c@suse.de>
+Message-ID: <302e06ad-f979-dc77-5d84-fa0923aa4632@suse.de>
+Date: Mon, 15 Feb 2021 13:00:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210214175211.105107-1-jagan@amarulasolutions.com>
-In-Reply-To: <20210214175211.105107-1-jagan@amarulasolutions.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 15 Feb 2021 12:58:07 +0100
-Message-ID: <CAG3jFysAq0rSVRgjDSu6gF4kHcqOGAZt+b0Rz_reHgQr3Scy6A@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: Add bindings for
- Chipone ICN6211
-To: Jagan Teki <jagan@amarulasolutions.com>
+In-Reply-To: <e6897f92-4c61-cd42-2822-43c50a744d4c@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,164 +42,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, linux-amarula@amarulasolutions.com,
- Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>
+Content-Type: multipart/mixed; boundary="===============1084656255=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Jagan,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1084656255==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="8ejIhBaoaH74EllZioVxmsx5UYclcyGPJ"
 
-Thanks for submitting this.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--8ejIhBaoaH74EllZioVxmsx5UYclcyGPJ
+Content-Type: multipart/mixed; boundary="jpBOcMfQ4Rk9pKdZviZiesqHtZrYP8I7j";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ linux-media <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ lkml <linux-kernel@vger.kernel.org>
+Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>
+Message-ID: <302e06ad-f979-dc77-5d84-fa0923aa4632@suse.de>
+Subject: Re: DMA-buf and uncached system memory
+References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+ <e6897f92-4c61-cd42-2822-43c50a744d4c@suse.de>
+In-Reply-To: <e6897f92-4c61-cd42-2822-43c50a744d4c@suse.de>
 
-checkpatch.pl threw some typ-o warnings, and I listed them below. I
-think either spelling is correct, but 'spelling.txt' does list this as
-a typ-o explicitly, so I would suggest conforming to that just to
-silence the checkpatch warning.
+--jpBOcMfQ4Rk9pKdZviZiesqHtZrYP8I7j
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-This patch also passes 'dt_binding_check' and 'dtbs_check', but I
-think I'd like to defer to Rob Herring for an actual r-b.
+Hi
 
-On Sun, 14 Feb 2021 at 18:55, Jagan Teki <jagan@amarulasolutions.com> wrote:
->
-> ICN6211 is MIPI-DSI to RGB Convertor bridge from Chipone.
->
-> It has a flexible configuration of MIPI DSI signal input and
-> produce RGB565, RGB666, RGB888 output format.
->
-> Add dt-bingings for it.
->
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> ---
-> Changes for v3:
-> - updated to new dt-bindings style
->
->  .../display/bridge/chipone,icn6211.yaml       | 90 +++++++++++++++++++
->  1 file changed, 90 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
->
-> diff --git a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
-> new file mode 100644
-> index 000000000000..13764f13fe46
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
-> @@ -0,0 +1,90 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/chipone,icn6211.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Chipone ICN6211 MIPI-DSI to RGB Converter bridge
+Am 15.02.21 um 10:49 schrieb Thomas Zimmermann:
+> Hi
+>=20
+> Am 15.02.21 um 09:58 schrieb Christian K=C3=B6nig:
+>> Hi guys,
+>>
+>> we are currently working an Freesync and direct scan out from system=20
+>> memory on AMD APUs in A+A laptops.
+>>
+>> On problem we stumbled over is that our display hardware needs to scan=
+=20
+>> out from uncached system memory and we currently don't have a way to=20
+>> communicate that through DMA-buf.
 
-$ scripts/checkpatch.pl --git HEAD~0
-WARNING: 'Convertor' may be misspelled - perhaps 'Converter'?
-#7:
-ICN6211 is MIPI-DSI to RGB Convertor bridge from Chipone.
-                           ^^^^^^^^^
+Re-reading this paragrah, it sounds more as if you want to let the=20
+exporter know where to move the buffer. Is this another case of the=20
+missing-pin-flag problem?
 
-> +
-> +maintainers:
-> +  - Jagan Teki <jagan@amarulasolutions.com>
-> +
-> +description: |
-> +  ICN6211 is MIPI-DSI to RGB Convertor bridge from chipone.
+Best regards
+Thomas
 
-WARNING: 'Convertor' may be misspelled - perhaps 'Converter'?
-#38: FILE: Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml:13:
-+  ICN6211 is MIPI-DSI to RGB Convertor bridge from chipone.
-                              ^^^^^^^^^
+>>
+>> For our specific use case at hand we are going to implement something =
+
+>> driver specific, but the question is should we have something more=20
+>> generic for this?
+>=20
+> For vmap operations, we return the address as struct dma_buf_map, which=
+=20
+> contains additional information about the memory buffer. In vram=20
+> helpers, we have the interface drm_gem_vram_offset() that returns the=20
+> offset of the GPU device memory.
+>=20
+> Would it be feasible to combine both concepts into a dma-buf interface =
+
+> that returns the device-memory offset plus the additional caching flag?=
+
+>=20
+> There'd be a structure and a getter function returning the structure.
+>=20
+> struct dma_buf_offset {
+>  =C2=A0=C2=A0=C2=A0=C2=A0bool cached;
+>  =C2=A0=C2=A0=C2=A0=C2=A0u64 address;
+> };
+>=20
+> // return offset in *off
+> int dma_buf_offset(struct dma_buf *buf, struct dma_buf_off *off);
+>=20
+> Whatever settings are returned by dma_buf_offset() are valid while the =
+
+> dma_buf is pinned.
+>=20
+> Best regards
+> Thomas
+>=20
+>>
+>> After all the system memory access pattern is a PCIe extension and as =
+
+>> such something generic.
+>>
+>> Regards,
+>> Christian.
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
-> +
-> +  It has a flexible configuration of MIPI DSI signal input and
-> +  produce RGB565, RGB666, RGB888 output format.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - chipone,icn6211
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: virtual channel number of a DSI peripheral
-> +
-> +  reset-gpios:
-> +    description: GPIO connected for the reset pin
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Video port for MIPI DSI input
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Video port for MIPI DPI output (panel or connector).
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reset-gpios
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    dsi {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      bridge@0 {
-> +        compatible = "chipone,icn6211";
-> +        reg = <0>;
-> +        reset-gpios = <&r_pio 0 5 GPIO_ACTIVE_HIGH>; /* LCD-RST: PL5 */
-> +
-> +        ports {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          bridge_in: port@0 {
-> +            reg = <0>;
-> +
-> +            bridge_out_dsi: endpoint {
-> +              remote-endpoint = <&dsi_out_bridge>;
-> +            };
-> +          };
-> +
-> +          bridge_out: port@1 {
-> +            reg = <1>;
-> +
-> +            bridge_out_panel: endpoint {
-> +              remote-endpoint = <&panel_out_bridge>;
-> +            };
-> +          };
-> +        };
-> +      };
-> +    };
-> --
-> 2.25.1
->
+--jpBOcMfQ4Rk9pKdZviZiesqHtZrYP8I7j--
+
+--8ejIhBaoaH74EllZioVxmsx5UYclcyGPJ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAqYm4FAwAAAAAACgkQlh/E3EQov+CM
+OQ/9H7AYQ1xEe3151Vo7dWI+/gR1rlw3WGzPnRdx+eIaBeNgNERC4eOnalzj/yovVjPQis6HVWIg
+wfQ4BFIvwLKml+RSHEqJGbmAKly3J8NJCFyGk6E+de83sAENt9kqZSkXJpggzI3ZAjLDBB9L9Uff
+LglN6XzVNgiW3TFN+2CkqPzIC+xoTcHhRvJpPyHB+geUHrjvd15hdIVcl4kbkOGe4+llrQgmw5m3
+n9jz3oRhFHgd53G+ZipWlnPigd3RP4fb5+aVofSowQXeQYe6lI6J+Cf60Frc4So7I1lyfgwSr6tY
+v8MSW5+F4ua1AKA2uDS/9eoYkyqB4N9amaLnTBJ0Q5DER9xXmfLHZCk2JlViTW/bAbhg5kB6EHxy
+8GtBWvyQupA53nATzkipM6LNClAt47lh8vGH1hV8PiirSSETLtJ53/UccaqWag41WaWlfQAsbe0g
+cZ+EgZvCkjuf3iTVF0OFs0nz2cXJcdnnI3u0u+BvrSFv50pvJ+mNSvJNtIE5Ew69e6ldLQe5UKXQ
+ku0aXBtFP1MWo72Y5IKaHWJmoJyYWL5Y/9UucBILAsGBaJu8YKBDIEcVqjLNNjRxb/TUFRgA5NEv
+UC5aI+2CsGLxy350LmncNZk2L/xJzIwpe3hhuuRZf+TgNoJfn3ibNLdzGyEVi8MJPXPXuzm8NPs4
+iw8=
+=W8bt
+-----END PGP SIGNATURE-----
+
+--8ejIhBaoaH74EllZioVxmsx5UYclcyGPJ--
+
+--===============1084656255==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1084656255==--
