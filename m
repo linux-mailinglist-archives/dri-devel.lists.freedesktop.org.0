@@ -2,58 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0BD31BF2E
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 17:29:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E11AA31BFB8
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 17:50:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7309F6E8E8;
-	Mon, 15 Feb 2021 16:29:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3350C6E06B;
+	Mon, 15 Feb 2021 16:49:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
- [IPv6:2607:f8b0:4864:20::72a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5A426E8E8
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 16:29:12 +0000 (UTC)
-Received: by mail-qk1-x72a.google.com with SMTP id f17so6875931qkl.5
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 08:29:12 -0800 (PST)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC9F76E06B
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 16:49:56 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id v15so9716248wrx.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 08:49:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:autocrypt:organization:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=mDhKVoZLRXEGtlyYQ7j4BzJWjY1JZ5vjTgwK1Zfiyo8=;
- b=ZIl+dKFZ2XPlhSPAF3iUqI/A0inrkDWoKaCYpPwr7jG6UNs1QizgqvCRXGMEA+ZuCf
- 8gnQo7BFvUzUju0nfe8KCA9PCwMejz0IGKHcnB+1g5JjECILsKBAR+zWQfehlW6uMdGD
- qCNxvKfbn4BGff8xW3uOKyan84rIST3Bn0gjq83zrtRzb9IMYuiV9ayd5g5IYKG65jCL
- /BYPyLCcvuosDqtsn/0pFlU/6MuJyJ2/DFxfl3oZaQiB1Ff9n39mWIIMhU4Q9pylVfpp
- w5EgQoIOh/DuYKDQcRBeXSBbfLTt0M0mNsJ+KoNZiWEppRumutOPUbCYKiCrwP7jiSmk
- K2yw==
+ bh=V/ck/fRgBCCP1fZ1tZDuCoY2s1s6nNzmBEKtbfZ3uA8=;
+ b=VbO4fsBm+I4hO9CAEcKu1s5B8gfuVgXCn17JsXjjDVbLRpjkxf+I+jZmQjDHkbHQsh
+ d+FKFBQTY/e6XrwAP23VHz1xAPpCm9pm6/bP8f/szefGKUa2zM2KADiaPbWaGwajr1TD
+ qPesrkJhbCN/+l8aQykuTUgA20UJXrbEIHq10uVREZu+tX2a9xQ0GnnEciNbQ3i3LESA
+ GTcczZYJ8x4iLxPCMdWZB/b99g625EGjrKcWROyLzSy4CImMk1ZNM4NeLe+z/l+b0eJ+
+ j/xACJ44jJAA1sZEKUuqaKtuKYrhGA1QrtgoP8/TvdgooHJQlRAvq3UmIZ4AADvA+fNv
+ 2gXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mDhKVoZLRXEGtlyYQ7j4BzJWjY1JZ5vjTgwK1Zfiyo8=;
- b=Mh3IjiSB7navSw5HpbUNgz3g6NTcHroE3wLJdr7NmIBouz0HeHIMJKXkynHG6n1Gq2
- uUSv/tQbntM/lVIq66ZyfV/jPaQ2ck5B1zsH4rk4okUHXYUNblB1I/kGG7AcWzetOxjD
- hIlac/a4QnvBpQDmg2GKcKvtcIGC0SqFDKDkXW5oYAbfOqi9bj/Nb3KTpJTcQc/9jqH4
- 9ogyVuL8cIj/BBJU+andjJvOLxxFCDlypJ1prqLmWMj4wJNLpXh0rwWNfUncCGCQOHUA
- WBLfLwt1So0j6O02uYH4+YsPFXJNHhY8Pu51QGQSD5QRvQy7sMYtLeB2LHFCyEHCKkQi
- pL8g==
-X-Gm-Message-State: AOAM530HEnbDVxKdMmAWI+mpE2uSJS6jcf3kUFtVFhSnX3Fs4CYz2Bxv
- cGbnOBXISMRbsndSe6r+dftjWQ==
-X-Google-Smtp-Source: ABdhPJzAet5C1/1vgfwApPNaljndanchBHVysDxbdi7hS3mYvICTUUIo8J6GJUyrSSlT7jmbIlLL/g==
-X-Received: by 2002:a37:59c1:: with SMTP id n184mr15814771qkb.67.1613406551985; 
- Mon, 15 Feb 2021 08:29:11 -0800 (PST)
-Received: from localhost.localdomain
- (modemcable068.184-131-66.mc.videotron.ca. [66.131.184.68])
- by smtp.gmail.com with ESMTPSA id m21sm11449765qtq.52.2021.02.15.08.29.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Feb 2021 08:29:11 -0800 (PST)
-From: Jonathan Marek <jonathan@marek.ca>
-To: freedreno@lists.freedesktop.org
-Subject: [PATCH] drm/msm/dsi: support CPHY mode for 7nm pll/phy
-Date: Mon, 15 Feb 2021 11:27:44 -0500
-Message-Id: <20210215162805.21481-1-jonathan@marek.ca>
-X-Mailer: git-send-email 2.26.1
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=V/ck/fRgBCCP1fZ1tZDuCoY2s1s6nNzmBEKtbfZ3uA8=;
+ b=gMyvJcxAs2oKyS9DfyRccG6y1RA+FTEGdTAY3N5quuyZlN+vRsVyXEjXtPEXYpQAhV
+ EKWkEeYn8ayieTcA+Dy6BuePzq3xQN4mM/m24NWTE9YtuuXzmAjotFXv3t3PiSdZI9YJ
+ wZUTfIen+QyJpmdQAuf9ilBpaEdfCG8/pXXitbT2Zb3OpNotolmuvvA7tUsUYFx8Dr2p
+ 60+fL9jb+hz57mNUv3/05WBcDtE5apDUjX6Sy5nSoXG3PMlUy45krZh2z8kx8mrSrBhq
+ yLrdOYrhby3m0pt+/bzXrTOddn2HEFcTiylKqPmqao6Jo//X+kr580glqJ/qhJGHJAi4
+ u+tA==
+X-Gm-Message-State: AOAM532W8aLcgg30t39ClpQ0TEWtPi/CuA7uIlR78CP1mKpNmQS11+rY
+ HfGUPW5D1ltj5uz7SAVwAOZavtArQyfc8uYn
+X-Google-Smtp-Source: ABdhPJwtLvFwJ8pJ/R0rOHhMm3dlgCfUWkja+YuoaAoS6CSL1y6am+Ik45Ed6EbMQFZddR8gsI9jfA==
+X-Received: by 2002:a05:6000:1841:: with SMTP id
+ c1mr19186164wri.278.1613407795169; 
+ Mon, 15 Feb 2021 08:49:55 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:90c:e290:3627:e500:c425:5f5c?
+ ([2a01:e0a:90c:e290:3627:e500:c425:5f5c])
+ by smtp.gmail.com with ESMTPSA id s23sm24072753wmc.35.2021.02.15.08.49.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Feb 2021 08:49:54 -0800 (PST)
+Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: Add bindings for
+ SN65DSI83/84/85
+To: Jagan Teki <jagan@amarulasolutions.com>
+References: <20210214174453.104616-1-jagan@amarulasolutions.com>
+ <8330126a-b2f4-5991-a2fa-37776cb412d0@baylibre.com>
+ <CAMty3ZAgKPXpkiWuG3cGFs4sZPd182hBNaTbveL9USLj8o=ZxQ@mail.gmail.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ ZaTUOEkgIor5losDrePdPgE=
+Organization: Baylibre
+Message-ID: <0c343fc3-47ff-9fe1-bd91-2a973dd31400@baylibre.com>
+Date: Mon, 15 Feb 2021 17:49:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <CAMty3ZAgKPXpkiWuG3cGFs4sZPd182hBNaTbveL9USLj8o=ZxQ@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,671 +126,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Rajendra Nayak <rnayak@codeaurora.org>,
- David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- Konrad Dybcio <konradybcio@gmail.com>, Viresh Kumar <viresh.kumar@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- "Kristian H. Kristensen" <hoegsberg@google.com>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Kalyan Thota <kalyan_t@codeaurora.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: Marek Vasut <marex@denx.de>, devicetree <devicetree@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the required changes to support 7nm pll/phy in CPHY mode.
+Hi,
 
-This adds a "qcom,dsi-phy-cphy-mode" property for the PHY node to enable
-the CPHY mode.
+On 15/02/2021 12:25, Jagan Teki wrote:
+> On Mon, Feb 15, 2021 at 2:32 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
+>>
+>> Hi,
+>>
+>> On 14/02/2021 18:44, Jagan Teki wrote:
+>>> SN65DSI83/84/85 devices are MIPI DSI to LVDS based bridge
+>>> controller IC's from Texas Instruments.
+>>>
+>>> SN65DSI83 - Single Channel DSI to Single-link LVDS bridge
+>>> SN65DSI84 - Single Channel DSI to Dual-link LVDS bridge
+>>> SN65DSI85 - Dual Channel DSI to Dual-link LVDS bridge
+>>>
+>>> Right now the bridge driver is supporting Channel A with single
+>>> link, so dt-bindings documented according to it.
+>>
+>> Shouldn't it describe Dual-link LVDS already for SN65DSI84/85 and Dual Channel DSI for SN65DSI85 even if not implemented in the driver ?
+> 
+> Patch documented only Single link LVDS as it only supported by driver.
+> Single link LVDS with Channel A configuration is common across all 3
+> variant chips. I have SN65DSI84 with Single link LVDS which is routed
+> in Channel A. Idea is to go with Single link and add double link later
+> and document the same.
 
-Signed-off-by: Jonathan Marek <jonathan@marek.ca>
----
- .../devicetree/bindings/display/msm/dsi.txt   |  1 +
- drivers/gpu/drm/msm/dsi/dsi.c                 | 12 +--
- drivers/gpu/drm/msm/dsi/dsi.h                 |  6 +-
- drivers/gpu/drm/msm/dsi/dsi.xml.h             |  2 +
- drivers/gpu/drm/msm/dsi/dsi_host.c            | 34 +++++--
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c         | 49 +++++++++-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.h         |  3 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     | 89 ++++++++++++++-----
- drivers/gpu/drm/msm/dsi/pll/dsi_pll.c         |  4 +-
- drivers/gpu/drm/msm/dsi/pll/dsi_pll.h         |  5 +-
- drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c     | 71 +++++++++------
- 11 files changed, 210 insertions(+), 66 deletions(-)
+DT Bindings is unrelated to the software support, simply add the second LVDS channel endpoint
+for SN65DSI84/85 and the second dsi endpoint for SN65DSI85.
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi.txt b/Documentation/devicetree/bindings/display/msm/dsi.txt
-index b9a64d3ff184..7ffc86a9816b 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi.txt
-+++ b/Documentation/devicetree/bindings/display/msm/dsi.txt
-@@ -124,6 +124,7 @@ Required properties:
- Optional properties:
- - qcom,dsi-phy-regulator-ldo-mode: Boolean value indicating if the LDO mode PHY
-   regulator is wanted.
-+- qcom,dsi-phy-cphy-mode: Boolean value indicating if CPHY mode is wanted.
- - qcom,mdss-mdp-transfer-time-us:	Specifies the dsi transfer time for command mode
- 					panels in microseconds. Driver uses this number to adjust
- 					the clock rate according to the expected transfer time.
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-index 627048851d99..68d8547f7264 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi.c
-@@ -13,7 +13,7 @@ struct drm_encoder *msm_dsi_get_encoder(struct msm_dsi *msm_dsi)
- 	return msm_dsi->encoder;
- }
- 
--static int dsi_get_phy(struct msm_dsi *msm_dsi)
-+static int dsi_get_phy(struct msm_dsi *msm_dsi, bool *cphy_mode)
- {
- 	struct platform_device *pdev = msm_dsi->pdev;
- 	struct platform_device *phy_pdev;
-@@ -29,6 +29,7 @@ static int dsi_get_phy(struct msm_dsi *msm_dsi)
- 	if (phy_pdev)
- 		msm_dsi->phy = platform_get_drvdata(phy_pdev);
- 
-+	*cphy_mode = of_property_read_bool(phy_node, "qcom,dsi-phy-cphy-mode");
- 	of_node_put(phy_node);
- 
- 	if (!phy_pdev || !msm_dsi->phy) {
-@@ -65,6 +66,7 @@ static void dsi_destroy(struct msm_dsi *msm_dsi)
- static struct msm_dsi *dsi_init(struct platform_device *pdev)
- {
- 	struct msm_dsi *msm_dsi;
-+	bool cphy_mode;
- 	int ret;
- 
- 	if (!pdev)
-@@ -79,13 +81,13 @@ static struct msm_dsi *dsi_init(struct platform_device *pdev)
- 	msm_dsi->pdev = pdev;
- 	platform_set_drvdata(pdev, msm_dsi);
- 
--	/* Init dsi host */
--	ret = msm_dsi_host_init(msm_dsi);
-+	/* GET dsi PHY */
-+	ret = dsi_get_phy(msm_dsi, &cphy_mode);
- 	if (ret)
- 		goto destroy_dsi;
- 
--	/* GET dsi PHY */
--	ret = dsi_get_phy(msm_dsi);
-+	/* Init dsi host */
-+	ret = msm_dsi_host_init(msm_dsi, cphy_mode);
- 	if (ret)
- 		goto destroy_dsi;
- 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-index 78ef5d4ed922..8db4edc286ee 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi.h
-@@ -108,7 +108,7 @@ struct drm_encoder *msm_dsi_get_encoder(struct msm_dsi *msm_dsi);
- struct msm_dsi_pll;
- #ifdef CONFIG_DRM_MSM_DSI_PLL
- struct msm_dsi_pll *msm_dsi_pll_init(struct platform_device *pdev,
--			enum msm_dsi_phy_type type, int dsi_id);
-+			enum msm_dsi_phy_type type, bool cphy_mode, int id);
- void msm_dsi_pll_destroy(struct msm_dsi_pll *pll);
- int msm_dsi_pll_get_clk_provider(struct msm_dsi_pll *pll,
- 	struct clk **byte_clk_provider, struct clk **pixel_clk_provider);
-@@ -118,7 +118,7 @@ int msm_dsi_pll_set_usecase(struct msm_dsi_pll *pll,
- 			    enum msm_dsi_phy_usecase uc);
- #else
- static inline struct msm_dsi_pll *msm_dsi_pll_init(struct platform_device *pdev,
--			 enum msm_dsi_phy_type type, int id) {
-+			 enum msm_dsi_phy_type type, bool cphy_mode, int id) {
- 	return ERR_PTR(-ENODEV);
- }
- static inline void msm_dsi_pll_destroy(struct msm_dsi_pll *pll)
-@@ -177,7 +177,7 @@ void msm_dsi_host_get_phy_clk_req(struct mipi_dsi_host *host,
- void msm_dsi_host_destroy(struct mipi_dsi_host *host);
- int msm_dsi_host_modeset_init(struct mipi_dsi_host *host,
- 					struct drm_device *dev);
--int msm_dsi_host_init(struct msm_dsi *msm_dsi);
-+int msm_dsi_host_init(struct msm_dsi *msm_dsi, bool cphy_mode);
- int msm_dsi_runtime_suspend(struct device *dev);
- int msm_dsi_runtime_resume(struct device *dev);
- int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host);
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h b/drivers/gpu/drm/msm/dsi/dsi.xml.h
-index 50eb4d1b8fdd..5087a65d3e11 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.xml.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi.xml.h
-@@ -621,6 +621,8 @@ static inline uint32_t DSI_VERSION_MAJOR(uint32_t val)
- 	return ((val) << DSI_VERSION_MAJOR__SHIFT) & DSI_VERSION_MAJOR__MASK;
- }
- 
-+#define REG_DSI_CPHY_MODE_CTRL					0x000002d4
-+
- #define REG_DSI_PHY_PLL_CTRL_0					0x00000200
- #define DSI_PHY_PLL_CTRL_0_ENABLE				0x00000001
- 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index ab281cba0f08..39346817a27a 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -168,6 +168,9 @@ struct msm_dsi_host {
- 	int dlane_swap;
- 	int num_data_lanes;
- 
-+	/* from phy DT */
-+	bool cphy_mode;
-+
- 	u32 dma_cmd_ctrl_restore;
- 
- 	bool registered;
-@@ -511,6 +514,7 @@ int msm_dsi_runtime_resume(struct device *dev)
- 
- int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host)
- {
-+	u32 byte_intf_rate;
- 	int ret;
- 
- 	DBG("Set clk rates: pclk=%d, byteclk=%d",
-@@ -530,8 +534,13 @@ int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host)
- 	}
- 
- 	if (msm_host->byte_intf_clk) {
--		ret = clk_set_rate(msm_host->byte_intf_clk,
--				   msm_host->byte_clk_rate / 2);
-+		/* For CPHY, byte_intf_clk is same as byte_clk */
-+		if (msm_host->cphy_mode)
-+			byte_intf_rate = msm_host->byte_clk_rate;
-+		else
-+			byte_intf_rate = msm_host->byte_clk_rate / 2;
-+
-+		ret = clk_set_rate(msm_host->byte_intf_clk, byte_intf_rate);
- 		if (ret) {
- 			pr_err("%s: Failed to set rate byte intf clk, %d\n",
- 			       __func__, ret);
-@@ -711,7 +720,11 @@ static void dsi_calc_pclk(struct msm_dsi_host *msm_host, bool is_dual_dsi)
- 		lanes = 1;
- 	}
- 
--	do_div(pclk_bpp, (8 * lanes));
-+	/* CPHY "byte_clk" is in units of 16 bits */
-+	if (msm_host->cphy_mode)
-+		do_div(pclk_bpp, (16 * lanes));
-+	else
-+		do_div(pclk_bpp, (8 * lanes));
- 
- 	msm_host->pixel_clk_rate = pclk_rate;
- 	msm_host->byte_clk_rate = pclk_bpp;
-@@ -937,6 +950,9 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
- 	data |= DSI_CTRL_ENABLE;
- 
- 	dsi_write(msm_host, REG_DSI_CTRL, data);
-+
-+	if (msm_host->cphy_mode)
-+		dsi_write(msm_host, REG_DSI_CPHY_MODE_CTRL, BIT(0));
- }
- 
- static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_dual_dsi)
-@@ -1818,7 +1834,7 @@ static int dsi_host_get_id(struct msm_dsi_host *msm_host)
- 	return -EINVAL;
- }
- 
--int msm_dsi_host_init(struct msm_dsi *msm_dsi)
-+int msm_dsi_host_init(struct msm_dsi *msm_dsi, bool cphy_mode)
- {
- 	struct msm_dsi_host *msm_host = NULL;
- 	struct platform_device *pdev = msm_dsi->pdev;
-@@ -1833,6 +1849,7 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
- 	}
- 
- 	msm_host->pdev = pdev;
-+	msm_host->cphy_mode = cphy_mode;
- 	msm_dsi->host = &msm_host->base;
- 
- 	ret = dsi_host_parse_dt(msm_host);
-@@ -2303,7 +2320,14 @@ void msm_dsi_host_get_phy_clk_req(struct mipi_dsi_host *host,
- 		return;
- 	}
- 
--	clk_req->bitclk_rate = msm_host->byte_clk_rate * 8;
-+	/* CPHY transmits 16 bits over 7 clock cycles
-+	 * "byte_clk" is in units of 16-bits (see dsi_calc_pclk),
-+	 * so multiply by 7 to get the "bitclk rate"
-+	 */
-+	if (msm_host->cphy_mode)
-+		clk_req->bitclk_rate = msm_host->byte_clk_rate * 7;
-+	else
-+		clk_req->bitclk_rate = msm_host->byte_clk_rate * 8;
- 	clk_req->escclk_rate = msm_host->esc_clk_rate;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-index e8c1a727179c..c8b758ab259a 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-@@ -460,6 +460,51 @@ int msm_dsi_dphy_timing_calc_v4(struct msm_dsi_dphy_timing *timing,
- 	return 0;
- }
- 
-+int msm_dsi_cphy_timing_calc_v4(struct msm_dsi_dphy_timing *timing,
-+	struct msm_dsi_phy_clk_request *clk_req)
-+{
-+	const unsigned long bit_rate = clk_req->bitclk_rate;
-+	const unsigned long esc_rate = clk_req->escclk_rate;
-+	s32 ui, ui_x7;
-+	s32 tmax, tmin;
-+	s32 coeff = 1000; /* Precision, should avoid overflow */
-+	s32 temp;
-+
-+	if (!bit_rate || !esc_rate)
-+		return -EINVAL;
-+
-+	ui = mult_frac(NSEC_PER_MSEC, coeff, bit_rate / 1000);
-+	ui_x7 = ui * 7;
-+
-+	temp = S_DIV_ROUND_UP(38 * coeff, ui_x7);
-+	tmin = max_t(s32, temp, 0);
-+	temp = (95 * coeff) / ui_x7;
-+	tmax = max_t(s32, temp, 0);
-+	timing->clk_prepare = linear_inter(tmax, tmin, 50, 0, false);
-+
-+	tmin = DIV_ROUND_UP(50 * coeff, ui_x7);
-+	tmax = 255;
-+	timing->hs_rqst = linear_inter(tmax, tmin, 1, 0, false);
-+
-+	tmin = DIV_ROUND_UP(100 * coeff, ui_x7) - 1;
-+	tmax = 255;
-+	timing->hs_exit = linear_inter(tmax, tmin, 10, 0, false);
-+
-+	tmin = 1;
-+	tmax = 32;
-+	timing->shared_timings.clk_post = linear_inter(tmax, tmin, 80, 0, false);
-+
-+	tmin = min_t(s32, 64, S_DIV_ROUND_UP(262 * coeff, ui_x7) - 1);
-+	tmax = 64;
-+	timing->shared_timings.clk_pre = linear_inter(tmax, tmin, 20, 0, false);
-+
-+	DBG("%d, %d, %d, %d, %d",
-+		timing->shared_timings.clk_pre, timing->shared_timings.clk_post,
-+		timing->clk_prepare, timing->hs_exit, timing->hs_rqst);
-+
-+	return 0;
-+}
-+
- void msm_dsi_phy_set_src_pll(struct msm_dsi_phy *phy, int pll_id, u32 reg,
- 				u32 bit_mask)
- {
-@@ -683,6 +728,8 @@ static int dsi_phy_driver_probe(struct platform_device *pdev)
- 
- 	phy->regulator_ldo_mode = of_property_read_bool(dev->of_node,
- 				"qcom,dsi-phy-regulator-ldo-mode");
-+	phy->cphy_mode = of_property_read_bool(dev->of_node,
-+				"qcom,dsi-phy-cphy-mode");
- 
- 	phy->base = msm_ioremap(pdev, "dsi_phy", "DSI_PHY");
- 	if (IS_ERR(phy->base)) {
-@@ -715,7 +762,7 @@ static int dsi_phy_driver_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto fail;
- 
--	phy->pll = msm_dsi_pll_init(pdev, phy->cfg->type, phy->id);
-+	phy->pll = msm_dsi_pll_init(pdev, phy->cfg->type, phy->cphy_mode, phy->id);
- 	if (IS_ERR_OR_NULL(phy->pll)) {
- 		DRM_DEV_INFO(dev,
- 			"%s: pll init failed: %ld, need separate pll clk driver\n",
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-index d2bd74b6f357..699d3d4a8ba8 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-@@ -89,6 +89,7 @@ struct msm_dsi_phy {
- 
- 	enum msm_dsi_phy_usecase usecase;
- 	bool regulator_ldo_mode;
-+	bool cphy_mode;
- 
- 	struct msm_dsi_pll *pll;
- };
-@@ -104,6 +105,8 @@ int msm_dsi_dphy_timing_calc_v3(struct msm_dsi_dphy_timing *timing,
- 				struct msm_dsi_phy_clk_request *clk_req);
- int msm_dsi_dphy_timing_calc_v4(struct msm_dsi_dphy_timing *timing,
- 				struct msm_dsi_phy_clk_request *clk_req);
-+int msm_dsi_cphy_timing_calc_v4(struct msm_dsi_dphy_timing *timing,
-+				struct msm_dsi_phy_clk_request *clk_req);
- void msm_dsi_phy_set_src_pll(struct msm_dsi_phy *phy, int pll_id, u32 reg,
- 				u32 bit_mask);
- int msm_dsi_phy_init_common(struct msm_dsi_phy *phy);
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-index 79c034ae075d..69291babd871 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-@@ -79,15 +79,21 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy, int src_pll_id,
- 	struct msm_dsi_dphy_timing *timing = &phy->timing;
- 	void __iomem *base = phy->base;
- 	bool less_than_1500_mhz;
--	u32 vreg_ctrl_0, glbl_str_swi_cal_sel_ctrl, glbl_hstx_str_ctrl_0;
-+	u32 vreg_ctrl_0, vreg_ctrl_1, lane_ctrl0;
-+	u32 glbl_pemph_ctrl_0;
-+	u32 glbl_str_swi_cal_sel_ctrl, glbl_hstx_str_ctrl_0;
- 	u32 glbl_rescode_top_ctrl, glbl_rescode_bot_ctrl;
- 	u32 data;
- 
- 	DBG("");
- 
--	if (msm_dsi_dphy_timing_calc_v4(timing, clk_req)) {
-+	if (phy->cphy_mode)
-+		ret = msm_dsi_cphy_timing_calc_v4(timing, clk_req);
-+	else
-+		ret = msm_dsi_dphy_timing_calc_v4(timing, clk_req);
-+	if (ret) {
- 		DRM_DEV_ERROR(&phy->pdev->dev,
--			"%s: D-PHY timing calculation failed\n", __func__);
-+			"%s: PHY timing calculation failed\n", __func__);
- 		return -EINVAL;
- 	}
- 
-@@ -108,6 +114,10 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy, int src_pll_id,
- 	/* Alter PHY configurations if data rate less than 1.5GHZ*/
- 	less_than_1500_mhz = (clk_req->bitclk_rate <= 1500000000);
- 
-+	/* For C-PHY, no low power settings for lower clk rate */
-+	if (phy->cphy_mode)
-+		less_than_1500_mhz = false;
-+
- 	if (phy->cfg->type == MSM_DSI_PHY_7NM_V4_1) {
- 		vreg_ctrl_0 = less_than_1500_mhz ? 0x53 : 0x52;
- 		glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3d :  0x00;
-@@ -122,6 +132,17 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy, int src_pll_id,
- 		glbl_rescode_bot_ctrl = 0x3c;
- 	}
- 
-+	if (phy->cphy_mode) {
-+		vreg_ctrl_0 = 0x51;
-+		vreg_ctrl_1 = 0x55;
-+		glbl_pemph_ctrl_0 = 0x11;
-+		lane_ctrl0 = 0x17;
-+	} else {
-+		vreg_ctrl_1 = 0x5c;
-+		glbl_pemph_ctrl_0 = 0x00;
-+		lane_ctrl0 = 0x1f;
-+	}
-+
- 	/* de-assert digital and pll power down */
- 	data = BIT(6) | BIT(5);
- 	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_CTRL_0, data);
-@@ -142,15 +163,22 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy, int src_pll_id,
- 	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_LANE_CFG0, 0x21);
- 	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_LANE_CFG1, 0x84);
- 
-+	if (phy->cphy_mode)
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_GLBL_CTRL, BIT(6));
-+
- 	/* Enable LDO */
- 	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_VREG_CTRL_0, vreg_ctrl_0);
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_VREG_CTRL_1, 0x5c);
-+	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_VREG_CTRL_1, vreg_ctrl_1);
-+
- 	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_CTRL_3, 0x00);
- 	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_GLBL_STR_SWI_CAL_SEL_CTRL,
- 		      glbl_str_swi_cal_sel_ctrl);
- 	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_GLBL_HSTX_STR_CTRL_0,
- 		      glbl_hstx_str_ctrl_0);
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_GLBL_PEMPH_CTRL_0, 0x00);
-+	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_GLBL_PEMPH_CTRL_0,
-+		      glbl_pemph_ctrl_0);
-+	if (phy->cphy_mode)
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_GLBL_PEMPH_CTRL_1, 0x01);
- 	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_GLBL_RESCODE_OFFSET_TOP_CTRL,
- 		      glbl_rescode_top_ctrl);
- 	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_GLBL_RESCODE_OFFSET_BOT_CTRL,
-@@ -160,10 +188,11 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy, int src_pll_id,
- 	/* Remove power down from all blocks */
- 	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_CTRL_0, 0x7f);
- 
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_LANE_CTRL0, 0x1f);
-+	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_LANE_CTRL0, lane_ctrl0);
- 
- 	/* Select full-rate mode */
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_CTRL_2, 0x40);
-+	if (!phy->cphy_mode)
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_CTRL_2, 0x40);
- 
- 	ret = msm_dsi_pll_set_usecase(phy->pll, phy->usecase);
- 	if (ret) {
-@@ -173,22 +202,36 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy, int src_pll_id,
- 	}
- 
- 	/* DSI PHY timings */
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_0, 0x00);
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_1, timing->clk_zero);
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_2, timing->clk_prepare);
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_3, timing->clk_trail);
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_4, timing->hs_exit);
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_5, timing->hs_zero);
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_6, timing->hs_prepare);
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_7, timing->hs_trail);
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_8, timing->hs_rqst);
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_9, 0x02);
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_10, 0x04);
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_11, 0x00);
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_12,
--		      timing->shared_timings.clk_pre);
--	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_13,
--		      timing->shared_timings.clk_post);
-+	if (phy->cphy_mode) {
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_0, 0x00);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_4, timing->hs_exit);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_5,
-+			timing->shared_timings.clk_pre);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_6, timing->clk_prepare);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_7,
-+			timing->shared_timings.clk_post);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_8, timing->hs_rqst);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_9, 0x02);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_10, 0x04);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_11, 0x00);
-+	} else {
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_0, 0x00);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_1, timing->clk_zero);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_2, timing->clk_prepare);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_3, timing->clk_trail);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_4, timing->hs_exit);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_5, timing->hs_zero);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_6, timing->hs_prepare);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_7, timing->hs_trail);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_8, timing->hs_rqst);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_9, 0x02);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_10, 0x04);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_11, 0x00);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_12,
-+			timing->shared_timings.clk_pre);
-+		dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_TIMING_CTRL_13,
-+			timing->shared_timings.clk_post);
-+	}
- 
- 	/* DSI lane settings */
- 	dsi_phy_hw_v4_0_lane_settings(phy);
-diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll.c b/drivers/gpu/drm/msm/dsi/pll/dsi_pll.c
-index a45fe95aff49..9ad9a8774982 100644
---- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll.c
-+++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll.c
-@@ -142,7 +142,7 @@ int msm_dsi_pll_set_usecase(struct msm_dsi_pll *pll,
- }
- 
- struct msm_dsi_pll *msm_dsi_pll_init(struct platform_device *pdev,
--			enum msm_dsi_phy_type type, int id)
-+			enum msm_dsi_phy_type type, bool cphy_mode, int id)
- {
- 	struct device *dev = &pdev->dev;
- 	struct msm_dsi_pll *pll;
-@@ -163,7 +163,7 @@ struct msm_dsi_pll *msm_dsi_pll_init(struct platform_device *pdev,
- 		break;
- 	case MSM_DSI_PHY_7NM:
- 	case MSM_DSI_PHY_7NM_V4_1:
--		pll = msm_dsi_pll_7nm_init(pdev, id);
-+		pll = msm_dsi_pll_7nm_init(pdev, cphy_mode, id);
- 		break;
- 	default:
- 		pll = ERR_PTR(-ENXIO);
-diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll.h b/drivers/gpu/drm/msm/dsi/pll/dsi_pll.h
-index 3405982a092c..d8d3e5b09053 100644
---- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll.h
-+++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll.h
-@@ -117,10 +117,11 @@ msm_dsi_pll_10nm_init(struct platform_device *pdev, int id)
- }
- #endif
- #ifdef CONFIG_DRM_MSM_DSI_7NM_PHY
--struct msm_dsi_pll *msm_dsi_pll_7nm_init(struct platform_device *pdev, int id);
-+struct msm_dsi_pll *
-+msm_dsi_pll_7nm_init(struct platform_device *pdev, bool cphy_mode, int id);
- #else
- static inline struct msm_dsi_pll *
--msm_dsi_pll_7nm_init(struct platform_device *pdev, int id)
-+msm_dsi_pll_7nm_init(struct platform_device *pdev, bool cphy_mode, int id)
- {
- 	return ERR_PTR(-ENODEV);
- }
-diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
-index 93bf142e4a4e..edc1fb491bc7 100644
---- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
-+++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
-@@ -86,6 +86,7 @@ struct pll_7nm_cached_state {
- 
- struct dsi_pll_7nm {
- 	struct msm_dsi_pll base;
-+	bool cphy_mode;
- 
- 	int id;
- 	struct platform_device *pdev;
-@@ -327,7 +328,7 @@ static void dsi_pll_commit(struct dsi_pll_7nm *pll)
- 	pll_write(base + REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_HIGH_1, reg->frac_div_start_high);
- 	pll_write(base + REG_DSI_7nm_PHY_PLL_PLL_LOCKDET_RATE_1, 0x40);
- 	pll_write(base + REG_DSI_7nm_PHY_PLL_PLL_LOCK_DELAY, 0x06);
--	pll_write(base + REG_DSI_7nm_PHY_PLL_CMODE_1, 0x10); /* TODO: 0x00 for CPHY */
-+	pll_write(base + REG_DSI_7nm_PHY_PLL_CMODE_1, pll->cphy_mode ? 0x00 : 0x10);
- 	pll_write(base + REG_DSI_7nm_PHY_PLL_CLOCK_INVERTERS, reg->pll_clock_inverters);
- }
- 
-@@ -668,7 +669,8 @@ static void dsi_pll_7nm_destroy(struct msm_dsi_pll *pll)
- 	of_clk_del_provider(dev->of_node);
- 
- 	clk_hw_unregister_divider(pll_7nm->out_dsiclk_hw);
--	clk_hw_unregister_mux(pll_7nm->pclk_mux_hw);
-+	if (pll_7nm->pclk_mux_hw)
-+		clk_hw_unregister_mux(pll_7nm->pclk_mux_hw);
- 	clk_hw_unregister_fixed_factor(pll_7nm->post_out_div_clk_hw);
- 	clk_hw_unregister_fixed_factor(pll_7nm->by_2_bit_clk_hw);
- 	clk_hw_unregister_fixed_factor(pll_7nm->byte_clk_hw);
-@@ -751,7 +753,8 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm)
- 
- 	/* DSI Byte clock = VCO_CLK / OUT_DIV / BIT_DIV / 8 */
- 	hw = clk_hw_register_fixed_factor(dev, clk_name, parent,
--					  CLK_SET_RATE_PARENT, 1, 8);
-+					  CLK_SET_RATE_PARENT, 1,
-+					  pll_7nm->cphy_mode ? 7 : 8);
- 	if (IS_ERR(hw)) {
- 		ret = PTR_ERR(hw);
- 		goto err_bit_clk_hw;
-@@ -775,8 +778,10 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm)
- 	snprintf(clk_name, 32, "dsi%d_pll_post_out_div_clk", pll_7nm->id);
- 	snprintf(parent, 32, "dsi%d_pll_out_div_clk", pll_7nm->id);
- 
--	hw = clk_hw_register_fixed_factor(dev, clk_name, parent,
--					  0, 1, 4);
-+	if (pll_7nm->cphy_mode)
-+		hw = clk_hw_register_fixed_factor(dev, clk_name, parent, 0, 2, 7);
-+	else
-+		hw = clk_hw_register_fixed_factor(dev, clk_name, parent, 0, 1, 4);
- 	if (IS_ERR(hw)) {
- 		ret = PTR_ERR(hw);
- 		goto err_by_2_bit_clk_hw;
-@@ -784,27 +789,40 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm)
- 
- 	pll_7nm->post_out_div_clk_hw = hw;
- 
--	snprintf(clk_name, 32, "dsi%d_pclk_mux", pll_7nm->id);
--	snprintf(parent, 32, "dsi%d_pll_bit_clk", pll_7nm->id);
--	snprintf(parent2, 32, "dsi%d_pll_by_2_bit_clk", pll_7nm->id);
--	snprintf(parent3, 32, "dsi%d_pll_out_div_clk", pll_7nm->id);
--	snprintf(parent4, 32, "dsi%d_pll_post_out_div_clk", pll_7nm->id);
--
--	hw = clk_hw_register_mux(dev, clk_name,
--				 ((const char *[]){
--				 parent, parent2, parent3, parent4
--				 }), 4, 0, pll_7nm->phy_cmn_mmio +
--				 REG_DSI_7nm_PHY_CMN_CLK_CFG1,
--				 0, 2, 0, NULL);
--	if (IS_ERR(hw)) {
--		ret = PTR_ERR(hw);
--		goto err_post_out_div_clk_hw;
-+	/* in CPHY mode, pclk_mux will always have post_out_div as parent
-+	 * don't register a pclk_mux clock and just use post_out_div instead
-+	 */
-+	if (pll_7nm->cphy_mode) {
-+		void __iomem *base = pll_7nm->phy_cmn_mmio;
-+		u32 data;
-+
-+		data = pll_read(base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
-+		pll_write(base + REG_DSI_7nm_PHY_CMN_CLK_CFG1, data | 3);
-+
-+		snprintf(parent, 32, "dsi%d_pll_post_out_div_clk", pll_7nm->id);
-+	} else {
-+		snprintf(clk_name, 32, "dsi%d_pclk_mux", pll_7nm->id);
-+		snprintf(parent, 32, "dsi%d_pll_bit_clk", pll_7nm->id);
-+		snprintf(parent2, 32, "dsi%d_pll_by_2_bit_clk", pll_7nm->id);
-+		snprintf(parent3, 32, "dsi%d_pll_out_div_clk", pll_7nm->id);
-+		snprintf(parent4, 32, "dsi%d_pll_post_out_div_clk", pll_7nm->id);
-+
-+		hw = clk_hw_register_mux(dev, clk_name,
-+					((const char *[]){
-+					parent, parent2, parent3, parent4
-+					}), 4, 0, pll_7nm->phy_cmn_mmio +
-+					REG_DSI_7nm_PHY_CMN_CLK_CFG1,
-+					0, 2, 0, NULL);
-+		if (IS_ERR(hw)) {
-+			ret = PTR_ERR(hw);
-+			goto err_post_out_div_clk_hw;
-+		}
-+
-+		pll_7nm->pclk_mux_hw = hw;
-+		snprintf(parent, 32, "dsi%d_pclk_mux", pll_7nm->id);
- 	}
- 
--	pll_7nm->pclk_mux_hw = hw;
--
- 	snprintf(clk_name, 32, "dsi%d_phy_pll_out_dsiclk", pll_7nm->id);
--	snprintf(parent, 32, "dsi%d_pclk_mux", pll_7nm->id);
- 
- 	/* PIX CLK DIV : DIV_CTRL_7_4*/
- 	hw = clk_hw_register_divider(dev, clk_name, parent,
-@@ -835,7 +853,8 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm)
- err_dsiclk_hw:
- 	clk_hw_unregister_divider(pll_7nm->out_dsiclk_hw);
- err_pclk_mux_hw:
--	clk_hw_unregister_mux(pll_7nm->pclk_mux_hw);
-+	if (pll_7nm->pclk_mux_hw)
-+		clk_hw_unregister_mux(pll_7nm->pclk_mux_hw);
- err_post_out_div_clk_hw:
- 	clk_hw_unregister_fixed_factor(pll_7nm->post_out_div_clk_hw);
- err_by_2_bit_clk_hw:
-@@ -852,7 +871,8 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm)
- 	return ret;
- }
- 
--struct msm_dsi_pll *msm_dsi_pll_7nm_init(struct platform_device *pdev, int id)
-+struct msm_dsi_pll *
-+msm_dsi_pll_7nm_init(struct platform_device *pdev, bool cphy_mode, int id)
- {
- 	struct dsi_pll_7nm *pll_7nm;
- 	struct msm_dsi_pll *pll;
-@@ -865,6 +885,7 @@ struct msm_dsi_pll *msm_dsi_pll_7nm_init(struct platform_device *pdev, int id)
- 	DBG("DSI PLL%d", id);
- 
- 	pll_7nm->pdev = pdev;
-+	pll_7nm->cphy_mode = cphy_mode;
- 	pll_7nm->id = id;
- 	pll_7nm_list[id] = pll_7nm;
- 
--- 
-2.26.1
+Neil
+
+> 
+> Jagan.
+> 
 
 _______________________________________________
 dri-devel mailing list
