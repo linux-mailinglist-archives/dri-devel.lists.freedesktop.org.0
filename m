@@ -1,125 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D42731B8C6
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 13:10:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E3E31B8D7
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 13:16:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7AA6E1ED;
-	Mon, 15 Feb 2021 12:10:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED8536E1BE;
+	Mon, 15 Feb 2021 12:16:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr700084.outbound.protection.outlook.com [40.107.70.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 540AC6E1ED
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 12:10:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d451ugoTJKWIfVM+OL/xKpBU8cuC1vRtIOP8cfxcPex1He0w70fUCXSSvF5Bd57tdVX5duESPd7OjeaRuMnbP/KNqca7I87d9SfLV/QXivJqyBqUujySkLpG+BUcYJYVpOT2+srlO2vO6Tr4cMGwZRvCtdW8FI2yzKat9RKNPjCMUoNJ9xBD3ypW8UdtAGJ4WhTmPtGxvlv8kmuOok92Q55hQMlrtPNhjDefpy7s/gFYIhBe8gRzZ6ngkWpwl9j0+0hVxNfxmiysYhkt6sciI+Mj4t9KuLtdwW9ALOM4xdFT93vMh4avVFOCRxrcJJ4up4K1H8ZQH/YUH7MQqHf59A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cQRgbhmFdA7RPj4GwlHs/L351IfylaAsY7zg/BQogmQ=;
- b=hproz+3Zlz0HX73oMQCStnT9BwOaFtKaKjE4Kn2gcd3kDQaRTcn5dFas5gdxzkZtq5zWrkyO6cNn21TFQAfLm4ammCEBndo4Ky4XKyUXe+guCjd1EcazBaG04sQnqQMc7MKImYbnuJM43X9V/oSD3KGTyWrs2211LkSitkH2YvHVpNUBgCbT7G7j40ILYIG0pdjg2DSsXiBSbz5zFOLnorlHjfjv3vMcsnraZCZRUVlI5GhpJbU4lqmjQV5usvw+GgfaVCntKtlGklSulPDE70zZ3Kn9w9qBV7mrZzpE9V9JLYCHAQ12xfrxowQArcxxodL527Z0jqxSyXzoHpIW3w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cQRgbhmFdA7RPj4GwlHs/L351IfylaAsY7zg/BQogmQ=;
- b=Y+pJQM2OxIiDUiGK6o2RG5fqgxKJmqexZPNqZGPEnMgwSdt0au3/ZUctLyNx/8MrRsC+MGXKlUgs5TBr5lsaPxzztgRBn1g0JMd0UIsD6Rux/hwQVssDi5u8pNgUUYYxFQ87kXLEJS5396jJoxkJEtza89YpP4sZuEJXc0a3TSs=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4336.namprd12.prod.outlook.com (2603:10b6:208:1df::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.27; Mon, 15 Feb
- 2021 12:10:19 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3846.038; Mon, 15 Feb 2021
- 12:10:19 +0000
-Subject: Re: DMA-buf and uncached system memory
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- linux-media <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
- lkml <linux-kernel@vger.kernel.org>
-References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
- <e6897f92-4c61-cd42-2822-43c50a744d4c@suse.de>
- <302e06ad-f979-dc77-5d84-fa0923aa4632@suse.de>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <80c42ce0-6df1-71ab-81ec-e46cc56840ba@amd.com>
-Date: Mon, 15 Feb 2021 13:10:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <302e06ad-f979-dc77-5d84-fa0923aa4632@suse.de>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:3e90:5494:cc4a:73e5]
-X-ClientProxiedBy: FR2P281CA0035.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::22) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C82A989E52
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 12:16:43 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id z9so3806256pjl.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 04:16:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DeDYtEfRi0hJefLwRou98WAyW17C6CotjGPrIaF6Opg=;
+ b=R19TAtzhD29RvoNTbpygxJOV0JdPYzXw3XaevAa9Z77VBpcws1yAxgWOjcOEED5R/A
+ X9dccd1JhZYV+oih5RiuB7f/2tF9bbeYBuZEIaZdFS5WG5aYHbr2LVSM23QokPazttVd
+ h+bJjLNTy8mo19ohimwa/Mn7KF0iy+8Gj4GG7+CrXZJCgv5RZpizv89Ve+NrskN3eSUI
+ /ALCKS95GpmfyMVugweVtnBU5yRyNVhsKXSDQ6fQMDhuG1KQO1u/aspdnKWDNOjCg3hN
+ D6pZMKdO1WyZ5RBriFUuNVyZKFkw25BCz1fsSom7hGWYBRn7th2K2nbfJA4F7/OnarpO
+ TEmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DeDYtEfRi0hJefLwRou98WAyW17C6CotjGPrIaF6Opg=;
+ b=savr/aMUPpZdVWs8uWhA4Pkx5ckFiKxRi6kCtaRuK+7CBPcj+I1PvyIDL4aGpCsj84
+ 27Kbe9k8mNqTQeh8KwOsH4fSKyC8PO1VK3mbGI1PlC4v2jK6MQGITXAhWWYFAGS6C3Lg
+ xciPodWAIr2RkfmcQW0iC+A13CMqPTLEiFwNZJZ1GkIq+NaJLWtCjC84eMGsFVu2JlMA
+ vMWA/itFhNvkyj2mZUM06WQRh/OV2vcKN5nKmLi5RsdQUH1piDMI85pWmSg7sRfDXyOj
+ 7Hmd85PhKxZhCNnTE9BWP6FE+xhUBltTol/1hMNvbloYis6TqlfK092jgzB366GnYlob
+ hA2Q==
+X-Gm-Message-State: AOAM530uJs9Tcvmu0Q8pnk5NbNTcWw9kdEC6hVs+iyF5FQDXkqPztC/p
+ D5asMKm+GD1uCmevsVx/irSoOvK3pjiy+bOyuP/NlpM5f2ZwEw==
+X-Google-Smtp-Source: ABdhPJxKJPXBIkrJvoCWKvjC0z3G5P9VbUUHAvWm84Y5OjBwtt29HQbzlUF7aOINyslFLRRuswfcwxxB/W9FM2bCC/8=
+X-Received: by 2002:a17:90a:70c1:: with SMTP id a1mr671576pjm.19.1613391403368; 
+ Mon, 15 Feb 2021 04:16:43 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:3e90:5494:cc4a:73e5]
- (2a02:908:1252:fb60:3e90:5494:cc4a:73e5) by
- FR2P281CA0035.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3868.11 via Frontend Transport; Mon, 15 Feb 2021 12:10:18 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 7174aca6-b803-43eb-3187-08d8d1aaa96c
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4336:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB43369DE3146253E70EE3A47A83889@MN2PR12MB4336.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: L3ekg0GQQ/LKr8mvNw2aXxQohA3zhUvVuoX+jGaOnMcMU3b7bjDBfPCzwSRofOidtxSBe8TYfFEoZxUfLHr2EQD//A/DW8ZTCvsmbZ/GFtNKXX13yphIbER6D9Bknst7FRhoQs21NrVOeEB7oYyb/DgKQzxjaZiPm7kbbmDH5rjHNpE4Wh6WhTdjgD+HAsLKv4XLeVzMp8BWsFlFEiSdYpXE+b74Bmg2fVIvfh4RTDgTUkdFpKbPtv4eEJI+hK5uNwNpjcQ0WCRpGJcTBPCKE70OqYfCHYY8EFzW5BOXg1STBssymBmhRLMxnLA6WCwSHPUCnZCJ7RX+9qsq+JgHRKtoSFwMRx9GDXC3qYuf6uBnk01XxRHS4Z59CV3t3OJvjGRoh+3GqcMcJqT7nGA1juomDF45RijJTHiyEwuT7rTtxmnM/BlFe0hC4+3CfqOw7FJ6NR6DCyi+5bzbUJN7Ei+5V6L8LFjcb4Zi8BTInyRxXelVjHKCwnzCk8IYMEiYs2mzEAvaxtY40K8vLp1xNL8IEiLqBnjryHhzdJWIX6oEfVTYAVyF48hRdK5i+twFHtvwQbVt0RMOUbE/wLBhwR+t1PLrRYk5MMAoCufI7xr2vWH2CD2KGfRufObEpeg4dyHICgNUAufcCB+3xLSvCg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(39860400002)(376002)(346002)(396003)(110136005)(83380400001)(316002)(66476007)(66946007)(66556008)(2616005)(52116002)(86362001)(8936002)(36756003)(31696002)(6486002)(31686004)(5660300002)(478600001)(4326008)(66574015)(6666004)(186003)(16526019)(2906002)(966005)(8676002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?eFpTRVZ6VU9mR0UzcXpqZEI1NGhteWN3RnRHc2o5bHh5Q1M3cDJUYVB0ZzNK?=
- =?utf-8?B?QzJtZFJ3N1E4S0F5YVJVTGt2NFkxYUd5ODZ5Q3ZXbm9EQTFtdElxQ3dvSmZR?=
- =?utf-8?B?N01Xa0FnaVNjUWFBYmMraFRzd1lIUTQvKzlRYTNLbStSNUl4M1dZM1ZWTXdG?=
- =?utf-8?B?YW0zaXdqUEdOckpYbFU4SUhYVWgzbjF5RGd1UUVjaS9Xam01c0ZFY0tzdnRK?=
- =?utf-8?B?dWFTckppWnZlZnhGaThhV2Fta1VIUWlPa01oL29Uaisyc09oUGNKUXhTZ2Nr?=
- =?utf-8?B?RTVaTmpFWFA1L1F1WEF2YzM0b2NjWDFrbmFRNlJxRTM5SnRRWm9lSHp0eUxr?=
- =?utf-8?B?ZFNoYllDTGVheGNwa2ZJNDAxZnVUQmxVWFp2MmVJb0N3R1VwNUFnQm0zY05p?=
- =?utf-8?B?UkdPd3ROanhobUVCcDBqdWVoOWFTR24zbVFKSHBFVUY2eVhwRjZnNnhyVlU1?=
- =?utf-8?B?Y2NSbVlQd2phUmdDVG95ZjZ4d1MvZlJtOWZ5TWNUZEp2eHhFSG9kODd3LzdB?=
- =?utf-8?B?ZDJQTUFadm51U2k4bHRHNVBDTGxRbXI4SXJEWHJ4dzRGd1lrWFE4NGQ4QUp6?=
- =?utf-8?B?c3dQRjZ0V3FDemdOU2FUd2g4ZEp6NE9lZitwMWZMRjIxN0h3VTkrMlMySzZ3?=
- =?utf-8?B?b25DWUlEek9FMFNBVm5zUDNBUmJkdE5YNXd5MjVueVN6V2x2L283bk5IdzZO?=
- =?utf-8?B?UW0xSkp0SEhyczNoS1VFTlZTNi9sVGJBelBJdXV2akp3K085SWp5SjRMdUsy?=
- =?utf-8?B?Z1FYSHhjdWF0R1A0bWRlUUR0SXd6MXJOb2FETjlWdUc1eFpkdlF3Y1dOWHdB?=
- =?utf-8?B?cERVWnA2bkVNdHI0ZWlzNGZsYVROSnF2cVhueDdVQWpWUVdXNzMrNTk4Unly?=
- =?utf-8?B?amFPRGk4d3lUY3gwTXJkdmVubkZHYjJLajRFbk9vTi9YZlFvKzk1ZGV5djRN?=
- =?utf-8?B?YkRJS0xNaFMzVDl1b0xFRGc5d25xbXgzSExxRlNyUngrQVBTN0FtZTIzR1VT?=
- =?utf-8?B?Zk9iaDVZMWtpVVJWdXUrRDJBWGVzWnhlZVZHaVNtNm56QmdNTFhVMnM1Z1Zv?=
- =?utf-8?B?dk05T00rWjZmT0d0cDR0bENGWWllWHVPL3k0S0FzbVdPYUNIVDFUWmZ1NExn?=
- =?utf-8?B?SWs2Y0hMM2tYRVBVUGhaRXZVTlhoTC92d1BGL002b3VNdS93RkdlM0NoS25j?=
- =?utf-8?B?Vmk3cUZ2V2I4ZjhqVWZka202dHdjVktRUEErZ2w4cHZ6MUpiaHV0MGs2cXBs?=
- =?utf-8?B?cjV0SjVzakYxOW4vekRiOWMyb0xHenlOa0tIRWVTZmxLS0lwRWJmNTBvT0NJ?=
- =?utf-8?B?blZwUlpkRUhCdEZXSXhaMTJwU1pIN3NpV0g3c1ltbS9RV1RqSWVFNjl1aDhq?=
- =?utf-8?B?Q1RES1UxdWRKQ1Yybk96aGtDdWg3MGttSWtZZjF6emVhM3hYQnllR2pRckN4?=
- =?utf-8?B?NWlZUHdHYTlnaG9DM3Qxd0VSOHJzNzFXdFFoWVY1YVRES3V1b01zdllBNG80?=
- =?utf-8?B?cmF5WVd2bXM2ZFVudi83T0hOWjlXelh3ZEszWVVnMTdVbTF3elFCeC9jeXFZ?=
- =?utf-8?B?M25DNk5GdlJvT1hYTHZxL1RqZmRCQ3cxVWpxMkFCS2IrVmpETUdkYitRQTds?=
- =?utf-8?B?RUZ2WWk2aW0wblBUR1MvWXM2NXlTN25UcEVsMmk2d1Z1bVFaRnRlazVrRHJL?=
- =?utf-8?B?VnYrQTJRNFBUTTNxVlhTa25PSlJCdXA3TUlnaTB1MTVTTFlLeTlSRFBKRWdj?=
- =?utf-8?B?TC9WTXBHUUNGWExhUCt4M0RhcURjUDBNNlR5dUMyRzJDZW9BSkVGblBMa3oz?=
- =?utf-8?B?Ym1EV1RySVlCdWN2Njl3VGtwTVhjUWlNZzgvZjNwd2ttQ05MbERqOU1QWTNC?=
- =?utf-8?Q?DenRz48PduoMD?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7174aca6-b803-43eb-3187-08d8d1aaa96c
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2021 12:10:19.1240 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SH+3EjADKYNE7CmJnXGaLfR2pq1I024x/AqPTAHuN4Pqpg5TIYTbCf7DknIryaic
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4336
+References: <20210214175211.105107-1-jagan@amarulasolutions.com>
+ <20210214175211.105107-2-jagan@amarulasolutions.com>
+In-Reply-To: <20210214175211.105107-2-jagan@amarulasolutions.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Mon, 15 Feb 2021 13:16:32 +0100
+Message-ID: <CAG3jFyvE1K7jkyaiPDQ8XpykbLMacAZhb5i67dJE=KucQwg_Zw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm: bridge: Add Chipone ICN6211 MIPI-DSI to RGB
+ bridge
+To: Jagan Teki <jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,57 +62,387 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-amarula@amarulasolutions.com,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpBbSAxNS4wMi4yMSB1bSAxMzowMCBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOgo+IEhpCj4K
-PiBBbSAxNS4wMi4yMSB1bSAxMDo0OSBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOgo+PiBIaQo+
-Pgo+PiBBbSAxNS4wMi4yMSB1bSAwOTo1OCBzY2hyaWViIENocmlzdGlhbiBLw7ZuaWc6Cj4+PiBI
-aSBndXlzLAo+Pj4KPj4+IHdlIGFyZSBjdXJyZW50bHkgd29ya2luZyBhbiBGcmVlc3luYyBhbmQg
-ZGlyZWN0IHNjYW4gb3V0IGZyb20gc3lzdGVtIAo+Pj4gbWVtb3J5IG9uIEFNRCBBUFVzIGluIEEr
-QSBsYXB0b3BzLgo+Pj4KPj4+IE9uIHByb2JsZW0gd2Ugc3R1bWJsZWQgb3ZlciBpcyB0aGF0IG91
-ciBkaXNwbGF5IGhhcmR3YXJlIG5lZWRzIHRvIAo+Pj4gc2NhbiBvdXQgZnJvbSB1bmNhY2hlZCBz
-eXN0ZW0gbWVtb3J5IGFuZCB3ZSBjdXJyZW50bHkgZG9uJ3QgaGF2ZSBhIAo+Pj4gd2F5IHRvIGNv
-bW11bmljYXRlIHRoYXQgdGhyb3VnaCBETUEtYnVmLgo+Cj4gUmUtcmVhZGluZyB0aGlzIHBhcmFn
-cmFoLCBpdCBzb3VuZHMgbW9yZSBhcyBpZiB5b3Ugd2FudCB0byBsZXQgdGhlIAo+IGV4cG9ydGVy
-IGtub3cgd2hlcmUgdG8gbW92ZSB0aGUgYnVmZmVyLiBJcyB0aGlzIGFub3RoZXIgY2FzZSBvZiB0
-aGUgCj4gbWlzc2luZy1waW4tZmxhZyBwcm9ibGVtPwoKTm8sIHlvdXIgb3JpZ2luYWwgaW50ZXJw
-cmV0YXRpb24gd2FzIGNvcnJlY3QuIE1heWJlIG15IHdyaXRpbmcgaXMgYSBiaXQgCnVuc3BlY2lm
-aWMuCgpUaGUgcmVhbCB1bmRlcmx5aW5nIGlzc3VlIGlzIHRoYXQgb3VyIGRpc3BsYXkgaGFyZHdh
-cmUgaGFzIGEgcHJvYmxlbSAKd2l0aCBsYXRlbmN5IHdoZW4gYWNjZXNzaW5nIHN5c3RlbSBtZW1v
-cnkuCgpTbyB0aGUgcXVlc3Rpb24gaXMgaWYgdGhhdCBhbHNvIGFwcGxpZXMgdG8gZm9yIGV4YW1w
-bGUgSW50ZWwgaGFyZHdhcmUgb3IgCm90aGVyIGRldmljZXMgYXMgd2VsbCBvciBpZiBpdCBpcyBq
-dXN0IHNvbWV0aGluZyBBTUQgc3BlY2lmaWM/CgpSZWdhcmRzLApDaHJpc3RpYW4uCgo+Cj4gQmVz
-dCByZWdhcmRzCj4gVGhvbWFzCj4KPj4+Cj4+PiBGb3Igb3VyIHNwZWNpZmljIHVzZSBjYXNlIGF0
-IGhhbmQgd2UgYXJlIGdvaW5nIHRvIGltcGxlbWVudCAKPj4+IHNvbWV0aGluZyBkcml2ZXIgc3Bl
-Y2lmaWMsIGJ1dCB0aGUgcXVlc3Rpb24gaXMgc2hvdWxkIHdlIGhhdmUgCj4+PiBzb21ldGhpbmcg
-bW9yZSBnZW5lcmljIGZvciB0aGlzPwo+Pgo+PiBGb3Igdm1hcCBvcGVyYXRpb25zLCB3ZSByZXR1
-cm4gdGhlIGFkZHJlc3MgYXMgc3RydWN0IGRtYV9idWZfbWFwLCAKPj4gd2hpY2ggY29udGFpbnMg
-YWRkaXRpb25hbCBpbmZvcm1hdGlvbiBhYm91dCB0aGUgbWVtb3J5IGJ1ZmZlci4gSW4gCj4+IHZy
-YW0gaGVscGVycywgd2UgaGF2ZSB0aGUgaW50ZXJmYWNlIGRybV9nZW1fdnJhbV9vZmZzZXQoKSB0
-aGF0IAo+PiByZXR1cm5zIHRoZSBvZmZzZXQgb2YgdGhlIEdQVSBkZXZpY2UgbWVtb3J5Lgo+Pgo+
-PiBXb3VsZCBpdCBiZSBmZWFzaWJsZSB0byBjb21iaW5lIGJvdGggY29uY2VwdHMgaW50byBhIGRt
-YS1idWYgCj4+IGludGVyZmFjZSB0aGF0IHJldHVybnMgdGhlIGRldmljZS1tZW1vcnkgb2Zmc2V0
-IHBsdXMgdGhlIGFkZGl0aW9uYWwgCj4+IGNhY2hpbmcgZmxhZz8KPj4KPj4gVGhlcmUnZCBiZSBh
-IHN0cnVjdHVyZSBhbmQgYSBnZXR0ZXIgZnVuY3Rpb24gcmV0dXJuaW5nIHRoZSBzdHJ1Y3R1cmUu
-Cj4+Cj4+IHN0cnVjdCBkbWFfYnVmX29mZnNldCB7Cj4+IMKgwqDCoMKgwqBib29sIGNhY2hlZDsK
-Pj4gwqDCoMKgwqDCoHU2NCBhZGRyZXNzOwo+PiB9Owo+Pgo+PiAvLyByZXR1cm4gb2Zmc2V0IGlu
-ICpvZmYKPj4gaW50IGRtYV9idWZfb2Zmc2V0KHN0cnVjdCBkbWFfYnVmICpidWYsIHN0cnVjdCBk
-bWFfYnVmX29mZiAqb2ZmKTsKPj4KPj4gV2hhdGV2ZXIgc2V0dGluZ3MgYXJlIHJldHVybmVkIGJ5
-IGRtYV9idWZfb2Zmc2V0KCkgYXJlIHZhbGlkIHdoaWxlIAo+PiB0aGUgZG1hX2J1ZiBpcyBwaW5u
-ZWQuCj4+Cj4+IEJlc3QgcmVnYXJkcwo+PiBUaG9tYXMKPj4KPj4+Cj4+PiBBZnRlciBhbGwgdGhl
-IHN5c3RlbSBtZW1vcnkgYWNjZXNzIHBhdHRlcm4gaXMgYSBQQ0llIGV4dGVuc2lvbiBhbmQgCj4+
-PiBhcyBzdWNoIHNvbWV0aGluZyBnZW5lcmljLgo+Pj4KPj4+IFJlZ2FyZHMsCj4+PiBDaHJpc3Rp
-YW4uCj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+
-Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+Pj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwo+Pj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwKPj4KPj4KPj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KPj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+PiBkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCj4+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCj4+Cj4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+Hey Jagan,
+
+Thanks for submitting this driver, it looks really nice, but
+checkpatch.pl has some minor issues with it. Again I'd suggest
+deferring to the convertor->converter spelling change even though both
+seem to be perfectly valid English.
+
+With the below fixed, feel free to add my r-b.
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
+
+On Sun, 14 Feb 2021 at 18:55, Jagan Teki <jagan@amarulasolutions.com> wrote:
+>
+> ICN6211 is MIPI-DSI to RGB Convertor bridge from Chipone.
+
+WARNING: 'Convertor' may be misspelled - perhaps 'Converter'?
+#6:
+ICN6211 is MIPI-DSI to RGB Convertor bridge from Chipone.
+                           ^^^^^^^^^
+
+
+>
+> It has a flexible configuration of MIPI DSI signal input and
+> produce RGB565, RGB666, RGB888 output format.
+>
+> Add bridge driver for it.
+
+Currently this driver only supports MIPI_DSI_FMT_RGB888, maybe this
+should be noted in the commit msg.
+
+>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> ---
+> Changes for v3:
+> - updated the driver to inline with new drm bridge style
+>
+>  MAINTAINERS                              |   6 +
+>  drivers/gpu/drm/bridge/Kconfig           |  11 ++
+>  drivers/gpu/drm/bridge/Makefile          |   1 +
+>  drivers/gpu/drm/bridge/chipone-icn6211.c | 222 +++++++++++++++++++++++
+>  4 files changed, 240 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/chipone-icn6211.c
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9d241b832aae..4f1084aae50d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5529,6 +5529,12 @@ S:       Maintained
+>  F:     Documentation/devicetree/bindings/display/panel/boe,himax8279d.yaml
+>  F:     drivers/gpu/drm/panel/panel-boe-himax8279d.c
+>
+> +DRM DRIVER FOR CHIPONE ICN6211 MIPI-DSI to RGB CONVERTOR BRIDGE
+
+WARNING: 'CONVERTOR' may be misspelled - perhaps 'CONVERTER'?
+#30: FILE: MAINTAINERS:5533:
++DRM DRIVER FOR CHIPONE ICN6211 MIPI-DSI to RGB CONVERTOR BRIDGE
+                                                ^^^^^^^^^
+
+
+> +M:     Jagan Teki <jagan@amarulasolutions.com>
+> +S:     Maintained
+> +F:     drivers/gpu/drm/bridge/chipone-icn6211.c
+> +F:     Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+
+WARNING: Misordered MAINTAINERS entry - list file patterns in alphabetic order
+#34: FILE: MAINTAINERS:5537:
++F:     drivers/gpu/drm/bridge/chipone-icn6211.c
++F:     Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+
+
+> +
+>  DRM DRIVER FOR FARADAY TVE200 TV ENCODER
+>  M:     Linus Walleij <linus.walleij@linaro.org>
+>  S:     Maintained
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index e4110d6ca7b3..49d1565b7f25 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -27,6 +27,17 @@ config DRM_CDNS_DSI
+>           Support Cadence DPI to DSI bridge. This is an internal
+>           bridge and is meant to be directly embedded in a SoC.
+>
+> +config DRM_CHIPONE_ICN6211
+> +       tristate "Chipone ICN6211 MIPI-DSI/RGB Convertor bridge"
+
+WARNING: 'Convertor' may be misspelled - perhaps 'Converter'?
+#48: FILE: drivers/gpu/drm/bridge/Kconfig:31:
++       tristate "Chipone ICN6211 MIPI-DSI/RGB Convertor bridge"
+                                               ^^^^^^^^^
+
+
+> +       depends on OF
+> +       select DRM_MIPI_DSI
+> +       select DRM_PANEL_BRIDGE
+> +       help
+> +         ICN6211 is MIPI-DSI/RGB Convertor bridge from chipone.
+
+WARNING: 'Convertor' may be misspelled - perhaps 'Converter'?
+#53: FILE: drivers/gpu/drm/bridge/Kconfig:36:
++         ICN6211 is MIPI-DSI/RGB Convertor bridge from chipone.
+                                  ^^^^^^^^^
+
+> +
+> +         It has a flexible configuration of MIPI DSI signal input
+> +         and produce RGB565, RGB666, RGB888 output format.
+> +
+
+WARNING: please write a paragraph that describes the config symbol fully
+#47: FILE: drivers/gpu/drm/bridge/Kconfig:30:
++config DRM_CHIPONE_ICN6211
+
+
+>  config DRM_CHRONTEL_CH7033
+>         tristate "Chrontel CH7033 Video Encoder"
+>         depends on OF
+> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> index 86e7acc76f8d..3eb84b638988 100644
+> --- a/drivers/gpu/drm/bridge/Makefile
+> +++ b/drivers/gpu/drm/bridge/Makefile
+> @@ -1,5 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
+> +obj-$(CONFIG_DRM_CHIPONE_ICN6211) += chipone-icn6211.o
+>  obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
+>  obj-$(CONFIG_DRM_DISPLAY_CONNECTOR) += display-connector.o
+>  obj-$(CONFIG_DRM_LONTIUM_LT9611) += lontium-lt9611.o
+> diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
+> new file mode 100644
+> index 000000000000..3f478f21a4a5
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
+> @@ -0,0 +1,222 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright (C) 2020 Amarula Solutions(India)
+
+2020-2021?
+
+> + * Author: Jagan Teki <jagan@amarulasolutions.com>
+> + */
+> +
+> +#include <drm/drm_of.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_mipi_dsi.h>
+> +
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +
+> +#include <video/mipi_display.h>
+> +
+> +struct chipone {
+> +       struct device *dev;
+> +       struct drm_bridge bridge;
+> +       struct drm_bridge *panel_bridge;
+> +       struct gpio_desc *reset_gpio;
+> +};
+> +
+> +static inline struct chipone *bridge_to_chipone(struct drm_bridge *bridge)
+> +{
+> +       return container_of(bridge, struct chipone, bridge);
+> +}
+> +
+> +static struct drm_display_mode *bridge_to_mode(struct drm_bridge *bridge)
+> +{
+> +       return &bridge->encoder->crtc->state->adjusted_mode;
+> +}
+> +
+> +static void chipone_post_disable(struct drm_bridge *bridge)
+> +{
+> +       struct chipone *icn = bridge_to_chipone(bridge);
+> +
+> +       gpiod_set_value(icn->reset_gpio, 0);
+> +
+> +       msleep(50);
+> +}
+> +
+> +static inline int chipone_dsi_write(struct chipone *icn,  const void *seq,
+> +                                   size_t len)
+> +{
+> +       struct mipi_dsi_device *dsi = to_mipi_dsi_device(icn->dev);
+> +
+> +       return mipi_dsi_generic_write(dsi, seq, len);
+> +}
+> +
+> +#define CHIPONE_DSI(icn, seq...)                               \
+> +       {                                                       \
+> +               const u8 d[] = { seq };                         \
+> +               chipone_dsi_write(icn, d, ARRAY_SIZE(d));       \
+> +       }
+> +
+> +static void chipone_enable(struct drm_bridge *bridge)
+> +{
+> +       struct chipone *icn = bridge_to_chipone(bridge);
+> +       struct drm_display_mode *mode = bridge_to_mode(bridge);
+> +
+> +       CHIPONE_DSI(icn, 0x7A, 0xC1);
+> +
+> +       /* lower 8 bits of hdisplay */
+> +       CHIPONE_DSI(icn, 0x20, mode->hdisplay & 0xff);
+> +
+> +       /* lower 8 bits of vdisplay */
+> +       CHIPONE_DSI(icn, 0x21, mode->vdisplay & 0xff);
+> +
+> +       /**
+> +        * lsb nibble: 2nd nibble of hdisplay
+> +        * msb nibble: 2nd nibble of vdisplay
+> +        */
+> +       CHIPONE_DSI(icn, 0x22, (((mode->hdisplay >> 8) & 0xf) |
+> +                   (((mode->vdisplay >> 8) & 0xf) << 4)));
+> +
+> +       /* HFP */
+> +       CHIPONE_DSI(icn, 0x23, mode->hsync_start - mode->hdisplay);
+> +
+> +       /* HSYNC */
+> +       CHIPONE_DSI(icn, 0x24, mode->hsync_end - mode->hsync_start);
+> +
+> +       /* HBP */
+> +       CHIPONE_DSI(icn, 0x25, mode->htotal - mode->hsync_end);
+> +
+> +       CHIPONE_DSI(icn, 0x26, 0x00);
+> +
+> +       /* VFP */
+> +       CHIPONE_DSI(icn, 0x27, mode->vsync_start - mode->vdisplay);
+> +
+> +       /* VSYNC */
+> +       CHIPONE_DSI(icn, 0x28, mode->vsync_end - mode->vsync_start);
+> +
+> +       /* VBP */
+> +       CHIPONE_DSI(icn, 0x29, mode->vtotal - mode->vsync_end);
+> +
+> +       /* dsi specific sequence */
+> +       CHIPONE_DSI(icn, MIPI_DCS_SET_TEAR_OFF, 0x80);
+> +       CHIPONE_DSI(icn, MIPI_DCS_SET_ADDRESS_MODE, 0x28);
+> +       CHIPONE_DSI(icn, 0xB5, 0xA0);
+> +       CHIPONE_DSI(icn, 0x5C, 0xFF);
+> +       CHIPONE_DSI(icn, MIPI_DCS_SET_COLUMN_ADDRESS, 0x01);
+> +       CHIPONE_DSI(icn, MIPI_DCS_GET_POWER_SAVE, 0x92);
+> +       CHIPONE_DSI(icn, 0x6B, 0x71);
+> +       CHIPONE_DSI(icn, 0x69, 0x2B);
+> +       CHIPONE_DSI(icn, MIPI_DCS_ENTER_SLEEP_MODE, 0x40);
+> +       CHIPONE_DSI(icn, MIPI_DCS_EXIT_SLEEP_MODE, 0x98);
+> +
+> +       /* icn6211 specific sequence */
+> +       CHIPONE_DSI(icn, 0xB6, 0x20);
+> +       CHIPONE_DSI(icn, 0x51, 0x20);
+> +       CHIPONE_DSI(icn, 0x09, 0x10);
+> +
+> +       msleep(120);
+> +}
+> +
+> +static void chipone_pre_enable(struct drm_bridge *bridge)
+> +{
+> +       struct chipone *icn = bridge_to_chipone(bridge);
+> +
+> +       gpiod_set_value(icn->reset_gpio, 1);
+> +       msleep(20);
+> +
+> +       gpiod_set_value(icn->reset_gpio, 0);
+> +       msleep(20);
+> +
+> +       gpiod_set_value(icn->reset_gpio, 1);
+> +       msleep(50);
+> +}
+> +
+> +static int chipone_attach(struct drm_bridge *bridge, enum drm_bridge_attach_flags flags)
+> +{
+> +       struct chipone *icn = bridge_to_chipone(bridge);
+> +
+> +       return drm_bridge_attach(bridge->encoder, icn->panel_bridge, bridge, flags);
+> +}
+> +
+> +static const struct drm_bridge_funcs chipone_bridge_funcs = {
+> +       .post_disable = chipone_post_disable,
+> +       .enable = chipone_enable,
+> +       .pre_enable = chipone_pre_enable,
+> +       .attach = chipone_attach,
+> +};
+> +
+> +static int chipone_probe(struct mipi_dsi_device *dsi)
+> +{
+> +       struct device *dev = &dsi->dev;
+> +       struct drm_panel *panel;
+> +       struct chipone *icn;
+> +       int ret;
+> +
+> +       icn = devm_kzalloc(dev, sizeof(struct chipone), GFP_KERNEL);
+> +       if (!icn)
+> +               return -ENOMEM;
+> +
+> +       mipi_dsi_set_drvdata(dsi, icn);
+> +       icn->dev = dev;
+> +
+> +       dsi->mode_flags = MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
+> +       dsi->format = MIPI_DSI_FMT_RGB888;
+> +       dsi->lanes = 4;
+> +
+> +       icn->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+> +       if (IS_ERR(icn->reset_gpio)) {
+> +               DRM_DEV_ERROR(dev, "failed to get reset GPIO\n");
+> +               return PTR_ERR(icn->reset_gpio);
+> +       }
+> +
+> +       ret = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, NULL);
+> +       if (ret)
+> +               return ret;
+> +
+> +       icn->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
+> +       if (IS_ERR(icn->panel_bridge))
+> +               return PTR_ERR(icn->panel_bridge);
+> +
+> +       icn->bridge.funcs = &chipone_bridge_funcs;
+> +       icn->bridge.type = DRM_MODE_CONNECTOR_DPI;
+> +       icn->bridge.of_node = dev->of_node;
+> +
+> +       drm_bridge_add(&icn->bridge);
+> +
+> +       ret = mipi_dsi_attach(dsi);
+> +       if (ret < 0) {
+> +               drm_bridge_remove(&icn->bridge);
+> +               dev_err(dev, "failed to attach dsi\n");
+> +       }
+> +
+> +       return ret;
+> +}
+> +
+> +static int chipone_remove(struct mipi_dsi_device *dsi)
+> +{
+> +       struct chipone *icn = mipi_dsi_get_drvdata(dsi);
+> +
+> +       mipi_dsi_detach(dsi);
+> +       drm_bridge_remove(&icn->bridge);
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct of_device_id chipone_of_match[] = {
+> +       { .compatible = "chipone,icn6211", },
+> +       { /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, chipone_of_match);
+> +
+> +static struct mipi_dsi_driver chipone_driver = {
+> +       .probe = chipone_probe,
+> +       .remove = chipone_remove,
+> +       .driver = {
+> +               .name = "chipone-icn6211",
+> +               .owner = THIS_MODULE,
+> +               .of_match_table = chipone_of_match,
+> +       },
+> +};
+> +module_mipi_dsi_driver(chipone_driver);
+> +
+> +MODULE_AUTHOR("Jagan Teki <jagan@amarulasolutions.com>");
+> +MODULE_DESCRIPTION("Chipone ICN6211 MIPI-DSI to RGB Convertor Bridge");
+
+WARNING: 'Convertor' may be misspelled - perhaps 'Converter'?
+#298: FILE: drivers/gpu/drm/bridge/chipone-icn6211.c:221:
++MODULE_DESCRIPTION("Chipone ICN6211 MIPI-DSI to RGB Convertor Bridge");
+                                                     ^^^^^^^^^
+
+
+> +MODULE_LICENSE("GPL");
+> --
+> 2.25.1
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
