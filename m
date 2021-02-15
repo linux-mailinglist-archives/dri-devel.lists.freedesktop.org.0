@@ -2,117 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B91531BA76
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 14:39:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D997E31BA7D
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 14:41:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE9BB6E20A;
-	Mon, 15 Feb 2021 13:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C88F16E255;
+	Mon, 15 Feb 2021 13:41:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 779646E20A
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 13:39:37 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id l17so6268578wmq.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 05:39:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WcZeMgKeQNRpvq9MwPMNYubvJxyegqMh4KmSZYLEgx0=;
- b=IF4PpdTkKaaOLwi0u+yBfhkCaYn4Ag1tecxGGrBrgFIwtFNE5F8a78ID3gdbtn5oZc
- 4Wf2b+2kHqFZ3e8neThdlFjIPl0oUZLmneft7f2jb7VkX4TXgH4dFLQqLrWDXab63i+U
- yh7/cGsOUea+K43WYOw8qCz5bAHio+PrZEW48uBlMpxpv941e5RWc1EkmnjXQbBDZz+N
- VSUMPBER0flbnqgCmTgs+aPGv25NV6v/5G3Yes2yWxlsXSgkHzpYaQks4iGwhWlQHG/F
- dBklwiI/1CpfKx91+9z8nnIa3zV4ljtU9sjWzTQpaNckJf/LvVcnLZP86pQO1s6QEgoc
- LapA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=WcZeMgKeQNRpvq9MwPMNYubvJxyegqMh4KmSZYLEgx0=;
- b=dW28aDTe8zPuER1rHkIIk6u2wj4k7nkNVRMkVbna2E49+GdMX+LFzSIYDTBW4Xgbkb
- brFvzxymCgfxYdjdSDa/KPR59ma/Xs6TnFdMd3+u+2lc2XMroaiU4JuciGBECKEaBNbe
- LvbFa5fLQDesohBneSHso5G2MFjujVfnkINM0P92f03T5jA9hsbceXFN964Hh92x70gk
- pLHbSkc2xT1QV+eJRiIf60z1NNllfrCLl05H8GcQB5gP9x4CLdNEm6L1V+cwj7Vn6gN8
- 2EwTzetdIofrtyf4C/TxiXtktR3uHMkUHho3JVFXE0H3rT969n0j4vXW6ZnBVY+JFv/Q
- gVew==
-X-Gm-Message-State: AOAM530CupxDqDb1Fzh8u9TNXvvEq0TBGJlfxE7C4OtYKBARZaYiom2K
- Q4zO5WGdFDiLMhqDonKL87dtlOtoQERRAJwa
-X-Google-Smtp-Source: ABdhPJwAkxP9CDsfIB26tbaGMKucmjEkYEj36UELHihnOGTXWbtqqHHyhk2PcolSrGjEspD6bFU8xg==
-X-Received: by 2002:a05:600c:1552:: with SMTP id
- f18mr14675089wmg.46.1613396375693; 
- Mon, 15 Feb 2021 05:39:35 -0800 (PST)
-Received: from ?IPv6:2a01:e0a:90c:e290:3627:e500:c425:5f5c?
- ([2a01:e0a:90c:e290:3627:e500:c425:5f5c])
- by smtp.gmail.com with ESMTPSA id d20sm24654853wrc.12.2021.02.15.05.39.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 05:39:35 -0800 (PST)
-Subject: Re: ITE66121 HDMI driver
-To: Paul Cercueil <paul@crapouillou.net>
-References: <DRRHOQ.EW1770YWN4DN@crapouillou.net>
- <828487f5-1cbf-1763-94c3-f0c722fcf2aa@baylibre.com>
- <U2KKOQ.KC88EH9WAG4I@crapouillou.net>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- mQENBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAG0KE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT6JATsEEwEKACUC
- GyMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJXDO2CAhkBAAoJEBaat7Gkz/iubGIH/iyk
- RqvgB62oKOFlgOTYCMkYpm2aAOZZLf6VKHKc7DoVwuUkjHfIRXdslbrxi4pk5VKU6ZP9AKsN
- NtMZntB8WrBTtkAZfZbTF7850uwd3eU5cN/7N1Q6g0JQihE7w4GlIkEpQ8vwSg5W7hkx3yQ6
- 2YzrUZh/b7QThXbNZ7xOeSEms014QXazx8+txR7jrGF3dYxBsCkotO/8DNtZ1R+aUvRfpKg5
- ZgABTC0LmAQnuUUf2PHcKFAHZo5KrdO+tyfL+LgTUXIXkK+tenkLsAJ0cagz1EZ5gntuheLD
- YJuzS4zN+1Asmb9kVKxhjSQOcIh6g2tw7vaYJgL/OzJtZi6JlIW5AQ0ETVkGzwEIALyKDN/O
- GURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYpQTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXM
- coJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hi
- SvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY4yG6xI99NIPEVE9lNBXBKIlewIyVlkOa
- YvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoMMtsyw18YoX9BqMFInxqYQQ3j/HpVgTSv
- mo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUXoUk33HEAEQEAAYkBHwQYAQIACQUCTVkG
- zwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfnM7IbRuiSZS1unlySUVYu3SD6YBYnNi3G
- 5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa33eDIHu/zr1HMKErm+2SD6PO9umRef8V8
- 2o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCSKmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+
- RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJ
- C3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTTQbM0WUIBIcGmq38+OgUsMYu4NzLu7uZF
- Acmp6h8guQINBFYnf6QBEADQ+wBYa+X2n/xIQz/RUoGHf84Jm+yTqRT43t7sO48/cBW9vAn9
- GNwnJ3HRJWKATW0ZXrCr40ES/JqM1fUTfiFDB3VMdWpEfwOAT1zXS+0rX8yljgsWR1UvqyEP
- 3xN0M/40Zk+rdmZKaZS8VQaXbveaiWMEmY7sBV3QvgOzB7UF2It1HwoCon5Y+PvyE3CguhBd
- 9iq5iEampkMIkbA3FFCpQFI5Ai3BywkLzbA3ZtnMXR8Qt9gFZtyXvFQrB+/6hDzEPnBGZOOx
- zkd/iIX59SxBuS38LMlhPPycbFNmtauOC0DNpXCv9ACgC9tFw3exER/xQgSpDVc4vrL2Cacr
- wmQp1k9E0W+9pk/l8S1jcHx03hgCxPtQLOIyEu9iIJb27TjcXNjiInd7Uea195NldIrndD+x
- 58/yU3X70qVY+eWbqzpdlwF1KRm6uV0ZOQhEhbi0FfKKgsYFgBIBchGqSOBsCbL35f9hK/JC
- 6LnGDtSHeJs+jd9/qJj4WqF3x8i0sncQ/gszSajdhnWrxraG3b7/9ldMLpKo/OoihfLaCxtv
- xYmtw8TGhlMaiOxjDrohmY1z7f3rf6njskoIXUO0nabun1nPAiV1dpjleg60s3OmVQeEpr3a
- K7gR1ljkemJzM9NUoRROPaT7nMlNYQL+IwuthJd6XQqwzp1jRTGG26J97wARAQABiQM+BBgB
- AgAJBQJWJ3+kAhsCAikJEBaat7Gkz/iuwV0gBBkBAgAGBQJWJ3+kAAoJEHfc29rIyEnRk6MQ
- AJDo0nxsadLpYB26FALZsWlN74rnFXth5dQVQ7SkipmyFWZhFL8fQ9OiIoxWhM6rSg9+C1w+
- n45eByMg2b8H3mmQmyWztdI95OxSREKwbaXVapCcZnv52JRjlc3DoiiHqTZML5x1Z7lQ1T3F
- 8o9sKrbFO1WQw1+Nc91+MU0MGN0jtfZ0Tvn/ouEZrSXCE4K3oDGtj3AdC764yZVq6CPigCgs
- 6Ex80k6QlzCdVP3RKsnPO2xQXXPgyJPJlpD8bHHHW7OLfoR9DaBNympfcbQJeekQrTvyoASw
- EOTPKE6CVWrcQIztUp0WFTdRGgMK0cZB3Xfe6sOp24PQTHAKGtjTHNP/THomkH24Fum9K3iM
- /4Wh4V2eqGEgpdeSp5K+LdaNyNgaqzMOtt4HYk86LYLSHfFXywdlbGrY9+TqiJ+ZVW4trmui
- NIJCOku8SYansq34QzYM0x3UFRwff+45zNBEVzctSnremg1mVgrzOfXU8rt+4N1b2MxorPF8
- 619aCwVP7U16qNSBaqiAJr4e5SNEnoAq18+1Gp8QsFG0ARY8xp+qaKBByWES7lRi3QbqAKZf
- yOHS6gmYo9gBmuAhc65/VtHMJtxwjpUeN4Bcs9HUpDMDVHdfeRa73wM+wY5potfQ5zkSp0Jp
- bxnv/cRBH6+c43stTffprd//4Hgz+nJcCgZKtCYIAPkUxABC85ID2CidzbraErVACmRoizhT
- KR2OiqSLW2x4xdmSiFNcIWkWJB6Qdri0Fzs2dHe8etD1HYaht1ZhZ810s7QOL7JwypO8dscN
- KTEkyoTGn6cWj0CX+PeP4xp8AR8ot4d0BhtUY34UPzjE1/xyrQFAdnLd0PP4wXxdIUuRs0+n
- WLY9Aou/vC1LAdlaGsoTVzJ2gX4fkKQIWhX0WVk41BSFeDKQ3RQ2pnuzwedLO94Bf6X0G48O
- VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
- ZaTUOEkgIor5losDrePdPgE=
-Organization: Baylibre
-Message-ID: <499fa56b-f808-41f9-aa41-8c959cc4699a@baylibre.com>
-Date: Mon, 15 Feb 2021 14:39:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABFA36E255
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 13:41:23 +0000 (UTC)
+IronPort-SDR: WF6dY3QsPBRDCBkJCBMIvBucVgbkekMNCGZisE34hWqBDgBpkKovCEmGTVJABoHylpMJNXIgDz
+ 0Py3/bx/bP3w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9895"; a="169814423"
+X-IronPort-AV: E=Sophos;i="5.81,180,1610438400"; d="scan'208";a="169814423"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2021 05:41:22 -0800
+IronPort-SDR: 4tlLjAuaTMINyemy/Qo4FexTAi4NjaJWZlIyDIEbZhGpzdvjCtWNbIy8d+fqBIjByCOZZ7P3h4
+ j3GvtR+MCTZA==
+X-IronPort-AV: E=Sophos;i="5.81,180,1610438400"; d="scan'208";a="361279869"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2021 05:41:18 -0800
+Received: from andy by smile with local (Exim 4.94)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1lBe7m-005CdP-Tb; Mon, 15 Feb 2021 15:41:14 +0200
+Date: Mon, 15 Feb 2021 15:41:14 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v7 3/3] drm: Switch to %p4cc format modifier
+Message-ID: <YCp5+okZ2M0SLTY9@smile.fi.intel.com>
+References: <20210215114030.11862-1-sakari.ailus@linux.intel.com>
+ <20210215114030.11862-4-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <U2KKOQ.KC88EH9WAG4I@crapouillou.net>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210215114030.11862-4-sakari.ailus@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,39 +51,799 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Phong LE <ple@baylibre.com>, od@zcrc.me, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Petr Mladek <pmladek@suse.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, laurent.pinchart@ideasonboard.com,
+ Joe Perches <joe@perches.com>, mchehab@kernel.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTUvMDIvMjAyMSAxMzowMSwgUGF1bCBDZXJjdWVpbCB3cm90ZToKPiAKPiAKPiBMZSBsdW4u
-IDE1IGbDqXZyLiAyMDIxIMOgIDEwOjA1LCBOZWlsIEFybXN0cm9uZyA8bmFybXN0cm9uZ0BiYXls
-aWJyZS5jb20+IGEgw6ljcml0IDoKPj4gSGksCj4+Cj4+IE9uIDE0LzAyLzIwMjEgMDA6NTQsIFBh
-dWwgQ2VyY3VlaWwgd3JvdGU6Cj4+PiDCoEhpIFBob25nIGFuZCBOZWlsLAo+Pj4KPj4+IMKgSSBz
-ZWUgeW91IHNlbnQgYSBwYXRjaHNldCB0byBzdXBwb3J0IHRoZSBJVEU2NjEyMSBIRE1JIHRyYW5z
-bWl0dGVyLCBsYXN0IHZlcnNpb24gYmVpbmcgdGhlIFYyIGJhY2sgaW4gTWFyY2ggMjAyMC4KPj4+
-Cj4+PiDCoERvIHlvdSBzdGlsbCBwbGFuIHRvIG1haW5saW5lIGl0Pwo+Pgo+PiBZZXMsIHdlIHN0
-aWxsIHBsYW4gdG8gbWFpbmxpbmUgaXQuCj4gCj4gT2ssIGdyZWF0IQo+IAo+Pj4KPj4+IMKgSSBk
-byBoYXZlIGEgZGV2aWNlIHdpdGggYSBJVEU2NjEyMSBjaGlwLCBzbyBJIGNhbiBoZWxwIHRvIGNs
-ZWFuIHRoZSBkcml2ZXIgYW5kIGhhdmUgaXQgbWFpbmxpbmVkLiBCdXQgcmlnaHQgbm93IEkgY2Fu
-bm90IGdldCB0aGUgZHJpdmVyIHRvIHdvcmssIHdoaWxlIHRoZSBjaGlwIGlzIHByb3Blcmx5IGRl
-dGVjdGVkIGFuZCBjb3JyZWN0IEREQyBkYXRhIGlzIHJlYWQsLCBteSBQQyBtb25pdG9yIGRvZXMg
-bm90IGRldGVjdCBhbnkgc2lnbmFsLgo+Pgo+PiBIYXZpbmcgRERDIHJlYWQgd29ya2luZyBpcyBh
-IGdvb2QgcG9pbnQuLi4KPj4KPj4gRGlkIHlvdSBjaGVjayB0aGUgRFBJIGRhdGEgc2V0dXAgPyB0
-aGUgY2hpcCBzdXBwb3J0cyBkdWFsIGRhdGEgcmF0ZSBpbnB1dCwgYW5kIHRoZSBsYXN0IHZlcnNp
-b24gb25seSBzdXBwb3J0ZWQgaXQgdmlhIGEgRFQgcHJvcGVydHkuCj4gCj4gSWYgImR1YWwgZGF0
-YSByYXRlIiBtZWFucyB0d28gcGl4ZWxzIHBlciBwaXhjbG9jayB0aWNrLCB0aGVuIG15IFNvQyBk
-b2VzIG5vdCBzdXBwb3J0IGl0LiBJIGRpZCB0cnkgYm90aCBtb2RlcyB0aG91Z2guCj4gCj4gVGhl
-IG90aGVyIHRoaW5nIGlzIHRoYXQgbXkgU29DIGhhcyBubyBWREUvSERFIHBpbnMsIHNvIChhY2Nv
-cmRpbmcgdG8gdGhlIG1hbnVhbCkgSSBoYXZlIHRvIGhhdmUgdGhlIGNoaXAgcmVjcmVhdGUgdGhl
-c2Ugc2lnbmFscyBmcm9tIHZpZGVvbW9kZSBpbmZvcm1hdGlvbi4gV2hpY2ggSSBkaWQsIGFuZCBJ
-IGdldCB0aGUgInZpZGVvIHN0YWJsZSIgc3RhdHVzIGJpdCwgYnV0IEkgc3RpbGwgY2Fubm90IGdl
-dCBhbnl0aGluZyBvbiBzY3JlZW4uCgpXaGF0IGlzIHRoZSBtb2RlIHlvdSdyZSB0cnlpbmcgdG8g
-YWNoaWV2ZSA/CgpsZXQgbWUgc2VuZCBhIHYzIHdpdGggYWxsIHRoZSBjb21tZW50cyBmcm9tIHYy
-IGZpeGVkIGFuZCByZS1zdGFydCBhIGRpc2N1c3Npb24gZnJvbSB0aGlzIHBhdGNoc2V0LgoKTmVp
-bAoKPiAKPiBDaGVlcnMsCj4gLVBhdWwKPiAKPiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, Feb 15, 2021 at 01:40:30PM +0200, Sakari Ailus wrote:
+> Switch DRM drivers from drm_get_format_name() to %p4cc. This gets rid of a
+> large number of temporary variables at the same time.
+
+What a nice clean up!
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+after addressing nit-picks below.
+
+Side note (no need to implement esp. right now): it seems often it's coupled
+with modifier, would be nice to have them together that %p4ccM or so can do it
+in one go.
+
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  5 ++--
+>  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |  5 ++--
+>  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  5 ++--
+>  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  5 ++--
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  5 ++--
+>  .../arm/display/komeda/komeda_format_caps.h   | 11 --------
+>  .../arm/display/komeda/komeda_framebuffer.c   |  4 +--
+>  .../gpu/drm/arm/display/komeda/komeda_plane.c |  6 ++---
+>  drivers/gpu/drm/arm/malidp_mw.c               |  7 ++----
+>  drivers/gpu/drm/drm_atomic.c                  |  8 ++----
+>  drivers/gpu/drm/drm_crtc.c                    |  7 ++----
+>  drivers/gpu/drm/drm_fourcc.c                  | 25 -------------------
+>  drivers/gpu/drm/drm_framebuffer.c             | 11 +++-----
+>  drivers/gpu/drm/drm_mipi_dbi.c                |  5 ++--
+>  drivers/gpu/drm/drm_plane.c                   |  8 ++----
+>  .../gpu/drm/hisilicon/kirin/kirin_drm_ade.c   |  5 ++--
+>  drivers/gpu/drm/i915/display/intel_display.c  | 14 +++--------
+>  .../drm/i915/display/intel_display_debugfs.c  | 19 ++++++--------
+>  drivers/gpu/drm/i915/display/intel_sprite.c   |  6 ++---
+>  drivers/gpu/drm/mcde/mcde_display.c           |  6 ++---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |  6 ++---
+>  drivers/gpu/drm/nouveau/nouveau_display.c     |  9 +++----
+>  drivers/gpu/drm/radeon/atombios_crtc.c        | 10 +++-----
+>  drivers/gpu/drm/sun4i/sun4i_backend.c         |  6 ++---
+>  drivers/gpu/drm/vkms/vkms_writeback.c         |  7 ++----
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 15 +++++------
+>  include/drm/drm_fourcc.h                      |  1 -
+>  27 files changed, 64 insertions(+), 157 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+> index 7944781e1086..ea825b4f8ee8 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+> @@ -1862,7 +1862,6 @@ static int dce_v10_0_crtc_do_set_base(struct drm_crtc *crtc,
+>  	u32 tmp, viewport_w, viewport_h;
+>  	int r;
+>  	bool bypass_lut = false;
+> -	struct drm_format_name_buf format_name;
+>  
+>  	/* no fb bound */
+>  	if (!atomic && !crtc->primary->fb) {
+> @@ -1981,8 +1980,8 @@ static int dce_v10_0_crtc_do_set_base(struct drm_crtc *crtc,
+>  #endif
+>  		break;
+>  	default:
+> -		DRM_ERROR("Unsupported screen format %s\n",
+> -		          drm_get_format_name(target_fb->format->format, &format_name));
+> +		DRM_ERROR("Unsupported screen format %p4cc\n",
+> +			  &target_fb->format->format);
+>  		return -EINVAL;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+> index 1b6ff0470011..a360a6dec198 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+> @@ -1904,7 +1904,6 @@ static int dce_v11_0_crtc_do_set_base(struct drm_crtc *crtc,
+>  	u32 tmp, viewport_w, viewport_h;
+>  	int r;
+>  	bool bypass_lut = false;
+> -	struct drm_format_name_buf format_name;
+>  
+>  	/* no fb bound */
+>  	if (!atomic && !crtc->primary->fb) {
+> @@ -2023,8 +2022,8 @@ static int dce_v11_0_crtc_do_set_base(struct drm_crtc *crtc,
+>  #endif
+>  		break;
+>  	default:
+> -		DRM_ERROR("Unsupported screen format %s\n",
+> -		          drm_get_format_name(target_fb->format->format, &format_name));
+> +		DRM_ERROR("Unsupported screen format %p4cc\n",
+> +			  &target_fb->format->format);
+>  		return -EINVAL;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+> index 83a88385b762..ef124ac853b6 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+> @@ -1820,7 +1820,6 @@ static int dce_v6_0_crtc_do_set_base(struct drm_crtc *crtc,
+>  	u32 viewport_w, viewport_h;
+>  	int r;
+>  	bool bypass_lut = false;
+> -	struct drm_format_name_buf format_name;
+>  
+>  	/* no fb bound */
+>  	if (!atomic && !crtc->primary->fb) {
+> @@ -1929,8 +1928,8 @@ static int dce_v6_0_crtc_do_set_base(struct drm_crtc *crtc,
+>  #endif
+>  		break;
+>  	default:
+> -		DRM_ERROR("Unsupported screen format %s\n",
+> -		          drm_get_format_name(target_fb->format->format, &format_name));
+> +		DRM_ERROR("Unsupported screen format %p4cc\n",
+> +			  &target_fb->format->format);
+>  		return -EINVAL;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+> index 224b30214427..c98650183828 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+> @@ -1791,7 +1791,6 @@ static int dce_v8_0_crtc_do_set_base(struct drm_crtc *crtc,
+>  	u32 viewport_w, viewport_h;
+>  	int r;
+>  	bool bypass_lut = false;
+> -	struct drm_format_name_buf format_name;
+>  
+>  	/* no fb bound */
+>  	if (!atomic && !crtc->primary->fb) {
+> @@ -1902,8 +1901,8 @@ static int dce_v8_0_crtc_do_set_base(struct drm_crtc *crtc,
+>  #endif
+>  		break;
+>  	default:
+> -		DRM_ERROR("Unsupported screen format %s\n",
+> -		          drm_get_format_name(target_fb->format->format, &format_name));
+> +		DRM_ERROR("Unsupported screen format %p4cc\n",
+> +			  &target_fb->format->format);
+>  		return -EINVAL;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index c6da89df055d..fcef3bf14952 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -4465,7 +4465,6 @@ fill_dc_plane_info_and_addr(struct amdgpu_device *adev,
+>  	const struct drm_framebuffer *fb = plane_state->fb;
+>  	const struct amdgpu_framebuffer *afb =
+>  		to_amdgpu_framebuffer(plane_state->fb);
+> -	struct drm_format_name_buf format_name;
+>  	int ret;
+>  
+>  	memset(plane_info, 0, sizeof(*plane_info));
+> @@ -4513,8 +4512,8 @@ fill_dc_plane_info_and_addr(struct amdgpu_device *adev,
+>  		break;
+>  	default:
+>  		DRM_ERROR(
+> -			"Unsupported screen format %s\n",
+> -			drm_get_format_name(fb->format->format, &format_name));
+> +			"Unsupported screen format %p4cc\n",
+> +			&fb->format->format);
+>  		return -EINVAL;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_format_caps.h b/drivers/gpu/drm/arm/display/komeda/komeda_format_caps.h
+> index 32273cf18f7c..cf7a183f773d 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_format_caps.h
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_format_caps.h
+> @@ -82,17 +82,6 @@ struct komeda_format_caps_table {
+>  
+>  extern u64 komeda_supported_modifiers[];
+>  
+> -static inline const char *komeda_get_format_name(u32 fourcc, u64 modifier)
+> -{
+> -	struct drm_format_name_buf buf;
+> -	static char name[64];
+> -
+> -	snprintf(name, sizeof(name), "%s with modifier: 0x%llx.",
+> -		 drm_get_format_name(fourcc, &buf), modifier);
+> -
+> -	return name;
+> -}
+> -
+>  const struct komeda_format_caps *
+>  komeda_get_format_caps(struct komeda_format_caps_table *table,
+>  		       u32 fourcc, u64 modifier);
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
+> index 170f9dc8ec19..3c372d2deb0a 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
+> @@ -276,8 +276,8 @@ bool komeda_fb_is_layer_supported(struct komeda_fb *kfb, u32 layer_type,
+>  	supported = komeda_format_mod_supported(&mdev->fmt_tbl, layer_type,
+>  						fourcc, modifier, rot);
+>  	if (!supported)
+> -		DRM_DEBUG_ATOMIC("Layer TYPE: %d doesn't support fb FMT: %s.\n",
+> -			layer_type, komeda_get_format_name(fourcc, modifier));
+> +		DRM_DEBUG_ATOMIC("Layer TYPE: %d doesn't support fb FMT: %p4cc with modifier: 0x%llx.\n",
+> +				 layer_type, &fourcc, modifier);
+>  
+>  	return supported;
+>  }
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_plane.c b/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
+> index 98e915e325dd..2d5066ea270c 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
+> @@ -49,10 +49,8 @@ komeda_plane_init_data_flow(struct drm_plane_state *st,
+>  
+>  	dflow->rot = drm_rotation_simplify(st->rotation, caps->supported_rots);
+>  	if (!has_bits(dflow->rot, caps->supported_rots)) {
+> -		DRM_DEBUG_ATOMIC("rotation(0x%x) isn't supported by %s.\n",
+> -				 dflow->rot,
+> -				 komeda_get_format_name(caps->fourcc,
+> -							fb->modifier));
+> +		DRM_DEBUG_ATOMIC("rotation(0x%x) isn't supported by %p4cc with modifier: 0x%llx.\n",
+> +				 dflow->rot, &caps->fourcc, fb->modifier);
+>  		return -EINVAL;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
+> index 7d0e7b031e44..f5847a79dd7e 100644
+> --- a/drivers/gpu/drm/arm/malidp_mw.c
+> +++ b/drivers/gpu/drm/arm/malidp_mw.c
+> @@ -151,11 +151,8 @@ malidp_mw_encoder_atomic_check(struct drm_encoder *encoder,
+>  		malidp_hw_get_format_id(&malidp->dev->hw->map, SE_MEMWRITE,
+>  					fb->format->format, !!fb->modifier);
+>  	if (mw_state->format == MALIDP_INVALID_FORMAT_ID) {
+> -		struct drm_format_name_buf format_name;
+> -
+> -		DRM_DEBUG_KMS("Invalid pixel format %s\n",
+> -			      drm_get_format_name(fb->format->format,
+> -						  &format_name));
+> +		DRM_DEBUG_KMS("Invalid pixel format %p4cc\n",
+> +			      &fb->format->format);
+>  		return -EINVAL;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index dda60051854b..ce2ee6b8bf34 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -578,13 +578,9 @@ static int drm_atomic_plane_check(const struct drm_plane_state *old_plane_state,
+>  	ret = drm_plane_check_pixel_format(plane, fb->format->format,
+>  					   fb->modifier);
+>  	if (ret) {
+> -		struct drm_format_name_buf format_name;
+> -
+> -		DRM_DEBUG_ATOMIC("[PLANE:%d:%s] invalid pixel format %s, modifier 0x%llx\n",
+> +		DRM_DEBUG_ATOMIC("[PLANE:%d:%s] invalid pixel format %p4cc, modifier 0x%llx\n",
+>  				 plane->base.id, plane->name,
+> -				 drm_get_format_name(fb->format->format,
+> -						     &format_name),
+> -				 fb->modifier);
+> +				 &fb->format->format, fb->modifier);
+>  		return ret;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+> index 74090fc3aa55..9ba2d3640b47 100644
+> --- a/drivers/gpu/drm/drm_crtc.c
+> +++ b/drivers/gpu/drm/drm_crtc.c
+> @@ -663,11 +663,8 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+>  							   fb->format->format,
+>  							   fb->modifier);
+>  			if (ret) {
+> -				struct drm_format_name_buf format_name;
+> -
+> -				DRM_DEBUG_KMS("Invalid pixel format %s, modifier 0x%llx\n",
+> -					      drm_get_format_name(fb->format->format,
+> -								  &format_name),
+> +				DRM_DEBUG_KMS("Invalid pixel format %p4cc, modifier 0x%llx\n",
+> +					      &fb->format->format,
+>  					      fb->modifier);
+>  				goto out;
+>  			}
+> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> index 03262472059c..5cf45aa6eedc 100644
+> --- a/drivers/gpu/drm/drm_fourcc.c
+> +++ b/drivers/gpu/drm/drm_fourcc.c
+> @@ -30,11 +30,6 @@
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_fourcc.h>
+>  
+> -static char printable_char(int c)
+> -{
+> -	return isascii(c) && isprint(c) ? c : '?';
+> -}
+
+If it goes as an ABI than your dot is incompatible with this and '?' should be
+used instead in the patch 1. And I bend towards suggested '?' rather than '.'.
+
+Also it means that you probably would need different specifiers for full and
+short formats.
+
+>  /**
+>   * drm_mode_legacy_fb_format - compute drm fourcc code from legacy description
+>   * @bpp: bits per pixels
+> @@ -130,26 +125,6 @@ uint32_t drm_driver_legacy_fb_format(struct drm_device *dev,
+>  }
+>  EXPORT_SYMBOL(drm_driver_legacy_fb_format);
+>  
+> -/**
+> - * drm_get_format_name - fill a string with a drm fourcc format's name
+> - * @format: format to compute name of
+> - * @buf: caller-supplied buffer
+> - */
+> -const char *drm_get_format_name(uint32_t format, struct drm_format_name_buf *buf)
+> -{
+> -	snprintf(buf->str, sizeof(buf->str),
+> -		 "%c%c%c%c %s-endian (0x%08x)",
+> -		 printable_char(format & 0xff),
+> -		 printable_char((format >> 8) & 0xff),
+> -		 printable_char((format >> 16) & 0xff),
+> -		 printable_char((format >> 24) & 0x7f),
+> -		 format & DRM_FORMAT_BIG_ENDIAN ? "big" : "little",
+> -		 format);
+> -
+> -	return buf->str;
+> -}
+> -EXPORT_SYMBOL(drm_get_format_name);
+> -
+>  /*
+>   * Internal function to query information for a given format. See
+>   * drm_format_info() for the public API.
+> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+> index aca62ed51e82..4d01464b6f95 100644
+> --- a/drivers/gpu/drm/drm_framebuffer.c
+> +++ b/drivers/gpu/drm/drm_framebuffer.c
+> @@ -177,11 +177,8 @@ static int framebuffer_check(struct drm_device *dev,
+>  
+>  	/* check if the format is supported at all */
+>  	if (!__drm_format_info(r->pixel_format)) {
+> -		struct drm_format_name_buf format_name;
+> -
+> -		DRM_DEBUG_KMS("bad framebuffer format %s\n",
+> -			      drm_get_format_name(r->pixel_format,
+> -						  &format_name));
+> +		DRM_DEBUG_KMS("bad framebuffer format %p4cc\n",
+> +			      &r->pixel_format);
+>  		return -EINVAL;
+>  	}
+>  
+> @@ -1160,14 +1157,12 @@ EXPORT_SYMBOL(drm_framebuffer_plane_height);
+>  void drm_framebuffer_print_info(struct drm_printer *p, unsigned int indent,
+>  				const struct drm_framebuffer *fb)
+>  {
+> -	struct drm_format_name_buf format_name;
+>  	unsigned int i;
+>  
+>  	drm_printf_indent(p, indent, "allocated by = %s\n", fb->comm);
+>  	drm_printf_indent(p, indent, "refcount=%u\n",
+>  			  drm_framebuffer_read_refcount(fb));
+> -	drm_printf_indent(p, indent, "format=%s\n",
+> -			  drm_get_format_name(fb->format->format, &format_name));
+> +	drm_printf_indent(p, indent, "format=%p4cc\n", &fb->format->format);
+>  	drm_printf_indent(p, indent, "modifier=0x%llx\n", fb->modifier);
+>  	drm_printf_indent(p, indent, "size=%ux%u\n", fb->width, fb->height);
+>  	drm_printf_indent(p, indent, "layers:\n");
+> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+> index 230c4fd7131c..43a9b739bba7 100644
+> --- a/drivers/gpu/drm/drm_mipi_dbi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
+> @@ -203,7 +203,6 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+>  	struct drm_gem_object *gem = drm_gem_fb_get_obj(fb, 0);
+>  	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(gem);
+>  	struct dma_buf_attachment *import_attach = gem->import_attach;
+> -	struct drm_format_name_buf format_name;
+>  	void *src = cma_obj->vaddr;
+>  	int ret = 0;
+>  
+> @@ -225,8 +224,8 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+>  		drm_fb_xrgb8888_to_rgb565(dst, src, fb, clip, swap);
+>  		break;
+>  	default:
+> -		drm_err_once(fb->dev, "Format is not supported: %s\n",
+> -			     drm_get_format_name(fb->format->format, &format_name));
+> +		drm_err_once(fb->dev, "Format is not supported: %p4cc\n",
+> +			     &fb->format->format);
+>  		return -EINVAL;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index a0cb746bcb0a..4d8429917d7d 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -623,12 +623,8 @@ static int __setplane_check(struct drm_plane *plane,
+>  	ret = drm_plane_check_pixel_format(plane, fb->format->format,
+>  					   fb->modifier);
+>  	if (ret) {
+> -		struct drm_format_name_buf format_name;
+> -
+> -		DRM_DEBUG_KMS("Invalid pixel format %s, modifier 0x%llx\n",
+> -			      drm_get_format_name(fb->format->format,
+> -						  &format_name),
+> -			      fb->modifier);
+> +		DRM_DEBUG_KMS("Invalid pixel format %p4cc, modifier 0x%llx\n",
+> +			      &fb->format->format, fb->modifier);
+>  		return ret;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+> index aa6c53f88f7c..70aa6c8844c0 100644
+> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+> @@ -549,16 +549,15 @@ static void ade_rdma_set(void __iomem *base, struct drm_framebuffer *fb,
+>  			 u32 ch, u32 y, u32 in_h, u32 fmt)
+>  {
+>  	struct drm_gem_cma_object *obj = drm_fb_cma_get_gem_obj(fb, 0);
+> -	struct drm_format_name_buf format_name;
+>  	u32 reg_ctrl, reg_addr, reg_size, reg_stride, reg_space, reg_en;
+>  	u32 stride = fb->pitches[0];
+>  	u32 addr = (u32)obj->paddr + y * stride;
+>  
+>  	DRM_DEBUG_DRIVER("rdma%d: (y=%d, height=%d), stride=%d, paddr=0x%x\n",
+>  			 ch + 1, y, in_h, stride, (u32)obj->paddr);
+> -	DRM_DEBUG_DRIVER("addr=0x%x, fb:%dx%d, pixel_format=%d(%s)\n",
+> +	DRM_DEBUG_DRIVER("addr=0x%x, fb:%dx%d, pixel_format=%d(%p4cc)\n",
+>  			 addr, fb->width, fb->height, fmt,
+> -			 drm_get_format_name(fb->format->format, &format_name));
+> +			 &fb->format->format);
+>  
+>  	/* get reg offset */
+>  	reg_ctrl = RD_CH_CTRL(ch);
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index 53a00cf3fa32..7981627390a0 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -13319,7 +13319,6 @@ static void intel_dump_plane_state(const struct intel_plane_state *plane_state)
+>  	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
+>  	struct drm_i915_private *i915 = to_i915(plane->base.dev);
+>  	const struct drm_framebuffer *fb = plane_state->hw.fb;
+> -	struct drm_format_name_buf format_name;
+>  
+>  	if (!fb) {
+>  		drm_dbg_kms(&i915->drm,
+> @@ -13330,10 +13329,9 @@ static void intel_dump_plane_state(const struct intel_plane_state *plane_state)
+>  	}
+>  
+>  	drm_dbg_kms(&i915->drm,
+> -		    "[PLANE:%d:%s] fb: [FB:%d] %ux%u format = %s modifier = 0x%llx, visible: %s\n",
+> +		    "[PLANE:%d:%s] fb: [FB:%d] %ux%u format = %p4cc modifier = 0x%llx, visible: %s\n",
+>  		    plane->base.base.id, plane->base.name,
+> -		    fb->base.id, fb->width, fb->height,
+> -		    drm_get_format_name(fb->format->format, &format_name),
+> +		    fb->base.id, fb->width, fb->height, &fb->format->format,
+>  		    fb->modifier, yesno(plane_state->uapi.visible));
+>  	drm_dbg_kms(&i915->drm, "\trotation: 0x%x, scaler: %d\n",
+>  		    plane_state->hw.rotation, plane_state->scaler_id);
+> @@ -17927,13 +17925,9 @@ static int intel_framebuffer_init(struct intel_framebuffer *intel_fb,
+>  	if (!drm_any_plane_has_format(&dev_priv->drm,
+>  				      mode_cmd->pixel_format,
+>  				      mode_cmd->modifier[0])) {
+> -		struct drm_format_name_buf format_name;
+> -
+>  		drm_dbg_kms(&dev_priv->drm,
+> -			    "unsupported pixel format %s / modifier 0x%llx\n",
+> -			    drm_get_format_name(mode_cmd->pixel_format,
+> -						&format_name),
+> -			    mode_cmd->modifier[0]);
+> +			    "unsupported pixel format %p4cc / modifier 0x%llx\n",
+> +			    &mode_cmd->pixel_format, mode_cmd->modifier[0]);
+>  		goto err;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> index ca41e8c00ad7..a5c9fe2e56b3 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> @@ -771,21 +771,21 @@ static void intel_plane_uapi_info(struct seq_file *m, struct intel_plane *plane)
+>  	const struct intel_plane_state *plane_state =
+>  		to_intel_plane_state(plane->base.state);
+>  	const struct drm_framebuffer *fb = plane_state->uapi.fb;
+> -	struct drm_format_name_buf format_name;
+>  	struct drm_rect src, dst;
+>  	char rot_str[48];
+>  
+>  	src = drm_plane_state_src(&plane_state->uapi);
+>  	dst = drm_plane_state_dest(&plane_state->uapi);
+>  
+> -	if (fb)
+> -		drm_get_format_name(fb->format->format, &format_name);
+> -
+>  	plane_rotation(rot_str, sizeof(rot_str),
+>  		       plane_state->uapi.rotation);
+>  
+> -	seq_printf(m, "\t\tuapi: [FB:%d] %s,0x%llx,%dx%d, visible=%s, src=" DRM_RECT_FP_FMT ", dst=" DRM_RECT_FMT ", rotation=%s\n",
+> -		   fb ? fb->base.id : 0, fb ? format_name.str : "n/a",
+> +	seq_printf(m, "\t\tuapi: [FB:%d] ", fb ? fb->base.id : 0);
+> +	if (fb)
+> +		seq_printf(m, "%p4cc", &fb->format->format);
+> +	else
+> +		seq_puts(m, "n/a");
+
+> +	seq_printf(m, ",0x%llx,%dx%d, visible=%s, src=" DRM_RECT_FP_FMT ", dst=" DRM_RECT_FMT ", rotation=%s\n",
+
+Why not to keep two seq_printf() calls?
+
+if (fb) {
+	seq_printf();
+} else {
+	seq_printf();
+}
+
+?
+
+>  		   fb ? fb->modifier : 0,
+>  		   fb ? fb->width : 0, fb ? fb->height : 0,
+>  		   plane_visibility(plane_state),
+> @@ -804,19 +804,16 @@ static void intel_plane_hw_info(struct seq_file *m, struct intel_plane *plane)
+>  	const struct intel_plane_state *plane_state =
+>  		to_intel_plane_state(plane->base.state);
+>  	const struct drm_framebuffer *fb = plane_state->hw.fb;
+> -	struct drm_format_name_buf format_name;
+>  	char rot_str[48];
+>  
+>  	if (!fb)
+>  		return;
+>  
+> -	drm_get_format_name(fb->format->format, &format_name);
+> -
+>  	plane_rotation(rot_str, sizeof(rot_str),
+>  		       plane_state->hw.rotation);
+>  
+> -	seq_printf(m, "\t\thw: [FB:%d] %s,0x%llx,%dx%d, visible=%s, src=" DRM_RECT_FP_FMT ", dst=" DRM_RECT_FMT ", rotation=%s\n",
+> -		   fb->base.id, format_name.str,
+> +	seq_printf(m, "\t\thw: [FB:%d] %p4cc,0x%llx,%dx%d, visible=%s, src=" DRM_RECT_FP_FMT ", dst=" DRM_RECT_FMT ", rotation=%s\n",
+> +		   fb->base.id, &fb->format->format,
+>  		   fb->modifier, fb->width, fb->height,
+>  		   yesno(plane_state->uapi.visible),
+>  		   DRM_RECT_FP_ARG(&plane_state->uapi.src),
+> diff --git a/drivers/gpu/drm/i915/display/intel_sprite.c b/drivers/gpu/drm/i915/display/intel_sprite.c
+> index 019a2d6d807a..e4e55d1aec10 100644
+> --- a/drivers/gpu/drm/i915/display/intel_sprite.c
+> +++ b/drivers/gpu/drm/i915/display/intel_sprite.c
+> @@ -2285,7 +2285,6 @@ static int skl_plane_check_fb(const struct intel_crtc_state *crtc_state,
+>  	struct drm_i915_private *dev_priv = to_i915(plane->base.dev);
+>  	const struct drm_framebuffer *fb = plane_state->hw.fb;
+>  	unsigned int rotation = plane_state->hw.rotation;
+> -	struct drm_format_name_buf format_name;
+>  
+>  	if (!fb)
+>  		return 0;
+> @@ -2333,9 +2332,8 @@ static int skl_plane_check_fb(const struct intel_crtc_state *crtc_state,
+>  		case DRM_FORMAT_XVYU12_16161616:
+>  		case DRM_FORMAT_XVYU16161616:
+>  			drm_dbg_kms(&dev_priv->drm,
+> -				    "Unsupported pixel format %s for 90/270!\n",
+> -				    drm_get_format_name(fb->format->format,
+> -							&format_name));
+> +				    "Unsupported pixel format %p4cc for 90/270!\n",
+> +				    &fb->format->format);
+>  			return -EINVAL;
+>  		default:
+>  			break;
+> diff --git a/drivers/gpu/drm/mcde/mcde_display.c b/drivers/gpu/drm/mcde/mcde_display.c
+> index 7c2e0b865441..83ac7493e751 100644
+> --- a/drivers/gpu/drm/mcde/mcde_display.c
+> +++ b/drivers/gpu/drm/mcde/mcde_display.c
+> @@ -1161,7 +1161,6 @@ static void mcde_display_enable(struct drm_simple_display_pipe *pipe,
+>  	int dsi_pkt_size;
+>  	int fifo_wtrmrk;
+>  	int cpp = fb->format->cpp[0];
+> -	struct drm_format_name_buf tmp;
+>  	u32 dsi_formatter_frame;
+>  	u32 val;
+>  	int ret;
+> @@ -1173,9 +1172,8 @@ static void mcde_display_enable(struct drm_simple_display_pipe *pipe,
+>  		return;
+>  	}
+>  
+> -	dev_info(drm->dev, "enable MCDE, %d x %d format %s\n",
+> -		 mode->hdisplay, mode->vdisplay,
+> -		 drm_get_format_name(format, &tmp));
+> +	dev_info(drm->dev, "enable MCDE, %d x %d format %p4cc\n",
+> +		 mode->hdisplay, mode->vdisplay, &format);
+>  
+>  
+>  	/* Clear any pending interrupts */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 56eb22554197..ea9d73983d13 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -71,7 +71,6 @@ static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
+>  {
+>  	struct dpu_hw_mixer *lm = mixer->hw_lm;
+>  	uint32_t blend_op;
+> -	struct drm_format_name_buf format_name;
+>  
+>  	/* default to opaque blending */
+>  	blend_op = DPU_BLEND_FG_ALPHA_FG_CONST |
+> @@ -87,9 +86,8 @@ static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
+>  	lm->ops.setup_blend_config(lm, pstate->stage,
+>  				0xFF, 0, blend_op);
+>  
+> -	DPU_DEBUG("format:%s, alpha_en:%u blend_op:0x%x\n",
+> -		drm_get_format_name(format->base.pixel_format, &format_name),
+> -		format->alpha_enable, blend_op);
+> +	DPU_DEBUG("format:%p4cc, alpha_en:%u blend_op:0x%x\n",
+> +		  &format->base.pixel_format, format->alpha_enable, blend_op);
+>  }
+>  
+>  static void _dpu_crtc_program_lm_output_roi(struct drm_crtc *crtc)
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
+> index bceb48a2dfca..a305b749c321 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_display.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+> @@ -322,12 +322,9 @@ nouveau_framebuffer_new(struct drm_device *dev,
+>  	     mode_cmd->pitches[0] >= 0x10000 || /* at most 64k pitch */
+>  	     (mode_cmd->pitches[1] && /* pitches for planes must match */
+>  	      mode_cmd->pitches[0] != mode_cmd->pitches[1]))) {
+> -		struct drm_format_name_buf format_name;
+> -		DRM_DEBUG_KMS("Unsuitable framebuffer: format: %s; pitches: 0x%x\n 0x%x\n",
+> -			      drm_get_format_name(mode_cmd->pixel_format,
+> -						  &format_name),
+> -			      mode_cmd->pitches[0],
+> -			      mode_cmd->pitches[1]);
+> +		DRM_DEBUG_KMS("Unsuitable framebuffer: format: %p4cc; pitches: 0x%x\n 0x%x\n",
+> +			      &mode_cmd->pixel_format,
+> +			      mode_cmd->pitches[0], mode_cmd->pitches[1]);
+>  		return -EINVAL;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/radeon/atombios_crtc.c b/drivers/gpu/drm/radeon/atombios_crtc.c
+> index 1979ed3d6547..c94e429e75f9 100644
+> --- a/drivers/gpu/drm/radeon/atombios_crtc.c
+> +++ b/drivers/gpu/drm/radeon/atombios_crtc.c
+> @@ -1157,7 +1157,6 @@ static int dce4_crtc_do_set_base(struct drm_crtc *crtc,
+>  	u32 tmp, viewport_w, viewport_h;
+>  	int r;
+>  	bool bypass_lut = false;
+> -	struct drm_format_name_buf format_name;
+>  
+>  	/* no fb bound */
+>  	if (!atomic && !crtc->primary->fb) {
+> @@ -1267,8 +1266,8 @@ static int dce4_crtc_do_set_base(struct drm_crtc *crtc,
+>  #endif
+>  		break;
+>  	default:
+> -		DRM_ERROR("Unsupported screen format %s\n",
+> -		          drm_get_format_name(target_fb->format->format, &format_name));
+> +		DRM_ERROR("Unsupported screen format %p4cc\n",
+> +			  &target_fb->format->format);
+>  		return -EINVAL;
+>  	}
+>  
+> @@ -1478,7 +1477,6 @@ static int avivo_crtc_do_set_base(struct drm_crtc *crtc,
+>  	u32 viewport_w, viewport_h;
+>  	int r;
+>  	bool bypass_lut = false;
+> -	struct drm_format_name_buf format_name;
+>  
+>  	/* no fb bound */
+>  	if (!atomic && !crtc->primary->fb) {
+> @@ -1579,8 +1577,8 @@ static int avivo_crtc_do_set_base(struct drm_crtc *crtc,
+>  #endif
+>  		break;
+>  	default:
+> -		DRM_ERROR("Unsupported screen format %s\n",
+> -		          drm_get_format_name(target_fb->format->format, &format_name));
+> +		DRM_ERROR("Unsupported screen format %p4cc\n",
+> +			  &target_fb->format->format);
+>  		return -EINVAL;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
+> index 522e51a404cc..bf8cfefa0365 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_backend.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
+> @@ -510,7 +510,6 @@ static int sun4i_backend_atomic_check(struct sunxi_engine *engine,
+>  		struct sun4i_layer_state *layer_state =
+>  			state_to_sun4i_layer_state(plane_state);
+>  		struct drm_framebuffer *fb = plane_state->fb;
+> -		struct drm_format_name_buf format_name;
+>  
+>  		if (!sun4i_backend_plane_is_supported(plane_state,
+>  						      &layer_state->uses_frontend))
+> @@ -527,9 +526,8 @@ static int sun4i_backend_atomic_check(struct sunxi_engine *engine,
+>  			}
+>  		}
+>  
+> -		DRM_DEBUG_DRIVER("Plane FB format is %s\n",
+> -				 drm_get_format_name(fb->format->format,
+> -						     &format_name));
+> +		DRM_DEBUG_DRIVER("Plane FB format is %p4cc\n",
+> +				 &fb->format->format);
+>  		if (fb->format->has_alpha || (plane_state->alpha != DRM_BLEND_ALPHA_OPAQUE))
+>  			num_alpha_planes++;
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+> index 78fdc1d59186..0935686475a0 100644
+> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+> @@ -42,11 +42,8 @@ static int vkms_wb_encoder_atomic_check(struct drm_encoder *encoder,
+>  	}
+>  
+>  	if (fb->format->format != vkms_wb_formats[0]) {
+> -		struct drm_format_name_buf format_name;
+> -
+> -		DRM_DEBUG_KMS("Invalid pixel format %s\n",
+> -			      drm_get_format_name(fb->format->format,
+> -						  &format_name));
+> +		DRM_DEBUG_KMS("Invalid pixel format %p4cc\n",
+> +			      &fb->format->format);
+>  		return -EINVAL;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> index bc67f2b930e1..0cd2c55036bb 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> @@ -895,7 +895,6 @@ static int vmw_kms_new_framebuffer_surface(struct vmw_private *dev_priv,
+>  	struct vmw_framebuffer_surface *vfbs;
+>  	enum SVGA3dSurfaceFormat format;
+>  	int ret;
+> -	struct drm_format_name_buf format_name;
+>  
+>  	/* 3D is only supported on HWv8 and newer hosts */
+>  	if (dev_priv->active_display_unit == vmw_du_legacy)
+> @@ -933,8 +932,8 @@ static int vmw_kms_new_framebuffer_surface(struct vmw_private *dev_priv,
+>  		format = SVGA3D_A1R5G5B5;
+>  		break;
+>  	default:
+> -		DRM_ERROR("Invalid pixel format: %s\n",
+> -			  drm_get_format_name(mode_cmd->pixel_format, &format_name));
+> +		DRM_ERROR("Invalid pixel format: %p4cc\n",
+> +			  &mode_cmd->pixel_format);
+>  		return -EINVAL;
+>  	}
+>  
+> @@ -1149,7 +1148,6 @@ static int vmw_create_bo_proxy(struct drm_device *dev,
+>  	uint32_t format;
+>  	struct vmw_resource *res;
+>  	unsigned int bytes_pp;
+> -	struct drm_format_name_buf format_name;
+>  	int ret;
+>  
+>  	switch (mode_cmd->pixel_format) {
+> @@ -1171,8 +1169,8 @@ static int vmw_create_bo_proxy(struct drm_device *dev,
+>  		break;
+>  
+>  	default:
+> -		DRM_ERROR("Invalid framebuffer format %s\n",
+> -			  drm_get_format_name(mode_cmd->pixel_format, &format_name));
+> +		DRM_ERROR("Invalid framebuffer format %p4cc\n",
+> +			  &mode_cmd->pixel_format);
+>  		return -EINVAL;
+>  	}
+>  
+> @@ -1216,7 +1214,6 @@ static int vmw_kms_new_framebuffer_bo(struct vmw_private *dev_priv,
+>  	struct drm_device *dev = dev_priv->dev;
+>  	struct vmw_framebuffer_bo *vfbd;
+>  	unsigned int requested_size;
+> -	struct drm_format_name_buf format_name;
+>  	int ret;
+>  
+>  	requested_size = mode_cmd->height * mode_cmd->pitches[0];
+> @@ -1236,8 +1233,8 @@ static int vmw_kms_new_framebuffer_bo(struct vmw_private *dev_priv,
+>  		case DRM_FORMAT_RGB565:
+>  			break;
+>  		default:
+> -			DRM_ERROR("Invalid pixel format: %s\n",
+> -				  drm_get_format_name(mode_cmd->pixel_format, &format_name));
+> +			DRM_ERROR("Invalid pixel format: %p4cc\n",
+> +				  &mode_cmd->pixel_format);
+>  			return -EINVAL;
+>  		}
+>  	}
+> diff --git a/include/drm/drm_fourcc.h b/include/drm/drm_fourcc.h
+> index 156b122c0ad5..3ea17b8a79d3 100644
+> --- a/include/drm/drm_fourcc.h
+> +++ b/include/drm/drm_fourcc.h
+> @@ -318,6 +318,5 @@ unsigned int drm_format_info_block_height(const struct drm_format_info *info,
+>  					  int plane);
+>  uint64_t drm_format_info_min_pitch(const struct drm_format_info *info,
+>  				   int plane, unsigned int buffer_width);
+> -const char *drm_get_format_name(uint32_t format, struct drm_format_name_buf *buf);
+>  
+>  #endif /* __DRM_FOURCC_H__ */
+> -- 
+> 2.29.2
+> 
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
