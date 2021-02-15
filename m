@@ -2,59 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD81631B62D
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 10:09:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E22E31B637
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 10:10:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B56A6E145;
-	Mon, 15 Feb 2021 09:09:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95A176E152;
+	Mon, 15 Feb 2021 09:10:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4B946E145
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 09:09:08 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id r5so2294698wmp.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 01:09:08 -0800 (PST)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E600C6E152
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 09:10:28 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id t15so7917340wrx.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 01:10:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:references:from:autocrypt:organization:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8G3QphKfOFczB+D0N4OlfKG924tFkriMk1+3T1mIU78=;
- b=RrQFugPtCt3rhZ+JWow2KVzbPc63WDEwY+PD1dhjftd47FJ8vFo9fYK2u3hQ6s2FVV
- La17AYjjj+r7N8L8D1edmoKq0XeddIUy/XXAhWYImpxdFBDl9+Brvu8LOL9S49P1Rtrb
- VwyqznfUCXTbfwM0/MtC5OkwooCgO+GoTu3SbrqKDA4vRVWpdgFppZ3NfI5dkvfXbues
- j3YeHbQwoftn97Ri6av0yihjA7GK/kJkekiOCoSStEYNBeRXH6o4GXJqbRLRTVSKvUNU
- WL0dbwzPyH9BHIFbUWu/4c8zIEub3EY2yvcAbtG/wDSyi8vm+Sp9IguMtBE5GVm4CVXX
- N4lQ==
+ bh=/6nDMacFrNIhrtxVaAIMiVIG8yykvqcMlSO743DGgiA=;
+ b=1h26KkjqGLZgyZcgOr0HbD9w1E5Yp37CilXDfdhNV1sBydAEEE8j4sFL0VqQ3F9Vib
+ Qr+IJm6VG7YcdMuLf1b8cQC804lk7EkJIdd3PdASf3IMzIcXk+HNHksQFGOW3bZnfNk7
+ Gk1hHR56puak7n348axn3zilou/hycUNRQx0mKdUfPtFSNyxkQ7zdamc1cjB6Nr1H2fX
+ GMACM860rmBmGoF9AI8K8PYFCFkYJktx5fEmBg9Ez7qSIdD2k4PY2MyB1qitS2rVPz+L
+ 6K8ordM3FMCxluOY/A+T7st6GHegdN0K/jUd/FJ8ubPyfmoUvgcxDTcEY5aClINeVD5m
+ Oqbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=8G3QphKfOFczB+D0N4OlfKG924tFkriMk1+3T1mIU78=;
- b=jo2M9UKMwxnWF+ydPQMcK6yYkTNL3aCYBNg2N5PIj+5BrJSla8O5MBG+6q0Tei0jK9
- Q7Fzpx6LUN80AFkcShrj8ve6w9N0hYXDkc8g6//oXgVaVP1dOiuf908UnHS4xggD0/Pw
- 3YH36WSRYaHIgJsZ1LZKIWdiKLMhgKfGUIQiaZ+HY3GWGfNnWdBhiCrqatspFtkWh3Em
- nu3dPvDyQvujHy8opAcnlDNpf37CYEZKRywcH0S8eGd/sZ6/IZueOhgMN7X3Y4hEt3i/
- UdxlhVwn/HV/jItR92pOleUpPhSklwAjsOk3/r873yGM2Cy0lT1K90TRX6vi8GSE/FfN
- AIGg==
-X-Gm-Message-State: AOAM533N6fsb/c31Yab/YvYroTQaOTzFoSwNjMSWeVW/47Luum+l+jvL
- FT331aXr0iDp5s30Aw7ABOiXXU+gUE8irxN9
-X-Google-Smtp-Source: ABdhPJwm2rjoyjm6TMRBfO2QKrQJjfOLkOZLRtc0xaJkdgiYPyj8VkjIxfERkkTW62Gb3eqHbnyBNA==
-X-Received: by 2002:a05:600c:35cc:: with SMTP id
- r12mr13240055wmq.158.1613380146980; 
- Mon, 15 Feb 2021 01:09:06 -0800 (PST)
+ bh=/6nDMacFrNIhrtxVaAIMiVIG8yykvqcMlSO743DGgiA=;
+ b=nCNakNobDGMFOA00uaVqI+CC7SZxIFSS/GpR46k6NBsSxq0WJ+DSSIjzB5vsfIVkkC
+ 5d7z9uDdudr/kiDpwcoIopN81krSe8WcBXaegHkmYB0Z3wGJY70b/nhA8IVF3KY+NxRe
+ WAuU/JpNfS0X7GWhynZd4XNXEHMWtOLaCDrK2eaRh2BN6x7p4Wvx4L51UYe5LktHLObl
+ bAxgZZt7HIAOf6KqKuGANIQQGIOqY/CNTNkRrXyEAmYMXuzC58NK7b4k+PuRKpXhY1dq
+ CSXWSR+CJGXIs2QxF+ec80GvgyVnioDpYCReG7P1D3RyqPi8aEkMaAKH73Vb61zkzTvT
+ NHug==
+X-Gm-Message-State: AOAM532oGxaSMRdy8Ddp7/RU/tHnlm1gNr+eefaxbytgtHNYr0Ip8IGf
+ I25EkVUXwLWTd86APXV8EdttHiCUSCE+fWf5
+X-Google-Smtp-Source: ABdhPJyn5cGcoXq6bnOpOqvG/KNkJioEQbbcZi2vJSgA0PCigCiLhE3GFF4rTOjCu5eift/gXn7Hkw==
+X-Received: by 2002:a5d:4dd2:: with SMTP id f18mr18067059wru.115.1613380227239; 
+ Mon, 15 Feb 2021 01:10:27 -0800 (PST)
 Received: from ?IPv6:2a01:e0a:90c:e290:3627:e500:c425:5f5c?
  ([2a01:e0a:90c:e290:3627:e500:c425:5f5c])
- by smtp.gmail.com with ESMTPSA id f7sm22494626wre.78.2021.02.15.01.09.06
+ by smtp.gmail.com with ESMTPSA id w4sm23207187wmc.13.2021.02.15.01.10.26
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 01:09:06 -0800 (PST)
-Subject: Re: [PATCH 1/3] dt-bindings: Add YAML bindings for Host1x and NVDEC
+ Mon, 15 Feb 2021 01:10:26 -0800 (PST)
+Subject: Re: [PATCH 0/3] NVIDIA Tegra NVDEC support
 To: dri-devel@lists.freedesktop.org
 References: <20210213101512.3275069-1-mperttunen@nvidia.com>
- <20210213101512.3275069-2-mperttunen@nvidia.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  mQENBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,12 +104,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
  ZaTUOEkgIor5losDrePdPgE=
 Organization: Baylibre
-Message-ID: <6515c7dc-0a33-2403-a4c5-34a641bc1a14@baylibre.com>
-Date: Mon, 15 Feb 2021 10:09:05 +0100
+Message-ID: <8a50f133-12ed-e81c-47a5-07c51924ec6a@baylibre.com>
+Date: Mon, 15 Feb 2021 10:10:26 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210213101512.3275069-2-mperttunen@nvidia.com>
+In-Reply-To: <20210213101512.3275069-1-mperttunen@nvidia.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -130,269 +128,61 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/02/2021 11:15, Mikko Perttunen wrote:
-> Convert the original Host1x bindings to YAML and add new bindings for
-> NVDEC, now in a more appropriate location. The old text bindings
-> for Host1x and engines are still kept at display/tegra/ since they
-> encompass a lot more engines that haven't been converted over yet.
-> 
-> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-> ---
->  .../gpu/host1x/nvidia,tegra20-host1x.yaml     | 129 ++++++++++++++++++
->  .../gpu/host1x/nvidia,tegra210-nvdec.yaml     |  90 ++++++++++++
->  MAINTAINERS                                   |   1 +
->  3 files changed, 220 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra20-host1x.yaml
->  create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra20-host1x.yaml b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra20-host1x.yaml
-> new file mode 100644
-> index 000000000000..613c6601f0f1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra20-host1x.yaml
-> @@ -0,0 +1,129 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/gpu/host1x/nvidia,tegra20-host1x.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Device tree binding for NVIDIA Host1x
-> +
-> +maintainers:
-> +  - Thierry Reding <treding@gmail.com>
-> +  - Mikko Perttunen <mperttunen@nvidia.com>
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "^host1x@[0-9a-f]*$"
-> +
-> +  compatible:
-> +    oneOf:
-> +      - const: nvidia,tegra20-host1x
-> +      - const: nvidia,tegra30-host1x
-> +      - const: nvidia,tegra114-host1x
-> +      - const: nvidia,tegra124-host1x
-> +      - items:
-> +          - const: nvidia,tegra132-host1x
-> +          - const: nvidia,tegra124-host1x
-> +      - const: nvidia,tegra210-host1x
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: Syncpoint threshold interrupt
-> +      - description: General interrupt
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: syncpt
-> +      - const: host1x
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    items:
-> +      - const: host1x
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  reset-names:
-> +    items:
-> +      - const: host1x
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  interconnects:
-> +    maxItems: 1
-> +
-> +  interconnect-names:
-> +    items:
-> +      - const: dma-mem
-> +
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 1
-> +
-> +  ranges: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - interrupt-names
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - '#address-cells'
-> +  - '#size-cells'
-> +  - ranges
-> +
-> +additionalProperties:
-> +  type: object
-> +
-> +if:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        anyOf:
-> +          - const: nvidia,tegra186-host1x
-> +          - const: nvidia,tegra194-host1x
-> +then:
-> +  properties:
-> +    reg:
-> +      items:
-> +        - description: Hypervisor-accessible register area
-> +        - description: VM-accessible register area
-> +    reg-names:
-> +      items:
-> +        - const: hypervisor
-> +        - const: vm
-> +  required:
-> +    - reg-names
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/tegra20-car.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    host1x@50000000 {
-> +        compatible = "nvidia,tegra20-host1x";
-> +        reg = <0x50000000 0x00024000>;
-> +        interrupts = <GIC_SPI 65 IRQ_TYPE_LEVEL_HIGH>, /* syncpt */
-> +                      <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>; /* general */
-> +        interrupt-names = "syncpt", "host1x";
-> +        clocks = <&tegra_car TEGRA20_CLK_HOST1X>;
-> +        clock-names = "host1x";
-> +        resets = <&tegra_car 28>;
-> +        reset-names = "host1x";
-> +
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +
-> +        ranges = <0x54000000 0x54000000 0x04000000>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
-> new file mode 100644
-> index 000000000000..9a6334d930c8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
-> @@ -0,0 +1,90 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/gpu/host1x/nvidia,tegra210-nvdec.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Device tree binding for NVIDIA Tegra VIC
+Hi,
 
------------------------------------------------/\ Should be NVDEC ?
+On 13/02/2021 11:15, Mikko Perttunen wrote:
+> Hi all,
+> 
+> with the release of documentation headers for Tegra multimedia engines
+> (NVDEC, NVENC, NVJPG) [1], I have started working on the corresponding
+> implementations. Here's the first one, NVDEC.
+> 
+> The kernel driver is a simple Falcon boot driver based on the VIC
+> driver. Some code sharing should be considered there in the future.
+> The userspace driver to accompany this is a bit more complicated -
+> I have expanded vaapi-tegra-driver[2] to support MPEG2 decoding.
+> It should be noted that the implementation is still very clunky
+> and has poor performance, but it's a start.
+
+Funny how all this tries to avoid all the DRM, remoteproc, V4L2-M2M stateless & co
+all the other vendors tries to make usage of...
 
 Neil
 
-> +
-> +maintainers:
-> +  - Thierry Reding <treding@gmail.com>
-> +  - Mikko Perttunen <mperttunen@nvidia.com>
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "^nvdec@[0-9a-f]*$"
-> +
-> +  compatible:
-> +    enum:
-> +      - nvidia,tegra210-nvdec
-> +      - nvidia,tegra186-nvdec
-> +      - nvidia,tegra194-nvdec
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    items:
-> +      - const: nvdec
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  reset-names:
-> +    items:
-> +      - const: nvdec
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  interconnects:
-> +    items:
-> +      - description: DMA read memory client
-> +      - description: DMA write memory client
-> +
-> +  interconnect-names:
-> +    items:
-> +      - const: dma-mem
-> +      - const: write
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - power-domains
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/tegra186-clock.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/memory/tegra186-mc.h>
-> +    #include <dt-bindings/power/tegra186-powergate.h>
-> +    #include <dt-bindings/reset/tegra186-reset.h>
-> +
-> +    nvdec@15480000 {
-> +            compatible = "nvidia,tegra186-nvdec";
-> +            reg = <0x15480000 0x40000>;
-> +            clocks = <&bpmp TEGRA186_CLK_NVDEC>;
-> +            clock-names = "nvdec";
-> +            resets = <&bpmp TEGRA186_RESET_NVDEC>;
-> +            reset-names = "nvdec";
-> +
-> +            power-domains = <&bpmp TEGRA186_POWER_DOMAIN_NVDEC>;
-> +            interconnects = <&mc TEGRA186_MEMORY_CLIENT_NVDECSRD &emc>,
-> +                            <&mc TEGRA186_MEMORY_CLIENT_NVDECSWR &emc>;
-> +            interconnect-names = "dma-mem", "write";
-> +            iommus = <&smmu TEGRA186_SID_NVDEC>;
-> +    };
-> +
-> +
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8170b40d6236..b892419c6564 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5950,6 +5950,7 @@ L:	linux-tegra@vger.kernel.org
->  S:	Supported
->  T:	git git://anongit.freedesktop.org/tegra/linux.git
->  F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-> +F:	Documentation/devicetree/bindings/gpu/host1x/
->  F:	drivers/gpu/drm/tegra/
->  F:	drivers/gpu/host1x/
->  F:	include/linux/host1x.h
+> 
+> This series is based on top of the "Host1x/TegraDRM UAPI" series.
+> For testing, appropriate firmware should be obtained from a
+> Linux for Tegra distribution for now; the GPU should also be
+> enabled in the device tree.
+> 
+> Series was tested on Tegra186.
+> 
+> Thanks!
+> 
+> Mikko
+> 
+> [1] https://github.com/NVIDIA/open-gpu-doc/tree/master/classes/video
+> [2] https://github.com/cyndis/vaapi-tegra-driver
+> 
+> Mikko Perttunen (3):
+>   dt-bindings: Add YAML bindings for Host1x and NVDEC
+>   arm64: tegra: Add NVDEC to Tegra186 device tree
+>   drm/tegra: Add NVDEC driver
+> 
+>  .../gpu/host1x/nvidia,tegra20-host1x.yaml     | 129 +++++
+>  .../gpu/host1x/nvidia,tegra210-nvdec.yaml     |  90 ++++
+>  MAINTAINERS                                   |   1 +
+>  arch/arm64/boot/dts/nvidia/tegra186.dtsi      |  15 +
+>  drivers/gpu/drm/tegra/Makefile                |   3 +-
+>  drivers/gpu/drm/tegra/drm.c                   |   4 +
+>  drivers/gpu/drm/tegra/drm.h                   |   1 +
+>  drivers/gpu/drm/tegra/nvdec.c                 | 497 ++++++++++++++++++
+>  drivers/gpu/host1x/dev.c                      |  12 +
+>  include/linux/host1x.h                        |   1 +
+>  10 files changed, 752 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra20-host1x.yaml
+>  create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+>  create mode 100644 drivers/gpu/drm/tegra/nvdec.c
 > 
 
 _______________________________________________
