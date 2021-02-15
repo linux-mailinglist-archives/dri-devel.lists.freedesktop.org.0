@@ -2,42 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3D031B8D6
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 13:16:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC6431B8E0
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 13:18:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2E5E89E52;
-	Mon, 15 Feb 2021 12:16:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79CC089AC0;
+	Mon, 15 Feb 2021 12:18:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71CD689E52
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 12:16:44 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1lBcns-0008Lc-J4; Mon, 15 Feb 2021 13:16:36 +0100
-Message-ID: <04f2e57540896d2c51120236889a6ae293e711d8.camel@pengutronix.de>
-Subject: Re: DMA-buf and uncached system memory
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Simon Ser
- <contact@emersion.fr>
-Date: Mon, 15 Feb 2021 13:16:35 +0100
-In-Reply-To: <7ecf008d-a1f5-ddff-c8ac-8e7bfaf9c680@amd.com>
-References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
- <GUuZYSQk2hxgykDhSxfB2GWo47lQlVrKBtWMwQUG7Ar2GAag5WQDxBI0zq6nDTooPBzTktyRpnu25Ju1UKE3FYD9yHbkNMAHcmSI96hoJhA=@emersion.fr>
- <da9edfa0-8a18-44a2-fa79-83b4177afd8e@amd.com>
- <8d23f1ca6fe76d8971365bf54ca71ba71698980d.camel@pengutronix.de>
- <7ecf008d-a1f5-ddff-c8ac-8e7bfaf9c680@amd.com>
-User-Agent: Evolution 3.38.3 (3.38.3-1.fc33) 
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 806D189AC0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 12:18:08 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 70E19743;
+ Mon, 15 Feb 2021 13:18:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1613391486;
+ bh=ZGjqeLHhLSjQAtFs+lBFjupO2sxG85RXzJ4w+DhEIL8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Gke28+8rWJyPMgaFfMDwyQ+pD5S7PRAMzEtYS+wS+Km+Vy3yoaLdoHx1qUFwkyF6k
+ QYXbnKc0Btd0lfaNLchweYCFOuzc4vxbxftchdZm8lVkVI8vOvWBl5ROd+a1Zi/Zkn
+ oc2pE9nrCKHPIjcbeDKCujXqyaWu1pCBasb8HxYQ=
+Date: Mon, 15 Feb 2021 14:17:41 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: Add bindings for
+ Chipone ICN6211
+Message-ID: <YCpmZWRoiWULiANx@pendragon.ideasonboard.com>
+References: <20210214175211.105107-1-jagan@amarulasolutions.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Disposition: inline
+In-Reply-To: <20210214175211.105107-1-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,103 +46,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-media <linux-media@vger.kernel.org>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Sharma,
- Shashank" <Shashank.Sharma@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-amarula@amarulasolutions.com,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gTW9udGFnLCBkZW0gMTUuMDIuMjAyMSB1bSAxMzowNCArMDEwMCBzY2hyaWViIENocmlzdGlh
-biBLw7ZuaWc6Cj4gQW0gMTUuMDIuMjEgdW0gMTI6NTMgc2NocmllYiBMdWNhcyBTdGFjaDoKPiA+
-IEFtIE1vbnRhZywgZGVtIDE1LjAyLjIwMjEgdW0gMTA6MzQgKzAxMDAgc2NocmllYiBDaHJpc3Rp
-YW4gS8O2bmlnOgo+ID4gPiBBbSAxNS4wMi4yMSB1bSAxMDowNiBzY2hyaWViIFNpbW9uIFNlcjoK
-PiA+ID4gPiBPbiBNb25kYXksIEZlYnJ1YXJ5IDE1dGgsIDIwMjEgYXQgOTo1OCBBTSwgQ2hyaXN0
-aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPiA+ID4gPiAKPiA+
-ID4gPiA+IHdlIGFyZSBjdXJyZW50bHkgd29ya2luZyBhbiBGcmVlc3luYyBhbmQgZGlyZWN0IHNj
-YW4gb3V0IGZyb20gc3lzdGVtCj4gPiA+ID4gPiBtZW1vcnkgb24gQU1EIEFQVXMgaW4gQStBIGxh
-cHRvcHMuCj4gPiA+ID4gPiAKPiA+ID4gPiA+IE9uIHByb2JsZW0gd2Ugc3R1bWJsZWQgb3ZlciBp
-cyB0aGF0IG91ciBkaXNwbGF5IGhhcmR3YXJlIG5lZWRzIHRvIHNjYW4KPiA+ID4gPiA+IG91dCBm
-cm9tIHVuY2FjaGVkIHN5c3RlbSBtZW1vcnkgYW5kIHdlIGN1cnJlbnRseSBkb24ndCBoYXZlIGEg
-d2F5IHRvCj4gPiA+ID4gPiBjb21tdW5pY2F0ZSB0aGF0IHRocm91Z2ggRE1BLWJ1Zi4KPiA+ID4g
-PiA+IAo+ID4gPiA+ID4gRm9yIG91ciBzcGVjaWZpYyB1c2UgY2FzZSBhdCBoYW5kIHdlIGFyZSBn
-b2luZyB0byBpbXBsZW1lbnQgc29tZXRoaW5nCj4gPiA+ID4gPiBkcml2ZXIgc3BlY2lmaWMsIGJ1
-dCB0aGUgcXVlc3Rpb24gaXMgc2hvdWxkIHdlIGhhdmUgc29tZXRoaW5nIG1vcmUKPiA+ID4gPiA+
-IGdlbmVyaWMgZm9yIHRoaXM/Cj4gPiA+ID4gPiAKPiA+ID4gPiA+IEFmdGVyIGFsbCB0aGUgc3lz
-dGVtIG1lbW9yeSBhY2Nlc3MgcGF0dGVybiBpcyBhIFBDSWUgZXh0ZW5zaW9uIGFuZCBhcwo+ID4g
-PiA+ID4gc3VjaCBzb21ldGhpbmcgZ2VuZXJpYy4KPiA+ID4gPiBJbnRlbCBhbHNvIG5lZWRzIHVu
-Y2FjaGVkIHN5c3RlbSBtZW1vcnkgaWYgSSdtIG5vdCBtaXN0YWtlbj8KPiA+ID4gTm8gaWRlYSwg
-dGhhdCdzIHdoeSBJJ20gYXNraW5nLiBDb3VsZCBiZSB0aGF0IHRoaXMgaXMgYWxzbyBpbnRlcmVz
-dGluZwo+ID4gPiBmb3IgSStBIHN5c3RlbXMuCj4gPiA+IAo+ID4gPiA+IFdoZXJlIGFyZSB0aGUg
-YnVmZmVycyBhbGxvY2F0ZWQ/IElmIEdCTSwgdGhlbiBpdCBuZWVkcyB0byBhbGxvY2F0ZSBtZW1v
-cnkgdGhhdAo+ID4gPiA+IGNhbiBiZSBzY2FubmVkIG91dCBpZiB0aGUgVVNFX1NDQU5PVVQgZmxh
-ZyBpcyBzZXQgb3IgaWYgYSBzY2Fub3V0LWNhcGFibGUKPiA+ID4gPiBtb2RpZmllciBpcyBwaWNr
-ZWQuCj4gPiA+ID4gCj4gPiA+ID4gSWYgdGhpcyBpcyBhYm91dCBjb21tdW5pY2F0aW5nIGJ1ZmZl
-ciBjb25zdHJhaW50cyBiZXR3ZWVuIGRpZmZlcmVudCBjb21wb25lbnRzCj4gPiA+ID4gb2YgdGhl
-IHN0YWNrLCB0aGVyZSB3ZXJlIGEgZmV3IHByb3Bvc2FscyBhYm91dCBpdC4gVGhlIG1vc3QgcmVj
-ZW50IG9uZSBpcyBbMV0uCj4gPiA+IFdlbGwgdGhlIHByb2JsZW0gaGVyZSBpcyBvbiBhIGRpZmZl
-cmVudCBsZXZlbCBvZiB0aGUgc3RhY2suCj4gPiA+IAo+ID4gPiBTZWUgcmVzb2x1dGlvbiwgcGl0
-Y2ggZXRjOi4uIGNhbiBlYXNpbHkgY29tbXVuaWNhdGVkIGluIHVzZXJzcGFjZQo+ID4gPiB3aXRo
-b3V0IGludm9sdmVtZW50IG9mIHRoZSBrZXJuZWwuIFRoZSB3b3JzdCB0aGluZyB3aGljaCBjYW4g
-aGFwcGVuIGlzCj4gPiA+IHRoYXQgeW91IGRyYXcgZ2FyYmFnZSBpbnRvIHlvdXIgb3duIGFwcGxp
-Y2F0aW9uIHdpbmRvdy4KPiA+ID4gCj4gPiA+IEJ1dCBpZiB5b3UgZ2V0IHRoZSBjYWNoaW5nIGF0
-dHJpYnV0ZXMgaW4gdGhlIHBhZ2UgdGFibGVzIChib3RoIENQVSBhcwo+ID4gPiB3ZWxsIGFzIElP
-TU1VLCBkZXZpY2UgZXRjLi4uKSB3cm9uZyB0aGVuIEFSTSBmb3IgZXhhbXBsZSBoYXMgdGhlCj4g
-PiA+IHRlbmRlbmN5IHRvIGp1c3Qgc3BvbnRhbmVvdXNseSByZWJvb3QKPiA+ID4gCj4gPiA+IFg4
-NiBpcyBmb3J0dW5hdGVseSBhIGJpdCBtb3JlIGdyYWNlZnVsbHkgYW5kIHlvdSBvbmx5IGVuZCB1
-cCB3aXRoIHJhbmRvbQo+ID4gPiBkYXRhIGNvcnJ1cHRpb24sIGJ1dCB0aGF0IGlzIG9ubHkgbWFy
-Z2luYWxseSBiZXR0ZXIuCj4gPiA+IAo+ID4gPiBTbyB0byBzdW0gaXQgdXAgdGhhdCBpcyBub3Qg
-c29tZXRoaW5nIHdoaWNoIHdlIGNhbiBsZWF2ZSBpbiB0aGUgaGFuZHMgb2YKPiA+ID4gdXNlcnNw
-YWNlLgo+ID4gPiAKPiA+ID4gSSB0aGluayB0aGF0IGV4cG9ydGVycyBpbiB0aGUgRE1BLWJ1ZiBm
-cmFtZXdvcmsgc2hvdWxkIGhhdmUgdGhlIGFiaWxpdHkKPiA+ID4gdG8gdGVsbCBpbXBvcnRlcnMg
-aWYgdGhlIHN5c3RlbSBtZW1vcnkgc25vb3BpbmcgaXMgbmVjZXNzYXJ5IG9yIG5vdC4KPiA+IFRo
-ZXJlIGlzIGFscmVhZHkgYSBjb2Fyc2UtZ3JhaW5lZCB3YXkgdG8gZG8gc286IHRoZSBkbWFfY29o
-ZXJlbnQKPiA+IHByb3BlcnR5IGluIHN0cnVjdCBkZXZpY2UsIHdoaWNoIHlvdSBjYW4gY2hlY2sg
-YXQgZG1hYnVmIGF0dGFjaCB0aW1lLgo+ID4gCj4gPiBIb3dldmVyIGl0IG1heSBub3QgYmUgZW5v
-dWdoIGZvciB0aGUgcmVxdWlyZW1lbnRzIG9mIGEgR1BVIHdoZXJlIHRoZQo+ID4gZW5naW5lcyBj
-b3VsZCBkaWZmZXIgaW4gdGhlaXIgZG1hIGNvaGVyZW5jeSByZXF1aXJlbWVudHMuIEZvciB0aGF0
-IHlvdQo+ID4gbmVlZCB0byBlaXRoZXIgaGF2ZSBmYWtlIHN0cnVjdCBkZXZpY2VzIGZvciB0aGUg
-aW5kaXZpZHVhbCBlbmdpbmVzIG9yCj4gPiBjb21lIHVwIHdpdGggYSBtb3JlIGZpbmUtZ3JhaW5l
-ZCB3YXkgdG8gY29tbXVuaWNhdGUgdGhvc2UgcmVxdWlyZW1lbnRzLgo+IAo+IFllYWgsIHRoYXQg
-d29uJ3Qgd29yay4gV2UgbmVlZCB0aGlzIG9uIGEgcGVyIGJ1ZmZlciBsZXZlbC4KPiAKPiA+ID4g
-VXNlcnNwYWNlIGNvbXBvbmVudHMgY2FuIHRoZW4gb2YgY291cnNlIHRlbGwgdGhlIGV4cG9ydGVy
-IHdoYXQgdGhlCj4gPiA+IGltcG9ydGVyIG5lZWRzLCBidXQgdmFsaWRhdGlvbiBpZiB0aGF0IHN0
-dWZmIGlzIGNvcnJlY3QgYW5kIGRvZXNuJ3QKPiA+ID4gY3Jhc2ggdGhlIHN5c3RlbSBtdXN0IGhh
-cHBlbiBpbiB0aGUga2VybmVsLgo+ID4gV2hhdCBleGFjdGx5IGRvIHlvdSBtZWFuIGJ5ICJzY2Fu
-b3V0IHJlcXVpcmVzIG5vbi1jb2hlcmVudCBtZW1vcnkiPwo+ID4gRG9lcyB0aGUgc2Nhbm91dCBy
-ZXF1ZXN0b3IgYWx3YXlzIHNldCB0aGUgbm8tc25vb3AgUENJIGZsYWcsIHNvIHlvdSBnZXQKPiA+
-IGdhcmJhZ2UgaWYgc29tZSB3cml0ZXMgdG8gbWVtb3J5IGFyZSBzdGlsbCBzdHVjayBpbiB0aGUg
-Y2FjaGVzLCBvciBpcwo+ID4gaXQgc29tZSBvdGhlciByZXF1aXJlbWVudD8KPiAKPiBTbm9vcGlu
-ZyB0aGUgQ1BVIGNhY2hlcyBpbnRyb2R1Y2VzIHNvbWUgZXh0cmEgbGF0ZW5jeSwgc28gd2hhdCBj
-YW4gCj4gaGFwcGVuIGlzIHRoYXQgdGhlIHJlc3BvbnNlIHRvIHRoZSBQQ0llIHJlYWQgY29tZXMg
-dG8gbGF0ZSBmb3IgdGhlIAo+IHNjYW5vdXQuIFRoZSByZXN1bHQgaXMgYW4gdW5kZXJmbG93IGFu
-ZCBmbGlja2VyaW5nIHdoZW5ldmVyIHNvbWV0aGluZyBpcyAKPiBpbiB0aGUgY2FjaGUgd2hpY2gg
-bmVlZHMgdG8gYmUgZmx1c2hlZCBmaXJzdC4KCk9rYXksIHRoYXQgY29uZmlybXMgbXkgdGhlb3J5
-IG9uIHdoeSB0aGlzIGlzIG5lZWRlZC4gU28gdGhpbmdzIGRvbid0CnRvdGFsbHkgZXhwbG9kZSBp
-ZiB5b3UgZG9uJ3QgZG8gaXQsIGJ1dCB0byBpbiBvcmRlciB0byBndWFyYW50ZWUgYWNjZXNzCmxh
-dGVuY3kgeW91IG5lZWQgdG8gdGFrZSB0aGUgbm8tc25vb3AgcGF0aCwgd2hpY2ggbWVhbnMgeW91
-ciBkZXZpY2UKZWZmZWN0aXZlbHkgZ2V0cyBkbWEtbm9uY29oZXJlbnQuCgo+IE9uIHRoZSBvdGhl
-ciBoYW5kIHdoZW4gdGhlIGRvbid0IHNub29wIHRoZSBDUFUgY2FjaGVzIHdlIGF0IGxlYXN0IGdl
-dCAKPiBnYXJiYWdlL3N0YWxlIGRhdGEgb24gdGhlIHNjcmVlbi4gVGhhdCB3b3VsZG4ndCBiZSB0
-aGF0IHdvcnNlLCBidXQgdGhlIAo+IGJpZyBwcm9ibGVtIGlzIHRoYXQgd2UgaGF2ZSBhbHNvIHNl
-ZW4gbWFjaGluZSBjaGVjayBleGNlcHRpb25zIHdoZW4gCj4gZG9uJ3Qgc25vb3AgYW5kIHRoZSBj
-YWNoZSBpcyBkaXJ0eS4KCklmIHlvdSBhdHRhY2ggdG8gdGhlIGRtYS1idWYgd2l0aCBhIHN0cnVj
-dCBkZXZpY2Ugd2hpY2ggaXMgbm9uLWNvaGVyZW50Cml0J3MgdGhlIGV4cG9ydGVycyBqb2IgdG8g
-Zmx1c2ggYW55IGRpcnR5IGNhY2hlcy4gVW5mb3J0dW5hdGVseSB0aGUgRFJNCmNhY2hpbmcgb2Yg
-dGhlIGRtYS1idWYgYXR0YWNobWVudHMgaW4gdGhlIERSTSBmcmFtZXdvcmsgd2lsbCBnZXQgYSBi
-aXQKaW4gdGhlIHdheSBoZXJlLCBzbyBhIERSTSBzcGVjaWZpYyBmbHVzaCBtaWdodCBiZSBiZSBu
-ZWVkZWQuIDovIE1heWJlCm1vdmluZyB0aGUgd2hvbGUgYnVmZmVyIHRvIHVuY2FjaGVkIHN5c21l
-bSBsb2NhdGlvbiBvbiBmaXJzdCBhdHRhY2ggb2YKYSBub24tY29oZXJlbnQgaW1wb3J0ZXIgd291
-bGQgYmUgZW5vdWdoPwoKPiBTbyB0aGlzIHNob3VsZCBiZXR0ZXIgYmUgY29oZXJlbnQgb3IgeW91
-IGNhbiBjcmFzaCB0aGUgYm94LiBBUk0gc2VlbXMgdG8gCj4gYmUgcmVhbGx5IHN1c2NlcHRpYmxl
-IGZvciB0aGlzLCB4ODYgaXMgZm9ydHVuYXRlbHkgbXVjaCBtb3JlIGdyYWNlZnVsIAo+IGFuZCBJ
-J20gbm90IHN1cmUgYWJvdXQgb3RoZXIgYXJjaGl0ZWN0dXJlcy4KCkFSTSByZWFsbHkgZGlzbGlr
-ZXMgcGFnZXRhYmxlIHNldHVwcyB3aXRoIGRpZmZlcmVudCBhdHRyaWJ1dGVzIHBvaW50aW5nCnRv
-IHRoZSBzYW1lIHBoeXNpY2FsIHBhZ2UsIGhvd2V2ZXIgeW91IHNob3VsZCBiZSBmaW5lIGFzIGxv
-bmcgYXMgYWxsCmNhY2hlZCBhbGlhc2VzIGFyZSBwcm9wZXJseSBmbHVzaGVkIGZyb20gdGhlIGNh
-Y2hlIGJlZm9yZSBhY2Nlc3MgdmlhIGEKZGlmZmVyZW50IGFsaWFzLgoKUmVnYXJkcywKTHVjYXMK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Jagan,
+
+Thank you for the patch.
+
+On Sun, Feb 14, 2021 at 11:22:10PM +0530, Jagan Teki wrote:
+> ICN6211 is MIPI-DSI to RGB Convertor bridge from Chipone.
+> 
+> It has a flexible configuration of MIPI DSI signal input and
+> produce RGB565, RGB666, RGB888 output format.
+> 
+> Add dt-bingings for it.
+> 
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> ---
+> Changes for v3:
+> - updated to new dt-bindings style
+> 
+>  .../display/bridge/chipone,icn6211.yaml       | 90 +++++++++++++++++++
+>  1 file changed, 90 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+> new file mode 100644
+> index 000000000000..13764f13fe46
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+> @@ -0,0 +1,90 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/chipone,icn6211.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Chipone ICN6211 MIPI-DSI to RGB Converter bridge
+> +
+> +maintainers:
+> +  - Jagan Teki <jagan@amarulasolutions.com>
+> +
+> +description: |
+> +  ICN6211 is MIPI-DSI to RGB Convertor bridge from chipone.
+> +
+> +  It has a flexible configuration of MIPI DSI signal input and
+> +  produce RGB565, RGB666, RGB888 output format.
+
+How does one select between the output formats ? Should the output
+connection option be described in the device tree ?
+
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - chipone,icn6211
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: virtual channel number of a DSI peripheral
+> +
+> +  reset-gpios:
+> +    description: GPIO connected for the reset pin
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Video port for MIPI DSI input
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Video port for MIPI DPI output (panel or connector).
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reset-gpios
+> +  - ports
+
+How about regulators ?
+
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    dsi {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      bridge@0 {
+> +        compatible = "chipone,icn6211";
+> +        reg = <0>;
+> +        reset-gpios = <&r_pio 0 5 GPIO_ACTIVE_HIGH>; /* LCD-RST: PL5 */
+> +
+> +        ports {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          bridge_in: port@0 {
+
+You can drop this label.
+
+> +            reg = <0>;
+> +
+> +            bridge_out_dsi: endpoint {
+
+This label should be bridge_in_dsi.
+
+> +              remote-endpoint = <&dsi_out_bridge>;
+> +            };
+> +          };
+> +
+> +          bridge_out: port@1 {
+
+You can drop this label too.
+
+> +            reg = <1>;
+> +
+> +            bridge_out_panel: endpoint {
+> +              remote-endpoint = <&panel_out_bridge>;
+> +            };
+> +          };
+> +        };
+> +      };
+> +    };
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
