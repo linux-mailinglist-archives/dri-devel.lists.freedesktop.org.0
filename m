@@ -1,61 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005DA31BC72
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 16:30:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E96EC31BDA2
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 16:55:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0126F6E8CE;
-	Mon, 15 Feb 2021 15:30:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CBED6E067;
+	Mon, 15 Feb 2021 15:54:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A2CA6E8C8
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 15:30:24 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id o21so4374018pgn.12
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 07:30:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nd5Yfn43BCBJomp6sHGwdTlb0IPHeJ9K8m6gaCF931g=;
- b=QlbaUqnzMU0C+clIlVwtHO1AAUS6hShwRtyZCDsTmZzZwcmd0MvlA67evCsxYKYrv9
- oKrDig8saJwiRnm4O6aUp1e4/ws+SKz6OIkEQBqzWkWYGXDiNbkIQfjhbtkRbYWfLd0G
- 2/FCRBVDNjvBuweRiYhxsjRRVt0/QXtpRK6r/6gXOlSUzoqQ+5KOS5NRoasd9AldnGTg
- SQK3zITTU/cF1MExS0UmOE9w7TqHzbR8an+TKYTEacU5q3iZYLdZn5DWxkSYanN1sJHD
- AxS5K04hDJmBYp+SbaCJr6mhhZzQ9USz2aiea5q+oFgQ5wRm5VgMfP/Qyyzj+W3iEU0R
- jk/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nd5Yfn43BCBJomp6sHGwdTlb0IPHeJ9K8m6gaCF931g=;
- b=Pufvu5an224tQPBeiKuPdnCQFqdmb/E2R5TLx1mw8iN7hUE732TsLIWRiK9XVqwBtT
- BjLNfJ6Gc9Won43GfBMu3WjEUHsTbdhb2RFARFxMiLtzM60P5E7wsoi7vS2y3CtlVNvG
- X6wajX4C9JvMkli3Ql2TKfsZJvW1ismz5g4ucw7lL9uhj8hf5rWgeFoq56ZjDIM9HJGC
- foFgQ8ZI7dhhVABz+DO0W9ATlfmoPeB6wGriEZD43i+rbxSpN4ZTQFctVmRqZ6I16BZx
- 2T2WapdCrWbCaDVjQ6wDHDY8yBk87ERkaa5WSjqBvDhulDSCR4DfH3dMhJPd46h0FZdJ
- HtAg==
-X-Gm-Message-State: AOAM530xEFG/HCZoJWg94kx95RNQUo663votSgd5lagAitNO9UgjhY0S
- 5QVOGecK5oIJMaYFdlzV442jTmj6nnfgBS11BFQ=
-X-Google-Smtp-Source: ABdhPJylFq9d2tX3RjtahOe8hIgIQ4VN+QPYppcEIIbyB9lQQ4aHPmvHcrHpBNqSf8zEzCF2lh70YD492yPKz49qdps=
-X-Received: by 2002:a65:4c08:: with SMTP id u8mr7118551pgq.203.1613403024154; 
- Mon, 15 Feb 2021 07:30:24 -0800 (PST)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B3586E067
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 15:54:55 +0000 (UTC)
+IronPort-SDR: i991wOqzmMGCEvwmd5Bklx0tl58nLuL4l7J+vQ7TImluI3EU4NMKUIAJXYT4iX4FDV+jUyATR/
+ VWRBxB5tB69A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="162461988"
+X-IronPort-AV: E=Sophos;i="5.81,180,1610438400"; d="scan'208";a="162461988"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2021 07:54:55 -0800
+IronPort-SDR: 8ShrDZEX1xRfNPtXowVlgGEsUgQdW6OsYFrW5szNG2KuWQ5PSEcOxw8GcckjNBocJqT6yMSutm
+ bzCD86KeOoDg==
+X-IronPort-AV: E=Sophos;i="5.81,181,1610438400"; d="scan'208";a="580212299"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2021 07:54:51 -0800
+Received: from andy by smile with local (Exim 4.94)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1lBgD1-005GGC-W7; Mon, 15 Feb 2021 17:54:47 +0200
+Date: Mon, 15 Feb 2021 17:54:47 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v7 1/3] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+Message-ID: <YCqZR5N6ktABHXNf@smile.fi.intel.com>
+References: <20210215114030.11862-1-sakari.ailus@linux.intel.com>
+ <20210215114030.11862-2-sakari.ailus@linux.intel.com>
+ <YCp3sdZoalFSUS7u@smile.fi.intel.com>
+ <20210215135650.GI3@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-References: <1611838435-151774-1-git-send-email-zhangxuezhi3@gmail.com>
- <CAHp75Vd=ijxnamuSYuxNLeyhGMCod=HaXWrQ0W0+3QCsQAychg@mail.gmail.com>
- <20210129130110.00003bb1@gmail.com>
- <CAHp75Vdi4H_zY3+QPSq_wmdf20B9xPeqsOT10JHfMLJESX77gA@mail.gmail.com>
- <20210129215638.000047b0@gmail.com>
- <CAHp75VcdOibSRuSBZYhFtEcVxuammYMfcnrUQGvS6ttArFxj6g@mail.gmail.com>
- <20210130143924.00005432@gmail.com>
- <CAHp75VenJVOSbAXryGK_BWytRJF=T1zwk5xDimRQOTojoXbMFQ@mail.gmail.com>
- <20210202095234.000059ca@gmail.com>
-In-Reply-To: <20210202095234.000059ca@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 15 Feb 2021 17:30:08 +0200
-Message-ID: <CAHp75VdwdBtZLG9rMWMzVSy27i3HwVm4eWk7jyKuJ-60JYJSeg@mail.gmail.com>
-Subject: Re: [PATCH v12] staging: fbtft: add tearing signal detect
-To: Carlis <zhangxuezhi3@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20210215135650.GI3@paasikivi.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,53 +54,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- Deepak R Varma <mh12gx2825@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- oliver.graute@kococonnector.com,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stefano Brivio <sbrivio@redhat.com>, Colin King <colin.king@canonical.com>,
- zhangxuezhi1@yulong.com
+Cc: Petr Mladek <pmladek@suse.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, laurent.pinchart@ideasonboard.com,
+ Joe Perches <joe@perches.com>, mchehab@kernel.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 2, 2021 at 3:52 AM Carlis <zhangxuezhi3@gmail.com> wrote:
-> On Mon, 1 Feb 2021 19:40:21 +0200
-> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
->
-> > On Sat, Jan 30, 2021 at 8:39 AM carlis <zhangxuezhi3@gmail.com> wrote:
-> > > On Fri, 29 Jan 2021 16:26:12 +0200
-> > > Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-> > > > On Fri, Jan 29, 2021 at 3:56 PM carlis <zhangxuezhi3@gmail.com>
-> > > > wrote:
-> > > > > On Fri, 29 Jan 2021 12:23:08 +0200
-> > > > > Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-> >
-> > ...
-> >
-> > > > > Hi, I apologize for what I said in the previous two emails. I
-> > > > > missed one email you sent before, and now I probably understand
-> > > > > what you meant. Here is a version I modified according to your
-> > > > > suggestion:
-> >
-> > I have realized that you are mocking stuff in the generic fbtft
-> > structure for all drivers while only a single one is going to use
-> > that. Consider moving everything to the driver in question.
+On Mon, Feb 15, 2021 at 03:56:50PM +0200, Sakari Ailus wrote:
+> On Mon, Feb 15, 2021 at 03:31:29PM +0200, Andy Shevchenko wrote:
+> > On Mon, Feb 15, 2021 at 01:40:28PM +0200, Sakari Ailus wrote:
+> > > Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
+> > > pixel formats denoted by fourccs. The fourcc encoding is the same for both
+> > > so the same implementation can be used.
+> > 
+> > This version I almost like, feel free to add
+> > Reviewed-by: From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > after considering addressing below nit-picks.
 
->    Do you mean that i define the TE completion and irq_te in the
->    fb_st7789v.c as i did before?
+> > > +Examples::
+> > > +
+> > > +	%p4cc	BG12 little-endian (0x32314742)
+> > 
+> > No examples with spaces / non-printable / non-ascii characters
+> 
+> I can sure add an example that has a space. But do you think I really
+> should add an example where invalid information is being printed?
 
-Not in global variables. Perhaps it will require to add/update the
-custom (to the specific driver) data structure.
-But the idea is that all changes should be isolated to that driver.
+I think you have to provide better coverage of what user can get out of this.
+Perhaps one example with space and non-printable character is enough.
+
+> > > +	char output[sizeof("1234 little-endian (0x01234567)")];
+> > 
+> > 1234 -> ABCD ? (Or XY12 to be closer to the reality)
+> 
+> I count in numbers... albeit the hexadecimal number there starts from zero.
+> 
+> I guess both would work though.
+> 
+> 0123 would be consistent.
+
+Since letters can be printed the above is confusing a bit. I think XY12 is
+closer to the reality than 0123.
 
 -- 
 With Best Regards,
 Andy Shevchenko
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
