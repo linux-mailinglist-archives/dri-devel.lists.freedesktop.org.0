@@ -2,39 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9675D31C196
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 19:36:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB22731C1A4
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 19:40:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 739E56E902;
-	Mon, 15 Feb 2021 18:36:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E1076E907;
+	Mon, 15 Feb 2021 18:40:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 897D66E902
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 18:36:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9FB3C64DEE;
- Mon, 15 Feb 2021 18:36:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1613414213;
- bh=gZ+N1I5HIHR1YRe2mHJvMFBSNe9GgX/g1+pp2iLjckw=;
- h=From:To:Cc:Subject:Date:From;
- b=kwTXWJhjKce59p/BQHOYAhqhKvSPv3OVkKv2Yi3aMz5PZYVZniqifgWFA09StY9+v
- aZ7NE3aeqNShN6/ZbzlSiGwdtVnoK1U2i3+mq1dQtKdBJVaSrIRMxrIs8TJ7Taw3BA
- iUvqJjueR/JDJ6Bu/cGF3cxBg/fCLpVPpvT7hMfD4oCGhkXWacjrGWuRMWW5fJ4wk6
- MDejnVWL+Es34t71bz+upF3xK2twyN06sKLybk4g9t1huPiu60my9SbHbEPVt+e7KE
- JONwZWQwAsU7MemFQwqfboVAc6biZlwx+m1MulpxgWRY4vmSrrwA/rpWScs4KdcgAj
- +GhAi22Hpfarg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 1/6] drm/xlnx: fix kmemleak by sending
- vblank_event in atomic_disable
-Date: Mon, 15 Feb 2021 13:36:46 -0500
-Message-Id: <20210215183651.122001-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADF476E907
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 18:39:59 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 38F23ACD4;
+ Mon, 15 Feb 2021 18:39:58 +0000 (UTC)
+Subject: Re: [PATCH 0/6] drm: Move vmap out of commit tail for SHMEM-based
+ drivers
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20210204200308.24216-1-tzimmermann@suse.de>
+ <20210205090514.ln6eeoqfcijrd5q2@sirius.home.kraxel.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <b50fe1ac-57a5-26da-b358-d8c90578948d@suse.de>
+Date: Mon, 15 Feb 2021 19:39:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+In-Reply-To: <20210205090514.ln6eeoqfcijrd5q2@sirius.home.kraxel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,120 +40,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Quanyang Wang <quanyang.wang@windriver.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, sam@ravnborg.org,
+ virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
+ dri-devel@lists.freedesktop.org, sean@poorly.run
+Content-Type: multipart/mixed; boundary="===============1194311571=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Quanyang Wang <quanyang.wang@windriver.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1194311571==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="65kZwvqIiuzbJZeYhiRShIjtH1xfj7yM2"
 
-[ Upstream commit a7e02f7796c163ac8297b30223bf24bade9f8a50 ]
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--65kZwvqIiuzbJZeYhiRShIjtH1xfj7yM2
+Content-Type: multipart/mixed; boundary="7tqD3VmYMHLzuULlIYlVHY9UeroFKCm2X";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, hdegoede@redhat.com, sean@poorly.run, sam@ravnborg.org,
+ noralf@tronnes.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
+Message-ID: <b50fe1ac-57a5-26da-b358-d8c90578948d@suse.de>
+Subject: Re: [PATCH 0/6] drm: Move vmap out of commit tail for SHMEM-based
+ drivers
+References: <20210204200308.24216-1-tzimmermann@suse.de>
+ <20210205090514.ln6eeoqfcijrd5q2@sirius.home.kraxel.org>
+In-Reply-To: <20210205090514.ln6eeoqfcijrd5q2@sirius.home.kraxel.org>
 
-When running xrandr to change resolution of DP, the kmemleak as below
-can be observed:
+--7tqD3VmYMHLzuULlIYlVHY9UeroFKCm2X
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-unreferenced object 0xffff00080a351000 (size 256):
-  comm "Xorg", pid 248, jiffies 4294899614 (age 19.960s)
-  hex dump (first 32 bytes):
-    98 a0 bc 01 08 00 ff ff 01 00 00 00 00 00 00 00  ................
-    ff ff ff ff 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000e0bd0f69>] kmemleak_alloc+0x30/0x40
-    [<00000000cde2f318>] kmem_cache_alloc+0x3d4/0x588
-    [<0000000088ea9bd7>] drm_atomic_helper_setup_commit+0x84/0x5f8
-    [<000000002290a264>] drm_atomic_helper_commit+0x58/0x388
-    [<00000000f6ea78c3>] drm_atomic_commit+0x4c/0x60
-    [<00000000c8e0725e>] drm_atomic_connector_commit_dpms+0xe8/0x110
-    [<0000000020ade187>] drm_mode_obj_set_property_ioctl+0x1b0/0x450
-    [<00000000918206d6>] drm_connector_property_set_ioctl+0x3c/0x68
-    [<000000008d51e7a5>] drm_ioctl_kernel+0xc4/0x118
-    [<000000002a819b75>] drm_ioctl+0x214/0x448
-    [<000000008ca4e588>] __arm64_sys_ioctl+0xa8/0xf0
-    [<0000000034e15a35>] el0_svc_common.constprop.0+0x74/0x190
-    [<000000001b93d916>] do_el0_svc+0x24/0x90
-    [<00000000ce9230e0>] el0_svc+0x14/0x20
-    [<00000000e3607d82>] el0_sync_handler+0xb0/0xb8
-    [<000000003e79c15f>] el0_sync+0x174/0x180
+Hi
 
-This is because there is a scenario that a drm_crtc_commit commit is
-allocated but not freed. The drm subsystem require/release references
-to a CRTC commit by calling drm_crtc_commit_get/put, and when
-drm_crtc_commit_put find that commit.ref.refcount is zero, it will
-call __drm_crtc_commit_free to free this CRTC commit. Among these
-drm_crtc_commit_get/put pairs, there is a drm_crtc_commit_get in
-drm_atomic_helper_setup_commit as below:
+Am 05.02.21 um 10:05 schrieb Gerd Hoffmann:
+>    Hi,
+>=20
+>> I smoke-tested the code by running fbdev, Xorg and weston with the
+>> converted mgag200 driver.
+>=20
+> Looks sane to me.
+> Survived cirrus smoke test too.
 
-...
-new_crtc_state->event->base.completion = &commit->flip_done;
-new_crtc_state->event->base.completion_release = release_crtc_commit;
-drm_crtc_commit_get(commit);
-...
+Reviewers are hard to find. Since you reviewed the shadow-plane=20
+conversion for cirrus; may I ask you for a review of a similar patchset=20
+in the ast driver. It's mostly about moving code around. In the end, ast =
 
-This reference to the CRTC commit should be released at the function
-release_crtc_commit by calling e->completion_release(e->completion) in
-drm_send_event_locked. So we need to call drm_send_event_locked at
-two places: handling vblank event in the irq handler and the crtc disable
-helper. But in zynqmp_disp_crtc_atomic_disable, it only marks the flip
-is done and not call drm_crtc_commit_put. This result that the refcount
-of this commit is always non-zero and this commit will never be freed.
+cursors will use generic shadow planes as well.
 
-Since the function drm_crtc_send_vblank_event has operations both sending
-a flip_done signal and releasing reference to the CRTC commit, let's use
-it instead.
+=20
+https://lore.kernel.org/dri-devel/20210209134632.12157-1-tzimmermann@suse=
+=2Ede/
 
-Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210202064121.173362-1-quanyang.wang@windriver.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/xlnx/zynqmp_disp.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+If you have something where I can help out with a review, let me know.
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index 98bd48f13fd11..8cd8af35cfaac 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -1398,19 +1398,11 @@ static void zynqmp_disp_enable(struct zynqmp_disp *disp)
-  */
- static void zynqmp_disp_disable(struct zynqmp_disp *disp)
- {
--	struct drm_crtc *crtc = &disp->crtc;
--
- 	zynqmp_disp_audio_disable(&disp->audio);
- 
- 	zynqmp_disp_avbuf_disable_audio(&disp->avbuf);
- 	zynqmp_disp_avbuf_disable_channels(&disp->avbuf);
- 	zynqmp_disp_avbuf_disable(&disp->avbuf);
--
--	/* Mark the flip is done as crtc is disabled anyway */
--	if (crtc->state->event) {
--		complete_all(crtc->state->event->base.completion);
--		crtc->state->event = NULL;
--	}
- }
- 
- static inline struct zynqmp_disp *crtc_to_disp(struct drm_crtc *crtc)
-@@ -1499,6 +1491,13 @@ zynqmp_disp_crtc_atomic_disable(struct drm_crtc *crtc,
- 
- 	drm_crtc_vblank_off(&disp->crtc);
- 
-+	spin_lock_irq(&crtc->dev->event_lock);
-+	if (crtc->state->event) {
-+		drm_crtc_send_vblank_event(crtc, crtc->state->event);
-+		crtc->state->event = NULL;
-+	}
-+	spin_unlock_irq(&crtc->dev->event_lock);
-+
- 	clk_disable_unprepare(disp->pclk);
- 	pm_runtime_put_sync(disp->dev);
- }
--- 
-2.27.0
+Best regards
+Thomas
+
+>=20
+> Tested-by: Gerd Hoffmann <kraxel@redhat.com>
+> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+>=20
+> take care,
+>    Gerd
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--7tqD3VmYMHLzuULlIYlVHY9UeroFKCm2X--
+
+--65kZwvqIiuzbJZeYhiRShIjtH1xfj7yM2
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAqv/wFAwAAAAAACgkQlh/E3EQov+BF
+HBAAtAkQJzvpwuAeTX/XI6z4jaCJk1TiKuYZP+/D6wL8wWZPbiR1mqLIjUCeddM86UQBNYbugIND
+OGVH9vBBA6U/bc3hf8xKZWGJBPMye0J1sVHDxbuhUxS8xLSdI8bYv8v7/mlu3E1TAUF1g1u9VFj9
+zn2biCquo9S/Z80vePIhhGuLf/VClnnU8BjoD3VVp4WeUP1gj/1/9NubcapTfMJERrYdVV6P1iJP
+uLqFEhlzdCRJCkRw9CDHn6CTRQhyYqZBNbSKrL3sGtO+AXxReT7BA2qr1jeMgkp743azZFS6lSa2
+D+Pr4cENKgeOX3B6xHWSUp2KiTRpOKYBwQWk5TTmflLYcZdVF/ORnH/Rcrdntva1zlwYmqRJY00A
+gAnuI5c++zugmy5joH/xgRCOpm+VarvxqdOUYN4K4LK1LkSqkZwrjK48XqjDpVohnT+EdmW6qJNH
+wpJmzR6a74wjZwRc7q8tiI1tZ7I7j1HRLOdz2XlP1pR1E+msYiOq3VzwM6f9UwJlJdK8ZCdZ5AR2
+0X0bAJIEV/MAWJoFw5xKPWvT/1X4Hkuh9JnwFrPOojI2fr40XgqOpsbo1DdRTgsYs1pvERT0JvzD
+lHysQqgoZrMPa6DtHdOcWIiL9B3Y8upI5uWIMVqywRJ+YwOWOWo433V0mVgFTpTMbYpColaoTjxK
+xzc=
+=aCVH
+-----END PGP SIGNATURE-----
+
+--65kZwvqIiuzbJZeYhiRShIjtH1xfj7yM2--
+
+--===============1194311571==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1194311571==--
