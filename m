@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2F931BA87
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 14:50:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6373E31BAA1
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 14:56:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 129736E3EE;
-	Mon, 15 Feb 2021 13:50:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DE396E283;
+	Mon, 15 Feb 2021 13:56:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D3E96E3EE
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 13:50:08 +0000 (UTC)
-IronPort-SDR: joy/JqICvYa4YvlLtlhqTCeHCH8MHMBiRps9FuUXzksZnnqDb/GgJ94/xD39F0HTJTjLbr6cT8
- +UTgYhBtu0og==
-X-IronPort-AV: E=McAfee;i="6000,8403,9895"; a="201857339"
-X-IronPort-AV: E=Sophos;i="5.81,180,1610438400"; d="scan'208";a="201857339"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2021 05:50:07 -0800
-IronPort-SDR: 9QWvM8xuFYBl4HFSZ3i28lCGUe8igoX2wQowNppmudIDoqXasZanxG9WE5SzMAzTDa9ljcucBy
- xCocQnZgwzWQ==
-X-IronPort-AV: E=Sophos;i="5.81,180,1610438400"; d="scan'208";a="363812217"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33AF66E283
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 13:56:56 +0000 (UTC)
+IronPort-SDR: 07HmCY2E5X0HohDVCTYJMKcNCUXMbpp8RyUu2VZ7Xt19+Mc2fkV27oRulMlrH49HiFEmiZOWGu
+ k2mYxs13Q4yg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9895"; a="170344222"
+X-IronPort-AV: E=Sophos;i="5.81,180,1610438400"; d="scan'208";a="170344222"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2021 05:56:55 -0800
+IronPort-SDR: MCMVenlFtazkKpfPbx4Daz53OkltSvdknM8NTJ5obPb3zrvw6toEcdwjMcEZssL6gBW0lDrEWA
+ NQJeQrFvrZiA==
+X-IronPort-AV: E=Sophos;i="5.81,180,1610438400"; d="scan'208";a="512208434"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2021 05:50:02 -0800
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2021 05:56:52 -0800
 Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
- by paasikivi.fi.intel.com (Postfix) with SMTP id 0870B20345;
- Mon, 15 Feb 2021 15:50:00 +0200 (EET)
-Date: Mon, 15 Feb 2021 15:50:00 +0200
+ by paasikivi.fi.intel.com (Postfix) with SMTP id 5AA8D20345;
+ Mon, 15 Feb 2021 15:56:50 +0200 (EET)
+Date: Mon, 15 Feb 2021 15:56:50 +0200
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v7 2/3] v4l: ioctl: Use %p4cc printk modifier to print
- FourCC codes
-Message-ID: <20210215134959.GH3@paasikivi.fi.intel.com>
+Subject: Re: [PATCH v7 1/3] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+Message-ID: <20210215135650.GI3@paasikivi.fi.intel.com>
 References: <20210215114030.11862-1-sakari.ailus@linux.intel.com>
- <20210215114030.11862-3-sakari.ailus@linux.intel.com>
- <YCp4TN0nMuHdKpkf@smile.fi.intel.com>
+ <20210215114030.11862-2-sakari.ailus@linux.intel.com>
+ <YCp3sdZoalFSUS7u@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YCp4TN0nMuHdKpkf@smile.fi.intel.com>
+In-Reply-To: <YCp3sdZoalFSUS7u@smile.fi.intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,181 +67,117 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Andy,
 
-On Mon, Feb 15, 2021 at 03:34:04PM +0200, Andy Shevchenko wrote:
-> On Mon, Feb 15, 2021 at 01:40:29PM +0200, Sakari Ailus wrote:
-> > Now that we can print FourCC codes directly using printk, make use of the
-> > feature in V4L2 core.
+On Mon, Feb 15, 2021 at 03:31:29PM +0200, Andy Shevchenko wrote:
+> On Mon, Feb 15, 2021 at 01:40:28PM +0200, Sakari Ailus wrote:
+> > Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
+> > pixel formats denoted by fourccs. The fourcc encoding is the same for both
+> > so the same implementation can be used.
 > 
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> See also below.
-
-Thanks for the review, and the tag!
-
+> This version I almost like, feel free to add
+> Reviewed-by: From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> after considering addressing below nit-picks.
 > 
+> > Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Petr Mladek <pmladek@suse.com>
+> > Reviewed-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
 > > ---
-> >  drivers/media/v4l2-core/v4l2-ioctl.c | 85 +++++++---------------------
-> >  1 file changed, 21 insertions(+), 64 deletions(-)
+> >  Documentation/core-api/printk-formats.rst | 16 ++++++++++
+> >  lib/test_printf.c                         | 17 ++++++++++
+> >  lib/vsprintf.c                            | 39 +++++++++++++++++++++++
+> >  scripts/checkpatch.pl                     |  6 ++--
+> >  4 files changed, 76 insertions(+), 2 deletions(-)
 > > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > index 31d1342e61e8..31662c3a8c9e 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > @@ -265,13 +265,9 @@ static void v4l_print_fmtdesc(const void *arg, bool write_only)
-> >  {
-> >  	const struct v4l2_fmtdesc *p = arg;
+> > diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> > index 160e710d992f..da2aa065dc42 100644
+> > --- a/Documentation/core-api/printk-formats.rst
+> > +++ b/Documentation/core-api/printk-formats.rst
+> > @@ -567,6 +567,22 @@ For printing netdev_features_t.
 > >  
-> > -	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, mbus_code=0x%04x, description='%.*s'\n",
-> > +	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%p4cc, mbus_code=0x%04x, description='%.*s'\n",
-> >  		p->index, prt_names(p->type, v4l2_type_names),
-> > -		p->flags, (p->pixelformat & 0xff),
-> > -		(p->pixelformat >>  8) & 0xff,
-> > -		(p->pixelformat >> 16) & 0xff,
-> > -		(p->pixelformat >> 24) & 0xff,
-> > -		p->mbus_code,
-> > +		p->flags, &p->pixelformat, p->mbus_code,
-> >  		(int)sizeof(p->description), p->description);
-> >  }
+> >  Passed by reference.
 > >  
-> > @@ -293,12 +289,8 @@ static void v4l_print_format(const void *arg, bool write_only)
-> >  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
-> >  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
-> >  		pix = &p->fmt.pix;
-> > -		pr_cont(", width=%u, height=%u, pixelformat=%c%c%c%c, field=%s, bytesperline=%u, sizeimage=%u, colorspace=%d, flags=0x%x, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
-> > -			pix->width, pix->height,
-> > -			(pix->pixelformat & 0xff),
-> > -			(pix->pixelformat >>  8) & 0xff,
-> > -			(pix->pixelformat >> 16) & 0xff,
-> > -			(pix->pixelformat >> 24) & 0xff,
-> > +		pr_cont(", width=%u, height=%u, pixelformat=%p4cc, field=%s, bytesperline=%u, sizeimage=%u, colorspace=%d, flags=0x%x, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
-> > +			pix->width, pix->height, &pix->pixelformat,
-> >  			prt_names(pix->field, v4l2_field_names),
-> >  			pix->bytesperline, pix->sizeimage,
-> >  			pix->colorspace, pix->flags, pix->ycbcr_enc,
-> > @@ -307,12 +299,8 @@ static void v4l_print_format(const void *arg, bool write_only)
-> >  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-> >  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-> >  		mp = &p->fmt.pix_mp;
-> > -		pr_cont(", width=%u, height=%u, format=%c%c%c%c, field=%s, colorspace=%d, num_planes=%u, flags=0x%x, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
-> > -			mp->width, mp->height,
-> > -			(mp->pixelformat & 0xff),
-> > -			(mp->pixelformat >>  8) & 0xff,
-> > -			(mp->pixelformat >> 16) & 0xff,
-> > -			(mp->pixelformat >> 24) & 0xff,
-> > +		pr_cont(", width=%u, height=%u, format=%p4cc, field=%s, colorspace=%d, num_planes=%u, flags=0x%x, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
-> > +			mp->width, mp->height, &mp->pixelformat,
-> >  			prt_names(mp->field, v4l2_field_names),
-> >  			mp->colorspace, mp->num_planes, mp->flags,
-> >  			mp->ycbcr_enc, mp->quantization, mp->xfer_func);
-> > @@ -337,13 +325,9 @@ static void v4l_print_format(const void *arg, bool write_only)
-> >  	case V4L2_BUF_TYPE_VBI_CAPTURE:
-> >  	case V4L2_BUF_TYPE_VBI_OUTPUT:
-> >  		vbi = &p->fmt.vbi;
-> > -		pr_cont(", sampling_rate=%u, offset=%u, samples_per_line=%u, sample_format=%c%c%c%c, start=%u,%u, count=%u,%u\n",
-> > +		pr_cont(", sampling_rate=%u, offset=%u, samples_per_line=%u, sample_format=%p4cc, start=%u,%u, count=%u,%u\n",
-> >  			vbi->sampling_rate, vbi->offset,
-> > -			vbi->samples_per_line,
-> > -			(vbi->sample_format & 0xff),
-> > -			(vbi->sample_format >>  8) & 0xff,
-> > -			(vbi->sample_format >> 16) & 0xff,
-> > -			(vbi->sample_format >> 24) & 0xff,
-> > +			vbi->samples_per_line, &vbi->sample_format,
-> >  			vbi->start[0], vbi->start[1],
-> >  			vbi->count[0], vbi->count[1]);
-> >  		break;
-> > @@ -360,21 +344,13 @@ static void v4l_print_format(const void *arg, bool write_only)
-> >  	case V4L2_BUF_TYPE_SDR_CAPTURE:
-> >  	case V4L2_BUF_TYPE_SDR_OUTPUT:
-> >  		sdr = &p->fmt.sdr;
-> > -		pr_cont(", pixelformat=%c%c%c%c\n",
-> > -			(sdr->pixelformat >>  0) & 0xff,
-> > -			(sdr->pixelformat >>  8) & 0xff,
-> > -			(sdr->pixelformat >> 16) & 0xff,
-> > -			(sdr->pixelformat >> 24) & 0xff);
-> > +		pr_cont(", pixelformat=%p4cc\n", &sdr->pixelformat);
-> >  		break;
-> >  	case V4L2_BUF_TYPE_META_CAPTURE:
-> >  	case V4L2_BUF_TYPE_META_OUTPUT:
-> >  		meta = &p->fmt.meta;
-> > -		pr_cont(", dataformat=%c%c%c%c, buffersize=%u\n",
-> > -			(meta->dataformat >>  0) & 0xff,
-> > -			(meta->dataformat >>  8) & 0xff,
-> > -			(meta->dataformat >> 16) & 0xff,
-> > -			(meta->dataformat >> 24) & 0xff,
-> > -			meta->buffersize);
-> > +		pr_cont(", dataformat=%p4cc, buffersize=%u\n",
-> > +			&meta->dataformat, meta->buffersize);
-> >  		break;
-> >  	}
-> >  }
-> > @@ -383,15 +359,10 @@ static void v4l_print_framebuffer(const void *arg, bool write_only)
-> >  {
-> >  	const struct v4l2_framebuffer *p = arg;
-> >  
-> > -	pr_cont("capability=0x%x, flags=0x%x, base=0x%p, width=%u, height=%u, pixelformat=%c%c%c%c, bytesperline=%u, sizeimage=%u, colorspace=%d\n",
-> > -			p->capability, p->flags, p->base,
-> > -			p->fmt.width, p->fmt.height,
-> > -			(p->fmt.pixelformat & 0xff),
-> > -			(p->fmt.pixelformat >>  8) & 0xff,
-> > -			(p->fmt.pixelformat >> 16) & 0xff,
-> > -			(p->fmt.pixelformat >> 24) & 0xff,
-> > -			p->fmt.bytesperline, p->fmt.sizeimage,
-> > -			p->fmt.colorspace);
-> > +	pr_cont("capability=0x%x, flags=0x%x, base=0x%p, width=%u, height=%u, pixelformat=%p4cc, bytesperline=%u, sizeimage=%u, colorspace=%d\n",
-> > +		p->capability, p->flags, p->base, p->fmt.width, p->fmt.height,
-> > +		&p->fmt.pixelformat, p->fmt.bytesperline, p->fmt.sizeimage,
-> > +		p->fmt.colorspace);
-> >  }
-> >  
-> >  static void v4l_print_buftype(const void *arg, bool write_only)
-> > @@ -761,13 +732,8 @@ static void v4l_print_frmsizeenum(const void *arg, bool write_only)
-> >  {
-> >  	const struct v4l2_frmsizeenum *p = arg;
-> >  
-> > -	pr_cont("index=%u, pixelformat=%c%c%c%c, type=%u",
-> > -			p->index,
-> > -			(p->pixel_format & 0xff),
-> > -			(p->pixel_format >>  8) & 0xff,
-> > -			(p->pixel_format >> 16) & 0xff,
-> > -			(p->pixel_format >> 24) & 0xff,
-> > -			p->type);
-> > +	pr_cont("index=%u, pixelformat=%p4cc, type=%u",
-> > +		p->index, &p->pixel_format, p->type);
-> >  	switch (p->type) {
-> >  	case V4L2_FRMSIZE_TYPE_DISCRETE:
-> >  		pr_cont(", wxh=%ux%u\n",
-> > @@ -793,13 +759,8 @@ static void v4l_print_frmivalenum(const void *arg, bool write_only)
-> >  {
-> >  	const struct v4l2_frmivalenum *p = arg;
-> >  
-> > -	pr_cont("index=%u, pixelformat=%c%c%c%c, wxh=%ux%u, type=%u",
-> > -			p->index,
-> > -			(p->pixel_format & 0xff),
-> > -			(p->pixel_format >>  8) & 0xff,
-> > -			(p->pixel_format >> 16) & 0xff,
-> > -			(p->pixel_format >> 24) & 0xff,
-> > -			p->width, p->height, p->type);
-> > +	pr_cont("index=%u, pixelformat=%p4cc, wxh=%ux%u, type=%u",
-> > +		p->index, &p->pixel_format, p->width, p->height, p->type);
-> >  	switch (p->type) {
-> >  	case V4L2_FRMIVAL_TYPE_DISCRETE:
-> >  		pr_cont(", fps=%d/%d\n",
-> > @@ -1459,12 +1420,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
-> >  				return;
-> >  			WARN(1, "Unknown pixelformat 0x%08x\n", fmt->pixelformat);
-> >  			flags = 0;
-> > -			snprintf(fmt->description, sz, "%c%c%c%c%s",
-> > -					(char)(fmt->pixelformat & 0x7f),
-> > -					(char)((fmt->pixelformat >> 8) & 0x7f),
-> > -					(char)((fmt->pixelformat >> 16) & 0x7f),
-> > -					(char)((fmt->pixelformat >> 24) & 0x7f),
-> > -					(fmt->pixelformat & (1UL << 31)) ? "-BE" : "");
+> > +V4L2 and DRM FourCC code (pixel format)
+> > +---------------------------------------
+> > +
+> > +::
+> > +
+> > +	%p4cc
+> > +
+> > +Print a FourCC code used by V4L2 or DRM, including format endianness and
+> > +its numerical value as hexadecimal.
+> > +
+> > +Passed by reference.
+> > +
+> > +Examples::
+> > +
+> > +	%p4cc	BG12 little-endian (0x32314742)
 > 
-> I'm wondering how it handled before the characters 0x80 or so...
+> No examples with spaces / non-printable / non-ascii characters
 
-The code is different in here than in the other instances but in practice
-the output has been the same as the MSB is only set for the endianness
-byte.
+I can sure add an example that has a space. But do you think I really
+should add an example where invalid information is being printed?
+
+> 
+> > +
+> >  Thanks
+> >  ======
+> >  
+> > diff --git a/lib/test_printf.c b/lib/test_printf.c
+> > index 7d60f24240a4..9848510a2786 100644
+> > --- a/lib/test_printf.c
+> > +++ b/lib/test_printf.c
+> > @@ -647,6 +647,22 @@ static void __init fwnode_pointer(void)
+> >  	software_node_unregister_nodes(softnodes);
+> >  }
+> >  
+> > +static void __init fourcc_pointer(void)
+> > +{
+> > +	struct {
+> > +		u32 code;
+> > +		char *str;
+> > +	} const try[] = {
+> > +		{ 0x3231564e, "NV12 little-endian (0x3231564e)", },
+> > +		{ 0xb231564e, "NV12 big-endian (0xb231564e)", },
+> > +		{ 0x10111213, ".... little-endian (0x10111213)", },
+> > +	};
+> > +	unsigned int i;
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(try); i++)
+> > +		test(try[i].str, "%p4cc", &try[i].code);
+> > +}
+> > +
+> >  static void __init
+> >  errptr(void)
+> >  {
+> > @@ -692,6 +708,7 @@ test_pointer(void)
+> >  	flags();
+> >  	errptr();
+> >  	fwnode_pointer();
+> > +	fourcc_pointer();
+> >  }
+> >  
+> >  static void __init selftest(void)
+> > diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> > index 3b53c73580c5..432b5a2d1e90 100644
+> > --- a/lib/vsprintf.c
+> > +++ b/lib/vsprintf.c
+> > @@ -1733,6 +1733,42 @@ char *netdev_bits(char *buf, char *end, const void *addr,
+> >  	return special_hex_number(buf, end, num, size);
+> >  }
+> >  
+> > +static noinline_for_stack
+> > +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+> > +		    struct printf_spec spec, const char *fmt)
+> > +{
+> > +	char output[sizeof("1234 little-endian (0x01234567)")];
+> 
+> 1234 -> ABCD ? (Or XY12 to be closer to the reality)
+
+I count in numbers... albeit the hexadecimal number there starts from zero.
+
+I guess both would work though.
+
+0123 would be consistent.
 
 -- 
 Regards,
