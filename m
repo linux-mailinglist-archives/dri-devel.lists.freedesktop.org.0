@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBBC931C29E
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 20:45:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B46D31C2A0
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 20:48:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2261A6E09E;
-	Mon, 15 Feb 2021 19:45:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C27776E2D7;
+	Mon, 15 Feb 2021 19:48:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEA7E6E09E
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 19:45:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 7A7D4601FC
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 19:45:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2E6F6E0D1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 19:48:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id C5FC764DE0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 19:48:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1613418349;
- bh=eb680YpUP/S71oppMPDxltr1puXajIjkB2GwPlCHzR0=;
+ s=k20201202; t=1613418495;
+ bh=zcdmIQsAuVupghMaCV6hkClNrx9dbpMGXl7gnsyRN+A=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=r01CcUO2YR4PkvgCYrgrXAYi0YBySmABS0d+GWzTIk+/LdkNWU4hS4lI4G5k57T8A
- otog5kjDvbm90PlDSJ00G+6OCtHvt2Hd7WGCzh2HGQm2BCPf0w2H/jKEbv0ergBKGM
- mqXdnO/qcGXWcFyVW1+RdNM38+ZOxxq8+stoi/6kVfcelI20LrbbXEoIEIyB0f1vRv
- +VBcOptbk/cl2mQFa0fEezawY06hXRYBPhcIvcbxVF3J2v47eK7hTY/GiLww/zlQ9r
- sMfnEN4Qg6z8zN561TZNO9dwCnaZqXif9BtFuKjcvgkp/NB4FPtXZO9F/yGBgxbOBM
- zw0at+fkk2/LQ==
+ b=vAjjioduJenprixwMF/lPoE8P424yvoVOROTQWxiUX1pah1Vr3GPwCjsbN9z6nJ8/
+ BuzIpHLk9yidszCPIz5t8UTDbP1TVdvMB3BxW4wU5PCEvIp9hsuaRY6W58QxiIeRRp
+ S8pW2ByMHLNsVCegj5ksOS4mrepH4ZPm57OkhRNLsLtckNNQAd1v2LRJDD/dCtgSpK
+ oTyRZbFzkg1qEQWdINI+YcKoVUegphFAKIk/oJ5E3OudhWs4jFWPLf5QzDO+XI66pv
+ 0UwMPDjY7zY2Amu+vpMQ2sbZptrBHoHig6sPcqahR3dlYVnoiVM1/2r81KaPn+lYh/
+ 9QX21cFlfPMLw==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 66FB5653BB; Mon, 15 Feb 2021 19:45:49 +0000 (UTC)
+ id B4780653BA; Mon, 15 Feb 2021 19:48:15 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211745] Latest 5.11 git doesn't boot.
-Date: Mon, 15 Feb 2021 19:45:49 +0000
+Date: Mon, 15 Feb 2021 19:48:15 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -38,14 +38,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: rmuncrief@humanavance.com
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211745-2300-UAY0B0YnJP@https.bugzilla.kernel.org/>
+Message-ID: <bug-211745-2300-bXd1kVWpmz@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211745-2300@https.bugzilla.kernel.org/>
 References: <bug-211745-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -70,24 +70,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=211745
 
---- Comment #8 from Robert M. Muncrief (rmuncrief@humanavance.com) ---
-(In reply to Alex Deucher from comment #7)
-> Can you bisect?  
-
-I can bisect, but I updated and compiled linux-mainline with the final 5.11
-from the Arch AUR this morning and my system boots just fine. I did a couple of
-quick tests playing videos, running VMs, etc. and everything looks good. So you
-can close this bug.  
-
-I've done some system updates since yesterday so later today I'm going to
-compile the same linux-git again, and if it fails compile the current
-linux-git. If that fails then I'm going to compare  the linux-git and
-linux-mainline PKGBUILD files to see if the the error was caused by the
-linux-git build. I've used linux-git many times over the years and never had a
-problem with it but who knows. It's definitely worth checking out though.  
-
-Thank you for your help and attention, and thanks to all the kernel devs for
-their awesome work. It is greatly appreciated.
+--- Comment #9 from Alex Deucher (alexdeucher@gmail.com) ---
+Only reporters can close kernel bugs.  Please close if this is not an issue.
 
 -- 
 You may reply to this email to add a comment.
