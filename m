@@ -1,33 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB22731C1A4
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 19:40:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2EC531C1EB
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 19:49:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E1076E907;
-	Mon, 15 Feb 2021 18:40:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05A046E913;
+	Mon, 15 Feb 2021 18:49:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADF476E907
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 18:39:59 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 38F23ACD4;
- Mon, 15 Feb 2021 18:39:58 +0000 (UTC)
-Subject: Re: [PATCH 0/6] drm: Move vmap out of commit tail for SHMEM-based
- drivers
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20210204200308.24216-1-tzimmermann@suse.de>
- <20210205090514.ln6eeoqfcijrd5q2@sirius.home.kraxel.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <b50fe1ac-57a5-26da-b358-d8c90578948d@suse.de>
-Date: Mon, 15 Feb 2021 19:39:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 720FD6E910;
+ Mon, 15 Feb 2021 18:49:31 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id r75so8697479oie.11;
+ Mon, 15 Feb 2021 10:49:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DB2e39wmNlyzoYXIMSc69EsNZtZJAfxV8F103w5KYGI=;
+ b=oXYEVDu4uTGML/zfEiarbYcXKEQcPNMwtPPdMJWa4jXS30e2OU6f48biZk7RQwqezn
+ 99bmlupbkxFnjs1aK+hmbuDi5sgbHqikxMjQuhR3nlbWMQZrHGQXO5B7nUbN5CN+y761
+ OcZBPECUbFKAjQu/gRUi8gaLlNr0mQQeMDv/AHfHGDll26NYz7i31vmUqzFXeSn1M/d8
+ 9H0NZQVdCFuK29XYKlKDPSHbpZI/IBWB21DvxEJvSaKew3bEFNhPEFWBY9bsWQMYP8H4
+ tLb8MiNcg+rw7Xa7SL0rDxpLM/IIfUTwqQra1hwYVEFfDTslvHgYosDGhWxaBUJstbPQ
+ FgLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DB2e39wmNlyzoYXIMSc69EsNZtZJAfxV8F103w5KYGI=;
+ b=AVYtsenqzi3CkVwyRnGzsztZTFgdmdO+udXV5o5XLwdRiKvuyibL23VDTIPNtdVRAl
+ YmUDrlFJ2cuGg/MLpzzio6S2aqXpS3g/AOIwEd0uYQDBjxRPLE/zTcKtpOJDlCJ8ppMx
+ 53ANopI7T5Tj6cUGV8+mk81R2L8d9U2f5zvzE5YuNpwcXYf8gqhAF8le/cgRLDJFph0i
+ ob0h7uAaDljCDBsgVb2IzHauJc/PImbRHtkHkv//mc+K+yBY+vkehFWxuHDR0I2KCGvO
+ 9kZ0m0ZIUkcsdHmFWfzkPWjPIhcMHc0rwgA4M37E7Lha4ShRKFGXSjuzq7/jPziZn/nj
+ fkKg==
+X-Gm-Message-State: AOAM533tAssz599JUObfUw+bD7H7xTxfnIXW/bzAC8P4s76UzQhwgGV6
+ MoYYuVY9IVGAEBO8fO4GO/V04gX/FFjL3BdDJAm2kLb9
+X-Google-Smtp-Source: ABdhPJwtNcR+iy1OFkd46IBqezbb6PuDuK3CNJ9h15rAjsTAG8bDhXVe9+Ue5E0HqMfp7H7iOOiO4n6Ukn2d+9HXkyM=
+X-Received: by 2002:aca:c786:: with SMTP id x128mr208317oif.120.1613414970760; 
+ Mon, 15 Feb 2021 10:49:30 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210205090514.ln6eeoqfcijrd5q2@sirius.home.kraxel.org>
+References: <20210210120330.54066-1-colin.king@canonical.com>
+In-Reply-To: <20210210120330.54066-1-colin.king@canonical.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 15 Feb 2021 13:49:19 -0500
+Message-ID: <CADnq5_NHvHgUzd=3xS0VTKVTWyQx2uQn5d2cMrDMso_o0UiUOA@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amd/pm: fix spelling mistake in various
+ messages "power_dpm_force_perfomance_level"
+To: Colin King <colin.king@canonical.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,118 +61,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, sam@ravnborg.org,
- virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
- dri-devel@lists.freedesktop.org, sean@poorly.run
-Content-Type: multipart/mixed; boundary="===============1194311571=="
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1194311571==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="65kZwvqIiuzbJZeYhiRShIjtH1xfj7yM2"
+On Wed, Feb 10, 2021 at 7:03 AM Colin King <colin.king@canonical.com> wrote:
+>
+> From: Colin Ian King <colin.king@canonical.com>
+>
+> There are spelling mistakes in error and warning messages, the text
+> power_dpm_force_perfomance_level is missing a letter r and should be
+> power_dpm_force_performance_level.  Fix them.
+>
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---65kZwvqIiuzbJZeYhiRShIjtH1xfj7yM2
-Content-Type: multipart/mixed; boundary="7tqD3VmYMHLzuULlIYlVHY9UeroFKCm2X";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, hdegoede@redhat.com, sean@poorly.run, sam@ravnborg.org,
- noralf@tronnes.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
-Message-ID: <b50fe1ac-57a5-26da-b358-d8c90578948d@suse.de>
-Subject: Re: [PATCH 0/6] drm: Move vmap out of commit tail for SHMEM-based
- drivers
-References: <20210204200308.24216-1-tzimmermann@suse.de>
- <20210205090514.ln6eeoqfcijrd5q2@sirius.home.kraxel.org>
-In-Reply-To: <20210205090514.ln6eeoqfcijrd5q2@sirius.home.kraxel.org>
+Applied.  Thanks!
 
---7tqD3VmYMHLzuULlIYlVHY9UeroFKCm2X
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 05.02.21 um 10:05 schrieb Gerd Hoffmann:
->    Hi,
->=20
->> I smoke-tested the code by running fbdev, Xorg and weston with the
->> converted mgag200 driver.
->=20
-> Looks sane to me.
-> Survived cirrus smoke test too.
-
-Reviewers are hard to find. Since you reviewed the shadow-plane=20
-conversion for cirrus; may I ask you for a review of a similar patchset=20
-in the ast driver. It's mostly about moving code around. In the end, ast =
-
-cursors will use generic shadow planes as well.
-
-=20
-https://lore.kernel.org/dri-devel/20210209134632.12157-1-tzimmermann@suse=
-=2Ede/
-
-If you have something where I can help out with a review, let me know.
-
-Best regards
-Thomas
-
->=20
-> Tested-by: Gerd Hoffmann <kraxel@redhat.com>
-> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
->=20
-> take care,
->    Gerd
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+Alex
 
 
---7tqD3VmYMHLzuULlIYlVHY9UeroFKCm2X--
-
---65kZwvqIiuzbJZeYhiRShIjtH1xfj7yM2
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAqv/wFAwAAAAAACgkQlh/E3EQov+BF
-HBAAtAkQJzvpwuAeTX/XI6z4jaCJk1TiKuYZP+/D6wL8wWZPbiR1mqLIjUCeddM86UQBNYbugIND
-OGVH9vBBA6U/bc3hf8xKZWGJBPMye0J1sVHDxbuhUxS8xLSdI8bYv8v7/mlu3E1TAUF1g1u9VFj9
-zn2biCquo9S/Z80vePIhhGuLf/VClnnU8BjoD3VVp4WeUP1gj/1/9NubcapTfMJERrYdVV6P1iJP
-uLqFEhlzdCRJCkRw9CDHn6CTRQhyYqZBNbSKrL3sGtO+AXxReT7BA2qr1jeMgkp743azZFS6lSa2
-D+Pr4cENKgeOX3B6xHWSUp2KiTRpOKYBwQWk5TTmflLYcZdVF/ORnH/Rcrdntva1zlwYmqRJY00A
-gAnuI5c++zugmy5joH/xgRCOpm+VarvxqdOUYN4K4LK1LkSqkZwrjK48XqjDpVohnT+EdmW6qJNH
-wpJmzR6a74wjZwRc7q8tiI1tZ7I7j1HRLOdz2XlP1pR1E+msYiOq3VzwM6f9UwJlJdK8ZCdZ5AR2
-0X0bAJIEV/MAWJoFw5xKPWvT/1X4Hkuh9JnwFrPOojI2fr40XgqOpsbo1DdRTgsYs1pvERT0JvzD
-lHysQqgoZrMPa6DtHdOcWIiL9B3Y8upI5uWIMVqywRJ+YwOWOWo433V0mVgFTpTMbYpColaoTjxK
-xzc=
-=aCVH
------END PGP SIGNATURE-----
-
---65kZwvqIiuzbJZeYhiRShIjtH1xfj7yM2--
-
---===============1194311571==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> ---
+>  drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c | 2 +-
+>  drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c     | 2 +-
+>  drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c      | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
+> index ed05a30d1139..d1358a6dd2c8 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
+> @@ -1487,7 +1487,7 @@ static int smu10_set_fine_grain_clk_vol(struct pp_hwmgr *hwmgr,
+>         }
+>
+>         if (!smu10_data->fine_grain_enabled) {
+> -               pr_err("pp_od_clk_voltage is not accessible if power_dpm_force_perfomance_level is not in manual mode!\n");
+> +               pr_err("pp_od_clk_voltage is not accessible if power_dpm_force_performance_level is not in manual mode!\n");
+>                 return -EINVAL;
+>         }
+>
+> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+> index 093b01159408..8abb25a28117 100644
+> --- a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+> @@ -1462,7 +1462,7 @@ static int vangogh_od_edit_dpm_table(struct smu_context *smu, enum PP_OD_DPM_TAB
+>
+>         if (!(smu_dpm_ctx->dpm_level == AMD_DPM_FORCED_LEVEL_MANUAL)) {
+>                 dev_warn(smu->adev->dev,
+> -                       "pp_od_clk_voltage is not accessible if power_dpm_force_perfomance_level is not in manual mode!\n");
+> +                       "pp_od_clk_voltage is not accessible if power_dpm_force_performance_level is not in manual mode!\n");
+>                 return -EINVAL;
+>         }
+>
+> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c
+> index 5faa509f0dba..b59156dfca19 100644
+> --- a/drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c
+> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c
+> @@ -351,7 +351,7 @@ static int renoir_od_edit_dpm_table(struct smu_context *smu,
+>
+>         if (!(smu_dpm_ctx->dpm_level == AMD_DPM_FORCED_LEVEL_MANUAL)) {
+>                 dev_warn(smu->adev->dev,
+> -                       "pp_od_clk_voltage is not accessible if power_dpm_force_perfomance_level is not in manual mode!\n");
+> +                       "pp_od_clk_voltage is not accessible if power_dpm_force_performance_level is not in manual mode!\n");
+>                 return -EINVAL;
+>         }
+>
+> --
+> 2.30.0
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1194311571==--
