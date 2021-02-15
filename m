@@ -2,45 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6373E31BAA1
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 14:56:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08E1E31BAD5
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Feb 2021 15:18:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DE396E283;
-	Mon, 15 Feb 2021 13:56:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15C5189CE3;
+	Mon, 15 Feb 2021 14:18:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33AF66E283
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 13:56:56 +0000 (UTC)
-IronPort-SDR: 07HmCY2E5X0HohDVCTYJMKcNCUXMbpp8RyUu2VZ7Xt19+Mc2fkV27oRulMlrH49HiFEmiZOWGu
- k2mYxs13Q4yg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9895"; a="170344222"
-X-IronPort-AV: E=Sophos;i="5.81,180,1610438400"; d="scan'208";a="170344222"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2021 05:56:55 -0800
-IronPort-SDR: MCMVenlFtazkKpfPbx4Daz53OkltSvdknM8NTJ5obPb3zrvw6toEcdwjMcEZssL6gBW0lDrEWA
- NQJeQrFvrZiA==
-X-IronPort-AV: E=Sophos;i="5.81,180,1610438400"; d="scan'208";a="512208434"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2021 05:56:52 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
- by paasikivi.fi.intel.com (Postfix) with SMTP id 5AA8D20345;
- Mon, 15 Feb 2021 15:56:50 +0200 (EET)
-Date: Mon, 15 Feb 2021 15:56:50 +0200
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v7 1/3] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-Message-ID: <20210215135650.GI3@paasikivi.fi.intel.com>
-References: <20210215114030.11862-1-sakari.ailus@linux.intel.com>
- <20210215114030.11862-2-sakari.ailus@linux.intel.com>
- <YCp3sdZoalFSUS7u@smile.fi.intel.com>
+Received: from mail-ua1-x92a.google.com (mail-ua1-x92a.google.com
+ [IPv6:2607:f8b0:4864:20::92a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D5C689CE3
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 14:18:27 +0000 (UTC)
+Received: by mail-ua1-x92a.google.com with SMTP id i3so2432100uai.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Feb 2021 06:18:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JkNyAS6eMcPhEpMPKFlNgf2kOWM3dGOcbf1ISpcwe/c=;
+ b=jGZyyVVCYMk0D78xryAnvDALibBeg4qMklKuLcrr12J8ReHaXad2+IHXRrFKFUZb/i
+ DeKddPdxdk3ie2ope8DivM/4H2ebX88PjicM50fmm6dK9kAStN3NAkYRXzsw8pvY8y0g
+ 3c/tyd5xCYQd9XF99JvigikmhQYrEzRGa+iaxcyTMz68t9O5P5J+/Lk+x8PRAx5jJEe5
+ ORQNmoHumTAJBzSQkHc4HQmqoK2MJe135Vjx6dWSwrEV/RYlW7w1XWhApmJwr34Yoa9N
+ LSYPO82fyPgdoopQihoHWuwPkFTgj9swrEPLPN22kgRfJOCbbIjIB3gqNtvQDFUeyruX
+ xEeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JkNyAS6eMcPhEpMPKFlNgf2kOWM3dGOcbf1ISpcwe/c=;
+ b=Ryw9lKfjRlUrugsh6UH5heB7YZFdz6Ix1i+TMmUMtwCSpOfpSp0jtXhGAy/z3iSG0y
+ PTfHY+gEZTv/atpAhaihhlNwea0h+MUgefmaKU7Gm3h/SlzKISttNqP5iRa2rGkanvxt
+ O2weRTVhawWcC05EjqDKWLhYqfki2RpxEbdoVmQ5o34Y2Oaw9s1e9szMtLon65doWh5E
+ Vajq5JL4OKueEpnEBabXyY6mbaYhmeHnp+cSrUWGrVdClgjvVdO59WUBNgWyW2tQOAGW
+ 61e733w1444Ajm99h5OIbR7u90xhqOx3x3kFRljvZ8VCyhNc1CzWSmdmiRCdR8+2xMSH
+ lDvg==
+X-Gm-Message-State: AOAM530Z1ahqZGqdVyzg/WQvCUEW1H1q10v5k1ZtEXEmJ8AKwu0nDnKy
+ p52yWJ8mhXWRVqAcaKgrfuMi3yvtmYl+VbMzvOc=
+X-Google-Smtp-Source: ABdhPJxu3LvnHPyEAD8T9tnva6iCu0otMcb/YaxTz98zbbc5OoSlhfJkCg/5MtqtrqsJew8ycUpaymlmtDUYA4Ygsz8=
+X-Received: by 2002:ab0:5b0e:: with SMTP id u14mr8636749uae.19.1613398706639; 
+ Mon, 15 Feb 2021 06:18:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YCp3sdZoalFSUS7u@smile.fi.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210212163229.68270-1-krzk@kernel.org>
+ <20210215085241.GG179940@dell>
+In-Reply-To: <20210215085241.GG179940@dell>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Mon, 15 Feb 2021 14:18:15 +0000
+Message-ID: <CACvgo53wn84G8wuyF++=bwtjnVzVB31BA2_JBWnihnwinSFD7A@mail.gmail.com>
+Subject: Re: [PATCH v4] MAINTAINERS: move Milo Kim to credits
+To: Lee Jones <lee.jones@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,136 +61,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>, laurent.pinchart@ideasonboard.com,
- Joe Perches <joe@perches.com>, mchehab@kernel.org, linux-media@vger.kernel.org
+Cc: linux-pwm@vger.kernel.org, linux-fbdev <linux-fbdev@vger.kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Linux PM <linux-pm@vger.kernel.org>,
+ linux-iio@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ Sebastian Reichel <sre@kernel.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Daniel Thompson <daniel.thompson@linaro.org>, linux-leds@vger.kernel.org,
+ Jonathan Cameron <jic23@kernel.org>, Dan Murphy <dmurphy@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy,
+Greetings everyone,
 
-On Mon, Feb 15, 2021 at 03:31:29PM +0200, Andy Shevchenko wrote:
-> On Mon, Feb 15, 2021 at 01:40:28PM +0200, Sakari Ailus wrote:
-> > Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
-> > pixel formats denoted by fourccs. The fourcc encoding is the same for both
-> > so the same implementation can be used.
-> 
-> This version I almost like, feel free to add
-> Reviewed-by: From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> after considering addressing below nit-picks.
-> 
-> > Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Petr Mladek <pmladek@suse.com>
-> > Reviewed-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+On Mon, 15 Feb 2021 at 08:52, Lee Jones <lee.jones@linaro.org> wrote:
+>
+> On Fri, 12 Feb 2021, Krzysztof Kozlowski wrote:
+>
+> > Milo Kim's email in TI bounces with permanent error (550: Invalid
+> > recipient).  Last email from him on LKML was in 2017.  Move Milo Kim to
+> > credits and remove the separate driver entries for:
+> >  - TI LP855x backlight driver,
+> >  - TI LP8727 charger driver,
+> >  - TI LP8788 MFD (ADC, LEDs, charger and regulator) drivers.
+> >
+> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > Cc: Mark Brown <broonie@kernel.org>
+> > Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > Cc: Jingoo Han <jingoohan1@gmail.com>
+> > Cc: Lee Jones <lee.jones@linaro.org>
+> > Cc: Pavel Machek <pavel@ucw.cz>
+> > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > Cc: Sebastian Reichel <sre@kernel.org>
+> > Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> >
 > > ---
-> >  Documentation/core-api/printk-formats.rst | 16 ++++++++++
-> >  lib/test_printf.c                         | 17 ++++++++++
-> >  lib/vsprintf.c                            | 39 +++++++++++++++++++++++
-> >  scripts/checkpatch.pl                     |  6 ++--
-> >  4 files changed, 76 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> > index 160e710d992f..da2aa065dc42 100644
-> > --- a/Documentation/core-api/printk-formats.rst
-> > +++ b/Documentation/core-api/printk-formats.rst
-> > @@ -567,6 +567,22 @@ For printing netdev_features_t.
-> >  
-> >  Passed by reference.
-> >  
-> > +V4L2 and DRM FourCC code (pixel format)
-> > +---------------------------------------
-> > +
-> > +::
-> > +
-> > +	%p4cc
-> > +
-> > +Print a FourCC code used by V4L2 or DRM, including format endianness and
-> > +its numerical value as hexadecimal.
-> > +
-> > +Passed by reference.
-> > +
-> > +Examples::
-> > +
-> > +	%p4cc	BG12 little-endian (0x32314742)
-> 
-> No examples with spaces / non-printable / non-ascii characters
+> >
+> > Dear Lee,
+> >
+> > Could you take care about this patch?
+>
+> Yes, but I'll be sending out my pull-request for v5.12 in the next
+> couple of days (maybe even today if I can find some time), so this
+> will have to wait until v5.13.
+>
+Would it make sense to keep the MAINTAINERS entries as "orphan"?
+Checking with linux-next, the drivers are still present in-tree.
 
-I can sure add an example that has a space. But do you think I really
-should add an example where invalid information is being printed?
-
-> 
-> > +
-> >  Thanks
-> >  ======
-> >  
-> > diff --git a/lib/test_printf.c b/lib/test_printf.c
-> > index 7d60f24240a4..9848510a2786 100644
-> > --- a/lib/test_printf.c
-> > +++ b/lib/test_printf.c
-> > @@ -647,6 +647,22 @@ static void __init fwnode_pointer(void)
-> >  	software_node_unregister_nodes(softnodes);
-> >  }
-> >  
-> > +static void __init fourcc_pointer(void)
-> > +{
-> > +	struct {
-> > +		u32 code;
-> > +		char *str;
-> > +	} const try[] = {
-> > +		{ 0x3231564e, "NV12 little-endian (0x3231564e)", },
-> > +		{ 0xb231564e, "NV12 big-endian (0xb231564e)", },
-> > +		{ 0x10111213, ".... little-endian (0x10111213)", },
-> > +	};
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(try); i++)
-> > +		test(try[i].str, "%p4cc", &try[i].code);
-> > +}
-> > +
-> >  static void __init
-> >  errptr(void)
-> >  {
-> > @@ -692,6 +708,7 @@ test_pointer(void)
-> >  	flags();
-> >  	errptr();
-> >  	fwnode_pointer();
-> > +	fourcc_pointer();
-> >  }
-> >  
-> >  static void __init selftest(void)
-> > diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-> > index 3b53c73580c5..432b5a2d1e90 100644
-> > --- a/lib/vsprintf.c
-> > +++ b/lib/vsprintf.c
-> > @@ -1733,6 +1733,42 @@ char *netdev_bits(char *buf, char *end, const void *addr,
-> >  	return special_hex_number(buf, end, num, size);
-> >  }
-> >  
-> > +static noinline_for_stack
-> > +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
-> > +		    struct printf_spec spec, const char *fmt)
-> > +{
-> > +	char output[sizeof("1234 little-endian (0x01234567)")];
-> 
-> 1234 -> ABCD ? (Or XY12 to be closer to the reality)
-
-I count in numbers... albeit the hexadecimal number there starts from zero.
-
-I guess both would work though.
-
-0123 would be consistent.
-
--- 
-Regards,
-
-Sakari Ailus
+HTH
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
