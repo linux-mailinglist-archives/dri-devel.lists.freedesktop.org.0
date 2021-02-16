@@ -1,44 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F68E31C923
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 11:55:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A09131C9CA
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 12:37:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E0676E40A;
-	Tue, 16 Feb 2021 10:55:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 931B089F3B;
+	Tue, 16 Feb 2021 11:37:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9341F6E40A
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 10:55:38 +0000 (UTC)
-IronPort-SDR: U9Fn8JqCzWncCiaccK4Egrtvh5RyjddDZds3xlhbhRzuTGZ0pFnCb2Ey1hYByjg2+zRdf0zVSt
- NV8K25xKqBcw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="202044527"
-X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; d="scan'208";a="202044527"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2021 02:55:38 -0800
-IronPort-SDR: K/LCoTRRj2skVEigNtRgGbmiWl7VPsq9Xk5of6rTkxjO4Csd6HfCfVlrMP0TNZiJKJ4o7J3C2+
- 0eIWCxqUh+QQ==
-X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; d="scan'208";a="366415880"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2021 02:55:34 -0800
-Received: from andy by smile with local (Exim 4.94)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1lBy0x-005ReY-75; Tue, 16 Feb 2021 12:55:31 +0200
-Date: Tue, 16 Feb 2021 12:55:31 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH v8 3/4] drm: Switch to %p4cc format modifier
-Message-ID: <YCuko55bGhmxvNiq@smile.fi.intel.com>
-References: <20210216101931.2110-1-sakari.ailus@linux.intel.com>
- <20210216101931.2110-4-sakari.ailus@linux.intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8523389CD8
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 11:37:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613475446;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+zhuHviC0isDnPjRBGEn4Q+IeCMU567TRjgWhfSQx2k=;
+ b=CIUbzH66cEgtwzJrSun1+cZK1PAHobih9UnaLddRkMrrZOqNX6GT1CmmFEvYfKsozANP2O
+ FQumvZy6PhUzbJXasiWVM+oypRkkF8XIuPaqT24pogc1a0cC/dvbi5OGIB3nECUP2dgbQb
+ Pvx3n9huS6IcB0M5V3E0zppNDj/1//g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-423-eZoRfNZlMHK3PcBliz79UA-1; Tue, 16 Feb 2021 06:37:23 -0500
+X-MC-Unique: eZoRfNZlMHK3PcBliz79UA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38796195D560
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 11:37:22 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
+ [10.36.114.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 115771007612;
+ Tue, 16 Feb 2021 11:37:19 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id F2A62180009A; Tue, 16 Feb 2021 12:37:16 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/10] drm/qxl: a collection of fixes
+Date: Tue, 16 Feb 2021 12:37:06 +0100
+Message-Id: <20210216113716.716996-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210216101931.2110-4-sakari.ailus@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,54 +61,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>, laurent.pinchart@ideasonboard.com,
- Joe Perches <joe@perches.com>, mchehab@kernel.org, linux-media@vger.kernel.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 16, 2021 at 12:19:30PM +0200, Sakari Ailus wrote:
-> Switch DRM drivers from drm_get_format_name() to %p4cc. This gets rid of a
-> large number of temporary variables at the same time.
+Mostly around locking.
 
-...
+Gerd Hoffmann (10):
+  drm/qxl: properly handle device init failures
+  drm/qxl: more fence wait rework
+  drm/qxl: use ttm bo priorities
+  drm/qxl: fix lockdep issue in qxl_alloc_release_reserved
+  drm/qxl: rename qxl_bo_kmap -> qxl_bo_kmap_locked
+  drm/qxl: add qxl_bo_kmap/qxl_bo_kunmap
+  drm/qxl: fix prime kmap
+  drm/qxl: fix monitors object kmap
+  drm/qxl: map/unmap framebuffers in prepare_fb+cleanup_fb callbacks.
+  drm/qxl: add lock asserts to qxl_bo_kmap_locked + qxl_bo_kunmap_locked
 
-> -	seq_printf(m, "\t\tuapi: [FB:%d] %s,0x%llx,%dx%d, visible=%s, src=" DRM_RECT_FP_FMT ", dst=" DRM_RECT_FMT ", rotation=%s\n",
-> -		   fb ? fb->base.id : 0, fb ? format_name.str : "n/a",
-> +	seq_printf(m, "\t\tuapi: [FB:%d] ", fb ? fb->base.id : 0);
-> +	if (fb)
-> +		seq_printf(m, "%p4cc", &fb->format->format);
-> +	else
-> +		seq_puts(m, "n/a");
-> +	seq_printf(m, ",0x%llx,%dx%d, visible=%s, src=" DRM_RECT_FP_FMT ", dst=" DRM_RECT_FMT ", rotation=%s\n",
->  		   fb ? fb->modifier : 0,
->  		   fb ? fb->width : 0, fb ? fb->height : 0,
->  		   plane_visibility(plane_state),
-
-I still think this can be improved. See below for the example:
-
-  seq_puts(m, "\t\tuapi: ");
-  if (fb)
-    seq_printf(m, "[FB:%d] %p4cc,0x%llx,%dx%d, ",
-       fb->base.id, &fb->format->format, fb->modifier, fb->width, fb->height);
-  else
-    seq_puts(m, "[FB:0] n/a,0,0x0, ");
-  seq_printf(m, "visible=%s, src=" DRM_RECT_FP_FMT ", dst=" DRM_RECT_FMT ", rotation=%s\n",
-       plane_visibility(plane_state), DRM_RECT_FP_ARG(&src),
-       DRM_RECT_ARG(&dst), rot_str);
-
-This will show logical parts separately and clear view on what would be printed
-when !fb. Also it uses seq_puts() without any needs for formatting.
+ drivers/gpu/drm/qxl/qxl_object.h  |  5 ++-
+ drivers/gpu/drm/qxl/qxl_cmd.c     |  2 +-
+ drivers/gpu/drm/qxl/qxl_display.c | 34 +++++++++-----------
+ drivers/gpu/drm/qxl/qxl_draw.c    |  8 ++---
+ drivers/gpu/drm/qxl/qxl_gem.c     |  2 +-
+ drivers/gpu/drm/qxl/qxl_image.c   |  2 +-
+ drivers/gpu/drm/qxl/qxl_kms.c     |  4 +++
+ drivers/gpu/drm/qxl/qxl_object.c  | 53 +++++++++++++++++++++++++++----
+ drivers/gpu/drm/qxl/qxl_release.c | 41 +++++++++++++++---------
+ 9 files changed, 103 insertions(+), 48 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.29.2
 
 
 _______________________________________________
