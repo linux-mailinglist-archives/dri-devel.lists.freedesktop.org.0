@@ -1,29 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D5731C897
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 11:19:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F68E31C923
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 11:55:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F04686E406;
-	Tue, 16 Feb 2021 10:19:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E0676E40A;
+	Tue, 16 Feb 2021 10:55:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hillosipuli.retiisi.eu (retiisi.eu [95.216.213.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 854926E406
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 10:19:35 +0000 (UTC)
-Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
- by hillosipuli.retiisi.eu (Postfix) with ESMTP id 297AA634CA1;
- Tue, 16 Feb 2021 12:18:30 +0200 (EET)
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 4/4] drm: Remove drm_get_format_name()
-Date: Tue, 16 Feb 2021 12:19:31 +0200
-Message-Id: <20210216101931.2110-5-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210216101931.2110-1-sakari.ailus@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9341F6E40A
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 10:55:38 +0000 (UTC)
+IronPort-SDR: U9Fn8JqCzWncCiaccK4Egrtvh5RyjddDZds3xlhbhRzuTGZ0pFnCb2Ey1hYByjg2+zRdf0zVSt
+ NV8K25xKqBcw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="202044527"
+X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; d="scan'208";a="202044527"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2021 02:55:38 -0800
+IronPort-SDR: K/LCoTRRj2skVEigNtRgGbmiWl7VPsq9Xk5of6rTkxjO4Csd6HfCfVlrMP0TNZiJKJ4o7J3C2+
+ 0eIWCxqUh+QQ==
+X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; d="scan'208";a="366415880"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2021 02:55:34 -0800
+Received: from andy by smile with local (Exim 4.94)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1lBy0x-005ReY-75; Tue, 16 Feb 2021 12:55:31 +0200
+Date: Tue, 16 Feb 2021 12:55:31 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v8 3/4] drm: Switch to %p4cc format modifier
+Message-ID: <YCuko55bGhmxvNiq@smile.fi.intel.com>
 References: <20210216101931.2110-1-sakari.ailus@linux.intel.com>
+ <20210216101931.2110-4-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210216101931.2110-4-sakari.ailus@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,88 +51,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>, mchehab@kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
+Cc: Petr Mladek <pmladek@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
- Steven Rostedt <rostedt@goodmis.org>, hverkuil@xs4all.nl,
+ dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
  Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- laurent.pinchart@ideasonboard.com, Joe Perches <joe@perches.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-media@vger.kernel.org
+ Steven Rostedt <rostedt@goodmis.org>, laurent.pinchart@ideasonboard.com,
+ Joe Perches <joe@perches.com>, mchehab@kernel.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The %p4cc printk format modifier was recently added to print fourcc codes,
-replacing drm_get_format_name(). The function is no longer needed, so
-remove it.
+On Tue, Feb 16, 2021 at 12:19:30PM +0200, Sakari Ailus wrote:
+> Switch DRM drivers from drm_get_format_name() to %p4cc. This gets rid of a
+> large number of temporary variables at the same time.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Petr Mladek <pmladek@suse.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/gpu/drm/drm_fourcc.c | 25 -------------------------
- include/drm/drm_fourcc.h     |  1 -
- 2 files changed, 26 deletions(-)
+...
 
-diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-index 03262472059c..5cf45aa6eedc 100644
---- a/drivers/gpu/drm/drm_fourcc.c
-+++ b/drivers/gpu/drm/drm_fourcc.c
-@@ -30,11 +30,6 @@
- #include <drm/drm_device.h>
- #include <drm/drm_fourcc.h>
- 
--static char printable_char(int c)
--{
--	return isascii(c) && isprint(c) ? c : '?';
--}
--
- /**
-  * drm_mode_legacy_fb_format - compute drm fourcc code from legacy description
-  * @bpp: bits per pixels
-@@ -130,26 +125,6 @@ uint32_t drm_driver_legacy_fb_format(struct drm_device *dev,
- }
- EXPORT_SYMBOL(drm_driver_legacy_fb_format);
- 
--/**
-- * drm_get_format_name - fill a string with a drm fourcc format's name
-- * @format: format to compute name of
-- * @buf: caller-supplied buffer
-- */
--const char *drm_get_format_name(uint32_t format, struct drm_format_name_buf *buf)
--{
--	snprintf(buf->str, sizeof(buf->str),
--		 "%c%c%c%c %s-endian (0x%08x)",
--		 printable_char(format & 0xff),
--		 printable_char((format >> 8) & 0xff),
--		 printable_char((format >> 16) & 0xff),
--		 printable_char((format >> 24) & 0x7f),
--		 format & DRM_FORMAT_BIG_ENDIAN ? "big" : "little",
--		 format);
--
--	return buf->str;
--}
--EXPORT_SYMBOL(drm_get_format_name);
--
- /*
-  * Internal function to query information for a given format. See
-  * drm_format_info() for the public API.
-diff --git a/include/drm/drm_fourcc.h b/include/drm/drm_fourcc.h
-index 156b122c0ad5..3ea17b8a79d3 100644
---- a/include/drm/drm_fourcc.h
-+++ b/include/drm/drm_fourcc.h
-@@ -318,6 +318,5 @@ unsigned int drm_format_info_block_height(const struct drm_format_info *info,
- 					  int plane);
- uint64_t drm_format_info_min_pitch(const struct drm_format_info *info,
- 				   int plane, unsigned int buffer_width);
--const char *drm_get_format_name(uint32_t format, struct drm_format_name_buf *buf);
- 
- #endif /* __DRM_FOURCC_H__ */
+> -	seq_printf(m, "\t\tuapi: [FB:%d] %s,0x%llx,%dx%d, visible=%s, src=" DRM_RECT_FP_FMT ", dst=" DRM_RECT_FMT ", rotation=%s\n",
+> -		   fb ? fb->base.id : 0, fb ? format_name.str : "n/a",
+> +	seq_printf(m, "\t\tuapi: [FB:%d] ", fb ? fb->base.id : 0);
+> +	if (fb)
+> +		seq_printf(m, "%p4cc", &fb->format->format);
+> +	else
+> +		seq_puts(m, "n/a");
+> +	seq_printf(m, ",0x%llx,%dx%d, visible=%s, src=" DRM_RECT_FP_FMT ", dst=" DRM_RECT_FMT ", rotation=%s\n",
+>  		   fb ? fb->modifier : 0,
+>  		   fb ? fb->width : 0, fb ? fb->height : 0,
+>  		   plane_visibility(plane_state),
+
+I still think this can be improved. See below for the example:
+
+  seq_puts(m, "\t\tuapi: ");
+  if (fb)
+    seq_printf(m, "[FB:%d] %p4cc,0x%llx,%dx%d, ",
+       fb->base.id, &fb->format->format, fb->modifier, fb->width, fb->height);
+  else
+    seq_puts(m, "[FB:0] n/a,0,0x0, ");
+  seq_printf(m, "visible=%s, src=" DRM_RECT_FP_FMT ", dst=" DRM_RECT_FMT ", rotation=%s\n",
+       plane_visibility(plane_state), DRM_RECT_FP_ARG(&src),
+       DRM_RECT_ARG(&dst), rot_str);
+
+This will show logical parts separately and clear view on what would be printed
+when !fb. Also it uses seq_puts() without any needs for formatting.
+
 -- 
-2.29.2
+With Best Regards,
+Andy Shevchenko
+
 
 _______________________________________________
 dri-devel mailing list
