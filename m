@@ -1,53 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42DBA31C887
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 11:14:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6515831C895
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 11:19:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE4F889A0F;
-	Tue, 16 Feb 2021 10:14:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACA0D6E2C7;
+	Tue, 16 Feb 2021 10:19:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1DB489A0F
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 10:14:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:Message-ID:Subject:To:From:Date:Sender:
- Reply-To:Cc:Content-ID:Content-Description;
- bh=XZQnqYULb/gl4wKI0dnM+AVrQ2LyQklzX1J3h5QDRII=; b=TPdPeYYTIHFKdHhMA6FBieZUR1
- 56rbc/Q+FobY51DRosYrVPsDsPUKaKfVkfCJSIwJXKCZQ77xp479j3hu7yH8woN7IGjBt7Hk2vioi
- xeV71s19Hq9mFL4YECb49KzYcMpPQcR0hPDmezYW4qgzpG3NWHU9a8/ksFxp3+vSjK6mUjegvrn1y
- 11FJp3d04ADNvoLcMqdIV/30/2poIIQwsF8TXl8sr01svS4u4xiDxrI+POR0z27yhi9qbFAUI5kMM
- /ymHv9eU/yUjU8bIh1l2hXoaydgNF5q1MMOw3ycZ5k6l8KumXn86c74ODr2VBJTX7JcaFDWsY2WCL
- UiDNQB5Q==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100]
- helo=noisy.programming.kicks-ass.net)
- by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lBxM2-00GjfB-Sq; Tue, 16 Feb 2021 10:13:18 +0000
-Received: from hirez.programming.kicks-ass.net
- (hirez.programming.kicks-ass.net [192.168.1.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 3F0DF3011E6;
- Tue, 16 Feb 2021 11:13:14 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id 1A8112058B522; Tue, 16 Feb 2021 11:13:14 +0100 (CET)
-Date: Tue, 16 Feb 2021 11:13:14 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- mingo@redhat.com, will@kernel.org, apw@canonical.com,
- joe@perches.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] mutex: nuke mutex_trylock_recursive
-Message-ID: <YCuaup4u1ZE6crE0@hirez.programming.kicks-ass.net>
-References: <20210216082146.69286-1-christian.koenig@amd.com>
- <YCuQXAllh91JEZ+Y@phenom.ffwll.local>
+Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu
+ [IPv6:2a01:4f9:c010:4572::81:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A4E76E2C7
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 10:19:33 +0000 (UTC)
+Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
+ by hillosipuli.retiisi.eu (Postfix) with ESMTP id 84FCE634C8E;
+ Tue, 16 Feb 2021 12:18:29 +0200 (EET)
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v8 0/4] Add %p4cc printk modifier for V4L2 and DRM fourcc codes
+Date: Tue, 16 Feb 2021 12:19:27 +0200
+Message-Id: <20210216101931.2110-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YCuQXAllh91JEZ+Y@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,32 +35,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Petr Mladek <pmladek@suse.com>, mchehab@kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
+ Steven Rostedt <rostedt@goodmis.org>, hverkuil@xs4all.nl,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ laurent.pinchart@ideasonboard.com, Joe Perches <joe@perches.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 16, 2021 at 10:29:00AM +0100, Daniel Vetter wrote:
-> On Tue, Feb 16, 2021 at 09:21:46AM +0100, Christian K=F6nig wrote:
-> > The last user went away in the 5.11 cycle.
-> > =
+Hi all,
 
-> > Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-> =
+	On merging --- it would seem everyone is happy with merging this
+	through the drm-misc tree. The last patch should wait until all
+	users are gone for sure, probably to the next kernel release.
+	There are no users of drm_get_format_name() in linux-next
+	currently after the 3rd patch.
 
-> Nice.
-> =
+This set adds support for %p4cc printk modifier for printing V4L2 and DRM
+fourcc codes. The codes are cumbersome to print manually and by adding the
+modifier, this task is saved from the V4L2 and DRM frameworks as well as
+related drivers. DRM actually had it handled in a way (see 3rd patch) but
+the printk modifier makes printing the format easier even there. On V4L2
+side it saves quite a few lines of repeating different implementations of
+printing the 4cc codes.
 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> =
+Further work will include converting the V4L2 drivers doing the same. I
+left these out from this version since individual drivers are easier
+changed without dealing with multiple trees.
 
-> I think would be good to still stuff this into 5.12 before someone
-> resurrects this zombie.
+Since v7:
 
-Already done:
+- Add more examples, one with big endian and another with a space.
 
-  https://lkml.kernel.org/r/161296556531.23325.10473355259841906876.tip-bot=
-2@tip-bot2
+- Add Y10 test format.
+
+- Use "0123" in the size string for temporary buffer.
+
+- Added acks.
+
+- Split the 3rd patch into two: driver changes and removal of
+  drm_get_format_name().
+
+Since v6:
+
+- Don't drop spaces in fourcc codes.
+
+- Print unprintable characters as dot ('.') instead of hexadecimal number
+  in parentheses.
+
+- Convert DRM from drm_get_format_name() to %p4cc. I wonder if this should
+  be merged through the DRM tree, albeit it's probably unlikely to
+  conflict with other changes. Further use of the function could be a
+  problem.
+
+- Make tests more realistic.
+
+Since v5:
+
+- Added V4L2 core conversion to %p4cc, as well as change the DRM
+  fourcc printing function to use %p4cc.
+
+- Add missing checkpatch.pl checks for %p4cc modifier.
+
+Sakari Ailus (4):
+  lib/vsprintf: Add support for printing V4L2 and DRM fourccs
+  v4l: ioctl: Use %p4cc printk modifier to print FourCC codes
+  drm: Switch to %p4cc format modifier
+  drm: Remove drm_get_format_name()
+
+ Documentation/core-api/printk-formats.rst     | 18 ++++
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  5 +-
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |  5 +-
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  5 +-
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  5 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  5 +-
+ .../arm/display/komeda/komeda_format_caps.h   | 11 ---
+ .../arm/display/komeda/komeda_framebuffer.c   |  4 +-
+ .../gpu/drm/arm/display/komeda/komeda_plane.c |  6 +-
+ drivers/gpu/drm/arm/malidp_mw.c               |  7 +-
+ drivers/gpu/drm/drm_atomic.c                  |  8 +-
+ drivers/gpu/drm/drm_crtc.c                    |  7 +-
+ drivers/gpu/drm/drm_fourcc.c                  | 25 ------
+ drivers/gpu/drm/drm_framebuffer.c             | 11 +--
+ drivers/gpu/drm/drm_mipi_dbi.c                |  5 +-
+ drivers/gpu/drm/drm_plane.c                   |  8 +-
+ .../gpu/drm/hisilicon/kirin/kirin_drm_ade.c   |  5 +-
+ drivers/gpu/drm/i915/display/intel_display.c  | 14 +--
+ .../drm/i915/display/intel_display_debugfs.c  | 19 ++---
+ drivers/gpu/drm/i915/display/intel_sprite.c   |  6 +-
+ drivers/gpu/drm/mcde/mcde_display.c           |  6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |  6 +-
+ drivers/gpu/drm/nouveau/nouveau_display.c     |  9 +-
+ drivers/gpu/drm/radeon/atombios_crtc.c        | 10 +--
+ drivers/gpu/drm/sun4i/sun4i_backend.c         |  6 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c         |  7 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 15 ++--
+ drivers/media/v4l2-core/v4l2-ioctl.c          | 85 +++++--------------
+ include/drm/drm_fourcc.h                      |  1 -
+ lib/test_printf.c                             | 18 ++++
+ lib/vsprintf.c                                | 39 +++++++++
+ scripts/checkpatch.pl                         |  6 +-
+ 32 files changed, 164 insertions(+), 223 deletions(-)
+
+-- 
+2.29.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
