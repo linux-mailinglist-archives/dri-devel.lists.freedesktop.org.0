@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5824531D172
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 21:18:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9108531D17D
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 21:23:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 698B36E49F;
-	Tue, 16 Feb 2021 20:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 317B58923C;
+	Tue, 16 Feb 2021 20:23:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from libero.it (smtp-17.italiaonline.it [213.209.10.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C90466E49F
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 20:18:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA3E28923C
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 20:23:02 +0000 (UTC)
 Received: from passgat-Modern-14-A10M.homenet.telecomitalia.it
  ([87.20.116.197]) by smtp-17.iol.local with ESMTPA
- id C6n9lYZr1lChfC6nIldwZ7; Tue, 16 Feb 2021 21:18:02 +0100
+ id C6s3lYbQ2lChfC6s8ldxSs; Tue, 16 Feb 2021 21:23:01 +0100
 x-libjamoibt: 1601
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2014;
- t=1613506682; bh=E6mT1eLy2BbvLR20EYpVVGUzTe4X8rj8sSx2cY7U1BQ=;
+ t=1613506981; bh=E6mT1eLy2BbvLR20EYpVVGUzTe4X8rj8sSx2cY7U1BQ=;
  h=From;
- b=Syk1io4d3Z645NJYJYZmITmczoU6ZfK5Gisxywo5C1ApjO1QDGJ16t4taOOPdS+Nh
- uFzb3xfKhiCMBgRPdXnMbFJeUaYfLBOuX6HMnTPYX4ERRLWNIAu9NIamWd15+u/o/s
- r5CEl5KU33W45yXVSYVIl4oP+M6UPm+FXq6h4GCBAn+YFhCcgslQSP3ceaFgw4tgjr
- c0iwB3GH2dfubBEqqD/lueqd3X12+NWW7DFSvJRzv5vXsXPtfDQuImXwnSMR36bqmE
- as6GqT+kSSFzTwDqIA0nt+1lk2+jo7ZiblrPozd8CzJGcrJJew1nooYbURqZN0l1zi
- N+IxnaRBiyYfw==
-X-CNFS-Analysis: v=2.4 cv=S6McfKgP c=1 sm=1 tr=0 ts=602c287a cx=a_exe
+ b=R0p+YkvSKiJb69sWwvh/538Jj5YMnNJeEzMGYhyTKSk9qkGza9NS83I0aVxcSDvc4
+ vgpyOqM54OkbC685W6L/z7X3no5dx9LTzvPHutuCnbR9aGAaVwwEL5FrBYBbAR1AZx
+ 9HdeErD3VcyOP79FzADRW17gW7FxzA0hfPXdsWBkfSM9E5wdhbXaLKXo+zL+hHwpu2
+ TL8ossOCOVPii3CeRCJHAxkapQZEPmFupYDhE+dyhCcPsbOuX6f/IJuRe3KOOtCpjE
+ Y8/sYDG5nIw/wwyFLsbI7sm/0BG5MhL8mPfUpY6rObP2IeFmm/59aAejggecV527wg
+ LK/MoIleWQGvQ==
+X-CNFS-Analysis: v=2.4 cv=S6McfKgP c=1 sm=1 tr=0 ts=602c29a5 cx=a_exe
  a=AVqmXbCQpuNSdJmApS5GbQ==:117 a=AVqmXbCQpuNSdJmApS5GbQ==:17
  a=toUk0IfjeMrTqMqL6ioA:9
 From: Dario Binacchi <dariobin@libero.it>
 To: linux-kernel@vger.kernel.org
 Subject: [RESEND PATCH] drm/tilcdc: fix raster control register setting
-Date: Tue, 16 Feb 2021 21:17:38 +0100
-Message-Id: <20210216201738.11946-1-dariobin@libero.it>
+Date: Tue, 16 Feb 2021 21:22:25 +0100
+Message-Id: <20210216202225.12861-1-dariobin@libero.it>
 X-Mailer: git-send-email 2.17.1
-X-CMAE-Envelope: MS4xfP8GmNc6lqtNCx9AjdaZ6CT32yIdeq+RBmhw1tSqvBDTixLFsbu+OzjxxIiTE2+sUIzwho6mk1P5VIhmwYZ7EVGWKE0j4GR3lo1wn6o/JN+JsYJ3PA0y
- 9eMEgBt0CHyDKEF74hm9UyUWsQNanESrpCta5XHmZfoM4N5WtHjs9jxDgSHiKdMqfWs02vmqoh6B7KJDZF4VEf14pNFkNMwRVzesgEhbc373TtOgOb6couTd
- VRlJLqR9M/wzEYHGRGD8AknuU3ssduvrqgeeuBt7WN7l2acUB8Ew9ybPVJyoIUsEFBfN0eLFGtN1bLweycpRHI/Xytv6kQCeZa7OU7vkQ1Nw1MhXleXgRk/S
- 4ReprtnPVFF/RXZs+q2JawbojElQznifi27/OhHN3dZcdPFkFzKZNswtpEk0TfT3ALOgAW1ok+Ltj4i0IOxyw5s6uKPodA==
+X-CMAE-Envelope: MS4xfN2H0V+jFPpOEwOIINj7kCHNlbmpcTscidCmgWRHfxmf1Mt6v6HmETHBNVuGkDrV9m31GyCnUS2ee3To+J/nJjhwX+yOFKzbNE/Wp69NtBgl0/u43DD/
+ STXeLVds16KSqdvw34IRGbcRlVfeRirszrDSKDAcNIiVPuoZcUUQy4HKthJq8X4MHzogCFAmEZsa2nyjOYBKow3InfWVyktXeebVc8H4/2w7ak+THVw28Qjv
+ rIBnYAGuSM95lHZBI9wA78ymzpdCW8mZPWmQVkbXdZDfz9Vtm6k7Wf9mgtIMQJRA9atrhDzWJLmfPpd/mNpgmIBWrmRxrOChXS8uzEIRqwF3ab0fzqyxLzhp
+ 9wxQXF7YCz5xFlwbnS20EqLh+EfBrB3m1m/K4VJaOXP6c3VAd/UmPdRvvrQLihFSfxFc6xWqG8KtucW77CN0qelHTij28A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,8 +50,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+Cc: David Airlie <airlied@linux.ie>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Jyri Sarha <jyri.sarha@iki.fi>,
  Dario Binacchi <dariobin@libero.it>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
