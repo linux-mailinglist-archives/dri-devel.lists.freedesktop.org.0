@@ -2,44 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED3931C7B4
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 10:01:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF6E31C7B6
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 10:03:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AB256E3A0;
-	Tue, 16 Feb 2021 09:01:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09D7F6E3B7;
+	Tue, 16 Feb 2021 09:02:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6EE16E3A0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 09:01:51 +0000 (UTC)
-IronPort-SDR: IVCUWJjnDCIlFZyzdWbO++YnVUiEYtzFS6qYurJY+RatthiHomBC7aw4e4ME06K5MpUKmiXYf3
- ySuF2T97JUnA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="162605166"
-X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; d="scan'208";a="162605166"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2021 01:01:50 -0800
-IronPort-SDR: LkMRYtlXv9UloOOwpLM/5vpLjc+2eXhd+eMmOQeM6UaqSY1CGt2C9ElZRxJFIsu0vUJCXru7UD
- 6UvfwBdEBrkw==
-X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; d="scan'208";a="384317333"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2021 01:01:47 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
- by paasikivi.fi.intel.com (Postfix) with SMTP id 4A1D0203BB;
- Tue, 16 Feb 2021 11:01:45 +0200 (EET)
-Date: Tue, 16 Feb 2021 11:01:45 +0200
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v7 3/3] drm: Switch to %p4cc format modifier
-Message-ID: <20210216090145.GC3@paasikivi.fi.intel.com>
-References: <20210215114030.11862-1-sakari.ailus@linux.intel.com>
- <20210215114030.11862-4-sakari.ailus@linux.intel.com>
- <54e8c1d5-bb28-eddd-41ad-a89323650be0@suse.de>
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDB6F6E3B7
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 09:02:56 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id v1so12020848wrd.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 01:02:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mDlPxT1oYOHjNwYS05Ap/lIR6S8YHeXV+kKzkitrMDQ=;
+ b=P84QBlrDHp1+oLkPR3XS9Hib/6uzVaxYNFJgJqenGr84ms/syz53/GC7p+NbOLrGj+
+ gjAYBIMdPYfda69ID5AD2eRkuVj2B1WrQIcTUVNxZ1uVa30yJDdPjQOyIv8nhnYY+RKp
+ Ih5r5D2HlnPd5gTYe/+bk651yaER9bk3+HbG4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=mDlPxT1oYOHjNwYS05Ap/lIR6S8YHeXV+kKzkitrMDQ=;
+ b=tyRdDjr5GjUdhT0qcuUvf/izKjmgB8mnd7CTGTY2iKuaP8TZVVBX/XjRmJbUoKPa2p
+ 0O/ZMPpLyQXwdBMavtgo/8W8oFlfNC7rqxvIS5qpLo5vNRRZ3Ydzra6iQBfZQzAc7VH8
+ YA9P7Otd3Fx/6iKmz0JKCV8CXU0Ujhzsz5OVHd1p3rLAEn9xgHOCyoHoplCDupWuh5yZ
+ GXyUqB+1iR194gi+DvWKgXH+pZzDuCwqW6sWqQNacdVB9fOiMH5wLVKJyKCnpUekzlxo
+ 5RuA5tScM4vTk9vXlI6gsN5m7g+blcTfwwwnu3/SHpWdnMBnLun6KhEMJI2TKrfPi8FF
+ k8aw==
+X-Gm-Message-State: AOAM5321oK8NHSA4LlwSKWwBOasBAYE+ClQgfLe6YA03i2FfWU3UxI1T
+ Lng0lg9iK/LguaoEA213Mdf0Aw==
+X-Google-Smtp-Source: ABdhPJwBcvGL69W6hWr9T1lZbW8Mml4T0IxtwvWkoZiLFcbueR7t3/ZvuIz5MALKBe6PkrAjduuzzg==
+X-Received: by 2002:adf:808c:: with SMTP id 12mr22608224wrl.139.1613466175552; 
+ Tue, 16 Feb 2021 01:02:55 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id n66sm2511069wmn.25.2021.02.16.01.02.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Feb 2021 01:02:54 -0800 (PST)
+Date: Tue, 16 Feb 2021 10:02:52 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH v3] kcmp: Support selection of SYS_kcmp without
+ CHECKPOINT_RESTORE
+Message-ID: <YCuKPOKlvSy/WiEZ@phenom.ffwll.local>
+Mail-Followup-To: Kees Cook <keescook@chromium.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org,
+ Andy Lutomirski <luto@amacapital.net>,
+ Will Drewry <wad@chromium.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Dave Airlie <airlied@gmail.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Cyrill Gorcunov <gorcunov@gmail.com>, stable@vger.kernel.org
+References: <20210205163752.11932-1-chris@chris-wilson.co.uk>
+ <20210205220012.1983-1-chris@chris-wilson.co.uk>
+ <202102081411.73A442F17@keescook>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <54e8c1d5-bb28-eddd-41ad-a89323650be0@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <202102081411.73A442F17@keescook>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,83 +79,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-media@vger.kernel.org, Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>, Joe Perches <joe@perches.com>,
- mchehab@kernel.org, laurent.pinchart@ideasonboard.com
+Cc: Will Drewry <wad@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andy Lutomirski <luto@amacapital.net>, Cyrill Gorcunov <gorcunov@gmail.com>,
+ stable@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
-
-Thanks for the review.
-
-On Tue, Feb 16, 2021 at 09:37:45AM +0100, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 15.02.21 um 12:40 schrieb Sakari Ailus:
-> > Switch DRM drivers from drm_get_format_name() to %p4cc. This gets rid of a
-> > large number of temporary variables at the same time.
+On Mon, Feb 08, 2021 at 02:12:00PM -0800, Kees Cook wrote:
+> On Fri, Feb 05, 2021 at 10:00:12PM +0000, Chris Wilson wrote:
+> > Userspace has discovered the functionality offered by SYS_kcmp and has
+> > started to depend upon it. In particular, Mesa uses SYS_kcmp for
+> > os_same_file_description() in order to identify when two fd (e.g. device
+> > or dmabuf) point to the same struct file. Since they depend on it for
+> > core functionality, lift SYS_kcmp out of the non-default
+> > CONFIG_CHECKPOINT_RESTORE into the selectable syscall category.
 > > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  5 ++--
-> >   drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |  5 ++--
-> >   drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  5 ++--
-> >   drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  5 ++--
-> >   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  5 ++--
-> >   .../arm/display/komeda/komeda_format_caps.h   | 11 --------
-> >   .../arm/display/komeda/komeda_framebuffer.c   |  4 +--
-> >   .../gpu/drm/arm/display/komeda/komeda_plane.c |  6 ++---
-> >   drivers/gpu/drm/arm/malidp_mw.c               |  7 ++----
-> >   drivers/gpu/drm/drm_atomic.c                  |  8 ++----
-> >   drivers/gpu/drm/drm_crtc.c                    |  7 ++----
-> >   drivers/gpu/drm/drm_fourcc.c                  | 25 -------------------
-> >   drivers/gpu/drm/drm_framebuffer.c             | 11 +++-----
-> >   drivers/gpu/drm/drm_mipi_dbi.c                |  5 ++--
-> >   drivers/gpu/drm/drm_plane.c                   |  8 ++----
-> >   .../gpu/drm/hisilicon/kirin/kirin_drm_ade.c   |  5 ++--
-> >   drivers/gpu/drm/i915/display/intel_display.c  | 14 +++--------
-> >   .../drm/i915/display/intel_display_debugfs.c  | 19 ++++++--------
-> >   drivers/gpu/drm/i915/display/intel_sprite.c   |  6 ++---
-> >   drivers/gpu/drm/mcde/mcde_display.c           |  6 ++---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |  6 ++---
-> >   drivers/gpu/drm/nouveau/nouveau_display.c     |  9 +++----
-> >   drivers/gpu/drm/radeon/atombios_crtc.c        | 10 +++-----
-> >   drivers/gpu/drm/sun4i/sun4i_backend.c         |  6 ++---
-> >   drivers/gpu/drm/vkms/vkms_writeback.c         |  7 ++----
-> >   drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 15 +++++------
-> >   include/drm/drm_fourcc.h                      |  1 -
-> >   27 files changed, 64 insertions(+), 157 deletions(-)
+> > Rasmus Villemoes also pointed out that systemd uses SYS_kcmp to
+> > deduplicate the per-service file descriptor store.
+> > 
+> > Note that some distributions such as Ubuntu are already enabling
+> > CHECKPOINT_RESTORE in their configs and so, by extension, SYS_kcmp.
+> > 
+> > References: https://gitlab.freedesktop.org/drm/intel/-/issues/3046
+> > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 > 
-> This is a nice patchset. For the driver-related changes:
+> Thanks!
 > 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> But landing this patch will certainly give us build errors. There are at
-> least 3 git trees involved: drm-misc-next, amd and i915. I'd expect at least
-> one of them to have additional changes that still require
-> drm_get_format_name().
-> 
-> IMHO we should remove drm_get_format_name() in a later patch. Please remove
-> the changes in drm_fourcc.{c,h} from this patch and maybe add a TODO comment
-> to the declaration that the function is supposed to be removed.
-> 
-> I would merge the patchset through drm-misc-next. And the final removal
-> patch during the next cycle. Ok?
+> Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Sounds good. I'll split the third patch into two then. 
+Thanks for reviews&patch, I stuffed it into a topic branch and plan to
+send it to Linus later this week.
+
+Cheers, Daniel
+
+> 
+> -Kees
+> 
+> > Cc: Kees Cook <keescook@chromium.org>
+> > Cc: Andy Lutomirski <luto@amacapital.net>
+> > Cc: Will Drewry <wad@chromium.org>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: Dave Airlie <airlied@gmail.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> > Cc: Cyrill Gorcunov <gorcunov@gmail.com>
+> > Cc: stable@vger.kernel.org
+> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch> # DRM depends on kcmp
+> > Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk> # systemd uses kcmp
+> > 
+> > ---
+> > v2:
+> >   - Default n.
+> >   - Borrrow help message from man kcmp.
+> >   - Export get_epoll_tfile_raw_ptr() for CONFIG_KCMP
+> > v3:
+> >   - Select KCMP for CONFIG_DRM
+> > ---
+> >  drivers/gpu/drm/Kconfig                       |  3 +++
+> >  fs/eventpoll.c                                |  4 ++--
+> >  include/linux/eventpoll.h                     |  2 +-
+> >  init/Kconfig                                  | 11 +++++++++++
+> >  kernel/Makefile                               |  2 +-
+> >  tools/testing/selftests/seccomp/seccomp_bpf.c |  2 +-
+> >  6 files changed, 19 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> > index 0973f408d75f..af6c6d214d91 100644
+> > --- a/drivers/gpu/drm/Kconfig
+> > +++ b/drivers/gpu/drm/Kconfig
+> > @@ -15,6 +15,9 @@ menuconfig DRM
+> >  	select I2C_ALGOBIT
+> >  	select DMA_SHARED_BUFFER
+> >  	select SYNC_FILE
+> > +# gallium uses SYS_kcmp for os_same_file_description() to de-duplicate
+> > +# device and dmabuf fd. Let's make sure that is available for our userspace.
+> > +	select KCMP
+> >  	help
+> >  	  Kernel-level support for the Direct Rendering Infrastructure (DRI)
+> >  	  introduced in XFree86 4.0. If you say Y here, you need to select
+> > diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+> > index a829af074eb5..3196474cbe24 100644
+> > --- a/fs/eventpoll.c
+> > +++ b/fs/eventpoll.c
+> > @@ -979,7 +979,7 @@ static struct epitem *ep_find(struct eventpoll *ep, struct file *file, int fd)
+> >  	return epir;
+> >  }
+> >  
+> > -#ifdef CONFIG_CHECKPOINT_RESTORE
+> > +#ifdef CONFIG_KCMP
+> >  static struct epitem *ep_find_tfd(struct eventpoll *ep, int tfd, unsigned long toff)
+> >  {
+> >  	struct rb_node *rbp;
+> > @@ -1021,7 +1021,7 @@ struct file *get_epoll_tfile_raw_ptr(struct file *file, int tfd,
+> >  
+> >  	return file_raw;
+> >  }
+> > -#endif /* CONFIG_CHECKPOINT_RESTORE */
+> > +#endif /* CONFIG_KCMP */
+> >  
+> >  /**
+> >   * Adds a new entry to the tail of the list in a lockless way, i.e.
+> > diff --git a/include/linux/eventpoll.h b/include/linux/eventpoll.h
+> > index 0350393465d4..593322c946e6 100644
+> > --- a/include/linux/eventpoll.h
+> > +++ b/include/linux/eventpoll.h
+> > @@ -18,7 +18,7 @@ struct file;
+> >  
+> >  #ifdef CONFIG_EPOLL
+> >  
+> > -#ifdef CONFIG_CHECKPOINT_RESTORE
+> > +#ifdef CONFIG_KCMP
+> >  struct file *get_epoll_tfile_raw_ptr(struct file *file, int tfd, unsigned long toff);
+> >  #endif
+> >  
+> > diff --git a/init/Kconfig b/init/Kconfig
+> > index b77c60f8b963..9cc7436b2f73 100644
+> > --- a/init/Kconfig
+> > +++ b/init/Kconfig
+> > @@ -1194,6 +1194,7 @@ endif # NAMESPACES
+> >  config CHECKPOINT_RESTORE
+> >  	bool "Checkpoint/restore support"
+> >  	select PROC_CHILDREN
+> > +	select KCMP
+> >  	default n
+> >  	help
+> >  	  Enables additional kernel features in a sake of checkpoint/restore.
+> > @@ -1737,6 +1738,16 @@ config ARCH_HAS_MEMBARRIER_CALLBACKS
+> >  config ARCH_HAS_MEMBARRIER_SYNC_CORE
+> >  	bool
+> >  
+> > +config KCMP
+> > +	bool "Enable kcmp() system call" if EXPERT
+> > +	help
+> > +	  Enable the kernel resource comparison system call. It provides
+> > +	  user-space with the ability to compare two processes to see if they
+> > +	  share a common resource, such as a file descriptor or even virtual
+> > +	  memory space.
+> > +
+> > +	  If unsure, say N.
+> > +
+> >  config RSEQ
+> >  	bool "Enable rseq() system call" if EXPERT
+> >  	default y
+> > diff --git a/kernel/Makefile b/kernel/Makefile
+> > index aa7368c7eabf..320f1f3941b7 100644
+> > --- a/kernel/Makefile
+> > +++ b/kernel/Makefile
+> > @@ -51,7 +51,7 @@ obj-y += livepatch/
+> >  obj-y += dma/
+> >  obj-y += entry/
+> >  
+> > -obj-$(CONFIG_CHECKPOINT_RESTORE) += kcmp.o
+> > +obj-$(CONFIG_KCMP) += kcmp.o
+> >  obj-$(CONFIG_FREEZER) += freezer.o
+> >  obj-$(CONFIG_PROFILING) += profile.o
+> >  obj-$(CONFIG_STACKTRACE) += stacktrace.o
+> > diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> > index 26c72f2b61b1..1b6c7d33c4ff 100644
+> > --- a/tools/testing/selftests/seccomp/seccomp_bpf.c
+> > +++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> > @@ -315,7 +315,7 @@ TEST(kcmp)
+> >  	ret = __filecmp(getpid(), getpid(), 1, 1);
+> >  	EXPECT_EQ(ret, 0);
+> >  	if (ret != 0 && errno == ENOSYS)
+> > -		SKIP(return, "Kernel does not support kcmp() (missing CONFIG_CHECKPOINT_RESTORE?)");
+> > +		SKIP(return, "Kernel does not support kcmp() (missing CONFIG_KCMP?)");
+> >  }
+> >  
+> >  TEST(mode_strict_support)
+> > -- 
+> > 2.20.1
+> > 
+> 
+> -- 
+> Kees Cook
 
 -- 
-Kind regards,
-
-Sakari Ailus
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
