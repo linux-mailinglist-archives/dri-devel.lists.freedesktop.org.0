@@ -1,40 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E1131CA5F
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 13:08:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 651B631CA8F
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 13:35:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 957996E1B6;
-	Tue, 16 Feb 2021 12:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFCD26E947;
+	Tue, 16 Feb 2021 12:34:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D89146E02E;
- Tue, 16 Feb 2021 12:07:56 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.69.177; 
-Received: from localhost (unverified [78.156.69.177]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 23880339-1500050 for multiple; Tue, 16 Feb 2021 12:07:53 +0000
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E95D6E14B;
+ Tue, 16 Feb 2021 12:34:53 +0000 (UTC)
+IronPort-SDR: lRV6N+s6bgBJF0UkAehAPdHwr0RmsnltXaUJY3c0C/UVUH0Y4Nlo1yqeOKoXHp51nWG25bxkVB
+ KDYAZPxFsQ/g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="202061447"
+X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; d="scan'208";a="202061447"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2021 04:34:52 -0800
+IronPort-SDR: +fWkh9qmwuRIHAdYg/Q5ZLUygdoyXBYiJ6iD8V9vHuWcgDsV1R3P0cCM08yu2RdTgT/eEy9FNZ
+ LE9SdGtCjXQQ==
+X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; d="scan'208";a="399486632"
+Received: from ideak-desk.fi.intel.com ([10.237.68.141])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2021 04:34:51 -0800
+From: Imre Deak <imre.deak@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/dp_mst: Tune down the WARN modesetting a port with
+ full_pbn=0
+Date: Tue, 16 Feb 2021 14:34:48 +0200
+Message-Id: <20210216123448.410545-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <SA2PR11MB5068A706257864219AF6F727AE879@SA2PR11MB5068.namprd11.prod.outlook.com>
-References: <20210210075929.5357-1-anandx.ram.moon@intel.com>
- <161295390650.6673.18431407043692596805@build.alporthouse.com>
- <SA2PR11MB50685BFD01D8C6318437AD59AE889@SA2PR11MB5068.namprd11.prod.outlook.com>
- <161339279139.27357.6733884217281880617@build.alporthouse.com>
- <SA2PR11MB5068A706257864219AF6F727AE879@SA2PR11MB5068.namprd11.prod.outlook.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/gem: Add a check for object size for
- corner cases
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: "Auld, Matthew" <matthew.auld@intel.com>, "Ram Moon,
- AnandX" <anandx.ram.moon@intel.com>, "Surendrakumar Upadhyay,
- TejaskumarX" <tejaskumarx.surendrakumar.upadhyay@intel.com>, "Ursulin,
- Tvrtko" <tvrtko.ursulin@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Date: Tue, 16 Feb 2021 12:07:52 +0000
-Message-ID: <161347727279.8311.12908365328271939168@build.alporthouse.com>
-User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,62 +45,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: intel-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Ram Moon, AnandX (2021-02-16 12:05:23)
-> Hi Chris,
-> 
-> -----Original Message-----
-> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Chris Wilson
-> Sent: Monday, February 15, 2021 6:10 PM
-> To: Auld, Matthew <matthew.auld@intel.com>; Ram Moon, AnandX <anandx.ram.moon@intel.com>; Surendrakumar Upadhyay, TejaskumarX <tejaskumarx.surendrakumar.upadhyay@intel.com>; Ursulin, Tvrtko <tvrtko.ursulin@intel.com>; Jani Nikula <jani.nikula@linux.intel.com>; dri-devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.org
-> Subject: Re: [Intel-gfx] [PATCH] drm/i915/gem: Add a check for object size for corner cases
-> 
-> Quoting Ram Moon, AnandX (2021-02-15 12:29:17)
-> > Hi Chris,
-> > 
-> > -----Original Message-----
-> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of 
-> > Chris Wilson
-> > Sent: Wednesday, February 10, 2021 4:15 PM
-> > To: Ram Moon, AnandX <anandx.ram.moon@intel.com>; Jani Nikula 
-> > <jani.nikula@linux.intel.com>; Auld, Matthew <matthew.auld@intel.com>; 
-> > Surendrakumar Upadhyay, TejaskumarX 
-> > <tejaskumarx.surendrakumar.upadhyay@intel.com>; Ursulin, Tvrtko 
-> > <tvrtko.ursulin@intel.com>; dri-devel@lists.freedesktop.org; 
-> > intel-gfx@lists.freedesktop.org
-> > Cc: Ram Moon, AnandX <anandx.ram.moon@intel.com>
-> > Subject: Re: [Intel-gfx] [PATCH] drm/i915/gem: Add a check for object 
-> > size for corner cases
-> > 
-> > Quoting Anand Moon (2021-02-10 07:59:29)
-> > > Add check for object size to return appropriate error -E2BIG or 
-> > > -EINVAL to avoid WARM_ON and successful return for some testcase.
-> > 
-> > No. You miss the point of having those warnings. We need to inspect the code to remove the last remaining "int pagenum", and then we can remove the GEM_WARN_ON((sz) >> PAGE_SHIFT > INT_MAX). These are not emitted for users, only for us to motivate us into finally fixing the code.
-> > -Chris
-> > 
-> > Yes, I got your point these check are meant to catch up integer overflow.
-> > 
-> > I have check with the IGT testcase case  _gem_create_ and 
-> > _gem_userptr_blits_ which fails pass size *-1ull << 32*  left shift 
-> > and *0~* which leads to integer overflow ie  _negative_ size passed to create  i915_gem_create via ioctl  this leads to GM_WARN_ON.
-> > 
-> > Can we drop these testcase so that we don't break the kernel ?
-> 
-> The kernel rejects the ioctl with the expected errno. We leave a warning purely for the benefit of CI, only when compiled for debugging and not by default, so that we have a persistent reminder to do the code review.
-> What's broken?
-> -Chris
-> 
-> All though the testcase return with appropriate error we observe kernel taint see below.
+It's possible to modeset a connector/mst port that has a 0 full_pbn
+value: if the sink on the port deasserts its HPD and a branch device
+reports this via a CSN with the port's ddps=0 and pdt!=NONE the driver
+clears full_pbn, but the corresponding connector can be still
+modesetted.
 
-Which is an intentional taint added for CI so that we get a warning and
-a visible bug so that we can allocate resources to _fix_ the underlying
-problems in the code.
--Chris
+This happened on a DELL U2719D monitor as the branch device and an LG
+27UL650-W daisy-chained to it, the LG monitor generating a long HPD
+pulse (doing this for some reason always when waking up from some power
+saving state).
+
+Tune down the WARN about this scenario to a debug message.
+
+References: https://gitlab.freedesktop.org/drm/intel/-/issues/1917
+Cc: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+---
+ drivers/gpu/drm/drm_dp_mst_topology.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 0a54506c27738..dcaf4bf9b62f6 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -5118,11 +5118,15 @@ drm_dp_mst_atomic_check_port_bw_limit(struct drm_dp_mst_port *port,
+ 		if (!found)
+ 			return 0;
+ 
+-		/* This should never happen, as it means we tried to
+-		 * set a mode before querying the full_pbn
++		/*
++		 * This could happen if the sink deasserted its HPD line, but
++		 * the branch device still reports it as attached (PDT != NONE).
+ 		 */
+-		if (WARN_ON(!port->full_pbn))
++		if (!port->full_pbn) {
++			drm_dbg_kms(port->mgr->dev, "[MSTB:%p] [MST PORT:%p] no BW available for the port\n",
++				    port->parent, port);
+ 			return -EINVAL;
++		}
+ 
+ 		pbn_used = vcpi->pbn;
+ 	} else {
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
