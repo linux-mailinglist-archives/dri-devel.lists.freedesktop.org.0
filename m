@@ -2,66 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42C5F31CFD9
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 19:06:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0785131CFE0
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 19:08:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C35B89F4A;
-	Tue, 16 Feb 2021 18:06:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B91D6E323;
+	Tue, 16 Feb 2021 18:08:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
- [IPv6:2607:f8b0:4864:20::832])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC10989D52
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 18:06:23 +0000 (UTC)
-Received: by mail-qt1-x832.google.com with SMTP id c1so7717360qtc.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 10:06:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jY9iK1+FYhqLlmeOaaKNMJnRWWpPl1FPPGfZFgnoHOA=;
- b=J61crQvmK+qVVsBKTRgxh97TUx35Xd9UngcxEIQ/FyDCnqG3ntUYW6zNuklrBgg7x5
- ShKstpDoEWs9PStyAOU+UKjYTs6+5LthtKz9Rg4OdVpGi0Zv3SkYd4HXkdhQvm/NfgdN
- YprLyz0UaIbY8olus8ju7DrI7UfbrWx/hAZi2BXnPFnU3f2VZ0si/d2X/sfJdfLviiKA
- 1Euhj4lzODbXo/VEV3LvfmPFEY+nKCsAGI51foeMn1jiL289OS7qcCHVaz2+jPqSiPSx
- MLnSqIDr8fokhb3RBdL+sZA+blwRG/leGdFtkBDxvvrvwBFPcR65/tRVe+4aKs9CI2Ai
- JhSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jY9iK1+FYhqLlmeOaaKNMJnRWWpPl1FPPGfZFgnoHOA=;
- b=I72/idOaS6mpsdJ2cvblVX84pwgegUDYN0v2fICLwIPUCPhNA3ytFOgrclVb4XrQi0
- TbXciR8sk/4hXzjywNgWuq2CEXYAPEjoIYxsUZZ7CR/XEogCut0J2jA7/KVvsojgvAPF
- Bm6GMwFj3Gm5HUAyeGAbzEwqwmetIHipKdIHD/As/sXgWQgpuXNQBau0bYx8/9be6jAN
- iB+AEFdV1b7JRosCOA9pRfrTXNZL0RseXk8tkSueGSr1uG+g2dTWv9tYCnpKFdshsSFz
- IjLYY0KWhjUDHLQupUNcJdEqk/xMi8kCd2VJk8YpwoJ2IxPocIVVv8JQ2KyVzQZjx55W
- P8dQ==
-X-Gm-Message-State: AOAM530pYRFppJJZzU1W/IJuwdbgTIJnsAe3To+PJ28rfzyXLXmlMNsH
- 2R8aGB0Gw6kNLMrgPuXhKBbn+A==
-X-Google-Smtp-Source: ABdhPJwokn1VAbBbWme8hbQKD48AY7keANjDwy6xiTFqQEmNtcyAGSGs2OgTmgYhB+BvFCvS44aLWw==
-X-Received: by 2002:a05:622a:216:: with SMTP id
- b22mr19554660qtx.163.1613498782789; 
- Tue, 16 Feb 2021 10:06:22 -0800 (PST)
-Received: from [192.168.0.189] (modemcable068.184-131-66.mc.videotron.ca.
- [66.131.184.68])
- by smtp.gmail.com with ESMTPSA id x6sm3255622qkj.118.2021.02.16.10.06.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Feb 2021 10:06:22 -0800 (PST)
-Subject: Re: [PATCH v2 1/2] drm/msm: add compatibles for sm8150/sm8250 display
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20210215161537.14696-1-jonathan@marek.ca>
- <20210215161537.14696-2-jonathan@marek.ca>
- <CAA8EJpo_Fs8Wj6zjH6BQqm=mG=qcGt3_JMj4nK-vsKCzr8tn1g@mail.gmail.com>
-From: Jonathan Marek <jonathan@marek.ca>
-Message-ID: <29231c68-0cc4-9d8a-8cb1-791511780bcd@marek.ca>
-Date: Tue, 16 Feb 2021 13:05:34 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A15456E453;
+ Tue, 16 Feb 2021 18:08:31 +0000 (UTC)
+IronPort-SDR: LfS1afo7RqA9m5uAAa2NwKGuNUmp0RNbYlnbIT3Rv1r0oHRzyvl2XQhu0hFp8I91/vEOaKAbGC
+ RmbhA9Kc+sRQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="179464151"
+X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; d="scan'208";a="179464151"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2021 10:08:30 -0800
+IronPort-SDR: 3QS4sXG1CdDRgtOryO4kxvRTp8CEtNV8Dy9NG8rrGQ9qAg9vStzQ79LQbYxSbCSvg3+uhPxQ91
+ x78m4i9OB6QA==
+X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; d="scan'208";a="384643113"
+Received: from ideak-desk.fi.intel.com ([10.237.68.141])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2021 10:08:29 -0800
+Date: Tue, 16 Feb 2021 20:08:25 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915/gen9bc: Handle TGP PCH during
+ suspend/resume
+Message-ID: <20210216180825.GA420119@ideak-desk.fi.intel.com>
+References: <20210212185053.1689716-1-lyude@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAA8EJpo_Fs8Wj6zjH6BQqm=mG=qcGt3_JMj4nK-vsKCzr8tn1g@mail.gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210212185053.1689716-1-lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,120 +47,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, Rajendra Nayak <rnayak@codeaurora.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Tanmay Shah <tanmay@codeaurora.org>, open list <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, tongtiangen <tongtiangen@huawei.com>,
- Qinglang Miao <miaoqinglang@huawei.com>,
- Kalyan Thota <kalyan_t@codeaurora.org>,
- Drew Davenport <ddavenport@chromium.org>, Sean Paul <sean@poorly.run>
+Reply-To: imre.deak@intel.com
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/16/21 11:54 AM, Dmitry Baryshkov wrote:
-> On Mon, 15 Feb 2021 at 19:25, Jonathan Marek <jonathan@marek.ca> wrote:
->>
->> The driver already has support for sm8150/sm8250, but the compatibles were
->> never added.
->>
->> Also inverse the non-mdp4 condition in add_display_components() to avoid
->> having to check every new compatible in the condition.
->>
->> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
->> ---
->>   Documentation/devicetree/bindings/display/msm/dpu.txt | 4 ++--
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c               | 2 ++
->>   drivers/gpu/drm/msm/msm_drv.c                         | 6 +++---
->>   3 files changed, 7 insertions(+), 5 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/display/msm/dpu.txt b/Documentation/devicetree/bindings/display/msm/dpu.txt
->> index 551ae26f60da..5763f43200a0 100644
->> --- a/Documentation/devicetree/bindings/display/msm/dpu.txt
->> +++ b/Documentation/devicetree/bindings/display/msm/dpu.txt
->> @@ -8,7 +8,7 @@ The DPU display controller is found in SDM845 SoC.
->>
->>   MDSS:
->>   Required properties:
->> -- compatible:  "qcom,sdm845-mdss", "qcom,sc7180-mdss"
->> +- compatible:  "qcom,sdm845-mdss", "qcom,sc7180-mdss", "qcom,sm8150-mdss", "qcom,sm8250-mdss"
->>   - reg: physical base address and length of contoller's registers.
->>   - reg-names: register region names. The following region is required:
->>     * "mdss"
->> @@ -41,7 +41,7 @@ Optional properties:
->>
->>   MDP:
->>   Required properties:
->> -- compatible: "qcom,sdm845-dpu", "qcom,sc7180-dpu"
->> +- compatible: "qcom,sdm845-dpu", "qcom,sc7180-dpu", "qcom,sm8150-dpu", "qcom,sm8250-dpu"
->>   - reg: physical base address and length of controller's registers.
->>   - reg-names : register region names. The following region is required:
->>     * "mdp"
-> 
-> These two chunks should probably go to the separate patch 'dt-bindings:...'.
-> 
+Hi,
 
-In this case I think its better to have this change in the same patch, 
-but maybe one of the Robs will disagree.
+thanks for respinning this patchset, some comments below.
 
-> Also, could you please pinpoint the reason for adding more
-> compatibility strings, while they map to the same internal data?
-> I think we might want instead to use some generic name for the dpu
-> block, like "qcom,dpu" or "qcom,mdp-dpu" instead of specifying the
-> platform name.
+On Fri, Feb 12, 2021 at 01:50:53PM -0500, Lyude Paul wrote:
+> From: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
 > 
+> For Legacy S3 suspend/resume GEN9 BC needs to enable and
+> setup TGP PCH.
+> 
+> v2:
+> * Move Wa_14010685332 into it's own function - vsyrjala
+> * Add TODO comment about figuring out if we can move this workaround - imre
+> 
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+>  drivers/gpu/drm/i915/i915_irq.c | 53 ++++++++++++++++++++++-----------
+>  1 file changed, 36 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+> index 98145a7f28a4..7d912aa950ee 100644
+> --- a/drivers/gpu/drm/i915/i915_irq.c
+> +++ b/drivers/gpu/drm/i915/i915_irq.c
+> @@ -3040,6 +3040,19 @@ static void valleyview_irq_reset(struct drm_i915_private *dev_priv)
+>  	spin_unlock_irq(&dev_priv->irq_lock);
+>  }
+>  
+> +static void cnp_irq_post_reset(struct drm_i915_private *dev_priv)
 
-sdm845 and sc7180 aren't using generic compatibles, this is just being 
-consistent with that.
+Maybe a better name is cnp_display_clock_wa.
 
+> +{
+> +	struct intel_uncore *uncore = &dev_priv->uncore;
+> +
+> +	/*
+> +	 * Wa_14010685332:cnp/cmp,tgp,adp
+
+Bspec says this WA applies ICL onwards and it's not PCH specific, for
+instance I haven't found the GEN9/CNP/CMP WA entries for it. Please also
+add a 'clarify platforms where this applies' todo item.
+
+> +	 * TODO: Figure out if this workaround can be applied in the s0ix suspend/resume handlers as
+> +	 * on earlier platforms and whether the workaround is also needed for runtime suspend/resume
+> +	 */
+> +	intel_uncore_rmw(uncore, SOUTH_CHICKEN1, SBCLK_RUN_REFCLK_DIS, SBCLK_RUN_REFCLK_DIS);
+> +	intel_uncore_rmw(uncore, SOUTH_CHICKEN1, SBCLK_RUN_REFCLK_DIS, 0);
+> +}
+> +
+>  static void gen8_irq_reset(struct drm_i915_private *dev_priv)
+>  {
+>  	struct intel_uncore *uncore = &dev_priv->uncore;
+> @@ -3061,8 +3074,14 @@ static void gen8_irq_reset(struct drm_i915_private *dev_priv)
+>  	GEN3_IRQ_RESET(uncore, GEN8_DE_MISC_);
+>  	GEN3_IRQ_RESET(uncore, GEN8_PCU_);
+>  
+> -	if (HAS_PCH_SPLIT(dev_priv))
+> +	if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
+
+It was mentioned already earlier, why is this check necessary and can't we
+just call ibx_irq_reset() for all PCHs?
+
+> +		GEN3_IRQ_RESET(uncore, SDE);
+> +	else if (HAS_PCH_SPLIT(dev_priv))
+>  		ibx_irq_reset(dev_priv);
+> +
+> +	if (INTEL_PCH_TYPE(dev_priv) == PCH_CNP ||
+> +	    (INTEL_PCH_TYPE(dev_priv) >= PCH_TGP && INTEL_PCH_TYPE(dev_priv) < PCH_DG1))
+
+The check could be also moved to the helper.
+
+> +		cnp_irq_post_reset(dev_priv);
+>  }
+>  
+>  static void gen11_display_irq_reset(struct drm_i915_private *dev_priv)
+> @@ -3104,15 +3123,9 @@ static void gen11_display_irq_reset(struct drm_i915_private *dev_priv)
+>  	if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
+>  		GEN3_IRQ_RESET(uncore, SDE);
+>  
+> -	/* Wa_14010685332:cnp/cmp,tgp,adp */
+>  	if (INTEL_PCH_TYPE(dev_priv) == PCH_CNP ||
+> -	    (INTEL_PCH_TYPE(dev_priv) >= PCH_TGP &&
+> -	     INTEL_PCH_TYPE(dev_priv) < PCH_DG1)) {
+> -		intel_uncore_rmw(uncore, SOUTH_CHICKEN1,
+> -				 SBCLK_RUN_REFCLK_DIS, SBCLK_RUN_REFCLK_DIS);
+> -		intel_uncore_rmw(uncore, SOUTH_CHICKEN1,
+> -				 SBCLK_RUN_REFCLK_DIS, 0);
+> -	}
+> +	    (INTEL_PCH_TYPE(dev_priv) >= PCH_TGP && INTEL_PCH_TYPE(dev_priv) < PCH_DG1))
+> +		cnp_irq_post_reset(dev_priv);
+>  }
+>  
+>  static void gen11_irq_reset(struct drm_i915_private *dev_priv)
+> @@ -3474,6 +3487,9 @@ static void spt_hpd_irq_setup(struct drm_i915_private *dev_priv)
+>  	ibx_display_interrupt_update(dev_priv, hotplug_irqs, enabled_irqs);
+>  
+>  	spt_hpd_detection_setup(dev_priv);
+> +
+> +	if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
+> +		icp_hpd_irq_setup(dev_priv);
+
+This doesn't look correct, icp_hpd_irq_setup() redoes the interrupt
+setup done already earlier in this function and
+spt_hpd_detection_setup() is probably also not correct on ICP+. Looks
+like for ICP+ we need to call icp_hpd_irq_setup() instead of
+spt_hpd_irq_setup(), but haven't checked in detail.
+
+>  }
+>  
+>  static u32 ilk_hotplug_enables(struct drm_i915_private *i915,
+> @@ -3764,9 +3780,19 @@ static void gen8_de_irq_postinstall(struct drm_i915_private *dev_priv)
+>  	}
+>  }
+>  
+> +static void icp_irq_postinstall(struct drm_i915_private *dev_priv)
+> +{
+> +	struct intel_uncore *uncore = &dev_priv->uncore;
+> +	u32 mask = SDE_GMBUS_ICP;
+> +
+> +	GEN3_IRQ_INIT(uncore, SDE, ~mask, 0xffffffff);
+> +}
+> +
+>  static void gen8_irq_postinstall(struct drm_i915_private *dev_priv)
+>  {
+> -	if (HAS_PCH_SPLIT(dev_priv))
+> +	if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
+> +		icp_irq_postinstall(dev_priv);
+> +	else if (HAS_PCH_SPLIT(dev_priv))
+>  		ibx_irq_postinstall(dev_priv);
+>  
+>  	gen8_gt_irq_postinstall(&dev_priv->gt);
+> @@ -3775,13 +3801,6 @@ static void gen8_irq_postinstall(struct drm_i915_private *dev_priv)
+>  	gen8_master_intr_enable(dev_priv->uncore.regs);
+>  }
+>  
+> -static void icp_irq_postinstall(struct drm_i915_private *dev_priv)
+> -{
+> -	struct intel_uncore *uncore = &dev_priv->uncore;
+> -	u32 mask = SDE_GMBUS_ICP;
+> -
+> -	GEN3_IRQ_INIT(uncore, SDE, ~mask, 0xffffffff);
+> -}
+>  
+>  static void gen11_irq_postinstall(struct drm_i915_private *dev_priv)
+>  {
+> -- 
+> 2.29.2
 > 
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> index 5a8e3e1fc48c..fff12a4c8bfc 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> @@ -1219,6 +1219,8 @@ static const struct dev_pm_ops dpu_pm_ops = {
->>   static const struct of_device_id dpu_dt_match[] = {
->>          { .compatible = "qcom,sdm845-dpu", },
->>          { .compatible = "qcom,sc7180-dpu", },
->> +       { .compatible = "qcom,sm8150-dpu", },
->> +       { .compatible = "qcom,sm8250-dpu", },
->>          {}
->>   };
->>   MODULE_DEVICE_TABLE(of, dpu_dt_match);
->> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
->> index 94525ac76d4e..928f13d4bfbc 100644
->> --- a/drivers/gpu/drm/msm/msm_drv.c
->> +++ b/drivers/gpu/drm/msm/msm_drv.c
->> @@ -1185,9 +1185,7 @@ static int add_display_components(struct device *dev,
->>           * Populate the children devices, find the MDP5/DPU node, and then add
->>           * the interfaces to our components list.
->>           */
->> -       if (of_device_is_compatible(dev->of_node, "qcom,mdss") ||
->> -           of_device_is_compatible(dev->of_node, "qcom,sdm845-mdss") ||
->> -           of_device_is_compatible(dev->of_node, "qcom,sc7180-mdss")) {
->> +       if (!of_device_is_compatible(dev->of_node, "qcom,mdp4")) {
->>                  ret = of_platform_populate(dev->of_node, NULL, NULL, dev);
->>                  if (ret) {
->>                          DRM_DEV_ERROR(dev, "failed to populate children devices\n");
->> @@ -1320,6 +1318,8 @@ static const struct of_device_id dt_match[] = {
->>          { .compatible = "qcom,mdss", .data = (void *)KMS_MDP5 },
->>          { .compatible = "qcom,sdm845-mdss", .data = (void *)KMS_DPU },
->>          { .compatible = "qcom,sc7180-mdss", .data = (void *)KMS_DPU },
->> +       { .compatible = "qcom,sm8150-mdss", .data = (void *)KMS_DPU },
->> +       { .compatible = "qcom,sm8250-mdss", .data = (void *)KMS_DPU },
->>          {}
->>   };
->>   MODULE_DEVICE_TABLE(of, dt_match);
->> --
->> 2.26.1
->>
-> 
-> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
