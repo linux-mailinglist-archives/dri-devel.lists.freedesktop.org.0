@@ -2,58 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D849231D161
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 21:10:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5824531D172
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 21:18:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8A356E980;
-	Tue, 16 Feb 2021 20:10:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 698B36E49F;
+	Tue, 16 Feb 2021 20:18:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
- [IPv6:2607:f8b0:4864:20::82f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C8076E980
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 20:10:32 +0000 (UTC)
-Received: by mail-qt1-x82f.google.com with SMTP id b24so7931867qtp.13
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 12:10:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NKwlbcTtgnB6BisI4Bvy7S6GuugskOb7r/1I3tSO040=;
- b=Fwl1w0m1yyz+DUSfQ+nlbFIh9wxR18vvObIsEy0qzWgUdgqJGtnC9sOxTr8SCTD9aP
- 66sIMMCN3NX1kJMC2FelE5qc7mO1YvdAR8UDTULWi0w1uUFtDPwcrwJrCdUD8Bd1H2RD
- ce3CYes027o9rz0lBqy9FMu1rJXSbFPANa8l0U2XazTDJVAKB7Xx+t2CkaaVR/AsGl6x
- Gt9fDIFh4os3sf+Wmx+Zxd4XcTG83lwVhc63v/f1GKq480aLQuyO5eya3GABj+ffsfrA
- 8oDIl9Grj7LZlSxJBEtTnKeJm+pkYd23mNw5cd0+xGKnR4WQpd//b6q7BfOJe3JXMO4T
- U7VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NKwlbcTtgnB6BisI4Bvy7S6GuugskOb7r/1I3tSO040=;
- b=W8Y/q7BiqRoAhxV/qIcct3RSdjUpvDBXO/CWi76LMN1HWf1qu5poR7RLfHV1R1clfC
- Mpfc0u+rbgiX46slxp8FVXw8UogCM/T9APeNh/qK3yDIrk3Avhhkn/oeZjd6p5PUxvn2
- ADeefTFa2/2a1JuYkNz4dzzLmFhBoGPLMW33eSkZG5rzVtXpH21MOW2ngjEgnlbiqMv5
- kNIuskkO8huwryG+eZJ13+iouSA2N+bFAsFWe6CgHkTIzuPxOaWPiP8+qj+3myP/VPBK
- 9ALx4AHKJ31N0HDxe93wb1TbxNKnsvo8uXuj5RI4YBm9YLwUxD15RENwgNEt13aaNk2P
- gIlA==
-X-Gm-Message-State: AOAM532IYHcAzrmweXG2rzxqbtGOiQxDV2iECUYdWYlh2BCVbFCsPWAM
- LMdcNlrCV8ll3U653Zyb9jdXfQ==
-X-Google-Smtp-Source: ABdhPJx0vhTIMA5ITSYJJ7UNmZPzb2lwEoYHxSg9A1Z0cAvYN5MflzYoDldlCk79CRVDHsPiwZ9t1g==
-X-Received: by 2002:ac8:7383:: with SMTP id t3mr19902693qtp.242.1613506231455; 
- Tue, 16 Feb 2021 12:10:31 -0800 (PST)
-Received: from localhost.localdomain
- (modemcable068.184-131-66.mc.videotron.ca. [66.131.184.68])
- by smtp.gmail.com with ESMTPSA id 16sm13451423qtp.38.2021.02.16.12.10.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Feb 2021 12:10:30 -0800 (PST)
-From: Jonathan Marek <jonathan@marek.ca>
-To: freedreno@lists.freedesktop.org
-Subject: [PATCH] drm/msm/a6xx: fix for kernels without CONFIG_NVMEM
-Date: Tue, 16 Feb 2021 15:09:07 -0500
-Message-Id: <20210216200909.19039-1-jonathan@marek.ca>
-X-Mailer: git-send-email 2.26.1
-MIME-Version: 1.0
+Received: from libero.it (smtp-17.italiaonline.it [213.209.10.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C90466E49F
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 20:18:04 +0000 (UTC)
+Received: from passgat-Modern-14-A10M.homenet.telecomitalia.it
+ ([87.20.116.197]) by smtp-17.iol.local with ESMTPA
+ id C6n9lYZr1lChfC6nIldwZ7; Tue, 16 Feb 2021 21:18:02 +0100
+x-libjamoibt: 1601
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2014;
+ t=1613506682; bh=E6mT1eLy2BbvLR20EYpVVGUzTe4X8rj8sSx2cY7U1BQ=;
+ h=From;
+ b=Syk1io4d3Z645NJYJYZmITmczoU6ZfK5Gisxywo5C1ApjO1QDGJ16t4taOOPdS+Nh
+ uFzb3xfKhiCMBgRPdXnMbFJeUaYfLBOuX6HMnTPYX4ERRLWNIAu9NIamWd15+u/o/s
+ r5CEl5KU33W45yXVSYVIl4oP+M6UPm+FXq6h4GCBAn+YFhCcgslQSP3ceaFgw4tgjr
+ c0iwB3GH2dfubBEqqD/lueqd3X12+NWW7DFSvJRzv5vXsXPtfDQuImXwnSMR36bqmE
+ as6GqT+kSSFzTwDqIA0nt+1lk2+jo7ZiblrPozd8CzJGcrJJew1nooYbURqZN0l1zi
+ N+IxnaRBiyYfw==
+X-CNFS-Analysis: v=2.4 cv=S6McfKgP c=1 sm=1 tr=0 ts=602c287a cx=a_exe
+ a=AVqmXbCQpuNSdJmApS5GbQ==:117 a=AVqmXbCQpuNSdJmApS5GbQ==:17
+ a=toUk0IfjeMrTqMqL6ioA:9
+From: Dario Binacchi <dariobin@libero.it>
+To: linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH] drm/tilcdc: fix raster control register setting
+Date: Tue, 16 Feb 2021 21:17:38 +0100
+Message-Id: <20210216201738.11946-1-dariobin@libero.it>
+X-Mailer: git-send-email 2.17.1
+X-CMAE-Envelope: MS4xfP8GmNc6lqtNCx9AjdaZ6CT32yIdeq+RBmhw1tSqvBDTixLFsbu+OzjxxIiTE2+sUIzwho6mk1P5VIhmwYZ7EVGWKE0j4GR3lo1wn6o/JN+JsYJ3PA0y
+ 9eMEgBt0CHyDKEF74hm9UyUWsQNanESrpCta5XHmZfoM4N5WtHjs9jxDgSHiKdMqfWs02vmqoh6B7KJDZF4VEf14pNFkNMwRVzesgEhbc373TtOgOb6couTd
+ VRlJLqR9M/wzEYHGRGD8AknuU3ssduvrqgeeuBt7WN7l2acUB8Ew9ybPVJyoIUsEFBfN0eLFGtN1bLweycpRHI/Xytv6kQCeZa7OU7vkQ1Nw1MhXleXgRk/S
+ 4ReprtnPVFF/RXZs+q2JawbojElQznifi27/OhHN3dZcdPFkFzKZNswtpEk0TfT3ALOgAW1ok+Ltj4i0IOxyw5s6uKPodA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,47 +50,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Dario Binacchi <dariobin@libero.it>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ignore nvmem_cell_get() EOPNOTSUPP error in the same way as a ENOENT error,
-to fix the case where the kernel was compiled without CONFIG_NVMEM.
+The fdd property of the tilcdc_panel_info structure must set the reqdly
+bit field  (bit 12 to 19) of the raster control register. The previous
+statement set the least significant bit instead.
 
-Fixes: fe7952c629da ("drm/msm: Add speed-bin support to a618 gpu")
-Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+Signed-off-by: Dario Binacchi <dariobin@libero.it>
+
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index ba8e9d3cf0fe..7fe5d97606aa 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1356,10 +1356,10 @@ static int a6xx_set_supported_hw(struct device *dev, struct a6xx_gpu *a6xx_gpu,
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+index 30213708fc99..238068e28729 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+@@ -393,7 +393,7 @@ static void tilcdc_crtc_set_mode(struct drm_crtc *crtc)
+ 			return;
+ 		}
+ 	}
+-	reg |= info->fdd < 12;
++	reg |= info->fdd << 12;
+ 	tilcdc_write(dev, LCDC_RASTER_CTRL_REG, reg);
  
- 	cell = nvmem_cell_get(dev, "speed_bin");
- 	/*
--	 * -ENOENT means that the platform doesn't support speedbin which is
--	 * fine
-+	 * -ENOENT means no speed bin in device tree,
-+	 * -EOPNOTSUPP means kernel was built without CONFIG_NVMEM
- 	 */
--	if (PTR_ERR(cell) == -ENOENT)
-+	if (PTR_ERR(cell) == -ENOENT || PTR_ERR(cell) == -EOPNOTSUPP)
- 		return 0;
- 	else if (IS_ERR(cell)) {
- 		DRM_DEV_ERROR(dev,
+ 	if (info->invert_pxl_clk)
 -- 
-2.26.1
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
