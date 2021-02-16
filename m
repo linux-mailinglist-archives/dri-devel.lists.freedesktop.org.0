@@ -1,54 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1B331C9DA
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 12:37:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0BB231C9E9
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 12:41:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D36866E877;
-	Tue, 16 Feb 2021 11:37:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E2376E949;
+	Tue, 16 Feb 2021 11:40:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C77216E416
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 11:37:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613475450;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LddbWRXDOdoIRx26pBviJhLeOTNZA/vNgqOHA0L1BFU=;
- b=hGS64kua1FJlsUU7JKuz0ACST+iiCAILMEwmX0RCzKmi9CRlsOOtvcE1QNomt3MUMXjAIn
- 4oXCk45dc2nprGgKlCXkENI3xtUcrEDgdljKiE8WMftqHhxaE4vFW9JPPcPtcZ9ZqtReU3
- 8bur0oeOtU/guSlxzKpvjdSI5dLm1QM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-f_YqtW_wO-iKbDjaR3aryA-1; Tue, 16 Feb 2021 06:37:27 -0500
-X-MC-Unique: f_YqtW_wO-iKbDjaR3aryA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6713835E22;
- Tue, 16 Feb 2021 11:37:25 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
- [10.36.114.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D3EA5B698;
- Tue, 16 Feb 2021 11:37:25 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A492A1800870; Tue, 16 Feb 2021 12:37:18 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 10/10] drm/qxl: add lock asserts to qxl_bo_kmap_locked +
- qxl_bo_kunmap_locked
-Date: Tue, 16 Feb 2021 12:37:16 +0100
-Message-Id: <20210216113716.716996-11-kraxel@redhat.com>
-In-Reply-To: <20210216113716.716996-1-kraxel@redhat.com>
-References: <20210216113716.716996-1-kraxel@redhat.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23A196E94A;
+ Tue, 16 Feb 2021 11:40:58 +0000 (UTC)
+IronPort-SDR: qgfCvzlhRA87xJC5+Y7v/c1CTR5IsqiPc6Cr4WVPkza6tb2CG2+G6UqPsPWhfjDbqJRJikmt9p
+ 9VTwbM8WFhjA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="170524845"
+X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; d="scan'208";a="170524845"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2021 03:40:57 -0800
+IronPort-SDR: 4kV5ifMdVY9iJrYATUkpZJGFsnJHi5+qO0IkY7IxM9P8arvHIg0VaVYfdir6wCj/cYIBdI+Pi9
+ LMsAkJsHniLg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; d="scan'208";a="400964230"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga007.jf.intel.com with SMTP; 16 Feb 2021 03:40:54 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 16 Feb 2021 13:40:53 +0200
+Date: Tue, 16 Feb 2021 13:40:53 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Chen Lin <chen45464546@163.com>
+Subject: Re: [PATCH] drm/i915: Remove unused function pointer typedef
+ long_pulse_detect_func
+Message-ID: <YCuvRTwGxocZULT1@intel.com>
+References: <1613388619-3276-1-git-send-email-chen45464546@163.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Disposition: inline
+In-Reply-To: <1613388619-3276-1-git-send-email-chen45464546@163.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,48 +50,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>, Gerd Hoffmann <kraxel@redhat.com>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Chen Lin <chen.lin5@zte.com.cn>, rodrigo.vivi@intel.com
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Try avoid re-introducing locking bugs.
+On Mon, Feb 15, 2021 at 07:30:19PM +0800, Chen Lin wrote:
+> From: Chen Lin <chen.lin5@zte.com.cn>
+> =
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- drivers/gpu/drm/qxl/qxl_object.c | 4 ++++
- 1 file changed, 4 insertions(+)
+> Remove the 'long_pulse_detect_func' typedef as it is not used.
+> =
 
-diff --git a/drivers/gpu/drm/qxl/qxl_object.c b/drivers/gpu/drm/qxl/qxl_object.c
-index 22748b9566af..90d5e5b7f927 100644
---- a/drivers/gpu/drm/qxl/qxl_object.c
-+++ b/drivers/gpu/drm/qxl/qxl_object.c
-@@ -162,6 +162,8 @@ int qxl_bo_kmap_locked(struct qxl_bo *bo, struct dma_buf_map *map)
- {
- 	int r;
- 
-+	dma_resv_assert_held(bo->tbo.base.resv);
-+
- 	if (bo->kptr) {
- 		bo->map_count++;
- 		goto out;
-@@ -236,6 +238,8 @@ void *qxl_bo_kmap_atomic_page(struct qxl_device *qdev,
- 
- void qxl_bo_kunmap_locked(struct qxl_bo *bo)
- {
-+	dma_resv_assert_held(bo->tbo.base.resv);
-+
- 	if (bo->kptr == NULL)
- 		return;
- 	bo->map_count--;
--- 
-2.29.2
+> Signed-off-by: Chen Lin <chen.lin5@zte.com.cn>
+> ---
+>  drivers/gpu/drm/i915/i915_irq.c |    1 -
+>  1 file changed, 1 deletion(-)
+> =
 
+> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_=
+irq.c
+> index 6cdb052..c294ac6 100644
+> --- a/drivers/gpu/drm/i915/i915_irq.c
+> +++ b/drivers/gpu/drm/i915/i915_irq.c
+> @@ -78,7 +78,6 @@ static inline void pmu_irq_stats(struct drm_i915_privat=
+e *i915,
+>  	WRITE_ONCE(i915->pmu.irq_count, i915->pmu.irq_count + 1);
+>  }
+>  =
+
+> -typedef bool (*long_pulse_detect_func)(enum hpd_pin pin, u32 val);
+>  typedef u32 (*hotplug_enables_func)(struct drm_i915_private *i915,
+>  				    enum hpd_pin pin);
+
+I thought we used in when passing it as an argument to
+intel_get_hpd_pins(), but looks like that's not the case.
+I guess we should unify this stuff by either removing both
+these typedefs and adjusting intel_hpd_hotplug_enables()
+accordingly, or we should use the typedef in intel_get_hpd_pins() as
+well.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
