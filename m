@@ -2,39 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E978F31C7C6
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 10:08:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2300F31C7C7
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 10:09:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3842B89DBA;
-	Tue, 16 Feb 2021 09:08:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0536E3D3;
+	Tue, 16 Feb 2021 09:09:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BFB389DBA
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 09:08:37 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1613466516; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=du+7HNcipHGxWVFmXI0W1DaPaVk4qOBz6vainc7H3Mc=;
- b=W4Rnd+7DZq/Di3bDVnedOKZpzXSu6jFNr5W9jU9MiozQP3TLyw8Yh1SHMh2Ni6jkusiVSE
- ROWHo1LTxPG4h6AoJwGMRehRibDlBlYxBzBFEITs8ZdoGQtRJtZJKGCLxfBn9bEsSlvhy4
- Svp+urp0WsnCkgBR+Lv0m9W0ek6CbHI=
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id CBC81AB4C;
- Tue, 16 Feb 2021 09:08:35 +0000 (UTC)
-Date: Tue, 16 Feb 2021 10:08:35 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v7 3/3] drm: Switch to %p4cc format modifier
-Message-ID: <YCuLk+vnIxOzT7t+@alley>
-References: <20210215114030.11862-1-sakari.ailus@linux.intel.com>
- <20210215114030.11862-4-sakari.ailus@linux.intel.com>
- <54e8c1d5-bb28-eddd-41ad-a89323650be0@suse.de>
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D896F6E3D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 09:09:39 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id v7so12006066wrr.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 01:09:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=K5zC5Y1zvesaXwk7zKrXE6Sqg4y3GDAfdw86rtI8m6o=;
+ b=apOi8qqe7jYCfTsdg9jYa8ZrUBRJbUmEArshiR1i9FfkUoecNLS9KkVJcm/QJRL5DL
+ /9T3XDBGoBqCDzbr8zdH/7xPgZh8a/WcCs6TA+IjXaisFenEZ2KaMvQBJ5CSClTzVoot
+ 0g6vceEQPdrP5n158Jz2msejzcc589GAAqUtU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=K5zC5Y1zvesaXwk7zKrXE6Sqg4y3GDAfdw86rtI8m6o=;
+ b=Fj2tawElGjcn367vwg5Q2M7axtkXRpzW2KPyQI5idi0hzuM3IahLEojj3P3EhL4en/
+ WlwGNkWUUSqy7hwb2KTfrYCg+n4p23tSow9vYS2uZQ+F1grijyJvSgeQbJ4Palm6z8xn
+ 9+lmg2iR6ySdkfg5KpeF8yn4tweE450FJ+LCwm8ejjY0xToa7Ej0OvK1seH/T3MtfEPF
+ fRx5D6v9pgHR0TXtXnutMuccezwL3TX2mtyD1/6tji+pttFnnWp1fmCLSzXRUdJqXSNe
+ oDytiDbpSxfEgm7b1iNW4H3jNGj8JAvBjh/eUPuf1QLgjgwfrxLMLB4NmkIBeJlTAAUZ
+ oo2w==
+X-Gm-Message-State: AOAM532gyWTYcTn2P0v5Dq8wzJ1JUN9lUIO1fgg1F1AZm5KDzDL7Ntiu
+ lH2h0TwNoRUvLM6AOdN0A3KUlw==
+X-Google-Smtp-Source: ABdhPJzdZcOoTuCKynHice6z5PD8IYy6n4mOt3kwBaTsySFHj1AcBgs/+6shoAJ1fW4RiLQTiIgn/Q==
+X-Received: by 2002:a5d:6602:: with SMTP id n2mr22288886wru.150.1613466578573; 
+ Tue, 16 Feb 2021 01:09:38 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z1sm221367wmi.22.2021.02.16.01.09.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Feb 2021 01:09:38 -0800 (PST)
+Date: Tue, 16 Feb 2021 10:09:36 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 0/3] video: Remove in_interrupt() usage.
+Message-ID: <YCuL0DR8CQXEKTjP@phenom.ffwll.local>
+References: <20210208223810.388502-1-bigeasy@linutronix.de>
+ <20210216083500.brcafu6mo2yiz3cg@linutronix.de>
+ <YCuFli/TEl6gysTb@kroah.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <54e8c1d5-bb28-eddd-41ad-a89323650be0@suse.de>
+In-Reply-To: <YCuFli/TEl6gysTb@kroah.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,77 +66,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-media@vger.kernel.org, Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Joe Perches <joe@perches.com>,
- mchehab@kernel.org, laurent.pinchart@ideasonboard.com
+Cc: linux-fbdev@vger.kernel.org,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
+ Thomas Gleixner <tglx@linutronix.de>, linux-omap@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue 2021-02-16 09:37:45, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 15.02.21 um 12:40 schrieb Sakari Ailus:
-> > Switch DRM drivers from drm_get_format_name() to %p4cc. This gets rid of a
-> > large number of temporary variables at the same time.
+On Tue, Feb 16, 2021 at 09:43:02AM +0100, Greg Kroah-Hartman wrote:
+> On Tue, Feb 16, 2021 at 09:35:00AM +0100, Sebastian Andrzej Siewior wrote:
+> > On 2021-02-08 23:38:07 [+0100], To linux-fbdev@vger.kernel.org wrote:
+> > > Folks,
+> > > 
+> > > in the discussion about preempt count consistency across kernel
+> > > configurations:
+> > > 
+> > >  https://lore.kernel.org/r/20200914204209.256266093@linutronix.de/
+> > > 
+> > > it was concluded that the usage of in_interrupt() and related context
+> > > checks should be removed from non-core code.
+> > > 
+> > > In the long run, usage of 'preemptible, in_*irq etc.' should be banned from
+> > > driver code completely.
+> > > 
+> > > This series targets the video subsystem. The omap patches are a repost
+> > > of [0], the amba-clcd is new after I received no feedback on my analysis
+> > > [1].
+> > > 
+> > > [0] https://lkml.kernel.org/r/20210127172902.145335-1-bigeasy@linutronix.de
+> > > [1] https://lkml.kernel.org/r/20210127174408.ududpwfrbg3dhyxj@linutronix.de
 > > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  5 ++--
-> >   drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |  5 ++--
-> >   drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  5 ++--
-> >   drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  5 ++--
-> >   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  5 ++--
-> >   .../arm/display/komeda/komeda_format_caps.h   | 11 --------
-> >   .../arm/display/komeda/komeda_framebuffer.c   |  4 +--
-> >   .../gpu/drm/arm/display/komeda/komeda_plane.c |  6 ++---
-> >   drivers/gpu/drm/arm/malidp_mw.c               |  7 ++----
-> >   drivers/gpu/drm/drm_atomic.c                  |  8 ++----
-> >   drivers/gpu/drm/drm_crtc.c                    |  7 ++----
-> >   drivers/gpu/drm/drm_fourcc.c                  | 25 -------------------
-> >   drivers/gpu/drm/drm_framebuffer.c             | 11 +++-----
-> >   drivers/gpu/drm/drm_mipi_dbi.c                |  5 ++--
-> >   drivers/gpu/drm/drm_plane.c                   |  8 ++----
-> >   .../gpu/drm/hisilicon/kirin/kirin_drm_ade.c   |  5 ++--
-> >   drivers/gpu/drm/i915/display/intel_display.c  | 14 +++--------
-> >   .../drm/i915/display/intel_display_debugfs.c  | 19 ++++++--------
-> >   drivers/gpu/drm/i915/display/intel_sprite.c   |  6 ++---
-> >   drivers/gpu/drm/mcde/mcde_display.c           |  6 ++---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |  6 ++---
-> >   drivers/gpu/drm/nouveau/nouveau_display.c     |  9 +++----
-> >   drivers/gpu/drm/radeon/atombios_crtc.c        | 10 +++-----
-> >   drivers/gpu/drm/sun4i/sun4i_backend.c         |  6 ++---
-> >   drivers/gpu/drm/vkms/vkms_writeback.c         |  7 ++----
-> >   drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 15 +++++------
-> >   include/drm/drm_fourcc.h                      |  1 -
-> >   27 files changed, 64 insertions(+), 157 deletions(-)
+> > Could someone please apply the series? Video seems unmaintained.
 > 
-> This is a nice patchset. For the driver-related changes:
+> It's the merge window, no one can apply the series...
 > 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> But landing this patch will certainly give us build errors. There are at
-> least 3 git trees involved: drm-misc-next, amd and i915. I'd expect at least
-> one of them to have additional changes that still require
-> drm_get_format_name().
-> 
-> IMHO we should remove drm_get_format_name() in a later patch. Please remove
-> the changes in drm_fourcc.{c,h} from this patch and maybe add a TODO comment
-> to the declaration that the function is supposed to be removed.
-> 
-> I would merge the patchset through drm-misc-next. And the final removal
-> patch during the next cycle. Ok?
+> Please resend once 5.12-rc1 is out.
 
-Sounds like a plan. I am fine with it from the vsprintf side.
+drm trees are always open, to avoid the merge window blackout lol :-)
 
-Best Regards,
-Petr
+Reason I didn't merge anything is that I'm intentionally letting fbdev
+hang in there, in the hopes someone picks up review&patch apply duties. It
+already worked a few times but then people move on again ...
+
+Anyway patches queued up in drm-misc-next for 5.13.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
