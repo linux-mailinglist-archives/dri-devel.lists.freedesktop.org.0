@@ -1,52 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7462131DEB0
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 19:00:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE45731DEC7
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 19:07:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CDEE6E9AE;
-	Wed, 17 Feb 2021 18:00:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8266389F31;
+	Wed, 17 Feb 2021 18:07:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C577D6E9AF
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 18:00:44 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 895A689F31
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 18:07:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613584843;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ s=mimecast20190719; t=1613585238;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3Qe+teJ2nzDbYW+uGiWHaysdgcaJ0xIbuFYTMH9KlGA=;
- b=hQJHJO1ypkXocVzWeIM6c6wNpL7fMM0jt3ozb3neNxX6DLxCNsyLaeaKdspTz8b9OL9mKy
- 3Uc1iDNkrVtZMJDy0ibU3p8yXMgcOO/sQg1K0z7wS4k/lf8E2Kd4SpvnmXNAdkBtko87P0
- twjar56X5CCYT1X+rjiExJOJJGpguHc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-544-QFONGovwNWCfFy17PtYznw-1; Wed, 17 Feb 2021 13:00:39 -0500
-X-MC-Unique: QFONGovwNWCfFy17PtYznw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE8451009617;
- Wed, 17 Feb 2021 18:00:37 +0000 (UTC)
-Received: from Whitewolf.redhat.com (ovpn-115-41.rdu2.redhat.com
- [10.10.115.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C957260C61;
- Wed, 17 Feb 2021 18:00:34 +0000 (UTC)
+ bh=wLuJZoMXALpSJG63q3wMLa8C/ZHblVgtvkDcyke0a4U=;
+ b=PB6oVuBJUxrY3xoPoPH+jSqAJFCaAeqDjdy1KDAk5SUdc4yGDEcNT7WnSgIAfBg6SVD+1e
+ peaT4JV+gBmhm/TyilqBxASKVKMIKohGvaV2/OjIJOMcerI1mPwc1QqDCYEuhRWz4y08sX
+ PTYlwWEv/HbtYZgudcQS/bwweOJgh9M=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-577-JldRn0VqOpGEEydnWFdigw-1; Wed, 17 Feb 2021 13:07:15 -0500
+X-MC-Unique: JldRn0VqOpGEEydnWFdigw-1
+Received: by mail-qv1-f70.google.com with SMTP id n8so7499995qvo.18
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 10:07:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=wLuJZoMXALpSJG63q3wMLa8C/ZHblVgtvkDcyke0a4U=;
+ b=fnTA0gFEACkwhY+mwmpC5Gc6pY8wMGB9cdkOP7ew0CZO0RJ9qYxoXcNi3XriOJDfZD
+ SgU3P8rIUjpjVkdVCZdKXqOJv6Ha/9rnLSga5exPf+SRyaEgQnVgEZER74yd16En1CRK
+ oRr0jrRJUbP8x6v05hhE16haRKzAj8PHzE7TkySrgsIRFFZg+RZ2voBW4HKyuK1tuQMF
+ yKC/0EjpA/XlSi6YbI7YFd6P43tILVGd0DFw1Q6JQ/XOOW9f1YxwHUVPiz66ubGOr75f
+ ymeKD9e91vwWM1gDySNuDIr7UeuA/Ivy8xAFXvBT9bYCcw8qYxct/1SNZdje2QIVdBov
+ iZbA==
+X-Gm-Message-State: AOAM531uH4pCVUi+IzuZn36lZsBBniFihYAcs+SD2Zya7aO+4DIArOpc
+ ZtEouyMBKmczHSVwUWeWy+FLZnvO0Tb3lNfsZURnBmUzAeiL9Xurb+GEmcakhz0bPfu8ghv3wsD
+ +PwwAsZgkaRcHfdlCkO4LUTMDimOS
+X-Received: by 2002:a0c:ee2b:: with SMTP id l11mr277782qvs.7.1613585234868;
+ Wed, 17 Feb 2021 10:07:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxTLWdQUa/UJ0Jk1q3UTH2CZ3FFVMNM0Qsx+XqYNn68xiV4IilmKRiIKu+Nys8bEkIZuv4gxg==
+X-Received: by 2002:a0c:ee2b:: with SMTP id l11mr277767qvs.7.1613585234675;
+ Wed, 17 Feb 2021 10:07:14 -0800 (PST)
+Received: from Whitewolf.lyude.net
+ (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id d14sm1622702qtw.67.2021.02.17.10.07.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Feb 2021 10:07:13 -0800 (PST)
+Message-ID: <d070b8fa29ee357eae1943e7d3ede6c7b9a92a40.camel@redhat.com>
+Subject: Re: [PATCH] drm/dp_mst: Tune down the WARN modesetting a port with
+ full_pbn=0
 From: Lyude Paul <lyude@redhat.com>
-To: intel-gfx@lists.freedesktop.org,
-	Imre Deak <imre.deak@intel.com>
-Subject: [PATCH v4] drm/i915/gen9bc: Handle TGP PCH during suspend/resume
-Date: Wed, 17 Feb 2021 13:00:16 -0500
-Message-Id: <20210217180016.1937401-1-lyude@redhat.com>
-In-Reply-To: <20210217025337.1929015-1-lyude@redhat.com>
-References: <20210217025337.1929015-1-lyude@redhat.com>
+To: Imre Deak <imre.deak@intel.com>, dri-devel@lists.freedesktop.org
+Date: Wed, 17 Feb 2021 13:07:11 -0500
+In-Reply-To: <20210216123448.410545-1-imre.deak@intel.com>
+References: <20210216123448.410545-1-imre.deak@intel.com>
+Organization: Red Hat
+User-Agent: Evolution 3.38.3 (3.38.3-1.fc33)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,138 +82,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: lyude@redhat.com
+Cc: intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-
-For Legacy S3 suspend/resume GEN9 BC needs to enable and
-setup TGP PCH.
-
-v2:
-* Move Wa_14010685332 into it's own function - vsyrjala
-* Add TODO comment about figuring out if we can move this workaround - imre
-v3:
-* Rename cnp_irq_post_reset() to cnp_display_clock_wa()
-* Add TODO item mentioning we need to clarify which platforms this
-  workaround applies to
-* Just use ibx_irq_reset() in gen8_irq_reset(). This code should be
-  functionally equivalent on gen9 bc to the code v2 added
-* Drop icp_hpd_irq_setup() call in spt_hpd_irq_setup(), this looks to be
-  more or less identical to spt_hpd_irq_setup() minus additionally enabling
-  one port. Will update i915 to use icp_hpd_irq_setup() for ICP in a
-  separate patch.
-v4:
-* Revert Wa_14010685332 system list in comments to how it was before
-* Add back HAS_PCH_SPLIT() check before calling ibx_irq_reset()
-
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- drivers/gpu/drm/i915/i915_irq.c | 49 +++++++++++++++++++++------------
- 1 file changed, 32 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-index 98145a7f28a4..9b56a8f81e1a 100644
---- a/drivers/gpu/drm/i915/i915_irq.c
-+++ b/drivers/gpu/drm/i915/i915_irq.c
-@@ -3040,6 +3040,24 @@ static void valleyview_irq_reset(struct drm_i915_private *dev_priv)
- 	spin_unlock_irq(&dev_priv->irq_lock);
- }
- 
-+static void cnp_display_clock_wa(struct drm_i915_private *dev_priv)
-+{
-+	struct intel_uncore *uncore = &dev_priv->uncore;
-+
-+	/*
-+	 * Wa_14010685332:cnp/cmp,tgp,adp
-+	 * TODO: Clarify which platforms this applies to
-+	 * TODO: Figure out if this workaround can be applied in the s0ix suspend/resume handlers as
-+	 * on earlier platforms and whether the workaround is also needed for runtime suspend/resume
-+	 */
-+	if (INTEL_PCH_TYPE(dev_priv) == PCH_CNP ||
-+	    (INTEL_PCH_TYPE(dev_priv) >= PCH_TGP && INTEL_PCH_TYPE(dev_priv) < PCH_DG1)) {
-+		intel_uncore_rmw(uncore, SOUTH_CHICKEN1, SBCLK_RUN_REFCLK_DIS,
-+				 SBCLK_RUN_REFCLK_DIS);
-+		intel_uncore_rmw(uncore, SOUTH_CHICKEN1, SBCLK_RUN_REFCLK_DIS, 0);
-+	}
-+}
-+
- static void gen8_irq_reset(struct drm_i915_private *dev_priv)
- {
- 	struct intel_uncore *uncore = &dev_priv->uncore;
-@@ -3063,6 +3081,8 @@ static void gen8_irq_reset(struct drm_i915_private *dev_priv)
- 
- 	if (HAS_PCH_SPLIT(dev_priv))
- 		ibx_irq_reset(dev_priv);
-+
-+	cnp_display_clock_wa(dev_priv);
- }
- 
- static void gen11_display_irq_reset(struct drm_i915_private *dev_priv)
-@@ -3104,15 +3124,7 @@ static void gen11_display_irq_reset(struct drm_i915_private *dev_priv)
- 	if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
- 		GEN3_IRQ_RESET(uncore, SDE);
- 
--	/* Wa_14010685332:cnp/cmp,tgp,adp */
--	if (INTEL_PCH_TYPE(dev_priv) == PCH_CNP ||
--	    (INTEL_PCH_TYPE(dev_priv) >= PCH_TGP &&
--	     INTEL_PCH_TYPE(dev_priv) < PCH_DG1)) {
--		intel_uncore_rmw(uncore, SOUTH_CHICKEN1,
--				 SBCLK_RUN_REFCLK_DIS, SBCLK_RUN_REFCLK_DIS);
--		intel_uncore_rmw(uncore, SOUTH_CHICKEN1,
--				 SBCLK_RUN_REFCLK_DIS, 0);
--	}
-+	cnp_display_clock_wa(dev_priv);
- }
- 
- static void gen11_irq_reset(struct drm_i915_private *dev_priv)
-@@ -3764,9 +3776,19 @@ static void gen8_de_irq_postinstall(struct drm_i915_private *dev_priv)
- 	}
- }
- 
-+static void icp_irq_postinstall(struct drm_i915_private *dev_priv)
-+{
-+	struct intel_uncore *uncore = &dev_priv->uncore;
-+	u32 mask = SDE_GMBUS_ICP;
-+
-+	GEN3_IRQ_INIT(uncore, SDE, ~mask, 0xffffffff);
-+}
-+
- static void gen8_irq_postinstall(struct drm_i915_private *dev_priv)
- {
--	if (HAS_PCH_SPLIT(dev_priv))
-+	if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
-+		icp_irq_postinstall(dev_priv);
-+	else if (HAS_PCH_SPLIT(dev_priv))
- 		ibx_irq_postinstall(dev_priv);
- 
- 	gen8_gt_irq_postinstall(&dev_priv->gt);
-@@ -3775,13 +3797,6 @@ static void gen8_irq_postinstall(struct drm_i915_private *dev_priv)
- 	gen8_master_intr_enable(dev_priv->uncore.regs);
- }
- 
--static void icp_irq_postinstall(struct drm_i915_private *dev_priv)
--{
--	struct intel_uncore *uncore = &dev_priv->uncore;
--	u32 mask = SDE_GMBUS_ICP;
--
--	GEN3_IRQ_INIT(uncore, SDE, ~mask, 0xffffffff);
--}
- 
- static void gen11_irq_postinstall(struct drm_i915_private *dev_priv)
- {
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAyMDIxLTAyLTE2IGF0IDE0OjM0ICswMjAwLCBJbXJlIERlYWsgd3JvdGU6Cj4gSXQn
+cyBwb3NzaWJsZSB0byBtb2Rlc2V0IGEgY29ubmVjdG9yL21zdCBwb3J0IHRoYXQgaGFzIGEgMCBm
+dWxsX3Bibgo+IHZhbHVlOiBpZiB0aGUgc2luayBvbiB0aGUgcG9ydCBkZWFzc2VydHMgaXRzIEhQ
+RCBhbmQgYSBicmFuY2ggZGV2aWNlCj4gcmVwb3J0cyB0aGlzIHZpYSBhIENTTiB3aXRoIHRoZSBw
+b3J0J3MgZGRwcz0wIGFuZCBwZHQhPU5PTkUgdGhlIGRyaXZlcgo+IGNsZWFycyBmdWxsX3Bibiwg
+YnV0IHRoZSBjb3JyZXNwb25kaW5nIGNvbm5lY3RvciBjYW4gYmUgc3RpbGwKPiBtb2Rlc2V0dGVk
+Lgo+IAo+IFRoaXMgaGFwcGVuZWQgb24gYSBERUxMIFUyNzE5RCBtb25pdG9yIGFzIHRoZSBicmFu
+Y2ggZGV2aWNlIGFuZCBhbiBMRwo+IDI3VUw2NTAtVyBkYWlzeS1jaGFpbmVkIHRvIGl0LCB0aGUg
+TEcgbW9uaXRvciBnZW5lcmF0aW5nIGEgbG9uZyBIUEQKPiBwdWxzZSAoZG9pbmcgdGhpcyBmb3Ig
+c29tZSByZWFzb24gYWx3YXlzIHdoZW4gd2FraW5nIHVwIGZyb20gc29tZSBwb3dlcgo+IHNhdmlu
+ZyBzdGF0ZSkuCj4gCj4gVHVuZSBkb3duIHRoZSBXQVJOIGFib3V0IHRoaXMgc2NlbmFyaW8gdG8g
+YSBkZWJ1ZyBtZXNzYWdlLgo+IAo+IFJlZmVyZW5jZXM6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNr
+dG9wLm9yZy9kcm0vaW50ZWwvLS9pc3N1ZXMvMTkxNwo+IENjOiBMeXVkZSBQYXVsIDxseXVkZUBy
+ZWRoYXQuY29tPgo+IFNpZ25lZC1vZmYtYnk6IEltcmUgRGVhayA8aW1yZS5kZWFrQGludGVsLmNv
+bT4KPiAtLS0KPiDCoGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgfCAxMCAr
+KysrKysrLS0tCj4gwqAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9u
+cygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9n
+eS5jCj4gYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4gaW5kZXggMGE1
+NDUwNmMyNzczOC4uZGNhZjRiZjliNjJmNiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX2RwX21zdF90b3BvbG9neS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3Rf
+dG9wb2xvZ3kuYwo+IEBAIC01MTE4LDExICs1MTE4LDE1IEBAIGRybV9kcF9tc3RfYXRvbWljX2No
+ZWNrX3BvcnRfYndfbGltaXQoc3RydWN0Cj4gZHJtX2RwX21zdF9wb3J0ICpwb3J0LAo+IMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKCFmb3VuZCkKPiDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsKPiDCoAo+IC3CoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAvKiBUaGlzIHNob3VsZCBuZXZlciBoYXBwZW4sIGFzIGl0
+IG1lYW5zIHdlIHRyaWVkIHRvCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIHNl
+dCBhIG1vZGUgYmVmb3JlIHF1ZXJ5aW5nIHRoZSBmdWxsX3Bibgo+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAvKgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiBUaGlz
+IGNvdWxkIGhhcHBlbiBpZiB0aGUgc2luayBkZWFzc2VydGVkIGl0cyBIUEQgbGluZSwgYnV0Cj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIHRoZSBicmFuY2ggZGV2aWNlIHN0aWxs
+IHJlcG9ydHMgaXQgYXMgYXR0YWNoZWQgKFBEVCAhPQo+IE5PTkUpLgo+IMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgICovCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlm
+IChXQVJOX09OKCFwb3J0LT5mdWxsX3BibikpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoGlmICghcG9ydC0+ZnVsbF9wYm4pIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoGRybV9kYmdfa21zKHBvcnQtPm1nci0+ZGV2LCAiW01TVEI6JXBd
+IFtNU1QgUE9SVDolcF0KPiBubyBCVyBhdmFpbGFibGUgZm9yIHRoZSBwb3J0XG4iLAo+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBwb3J0LT5wYXJlbnQsIHBvcnQpOwoKU2hvdWxkbid0IHRoaXMgdXNlIHRoZSBhdG9t
+aWMgZGVidWdnaW5nIGxldmVsPyBXaXRoIHRoYXQgZml4ZWQsIHRoaXMgaXM6CgpSZXZpZXdlZC1i
+eTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIC1FSU5WQUw7Cj4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoH0KPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgcGJuX3VzZWQgPSB2Y3BpLT5wYm47Cj4gwqDCoMKgwqDCoMKgwqDCoH0gZWxzZSB7CgotLSAK
+U2luY2VyZWx5LAogICBMeXVkZSBQYXVsIChzaGUvaGVyKQogICBTb2Z0d2FyZSBFbmdpbmVlciBh
+dCBSZWQgSGF0CiAgIApOb3RlOiBJIGRlYWwgd2l0aCBhIGxvdCBvZiBlbWFpbHMgYW5kIGhhdmUg
+YSBsb3Qgb2YgYnVncyBvbiBteSBwbGF0ZS4gSWYgeW91J3ZlCmFza2VkIG1lIGEgcXVlc3Rpb24s
+IGFyZSB3YWl0aW5nIGZvciBhIHJldmlldy9tZXJnZSBvbiBhIHBhdGNoLCBldGMuIGFuZCBJCmhh
+dmVuJ3QgcmVzcG9uZGVkIGluIGEgd2hpbGUsIHBsZWFzZSBmZWVsIGZyZWUgdG8gc2VuZCBtZSBh
+bm90aGVyIGVtYWlsIHRvIGNoZWNrCm9uIG15IHN0YXR1cy4gSSBkb24ndCBiaXRlIQoKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
