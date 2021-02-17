@@ -1,87 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B2931D5CD
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 08:42:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C699F31D5E3
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 08:52:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3BC389B8E;
-	Wed, 17 Feb 2021 07:42:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 578D189DC2;
+	Wed, 17 Feb 2021 07:52:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B53989B8E
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 07:42:28 +0000 (UTC)
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi
- [91.157.208.71])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D7EBD8C4;
- Wed, 17 Feb 2021 08:42:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1613547746;
- bh=gLxLY7MkEr2qMg/fdrv6dtXzf+28O3A6JagdQ2koFQM=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=ZM+5JghVAT0h8+JH8kZXWWVOj1BiGFS8BMdDX2U+lq7dFLCNF6tocWjXJHlOmWZY2
- +EG6iOSWgWLpot+ukjuHoInosO27xlzaCprdJvU3PpeeqOGKOcwsMT5QfyUft4FKyx
- 5uqxZOUcXqrWyk7ZLvwAkrOsbzJ75U7NgBigj0s0=
-Subject: Re: [PATCH v4 24/80] drm/omap: dsi: move TE GPIO handling into core
-To: Tony Lindgren <tony@atomide.com>
-References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
- <20201124124538.660710-25-tomi.valkeinen@ti.com>
- <YCF7ARchcMKvWa4s@atomide.com>
- <5b469566-c926-7e1f-8872-84774b96f389@ideasonboard.com>
- <YCVq8JnuMLQq6FEc@atomide.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-Message-ID: <4432cf2c-fe15-dab0-3034-789f6d711396@ideasonboard.com>
-Date: Wed, 17 Feb 2021 09:42:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCD8A89DC2;
+ Wed, 17 Feb 2021 07:52:38 +0000 (UTC)
+IronPort-SDR: unOzQgIjI+OWgfjvVwUiSVN85dP6CZJHJ5n6Qlct2vrp2EBltaj6uYBJSzx/2AuoV/neypk4dV
+ iuZxOjdFAK3Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="202343655"
+X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; d="scan'208";a="202343655"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2021 23:52:38 -0800
+IronPort-SDR: QamDVHfuHKpUWK5Ain2txL+Q+vOWtjCWIdgijbyTI99BJ+fql48HcPVwatT11/sPvPJEX+HWqJ
+ vIzZ5t+1B0ew==
+X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; d="scan'208";a="493911989"
+Received: from ideak-desk.fi.intel.com ([10.237.68.141])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2021 23:52:36 -0800
+Date: Wed, 17 Feb 2021 09:52:33 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915/gen9bc: Handle TGP PCH during
+ suspend/resume
+Message-ID: <20210217075233.GA443835@ideak-desk.fi.intel.com>
+References: <20210212185053.1689716-1-lyude@redhat.com>
+ <20210216180825.GA420119@ideak-desk.fi.intel.com>
+ <de45c8434b35ba9c712edf615bea4f86131aaf1a.camel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YCVq8JnuMLQq6FEc@atomide.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <de45c8434b35ba9c712edf615bea4f86131aaf1a.camel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,68 +49,276 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hns@goldelico.com, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: imre.deak@intel.com
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/02/2021 19:35, Tony Lindgren wrote:
-> * Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> [210211 07:35]:
->> On 08/02/2021 19:55, Tony Lindgren wrote:
->>> Hi,
->>>
->>> * Tomi Valkeinen <tomi.valkeinen@ti.com> [201124 12:47]:
->>>> From: Sebastian Reichel <sebastian.reichel@collabora.com>
->>>>
->>>> In preparation for removing custom DSS calls from the DSI
->>>> panel driver, this moves support for external tearing event
->>>> GPIOs into the DSI host driver. This way tearing events are
->>>> always handled in the core resulting in simplification of
->>>> the panel drivers.
->>>>
->>>> The TE GPIO acquisition follows works in the same way as the
->>>> exynos DSI implementation.
->>>
->>> Looks like this patch causes the following warnings:
->>>
->>> DSI: omapdss DSI error: Failed to receive BTA
->>> DSI: omapdss DSI error: bta sync failed
->>> DSI: omapdss DSI error: vc(0) busy when trying to config for VP
->>> DSI: omapdss DSI error: Failed to receive BTA
->>> DSI: omapdss DSI error: bta sync failed
->>> DSI: omapdss DSI error: vc(0) busy when trying to config for VP
->>> DSI: omapdss DSI error: Failed to receive BTA
->>> DSI: omapdss DSI error: bta sync failed
->>> DSI: omapdss DSI error: vc(0) busy when trying to config for VP
->>> ...
->>>
->>> Any ideas? The display works for me despite the constant
->>> warnings.
->>
->> Which board is that? Do the errors start right from the boot, or only
->> after running something in userspace?
-> 
-> This is with droid4, that's about the only device I use with a display
-> on regular basis. I'm pretty sure some earlier version of Sebastian's
-> patches worked fine.
+On Tue, Feb 16, 2021 at 09:36:01PM -0500, Lyude Paul wrote:
+> On Tue, 2021-02-16 at 20:08 +0200, Imre Deak wrote:
+> > Hi,
+> > =
 
-OMAP4 SDP doesn't produce these errors and the HW looks rather
-identical. Although I noticed something odd there, running kmstest
---flip on the first display works fine, but running on the second
-display gets a bit erratic fps. Which is a bit odd as everything should
-be identical.
+> > thanks for respinning this patchset, some comments below.
+> > =
 
-So these errors start from the boot? Or only when running something
-specific?
+> > On Fri, Feb 12, 2021 at 01:50:53PM -0500, Lyude Paul wrote:
+> > > From: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+> > > =
 
-Is there a bootloader that initializes the display?
+> > > For Legacy S3 suspend/resume GEN9 BC needs to enable and
+> > > setup TGP PCH.
+> > > =
 
- Tomi
+> > > v2:
+> > > * Move Wa_14010685332 into it's own function - vsyrjala
+> > > * Add TODO comment about figuring out if we can move this workaround =
+- imre
+> > > =
+
+> > > Cc: Matt Roper <matthew.d.roper@intel.com>
+> > > Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@int=
+el.com>
+> > > Signed-off-by: Lyude Paul <lyude@redhat.com>
+> > > ---
+> > > =A0drivers/gpu/drm/i915/i915_irq.c | 53 ++++++++++++++++++++++-------=
+----
+> > > =A01 file changed, 36 insertions(+), 17 deletions(-)
+> > > =
+
+> > > diff --git a/drivers/gpu/drm/i915/i915_irq.c
+> > > b/drivers/gpu/drm/i915/i915_irq.c
+> > > index 98145a7f28a4..7d912aa950ee 100644
+> > > --- a/drivers/gpu/drm/i915/i915_irq.c
+> > > +++ b/drivers/gpu/drm/i915/i915_irq.c
+> > > @@ -3040,6 +3040,19 @@ static void valleyview_irq_reset(struct
+> > > drm_i915_private *dev_priv)
+> > > =A0=A0=A0=A0=A0=A0=A0=A0spin_unlock_irq(&dev_priv->irq_lock);
+> > > =A0}
+> > > =A0
+> > > +static void cnp_irq_post_reset(struct drm_i915_private *dev_priv)
+> > =
+
+> > Maybe a better name is cnp_display_clock_wa.
+> > =
+
+> > > +{
+> > > +=A0=A0=A0=A0=A0=A0=A0struct intel_uncore *uncore =3D &dev_priv->unco=
+re;
+> > > +
+> > > +=A0=A0=A0=A0=A0=A0=A0/*
+> > > +=A0=A0=A0=A0=A0=A0=A0 * Wa_14010685332:cnp/cmp,tgp,adp
+> > =
+
+> > Bspec says this WA applies ICL onwards and it's not PCH specific, for
+> > instance I haven't found the GEN9/CNP/CMP WA entries for it. Please also
+> > add a 'clarify platforms where this applies' todo item.
+> > =
+
+> > > +=A0=A0=A0=A0=A0=A0=A0 * TODO: Figure out if this workaround can be a=
+pplied in the s0ix
+> > > suspend/resume handlers as
+> > > +=A0=A0=A0=A0=A0=A0=A0 * on earlier platforms and whether the workaro=
+und is also needed
+> > > for runtime suspend/resume
+> > > +=A0=A0=A0=A0=A0=A0=A0 */
+> > > +=A0=A0=A0=A0=A0=A0=A0intel_uncore_rmw(uncore, SOUTH_CHICKEN1, SBCLK_=
+RUN_REFCLK_DIS,
+> > > SBCLK_RUN_REFCLK_DIS);
+> > > +=A0=A0=A0=A0=A0=A0=A0intel_uncore_rmw(uncore, SOUTH_CHICKEN1, SBCLK_=
+RUN_REFCLK_DIS, 0);
+> > > +}
+> > > +
+> > > =A0static void gen8_irq_reset(struct drm_i915_private *dev_priv)
+> > > =A0{
+> > > =A0=A0=A0=A0=A0=A0=A0=A0struct intel_uncore *uncore =3D &dev_priv->un=
+core;
+> > > @@ -3061,8 +3074,14 @@ static void gen8_irq_reset(struct drm_i915_pri=
+vate
+> > > *dev_priv)
+> > > =A0=A0=A0=A0=A0=A0=A0=A0GEN3_IRQ_RESET(uncore, GEN8_DE_MISC_);
+> > > =A0=A0=A0=A0=A0=A0=A0=A0GEN3_IRQ_RESET(uncore, GEN8_PCU_);
+> > > =A0
+> > > -=A0=A0=A0=A0=A0=A0=A0if (HAS_PCH_SPLIT(dev_priv))
+> > > +=A0=A0=A0=A0=A0=A0=A0if (INTEL_PCH_TYPE(dev_priv) >=3D PCH_ICP)
+> > =
+
+> > It was mentioned already earlier, why is this check necessary and can't=
+ we
+> > just call ibx_irq_reset() for all PCHs?
+> > =
+
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0GEN3_IRQ_RESET(uncore, =
+SDE);
+> > > +=A0=A0=A0=A0=A0=A0=A0else if (HAS_PCH_SPLIT(dev_priv))
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0ibx_irq_reset(dev_pri=
+v);
+> > > +
+> > > +=A0=A0=A0=A0=A0=A0=A0if (INTEL_PCH_TYPE(dev_priv) =3D=3D PCH_CNP ||
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 (INTEL_PCH_TYPE(dev_priv) >=3D PCH_TG=
+P && INTEL_PCH_TYPE(dev_priv)
+> > > < PCH_DG1))
+> > =
+
+> > The check could be also moved to the helper.
+> > =
+
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0cnp_irq_post_reset(dev_=
+priv);
+> > > =A0}
+> > > =A0
+> > > =A0static void gen11_display_irq_reset(struct drm_i915_private *dev_p=
+riv)
+> > > @@ -3104,15 +3123,9 @@ static void gen11_display_irq_reset(struct
+> > > drm_i915_private *dev_priv)
+> > > =A0=A0=A0=A0=A0=A0=A0=A0if (INTEL_PCH_TYPE(dev_priv) >=3D PCH_ICP)
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0GEN3_IRQ_RESET(uncore=
+, SDE);
+> > > =A0
+> > > -=A0=A0=A0=A0=A0=A0=A0/* Wa_14010685332:cnp/cmp,tgp,adp */
+> > > =A0=A0=A0=A0=A0=A0=A0=A0if (INTEL_PCH_TYPE(dev_priv) =3D=3D PCH_CNP ||
+> > > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 (INTEL_PCH_TYPE(dev_priv) >=3D PCH_TG=
+P &&
+> > > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 INTEL_PCH_TYPE(dev_priv) < PCH_DG1=
+)) {
+> > > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0intel_uncore_rmw(uncore=
+, SOUTH_CHICKEN1,
+> > > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0 SBCLK_RUN_REFCLK_DIS,
+> > > SBCLK_RUN_REFCLK_DIS);
+> > > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0intel_uncore_rmw(uncore=
+, SOUTH_CHICKEN1,
+> > > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0 SBCLK_RUN_REFCLK_DIS, 0);
+> > > -=A0=A0=A0=A0=A0=A0=A0}
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 (INTEL_PCH_TYPE(dev_priv) >=3D PCH_TG=
+P && INTEL_PCH_TYPE(dev_priv)
+> > > < PCH_DG1))
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0cnp_irq_post_reset(dev_=
+priv);
+> > > =A0}
+> > > =A0
+> > > =A0static void gen11_irq_reset(struct drm_i915_private *dev_priv)
+> > > @@ -3474,6 +3487,9 @@ static void spt_hpd_irq_setup(struct drm_i915_p=
+rivate
+> > > *dev_priv)
+> > > =A0=A0=A0=A0=A0=A0=A0=A0ibx_display_interrupt_update(dev_priv, hotplu=
+g_irqs, enabled_irqs);
+> > > =A0
+> > > =A0=A0=A0=A0=A0=A0=A0=A0spt_hpd_detection_setup(dev_priv);
+> > > +
+> > > +=A0=A0=A0=A0=A0=A0=A0if (INTEL_PCH_TYPE(dev_priv) >=3D PCH_ICP)
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0icp_hpd_irq_setup(dev_p=
+riv);
+> > =
+
+> > This doesn't look correct, icp_hpd_irq_setup() redoes the interrupt
+> > setup done already earlier in this function and
+> > spt_hpd_detection_setup() is probably also not correct on ICP+. Looks
+> > like for ICP+ we need to call icp_hpd_irq_setup() instead of
+> > spt_hpd_irq_setup(), but haven't checked in detail.
+> =
+
+> Could you please check :)? I don't work at Intel so you have far more acc=
+ess to
+> this information then I do.=A0
+> =
+
+> FWIW the code -looks- mostly equivalent to me (SHOTPLUG_CTL_DDI and
+> SHOTPLUG_CTL_TC seem to be equivalent registers to what's set in
+> spt_hpd_irq_setup()), but the icelake point codepath enables an additiona=
+l port,
+> and changes an additional register called SHPD_FILTER_CNT.
+
+The register definitions for SHOTPLUG_CTL_DDI wrt. PCH_PORT_HOTPLUG and
+SHOTPLUG_CTL_TC wrt. PCH_PORT_HOTPLUG2 are different even though their
+addresses match.
+
+> I'll update it to use this in the next patch, but please definitely
+> confirm this. I would very much like to avoid potentially breaking
+> unrelated ICP systems with this.
+> =
+
+> > =
+
+> > > =A0}
+> > > =A0
+> > > =A0static u32 ilk_hotplug_enables(struct drm_i915_private *i915,
+> > > @@ -3764,9 +3780,19 @@ static void gen8_de_irq_postinstall(struct
+> > > drm_i915_private *dev_priv)
+> > > =A0=A0=A0=A0=A0=A0=A0=A0}
+> > > =A0}
+> > > =A0
+> > > +static void icp_irq_postinstall(struct drm_i915_private *dev_priv)
+> > > +{
+> > > +=A0=A0=A0=A0=A0=A0=A0struct intel_uncore *uncore =3D &dev_priv->unco=
+re;
+> > > +=A0=A0=A0=A0=A0=A0=A0u32 mask =3D SDE_GMBUS_ICP;
+> > > +
+> > > +=A0=A0=A0=A0=A0=A0=A0GEN3_IRQ_INIT(uncore, SDE, ~mask, 0xffffffff);
+> > > +}
+> > > +
+> > > =A0static void gen8_irq_postinstall(struct drm_i915_private *dev_priv)
+> > > =A0{
+> > > -=A0=A0=A0=A0=A0=A0=A0if (HAS_PCH_SPLIT(dev_priv))
+> > > +=A0=A0=A0=A0=A0=A0=A0if (INTEL_PCH_TYPE(dev_priv) >=3D PCH_ICP)
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0icp_irq_postinstall(dev=
+_priv);
+> > > +=A0=A0=A0=A0=A0=A0=A0else if (HAS_PCH_SPLIT(dev_priv))
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0ibx_irq_postinstall(d=
+ev_priv);
+> > > =A0
+> > > =A0=A0=A0=A0=A0=A0=A0=A0gen8_gt_irq_postinstall(&dev_priv->gt);
+> > > @@ -3775,13 +3801,6 @@ static void gen8_irq_postinstall(struct
+> > > drm_i915_private *dev_priv)
+> > > =A0=A0=A0=A0=A0=A0=A0=A0gen8_master_intr_enable(dev_priv->uncore.regs=
+);
+> > > =A0}
+> > > =A0
+> > > -static void icp_irq_postinstall(struct drm_i915_private *dev_priv)
+> > > -{
+> > > -=A0=A0=A0=A0=A0=A0=A0struct intel_uncore *uncore =3D &dev_priv->unco=
+re;
+> > > -=A0=A0=A0=A0=A0=A0=A0u32 mask =3D SDE_GMBUS_ICP;
+> > > -
+> > > -=A0=A0=A0=A0=A0=A0=A0GEN3_IRQ_INIT(uncore, SDE, ~mask, 0xffffffff);
+> > > -}
+> > > =A0
+> > > =A0static void gen11_irq_postinstall(struct drm_i915_private *dev_pri=
+v)
+> > > =A0{
+> > > -- =
+
+> > > 2.29.2
+> > > =
+
+> > > _______________________________________________
+> > > Intel-gfx mailing list
+> > > Intel-gfx@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> > =
+
+> =
+
+> -- =
+
+> Sincerely,
+>    Lyude Paul (she/her)
+>    Software Engineer at Red Hat
+>    =
+
+> Note: I deal with a lot of emails and have a lot of bugs on my plate. If =
+you've
+> asked me a question, are waiting for a review/merge on a patch, etc. and I
+> haven't responded in a while, please feel free to send me another email t=
+o check
+> on my status. I don't bite!
+> =
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
