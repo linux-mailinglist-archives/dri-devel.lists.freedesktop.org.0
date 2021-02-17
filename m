@@ -2,77 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D12D31E12B
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 22:19:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC6F31E164
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 22:32:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B21896E7EC;
-	Wed, 17 Feb 2021 21:19:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0992D6E7F1;
+	Wed, 17 Feb 2021 21:32:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B40C6E9DF
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 21:19:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613596773;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xBMyArAKf4mpgQyvFkqw/42F48Y7NN6P7Dp+VCh0VH4=;
- b=Pxa8hxV2EbGOsN5LE9f1Ozzar9qzP//aH+go+JtO4JFJiclhJqwi88HxiV/+IULFKACbPK
- 45DtmJSW1NgTZzHnnK6DMHlqx8SNtPcTpclXTZ/YXrkPKBoLQR1KP+N26jCxaeyrh1XSOn
- d5FT9chJZlpE/h4ujLhE3ZRBJ5M8/2I=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-ycKaeEJZOwqsuXhVfFonKA-1; Wed, 17 Feb 2021 16:19:31 -0500
-X-MC-Unique: ycKaeEJZOwqsuXhVfFonKA-1
-Received: by mail-qk1-f197.google.com with SMTP id p27so11722481qkp.8
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 13:19:31 -0800 (PST)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70CC66E7F1;
+ Wed, 17 Feb 2021 21:32:06 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id n1so8264187edv.2;
+ Wed, 17 Feb 2021 13:32:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=n9TThVfm7XGHUZh72r86WUebAr+kwLSoKjjjAsDTRUU=;
+ b=TRHqGrUg5rrFJxfPOq5Geh3lwb8kt9UlEuzJLMJe5wN9jUgLHx8YQnfB70bF5YVB7R
+ ydlTSdseIxrVf4TCe2jGU9xdoDpHLmQbEyhbemK5PQRRdEMzmz41VRgaXdQCHxMOuhFG
+ pfEETLfVj0qd0baJLkJbdaspJ1F5s1lmK7LIWQhMuhwTbRgHp7lyq0uuJ4DYwdm4WZE9
+ FCxe2YYT/orLmMSDn+MFuj1oDiT5LU4jZisTGlJZ0+PuU5E9G6ux/P+p2ntZWnnJRCNI
+ wZCjA/UwACleOMPB7fAae8dKNYJb/mgXy98zOr5nulFaefuRt3UVmtNfEhRuvUN6txqc
+ kZ3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=xBMyArAKf4mpgQyvFkqw/42F48Y7NN6P7Dp+VCh0VH4=;
- b=nu4hYlUoYDLeeGxQvZVcWLmHC1qqbQi6Oyh/dmXDiaIicOlEbcGRP9m+m8Q4GgdhT1
- +MTMF0j7SUz9KDH9ZnNy5mkRPUut+VLO3aBRgF2AkyZoRe7Pu2HnVBeNWljc6Fy2RBtY
- O0gpikFsTsvSfJb2ezmCQQhKEtDqKq9GZdC9FYoPH20LzA3z1ju5qX3sCSZUwPNrE+kv
- UZEdhrd6jdyTwr6q65WESm/G/Cmm44uuEMSVvnqQhTD7FZzw6C+mYtXzZ+u08PTvG1jM
- 9SzFIKMnXpxThrzwxJC9vcqhd4g/rgR6w6ddzwJf+eMV9kbWcA5KeHjsyej4luUn2x+5
- 6wxA==
-X-Gm-Message-State: AOAM5332+pFGftbnQLmL3HO+t8E5bGCSP75ED47V8KRIu10t334RnuFa
- xCxziBbkzCpCZgWDcXszrpjdGBDTeImysThKl7I2kgZYirq5IINrXbbFZSqdX5eoUKpY/d3ytjy
- kM2ZfaxSJvE5QgKtlUWQcr3hV8vxA
-X-Received: by 2002:a05:620a:5e3:: with SMTP id
- z3mr1298125qkg.82.1613596771220; 
- Wed, 17 Feb 2021 13:19:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwPSYxeA8g2iE40CK7FvkDEZG3iHDG4i+DK7dA2OIu1Fj2bHEppjVJXZjSCy3KXYHo6ADRVaA==
-X-Received: by 2002:a05:620a:5e3:: with SMTP id
- z3mr1298100qkg.82.1613596770966; 
- Wed, 17 Feb 2021 13:19:30 -0800 (PST)
-Received: from Whitewolf.lyude.net
- (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id 18sm1938054qtw.70.2021.02.17.13.19.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Feb 2021 13:19:30 -0800 (PST)
-Message-ID: <a55af9a9f4454f07e34c984cc2ef0e31b38fcbf1.camel@redhat.com>
-Subject: Re: [PATCH v4] drm/i915/gen9bc: Handle TGP PCH during suspend/resume
-From: Lyude Paul <lyude@redhat.com>
-To: imre.deak@intel.com
-Date: Wed, 17 Feb 2021 16:19:29 -0500
-In-Reply-To: <20210217211802.GC558393@ideak-desk.fi.intel.com>
-References: <20210217025337.1929015-1-lyude@redhat.com>
- <20210217180016.1937401-1-lyude@redhat.com>
- <20210217211802.GC558393@ideak-desk.fi.intel.com>
-Organization: Red Hat
-User-Agent: Evolution 3.38.3 (3.38.3-1.fc33)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=n9TThVfm7XGHUZh72r86WUebAr+kwLSoKjjjAsDTRUU=;
+ b=UTB8UxrOfH1yAcLB1wiQrhiLQZMQ16Lcj0w8cWcKhZHcSF1hsbMo+kM5clbrlun4ew
+ YmQGajcvwObxeJaLDxJk2cdWJ4fOi3MZrEXtFj1oZbZNIo3CTsPqlCX95QpKw8AvX9+w
+ SGkYvMPQMTzGDkQslrciODkyizK+H1GuCUZghP+BV5vdvxyMOnDwUrYGAo8W0EOkrw7l
+ sj1iq+3ONeFJd4N9jjQZsEM38m5r8wrD5Zc6IzVxPDqMg3PqX0Ym+CkRiq5QLakUtMJW
+ kkWma/vFrX3Y58XDr7zKdplvYeZa5RY9EUDbANV3ojePv9wYcBRHltG7u2VDNljmgL31
+ OJlg==
+X-Gm-Message-State: AOAM5323S1EgzB3xXm5v7A7MO01HArV+y4CIxH9LW04htTBWmh8XmQSD
+ QkoPDDQbEXjiTvl0EoaNPRvIojqvidoMZQ==
+X-Google-Smtp-Source: ABdhPJx+dsefu7OMAbBFLBZefZpyv6/UNrrSiU34hrRReU6/f4nprssJ2H2ODrdWPUfiBWvBbCWtxw==
+X-Received: by 2002:a50:ec97:: with SMTP id e23mr765162edr.265.1613597524945; 
+ Wed, 17 Feb 2021 13:32:04 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:a062:ccbc:1dde:867b?
+ ([2a02:908:1252:fb60:a062:ccbc:1dde:867b])
+ by smtp.gmail.com with ESMTPSA id e22sm1746855edj.54.2021.02.17.13.32.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Feb 2021 13:32:04 -0800 (PST)
+Subject: Re: [PATCH] drm/scheduler: Fix hang when sched_entity released
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <1613495262-22605-1-git-send-email-andrey.grodzovsky@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <5d8f4e4f-fa2f-037b-d288-b4286e23e77a@gmail.com>
+Date: Wed, 17 Feb 2021 22:32:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <1613495262-22605-1-git-send-email-andrey.grodzovsky@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,133 +71,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIxLTAyLTE3IGF0IDIzOjE4ICswMjAwLCBJbXJlIERlYWsgd3JvdGU6Cj4gT24g
-V2VkLCBGZWIgMTcsIDIwMjEgYXQgMDE6MDA6MTZQTSAtMDUwMCwgTHl1ZGUgUGF1bCB3cm90ZToK
-PiA+IEZyb206IFRlamFzIFVwYWRoeWF5IDx0ZWphc2t1bWFyeC5zdXJlbmRyYWt1bWFyLnVwYWRo
-eWF5QGludGVsLmNvbT4KPiA+IAo+ID4gRm9yIExlZ2FjeSBTMyBzdXNwZW5kL3Jlc3VtZSBHRU45
-IEJDIG5lZWRzIHRvIGVuYWJsZSBhbmQKPiA+IHNldHVwIFRHUCBQQ0guCj4gPiAKPiA+IHYyOgo+
-ID4gKiBNb3ZlIFdhXzE0MDEwNjg1MzMyIGludG8gaXQncyBvd24gZnVuY3Rpb24gLSB2c3lyamFs
-YQo+ID4gKiBBZGQgVE9ETyBjb21tZW50IGFib3V0IGZpZ3VyaW5nIG91dCBpZiB3ZSBjYW4gbW92
-ZSB0aGlzIHdvcmthcm91bmQgLSBpbXJlCj4gPiB2MzoKPiA+ICogUmVuYW1lIGNucF9pcnFfcG9z
-dF9yZXNldCgpIHRvIGNucF9kaXNwbGF5X2Nsb2NrX3dhKCkKPiA+ICogQWRkIFRPRE8gaXRlbSBt
-ZW50aW9uaW5nIHdlIG5lZWQgdG8gY2xhcmlmeSB3aGljaCBwbGF0Zm9ybXMgdGhpcwo+ID4gwqAg
-d29ya2Fyb3VuZCBhcHBsaWVzIHRvCj4gPiAqIEp1c3QgdXNlIGlieF9pcnFfcmVzZXQoKSBpbiBn
-ZW44X2lycV9yZXNldCgpLiBUaGlzIGNvZGUgc2hvdWxkIGJlCj4gPiDCoCBmdW5jdGlvbmFsbHkg
-ZXF1aXZhbGVudCBvbiBnZW45IGJjIHRvIHRoZSBjb2RlIHYyIGFkZGVkCj4gPiAqIERyb3AgaWNw
-X2hwZF9pcnFfc2V0dXAoKSBjYWxsIGluIHNwdF9ocGRfaXJxX3NldHVwKCksIHRoaXMgbG9va3Mg
-dG8gYmUKPiA+IMKgIG1vcmUgb3IgbGVzcyBpZGVudGljYWwgdG8gc3B0X2hwZF9pcnFfc2V0dXAo
-KSBtaW51cyBhZGRpdGlvbmFsbHkgZW5hYmxpbmcKPiA+IMKgIG9uZSBwb3J0LiBXaWxsIHVwZGF0
-ZSBpOTE1IHRvIHVzZSBpY3BfaHBkX2lycV9zZXR1cCgpIGZvciBJQ1AgaW4gYQo+ID4gwqAgc2Vw
-YXJhdGUgcGF0Y2guCj4gPiB2NDoKPiA+ICogUmV2ZXJ0IFdhXzE0MDEwNjg1MzMyIHN5c3RlbSBs
-aXN0IGluIGNvbW1lbnRzIHRvIGhvdyBpdCB3YXMgYmVmb3JlCj4gPiAqIEFkZCBiYWNrIEhBU19Q
-Q0hfU1BMSVQoKSBjaGVjayBiZWZvcmUgY2FsbGluZyBpYnhfaXJxX3Jlc2V0KCkKPiA+IAo+ID4g
-Q2M6IE1hdHQgUm9wZXIgPG1hdHRoZXcuZC5yb3BlckBpbnRlbC5jb20+Cj4gPiBTaWduZWQtb2Zm
-LWJ5OiBUZWphcyBVcGFkaHlheSA8dGVqYXNrdW1hcnguc3VyZW5kcmFrdW1hci51cGFkaHlheUBp
-bnRlbC5jb20+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29t
-Pgo+IAo+IFRoYW5rcywgbG9va3Mgb2sgdG8gbWU6Cj4gUmV2aWV3ZWQtYnk6IEltcmUgRGVhayA8
-aW1yZS5kZWFrQGludGVsLmNvbT4KPiAKPiBuaXQ6IGNucF9kaXNwbGF5X2Nsb2NrX2dhdGluZ193
-YSgpIHdvdWxkIGJlIGFuIGV2ZW4gYmV0dGVyIG5hbWUsIGNvdWxkCj4gYmUgcmVuYW1lZCB3aGls
-ZSBhcHBseWluZy4KClN1cmUgdGhpbmcuIEpGWUkgLSBJJ20gZ29pbmcgdG8gaG9sZCBvZmYgb24g
-cHVzaGluZyB0aGlzIHBhdGNoIHVudGlsIEkndmUgZ290CmNvbmZpcm1hdGlvbiBmcm9tIHRoZSBP
-RU1zIHRoaXMgaXMgZm9yIHRoYXQgdGhlc2UgcGF0Y2hlcyBzdGlsbCBmaXggdGhlaXIgaXNzdWVz
-CihzaW5jZSBJIHVuZm9ydHVuYXRlbHkgZG9uJ3QgaGF2ZSBhbnkgYWNjZXNzIHRvIHRoaXMgaGFy
-ZHdhcmUpLgoKPiAKPiA+IC0tLQo+ID4gwqBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2lycS5j
-IHwgNDkgKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tCj4gPiDCoDEgZmlsZSBjaGFu
-Z2VkLCAzMiBpbnNlcnRpb25zKCspLCAxNyBkZWxldGlvbnMoLSkKPiA+IAo+ID4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfaXJxLmMKPiA+IGIvZHJpdmVycy9ncHUvZHJt
-L2k5MTUvaTkxNV9pcnEuYwo+ID4gaW5kZXggOTgxNDVhN2YyOGE0Li45YjU2YThmODFlMWEgMTAw
-NjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2lycS5jCj4gPiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2lycS5jCj4gPiBAQCAtMzA0MCw2ICszMDQwLDI0IEBA
-IHN0YXRpYyB2b2lkIHZhbGxleXZpZXdfaXJxX3Jlc2V0KHN0cnVjdAo+ID4gZHJtX2k5MTVfcHJp
-dmF0ZSAqZGV2X3ByaXYpCj4gPiDCoMKgwqDCoMKgwqDCoMKgc3Bpbl91bmxvY2tfaXJxKCZkZXZf
-cHJpdi0+aXJxX2xvY2spOwo+ID4gwqB9Cj4gPiDCoAo+ID4gK3N0YXRpYyB2b2lkIGNucF9kaXNw
-bGF5X2Nsb2NrX3dhKHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdikKPiA+ICt7Cj4g
-PiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgaW50ZWxfdW5jb3JlICp1bmNvcmUgPSAmZGV2X3ByaXYt
-PnVuY29yZTsKPiA+ICsKPiA+ICvCoMKgwqDCoMKgwqDCoC8qCj4gPiArwqDCoMKgwqDCoMKgwqAg
-KiBXYV8xNDAxMDY4NTMzMjpjbnAvY21wLHRncCxhZHAKPiA+ICvCoMKgwqDCoMKgwqDCoCAqIFRP
-RE86IENsYXJpZnkgd2hpY2ggcGxhdGZvcm1zIHRoaXMgYXBwbGllcyB0bwo+ID4gK8KgwqDCoMKg
-wqDCoMKgICogVE9ETzogRmlndXJlIG91dCBpZiB0aGlzIHdvcmthcm91bmQgY2FuIGJlIGFwcGxp
-ZWQgaW4gdGhlIHMwaXgKPiA+IHN1c3BlbmQvcmVzdW1lIGhhbmRsZXJzIGFzCj4gPiArwqDCoMKg
-wqDCoMKgwqAgKiBvbiBlYXJsaWVyIHBsYXRmb3JtcyBhbmQgd2hldGhlciB0aGUgd29ya2Fyb3Vu
-ZCBpcyBhbHNvIG5lZWRlZAo+ID4gZm9yIHJ1bnRpbWUgc3VzcGVuZC9yZXN1bWUKPiA+ICvCoMKg
-wqDCoMKgwqDCoCAqLwo+ID4gK8KgwqDCoMKgwqDCoMKgaWYgKElOVEVMX1BDSF9UWVBFKGRldl9w
-cml2KSA9PSBQQ0hfQ05QIHx8Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqAgKElOVEVMX1BDSF9U
-WVBFKGRldl9wcml2KSA+PSBQQ0hfVEdQICYmIElOVEVMX1BDSF9UWVBFKGRldl9wcml2KQo+ID4g
-PCBQQ0hfREcxKSkgewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGludGVsX3Vu
-Y29yZV9ybXcodW5jb3JlLCBTT1VUSF9DSElDS0VOMSwKPiA+IFNCQ0xLX1JVTl9SRUZDTEtfRElT
-LAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIFNCQ0xLX1JVTl9SRUZDTEtfRElTKTsKPiA+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqBpbnRlbF91bmNvcmVfcm13KHVuY29yZSwgU09VVEhfQ0hJQ0tFTjEsCj4g
-PiBTQkNMS19SVU5fUkVGQ0xLX0RJUywgMCk7Cj4gPiArwqDCoMKgwqDCoMKgwqB9Cj4gPiArfQo+
-ID4gKwo+ID4gwqBzdGF0aWMgdm9pZCBnZW44X2lycV9yZXNldChzdHJ1Y3QgZHJtX2k5MTVfcHJp
-dmF0ZSAqZGV2X3ByaXYpCj4gPiDCoHsKPiA+IMKgwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgaW50ZWxf
-dW5jb3JlICp1bmNvcmUgPSAmZGV2X3ByaXYtPnVuY29yZTsKPiA+IEBAIC0zMDYzLDYgKzMwODEs
-OCBAQCBzdGF0aWMgdm9pZCBnZW44X2lycV9yZXNldChzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZQo+
-ID4gKmRldl9wcml2KQo+ID4gwqAKPiA+IMKgwqDCoMKgwqDCoMKgwqBpZiAoSEFTX1BDSF9TUExJ
-VChkZXZfcHJpdikpCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlieF9pcnFf
-cmVzZXQoZGV2X3ByaXYpOwo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgY25wX2Rpc3BsYXlfY2xv
-Y2tfd2EoZGV2X3ByaXYpOwo+ID4gwqB9Cj4gPiDCoAo+ID4gwqBzdGF0aWMgdm9pZCBnZW4xMV9k
-aXNwbGF5X2lycV9yZXNldChzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYpCj4gPiBA
-QCAtMzEwNCwxNSArMzEyNCw3IEBAIHN0YXRpYyB2b2lkIGdlbjExX2Rpc3BsYXlfaXJxX3Jlc2V0
-KHN0cnVjdAo+ID4gZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYpCj4gPiDCoMKgwqDCoMKgwqDC
-oMKgaWYgKElOVEVMX1BDSF9UWVBFKGRldl9wcml2KSA+PSBQQ0hfSUNQKQo+ID4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBHRU4zX0lSUV9SRVNFVCh1bmNvcmUsIFNERSk7Cj4gPiDC
-oAo+ID4gLcKgwqDCoMKgwqDCoMKgLyogV2FfMTQwMTA2ODUzMzI6Y25wL2NtcCx0Z3AsYWRwICov
-Cj4gPiAtwqDCoMKgwqDCoMKgwqBpZiAoSU5URUxfUENIX1RZUEUoZGV2X3ByaXYpID09IFBDSF9D
-TlAgfHwKPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoCAoSU5URUxfUENIX1RZUEUoZGV2X3ByaXYp
-ID49IFBDSF9UR1AgJiYKPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIElOVEVMX1BDSF9UWVBF
-KGRldl9wcml2KSA8IFBDSF9ERzEpKSB7Cj4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgaW50ZWxfdW5jb3JlX3Jtdyh1bmNvcmUsIFNPVVRIX0NISUNLRU4xLAo+ID4gLcKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFNC
-Q0xLX1JVTl9SRUZDTEtfRElTLAo+ID4gU0JDTEtfUlVOX1JFRkNMS19ESVMpOwo+ID4gLcKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGludGVsX3VuY29yZV9ybXcodW5jb3JlLCBTT1VUSF9D
-SElDS0VOMSwKPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBTQkNMS19SVU5fUkVGQ0xLX0RJUywgMCk7Cj4gPiAtwqDCoMKg
-wqDCoMKgwqB9Cj4gPiArwqDCoMKgwqDCoMKgwqBjbnBfZGlzcGxheV9jbG9ja193YShkZXZfcHJp
-dik7Cj4gPiDCoH0KPiA+IMKgCj4gPiDCoHN0YXRpYyB2b2lkIGdlbjExX2lycV9yZXNldChzdHJ1
-Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYpCj4gPiBAQCAtMzc2NCw5ICszNzc2LDE5IEBA
-IHN0YXRpYyB2b2lkIGdlbjhfZGVfaXJxX3Bvc3RpbnN0YWxsKHN0cnVjdAo+ID4gZHJtX2k5MTVf
-cHJpdmF0ZSAqZGV2X3ByaXYpCj4gPiDCoMKgwqDCoMKgwqDCoMKgfQo+ID4gwqB9Cj4gPiDCoAo+
-ID4gK3N0YXRpYyB2b2lkIGljcF9pcnFfcG9zdGluc3RhbGwoc3RydWN0IGRybV9pOTE1X3ByaXZh
-dGUgKmRldl9wcml2KQo+ID4gK3sKPiA+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBpbnRlbF91bmNv
-cmUgKnVuY29yZSA9ICZkZXZfcHJpdi0+dW5jb3JlOwo+ID4gK8KgwqDCoMKgwqDCoMKgdTMyIG1h
-c2sgPSBTREVfR01CVVNfSUNQOwo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgR0VOM19JUlFfSU5J
-VCh1bmNvcmUsIFNERSwgfm1hc2ssIDB4ZmZmZmZmZmYpOwo+ID4gK30KPiA+ICsKPiA+IMKgc3Rh
-dGljIHZvaWQgZ2VuOF9pcnFfcG9zdGluc3RhbGwoc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRl
-dl9wcml2KQo+ID4gwqB7Cj4gPiAtwqDCoMKgwqDCoMKgwqBpZiAoSEFTX1BDSF9TUExJVChkZXZf
-cHJpdikpCj4gPiArwqDCoMKgwqDCoMKgwqBpZiAoSU5URUxfUENIX1RZUEUoZGV2X3ByaXYpID49
-IFBDSF9JQ1ApCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWNwX2lycV9wb3N0
-aW5zdGFsbChkZXZfcHJpdik7Cj4gPiArwqDCoMKgwqDCoMKgwqBlbHNlIGlmIChIQVNfUENIX1NQ
-TElUKGRldl9wcml2KSkKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWJ4X2ly
-cV9wb3N0aW5zdGFsbChkZXZfcHJpdik7Cj4gPiDCoAo+ID4gwqDCoMKgwqDCoMKgwqDCoGdlbjhf
-Z3RfaXJxX3Bvc3RpbnN0YWxsKCZkZXZfcHJpdi0+Z3QpOwo+ID4gQEAgLTM3NzUsMTMgKzM3OTcs
-NiBAQCBzdGF0aWMgdm9pZCBnZW44X2lycV9wb3N0aW5zdGFsbChzdHJ1Y3QKPiA+IGRybV9pOTE1
-X3ByaXZhdGUgKmRldl9wcml2KQo+ID4gwqDCoMKgwqDCoMKgwqDCoGdlbjhfbWFzdGVyX2ludHJf
-ZW5hYmxlKGRldl9wcml2LT51bmNvcmUucmVncyk7Cj4gPiDCoH0KPiA+IMKgCj4gPiAtc3RhdGlj
-IHZvaWQgaWNwX2lycV9wb3N0aW5zdGFsbChzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3By
-aXYpCj4gPiAtewo+ID4gLcKgwqDCoMKgwqDCoMKgc3RydWN0IGludGVsX3VuY29yZSAqdW5jb3Jl
-ID0gJmRldl9wcml2LT51bmNvcmU7Cj4gPiAtwqDCoMKgwqDCoMKgwqB1MzIgbWFzayA9IFNERV9H
-TUJVU19JQ1A7Cj4gPiAtCj4gPiAtwqDCoMKgwqDCoMKgwqBHRU4zX0lSUV9JTklUKHVuY29yZSwg
-U0RFLCB+bWFzaywgMHhmZmZmZmZmZik7Cj4gPiAtfQo+ID4gwqAKPiA+IMKgc3RhdGljIHZvaWQg
-Z2VuMTFfaXJxX3Bvc3RpbnN0YWxsKHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdikK
-PiA+IMKgewo+ID4gLS0gCj4gPiAyLjI5LjIKPiA+IAo+IAoKLS0gClNpbmNlcmVseSwKICAgTHl1
-ZGUgUGF1bCAoc2hlL2hlcikKICAgU29mdHdhcmUgRW5naW5lZXIgYXQgUmVkIEhhdAogICAKTm90
-ZTogSSBkZWFsIHdpdGggYSBsb3Qgb2YgZW1haWxzIGFuZCBoYXZlIGEgbG90IG9mIGJ1Z3Mgb24g
-bXkgcGxhdGUuIElmIHlvdSd2ZQphc2tlZCBtZSBhIHF1ZXN0aW9uLCBhcmUgd2FpdGluZyBmb3Ig
-YSByZXZpZXcvbWVyZ2Ugb24gYSBwYXRjaCwgZXRjLiBhbmQgSQpoYXZlbid0IHJlc3BvbmRlZCBp
-biBhIHdoaWxlLCBwbGVhc2UgZmVlbCBmcmVlIHRvIHNlbmQgbWUgYW5vdGhlciBlbWFpbCB0byBj
-aGVjawpvbiBteSBzdGF0dXMuIEkgZG9uJ3QgYml0ZSEKCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Am 16.02.21 um 18:07 schrieb Andrey Grodzovsky:
+> Problem: If scheduler is already stopped by the time sched_entity
+> is released and entity's job_queue not empty I encountred
+> a hang in drm_sched_entity_flush. This is because drm_sched_entity_is_idle
+> never becomes false.
+>
+> Fix: In drm_sched_fini detach all sched_entities from the
+> scheduler's run queues. This will satisfy drm_sched_entity_is_idle.
+> Also wakeup all those processes stuck in sched_entity flushing
+> as the scheduler main thread which wakes them up is stopped by now.
+>
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 31 +++++++++++++++++++++++++++++++
+>   1 file changed, 31 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 908b0b5..11abf5d 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -897,9 +897,40 @@ EXPORT_SYMBOL(drm_sched_init);
+>    */
+>   void drm_sched_fini(struct drm_gpu_scheduler *sched)
+>   {
+> +	int i;
+> +	struct drm_sched_entity *s_entity;
+>   	if (sched->thread)
+>   		kthread_stop(sched->thread);
+>   
+> +	/* Detach all sched_entites from this scheduler once it's stopped */
+> +	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
+> +		struct drm_sched_rq *rq = &sched->sched_rq[i];
+> +
+> +		if (!rq)
+> +			continue;
+> +
+> +		/* Loop this way because rq->lock is taken in drm_sched_rq_remove_entity */
+> +		spin_lock(&rq->lock);
+> +		while ((s_entity = list_first_entry_or_null(&rq->entities,
+> +							    struct drm_sched_entity,
+> +							    list))) {
+> +			spin_unlock(&rq->lock);
+> +			drm_sched_rq_remove_entity(rq, s_entity);
+> +
+> +			/* Mark as stopped to reject adding to any new rq */
+> +			spin_lock(&s_entity->rq_lock);
+> +			s_entity->stopped = true;
+
+Why not marking it as stopped and then removing it?
+
+Regards,
+Christian.
+
+> +			spin_unlock(&s_entity->rq_lock);
+> +
+> +			spin_lock(&rq->lock);
+> +		}
+> +		spin_unlock(&rq->lock);
+> +
+> +	}
+> +
+> +	/* Wakeup everyone stuck in drm_sched_entity_flush for this scheduler */
+> +	wake_up_all(&sched->job_scheduled);
+> +
+>   	/* Confirm no work left behind accessing device structures */
+>   	cancel_delayed_work_sync(&sched->work_tdr);
+>   
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
