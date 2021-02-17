@@ -2,60 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF64B31DDD9
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 18:04:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 478B631DE07
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 18:18:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C6766E591;
-	Wed, 17 Feb 2021 17:04:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ABB06E1D5;
+	Wed, 17 Feb 2021 17:18:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
- Wed, 17 Feb 2021 17:04:00 UTC
-Received: from z11.mailgun.us (z11.mailgun.us [104.130.96.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41CED6E591
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 17:04:00 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1613581440; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=B5AXYKuDNSG0opzkSoixITlEQXeGyUfALGQ8770qpOg=;
- b=IrSz/tTxOtK6VS9ltE+vwn/xicmNcptOsBhGthGTVp9iQhSskLexTRdGIW5pf2i80UJyhy8x
- 9cJgDtbTowVawLUhww8ZnTgkKb9NPlx+lG56W6sudnhpypyDK4zgluF2pHWJgh3KRvLW1iwH
- EnjNKyPBzFA+Yh50TDi/Wr6FtKY=
-X-Mailgun-Sending-Ip: 104.130.96.11
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 602d4b4d666e232b383231a1 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 17 Feb 2021 16:58:53
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 32986C43462; Wed, 17 Feb 2021 16:58:53 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id CC7FCC433CA;
- Wed, 17 Feb 2021 16:58:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org CC7FCC433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=khsieh@codeaurora.org
-From: Kuogee Hsieh <khsieh@codeaurora.org>
-To: robdclark@gmail.com,
-	sean@poorly.run,
-	swboyd@chromium.org
-Subject: [PATCH] drm/msm/dp: add support of HBR3 link rate
-Date: Wed, 17 Feb 2021 08:58:42 -0800
-Message-Id: <1613581122-8473-1-git-send-email-khsieh@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+X-Greylist: delayed 1082 seconds by postgrey-1.36 at gabe;
+ Wed, 17 Feb 2021 17:18:04 UTC
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F6E86E1D5
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 17:18:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=0ldIuOzQlKtFIEXTlCeuo+xGUzoeEnub3CvLDF2/bLU=; 
+ b=GmIjeUb7eA9bcpUKY/FwnFFYJ+aOrzvmEKE6YPz1skHrdoZncBsXk6mNpjQBz2ukSDW1tzY0ia4eVxii/m4x9yUjwOF9bpNH5dTwb32CdpYjhsyqelTHkQKv1x04H8AmyosVNjEVp6K73qTdGhYbVklphEnD0fzbCLi3VQgnXm5jB92eWRpVV2+uTkE0YMuA0wRs5bgdEHL//ROFt3dhhXsv7Mtr3qqdVf8Tczl5UG7y2c/mSswrWBvTStPAXpHlSsBXx2XYUh8M4YRe3c3T2qnRQVugzjNwS3JebiSRVAQ59ta0n5i+8OfYXpxBiM56QtR3cUyZ8jXOk73LVXKgIw==;
+Received: from lneuilly-657-1-8-171.w81-250.abo.wanadoo.fr ([81.250.147.171]
+ helo=masxo.routerf36dc8.com) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1lCQB6-00021d-KF; Wed, 17 Feb 2021 17:59:52 +0100
+From: Neil Roberts <nroberts@igalia.com>
+To: Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Steven Price <steven.price@arm.com>
+Subject: [PATCH] drm/shmem-helper: Don't remove the offset in vm_area_struct
+ pgoff
+Date: Wed, 17 Feb 2021 17:59:10 +0100
+Message-Id: <20210217165910.3820374-1-nroberts@igalia.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,85 +45,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, khsieh@codeaurora.org, tanmay@codeaurora.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
-MIME-Version: 1.0
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add hbr3_hbr2 voltage and pre-emphasis swing table to support
-HBR3 link rate
+When mmapping the shmem, it would previously adjust the pgoff in the
+vm_area_struct to remove the fake offset that is added to be able to
+identify the buffer. This patch removes the adjustment and makes the
+fault handler use the vm_fault address to calculate the page offset
+instead. Although using this address is apparently discouraged, several
+DRM drivers seem to be doing it anyway.
 
-Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+The problem with removing the pgoff is that it prevents
+drm_vma_node_unmap from working because that searches the mapping tree
+by address. That doesn't work because all of the mappings are at offset
+0. drm_vma_node_unmap is being used by the shmem helpers when purging
+the buffer.
+
+It looks like panfrost is using drm_gem_shmem_purge so this might fix a
+potential bug there.
+
+Signed-off-by: Neil Roberts <nroberts@igalia.com>
 ---
- drivers/gpu/drm/msm/dp/dp_panel.c   |  4 ----
- drivers/phy/qualcomm/phy-qcom-qmp.c | 24 ++++++++++++++++++++++--
- 2 files changed, 22 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-index 9cc8166..63112fa 100644
---- a/drivers/gpu/drm/msm/dp/dp_panel.c
-+++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-@@ -76,10 +76,6 @@ static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
- 	if (link_info->num_lanes > dp_panel->max_dp_lanes)
- 		link_info->num_lanes = dp_panel->max_dp_lanes;
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 9825c378dfa6..4b14157f1962 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -526,11 +526,16 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+ 	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+ 	loff_t num_pages = obj->size >> PAGE_SHIFT;
+ 	struct page *page;
++	pgoff_t page_offset;
  
--	/* Limit support upto HBR2 until HBR3 support is added */
--	if (link_info->rate >= (drm_dp_bw_code_to_link_rate(DP_LINK_BW_5_4)))
--		link_info->rate = drm_dp_bw_code_to_link_rate(DP_LINK_BW_5_4);
--
- 	DRM_DEBUG_DP("version: %d.%d\n", major, minor);
- 	DRM_DEBUG_DP("link_rate=%d\n", link_info->rate);
- 	DRM_DEBUG_DP("lane_count=%d\n", link_info->num_lanes);
-diff --git a/drivers/phy/qualcomm/phy-qcom-qmp.c b/drivers/phy/qualcomm/phy-qcom-qmp.c
-index 0939a9e..cc5ef59 100644
---- a/drivers/phy/qualcomm/phy-qcom-qmp.c
-+++ b/drivers/phy/qualcomm/phy-qcom-qmp.c
-@@ -2965,6 +2965,21 @@ static void qcom_qmp_phy_dp_aux_init(struct qmp_phy *qphy)
- 	       qphy->pcs + QSERDES_V3_DP_PHY_AUX_INTERRUPT_MASK);
+-	if (vmf->pgoff >= num_pages || WARN_ON_ONCE(!shmem->pages))
++	/* We don't use vmf->pgoff since that has the fake offset */
++	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
++
++	if (page_offset < 0 || page_offset >= num_pages ||
++	    WARN_ON_ONCE(!shmem->pages))
+ 		return VM_FAULT_SIGBUS;
+ 
+-	page = shmem->pages[vmf->pgoff];
++	page = shmem->pages[page_offset];
+ 
+ 	return vmf_insert_page(vma, vmf->address, page);
  }
+@@ -581,9 +586,6 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+ 	struct drm_gem_shmem_object *shmem;
+ 	int ret;
  
-+
-+static u8 const qmp_dp_v3_pre_emphasis_hbr3_hbr2[4][4] = {
-+        {0x00, 0x0C, 0x15, 0x1A},
-+        {0x02, 0x0E, 0x16, 0xFF},
-+        {0x02, 0x11, 0xFF, 0xFF},
-+        {0x04, 0xFF, 0xFF, 0xFF}
-+};
-+
-+static u8 const qmp_dp_v3_voltage_swing_hbr3_hbr2[4][4] = {
-+        {0x02, 0x12, 0x16, 0x1A},
-+        {0x09, 0x19, 0x1F, 0xFF},
-+        {0x10, 0x1F, 0xFF, 0xFF},
-+        {0x1F, 0xFF, 0xFF, 0xFF}
-+};
-+
- static const u8 qmp_dp_v3_pre_emphasis_hbr_rbr[4][4] = {
- 	{ 0x00, 0x0c, 0x14, 0x19 },
- 	{ 0x00, 0x0b, 0x12, 0xff },
-@@ -3000,8 +3015,13 @@ static void qcom_qmp_phy_configure_dp_tx(struct qmp_phy *qphy)
- 		drvr_en = 0x10;
- 	}
- 
--	voltage_swing_cfg = qmp_dp_v3_voltage_swing_hbr_rbr[v_level][p_level];
--	pre_emphasis_cfg = qmp_dp_v3_pre_emphasis_hbr_rbr[v_level][p_level];
-+	if (dp_opts->link_rate <= 2700) {
-+		voltage_swing_cfg = qmp_dp_v3_voltage_swing_hbr_rbr[v_level][p_level];
-+		pre_emphasis_cfg = qmp_dp_v3_pre_emphasis_hbr_rbr[v_level][p_level];
-+	} else {
-+		voltage_swing_cfg = qmp_dp_v3_voltage_swing_hbr3_hbr2[v_level][p_level];
-+		pre_emphasis_cfg = qmp_dp_v3_pre_emphasis_hbr3_hbr2[v_level][p_level];
-+	}
- 
- 	/* TODO: Move check to config check */
- 	if (voltage_swing_cfg == 0xFF && pre_emphasis_cfg == 0xFF)
+-	/* Remove the fake offset */
+-	vma->vm_pgoff -= drm_vma_node_start(&obj->vma_node);
+-
+ 	if (obj->import_attach) {
+ 		/* Drop the reference drm_gem_mmap_obj() acquired.*/
+ 		drm_gem_object_put(obj);
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
