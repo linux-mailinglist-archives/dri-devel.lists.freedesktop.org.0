@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 784E931DEF6
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 19:19:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F38931DF1A
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 19:28:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D8076E9AC;
-	Wed, 17 Feb 2021 18:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC3F6E9A2;
+	Wed, 17 Feb 2021 18:27:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 339066E9AC;
- Wed, 17 Feb 2021 18:19:19 +0000 (UTC)
-IronPort-SDR: YSTstMiHTgLANwvcNlRa6PhDEd0aSb+lhj6v88QkQu9WHkcrQbLhahrEjuHITQloBrRKNwnTsf
- jeKdsA+4Ka9w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="162409033"
-X-IronPort-AV: E=Sophos;i="5.81,185,1610438400"; d="scan'208";a="162409033"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2021 10:19:01 -0800
-IronPort-SDR: 10/4LOWbbDnZydEs+vFTlUYsXzTSAzQnuDjBVxyDtp4FHP9x+tcj8xiNBV49xXOPLYOR6BMZ3y
- Q5hA4fy5S5Tw==
-X-IronPort-AV: E=Sophos;i="5.81,185,1610438400"; d="scan'208";a="401386165"
-Received: from gfreude-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.209.147.126])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2021 10:19:00 -0800
-Date: Wed, 17 Feb 2021 13:18:58 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8059B6E5BB;
+ Wed, 17 Feb 2021 18:27:58 +0000 (UTC)
+IronPort-SDR: Mbs4/YGs4gCMFDJyLgBxpHRDXZmhJ3zQJ1AaT21Sm6/5lFL2Z4QMi76rWQVMhAIowCz1FO4dj9
+ iKglafC3X3NQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="202509624"
+X-IronPort-AV: E=Sophos;i="5.81,185,1610438400"; d="scan'208";a="202509624"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2021 10:27:58 -0800
+IronPort-SDR: l67wVA0rwp9jRDOMJqK74CFXHgMsPPjBbUpNwcN920dqNzFHJ677cdRarX2qrEZshBFetg+oPV
+ 9YmlbYkNiXcg==
+X-IronPort-AV: E=Sophos;i="5.81,185,1610438400"; d="scan'208";a="400078128"
+Received: from ideak-desk.fi.intel.com ([10.237.68.141])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2021 10:27:56 -0800
+Date: Wed, 17 Feb 2021 20:27:53 +0200
+From: Imre Deak <imre.deak@intel.com>
 To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH v3 2/2] drm/i915/icp+: Use icp_hpd_irq_setup() instead of
- spt_hpd_irq_setup()
-Message-ID: <YC1eEmjZigHbYYyy@intel.com>
-References: <20210217025337.1929015-1-lyude@redhat.com>
- <20210217025337.1929015-2-lyude@redhat.com>
+Subject: Re: [PATCH] drm/dp_mst: Tune down the WARN modesetting a port with
+ full_pbn=0
+Message-ID: <20210217182753.GA557342@ideak-desk.fi.intel.com>
+References: <20210216123448.410545-1-imre.deak@intel.com>
+ <d070b8fa29ee357eae1943e7d3ede6c7b9a92a40.camel@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210217025337.1929015-2-lyude@redhat.com>
+In-Reply-To: <d070b8fa29ee357eae1943e7d3ede6c7b9a92a40.camel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,57 +48,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: imre.deak@intel.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 16, 2021 at 09:53:37PM -0500, Lyude Paul wrote:
-> While reviewing patches for handling workarounds related to gen9 bc, Imre
-> from Intel discovered that we're using spt_hpd_irq_setup() on ICP+ PCHs
-> despite it being almost the same as icp_hpd_irq_setup(). Since we need to
-> be calling icp_hpd_irq_setup() to ensure that CML-S/TGP platforms function
-> correctly anyway, let's move platforms using PCH_ICP which aren't handled
-> by gen11_hpd_irq_setup() over to icp_hpd_irq_setup().
-> 
-> Cc: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
+On Wed, Feb 17, 2021 at 01:07:11PM -0500, Lyude Paul wrote:
+> On Tue, 2021-02-16 at 14:34 +0200, Imre Deak wrote:
+> > It's possible to modeset a connector/mst port that has a 0 full_pbn
+> > value: if the sink on the port deasserts its HPD and a branch device
+> > reports this via a CSN with the port's ddps=3D0 and pdt!=3DNONE the dri=
+ver
+> > clears full_pbn, but the corresponding connector can be still
+> > modesetted.
+> > =
 
+> > This happened on a DELL U2719D monitor as the branch device and an LG
+> > 27UL650-W daisy-chained to it, the LG monitor generating a long HPD
+> > pulse (doing this for some reason always when waking up from some power
+> > saving state).
+> > =
 
-makes sense to me...
+> > Tune down the WARN about this scenario to a debug message.
+> > =
 
+> > References: https://gitlab.freedesktop.org/drm/intel/-/issues/1917
+> > Cc: Lyude Paul <lyude@redhat.com>
+> > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > ---
+> > =A0drivers/gpu/drm/drm_dp_mst_topology.c | 10 +++++++---
+> > =A01 file changed, 7 insertions(+), 3 deletions(-)
+> > =
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > index 0a54506c27738..dcaf4bf9b62f6 100644
+> > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > @@ -5118,11 +5118,15 @@ drm_dp_mst_atomic_check_port_bw_limit(struct
+> > drm_dp_mst_port *port,
+> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0if (!found)
+> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0return 0;
+> > =A0
+> > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0/* This should never happ=
+en, as it means we tried to
+> > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * set a mode before quer=
+ying the full_pbn
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0/*
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * This could happen if t=
+he sink deasserted its HPD line, but
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * the branch device stil=
+l reports it as attached (PDT !=3D NONE).
+> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 */
+> > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0if (WARN_ON(!port->full_p=
+bn))
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0if (!port->full_pbn) {
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0d=
+rm_dbg_kms(port->mgr->dev, "[MSTB:%p] [MST PORT:%p] no BW available for the=
+ port\n",
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 port->parent, port);
+> =
 
+> Shouldn't this use the atomic debugging level? With that fixed, this is:
+> =
 
-> ---
->  drivers/gpu/drm/i915/i915_irq.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-> index f86b147f588f..7ec61187a315 100644
-> --- a/drivers/gpu/drm/i915/i915_irq.c
-> +++ b/drivers/gpu/drm/i915/i915_irq.c
-> @@ -4320,6 +4320,8 @@ void intel_irq_init(struct drm_i915_private *dev_priv)
->  			dev_priv->display.hpd_irq_setup = gen11_hpd_irq_setup;
->  		else if (IS_GEN9_LP(dev_priv))
->  			dev_priv->display.hpd_irq_setup = bxt_hpd_irq_setup;
-> +		else if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
-> +			dev_priv->display.hpd_irq_setup = icp_hpd_irq_setup;
->  		else if (INTEL_PCH_TYPE(dev_priv) >= PCH_SPT)
->  			dev_priv->display.hpd_irq_setup = spt_hpd_irq_setup;
->  		else
-> -- 
-> 2.29.2
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Reviewed-by: Lyude Paul <lyude@redhat.com>
+
+Thanks, yes mixed up the debug level, will fix that.
+
+> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0return -EINVAL;
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0}
+> > =A0
+> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0pbn_used =3D vcpi->pbn;
+> > =A0=A0=A0=A0=A0=A0=A0=A0} else {
+> =
+
+> -- =
+
+> Sincerely,
+>    Lyude Paul (she/her)
+>    Software Engineer at Red Hat
+>    =
+
+> Note: I deal with a lot of emails and have a lot of bugs on my plate. If =
+you've
+> asked me a question, are waiting for a review/merge on a patch, etc. and I
+> haven't responded in a while, please feel free to send me another email t=
+o check
+> on my status. I don't bite!
+> =
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
