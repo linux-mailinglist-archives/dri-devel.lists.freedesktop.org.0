@@ -2,54 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F3431D447
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 04:34:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA83431D568
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 07:41:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AF716E4B3;
-	Wed, 17 Feb 2021 03:34:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFA886E23D;
+	Wed, 17 Feb 2021 06:41:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCAC16E217
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 03:34:46 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id u4so12299326lfs.0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 19:34:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=K6ClV9WQZhTlq31fja027+gqOEx4sDzqdH+51wX1w3c=;
- b=c6Cq+38qOZ6JG95uMApK2jqKu6ZeTMD9XdRpuTu/hkf7fnO4hv/4m3mfTtIALc3/VQ
- mKAjxwQPOp5ikMNiVuEwPZF0hC0BMdwY83uWwZU6LwPBckBToQn0IpSdwfT+CprlaAnL
- XkBdEYlzCKqE+32Yon6sYtpEX8TjpNKEnUKAeW8k3ATf7ZfB/MGFhDAPRxTF8cuZA/Jy
- TLwBa2/KOIkeZr45wVIAZL8jLeoXkuENEb70vtFW1bYTtWTQ47vqwl6QqnTIwgZaf5RQ
- Nogzk4+PxQgYBRsqfsX1e3BWMnwAlBE19EYSvarXzAicZTATb7PeVDrGbVCf4pntFhd+
- aktg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=K6ClV9WQZhTlq31fja027+gqOEx4sDzqdH+51wX1w3c=;
- b=lP9VRxU6VMFw832UwA3u9FP1NCKlhkjqQAZZCSSge+7iN3+Ru3tCzQGtbJKBE6xxdw
- YH2UmovmnWW1YVLxQsfd+p0IZzmmPNBf0r4D6gfapBuz6BkV6zlUGF38cRB47hl6Sdd7
- Oedz++Pp3sYF2X9frN5AFLf5hs+AZFt34hWaGIE0tYy8Uz6uLUEEM25Tfk5gyP8Jydxl
- 7JX8naRVlmkdjpO0SUV+sQUyarlSfYiWX6R2bi1B88N74U6MUZRBlTYmTcCtLg6UqlU1
- JnagbnzR0Z5LxB4WkYTME8JItmPCyfTPOuvPdKjjzh9JTrWBznnxQLoNtD0IuvZdeOT+
- HMjQ==
-X-Gm-Message-State: AOAM531YOuW+8YQ4Wfq7bjUArfJe7EVXt9CApIbL+Vxs6nOmkgXQYei7
- JTnWR+WSAqzxOfOY63dxhD8qZC/DprSdH+mve/gxuw==
-X-Google-Smtp-Source: ABdhPJxysxIy/VrbdaSC0XmUvIn0Un9Pwkqyakx/MSJGvy6j8MgI5c2OADHkkDaLXvGbmN91jMuwVWZUVQm8jiSYH4E=
-X-Received: by 2002:a19:9c5:: with SMTP id 188mr12965565lfj.626.1613532885268; 
- Tue, 16 Feb 2021 19:34:45 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEF046E462
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 06:41:18 +0000 (UTC)
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi
+ [91.157.208.71])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 310D68C4;
+ Wed, 17 Feb 2021 07:41:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1613544076;
+ bh=kACUWAlTtOjLum7wNaqm/GR5HlDYZlCl+dsy0Q/Nw7o=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=rdCcZb39++Zh2RYpzpgU8Gu0TmzhwO+GtemIHB7dru21BrRYwL9gjMzhgz2ixwgGZ
+ S1Z47gQRwTuS7kSjRFHOUDluIP89QF8IXlDzTN0xqYX05c9keG9Gl44SOXTKEJ6Nfi
+ Th/HLpwcFYpDUbJINqMrzNq4jkF80UYK2nvpKA6E=
+Subject: Re: [RESEND PATCH] drm/tilcdc: fix raster control register setting
+To: Dario Binacchi <dariobin@libero.it>, linux-kernel@vger.kernel.org,
+ Jyri Sarha <jyri.sarha@iki.fi>
+References: <20210216202225.12861-1-dariobin@libero.it>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ mQINBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
+ wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
+ Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
+ eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
+ LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
+ G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
+ DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
+ 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
+ rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
+ Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABtDBUb21pIFZhbGtl
+ aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT6JAk4EEwEIADgWIQTEOAw+
+ ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
+ PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
+ VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
+ 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
+ uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
+ R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
+ sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
+ Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
+ PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
+ dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
+ qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENbkCDQROprNHARAAx0aat8GU
+ hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
+ DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
+ KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
+ 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
+ xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
+ UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
+ /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
+ 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
+ 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
+ mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAYkCHwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
+ 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
+ suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
+ xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
+ m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
+ CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
+ CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
+ 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
+ ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
+ yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
+ 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
+Message-ID: <07f7a7c0-8016-bf32-92ad-b9de4aaed84c@ideasonboard.com>
+Date: Wed, 17 Feb 2021 08:41:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210113140604.3615437-1-daniel.vetter@ffwll.ch>
- <CALAqxLWqgLXxry8FhVSK9xC2geiPOA+fTdC-oRENS9iG5AJz=A@mail.gmail.com>
-In-Reply-To: <CALAqxLWqgLXxry8FhVSK9xC2geiPOA+fTdC-oRENS9iG5AJz=A@mail.gmail.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Tue, 16 Feb 2021 19:34:33 -0800
-Message-ID: <CALAqxLUzbpNfebqAp7E4A=fNhyJntBOAjjBumFSDco73jp=srQ@mail.gmail.com>
-Subject: Re: [PATCH] drm-buf: Add debug option
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+In-Reply-To: <20210216202225.12861-1-dariobin@libero.it>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,79 +91,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- David Stevens <stevensd@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBGZWIgMTYsIDIwMjEgYXQgNzozMCBQTSBKb2huIFN0dWx0eiA8am9obi5zdHVsdHpA
-bGluYXJvLm9yZz4gd3JvdGU6Cj4KPiBPbiBXZWQsIEphbiAxMywgMjAyMSBhdCA2OjA2IEFNIERh
-bmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+IHdyb3RlOgo+ID4KPiA+IFdlIGhh
-dmUgdG9vIG1hbnkgcGVvcGxlIGFidXNpbmcgdGhlIHN0cnVjdCBwYWdlIHRoZXkgY2FuIGdldCBh
-dCBidXQKPiA+IHJlYWxseSBzaG91bGRuJ3QgaW4gaW1wb3J0ZXJzLiBBc2lkZSBmcm9tIHRoYXQg
-dGhlIGJhY2tpbmcgcGFnZSBtaWdodAo+ID4gc2ltcGx5IG5vdCBleGlzdCAoZm9yIGR5bmFtaWMg
-cDJwIG1hcHBpbmdzKSBsb29raW5nIGF0IGl0IGFuZCB1c2luZyBpdAo+ID4gZS5nLiBmb3IgbW1h
-cCBjYW4gYWxzbyB3cmVhayB0aGUgcGFnZSBoYW5kbGluZyBvZiB0aGUgZXhwb3J0ZXIKPiA+IGNv
-bXBsZXRlbHkuIEltcG9ydGVycyByZWFsbHkgbXVzdCBnbyB0aHJvdWdoIHRoZSBwcm9wZXIgaW50
-ZXJmYWNlIGxpa2UKPiA+IGRtYV9idWZfbW1hcCBmb3IgZXZlcnl0aGluZy4KPiA+Cj4gPiBKdXN0
-IGFuIFJGQyB0byBzZWUgd2hldGhlciB0aGlzIGlkZWEgaGFzIHNvbWUgc3RpY2tpbmVzcy4gZGVm
-YXVsdCB5Cj4gPiBmb3Igbm93IHRvIG1ha2Ugc3VyZSBpbnRlbC1nZngtY2kgcGlja3MgaXQgdXAg
-dG9vLgo+ID4KPiA+IEknbSBzZW1pLXRlbXB0ZWQgdG8gZW5mb3JjZSB0aGlzIGZvciBkeW5hbWlj
-IGltcG9ydGVycyBzaW5jZSB0aG9zZQo+ID4gcmVhbGx5IGhhdmUgbm8gZXhjdXNlIGF0IGFsbCB0
-byBicmVhayB0aGUgcnVsZXMuCj4gPgo+ID4gVW5mb3J0dWFudGVseSB3ZSBjYW4ndCBzdG9yZSB0
-aGUgcmlnaHQgcG9pbnRlcnMgc29tZXdoZXJlIHNhZmUgdG8gbWFrZQo+ID4gc3VyZSB3ZSBvb3Bz
-IG9uIHNvbWV0aGluZyByZWNvZ25pemFibGUsIHNvIGJlc3QgaXMgdG8ganVzdCB3cmFuZ2xlCj4g
-PiB0aGVtIGEgYml0IGJ5IGZsaXBwaW5nIGFsbCB0aGUgYml0cy4gQXQgbGVhc3Qgb24geDg2IGtl
-cm5lbCBhZGRyZXNzZXMKPiA+IGhhdmUgYWxsIHRoZWlyIGhpZ2ggYml0cyBzZXRzIGFuZCB0aGUg
-c3RydWN0IHBhZ2UgYXJyYXkgaXMgZmFpcmx5IGxvdwo+ID4gaW4gdGhlIGtlcm5lbCBtYXBwaW5n
-LCBzbyBmbGlwcGluZyBhbGwgdGhlIGJpdHMgZ2l2ZXMgdXMgYSB2ZXJ5IGhpZ2gKPiA+IHBvaW50
-ZXIgaW4gdXNlcnNwYWNlIGFuZCBoZW5jZSBleGNlbGxlbnQgY2hhbmNlcyBmb3IgYW4gaW52YWxp
-ZAo+ID4gZGVyZWZlcmVuY2UuCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8
-ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4gPiBDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13
-YWxAbGluYXJvLm9yZz4KPiA+IENjOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5rb2Vu
-aWdAYW1kLmNvbT4KPiA+IENjOiBEYXZpZCBTdGV2ZW5zIDxzdGV2ZW5zZEBjaHJvbWl1bS5vcmc+
-Cj4gPiBDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnCj4gPiBDYzogbGluYXJvLW1tLXNp
-Z0BsaXN0cy5saW5hcm8ub3JnCj4gPiAtLS0KPiA+ICBkcml2ZXJzL2RtYS1idWYvS2NvbmZpZyAg
-IHwgIDggKysrKysrKwo+ID4gIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgfCA0OSArKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0KPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDUz
-IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZG1hLWJ1Zi9LY29uZmlnIGIvZHJpdmVycy9kbWEtYnVmL0tjb25maWcKPiA+IGluZGV4IDRm
-ODIyNGE2YWM5NS4uY2RkYjU0OWU1ZTU5IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9kbWEtYnVm
-L0tjb25maWcKPiA+ICsrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9LY29uZmlnCj4gPiBAQCAtNTAsNiAr
-NTAsMTQgQEAgY29uZmlnIERNQUJVRl9NT1ZFX05PVElGWQo+ID4gICAgICAgICAgIFRoaXMgaXMg
-bWFya2VkIGV4cGVyaW1lbnRhbCBiZWNhdXNlIHdlIGRvbid0IHlldCBoYXZlIGEgY29uc2lzdGVu
-dAo+ID4gICAgICAgICAgIGV4ZWN1dGlvbiBjb250ZXh0IGFuZCBtZW1vcnkgbWFuYWdlbWVudCBi
-ZXR3ZWVuIGRyaXZlcnMuCj4gPgo+ID4gK2NvbmZpZyBETUFCVUZfREVCVUcKPiA+ICsgICAgICAg
-Ym9vbCAiRE1BLUJVRiBkZWJ1ZyBjaGVja3MiCj4gPiArICAgICAgIGRlZmF1bHQgeQo+ID4gKyAg
-ICAgICBoZWxwCj4gPiArICAgICAgICAgVGhpcyBvcHRpb24gZW5hYmxlcyBhZGRpdGlvbmFsIGNo
-ZWNrcyBmb3IgRE1BLUJVRiBpbXBvcnRlcnMgYW5kCj4gPiArICAgICAgICAgZXhwb3J0ZXJzLiBT
-cGVjaWZpY2FsbHkgaXQgdmFsaWRhdGVzIHRoYXQgaW1wb3J0ZXJzIGRvIG5vdCBwZWVrIGF0IHRo
-ZQo+ID4gKyAgICAgICAgIHVuZGVybHlpbmcgc3RydWN0IHBhZ2Ugd2hlbiB0aGV5IGltcG9ydCBh
-IGJ1ZmZlci4KPiA+ICsKPiA+ICBjb25maWcgRE1BQlVGX1NFTEZURVNUUwo+ID4gICAgICAgICB0
-cmlzdGF0ZSAiU2VsZnRlc3RzIGZvciB0aGUgZG1hLWJ1ZiBpbnRlcmZhY2VzIgo+ID4gICAgICAg
-ICBkZWZhdWx0IG4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIGIv
-ZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwo+ID4gaW5kZXggMWM5YmQ1MWRiMTEwLi42ZTQ3MjVm
-N2RmZGUgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCj4gPiArKysg
-Yi9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCj4gPiBAQCAtNjY2LDYgKzY2NiwzMCBAQCB2b2lk
-IGRtYV9idWZfcHV0KHN0cnVjdCBkbWFfYnVmICpkbWFidWYpCj4gPiAgfQo+ID4gIEVYUE9SVF9T
-WU1CT0xfR1BMKGRtYV9idWZfcHV0KTsKPiA+Cj4gPiArc3RhdGljIHN0cnVjdCBzZ190YWJsZSAq
-IF9fbWFwX2RtYV9idWYoc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNoLAo+ID4gKyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZW51bSBkbWFfZGF0YV9kaXJlY3Rp
-b24gZGlyZWN0aW9uKQo+ID4gK3sKPiA+ICsgICAgICAgc3RydWN0IHNnX3RhYmxlICpzZ190YWJs
-ZTsKPiA+ICsKPiA+ICsgICAgICAgc2dfdGFibGUgPSBhdHRhY2gtPmRtYWJ1Zi0+b3BzLT5tYXBf
-ZG1hX2J1ZihhdHRhY2gsIGRpcmVjdGlvbik7Cj4gPiArCj4gPiArI2lmIENPTkZJR19ETUFCVUZf
-REVCVUcKPgo+Cj4gSGV5IERhbmllbCwKPiAgIEkganVzdCBub3RpY2VkIGEgYnVpbGQgd2Fybmlu
-ZyBpbiBhIHRyZWUgSSBwdWxsZWQgdGhpcyBwYXRjaCBpbnRvLgo+IFlvdSBwcm9iYWJseSB3YW50
-IHRvIHVzZSAjaWZkZWYgaGVyZSwgYXMgaWYgaXRzIG5vdCBkZWZpbmVkIHdlIHNlZToKPiBkcml2
-ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jOjgxMzo1OiB3YXJuaW5nOiAiQ09ORklHX0RNQUJVRl9ERUJV
-RyIgaXMgbm90Cj4gZGVmaW5lZCwgZXZhbHVhdGVzIHRvIDAgWy1XdW5kZWZdCj4KTmV2ZXJtaW5k
-LiBJIHNlZSBpdHMgYWxyZWFkeSBmaXhlZCBpbiBkcm0tbWlzYy1uZXh0LgoKdGhhbmtzCi1qb2hu
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 16/02/2021 22:22, Dario Binacchi wrote:
+> The fdd property of the tilcdc_panel_info structure must set the reqdly
+> bit field  (bit 12 to 19) of the raster control register. The previous
+> statement set the least significant bit instead.
+> 
+> Signed-off-by: Dario Binacchi <dariobin@libero.it>
+> 
+> ---
+> 
+>  drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+> index 30213708fc99..238068e28729 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+> @@ -393,7 +393,7 @@ static void tilcdc_crtc_set_mode(struct drm_crtc *crtc)
+>  			return;
+>  		}
+>  	}
+> -	reg |= info->fdd < 12;
+> +	reg |= info->fdd << 12;
+>  	tilcdc_write(dev, LCDC_RASTER_CTRL_REG, reg);
+>  
+>  	if (info->invert_pxl_clk)
+> 
+
+This is interesting, looks like this has always been broken, and in many
+cases sets bits 0, which is the enable bit. So we enable LCDC before
+even setting the fb address. How does this not blow up LCDC totally?
+
+The fix looks correct to me, but it will change the register value for
+boards that have apparently been working for years.
+
+Dario, did you test this on actual HW, or did you just spot the error?
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+ Tomi
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
