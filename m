@@ -1,36 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5675F31D778
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 11:23:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB1E31D7CF
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 12:03:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 391F289296;
-	Wed, 17 Feb 2021 10:23:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49F3A6E0D5;
+	Wed, 17 Feb 2021 11:03:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBC8889296;
- Wed, 17 Feb 2021 10:23:43 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2B120B141;
- Wed, 17 Feb 2021 10:23:42 +0000 (UTC)
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20210216113716.716996-1-kraxel@redhat.com>
- <20210216113716.716996-10-kraxel@redhat.com>
- <5baf096f-b1ee-46ba-5ee9-1c829b96e088@suse.de>
- <ab21d782-2627-7a68-8fab-0acfba416c86@suse.de>
- <20210217100206.fh5422uz4gnixyif@sirius.home.kraxel.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 09/10] drm/qxl: map/unmap framebuffers in
- prepare_fb+cleanup_fb callbacks.
-Message-ID: <e46a8494-b3f2-40ba-2625-05c13c47e769@suse.de>
-Date: Wed, 17 Feb 2021 11:23:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F1696E0D5
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 11:03:22 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6929F5C00D3;
+ Wed, 17 Feb 2021 06:03:17 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 17 Feb 2021 06:03:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=RhWcT+wzUyCCkN6d1Yoz8PTsSVB
+ hl4FHpU5J3vQcZDE=; b=H3dVaDibAMsKoUksJrYqWmyoE/KNQb0f/+IBdGlE/hZ
+ n4W/BRi+spDr4LaggTNgzjTS6TxTdJcyM3PpcKyDD0nonZRbI8pyPNd+IMBOnXcl
+ 7oD4fB0bDhUkhR2M5qSeksR3ldlhufv79X57Xee5vO2jOyP8jF8pRAaxg9na/3Oi
+ HvQM1yElBZWr6g613otX+rwlmSgGa6Nk0POUUOtKm5EQ0uC2MNzj3aN0M8XN8biM
+ 4G17NsBDk3mmOkLDfu7LNSvW8Mue6JZGh/XKQWBW2tAmXWSThAxWRce7lhsfrzmZ
+ bqKjwWtQrwe1n/TT++coxv6LRjh6PZ06H4+SKhsvxqQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=RhWcT+
+ wzUyCCkN6d1Yoz8PTsSVBhl4FHpU5J3vQcZDE=; b=cMrw4u+dIQ4Q8FsWi3IkRg
+ K8Z+HQUvS0Y6vb30HIUV2FcVKgx26+Rx6Yu8pwaeITsHvH3cSg8dQhNWgj6wUJo3
+ BcE7XfcpJ49jdYGoCMToJFGROFJowd475o597clroj0H6azkRV9QrbdO104xtXre
+ zZWgS1ackAA2FuVpgATVQxS/Tst1z+a28GBIbWJULe10WkIPsFdW+wg4BU9aOVJC
+ UjlV1sAPEGlXQ3rldWzgkIHt25Ea8t0pg1rCebI7h/s2MubcW2xnsdJ/3DelCXXn
+ huBznNPBmqXP0RzVYv91qtyfovnzmPZfe8/LjGdN3/oxyr2jxb0erCKLvSSCG5Cw
+ ==
+X-ME-Sender: <xms:8_csYDjKWj8yvtqDXQ0_3j3h7xQ7egLpJaiZhKN0ycKAES3d3Ztx8A>
+ <xme:8_csYP_qa-8NZNBnC1W2YJYYbO5VaI_Nu6whxL3oWZjexfWPC5dw-JEvZk2JDmybb
+ lIGGbyJyfrKyk69bYs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjedugddugeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
+ gfevnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:8_csYP8dTUyJxSjW3uxv3vKY9In1dFN0vyL_ry0Sfer3-ZArs5QF1A>
+ <xmx:8_csYIDMh1AT2d7witfNg_L6eE_VDidYd1tB355iTPmGGD1Qv2HjUg>
+ <xmx:8_csYPwbjOBUe8L6JwovIPhC2HhWntcVSE65dLY-SOlCRMGCQ_gB4g>
+ <xmx:9fcsYAPfbz1StMBWRvwmFuGfuHw2qnJsPJV2aq3X5FrzYadySEHe7w>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id AACE624005E;
+ Wed, 17 Feb 2021 06:03:15 -0500 (EST)
+Date: Wed, 17 Feb 2021 12:03:13 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Marjan Pascolo <marjan.pascolo@trexom.it>
+Subject: Re: [PATCH] pinctrl/sunxi: adding input-debounce-ns property
+Message-ID: <20210217110313.ly5ly5u5vyh2s7dh@gilmour>
+References: <d244aa6b-00b7-d768-83cb-e5a228b7ee08@trexom.it>
+ <20210114081732.9386-1-giulio.benetti@benettiengineering.com>
+ <20210114114219.faulkwww3dhdqwmc@gilmour>
+ <c3bc06e3-4193-dc0b-b2b3-d54636481e28@trexom.it>
 MIME-Version: 1.0
-In-Reply-To: <20210217100206.fh5422uz4gnixyif@sirius.home.kraxel.org>
+In-Reply-To: <c3bc06e3-4193-dc0b-b2b3-d54636481e28@trexom.it>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,163 +80,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>
-Content-Type: multipart/mixed; boundary="===============1879570815=="
+Cc: linux-arm-kernel@lists.infradead.org, wens@csie.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0905643250=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1879570815==
+
+--===============0905643250==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="h0WnoFNYi1f9XmooDNTQLjyMjFkKtPyL9"
+	protocol="application/pgp-signature"; boundary="4d4ux434tr5bcsek"
+Content-Disposition: inline
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---h0WnoFNYi1f9XmooDNTQLjyMjFkKtPyL9
-Content-Type: multipart/mixed; boundary="LnSnfig26KmIAW6LDR29DlBQ6koKWqp5s";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: David Airlie <airlied@linux.ie>, open list
- <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>, Dave Airlie
- <airlied@redhat.com>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <spice-devel@lists.freedesktop.org>
-Message-ID: <e46a8494-b3f2-40ba-2625-05c13c47e769@suse.de>
-Subject: Re: [PATCH 09/10] drm/qxl: map/unmap framebuffers in
- prepare_fb+cleanup_fb callbacks.
-References: <20210216113716.716996-1-kraxel@redhat.com>
- <20210216113716.716996-10-kraxel@redhat.com>
- <5baf096f-b1ee-46ba-5ee9-1c829b96e088@suse.de>
- <ab21d782-2627-7a68-8fab-0acfba416c86@suse.de>
- <20210217100206.fh5422uz4gnixyif@sirius.home.kraxel.org>
-In-Reply-To: <20210217100206.fh5422uz4gnixyif@sirius.home.kraxel.org>
 
---LnSnfig26KmIAW6LDR29DlBQ6koKWqp5s
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+--4d4ux434tr5bcsek
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+Hi,
 
-Am 17.02.21 um 11:02 schrieb Gerd Hoffmann:
-> On Tue, Feb 16, 2021 at 02:46:21PM +0100, Thomas Zimmermann wrote:
->>
->>
->> Am 16.02.21 um 14:27 schrieb Thomas Zimmermann:
->>> Hi
->>>
->>> this is a shadow-buffered plane. Did you consider using the new helpe=
-rs
->>> for shadow-buffered planes? They will map the user BO for you and
->>> provide the mapping in the plane state.
->>>
->>>   From there, you should implement your own plane state on top of str=
-uct
->>> drm_shadow_plane_state, and also move all the other allocations and
->>> vmaps into prepare_fb and cleanup_fb. Most of this is not actually
->>> allowed in commit tails. All we'd have to do is to export the reset,
->>> duplicate and destroy code; similar to what
->>> __drm_atomic_helper_plane_reset() does.
->>
->> AFAICT the cursor_bo is used to implement double buffering for the cur=
-sor
->> image.
->>
->> Ideally, you can do what ast does: pre-allocate/vmap 2 BOs at the end =
-of the
->> vram. Then pageflip between them in atomic_update(). Resolves all the
->> allocation and mapping headaches.
+On Wed, Feb 10, 2021 at 05:22:37PM +0100, Marjan Pascolo wrote:
+> On Allwinner SoC interrupt debounce can be controlled by two oscillator
+> (32KHz and 24MHz) and a prescale divider.
+> Oscillator and prescale divider are set through
+> device tree property "input-debounce" which have 1uS accuracy.
+> For acheive nS precision a new device tree poperty is made
+> named "input-debounce-ns".
+> "input-debounce-ns" is checked only if "input-debounce"
+> property is not defined.
 >=20
-> Just waded through the ast patches.
-
-I just received your ack. Thanks a lot for looking at the ast patches.
-
+> Suggested-by: Maxime Ripard <maxime@cerno.tech>
+> Signed-off-by: Marjan Pascolo <marjan.pascolo@trexom.it>
+> ---
+> ---
+> =A0.../pinctrl/allwinner,sun4i-a10-pinctrl.yaml=A0 |=A0 9 +++++++
+> =A0drivers/pinctrl/sunxi/pinctrl-sunxi.c=A0=A0=A0=A0=A0=A0=A0=A0 | 25 +++=
++++++++++++++---
+> =A02 files changed, 30 insertions(+), 4 deletions(-)
 >=20
-> It is not that simple for qxl.  You have to send a command to the
-> virtualization host and take care of the host accessing that memory
-> when processing the command, so you can't reuse the memory until the
-> host signals it is fine to do so.
+> diff --git
+> a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.y=
+aml
+> b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.y=
+aml
+> index 5240487dfe50..346776de3a44 100644
+> ---
+> a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.y=
+aml
+> +++
+> b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.y=
+aml
+> @@ -93,6 +93,15 @@ properties:
+> =A0=A0=A0=A0 minItems: 1
+> =A0=A0=A0=A0 maxItems: 5
 >=20
-> But, yes, it should be possible to handle cursor_bo creation in
-> prepare_fb without too much effort.
+> +=A0 input-debounce-ns:
+> +=A0=A0=A0 description:
+> +=A0=A0=A0=A0=A0 Debouncing periods in nanoseconds, one period per interr=
+upt
+> +=A0=A0=A0=A0=A0 bank found in the controller.
+> +=A0=A0=A0=A0=A0 Only checked if input-debounce is not present
+> +=A0=A0=A0 $ref: /schemas/types.yaml#/definitions/uint32-array
+> +=A0=A0=A0 minItems: 1
+> +=A0=A0=A0 maxItems: 5
+> +
 
-I've been thinking about this issue and here's an idea:
+This should be a separate patch, with the DT maintainers in Cc.=20
 
-If you take the ast code as a blueprint, you'd store two cursor bo in a=20
-cursor-plane structure. Aditionally each of these BOs would have a=20
-pointer to a fence associated with it.
+You should enforce that the properties are mutually exclusive through
+the schema too
 
-One idea for the fencing code would be to allocate each new fence in=20
-prepare_fb and store it in the cursor plane state. In atomic_update,=20
-pick the unused BO in the cursor plane and wait on its fence. This=20
-should guarantee that the BO is available. (?) Then swap the BO's fence=20
-with the one in the cursor plane state. Setup the new fence for=20
-synchronization with the host. Next time you pick this cursor BO, the=20
-fence will be there for synchronization. The old fence from the cursor=20
-BO will now be stored in the cursor-plane state and can be freed in=20
-cleanup_fb().
-
-My main interest here is to move all fail-able/locking calls out of the=20
-atomic_update function. I might be missing some crucial corner case, but =
-
-this should resolve the issue. (?) In any case, it's maybe worth a=20
-separate patchset.
-
-Best regards
-Thomas
-
+> =A0patternProperties:
+> =A0=A0 # It's pretty scary, but the basic idea is that:
+> =A0=A0 #=A0=A0 - One node name can start with either s- or r- for PRCM no=
+des,
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> index dc8d39ae045b..869b6d5743ba 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> @@ -1335,14 +1335,31 @@ static int sunxi_pinctrl_setup_debounce(struct
+> sunxi_pinctrl *pctl,
+> =A0=A0=A0=A0 struct clk *hosc, *losc;
+> =A0=A0=A0=A0 u8 div, src;
+> =A0=A0=A0=A0 int i, ret;
+> +=A0=A0=A0 /* Keeping for loop below clean */
+> +=A0=A0=A0 const char* debounce_prop_name;
+> +=A0=A0=A0 unsigned long debounce_dividend;
 >=20
-> take care,
->    Gerd
+> =A0=A0=A0=A0 /* Deal with old DTs that didn't have the oscillators */
+> =A0=A0=A0=A0 if (of_clk_get_parent_count(node) !=3D 3)
+> =A0=A0=A0=A0 =A0=A0=A0 return 0;
 >=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
+> +=A0=A0=A0 /*
+> +=A0=A0=A0 =A0* Distinguish between simple input-debounce
+> +=A0=A0=A0 =A0* and new input-debounce-ns
+> +=A0=A0=A0 =A0*/
+> +
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+I'm not sure that comment should stay, the code is obvious enough
 
+> =A0=A0=A0=A0 /* If we don't have any setup, bail out */
+> -=A0=A0=A0 if (!of_find_property(node, "input-debounce", NULL))
+> -=A0=A0=A0 =A0=A0=A0 return 0;
+> +=A0=A0=A0 if (!of_find_property(node, "input-debounce", NULL)) {
+> +=A0=A0=A0 =A0=A0=A0 if(!of_find_property(node, "input-debounce-ns", NULL=
+)) {
+> +=A0=A0=A0 =A0=A0=A0 =A0=A0=A0 return 0;
+> +=A0=A0=A0 =A0=A0=A0 } else {
+> +=A0=A0=A0 =A0=A0=A0 =A0=A0=A0 debounce_prop_name=3D"input-debounce-ns";
+> +=A0=A0=A0 =A0=A0=A0 =A0=A0=A0 debounce_dividend=3DNSEC_PER_SEC;
+> +=A0=A0=A0 =A0=A0=A0 }
+> +=A0=A0=A0 } else {
+> +=A0=A0=A0 =A0=A0=A0 debounce_prop_name=3D"input-debounce";
+> +=A0=A0=A0 =A0=A0=A0 debounce_dividend=3DUSEC_PER_SEC;
+> +=A0=A0=A0 }
 
---LnSnfig26KmIAW6LDR29DlBQ6koKWqp5s--
+This doesn't follow the kernel coding style, make sure to run
+scripts/checkpatch.pl on your patches before sending them.
 
---h0WnoFNYi1f9XmooDNTQLjyMjFkKtPyL9
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Maxime
+
+--4d4ux434tr5bcsek
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAs7q0FAwAAAAAACgkQlh/E3EQov+DV
-7g//UOrMSWgXBRPsci1jInSlvHBHkSG+Nszzjkh4QC5ipANPk4Too/BNFHrXMMM2Ase+jthizq7I
-1pxbiXRfg6sY/6oqieukJpvDLWx/DYZyhLVISr978Wbr/5ZKqDdf1bm0xQwCmnGqTxQM2qyoXhKr
-+uXr64a9oaUFZar1jfEJ2GLqQc5PDhk52pZck49EGnasfg9XBk/CWvLq5qXp4YdQz4eZeBQCHtGP
-R9jFPA6tWWGTFO8ozLPDoyaA34z741aFTDWgFPjxWb2uhooprmVONEwfAUBHNYw7rqRhXXHTxZXc
-SO8jzJKu5+0gvvfQaE2qF1x7pxDHPJwqqcfYYOvzPXq9iHfEoIiBUvhtn3bjyvoBgahsY9LG/GUJ
-hR3DsuMNledIR/V9Qr6n/Fcui2ZivVkgSVhxrwaTUSzKYfzR1yxgZUay4Cq7teL26P2J4V96fnAj
-94wQCxyp+p0osecAtsdkEAYswUzsYyRgSK3vnA17DVAnHWHHojH8yPr2Rf0PiMfXqPsZ93g8l7my
-5xretITk7n8a4E1I00SHKwM+TW3jZcZil6czWkPaosV00KNnnJWqPe+0ole8dx9vhlf7av5ql7iD
-QVVZPQEWhHONTKCYH+Oql9maQLyL8PUWBrRbmHEdfj5cMyxKbuW6MKLCITYr98XL1RCKTZLNiR25
-aMk=
-=i3Bx
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYCz38QAKCRDj7w1vZxhR
+xdYxAQDuQw3AAskrMfcPPpaS8bwmoVbfXI1KgKDZ6IRikJ/MtwD+JBs5jXA0i0aL
+4KwQ8cc5G7YLwGjAjFAVn15ACOnxtgc=
+=9525
 -----END PGP SIGNATURE-----
 
---h0WnoFNYi1f9XmooDNTQLjyMjFkKtPyL9--
+--4d4ux434tr5bcsek--
 
---===============1879570815==
+--===============0905643250==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -210,4 +227,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1879570815==--
+--===============0905643250==--
