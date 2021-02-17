@@ -1,40 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB01A31D5F5
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 09:03:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADC631D71F
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 10:53:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D27F26E4BB;
-	Wed, 17 Feb 2021 08:03:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 978CC89C59;
+	Wed, 17 Feb 2021 09:53:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E09F6E4B6;
- Wed, 17 Feb 2021 08:03:05 +0000 (UTC)
-IronPort-SDR: zteTu2JRnFByD3JD8vL+tv2nahyL1NkRYIY2v/9Urp6RDYVWrWLMrjDBnzT6AAtX3qw5WKlRn4
- ZRXgOhL1OyOQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="180572843"
-X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; d="scan'208";a="180572843"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2021 00:03:04 -0800
-IronPort-SDR: UKqGDNe3ApTc4vL9NDJJ2dXUkrXizsRjRUhmn+4+Zr1HRzoyiXtKzGvT6kS6z01wa8jMxRIjfs
- C8yAnitX75/Q==
-X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; d="scan'208";a="439270368"
-Received: from ideak-desk.fi.intel.com ([10.237.68.141])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2021 00:03:00 -0800
-Date: Wed, 17 Feb 2021 10:02:57 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH v3 1/2] drm/i915/gen9bc: Handle TGP PCH during
- suspend/resume
-Message-ID: <20210217080257.GB443835@ideak-desk.fi.intel.com>
-References: <20210217025337.1929015-1-lyude@redhat.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 634AE89C59
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 09:53:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613555609;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iB97vKTinG2XemEE+QQxJDkql5TJRjSkHW9M/3kwXvw=;
+ b=b691yZA30cnqvvG9Sd/+ZqNSuLIdqFPzk/jCLoxQvLiBJVU+Z2ycqV74kOzLnpECNKAvdK
+ PKWpgTeurFWdexDULA3iiKmur4KdBxP9jaxx1lTEBwcqD/chwmqYs2SfQU2dCUnDhh68Yb
+ eQCyGZpr+IPRWv1tlt4P5EK/i5FsmgU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-437-97bKOS8nOxmRp7tCuLFI7Q-1; Wed, 17 Feb 2021 04:53:24 -0500
+X-MC-Unique: 97bKOS8nOxmRp7tCuLFI7Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EAED189DF4E;
+ Wed, 17 Feb 2021 09:53:23 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
+ [10.36.114.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 26AAB722CB;
+ Wed, 17 Feb 2021 09:53:22 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 7187018000A2; Wed, 17 Feb 2021 10:53:21 +0100 (CET)
+Date: Wed, 17 Feb 2021 10:53:21 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 00/10] drm/ast: Clean-up cursor-plane updates
+Message-ID: <20210217095321.35vwqimwj5yggwyt@sirius.home.kraxel.org>
+References: <20210209134632.12157-1-tzimmermann@suse.de>
 MIME-Version: 1.0
+In-Reply-To: <20210209134632.12157-1-tzimmermann@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
-In-Reply-To: <20210217025337.1929015-1-lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,147 +64,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 16, 2021 at 09:53:36PM -0500, Lyude Paul wrote:
-> From: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+On Tue, Feb 09, 2021 at 02:46:22PM +0100, Thomas Zimmermann wrote:
+> (was: drm/ast: Move cursor vmap calls out of commit tail)
 > 
-> For Legacy S3 suspend/resume GEN9 BC needs to enable and
-> setup TGP PCH.
+> Ast has vmap calls in its cursor's atomic_update function. This is not
+> supported as vmap might aquire the dma reservation lock. While at it,
+> cleanup the whole cursor code: the patchset removes all possible runtime
+> errors from the atomic_update function and reduces the overhead from
+> vmap calls on the HW cursor BOs to a minimum.
+> 
+> Patches 1 to 3 update the cursor code and prepare before the refactoring.
+> 
+> Patch 4 and 5 inline the cursor update logic into the rsp cursor-plane
+> functions. This is mostly about moving code around.
+> 
+> Patches 6 to 9 add a dedicated cursor plane that maintains the two BOs
+> for HW cursors. The HW cursor BOs are permanently pinned and vmapped
+> while the cursor plane is initialized. Thus removing the related vmap
+> operations from atomic_update.
+> 
+> Finally patch 10 converts ast cursors to struct drm_shadow_plane_state.
+> BOs with cursor image data from userspace are vmapped in prepare_fb and
+> vunampped in cleanup_fb. The actual update of the cursor image is being
+> moved from prepare_fb to atomic_update.
+> 
+> With the patchset applied, all cursor preparation is performed before
+> the commit-tail functions; while the actual update is performed within.
+> 
+> Tested by running X11 and Weston on ast hardware.
 > 
 > v2:
-> * Move Wa_14010685332 into it's own function - vsyrjala
-> * Add TODO comment about figuring out if we can move this workaround - imre
-> v3:
-> * Rename cnp_irq_post_reset() to cnp_display_clock_wa()
-> * Add TODO item mentioning we need to clarify which platforms this
->   workaround applies to
-> * Just use ibx_irq_reset() in gen8_irq_reset(). This code should be
->   functionally equivalent on gen9 bc to the code v2 added
-> * Drop icp_hpd_irq_setup() call in spt_hpd_irq_setup(), this looks to be
->   more or less identical to spt_hpd_irq_setup() minus additionally enabling
->   one port. Will update i915 to use icp_hpd_irq_setup() for ICP in a
->   separate patch.
-> 
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
->  drivers/gpu/drm/i915/i915_irq.c | 52 +++++++++++++++++++++------------
->  1 file changed, 33 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-> index 98145a7f28a4..f86b147f588f 100644
-> --- a/drivers/gpu/drm/i915/i915_irq.c
-> +++ b/drivers/gpu/drm/i915/i915_irq.c
-> @@ -3040,6 +3040,24 @@ static void valleyview_irq_reset(struct drm_i915_private *dev_priv)
->  	spin_unlock_irq(&dev_priv->irq_lock);
->  }
->  
-> +static void cnp_display_clock_wa(struct drm_i915_private *dev_priv)
-> +{
-> +	struct intel_uncore *uncore = &dev_priv->uncore;
-> +
-> +	/*
-> +	 * Wa_14010685332:icl+
+> 	* convert to drm_shadow_plane_state helpers
 
-For now let's keep this matching the code:
-	   Wa_14010685332:cnp/cmp,tgp,adp
+Looks all sane to me.
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
-> +	 * TODO: Clarify which platforms this applies to
-> +	 * TODO: Figure out if this workaround can be applied in the s0ix suspend/resume handlers as
-> +	 * on earlier platforms and whether the workaround is also needed for runtime suspend/resume
-> +	 */
-> +	if (INTEL_PCH_TYPE(dev_priv) == PCH_CNP ||
-> +	    (INTEL_PCH_TYPE(dev_priv) >= PCH_TGP && INTEL_PCH_TYPE(dev_priv) < PCH_DG1)) {
-> +		intel_uncore_rmw(uncore, SOUTH_CHICKEN1, SBCLK_RUN_REFCLK_DIS,
-> +				 SBCLK_RUN_REFCLK_DIS);
-> +		intel_uncore_rmw(uncore, SOUTH_CHICKEN1, SBCLK_RUN_REFCLK_DIS, 0);
-> +	}
-> +}
-> +
->  static void gen8_irq_reset(struct drm_i915_private *dev_priv)
->  {
->  	struct intel_uncore *uncore = &dev_priv->uncore;
-> @@ -3061,8 +3079,9 @@ static void gen8_irq_reset(struct drm_i915_private *dev_priv)
->  	GEN3_IRQ_RESET(uncore, GEN8_DE_MISC_);
->  	GEN3_IRQ_RESET(uncore, GEN8_PCU_);
->  
-> -	if (HAS_PCH_SPLIT(dev_priv))
-> -		ibx_irq_reset(dev_priv);
-> +	ibx_irq_reset(dev_priv);
-
-The above shouldn't be changed to account for !PCH platforms as well.
-
-> +
-> +	cnp_display_clock_wa(dev_priv);
->  }
->  
->  static void gen11_display_irq_reset(struct drm_i915_private *dev_priv)
-> @@ -3104,15 +3123,7 @@ static void gen11_display_irq_reset(struct drm_i915_private *dev_priv)
->  	if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
->  		GEN3_IRQ_RESET(uncore, SDE);
->  
-> -	/* Wa_14010685332:cnp/cmp,tgp,adp */
-> -	if (INTEL_PCH_TYPE(dev_priv) == PCH_CNP ||
-> -	    (INTEL_PCH_TYPE(dev_priv) >= PCH_TGP &&
-> -	     INTEL_PCH_TYPE(dev_priv) < PCH_DG1)) {
-> -		intel_uncore_rmw(uncore, SOUTH_CHICKEN1,
-> -				 SBCLK_RUN_REFCLK_DIS, SBCLK_RUN_REFCLK_DIS);
-> -		intel_uncore_rmw(uncore, SOUTH_CHICKEN1,
-> -				 SBCLK_RUN_REFCLK_DIS, 0);
-> -	}
-> +	cnp_display_clock_wa(dev_priv);
->  }
->  
->  static void gen11_irq_reset(struct drm_i915_private *dev_priv)
-> @@ -3764,9 +3775,19 @@ static void gen8_de_irq_postinstall(struct drm_i915_private *dev_priv)
->  	}
->  }
->  
-> +static void icp_irq_postinstall(struct drm_i915_private *dev_priv)
-> +{
-> +	struct intel_uncore *uncore = &dev_priv->uncore;
-> +	u32 mask = SDE_GMBUS_ICP;
-> +
-> +	GEN3_IRQ_INIT(uncore, SDE, ~mask, 0xffffffff);
-> +}
-> +
->  static void gen8_irq_postinstall(struct drm_i915_private *dev_priv)
->  {
-> -	if (HAS_PCH_SPLIT(dev_priv))
-> +	if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
-> +		icp_irq_postinstall(dev_priv);
-> +	else if (HAS_PCH_SPLIT(dev_priv))
->  		ibx_irq_postinstall(dev_priv);
->  
->  	gen8_gt_irq_postinstall(&dev_priv->gt);
-> @@ -3775,13 +3796,6 @@ static void gen8_irq_postinstall(struct drm_i915_private *dev_priv)
->  	gen8_master_intr_enable(dev_priv->uncore.regs);
->  }
->  
-> -static void icp_irq_postinstall(struct drm_i915_private *dev_priv)
-> -{
-> -	struct intel_uncore *uncore = &dev_priv->uncore;
-> -	u32 mask = SDE_GMBUS_ICP;
-> -
-> -	GEN3_IRQ_INIT(uncore, SDE, ~mask, 0xffffffff);
-> -}
->  
->  static void gen11_irq_postinstall(struct drm_i915_private *dev_priv)
->  {
-> -- 
-> 2.29.2
-> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
