@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0315031D420
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 04:03:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C8F431D43E
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 04:30:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CAD66E4AF;
-	Wed, 17 Feb 2021 03:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D35906E0C1;
+	Wed, 17 Feb 2021 03:30:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A117E6E4AB;
- Wed, 17 Feb 2021 03:03:21 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id t15so15740810wrx.13;
- Tue, 16 Feb 2021 19:03:21 -0800 (PST)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CDB56E0C1
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 03:30:43 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id z11so19270651lfb.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Feb 2021 19:30:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=K5+6phUMVFMaRDA3F4TKDcCMWV0Y6SKjytFwuos+eCo=;
- b=N5NMdUkX/SISYBEbo4zogYa+OyoIMfr3kgfB3MAeDQ5I8q6OAdeag2hCtK+P4X/Ph9
- Den0jMO4Ij95BqW3JWmXwXK7r7Li4vZGZEJqDFITh/xQBk2FV97Xkq4jdr7d4vkxXxf5
- Ww8n3z2hpCFxmkx0KQdZv5PCjKnt9wNQCdMSjwcfb1JNGfP4sTU+atKMvF1CJ9/xy2xr
- 9dfwRWLbIydH6e86U7Gdh31dFxX4NLKP7V/dz20zNfMohDU28haRs+SlWOsJhgtEE9LS
- T0VCdbab2f1nS5GuKY/NPP4ow7z44GgbKbRwvDzfrDaAHbB4rjS7xxJmeeRXcH8L4c5b
- sWVg==
+ :cc; bh=3O1SlRD9mHyYcgKEptGwWMdlwwiEOHkySooRbJcp0FA=;
+ b=rKjhnV/rKjMzs4NVFzvqTIn1IvEel/XKRv2CRTelQ9l6AmdnlXFx3Bq7V2QK0TB6IH
+ RP8YriO8Bu7FI1tvhK16Tveb1BhGHb7ONYkrxHbl0SByByvd9l7PQh2gnxvthWGBVRtj
+ bXB1nyzKQYJ7EN8BVX8fOCVK6GzHAasVhWRO5JgvYeVBLiEbZaRBldLJA1VhY2bSm6Il
+ MX4tL+wwAQuNwnBxJCLPbiWVtLIORNNel+aUMW2Z5Yr5JCcDzYKWX2bmaO4684IyiCdT
+ C0hTEGyOCmdNNeWPC75RJr3anp+S1ucatzlY4N9Wfy8WUbwCe+Rs2eR+9LRyHzF/eJ2c
+ daaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=K5+6phUMVFMaRDA3F4TKDcCMWV0Y6SKjytFwuos+eCo=;
- b=D4bI6Jz5pSThvOwGTv7pL1gIAFLpQKzN8+9Ex/JPA92GPWkvdp47aCFREtsQppOKNs
- q4q22PwD1yh3IpsWEWSPMzs658RYT/LLdxlRWzDeBH1LKht2nbfjnphR0lSa9TfeupLa
- qwUv95/nv/6j9tMp0XUrBGky0qbUZUUfUxwPckjY575A32Ids+pFrV07HY/zIZcf3Dla
- Rw0S+/jUQX0I3IdU3CLks2CTco1k8ZbufvBm3ZUYJXugmYM1IM3chzjXXhWcqhZaSmJk
- 2t7rTiWBAnoHZJku/g08Jmn5apGW0VJGUPG4yWHkfVcRDQUbDUVdujhHvvQ7H2/Ge2z9
- rQlQ==
-X-Gm-Message-State: AOAM531OhblkksWBPOTzHWWIi09++ogzP4Q24QtkRuRABR2lEsWSLH28
- hFCIyp/jiMi11YoJ3auxLJl5CKbvD2o+LPTybzM=
-X-Google-Smtp-Source: ABdhPJysM4i+VFwS+4UtJ8OqSqZC7ZdIVq6OmnStef7a16sT9kl+pO99M9F3CAk2lUJ2USJ7LmdYJxRJ6PGmb8/Mh24=
-X-Received: by 2002:adf:fad2:: with SMTP id a18mr5618297wrs.147.1613531000181; 
- Tue, 16 Feb 2021 19:03:20 -0800 (PST)
+ bh=3O1SlRD9mHyYcgKEptGwWMdlwwiEOHkySooRbJcp0FA=;
+ b=XfPufWgYH8SqcP/sV9kqZ6fwvYCfuDT8UmfxPAqxaTI8zt7tVnr5w5MGqIy6UHbkKN
+ TvcdEgOw0HxKyZN6Q7U+pghSAv/DEHfAl0pacID1op0zaXj+yD4FMcRSNwJAVwUildRo
+ cnlZdOhLOqna+6RDQOpve5/lrlU3KFLwv1T9KgGDh7NPxngv1EW8Cy38FITErNtCtSBj
+ 0iT1FpD50D/OrLTqjEc5LNMf13xbIj4G2ft6mxhCW3TX+nVeTtsag3iiDQ0P2B0D5xi7
+ E8kJCr5KImPea/cyMyKvfZhPa//KtMC2nBN1+LKPa/8Ky8cv4T7Q0D0+Za3SkSWblDHb
+ 5tCQ==
+X-Gm-Message-State: AOAM533WfbPulN57e47/V4cwzES12vBMigkJGP1GcoU3uZAm5cXB8A3a
+ Wx4PRJ5ZJKT+6YIvRaKn2e1e3ZFq9TmdvONkCNY=
+X-Google-Smtp-Source: ABdhPJw5LFP81VELsUJIh9KxmEzjlv1swQbIZPYaaa7C6xhkNziyUEhOnBsHYExdN6qSsBLznPBBWbSnzjIIeBUMxDo=
+X-Received: by 2002:a05:6512:a90:: with SMTP id
+ m16mr12812355lfu.577.1613532641983; 
+ Tue, 16 Feb 2021 19:30:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20210216200909.19039-1-jonathan@marek.ca>
-In-Reply-To: <20210216200909.19039-1-jonathan@marek.ca>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 16 Feb 2021 19:06:12 -0800
-Message-ID: <CAF6AEGv53nnzqMgTfSA6t2YpHx1dDW8UqnH9Gw0w3p8bf0mTLw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/a6xx: fix for kernels without CONFIG_NVMEM
-To: Jonathan Marek <jonathan@marek.ca>, Akhil P Oommen <akhilpo@codeaurora.org>
+References: <20210216161924.1687-1-diego.viola@gmail.com>
+In-Reply-To: <20210216161924.1687-1-diego.viola@gmail.com>
+From: Alexandre Courbot <gnurou@gmail.com>
+Date: Wed, 17 Feb 2021 12:30:30 +0900
+Message-ID: <CAAVeFuLLw+pb-vvxPbbgDGGLo4Vi-ReJAh_YH-3xUZEDyhDb-Q@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/nouveau/pmu: fix timeout on GP108
+To: Diego Viola <diego.viola@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,60 +61,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- David Airlie <airlied@linux.ie>, freedreno <freedreno@lists.freedesktop.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sean Paul <sean@poorly.run>
+Cc: nouveau@spliet.org, Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel@lists.freedesktop.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 16, 2021 at 12:10 PM Jonathan Marek <jonathan@marek.ca> wrote:
+On Wed, Feb 17, 2021 at 1:20 AM Diego Viola <diego.viola@gmail.com> wrote:
 >
-> Ignore nvmem_cell_get() EOPNOTSUPP error in the same way as a ENOENT error,
-> to fix the case where the kernel was compiled without CONFIG_NVMEM.
+> This code times out on GP108, probably because the BIOS puts it into a
+> bad state.
 >
-> Fixes: fe7952c629da ("drm/msm: Add speed-bin support to a618 gpu")
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> Since we reset the PMU on driver load anyway, we are at no risk from
+> missing a response from it since we are not waiting for one to begin
+> with.
+
+This looks safe to me, provided indeed that the PMU's reset is not
+called outside of initialization (which for GP108 is shouldn't be
+IIRC?).
+
+>
+> Signed-off-by: Diego Viola <diego.viola@gmail.com>
 > ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index ba8e9d3cf0fe..7fe5d97606aa 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -1356,10 +1356,10 @@ static int a6xx_set_supported_hw(struct device *dev, struct a6xx_gpu *a6xx_gpu,
->
->         cell = nvmem_cell_get(dev, "speed_bin");
->         /*
-> -        * -ENOENT means that the platform doesn't support speedbin which is
-> -        * fine
-> +        * -ENOENT means no speed bin in device tree,
-> +        * -EOPNOTSUPP means kernel was built without CONFIG_NVMEM
-
-very minor nit, it would be nice to at least preserve the gist of the
-"which is fine" (ie. some variation of "this is an optional thing and
-things won't catch fire without it" ;-))
-
-(which is, I believe, is true, hopefully Akhil could confirm.. if not
-we should have a harder dependency on CONFIG_NVMEM..)
-
-BR,
--R
-
->          */
-> -       if (PTR_ERR(cell) == -ENOENT)
-> +       if (PTR_ERR(cell) == -ENOENT || PTR_ERR(cell) == -EOPNOTSUPP)
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c
+> index a0fe607c9c07..5c802f2d00cb 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c
+> @@ -102,12 +102,8 @@ nvkm_pmu_reset(struct nvkm_pmu *pmu)
+>         if (!pmu->func->enabled(pmu))
 >                 return 0;
->         else if (IS_ERR(cell)) {
->                 DRM_DEV_ERROR(dev,
+>
+> -       /* Inhibit interrupts, and wait for idle. */
+> +       /* Inhibit interrupts. */
+>         nvkm_wr32(device, 0x10a014, 0x0000ffff);
+> -       nvkm_msec(device, 2000,
+> -               if (!nvkm_rd32(device, 0x10a04c))
+> -                       break;
+> -       );
+>
+>         /* Reset. */
+>         if (pmu->func->reset)
 > --
-> 2.26.1
+> 2.30.1
 >
 _______________________________________________
 dri-devel mailing list
