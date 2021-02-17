@@ -2,53 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB3D31D984
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 13:32:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8605B31D9B5
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 13:46:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FDA16E52D;
-	Wed, 17 Feb 2021 12:32:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 478F16E0CF;
+	Wed, 17 Feb 2021 12:46:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 790666E511
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 12:32:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613565146;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D89126E08C;
+ Wed, 17 Feb 2021 12:46:00 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1613565959; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BMcEaTsr6hvZpRTO/Z+/hPVLzGmBLIj423n6krFv2UM=;
- b=jSZyKMSWwLspmy9FRZs0s0nJZXEsIFXudw4SUQLAxQ/wdObnv7AeLfs8jyeU5TZ0n5e8uV
- WbOS709tB+xBPU2ieI9nqRsjPDlPj/Lyn5hWvdGqLYCteXo/f1u4wMeI1g50i6kP++WKcn
- tIK+4LSy+LhWsBYrz/czLPSsXk2cSEM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-6b1LB9eDNZCnIMIw3U7qcQ-1; Wed, 17 Feb 2021 07:32:24 -0500
-X-MC-Unique: 6b1LB9eDNZCnIMIw3U7qcQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42A08801975;
- Wed, 17 Feb 2021 12:32:23 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
- [10.36.114.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D77119D9B;
- Wed, 17 Feb 2021 12:32:20 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3A8EB1800630; Wed, 17 Feb 2021 13:32:15 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 11/11] drm/qxl: add lock asserts to qxl_bo_vmap_locked +
- qxl_bo_vunmap_locked
-Date: Wed, 17 Feb 2021 13:32:13 +0100
-Message-Id: <20210217123213.2199186-12-kraxel@redhat.com>
-In-Reply-To: <20210217123213.2199186-1-kraxel@redhat.com>
-References: <20210217123213.2199186-1-kraxel@redhat.com>
+ bh=N00yAhsyZbw+Nel/sbxQYAWqciOhUzp9bz7wDMnc5es=;
+ b=X95Zya3LHME58OqF/fGOges5Ys2yN9XI9UOk1w4f4CQcA/Ji7pUuY5gTbuBmcaGxOAAlR0
+ VZlYkf6Brip0RW+RZIDnZtVwCKLZ31/SZOAFdyEPBkyMeDAlAl+SNdaLEKU6ksQT1aIM19
+ vTTytiQ0WWvTgFE3S2DIgxsEVdTyXiM=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 4C233AF26;
+ Wed, 17 Feb 2021 12:45:59 +0000 (UTC)
+Date: Wed, 17 Feb 2021 13:45:58 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v1 1/3] string: Consolidate yesno() helpers under
+ string.h hood
+Message-ID: <YC0QBvv9HXr64ySf@alley>
+References: <20210215142137.64476-1-andriy.shevchenko@linux.intel.com>
+ <43456ba7-c372-84cc-4949-dcb817188e21@amd.com>
+ <CAHp75VfVXnqdVRAPQ36vZeD-ZMCjWmjA_-6T=jnOEVMne4bv0g@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Disposition: inline
+In-Reply-To: <CAHp75VfVXnqdVRAPQ36vZeD-ZMCjWmjA_-6T=jnOEVMne4bv0g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,50 +49,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>, Gerd Hoffmann <kraxel@redhat.com>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Francis Laniel <laniel_francis@privacyrequired.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ amd-gfx@lists.freedesktop.org, Jakub Kicinski <kuba@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Leo Li <sunpeng.li@amd.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Mikita Lipski <mikita.lipski@amd.com>,
+ Eryk Brol <eryk.brol@amd.com>, netdev <netdev@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Raju Rangoju <rajur@chelsio.com>, Alex Deucher <alexander.deucher@amd.com>,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Try avoid re-introducing locking bugs.
+On Mon 2021-02-15 16:39:26, Andy Shevchenko wrote:
+> +Cc: Sakari and printk people
+> =
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/qxl/qxl_object.c | 4 ++++
- 1 file changed, 4 insertions(+)
+> On Mon, Feb 15, 2021 at 4:28 PM Christian K=F6nig
+> <christian.koenig@amd.com> wrote:
+> > Am 15.02.21 um 15:21 schrieb Andy Shevchenko:
+> > > We have already few similar implementation and a lot of code that can=
+ benefit
+> > > of the yesno() helper.  Consolidate yesno() helpers under string.h ho=
+od.
+> > >
+> > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> >
+> > Looks like a good idea to me, feel free to add an Acked-by: Christian
+> > K=F6nig <christian.koenig@amd.com> to the series.
+> =
 
-diff --git a/drivers/gpu/drm/qxl/qxl_object.c b/drivers/gpu/drm/qxl/qxl_object.c
-index 82c3bf195ad6..6e26d70f2f07 100644
---- a/drivers/gpu/drm/qxl/qxl_object.c
-+++ b/drivers/gpu/drm/qxl/qxl_object.c
-@@ -162,6 +162,8 @@ int qxl_bo_vmap_locked(struct qxl_bo *bo, struct dma_buf_map *map)
- {
- 	int r;
- 
-+	dma_resv_assert_held(bo->tbo.base.resv);
-+
- 	if (bo->kptr) {
- 		bo->map_count++;
- 		goto out;
-@@ -236,6 +238,8 @@ void *qxl_bo_kmap_atomic_page(struct qxl_device *qdev,
- 
- void qxl_bo_vunmap_locked(struct qxl_bo *bo)
- {
-+	dma_resv_assert_held(bo->tbo.base.resv);
-+
- 	if (bo->kptr == NULL)
- 		return;
- 	bo->map_count--;
--- 
-2.29.2
+> Thanks.
+> =
 
+> > But looking at the use cases for this, wouldn't it make more sense to
+> > teach kprintf some new format modifier for this?
+> =
+
+> As a next step? IIRC Sakari has at some point the series converted
+> yesno and Co. to something which I don't remember the details of.
+> =
+
+> Guys, what do you think?
+
+Honestly, I think that yesno() is much easier to understand than %py.
+And %py[DOY] looks really scary. It has been suggested at
+https://lore.kernel.org/lkml/YCqaNnr7ynRydczE@smile.fi.intel.com/#t
+
+Yes, enabledisable() is hard to parse but it is still self-explaining
+and can be found easily by cscope. On the contrary, %pyD will likely
+print some python code and it is not clear if it would be compatible
+with v3. I am just kidding but you get the picture.
+
+Best Regards,
+Petr
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
