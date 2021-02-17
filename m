@@ -2,38 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B5131D213
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Feb 2021 22:30:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A293131D327
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 01:06:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 802CD6E993;
-	Tue, 16 Feb 2021 21:30:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 100516E99E;
+	Wed, 17 Feb 2021 00:06:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 705876E993;
- Tue, 16 Feb 2021 21:30:31 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F211264D99;
- Tue, 16 Feb 2021 21:30:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1613511031;
- bh=uwBWkNHGck9kFBqA0+H8/eT9Jc5XAGfEFx3Kba3gL4k=;
- h=From:To:Cc:Subject:Date:From;
- b=Ru/chHN9ndSQZRU6kcPNpf0W0XEdZm3ESkkB7+Rme8xma3/EdjnB48g/YGdMRuH26
- j41sevdpq56S6D1FcUiqUe587rJeGLNYIRpBkq4hqxMWjaE9Nl1B+l8gqbJf5Dbv0Y
- X5Cf2Gi7bJ+i1AgZ8b3eEwH9ubV/XjpHQMoCQLmsGilr1moNIaV1RqMOQ9aL356hxi
- 0pjTYRxkZjXDSEi9ko3Lp3vor5250L1ucr7rx9ykXonMGZ3PI+0x62A99qUdTQ2rmA
- ypMWNh9Rtv/fIIaqI0hdt3a5ykleMBdQDvnHOFA1H0amz8tCtnF0fJldfMnmomP8oI
- qIzSMOFmaTXVw==
-From: Nathan Chancellor <nathan@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH] drm/i915: Enable -Wuninitialized
-Date: Tue, 16 Feb 2021 14:29:54 -0700
-Message-Id: <20210216212953.24458-1-nathan@kernel.org>
-X-Mailer: git-send-email 2.30.1
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B6946E4AD;
+ Wed, 17 Feb 2021 00:06:05 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id o15so337657wmq.5;
+ Tue, 16 Feb 2021 16:06:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XQqpqg6jSzHG83op6n6dlIe74aKdQKtD9br7jGebjUw=;
+ b=UNKYNkYO0LfnOS/TsdDDmSB9Njy/d4xhqsOEFDi91kfNRXvsy9i6E8+4Xs92EgAxrN
+ A1mTLusx49wda93oKOT4RMx3bTUrvcfaxgEIVSl4XHMpTCil4glWs2iSvfVr6iyHKXLY
+ Cs3dzbnSF0QEr0+Yfb3rpnUKydrhYi0froutx0YA6PhN7nufa3O/d8GEkwyJi14OZyoY
+ LPqCtTMhSX0iuggc8z3bs+/YFWNh0wleqLw4d/WPK9zt3+dzWJ/ZK15W/jP72Vlc58zy
+ flMdpeoSr2Yy4bBq1kNlxT1f0Tp+kyHAq0D70zPfgamSvqXRq7+hwONx4HJFfZQJ/5tq
+ jrPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XQqpqg6jSzHG83op6n6dlIe74aKdQKtD9br7jGebjUw=;
+ b=pI9kEYLdBIr6Yaq4qGrULiNKmTLTvnoRzox0G7B+g6PnT1lvv7LIWhrg9I1iXRUTAS
+ VBLODA3CRMwNgwR7RBT/FVu0exxIL4ViSU0zIieh1lFFykIUoFh7gXhoLvf2ji1O2cJA
+ 64bFmnXaPZSFe5wc9O8HXDadYkJoDac+XK0Zfa3XIt8JvYH2rr4wEGN/hc8rxyVA9Jc1
+ fTg9lvsuF85jgtLrqNPbrj6p9kWWQE4gvH4ADF0alxFGETk0BxHsvEXU+rmAFK08E1zA
+ ea4bpXbWKI4AWl50r2GjAc1d7tyaLZ6u7QtREAEtbw2r1C3J3x0gaJ42SG/PhFFOBkqV
+ 41JA==
+X-Gm-Message-State: AOAM533/TXxJe+7zgtcKYqjba6i9i7U8GfEeMUTT1ZFydkF/pe9DSrYQ
+ KJvT/Mm54eKO9teVaGPB3xnqZK38xRU/HNchFWk=
+X-Google-Smtp-Source: ABdhPJx/2suxGtJCRIigMjkQD6gjPWjzXEgtH7zFIY7Pf5+83ly/26LyReNhpwl+41tqGRJB5Zunt+GbkMx4vOPFL70=
+X-Received: by 2002:a7b:c149:: with SMTP id z9mr4975291wmi.164.1613520364006; 
+ Tue, 16 Feb 2021 16:06:04 -0800 (PST)
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
+References: <20210215161537.14696-1-jonathan@marek.ca>
+ <20210215161537.14696-2-jonathan@marek.ca>
+ <CAA8EJpo_Fs8Wj6zjH6BQqm=mG=qcGt3_JMj4nK-vsKCzr8tn1g@mail.gmail.com>
+ <29231c68-0cc4-9d8a-8cb1-791511780bcd@marek.ca>
+In-Reply-To: <29231c68-0cc4-9d8a-8cb1-791511780bcd@marek.ca>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 16 Feb 2021 16:08:56 -0800
+Message-ID: <CAF6AEGtyiD6vtYrgkB4X+B00=ew09_7bZA3ketZsZ2+M7aFR+w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm/msm: add compatibles for sm8150/sm8250 display
+To: Jonathan Marek <jonathan@marek.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,54 +63,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
- clang-built-linux@googlegroups.com
+Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, Rajendra Nayak <rnayak@codeaurora.org>,
+ Drew Davenport <ddavenport@chromium.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, Tanmay Shah <tanmay@codeaurora.org>,
+ Rob Herring <robh+dt@kernel.org>, tongtiangen <tongtiangen@huawei.com>,
+ Qinglang Miao <miaoqinglang@huawei.com>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
--Wunintialized was disabled in commit c5627461490e ("drm/i915: Disable
--Wuninitialized") because there were two warnings that were false
-positives. The first was due to DECLARE_WAIT_QUEUE_HEAD_ONSTACK, which
-was fixed in LLVM 9.0.0. The second was in busywait_stop, which was
-fixed in LLVM 10.0.0 (issue 415). The kernel's minimum version for LLVM
-is 10.0.1 so this warning can be safely enabled, where it has already
-caught a couple bugs.
+On Tue, Feb 16, 2021 at 10:06 AM Jonathan Marek <jonathan@marek.ca> wrote:
+>
+> On 2/16/21 11:54 AM, Dmitry Baryshkov wrote:
+> > On Mon, 15 Feb 2021 at 19:25, Jonathan Marek <jonathan@marek.ca> wrote:
+> >>
+> >> The driver already has support for sm8150/sm8250, but the compatibles were
+> >> never added.
+> >>
+> >> Also inverse the non-mdp4 condition in add_display_components() to avoid
+> >> having to check every new compatible in the condition.
+> >>
+> >> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> >> ---
+> >>   Documentation/devicetree/bindings/display/msm/dpu.txt | 4 ++--
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c               | 2 ++
+> >>   drivers/gpu/drm/msm/msm_drv.c                         | 6 +++---
+> >>   3 files changed, 7 insertions(+), 5 deletions(-)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/display/msm/dpu.txt b/Documentation/devicetree/bindings/display/msm/dpu.txt
+> >> index 551ae26f60da..5763f43200a0 100644
+> >> --- a/Documentation/devicetree/bindings/display/msm/dpu.txt
+> >> +++ b/Documentation/devicetree/bindings/display/msm/dpu.txt
+> >> @@ -8,7 +8,7 @@ The DPU display controller is found in SDM845 SoC.
+> >>
+> >>   MDSS:
+> >>   Required properties:
+> >> -- compatible:  "qcom,sdm845-mdss", "qcom,sc7180-mdss"
+> >> +- compatible:  "qcom,sdm845-mdss", "qcom,sc7180-mdss", "qcom,sm8150-mdss", "qcom,sm8250-mdss"
+> >>   - reg: physical base address and length of contoller's registers.
+> >>   - reg-names: register region names. The following region is required:
+> >>     * "mdss"
+> >> @@ -41,7 +41,7 @@ Optional properties:
+> >>
+> >>   MDP:
+> >>   Required properties:
+> >> -- compatible: "qcom,sdm845-dpu", "qcom,sc7180-dpu"
+> >> +- compatible: "qcom,sdm845-dpu", "qcom,sc7180-dpu", "qcom,sm8150-dpu", "qcom,sm8250-dpu"
+> >>   - reg: physical base address and length of controller's registers.
+> >>   - reg-names : register region names. The following region is required:
+> >>     * "mdp"
+> >
+> > These two chunks should probably go to the separate patch 'dt-bindings:...'.
+> >
+>
+> In this case I think its better to have this change in the same patch,
+> but maybe one of the Robs will disagree.
 
-Link: https://github.com/ClangBuiltLinux/linux/issues/220
-Link: https://github.com/ClangBuiltLinux/linux/issues/415
-Link: https://github.com/ClangBuiltLinux/linux/issues/499
-Link: https://github.com/llvm/llvm-project/commit/2e040398f8d691cc378c1abb098824ff49f3f28f
-Link: https://github.com/llvm/llvm-project/commit/c667cdc850c2aa821ffeedbc08c24bc985c59edd
-Fixes: c5627461490e ("drm/i915: Disable -Wuninitialized")
-References: 2ea4a7ba9bf6 ("drm/i915/gt: Avoid uninitialized use of rpcurupei in frequency_show")
-References: 2034c2129bc4 ("drm/i915/display: Ensure that ret is always initialized in icl_combo_phy_verify_state")
-Reported-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- drivers/gpu/drm/i915/Makefile | 1 -
- 1 file changed, 1 deletion(-)
+I *think* typically the reason to split dt bindings into their own
+patch is that devicetree@ list isn't interested in reviewing driver
+changes, just binding changes..
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 6d9e81ea67f4..60b60204004f 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -21,7 +21,6 @@ subdir-ccflags-y += $(call cc-disable-warning, unused-but-set-variable)
- subdir-ccflags-y += $(call cc-disable-warning, sign-compare)
- subdir-ccflags-y += $(call cc-disable-warning, sometimes-uninitialized)
- subdir-ccflags-y += $(call cc-disable-warning, initializer-overrides)
--subdir-ccflags-y += $(call cc-disable-warning, uninitialized)
- subdir-ccflags-y += $(call cc-disable-warning, frame-address)
- subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
- 
+In this case since it is just adding a compatible I think it is ok..
+(or at least ok by me, but maybe other-Rob disagrees ;-))
 
-base-commit: f40ddce88593482919761f74910f42f4b84c004b
--- 
-2.30.1
+> > Also, could you please pinpoint the reason for adding more
+> > compatibility strings, while they map to the same internal data?
+> > I think we might want instead to use some generic name for the dpu
+> > block, like "qcom,dpu" or "qcom,mdp-dpu" instead of specifying the
+> > platform name.
+> >
+>
+> sdm845 and sc7180 aren't using generic compatibles, this is just being
+> consistent with that.
 
+It is good to have a device specific compatible up front, even if we
+fallback to the more generic one for matching.. just in case we find a
+reason for needing it later
+
+BR,
+-R
+
+> >
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> >> index 5a8e3e1fc48c..fff12a4c8bfc 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> >> @@ -1219,6 +1219,8 @@ static const struct dev_pm_ops dpu_pm_ops = {
+> >>   static const struct of_device_id dpu_dt_match[] = {
+> >>          { .compatible = "qcom,sdm845-dpu", },
+> >>          { .compatible = "qcom,sc7180-dpu", },
+> >> +       { .compatible = "qcom,sm8150-dpu", },
+> >> +       { .compatible = "qcom,sm8250-dpu", },
+> >>          {}
+> >>   };
+> >>   MODULE_DEVICE_TABLE(of, dpu_dt_match);
+> >> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> >> index 94525ac76d4e..928f13d4bfbc 100644
+> >> --- a/drivers/gpu/drm/msm/msm_drv.c
+> >> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> >> @@ -1185,9 +1185,7 @@ static int add_display_components(struct device *dev,
+> >>           * Populate the children devices, find the MDP5/DPU node, and then add
+> >>           * the interfaces to our components list.
+> >>           */
+> >> -       if (of_device_is_compatible(dev->of_node, "qcom,mdss") ||
+> >> -           of_device_is_compatible(dev->of_node, "qcom,sdm845-mdss") ||
+> >> -           of_device_is_compatible(dev->of_node, "qcom,sc7180-mdss")) {
+> >> +       if (!of_device_is_compatible(dev->of_node, "qcom,mdp4")) {
+> >>                  ret = of_platform_populate(dev->of_node, NULL, NULL, dev);
+> >>                  if (ret) {
+> >>                          DRM_DEV_ERROR(dev, "failed to populate children devices\n");
+> >> @@ -1320,6 +1318,8 @@ static const struct of_device_id dt_match[] = {
+> >>          { .compatible = "qcom,mdss", .data = (void *)KMS_MDP5 },
+> >>          { .compatible = "qcom,sdm845-mdss", .data = (void *)KMS_DPU },
+> >>          { .compatible = "qcom,sc7180-mdss", .data = (void *)KMS_DPU },
+> >> +       { .compatible = "qcom,sm8150-mdss", .data = (void *)KMS_DPU },
+> >> +       { .compatible = "qcom,sm8250-mdss", .data = (void *)KMS_DPU },
+> >>          {}
+> >>   };
+> >>   MODULE_DEVICE_TABLE(of, dt_match);
+> >> --
+> >> 2.26.1
+> >>
+> >
+> >
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
