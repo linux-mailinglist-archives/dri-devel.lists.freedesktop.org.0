@@ -2,40 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F38931DF1A
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 19:28:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBDAB31DF6A
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 20:08:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC3F6E9A2;
-	Wed, 17 Feb 2021 18:27:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 669F66E872;
+	Wed, 17 Feb 2021 19:08:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8059B6E5BB;
- Wed, 17 Feb 2021 18:27:58 +0000 (UTC)
-IronPort-SDR: Mbs4/YGs4gCMFDJyLgBxpHRDXZmhJ3zQJ1AaT21Sm6/5lFL2Z4QMi76rWQVMhAIowCz1FO4dj9
- iKglafC3X3NQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="202509624"
-X-IronPort-AV: E=Sophos;i="5.81,185,1610438400"; d="scan'208";a="202509624"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2021 10:27:58 -0800
-IronPort-SDR: l67wVA0rwp9jRDOMJqK74CFXHgMsPPjBbUpNwcN920dqNzFHJ677cdRarX2qrEZshBFetg+oPV
- 9YmlbYkNiXcg==
-X-IronPort-AV: E=Sophos;i="5.81,185,1610438400"; d="scan'208";a="400078128"
-Received: from ideak-desk.fi.intel.com ([10.237.68.141])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2021 10:27:56 -0800
-Date: Wed, 17 Feb 2021 20:27:53 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH] drm/dp_mst: Tune down the WARN modesetting a port with
- full_pbn=0
-Message-ID: <20210217182753.GA557342@ideak-desk.fi.intel.com>
-References: <20210216123448.410545-1-imre.deak@intel.com>
- <d070b8fa29ee357eae1943e7d3ede6c7b9a92a40.camel@redhat.com>
+Received: from z11.mailgun.us (z11.mailgun.us [104.130.96.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABC556E872
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 19:08:26 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1613588907; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=iUgyAmn0n/jIbpXd2qZaNyiWNOIW2DJRiGM1oQdo+qY=;
+ b=DXUaFx4RZzpgnxoWOVrHs79wC5HMAce4oGboTbBAxqgwHtvQEA+xIMJseJeh9R2Be++HII09
+ fa1rnrYl6EqmGmjmhl9pXNy6bAw1x2Z0eaPEQRF+mQj1+7ooTlWQIvFLkznCZjbORGF9S18w
+ +I+UIqr+DBP92rg09DuORWUP/wQ=
+X-Mailgun-Sending-Ip: 104.130.96.11
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
+ 602d69a91e797edad879c0d0 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 17 Feb 2021 19:08:25
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 124CFC433ED; Wed, 17 Feb 2021 19:08:25 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 256B9C433C6;
+ Wed, 17 Feb 2021 19:08:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 256B9C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=jcrouse@codeaurora.org
+Date: Wed, 17 Feb 2021 12:08:20 -0700
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Akhil P Oommen <akhilpo@codeaurora.org>
+Subject: Re: [PATCH] drm/msm/a6xx: fix for kernels without CONFIG_NVMEM
+Message-ID: <20210217190820.GA2229@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Akhil P Oommen <akhilpo@codeaurora.org>,
+ Rob Clark <robdclark@gmail.com>, Jonathan Marek <jonathan@marek.ca>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Eric Anholt <eric@anholt.net>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20210216200909.19039-1-jonathan@marek.ca>
+ <CAF6AEGv53nnzqMgTfSA6t2YpHx1dDW8UqnH9Gw0w3p8bf0mTLw@mail.gmail.com>
+ <775436ba-c94a-ab22-d65b-b2391047ec65@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <d070b8fa29ee357eae1943e7d3ede6c7b9a92a40.camel@redhat.com>
+In-Reply-To: <775436ba-c94a-ab22-d65b-b2391047ec65@codeaurora.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,101 +81,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 17, 2021 at 01:07:11PM -0500, Lyude Paul wrote:
-> On Tue, 2021-02-16 at 14:34 +0200, Imre Deak wrote:
-> > It's possible to modeset a connector/mst port that has a 0 full_pbn
-> > value: if the sink on the port deasserts its HPD and a branch device
-> > reports this via a CSN with the port's ddps=3D0 and pdt!=3DNONE the dri=
-ver
-> > clears full_pbn, but the corresponding connector can be still
-> > modesetted.
-> > =
+On Wed, Feb 17, 2021 at 07:14:16PM +0530, Akhil P Oommen wrote:
+> On 2/17/2021 8:36 AM, Rob Clark wrote:
+> >On Tue, Feb 16, 2021 at 12:10 PM Jonathan Marek <jonathan@marek.ca> wrote:
+> >>
+> >>Ignore nvmem_cell_get() EOPNOTSUPP error in the same way as a ENOENT error,
+> >>to fix the case where the kernel was compiled without CONFIG_NVMEM.
+> >>
+> >>Fixes: fe7952c629da ("drm/msm: Add speed-bin support to a618 gpu")
+> >>Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> >>---
+> >>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 6 +++---
+> >>  1 file changed, 3 insertions(+), 3 deletions(-)
+> >>
+> >>diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >>index ba8e9d3cf0fe..7fe5d97606aa 100644
+> >>--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >>+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >>@@ -1356,10 +1356,10 @@ static int a6xx_set_supported_hw(struct device *dev, struct a6xx_gpu *a6xx_gpu,
+> >>
+> >>         cell = nvmem_cell_get(dev, "speed_bin");
+> >>         /*
+> >>-        * -ENOENT means that the platform doesn't support speedbin which is
+> >>-        * fine
+> >>+        * -ENOENT means no speed bin in device tree,
+> >>+        * -EOPNOTSUPP means kernel was built without CONFIG_NVMEM
+> >
+> >very minor nit, it would be nice to at least preserve the gist of the
+> >"which is fine" (ie. some variation of "this is an optional thing and
+> >things won't catch fire without it" ;-))
+> >
+> >(which is, I believe, is true, hopefully Akhil could confirm.. if not
+> >we should have a harder dependency on CONFIG_NVMEM..)
+> IIRC, if the gpu opp table in the DT uses the 'opp-supported-hw' property,
+> we will see some error during boot up if we don't call
+> dev_pm_opp_set_supported_hw(). So calling "nvmem_cell_get(dev, "speed_bin")"
+> is a way to test this.
+> 
+> If there is no other harm, we can put a hard dependency on CONFIG_NVMEM.
 
-> > This happened on a DELL U2719D monitor as the branch device and an LG
-> > 27UL650-W daisy-chained to it, the LG monitor generating a long HPD
-> > pulse (doing this for some reason always when waking up from some power
-> > saving state).
-> > =
+I'm not sure if we want to go this far given the squishiness about module
+dependencies. As far as I know we are the only driver that uses this seriously
+on QCOM SoCs and this is only needed for certain targets. I don't know if we
+want to force every target to build NVMEM and QFPROM on our behalf. But maybe
+I'm just saying that because Kconfig dependencies tend to break my brain (and
+then Arnd has to send a patch to fix it).
 
-> > Tune down the WARN about this scenario to a debug message.
-> > =
+Jordan
 
-> > References: https://gitlab.freedesktop.org/drm/intel/-/issues/1917
-> > Cc: Lyude Paul <lyude@redhat.com>
-> > Signed-off-by: Imre Deak <imre.deak@intel.com>
-> > ---
-> > =A0drivers/gpu/drm/drm_dp_mst_topology.c | 10 +++++++---
-> > =A01 file changed, 7 insertions(+), 3 deletions(-)
-> > =
+> -Akhil.
+> >
+> >BR,
+> >-R
+> >
+> >>          */
+> >>-       if (PTR_ERR(cell) == -ENOENT)
+> >>+       if (PTR_ERR(cell) == -ENOENT || PTR_ERR(cell) == -EOPNOTSUPP)
+> >>                 return 0;
+> >>         else if (IS_ERR(cell)) {
+> >>                 DRM_DEV_ERROR(dev,
+> >>--
+> >>2.26.1
+> >>
+> 
 
-> > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
-> > b/drivers/gpu/drm/drm_dp_mst_topology.c
-> > index 0a54506c27738..dcaf4bf9b62f6 100644
-> > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> > @@ -5118,11 +5118,15 @@ drm_dp_mst_atomic_check_port_bw_limit(struct
-> > drm_dp_mst_port *port,
-> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0if (!found)
-> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0return 0;
-> > =A0
-> > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0/* This should never happ=
-en, as it means we tried to
-> > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * set a mode before quer=
-ying the full_pbn
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0/*
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * This could happen if t=
-he sink deasserted its HPD line, but
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * the branch device stil=
-l reports it as attached (PDT !=3D NONE).
-> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 */
-> > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0if (WARN_ON(!port->full_p=
-bn))
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0if (!port->full_pbn) {
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0d=
-rm_dbg_kms(port->mgr->dev, "[MSTB:%p] [MST PORT:%p] no BW available for the=
- port\n",
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 port->parent, port);
-> =
-
-> Shouldn't this use the atomic debugging level? With that fixed, this is:
-> =
-
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
-
-Thanks, yes mixed up the debug level, will fix that.
-
-> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0return -EINVAL;
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0}
-> > =A0
-> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0pbn_used =3D vcpi->pbn;
-> > =A0=A0=A0=A0=A0=A0=A0=A0} else {
-> =
-
-> -- =
-
-> Sincerely,
->    Lyude Paul (she/her)
->    Software Engineer at Red Hat
->    =
-
-> Note: I deal with a lot of emails and have a lot of bugs on my plate. If =
-you've
-> asked me a question, are waiting for a review/merge on a patch, etc. and I
-> haven't responded in a while, please feel free to send me another email t=
-o check
-> on my status. I don't bite!
-> =
-
+-- 
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
