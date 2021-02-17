@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F5E31DE5B
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 18:36:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EDD331DEA3
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 18:53:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E499C6E9A4;
-	Wed, 17 Feb 2021 17:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48B646E9A9;
+	Wed, 17 Feb 2021 17:53:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76AAB6E9A3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 17:36:22 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id fa16so1880355pjb.1
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 09:36:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=WY6BWQE+OiB63lkzsmOgRmOC11+SnGhNqoMsqPgupK0=;
- b=GprgssCWFqAFmY0cF2yEF2MPhDCjdfUL8SjA6Y++eq8i4XcOu4c8qwI3dKrBcZABFQ
- McRxKZJkcg7vkbxQJFUJwisk5b9MME3e2RUDKt+voxBDyp+sc7W7UNA9z41HvXUI7KpG
- G/CgtqDUunpMsp4gDi7IUyw+U4sU+HoYw8OwE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=WY6BWQE+OiB63lkzsmOgRmOC11+SnGhNqoMsqPgupK0=;
- b=fDAo7oRScMZ3TYEqf0oTZCnE7zL0c7o7vdRbxKKNFfIZWRkPBfv/9+qrzW4fWu4DTK
- KwHFlcT+3jIr8Klf7L65rOHNeYB9s/lUJnWEJDbCDLmNbpARYl9kKL/myI5pjlWBSmc3
- KP4as3ZRGB2Z57325SFE/+BRSRSuixgGneFS0awbp3gkEGb+2+vIaZnWW5oEvHYkuf4c
- R+QONDYvDAUotTfgXOeQY90DCKeP5uyEwknfemIQAETiOMfKw1/HVKpsWNUgPEH9H/Ts
- PfLqB4HaRfXQs+jPETY86wMvBKmSUacL/A9pOLq//UkOMz1641YIvtznaADyOWUkn07N
- Ddbw==
-X-Gm-Message-State: AOAM533gL2T7bEAy80v0l992MYXIwUoH4kbZqRK+EHKoiq+o4YxlBcfo
- xpdX6YgKsBr0qSAZ+jOLdfSTJA==
-X-Google-Smtp-Source: ABdhPJyhWhQ9ajxWuvuPPlk0WDsx0eU1nYFqyGy8fAj+49lGy1XE7lbsHVRetwAlivzQsGqhK0yUdQ==
-X-Received: by 2002:a17:90a:aa0d:: with SMTP id
- k13mr10652749pjq.210.1613583382027; 
- Wed, 17 Feb 2021 09:36:22 -0800 (PST)
-Received: from chromium.org ([2620:15c:202:201:e915:2799:f43d:3184])
- by smtp.gmail.com with ESMTPSA id np7sm2638673pjb.10.2021.02.17.09.36.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Feb 2021 09:36:21 -0800 (PST)
+X-Greylist: delayed 491 seconds by postgrey-1.36 at gabe;
+ Wed, 17 Feb 2021 17:53:21 UTC
+Received: from libero.it (smtp-17-i2.italiaonline.it [213.209.12.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE276E9AA
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 17:53:21 +0000 (UTC)
+Received: from oxapps-35-162.iol.local ([10.101.8.208])
+ by smtp-17.iol.local with ESMTPA
+ id CQstlfmUklChfCQstliNjk; Wed, 17 Feb 2021 18:45:07 +0100
+x-libjamoibt: 1601
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2014;
+ t=1613583907; bh=zBqy723wOBBDSylIEHvgw0wi/3YgDj4qoD8G9JQ58LM=;
+ h=From;
+ b=Wn4H5yzYrvztBa3YxN9G+r9/C5PeRkBDoGOOysnN3s7m0K8y7b4QWRdiEt2tcCn9n
+ 9k0a3mWXVZ2le4dQ5MEAUIQ2A9s1hgS0z+8E6fIu9tEc1ISYo0mgt9pXr2Ysw2ZHTN
+ GujkLW8Ozp3LYaOLHhvgymdk2B6cNjBWtHL9yuAt82mcRhNFe/uxoWeBbYtXnw8etu
+ PfR33pEj5pjhd7MNmTtJLGQhxb/DJ2/ZP2+AqkQfM05aqN0gBiZ7IRy6dJpYYot8YX
+ JH/yre7W7DVeECyiM1xnilmKwiCJMlLuVB1bExuLLyunT6fqHXNsKi3wrfc8jlhAo9
+ W/YIGl/aetAFA==
+X-CNFS-Analysis: v=2.4 cv=S6McfKgP c=1 sm=1 tr=0 ts=602d5623 cx=a_exe
+ a=OCAZjQWm+uh9gf1btJle/A==:117 a=UPWQtH3J-JgA:10 a=IkcTkHD0fZMA:10
+ a=_gZzKa99_6AA:10 a=P1BnusSwAAAA:8 a=e5mUnYsNAAAA:8 a=TPS9zQsonGm_BbHK3pAA:9
+ a=QEXdDO2ut3YA:10 a=D0XLA9XvdZm18NrgonBM:22 a=Vxmtnl_E_bksehYqCbjh:22
+Date: Wed, 17 Feb 2021 18:45:07 +0100 (CET)
+From: Dario Binacchi <dariobin@libero.it>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, Jyri Sarha <jyri.sarha@iki.fi>
+Message-ID: <1121866478.204588.1613583907193@mail1.libero.it>
+In-Reply-To: <07f7a7c0-8016-bf32-92ad-b9de4aaed84c@ideasonboard.com>
+References: <20210216202225.12861-1-dariobin@libero.it>
+ <07f7a7c0-8016-bf32-92ad-b9de4aaed84c@ideasonboard.com>
+Subject: Re: [RESEND PATCH] drm/tilcdc: fix raster control register setting
 MIME-Version: 1.0
-In-Reply-To: <1613581122-8473-1-git-send-email-khsieh@codeaurora.org>
-References: <1613581122-8473-1-git-send-email-khsieh@codeaurora.org>
-Subject: Re: [PATCH] drm/msm/dp: add support of HBR3 link rate
-From: Stephen Boyd <swboyd@chromium.org>
-To: Kuogee Hsieh <khsieh@codeaurora.org>, robdclark@gmail.com, sean@poorly.run,
- Vinod Koul <vkoul@kernel.org>
-Date: Wed, 17 Feb 2021 09:36:18 -0800
-Message-ID: <161358337887.1254594.12898848287081049541@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.3-Rev27
+X-Originating-IP: 87.20.116.197
+X-Originating-Client: open-xchange-appsuite
+x-libjamsun: oP0GJDCylp8dfkkjPZa2j1JWQtWSQ61M
+x-libjamv: GDjNrlyrYqE=
+X-CMAE-Envelope: MS4xfOuOpzKBmd+dVP2XpVdv7VScfSsJTdTeRCvLqmRq6b7Rwpr0X4HI8pYOVUC5yDD7D+WiNn5KxJhS1gVvWCKwOT62vfwcj/RKmgCQAjbOIgNAOlUxOswD
+ jkDlKHOE+PcjqiyJvmAKoaw2kVbHGwSeeoHMcFF/BYNdkc4W1q9fEpSE63/91grTFHfoYy01aDss7J/C37S28SGkLF8XU5Tf5azehWRCbNNwJC0797gWzgNa
+ pKztHVwZ+w8/yze6CptETpo3CLvjlF40LWaF9ja53qHu/227cDOd0wwFpC1ZRJMHgExVdRfWW8EYvjQw6y+W8qKA9ep5gQmZW0r3uCWXqlK5Exc8vnEvI9Cp
+ g0HmJB+F
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,94 +64,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, khsieh@codeaurora.org, tanmay@codeaurora.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2021-02-17 08:58:42)
-> Add hbr3_hbr2 voltage and pre-emphasis swing table to support
-> HBR3 link rate
+Hi Tomi,
+
+> Il 17/02/2021 07:41 Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> ha scritto:
 > 
-> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/dp/dp_panel.c   |  4 ----
->  drivers/phy/qualcomm/phy-qcom-qmp.c | 24 ++++++++++++++++++++++--
-
-This spans to subsystems so at least you should run get_maintainers and
-include phy maintainers. Maybe it should be split into two patches too
-so it can go via different trees.
-
->  2 files changed, 22 insertions(+), 6 deletions(-)
+>  
+> On 16/02/2021 22:22, Dario Binacchi wrote:
+> > The fdd property of the tilcdc_panel_info structure must set the reqdly
+> > bit field  (bit 12 to 19) of the raster control register. The previous
+> > statement set the least significant bit instead.
+> > 
+> > Signed-off-by: Dario Binacchi <dariobin@libero.it>
+> > 
+> > ---
+> > 
+> >  drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+> > index 30213708fc99..238068e28729 100644
+> > --- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+> > +++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+> > @@ -393,7 +393,7 @@ static void tilcdc_crtc_set_mode(struct drm_crtc *crtc)
+> >  			return;
+> >  		}
+> >  	}
+> > -	reg |= info->fdd < 12;
+> > +	reg |= info->fdd << 12;
+> >  	tilcdc_write(dev, LCDC_RASTER_CTRL_REG, reg);
+> >  
+> >  	if (info->invert_pxl_clk)
+> > 
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-> index 9cc8166..63112fa 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-> @@ -76,10 +76,6 @@ static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
->         if (link_info->num_lanes > dp_panel->max_dp_lanes)
->                 link_info->num_lanes = dp_panel->max_dp_lanes;
->  
-> -       /* Limit support upto HBR2 until HBR3 support is added */
-> -       if (link_info->rate >= (drm_dp_bw_code_to_link_rate(DP_LINK_BW_5_4)))
-> -               link_info->rate = drm_dp_bw_code_to_link_rate(DP_LINK_BW_5_4);
-> -
->         DRM_DEBUG_DP("version: %d.%d\n", major, minor);
->         DRM_DEBUG_DP("link_rate=%d\n", link_info->rate);
->         DRM_DEBUG_DP("lane_count=%d\n", link_info->num_lanes);
-> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp.c b/drivers/phy/qualcomm/phy-qcom-qmp.c
-> index 0939a9e..cc5ef59 100644
-> --- a/drivers/phy/qualcomm/phy-qcom-qmp.c
-> +++ b/drivers/phy/qualcomm/phy-qcom-qmp.c
-> @@ -2965,6 +2965,21 @@ static void qcom_qmp_phy_dp_aux_init(struct qmp_phy *qphy)
->                qphy->pcs + QSERDES_V3_DP_PHY_AUX_INTERRUPT_MASK);
->  }
->  
-> +
-> +static u8 const qmp_dp_v3_pre_emphasis_hbr3_hbr2[4][4] = {
+> This is interesting, looks like this has always been broken, and in many
+> cases sets bits 0, which is the enable bit. So we enable LCDC before
+> even setting the fb address. How does this not blow up LCDC totally?
+> 
+> The fix looks correct to me, but it will change the register value for
+> boards that have apparently been working for years.
+> 
+> Dario, did you test this on actual HW, or did you just spot the error?
 
-Should be static const u8 qmp_dp...
+I tested it on Beaglebone Black + LCD cape (4.3inch).
+I also checked the register value with devmem.
 
-> +        {0x00, 0x0C, 0x15, 0x1A},
-> +        {0x02, 0x0E, 0x16, 0xFF},
-> +        {0x02, 0x11, 0xFF, 0xFF},
-> +        {0x04, 0xFF, 0xFF, 0xFF}
-> +};
-> +
-> +static u8 const qmp_dp_v3_voltage_swing_hbr3_hbr2[4][4] = {
+Regards,
+Dario
 
-Same.
-
-> +        {0x02, 0x12, 0x16, 0x1A},
-
-Please add a space after { and before } and use lowercase hex to match
-the qmp_dp_v3_pre_emphasis_hbr_rbr design.
-
-> +        {0x09, 0x19, 0x1F, 0xFF},
-> +        {0x10, 0x1F, 0xFF, 0xFF},
-> +        {0x1F, 0xFF, 0xFF, 0xFF}
-> +};
-> +
->  static const u8 qmp_dp_v3_pre_emphasis_hbr_rbr[4][4] = {
->         { 0x00, 0x0c, 0x14, 0x19 },
->         { 0x00, 0x0b, 0x12, 0xff },
-> @@ -3000,8 +3015,13 @@ static void qcom_qmp_phy_configure_dp_tx(struct qmp_phy *qphy)
->                 drvr_en = 0x10;
->         }
->  
-> -       voltage_swing_cfg = qmp_dp_v3_voltage_swing_hbr_rbr[v_level][p_level];
-> -       pre_emphasis_cfg = qmp_dp_v3_pre_emphasis_hbr_rbr[v_level][p_level];
-> +       if (dp_opts->link_rate <= 2700) {
-> +               voltage_swing_cfg = qmp_dp_v3_voltage_swing_hbr_rbr[v_level][p_level];
-> +               pre_emphasis_cfg = qmp_dp_v3_pre_emphasis_hbr_rbr[v_level][p_level];
-> +       } else {
-> +               voltage_swing_cfg = qmp_dp_v3_voltage_swing_hbr3_hbr2[v_level][p_level];
-> +               pre_emphasis_cfg = qmp_dp_v3_pre_emphasis_hbr3_hbr2[v_level][p_level];
-> +       }
+> 
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> 
+>  Tomi
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
