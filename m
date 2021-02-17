@@ -1,33 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA83431D568
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 07:41:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B2931D5CD
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Feb 2021 08:42:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFA886E23D;
-	Wed, 17 Feb 2021 06:41:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3BC389B8E;
+	Wed, 17 Feb 2021 07:42:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEF046E462
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 06:41:18 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B53989B8E
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Feb 2021 07:42:28 +0000 (UTC)
 Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi
  [91.157.208.71])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 310D68C4;
- Wed, 17 Feb 2021 07:41:16 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D7EBD8C4;
+ Wed, 17 Feb 2021 08:42:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1613544076;
- bh=kACUWAlTtOjLum7wNaqm/GR5HlDYZlCl+dsy0Q/Nw7o=;
+ s=mail; t=1613547746;
+ bh=gLxLY7MkEr2qMg/fdrv6dtXzf+28O3A6JagdQ2koFQM=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=rdCcZb39++Zh2RYpzpgU8Gu0TmzhwO+GtemIHB7dru21BrRYwL9gjMzhgz2ixwgGZ
- S1Z47gQRwTuS7kSjRFHOUDluIP89QF8IXlDzTN0xqYX05c9keG9Gl44SOXTKEJ6Nfi
- Th/HLpwcFYpDUbJINqMrzNq4jkF80UYK2nvpKA6E=
-Subject: Re: [RESEND PATCH] drm/tilcdc: fix raster control register setting
-To: Dario Binacchi <dariobin@libero.it>, linux-kernel@vger.kernel.org,
- Jyri Sarha <jyri.sarha@iki.fi>
-References: <20210216202225.12861-1-dariobin@libero.it>
+ b=ZM+5JghVAT0h8+JH8kZXWWVOj1BiGFS8BMdDX2U+lq7dFLCNF6tocWjXJHlOmWZY2
+ +EG6iOSWgWLpot+ukjuHoInosO27xlzaCprdJvU3PpeeqOGKOcwsMT5QfyUft4FKyx
+ 5uqxZOUcXqrWyk7ZLvwAkrOsbzJ75U7NgBigj0s0=
+Subject: Re: [PATCH v4 24/80] drm/omap: dsi: move TE GPIO handling into core
+To: Tony Lindgren <tony@atomide.com>
+References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
+ <20201124124538.660710-25-tomi.valkeinen@ti.com>
+ <YCF7ARchcMKvWa4s@atomide.com>
+ <5b469566-c926-7e1f-8872-84774b96f389@ideasonboard.com>
+ <YCVq8JnuMLQq6FEc@atomide.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  mQINBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -72,12 +75,12 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-Message-ID: <07f7a7c0-8016-bf32-92ad-b9de4aaed84c@ideasonboard.com>
-Date: Wed, 17 Feb 2021 08:41:15 +0200
+Message-ID: <4432cf2c-fe15-dab0-3034-789f6d711396@ideasonboard.com>
+Date: Wed, 17 Feb 2021 09:42:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210216202225.12861-1-dariobin@libero.it>
+In-Reply-To: <YCVq8JnuMLQq6FEc@atomide.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,49 +94,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Cc: hns@goldelico.com, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/02/2021 22:22, Dario Binacchi wrote:
-> The fdd property of the tilcdc_panel_info structure must set the reqdly
-> bit field  (bit 12 to 19) of the raster control register. The previous
-> statement set the least significant bit instead.
+On 11/02/2021 19:35, Tony Lindgren wrote:
+> * Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> [210211 07:35]:
+>> On 08/02/2021 19:55, Tony Lindgren wrote:
+>>> Hi,
+>>>
+>>> * Tomi Valkeinen <tomi.valkeinen@ti.com> [201124 12:47]:
+>>>> From: Sebastian Reichel <sebastian.reichel@collabora.com>
+>>>>
+>>>> In preparation for removing custom DSS calls from the DSI
+>>>> panel driver, this moves support for external tearing event
+>>>> GPIOs into the DSI host driver. This way tearing events are
+>>>> always handled in the core resulting in simplification of
+>>>> the panel drivers.
+>>>>
+>>>> The TE GPIO acquisition follows works in the same way as the
+>>>> exynos DSI implementation.
+>>>
+>>> Looks like this patch causes the following warnings:
+>>>
+>>> DSI: omapdss DSI error: Failed to receive BTA
+>>> DSI: omapdss DSI error: bta sync failed
+>>> DSI: omapdss DSI error: vc(0) busy when trying to config for VP
+>>> DSI: omapdss DSI error: Failed to receive BTA
+>>> DSI: omapdss DSI error: bta sync failed
+>>> DSI: omapdss DSI error: vc(0) busy when trying to config for VP
+>>> DSI: omapdss DSI error: Failed to receive BTA
+>>> DSI: omapdss DSI error: bta sync failed
+>>> DSI: omapdss DSI error: vc(0) busy when trying to config for VP
+>>> ...
+>>>
+>>> Any ideas? The display works for me despite the constant
+>>> warnings.
+>>
+>> Which board is that? Do the errors start right from the boot, or only
+>> after running something in userspace?
 > 
-> Signed-off-by: Dario Binacchi <dariobin@libero.it>
-> 
-> ---
-> 
->  drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-> index 30213708fc99..238068e28729 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-> @@ -393,7 +393,7 @@ static void tilcdc_crtc_set_mode(struct drm_crtc *crtc)
->  			return;
->  		}
->  	}
-> -	reg |= info->fdd < 12;
-> +	reg |= info->fdd << 12;
->  	tilcdc_write(dev, LCDC_RASTER_CTRL_REG, reg);
->  
->  	if (info->invert_pxl_clk)
-> 
+> This is with droid4, that's about the only device I use with a display
+> on regular basis. I'm pretty sure some earlier version of Sebastian's
+> patches worked fine.
 
-This is interesting, looks like this has always been broken, and in many
-cases sets bits 0, which is the enable bit. So we enable LCDC before
-even setting the fb address. How does this not blow up LCDC totally?
+OMAP4 SDP doesn't produce these errors and the HW looks rather
+identical. Although I noticed something odd there, running kmstest
+--flip on the first display works fine, but running on the second
+display gets a bit erratic fps. Which is a bit odd as everything should
+be identical.
 
-The fix looks correct to me, but it will change the register value for
-boards that have apparently been working for years.
+So these errors start from the boot? Or only when running something
+specific?
 
-Dario, did you test this on actual HW, or did you just spot the error?
-
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Is there a bootloader that initializes the display?
 
  Tomi
 _______________________________________________
