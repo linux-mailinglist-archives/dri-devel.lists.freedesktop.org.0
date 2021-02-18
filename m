@@ -1,53 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E3B31EE80
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 19:40:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 779C631EEA5
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 19:46:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 438386EA44;
-	Thu, 18 Feb 2021 18:40:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6366EA54;
+	Thu, 18 Feb 2021 18:46:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3119F6E5A5;
- Thu, 18 Feb 2021 18:40:46 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id o10so2758832ote.13;
- Thu, 18 Feb 2021 10:40:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lKc7ZspagPR2F1k2fhzcSExhZXGUtyluR76nOC+AMmU=;
- b=MPSrTvgmuhmGRFVaprGSkR/fjPIL6wO9YDZX+esMkvv2liwxxbRN6Y8/YEkXcdZPum
- OV28GaadKDtRe6SHfgFyIhW7GFuIcHbhkZSagqQqoB7btr6trc5ZfEWdnbxYFZkRwCtk
- pAmW4gyTYHbCAjisATpdmFDhXb2dSRrObP4iI2igsbTEOVQeCCvxRTs3gPtbYsbA5S9N
- Ecok0m41skRBDeKft6BCmZ8qsX+Npv0tx3wrNRYvT9pv/eD2U1R8WqI2l1lGiecNk9fT
- YNLfNMtSQFyIZk74HhYlQi4MHcj8T41dyy7vSeCodjSNXvIepHax72HsKRLGyCHEPoLV
- WXYQ==
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E4426EA55
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 18:46:46 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id lw17so3237656pjb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 10:46:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=TYSvMCIPacqOphOa16rzA+X+0GuBxuIS4Qj5ygoV2IM=;
+ b=aWV5hnEy8rnECOEGtDuAcE+s4yLDrZzLFVj+vn97GLn50xSeuxHfgdHF7Yz6jpcksB
+ CYfZpw1Zh4nmKvytWq2vjdYlJZlmbDpatiO45blzVexSo6J8CdGpJ/r3/Jfht+NfQhSW
+ LOtBc1iiEAii0nADT1I0ZZyiE9uk7n6kjhupE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lKc7ZspagPR2F1k2fhzcSExhZXGUtyluR76nOC+AMmU=;
- b=kurbV0sWlVUV/pWsnBphGByUAUJeG/dab5AwHvwt8u2Zo+3vq/ksvWo3xIYTysa2WK
- kECLhkCDLN1M9MuRiIwd3YwMbUiHT/pd1/cKgk+co82D61Zfgc8DEQa6jUErhm68OxY4
- f1b5iechcRt9bcEnvzKJEnVD84NneVHRag6QEakLn1V20c/J65TcWPR2QFLsRF4oukg8
- iHh5gcsmwTBbPD4JQCKl5prCVyTsFN4IGKbAxSXVsq6ugJ8nPbxOqrYNQhX8oCJkDMwL
- tvhKY9g0OBoVXSLA9h6zIilhWSevKXQjFfM1Wlbrn5CE7C82gVWRFnNULy/NFfmUYzpR
- zXTA==
-X-Gm-Message-State: AOAM533awl4iNq31OOZYLMt0dXtPRy4hh04QXrweJ2YJc6HTvlDJt+cK
- XFBP9fDR70f92f2lp2OfNGUIRJkxZMZpNPRaRCk=
-X-Google-Smtp-Source: ABdhPJyA35NN7DMVZeaKjW1bfa4oI1GShogpGaEoB30n2A6mojiKd25eT0cjrMQjlPUHAcKuaTiZYagn4wlV2Chlzis=
-X-Received: by 2002:a9d:760a:: with SMTP id k10mr3972185otl.23.1613673645475; 
- Thu, 18 Feb 2021 10:40:45 -0800 (PST)
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=TYSvMCIPacqOphOa16rzA+X+0GuBxuIS4Qj5ygoV2IM=;
+ b=P7OIPRrSJKgDpwZg+zfdeV6G41loGu9rWm3qRH0l48bk6f1R0MLfO1ovBC2NmsiN02
+ 45+wqn8apTpY41Hn3282VjcpL5l3nyVW3gKxokuHF46SKtLUmK2wRkASGQVubP4TYpSr
+ WSr4kiFVWni8lPgDH/Yjy2haQl7CpWz3MupjGejR9AlguVA3JukZsQ0DPZlpL4/FMWIl
+ 6Or0suz4QQB8SfhejKbAchIaexyTw75i193WUwwBIuX15qby9igKATA3N6Q800fCai7c
+ WDilQRxOmAGQDnsUEdc0WGECmIPHNAmcQCYQO82zu+8Lfuu10Sk81dJyiy1lJBCzc7WQ
+ E7wg==
+X-Gm-Message-State: AOAM530zc4J6nCVhCuM+sKrXkVF6l7BCWRudAgaXDDce1xE+XfXRoNUf
+ VwqioMxhh+c9RlFDQbKOZf7nYQ==
+X-Google-Smtp-Source: ABdhPJxCmb8Y1Km73TqeTEgYOkLH188D40vElREuf0w7ub9wbnNw7oCNpoGFosfaLftBUBdQlyWCeg==
+X-Received: by 2002:a17:902:aa03:b029:e3:721:c093 with SMTP id
+ be3-20020a170902aa03b02900e30721c093mr5267903plb.50.1613674006193; 
+ Thu, 18 Feb 2021 10:46:46 -0800 (PST)
+Received: from chromium.org ([2620:15c:202:201:ec84:ed2b:a796:b756])
+ by smtp.gmail.com with ESMTPSA id 25sm7127704pfh.199.2021.02.18.10.46.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Feb 2021 10:46:45 -0800 (PST)
 MIME-Version: 1.0
-References: <1613633644-52961-1-git-send-email-yang.lee@linux.alibaba.com>
-In-Reply-To: <1613633644-52961-1-git-send-email-yang.lee@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 18 Feb 2021 13:40:34 -0500
-Message-ID: <CADnq5_Nva6t5RrDzLPr60jc+nA8KpQCudnm+AyaoosSEvZzh3Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Simplify bool conversion
-To: Yang Li <yang.lee@linux.alibaba.com>
+In-Reply-To: <1613603397-21179-1-git-send-email-khsieh@codeaurora.org>
+References: <1613603397-21179-1-git-send-email-khsieh@codeaurora.org>
+Subject: Re: [PATCH 2/2] drm/msm/dp: Drop limit link rate at HBR2
+From: Stephen Boyd <swboyd@chromium.org>
+To: Kuogee Hsieh <khsieh@codeaurora.org>, robdclark@gmail.com, sean@poorly.run
+Date: Thu, 18 Feb 2021 10:46:44 -0800
+Message-ID: <161367400432.1254594.2213007173465217655@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,54 +65,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, khsieh@codeaurora.org, tanmay@codeaurora.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
-
-Alex
-
-On Thu, Feb 18, 2021 at 9:23 AM Yang Li <yang.lee@linux.alibaba.com> wrote:
->
-> Fix the following coccicheck warning:
-> ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:8142:16-21: WARNING:
-> conversion to bool not needed here
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+Quoting Kuogee Hsieh (2021-02-17 15:09:57)
+> Drop limit link rate at HBR2 to support link rate
+> upto HBR3.
+> 
+> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
 > ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 961abf1..f163e54 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -8138,8 +8138,7 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
->                         hdcp_update_display(
->                                 adev->dm.hdcp_workqueue, aconnector->dc_link->link_index, aconnector,
->                                 new_con_state->hdcp_content_type,
-> -                               new_con_state->content_protection == DRM_MODE_CONTENT_PROTECTION_DESIRED ? true
-> -                                                                                                        : false);
-> +                               new_con_state->content_protection == DRM_MODE_CONTENT_PROTECTION_DESIRED);
->         }
->  #endif
->
-> --
-> 1.8.3.1
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
