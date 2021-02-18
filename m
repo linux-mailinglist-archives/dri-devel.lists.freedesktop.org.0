@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 706D231EC30
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 17:22:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D31D031EC31
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 17:23:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D98C56EA3F;
-	Thu, 18 Feb 2021 16:22:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B6E06EA46;
+	Thu, 18 Feb 2021 16:22:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-42.freemail.mail.aliyun.com
- (out30-42.freemail.mail.aliyun.com [115.124.30.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CC176E245
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 07:34:11 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R101e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04395; MF=yang.lee@linux.alibaba.com;
- NM=1; PH=DS; RN=10; SR=0; TI=SMTPD_---0UOsxSYG_1613633646; 
-Received: from
- j63c13417.sqa.eu95.tbsite.net(mailfrom:yang.lee@linux.alibaba.com
- fp:SMTPD_---0UOsxSYG_1613633646) by smtp.aliyun-inc.com(127.0.0.1);
- Thu, 18 Feb 2021 15:34:06 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: airlied@linux.ie
-Subject: [PATCH] drm/amd/display: Simplify bool conversion
-Date: Thu, 18 Feb 2021 15:34:04 +0800
-Message-Id: <1613633644-52961-1-git-send-email-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28CFD6E846
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 15:45:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: alyssa) with ESMTPSA id 48D791F45D53
+Date: Thu, 18 Feb 2021 10:45:38 -0500
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/shmem-helper: Don't remove the offset in
+ vm_area_struct pgoff
+Message-ID: <20210218154538.GA1483@kevin>
+References: <20210217165910.3820374-1-nroberts@igalia.com>
+ <7f80b184-7277-0f6c-1108-cf41189626df@arm.com>
+ <CAKMK7uHPk1G-S6EMRZ8grZU8W6iij_DJR+V2eBGP+79Te6k76A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uHPk1G-S6EMRZ8grZU8W6iij_DJR+V2eBGP+79Te6k76A@mail.gmail.com>
 X-Mailman-Approved-At: Thu, 18 Feb 2021 16:22:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -39,43 +39,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Yang Li <yang.lee@linux.alibaba.com>,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
-MIME-Version: 1.0
+Cc: Neil Roberts <nroberts@igalia.com>, Rob Herring <robh+dt@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following coccicheck warning:
-./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:8142:16-21: WARNING:
-conversion to bool not needed here
+> Yeah plus Cc: stable for backporting and I think an igt or similar for
+> panfrost to check this works correctly would be pretty good too. Since
+> if it took us over 1 year to notice this bug it's pretty clear that
+> normal testing doesn't catch this. So very likely we'll break this
+> again.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Unfortunately there are a lot of kernel bugs which are noticed during actual
+use (but not CI runs), some of which have never been fixed. I do know
+the shrinker impl is buggy for us, if this is the fix I'm very happy.
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 961abf1..f163e54 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8138,8 +8138,7 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- 			hdcp_update_display(
- 				adev->dm.hdcp_workqueue, aconnector->dc_link->link_index, aconnector,
- 				new_con_state->hdcp_content_type,
--				new_con_state->content_protection == DRM_MODE_CONTENT_PROTECTION_DESIRED ? true
--													 : false);
-+				new_con_state->content_protection == DRM_MODE_CONTENT_PROTECTION_DESIRED);
- 	}
- #endif
- 
--- 
-1.8.3.1
+> btw for testing shrinkers recommended way is to have a debugfs file
+> that just force-shrinks everything. That way you avoid all the trouble
+> that tend to happen when you drive a system close to OOM on linux, and
+> it's also much faster.
 
+2nding this as a good idea.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
