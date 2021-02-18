@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3BD731EBEA
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 16:59:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3451931EBED
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 17:00:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBDB789FDD;
-	Thu, 18 Feb 2021 15:59:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F36B6EA2F;
+	Thu, 18 Feb 2021 16:00:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD00189FDD
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 15:59:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9BE46EA32
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 16:00:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:Content-Type:Message-ID:References:
  In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=ff+FTU7SvLmNZ/JPL30ui7Ao9Mqdc2Jbqcc1xF/9yas=; b=ma0atgC7QBf0qx5N8R8Ev9iHZU
- unW0n/HdlduFQrc9zegOT7nig+wkP4QbTKp1AQwsGwXan/AxZAYVgF7gfFkatCDfzNLCOBsoXYsMk
- FoJ3g4HhtUTDk0voh/tXVYLHWtKMttRiwYQ/kVoEAXYCz8rRHN6uoyhxGArPjf5B4ObAjO1H6ooCr
- cBjs5DzVx/1kUJ52xt4lxAG94sq1LWO61BNXfmQUGALs3L5a5nbZx2uRkS+fBlP9CWShmcHb8JaRu
- cIjyKr8WZlBw1Z44qlNkrE79y0qqobJI/bkEsZqyMe58wynYGLFExI4KnSMqGXnqAlVr2OmLC+jTR
- QcGpuXxg==;
+ bh=VLLtZPx/WCVOTnXSsy/JatPvxuCHdJJNlBU9i3LFq9g=; b=S1w2AJl9Qg0k0Ra/KpPo3c83gl
+ RlX5s3YwjMzvXvzCeof48MejpivZbTfHKYq86YuxIDCDZxrIBzUTe9vF9oIwwqRJzrCUQV1BkwV9p
+ 22ev3SvWlfwxMQy3ySPomu2EbQHZrZ01kGIZipiqKn234dYp7eICZOcVJWneh3Nkoj7iDOrqIzX/t
+ jbl7kHeOHdwMO7cbks9B0+LubmOQWAfNH1au2KteOMJoNhN/pYiocemzv+dxV6Od25Liz91cVRTDT
+ lRrLSTW1Pb+OPuJgX0mr/QteqoCxAH2QCpLSw74FS2DBL/pDoWjKdWwLCdtchxXUGIDJ2//AomX2x
+ 4pRn7GUA==;
 Received: from webng-gw.kapsi.fi ([91.232.154.200] helo=roundcube.kapsi.fi)
  by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <jyri.sarha@iki.fi>)
- id 1lClhn-0001oI-1J; Thu, 18 Feb 2021 17:59:03 +0200
+ id 1lClj9-0002OX-35; Thu, 18 Feb 2021 18:00:27 +0200
 MIME-Version: 1.0
-Date: Thu, 18 Feb 2021 17:59:00 +0200
+Date: Thu, 18 Feb 2021 18:00:23 +0200
 From: Jyri Sarha <jyri.sarha@iki.fi>
-To: Tian Tao <tiantao6@hisilicon.com>
-Subject: Re: [PATCH] drm/tilcdc: replace spin_lock_irqsave by spin_lock in
- hard IRQ
-In-Reply-To: <1612751576-42512-1-git-send-email-tiantao6@hisilicon.com>
-References: <1612751576-42512-1-git-send-email-tiantao6@hisilicon.com>
+To: Dario Binacchi <dariobin@libero.it>
+Subject: Re: [RESEND PATCH] drm/tilcdc: fix raster control register setting
+In-Reply-To: <20210216202225.12861-1-dariobin@libero.it>
+References: <20210216202225.12861-1-dariobin@libero.it>
 User-Agent: Roundcube Webmail/1.4.11
-Message-ID: <309972c40d497d70e3c5959dca2a32d2@iki.fi>
+Message-ID: <0e1595a66d8539339a5e31927ef59857@iki.fi>
 X-Sender: jyri.sarha@iki.fi
 X-SA-Exim-Connect-IP: 91.232.154.200
 X-SA-Exim-Mail-From: jyri.sarha@iki.fi
@@ -54,77 +53,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-02-08 4:32, Tian Tao wrote:
-> The code has been in a irq-disabled context since it is hard IRQ. There
-> is no necessity to do it again.
+On 2021-02-16 22:22, Dario Binacchi wrote:
+> The fdd property of the tilcdc_panel_info structure must set the reqdly
+> bit field  (bit 12 to 19) of the raster control register. The previous
+> statement set the least significant bit instead.
 > 
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> Signed-off-by: Dario Binacchi <dariobin@libero.it>
 
 Reviewed-by: Jyri Sarha <jyri.sarha@iki.fi>
 Tested-by: Jyri Sarha <jyri.sarha@iki.fi>
 
-I merge to this drm-misc-next soon.
+Thanks for a good catch. I'll merge to this drm-misc-next soon.
 
 Best regards,
 Jyri
 
+> 
 > ---
->  drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+>  drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
 > b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-> index 3021370..b3e38e9 100644
+> index 30213708fc99..238068e28729 100644
 > --- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
 > +++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-> @@ -904,13 +904,12 @@ irqreturn_t tilcdc_crtc_irq(struct drm_crtc 
+> @@ -393,7 +393,7 @@ static void tilcdc_crtc_set_mode(struct drm_crtc 
 > *crtc)
->  	tilcdc_clear_irqstatus(dev, stat);
-> 
->  	if (stat & LCDC_END_OF_FRAME0) {
-> -		unsigned long flags;
->  		bool skip_event = false;
->  		ktime_t now;
-> 
->  		now = ktime_get();
-> 
-> -		spin_lock_irqsave(&tilcdc_crtc->irq_lock, flags);
-> +		spin_lock(&tilcdc_crtc->irq_lock);
-> 
->  		tilcdc_crtc->last_vblank = now;
-> 
-> @@ -920,21 +919,21 @@ irqreturn_t tilcdc_crtc_irq(struct drm_crtc 
-> *crtc)
->  			skip_event = true;
+>  			return;
 >  		}
+>  	}
+> -	reg |= info->fdd < 12;
+> +	reg |= info->fdd << 12;
+>  	tilcdc_write(dev, LCDC_RASTER_CTRL_REG, reg);
 > 
-> -		spin_unlock_irqrestore(&tilcdc_crtc->irq_lock, flags);
-> +		spin_unlock(&tilcdc_crtc->irq_lock);
-> 
->  		drm_crtc_handle_vblank(crtc);
-> 
->  		if (!skip_event) {
->  			struct drm_pending_vblank_event *event;
-> 
-> -			spin_lock_irqsave(&dev->event_lock, flags);
-> +			spin_lock(&dev->event_lock);
-> 
->  			event = tilcdc_crtc->event;
->  			tilcdc_crtc->event = NULL;
->  			if (event)
->  				drm_crtc_send_vblank_event(crtc, event);
-> 
-> -			spin_unlock_irqrestore(&dev->event_lock, flags);
-> +			spin_unlock(&dev->event_lock);
->  		}
-> 
->  		if (tilcdc_crtc->frame_intact)
+>  	if (info->invert_pxl_clk)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
