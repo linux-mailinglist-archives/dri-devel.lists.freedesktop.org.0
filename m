@@ -2,49 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B8AB31E8E3
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 12:04:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A45731E94B
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 12:51:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A81D6E1BB;
-	Thu, 18 Feb 2021 11:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F01716E437;
+	Thu, 18 Feb 2021 11:50:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70DAB6E1BB
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 11:04:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=cNJytNC3hkNQxzVs1irPHyUYbC2MmMNs9JNbcAzrEgc=; b=PFhvogSz2f4HwmeugR3b/cq7VZ
- SwR7SnTjo2wwZYJN26kiKVBj9FUYcwVRp7EyOkJx6rpR2wZZ/aeD67arYTq2/od/USEUL/3OOt0tm
- iWRGIAyyjrv0vTtgD75mkf01oDR4XErJHAHPWwR9Dv1BFCtKFePzegBzoceQyuZ3iiooNh8G31hD4
- sPp18ssx79DQMoCWFWD5DkmcGGh5WwcehT5xQyG8GzmAEb9HZu71yRuN3ZCIs2DwcychOCgMDU4aE
- YNaQUdvgwVXOPjhxVJdCIWMpdbfJS4mZ+9q59EiGaEmmyCXxnbHysckPjhGMNtXBlHG7eb94s+M57
- 5Iaa6H1Q==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1lCh6K-0008Hu-Fs; Thu, 18 Feb 2021 13:04:04 +0200
-Subject: Re: [PATCH 1/3] dt-bindings: Add YAML bindings for Host1x and NVDEC
-To: Rob Herring <robh@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>
-References: <20210213101512.3275069-1-mperttunen@nvidia.com>
- <20210213101512.3275069-2-mperttunen@nvidia.com>
- <20210217214935.GA2804400@robh.at.kernel.org>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <9f0152cc-ca9a-5b45-df5d-e61a79c87ea4@kapsi.fi>
-Date: Thu, 18 Feb 2021 13:04:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ECC16E437
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 11:50:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613649052;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BZgRuDjJn+XJlmluwHnTnZxFl0mplVCMFhoWOz62X0g=;
+ b=TSqKCO6ARYe1oTxQ4UscbJ90Oeo+loo3xy3wbyjtoXuOhJz4Lv9c8I6q2t5QLP8KLG3pC5
+ mLPvWRSLhBfpTkXULUt9J3EFgIEqAREjP/iSB5hyIdgyxpjk8sfzN5spqC/pe5p6QV4L14
+ 7tiiVvZH1dKdYFzD7ZtDJ5Px4NKAtgw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-1-vQKdb8bWO8mrdebz26uNYQ-1; Thu, 18 Feb 2021 06:50:48 -0500
+X-MC-Unique: vQKdb8bWO8mrdebz26uNYQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FFF9100CCD0;
+ Thu, 18 Feb 2021 11:50:46 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
+ [10.36.114.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B8B05D6A1;
+ Thu, 18 Feb 2021 11:50:46 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id AC76618000BB; Thu, 18 Feb 2021 12:50:44 +0100 (CET)
+Date: Thu, 18 Feb 2021 12:50:44 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 10/11] drm/qxl: rework cursor plane
+Message-ID: <20210218115044.7tsi2szbdlw6lvdi@sirius.home.kraxel.org>
+References: <20210217123213.2199186-1-kraxel@redhat.com>
+ <20210217123213.2199186-11-kraxel@redhat.com>
+ <6a5581b2-8e62-1310-d42e-abfa301edc88@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20210217214935.GA2804400@robh.at.kernel.org>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Disposition: inline
+In-Reply-To: <6a5581b2-8e62-1310-d42e-abfa301edc88@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,304 +62,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
- thierry.reding@gmail.com, linux-tegra@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>, Dave Airlie <airlied@redhat.com>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/17/21 11:49 PM, Rob Herring wrote:
-> On Sat, Feb 13, 2021 at 12:15:10PM +0200, Mikko Perttunen wrote:
->> Convert the original Host1x bindings to YAML and add new bindings for
->> NVDEC, now in a more appropriate location. The old text bindings
->> for Host1x and engines are still kept at display/tegra/ since they
->> encompass a lot more engines that haven't been converted over yet.
->>
->> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
->> ---
->>   .../gpu/host1x/nvidia,tegra20-host1x.yaml     | 129 ++++++++++++++++++
->>   .../gpu/host1x/nvidia,tegra210-nvdec.yaml     |  90 ++++++++++++
->>   MAINTAINERS                                   |   1 +
->>   3 files changed, 220 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra20-host1x.yaml
->>   create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra20-host1x.yaml b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra20-host1x.yaml
->> new file mode 100644
->> index 000000000000..613c6601f0f1
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra20-host1x.yaml
->> @@ -0,0 +1,129 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: "http://devicetree.org/schemas/gpu/host1x/nvidia,tegra20-host1x.yaml#"
->> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
->> +
->> +title: Device tree binding for NVIDIA Host1x
->> +
->> +maintainers:
->> +  - Thierry Reding <treding@gmail.com>
->> +  - Mikko Perttunen <mperttunen@nvidia.com>
->> +
->> +properties:
->> +  $nodename:
->> +    pattern: "^host1x@[0-9a-f]*$"
->> +
->> +  compatible:
->> +    oneOf:
->> +      - const: nvidia,tegra20-host1x
->> +      - const: nvidia,tegra30-host1x
->> +      - const: nvidia,tegra114-host1x
->> +      - const: nvidia,tegra124-host1x
->> +      - items:
->> +          - const: nvidia,tegra132-host1x
->> +          - const: nvidia,tegra124-host1x
->> +      - const: nvidia,tegra210-host1x
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    items:
->> +      - description: Syncpoint threshold interrupt
->> +      - description: General interrupt
->> +
->> +  interrupt-names:
->> +    items:
->> +      - const: syncpt
->> +      - const: host1x
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  clock-names:
->> +    items:
->> +      - const: host1x
->> +
->> +  resets:
->> +    maxItems: 1
->> +
->> +  reset-names:
->> +    items:
->> +      - const: host1x
->> +
->> +  iommus:
->> +    maxItems: 1
->> +
->> +  interconnects:
->> +    maxItems: 1
->> +
->> +  interconnect-names:
->> +    items:
->> +      - const: dma-mem
->> +
->> +  '#address-cells':
->> +    const: 1
->> +
->> +  '#size-cells':
->> +    const: 1
->> +
->> +  ranges: true
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +  - interrupt-names
->> +  - clocks
->> +  - clock-names
->> +  - resets
->> +  - reset-names
->> +  - '#address-cells'
->> +  - '#size-cells'
->> +  - ranges
->> +
->> +additionalProperties:
->> +  type: object
->> +
->> +if:
->> +  properties:
->> +    compatible:
->> +      contains:
->> +        anyOf:
->> +          - const: nvidia,tegra186-host1x
->> +          - const: nvidia,tegra194-host1x
+  Hi,
+
+> I'm still trying to wrap my head around the qxl cursor code.
 > 
-> Just use 'enum' instead of 'anyOf' and 'const'.
-
-Yep, will fix.
-
+> Getting vmap out of the commit tail is good, but I feel like this isn't
+> going in the right direction overall.
 > 
->> +then:
->> +  properties:
->> +    reg:
->> +      items:
->> +        - description: Hypervisor-accessible register area
->> +        - description: VM-accessible register area
+> In ast, these helper functions were only good when converting the drvier to
+> atomic modesetting. So I removed them in the latst patchset and did all the
+> updates in the plane helpers directly.
+
+I see the helper functions more as a way to get some structure into the
+code flow.  The callbacks are easier to read if they just call helper
+functions for stuff which needs more than a handful lines of code
+(patch 9/11 exists for the same reason).
+
+The helpers also make it easier move work from one callback to another,
+but that is just a useful side-effect.
+
+I had considered making that two separate patches, one factor out code
+into functions and one moving the calls.  Turned out to not be that easy
+though, because the old qxl_cursor_atomic_update() code was a rather
+hairy mix of qxl_create_cursor() + qxl_primary_apply_cursor() +
+qxl_primary_move_cursor().
+
+> For cursor_bo itself, it seems to be transitional state that is only used
+> during the plane update and crtc update . It should probably be stored in a
+> plane-state structure.
 > 
-> If you test this, it will fail due to the 'maxItems: 1' above. The main
-> section has to pass for all conditions and then if/them schema add
-> constraints.
+> Some of the primary plane's functions seem to deal with cursor handling.
+> What's the role of the primary plane in cursor handling?
 
-Interesting, I did run the schema check and DTB check but I didn't see 
-issues there. In any case, will fix.
+It's a quirk.  The qxl device will forget the cursor state on
+qxl_io_create_primary(), so I have to remember the cursor state
+and re-establish it by calling qxl_primary_apply_cursor() again.
 
-> 
->> +    reg-names:
->> +      items:
->> +        - const: hypervisor
->> +        - const: vm
->> +  required:
->> +    - reg-names
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/tegra20-car.h>
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +
->> +    host1x@50000000 {
->> +        compatible = "nvidia,tegra20-host1x";
->> +        reg = <0x50000000 0x00024000>;
->> +        interrupts = <GIC_SPI 65 IRQ_TYPE_LEVEL_HIGH>, /* syncpt */
->> +                      <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>; /* general */
->> +        interrupt-names = "syncpt", "host1x";
->> +        clocks = <&tegra_car TEGRA20_CLK_HOST1X>;
->> +        clock-names = "host1x";
->> +        resets = <&tegra_car 28>;
->> +        reset-names = "host1x";
->> +
->> +        #address-cells = <1>;
->> +        #size-cells = <1>;
->> +
->> +        ranges = <0x54000000 0x54000000 0x04000000>;
->> +    };
->> diff --git a/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
->> new file mode 100644
->> index 000000000000..9a6334d930c8
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
->> @@ -0,0 +1,90 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: "http://devicetree.org/schemas/gpu/host1x/nvidia,tegra210-nvdec.yaml#"
->> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
->> +
->> +title: Device tree binding for NVIDIA Tegra VIC
-> 
-> I'm left wondering what NVDEC and VIC are?
+So I'm not sure sticking this into plane state would work.  Because of
+the quirk this is more than just a handover from prepare to commit.
 
-Accidentally left VIC here. Will fix and add some more description.
+> For now, I suggest to merge patch 1 to 8 and 11; and move the cursor patches
+> into a new patchset.
 
-FWIW, VIC is Video Image Compositor, and NVDEC is the HW video decoder 
-on Tegra systems.
+I can merge 1-8, but 11 has to wait until the cursor is sorted.
+There is a reason why 11 is last in the series ;)
 
-Thanks for reviewing!
+> I'd like ot hear Daniel's opinion on this. Do you have
+> further plans here?
 
-Mikko
+Well.  I suspect I could easily spend a month cleaning up and party
+redesign the qxl driver (specifically qxl_draw.c + qxl_image.c).
 
-> 
->> +
->> +maintainers:
->> +  - Thierry Reding <treding@gmail.com>
->> +  - Mikko Perttunen <mperttunen@nvidia.com>
->> +
->> +properties:
->> +  $nodename:
->> +    pattern: "^nvdec@[0-9a-f]*$"
->> +
->> +  compatible:
->> +    enum:
->> +      - nvidia,tegra210-nvdec
->> +      - nvidia,tegra186-nvdec
->> +      - nvidia,tegra194-nvdec
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  clock-names:
->> +    items:
->> +      - const: nvdec
->> +
->> +  resets:
->> +    maxItems: 1
->> +
->> +  reset-names:
->> +    items:
->> +      - const: nvdec
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  iommus:
->> +    maxItems: 1
->> +
->> +  interconnects:
->> +    items:
->> +      - description: DMA read memory client
->> +      - description: DMA write memory client
->> +
->> +  interconnect-names:
->> +    items:
->> +      - const: dma-mem
->> +      - const: write
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - clocks
->> +  - clock-names
->> +  - resets
->> +  - reset-names
->> +  - power-domains
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/tegra186-clock.h>
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/memory/tegra186-mc.h>
->> +    #include <dt-bindings/power/tegra186-powergate.h>
->> +    #include <dt-bindings/reset/tegra186-reset.h>
->> +
->> +    nvdec@15480000 {
->> +            compatible = "nvidia,tegra186-nvdec";
->> +            reg = <0x15480000 0x40000>;
->> +            clocks = <&bpmp TEGRA186_CLK_NVDEC>;
->> +            clock-names = "nvdec";
->> +            resets = <&bpmp TEGRA186_RESET_NVDEC>;
->> +            reset-names = "nvdec";
->> +
->> +            power-domains = <&bpmp TEGRA186_POWER_DOMAIN_NVDEC>;
->> +            interconnects = <&mc TEGRA186_MEMORY_CLIENT_NVDECSRD &emc>,
->> +                            <&mc TEGRA186_MEMORY_CLIENT_NVDECSWR &emc>;
->> +            interconnect-names = "dma-mem", "write";
->> +            iommus = <&smmu TEGRA186_SID_NVDEC>;
->> +    };
->> +
->> +
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 8170b40d6236..b892419c6564 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -5950,6 +5950,7 @@ L:	linux-tegra@vger.kernel.org
->>   S:	Supported
->>   T:	git git://anongit.freedesktop.org/tegra/linux.git
->>   F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
->> +F:	Documentation/devicetree/bindings/gpu/host1x/
->>   F:	drivers/gpu/drm/tegra/
->>   F:	drivers/gpu/host1x/
->>   F:	include/linux/host1x.h
->> -- 
->> 2.30.0
->>
+I'm not sure I'll find the time to actually do that anytime soon.
+I have plenty of other stuff on my TODO list, and given that the
+world is transitioning to virtio-gpu the priority for qxl isn't
+that high.
+
+So, no, I have no short-term plans for qxl beyond fixing pins +
+reservations + lockdep.
+
+take care,
+  Gerd
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
