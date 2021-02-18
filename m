@@ -1,37 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9950431E9DF
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 13:36:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E90F831EA76
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 14:33:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97BFF6E835;
-	Thu, 18 Feb 2021 12:36:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 438376E442;
+	Thu, 18 Feb 2021 13:33:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F24266E833;
- Thu, 18 Feb 2021 12:36:25 +0000 (UTC)
-Received: from ironmsg07-lv.qualcomm.com (HELO ironmsg07-lv.qulacomm.com)
- ([10.47.202.151])
- by alexa-out.qualcomm.com with ESMTP; 18 Feb 2021 04:36:25 -0800
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
- by ironmsg07-lv.qulacomm.com with ESMTP/TLS/AES256-SHA;
- 18 Feb 2021 04:36:23 -0800
-X-QCInternal: smtphost
-Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
- by ironmsg01-blr.qualcomm.com with ESMTP; 18 Feb 2021 18:05:49 +0530
-Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
- id CBA7642A8; Thu, 18 Feb 2021 04:35:47 -0800 (PST)
-From: Kalyan Thota <kalyan_t@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v4] drm/msm/disp/dpu1: turn off vblank irqs aggressively in dpu
- driver
-Date: Thu, 18 Feb 2021 04:35:46 -0800
-Message-Id: <1613651746-12783-1-git-send-email-kalyan_t@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C8536E442;
+ Thu, 18 Feb 2021 13:33:14 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id D2AF6ACE5;
+ Thu, 18 Feb 2021 13:33:12 +0000 (UTC)
+Subject: Re: [PATCH v2 10/11] drm/qxl: rework cursor plane
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20210217123213.2199186-1-kraxel@redhat.com>
+ <20210217123213.2199186-11-kraxel@redhat.com>
+ <6a5581b2-8e62-1310-d42e-abfa301edc88@suse.de>
+ <20210218115044.7tsi2szbdlw6lvdi@sirius.home.kraxel.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <2d7a649c-bf1d-aa41-8d3c-af9746b94bc0@suse.de>
+Date: Thu, 18 Feb 2021 14:33:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
+MIME-Version: 1.0
+In-Reply-To: <20210218115044.7tsi2szbdlw6lvdi@sirius.home.kraxel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,325 +41,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mkrishn@codeaurora.org, dianders@chromium.org, abhinavk@codeaurora.org,
- linux-kernel@vger.kernel.org, seanpaul@chromium.org,
- Kalyan Thota <kalyan_t@codeaurora.org>, ddavenport@chromium.org,
- hoegsberg@chromium.org, swboyd@chromium.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
+Content-Type: multipart/mixed; boundary="===============1319290551=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set the flag vblank_disable_immediate = true to turn off vblank irqs
-immediately as soon as drm_vblank_put is requested so that there are
-no irqs triggered during idle state. This will reduce cpu wakeups
-and help in power saving.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1319290551==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="nY8nnbVTZ7BT0N6Kj6baQxQEwgr1cULoW"
 
-To enable vblank_disable_immediate flag the underlying KMS driver
-needs to support high precision vblank timestamping and also a
-reliable way of providing vblank counter which is incrementing
-at the leading edge of vblank.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--nY8nnbVTZ7BT0N6Kj6baQxQEwgr1cULoW
+Content-Type: multipart/mixed; boundary="UncSznus3ByHfOkcxonBdJz5e6MeKSXqO";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: David Airlie <airlied@linux.ie>, open list
+ <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>, Dave Airlie
+ <airlied@redhat.com>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <spice-devel@lists.freedesktop.org>
+Message-ID: <2d7a649c-bf1d-aa41-8d3c-af9746b94bc0@suse.de>
+Subject: Re: [PATCH v2 10/11] drm/qxl: rework cursor plane
+References: <20210217123213.2199186-1-kraxel@redhat.com>
+ <20210217123213.2199186-11-kraxel@redhat.com>
+ <6a5581b2-8e62-1310-d42e-abfa301edc88@suse.de>
+ <20210218115044.7tsi2szbdlw6lvdi@sirius.home.kraxel.org>
+In-Reply-To: <20210218115044.7tsi2szbdlw6lvdi@sirius.home.kraxel.org>
 
-This patch also brings in changes to support vblank_disable_immediate
-requirement in dpu driver.
+--UncSznus3ByHfOkcxonBdJz5e6MeKSXqO
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Changes in v1:
- - Specify reason to add vblank timestamp support. (Rob).
- - Add changes to provide vblank counter from dpu driver.
+Hi
 
-Changes in v2:
- - Fix warn stack reported by Rob Clark with v2 patch.
+Am 18.02.21 um 12:50 schrieb Gerd Hoffmann:
+>    Hi,
+>=20
+>> I'm still trying to wrap my head around the qxl cursor code.
+>>
+>> Getting vmap out of the commit tail is good, but I feel like this isn'=
+t
+>> going in the right direction overall.
+>>
+>> In ast, these helper functions were only good when converting the drvi=
+er to
+>> atomic modesetting. So I removed them in the latst patchset and did al=
+l the
+>> updates in the plane helpers directly.
+>=20
+> I see the helper functions more as a way to get some structure into the=
 
-Changes in v3:
- - Move back to HW frame counter (Rob).
+> code flow.  The callbacks are easier to read if they just call helper
+> functions for stuff which needs more than a handful lines of code
+> (patch 9/11 exists for the same reason).
+>=20
+> The helpers also make it easier move work from one callback to another,=
 
- Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           | 80 ++++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 30 ++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        | 11 +++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  1 +
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   | 26 +++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |  1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  5 ++
- 8 files changed, 155 insertions(+)
+> but that is just a useful side-effect.
+>=20
+> I had considered making that two separate patches, one factor out code
+> into functions and one moving the calls.  Turned out to not be that eas=
+y
+> though, because the old qxl_cursor_atomic_update() code was a rather
+> hairy mix of qxl_create_cursor() + qxl_primary_apply_cursor() +
+> qxl_primary_move_cursor().
+>=20
+>> For cursor_bo itself, it seems to be transitional state that is only u=
+sed
+>> during the plane update and crtc update . It should probably be stored=
+ in a
+>> plane-state structure.
+>>
+>> Some of the primary plane's functions seem to deal with cursor handlin=
+g.
+>> What's the role of the primary plane in cursor handling?
+>=20
+> It's a quirk.  The qxl device will forget the cursor state on
+> qxl_io_create_primary(), so I have to remember the cursor state
+> and re-establish it by calling qxl_primary_apply_cursor() again.
+>=20
+> So I'm not sure sticking this into plane state would work.  Because of
+> the quirk this is more than just a handover from prepare to commit.
+>=20
+>> For now, I suggest to merge patch 1 to 8 and 11; and move the cursor p=
+atches
+>> into a new patchset.
+>=20
+> I can merge 1-8, but 11 has to wait until the cursor is sorted.
+> There is a reason why 11 is last in the series ;)
+>=20
+>> I'd like ot hear Daniel's opinion on this. Do you have
+>> further plans here?
+>=20
+> Well.  I suspect I could easily spend a month cleaning up and party
+> redesign the qxl driver (specifically qxl_draw.c + qxl_image.c).
+>=20
+> I'm not sure I'll find the time to actually do that anytime soon.
+> I have plenty of other stuff on my TODO list, and given that the
+> world is transitioning to virtio-gpu the priority for qxl isn't
+> that high.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index d4662e8..9a80981 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -65,6 +65,83 @@ static void dpu_crtc_destroy(struct drm_crtc *crtc)
- 	kfree(dpu_crtc);
- }
- 
-+static struct drm_encoder *get_encoder_from_crtc(struct drm_crtc *crtc)
-+{
-+	struct drm_device *dev = crtc->dev;
-+	struct drm_encoder *encoder;
-+
-+	drm_for_each_encoder(encoder, dev)
-+		if (encoder->crtc == crtc)
-+			return encoder;
-+
-+	return NULL;
-+}
-+
-+static u32 dpu_crtc_get_vblank_counter(struct drm_crtc *crtc)
-+{
-+	struct drm_encoder *encoder;
-+
-+	encoder = get_encoder_from_crtc(crtc);
-+	if (!encoder) {
-+		DRM_ERROR("no encoder found for crtc %d\n", crtc->index);
-+		return false;
-+	}
-+
-+	return dpu_encoder_get_frame_count(encoder);
-+}
-+
-+static bool dpu_crtc_get_scanout_position(struct drm_crtc *crtc,
-+					   bool in_vblank_irq,
-+					   int *vpos, int *hpos,
-+					   ktime_t *stime, ktime_t *etime,
-+					   const struct drm_display_mode *mode)
-+{
-+	unsigned int pipe = crtc->index;
-+	struct drm_encoder *encoder;
-+	int line, vsw, vbp, vactive_start, vactive_end, vfp_end;
-+
-+	encoder = get_encoder_from_crtc(crtc);
-+	if (!encoder) {
-+		DRM_ERROR("no encoder found for crtc %d\n", pipe);
-+		return false;
-+	}
-+
-+	vsw = mode->crtc_vsync_end - mode->crtc_vsync_start;
-+	vbp = mode->crtc_vtotal - mode->crtc_vsync_end;
-+
-+	/*
-+	 * the line counter is 1 at the start of the VSYNC pulse and VTOTAL at
-+	 * the end of VFP. Translate the porch values relative to the line
-+	 * counter positions.
-+	 */
-+
-+	vactive_start = vsw + vbp + 1;
-+	vactive_end = vactive_start + mode->crtc_vdisplay;
-+
-+	/* last scan line before VSYNC */
-+	vfp_end = mode->crtc_vtotal;
-+
-+	if (stime)
-+		*stime = ktime_get();
-+
-+	line = dpu_encoder_get_linecount(encoder);
-+
-+	if (line < vactive_start)
-+		line -= vactive_start;
-+	else if (line > vactive_end)
-+		line = line - vfp_end - vactive_start;
-+	else
-+		line -= vactive_start;
-+
-+	*vpos = line;
-+	*hpos = 0;
-+
-+	if (etime)
-+		*etime = ktime_get();
-+
-+	return true;
-+}
-+
- static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
- 		struct dpu_plane_state *pstate, struct dpu_format *format)
- {
-@@ -1243,6 +1320,8 @@ static const struct drm_crtc_funcs dpu_crtc_funcs = {
- 	.early_unregister = dpu_crtc_early_unregister,
- 	.enable_vblank  = msm_crtc_enable_vblank,
- 	.disable_vblank = msm_crtc_disable_vblank,
-+	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
-+	.get_vblank_counter = dpu_crtc_get_vblank_counter,
- };
- 
- static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
-@@ -1251,6 +1330,7 @@ static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
- 	.atomic_check = dpu_crtc_atomic_check,
- 	.atomic_begin = dpu_crtc_atomic_begin,
- 	.atomic_flush = dpu_crtc_atomic_flush,
-+	.get_scanout_position = dpu_crtc_get_scanout_position,
- };
- 
- /* initialize crtc */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index f7f5c25..5cd3f31 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -425,6 +425,36 @@ int dpu_encoder_helper_unregister_irq(struct dpu_encoder_phys *phys_enc,
- 	return 0;
- }
- 
-+int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc)
-+{
-+	struct dpu_encoder_virt *dpu_enc;
-+	struct dpu_encoder_phys *phys;
-+	int framecount = 0;
-+
-+	dpu_enc = to_dpu_encoder_virt(drm_enc);
-+	phys = dpu_enc ? dpu_enc->cur_master : NULL;
-+
-+	if (phys && phys->ops.get_frame_count)
-+		framecount = phys->ops.get_frame_count(phys);
-+
-+	return framecount;
-+}
-+
-+int dpu_encoder_get_linecount(struct drm_encoder *drm_enc)
-+{
-+	struct dpu_encoder_virt *dpu_enc;
-+	struct dpu_encoder_phys *phys;
-+	int linecount = 0;
-+
-+	dpu_enc = to_dpu_encoder_virt(drm_enc);
-+	phys = dpu_enc ? dpu_enc->cur_master : NULL;
-+
-+	if (phys && phys->ops.get_line_count)
-+		linecount = phys->ops.get_line_count(phys);
-+
-+	return linecount;
-+}
-+
- void dpu_encoder_get_hw_resources(struct drm_encoder *drm_enc,
- 				  struct dpu_encoder_hw_resources *hw_res)
- {
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index b491346..99a5d73 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -156,5 +156,16 @@ void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc);
-  */
- void dpu_encoder_set_idle_timeout(struct drm_encoder *drm_enc,
- 							u32 idle_timeout);
-+/**
-+ * dpu_encoder_get_linecount - get interface line count for the encoder.
-+ * @drm_enc:    Pointer to previously created drm encoder structure
-+ */
-+int dpu_encoder_get_linecount(struct drm_encoder *drm_enc);
-+
-+/**
-+ * dpu_encoder_get_frame_count - get interface frame count for the encoder.
-+ * @drm_enc:    Pointer to previously created drm encoder structure
-+ */
-+int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc);
- 
- #endif /* __DPU_ENCODER_H__ */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-index f8f2515..ecbc4be 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-@@ -143,6 +143,7 @@ struct dpu_encoder_phys_ops {
- 	void (*prepare_idle_pc)(struct dpu_encoder_phys *phys_enc);
- 	void (*restore)(struct dpu_encoder_phys *phys);
- 	int (*get_line_count)(struct dpu_encoder_phys *phys);
-+	int (*get_frame_count)(struct dpu_encoder_phys *phys);
- };
- 
- /**
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index 9a69fad..0e06b7e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -658,6 +658,31 @@ static int dpu_encoder_phys_vid_get_line_count(
- 	return phys_enc->hw_intf->ops.get_line_count(phys_enc->hw_intf);
- }
- 
-+static int dpu_encoder_phys_vid_get_frame_count(
-+		struct dpu_encoder_phys *phys_enc)
-+{
-+	struct intf_status s = {0};
-+	u32 fetch_start = 0;
-+	struct drm_display_mode mode = phys_enc->cached_mode;
-+
-+	if (!dpu_encoder_phys_vid_is_master(phys_enc))
-+		return -EINVAL;
-+
-+	if (!phys_enc->hw_intf || !phys_enc->hw_intf->ops.get_status)
-+		return -EINVAL;
-+
-+	phys_enc->hw_intf->ops.get_status(phys_enc->hw_intf, &s);
-+
-+	if (s.is_prog_fetch_en && s.is_en) {
-+		fetch_start = mode.vtotal - (mode.vsync_start - mode.vdisplay);
-+		if ((s.line_count > fetch_start) &&
-+			(s.line_count <= mode.vtotal))
-+			return s.frame_count + 1;
-+	}
-+
-+	return s.frame_count;
-+}
-+
- static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops *ops)
- {
- 	ops->is_master = dpu_encoder_phys_vid_is_master;
-@@ -676,6 +701,7 @@ static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops *ops)
- 	ops->handle_post_kickoff = dpu_encoder_phys_vid_handle_post_kickoff;
- 	ops->needs_single_flush = dpu_encoder_phys_vid_needs_single_flush;
- 	ops->get_line_count = dpu_encoder_phys_vid_get_line_count;
-+	ops->get_frame_count = dpu_encoder_phys_vid_get_frame_count;
- }
- 
- struct dpu_encoder_phys *dpu_encoder_phys_vid_init(
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-index 6f0f545..717178b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-@@ -256,6 +256,7 @@ static void dpu_hw_intf_get_status(
- 	struct dpu_hw_blk_reg_map *c = &intf->hw;
- 
- 	s->is_en = DPU_REG_READ(c, INTF_TIMING_ENGINE_EN);
-+	s->is_prog_fetch_en = !!(DPU_REG_READ(c, INTF_CONFIG) & BIT(31));
- 	if (s->is_en) {
- 		s->frame_count = DPU_REG_READ(c, INTF_FRAME_COUNT);
- 		s->line_count = DPU_REG_READ(c, INTF_LINE_COUNT);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-index 0ead64d..3568be8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-@@ -40,6 +40,7 @@ struct intf_prog_fetch {
- 
- struct intf_status {
- 	u8 is_en;		/* interface timing engine is enabled or not */
-+	u8 is_prog_fetch_en;	/* interface prog fetch counter is enabled or not */
- 	u32 frame_count;	/* frame count since timing engine enabled */
- 	u32 line_count;		/* current line count including blanking */
- };
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 374b0e8..ed636f1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -14,6 +14,7 @@
- 
- #include <drm/drm_crtc.h>
- #include <drm/drm_file.h>
-+#include <drm/drm_vblank.h>
- 
- #include "msm_drv.h"
- #include "msm_mmu.h"
-@@ -1020,6 +1021,10 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
- 	 */
- 	dev->mode_config.allow_fb_modifiers = true;
- 
-+	dev->max_vblank_count = 0xffffffff;
-+	/* Disable vblank irqs aggressively for power-saving */
-+	dev->vblank_disable_immediate = true;
-+
- 	/*
- 	 * _dpu_kms_drm_obj_init should create the DRM related objects
- 	 * i.e. CRTCs, planes, encoders, connectors and so forth
--- 
-2.7.4
+Well, in that case:
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+for patches 9 and 10. Having the vmap calls fixed is at least worth it.
+
+Best regards
+Thomas
+
+>=20
+> So, no, I have no short-term plans for qxl beyond fixing pins +
+> reservations + lockdep.
+>=20
+> take care,
+>    Gerd
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--UncSznus3ByHfOkcxonBdJz5e6MeKSXqO--
+
+--nY8nnbVTZ7BT0N6Kj6baQxQEwgr1cULoW
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAubJcFAwAAAAAACgkQlh/E3EQov+BB
+5BAAiaqEuFQuNX/Edte8pTgw0EtC+8JuFX94XO6ZPE14G7zF8aoqmPSoTZ7mfazDN0kqhCUbOUpX
+jcDLZuRE+KoJEi75UcxkbejxT2/HZiwTwmL/Nq0Lbv6gVq7X4v+mVflSMKeZytS3Xq98IEOn/Y43
+ud9e064McQ0NNgOJb5Fjy2Rjd6rujdFU73B8rE5NumkiaJptCk+qE/TAJipSGXXSJ1zkgvSHSAga
+OutrnKsSUXe8i0BHJUMrK2LaK2Zkheb2GCUe9QxSOThoDEtuEz0NBOU2eoYewkE4IBBO+DXeQ6wp
+Qnd5D0kIkh+qBe8SWwPqXIGNsEhoEdkuEmfdEN/BsqOdr3mL1p1bks8ZHpgqyNSH1UQ/irka0buz
+eTFUnWuirhRrPWJo8lC65LvaINW+BRjcmq5PcZTKLMPPYn7UFzbL/PCNIggAwDbwiaAReHzUiwui
+XqAgB5cchmLxz3OjBiJgPM3rgIldcvOFIt2qu8e44nwnYMG97ifpDDWydfwmGj4VcU2ejV5T3kBN
+eHbbWSTMgKHT6L2IeOIRAeTjc/r5DmuX6uLGz3OXYS/oPlR+zNKpRaxIbgyQxTIlZ2OkzykXl8Sj
+DBeIHA466qiG1dHoWKW/zqNjmgKxFrZ/dAnmGxH7eqbkw/ZymCs4PP8Z1Z5k8+L/0bU50Nonm5bx
+HZc=
+=9OXG
+-----END PGP SIGNATURE-----
+
+--nY8nnbVTZ7BT0N6Kj6baQxQEwgr1cULoW--
+
+--===============1319290551==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1319290551==--
