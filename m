@@ -1,33 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3BF31EB6E
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 16:21:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1488E31EB7A
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 16:26:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F8D26EA24;
-	Thu, 18 Feb 2021 15:21:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 971586E83A;
+	Thu, 18 Feb 2021 15:26:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA1686EA24
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 15:21:29 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4CB24AD57;
- Thu, 18 Feb 2021 15:21:28 +0000 (UTC)
-To: Christoph Hellwig <hch@lst.de>
-References: <ef15869a-fe87-aef2-591d-2ca909a66217@suse.de>
- <20210218150746.GA18220@lst.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: Regression: 6eb0233ec2d0 ("usb: don't inherity DMA properties for
- USB devices")
-Message-ID: <ef51698a-cd93-47b3-b79f-8c86a4c215fc@suse.de>
-Date: Thu, 18 Feb 2021 16:21:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0587F6E83A
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 15:26:01 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 364F3ED1;
+ Thu, 18 Feb 2021 07:26:00 -0800 (PST)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 67D313F73D;
+ Thu, 18 Feb 2021 07:25:59 -0800 (PST)
+Subject: Re: [PATCH] drm/shmem-helper: Don't remove the offset in
+ vm_area_struct pgoff
+To: Neil Roberts <nroberts@igalia.com>, Rob Herring <robh+dt@kernel.org>,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+References: <20210217165910.3820374-1-nroberts@igalia.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <7f80b184-7277-0f6c-1108-cf41189626df@arm.com>
+Date: Thu, 18 Feb 2021 15:26:28 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210218150746.GA18220@lst.de>
+In-Reply-To: <20210217165910.3820374-1-nroberts@igalia.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,112 +44,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg KH <gregkh@linuxfoundation.org>, USB list <linux-usb@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, David Airlie <airlied@redhat.com>
-Content-Type: multipart/mixed; boundary="===============1380127494=="
+Cc: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1380127494==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="VSWlDvtYdfOL7Tl8R4iE5C8FzFqKh6JnP"
+On 17/02/2021 16:59, Neil Roberts wrote:
+> When mmapping the shmem, it would previously adjust the pgoff in the
+> vm_area_struct to remove the fake offset that is added to be able to
+> identify the buffer. This patch removes the adjustment and makes the
+> fault handler use the vm_fault address to calculate the page offset
+> instead. Although using this address is apparently discouraged, several
+> DRM drivers seem to be doing it anyway.
+> 
+> The problem with removing the pgoff is that it prevents
+> drm_vma_node_unmap from working because that searches the mapping tree
+> by address. That doesn't work because all of the mappings are at offset
+> 0. drm_vma_node_unmap is being used by the shmem helpers when purging
+> the buffer.
+> 
+> It looks like panfrost is using drm_gem_shmem_purge so this might fix a
+> potential bug there.
+> 
+> Signed-off-by: Neil Roberts <nroberts@igalia.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---VSWlDvtYdfOL7Tl8R4iE5C8FzFqKh6JnP
-Content-Type: multipart/mixed; boundary="mJWIti817m0Z6jMfS36ap1UGHc6CI4WQi";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- USB list <linux-usb@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Message-ID: <ef51698a-cd93-47b3-b79f-8c86a4c215fc@suse.de>
-Subject: Re: Regression: 6eb0233ec2d0 ("usb: don't inherity DMA properties for
- USB devices")
-References: <ef15869a-fe87-aef2-591d-2ca909a66217@suse.de>
- <20210218150746.GA18220@lst.de>
-In-Reply-To: <20210218150746.GA18220@lst.de>
+As the test robot points out pgoff_t is unsigned, so the <0 test makes 
+no sense. But apart from that it looks good to me.
 
---mJWIti817m0Z6jMfS36ap1UGHc6CI4WQi
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+I think this is worth a "Fixes:" line too - as you point out 
+drm_vma_node_unmap() won't be working correctly - which means we're 
+potentially leaving user space with pages pointing to freed memory - not 
+good! 17acb9f35ed7 is my best guess at the commit that introduced this.
 
-Hi
+Steve
 
-Am 18.02.21 um 16:07 schrieb Christoph Hellwig:
-> On Thu, Feb 18, 2021 at 03:56:00PM +0100, Thomas Zimmermann wrote:
->> I only have udl devices, but I expect that other DRM USB adapters are =
-also
->> affected.
->=20
-> Find where the driver calls dma_map_* itself instead of using the USB
-> wrappers and fix that..
->=20
-
-Sure, it's at [1]. For udl, the dmabuf would need to be in system=20
-memory. The driver creates urbs from the framebuffer content and sends=20
-them to the device for displaying.
-
-My question is more: what's the best interface to do this? Is there=20
-example code somewhere?
-
-Best regards
-Thomas
-
-[1]=20
-https://elixir.bootlin.com/linux/v5.11/source/drivers/gpu/drm/drm_prime.c=
-#L630
-
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---mJWIti817m0Z6jMfS36ap1UGHc6CI4WQi--
-
---VSWlDvtYdfOL7Tl8R4iE5C8FzFqKh6JnP
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAuhfYFAwAAAAAACgkQlh/E3EQov+DA
-6A//QdhPXebD7M+EzYUQ/FPnqUMNZAPP2uEP6VWwQQg1LkyhE45S3Cij4JD0ulGEvFZ63QMIAOz6
-U+eHXkKSX8vum5Ns9lHXgaQLiF+30j+FeB47XKWNNyBGJwysN5lIe4RI63CA30fJC+PEZGsNGPnk
-7wh1Fvp2mgo5SAe0OsZB/5D030s7sV48YQ2dU0z8vIdsNGWVseuRf12oq6jlB18KOW4Ypw5J6o0/
-HSc+uMqAVhNyDDTUVNqkOQobgZ0uyjoaj0rdonUcCXOPQHDc6HeU2eeKMgAD87xrLw2h/Ghl2z+F
-aQl8WTb7+NsE1sW8jjx0bhIBPj0K1A+v5HN2NdhycbUbnEHhaeVnzvO5sdn2hPVBc3rWfAl3+2Ax
-pK/KtpSoqZv4dagLcLMVDwXbGOPKqCIGEizPXr58t2gKV7SrTTILb22FVQv9nTIu1foRKyyUaaSz
-Y+djErr5PMrAf78kBAJ8UFFz6RZ5TxDypzkqSeifhZWziz9ZSf7MExV+ZHGQZ2lXonOp4RuK3+6p
-89OHWkSdZL/SH0VcrbpZDiGh9Iyur1KMjo6kndylvXJPh31ZuBHEGglNSAPP6888XefHunWjlx/N
-nw4l8F54ln8byP0IWJGJ7VVHRYWaxU6R+4FjhwWs/TJsoSZ/i4H/p7m5kFQRG8mqBMbRefVJtWfg
-xQw=
-=bR7v
------END PGP SIGNATURE-----
-
---VSWlDvtYdfOL7Tl8R4iE5C8FzFqKh6JnP--
-
---===============1380127494==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> ---
+>   drivers/gpu/drm/drm_gem_shmem_helper.c | 12 +++++++-----
+>   1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 9825c378dfa6..4b14157f1962 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -526,11 +526,16 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+>   	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+>   	loff_t num_pages = obj->size >> PAGE_SHIFT;
+>   	struct page *page;
+> +	pgoff_t page_offset;
+>   
+> -	if (vmf->pgoff >= num_pages || WARN_ON_ONCE(!shmem->pages))
+> +	/* We don't use vmf->pgoff since that has the fake offset */
+> +	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
+> +
+> +	if (page_offset < 0 || page_offset >= num_pages ||
+> +	    WARN_ON_ONCE(!shmem->pages))
+>   		return VM_FAULT_SIGBUS;
+>   
+> -	page = shmem->pages[vmf->pgoff];
+> +	page = shmem->pages[page_offset];
+>   
+>   	return vmf_insert_page(vma, vmf->address, page);
+>   }
+> @@ -581,9 +586,6 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+>   	struct drm_gem_shmem_object *shmem;
+>   	int ret;
+>   
+> -	/* Remove the fake offset */
+> -	vma->vm_pgoff -= drm_vma_node_start(&obj->vma_node);
+> -
+>   	if (obj->import_attach) {
+>   		/* Drop the reference drm_gem_mmap_obj() acquired.*/
+>   		drm_gem_object_put(obj);
+> 
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1380127494==--
