@@ -1,144 +1,113 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C8131E52A
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 05:37:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F1331E5BA
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 06:40:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04D106E9FA;
-	Thu, 18 Feb 2021 04:36:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90B116E237;
+	Thu, 18 Feb 2021 05:40:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFC676E9F8;
- Thu, 18 Feb 2021 04:36:47 +0000 (UTC)
-IronPort-SDR: AA2mirZj2nbfOfkMQRHo4Jbgjb6oJkRLaxFSH4uu6FL/sZZ2Dm/wLXKVZdHidzfjBCjW5RICrp
- Zj+o8kXgSGDw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="202639447"
-X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; d="scan'208";a="202639447"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2021 20:36:47 -0800
-IronPort-SDR: 2hebLreaLjJIwjFrbeVQHVp1xER3Vzk9mJ6OoWhp9E/m71ESfLNw788i4BPyNhZMwpIHOvBxWh
- p5Wjf+5zTm/A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; d="scan'208";a="581120495"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga005.jf.intel.com with ESMTP; 17 Feb 2021 20:36:47 -0800
-Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Wed, 17 Feb 2021 20:36:46 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
- via Frontend Transport; Wed, 17 Feb 2021 20:36:46 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2106.2; Wed, 17 Feb 2021 20:36:46 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2090.outbound.protection.outlook.com [40.107.244.90])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60E536E237
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 05:40:51 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l/sDyGa8R0qMDG4y+3ol6w3UP7Bbz5s9mDiRyWV/XKie9RxyaXra57XtQwV+1XwlloBj0A27ay8Tv70XLMPsbodHCCIQy5n8pqUt4tlibaRO92Uvl/7hDT3kIAWGQX3LZw6BtB/wIXgp3oSX3BJ+bsFomwEM5PDZDlWOoJ8PTvP8kxZ97T9rBNDKFe8giWtK6CD1opeCt1LGaXK93PWsCsBDSSRTrt8KQjV8289OCmaPYRKj0Y3FozmlPzPz7CH/vJlpaA0QDkh7DVcwTw76w+Xv1p5NGh3EOzxtTVIWaf+ibDoVhuJzdnUNfWGYC6OsEldqQFm011m8kAWudiKJng==
+ b=j2NRzzw/EcUSfrzAoUT4eftcOKee7FDQLneK3nUXwLeqjhAw4qOHGrmsRfQOJU7m3Bz6yjTO68g/yDr59sIlWifeUNfF48YH/+gcE1Xz7PiPhXgpQJzGbcwHh62CoYVCTFU3D0pSqDj+WdGMHGlnK35xeiDhQ0wGYbMEK/Zj2S8XMsnv0kmgqq00eHDZH9IhSDAC443OyP0hc4xlNTV+QTjIXr0mplmSUnhun2Pk7Gp7YVd/mHwF/h8zepKDIdpbP1iArhWaH6VLKqmB1z33n6pbW6ieONYOjVM/aJxaMaJrHxB2Tt4qb4/xeZeidQQz3z/yfSAmtDqHBnG7s8x+jw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K+MR6ybOZeWiDQVi3tz8MsTEd5tvaxcZxQh4T/16BoM=;
- b=clM926B0Dlcn8XUFMypOkDxDRkUKS1mpqNOJY/11Ec/3USBrdNNlkz+MgFUeh3tdwk/mUvhGhQso3RM/tEm23e7mRpYr9dgBtUMmFOtmZxBGxwei1iapBkOkDUI+gz0b+IoWj/s2QjAZvE09yQpHqSnRbotj6f67MT1FK3tJTolshQjczkX8xZeQrr6cIdvY1u+nEoJT3oYB9brDq0BbVF7JmeJquHM2C53rnNV5gbp513ENP0mxNvIjCpFKnhbnmKzJBv0o6LW3eK+zqjJlaK6GjQ9L1eOpH8kUKwWTO+FLEUbkhuQ0p2L3sw5Ai6p99ufnAc/UZEmvEifUybIYnw==
+ bh=t2v1JL/cumGNkvkNoY2YqLNJ5eMZFWKxBFioz+9zcFI=;
+ b=bGjwUPkMzoqLxaLjCkAxeCUtpcPl2Rh+fHW95f9qbCKkcQ8b4C09oEymSqtXxPscPtgvZM9GFoSDN2+WuMCKSZn+Z87p9QcOQqxXh0H4ajkMa6UaE50BXUpW/dIjyaWnFsxhzSD1jffnD5o9IWPh6MgqDeWEJPVah1kMNzPYMXjCDP3S5jjrNhi9JfZzsqnGmI79S/Hs+uc8B3WhYaia2ytLE2ZQYJA3U2YGgT+SFmMr3TufWU8G8rzsCsL8yRN+F9Va1GwuswUhY10BDvQIodEChvBRabIkDUFwkco8lPVoBdVeM2jAW2zHMj+Le3E9R/LVT9aClcWrwkMQqRLxlg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
+ smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
+ header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K+MR6ybOZeWiDQVi3tz8MsTEd5tvaxcZxQh4T/16BoM=;
- b=eizr6TIBDTL7tJ/6vRkU6zHFxKNZs59XrcO6Y1+jia4h5C4yQLW69DV+50/BIKqcD0BQpwsn3wAfvNusXOizNz7KZqh2u8ieH2MiHcicbIHNID18sVR9zNjNnAqgS1NVwVZRPw66XcmHmrhQMWum5U9OJ1+T1daN0tbcwQzMk5A=
-Received: from SN6PR11MB3421.namprd11.prod.outlook.com (2603:10b6:805:cd::27)
- by SN6PR11MB3295.namprd11.prod.outlook.com (2603:10b6:805:c2::18)
+ bh=t2v1JL/cumGNkvkNoY2YqLNJ5eMZFWKxBFioz+9zcFI=;
+ b=TUflbSPY2iumXVAibqc4vTeIvgO3YzFOdVdEBBeUDQWBNTtXDGe8+ub5Gaf/pb8W6hTkj4cla+mtmklk7ZQiGif8PFVflGs2UVfl/mv5cnvPuUVgRcKVIBTiqp7PT+mY4i+1VAP5ECWP2Nf/96JPxZ71MHfCm228K53TxopeWLE=
+Authentication-Results: driverdev.osuosl.org; dkim=none (message not signed)
+ header.d=none;driverdev.osuosl.org; dmarc=none action=none
+ header.from=analogixsemi.com;
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
+ by BY5PR04MB6740.namprd04.prod.outlook.com (2603:10b6:a03:21a::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.29; Thu, 18 Feb
- 2021 04:36:44 +0000
-Received: from SN6PR11MB3421.namprd11.prod.outlook.com
- ([fe80::858b:c175:afcf:1672]) by SN6PR11MB3421.namprd11.prod.outlook.com
- ([fe80::858b:c175:afcf:1672%6]) with mapi id 15.20.3846.034; Thu, 18 Feb 2021
- 04:36:44 +0000
-From: "Surendrakumar Upadhyay, TejaskumarX"
- <tejaskumarx.surendrakumar.upadhyay@intel.com>
-To: "lyude@redhat.com" <lyude@redhat.com>, "Deak, Imre" <imre.deak@intel.com>
-Subject: RE: [PATCH v4] drm/i915/gen9bc: Handle TGP PCH during suspend/resume
-Thread-Topic: [PATCH v4] drm/i915/gen9bc: Handle TGP PCH during suspend/resume
-Thread-Index: AQHXBVbnJtNC7xEka0StqUaiK6WinKpc2hEAgAAAaICAAHmyAA==
-Date: Thu, 18 Feb 2021 04:36:44 +0000
-Message-ID: <SN6PR11MB34218F3DFB4DA6252D13F009DF859@SN6PR11MB3421.namprd11.prod.outlook.com>
-References: <20210217025337.1929015-1-lyude@redhat.com>
- <20210217180016.1937401-1-lyude@redhat.com>
- <20210217211802.GC558393@ideak-desk.fi.intel.com>
- <a55af9a9f4454f07e34c984cc2ef0e31b38fcbf1.camel@redhat.com>
-In-Reply-To: <a55af9a9f4454f07e34c984cc2ef0e31b38fcbf1.camel@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [103.240.169.249]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 259f3497-d9cb-4783-1655-08d8d3c6cbad
-x-ms-traffictypediagnostic: SN6PR11MB3295:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR11MB32951F1779F362DFA9005FC2DF859@SN6PR11MB3295.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: XSgNeO5Jlr6q6pWjgLbi3lvtE0oAdJaNTR5tny2UO1xrT/tFKqu8BGyF1ml1LnjsFUaEQ797VUbZA97Xcv/+9Z1/fnxkCNHGdBVFqevTt9hLIGoyS0xkEAaINJBNKJcpeYSnJhDdGltuSRgjorig70pkXWLnu7gX/ew1PPqJ4fwxi+xNgnEVHhXUad5O+XJ7v484b/P1pLfZxbaHSUt1lR11R3mWyKyk3YKErqGk39ltSwRbGhVLa1E1rz4gfw0GQmXtjMd0LkcV9g5lgPA8z+cCqkbj0Gx3/03YPJrr3W9s0xbzhsqoBBj91qZZ5f6HV2cJU6zAVENAdVAWph4PrCEFwvLDQgaKJuAIzXG5raglYiW6ChCv0apxcK/urOzI6Bi4tUesyF8JTf2DFrFbQkYr+pixm7wBPnE2lqV7vKYRQy+llrM9XDWY8YJzeoDbF+oCuZ2gwDm9fOIzhi24h818kGTUAZPfyd0kXnPr3JuxvJZXUGIsMLNY/JSI2gceFXA7qXZ+Dk8jXffodi/NexScQW78LW1VOHPryNbyGii6gUya5fJawENOXtSO33Ku
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR11MB3421.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(346002)(396003)(136003)(39860400002)(376002)(66446008)(52536014)(2906002)(83380400001)(26005)(7696005)(53546011)(71200400001)(186003)(54906003)(66476007)(86362001)(478600001)(76116006)(66556008)(66946007)(316002)(5660300002)(33656002)(64756008)(15650500001)(110136005)(4326008)(6506007)(6636002)(9686003)(55016002)(8676002)(8936002)(226253002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?S3o0OHpDUWdUQ1E3cDJJcDR1TS9hUHo4WDl1QnFMZmhGV1ZSQVJORE5ndVB2?=
- =?utf-8?B?d3hTRkduRlVTbUNHSGtXQjU2eEJiUWQ1VFJrdmpSRWUvUjVQWnh3OTBORDY4?=
- =?utf-8?B?VmU5a3YzR2FRdjFaaitYL3dhQlhCTXMrR1N3V1NHQ0cySm52enFqUHg0a2VY?=
- =?utf-8?B?eEdESFpUMnFjZW9obDBhKzNYUlI2dWthL1RBQzdsUTd5azU4TEFZc3FzQXlR?=
- =?utf-8?B?dzdDNkN5K01Kc0tJRm4yYmdiN1FMSVFPWDNpNTcwbkVLMkUwR1pCV3M1M2Z5?=
- =?utf-8?B?ZTNldnljM2d3OS80NXcrL2d4NzA4ZGlOWFRYU2plR1FDN1lYMzFxdVd5a1BM?=
- =?utf-8?B?N1lPaEhUbys2ZEdTcGVTL2hoVG9vQXYyaWQ2bGxTMVJ6N2lkRjdXc1phOFNE?=
- =?utf-8?B?bFNWS0VkUnNzWGFvb1l1UnJHdDBOcmI4V0tBU3M3UDBhNmJMOWdiOURqdjJ1?=
- =?utf-8?B?WWdzckYvbkdwZDRYbUxhbWRseHlTMXZTUjcrM0RMT0lleUdKaHZubG0xTU9u?=
- =?utf-8?B?TWFva3JpSjNlS0FrZjhDU0dHaGhsT0Vqc2lBSEhFZ2JlOGRDQVQ0T3JuVTBE?=
- =?utf-8?B?WVVOOW52VW9XUndxc25aVWpTNGxYdmwvbjBJdFNNN1h3SmlYbGRsQm93SFAz?=
- =?utf-8?B?dkI1UzV0LzViUnYvOW1TcnhtSTc1OC9tL2hLT2M4SnVSU0p6TGQ2ajZPMHJn?=
- =?utf-8?B?MnkwWmQ5Q0NEVXhIYmM0OTN2bG1maUtXOE14RFFsMmZ5bGtnOVc0WUxLYkVq?=
- =?utf-8?B?Mmd6NTN4TEhpOHUxT2ZzS1FPUVFmdnc0MEtlNXVIRnB3NFBGRm5iQ2xjMHd2?=
- =?utf-8?B?Wlp1b2lLYi9iOVlZSHcvdml1dzZJQ0VtbTBWaXhZRHEyTWNjS2o2Ym5ySGsr?=
- =?utf-8?B?ck5aK3Q0TDhDR0d4ckdxMEcxUC9lS0hlUU9pSEtNNitvL2JTUVVoeDRqZUxh?=
- =?utf-8?B?MDZtb1FQVUwrVHJhVkZSUzB6S2JyVXVUSWVKcHJOY3FqbEpmZTZxWVJxZlRF?=
- =?utf-8?B?ZkJmZHJiZmVraXhXU0pNNmtoQXRCOFpQanpjSmJrSlh2ekZNdXFDK3I0cGtM?=
- =?utf-8?B?VFNwWUdzTU8rb2VoZEY3am16c2d5eC90UlE0OTdvendHZzlLMlFDUWpkUkti?=
- =?utf-8?B?V1ZHYkpDYzFmWGxOcjFwNW9KRWw0N3B3RHJ5NnJjRGxGVTZNVHA0Qmthc00x?=
- =?utf-8?B?VkZyZnRTN3JjakR1VVJ6MG5xZjlhN0J1eUh1TjJMZlEyUmR5SDJqVzN0bVdh?=
- =?utf-8?B?Sm55bnlyRjNnUHphMGVFYUovbkRPOFRIUVBLcXVhVlBteStlbWhOQmdVQ0Fx?=
- =?utf-8?B?TUtSNEM4dzVXbDgzWmluaUY1Y25IeHZudHJvSjErT0c0Y2xQU0dMNG5CVnBq?=
- =?utf-8?B?MVlwQThwQ0FYVWpKSmV0Yk5EKzlxcUY5Z1F1UlF5SGxsVlQxdlpuaDduRmcr?=
- =?utf-8?B?cmxIQ2pvcE11aldDTGhDeW5sZU8wTTY0MTRwdlNGcE5FcUQ5TUV1clIrSmFk?=
- =?utf-8?B?U0Jtdlk5R2xlU1VEU1RzcFZ1QmZMTEROS1lzREZUTDd4TVJwdmVPSnl1YnRm?=
- =?utf-8?B?dFIvWGhuSzJNcUpHbnRBWHFueXQyL3lDR3NLbjA1dWIwWVFGWjFDRnd6ckt2?=
- =?utf-8?B?VHJGbUxROEh3SUcrR0V3YWpoM1FubDFnWUlldWFOT0IrZVRPa2FzRzJZeTYx?=
- =?utf-8?B?L3VLOEFPK3ZqOUF4SVJocTJmUVBNRktDTHcydjk5N1NqYXp3VzVRSysvMXVN?=
- =?utf-8?Q?4JjWV5cuIOyuE19D7GIjGf29hRgRWxX7yutaMSn?=
+ 2021 05:40:48 +0000
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::6481:f617:8105:491f]) by BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::6481:f617:8105:491f%2]) with mapi id 15.20.3846.038; Thu, 18 Feb 2021
+ 05:40:47 +0000
+Date: Thu, 18 Feb 2021 13:40:40 +0800
+From: Xin Ji <xji@analogixsemi.com>
+To: Robert Foss <robert.foss@linaro.org>
+Subject: Re: [PATCH v4 3/3] drm/bridge: anx7625: add MIPI DPI input feature
+ support
+Message-ID: <20210218054040.GB2891@zhaomy-pc>
+References: <cover.1611802321.git.xji@analogixsemi.com>
+ <49fc9c62026988d7adc2eb7e4d1f6a3bffe0b66c.1611802321.git.xji@analogixsemi.com>
+ <CAG3jFys3GnPOfnsMjcd_7BfEuAQyb2VJfA2uuxpQ=Qf+2rXvhw@mail.gmail.com>
+Content-Disposition: inline
+In-Reply-To: <CAG3jFys3GnPOfnsMjcd_7BfEuAQyb2VJfA2uuxpQ=Qf+2rXvhw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Originating-IP: [61.148.116.10]
+X-ClientProxiedBy: HKAPR03CA0031.apcprd03.prod.outlook.com
+ (2603:1096:203:c9::18) To BY5PR04MB6739.namprd04.prod.outlook.com
+ (2603:10b6:a03:229::8)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from zhaomy-pc (61.148.116.10) by
+ HKAPR03CA0031.apcprd03.prod.outlook.com (2603:1096:203:c9::18) with Microsoft
+ SMTP Server (version=TLS1_0, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id
+ 15.20.3868.12 via Frontend Transport; Thu, 18 Feb 2021 05:40:46 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8efb3fd3-c5c9-4d75-8d75-08d8d3cfbe12
+X-MS-TrafficTypeDiagnostic: BY5PR04MB6740:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BY5PR04MB674063055C222AE9E4DE1326C7859@BY5PR04MB6740.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:127;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: p+vrhznLyFKJY3LyMMAOzdS4enUbVmqumOL4zjvcfpxZQkq3xMbHS4RY+BLCYJ8+hST8GPtkaxAxr+c9EuX9jgVaJ1x12USR48MWUPzC+cD4th7ceLEcdnqDV03hYyzqfKp4ZcyJy5wNL1wBCNfuX2rZ0vMkth936hD4+6tU7Y1+967zlshDHucp62nxzXvlYZlFBuwGCL+VVYjIYrxV4srfdSPzthSJAKwy9xHdWWrSKENaj62WJFl5sIMY9TvU8SfGG+B8AgE0qh29valdxHGj9EL9En6lGwvT7Hq2HZ7dxRLBbQxdouqPgwFjV7YKpCtuc6q/p59e3rPgNYuO9vAyRoJiaduMXzM+ECsfeA3pkld/i7XtIC3CtTxriVKxxrdarnlehoqTuRHehkLnOPSsU7C2F0IiOYIR8a80X10iJRfkFLuXj+T+K7LfTLuCB1AQBoGWJ6cVgQRrS3L9TJG71GlNihpXYsd6YkyuVtw0voAteJkpm+/Ddz/du5ZV7K7pRcNcD1Rn/Yvbk+VGVhWJUH9bmTsZ5RYLly7tnBD8Nnu8tWowv09E6qgiw1H9/IF0v37KEMWdjyrQoewLEA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(346002)(396003)(136003)(39840400004)(376002)(33656002)(8676002)(186003)(2906002)(16526019)(1076003)(26005)(54906003)(33716001)(6666004)(6916009)(8936002)(6496006)(5660300002)(83380400001)(7416002)(478600001)(4326008)(66476007)(86362001)(316002)(52116002)(9686003)(66946007)(55016002)(66556008)(956004)(30864003)(16060500005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?oTCDIm39EUrY018O6rZEm2HLQwTiLVvu5l5i+cDxKNovo4ZM3iRqYVVlWoMb?=
+ =?us-ascii?Q?wRjsWw7JnDYfB1vGGROAMftOCf5dJq9wB9MP3Eeb3VBUBNpObgk9NXJ06yS5?=
+ =?us-ascii?Q?OdZb29ThWxxM/ufpRLOKB2rNsuCzer/4AeFodNNaeWO01iYFH6yHM4HI/d8d?=
+ =?us-ascii?Q?6Rx3CvIWa7TsqDtj+EE0qSBrQ4S8Le0D1yKc13IzMiLfL+lWoL5g9A1BzAcS?=
+ =?us-ascii?Q?lhJLPNXVASv6nAYpR/G+8ll6cO4ntJJZpOZKUumn4oUTK0nBurA1vQUEYO/M?=
+ =?us-ascii?Q?j1WJWIvBpN+U0vmakx+WfIJZdqRRIyq+jPpwm76lxdRGco6UZLFDlr10daMb?=
+ =?us-ascii?Q?fvxo7djsiA86IDyChRt8Mu8W8F3PtxElhvzV8zYVWn8vUtFbemlJ6fscswGE?=
+ =?us-ascii?Q?BdRKsgibT0gHu8GmMBe3sKjHSOzW82WXphEVJDST32g/W/kFFQ3+m1SXQKbl?=
+ =?us-ascii?Q?j5fBji75mOr+H6KDPsxAe2ZdkXJmYAd9pNnqr+jtGcuSf1U+oJe92bTjiucV?=
+ =?us-ascii?Q?r0MxX09LQ264GFYx0U3be7OWyNOuG+0pxhv4olUJ85Hm7Y09Xh1d7G3Acbop?=
+ =?us-ascii?Q?uLEoXmTksr6kr/t1ZF3j72ccZlnXGolytilyu9SG7PNs88hHgRox6BXBq4g8?=
+ =?us-ascii?Q?MA+D3B3As9lKV4iS+sciiliA3xEgm5NDJHPiX6dj87hmuMSxNtnVUoYXoat4?=
+ =?us-ascii?Q?t6624oXDEAnOdoE1quXHQ5NRf6s5aSuQ6iBxI6l8+W1sc6jpoAPwFo0Lzo/6?=
+ =?us-ascii?Q?/Cj0ocPUCxw6hhssUkH1cFsjQqBxk4sOXdhYMD15mhd0oKsTu2A3G98uzvUg?=
+ =?us-ascii?Q?vCPULWoniP4rF35fd27IScB+8x8+7xHikmGBm555dtCWfblXP4iYif1DQ0lz?=
+ =?us-ascii?Q?ApyuV1osAvBWCDQGsrzrYBI8pA38H79wA6TgEouJin6diEHvd2zDLx7JTh3J?=
+ =?us-ascii?Q?ciV2coA96fc9hZPRQauXZYbqxQ/0OymVXRQ1bUi0+oHmZ88gDXabGj0jnT9K?=
+ =?us-ascii?Q?uvKXLULzWTNLZwXdnQWNYysQ5sQRQhuswIXa5B6wlgPDdwIpFQr0yx6df67v?=
+ =?us-ascii?Q?gNQsR59aEg/BEA6XCwm8tsTQ0W4JMj3jJ8of27sg/GNsKCD8/czPk3JLzDJc?=
+ =?us-ascii?Q?51pEdygCzGeozya0zCtQSpN0Wx1/GWyZOSdwmDcO4dEQdva1j69PneMUy4vC?=
+ =?us-ascii?Q?a0s5AYot2xDxwDvuKisqJAcZxlGZNpDMD9np5Q3N+ZK8LGIzl6YeVbzxLyXL?=
+ =?us-ascii?Q?BRcZcmYeka7eyawgKKVsG6xY9AxL+Xt8zuno7bsVbUcYvooKewXELA12gbmy?=
+ =?us-ascii?Q?AMF4Oj4q5iUoisCabyZQluKr?=
+X-OriginatorOrg: analogixsemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8efb3fd3-c5c9-4d75-8d75-08d8d3cfbe12
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3421.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 259f3497-d9cb-4783-1655-08d8d3c6cbad
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Feb 2021 04:36:44.5366 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PZCXxZUI52TG3caJkWm/ESWtFYZeF01jxkxnaaRmrY893qPAAJ49pXeAhOu/yuvADqzqKi85KjKfg77LwiKOJEzB9W9oSvnU+VVZDucV7Lr6HrNnnXsQ1nHvHmylRAdKXbB5yh3lYYG9wlCZKqk9RQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3295
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2021 05:40:47.8451 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ah3X3Gw0J/UlDuLGPMSwnOKjCl1W05+B6X0G6qKa6nuarn3rCPF5zLDJdlF30Zq59gVKj3GT7xj/SiP9C2VMjQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6740
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,155 +120,629 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, "open
- list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Sheng Pan <span@analogixsemi.com>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Bernie Liang <bliang@analogixsemi.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Vasily Khoruzhick <anarsoul@gmail.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Torsten Duwe <duwe@lst.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTHl1ZGUgUGF1bCA8bHl1
-ZGVAcmVkaGF0LmNvbT4NCj4gU2VudDogMTggRmVicnVhcnkgMjAyMSAwMjo0OQ0KPiBUbzogRGVh
-aywgSW1yZSA8aW1yZS5kZWFrQGludGVsLmNvbT4NCj4gQ2M6IGludGVsLWdmeEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmc7IFN1cmVuZHJha3VtYXIgVXBhZGh5YXksIFRlamFza3VtYXJYDQo+IDx0ZWph
-c2t1bWFyeC5zdXJlbmRyYWt1bWFyLnVwYWRoeWF5QGludGVsLmNvbT47IFJvcGVyLCBNYXR0aGV3
-IEQNCj4gPG1hdHRoZXcuZC5yb3BlckBpbnRlbC5jb20+OyBKYW5pIE5pa3VsYSA8amFuaS5uaWt1
-bGFAbGludXguaW50ZWwuY29tPjsNCj4gSm9vbmFzIExhaHRpbmVuIDxqb29uYXMubGFodGluZW5A
-bGludXguaW50ZWwuY29tPjsgVml2aSwgUm9kcmlnbw0KPiA8cm9kcmlnby52aXZpQGludGVsLmNv
-bT47IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT47IERhbmllbCBWZXR0ZXINCj4gPGRh
-bmllbEBmZndsbC5jaD47IG9wZW4gbGlzdDpEUk0gRFJJVkVSUyA8ZHJpLQ0KPiBkZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmc+OyBvcGVuIGxpc3QgPGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5v
-cmc+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjRdIGRybS9pOTE1L2dlbjliYzogSGFuZGxlIFRH
-UCBQQ0ggZHVyaW5nDQo+IHN1c3BlbmQvcmVzdW1lDQo+IA0KPiBPbiBXZWQsIDIwMjEtMDItMTcg
-YXQgMjM6MTggKzAyMDAsIEltcmUgRGVhayB3cm90ZToNCj4gPiBPbiBXZWQsIEZlYiAxNywgMjAy
-MSBhdCAwMTowMDoxNlBNIC0wNTAwLCBMeXVkZSBQYXVsIHdyb3RlOg0KPiA+ID4gRnJvbTogVGVq
-YXMgVXBhZGh5YXkNCj4gPHRlamFza3VtYXJ4LnN1cmVuZHJha3VtYXIudXBhZGh5YXlAaW50ZWwu
-Y29tPg0KPiA+ID4NCj4gPiA+IEZvciBMZWdhY3kgUzMgc3VzcGVuZC9yZXN1bWUgR0VOOSBCQyBu
-ZWVkcyB0byBlbmFibGUgYW5kIHNldHVwIFRHUA0KPiA+ID4gUENILg0KPiA+ID4NCj4gPiA+IHYy
-Og0KPiA+ID4gKiBNb3ZlIFdhXzE0MDEwNjg1MzMyIGludG8gaXQncyBvd24gZnVuY3Rpb24gLSB2
-c3lyamFsYQ0KPiA+ID4gKiBBZGQgVE9ETyBjb21tZW50IGFib3V0IGZpZ3VyaW5nIG91dCBpZiB3
-ZSBjYW4gbW92ZSB0aGlzIHdvcmthcm91bmQNCj4gPiA+IC0gaW1yZQ0KPiA+ID4gdjM6DQo+ID4g
-PiAqIFJlbmFtZSBjbnBfaXJxX3Bvc3RfcmVzZXQoKSB0byBjbnBfZGlzcGxheV9jbG9ja193YSgp
-DQo+ID4gPiAqIEFkZCBUT0RPIGl0ZW0gbWVudGlvbmluZyB3ZSBuZWVkIHRvIGNsYXJpZnkgd2hp
-Y2ggcGxhdGZvcm1zIHRoaXMNCj4gPiA+IMKgIHdvcmthcm91bmQgYXBwbGllcyB0bw0KPiA+ID4g
-KiBKdXN0IHVzZSBpYnhfaXJxX3Jlc2V0KCkgaW4gZ2VuOF9pcnFfcmVzZXQoKS4gVGhpcyBjb2Rl
-IHNob3VsZCBiZQ0KPiA+ID4gwqAgZnVuY3Rpb25hbGx5IGVxdWl2YWxlbnQgb24gZ2VuOSBiYyB0
-byB0aGUgY29kZSB2MiBhZGRlZA0KPiA+ID4gKiBEcm9wIGljcF9ocGRfaXJxX3NldHVwKCkgY2Fs
-bCBpbiBzcHRfaHBkX2lycV9zZXR1cCgpLCB0aGlzIGxvb2tzDQo+ID4gPiB0byBiZQ0KPiA+ID4g
-wqAgbW9yZSBvciBsZXNzIGlkZW50aWNhbCB0byBzcHRfaHBkX2lycV9zZXR1cCgpIG1pbnVzIGFk
-ZGl0aW9uYWxseQ0KPiA+ID4gZW5hYmxpbmcNCj4gPiA+IMKgIG9uZSBwb3J0LiBXaWxsIHVwZGF0
-ZSBpOTE1IHRvIHVzZSBpY3BfaHBkX2lycV9zZXR1cCgpIGZvciBJQ1AgaW4gYQ0KPiA+ID4gwqAg
-c2VwYXJhdGUgcGF0Y2guDQo+ID4gPiB2NDoNCj4gPiA+ICogUmV2ZXJ0IFdhXzE0MDEwNjg1MzMy
-IHN5c3RlbSBsaXN0IGluIGNvbW1lbnRzIHRvIGhvdyBpdCB3YXMgYmVmb3JlDQo+ID4gPiAqIEFk
-ZCBiYWNrIEhBU19QQ0hfU1BMSVQoKSBjaGVjayBiZWZvcmUgY2FsbGluZyBpYnhfaXJxX3Jlc2V0
-KCkNCj4gPiA+DQo+ID4gPiBDYzogTWF0dCBSb3BlciA8bWF0dGhldy5kLnJvcGVyQGludGVsLmNv
-bT4NCj4gPiA+IFNpZ25lZC1vZmYtYnk6IFRlamFzIFVwYWRoeWF5DQo+ID4gPiA8dGVqYXNrdW1h
-cnguc3VyZW5kcmFrdW1hci51cGFkaHlheUBpbnRlbC5jb20+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5
-OiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPg0KPiA+DQo+ID4gVGhhbmtzLCBsb29rcyBv
-ayB0byBtZToNCj4gPiBSZXZpZXdlZC1ieTogSW1yZSBEZWFrIDxpbXJlLmRlYWtAaW50ZWwuY29t
-Pg0KPiA+DQo+ID4gbml0OiBjbnBfZGlzcGxheV9jbG9ja19nYXRpbmdfd2EoKSB3b3VsZCBiZSBh
-biBldmVuIGJldHRlciBuYW1lLCBjb3VsZA0KPiA+IGJlIHJlbmFtZWQgd2hpbGUgYXBwbHlpbmcu
-DQo+IA0KPiBTdXJlIHRoaW5nLiBKRllJIC0gSSdtIGdvaW5nIHRvIGhvbGQgb2ZmIG9uIHB1c2hp
-bmcgdGhpcyBwYXRjaCB1bnRpbCBJJ3ZlIGdvdA0KPiBjb25maXJtYXRpb24gZnJvbSB0aGUgT0VN
-cyB0aGlzIGlzIGZvciB0aGF0IHRoZXNlIHBhdGNoZXMgc3RpbGwgZml4IHRoZWlyIGlzc3Vlcw0K
-PiAoc2luY2UgSSB1bmZvcnR1bmF0ZWx5IGRvbid0IGhhdmUgYW55IGFjY2VzcyB0byB0aGlzIGhh
-cmR3YXJlKS4NCg0KSSBjYW4gZm9sbG93IHVwIHdpdGggT0VNIHRvIHRlc3Qgb3IgSSBjYW4gZ2V0
-IGl0IHRlc3RlZCBpbiBteSBMQUIsIGFzIEkgaGF2ZSBSS0wgUlZQIChDTUwgQ1BVKSArIFRHUCBQ
-Q0ggd2l0aCBtZS4NCg0KPiANCj4gPg0KPiA+ID4gLS0tDQo+ID4gPiDCoGRyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2k5MTVfaXJxLmMgfCA0OQ0KPiA+ID4gKysrKysrKysrKysrKysrKysrKysrLS0tLS0t
-LS0tLS0tDQo+ID4gPiDCoDEgZmlsZSBjaGFuZ2VkLCAzMiBpbnNlcnRpb25zKCspLCAxNyBkZWxl
-dGlvbnMoLSkNCj4gPiA+DQo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUv
-aTkxNV9pcnEuYw0KPiA+ID4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2lycS5jIGluZGV4
-IDk4MTQ1YTdmMjhhNC4uOWI1NmE4ZjgxZTFhDQo+ID4gPiAxMDA2NDQNCj4gPiA+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfaXJxLmMNCj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2k5MTVfaXJxLmMNCj4gPiA+IEBAIC0zMDQwLDYgKzMwNDAsMjQgQEAgc3RhdGljIHZv
-aWQgdmFsbGV5dmlld19pcnFfcmVzZXQoc3RydWN0DQo+ID4gPiBkcm1faTkxNV9wcml2YXRlICpk
-ZXZfcHJpdikNCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqBzcGluX3VubG9ja19pcnEoJmRldl9wcml2
-LT5pcnFfbG9jayk7DQo+ID4gPiDCoH0NCj4gPiA+DQo+ID4gPiArc3RhdGljIHZvaWQgY25wX2Rp
-c3BsYXlfY2xvY2tfd2Eoc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2KQ0KPiA+ID4g
-K3sNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBpbnRlbF91bmNvcmUgKnVuY29yZSA9ICZk
-ZXZfcHJpdi0+dW5jb3JlOw0KPiA+ID4gKw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgLyoNCj4gPiA+
-ICvCoMKgwqDCoMKgwqDCoCAqIFdhXzE0MDEwNjg1MzMyOmNucC9jbXAsdGdwLGFkcA0KPiA+ID4g
-K8KgwqDCoMKgwqDCoMKgICogVE9ETzogQ2xhcmlmeSB3aGljaCBwbGF0Zm9ybXMgdGhpcyBhcHBs
-aWVzIHRvDQo+ID4gPiArwqDCoMKgwqDCoMKgwqAgKiBUT0RPOiBGaWd1cmUgb3V0IGlmIHRoaXMg
-d29ya2Fyb3VuZCBjYW4gYmUgYXBwbGllZCBpbiB0aGUNCj4gPiA+ICtzMGl4DQo+ID4gPiBzdXNw
-ZW5kL3Jlc3VtZSBoYW5kbGVycyBhcw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgICogb24gZWFybGll
-ciBwbGF0Zm9ybXMgYW5kIHdoZXRoZXIgdGhlIHdvcmthcm91bmQgaXMgYWxzbw0KPiA+ID4gK25l
-ZWRlZA0KPiA+ID4gZm9yIHJ1bnRpbWUgc3VzcGVuZC9yZXN1bWUNCj4gPiA+ICvCoMKgwqDCoMKg
-wqDCoCAqLw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgaWYgKElOVEVMX1BDSF9UWVBFKGRldl9wcml2
-KSA9PSBQQ0hfQ05QIHx8DQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqAgKElOVEVMX1BDSF9U
-WVBFKGRldl9wcml2KSA+PSBQQ0hfVEdQICYmDQo+ID4gPiArSU5URUxfUENIX1RZUEUoZGV2X3By
-aXYpDQo+ID4gPiA8IFBDSF9ERzEpKSB7DQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgaW50ZWxfdW5jb3JlX3Jtdyh1bmNvcmUsIFNPVVRIX0NISUNLRU4xLA0KPiA+ID4gU0JD
-TEtfUlVOX1JFRkNMS19ESVMsDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgU0JDTEtfUlVOX1JFRkNMS19ESVMpOw0K
-PiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGludGVsX3VuY29yZV9ybXcodW5j
-b3JlLCBTT1VUSF9DSElDS0VOMSwNCj4gPiA+IFNCQ0xLX1JVTl9SRUZDTEtfRElTLCAwKTsNCj4g
-PiA+ICvCoMKgwqDCoMKgwqDCoH0NCj4gPiA+ICt9DQo+ID4gPiArDQo+ID4gPiDCoHN0YXRpYyB2
-b2lkIGdlbjhfaXJxX3Jlc2V0KHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdikNCj4g
-PiA+IMKgew0KPiA+ID4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBpbnRlbF91bmNvcmUgKnVuY29y
-ZSA9ICZkZXZfcHJpdi0+dW5jb3JlOyBAQCAtMzA2Myw2DQo+ID4gPiArMzA4MSw4IEBAIHN0YXRp
-YyB2b2lkIGdlbjhfaXJxX3Jlc2V0KHN0cnVjdCBkcm1faTkxNV9wcml2YXRlDQo+ID4gPiAqZGV2
-X3ByaXYpDQo+ID4gPg0KPiA+ID4gwqDCoMKgwqDCoMKgwqDCoGlmIChIQVNfUENIX1NQTElUKGRl
-dl9wcml2KSkNCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWJ4X2lycV9y
-ZXNldChkZXZfcHJpdik7DQo+ID4gPiArDQo+ID4gPiArwqDCoMKgwqDCoMKgwqBjbnBfZGlzcGxh
-eV9jbG9ja193YShkZXZfcHJpdik7DQo+ID4gPiDCoH0NCj4gPiA+DQo+ID4gPiDCoHN0YXRpYyB2
-b2lkIGdlbjExX2Rpc3BsYXlfaXJxX3Jlc2V0KHN0cnVjdCBkcm1faTkxNV9wcml2YXRlDQo+ID4g
-PiAqZGV2X3ByaXYpIEBAIC0zMTA0LDE1ICszMTI0LDcgQEAgc3RhdGljIHZvaWQNCj4gPiA+IGdl
-bjExX2Rpc3BsYXlfaXJxX3Jlc2V0KHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdikN
-Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqBpZiAoSU5URUxfUENIX1RZUEUoZGV2X3ByaXYpID49IFBD
-SF9JQ1ApDQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoEdFTjNfSVJRX1JF
-U0VUKHVuY29yZSwgU0RFKTsNCj4gPiA+DQo+ID4gPiAtwqDCoMKgwqDCoMKgwqAvKiBXYV8xNDAx
-MDY4NTMzMjpjbnAvY21wLHRncCxhZHAgKi8NCj4gPiA+IC3CoMKgwqDCoMKgwqDCoGlmIChJTlRF
-TF9QQ0hfVFlQRShkZXZfcHJpdikgPT0gUENIX0NOUCB8fA0KPiA+ID4gLcKgwqDCoMKgwqDCoMKg
-wqDCoMKgIChJTlRFTF9QQ0hfVFlQRShkZXZfcHJpdikgPj0gUENIX1RHUCAmJg0KPiA+ID4gLcKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgSU5URUxfUENIX1RZUEUoZGV2X3ByaXYpIDwgUENIX0RHMSkp
-IHsNCj4gPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpbnRlbF91bmNvcmVfcm13
-KHVuY29yZSwgU09VVEhfQ0hJQ0tFTjEsDQo+ID4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgU0JDTEtfUlVOX1JFRkNMS19E
-SVMsDQo+ID4gPiBTQkNMS19SVU5fUkVGQ0xLX0RJUyk7DQo+ID4gPiAtwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgaW50ZWxfdW5jb3JlX3Jtdyh1bmNvcmUsIFNPVVRIX0NISUNLRU4xLA0K
-PiA+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIFNCQ0xLX1JVTl9SRUZDTEtfRElTLCAwKTsNCj4gPiA+IC3CoMKgwqDCoMKg
-wqDCoH0NCj4gPiA+ICvCoMKgwqDCoMKgwqDCoGNucF9kaXNwbGF5X2Nsb2NrX3dhKGRldl9wcml2
-KTsNCj4gPiA+IMKgfQ0KPiA+ID4NCj4gPiA+IMKgc3RhdGljIHZvaWQgZ2VuMTFfaXJxX3Jlc2V0
-KHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdikgQEANCj4gPiA+IC0zNzY0LDkgKzM3
-NzYsMTkgQEAgc3RhdGljIHZvaWQgZ2VuOF9kZV9pcnFfcG9zdGluc3RhbGwoc3RydWN0DQo+ID4g
-PiBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdikNCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqB9DQo+
-ID4gPiDCoH0NCj4gPiA+DQo+ID4gPiArc3RhdGljIHZvaWQgaWNwX2lycV9wb3N0aW5zdGFsbChz
-dHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYpDQo+ID4gPiArew0KPiA+ID4gK8KgwqDC
-oMKgwqDCoMKgc3RydWN0IGludGVsX3VuY29yZSAqdW5jb3JlID0gJmRldl9wcml2LT51bmNvcmU7
-DQo+ID4gPiArwqDCoMKgwqDCoMKgwqB1MzIgbWFzayA9IFNERV9HTUJVU19JQ1A7DQo+ID4gPiAr
-DQo+ID4gPiArwqDCoMKgwqDCoMKgwqBHRU4zX0lSUV9JTklUKHVuY29yZSwgU0RFLCB+bWFzaywg
-MHhmZmZmZmZmZik7IH0NCj4gPiA+ICsNCj4gPiA+IMKgc3RhdGljIHZvaWQgZ2VuOF9pcnFfcG9z
-dGluc3RhbGwoc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2KQ0KPiA+ID4gwqB7DQo+
-ID4gPiAtwqDCoMKgwqDCoMKgwqBpZiAoSEFTX1BDSF9TUExJVChkZXZfcHJpdikpDQo+ID4gPiAr
-wqDCoMKgwqDCoMKgwqBpZiAoSU5URUxfUENIX1RZUEUoZGV2X3ByaXYpID49IFBDSF9JQ1ApDQo+
-ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWNwX2lycV9wb3N0aW5zdGFsbChk
-ZXZfcHJpdik7DQo+ID4gPiArwqDCoMKgwqDCoMKgwqBlbHNlIGlmIChIQVNfUENIX1NQTElUKGRl
-dl9wcml2KSkNCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWJ4X2lycV9w
-b3N0aW5zdGFsbChkZXZfcHJpdik7DQo+ID4gPg0KPiA+ID4gwqDCoMKgwqDCoMKgwqDCoGdlbjhf
-Z3RfaXJxX3Bvc3RpbnN0YWxsKCZkZXZfcHJpdi0+Z3QpOw0KPiA+ID4gQEAgLTM3NzUsMTMgKzM3
-OTcsNiBAQCBzdGF0aWMgdm9pZCBnZW44X2lycV9wb3N0aW5zdGFsbChzdHJ1Y3QNCj4gPiA+IGRy
-bV9pOTE1X3ByaXZhdGUgKmRldl9wcml2KQ0KPiA+ID4gwqDCoMKgwqDCoMKgwqDCoGdlbjhfbWFz
-dGVyX2ludHJfZW5hYmxlKGRldl9wcml2LT51bmNvcmUucmVncyk7DQo+ID4gPiDCoH0NCj4gPiA+
-DQo+ID4gPiAtc3RhdGljIHZvaWQgaWNwX2lycV9wb3N0aW5zdGFsbChzdHJ1Y3QgZHJtX2k5MTVf
-cHJpdmF0ZSAqZGV2X3ByaXYpDQo+ID4gPiAtew0KPiA+ID4gLcKgwqDCoMKgwqDCoMKgc3RydWN0
-IGludGVsX3VuY29yZSAqdW5jb3JlID0gJmRldl9wcml2LT51bmNvcmU7DQo+ID4gPiAtwqDCoMKg
-wqDCoMKgwqB1MzIgbWFzayA9IFNERV9HTUJVU19JQ1A7DQo+ID4gPiAtDQo+ID4gPiAtwqDCoMKg
-wqDCoMKgwqBHRU4zX0lSUV9JTklUKHVuY29yZSwgU0RFLCB+bWFzaywgMHhmZmZmZmZmZik7IC19
-DQo+ID4gPg0KPiA+ID4gwqBzdGF0aWMgdm9pZCBnZW4xMV9pcnFfcG9zdGluc3RhbGwoc3RydWN0
-IGRybV9pOTE1X3ByaXZhdGUNCj4gPiA+ICpkZXZfcHJpdikNCj4gPiA+IMKgew0KPiA+ID4gLS0N
-Cj4gPiA+IDIuMjkuMg0KPiA+ID4NCj4gPg0KPiANCj4gLS0NCj4gU2luY2VyZWx5LA0KPiAgICBM
-eXVkZSBQYXVsIChzaGUvaGVyKQ0KPiAgICBTb2Z0d2FyZSBFbmdpbmVlciBhdCBSZWQgSGF0DQo+
-IA0KPiBOb3RlOiBJIGRlYWwgd2l0aCBhIGxvdCBvZiBlbWFpbHMgYW5kIGhhdmUgYSBsb3Qgb2Yg
-YnVncyBvbiBteSBwbGF0ZS4gSWYgeW91J3ZlDQo+IGFza2VkIG1lIGEgcXVlc3Rpb24sIGFyZSB3
-YWl0aW5nIGZvciBhIHJldmlldy9tZXJnZSBvbiBhIHBhdGNoLCBldGMuIGFuZCBJDQo+IGhhdmVu
-J3QgcmVzcG9uZGVkIGluIGEgd2hpbGUsIHBsZWFzZSBmZWVsIGZyZWUgdG8gc2VuZCBtZSBhbm90
-aGVyIGVtYWlsIHRvDQo+IGNoZWNrIG9uIG15IHN0YXR1cy4gSSBkb24ndCBiaXRlIQ0KDQpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Fri, Feb 05, 2021 at 01:33:46PM +0100, Robert Foss wrote:
+> Hey Xin,
+Hi Robert Foss, thanks for the comment, I'll split this patch at this seria.
+Thanks,
+Xin
+> 
+> On Thu, 28 Jan 2021 at 04:12, Xin Ji <xji@analogixsemi.com> wrote:
+> >
+> > Add MIPI rx DPI input support
+> >
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> > ---
+> >  drivers/gpu/drm/bridge/analogix/anx7625.c | 326 ++++++++++++++++++++++++------
+> >  drivers/gpu/drm/bridge/analogix/anx7625.h |  20 +-
+> >  2 files changed, 285 insertions(+), 61 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > index 04536cc..628ae43 100644
+> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > @@ -150,18 +150,18 @@ static int anx7625_write_and(struct anx7625_data *ctx,
+> >         return anx7625_reg_write(ctx, client, offset, (val & (mask)));
+> >  }
+> >
+> > -static int anx7625_write_and_or(struct anx7625_data *ctx,
+> > -                               struct i2c_client *client,
+> > -                               u8 offset, u8 and_mask, u8 or_mask)
+> > +static int anx7625_config_bit_matrix(struct anx7625_data *ctx)
+> >  {
+> > -       int val;
+> > +       int i, ret;
+> >
+> > -       val = anx7625_reg_read(ctx, client, offset);
+> > -       if (val < 0)
+> > -               return val;
+> > +       ret = anx7625_write_or(ctx, ctx->i2c.tx_p2_client,
+> > +                              AUDIO_CONTROL_REGISTER, 0x80);
+> > +       for (i = 0; i < 13; i++)
+> > +               ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > +                                        VIDEO_BIT_MATRIX_12 + i,
+> > +                                        0x18 + i);
+> >
+> > -       return anx7625_reg_write(ctx, client,
+> > -                                offset, (val & and_mask) | (or_mask));
+> > +       return ret;
+> >  }
+> >
+> >  static int anx7625_read_ctrl_status_p0(struct anx7625_data *ctx)
+> > @@ -195,6 +195,60 @@ static int wait_aux_op_finish(struct anx7625_data *ctx)
+> >         return 0;
+> >  }
+> >
+> > +static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
+> > +                                u8 addrh, u8 addrm, u8 addrl,
+> > +                                u8 len, u8 *buf)
+> > +{
+> > +       struct device *dev = &ctx->client->dev;
+> > +       int ret;
+> > +       u8 cmd;
+> > +
+> > +       if (len > MAX_DPCD_BUFFER_SIZE) {
+> > +               DRM_DEV_ERROR(dev, "exceed aux buffer len.\n");
+> > +               return -EINVAL;
+> > +       }
+> > +
+> > +       cmd = ((len - 1) << 4) | 0x09;
+> > +
+> > +       /* Set command and length */
+> > +       ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> > +                               AP_AUX_COMMAND, cmd);
+> > +
+> > +       /* Set aux access address */
+> > +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> > +                                AP_AUX_ADDR_7_0, addrl);
+> > +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> > +                                AP_AUX_ADDR_15_8, addrm);
+> > +       ret |= anx7625_write_and(ctx, ctx->i2c.rx_p0_client,
+> > +                                AP_AUX_ADDR_19_16, addrh);
+> > +
+> > +       /* Enable aux access */
+> > +       ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
+> > +                               AP_AUX_CTRL_STATUS, AP_AUX_CTRL_OP_EN);
+> > +
+> > +       if (ret < 0) {
+> > +               DRM_DEV_ERROR(dev, "cannot access aux related register.\n");
+> > +               return -EIO;
+> > +       }
+> > +
+> > +       usleep_range(2000, 2100);
+> > +
+> > +       ret = wait_aux_op_finish(ctx);
+> > +       if (ret) {
+> > +               DRM_DEV_ERROR(dev, "aux IO error: wait aux op finish.\n");
+> > +               return ret;
+> > +       }
+> > +
+> > +       ret = anx7625_reg_block_read(ctx, ctx->i2c.rx_p0_client,
+> > +                                    AP_AUX_BUFF_START, len, buf);
+> > +       if (ret < 0) {
+> > +               DRM_DEV_ERROR(dev, "read dpcd register failed\n");
+> > +               return -EIO;
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> >  static int anx7625_video_mute_control(struct anx7625_data *ctx,
+> >                                       u8 status)
+> >  {
+> > @@ -219,38 +273,6 @@ static int anx7625_video_mute_control(struct anx7625_data *ctx,
+> >         return ret;
+> >  }
+> >
+> > -static int anx7625_config_audio_input(struct anx7625_data *ctx)
+> > -{
+> > -       struct device *dev = &ctx->client->dev;
+> > -       int ret;
+> > -
+> > -       /* Channel num */
+> > -       ret = anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > -                               AUDIO_CHANNEL_STATUS_6, I2S_CH_2 << 5);
+> > -
+> > -       /* FS */
+> > -       ret |= anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
+> > -                                   AUDIO_CHANNEL_STATUS_4,
+> > -                                   0xf0, AUDIO_FS_48K);
+> > -       /* Word length */
+> > -       ret |= anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
+> > -                                   AUDIO_CHANNEL_STATUS_5,
+> > -                                   0xf0, AUDIO_W_LEN_24_24MAX);
+> > -       /* I2S */
+> > -       ret |= anx7625_write_or(ctx, ctx->i2c.tx_p2_client,
+> > -                               AUDIO_CHANNEL_STATUS_6, I2S_SLAVE_MODE);
+> > -       ret |= anx7625_write_and(ctx, ctx->i2c.tx_p2_client,
+> > -                                AUDIO_CONTROL_REGISTER, ~TDM_TIMING_MODE);
+> > -       /* Audio change flag */
+> > -       ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
+> > -                               AP_AV_STATUS, AP_AUDIO_CHG);
+> > -
+> > -       if (ret < 0)
+> > -               DRM_DEV_ERROR(dev, "fail to config audio.\n");
+> > -
+> > -       return ret;
+> > -}
+> > -
+> >  /* Reduction of fraction a/b */
+> >  static void anx7625_reduction_of_a_fraction(unsigned long *a, unsigned long *b)
+> >  {
+> > @@ -410,7 +432,7 @@ static int anx7625_dsi_video_timing_config(struct anx7625_data *ctx)
+> >         ret |= anx7625_write_and(ctx, ctx->i2c.rx_p1_client,
+> >                         MIPI_LANE_CTRL_0, 0xfc);
+> >         ret |= anx7625_write_or(ctx, ctx->i2c.rx_p1_client,
+> > -                               MIPI_LANE_CTRL_0, 3);
+> > +                               MIPI_LANE_CTRL_0, ctx->pdata.mipi_lanes - 1);
+> 
+> Is this mipi_lanes change independent of the rest of this patch?
+> If so, extract it to a seperate patch.
+OK, I'll extract it to a seperate patch.
+> 
+> >
+> >         /* Htotal */
+> >         htotal = ctx->dt.hactive.min + ctx->dt.hfront_porch.min +
+> > @@ -595,6 +617,101 @@ static int anx7625_dsi_config(struct anx7625_data *ctx)
+> >         return ret;
+> >  }
+> >
+> > +static int anx7625_api_dpi_config(struct anx7625_data *ctx)
+> > +{
+> > +       struct device *dev = &ctx->client->dev;
+> > +       u16 freq = ctx->dt.pixelclock.min / 1000;
+> > +       int ret;
+> > +
+> > +       /* configure pixel clock */
+> > +       ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> > +                               PIXEL_CLOCK_L, freq & 0xFF);
+> > +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> > +                                PIXEL_CLOCK_H, (freq >> 8));
+> > +
+> > +       /* set DPI mode */
+> > +       /* set to DPI PLL module sel */
+> > +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
+> > +                                MIPI_DIGITAL_PLL_9, 0x20);
+> > +       /* power down MIPI */
+> > +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
+> > +                                MIPI_LANE_CTRL_10, 0x08);
+> > +       /* enable DPI mode */
+> > +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
+> > +                                MIPI_DIGITAL_PLL_18, 0x1C);
+> > +       /* set first edge */
+> > +       ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> > +                                VIDEO_CONTROL_0, 0x06);
+> > +       if (ret < 0)
+> > +               DRM_DEV_ERROR(dev, "IO error : dpi phy set failed.\n");
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +static int anx7625_dpi_config(struct anx7625_data *ctx)
+> > +{
+> > +       struct device *dev = &ctx->client->dev;
+> > +       int ret;
+> > +
+> > +       DRM_DEV_DEBUG_DRIVER(dev, "config dpi\n");
+> > +
+> > +       /* DSC disable */
+> > +       ret = anx7625_write_and(ctx, ctx->i2c.rx_p0_client,
+> > +                               R_DSC_CTRL_0, ~DSC_EN);
+> > +       if (ret < 0) {
+> > +               DRM_DEV_ERROR(dev, "IO error : disable dsc failed.\n");
+> > +               return ret;
+> > +       }
+> > +
+> > +       ret = anx7625_config_bit_matrix(ctx);
+> > +       if (ret < 0) {
+> > +               DRM_DEV_ERROR(dev, "config bit matrix failed.\n");
+> > +               return ret;
+> > +       }
+> > +
+> > +       ret = anx7625_api_dpi_config(ctx);
+> > +       if (ret < 0) {
+> > +               DRM_DEV_ERROR(dev, "mipi phy(dpi) setup failed.\n");
+> > +               return ret;
+> > +       }
+> > +
+> > +       /* set MIPI RX EN */
+> > +       ret = anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
+> > +                              AP_AV_STATUS, AP_MIPI_RX_EN);
+> > +       /* clear mute flag */
+> > +       ret |= anx7625_write_and(ctx, ctx->i2c.rx_p0_client,
+> > +                                AP_AV_STATUS, (u8)~AP_MIPI_MUTE);
+> > +       if (ret < 0)
+> > +               DRM_DEV_ERROR(dev, "IO error : enable mipi rx failed.\n");
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +static int anx7625_hdcp_setting(struct anx7625_data *ctx)
+> > +{
+> > +       u8 bcap;
+> > +       struct device *dev = &ctx->client->dev;
+> > +
+> > +       if (!ctx->pdata.hdcp_support || !ctx->hdcp_en) {
+> > +               DRM_DEV_DEBUG_DRIVER(dev, "hdcp_support(%d), hdcp_en(%d)\n",
+> > +                                    ctx->pdata.hdcp_support, ctx->hdcp_en);
+> > +               DRM_DEV_DEBUG_DRIVER(dev, "disable HDCP by config\n");
+> > +               return anx7625_write_and(ctx, ctx->i2c.rx_p1_client,
+> > +                                        0xee, 0x9f);
+> > +       }
+> > +
+> > +       anx7625_aux_dpcd_read(ctx, 0x06, 0x80, 0x28, 1, &bcap);
+> > +       if (!(bcap & 0x01)) {
+> > +               DRM_WARN("downstream not support HDCP 1.4, cap(%x).\n", bcap);
+> > +               return anx7625_write_and(ctx, ctx->i2c.rx_p1_client,
+> > +                                        0xee, 0x9f);
+> > +       }
+> > +
+> > +       DRM_DEV_DEBUG_DRIVER(dev, "enable HDCP 1.4\n");
+> > +
+> > +       return anx7625_write_or(ctx, ctx->i2c.rx_p1_client, 0xee, 0x20);
+> > +}
+> 
+> Is the HDCP support change independent of the rest of this patch?
+> If so, extract it to a seperate patch.
+OK, extract it to a seperate patch.
+> 
+> > +
+> >  static void anx7625_dp_start(struct anx7625_data *ctx)
+> >  {
+> >         int ret;
+> > @@ -605,9 +722,13 @@ static void anx7625_dp_start(struct anx7625_data *ctx)
+> >                 return;
+> >         }
+> >
+> > -       anx7625_config_audio_input(ctx);
+> > +       /* HDCP config */
+> > +       anx7625_hdcp_setting(ctx);
+> >
+> > -       ret = anx7625_dsi_config(ctx);
+> > +       if (ctx->pdata.is_dpi)
+> > +               ret = anx7625_dpi_config(ctx);
+> > +       else
+> > +               ret = anx7625_dsi_config(ctx);
+> >
+> >         if (ret < 0)
+> >                 DRM_DEV_ERROR(dev, "MIPI phy setup error.\n");
+> > @@ -688,8 +809,7 @@ static int sp_tx_get_edid_block(struct anx7625_data *ctx)
+> >         return c;
+> >  }
+> >
+> > -static int edid_read(struct anx7625_data *ctx,
+> > -                    u8 offset, u8 *pblock_buf)
+> > +static int edid_read(struct anx7625_data *ctx, u8 offset, u8 *pblock_buf)
+> 
+> No functional change here, let's try to maintain the 'git blame'
+> history instead.
+I'll keep the original code
+> 
+> 
+> >  {
+> >         int ret, cnt;
+> >         struct device *dev = &ctx->client->dev;
+> > @@ -992,8 +1112,9 @@ static void anx7625_chip_control(struct anx7625_data *ctx, int state)
+> >
+> >         if (state) {
+> >                 atomic_inc(&ctx->power_status);
+> > -               if (atomic_read(&ctx->power_status) == 1)
+> > +               if (atomic_read(&ctx->power_status) == 1) {
+> >                         anx7625_power_on_init(ctx);
+> > +               }
+> 
+> This too is not a functional change, and the previous format preferred
+> by the style guide.
+OK
+> 
+> >         } else {
+> >                 if (atomic_read(&ctx->power_status)) {
+> >                         atomic_dec(&ctx->power_status);
+> > @@ -1051,6 +1172,7 @@ static void anx7625_start_dp_work(struct anx7625_data *ctx)
+> >                 return;
+> >         }
+> >
+> > +       ctx->hpd_status = 1;
+> >         ctx->hpd_high_cnt++;
+> >
+> >         /* Not support HDCP */
+> > @@ -1060,8 +1182,10 @@ static void anx7625_start_dp_work(struct anx7625_data *ctx)
+> >         ret |= anx7625_write_or(ctx, ctx->i2c.rx_p1_client, 0xec, 0x10);
+> >         /* Interrupt for DRM */
+> >         ret |= anx7625_write_or(ctx, ctx->i2c.rx_p1_client, 0xff, 0x01);
+> > -       if (ret < 0)
+> > +       if (ret < 0) {
+> > +               DRM_DEV_ERROR(dev, "fail to setting HDCP/auth\n");
+> >                 return;
+> > +       }
+> >
+> >         ret = anx7625_reg_read(ctx, ctx->i2c.rx_p1_client, 0x86);
+> >         if (ret < 0)
+> > @@ -1080,6 +1204,10 @@ static void anx7625_hpd_polling(struct anx7625_data *ctx)
+> >         int ret, val;
+> >         struct device *dev = &ctx->client->dev;
+> >
+> > +       /* Interrupt mode, no need poll HPD status, just return */
+> > +       if (ctx->pdata.intp_irq)
+> > +               return;
+> > +
+> >         if (atomic_read(&ctx->power_status) != 1) {
+> >                 DRM_DEV_DEBUG_DRIVER(dev, "No need to poling HPD status.\n");
+> >                 return;
+> > @@ -1130,6 +1258,21 @@ static void anx7625_remove_edid(struct anx7625_data *ctx)
+> >         ctx->slimport_edid_p.edid_block_num = -1;
+> >  }
+> >
+> > +static void anx7625_dp_adjust_swing(struct anx7625_data *ctx)
+> > +{
+> > +       int i;
+> > +
+> > +       for (i = 0; i < ctx->pdata.dp_lane0_swing_reg_cnt; i++)
+> > +               anx7625_reg_write(ctx, ctx->i2c.tx_p1_client,
+> > +                                 DP_TX_LANE0_SWING_REG0 + i,
+> > +                                 ctx->pdata.lane0_reg_data[i] & 0xFF);
+> > +
+> > +       for (i = 0; i < ctx->pdata.dp_lane1_swing_reg_cnt; i++)
+> > +               anx7625_reg_write(ctx, ctx->i2c.tx_p1_client,
+> > +                                 DP_TX_LANE1_SWING_REG0 + i,
+> > +                                 ctx->pdata.lane1_reg_data[i] & 0xFF);
+> > +}
+> > +
+> >  static void dp_hpd_change_handler(struct anx7625_data *ctx, bool on)
+> >  {
+> >         struct device *dev = &ctx->client->dev;
+> > @@ -1145,9 +1288,8 @@ static void dp_hpd_change_handler(struct anx7625_data *ctx, bool on)
+> >         } else {
+> >                 DRM_DEV_DEBUG_DRIVER(dev, " HPD high\n");
+> >                 anx7625_start_dp_work(ctx);
+> > +               anx7625_dp_adjust_swing(ctx);
+> >         }
+> > -
+> > -       ctx->hpd_status = 1;
+> >  }
+> >
+> >  static int anx7625_hpd_change_detect(struct anx7625_data *ctx)
+> > @@ -1224,20 +1366,69 @@ static irqreturn_t anx7625_intr_hpd_isr(int irq, void *data)
+> >         return IRQ_HANDLED;
+> >  }
+> >
+> > +static int anx7625_get_swing_setting(struct device *dev,
+> > +                                    struct anx7625_platform_data *pdata)
+> > +{
+> > +       int num_regs;
+> > +
+> > +       if (of_get_property(dev->of_node,
+> > +                           "analogix,lane0-swing", &num_regs)) {
+> > +               if (num_regs > DP_TX_SWING_REG_CNT)
+> > +                       num_regs = DP_TX_SWING_REG_CNT;
+> > +
+> > +               pdata->dp_lane0_swing_reg_cnt = num_regs;
+> > +               of_property_read_u32_array(dev->of_node, "analogix,lane0-swing",
+> > +                                          pdata->lane0_reg_data, num_regs);
+> > +       }
+> > +
+> > +       if (of_get_property(dev->of_node,
+> > +                           "analogix,lane1-swing", &num_regs)) {
+> > +               if (num_regs > DP_TX_SWING_REG_CNT)
+> > +                       num_regs = DP_TX_SWING_REG_CNT;
+> > +
+> > +               pdata->dp_lane1_swing_reg_cnt = num_regs;
+> > +               of_property_read_u32_array(dev->of_node, "analogix,lane1-swing",
+> > +                                          pdata->lane1_reg_data, num_regs);
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> >  static int anx7625_parse_dt(struct device *dev,
+> >                             struct anx7625_platform_data *pdata)
+> >  {
+> >         struct device_node *np = dev->of_node;
+> >         struct drm_panel *panel;
+> >         int ret;
+> > +       int bus_type;
+> > +
+> > +       anx7625_get_swing_setting(dev, pdata);
+> >
+> > +       pdata->is_dpi = 1; /* default dpi mode */
+> >         pdata->mipi_host_node = of_graph_get_remote_node(np, 0, 0);
+> >         if (!pdata->mipi_host_node) {
+> >                 DRM_DEV_ERROR(dev, "fail to get internal panel.\n");
+> >                 return -ENODEV;
+> >         }
+> >
+> > -       DRM_DEV_DEBUG_DRIVER(dev, "found dsi host node.\n");
+> > +       if (of_property_read_u32(pdata->mipi_host_node, "bus-type", &bus_type))
+> > +               bus_type = 0;
+> > +
+> > +       if (bus_type == 5) /* bus type is Parallel(DSI) */
+> > +               pdata->is_dpi = 0;
+> > +
+> > +       pdata->mipi_lanes = of_property_count_u32_elems(pdata->mipi_host_node,
+> > +                                                       "data-lanes");
+> > +       if (pdata->mipi_lanes > MAX_LANES_SUPPORT || pdata->mipi_lanes <= 0)
+> > +               pdata->mipi_lanes = MAX_LANES_SUPPORT;
+> > +
+> 
+> Is this mipi_lanes change independent of the rest of this patch?
+> If so, extract it to a seperate patch.
+OK
+> 
+> > +       if (pdata->is_dpi)
+> > +               DRM_DEV_DEBUG_DRIVER(dev, "found MIPI DPI host node.\n");
+> > +       else
+> > +               DRM_DEV_DEBUG_DRIVER(dev, "found MIPI DSI host node.\n");
+> > +
+> > +       if (of_property_read_bool(np, "analogix,hdcp-support"))
+> > +               pdata->hdcp_support = 1;
+> 
+> Extract hdcp_support change to separate patch.
+OK
+> 
+> >
+> >         ret = drm_of_find_panel_or_bridge(np, 1, 0, &panel, NULL);
+> >         if (ret < 0) {
+> > @@ -1300,9 +1491,13 @@ static enum drm_connector_status anx7625_sink_detect(struct anx7625_data *ctx)
+> >  {
+> >         struct device *dev = &ctx->client->dev;
+> >
+> > -       DRM_DEV_DEBUG_DRIVER(dev, "sink detect, return connected\n");
+> > +       DRM_DEV_DEBUG_DRIVER(dev, "sink detect\n");
+> > +
+> > +       if (ctx->pdata.panel_bridge)
+> > +               return connector_status_connected;
+> >
+> > -       return connector_status_connected;
+> > +       return ctx->hpd_status ? connector_status_connected :
+> > +                                    connector_status_disconnected;
+> >  }
+> >
+> >  static int anx7625_attach_dsi(struct anx7625_data *ctx)
+> > @@ -1330,7 +1525,7 @@ static int anx7625_attach_dsi(struct anx7625_data *ctx)
+> >                 return -EINVAL;
+> >         }
+> >
+> > -       dsi->lanes = 4;
+> > +       dsi->lanes = ctx->pdata.mipi_lanes;
+> 
+> Extract mipi_lanes change to separate patch.
+OK
+> 
+> >         dsi->format = MIPI_DSI_FMT_RGB888;
+> >         dsi->mode_flags = MIPI_DSI_MODE_VIDEO   |
+> >                 MIPI_DSI_MODE_VIDEO_SYNC_PULSE  |
+> > @@ -1376,10 +1571,12 @@ static int anx7625_bridge_attach(struct drm_bridge *bridge,
+> >                 return -ENODEV;
+> >         }
+> >
+> > -       err = anx7625_attach_dsi(ctx);
+> > -       if (err) {
+> > -               DRM_DEV_ERROR(dev, "Fail to attach to dsi : %d\n", err);
+> > -               return err;
+> > +       if (!ctx->pdata.is_dpi) {
+> > +               err = anx7625_attach_dsi(ctx);
+> > +               if (err) {
+> > +                       DRM_DEV_ERROR(dev, "Fail to attach to dsi : %d\n", err);
+> > +                       return err;
+> > +               }
+> >         }
+> >
+> >         if (ctx->pdata.panel_bridge) {
+> > @@ -1478,6 +1675,10 @@ static bool anx7625_bridge_mode_fixup(struct drm_bridge *bridge,
+> >
+> >         DRM_DEV_DEBUG_DRIVER(dev, "drm mode fixup set\n");
+> >
+> > +       /* No need fixup for external monitor */
+> > +       if (!ctx->pdata.panel_bridge)
+> > +               return true;
+> > +
+> >         hsync = mode->hsync_end - mode->hsync_start;
+> >         hfp = mode->hsync_start - mode->hdisplay;
+> >         hbp = mode->htotal - mode->hsync_end;
+> > @@ -1786,8 +1987,13 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+> >
+> >         platform->bridge.funcs = &anx7625_bridge_funcs;
+> >         platform->bridge.of_node = client->dev.of_node;
+> > -       platform->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_HPD;
+> > -       platform->bridge.type = DRM_MODE_CONNECTOR_eDP;
+> > +       platform->bridge.ops = DRM_BRIDGE_OP_EDID;
+> > +       if (!platform->pdata.panel_bridge)
+> > +               platform->bridge.ops |= DRM_BRIDGE_OP_HPD |
+> > +                                       DRM_BRIDGE_OP_DETECT;
+> > +       platform->bridge.type = platform->pdata.panel_bridge ?
+> > +                                   DRM_MODE_CONNECTOR_eDP :
+> > +                                   DRM_MODE_CONNECTOR_DisplayPort;
+> >         drm_bridge_add(&platform->bridge);
+> >
+> >         DRM_DEV_DEBUG_DRIVER(dev, "probe done\n");
+> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
+> > index 193ad86..127081e 100644
+> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
+> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
+> > @@ -141,12 +141,20 @@
+> >  #define  HORIZONTAL_BACK_PORCH_H      0x22  /* Bit[7:4] are reserved */
+> >
+> >  /******** END of I2C Address 0x72 *********/
+> > +
+> > +/***************************************************************/
+> > +/* Register definition of device address 0x7a */
+> > +#define DP_TX_SWING_REG_CNT            0x14
+> > +#define DP_TX_LANE0_SWING_REG0         0x00
+> > +#define DP_TX_LANE1_SWING_REG0         0x14
+> > +/******** END of I2C Address 0x7a *********/
+> > +
+> >  /***************************************************************/
+> >  /* Register definition of device address 0x7e */
+> >
+> >  #define  I2C_ADDR_7E_FLASH_CONTROLLER  0x7E
+> >
+> > -#define FLASH_LOAD_STA 0x05
+> > +#define FLASH_LOAD_STA          0x05
+> >  #define FLASH_LOAD_STA_CHK     BIT(7)
+> >
+> >  #define  XTAL_FRQ_SEL    0x3F
+> > @@ -347,11 +355,20 @@ struct s_edid_data {
+> >
+> >  /***************** Display End *****************/
+> >
+> > +#define MAX_LANES_SUPPORT      4
+> > +
+> >  struct anx7625_platform_data {
+> >         struct gpio_desc *gpio_p_on;
+> >         struct gpio_desc *gpio_reset;
+> >         struct drm_bridge *panel_bridge;
+> >         int intp_irq;
+> > +       int is_dpi;
+> > +       int mipi_lanes;
+> 
+> Extract mipi_lanes change to separate patch.
+OK
+> 
+> > +       int hdcp_support;
+> 
+> Extract hdcp_support change to separate patch.
+OK
+> 
+> > +       int dp_lane0_swing_reg_cnt;
+> > +       int lane0_reg_data[DP_TX_SWING_REG_CNT];
+> > +       int dp_lane1_swing_reg_cnt;
+> > +       int lane1_reg_data[DP_TX_SWING_REG_CNT];
+> >         u32 low_power_mode;
+> >         struct device_node *mipi_host_node;
+> >  };
+> > @@ -371,6 +388,7 @@ struct anx7625_data {
+> >         atomic_t power_status;
+> >         int hpd_status;
+> >         int hpd_high_cnt;
+> > +       int hdcp_en;
+> 
+> Extract hdcp_support change to separate patch.
+OK
+> 
+> >         /* Lock for work queue */
+> >         struct mutex lock;
+> >         struct i2c_client *client;
+> > --
+> > 2.7.4
+> >
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
