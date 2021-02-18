@@ -1,62 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E9831F27D
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 23:48:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D1B731F278
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 23:46:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A0E66E8A0;
-	Thu, 18 Feb 2021 22:48:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79D776E89C;
+	Thu, 18 Feb 2021 22:46:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A877E6E8A0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 22:45:42 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id 100so3439901otg.3
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 14:45:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Q8iqMVx6Dg74exXv38GXyFaVv7jsBPfbgKsDTdg0Ea0=;
- b=m64ezNhmQzoOpqlHl6GmRZUY3QWJKK6fjiZS77ie20BbqGiMHf0PRa7wu00aBiBXds
- /85WgVSoxforV6x9Y3tu7cJkpMNSHer/d2dZU0yhhde2RZPFUUpSe4S3KHNpo6edZVvY
- shbpdhe7pTQ8izs+CqWV6hu8SXMBlVc27Vrumiz5w0/IY/vHs/nDq877Pl7IFTJEuZoH
- xHgFR39pYGiUw3kZ9OLd20EO4J/Sycwc6yl/txchCAa+1e9tf8f6hIltYU9wZPxTA5LY
- HfKQAsxlkbbKvPYXpmef9Q5ko0Amy4mRckwX28c4VzSX7WRfdK9BvNqzXpe1alw//OQ+
- gcGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Q8iqMVx6Dg74exXv38GXyFaVv7jsBPfbgKsDTdg0Ea0=;
- b=VkP+40spb8ExFBZchMmvj2ZDfezDri+0VhNx+vGrlf2J0iJiEJtDlIigcTfiROye5K
- hSShljw+c8uOPWoItMzmjv9FBSC+eZkZEtpUbLbRHG4zDTP9ZM0iO1/vkzUcWr9lKez5
- YNyvW9ds0/Ia8RIWzIu+aLj46ybtBaLcCdL1rt/nd6t+o6CI5j19uzP5fToHtKzka95D
- 9l7x7v8bs0b0hIB6p3qR6dcVxi0rZMDx2E/3koSQdPU/XoH9/ffeyZ6rALLnX8GNtJE7
- vbrgPBGtYKrvnJA8vmax1IuA/L8zRycUANmqBBvo00z0GSEFevoZKWwOiAOw59gYSBj4
- CgHA==
-X-Gm-Message-State: AOAM530nvfadwEuktrxkE4RiVMAD1cG8pfSm29ajhNS2BFeZHLSLZKz4
- SaG44DH0AJ+UqTwT4PFSBXcL9A==
-X-Google-Smtp-Source: ABdhPJzY/4W2jwoAlMKtsJ34nQ1f1e77HuZhCMBT8SuZtSCu8kW5k9jIy5Cs9QxoJapykP6wapXcsw==
-X-Received: by 2002:a9d:705e:: with SMTP id x30mr4637067otj.168.1613688341938; 
- Thu, 18 Feb 2021 14:45:41 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id w10sm1324973ote.29.2021.02.18.14.45.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Feb 2021 14:45:41 -0800 (PST)
-Date: Thu, 18 Feb 2021 16:45:39 -0600
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Kuogee Hsieh <khsieh@codeaurora.org>
-Subject: Re: [PATCH v2 2/2] drm/msm/dp: add supported max link rate specified
- from dtsi
-Message-ID: <YC7uE2L3TPPQhAfS@builder.lan>
-References: <1613681704-12539-1-git-send-email-khsieh@codeaurora.org>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A8836E89C;
+ Thu, 18 Feb 2021 22:46:28 +0000 (UTC)
+IronPort-SDR: WaU/KIcI5/uGECBYHPu8eZaEwM0A8piC5yTa+ePeinbTvFuvGWGF20/osY9BkL7NABCbuiClWs
+ ajFpikkgZ93A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9899"; a="268522365"
+X-IronPort-AV: E=Sophos;i="5.81,187,1610438400"; d="scan'208";a="268522365"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2021 14:46:27 -0800
+IronPort-SDR: D/VqrzSx3R25NMONmjXpQtg25mwc1NjwV2iMeRa4lQwqGEIrD0vre6bsdxNXSFgJgbuOQS8qEz
+ 74DzGhFfuglQ==
+X-IronPort-AV: E=Sophos;i="5.81,187,1610438400"; d="scan'208";a="495785854"
+Received: from arohrbax-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.209.140.4])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2021 14:46:26 -0800
+Date: Thu, 18 Feb 2021 17:46:25 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-next-fixes
+Message-ID: <YC7uQY1kt6w0tRp+@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1613681704-12539-1-git-send-email-khsieh@codeaurora.org>
-X-Mailman-Approved-At: Thu, 18 Feb 2021 22:48:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,155 +45,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, swboyd@chromium.org,
- tanmay@codeaurora.org, aravindh@codeaurora.org, sean@poorly.run
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu 18 Feb 14:55 CST 2021, Kuogee Hsieh wrote:
+Hi Dave and Daniel,
 
-> Allow supported link rate to be limited to the value specified at
-> dtsi. If it is not specified, then link rate is derived from dpcd
-> directly. Below are examples,
-> link-rate = <162000> for max link rate limited at 1.62G
-> link-rate = <270000> for max link rate limited at 2.7G
-> link-rate = <540000> for max link rate limited at 5.4G
-> link-rate = <810000> for max link rate limited at 8.1G
-> 
-> Changes in V2:
-> -- allow supported max link rate specified from dtsi
-> 
-> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c |  1 +
->  drivers/gpu/drm/msm/dp/dp_panel.c   |  7 ++++---
->  drivers/gpu/drm/msm/dp/dp_panel.h   |  1 +
->  drivers/gpu/drm/msm/dp/dp_parser.c  | 13 +++++++++++++
->  drivers/gpu/drm/msm/dp/dp_parser.h  |  1 +
->  5 files changed, 20 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 5a39da6..f633ba6 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -322,6 +322,7 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
->  	struct edid *edid;
->  
->  	dp->panel->max_dp_lanes = dp->parser->max_dp_lanes;
-> +	dp->panel->max_link_rate = dp->parser->max_link_rate;
->  
->  	rc = dp_panel_read_sink_caps(dp->panel, dp->dp_display.connector);
->  	if (rc)
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-> index 9cc8166..be7f102 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-> @@ -76,9 +76,10 @@ static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
->  	if (link_info->num_lanes > dp_panel->max_dp_lanes)
->  		link_info->num_lanes = dp_panel->max_dp_lanes;
->  
-> -	/* Limit support upto HBR2 until HBR3 support is added */
-> -	if (link_info->rate >= (drm_dp_bw_code_to_link_rate(DP_LINK_BW_5_4)))
-> -		link_info->rate = drm_dp_bw_code_to_link_rate(DP_LINK_BW_5_4);
-> +	/* Limit support of ink rate if specified */
-> +	if (dp_panel->max_link_rate &&
+Here goes drm-intel-next-fixes-2021-02-18:
 
-Make the parser always initialize max_link_rate to something reasonable
-and just compare against that here.
+- Restrict DRM_I915_DEBUG to developer builds (Chris)
+- Fix return and error codes (Dan)
+- Suspend/Resume fix (Chris)
+- Disable atomics in L3 for gen9 (Chris)
+- Flush before changing register state (Chris)
+- Fix for GLK's HDMI (Ville)
+- Fix ILK+'s plane strides with Xtiling (Ville)
+- Correct surface base address for renderclear (Chris)
 
-> +			(link_info->rate > dp_panel->max_link_rate))
+Thanks,
+Rodrigo.
 
-No need for the (), nor for line breaking this.
+The following changes since commit 4c3a3292730c56591472717d8c5c0faf74f6c6bb:
 
-> +		link_info->rate = dp_panel->max_link_rate;
->  
->  	DRM_DEBUG_DP("version: %d.%d\n", major, minor);
->  	DRM_DEBUG_DP("link_rate=%d\n", link_info->rate);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
-> index 9023e5b..1876f5e 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
-> @@ -51,6 +51,7 @@ struct dp_panel {
->  	u32 vic;
->  	u32 max_pclk_khz;
->  	u32 max_dp_lanes;
-> +	u32 max_link_rate;
->  
->  	u32 max_bw_code;
->  };
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-> index 0519dd3..d8b6898 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> @@ -87,6 +87,8 @@ static int dp_parser_misc(struct dp_parser *parser)
->  	struct device_node *of_node = parser->pdev->dev.of_node;
->  	int len = 0;
->  	const char *data_lane_property = "data-lanes";
-> +	const char *link_rate_property = "link-rate";
+  drm/amd/display: fix unused variable warning (2021-02-05 09:49:44 +1000)
 
-There's no reason for stashing these in local variables.
+are available in the Git repository at:
 
-> +	u32 rate = 0;
->  
->  	len = of_property_count_elems_of_size(of_node,
->  			 data_lane_property, sizeof(u32));
-> @@ -97,6 +99,17 @@ static int dp_parser_misc(struct dp_parser *parser)
->  	}
->  
->  	parser->max_dp_lanes = len;
-> +
-> +	len = of_property_count_elems_of_size(of_node,
-> +			 link_rate_property, sizeof(u32));
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-202=
+1-02-18
 
-I'm afraid I don't see the reason for this, simply rely on the return
-value of of_property_read_u32(), i.e.
+for you to fetch changes up to 81ce8f04aa96f7f6cae05770f68b5d15be91f5a2:
 
-	ret = of_property_read_u32(node, "link-rate", &rate);
-	if (!ret)
-		parser->max_link_rate = rate;
+  drm/i915/gt: Correct surface base address for renderclear (2021-02-17 06:=
+19:04 -0500)
 
-Or if you want to give it some default value:
+----------------------------------------------------------------
+- Restrict DRM_I915_DEBUG to developer builds (Chris)
+- Fix return and error codes (Dan)
+- Suspend/Resume fix (Chris)
+- Disable atomics in L3 for gen9 (Chris)
+- Flush before changing register state (Chris)
+- Fix for GLK's HDMI (Ville)
+- Fix ILK+'s plane strides with Xtiling (Ville)
+- Correct surface base address for renderclear (Chris)
 
-	rate = 1234;
-	of_property_read_u32(node, "link-rate", &rate);
-	
-Which either will overwrite the rate with the value of the property, or
-leave it untouched.
+----------------------------------------------------------------
+Chris Wilson (5):
+      drm/i915: Restrict DRM_I915_DEBUG to developer builds
+      drm/i915/gem: Move freeze/freeze_late next to suspend/suspend_late
+      drm/i915: Disable atomics in L3 for gen9
+      drm/i915/gt: Flush before changing register state
+      drm/i915/gt: Correct surface base address for renderclear
 
-Regards,
-Bjorn
+Dan Carpenter (2):
+      drm/i915/gvt: fix uninitialized return in intel_gvt_update_reg_whitel=
+ist()
+      drm/i915/gem: Fix oops in error handling code
 
-> +
-> +	if (len == 1) {
-> +		of_property_read_u32_index(of_node,
-> +				link_rate_property, 0, &rate);
-> +
-> +		parser->max_link_rate = rate;
-> +	}
-> +
->  	return 0;
->  }
->  
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-> index 34b4962..7046fce 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-> @@ -116,6 +116,7 @@ struct dp_parser {
->  	struct dp_display_data disp_data;
->  	const struct dp_regulator_cfg *regulator_cfg;
->  	u32 max_dp_lanes;
-> +	u32 max_link_rate;
->  
->  	int (*parse)(struct dp_parser *parser);
->  };
-> -- 
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
-> 
+Ville Syrj=E4l=E4 (2):
+      drm/i915: Reject 446-480MHz HDMI clock on GLK
+      drm/i915: Disallow plane x+w>stride on ilk+ with X-tiling
+
+ drivers/gpu/drm/i915/Kconfig.debug           |  2 ++
+ drivers/gpu/drm/i915/display/i9xx_plane.c    | 27 ++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_display.c | 12 ++++----
+ drivers/gpu/drm/i915/display/intel_display.h |  6 ++++
+ drivers/gpu/drm/i915/display/intel_hdmi.c    |  6 +++-
+ drivers/gpu/drm/i915/gem/i915_gem_pm.c       | 41 ++++++++++++++++++++++++=
+++++
+ drivers/gpu/drm/i915/gem/i915_gem_pm.h       |  3 ++
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c   | 12 +++-----
+ drivers/gpu/drm/i915/gt/gen7_renderclear.c   |  3 +-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c  |  8 ++++++
+ drivers/gpu/drm/i915/gvt/cmd_parser.c        |  3 +-
+ drivers/gpu/drm/i915/i915_drv.c              |  1 +
+ drivers/gpu/drm/i915/i915_drv.h              |  2 --
+ drivers/gpu/drm/i915/i915_gem.c              | 41 ------------------------=
+----
+ drivers/gpu/drm/i915/i915_reg.h              |  7 +++++
+ drivers/gpu/drm/i915/selftests/i915_gem.c    |  1 +
+ 16 files changed, 115 insertions(+), 60 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
