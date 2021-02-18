@@ -1,47 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC7331EB87
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 16:32:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 224E631EBE8
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 16:58:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 715186EA3D;
-	Thu, 18 Feb 2021 15:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0480F6EA1A;
+	Thu, 18 Feb 2021 15:58:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DECB46EA3C;
- Thu, 18 Feb 2021 15:31:57 +0000 (UTC)
-IronPort-SDR: ZTWLO+t/eLzImkiRj+9FEAZkJDfRXxe69DLT1Vx194Jrty7zyesMvcXiJgM2/Mq/mCC8OloVEZ
- l/9yVGDSAneA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="183657409"
-X-IronPort-AV: E=Sophos;i="5.81,187,1610438400"; d="scan'208";a="183657409"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2021 07:31:56 -0800
-IronPort-SDR: OouBEYarPuLAOdmgvJYlFPhxnKNIZH9nHQGGiQmc7dbK12MVbrWm8kF8ENYlPbTu8HmlXwGg1r
- AZ2p00thMFwg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,187,1610438400"; d="scan'208";a="385998262"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga008.fm.intel.com with SMTP; 18 Feb 2021 07:31:51 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 18 Feb 2021 17:31:51 +0200
-Date: Thu, 18 Feb 2021 17:31:51 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [Intel-gfx] [RFC v4 10/11] drm/dp: Extract i915's eDP backlight
- code into DRM helpers
-Message-ID: <YC6IZ+BUcA5uDCej@intel.com>
-References: <20210208233902.1289693-1-lyude@redhat.com>
- <20210208233902.1289693-11-lyude@redhat.com>
- <20210211041540.GI82362@intel.com>
- <355ce12ec69a9b5f20b4a856a40c8abf413be5c0.camel@redhat.com>
- <87mtw1ai4m.fsf@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20B0F6EA1A
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 15:58:16 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id BA44D64E2F
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 15:58:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1613663895;
+ bh=hJU2MBUa4N+SmX+kvwCQonvqZJD4xbj1dbdgromSij8=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=MDVaNjGegLd65/VwRSPtqvd+odJTIFv/GXVpyl7pxHSEtQS7psRLLBW3HSR8t+mCa
+ qiPleYQr3WfmRhlTCgVvDKpDpnBsWosHDjkcdnSL8Qh+g6yUA65+obMNq5Vcjlyrio
+ Hr5Ny9OfFyf9FY6viU6YsRZb/2aC3lYZiGQ7OCanSsOYGU+PXRpYbfTax4VfKCnSdy
+ 4pQpktfoKW+ewYdEcRjWtQ942c+D4FsG2MKrUtRLY5f86mvyCrLGta1m8Zfn1Svo0d
+ xuB7/J729jnLWNlbd5sERgOV+X7aWhgIt1BumrPa3LBNiOESPEOgp3o1wIyjhp6K29
+ BVoqydEmNNngQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id AD87465203; Thu, 18 Feb 2021 15:58:15 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211501] Kernel freeze when waking monitor from blanking / DPMS
+ (AMDGPU / DC)
+Date: Thu, 18 Feb 2021 15:58:15 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: wychuchol7777@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-211501-2300-EGb7dYFNHJ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211501-2300@https.bugzilla.kernel.org/>
+References: <bug-211501-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <87mtw1ai4m.fsf@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,34 +64,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- greg.depoire@gmail.com, Sean Paul <seanpaul@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 18, 2021 at 10:35:05AM +0200, Jani Nikula wrote:
-> On Fri, 12 Feb 2021, Lyude Paul <lyude@redhat.com> wrote:
-> > I think it wouldn't be a bad idea to just address this with a followup =
-series
-> > instead and use the old DRM_DEBUG_* macros in the mean time.
-> =
+https://bugzilla.kernel.org/show_bug.cgi?id=211501
 
-> aux->dev is there, could also use dev_dbg et al. in the mean time. They
-> handle NULL dev gracefully too if the driver didn't set that.
+wychuchol (wychuchol7777@gmail.com) changed:
 
-Last I looked aux->dev was random. Some drivers point it at the
-connector vs. some at the the pci/platform device.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |wychuchol7777@gmail.com
 
--- =
+--- Comment #3 from wychuchol (wychuchol7777@gmail.com) ---
+It happens every time I turn off monitor or it blanks out  (and monitor goes
+into sleep mode).
+Kernel 5.11.0 rx 5700 xt Mesa 20.3.2 Pop OS 20.10
+I can get back to DE but nothing works besides cursor movement (no response
+from clicking or keyboard). Only option is to go to terminal only screen and
+reboot.
 
-Ville Syrj=E4l=E4
-Intel
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
