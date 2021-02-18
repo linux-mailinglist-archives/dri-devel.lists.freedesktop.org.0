@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A0A31F580
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 08:55:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E0631F57B
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 08:55:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B91676EAB4;
-	Fri, 19 Feb 2021 07:55:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69B306EAB1;
+	Fri, 19 Feb 2021 07:54:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpcmd0991.aruba.it (smtpcmd0991.aruba.it [62.149.156.91])
- by gabe.freedesktop.org (Postfix) with ESMTP id CF1B86EA70
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 22:55:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5A5726E88C
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 22:55:36 +0000 (UTC)
 Received: from ubuntu.localdomain ([146.241.168.111])
  by Aruba Outgoing Smtp  with ESMTPSA
- id CsCZl9zcdJFRNCsCqlTfSq; Thu, 18 Feb 2021 23:55:33 +0100
+ id CsCZl9zcdJFRNCsCtlTfUC; Thu, 18 Feb 2021 23:55:35 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
- t=1613688933; bh=xbrdgKWA9weotOeXTke9i6mSPyW7p+KSPNkV4aWdNhg=;
+ t=1613688935; bh=q9L05eGn0HIDk98um6gpViXmrMbpn05ZRhCwVCEpaBQ=;
  h=From:To:Subject:Date:MIME-Version;
- b=itxpif0VsJTqGvZK2Ja6IQOjc69Ehb1sNygiSu/ZAq8PpGGi5qaDXgu4qWWysGwls
- YgEXb74SssPQaPu4ru1pBXw06KnUPnkpGws/vNNV/cL4Uozw2Ml5z5zCkAbEIBz5OZ
- HsclvNZUG1toTYo2CdZ+iwpPEOuSxB4/5Ht2p77UWKa8v982VUOth4XiJ6J+eV7s8S
- vdNqesz9FU7jiwDumqkZlhc2j2FQLIwhWLqff2Wui9JbsS8fcBwrhWiAPRD+OODygH
- qv45t/+Ge5xX2BtUnmRKifUJiyDj5BQEeTxtaN0mIKUYfBn6jYhKEkuZDzqMC8A3zE
- Mo08u3JvxAi3g==
+ b=h1KONaoCxBHlYTuXin/rVbpPZYfgzLJcKnAVh+M7s/TwtXbnbZ2J/GXw1klyqzVjP
+ msmENJbxrLpdS3DgpVUoKInKqhSQisO0QOSsTQoxm9d7nm/DLRZz0OpGLa5qr+HZnW
+ XvnGMRd2IHrztDApNiEaK5FmLAY6hf8v9+h/tzowFBFdn/R5W+OL1vA1Jk2umgt6Lq
+ XYe6pJ4yYKDFWCsoY7PcGnXhL3YTEsJGRoD/FAJc3RF7b80ZZRlcGsBOqOQEwJRh17
+ gd9NI3PfKBjVKxxBaih6bpq5aR8h34U8EFXof2FMHavjUulMfV0FEIQkzAXMdwKUOP
+ dtEG46f7jRy2g==
 From: Giulio Benetti <giulio.benetti@benettiengineering.com>
 To: 
-Subject: [PATCH 5/9] dt-bindings: display/panel: add Jenson JT60250-02
-Date: Thu, 18 Feb 2021 23:54:53 +0100
-Message-Id: <20210218225458.823773-6-giulio.benetti@benettiengineering.com>
+Subject: [PATCH 6/9] drm/panel: simple: add Jenson JT60245-01
+Date: Thu, 18 Feb 2021 23:54:54 +0100
+Message-Id: <20210218225458.823773-7-giulio.benetti@benettiengineering.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210218225458.823773-1-giulio.benetti@benettiengineering.com>
 References: <20210218225458.823773-1-giulio.benetti@benettiengineering.com>
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfJWGlmAkWqZcf7vKKwws/H4t4c1ZiSdJy2weMlSZU3SVPDlGLCna40sBILrngF2bi7CW2FjKuSWJV7LRgpgezRHBaD6dxlZijtJcn+xkpMDWAx+bMcjw
- 74rDi25kUW1TBdtrlcGP0R2PFO0DHt9EiDpKCF732sob6tmuHXMYAeWwKpwQcfhwxX5DNLBCQ+ns25dEgrkkTHaMRaRCKVVZ8wf0KMYHoIJvKZDK3LunFvpa
- WW0Tm/yf4q8fLKhMKHuVooPTeKgQmNj2nGa6/PiZ1Z1c3kG0ZauSZalUbl3TwMKeNNk6w2DDTJ24GdoXydi2xNxGzlCzyMqvrFACvXUz+STkPYKYCZ9Jhebe
- WKWfIspHwsiwyTGA5AOFL97x/nomuA++27bKLvr1/Z0QudQaaMJOdHGTc4OGZnqBcGE+ek5pQYDO09ft6yo5WWKXCJS0BCtVpKQxlY+kcnFs0uzB8HW0ZHCd
- U/EBacmfHy9rz2H2ICnqeVu9ET3NAmJZHCpXkDnXUJ9qMKdS+BjB5N5cZ8hco4w+nSulLOc8pNu4UqibQoHhqGRqvP6fNq44NzyIx4tISFBarcHZCnLUC3q8
- 5z3pxvoQI8PuMn7sCHPGCzYZwQMdKFqpZArMDtd287Yy4Wl7WVyZaSPaMrbJHvmu+oeibbwhcDWKvmwxf3Hg9EYedWA6tGlflKqY2tfZnwVaelrfMOt9mCjN
- d32dOVyHh+FKHPzss5qV+pC0OHC90ZqRzxFukO67dPb3jq7Ae0W2xpNL2ITe/JIKHCbanFj9v3NRmns9wJAmSzGZFzI8yS1ubWq9VOoioWBnPiuyuLgx4g==
+X-CMAE-Envelope: MS4wfJqai42glsm/W9k4RRLq+9Qc8Z0UDeUTqa9M6zQ8skSDd1D/PrMDE2nvZkwNpC9CqeJjNBJHkk9XM/PqbyqApSoup5sCKHnGVngtDu0r2YQ+htnKCf/8
+ 8xnwtMDBLg632aG0h5V6bl570aFV4MLgRbqte9+dG6msbwB7umlPNBbzG28Nyw0BKwctrp3jDDvJOPp8OX2R4M3F+5uK45bAnuIFLXN5YuCYT4hedxPnAh5E
+ aVjWQP2c51NgRv/5nvZfXAq2d5hjuqwtFdg2YMnwr/Vd/aI2ZqYuyGlDwbOWdPWTDqyvBg1ulN4uw5RU7NxqbaK6u7RBToeY6JuAO7VNqE9AgfolM9EgLry2
+ gAf8jt2fnEhcsI3gO7vGAyBtWQo3ZrjVJD2QoWs9djfhDgqBbeyzmi7khQt06Np6lbZ/E9QEQAy93Hi3BjvDsMtgP3WH63nMeFxlaM54ZzTgbhwqnWYrV7j5
+ MUpI+CNwk3xBGYVwXRDbuctRWGHBEsfQxD53EXElMnPRWSMjqOJ2iyK3bIEgx9Fv3ZrL5ndA5Q34AiME+saLFgGUft6OQyu8HXAC4sh5Q/X2QOBV0cdrqC80
+ uoQLuNdG4z8elWuGvRVT097O0XIkJ1RYQrvUCHJIkakjiudLhckdXe7Y9dvO3pbieJ2KYk6lCcwc8alVEgFpWdKVArroCE5IyQhbzfHQNJaT/uB9lb/8lho8
+ vSgrOgqQOPuvfNjl+tGRC5GlOR1WqSCUtRvI67rPzghCABTVKjsmTzv3/UhlQZoI6gAiE+g+RoVDnQjyuZt1wtwbv9YPeOSKbeaGWwWTpWvJJt2JLIciAg==
 X-Mailman-Approved-At: Fri, 19 Feb 2021 07:54:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,15 +55,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org,
  Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- Shawn Guo <shawnguo@kernel.org>, dri-devel@lists.freedesktop.org,
- Daniel Palmer <daniel@0x0f.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Lubomir Rintel <lkundrak@v3.sk>,
- Thierry Reding <thierry.reding@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Arnd Bergmann <arnd@arndb.de>,
+ David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
+ dri-devel@lists.freedesktop.org, Daniel Palmer <daniel@0x0f.com>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Lubomir Rintel <lkundrak@v3.sk>, Thierry Reding <thierry.reding@gmail.com>,
  Krzysztof Kozlowski <krzk@kernel.org>, allen <allen.chen@ite.com.tw>,
  Max Merchel <Max.Merchel@tq-group.com>,
  Giulio Benetti <giulio.benetti@benettiengineering.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Sam Ravnborg <sam@ravnborg.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
  Giulio Benetti <giulio.benetti@micronovasrl.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -72,27 +72,60 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Giulio Benetti <giulio.benetti@micronovasrl.com>
 
-Add DT binding for "jenson,jt60250-02".
+This patch adds support for Jenson JT60245-01 800x480 7" panel to DRM
+simple panel driver.
 
 Signed-off-by: Giulio Benetti <giulio.benetti@micronovasrl.com>
 Signed-off-by: Giulio Benetti <giulio.benetti@benettiengineering.com>
 ---
- .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index fd0d2a573350..a3edf313be54 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -171,6 +171,8 @@ properties:
-       - jenson,jt60249-01
-         # Jenson Display JT60245-01 7" (800x480) TFT LCD panel
-       - jenson,jt60245-01
-+        # Jenson Display JT60250-02 10.1" (1024x600) TFT LCD panel
-+      - jenson,jt60250-02
-         # King & Display KD116N21-30NV-A010 eDP TFT LCD panel
-       - kingdisplay,kd116n21-30nv-a010
-         # Kaohsiung Opto-Electronics Inc. 5.7" QVGA (320 x 240) TFT LCD panel
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 41bbec72b2da..f268ad5f5345 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2396,6 +2396,30 @@ static const struct panel_desc ivo_m133nwf4_r0 = {
+ 	.connector_type = DRM_MODE_CONNECTOR_eDP,
+ };
+ 
++static const struct drm_display_mode jenson_jt60245_01_mode = {
++	.clock = 35000,
++	.hdisplay = 800,
++	.hsync_start = 800 + 210,
++	.hsync_end = 800 + 210 + 20,
++	.htotal = 800 + 210 + 20 + 46,
++	.vdisplay = 480,
++	.vsync_start = 480 + 22,
++	.vsync_end = 480 + 22 + 10,
++	.vtotal = 480 + 22 + 10 + 23,
++	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
++};
++
++static const struct panel_desc jenson_jt60245_01 = {
++	.modes = &jenson_jt60245_01_mode,
++	.num_modes = 1,
++	.bpc = 8,
++	.size = {
++		.width = 154,
++		.height = 86,
++	},
++	.bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE,
++};
++
+ static const struct drm_display_mode kingdisplay_kd116n21_30nv_a010_mode = {
+ 	.clock = 81000,
+ 	.hdisplay = 1366,
+@@ -4162,6 +4186,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "ivo,m133nwf4-r0",
+ 		.data = &ivo_m133nwf4_r0,
++	}, {
++		.compatible = "jenson,jt60245-01",
++		.data = &jenson_jt60245_01,
+ 	}, {
+ 		.compatible = "kingdisplay,kd116n21-30nv-a010",
+ 		.data = &kingdisplay_kd116n21_30nv_a010,
 -- 
 2.25.1
 
