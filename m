@@ -1,32 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1DE31EB0A
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 15:42:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C905631EB25
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Feb 2021 15:54:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BCE86E840;
-	Thu, 18 Feb 2021 14:42:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93C826EA21;
+	Thu, 18 Feb 2021 14:54:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14E736E840;
- Thu, 18 Feb 2021 14:42:41 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 90E5CAE42;
- Thu, 18 Feb 2021 14:42:39 +0000 (UTC)
-Subject: Re: [PATCH v2 08/11] drm/qxl: fix monitors object vmap
-To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
-References: <20210217123213.2199186-1-kraxel@redhat.com>
- <20210217123213.2199186-9-kraxel@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <1743626e-d34d-8a7d-1b66-ae38f77c5ea5@suse.de>
-Date: Thu, 18 Feb 2021 15:42:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F3756EA21
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 14:54:39 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A020064EBD
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 14:54:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1613660078;
+ bh=G1o3sltRRgh2gaudrfVPAl3cfmWIH60ygZShn9u7C+0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=mQd9f8XcRwdbNjtFodNA0zCyokDf0TgyQH4wBSADfAKQW8HJ/b0rNY01rig/c4sNE
+ pYLJU7PkY17IsDVdZkwc0k9CeWdZA6ysyi40iEs9N6Al5xcwvlOMM/hiDpysWFFesg
+ rd9ZN9VyGGqLeO5PC9LqdXbss4OA8zD8Zm0oywC2AshWytroXyN6ynTb+4xISuQv9a
+ ebIKaBLjW+uvvdJEFaOZa8yalTArsSKsjSMk+oDWtnsLcdjXqVzLZv3RM87lq+ouHl
+ 2JZvZo0a9mv5WkVoWPONvk03+ZxZ4yi5rno5IC+WzttCEFlFouLMEdcaL3jJixiXvz
+ v77QMu7bKOMog==
+Received: by mail-ej1-f54.google.com with SMTP id e13so2855128ejl.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Feb 2021 06:54:38 -0800 (PST)
+X-Gm-Message-State: AOAM533bDyYlUSkncg8l5lqFaSNTwgffVMpWEECFANU4GEfFH9bzJK1G
+ PqGxEnCtYg39qCJz/iJMH0Eey8mpay9ppETlrQ==
+X-Google-Smtp-Source: ABdhPJxxWrEv48LJyTQCqlhuzhEJKbr+V+CGGHgE3gsPwH2Idv+DGKJKnUdZy9z9bYC2qSTpCbocZDlXK4kEkBPdcNM=
+X-Received: by 2002:a17:906:4094:: with SMTP id
+ u20mr1702711ejj.525.1613660076908; 
+ Thu, 18 Feb 2021 06:54:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210217123213.2199186-9-kraxel@redhat.com>
+References: <20210111142309.193441-1-maxime@cerno.tech>
+ <20210111142309.193441-14-maxime@cerno.tech>
+ <CAL_JsqJ3QBoJVXnpeMz1X56F6VWEe_HzTKs9efrDWh3ccdr=5A@mail.gmail.com>
+In-Reply-To: <CAL_JsqJ3QBoJVXnpeMz1X56F6VWEe_HzTKs9efrDWh3ccdr=5A@mail.gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 18 Feb 2021 08:54:23 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLKpT4y5gOH4kenHySY1n1pyV4sAEzGuwPV7V4vUJWevQ@mail.gmail.com>
+Message-ID: <CAL_JsqLKpT4y5gOH4kenHySY1n1pyV4sAEzGuwPV7V4vUJWevQ@mail.gmail.com>
+Subject: Re: [PATCH v2 13/15] dt-binding: display: bcm2711-hdmi: Add CEC and
+ hotplug interrupts
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,137 +56,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <spice-devel@lists.freedesktop.org>, Dave Airlie <airlied@redhat.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>
-Content-Type: multipart/mixed; boundary="===============1017963426=="
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ "moderated list:BROADCOM BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1017963426==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="0GppSwbcLniTLaXzGE2etbBTPbbK4n4z2"
+On Mon, Feb 1, 2021 at 12:56 PM Rob Herring <robh@kernel.org> wrote:
+>
+> On Mon, Jan 11, 2021 at 8:27 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > The CEC and hotplug interrupts were missing when that binding was
+> > introduced, let's add them in now that we've figured out how it works.
+> >
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >  .../bindings/display/brcm,bcm2711-hdmi.yaml   | 20 ++++++++++++++++++-
+> >  1 file changed, 19 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> > index 7ce06f9f9f8e..6e8ac910bdd8 100644
+> > --- a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> > +++ b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> > @@ -53,6 +53,24 @@ properties:
+> >        - const: audio
+> >        - const: cec
+> >
+> > +  interrupts:
+> > +    items:
+> > +      - description: CEC TX interrupt
+> > +      - description: CEC RX interrupt
+> > +      - description: CEC stuck at low interrupt
+> > +      - description: Wake-up interrupt
+> > +      - description: Hotplug connected interrupt
+> > +      - description: Hotplug removed interrupt
+> > +
+> > +  interrupt-names:
+> > +    items:
+> > +      - const: cec-tx
+> > +      - const: cec-rx
+> > +      - const: cec-low
+> > +      - const: wakeup
+> > +      - const: hpd-connected
+> > +      - const: hpd-removed
+> > +
+> >    ddc:
+> >      allOf:
+> >        - $ref: /schemas/types.yaml#/definitions/phandle
+> > @@ -90,7 +108,7 @@ required:
+> >    - resets
+> >    - ddc
+> >
+> > -additionalProperties: false
+> > +unevaluatedProperties: false
+>
+> /builds/robherring/linux-dt-bindings/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml:
+> 'additionalProperties' is a required property
+>
+> And you missed the DT list, so no checks ran.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0GppSwbcLniTLaXzGE2etbBTPbbK4n4z2
-Content-Type: multipart/mixed; boundary="n6b1Z8I5X2eTfl1kktnTO3v7jFlZGXmyO";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@linux.ie>, open list
- <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <spice-devel@lists.freedesktop.org>, Dave Airlie <airlied@redhat.com>
-Message-ID: <1743626e-d34d-8a7d-1b66-ae38f77c5ea5@suse.de>
-Subject: Re: [PATCH v2 08/11] drm/qxl: fix monitors object vmap
-References: <20210217123213.2199186-1-kraxel@redhat.com>
- <20210217123213.2199186-9-kraxel@redhat.com>
-In-Reply-To: <20210217123213.2199186-9-kraxel@redhat.com>
+This is still failing in linux-next.
 
---n6b1Z8I5X2eTfl1kktnTO3v7jFlZGXmyO
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-
-
-Am 17.02.21 um 13:32 schrieb Gerd Hoffmann:
-> Use the correct vmap variant.  We don't hold a reservation here,
-> so we can't use the _locked variant.  We can drop the pin because
-> qxl_bo_vmap will do that for us.
->=20
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-I simply forgot to ack this patch.
-
-> ---
->   drivers/gpu/drm/qxl/qxl_display.c | 7 ++-----
->   1 file changed, 2 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qx=
-l_display.c
-> index bfcc93089a94..f106da917863 100644
-> --- a/drivers/gpu/drm/qxl/qxl_display.c
-> +++ b/drivers/gpu/drm/qxl/qxl_display.c
-> @@ -1159,12 +1159,10 @@ int qxl_create_monitors_object(struct qxl_devic=
-e *qdev)
->   	}
->   	qdev->monitors_config_bo =3D gem_to_qxl_bo(gobj);
->  =20
-> -	ret =3D qxl_bo_pin(qdev->monitors_config_bo);
-> +	ret =3D qxl_bo_vmap(qdev->monitors_config_bo, &map);
->   	if (ret)
->   		return ret;
->  =20
-> -	qxl_bo_vmap_locked(qdev->monitors_config_bo, &map);
-> -
->   	qdev->monitors_config =3D qdev->monitors_config_bo->kptr;
->   	qdev->ram_header->monitors_config =3D
->   		qxl_bo_physical_address(qdev, qdev->monitors_config_bo, 0);
-> @@ -1189,8 +1187,7 @@ int qxl_destroy_monitors_object(struct qxl_device=
- *qdev)
->   	qdev->monitors_config =3D NULL;
->   	qdev->ram_header->monitors_config =3D 0;
->  =20
-> -	qxl_bo_vunmap_locked(qdev->monitors_config_bo);
-> -	ret =3D qxl_bo_unpin(qdev->monitors_config_bo);
-> +	ret =3D qxl_bo_vunmap(qdev->monitors_config_bo);
->   	if (ret)
->   		return ret;
->  =20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---n6b1Z8I5X2eTfl1kktnTO3v7jFlZGXmyO--
-
---0GppSwbcLniTLaXzGE2etbBTPbbK4n4z2
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAufN4FAwAAAAAACgkQlh/E3EQov+C5
-Tg//TrufcEVK61EAu1+3Er/neTjfN+QwzueogPCYKACr6iPKEZ2vmb31JaXyjAnaXOUw+PxLzH/V
-rgOunhMQ7uqjE7Hjvn2Skrf/PjpT2LzN6zTMXZ1BcX4ABYpyg/dCYOrnGrV2rAzQFGxg296HOmur
-r6WTQ0a1fdMKZHtl4utDXmEPTWvH2ky8eje1iAMm+xez8h98XknnK2daMQAmSJMFBWuM+0gPnW1z
-dGEIP58ZeonvoBkBn0gU340s8aK3VQVWxb8T1U7Qv98MWC+UlXyrl6iCrx+ObsnnUI2OKlJ+1EYw
-0l+MudQWVpELBAQVRlNSH5dc9WXXkaLcVP3c7TqyfLHLcuczxVLQqMontuUCw8hVmM3QIWHSDWda
-0RlNMBR4pAyxet+Da4Cv8ln7Ka6ftqs+b2HQRdDDn7W5daaCWp5AXhliX3BZqIq3dN35X0tgeH0t
-e+zMIzU8Xtu4DN61pxZhJUszK1QdVGpj+uMYo7t1Dchc3NWRcZerbS4iWvG03szzpOcS3rIGpHlA
-FOKUL0nslKpQOht8i7kPx1cEngTGtWiVvESkhTgx5FFVjH4F4DjFAA/23ogwbsdO0Icf98KYSXUU
-J2bq4Mm7UM81q94GVmKyqaYtwOzVsSnw5iXad+bqWYqYCtdNnx9usNcZz4Q2jKHaIk0Qq+sCLtZ1
-iPU=
-=eckE
------END PGP SIGNATURE-----
-
---0GppSwbcLniTLaXzGE2etbBTPbbK4n4z2--
-
---===============1017963426==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1017963426==--
