@@ -2,31 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E95431F5C7
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 09:23:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4797731F60E
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 09:50:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7BAA6E8C6;
-	Fri, 19 Feb 2021 08:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 995226EAC3;
+	Fri, 19 Feb 2021 08:50:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB6E26E8C6
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 08:23:08 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4F960AC69;
- Fri, 19 Feb 2021 08:23:07 +0000 (UTC)
-Subject: Re: [PATCH] drm/drv: Remove initialization of static variables
-To: Tian Tao <tiantao6@hisilicon.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch
-References: <1613701811-32037-1-git-send-email-tiantao6@hisilicon.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <a7ec9ff2-5793-4dc6-c12d-667a6a54f747@suse.de>
-Date: Fri, 19 Feb 2021 09:23:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E8F46EAC3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 08:50:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 1CED064D92
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 08:50:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1613724636;
+ bh=qMXolbqapy4JUzlP4xNQmg7wDuViu3k753eSxZJMXcs=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=izIgnSZmgZAGteUAjV0D1DgmJzvX0fv+V3zc/Gn+YuvmKtl7+Voh4sPw+nKdnWGHI
+ VkgQh9aptIGWf7ektSw+kw0nNVPg93oej+nvSEsK7Wd1ABp121XcwV5bDRN2heZ98s
+ KZ/cN4Lhm5bHbNnICeBHjbwXie68RPk08eDZTalkGUrDNLpfV/S5Z6oBk/8qV8JrZV
+ kv+kYg+ExjcdTnH93t3+ls4lXKHQnVHPjqjzTnXAqjmd1UCRefYdz55L/T8SCVA6Q9
+ uMxSFZ2qVceyFyBVGZKDcZ9skL8JQNIXLa9Rk0+0hPPvO28Lx56FE1/M/8cPbDix23
+ UFVIR8UwfW69g==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 0BE0065339; Fri, 19 Feb 2021 08:50:36 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211425] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
+ more than 20secs aborting
+Date: Fri, 19 Feb 2021 08:50:35 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: icedragon.aw@web.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-211425-2300-16Bvsepytu@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211425-2300@https.bugzilla.kernel.org/>
+References: <bug-211425-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <1613701811-32037-1-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,108 +64,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1512063246=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1512063246==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="0L7RWso29DGvSq7U80UdrFwZS7clHSy3R"
+https://bugzilla.kernel.org/show_bug.cgi?id=211425
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0L7RWso29DGvSq7U80UdrFwZS7clHSy3R
-Content-Type: multipart/mixed; boundary="XOzxhDmo8vPMDQpUAQLz86rfU5UNuJytd";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tian Tao <tiantao6@hisilicon.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <a7ec9ff2-5793-4dc6-c12d-667a6a54f747@suse.de>
-Subject: Re: [PATCH] drm/drv: Remove initialization of static variables
-References: <1613701811-32037-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1613701811-32037-1-git-send-email-tiantao6@hisilicon.com>
+Andreas (icedragon.aw@web.de) changed:
 
---XOzxhDmo8vPMDQpUAQLz86rfU5UNuJytd
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|5.10.16                     |5.10.17 and 5.11.0
 
+--- Comment #10 from Andreas (icedragon.aw@web.de) ---
+FYI - also the last versions 5.10.17 and 5.11.0 are affected:
 
-Am 19.02.21 um 03:30 schrieb Tian Tao:
-> Address the following checkpatch errors:
-> ERROR: do not initialise statics to false
->=20
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Do Feb 18 18:05:34 2021] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
+more than 20secs aborting
+[Do Feb 18 18:05:34 2021] [drm:amdgpu_atom_execute_table_locked] *ERROR*
+atombios stuck executing B200 (len 3615, WS 8, PS 0) @ 0xB34E
+[Do Feb 18 18:05:34 2021] [drm:amdgpu_atom_execute_table_locked] *ERROR*
+atombios stuck executing B0F4 (len 268, WS 4, PS 0) @ 0xB147
+[Do Feb 18 18:05:34 2021] [drm:dcn10_link_encoder_enable_dp_output] *ERROR*
+dcn10_link_encoder_enable_dp_output: Failed to execute VBIOS command table!
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+-- 
+You may reply to this email to add a comment.
 
-Thanks for the patch.
-
-> ---
->   drivers/gpu/drm/drm_drv.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 20d22e4..c2f78de 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -61,7 +61,7 @@ static struct idr drm_minors_idr;
->    * prefer to embed struct drm_device into their own device
->    * structure and call drm_dev_init() themselves.
->    */
-> -static bool drm_core_init_complete =3D false;
-> +static bool drm_core_init_complete;
->  =20
->   static struct dentry *drm_debugfs_root;
->  =20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---XOzxhDmo8vPMDQpUAQLz86rfU5UNuJytd--
-
---0L7RWso29DGvSq7U80UdrFwZS7clHSy3R
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAvdWkFAwAAAAAACgkQlh/E3EQov+Ai
-fhAAoN8BNq1nqgNdAPQA5ed5y6WH8sKVuhGfC6cuU7xIrD1JRHCjFhNwxJz5Hni9OdPTi5567B09
-VcVh3a3gLmbW8OgsVkMrB/LVE5e7bltlH+Y2MGaW60JbcPzAoHxaJbdEaParg4FWfns++0lrOB4k
-OdmZdS9hhav0+MwkYR1S3OGI6PoqMa5OhRqOgUcNZH2nOmt151OHWeVM1knsD5XM+jeP8HpDLtNH
-mBG1C7yE+GAP8ITOPUkN99YEGZmyDqWFg+qTIAr4elG2p1TRyq9GNYbf98MKQdrO6o3JkEei6c1f
-OyJTRwbsO7aG3oqKDBYxA4ZiFnoHdfZ3LaouDGH/4bxbjZX3evyflQuo6cwNooNxwbouaFg7Wbf9
-Zmp/98lh/ATH21a1jPrr8MgDQ1r1G0Hy7ilQpw3qB2ZHG4QqjLlaKW+riMMOytv78Jdwu8JOP3H+
-kfRManYW4STYvqQ5ehes1qTGEbYtFh4udNVarXQwtYbEQc2qMxJywsqpmMVrUaH5M2dRudSUIejZ
-O2O5xIMlHwFq5CQS2WIWNQCd861u17Zfh0PTEfWZgM+191ZwQjS9YK+aairAnv5FTs8sGmW8JV3c
-7iycMg2xPJ/0G/Zdru/ltB4Pj8KNhovEyVFeVJWmn9ApaUEdtI6je8yRx3kN69aec8QUJ1KTT4uV
-0JQ=
-=piK1
------END PGP SIGNATURE-----
-
---0L7RWso29DGvSq7U80UdrFwZS7clHSy3R--
-
---===============1512063246==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1512063246==--
