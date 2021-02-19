@@ -1,57 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1369931FD4C
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 17:40:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE1031FD4E
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 17:41:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B5D06EB73;
-	Fri, 19 Feb 2021 16:39:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D394D6E060;
+	Fri, 19 Feb 2021 16:41:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from z11.mailgun.us (z11.mailgun.us [104.130.96.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B24A6E060
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 16:39:48 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1613752790; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=bGYuBowdCAf1ux6PDCOPxHG/ip7+T+wrGkBIdOPIiaM=;
- b=FsiE3pfYXy94eKqDV2covxdXyzvcLXRwxniJjMOmDB8jTsJBN3W7e+tagkMahZClXV7hG8/f
- XQpvHMQbsiHCGa+RGEOLnDJo4aZO4QzrFnjBSxGBWU4wwlaG+Fzl9QLrtBUJhy9Zmi7oblBo
- SwyRK301ITNa2LSS5D9gCeYP/W8=
-X-Mailgun-Sending-Ip: 104.130.96.11
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 602fe9cb7237f827dce4a275 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 19 Feb 2021 16:39:39
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 39DAFC43463; Fri, 19 Feb 2021 16:39:39 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 89D79C433CA;
- Fri, 19 Feb 2021 16:39:38 +0000 (UTC)
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+ by gabe.freedesktop.org (Postfix) with SMTP id A20F36E060
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 16:41:20 +0000 (UTC)
+Received: (qmail 1115516 invoked by uid 1000); 19 Feb 2021 11:41:19 -0500
+Date: Fri, 19 Feb 2021 11:41:19 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH] drm/prime: Only call dma_map_sgtable() for devices with
+ DMA support
+Message-ID: <20210219164119.GC1111829@rowland.harvard.edu>
+References: <20210219134014.7775-1-tzimmermann@suse.de>
+ <02a45c11-fc73-1e5a-3839-30b080950af8@amd.com>
+ <20210219155328.GA1111829@rowland.harvard.edu>
+ <d2d581fb-ccba-00c9-0a22-b485870256ae@amd.com>
 MIME-Version: 1.0
-Date: Fri, 19 Feb 2021 08:39:38 -0800
-From: khsieh@codeaurora.org
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH v2 2/2] drm/msm/dp: add supported max link rate specified
- from dtsi
-In-Reply-To: <161368935031.1254594.14384765673800900954@swboyd.mtv.corp.google.com>
-References: <1613681704-12539-1-git-send-email-khsieh@codeaurora.org>
- <161368935031.1254594.14384765673800900954@swboyd.mtv.corp.google.com>
-Message-ID: <7af07dcacd5b68087cc61e467e9c57ea@codeaurora.org>
-X-Sender: khsieh@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Disposition: inline
+In-Reply-To: <d2d581fb-ccba-00c9-0a22-b485870256ae@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,52 +39,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, tanmay@codeaurora.org,
- aravindh@codeaurora.org, sean@poorly.run
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Felipe Balbi <balbi@kernel.org>,
+ Mathias Nyman <mathias.nyman@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
+ gregkh@linuxfoundation.org, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Oliver Neukum <oneukum@suse.com>, Johan Hovold <johan@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, dri-devel@lists.freedesktop.org,
+ "Ahmed S. Darwish" <a.darwish@linutronix.de>, stable@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-02-18 15:02, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2021-02-18 12:55:04)
->> Allow supported link rate to be limited to the value specified at
->> dtsi. If it is not specified, then link rate is derived from dpcd
->> directly. Below are examples,
->> link-rate = <162000> for max link rate limited at 1.62G
->> link-rate = <270000> for max link rate limited at 2.7G
->> link-rate = <540000> for max link rate limited at 5.4G
->> link-rate = <810000> for max link rate limited at 8.1G
->> 
->> Changes in V2:
->> -- allow supported max link rate specified from dtsi
-> 
-> Please don't roll this into the patch that removes the limit. The
-> previous version of this patch was fine. The part that lowers the limit
-> back down should be another patch.
-> 
-> We rejected link-rate in DT before and we should reject it upstream
-> again. As far as I can tell, the maximum link rate should be determined
-> based on the panel or the type-c port on the board. The dp controller
-> can always achieve HBR3, so limiting it at the dp controller is
-> incorrect. The driver should query the endpoints to figure out if they
-> want to limit the link rate. Is that done automatically sometimes by
-> intercepting the DPCD?
+On Fri, Feb 19, 2021 at 04:56:16PM +0100, Christian K=F6nig wrote:
+> =
 
-ok, i will roll back to original patch and add the second patch for max 
-link rate limited purpose.
-panel dpcd specified max link rate it supported.
-At driver, link rate is derived from dpcd directly since driver will try 
-to use the maximum supported link rate and less lane to save power.
-Therefore it is not possible that limit link rate base on dpcd.
-AS i understand we are going to do max link rate limitation is due to 
-old redriver chip can not support HBR3.
-How can I acquire which type-c port on the board so that I can trigger 
-max link rate limitation?
+> =
 
+> Am 19.02.21 um 16:53 schrieb Alan Stern:
+> > On Fri, Feb 19, 2021 at 02:45:54PM +0100, Christian K=F6nig wrote:
+> > > Well as far as I can see this is a relative clear NAK.
+> > > =
 
+> > > When a device can't do DMA and has no DMA mask then why it is request=
+ing an
+> > > sg-table in the first place?
+> > This may not be important for your discussion, but I'd like to give an
+> > answer to the question -- at least, for the case of USB.
+> > =
+
+> > A USB device cannot do DMA and has no DMA mask.  Nevertheless, if you
+> > want to send large amounts of bulk data to/from a USB device then using
+> > an SG table is often a good way to do it.  The reason is simple: All
+> > communication with a USB device has to go through a USB host controller,
+> > and many (though not all) host controllers _can_ do DMA and _do_ have a
+> > DMA mask.
+> > =
+
+> > The USB mass-storage and uas drivers in particular make heavy use of
+> > this mechanism.
+> =
+
+> Yeah, I was assuming something like that would work.
+> =
+
+> But in this case the USB device should give the host controllers device
+> structure to the dma_buf_attach function so that the sg_table can be fill=
+ed
+> in with DMA addresses properly.
+
+Indeed.  Although in the contexts I'm familiar with, the host controller =
+
+device is actually passed to routines like dma_pool_create, =
+
+dma_alloc_coherent, dma_map_sg, or dma_map_single.
+
+Alan Stern
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
