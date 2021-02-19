@@ -1,45 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B748231FC62
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 16:47:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D80831FC82
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 17:00:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC6CD6E059;
-	Fri, 19 Feb 2021 15:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC5A36EB41;
+	Fri, 19 Feb 2021 16:00:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 512D06E059;
- Fri, 19 Feb 2021 15:47:45 +0000 (UTC)
-IronPort-SDR: ohz0MTAxCTPOAtQJP+mABcX1AAzHMPGwUNqS4dc6mO8Z53VLrUNwcfPLtwJEb8RHBBF4DCQJ8s
- SNv5UGEdix9w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9900"; a="163021328"
-X-IronPort-AV: E=Sophos;i="5.81,189,1610438400"; d="scan'208";a="163021328"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2021 07:47:44 -0800
-IronPort-SDR: +jO3ZTZiI80wPil3fk8YPW2POcf72dnAAhjPnRP0GsGTcTX2B7d7LvqU/Xoa6BXvGoPzjV+EZK
- ezLjWYnOs2bg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,189,1610438400"; d="scan'208";a="401073823"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga008.jf.intel.com with SMTP; 19 Feb 2021 07:47:41 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 19 Feb 2021 17:47:40 +0200
-Date: Fri, 19 Feb 2021 17:47:40 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2] drm/vblank: Do not store a new vblank timestamp in
- drm_vblank_restore()
-Message-ID: <YC/dnB479nssyrL8@intel.com>
-References: <20210204020400.29628-1-ville.syrjala@linux.intel.com>
- <20210218160305.16711-1-ville.syrjala@linux.intel.com>
- <YC/UWTfV6tFSwluS@phenom.ffwll.local>
+X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
+ Fri, 19 Feb 2021 16:00:09 UTC
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+ by gabe.freedesktop.org (Postfix) with SMTP id C7E826EB41
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 16:00:09 +0000 (UTC)
+Received: (qmail 1112983 invoked by uid 1000); 19 Feb 2021 10:53:28 -0500
+Date: Fri, 19 Feb 2021 10:53:28 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH] drm/prime: Only call dma_map_sgtable() for devices with
+ DMA support
+Message-ID: <20210219155328.GA1111829@rowland.harvard.edu>
+References: <20210219134014.7775-1-tzimmermann@suse.de>
+ <02a45c11-fc73-1e5a-3839-30b080950af8@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YC/UWTfV6tFSwluS@phenom.ffwll.local>
-X-Patchwork-Hint: comment
+In-Reply-To: <02a45c11-fc73-1e5a-3839-30b080950af8@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,85 +39,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Felipe Balbi <balbi@kernel.org>,
+ Mathias Nyman <mathias.nyman@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
+ gregkh@linuxfoundation.org, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Oliver Neukum <oneukum@suse.com>, Johan Hovold <johan@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, dri-devel@lists.freedesktop.org,
+ "Ahmed S. Darwish" <a.darwish@linutronix.de>, stable@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 19, 2021 at 04:08:09PM +0100, Daniel Vetter wrote:
-> On Thu, Feb 18, 2021 at 06:03:05PM +0200, Ville Syrjala wrote:
-> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > =
-
-> > drm_vblank_restore() exists because certain power saving states
-> > can clobber the hardware frame counter. The way it does this is
-> > by guesstimating how many frames were missed purely based on
-> > the difference between the last stored timestamp vs. a newly
-> > sampled timestamp.
-> > =
-
-> > If we should call this function before a full frame has
-> > elapsed since we sampled the last timestamp we would end up
-> > with a possibly slightly different timestamp value for the
-> > same frame. Currently we will happily overwrite the already
-> > stored timestamp for the frame with the new value. This
-> > could cause userspace to observe two different timestamps
-> > for the same frame (and the timestamp could even go
-> > backwards depending on how much error we introduce when
-> > correcting the timestamp based on the scanout position).
-> > =
-
-> > To avoid that let's not update the stored timestamp at all,
-> > and instead we just fix up the last recorded hw vblank counter
-> > value such that the already stored timestamp/seq number will
-> > match. Thus the next time a vblank irq happens it will calculate
-> > the correct diff between the current and stored hw vblank counter
-> > values.
-> > =
-
-> > Sidenote: Another possible idea that came to mind would be to
-> > do this correction only if the power really was removed since
-> > the last time we sampled the hw frame counter. But to do that
-> > we would need a robust way to detect when it has occurred. Some
-> > possibilities could involve some kind of hardare power well
-> > transition counter, or potentially we could store a magic value
-> > in a scratch register that lives in the same power well. But
-> > I'm not sure either of those exist, so would need an actual
-> > investigation to find out. All of that is very hardware specific
-> > of course, so would have to be done in the driver code.
-> > =
-
-> > Cc: Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>
-> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+On Fri, Feb 19, 2021 at 02:45:54PM +0100, Christian K=F6nig wrote:
+> Well as far as I can see this is a relative clear NAK.
 > =
 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> =
+> When a device can't do DMA and has no DMA mask then why it is requesting =
+an
+> sg-table in the first place?
 
-> For testing, there's nothing else than hsw psr that needs this, or that's
-> just the box you have locally?
+This may not be important for your discussion, but I'd like to give an =
 
-Just the one I happen to have.
+answer to the question -- at least, for the case of USB.
 
-Any machine with PSR should be able to hit this. But now that I
-refresh my memory I guess HSW/BDW don't actually fully reset the
-hw frame counter since they don't have the DC5/6 stuff. But
-even on HSW/BDW the frame counter would certainly stop while in
-PSR, so maintaining sensible vblank seq numbers will still
-require drm_vblank_restore(). Just my further idea of checking
-some power well counter/scratch register would not help in cases
-where DC states are not used. Instead we'd need some kind of PSR
-residency counter/etc.
+A USB device cannot do DMA and has no DMA mask.  Nevertheless, if you =
 
--- =
+want to send large amounts of bulk data to/from a USB device then using =
 
-Ville Syrj=E4l=E4
-Intel
+an SG table is often a good way to do it.  The reason is simple: All =
+
+communication with a USB device has to go through a USB host controller, =
+
+and many (though not all) host controllers _can_ do DMA and _do_ have a =
+
+DMA mask.
+
+The USB mass-storage and uas drivers in particular make heavy use of =
+
+this mechanism.
+
+Alan Stern
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
