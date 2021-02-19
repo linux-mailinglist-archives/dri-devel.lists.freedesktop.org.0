@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2449631F3D2
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 03:08:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DD9631F3D4
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 03:08:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9232F6EA81;
-	Fri, 19 Feb 2021 02:08:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 730D46EA7F;
+	Fri, 19 Feb 2021 02:08:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
- [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 203A46EA7C;
- Fri, 19 Feb 2021 02:08:08 +0000 (UTC)
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3889A6EA7F;
+ Fri, 19 Feb 2021 02:08:11 +0000 (UTC)
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B602f1d870001>; Thu, 18 Feb 2021 18:08:07 -0800
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B602f1d8a0000>; Thu, 18 Feb 2021 18:08:10 -0800
 Received: from localhost (172.20.145.6) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 19 Feb
- 2021 02:08:06 +0000
+ 2021 02:08:09 +0000
 From: Alistair Popple <apopple@nvidia.com>
 To: <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
  <bskeggs@redhat.com>, <akpm@linux-foundation.org>
-Subject: [PATCH v2 2/4] hmm: Selftests for exclusive device memory
-Date: Fri, 19 Feb 2021 13:07:48 +1100
-Message-ID: <20210219020750.16444-3-apopple@nvidia.com>
+Subject: [PATCH v2 3/4] nouveau/svm: Refactor nouveau_range_fault
+Date: Fri, 19 Feb 2021 13:07:49 +1100
+Message-ID: <20210219020750.16444-4-apopple@nvidia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210219020750.16444-1-apopple@nvidia.com>
 References: <20210219020750.16444-1-apopple@nvidia.com>
@@ -33,16 +33,16 @@ X-Originating-IP: [172.20.145.6]
 X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1613700487; bh=UOgMin+hr8IvGv0vIpPpaKdghp+MMGxdR4XPVayfQ8E=;
+ t=1613700490; bh=IDt/w91IyQ/+IVJx/VBVmCwlFW3knn/F3DU7wj6KD1M=;
  h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
  References:MIME-Version:Content-Transfer-Encoding:Content-Type:
  X-Originating-IP:X-ClientProxiedBy;
- b=bT7+ynxI02R88DBM4bpvxstp5MfaC50RGerw17lcVytVWuEpQTerVe6Nsm+tZG9RY
- Z0WU902W3s5DhWssFDXGBug04f0eEi2lI0eI1Q1FCRDP5a2BEu1iiUsQFneMzcOqDe
- GDuhQWZB8sHoJrY7MbI/4AGQqv4fY6i4co9zoQojGhTZeH0SZYT29XLjmxu3JJi4zE
- /XiuknmQi74O6ZCiaRoOWkjBiKsreWJv6ybHoh6f6ZwamZKpY2OoT7aFztTYDMkbOa
- zSIRcmGsUaL5w7o6raobC5TE1HHdpRQr1ojI1h3YoBr78ot/Q9kuFEakRirXjm0xb5
- Hm36JvWrBi2iA==
+ b=jDSKRchWDe0vv8BCZc3iKUl/ACudAdFotBemvBuqVBEcZD0wuQTt9itLGYNGYhCJa
+ qabo+ILCKFybU11p/wWCEHsuEK8AHyyvMsqXe7AJQvE31a0kxiNbQ0Bwu/Q+0hyVQQ
+ WbEGEMhm+Q0sSmOa8wOcNmwq7cv38qf2tR2zAkKhW/gwO3/vWE8g5hbjZYExCduKbq
+ dv3pl6T2Vm6FQBweW/7WqZOnjg09yVlZWb5KECqVFeC9mYcuAPQ6hPT/Z+4QmS1rCR
+ wGT53h3QwOdJYgksTPrFuYGxP3J/+LPreoA3qn1bgMH7W86ehdDzcjNwHni41LYR4u
+ Ny1yYzAgLgBNA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,419 +64,89 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adds some selftests for exclusive device memory.
+Call mmu_interval_notifier_insert() as part of nouveau_range_fault().
+This doesn't introduce any functional change but makes it easier for a
+subsequent patch to alter the behaviour of nouveau_range_fault() to
+support GPU atomic operations.
 
 Signed-off-by: Alistair Popple <apopple@nvidia.com>
 ---
- lib/test_hmm.c                         | 124 ++++++++++++++
- lib/test_hmm_uapi.h                    |   2 +
- tools/testing/selftests/vm/hmm-tests.c | 219 +++++++++++++++++++++++++
- 3 files changed, 345 insertions(+)
+ drivers/gpu/drm/nouveau/nouveau_svm.c | 34 ++++++++++++++++-----------
+ 1 file changed, 20 insertions(+), 14 deletions(-)
 
-diff --git a/lib/test_hmm.c b/lib/test_hmm.c
-index 80a78877bd93..d517d9d4c5aa 100644
---- a/lib/test_hmm.c
-+++ b/lib/test_hmm.c
-@@ -25,6 +25,7 @@
- #include <linux/swapops.h>
- #include <linux/sched/mm.h>
- #include <linux/platform_device.h>
-+#include <linux/rmap.h>
+diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+index f18bd53da052..cd7b47c946cf 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_svm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+@@ -567,18 +567,27 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
+ 	unsigned long hmm_pfns[1];
+ 	struct hmm_range range = {
+ 		.notifier = &notifier->notifier,
+-		.start = notifier->notifier.interval_tree.start,
+-		.end = notifier->notifier.interval_tree.last + 1,
+ 		.default_flags = hmm_flags,
+ 		.hmm_pfns = hmm_pfns,
+ 		.dev_private_owner = drm->dev,
+ 	};
+-	struct mm_struct *mm = notifier->notifier.mm;
++	struct mm_struct *mm = svmm->notifier.mm;
+ 	int ret;
  
- #include "test_hmm_uapi.h"
- 
-@@ -46,6 +47,7 @@ struct dmirror_bounce {
- 	unsigned long		cpages;
- };
- 
-+#define DPT_XA_TAG_ATOMIC 1UL
- #define DPT_XA_TAG_WRITE 3UL
- 
- /*
-@@ -619,6 +621,54 @@ static void dmirror_migrate_alloc_and_copy(struct migrate_vma *args,
- 	}
- }
- 
-+static int dmirror_check_atomic(struct dmirror *dmirror, unsigned long start,
-+			     unsigned long end)
-+{
-+	unsigned long pfn;
-+
-+	for (pfn = start >> PAGE_SHIFT; pfn < (end >> PAGE_SHIFT); pfn++) {
-+		void *entry;
-+		struct page *page;
-+
-+		entry = xa_load(&dmirror->pt, pfn);
-+		page = xa_untag_pointer(entry);
-+		if (xa_pointer_tag(entry) == DPT_XA_TAG_ATOMIC)
-+			return -EPERM;
-+	}
-+
-+	return 0;
-+}
-+
-+static int dmirror_atomic_map(unsigned long start, unsigned long end,
-+			      struct page **pages, struct dmirror *dmirror)
-+{
-+	unsigned long pfn, mapped = 0;
-+	int i;
-+
-+	/* Map the migrated pages into the device's page tables. */
-+	mutex_lock(&dmirror->mutex);
-+
-+	for (i = 0, pfn = start >> PAGE_SHIFT; pfn < (end >> PAGE_SHIFT); pfn++, i++) {
-+		void *entry;
-+
-+		if (!pages[i])
-+			continue;
-+
-+		entry = pages[i];
-+		entry = xa_tag_pointer(entry, DPT_XA_TAG_ATOMIC);
-+		entry = xa_store(&dmirror->pt, pfn, entry, GFP_ATOMIC);
-+		if (xa_is_err(entry)) {
-+			mutex_unlock(&dmirror->mutex);
-+			return xa_err(entry);
-+		}
-+
-+		mapped++;
-+	}
-+
-+	mutex_unlock(&dmirror->mutex);
-+	return mapped;
-+}
-+
- static int dmirror_migrate_finalize_and_map(struct migrate_vma *args,
- 					    struct dmirror *dmirror)
- {
-@@ -661,6 +711,71 @@ static int dmirror_migrate_finalize_and_map(struct migrate_vma *args,
- 	return 0;
- }
- 
-+static int dmirror_exclusive(struct dmirror *dmirror,
-+			     struct hmm_dmirror_cmd *cmd)
-+{
-+	unsigned long start, end, addr;
-+	unsigned long size = cmd->npages << PAGE_SHIFT;
-+	struct mm_struct *mm = dmirror->notifier.mm;
-+	struct page *pages[64];
-+	struct dmirror_bounce bounce;
-+	unsigned long next;
-+	int ret;
-+
-+	start = cmd->addr;
-+	end = start + size;
-+	if (end < start)
-+		return -EINVAL;
-+
-+	/* Since the mm is for the mirrored process, get a reference first. */
-+	if (!mmget_not_zero(mm))
-+		return -EINVAL;
-+
-+	mmap_read_lock(mm);
-+	for (addr = start; addr < end; addr = next) {
-+		int i, mapped;
-+
-+		if (end < addr + (64 << PAGE_SHIFT))
-+			next = end;
-+		else
-+			next = addr + (64 << PAGE_SHIFT);
-+
-+		ret = hmm_exclusive_range(mm, addr, next, pages);
-+		mapped = dmirror_atomic_map(addr, next, pages, dmirror);
-+		for (i = 0; i < ret; i++) {
-+			if (pages[i]) {
-+				unlock_page(pages[i]);
-+				put_page(pages[i]);
-+			}
-+		}
-+
-+		if (addr + (mapped << PAGE_SHIFT) < next) {
-+			mmap_read_unlock(mm);
-+			mmput(mm);
-+			return -EBUSY;
-+		}
-+	}
-+	mmap_read_unlock(mm);
-+	mmput(mm);
-+
-+	/* Return the migrated data for verification. */
-+	ret = dmirror_bounce_init(&bounce, start, size);
++	ret = mmu_interval_notifier_insert(&notifier->notifier, mm,
++					args->p.addr, args->p.size,
++					&nouveau_svm_mni_ops);
 +	if (ret)
 +		return ret;
-+	mutex_lock(&dmirror->mutex);
-+	ret = dmirror_do_read(dmirror, start, end, &bounce);
-+	mutex_unlock(&dmirror->mutex);
-+	if (ret == 0) {
-+		if (copy_to_user(u64_to_user_ptr(cmd->ptr), bounce.ptr,
-+				 bounce.size))
-+			ret = -EFAULT;
-+	}
 +
-+	cmd->cpages = bounce.cpages;
-+	dmirror_bounce_fini(&bounce);
-+	return ret;
-+}
++	range.start = notifier->notifier.interval_tree.start;
++	range.end = notifier->notifier.interval_tree.last + 1;
 +
- static int dmirror_migrate(struct dmirror *dmirror,
- 			   struct hmm_dmirror_cmd *cmd)
- {
-@@ -949,6 +1064,15 @@ static long dmirror_fops_unlocked_ioctl(struct file *filp,
- 		ret = dmirror_migrate(dmirror, &cmd);
- 		break;
+ 	while (true) {
+-		if (time_after(jiffies, timeout))
+-			return -EBUSY;
++		if (time_after(jiffies, timeout)) {
++			ret = -EBUSY;
++			goto out;
++		}
  
-+	case HMM_DMIRROR_EXCLUSIVE:
-+		ret = dmirror_exclusive(dmirror, &cmd);
-+		break;
-+
-+	case HMM_DMIRROR_CHECK_EXCLUSIVE:
-+		ret = dmirror_check_atomic(dmirror, cmd.addr,
-+					cmd.addr + (cmd.npages << PAGE_SHIFT));
-+		break;
-+
- 	case HMM_DMIRROR_SNAPSHOT:
- 		ret = dmirror_snapshot(dmirror, &cmd);
- 		break;
-diff --git a/lib/test_hmm_uapi.h b/lib/test_hmm_uapi.h
-index 670b4ef2a5b6..f14dea5dcd06 100644
---- a/lib/test_hmm_uapi.h
-+++ b/lib/test_hmm_uapi.h
-@@ -33,6 +33,8 @@ struct hmm_dmirror_cmd {
- #define HMM_DMIRROR_WRITE		_IOWR('H', 0x01, struct hmm_dmirror_cmd)
- #define HMM_DMIRROR_MIGRATE		_IOWR('H', 0x02, struct hmm_dmirror_cmd)
- #define HMM_DMIRROR_SNAPSHOT		_IOWR('H', 0x03, struct hmm_dmirror_cmd)
-+#define HMM_DMIRROR_EXCLUSIVE		_IOWR('H', 0x04, struct hmm_dmirror_cmd)
-+#define HMM_DMIRROR_CHECK_EXCLUSIVE	_IOWR('H', 0x05, struct hmm_dmirror_cmd)
+ 		range.notifier_seq = mmu_interval_read_begin(range.notifier);
+ 		mmap_read_lock(mm);
+@@ -587,7 +596,7 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
+ 		if (ret) {
+ 			if (ret == -EBUSY)
+ 				continue;
+-			return ret;
++			goto out;
+ 		}
  
- /*
-  * Values returned in hmm_dmirror_cmd.ptr for HMM_DMIRROR_SNAPSHOT.
-diff --git a/tools/testing/selftests/vm/hmm-tests.c b/tools/testing/selftests/vm/hmm-tests.c
-index 5d1ac691b9f4..5d3c5db9ed3a 100644
---- a/tools/testing/selftests/vm/hmm-tests.c
-+++ b/tools/testing/selftests/vm/hmm-tests.c
-@@ -1485,4 +1485,223 @@ TEST_F(hmm2, double_map)
- 	hmm_buffer_free(buffer);
+ 		mutex_lock(&svmm->mutex);
+@@ -606,6 +615,9 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
+ 	svmm->vmm->vmm.object.client->super = false;
+ 	mutex_unlock(&svmm->mutex);
+ 
++out:
++	mmu_interval_notifier_remove(&notifier->notifier);
++
+ 	return ret;
  }
  
-+/*
-+ * Basic check of exclusive faulting.
-+ */
-+TEST_F(hmm, exclusive)
-+{
-+	struct hmm_buffer *buffer;
-+	unsigned long npages;
-+	unsigned long size;
-+	unsigned long i;
-+	int *ptr;
-+	int ret;
-+
-+	npages = ALIGN(HMM_BUFFER_SIZE, self->page_size) >> self->page_shift;
-+	ASSERT_NE(npages, 0);
-+	size = npages << self->page_shift;
-+
-+	buffer = malloc(sizeof(*buffer));
-+	ASSERT_NE(buffer, NULL);
-+
-+	buffer->fd = -1;
-+	buffer->size = size;
-+	buffer->mirror = malloc(size);
-+	ASSERT_NE(buffer->mirror, NULL);
-+
-+	buffer->ptr = mmap(NULL, size,
-+			   PROT_READ | PROT_WRITE,
-+			   MAP_PRIVATE | MAP_ANONYMOUS,
-+			   buffer->fd, 0);
-+	ASSERT_NE(buffer->ptr, MAP_FAILED);
-+
-+	/* Initialize buffer in system memory. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Map memory exclusively for device access. */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_EXCLUSIVE, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+
-+	/* Check what the device read. */
-+	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i], i);
-+
-+	/* Fault pages back to system memory and check them. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i]++, i);
-+
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i], i+1);
-+
-+	/* Check atomic access revoked */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_CHECK_EXCLUSIVE, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+
-+	hmm_buffer_free(buffer);
-+}
-+
-+TEST_F(hmm, exclusive_shared)
-+{
-+	struct hmm_buffer *buffer;
-+	unsigned long npages;
-+	unsigned long size;
-+	int *ptr;
-+	int ret, i;
-+
-+	npages = ALIGN(HMM_BUFFER_SIZE, self->page_size) >> self->page_shift;
-+	ASSERT_NE(npages, 0);
-+	size = npages << self->page_shift;
-+
-+	buffer = malloc(sizeof(*buffer));
-+	ASSERT_NE(buffer, NULL);
-+
-+	buffer->fd = -1;
-+	buffer->size = size;
-+	buffer->mirror = malloc(size);
-+	ASSERT_NE(buffer->mirror, NULL);
-+
-+	buffer->ptr = mmap(NULL, size,
-+			   PROT_READ | PROT_WRITE,
-+			   MAP_SHARED | MAP_ANONYMOUS,
-+			   buffer->fd, 0);
-+	ASSERT_NE(buffer->ptr, MAP_FAILED);
-+
-+	/* Initialize buffer in system memory. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Map memory exclusively for device access. */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_EXCLUSIVE, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+
-+	/* Check what the device read. */
-+	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i], i);
-+
-+	/* Fault pages back to system memory and check them. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i]++, i);
-+
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i], i+1);
-+
-+	/* Check atomic access revoked */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_CHECK_EXCLUSIVE, buffer, npages);
-+	ASSERT_FALSE(ret);
-+
-+	/* Map memory exclusively for device access again to check process tear down */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_EXCLUSIVE, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+
-+	hmm_buffer_free(buffer);
-+}
-+
-+/*
-+ * Same as above but for shared anonymous memory.
-+ */
-+TEST_F(hmm, exclusive_mprotect)
-+{
-+	struct hmm_buffer *buffer;
-+	unsigned long npages;
-+	unsigned long size;
-+	unsigned long i;
-+	int *ptr;
-+	int ret;
-+
-+	npages = ALIGN(HMM_BUFFER_SIZE, self->page_size) >> self->page_shift;
-+	ASSERT_NE(npages, 0);
-+	size = npages << self->page_shift;
-+
-+	buffer = malloc(sizeof(*buffer));
-+	ASSERT_NE(buffer, NULL);
-+
-+	buffer->fd = -1;
-+	buffer->size = size;
-+	buffer->mirror = malloc(size);
-+	ASSERT_NE(buffer->mirror, NULL);
-+
-+	buffer->ptr = mmap(NULL, size,
-+			   PROT_READ | PROT_WRITE,
-+			   MAP_PRIVATE | MAP_ANONYMOUS,
-+			   buffer->fd, 0);
-+	ASSERT_NE(buffer->ptr, MAP_FAILED);
-+
-+	/* Initialize buffer in system memory. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Map memory exclusively for device access. */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_EXCLUSIVE, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+
-+	/* Check what the device read. */
-+	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i], i);
-+
-+	ret = mprotect(buffer->ptr, size, PROT_READ);
-+	ASSERT_EQ(ret, 0);
-+
-+	/* Simulate a device writing system memory. */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_WRITE, buffer, npages);
-+	ASSERT_EQ(ret, -EPERM);
-+
-+	hmm_buffer_free(buffer);
-+}
-+
-+/*
-+ * Check copy-on-write works.
-+ */
-+TEST_F(hmm, exclusive_cow)
-+{
-+	struct hmm_buffer *buffer;
-+	unsigned long npages;
-+	unsigned long size;
-+	unsigned long i;
-+	int *ptr;
-+	int ret;
-+
-+	npages = ALIGN(HMM_BUFFER_SIZE, self->page_size) >> self->page_shift;
-+	ASSERT_NE(npages, 0);
-+	size = npages << self->page_shift;
-+
-+	buffer = malloc(sizeof(*buffer));
-+	ASSERT_NE(buffer, NULL);
-+
-+	buffer->fd = -1;
-+	buffer->size = size;
-+	buffer->mirror = malloc(size);
-+	ASSERT_NE(buffer->mirror, NULL);
-+
-+	buffer->ptr = mmap(NULL, size,
-+			   PROT_READ | PROT_WRITE,
-+			   MAP_PRIVATE | MAP_ANONYMOUS,
-+			   buffer->fd, 0);
-+	ASSERT_NE(buffer->ptr, MAP_FAILED);
-+
-+	/* Initialize buffer in system memory. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Map memory exclusively for device access. */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_EXCLUSIVE, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+
-+	fork();
-+
-+	/* Fault pages back to system memory and check them. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i]++, i);
-+
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i], i+1);
-+
-+	hmm_buffer_free(buffer);
-+}
-+
- TEST_HARNESS_MAIN
+@@ -727,14 +739,8 @@ nouveau_svm_fault(struct nvif_notify *notify)
+ 		}
+ 
+ 		notifier.svmm = svmm;
+-		ret = mmu_interval_notifier_insert(&notifier.notifier, mm,
+-						   args.i.p.addr, args.i.p.size,
+-						   &nouveau_svm_mni_ops);
+-		if (!ret) {
+-			ret = nouveau_range_fault(svmm, svm->drm, &args.i,
+-				sizeof(args), hmm_flags, &notifier);
+-			mmu_interval_notifier_remove(&notifier.notifier);
+-		}
++		ret = nouveau_range_fault(svmm, svm->drm, &args.i,
++					sizeof(args), hmm_flags, &notifier);
+ 		mmput(mm);
+ 
+ 		limit = args.i.p.addr + args.i.p.size;
 -- 
 2.20.1
 
