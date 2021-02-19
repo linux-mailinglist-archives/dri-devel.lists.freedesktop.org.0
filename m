@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41AEE31F7FB
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 12:13:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E61131F7FC
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 12:13:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 706DB6EAD7;
-	Fri, 19 Feb 2021 11:12:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 608776EAD9;
+	Fri, 19 Feb 2021 11:13:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6256D6EAD7
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 11:12:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6B246EAD9
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 11:13:16 +0000 (UTC)
 Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi
  [91.157.208.71])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0F7D344;
- Fri, 19 Feb 2021 12:12:54 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C8AC596;
+ Fri, 19 Feb 2021 12:13:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1613733175;
- bh=dR+4n28CUDnxq3iBCzXnNIjvUHkCtumjivd8v1kFkWg=;
+ s=mail; t=1613733195;
+ bh=uH3WAvIbdap0nVIkn2NT9xWZKicFksWQb07aXoR2q/k=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=JA/lTV4Gn4jK92B42MPucoE7AjB8/hr2XMZqmksm5lHQREOcy9hofdlAziCddlOnc
- gbXz3BAvkq91BxmiEhJ/Sbwj78oe7jqQiZTuVTCZxdgyFeJjUVSukDtwMwgODSD/aa
- OUtoeMrTIgLVjfXwXfMiVu0SzK5pJlbs2tCu490E=
-Subject: Re: [PATCH 2/5] drm/omap: hdmi4: switch to the cec bridge ops
+ b=EhI3XQiP1TnpmacoNwwfpMIaFNOAQJMWn4++TZFAk2WctpUhBUC7o7bIhqPpd5Rfs
+ 9ZEwVja/A/kdk2rF1gav6rQzJZ3AWnUboDz6XcwlMMtpYPEh3AYH/K2Hwzo1rN+emV
+ owtrrpTHLhsdq2aMQbrV2kCzTqZ6Y3RfyFlG+xYQ=
+Subject: Re: [PATCH 3/5] drm/omap: hdmi4: simplify CEC Phys Addr handling
 To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org
 References: <20210211103703.444625-1-hverkuil-cisco@xs4all.nl>
- <20210211103703.444625-3-hverkuil-cisco@xs4all.nl>
+ <20210211103703.444625-4-hverkuil-cisco@xs4all.nl>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  mQINBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -72,12 +72,12 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-Message-ID: <429021f9-3f28-1150-e241-7529842f539b@ideasonboard.com>
-Date: Fri, 19 Feb 2021 13:12:54 +0200
+Message-ID: <0cb48dce-7878-fbd4-016b-ea9dca7ab9d3@ideasonboard.com>
+Date: Fri, 19 Feb 2021 13:13:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210211103703.444625-3-hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20210211103703.444625-4-hverkuil-cisco@xs4all.nl>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,31 +91,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, linux-omap@vger.kernel.org,
- Sekhar Nori <nsekhar@ti.com>,
+Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
+ dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+ linux-omap@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/02/2021 12:37, Hans Verkuil wrote:
-> Implement the new CEC bridge ops. This makes it possible to associate
-> a CEC adapter with a drm connector, which helps userspace determine
-> with cec device node belongs to which drm connector.
+> Switch to using cec_s_phys_addr_from_edid() instead of a two-step process
+> of calling cec_get_edid_phys_addr() followed by cec_s_phys_addr().
 > 
 > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
->  drivers/gpu/drm/omapdrm/dss/hdmi4.c     | 28 +++++++++++++++++--------
->  drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c |  8 ++++---
->  drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h |  7 ++++---
->  3 files changed, 28 insertions(+), 15 deletions(-)
+>  drivers/gpu/drm/omapdrm/dss/hdmi4.c     | 13 ++-----------
+>  drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c |  4 ++--
+>  drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h |  5 +++--
+>  3 files changed, 7 insertions(+), 15 deletions(-)
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
  Tomi
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
