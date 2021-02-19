@@ -1,62 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5248D31FC7A
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 16:58:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62ACB31FD09
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 17:21:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C37B6EB47;
-	Fri, 19 Feb 2021 15:58:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 362236EB6E;
+	Fri, 19 Feb 2021 16:21:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 685336EB41;
- Fri, 19 Feb 2021 15:58:00 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id x16so7471269wmk.3;
- Fri, 19 Feb 2021 07:58:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qMZ4T/DWgmeoiwup80mZoXSNYYDssI+UdcXH8JaCWFU=;
- b=gvKI2fsce65EeRVFAWAo8HjQN6wcirq5oyrYGiOhmQRNbbyqgvXPQ1WTJxGqlq/QQL
- SkPpDKcERkv3OV8sVlY78p0zTuKWbqS+pv9f0k1FyEmExvZljCMQX95T5AoHC4XsFQCP
- RWSyKguizmQIoIofZJbi/MMIC6AWkMGzAJf5dwUn4TEhlxQjR9Dyy5bOy8zvDrRFkPAB
- FH/I3APeuqxe3DEXgMxImDGwvOCQ6dLQNdbzBYwOnD84Ci2lBrM2hCEfwQZv3xx0v/ah
- 9EB3t5tVgj3Ty/PjT5THSd1cuhpCrTJEMf19INPyJO/s9GhgbCRLqtHG5tS2nPHWtSz1
- dGHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qMZ4T/DWgmeoiwup80mZoXSNYYDssI+UdcXH8JaCWFU=;
- b=X+d/MvoB9YE7g5oeQv9BCAyf7m9sb3ckyGqPy2gc1HP3rBy2AeN6RN80XWAUJLGYhK
- /gJdoHc488a65XRYxODG5H8onD8G/N1idwIC1M+rtWhY79M72sxZG1LzuM3ZF3vjXVrn
- XBnb4o21ZhzXhVIx5/kZBt/xsa/aY+bZdQhFlfGZel8GBqoh0KOkIBnHHL/Jg4Q5S3py
- zYaxRiU4hPbnImcrX+8M9K5qFQkxO72zSpUy0WydaFt2YQAzv7ciTpNmaTVzlBrWn/fO
- CXE/D1uJZkdcZLlhTqINQDUODTen3pA0NyVbYUEyoYEc3apvxElDkYpfvcxQ1saSUIOz
- Spkg==
-X-Gm-Message-State: AOAM530HT/QWfFqhPRyaGbHRCWXdko14r+XW7nfCEQa1Wq9cn65Zhz6E
- +ttUozM8JIeGAFquEOAL786TDK3VciolcpQVYHs=
-X-Google-Smtp-Source: ABdhPJx0b9vc8OK17qJny+577I/OC7tIUQWMCjpVdGoSm/+OGT5pJYnoBA03KMmt6U3TRcT9OT9dhTJVxfSI8t34PKw=
-X-Received: by 2002:a05:600c:21ca:: with SMTP id
- x10mr9067662wmj.94.1613750278833; 
- Fri, 19 Feb 2021 07:57:58 -0800 (PST)
-MIME-Version: 1.0
-References: <20210216200909.19039-1-jonathan@marek.ca>
- <CAF6AEGv53nnzqMgTfSA6t2YpHx1dDW8UqnH9Gw0w3p8bf0mTLw@mail.gmail.com>
- <775436ba-c94a-ab22-d65b-b2391047ec65@codeaurora.org>
- <20210217190820.GA2229@jcrouse1-lnx.qualcomm.com>
- <CAF6AEGsHws23ozeJ8G23LFQ8J=CVVrx5xvkSgBuE_uSwT4YurQ@mail.gmail.com>
- <74d1277e-295f-0996-91c3-05cfce8d3a0e@marek.ca>
- <e4b62857-bd4d-cca6-0d6b-b9cc960b52a2@codeaurora.org>
- <CAF6AEGsWCrkOgMVxnx53k8b_o7xy3KWv9VaNRoY44+4GfXtWdg@mail.gmail.com>
- <757b557a-b5f6-6018-caa4-34bffb1b60b7@codeaurora.org>
-In-Reply-To: <757b557a-b5f6-6018-caa4-34bffb1b60b7@codeaurora.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 19 Feb 2021 08:00:53 -0800
-Message-ID: <CAF6AEGv-A5=4z7ZO-SytmivZTfKPYxhAjmRLVsQnrT7_pYCDtQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/a6xx: fix for kernels without CONFIG_NVMEM
-To: Akhil P Oommen <akhilpo@codeaurora.org>
+Received: from z11.mailgun.us (z11.mailgun.us [104.130.96.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 601D56EB3C
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 14:08:21 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1613743703; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=4cnRCgniJA9Bd01zeYFC5LHfdofOswKtoK/8p/Q/Oig=;
+ b=mAZnDwwdENm6P+3fib3SahY30s48OQizzIjZfTlRmk1gmRnLMTkmPhtxdE38m/jz7a+QLbzT
+ umQ02/WgCObBWauj/eBuhqanS2prHX0ICm3W51dXfGA+KrDUkeGM1HSeH7rMtBfc8vyiGsV+
+ vnyf55uzEr25vYGHo7FkZhgNlps=
+X-Mailgun-Sending-Ip: 104.130.96.11
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 602fc6487237f827dc3a7997 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 19 Feb 2021 14:08:08
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id F33A9C433CA; Fri, 19 Feb 2021 14:08:07 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+Received: from kgunda-linux.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: kgunda)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 1C612C433CA;
+ Fri, 19 Feb 2021 14:08:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1C612C433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=kgunda@codeaurora.org
+From: Kiran Gunda <kgunda@codeaurora.org>
+To: bjorn.andersson@linaro.org, jingoohan1@gmail.com, lee.jones@linaro.org,
+ b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+ daniel.thompson@linaro.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
+ robh+dt@kernel.org, mark.rutland@arm.com, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH V1 0/2] Fix WLED FSC Sync and brightness Sync settings
+Date: Fri, 19 Feb 2021 19:37:37 +0530
+Message-Id: <1613743659-4726-1-git-send-email-kgunda@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+X-Mailman-Approved-At: Fri, 19 Feb 2021 16:21:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,117 +67,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- freedreno <freedreno@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sean Paul <sean@poorly.run>
+Cc: linux-arm-msm@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 19, 2021 at 2:44 AM Akhil P Oommen <akhilpo@codeaurora.org> wrote:
->
-> On 2/18/2021 9:41 PM, Rob Clark wrote:
-> > On Thu, Feb 18, 2021 at 4:28 AM Akhil P Oommen <akhilpo@codeaurora.org> wrote:
-> >>
-> >> On 2/18/2021 2:05 AM, Jonathan Marek wrote:
-> >>> On 2/17/21 3:18 PM, Rob Clark wrote:
-> >>>> On Wed, Feb 17, 2021 at 11:08 AM Jordan Crouse
-> >>>> <jcrouse@codeaurora.org> wrote:
-> >>>>>
-> >>>>> On Wed, Feb 17, 2021 at 07:14:16PM +0530, Akhil P Oommen wrote:
-> >>>>>> On 2/17/2021 8:36 AM, Rob Clark wrote:
-> >>>>>>> On Tue, Feb 16, 2021 at 12:10 PM Jonathan Marek <jonathan@marek.ca>
-> >>>>>>> wrote:
-> >>>>>>>>
-> >>>>>>>> Ignore nvmem_cell_get() EOPNOTSUPP error in the same way as a
-> >>>>>>>> ENOENT error,
-> >>>>>>>> to fix the case where the kernel was compiled without CONFIG_NVMEM.
-> >>>>>>>>
-> >>>>>>>> Fixes: fe7952c629da ("drm/msm: Add speed-bin support to a618 gpu")
-> >>>>>>>> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> >>>>>>>> ---
-> >>>>>>>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 6 +++---
-> >>>>>>>>    1 file changed, 3 insertions(+), 3 deletions(-)
-> >>>>>>>>
-> >>>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >>>>>>>> b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >>>>>>>> index ba8e9d3cf0fe..7fe5d97606aa 100644
-> >>>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >>>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >>>>>>>> @@ -1356,10 +1356,10 @@ static int a6xx_set_supported_hw(struct
-> >>>>>>>> device *dev, struct a6xx_gpu *a6xx_gpu,
-> >>>>>>>>
-> >>>>>>>>           cell = nvmem_cell_get(dev, "speed_bin");
-> >>>>>>>>           /*
-> >>>>>>>> -        * -ENOENT means that the platform doesn't support
-> >>>>>>>> speedbin which is
-> >>>>>>>> -        * fine
-> >>>>>>>> +        * -ENOENT means no speed bin in device tree,
-> >>>>>>>> +        * -EOPNOTSUPP means kernel was built without CONFIG_NVMEM
-> >>>>>>>
-> >>>>>>> very minor nit, it would be nice to at least preserve the gist of the
-> >>>>>>> "which is fine" (ie. some variation of "this is an optional thing and
-> >>>>>>> things won't catch fire without it" ;-))
-> >>>>>>>
-> >>>>>>> (which is, I believe, is true, hopefully Akhil could confirm.. if not
-> >>>>>>> we should have a harder dependency on CONFIG_NVMEM..)
-> >>>>>> IIRC, if the gpu opp table in the DT uses the 'opp-supported-hw'
-> >>>>>> property,
-> >>>>>> we will see some error during boot up if we don't call
-> >>>>>> dev_pm_opp_set_supported_hw(). So calling "nvmem_cell_get(dev,
-> >>>>>> "speed_bin")"
-> >>>>>> is a way to test this.
-> >>>>>>
-> >>>>>> If there is no other harm, we can put a hard dependency on
-> >>>>>> CONFIG_NVMEM.
-> >>>>>
-> >>>>> I'm not sure if we want to go this far given the squishiness about
-> >>>>> module
-> >>>>> dependencies. As far as I know we are the only driver that uses this
-> >>>>> seriously
-> >>>>> on QCOM SoCs and this is only needed for certain targets. I don't
-> >>>>> know if we
-> >>>>> want to force every target to build NVMEM and QFPROM on our behalf.
-> >>>>> But maybe
-> >>>>> I'm just saying that because Kconfig dependencies tend to break my
-> >>>>> brain (and
-> >>>>> then Arnd has to send a patch to fix it).
-> >>>>>
-> >>>>
-> >>>> Hmm, good point.. looks like CONFIG_NVMEM itself doesn't have any
-> >>>> other dependencies, so I suppose it wouldn't be the end of the world
-> >>>> to select that.. but I guess we don't want to require QFPROM
-> >>>>
-> >>>> I guess at the end of the day, what is the failure mode if you have a
-> >>>> speed-bin device, but your kernel config misses QFPROM (and possibly
-> >>>> NVMEM)?  If the result is just not having the highest clk rate(s)
-> >>
-> >> Atleast on sc7180's gpu, using an unsupported FMAX breaks gmu. It won't
-> >> be very obvious what went wrong when this happens!
-> >
-> > Ugg, ok..
-> >
-> > I suppose we could select NVMEM, but not QFPROM, and then the case
-> > where QFPROM is not enabled on platforms that have the speed-bin field
-> > in DT will fail gracefully and all other platforms would continue on
-> > happily?
-> >
-> > BR,
-> > -R
->
-> Sounds good to me.
->
+The FSC (Full scale current) setting is not updated properly due to the
+wrong register toggling for WLED5. Also the ILED_SYNC toggle and MOD_SYNC
+toggle sequence is updated as per the hardware team recommendation to fix
+the FSC update and brightness update issue.
 
-You probably should do a quick test with NVMEM enabled but QFPROM
-disabled to confirm my theory, but I *think* that should work
+Kiran Gunda (2):
+  backlight: qcom-wled: Fix FSC update issue for WLED5
+  backlight: qcom-wled: Correct the sync_toggle sequence
 
-BR,
--R
+ drivers/video/backlight/qcom-wled.c | 37 +++++++++++++++++++++++++------------
+ 1 file changed, 25 insertions(+), 12 deletions(-)
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+ a Linux Foundation Collaborative Project
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
