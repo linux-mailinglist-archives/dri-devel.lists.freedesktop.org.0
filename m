@@ -2,55 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 136BA31F6B8
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 10:47:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A02F131F6EB
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 11:00:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 659FB6E8AE;
-	Fri, 19 Feb 2021 09:47:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 147106E8B2;
+	Fri, 19 Feb 2021 10:00:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC9016E8AE
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 09:47:31 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 8A1DA64ED9
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 09:47:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1613728051;
- bh=TouejTwURb2Av/NzVOvLjjZ9g38RSxG+PlQiAcvsC4E=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=QKVUnJfpT4qzUbk/eCxMiY5YF0lB8mn6jDH/FU54CAaTND6wpZKU1NJj4qH+sIlit
- 5k8Z5FzA3puHz/VmELqXrcEgUvtvfBEFRrcIOoncKd4EdNsdqaVSausTnvwMwBLq7m
- 12u7ZT8CC8xHpICyCOlJGboK/iq/aix7ntEFkM1EK2YfKaOa274Bfjp3Z5v1iCfN8z
- 0nbz8bmfzsmwdBynlG5V0+eML/DX2/IDm5hGZDZS0N9gjhrCOHOVgdhNzpWlLKbx45
- 8TSlmA0sSj1nTvLQU4BpwSVY8TgkY2KbGJPbVgQFpcpL3WSOC0071ShoXEeaJ8sz2q
- 1Jmjx0teHusZg==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 86CE565332; Fri, 19 Feb 2021 09:47:31 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201497] [amdgpu]: '*ERROR* No EDID read' is back in 4.19
-Date: Fri, 19 Feb 2021 09:47:30 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: chriskoch@goldmail.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-201497-2300-309EpmA1BA@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201497-2300@https.bugzilla.kernel.org/>
-References: <bug-201497-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EEF336E8B2
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 09:54:21 +0000 (UTC)
+X-UUID: baf63ebbd570474fbaa89de3927c176e-20210219
+X-UUID: baf63ebbd570474fbaa89de3927c176e-20210219
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <yongqiang.niu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
+ ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 683906767; Fri, 19 Feb 2021 17:54:16 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 19 Feb 2021 17:54:15 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 19 Feb 2021 17:54:15 +0800
+From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>
+Subject: [PATCH v1] move page flip handle into cmdq cb
+Date: Fri, 19 Feb 2021 17:54:11 +0800
+Message-ID: <1613728452-24871-1-git-send-email-yongqiang.niu@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
 MIME-Version: 1.0
+X-MTK: N
+X-Mailman-Approved-At: Fri, 19 Feb 2021 10:00:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,25 +46,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=201497
+irq callback will before cmdq flush ddp register
+into hardware, that will cause the display frame page
+flip event before it realy display out time
 
---- Comment #23 from chriskoch@goldmail.de ---
-Update:
-We are now at Kernel 5.11 and this problem is still not fixed. I am stuck at
-5.8 + manually entering the EDID on startup.
-When 5.8 gets too outdated for me, I will buy a new monitor. I guess we cannot
-expect any fix after almost 3 years.
+
+Yongqiang Niu (1):
+  CHROMIUM: drm/mediatek: move page flip handle into cmdq cb
+
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 33 +++++++++++++++++++++++++++++----
+ 1 file changed, 29 insertions(+), 4 deletions(-)
 
 -- 
-You may reply to this email to add a comment.
+1.8.1.1.dirty
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
