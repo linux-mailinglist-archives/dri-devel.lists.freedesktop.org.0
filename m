@@ -1,74 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 403B931F8CC
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 13:01:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61EFA31F8E0
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 13:02:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C89ED6EB1A;
-	Fri, 19 Feb 2021 12:01:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CD336EB08;
+	Fri, 19 Feb 2021 12:02:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
- [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0186EB1A
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 12:01:11 +0000 (UTC)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.west.internal (Postfix) with ESMTP id 30236803;
- Fri, 19 Feb 2021 07:01:09 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Fri, 19 Feb 2021 07:01:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-type:content-transfer-encoding; s=fm2; bh=
- KCoEIq3hXzFEDXTWDHOvgZWOU83J4ZazWlcxgY4hZb8=; b=XTdfsDcu1xOd0B8l
- WNF/LiHKwDHvEPIlMCFysawWKyjzeBpBplIO6HUKEWbX3nVNy4hYjTfl9O+O4qIG
- w2XFLDjqdFOy05i2jynh3LDq8aOF8JbK0+GEvKLImcgXx5gtlN+DJjWow5+ZEBcl
- NFz6ZirPGOT+ySb1Yl9lcfPZVxKIlfnBzHsBw0AB2tcuQ845hKGy6Q7EzD7dKqWY
- CmzPl/co6yNirNXPtMHbY2ZWmDg3lUQlRsoO3bGbicpIKq47XfshPLQYbC/PaZmG
- cejD3SuxUdztTmeMeZgxiQHWjBEleZxHmuMf0741jtD+wPJ6f6LJxAatYSb/Qwii
- XBvOtQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=KCoEIq3hXzFEDXTWDHOvgZWOU83J4ZazWlcxgY4hZ
- b8=; b=j/jaPfjEYwSnvWd675dMNqnSaMxrauZXMYai3Y7J0lFYQgFKNse0zBjKx
- dYqDWK3fWp0SjXOgQMjRRGkMw3Op3nP4s0Gw3AufT9QzJieRcIKi9daoCnhQpfO1
- HBGAwOPxJv/GJlXh63EBAPDV7M/r4g2ADVoq0TWbLeFflj2/BdUydXFPog08qsoD
- bJElkqz4ymfKpvYUmWBfCEoXnj3+Qav6MF/0hIaobqJo9wqMSxFwxOVC/TyCXz5k
- RrZ+hcIuUAPRoctuL0O9sLFZge2georQJQpzfr4zDR2zVAw3W9qeW2wO6+Y7o+yd
- vfBzmWo/uT3gvTzqz5AdWfB01/zqw==
-X-ME-Sender: <xms:hKgvYLPvLgv0gXT_dAB5jeWZdyKNTnRryv80L7cIkRpczeG1BnGcYg>
- <xme:hKgvYByBIc4elxc32fl1wTPXg-vuXL6uSl9H411i2W5why2BNoVng9HIQ86KrEGpX
- 7XanM5a5fpT-xK5sWc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjeeigdefgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
- keeknecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:hKgvYAtFekc3cf9HwA4AbxJ4a7Zl3ARcm5DgeB9CKkMFAGLT2HmZLA>
- <xmx:hKgvYMZMZg0DOJ91y3o_kX6CbCZhtyPGqEaM8wUT_k-iPD1R_6Ru6w>
- <xmx:hKgvYH0Hu0uC3TcdhHaSQXFpga5O2h-RGO_Omg4qFA7Mx1ihOmnUqg>
- <xmx:hKgvYHv-wHfuomdJ6x8_iX0Hbi_6UJXvX0jdieXxlJY3TyXK-_fUtrB0OYA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 71DEC108005C;
- Fri, 19 Feb 2021 07:01:08 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v3 11/11] drm/todo: Remove the drm_atomic_state todo item
-Date: Fri, 19 Feb 2021 13:00:31 +0100
-Message-Id: <20210219120032.260676-11-maxime@cerno.tech>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210219120032.260676-1-maxime@cerno.tech>
-References: <20210219120032.260676-1-maxime@cerno.tech>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 570556EB08
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 12:02:45 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C3C0344;
+ Fri, 19 Feb 2021 13:02:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1613736163;
+ bh=5U/ZjUnFiUHnvU43maG2e5VgUk5poNHV5/Gra6oXEEM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Bvjcf2S88BzayBWdoCDIQ3qOHZBNYX1TNUzwOnYQZmOT8zLJtnkLVjEsrs0dHkBOd
+ uDDHLklv8bU3HS+c4h0tt54YSRKqc36iGY5Lm2w2YxwnE99dMNU0hPUdtk0ogcDscy
+ hLrXvvNEPl6vP5oxKgdGFYkxBRIvPDuyzNk6kIOQ=
+Date: Fri, 19 Feb 2021 14:02:17 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH 1/5] drm: drm_bridge: add cec_init/exit bridge ops
+Message-ID: <YC+oyavcOV0uFJUb@pendragon.ideasonboard.com>
+References: <20210211103703.444625-1-hverkuil-cisco@xs4all.nl>
+ <20210211103703.444625-2-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210211103703.444625-2-hverkuil-cisco@xs4all.nl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,80 +46,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
+ dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ linux-omap@vger.kernel.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T25seSBwbGFuZXMnIHByZXBhcmVfZmIgYW5kIGNsZWFudXBfZmIsIGFuZCBlbmNvZGVycycgYXRv
-bWljX2NoZWNrIGFuZAphdG9taWNfbW9kZV9zZXQgaG9va3MgcmVtYWluIHdpdGggYW4gb2JqZWN0
-IHN0YXRlIGFuZCBub3QgdGhlIGdsb2JhbApkcm1fYXRvbWljX3N0YXRlLgoKcHJlcGFyZV9mYiBh
-bmQgY2xlYW51cF9mYiBvcGVyYXRlIGJ5IGRlc2lnbiBvbiBhIGdpdmVuIHN0YXRlIGFuZApkZXBl
-bmRpbmcgb24gdGhlIGNhbGxpbmcgc2l0ZSBjYW4gb3BlcmF0ZSBvbiBlaXRoZXIgdGhlIG9sZCBv
-ciBuZXcKc3RhdGUsIHNvIGl0IGRvZXNuJ3QgcmVhbGx5IG1ha2UgbXVjaCBzZW5zZSB0byBjb252
-ZXJ0IHRoZW0uCgpUaGUgZW5jb2RlcnMnIGF0b21pY19jaGVjayBhbmQgYXRvbWljX21vZGVfc2V0
-IG9wZXJhdGUgb24gdGhlIENSVEMgYW5kCmNvbm5lY3RvciBzdGF0ZSBjb25uZWN0ZWQgdG8gdGhl
-bSBzaW5jZSBlbmNvZGVycyBkb24ndCBoYXZlIGEgc3RhdGUgb2YKdGhlaXIgb3duLiBXaXRob3V0
-IHRob3NlIHN0YXRlIHBvaW50ZXJzLCB3ZSB3b3VsZCBuZWVkIHRvIGdldCB0aGUgQ1JUQwp0aHJv
-dWdoIHRoZSBkcm1fY29ubmVjdG9yX3N0YXRlIGNydGMgcG9pbnRlci4KCkhvd2V2ZXIsIGluIG9y
-ZGVyIHRvIGdldCB0aGUgZHJtX2Nvbm5lY3Rvcl9zdGF0ZSBwb2ludGVyLCB3ZSB3b3VsZCBuZWVk
-CnRvIGdldCB0aGUgY29ubmVjdG9yIGl0c2VsZiBhbmQgd2hpbGUgdXN1YWxseSB3ZSBoYXZlIGEg
-c2luZ2xlIGNvbm5lY3Rvcgpjb25uZWN0ZWQgdG8gdGhlIGVuY29kZXIsIHdlIGNhbid0IHJlYWxs
-eSBnZXQgaXQgZnJvbSB0aGUgZW5jb2RlciBhdAp0aGUgbW9tZW50IHNpbmNlIGl0IGNvdWxkIGJl
-IGJlaGluZCBhbnkgbnVtYmVyIG9mIGJyaWRnZXMuCgpXaGlsZSB0aGlzIGNvdWxkIGJlIGFkZHJl
-c3NlZCBieSAoZm9yIGV4YW1wbGUpIGxpc3RpbmcgYWxsIHRoZQpjb25uZWN0b3JzIGFuZCBmaW5k
-aW5nIHRoZSBvbmUgdGhhdCBoYXMgdGhlIGVuY29kZXIgYXMgaXRzIHNvdXJjZSwgaXQKZmVlbHMg
-bGlrZSBhbiB1bm5lY2Vzc2FyeSByZXdvcmsgZm9yIHNvbWV0aGluZyB0aGF0IGlzIHNsb3dseSBn
-ZXR0aW5nCnJlcGxhY2VkIGJ5IGJyaWRnZXMuCgpTaW5jZSBhbGwgdGhlIHVzZXJzIHRoYXQgbWF0
-dGVyIGhhdmUgYmVlbiBjb252ZXJ0ZWQsIGxldCdzIHJlbW92ZSB0aGUKVE9ETyBpdGVtLgoKQWNr
-ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+ClNpZ25lZC1vZmYt
-Ynk6IE1heGltZSBSaXBhcmQgPG1heGltZUBjZXJuby50ZWNoPgoKLS0tCgpDaGFuZ2VzIGZyb20g
-djE6CiAgLSBOZXcgcGF0Y2gKLS0tCiBEb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdCB8IDQ2IC0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgNDYg
-ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QgYi9E
-b2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdAppbmRleCBmODcyZDNkMzMyMTguLjA2MzFiOWIzMjNk
-NSAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QKKysrIGIvRG9jdW1lbnRh
-dGlvbi9ncHUvdG9kby5yc3QKQEAgLTQ1OSw1MiArNDU5LDYgQEAgQ29udGFjdDogRW1pbCBWZWxp
-a292LCByZXNwZWN0aXZlIGRyaXZlciBtYWludGFpbmVycwogCiBMZXZlbDogSW50ZXJtZWRpYXRl
-CiAKLVBsdW1iIGRybV9hdG9taWNfc3RhdGUgYWxsIG92ZXIKLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0KLQotQ3VycmVudGx5IHZhcmlvdXMgYXRvbWljIGZ1bmN0aW9ucyB0YWtlIGp1
-c3QgYSBzaW5nbGUgb3IgYSBoYW5kZnVsIG9mCi1vYmplY3Qgc3RhdGVzIChlZy4gcGxhbmUgc3Rh
-dGUpLiBXaGlsZSB0aGF0IHNpbmdsZSBvYmplY3Qgc3RhdGUgY2FuCi1zdWZmaWNlIGZvciBzb21l
-IHNpbXBsZSBjYXNlcywgd2Ugb2Z0ZW4gaGF2ZSB0byBkaWcgb3V0IGFkZGl0aW9uYWwKLW9iamVj
-dCBzdGF0ZXMgZm9yIGRlYWxpbmcgd2l0aCB2YXJpb3VzIGRlcGVuZGVuY2llcyBiZXR3ZWVuIHRo
-ZSBpbmRpdmlkdWFsCi1vYmplY3RzIG9yIHRoZSBoYXJkd2FyZSB0aGV5IHJlcHJlc2VudC4gVGhl
-IHByb2Nlc3Mgb2YgZGlnZ2luZyBvdXQgdGhlCi1hZGRpdGlvbmFsIHN0YXRlcyBpcyByYXRoZXIg
-bm9uLWludHVpdGl2ZSBhbmQgZXJyb3IgcHJvbmUuCi0KLVRvIGZpeCB0aGF0IG1vc3QgZnVuY3Rp
-b25zIHNob3VsZCByYXRoZXIgdGFrZSB0aGUgb3ZlcmFsbAotZHJtX2F0b21pY19zdGF0ZSBhcyBv
-bmUgb2YgdGhlaXIgcGFyYW1ldGVycy4gVGhlIG90aGVyIHBhcmFtZXRlcnMKLXdvdWxkIGdlbmVy
-YWxseSBiZSB0aGUgb2JqZWN0KHMpIHdlIG1haW5seSB3YW50IHRvIGludGVyYWN0IHdpdGguCi0K
-LUZvciBleGFtcGxlLCBpbnN0ZWFkIG9mCi0KLS4uIGNvZGUtYmxvY2s6OiBjCi0KLSAgIGludCAo
-KmF0b21pY19jaGVjaykoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsIHN0cnVjdCBkcm1fcGxhbmVf
-c3RhdGUgKnN0YXRlKTsKLQotd2Ugd291bGQgaGF2ZSBzb21ldGhpbmcgbGlrZQotCi0uLiBjb2Rl
-LWJsb2NrOjogYwotCi0gICBpbnQgKCphdG9taWNfY2hlY2spKHN0cnVjdCBkcm1fcGxhbmUgKnBs
-YW5lLCBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpOwotCi1UaGUgaW1wbGVtZW50YXRp
-b24gY2FuIHRoZW4gdHJpdmlhbGx5IGdhaW4gYWNjZXNzIHRvIGFueSByZXF1aXJlZCBvYmplY3QK
-LXN0YXRlKHMpIHZpYSBkcm1fYXRvbWljX2dldF9wbGFuZV9zdGF0ZSgpLCBkcm1fYXRvbWljX2dl
-dF9uZXdfcGxhbmVfc3RhdGUoKSwKLWRybV9hdG9taWNfZ2V0X29sZF9wbGFuZV9zdGF0ZSgpLCBh
-bmQgdGhlaXIgZXF1aXZhbGVudHMgZm9yCi1vdGhlciBvYmplY3QgdHlwZXMuCi0KLUFkZGl0aW9u
-YWxseSBtYW55IGRyaXZlcnMgY3VycmVudGx5IGFjY2VzcyB0aGUgb2JqZWN0LT5zdGF0ZSBwb2lu
-dGVyCi1kaXJlY3RseSBpbiB0aGVpciBjb21taXQgZnVuY3Rpb25zLiBUaGF0IGlzIG5vdCBnb2lu
-ZyB0byB3b3JrIGlmIHdlCi1lZy4gd2FudCB0byBhbGxvdyBkZWVwZXIgY29tbWl0IHBpcGVsaW5l
-cyBhcyB0aG9zZSBwb2ludGVycyBjb3VsZAotdGhlbiBwb2ludCB0byB0aGUgc3RhdGVzIGNvcnJl
-c3BvbmRpbmcgdG8gYSBmdXR1cmUgY29tbWl0IGluc3RlYWQgb2YKLXRoZSBjdXJyZW50IGNvbW1p
-dCB3ZSdyZSB0cnlpbmcgdG8gcHJvY2Vzcy4gQWxzbyBub24tYmxvY2tpbmcgY29tbWl0cwotZXhl
-Y3V0ZSBsb2NrbGVzc2x5IHNvIHRoZXJlIGFyZSBzZXJpb3VzIGNvbmNlcm5zIHdpdGggZGVyZWZl
-cmVuY2luZwotdGhlIG9iamVjdC0+c3RhdGUgcG9pbnRlcnMgd2l0aG91dCBob2xkaW5nIHRoZSBs
-b2NrcyB0aGF0IHByb3RlY3QgdGhlbS4KLVVzZSBvZiBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVf
-c3RhdGUoKSwgZHJtX2F0b21pY19nZXRfb2xkX3BsYW5lX3N0YXRlKCksCi1ldGMuIGF2b2lkcyB0
-aGVzZSBwcm9ibGVtcyBhcyB3ZWxsIHNpbmNlIHRoZXkgcmVsYXRlIHRvIGEgc3BlY2lmaWMKLWNv
-bW1pdCB2aWEgdGhlIHBhc3NlZCBpbiBkcm1fYXRvbWljX3N0YXRlLgotCi1Db250YWN0OiBWaWxs
-ZSBTeXJqw6Rsw6QsIERhbmllbCBWZXR0ZXIKLQotTGV2ZWw6IEludGVybWVkaWF0ZQotCiBVc2Ug
-c3RydWN0IGRtYV9idWZfbWFwIHRocm91Z2hvdXQgY29kZWJhc2UKIC0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogCi0tIAoyLjI5LjIKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Hans,
+
+Thank you for the patch.
+
+On Thu, Feb 11, 2021 at 11:36:59AM +0100, Hans Verkuil wrote:
+> Add bridge cec_init/exit ops. These ops will be responsible for
+> creating and destroying the CEC adapter for the bridge that supports
+> CEC.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>  drivers/gpu/drm/drm_bridge_connector.c | 23 +++++++++++++++++++
+>  include/drm/drm_bridge.h               | 31 ++++++++++++++++++++++++++
+>  2 files changed, 54 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+> index 791379816837..2ff90f5e468c 100644
+> --- a/drivers/gpu/drm/drm_bridge_connector.c
+> +++ b/drivers/gpu/drm/drm_bridge_connector.c
+> @@ -84,6 +84,13 @@ struct drm_bridge_connector {
+>  	 * connector modes detection, if any (see &DRM_BRIDGE_OP_MODES).
+>  	 */
+>  	struct drm_bridge *bridge_modes;
+> +	/**
+> +	 * @bridge_cec:
+> +	 *
+> +	 * The last bridge in the chain (closest to the connector) that provides
+> +	 * cec adapter support, if any (see &DRM_BRIDGE_OP_CEC).
+> +	 */
+> +	struct drm_bridge *bridge_cec;
+>  };
+>  
+>  #define to_drm_bridge_connector(x) \
+> @@ -204,6 +211,11 @@ static void drm_bridge_connector_destroy(struct drm_connector *connector)
+>  	struct drm_bridge_connector *bridge_connector =
+>  		to_drm_bridge_connector(connector);
+>  
+> +	if (bridge_connector->bridge_cec) {
+> +		struct drm_bridge *cec = bridge_connector->bridge_cec;
+> +
+> +		cec->funcs->cec_exit(cec);
+> +	}
+>  	if (bridge_connector->bridge_hpd) {
+>  		struct drm_bridge *hpd = bridge_connector->bridge_hpd;
+>  
+> @@ -352,6 +364,8 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+>  			bridge_connector->bridge_detect = bridge;
+>  		if (bridge->ops & DRM_BRIDGE_OP_MODES)
+>  			bridge_connector->bridge_modes = bridge;
+> +		if (bridge->ops & DRM_BRIDGE_OP_CEC)
+> +			bridge_connector->bridge_cec = bridge;
+>  
+>  		if (!drm_bridge_get_next_bridge(bridge))
+>  			connector_type = bridge->type;
+> @@ -374,6 +388,15 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+>  	else if (bridge_connector->bridge_detect)
+>  		connector->polled = DRM_CONNECTOR_POLL_CONNECT
+>  				  | DRM_CONNECTOR_POLL_DISCONNECT;
+> +	if (bridge_connector->bridge_cec) {
+> +		struct drm_bridge *bridge = bridge_connector->bridge_cec;
+> +		int ret = bridge->funcs->cec_init(bridge, connector);
+> +
+> +		if (ret) {
+> +			drm_bridge_connector_destroy(connector);
+> +			return ERR_PTR(ret);
+> +		}
+> +	}
+>  
+>  	return connector;
+>  }
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 2195daa289d2..4c83c2657e87 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -629,6 +629,30 @@ struct drm_bridge_funcs {
+>  	 * the DRM_BRIDGE_OP_HPD flag in their &drm_bridge->ops.
+>  	 */
+>  	void (*hpd_disable)(struct drm_bridge *bridge);
+> +
+> +	/**
+> +	 * @cec_init:
+> +	 *
+> +	 * Initialize the CEC adapter.
+> +	 *
+> +	 * This callback is optional and shall only be implemented by bridges
+> +	 * that support a CEC adapter. Bridges that implement it shall also
+> +	 * implement the @cec_exit callback and set the DRM_BRIDGE_OP_CEC flag
+> +	 * in their &drm_bridge->ops.
+> +	 */
+> +	int (*cec_init)(struct drm_bridge *bridge, struct drm_connector *conn);
+> +
+> +	/**
+> +	 * @cec_exit:
+> +	 *
+> +	 * Terminate the CEC adapter.
+> +	 *
+> +	 * This callback is optional and shall only be implemented by bridges
+> +	 * that support a CEC adapter. Bridges that implement it shall also
+> +	 * implement the @cec_init callback and set the DRM_BRIDGE_OP_CEC flag
+> +	 * in their &drm_bridge->ops.
+> +	 */
+> +	void (*cec_exit)(struct drm_bridge *bridge);
+
+These are very ad-hoc operations. Would it make sense to have something
+that could also be reused for other type of intiialization and cleanup
+that require access to the drm_connector ?
+
+>  };
+>  
+>  /**
+> @@ -698,6 +722,13 @@ enum drm_bridge_ops {
+>  	 * this flag shall implement the &drm_bridge_funcs->get_modes callback.
+>  	 */
+>  	DRM_BRIDGE_OP_MODES = BIT(3),
+> +	/**
+> +	 * @DRM_BRIDGE_OP_CEC: The bridge supports a CEC adapter.
+> +	 * Bridges that set this flag shall implement the
+> +	 * &drm_bridge_funcs->cec_init and &drm_bridge_funcs->cec_exit
+> +	 * callbacks.
+> +	 */
+> +	DRM_BRIDGE_OP_CEC = BIT(4),
+>  };
+>  
+>  /**
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
