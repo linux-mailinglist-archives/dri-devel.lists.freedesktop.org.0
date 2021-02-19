@@ -1,42 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E656D31F9F7
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 14:35:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 072D431FA02
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 14:40:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC7E489E08;
-	Fri, 19 Feb 2021 13:35:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA07B6EB2D;
+	Fri, 19 Feb 2021 13:40:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5CAD589E08
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 13:35:38 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4688A1FB;
- Fri, 19 Feb 2021 05:35:37 -0800 (PST)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 560F33F73B;
- Fri, 19 Feb 2021 05:35:36 -0800 (PST)
-Subject: Re: [PATCH] drm/shmem-helper: Don't remove the offset in
- vm_area_struct pgoff
-To: Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>
-References: <20210217165910.3820374-1-nroberts@igalia.com>
- <7f80b184-7277-0f6c-1108-cf41189626df@arm.com>
- <CAKMK7uHPk1G-S6EMRZ8grZU8W6iij_DJR+V2eBGP+79Te6k76A@mail.gmail.com>
- <20210218154538.GA1483@kevin> <bddce2d0-8f93-9263-0185-97fc848ddda6@arm.com>
- <CAL_JsqJ1Q+yRTY7+RduWSK4ZWO4v8Dq02xwNdNpNY0uD402M-g@mail.gmail.com>
- <456aaf72-50ed-f482-d6e1-e131143aa835@arm.com>
- <CAL_Jsq+aYmmz6+RHzSNmaMQqJgkBGk6+7SyrnHQ9uASdcEU3uA@mail.gmail.com>
- <CAKMK7uF_qAL4fhuz-_itvS6BY2ziOnjkyjc-hrXKWmK7Q9ZE6w@mail.gmail.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <76d68de3-d097-117a-ae9d-6771b106e16f@arm.com>
-Date: Fri, 19 Feb 2021 13:36:06 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 187B76EB2D
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 13:40:19 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 8114DAE03;
+ Fri, 19 Feb 2021 13:40:17 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ gregkh@linuxfoundation.org
+Subject: [PATCH] drm/prime: Only call dma_map_sgtable() for devices with DMA
+ support
+Date: Fri, 19 Feb 2021 14:40:14 +0100
+Message-Id: <20210219134014.7775-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uF_qAL4fhuz-_itvS6BY2ziOnjkyjc-hrXKWmK7Q9ZE6w@mail.gmail.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,139 +38,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Roberts <nroberts@igalia.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: Felipe Balbi <balbi@kernel.org>,
+ Mathias Nyman <mathias.nyman@linux.intel.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Oliver Neukum <oneukum@suse.com>, Johan Hovold <johan@kernel.org>,
+ dri-devel@lists.freedesktop.org, Alan Stern <stern@rowland.harvard.edu>,
+ stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/02/2021 18:20, Daniel Vetter wrote:
-> On Thu, Feb 18, 2021 at 6:16 PM Rob Herring <robh+dt@kernel.org> wrote:
->>
->> On Thu, Feb 18, 2021 at 10:51 AM Steven Price <steven.price@arm.com> wrote:
->>>
->>> On 18/02/2021 16:38, Rob Herring wrote:
->>>> On Thu, Feb 18, 2021 at 10:15 AM Steven Price <steven.price@arm.com> wrote:
->>>>>
->>>>> On 18/02/2021 15:45, Alyssa Rosenzweig wrote:
->>>>>>> Yeah plus Cc: stable for backporting and I think an igt or similar for
->>>>>>> panfrost to check this works correctly would be pretty good too. Since
->>>>>>> if it took us over 1 year to notice this bug it's pretty clear that
->>>>>>> normal testing doesn't catch this. So very likely we'll break this
->>>>>>> again.
->>>>>>
->>>>>> Unfortunately there are a lot of kernel bugs which are noticed during actual
->>>>>> use (but not CI runs), some of which have never been fixed. I do know
->>>>>> the shrinker impl is buggy for us, if this is the fix I'm very happy.
->>>>>
->>>>> I doubt this will actually "fix" anything - if I understand correctly
->>>>> then the sequence which is broken is:
->>>>>
->>>>>     * allocate BO, mmap to CPU
->>>>>     * madvise(DONTNEED)
->>>>>     * trigger purge
->>>>>     * try to access the BO memory
->>>>>
->>>>> which is an invalid sequence for user space - the attempt to access
->>>>> memory should cause a SIGSEGV. However because drm_vma_node_unmap() is
->>>>> unable to find the mappings there may still be page table entries
->>>>> present which would provide access to memory the kernel has freed. Which
->>>>> is of course a big security hole and so this fix is needed.
->>>>>
->>>>> In what way do you find the shrinker impl buggy? I'm aware there's some
->>>>> dodgy locking (although I haven't worked out how to fix it) - but AFAICT
->>>>> it's more deadlock territory rather than lacking in locks. Are there
->>>>> correctness issues?
->>>>
->>>> What's there was largely a result of getting lockdep happy.
->>>>
->>>>>>> btw for testing shrinkers recommended way is to have a debugfs file
->>>>>>> that just force-shrinks everything. That way you avoid all the trouble
->>>>>>> that tend to happen when you drive a system close to OOM on linux, and
->>>>>>> it's also much faster.
->>>>>>
->>>>>> 2nding this as a good idea.
->>>>>>
->>>>>
->>>>> Sounds like a good idea to me too. But equally I'm wondering whether the
->>>>> best (short term) solution is to actually disable the shrinker. I'm
->>>>> somewhat surprised that nobody has got fed up with the "Purging xxx
->>>>> bytes" message spam - which makes me think that most people are not
->>>>> hitting memory pressure to trigger the shrinker.
->>>>
->>>> If the shrinker is dodgy, then it's probably good to have the messages
->>>> to know if it ran.
->>>>
->>>>> The shrinker on kbase caused a lot of grief - and the only way I managed
->>>>> to get that under control was by writing a static analysis tool for the
->>>>> locking, and by upsetting people by enforcing the (rather dumb) rules of
->>>>> the tool on the code base. I've been meaning to look at whether sparse
->>>>> can do a similar check of locks.
->>>>
->>>> Lockdep doesn't cover it?
->>>
->>> Short answer: no ;)
-> 
-> It's pretty good actually, if you correctly annotate things up.
+Fixes a regression for udl and probably other USB-based drivers where
+joining and mirroring displays fails.
 
-I agree - it's pretty good, the problem is you need reasonable test 
-coverage, and getting good test coverage of shrinkers is hard.
+Joining displays requires importing a dma_buf from another DRM driver.
+These devices don't support DMA and therefore have no DMA mask. Trying
+to map imported buffers from a DMA-able memory zone fails with an error.
+An example is shown below.
 
->>> The problem with lockdep is that you have to trigger the locking
->>> scenario to get a warning out of it. For example you obviously won't get
->>> any warnings about the shrinker without triggering the shrinker (which
->>> means memory pressure since we don't have the debugfs file to trigger it).
->>
->> Actually, you don't need debugfs. Writing to /proc/sys/vm/drop_caches
->> will do it. Though maybe there's other code path scenarios that
->> wouldn't cover.
-> 
-> Huh didn't know, but it's a bit a shotgun, plus it doesn't use
-> fs_reclaim shrinker annotations, which means you don't have lockdep
-> checks. I think at least, would need some deadlock and testing.
+[   60.050199] ------------[ cut here ]------------
+[   60.055092] WARNING: CPU: 0 PID: 1403 at kernel/dma/mapping.c:190 dma_map_sg_attrs+0x8f/0xc0
+[   60.064331] Modules linked in: af_packet(E) rfkill(E) dmi_sysfs(E) intel_rapl_msr(E) intel_rapl_common(E) snd_hda_codec_realtek(E) snd_hda_codec_generic(E) ledtrig_audio(E) snd_hda_codec_hdmi(E) x86_pkg_temp_thermal(E) intel_powerclam)
+[   60.064801]  wmi(E) video(E) btrfs(E) blake2b_generic(E) libcrc32c(E) crc32c_intel(E) xor(E) raid6_pq(E) sg(E) dm_multipath(E) dm_mod(E) scsi_dh_rdac(E) scsi_dh_emc(E) scsi_dh_alua(E) msr(E) efivarfs(E)
+[   60.170778] CPU: 0 PID: 1403 Comm: Xorg.bin Tainted: G            E    5.11.0-rc5-1-default+ #747
+[   60.179841] Hardware name: Dell Inc. OptiPlex 9020/0N4YC8, BIOS A24 10/24/2018
+[   60.187145] RIP: 0010:dma_map_sg_attrs+0x8f/0xc0
+[   60.191822] Code: 4d 85 ff 75 2b 49 89 d8 44 89 e1 44 89 f2 4c 89 ee 48 89 ef e8 62 30 00 00 85 c0 78 36 5b 5d 41 5c 41 5d 41 5e 41 5f c3 0f 0b <0f> 0b 31 c0 eb ed 49 8d 7f 50 e8 72 f5 2a 00 49 8b 47 50 49 89 d8
+[   60.210770] RSP: 0018:ffffc90001d6fc18 EFLAGS: 00010246
+[   60.216062] RAX: 0000000000000000 RBX: 0000000000000020 RCX: ffffffffb31e677b
+[   60.223274] RDX: dffffc0000000000 RSI: ffff888212c10600 RDI: ffff8881b08a9488
+[   60.230501] RBP: ffff8881b08a9030 R08: 0000000000000020 R09: ffff888212c10600
+[   60.237710] R10: ffffed10425820df R11: 0000000000000001 R12: 0000000000000000
+[   60.244939] R13: ffff888212c10600 R14: 0000000000000008 R15: 0000000000000000
+[   60.252155] FS:  00007f08ac2b2f00(0000) GS:ffff8887cbe00000(0000) knlGS:0000000000000000
+[   60.260333] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   60.266150] CR2: 000055831c899be8 CR3: 000000015372e006 CR4: 00000000001706f0
+[   60.273369] Call Trace:
+[   60.275845]  drm_gem_map_dma_buf+0xb4/0x120
+[   60.280089]  dma_buf_map_attachment+0x15d/0x1e0
+[   60.284688]  drm_gem_prime_import_dev.part.0+0x5d/0x140
+[   60.289984]  drm_gem_prime_fd_to_handle+0x213/0x280
+[   60.294931]  ? drm_prime_destroy_file_private+0x30/0x30
+[   60.300224]  drm_ioctl_kernel+0x131/0x180
+[   60.304291]  ? drm_setversion+0x230/0x230
+[   60.308366]  ? drm_prime_destroy_file_private+0x30/0x30
+[   60.313659]  drm_ioctl+0x2f1/0x500
+[   60.317118]  ? drm_version+0x150/0x150
+[   60.320903]  ? lock_downgrade+0xa0/0xa0
+[   60.324806]  ? do_vfs_ioctl+0x5f4/0x680
+[   60.328694]  ? __fget_files+0x13e/0x210
+[   60.332591]  ? ioctl_fiemap.isra.0+0x1a0/0x1a0
+[   60.337102]  ? __fget_files+0x15d/0x210
+[   60.340990]  __x64_sys_ioctl+0xb9/0xf0
+[   60.344795]  do_syscall_64+0x33/0x80
+[   60.348427]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[   60.353542] RIP: 0033:0x7f08ac7b53cb
+[   60.357168] Code: 89 d8 49 8d 3c 1c 48 f7 d8 49 39 c4 72 b5 e8 1c ff ff ff 85 c0 78 ba 4c 89 e0 5b 5d 41 5c c3 f3 0f 1e fa b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 75 ba 0c 00 f7 d8 64 89 01 48
+[   60.376108] RSP: 002b:00007ffeabc89fc8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[   60.383758] RAX: ffffffffffffffda RBX: 00007ffeabc8a00c RCX: 00007f08ac7b53cb
+[   60.390970] RDX: 00007ffeabc8a00c RSI: 00000000c00c642e RDI: 000000000000000d
+[   60.398221] RBP: 00000000c00c642e R08: 000055831c691d00 R09: 000055831b2ec010
+[   60.405446] R10: 00007f08acf6ada0 R11: 0000000000000246 R12: 000055831c691d00
+[   60.412667] R13: 000000000000000d R14: 00000000007e9000 R15: 0000000000000000
+[   60.419903] irq event stamp: 672893
+[   60.423441] hardirqs last  enabled at (672913): [<ffffffffb31b796d>] console_unlock+0x44d/0x500
+[   60.432230] hardirqs last disabled at (672922): [<ffffffffb31b7963>] console_unlock+0x443/0x500
+[   60.441021] softirqs last  enabled at (672940): [<ffffffffb46003dd>] __do_softirq+0x3dd/0x554
+[   60.449634] softirqs last disabled at (672931): [<ffffffffb44010f2>] asm_call_irq_on_stack+0x12/0x20
+[   60.458871] ---[ end trace f2f88696eb17806c ]---
 
-The big problem with this sort of method for triggering the shrinkers is 
-that they are called without (many) locks held. Whereas it's entirely 
-possible for a shrinker to be called at (almost) any allocation in the 
-kernel.
+For the fix, we don't call dma_map_sgtable() for devices without the
+DMA mask. Drivers for such devices have to map the imported buffer into
+kernel address space and perfom the copy operation in software.
 
-Admittedly the Panfrost shrinkers are fairly safe - because most things 
-are xxx_trylock(). kbase avoids trylock which makes reclaim more 
-reliable, but means deadlocks are much easier.
+Tested by joining/mirroring displays of udl and radeon un der Gnome/X11.
 
->>
->>> I have to admit I'm not 100% sure I've seen any lockdep warnings based
->>> on buffer objects recently. I can trigger them based on jobs:
->>>
-[snip]
->>>
->>> Certainly here the mutex causing the problem is the shrinker_lock!
->>>
->>> The above is triggered by chucking a whole ton of jobs which
->>> fault at the GPU.
->>>
->>> Sadly I haven't found time to work out how to untangle the locks.
->>
->> They are tricky because pretty much any memory allocation can trigger
->> things as I recall.
-> 
-> The above should only be possible with my dma_fence annotations, and
-> yes the point to bugs in the drm/scheduler. They shouldn't matter for
-> panfrost, and those patches aren't in upstream yet.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 6eb0233ec2d0 ("usb: don't inherity DMA properties for USB devices")
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Johan Hovold <johan@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: "Ahmed S. Darwish" <a.darwish@linutronix.de>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Oliver Neukum <oneukum@suse.com>
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: <stable@vger.kernel.org> # v5.10+
+---
+ drivers/gpu/drm/drm_prime.c | 27 ++++++++++++++++++---------
+ 1 file changed, 18 insertions(+), 9 deletions(-)
 
-Yes that's on a (random version of) drm-misc - just what I happened to 
-have built recently. Good news if that's not actually Panfrost's bug. I 
-haven't had the time to track down what's going on yet.
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index 2a54f86856af..d5a39fe76b78 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -603,10 +603,15 @@ EXPORT_SYMBOL(drm_gem_map_detach);
+  * @attach: attachment whose scatterlist is to be returned
+  * @dir: direction of DMA transfer
+  *
+- * Calls &drm_gem_object_funcs.get_sg_table and then maps the scatterlist. This
+- * can be used as the &dma_buf_ops.map_dma_buf callback. Should be used together
++ * Calls &drm_gem_object_funcs.get_sg_table and, if possible, maps the scatterlist.
++ * This can be used as the &dma_buf_ops.map_dma_buf callback. Should be used together
+  * with drm_gem_unmap_dma_buf().
+  *
++ * Devices on some peripheral busses, such as USB, cannot use DMA. In this case,
++ * pages in the scatterlist remain unmapped. Drivers for such devices should acquire
++ * a mapping with dma_buf_vmap() and implement copy operation via bus-specific
++ * interfaces.
++ *
+  * Returns:sg_table containing the scatterlist to be returned; returns ERR_PTR
+  * on error. May return -EINTR if it is interrupted by a signal.
+  */
+@@ -627,12 +632,14 @@ struct sg_table *drm_gem_map_dma_buf(struct dma_buf_attachment *attach,
+ 	if (IS_ERR(sgt))
+ 		return sgt;
 
-Sounds like I'm perhaps being a bit unfair on the shrinkers - I'm just 
-aware that I went down a rabbit hole before looking at changing the 
-locks which started because I was convinced having shrinker_lock as a 
-mutex was a problem. But it was a while ago and I've forgotten what the 
-logic was.
+-	ret = dma_map_sgtable(attach->dev, sgt, dir,
+-			      DMA_ATTR_SKIP_CPU_SYNC);
+-	if (ret) {
+-		sg_free_table(sgt);
+-		kfree(sgt);
+-		sgt = ERR_PTR(ret);
++	if (attach->dev->dma_mask) {
++		ret = dma_map_sgtable(attach->dev, sgt, dir,
++				      DMA_ATTR_SKIP_CPU_SYNC);
++		if (ret) {
++			sg_free_table(sgt);
++			kfree(sgt);
++			sgt = ERR_PTR(ret);
++		}
+ 	}
 
-Steve
+ 	return sgt;
+@@ -654,7 +661,9 @@ void drm_gem_unmap_dma_buf(struct dma_buf_attachment *attach,
+ 	if (!sgt)
+ 		return;
+
+-	dma_unmap_sgtable(attach->dev, sgt, dir, DMA_ATTR_SKIP_CPU_SYNC);
++	if (attach->dev->dma_mask)
++		dma_unmap_sgtable(attach->dev, sgt, dir, DMA_ATTR_SKIP_CPU_SYNC);
++
+ 	sg_free_table(sgt);
+ 	kfree(sgt);
+ }
+--
+2.30.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
