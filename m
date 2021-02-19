@@ -2,40 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA2831F6EC
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 11:00:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12DA731F6FF
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 11:06:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A95176E8B4;
-	Fri, 19 Feb 2021 10:00:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C09506E8B3;
+	Fri, 19 Feb 2021 10:05:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id EF7EB6E8B4
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 09:54:21 +0000 (UTC)
-X-UUID: 6f5b02960cb84ea4be1ce4d10cba6458-20210219
-X-UUID: 6f5b02960cb84ea4be1ce4d10cba6458-20210219
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
- ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1410267829; Fri, 19 Feb 2021 17:54:17 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 19 Feb 2021 17:54:16 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 19 Feb 2021 17:54:15 +0800
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v1] drm/mediatek: move page flip handle into cmdq cb
-Date: Fri, 19 Feb 2021 17:54:12 +0800
-Message-ID: <1613728452-24871-2-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1613728452-24871-1-git-send-email-yongqiang.niu@mediatek.com>
-References: <1613728452-24871-1-git-send-email-yongqiang.niu@mediatek.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA29B6E8B3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 10:05:58 +0000 (UTC)
+IronPort-SDR: QTHDd0MzIslRFXFwfZZw5ZxVKOZDbPLtOcESexdCFL1ODF0FnUy/in7+Con/stiKTXbHxgkYqS
+ YpVxO7dPOU5w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9899"; a="170932815"
+X-IronPort-AV: E=Sophos;i="5.81,189,1610438400"; d="scan'208";a="170932815"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2021 02:05:57 -0800
+IronPort-SDR: eDSKrm5OR9Xfp9mGraN4lpP9IJ7gVYawLZFqjzIawswzu/uhXj6Y8z+F6gUtDcn+r5g3mYnWkj
+ f9ZHEqIOXoVQ==
+X-IronPort-AV: E=Sophos;i="5.81,189,1610438400"; d="scan'208";a="513624301"
+Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2021 02:05:57 -0800
+From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+To: virtualization@lists.linux-foundation.org, dri-devel@lists.freedesktop.org
+Subject: [RFC v4 0/3] Introduce Virtio based Dmabuf driver(s)
+Date: Fri, 19 Feb 2021 01:55:20 -0800
+Message-Id: <20210219095523.2621884-1-vivek.kasireddy@intel.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-MTK: N
-X-Mailman-Approved-At: Fri, 19 Feb 2021 10:00:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,108 +44,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, linux-arm-kernel@lists.infradead.org
+Cc: dongwon.kim@intel.com, daniel.vetter@ffwll.ch,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, kraxel@redhat.com,
+ daniel.vetter@intel.com, linux-media@vger.kernel.org, christian.koenig@amd.com,
+ stevensd@chromium.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-move page flip handle into cmdq cb
-irq callback will before cmdq flush ddp register
-into hardware, that will cause the display frame page
-flip event before it realy display out time
+The Virtual Dmabuf or Virtio based Dmabuf (Vdmabuf) driver can be used
+to "transfer" a page-backed dmabuf created in the Guest to the Host
+without making any copies. This is mostly accomplished by recreating the
+dmabuf on the Host using the PFNs and other meta-data shared by the guest. 
+A use-case where this driver would be a good fit is a multi-GPU system 
+(perhaps one discrete and one integrated) where one of the GPUs does not 
+have access to the display/connectors/outputs. This could be an embedded 
+system design decision or a restriction made at the firmware/BIOS level
+or perhaps the device is setup in UPT (Universal Passthrough) mode. When 
+such a GPU is passthrough'd to a Guest OS, this driver can help in 
+transferring the scanout buffer(s) (rendered using the native rendering 
+stack) to the Host for the purpose of displaying them. Or, quite simply,
+this driver can be used to transfer a dmabuf created by an application
+running on the Guest to another application running on the Host.
 
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 33 +++++++++++++++++++++++++++++----
- 1 file changed, 29 insertions(+), 4 deletions(-)
+The userspace component running in the Guest that transfers the dmabuf
+is referred to as the producer or exporter and its counterpart running
+in the Host is referred to as importer or consumer. For instance, a
+Wayland compositor would potentially be a producer and Qemu UI would
+be a consumer. It is the producer's responsibility to not reuse or
+destroy the shared buffer while it is still being used by the consumer.
+The consumer would send a release cmd indicating that it is done after
+which the shared buffer can be safely used again by the producer. One
+way the producer can prevent accidental re-use of the shared buffer is
+to lock the buffer when it exports it and unlock it after it gets a 
+release cmd. As an example, the GBM API provides a simple way to lock 
+and unlock a surface's buffers.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index bdd37ea..bece327 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -72,6 +72,13 @@ struct mtk_crtc_state {
- 	unsigned int			pending_vrefresh;
- };
- 
-+#if IS_REACHABLE(CONFIG_MTK_CMDQ)
-+struct mtk_cmdq_cb_data {
-+	struct cmdq_pkt			*cmdq_handle;
-+	struct mtk_drm_crtc		*mtk_crtc;
-+};
-+#endif
-+
- static inline struct mtk_drm_crtc *to_mtk_crtc(struct drm_crtc *c)
- {
- 	return container_of(c, struct mtk_drm_crtc, base);
-@@ -96,7 +103,6 @@ static void mtk_drm_crtc_finish_page_flip(struct mtk_drm_crtc *mtk_crtc)
- 
- static void mtk_drm_finish_page_flip(struct mtk_drm_crtc *mtk_crtc)
- {
--	drm_crtc_handle_vblank(&mtk_crtc->base);
- 	if (mtk_crtc->pending_needs_vblank) {
- 		mtk_drm_crtc_finish_page_flip(mtk_crtc);
- 		mtk_crtc->pending_needs_vblank = false;
-@@ -241,7 +247,19 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- static void ddp_cmdq_cb(struct cmdq_cb_data data)
- {
--	cmdq_pkt_destroy(data.data);
-+	struct mtk_cmdq_cb_data *cb_data = data.data;
-+
-+	if (cb_data) {
-+		struct mtk_drm_crtc *mtk_crtc = cb_data->mtk_crtc;
-+
-+		if (mtk_crtc)
-+			mtk_drm_finish_page_flip(mtk_crtc);
-+
-+		if (cb_data->cmdq_handle)
-+			cmdq_pkt_destroy(cb_data->cmdq_handle);
-+
-+		kfree(cb_data);
-+	}
- }
- #endif
- 
-@@ -481,13 +499,20 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
- 	}
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- 	if (mtk_crtc->cmdq_client) {
-+		struct mtk_cmdq_cb_data *cb_data;
-+
- 		mbox_flush(mtk_crtc->cmdq_client->chan, 2000);
- 		cmdq_handle = cmdq_pkt_create(mtk_crtc->cmdq_client, PAGE_SIZE);
- 		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
- 		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
- 		mtk_crtc_ddp_config(crtc, cmdq_handle);
- 		cmdq_pkt_finalize(cmdq_handle);
--		cmdq_pkt_flush_async(cmdq_handle, ddp_cmdq_cb, cmdq_handle);
-+
-+		cb_data = kmalloc(sizeof(*cb_data), GFP_KERNEL);
-+		cb_data->cmdq_handle = cmdq_handle;
-+		cb_data->mtk_crtc = mtk_crtc;
-+
-+		cmdq_pkt_flush_async(cmdq_handle, ddp_cmdq_cb, cb_data);
- 	}
- #endif
- 	mutex_unlock(&mtk_crtc->hw_lock);
-@@ -674,7 +699,7 @@ void mtk_crtc_ddp_irq(struct drm_crtc *crtc, struct mtk_ddp_comp *comp)
- #endif
- 		mtk_crtc_ddp_config(crtc, NULL);
- 
--	mtk_drm_finish_page_flip(mtk_crtc);
-+	drm_crtc_handle_vblank(&mtk_crtc->base);
- }
- 
- static int mtk_drm_crtc_num_comp_planes(struct mtk_drm_crtc *mtk_crtc,
+For each dmabuf that is to be shared with the Host, a 128-bit unique
+ID is generated that identifies this buffer across the whole system.
+This ID is a combination of the Qemu process ID, a counter and a
+randomizer. We could potentially use UUID API but we currently use
+the above mentioned combination to identify the source of the buffer
+at any given time for potential bookkeeping.
+
+A typical cycle starts with the producer or exporter calling the
+alloc_fd IOCTL to get a new fd/dmabuf from Vdmabuf. It would then import
+and render to it and finally exports it by calling the export IOCTL. A 
+new unique ID is generated for this buffer and it gets registered with
+the Host. The Host then alerts the consumer or importer by raising an
+event and shares the ID. In response, the consumer calls the import IOCTL
+using the ID and gets a newly created dmabuf fd in return. After it is
+done using the dmabuf, the consumer finally calls the release IOCTL and
+the Guest is notified which in turn notifies the producer letting it know
+that the buffer is now safe to reuse. 
+
+v2:
+- Added a notifier mechanism for getting the kvm pointer.
+- Added start and stop routines in the Vhost backend.
+- Augmented the cover letter and made some minor improvements.
+
+v3:
+- Refactored the code to make it similar to vsock.
+- Used two virtqueues instead of one for efficient two-way
+  communication.
+
+v4:
+- Made Vdmabuf guest driver allocate the dma-buf and backing
+  storage and exported it to Weston to be used as a render
+  target. (Gerd)
+
+The Vdmabuf driver was tested using Weston (headless) and Qemu from here:
+https://gitlab.freedesktop.org/Vivek/weston/-/blob/vdmabuf/libweston/backend-headless/headless.c#L522
+
+https://lists.nongnu.org/archive/html/qemu-devel/2021-02/msg02976.html
+
+TODO:
+- Use dma_fences to improve synchronization for multiple importers.
+- Ensure that a process other than Qemu can also be the importer on Host.
+
+Other Considerations:
+- Should virtio-gpu be augmented to provide the same functionality 
+  as vdmabuf?
+- How can virtio-gpu/vdmabuf work with a Windows Guest?
+- Should there be a Vhost backend for virtio-gpu to reduce overhead?
+- Should a transfer of a dma-buf from Guest to Host be dependent on a
+  DRM driver (virtio-gpu)?
+
+Vivek Kasireddy (3):
+  kvm: Add a notifier for create and destroy VM events
+  virtio: Introduce Vdmabuf driver
+  vhost: Add Vdmabuf backend
+
+ drivers/vhost/Kconfig               |    9 +
+ drivers/vhost/Makefile              |    3 +
+ drivers/vhost/vdmabuf.c             | 1372 +++++++++++++++++++++++++++
+ drivers/virtio/Kconfig              |    8 +
+ drivers/virtio/Makefile             |    1 +
+ drivers/virtio/virtio_vdmabuf.c     | 1105 +++++++++++++++++++++
+ include/linux/kvm_host.h            |    5 +
+ include/linux/virtio_vdmabuf.h      |  287 ++++++
+ include/uapi/linux/vhost.h          |    3 +
+ include/uapi/linux/virtio_ids.h     |    1 +
+ include/uapi/linux/virtio_vdmabuf.h |   87 ++
+ virt/kvm/kvm_main.c                 |   20 +-
+ 12 files changed, 2899 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/vhost/vdmabuf.c
+ create mode 100644 drivers/virtio/virtio_vdmabuf.c
+ create mode 100644 include/linux/virtio_vdmabuf.h
+ create mode 100644 include/uapi/linux/virtio_vdmabuf.h
+
 -- 
-1.8.1.1.dirty
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
