@@ -1,70 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A2131F8C9
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 13:01:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D4431F8CD
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 13:01:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 573C16EB04;
-	Fri, 19 Feb 2021 12:01:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC87A6EB1C;
+	Fri, 19 Feb 2021 12:01:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB0C66EB19;
- Fri, 19 Feb 2021 12:01:03 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 436A1580356;
- Fri, 19 Feb 2021 07:01:03 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D6286EB1A;
+ Fri, 19 Feb 2021 12:01:11 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id E1626580367;
+ Fri, 19 Feb 2021 07:01:10 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Fri, 19 Feb 2021 07:01:03 -0500
+ by compute4.internal (MEProxy); Fri, 19 Feb 2021 07:01:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=gsYBe4GYTIg/I
- oKWuKpxjtAJ0Nft5Q3IY2ytw24sj/c=; b=SBnrVLLBm6p3+mfciAn4wEGLe+bcl
- NXDFlGhyRVXffEVqAS/hPhsbzT+f7bsWgBlZL9T5hFes8YqpoPPouYk0uTaATSMM
- tTW//sVPkSDmRmpNU01qQJ/IS0i1V4R3py3wKqYEQJnIzJ81KSAYpaxphBMmPeYa
- KNnc+N75xF+Hld6Sat99142WdYH4nMcU6FEnzYi8x23nfR5SDUw1kq5JqXpPpXMe
- RC8ecGhCuNd4Lqn+JOkxYgTot08yH17gLceVNNaAzoswOzYhjstHfOOUrup1pzZV
- zQNfYhQcaJgastDHS1fawnlwiK6YHl2bPc8oq9MeRwPNvQ/y6ZKazG+VA==
+ :mime-version:content-type:content-transfer-encoding; s=fm2; bh=
+ sIDsFI/uR6XN2etdjT1Ju6jt64IDwaJl5giMWD4uzJk=; b=gmVWaGk5JKwFuCH5
+ gmoMxw2bcnVEEywijWTPNU2LZJBGgUkKIJNk+NDz3Vjg3n/vQh61+06SsOSW70Fp
+ nmgfiWCFSpIV/4ZL8NyAphTiraDRdIB5PrAtzI1OaBZJXGkA8+S7lmLJiTUFp0iy
+ RLopz4ou/YBUctVFcTl+yPKxe3cRmbujgfV5/3z9dj8PNOAD+YR0ir8eHtaiXQ9l
+ R5c6XubQFU+b/dPk/9GhfZL00bP/thd2QjQM71S6ewzSvBTyGNHOL96+8O1pz8pU
+ Moi+DTj50jz29OiiXBvZ0++I2Etphg5+qJ8cjhUOO8bgWhhclF1UYO31PtXsWsdC
+ NUSVog==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=gsYBe4GYTIg/IoKWuKpxjtAJ0Nft5Q3IY2ytw24sj/c=; b=bksYTBtV
- Lf11cRu7e6Z3gkZYcutu08d3iso3QsLb8dfrRnEI2s8UDwQBSoWZU18R8TGnmybM
- YVNrwcJX0gkW55WCeKJSqKHGhcpu59VN7RVIEgeToPfA8OWYiiTTc3wToxJl3P7G
- ej6a2E1bJvJMGOxldcuNuCLVdTwnyAdnfYZmGT0uy2iYcDrzeLM0lYFiPYpoFK2A
- WZKtLViRTCTielRbTFHUJw1cFgnkJ0Efp1C3CnPakcJ5RvkkQkEcT3XBDMEaAGn+
- jahPuAkWngoQLqglBj8EWXBEHPfmcHBZm+BkpuMoks80QykMsP++72dQZRIDSGPI
- LqTGwS4qMH9Ryg==
-X-ME-Sender: <xms:fqgvYMmXd11p83XNIvyZrAjD7iB-N1EqH5IiqfjwmpWumfyxCDz4pw>
- <xme:fqgvYL1SjMGUqlgAUepZGUcM627O-dzL6gPm2ZilMouYAbVQA-GUOcQPqPCOpOYGq
- c-8xp6BbmNubnEAXaE>
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=sIDsFI/uR6XN2etdjT1Ju6jt64IDwaJl5giMWD4uz
+ Jk=; b=FPkq0CPJbTbiRTMXiQtTYT56+HwhLW5///s4WykU+PkhQPb7N4PpTszFH
+ U0eQcwv7SYhmR+BrnAnebZu2ObsdwcoAwN6mvn7Q2zSImQqVcN4FiVkYtMgK0eED
+ NFK8YGZ43w3Oaw8FKFIT/uuLFD0N6hbYuY9ovALYaTmZqmkCwLbDLprfVj38umKC
+ GHz81XJJqjzgSYt1w41VFpHheHdG0YC4fsuvGYukjKmZxY4GW32miwabvASM33cP
+ A03HROyZw7L4LdYkiC7mByN8PzC68Xw6XljvFO+Nm6qpg80TxiZ9BxJ0PTbRaZ9e
+ QzzMp59wkiAxLxqWfnIPBgVw6fO1g==
+X-ME-Sender: <xms:gqgvYC1GcY95Gsx5BzOvWIWUZlRmB6yvgPAdKrPalFFfUtfypBRSvQ>
+ <xme:gqgvYC5d42g-tInmO3lLrGvfG2eR0kUi7NEw7h3btzZ60lwe1FjfoSnIKOuap2HF5
+ NLlkHuZr1im81dmG6o>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjeeigdefgecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedunecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:fqgvYKpgsZ72wK9ki5Gj91zkfWdrdr0V92AWwJDB5bWQy5oZ8ItQpg>
- <xmx:fqgvYIlQ-rvzdem_DP0tOpXjnu9yIOdckk3ynYLiGgZXmgdfl_JDrg>
- <xmx:fqgvYK0kfzZKNd2pCQF0buEu9qiGI70v065QZDKxonG8kWACNPGzHA>
- <xmx:f6gvYGO2QXjTh8pQHCw-cAgNkS66MBLmItEFj99g-7k3M1pdF-thPw>
+ fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepffegueefvdevvdduieegieeigeeigeevveekhfdtgeevieejtddvgfejleel
+ jedunecuffhomhgrihhnpehshihnohhpshihshdrtghomhenucfkphepledtrdekledrie
+ ekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+ pehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:gqgvYFU2L2b0pt9sZLivJn-KcLboyajDo9AByUP4O6mK_zExq5X9iw>
+ <xmx:gqgvYBDO3AdBAsi2gUQ4x_AZ1TbxkTbuLRm7nNOoOfDb-UHE_eNYyg>
+ <xmx:gqgvYE4w0Rgi7abky-W-cmYMMNdA7bp34I9FKaUa1I3Kubewr5qIwA>
+ <xmx:hqgvYGPUTvvtFSJQGvYb1tqQl4yQVwSy5vLTENtEry9mhE4hJ6339A>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 122821080057;
- Fri, 19 Feb 2021 07:01:02 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 136091080064;
+ Fri, 19 Feb 2021 07:01:06 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v3 09/11] drm/atomic: Pass the full state to planes atomic
- disable and update
-Date: Fri, 19 Feb 2021 13:00:29 +0100
-Message-Id: <20210219120032.260676-9-maxime@cerno.tech>
+Subject: [PATCH v3 10/11] drm: Use state helper instead of the plane state
+ pointer
+Date: Fri, 19 Feb 2021 13:00:30 +0100
+Message-Id: <20210219120032.260676-10-maxime@cerno.tech>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210219120032.260676-1-maxime@cerno.tech>
 References: <20210219120032.260676-1-maxime@cerno.tech>
@@ -87,20 +89,19 @@ Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
  linux-samsung-soc@vger.kernel.org, Vincent Abriou <vincent.abriou@st.com>,
  Michal Simek <michal.simek@xilinx.com>,
  Ludovic Desroches <ludovic.desroches@microchip.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ NXP Linux Team <linux-imx@nxp.com>, spice-devel@lists.freedesktop.org,
  Sascha Hauer <s.hauer@pengutronix.de>, Roland Scheidegger <sroland@vmware.com>,
  Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
  Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
- freedreno@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>,
+ freedreno@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Alexandre Belloni <alexandre.belloni@bootlin.com>,
  Edmund Dea <edmund.j.dea@intel.com>, virtualization@lists.linux-foundation.org,
  Thierry Reding <thierry.reding@gmail.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>,
  Alexey Brodkin <abrodkin@synopsys.com>, Jonathan Hunter <jonathanh@nvidia.com>,
  linux-rockchip@lists.infradead.org,
- "James \(Qian\) Wang" <james.qian.wang@arm.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
  Dave Airlie <airlied@redhat.com>, Alexandre Torgue <alexandre.torgue@st.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
  linux-arm-msm@vger.kernel.org, linux-amlogic@lists.infradead.org,
@@ -112,14 +113,13 @@ Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
  Maxime Coquelin <mcoquelin.stm32@gmail.com>,
  Kevin Hilman <khilman@baylibre.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
  Neil Armstrong <narmstrong@baylibre.com>, Melissa Wen <melissa.srw@gmail.com>,
- linux-tegra@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Benjamin Gaignard <benjamin.gaignard@linaro.org>,
  Sam Ravnborg <sam@ravnborg.org>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
  Krzysztof Kozlowski <krzk@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
- Alison Wang <alison.wang@nxp.com>, spice-devel@lists.freedesktop.org,
- Tomi Valkeinen <tomba@kernel.org>, Philippe Cornu <philippe.cornu@st.com>,
+ Alison Wang <alison.wang@nxp.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Philippe Cornu <philippe.cornu@st.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>,
  Liviu Dudau <liviu.dudau@arm.com>, Nicolas Ferre <nicolas.ferre@microchip.com>,
@@ -127,1675 +127,698 @@ Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
  linux-renesas-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
  Russell King <linux@armlinux.org.uk>, Hans de Goede <hdegoede@redhat.com>,
  linux-mediatek@lists.infradead.org,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, linux-tegra@vger.kernel.org,
  Jernej Skrabec <jernej.skrabec@siol.net>, linux-mips@vger.kernel.org,
  Jyri Sarha <jyri.sarha@iki.fi>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current atomic helpers have either their object state being passed as
-an argument or the full atomic state.
-
-The former is the pattern that was done at first, before switching to the
-latter for new hooks or when it was needed.
-
-Let's convert the remaining helpers to provide a consistent interface,
-this time with the planes atomic_update and atomic_disable.
-
-The conversion was done using the coccinelle script below, built tested on
-all the drivers.
-
-@@
-identifier plane, plane_state;
-symbol state;
-@@
-
- struct drm_plane_helper_funcs {
- 	...
-	void (*atomic_update)(struct drm_plane *plane,
--			      struct drm_plane_state *plane_state);
-+			      struct drm_atomic_state *state);
- 	...
- }
-
-@@
-identifier plane, plane_state;
-symbol state;
-@@
-
- struct drm_plane_helper_funcs {
-	...
-	void (*atomic_disable)(struct drm_plane *plane,
--			       struct drm_plane_state *plane_state);
-+			       struct drm_atomic_state *state);
-	...
- }
-
-@ plane_atomic_func @
-identifier helpers;
-identifier func;
-@@
-
-(
- static const struct drm_plane_helper_funcs helpers = {
- 	...,
- 	.atomic_update = func,
-	...,
- };
-|
- static const struct drm_plane_helper_funcs helpers = {
- 	...,
- 	.atomic_disable = func,
-	...,
- };
-)
-
-@@
-struct drm_plane_helper_funcs *FUNCS;
-identifier f;
-identifier crtc_state;
-identifier plane, plane_state, state;
-expression e;
-@@
-
- f(struct drm_crtc_state *crtc_state)
- {
- 	...
- 	struct drm_atomic_state *state = e;
- 	<+...
-(
--	FUNCS->atomic_disable(plane, plane_state)
-+	FUNCS->atomic_disable(plane, state)
-|
--	FUNCS->atomic_update(plane, plane_state)
-+	FUNCS->atomic_update(plane, state)
-)
- 	...+>
- }
-
-@@
-identifier plane_atomic_func.func;
-identifier plane;
-symbol state;
-@@
-
- func(struct drm_plane *plane,
--    struct drm_plane_state *state)
-+    struct drm_plane_state *old_plane_state)
- {
-	<...
--	state
-+	old_plane_state
-	...>
- }
-
-@ ignores_old_state @
-identifier plane_atomic_func.func;
-identifier plane, old_state;
-@@
-
- func(struct drm_plane *plane, struct drm_plane_state *old_state)
- {
-	... when != old_state
- }
-
-@ adds_old_state depends on plane_atomic_func && !ignores_old_state @
-identifier plane_atomic_func.func;
-identifier plane, plane_state;
-@@
-
- func(struct drm_plane *plane, struct drm_plane_state *plane_state)
- {
-+	struct drm_plane_state *plane_state = drm_atomic_get_old_plane_state(state, plane);
- 	...
- }
-
-@ depends on plane_atomic_func @
-identifier plane_atomic_func.func;
-identifier plane, plane_state;
-@@
-
- func(struct drm_plane *plane,
--     struct drm_plane_state *plane_state
-+     struct drm_atomic_state *state
-     )
- { ... }
-
-@ include depends on adds_old_state @
-@@
-
- #include <drm/drm_atomic.h>
-
-@ no_include depends on !include && adds_old_state @
-@@
-
-+ #include <drm/drm_atomic.h>
-  #include <drm/...>
-
-@@
-identifier plane_atomic_func.func;
-identifier plane, state;
-identifier plane_state;
-@@
-
- func(struct drm_plane *plane, struct drm_atomic_state *state) {
- 	...
- 	struct drm_plane_state *plane_state = drm_atomic_get_old_plane_state(state, plane);
- 	<+...
--	plane_state->state
-+	state
- 	...+>
- }
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
----
-
-Changes from v1:
-  - Reintroduce the old_plane_state check in zynqmp_disp_crtc_atomic_disable
----
- drivers/gpu/drm/arc/arcpgu_crtc.c                 |  2 +-
- drivers/gpu/drm/arm/display/komeda/komeda_plane.c |  2 +-
- drivers/gpu/drm/arm/hdlcd_crtc.c                  |  2 +-
- drivers/gpu/drm/arm/malidp_planes.c               |  6 ++++--
- drivers/gpu/drm/armada/armada_overlay.c           |  8 ++++++--
- drivers/gpu/drm/armada/armada_plane.c             |  8 ++++++--
- drivers/gpu/drm/ast/ast_mode.c                    | 12 ++++++++----
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   |  6 +++---
- drivers/gpu/drm/drm_atomic_helper.c               |  8 ++++----
- drivers/gpu/drm/drm_simple_kms_helper.c           |  4 +++-
- drivers/gpu/drm/exynos/exynos_drm_plane.c         |  6 ++++--
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c       |  4 ++--
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c    |  2 +-
- drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c   |  4 ++--
- drivers/gpu/drm/imx/dcss/dcss-plane.c             |  6 ++++--
- drivers/gpu/drm/imx/ipuv3-plane.c                 |  6 ++++--
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c         |  4 ++--
- drivers/gpu/drm/ingenic/ingenic-ipu.c             |  4 ++--
- drivers/gpu/drm/kmb/kmb_plane.c                   |  8 +++++---
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c           |  4 ++--
- drivers/gpu/drm/mediatek/mtk_drm_crtc.h           |  2 +-
- drivers/gpu/drm/mediatek/mtk_drm_plane.c          |  8 ++++----
- drivers/gpu/drm/meson/meson_overlay.c             |  4 ++--
- drivers/gpu/drm/meson/meson_plane.c               |  4 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c          |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c         |  7 +++----
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h         |  2 +-
- drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c        |  2 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c        |  2 +-
- drivers/gpu/drm/mxsfb/mxsfb_kms.c                 |  6 ++++--
- drivers/gpu/drm/omapdrm/omap_plane.c              |  4 ++--
- drivers/gpu/drm/qxl/qxl_display.c                 | 12 ++++++++----
- drivers/gpu/drm/rcar-du/rcar_du_plane.c           |  4 +++-
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c             |  4 +++-
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c       | 12 ++++++++----
- drivers/gpu/drm/sti/sti_cursor.c                  |  6 ++++--
- drivers/gpu/drm/sti/sti_gdp.c                     |  8 ++++++--
- drivers/gpu/drm/sti/sti_hqvdp.c                   |  8 ++++++--
- drivers/gpu/drm/stm/ltdc.c                        |  6 ++++--
- drivers/gpu/drm/sun4i/sun4i_layer.c               |  7 +++++--
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c            |  8 ++++++--
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c            |  8 ++++++--
- drivers/gpu/drm/tegra/dc.c                        | 14 +++++++++-----
- drivers/gpu/drm/tegra/hub.c                       |  8 +++++---
- drivers/gpu/drm/tidss/tidss_plane.c               |  4 ++--
- drivers/gpu/drm/tilcdc/tilcdc_plane.c             |  2 +-
- drivers/gpu/drm/vboxvideo/vbox_mode.c             | 14 ++++++++++----
- drivers/gpu/drm/vc4/vc4_plane.c                   |  2 +-
- drivers/gpu/drm/virtio/virtgpu_plane.c            |  8 ++++++--
- drivers/gpu/drm/vkms/vkms_plane.c                 |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c               |  7 +++++--
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h               |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c               |  4 +++-
- drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c              |  4 +++-
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c              |  4 +++-
- drivers/gpu/drm/xlnx/zynqmp_disp.c                | 15 ++++++++-------
- drivers/gpu/drm/zte/zx_plane.c                    |  8 +++++---
- include/drm/drm_modeset_helper_vtables.h          |  4 ++--
- 58 files changed, 211 insertions(+), 123 deletions(-)
-
-diff --git a/drivers/gpu/drm/arc/arcpgu_crtc.c b/drivers/gpu/drm/arc/arcpgu_crtc.c
-index 2cea17a96d5c..b185452d5542 100644
---- a/drivers/gpu/drm/arc/arcpgu_crtc.c
-+++ b/drivers/gpu/drm/arc/arcpgu_crtc.c
-@@ -145,7 +145,7 @@ static const struct drm_crtc_helper_funcs arc_pgu_crtc_helper_funcs = {
- };
- 
- static void arc_pgu_plane_atomic_update(struct drm_plane *plane,
--					struct drm_plane_state *state)
-+					struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_plane_state = plane->state;
- 	struct arcpgu_drm_private *arcpgu;
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_plane.c b/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
-index 13582c174bbb..d63d83800a8a 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
-@@ -116,7 +116,7 @@ komeda_plane_atomic_check(struct drm_plane *plane,
-  */
- static void
- komeda_plane_atomic_update(struct drm_plane *plane,
--			   struct drm_plane_state *old_state)
-+			   struct drm_atomic_state *state)
- {
- }
- 
-diff --git a/drivers/gpu/drm/arm/hdlcd_crtc.c b/drivers/gpu/drm/arm/hdlcd_crtc.c
-index 3f050a52e07a..2500bf189420 100644
---- a/drivers/gpu/drm/arm/hdlcd_crtc.c
-+++ b/drivers/gpu/drm/arm/hdlcd_crtc.c
-@@ -260,7 +260,7 @@ static int hdlcd_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void hdlcd_plane_atomic_update(struct drm_plane *plane,
--				      struct drm_plane_state *state)
-+				      struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_plane_state = plane->state;
- 	struct drm_framebuffer *fb = new_plane_state->fb;
-diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
-index 646b27a42452..1cb207bb8dcd 100644
---- a/drivers/gpu/drm/arm/malidp_planes.c
-+++ b/drivers/gpu/drm/arm/malidp_planes.c
-@@ -791,8 +791,10 @@ static void malidp_de_set_plane_afbc(struct drm_plane *plane)
- }
- 
- static void malidp_de_plane_update(struct drm_plane *plane,
--				   struct drm_plane_state *old_state)
-+				   struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct malidp_plane *mp;
- 	struct malidp_plane_state *ms = to_malidp_plane_state(plane->state);
- 	struct drm_plane_state *new_state = plane->state;
-@@ -909,7 +911,7 @@ static void malidp_de_plane_update(struct drm_plane *plane,
- }
- 
- static void malidp_de_plane_disable(struct drm_plane *plane,
--				    struct drm_plane_state *state)
-+				    struct drm_atomic_state *state)
- {
- 	struct malidp_plane *mp = to_malidp_plane(plane);
- 
-diff --git a/drivers/gpu/drm/armada/armada_overlay.c b/drivers/gpu/drm/armada/armada_overlay.c
-index f5e75c96b476..393e4ea841f9 100644
---- a/drivers/gpu/drm/armada/armada_overlay.c
-+++ b/drivers/gpu/drm/armada/armada_overlay.c
-@@ -66,8 +66,10 @@ static inline u32 armada_csc(struct drm_plane_state *state)
- 
- /* === Plane support === */
- static void armada_drm_overlay_plane_atomic_update(struct drm_plane *plane,
--	struct drm_plane_state *old_state)
-+	struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct armada_crtc *dcrtc;
- 	struct armada_regs *regs;
-@@ -214,8 +216,10 @@ static void armada_drm_overlay_plane_atomic_update(struct drm_plane *plane,
- }
- 
- static void armada_drm_overlay_plane_atomic_disable(struct drm_plane *plane,
--	struct drm_plane_state *old_state)
-+	struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct armada_crtc *dcrtc;
- 	struct armada_regs *regs;
- 	unsigned int idx = 0;
-diff --git a/drivers/gpu/drm/armada/armada_plane.c b/drivers/gpu/drm/armada/armada_plane.c
-index 3be7b3cfd251..31d312d7ceef 100644
---- a/drivers/gpu/drm/armada/armada_plane.c
-+++ b/drivers/gpu/drm/armada/armada_plane.c
-@@ -161,8 +161,10 @@ int armada_drm_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void armada_drm_primary_plane_atomic_update(struct drm_plane *plane,
--	struct drm_plane_state *old_state)
-+	struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct armada_crtc *dcrtc;
- 	struct armada_regs *regs;
-@@ -248,8 +250,10 @@ static void armada_drm_primary_plane_atomic_update(struct drm_plane *plane,
- }
- 
- static void armada_drm_primary_plane_atomic_disable(struct drm_plane *plane,
--	struct drm_plane_state *old_state)
-+	struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct armada_crtc *dcrtc;
- 	struct armada_regs *regs;
- 	unsigned int idx = 0;
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 94950e0e338a..61815eeb5157 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -569,8 +569,10 @@ static int ast_primary_plane_helper_atomic_check(struct drm_plane *plane,
- 
- static void
- ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
--				       struct drm_plane_state *old_state)
-+				       struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct drm_device *dev = plane->dev;
- 	struct ast_private *ast = to_ast_private(dev);
- 	struct drm_plane_state *new_state = plane->state;
-@@ -601,7 +603,7 @@ ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 
- static void
- ast_primary_plane_helper_atomic_disable(struct drm_plane *plane,
--					struct drm_plane_state *old_state)
-+					struct drm_atomic_state *state)
- {
- 	struct ast_private *ast = to_ast_private(plane->dev);
- 
-@@ -790,9 +792,11 @@ static int ast_cursor_plane_helper_atomic_check(struct drm_plane *plane,
- 
- static void
- ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
--				      struct drm_plane_state *old_state)
-+				      struct drm_atomic_state *state)
- {
- 	struct ast_cursor_plane *ast_cursor_plane = to_ast_cursor_plane(plane);
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(new_state);
- 	struct drm_framebuffer *fb = new_state->fb;
-@@ -860,7 +864,7 @@ ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
- 
- static void
- ast_cursor_plane_helper_atomic_disable(struct drm_plane *plane,
--				       struct drm_plane_state *old_state)
-+				       struct drm_atomic_state *state)
- {
- 	struct ast_private *ast = to_ast_private(plane->dev);
- 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-index cff52098e087..2c6d71faa268 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-@@ -712,7 +712,7 @@ static int atmel_hlcdc_plane_atomic_check(struct drm_plane *p,
- }
- 
- static void atmel_hlcdc_plane_atomic_disable(struct drm_plane *p,
--					     struct drm_plane_state *old_state)
-+					     struct drm_atomic_state *state)
- {
- 	struct atmel_hlcdc_plane *plane = drm_plane_to_atmel_hlcdc_plane(p);
- 
-@@ -731,7 +731,7 @@ static void atmel_hlcdc_plane_atomic_disable(struct drm_plane *p,
- }
- 
- static void atmel_hlcdc_plane_atomic_update(struct drm_plane *p,
--					    struct drm_plane_state *old_s)
-+					    struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_s = p->state;
- 	struct atmel_hlcdc_plane *plane = drm_plane_to_atmel_hlcdc_plane(p);
-@@ -743,7 +743,7 @@ static void atmel_hlcdc_plane_atomic_update(struct drm_plane *p,
- 		return;
- 
- 	if (!hstate->base.visible) {
--		atmel_hlcdc_plane_atomic_disable(p, old_s);
-+		atmel_hlcdc_plane_atomic_disable(p, state);
- 		return;
- 	}
- 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index c06bd5f43e61..1a0ddcf104ac 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -2528,9 +2528,9 @@ void drm_atomic_helper_commit_planes(struct drm_device *dev,
- 			    no_disable)
- 				continue;
- 
--			funcs->atomic_disable(plane, old_plane_state);
-+			funcs->atomic_disable(plane, old_state);
- 		} else if (new_plane_state->crtc || disabling) {
--			funcs->atomic_update(plane, old_plane_state);
-+			funcs->atomic_update(plane, old_state);
- 		}
- 	}
- 
-@@ -2602,10 +2602,10 @@ drm_atomic_helper_commit_planes_on_crtc(struct drm_crtc_state *old_crtc_state)
- 
- 		if (drm_atomic_plane_disabling(old_plane_state, new_plane_state) &&
- 		    plane_funcs->atomic_disable)
--			plane_funcs->atomic_disable(plane, old_plane_state);
-+			plane_funcs->atomic_disable(plane, old_state);
- 		else if (new_plane_state->crtc ||
- 			 drm_atomic_plane_disabling(old_plane_state, new_plane_state))
--			plane_funcs->atomic_update(plane, old_plane_state);
-+			plane_funcs->atomic_update(plane, old_state);
- 	}
- 
- 	if (crtc_funcs && crtc_funcs->atomic_flush)
-diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
-index 7f3d90e776a3..0b095a313c44 100644
---- a/drivers/gpu/drm/drm_simple_kms_helper.c
-+++ b/drivers/gpu/drm/drm_simple_kms_helper.c
-@@ -206,8 +206,10 @@ static int drm_simple_kms_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void drm_simple_kms_plane_atomic_update(struct drm_plane *plane,
--					struct drm_plane_state *old_pstate)
-+					struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_pstate = drm_atomic_get_old_plane_state(state,
-+									    plane);
- 	struct drm_simple_display_pipe *pipe;
- 
- 	pipe = container_of(plane, struct drm_simple_display_pipe, plane);
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_plane.c b/drivers/gpu/drm/exynos/exynos_drm_plane.c
-index 673f8a1d9010..c0f733e6ed9e 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_plane.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_plane.c
-@@ -252,7 +252,7 @@ static int exynos_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void exynos_plane_atomic_update(struct drm_plane *plane,
--				       struct drm_plane_state *old_state)
-+				       struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 	struct exynos_drm_crtc *exynos_crtc = to_exynos_crtc(new_state->crtc);
-@@ -266,8 +266,10 @@ static void exynos_plane_atomic_update(struct drm_plane *plane,
- }
- 
- static void exynos_plane_atomic_disable(struct drm_plane *plane,
--					struct drm_plane_state *old_state)
-+					struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+								           plane);
- 	struct exynos_drm_plane *exynos_plane = to_exynos_plane(plane);
- 	struct exynos_drm_crtc *exynos_crtc = to_exynos_crtc(old_state->crtc);
- 
-diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c
-index 4272e121a185..d9efa6d1b2d4 100644
---- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c
-+++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c
-@@ -60,7 +60,7 @@ static int fsl_dcu_drm_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void fsl_dcu_drm_plane_atomic_disable(struct drm_plane *plane,
--					     struct drm_plane_state *old_state)
-+					     struct drm_atomic_state *state)
- {
- 	struct fsl_dcu_drm_device *fsl_dev = plane->dev->dev_private;
- 	unsigned int value;
-@@ -76,7 +76,7 @@ static void fsl_dcu_drm_plane_atomic_disable(struct drm_plane *plane,
- }
- 
- static void fsl_dcu_drm_plane_atomic_update(struct drm_plane *plane,
--					    struct drm_plane_state *old_state)
-+					    struct drm_atomic_state *state)
- 
- {
- 	struct fsl_dcu_drm_device *fsl_dev = plane->dev->dev_private;
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-index a4b54e841c76..4f643fbc68fb 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-@@ -99,7 +99,7 @@ static int hibmc_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void hibmc_plane_atomic_update(struct drm_plane *plane,
--				      struct drm_plane_state *old_state)
-+				      struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 	u32 reg;
-diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-index 19416d9be46b..834fd101c3ba 100644
---- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-+++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-@@ -804,7 +804,7 @@ static int ade_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void ade_plane_atomic_update(struct drm_plane *plane,
--				    struct drm_plane_state *old_state)
-+				    struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 	struct kirin_plane *kplane = to_kirin_plane(plane);
-@@ -817,7 +817,7 @@ static void ade_plane_atomic_update(struct drm_plane *plane,
- }
- 
- static void ade_plane_atomic_disable(struct drm_plane *plane,
--				     struct drm_plane_state *old_state)
-+				     struct drm_atomic_state *state)
- {
- 	struct kirin_plane *kplane = to_kirin_plane(plane);
- 
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-plane.c b/drivers/gpu/drm/imx/dcss/dcss-plane.c
-index 06ecfff8d3c3..d6bc9fb71756 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-plane.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-plane.c
-@@ -264,8 +264,10 @@ static bool dcss_plane_needs_setup(struct drm_plane_state *state,
- }
- 
- static void dcss_plane_atomic_update(struct drm_plane *plane,
--				     struct drm_plane_state *old_state)
-+				     struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct dcss_plane *dcss_plane = to_dcss_plane(plane);
- 	struct dcss_dev *dcss = plane->dev->dev_private;
-@@ -346,7 +348,7 @@ static void dcss_plane_atomic_update(struct drm_plane *plane,
- }
- 
- static void dcss_plane_atomic_disable(struct drm_plane *plane,
--				      struct drm_plane_state *old_state)
-+				      struct drm_atomic_state *state)
- {
- 	struct dcss_plane *dcss_plane = to_dcss_plane(plane);
- 	struct dcss_dev *dcss = plane->dev->dev_private;
-diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
-index 0dd10aec8194..7b0714061849 100644
---- a/drivers/gpu/drm/imx/ipuv3-plane.c
-+++ b/drivers/gpu/drm/imx/ipuv3-plane.c
-@@ -494,7 +494,7 @@ static int ipu_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void ipu_plane_atomic_disable(struct drm_plane *plane,
--				     struct drm_plane_state *old_state)
-+				     struct drm_atomic_state *state)
- {
- 	struct ipu_plane *ipu_plane = to_ipu_plane(plane);
- 
-@@ -539,8 +539,10 @@ static void ipu_calculate_bursts(u32 width, u32 cpp, u32 stride,
- }
- 
- static void ipu_plane_atomic_update(struct drm_plane *plane,
--				    struct drm_plane_state *old_state)
-+				    struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct ipu_plane *ipu_plane = to_ipu_plane(plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct ipu_plane_state *ipu_state = to_ipu_plane_state(new_state);
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 1a336e922dc7..85c371d105e5 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -443,7 +443,7 @@ void ingenic_drm_plane_disable(struct device *dev, struct drm_plane *plane)
- }
- 
- static void ingenic_drm_plane_atomic_disable(struct drm_plane *plane,
--					     struct drm_plane_state *old_state)
-+					     struct drm_atomic_state *state)
- {
- 	struct ingenic_drm *priv = drm_device_get_priv(plane->dev);
- 
-@@ -541,7 +541,7 @@ static void ingenic_drm_update_palette(struct ingenic_drm *priv,
- }
- 
- static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
--					    struct drm_plane_state *oldstate)
-+					    struct drm_atomic_state *state)
- {
- 	struct ingenic_drm *priv = drm_device_get_priv(plane->dev);
- 	struct drm_plane_state *newstate = plane->state;
-diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-index bc8d6931cc3a..7716bb211d7e 100644
---- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-@@ -282,7 +282,7 @@ static inline bool osd_changed(struct drm_plane_state *state,
- }
- 
- static void ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
--					    struct drm_plane_state *oldstate)
-+					    struct drm_atomic_state *state)
- {
- 	struct ingenic_ipu *ipu = plane_to_ingenic_ipu(plane);
- 	struct drm_plane_state *newstate = plane->state;
-@@ -595,7 +595,7 @@ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void ingenic_ipu_plane_atomic_disable(struct drm_plane *plane,
--					     struct drm_plane_state *old_state)
-+					     struct drm_atomic_state *state)
- {
- 	struct ingenic_ipu *ipu = plane_to_ingenic_ipu(plane);
- 
-diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
-index 05e1a7a2c075..f837962474b1 100644
---- a/drivers/gpu/drm/kmb/kmb_plane.c
-+++ b/drivers/gpu/drm/kmb/kmb_plane.c
-@@ -110,7 +110,7 @@ static int kmb_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void kmb_plane_atomic_disable(struct drm_plane *plane,
--				     struct drm_plane_state *state)
-+				     struct drm_atomic_state *state)
- {
- 	struct kmb_plane *kmb_plane = to_kmb_plane(plane);
- 	int plane_id = kmb_plane->id;
-@@ -278,8 +278,10 @@ static void config_csc(struct kmb_drm_private *kmb, int plane_id)
- }
- 
- static void kmb_plane_atomic_update(struct drm_plane *plane,
--				    struct drm_plane_state *state)
-+				    struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state,
-+										 plane);
- 	struct drm_plane_state *new_plane_state = plane->state;
- 	struct drm_framebuffer *fb;
- 	struct kmb_drm_private *kmb;
-@@ -294,7 +296,7 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
- 	int num_planes;
- 	static dma_addr_t addr[MAX_SUB_PLANES];
- 
--	if (!plane || !new_plane_state || !state)
-+	if (!plane || !new_plane_state || !old_plane_state)
- 		return;
- 
- 	fb = new_plane_state->fb;
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 584dc26affc1..70ded25fb92c 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -506,7 +506,7 @@ int mtk_drm_crtc_plane_check(struct drm_crtc *crtc, struct drm_plane *plane,
- }
- 
- void mtk_drm_crtc_async_update(struct drm_crtc *crtc, struct drm_plane *plane,
--			       struct drm_plane_state *new_state)
-+			       struct drm_atomic_state *state)
- {
- 	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
- 	const struct drm_plane_helper_funcs *plane_helper_funcs =
-@@ -515,7 +515,7 @@ void mtk_drm_crtc_async_update(struct drm_crtc *crtc, struct drm_plane *plane,
- 	if (!mtk_crtc->enabled)
- 		return;
- 
--	plane_helper_funcs->atomic_update(plane, new_state);
-+	plane_helper_funcs->atomic_update(plane, state);
- 	mtk_drm_crtc_hw_config(mtk_crtc);
- }
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
-index a2b4677a451c..de0479cd1e72 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
-@@ -22,6 +22,6 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- int mtk_drm_crtc_plane_check(struct drm_crtc *crtc, struct drm_plane *plane,
- 			     struct mtk_plane_state *state);
- void mtk_drm_crtc_async_update(struct drm_crtc *crtc, struct drm_plane *plane,
--			       struct drm_plane_state *plane_state);
-+			       struct drm_atomic_state *plane_state);
- 
- #endif /* MTK_DRM_CRTC_H */
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-index 6ae24058ec35..7f876b6c9615 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-@@ -128,7 +128,7 @@ static void mtk_plane_atomic_async_update(struct drm_plane *plane,
- 	swap(plane->state->fb, new_state->fb);
- 	new_plane_state->pending.async_dirty = true;
- 
--	mtk_drm_crtc_async_update(new_state->crtc, plane, new_state);
-+	mtk_drm_crtc_async_update(new_state->crtc, plane, state);
- }
- 
- static const struct drm_plane_funcs mtk_plane_funcs = {
-@@ -173,7 +173,7 @@ static int mtk_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void mtk_plane_atomic_disable(struct drm_plane *plane,
--				     struct drm_plane_state *old_state)
-+				     struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 	struct mtk_plane_state *mtk_plane_state = to_mtk_plane_state(new_state);
-@@ -183,7 +183,7 @@ static void mtk_plane_atomic_disable(struct drm_plane *plane,
- }
- 
- static void mtk_plane_atomic_update(struct drm_plane *plane,
--				    struct drm_plane_state *old_state)
-+				    struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 	struct mtk_plane_state *mtk_plane_state = to_mtk_plane_state(new_state);
-@@ -198,7 +198,7 @@ static void mtk_plane_atomic_update(struct drm_plane *plane,
- 		return;
- 
- 	if (!new_state->visible) {
--		mtk_plane_atomic_disable(plane, old_state);
-+		mtk_plane_atomic_disable(plane, state);
- 		return;
- 	}
- 
-diff --git a/drivers/gpu/drm/meson/meson_overlay.c b/drivers/gpu/drm/meson/meson_overlay.c
-index 902b5711a2b8..4b12a53e27c8 100644
---- a/drivers/gpu/drm/meson/meson_overlay.c
-+++ b/drivers/gpu/drm/meson/meson_overlay.c
-@@ -468,7 +468,7 @@ static void meson_overlay_setup_scaler_params(struct meson_drm *priv,
- }
- 
- static void meson_overlay_atomic_update(struct drm_plane *plane,
--					struct drm_plane_state *old_state)
-+					struct drm_atomic_state *state)
- {
- 	struct meson_overlay *meson_overlay = to_meson_overlay(plane);
- 	struct drm_plane_state *new_state = plane->state;
-@@ -721,7 +721,7 @@ static void meson_overlay_atomic_update(struct drm_plane *plane,
- }
- 
- static void meson_overlay_atomic_disable(struct drm_plane *plane,
--				       struct drm_plane_state *old_state)
-+				       struct drm_atomic_state *state)
- {
- 	struct meson_overlay *meson_overlay = to_meson_overlay(plane);
- 	struct meson_drm *priv = meson_overlay->priv;
-diff --git a/drivers/gpu/drm/meson/meson_plane.c b/drivers/gpu/drm/meson/meson_plane.c
-index c2df7eca6808..78bd3e9be3bf 100644
---- a/drivers/gpu/drm/meson/meson_plane.c
-+++ b/drivers/gpu/drm/meson/meson_plane.c
-@@ -130,7 +130,7 @@ static u32 meson_g12a_afbcd_line_stride(struct meson_drm *priv)
- }
- 
- static void meson_plane_atomic_update(struct drm_plane *plane,
--				      struct drm_plane_state *old_state)
-+				      struct drm_atomic_state *state)
- {
- 	struct meson_plane *meson_plane = to_meson_plane(plane);
- 	struct drm_plane_state *new_state = plane->state;
-@@ -395,7 +395,7 @@ static void meson_plane_atomic_update(struct drm_plane *plane,
- }
- 
- static void meson_plane_atomic_disable(struct drm_plane *plane,
--				       struct drm_plane_state *old_state)
-+				       struct drm_atomic_state *state)
- {
- 	struct meson_plane *meson_plane = to_meson_plane(plane);
- 	struct meson_drm *priv = meson_plane->priv;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index ea9d73983d13..9607a7644d4b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -574,7 +574,7 @@ static void dpu_crtc_atomic_flush(struct drm_crtc *crtc,
- 	 * of those planes explicitly here prior to plane flush.
- 	 */
- 	drm_atomic_crtc_for_each_plane(plane, crtc)
--		dpu_plane_restore(plane);
-+		dpu_plane_restore(plane, state);
- 
- 	/* update performance setting before crtc kickoff */
- 	dpu_core_perf_crtc_update(crtc, 1, false);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 82a69d2cf20d..31071f9e21d7 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -1241,7 +1241,7 @@ static void _dpu_plane_atomic_disable(struct drm_plane *plane)
- }
- 
- static void dpu_plane_atomic_update(struct drm_plane *plane,
--				struct drm_plane_state *old_state)
-+				struct drm_atomic_state *state)
- {
- 	struct dpu_plane *pdpu = to_dpu_plane(plane);
- 	struct drm_plane_state *new_state = plane->state;
-@@ -1257,7 +1257,7 @@ static void dpu_plane_atomic_update(struct drm_plane *plane,
- 	}
- }
- 
--void dpu_plane_restore(struct drm_plane *plane)
-+void dpu_plane_restore(struct drm_plane *plane, struct drm_atomic_state *state)
- {
- 	struct dpu_plane *pdpu;
- 
-@@ -1270,8 +1270,7 @@ void dpu_plane_restore(struct drm_plane *plane)
- 
- 	DPU_DEBUG_PLANE(pdpu, "\n");
- 
--	/* last plane state is same as current state */
--	dpu_plane_atomic_update(plane, plane->state);
-+	dpu_plane_atomic_update(plane, state);
- }
- 
- static void dpu_plane_destroy(struct drm_plane *plane)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-index 13a983fa8213..03b6365a750c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-@@ -88,7 +88,7 @@ void dpu_plane_get_ctl_flush(struct drm_plane *plane, struct dpu_hw_ctl *ctl,
-  * dpu_plane_restore - restore hw state if previously power collapsed
-  * @plane: Pointer to drm plane structure
-  */
--void dpu_plane_restore(struct drm_plane *plane);
-+void dpu_plane_restore(struct drm_plane *plane, struct drm_atomic_state *state);
- 
- /**
-  * dpu_plane_flush - final plane operations before commit flush
-diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
-index b4c74c1047ba..5d78bce980a7 100644
---- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
-+++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
-@@ -112,7 +112,7 @@ static int mdp4_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void mdp4_plane_atomic_update(struct drm_plane *plane,
--				     struct drm_plane_state *old_state)
-+				     struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 	int ret;
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-index da1cc66f9f49..4dc82a0c12e9 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-@@ -426,7 +426,7 @@ static int mdp5_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void mdp5_plane_atomic_update(struct drm_plane *plane,
--				     struct drm_plane_state *old_state)
-+				     struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index 6b19a84340e3..980b567043ba 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -419,7 +419,7 @@ static int mxsfb_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void mxsfb_plane_primary_atomic_update(struct drm_plane *plane,
--					      struct drm_plane_state *old_pstate)
-+					      struct drm_atomic_state *state)
- {
- 	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
- 	dma_addr_t paddr;
-@@ -430,8 +430,10 @@ static void mxsfb_plane_primary_atomic_update(struct drm_plane *plane,
- }
- 
- static void mxsfb_plane_overlay_atomic_update(struct drm_plane *plane,
--					      struct drm_plane_state *old_pstate)
-+					      struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_pstate = drm_atomic_get_old_plane_state(state,
-+									    plane);
- 	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
- 	struct drm_plane_state *new_pstate = plane->state;
- 	dma_addr_t paddr;
-diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
-index d52124adedf7..d7c735dba3e1 100644
---- a/drivers/gpu/drm/omapdrm/omap_plane.c
-+++ b/drivers/gpu/drm/omapdrm/omap_plane.c
-@@ -40,7 +40,7 @@ static void omap_plane_cleanup_fb(struct drm_plane *plane,
- }
- 
- static void omap_plane_atomic_update(struct drm_plane *plane,
--				     struct drm_plane_state *old_state)
-+				     struct drm_atomic_state *state)
- {
- 	struct omap_drm_private *priv = plane->dev->dev_private;
- 	struct omap_plane *omap_plane = to_omap_plane(plane);
-@@ -87,7 +87,7 @@ static void omap_plane_atomic_update(struct drm_plane *plane,
- }
- 
- static void omap_plane_atomic_disable(struct drm_plane *plane,
--				      struct drm_plane_state *old_state)
-+				      struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 	struct omap_drm_private *priv = plane->dev->dev_private;
-diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-index 45b49bc99981..acde4b39bc9d 100644
---- a/drivers/gpu/drm/qxl/qxl_display.c
-+++ b/drivers/gpu/drm/qxl/qxl_display.c
-@@ -526,7 +526,7 @@ static int qxl_primary_apply_cursor(struct drm_plane *plane)
- }
- 
- static void qxl_primary_atomic_update(struct drm_plane *plane,
--				      struct drm_plane_state *old_state)
-+				      struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 	struct qxl_device *qdev = to_qxl(plane->dev);
-@@ -558,8 +558,10 @@ static void qxl_primary_atomic_update(struct drm_plane *plane,
- }
- 
- static void qxl_primary_atomic_disable(struct drm_plane *plane,
--				       struct drm_plane_state *old_state)
-+				       struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct qxl_device *qdev = to_qxl(plane->dev);
- 
- 	if (old_state->fb) {
-@@ -575,8 +577,10 @@ static void qxl_primary_atomic_disable(struct drm_plane *plane,
- }
- 
- static void qxl_cursor_atomic_update(struct drm_plane *plane,
--				     struct drm_plane_state *old_state)
-+				     struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct drm_device *dev = plane->dev;
- 	struct qxl_device *qdev = to_qxl(dev);
-@@ -693,7 +697,7 @@ static void qxl_cursor_atomic_update(struct drm_plane *plane,
- }
- 
- static void qxl_cursor_atomic_disable(struct drm_plane *plane,
--				      struct drm_plane_state *old_state)
-+				      struct drm_atomic_state *state)
- {
- 	struct qxl_device *qdev = to_qxl(plane->dev);
- 	struct qxl_release *release;
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-index 639db6e3fbfb..50f7247b51fa 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-@@ -618,8 +618,10 @@ static int rcar_du_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void rcar_du_plane_atomic_update(struct drm_plane *plane,
--					struct drm_plane_state *old_state)
-+					struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+								           plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct rcar_du_plane *rplane = to_rcar_plane(plane);
- 	struct rcar_du_plane_state *old_rstate;
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index 659f6e3072ab..19fd424d1208 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -277,8 +277,10 @@ static int rcar_du_vsp_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void rcar_du_vsp_plane_atomic_update(struct drm_plane *plane,
--					struct drm_plane_state *old_state)
-+					struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+								           plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct rcar_du_vsp_plane *rplane = to_rcar_vsp_plane(plane);
- 	struct rcar_du_crtc *crtc = to_rcar_crtc(old_state->crtc);
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-index 3a389cd756ff..e0e2510bdaac 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-@@ -858,8 +858,10 @@ static int vop_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void vop_plane_atomic_disable(struct drm_plane *plane,
--				     struct drm_plane_state *old_state)
-+				     struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct vop_win *vop_win = to_vop_win(plane);
- 	struct vop *vop = to_vop(old_state->crtc);
- 
-@@ -874,8 +876,10 @@ static void vop_plane_atomic_disable(struct drm_plane *plane,
- }
- 
- static void vop_plane_atomic_update(struct drm_plane *plane,
--		struct drm_plane_state *old_state)
-+		struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct drm_crtc *crtc = new_state->crtc;
- 	struct vop_win *vop_win = to_vop_win(plane);
-@@ -909,7 +913,7 @@ static void vop_plane_atomic_update(struct drm_plane *plane,
- 		return;
- 
- 	if (!new_state->visible) {
--		vop_plane_atomic_disable(plane, old_state);
-+		vop_plane_atomic_disable(plane, state);
- 		return;
- 	}
- 
-@@ -1077,7 +1081,7 @@ static void vop_plane_atomic_async_update(struct drm_plane *plane,
- 	swap(plane->state->fb, new_state->fb);
- 
- 	if (vop->is_enabled) {
--		vop_plane_atomic_update(plane, plane->state);
-+		vop_plane_atomic_update(plane, state);
- 		spin_lock(&vop->reg_lock);
- 		vop_cfg_done(vop);
- 		spin_unlock(&vop->reg_lock);
-diff --git a/drivers/gpu/drm/sti/sti_cursor.c b/drivers/gpu/drm/sti/sti_cursor.c
-index 4cf3bf1b3007..217f456067c2 100644
---- a/drivers/gpu/drm/sti/sti_cursor.c
-+++ b/drivers/gpu/drm/sti/sti_cursor.c
-@@ -256,7 +256,7 @@ static int sti_cursor_atomic_check(struct drm_plane *drm_plane,
- }
- 
- static void sti_cursor_atomic_update(struct drm_plane *drm_plane,
--				     struct drm_plane_state *oldstate)
-+				     struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *newstate = drm_plane->state;
- 	struct sti_plane *plane = to_sti_plane(drm_plane);
-@@ -310,8 +310,10 @@ static void sti_cursor_atomic_update(struct drm_plane *drm_plane,
- }
- 
- static void sti_cursor_atomic_disable(struct drm_plane *drm_plane,
--				      struct drm_plane_state *oldstate)
-+				      struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *oldstate = drm_atomic_get_old_plane_state(state,
-+									  drm_plane);
- 	struct sti_plane *plane = to_sti_plane(drm_plane);
- 
- 	if (!oldstate->crtc) {
-diff --git a/drivers/gpu/drm/sti/sti_gdp.c b/drivers/gpu/drm/sti/sti_gdp.c
-index 0407b7dbd228..eee17c6914a6 100644
---- a/drivers/gpu/drm/sti/sti_gdp.c
-+++ b/drivers/gpu/drm/sti/sti_gdp.c
-@@ -699,8 +699,10 @@ static int sti_gdp_atomic_check(struct drm_plane *drm_plane,
- }
- 
- static void sti_gdp_atomic_update(struct drm_plane *drm_plane,
--				  struct drm_plane_state *oldstate)
-+				  struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *oldstate = drm_atomic_get_old_plane_state(state,
-+									  drm_plane);
- 	struct drm_plane_state *newstate = drm_plane->state;
- 	struct sti_plane *plane = to_sti_plane(drm_plane);
- 	struct sti_gdp *gdp = to_sti_gdp(plane);
-@@ -864,8 +866,10 @@ static void sti_gdp_atomic_update(struct drm_plane *drm_plane,
- }
- 
- static void sti_gdp_atomic_disable(struct drm_plane *drm_plane,
--				   struct drm_plane_state *oldstate)
-+				   struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *oldstate = drm_atomic_get_old_plane_state(state,
-+									  drm_plane);
- 	struct sti_plane *plane = to_sti_plane(drm_plane);
- 
- 	if (!oldstate->crtc) {
-diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c b/drivers/gpu/drm/sti/sti_hqvdp.c
-index 264a80d606f9..f317c9aad9c5 100644
---- a/drivers/gpu/drm/sti/sti_hqvdp.c
-+++ b/drivers/gpu/drm/sti/sti_hqvdp.c
-@@ -1109,8 +1109,10 @@ static int sti_hqvdp_atomic_check(struct drm_plane *drm_plane,
- }
- 
- static void sti_hqvdp_atomic_update(struct drm_plane *drm_plane,
--				    struct drm_plane_state *oldstate)
-+				    struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *oldstate = drm_atomic_get_old_plane_state(state,
-+									  drm_plane);
- 	struct drm_plane_state *newstate = drm_plane->state;
- 	struct sti_plane *plane = to_sti_plane(drm_plane);
- 	struct sti_hqvdp *hqvdp = to_sti_hqvdp(plane);
-@@ -1240,8 +1242,10 @@ static void sti_hqvdp_atomic_update(struct drm_plane *drm_plane,
- }
- 
- static void sti_hqvdp_atomic_disable(struct drm_plane *drm_plane,
--				     struct drm_plane_state *oldstate)
-+				     struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *oldstate = drm_atomic_get_old_plane_state(state,
-+									  drm_plane);
- 	struct sti_plane *plane = to_sti_plane(drm_plane);
- 
- 	if (!oldstate->crtc) {
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 43de585b99d9..62b6e4f9788c 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -775,7 +775,7 @@ static int ltdc_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void ltdc_plane_atomic_update(struct drm_plane *plane,
--				     struct drm_plane_state *oldstate)
-+				     struct drm_atomic_state *state)
- {
- 	struct ltdc_device *ldev = plane_to_ltdc(plane);
- 	struct drm_plane_state *newstate = plane->state;
-@@ -889,8 +889,10 @@ static void ltdc_plane_atomic_update(struct drm_plane *plane,
- }
- 
- static void ltdc_plane_atomic_disable(struct drm_plane *plane,
--				      struct drm_plane_state *oldstate)
-+				      struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *oldstate = drm_atomic_get_old_plane_state(state,
-+									  plane);
- 	struct ltdc_device *ldev = plane_to_ltdc(plane);
- 	u32 lofs = plane->index * LAY_OFS;
- 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
-index fd7eda2c105d..3e985abdfef8 100644
---- a/drivers/gpu/drm/sun4i/sun4i_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
-@@ -6,6 +6,7 @@
-  * Maxime Ripard <maxime.ripard@free-electrons.com>
-  */
- 
-+#include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_plane_helper.h>
-@@ -63,8 +64,10 @@ static void sun4i_backend_layer_destroy_state(struct drm_plane *plane,
- }
- 
- static void sun4i_backend_layer_atomic_disable(struct drm_plane *plane,
--					       struct drm_plane_state *old_state)
-+					       struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct sun4i_layer_state *layer_state = state_to_sun4i_layer_state(old_state);
- 	struct sun4i_layer *layer = plane_to_sun4i_layer(plane);
- 	struct sun4i_backend *backend = layer->backend;
-@@ -81,7 +84,7 @@ static void sun4i_backend_layer_atomic_disable(struct drm_plane *plane,
- }
- 
- static void sun4i_backend_layer_atomic_update(struct drm_plane *plane,
--					      struct drm_plane_state *old_state)
-+					      struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 	struct sun4i_layer_state *layer_state = state_to_sun4i_layer_state(new_state);
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index 22107c98aeba..07ef63531266 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -289,8 +289,10 @@ static int sun8i_ui_layer_atomic_check(struct drm_plane *plane,
- }
- 
- static void sun8i_ui_layer_atomic_disable(struct drm_plane *plane,
--					  struct drm_plane_state *old_state)
-+					  struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct sun8i_ui_layer *layer = plane_to_sun8i_ui_layer(plane);
- 	unsigned int old_zpos = old_state->normalized_zpos;
- 	struct sun8i_mixer *mixer = layer->mixer;
-@@ -300,8 +302,10 @@ static void sun8i_ui_layer_atomic_disable(struct drm_plane *plane,
- }
- 
- static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
--					 struct drm_plane_state *old_state)
-+					 struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct sun8i_ui_layer *layer = plane_to_sun8i_ui_layer(plane);
- 	unsigned int zpos = new_state->normalized_zpos;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index fc7dc3d1d8b7..4326bb9019cc 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -393,8 +393,10 @@ static int sun8i_vi_layer_atomic_check(struct drm_plane *plane,
- }
- 
- static void sun8i_vi_layer_atomic_disable(struct drm_plane *plane,
--					  struct drm_plane_state *old_state)
-+					  struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct sun8i_vi_layer *layer = plane_to_sun8i_vi_layer(plane);
- 	unsigned int old_zpos = old_state->normalized_zpos;
- 	struct sun8i_mixer *mixer = layer->mixer;
-@@ -404,8 +406,10 @@ static void sun8i_vi_layer_atomic_disable(struct drm_plane *plane,
- }
- 
- static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
--					 struct drm_plane_state *old_state)
-+					 struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct sun8i_vi_layer *layer = plane_to_sun8i_vi_layer(plane);
- 	unsigned int zpos = new_state->normalized_zpos;
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 4eafd45baa60..c393db21c21a 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -691,8 +691,10 @@ static int tegra_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void tegra_plane_atomic_disable(struct drm_plane *plane,
--				       struct drm_plane_state *old_state)
-+				       struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct tegra_plane *p = to_tegra_plane(plane);
- 	u32 value;
- 
-@@ -706,7 +708,7 @@ static void tegra_plane_atomic_disable(struct drm_plane *plane,
- }
- 
- static void tegra_plane_atomic_update(struct drm_plane *plane,
--				      struct drm_plane_state *old_state)
-+				      struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 	struct tegra_plane_state *tegra_plane_state = to_tegra_plane_state(new_state);
-@@ -720,7 +722,7 @@ static void tegra_plane_atomic_update(struct drm_plane *plane,
- 		return;
- 
- 	if (!new_state->visible)
--		return tegra_plane_atomic_disable(plane, old_state);
-+		return tegra_plane_atomic_disable(plane, state);
- 
- 	memset(&window, 0, sizeof(window));
- 	window.src.x = new_state->src.x1 >> 16;
-@@ -866,7 +868,7 @@ static int tegra_cursor_atomic_check(struct drm_plane *plane,
- }
- 
- static void tegra_cursor_atomic_update(struct drm_plane *plane,
--				       struct drm_plane_state *old_state)
-+				       struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 	struct tegra_plane_state *tegra_plane_state = to_tegra_plane_state(new_state);
-@@ -929,8 +931,10 @@ static void tegra_cursor_atomic_update(struct drm_plane *plane,
- }
- 
- static void tegra_cursor_atomic_disable(struct drm_plane *plane,
--					struct drm_plane_state *old_state)
-+					struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct tegra_dc *dc;
- 	u32 value;
- 
-diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
-index 1d31086e1cc9..b264c9729d94 100644
---- a/drivers/gpu/drm/tegra/hub.c
-+++ b/drivers/gpu/drm/tegra/hub.c
-@@ -388,8 +388,10 @@ static int tegra_shared_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void tegra_shared_plane_atomic_disable(struct drm_plane *plane,
--					      struct drm_plane_state *old_state)
-+					      struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct tegra_plane *p = to_tegra_plane(plane);
- 	struct tegra_dc *dc;
- 	u32 value;
-@@ -425,7 +427,7 @@ static void tegra_shared_plane_atomic_disable(struct drm_plane *plane,
- }
- 
- static void tegra_shared_plane_atomic_update(struct drm_plane *plane,
--					     struct drm_plane_state *old_state)
-+					     struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 	struct tegra_plane_state *tegra_plane_state = to_tegra_plane_state(new_state);
-@@ -442,7 +444,7 @@ static void tegra_shared_plane_atomic_update(struct drm_plane *plane,
- 		return;
- 
- 	if (!new_state->visible) {
--		tegra_shared_plane_atomic_disable(plane, old_state);
-+		tegra_shared_plane_atomic_disable(plane, state);
- 		return;
- 	}
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
-index 90554d0be2d0..b0a4aff56095 100644
---- a/drivers/gpu/drm/tidss/tidss_plane.c
-+++ b/drivers/gpu/drm/tidss/tidss_plane.c
-@@ -105,7 +105,7 @@ static int tidss_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void tidss_plane_atomic_update(struct drm_plane *plane,
--				      struct drm_plane_state *old_state)
-+				      struct drm_atomic_state *state)
- {
- 	struct drm_device *ddev = plane->dev;
- 	struct tidss_device *tidss = to_tidss(ddev);
-@@ -137,7 +137,7 @@ static void tidss_plane_atomic_update(struct drm_plane *plane,
- }
- 
- static void tidss_plane_atomic_disable(struct drm_plane *plane,
--				       struct drm_plane_state *old_state)
-+				       struct drm_atomic_state *state)
- {
- 	struct drm_device *ddev = plane->dev;
- 	struct tidss_device *tidss = to_tidss(ddev);
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_plane.c b/drivers/gpu/drm/tilcdc/tilcdc_plane.c
-index 1d134a6d9fc6..c7c27f577432 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_plane.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_plane.c
-@@ -76,7 +76,7 @@ static int tilcdc_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void tilcdc_plane_atomic_update(struct drm_plane *plane,
--				       struct drm_plane_state *old_state)
-+				       struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 
-diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/vboxvideo/vbox_mode.c
-index a6f273e9a966..07fd7826b6a2 100644
---- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
-+++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
-@@ -273,7 +273,7 @@ static int vbox_primary_atomic_check(struct drm_plane *plane,
- }
- 
- static void vbox_primary_atomic_update(struct drm_plane *plane,
--				       struct drm_plane_state *old_state)
-+				       struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 	struct drm_crtc *crtc = new_state->crtc;
-@@ -318,8 +318,10 @@ static void vbox_primary_atomic_update(struct drm_plane *plane,
- }
- 
- static void vbox_primary_atomic_disable(struct drm_plane *plane,
--					struct drm_plane_state *old_state)
-+					struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct drm_crtc *crtc = old_state->crtc;
- 
- 	/* vbox_do_modeset checks plane->state->fb and will disable if NULL */
-@@ -381,8 +383,10 @@ static void copy_cursor_image(u8 *src, u8 *dst, u32 width, u32 height,
- }
- 
- static void vbox_cursor_atomic_update(struct drm_plane *plane,
--				      struct drm_plane_state *old_state)
-+				      struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct vbox_private *vbox =
- 		container_of(plane->dev, struct vbox_private, ddev);
-@@ -429,8 +433,10 @@ static void vbox_cursor_atomic_update(struct drm_plane *plane,
- }
- 
- static void vbox_cursor_atomic_disable(struct drm_plane *plane,
--				       struct drm_plane_state *old_state)
-+				       struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct vbox_private *vbox =
- 		container_of(plane->dev, struct vbox_private, ddev);
- 	struct vbox_crtc *vbox_crtc = to_vbox_crtc(old_state->crtc);
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index b46d79efa4b0..ec085df1f6fa 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -1060,7 +1060,7 @@ static int vc4_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static void vc4_plane_atomic_update(struct drm_plane *plane,
--				    struct drm_plane_state *old_state)
-+				    struct drm_atomic_state *state)
- {
- 	/* No contents here.  Since we don't know where in the CRTC's
- 	 * dlist we should be stored, our dlist is uploaded to the
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index 9419aa611af9..4e1b17548007 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -130,8 +130,10 @@ static void virtio_gpu_update_dumb_bo(struct virtio_gpu_device *vgdev,
- }
- 
- static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
--					    struct drm_plane_state *old_state)
-+					    struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct drm_device *dev = plane->dev;
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct virtio_gpu_output *output = NULL;
-@@ -242,8 +244,10 @@ static void virtio_gpu_cursor_cleanup_fb(struct drm_plane *plane,
- }
- 
- static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
--					   struct drm_plane_state *old_state)
-+					   struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct drm_device *dev = plane->dev;
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct virtio_gpu_output *output = NULL;
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index a8a675b6a3f7..d0056fab01eb 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -92,7 +92,7 @@ static const struct drm_plane_funcs vkms_plane_funcs = {
- };
- 
- static void vkms_plane_atomic_update(struct drm_plane *plane,
--				     struct drm_plane_state *old_state)
-+				     struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 	struct vkms_plane_state *vkms_plane_state;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index ab32d7a5159b..abbca8b0b3c5 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -370,9 +370,12 @@ vmw_du_cursor_plane_prepare_fb(struct drm_plane *plane,
- 
- void
- vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
--				  struct drm_plane_state *old_state)
-+				  struct drm_atomic_state *state)
- {
--	struct drm_plane_state *new_state = plane->state;
-+	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
-+									   plane);
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct drm_crtc *crtc = new_state->crtc ?: old_state->crtc;
- 	struct vmw_private *dev_priv = vmw_priv(crtc->dev);
- 	struct vmw_display_unit *du = vmw_crtc_to_du(crtc);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-index c5183e7eea04..bbc809f7bd8a 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -460,7 +460,7 @@ int vmw_du_primary_plane_atomic_check(struct drm_plane *plane,
- int vmw_du_cursor_plane_atomic_check(struct drm_plane *plane,
- 				     struct drm_atomic_state *state);
- void vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
--				       struct drm_plane_state *old_state);
-+				       struct drm_atomic_state *state);
- int vmw_du_cursor_plane_prepare_fb(struct drm_plane *plane,
- 				   struct drm_plane_state *new_state);
- void vmw_du_plane_cleanup_fb(struct drm_plane *plane,
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-index 14de7936983e..dd8696fe7943 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-@@ -284,8 +284,10 @@ drm_connector_helper_funcs vmw_ldu_connector_helper_funcs = {
- 
- static void
- vmw_ldu_primary_plane_atomic_update(struct drm_plane *plane,
--				    struct drm_plane_state *old_state)
-+				    struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct vmw_private *dev_priv;
- 	struct vmw_legacy_display_unit *ldu;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-index 68f6a03729ee..05f3111164d8 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-@@ -730,8 +730,10 @@ static int vmw_sou_plane_update_surface(struct vmw_private *dev_priv,
- 
- static void
- vmw_sou_primary_plane_atomic_update(struct drm_plane *plane,
--				    struct drm_plane_state *old_state)
-+				    struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+								           plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct drm_crtc *crtc = new_state->crtc;
- 	struct drm_pending_vblank_event *event = NULL;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-index 936d12169dbe..7d4f62834ec4 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-@@ -1580,8 +1580,10 @@ static int vmw_stdu_plane_update_surface(struct vmw_private *dev_priv,
-  */
- static void
- vmw_stdu_primary_plane_atomic_update(struct drm_plane *plane,
--				     struct drm_plane_state *old_state)
-+				     struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+								           plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(new_state);
- 	struct drm_crtc *crtc = new_state->crtc;
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index 8b87a17e9d56..56b1b855cfe9 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -1165,8 +1165,10 @@ zynqmp_disp_plane_atomic_check(struct drm_plane *plane,
- 
- static void
- zynqmp_disp_plane_atomic_disable(struct drm_plane *plane,
--				 struct drm_plane_state *old_state)
-+				 struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct zynqmp_disp_layer *layer = plane_to_layer(plane);
- 
- 	if (!old_state->fb)
-@@ -1177,8 +1179,10 @@ zynqmp_disp_plane_atomic_disable(struct drm_plane *plane,
- 
- static void
- zynqmp_disp_plane_atomic_update(struct drm_plane *plane,
--				struct drm_plane_state *old_state)
-+				struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+								           plane);
- 	struct drm_plane_state *new_state = plane->state;
- 	struct zynqmp_disp_layer *layer = plane_to_layer(plane);
- 	bool format_changed = false;
-@@ -1484,8 +1488,6 @@ static void
- zynqmp_disp_crtc_atomic_disable(struct drm_crtc *crtc,
- 				struct drm_atomic_state *state)
- {
--	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state,
--									      crtc);
- 	struct zynqmp_disp *disp = crtc_to_disp(crtc);
- 	struct drm_plane_state *old_plane_state;
- 
-@@ -1494,10 +1496,9 @@ zynqmp_disp_crtc_atomic_disable(struct drm_crtc *crtc,
- 	 * .shutdown() path if the plane is already disabled, skip
- 	 * zynqmp_disp_plane_atomic_disable() in that case.
- 	 */
--	old_plane_state = drm_atomic_get_old_plane_state(old_crtc_state->state,
--							 crtc->primary);
-+	old_plane_state = drm_atomic_get_old_plane_state(state, crtc->primary);
- 	if (old_plane_state)
--		zynqmp_disp_plane_atomic_disable(crtc->primary, old_plane_state);
-+		zynqmp_disp_plane_atomic_disable(crtc->primary, state);
- 
- 	zynqmp_disp_disable(disp);
- 
-diff --git a/drivers/gpu/drm/zte/zx_plane.c b/drivers/gpu/drm/zte/zx_plane.c
-index 2833734bd5fb..fc2ac2672f1c 100644
---- a/drivers/gpu/drm/zte/zx_plane.c
-+++ b/drivers/gpu/drm/zte/zx_plane.c
-@@ -181,7 +181,7 @@ static void zx_vl_rsz_setup(struct zx_plane *zplane, uint32_t format,
- }
- 
- static void zx_vl_plane_atomic_update(struct drm_plane *plane,
--				      struct drm_plane_state *old_state)
-+				      struct drm_atomic_state *state)
- {
- 	struct zx_plane *zplane = to_zx_plane(plane);
- 	struct drm_plane_state *new_state = plane->state;
-@@ -259,8 +259,10 @@ static void zx_vl_plane_atomic_update(struct drm_plane *plane,
- }
- 
- static void zx_plane_atomic_disable(struct drm_plane *plane,
--				    struct drm_plane_state *old_state)
-+				    struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
- 	struct zx_plane *zplane = to_zx_plane(plane);
- 	void __iomem *hbsc = zplane->hbsc;
- 
-@@ -351,7 +353,7 @@ static void zx_gl_rsz_setup(struct zx_plane *zplane, u32 src_w, u32 src_h,
- }
- 
- static void zx_gl_plane_atomic_update(struct drm_plane *plane,
--				      struct drm_plane_state *old_state)
-+				      struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_state = plane->state;
- 	struct zx_plane *zplane = to_zx_plane(plane);
-diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-index 484f91d772ea..982d608d625d 100644
---- a/include/drm/drm_modeset_helper_vtables.h
-+++ b/include/drm/drm_modeset_helper_vtables.h
-@@ -1262,7 +1262,7 @@ struct drm_plane_helper_funcs {
- 	 * transitional plane helpers, but it is optional.
- 	 */
- 	void (*atomic_update)(struct drm_plane *plane,
--			      struct drm_plane_state *old_state);
-+			      struct drm_atomic_state *state);
- 	/**
- 	 * @atomic_disable:
- 	 *
-@@ -1286,7 +1286,7 @@ struct drm_plane_helper_funcs {
- 	 * transitional plane helpers, but it is optional.
- 	 */
- 	void (*atomic_disable)(struct drm_plane *plane,
--			       struct drm_plane_state *old_state);
-+			       struct drm_atomic_state *state);
- 
- 	/**
- 	 * @atomic_async_check:
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TWFueSBkcml2ZXJzIHJlZmVyZW5jZSB0aGUgcGxhbmUtPnN0YXRlIHBvaW50ZXIgaW4gb3JkZXIg
+dG8gZ2V0IHRoZQpjdXJyZW50IHBsYW5lIHN0YXRlIGluIHRoZWlyIGF0b21pY191cGRhdGUgb3Ig
+YXRvbWljX2Rpc2FibGUgaG9va3MsCndoaWNoIHdvdWxkIGJlIHRoZSBuZXcgcGxhbmUgc3RhdGUg
+aW4gdGhlIGdsb2JhbCBhdG9taWMgc3RhdGUgc2luY2UKX3N3YXBfc3RhdGUgaGFwcGVuZWQgd2hl
+biB0aG9zZSBob29rcyBhcmUgcnVuLgoKVXNlIHRoZSBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVf
+c3RhdGUgaGVscGVyIHRvIGdldCB0aGF0IHN0YXRlIHRvIG1ha2UgaXQKbW9yZSBvYnZpb3VzLgoK
+VGhpcyB3YXMgbWFkZSB1c2luZyB0aGUgY29jY2luZWxsZSBzY3JpcHQgYmVsb3c6CgpAIHBsYW5l
+X2F0b21pY19mdW5jIEAKaWRlbnRpZmllciBoZWxwZXJzOwppZGVudGlmaWVyIGZ1bmM7CkBACgoo
+CiBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9wbGFuZV9oZWxwZXJfZnVuY3MgaGVscGVycyA9IHsK
+IAkuLi4sCiAJLmF0b21pY19kaXNhYmxlID0gZnVuYywKCS4uLiwKIH07CnwKIHN0YXRpYyBjb25z
+dCBzdHJ1Y3QgZHJtX3BsYW5lX2hlbHBlcl9mdW5jcyBoZWxwZXJzID0gewogCS4uLiwKIAkuYXRv
+bWljX3VwZGF0ZSA9IGZ1bmMsCgkuLi4sCiB9OwopCgpAIGFkZHNfbmV3X3N0YXRlIEAKaWRlbnRp
+ZmllciBwbGFuZV9hdG9taWNfZnVuYy5mdW5jOwppZGVudGlmaWVyIHBsYW5lLCBzdGF0ZTsKaWRl
+bnRpZmllciBuZXdfc3RhdGU7CkBACgogZnVuYyhzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwgc3Ry
+dWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlKQogewogCS4uLgotCXN0cnVjdCBkcm1fcGxhbmVf
+c3RhdGUgKm5ld19zdGF0ZSA9IHBsYW5lLT5zdGF0ZTsKKwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRl
+ICpuZXdfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsIHBsYW5l
+KTsKCS4uLgogfQoKQCBpbmNsdWRlIGRlcGVuZHMgb24gYWRkc19uZXdfc3RhdGUgQApAQAoKICNp
+bmNsdWRlIDxkcm0vZHJtX2F0b21pYy5oPgoKQCBub19pbmNsdWRlIGRlcGVuZHMgb24gIWluY2x1
+ZGUgJiYgYWRkc19uZXdfc3RhdGUgQApAQAoKKyAjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWMuaD4K
+ICAjaW5jbHVkZSA8ZHJtLy4uLj4KClJldmlld2VkLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxl
+LnN5cmphbGFAbGludXguaW50ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBNYXhpbWUgUmlwYXJkIDxt
+YXhpbWVAY2Vybm8udGVjaD4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYXJjL2FyY3BndV9jcnRjLmMg
+ICAgICAgICAgICAgICB8IDQgKysrLQogZHJpdmVycy9ncHUvZHJtL2FybS9oZGxjZF9jcnRjLmMg
+ICAgICAgICAgICAgICAgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfcGxhbmVz
+LmMgICAgICAgICAgICAgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL2FybWFkYS9hcm1hZGFfb3Zl
+cmxheS5jICAgICAgICAgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL2FybWFkYS9hcm1hZGFfcGxh
+bmUuYyAgICAgICAgICAgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jICAg
+ICAgICAgICAgICAgICAgfCA2ICsrKystLQogZHJpdmVycy9ncHUvZHJtL2F0bWVsLWhsY2RjL2F0
+bWVsX2hsY2RjX3BsYW5lLmMgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3Nf
+ZHJtX3BsYW5lLmMgICAgICAgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL2ZzbC1kY3UvZnNsX2Rj
+dV9kcm1fcGxhbmUuYyAgICAgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJt
+Yy9oaWJtY19kcm1fZGUuYyAgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9raXJp
+bi9raXJpbl9kcm1fYWRlLmMgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL2lteC9kY3NzL2Rjc3Mt
+cGxhbmUuYyAgICAgICAgICAgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL2lteC9pcHV2My1wbGFu
+ZS5jICAgICAgICAgICAgICAgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5p
+Yy1kcm0tZHJ2LmMgICAgICAgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5p
+Yy1pcHUuYyAgICAgICAgICAgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfcGxhbmUu
+YyAgICAgICAgICAgICAgICAgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19k
+cm1fcGxhbmUuYyAgICAgICAgfCA2ICsrKystLQogZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29u
+X292ZXJsYXkuYyAgICAgICAgICAgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29u
+X3BsYW5lLmMgICAgICAgICAgICAgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL2Rw
+dTEvZHB1X3BsYW5lLmMgICAgICAgfCAzICsrLQogZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL21k
+cDQvbWRwNF9wbGFuZS5jICAgICAgfCA0ICsrKy0KIGRyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9t
+ZHA1L21kcDVfcGxhbmUuYyAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS9teHNmYi9teHNm
+Yl9rbXMuYyAgICAgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29t
+YXBfcGxhbmUuYyAgICAgICAgICAgIHwgNiArKysrLS0KIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhs
+X2Rpc3BsYXkuYyAgICAgICAgICAgICAgIHwgNiArKysrLS0KIGRyaXZlcnMvZ3B1L2RybS9yY2Fy
+LWR1L3JjYXJfZHVfcGxhbmUuYyAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS9yY2Fy
+LWR1L3JjYXJfZHVfdnNwLmMgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS9yb2Nr
+Y2hpcC9yb2NrY2hpcF9kcm1fdm9wLmMgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS9zdGkv
+c3RpX2N1cnNvci5jICAgICAgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS9zdGkv
+c3RpX2dkcC5jICAgICAgICAgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS9zdGkv
+c3RpX2hxdmRwLmMgICAgICAgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS9zdG0v
+bHRkYy5jICAgICAgICAgICAgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS9zdW40
+aS9zdW40aV9sYXllci5jICAgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS9zdW40
+aS9zdW44aV91aV9sYXllci5jICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS9zdW40
+aS9zdW44aV92aV9sYXllci5jICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS90ZWdy
+YS9kYy5jICAgICAgICAgICAgICAgICAgICAgIHwgNiArKysrLS0KIGRyaXZlcnMvZ3B1L2RybS90
+ZWdyYS9odWIuYyAgICAgICAgICAgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS90
+aWRzcy90aWRzc19wbGFuZS5jICAgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS90
+aWxjZGMvdGlsY2RjX3BsYW5lLmMgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS92
+Ym94dmlkZW8vdmJveF9tb2RlLmMgICAgICAgICAgIHwgNiArKysrLS0KIGRyaXZlcnMvZ3B1L2Ry
+bS92a21zL3ZrbXNfcGxhbmUuYyAgICAgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2Ry
+bS92bXdnZngvdm13Z2Z4X2xkdS5jICAgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2Ry
+bS92bXdnZngvdm13Z2Z4X3Njcm4uYyAgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2Ry
+bS92bXdnZngvdm13Z2Z4X3N0ZHUuYyAgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2Ry
+bS94bG54L3p5bnFtcF9kaXNwLmMgICAgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2Ry
+bS96dGUvenhfcGxhbmUuYyAgICAgICAgICAgICAgICAgIHwgNiArKysrLS0KIDQ2IGZpbGVzIGNo
+YW5nZWQsIDEwOCBpbnNlcnRpb25zKCspLCA1MyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vYXJjL2FyY3BndV9jcnRjLmMgYi9kcml2ZXJzL2dwdS9kcm0vYXJjL2Fy
+Y3BndV9jcnRjLmMKaW5kZXggYjE4NTQ1MmQ1NTQyLi43MDE2ZjljZmUzMGQgMTAwNjQ0Ci0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9hcmMvYXJjcGd1X2NydGMuYworKysgYi9kcml2ZXJzL2dwdS9kcm0v
+YXJjL2FyY3BndV9jcnRjLmMKQEAgLTUsNiArNSw3IEBACiAgKiBDb3B5cmlnaHQgKEMpIDIwMTYg
+U3lub3BzeXMsIEluYy4gKHd3dy5zeW5vcHN5cy5jb20pCiAgKi8KIAorI2luY2x1ZGUgPGRybS9k
+cm1fYXRvbWljLmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWNfaGVscGVyLmg+CiAjaW5jbHVk
+ZSA8ZHJtL2RybV9kZXZpY2UuaD4KICNpbmNsdWRlIDxkcm0vZHJtX2ZiX2NtYV9oZWxwZXIuaD4K
+QEAgLTE0Nyw3ICsxNDgsOCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9jcnRjX2hlbHBlcl9m
+dW5jcyBhcmNfcGd1X2NydGNfaGVscGVyX2Z1bmNzID0gewogc3RhdGljIHZvaWQgYXJjX3BndV9w
+bGFuZV9hdG9taWNfdXBkYXRlKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogCQkJCQlzdHJ1Y3Qg
+ZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpCiB7Ci0Jc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3
+X3BsYW5lX3N0YXRlID0gcGxhbmUtPnN0YXRlOworCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5l
+d19wbGFuZV9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19wbGFuZV9zdGF0ZShzdGF0ZSwKKwkJ
+CQkJCQkJCQkgcGxhbmUpOwogCXN0cnVjdCBhcmNwZ3VfZHJtX3ByaXZhdGUgKmFyY3BndTsKIAlz
+dHJ1Y3QgZHJtX2dlbV9jbWFfb2JqZWN0ICpnZW07CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9hcm0vaGRsY2RfY3J0Yy5jIGIvZHJpdmVycy9ncHUvZHJtL2FybS9oZGxjZF9jcnRjLmMK
+aW5kZXggMjUwMGJmMTg5NDIwLi43YWRiMDY1MTY5ZTkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9hcm0vaGRsY2RfY3J0Yy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfY3J0
+Yy5jCkBAIC0yNjIsNyArMjYyLDggQEAgc3RhdGljIGludCBoZGxjZF9wbGFuZV9hdG9taWNfY2hl
+Y2soc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCiBzdGF0aWMgdm9pZCBoZGxjZF9wbGFuZV9hdG9t
+aWNfdXBkYXRlKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogCQkJCSAgICAgIHN0cnVjdCBkcm1f
+YXRvbWljX3N0YXRlICpzdGF0ZSkKIHsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfcGxh
+bmVfc3RhdGUgPSBwbGFuZS0+c3RhdGU7CisJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3Bs
+YW5lX3N0YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X3BsYW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJ
+CQkJCSBwbGFuZSk7CiAJc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIgPSBuZXdfcGxhbmVfc3Rh
+dGUtPmZiOwogCXN0cnVjdCBoZGxjZF9kcm1fcHJpdmF0ZSAqaGRsY2Q7CiAJdTMyIGRlc3RfaDsK
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX3BsYW5lcy5jIGIvZHJpdmVy
+cy9ncHUvZHJtL2FybS9tYWxpZHBfcGxhbmVzLmMKaW5kZXggMWNiMjA3YmI4ZGNkLi5kZGJiYTY3
+ZjAyODMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX3BsYW5lcy5jCisr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX3BsYW5lcy5jCkBAIC03OTcsNyArNzk3LDgg
+QEAgc3RhdGljIHZvaWQgbWFsaWRwX2RlX3BsYW5lX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpw
+bGFuZSwKIAkJCQkJCQkJCSAgIHBsYW5lKTsKIAlzdHJ1Y3QgbWFsaWRwX3BsYW5lICptcDsKIAlz
+dHJ1Y3QgbWFsaWRwX3BsYW5lX3N0YXRlICptcyA9IHRvX21hbGlkcF9wbGFuZV9zdGF0ZShwbGFu
+ZS0+c3RhdGUpOwotCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9IHBsYW5lLT5z
+dGF0ZTsKKwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUgPSBkcm1fYXRvbWljX2dl
+dF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsCisJCQkJCQkJCQkgICBwbGFuZSk7CiAJdTE2IHBpeGVs
+X2FscGhhID0gbmV3X3N0YXRlLT5waXhlbF9ibGVuZF9tb2RlOwogCXU4IHBsYW5lX2FscGhhID0g
+bmV3X3N0YXRlLT5hbHBoYSA+PiA4OwogCXUzMiBzcmNfdywgc3JjX2gsIGRlc3RfdywgZGVzdF9o
+LCB2YWw7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJtYWRhL2FybWFkYV9vdmVybGF5
+LmMgYi9kcml2ZXJzL2dwdS9kcm0vYXJtYWRhL2FybWFkYV9vdmVybGF5LmMKaW5kZXggMzkzZTRl
+YTg0MWY5Li5kM2UzZTVmZGMzOTAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm1hZGEv
+YXJtYWRhX292ZXJsYXkuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtYWRhL2FybWFkYV9vdmVy
+bGF5LmMKQEAgLTcwLDcgKzcwLDggQEAgc3RhdGljIHZvaWQgYXJtYWRhX2RybV9vdmVybGF5X3Bs
+YW5lX2F0b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCiB7CiAJc3RydWN0IGRy
+bV9wbGFuZV9zdGF0ZSAqb2xkX3N0YXRlID0gZHJtX2F0b21pY19nZXRfb2xkX3BsYW5lX3N0YXRl
+KHN0YXRlLAogCQkJCQkJCQkJICAgcGxhbmUpOwotCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5l
+d19zdGF0ZSA9IHBsYW5lLT5zdGF0ZTsKKwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3Rh
+dGUgPSBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsCisJCQkJCQkJCQkgICBw
+bGFuZSk7CiAJc3RydWN0IGFybWFkYV9jcnRjICpkY3J0YzsKIAlzdHJ1Y3QgYXJtYWRhX3JlZ3Mg
+KnJlZ3M7CiAJdW5zaWduZWQgaW50IGlkeDsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9h
+cm1hZGEvYXJtYWRhX3BsYW5lLmMgYi9kcml2ZXJzL2dwdS9kcm0vYXJtYWRhL2FybWFkYV9wbGFu
+ZS5jCmluZGV4IDMxZDMxMmQ3Y2VlZi4uNDAyMDllNDlmMzRhIDEwMDY0NAotLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vYXJtYWRhL2FybWFkYV9wbGFuZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hcm1h
+ZGEvYXJtYWRhX3BsYW5lLmMKQEAgLTE2NSw3ICsxNjUsOCBAQCBzdGF0aWMgdm9pZCBhcm1hZGFf
+ZHJtX3ByaW1hcnlfcGxhbmVfYXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwK
+IHsKIAlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpvbGRfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9v
+bGRfcGxhbmVfc3RhdGUoc3RhdGUsCiAJCQkJCQkJCQkgICBwbGFuZSk7Ci0Jc3RydWN0IGRybV9w
+bGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gcGxhbmUtPnN0YXRlOworCXN0cnVjdCBkcm1fcGxhbmVf
+c3RhdGUgKm5ld19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19wbGFuZV9zdGF0ZShzdGF0ZSwK
+KwkJCQkJCQkJCSAgIHBsYW5lKTsKIAlzdHJ1Y3QgYXJtYWRhX2NydGMgKmRjcnRjOwogCXN0cnVj
+dCBhcm1hZGFfcmVncyAqcmVnczsKIAl1MzIgY2ZnLCBjZmdfbWFzaywgdmFsOwpkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9h
+c3RfbW9kZS5jCmluZGV4IDYxODE1ZWViNTE1Ny4uMzZkOTU3NWFhMjdiIDEwMDY0NAotLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9h
+c3RfbW9kZS5jCkBAIC01NzUsNyArNTc1LDggQEAgYXN0X3ByaW1hcnlfcGxhbmVfaGVscGVyX2F0
+b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCiAJCQkJCQkJCQkgICBwbGFuZSk7
+CiAJc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IHBsYW5lLT5kZXY7CiAJc3RydWN0IGFzdF9wcml2
+YXRlICphc3QgPSB0b19hc3RfcHJpdmF0ZShkZXYpOwotCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUg
+Km5ld19zdGF0ZSA9IHBsYW5lLT5zdGF0ZTsKKwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdf
+c3RhdGUgPSBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsCisJCQkJCQkJCQkg
+ICBwbGFuZSk7CiAJc3RydWN0IGRybV9nZW1fdnJhbV9vYmplY3QgKmdibzsKIAlzNjQgZ3B1X2Fk
+ZHI7CiAJc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIgPSBuZXdfc3RhdGUtPmZiOwpAQCAtNzk3
+LDcgKzc5OCw4IEBAIGFzdF9jdXJzb3JfcGxhbmVfaGVscGVyX2F0b21pY191cGRhdGUoc3RydWN0
+IGRybV9wbGFuZSAqcGxhbmUsCiAJc3RydWN0IGFzdF9jdXJzb3JfcGxhbmUgKmFzdF9jdXJzb3Jf
+cGxhbmUgPSB0b19hc3RfY3Vyc29yX3BsYW5lKHBsYW5lKTsKIAlzdHJ1Y3QgZHJtX3BsYW5lX3N0
+YXRlICpvbGRfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9vbGRfcGxhbmVfc3RhdGUoc3RhdGUsCiAJ
+CQkJCQkJCQkgICBwbGFuZSk7Ci0Jc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0g
+cGxhbmUtPnN0YXRlOworCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9IGRybV9h
+dG9taWNfZ2V0X25ld19wbGFuZV9zdGF0ZShzdGF0ZSwKKwkJCQkJCQkJCSAgIHBsYW5lKTsKIAlz
+dHJ1Y3QgZHJtX3NoYWRvd19wbGFuZV9zdGF0ZSAqc2hhZG93X3BsYW5lX3N0YXRlID0gdG9fZHJt
+X3NoYWRvd19wbGFuZV9zdGF0ZShuZXdfc3RhdGUpOwogCXN0cnVjdCBkcm1fZnJhbWVidWZmZXIg
+KmZiID0gbmV3X3N0YXRlLT5mYjsKIAlzdHJ1Y3QgYXN0X3ByaXZhdGUgKmFzdCA9IHRvX2FzdF9w
+cml2YXRlKHBsYW5lLT5kZXYpOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2F0bWVsLWhs
+Y2RjL2F0bWVsX2hsY2RjX3BsYW5lLmMgYi9kcml2ZXJzL2dwdS9kcm0vYXRtZWwtaGxjZGMvYXRt
+ZWxfaGxjZGNfcGxhbmUuYwppbmRleCAyYzZkNzFmYWEyNjguLmEwNzdkOTNjNzhkNyAxMDA2NDQK
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2F0bWVsLWhsY2RjL2F0bWVsX2hsY2RjX3BsYW5lLmMKKysr
+IGIvZHJpdmVycy9ncHUvZHJtL2F0bWVsLWhsY2RjL2F0bWVsX2hsY2RjX3BsYW5lLmMKQEAgLTcz
+Myw3ICs3MzMsOCBAQCBzdGF0aWMgdm9pZCBhdG1lbF9obGNkY19wbGFuZV9hdG9taWNfZGlzYWJs
+ZShzdHJ1Y3QgZHJtX3BsYW5lICpwLAogc3RhdGljIHZvaWQgYXRtZWxfaGxjZGNfcGxhbmVfYXRv
+bWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwLAogCQkJCQkgICAgc3RydWN0IGRybV9hdG9t
+aWNfc3RhdGUgKnN0YXRlKQogewotCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zID0gcC0+
+c3RhdGU7CisJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3MgPSBkcm1fYXRvbWljX2dldF9u
+ZXdfcGxhbmVfc3RhdGUoc3RhdGUsCisJCQkJCQkJCSAgICAgICBwKTsKIAlzdHJ1Y3QgYXRtZWxf
+aGxjZGNfcGxhbmUgKnBsYW5lID0gZHJtX3BsYW5lX3RvX2F0bWVsX2hsY2RjX3BsYW5lKHApOwog
+CXN0cnVjdCBhdG1lbF9obGNkY19wbGFuZV9zdGF0ZSAqaHN0YXRlID0KIAkJCWRybV9wbGFuZV9z
+dGF0ZV90b19hdG1lbF9obGNkY19wbGFuZV9zdGF0ZShuZXdfcyk7CmRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fcGxhbmUuYyBiL2RyaXZlcnMvZ3B1L2RybS9l
+eHlub3MvZXh5bm9zX2RybV9wbGFuZS5jCmluZGV4IGMwZjczM2U2ZWQ5ZS4uZWU5OWFiMTlmNzE3
+IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fcGxhbmUuYwor
+KysgYi9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fcGxhbmUuYwpAQCAtMjU0LDcg
+KzI1NCw4IEBAIHN0YXRpYyBpbnQgZXh5bm9zX3BsYW5lX2F0b21pY19jaGVjayhzdHJ1Y3QgZHJt
+X3BsYW5lICpwbGFuZSwKIHN0YXRpYyB2b2lkIGV4eW5vc19wbGFuZV9hdG9taWNfdXBkYXRlKHN0
+cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogCQkJCSAgICAgICBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0
+ZSAqc3RhdGUpCiB7Ci0Jc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gcGxhbmUt
+PnN0YXRlOworCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9IGRybV9hdG9taWNf
+Z2V0X25ld19wbGFuZV9zdGF0ZShzdGF0ZSwKKwkJCQkJCQkJICAgICAgICAgICBwbGFuZSk7CiAJ
+c3RydWN0IGV4eW5vc19kcm1fY3J0YyAqZXh5bm9zX2NydGMgPSB0b19leHlub3NfY3J0YyhuZXdf
+c3RhdGUtPmNydGMpOwogCXN0cnVjdCBleHlub3NfZHJtX3BsYW5lICpleHlub3NfcGxhbmUgPSB0
+b19leHlub3NfcGxhbmUocGxhbmUpOwogCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZnNs
+LWRjdS9mc2xfZGN1X2RybV9wbGFuZS5jIGIvZHJpdmVycy9ncHUvZHJtL2ZzbC1kY3UvZnNsX2Rj
+dV9kcm1fcGxhbmUuYwppbmRleCBkOWVmYTZkMWIyZDQuLjhmZTk1M2Q2ZTBhOSAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL2ZzbC1kY3UvZnNsX2RjdV9kcm1fcGxhbmUuYworKysgYi9kcml2
+ZXJzL2dwdS9kcm0vZnNsLWRjdS9mc2xfZGN1X2RybV9wbGFuZS5jCkBAIC04MCw3ICs4MCw4IEBA
+IHN0YXRpYyB2b2lkIGZzbF9kY3VfZHJtX3BsYW5lX2F0b21pY191cGRhdGUoc3RydWN0IGRybV9w
+bGFuZSAqcGxhbmUsCiAKIHsKIAlzdHJ1Y3QgZnNsX2RjdV9kcm1fZGV2aWNlICpmc2xfZGV2ID0g
+cGxhbmUtPmRldi0+ZGV2X3ByaXZhdGU7Ci0Jc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0
+YXRlID0gcGxhbmUtPnN0YXRlOworCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9
+IGRybV9hdG9taWNfZ2V0X25ld19wbGFuZV9zdGF0ZShzdGF0ZSwKKwkJCQkJCQkJCSAgIHBsYW5l
+KTsKIAlzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiA9IHBsYW5lLT5zdGF0ZS0+ZmI7CiAJc3Ry
+dWN0IGRybV9nZW1fY21hX29iamVjdCAqZ2VtOwogCXVuc2lnbmVkIGludCBhbHBoYSA9IERDVV9M
+QVlFUl9BQl9OT05FLCBicHA7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29u
+L2hpYm1jL2hpYm1jX2RybV9kZS5jIGIvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9o
+aWJtY19kcm1fZGUuYwppbmRleCA0ZjY0M2ZiYzY4ZmIuLmZhOGRhMGVmNzA3ZSAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZGUuYworKysgYi9k
+cml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9kZS5jCkBAIC0xMDEsNyAr
+MTAxLDggQEAgc3RhdGljIGludCBoaWJtY19wbGFuZV9hdG9taWNfY2hlY2soc3RydWN0IGRybV9w
+bGFuZSAqcGxhbmUsCiBzdGF0aWMgdm9pZCBoaWJtY19wbGFuZV9hdG9taWNfdXBkYXRlKHN0cnVj
+dCBkcm1fcGxhbmUgKnBsYW5lLAogCQkJCSAgICAgIHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpz
+dGF0ZSkKIHsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUgPSBwbGFuZS0+c3Rh
+dGU7CisJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gZHJtX2F0b21pY19nZXRf
+bmV3X3BsYW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkJICAgcGxhbmUpOwogCXUzMiByZWc7CiAJ
+czY0IGdwdV9hZGRyID0gMDsKIAl1MzIgbGluZV9sOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2hpc2lsaWNvbi9raXJpbi9raXJpbl9kcm1fYWRlLmMgYi9kcml2ZXJzL2dwdS9kcm0vaGlz
+aWxpY29uL2tpcmluL2tpcmluX2RybV9hZGUuYwppbmRleCA4MzRmZDEwMWMzYmEuLjZkY2Y5ZWMw
+NWVlYyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9raXJpbi9raXJpbl9k
+cm1fYWRlLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9raXJpbi9raXJpbl9kcm1f
+YWRlLmMKQEAgLTgwNiw3ICs4MDYsOCBAQCBzdGF0aWMgaW50IGFkZV9wbGFuZV9hdG9taWNfY2hl
+Y2soc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCiBzdGF0aWMgdm9pZCBhZGVfcGxhbmVfYXRvbWlj
+X3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKIAkJCQkgICAgc3RydWN0IGRybV9hdG9t
+aWNfc3RhdGUgKnN0YXRlKQogewotCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9
+IHBsYW5lLT5zdGF0ZTsKKwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUgPSBkcm1f
+YXRvbWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsCisJCQkJCQkJCQkgICBwbGFuZSk7CiAJ
+c3RydWN0IGtpcmluX3BsYW5lICprcGxhbmUgPSB0b19raXJpbl9wbGFuZShwbGFuZSk7CiAKIAlh
+ZGVfdXBkYXRlX2NoYW5uZWwoa3BsYW5lLCBuZXdfc3RhdGUtPmZiLCBuZXdfc3RhdGUtPmNydGNf
+eCwKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLXBsYW5lLmMgYi9k
+cml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1wbGFuZS5jCmluZGV4IGQ2YmM5ZmI3MTc1Ni4u
+YmEyOTdlMTA4YjQzIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1w
+bGFuZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLXBsYW5lLmMKQEAgLTI2
+OCw3ICsyNjgsOCBAQCBzdGF0aWMgdm9pZCBkY3NzX3BsYW5lX2F0b21pY191cGRhdGUoc3RydWN0
+IGRybV9wbGFuZSAqcGxhbmUsCiB7CiAJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqb2xkX3N0YXRl
+ID0gZHJtX2F0b21pY19nZXRfb2xkX3BsYW5lX3N0YXRlKHN0YXRlLAogCQkJCQkJCQkJICAgcGxh
+bmUpOwotCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9IHBsYW5lLT5zdGF0ZTsK
+KwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9uZXdf
+cGxhbmVfc3RhdGUoc3RhdGUsCisJCQkJCQkJCQkgICBwbGFuZSk7CiAJc3RydWN0IGRjc3NfcGxh
+bmUgKmRjc3NfcGxhbmUgPSB0b19kY3NzX3BsYW5lKHBsYW5lKTsKIAlzdHJ1Y3QgZGNzc19kZXYg
+KmRjc3MgPSBwbGFuZS0+ZGV2LT5kZXZfcHJpdmF0ZTsKIAlzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVy
+ICpmYiA9IG5ld19zdGF0ZS0+ZmI7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaW14L2lw
+dXYzLXBsYW5lLmMgYi9kcml2ZXJzL2dwdS9kcm0vaW14L2lwdXYzLXBsYW5lLmMKaW5kZXggN2Iw
+NzE0MDYxODQ5Li5kOWQ3MWYzNzQ4ZTkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pbXgv
+aXB1djMtcGxhbmUuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vaW14L2lwdXYzLXBsYW5lLmMKQEAg
+LTU0NCw3ICs1NDQsOCBAQCBzdGF0aWMgdm9pZCBpcHVfcGxhbmVfYXRvbWljX3VwZGF0ZShzdHJ1
+Y3QgZHJtX3BsYW5lICpwbGFuZSwKIAlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpvbGRfc3RhdGUg
+PSBkcm1fYXRvbWljX2dldF9vbGRfcGxhbmVfc3RhdGUoc3RhdGUsCiAJCQkJCQkJCQkgICBwbGFu
+ZSk7CiAJc3RydWN0IGlwdV9wbGFuZSAqaXB1X3BsYW5lID0gdG9faXB1X3BsYW5lKHBsYW5lKTsK
+LQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUgPSBwbGFuZS0+c3RhdGU7CisJc3Ry
+dWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X3BsYW5l
+X3N0YXRlKHN0YXRlLAorCQkJCQkJCQkJICAgcGxhbmUpOwogCXN0cnVjdCBpcHVfcGxhbmVfc3Rh
+dGUgKmlwdV9zdGF0ZSA9IHRvX2lwdV9wbGFuZV9zdGF0ZShuZXdfc3RhdGUpOwogCXN0cnVjdCBk
+cm1fY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZSA9IG5ld19zdGF0ZS0+Y3J0Yy0+c3RhdGU7CiAJc3Ry
+dWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIgPSBuZXdfc3RhdGUtPmZiOwpkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1kcm0tZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0v
+aW5nZW5pYy9pbmdlbmljLWRybS1kcnYuYwppbmRleCA4NWMzNzFkMTA1ZTUuLjZkMzhlY2EwNTJm
+NyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1kcm0tZHJ2LmMK
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1kcm0tZHJ2LmMKQEAgLTU0NCw3
+ICs1NDQsOCBAQCBzdGF0aWMgdm9pZCBpbmdlbmljX2RybV9wbGFuZV9hdG9taWNfdXBkYXRlKHN0
+cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogCQkJCQkgICAgc3RydWN0IGRybV9hdG9taWNfc3RhdGUg
+KnN0YXRlKQogewogCXN0cnVjdCBpbmdlbmljX2RybSAqcHJpdiA9IGRybV9kZXZpY2VfZ2V0X3By
+aXYocGxhbmUtPmRldik7Ci0Jc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3c3RhdGUgPSBwbGFu
+ZS0+c3RhdGU7CisJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3c3RhdGUgPSBkcm1fYXRvbWlj
+X2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsCisJCQkJCQkJCQkgIHBsYW5lKTsKIAlzdHJ1Y3Qg
+ZHJtX2NydGNfc3RhdGUgKmNydGNfc3RhdGU7CiAJc3RydWN0IGluZ2VuaWNfZG1hX2h3ZGVzYyAq
+aHdkZXNjOwogCXVuc2lnbmVkIGludCB3aWR0aCwgaGVpZ2h0LCBjcHAsIG9mZnNldDsKZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pbmdlbmljL2luZ2VuaWMtaXB1LmMgYi9kcml2ZXJzL2dw
+dS9kcm0vaW5nZW5pYy9pbmdlbmljLWlwdS5jCmluZGV4IDc3MTZiYjIxMWQ3ZS4uMWUxYzdkZDM5
+OTdhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaW5nZW5pYy9pbmdlbmljLWlwdS5jCisr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9pbmdlbmljL2luZ2VuaWMtaXB1LmMKQEAgLTI4NSw3ICsyODUs
+OCBAQCBzdGF0aWMgdm9pZCBpbmdlbmljX2lwdV9wbGFuZV9hdG9taWNfdXBkYXRlKHN0cnVjdCBk
+cm1fcGxhbmUgKnBsYW5lLAogCQkJCQkgICAgc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRl
+KQogewogCXN0cnVjdCBpbmdlbmljX2lwdSAqaXB1ID0gcGxhbmVfdG9faW5nZW5pY19pcHUocGxh
+bmUpOwotCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld3N0YXRlID0gcGxhbmUtPnN0YXRlOwor
+CXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld3N0YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X3Bs
+YW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkJICBwbGFuZSk7CiAJY29uc3Qgc3RydWN0IGRybV9m
+b3JtYXRfaW5mbyAqZmluZm87CiAJdTMyIGN0cmwsIHN0cmlkZSA9IDAsIGNvZWZfaW5kZXggPSAw
+LCBmb3JtYXQgPSAwOwogCWJvb2wgbmVlZHNfbW9kZXNldCwgdXBzY2FsaW5nX3csIHVwc2NhbGlu
+Z19oOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfcGxhbmUuYyBiL2RyaXZl
+cnMvZ3B1L2RybS9rbWIva21iX3BsYW5lLmMKaW5kZXggZjgzNzk2MjQ3NGIxLi5kNWI2MTk1ODU2
+ZDEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9rbWIva21iX3BsYW5lLmMKKysrIGIvZHJp
+dmVycy9ncHUvZHJtL2ttYi9rbWJfcGxhbmUuYwpAQCAtMjgyLDcgKzI4Miw4IEBAIHN0YXRpYyB2
+b2lkIGttYl9wbGFuZV9hdG9taWNfdXBkYXRlKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogewog
+CXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm9sZF9wbGFuZV9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0
+X29sZF9wbGFuZV9zdGF0ZShzdGF0ZSwKIAkJCQkJCQkJCQkgcGxhbmUpOwotCXN0cnVjdCBkcm1f
+cGxhbmVfc3RhdGUgKm5ld19wbGFuZV9zdGF0ZSA9IHBsYW5lLT5zdGF0ZTsKKwlzdHJ1Y3QgZHJt
+X3BsYW5lX3N0YXRlICpuZXdfcGxhbmVfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVf
+c3RhdGUoc3RhdGUsCisJCQkJCQkJCQkJIHBsYW5lKTsKIAlzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVy
+ICpmYjsKIAlzdHJ1Y3Qga21iX2RybV9wcml2YXRlICprbWI7CiAJdW5zaWduZWQgaW50IHdpZHRo
+OwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fcGxhbmUuYyBi
+L2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX3BsYW5lLmMKaW5kZXggN2Y4NzZiNmM5
+NjE1Li5hNmVmYmMzOGRiMjcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
+dGtfZHJtX3BsYW5lLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fcGxh
+bmUuYwpAQCAtMTc1LDcgKzE3NSw4IEBAIHN0YXRpYyBpbnQgbXRrX3BsYW5lX2F0b21pY19jaGVj
+ayhzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKIHN0YXRpYyB2b2lkIG10a19wbGFuZV9hdG9taWNf
+ZGlzYWJsZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKIAkJCQkgICAgIHN0cnVjdCBkcm1fYXRv
+bWljX3N0YXRlICpzdGF0ZSkKIHsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUg
+PSBwbGFuZS0+c3RhdGU7CisJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gZHJt
+X2F0b21pY19nZXRfbmV3X3BsYW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkJICAgcGxhbmUpOwog
+CXN0cnVjdCBtdGtfcGxhbmVfc3RhdGUgKm10a19wbGFuZV9zdGF0ZSA9IHRvX210a19wbGFuZV9z
+dGF0ZShuZXdfc3RhdGUpOwogCW10a19wbGFuZV9zdGF0ZS0+cGVuZGluZy5lbmFibGUgPSBmYWxz
+ZTsKIAl3bWIoKTsgLyogTWFrZSBzdXJlIHRoZSBhYm92ZSBwYXJhbWV0ZXIgaXMgc2V0IGJlZm9y
+ZSB1cGRhdGUgKi8KQEAgLTE4NSw3ICsxODYsOCBAQCBzdGF0aWMgdm9pZCBtdGtfcGxhbmVfYXRv
+bWljX2Rpc2FibGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCiBzdGF0aWMgdm9pZCBtdGtfcGxh
+bmVfYXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKIAkJCQkgICAgc3RydWN0
+IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlKQogewotCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5l
+d19zdGF0ZSA9IHBsYW5lLT5zdGF0ZTsKKwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3Rh
+dGUgPSBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsCisJCQkJCQkJCQkgICBw
+bGFuZSk7CiAJc3RydWN0IG10a19wbGFuZV9zdGF0ZSAqbXRrX3BsYW5lX3N0YXRlID0gdG9fbXRr
+X3BsYW5lX3N0YXRlKG5ld19zdGF0ZSk7CiAJc3RydWN0IGRybV9jcnRjICpjcnRjID0gbmV3X3N0
+YXRlLT5jcnRjOwogCXN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiID0gbmV3X3N0YXRlLT5mYjsK
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl9vdmVybGF5LmMgYi9kcml2
+ZXJzL2dwdS9kcm0vbWVzb24vbWVzb25fb3ZlcmxheS5jCmluZGV4IDRiMTJhNTNlMjdjOC4uYTgy
+MGJmOWIxMDc1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVzb24vbWVzb25fb3Zlcmxh
+eS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl9vdmVybGF5LmMKQEAgLTQ3MSw3
+ICs0NzEsOCBAQCBzdGF0aWMgdm9pZCBtZXNvbl9vdmVybGF5X2F0b21pY191cGRhdGUoc3RydWN0
+IGRybV9wbGFuZSAqcGxhbmUsCiAJCQkJCXN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkK
+IHsKIAlzdHJ1Y3QgbWVzb25fb3ZlcmxheSAqbWVzb25fb3ZlcmxheSA9IHRvX21lc29uX292ZXJs
+YXkocGxhbmUpOwotCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9IHBsYW5lLT5z
+dGF0ZTsKKwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUgPSBkcm1fYXRvbWljX2dl
+dF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsCisJCQkJCQkJCQkgICBwbGFuZSk7CiAJc3RydWN0IGRy
+bV9mcmFtZWJ1ZmZlciAqZmIgPSBuZXdfc3RhdGUtPmZiOwogCXN0cnVjdCBtZXNvbl9kcm0gKnBy
+aXYgPSBtZXNvbl9vdmVybGF5LT5wcml2OwogCXN0cnVjdCBkcm1fZ2VtX2NtYV9vYmplY3QgKmdl
+bTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl9wbGFuZS5jIGIvZHJp
+dmVycy9ncHUvZHJtL21lc29uL21lc29uX3BsYW5lLmMKaW5kZXggNzhiZDNlOWJlM2JmLi5mN2Zh
+MzdhYzUxY2YgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl9wbGFuZS5j
+CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl9wbGFuZS5jCkBAIC0xMzMsNyArMTMz
+LDggQEAgc3RhdGljIHZvaWQgbWVzb25fcGxhbmVfYXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3Bs
+YW5lICpwbGFuZSwKIAkJCQkgICAgICBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpCiB7
+CiAJc3RydWN0IG1lc29uX3BsYW5lICptZXNvbl9wbGFuZSA9IHRvX21lc29uX3BsYW5lKHBsYW5l
+KTsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUgPSBwbGFuZS0+c3RhdGU7CisJ
+c3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X3Bs
+YW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkJICAgcGxhbmUpOwogCXN0cnVjdCBkcm1fcmVjdCBk
+ZXN0ID0gZHJtX3BsYW5lX3N0YXRlX2Rlc3QobmV3X3N0YXRlKTsKIAlzdHJ1Y3QgbWVzb25fZHJt
+ICpwcml2ID0gbWVzb25fcGxhbmUtPnByaXY7CiAJc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIg
+PSBuZXdfc3RhdGUtPmZiOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL2Rw
+dTEvZHB1X3BsYW5lLmMgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvZHB1MS9kcHVfcGxhbmUu
+YwppbmRleCAzMTA3MWY5ZTIxZDcuLmU4Y2U3MmZlNTRhNCAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL21zbS9kaXNwL2RwdTEvZHB1X3BsYW5lLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL21z
+bS9kaXNwL2RwdTEvZHB1X3BsYW5lLmMKQEAgLTEyNDQsNyArMTI0NCw4IEBAIHN0YXRpYyB2b2lk
+IGRwdV9wbGFuZV9hdG9taWNfdXBkYXRlKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogCQkJCXN0
+cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkKIHsKIAlzdHJ1Y3QgZHB1X3BsYW5lICpwZHB1
+ID0gdG9fZHB1X3BsYW5lKHBsYW5lKTsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3Rh
+dGUgPSBwbGFuZS0+c3RhdGU7CisJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0g
+ZHJtX2F0b21pY19nZXRfbmV3X3BsYW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkJICAgcGxhbmUp
+OwogCiAJcGRwdS0+aXNfZXJyb3IgPSBmYWxzZTsKIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL21zbS9kaXNwL21kcDQvbWRwNF9wbGFuZS5jIGIvZHJpdmVycy9ncHUvZHJtL21zbS9kaXNw
+L21kcDQvbWRwNF9wbGFuZS5jCmluZGV4IDVkNzhiY2U5ODBhNy4uOWFlY2NhOTE5ZjI0IDEwMDY0
+NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvbWRwNC9tZHA0X3BsYW5lLmMKKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL21kcDQvbWRwNF9wbGFuZS5jCkBAIC00LDYgKzQsNyBA
+QAogICogQXV0aG9yOiBSb2IgQ2xhcmsgPHJvYmRjbGFya0BnbWFpbC5jb20+CiAgKi8KIAorI2lu
+Y2x1ZGUgPGRybS9kcm1fYXRvbWljLmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9kYW1hZ2VfaGVscGVy
+Lmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9mb3VyY2MuaD4KIApAQCAtMTE0LDcgKzExNSw4IEBAIHN0
+YXRpYyBpbnQgbWRwNF9wbGFuZV9hdG9taWNfY2hlY2soc3RydWN0IGRybV9wbGFuZSAqcGxhbmUs
+CiBzdGF0aWMgdm9pZCBtZHA0X3BsYW5lX2F0b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAq
+cGxhbmUsCiAJCQkJICAgICBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpCiB7Ci0Jc3Ry
+dWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gcGxhbmUtPnN0YXRlOworCXN0cnVjdCBk
+cm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19wbGFuZV9zdGF0
+ZShzdGF0ZSwKKwkJCQkJCQkJCSAgIHBsYW5lKTsKIAlpbnQgcmV0OwogCiAJcmV0ID0gbWRwNF9w
+bGFuZV9tb2RlX3NldChwbGFuZSwKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlz
+cC9tZHA1L21kcDVfcGxhbmUuYyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9tZHA1L21kcDVf
+cGxhbmUuYwppbmRleCA0ZGM4MmEwYzEyZTkuLjhjOWYyZjQ5MjE3OCAxMDA2NDQKLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL21zbS9kaXNwL21kcDUvbWRwNV9wbGFuZS5jCisrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9tc20vZGlzcC9tZHA1L21kcDVfcGxhbmUuYwpAQCAtNDI4LDcgKzQyOCw4IEBAIHN0YXRp
+YyBpbnQgbWRwNV9wbGFuZV9hdG9taWNfY2hlY2soc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCiBz
+dGF0aWMgdm9pZCBtZHA1X3BsYW5lX2F0b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxh
+bmUsCiAJCQkJICAgICBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpCiB7Ci0Jc3RydWN0
+IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gcGxhbmUtPnN0YXRlOworCXN0cnVjdCBkcm1f
+cGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19wbGFuZV9zdGF0ZShz
+dGF0ZSwKKwkJCQkJCQkJCSAgIHBsYW5lKTsKIAogCURCRygiJXM6IHVwZGF0ZSIsIHBsYW5lLT5u
+YW1lKTsKIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX2ttcy5jIGIv
+ZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX2ttcy5jCmluZGV4IDk4MGI1NjcwNDNiYS4uYzdj
+MGIyMWY1NDFmIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhzZmJfa21zLmMK
+KysrIGIvZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX2ttcy5jCkBAIC00MzUsNyArNDM1LDgg
+QEAgc3RhdGljIHZvaWQgbXhzZmJfcGxhbmVfb3ZlcmxheV9hdG9taWNfdXBkYXRlKHN0cnVjdCBk
+cm1fcGxhbmUgKnBsYW5lLAogCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm9sZF9wc3RhdGUgPSBk
+cm1fYXRvbWljX2dldF9vbGRfcGxhbmVfc3RhdGUoc3RhdGUsCiAJCQkJCQkJCQkgICAgcGxhbmUp
+OwogCXN0cnVjdCBteHNmYl9kcm1fcHJpdmF0ZSAqbXhzZmIgPSB0b19teHNmYl9kcm1fcHJpdmF0
+ZShwbGFuZS0+ZGV2KTsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfcHN0YXRlID0gcGxh
+bmUtPnN0YXRlOworCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19wc3RhdGUgPSBkcm1fYXRv
+bWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsCisJCQkJCQkJCQkgICAgcGxhbmUpOwogCWRt
+YV9hZGRyX3QgcGFkZHI7CiAJdTMyIGN0cmw7CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9vbWFwZHJtL29tYXBfcGxhbmUuYyBiL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfcGxh
+bmUuYwppbmRleCBkN2M3MzVkYmEzZTEuLjgwMWRhOTE3NTA3ZCAxMDA2NDQKLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL29tYXBkcm0vb21hcF9wbGFuZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9vbWFw
+ZHJtL29tYXBfcGxhbmUuYwpAQCAtNDQsNyArNDQsOCBAQCBzdGF0aWMgdm9pZCBvbWFwX3BsYW5l
+X2F0b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCiB7CiAJc3RydWN0IG9tYXBf
+ZHJtX3ByaXZhdGUgKnByaXYgPSBwbGFuZS0+ZGV2LT5kZXZfcHJpdmF0ZTsKIAlzdHJ1Y3Qgb21h
+cF9wbGFuZSAqb21hcF9wbGFuZSA9IHRvX29tYXBfcGxhbmUocGxhbmUpOwotCXN0cnVjdCBkcm1f
+cGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9IHBsYW5lLT5zdGF0ZTsKKwlzdHJ1Y3QgZHJtX3BsYW5l
+X3N0YXRlICpuZXdfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUs
+CisJCQkJCQkJCQkgICBwbGFuZSk7CiAJc3RydWN0IG9tYXBfb3ZlcmxheV9pbmZvIGluZm87CiAJ
+aW50IHJldDsKIApAQCAtODksNyArOTAsOCBAQCBzdGF0aWMgdm9pZCBvbWFwX3BsYW5lX2F0b21p
+Y191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCiBzdGF0aWMgdm9pZCBvbWFwX3BsYW5l
+X2F0b21pY19kaXNhYmxlKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogCQkJCSAgICAgIHN0cnVj
+dCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkKIHsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpu
+ZXdfc3RhdGUgPSBwbGFuZS0+c3RhdGU7CisJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0
+YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X3BsYW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkJICAg
+cGxhbmUpOwogCXN0cnVjdCBvbWFwX2RybV9wcml2YXRlICpwcml2ID0gcGxhbmUtPmRldi0+ZGV2
+X3ByaXZhdGU7CiAJc3RydWN0IG9tYXBfcGxhbmUgKm9tYXBfcGxhbmUgPSB0b19vbWFwX3BsYW5l
+KHBsYW5lKTsKIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZGlzcGxheS5j
+IGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZGlzcGxheS5jCmluZGV4IGFjZGU0YjM5YmM5ZC4u
+ZTFkN2MyZjJhOGI5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9kaXNwbGF5
+LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZGlzcGxheS5jCkBAIC01MjgsNyArNTI4
+LDggQEAgc3RhdGljIGludCBxeGxfcHJpbWFyeV9hcHBseV9jdXJzb3Ioc3RydWN0IGRybV9wbGFu
+ZSAqcGxhbmUpCiBzdGF0aWMgdm9pZCBxeGxfcHJpbWFyeV9hdG9taWNfdXBkYXRlKHN0cnVjdCBk
+cm1fcGxhbmUgKnBsYW5lLAogCQkJCSAgICAgIHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0
+ZSkKIHsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUgPSBwbGFuZS0+c3RhdGU7
+CisJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gZHJtX2F0b21pY19nZXRfbmV3
+X3BsYW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkJICAgcGxhbmUpOwogCXN0cnVjdCBxeGxfZGV2
+aWNlICpxZGV2ID0gdG9fcXhsKHBsYW5lLT5kZXYpOwogCXN0cnVjdCBxeGxfYm8gKmJvID0gZ2Vt
+X3RvX3F4bF9ibyhuZXdfc3RhdGUtPmZiLT5vYmpbMF0pOwogCXN0cnVjdCBxeGxfYm8gKnByaW1h
+cnk7CkBAIC01ODEsNyArNTgyLDggQEAgc3RhdGljIHZvaWQgcXhsX2N1cnNvcl9hdG9taWNfdXBk
+YXRlKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogewogCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUg
+Km9sZF9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X29sZF9wbGFuZV9zdGF0ZShzdGF0ZSwKIAkJCQkJ
+CQkJCSAgIHBsYW5lKTsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUgPSBwbGFu
+ZS0+c3RhdGU7CisJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gZHJtX2F0b21p
+Y19nZXRfbmV3X3BsYW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkJICAgcGxhbmUpOwogCXN0cnVj
+dCBkcm1fZGV2aWNlICpkZXYgPSBwbGFuZS0+ZGV2OwogCXN0cnVjdCBxeGxfZGV2aWNlICpxZGV2
+ID0gdG9fcXhsKGRldik7CiAJc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIgPSBuZXdfc3RhdGUt
+PmZiOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9wbGFuZS5j
+IGIvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9wbGFuZS5jCmluZGV4IDUwZjcyNDdi
+NTFmYS4uZjliOGZhMjA4MmU4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9y
+Y2FyX2R1X3BsYW5lLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9wbGFu
+ZS5jCkBAIC02MjIsNyArNjIyLDggQEAgc3RhdGljIHZvaWQgcmNhcl9kdV9wbGFuZV9hdG9taWNf
+dXBkYXRlKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogewogCXN0cnVjdCBkcm1fcGxhbmVfc3Rh
+dGUgKm9sZF9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X29sZF9wbGFuZV9zdGF0ZShzdGF0ZSwKIAkJ
+CQkJCQkJICAgICAgICAgICBwbGFuZSk7Ci0Jc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0
+YXRlID0gcGxhbmUtPnN0YXRlOworCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9
+IGRybV9hdG9taWNfZ2V0X25ld19wbGFuZV9zdGF0ZShzdGF0ZSwKKwkJCQkJCQkJICAgICAgICAg
+ICBwbGFuZSk7CiAJc3RydWN0IHJjYXJfZHVfcGxhbmUgKnJwbGFuZSA9IHRvX3JjYXJfcGxhbmUo
+cGxhbmUpOwogCXN0cnVjdCByY2FyX2R1X3BsYW5lX3N0YXRlICpvbGRfcnN0YXRlOwogCXN0cnVj
+dCByY2FyX2R1X3BsYW5lX3N0YXRlICpuZXdfcnN0YXRlOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL3JjYXItZHUvcmNhcl9kdV92c3AuYyBiL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3Jj
+YXJfZHVfdnNwLmMKaW5kZXggMTlmZDQyNGQxMjA4Li5hYTA2OGIwZDEzMTUgMTAwNjQ0Ci0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfdnNwLmMKKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL3JjYXItZHUvcmNhcl9kdV92c3AuYwpAQCAtMjgxLDcgKzI4MSw4IEBAIHN0YXRpYyB2b2lk
+IHJjYXJfZHVfdnNwX3BsYW5lX2F0b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUs
+CiB7CiAJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqb2xkX3N0YXRlID0gZHJtX2F0b21pY19nZXRf
+b2xkX3BsYW5lX3N0YXRlKHN0YXRlLAogCQkJCQkJCQkgICAgICAgICAgIHBsYW5lKTsKLQlzdHJ1
+Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUgPSBwbGFuZS0+c3RhdGU7CisJc3RydWN0IGRy
+bV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X3BsYW5lX3N0YXRl
+KHN0YXRlLAorCQkJCQkJCQkgICAgICAgICAgIHBsYW5lKTsKIAlzdHJ1Y3QgcmNhcl9kdV92c3Bf
+cGxhbmUgKnJwbGFuZSA9IHRvX3JjYXJfdnNwX3BsYW5lKHBsYW5lKTsKIAlzdHJ1Y3QgcmNhcl9k
+dV9jcnRjICpjcnRjID0gdG9fcmNhcl9jcnRjKG9sZF9zdGF0ZS0+Y3J0Yyk7CiAKZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5jCmluZGV4IGUwZTI1MTBiZGFhYy4u
+NjBmMDNlOTg5OWFlIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2No
+aXBfZHJtX3ZvcC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1f
+dm9wLmMKQEAgLTg4MCw3ICs4ODAsOCBAQCBzdGF0aWMgdm9pZCB2b3BfcGxhbmVfYXRvbWljX3Vw
+ZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKIHsKIAlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRl
+ICpvbGRfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9vbGRfcGxhbmVfc3RhdGUoc3RhdGUsCiAJCQkJ
+CQkJCQkgICBwbGFuZSk7Ci0Jc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gcGxh
+bmUtPnN0YXRlOworCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9IGRybV9hdG9t
+aWNfZ2V0X25ld19wbGFuZV9zdGF0ZShzdGF0ZSwKKwkJCQkJCQkJCSAgIHBsYW5lKTsKIAlzdHJ1
+Y3QgZHJtX2NydGMgKmNydGMgPSBuZXdfc3RhdGUtPmNydGM7CiAJc3RydWN0IHZvcF93aW4gKnZv
+cF93aW4gPSB0b192b3Bfd2luKHBsYW5lKTsKIAljb25zdCBzdHJ1Y3Qgdm9wX3dpbl9kYXRhICp3
+aW4gPSB2b3Bfd2luLT5kYXRhOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlf
+Y3Vyc29yLmMgYi9kcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9jdXJzb3IuYwppbmRleCAyMTdmNDU2
+MDY3YzIuLjFkNjA1MWI0ZjZmZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlf
+Y3Vyc29yLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfY3Vyc29yLmMKQEAgLTI1OCw3
+ICsyNTgsOCBAQCBzdGF0aWMgaW50IHN0aV9jdXJzb3JfYXRvbWljX2NoZWNrKHN0cnVjdCBkcm1f
+cGxhbmUgKmRybV9wbGFuZSwKIHN0YXRpYyB2b2lkIHN0aV9jdXJzb3JfYXRvbWljX3VwZGF0ZShz
+dHJ1Y3QgZHJtX3BsYW5lICpkcm1fcGxhbmUsCiAJCQkJICAgICBzdHJ1Y3QgZHJtX2F0b21pY19z
+dGF0ZSAqc3RhdGUpCiB7Ci0Jc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3c3RhdGUgPSBkcm1f
+cGxhbmUtPnN0YXRlOworCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld3N0YXRlID0gZHJtX2F0
+b21pY19nZXRfbmV3X3BsYW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkJICBkcm1fcGxhbmUpOwog
+CXN0cnVjdCBzdGlfcGxhbmUgKnBsYW5lID0gdG9fc3RpX3BsYW5lKGRybV9wbGFuZSk7CiAJc3Ry
+dWN0IHN0aV9jdXJzb3IgKmN1cnNvciA9IHRvX3N0aV9jdXJzb3IocGxhbmUpOwogCXN0cnVjdCBk
+cm1fY3J0YyAqY3J0YyA9IG5ld3N0YXRlLT5jcnRjOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL3N0aS9zdGlfZ2RwLmMgYi9kcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9nZHAuYwppbmRleCBl
+ZWUxN2M2OTE0YTYuLmQxYTM1ZDk3YmM0NSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N0
+aS9zdGlfZ2RwLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfZ2RwLmMKQEAgLTcwMyw3
+ICs3MDMsOCBAQCBzdGF0aWMgdm9pZCBzdGlfZ2RwX2F0b21pY191cGRhdGUoc3RydWN0IGRybV9w
+bGFuZSAqZHJtX3BsYW5lLAogewogCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm9sZHN0YXRlID0g
+ZHJtX2F0b21pY19nZXRfb2xkX3BsYW5lX3N0YXRlKHN0YXRlLAogCQkJCQkJCQkJICBkcm1fcGxh
+bmUpOwotCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld3N0YXRlID0gZHJtX3BsYW5lLT5zdGF0
+ZTsKKwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdzdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25l
+d19wbGFuZV9zdGF0ZShzdGF0ZSwKKwkJCQkJCQkJCSAgZHJtX3BsYW5lKTsKIAlzdHJ1Y3Qgc3Rp
+X3BsYW5lICpwbGFuZSA9IHRvX3N0aV9wbGFuZShkcm1fcGxhbmUpOwogCXN0cnVjdCBzdGlfZ2Rw
+ICpnZHAgPSB0b19zdGlfZ2RwKHBsYW5lKTsKIAlzdHJ1Y3QgZHJtX2NydGMgKmNydGMgPSBuZXdz
+dGF0ZS0+Y3J0YzsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2hxdmRwLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9ocXZkcC5jCmluZGV4IGYzMTdjOWFhZDljNS4uZWRi
+Yjk5ZjUzZGUxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9ocXZkcC5jCisr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2hxdmRwLmMKQEAgLTExMTMsNyArMTExMyw4IEBA
+IHN0YXRpYyB2b2lkIHN0aV9ocXZkcF9hdG9taWNfdXBkYXRlKHN0cnVjdCBkcm1fcGxhbmUgKmRy
+bV9wbGFuZSwKIHsKIAlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpvbGRzdGF0ZSA9IGRybV9hdG9t
+aWNfZ2V0X29sZF9wbGFuZV9zdGF0ZShzdGF0ZSwKIAkJCQkJCQkJCSAgZHJtX3BsYW5lKTsKLQlz
+dHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdzdGF0ZSA9IGRybV9wbGFuZS0+c3RhdGU7CisJc3Ry
+dWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3c3RhdGUgPSBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVf
+c3RhdGUoc3RhdGUsCisJCQkJCQkJCQkgIGRybV9wbGFuZSk7CiAJc3RydWN0IHN0aV9wbGFuZSAq
+cGxhbmUgPSB0b19zdGlfcGxhbmUoZHJtX3BsYW5lKTsKIAlzdHJ1Y3Qgc3RpX2hxdmRwICpocXZk
+cCA9IHRvX3N0aV9ocXZkcChwbGFuZSk7CiAJc3RydWN0IGRybV9jcnRjICpjcnRjID0gbmV3c3Rh
+dGUtPmNydGM7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3RtL2x0ZGMuYyBiL2RyaXZl
+cnMvZ3B1L2RybS9zdG0vbHRkYy5jCmluZGV4IDYyYjZlNGY5Nzg4Yy4uYzBiYWNiZDczMzAyIDEw
+MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vc3RtL2x0ZGMuYworKysgYi9kcml2ZXJzL2dwdS9k
+cm0vc3RtL2x0ZGMuYwpAQCAtNzc4LDcgKzc3OCw4IEBAIHN0YXRpYyB2b2lkIGx0ZGNfcGxhbmVf
+YXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKIAkJCQkgICAgIHN0cnVjdCBk
+cm1fYXRvbWljX3N0YXRlICpzdGF0ZSkKIHsKIAlzdHJ1Y3QgbHRkY19kZXZpY2UgKmxkZXYgPSBw
+bGFuZV90b19sdGRjKHBsYW5lKTsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdzdGF0ZSA9
+IHBsYW5lLT5zdGF0ZTsKKwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdzdGF0ZSA9IGRybV9h
+dG9taWNfZ2V0X25ld19wbGFuZV9zdGF0ZShzdGF0ZSwKKwkJCQkJCQkJCSAgcGxhbmUpOwogCXN0
+cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiID0gbmV3c3RhdGUtPmZiOwogCXUzMiBsb2ZzID0gcGxh
+bmUtPmluZGV4ICogTEFZX09GUzsKIAl1MzIgeDAgPSBuZXdzdGF0ZS0+Y3J0Y194OwpkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX2xheWVyLmMgYi9kcml2ZXJzL2dwdS9k
+cm0vc3VuNGkvc3VuNGlfbGF5ZXIuYwppbmRleCAzZTk4NWFiZGZlZjguLjk1ZjhjYmFlNjJkMyAx
+MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX2xheWVyLmMKKysrIGIvZHJp
+dmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX2xheWVyLmMKQEAgLTg2LDcgKzg2LDggQEAgc3RhdGlj
+IHZvaWQgc3VuNGlfYmFja2VuZF9sYXllcl9hdG9taWNfZGlzYWJsZShzdHJ1Y3QgZHJtX3BsYW5l
+ICpwbGFuZSwKIHN0YXRpYyB2b2lkIHN1bjRpX2JhY2tlbmRfbGF5ZXJfYXRvbWljX3VwZGF0ZShz
+dHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKIAkJCQkJICAgICAgc3RydWN0IGRybV9hdG9taWNfc3Rh
+dGUgKnN0YXRlKQogewotCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9IHBsYW5l
+LT5zdGF0ZTsKKwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUgPSBkcm1fYXRvbWlj
+X2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsCisJCQkJCQkJCQkgICBwbGFuZSk7CiAJc3RydWN0
+IHN1bjRpX2xheWVyX3N0YXRlICpsYXllcl9zdGF0ZSA9IHN0YXRlX3RvX3N1bjRpX2xheWVyX3N0
+YXRlKG5ld19zdGF0ZSk7CiAJc3RydWN0IHN1bjRpX2xheWVyICpsYXllciA9IHBsYW5lX3RvX3N1
+bjRpX2xheWVyKHBsYW5lKTsKIAlzdHJ1Y3Qgc3VuNGlfYmFja2VuZCAqYmFja2VuZCA9IGxheWVy
+LT5iYWNrZW5kOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX3VpX2xh
+eWVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfdWlfbGF5ZXIuYwppbmRleCAwN2Vm
+NjM1MzEyNjYuLjJkYmYyODQ0OGE4ZCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N1bjRp
+L3N1bjhpX3VpX2xheWVyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX3VpX2xh
+eWVyLmMKQEAgLTMwNiw3ICszMDYsOCBAQCBzdGF0aWMgdm9pZCBzdW44aV91aV9sYXllcl9hdG9t
+aWNfdXBkYXRlKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogewogCXN0cnVjdCBkcm1fcGxhbmVf
+c3RhdGUgKm9sZF9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X29sZF9wbGFuZV9zdGF0ZShzdGF0ZSwK
+IAkJCQkJCQkJCSAgIHBsYW5lKTsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUg
+PSBwbGFuZS0+c3RhdGU7CisJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gZHJt
+X2F0b21pY19nZXRfbmV3X3BsYW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkJICAgcGxhbmUpOwog
+CXN0cnVjdCBzdW44aV91aV9sYXllciAqbGF5ZXIgPSBwbGFuZV90b19zdW44aV91aV9sYXllcihw
+bGFuZSk7CiAJdW5zaWduZWQgaW50IHpwb3MgPSBuZXdfc3RhdGUtPm5vcm1hbGl6ZWRfenBvczsK
+IAl1bnNpZ25lZCBpbnQgb2xkX3pwb3MgPSBvbGRfc3RhdGUtPm5vcm1hbGl6ZWRfenBvczsKZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV92aV9sYXllci5jIGIvZHJpdmVy
+cy9ncHUvZHJtL3N1bjRpL3N1bjhpX3ZpX2xheWVyLmMKaW5kZXggNDMyNmJiOTAxOWNjLi5kMGQx
+NmY0MGViZWYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV92aV9sYXll
+ci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV92aV9sYXllci5jCkBAIC00MTAs
+NyArNDEwLDggQEAgc3RhdGljIHZvaWQgc3VuOGlfdmlfbGF5ZXJfYXRvbWljX3VwZGF0ZShzdHJ1
+Y3QgZHJtX3BsYW5lICpwbGFuZSwKIHsKIAlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpvbGRfc3Rh
+dGUgPSBkcm1fYXRvbWljX2dldF9vbGRfcGxhbmVfc3RhdGUoc3RhdGUsCiAJCQkJCQkJCQkgICBw
+bGFuZSk7Ci0Jc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gcGxhbmUtPnN0YXRl
+OworCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25l
+d19wbGFuZV9zdGF0ZShzdGF0ZSwKKwkJCQkJCQkJCSAgIHBsYW5lKTsKIAlzdHJ1Y3Qgc3VuOGlf
+dmlfbGF5ZXIgKmxheWVyID0gcGxhbmVfdG9fc3VuOGlfdmlfbGF5ZXIocGxhbmUpOwogCXVuc2ln
+bmVkIGludCB6cG9zID0gbmV3X3N0YXRlLT5ub3JtYWxpemVkX3pwb3M7CiAJdW5zaWduZWQgaW50
+IG9sZF96cG9zID0gb2xkX3N0YXRlLT5ub3JtYWxpemVkX3pwb3M7CmRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vdGVncmEvZGMuYyBiL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9kYy5jCmluZGV4
+IGMzOTNkYjIxYzIxYS4uNDU1ZDQ0OTE5MWFiIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+dGVncmEvZGMuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZGMuYwpAQCAtNzEwLDcgKzcx
+MCw4IEBAIHN0YXRpYyB2b2lkIHRlZ3JhX3BsYW5lX2F0b21pY19kaXNhYmxlKHN0cnVjdCBkcm1f
+cGxhbmUgKnBsYW5lLAogc3RhdGljIHZvaWQgdGVncmFfcGxhbmVfYXRvbWljX3VwZGF0ZShzdHJ1
+Y3QgZHJtX3BsYW5lICpwbGFuZSwKIAkJCQkgICAgICBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAq
+c3RhdGUpCiB7Ci0Jc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gcGxhbmUtPnN0
+YXRlOworCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0
+X25ld19wbGFuZV9zdGF0ZShzdGF0ZSwKKwkJCQkJCQkJCSAgIHBsYW5lKTsKIAlzdHJ1Y3QgdGVn
+cmFfcGxhbmVfc3RhdGUgKnRlZ3JhX3BsYW5lX3N0YXRlID0gdG9fdGVncmFfcGxhbmVfc3RhdGUo
+bmV3X3N0YXRlKTsKIAlzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiA9IG5ld19zdGF0ZS0+ZmI7
+CiAJc3RydWN0IHRlZ3JhX3BsYW5lICpwID0gdG9fdGVncmFfcGxhbmUocGxhbmUpOwpAQCAtODcw
+LDcgKzg3MSw4IEBAIHN0YXRpYyBpbnQgdGVncmFfY3Vyc29yX2F0b21pY19jaGVjayhzdHJ1Y3Qg
+ZHJtX3BsYW5lICpwbGFuZSwKIHN0YXRpYyB2b2lkIHRlZ3JhX2N1cnNvcl9hdG9taWNfdXBkYXRl
+KHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogCQkJCSAgICAgICBzdHJ1Y3QgZHJtX2F0b21pY19z
+dGF0ZSAqc3RhdGUpCiB7Ci0Jc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gcGxh
+bmUtPnN0YXRlOworCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9IGRybV9hdG9t
+aWNfZ2V0X25ld19wbGFuZV9zdGF0ZShzdGF0ZSwKKwkJCQkJCQkJCSAgIHBsYW5lKTsKIAlzdHJ1
+Y3QgdGVncmFfcGxhbmVfc3RhdGUgKnRlZ3JhX3BsYW5lX3N0YXRlID0gdG9fdGVncmFfcGxhbmVf
+c3RhdGUobmV3X3N0YXRlKTsKIAlzdHJ1Y3QgdGVncmFfZGMgKmRjID0gdG9fdGVncmFfZGMobmV3
+X3N0YXRlLT5jcnRjKTsKIAl1MzIgdmFsdWUgPSBDVVJTT1JfQ0xJUF9ESVNQTEFZOwpkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2h1Yi5jIGIvZHJpdmVycy9ncHUvZHJtL3RlZ3Jh
+L2h1Yi5jCmluZGV4IGIyNjRjOTcyOWQ5NC4uODExODAwN2NiNmQ3IDEwMDY0NAotLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vdGVncmEvaHViLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2h1Yi5j
+CkBAIC00MjksNyArNDI5LDggQEAgc3RhdGljIHZvaWQgdGVncmFfc2hhcmVkX3BsYW5lX2F0b21p
+Y19kaXNhYmxlKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogc3RhdGljIHZvaWQgdGVncmFfc2hh
+cmVkX3BsYW5lX2F0b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCiAJCQkJCSAg
+ICAgc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlKQogewotCXN0cnVjdCBkcm1fcGxhbmVf
+c3RhdGUgKm5ld19zdGF0ZSA9IHBsYW5lLT5zdGF0ZTsKKwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRl
+ICpuZXdfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsCisJCQkJ
+CQkJCQkgICBwbGFuZSk7CiAJc3RydWN0IHRlZ3JhX3BsYW5lX3N0YXRlICp0ZWdyYV9wbGFuZV9z
+dGF0ZSA9IHRvX3RlZ3JhX3BsYW5lX3N0YXRlKG5ld19zdGF0ZSk7CiAJc3RydWN0IHRlZ3JhX2Rj
+ICpkYyA9IHRvX3RlZ3JhX2RjKG5ld19zdGF0ZS0+Y3J0Yyk7CiAJdW5zaWduZWQgaW50IHpwb3Mg
+PSBuZXdfc3RhdGUtPm5vcm1hbGl6ZWRfenBvczsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS90aWRzcy90aWRzc19wbGFuZS5jIGIvZHJpdmVycy9ncHUvZHJtL3RpZHNzL3RpZHNzX3BsYW5l
+LmMKaW5kZXggYjBhNGFmZjU2MDk1Li44NzVkNjc4YWUzNzIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS90aWRzcy90aWRzc19wbGFuZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS90aWRzcy90
+aWRzc19wbGFuZS5jCkBAIC0xMTAsNyArMTEwLDggQEAgc3RhdGljIHZvaWQgdGlkc3NfcGxhbmVf
+YXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKIAlzdHJ1Y3QgZHJtX2Rldmlj
+ZSAqZGRldiA9IHBsYW5lLT5kZXY7CiAJc3RydWN0IHRpZHNzX2RldmljZSAqdGlkc3MgPSB0b190
+aWRzcyhkZGV2KTsKIAlzdHJ1Y3QgdGlkc3NfcGxhbmUgKnRwbGFuZSA9IHRvX3RpZHNzX3BsYW5l
+KHBsYW5lKTsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUgPSBwbGFuZS0+c3Rh
+dGU7CisJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gZHJtX2F0b21pY19nZXRf
+bmV3X3BsYW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkJICAgcGxhbmUpOwogCXUzMiBod192aWRl
+b3BvcnQ7CiAJaW50IHJldDsKIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RpbGNkYy90
+aWxjZGNfcGxhbmUuYyBiL2RyaXZlcnMvZ3B1L2RybS90aWxjZGMvdGlsY2RjX3BsYW5lLmMKaW5k
+ZXggYzdjMjdmNTc3NDMyLi43NGE1Yzg4MzIyMjkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS90aWxjZGMvdGlsY2RjX3BsYW5lLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3RpbGNkYy90aWxj
+ZGNfcGxhbmUuYwpAQCAtNzgsNyArNzgsOCBAQCBzdGF0aWMgaW50IHRpbGNkY19wbGFuZV9hdG9t
+aWNfY2hlY2soc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCiBzdGF0aWMgdm9pZCB0aWxjZGNfcGxh
+bmVfYXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKIAkJCQkgICAgICAgc3Ry
+dWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlKQogewotCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUg
+Km5ld19zdGF0ZSA9IHBsYW5lLT5zdGF0ZTsKKwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdf
+c3RhdGUgPSBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsCisJCQkJCQkJCQkg
+ICBwbGFuZSk7CiAKIAlpZiAoIW5ld19zdGF0ZS0+Y3J0YykKIAkJcmV0dXJuOwpkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL3Zib3h2aWRlby92Ym94X21vZGUuYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS92Ym94dmlkZW8vdmJveF9tb2RlLmMKaW5kZXggMDdmZDc4MjZiNmEyLi45NjQzODFkNTVmYzEg
+MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92Ym94dmlkZW8vdmJveF9tb2RlLmMKKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL3Zib3h2aWRlby92Ym94X21vZGUuYwpAQCAtMjc1LDcgKzI3NSw4IEBA
+IHN0YXRpYyBpbnQgdmJveF9wcmltYXJ5X2F0b21pY19jaGVjayhzdHJ1Y3QgZHJtX3BsYW5lICpw
+bGFuZSwKIHN0YXRpYyB2b2lkIHZib3hfcHJpbWFyeV9hdG9taWNfdXBkYXRlKHN0cnVjdCBkcm1f
+cGxhbmUgKnBsYW5lLAogCQkJCSAgICAgICBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUp
+CiB7Ci0Jc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gcGxhbmUtPnN0YXRlOwor
+CXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19w
+bGFuZV9zdGF0ZShzdGF0ZSwKKwkJCQkJCQkJCSAgIHBsYW5lKTsKIAlzdHJ1Y3QgZHJtX2NydGMg
+KmNydGMgPSBuZXdfc3RhdGUtPmNydGM7CiAJc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIgPSBu
+ZXdfc3RhdGUtPmZiOwogCXN0cnVjdCB2Ym94X3ByaXZhdGUgKnZib3ggPSB0b192Ym94X2Rldihm
+Yi0+ZGV2KTsKQEAgLTM4Nyw3ICszODgsOCBAQCBzdGF0aWMgdm9pZCB2Ym94X2N1cnNvcl9hdG9t
+aWNfdXBkYXRlKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogewogCXN0cnVjdCBkcm1fcGxhbmVf
+c3RhdGUgKm9sZF9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X29sZF9wbGFuZV9zdGF0ZShzdGF0ZSwK
+IAkJCQkJCQkJCSAgIHBsYW5lKTsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUg
+PSBwbGFuZS0+c3RhdGU7CisJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gZHJt
+X2F0b21pY19nZXRfbmV3X3BsYW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkJICAgcGxhbmUpOwog
+CXN0cnVjdCB2Ym94X3ByaXZhdGUgKnZib3ggPQogCQljb250YWluZXJfb2YocGxhbmUtPmRldiwg
+c3RydWN0IHZib3hfcHJpdmF0ZSwgZGRldik7CiAJc3RydWN0IHZib3hfY3J0YyAqdmJveF9jcnRj
+ID0gdG9fdmJveF9jcnRjKG5ld19zdGF0ZS0+Y3J0Yyk7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vdmttcy92a21zX3BsYW5lLmMgYi9kcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX3BsYW5l
+LmMKaW5kZXggZDAwNTZmYWIwMWViLi44MzU1NTliNmVjMTYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS92a21zL3ZrbXNfcGxhbmUuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdmttcy92a21z
+X3BsYW5lLmMKQEAgLTk0LDcgKzk0LDggQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fcGxhbmVf
+ZnVuY3Mgdmttc19wbGFuZV9mdW5jcyA9IHsKIHN0YXRpYyB2b2lkIHZrbXNfcGxhbmVfYXRvbWlj
+X3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKIAkJCQkgICAgIHN0cnVjdCBkcm1fYXRv
+bWljX3N0YXRlICpzdGF0ZSkKIHsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUg
+PSBwbGFuZS0+c3RhdGU7CisJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gZHJt
+X2F0b21pY19nZXRfbmV3X3BsYW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkJICAgcGxhbmUpOwog
+CXN0cnVjdCB2a21zX3BsYW5lX3N0YXRlICp2a21zX3BsYW5lX3N0YXRlOwogCXN0cnVjdCBkcm1f
+ZnJhbWVidWZmZXIgKmZiID0gbmV3X3N0YXRlLT5mYjsKIAlzdHJ1Y3Qgdmttc19jb21wb3NlciAq
+Y29tcG9zZXI7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9sZHUu
+YyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2xkdS5jCmluZGV4IGRkODY5NmZlNzk0
+My4uODdlMGIzMDNkOTAwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dm
+eF9sZHUuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9sZHUuYwpAQCAtMjg4
+LDcgKzI4OCw4IEBAIHZtd19sZHVfcHJpbWFyeV9wbGFuZV9hdG9taWNfdXBkYXRlKHN0cnVjdCBk
+cm1fcGxhbmUgKnBsYW5lLAogewogCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm9sZF9zdGF0ZSA9
+IGRybV9hdG9taWNfZ2V0X29sZF9wbGFuZV9zdGF0ZShzdGF0ZSwKIAkJCQkJCQkJCSAgIHBsYW5l
+KTsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUgPSBwbGFuZS0+c3RhdGU7CisJ
+c3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X3Bs
+YW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkJICAgcGxhbmUpOwogCXN0cnVjdCB2bXdfcHJpdmF0
+ZSAqZGV2X3ByaXY7CiAJc3RydWN0IHZtd19sZWdhY3lfZGlzcGxheV91bml0ICpsZHU7CiAJc3Ry
+dWN0IHZtd19mcmFtZWJ1ZmZlciAqdmZiOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Zt
+d2dmeC92bXdnZnhfc2Nybi5jIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfc2Nybi5j
+CmluZGV4IDA1ZjMxMTExNjRkOC4uOTYyZTY4NWY1ZDA0IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vdm13Z2Z4L3Ztd2dmeF9zY3JuLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92
+bXdnZnhfc2Nybi5jCkBAIC03MzQsNyArNzM0LDggQEAgdm13X3NvdV9wcmltYXJ5X3BsYW5lX2F0
+b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCiB7CiAJc3RydWN0IGRybV9wbGFu
+ZV9zdGF0ZSAqb2xkX3N0YXRlID0gZHJtX2F0b21pY19nZXRfb2xkX3BsYW5lX3N0YXRlKHN0YXRl
+LAogCQkJCQkJCQkgICAgICAgICAgIHBsYW5lKTsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpu
+ZXdfc3RhdGUgPSBwbGFuZS0+c3RhdGU7CisJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0
+YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X3BsYW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkgICAg
+ICAgICAgIHBsYW5lKTsKIAlzdHJ1Y3QgZHJtX2NydGMgKmNydGMgPSBuZXdfc3RhdGUtPmNydGM7
+CiAJc3RydWN0IGRybV9wZW5kaW5nX3ZibGFua19ldmVudCAqZXZlbnQgPSBOVUxMOwogCXN0cnVj
+dCB2bXdfZmVuY2Vfb2JqICpmZW5jZSA9IE5VTEw7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vdm13Z2Z4L3Ztd2dmeF9zdGR1LmMgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9z
+dGR1LmMKaW5kZXggN2Q0ZjYyODM0ZWM0Li5kZWYzOTE5ZDYwZjkgMTAwNjQ0Ci0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3N0ZHUuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdm13
+Z2Z4L3Ztd2dmeF9zdGR1LmMKQEAgLTE1ODQsNyArMTU4NCw4IEBAIHZtd19zdGR1X3ByaW1hcnlf
+cGxhbmVfYXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKIHsKIAlzdHJ1Y3Qg
+ZHJtX3BsYW5lX3N0YXRlICpvbGRfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9vbGRfcGxhbmVfc3Rh
+dGUoc3RhdGUsCiAJCQkJCQkJCSAgICAgICAgICAgcGxhbmUpOwotCXN0cnVjdCBkcm1fcGxhbmVf
+c3RhdGUgKm5ld19zdGF0ZSA9IHBsYW5lLT5zdGF0ZTsKKwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRl
+ICpuZXdfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsCisJCQkJ
+CQkJCSAgICAgICAgICAgcGxhbmUpOwogCXN0cnVjdCB2bXdfcGxhbmVfc3RhdGUgKnZwcyA9IHZt
+d19wbGFuZV9zdGF0ZV90b192cHMobmV3X3N0YXRlKTsKIAlzdHJ1Y3QgZHJtX2NydGMgKmNydGMg
+PSBuZXdfc3RhdGUtPmNydGM7CiAJc3RydWN0IHZtd19zY3JlZW5fdGFyZ2V0X2Rpc3BsYXlfdW5p
+dCAqc3RkdTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS94bG54L3p5bnFtcF9kaXNwLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0veGxueC96eW5xbXBfZGlzcC5jCmluZGV4IDU2YjFiODU1Y2ZlOS4u
+NjRkMDI3ODdhOTg2IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0veGxueC96eW5xbXBfZGlz
+cC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS94bG54L3p5bnFtcF9kaXNwLmMKQEAgLTExODMsNyAr
+MTE4Myw4IEBAIHp5bnFtcF9kaXNwX3BsYW5lX2F0b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFu
+ZSAqcGxhbmUsCiB7CiAJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqb2xkX3N0YXRlID0gZHJtX2F0
+b21pY19nZXRfb2xkX3BsYW5lX3N0YXRlKHN0YXRlLAogCQkJCQkJCQkgICAgICAgICAgIHBsYW5l
+KTsKLQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUgPSBwbGFuZS0+c3RhdGU7CisJ
+c3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X3Bs
+YW5lX3N0YXRlKHN0YXRlLAorCQkJCQkJCQkgICAgICAgICAgIHBsYW5lKTsKIAlzdHJ1Y3Qgenlu
+cW1wX2Rpc3BfbGF5ZXIgKmxheWVyID0gcGxhbmVfdG9fbGF5ZXIocGxhbmUpOwogCWJvb2wgZm9y
+bWF0X2NoYW5nZWQgPSBmYWxzZTsKIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3p0ZS96
+eF9wbGFuZS5jIGIvZHJpdmVycy9ncHUvZHJtL3p0ZS96eF9wbGFuZS5jCmluZGV4IGZjMmFjMjY3
+MmYxYy4uOTNiY2NhNDI4ZTM1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0venRlL3p4X3Bs
+YW5lLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3p0ZS96eF9wbGFuZS5jCkBAIC0xODQsNyArMTg0
+LDggQEAgc3RhdGljIHZvaWQgenhfdmxfcGxhbmVfYXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3Bs
+YW5lICpwbGFuZSwKIAkJCQkgICAgICBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpCiB7
+CiAJc3RydWN0IHp4X3BsYW5lICp6cGxhbmUgPSB0b196eF9wbGFuZShwbGFuZSk7Ci0Jc3RydWN0
+IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlID0gcGxhbmUtPnN0YXRlOworCXN0cnVjdCBkcm1f
+cGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19wbGFuZV9zdGF0ZShz
+dGF0ZSwKKwkJCQkJCQkJCSAgIHBsYW5lKTsKIAlzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiA9
+IG5ld19zdGF0ZS0+ZmI7CiAJc3RydWN0IGRybV9yZWN0ICpzcmMgPSAmbmV3X3N0YXRlLT5zcmM7
+CiAJc3RydWN0IGRybV9yZWN0ICpkc3QgPSAmbmV3X3N0YXRlLT5kc3Q7CkBAIC0zNTUsNyArMzU2
+LDggQEAgc3RhdGljIHZvaWQgenhfZ2xfcnN6X3NldHVwKHN0cnVjdCB6eF9wbGFuZSAqenBsYW5l
+LCB1MzIgc3JjX3csIHUzMiBzcmNfaCwKIHN0YXRpYyB2b2lkIHp4X2dsX3BsYW5lX2F0b21pY191
+cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCiAJCQkJICAgICAgc3RydWN0IGRybV9hdG9t
+aWNfc3RhdGUgKnN0YXRlKQogewotCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSA9
+IHBsYW5lLT5zdGF0ZTsKKwlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUgPSBkcm1f
+YXRvbWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsCisJCQkJCQkJCQkgICBwbGFuZSk7CiAJ
+c3RydWN0IHp4X3BsYW5lICp6cGxhbmUgPSB0b196eF9wbGFuZShwbGFuZSk7CiAJc3RydWN0IGRy
+bV9mcmFtZWJ1ZmZlciAqZmIgPSBuZXdfc3RhdGUtPmZiOwogCXN0cnVjdCBkcm1fZ2VtX2NtYV9v
+YmplY3QgKmNtYV9vYmo7Ci0tIAoyLjI5LjIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
