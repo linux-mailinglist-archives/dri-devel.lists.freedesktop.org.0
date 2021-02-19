@@ -1,39 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4317C31F909
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 13:08:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F8131F947
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Feb 2021 13:17:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C3CB6EB1E;
-	Fri, 19 Feb 2021 12:08:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7540A6EB25;
+	Fri, 19 Feb 2021 12:17:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEFFA6EB1E
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 12:08:18 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 19B51344;
- Fri, 19 Feb 2021 13:08:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1613736497;
- bh=tlI//Ej4fhmYGZTgpYwteSSrKyyubZTtBivS0HmOKIY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dLXXyrK4cFBLtXTedLwxlmT/eu267UAIdRjknI4SwXKwy1YIFq5mNX14MIl3GmsL5
- XHwN3hUTmueyCVXog+DPCz9EwV55PkaAvl5VA6akPTWf6D5w7gcRBa+PWCg759FhJ2
- n+ZvhHV1yIQkJBPgqf0Jeyct/u81LQJIf0JzKyM4=
-Date: Fri, 19 Feb 2021 14:07:50 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH 2/5] drm/omap: hdmi4: switch to the cec bridge ops
-Message-ID: <YC+qFsroJl8+Oy3q@pendragon.ideasonboard.com>
-References: <20210211103703.444625-1-hverkuil-cisco@xs4all.nl>
- <20210211103703.444625-3-hverkuil-cisco@xs4all.nl>
+Received: from asav21.altibox.net (asav21.altibox.net [109.247.116.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D7516E8C9
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Feb 2021 12:17:13 +0000 (UTC)
+Received: from localhost.localdomain (unknown [81.166.168.211])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: noralf.tronnes@ebnett.no)
+ by asav21.altibox.net (Postfix) with ESMTPSA id 6E45680173;
+ Fri, 19 Feb 2021 13:17:08 +0100 (CET)
+From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v6 0/3] GUD USB Display driver
+Date: Fri, 19 Feb 2021 13:16:59 +0100
+Message-Id: <20210219121702.50964-1-noralf@tronnes.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210211103703.444625-3-hverkuil-cisco@xs4all.nl>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=Kb38TzQD c=1 sm=1 tr=0
+ a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
+ a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=gAmX6pxEAAAA:20
+ a=hV_BJ6Dg7UyOQLaYyLEA:9 a=QEXdDO2ut3YA:10 a=7zwkRhCwzGnCyznlyk9i:22
+ a=Z5ABNNGmrOfJ6cZ5bIyy:22 a=jd6J4Gguk5HxikPWLKER:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,171 +43,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
- dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- linux-omap@vger.kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: hudson@trmm.net, markus@raatikainen.cc, sam@ravnborg.org,
+ linux-usb@vger.kernel.org, th020394@gmail.com, lkundrak@v3.sk,
+ pontus.fuchs@gmail.com, peter@stuge.se
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hans,
-
-Thank you for the patch.
-
-On Thu, Feb 11, 2021 at 11:37:00AM +0100, Hans Verkuil wrote:
-> Implement the new CEC bridge ops. This makes it possible to associate
-> a CEC adapter with a drm connector, which helps userspace determine
-> with cec device node belongs to which drm connector.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/gpu/drm/omapdrm/dss/hdmi4.c     | 28 +++++++++++++++++--------
->  drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c |  8 ++++---
->  drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h |  7 ++++---
->  3 files changed, 28 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> index 8de41e74e8f8..765379380d4b 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> @@ -482,6 +482,21 @@ static struct edid *hdmi4_bridge_get_edid(struct drm_bridge *bridge,
->  	return edid;
->  }
->  
-> +static int hdmi4_bridge_cec_init(struct drm_bridge *bridge,
-> +				 struct drm_connector *conn)
-> +{
-> +	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
-> +
-> +	return hdmi4_cec_init(hdmi->pdev, &hdmi->core, &hdmi->wp, conn);
-> +}
-> +
-> +static void hdmi4_bridge_cec_exit(struct drm_bridge *bridge)
-> +{
-> +	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
-> +
-> +	hdmi4_cec_uninit(&hdmi->core);
-> +}
-> +
->  static const struct drm_bridge_funcs hdmi4_bridge_funcs = {
->  	.attach = hdmi4_bridge_attach,
->  	.mode_set = hdmi4_bridge_mode_set,
-> @@ -492,13 +507,15 @@ static const struct drm_bridge_funcs hdmi4_bridge_funcs = {
->  	.atomic_disable = hdmi4_bridge_disable,
->  	.hpd_notify = hdmi4_bridge_hpd_notify,
->  	.get_edid = hdmi4_bridge_get_edid,
-> +	.cec_init = hdmi4_bridge_cec_init,
-> +	.cec_exit = hdmi4_bridge_cec_exit,
->  };
->  
->  static void hdmi4_bridge_init(struct omap_hdmi *hdmi)
->  {
->  	hdmi->bridge.funcs = &hdmi4_bridge_funcs;
->  	hdmi->bridge.of_node = hdmi->pdev->dev.of_node;
-> -	hdmi->bridge.ops = DRM_BRIDGE_OP_EDID;
-> +	hdmi->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_CEC;
->  	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
->  
->  	drm_bridge_add(&hdmi->bridge);
-> @@ -647,14 +664,10 @@ static int hdmi4_bind(struct device *dev, struct device *master, void *data)
->  	if (r)
->  		goto err_runtime_put;
->  
-> -	r = hdmi4_cec_init(hdmi->pdev, &hdmi->core, &hdmi->wp);
-> -	if (r)
-> -		goto err_pll_uninit;
-
-I'm wondering ifwe need to delay the creation of the CEC adapter until
-the DRM connector is ready, or if we could only delay its registration ?
-Catching errors related to adapter creation early could be nice, the
-more error we have to handle at DRM bridge connector creation time, the
-more complex the error handling will be for bridge support.
-
-> -
->  	r = hdmi_audio_register(hdmi);
->  	if (r) {
->  		DSSERR("Registering HDMI audio failed\n");
-> -		goto err_cec_uninit;
-> +		goto err_pll_uninit;
->  	}
->  
->  	hdmi->debugfs = dss_debugfs_create_file(dss, "hdmi", hdmi_dump_regs,
-> @@ -664,8 +677,6 @@ static int hdmi4_bind(struct device *dev, struct device *master, void *data)
->  
->  	return 0;
->  
-> -err_cec_uninit:
-> -	hdmi4_cec_uninit(&hdmi->core);
->  err_pll_uninit:
->  	hdmi_pll_uninit(&hdmi->pll);
->  err_runtime_put:
-> @@ -682,7 +693,6 @@ static void hdmi4_unbind(struct device *dev, struct device *master, void *data)
->  	if (hdmi->audio_pdev)
->  		platform_device_unregister(hdmi->audio_pdev);
->  
-> -	hdmi4_cec_uninit(&hdmi->core);
->  	hdmi_pll_uninit(&hdmi->pll);
->  }
->  
-> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c b/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c
-> index 43592c1cf081..64f5ccd0f11b 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c
-> @@ -335,10 +335,10 @@ void hdmi4_cec_set_phys_addr(struct hdmi_core_data *core, u16 pa)
->  }
->  
->  int hdmi4_cec_init(struct platform_device *pdev, struct hdmi_core_data *core,
-> -		  struct hdmi_wp_data *wp)
-> +		   struct hdmi_wp_data *wp, struct drm_connector *conn)
->  {
-> -	const u32 caps = CEC_CAP_TRANSMIT | CEC_CAP_LOG_ADDRS |
-> -			 CEC_CAP_PASSTHROUGH | CEC_CAP_RC;
-> +	const u32 caps = CEC_CAP_DEFAULTS | CEC_CAP_CONNECTOR_INFO;
-> +	struct cec_connector_info conn_info;
->  	int ret;
->  
->  	core->adap = cec_allocate_adapter(&hdmi_cec_adap_ops, core,
-> @@ -346,6 +346,8 @@ int hdmi4_cec_init(struct platform_device *pdev, struct hdmi_core_data *core,
->  	ret = PTR_ERR_OR_ZERO(core->adap);
->  	if (ret < 0)
->  		return ret;
-> +	cec_fill_conn_info_from_drm(&conn_info, conn);
-> +	cec_s_conn_info(core->adap, &conn_info);
->  	core->wp = wp;
->  
->  	/* Disable clock initially, hdmi_cec_adap_enable() manages it */
-> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h b/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h
-> index 0292337c97cc..b59a54c3040e 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h
-> @@ -29,7 +29,7 @@ struct platform_device;
->  void hdmi4_cec_set_phys_addr(struct hdmi_core_data *core, u16 pa);
->  void hdmi4_cec_irq(struct hdmi_core_data *core);
->  int hdmi4_cec_init(struct platform_device *pdev, struct hdmi_core_data *core,
-> -		  struct hdmi_wp_data *wp);
-> +		   struct hdmi_wp_data *wp, struct drm_connector *conn);
->  void hdmi4_cec_uninit(struct hdmi_core_data *core);
->  #else
->  static inline void hdmi4_cec_set_phys_addr(struct hdmi_core_data *core, u16 pa)
-> @@ -41,8 +41,9 @@ static inline void hdmi4_cec_irq(struct hdmi_core_data *core)
->  }
->  
->  static inline int hdmi4_cec_init(struct platform_device *pdev,
-> -				struct hdmi_core_data *core,
-> -				struct hdmi_wp_data *wp)
-> +				 struct hdmi_core_data *core,
-> +				 struct hdmi_wp_data *wp,
-> +				 struct drm_connector *conn)
->  {
->  	return 0;
->  }
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpBIHdoaWxlIGJhY2sgSSBoYWQgdGhlIGlkZWEgdG8gdHVybiBhIFJhc3BiZXJyeSBQaSBa
+ZXJvIGludG8gYSAkNQpVU0IgdG8gSERNSS9TRFRWL0RQSSBkaXNwbGF5IGFkYXB0ZXIuCgpUaGUg
+cHJvdG9jb2wgaXMgb3BlbiBzbyBwZW9wbGUgYXJlIGZyZWUgdG8gbWFrZSBkaXNwbGF5cyBpbXBs
+ZW1lbnRpbmcgaXQgYW5kCnVzZSB0aGlzIGRyaXZlciwgYWxsIHRoYXQncyBuZWVkZWQgaXMgdG8g
+YWRkIGEgVVNCIHZpZDpwaWQgdG8gdGhlIGRyaXZlciBmb3IKdGhlIGRpc3BsYXkuCgpTZWUgdGhl
+IHdpa2lbMV0gZm9yIG1vcmUgaW5mb3JtYXRpb24gYW5kIGltYWdlcyBmb3IgdGhlIFJhc3BiZXJy
+eSBQaSBaZXJvLzQuCgpDaGFuZ2VzIGluIHRoaXMgdmVyc2lvbjoKLSBVc2Ugb2JqLXkgaW4gTWFr
+ZWZpbGUgKFBldGVyKQotIEZpeCBtaXNzaW5nIGxlMzJfdG9fY3B1KCkgd2hlbiB1c2luZyBHVURf
+RElTUExBWV9NQUdJQyAoUGV0ZXIpCi0gU2V0IGluaXRpYWwgYnJpZ2h0bmVzcyBvbiBiYWNrbGln
+aHQgZGV2aWNlCgoKTm9yYWxmLgoKWzFdIGh0dHBzOi8vZ2l0aHViLmNvbS9ub3Ryby9ndWQvd2lr
+aQoKCk5vcmFsZiBUcsO4bm5lcyAoMyk6CiAgZHJtL3VhcGk6IEFkZCBVU0IgY29ubmVjdG9yIHR5
+cGUKICBkcm0vcHJvYmUtaGVscGVyOiBDaGVjayBlcG9jaCBjb3VudGVyIGluIG91dHB1dF9wb2xs
+X2V4ZWN1dGUoKQogIGRybTogQWRkIEdVRCBVU0IgRGlzcGxheSBkcml2ZXIKCiBNQUlOVEFJTkVS
+UyAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgOCArCiBkcml2ZXJzL2dwdS9kcm0vS2NvbmZp
+ZyAgICAgICAgICAgICB8ICAgMiArCiBkcml2ZXJzL2dwdS9kcm0vTWFrZWZpbGUgICAgICAgICAg
+ICB8ICAgMSArCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jICAgICB8ICAgMSArCiBk
+cml2ZXJzL2dwdS9kcm0vZHJtX3Byb2JlX2hlbHBlci5jICB8ICAgNyArLQogZHJpdmVycy9ncHUv
+ZHJtL2d1ZC9LY29uZmlnICAgICAgICAgfCAgMTQgKwogZHJpdmVycy9ncHUvZHJtL2d1ZC9NYWtl
+ZmlsZSAgICAgICAgfCAgIDQgKwogZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfY29ubmVjdG9yLmMg
+fCA3MzggKysrKysrKysrKysrKysrKysrKysrKysrKysrKwogZHJpdmVycy9ncHUvZHJtL2d1ZC9n
+dWRfZHJ2LmMgICAgICAgfCA2MjUgKysrKysrKysrKysrKysrKysrKysrKysKIGRyaXZlcnMvZ3B1
+L2RybS9ndWQvZ3VkX2ludGVybmFsLmggIHwgMTQ5ICsrKysrKwogZHJpdmVycy9ncHUvZHJtL2d1
+ZC9ndWRfcGlwZS5jICAgICAgfCA0NzUgKysrKysrKysrKysrKysrKysrCiBpbmNsdWRlL2RybS9n
+dWQuaCAgICAgICAgICAgICAgICAgICB8IDM1NiArKysrKysrKysrKysrKwogaW5jbHVkZS91YXBp
+L2RybS9kcm1fbW9kZS5oICAgICAgICAgfCAgIDEgKwogMTMgZmlsZXMgY2hhbmdlZCwgMjM4MCBp
+bnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9n
+cHUvZHJtL2d1ZC9LY29uZmlnCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2d1
+ZC9NYWtlZmlsZQogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2Nv
+bm5lY3Rvci5jCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfZHJ2
+LmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9pbnRlcm5hbC5o
+CiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfcGlwZS5jCiBjcmVh
+dGUgbW9kZSAxMDA2NDQgaW5jbHVkZS9kcm0vZ3VkLmgKCi0tIAoyLjIzLjAKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
