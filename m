@@ -1,49 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B69332057C
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Feb 2021 14:03:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9705E3205BE
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Feb 2021 15:38:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 894FF6E160;
-	Sat, 20 Feb 2021 13:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9963D6E1A4;
+	Sat, 20 Feb 2021 14:37:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE5346E160
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Feb 2021 13:03:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=VuiWYMfUO0/e0NEGPa2RgQ+kfOp/SPTBevtggMUkkII=; b=QmeNDUjxF7htIEqo8aJYG/8VXx
- 1Jeuo3TwA2D5QuPKQt09BPkiSXsY7IxFOKw5w9SkpIaYfEniuhCMhUgpbJcnd06eLqHk/GW1UI0EC
- q9OdeaS2JimLQ1G1J4jRg9FwWkJJeTsEEiY+6rmCRdeBaVTOGiI5WdhEtxemZVwkaw/Vo03Vu4GmX
- KMFhFNT/wLf7f0cUpeZ/llpFMHV/bDVxTbAtW8rnqHcq5EeHfCHkDhgzNDaDWUsSXJbN873BdT5MF
- bLVKsoylsj5vISFnL54ITaI9H9UBxO6oUrgu0BwpAd02QK/1Ken3ISpKS2TerKWSoCGS1NSfqDqy3
- +iiO8INA==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:63133
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1lDRua-0001B6-6Y; Sat, 20 Feb 2021 14:03:04 +0100
-Subject: Re: [PATCH] drm/prime: Only call dma_map_sgtable() for devices with
- DMA support
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@linux.ie, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com, gregkh@linuxfoundation.org
-References: <20210219134014.7775-1-tzimmermann@suse.de>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <79e272cb-b010-cb8d-57d3-71999164291a@tronnes.org>
-Date: Sat, 20 Feb 2021 14:02:59 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE0E6E1A4
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Feb 2021 14:37:58 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id a207so10392691wmd.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Feb 2021 06:37:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=fVDuuESTxn7zUT6yx7COduhBZCPBRiVBkWx2aeoYD6g=;
+ b=UMMCKfMTTWaS3njwDVNXciI65bc1B2lNmmYs11uCmD+Va5aoJ9IdnbLLhhjZIaMUpj
+ 4/j3gfLEtDiLev+8EwiOwfny18tjArM99IbKKcDBgHmDf6+HlioGgesTU17OcrF8vK1L
+ 8JVCsJ99IU667sQUa8y5XOYzZFZkz+aU80TITD1J7JlIYrOSCKt8U41scJyJ+3aOwGuH
+ BuMlp5ql3FUtYfswGezhE+6i76huH1S7V7TAHltfpMAcl06IGY90jrDFj0mJadLfL2KB
+ /3fu0H0X6SqVwdH1sRrmHKBHo9MIRUhSIHxBgc7uwJ2u++O0D0v9FWSKqcm3meT/KQAm
+ 0Tiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=fVDuuESTxn7zUT6yx7COduhBZCPBRiVBkWx2aeoYD6g=;
+ b=UHGL2bKisnq3hyFmxE4j3rRgT2Z/M8/TaHtJ7navV6WSUnOFVB8f6FHOjJ5GyMhBxm
+ hjrMF/Ghvrai9g8tN2/yKfctL4UjIc9DmUdviln/ebY8qYJT4O3vBOonHfjfqZSIdB7n
+ EW9srJN05HdBISKYaRzSUDzUwkd74ZheZkGLxiAEBlW9Q/KsPwV3tPGRCLmNtH+o4qP+
+ jxxuxRc2aHiga/UTaRsexjRCXNg6sF7vRH0FHOKt68ebpBrV+mtnDzMsGHC5w9F8v0yC
+ BTMciAAwQsNLBaq6sKRyTaQJCEeTWYvfkJdn5jzzwaEZZEGeAj97+zYjyGZWom8ACeaE
+ 24vQ==
+X-Gm-Message-State: AOAM531iIY1qiToMV9MpyNAOsYzCClq0G6zXBGLkOQ9Xy2BGn5No6Y/7
+ /n5QheYbltV4bBFjyvSw4uE=
+X-Google-Smtp-Source: ABdhPJyKMpioQsx9EgvUqb4Jt6MC9dsejbLUksjRjov8C1jAntGDzq5CnNTj+g2mW0GBe1GuBFxsRw==
+X-Received: by 2002:a1c:7c17:: with SMTP id x23mr787485wmc.95.1613831877197;
+ Sat, 20 Feb 2021 06:37:57 -0800 (PST)
+Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
+ by smtp.gmail.com with ESMTPSA id p3sm3270985wro.55.2021.02.20.06.37.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 20 Feb 2021 06:37:56 -0800 (PST)
+Date: Sat, 20 Feb 2021 11:37:49 -0300
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Simon Ser <contact@emersion.fr>,
+ Sumera Priyadarsini <sylphrenadin@gmail.com>,
+ David Airlie <airlied@linux.ie>
+Subject: [RFC PATCH 0/3] drm/vkms: add overlay plane support
+Message-ID: <20210220143749.omaoooquudaqiawf@smtp.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210219134014.7775-1-tzimmermann@suse.de>
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,192 +67,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Felipe Balbi <balbi@kernel.org>,
- Mathias Nyman <mathias.nyman@linux.intel.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Oliver Neukum <oneukum@suse.com>, Johan Hovold <johan@kernel.org>,
- dri-devel@lists.freedesktop.org, Alan Stern <stern@rowland.harvard.edu>,
- stable@vger.kernel.org, "Ahmed S. Darwish" <a.darwish@linutronix.de>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Christoph Hellwig <hch@lst.de>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Adding support to overlay type in addition to primary and cursor plane.
+The planes composition relies on the z order of the active planes and
+only occurs if there is a primary plane (as in the current behavior).
 
+The first patch decouples cursor from crtc_init. It initializes the CRTC
+only with primary plane, and setup the cursor plane externally. This is
+a preparation to allow to initialize the overlay plane between primary
+and cursor.
 
-Den 19.02.2021 14.40, skrev Thomas Zimmermann:
-> Fixes a regression for udl and probably other USB-based drivers where
-> joining and mirroring displays fails.
-> 
-> Joining displays requires importing a dma_buf from another DRM driver.
-> These devices don't support DMA and therefore have no DMA mask. Trying
-> to map imported buffers from a DMA-able memory zone fails with an error.
-> An example is shown below.
-> 
-> [   60.050199] ------------[ cut here ]------------
-> [   60.055092] WARNING: CPU: 0 PID: 1403 at kernel/dma/mapping.c:190 dma_map_sg_attrs+0x8f/0xc0
-> [   60.064331] Modules linked in: af_packet(E) rfkill(E) dmi_sysfs(E) intel_rapl_msr(E) intel_rapl_common(E) snd_hda_codec_realtek(E) snd_hda_codec_generic(E) ledtrig_audio(E) snd_hda_codec_hdmi(E) x86_pkg_temp_thermal(E) intel_powerclam)
-> [   60.064801]  wmi(E) video(E) btrfs(E) blake2b_generic(E) libcrc32c(E) crc32c_intel(E) xor(E) raid6_pq(E) sg(E) dm_multipath(E) dm_mod(E) scsi_dh_rdac(E) scsi_dh_emc(E) scsi_dh_alua(E) msr(E) efivarfs(E)
-> [   60.170778] CPU: 0 PID: 1403 Comm: Xorg.bin Tainted: G            E    5.11.0-rc5-1-default+ #747
-> [   60.179841] Hardware name: Dell Inc. OptiPlex 9020/0N4YC8, BIOS A24 10/24/2018
-> [   60.187145] RIP: 0010:dma_map_sg_attrs+0x8f/0xc0
-> [   60.191822] Code: 4d 85 ff 75 2b 49 89 d8 44 89 e1 44 89 f2 4c 89 ee 48 89 ef e8 62 30 00 00 85 c0 78 36 5b 5d 41 5c 41 5d 41 5e 41 5f c3 0f 0b <0f> 0b 31 c0 eb ed 49 8d 7f 50 e8 72 f5 2a 00 49 8b 47 50 49 89 d8
-> [   60.210770] RSP: 0018:ffffc90001d6fc18 EFLAGS: 00010246
-> [   60.216062] RAX: 0000000000000000 RBX: 0000000000000020 RCX: ffffffffb31e677b
-> [   60.223274] RDX: dffffc0000000000 RSI: ffff888212c10600 RDI: ffff8881b08a9488
-> [   60.230501] RBP: ffff8881b08a9030 R08: 0000000000000020 R09: ffff888212c10600
-> [   60.237710] R10: ffffed10425820df R11: 0000000000000001 R12: 0000000000000000
-> [   60.244939] R13: ffff888212c10600 R14: 0000000000000008 R15: 0000000000000000
-> [   60.252155] FS:  00007f08ac2b2f00(0000) GS:ffff8887cbe00000(0000) knlGS:0000000000000000
-> [   60.260333] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   60.266150] CR2: 000055831c899be8 CR3: 000000015372e006 CR4: 00000000001706f0
-> [   60.273369] Call Trace:
-> [   60.275845]  drm_gem_map_dma_buf+0xb4/0x120
-> [   60.280089]  dma_buf_map_attachment+0x15d/0x1e0
-> [   60.284688]  drm_gem_prime_import_dev.part.0+0x5d/0x140
-> [   60.289984]  drm_gem_prime_fd_to_handle+0x213/0x280
-> [   60.294931]  ? drm_prime_destroy_file_private+0x30/0x30
-> [   60.300224]  drm_ioctl_kernel+0x131/0x180
-> [   60.304291]  ? drm_setversion+0x230/0x230
-> [   60.308366]  ? drm_prime_destroy_file_private+0x30/0x30
-> [   60.313659]  drm_ioctl+0x2f1/0x500
-> [   60.317118]  ? drm_version+0x150/0x150
-> [   60.320903]  ? lock_downgrade+0xa0/0xa0
-> [   60.324806]  ? do_vfs_ioctl+0x5f4/0x680
-> [   60.328694]  ? __fget_files+0x13e/0x210
-> [   60.332591]  ? ioctl_fiemap.isra.0+0x1a0/0x1a0
-> [   60.337102]  ? __fget_files+0x15d/0x210
-> [   60.340990]  __x64_sys_ioctl+0xb9/0xf0
-> [   60.344795]  do_syscall_64+0x33/0x80
-> [   60.348427]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+The second patch generalize variables and functions names to refer to
+any kind of plane, not only cursor. The goal is to reuse them for
+blending overlay and cursor planes to primary.
 
-I'm working on a USB display driver and got the same splat (although
-from i915_gem_map_dma_buf) and silenced it using:
+The third patch creates a module option to enable overlay, and includes
+overlay to supported types of plane. When the overlay option is enabled,
+one overlay plane is initialized (plus primary and cursor) and it is
+included in the planes composition.
 
-	ret = dma_coerce_mask_and_coherent(dev, DMA_BIT_MASK(64));
+This work preserves the current results of IGT tests: kms_cursor_crc;
+kms_flip and kms_writeback. In addition, subtests related to overlay in
+kms_atomic and kms_plane_cursor start to pass (pointed out in the commit
+message).
 
-But I understand now that this is not the solution.
+Melissa Wen (3):
+  drm/vkms: decouple cursor plane setup from crtc_init
+  drm/vkms: rename cursor to plane on ops of planes composition
+  drm/vkms: add overlay support
 
-Since the USB host controller can do DMA, would the following be an
-acceptable solution?
+ drivers/gpu/drm/vkms/vkms_composer.c | 49 ++++++++++++++++------------
+ drivers/gpu/drm/vkms/vkms_crtc.c     |  4 +--
+ drivers/gpu/drm/vkms/vkms_drv.c      |  5 +++
+ drivers/gpu/drm/vkms/vkms_drv.h      |  3 +-
+ drivers/gpu/drm/vkms/vkms_output.c   | 31 ++++++++++++++----
+ drivers/gpu/drm/vkms/vkms_plane.c    | 20 +++++++++---
+ 6 files changed, 76 insertions(+), 36 deletions(-)
 
-static struct drm_gem_object *gud_gem_prime_import(struct drm_device
-*drm, struct dma_buf *dma_buf)
-{
-	struct usb_device *usb = gud_to_usb_device(to_gud_device(drm));
+-- 
+2.30.0
 
-	drm_dbg_prime(drm, "usb->bus->controller=%s\n",
-dev_name(usb->bus->controller));
-
-	return drm_gem_prime_import_dev(drm, dma_buf, usb->bus->controller);
-}
-
-static const struct drm_driver gud_drm_driver = {
-	.gem_prime_import	= gud_gem_prime_import,
-};
-
-
-Noralf.
-
-> [   60.353542] RIP: 0033:0x7f08ac7b53cb
-> [   60.357168] Code: 89 d8 49 8d 3c 1c 48 f7 d8 49 39 c4 72 b5 e8 1c ff ff ff 85 c0 78 ba 4c 89 e0 5b 5d 41 5c c3 f3 0f 1e fa b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 75 ba 0c 00 f7 d8 64 89 01 48
-> [   60.376108] RSP: 002b:00007ffeabc89fc8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> [   60.383758] RAX: ffffffffffffffda RBX: 00007ffeabc8a00c RCX: 00007f08ac7b53cb
-> [   60.390970] RDX: 00007ffeabc8a00c RSI: 00000000c00c642e RDI: 000000000000000d
-> [   60.398221] RBP: 00000000c00c642e R08: 000055831c691d00 R09: 000055831b2ec010
-> [   60.405446] R10: 00007f08acf6ada0 R11: 0000000000000246 R12: 000055831c691d00
-> [   60.412667] R13: 000000000000000d R14: 00000000007e9000 R15: 0000000000000000
-> [   60.419903] irq event stamp: 672893
-> [   60.423441] hardirqs last  enabled at (672913): [<ffffffffb31b796d>] console_unlock+0x44d/0x500
-> [   60.432230] hardirqs last disabled at (672922): [<ffffffffb31b7963>] console_unlock+0x443/0x500
-> [   60.441021] softirqs last  enabled at (672940): [<ffffffffb46003dd>] __do_softirq+0x3dd/0x554
-> [   60.449634] softirqs last disabled at (672931): [<ffffffffb44010f2>] asm_call_irq_on_stack+0x12/0x20
-> [   60.458871] ---[ end trace f2f88696eb17806c ]---
-> 
-> For the fix, we don't call dma_map_sgtable() for devices without the
-> DMA mask. Drivers for such devices have to map the imported buffer into
-> kernel address space and perfom the copy operation in software.
-> 
-> Tested by joining/mirroring displays of udl and radeon un der Gnome/X11.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 6eb0233ec2d0 ("usb: don't inherity DMA properties for USB devices")
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Alan Stern <stern@rowland.harvard.edu>
-> Cc: Johan Hovold <johan@kernel.org>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Cc: "Ahmed S. Darwish" <a.darwish@linutronix.de>
-> Cc: Mathias Nyman <mathias.nyman@linux.intel.com>
-> Cc: Oliver Neukum <oneukum@suse.com>
-> Cc: Felipe Balbi <balbi@kernel.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: <stable@vger.kernel.org> # v5.10+
-> ---
->  drivers/gpu/drm/drm_prime.c | 27 ++++++++++++++++++---------
->  1 file changed, 18 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index 2a54f86856af..d5a39fe76b78 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -603,10 +603,15 @@ EXPORT_SYMBOL(drm_gem_map_detach);
->   * @attach: attachment whose scatterlist is to be returned
->   * @dir: direction of DMA transfer
->   *
-> - * Calls &drm_gem_object_funcs.get_sg_table and then maps the scatterlist. This
-> - * can be used as the &dma_buf_ops.map_dma_buf callback. Should be used together
-> + * Calls &drm_gem_object_funcs.get_sg_table and, if possible, maps the scatterlist.
-> + * This can be used as the &dma_buf_ops.map_dma_buf callback. Should be used together
->   * with drm_gem_unmap_dma_buf().
->   *
-> + * Devices on some peripheral busses, such as USB, cannot use DMA. In this case,
-> + * pages in the scatterlist remain unmapped. Drivers for such devices should acquire
-> + * a mapping with dma_buf_vmap() and implement copy operation via bus-specific
-> + * interfaces.
-> + *
->   * Returns:sg_table containing the scatterlist to be returned; returns ERR_PTR
->   * on error. May return -EINTR if it is interrupted by a signal.
->   */
-> @@ -627,12 +632,14 @@ struct sg_table *drm_gem_map_dma_buf(struct dma_buf_attachment *attach,
->  	if (IS_ERR(sgt))
->  		return sgt;
-> 
-> -	ret = dma_map_sgtable(attach->dev, sgt, dir,
-> -			      DMA_ATTR_SKIP_CPU_SYNC);
-> -	if (ret) {
-> -		sg_free_table(sgt);
-> -		kfree(sgt);
-> -		sgt = ERR_PTR(ret);
-> +	if (attach->dev->dma_mask) {
-> +		ret = dma_map_sgtable(attach->dev, sgt, dir,
-> +				      DMA_ATTR_SKIP_CPU_SYNC);
-> +		if (ret) {
-> +			sg_free_table(sgt);
-> +			kfree(sgt);
-> +			sgt = ERR_PTR(ret);
-> +		}
->  	}
-> 
->  	return sgt;
-> @@ -654,7 +661,9 @@ void drm_gem_unmap_dma_buf(struct dma_buf_attachment *attach,
->  	if (!sgt)
->  		return;
-> 
-> -	dma_unmap_sgtable(attach->dev, sgt, dir, DMA_ATTR_SKIP_CPU_SYNC);
-> +	if (attach->dev->dma_mask)
-> +		dma_unmap_sgtable(attach->dev, sgt, dir, DMA_ATTR_SKIP_CPU_SYNC);
-> +
->  	sg_free_table(sgt);
->  	kfree(sgt);
->  }
-> --
-> 2.30.0
-> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
