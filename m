@@ -2,60 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 226943205C2
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Feb 2021 15:42:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7836C320668
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Feb 2021 18:28:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 006B96E1ED;
-	Sat, 20 Feb 2021 14:42:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6A3B6E28A;
+	Sat, 20 Feb 2021 17:28:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D7726E1ED
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Feb 2021 14:42:21 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id n10so10389469wmq.0
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Feb 2021 06:42:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=8c2OEtQ2xFquVD5unDqqyC8aIKkzbHGyj5TQZIKT9CM=;
- b=E5jFdwrp5aP/0WRdepcb85giv4pKBYRElfgNV5Z1GnIjk1aP2EluUSscIvLjCCdJW9
- NwSB+txSsdtbfG5XEu9WmpvxD3PCFXW0O6Qy4cP3AaENPQGd+MN4tSgPysUBvgVitduZ
- aPVgzrp6EL8ythEBYNArFUTwGEAAXRVQusc+C7ClCnzGW9+9JlnLd2F0V6gVd0FiCF/f
- KiRVCS6OeaQfa+y2kAKgHDPSsfkGgQE/epJyyb69zT3n2yll/4w60qFoLfj2Tpyj3G/4
- GRe1PwAlptXnChzkHw/yMyAjWaj3It8x7dPCwMRiknxPXSxKhTddtVRMEFklcTrA873Y
- 5AmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=8c2OEtQ2xFquVD5unDqqyC8aIKkzbHGyj5TQZIKT9CM=;
- b=lU/CgSMiOMIVXO3FG4zqNJsUH4wmh1yQd4SlqwDFxK0BSIcQZM8UvDKxgBp7gCScFP
- OucIDcyCXzmP6KjMCHVvqvnvfJuEERQrLJlgLMSqXe2VpFX2oRF6DWK+PlrXJxmGwbDq
- yAs5qRaBHMARZdtqdVPwC0xqxkZOacNEGVu3YI0YcCmaRZNaeHPMdaTpWb/vRTkXPb77
- T+zjVUsFvdd0Y5CK5PCnc6Q4gs/a5Sse8ouyb/j28c4Efg779sao6QOsL2+8FWraccyD
- yWXNEvGViNdY8r03jnp1LYHlojE9/Cpxy6Wp/cokx8DXfI3RtEbZzdshCe2I0009oeI7
- 5tHg==
-X-Gm-Message-State: AOAM530sggRd5X1JmzeqbJkB63ZAdrezx5M93sm2wovJnL3V+D48hW44
- E/bda7uYKqFdy3D+BIIjWGg=
-X-Google-Smtp-Source: ABdhPJwlAzuNlzkas3+XzGnHoVoHLxHZc/8L1cwG63u+94pTKzKJCOIy88KJVOPD5A+Tm8twoiJyZQ==
-X-Received: by 2002:a1c:7f83:: with SMTP id
- a125mr12544239wmd.141.1613832140292; 
- Sat, 20 Feb 2021 06:42:20 -0800 (PST)
-Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
- by smtp.gmail.com with ESMTPSA id b11sm18759078wrw.68.2021.02.20.06.42.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 Feb 2021 06:42:20 -0800 (PST)
-Date: Sat, 20 Feb 2021 11:42:12 -0300
-From: Melissa Wen <melissa.srw@gmail.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Simon Ser <contact@emersion.fr>,
- Sumera Priyadarsini <sylphrenadin@gmail.com>,
- David Airlie <airlied@linux.ie>
-Subject: [RFC PATCH 3/3] drm/vkms: add overlay support
-Message-ID: <20210220144212.oqmnjxuwvevke5bn@smtp.gmail.com>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C4126E1BE
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Feb 2021 17:28:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=pMXAH8nHleBFkBRH8croATWiV4JZzCIFeooqoN2mEpM=; b=GLzEB3pXZtivp/fdElB6tWN7RX
+ Q0yDMQ90Ee+MzuVgYinPJ4rCe0JUtoPewzg3LikpEhl7Qw9mYqiToLSpuVcj1RnJiDhz6GKHSFmmX
+ oefCwouFptJLjG/VDeu2UbaiA8HqZLTkumERwp0aYiV3qlIDYcz2/oyLcOJSRqZKd29Uw5R/b82HI
+ SXxXbaSHXx+pNxEOjtwPjBkpJ8ugC0iHs8+zFDooBoTUstOVxCtrVuKTtNfghcKahGwTtRtWU/pYt
+ U6ud/V+2dPOoe2Zy2RBJbyySq1gU3eLpk4BS/ANVdjGiQ/LoNCwmxDMIEOqk3BcHGbk44qew0wfSP
+ RPGUt75g==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:63552
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1lDW2z-0005jP-I1; Sat, 20 Feb 2021 18:28:01 +0100
+Subject: Re: [PATCH v6 3/3] drm: Add GUD USB Display driver
+To: Peter Stuge <peter@stuge.se>
+References: <20210219121702.50964-1-noralf@tronnes.org>
+ <20210219121702.50964-4-noralf@tronnes.org>
+ <20210219214243.11330.qmail@stuge.se>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <5c00a868-3a2f-438b-3670-ee86caef4d2a@tronnes.org>
+Date: Sat, 20 Feb 2021 18:27:55 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Disposition: inline
+In-Reply-To: <20210219214243.11330.qmail@stuge.se>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,241 +55,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: hudson@trmm.net, markus@raatikainen.cc,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-usb@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, th020394@gmail.com, lkundrak@v3.sk,
+ pontus.fuchs@gmail.com, sam@ravnborg.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support to overlay plane, in addition to primary and cursor
-planes. In this approach, the plane composition still requires an
-active primary plane and planes are composed associatively in the
-order: (primary <- overlay) <- cursor
-
-It enables to run the following IGT tests successfully:
-- kms_plane_cursor:
-  - pipe-A-[overlay, primary, viewport]-size-[64, 128, 256]
-- kms_atomic:
-  - plane-overlay-legacy
-and preserves the successful execution of kms_cursor_crc,
-kms_writeback and kms_flip
-
-Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
----
- drivers/gpu/drm/vkms/vkms_composer.c | 27 +++++++++++++++++----------
- drivers/gpu/drm/vkms/vkms_drv.c      |  5 +++++
- drivers/gpu/drm/vkms/vkms_drv.h      |  1 +
- drivers/gpu/drm/vkms/vkms_output.c   | 17 +++++++++++++++--
- drivers/gpu/drm/vkms/vkms_plane.c    | 20 +++++++++++++++-----
- 5 files changed, 53 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index be8f1d33c645..2116da9b5a43 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -144,11 +144,12 @@ static void compose_planes(struct vkms_composer *primary_composer,
- 
- static int composite(void **vaddr_out,
- 		     struct vkms_composer *primary_composer,
--		     struct vkms_composer *cursor_composer)
-+		     struct vkms_crtc_state *crtc_state)
- {
- 	struct drm_framebuffer *fb = &primary_composer->fb;
- 	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
- 	struct drm_gem_shmem_object *shmem_obj = to_drm_gem_shmem_obj(gem_obj);
-+	int i;
- 
- 	if (!*vaddr_out) {
- 		*vaddr_out = kzalloc(shmem_obj->base.size, GFP_KERNEL);
-@@ -163,8 +164,14 @@ static int composite(void **vaddr_out,
- 
- 	memcpy(*vaddr_out, shmem_obj->vaddr, shmem_obj->base.size);
- 
--	if (cursor_composer)
--		compose_planes(primary_composer, cursor_composer, *vaddr_out);
-+	/* If there are other planes besides primary, we consider the active
-+	 * planes should be in z-order and compose them associatively:
-+	 * ((primary <- overlay) <- cursor)
-+	 */
-+	for (i = 1; i < crtc_state->num_active_planes; i++)
-+		compose_planes(primary_composer,
-+			       crtc_state->active_planes[i]->composer,
-+			       *vaddr_out);
- 
- 	return 0;
- }
-@@ -186,7 +193,7 @@ void vkms_composer_worker(struct work_struct *work)
- 	struct drm_crtc *crtc = crtc_state->base.crtc;
- 	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
- 	struct vkms_composer *primary_composer = NULL;
--	struct vkms_composer *cursor_composer = NULL;
-+	struct vkms_plane_state *act_plane = NULL;
- 	bool crc_pending, wb_pending;
- 	void *vaddr_out = NULL;
- 	u32 crc32 = 0;
-@@ -210,11 +217,11 @@ void vkms_composer_worker(struct work_struct *work)
- 	if (!crc_pending)
- 		return;
- 
--	if (crtc_state->num_active_planes >= 1)
--		primary_composer = crtc_state->active_planes[0]->composer;
--
--	if (crtc_state->num_active_planes == 2)
--		cursor_composer = crtc_state->active_planes[1]->composer;
-+	if (crtc_state->num_active_planes >= 1) {
-+		act_plane = crtc_state->active_planes[0];
-+		if (act_plane->base.plane->type == DRM_PLANE_TYPE_PRIMARY)
-+			primary_composer = act_plane->composer;
-+	}
- 
- 	if (!primary_composer)
- 		return;
-@@ -222,7 +229,7 @@ void vkms_composer_worker(struct work_struct *work)
- 	if (wb_pending)
- 		vaddr_out = crtc_state->active_writeback;
- 
--	ret = composite(&vaddr_out, primary_composer, cursor_composer);
-+	ret = composite(&vaddr_out, primary_composer, crtc_state);
- 	if (ret) {
- 		if (ret == -EINVAL && !wb_pending)
- 			kfree(vaddr_out);
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 2173b82606f6..027ffe759440 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -44,6 +44,10 @@ static bool enable_writeback = true;
- module_param_named(enable_writeback, enable_writeback, bool, 0444);
- MODULE_PARM_DESC(enable_writeback, "Enable/Disable writeback connector support");
- 
-+static bool enable_overlay;
-+module_param_named(enable_overlay, enable_overlay, bool, 0444);
-+MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
-+
- DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
- 
- static void vkms_release(struct drm_device *dev)
-@@ -198,6 +202,7 @@ static int __init vkms_init(void)
- 
- 	config->cursor = enable_cursor;
- 	config->writeback = enable_writeback;
-+	config->overlay = enable_overlay;
- 
- 	return vkms_create(config);
- }
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 9ad5ad8b7737..784219da8df0 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -85,6 +85,7 @@ struct vkms_device;
- struct vkms_config {
- 	bool writeback;
- 	bool cursor;
-+	bool overlay;
- 	/* only set when instantiated */
- 	struct vkms_device *dev;
- };
-diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 05d3bb45e6c1..c60d0f2e7a37 100644
---- a/drivers/gpu/drm/vkms/vkms_output.c
-+++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -39,7 +39,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
- 	struct drm_connector *connector = &output->connector;
- 	struct drm_encoder *encoder = &output->encoder;
- 	struct drm_crtc *crtc = &output->crtc;
--	struct drm_plane *primary, *cursor = NULL;
-+	struct drm_plane *primary, *cursor = NULL, *overlay = NULL;
- 	int ret;
- 	int writeback;
- 
-@@ -51,6 +51,16 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
- 	if (ret)
- 		goto err_crtc;
- 
-+	if (vkmsdev->config->overlay) {
-+		overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
-+		if (IS_ERR(overlay)) {
-+			ret = PTR_ERR(overlay);
-+			goto err_overlay;
-+		}
-+		if (overlay && !overlay->possible_crtcs)
-+			overlay->possible_crtcs = drm_crtc_mask(crtc);
-+	}
-+
- 	if (vkmsdev->config->cursor) {
- 		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
- 		if (IS_ERR(cursor)) {
-@@ -58,7 +68,6 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
- 			goto err_cursor;
- 		}
- 	}
--
- 	crtc->cursor = cursor;
- 	if (cursor && !cursor->possible_crtcs)
- 		cursor->possible_crtcs = drm_crtc_mask(crtc);
-@@ -108,6 +117,10 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
- 	if (vkmsdev->config->cursor)
- 		drm_plane_cleanup(cursor);
- 
-+err_overlay:
-+	if (vkmsdev->config->overlay)
-+		drm_plane_cleanup(overlay);
-+
- err_crtc:
- 	drm_plane_cleanup(primary);
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 0824327cc860..8e7bb84bc894 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -19,6 +19,11 @@ static const u32 vkms_cursor_formats[] = {
- 	DRM_FORMAT_ARGB8888,
- };
- 
-+static const u32 vkms_overlay_formats[] = {
-+	DRM_FORMAT_ARGB8888,
-+	DRM_FORMAT_XRGB8888,
-+};
-+
- static struct drm_plane_state *
- vkms_plane_duplicate_state(struct drm_plane *plane)
- {
-@@ -127,7 +132,7 @@ static int vkms_plane_atomic_check(struct drm_plane *plane,
- 	if (IS_ERR(crtc_state))
- 		return PTR_ERR(crtc_state);
- 
--	if (plane->type == DRM_PLANE_TYPE_CURSOR)
-+	if (plane->type != DRM_PLANE_TYPE_PRIMARY)
- 		can_position = true;
- 
- 	ret = drm_atomic_helper_check_plane_state(state, crtc_state,
-@@ -195,14 +200,19 @@ struct drm_plane *vkms_plane_init(struct vkms_device *vkmsdev,
- 	int ret, nformats;
- 
- 	plane = kzalloc(sizeof(*plane), GFP_KERNEL);
--	if (!plane)
--		return ERR_PTR(-ENOMEM);
- 
--	if (type == DRM_PLANE_TYPE_CURSOR) {
-+	switch (type) {
-+	case DRM_PLANE_TYPE_CURSOR:
- 		formats = vkms_cursor_formats;
- 		nformats = ARRAY_SIZE(vkms_cursor_formats);
- 		funcs = &vkms_primary_helper_funcs;
--	} else {
-+		break;
-+	case DRM_PLANE_TYPE_OVERLAY:
-+		formats = vkms_overlay_formats;
-+		nformats = ARRAY_SIZE(vkms_overlay_formats);
-+		funcs = &vkms_primary_helper_funcs;
-+		break;
-+	default:
- 		formats = vkms_formats;
- 		nformats = ARRAY_SIZE(vkms_formats);
- 		funcs = &vkms_primary_helper_funcs;
--- 
-2.30.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpEZW4gMTkuMDIuMjAyMSAyMi40Miwgc2tyZXYgUGV0ZXIgU3R1Z2U6Cj4gSGkgTm9yYWxmLAo+
+IAo+IE5vcmFsZiBUcsO4bm5lcyB3cm90ZToKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2d1ZC9n
+dWRfY29ubmVjdG9yLmMKPiAuLgo+PiArc3RhdGljIGludCBndWRfY29ubmVjdG9yX2dldF9lZGlk
+X2Jsb2NrKHZvaWQgKmRhdGEsIHU4ICpidWYsIHVuc2lnbmVkIGludCBibG9jaywgc2l6ZV90IGxl
+bikKPiAuLgo+PiArCXN0cnVjdCBndWRfY29ubmVjdG9yICpnY29ubiA9IGN0eC0+Z2Nvbm47Cj4+
+ICsJc2l6ZV90IHN0YXJ0ID0gYmxvY2sgKiBFRElEX0xFTkdUSDsKPj4gKwo+PiArCWlmIChzdGFy
+dCArIGxlbiA+IGdjb25uLT5lZGlkX2xlbikKPj4gKwkJcmV0dXJuIC0xOwo+PiArCj4+ICsJaWYg
+KCFibG9jaykgewo+PiArCQlzdHJ1Y3QgZ3VkX2RldmljZSAqZ2RybSA9IHRvX2d1ZF9kZXZpY2Uo
+Z2Nvbm4tPmNvbm5lY3Rvci5kZXYpOwo+PiArCQlpbnQgcmV0Owo+PiArCj4+ICsJCS8qIENoZWNr
+IGJlY2F1c2UgZHJtX2RvX2dldF9lZGlkKCkgd2lsbCByZXRyeSBvbiBmYWlsdXJlICovCj4+ICsJ
+CWlmICghY3R4LT5idWYpCj4+ICsJCQljdHgtPmJ1ZiA9IGttYWxsb2MoZ2Nvbm4tPmVkaWRfbGVu
+LCBHRlBfS0VSTkVMKTsKPj4gKwkJaWYgKCFjdHgtPmJ1ZikKPj4gKwkJCXJldHVybiAtMTsKPj4g
+Kwo+PiArCQlyZXQgPSBndWRfdXNiX2dldChnZHJtLCBHVURfUkVRX0dFVF9DT05ORUNUT1JfRURJ
+RCwgZ2Nvbm4tPmNvbm5lY3Rvci5pbmRleCwKPj4gKwkJCQkgIGN0eC0+YnVmLCBnY29ubi0+ZWRp
+ZF9sZW4pOwo+IC4uCj4+ICsJbWVtY3B5KGJ1ZiwgY3R4LT5idWYgKyBzdGFydCwgbGVuKTsKPiAK
+PiBEYW5nZXIsIGRhbmdlcj8KPiAKPiBnY29ubi0+ZWRpZF9sZW4gaW4gdGhpcyBjYWxsIHRvIGd1
+ZF91c2JfZ2V0KCkgY29tZXMgZnJvbSB0aGUgZGV2aWNlIGluCj4gZ3VkX2Nvbm5lY3Rvcl9zdGF0
+dXNfcmVxdWVzdCgpIHdoZXJlIHRoZSBvbmx5IHZhbGlkYXRpb24gaXMgdGhhdAo+IGVkaWRfbGVu
+ICUgRURJRF9MRU5HVEggPT0gMCwgc28gYSBkZXZpY2UgY291bGQgd3JpdGUgcGFzdCB0aGUgYnVm
+ZmVyCj4gaWYgZHJtX2RvX2dldF9lZGlkKCkgcGFzc2VzIGEgYnVmZmVyIHNtYWxsZXIgdGhhbiBl
+ZGlkX2xlbi4KPiAKPiBJIGd1ZXNzIHRoZSBidWZmZXIgcGFzc2VkIGlzIGp1c3QgMTI4LCBFRElE
+X0xFTkdUSCwgc28gYSBtYWxpY2lvdXMKPiBvciBidWdneSBkZXZpY2UgY291bGQgb3ZlcndyaXRl
+IDY0ay0xMjgga2VybmVsIG1lbW9yeT8gT3VjaCEKPiAKClRoZSByZXN1bHQgZ29lcyBpbnRvIGN0
+eC0+YnVmIHdoaWNoIGlzIGJpZyBlbm91Z2guIFRoZW4gZWFjaCBlZGlkIGJsb2NrCmlzIGNvcGll
+ZCBmcm9tIHRoYXQgYnVmZmVyIGFzIHRoZSBwYXJzZXIgcnVucyB0aGUgY2FsbGJhY2suCgpNYXli
+ZSBJIHNob3VsZCBhZGQgYSBjYXAgb24gLT5lZGlkX2xlbiwgYnV0IEkgZG9uJ3Qga25vdyBob3cg
+YmlnIGl0CnNob3VsZCBiZS4gVGhlcmUncyBubyBkYW5nZXIgYXMgc3VjaCBub3QgaGF2aW5nIGEg
+Y2FwLCB0aGUgaG9zdCB3aWxsCmVpdGhlciBmYWlsIHRvIGFsbG9jYXRlIG1lbW9yeSAobWF4IDRN
+QiB1c3VhbGx5KSBvciBkbyBhIHZlcnkgYmlnCnRyYW5zZmVyIGFuZCBlcnJvciBvdXQgaW4gdGhl
+IGVkaWQgcGFyc2VyLgoKPiAKPiBNb3JlIGdlbmVyYWxseSBpdCdzIG5vdCB2ZXJ5IHR5cGljYWwg
+aW4gVVNCIHRvIHJlcG9ydCB0aGUgZGF0YSBzaXplCj4gc2VwYXJhdGVseSBmcm9tIHRoZSBkYXRh
+IGl0c2VsZiwgaWYgcmVwb3J0aW5nIHNpemUgZXhwbGljaXRseSBhdCBhbGwuCj4gCj4gU2l6ZXMg
+Y2FuIGJlIHBhcnQgb2YgdGhlIGRhdGEgc3RydWN0dXJlIGl0c2VsZiAobGlrZSBpbiBkZXNjcmlw
+dG9ycykgYnV0Cj4gb24gdGhlIGFwcGxpY2F0aW9uIGxheWVyIChsaWtlIGhlcmUpIGl0J3MgY29u
+dmVuaWVudCB0byBqdXN0IGRlY2lkZSBhCj4gc2Vuc2libGUgZml4ZWQgbWF4aW11bSBzaXplIGFu
+ZCBsZXQgdGhlIGhvc3QgdHJ5IHRvIGFsd2F5cyB0cmFuc2Zlcgo+IHRoYXQgc2l6ZSB3aGlsZSBh
+Y2NlcHRpbmcgc2hvcnQgdHJhbnNmZXJzLiBVbmxpa2UgcmVhZCgpIGEgc2hvcnQKPiB0cmFuc2Zl
+ciBvbmx5IGV2ZXIgaGFwcGVucyBpZiBhbmQgd2hlbiBhIGRldmljZSBpbnRlbmRzIGZvciBpdCwK
+PiBzbyB0aGF0J3MgbGlrZSBhbiBpbi1iYW5kIGhhbmRzaGFrZSBidXQgImZvciBmcmVlIi4KPiAK
+PiBPaCwgYW5kIGRvZXMvc2hvdWxkIHRoZSBHVUQgRURJRCBjaGFuZ2UgaWYgdGhlIHBhbmVsICJi
+ZWhpbmQiIHRoZSBkZXZpY2UKPiBDUFUgb24gYSBob3RwbHVnZ2FibGUgY29ubmVjdG9yIGNoYW5n
+ZXM/IEl0IHdvdWxkbid0IGJlIGdyZWF0IHRvIHJlcXVpcmUKPiBHVUQgZHJpdmVyIHJlcHJvYmUg
+aW4gdGhhdCBjYXNlLiBCdXQgbWF5YmUgRFJNIHJlcXVpcmVzIHRoYXQgYW55d2F5Pwo+IAoKSWYg
+Z3VkX2Nvbm5lY3Rvcl9zdGF0dXNfcmVxLnN0YXR1cyBoYXMgY2hhbmdlZCBzaW5jZSBsYXN0IHBv
+bGwgb3IKR1VEX0NPTk5FQ1RPUl9TVEFUVVNfQ0hBTkdFRCBpcyBzZXQsIERSTSB3aWxsIG5vdGlm
+eSB1c2Vyc3BhY2Ugd2hpY2gKd2lsbCByZXByb2JlIHRoZSBjb25uZWN0b3IuIGNvbm5lY3Rvci0+
+ZXBvY2hfY291bnRlcisrIGluCmd1ZF9jb25uZWN0b3Jfc3RhdHVzX3JlcXVlc3QoKSB0cmlnZ2Vy
+cyB0aGF0LgoKPiAKPiBJJ20gc29ycnkgSSBkaWRuJ3Qgc3BvdCB0aGlzIHBhdHRlcm4gZWFybGll
+ciwgSSB1bmRlcnN0YW5kIHRoYXQgaXQncyBsYXRlCj4gaW4gdGhlIGdhbWUgYW5kIHRoYXQgY2hh
+bmdpbmcgaXQgbmVlZHMgdGhlIGdhZGdldCB0byBjaGFuZ2UgYXMgd2VsbCwgYnV0IEkKPiBkbyBy
+ZWFsbHkgdGhpbmsgdGhpcyBpcyBhIHdvcnRod2hpbGUgY2hhbmdlIHRocm91Z2hvdXQgdGhlIHBy
+b3RvY29sLgo+IAoKSSBzZWUgd2hhdCB5b3UgbWVhbiwgSSdsbCBnaXZlIGl0IGEgdHJ5LgoKPiBB
+bmQgSSB0aGluayBpdCBhcHBsaWVzIHRvIG1vcmUgdGhhbiBFRElELCBlLmcuIGJvdGggR1VEIGFu
+ZCBjb25uZWN0b3IKPiBwcm9wZXJ0aWVzLCBtYXliZSBmb3JtYXRzLCBzb21ldGhpbmcgZWxzZT8K
+PiAKPiAKPiBVbmZvcnR1bmF0ZWx5LCB0aGUgZ3VkX3VzYl9jb250cm9sX21zZygpIGNoZWNrIChy
+ZXQgIT0gbGVuKSBjcmVhdGVzIGEKPiByZXF1aXJlbWVudCB0byBrbm93IGluIGFkdmFuY2UgaG93
+IG11Y2ggZGF0YSB3aWxsIGJlIHRyYW5zZmVyZWQuCj4gCj4gVGhhdCBjb3VsZCBiZSByZXZpc2Vk
+IGF0IGxlYXN0IGZvciB0aGUgZ2VuZXJhbCBjYXNlLCBldmVuIGlmIG5vdCB1c2VkCj4gZXZlcnl3
+aGVyZTsgbWF5YmUgc29tZXRoaW5nIGxpa2UgYWRkaW5nIGEgc2l6ZV90IHJlcXVpcmVkX21pbl9s
+ZW4KPiBwYXJhbWV0ZXIgdG8gZ3VkX3VzYl9jb250cm9sX21zZygpPwo+IAo+IAo+PiArc3RhdGlj
+IGludCBndWRfY29ubmVjdG9yX2dldF9tb2RlcyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVj
+dG9yKQo+PiArewo+PiArCXN0cnVjdCBndWRfY29ubmVjdG9yICpnY29ubiA9IHRvX2d1ZF9jb25u
+ZWN0b3IoY29ubmVjdG9yKTsKPj4gKwlzdHJ1Y3QgZ3VkX2RldmljZSAqZ2RybSA9IHRvX2d1ZF9k
+ZXZpY2UoY29ubmVjdG9yLT5kZXYpOwo+PiArCXN0cnVjdCBndWRfY29ubmVjdG9yX2dldF9lZGlk
+X2N0eCBlZGlkX2N0eCA9IHsKPj4gKwkJLmdjb25uID0gZ2Nvbm4sCj4+ICsJfTsKPj4gKwlzdHJ1
+Y3QgZ3VkX2Rpc3BsYXlfbW9kZV9yZXEgKnJlcW1vZGVzID0gTlVMTDsKPj4gKwl1bnNpZ25lZCBp
+bnQgaSwgbnVtX21vZGVzID0gMDsKPiAKPiBUaGUgZXJyb3IgcGF0aCBvZiB0aGlzIGZ1bmN0aW9u
+IGV4ZWN1dGVzICJyZXR1cm4gbnVtX21vZGVzIiB3aXRoIG51bV9tb2Rlcwo+IHVubW9kaWZpZWQ7
+IGllLiAwLiBJcyB0aGF0IGludGVudGlvbmFsPwo+IAoKSXQncyBub3QgYWxsb3dlZCB0byByZXR1
+cm4gYW4gZXJyb3IgY29kZSBzbyAwIGlzIHRoZSBvbmx5IG9wdGlvbi4gVGhlCmNhbGxlciBkcm1f
+aGVscGVyX3Byb2JlX3NpbmdsZV9jb25uZWN0b3JfbW9kZXMoKSBhZGRzIGEgZmFsbGJhY2sKMTAy
+NHg3NjggbW9kZSBpbiB0aGF0IGNhc2Ugd2hpY2ggcHJvYmFibHkgd29uJ3QgZml0IGZvciBhIGRp
+c3BsYXkgcGFuZWwsCmJ1dCB0aGUgZGV2aWNlIHNob3VsZCByZWplY3QgYW4gaWxsZWdhbCBtb2Rl
+IG9uIEdVRF9SRVFfU0VUX1NUQVRFX0NIRUNLCnNvIHdlJ3JlIGZpbmUuCgo+IAo+PiArc3RhdGlj
+IGludCBndWRfY29ubmVjdG9yX2FkZF90dl9tb2RlKHN0cnVjdCBndWRfZGV2aWNlICpnZHJtLAo+
+IC4uCj4+ICsJYnVmX2xlbiA9IG51bV9tb2RlcyAqIEdVRF9DT05ORUNUT1JfVFZfTU9ERV9OQU1F
+X0xFTjsKPj4gKwltb2RlcyA9IGttYWxsb2NfYXJyYXkobnVtX21vZGVzLCBzaXplb2YoKm1vZGVz
+KSwgR0ZQX0tFUk5FTCk7Cj4+ICsJYnVmID0ga21hbGxvYyhidWZfbGVuLCBHRlBfS0VSTkVMKTsK
+PiAKPiBNYXliZSBtb3ZpbmcgdGhlIGJ1ZiBhc3NpZ25tZW50IGltbWVkaWF0ZWx5IGZvbGxvd2lu
+ZyB0aGUgYnVmX2xlbiBhc3NpZ25tZW50Cj4gd291bGQgaGVscCByZWFkYWJpbGl0eT8gVGhpcyBp
+cyBxdWl0ZSBtaW5vci4KPiAKPiAKPj4gK3N0YXRpYyBpbnQgZ3VkX2Nvbm5lY3Rvcl9hZGRfcHJv
+cGVydGllcyhzdHJ1Y3QgZ3VkX2RldmljZSAqZ2RybSwgc3RydWN0IGd1ZF9jb25uZWN0b3IgKmdj
+b25uLAo+PiArCQkJCQl1bnNpZ25lZCBpbnQgbnVtX3Byb3BlcnRpZXMpCj4+ICt7Cj4+ICsJc3Ry
+dWN0IGRybV9kZXZpY2UgKmRybSA9ICZnZHJtLT5kcm07Cj4+ICsJc3RydWN0IGRybV9jb25uZWN0
+b3IgKmNvbm5lY3RvciA9ICZnY29ubi0+Y29ubmVjdG9yOwo+PiArCXN0cnVjdCBndWRfcHJvcGVy
+dHlfcmVxICpwcm9wZXJ0aWVzOwo+PiArCXVuc2lnbmVkIGludCBpOwo+PiArCWludCByZXQ7Cj4+
+ICsKPj4gKwlnY29ubi0+cHJvcGVydGllcyA9IGtjYWxsb2MobnVtX3Byb3BlcnRpZXMsIHNpemVv
+ZigqZ2Nvbm4tPnByb3BlcnRpZXMpLCBHRlBfS0VSTkVMKTsKPj4gKwlpZiAoIWdjb25uLT5wcm9w
+ZXJ0aWVzKQo+PiArCQlyZXR1cm4gLUVOT01FTTsKPj4gKwo+PiArCXByb3BlcnRpZXMgPSBrY2Fs
+bG9jKG51bV9wcm9wZXJ0aWVzLCBzaXplb2YoKnByb3BlcnRpZXMpLCBHRlBfS0VSTkVMKTsKPj4g
+KwlpZiAoIXByb3BlcnRpZXMpCj4+ICsJCXJldHVybiAtRU5PTUVNOwo+IAo+IEkgdGhpbmsgdGhp
+cyBlcnJvciBwYXRoIGxlYWtzIGdjb25uLT5wcm9wZXJ0aWVzPwo+IAoKSXQncyBmcmVlZCBpbiBn
+dWRfY29ubmVjdG9yX2Rlc3Ryb3koKSB3aGljaCB3aWxsIGJlIGNhbGxlZCBvbiBlcnJvciBhdAp0
+aGlzIHN0YWdlLgoKPiAKPj4gK2ludCBndWRfY29ubmVjdG9yX2NyZWF0ZShzdHJ1Y3QgZ3VkX2Rl
+dmljZSAqZ2RybSwgdW5zaWduZWQgaW50IGluZGV4KQo+IAo+IE1vc3QgZXJyb3IgcGF0aHMgaW4g
+dGhpcyBmdW5jdGlvbiBzZWVtIHRvIGxlYWsgYm90aCBnY29ubiBhbmQgY29ubmVjdG9yPwo+IAoK
+RXZlcnl0aGluZyB0aGF0IGhhcHBlbnMgYWZ0ZXIgdGhlIGRybV9jb25uZWN0b3JfaW5pdCgpIGNh
+bGwgaXMgY2xlYW5lZAp1cCBhdXRvbWF0aWNhbGx5IHdoZW4gdGhlIERSTSBkZXZpY2UgaXMgdG9y
+biBkb3duLgpkZXZtX2RybV9kZXZfYWxsb2MoKSBhbmQgZHJtbV9tb2RlX2NvbmZpZ19pbml0KCkg
+c2V0cyB0aGlzIHVwLgoKPiAKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfZHJ2LmMK
+PiAuLgo+PiArc3RhdGljIGludCBndWRfdXNiX2dldF9zdGF0dXMoc3RydWN0IHVzYl9kZXZpY2Ug
+KnVzYiwgdTggaWZudW0sIHU4ICpzdGF0dXMpCj4gLi4KPj4gKwlyZXQgPSBndWRfdXNiX2NvbnRy
+b2xfbXNnKHVzYiwgaWZudW0sIHRydWUsIEdVRF9SRVFfR0VUX1NUQVRVUywgMCwgYnVmLCBzaXpl
+b2YoKmJ1ZikpOwo+PiArCSpzdGF0dXMgPSAqYnVmOwo+IAo+IE1heWJlIG1ha2UgdGhpcyBjb25k
+aXRpb25hbCBvbiAwID09IHJldC4KPiAKPiAKPj4gK3N0YXRpYyBpbnQgZ3VkX3NldF92ZXJzaW9u
+KHN0cnVjdCB1c2JfZGV2aWNlICp1c2IsIHU4IGlmbnVtLCB1MzIgZmxhZ3MsIHU4IHZlcnNpb24p
+Cj4gLi4KPj4gKwlpZiAocmV0ID09IC1FUElQRSkKPj4gKwkJcmV0dXJuIC1FUFJPVE9OT1NVUFBP
+UlQ7Cj4gCj4gU28geWVhaCwgdGhpcyBpc24ndCB0eXBpY2FsLCBkZXZpY2VzIHVzdWFsbHkgZGVz
+Y3JpYmUgb3B0aW9uYWwgdGhpbmdzIHRoYXQKPiB0aGUgZHJpdmVyIG1heSBuZWVkIHRvIGtub3cg
+YWJvdXQsIHVubGVzcyBpdCdzIHNvbWV0aGluZyB0aGF0IGNhbiBjaGFuZ2UKPiBkdXJpbmcgb3Bl
+cmF0aW9uLgo+IAo+IEFyZ3VhYmx5IG1pbGRseSBjb250cmFkaWN0b3J5IHRvIHRoZSBzaG9ydCB0
+cmFuc2ZlciBwYXR0ZXJuLCBidXQgb25lIGlzCj4gY2FwYWJpbGl0eSBhbmQgdGhlIG90aGVyIGlz
+ICJydW50aW1lIiBkYXRhLgo+IAo+IAo+PiArc3RhdGljIGludCBndWRfZ2V0X3Byb3BlcnRpZXMo
+c3RydWN0IGd1ZF9kZXZpY2UgKmdkcm0sIHVuc2lnbmVkIGludCBudW1fcHJvcGVydGllcykKPj4g
+K3sKPj4gKwlzdHJ1Y3QgZ3VkX3Byb3BlcnR5X3JlcSAqcHJvcGVydGllczsKPj4gKwl1bnNpZ25l
+ZCBpbnQgaTsKPj4gKwlpbnQgcmV0Owo+PiArCj4+ICsJaWYgKCFudW1fcHJvcGVydGllcykKPj4g
+KwkJcmV0dXJuIDA7Cj4+ICsKPj4gKwlnZHJtLT5wcm9wZXJ0aWVzID0gZHJtbV9rY2FsbG9jKCZn
+ZHJtLT5kcm0sIG51bV9wcm9wZXJ0aWVzLCBzaXplb2YoKmdkcm0tPnByb3BlcnRpZXMpLAo+PiAr
+CQkJCQlHRlBfS0VSTkVMKTsKPj4gKwlpZiAoIWdkcm0tPnByb3BlcnRpZXMpCj4+ICsJCXJldHVy
+biAtRU5PTUVNOwo+PiArCj4+ICsJcHJvcGVydGllcyA9IGtjYWxsb2MobnVtX3Byb3BlcnRpZXMs
+IHNpemVvZigqcHJvcGVydGllcyksIEdGUF9LRVJORUwpOwo+PiArCWlmICghcHJvcGVydGllcykK
+Pj4gKwkJcmV0dXJuIC1FTk9NRU07Cj4gCj4gSXQgbG9va3MgbGlrZSB0aGlzIGZ1bmN0aW9uIGxl
+YWtzIGdkcm0tPnByb3BlcnRpZXMgaW4gYWxsIGVycm9yIHBhdGhzPwo+IAoKZHJtbV9rY2FsbG9j
+KCkgaXMgdGhlIERSTSB2ZXJzaW9uIG9mIGRldm1fa2NhbGxvYygpIHdoaWNoIGZyZWVzIHRoZQpt
+ZW1vcnkgd2hlbiB0aGUgbGFzdCBEUk0gZmQgaXMgY2xvc2VkLiBUaGVyZSBtaWdodCBiZSBvcGVu
+IGZkJ3Mgd2hlbiB0aGUKZGV2aWNlIGdvZXMgYXdheSBzbyB0aGUgZGV2bV8gdmVyc2lvbnMgY2Fu
+J3QgYmUgdXNlZC4KCj4gCj4+ICsJCWRlZmF1bHQ6Cj4+ICsJCQkvKiBOZXcgb25lcyBtaWdodCBz
+aG93IHVwIGluIGZ1dHVyZSBkZXZpY2VzLCBza2lwIHRob3NlIHdlIGRvbid0IGtub3cuICovCj4+
+ICsJCQlkcm1fZGJnKCZnZHJtLT5kcm0sICJVbmtub3duIHByb3BlcnR5OiAldVxuIiwgcHJvcCk7
+Cj4gCj4gTWF5YmUgIklnbm9yaW5nIHVua25vd24gcHJvcGVydHk6ICV1XG4iIHdvdWxkIGJlIGEg
+bGl0dGxlIG1vcmUgY2xlYXI/Cj4gCgpTdXJlLgoKPiAKPj4gK3N0YXRpYyBpbnQgZ3VkX3N0YXRz
+X2RlYnVnZnMoc3RydWN0IHNlcV9maWxlICptLCB2b2lkICpkYXRhKQo+IC4uCj4+ICsJc2VxX3B1
+dHMobSwgIkNvbXByZXNzaW9uOiAgICAgICIpOwo+PiArCWlmIChnZHJtLT5jb21wcmVzc2lvbiAm
+IEdVRF9DT01QUkVTU0lPTl9MWjQpCj4+ICsJCXNlcV9wdXRzKG0sICIgbHo0Iik7Cj4+ICsJc2Vx
+X3B1dHMobSwgIlxuIik7Cj4gCj4gTWF5YmUgYW4gZXhwbGljaXQgc2VxX3B1dHMobSwgIiBub25l
+IikgaWYgdGhlcmUgYXJlIG5vbmU/Cj4gCgpUaGF0IG1ha2VzIHNlbnNlLgoKPiAKPj4gKwlpZiAo
+Z2RybS0+Y29tcHJlc3Npb24pIHsKPj4gKwkJdTY0IHJlbWFpbmRlcjsKPj4gKwkJdTY0IHJhdGlv
+ID0gZGl2NjRfdTY0X3JlbShnZHJtLT5zdGF0c19sZW5ndGgsIGdkcm0tPnN0YXRzX2FjdHVhbF9s
+ZW5ndGgsCj4+ICsJCQkJCSAgJnJlbWFpbmRlcik7Cj4+ICsJCXU2NCByYXRpb19mcmFjID0gZGl2
+NjRfdTY0KHJlbWFpbmRlciAqIDEwLCBnZHJtLT5zdGF0c19hY3R1YWxfbGVuZ3RoKTsKPj4gKwo+
+PiArCQlzZXFfcHJpbnRmKG0sICJDb21wcmVzc2lvbiByYXRpbzogJWxsdS4lbGx1XG4iLCByYXRp
+bywgcmF0aW9fZnJhYyk7Cj4+ICsJfQo+IAo+IFdpbGwgdGhlIGZyYWN0aW9uIGV2ZXIgbmVlZCB6
+ZXJvIHBhZGRpbmc/Cj4gCgpObywgSSBkb24ndCBzZWUgd2h5LgoKPiAKPj4gK3N0YXRpYyBpbnQg
+Z3VkX3Byb2JlKHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRlcmZhY2UsIGNvbnN0IHN0cnVjdCB1
+c2JfZGV2aWNlX2lkICppZCkKPiAKPiBJIGFwcHJlY2lhdGUgdmVyeSBtdWNoIHRoYXQgR1VEIHdv
+cmtzIG9uIGludGVyZmFjZSBsZXZlbCwgc28gdGhhdCBpdAo+IGNhbiBhbHNvIGJlIHVzZWQgaW4g
+Y29tcG9zaXRlIGRldmljZXMgYXQgc29tZSBwb2ludC4gVGhhbmtzIGEgbG90ISBcby8KPiAKClRo
+aXMgd2FzIGEgZGVzaWduIHJlcXVpcmVtZW50IHNpbmNlIEkgd2FudGVkIHRvIG1ha2Ugcm9vbSBm
+b3IgYXQgbGVhc3QKSElEIHRvdWNoIGFuZCBtYXliZSBhdWRpby4gSXQgd2lsbCBhbHNvIHRvbGVy
+YXRlIG90aGVyIHZlbmRvciBjbGFzcwppbnRlcmZhY2VzIGFuZCBqdXN0IHNpbGVudGx5IGlnbm9y
+ZSB0aGVtLgoKVGhlIFBpIGltYWdlcyBvbiB0aGUgd2lraSBoYXMgdGhlIGFiaWxpdHkgdG8gYWRk
+IGEgc2VyaWFsIGNvbnNvbGUgVVNCCmludGVyZmFjZSBmb3IgZGVidWdnaW5nLgoKPiAKPj4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfcGlwZS5jCj4gLi4KPj4gK2ludCBndWRfcGlwZV9j
+aGVjayhzdHJ1Y3QgZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGUgKnBpcGUsCj4gLi4KPj4gKwlyZXEg
+PSBremFsbG9jKGxlbiwgR0ZQX0tFUk5FTCk7Cj4+ICsJaWYgKCFyZXEpCj4+ICsJCXJldHVybiAt
+RU5PTUVNOwo+PiArCj4+ICsJZ3VkX2Zyb21fZGlzcGxheV9tb2RlKCZyZXEtPm1vZGUsIG1vZGUp
+Owo+PiArCj4+ICsJcmVxLT5mb3JtYXQgPSBndWRfZnJvbV9mb3VyY2MoZm9ybWF0LT5mb3JtYXQp
+Owo+PiArCWlmIChXQVJOX09OX09OQ0UoIXJlcS0+Zm9ybWF0KSkKPj4gKwkJcmV0dXJuIC1FSU5W
+QUw7Cj4gCj4gcmVxIGxlYWtzPwo+IAoKWWVwLCB5b3UncmUgcmlnaHQuCgo+IAo+PiArCXJlcS0+
+Y29ubmVjdG9yID0gZHJtX2Nvbm5lY3Rvcl9pbmRleChjb25uZWN0b3IpOwo+PiArCXJlcS0+bnVt
+X3Byb3BlcnRpZXMgPSBudW1fcHJvcGVydGllczsKPj4gKwo+PiArCW51bV9wcm9wZXJ0aWVzID0g
+Z3VkX2Nvbm5lY3Rvcl9maWxsX3Byb3BlcnRpZXMoY29ubmVjdG9yLCBjb25uZWN0b3Jfc3RhdGUs
+Cj4+ICsJCQkJCQkgICAgICAgcmVxLT5wcm9wZXJ0aWVzKTsKPiAKPiBGb2xsb3dpbmcgdGhpcyBu
+ZXcgYXNzaWdubWVudCB0byBudW1fcHJvcGVydGllcyB0aGUgbmV3IHZhbHVlIGlzIHVzZWQKPiB0
+byAoaG9wZWZ1bGx5ISkgYXBwZW5kIGF0IHRoZSBmaXJzdCByZXEtPnByb3BlcnRpZXNbXSBpbmRl
+eCBhZnRlciB0aGUKPiBvbGQgdmFsdWUgd2FzIHVzZWQgYXMgaW5kZXgsIHRoYXQgZG9lc24ndCBm
+ZWVsIGdyZWF0Li4KPiAKPiBJIG1lYW4sIGl0J3MgaGFybWxlc3MgYXMgbG9uZyBhcyBndWRfY29u
+bmVjdG9yX2ZpbGxfcHJvcGVydGllcygpIGlzCj4gc3VyZSB0byByZXR1cm4gdGhlIHNhbWUgdmFs
+dWUsIGJ1dCwgd2VsbCwgbWF5YmUgc29tZXRpbWUgbGF0ZXIgaXQKPiBkb2Vzbid0LCBvciBpcyB0
+aGF0IGd1YXJhbnRlZWQgaWYgdGhlcmUgaXMgbm8gZXJyb3I/IFRoZW4gbWF5YmUgYXQKPiBsZWFz
+dCBkb2N1bWVudCB0aGF0IHJlcXVpcmVtZW50IGJ5IHRoZSBmdW5jdGlvbi4gV2hhdCBkbyB5b3Ug
+dGhpbms/Cj4gCgpUaGUgbnVtYmVyIG9mIHByb3BlcnRpZXMgZG9lc24ndCBjaGFuZ2UsIGl0IGlz
+IHJldHVybmVkIGJ5CkdVRF9SRVFfR0VUX0NPTk5FQ1RPUiBkdXJpbmcgcHJvYmUuClRoZXJlIGlz
+IGEgc21hbGwgY29tbWVudCBpbiBndWRfY29ubmVjdG9yX2ZpbGxfcHJvcGVydGllcygpIGJ1dCBJ
+IGNhbgpleHBhbmQgb24gdGhhdCBhbmQgcHV0IGl0IGJlZm9yZSB0aGUgZnVuY3Rpb24gZGVmaW5p
+dGlvbi4KClRoYW5rcyBmb3IgeW91ciBzY3J1dGlueS4KCk5vcmFsZi4KX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
