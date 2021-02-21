@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8F7320B57
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Feb 2021 16:26:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A8E9320C6F
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Feb 2021 19:12:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2E606E3DA;
-	Sun, 21 Feb 2021 15:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F2CA6E3D2;
+	Sun, 21 Feb 2021 18:12:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from conuserg-12.nifty.com (conuserg-12.nifty.com [210.131.2.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 280636E3DA
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Feb 2021 15:26:28 +0000 (UTC)
-Received: from grover.flets-west.jp (softbank126026090165.bbtec.net
- [126.26.90.165]) (authenticated)
- by conuserg-12.nifty.com with ESMTP id 11LFPXLH002478;
- Mon, 22 Feb 2021 00:25:33 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 11LFPXLH002478
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
- s=dec2015msa; t=1613921134;
- bh=BpSvNChKiVnLgw+LcmYaO/tWVZloQb+Ml+194wpU6LA=;
- h=From:To:Cc:Subject:Date:From;
- b=Z8iVhXT6WqegRIO9yrCfgFFVhp5ssUJBnL3MaLuC/X5RKpVAwhvmTCNX8Y/q7dqen
- 5I7LpUMMiabcPv9dp0xJIxR8RSz0XERlw1eW375qlS6gxtTKOZvSVvsH8p56WmQCEu
- k+Jv60bHUESh55NUhfFWGThw5Ipo1Q2yFKAUc2WuugBq6HitWC4YQux8HqF72ebe0a
- 7Gwsgvf91vWpxgm7aWw30X4vZomn4xOkScFPIlyZCGB7bVI4e4XEb7fDtoehumlCE4
- CCxqrcdQIqaO5PKiJPWFJlw9z0+KGNJYDwwl7Px6XwW9IRjkgtNWtQQZZ09ZQJlEDf
- 9QaICeu+EyrEQ==
-X-Nifty-SrcIP: [126.26.90.165]
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH] doc: use KCFLAGS instead of EXTRA_CFLAGS to pass flags from
- command line
-Date: Mon, 22 Feb 2021 00:25:24 +0900
-Message-Id: <20210221152524.197693-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8A7F6E1A5
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Feb 2021 18:12:21 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30AE7EF;
+ Sun, 21 Feb 2021 19:12:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1613931138;
+ bh=xdfpZVs5pD00qCgiYjQiBk3+yzMOzjLRl/tciOa0xRQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dTBeVr1+HpMUqB10851acTLvDXgWnvg35PoUyXXimlsR+ONaWYnKSLLayt0vIArsm
+ OMbmMeU70R2HpI1VzO23H0aXXbXOi8/nhoFQVfHnVtISrITADRv5Qq7LiHqpQhNVp0
+ KzbpxsFJiiX05pQYTfrYgWyO186dgpxVREIUYacc=
+Date: Sun, 21 Feb 2021 20:11:51 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [PATCH 06/30] drm/bridge/ti-sn65dsi86: (Un)register aux device
+ on bridge attach/detach
+Message-ID: <YDKiZ0LYPWq0dsFt@pendragon.ideasonboard.com>
+References: <20210219215326.2227596-1-lyude@redhat.com>
+ <20210219215326.2227596-7-lyude@redhat.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210219215326.2227596-7-lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,111 +47,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Masahiro Yamada <masahiroy@kernel.org>, linux-kernel@vger.kernel.org,
- Jyri Sarha <jsarha@ti.com>, Harry Wei <harryxiyou@gmail.com>,
- dri-devel@lists.freedesktop.org, Federico Vaga <federico.vaga@vaga.pv.it>,
- Alex Shi <alex.shi@linux.alibaba.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>, open list <linux-kernel@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, amd-gfx@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-WW91IHNob3VsZCB1c2UgS0NGTEFHUyB0byBwYXNzIGFkZGl0aW9uYWwgY29tcGlsZXIgZmxhZ3Mg
-ZnJvbSB0aGUKY29tbWFuZCBsaW5lLiBVc2luZyBFWFRSQV9DRkxBR1MgaXMgd3JvbmcuCgpFWFRS
-QV9DRkxBR1MgaXMgc3VwcG9zZWQgdG8gc3BlY2lmeSBmbGFncyBhcHBsaWVkIG9ubHkgdG8gdGhl
-IGN1cnJlbnQKTWFrZWZpbGUgKGFuZCBub3cgZGVwcmVjYXRlZCBpbiBmYXZvciBvZiBjY2ZsYWdz
-LXkpLgoKSXQgaXMgc3RpbGwgdXNlZCBpbiBhcmNoL21pcHMva3ZtL01ha2VmaWxlIChhbmQgcG9z
-c2libHkgaW4gZXh0ZXJuYWwKbW9kdWxlcyB0b28pLiBQYXNzaW5nIEVYVFJBX0NGTEFHUyBmcm9t
-IHRoZSBjb21tYW5kIGxpbmUgb3ZlcndyaXRlcwppdCBhbmQgYnJlYWtzIHRoZSBidWlsZC4KCkkg
-YWxzbyBmaXhlZCBkcml2ZXJzL2dwdS9kcm0vdGlsY2RjL01ha2VmaWxlIGJlY2F1c2UgY29tbWl0
-IDgxNjE3NWRkMWZkNwooImRyaXZlcnMvZ3B1L2RybS90aWxjZGM6IE1ha2VmaWxlLCBvbmx5IC1X
-ZXJyb3Igd2hlbiBubyAtVyogaW4KRVhUUkFfQ0ZMQUdTIikgd2FzIGJhc2VkIG9uIHRoZSBzYW1l
-IG1pc3VuZGVyc3RhbmRpbmcuCgpTaWduZWQtb2ZmLWJ5OiBNYXNhaGlybyBZYW1hZGEgPG1hc2Fo
-aXJveUBrZXJuZWwub3JnPgotLS0KCiBEb2N1bWVudGF0aW9uL3Byb2Nlc3MvNC5Db2RpbmcucnN0
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgMiArLQogRG9jdW1lbnRhdGlvbi9wcm9jZXNz
-L3N1Ym1pdC1jaGVja2xpc3QucnN0ICAgICAgICAgICAgICAgICAgICB8IDIgKy0KIERvY3VtZW50
-YXRpb24vdHJhbnNsYXRpb25zL2l0X0lUL3Byb2Nlc3MvNC5Db2RpbmcucnN0ICAgICAgICAgfCAy
-ICstCiBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9pdF9JVC9wcm9jZXNzL3N1Ym1pdC1jaGVj
-a2xpc3QucnN0IHwgMiArLQogRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcHJvY2Vz
-cy80LkNvZGluZy5yc3QgICAgICAgICB8IDIgKy0KIGRyaXZlcnMvZ3B1L2RybS90aWxjZGMvTWFr
-ZWZpbGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAyICstCiA2IGZpbGVzIGNoYW5n
-ZWQsIDYgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9Eb2N1bWVu
-dGF0aW9uL3Byb2Nlc3MvNC5Db2RpbmcucnN0IGIvRG9jdW1lbnRhdGlvbi9wcm9jZXNzLzQuQ29k
-aW5nLnJzdAppbmRleCAwODI1ZGM0OTZmMjIuLjFmMGQ4MWY0NGUxNCAxMDA2NDQKLS0tIGEvRG9j
-dW1lbnRhdGlvbi9wcm9jZXNzLzQuQ29kaW5nLnJzdAorKysgYi9Eb2N1bWVudGF0aW9uL3Byb2Nl
-c3MvNC5Db2RpbmcucnN0CkBAIC0yNDIsNyArMjQyLDcgQEAgYW5kIHRyeSB0byBhdm9pZCAiZml4
-ZXMiIHdoaWNoIG1ha2UgdGhlIHdhcm5pbmcgZ28gYXdheSB3aXRob3V0IGFkZHJlc3NpbmcKIGl0
-cyBjYXVzZS4KIAogTm90ZSB0aGF0IG5vdCBhbGwgY29tcGlsZXIgd2FybmluZ3MgYXJlIGVuYWJs
-ZWQgYnkgZGVmYXVsdC4gIEJ1aWxkIHRoZQota2VybmVsIHdpdGggIm1ha2UgRVhUUkFfQ0ZMQUdT
-PS1XIiB0byBnZXQgdGhlIGZ1bGwgc2V0Lgora2VybmVsIHdpdGggIm1ha2UgS0NGTEFHUz0tVyIg
-dG8gZ2V0IHRoZSBmdWxsIHNldC4KIAogVGhlIGtlcm5lbCBwcm92aWRlcyBzZXZlcmFsIGNvbmZp
-Z3VyYXRpb24gb3B0aW9ucyB3aGljaCB0dXJuIG9uIGRlYnVnZ2luZwogZmVhdHVyZXM7IG1vc3Qg
-b2YgdGhlc2UgYXJlIGZvdW5kIGluIHRoZSAia2VybmVsIGhhY2tpbmciIHN1Ym1lbnUuICBTZXZl
-cmFsCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3Byb2Nlc3Mvc3VibWl0LWNoZWNrbGlzdC5y
-c3QgYi9Eb2N1bWVudGF0aW9uL3Byb2Nlc3Mvc3VibWl0LWNoZWNrbGlzdC5yc3QKaW5kZXggMjMw
-ZWU0MmY4NzJmLi5jZmMyMzQ5MmI5ZWEgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vcHJvY2Vz
-cy9zdWJtaXQtY2hlY2tsaXN0LnJzdAorKysgYi9Eb2N1bWVudGF0aW9uL3Byb2Nlc3Mvc3VibWl0
-LWNoZWNrbGlzdC5yc3QKQEAgLTk4LDcgKzk4LDcgQEAgYW5kIGVsc2V3aGVyZSByZWdhcmRpbmcg
-c3VibWl0dGluZyBMaW51eCBrZXJuZWwgcGF0Y2hlcy4KICAgICBpbmplY3Rpb24gbWlnaHQgYmUg
-YXBwcm9wcmlhdGUuCiAKIDIxKSBOZXdseS1hZGRlZCBjb2RlIGhhcyBiZWVuIGNvbXBpbGVkIHdp
-dGggYGBnY2MgLVdgYCAodXNlCi0gICAgYGBtYWtlIEVYVFJBX0NGTEFHUz0tV2BgKS4gIFRoaXMg
-d2lsbCBnZW5lcmF0ZSBsb3RzIG9mIG5vaXNlLCBidXQgaXMgZ29vZAorICAgIGBgbWFrZSBLQ0ZM
-QUdTPS1XYGApLiAgVGhpcyB3aWxsIGdlbmVyYXRlIGxvdHMgb2Ygbm9pc2UsIGJ1dCBpcyBnb29k
-CiAgICAgZm9yIGZpbmRpbmcgYnVncyBsaWtlICJ3YXJuaW5nOiBjb21wYXJpc29uIGJldHdlZW4g
-c2lnbmVkIGFuZCB1bnNpZ25lZCIuCiAKIDIyKSBUZXN0ZWQgYWZ0ZXIgaXQgaGFzIGJlZW4gbWVy
-Z2VkIGludG8gdGhlIC1tbSBwYXRjaHNldCB0byBtYWtlIHN1cmUKZGlmZiAtLWdpdCBhL0RvY3Vt
-ZW50YXRpb24vdHJhbnNsYXRpb25zL2l0X0lUL3Byb2Nlc3MvNC5Db2RpbmcucnN0IGIvRG9jdW1l
-bnRhdGlvbi90cmFuc2xhdGlvbnMvaXRfSVQvcHJvY2Vzcy80LkNvZGluZy5yc3QKaW5kZXggYTVl
-MzZhYTYwNDQ4Li44MDEyZmU5NDk3YWUgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNs
-YXRpb25zL2l0X0lUL3Byb2Nlc3MvNC5Db2RpbmcucnN0CisrKyBiL0RvY3VtZW50YXRpb24vdHJh
-bnNsYXRpb25zL2l0X0lUL3Byb2Nlc3MvNC5Db2RpbmcucnN0CkBAIC0yNTYsNyArMjU2LDcgQEAg
-ZSBjZXJjYXRlIGRpIGV2aXRhcmUgbGUgInJpcGFyYXppb25pIiBjaGUgZmFuIHNwYXJpcmUgbCdh
-dnZlcnRpbWVudG8gc2VuemEKIHBlcsOyIGF2ZXJuZSB0cm92YXRvIGxhIGNhdXNhLgogCiBUZW5l
-dGUgYSBtZW50ZSBjaGUgbm9uIHR1dHRpIGdsaSBhdnZlcnRpbWVudGkgc29ubyBkaXNhYmlsaXRh
-dGkgZGkgZGVmYXVsdC4KLUNvc3RydWl0ZSBpbCBrZXJuZWwgY29uICJtYWtlIEVYVFJBX0NGTEFH
-Uz0tVyIgcGVyIG90dGVuZXJsaSB0dXR0aS4KK0Nvc3RydWl0ZSBpbCBrZXJuZWwgY29uICJtYWtl
-IEtDRkxBR1M9LVciIHBlciBvdHRlbmVybGkgdHV0dGkuCiAKIElsIGtlcm5lbCBmb3JuaXNjZSBk
-aWZmZXJlbnRpIG9wemlvbmkgY2hlIGFiaWxpdGFubyBmdW56aW9uYWxpdMOgIGRpIGRlYnVnZ2lu
-ZzsKIG1vbHRpIGRpIHF1ZXN0ZSBzb25vIHRyb3Zhbm8gYWxsJ2ludGVybm8gZGVsIHNvdHRvIG1l
-bnUgImtlcm5lbCBoYWNraW5nIi4KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRp
-b25zL2l0X0lUL3Byb2Nlc3Mvc3VibWl0LWNoZWNrbGlzdC5yc3QgYi9Eb2N1bWVudGF0aW9uL3Ry
-YW5zbGF0aW9ucy9pdF9JVC9wcm9jZXNzL3N1Ym1pdC1jaGVja2xpc3QucnN0CmluZGV4IDNlNTc1
-NTAyNjkwZi4uNjE0ZmMxN2Q5MDg2IDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0
-aW9ucy9pdF9JVC9wcm9jZXNzL3N1Ym1pdC1jaGVja2xpc3QucnN0CisrKyBiL0RvY3VtZW50YXRp
-b24vdHJhbnNsYXRpb25zL2l0X0lUL3Byb2Nlc3Mvc3VibWl0LWNoZWNrbGlzdC5yc3QKQEAgLTEw
-NCw3ICsxMDQsNyBAQCBzb3R0b21pc3Npb25lIGRlbGxlIHBhdGNoLCBpbiBwYXJ0aWNvbGFyZQog
-ICAgIGwnaW5pZXppb25lIGRpIGZhbGxpbWVudGkgc3BlY2lmaWNpIHBlciBpbCBzb3R0b3Npc3Rl
-bWEuCiAKIDIyKSBJbCBudW92byBjb2RpY2Ugw6ggc3RhdG8gY29tcGlsYXRvIGNvbiBgYGdjYyAt
-V2BgICh1c2F0ZQotICAgIGBgbWFrZSBFWFRSQV9DRkxBR1M9LVdgYCkuICBRdWVzdG8gZ2VuZXJl
-csOgIG1vbHRpIGF2dmlzaSwgbWEgw6ggb3R0aW1vCisgICAgYGBtYWtlIEtDRkxBR1M9LVdgYCku
-ICBRdWVzdG8gZ2VuZXJlcsOgIG1vbHRpIGF2dmlzaSwgbWEgw6ggb3R0aW1vCiAgICAgcGVyIHNj
-b3ZhcmUgYmFjaGkgY29tZSAgIndhcm5pbmc6IGNvbXBhcmlzb24gYmV0d2VlbiBzaWduZWQgYW5k
-IHVuc2lnbmVkIi4KIAogMjMpIExhIHBhdGNoIMOoIHN0YXRhIHZlcmlmaWNhdGEgZG9wbyBlc3Nl
-cmUgc3RhdGEgaW5jbHVzYSBuZWxsYSBzZXJpZSBkaSBwYXRjaApkaWZmIC0tZ2l0IGEvRG9jdW1l
-bnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcHJvY2Vzcy80LkNvZGluZy5yc3QgYi9Eb2N1bWVu
-dGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9wcm9jZXNzLzQuQ29kaW5nLnJzdAppbmRleCA5NTlh
-MDZiYTAyNWMuLjY2Y2Q4ZWUwNzYwNiAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xh
-dGlvbnMvemhfQ04vcHJvY2Vzcy80LkNvZGluZy5yc3QKKysrIGIvRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvemhfQ04vcHJvY2Vzcy80LkNvZGluZy5yc3QKQEAgLTE2NSw3ICsxNjUsNyBAQCBM
-aW51c+Wvuei/meS4qumXrumimOe7meWHuuS6huacgOS9s+etlOahiDoKIOmAmuW4uO+8jOi/meS6
-m+itpuWRiumDveaMh+WQkeecn+ato+eahOmXrumimOOAguaPkOS6pOS7peS+m+WuoemYheeahOS7
-o+eggemAmuW4uOS4jeS8muS6p+eUn+S7u+S9lee8luivkeWZqOitpuWRiuOAggog5Zyo5raI6Zmk
-6K2m5ZGK5pe277yM5rOo5oSP5LqG6Kej55yf5q2j55qE5Y6f5Zug77yM5bm25bC96YeP6YG/5YWN
-4oCc5L+u5aSN4oCd77yM5L2/6K2m5ZGK5raI5aSx6ICM5LiN6Kej5Yaz5YW25Y6f5Zug44CCCiAK
-Leivt+azqOaEj++8jOW5tumdnuaJgOaciee8luivkeWZqOitpuWRiumDvem7mOiupOWQr+eUqOOA
-guS9v+eUqOKAnG1ha2UgRVhUUkFfQ0ZMQUdTPS1X4oCd5p6E5bu65YaF5qC45LulCivor7fms6jm
-hI/vvIzlubbpnZ7miYDmnInnvJbor5HlmajorablkYrpg73pu5jorqTlkK/nlKjjgILkvb/nlKji
-gJxtYWtlIEtDRkxBR1M9LVfigJ3mnoTlu7rlhoXmoLjku6UKIOiOt+W+l+WujOaVtOmbhuWQiOOA
-ggogCiDlhoXmoLjmj5Dkvpvkuoblh6DkuKrphY3nva7pgInpobnvvIzlj6/ku6XmiZPlvIDosIPo
-r5Xlip/og73vvJvlpKflpJrmlbDphY3nva7pgInpobnkvY3kuo7igJxrZXJuZWwgaGFja2luZ+KA
-nQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RpbGNkYy9NYWtlZmlsZSBiL2RyaXZlcnMv
-Z3B1L2RybS90aWxjZGMvTWFrZWZpbGUKaW5kZXggNjYyYmYzYTM0OGM5Li5mNTE5MDQ3N2RlNzIg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS90aWxjZGMvTWFrZWZpbGUKKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL3RpbGNkYy9NYWtlZmlsZQpAQCAtMSw1ICsxLDUgQEAKICMgU1BEWC1MaWNlbnNl
-LUlkZW50aWZpZXI6IEdQTC0yLjAKLWlmZXEgKCwgJChmaW5kc3RyaW5nIC1XLCQoRVhUUkFfQ0ZM
-QUdTKSkpCitpZmVxICgsICQoZmluZHN0cmluZyAtVywkKEtDRkxBR1MpKSkKIAljY2ZsYWdzLXkg
-Kz0gLVdlcnJvcgogZW5kaWYKIAotLSAKMi4yNy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Lyude,
+
+Thank you for the patch.
+
+On Fri, Feb 19, 2021 at 04:53:02PM -0500, Lyude Paul wrote:
+> Since we're about to add a back-pointer to drm_dev in drm_dp_aux, let's
+> move the AUX adapter registration to the first point where we know which
+> DRM device we'll be working with - when the drm_bridge is attached.
+> Likewise, we unregister the AUX adapter on bridge detachment by adding a
+> ti_sn_bridge_detach() callback.
+> 
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 18 ++++++++++++++++--
+>  1 file changed, 16 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index f27306c51e4d..88df4dd0f39d 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -362,12 +362,18 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+>  		return -EINVAL;
+>  	}
+>  
+> +	ret = drm_dp_aux_register(&pdata->aux);
+> +	if (ret < 0) {
+> +		drm_err(bridge->dev, "Failed to register DP AUX channel: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+>  	ret = drm_connector_init(bridge->dev, &pdata->connector,
+>  				 &ti_sn_bridge_connector_funcs,
+>  				 DRM_MODE_CONNECTOR_eDP);
+>  	if (ret) {
+>  		DRM_ERROR("Failed to initialize connector with drm\n");
+> -		return ret;
+> +		goto err_conn_init;
+>  	}
+>  
+>  	drm_connector_helper_add(&pdata->connector,
+> @@ -424,9 +430,16 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+>  	mipi_dsi_device_unregister(dsi);
+>  err_dsi_host:
+>  	drm_connector_cleanup(&pdata->connector);
+> +err_conn_init:
+> +	drm_dp_aux_unregister(&pdata->aux);
+>  	return ret;
+>  }
+>  
+> +static void ti_sn_bridge_detach(struct drm_bridge *bridge)
+> +{
+> +	drm_dp_aux_unregister(&bridge_to_ti_sn_bridge(bridge)->aux);
+> +}
+> +
+>  static void ti_sn_bridge_disable(struct drm_bridge *bridge)
+>  {
+>  	struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
+> @@ -863,6 +876,7 @@ static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
+>  
+>  static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
+>  	.attach = ti_sn_bridge_attach,
+> +	.detach = ti_sn_bridge_detach,
+>  	.pre_enable = ti_sn_bridge_pre_enable,
+>  	.enable = ti_sn_bridge_enable,
+>  	.disable = ti_sn_bridge_disable,
+> @@ -1287,7 +1301,7 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
+>  	pdata->aux.name = "ti-sn65dsi86-aux";
+>  	pdata->aux.dev = pdata->dev;
+>  	pdata->aux.transfer = ti_sn_aux_transfer;
+> -	drm_dp_aux_register(&pdata->aux);
+> +	drm_dp_aux_init(&pdata->aux);
+>  
+>  	pdata->bridge.funcs = &ti_sn_bridge_funcs;
+>  	pdata->bridge.of_node = client->dev.of_node;
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
