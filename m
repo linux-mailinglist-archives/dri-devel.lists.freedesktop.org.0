@@ -1,40 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1EF320E91
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 00:45:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94890320EA0
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 00:55:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34EA36E41A;
-	Sun, 21 Feb 2021 23:45:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48B6F6E200;
+	Sun, 21 Feb 2021 23:55:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA8576E41A
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Feb 2021 23:45:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8991A64E08;
- Sun, 21 Feb 2021 23:45:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 141EB6E200
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Feb 2021 23:55:23 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 66C6E64E41
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Feb 2021 23:55:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1613951150;
- bh=bebfcHSPVvXAYvSMBqmKSl9MQHrfaWf+ddsQTWVnsP0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=U+qZdAvWGGzflMb7opbdSoC7Sd06+LtwJ0WiGDZXCes31Fxte79PKif/tNpQAB9y6
- jNUcDXDUaWfYuu+Qt1ny4IIwhiEZnlA9AC7PtffscBbYOU811l/v7qfRj2qJpEyxnE
- LI0tjBFekHXpJLTUOykMlY8AwtpEtMLhBRRBbu5UT1YLjGvrGNWkh9eSgXX8Rxs/ms
- ZeSIesCt9Ci0CJJC0GqJJLItYOUgGxhIHfIlg20crWaH0rKbpJXBtzUjc8kX6HIqFF
- hVHdsZ5YNX0vmUiqnKOqkCpOan7FKYt5V7rOiW2QRH9R3aHAiqB9PPBqqn/e6ul7aT
- lqG3ofxbrAoOQ==
-Date: Sun, 21 Feb 2021 16:45:49 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [git pull] drm for 5.12-rc1
-Message-ID: <20210221234549.GA21254@24bbad8f3778>
-References: <CAPM=9txd-x1NKWK9BBqVTDNOR00zNqcXgs76YJrDfL94eMLYqQ@mail.gmail.com>
- <CAHk-=wgiPxXzRNnfaXk7ozSWSu7fFU--kTmVjkDaTB05wwUk_g@mail.gmail.com>
+ s=k20201202; t=1613951721;
+ bh=pCV1sQy9uTqnFAmmvzP8ZG3dSUM5TF1WU3OUbHWIOv4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=T1pRRi5/D/X7oVKcOmFHTJtXqE5RutVhZWk7CLVNL5XbPT8qLQytrs0gEhOLn4zd/
+ oMtzAGHyufc5EAcu9qpi67kgU5sFMf0THymI2PM4BPddsXq3IEgenfteJzQ7WsMpWg
+ Fh++ylm32cIb7DV/46FFXRFy9poORUQIvjU8kqLcIl0MrLQppdq+Qg8jAVnNCwkeN8
+ /s3Qc9qVacn1oOqUcFUrQUhG+UfoVpF7MO9ssZOm1coRCCrCAsNKygsF8/yDUcW1cN
+ zVRfdYaI0IFjAPoRJWcZeJb+WzRvA2sS0avXg/cZpzLDNODhVX8uiwhLavvKRoiERK
+ 9eZgDdBOeY/sQ==
+Received: by mail-ed1-f49.google.com with SMTP id p2so19638828edm.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Feb 2021 15:55:21 -0800 (PST)
+X-Gm-Message-State: AOAM53190aX+/KAOWUp/AEl6En8S4w9subtraJU1d3kFy7UbQDYMI8hQ
+ 6+aEBBw6iQM0d55qMFrfctwnxrSZ9gbXlfbFYw==
+X-Google-Smtp-Source: ABdhPJzjfP1nPPQ1MNPaWVnfk2Mr7HLZ5b27HJabVIkK5eW+HiRwhioG5vwkCodyWo5nFcJXQ+8wp5PIi/mGH6iID4E=
+X-Received: by 2002:aa7:dd4b:: with SMTP id o11mr19989951edw.303.1613951719928; 
+ Sun, 21 Feb 2021 15:55:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgiPxXzRNnfaXk7ozSWSu7fFU--kTmVjkDaTB05wwUk_g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1613728452-24871-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1613728452-24871-2-git-send-email-yongqiang.niu@mediatek.com>
+In-Reply-To: <1613728452-24871-2-git-send-email-yongqiang.niu@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 22 Feb 2021 07:55:10 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_92-Kw+BFnxgQbh2zFT5hDBAF+uZe+_VgCd4NAziQ0wUg@mail.gmail.com>
+Message-ID: <CAAOTY_92-Kw+BFnxgQbh2zFT5hDBAF+uZe+_VgCd4NAziQ0wUg@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/mediatek: move page flip handle into cmdq cb
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,54 +53,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Kevin Wang <kevin1.wang@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Feb 21, 2021 at 03:07:17PM -0800, Linus Torvalds wrote:
-> On Thu, Feb 18, 2021 at 10:06 PM Dave Airlie <airlied@gmail.com> wrote:
-> >
-> > Let me know if there are any issues,
-> 
-> gcc was happy, and I obviously already pushed out my merge, but then
-> when I did my clang build afterwards, it reports:
-> 
->   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:764:2: warning:
-> variable 'structure_size' is used uninitialized whenever switch
-> default is taken [-Wsometimes-uninitialized]
->           default:
->           ^~~~~~~
->   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:770:23: note:
-> uninitialized use occurs here
->           memset(header, 0xFF, structure_size);
->                                ^~~~~~~~~~~~~~
-> 
-> and clang is very very right. That "default" case is completely
-> broken, and will generate a randomly sized memset. Not good.
-> 
-> Presumably that default case never happens, but if so it shouldn't exist.
-> 
-> Perhaps better yet, make the "default" case just do a "return" instead
-> of a break. Breaking out of the switch statement to code that cannot
-> possibly work is all kinds of mindless.
-> 
-> Kevin/Alex? This was introduced by commit de4b7cd8cb87
-> ("drm/amd/pm/swsmu: unify the init soft gpu metrics function")
-> 
->               Linus
-
-I sent https://lore.kernel.org/r/20210218224849.5591-1-nathan@kernel.org/
-a few days ago and Kevin reviewed it, just seems like Alex needs to pick
-it up.
-
-Cheers,
-Nathan
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIFlvbmdxaWFuZzoKCllvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29t
+PiDmlrwgMjAyMeW5tDLmnIgxOeaXpSDpgLHkupQg5LiL5Y2INTo1NOWvq+mBk++8mgo+Cj4gbW92
+ZSBwYWdlIGZsaXAgaGFuZGxlIGludG8gY21kcSBjYgo+IGlycSBjYWxsYmFjayB3aWxsIGJlZm9y
+ZSBjbWRxIGZsdXNoIGRkcCByZWdpc3Rlcgo+IGludG8gaGFyZHdhcmUsIHRoYXQgd2lsbCBjYXVz
+ZSB0aGUgZGlzcGxheSBmcmFtZSBwYWdlCj4gZmxpcCBldmVudCBiZWZvcmUgaXQgcmVhbHkgZGlz
+cGxheSBvdXQgdGltZQo+Cj4gU2lnbmVkLW9mZi1ieTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5n
+Lm5pdUBtZWRpYXRlay5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtf
+ZHJtX2NydGMuYyB8IDMzICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLQo+ICAxIGZp
+bGUgY2hhbmdlZCwgMjkgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMgYi9kcml2ZXJzL2dw
+dS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMKPiBpbmRleCBiZGQzN2VhLi5iZWNlMzI3IDEw
+MDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYwo+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYwo+IEBAIC03Miw2ICs3
+MiwxMyBAQCBzdHJ1Y3QgbXRrX2NydGNfc3RhdGUgewo+ICAgICAgICAgdW5zaWduZWQgaW50ICAg
+ICAgICAgICAgICAgICAgICBwZW5kaW5nX3ZyZWZyZXNoOwo+ICB9Owo+Cj4gKyNpZiBJU19SRUFD
+SEFCTEUoQ09ORklHX01US19DTURRKQo+ICtzdHJ1Y3QgbXRrX2NtZHFfY2JfZGF0YSB7Cj4gKyAg
+ICAgICBzdHJ1Y3QgY21kcV9wa3QgICAgICAgICAgICAgICAgICpjbWRxX2hhbmRsZTsKPiArICAg
+ICAgIHN0cnVjdCBtdGtfZHJtX2NydGMgICAgICAgICAgICAgKm10a19jcnRjOwo+ICt9Owo+ICsj
+ZW5kaWYKPiArCj4gIHN0YXRpYyBpbmxpbmUgc3RydWN0IG10a19kcm1fY3J0YyAqdG9fbXRrX2Ny
+dGMoc3RydWN0IGRybV9jcnRjICpjKQo+ICB7Cj4gICAgICAgICByZXR1cm4gY29udGFpbmVyX29m
+KGMsIHN0cnVjdCBtdGtfZHJtX2NydGMsIGJhc2UpOwo+IEBAIC05Niw3ICsxMDMsNiBAQCBzdGF0
+aWMgdm9pZCBtdGtfZHJtX2NydGNfZmluaXNoX3BhZ2VfZmxpcChzdHJ1Y3QgbXRrX2RybV9jcnRj
+ICptdGtfY3J0YykKPgo+ICBzdGF0aWMgdm9pZCBtdGtfZHJtX2ZpbmlzaF9wYWdlX2ZsaXAoc3Ry
+dWN0IG10a19kcm1fY3J0YyAqbXRrX2NydGMpCj4gIHsKPiAtICAgICAgIGRybV9jcnRjX2hhbmRs
+ZV92YmxhbmsoJm10a19jcnRjLT5iYXNlKTsKPiAgICAgICAgIGlmIChtdGtfY3J0Yy0+cGVuZGlu
+Z19uZWVkc192YmxhbmspIHsKPiAgICAgICAgICAgICAgICAgbXRrX2RybV9jcnRjX2ZpbmlzaF9w
+YWdlX2ZsaXAobXRrX2NydGMpOwo+ICAgICAgICAgICAgICAgICBtdGtfY3J0Yy0+cGVuZGluZ19u
+ZWVkc192YmxhbmsgPSBmYWxzZTsKPiBAQCAtMjQxLDcgKzI0NywxOSBAQCBzdHJ1Y3QgbXRrX2Rk
+cF9jb21wICptdGtfZHJtX2RkcF9jb21wX2Zvcl9wbGFuZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMs
+Cj4gICNpZiBJU19SRUFDSEFCTEUoQ09ORklHX01US19DTURRKQo+ICBzdGF0aWMgdm9pZCBkZHBf
+Y21kcV9jYihzdHJ1Y3QgY21kcV9jYl9kYXRhIGRhdGEpCj4gIHsKPiAtICAgICAgIGNtZHFfcGt0
+X2Rlc3Ryb3koZGF0YS5kYXRhKTsKPiArICAgICAgIHN0cnVjdCBtdGtfY21kcV9jYl9kYXRhICpj
+Yl9kYXRhID0gZGF0YS5kYXRhOwo+ICsKPiArICAgICAgIGlmIChjYl9kYXRhKSB7Cj4gKyAgICAg
+ICAgICAgICAgIHN0cnVjdCBtdGtfZHJtX2NydGMgKm10a19jcnRjID0gY2JfZGF0YS0+bXRrX2Ny
+dGM7Cj4gKwo+ICsgICAgICAgICAgICAgICBpZiAobXRrX2NydGMpCj4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgbXRrX2RybV9maW5pc2hfcGFnZV9mbGlwKG10a19jcnRjKTsKPiArCj4gKyAgICAg
+ICAgICAgICAgIGlmIChjYl9kYXRhLT5jbWRxX2hhbmRsZSkKPiArICAgICAgICAgICAgICAgICAg
+ICAgICBjbWRxX3BrdF9kZXN0cm95KGNiX2RhdGEtPmNtZHFfaGFuZGxlKTsKPiArCj4gKyAgICAg
+ICAgICAgICAgIGtmcmVlKGNiX2RhdGEpOwo+ICsgICAgICAgfQo+ICB9Cj4gICNlbmRpZgo+Cj4g
+QEAgLTQ4MSwxMyArNDk5LDIwIEBAIHN0YXRpYyB2b2lkIG10a19kcm1fY3J0Y19od19jb25maWco
+c3RydWN0IG10a19kcm1fY3J0YyAqbXRrX2NydGMpCj4gICAgICAgICB9Cj4gICNpZiBJU19SRUFD
+SEFCTEUoQ09ORklHX01US19DTURRKQo+ICAgICAgICAgaWYgKG10a19jcnRjLT5jbWRxX2NsaWVu
+dCkgewo+ICsgICAgICAgICAgICAgICBzdHJ1Y3QgbXRrX2NtZHFfY2JfZGF0YSAqY2JfZGF0YTsK
+PiArCj4gICAgICAgICAgICAgICAgIG1ib3hfZmx1c2gobXRrX2NydGMtPmNtZHFfY2xpZW50LT5j
+aGFuLCAyMDAwKTsKPiAgICAgICAgICAgICAgICAgY21kcV9oYW5kbGUgPSBjbWRxX3BrdF9jcmVh
+dGUobXRrX2NydGMtPmNtZHFfY2xpZW50LCBQQUdFX1NJWkUpOwo+ICAgICAgICAgICAgICAgICBj
+bWRxX3BrdF9jbGVhcl9ldmVudChjbWRxX2hhbmRsZSwgbXRrX2NydGMtPmNtZHFfZXZlbnQpOwo+
+ICAgICAgICAgICAgICAgICBjbWRxX3BrdF93ZmUoY21kcV9oYW5kbGUsIG10a19jcnRjLT5jbWRx
+X2V2ZW50LCBmYWxzZSk7Cj4gICAgICAgICAgICAgICAgIG10a19jcnRjX2RkcF9jb25maWcoY3J0
+YywgY21kcV9oYW5kbGUpOwo+ICAgICAgICAgICAgICAgICBjbWRxX3BrdF9maW5hbGl6ZShjbWRx
+X2hhbmRsZSk7Cj4gLSAgICAgICAgICAgICAgIGNtZHFfcGt0X2ZsdXNoX2FzeW5jKGNtZHFfaGFu
+ZGxlLCBkZHBfY21kcV9jYiwgY21kcV9oYW5kbGUpOwo+ICsKPiArICAgICAgICAgICAgICAgY2Jf
+ZGF0YSA9IGttYWxsb2Moc2l6ZW9mKCpjYl9kYXRhKSwgR0ZQX0tFUk5FTCk7Cj4gKyAgICAgICAg
+ICAgICAgIGNiX2RhdGEtPmNtZHFfaGFuZGxlID0gY21kcV9oYW5kbGU7Cj4gKyAgICAgICAgICAg
+ICAgIGNiX2RhdGEtPm10a19jcnRjID0gbXRrX2NydGM7Cj4gKwo+ICsgICAgICAgICAgICAgICBj
+bWRxX3BrdF9mbHVzaF9hc3luYyhjbWRxX2hhbmRsZSwgZGRwX2NtZHFfY2IsIGNiX2RhdGEpOwo+
+ICAgICAgICAgfQo+ICAjZW5kaWYKPiAgICAgICAgIG11dGV4X3VubG9jaygmbXRrX2NydGMtPmh3
+X2xvY2spOwo+IEBAIC02NzQsNyArNjk5LDcgQEAgdm9pZCBtdGtfY3J0Y19kZHBfaXJxKHN0cnVj
+dCBkcm1fY3J0YyAqY3J0Yywgc3RydWN0IG10a19kZHBfY29tcCAqY29tcCkKPiAgI2VuZGlmCj4g
+ICAgICAgICAgICAgICAgIG10a19jcnRjX2RkcF9jb25maWcoY3J0YywgTlVMTCk7Cj4KPiAtICAg
+ICAgIG10a19kcm1fZmluaXNoX3BhZ2VfZmxpcChtdGtfY3J0Yyk7Cj4gKyAgICAgICBkcm1fY3J0
+Y19oYW5kbGVfdmJsYW5rKCZtdGtfY3J0Yy0+YmFzZSk7CgpGb3IgQ1BVIGFuZCBzaGFkb3cgcmVn
+aXN0ZXIgY2FzZSwgd2hlcmUgdG8gaGFuZGxlIHBhZ2UgZmxpcD8KVGhlIGNvcnJlY3Qgc2VxdWVu
+Y2Ugc2hvdWxkIGJlOgoKMS4gc2V0IHBlbmRpbmdfbmVlZHNfdmJsYW5rIHRvIHRydWUKMi4gbXRr
+X2RybV9jcnRjX2h3X2NvbmZpZwozLiBpcnEgY29tZXMsIGhhbmRsZSBwYWdlIGZsaXAsIGFuZCBz
+ZXQgcGVuZGluZ19uZWVkc192YmxhbmsgdG8gZmFsc2UKCkJ1dCBub3cgaXJxIGNvbWVzIGJlZm9y
+ZSAyLCBzbyB0aGlzIHBhdGNoIHdhbnQgdG8gZml4IHRoaXMgYnVnLgpJIHRoaW5rIHNoYWRvdyBy
+ZWdpc3RlciBhbHNvIGhhdmUgdGhpcyBwcm9ibGVtLiBUaGUgY29udHJvbCBmbG93IG9mCnNoYWRv
+dyByZWdpc3RlciBpcyBzaW1pbGFyIHRvIGNtZHEsIHNvIEkgd291bGQgbGlrZSB0byBmaXggYm90
+aApwcm9ibGVtIGluIHRoZSBzYW1lIHdheS4KClJlZ2FyZHMsCkNodW4tS3VhbmcuCgo+ICB9Cj4K
+PiAgc3RhdGljIGludCBtdGtfZHJtX2NydGNfbnVtX2NvbXBfcGxhbmVzKHN0cnVjdCBtdGtfZHJt
+X2NydGMgKm10a19jcnRjLAo+IC0tCj4gMS44LjEuMS5kaXJ0eQo+Cl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
