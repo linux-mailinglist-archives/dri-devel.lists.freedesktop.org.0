@@ -1,48 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD8F3209BD
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Feb 2021 12:15:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDDE7320A6E
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Feb 2021 14:09:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82A1A6E3D3;
-	Sun, 21 Feb 2021 11:15:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B704B89ECD;
+	Sun, 21 Feb 2021 13:09:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CDA26E3D3
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Feb 2021 11:15:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Q/EsuBx2rpbF4bTNqafbctKSjGqSih9PCFZcmYvOH/Y=; b=JXgiS5WmDnJkDp9xgNRqCRk3Nh
- 70/dl7sfXsyq2ockxkR7//xjYkK59E9kace1M1wqdyiEwVD1VAajGj/xtled7xIW+dfCjj7Lijws3
- nXnw0dETs/DSObvBFE0nXUEeqGeOW1JaekITwbMTU48uYISZs3A5PDVnlQKidlC6N4hizkEV7ydvu
- fKLTzRI3bQ1V43bGDUgYcyngBi/F8wf6IdrFnEkvcN/FuH2SgsRD6Fple99vK6CFc1dvx+ySalnhW
- iknbqefCLrpIXSukpGaG3r+2ityISNl+Z46S3x+MzOiC14LDkcPutLpMyOXlsWkWcWXdpMF/LxZE3
- 1aJEDSPg==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:49463
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1lDmhV-00050B-Qw; Sun, 21 Feb 2021 12:14:57 +0100
-Subject: Re: [PATCH v4 0/3] Generic USB Display driver
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-To: Lubomir Rintel <lkundrak@v3.sk>
-References: <20210120170033.38468-1-noralf@tronnes.org>
- <20210124183838.GA1873250@demiurge.local>
- <70a91ae8-15eb-e8d8-1ed9-923b09106bfa@tronnes.org>
-Message-ID: <1c182bf1-41d7-49e7-f15e-e8d9ad6386a2@tronnes.org>
-Date: Sun, 21 Feb 2021 12:14:53 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA6E89ECD
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Feb 2021 13:09:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id DE14B64E5F
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Feb 2021 13:09:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1613912979;
+ bh=WIYdiVZ+XJXvJj7YGmg0suY9JBOzxbJUFn8+Ue3q4+k=;
+ h=From:To:Subject:Date:From;
+ b=nsR3MI73OczDqwvD47fwQAxCAEVN/alE/yqw9gHh40fZFxX3pWMqYEmSXblulI2Ke
+ ylT+xozKOcY8deMXlrojkGw9LN8WhxwiT/U5eKpgRCsGcARtdv4DY8emiQQZJJK04s
+ WIBjzdzE9nJRKBi+sp5I1nGeCVegfiwf6kMub/tV7zqTVjPYsr+1YzC/NyTbD1BvZf
+ wtjnYAwLXgYlg2QYaGkE54fzYrJ4Q+OhAA75NqeQtHQsVbmZ/WpqGaKr/TlwmmiFBQ
+ /l4RnRBWqJXNW7OuxDbSAtXU4y4nS9KB0aTD8pOBZ5ZiRGgKTioTI7lccT7/cAR1eQ
+ c88VjgV8YarhA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id CAF186536A; Sun, 21 Feb 2021 13:09:39 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211875] New: CPU frequency scaling lost after "WARNING: CPU: 2
+ PID: 2358578 at smu8_send_msg_to_smc_with_parameter+0xfe/0x140 [amdgpu]"
+Date: Sun, 21 Feb 2021 13:09:39 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-211875-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <70a91ae8-15eb-e8d8-1ed9-923b09106bfa@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,75 +64,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hudson@trmm.net, markus@raatikainen.cc, peter@stuge.se,
- linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org, th020394@gmail.com,
- pontus.fuchs@gmail.com, sam@ravnborg.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMjQuMDEuMjAyMSAyMS41MSwgc2tyZXYgTm9yYWxmIFRyw7hubmVzOgo+IAo+IAo+IERl
-biAyNC4wMS4yMDIxIDE5LjM4LCBza3JldiBMdWJvbWlyIFJpbnRlbDoKPj4gT24gV2VkLCBKYW4g
-MjAsIDIwMjEgYXQgMDY6MDA6MzBQTSArMDEwMCwgTm9yYWxmIFRyw7hubmVzIHdyb3RlOgo+Pj4g
-SGksCj4+Pgo+Pj4gQSB3aGlsZSBiYWNrIEkgaGFkIHRoZSBpZGVhIHRvIHR1cm4gYSBSYXNwYmVy
-cnkgUGkgWmVybyBpbnRvIGEgJDUKPj4+IFVTQiB0byBIRE1JL1NEVFYvRFNJL0RQSSBkaXNwbGF5
-IGFkYXB0ZXIuCj4+Pgo+Pj4gVGhlIHJlYXNvbiBmb3IgY2FsbGluZyBpdCAnR2VuZXJpYycgaXMg
-c28gYW55b25lIGNhbiBtYWtlIGEgVVNCCj4+PiBkaXNwbGF5L2FkYXB0ZXIgYWdhaW5zdCB0aGlz
-IGRyaXZlciwgYWxsIHRoYXQncyBuZWVkZWQgaXMgdG8gYWRkIGEgVVNCCj4+PiB2aWQ6cGlkLgo+
-Pj4KPj4+IFVuZm9ydHVuYXRlbHkgSSd2ZSBoYWQgc29tZSBjb21wb3VuZGluZyBoZWFsdGggcHJv
-YmxlbXMgdGhhdCBoYXZlCj4+PiBzZXZlcmFsbHkgbGltaXRlZCB0aGUgdGltZSBJIGNhbiBzcGVu
-ZCBpbiBmcm9udCBvZiBhIGNvbXB1dGVyLiBGb3IgdGhpcwo+Pj4gcmVhc29uIEkndmUgZGVjaWRl
-ZCB0byBrZWVwIHRoZSBnYWRnZXQgZHJpdmVyIG91dC1vZi10cmVlIGFuZCBmb2N1cyBvbgo+Pj4g
-Z2V0dGluZyB0aGUgaG9zdCBkcml2ZXIgbWVyZ2VkIGZpcnN0Lgo+Pj4KPj4+IFNlZSB0aGUgd2lr
-aVsxXSBmb3IgbW9yZSBpbmZvcm1hdGlvbiBhbmQgaW1hZ2VzIGZvciB0aGUgUmFzcGJlcnJ5IFBp
-Cj4+PiBaZXJvLzQuCj4+Pgo+Pj4gT25lIGJpZyBjaGFuZ2UgdGhpcyB0aW1lIGlzIHRoYXQgSSd2
-ZSBmb2xsb3dlZCBQZXRlciBTdHVnZSdzIGFkdmljZSB0bwo+Pj4gbm90IGxldCBEUk0gc3R1ZmYg
-bGVhayBpbnRvIHRoZSBVU0IgcHJvdG9jb2wuIFRoaXMgaGFzIG1hZGUgdGhlIHByb3RvY29sCj4+
-PiBlYXNpZXIgdG8gdW5kZXJzdGFuZCBqdXN0IGZyb20gcmVhZGluZyB0aGUgaGVhZGVyIGZpbGUu
-Cj4+Pgo+Pj4gTm9yYWxmLgo+Pj4KPj4+IFsxXSBodHRwczovL2dpdGh1Yi5jb20vbm90cm8vZ3Vk
-L3dpa2kKPj4KPj4gVGhlIHBhdGNoIHNldDoKPj4KPj4gVGVzdGVkLWJ5OiBMdWJvbWlyIFJpbnRl
-bCA8bGt1bmRyYWtAdjMuc2s+Cj4+Cj4+IFdvcmtzIGxpa2UgYSBjaGFybSB3aXRoIHRoaXMgYm9h
-cmQgWzFdLCB0aG91Z2ggaXQgZGlkbid0IGltcHJlc3MgdGhlIGdpcmxzCj4+IGFzIG11Y2ggYXMg
-SSBob3BlZC4gQ29kZSBoZXJlIFsyXSwgcGljdHVyZSBoZXJlIFszXS4KPj4KPiAKPiBJIGhhdmUg
-d29uZGVyZWQgd2hhdCBjb2xvciBkaXNwbGF5IHJlc29sdXRpb24gaXQgaXMgcG9zc2libGUgdG8g
-ZHJpdmUKPiBvdmVyIFVTQiBmdWxsIHNwZWVkLiBJIGNhbiB1bmRlcnN0YW5kIHRoYXQgeW91ciBQ
-b0Mgd2Fzbid0IHRoYXQKPiBpbXByZXNzaXZlIHNpbmNlIGl0IGRvZXNuJ3QgdXNlIERNQSB0byBk
-cml2ZSB0aGUgU1BJIGJ1cy4KPiAKCkkgaGF2ZSBub3cgZG9uZSBhIFJhc3BiZXJyeSBQaSBQaWNv
-IGltcGxlbWVudGF0aW9uIGFuZCBkcml2aW5nIFNQSSB1c2luZwpETUEgd2FzIGp1c3QgbWFyZ2lu
-YWxseSBmYXN0ZXIgdGhhbiBsZXR0aW5nIHRoZSBDUFUgZmlsbCB0aGUgRklGTy4gTWF5YmUKSSBz
-aG91bGRuJ3QgYmUgc28gc3VwcmlzZWQgc2luY2UgdGhlIENQVSBoYXMgbm90aGluZyBlbHNlIHRv
-IGRvLCBidXQKZXZlbiBzbyBJIGRpZG4ndCBleHBlY3QgdGhpcy4gQnV0IHRoZW4gYWdhaW4gSSBo
-YXZlIHZlcnkgbGl0dGxlCmV4cGVyaWVuY2Ugd2l0aCBtaWNyb2NvbnRyb2xsZXJzLgoKSSBoYXZl
-IHRoZSBzYW1lIHNpemUgZGlzcGxheVsxXSBhcyB5b3UgMjQweDEzNSBhbmQgbXkgZGlzcGxheSB3
-YXMgcXVpdGUKc25hcHB5ICh1c2luZyBYIHdpbmRvd3MhKSwgSSBldmVuIGFkZGVkIGx6NCBkZWNv
-bXByZXNzaW9uIHN1cHBvcnQuIEkKaGF2ZW4ndCBkb25lIG11Y2ggdGVzdGluZyBzbyBJIGNhbid0
-IHNheSBob3cgbXVjaCB0aGUgYWN0dWFsIGltcHJvdmVtZW50CmlzIHdpdGggdGhlIGNvbXByZXNz
-aW9uLiBUaGUgVVNCIGRvdWJsZSBidWZmZXJpbmcgSSB3YXMgaG9waW5nIGZvcgpkaWRuJ3QgcGFu
-IG91dCwgdGhlIGJ1bGsgZW5kcG9pbnQgY2FuIG9ubHkgZG8gNjQgYnl0ZSBwYWNrZXN0IChJU08g
-aXMKNTEyKSwgc28gSSBlbmRlZCB1cCBzdG9yaW5nIHRoZSBwYWNrZXRzIGFuZCB0aGVuIHB1c2gg
-dGhlIGZyYW1lIGluIGl0cwplbnRpcmV0eSB0byB0aGUgZGlzcGxheS4gVGhlIFBpY28gaGFzIDI2
-NGtCIG9mIHJhbSBzbyBJIGNhbiBhZmZvcmQgdG8KaGF2ZSBhIGZyYW1lYnVmZmVyIGFuZCBhIGRl
-Y29tcHJlc3Npb24gYnVmZmVyIGZvciB0aGlzIHRpbnkgZGlzcGxheS4gTXkKdGFyZ2V0IGRpc3Bs
-YXkgaXMgMzIweDI0MCBhbmQgdGhhdCBtZWFucyBJIGNhbid0IHVzZSAyIGJ1ZmZlcnMsIHNvIG5v
-dApzdXJlIGhvdyB0aGF0IGdvZXMuCgpbMV0gaHR0cHM6Ly9zaG9wLnBpbW9yb25pLmNvbS9wcm9k
-dWN0cy9waWNvLWRpc3BsYXktcGFjawoKTm9yYWxmLgoKPiBUaGUgbmV3ICQ0IFJhc3BiZXJyeSBQ
-aSBQaWNvIHRoYXQgY2FtZSBvdXQgdGhpcyB3ZWVrIGxvb2tzIGludGVyZXN0aW5nCj4gYXMgYSBV
-U0IgaW50ZXJmYWNlIGJvYXJkIGZvciB0aW55IHBhbmVscy4gSXQgY2FuIGRyaXZlIERQSSBwYW5l
-bHMKPiBkaXJlY3RseSwgaGFzIDIgY29yZXMgQDEzM01IeiwgMjY0SyBTUkFNIGFuZCBVU0IgZnVs
-bCBzcGVlZC4gTWF5YmUgbHo0Cj4gZGVjb21wcmVzc2lvbiBpcyBldmVuIHBvc3NpYmxlLiBBbm90
-aGVyIGdvb2QgdGhpbmcgaXMgdGhhdCB0aGUgYm9hcmQKPiB3aWxsIGJlIGFyb3VuZCBmb3IgYSBs
-b25nIHRpbWUuCj4gCj4gVGhhbmtzIGZvciB0ZXN0aW5nLCBJIGhhdmUgbGltaXRlZCBiYW5kd2l0
-aCB0aGVzZSBkYXlzIHNvIEkgY291bGRuJ3QgZG8KPiBhIHRlc3Qgb24gYW4gTUNVIG15c2VsZi4K
-PiAKPiBOb3JhbGYuCj4gCj4+IFsxXSBodHRwczovL3d3dy5iYW5nZ29vZC5jb20vTElMWUdPLVRU
-R08tVC1EaXNwbGF5LUdEMzItUklTQy1WLTMyLWJpdC1Db3JlLU1pbmltYWwtRGV2ZWxvcG1lbnQt
-Qm9hcmQtMV8xNC1JUFMtcC0xNjUyODcwLmh0bWw/cm1tZHM9c2VhcmNoJmN1cl93YXJlaG91c2U9
-Q04KPj4gWzJdIGh0dHBzOi8vZ2l0aHViLmNvbS9oYWNrZXJzcGFjZS9saWJvcGVuY20zLWdmMzJ2
-LWV4YW1wbGVzL2NvbW1pdC83ZWY1MWIzMWI5Cj4+IFszXSBodHRwczovL3Blb3BsZS5mcmVlZGVz
-a3RvcC5vcmcvfmxrdW5kcmFrL2xpbHlnby5qcGVnCj4+Cj4+IEhhZCB0byBhcHBseSBhIGZpeCBm
-b3IgdGhlIGRybV9jb25uZWN0b3JfZW51bV9saXN0W10gb21taXNzaW9uIEkgbWVudGlvbmVkCj4+
-IGVsc2V3aGVyZSwgYW5kIHRoYXQgSSd2ZSBub3cgbm90aWNlZCB5b3UndmUgbm90ZWQgcHJldmlv
-dXNseS4KPj4KPj4gVGFrZSBjYXJlCj4+IEx1Ym8KPj4KX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+https://bugzilla.kernel.org/show_bug.cgi?id=211875
+
+            Bug ID: 211875
+           Summary: CPU frequency scaling lost after "WARNING: CPU: 2 PID:
+                    2358578 at
+                    smu8_send_msg_to_smc_with_parameter+0xfe/0x140
+                    [amdgpu]"
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.11
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: erhard_f@mailbox.org
+        Regression: No
+
+Created attachment 295381
+  --> https://bugzilla.kernel.org/attachment.cgi?id=295381&action=edit
+dmesg (kernel 5.11, A10-9700E)
+
+I get this on kernel 5.10.17 and it happens on 5.11 too (though a lot less
+often). Leaving the machine running for some hours sooner or later I get this
+"smu8_send_msg_to_smc_with_parameter(0x0011, 0x460) timed out after 3234846 us"
+in kernel dmesg and after that CPU clock frequency is hampered to the 800 MHz
+base clock of the A10-9700E. Setting cpu manually to performance or back to
+ondemand does not change a thing, clock stays down at 800 MHz. The machine does
+not crash and is still usable but well ... slow..
+
+[...]
+------------[ cut here ]------------
+smu8_send_msg_to_smc_with_parameter(0x0011, 0x460) timed out after 3234846 us
+WARNING: CPU: 2 PID: 2358578 at smu8_send_msg_to_smc_with_parameter+0xfe/0x140
+[amdgpu]
+Modules linked in: fuse rfkill input_leds joydev ext4 crc16 mbcache jbd2
+hid_generic usbhid hid crc32_generic crc32_pclmul f2fs evdev amdgpu aesni_intel
+libaes crypto_simd cryptd snd_hda_codec_hdmi glue_helper drm_ttm_helper
+snd_hda_codec_realtek ttm snd_hda_codec_generic ledtrig_audio led_class r8169
+fam15h_power realtek gpu_sched k10temp mdio_devres ehci_pci ehci_hcd i2c_piix4
+libphy snd_hda_intel snd_intel_dspcfg i2c_algo_bit snd_hda_codec drm_kms_helper
+snd_hwdep cfbfillrect snd_hda_core syscopyarea xhci_pci cfbimgblt snd_pcm
+xhci_hcd sysfillrect sysimgblt snd_timer usbcore fb_sys_fops cfbcopyarea snd
+usb_common fb soundcore font fbdev video acpi_cpufreq button processor nfsd
+zram nct6775 auth_rpcgss zsmalloc hwmon_vid jc42 lockd hwmon grace sunrpc drm
+drm_panel_orientation_quirks nfs_ssc backlight
+CPU: 2 PID: 2358578 Comm: kworker/2:0 Not tainted 5.11.0-gentoo #2
+Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./A320M-HDV R3.0,
+BIOS P3.10 06/26/2019
+Workqueue: events dm_irq_work_func [amdgpu]
+RIP: 0010:smu8_send_msg_to_smc_with_parameter+0xfe/0x140 [amdgpu]
+Code: c0 48 c7 c7 a0 4b a8 c0 48 89 c1 48 f7 ea 48 89 c8 44 89 f1 48 c1 f8 3f
+48 c1 fa 07 48 29 c2 49 89 d0 44 89 ea e8 db a8 e4 d5 <0f> 0b eb b3 41 bc ea ff
+ff ff eb ab 48 8b 7d 60 be c0 01 00 00 48
+RSP: 0018:ffffb25b4015bb48 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: 00009c65e3a5a2a5 RCX: ffffa23c0f512d58
+RDX: 0000000000000000 RSI: 0000000000000027 RDI: ffffa23c0f512d50
+RBP: ffffa23908ceec00 R08: 0000000000000000 R09: ffffb25b4015b980
+R10: 0000000000000003 R11: ffffffff96e57e48 R12: 00000000ffffffc2
+R13: 0000000000000011 R14: 0000000000000460 R15: ffffa2390e53128c
+FS:  0000000000000000(0000) GS:ffffa23c0f500000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f99db4fbbc0 CR3: 0000000134f00000 CR4: 00000000001506e0
+Call Trace:
+ smum_send_msg_to_smc_with_parameter+0xbe/0xf0 [amdgpu]
+ smu8_set_power_state_tasks+0x1d6/0x360 [amdgpu]
+ phm_set_power_state+0x44/0x68 [amdgpu]
+ psm_adjust_power_state_dynamic+0xb6/0x1b8 [amdgpu]
+ ? amdgpu_fence_wait_empty+0x80/0xd0 [amdgpu]
+ pp_dpm_dispatch_tasks+0x35/0x58 [amdgpu]
+ dm_pp_apply_display_requirements+0x197/0x1c0 [amdgpu]
+ dce11_update_clocks+0x8f/0xe8 [amdgpu]
+ dc_commit_updates_for_stream+0xc2c/0x1980 [amdgpu]
+ ? dc_link_detect_helper+0x516/0xe90 [amdgpu]
+ dm_set_dpms_off+0x85/0xd0 [amdgpu]
+ handle_hpd_irq+0xf1/0x148 [amdgpu]
+ dm_irq_work_func+0x44/0x50 [amdgpu]
+ process_one_work+0x1b8/0x318
+ worker_thread+0x4b/0x3a0
+ ? rescuer_thread+0x360/0x360
+ kthread+0x11c/0x138
+ ? __kthread_bind_mask+0x58/0x58
+ ret_from_fork+0x22/0x30
+---[ end trace 0fa0eb110cfd5fb7 ]---
+amdgpu: smu8_send_msg_to_smc_with_parameter(0x026e) aborted; SMU still
+servicing msg (0x0011)
+amdgpu: smu8_send_msg_to_smc_with_parameter(0x002f) aborted; SMU still
+servicing msg (0x0011)
+amdgpu: smu8_send_msg_to_smc_with_parameter(0x0012) aborted; SMU still
+servicing msg (0x0011)
+amdgpu: smu8_send_msg_to_smc_with_parameter(0x0013) aborted; SMU still
+servicing msg (0x0011)
+amdgpu: smu8_send_msg_to_smc_with_parameter(0x0011) aborted; SMU still
+servicing msg (0x0011)
+[drm] amdgpu_dm_irq_schedule_work FAILED src 2
+[drm] amdgpu_dm_irq_schedule_work FAILED src 2
+amdgpu: smu8_send_msg_to_smc_with_parameter(0x026e) aborted; SMU still
+servicing msg (0x0011)
+[drm] amdgpu_dm_irq_schedule_work FAILED src 2
+amdgpu: smu8_send_msg_to_smc_with_parameter(0x002f) aborted; SMU still
+servicing msg (0x0011)
+amdgpu: smu8_send_msg_to_smc_with_parameter(0x0012) aborted; SMU still
+servicing msg (0x0011)
+amdgpu: smu8_send_msg_to_smc_with_parameter(0x0013) aborted; SMU still
+servicing msg (0x0011)
+amdgpu: smu8_send_msg_to_smc_with_parameter(0x0011) aborted; SMU still
+servicing msg (0x0011)
+amdgpu: smu8_send_msg_to_smc_with_parameter(0x026e) aborted; SMU still
+servicing msg (0x0011)
+[...]
+
+Some data about the machine:
+ $ inxi -b
+System:    Kernel: 5.11.0-gentoo x86_64 bits: 64 Desktop: MATE 1.24.0 Distro:
+Gentoo Base System release 2.7 
+Machine:   Type: Desktop Mobo: ASRock model: A320M-HDV R3.0 serial:
+<superuser/root required> 
+           UEFI [Legacy]: American Megatrends v: P3.10 date: 06/26/2019 
+CPU:       Info: Quad Core AMD A10-9700E RADEON R7 10 COMPUTE CORES 4C+6G [MCP]
+speed: 2485 MHz min/max: 800/3000 MHz 
+Graphics:  Device-1: Advanced Micro Devices [AMD/ATI] Wani [Radeon R5/R6/R7
+Graphics] driver: amdgpu v: kernel 
+           Display: x11 server: X.Org 1.20.10 driver: amdgpu,ati unloaded:
+fbdev,modesetting resolution: 1920x1080~60Hz 
+           OpenGL: renderer: AMD CARRIZO (DRM 3.40.0 5.11.0-gentoo LLVM 11.0.0)
+v: 4.6 Mesa 20.2.6 
+Network:   Device-1: Realtek RTL8111/8168/8411 PCI Express Gigabit Ethernet
+driver: r8169
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
