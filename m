@@ -2,37 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0D5320D07
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Feb 2021 20:08:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FD9320D1F
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Feb 2021 20:17:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 078526E323;
-	Sun, 21 Feb 2021 19:08:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0AA789BD5;
+	Sun, 21 Feb 2021 19:17:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E78266E117;
- Sun, 21 Feb 2021 19:08:39 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DCF1EEF;
- Sun, 21 Feb 2021 20:08:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1613934518;
- bh=3XmyzxGwzCd8W8K+XsKRw4jMy6r2jo1Zwca1NaO6OoI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rU/0UczNJb8ek+bqoP2wG/+erPunX3E0WsJAn/5u5zh4kO0nbOrlVzxBeb86MQ9nq
- 2HWsnutcV1vvxluEATl5D3BLotKGqrxdDEDslPvR3hy8lFtyd+61M4zJeoqE8YCewe
- WUUvD/doI5P3nO9nSZnuSGW4unEacqXPxtDNrunw=
-Date: Sun, 21 Feb 2021 21:08:11 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Nicolas Boichat <drinkcat@chromium.org>
-Subject: Re: [PATCH] drm/dsi: Add _NO_ to MIPI_DSI_* flags disabling features
-Message-ID: <YDKvm1QmdJtJbaN6@pendragon.ideasonboard.com>
-References: <20210211113309.1.I629b2366a6591410359c7fcf6d385b474b705ca2@changeid>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0478B89BD5
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Feb 2021 19:17:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id EB93264EDE
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Feb 2021 19:17:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1613935023;
+ bh=KnCoOLT7kByqJglEPRZNXb9olZGjXAEQg0cCKIucKjE=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=KvSm+/Z7D7vk0H3uTEfopwsBIwJOkWeFm8hl2IWpcNs0nlywlylIiQKHD/ygGp8i8
+ D0fQOrpmbK2QXWUsyE7SbHzbsXEnt3FbhQe5OPESajct+ZpQXfl5a9bluGjC3frAsO
+ RHOAk5JNSnKvoAWlVwK2f7SB24SpCv5B/CRG1LxiyFhpufBApXqwceOInUvlyG4amL
+ qOR8zf+XdhcK6jtfFiUfrfIKWcQOwgSiWaOBlERFoPUmoVKpJp9EuALlyV+K6bJF6B
+ dmc7MXsalu+28ANdW6QVEwmYoC6UdPZiQAk5BBS67hv+ZKAEvDpc20PsneViwZrz6j
+ pTq25Z94dRufQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id E28AC653B9; Sun, 21 Feb 2021 19:17:02 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211875] CPU frequency scaling lost after "WARNING: CPU: 2 PID:
+ 2358578 at smu8_send_msg_to_smc_with_parameter+0xfe/0x140 [amdgpu]"
+Date: Sun, 21 Feb 2021 19:17:02 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211875-2300-xGEZW0y0P7@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211875-2300@https.bugzilla.kernel.org/>
+References: <bug-211875-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210211113309.1.I629b2366a6591410359c7fcf6d385b474b705ca2@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,474 +64,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Viresh Kumar <viresh.kumar@linaro.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>,
- linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org,
- Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- Xin Ji <xji@analogixsemi.com>, linux-arm-kernel@lists.infradead.org,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Rajendra Nayak <rnayak@codeaurora.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nicolas,
+https://bugzilla.kernel.org/show_bug.cgi?id=211875
 
-Thank you for the patch.
-
-On Thu, Feb 11, 2021 at 11:33:55AM +0800, Nicolas Boichat wrote:
-> Many of the DSI flags have names opposite to their actual effects,
-> e.g. MIPI_DSI_MODE_EOT_PACKET means that EoT packets will actually
-> be disabled. Fix this by including _NO_ in the flag names, e.g.
-> MIPI_DSI_MODE_NO_EOT_PACKET.
-> 
-> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-
-This looks good to me, it increases readability.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Please however see the end of the mail for a comment.
-
-> ---
-> I considered adding _DISABLE_ instead, but that'd make the
-> flag names a big too long.
-> 
-> Generated with:
-> flag=MIPI_DSI_MODE_VIDEO_HFP; git grep $flag | cut -f1 -d':' | \
->   xargs -I{} sed -i -e "s/$flag/MIPI_DSI_MODE_VIDEO_NO_HFP/" {}
-> flag=MIPI_DSI_MODE_VIDEO_HBP; git grep $flag | cut -f1 -d':' | \
->   xargs -I{} sed -i -e "s/$flag/MIPI_DSI_MODE_VIDEO_NO_HBP/" {}
-> flag=MIPI_DSI_MODE_VIDEO_HSA; git grep $flag | cut -f1 -d':' | \
->   xargs -I{} sed -i -e "s/$flag/MIPI_DSI_MODE_VIDEO_NO_HSA/" {}
-> flag=MIPI_DSI_MODE_EOT_PACKET; git grep $flag | cut -f1 -d':' | \
->   xargs -I{} sed -i -e "s/$flag/MIPI_DSI_MODE_NO_EOT_PACKET/" {}
-> (then minor format changes)
-
-Ever tried coccinelle ? :-)
-
->  drivers/gpu/drm/bridge/adv7511/adv7533.c             | 2 +-
->  drivers/gpu/drm/bridge/analogix/anx7625.c            | 2 +-
->  drivers/gpu/drm/bridge/cdns-dsi.c                    | 4 ++--
->  drivers/gpu/drm/bridge/tc358768.c                    | 2 +-
->  drivers/gpu/drm/exynos/exynos_drm_dsi.c              | 8 ++++----
->  drivers/gpu/drm/mcde/mcde_dsi.c                      | 2 +-
->  drivers/gpu/drm/mediatek/mtk_dsi.c                   | 2 +-
->  drivers/gpu/drm/msm/dsi/dsi_host.c                   | 8 ++++----
->  drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c | 2 +-
->  drivers/gpu/drm/panel/panel-dsi-cm.c                 | 2 +-
->  drivers/gpu/drm/panel/panel-elida-kd35t133.c         | 2 +-
->  drivers/gpu/drm/panel/panel-khadas-ts050.c           | 2 +-
->  drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c   | 2 +-
->  drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c   | 2 +-
->  drivers/gpu/drm/panel/panel-novatek-nt35510.c        | 2 +-
->  drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c   | 2 +-
->  drivers/gpu/drm/panel/panel-samsung-s6d16d0.c        | 2 +-
->  drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c     | 2 +-
->  drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c    | 2 +-
->  drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c        | 4 ++--
->  drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c      | 2 +-
->  drivers/gpu/drm/panel/panel-simple.c                 | 2 +-
->  drivers/gpu/drm/panel/panel-sony-acx424akp.c         | 2 +-
->  drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c     | 2 +-
->  include/drm/drm_mipi_dsi.h                           | 8 ++++----
->  25 files changed, 36 insertions(+), 36 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> index aa19d5a40e31..59d718bde8c4 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> @@ -165,7 +165,7 @@ int adv7533_attach_dsi(struct adv7511 *adv)
->  	dsi->lanes = adv->num_dsi_lanes;
->  	dsi->format = MIPI_DSI_FMT_RGB888;
->  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-> -			  MIPI_DSI_MODE_EOT_PACKET | MIPI_DSI_MODE_VIDEO_HSE;
-> +			  MIPI_DSI_MODE_NO_EOT_PACKET | MIPI_DSI_MODE_VIDEO_HSE;
->  
->  	ret = mipi_dsi_attach(dsi);
->  	if (ret < 0) {
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 65cc05982f82..beecfe6bf359 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -1334,7 +1334,7 @@ static int anx7625_attach_dsi(struct anx7625_data *ctx)
->  	dsi->format = MIPI_DSI_FMT_RGB888;
->  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO	|
->  		MIPI_DSI_MODE_VIDEO_SYNC_PULSE	|
-> -		MIPI_DSI_MODE_EOT_PACKET	|
-> +		MIPI_DSI_MODE_NO_EOT_PACKET	|
->  		MIPI_DSI_MODE_VIDEO_HSE;
->  
->  	if (mipi_dsi_attach(dsi) < 0) {
-> diff --git a/drivers/gpu/drm/bridge/cdns-dsi.c b/drivers/gpu/drm/bridge/cdns-dsi.c
-> index 76373e31df92..34aa24269a57 100644
-> --- a/drivers/gpu/drm/bridge/cdns-dsi.c
-> +++ b/drivers/gpu/drm/bridge/cdns-dsi.c
-> @@ -829,7 +829,7 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
->  	tmp = DIV_ROUND_UP(dsi_cfg.htotal, nlanes) -
->  	      DIV_ROUND_UP(dsi_cfg.hsa, nlanes);
->  
-> -	if (!(output->dev->mode_flags & MIPI_DSI_MODE_EOT_PACKET))
-> +	if (!(output->dev->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET))
->  		tmp -= DIV_ROUND_UP(DSI_EOT_PKT_SIZE, nlanes);
->  
->  	tx_byte_period = DIV_ROUND_DOWN_ULL((u64)NSEC_PER_SEC * 8,
-> @@ -902,7 +902,7 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
->  	tmp = readl(dsi->regs + MCTL_MAIN_DATA_CTL);
->  	tmp &= ~(IF_VID_SELECT_MASK | HOST_EOT_GEN | IF_VID_MODE);
->  
-> -	if (!(output->dev->mode_flags & MIPI_DSI_MODE_EOT_PACKET))
-> +	if (!(output->dev->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET))
->  		tmp |= HOST_EOT_GEN;
->  
->  	if (output->dev->mode_flags & MIPI_DSI_MODE_VIDEO)
-> diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-> index 8ed8302d6bbb..320f95ae6077 100644
-> --- a/drivers/gpu/drm/bridge/tc358768.c
-> +++ b/drivers/gpu/drm/bridge/tc358768.c
-> @@ -825,7 +825,7 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
->  	if (!(dsi_dev->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS))
->  		val |= TC358768_DSI_CONTROL_HSCKMD;
->  
-> -	if (dsi_dev->mode_flags & MIPI_DSI_MODE_EOT_PACKET)
-> +	if (dsi_dev->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
->  		val |= TC358768_DSI_CONTROL_EOTDIS;
->  
->  	tc358768_write(priv, TC358768_DSI_CONFW, val);
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> index 83ab6b343f51..99249d0da330 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> @@ -809,15 +809,15 @@ static int exynos_dsi_init_link(struct exynos_dsi *dsi)
->  			reg |= DSIM_AUTO_MODE;
->  		if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_HSE)
->  			reg |= DSIM_HSE_MODE;
-> -		if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_HFP))
-> +		if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HFP))
->  			reg |= DSIM_HFP_MODE;
-> -		if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_HBP))
-> +		if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HBP))
->  			reg |= DSIM_HBP_MODE;
-> -		if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_HSA))
-> +		if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HSA))
->  			reg |= DSIM_HSA_MODE;
->  	}
->  
-> -	if (!(dsi->mode_flags & MIPI_DSI_MODE_EOT_PACKET))
-> +	if (!(dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET))
->  		reg |= DSIM_EOT_DISABLE;
->  
->  	switch (dsi->format) {
-> diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-> index 2314c8122992..f4cdc3cfd7d0 100644
-> --- a/drivers/gpu/drm/mcde/mcde_dsi.c
-> +++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-> @@ -760,7 +760,7 @@ static void mcde_dsi_start(struct mcde_dsi *d)
->  		DSI_MCTL_MAIN_DATA_CTL_BTA_EN |
->  		DSI_MCTL_MAIN_DATA_CTL_READ_EN |
->  		DSI_MCTL_MAIN_DATA_CTL_REG_TE_EN;
-> -	if (d->mdsi->mode_flags & MIPI_DSI_MODE_EOT_PACKET)
-> +	if (d->mdsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
->  		val |= DSI_MCTL_MAIN_DATA_CTL_HOST_EOT_GEN;
->  	writel(val, d->regs + DSI_MCTL_MAIN_DATA_CTL);
->  
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index a1ff152ef468..5c0c9180273a 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -402,7 +402,7 @@ static void mtk_dsi_rxtx_control(struct mtk_dsi *dsi)
->  	}
->  
->  	tmp_reg |= (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) << 6;
-> -	tmp_reg |= (dsi->mode_flags & MIPI_DSI_MODE_EOT_PACKET) >> 3;
-> +	tmp_reg |= (dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET) >> 3;
->  
->  	writel(tmp_reg, dsi->regs + DSI_TXRX_CTRL);
->  }
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index ab281cba0f08..a97a7822e596 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -850,11 +850,11 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
->  	if (flags & MIPI_DSI_MODE_VIDEO) {
->  		if (flags & MIPI_DSI_MODE_VIDEO_HSE)
->  			data |= DSI_VID_CFG0_PULSE_MODE_HSA_HE;
-> -		if (flags & MIPI_DSI_MODE_VIDEO_HFP)
-> +		if (flags & MIPI_DSI_MODE_VIDEO_NO_HFP)
->  			data |= DSI_VID_CFG0_HFP_POWER_STOP;
-> -		if (flags & MIPI_DSI_MODE_VIDEO_HBP)
-> +		if (flags & MIPI_DSI_MODE_VIDEO_NO_HBP)
->  			data |= DSI_VID_CFG0_HBP_POWER_STOP;
-> -		if (flags & MIPI_DSI_MODE_VIDEO_HSA)
-> +		if (flags & MIPI_DSI_MODE_VIDEO_NO_HSA)
->  			data |= DSI_VID_CFG0_HSA_POWER_STOP;
->  		/* Always set low power stop mode for BLLP
->  		 * to let command engine send packets
-> @@ -909,7 +909,7 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
->  			  DSI_T_CLK_PRE_EXTEND_INC_BY_2_BYTECLK);
->  
->  	data = 0;
-> -	if (!(flags & MIPI_DSI_MODE_EOT_PACKET))
-> +	if (!(flags & MIPI_DSI_MODE_NO_EOT_PACKET))
->  		data |= DSI_EOT_PACKET_CTRL_TX_EOT_APPEND;
->  	dsi_write(msm_host, REG_DSI_EOT_PACKET_CTRL, data);
->  
-> diff --git a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-> index e95bc9f60b3f..44674ebedf59 100644
-> --- a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-> +++ b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-> @@ -302,7 +302,7 @@ static int tm5p5_nt35596_probe(struct mipi_dsi_device *dsi)
->  	dsi->lanes = 4;
->  	dsi->format = MIPI_DSI_FMT_RGB888;
->  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> -			  MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_EOT_PACKET |
-> +			  MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_NO_EOT_PACKET |
->  			  MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM;
->  
->  	drm_panel_init(&ctx->panel, dev, &tm5p5_nt35596_panel_funcs,
-> diff --git a/drivers/gpu/drm/panel/panel-dsi-cm.c b/drivers/gpu/drm/panel/panel-dsi-cm.c
-> index af381d756ac1..178abfb1737c 100644
-> --- a/drivers/gpu/drm/panel/panel-dsi-cm.c
-> +++ b/drivers/gpu/drm/panel/panel-dsi-cm.c
-> @@ -571,7 +571,7 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
->  	dsi->lanes = 2;
->  	dsi->format = MIPI_DSI_FMT_RGB888;
->  	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS |
-> -			  MIPI_DSI_MODE_EOT_PACKET;
-> +			  MIPI_DSI_MODE_NO_EOT_PACKET;
->  	dsi->hs_rate = ddata->panel_data->max_hs_rate;
->  	dsi->lp_rate = ddata->panel_data->max_lp_rate;
->  
-> diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-> index bc36aa3c1123..ae3361ccccd5 100644
-> --- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-> +++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-> @@ -265,7 +265,7 @@ static int kd35t133_probe(struct mipi_dsi_device *dsi)
->  	dsi->lanes = 1;
->  	dsi->format = MIPI_DSI_FMT_RGB888;
->  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> -			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_EOT_PACKET;
-> +			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
->  
->  	drm_panel_init(&ctx->panel, &dsi->dev, &kd35t133_funcs,
->  		       DRM_MODE_CONNECTOR_DSI);
-> diff --git a/drivers/gpu/drm/panel/panel-khadas-ts050.c b/drivers/gpu/drm/panel/panel-khadas-ts050.c
-> index 8f6ac1a40c31..a3ec4cbdbf7a 100644
-> --- a/drivers/gpu/drm/panel/panel-khadas-ts050.c
-> +++ b/drivers/gpu/drm/panel/panel-khadas-ts050.c
-> @@ -809,7 +809,7 @@ static int khadas_ts050_panel_probe(struct mipi_dsi_device *dsi)
->  	dsi->lanes = 4;
->  	dsi->format = MIPI_DSI_FMT_RGB888;
->  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> -			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_EOT_PACKET;
-> +			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
->  
->  	khadas_ts050 = devm_kzalloc(&dsi->dev, sizeof(*khadas_ts050),
->  				    GFP_KERNEL);
-> diff --git a/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c b/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-> index ed0d5f959037..a5a414920430 100644
-> --- a/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-> +++ b/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-> @@ -593,7 +593,7 @@ static int ltk050h3146w_probe(struct mipi_dsi_device *dsi)
->  	dsi->lanes = 4;
->  	dsi->format = MIPI_DSI_FMT_RGB888;
->  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> -			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_EOT_PACKET;
-> +			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
->  
->  	drm_panel_init(&ctx->panel, &dsi->dev, &ltk050h3146w_funcs,
->  		       DRM_MODE_CONNECTOR_DSI);
-> diff --git a/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c b/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c
-> index 3c00e4f8f803..21e48923836d 100644
-> --- a/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c
-> +++ b/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c
-> @@ -442,7 +442,7 @@ static int ltk500hd1829_probe(struct mipi_dsi_device *dsi)
->  	dsi->lanes = 4;
->  	dsi->format = MIPI_DSI_FMT_RGB888;
->  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> -			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_EOT_PACKET;
-> +			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
->  
->  	drm_panel_init(&ctx->panel, &dsi->dev, &ltk500hd1829_funcs,
->  		       DRM_MODE_CONNECTOR_DSI);
-> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> index b9a0e56f33e2..9d9334656803 100644
-> --- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> +++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> @@ -899,7 +899,7 @@ static int nt35510_probe(struct mipi_dsi_device *dsi)
->  	dsi->hs_rate = 349440000;
->  	dsi->lp_rate = 9600000;
->  	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS |
-> -		MIPI_DSI_MODE_EOT_PACKET;
-> +		MIPI_DSI_MODE_NO_EOT_PACKET;
->  
->  	/*
->  	 * Every new incarnation of this display must have a unique
-> diff --git a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-> index 45b975dee587..198493a6eb6a 100644
-> --- a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-> +++ b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-> @@ -184,7 +184,7 @@ static int osd101t2587_panel_probe(struct mipi_dsi_device *dsi)
->  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
->  			  MIPI_DSI_MODE_VIDEO_BURST |
->  			  MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-> -			  MIPI_DSI_MODE_EOT_PACKET;
-> +			  MIPI_DSI_MODE_NO_EOT_PACKET;
->  
->  	osd101t2587 = devm_kzalloc(&dsi->dev, sizeof(*osd101t2587), GFP_KERNEL);
->  	if (!osd101t2587)
-> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
-> index 4aac0d1573dd..b04b9975e9b2 100644
-> --- a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
-> +++ b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
-> @@ -186,7 +186,7 @@ static int s6d16d0_probe(struct mipi_dsi_device *dsi)
->  	 */
->  	dsi->mode_flags =
->  		MIPI_DSI_CLOCK_NON_CONTINUOUS |
-> -		MIPI_DSI_MODE_EOT_PACKET;
-> +		MIPI_DSI_MODE_NO_EOT_PACKET;
->  
->  	s6->supply = devm_regulator_get(dev, "vdd1");
->  	if (IS_ERR(s6->supply))
-> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c b/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
-> index b962c817fb30..ccc8ed6fe3ae 100644
-> --- a/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
-> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
-> @@ -446,7 +446,7 @@ static int s6e63j0x03_probe(struct mipi_dsi_device *dsi)
->  
->  	dsi->lanes = 1;
->  	dsi->format = MIPI_DSI_FMT_RGB888;
-> -	dsi->mode_flags = MIPI_DSI_MODE_EOT_PACKET;
-> +	dsi->mode_flags = MIPI_DSI_MODE_NO_EOT_PACKET;
->  
->  	ctx->supplies[0].supply = "vdd3";
->  	ctx->supplies[1].supply = "vci";
-> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
-> index eec74c10ddda..77289967d3e5 100644
-> --- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
-> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
-> @@ -97,7 +97,7 @@ static int s6e63m0_dsi_probe(struct mipi_dsi_device *dsi)
->  	dsi->hs_rate = 349440000;
->  	dsi->lp_rate = 9600000;
->  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
-> -		MIPI_DSI_MODE_EOT_PACKET |
-> +		MIPI_DSI_MODE_NO_EOT_PACKET |
->  		MIPI_DSI_MODE_VIDEO_BURST;
->  
->  	ret = s6e63m0_probe(dev, s6e63m0_dsi_dcs_read, s6e63m0_dsi_dcs_write,
-> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
-> index 527371120266..9b3599d6d2de 100644
-> --- a/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
-> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
-> @@ -990,8 +990,8 @@ static int s6e8aa0_probe(struct mipi_dsi_device *dsi)
->  	dsi->lanes = 4;
->  	dsi->format = MIPI_DSI_FMT_RGB888;
->  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST
-> -		| MIPI_DSI_MODE_VIDEO_HFP | MIPI_DSI_MODE_VIDEO_HBP
-> -		| MIPI_DSI_MODE_VIDEO_HSA | MIPI_DSI_MODE_EOT_PACKET
-> +		| MIPI_DSI_MODE_VIDEO_NO_HFP | MIPI_DSI_MODE_VIDEO_NO_HBP
-> +		| MIPI_DSI_MODE_VIDEO_NO_HSA | MIPI_DSI_MODE_NO_EOT_PACKET
->  		| MIPI_DSI_MODE_VSYNC_FLUSH | MIPI_DSI_MODE_VIDEO_AUTO_VERT;
->  
->  	ret = s6e8aa0_parse_dt(ctx);
-> diff --git a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-> index 16dbf0f353ed..b937e24dac8e 100644
-> --- a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-> +++ b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-> @@ -282,7 +282,7 @@ static int sharp_nt_panel_probe(struct mipi_dsi_device *dsi)
->  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
->  			MIPI_DSI_MODE_VIDEO_HSE |
->  			MIPI_DSI_CLOCK_NON_CONTINUOUS |
-> -			MIPI_DSI_MODE_EOT_PACKET;
-> +			MIPI_DSI_MODE_NO_EOT_PACKET;
->  
->  	sharp_nt = devm_kzalloc(&dsi->dev, sizeof(*sharp_nt), GFP_KERNEL);
->  	if (!sharp_nt)
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 4e2dad314c79..babc7a7f6844 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -4745,7 +4745,7 @@ static const struct panel_desc_dsi osd101t2045_53ts = {
->  	},
->  	.flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
->  		 MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-> -		 MIPI_DSI_MODE_EOT_PACKET,
-> +		 MIPI_DSI_MODE_NO_EOT_PACKET,
->  	.format = MIPI_DSI_FMT_RGB888,
->  	.lanes = 4,
->  };
-> diff --git a/drivers/gpu/drm/panel/panel-sony-acx424akp.c b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
-> index 065efae213f5..6b706cbf2f9c 100644
-> --- a/drivers/gpu/drm/panel/panel-sony-acx424akp.c
-> +++ b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
-> @@ -450,7 +450,7 @@ static int acx424akp_probe(struct mipi_dsi_device *dsi)
->  	else
->  		dsi->mode_flags =
->  			MIPI_DSI_CLOCK_NON_CONTINUOUS |
-> -			MIPI_DSI_MODE_EOT_PACKET;
-> +			MIPI_DSI_MODE_NO_EOT_PACKET;
->  
->  	acx->supply = devm_regulator_get(dev, "vddi");
->  	if (IS_ERR(acx->supply))
-> diff --git a/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c b/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-> index 55172d63a922..d17aae8b71d7 100644
-> --- a/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-> +++ b/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-> @@ -311,7 +311,7 @@ static int xpp055c272_probe(struct mipi_dsi_device *dsi)
->  	dsi->lanes = 4;
->  	dsi->format = MIPI_DSI_FMT_RGB888;
->  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> -			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_EOT_PACKET;
-> +			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
->  
->  	drm_panel_init(&ctx->panel, &dsi->dev, &xpp055c272_funcs,
->  		       DRM_MODE_CONNECTOR_DSI);
-> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-> index 360e6377e84b..ba91cf22af51 100644
-> --- a/include/drm/drm_mipi_dsi.h
-> +++ b/include/drm/drm_mipi_dsi.h
-> @@ -119,15 +119,15 @@ struct mipi_dsi_host *of_find_mipi_dsi_host_by_node(struct device_node *node);
->  /* enable hsync-end packets in vsync-pulse and v-porch area */
->  #define MIPI_DSI_MODE_VIDEO_HSE		BIT(4)
-
-We're mixing bits that enable a feature and bits that disable a feature.
-Are these bits defined in the DSI spec, or internal to DRM ? In the
-latter case, would it make sense to standardize on one "polarity" ? That
-would be a more intrusive change in drivers though.
-
->  /* disable hfront-porch area */
-> -#define MIPI_DSI_MODE_VIDEO_HFP		BIT(5)
-> +#define MIPI_DSI_MODE_VIDEO_NO_HFP	BIT(5)
->  /* disable hback-porch area */
-> -#define MIPI_DSI_MODE_VIDEO_HBP		BIT(6)
-> +#define MIPI_DSI_MODE_VIDEO_NO_HBP	BIT(6)
->  /* disable hsync-active area */
-> -#define MIPI_DSI_MODE_VIDEO_HSA		BIT(7)
-> +#define MIPI_DSI_MODE_VIDEO_NO_HSA	BIT(7)
->  /* flush display FIFO on vsync pulse */
->  #define MIPI_DSI_MODE_VSYNC_FLUSH	BIT(8)
->  /* disable EoT packets in HS mode */
-> -#define MIPI_DSI_MODE_EOT_PACKET	BIT(9)
-> +#define MIPI_DSI_MODE_NO_EOT_PACKET	BIT(9)
->  /* device supports non-continuous clock behavior (DSI spec 5.6.1) */
->  #define MIPI_DSI_CLOCK_NON_CONTINUOUS	BIT(10)
->  /* transmit data in low power */
+--- Comment #2 from Erhard F. (erhard_f@mailbox.org) ---
+------------[ cut here ]------------
+smu8_send_msg_to_smc_with_parameter(0x0011, 0x460) timed out after 3236309 us
+WARNING: CPU: 1 PID: 403 at smu8_send_msg_to_smc_with_parameter+0xfe/0x140
+[amdgpu]
+Modules linked in: dm_crypt nhpoly1305_avx2 nhpoly1305 chacha_generic
+chacha_x86_64 libchacha adiantum libpoly1305 algif_skcipher dm_mod fuse
+input_leds joydev hid_generic usbhid hid rfkill raid456 async_raid6_recov
+async_memcpy async_pq async_xor async_tx ext4 crc16 mbcache jbd2 md_mod amdgpu
+evdev crc32_generic crc32_pclmul f2fs aesni_intel libaes crypto_simd cryptd
+glue_helper snd_hda_codec_realtek snd_hda_codec_generic ledtrig_audio led_class
+drm_ttm_helper snd_hda_codec_hdmi k10temp ttm ehci_pci gpu_sched fam15h_power
+ehci_hcd i2c_algo_bit r8169 i2c_piix4 snd_hda_intel snd_intel_dspcfg realtek
+mdio_devres xhci_pci libphy snd_hda_codec drm_kms_helper snd_hwdep xhci_hcd
+snd_hda_core cfbfillrect syscopyarea cfbimgblt sysfillrect usbcore sysimgblt
+snd_pcm fb_sys_fops usb_common cfbcopyarea snd_timer fb snd font fbdev
+soundcore video acpi_cpufreq button processor nfsd nct6775 hwmon_vid zram
+auth_rpcgss zsmalloc lockd jc42 grace drm hwmon drm_panel_orientation_quirks
+sunrpc
+ backlight nfs_ssc
+CPU: 1 PID: 403 Comm: X Not tainted 5.11.0-gentoo #2
+Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./A320M-HDV R3.0,
+BIOS P3.10 06/26/2019
+RIP: 0010:smu8_send_msg_to_smc_with_parameter+0xfe/0x140 [amdgpu]
+Code: c0 48 c7 c7 a0 5b ac c0 48 89 c1 48 f7 ea 48 89 c8 44 89 f1 48 c1 f8 3f
+48 c1 fa 07 48 29 c2 49 89 d0 44 89 ea e8 db 98 e0 cf <0f> 0b eb b3 41 bc ea ff
+ff ff eb ab 48 8b 7d 60 be c0 01 00 00 48
+RSP: 0018:ffff9fc60749b788 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: 00000d3740b628cb RCX: ffff9d430f492d58
+RDX: 0000000000000000 RSI: 0000000000000027 RDI: ffff9d430f492d50
+RBP: ffff9d400f23a800 R08: 0000000000000000 R09: ffff9fc60749b5c0
+R10: 0000000000000003 R11: ffffffff90e57e48 R12: 00000000ffffffc2
+R13: 0000000000000011 R14: 0000000000000460 R15: ffff9d405006988c
+FS:  00007ff812a7b980(0000) GS:ffff9d430f480000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ff7e8fef000 CR3: 000000010f26e000 CR4: 00000000001506e0
+Call Trace:
+ smum_send_msg_to_smc_with_parameter+0xbe/0xf0 [amdgpu]
+ smu8_set_power_state_tasks+0x1d6/0x360 [amdgpu]
+ phm_set_power_state+0x44/0x68 [amdgpu]
+ psm_adjust_power_state_dynamic+0xb6/0x1b8 [amdgpu]
+ ? amdgpu_fence_wait_empty+0x80/0xd0 [amdgpu]
+ pp_dpm_dispatch_tasks+0x35/0x58 [amdgpu]
+ dm_pp_apply_display_requirements+0x197/0x1c0 [amdgpu]
+ dce11_update_clocks+0x8f/0xe8 [amdgpu]
+ dc_commit_state+0x1d2/0xa70 [amdgpu]
+ amdgpu_dm_atomic_commit_tail+0x3ee/0x2378 [amdgpu]
+ ? free_one_page+0x4e/0xc0
+ ? bw_calcs+0x656/0x1df0 [amdgpu]
+ ? _cond_resched+0x11/0x38
+ ? __ww_mutex_lock.constprop.0+0x2c/0x6f8
+ ? kfree+0x9f/0x3a0
+ ? ttm_bo_move_to_lru_tail+0x1c/0xc0 [ttm]
+ ? ttm_eu_backoff_reservation+0x3e/0x58 [ttm]
+ ? amdgpu_bo_gpu_offset+0x65/0xb0 [amdgpu]
+ ? dm_plane_helper_prepare_fb+0x127/0x248 [amdgpu]
+ ? _cond_resched+0x11/0x38
+ ? wait_for_completion_timeout+0x31/0xe0
+ ? wait_for_completion_interruptible+0x2e/0x128
+ commit_tail+0x8d/0x120 [drm_kms_helper]
+ drm_atomic_helper_commit+0x111/0x138 [drm_kms_helper]
+ drm_atomic_connector_commit_dpms+0xd4/0xf0 [drm]
+ drm_mode_obj_set_property_ioctl+0x183/0x3a0 [drm]
+ ? drm_connector_set_obj_prop+0x80/0x80 [drm]
+ drm_connector_property_set_ioctl+0x32/0x50 [drm]
+ drm_ioctl_kernel+0xa5/0xf0 [drm]
+ drm_ioctl+0x20a/0x398 [drm]
+ ? drm_connector_set_obj_prop+0x80/0x80 [drm]
+ amdgpu_drm_ioctl+0x44/0x78 [amdgpu]
+ __x64_sys_ioctl+0x81/0xa0
+ do_syscall_64+0x33/0x48
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x7ff812686cc7
+Code: 3c 1c 48 f7 d8 49 39 c4 72 b9 e8 24 ff ff ff 85 c0 78 be 5b 4c 89 e0 5d
+41 5c c3 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01
+c3 48 8b 0d 71 41 0c 00 f7 d8 64 89 01 48
+RSP: 002b:00007ffd6465ce88 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007ffd6465cec0 RCX: 00007ff812686cc7
+RDX: 00007ffd6465cec0 RSI: 00000000c01064ab RDI: 000000000000000c
+RBP: 00000000c01064ab R08: 00007ffd64740080 R09: 00007ff811fa7d10
+R10: 00007ff811fa7d20 R11: 0000000000000246 R12: 0000555c25ecedd0
+R13: 000000000000000c R14: 0000000000000000 R15: 0000555c24e06540
+---[ end trace c56a82515c29af45 ]---
 
 -- 
-Regards,
+You may reply to this email to add a comment.
 
-Laurent Pinchart
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
