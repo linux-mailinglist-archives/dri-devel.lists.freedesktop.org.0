@@ -2,58 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10664320F72
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 03:33:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EFB6320FA8
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 04:15:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 642926E49C;
-	Mon, 22 Feb 2021 02:33:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25CBD6E4A5;
+	Mon, 22 Feb 2021 03:15:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com
- [IPv6:2607:f8b0:4864:20::f33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD8F96E49C
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 02:33:28 +0000 (UTC)
-Received: by mail-qv1-xf33.google.com with SMTP id dg2so3296601qvb.12
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Feb 2021 18:33:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=77SIxwK7sPd7Oh43tr5tVprXJdbF07Fj+RJwVLkQb/M=;
- b=HcapsVznwHgvIsDOa7BL6a9/98H/vdRyHVNPD42icKLvFM0by2XABaTa5l6+joOZUn
- 7k26m3QMVoVtO3gP5pAlJa3RZfiukJFwhMPVm1h83eWooiVfguh91OWD2GBoD7PBV5Cc
- Pk1Xywbyad+Ja26umqcay8CMbA98X5zq82+YCRg5VgSYA+IoCUcCyw8dv6ZjY5ha0oVx
- MqD6iS5OBbrrFIu0am1vCvlsecSZEvypLNRK+qIZABPaOz+h84iq0KW/bnAoV7XrwJXR
- G/IWK6YxeGugDucDmLHTur1/Ne1Hl1wXspgaO+0a3Xoud7Ox804Clr1WxSF8wcdRgMkl
- axaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=77SIxwK7sPd7Oh43tr5tVprXJdbF07Fj+RJwVLkQb/M=;
- b=KECV/5WytNfD240swChLSldo4N0XcckJmwiqwgZl8aRMf9VnxkQxmp1xHjeQ/2bp8d
- RlQD0dsVw1H+vfW+W4hnVDSl0vxqcKfzRoryeJaIeSOwdEgaGbiNGGzMFD/SswcWR2Fl
- QzlEaMMMbyyDz8sINdb9n+AYUOMu7Pu0EIFdpc1N0+8KevN3+JnQHZ//YTCXCCykha+n
- g7TfUMrKtLffDku0dx+NNiE3uzYoZPf1WK9YGuj6QJjPDB4JbyPAg6LdEJWh6nv6QTzp
- eCu+SQ4ySaIWRgNGT/Ppfevqs61lzAKBHilxx72pUuEXlgo5BW0rF2UijUgTeEWuRHYF
- uV7A==
-X-Gm-Message-State: AOAM530chyU7VLFxYURdf00VTZ79w3xSRpxe4O1oZXFGWXcX4TIUHjdk
- hS4Jfub0AL3d1VkU0NPwNrQ=
-X-Google-Smtp-Source: ABdhPJwY3Vr7GwRdmr68MNB0jkE0SBmGa7EsF/bv1G8wvWkZ3BB/w7+BJHv0iPlTlkXS4NxJ0r6Leg==
-X-Received: by 2002:ad4:458b:: with SMTP id x11mr10562187qvu.24.1613961207847; 
- Sun, 21 Feb 2021 18:33:27 -0800 (PST)
-Received: from tong-desktop.local ([2601:5c0:c200:27c6:1ca0:2636:8c3e:6a9])
- by smtp.googlemail.com with ESMTPSA id l137sm11645418qke.6.2021.02.21.18.33.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 18:33:27 -0800 (PST)
-From: Tong Zhang <ztong0001@gmail.com>
-To: Dave Airlie <airlied@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/ast: fix memory leak when unload the driver
-Date: Sun, 21 Feb 2021 21:33:22 -0500
-Message-Id: <20210222023322.984885-1-ztong0001@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08on2058.outbound.protection.outlook.com [40.107.101.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9ED96E428;
+ Mon, 22 Feb 2021 03:15:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ry9bP0RQxeAtqsX84boEIuLLByn3jQS/DcwgrAiDaWRRM47m+tjGphDq01VqC6jT8k2I9vvumRHZPgTE0Vsm0z4KjYJN3krIt3LrV1ILSSvHSUFKR41tL2UA7fQiFos1MkBdzZFegOVyLLMwvZyCmZO7oJyqdGjAzWBiDqS2kmwutCKE+5HCTOTg9PPPxQ8i1bWeV7/1RtYHy9f+9Ts9sq1C2vqH/Znc3GMtxBESW9vjHnl/+y83LON9zWhjnbKS8IX5cFyzLB02Qph+xnGvjVvzPeSFAr/Qxry8YDwRnUYU6JxMTb1/F0Oh2tMEc3ik7vivmjFdycj01kdf/I9eZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4/Af4FdH9bpBO6j+iSrLgqC/6ar3NbDLPYHvL7WGVMs=;
+ b=gMTARD1PVLBjYKamUbPOWluzJRkrf7KNdNE+GSp1ychWLMczv13DfclvtX39R1+8hu1jFYz71J/ki9D1eotMH4+oBrRyOA2rxqMdgu6OIRyVgD63z5Z3FbFt8WILRGxLMmBRcfjrtaY2/WuzmA3eMDRLv/15V842Ietx+4F70FXa8bJGtIS1wzdE1EX+yzUCiwCb3z9btBlEPTGMJ1y2S18va6X0kEo9XnFoberIXMO/ACWZjtok3wDpvTIzJLseA97BVBcusXnhw1f0WDDSmht33XNRDCM5HV0owKbVzshZE5hhlXThBKKUgHp/bgGD1blkF3zPtkiy3KzR8YqZFg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4/Af4FdH9bpBO6j+iSrLgqC/6ar3NbDLPYHvL7WGVMs=;
+ b=hJLB2dAQWETsq1eOclv8AMQmD1iq+fvXaWERbOavts3rGUv2BviMwBkObVY6vfmCUWQE/WF+AOKMQS4otIecwHvhPuDowMtp4IrBFOM4InU/UP5wu4WsTMsdwb9Dx+k7XbBZtx4aW/Iy7Mrd9cIvq7+XagYB2dcsoY+GK6DhSuY=
+Received: from DM6PR12MB2619.namprd12.prod.outlook.com (2603:10b6:5:45::18) by
+ DM5PR12MB2359.namprd12.prod.outlook.com (2603:10b6:4:b4::12) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3825.30; Mon, 22 Feb 2021 03:15:17 +0000
+Received: from DM6PR12MB2619.namprd12.prod.outlook.com
+ ([fe80::11e6:53ff:8e98:31f0]) by DM6PR12MB2619.namprd12.prod.outlook.com
+ ([fe80::11e6:53ff:8e98:31f0%3]) with mapi id 15.20.3868.032; Mon, 22 Feb 2021
+ 03:15:17 +0000
+From: "Quan, Evan" <Evan.Quan@amd.com>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, "Deucher, Alexander"
+ <Alexander.Deucher@amd.com>
+Subject: RE: [PATCH v2] drm/amdgpu/swsmu/navi1x: Remove unnecessary conversion
+ to bool
+Thread-Topic: [PATCH v2] drm/amdgpu/swsmu/navi1x: Remove unnecessary
+ conversion to bool
+Thread-Index: AQHXCEEAWyGwDw8ghEeNkTKiJTABAqpjgT7A
+Date: Mon, 22 Feb 2021 03:15:17 +0000
+Message-ID: <DM6PR12MB2619934BA14F887DF37BF2C2E4819@DM6PR12MB2619.namprd12.prod.outlook.com>
+References: <1613789706-100430-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <1613789706-100430-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=true;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2021-02-22T03:14:53Z; 
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal Use Only -
+ Unrestricted;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ActionId=68aa5021-becb-4278-9c46-8ea9e74387f8;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=1
+msip_justification: I confirm the recipients are approved for sharing this
+ content
+authentication-results: linux.alibaba.com; dkim=none (message not signed)
+ header.d=none;linux.alibaba.com; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [180.167.199.182]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 3fe971b5-fc0a-478f-3973-08d8d6e0144d
+x-ms-traffictypediagnostic: DM5PR12MB2359:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM5PR12MB23593F9058713CAC21A18ED6E4819@DM5PR12MB2359.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:416;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: RC7FQtkb1893ylrayO2OceG5GwdzHBt1Iag05j7w6goNUuk3hw6zBdw3S0RX44Uv/kvcrKNXgoAfftgZNv7OnFcAtR5IfqCG7pZ1DjwZiCb5e54PQrMPtEbWJLO7rAr5GbQYIfQndUcsiZ6GwmLm3kmy2iNhOEG73a7QaVRpe4FK5EpMQksV+0yH/DKP+gcCUNPAr1gKrjs4AD1mKfdMc83Pt6XuB1pcKCdXonlcptphvldG669L9Gv9+iLq8snYSmdNUxPUXj0flf7lY0s18Ze+OHANDJvkgxXZUJY5GHgHF8Bh0b80j0UfUie12VnzkkVSQRrzm9NJv8xY/9It4eCpI4/PHwxyX8kONjWmJH57q6tnYGBhPaiYx0k0dYtXf4akATMHref5DNd58G5Em+cvx+fZLKhvjxlrZdEupQ/qbtyAD1W4E2ysUE9FMs3KqzcKCB+/RYx5msn8q2k6zh8kzwxzl0fcwaWbsbg+KvnGGeaopcmTjBafgtR/OLLK/bX8CToWj1feQqWbLh2lprW0FQs1Jbkk5K6KDlFYPTIEdDCX2mLkCubmHVwS+CuVqBGzO8vALKJ39JkNXwLYA9dNG8bOe4SUnk6RrU1Y2LY=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB2619.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(376002)(346002)(136003)(39860400002)(5660300002)(55016002)(86362001)(2906002)(66556008)(66476007)(66946007)(66446008)(64756008)(76116006)(52536014)(9686003)(316002)(83380400001)(54906003)(478600001)(45080400002)(71200400001)(53546011)(966005)(8676002)(110136005)(6636002)(4326008)(6506007)(186003)(33656002)(7696005)(8936002)(26005)(357404004);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?pHYGvsWvcHDMLFKigJJ7lMBGUySuxp5Xiz8hnrNNQ9am1ISRKloMP3kyGxA2?=
+ =?us-ascii?Q?zGoJ4sZ2NHABQSXpfLOGtki7uaCiNsTNAbp65TFbqrYIQKRP55hPg4l83neR?=
+ =?us-ascii?Q?uAoq4gBHyAEuP0e+CrkWmjgG+vb1S5fhpB0irKHGMuTmmMJ20A+dG0D2Idpb?=
+ =?us-ascii?Q?BJeetTL77ikVtA2kEVVrt/bjQVGY7rhOPg0YG4Jkw74F3g6j/caqXKKtJKlV?=
+ =?us-ascii?Q?kAKmrG2AQSLUf+d1azWDPfaBJrNDkQiBlbsSgo2gbPrRsmye1wBQxOvAc7Ly?=
+ =?us-ascii?Q?5AbC0kb9apOZXNgJJuRl2rayRBMz4jz+YFzcEbktqe7WsXQJyduvmvf7Vyk6?=
+ =?us-ascii?Q?yOskQACo6s019X+rLfYaqYqC1RY6TwFu/3Et2MTe6IO2knYXTn3lwZ0VNN/n?=
+ =?us-ascii?Q?JUuQIDxSTb/KtlzEqfiOMqBDhPqaOIeZ4II8Q7KQEUg8MHs3qfOPEU84LNh9?=
+ =?us-ascii?Q?AI/BUF2G/Xcunp3sYGi/DGRy9WJlI3/OvzzSspQir9aIXkWK5bLy/Mm71iLd?=
+ =?us-ascii?Q?DWseyc5xI5mlLA0eaxOkZgqlrTgDFyNMGGqwlGtX6HDwZpzFZ22tX02gfsFu?=
+ =?us-ascii?Q?o5hpqEZhprkILpKojUEuuObbViRT9ZR4X+tjjPt0hLlHAJJLAUGkENo4xS6P?=
+ =?us-ascii?Q?eYcz3KePBppwB/jROh4DI0LvJteq/SoSbT+alMO1ZfUgwjmmN66orZV6digt?=
+ =?us-ascii?Q?ICQD+uEqtDhumqcEQHfa3vmYRNGfOoqQUZFnRT6eY+57zXuiaFm8ClkBfc7p?=
+ =?us-ascii?Q?aEzOBDd+1kWAuMvR1qKE444XpxvI6/ucTuqbGH9KhQC2aQVkPGUIhSJM2vL/?=
+ =?us-ascii?Q?FWaEuxSw8ZwkXf9ooUqMrBm9cok9V8tKMIXyjtF3usTIHTE/HZi9T9vfgjgl?=
+ =?us-ascii?Q?hSazn1+73e2sRk/fo+7n+IKjIw08w/+t6Mp9JJm0edN2Ft8GEJTueBwdZ0VL?=
+ =?us-ascii?Q?AsAmZX3s/8gl7H6fI6G8VwvtNr5lGjOYhywLSSLbZkx7fh0CH9tOZK05xC/C?=
+ =?us-ascii?Q?E4A9KNBEZ3dcL+Gs42juOrwDUJaQwqje0+KelOA5q47fUOCCLtYFUmS3ZNeg?=
+ =?us-ascii?Q?VNTpF3+R+neQPH77httPQ4NcU8ObXpgNd9yJW3zsupqIdGYtEUAY462Oz5zE?=
+ =?us-ascii?Q?q8BimbkTzOT0qoLorM+8ESt2r3jB9uzhIGXW2uzw3uVUgL+PPdv8znjJqguj?=
+ =?us-ascii?Q?MWp3QRHfAAFuqoj6z8KjuoG8XonLFYgrf3mXBtkhh2pOigvDrMI7QzKRZyL9?=
+ =?us-ascii?Q?ES60n/nVDUYQe47aU4aDpz+gRns5f/3C3XHepA491rWP1dB7hzdQ2rsz4HSS?=
+ =?us-ascii?Q?fUYk14dbu0GcjFHmcbNofkTG?=
 MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2619.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fe971b5-fc0a-478f-3973-08d8d6e0144d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Feb 2021 03:15:17.2769 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6FTvl/FJ8H+uIoVJyMdYoPihubNzlQFudDfSi27BZk+4ICrkuj6a8Sg1cPQrfG1Q
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2359
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,93 +125,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ztong0001@gmail.com
+Cc: "airlied@linux.ie" <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-a connector is leaked upon module unload, it seems that we should do
-similar to sample driver as suggested in drm_drv.c.
+[AMD Official Use Only - Internal Distribution Only]
 
-Adding drm_atomic_helper_shutdown() in ast_pci_remove to prevent leaking.
+Reviewed-by: Evan Quan <evan.quan@amd.com>
 
-[  153.822134] WARNING: CPU: 0 PID: 173 at drivers/gpu/drm/drm_mode_config.c:504 drm_mode_config_cle0
-[  153.822698] Modules linked in: ast(-) drm_vram_helper drm_ttm_helper ttm [last unloaded: ttm]
-[  153.823197] CPU: 0 PID: 173 Comm: modprobe Tainted: G        W         5.11.0-03615-g55f62bc873474
-[  153.823708] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.13.0-48-gd9c812dda519-4
-[  153.824333] RIP: 0010:drm_mode_config_cleanup+0x418/0x470
-[  153.824637] Code: 0c 00 00 00 00 48 8b 84 24 a8 00 00 00 65 48 33 04 25 28 00 00 00 75 65 48 81 c0
-[  153.825668] RSP: 0018:ffff888103c9fb70 EFLAGS: 00010212
-[  153.825962] RAX: ffff888102b0d100 RBX: ffff888102b0c298 RCX: ffffffff818d8b2b
-[  153.826356] RDX: dffffc0000000000 RSI: 000000007fffffff RDI: ffff888102b0c298
-[  153.826748] RBP: ffff888103c9fba0 R08: 0000000000000001 R09: ffffed1020561857
-[  153.827146] R10: ffff888102b0c2b7 R11: ffffed1020561856 R12: ffff888102b0c000
-[  153.827538] R13: ffff888102b0c2d8 R14: ffff888102b0c2d8 R15: 1ffff11020793f70
-[  153.827935] FS:  00007f24bff456a0(0000) GS:ffff88815b400000(0000) knlGS:0000000000000000
-[  153.828380] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  153.828697] CR2: 0000000001c39018 CR3: 0000000103c90000 CR4: 00000000000006f0
-[  153.829096] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[  153.829486] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[  153.829883] Call Trace:
-[  153.830024]  ? drmm_mode_config_init+0x930/0x930
-[  153.830281]  ? cpumask_next+0x16/0x20
-[  153.830488]  ? mnt_get_count+0x66/0x80
-[  153.830699]  ? drm_mode_config_cleanup+0x470/0x470
-[  153.830972]  drm_managed_release+0xed/0x1c0
-[  153.831208]  drm_dev_release+0x3a/0x50
-[  153.831420]  release_nodes+0x39e/0x410
-[  153.831631]  ? devres_release+0x40/0x40
-[  153.831852]  device_release_driver_internal+0x158/0x270
-[  153.832143]  driver_detach+0x76/0xe0
-[  153.832344]  bus_remove_driver+0x7e/0x100
-[  153.832568]  pci_unregister_driver+0x28/0xf0
-[  153.832821]  __x64_sys_delete_module+0x268/0x300
-[  153.833086]  ? __ia32_sys_delete_module+0x300/0x300
-[  153.833357]  ? call_rcu+0x372/0x4f0
-[  153.833553]  ? fpregs_assert_state_consistent+0x4d/0x60
-[  153.833840]  ? exit_to_user_mode_prepare+0x2f/0x130
-[  153.834118]  do_syscall_64+0x33/0x40
-[  153.834317]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[  153.834597] RIP: 0033:0x7f24bfec7cf7
-[  153.834797] Code: 48 89 57 30 48 8b 04 24 48 89 47 38 e9 1d a0 02 00 48 89 f8 48 89 f7 48 89 d6 41
-[  153.835812] RSP: 002b:00007fff72e6cb58 EFLAGS: 00000202 ORIG_RAX: 00000000000000b0
-[  153.836234] RAX: ffffffffffffffda RBX: 00007f24bff45690 RCX: 00007f24bfec7cf7
-[  153.836623] RDX: 00000000ffffffff RSI: 0000000000000080 RDI: 0000000001c2fb10
-[  153.837018] RBP: 0000000001c2fac0 R08: 2f2f2f2f2f2f2f2f R09: 0000000001c2fac0
-[  153.837408] R10: fefefefefefefeff R11: 0000000000000202 R12: 0000000001c2fac0
-[  153.837798] R13: 0000000001c2f9d0 R14: 0000000000000000 R15: 0000000000000001
-[  153.838194] ---[ end trace b92031513bbe596c ]---
-[  153.838441] [drm:drm_mode_config_cleanup] *ERROR* connector VGA-1 leaked!
+-----Original Message-----
+From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of Jiapeng Chong
+Sent: Saturday, February 20, 2021 10:55 AM
+To: Deucher, Alexander <Alexander.Deucher@amd.com>
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>; airlied@linux.ie; linux-kernel@vger.kernel.org; dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; daniel@ffwll.ch; Koenig, Christian <Christian.Koenig@amd.com>
+Subject: [PATCH v2] drm/amdgpu/swsmu/navi1x: Remove unnecessary conversion to bool
 
-Signed-off-by: Tong Zhang <ztong0001@gmail.com>
+Fix the following coccicheck warnings:
+
+./drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c:900:47-52: WARNING:
+conversion to bool not needed here.
+
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- drivers/gpu/drm/ast/ast_drv.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index 667b450606ef..b047c0ea43e8 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -30,6 +30,7 @@
- #include <linux/module.h>
- #include <linux/pci.h>
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
+index cd7efa9..58028a7 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
+@@ -897,7 +897,7 @@ static bool navi10_is_support_fine_grained_dpm(struct smu_context *smu, enum smu
+ 	dpm_desc = &pptable->DpmDescriptor[clk_index];
  
-+#include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
-@@ -138,6 +139,7 @@ static void ast_pci_remove(struct pci_dev *pdev)
- 	struct drm_device *dev = pci_get_drvdata(pdev);
- 
- 	drm_dev_unregister(dev);
-+	drm_atomic_helper_shutdown(dev);
+ 	/* 0 - Fine grained DPM, 1 - Discrete DPM */
+-	return dpm_desc->SnapToDiscrete == 0 ? true : false;
++	return dpm_desc->SnapToDiscrete == 0;
  }
  
- static int ast_drm_freeze(struct drm_device *dev)
+ static inline bool navi10_od_feature_is_supported(struct smu_11_0_overdrive_table *od_table, enum SMU_11_0_ODFEATURE_CAP cap)
 -- 
-2.25.1
+1.8.3.1
 
+_______________________________________________
+amd-gfx mailing list
+amd-gfx@lists.freedesktop.org
+https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=04%7C01%7Cevan.quan%40amd.com%7C443a5df938954827326108d8d6582201%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637495021310885387%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=6ETadiVbRBgbXfEbkXbxTX%2F1Ozg1wp3Nr9lHGF3SKHk%3D&amp;reserved=0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
