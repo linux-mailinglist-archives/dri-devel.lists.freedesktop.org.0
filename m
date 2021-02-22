@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F074C321896
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 14:28:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA8632189D
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 14:28:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6F076E959;
-	Mon, 22 Feb 2021 13:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D26B6E53E;
+	Mon, 22 Feb 2021 13:28:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 587ED6E94D
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 13:28:40 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id kr16so8532378pjb.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 05:28:40 -0800 (PST)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 744676E94D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 13:28:44 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id d11so2785049plo.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 05:28:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k3VX3I7y9xb7wsw2EFMUi2KX7EoFTuOAW4MR3tKQ32Y=;
- b=er7QipuzV1kGXLJbt0WnSPoGBLoc+dy8hIf61be+yRHqSqJBtcVzqjyUSFHvF5vzH7
- 1vq58w42MuUeHrrTAB8sDSaSt3wC0ZWTlgT5l8q8EyGVBY1A/TCFnWalL4so6Wdxb0Pv
- ZXr/E3GhCBsVte6AuoMnCsUGqIRx7gvkEXTzpffSy3BwmHsDg1OvSAX/dKe0iPRKQ6nq
- BYl9EyOe2FdzPfUjv7pK5E4yMuA57PL9Hm2XDGn81Ta6EevZoEr8ACzbSlAlDx3wV7L3
- yRcwof0TgsjH/sHo9Ifxo+vkhKr1E4YNulz6BnCSZ89EdopxF+AqlB1+AMc6kgWqrnU/
- ZYow==
+ bh=X656Or3AghGNdCifoKkmu5GQs0rM4Sve4r9ESWyHH6M=;
+ b=rc/EfeTLKIKAP8Xl1eWOzWGdjRuerUKFBfy6UKKOQgshQAuiQEFRwsSZ7/tyUj52Fg
+ MgGJ//0pI+B/HtxolhbH08cKBj1kKl2ZODwIuQP1uUpXbo+a5k7iZV+7HWNkbgPj2SKM
+ ECCXr8uNn9AzVDQaJrODLFXTt1tXRs3+M6h9/HcwH+fKNWjRvur2MwWThKXsXkqrkKn+
+ m1oRlNTZwcynBEeQ5GdngU82FdnUhboWGtBGYx+KpeRrRZuzodwmar0lZ/Y0CnPkOes4
+ NjM0hFMW4+63hiS5xRQcQdKFALF019rISqN03nMArWQOHqabm8ikI5M/V7t5yG9PZicZ
+ MS5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=k3VX3I7y9xb7wsw2EFMUi2KX7EoFTuOAW4MR3tKQ32Y=;
- b=F+kgeDqa9rASL+ouMQV1HQm0HIL+gNbSSxtiaa5PKqHUtCZQFYzAYOyMESC9qblBxP
- z/ioBHzUrSJrVPe0t1prmNBO7Nh1+HfqvI2GRJhrJ0sUOhvmHDrdWOPwBr2Dw436ZDdf
- 3mWH8W7fSqRTbzLuMbPGjhzb+zUhXEBHH15PQUPGBcZfJHtbyIof/Y5FU+VfYQed+mRi
- J9yMIdBlZdAHH/URcgnBaoeaoIAA0xUl3JiKzDXobgU3A7nF+umnruyOsvTtzojLb5ow
- ywJurtf69DAYI4Quyhxtx9tEfEDFxlBl4YSYBAaCg0IAMz8ZFmwW5+lNZSEctfyxXlLU
- QCPg==
-X-Gm-Message-State: AOAM533ZT0gmkRPm3oxcsJqiCjBZdAT9j+H0ztSFqMQl3o1Gzu7ygqYz
- F8dqISqSJ2YaXVcB7CeAGUM=
-X-Google-Smtp-Source: ABdhPJyKRSTjmK3XgYgSlQ+qupc0eNrTdETYjXZ0ltDYsNTXu5mpDCFpFOhfvBkQ7AmNeeAHBoQmMA==
-X-Received: by 2002:a17:902:7847:b029:df:d889:252c with SMTP id
- e7-20020a1709027847b02900dfd889252cmr22176067pln.76.1614000520020; 
- Mon, 22 Feb 2021 05:28:40 -0800 (PST)
+ bh=X656Or3AghGNdCifoKkmu5GQs0rM4Sve4r9ESWyHH6M=;
+ b=dgD+o2hXBhqysw/Au8VvGJAPWx0v30QnoLmsUwKHZz1dO2Clk32qSYlzDKYhlw1cOx
+ DrhQ7+ucbfC/3XL+Y5Qlw2IJiKwSDnneV0r4XhCtx/wXP/YWbhte7kg0F6a/rfxFp3bi
+ FASvPlKsnjsVvbKIEla8NOs7kdt9FLxiezpc2zEu8dwLuFsfI1UJqcfHfT1/O9zTJ/MN
+ 0mK+znbiRK+gLIJ54gbRZiBLNGXMhlV/2Cuv0xFwQCg7zpgXs/qLhCeFkQPIDqjINtue
+ 46g/US++bcLhSRwE4c6G5SHQfqFxXiAJQh1Xe/9D6snbSzf0nGpK/EUduqy7YRuuNkaE
+ b1mA==
+X-Gm-Message-State: AOAM5315m4YWiU1nVpZohamJ/MyKJbtB2f7UqEBUs9vPWfQeXuHDUnsM
+ 39Q2Nl9+rLpF8wjmVAomG6s=
+X-Google-Smtp-Source: ABdhPJwtnlMZ9d5PwvaFBE3BET1EP2uDFBnw6wOOlusHFe/Q0z/Ke69NaR6AS61cmdxwj9pwMXAc9w==
+X-Received: by 2002:a17:902:8690:b029:e3:91f9:eaeb with SMTP id
+ g16-20020a1709028690b02900e391f9eaebmr15178802plo.34.1614000523893; 
+ Mon, 22 Feb 2021 05:28:43 -0800 (PST)
 Received: from nj08008nbu.spreadtrum.com ([117.18.48.82])
- by smtp.gmail.com with ESMTPSA id 141sm19585334pfa.65.2021.02.22.05.28.36
+ by smtp.gmail.com with ESMTPSA id 141sm19585334pfa.65.2021.02.22.05.28.40
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 22 Feb 2021 05:28:39 -0800 (PST)
+ Mon, 22 Feb 2021 05:28:43 -0800 (PST)
 From: Kevin Tang <kevin3.tang@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, sean@poorly.run,
  airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
  mark.rutland@arm.com, kevin3.tang@gmail.com
-Subject: [PATCH v4 3/6] dt-bindings: display: add Unisoc's dpu bindings
-Date: Mon, 22 Feb 2021 21:28:19 +0800
-Message-Id: <20210222132822.7830-4-kevin3.tang@gmail.com>
+Subject: [PATCH v4 4/6] drm/sprd: add Unisoc's drm display controller driver
+Date: Mon, 22 Feb 2021 21:28:20 +0800
+Message-Id: <20210222132822.7830-5-kevin3.tang@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20210222132822.7830-1-kevin3.tang@gmail.com>
 References: <20210222132822.7830-1-kevin3.tang@gmail.com>
@@ -77,104 +77,1167 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kevin Tang <kevin.tang@unisoc.com>
-
-DPU (Display Processor Unit) is the Display Controller for the Unisoc SoCs
-which transfers the image data from a video memory buffer to an internal
-LCD interface.
+Adds DPU(Display Processor Unit) support for the Unisoc's display subsystem.
+It's support multi planes, scaler, rotation, PQ(Picture Quality) and more.
 
 Cc: Orson Zhai <orsonzhai@gmail.com>
 Cc: Chunyan Zhang <zhang.lyra@gmail.com>
 Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
- .../display/sprd/sprd,sharkl3-dpu.yaml        | 77 +++++++++++++++++++
- 1 file changed, 77 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
+v2:
+  - Use drm_xxx to replace all DRM_XXX.
+  - Use kzalloc to replace devm_kzalloc for sprd_dpu structure init.
+
+v3:
+  - Remove dpu_layer stuff layer and commit layers by aotmic_update
+
+v4:
+  - Use drmm_helpers to allocate crtc and planes.
+  - Move rotation enum definitions to crtc layer reg bitfields.
+  - Move allocate crtc and planes to bind funtion.
+---
+ drivers/gpu/drm/sprd/Kconfig    |   1 +
+ drivers/gpu/drm/sprd/Makefile   |   4 +-
+ drivers/gpu/drm/sprd/sprd_dpu.c | 964 ++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/sprd/sprd_dpu.h | 109 ++++
+ drivers/gpu/drm/sprd/sprd_drm.c |   1 +
+ drivers/gpu/drm/sprd/sprd_drm.h |   2 +
+ 6 files changed, 1079 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.h
+
+diff --git a/drivers/gpu/drm/sprd/Kconfig b/drivers/gpu/drm/sprd/Kconfig
+index 6e80cc9f3..9b4ef9aea 100644
+--- a/drivers/gpu/drm/sprd/Kconfig
++++ b/drivers/gpu/drm/sprd/Kconfig
+@@ -3,6 +3,7 @@ config DRM_SPRD
+ 	depends on ARCH_SPRD || COMPILE_TEST
+ 	depends on DRM && OF
+ 	select DRM_KMS_HELPER
++	select VIDEOMODE_HELPERS
+ 	select DRM_GEM_CMA_HELPER
+ 	select DRM_KMS_CMA_HELPER
+ 	select DRM_MIPI_DSI
+diff --git a/drivers/gpu/drm/sprd/Makefile b/drivers/gpu/drm/sprd/Makefile
+index 86d95d93a..6c25bfa99 100644
+--- a/drivers/gpu/drm/sprd/Makefile
++++ b/drivers/gpu/drm/sprd/Makefile
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-subdir-ccflags-y += -I$(srctree)/$(src)
++obj-y := sprd_drm.o \
++	sprd_dpu.o
+ 
+-obj-y := sprd_drm.o
+diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_dpu.c
 new file mode 100644
-index 000000000..4ebea60b8
+index 000000000..75b7e40d9
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
-@@ -0,0 +1,77 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/sprd/sprd,sharkl3-dpu.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpu/drm/sprd/sprd_dpu.c
+@@ -0,0 +1,964 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2020 Unisoc Inc.
++ */
 +
-+title: Unisoc Sharkl3 Display Processor Unit (DPU)
++#include <linux/component.h>
++#include <linux/delay.h>
++#include <linux/dma-buf.h>
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_address.h>
++#include <linux/of_device.h>
++#include <linux/of_irq.h>
++#include <linux/wait.h>
++#include <linux/workqueue.h>
 +
-+maintainers:
-+  - Kevin Tang <kevin.tang@unisoc.com>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_crtc_helper.h>
++#include <drm/drm_fb_cma_helper.h>
++#include <drm/drm_gem_cma_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
++#include <drm/drm_plane_helper.h>
 +
-+description: |
-+  DPU (Display Processor Unit) is the Display Controller for the Unisoc SoCs
-+  which transfers the image data from a video memory buffer to an internal
-+  LCD interface.
++#include "sprd_drm.h"
++#include "sprd_dpu.h"
 +
-+properties:
-+  compatible:
-+    const: sprd,sharkl3-dpu
++/* Global control registers */
++#define REG_DPU_CTRL	0x04
++#define REG_DPU_CFG0	0x08
++#define REG_PANEL_SIZE	0x20
++#define REG_BLEND_SIZE	0x24
++#define REG_BG_COLOR	0x2C
 +
-+  reg:
-+    maxItems: 1
++/* Layer0 control registers */
++#define REG_LAY_BASE_ADDR0	0x30
++#define REG_LAY_BASE_ADDR1	0x34
++#define REG_LAY_BASE_ADDR2	0x38
++#define REG_LAY_CTRL		0x40
++#define REG_LAY_SIZE		0x44
++#define REG_LAY_PITCH		0x48
++#define REG_LAY_POS		0x4C
++#define REG_LAY_ALPHA		0x50
++#define REG_LAY_CROP_START	0x5C
 +
-+  interrupts:
-+    maxItems: 1
++/* Interrupt control registers */
++#define REG_DPU_INT_EN		0x1E0
++#define REG_DPU_INT_CLR		0x1E4
++#define REG_DPU_INT_STS		0x1E8
 +
-+  clocks:
-+    minItems: 2
++/* DPI control registers */
++#define REG_DPI_CTRL		0x1F0
++#define REG_DPI_H_TIMING	0x1F4
++#define REG_DPI_V_TIMING	0x1F8
 +
-+  clock-names:
-+    items:
-+      - const: clk_src_128m
-+      - const: clk_src_384m
++/* MMU control registers */
++#define REG_MMU_EN			0x800
++#define REG_MMU_VPN_RANGE		0x80C
++#define REG_MMU_VAOR_ADDR_RD		0x818
++#define REG_MMU_VAOR_ADDR_WR		0x81C
++#define REG_MMU_INV_ADDR_RD		0x820
++#define REG_MMU_INV_ADDR_WR		0x824
++#define REG_MMU_PPN1			0x83C
++#define REG_MMU_RANGE1			0x840
++#define REG_MMU_PPN2			0x844
++#define REG_MMU_RANGE2			0x848
 +
-+  power-domains:
-+    maxItems: 1
++/* Global control bits */
++#define BIT_DPU_RUN			BIT(0)
++#define BIT_DPU_STOP			BIT(1)
++#define BIT_DPU_REG_UPDATE		BIT(2)
++#define BIT_DPU_IF_EDPI			BIT(0)
 +
-+  iommus:
-+    maxItems: 1
++/* Layer control bits */
++#define BIT_DPU_LAY_EN				BIT(0)
++#define BIT_DPU_LAY_LAYER_ALPHA			(0x01 << 2)
++#define BIT_DPU_LAY_COMBO_ALPHA			(0x02 << 2)
++#define BIT_DPU_LAY_FORMAT_YUV422_2PLANE		(0x00 << 4)
++#define BIT_DPU_LAY_FORMAT_YUV420_2PLANE		(0x01 << 4)
++#define BIT_DPU_LAY_FORMAT_YUV420_3PLANE		(0x02 << 4)
++#define BIT_DPU_LAY_FORMAT_ARGB8888			(0x03 << 4)
++#define BIT_DPU_LAY_FORMAT_RGB565			(0x04 << 4)
++#define BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3		(0x00 << 8)
++#define BIT_DPU_LAY_DATA_ENDIAN_B3B2B1B0		(0x01 << 8)
++#define BIT_DPU_LAY_NO_SWITCH			(0x00 << 10)
++#define BIT_DPU_LAY_RB_OR_UV_SWITCH		(0x01 << 10)
++#define BIT_DPU_LAY_MODE_BLEND_NORMAL		(0x00 << 16)
++#define BIT_DPU_LAY_MODE_BLEND_PREMULT		(0x01 << 16)
++#define BIT_DPU_LAY_ROTATION_0		(0x00 << 20)
++#define BIT_DPU_LAY_ROTATION_90		(0x01 << 20)
++#define BIT_DPU_LAY_ROTATION_180	(0x02 << 20)
++#define BIT_DPU_LAY_ROTATION_270	(0x03 << 20)
++#define BIT_DPU_LAY_ROTATION_0_M	(0x04 << 20)
++#define BIT_DPU_LAY_ROTATION_90_M	(0x05 << 20)
++#define BIT_DPU_LAY_ROTATION_180_M	(0x06 << 20)
++#define BIT_DPU_LAY_ROTATION_270_M	(0x07 << 20)
 +
-+  port:
-+    type: object
-+    description:
-+      A port node with endpoint definitions as defined in
-+      Documentation/devicetree/bindings/media/video-interfaces.txt.
-+      That port should be the output endpoint, usually output to
-+      the associated DSI.
++/* Interrupt control & status bits */
++#define BIT_DPU_INT_DONE		BIT(0)
++#define BIT_DPU_INT_TE			BIT(1)
++#define BIT_DPU_INT_ERR			BIT(2)
++#define BIT_DPU_INT_UPDATE_DONE		BIT(4)
++#define BIT_DPU_INT_VSYNC		BIT(5)
++#define BIT_DPU_INT_MMU_VAOR_RD		BIT(16)
++#define BIT_DPU_INT_MMU_VAOR_WR		BIT(17)
++#define BIT_DPU_INT_MMU_INV_RD		BIT(18)
++#define BIT_DPU_INT_MMU_INV_WR		BIT(19)
 +
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - port
++/* DPI control bits */
++#define BIT_DPU_EDPI_TE_EN		BIT(8)
++#define BIT_DPU_EDPI_FROM_EXTERNAL_PAD	BIT(10)
++#define BIT_DPU_DPI_HALT_EN		BIT(16)
 +
-+additionalProperties: false
++static const u32 primary_fmts[] = {
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_XBGR8888,
++	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_ABGR8888,
++	DRM_FORMAT_RGBA8888,
++	DRM_FORMAT_BGRA8888,
++	DRM_FORMAT_RGBX8888,
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_BGR565,
++	DRM_FORMAT_NV12,
++	DRM_FORMAT_NV21,
++	DRM_FORMAT_NV16,
++	DRM_FORMAT_NV61,
++	DRM_FORMAT_YUV420,
++	DRM_FORMAT_YVU420,
++};
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/sprd,sc9860-clk.h>
-+    dpu: dpu@63000000 {
-+        compatible = "sprd,sharkl3-dpu";
-+        reg = <0x63000000 0x1000>;
-+        interrupts = <GIC_SPI 46 IRQ_TYPE_LEVEL_HIGH>;
-+        clock-names = "clk_src_128m", "clk_src_384m";
++struct sprd_plane {
++	struct drm_plane base;
++	u32 index;
++};
 +
-+        clocks = <&pll CLK_TWPLL_128M>,
-+          <&pll CLK_TWPLL_384M>;
++static inline struct sprd_plane *to_sprd_plane(struct drm_plane *plane)
++{
++	return container_of(plane, struct sprd_plane, base);
++}
 +
-+        dpu_port: port {
-+            dpu_out: endpoint {
-+                remote-endpoint = <&dsi_in>;
-+            };
-+        };
-+    };
++static u32 check_mmu_isr(struct sprd_dpu *dpu, u32 reg_val)
++{
++	struct dpu_context *ctx = &dpu->ctx;
++	u32 mmu_mask = BIT_DPU_INT_MMU_VAOR_RD |
++			BIT_DPU_INT_MMU_VAOR_WR |
++			BIT_DPU_INT_MMU_INV_RD |
++			BIT_DPU_INT_MMU_INV_WR;
++	u32 val = reg_val & mmu_mask;
++	int i;
++
++	if (val) {
++		drm_err(dpu->drm, "--- iommu interrupt err: 0x%04x ---\n", val);
++
++		if (val & BIT_DPU_INT_MMU_INV_RD)
++			drm_err(dpu->drm, "iommu invalid read error, addr: 0x%08x\n",
++				readl(ctx->base + REG_MMU_INV_ADDR_RD));
++		if (val & BIT_DPU_INT_MMU_INV_WR)
++			drm_err(dpu->drm, "iommu invalid write error, addr: 0x%08x\n",
++				readl(ctx->base + REG_MMU_INV_ADDR_WR));
++		if (val & BIT_DPU_INT_MMU_VAOR_RD)
++			drm_err(dpu->drm, "iommu va out of range read error, addr: 0x%08x\n",
++				readl(ctx->base + REG_MMU_VAOR_ADDR_RD));
++		if (val & BIT_DPU_INT_MMU_VAOR_WR)
++			drm_err(dpu->drm, "iommu va out of range write error, addr: 0x%08x\n",
++				readl(ctx->base + REG_MMU_VAOR_ADDR_WR));
++
++		for (i = 0; i < 8; i++) {
++			reg_val = layer_reg_rd(ctx, REG_LAY_CTRL, i);
++			if (reg_val & 0x1)
++				drm_info(dpu->drm, "layer%d: 0x%08x 0x%08x 0x%08x ctrl: 0x%08x\n", i,
++					layer_reg_rd(ctx, REG_LAY_BASE_ADDR0, i),
++					layer_reg_rd(ctx, REG_LAY_BASE_ADDR1, i),
++					layer_reg_rd(ctx, REG_LAY_BASE_ADDR2, i),
++					layer_reg_rd(ctx, REG_LAY_CTRL, i));
++		}
++	}
++
++	return val;
++}
++
++static int dpu_wait_stop_done(struct sprd_dpu *dpu)
++{
++	struct dpu_context *ctx = &dpu->ctx;
++	int rc;
++
++	if (ctx->stopped)
++		return 0;
++
++	rc = wait_event_interruptible_timeout(ctx->wait_queue, ctx->evt_stop,
++					       msecs_to_jiffies(500));
++	ctx->evt_stop = false;
++
++	ctx->stopped = true;
++
++	if (!rc) {
++		drm_err(dpu->drm, "dpu wait for stop done time out!\n");
++		return -ETIMEDOUT;
++	}
++
++	return 0;
++}
++
++static int dpu_wait_update_done(struct sprd_dpu *dpu)
++{
++	struct dpu_context *ctx = &dpu->ctx;
++	int rc;
++
++	ctx->evt_update = false;
++
++	rc = wait_event_interruptible_timeout(ctx->wait_queue, ctx->evt_update,
++					       msecs_to_jiffies(500));
++
++	if (!rc) {
++		drm_err(dpu->drm, "dpu wait for reg update done time out!\n");
++		return -ETIMEDOUT;
++	}
++
++	return 0;
++}
++
++static u32 drm_format_to_dpu(struct drm_framebuffer *fb)
++{
++	u32 format = 0;
++
++	switch (fb->format->format) {
++	case DRM_FORMAT_BGRA8888:
++		/* BGRA8888 -> ARGB8888 */
++		format |= BIT_DPU_LAY_DATA_ENDIAN_B3B2B1B0;
++		format |= BIT_DPU_LAY_FORMAT_ARGB8888;
++		break;
++	case DRM_FORMAT_RGBX8888:
++	case DRM_FORMAT_RGBA8888:
++		/* RGBA8888 -> ABGR8888 */
++		format |= BIT_DPU_LAY_DATA_ENDIAN_B3B2B1B0;
++		/* fallthrough */
++	case DRM_FORMAT_ABGR8888:
++		/* RB switch */
++		format |= BIT_DPU_LAY_RB_OR_UV_SWITCH;
++		/* fallthrough */
++	case DRM_FORMAT_ARGB8888:
++		format |= BIT_DPU_LAY_FORMAT_ARGB8888;
++		break;
++	case DRM_FORMAT_XBGR8888:
++		/* RB switch */
++		format |= BIT_DPU_LAY_RB_OR_UV_SWITCH;
++		/* fallthrough */
++	case DRM_FORMAT_XRGB8888:
++		format |= BIT_DPU_LAY_FORMAT_ARGB8888;
++		break;
++	case DRM_FORMAT_BGR565:
++		/* RB switch */
++		format |= BIT_DPU_LAY_RB_OR_UV_SWITCH;
++		/* fallthrough */
++	case DRM_FORMAT_RGB565:
++		format |= BIT_DPU_LAY_FORMAT_RGB565;
++		break;
++	case DRM_FORMAT_NV12:
++		/* 2-Lane: Yuv420 */
++		format |= BIT_DPU_LAY_FORMAT_YUV420_2PLANE;
++		/* Y endian */
++		format |= BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3;
++		/* UV endian */
++		format |= BIT_DPU_LAY_NO_SWITCH;
++		break;
++	case DRM_FORMAT_NV21:
++		/* 2-Lane: Yuv420 */
++		format |= BIT_DPU_LAY_FORMAT_YUV420_2PLANE;
++		/* Y endian */
++		format |= BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3;
++		/* UV endian */
++		format |= BIT_DPU_LAY_RB_OR_UV_SWITCH;
++		break;
++	case DRM_FORMAT_NV16:
++		/* 2-Lane: Yuv422 */
++		format |= BIT_DPU_LAY_FORMAT_YUV422_2PLANE;
++		/* Y endian */
++		format |= BIT_DPU_LAY_DATA_ENDIAN_B3B2B1B0;
++		/* UV endian */
++		format |= BIT_DPU_LAY_RB_OR_UV_SWITCH;
++		break;
++	case DRM_FORMAT_NV61:
++		/* 2-Lane: Yuv422 */
++		format |= BIT_DPU_LAY_FORMAT_YUV422_2PLANE;
++		/* Y endian */
++		format |= BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3;
++		/* UV endian */
++		format |= BIT_DPU_LAY_NO_SWITCH;
++		break;
++	case DRM_FORMAT_YUV420:
++		format |= BIT_DPU_LAY_FORMAT_YUV420_3PLANE;
++		/* Y endian */
++		format |= BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3;
++		/* UV endian */
++		format |= BIT_DPU_LAY_NO_SWITCH;
++		break;
++	case DRM_FORMAT_YVU420:
++		format |= BIT_DPU_LAY_FORMAT_YUV420_3PLANE;
++		/* Y endian */
++		format |= BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3;
++		/* UV endian */
++		format |= BIT_DPU_LAY_RB_OR_UV_SWITCH;
++		break;
++	default:
++		break;
++	}
++
++	return format;
++}
++
++static u32 drm_rotation_to_dpu(struct drm_plane_state *state)
++{
++	u32 rotation = 0;
++
++	switch (state->rotation) {
++	default:
++	case DRM_MODE_ROTATE_0:
++		rotation = BIT_DPU_LAY_ROTATION_0;
++		break;
++	case DRM_MODE_ROTATE_90:
++		rotation = BIT_DPU_LAY_ROTATION_90;
++		break;
++	case DRM_MODE_ROTATE_180:
++		rotation = BIT_DPU_LAY_ROTATION_180;
++		break;
++	case DRM_MODE_ROTATE_270:
++		rotation = BIT_DPU_LAY_ROTATION_270;
++		break;
++	case DRM_MODE_REFLECT_Y:
++		rotation = BIT_DPU_LAY_ROTATION_180_M;
++		break;
++	case (DRM_MODE_REFLECT_Y | DRM_MODE_ROTATE_90):
++		rotation = BIT_DPU_LAY_ROTATION_90_M;
++		break;
++	case DRM_MODE_REFLECT_X:
++		rotation = BIT_DPU_LAY_ROTATION_0_M;
++		break;
++	case (DRM_MODE_REFLECT_X | DRM_MODE_ROTATE_90):
++		rotation = BIT_DPU_LAY_ROTATION_270_M;
++		break;
++	}
++
++	return rotation;
++}
++
++static u32 drm_blend_to_dpu(struct drm_plane_state *state)
++{
++	u32 blend = 0;
++
++	switch (state->pixel_blend_mode) {
++	case DRM_MODE_BLEND_COVERAGE:
++		/* alpha mode select - combo alpha */
++		blend |= BIT_DPU_LAY_COMBO_ALPHA;
++		/* Normal mode */
++		blend |= BIT_DPU_LAY_MODE_BLEND_NORMAL;
++		break;
++	case DRM_MODE_BLEND_PREMULTI:
++		/* alpha mode select - combo alpha */
++		blend |= BIT_DPU_LAY_COMBO_ALPHA;
++		/* Pre-mult mode */
++		blend |= BIT_DPU_LAY_MODE_BLEND_PREMULT;
++		break;
++	case DRM_MODE_BLEND_PIXEL_NONE:
++	default:
++		/* don't do blending, maybe RGBX */
++		/* alpha mode select - layer alpha */
++		blend |= BIT_DPU_LAY_LAYER_ALPHA;
++		break;
++	}
++
++	return blend;
++}
++
++static void sprd_dpu_layer(struct sprd_dpu *dpu, struct sprd_plane *plane,
++			struct drm_plane_state *state)
++{
++	struct dpu_context *ctx = &dpu->ctx;
++	struct drm_gem_cma_object *cma_obj;
++	const struct drm_format_info *info;
++	struct drm_framebuffer *fb = state->fb;
++	u32 addr, size, offset, pitch, blend, format, rotation;
++	u32 src_x = state->src_x >> 16;
++	u32 src_y = state->src_y >> 16;
++	u32 src_w = state->src_w >> 16;
++	u32 src_h = state->src_h >> 16;
++	u32 dst_x = state->crtc_x;
++	u32 dst_y = state->crtc_y;
++	u32 alpha = state->alpha;
++	int i;
++
++	offset = (dst_x & 0xffff) | (dst_y << 16);
++	size = (src_w & 0xffff) | (src_h << 16);
++
++	for (i = 0; i < fb->format->num_planes; i++) {
++		cma_obj = drm_fb_cma_get_gem_obj(fb, i);
++		addr = cma_obj->paddr + fb->offsets[i];
++
++		if (i == 0)
++			layer_reg_wr(ctx, REG_LAY_BASE_ADDR0, addr, plane->index);
++		else if (i == 1)
++			layer_reg_wr(ctx, REG_LAY_BASE_ADDR1, addr, plane->index);
++		else
++			layer_reg_wr(ctx, REG_LAY_BASE_ADDR2, addr, plane->index);
++	}
++
++	info = drm_format_info(fb->format->format);
++	if (fb->format->num_planes == 3) {
++		/* UV pitch is 1/2 of Y pitch */
++		pitch = (fb->pitches[0] / info->cpp[0]) |
++				(fb->pitches[0] / info->cpp[0] << 15);
++	} else {
++		pitch = fb->pitches[0] / info->cpp[0];
++	}
++
++	layer_reg_wr(ctx, REG_LAY_POS, offset, plane->index);
++	layer_reg_wr(ctx, REG_LAY_SIZE, size, plane->index);
++	layer_reg_wr(ctx, REG_LAY_CROP_START,
++			src_y << 16 | src_x, plane->index);
++	layer_reg_wr(ctx, REG_LAY_ALPHA, alpha, plane->index);
++	layer_reg_wr(ctx, REG_LAY_PITCH, pitch, plane->index);
++
++	format = drm_format_to_dpu(fb);
++	blend = drm_blend_to_dpu(state);
++	rotation = drm_rotation_to_dpu(state);
++
++	layer_reg_wr(ctx, REG_LAY_CTRL, BIT_DPU_LAY_EN |
++				format |
++				blend |
++				rotation,
++				plane->index);
++}
++
++static void sprd_dpu_flip(struct sprd_dpu *dpu)
++{
++	struct dpu_context *ctx = &dpu->ctx;
++	u32 reg_val;
++
++	/*
++	 * Make sure the dpu is in stop status. DPU has no shadow
++	 * registers in EDPI mode. So the config registers can only be
++	 * updated in the rising edge of DPU_RUN bit.
++	 */
++	if (ctx->if_type == SPRD_DPU_IF_EDPI)
++		dpu_wait_stop_done(dpu);
++
++	/* update trigger and wait */
++	if (ctx->if_type == SPRD_DPU_IF_DPI) {
++		if (!ctx->stopped) {
++			dpu_reg_set(ctx, REG_DPU_CTRL, BIT_DPU_REG_UPDATE);
++			dpu_wait_update_done(dpu);
++		}
++
++		dpu_reg_set(ctx, REG_DPU_INT_EN, BIT_DPU_INT_ERR);
++	} else if (ctx->if_type == SPRD_DPU_IF_EDPI) {
++		dpu_reg_set(ctx, REG_DPU_CTRL, BIT_DPU_RUN);
++
++		ctx->stopped = false;
++	}
++
++	/*
++	 * If the following interrupt was disabled in isr,
++	 * re-enable it.
++	 */
++	reg_val = BIT_DPU_INT_MMU_VAOR_RD |
++		  BIT_DPU_INT_MMU_VAOR_WR |
++		  BIT_DPU_INT_MMU_INV_RD |
++		  BIT_DPU_INT_MMU_INV_WR;
++	dpu_reg_set(ctx, REG_DPU_INT_EN, reg_val);
++}
++
++static void sprd_dpu_init(struct sprd_dpu *dpu)
++{
++	struct dpu_context *ctx = &dpu->ctx;
++	u32 size;
++
++	writel(0x00, ctx->base + REG_BG_COLOR);
++
++	size = (ctx->vm.vactive << 16) | ctx->vm.hactive;
++	writel(size, ctx->base + REG_PANEL_SIZE);
++	writel(size, ctx->base + REG_BLEND_SIZE);
++
++	writel(0x00, ctx->base + REG_MMU_EN);
++	writel(0x00, ctx->base + REG_MMU_PPN1);
++	writel(0xffff, ctx->base + REG_MMU_RANGE1);
++	writel(0x00, ctx->base + REG_MMU_PPN2);
++	writel(0xffff, ctx->base + REG_MMU_RANGE2);
++	writel(0x1ffff, ctx->base + REG_MMU_VPN_RANGE);
++}
++
++static void sprd_dpu_fini(struct sprd_dpu *dpu)
++{
++	struct dpu_context *ctx = &dpu->ctx;
++
++	writel(0x00, ctx->base + REG_DPU_INT_EN);
++	writel(0xff, ctx->base + REG_DPU_INT_CLR);
++}
++
++static void sprd_dpi_init(struct sprd_dpu *dpu)
++{
++	struct dpu_context *ctx = &dpu->ctx;
++	u32 int_mask = 0;
++	u32 reg_val;
++
++	if (ctx->if_type == SPRD_DPU_IF_DPI) {
++		/* use dpi as interface */
++		dpu_reg_clr(ctx, REG_DPU_CFG0, BIT_DPU_IF_EDPI);
++		/* disable Halt function for SPRD DSI */
++		dpu_reg_clr(ctx, REG_DPI_CTRL, BIT_DPU_DPI_HALT_EN);
++		/* select te from external pad */
++		dpu_reg_set(ctx, REG_DPI_CTRL, BIT_DPU_EDPI_FROM_EXTERNAL_PAD);
++
++		/* set dpi timing */
++		reg_val = ctx->vm.hsync_len << 0 |
++			  ctx->vm.hback_porch << 8 |
++			  ctx->vm.hfront_porch << 20;
++		writel(reg_val, ctx->base + REG_DPI_H_TIMING);
++
++		reg_val = ctx->vm.vsync_len << 0 |
++			  ctx->vm.vback_porch << 8 |
++			  ctx->vm.vfront_porch << 20;
++		writel(reg_val, ctx->base + REG_DPI_V_TIMING);
++
++		if (ctx->vm.vsync_len + ctx->vm.vback_porch < 32)
++			drm_warn(dpu->drm, "Warning: (vsync + vbp) < 32, "
++				"underflow risk!\n");
++
++		/* enable dpu update done INT */
++		int_mask |= BIT_DPU_INT_UPDATE_DONE;
++		/* enable dpu done INT */
++		int_mask |= BIT_DPU_INT_DONE;
++		/* enable dpu dpi vsync */
++		int_mask |= BIT_DPU_INT_VSYNC;
++		/* enable dpu TE INT */
++		int_mask |= BIT_DPU_INT_TE;
++		/* enable underflow err INT */
++		int_mask |= BIT_DPU_INT_ERR;
++	} else if (ctx->if_type == SPRD_DPU_IF_EDPI) {
++		/* use edpi as interface */
++		dpu_reg_set(ctx, REG_DPU_CFG0, BIT_DPU_IF_EDPI);
++		/* use external te */
++		dpu_reg_set(ctx, REG_DPI_CTRL, BIT_DPU_EDPI_FROM_EXTERNAL_PAD);
++		/* enable te */
++		dpu_reg_set(ctx, REG_DPI_CTRL, BIT_DPU_EDPI_TE_EN);
++
++		/* enable stop done INT */
++		int_mask |= BIT_DPU_INT_DONE;
++		/* enable TE INT */
++		int_mask |= BIT_DPU_INT_TE;
++	}
++
++	/* enable iommu va out of range read error INT */
++	int_mask |= BIT_DPU_INT_MMU_VAOR_RD;
++	/* enable iommu va out of range write error INT */
++	int_mask |= BIT_DPU_INT_MMU_VAOR_WR;
++	/* enable iommu invalid read error INT */
++	int_mask |= BIT_DPU_INT_MMU_INV_RD;
++	/* enable iommu invalid write error INT */
++	int_mask |= BIT_DPU_INT_MMU_INV_WR;
++
++	writel(int_mask, ctx->base + REG_DPU_INT_EN);
++}
++
++void sprd_dpu_run(struct sprd_dpu *dpu)
++{
++	struct dpu_context *ctx = &dpu->ctx;
++
++	dpu_reg_set(ctx, REG_DPU_CTRL, BIT_DPU_RUN);
++
++	ctx->stopped = false;
++}
++
++void sprd_dpu_stop(struct sprd_dpu *dpu)
++{
++	struct dpu_context *ctx = &dpu->ctx;
++
++	if (ctx->if_type == SPRD_DPU_IF_DPI)
++		dpu_reg_set(ctx, REG_DPU_CTRL, BIT_DPU_STOP);
++
++	dpu_wait_stop_done(dpu);
++}
++
++static int sprd_plane_atomic_check(struct drm_plane *plane,
++				  struct drm_plane_state *state)
++{
++	struct drm_framebuffer *fb = state->fb;
++	struct drm_crtc_state *crtc_state;
++	u32 fmt;
++
++	if (!fb || !state->crtc)
++		return 0;
++
++	fmt = drm_format_to_dpu(fb);
++	if (!fmt)
++		return -EINVAL;
++
++	crtc_state = drm_atomic_get_crtc_state(state->state, state->crtc);
++	if (IS_ERR(crtc_state))
++		return PTR_ERR(crtc_state);
++
++	return drm_atomic_helper_check_plane_state(state, crtc_state,
++						  DRM_PLANE_HELPER_NO_SCALING,
++						  DRM_PLANE_HELPER_NO_SCALING,
++						  true, true);
++}
++
++static void sprd_plane_atomic_update(struct drm_plane *drm_plane,
++				    struct drm_plane_state *old_state)
++{
++	struct drm_plane_state *state = drm_plane->state;
++	struct sprd_plane *plane = to_sprd_plane(drm_plane);
++	struct sprd_dpu *dpu = to_sprd_crtc(state->crtc);
++
++	/* start configure dpu layers */
++	sprd_dpu_layer(dpu, plane, state);
++}
++
++static void sprd_plane_atomic_disable(struct drm_plane *drm_plane,
++				     struct drm_plane_state *old_state)
++{
++	struct sprd_plane *plane = to_sprd_plane(drm_plane);
++	struct sprd_dpu *dpu = to_sprd_crtc(old_state->crtc);
++
++	layer_reg_wr(&dpu->ctx, REG_LAY_CTRL, 0x00, plane->index);
++}
++
++static void sprd_plane_create_properties(struct sprd_plane *plane, int index)
++{
++	unsigned int supported_modes = BIT(DRM_MODE_BLEND_PIXEL_NONE) |
++				       BIT(DRM_MODE_BLEND_PREMULTI) |
++				       BIT(DRM_MODE_BLEND_COVERAGE);
++
++	/* create rotation property */
++	drm_plane_create_rotation_property(&plane->base,
++					   DRM_MODE_ROTATE_0,
++					   DRM_MODE_ROTATE_MASK |
++					   DRM_MODE_REFLECT_MASK);
++
++	/* create alpha property */
++	drm_plane_create_alpha_property(&plane->base);
++
++	/* create blend mode property */
++	drm_plane_create_blend_mode_property(&plane->base, supported_modes);
++
++	/* create zpos property */
++	drm_plane_create_zpos_immutable_property(&plane->base, index);
++}
++
++static const struct drm_plane_helper_funcs sprd_plane_helper_funcs = {
++	.atomic_check = sprd_plane_atomic_check,
++	.atomic_update = sprd_plane_atomic_update,
++	.atomic_disable = sprd_plane_atomic_disable,
++};
++
++static const struct drm_plane_funcs sprd_plane_funcs = {
++	.update_plane = drm_atomic_helper_update_plane,
++	.disable_plane	= drm_atomic_helper_disable_plane,
++	.destroy = drm_plane_cleanup,
++	.reset = drm_atomic_helper_plane_reset,
++	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
++};
++
++static struct sprd_plane *sprd_plane_init(struct drm_device *drm)
++{
++	struct sprd_plane *plane, *primary;
++	int i;
++
++	for (i = 0; i < 6; i++) {
++		plane = drmm_universal_plane_alloc(drm, struct sprd_plane, base,
++					       1, &sprd_plane_funcs,
++					       primary_fmts, ARRAY_SIZE(primary_fmts),
++					       NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
++		if (IS_ERR(plane)) {
++			drm_err(drm, "fail to init primary plane\n");
++			return plane;
++		}
++
++		drm_plane_helper_add(&plane->base, &sprd_plane_helper_funcs);
++
++		sprd_plane_create_properties(plane, i);
++
++		plane->index = i;
++		if (i == 0)
++			primary = plane;
++	}
++
++	return primary;
++}
++
++static enum drm_mode_status sprd_crtc_mode_valid(struct drm_crtc *crtc,
++					const struct drm_display_mode *mode)
++{
++	struct sprd_dpu *dpu = to_sprd_crtc(crtc);
++
++	drm_dbg(dpu->drm, "%s() mode: "DRM_MODE_FMT"\n", __func__, DRM_MODE_ARG(mode));
++
++	if (mode->type & DRM_MODE_TYPE_PREFERRED) {
++		drm_display_mode_to_videomode(mode, &dpu->ctx.vm);
++
++		if ((mode->hdisplay == mode->htotal) ||
++		    (mode->vdisplay == mode->vtotal))
++			dpu->ctx.if_type = SPRD_DPU_IF_EDPI;
++		else
++			dpu->ctx.if_type = SPRD_DPU_IF_DPI;
++	}
++
++	return MODE_OK;
++}
++
++static void sprd_crtc_atomic_enable(struct drm_crtc *crtc,
++				   struct drm_atomic_state *state)
++{
++	struct sprd_dpu *dpu = to_sprd_crtc(crtc);
++
++	sprd_dpu_init(dpu);
++
++	sprd_dpi_init(dpu);
++
++	enable_irq(dpu->ctx.irq);
++
++	drm_crtc_vblank_on(&dpu->base);
++}
++
++static void sprd_crtc_atomic_disable(struct drm_crtc *crtc,
++				    struct drm_atomic_state *state)
++{
++	struct sprd_dpu *dpu = to_sprd_crtc(crtc);
++	struct drm_device *drm = dpu->base.dev;
++
++	drm_crtc_vblank_off(&dpu->base);
++
++	disable_irq(dpu->ctx.irq);
++
++	sprd_dpu_fini(dpu);
++
++	spin_lock_irq(&drm->event_lock);
++	if (crtc->state->event) {
++		drm_crtc_send_vblank_event(crtc, crtc->state->event);
++		crtc->state->event = NULL;
++	}
++	spin_unlock_irq(&drm->event_lock);
++}
++
++static int sprd_crtc_atomic_check(struct drm_crtc *crtc,
++				 struct drm_atomic_state *state)
++{
++	drm_dbg(crtc->dev, "%s()\n", __func__);
++
++	return 0;
++}
++
++static void sprd_crtc_atomic_flush(struct drm_crtc *crtc,
++				  struct drm_atomic_state *state)
++
++{
++	struct sprd_dpu *dpu = to_sprd_crtc(crtc);
++	struct drm_device *drm = dpu->base.dev;
++
++	sprd_dpu_flip(dpu);
++
++	spin_lock_irq(&drm->event_lock);
++	if (crtc->state->event) {
++		drm_crtc_send_vblank_event(crtc, crtc->state->event);
++		crtc->state->event = NULL;
++	}
++	spin_unlock_irq(&drm->event_lock);
++}
++
++static int sprd_crtc_enable_vblank(struct drm_crtc *crtc)
++{
++	struct sprd_dpu *dpu = to_sprd_crtc(crtc);
++
++	dpu_reg_set(&dpu->ctx, REG_DPU_INT_EN, BIT_DPU_INT_VSYNC);
++
++	return 0;
++}
++
++static void sprd_crtc_disable_vblank(struct drm_crtc *crtc)
++{
++	struct sprd_dpu *dpu = to_sprd_crtc(crtc);
++
++	dpu_reg_clr(&dpu->ctx, REG_DPU_INT_EN, BIT_DPU_INT_VSYNC);
++}
++
++static const struct drm_crtc_helper_funcs sprd_crtc_helper_funcs = {
++	.mode_valid	= sprd_crtc_mode_valid,
++	.atomic_check	= sprd_crtc_atomic_check,
++	.atomic_flush	= sprd_crtc_atomic_flush,
++	.atomic_enable	= sprd_crtc_atomic_enable,
++	.atomic_disable	= sprd_crtc_atomic_disable,
++};
++
++static const struct drm_crtc_funcs sprd_crtc_funcs = {
++	.destroy	= drm_crtc_cleanup,
++	.set_config	= drm_atomic_helper_set_config,
++	.page_flip	= drm_atomic_helper_page_flip,
++	.reset		= drm_atomic_helper_crtc_reset,
++	.atomic_duplicate_state	= drm_atomic_helper_crtc_duplicate_state,
++	.atomic_destroy_state	= drm_atomic_helper_crtc_destroy_state,
++	.enable_vblank	= sprd_crtc_enable_vblank,
++	.disable_vblank	= sprd_crtc_disable_vblank,
++};
++
++static struct sprd_dpu *sprd_crtc_init(struct drm_device *drm,
++			 struct drm_plane *primary)
++{
++	struct device_node *port;
++	struct sprd_dpu *dpu;
++
++	/*
++	 * set crtc port so that drm_of_find_possible_crtcs call works
++	 */
++	port = of_parse_phandle(drm->dev->of_node, "ports", 0);
++	if (!port) {
++		drm_err(drm, "find 'ports' phandle of %s failed\n",
++			  drm->dev->of_node->full_name);
++		return ERR_PTR(-EINVAL);
++	}
++	of_node_put(port);
++
++	dpu = drmm_crtc_alloc_with_planes(drm, struct sprd_dpu, base,
++					primary, NULL,
++					&sprd_crtc_funcs, NULL);
++	if (IS_ERR(dpu)) {
++		drm_err(drm, "failed to init crtc.\n");
++		return dpu;
++	}
++
++	dpu->base.port = port;
++	drm_crtc_helper_add(&dpu->base, &sprd_crtc_helper_funcs);
++
++	return dpu;
++}
++
++static irqreturn_t sprd_dpu_isr(int irq, void *data)
++{
++	struct sprd_dpu *dpu = data;
++	struct dpu_context *ctx = &dpu->ctx;
++	u32 reg_val, int_mask = 0;
++
++	reg_val = readl(ctx->base + REG_DPU_INT_STS);
++
++	/* disable err interrupt */
++	if (reg_val & BIT_DPU_INT_ERR) {
++		int_mask |= BIT_DPU_INT_ERR;
++		drm_warn(dpu->drm, "Warning: dpu underflow!\n");
++	}
++
++	/* dpu update done isr */
++	if (reg_val & BIT_DPU_INT_UPDATE_DONE) {
++		ctx->evt_update = true;
++		wake_up_interruptible_all(&ctx->wait_queue);
++	}
++
++	/* dpu stop done isr */
++	if (reg_val & BIT_DPU_INT_DONE) {
++		ctx->evt_stop = true;
++		wake_up_interruptible_all(&ctx->wait_queue);
++	}
++
++	if (reg_val & BIT_DPU_INT_VSYNC)
++		drm_crtc_handle_vblank(&dpu->base);
++
++	int_mask |= check_mmu_isr(dpu, reg_val);
++
++	writel(reg_val, ctx->base + REG_DPU_INT_CLR);
++	dpu_reg_clr(ctx, REG_DPU_INT_EN, int_mask);
++
++	return IRQ_HANDLED;
++}
++
++static int sprd_dpu_context_init(struct sprd_dpu *dpu,
++				struct device *dev)
++{
++	struct platform_device *pdev = to_platform_device(dev);
++	struct dpu_context *ctx = &dpu->ctx;
++	struct resource *res;
++	int ret;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	ctx->base = devm_ioremap(dev, res->start, resource_size(res));
++	if (!ctx->base) {
++		dev_err(dev, "failed to map dpu registers\n");
++		return -EFAULT;
++	}
++
++	ctx->irq = platform_get_irq(pdev, 0);
++	if (ctx->irq < 0) {
++		dev_err(dev, "failed to get dpu irq\n");
++		return ctx->irq;
++	}
++
++	irq_set_status_flags(ctx->irq, IRQ_NOAUTOEN);
++	ret = devm_request_irq(dev, ctx->irq, sprd_dpu_isr,
++					0, "DPU", dpu);
++	if (ret) {
++		dev_err(dev, "failed to register dpu irq handler\n");
++		return ret;
++	}
++
++	init_waitqueue_head(&ctx->wait_queue);
++
++	return 0;
++}
++
++static int sprd_dpu_bind(struct device *dev, struct device *master, void *data)
++{
++	struct drm_device *drm = data;
++	struct sprd_dpu *dpu;
++	struct sprd_plane *plane;
++	int ret;
++
++	plane = sprd_plane_init(drm);
++	if (IS_ERR(plane))
++		return PTR_ERR(plane);
++
++	dpu = sprd_crtc_init(drm, &plane->base);
++	if (IS_ERR(dpu))
++		return PTR_ERR(dpu);
++
++	dpu->drm = drm;
++	dev_set_drvdata(dev, dpu);
++
++	ret = sprd_dpu_context_init(dpu, dev);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++static const struct component_ops dpu_component_ops = {
++	.bind = sprd_dpu_bind,
++};
++
++static const struct of_device_id dpu_match_table[] = {
++	{ .compatible = "sprd,sharkl3-dpu" },
++	{ /* sentinel */ },
++};
++
++static int sprd_dpu_probe(struct platform_device *pdev)
++{
++	return component_add(&pdev->dev, &dpu_component_ops);
++}
++
++static int sprd_dpu_remove(struct platform_device *pdev)
++{
++	component_del(&pdev->dev, &dpu_component_ops);
++
++	return 0;
++}
++
++struct platform_driver sprd_dpu_driver = {
++	.probe = sprd_dpu_probe,
++	.remove = sprd_dpu_remove,
++	.driver = {
++		.name = "sprd-dpu-drv",
++		.of_match_table = dpu_match_table,
++	},
++};
++
++MODULE_AUTHOR("Leon He <leon.he@unisoc.com>");
++MODULE_AUTHOR("Kevin Tang <kevin.tang@unisoc.com>");
++MODULE_DESCRIPTION("Unisoc Display Controller Driver");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/gpu/drm/sprd/sprd_dpu.h b/drivers/gpu/drm/sprd/sprd_dpu.h
+new file mode 100644
+index 000000000..157a78f24
+--- /dev/null
++++ b/drivers/gpu/drm/sprd/sprd_dpu.h
+@@ -0,0 +1,109 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2020 Unisoc Inc.
++ */
++
++#ifndef __SPRD_DPU_H__
++#define __SPRD_DPU_H__
++
++#include <linux/bug.h>
++#include <linux/delay.h>
++#include <linux/device.h>
++#include <linux/kernel.h>
++#include <linux/platform_device.h>
++#include <linux/string.h>
++#include <video/videomode.h>
++
++#include <drm/drm_crtc.h>
++#include <drm/drm_fourcc.h>
++#include <drm/drm_print.h>
++#include <drm/drm_vblank.h>
++#include <uapi/drm/drm_mode.h>
++
++/* DPU Layer registers offset */
++#define DPU_LAY_REG_OFFSET	0x30
++
++enum {
++	SPRD_DPU_IF_DPI,
++	SPRD_DPU_IF_EDPI,
++	SPRD_DPU_IF_LIMIT
++};
++
++/**
++ * Sprd DPU context structure
++ *
++ * @base: DPU controller base address
++ * @irq: IRQ number to install the handler for
++ * @if_type: The type of DPI interface, default is DPI mode.
++ * @vm: videomode structure to use for DPU and DPI initialization
++ * @stopped: indicates whether DPU are stopped
++ * @wait_queue: wait queue, used to wait for DPU shadow register update done and
++ * DPU stop register done interrupt signal.
++ * @evt_update: wait queue condition for DPU shadow register
++ * @evt_stop: wait queue condition for DPU stop register
++ */
++struct dpu_context {
++	void __iomem *base;
++	int irq;
++	u8 if_type;
++	struct videomode vm;
++	bool stopped;
++	wait_queue_head_t wait_queue;
++	bool evt_update;
++	bool evt_stop;
++};
++
++/**
++ * Sprd DPU device structure
++ *
++ * @crtc: crtc object
++ * @drm: A point to drm device
++ * @ctx: DPU's implementation specific context object
++ */
++struct sprd_dpu {
++	struct drm_crtc base;
++	struct drm_device *drm;
++	struct dpu_context ctx;
++};
++
++static inline struct sprd_dpu *to_sprd_crtc(struct drm_crtc *crtc)
++{
++	return container_of(crtc, struct sprd_dpu, base);
++}
++
++static inline void
++dpu_reg_set(struct dpu_context *ctx, u32 offset, u32 set_bits)
++{
++	u32 bits = readl_relaxed(ctx->base + offset);
++
++	writel(bits | set_bits, ctx->base + offset);
++}
++
++static inline void
++dpu_reg_clr(struct dpu_context *ctx, u32 offset, u32 clr_bits)
++{
++	u32 bits = readl_relaxed(ctx->base + offset);
++
++	writel(bits & ~clr_bits, ctx->base + offset);
++}
++
++static inline u32
++layer_reg_rd(struct dpu_context *ctx, u32 offset, int index)
++{
++	u32 layer_offset = offset + index * DPU_LAY_REG_OFFSET;
++
++	return readl(ctx->base + layer_offset);
++}
++
++static inline void
++layer_reg_wr(struct dpu_context *ctx, u32 offset, u32 cfg_bits, int index)
++{
++	u32 layer_offset =  offset + index * DPU_LAY_REG_OFFSET;
++
++	writel(cfg_bits, ctx->base + layer_offset);
++}
++
++void sprd_dpu_run(struct sprd_dpu *dpu);
++void sprd_dpu_stop(struct sprd_dpu *dpu);
++
++#endif
+diff --git a/drivers/gpu/drm/sprd/sprd_drm.c b/drivers/gpu/drm/sprd/sprd_drm.c
+index a1d3ed655..c626c6caf 100644
+--- a/drivers/gpu/drm/sprd/sprd_drm.c
++++ b/drivers/gpu/drm/sprd/sprd_drm.c
+@@ -191,6 +191,7 @@ static struct platform_driver sprd_drm_driver = {
+ 
+ static struct platform_driver *sprd_drm_drivers[]  = {
+ 	&sprd_drm_driver,
++	&sprd_dpu_driver,
+ };
+ 
+ static int __init sprd_drm_init(void)
+diff --git a/drivers/gpu/drm/sprd/sprd_drm.h b/drivers/gpu/drm/sprd/sprd_drm.h
+index 9781fd591..85d4a8b9f 100644
+--- a/drivers/gpu/drm/sprd/sprd_drm.h
++++ b/drivers/gpu/drm/sprd/sprd_drm.h
+@@ -13,4 +13,6 @@ struct sprd_drm {
+ 	struct drm_device drm;
+ };
+ 
++extern struct platform_driver sprd_dpu_driver;
++
+ #endif /* _SPRD_DRM_H_ */
 -- 
 2.29.0
 
