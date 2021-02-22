@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9241321C30
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 17:06:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67165321C72
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 17:10:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76AC16E951;
-	Mon, 22 Feb 2021 16:06:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FBEB6E94E;
+	Mon, 22 Feb 2021 16:10:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 020216E94F;
- Mon, 22 Feb 2021 16:06:01 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id v1so19635489wrd.6;
- Mon, 22 Feb 2021 08:06:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
+ [IPv6:2607:f8b0:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABED36E94E
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 16:10:44 +0000 (UTC)
+Received: by mail-ot1-x336.google.com with SMTP id r19so5172821otk.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 08:10:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nbAcmhlGdjKSXvwOTcRLldAj5yGwOd44DYbhKMd4N98=;
- b=rbaSKiu1dCcBLjobCvCLJk5Wyfoqo2Q9/mjM0yBMS2aIEwlCJ2geyVEqoY3uPIY4F+
- +XiarhhQcXnHgnvAfR+uEh15t5Sqw3t7TEo3HJiT8pkbOFrbDZLR/xEAg3QbqvuxC5Fu
- mmJaXIQ3R+xvh4pbU72lEnHplzR5fMSVCS0mxa+uut8d2tZY9Neq8tPYh1i/Q/o5IWrh
- PDLmGDDtHWT9b16yvp+YWKkqMyedwBTODRZULViwiM+LZcW0/ZSnhs7uzFEIQRQsYISJ
- ET0e2xN4awPAFpTipJGEs2dmrPOHoTX0AXtVTYwPAZMYumEM6l+PI2amluSorouQmzFE
- qwdg==
+ :cc:content-transfer-encoding;
+ bh=nA2zu/27Qi+zi0Et6iwYKYiIXci1LR0Ph/voW46JRKs=;
+ b=Lvgt3D9Yk8J9R7i0e+I32K+s+wYx6UyRDEDWCE/bMJmCsH16gBXH2f83pXVXwYA96Z
+ n3yCZiWMm6g6WFxSl+Q9u8VB6i0eyG9fgRCRzFhb1I/MPcFlYSN+WXZbjQiuRyrm9E3t
+ rDsRaFCpFGVSjd3dF7FGcLMV0O+re3+VGBPtk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nbAcmhlGdjKSXvwOTcRLldAj5yGwOd44DYbhKMd4N98=;
- b=on8vyQiawxO4T1wBduQAmtL0mEHFx/tkjxDcfqA7U6cb/0jDR5rCxQz/0D/2SvT7jP
- uXv2ddbVB41W47FkpQUDqnZSGhTz0VgmzjxQbKHDEIoyohb45vx/P7Yu++kIpNn5EMF8
- NMFRuvasa7Xteltt4Vo/jTtWDY5eMvINU8Q+q1q/ALKVnDt8YD8zxID+6Z5jKfib/whg
- ZzEgsJoDgmOCbf9eR8Im2oxc6+FnjoLq8idI9lm3Uz/zK70ncunXkOuPuGtzD2sm2FBs
- ZpRcHkhtt7SEAPWiLt2Zp6xepKpW9+6pcAFXb29Lj6Y5GKxn/nm3gezZGK35HY2VQLLN
- kqQw==
-X-Gm-Message-State: AOAM530SaAvqtK1pN6lFJd4Q3itruw446sKolbpJpb6eP2B6KfftRUeG
- n8sDopndmvyMgumoqMLIaA96tTLnk+yi5ODPtGOpM6uXthg=
-X-Google-Smtp-Source: ABdhPJyHopO6mHb5EqDxulpT9Kha5K6c7fkNDS9RDfIbaq/fasNvz9dIU6/yCZ0mtcRfR7Y+jsJJYiajcjUQhBWEM9k=
-X-Received: by 2002:adf:dd44:: with SMTP id u4mr4590975wrm.327.1614009960544; 
- Mon, 22 Feb 2021 08:06:00 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nA2zu/27Qi+zi0Et6iwYKYiIXci1LR0Ph/voW46JRKs=;
+ b=dmb9TAPEXNCGS990ZY5a/gtr+UegDBa5Jb9A5vsRo4rDXydQqXXkjaP7uYVjeph8yl
+ HLiO+og/Gz5A+rBnRVrW5HatHPmS9bBnlsIHwfJTB90y6f82kZTiJC3sRHJd9SwfQh7u
+ W1WOOYfLXe9geG1tp6OrwvpVXxYSDDbflZpwRDcxgmlaOJ7dUtqF25N3+vexr9xLfO1P
+ ql/X6TxqdpnjHy+GBSvtzQbOOkJ1mwzeE1DENRXzCAIcSpUcVvTYY7BXETTUiwEv90mp
+ 9wGty7cCPaTRjNfuLImVwdDRynKo2U2WKUEgVt0FQLdDFVrYnwcZZHJp2BOnvrCuGcaR
+ +vNA==
+X-Gm-Message-State: AOAM533Inzrr/qBZmckTNbjhBliql2zGR/9BPB7mWYvqdeomEgjKqvVG
+ kZN3OUkhkM8yybZUkT1QlNjtaIV2EUhBwrBLWfV6dA==
+X-Google-Smtp-Source: ABdhPJy5VMzYav92la4GbCVrRLqsfbuxuE4lRo22hdHDCFSLUd3Jl9Lu7Ldt3nTSfwxRv+k1huhJ5OLliDo8pDe3AfM=
+X-Received: by 2002:a9d:b85:: with SMTP id 5mr17812907oth.281.1614010242515;
+ Mon, 22 Feb 2021 08:10:42 -0800 (PST)
 MIME-Version: 1.0
-References: <1613651746-12783-1-git-send-email-kalyan_t@codeaurora.org>
-In-Reply-To: <1613651746-12783-1-git-send-email-kalyan_t@codeaurora.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 22 Feb 2021 08:08:58 -0800
-Message-ID: <CAF6AEGuyGf2qXK-obqVfj8utKUh5uKVn8Pc-4Uk7h0S3eZme5g@mail.gmail.com>
-Subject: Re: [v4] drm/msm/disp/dpu1: turn off vblank irqs aggressively in dpu
- driver
-To: Kalyan Thota <kalyan_t@codeaurora.org>
+References: <20210222124328.27340-1-tzimmermann@suse.de>
+ <b190801b-b8be-c9df-f203-3e42eb97cea4@amd.com>
+ <238ce852-730b-e31c-a6fe-a9ecaca497e3@suse.de>
+In-Reply-To: <238ce852-730b-e31c-a6fe-a9ecaca497e3@suse.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 22 Feb 2021 17:10:31 +0100
+Message-ID: <CAKMK7uE4QxaiGCAX6pYq=dCg5zzs9Jg9iRSjq893OmAZk=OrpA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] drm/prime: Only call dma_map_sgtable() for devices
+ with DMA support
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,340 +61,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Krishna Manikandan <mkrishn@codeaurora.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Douglas Anderson <dianders@chromium.org>, Sean Paul <seanpaul@chromium.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Drew Davenport <ddavenport@chromium.org>,
- "Kristian H. Kristensen" <hoegsberg@chromium.org>,
- Stephen Boyd <swboyd@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: lima@lists.freedesktop.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Dave Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Alan Stern <stern@rowland.harvard.edu>, Qiang Yu <yuq825@gmail.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 18, 2021 at 4:36 AM Kalyan Thota <kalyan_t@codeaurora.org> wrote:
->
-> Set the flag vblank_disable_immediate = true to turn off vblank irqs
-> immediately as soon as drm_vblank_put is requested so that there are
-> no irqs triggered during idle state. This will reduce cpu wakeups
-> and help in power saving.
->
-> To enable vblank_disable_immediate flag the underlying KMS driver
-> needs to support high precision vblank timestamping and also a
-> reliable way of providing vblank counter which is incrementing
-> at the leading edge of vblank.
->
-> This patch also brings in changes to support vblank_disable_immediate
-> requirement in dpu driver.
->
-> Changes in v1:
->  - Specify reason to add vblank timestamp support. (Rob).
->  - Add changes to provide vblank counter from dpu driver.
->
-> Changes in v2:
->  - Fix warn stack reported by Rob Clark with v2 patch.
->
-> Changes in v3:
->  - Move back to HW frame counter (Rob).
->
-
-could you let me know what the delta was in v4?  (No need to resend
-yet, if needed I can amend the commit msg when applying)
-
-BR,
--R
-
->  Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           | 80 ++++++++++++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 30 ++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        | 11 +++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  1 +
->  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   | 26 +++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |  1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  5 ++
->  8 files changed, 155 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index d4662e8..9a80981 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -65,6 +65,83 @@ static void dpu_crtc_destroy(struct drm_crtc *crtc)
->         kfree(dpu_crtc);
->  }
->
-> +static struct drm_encoder *get_encoder_from_crtc(struct drm_crtc *crtc)
-> +{
-> +       struct drm_device *dev = crtc->dev;
-> +       struct drm_encoder *encoder;
-> +
-> +       drm_for_each_encoder(encoder, dev)
-> +               if (encoder->crtc == crtc)
-> +                       return encoder;
-> +
-> +       return NULL;
-> +}
-> +
-> +static u32 dpu_crtc_get_vblank_counter(struct drm_crtc *crtc)
-> +{
-> +       struct drm_encoder *encoder;
-> +
-> +       encoder = get_encoder_from_crtc(crtc);
-> +       if (!encoder) {
-> +               DRM_ERROR("no encoder found for crtc %d\n", crtc->index);
-> +               return false;
-> +       }
-> +
-> +       return dpu_encoder_get_frame_count(encoder);
-> +}
-> +
-> +static bool dpu_crtc_get_scanout_position(struct drm_crtc *crtc,
-> +                                          bool in_vblank_irq,
-> +                                          int *vpos, int *hpos,
-> +                                          ktime_t *stime, ktime_t *etime,
-> +                                          const struct drm_display_mode *mode)
-> +{
-> +       unsigned int pipe = crtc->index;
-> +       struct drm_encoder *encoder;
-> +       int line, vsw, vbp, vactive_start, vactive_end, vfp_end;
-> +
-> +       encoder = get_encoder_from_crtc(crtc);
-> +       if (!encoder) {
-> +               DRM_ERROR("no encoder found for crtc %d\n", pipe);
-> +               return false;
-> +       }
-> +
-> +       vsw = mode->crtc_vsync_end - mode->crtc_vsync_start;
-> +       vbp = mode->crtc_vtotal - mode->crtc_vsync_end;
-> +
-> +       /*
-> +        * the line counter is 1 at the start of the VSYNC pulse and VTOTAL at
-> +        * the end of VFP. Translate the porch values relative to the line
-> +        * counter positions.
-> +        */
-> +
-> +       vactive_start = vsw + vbp + 1;
-> +       vactive_end = vactive_start + mode->crtc_vdisplay;
-> +
-> +       /* last scan line before VSYNC */
-> +       vfp_end = mode->crtc_vtotal;
-> +
-> +       if (stime)
-> +               *stime = ktime_get();
-> +
-> +       line = dpu_encoder_get_linecount(encoder);
-> +
-> +       if (line < vactive_start)
-> +               line -= vactive_start;
-> +       else if (line > vactive_end)
-> +               line = line - vfp_end - vactive_start;
-> +       else
-> +               line -= vactive_start;
-> +
-> +       *vpos = line;
-> +       *hpos = 0;
-> +
-> +       if (etime)
-> +               *etime = ktime_get();
-> +
-> +       return true;
-> +}
-> +
->  static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
->                 struct dpu_plane_state *pstate, struct dpu_format *format)
->  {
-> @@ -1243,6 +1320,8 @@ static const struct drm_crtc_funcs dpu_crtc_funcs = {
->         .early_unregister = dpu_crtc_early_unregister,
->         .enable_vblank  = msm_crtc_enable_vblank,
->         .disable_vblank = msm_crtc_disable_vblank,
-> +       .get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
-> +       .get_vblank_counter = dpu_crtc_get_vblank_counter,
->  };
->
->  static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
-> @@ -1251,6 +1330,7 @@ static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
->         .atomic_check = dpu_crtc_atomic_check,
->         .atomic_begin = dpu_crtc_atomic_begin,
->         .atomic_flush = dpu_crtc_atomic_flush,
-> +       .get_scanout_position = dpu_crtc_get_scanout_position,
->  };
->
->  /* initialize crtc */
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index f7f5c25..5cd3f31 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -425,6 +425,36 @@ int dpu_encoder_helper_unregister_irq(struct dpu_encoder_phys *phys_enc,
->         return 0;
->  }
->
-> +int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc)
-> +{
-> +       struct dpu_encoder_virt *dpu_enc;
-> +       struct dpu_encoder_phys *phys;
-> +       int framecount = 0;
-> +
-> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
-> +       phys = dpu_enc ? dpu_enc->cur_master : NULL;
-> +
-> +       if (phys && phys->ops.get_frame_count)
-> +               framecount = phys->ops.get_frame_count(phys);
-> +
-> +       return framecount;
-> +}
-> +
-> +int dpu_encoder_get_linecount(struct drm_encoder *drm_enc)
-> +{
-> +       struct dpu_encoder_virt *dpu_enc;
-> +       struct dpu_encoder_phys *phys;
-> +       int linecount = 0;
-> +
-> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
-> +       phys = dpu_enc ? dpu_enc->cur_master : NULL;
-> +
-> +       if (phys && phys->ops.get_line_count)
-> +               linecount = phys->ops.get_line_count(phys);
-> +
-> +       return linecount;
-> +}
-> +
->  void dpu_encoder_get_hw_resources(struct drm_encoder *drm_enc,
->                                   struct dpu_encoder_hw_resources *hw_res)
->  {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> index b491346..99a5d73 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> @@ -156,5 +156,16 @@ void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc);
->   */
->  void dpu_encoder_set_idle_timeout(struct drm_encoder *drm_enc,
->                                                         u32 idle_timeout);
-> +/**
-> + * dpu_encoder_get_linecount - get interface line count for the encoder.
-> + * @drm_enc:    Pointer to previously created drm encoder structure
-> + */
-> +int dpu_encoder_get_linecount(struct drm_encoder *drm_enc);
-> +
-> +/**
-> + * dpu_encoder_get_frame_count - get interface frame count for the encoder.
-> + * @drm_enc:    Pointer to previously created drm encoder structure
-> + */
-> +int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc);
->
->  #endif /* __DPU_ENCODER_H__ */
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> index f8f2515..ecbc4be 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> @@ -143,6 +143,7 @@ struct dpu_encoder_phys_ops {
->         void (*prepare_idle_pc)(struct dpu_encoder_phys *phys_enc);
->         void (*restore)(struct dpu_encoder_phys *phys);
->         int (*get_line_count)(struct dpu_encoder_phys *phys);
-> +       int (*get_frame_count)(struct dpu_encoder_phys *phys);
->  };
->
->  /**
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> index 9a69fad..0e06b7e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> @@ -658,6 +658,31 @@ static int dpu_encoder_phys_vid_get_line_count(
->         return phys_enc->hw_intf->ops.get_line_count(phys_enc->hw_intf);
->  }
->
-> +static int dpu_encoder_phys_vid_get_frame_count(
-> +               struct dpu_encoder_phys *phys_enc)
-> +{
-> +       struct intf_status s = {0};
-> +       u32 fetch_start = 0;
-> +       struct drm_display_mode mode = phys_enc->cached_mode;
-> +
-> +       if (!dpu_encoder_phys_vid_is_master(phys_enc))
-> +               return -EINVAL;
-> +
-> +       if (!phys_enc->hw_intf || !phys_enc->hw_intf->ops.get_status)
-> +               return -EINVAL;
-> +
-> +       phys_enc->hw_intf->ops.get_status(phys_enc->hw_intf, &s);
-> +
-> +       if (s.is_prog_fetch_en && s.is_en) {
-> +               fetch_start = mode.vtotal - (mode.vsync_start - mode.vdisplay);
-> +               if ((s.line_count > fetch_start) &&
-> +                       (s.line_count <= mode.vtotal))
-> +                       return s.frame_count + 1;
-> +       }
-> +
-> +       return s.frame_count;
-> +}
-> +
->  static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops *ops)
->  {
->         ops->is_master = dpu_encoder_phys_vid_is_master;
-> @@ -676,6 +701,7 @@ static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops *ops)
->         ops->handle_post_kickoff = dpu_encoder_phys_vid_handle_post_kickoff;
->         ops->needs_single_flush = dpu_encoder_phys_vid_needs_single_flush;
->         ops->get_line_count = dpu_encoder_phys_vid_get_line_count;
-> +       ops->get_frame_count = dpu_encoder_phys_vid_get_frame_count;
->  }
->
->  struct dpu_encoder_phys *dpu_encoder_phys_vid_init(
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> index 6f0f545..717178b 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> @@ -256,6 +256,7 @@ static void dpu_hw_intf_get_status(
->         struct dpu_hw_blk_reg_map *c = &intf->hw;
->
->         s->is_en = DPU_REG_READ(c, INTF_TIMING_ENGINE_EN);
-> +       s->is_prog_fetch_en = !!(DPU_REG_READ(c, INTF_CONFIG) & BIT(31));
->         if (s->is_en) {
->                 s->frame_count = DPU_REG_READ(c, INTF_FRAME_COUNT);
->                 s->line_count = DPU_REG_READ(c, INTF_LINE_COUNT);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> index 0ead64d..3568be8 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> @@ -40,6 +40,7 @@ struct intf_prog_fetch {
->
->  struct intf_status {
->         u8 is_en;               /* interface timing engine is enabled or not */
-> +       u8 is_prog_fetch_en;    /* interface prog fetch counter is enabled or not */
->         u32 frame_count;        /* frame count since timing engine enabled */
->         u32 line_count;         /* current line count including blanking */
->  };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 374b0e8..ed636f1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -14,6 +14,7 @@
->
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_file.h>
-> +#include <drm/drm_vblank.h>
->
->  #include "msm_drv.h"
->  #include "msm_mmu.h"
-> @@ -1020,6 +1021,10 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->          */
->         dev->mode_config.allow_fb_modifiers = true;
->
-> +       dev->max_vblank_count = 0xffffffff;
-> +       /* Disable vblank irqs aggressively for power-saving */
-> +       dev->vblank_disable_immediate = true;
-> +
->         /*
->          * _dpu_kms_drm_obj_init should create the DRM related objects
->          * i.e. CRTCs, planes, encoders, connectors and so forth
-> --
-> 2.7.4
->
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBGZWIgMjIsIDIwMjEgYXQgMjoyNCBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
+cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBIaQo+Cj4gQW0gMjIuMDIuMjEgdW0gMTQ6MDkgc2No
+cmllYiBDaHJpc3RpYW4gS8O2bmlnOgo+ID4KPiA+Cj4gPiBBbSAyMi4wMi4yMSB1bSAxMzo0MyBz
+Y2hyaWViIFRob21hcyBaaW1tZXJtYW5uOgo+ID4+IFVTQi1iYXNlZCBkcml2ZXJzIGNhbm5vdCB1
+c2UgRE1BLCBzbyB0aGUgaW1wb3J0aW5nIG9mIGRtYS1idWYgYXR0YWNobWVudHMKPiA+PiBjdXJy
+ZW50bHkgZmFpbHMgZm9yIHVkbCBhbmQgZ20xMnUzMjAuIFRoaXMgYnJlYWtzIGpvaW5pbmcvbWly
+cm9yaW5nIG9mCj4gPj4gZGlzcGxheXMuCj4gPj4KPiA+PiBUaGUgZml4IGlzIG5vdyBhIGxpdHRs
+ZSBzZXJpZXMuIFRvIHNvbHZlIHRoZSBpc3N1ZSBvbiB0aGUgaW1wb3J0ZXIKPiA+PiBzaWRlIChp
+LmUuLCB0aGUgYWZmZWN0ZWQgVVNCLWJhc2VkIGRyaXZlciksIHBhdGNoIDEgaW50cm9kdWNlcyBh
+IG5ldwo+ID4+IFBSSU1FIGNhbGxiYWNrLCBzdHJ1Y3QgZHJtX2RyaXZlci5nZW1fcHJpbWVfY3Jl
+YXRlX29iamVjdCwgd2hpY2ggY3JlYXRlcwo+ID4+IGFuIG9iamVjdCBhbmQgZ2l2ZXMgbW9yZSBj
+b250cm9sIHRvIHRoZSBpbXBvcnRpbmcgZHJpdmVyLiBTcGVjaWZpY2FsbHksCj4gPj4gdWRsIGFu
+ZCBnbTEydTMyMCBjYW4gbm93IGF2b2lkIHRoZSBjcmVhdGlvbiBvZiBhIHNjYXR0ZXIvZ2F0aGVy
+IHRhYmxlCj4gPj4gZm9yIHRoZSBpbXBvcnRlZCBwYWdlcy4gUGF0Y2ggMSBpcyBzZWxmLWNvbnRh
+aW5lZCBpbiB0aGUgc2Vuc2UgdGhhdCBpdAo+ID4+IGNhbiBiZSBiYWNrcG9ydGVkIGludG8gb2xk
+ZXIga2VybmVscy4KPiA+Cj4gPiBNaG0sIHRoYXQgc291bmRzIGxpa2UgYSBsaXR0bGUgb3Zlcmtp
+bGwgdG8gbWUuCj4gPgo+ID4gRHJpdmVycyBjYW4gYWxyZWFkeSBpbXBvcnQgdGhlIERNQS1idWZz
+IGFsbCBieSB0aGVtIHNlbHZlcyB3aXRob3V0IHRoZQo+ID4gaGVscCBvZiB0aGUgRFJNIGZ1bmN0
+aW9ucy4gU2VlIGFtZGdwdSBmb3IgYW4gZXhhbXBsZS4KPiA+Cj4gPiBEYW5pZWwgYWxzbyBhbHJl
+YWR5IG5vdGVkIHRvIG1lIHRoYXQgaGUgc2VlcyB0aGUgRFJNIGhlbHBlciBhcyBhIGJpdAo+ID4g
+cXVlc3Rpb25hYmxlIG1pZGRsZSBsYXllci4KPgo+IEFuZCB0aGlzIGJ1ZyBwcm92ZXMgdGhhdCBp
+dCBpcy4gOikKClRoZSB0cm91YmxlIGhlcmUgaXMgYWN0dWFsbHkgZ2VtX2JvLT5pbXBvcnRfYXR0
+YWNoLCB3aGljaCBpc24ndCByZWFsbHkKcGFydCBvZiB0aGUgcXVlc3Rpb25hYmxlIG1pZGxheWVy
+LCBidXQgZmFpcmx5IG1hbmRhdG9yeSAob25seQpleGNlcHRpb24gaXMgdm13Z2Z4IGJlY2F1c2Ug
+bm90IHVzaW5nIGdlbSkgY2FjaGluZyB0byBtYWtlIHN1cmUgd2UKZG9uJ3QgZW5kIHVwIHdpdGgg
+ZHVwZWQgaW1wb3J0cyBhbmQgZnVuIHN0dWZmIGxpa2UgdGhhdC4KCkFuZCBkbWFfYnVmX2F0dGFj
+aCBub3cgaW1wbGljaXRseSBjcmVhdGVzIHRoZSBzZyB0YWJsZSBhbHJlYWR5LCBzbwp3ZSdyZSBh
+bHJlYWR5IGluIGdhbWUgb3ZlciBsYW5kLiBJIHRoaW5rIHdlJ2QgbmVlZCB0byBtYWtlCmltcG9y
+dF9hdHRhY2ggYSB1bmlvbiB3aXRoIGltcG9ydF9idWYgb3Igc29tZXRoaW5nIGxpa2UgdGhhdCwg
+c28gdGhhdAp5b3UgY2FuIGRvIGF0dGFjaG1lbnQtbGVzcyBpbXBvcnRpbmcuCgo+ID4gSGF2ZSB5
+b3UgdGhvdWdodCBhYm91dCBkb2luZyB0aGF0IGluc3RlYWQ/Cj4KPiBUaGVyZSBhcHBlYXJzIHRv
+IGJlIHNvbWUgdXNlZnVsIGNvZGUgaW4gZHJtX2dlbV9wcmltZV9pbXBvcnRfZGV2KCkuIEJ1dAo+
+IGlmIHRoZSBnZW5lcmFsIHNlbnRpbWVudCBnb2VzIHRvd2FyZHMgcmVtb3ZpbmcKPiBnZW1fcHJp
+bWVfaW1wb3J0X3NnX3RhYmxlLCB3ZSBjYW4gd29yayB0b3dhcmRzIHRoYXQgYXMgd2VsbC4KCkkg
+c3RpbGwgdGhpbmsgdGhpcyBwYXJ0IGlzIGEgYml0IGEgc2lsbHkgbWlkbGF5ZXIgZm9yIG5vIGdv
+b2QgcmVhc29uLApidXQgSSB0aGluayB0aGF0J3Mgb3J0aG9nb25hbCB0byB0aGUgaXNzdWUgYXQg
+aGFuZCBoZXJlLgoKSSdkIHN1Z2dlc3Qgd2UgZmlyc3QgdHJ5IHRvIHBhcGVyIG92ZXIgdGhlIGlz
+c3VlIGJ5IHVzaW5nCnByaW1lX2ltcG9ydF9kZXYgd2l0aCB0aGUgaG9zdCBjb250cm9sbGVyICh3
+aGljaCBob3BlZnVsbHkgaXMKZG1hLWNhcGFibGUgZm9yIG1vc3Qgc3lzdGVtcykuIEFuZCB0aGVu
+LCBhdCBsZWlzdXJlLCB0cnkgdG8gdW50YW5nbGUKdGhlIG9iai0+aW1wb3J0X2F0dGFjaCBpc3N1
+ZS4KLURhbmllbAoKPgo+IEJlc3QgcmVnYXJkcwo+IFRob21hcwo+Cj4gPgo+ID4gQ2hyaXN0aWFu
+Lgo+ID4KPiA+Pgo+ID4+IFBhdGNoZXMgMiBhbmQgMyB1cGRhdGUgU0hNRU0gYW5kIENNQSBoZWxw
+ZXJzIHRvIHVzZSB0aGUgbmV3IGNhbGxiYWNrLgo+ID4+IEVmZmVjdGl2ZWx5IHRoaXMgbW92ZXMg
+dGhlIHNnIHRhYmxlIHNldHVwIGZyb20gdGhlIFBSSU1FIGhlbHBlcnMgaW50bwo+ID4+IHRoZSBt
+ZW1vcnkgbWFuYWdlcnMuIFNITUVNIG5vdyBzdXBwb3J0cyBkZXZpY2VzIHdpdGhvdXQgRE1BIHN1
+cHBvcnQsCj4gPj4gc28gY3VzdG9tIGNvZGUgY2FuIGJlIHJlbW92ZWQgZnJvbSB1ZGwgYW5kIGcx
+MnUzMjAuCj4gPj4KPiA+PiBUZXN0ZWQgYnkgam9pbmluZy9taXJyb3JpbmcgZGlzcGxheXMgb2Yg
+dWRsIGFuZCByYWRlb24gdW5kZXIgR25vbWUvWDExLgo+ID4+Cj4gPj4gdjI6Cj4gPj4gICAgICog
+bW92ZSBmaXggdG8gaW1wb3J0ZXIgc2lkZSAoQ2hyaXN0aWFuLCBEYW5pZWwpCj4gPj4gICAgICog
+dXBkYXRlIFNITUVNIGFuZCBDTUEgaGVscGVycyBmb3IgbmV3IFBSSU1FIGNhbGxiYWNrcwo+ID4+
+Cj4gPj4gVGhvbWFzIFppbW1lcm1hbm4gKDMpOgo+ID4+ICAgIGRybTogU3VwcG9ydCBpbXBvcnRp
+bmcgZG1hYnVmcyBpbnRvIGRyaXZlcnMgd2l0aG91dCBETUEKPiA+PiAgICBkcm0vc2htZW0taGVs
+cGVyOiBJbXBsZW1lbnQgc3RydWN0IGRybV9kcml2ZXIuZ2VtX3ByaW1lX2NyZWF0ZV9vYmplY3QK
+PiA+PiAgICBkcm0vY21hLWhlbHBlcjogSW1wbGVtZW50IHN0cnVjdCBkcm1fZHJpdmVyLmdlbV9w
+cmltZV9jcmVhdGVfb2JqZWN0Cj4gPj4KPiA+PiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2Nt
+YV9oZWxwZXIuYyAgICB8IDYyICsrKysrKysrKysrKysrLS0tLS0tLS0tLS0KPiA+PiAgIGRyaXZl
+cnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jICB8IDM4ICsrKysrKysrKystLS0tLQo+
+ID4+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jICAgICAgICAgICAgIHwgNDMgKysrKysr
+KysrKystLS0tLS0KPiA+PiAgIGRyaXZlcnMvZ3B1L2RybS9saW1hL2xpbWFfZHJ2LmMgICAgICAg
+ICB8ICAyICstCj4gPj4gICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMg
+fCAgMiArLQo+ID4+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dlbS5jIHwg
+IDYgKy0tCj4gPj4gICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ2VtLmggfCAg
+NCArLQo+ID4+ICAgZHJpdmVycy9ncHUvZHJtL3BsMTExL3BsMTExX2Rydi5jICAgICAgIHwgIDgg
+KystLQo+ID4+ICAgZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfYm8uYyAgICAgICAgICAgIHwgIDYg
+Ky0tCj4gPj4gICBkcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9kcnYuYyAgICAgICAgICAgfCAgMiAr
+LQo+ID4+ICAgZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZHJ2LmggICAgICAgICAgIHwgIDUgKy0K
+PiA+PiAgIGluY2x1ZGUvZHJtL2RybV9kcnYuaCAgICAgICAgICAgICAgICAgICB8IDEyICsrKysr
+Cj4gPj4gICBpbmNsdWRlL2RybS9kcm1fZ2VtX2NtYV9oZWxwZXIuaCAgICAgICAgfCAxMiArKy0t
+LQo+ID4+ICAgaW5jbHVkZS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuaCAgICAgIHwgIDYgKy0t
+Cj4gPj4gICAxNCBmaWxlcyBjaGFuZ2VkLCAxMjAgaW5zZXJ0aW9ucygrKSwgODggZGVsZXRpb25z
+KC0pCj4gPj4KPiA+PiAtLQo+ID4+IDIuMzAuMQo+ID4+Cj4gPgo+Cj4gLS0KPiBUaG9tYXMgWmlt
+bWVybWFubgo+IEdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKPiBTVVNFIFNvZnR3YXJlIFNvbHV0
+aW9ucyBHZXJtYW55IEdtYkgKPiBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1h
+bnkKPiAoSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4
+IEltZW5kw7ZyZmZlcgo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIElu
+dGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
