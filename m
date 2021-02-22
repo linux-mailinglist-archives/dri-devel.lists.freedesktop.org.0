@@ -1,112 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168BA321151
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 08:21:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C83EB32119E
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 08:52:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E8046E908;
-	Mon, 22 Feb 2021 07:21:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87F1D6E23D;
+	Mon, 22 Feb 2021 07:52:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C3026E243
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 07:21:05 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20210222072053euoutp01830da8ed6475ba0cd22f859826ccbf07~mANowhAcc0222802228euoutp01o
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 07:20:53 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20210222072053euoutp01830da8ed6475ba0cd22f859826ccbf07~mANowhAcc0222802228euoutp01o
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1613978453;
- bh=UCnuqo5cfQ3YOcugfUkVi67fSmaj+kDkthEj6wfxsV8=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=g2vsbGeHm5c5CIaboSEiuvbLPwDcy/FZfIWTNSYO6rNZI/T8ddGoqVrF418TrVB5/
- nT3pS7WQN8EIchQOKTQlH86uaKLJNJn7iz4osGUkRXFF94Z7L+RDR6pMePVTx2PT2W
- rcg/E5zAFet3h5y5no/YGlrJjE7NkaW3Vf6/qhPQ=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20210222072041eucas1p2765b176e43a6439dd3d4ab44acf9ad28~mANdTZfKU0888108881eucas1p2r;
- Mon, 22 Feb 2021 07:20:41 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id E7.35.27958.94B53306; Mon, 22
- Feb 2021 07:20:41 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20210222072040eucas1p1bb0bb4ba140d3b7029bfd89ab9efef6b~mANcwemau2085520855eucas1p1i;
- Mon, 22 Feb 2021 07:20:40 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210222072040eusmtrp29717831c4563ea6283c69cd29b952dea~mANcui1783111331113eusmtrp2V;
- Mon, 22 Feb 2021 07:20:40 +0000 (GMT)
-X-AuditID: cbfec7f2-f15ff70000006d36-8c-60335b497436
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 72.26.21957.84B53306; Mon, 22
- Feb 2021 07:20:40 +0000 (GMT)
-Received: from [106.210.131.79] (unknown [106.210.131.79]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20210222072034eusmtip229bcae4bc753ef8210a398cd916a1959~mANXD9CkH1005310053eusmtip2V;
- Mon, 22 Feb 2021 07:20:34 +0000 (GMT)
-Message-ID: <a804b8eb-3c79-4753-670c-cd5c2dfbc3a4@samsung.com>
-Date: Mon, 22 Feb 2021 08:20:33 +0100
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8FBA6E23D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 07:52:52 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 270E8AE03;
+ Mon, 22 Feb 2021 07:52:51 +0000 (UTC)
+Subject: Re: [PATCH] drm/prime: Only call dma_map_sgtable() for devices with
+ DMA support
+To: Alan Stern <stern@rowland.harvard.edu>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20210219134014.7775-1-tzimmermann@suse.de>
+ <02a45c11-fc73-1e5a-3839-30b080950af8@amd.com>
+ <20210219155328.GA1111829@rowland.harvard.edu>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <03c676df-b587-6d1f-20da-0a54267d6685@suse.de>
+Date: Mon, 22 Feb 2021 08:52:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0)
- Gecko/20100101 Thunderbird/86.0
-Subject: Re: [PATCH] drm/dsi: Add _NO_ to MIPI_DSI_* flags disabling features
-Content-Language: en-GB
-To: Nicolas Boichat <drinkcat@chromium.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
-From: Andrzej Hajda <a.hajda@samsung.com>
-In-Reply-To: <CANMq1KALq+C2GD2uRohKpwvkDC05-fHyo=_WoHwnsKNjgcSfEQ@mail.gmail.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xTVxzHOffe3pZuhUvBcIIzBrLhI1t9YPDErSBxhuseipvZMshCq960
- RKimhenMCARwg44ijwWkBZwLZV1FV8tjtI7iwK3U8ZRCYFpxzk1k5TFaRBzKWloz/vv8Ht/f
- 7/c9ORycbyEjOGmyTEYuE6dHkVyi9ZfFvtf2pcSIttoruEjVZ8PQNyoVgezzMyS6aNcR6E/l
- FIlqHvQCNLzwEEc25zCBJu4MEqi/38BGvXlONioqq2cj4x8jLFTW0ctGQ+YaEg3lDwJ0rt+C
- obyCGNRZkoL+siWgBnsTC82pf8eRbrEFIEfFdU9TxUMSLZrrCNTsLGOhK/M0qnM8xnevo2vb
- zTg9M3qGTWtyBwl6qESF0W2OekCb1A5PrrCaRRv1RSTdXXoTo2+P/EjSPzy6y6LHv7RidFN9
- Dm01/8am6yuHSbqkWQ+SQpO5bxxl0tM+YeRb4kRc6eJCHXbi8tZThq8GQC6ojlaCQA6kdsDy
- wmLcy3xKB+DsaLIScD3sBvDxrIXtC1wAFqhvsZ8rlA+MLF/hWwDv6FSEL5gBcLqrxdPF4fCo
- OFitlXsFBPUKnDEOkl7mUSHQVn2f8PIaSgQNRU2Yl0OpA/BC+cTKApwKh3nu71heDqOOwPyz
- 13DvfJxycWB+1/SKgKQ2wadNYytDA6mDsHiy0i9eD/NbNCsCSPVyocXlZPnOfhPaB+75ORRO
- Wpv9dl6Cy6bzmI9z4LiuwC8uBLDFYMJ9hdfh7b4npNcZ7tn8vXmLL50AtZqJlTSkguDoVIjv
- hiBY3lqF+9I8WPg539cdCcd7W/wDw6F2YJ4sBVHqVc+iXmVfvcqN+v+9XwNCD8KZLEWGhFFs
- kzEnBQpxhiJLJhEcOZ5hBJ4v/usz61wbqJ38R9AJMA7oBJCDR4XxSMd2EZ93VPzpaUZ+PFWe
- lc4oOsFaDhEVztNrGlP5lEScyRxjmBOM/HkV4wRG5GKRMXw3dNULF/TuxnlVd0CPXL973+zV
- EFlV8JoPaxKTzlyPz67Tvhpr2DuSXXk2MUzXxBz+IGggdv3s1UT3Lnf8Yaxq7bWSn/aw+i6H
- nTNVjBZrW40Rm7P3a7TNtaykhhuWrjhKFPDiwer56LcM2gTnR2M5b3cdijb+fbpDyde8N+Xa
- 1CYXuNWXphWpwrs98N7Jgqfx9vPMz4EBkkOD0Z1fSF/4N3xJ2pHcsLPnys6x7UNTz54El166
- 8LHDIFg+ttcpTNv4vt52yhoseTfy5qPa7rkDG9qdOeti31l++b56Wpi51Lhj7mKFVL0MlvZs
- uLHRZPiM3TaZcksId+3PKG2vbFBFEQqpeNtmXK4Q/weC/CESUQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIKsWRmVeSWpSXmKPExsVy+t/xe7oe0cYJBr2bZS16z51ksljU28ti
- ceXrezaL1VdWsFg87XrLZjHn+VlGi6vfXzJbnHxzlcXixb2LLBbnz29gtzjb9IbdonPiEnaL
- TY+vsVpM3H+W3eLyrjlsFpebLzJazDi/j8miqcXY4lBftMWzk44Wy65sZrX4NOshs8WKn1sZ
- Le5OPgJUNPklm8XPXfNYLLa8mchqsfGrh8W8uz+YHWQ95u7dxezx/kYru8fshossHpf7epk8
- dtxdwuixc9ZdoFjHTFaPTas62TxOTLjE5HHn2h42j+3fHrB63O8+zuSxeUm9x/Fdt9g9lky7
- yubRt2UVY4BwlJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayVkamSvp1NSmpOZllq
- kb5dgl7Gz+/zmArWGVRsmHKBsYFxploXIyeHhICJRNfzTaxdjFwcQgJLGSWavncxQiTEJXbP
- f8sMYQtL/LnWxQZR9JZRov1RD1MXIwcHr4CdxMylRSA1LAKqEu83XWQDsXkFBCVOznzCAmKL
- CiRITO5/DRYXFvCVuPZgDZjNDDS/6ctKVhBbRCBZ4vypmUwg85kF/nJIfFt6F+wIIYE5TBJP
- 74EVsQloSvzdfBOsmVMgUKLn1TR2iEFmEl1bIY5mFpCXaN46m3kCo9AsJHfMQrJvFpKWWUha
- FjCyrGIUSS0tzk3PLTbUK07MLS7NS9dLzs/dxAhMW9uO/dy8g3Heq496hxiZOBgPMUpwMCuJ
- 8LLdNUoQ4k1JrKxKLcqPLyrNSS0+xGgKDIyJzFKiyfnAxJlXEm9oZmBqaGJmaWBqaWasJM67
- de6aeCGB9MSS1OzU1ILUIpg+Jg5OqQYmyyuyOrcYxbvvKyh3FUiExybITNlSW3dK8cgJ10eH
- +pXKFG587Mn9xbAnb6+Rsu5Vs96P2w5dffBT0fb4uzfxdV+bT+3zDHsY7tdbtYJv/YVvvHPD
- v0tJbk1esGtp94z4i8tPhzhM+Pt5h2L6+eZcvXt9wo1b9XTqP23m8t+9p8lfa5fZ5fDoZFm3
- z3Mygx/dStD8wGYQ0Xbdd1JaZPJ3X8WsGwrqv20Djnls7WnZFHDph/z+C+/PvQlLMum/cKXv
- j0SjoN2306keolYrreX0SxJ/tWsHPFi1kffTAdbakvRzfTVJRyN/nRAX6H8eZb96i9sF2bcv
- Hy/Uer52+54Nvm3vWuO+T6vRtqj58ZlViaU4I9FQi7moOBEA0rROW+QDAAA=
-X-CMS-MailID: 20210222072040eucas1p1bb0bb4ba140d3b7029bfd89ab9efef6b
-X-Msg-Generator: CA
-X-RootMTR: 20210222053139eucas1p2661f94e218ae4c553e031ffa2e7b0cb3
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20210222053139eucas1p2661f94e218ae4c553e031ffa2e7b0cb3
-References: <20210211113309.1.I629b2366a6591410359c7fcf6d385b474b705ca2@changeid>
- <YDKvm1QmdJtJbaN6@pendragon.ideasonboard.com>
- <CGME20210222053139eucas1p2661f94e218ae4c553e031ffa2e7b0cb3@eucas1p2.samsung.com>
- <CANMq1KALq+C2GD2uRohKpwvkDC05-fHyo=_WoHwnsKNjgcSfEQ@mail.gmail.com>
+In-Reply-To: <20210219155328.GA1111829@rowland.harvard.edu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,135 +42,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Emil Velikov <emil.velikov@collabora.com>, linux-samsung-soc@vger.kernel.org,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
- Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- Xin Ji <xji@analogixsemi.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Rajendra Nayak <rnayak@codeaurora.org>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- lkml <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Felipe Balbi <balbi@kernel.org>,
+ Mathias Nyman <mathias.nyman@linux.intel.com>, airlied@linux.ie,
+ gregkh@linuxfoundation.org, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Oliver Neukum <oneukum@suse.com>, Johan Hovold <johan@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, dri-devel@lists.freedesktop.org,
+ "Ahmed S. Darwish" <a.darwish@linutronix.de>, stable@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: multipart/mixed; boundary="===============0465237596=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTmljb2xhcywKClcgZG5pdSAyMi4wMi4yMDIxIG/CoDA2OjMxLCBOaWNvbGFzIEJvaWNoYXQg
-cGlzemU6Cj4gT24gTW9uLCBGZWIgMjIsIDIwMjEgYXQgMzowOCBBTSBMYXVyZW50IFBpbmNoYXJ0
-Cj4gPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4gd3JvdGU6Cj4+IEhpIE5pY29s
-YXMsCj4+Cj4+IFRoYW5rIHlvdSBmb3IgdGhlIHBhdGNoLgo+Pgo+PiBPbiBUaHUsIEZlYiAxMSwg
-MjAyMSBhdCAxMTozMzo1NUFNICswODAwLCBOaWNvbGFzIEJvaWNoYXQgd3JvdGU6Cj4+PiBNYW55
-IG9mIHRoZSBEU0kgZmxhZ3MgaGF2ZSBuYW1lcyBvcHBvc2l0ZSB0byB0aGVpciBhY3R1YWwgZWZm
-ZWN0cywKPj4+IGUuZy4gTUlQSV9EU0lfTU9ERV9FT1RfUEFDS0VUIG1lYW5zIHRoYXQgRW9UIHBh
-Y2tldHMgd2lsbCBhY3R1YWxseQo+Pj4gYmUgZGlzYWJsZWQuIEZpeCB0aGlzIGJ5IGluY2x1ZGlu
-ZyBfTk9fIGluIHRoZSBmbGFnIG5hbWVzLCBlLmcuCj4+PiBNSVBJX0RTSV9NT0RFX05PX0VPVF9Q
-QUNLRVQuCj4+Pgo+Pj4gU2lnbmVkLW9mZi1ieTogTmljb2xhcyBCb2ljaGF0IDxkcmlua2NhdEBj
-aHJvbWl1bS5vcmc+Cj4+IFRoaXMgbG9va3MgZ29vZCB0byBtZSwgaXQgaW5jcmVhc2VzIHJlYWRh
-YmlsaXR5Lgo+Pgo+PiBSZXZpZXdlZC1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5j
-aGFydEBpZGVhc29uYm9hcmQuY29tPgo+Pgo+PiBQbGVhc2UgaG93ZXZlciBzZWUgdGhlIGVuZCBv
-ZiB0aGUgbWFpbCBmb3IgYSBjb21tZW50LgoKClJldmlld2VkLWJ5OiBBbmRyemVqIEhhamRhIDxh
-bmRyemVqLmhhamRhQHNhbXN1bmcuY29tPgoKQW5kIGNvbW1lbnQgYXQgdGhlIGVuZC4KCj4+Cj4+
-PiAtLS0KPj4+IEkgY29uc2lkZXJlZCBhZGRpbmcgX0RJU0FCTEVfIGluc3RlYWQsIGJ1dCB0aGF0
-J2QgbWFrZSB0aGUKPj4+IGZsYWcgbmFtZXMgYSBiaWcgdG9vIGxvbmcuCj4+Pgo+Pj4gR2VuZXJh
-dGVkIHdpdGg6Cj4+PiBmbGFnPU1JUElfRFNJX01PREVfVklERU9fSEZQOyBnaXQgZ3JlcCAkZmxh
-ZyB8IGN1dCAtZjEgLWQnOicgfCBcCj4+PiAgICB4YXJncyAtSXt9IHNlZCAtaSAtZSAicy8kZmxh
-Zy9NSVBJX0RTSV9NT0RFX1ZJREVPX05PX0hGUC8iIHt9Cj4+PiBmbGFnPU1JUElfRFNJX01PREVf
-VklERU9fSEJQOyBnaXQgZ3JlcCAkZmxhZyB8IGN1dCAtZjEgLWQnOicgfCBcCj4+PiAgICB4YXJn
-cyAtSXt9IHNlZCAtaSAtZSAicy8kZmxhZy9NSVBJX0RTSV9NT0RFX1ZJREVPX05PX0hCUC8iIHt9
-Cj4+PiBmbGFnPU1JUElfRFNJX01PREVfVklERU9fSFNBOyBnaXQgZ3JlcCAkZmxhZyB8IGN1dCAt
-ZjEgLWQnOicgfCBcCj4+PiAgICB4YXJncyAtSXt9IHNlZCAtaSAtZSAicy8kZmxhZy9NSVBJX0RT
-SV9NT0RFX1ZJREVPX05PX0hTQS8iIHt9Cj4+PiBmbGFnPU1JUElfRFNJX01PREVfRU9UX1BBQ0tF
-VDsgZ2l0IGdyZXAgJGZsYWcgfCBjdXQgLWYxIC1kJzonIHwgXAo+Pj4gICAgeGFyZ3MgLUl7fSBz
-ZWQgLWkgLWUgInMvJGZsYWcvTUlQSV9EU0lfTU9ERV9OT19FT1RfUEFDS0VULyIge30KPj4+ICh0
-aGVuIG1pbm9yIGZvcm1hdCBjaGFuZ2VzKQo+PiBFdmVyIHRyaWVkIGNvY2NpbmVsbGUgPyA6LSkK
-PiBGdW4gcHJvamVjdCBmb3IgbmV4dCB0aW1lICwtKQo+Cj4+PiAgIGRyaXZlcnMvZ3B1L2RybS9i
-cmlkZ2UvYWR2NzUxMS9hZHY3NTMzLmMgICAgICAgICAgICAgfCAyICstCj4+PiAgIGRyaXZlcnMv
-Z3B1L2RybS9icmlkZ2UvYW5hbG9naXgvYW54NzYyNS5jICAgICAgICAgICAgfCAyICstCj4+PiAg
-IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvY2Rucy1kc2kuYyAgICAgICAgICAgICAgICAgICAgfCA0
-ICsrLS0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90YzM1ODc2OC5jICAgICAgICAgICAg
-ICAgICAgICB8IDIgKy0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2Rz
-aS5jICAgICAgICAgICAgICB8IDggKysrKy0tLS0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL21jZGUv
-bWNkZV9kc2kuYyAgICAgICAgICAgICAgICAgICAgICB8IDIgKy0KPj4+ICAgZHJpdmVycy9ncHUv
-ZHJtL21lZGlhdGVrL210a19kc2kuYyAgICAgICAgICAgICAgICAgICB8IDIgKy0KPj4+ICAgZHJp
-dmVycy9ncHUvZHJtL21zbS9kc2kvZHNpX2hvc3QuYyAgICAgICAgICAgICAgICAgICB8IDggKysr
-Ky0tLS0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWFzdXMtejAwdC10bTVwNS1u
-MzU1OTYuYyB8IDIgKy0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWRzaS1jbS5j
-ICAgICAgICAgICAgICAgICB8IDIgKy0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVs
-LWVsaWRhLWtkMzV0MTMzLmMgICAgICAgICB8IDIgKy0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL3Bh
-bmVsL3BhbmVsLWtoYWRhcy10czA1MC5jICAgICAgICAgICB8IDIgKy0KPj4+ICAgZHJpdmVycy9n
-cHUvZHJtL3BhbmVsL3BhbmVsLWxlYWR0ZWstbHRrMDUwaDMxNDZ3LmMgICB8IDIgKy0KPj4+ICAg
-ZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWxlYWR0ZWstbHRrNTAwaGQxODI5LmMgICB8IDIg
-Ky0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLW5vdmF0ZWstbnQzNTUxMC5jICAg
-ICAgICB8IDIgKy0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLW9zZC1vc2QxMDF0
-MjU4Ny01M3RzLmMgICB8IDIgKy0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNh
-bXN1bmctczZkMTZkMC5jICAgICAgICB8IDIgKy0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmVs
-L3BhbmVsLXNhbXN1bmctczZlNjNqMHgwMy5jICAgICB8IDIgKy0KPj4+ICAgZHJpdmVycy9ncHUv
-ZHJtL3BhbmVsL3BhbmVsLXNhbXN1bmctczZlNjNtMC1kc2kuYyAgICB8IDIgKy0KPj4+ICAgZHJp
-dmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNhbXN1bmctczZlOGFhMC5jICAgICAgICB8IDQgKyst
-LQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2hhcnAtbHMwNDN0MWxlMDEuYyAg
-ICAgIHwgMiArLQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMgICAg
-ICAgICAgICAgICAgIHwgMiArLQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc29u
-eS1hY3g0MjRha3AuYyAgICAgICAgIHwgMiArLQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0vcGFuZWwv
-cGFuZWwteGlucGVuZy14cHAwNTVjMjcyLmMgICAgIHwgMiArLQo+Pj4gICBpbmNsdWRlL2RybS9k
-cm1fbWlwaV9kc2kuaCAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgOCArKysrLS0tLQo+Pj4g
-ICAyNSBmaWxlcyBjaGFuZ2VkLCAzNiBpbnNlcnRpb25zKCspLCAzNiBkZWxldGlvbnMoLSkKPj4+
-Cj4+PiBbXQo+Pj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9taXBpX2RzaS5oIGIvaW5j
-bHVkZS9kcm0vZHJtX21pcGlfZHNpLmgKPj4+IGluZGV4IDM2MGU2Mzc3ZTg0Yi4uYmE5MWNmMjJh
-ZjUxIDEwMDY0NAo+Pj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX21pcGlfZHNpLmgKPj4+ICsrKyBi
-L2luY2x1ZGUvZHJtL2RybV9taXBpX2RzaS5oCj4+PiBAQCAtMTE5LDE1ICsxMTksMTUgQEAgc3Ry
-dWN0IG1pcGlfZHNpX2hvc3QgKm9mX2ZpbmRfbWlwaV9kc2lfaG9zdF9ieV9ub2RlKHN0cnVjdCBk
-ZXZpY2Vfbm9kZSAqbm9kZSk7Cj4+PiAgIC8qIGVuYWJsZSBoc3luYy1lbmQgcGFja2V0cyBpbiB2
-c3luYy1wdWxzZSBhbmQgdi1wb3JjaCBhcmVhICovCj4+PiAgICNkZWZpbmUgTUlQSV9EU0lfTU9E
-RV9WSURFT19IU0UgICAgICAgICAgICAgIEJJVCg0KQo+PiBXZSdyZSBtaXhpbmcgYml0cyB0aGF0
-IGVuYWJsZSBhIGZlYXR1cmUgYW5kIGJpdHMgdGhhdCBkaXNhYmxlIGEgZmVhdHVyZS4KPj4gQXJl
-IHRoZXNlIGJpdHMgZGVmaW5lZCBpbiB0aGUgRFNJIHNwZWMsIG9yIGludGVybmFsIHRvIERSTSA/
-IEluIHRoZQo+PiBsYXR0ZXIgY2FzZSwgd291bGQgaXQgbWFrZSBzZW5zZSB0byBzdGFuZGFyZGl6
-ZSBvbiBvbmUgInBvbGFyaXR5IiA/IFRoYXQKPj4gd291bGQgYmUgYSBtb3JlIGludHJ1c2l2ZSBj
-aGFuZ2UgaW4gZHJpdmVycyB0aG91Z2guCj4gWWVzLCB0aGF0J2QgcmVxdWlyZSBhdWRpdGluZyBl
-dmVyeSBzaW5nbGUgY29kZSBwYXRoIGFuZCByZXZlcnNlIHRoZQo+IGxvZ2ljIGFzIG5lZWRlZC4g
-SSdtIG5vdCB2b2x1bnRlZXJpbmcgZm9yIHRoYXQgLC1QIChob3BlZnVsbHkgdGhlCj4gY3VycmVu
-dCBjaGFuZ2UgaXMgc3RpbGwgYW4gaW1wcm92ZW1lbnQpLgo+Cj4gSG9wZWZ1bGx5IHJlYWwgRFNJ
-IGV4cGVydHMgY2FuIGNvbW1lbnQgKEFuZHJ6ZWo/KSwgSSB0aGluayB0aGUgZGVmYXVsdAo+IGFy
-ZSBzZW5zaWJsZSBzZXR0aW5ncz8KCkhlaGUsICJyZWFsIERTSSBleHBlcnQiIDopLCBvayBJJ3Zl
-IHJlYWQgc3BlYyBmZXcgdGltZXMgOikKCklmIEkgcmVtZW1iZXIgY29ycmVjdGx5IHRoZSBzcGVj
-IGRpZCBub3QgcHJpb3JpdGl6ZXMgdGhlc2UgbW9kZXMsIHNwZWNzIAphcmUgcHVibGljbHkgYXZh
-aWxhYmxlIGlmIHNvbWVib2R5IHdhbnQgdG8gY2hlY2sgaXQgZmVlbCBmcmVlLgoKVGhlc2UgdmFs
-dWVzIHdlcmUgdGFrZW4gZnJvbSBkZWZhdWx0cyBmb3IgRXh5bm9zIERTSSwgYXMgbm9ib2R5IGF0
-IHRoZSAKdGltZSBoYXMgYmV0dGVyIGlkZWEuCgpXZSBjb3VsZCB0cnkgdG8gb3B0aW1pemUgaXQg
-YnkgbG9va2luZyBmb3IgZXhhbXBsZSBpbiBkaWZmZXJlbnQgZHNpIApob3N0cyBkZWZhdWx0cywg
-b3IgbWF5YmUgZHNpIGRldmljZXMsIGJ1dCBJIGFtIG5vdCBzdXJlIGlmIGl0IGlzIHdvcnRoIHRp
-bWUuCgpUaGlzIHNvbHV0aW9uIGlzIGdvb2QgZm9yIG1lLgoKClJlZ2FyZHMKCkFuZHJ6ZWoKCgo+
-Cj4KPj4+ICAgLyogZGlzYWJsZSBoZnJvbnQtcG9yY2ggYXJlYSAqLwo+Pj4gLSNkZWZpbmUgTUlQ
-SV9EU0lfTU9ERV9WSURFT19IRlAgICAgICAgICAgICAgIEJJVCg1KQo+Pj4gKyNkZWZpbmUgTUlQ
-SV9EU0lfTU9ERV9WSURFT19OT19IRlAgICBCSVQoNSkKPj4+ICAgLyogZGlzYWJsZSBoYmFjay1w
-b3JjaCBhcmVhICovCj4+PiAtI2RlZmluZSBNSVBJX0RTSV9NT0RFX1ZJREVPX0hCUCAgICAgICAg
-ICAgICAgQklUKDYpCj4+PiArI2RlZmluZSBNSVBJX0RTSV9NT0RFX1ZJREVPX05PX0hCUCAgIEJJ
-VCg2KQo+Pj4gICAvKiBkaXNhYmxlIGhzeW5jLWFjdGl2ZSBhcmVhICovCj4+PiAtI2RlZmluZSBN
-SVBJX0RTSV9NT0RFX1ZJREVPX0hTQSAgICAgICAgICAgICAgQklUKDcpCj4+PiArI2RlZmluZSBN
-SVBJX0RTSV9NT0RFX1ZJREVPX05PX0hTQSAgIEJJVCg3KQo+Pj4gICAvKiBmbHVzaCBkaXNwbGF5
-IEZJRk8gb24gdnN5bmMgcHVsc2UgKi8KPj4+ICAgI2RlZmluZSBNSVBJX0RTSV9NT0RFX1ZTWU5D
-X0ZMVVNIICAgIEJJVCg4KQo+Pj4gICAvKiBkaXNhYmxlIEVvVCBwYWNrZXRzIGluIEhTIG1vZGUg
-Ki8KPj4+IC0jZGVmaW5lIE1JUElfRFNJX01PREVfRU9UX1BBQ0tFVCAgICAgQklUKDkpCj4+PiAr
-I2RlZmluZSBNSVBJX0RTSV9NT0RFX05PX0VPVF9QQUNLRVQgIEJJVCg5KQo+Pj4gICAvKiBkZXZp
-Y2Ugc3VwcG9ydHMgbm9uLWNvbnRpbnVvdXMgY2xvY2sgYmVoYXZpb3IgKERTSSBzcGVjIDUuNi4x
-KSAqLwo+Pj4gICAjZGVmaW5lIE1JUElfRFNJX0NMT0NLX05PTl9DT05USU5VT1VTICAgICAgICBC
-SVQoMTApCj4+PiAgIC8qIHRyYW5zbWl0IGRhdGEgaW4gbG93IHBvd2VyICovCj4+IC0tCj4+IFJl
-Z2FyZHMsCj4+Cj4+IExhdXJlbnQgUGluY2hhcnQKPiBfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9wcm90ZWN0Mi5maXJlZXllLmNvbS92
-MS91cmw/az1lNmYwZDZkMi1iOTZiZWZlZi1lNmYxNWQ5ZC0wY2M0N2EzMTMwOWEtZjRiZTZhMDkz
-NTMxOWMyZCZxPTEmZT01ZTE3NTE2Ni0xOTcyLTRmMjgtYTQ4My1lOWE2NWMwN2UyNWYmdT1odHRw
-cyUzQSUyRiUyRmxpc3RzLmZyZWVkZXNrdG9wLm9yZyUyRm1haWxtYW4lMkZsaXN0aW5mbyUyRmRy
-aS1kZXZlbAo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0465237596==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="64mtIiMeFA1lM9z04BneAZKiuGaO2LwTP"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--64mtIiMeFA1lM9z04BneAZKiuGaO2LwTP
+Content-Type: multipart/mixed; boundary="Vr7h2TTkrYveWiohTE9VcHNe7v0nDTQGT";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Alan Stern <stern@rowland.harvard.edu>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sumit.semwal@linaro.org, gregkh@linuxfoundation.org,
+ dri-devel@lists.freedesktop.org, noralf@tronnes.org,
+ Christoph Hellwig <hch@lst.de>, Johan Hovold <johan@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+ Mathias Nyman <mathias.nyman@linux.intel.com>,
+ Oliver Neukum <oneukum@suse.com>, Felipe Balbi <balbi@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, stable@vger.kernel.org
+Message-ID: <03c676df-b587-6d1f-20da-0a54267d6685@suse.de>
+Subject: Re: [PATCH] drm/prime: Only call dma_map_sgtable() for devices with
+ DMA support
+References: <20210219134014.7775-1-tzimmermann@suse.de>
+ <02a45c11-fc73-1e5a-3839-30b080950af8@amd.com>
+ <20210219155328.GA1111829@rowland.harvard.edu>
+In-Reply-To: <20210219155328.GA1111829@rowland.harvard.edu>
+
+--Vr7h2TTkrYveWiohTE9VcHNe7v0nDTQGT
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 19.02.21 um 16:53 schrieb Alan Stern:
+> On Fri, Feb 19, 2021 at 02:45:54PM +0100, Christian K=C3=B6nig wrote:
+>> Well as far as I can see this is a relative clear NAK.
+>>
+>> When a device can't do DMA and has no DMA mask then why it is requesti=
+ng an
+>> sg-table in the first place?
+>=20
+> This may not be important for your discussion, but I'd like to give an
+> answer to the question -- at least, for the case of USB.
+>=20
+> A USB device cannot do DMA and has no DMA mask.  Nevertheless, if you
+> want to send large amounts of bulk data to/from a USB device then using=
+
+> an SG table is often a good way to do it.  The reason is simple: All
+> communication with a USB device has to go through a USB host controller=
+,
+> and many (though not all) host controllers _can_ do DMA and _do_ have a=
+
+> DMA mask.
+
+It's semi-related. One idea we had for speeding up transfers is to use=20
+the USB controller's DMA functionality and allocate framebuffers=20
+accordingly. It needs a bit of work in the DRM memory-management code=20
+IIRC. And we do some internal modifications if the frambuffer's data, so =
+
+direct forwarding from renderer to USB controller is not always possible.=
+
+
+Best regards
+Thomas
+
+>=20
+> The USB mass-storage and uas drivers in particular make heavy use of
+> this mechanism.
+>=20
+> Alan Stern
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--Vr7h2TTkrYveWiohTE9VcHNe7v0nDTQGT--
+
+--64mtIiMeFA1lM9z04BneAZKiuGaO2LwTP
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAzYtEFAwAAAAAACgkQlh/E3EQov+Ck
+yw/+Izy2DQ4YCdmKtt7QBSFTtzrqetq4AJTfC3RMKmRNrJFqxVvRXSokrL6+KkwXqD1rj6f8wrn9
+8TARZ/vm/CEknnpq3Z+L8EbzC1KyQvDerKI3W06P79EM3WPnlEmb+v5YXSMzzsZsh/68jxtXY0pQ
+6Ae7iWvK9zeBrLkMalFLBiCDW/uXpL7VA+SbvHOCbPGX0kNXkvVOjY+lUUh/bJTvrO9ON9At5aKt
+5A/Ppo+Gazs2AwS6I7gAaL/KjxWkH9HJHckPikUVn7/7cskykQeFEcaRCivmksifOfyAxMcG8U79
+248RIHDxltApGMc3DgtVTSMOQKL1v11ioAvWZez80Yso8+PyyDglhRq1Lkrm46Je+cyxVfZQRIeY
+xVVmkvEmVAGZOOsCtGlWk7mjA8quTnooI4XZhbtLEaoQzHXKXIHPtmcvZnB2i3siz+cG/zq2i750
+lWbZ4UxpHsRNM9m+yNy5GO/HE1hRKIFxSAop5RgrfhR3TKWlSdZ2dfv2chDVseEXfjt0uTXkkAh4
++sqcMOzbsUI7eXMP3iNy8X6RS/flcM6W3+15pQUsJqKj5TxbgCe5AobFj5mb7bhB3Qn5PwFHlvT+
+q8L7zOFWAh4kfZHFE1ZRda7SJhRFtXJDsf8kA2YI2E8ZzpOWe2TRmzBMSZfyJdYnGLE6QVnqQ700
+kP4=
+=NLoA
+-----END PGP SIGNATURE-----
+
+--64mtIiMeFA1lM9z04BneAZKiuGaO2LwTP--
+
+--===============0465237596==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0465237596==--
