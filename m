@@ -2,56 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC7AD321D49
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 17:43:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 749BB321D8B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 17:56:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9B726E55C;
-	Mon, 22 Feb 2021 16:43:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 895EB6E516;
+	Mon, 22 Feb 2021 16:56:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D50006E169
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 16:43:48 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id v15so19795640wrx.4
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 08:43:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=XqZd3FlZkC8ykdvS3VMmMIQrPGcLVaiVGhGriUv0hNI=;
- b=ddovUYukY0bLpyy9nEc9N2ueE/vFXd3WxUMGjd4cMMeXWPIhEwVSVNkQFksvXNqruv
- lZakJ/0jneigKST+W6HKfwfFZDpDt3TEQ7Q4gqAf2UMO0qidBA7iqxGjBhqaoDTrDY3X
- 7wSRpljxD7KddhBj3eCCo0Aa9F6ys0rNdh/5o=
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
+ [IPv6:2607:f8b0:4864:20::d34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E665A6E192
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 16:56:38 +0000 (UTC)
+Received: by mail-io1-xd34.google.com with SMTP id k17so6125014ioc.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 08:56:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HdNyJlknAH8feoDYpLG+qSZzF4E0AHcYq0sJE+ywDvg=;
+ b=Px2AQSymPs0ndnQo7hRE5ENeKz5PCcG+/YzLVJz4brjs6tQ52yjrQX7E0BxZFoo+1K
+ c5FXncZt0xI78U4Yh6abir2Rag7nxSTnTu1CF62G1d2+0VRIzaZKuxH7XvTqudFNffdw
+ q2FS16kVOJitiDJ5hGkzYyxfFKft9O+K+o8NU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=XqZd3FlZkC8ykdvS3VMmMIQrPGcLVaiVGhGriUv0hNI=;
- b=Lhg0amhY/EV46hjXsAEnt7RDB9/b270cbJ+sP6YlfKRJORehtVw2tR52RroxvvkwoN
- F1itt5KVYo7mNu98trXWgDaoO6mp2hJdM7c45C9uYyk/w66f22YnHHbFv2Gm6DWFMZyV
- jTBJBH+iggIbH1kOCGjJSJ4zWHWR9lbdjmftcFMDRpfRVqQsynSG/XZEgT84ptlLCey6
- N4eEpCfuPwLoDyopj5Rl/w3FzT78A28YdWap2tJ/fyhvPnQ7oKYbOl//DEJMnOBVmfQW
- 3jaB8KaS3ww+E2I9uNKt+vuZDZFVW5dUIvNfMtol1/PjcEGm9qzGmbbckLWUDWv+awrX
- URbQ==
-X-Gm-Message-State: AOAM5327uchaGWASXN5rOfrQEa27RsF1NzGgoJ90yad3TxvhaqZNzkSU
- vBEpDa1ZrujgWj4Kmgi6QPWd7g==
-X-Google-Smtp-Source: ABdhPJxpau2AjxSKsdV92sutJkbbKAoH2PnLORX0DfnLZeHnwqdFCH3D5uStkVcImOAypf5q8aiGBA==
-X-Received: by 2002:adf:f04b:: with SMTP id t11mr4844132wro.410.1614012227245; 
- Mon, 22 Feb 2021 08:43:47 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 4sm27343501wma.0.2021.02.22.08.43.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Feb 2021 08:43:46 -0800 (PST)
-Date: Mon, 22 Feb 2021 17:43:44 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Melissa Wen <melissa.srw@gmail.com>
-Subject: Re: [RFC PATCH 3/3] drm/vkms: add overlay support
-Message-ID: <YDPfQH4BrKbEieze@phenom.ffwll.local>
-References: <20210220144212.oqmnjxuwvevke5bn@smtp.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HdNyJlknAH8feoDYpLG+qSZzF4E0AHcYq0sJE+ywDvg=;
+ b=UfnOAg607YXZXMQVM8d27Clm6gg5pw/CzJKC9w9XK+F1wXP/tSldZFnGa4mdB8sf3R
+ DVUB3SIXxwkXyER3zUrT/p4cBjdxk6vPewms/v7F8CL4fM4GMD2pFdSt8avvqs3o5TgV
+ xa8nvEfxlcu4h99GKVmPkFe0kPeruBYV0kAKIZLxDq1Z7Q0r/brC5bYgiGAiSoEvbZbr
+ mhREoLTTkdoq+z2ZeammRvuZcwxvkJpbRQTPoTxU3S8E99X9Na2LjA1lw1/BszXQwLVE
+ epSmhA61PlVE6LVtIju3MnHsB3/92Kfxn7xT8baMb/RzfDF6bRZExcBYl8azzTCb7Wsw
+ gspw==
+X-Gm-Message-State: AOAM530JrGrPqVO3at1WXykcAtNa+d6tkSOBoEyE32HnEctGor1aRVZc
+ r7NnBR9K2hzhAe0bRXt/wAi4M6/HhGkhag==
+X-Google-Smtp-Source: ABdhPJwqBbSgMKIjhn1X9h9WCpz0IxU+00M7YqxcKEc3ysY3K7FDzsUXhMTHP1X7iIER3+NskO+BXw==
+X-Received: by 2002:a5d:8490:: with SMTP id t16mr16061536iom.91.1614012998028; 
+ Mon, 22 Feb 2021 08:56:38 -0800 (PST)
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com.
+ [209.85.166.179])
+ by smtp.gmail.com with ESMTPSA id w2sm13441414ioa.46.2021.02.22.08.56.36
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Feb 2021 08:56:36 -0800 (PST)
+Received: by mail-il1-f179.google.com with SMTP id o1so4507164ila.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 08:56:36 -0800 (PST)
+X-Received: by 2002:a05:6e02:1a25:: with SMTP id
+ g5mr16127965ile.2.1614012995930; 
+ Mon, 22 Feb 2021 08:56:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210220144212.oqmnjxuwvevke5bn@smtp.gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <1613681704-12539-1-git-send-email-khsieh@codeaurora.org>
+ <161368935031.1254594.14384765673800900954@swboyd.mtv.corp.google.com>
+ <7af07dcacd5b68087cc61e467e9c57ea@codeaurora.org>
+ <161377480166.1254594.16557636343276220817@swboyd.mtv.corp.google.com>
+ <1782d03506bebe7751d33ae12a38d21c@codeaurora.org>
+In-Reply-To: <1782d03506bebe7751d33ae12a38d21c@codeaurora.org>
+From: Sean Paul <seanpaul@chromium.org>
+Date: Mon, 22 Feb 2021 11:55:58 -0500
+X-Gmail-Original-Message-ID: <CAOw6vbLkET7UvsUhWDeeMz8V5i5c_hBSR-Q4-B6_Y5apoTzEng@mail.gmail.com>
+Message-ID: <CAOw6vbLkET7UvsUhWDeeMz8V5i5c_hBSR-Q4-B6_Y5apoTzEng@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v2 2/2] drm/msm/dp: add supported max link
+ rate specified from dtsi
+To: khsieh@codeaurora.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,261 +74,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Sumera Priyadarsini <sylphrenadin@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Cc: Sean Paul <sean@poorly.run>, Tanmay Shah <tanmay@codeaurora.org>,
+ Dave Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, abhinavk@codeaurora.org,
+ aravindh@codeaurora.org, freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 20, 2021 at 11:42:12AM -0300, Melissa Wen wrote:
-> Add support to overlay plane, in addition to primary and cursor
-> planes. In this approach, the plane composition still requires an
-> active primary plane and planes are composed associatively in the
-> order: (primary <- overlay) <- cursor
-> 
-> It enables to run the following IGT tests successfully:
-> - kms_plane_cursor:
->   - pipe-A-[overlay, primary, viewport]-size-[64, 128, 256]
-> - kms_atomic:
->   - plane-overlay-legacy
-> and preserves the successful execution of kms_cursor_crc,
-> kms_writeback and kms_flip
-> 
-> Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_composer.c | 27 +++++++++++++++++----------
->  drivers/gpu/drm/vkms/vkms_drv.c      |  5 +++++
->  drivers/gpu/drm/vkms/vkms_drv.h      |  1 +
->  drivers/gpu/drm/vkms/vkms_output.c   | 17 +++++++++++++++--
->  drivers/gpu/drm/vkms/vkms_plane.c    | 20 +++++++++++++++-----
->  5 files changed, 53 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> index be8f1d33c645..2116da9b5a43 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -144,11 +144,12 @@ static void compose_planes(struct vkms_composer *primary_composer,
->  
->  static int composite(void **vaddr_out,
->  		     struct vkms_composer *primary_composer,
-> -		     struct vkms_composer *cursor_composer)
-> +		     struct vkms_crtc_state *crtc_state)
->  {
->  	struct drm_framebuffer *fb = &primary_composer->fb;
->  	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
->  	struct drm_gem_shmem_object *shmem_obj = to_drm_gem_shmem_obj(gem_obj);
-> +	int i;
->  
->  	if (!*vaddr_out) {
->  		*vaddr_out = kzalloc(shmem_obj->base.size, GFP_KERNEL);
-> @@ -163,8 +164,14 @@ static int composite(void **vaddr_out,
->  
->  	memcpy(*vaddr_out, shmem_obj->vaddr, shmem_obj->base.size);
->  
-> -	if (cursor_composer)
-> -		compose_planes(primary_composer, cursor_composer, *vaddr_out);
-> +	/* If there are other planes besides primary, we consider the active
-> +	 * planes should be in z-order and compose them associatively:
-> +	 * ((primary <- overlay) <- cursor)
-> +	 */
-> +	for (i = 1; i < crtc_state->num_active_planes; i++)
-> +		compose_planes(primary_composer,
-> +			       crtc_state->active_planes[i]->composer,
-> +			       *vaddr_out);
->  
->  	return 0;
->  }
-> @@ -186,7 +193,7 @@ void vkms_composer_worker(struct work_struct *work)
->  	struct drm_crtc *crtc = crtc_state->base.crtc;
->  	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
->  	struct vkms_composer *primary_composer = NULL;
-> -	struct vkms_composer *cursor_composer = NULL;
-> +	struct vkms_plane_state *act_plane = NULL;
->  	bool crc_pending, wb_pending;
->  	void *vaddr_out = NULL;
->  	u32 crc32 = 0;
-> @@ -210,11 +217,11 @@ void vkms_composer_worker(struct work_struct *work)
->  	if (!crc_pending)
->  		return;
->  
-> -	if (crtc_state->num_active_planes >= 1)
-> -		primary_composer = crtc_state->active_planes[0]->composer;
-> -
-> -	if (crtc_state->num_active_planes == 2)
-> -		cursor_composer = crtc_state->active_planes[1]->composer;
-> +	if (crtc_state->num_active_planes >= 1) {
-> +		act_plane = crtc_state->active_planes[0];
-> +		if (act_plane->base.plane->type == DRM_PLANE_TYPE_PRIMARY)
-> +			primary_composer = act_plane->composer;
-> +	}
->  
->  	if (!primary_composer)
->  		return;
-> @@ -222,7 +229,7 @@ void vkms_composer_worker(struct work_struct *work)
->  	if (wb_pending)
->  		vaddr_out = crtc_state->active_writeback;
->  
-> -	ret = composite(&vaddr_out, primary_composer, cursor_composer);
-> +	ret = composite(&vaddr_out, primary_composer, crtc_state);
->  	if (ret) {
->  		if (ret == -EINVAL && !wb_pending)
->  			kfree(vaddr_out);
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> index 2173b82606f6..027ffe759440 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -44,6 +44,10 @@ static bool enable_writeback = true;
->  module_param_named(enable_writeback, enable_writeback, bool, 0444);
->  MODULE_PARM_DESC(enable_writeback, "Enable/Disable writeback connector support");
->  
-> +static bool enable_overlay;
-> +module_param_named(enable_overlay, enable_overlay, bool, 0444);
-> +MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
-> +
->  DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
->  
->  static void vkms_release(struct drm_device *dev)
-> @@ -198,6 +202,7 @@ static int __init vkms_init(void)
->  
->  	config->cursor = enable_cursor;
->  	config->writeback = enable_writeback;
-> +	config->overlay = enable_overlay;
->  
->  	return vkms_create(config);
->  }
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index 9ad5ad8b7737..784219da8df0 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -85,6 +85,7 @@ struct vkms_device;
->  struct vkms_config {
->  	bool writeback;
->  	bool cursor;
-> +	bool overlay;
->  	/* only set when instantiated */
->  	struct vkms_device *dev;
->  };
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index 05d3bb45e6c1..c60d0f2e7a37 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -39,7 +39,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->  	struct drm_connector *connector = &output->connector;
->  	struct drm_encoder *encoder = &output->encoder;
->  	struct drm_crtc *crtc = &output->crtc;
-> -	struct drm_plane *primary, *cursor = NULL;
-> +	struct drm_plane *primary, *cursor = NULL, *overlay = NULL;
->  	int ret;
->  	int writeback;
->  
-> @@ -51,6 +51,16 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->  	if (ret)
->  		goto err_crtc;
->  
-> +	if (vkmsdev->config->overlay) {
-> +		overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
-> +		if (IS_ERR(overlay)) {
-> +			ret = PTR_ERR(overlay);
-> +			goto err_overlay;
-> +		}
-> +		if (overlay && !overlay->possible_crtcs)
-> +			overlay->possible_crtcs = drm_crtc_mask(crtc);
-> +	}
-> +
->  	if (vkmsdev->config->cursor) {
->  		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
->  		if (IS_ERR(cursor)) {
-> @@ -58,7 +68,6 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->  			goto err_cursor;
->  		}
->  	}
-> -
->  	crtc->cursor = cursor;
->  	if (cursor && !cursor->possible_crtcs)
->  		cursor->possible_crtcs = drm_crtc_mask(crtc);
-> @@ -108,6 +117,10 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->  	if (vkmsdev->config->cursor)
->  		drm_plane_cleanup(cursor);
->  
-> +err_overlay:
-> +	if (vkmsdev->config->overlay)
-> +		drm_plane_cleanup(overlay);
+On Mon, Feb 22, 2021 at 11:31 AM <khsieh@codeaurora.org> wrote:
+>
+> On 2021-02-19 14:46, Stephen Boyd wrote:
+> > Quoting khsieh@codeaurora.org (2021-02-19 08:39:38)
+> >> On 2021-02-18 15:02, Stephen Boyd wrote:
+> >> > Quoting Kuogee Hsieh (2021-02-18 12:55:04)
+> >> >> Allow supported link rate to be limited to the value specified at
+> >> >> dtsi. If it is not specified, then link rate is derived from dpcd
+> >> >> directly. Below are examples,
+> >> >> link-rate = <162000> for max link rate limited at 1.62G
+> >> >> link-rate = <270000> for max link rate limited at 2.7G
+> >> >> link-rate = <540000> for max link rate limited at 5.4G
+> >> >> link-rate = <810000> for max link rate limited at 8.1G
+> >> >>
+> >> >> Changes in V2:
+> >> >> -- allow supported max link rate specified from dtsi
+> >> >
+> >> > Please don't roll this into the patch that removes the limit. The
+> >> > previous version of this patch was fine. The part that lowers the limit
+> >> > back down should be another patch.
+> >> >
+> >> > We rejected link-rate in DT before and we should reject it upstream
+> >> > again. As far as I can tell, the maximum link rate should be determined
+> >> > based on the panel or the type-c port on the board. The dp controller
+> >> > can always achieve HBR3, so limiting it at the dp controller is
+> >> > incorrect. The driver should query the endpoints to figure out if they
+> >> > want to limit the link rate. Is that done automatically sometimes by
+> >> > intercepting the DPCD?
+> >>
+> >> ok, i will roll back to original patch and add the second patch for
+> >> max
+> >> link rate limited purpose.
+> >> panel dpcd specified max link rate it supported.
+> >> At driver, link rate is derived from dpcd directly since driver will
+> >> try
+> >> to use the maximum supported link rate and less lane to save power.
+> >> Therefore it is not possible that limit link rate base on dpcd.
+> >> AS i understand we are going to do max link rate limitation is due to
+> >> old redriver chip can not support HBR3.
+> >> How can I acquire which type-c port on the board so that I can trigger
+> >> max link rate limitation?
+> >>
+> >>
+> >
+> > The driver already seems to support lowering the link rate during link
+> > training. Can't we try to train at the highest rate and then downgrade
+> > the link speed until it trains properly? I sort of fail to see why we
+> > need to introduce a bunch of complexity around limiting the link rate
+> > on
+> > certain boards if the driver can figure out that link training doesn't
+> > work at HBR3 so it should try to train at HBR2 instead.
+>
+> yes, dp driver did support down grade link rate during link training
+> procedure.
+> But link training is kind of setting up agreement between host and panel
+> with assumption that there are no other limitations in between.
+> The problem we are discussing here is the limitation of usb re driver
+> link rate support.
+> Since we do not know how usb re driver behavior, I am not sure link
+> training will work appropriately for this case.
+> It may end up link status keep toggling up and down.
+>
 
-Using drmm_universal_plane_init would be nice so we can ditch a bunch of
-this cleanup code, but can be done later. Same for crtc.
+IMO we should just fail link training if the redriver doesn't support
+a link count/rate and fallback to the next count/rate. This should be
+handled the same as if there were a cable incapable of achieving a
+link rate. Adding the link rate to the device tree (at least on the dp
+block) seems suspicious.
 
-> +
->  err_crtc:
->  	drm_plane_cleanup(primary);
->  
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index 0824327cc860..8e7bb84bc894 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -19,6 +19,11 @@ static const u32 vkms_cursor_formats[] = {
->  	DRM_FORMAT_ARGB8888,
->  };
->  
-> +static const u32 vkms_overlay_formats[] = {
-> +	DRM_FORMAT_ARGB8888,
-> +	DRM_FORMAT_XRGB8888,
+If you really wanted to model the redriver's limitations in software,
+you'd probably want to introduce a bridge driver/connector which
+rejects modes that cannot be achieved by the redriver. This should
+prevent the dp driver from trying to train at the unsupported rates.
 
-Does the blend function correctly work for XRGB, i.e. ignore the alpha
-channel? Maybe even split that functionality out into a separate patch
-(and then also add it for the cursor plane, so we keep one unified format
-list for non-primary planes) so it sticks out more.
+Sean
 
 
-> +};
-> +
->  static struct drm_plane_state *
->  vkms_plane_duplicate_state(struct drm_plane *plane)
->  {
-> @@ -127,7 +132,7 @@ static int vkms_plane_atomic_check(struct drm_plane *plane,
->  	if (IS_ERR(crtc_state))
->  		return PTR_ERR(crtc_state);
->  
-> -	if (plane->type == DRM_PLANE_TYPE_CURSOR)
-> +	if (plane->type != DRM_PLANE_TYPE_PRIMARY)
->  		can_position = true;
->  
->  	ret = drm_atomic_helper_check_plane_state(state, crtc_state,
-> @@ -195,14 +200,19 @@ struct drm_plane *vkms_plane_init(struct vkms_device *vkmsdev,
->  	int ret, nformats;
->  
->  	plane = kzalloc(sizeof(*plane), GFP_KERNEL);
-> -	if (!plane)
-> -		return ERR_PTR(-ENOMEM);
->  
-> -	if (type == DRM_PLANE_TYPE_CURSOR) {
-> +	switch (type) {
-> +	case DRM_PLANE_TYPE_CURSOR:
->  		formats = vkms_cursor_formats;
->  		nformats = ARRAY_SIZE(vkms_cursor_formats);
->  		funcs = &vkms_primary_helper_funcs;
-> -	} else {
-> +		break;
-> +	case DRM_PLANE_TYPE_OVERLAY:
-> +		formats = vkms_overlay_formats;
-> +		nformats = ARRAY_SIZE(vkms_overlay_formats);
-> +		funcs = &vkms_primary_helper_funcs;
-> +		break;
-> +	default:
->  		formats = vkms_formats;
->  		nformats = ARRAY_SIZE(vkms_formats);
->  		funcs = &vkms_primary_helper_funcs;
-
-Tbf my brain is somewhat toast today, but aside from the few questions I
-think this looks like a solid approach.
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> Both link-lane and link-rate specified at dtsi are for the limitation of
+> Trogdor hardware platform.
+> Both link-lane and link-rate specified at dtsi are NOT for panel since
+> panel have specified its capability at its DPCD.
+>
+>
+>
+>
+>
+>
+>
+>
+> _______________________________________________
+> Freedreno mailing list
+> Freedreno@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/freedreno
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
