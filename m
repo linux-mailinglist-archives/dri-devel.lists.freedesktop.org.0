@@ -1,59 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B19D322218
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 23:23:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A15322280
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 00:05:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DD2C89E39;
-	Mon, 22 Feb 2021 22:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DAB86E210;
+	Mon, 22 Feb 2021 23:05:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96F4C89E35
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 21:55:13 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id c16so13622452otp.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 13:55:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OLfykMuiVp97Rmb4dR5kZNxPyJhV2fWYdudzIpCtISY=;
- b=o88aOI+Dusj5SWjl2KYpv9ucVTpkAY0fQ25FXGveFb8RKroDMCMDiCSMOIhJE5PAY/
- DorEPAWkpAwzxXOBAs60MjmEVweeScjH48CeRtZ1wTTVdlVe42tJsiLi7/2OxseOmnR/
- TGf0g+FF9djMUj1Bt6dCh3jI/swyDz3JrA1gaGpmBE/OTo+GUrEJlCuNMY1PdVTp7eFL
- 2eWi7/Mo/NbB4HKqXBzcbo1+y2+r/vVdQ+M/HDHlZt2fAW9HqznHSX8eXLkv0AKN2iVi
- J6PQxokMqI+cS/a6714M9N+7FpgfwqnyEGayLTbGBjIXQC98rhlXbmfcddFCvxSRG049
- 424Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=OLfykMuiVp97Rmb4dR5kZNxPyJhV2fWYdudzIpCtISY=;
- b=ZJq96sUNLL9BkdC/HLHs+YFvJiv4e5L65yYusBkWrwGFUc6KzVDkR9tWZHh+rICp7b
- QryrS6OftjVauH9qToH59+CdQdPjprm7HtGYpsStdtatW0kdijD7bR3Af+kvIna0rAB+
- WyXjJtltqcjXUBNSc9F5TaPPxm7fXHnBzpXY4uxWEWVQexTyiU40/PqHTtrj+fCXubM9
- bNdctnIbU3XsbxQ1t25z0yl4ch8xgV8I6UKvfG7wjGKrkB2HJPbmJpyWs4F1rJ7VYZAQ
- GYAdQMvkz5vJnruJ5xQa5HglDjygRVQVEOoWwYCoPIc/ptcHyjK0m+kvxXCmNwxlzO8q
- R2lQ==
-X-Gm-Message-State: AOAM530AZJmlTO1XPbMY2hP8tbADDgS4LUWgnHjqah99sZpxHd7uh2OF
- ngNYdwHFj2h8zA+VjNKAO0D4d0/5W8k3wUHS
-X-Google-Smtp-Source: ABdhPJzSx3nmidUraXL7Q0bwY9tezH7lG9cwiOijB4n65u5xyqTZ55zhqdS6qsaKTfnORT50fZ8Jww==
-X-Received: by 2002:a9d:204f:: with SMTP id n73mr12064979ota.68.1614030911794; 
- Mon, 22 Feb 2021 13:55:11 -0800 (PST)
-Received: from localhost.localdomain ([208.64.158.253])
- by smtp.gmail.com with ESMTPSA id m11sm3996562oih.34.2021.02.22.13.55.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Feb 2021 13:55:11 -0800 (PST)
-From: Julian Braha <julianbraha@gmail.com>
-To: a.hajda@samsung.com
-Subject: [PATCH] drivers: gpu: drm: bridge: fix kconfig dependency on
- DRM_KMS_HELPER
-Date: Mon, 22 Feb 2021 16:55:02 -0500
-Message-Id: <20210222215502.24487-1-julianbraha@gmail.com>
-X-Mailer: git-send-email 2.27.0
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
+ [185.70.40.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42B156E210
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 23:05:33 +0000 (UTC)
+Date: Mon, 22 Feb 2021 23:05:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1614035130;
+ bh=mD7inEEpBWky59qWI7tHe8UlQANiZKAGuft09L0bkr8=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=O9pobkWKoTsS0sHKYQpi2lbk/t0vLnzpL32ZQ4kiZks0MFXd57WL/chx9c/LaTFDT
+ oEX5EY/hFrTNZ8iA9ydQhRINGJcOD8mTG68GEvosLRNtLJp8suww8rdRM92hVVuN2f
+ 9N2NO29jPBlGfXV6pl3nc1eNndNyH32XKDyunutj9ac9o5wux+CI1Zl0oR4REpiS9c
+ w3mqDtkIjbmxThnqQ/FWpo7Dgtc5RVXRCM3DNNBGBg79Lx6m+/ZfJBpwzxNV4N5qFk
+ icmI6jbA72yGfdLJHq4i5kLPiHfUwSV6m4vsCzAO8HP+MCn6RslWFNt+EkjnPnOaBI
+ hwxjy+d7JjlQA==
+To: Souptick Joarder <jrdr.linux@gmail.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm/amdgpu/display: initialize the variable 'i'
+Message-ID: <32vjVDssCxltB75h5jHin2U3-cvNjmd_HFnRLiKohhbXkTfZea3hw2Knd80SgcHoyIFldMNwqh49t28hMBvta0HeWed1L0q_efLJ8QCgNw8=@emersion.fr>
+In-Reply-To: <1614021931-4386-1-git-send-email-jrdr.linux@gmail.com>
+References: <1614021931-4386-1-git-send-email-jrdr.linux@gmail.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 22 Feb 2021 22:23:08 +0000
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,43 +48,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: stylon.wang@amd.com, sunpeng.li@amd.com, Bhawanpreet.Lakha@amd.com,
+ Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, nicholas.kazlauskas@amd.com, airlied@linux.ie,
+ aurabindo.pillai@amd.com, dri-devel@lists.freedesktop.org,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When DRM_TOSHIBA_TC358762 is enabled and DRM_KMS_HELPER is disabled,
-Kbuild gives the following warning:
+On Monday, February 22nd, 2021 at 8:25 PM, Souptick Joarder <jrdr.linux@gmail.com> wrote:
 
-WARNING: unmet direct dependencies detected for DRM_PANEL_BRIDGE
-  Depends on [n]: HAS_IOMEM [=y] && DRM_BRIDGE [=y] && DRM_KMS_HELPER [=n]
-  Selected by [y]:
-  - DRM_TOSHIBA_TC358762 [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_BRIDGE [=y] && OF [=y]
+> >> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9804:38:
+> >> warning: variable 'i' is uninitialized when used here
+> >> [-Wuninitialized]
+>                            timing  = &edid->detailed_timings[i];
+>                                                              ^
+>    drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9714:7:
+> note: initialize the variable 'i' to silence this warning
+>            int i;
+>                 ^
+>                  = 0
+>    1 warning generated.
+>
+> Initialize the variable 'i'.
 
-This is because DRM_TOSHIBA_TC358762 selects DRM_PANEL_BRIDGE,
-without depending on or selecting DRM_KMS_HELPER,
-despite that config option depending on DRM_KMS_HELPER.
+Hm, I see this variable already initialized in the loop:
 
-Signed-off-by: Julian Braha <julianbraha@gmail.com>
----
- drivers/gpu/drm/bridge/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+    for (i = 0; i < 4; i++) {
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index e4110d6ca7b3..909d0a5643c2 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -183,6 +183,7 @@ config DRM_TOSHIBA_TC358762
- 	tristate "TC358762 DSI/DPI bridge"
- 	depends on OF
- 	select DRM_MIPI_DSI
-+	select DRM_KMS_HELPER
- 	select DRM_PANEL_BRIDGE
- 	help
- 	  Toshiba TC358762 DSI/DPI bridge driver.
---
-2.27.0
+This is the branch agd5f/drm-next.
+
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index a22a53d..e96d3d9 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -9717,7 +9717,7 @@ static bool parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+>  void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+>  					struct edid *edid)
+>  {
+> -	int i;
+> +	int i = 0;
+>  	struct detailed_timing *timing;
+>  	struct detailed_non_pixel *data;
+>  	struct detailed_data_monitor_range *range;
+> --
+> 1.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
