@@ -1,35 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B39321724
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 13:43:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2A9321804
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 14:09:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D56C36E4E3;
-	Mon, 22 Feb 2021 12:43:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B416E6E505;
+	Mon, 22 Feb 2021 13:09:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76CD46E4E3;
- Mon, 22 Feb 2021 12:43:34 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 099C7B117;
- Mon, 22 Feb 2021 12:43:33 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, yuq825@gmail.com, robh@kernel.org,
- tomeu.vizoso@collabora.com, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, eric@anholt.net, sumit.semwal@linaro.org,
- christian.koenig@amd.com, stern@rowland.harvard.edu
-Subject: [PATCH v2 3/3] drm/cma-helper: Implement struct
- drm_driver.gem_prime_create_object
-Date: Mon, 22 Feb 2021 13:43:28 +0100
-Message-Id: <20210222124328.27340-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210222124328.27340-1-tzimmermann@suse.de>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2055.outbound.protection.outlook.com [40.107.243.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE226E505;
+ Mon, 22 Feb 2021 13:09:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i/zH0Re/niRi9W0Epr55XYTy/qXxTMVE0lJQKkBeG+DJyVJpcYS0PT15+0TznXxk3fhXmChonemhanCMk0McHgwjqLDqOPTGZWi0bwXCqkVt/zpE/8YK5ug8SxrGAKK+UEQCtw5pRgHF9Rhnenr6UHwulwuBzqCKEz4fVa+0/bGotCxbOwaavZGOnwnn7x0IkFX6Yb1TgaDV8xOa4WDrW3bZioqNpl/OThj5rFgcjJM4b2mF87Rtp1h/Uk+gRs9LEg/cgctwXzg//R/HwC9RWbRT38HtZr5IN2axCSfmt1uolY4y0Nr3snAwruKTBGCoNO9Ix3+q+5FIkePMndVT4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DdLEgtK6zgPGxnDHWZQfaUGRc9YfUtEZb3QdOK8yDKE=;
+ b=dRzbtWZMioNdo3279o29/gG9hfolTLk/S/rjrwJlA7pmZYMv0Ca8Q3u8TMnVyfa5g29HMfIvQmgDzOvEuKCqJDRzDxtn6df15OINus+K2NOhS47sDc0zTJjt+IR/C+yktfExLD0x3qlAojk/QFlD8hEJuYDj+cgcaEJzHCPgvUDUlJGHIevC+3XrnhQSqVMLnNdvjLy4sz4HI22caMBKwBPUjCN2kuqwqKU3pVCNjwTgPNk7LbX/jSvRFjETJQhIgcb4AhCjXx3UdG5zaKRn1i7gNtPn8quNiOau3Alk/JDmO1VEyAiT7Xrpgc9BsHzpRx43uSwZkBU482xMp1l86Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DdLEgtK6zgPGxnDHWZQfaUGRc9YfUtEZb3QdOK8yDKE=;
+ b=MpXBGwvgOGo/Xkbcl8jnlR40ZfeH0k7S1vPKE4H5n8mlIY0Appl4w3ci0XeTCuxJuPZlh9SwRyg+HzDksGAZiZKAwtQi2za1An5YX0Ugm1HXJmuRPJZBrOPN2JW4J7OSzuPhVcueVNDaxpt4A4TakteZUcojH/XQxTK+iBsTmxM=
+Authentication-Results: lists.linaro.org; dkim=none (message not signed)
+ header.d=none;lists.linaro.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4390.namprd12.prod.outlook.com (2603:10b6:208:26e::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.29; Mon, 22 Feb
+ 2021 13:09:15 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3868.031; Mon, 22 Feb 2021
+ 13:09:15 +0000
+Subject: Re: [PATCH v2 0/3] drm/prime: Only call dma_map_sgtable() for devices
+ with DMA support
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@linux.ie, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ yuq825@gmail.com, robh@kernel.org, tomeu.vizoso@collabora.com,
+ steven.price@arm.com, alyssa.rosenzweig@collabora.com, eric@anholt.net,
+ sumit.semwal@linaro.org, stern@rowland.harvard.edu
 References: <20210222124328.27340-1-tzimmermann@suse.de>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <b190801b-b8be-c9df-f203-3e42eb97cea4@amd.com>
+Date: Mon, 22 Feb 2021 14:09:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20210222124328.27340-1-tzimmermann@suse.de>
+Content-Language: en-US
+X-Originating-IP: [46.189.55.12]
+X-ClientProxiedBy: ZRAP278CA0003.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:10::13) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.201.250.142] (46.189.55.12) by
+ ZRAP278CA0003.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:10::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3868.27 via Frontend Transport; Mon, 22 Feb 2021 13:09:11 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 72a5d381-ab30-43d7-e16a-08d8d7330d44
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4390:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4390CC0EE9D261362738C9D683819@MN2PR12MB4390.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EW0gjAAwW1/2Zm8iSUFJdBH80jre+lF1daZcJeiEai45G4ZwgChrG+Qb31rN0OYn+ywJVB//kNd9JFIBcCyPwhjn1Ngx3QVBvQPaRqOhfOfmon9jFFtLo0UJMMGhdvH6nvC65F/bmVosMcrb2PPEWw+Ny/z+bdIn+IKmXfRtSSmPgTbdwrS43Kroc/qTH8Wn6C3YaojkOtOFGmgUBbNcZkQ6hsZoVGo01HOeJtUMXVI1JKxr8Ac9O5PBu5fVNp1G8DdLKGP9fgvqahysRBRAD7Cf99Z8I1SNc188lH60Ep8qAvAxzyBx7VeQEdRqyl4ZlkMqFKV1zTbodtnKm6Hw3cs8kTkgcADYxEk0jYqdVx3W0eHGaHlkTjLfBAy/vw6i3BtBBKrEJ3IUjJKT4fCM8htSywmxEHcm7aJne0ZUSApbL9InC30rDEqsqJx9WQVHdR1/1tjyUcU1sYtA9hnPdUiETHmZdti8Dhmj6nqGLePnVWyHccvHGykyitnnqug3IG+D+R0zxtrq+9amE2Ura2TgPLlJhNixEa2AzzKaHS3OfoCG25zKJ6yNpDxb8jYgW6W5WrouwiOk5JeiIwxJNA7lHJG3MYTP4byVF333Sv1/7WaIjtNptaqdsENEEZRL
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(346002)(376002)(366004)(396003)(136003)(66476007)(66556008)(921005)(4326008)(66946007)(31686004)(83380400001)(7416002)(86362001)(26005)(2616005)(8936002)(6486002)(186003)(316002)(36756003)(478600001)(16526019)(8676002)(956004)(2906002)(16576012)(52116002)(5660300002)(6666004)(31696002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?L0c3NnJlL2ltNEZNclU5V1B6dHo5NlhCb0lBTFJkc2FGaCtmblhwZjdGRGRk?=
+ =?utf-8?B?Q1AwMlY4NlEyOHM5RUp5a0dvR0g2c1E5Z2ZkR3hqajdNTFF6S1NPYng3bDh4?=
+ =?utf-8?B?R1c3WVNrS1pKZkJlMUNIaGZhVzM2SEdRbEFhekJIUW40OVVVRk1zZGs5YmM3?=
+ =?utf-8?B?MEJ4YmlvamlVT2F3ZE0weGJMZ3NOK2RRbGdTNG9RenUvNzkzV1U1aEJwY1Iz?=
+ =?utf-8?B?WEdKVkVlcllmT2twQUdLZEZSTXFnTXZnaEJKRTJJempPeXZXTVdEaUhRS1Q5?=
+ =?utf-8?B?K2JSZFk2anpHVHdPMGl4Y1FrNjNQTEViZ0dUMmt4a2lucUFwMVNaK0t0c1Y0?=
+ =?utf-8?B?NzhtU2ZXdDVsbmtzYmhwcHU5VXZzSWNpamw3clVjS2VkSG4xTm5HZFFEOGJo?=
+ =?utf-8?B?dU5XZUpFeWY0ZGM3aEF4ZlprbUNDbTVCWkl6NmluRUlvdjNnczV6a0dSQXl3?=
+ =?utf-8?B?QkJNL0RWd09SQjBZaXY3RHVVaFpGV2xNQ2xaaDhEYjlDNTFqUTE3KzV3SHRn?=
+ =?utf-8?B?dFRMb0dQQUx6T0hXNTlvbkg2akJMcEdzVlRuM0VFeVdKUGNsd0xqTzBzdU5C?=
+ =?utf-8?B?WFZHRjZHRGlHNlBPdXRjZFdVZkRicnhPRnhhRWNuNFVXSERIdERnQ0NSZ21X?=
+ =?utf-8?B?QUNOMUR5dEw5ODVSL0ZqajE5VDNvd2NFaWNiWWlTYkhMdnV4OWYrcXlGcUlC?=
+ =?utf-8?B?eEZxOHliSC9WdjA5VDhLR2JjdkRZdkxxZWFwdGNzQ000VUJCcXlEajhVeWEy?=
+ =?utf-8?B?ZWlxcmdMZHRRSG96aFpKQzRmNjVpWkV3QnpjTi84L1dncGlIM1MrczNMZE1n?=
+ =?utf-8?B?RkpFeVZwK2llbDBmdTBQWTlzZ1BxQWk2RXJNeFJtTUVwdU05U0JsYi9DdFBv?=
+ =?utf-8?B?N0dFa2VhQWlPaG5uSTR3RnY5Z2tSODRjR2RnM1p6YnZOWHV2M3BSSGR3UzVK?=
+ =?utf-8?B?WDk3QnNvdDhnWGJaYlNiOFhTTVpjQldsVVVOZFRMS1hTeFZYaE1JTHg0TVVK?=
+ =?utf-8?B?L0Q1QTFGOHdVVTU5M0o2SFBNcEM1ZHRvLzB4STUxeEFoK3pDOGNUdHF6MUIw?=
+ =?utf-8?B?RmdPd1JVNHgvOWNvZi96YUd3ZEFzUHM1akZMeW03OGt1LzRlc2UzdG9wU29q?=
+ =?utf-8?B?Q28zdU5BLy9wUmhyVXV2S3dzOVcyZXNmR1R5U2Q2V0dCcDI0MlVMcm5scHRj?=
+ =?utf-8?B?QzhQSENBY1B5QzZNSXFhM3FCZ2RGL1VuMDJoVUFySDQ0cU5NTnB4cVJlQXN5?=
+ =?utf-8?B?MDhvdnVsY2hmRFBPd3NJSWVLdFB1Umc3WWFBeDhqSTRITmllMGZnMVdseGdT?=
+ =?utf-8?B?WE5hTkxSNU1UcGI1Q0pCcVdTTXE1dGxTbGpjWEE2YWVqZHl6SHgvS2Nyc2Zt?=
+ =?utf-8?B?T1gzbXp6QnREeHB3VGt5WXoxaklzQUUvVTQrdWpYNkoxV0FyWi9nNGhqd2Iv?=
+ =?utf-8?B?RncwdGN2MlhVYlN1RzdDWlVkRDJKdG5NUlBNYWxPWE5rK1FXb09taDYvdTNE?=
+ =?utf-8?B?aUdEeWRhcTdXOEV3aG9YWmFhOGhyMjFVQy9UNGg0UXQ2aCtDYWE2ekYrY01U?=
+ =?utf-8?B?T3FpRWJweUQ2VHAvWTRadG01SWFRcDE1eG1EUE91U0poUnFJdWh6aGR5YjdL?=
+ =?utf-8?B?UEpmeEx2Skc3RTBReHR0NHhydUt5ZXFYa3NFZWtiYVEwN0p4WlU1bUJHa1JS?=
+ =?utf-8?B?WWV5OEw3dnVlMkVvakszaktubXU1M3gxSFdoNkxaaUowTk5pdmFvaWVpdE1q?=
+ =?utf-8?Q?pb0AeJQ3AVMUn0UOUxiZo7Ku9NR3wE6Zow+0j5R?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72a5d381-ab30-43d7-e16a-08d8d7330d44
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2021 13:09:15.0230 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GSGWGC7GzC45zpvU5LNy5h9LFe4r2LjfkiBOCnlWnYDKuKLlrxkACyfcnpaO5rl/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4390
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,230 +128,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, Thomas Zimmermann <tzimmermann@suse.de>,
- lima@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: linaro-mm-sig@lists.linaro.org, lima@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Moves the scatter/gather-table setup from PRIME helpers into CMA
-helpers. No functional changes.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_gem_cma_helper.c | 62 ++++++++++++++++------------
- drivers/gpu/drm/pl111/pl111_drv.c    |  8 ++--
- include/drm/drm_gem_cma_helper.h     | 12 ++----
- 3 files changed, 42 insertions(+), 40 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-index 7942cf05cd93..7200d0ae2e38 100644
---- a/drivers/gpu/drm/drm_gem_cma_helper.c
-+++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-@@ -404,37 +404,44 @@ struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_object *obj)
- EXPORT_SYMBOL_GPL(drm_gem_cma_get_sg_table);
- 
- /**
-- * drm_gem_cma_prime_import_sg_table - produce a CMA GEM object from another
-- *     driver's scatter/gather table of pinned pages
-+ * drm_gem_cma_prime_create_object - produce a CMA GEM object from another
-+ *     driver's DMA-BUF attachment
-  * @dev: device to import into
-  * @attach: DMA-BUF attachment
-- * @sgt: scatter/gather table of pinned pages
-  *
-- * This function imports a scatter/gather table exported via DMA-BUF by
-- * another driver. Imported buffers must be physically contiguous in memory
-- * (i.e. the scatter/gather table must contain a single entry). Drivers that
-- * use the CMA helpers should set this as their
-- * &drm_driver.gem_prime_import_sg_table callback.
-+ * This function imports a DMA-BUF exported by another driver. It sets a
-+ * scatter/gather table of pinned pages. Imported buffers must be physically
-+ * contiguous in memory (i.e. the scatter/gather table must contain a single
-+ * entry). Drivers that use the CMA helpers should set this as their
-+ * &drm_driver.gem_prime_create_object callback.
-  *
-  * Returns:
-  * A pointer to a newly created GEM object or an ERR_PTR-encoded negative
-  * error code on failure.
-  */
- struct drm_gem_object *
--drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
--				  struct dma_buf_attachment *attach,
--				  struct sg_table *sgt)
-+drm_gem_cma_prime_create_object(struct drm_device *dev, struct dma_buf_attachment *attach)
- {
-+	struct sg_table *sgt;
- 	struct drm_gem_cma_object *cma_obj;
-+	int ret;
-+
-+	sgt = dma_buf_map_attachment(attach, DMA_BIDIRECTIONAL);
-+	if (IS_ERR(sgt))
-+		return ERR_CAST(sgt);
- 
- 	/* check if the entries in the sg_table are contiguous */
--	if (drm_prime_get_contiguous_size(sgt) < attach->dmabuf->size)
--		return ERR_PTR(-EINVAL);
-+	if (drm_prime_get_contiguous_size(sgt) < attach->dmabuf->size) {
-+		ret = -EINVAL;
-+		goto err;
-+	}
- 
- 	/* Create a CMA GEM buffer. */
- 	cma_obj = __drm_gem_cma_create(dev, attach->dmabuf->size);
--	if (IS_ERR(cma_obj))
--		return ERR_CAST(cma_obj);
-+	if (IS_ERR(cma_obj)) {
-+		ret = PTR_ERR(cma_obj);
-+		goto err;
-+	}
- 
- 	cma_obj->paddr = sg_dma_address(sgt->sgl);
- 	cma_obj->sgt = sgt;
-@@ -442,8 +449,12 @@ drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
- 	DRM_DEBUG_PRIME("dma_addr = %pad, size = %zu\n", &cma_obj->paddr, attach->dmabuf->size);
- 
- 	return &cma_obj->base;
-+
-+err:
-+	dma_buf_unmap_attachment(attach, sgt, DMA_BIDIRECTIONAL);
-+	return ERR_PTR(ret);
- }
--EXPORT_SYMBOL_GPL(drm_gem_cma_prime_import_sg_table);
-+EXPORT_SYMBOL_GPL(drm_gem_cma_prime_create_object);
- 
- /**
-  * drm_gem_cma_vmap - map a CMA GEM object into the kernel's virtual
-@@ -509,18 +520,17 @@ int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
- 
- /**
-- * drm_gem_cma_prime_import_sg_table_vmap - PRIME import another driver's
-- *	scatter/gather table and get the virtual address of the buffer
-+ * drm_gem_cma_prime_create_object_vmap - produce a CMA GEM object from another
-+ *     driver's DMA-BUF attachment and gets the virtual address of the buffer
-  * @dev: DRM device
-  * @attach: DMA-BUF attachment
-- * @sgt: Scatter/gather table of pinned pages
-  *
-- * This function imports a scatter/gather table using
-- * drm_gem_cma_prime_import_sg_table() and uses dma_buf_vmap() to get the kernel
-+ * This function imports a DMA-BUF using
-+ * drm_gem_cma_prime_create_object() and uses dma_buf_vmap() to get the kernel
-  * virtual address. This ensures that a CMA GEM object always has its virtual
-  * address set. This address is released when the object is freed.
-  *
-- * This function can be used as the &drm_driver.gem_prime_import_sg_table
-+ * This function can be used as the &drm_driver.gem_prime_create_object
-  * callback. The &DRM_GEM_CMA_DRIVER_OPS_VMAP macro provides a shortcut to set
-  * the necessary DRM driver operations.
-  *
-@@ -529,9 +539,7 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
-  * error code on failure.
-  */
- struct drm_gem_object *
--drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *dev,
--				       struct dma_buf_attachment *attach,
--				       struct sg_table *sgt)
-+drm_gem_cma_prime_create_object_vmap(struct drm_device *dev, struct dma_buf_attachment *attach)
- {
- 	struct drm_gem_cma_object *cma_obj;
- 	struct drm_gem_object *obj;
-@@ -544,7 +552,7 @@ drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *dev,
- 		return ERR_PTR(ret);
- 	}
- 
--	obj = drm_gem_cma_prime_import_sg_table(dev, attach, sgt);
-+	obj = drm_gem_cma_prime_create_object(dev, attach);
- 	if (IS_ERR(obj)) {
- 		dma_buf_vunmap(attach->dmabuf, &map);
- 		return obj;
-@@ -555,4 +563,4 @@ drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *dev,
- 
- 	return obj;
- }
--EXPORT_SYMBOL(drm_gem_cma_prime_import_sg_table_vmap);
-+EXPORT_SYMBOL(drm_gem_cma_prime_create_object_vmap);
-diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
-index e4dcaef6c143..3dd6c7e46df0 100644
---- a/drivers/gpu/drm/pl111/pl111_drv.c
-+++ b/drivers/gpu/drm/pl111/pl111_drv.c
-@@ -194,9 +194,7 @@ static int pl111_modeset_init(struct drm_device *dev)
- }
- 
- static struct drm_gem_object *
--pl111_gem_import_sg_table(struct drm_device *dev,
--			  struct dma_buf_attachment *attach,
--			  struct sg_table *sgt)
-+pl111_gem_create_object(struct drm_device *dev, struct dma_buf_attachment *attach)
- {
- 	struct pl111_drm_dev_private *priv = dev->dev_private;
- 
-@@ -208,7 +206,7 @@ pl111_gem_import_sg_table(struct drm_device *dev,
- 	if (priv->use_device_memory)
- 		return ERR_PTR(-EINVAL);
- 
--	return drm_gem_cma_prime_import_sg_table(dev, attach, sgt);
-+	return drm_gem_cma_prime_create_object(dev, attach);
- }
- 
- DEFINE_DRM_GEM_CMA_FOPS(drm_fops);
-@@ -227,7 +225,7 @@ static const struct drm_driver pl111_drm_driver = {
- 	.dumb_create = drm_gem_cma_dumb_create,
- 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
- 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
--	.gem_prime_import_sg_table = pl111_gem_import_sg_table,
-+	.gem_prime_create_object = pl111_gem_create_object,
- 	.gem_prime_mmap = drm_gem_prime_mmap,
- 
- #if defined(CONFIG_DEBUG_FS)
-diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma_helper.h
-index 0a9711caa3e8..54d7f4b11225 100644
---- a/include/drm/drm_gem_cma_helper.h
-+++ b/include/drm/drm_gem_cma_helper.h
-@@ -95,9 +95,7 @@ void drm_gem_cma_print_info(struct drm_printer *p, unsigned int indent,
- 
- struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_object *obj);
- struct drm_gem_object *
--drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
--				  struct dma_buf_attachment *attach,
--				  struct sg_table *sgt);
-+drm_gem_cma_prime_create_object(struct drm_device *dev, struct dma_buf_attachment *attach);
- int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
- int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
- 
-@@ -118,7 +116,7 @@ int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
- 	.dumb_create		= (dumb_create_func), \
- 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd, \
- 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle, \
--	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table, \
-+	.gem_prime_create_object = drm_gem_cma_prime_create_object, \
- 	.gem_prime_mmap		= drm_gem_prime_mmap
- 
- /**
-@@ -156,7 +154,7 @@ int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
- 	.dumb_create		= dumb_create_func, \
- 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd, \
- 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle, \
--	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table_vmap, \
-+	.gem_prime_create_object = drm_gem_cma_prime_create_object_vmap, \
- 	.gem_prime_mmap		= drm_gem_prime_mmap
- 
- /**
-@@ -178,8 +176,6 @@ int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
- 	DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE(drm_gem_cma_dumb_create)
- 
- struct drm_gem_object *
--drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *drm,
--				       struct dma_buf_attachment *attach,
--				       struct sg_table *sgt);
-+drm_gem_cma_prime_create_object_vmap(struct drm_device *drm, struct dma_buf_attachment *attach);
- 
- #endif /* __DRM_GEM_CMA_HELPER_H__ */
--- 
-2.30.1
+Am 22.02.21 um 13:43 schrieb Thomas Zimmermann:
+> USB-based drivers cannot use DMA, so the importing of dma-buf attachments
+> currently fails for udl and gm12u320. This breaks joining/mirroring of
+> displays.
+>
+> The fix is now a little series. To solve the issue on the importer
+> side (i.e., the affected USB-based driver), patch 1 introduces a new
+> PRIME callback, struct drm_driver.gem_prime_create_object, which creates
+> an object and gives more control to the importing driver. Specifically,
+> udl and gm12u320 can now avoid the creation of a scatter/gather table
+> for the imported pages. Patch 1 is self-contained in the sense that it
+> can be backported into older kernels.
+
+Mhm, that sounds like a little overkill to me.
+
+Drivers can already import the DMA-bufs all by them selves without the 
+help of the DRM functions. See amdgpu for an example.
+
+Daniel also already noted to me that he sees the DRM helper as a bit 
+questionable middle layer.
+
+Have you thought about doing that instead?
+
+Christian.
+
+>
+> Patches 2 and 3 update SHMEM and CMA helpers to use the new callback.
+> Effectively this moves the sg table setup from the PRIME helpers into
+> the memory managers. SHMEM now supports devices without DMA support,
+> so custom code can be removed from udl and g12u320.
+>
+> Tested by joining/mirroring displays of udl and radeon under Gnome/X11.
+>
+> v2:
+> 	* move fix to importer side (Christian, Daniel)
+> 	* update SHMEM and CMA helpers for new PRIME callbacks
+>
+> Thomas Zimmermann (3):
+>    drm: Support importing dmabufs into drivers without DMA
+>    drm/shmem-helper: Implement struct drm_driver.gem_prime_create_object
+>    drm/cma-helper: Implement struct drm_driver.gem_prime_create_object
+>
+>   drivers/gpu/drm/drm_gem_cma_helper.c    | 62 ++++++++++++++-----------
+>   drivers/gpu/drm/drm_gem_shmem_helper.c  | 38 ++++++++++-----
+>   drivers/gpu/drm/drm_prime.c             | 43 +++++++++++------
+>   drivers/gpu/drm/lima/lima_drv.c         |  2 +-
+>   drivers/gpu/drm/panfrost/panfrost_drv.c |  2 +-
+>   drivers/gpu/drm/panfrost/panfrost_gem.c |  6 +--
+>   drivers/gpu/drm/panfrost/panfrost_gem.h |  4 +-
+>   drivers/gpu/drm/pl111/pl111_drv.c       |  8 ++--
+>   drivers/gpu/drm/v3d/v3d_bo.c            |  6 +--
+>   drivers/gpu/drm/v3d/v3d_drv.c           |  2 +-
+>   drivers/gpu/drm/v3d/v3d_drv.h           |  5 +-
+>   include/drm/drm_drv.h                   | 12 +++++
+>   include/drm/drm_gem_cma_helper.h        | 12 ++---
+>   include/drm/drm_gem_shmem_helper.h      |  6 +--
+>   14 files changed, 120 insertions(+), 88 deletions(-)
+>
+> --
+> 2.30.1
+>
 
 _______________________________________________
 dri-devel mailing list
