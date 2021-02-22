@@ -2,34 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7294321A44
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 15:24:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66989321B52
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 16:25:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B70A16E52E;
-	Mon, 22 Feb 2021 14:24:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA7B86E0C6;
+	Mon, 22 Feb 2021 15:25:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1375B6E52E
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 14:24:22 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id CA504ACBF;
- Mon, 22 Feb 2021 14:24:19 +0000 (UTC)
-Subject: Re: [PATCH] drm/shmem-helper: Don't remove the offset in
- vm_area_struct pgoff
-To: Neil Roberts <nroberts@igalia.com>, Rob Herring <robh+dt@kernel.org>,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Steven Price <steven.price@arm.com>
-References: <20210217165910.3820374-1-nroberts@igalia.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <8f3ea5bb-4bfa-a3de-2d45-ec7110338587@suse.de>
-Date: Mon, 22 Feb 2021 15:24:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EC086E0C6
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 15:12:43 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id n10so14711954wmq.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 07:12:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W0TOeWb9HGAVOiFV96tO3iwrSfpr1HUMq4Lyw23rID8=;
+ b=FXji/u2iaXY+XOLURddZgd2B9Komiw4Zs+cHylXgLODWE9GujYAMZXOAJt49ncgKkj
+ KXasUXoXmvp4d8wnMqKd80kcI7te+i8Ssj5jDkgEWFuHlI+B6a2sASXp0MxfAR6JnXe8
+ PMBmzH05uvtN8ixL0Xf+EQKCWEzHPeryma2B8WEKKwAVtI0pXqr1NlCyNenHmBJpSL8S
+ /+oAK7AHbhG8Bp1qrmvN2UnpdRZab4b+NfCGuGFlZhbfGdnHHN2BEQP/z7fvhdeo8a9n
+ SKJFfnaPm0+G5TFN4ZPUDwZLEAxSLZT3kXUZZdZbgYAQSBq86aQw+eD/RGBp29tx1xWa
+ GH7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W0TOeWb9HGAVOiFV96tO3iwrSfpr1HUMq4Lyw23rID8=;
+ b=ulMSOnj4w6Bux2c2nPYEz/b7gqbdFoAMgJt5v5iIFtNtO9Ptx4IgxJa6F5elR3cAxE
+ qNjSRPz1+kwGIAc5KHTfxZB0FcoD0Fi5IUWEuEnXKLWFF0dI+4fGc0SUrR9GClBBKek1
+ MGrhgMWDdL87+Dirvi0j5azSv65eV+3Hjs0AHEUWGUa6VqaoxqMrMLtGvB3ySnss+E4m
+ EmvEA6OQOIfwYH3W4nq4DcXCja7bQC56jOUlC72gkiGEmvE0cDPxxiDzFDsfRUbQAWMs
+ WA1Ge/AQjEdnmu9H44s/naWcBapjua2YMhL6qE5Bl6sTRqVFLX7nIwB4dRmOwwR1eNkr
+ cr2A==
+X-Gm-Message-State: AOAM531zMnqIEqlSvCgBYT5ZukFoMCMYAHA0vKovRUF0AstvgdCvUKj9
+ mjsZvWHdbKXqcGbDWBLE/XA=
+X-Google-Smtp-Source: ABdhPJwJjaqNTMZMEqWfwHu3GKPnp7PUpKeoIN2SSKme4SlDCBTSRJD1aRWbEX4S9qfmjT5mjltYPQ==
+X-Received: by 2002:a05:600c:26c4:: with SMTP id
+ 4mr9157865wmv.126.1614006761746; 
+ Mon, 22 Feb 2021 07:12:41 -0800 (PST)
+Received: from debby (176-141-241-253.abo.bbox.fr. [176.141.241.253])
+ by smtp.gmail.com with ESMTPSA id q25sm20952001wmq.15.2021.02.22.07.12.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Feb 2021 07:12:41 -0800 (PST)
+From: Romain Perier <romain.perier@gmail.com>
+To: Kees Cook <keescook@chromium.org>, kernel-hardening@lists.openwall.com,
+ Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>, Jiri Pirko <jiri@nvidia.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mimi Zohar <zohar@linux.ibm.com>,
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+ "J. Bruce Fields" <bfields@fieldses.org>,
+ Chuck Lever <chuck.lever@oracle.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Jessica Yu <jeyu@kernel.org>,
+ Guenter Roeck <linux@roeck-us.net>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Steffen Maier <maier@linux.ibm.com>, Benjamin Block <bblock@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@redhat.com>,
+ Jiri Slaby <jirislaby@kernel.org>, Felipe Balbi <balbi@kernel.org>,
+ Valentina Manea <valentina.manea.m@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>
+Subject: [PATCH 00/20] Manual replacement of all strlcpy in favor of strscpy
+Date: Mon, 22 Feb 2021 16:12:11 +0100
+Message-Id: <20210222151231.22572-1-romain.perier@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210217165910.3820374-1-nroberts@igalia.com>
+X-Mailman-Approved-At: Mon, 22 Feb 2021 15:25:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,158 +89,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0903162084=="
+Cc: linux-hwmon@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ linux-scsi@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org, alsa-devel@alsa-project.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-m68k@lists.linux-m68k.org,
+ target-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
+ cgroups@vger.kernel.org, linux-integrity@vger.kernel.org,
+ Romain Perier <romain.perier@gmail.com>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0903162084==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="BbckVkDMolbFy74PkRDLeHi7vFS7kf5BT"
+strlcpy() copy a C-String into a sized buffer, the result is always a
+valid NULL-terminated that fits in the buffer, howerver it has severals
+issues. It reads the source buffer first, which is dangerous if it is non
+NULL-terminated or if the corresponding buffer is unbounded. Its safe
+replacement is strscpy(), as suggested in the deprecated interface [1].
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---BbckVkDMolbFy74PkRDLeHi7vFS7kf5BT
-Content-Type: multipart/mixed; boundary="C0z4wx7Dz2wdtGavVZBVec1fs2L3SPYz3";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Neil Roberts <nroberts@igalia.com>, Rob Herring <robh+dt@kernel.org>,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Steven Price <steven.price@arm.com>
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <8f3ea5bb-4bfa-a3de-2d45-ec7110338587@suse.de>
-Subject: Re: [PATCH] drm/shmem-helper: Don't remove the offset in
- vm_area_struct pgoff
-References: <20210217165910.3820374-1-nroberts@igalia.com>
-In-Reply-To: <20210217165910.3820374-1-nroberts@igalia.com>
+We plan to make this contribution in two steps:
+- Firsly all cases of strlcpy's return value are manually replaced by the
+  corresponding calls of strscpy() with the new handling of the return
+  value (as the return code is different in case of error).
+- Then all other cases are automatically replaced by using coccinelle.
 
---C0z4wx7Dz2wdtGavVZBVec1fs2L3SPYz3
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This series covers manual replacements.
 
-Hi
+[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy
 
-Am 17.02.21 um 17:59 schrieb Neil Roberts:
-> When mmapping the shmem, it would previously adjust the pgoff in the
-> vm_area_struct to remove the fake offset that is added to be able to
-> identify the buffer. This patch removes the adjustment and makes the
-> fault handler use the vm_fault address to calculate the page offset
-> instead. Although using this address is apparently discouraged, several=
+Romain Perier (20):
+  cgroup: Manual replacement of the deprecated strlcpy() with return
+    values
+  crypto: Manual replacement of the deprecated strlcpy() with return
+    values
+  devlink: Manual replacement of the deprecated strlcpy() with return
+    values
+  dma-buf: Manual replacement of the deprecated strlcpy() with return
+    values
+  kobject: Manual replacement of the deprecated strlcpy() with return
+    values
+  ima: Manual replacement of the deprecated strlcpy() with return values
+  SUNRPC: Manual replacement of the deprecated strlcpy() with return
+    values
+  kernfs: Manual replacement of the deprecated strlcpy() with return
+    values
+  m68k/atari: Manual replacement of the deprecated strlcpy() with return
+    values
+  module: Manual replacement of the deprecated strlcpy() with return
+    values
+  hwmon: Manual replacement of the deprecated strlcpy() with return
+    values
+  s390/hmcdrv: Manual replacement of the deprecated strlcpy() with
+    return values
+  scsi: zfcp: Manual replacement of the deprecated strlcpy() with return
+    values
+  target: Manual replacement of the deprecated strlcpy() with return
+    values
+  ALSA: usb-audio: Manual replacement of the deprecated strlcpy() with
+    return values
+  tracing/probe: Manual replacement of the deprecated strlcpy() with
+    return values
+  vt: Manual replacement of the deprecated strlcpy() with return values
+  usb: gadget: f_midi: Manual replacement of the deprecated strlcpy()
+    with return values
+  usbip: usbip_host: Manual replacement of the deprecated strlcpy() with
+    return values
+  s390/watchdog: Manual replacement of the deprecated strlcpy() with
+    return values
 
-> DRM drivers seem to be doing it anyway.
->=20
-> The problem with removing the pgoff is that it prevents
-> drm_vma_node_unmap from working because that searches the mapping tree
-> by address. That doesn't work because all of the mappings are at offset=
+ arch/m68k/emu/natfeat.c                 |  6 +--
+ crypto/lrw.c                            |  6 +--
+ crypto/xts.c                            |  6 +--
+ drivers/dma-buf/dma-buf.c               |  4 +-
+ drivers/hwmon/pmbus/max20730.c          | 66 +++++++++++++------------
+ drivers/s390/char/diag_ftp.c            |  4 +-
+ drivers/s390/char/sclp_ftp.c            |  6 +--
+ drivers/s390/scsi/zfcp_fc.c             |  8 +--
+ drivers/target/target_core_configfs.c   | 33 ++++---------
+ drivers/tty/vt/keyboard.c               |  5 +-
+ drivers/usb/gadget/function/f_midi.c    |  4 +-
+ drivers/usb/gadget/function/f_printer.c |  8 +--
+ drivers/usb/usbip/stub_main.c           |  6 +--
+ drivers/watchdog/diag288_wdt.c          | 12 +++--
+ fs/kernfs/dir.c                         | 27 +++++-----
+ kernel/cgroup/cgroup.c                  |  2 +-
+ kernel/module.c                         |  4 +-
+ kernel/trace/trace_uprobe.c             | 11 ++---
+ lib/kobject_uevent.c                    |  6 +--
+ net/core/devlink.c                      |  6 +--
+ net/sunrpc/clnt.c                       |  6 ++-
+ security/integrity/ima/ima_policy.c     |  8 ++-
+ sound/usb/card.c                        |  4 +-
+ 23 files changed, 129 insertions(+), 119 deletions(-)
 
-> 0. drm_vma_node_unmap is being used by the shmem helpers when purging
-> the buffer.
-
-I just want to ask if this is how the mmap callbacks are supposed to=20
-work now?
-
-I have a number of patches in here that convert several drivers to the=20
-GEM object's mmap callback. They might not be affected by the vm_pgoff=20
-bug, but I'd like to submit something that could work in the longer term.=
-
-
-Best regards
-Thomas
-
->=20
-> It looks like panfrost is using drm_gem_shmem_purge so this might fix a=
-
-> potential bug there.
->=20
-> Signed-off-by: Neil Roberts <nroberts@igalia.com>
-> ---
->   drivers/gpu/drm/drm_gem_shmem_helper.c | 12 +++++++-----
->   1 file changed, 7 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
-rm_gem_shmem_helper.c
-> index 9825c378dfa6..4b14157f1962 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -526,11 +526,16 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_f=
-ault *vmf)
->   	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
->   	loff_t num_pages =3D obj->size >> PAGE_SHIFT;
->   	struct page *page;
-> +	pgoff_t page_offset;
->  =20
-> -	if (vmf->pgoff >=3D num_pages || WARN_ON_ONCE(!shmem->pages))
-> +	/* We don't use vmf->pgoff since that has the fake offset */
-> +	page_offset =3D (vmf->address - vma->vm_start) >> PAGE_SHIFT;
-> +
-> +	if (page_offset < 0 || page_offset >=3D num_pages ||
-> +	    WARN_ON_ONCE(!shmem->pages))
->   		return VM_FAULT_SIGBUS;
->  =20
-> -	page =3D shmem->pages[vmf->pgoff];
-> +	page =3D shmem->pages[page_offset];
->  =20
->   	return vmf_insert_page(vma, vmf->address, page);
->   }
-> @@ -581,9 +586,6 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, =
-struct vm_area_struct *vma)
->   	struct drm_gem_shmem_object *shmem;
->   	int ret;
->  =20
-> -	/* Remove the fake offset */
-> -	vma->vm_pgoff -=3D drm_vma_node_start(&obj->vma_node);
-> -
->   	if (obj->import_attach) {
->   		/* Drop the reference drm_gem_mmap_obj() acquired.*/
->   		drm_gem_object_put(obj);
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---C0z4wx7Dz2wdtGavVZBVec1fs2L3SPYz3--
-
---BbckVkDMolbFy74PkRDLeHi7vFS7kf5BT
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAzvpEFAwAAAAAACgkQlh/E3EQov+AJ
-iQ/7BpSNPFjs2AYWR2lP8CSnMEznMVwJJ7SeFi2y8KvP82S1llBNzCSy4BepVnbxeosN2EP93A67
-8zFt/q30mVPquk30wQ1apMvt15Z5h4gmeC/qWMoixix98RCD6drgFrdIRpf7Yu8r85nQzrYFDfYf
-LA48tTCpnk4WKr4SNHuIEdkYKoaMclNe6NssK/vkffOLE3e0VNd3Iy+fkPyA8Amqp779snFExKni
-5wsEkiGHoq5C0kyvNHZ7mc0VUUn2DcFaROMovRVWxMnkEUS5t1Ome1wLnkSxuLNej4F/g1EQti8n
-1TQdMHjrzYJC+WCzxdG1ZvfvnnChJIocKu47FrH0WY89Qn92gJ7rJ5uri0wBM7ukH+yPzb5qh6Z9
-l8UGZr++LiHTvO4h5a6qMOSb5VxWYjevO20gZIx1t33IU5VJIIB1dXiQ7G84SCbBh4DoQ9+Ox0pQ
-lZghySefbmrcqDQsPotchCI1ndXvcD/P2DDGgPsK+Q0FxNh5GC/zQgovq0epuyLkSTvxPmPH0z51
-B3r9DGiC7QLRWX13mpBO0/N65E4cW3JIo2c6xBwxOLxRsMy1+y2xGzxzJGxbfJfaDhbrtdPmNDiW
-N0nDYbczZwJ9vY7yoUkbaNvnTcTQL/tcyXx0S86kXuhkGh0wzKUtx0oDBRuqiJZBAlgncEsXqjwD
-DPg=
-=IP/r
------END PGP SIGNATURE-----
-
---BbckVkDMolbFy74PkRDLeHi7vFS7kf5BT--
-
---===============0903162084==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0903162084==--
