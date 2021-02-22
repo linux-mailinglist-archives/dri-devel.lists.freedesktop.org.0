@@ -2,32 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B359532133E
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 10:40:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A8C3213EF
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 11:17:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05AFA6E92F;
-	Mon, 22 Feb 2021 09:40:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2437989E2A;
+	Mon, 22 Feb 2021 10:17:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EB2C6E92F
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 09:40:02 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 0884DACCF;
- Mon, 22 Feb 2021 09:40:01 +0000 (UTC)
-Subject: Re: [PATCH] drm/ast: fix memory leak when unload the driver
-To: Tong Zhang <ztong0001@gmail.com>, Dave Airlie <airlied@redhat.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20210222023322.984885-1-ztong0001@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <4f8e20f8-880b-5aae-da48-e06c32e3e14c@suse.de>
-Date: Mon, 22 Feb 2021 10:39:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+X-Greylist: delayed 3239 seconds by postgrey-1.36 at gabe;
+ Mon, 22 Feb 2021 10:17:05 UTC
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B6D088A23
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 10:17:05 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 11M9MAGo023929; Mon, 22 Feb 2021 10:23:03 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=selector1;
+ bh=S80jikv95dWkyePNxJCMqVCdNCkmEjOC6tUVNbKerlg=;
+ b=o1jGoGrS+AkIdFwIgbSxUCvi1Kjk91pX4+g2uIpIKp9K9aT5y2Na+QhyGOwM9a4bUtDL
+ o7GRg9isTwY3FnNsfqz92EB7QKhMq3aME3YMp4ifJAVjTRtKAZg+8U5caKXQtXNv8O/n
+ lVKL0XdKyzUUtYptk/XmI2dOY+7KslQpkaGRC1Es4F6kPe4cCgLITY95vkL4LoXToics
+ CEhFNgXujgEJOBxNfgvjMfdZ4alaUEhurV+oAKTSc42oRGSbi/dcOSjwoGdHqk/K5Zuz
+ JToWs1su4Nk4E+4TvTZhf8SKa1iKZM/owxdrOv23Autdn1LHCa5ee63lTq7b2kEqGOzp Vw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 36u96ufwtb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Feb 2021 10:23:03 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 33F4910002A;
+ Mon, 22 Feb 2021 10:23:03 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2652121F0A8;
+ Mon, 22 Feb 2021 10:23:03 +0100 (CET)
+Received: from SFHDAG2NODE3.st.com (10.75.127.6) by SFHDAG2NODE3.st.com
+ (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 22 Feb
+ 2021 10:23:02 +0100
+Received: from SFHDAG2NODE3.st.com ([fe80::31b3:13bf:2dbe:f64c]) by
+ SFHDAG2NODE3.st.com ([fe80::31b3:13bf:2dbe:f64c%20]) with mapi id
+ 15.00.1473.003; Mon, 22 Feb 2021 10:23:02 +0100
+From: Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com>
+To: Yannick FERTRE <yannick.fertre@st.com>, Philippe CORNU
+ <philippe.cornu@st.com>, Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Vincent ABRIOU <vincent.abriou@st.com>,
+ Sam Ravnborg <sam@ravnborg.org>, "Joe Perches" <joe@perches.com>
+Subject: [PATCH 2/2] drm/stm: dsi: Use dev_ based logging
+Thread-Topic: [PATCH 2/2] drm/stm: dsi: Use dev_ based logging
+Thread-Index: AQHXCPxRmuabm72FykCaBQSzcYydLw==
+Date: Mon, 22 Feb 2021 09:23:02 +0000
+Message-ID: <20210222092205.32086-3-raphael.gallais-pou@foss.st.com>
+References: <20210222092205.32086-1-raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20210222092205.32086-1-raphael.gallais-pou@foss.st.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.46]
 MIME-Version: 1.0
-In-Reply-To: <20210222023322.984885-1-ztong0001@gmail.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-02-22_02:2021-02-18,
+ 2021-02-22 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,190 +79,231 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1537175359=="
+Cc: Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com>,
+ David Airlie <airlied@linux.ie>,
+ Yannick FERTRE - foss <yannick.fertre@foss.st.com>,
+ Raphael GALLAIS-POU <raphael.gallais-pou@st.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Alexandre TORGUE - foss <alexandre.torgue@foss.st.com>,
+ Philippe CORNU - foss <philippe.cornu@foss.st.com>, Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Alexandre TORGUE <alexandre.torgue@st.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1537175359==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="dZTOeeJRDc43qHnZ5vOWKE1Oq82W5WHH3"
+From: Yannick Fertre <yannick.fertre@st.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---dZTOeeJRDc43qHnZ5vOWKE1Oq82W5WHH3
-Content-Type: multipart/mixed; boundary="6m3GrRZ7yINexKWmlU4PoFTmlzIxxOiFU";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tong Zhang <ztong0001@gmail.com>, Dave Airlie <airlied@redhat.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-ID: <4f8e20f8-880b-5aae-da48-e06c32e3e14c@suse.de>
-Subject: Re: [PATCH] drm/ast: fix memory leak when unload the driver
-References: <20210222023322.984885-1-ztong0001@gmail.com>
-In-Reply-To: <20210222023322.984885-1-ztong0001@gmail.com>
+Standardize on the dev_ based logging.
 
---6m3GrRZ7yINexKWmlU4PoFTmlzIxxOiFU
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
+---
+ drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 49 ++++++++++++++-------------
+ 1 file changed, 26 insertions(+), 23 deletions(-)
 
-
-
-Am 22.02.21 um 03:33 schrieb Tong Zhang:
-> a connector is leaked upon module unload, it seems that we should do
-> similar to sample driver as suggested in drm_drv.c.
->=20
-> Adding drm_atomic_helper_shutdown() in ast_pci_remove to prevent leakin=
-g.
->=20
-> [  153.822134] WARNING: CPU: 0 PID: 173 at drivers/gpu/drm/drm_mode_con=
-fig.c:504 drm_mode_config_cle0
-> [  153.822698] Modules linked in: ast(-) drm_vram_helper drm_ttm_helper=
- ttm [last unloaded: ttm]
-> [  153.823197] CPU: 0 PID: 173 Comm: modprobe Tainted: G        W      =
-   5.11.0-03615-g55f62bc873474
-> [  153.823708] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS=
- rel-1.13.0-48-gd9c812dda519-4
-> [  153.824333] RIP: 0010:drm_mode_config_cleanup+0x418/0x470
-> [  153.824637] Code: 0c 00 00 00 00 48 8b 84 24 a8 00 00 00 65 48 33 04=
- 25 28 00 00 00 75 65 48 81 c0
-> [  153.825668] RSP: 0018:ffff888103c9fb70 EFLAGS: 00010212
-> [  153.825962] RAX: ffff888102b0d100 RBX: ffff888102b0c298 RCX: fffffff=
-f818d8b2b
-> [  153.826356] RDX: dffffc0000000000 RSI: 000000007fffffff RDI: ffff888=
-102b0c298
-> [  153.826748] RBP: ffff888103c9fba0 R08: 0000000000000001 R09: ffffed1=
-020561857
-> [  153.827146] R10: ffff888102b0c2b7 R11: ffffed1020561856 R12: ffff888=
-102b0c000
-> [  153.827538] R13: ffff888102b0c2d8 R14: ffff888102b0c2d8 R15: 1ffff11=
-020793f70
-> [  153.827935] FS:  00007f24bff456a0(0000) GS:ffff88815b400000(0000) kn=
-lGS:0000000000000000
-> [  153.828380] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  153.828697] CR2: 0000000001c39018 CR3: 0000000103c90000 CR4: 0000000=
-0000006f0
-> [  153.829096] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000=
-000000000
-> [  153.829486] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000=
-000000400
-> [  153.829883] Call Trace:
-> [  153.830024]  ? drmm_mode_config_init+0x930/0x930
-> [  153.830281]  ? cpumask_next+0x16/0x20
-> [  153.830488]  ? mnt_get_count+0x66/0x80
-> [  153.830699]  ? drm_mode_config_cleanup+0x470/0x470
-> [  153.830972]  drm_managed_release+0xed/0x1c0
-> [  153.831208]  drm_dev_release+0x3a/0x50
-> [  153.831420]  release_nodes+0x39e/0x410
-> [  153.831631]  ? devres_release+0x40/0x40
-> [  153.831852]  device_release_driver_internal+0x158/0x270
-> [  153.832143]  driver_detach+0x76/0xe0
-> [  153.832344]  bus_remove_driver+0x7e/0x100
-> [  153.832568]  pci_unregister_driver+0x28/0xf0
-> [  153.832821]  __x64_sys_delete_module+0x268/0x300
-> [  153.833086]  ? __ia32_sys_delete_module+0x300/0x300
-> [  153.833357]  ? call_rcu+0x372/0x4f0
-> [  153.833553]  ? fpregs_assert_state_consistent+0x4d/0x60
-> [  153.833840]  ? exit_to_user_mode_prepare+0x2f/0x130
-> [  153.834118]  do_syscall_64+0x33/0x40
-> [  153.834317]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> [  153.834597] RIP: 0033:0x7f24bfec7cf7
-> [  153.834797] Code: 48 89 57 30 48 8b 04 24 48 89 47 38 e9 1d a0 02 00=
- 48 89 f8 48 89 f7 48 89 d6 41
-> [  153.835812] RSP: 002b:00007fff72e6cb58 EFLAGS: 00000202 ORIG_RAX: 00=
-000000000000b0
-> [  153.836234] RAX: ffffffffffffffda RBX: 00007f24bff45690 RCX: 00007f2=
-4bfec7cf7
-> [  153.836623] RDX: 00000000ffffffff RSI: 0000000000000080 RDI: 0000000=
-001c2fb10
-> [  153.837018] RBP: 0000000001c2fac0 R08: 2f2f2f2f2f2f2f2f R09: 0000000=
-001c2fac0
-> [  153.837408] R10: fefefefefefefeff R11: 0000000000000202 R12: 0000000=
-001c2fac0
-> [  153.837798] R13: 0000000001c2f9d0 R14: 0000000000000000 R15: 0000000=
-000000001
-> [  153.838194] ---[ end trace b92031513bbe596c ]---
-> [  153.838441] [drm:drm_mode_config_cleanup] *ERROR* connector VGA-1 le=
-aked!
->=20
-> Signed-off-by: Tong Zhang <ztong0001@gmail.com>
-
-I've added the patch to drm-misc-next. Thanks a lot!
-
-Best regards
-Thomas
-
-> ---
->   drivers/gpu/drm/ast/ast_drv.c | 2 ++
->   1 file changed, 2 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_dr=
-v.c
-> index 667b450606ef..b047c0ea43e8 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.c
-> +++ b/drivers/gpu/drm/ast/ast_drv.c
-> @@ -30,6 +30,7 @@
->   #include <linux/module.h>
->   #include <linux/pci.h>
->  =20
-> +#include <drm/drm_atomic_helper.h>
->   #include <drm/drm_crtc_helper.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fb_helper.h>
-> @@ -138,6 +139,7 @@ static void ast_pci_remove(struct pci_dev *pdev)
->   	struct drm_device *dev =3D pci_get_drvdata(pdev);
->  =20
->   	drm_dev_unregister(dev);
-> +	drm_atomic_helper_shutdown(dev);
->   }
->  =20
->   static int ast_drm_freeze(struct drm_device *dev)
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---6m3GrRZ7yINexKWmlU4PoFTmlzIxxOiFU--
-
---dZTOeeJRDc43qHnZ5vOWKE1Oq82W5WHH3
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAze+8FAwAAAAAACgkQlh/E3EQov+DC
-sRAAluU5/1d9OS+DBkyw3kJIxmEMG3duJJNQUlDzNiP6zx6jzPGZJSA7upQKzER9yBG2HpHJc3zD
-CfRfhdrondITR29FUuBYdv2KqzWsV9yDYXHcKYgjd+7Qrj8EUKXSFLiB2lkvtinKpAjfITBccZ7R
-hSkYeGPpQ/6IE1yZryFAzCxOQCHtknrwkpjNlb+8BZAJvEKxKG33kEbsGv88HTStpRL9d+fLaCgR
-AFsCdGm06mUbTVfdRtVMQQT2Th8pwB5MVL+BEt7MliDLhUj3WbxA3lSo73vOvsfv1LDIbtkrxG4a
-8Z3HHVuMwCq2zW52qcs0UqMPSCzjmLWOtIAHXqbge72q/tOxWifYS1uHj7Ks7r8h/8IF8IdLbi8X
-jDPufVtGSWESDj4mgVwxZlnWJ21vsQqFPP0/ouEsJsJ6H0EvfiVRK0j3cpGdopWrQvmjRNz8Zczd
-7BypRBWqJIZ3Smjl/jzcAwKo/NflqsZb1LhCIT5iWR+iKy6Xh+aOLlXQ8LUi6UxVt4VLXyU5i59s
-wRouK7IF+qQmzX5sv2LIZhaRXLS6Tyc28B2k5t//62MSMUbcsgTx/fAia8OM44NhTFQFmsuY0c7D
-G8qOFOelwh1xBlpIWkOu4JLdSqAcyl9kFnn5xd+cIeBZgVFEeivgV2PojzPK9cQMAwlRZZYIwAjU
-h4o=
-=tUtG
------END PGP SIGNATURE-----
-
---dZTOeeJRDc43qHnZ5vOWKE1Oq82W5WHH3--
-
---===============1537175359==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+index 8399d337589d..a7226bb3d0e8 100644
+--- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
++++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+@@ -76,6 +76,7 @@ enum dsi_color {
+ 
+ struct dw_mipi_dsi_stm {
+ 	void __iomem *base;
++	struct device *dev;
+ 	struct clk *pllref_clk;
+ 	struct dw_mipi_dsi *dsi;
+ 	u32 hw_version;
+@@ -110,7 +111,8 @@ static inline void dsi_update_bits(struct dw_mipi_dsi_stm *dsi, u32 reg,
+ 	dsi_write(dsi, reg, (dsi_read(dsi, reg) & ~mask) | val);
+ }
+ 
+-static enum dsi_color dsi_color_from_mipi(enum mipi_dsi_pixel_format fmt)
++static enum dsi_color dsi_color_from_mipi(struct dw_mipi_dsi_stm *dsi,
++					  enum mipi_dsi_pixel_format fmt)
+ {
+ 	switch (fmt) {
+ 	case MIPI_DSI_FMT_RGB888:
+@@ -122,7 +124,7 @@ static enum dsi_color dsi_color_from_mipi(enum mipi_dsi_pixel_format fmt)
+ 	case MIPI_DSI_FMT_RGB565:
+ 		return DSI_RGB565_CONF1;
+ 	default:
+-		DRM_DEBUG_DRIVER("MIPI color invalid, so we use rgb888\n");
++		dev_dbg(dsi->dev, "MIPI color invalid, so we use rgb888\n");
+ 	}
+ 	return DSI_RGB888;
+ }
+@@ -205,14 +207,14 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
+ 	ret = readl_poll_timeout(dsi->base + DSI_WISR, val, val & WISR_RRS,
+ 				 SLEEP_US, TIMEOUT_US);
+ 	if (ret)
+-		DRM_DEBUG_DRIVER("!TIMEOUT! waiting REGU, let's continue\n");
++		dev_dbg(dsi->dev, "!TIMEOUT! waiting REGU, let's continue\n");
+ 
+ 	/* Enable the DSI PLL & wait for its lock */
+ 	dsi_set(dsi, DSI_WRPCR, WRPCR_PLLEN);
+ 	ret = readl_poll_timeout(dsi->base + DSI_WISR, val, val & WISR_PLLLS,
+ 				 SLEEP_US, TIMEOUT_US);
+ 	if (ret)
+-		DRM_DEBUG_DRIVER("!TIMEOUT! waiting PLL, let's continue\n");
++		dev_dbg(dsi->dev, "!TIMEOUT! waiting PLL, let's continue\n");
+ 
+ 	return 0;
+ }
+@@ -221,7 +223,7 @@ static void dw_mipi_dsi_phy_power_on(void *priv_data)
+ {
+ 	struct dw_mipi_dsi_stm *dsi = priv_data;
+ 
+-	DRM_DEBUG_DRIVER("\n");
++	dev_dbg(dsi->dev, "\n");
+ 
+ 	/* Enable the DSI wrapper */
+ 	dsi_set(dsi, DSI_WCR, WCR_DSIEN);
+@@ -231,7 +233,7 @@ static void dw_mipi_dsi_phy_power_off(void *priv_data)
+ {
+ 	struct dw_mipi_dsi_stm *dsi = priv_data;
+ 
+-	DRM_DEBUG_DRIVER("\n");
++	dev_dbg(dsi->dev, "\n");
+ 
+ 	/* Disable the DSI wrapper */
+ 	dsi_clear(dsi, DSI_WCR, WCR_DSIEN);
+@@ -267,11 +269,11 @@ dw_mipi_dsi_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
+ 
+ 	if (pll_out_khz > dsi->lane_max_kbps) {
+ 		pll_out_khz = dsi->lane_max_kbps;
+-		DRM_WARN("Warning max phy mbps is used\n");
++		dev_warn(dsi->dev, "Warning max phy mbps is used\n");
+ 	}
+ 	if (pll_out_khz < dsi->lane_min_kbps) {
+ 		pll_out_khz = dsi->lane_min_kbps;
+-		DRM_WARN("Warning min phy mbps is used\n");
++		dev_warn(dsi->dev, "Warning min phy mbps is used\n");
+ 	}
+ 
+ 	/* Compute best pll parameters */
+@@ -281,7 +283,7 @@ dw_mipi_dsi_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
+ 	ret = dsi_pll_get_params(dsi, pll_in_khz, pll_out_khz,
+ 				 &idf, &ndiv, &odf);
+ 	if (ret)
+-		DRM_WARN("Warning dsi_pll_get_params(): bad params\n");
++		dev_warn(dsi->dev, "Warning dsi_pll_get_params(): bad params\n");
+ 
+ 	/* Get the adjusted pll out value */
+ 	pll_out_khz = dsi_pll_get_clkout_khz(pll_in_khz, idf, ndiv, odf);
+@@ -299,13 +301,12 @@ dw_mipi_dsi_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
+ 
+ 	/* Select the color coding */
+ 	dsi_update_bits(dsi, DSI_WCFGR, WCFGR_COLMUX,
+-			dsi_color_from_mipi(format) << 1);
++			dsi_color_from_mipi(dsi, format) << 1);
+ 
+ 	*lane_mbps = pll_out_khz / 1000;
+ 
+-	DRM_DEBUG_DRIVER("pll_in %ukHz pll_out %ukHz lane_mbps %uMHz\n",
+-			 pll_in_khz, pll_out_khz, *lane_mbps);
+-
++	dev_dbg(dsi->dev, "pll_in %ukHz pll_out %ukHz lane_mbps %uMHz\n",
++			pll_in_khz, pll_out_khz, *lane_mbps);
+ 	return 0;
+ }
+ 
+@@ -352,11 +353,13 @@ static int dw_mipi_dsi_stm_probe(struct platform_device *pdev)
+ 	if (!dsi)
+ 		return -ENOMEM;
+ 
++	dsi->dev = dev;
++
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	dsi->base = devm_ioremap_resource(dev, res);
+ 	if (IS_ERR(dsi->base)) {
+ 		ret = PTR_ERR(dsi->base);
+-		DRM_ERROR("Unable to get dsi registers %d\n", ret);
++		dev_err(dev, "Unable to get dsi registers %d\n", ret);
+ 		return ret;
+ 	}
+ 
+@@ -369,7 +372,7 @@ static int dw_mipi_dsi_stm_probe(struct platform_device *pdev)
+ 
+ 	ret = regulator_enable(dsi->vdd_supply);
+ 	if (ret) {
+-		DRM_ERROR("Failed to enable regulator: %d\n", ret);
++		dev_err(dev, "Failed to enable regulator: %d\n", ret);
+ 		return ret;
+ 	}
+ 
+@@ -382,20 +385,20 @@ static int dw_mipi_dsi_stm_probe(struct platform_device *pdev)
+ 
+ 	ret = clk_prepare_enable(dsi->pllref_clk);
+ 	if (ret) {
+-		DRM_ERROR("Failed to enable pllref_clk: %d\n", ret);
++		dev_err(dev, "Failed to enable pllref_clk: %d\n", ret);
+ 		goto err_clk_get;
+ 	}
+ 
+ 	pclk = devm_clk_get(dev, "pclk");
+ 	if (IS_ERR(pclk)) {
+ 		ret = PTR_ERR(pclk);
+-		DRM_ERROR("Unable to get peripheral clock: %d\n", ret);
++		dev_err(dev, "Unable to get peripheral clock: %d\n", ret);
+ 		goto err_dsi_probe;
+ 	}
+ 
+ 	ret = clk_prepare_enable(pclk);
+ 	if (ret) {
+-		DRM_ERROR("%s: Failed to enable peripheral clk\n", __func__);
++		dev_err(dev, "%s: Failed to enable peripheral clk\n", __func__);
+ 		goto err_dsi_probe;
+ 	}
+ 
+@@ -404,7 +407,7 @@ static int dw_mipi_dsi_stm_probe(struct platform_device *pdev)
+ 
+ 	if (dsi->hw_version != HWVER_130 && dsi->hw_version != HWVER_131) {
+ 		ret = -ENODEV;
+-		DRM_ERROR("bad dsi hardware version\n");
++		dev_err(dev, "bad dsi hardware version\n");
+ 		goto err_dsi_probe;
+ 	}
+ 
+@@ -445,7 +448,7 @@ static int __maybe_unused dw_mipi_dsi_stm_suspend(struct device *dev)
+ {
+ 	struct dw_mipi_dsi_stm *dsi = dw_mipi_dsi_stm_plat_data.priv_data;
+ 
+-	DRM_DEBUG_DRIVER("\n");
++	dev_dbg(dsi->dev, "\n");
+ 
+ 	clk_disable_unprepare(dsi->pllref_clk);
+ 	regulator_disable(dsi->vdd_supply);
+@@ -458,18 +461,18 @@ static int __maybe_unused dw_mipi_dsi_stm_resume(struct device *dev)
+ 	struct dw_mipi_dsi_stm *dsi = dw_mipi_dsi_stm_plat_data.priv_data;
+ 	int ret;
+ 
+-	DRM_DEBUG_DRIVER("\n");
++	dev_dbg(dsi->dev, "\n");
+ 
+ 	ret = regulator_enable(dsi->vdd_supply);
+ 	if (ret) {
+-		DRM_ERROR("Failed to enable regulator: %d\n", ret);
++		dev_err(dev, "Failed to enable regulator: %d\n", ret);
+ 		return ret;
+ 	}
+ 
+ 	ret = clk_prepare_enable(dsi->pllref_clk);
+ 	if (ret) {
+ 		regulator_disable(dsi->vdd_supply);
+-		DRM_ERROR("Failed to enable pllref_clk: %d\n", ret);
++		dev_err(dev, "Failed to enable pllref_clk: %d\n", ret);
+ 		return ret;
+ 	}
+ 
+-- 
+2.17.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1537175359==--
