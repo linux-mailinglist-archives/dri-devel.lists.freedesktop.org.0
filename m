@@ -1,31 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13716321DDE
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 18:16:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B74BD321DE9
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 18:17:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6424A89E15;
-	Mon, 22 Feb 2021 17:16:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8E4C6E584;
+	Mon, 22 Feb 2021 17:16:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 684CA89E11
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 17:12:59 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC5C889F49
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 17:13:06 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id C007E1F451E5
+ with ESMTPSA id C6C1F1F451E7
 Received: by jupiter.universe (Postfix, from userid 1000)
- id 5552F4800DD; Mon, 22 Feb 2021 18:12:51 +0100 (CET)
+ id 57D6C4800DE; Mon, 22 Feb 2021 18:12:51 +0100 (CET)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 To: Sebastian Reichel <sebastian.reichel@collabora.com>,
  Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
  Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>
-Subject: [PATCHv1 3/6] dt-bindings: vendor-prefixes: add congatec
-Date: Mon, 22 Feb 2021 18:12:44 +0100
-Message-Id: <20210222171247.97609-4-sebastian.reichel@collabora.com>
+Subject: [PATCHv1 4/6] dt-bindings: arm: fsl: add GE B1x5pv2 boards
+Date: Mon, 22 Feb 2021 18:12:45 +0100
+Message-Id: <20210222171247.97609-5-sebastian.reichel@collabora.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210222171247.97609-1-sebastian.reichel@collabora.com>
 References: <20210222171247.97609-1-sebastian.reichel@collabora.com>
@@ -54,26 +53,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document binding for congatec.
+Document the compatible for GE B1x5pv2 boards.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/arm/fsl.yaml | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 041ae90b0d8f..a32db51df6c8 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -239,6 +239,8 @@ patternProperties:
-     description: Colorful GRP, Shenzhen Xueyushi Technology Ltd.
-   "^compulab,.*":
-     description: CompuLab Ltd.
-+  "^congatec,.*":
-+    description: congatec GmbH
-   "^coreriver,.*":
-     description: CORERIVER Semiconductor Co.,Ltd.
-   "^corpro,.*":
+diff --git a/Documentation/devicetree/bindings/arm/fsl.yaml b/Documentation/devicetree/bindings/arm/fsl.yaml
+index 34000f7fbe02..dd2b566314a0 100644
+--- a/Documentation/devicetree/bindings/arm/fsl.yaml
++++ b/Documentation/devicetree/bindings/arm/fsl.yaml
+@@ -393,6 +393,17 @@ properties:
+           - const: armadeus,imx6dl-apf6         # APF6 (Solo) SoM
+           - const: fsl,imx6dl
+ 
++      - description: i.MX6DL based congatec QMX6 Boards
++        items:
++          - enum:
++              - ge,imx6dl-b105v2          # General Electric B105v2
++              - ge,imx6dl-b105pv2         # General Electric B105Pv2
++              - ge,imx6dl-b125v2          # General Electric B125v2
++              - ge,imx6dl-b125pv2         # General Electric B125Pv2
++              - ge,imx6dl-b155v2          # General Electric B155v2
++          - const: congatec,qmx6
++          - const: fsl,imx6dl
++
+       - description: i.MX6DL based DFI FS700-M60-6DL Board
+         items:
+           - const: dfi,fs700-m60-6dl
 -- 
 2.30.0
 
