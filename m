@@ -1,55 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB993220F3
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 21:52:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F6232210A
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 22:00:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD17E6E0AD;
-	Mon, 22 Feb 2021 20:52:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81E916E20F;
+	Mon, 22 Feb 2021 21:00:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CCBE6E0AD
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 20:52:03 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id r19so6112348otk.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 12:52:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EsKNWOTpoXFBX3Vm20VX6e7+2+XeumtrdsmpqxkFoSE=;
- b=hx3ZtNKXCjBF9VddK8QgdVRc3sYrJ55BQupjDWwHI7khjSuKLDNLD0Kz9MR3dQ4v/J
- /NWxPC7wssr4gRI9wTUsE5nQFc+C9iYzom2snaBD0WOe5kHUeCGqd2uzpyUu1N4iZQYB
- m9fhfaAd+CTX1VqvmvTrmZTJUOuJy1WUACfQ8pyZmdzPr2+CUL5+dvHStza5z2tFVhtz
- etYdm5dNI1D70LSlkjgAYmdgW0OEOxYXiUh1jCYsNUUC1GIPjCGj67Nub8zr898KoIPL
- 06yH3kUXJ1bU6yJcX125gno29ErYUlSiuOTkwKI6crx8I/LxT0Tdwzt9SCDAxTR9r7ak
- 3NVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EsKNWOTpoXFBX3Vm20VX6e7+2+XeumtrdsmpqxkFoSE=;
- b=uLV0chPYiVzuvm3tmV7L1n8a1ndKdJYTbL+5AT+dlPX7OF9aZG4Z/WM0XLdw+SedeV
- 5xqPFUTIpnIF0vHrFh+Du79rAsh/fz1OqngYyxb/8AP04FDDBQIYTjlB79w/GSPy+Zjj
- 7ofg40A1sD+a6Vt89DhWEau0CYY8vrOIreJKhNRN2WG5sQc7QoDDjZqqKhlMWMY/W+J+
- JolZ80spWDU0/vTnJF7yGLfBv7+QG2zcObOmwEL4yFEvsGT1cG/TphCtc18WIlhunKHw
- O/Up+EJuvijG58i1PXwXL5yXzIYeS3h3UTeDITS5B0OPxFvqTuYPNdBptWbRAWO3l47x
- 12ow==
-X-Gm-Message-State: AOAM533V1l8YUYlEofj+PHP0kZTSwCVToKoDMcMCdvFdrnU6CqlFe8V8
- p6zO4qpTD2kpUZnjdEWIuPJAC+whc8j74iQ/nos=
-X-Google-Smtp-Source: ABdhPJxgtf9qdkqoR/ipe+6CsbbzBAq5ddIs5TNufipZbmAeTYrchhfeEOY7Tl9/Fuz8GfJ/YxQrPGmnMN0S7JTlfQc=
-X-Received: by 2002:a9d:5cc2:: with SMTP id r2mr7475200oti.132.1614027122516; 
- Mon, 22 Feb 2021 12:52:02 -0800 (PST)
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DE7D6E20F
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 21:00:00 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ms.lwn.net (Postfix) with ESMTPSA id E071330D;
+ Mon, 22 Feb 2021 20:59:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E071330D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+ t=1614027599; bh=uCB8Hgwaf+lNKimvvf9tQZlF3BSKiETK4qc1TCmNd18=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=kaLWH++b7x3gCrgO2e97h3hLmlCS2bCHXpPcqHTC+hnEzOydtFi8uY/7v+2LWBasy
+ pdgY7Fb64JtnogF65eqEMN3Mx+9pET01gn9DJcnVq35LXQbyUQjfQxXn1Ln8uBE7RY
+ MAp1cqnosIyyk2i9je2TBYgWDQqONHmIcw/X6Sk4cGsFvyYVQ30FfIusZpAh8OrcZs
+ PeF67BflaU6Ps8dy7N5z5gKebLYMe3sJdFfJZjYXM1quJJFlvFMJY7Nxddu58eO7aA
+ 48QwTHKExhb617tMl3FuQ95PbBD9Ez2Sl3KF1X1gLjpw19id92bgMjgF6XQdh42cQ7
+ eJniFyeQRAmZA==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc: use KCFLAGS instead of EXTRA_CFLAGS to pass flags
+ from command line
+In-Reply-To: <20210221152524.197693-1-masahiroy@kernel.org>
+References: <20210221152524.197693-1-masahiroy@kernel.org>
+Date: Mon, 22 Feb 2021 13:59:58 -0700
+Message-ID: <87h7m3lsxd.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <CAPM=9txd-x1NKWK9BBqVTDNOR00zNqcXgs76YJrDfL94eMLYqQ@mail.gmail.com>
- <CAHk-=wgiPxXzRNnfaXk7ozSWSu7fFU--kTmVjkDaTB05wwUk_g@mail.gmail.com>
- <20210221234549.GA21254@24bbad8f3778>
-In-Reply-To: <20210221234549.GA21254@24bbad8f3778>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 22 Feb 2021 15:51:51 -0500
-Message-ID: <CADnq5_OcxrYehTWWiEOO8OMqMSHk22=Z7ehcYhiOUVwFF=Yhyw@mail.gmail.com>
-Subject: Re: [git pull] drm for 5.12-rc1
-To: Nathan Chancellor <nathan@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,58 +48,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Kevin Wang <kevin1.wang@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: David Airlie <airlied@linux.ie>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Masahiro Yamada <masahiroy@kernel.org>, linux-kernel@vger.kernel.org,
+ Jyri Sarha <jsarha@ti.com>, Harry Wei <harryxiyou@gmail.com>,
+ dri-devel@lists.freedesktop.org, Federico Vaga <federico.vaga@vaga.pv.it>,
+ Alex Shi <alex.shi@linux.alibaba.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Feb 21, 2021 at 6:45 PM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> On Sun, Feb 21, 2021 at 03:07:17PM -0800, Linus Torvalds wrote:
-> > On Thu, Feb 18, 2021 at 10:06 PM Dave Airlie <airlied@gmail.com> wrote:
-> > >
-> > > Let me know if there are any issues,
-> >
-> > gcc was happy, and I obviously already pushed out my merge, but then
-> > when I did my clang build afterwards, it reports:
-> >
-> >   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:764:2: warning:
-> > variable 'structure_size' is used uninitialized whenever switch
-> > default is taken [-Wsometimes-uninitialized]
-> >           default:
-> >           ^~~~~~~
-> >   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:770:23: note:
-> > uninitialized use occurs here
-> >           memset(header, 0xFF, structure_size);
-> >                                ^~~~~~~~~~~~~~
-> >
-> > and clang is very very right. That "default" case is completely
-> > broken, and will generate a randomly sized memset. Not good.
-> >
-> > Presumably that default case never happens, but if so it shouldn't exist.
-> >
-> > Perhaps better yet, make the "default" case just do a "return" instead
-> > of a break. Breaking out of the switch statement to code that cannot
-> > possibly work is all kinds of mindless.
-> >
-> > Kevin/Alex? This was introduced by commit de4b7cd8cb87
-> > ("drm/amd/pm/swsmu: unify the init soft gpu metrics function")
-> >
-> >               Linus
->
-> I sent https://lore.kernel.org/r/20210218224849.5591-1-nathan@kernel.org/
-> a few days ago and Kevin reviewed it, just seems like Alex needs to pick
-> it up.
+Masahiro Yamada <masahiroy@kernel.org> writes:
 
-Yeah, sorry, I meant to include it, but it slipped through the cracks
-last week.  Will include it in my -fixes PR this week.
+> You should use KCFLAGS to pass additional compiler flags from the
+> command line. Using EXTRA_CFLAGS is wrong.
+>
+> EXTRA_CFLAGS is supposed to specify flags applied only to the current
+> Makefile (and now deprecated in favor of ccflags-y).
+>
+> It is still used in arch/mips/kvm/Makefile (and possibly in external
+> modules too). Passing EXTRA_CFLAGS from the command line overwrites
+> it and breaks the build.
+>
+> I also fixed drivers/gpu/drm/tilcdc/Makefile because commit 816175dd1fd7
+> ("drivers/gpu/drm/tilcdc: Makefile, only -Werror when no -W* in
+> EXTRA_CFLAGS") was based on the same misunderstanding.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  Documentation/process/4.Coding.rst                            | 2 +-
+>  Documentation/process/submit-checklist.rst                    | 2 +-
+>  Documentation/translations/it_IT/process/4.Coding.rst         | 2 +-
+>  Documentation/translations/it_IT/process/submit-checklist.rst | 2 +-
+>  Documentation/translations/zh_CN/process/4.Coding.rst         | 2 +-
+>  drivers/gpu/drm/tilcdc/Makefile                               | 2 +-
+>  6 files changed, 6 insertions(+), 6 deletions(-)
 
-Alex
+I've applied this, fixing the conflict with submit-checklist.rst in the
+process.
+
+Thanks,
+
+jon
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
