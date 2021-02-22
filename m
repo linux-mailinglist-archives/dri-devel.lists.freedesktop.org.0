@@ -1,44 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9AC8321DB8
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 18:09:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B293321DE7
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 18:17:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 132FC898C4;
-	Mon, 22 Feb 2021 17:09:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D75BF6E3BB;
+	Mon, 22 Feb 2021 17:16:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A3436E192
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 17:09:24 +0000 (UTC)
-IronPort-SDR: WcXGqcw+4UUPr/19QfeqDi0ZoX0A4rnf2ZnAOm4j1vhVVQmPY0LR6m15ZhO9fkPmGm8uuWI3SQ
- luqxjygRBf1Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9903"; a="181075289"
-X-IronPort-AV: E=Sophos;i="5.81,197,1610438400"; d="scan'208";a="181075289"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2021 09:09:23 -0800
-IronPort-SDR: UYI7pOe9Ti6xsV+k3UgqhFluHEF2aBqgzG3+W/lVv8zdILt6R50KGVyaxpY835NCtl1WQHDFg+
- Ps+75/XmkjGg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,197,1610438400"; d="scan'208";a="402689444"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga008.jf.intel.com with SMTP; 22 Feb 2021 09:09:18 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 22 Feb 2021 19:09:17 +0200
-Date: Mon, 22 Feb 2021 19:09:17 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Wayne Lin <Wayne.Lin@amd.com>
-Subject: Re: [PATCH 1/2] drm/dp_mst: Revise broadcast msg lct & lcr
-Message-ID: <YDPlPRJXVYfPZenQ@intel.com>
-References: <20210222040027.23505-1-Wayne.Lin@amd.com>
- <20210222040027.23505-2-Wayne.Lin@amd.com>
- <YDPjiz4tiMRo320Q@intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC8DA89E11
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 17:12:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
+ with ESMTPSA id BB2A91F44325
+Received: by jupiter.universe (Postfix, from userid 1000)
+ id 4BBAD4800C3; Mon, 22 Feb 2021 18:12:51 +0100 (CET)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>
+Subject: [PATCHv1 0/6] Support for GE B1x5v2
+Date: Mon, 22 Feb 2021 18:12:41 +0100
+Message-Id: <20210222171247.97609-1-sebastian.reichel@collabora.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YDPjiz4tiMRo320Q@intel.com>
-X-Patchwork-Hint: comment
+X-Mailman-Approved-At: Mon, 22 Feb 2021 17:16:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,59 +40,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: eryk.brol@amd.com, qingqing.zhuo@amd.com, dri-devel@lists.freedesktop.org,
- jerry.zuo@amd.com, stable@vger.kernel.org, Nicholas.Kazlauskas@amd.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-rtc@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mtd@lists.infradead.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 22, 2021 at 07:02:03PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Mon, Feb 22, 2021 at 12:00:26PM +0800, Wayne Lin wrote:
-> > [Why & How]
-> > According to DP spec, broadcast message LCT equals to 1 and LCR equals
-> > to 6. Current implementation is incorrect. Fix it.
-> > =
+Hi,
 
-> > Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-> > Cc: stable@vger.kernel.org
-> > ---
-> >  drivers/gpu/drm/drm_dp_mst_topology.c | 10 ++++++++--
-> >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > =
+This series adds support for another General Electric patient
+monitor series (similar to existing Bx50v3), which is based on
+i.MX6DL using Congatec's QMX6 module.
 
-> > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/dr=
-m_dp_mst_topology.c
-> > index 17dbed0a9800..713ef3b42054 100644
-> > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> > @@ -2727,8 +2727,14 @@ static int set_hdr_from_dst_qlock(struct drm_dp_=
-sideband_msg_hdr *hdr,
-> >  	else
-> >  		hdr->broadcast =3D 0;
-> >  	hdr->path_msg =3D txmsg->path_msg;
-> > -	hdr->lct =3D mstb->lct;
-> > -	hdr->lcr =3D mstb->lct - 1;
-> > +	if (hdr->broadcast) {
-> > +		hdr->lct =3D 1;
-> > +		hdr->lcr =3D 6;
-> > +	} else {
-> > +		hdr->lct =3D mstb->lct;
-> > +		hdr->lcr =3D mstb->lct - 1;
-> > +	}
-> > +
-> >  	if (mstb->lct > 1)
-> >  		memcpy(hdr->rad, mstb->rad, mstb->lct / 2);
-> =
+The module uses an I2C RTC to provide the i.MX6 32768 Hz clock,
+so it's important to keep it enabled. Not doing so results in
+incorrect timings of watchdog and i.MX6 RTC. The bootloader
+enables the watchdog, so disabling the clock results in system
+reboot. [0]
 
-> We should also do something about RAD no?
+The second patch is required for B155v2, which uses a 1366x768
+G156XTN01 panel. The 1366 width is not supported by the display
+pipeline and result in boot hanging without the patch. [1]
 
-Just skip the RAD stuff by s/mstb->lct/hdr->lct/ here I guess?
+Patches 3+4 are updating DT bindings for the new board compatible
+values.
 
--- =
+Patch 5 adds missing sst25vf032b to spi-nor bindings. Checkpatch
+still complains, since the binding lists all chips without vendor
+prefix. This probably should be fixed when the files is moved to
+YAML, but is non-trivial since those chips are manufactured by
+multiple vendors. E.g. sst25vf032b can be sourced from at least
+sst and microchip.
 
-Ville Syrj=E4l=E4
-Intel
+Finally patch 6 adds the board files.
+
+Thanks,
+
+[0] There has been a discussion for the problem on the mailinglists
+last year. The discussion died off, when I told people their ideas
+don't work. I hope using protected-clocks is fine for this usecase.
+
+https://lore.kernel.org/linux-clk/20191108170135.9053-1-sebastian.reichel@collabora.com/
+
+[1] I've sent this before as a separate patch in September, but
+nobody seemed to care. This adds full context for the problem.
+
+https://lore.kernel.org/dri-devel/20200910162831.321556-1-sebastian.reichel@collabora.com/
+
+-- Sebastian
+
+Sebastian Reichel (6):
+  rtc: m41t80: add support for protected clock
+  drm/imx: Add 8 pixel alignment fix
+  dt-bindings: vendor-prefixes: add congatec
+  dt-bindings: arm: fsl: add GE B1x5pv2 boards
+  dt-bindings: mtd: jedec,spi-nor: add sst25vf032b
+  ARM: dts: imx6: Add GE B1x5v2
+
+ .../devicetree/bindings/arm/fsl.yaml          |  11 +
+ .../devicetree/bindings/mtd/jedec,spi-nor.txt |   1 +
+ .../devicetree/bindings/rtc/rtc-m41t80.txt    |   1 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm/boot/dts/Makefile                    |   5 +
+ arch/arm/boot/dts/imx6dl-b105pv2.dts          |  35 +
+ arch/arm/boot/dts/imx6dl-b105v2.dts           |  35 +
+ arch/arm/boot/dts/imx6dl-b125pv2.dts          |  33 +
+ arch/arm/boot/dts/imx6dl-b125v2.dts           |  33 +
+ arch/arm/boot/dts/imx6dl-b155v2.dts           |  36 +
+ arch/arm/boot/dts/imx6dl-b1x5pv2.dtsi         | 434 ++++++++++++
+ arch/arm/boot/dts/imx6dl-b1x5v2.dtsi          |  61 ++
+ arch/arm/boot/dts/imx6dl-qmx6.dtsi            | 623 ++++++++++++++++++
+ drivers/gpu/drm/imx/imx-drm-core.c            |  19 +-
+ drivers/gpu/drm/imx/imx-ldb.c                 |   5 +
+ drivers/gpu/drm/imx/ipuv3-crtc.c              |  11 +-
+ drivers/gpu/drm/imx/ipuv3-plane.c             |  19 +-
+ drivers/gpu/ipu-v3/ipu-dc.c                   |   5 +
+ drivers/gpu/ipu-v3/ipu-di.c                   |   7 +
+ drivers/rtc/rtc-m41t80.c                      |   3 +
+ 20 files changed, 1373 insertions(+), 6 deletions(-)
+ create mode 100644 arch/arm/boot/dts/imx6dl-b105pv2.dts
+ create mode 100644 arch/arm/boot/dts/imx6dl-b105v2.dts
+ create mode 100644 arch/arm/boot/dts/imx6dl-b125pv2.dts
+ create mode 100644 arch/arm/boot/dts/imx6dl-b125v2.dts
+ create mode 100644 arch/arm/boot/dts/imx6dl-b155v2.dts
+ create mode 100644 arch/arm/boot/dts/imx6dl-b1x5pv2.dtsi
+ create mode 100644 arch/arm/boot/dts/imx6dl-b1x5v2.dtsi
+ create mode 100644 arch/arm/boot/dts/imx6dl-qmx6.dtsi
+
+-- 
+2.30.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
