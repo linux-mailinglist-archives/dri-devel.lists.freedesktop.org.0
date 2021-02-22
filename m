@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67165321C72
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 17:10:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 111C5321C99
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 17:17:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FBEB6E94E;
-	Mon, 22 Feb 2021 16:10:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03D806E544;
+	Mon, 22 Feb 2021 16:17:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
- [IPv6:2607:f8b0:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABED36E94E
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 16:10:44 +0000 (UTC)
-Received: by mail-ot1-x336.google.com with SMTP id r19so5172821otk.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 08:10:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=nA2zu/27Qi+zi0Et6iwYKYiIXci1LR0Ph/voW46JRKs=;
- b=Lvgt3D9Yk8J9R7i0e+I32K+s+wYx6UyRDEDWCE/bMJmCsH16gBXH2f83pXVXwYA96Z
- n3yCZiWMm6g6WFxSl+Q9u8VB6i0eyG9fgRCRzFhb1I/MPcFlYSN+WXZbjQiuRyrm9E3t
- rDsRaFCpFGVSjd3dF7FGcLMV0O+re3+VGBPtk=
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD26F6E544
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 16:17:50 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id 75so10493572pgf.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 08:17:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UZQ81zn5KjPnayIv7F7//pJHAsLKWR/BMQUUmYbIJXA=;
+ b=Dt24BpX1YnqNTOhs8U7CREV4Lwj8nxBU4uXPfqBHHTPVIQFF6zSRkdvkLhOspr4LAI
+ YbdJ3riCVg59tdKSVZ9jnsxpX8Q7fnxLlwckZiwMrI6B79ElGHQOqjSBap+koQ5kyS4V
+ MCIf4ozDHEckAzJIYfG9nn11cEux0MSu78mUg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nA2zu/27Qi+zi0Et6iwYKYiIXci1LR0Ph/voW46JRKs=;
- b=dmb9TAPEXNCGS990ZY5a/gtr+UegDBa5Jb9A5vsRo4rDXydQqXXkjaP7uYVjeph8yl
- HLiO+og/Gz5A+rBnRVrW5HatHPmS9bBnlsIHwfJTB90y6f82kZTiJC3sRHJd9SwfQh7u
- W1WOOYfLXe9geG1tp6OrwvpVXxYSDDbflZpwRDcxgmlaOJ7dUtqF25N3+vexr9xLfO1P
- ql/X6TxqdpnjHy+GBSvtzQbOOkJ1mwzeE1DENRXzCAIcSpUcVvTYY7BXETTUiwEv90mp
- 9wGty7cCPaTRjNfuLImVwdDRynKo2U2WKUEgVt0FQLdDFVrYnwcZZHJp2BOnvrCuGcaR
- +vNA==
-X-Gm-Message-State: AOAM533Inzrr/qBZmckTNbjhBliql2zGR/9BPB7mWYvqdeomEgjKqvVG
- kZN3OUkhkM8yybZUkT1QlNjtaIV2EUhBwrBLWfV6dA==
-X-Google-Smtp-Source: ABdhPJy5VMzYav92la4GbCVrRLqsfbuxuE4lRo22hdHDCFSLUd3Jl9Lu7Ldt3nTSfwxRv+k1huhJ5OLliDo8pDe3AfM=
-X-Received: by 2002:a9d:b85:: with SMTP id 5mr17812907oth.281.1614010242515;
- Mon, 22 Feb 2021 08:10:42 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UZQ81zn5KjPnayIv7F7//pJHAsLKWR/BMQUUmYbIJXA=;
+ b=cY4cnXqZDvsKgeIlbPH2k65F4w3ymk3jzMoMepFwG3w2YC106pHpi/5K3Fb7MXWXIv
+ 6WZly3OQ8TaJf7wsZqHhv2+1LlEvXZhfoWgybpmKVIbBJ1d6Z9lz3BalGdFeezEn1wwK
+ mqI/75YtDsIP50LOCDy0tiqxTA6PzoWBJ90/oXtWaO+cRGrADEnCmyE6U+WcP/TE+vBC
+ Iu2WesDOaz3q9Bc2FoExRObGoA00rXhH1MEllfDPV+BCtrAyYAgdcVcA39OiHEU/Vu0/
+ IF57hwMZFjQx5AcbwUNwB1XsvxTQ+1foIo4FYHg9DjOuRP1VjRE/M4HaEhhKaYylKdXV
+ HbLA==
+X-Gm-Message-State: AOAM530MiML2mSQjPKSC0ZjzxOwRC+7rkGQOieA8ydMf9s5AY196MzJg
+ OPEu8I3OuCF8T2ZwunYF38XuQg==
+X-Google-Smtp-Source: ABdhPJyScZsUsiOdGNQAF4qiKt7TO6n7/fuJpM8ctVZsirjyQNhhtutqAA4teSOba+e4apFfpB4uFQ==
+X-Received: by 2002:a63:4405:: with SMTP id r5mr20209002pga.168.1614010670456; 
+ Mon, 22 Feb 2021 08:17:50 -0800 (PST)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:1:fd5d:7c23:34f:c618])
+ by smtp.gmail.com with ESMTPSA id v4sm21101036pjc.0.2021.02.22.08.17.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Feb 2021 08:17:50 -0800 (PST)
+From: Douglas Anderson <dianders@chromium.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH] drm: panel: simple: Set enable delay for BOE NV110WTM-N61
+Date: Mon, 22 Feb 2021 08:17:24 -0800
+Message-Id: <20210222081716.1.I1a45aece5d2ac6a2e73bbec50da2086e43e0862b@changeid>
+X-Mailer: git-send-email 2.30.0.617.g56c4b15f3c-goog
 MIME-Version: 1.0
-References: <20210222124328.27340-1-tzimmermann@suse.de>
- <b190801b-b8be-c9df-f203-3e42eb97cea4@amd.com>
- <238ce852-730b-e31c-a6fe-a9ecaca497e3@suse.de>
-In-Reply-To: <238ce852-730b-e31c-a6fe-a9ecaca497e3@suse.de>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 22 Feb 2021 17:10:31 +0100
-Message-ID: <CAKMK7uE4QxaiGCAX6pYq=dCg5zzs9Jg9iRSjq893OmAZk=OrpA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] drm/prime: Only call dma_map_sgtable() for devices
- with DMA support
-To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,95 +62,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lima@lists.freedesktop.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Dave Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Alan Stern <stern@rowland.harvard.edu>, Qiang Yu <yuq825@gmail.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: robdclark@chromium.org, David Airlie <airlied@linux.ie>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBGZWIgMjIsIDIwMjEgYXQgMjoyNCBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBIaQo+Cj4gQW0gMjIuMDIuMjEgdW0gMTQ6MDkgc2No
-cmllYiBDaHJpc3RpYW4gS8O2bmlnOgo+ID4KPiA+Cj4gPiBBbSAyMi4wMi4yMSB1bSAxMzo0MyBz
-Y2hyaWViIFRob21hcyBaaW1tZXJtYW5uOgo+ID4+IFVTQi1iYXNlZCBkcml2ZXJzIGNhbm5vdCB1
-c2UgRE1BLCBzbyB0aGUgaW1wb3J0aW5nIG9mIGRtYS1idWYgYXR0YWNobWVudHMKPiA+PiBjdXJy
-ZW50bHkgZmFpbHMgZm9yIHVkbCBhbmQgZ20xMnUzMjAuIFRoaXMgYnJlYWtzIGpvaW5pbmcvbWly
-cm9yaW5nIG9mCj4gPj4gZGlzcGxheXMuCj4gPj4KPiA+PiBUaGUgZml4IGlzIG5vdyBhIGxpdHRs
-ZSBzZXJpZXMuIFRvIHNvbHZlIHRoZSBpc3N1ZSBvbiB0aGUgaW1wb3J0ZXIKPiA+PiBzaWRlIChp
-LmUuLCB0aGUgYWZmZWN0ZWQgVVNCLWJhc2VkIGRyaXZlciksIHBhdGNoIDEgaW50cm9kdWNlcyBh
-IG5ldwo+ID4+IFBSSU1FIGNhbGxiYWNrLCBzdHJ1Y3QgZHJtX2RyaXZlci5nZW1fcHJpbWVfY3Jl
-YXRlX29iamVjdCwgd2hpY2ggY3JlYXRlcwo+ID4+IGFuIG9iamVjdCBhbmQgZ2l2ZXMgbW9yZSBj
-b250cm9sIHRvIHRoZSBpbXBvcnRpbmcgZHJpdmVyLiBTcGVjaWZpY2FsbHksCj4gPj4gdWRsIGFu
-ZCBnbTEydTMyMCBjYW4gbm93IGF2b2lkIHRoZSBjcmVhdGlvbiBvZiBhIHNjYXR0ZXIvZ2F0aGVy
-IHRhYmxlCj4gPj4gZm9yIHRoZSBpbXBvcnRlZCBwYWdlcy4gUGF0Y2ggMSBpcyBzZWxmLWNvbnRh
-aW5lZCBpbiB0aGUgc2Vuc2UgdGhhdCBpdAo+ID4+IGNhbiBiZSBiYWNrcG9ydGVkIGludG8gb2xk
-ZXIga2VybmVscy4KPiA+Cj4gPiBNaG0sIHRoYXQgc291bmRzIGxpa2UgYSBsaXR0bGUgb3Zlcmtp
-bGwgdG8gbWUuCj4gPgo+ID4gRHJpdmVycyBjYW4gYWxyZWFkeSBpbXBvcnQgdGhlIERNQS1idWZz
-IGFsbCBieSB0aGVtIHNlbHZlcyB3aXRob3V0IHRoZQo+ID4gaGVscCBvZiB0aGUgRFJNIGZ1bmN0
-aW9ucy4gU2VlIGFtZGdwdSBmb3IgYW4gZXhhbXBsZS4KPiA+Cj4gPiBEYW5pZWwgYWxzbyBhbHJl
-YWR5IG5vdGVkIHRvIG1lIHRoYXQgaGUgc2VlcyB0aGUgRFJNIGhlbHBlciBhcyBhIGJpdAo+ID4g
-cXVlc3Rpb25hYmxlIG1pZGRsZSBsYXllci4KPgo+IEFuZCB0aGlzIGJ1ZyBwcm92ZXMgdGhhdCBp
-dCBpcy4gOikKClRoZSB0cm91YmxlIGhlcmUgaXMgYWN0dWFsbHkgZ2VtX2JvLT5pbXBvcnRfYXR0
-YWNoLCB3aGljaCBpc24ndCByZWFsbHkKcGFydCBvZiB0aGUgcXVlc3Rpb25hYmxlIG1pZGxheWVy
-LCBidXQgZmFpcmx5IG1hbmRhdG9yeSAob25seQpleGNlcHRpb24gaXMgdm13Z2Z4IGJlY2F1c2Ug
-bm90IHVzaW5nIGdlbSkgY2FjaGluZyB0byBtYWtlIHN1cmUgd2UKZG9uJ3QgZW5kIHVwIHdpdGgg
-ZHVwZWQgaW1wb3J0cyBhbmQgZnVuIHN0dWZmIGxpa2UgdGhhdC4KCkFuZCBkbWFfYnVmX2F0dGFj
-aCBub3cgaW1wbGljaXRseSBjcmVhdGVzIHRoZSBzZyB0YWJsZSBhbHJlYWR5LCBzbwp3ZSdyZSBh
-bHJlYWR5IGluIGdhbWUgb3ZlciBsYW5kLiBJIHRoaW5rIHdlJ2QgbmVlZCB0byBtYWtlCmltcG9y
-dF9hdHRhY2ggYSB1bmlvbiB3aXRoIGltcG9ydF9idWYgb3Igc29tZXRoaW5nIGxpa2UgdGhhdCwg
-c28gdGhhdAp5b3UgY2FuIGRvIGF0dGFjaG1lbnQtbGVzcyBpbXBvcnRpbmcuCgo+ID4gSGF2ZSB5
-b3UgdGhvdWdodCBhYm91dCBkb2luZyB0aGF0IGluc3RlYWQ/Cj4KPiBUaGVyZSBhcHBlYXJzIHRv
-IGJlIHNvbWUgdXNlZnVsIGNvZGUgaW4gZHJtX2dlbV9wcmltZV9pbXBvcnRfZGV2KCkuIEJ1dAo+
-IGlmIHRoZSBnZW5lcmFsIHNlbnRpbWVudCBnb2VzIHRvd2FyZHMgcmVtb3ZpbmcKPiBnZW1fcHJp
-bWVfaW1wb3J0X3NnX3RhYmxlLCB3ZSBjYW4gd29yayB0b3dhcmRzIHRoYXQgYXMgd2VsbC4KCkkg
-c3RpbGwgdGhpbmsgdGhpcyBwYXJ0IGlzIGEgYml0IGEgc2lsbHkgbWlkbGF5ZXIgZm9yIG5vIGdv
-b2QgcmVhc29uLApidXQgSSB0aGluayB0aGF0J3Mgb3J0aG9nb25hbCB0byB0aGUgaXNzdWUgYXQg
-aGFuZCBoZXJlLgoKSSdkIHN1Z2dlc3Qgd2UgZmlyc3QgdHJ5IHRvIHBhcGVyIG92ZXIgdGhlIGlz
-c3VlIGJ5IHVzaW5nCnByaW1lX2ltcG9ydF9kZXYgd2l0aCB0aGUgaG9zdCBjb250cm9sbGVyICh3
-aGljaCBob3BlZnVsbHkgaXMKZG1hLWNhcGFibGUgZm9yIG1vc3Qgc3lzdGVtcykuIEFuZCB0aGVu
-LCBhdCBsZWlzdXJlLCB0cnkgdG8gdW50YW5nbGUKdGhlIG9iai0+aW1wb3J0X2F0dGFjaCBpc3N1
-ZS4KLURhbmllbAoKPgo+IEJlc3QgcmVnYXJkcwo+IFRob21hcwo+Cj4gPgo+ID4gQ2hyaXN0aWFu
-Lgo+ID4KPiA+Pgo+ID4+IFBhdGNoZXMgMiBhbmQgMyB1cGRhdGUgU0hNRU0gYW5kIENNQSBoZWxw
-ZXJzIHRvIHVzZSB0aGUgbmV3IGNhbGxiYWNrLgo+ID4+IEVmZmVjdGl2ZWx5IHRoaXMgbW92ZXMg
-dGhlIHNnIHRhYmxlIHNldHVwIGZyb20gdGhlIFBSSU1FIGhlbHBlcnMgaW50bwo+ID4+IHRoZSBt
-ZW1vcnkgbWFuYWdlcnMuIFNITUVNIG5vdyBzdXBwb3J0cyBkZXZpY2VzIHdpdGhvdXQgRE1BIHN1
-cHBvcnQsCj4gPj4gc28gY3VzdG9tIGNvZGUgY2FuIGJlIHJlbW92ZWQgZnJvbSB1ZGwgYW5kIGcx
-MnUzMjAuCj4gPj4KPiA+PiBUZXN0ZWQgYnkgam9pbmluZy9taXJyb3JpbmcgZGlzcGxheXMgb2Yg
-dWRsIGFuZCByYWRlb24gdW5kZXIgR25vbWUvWDExLgo+ID4+Cj4gPj4gdjI6Cj4gPj4gICAgICog
-bW92ZSBmaXggdG8gaW1wb3J0ZXIgc2lkZSAoQ2hyaXN0aWFuLCBEYW5pZWwpCj4gPj4gICAgICog
-dXBkYXRlIFNITUVNIGFuZCBDTUEgaGVscGVycyBmb3IgbmV3IFBSSU1FIGNhbGxiYWNrcwo+ID4+
-Cj4gPj4gVGhvbWFzIFppbW1lcm1hbm4gKDMpOgo+ID4+ICAgIGRybTogU3VwcG9ydCBpbXBvcnRp
-bmcgZG1hYnVmcyBpbnRvIGRyaXZlcnMgd2l0aG91dCBETUEKPiA+PiAgICBkcm0vc2htZW0taGVs
-cGVyOiBJbXBsZW1lbnQgc3RydWN0IGRybV9kcml2ZXIuZ2VtX3ByaW1lX2NyZWF0ZV9vYmplY3QK
-PiA+PiAgICBkcm0vY21hLWhlbHBlcjogSW1wbGVtZW50IHN0cnVjdCBkcm1fZHJpdmVyLmdlbV9w
-cmltZV9jcmVhdGVfb2JqZWN0Cj4gPj4KPiA+PiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2Nt
-YV9oZWxwZXIuYyAgICB8IDYyICsrKysrKysrKysrKysrLS0tLS0tLS0tLS0KPiA+PiAgIGRyaXZl
-cnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jICB8IDM4ICsrKysrKysrKystLS0tLQo+
-ID4+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jICAgICAgICAgICAgIHwgNDMgKysrKysr
-KysrKystLS0tLS0KPiA+PiAgIGRyaXZlcnMvZ3B1L2RybS9saW1hL2xpbWFfZHJ2LmMgICAgICAg
-ICB8ICAyICstCj4gPj4gICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMg
-fCAgMiArLQo+ID4+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dlbS5jIHwg
-IDYgKy0tCj4gPj4gICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ2VtLmggfCAg
-NCArLQo+ID4+ICAgZHJpdmVycy9ncHUvZHJtL3BsMTExL3BsMTExX2Rydi5jICAgICAgIHwgIDgg
-KystLQo+ID4+ICAgZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfYm8uYyAgICAgICAgICAgIHwgIDYg
-Ky0tCj4gPj4gICBkcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9kcnYuYyAgICAgICAgICAgfCAgMiAr
-LQo+ID4+ICAgZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZHJ2LmggICAgICAgICAgIHwgIDUgKy0K
-PiA+PiAgIGluY2x1ZGUvZHJtL2RybV9kcnYuaCAgICAgICAgICAgICAgICAgICB8IDEyICsrKysr
-Cj4gPj4gICBpbmNsdWRlL2RybS9kcm1fZ2VtX2NtYV9oZWxwZXIuaCAgICAgICAgfCAxMiArKy0t
-LQo+ID4+ICAgaW5jbHVkZS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuaCAgICAgIHwgIDYgKy0t
-Cj4gPj4gICAxNCBmaWxlcyBjaGFuZ2VkLCAxMjAgaW5zZXJ0aW9ucygrKSwgODggZGVsZXRpb25z
-KC0pCj4gPj4KPiA+PiAtLQo+ID4+IDIuMzAuMQo+ID4+Cj4gPgo+Cj4gLS0KPiBUaG9tYXMgWmlt
-bWVybWFubgo+IEdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKPiBTVVNFIFNvZnR3YXJlIFNvbHV0
-aW9ucyBHZXJtYW55IEdtYkgKPiBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1h
-bnkKPiAoSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4
-IEltZW5kw7ZyZmZlcgo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIElu
-dGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Panel power sequence says timing T8 (time from link idle to turn on
+the backlight) should be at least 50 ms.  This is what the .enable
+delay in simple-panel is for, so set it.  NOTE: this overlaps with the
+80 ms .prepare_to_enable delay on purpose.  The data sheet says that
+at least 80 ms needs to pass between HPD going high and turning on the
+backlight and that at least 50 ms needs to pass between the link idle
+and the backlight going on.  Thus it works like this on the system in
+front of me:
+* In bridge chip pre_enable call drm_panel_prepare()
+* drm_panel_prepare() -> panel_simple_prepare()
+* Wait for HPD GPIO to go high.
+* Start counting for 80 ms (store in prepared_time)
+* In bridge chip enable, train link then call drm_panel_enable()
+* drm_panel_enable() -> panel_simple_enable()
+* panel_simple_enable() does hardcoded 50 ms delay then enforces 80 ms
+  from HPD going high (in case the bridge took less than 30 ms to
+  enable / link train).
+* drm_panel_enable() -> backlight_enable().
+
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+
+ drivers/gpu/drm/panel/panel-simple.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 9858079f9e14..9d36b74357ae 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -1445,6 +1445,7 @@ static const struct panel_desc boe_nv110wtm_n61 = {
+ 	.delay = {
+ 		.hpd_absent_delay = 200,
+ 		.prepare_to_enable = 80,
++		.enable = 50,
+ 		.unprepare = 500,
+ 	},
+ 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+-- 
+2.30.0.617.g56c4b15f3c-goog
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
