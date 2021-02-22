@@ -2,49 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A18321123
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 08:09:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6252321127
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 08:09:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 376946E1E0;
-	Mon, 22 Feb 2021 07:09:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C58A86E904;
+	Mon, 22 Feb 2021 07:09:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 474 seconds by postgrey-1.36 at gabe;
- Mon, 22 Feb 2021 07:00:08 UTC
-Received: from lucky1.263xmail.com (lucky1.263xmail.com [211.157.147.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32DC86E1E0;
- Mon, 22 Feb 2021 07:00:08 +0000 (UTC)
-Received: from localhost (unknown [192.168.167.32])
- by lucky1.263xmail.com (Postfix) with ESMTP id 29657F0FFC;
- Mon, 22 Feb 2021 14:47:04 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ADDR-CHECKED: 0
-X-ANTISPAM-LEVEL: 2
-X-ABS-CHECKED: 0
-Received: from localhost.localdomain (unknown [124.126.19.250])
- by smtp.263.net (postfix) whith ESMTP id
- P27943T140459827513088S1613976423851514_; 
- Mon, 22 Feb 2021 14:47:03 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <17e9c158043e3d51b4697a8f6a79f68d>
-X-RL-SENDER: wangjingyu@uniontech.com
-X-SENDER: wangjingyu@uniontech.com
-X-LOGIN-NAME: wangjingyu@uniontech.com
-X-FST-TO: alexander.deucher@amd.com
-X-SENDER-IP: 124.126.19.250
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-From: wangjingyu <wangjingyu@uniontech.com>
-To: alexander.deucher@amd.com,
-	christian.koenig@amd.com,
-	airlied@linux.ie
-Subject: [PATCH] drm/radeon: A gray screen appears when going into
- hibernation(S4)
-Date: Mon, 22 Feb 2021 14:46:53 +0800
-Message-Id: <20210222064653.22084-1-wangjingyu@uniontech.com>
-X-Mailer: git-send-email 2.11.0
-X-Mailman-Approved-At: Mon, 22 Feb 2021 07:09:03 +0000
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85BFF6E1E0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 07:08:33 +0000 (UTC)
+Received: from mail-lj1-f200.google.com ([209.85.208.200])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <kai.heng.feng@canonical.com>) id 1lE5KZ-0006Bi-N4
+ for dri-devel@lists.freedesktop.org; Mon, 22 Feb 2021 07:08:31 +0000
+Received: by mail-lj1-f200.google.com with SMTP id 19so12208159ljq.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Feb 2021 23:08:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xQb/U05beEqXDSOnU2R2gxKRYcy1C5Xug7vclRhtUZo=;
+ b=UZmhQ+wYQEkOMiBTtFqBucl5ewOLQxeRD6rKK3bgjLTPtn6I6kKcVGUzJQy4Dt6fzE
+ 13lI1U00bRtK6HMILMIfes3+WdiJ2r0nDXZzhMQ0TjLWiUcJL1MghXVGI5AyrdA91Pzj
+ cVAmd0mm9ORJUJK1WFcO7EboxaZL/gpJHsu4YN5bZTkwWM1ExZJBPjO2/5MdgacCuY/x
+ nh9mEvsqTMVdZw3XMHidcwFg3e3n7T55RcVG6CQKG/8i1Cb1fgCkDjUEzhsDkgPiodai
+ VdFZwwcgiJMt90pPdWL5nCwySGcYcS5z2o5BDhQYULOyhXMoK2aE0KQMQttLFONV9HKD
+ m0VA==
+X-Gm-Message-State: AOAM533a3bwLfVjyYnMlz5rYX+/H8V0j6SchUToTuk4ZDFkEhINPypjF
+ NBbajJSOXN06SvfpyO8jClwPibVE0qZmS8Gbtp3vaXdj8dqcJZNxnIVJrl2C4ByalHF254oW+bB
+ xicSPHbcX7co1CfodWIz/3iLs8ZX8f5f1GN3VNkZpWZwSIEJm3Jvx691HfS2N9g==
+X-Received: by 2002:a05:6512:b1b:: with SMTP id
+ w27mr12697027lfu.10.1613977711158; 
+ Sun, 21 Feb 2021 23:08:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwmwJFwD2hfSbm4znFNjHvhOMUpClGNSy8bAWfw5K3mLGPr7XuvEwm2N8RU7BjYzrcSZSXdCO0BDnrFKhpgUyk=
+X-Received: by 2002:a05:6512:b1b:: with SMTP id
+ w27mr12697017lfu.10.1613977710921; 
+ Sun, 21 Feb 2021 23:08:30 -0800 (PST)
+MIME-Version: 1.0
+References: <20210129084327.986630-1-kai.heng.feng@canonical.com>
+ <CADnq5_MduzcezmAjEGK0X7bDiY98f68s8roXc6gOTWjcpNC9Rw@mail.gmail.com>
+In-Reply-To: <CADnq5_MduzcezmAjEGK0X7bDiY98f68s8roXc6gOTWjcpNC9Rw@mail.gmail.com>
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Date: Mon, 22 Feb 2021 15:08:19 +0800
+Message-ID: <CAAd53p4y+A5Bv4nUKZw+kzrmxcYm8DXrY06QqkU4iopj0dRrzw@mail.gmail.com>
+Subject: Re: [PATCH] efifb: Ensure graphics device for efifb stays at PCI D0
+To: pjones@redhat.com
+X-Mailman-Approved-At: Mon, 22 Feb 2021 07:09:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,45 +63,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wangjingyu <wangjingyu@uniontech.com>, zhuyong <zhuyong@uniontech.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-MIME-Version: 1.0
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ "open list:EFIFB FRAMEBUFFER DRIVER" <linux-fbdev@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Radeon Card:
-    Caicos[Radeon HD 6450/7450/8450 /R5 230 OEM]
+On Mon, Feb 1, 2021 at 11:21 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> On Sat, Jan 30, 2021 at 6:27 AM Kai-Heng Feng
+> <kai.heng.feng@canonical.com> wrote:
+> >
+> > We are seeing root ports on some desktop boards support D3cold for
+> > discrete graphics card. So when efifb is in use while graphics device
+> > isn't bound to a driver, PCI and ACPI will put the graphics to D3cold
+> > when runtime suspend kicks in, makes efifb stop working.
+> >
+> > So ensure the graphics device won't be runtime suspended, to keep efifb
+> > work all the time.
+> >
+> > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+>
+> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-there is no gray screen when echo 4>/sys/module/drm/parameters/debug,
-so the WREG32 function after DRM_DEBUG_KMS may have wrong when going
-into hibernation.the delay of msleep(50) just can fix gray screen.
+A gentle ping...
 
-Signed-off-by: wangjingyu <wangjingyu@uniontech.com>
-Signed-off-by: zhuyong <zhuyong@uniontech.com>
----
- drivers/gpu/drm/radeon/radeon_display.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
-index ddfe91efa61e..1f7f0904e4a5 100644
---- a/drivers/gpu/drm/radeon/radeon_display.c
-+++ b/drivers/gpu/drm/radeon/radeon_display.c
-@@ -215,6 +215,7 @@ void radeon_crtc_load_lut(struct drm_crtc *crtc)
- 	if (!crtc->enabled)
- 		return;
- 
-+	msleep(50);
- 	if (ASIC_IS_DCE5(rdev))
- 		dce5_crtc_load_lut(crtc);
- 	else if (ASIC_IS_DCE4(rdev))
--- 
-2.11.0
-
-
-
+>
+> > ---
+> >  drivers/video/fbdev/efifb.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
+> > index e57c00824965..19edd7206409 100644
+> > --- a/drivers/video/fbdev/efifb.c
+> > +++ b/drivers/video/fbdev/efifb.c
+> > @@ -16,6 +16,7 @@
+> >  #include <linux/platform_device.h>
+> >  #include <linux/printk.h>
+> >  #include <linux/screen_info.h>
+> > +#include <linux/pm_runtime.h>
+> >  #include <video/vga.h>
+> >  #include <asm/efi.h>
+> >  #include <drm/drm_utils.h> /* For drm_get_panel_orientation_quirk */
+> > @@ -575,6 +576,7 @@ static int efifb_probe(struct platform_device *dev)
+> >                 goto err_fb_dealoc;
+> >         }
+> >         fb_info(info, "%s frame buffer device\n", info->fix.id);
+> > +       pm_runtime_get_sync(&efifb_pci_dev->dev);
+> >         return 0;
+> >
+> >  err_fb_dealoc:
+> > @@ -601,6 +603,7 @@ static int efifb_remove(struct platform_device *pdev)
+> >         unregister_framebuffer(info);
+> >         sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
+> >         framebuffer_release(info);
+> > +       pm_runtime_put(&efifb_pci_dev->dev);
+> >
+> >         return 0;
+> >  }
+> > --
+> > 2.29.2
+> >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
