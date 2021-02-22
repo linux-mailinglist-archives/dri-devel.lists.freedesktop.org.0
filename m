@@ -2,59 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C724321CB5
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 17:21:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADA4321CCE
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 17:25:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56B436E56A;
-	Mon, 22 Feb 2021 16:21:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A46F6E575;
+	Mon, 22 Feb 2021 16:25:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FFE86E56A
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 16:21:46 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id v15so19717473wrx.4
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 08:21:46 -0800 (PST)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF606E56D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 16:25:20 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id v21so1011947wml.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 08:25:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=4mQ9GAsz9Yz8HOTAKFDmDSdVZkxoH9s3m94s7cqHoDM=;
- b=jVSuyDLnGNmgl65vf/QLVlvy9dhtnh469nDCfcUpAIAsCc7V/rm9rhU8Cuml6qDhqO
- vRb02ed5h6NiVAlzwbPWzQ9S6KRV7+pn5E3P6ImNGDmx0G/vwMyN2hHp/trvMGcCsjzn
- wGd14SttIPsMBOYYjhkRTl7rwKNNuLd6Z4FPQ=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VfspxvK2qmutul/HQI6CP6zvXTYbfiqNuFTl1ngzl9A=;
+ b=Sa8IDK+hjxW/KTwxOZ5cq7ouchiX/NM/KOQCL18K15EPiODDMsHZ5XqNTpLH/qkUUW
+ KsBasPKkGtF0X/YrvGKLM5qVd4Vaz1rXyh/DiLg9X1/ThY4/yoombEH4PrR4ER87vNGv
+ aZ2YA+LXeyVFw8c4Vb+mdPGr0wpAL3bZhh+JE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=4mQ9GAsz9Yz8HOTAKFDmDSdVZkxoH9s3m94s7cqHoDM=;
- b=QYEYGSEZdbc0HvlCsjz3zaGMP2EnBiG43Cx12tQQRpMlRc+SpyOL7TKyo6phl00YJp
- /RP2/ssmEPEg/BocuqlwGBcZbSftxcgFpDmcMf/2DxDhaIlX6d7+yQJ1f9Gfd75UzFu5
- LfKzA4F9L6+Q97NtAAsQXj+lbN7Lx/ccMlItFhJOJfMQiiWowFGdGXAtVCVBCTprD6ZF
- r5g99v3P9sDEToht4L3T0GcPu9SyekdkWL+Utmw0w6aRqSZj6y4BgwWNnO6G+lx+Wze9
- W5zpr2kA2UQsJOf2hQHr9pXT2YFkXUlos6tHUTvK+2jwTMPG3Zy3wOK6IG3rwzEdPIAN
- zgeQ==
-X-Gm-Message-State: AOAM533AcI/F6v9Baa05qWAlBv7pX7rv9YJTggRhacPbcx3rw/CsCOMQ
- G7FUI0E7959rXZYbg7psgrCAnfDP5MJzSA==
-X-Google-Smtp-Source: ABdhPJy4jIVtSRNvns/I1XgheLFS4UBrjfcND28jyB/HEbAE1Vq7TlNEGZLxKUpzG72DhdA7eti9yg==
-X-Received: by 2002:a05:6000:1081:: with SMTP id
- y1mr8262097wrw.177.1614010905211; 
- Mon, 22 Feb 2021 08:21:45 -0800 (PST)
+ bh=VfspxvK2qmutul/HQI6CP6zvXTYbfiqNuFTl1ngzl9A=;
+ b=S3UjMTOQdK8XmYcCsJWnatqd+dVeVtFQVlcOCeg01yXHHVP12dGwPfiDbCf6htN5zZ
+ dN9OjBOlcB6mrlNjVLuNCPHuH8QlXV0k4gkdOnUAtE2PpxCiRA+cokhddgkAtgqTttSf
+ vBXkTgXAXXcqwh4HTqg3j1Z/UaK2tzOatjtx5756WRDy/UrbILpqmw4SpaBS7lkgS04E
+ tRoE9lVx7Ss6lilp/hubyFR1mvciT7R7pWEbRFZEasqz92x9giV2jQfjVAa34UJL3Ucm
+ 4SnGxuSn2BUC3V8ooMdW3rMoATILc5rvS7kOTOQv6Ltevuige5B8rFM5976AjFNcie4x
+ wGiA==
+X-Gm-Message-State: AOAM532pkG9tiEvTCLMXnUqcLxyYyFrKkMOb7oeQsCZ4FBISScKwT33T
+ 0IGc9/cXr2xDTNnSGQh/KVYShQ==
+X-Google-Smtp-Source: ABdhPJyuox2nDrjMuRIMD73wg/ViwXcOZnkt/HhU49o9yGozLgztr5S8eyNLgIrHTwiFvZpcE+bwNQ==
+X-Received: by 2002:a1c:41d6:: with SMTP id o205mr20217128wma.80.1614011119077; 
+ Mon, 22 Feb 2021 08:25:19 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d20sm31336447wrc.12.2021.02.22.08.21.44
+ by smtp.gmail.com with ESMTPSA id u6sm31326161wmg.41.2021.02.22.08.25.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Feb 2021 08:21:44 -0800 (PST)
-Date: Mon, 22 Feb 2021 17:21:42 +0100
+ Mon, 22 Feb 2021 08:25:17 -0800 (PST)
+Date: Mon, 22 Feb 2021 17:25:15 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/shmem-helper: Don't remove the offset in
- vm_area_struct pgoff
-Message-ID: <YDPaFmG+swkP1QfJ@phenom.ffwll.local>
-References: <20210217165910.3820374-1-nroberts@igalia.com>
- <8f3ea5bb-4bfa-a3de-2d45-ec7110338587@suse.de>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] fbdev: atyfb: add stubs for aty_{ld,st}_lcd()
+Message-ID: <YDPa6zThEuW9Mynu@phenom.ffwll.local>
+Mail-Followup-To: Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+References: <20210222032853.21483-1-rdunlap@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <8f3ea5bb-4bfa-a3de-2d45-ec7110338587@suse.de>
+In-Reply-To: <20210222032853.21483-1-rdunlap@infradead.org>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,123 +71,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- Neil Roberts <nroberts@igalia.com>, Rob Herring <robh+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-fbdev@vger.kernel.org, kernel test robot <lkp@intel.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 22, 2021 at 03:24:17PM +0100, Thomas Zimmermann wrote:
-> Hi
-> =
+On Sun, Feb 21, 2021 at 07:28:53PM -0800, Randy Dunlap wrote:
+> Fix build errors when these functions are not defined.
+> 
+> ../drivers/video/fbdev/aty/atyfb_base.c: In function 'aty_power_mgmt':
+> ../drivers/video/fbdev/aty/atyfb_base.c:2002:7: error: implicit declaration of function 'aty_ld_lcd'; did you mean 'aty_ld_8'? [-Werror=implicit-function-declaration]
+>  2002 |  pm = aty_ld_lcd(POWER_MANAGEMENT, par);
+> ../drivers/video/fbdev/aty/atyfb_base.c:2004:2: error: implicit declaration of function 'aty_st_lcd'; did you mean 'aty_st_8'? [-Werror=implicit-function-declaration]
+>  2004 |  aty_st_lcd(POWER_MANAGEMENT, pm, par);
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
 
-> Am 17.02.21 um 17:59 schrieb Neil Roberts:
-> > When mmapping the shmem, it would previously adjust the pgoff in the
-> > vm_area_struct to remove the fake offset that is added to be able to
-> > identify the buffer. This patch removes the adjustment and makes the
-> > fault handler use the vm_fault address to calculate the page offset
-> > instead. Although using this address is apparently discouraged, several
-> > DRM drivers seem to be doing it anyway.
-> > =
-
-> > The problem with removing the pgoff is that it prevents
-> > drm_vma_node_unmap from working because that searches the mapping tree
-> > by address. That doesn't work because all of the mappings are at offset
-> > 0. drm_vma_node_unmap is being used by the shmem helpers when purging
-> > the buffer.
-> =
-
-> I just want to ask if this is how the mmap callbacks are supposed to work
-> now?
-> =
-
-> I have a number of patches in here that convert several drivers to the GEM
-> object's mmap callback. They might not be affected by the vm_pgoff bug, b=
-ut
-> I'd like to submit something that could work in the longer term.
-
-Yeah we pretty much require the uniq vm_pgoff for runtime unmapping.
-Especially with more dynamic memory managers like ttm that move buffers
-around - for more static ones (most of the armsoc ones) it's just a bit a
-security issue since you can potentially access memory after it's gone.
+stuffed into drm-misc-next-fixes for 5.12, thanks for your patch.
 -Daniel
 
-> Best regards
-> Thomas
-> =
+> ---
+>  drivers/video/fbdev/aty/atyfb_base.c |    9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> --- linux-next-20210219.orig/drivers/video/fbdev/aty/atyfb_base.c
+> +++ linux-next-20210219/drivers/video/fbdev/aty/atyfb_base.c
+> @@ -175,6 +175,15 @@ u32 aty_ld_lcd(int index, const struct a
+>  		return aty_ld_le32(LCD_DATA, par);
+>  	}
+>  }
+> +#else /* defined(CONFIG_PMAC_BACKLIGHT) || defined(CONFIG_FB_ATY_BACKLIGHT) \
+> +	 defined(CONFIG_FB_ATY_GENERIC_LCD) */
+> +void aty_st_lcd(int index, u32 val, const struct atyfb_par *par)
+> +{ }
+> +
+> +u32 aty_ld_lcd(int index, const struct atyfb_par *par)
+> +{
+> +	return 0;
+> +}
+>  #endif /* defined(CONFIG_PMAC_BACKLIGHT) || defined (CONFIG_FB_ATY_GENERIC_LCD) */
+>  
+>  #ifdef CONFIG_FB_ATY_GENERIC_LCD
 
-> > =
-
-> > It looks like panfrost is using drm_gem_shmem_purge so this might fix a
-> > potential bug there.
-> > =
-
-> > Signed-off-by: Neil Roberts <nroberts@igalia.com>
-> > ---
-> >   drivers/gpu/drm/drm_gem_shmem_helper.c | 12 +++++++-----
-> >   1 file changed, 7 insertions(+), 5 deletions(-)
-> > =
-
-> > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
-rm_gem_shmem_helper.c
-> > index 9825c378dfa6..4b14157f1962 100644
-> > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > @@ -526,11 +526,16 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_f=
-ault *vmf)
-> >   	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
-> >   	loff_t num_pages =3D obj->size >> PAGE_SHIFT;
-> >   	struct page *page;
-> > +	pgoff_t page_offset;
-> > -	if (vmf->pgoff >=3D num_pages || WARN_ON_ONCE(!shmem->pages))
-> > +	/* We don't use vmf->pgoff since that has the fake offset */
-> > +	page_offset =3D (vmf->address - vma->vm_start) >> PAGE_SHIFT;
-> > +
-> > +	if (page_offset < 0 || page_offset >=3D num_pages ||
-> > +	    WARN_ON_ONCE(!shmem->pages))
-> >   		return VM_FAULT_SIGBUS;
-> > -	page =3D shmem->pages[vmf->pgoff];
-> > +	page =3D shmem->pages[page_offset];
-> >   	return vmf_insert_page(vma, vmf->address, page);
-> >   }
-> > @@ -581,9 +586,6 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, =
-struct vm_area_struct *vma)
-> >   	struct drm_gem_shmem_object *shmem;
-> >   	int ret;
-> > -	/* Remove the fake offset */
-> > -	vma->vm_pgoff -=3D drm_vma_node_start(&obj->vma_node);
-> > -
-> >   	if (obj->import_attach) {
-> >   		/* Drop the reference drm_gem_mmap_obj() acquired.*/
-> >   		drm_gem_object_put(obj);
-> > =
-
-> =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
-
-
-
-
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
