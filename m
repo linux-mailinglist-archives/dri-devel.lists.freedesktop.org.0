@@ -2,34 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3912C321CCF
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 17:25:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0FD321CFF
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Feb 2021 17:31:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C21C6E56D;
-	Mon, 22 Feb 2021 16:25:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7880D6E0FF;
+	Mon, 22 Feb 2021 16:31:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E15206E56D;
- Mon, 22 Feb 2021 16:25:49 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 68E2FAC69;
- Mon, 22 Feb 2021 16:25:48 +0000 (UTC)
-Subject: Re: [PATCH v2 0/3] drm/prime: Only call dma_map_sgtable() for devices
- with DMA support
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210222124328.27340-1-tzimmermann@suse.de>
- <b190801b-b8be-c9df-f203-3e42eb97cea4@amd.com>
- <238ce852-730b-e31c-a6fe-a9ecaca497e3@suse.de>
- <CAKMK7uE4QxaiGCAX6pYq=dCg5zzs9Jg9iRSjq893OmAZk=OrpA@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <4246f9d2-2ce8-151a-fd92-8cf10510adec@suse.de>
-Date: Mon, 22 Feb 2021 17:25:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from z11.mailgun.us (z11.mailgun.us [104.130.96.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE15D6E570
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 16:31:36 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1614011504; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=dCdhlnGttsQALHTe0ST0kOVHzzKLcqYwXO4t7pO+g9g=;
+ b=UrngA+NegNP6IFdQN4LD6PVv75yhc0/+wpG989w+WSp3vSEuMZR9EnFLu6/+Zmf49FPhjcgw
+ s93k9s6rdPA6r4kSUmCfQGnJodrHPPLZFvSLNmkrogcT88OXCadxdp7s6UL8l4d6BKRpgAj7
+ rHiydvjaAoOMVcaflZw+RkW6y4o=
+X-Mailgun-Sending-Ip: 104.130.96.11
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
+ 6033dc422a8ee88ea508da7f (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 22 Feb 2021 16:30:58
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id A4AAEC43462; Mon, 22 Feb 2021 16:30:58 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id A3707C433C6;
+ Mon, 22 Feb 2021 16:30:57 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uE4QxaiGCAX6pYq=dCg5zzs9Jg9iRSjq893OmAZk=OrpA@mail.gmail.com>
+Date: Mon, 22 Feb 2021 08:30:57 -0800
+From: khsieh@codeaurora.org
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v2 2/2] drm/msm/dp: add supported max link rate specified
+ from dtsi
+In-Reply-To: <161377480166.1254594.16557636343276220817@swboyd.mtv.corp.google.com>
+References: <1613681704-12539-1-git-send-email-khsieh@codeaurora.org>
+ <161368935031.1254594.14384765673800900954@swboyd.mtv.corp.google.com>
+ <7af07dcacd5b68087cc61e467e9c57ea@codeaurora.org>
+ <161377480166.1254594.16557636343276220817@swboyd.mtv.corp.google.com>
+Message-ID: <1782d03506bebe7751d33ae12a38d21c@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,242 +66,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lima@lists.freedesktop.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Dave Airlie <airlied@linux.ie>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Alan Stern <stern@rowland.harvard.edu>, Qiang Yu <yuq825@gmail.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============2069975004=="
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, tanmay@codeaurora.org,
+ aravindh@codeaurora.org, sean@poorly.run
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============2069975004==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="d3xLVkw5KzUTX9YHLlu4kLTcdL7CB8o1V"
+On 2021-02-19 14:46, Stephen Boyd wrote:
+> Quoting khsieh@codeaurora.org (2021-02-19 08:39:38)
+>> On 2021-02-18 15:02, Stephen Boyd wrote:
+>> > Quoting Kuogee Hsieh (2021-02-18 12:55:04)
+>> >> Allow supported link rate to be limited to the value specified at
+>> >> dtsi. If it is not specified, then link rate is derived from dpcd
+>> >> directly. Below are examples,
+>> >> link-rate = <162000> for max link rate limited at 1.62G
+>> >> link-rate = <270000> for max link rate limited at 2.7G
+>> >> link-rate = <540000> for max link rate limited at 5.4G
+>> >> link-rate = <810000> for max link rate limited at 8.1G
+>> >>
+>> >> Changes in V2:
+>> >> -- allow supported max link rate specified from dtsi
+>> >
+>> > Please don't roll this into the patch that removes the limit. The
+>> > previous version of this patch was fine. The part that lowers the limit
+>> > back down should be another patch.
+>> >
+>> > We rejected link-rate in DT before and we should reject it upstream
+>> > again. As far as I can tell, the maximum link rate should be determined
+>> > based on the panel or the type-c port on the board. The dp controller
+>> > can always achieve HBR3, so limiting it at the dp controller is
+>> > incorrect. The driver should query the endpoints to figure out if they
+>> > want to limit the link rate. Is that done automatically sometimes by
+>> > intercepting the DPCD?
+>> 
+>> ok, i will roll back to original patch and add the second patch for 
+>> max
+>> link rate limited purpose.
+>> panel dpcd specified max link rate it supported.
+>> At driver, link rate is derived from dpcd directly since driver will 
+>> try
+>> to use the maximum supported link rate and less lane to save power.
+>> Therefore it is not possible that limit link rate base on dpcd.
+>> AS i understand we are going to do max link rate limitation is due to
+>> old redriver chip can not support HBR3.
+>> How can I acquire which type-c port on the board so that I can trigger
+>> max link rate limitation?
+>> 
+>> 
+> 
+> The driver already seems to support lowering the link rate during link
+> training. Can't we try to train at the highest rate and then downgrade
+> the link speed until it trains properly? I sort of fail to see why we
+> need to introduce a bunch of complexity around limiting the link rate 
+> on
+> certain boards if the driver can figure out that link training doesn't
+> work at HBR3 so it should try to train at HBR2 instead.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---d3xLVkw5KzUTX9YHLlu4kLTcdL7CB8o1V
-Content-Type: multipart/mixed; boundary="0L9l0vBWnjaMMbEwreRN07Gzry4S2knFx";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: lima@lists.freedesktop.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Dave Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>, Alan Stern <stern@rowland.harvard.edu>,
- Qiang Yu <yuq825@gmail.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Message-ID: <4246f9d2-2ce8-151a-fd92-8cf10510adec@suse.de>
-Subject: Re: [PATCH v2 0/3] drm/prime: Only call dma_map_sgtable() for devices
- with DMA support
-References: <20210222124328.27340-1-tzimmermann@suse.de>
- <b190801b-b8be-c9df-f203-3e42eb97cea4@amd.com>
- <238ce852-730b-e31c-a6fe-a9ecaca497e3@suse.de>
- <CAKMK7uE4QxaiGCAX6pYq=dCg5zzs9Jg9iRSjq893OmAZk=OrpA@mail.gmail.com>
-In-Reply-To: <CAKMK7uE4QxaiGCAX6pYq=dCg5zzs9Jg9iRSjq893OmAZk=OrpA@mail.gmail.com>
+yes, dp driver did support down grade link rate during link training 
+procedure.
+But link training is kind of setting up agreement between host and panel 
+with assumption that there are no other limitations in between.
+The problem we are discussing here is the limitation of usb re driver 
+link rate support.
+Since we do not know how usb re driver behavior, I am not sure link 
+training will work appropriately for this case.
+It may end up link status keep toggling up and down.
 
---0L9l0vBWnjaMMbEwreRN07Gzry4S2knFx
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 22.02.21 um 17:10 schrieb Daniel Vetter:
-> On Mon, Feb 22, 2021 at 2:24 PM Thomas Zimmermann <tzimmermann@suse.de>=
- wrote:
->>
->> Hi
->>
->> Am 22.02.21 um 14:09 schrieb Christian K=C3=B6nig:
->>>
->>>
->>> Am 22.02.21 um 13:43 schrieb Thomas Zimmermann:
->>>> USB-based drivers cannot use DMA, so the importing of dma-buf attach=
-ments
->>>> currently fails for udl and gm12u320. This breaks joining/mirroring =
-of
->>>> displays.
->>>>
->>>> The fix is now a little series. To solve the issue on the importer
->>>> side (i.e., the affected USB-based driver), patch 1 introduces a new=
-
->>>> PRIME callback, struct drm_driver.gem_prime_create_object, which cre=
-ates
->>>> an object and gives more control to the importing driver. Specifical=
-ly,
->>>> udl and gm12u320 can now avoid the creation of a scatter/gather tabl=
-e
->>>> for the imported pages. Patch 1 is self-contained in the sense that =
-it
->>>> can be backported into older kernels.
->>>
->>> Mhm, that sounds like a little overkill to me.
->>>
->>> Drivers can already import the DMA-bufs all by them selves without th=
-e
->>> help of the DRM functions. See amdgpu for an example.
->>>
->>> Daniel also already noted to me that he sees the DRM helper as a bit
->>> questionable middle layer.
->>
->> And this bug proves that it is. :)
->=20
-> The trouble here is actually gem_bo->import_attach, which isn't really
-> part of the questionable midlayer, but fairly mandatory (only
-> exception is vmwgfx because not using gem) caching to make sure we
-> don't end up with duped imports and fun stuff like that.
->=20
-> And dma_buf_attach now implicitly creates the sg table already, so
-> we're already in game over land. I think we'd need to make
-> import_attach a union with import_buf or something like that, so that
-> you can do attachment-less importing.
-
-Creating the sg table is not the problem; mapping it is. So=20
-dma_buf_attach shouldn't be a problem.
-
->=20
->>> Have you thought about doing that instead?
->>
->> There appears to be some useful code in drm_gem_prime_import_dev(). Bu=
-t
->> if the general sentiment goes towards removing
->> gem_prime_import_sg_table, we can work towards that as well.
->=20
-> I still think this part is a bit a silly midlayer for no good reason,
-> but I think that's orthogonal to the issue at hand here.
->=20
-> I'd suggest we first try to paper over the issue by using
-> prime_import_dev with the host controller (which hopefully is
-> dma-capable for most systems). And then, at leisure, try to untangle
-> the obj->import_attach issue.
-
-I really don't want to do this. My time is also limited, and I''ll spend =
-
-time papering over the thing. And then more time for the real fix. I'd=20
-rather pull drm_gem_prime_import_dev() in to USB drivers and avoid the=20
-dma_buf_map().
-
-Best regard
-Thomas
-
-> -Daniel
->=20
->>
->> Best regards
->> Thomas
->>
->>>
->>> Christian.
->>>
->>>>
->>>> Patches 2 and 3 update SHMEM and CMA helpers to use the new callback=
-=2E
->>>> Effectively this moves the sg table setup from the PRIME helpers int=
-o
->>>> the memory managers. SHMEM now supports devices without DMA support,=
-
->>>> so custom code can be removed from udl and g12u320.
->>>>
->>>> Tested by joining/mirroring displays of udl and radeon under Gnome/X=
-11.
->>>>
->>>> v2:
->>>>      * move fix to importer side (Christian, Daniel)
->>>>      * update SHMEM and CMA helpers for new PRIME callbacks
->>>>
->>>> Thomas Zimmermann (3):
->>>>     drm: Support importing dmabufs into drivers without DMA
->>>>     drm/shmem-helper: Implement struct drm_driver.gem_prime_create_o=
-bject
->>>>     drm/cma-helper: Implement struct drm_driver.gem_prime_create_obj=
-ect
->>>>
->>>>    drivers/gpu/drm/drm_gem_cma_helper.c    | 62 ++++++++++++++------=
------
->>>>    drivers/gpu/drm/drm_gem_shmem_helper.c  | 38 ++++++++++-----
->>>>    drivers/gpu/drm/drm_prime.c             | 43 +++++++++++------
->>>>    drivers/gpu/drm/lima/lima_drv.c         |  2 +-
->>>>    drivers/gpu/drm/panfrost/panfrost_drv.c |  2 +-
->>>>    drivers/gpu/drm/panfrost/panfrost_gem.c |  6 +--
->>>>    drivers/gpu/drm/panfrost/panfrost_gem.h |  4 +-
->>>>    drivers/gpu/drm/pl111/pl111_drv.c       |  8 ++--
->>>>    drivers/gpu/drm/v3d/v3d_bo.c            |  6 +--
->>>>    drivers/gpu/drm/v3d/v3d_drv.c           |  2 +-
->>>>    drivers/gpu/drm/v3d/v3d_drv.h           |  5 +-
->>>>    include/drm/drm_drv.h                   | 12 +++++
->>>>    include/drm/drm_gem_cma_helper.h        | 12 ++---
->>>>    include/drm/drm_gem_shmem_helper.h      |  6 +--
->>>>    14 files changed, 120 insertions(+), 88 deletions(-)
->>>>
->>>> --
->>>> 2.30.1
->>>>
->>>
->>
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
->=20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+Both link-lane and link-rate specified at dtsi are for the limitation of 
+Trogdor hardware platform.
+Both link-lane and link-rate specified at dtsi are NOT for panel since 
+panel have specified its capability at its DPCD.
 
 
---0L9l0vBWnjaMMbEwreRN07Gzry4S2knFx--
 
---d3xLVkw5KzUTX9YHLlu4kLTcdL7CB8o1V
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
------BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAz2woFAwAAAAAACgkQlh/E3EQov+DL
-4Q//YMyMKXRJ62uNhmm25TZ9vhXivz7iMQfcdCfedLKszEr08dduggjMgKDAjRwqdYbQQBrmLwBH
-Zc+cpjIzkEtQKm6zqkKTyvqcQYKS4eqjbK9svhk2F8EkrQmR42xhlK3p0z7ULre06b4cvFQ1Gh97
-m4JLkeG6fB/RwWfXPm8yHWrzKP25CYlF1n9xjAq+W+JUT/scIhxxGblm2n1zOfau89pxhLFbwoYC
-M/tlkZjlg9ZtvN0fy8F8eAhs3yln0diu+/n5G2n0/n4ujVPmWpGrgUt+IgE1i+UYGLkC26zYGMVH
-qByXW15+9GdV8yYKezirwyqEktcVpaIJLLPoSqb1hHAUfQiWIjYOtfFIwx+OPRIbyREV5wraom6T
-SNB5XlLRAKq1JHyfZFEltv5Konrzq63Ekw+eLWfzGmJ5IoigURowPC3sq3vEL2sw2Y0QYdF3ahod
-N3PmuPXiSiczyM3mct80Lsh1ZRvDSrB5E7758asLySnNp9EVEQF/Xedz+O+31zRVPVp3hH4e6nUE
-zSscIAyZFyf5Mqf9ZwPkulssfsiOXqEVm4jMvYyKV78L2w9MjzFApQCVivmOEXAG3x/PKRH5TSfh
-CJLRsdFW+Nx3BSz72YP0WUrmr20L3oxejcuBaDNVVFKV2/dOuuKBmYv1ITtAJ3YPr04IUK3IMJwC
-LoI=
-=kWAS
------END PGP SIGNATURE-----
 
---d3xLVkw5KzUTX9YHLlu4kLTcdL7CB8o1V--
 
---===============2069975004==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2069975004==--
