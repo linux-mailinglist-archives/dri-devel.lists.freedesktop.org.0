@@ -1,40 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B1E322AD3
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 13:52:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1497D322AD8
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 13:54:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 770DC6E44F;
-	Tue, 23 Feb 2021 12:52:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14A316E832;
+	Tue, 23 Feb 2021 12:54:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D5C96E44F
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 12:52:22 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CA7B164DDC;
- Tue, 23 Feb 2021 12:52:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1614084742;
- bh=nk0MQGqlsqXf8hpt1bhV9m3BbQcTCKjk5PbpvfehrOs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=f3sF5vn1pfpxqhp5+3bdMbcVeHXEj4GkUZjgskbxLyiALkXrd1oAhrun8GuFoLKKA
- Mo4dRlIhGNsQ5OgkTiaqXyHUG3b1cY6JA/pM9oiGWtRAY8lZh4KrzzssdaBngbvO0D
- Kp0mqStCQq9RHdTYQpUHqOEag09FsZhmyU9yU5N4=
-Date: Tue, 23 Feb 2021 13:52:20 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v3] drm: Use USB controller's DMA mask when importing
- dmabufs
-Message-ID: <YDT6hKde1OWQO9if@kroah.com>
-References: <20210223105842.27011-1-tzimmermann@suse.de>
- <YDTk3L3gNxDE3YrC@kroah.com>
- <656a49c3-018e-9188-94bf-5f1270ea61e4@suse.de>
- <YDT4sHTFdkw3g8es@kroah.com>
- <CAKMK7uHHZQ_zEi6kH0Wk=oHRVkb+sygDbTzBTdo2jZ6cyHABaA@mail.gmail.com>
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2A016E832
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 12:54:51 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id d9so1261674ote.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 04:54:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ryEuLkNTnPoILcea8gCJJ8lUMdqGNb3u7NT/Wg7Raoo=;
+ b=Pxid7KNAMqO92r8CSsaN9Hz/UVoUaG7JEZ1LLml2ev9frJVKdOZzR2wkCjPeUJwI3y
+ PfoiszCzQVN/OCksi999kkkcmG3rGWrXWtujbZfMZ2eGsqoqluZteXXn6h9pnJSTnG7x
+ 5kAd3KIvoZ+YhHEnR5EbDwt1HB7sD4hxEMeMg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ryEuLkNTnPoILcea8gCJJ8lUMdqGNb3u7NT/Wg7Raoo=;
+ b=rM/Tuhz6n6/TCz0EjKeE5bcSZO2JYYsNaTp3AeIemVpCOypejGlnvxzSElWalQ+vu5
+ ti6P8Xbq3kDKzsSokCdgmmueXUj7zaK0MaeVX6NY1TXZk7cmKpwH+n4VZ/6lVKDiWbzB
+ Y63a/FPDAaDrOBG3MN1IrrzcKvJSw6cz6EvIjyfZcJWTdrm0UNftHBXTMRAnh5G2Mp09
+ 6j2j5VdLISeK4OAQgexZghjmiwsctDIxJ7AMW1TaXu+gYnD8uyFIQqwwy8embBc1L8Dz
+ ZqioqZU/RtEPZN+nrG+a9nZkUpxUr6UmkPin/9NbjPyOhjlwl6oOQP8F5e8lHosNm7yY
+ RnJQ==
+X-Gm-Message-State: AOAM531n/CxQrAE84zGm5kORxwv8C7r4nYYlAgrTmyBNcuDYBm3pjDAn
+ 1LqcrLUhGYvUlh0M+SxpkSvUajMw4p3/prCvhXgchA==
+X-Google-Smtp-Source: ABdhPJzWF1xuo/JECrjOEzkn9Cr1qQLe0C+FJo9KXen+vhxyIpXvUYNMXuWm43SUN0WXMaAzXESK2CBg0oYP3wXvS7g=
+X-Received: by 2002:a9d:2265:: with SMTP id o92mr20226423ota.188.1614084891322; 
+ Tue, 23 Feb 2021 04:54:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uHHZQ_zEi6kH0Wk=oHRVkb+sygDbTzBTdo2jZ6cyHABaA@mail.gmail.com>
+References: <20210217165910.3820374-1-nroberts@igalia.com>
+ <7f80b184-7277-0f6c-1108-cf41189626df@arm.com>
+ <CAKMK7uHPk1G-S6EMRZ8grZU8W6iij_DJR+V2eBGP+79Te6k76A@mail.gmail.com>
+ <87lfbfc5w2.fsf@yahoo.co.uk>
+In-Reply-To: <87lfbfc5w2.fsf@yahoo.co.uk>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 23 Feb 2021 13:54:40 +0100
+Message-ID: <CAKMK7uFs7z6fAXOntWwBNPBq26PBOkHJ09atv_cYeJCpk4FwjQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/shmem-helper: Don't remove the offset in
+ vm_area_struct pgoff
+To: Neil Roberts <nroberts@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,175 +62,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
- Dave Airlie <airlied@linux.ie>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Oliver Neukum <oneukum@suse.com>, Johan Hovold <johan@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Christoph Hellwig <hch@lst.de>,
- Hans de Goede <hdegoede@redhat.com>, Alan Stern <stern@rowland.harvard.edu>,
- stable <stable@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sean Paul <sean@poorly.run>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Steven Price <steven.price@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 23, 2021 at 01:49:50PM +0100, Daniel Vetter wrote:
-> On Tue, Feb 23, 2021 at 1:44 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Tue, Feb 23, 2021 at 01:37:09PM +0100, Thomas Zimmermann wrote:
-> > > Hi
-> > >
-> > > Am 23.02.21 um 12:19 schrieb Greg KH:
-> > > > On Tue, Feb 23, 2021 at 11:58:42AM +0100, Thomas Zimmermann wrote:
-> > > > > USB devices cannot perform DMA and hence have no dma_mask set in their
-> > > > > device structure. Importing dmabuf into a USB-based driver fails, which
-> > > > > break joining and mirroring of display in X11.
-> > > > >
-> > > > > For USB devices, pick the associated USB controller as attachment device,
-> > > > > so that it can perform DMA. If the DMa controller does not support DMA
-> > > > > transfers, we're aout of luck and cannot import.
-> > > > >
-> > > > > Drivers should use DRM_GEM_SHMEM_DROVER_OPS_USB to initialize their
-> > > > > instance of struct drm_driver.
-> > > > >
-> > > > > Tested by joining/mirroring displays of udl and radeon un der Gnome/X11.
-> > > > >
-> > > > > v3:
-> > > > >   * drop gem_create_object
-> > > > >   * use DMA mask of USB controller, if any (Daniel, Christian, Noralf)
-> > > > > v2:
-> > > > >   * move fix to importer side (Christian, Daniel)
-> > > > >   * update SHMEM and CMA helpers for new PRIME callbacks
-> > > > >
-> > > > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > > Fixes: 6eb0233ec2d0 ("usb: don't inherity DMA properties for USB devices")
-> > > > > Cc: Christoph Hellwig <hch@lst.de>
-> > > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > > Cc: Johan Hovold <johan@kernel.org>
-> > > > > Cc: Alan Stern <stern@rowland.harvard.edu>
-> > > > > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > > > Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > > > > Cc: Mathias Nyman <mathias.nyman@linux.intel.com>
-> > > > > Cc: Oliver Neukum <oneukum@suse.com>
-> > > > > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > > > > Cc: <stable@vger.kernel.org> # v5.10+
-> > > > > ---
-> > > > >   drivers/gpu/drm/drm_prime.c        | 36 ++++++++++++++++++++++++++++++
-> > > > >   drivers/gpu/drm/tiny/gm12u320.c    |  2 +-
-> > > > >   drivers/gpu/drm/udl/udl_drv.c      |  2 +-
-> > > > >   include/drm/drm_gem_shmem_helper.h | 13 +++++++++++
-> > > > >   include/drm/drm_prime.h            |  5 +++++
-> > > > >   5 files changed, 56 insertions(+), 2 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> > > > > index 2a54f86856af..9015850f2160 100644
-> > > > > --- a/drivers/gpu/drm/drm_prime.c
-> > > > > +++ b/drivers/gpu/drm/drm_prime.c
-> > > > > @@ -29,6 +29,7 @@
-> > > > >   #include <linux/export.h>
-> > > > >   #include <linux/dma-buf.h>
-> > > > >   #include <linux/rbtree.h>
-> > > > > +#include <linux/usb.h>
-> > > > >
-> > > > >   #include <drm/drm.h>
-> > > > >   #include <drm/drm_drv.h>
-> > > > > @@ -1055,3 +1056,38 @@ void drm_prime_gem_destroy(struct drm_gem_object *obj, struct sg_table *sg)
-> > > > >           dma_buf_put(dma_buf);
-> > > > >   }
-> > > > >   EXPORT_SYMBOL(drm_prime_gem_destroy);
-> > > > > +
-> > > > > +/**
-> > > > > + * drm_gem_prime_import_usb - helper library implementation of the import callback for USB devices
-> > > > > + * @dev: drm_device to import into
-> > > > > + * @dma_buf: dma-buf object to import
-> > > > > + *
-> > > > > + * This is an implementation of drm_gem_prime_import() for USB-based devices.
-> > > > > + * USB devices cannot perform DMA directly. This function selects the USB host
-> > > > > + * controller as DMA device instead. Drivers can use this as their
-> > > > > + * &drm_driver.gem_prime_import implementation.
-> > > > > + *
-> > > > > + * See also drm_gem_prime_import().
-> > > > > + */
-> > > > > +#ifdef CONFIG_USB
-> > > > > +struct drm_gem_object *drm_gem_prime_import_usb(struct drm_device *dev,
-> > > > > +                                         struct dma_buf *dma_buf)
-> > > > > +{
-> > > > > + struct usb_device *udev;
-> > > > > + struct device *usbhost;
-> > > > > +
-> > > > > + if (dev->dev->bus != &usb_bus_type)
-> > > > > +         return ERR_PTR(-ENODEV);
-> > > > > +
-> > > > > + udev = interface_to_usbdev(to_usb_interface(dev->dev));
-> > > > > + if (!udev->bus)
-> > > > > +         return ERR_PTR(-ENODEV);
-> > > > > +
-> > > > > + usbhost = udev->bus->controller;
-> > > > > + if (!usbhost || !usbhost->dma_mask)
-> > > > > +         return ERR_PTR(-ENODEV);
-> > > >
-> > > > If individual USB drivers need access to this type of thing, shouldn't
-> > > > that be done in the USB core itself?
-> > > >
-> > > > {hint, yes}
-> > > >
-> > > > There shouldn't be anything "special" about a DRM driver that needs this
-> > > > vs. any other driver that might want to know about DMA things related to
-> > > > a specific USB device.  Why isn't this an issue with the existing
-> > > > storage or v4l USB devices?
-> > >
-> > > I don't know about vc4 or storage. My guess is that they don't call
-> > > dma_map_sgtable() for devices with dma_mask. Ideally, USB DRM devices
-> > > wouldn't do that either, but, as Daniel explained, DRM's PRIME framework
-> > > expects a dma_mask on the importing device.
-> > >
-> > > The real fix would move this from framework to drivers, so that each driver
-> > > can import the dmabuf according to its capabilities. I tried to do this with
-> > > v2 of this patch, but I was not feasible at this time.
-> > >
-> > > For this to work, we'd have rework at least 3 drivers, the PRIME framework
-> > > and the dmabuf framework. I don't think the stable maintainer would be keen
-> > > on merging that. ;)
-> >
-> > Why not?  If it fixes an issue that has been reported, we've taken
-> > bigger for smaller bugs :)
-> 
-> The problem is also that I can't just invent a bunch of people out of
-> thin are to make it happen. If you have them, please send them over,
-> there's lots to do here :-)
-> 
-> > > Wrt your question about the USB core: what we do here is a workaround for
-> > > dmabuf importing. The DRM USB drivers don't even use the resulting page
-> > > mapping directly. Putting the workaround into the USB core is maybe not
-> > > useful. If we ever use DMA directly for streaming framebuffers to the
-> > > device, thinks might be different.
-> >
-> > Then I really do not understand the issue here.  Why are you wanting to
-> > grab a "naked" reference to the usb host controller device here?  What
-> > ensures that it is correct (hint, lots of host controllers do not handle
-> > dma), and what prevents it from going away underneath you?
-> 
-> We know it's not correct, it's just a hack. We never use this even,
-> it's just there to not have to rewrite/audit large chunks of drm code.
-
-If you don't need the device, then why do you need a pointer to it?
-
-Now I'm totally lost and confused what this patch is even supposed to be
-doing in the first place :(
-
-Is all you need that magic "mask"?  Something else?
-
-Again, passing around "naked" pointers is going to cause problems, what
-happens when the bus is removed from the system?
-
-thanks,
-
-greg k-h
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCBGZWIgMjMsIDIwMjEgYXQgMTo0MiBQTSBOZWlsIFJvYmVydHMgPG5yb2JlcnRzQGln
+YWxpYS5jb20+IHdyb3RlOgo+Cj4gRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPiB3cml0
+ZXM6Cj4KPiA+IFllYWggcGx1cyBDYzogc3RhYmxlIGZvciBiYWNrcG9ydGluZyBhbmQgSSB0aGlu
+ayBhbiBpZ3Qgb3Igc2ltaWxhciBmb3IKPiA+IHBhbmZyb3N0IHRvIGNoZWNrIHRoaXMgd29ya3Mg
+Y29ycmVjdGx5IHdvdWxkIGJlIHByZXR0eSBnb29kIHRvby4gU2luY2UKPiA+IGlmIGl0IHRvb2sg
+dXMgb3ZlciAxIHllYXIgdG8gbm90aWNlIHRoaXMgYnVnIGl0J3MgcHJldHR5IGNsZWFyIHRoYXQK
+PiA+IG5vcm1hbCB0ZXN0aW5nIGRvZXNuJ3QgY2F0Y2ggdGhpcy4gU28gdmVyeSBsaWtlbHkgd2Un
+bGwgYnJlYWsgdGhpcwo+ID4gYWdhaW4uCj4KPiBJIG1hZGUgdGhlIElHVCB0ZXN0IGJlbG93IHdo
+aWNoIHNlZW1zIHRvIHJlcHJvZHVjZSB0aGUgYnVnLiBIb3dldmVyLCB0aGUKPiBrZXJuZWwgcGF0
+Y2ggZG9lc27igJl0IGZpeCBpdCwgc28gbWF5YmUgdGhlcmUgaXMgc29tZXRoaW5nIG1vcmUgc3Vi
+dGxlCj4gZ29pbmcgb24uCj4KPiBodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbnJvYmVy
+dHMvaWd0LWdwdS10b29scy8tL2NvbW1pdHMvcGFuZnJvc3QtcHVyZ2VtYXAvCgpkcm1fZ2VtX3No
+bWVtX2ZhdWx0KCkgZG9lcyBub3Qgc2VlbSB0byBjaGVjayBmb3IgcHVyZ2VkIG9iamVjdHMgYXQg
+YWxsLgoKTm8gaWRlYSBob3cgdGhpcyB3b3Jrcywgb3IgaWYgaXQgZXZlciB3b3JrZWQsIGJ1dCB5
+ZWFoIHNvbWV0aGluZyBpcwpjbGVhcmx5IHN0aWxsIGJ1c3RlZC4KCkRlZmluaXRlbHkgYSBnb29k
+IGlkYWUgdG8gaGF2ZSBhbiBpZ3QuIGJ0dyB0byBtYWtlIHRoYXQgZmFzdGVyIHlvdSBjYW4KZWl0
+aGVyIHVzZSB0aGUgdm1fZHJvcF9jYWNoZXMgZmlsZSBmcm9tIHByb2MgKGl0J3MgYSBiaXQgYSBo
+YW1tZXIpLCBvcgp3aGF0IEkgcmVjb21tZW5kOiBIYXZlIGEgZGVkaWNhdGVkIGRlYnVnZnMgZmls
+ZSB0byBvbmx5IGRyb3AKZXZlcnl0aGluZyBmcm9tIHlvdXIgc2hyaW5rZXIuIFRoYXQncyBtdWNo
+IHF1aWNrZXIgYW5kICBjb250cm9sbGVkLgpTZWUgZS5nLiB0dG1fdHRfZGVidWdmc19zaHJpbmsg
+ZnJvbSBkNGJkNzc3NmE3YWMgKCJkcm0vdHRtOiByZXdvcmsKdHRtX3R0IHBhZ2UgbGltaXQgdjQi
+KSB3aGljaCByZWNlbnRseSBsYW5kZWQgaW4gZHJtLW1pc2MtbmV4dC4KLURhbmllbAotLSAKRGFu
+aWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Js
+b2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+Cg==
