@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC52D322D82
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 16:29:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C30322DCD
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 16:45:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB8146E842;
-	Tue, 23 Feb 2021 15:29:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1B8B6E9C4;
+	Tue, 23 Feb 2021 15:45:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 314F66E840
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 15:29:26 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id v21so2797408wml.4
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 07:29:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fh61dZLxlIYhL9DZ4QpbUyEKQf/XaqyHBG4/UJZbjr0=;
- b=EGltyJ0ASGwjGfqlUbNOOs45w20SkNaGjh5pnAILwq9k/M3fyetuc7dAxc/M80sMZ3
- qIQJ7zau3mv+DawHBG9o17p9lcdexhXHJS+GhbukIo/eIoOnzY3vsNGLGzY3jH/xff1V
- iOvSlg1mY44AKWOsLppDUZpzDI6cluQxIGdTBO+OdwBBlzSVtjztDUhCFiEmuW0TDTPw
- aNBN1jz+SfrAlDM0EQCgbW5nyrhqAAIIssIsgJhOdcY7wgUA69ydy3LYuTBZT3ZGUylF
- 3spCL/v4t3QYu+t6uq6Q+Yn+pgMIy/FIECKdKVj4IB1XBeC+j6SVtbZ6ynmFO0JEnhhS
- 5Gaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fh61dZLxlIYhL9DZ4QpbUyEKQf/XaqyHBG4/UJZbjr0=;
- b=R0kOhfrDRXDAgoRFfJxEQKfHQuD0r53JWtc0W/K9okguZ0hVrmGZWkPtIwFBw5e08L
- qJGPaym85sDQBf9ws2YxML/zdGp2HGkUHVcth2tasUJMsStw1f7swrRwa1iP4T76hpWP
- +/j9XytwaLyH2xcORyUucOZG9BQOTmZQ7vp6p5dnBsLKECBpHIQ+2eixS1w0C3sea62e
- elpibp2GuZC1t+kUMsmfZ+mjHcsTgMUOO3Vu1wFsf3rsk+XvA2TLEHEVfXkS60AWxc1o
- r9VckDd/da5TZqnP5mAAr0eJ7YDcsFRiZvDwvY80e8LE/YqDSm4OnZuU+zrlfVdhTdIR
- K49Q==
-X-Gm-Message-State: AOAM5312SZd0pKHTKWvw6O+oWGXSLlH8gNECiOcib171I3DcM955j/Tg
- 83lIh4SQSgbXv4szvOMI3OjcqNSUEsbnEWz8U3uOpw==
-X-Google-Smtp-Source: ABdhPJzkAJcGeMm9WU/64qA/bOQIsqC1fmp4wDXpKnBk9mBD5VoAgwwJJc3IDvDmzhkDivRD7knZWL1eo9I5VieU1J0=
-X-Received: by 2002:a1c:7e4e:: with SMTP id z75mr25773390wmc.168.1614094164835; 
- Tue, 23 Feb 2021 07:29:24 -0800 (PST)
+X-Greylist: delayed 548 seconds by postgrey-1.36 at gabe;
+ Tue, 23 Feb 2021 15:45:55 UTC
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 895AF6E9C4;
+ Tue, 23 Feb 2021 15:45:55 +0000 (UTC)
+Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1M5gAG-1lCxBL1zPW-007Dru; Tue, 23 Feb 2021 16:36:33 +0100
+Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
+ by mail.cetitecgmbh.com (Postfix) with ESMTP id 92CFB1E01E7;
+ Tue, 23 Feb 2021 15:36:32 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at cetitec.com
+Received: from mail.cetitecgmbh.com ([127.0.0.1])
+ by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com
+ [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id blSB3nUsz-cE; Tue, 23 Feb 2021 16:36:32 +0100 (CET)
+Received: from pflmari.corp.cetitec.com (2-usr-pf-main.vpn.it.cetitec.com
+ [10.8.5.2])
+ by mail.cetitecgmbh.com (Postfix) with ESMTPSA id 3F9B51E01E6;
+ Tue, 23 Feb 2021 16:36:32 +0100 (CET)
+Received: by pflmari.corp.cetitec.com (Postfix, from local account)
+Date: Tue, 23 Feb 2021 16:36:31 +0100
+From: Alex Riesen <alexander.riesen@cetitec.com>
+To: Ilia Mirkin <imirkin@alum.mit.edu>
+Subject: Re: [PATCH 2/3] drm/nouveau/kms/nv50-: Report max cursor size to
+ userspace
+Message-ID: <YDUg/9fjsvTkRUqr@pflmari>
+References: <20210119015415.2511028-1-lyude@redhat.com>
+ <20210119015415.2511028-2-lyude@redhat.com>
+ <YDUN+Re/alMVL0Zn@pflmari>
+ <CAKb7UvhFkw23so-a4JKLzpQLhphzjzarOy-9h+FiKP-aAC=4xw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200811202631.3603-1-alyssa.rosenzweig@collabora.com>
- <CAPj87rMS5zxY6sK4N8zVZF9MHThmURj6kuso=G5+MQDVmNjC4Q@mail.gmail.com>
- <20210223145143.7bfayhp32tzdj637@DESKTOP-E1NTVVP.localdomain>
-In-Reply-To: <20210223145143.7bfayhp32tzdj637@DESKTOP-E1NTVVP.localdomain>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 23 Feb 2021 15:29:13 +0000
-Message-ID: <CAPj87rMkSdtrHnoLzK6zAVvST2KH8SprNnp5bS92qpr84g=fPg@mail.gmail.com>
-Subject: Re: [PATCH] drm/rockchip: Require the YTR modifier for AFBC
-To: Brian Starkey <brian.starkey@arm.com>
+Content-Disposition: inline
+In-Reply-To: <CAKb7UvhFkw23so-a4JKLzpQLhphzjzarOy-9h+FiKP-aAC=4xw@mail.gmail.com>
+X-Provags-ID: V03:K1:lLfiHh+wAU5dx6w2wtMoChBxn+RUn1NPTqMejn0E5YxvkGIR5C7
+ T/ocA7y4+SV4umv5AYaWXbtoiI04JxTxRQyXnS5A5TN+Ey+EqY1H5nL19RGjrJyFGdRBynt
+ bKPDnBpiqfV282AW5wOnWm26A0+NwhDq/puB793Ygpd0zuN+qZgQxfnFLwTF5ddKAFMP8w1
+ apOtnKnNM1j+zfAPQW+Bw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Bv5rWH9T7NQ=:R4YKxD1vUCvKsLHSpatmlM
+ 5RYVodJf6RNTarfWPc/mI0t6joh6TYTng9UhC4DvB8brSsXW+NR06UM3Ni+HedW/gm21Ew/jF
+ lCZ9xF1QfkX2Hb4e0BNLImD3mJ5brLM4LEhXSZEkzA5dnlzGLS8kqJC/Fnv34cTJAatnB9Eed
+ vwQo3VlYefm+ff556yHV0H8cUnVsY1ovENYG3DSdlPFsiUG7+ZufKJjcioEKTxIZKj5L6wYLl
+ kiU1v2jQUvJg9iAUl790zcDLZfP35GtCOGWSDssMM1Uu7UtyZkqLBapm42B8HUZd8JePUy4aN
+ w9Iu9sNcBcljpduvtQzA04aZBxC7Bx77FM+7xPT3fJ0ieT+SMsRxVCjswEvv4KzCJGFfU6Y5N
+ 2SQKJfcsDeDEDrACB5pOfn9S2ivX4T2DB0GZzMOMUsJOqfc7+WyehoUBLOyugbPqodcZ3OIaK
+ pvXV5zxPlg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,45 +68,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandy Huang <hjc@rock-chips.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- linux-rockchip <linux-rockchip@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, nd <nd@arm.com>
+Cc: David Airlie <airlied@linux.ie>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ James Jones <jajones@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jeremy Cline <jcline@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>, nouveau <nouveau@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 Feb 2021 at 14:58, Brian Starkey <brian.starkey@arm.com> wrote:
-> On Tue, Feb 23, 2021 at 02:27:11PM +0000, Daniel Stone wrote:
-> > Mark, or others from Rockchip, can you please:
-> > - explain if there is a way to enable/disable the YTR transform in the
-> > VOP's AFBC decoder, similar to the split-block control bit?
-> > - ack this patch which correctly declares that the YTR transform is in
-> > use in order to make Panfrost work, so it can be merged through
-> > drm-misc, or provide another solution which fixes this API mistake?
-> > - if VOP does have a hidden YTR-disable bit, add support to disable
-> > YTR so rockchip-drm can continue advertising the non-YTR modifier, and
-> > Cc this patch for backporting to every kernel tree which declares AFBC
-> > modifier support?
->
-> Drive-by $0.02:
->
-> As described in https://www.kernel.org/doc/Documentation/gpu/afbc.rst,
-> YTR is only valid for "BGR" component order, so this shouldn't be set
-> or used for "RGB" order (or YUV) formats. For BGR-order formats, it's
-> best to always enable YTR to get the best compression ratio.
->
-> In an ideal world, there wouldn't be hardware/drivers which
-> support/allow non-standard encodings, but we don't live in that world
-> :-(
+Ilia Mirkin, Tue, Feb 23, 2021 15:56:21 +0100:
+> On Tue, Feb 23, 2021 at 9:26 AM Alex Riesen <alexander.riesen@cetitec.com> wrote:
+> > Lyude Paul, Tue, Jan 19, 2021 02:54:13 +0100:
+> > > diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > > index c6367035970e..5f4f09a601d4 100644
+> > > --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > > +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > > @@ -2663,6 +2663,14 @@ nv50_display_create(struct drm_device *dev)
+> > >       else
+> > >               nouveau_display(dev)->format_modifiers = disp50xx_modifiers;
+> > >
+> > > +     if (disp->disp->object.oclass >= GK104_DISP) {
+> > > +             dev->mode_config.cursor_width = 256;
+> > > +             dev->mode_config.cursor_height = 256;
+> > > +     } else {
+> > > +             dev->mode_config.cursor_width = 64;
+> > > +             dev->mode_config.cursor_height = 64;
+> > > +     }
+> > > +
+> > >       /* create crtc objects to represent the hw heads */
+> > >       if (disp->disp->object.oclass >= GV100_DISP)
+> > >               crtcs = nvif_rd32(&device->object, 0x610060) & 0xff;
+> >
+> > This change broke X cursor in my setup, and reverting the commit restores it.
+> >
+> > Dell Precision M4800, issue ~2014 with GK106GLM [Quadro K2100M] (rev a1).
+> > libdrm 2.4.91-1 (Debian 10.8 stable).
+> > There are no errors or warnings in Xorg logs nor in the kernel log.
+> 
+> Could you confirm which ddx is driving the nvidia hw? You can find
+> this out by running "xrandr --listproviders", or also in the xorg log.
 
-This implies that RGB component ordering cannot be used together with
-AFBC on RK3399, no?
+xrandr(1) does not seem to list much:
 
-Cheers,
-Daniel
+$ xrandr --listproviders
+Providers: number : 1
+Provider 0: id: 0x48 cap: 0xf, Source Output, Sink Output, Source Offload, Sink Offload crtcs: 4 outputs: 5 associated providers: 0 name:modesetting
+
+I failed to find a DDX in Xorg.0.log. Both Xorg.0.log and dmesg can be seen here:
+
+    https://gist.github.com/ar-cetitec/68c27551d9a59b89dc73bffe0456bbef
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
