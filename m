@@ -1,49 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10F73223DF
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 02:53:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B983223EB
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 02:57:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F0BF6E58E;
-	Tue, 23 Feb 2021 01:53:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 423F76E819;
+	Tue, 23 Feb 2021 01:56:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E9916E58E
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 01:53:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 2F1146148E;
- Tue, 23 Feb 2021 01:53:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614045192;
- bh=pRmEpLjajmmHuaju5BIP93Di3WDshUvnOMolUZnC7/A=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=hv2DxIyPPLEg0P+U3j5vzxdG+4cLdgo/+35RZqASuCGDbajoD5ttb7TiK89lYioiv
- ty8qP1t9458iD1h6TO7Gs/+4m7oKgpnGwv90KX2nAQTuvZ0pDVYd0IIZM76B8C6Rya
- qyeTjzsdNYBNu1BlsaFup8I7tJvU8FphlC2deOlZorlvc6kJ2jkGCdNkouM1iSFHLV
- N6tgTZqTvpNMv3sISOl7X3SjvyEKc+MXvvcJv/JZiVACsXdYqhBVIdSJ7eEweTbH4f
- ANJdOU2605oxES+ykOAu4XzFRwfPBKmpefx9eS8Rei1BoA1sV8KLkCO7f4uRVY/SrU
- 6Qd3pMgnoD6Ag==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
- [127.0.0.1])
- by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 1A1DE609D1;
- Tue, 23 Feb 2021 01:53:12 +0000 (UTC)
-Subject: Re: [PULL] topic/kcmp-kconfig
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <YDNrq+mpwta0f0vt@phenom.ffwll.local>
-References: <YDNrq+mpwta0f0vt@phenom.ffwll.local>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <YDNrq+mpwta0f0vt@phenom.ffwll.local>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/topic/kcmp-kconfig-2021-02-22
-X-PR-Tracked-Commit-Id: bfe3911a91047557eb0e620f95a370aee6a248c7
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4b5f9254e4f4375ac845cb17f1732037dd8adeeb
-Message-Id: <161404519204.2827.13463630697238081806.pr-tracker-bot@kernel.org>
-Date: Tue, 23 Feb 2021 01:53:12 +0000
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0262E6E819
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 01:56:54 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id h26so8957030lfm.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 17:56:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=X3YTt+OBnZdgY7YTDG9R5B/vNmDOeKHekPCOYy0Yhx0=;
+ b=MHcmARE6GXe9GATWNEkX/ppYFvKDMu/Qdj8EquOuKjI/tjKA2KYCQRVSePACbXXz8u
+ OG7fWuE61jx12EwVcOlVN244TLyIgWhXresA4yUvIjmoDKkew3ivclzTo+39YiJn/Lbe
+ X88LFzYhTu1s6FsdE7T336ZwtI4k6GmRce/tE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=X3YTt+OBnZdgY7YTDG9R5B/vNmDOeKHekPCOYy0Yhx0=;
+ b=t5Msnlmpbxw2+pY1aB/idrMZ+K12vqU1OKCRNENRaJuvwkbOL5FclMGbR1AcaSn22M
+ FM0TbqO7eJQevK1aGhRBVVGxIoR53f8oepRaVZqmQyJA+vMynuUeooE6YnEvL9wsdzIW
+ wIGdK8x3UX4FvT9/NC/HkqNfbnSKoBkzedE7fatl0fPxgvBt4UjV7Ru+lnt9s4lopP/f
+ yBAdy0FmbLM49Y53IND9s5B9oPS1mLF2NMNDnk7T60XnHSJ+PVpw/tyOZlBXiU5x/xe+
+ bg2pwAeCIpL+FekfFSDizaE/UxLpqgIXEhHv4LOW1fK07JlFL1SOLDljIEABoyKQ00Kg
+ 1+TQ==
+X-Gm-Message-State: AOAM5325At+HEEuACJRz9WjIhsYBacxlLYxWSaBIJZM9fW1Wy+dLDpv1
+ ZslpcWbmcal0CX8bmEHGhrgWCU7ADZvmcA==
+X-Google-Smtp-Source: ABdhPJzr2aLoGZCJGcNt7lNgoZW0uBXT9lXIwqXSxVZqXt/x52bMj6FNNJSXZVCR4IATXQgVfs7bCQ==
+X-Received: by 2002:a19:6d09:: with SMTP id i9mr14867796lfc.425.1614045413167; 
+ Mon, 22 Feb 2021 17:56:53 -0800 (PST)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com.
+ [209.85.167.53])
+ by smtp.gmail.com with ESMTPSA id w4sm2258107lfe.81.2021.02.22.17.56.52
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Feb 2021 17:56:52 -0800 (PST)
+Received: by mail-lf1-f53.google.com with SMTP id m22so8891007lfg.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 17:56:52 -0800 (PST)
+X-Received: by 2002:ac2:5184:: with SMTP id u4mr10058742lfi.487.1614045411930; 
+ Mon, 22 Feb 2021 17:56:51 -0800 (PST)
+MIME-Version: 1.0
+References: <YDOGERvNuU3+2WWe@phenom.ffwll.local>
+ <CAKMK7uHQ=6OJcRguCUtiB456RWdCfwSNEXV8pQsfsPodTJ6uxw@mail.gmail.com>
+In-Reply-To: <CAKMK7uHQ=6OJcRguCUtiB456RWdCfwSNEXV8pQsfsPodTJ6uxw@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 22 Feb 2021 17:56:35 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wi43mDJab1RQz9Sgz5+m=T=nSCyxULywoUHxstEHd2qnQ@mail.gmail.com>
+Message-ID: <CAHk-=wi43mDJab1RQz9Sgz5+m=T=nSCyxULywoUHxstEHd2qnQ@mail.gmail.com>
+Subject: Re: [PULL] fixes around VM_PFNMAP and follow_pfn for 5.12 merge window
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,28 +70,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Andy Lutomirski <luto@amacapital.net>
-MIME-Version: 1.0
+Cc: Linux MM <linux-mm@kvack.org>, Linux PCI <linux-pci@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Mon, 22 Feb 2021 10:37:27 +0100:
+On Mon, Feb 22, 2021 at 2:25 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> Cc all the mailing lists ... my usual script crashed and I had to
+> hand-roll the email and screwed it up ofc :-/
 
-> git://anongit.freedesktop.org/drm/drm tags/topic/kcmp-kconfig-2021-02-22
+Oh, and you also didn't get a pr-tracker-bot response for this for the
+same reason.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4b5f9254e4f4375ac845cb17f1732037dd8adeeb
+Even your fixed email was ignored by the bot (I think because of the
+"Re:" in the subject line).
 
-Thank you!
+So consider this your manual pr-tracker-bot replacement.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+              Linus
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
