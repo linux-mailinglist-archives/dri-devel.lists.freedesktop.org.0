@@ -1,53 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A24322FEA
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 18:48:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65778322FFA
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 18:52:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53C0D6E84E;
-	Tue, 23 Feb 2021 17:48:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F1146E84F;
+	Tue, 23 Feb 2021 17:52:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
- [IPv6:2607:f8b0:4864:20::c2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7625D6E84B;
- Tue, 23 Feb 2021 17:48:15 +0000 (UTC)
-Received: by mail-oo1-xc2e.google.com with SMTP id g46so4055360ooi.9;
- Tue, 23 Feb 2021 09:48:15 -0800 (PST)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D2596E84F
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 17:52:51 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id hs11so35930719ejc.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 09:52:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ffSuOizC5vkUXK1gRj/KWG3leLFcWqMQLhXqk6jtjF8=;
- b=vbgy9CARhYqdjN8Ho0PbyEzF2w+6y+n6HQqUZYHQI722nTtteSgOdfhyF4xLx6RjQf
- ZHF4NoXNSe/9YN19Tv1e5e3DFmQ9WRH8KfVHVdesDO6q1vl/dd7TDMGfp6+n2AR74lOL
- 5Y0rSya1bpC7gEAMn42hTASouVT2h2Vx+nOdfRKSV7BBhkwCU+apO1umKsk1HTqQScTQ
- 0NgeXSzLPhe7htdcc+NOI1ffXxgekrCB5+jpr691zE916wqJfptwgHrgViVOy26aUw/B
- urPcPfsnnoWL/eydzwiUAG+iubpxx/UquDpjx+pzRzRCXbk4lEVZMQ+4sDgiw6Nz66qR
- FsFg==
+ :cc; bh=3e0aYpV14pI3DkzUD+0/oFSBOLMg1Ivs66TyYBGy8PE=;
+ b=R3Phspw8uQcUxbMDTOtO5F2rckpTRhhIphLisE6O0MX3PtBtYtqAueqDtLJhVHc44M
+ l3pVhsm/4PKhWy3HvyKvKaBDT7Zy3V7+q2kCMIrhtA+BWn1+puhx2Q/o3OCLv2tjzPvA
+ idhPwfmFse7Njck8COyJRkVmJh7Z2vPuDGanTl62UPClAbEdqWNj1BSlNWS9fEJcj2KD
+ +4AalXbZVpCUlG6WCf3ca0dz0C0pbSuxyxBHWL9ix5vEmWCo6AOBONbehossCIp/sjEZ
+ ek9P43sK0i3pvyc2vqHyVuUzaDc15HfRKRqVXJW+FBuzW+Oo//KIFW2VSG9TzKNgk63H
+ H0mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ffSuOizC5vkUXK1gRj/KWG3leLFcWqMQLhXqk6jtjF8=;
- b=IP3FPKF4IMWknvSzcCbAtK/QB3tm66Uv/u4jSN3mWo7havcNPX/jWDyKVksHpSlTY/
- To+cHhiU68c9KinMev+C/nzqwPF+3EGNkfljjlyngy0z23p9zo+l/UtPg9N+QBuhsDG+
- v5bapF+xKLlHwrbNo7ar9GRdYWH9KPDNDENv99ZFlyVUwbLrs3ia8SlOMEbQu/+P9rOj
- jNtWtQ6tGRDvAYYXAKmRsi5pRcefRux7GjaEyUIAQGx1XHvgIBOnOlF7EDhC8CqxPkOv
- Df8xw127Rt8da58K1WLA0vp3fTWyQaTUg5FP3GHqA2cMMKYLolIjXqGda51r58r43olQ
- hi6A==
-X-Gm-Message-State: AOAM532mKWs+gqNrdyOHoXkWA2/kAI6w/QLg93qfbzSe7H8aS+CPZ1VR
- +wrl/HQGYQMSVfkJ8Afx6EtJxk+vK2OBQ0j/ADA=
-X-Google-Smtp-Source: ABdhPJzxvdElhLv4Olbxje+vfunp4TxzAJH8llMrhEMdjEvnxVubx328z9Es28kfa/xGAYsyYOsVKAW93HWSYchf8zc=
-X-Received: by 2002:a4a:4581:: with SMTP id y123mr20841890ooa.61.1614102494816; 
- Tue, 23 Feb 2021 09:48:14 -0800 (PST)
+ bh=3e0aYpV14pI3DkzUD+0/oFSBOLMg1Ivs66TyYBGy8PE=;
+ b=O2N7jMD1fq0xSF6Bmyl2xkVHDTnWiApCNC93HJbY2TWZ0J+RemQjwIyHE226jI7hKm
+ JKG3GDvJgNIDp8BY42GTz2g5/zTMKAig+NOTCZORtD/QV6+s0mKkrlUpCH1fP4jDZ5xc
+ QsD4Pni2wrWJqXbl/9gFJ1s3YsKEBE+jb0aOofeQtui9DZGB3DFimKJw7b9xAZSsU+Yn
+ SVV1Ts+LTPtngTMKrn4Q+VjqC1Fq/OeFVs2iXOuj39QQ9XdHGnCOs7NW1MPw0LSY60bO
+ q817lESOV1ZBGTPnIFTKU90BeMgXMcRtZYa1YteC1MJUSiIe2nHYd/o+taMTEF9nYa/3
+ fa5A==
+X-Gm-Message-State: AOAM533EkRiWHT9olYQZUKMcKWRhsqMTcBkCouRAzacFCQyXujZuBbL9
+ eYJjduTGYhiZf+BlXKLJ6Jnf7UMK39nmMKGqMO0=
+X-Google-Smtp-Source: ABdhPJz3m6xwrsiPKRp3CKZo56Cxu8+plxzlCzPSXiLDRGmyLowTJcZU2JHcr2/W5eqTqavEWBRG+FPeezv8lw1mZ+0=
+X-Received: by 2002:a17:906:72d7:: with SMTP id
+ m23mr13634474ejl.430.1614102770111; 
+ Tue, 23 Feb 2021 09:52:50 -0800 (PST)
 MIME-Version: 1.0
-References: <1614051813-51451-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <1614051813-51451-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 23 Feb 2021 12:48:03 -0500
-Message-ID: <CADnq5_O3dQvBk5rG+XgQHzguByjMs-Yds71vzj4MG+AMhmyvhw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Remove unnecessary conversion to bool
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+References: <20210124044010.18678-1-mario.kleiner.de@gmail.com>
+ <yEq1_Ipkzm_vP4BD6cKlonRVfMbfGXrlvxOG4XDkk_wg1UkPCdLj95I8pknonGjf2Bs1zYeErr1WXerrQjprE3k1vswj3E2Nzq-imF58ytM=@emersion.fr>
+ <CAEsyxyhXhJohDYuDDLoQeg-QqhnWQ953GRO0Kf6Puj=f_NkU4w@mail.gmail.com>
+ <YA61Aa07PhDucMyG@intel.com>
+ <-NvMjiGAV79IMWvTOWrb2u_SHe2U36XumXbITMgCCqpMVg-FcvGRJbeTHaiUwkBSxZS5XaXYziZnoTdXJENA-JYQWNi-28F01___0SsWvv0=@emersion.fr>
+ <CAEsyxyiK+bDyLDsk-jG3GGYWBjkGZeFamutmtDiNYvJSm4qegg@mail.gmail.com>
+ <7Zl9uZ-uolN1JkU8Muxro-A5gTSN2SmmxYhs9g2UYfTFCJIoZVMIdkcPBbR6nkTxb3gWSwqTAsCfnlrtNzH133HdIZ9dCYcwZchv0iXZCnA=@emersion.fr>
+ <CAEsyxygB-VZHg9a68Qb3XJ+xULwEeCkUFfthN4H+sdoVRXmJ2Q@mail.gmail.com>
+ <CAEsyxyiPCXVmD-StDm+ZgOvDPASzXHci9dTaOWNf+VYFDEo97A@mail.gmail.com>
+ <n2gjLlZ27Z0RAqlk7YhAi09RO_MKDmgP8crN2oeu-4O8pivnXph2Awy1ArYl61paax544su5pq13634h3Pm9OGB9QKt-RZ7mfz49aj64xy0=@emersion.fr>
+In-Reply-To: <n2gjLlZ27Z0RAqlk7YhAi09RO_MKDmgP8crN2oeu-4O8pivnXph2Awy1ArYl61paax544su5pq13634h3Pm9OGB9QKt-RZ7mfz49aj64xy0=@emersion.fr>
+From: Mario Kleiner <mario.kleiner.de@gmail.com>
+Date: Tue, 23 Feb 2021 18:52:38 +0100
+Message-ID: <CAEsyxyjQgAqfoVtHvq4z0okOh57+73nkh62cCixP96pW2LdV2w@mail.gmail.com>
+Subject: Re: [PATCH] drm: Fix HDMI_STATIC_METADATA_TYPE1 constant.
+To: Simon Ser <contact@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,62 +70,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: Uma Shankar <uma.shankar@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 22, 2021 at 10:44 PM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
+On Wed, Feb 10, 2021 at 10:14 PM Simon Ser <contact@emersion.fr> wrote:
 >
-> Fix the following coccicheck warnings:
+> On Wednesday, February 10th, 2021 at 10:04 PM, Mario Kleiner <mario.kleiner.de@gmail.com> wrote:
 >
-> ./drivers/gpu/drm/amd/amdgpu/athub_v2_1.c:79:40-45: WARNING: conversion
-> to bool not needed here.
+> > Ping!
 >
-> ./drivers/gpu/drm/amd/amdgpu/athub_v2_1.c:81:40-45: WARNING: conversion
-> to bool not needed here.
+> I now understand the problem better.
 >
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> Reviewed-by: Simon Ser <contact@emersion.fr>
+>
+> I'll push to drm-misc-next in a few days if no-one complains. Ping me
+> again if I forget.
 
-Applied.  Thanks!
+Hi Simon,
 
-Alex
+ping! :)
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/athub_v2_1.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/athub_v2_1.c b/drivers/gpu/drm/amd/amdgpu/athub_v2_1.c
-> index 7b1b183..2ac4988 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/athub_v2_1.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/athub_v2_1.c
-> @@ -74,10 +74,8 @@ int athub_v2_1_set_clockgating(struct amdgpu_device *adev,
->         case CHIP_SIENNA_CICHLID:
->         case CHIP_NAVY_FLOUNDER:
->         case CHIP_DIMGREY_CAVEFISH:
-> -               athub_v2_1_update_medium_grain_clock_gating(adev,
-> -                               state == AMD_CG_STATE_GATE ? true : false);
-> -               athub_v2_1_update_medium_grain_light_sleep(adev,
-> -                               state == AMD_CG_STATE_GATE ? true : false);
-> +               athub_v2_1_update_medium_grain_clock_gating(adev, state == AMD_CG_STATE_GATE);
-> +               athub_v2_1_update_medium_grain_light_sleep(adev, state == AMD_CG_STATE_GATE);
->                 break;
->         default:
->                 break;
-> --
-> 1.8.3.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+thanks,
+-mario
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
