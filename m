@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E021A322D62
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 16:23:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC52D322D82
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 16:29:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 751BE6E9B5;
-	Tue, 23 Feb 2021 15:23:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB8146E842;
+	Tue, 23 Feb 2021 15:29:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0B206E9B5
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 15:23:21 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id v200so538522pfc.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 07:23:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 314F66E840
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 15:29:26 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id v21so2797408wml.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 07:29:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BS3pCRX5Z7JbSvWaVr5WdMtid9oF4IO16PyoAmTAdYs=;
- b=umiXC0bwlKvnb4qm9BVVyHZqGMk6C4GQfUWno0FK4eLXjmZJ/JeTjWqxbWHsJHtn23
- KlyxaDSGc3R+G4Xy+zMV5Vvsxl6xzRnpMbp5D5YAyk5xS0NOQvKvqwoVwlmKVxLN8XkY
- 0KD0xinoz5uDPczB/zl1Am4TwLFcFZR4L1zE/r61IBRfb/XTF808c8yffbvo03BKypcL
- 7Nr5zKRg5hulJXmVHEHCQH70gvHrCqpN7vBLIAc6PZPHeUbvRd0cEMVvlj4VPyfSb7gH
- QJ0E48z1iFhd2gdHmwJNYzaUT2HHfPIuUuH303O9irfl4Xtl6uArkYi9EOKp3Rf6yQRY
- BC1g==
+ :cc; bh=fh61dZLxlIYhL9DZ4QpbUyEKQf/XaqyHBG4/UJZbjr0=;
+ b=EGltyJ0ASGwjGfqlUbNOOs45w20SkNaGjh5pnAILwq9k/M3fyetuc7dAxc/M80sMZ3
+ qIQJ7zau3mv+DawHBG9o17p9lcdexhXHJS+GhbukIo/eIoOnzY3vsNGLGzY3jH/xff1V
+ iOvSlg1mY44AKWOsLppDUZpzDI6cluQxIGdTBO+OdwBBlzSVtjztDUhCFiEmuW0TDTPw
+ aNBN1jz+SfrAlDM0EQCgbW5nyrhqAAIIssIsgJhOdcY7wgUA69ydy3LYuTBZT3ZGUylF
+ 3spCL/v4t3QYu+t6uq6Q+Yn+pgMIy/FIECKdKVj4IB1XBeC+j6SVtbZ6ynmFO0JEnhhS
+ 5Gaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=BS3pCRX5Z7JbSvWaVr5WdMtid9oF4IO16PyoAmTAdYs=;
- b=EVhtiKtt1mUytwzIDyQlAkFOHHHUXUFizK9sUC3bdFY2c3WhgzJf9Xh80l54pjUOnx
- Vh9MLOajG8xVUDrMY2FNTUYEnwbBQSAH5Z65P6qWiANCsmmz/vteD8cWUvHXBAm16WhE
- XhKiUxID6YppzhJEnEqLoaBcek4if4FyKn9aEPWxtBVPtHgnwhWMX9Ld3FjYi9nmjeou
- rxKxzTJ64t9KTw2SZoRqIeYujxRifi0o9Cc59lc5nsOwFf6xk9jag4afj9NU5H7leeIn
- cEhUMfEmF2bEjeWLV2ZmGvAZslLUolWPoVtnvnEPE3MJxq1ZY665yjRGnyJB03SiKDE4
- 81bg==
-X-Gm-Message-State: AOAM530+SHwekEr5M9Znc7OBNfgHkAlM1Xa08+kFX1NQ+1AXBblTBVkS
- 8uc8HxFROEn7qhefpHt4Bsk/sz2nEXu1AtvINx/aEA==
-X-Google-Smtp-Source: ABdhPJybS9amQzmPHnSi0zL+AAlY+4Lgs5kmZTEVwWrd5xts9iyiJyU9q2MiRJdEbUzBM33b45DsnKD2LSIlUlSrzNY=
-X-Received: by 2002:aa7:9281:0:b029:1ec:48b2:811c with SMTP id
- j1-20020aa792810000b02901ec48b2811cmr27116567pfa.18.1614093801409; Tue, 23
- Feb 2021 07:23:21 -0800 (PST)
+ bh=fh61dZLxlIYhL9DZ4QpbUyEKQf/XaqyHBG4/UJZbjr0=;
+ b=R0kOhfrDRXDAgoRFfJxEQKfHQuD0r53JWtc0W/K9okguZ0hVrmGZWkPtIwFBw5e08L
+ qJGPaym85sDQBf9ws2YxML/zdGp2HGkUHVcth2tasUJMsStw1f7swrRwa1iP4T76hpWP
+ +/j9XytwaLyH2xcORyUucOZG9BQOTmZQ7vp6p5dnBsLKECBpHIQ+2eixS1w0C3sea62e
+ elpibp2GuZC1t+kUMsmfZ+mjHcsTgMUOO3Vu1wFsf3rsk+XvA2TLEHEVfXkS60AWxc1o
+ r9VckDd/da5TZqnP5mAAr0eJ7YDcsFRiZvDwvY80e8LE/YqDSm4OnZuU+zrlfVdhTdIR
+ K49Q==
+X-Gm-Message-State: AOAM5312SZd0pKHTKWvw6O+oWGXSLlH8gNECiOcib171I3DcM955j/Tg
+ 83lIh4SQSgbXv4szvOMI3OjcqNSUEsbnEWz8U3uOpw==
+X-Google-Smtp-Source: ABdhPJzkAJcGeMm9WU/64qA/bOQIsqC1fmp4wDXpKnBk9mBD5VoAgwwJJc3IDvDmzhkDivRD7knZWL1eo9I5VieU1J0=
+X-Received: by 2002:a1c:7e4e:: with SMTP id z75mr25773390wmc.168.1614094164835; 
+ Tue, 23 Feb 2021 07:29:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20210115070250.2271571-1-hsinyi@chromium.org>
- <20210115070250.2271571-2-hsinyi@chromium.org>
-In-Reply-To: <20210115070250.2271571-2-hsinyi@chromium.org>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 23 Feb 2021 16:23:10 +0100
-Message-ID: <CAG3jFytPDLWygTGeyCYEqJYcwD=UDAe6hagL5zTjrSKXoN5aMA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/bridge: anx7625: disable regulators when power
- off
-To: Hsin-Yi Wang <hsinyi@chromium.org>
+References: <20200811202631.3603-1-alyssa.rosenzweig@collabora.com>
+ <CAPj87rMS5zxY6sK4N8zVZF9MHThmURj6kuso=G5+MQDVmNjC4Q@mail.gmail.com>
+ <20210223145143.7bfayhp32tzdj637@DESKTOP-E1NTVVP.localdomain>
+In-Reply-To: <20210223145143.7bfayhp32tzdj637@DESKTOP-E1NTVVP.localdomain>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 23 Feb 2021 15:29:13 +0000
+Message-ID: <CAPj87rMkSdtrHnoLzK6zAVvST2KH8SprNnp5bS92qpr84g=fPg@mail.gmail.com>
+Subject: Re: [PATCH] drm/rockchip: Require the YTR modifier for AFBC
+To: Brian Starkey <brian.starkey@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,139 +63,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel <linux-kernel@vger.kernel.org>,
+Cc: Sandy Huang <hjc@rock-chips.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ linux-rockchip <linux-rockchip@lists.infradead.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, nd <nd@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Hsin-Yi,
+On Tue, 23 Feb 2021 at 14:58, Brian Starkey <brian.starkey@arm.com> wrote:
+> On Tue, Feb 23, 2021 at 02:27:11PM +0000, Daniel Stone wrote:
+> > Mark, or others from Rockchip, can you please:
+> > - explain if there is a way to enable/disable the YTR transform in the
+> > VOP's AFBC decoder, similar to the split-block control bit?
+> > - ack this patch which correctly declares that the YTR transform is in
+> > use in order to make Panfrost work, so it can be merged through
+> > drm-misc, or provide another solution which fixes this API mistake?
+> > - if VOP does have a hidden YTR-disable bit, add support to disable
+> > YTR so rockchip-drm can continue advertising the non-YTR modifier, and
+> > Cc this patch for backporting to every kernel tree which declares AFBC
+> > modifier support?
+>
+> Drive-by $0.02:
+>
+> As described in https://www.kernel.org/doc/Documentation/gpu/afbc.rst,
+> YTR is only valid for "BGR" component order, so this shouldn't be set
+> or used for "RGB" order (or YUV) formats. For BGR-order formats, it's
+> best to always enable YTR to get the best compression ratio.
+>
+> In an ideal world, there wouldn't be hardware/drivers which
+> support/allow non-standard encodings, but we don't live in that world
+> :-(
 
-This patch looks good to me, feel free to add my r-b.
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+This implies that RGB component ordering cannot be used together with
+AFBC on RK3399, no?
 
-On Fri, 15 Jan 2021 at 08:05, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
->
-> When suspending the driver, anx7625_power_standby() will be called to
-> turn off reset-gpios and enable-gpios. However, power supplies are not
-> disabled. To save power, the driver can get the power supply regulators
-> and turn off them in anx7625_power_standby().
->
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
-> Change:
-> v3: add delays between regulators power on
-> ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 34 +++++++++++++++++++++++
->  drivers/gpu/drm/bridge/analogix/anx7625.h |  1 +
->  2 files changed, 35 insertions(+)
->
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 65cc05982f82..23283ba0c4f9 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -11,6 +11,7 @@
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/mutex.h>
-> +#include <linux/regulator/consumer.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
->  #include <linux/workqueue.h>
-> @@ -875,12 +876,25 @@ static int sp_tx_edid_read(struct anx7625_data *ctx,
->  static void anx7625_power_on(struct anx7625_data *ctx)
->  {
->         struct device *dev = &ctx->client->dev;
-> +       int ret, i;
->
->         if (!ctx->pdata.low_power_mode) {
->                 DRM_DEV_DEBUG_DRIVER(dev, "not low power mode!\n");
->                 return;
->         }
->
-> +       for (i = 0; i < ARRAY_SIZE(ctx->pdata.supplies); i++) {
-> +               ret = regulator_enable(ctx->pdata.supplies[i].consumer);
-> +               if (ret < 0) {
-> +                       DRM_DEV_DEBUG_DRIVER(dev, "cannot enable supply %d: %d\n",
-> +                                            i, ret);
-> +                       goto reg_err;
-> +               }
-> +               usleep_range(2000, 2100);
-> +       }
-> +
-> +       usleep_range(4000, 4100);
-> +
->         /* Power on pin enable */
->         gpiod_set_value(ctx->pdata.gpio_p_on, 1);
->         usleep_range(10000, 11000);
-> @@ -889,11 +903,16 @@ static void anx7625_power_on(struct anx7625_data *ctx)
->         usleep_range(10000, 11000);
->
->         DRM_DEV_DEBUG_DRIVER(dev, "power on !\n");
-> +       return;
-> +reg_err:
-> +       for (--i; i >= 0; i--)
-> +               regulator_disable(ctx->pdata.supplies[i].consumer);
->  }
->
->  static void anx7625_power_standby(struct anx7625_data *ctx)
->  {
->         struct device *dev = &ctx->client->dev;
-> +       int ret;
->
->         if (!ctx->pdata.low_power_mode) {
->                 DRM_DEV_DEBUG_DRIVER(dev, "not low power mode!\n");
-> @@ -904,6 +923,12 @@ static void anx7625_power_standby(struct anx7625_data *ctx)
->         usleep_range(1000, 1100);
->         gpiod_set_value(ctx->pdata.gpio_p_on, 0);
->         usleep_range(1000, 1100);
-> +
-> +       ret = regulator_bulk_disable(ARRAY_SIZE(ctx->pdata.supplies),
-> +                                    ctx->pdata.supplies);
-> +       if (ret < 0)
-> +               DRM_DEV_DEBUG_DRIVER(dev, "cannot disable supplies %d\n", ret);
-> +
->         DRM_DEV_DEBUG_DRIVER(dev, "power down\n");
->  }
->
-> @@ -1742,6 +1767,15 @@ static int anx7625_i2c_probe(struct i2c_client *client,
->         platform->client = client;
->         i2c_set_clientdata(client, platform);
->
-> +       pdata->supplies[0].supply = "vdd10";
-> +       pdata->supplies[1].supply = "vdd18";
-> +       pdata->supplies[2].supply = "vdd33";
-> +       ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(pdata->supplies),
-> +                                     pdata->supplies);
-> +       if (ret) {
-> +               DRM_DEV_ERROR(dev, "fail to get power supplies: %d\n", ret);
-> +               return ret;
-> +       }
->         anx7625_init_gpio(platform);
->
->         atomic_set(&platform->power_status, 0);
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-> index 193ad86c5450..e4a086b3a3d7 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-> @@ -350,6 +350,7 @@ struct s_edid_data {
->  struct anx7625_platform_data {
->         struct gpio_desc *gpio_p_on;
->         struct gpio_desc *gpio_reset;
-> +       struct regulator_bulk_data supplies[3];
->         struct drm_bridge *panel_bridge;
->         int intp_irq;
->         u32 low_power_mode;
-> --
-> 2.30.0.284.gd98b1dd5eaa7-goog
->
+Cheers,
+Daniel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
