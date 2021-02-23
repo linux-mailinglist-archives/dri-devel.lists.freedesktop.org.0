@@ -1,41 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA35C322B39
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 14:10:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE3C322B55
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 14:21:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF14F6E1A3;
-	Tue, 23 Feb 2021 13:10:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C62306E99C;
+	Tue, 23 Feb 2021 13:21:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 683756E1A3
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 13:10:01 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 60A1564E2E;
- Tue, 23 Feb 2021 13:10:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1614085801;
- bh=3mKAFNLkex9Rng+D781XbEWwNMKo75V9EzlFCGYQRPU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TRmkM/Br+Adj4T5wVxONOIh/+EZVGz1egXxkXgVu1v7FtMT60JLp6dOMPnI+6f/ZF
- tnUH7ouKYef5zEfqHGa9XJuVOXiMJGe79IfqLI6sIastYLqnkjddrTiCBu/jNrHHeR
- I3lB4S3OCm3F4i+g2BQT3whZJRCznjOmrrXr5UQA=
-Date: Tue, 23 Feb 2021 14:09:58 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3] drm: Use USB controller's DMA mask when importing
- dmabufs
-Message-ID: <YDT+pusRy3/JpmRR@kroah.com>
-References: <20210223105842.27011-1-tzimmermann@suse.de>
- <YDTk3L3gNxDE3YrC@kroah.com> <YDTrDAlcFH/7/7DD@phenom.ffwll.local>
- <YDTu4ugLo23APyaM@kroah.com>
- <CAKMK7uG67eHEFOCJBJCtwFbwoUWQsER4DNBKRp6e75uywvF1pw@mail.gmail.com>
- <YDT0GIJEhWRp0w5F@kroah.com>
- <9b1e0c9b-2337-d76b-4870-72fbe8495fd2@suse.de>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7344D6E99C
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 13:21:09 +0000 (UTC)
+IronPort-SDR: G6VuRrPT/XbX602S8G6Aj85+/viU2XKOYnjCa9LMM3gtVJjCnZTgkzSDAWESFMHkE7YomCUw7G
+ xREkgm7ACVrg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9903"; a="269754497"
+X-IronPort-AV: E=Sophos;i="5.81,200,1610438400"; d="scan'208";a="269754497"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2021 05:21:08 -0800
+IronPort-SDR: SqzV2J8UYCZcd7OQicr2SiY9ITDXP+eivb3GyAu3oMlj79ZziHGg77wtk3YRXowUwiLLrDy659
+ Ut4qHLHmalDg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,200,1610438400"; d="scan'208";a="366581461"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga006.jf.intel.com with SMTP; 23 Feb 2021 05:21:05 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 23 Feb 2021 15:21:04 +0200
+Date: Tue, 23 Feb 2021 15:21:04 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "Lin, Wayne" <Wayne.Lin@amd.com>
+Subject: Re: [PATCH 2/2] drm/dp_mst: Set CLEAR_PAYLOAD_ID_TABLE as broadcast
+Message-ID: <YDUBQE3acwhDbUxp@intel.com>
+References: <20210222040027.23505-1-Wayne.Lin@amd.com>
+ <20210222040027.23505-3-Wayne.Lin@amd.com>
+ <YDPjFzPdfZXJqex8@intel.com>
+ <BN8PR12MB47700A55800116A14DF96B1FFC809@BN8PR12MB4770.namprd12.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <9b1e0c9b-2337-d76b-4870-72fbe8495fd2@suse.de>
+In-Reply-To: <BN8PR12MB47700A55800116A14DF96B1FFC809@BN8PR12MB4770.namprd12.prod.outlook.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,185 +52,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
- Dave Airlie <airlied@linux.ie>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Oliver Neukum <oneukum@suse.com>, Johan Hovold <johan@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Hans de Goede <hdegoede@redhat.com>, Alan Stern <stern@rowland.harvard.edu>,
- stable <stable@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sean Paul <sean@poorly.run>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "Brol, Eryk" <Eryk.Brol@amd.com>, "Zhuo, Qingqing" <Qingqing.Zhuo@amd.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>, "Zuo,
+ Jerry" <Jerry.Zuo@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Kazlauskas, Nicholas" <Nicholas.Kazlauskas@amd.com>,
+ Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 23, 2021 at 01:51:09PM +0100, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 23.02.21 um 13:24 schrieb Greg KH:
-> > On Tue, Feb 23, 2021 at 01:14:30PM +0100, Daniel Vetter wrote:
-> > > On Tue, Feb 23, 2021 at 1:02 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > > 
-> > > > On Tue, Feb 23, 2021 at 12:46:20PM +0100, Daniel Vetter wrote:
-> > > > > On Tue, Feb 23, 2021 at 12:19:56PM +0100, Greg KH wrote:
-> > > > > > On Tue, Feb 23, 2021 at 11:58:42AM +0100, Thomas Zimmermann wrote:
-> > > > > > > USB devices cannot perform DMA and hence have no dma_mask set in their
-> > > > > > > device structure. Importing dmabuf into a USB-based driver fails, which
-> > > > > > > break joining and mirroring of display in X11.
-> > > > > > > 
-> > > > > > > For USB devices, pick the associated USB controller as attachment device,
-> > > > > > > so that it can perform DMA. If the DMa controller does not support DMA
-> > > > > > > transfers, we're aout of luck and cannot import.
-> > > > > > > 
-> > > > > > > Drivers should use DRM_GEM_SHMEM_DROVER_OPS_USB to initialize their
-> > > > > > > instance of struct drm_driver.
-> > > > > > > 
-> > > > > > > Tested by joining/mirroring displays of udl and radeon un der Gnome/X11.
-> > > > > > > 
-> > > > > > > v3:
-> > > > > > >    * drop gem_create_object
-> > > > > > >    * use DMA mask of USB controller, if any (Daniel, Christian, Noralf)
-> > > > > > > v2:
-> > > > > > >    * move fix to importer side (Christian, Daniel)
-> > > > > > >    * update SHMEM and CMA helpers for new PRIME callbacks
-> > > > > > > 
-> > > > > > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > > > > Fixes: 6eb0233ec2d0 ("usb: don't inherity DMA properties for USB devices")
-> > > > > > > Cc: Christoph Hellwig <hch@lst.de>
-> > > > > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > > > > Cc: Johan Hovold <johan@kernel.org>
-> > > > > > > Cc: Alan Stern <stern@rowland.harvard.edu>
-> > > > > > > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > > > > > Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > > > > > > Cc: Mathias Nyman <mathias.nyman@linux.intel.com>
-> > > > > > > Cc: Oliver Neukum <oneukum@suse.com>
-> > > > > > > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > > > > > > Cc: <stable@vger.kernel.org> # v5.10+
-> > > > > > > ---
-> > > > > > >   drivers/gpu/drm/drm_prime.c        | 36 ++++++++++++++++++++++++++++++
-> > > > > > >   drivers/gpu/drm/tiny/gm12u320.c    |  2 +-
-> > > > > > >   drivers/gpu/drm/udl/udl_drv.c      |  2 +-
-> > > > > > >   include/drm/drm_gem_shmem_helper.h | 13 +++++++++++
-> > > > > > >   include/drm/drm_prime.h            |  5 +++++
-> > > > > > >   5 files changed, 56 insertions(+), 2 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> > > > > > > index 2a54f86856af..9015850f2160 100644
-> > > > > > > --- a/drivers/gpu/drm/drm_prime.c
-> > > > > > > +++ b/drivers/gpu/drm/drm_prime.c
-> > > > > > > @@ -29,6 +29,7 @@
-> > > > > > >   #include <linux/export.h>
-> > > > > > >   #include <linux/dma-buf.h>
-> > > > > > >   #include <linux/rbtree.h>
-> > > > > > > +#include <linux/usb.h>
-> > > > > > > 
-> > > > > > >   #include <drm/drm.h>
-> > > > > > >   #include <drm/drm_drv.h>
-> > > > > > > @@ -1055,3 +1056,38 @@ void drm_prime_gem_destroy(struct drm_gem_object *obj, struct sg_table *sg)
-> > > > > > >    dma_buf_put(dma_buf);
-> > > > > > >   }
-> > > > > > >   EXPORT_SYMBOL(drm_prime_gem_destroy);
-> > > > > > > +
-> > > > > > > +/**
-> > > > > > > + * drm_gem_prime_import_usb - helper library implementation of the import callback for USB devices
-> > > > > > > + * @dev: drm_device to import into
-> > > > > > > + * @dma_buf: dma-buf object to import
-> > > > > > > + *
-> > > > > > > + * This is an implementation of drm_gem_prime_import() for USB-based devices.
-> > > > > > > + * USB devices cannot perform DMA directly. This function selects the USB host
-> > > > > > > + * controller as DMA device instead. Drivers can use this as their
-> > > > > > > + * &drm_driver.gem_prime_import implementation.
-> > > > > > > + *
-> > > > > > > + * See also drm_gem_prime_import().
-> > > > > > > + */
-> > > > > > > +#ifdef CONFIG_USB
-> > > > > > > +struct drm_gem_object *drm_gem_prime_import_usb(struct drm_device *dev,
-> > > > > > > +                                         struct dma_buf *dma_buf)
-> > > > > > > +{
-> > > > > > > + struct usb_device *udev;
-> > > > > > > + struct device *usbhost;
-> > > > > > > +
-> > > > > > > + if (dev->dev->bus != &usb_bus_type)
-> > > > > > > +         return ERR_PTR(-ENODEV);
-> > > > > > > +
-> > > > > > > + udev = interface_to_usbdev(to_usb_interface(dev->dev));
-> > > > > > > + if (!udev->bus)
-> > > > > > > +         return ERR_PTR(-ENODEV);
-> > > > > > > +
-> > > > > > > + usbhost = udev->bus->controller;
-> > > > > > > + if (!usbhost || !usbhost->dma_mask)
-> > > > > > > +         return ERR_PTR(-ENODEV);
-> > > > > > 
-> > > > > > If individual USB drivers need access to this type of thing, shouldn't
-> > > > > > that be done in the USB core itself?
-> > > > > > 
-> > > > > > {hint, yes}
-> > > > > > 
-> > > > > > There shouldn't be anything "special" about a DRM driver that needs this
-> > > > > > vs. any other driver that might want to know about DMA things related to
-> > > > > > a specific USB device.  Why isn't this an issue with the existing
-> > > > > > storage or v4l USB devices?
-> > > > > 
-> > > > > The trouble is that this is a regression fix for 5.9, because the dma-api
-> > > > > got more opinionated about what it allows. The proper fix is a lot more
-> > > > > invasive (we essentially need to rework the drm_prime.c to allow dma-buf
-> > > > > importing for just cpu access), and that's a ton more invasive than just a
-> > > > > small patch with can stuff into stable kernels.
-> > > > > 
-> > > > > This here is ugly, but it should at least get rid of black screens again.
-> > > > > 
-> > > > > I think solid FIXME comment explaining the situation would be good.
-> > > > 
-> > > > Why can't I take a USB patch for a regression fix?  Is drm somehow
-> > > > stand-alone that you make changes here that should belong in other
-> > > > subsystems?
-> > > > 
-> > > > {hint, it shouldn't be}
-> > > > 
-> > > > When you start poking in the internals of usb controller structures,
-> > > > that logic belongs in the USB core for all drivers to use, not in a
-> > > > random tiny subsystem where no USB developer will ever notice it?  :)
-> > > 
-> > > Because the usb fix isn't the right fix here, it's just the duct-tape.
-> > > We don't want to dig around in these internals, it's just a convenient
-> > > way to shut up the dma-api until drm has sorted out its confusion.
-> > > 
-> > > We can polish the turd if you want, but the thing is, it's still a turd ...
-> > > 
-> > > The right fix is to change drm_prime.c code to not call dma_map_sg
-> > > when we don't need it. The problem is that roughly 3 layers of code
-> > > (drm_prime, dma-buf, gem shmem helpers) are involved. Plus, since
-> > > drm_prime is shared by all drm drivers, all other drm drivers are
-> > > impacted too. We're not going to be able to cc: stable that kind of
-> > > stuff. Thomas actually started with that series, until I pointed out
-> > > how bad things really are.
-> > > 
-> > > And before you ask: The dma-api change makes sense, and dma-api vs drm
-> > > relations are strained since years, so we're not going ask for some
-> > > hack there for our abuse to paper over the regression. I've been in
-> > > way too many of those threads, only result is shouting and failed
-> > > anger management.
-> > 
-> > Let's do it right.  If this is a regression from 5.9, it isn't a huge
-> > one as that kernel was released last October.  I don't like to see this
-> > messing around with USB internals in non-USB-core code please.
-> 
-> I get
-> 
->  > git tag --contains 6eb0233ec2d0
->  ...
->  v5.10-rc1
->  ...
+On Tue, Feb 23, 2021 at 05:32:36AM +0000, Lin, Wayne wrote:
+> [AMD Public Use]
+> =
 
-Ah, I thought you said 5.9 was when the problem happened, ok, yes, 5.10
-is slow to get out to a lot of distros that do not update frequently :(
+> > -----Original Message-----
+> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > Sent: Tuesday, February 23, 2021 1:00 AM
+> > To: Lin, Wayne <Wayne.Lin@amd.com>
+> > Cc: dri-devel@lists.freedesktop.org; Brol, Eryk <Eryk.Brol@amd.com>; Zh=
+uo, Qingqing <Qingqing.Zhuo@amd.com>;
+> > stable@vger.kernel.org; Zuo, Jerry <Jerry.Zuo@amd.com>; Kazlauskas, Nic=
+holas <Nicholas.Kazlauskas@amd.com>; Dhinakaran
+> > Pandiyan <dhinakaran.pandiyan@intel.com>
+> > Subject: Re: [PATCH 2/2] drm/dp_mst: Set CLEAR_PAYLOAD_ID_TABLE as broa=
+dcast
+> >
+> > On Mon, Feb 22, 2021 at 12:00:27PM +0800, Wayne Lin wrote:
+> > > [Why & How]
+> > > According to DP spec, CLEAR_PAYLOAD_ID_TABLE is a path broadcast
+> > > request message and current implementation is incorrect. Fix it.
+> > >
+> > > Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+> > > Cc: stable@vger.kernel.org
+> > > ---
+> > >  drivers/gpu/drm/drm_dp_mst_topology.c | 4 +++-
+> > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > index 713ef3b42054..6d73559046e5 100644
+> > > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > @@ -1072,6 +1072,7 @@ static void build_clear_payload_id_table(struct
+> > > drm_dp_sideband_msg_tx *msg)
+> > >
+> > >  req.req_type =3D DP_CLEAR_PAYLOAD_ID_TABLE;
+> > >  drm_dp_encode_sideband_req(&req, msg);
+> > > +msg->path_msg =3D true;
+> > >  }
+> > >
+> > >  static int build_enum_path_resources(struct drm_dp_sideband_msg_tx
+> > > *msg, @@ -2722,7 +2723,8 @@ static int set_hdr_from_dst_qlock(struct
+> > > drm_dp_sideband_msg_hdr *hdr,
+> > >
+> > >  req_type =3D txmsg->msg[0] & 0x7f;
+> > >  if (req_type =3D=3D DP_CONNECTION_STATUS_NOTIFY ||
+> > > -req_type =3D=3D DP_RESOURCE_STATUS_NOTIFY)
+> > > +req_type =3D=3D DP_RESOURCE_STATUS_NOTIFY ||
+> > > +req_type =3D=3D DP_CLEAR_PAYLOAD_ID_TABLE)
+> > >  hdr->broadcast =3D 1;
+> >
+> > Looks correct.
+> > Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> >
+> > Hmm. Looks like we're missing DP_POWER_DOWN_PHY and DP_POWER_UP_PHY her=
+e as well. We do try to send them as path
+> > requests, but apparently forget to mark them as broadcast messages.
+> Hi Ville,
+> I also look up the spec but DP_POWER_DOWN_PHY & DP_POWER_UP_PHY seems to =
+be defined as path or node request only. Not broadcast message. Please corr=
+ect me if I'm wrong here.
 
-thanks,
+Doh. Yeah, you're correct. Not sure what section I was reading earlier
+when I came to that conclusion.
 
-greg k-h
+> Appreciate for your time!
+> >
+> > >  else
+> > >  hdr->broadcast =3D 0;
+> > > --
+> > > 2.17.1
+> > >
+> > > _______________________________________________
+> > > dri-devel mailing list
+> > > dri-devel@lists.freedesktop.org
+> > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fl=
+ist
+> > > s.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=3D04%7C01=
+%7C
+> > > Wayne.Lin%40amd.com%7C372bbed7b5354ca05f5608d8d753533a%7C3dd8961fe4884
+> > > e608e11a82d994e183d%7C0%7C0%7C637496100180287539%7CUnknown%7CTWFpbGZsb
+> > > 3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%
+> > > 7C1000&amp;sdata=3D2uhm9Nf31hfhf%2FbmwfqYW7b6ay9swWb8oS10Uc%2FVFRQ%3D=
+&am
+> > > p;reserved=3D0
+> >
+> > --
+> > Ville Syrj=E4l=E4
+> > Intel
+> Regards,
+> Wayne Lin
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
