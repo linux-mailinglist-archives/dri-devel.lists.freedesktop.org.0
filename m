@@ -1,42 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19D13222E5
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 01:00:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A10532230E
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 01:15:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCC526E7F5;
-	Tue, 23 Feb 2021 00:00:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF7CB6E216;
+	Tue, 23 Feb 2021 00:15:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FB0E8913E;
- Tue, 23 Feb 2021 00:00:47 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 97E0360C41;
- Tue, 23 Feb 2021 00:00:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5379C6E216
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 00:15:25 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E562E64DB1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 00:15:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614038446;
- bh=af3kVTgsG+nH3bM3IYnJBqeSQYehgcaCIygkIvqVjeQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nV6TYhL/oZNC9ifaFgtV5DjQUEKW4ct/RZXzL5cEAO+OEiYaRVvJB6MnQTc1GgLDg
- ZxZPHOSv1bmmm50hjEKCBKAdJy06dDuQgJws05+gPJ7vhenuXz0IbFL9AHEcQCGmZu
- imEAdGj/OEhQSAKHAz3rHudTUwkOAJGTbcsmgQ3E4mnIeJk4ydl08iGkjwUVUAN1X+
- gpuniD1QjbCS0WDVI9g2unaM1LUFoC9It+wtjRh0GXnNVsd+VoG5YBbI4/JwHcPTrq
- FRtTYoRRzhd2gk02YLalZuf1ZGsh62b0eufN0g4UGVYTpcrawf1WR9HZdvEwjFLc3p
- nD7cOeD11urKg==
-Date: Mon, 22 Feb 2021 17:00:45 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/amdgpu/display: initialize the variable 'i'
-Message-ID: <20210223000045.GA4304@24bbad8f3778>
-References: <1614021931-4386-1-git-send-email-jrdr.linux@gmail.com>
- <32vjVDssCxltB75h5jHin2U3-cvNjmd_HFnRLiKohhbXkTfZea3hw2Knd80SgcHoyIFldMNwqh49t28hMBvta0HeWed1L0q_efLJ8QCgNw8=@emersion.fr>
- <20210222234457.GA36153@24bbad8f3778>
- <yHvp7KbQD2pF5dR6krMc_Zuq9a8GxkYSSiIpjBenuiCjwpFmFxpAOpfzhp0DfHQhH2Z3P81-CGpwmmXp0zjifT93vBXXYd5kJsSucQgXFZI=@emersion.fr>
+ s=k20201202; t=1614039325;
+ bh=yuNOWr6epIq3Wlud5uP8xIKIBMjJK2yn5SDZKLuyorc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=nrrOAOWhfAxrqBqW6zdUQ9AYIhXMj3+rx9v9TXWmfsANW/laPnDNqyAGxGTEZ98RN
+ +AnwrVg8CwGgPxmGewY3V00oZ6sagoiACyRiUTbAKleHSpewk104VyuffC91Gx3KI+
+ InO2coU3mvrT+Vb9pt+FMJuYz+TXXuTZ4IxvTiprbhlbHAf9VdjhSZ71muJhOg49x+
+ KW1qwApz6TQAf7yId7JjVQdwgOFUURqz3JgkNQmBYODVCAIZhyR2DaoJ/xULqHaHDc
+ FSaK/55HNWEbzWeCgQU8lXn0D72Htt62P/h7TWn/pqHr2/junFYpgUUl9+GE+31M0S
+ H5ymCZqDOdQkQ==
+Received: by mail-ed1-f54.google.com with SMTP id s11so24085151edd.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Feb 2021 16:15:24 -0800 (PST)
+X-Gm-Message-State: AOAM532LssTMRMsvPxEv6XmP2K0MjGi+BIUc/TZbHjNi1d7iG2z4Inyb
+ 7zLgk3hl+h2roMbjZgFVbdO03T8lVQ9hrIqfmw==
+X-Google-Smtp-Source: ABdhPJxC1NKoxwxD2oa+gmcOFlIXozbx4BR9iOXurfi4O1cDdre+NLJfpRIzrex8warqlYx35YmdXAQJQ76fqo/y0Jc=
+X-Received: by 2002:a05:6402:164e:: with SMTP id
+ s14mr12469239edx.62.1614039323392; 
+ Mon, 22 Feb 2021 16:15:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <yHvp7KbQD2pF5dR6krMc_Zuq9a8GxkYSSiIpjBenuiCjwpFmFxpAOpfzhp0DfHQhH2Z3P81-CGpwmmXp0zjifT93vBXXYd5kJsSucQgXFZI=@emersion.fr>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210222171247.97609-1-sebastian.reichel@collabora.com>
+ <20210222171247.97609-6-sebastian.reichel@collabora.com>
+In-Reply-To: <20210222171247.97609-6-sebastian.reichel@collabora.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Mon, 22 Feb 2021 18:15:11 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLmcRqFW5ufy-zY9dfqpiwACxfOHrrGphTx2UGMBVj-7w@mail.gmail.com>
+Message-ID: <CAL_JsqLmcRqFW5ufy-zY9dfqpiwACxfOHrrGphTx2UGMBVj-7w@mail.gmail.com>
+Subject: Re: [PATCHv1 5/6] dt-bindings: mtd: jedec,spi-nor: add sst25vf032b
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,75 +54,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stylon.wang@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, airlied@linux.ie, aurabindo.pillai@amd.com,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- Bhawanpreet.Lakha@amd.com, nicholas.kazlauskas@amd.com,
- Souptick Joarder <jrdr.linux@gmail.com>
+Cc: "open list:REAL TIME CLOCK \(RTC\) SUBSYSTEM" <linux-rtc@vger.kernel.org>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ MTD Maling List <linux-mtd@lists.infradead.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 22, 2021 at 11:50:06PM +0000, Simon Ser wrote:
-> On Tuesday, February 23rd, 2021 at 12:44 AM, Nathan Chancellor <nathan@kernel.org> wrote:
-> 
-> > On Mon, Feb 22, 2021 at 11:05:17PM +0000, Simon Ser wrote:
-> > > On Monday, February 22nd, 2021 at 8:25 PM, Souptick Joarder <jrdr.linux@gmail.com> wrote:
-> > >
-> > > > >> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9804:38:
-> > > > >> warning: variable 'i' is uninitialized when used here
-> > > > >> [-Wuninitialized]
-> > > >                            timing  = &edid->detailed_timings[i];
-> > > >                                                              ^
-> > > >    drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9714:7:
-> > > > note: initialize the variable 'i' to silence this warning
-> > > >            int i;
-> > > >                 ^
-> > > >                  = 0
-> > > >    1 warning generated.
-> > > >
-> > > > Initialize the variable 'i'.
-> > >
-> > > Hm, I see this variable already initialized in the loop:
-> > >
-> > >     for (i = 0; i < 4; i++) {
-> > >
-> > > This is the branch agd5f/drm-next.
-> >
-> > That is in the
-> >
-> > 	if (amdgpu_dm_connector->dc_sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT
-> > 		|| amdgpu_dm_connector->dc_sink->sink_signal == SIGNAL_TYPE_EDP) {
-> >
-> > branch not the
-> >
-> > 	} else if (edid && amdgpu_dm_connector->dc_sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A) {
-> >
-> > branch, where i is indeed used uninitialized like clang complains about.
-> >
-> > I am not at all familiar with the code so I cannot say if this fix is
-> > the proper one but it is definitely a legitimate issue.
-> 
-> I think you have an outdated branch. In my checkout, i is not used in the first
-> branch, and is initialized in the second one.
-> 
-> https://cgit.freedesktop.org/~agd5f/linux/tree/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c?h=drm-next#n9700
+On Mon, Feb 22, 2021 at 11:13 AM Sebastian Reichel
+<sebastian.reichel@collabora.com> wrote:
+>
+> The binding is already used by the driver. Update documentation
+> accordingly.
+>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> ---
+>  Documentation/devicetree/bindings/mtd/jedec,spi-nor.txt | 1 +
+>  1 file changed, 1 insertion(+)
 
-That branch is the outdated one:
+This is now DT schema format. Landed in Linus' tree today.
 
-https://git.kernel.org/linus/a897913a819191550ab2fa2784d3c3ada3a096d3
-
-Please see:
-
-https://gitlab.freedesktop.org/agd5f/linux/-/blob/amd-staging-drm-next/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c#L9854
-
-It was introduced by commit f9b4f20c4777 ("drm/amd/display: Add Freesync
-HDMI support to DM").
-
-Cheers,
-Nathan
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
