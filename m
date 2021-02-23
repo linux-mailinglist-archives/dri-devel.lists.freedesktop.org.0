@@ -1,63 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65778322FFA
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 18:52:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D79C2323003
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 18:56:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F1146E84F;
-	Tue, 23 Feb 2021 17:52:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F0316E995;
+	Tue, 23 Feb 2021 17:56:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D2596E84F
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 17:52:51 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id hs11so35930719ejc.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 09:52:51 -0800 (PST)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 827016E995
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 17:56:14 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id c7so6734405wru.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 09:56:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3e0aYpV14pI3DkzUD+0/oFSBOLMg1Ivs66TyYBGy8PE=;
- b=R3Phspw8uQcUxbMDTOtO5F2rckpTRhhIphLisE6O0MX3PtBtYtqAueqDtLJhVHc44M
- l3pVhsm/4PKhWy3HvyKvKaBDT7Zy3V7+q2kCMIrhtA+BWn1+puhx2Q/o3OCLv2tjzPvA
- idhPwfmFse7Njck8COyJRkVmJh7Z2vPuDGanTl62UPClAbEdqWNj1BSlNWS9fEJcj2KD
- +4AalXbZVpCUlG6WCf3ca0dz0C0pbSuxyxBHWL9ix5vEmWCo6AOBONbehossCIp/sjEZ
- ek9P43sK0i3pvyc2vqHyVuUzaDc15HfRKRqVXJW+FBuzW+Oo//KIFW2VSG9TzKNgk63H
- H0mQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IyVloWl8unt/KJdcuJNibhs/5zk/r6+x/gImwnrP5BY=;
+ b=phNHgeK7u4URixcCSxPiOM4PlwQEivyaW25MMjIQ/WRO1Kv2FmLXiPJzH+ATy5sDM+
+ 925T7p2zQfHlXbjqhN9Sn7Ll0AhmckOe/eViW3tXxxoPz6Gkmm5nj60GaovK5P79NBBG
+ PWJSp+ePAH2x8sLD8Wg5lZKHjR7mkY7k8hp9mShWcFqwPk8rhHYf+sukraSmCpkV1op6
+ 9fUh784mU1EPHUhRpyPaBoN6vXq6C9DI/zotWdlhjXkkhN/3+dSblEAaunAgKcbCAnvl
+ Ixpn6xv6uf+QLHnGv0HpbhO7ryYpvzQWYckTYLrDcnRPkj1WtIGdh2CWdriVnW7zI9aS
+ ZVlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3e0aYpV14pI3DkzUD+0/oFSBOLMg1Ivs66TyYBGy8PE=;
- b=O2N7jMD1fq0xSF6Bmyl2xkVHDTnWiApCNC93HJbY2TWZ0J+RemQjwIyHE226jI7hKm
- JKG3GDvJgNIDp8BY42GTz2g5/zTMKAig+NOTCZORtD/QV6+s0mKkrlUpCH1fP4jDZ5xc
- QsD4Pni2wrWJqXbl/9gFJ1s3YsKEBE+jb0aOofeQtui9DZGB3DFimKJw7b9xAZSsU+Yn
- SVV1Ts+LTPtngTMKrn4Q+VjqC1Fq/OeFVs2iXOuj39QQ9XdHGnCOs7NW1MPw0LSY60bO
- q817lESOV1ZBGTPnIFTKU90BeMgXMcRtZYa1YteC1MJUSiIe2nHYd/o+taMTEF9nYa/3
- fa5A==
-X-Gm-Message-State: AOAM533EkRiWHT9olYQZUKMcKWRhsqMTcBkCouRAzacFCQyXujZuBbL9
- eYJjduTGYhiZf+BlXKLJ6Jnf7UMK39nmMKGqMO0=
-X-Google-Smtp-Source: ABdhPJz3m6xwrsiPKRp3CKZo56Cxu8+plxzlCzPSXiLDRGmyLowTJcZU2JHcr2/W5eqTqavEWBRG+FPeezv8lw1mZ+0=
-X-Received: by 2002:a17:906:72d7:: with SMTP id
- m23mr13634474ejl.430.1614102770111; 
- Tue, 23 Feb 2021 09:52:50 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IyVloWl8unt/KJdcuJNibhs/5zk/r6+x/gImwnrP5BY=;
+ b=WiA//6JuLUH2ZEJee6MZRWTjsf4raGHU7RmzjTR/KrQ+9VbM7ZCZ3EStAWmK+4fYjg
+ PZV0CL1PdjsjGbFCs8AINsovvOCVu3rlP+5HcpioqoJ3NbpfSuDXE+lpRtNumvmS4kvY
+ OL3/WpRLrkFnB1fLKoENz3C45HcdfR8sS8VdlN1unOCdUy6UklLa62NrX/MrqYzlTAlh
+ KdcsU4KsKWf/Vc0oxdK/jVPktSzWzpUAoMWjfAO5x+NDHaeEfI/o9gxNYXHJcIqRcIO5
+ nC2X8bAJdRYg56x3ipElLmt/sxfOdFHSeOY1kiJXqPT5iUTG370FnR4kJglLdoiS13V5
+ 2U0g==
+X-Gm-Message-State: AOAM530/H3UUtnp9r8X4y2n881IzJsihIpgFQQBYQI7oCUpbNfp6UANb
+ eDbpIiIQbicfAvE6mePg4Ic=
+X-Google-Smtp-Source: ABdhPJxlIIBZlxOVilXG9G6Ys2oj/GvN9y7crj7+v46Tpl9b475B5UF5MmwmVp8JCTgW/Iy43toVvA==
+X-Received: by 2002:adf:e84d:: with SMTP id d13mr10674015wrn.247.1614102973195; 
+ Tue, 23 Feb 2021 09:56:13 -0800 (PST)
+Received: from localhost.localdomain
+ (2a01cb0008bd270084c09ff22cc10cb2.ipv6.abo.wanadoo.fr.
+ [2a01:cb00:8bd:2700:84c0:9ff2:2cc1:cb2])
+ by smtp.gmail.com with ESMTPSA id g9sm2779815wrp.14.2021.02.23.09.56.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Feb 2021 09:56:12 -0800 (PST)
+From: Adrien Grassein <adrien.grassein@gmail.com>
+To: 
+Subject: [PATCH v4 0/2] Add support of Lontium lt8912 MIPI to HDMI bridge
+Date: Tue, 23 Feb 2021 18:56:05 +0100
+Message-Id: <20210223175607.431796-1-adrien.grassein@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210124044010.18678-1-mario.kleiner.de@gmail.com>
- <yEq1_Ipkzm_vP4BD6cKlonRVfMbfGXrlvxOG4XDkk_wg1UkPCdLj95I8pknonGjf2Bs1zYeErr1WXerrQjprE3k1vswj3E2Nzq-imF58ytM=@emersion.fr>
- <CAEsyxyhXhJohDYuDDLoQeg-QqhnWQ953GRO0Kf6Puj=f_NkU4w@mail.gmail.com>
- <YA61Aa07PhDucMyG@intel.com>
- <-NvMjiGAV79IMWvTOWrb2u_SHe2U36XumXbITMgCCqpMVg-FcvGRJbeTHaiUwkBSxZS5XaXYziZnoTdXJENA-JYQWNi-28F01___0SsWvv0=@emersion.fr>
- <CAEsyxyiK+bDyLDsk-jG3GGYWBjkGZeFamutmtDiNYvJSm4qegg@mail.gmail.com>
- <7Zl9uZ-uolN1JkU8Muxro-A5gTSN2SmmxYhs9g2UYfTFCJIoZVMIdkcPBbR6nkTxb3gWSwqTAsCfnlrtNzH133HdIZ9dCYcwZchv0iXZCnA=@emersion.fr>
- <CAEsyxygB-VZHg9a68Qb3XJ+xULwEeCkUFfthN4H+sdoVRXmJ2Q@mail.gmail.com>
- <CAEsyxyiPCXVmD-StDm+ZgOvDPASzXHci9dTaOWNf+VYFDEo97A@mail.gmail.com>
- <n2gjLlZ27Z0RAqlk7YhAi09RO_MKDmgP8crN2oeu-4O8pivnXph2Awy1ArYl61paax544su5pq13634h3Pm9OGB9QKt-RZ7mfz49aj64xy0=@emersion.fr>
-In-Reply-To: <n2gjLlZ27Z0RAqlk7YhAi09RO_MKDmgP8crN2oeu-4O8pivnXph2Awy1ArYl61paax544su5pq13634h3Pm9OGB9QKt-RZ7mfz49aj64xy0=@emersion.fr>
-From: Mario Kleiner <mario.kleiner.de@gmail.com>
-Date: Tue, 23 Feb 2021 18:52:38 +0100
-Message-ID: <CAEsyxyjQgAqfoVtHvq4z0okOh57+73nkh62cCixP96pW2LdV2w@mail.gmail.com>
-Subject: Re: [PATCH] drm: Fix HDMI_STATIC_METADATA_TYPE1 constant.
-To: Simon Ser <contact@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,32 +66,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Uma Shankar <uma.shankar@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net,
+ narmstrong@baylibre.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ jonas@kwiboo.se, linux-kernel@vger.kernel.org, robert.foss@linaro.org,
+ a.hajda@samsung.com, robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com,
+ Adrien Grassein <adrien.grassein@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 10, 2021 at 10:14 PM Simon Ser <contact@emersion.fr> wrote:
->
-> On Wednesday, February 10th, 2021 at 10:04 PM, Mario Kleiner <mario.kleiner.de@gmail.com> wrote:
->
-> > Ping!
->
-> I now understand the problem better.
->
-> Reviewed-by: Simon Ser <contact@emersion.fr>
->
-> I'll push to drm-misc-next in a few days if no-one complains. Ping me
-> again if I forget.
+Hi,
+this patch set adds the support of the Lontium lt8912 MIPI to HDMI
+bridge in the kernel.
 
-Hi Simon,
+It's only support the video part, not the audio part yet
+since I don't have the datasheet of this component.
+I get the current i2c configuration from Digi and
+Boundary drivers.
+Developed using the DB_DSIHD board from BoundaryDevices.
 
-ping! :)
+Update in v2
+  - Use standard data-lanes instead of a custom prop;
+  - Use hdmi-connector node.
 
-thanks,
--mario
+Update in v3
+  - Fix indentation;
+  - Implement missing bridge functions;
+  - Add some comments.
+
+Update in v4
+  - Fix bridge ops;
+  - Fix i2c error detection.
+
+Adrien Grassein (2):
+  dt-bindings: display: bridge: Add documentation for LT8912
+  drm/bridge: Introduce LT8912 DSI to HDMI bridge
+
+ .../display/bridge/lontium,lt8912.yaml        | 102 +++
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/bridge/Kconfig                |  14 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ drivers/gpu/drm/bridge/lontium-lt8912.c       | 764 ++++++++++++++++++
+ 5 files changed, 887 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt8912.yaml
+ create mode 100644 drivers/gpu/drm/bridge/lontium-lt8912.c
+
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
