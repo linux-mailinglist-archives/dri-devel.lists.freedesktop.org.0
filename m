@@ -1,37 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C3FE322975
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 12:27:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0129A32299F
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 12:46:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 538DA6E372;
-	Tue, 23 Feb 2021 11:27:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E0FC6E97F;
+	Tue, 23 Feb 2021 11:46:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 859756E372
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 11:27:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 71F6C6186A;
- Tue, 23 Feb 2021 11:27:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1614079661;
- bh=NZtnlePrSYucKNhZZkh6nMk8UtE34KsOQ0ohq+fJ+YM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZdgqV6VONh00kqfDyHkDAQTR6l6JyJ1KWA28/U928lb+z6d+kEQP+XIDDTOCno1Bq
- WdwEu0b5hbCopTfhV7WLDYuFLxdLU0yNYS7C0mvH55Kh0WElzwde7cekp9Co0xhYPR
- 8RlEoGa3R2H1VJU662sk8UgGJlp1N3r+xYGbpE5A=
-Date: Tue, 23 Feb 2021 12:27:38 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F9B96E97F
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 11:46:24 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id o10so1478000wmc.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 03:46:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Uu2O+jvmoR/3goPcAqoOLwCaPuOjBClG0PSKwD6W/PE=;
+ b=AbRVTcvuYodR0Xiw6WIaZ2aVWaiOdjtuPb6ro6L32CyRfhM9MohEtmV5MthZJLFVLo
+ 6QgtuH4VpF6FjyCQ8UOhl0YTCOjgLEPcQjsvTKBwi5GRnPxWwBpIkFXkXjIcQkUw70Ek
+ LpCFhFcloDIFtQnXjlqBlJksB2yucyZmn4sSo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Uu2O+jvmoR/3goPcAqoOLwCaPuOjBClG0PSKwD6W/PE=;
+ b=NXwb+Oau9i48zUPlCI/oFYYwQs/yl358q40CjfNm87V6r5nhaqtS4RHLG6dZ2OVwVL
+ 15srC2ET8c4RnmmBDEDCzQjcoeeLAiPU2Cjf3Y+YPAakiuY4xG1b38gnqD0/N/zkjFtQ
+ qqPTvQ1ze4ktPPhjZk8IVHLJFqlGVSLh8xx2n0puI8bYnUfNGpdIH4t1gKNtvSX+YWtI
+ sQWC3g6N7jHgyt0FlV8sn7FOKBmRQkBFvcbM0LGoKgXqWClPCcD1Xnm+tEt62KXKcjRV
+ 7+0gWN39tNZZJylBitTeXLGPRRtHFtcLp2IhqMrnb8MFv7HvGa1Y1sKMzR8VHly5Fetm
+ Q0gQ==
+X-Gm-Message-State: AOAM532XHPLr5P/PJZfpGuy4BbvsCXP5ecY0YL385ecbz8oqgImWP0wG
+ cMv00C12bKQMzIiMrzEozPmKUQ==
+X-Google-Smtp-Source: ABdhPJzqT7KWCtTZ2r4nWoDsuoLvlayynWzCrC+hsyuff6mGAP5b3h1JPrP1jRHWo0lMNFXFxAUmsQ==
+X-Received: by 2002:a7b:c1c4:: with SMTP id a4mr14336306wmj.123.1614080783609; 
+ Tue, 23 Feb 2021 03:46:23 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id l15sm2431797wmh.21.2021.02.23.03.46.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Feb 2021 03:46:23 -0800 (PST)
+Date: Tue, 23 Feb 2021 12:46:20 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Greg KH <gregkh@linuxfoundation.org>
 Subject: Re: [PATCH v3] drm: Use USB controller's DMA mask when importing
  dmabufs
-Message-ID: <YDTmqpXssyTPWJQa@kroah.com>
+Message-ID: <YDTrDAlcFH/7/7DD@phenom.ffwll.local>
 References: <20210223105842.27011-1-tzimmermann@suse.de>
  <YDTk3L3gNxDE3YrC@kroah.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <YDTk3L3gNxDE3YrC@kroah.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,14 +67,13 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, airlied@linux.ie,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Thomas Gleixner <tglx@linutronix.de>,
+ airlied@linux.ie, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Oliver Neukum <oneukum@suse.com>, Christoph Hellwig <hch@lst.de>,
- hdegoede@redhat.com, Alan Stern <stern@rowland.harvard.edu>,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- Johan Hovold <johan@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, sean@poorly.run,
- christian.koenig@amd.com
+ christian.koenig@amd.com, hdegoede@redhat.com,
+ Alan Stern <stern@rowland.harvard.edu>, dri-devel@lists.freedesktop.org,
+ stable@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, sean@poorly.run
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -157,12 +178,20 @@ On Tue, Feb 23, 2021 at 12:19:56PM +0100, Greg KH wrote:
 > a specific USB device.  Why isn't this an issue with the existing
 > storage or v4l USB devices?
 
-Also, where is the locking for any of the above?  What guarantees that
-the device will not go away during those pointer walks?
+The trouble is that this is a regression fix for 5.9, because the dma-api
+got more opinionated about what it allows. The proper fix is a lot more
+invasive (we essentially need to rework the drm_prime.c to allow dma-buf
+importing for just cpu access), and that's a ton more invasive than just a
+small patch with can stuff into stable kernels.
 
-thanks,
+This here is ugly, but it should at least get rid of black screens again.
 
-greg k-h
+I think solid FIXME comment explaining the situation would be good.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
