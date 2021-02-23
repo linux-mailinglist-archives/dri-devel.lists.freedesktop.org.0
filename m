@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C54D322AC3
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 13:47:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E936322ACA
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Feb 2021 13:50:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA71089E32;
-	Tue, 23 Feb 2021 12:47:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE6ED6E998;
+	Tue, 23 Feb 2021 12:50:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7D6389E32
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 12:47:41 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id k13so4876164otn.13
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 04:47:41 -0800 (PST)
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF0B26E437
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 12:50:01 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id 105so8977362otd.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 04:50:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=UWbwIZiuB0vNqhDSjGIAmC63TRWp8yrtocIt1bsjpwY=;
- b=j+sNJwjY3DDI9P8LlD0Y0kk/GEqazlMovBg2Tyb27midrguJWAEnWb6fEQObEh1spZ
- xJ4vecxj6ZlndIFxUzSif8hAmvy6wywvwR5Of7oYoP5eQyWBI+zhCYunnyhnQgqFtwmx
- Y/zhYW+xsCj4Qu47uLm/ZHtR+V1MXD97CqN5g=
+ :cc; bh=FPAKrMAvr76ZZ2eF/lLL6+MFWv7Fffkz5PR5oq0CnsE=;
+ b=i+Km/RJ7ouxi6GrymFrt2Bq2vi5onRxWAmiVOyRvABxjtsxY/Pw5pwHmYdqnhM9qGj
+ fB58zBBgen4KcIktI/usVBqpSRsE0wIVsk0hG+2DZxxSR2xovqxxn8lJbTSeukl/1Atb
+ ngV8odDAVFWT7kHsSMCCTa00LLmxN4ZkO+ZV8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=UWbwIZiuB0vNqhDSjGIAmC63TRWp8yrtocIt1bsjpwY=;
- b=LA+38syxI51ogtkJj9mBrZgrZfgUmgJQepCAHO0kfV5gAso8Q9KtOjQokfUZ8PW1Ti
- J8DHxjt/PpnuK405kDkEZFY04BbWXpTePVedsc+Tw2u4EEv/0gZRpmbmmEVBQDaTYjB1
- rmWHRX2p+Z0V9W8ItyPKYPQhhR4YpD/qn8vn094nPYSW0H1qHzQ4HEBnX3iy/Wk6F6Cu
- nQmQY89ugjnosku4E9Jgnsc6X1F/a1Xy8VfzvLn2E8pWWCGoV8y4atmnxCRCmiX99/rN
- GWRv622XwewU4z7OrLKjiaFGJgx7VpHscYfIdJ31HEndbHcnQWuOjOWej/RjOrqVwme3
- /b+w==
-X-Gm-Message-State: AOAM5310iC98nb8MwawB7kI8Kmu4ew6wrg3SlGwZIun7A3quaexf9JaR
- qN0EePBkoQa4YRfjQrtRRFIf6Clj+6XTg4V1RI1A6g==
-X-Google-Smtp-Source: ABdhPJxWK8y1GCLroELu+A8TMO4v/vRPY4KdliJbQAhqsYjiBrmy2csfTOcjMzC4XAVXx0cCmtWDlnpGOJ8vnHNkyv0=
-X-Received: by 2002:a9d:b85:: with SMTP id 5mr20935991oth.281.1614084461194;
- Tue, 23 Feb 2021 04:47:41 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=FPAKrMAvr76ZZ2eF/lLL6+MFWv7Fffkz5PR5oq0CnsE=;
+ b=NgmuCjk1hWumzIt2W2qVxGcbtXb2GmuOLWUKErNO1m992AUrSI8l84MUOjZ6cVcMzI
+ JmEfBGOkaQiCMNM4psSx7mLcxTyWYx85UJpWFWQkVqebQGRZ6uqUEWyqDK3Tde8cMw+b
+ jua9+FsN3+QqfLZaN8LPHppnT9L0wBX11mZnfG8tJn07Vbfzqm/oDKEfMjHHPjlMy6fa
+ iF89QICc4W5nfJ7x/XjaU2WN98kKYbadj36jLxv7LE/VhLzy5JQUSlH2rhFVkLFdziZE
+ tN5pGJy1MVLNCDCUtsqe5k09x/mKbwiAnLbLCl3JtcRQTknL76djzEW18YUGm0JDV9zF
+ ZbcQ==
+X-Gm-Message-State: AOAM533fUDuSKUaHEQgircjXGR+O/OZE6mRbkf+J0bAahsGTKyLOhqTN
+ S+DQyoN+eJGTpPvayXMQWgUeqOjdVn1H+hOhIYz3/g==
+X-Google-Smtp-Source: ABdhPJxMWwzAdP0Ar4zB4RRh27c6CRCZt4SBrUu++3wVbCFCi6sLpStosscbVsoBP9gY4kl/vel7Y5C+F2van7OWnj0=
+X-Received: by 2002:a9d:2270:: with SMTP id
+ o103mr19992286ota.303.1614084601033; 
+ Tue, 23 Feb 2021 04:50:01 -0800 (PST)
 MIME-Version: 1.0
 References: <20210223105842.27011-1-tzimmermann@suse.de>
  <YDTk3L3gNxDE3YrC@kroah.com>
- <656a49c3-018e-9188-94bf-5f1270ea61e4@suse.de>
-In-Reply-To: <656a49c3-018e-9188-94bf-5f1270ea61e4@suse.de>
+ <656a49c3-018e-9188-94bf-5f1270ea61e4@suse.de> <YDT4sHTFdkw3g8es@kroah.com>
+In-Reply-To: <YDT4sHTFdkw3g8es@kroah.com>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 23 Feb 2021 13:47:30 +0100
-Message-ID: <CAKMK7uFkE=XrYYOxjH=iQXtDurO+=jv=EFP12LO+htVV=PV1yw@mail.gmail.com>
+Date: Tue, 23 Feb 2021 13:49:50 +0100
+Message-ID: <CAKMK7uHHZQ_zEi6kH0Wk=oHRVkb+sygDbTzBTdo2jZ6cyHABaA@mail.gmail.com>
 Subject: Re: [PATCH v3] drm: Use USB controller's DMA mask when importing
  dmabufs
-To: Thomas Zimmermann <tzimmermann@suse.de>
+To: Greg KH <gregkh@linuxfoundation.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,133 +62,169 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
- Dave Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
+ Dave Airlie <airlied@linux.ie>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Oliver Neukum <oneukum@suse.com>, Johan Hovold <johan@kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>, Christoph Hellwig <hch@lst.de>,
  Hans de Goede <hdegoede@redhat.com>, Alan Stern <stern@rowland.harvard.edu>,
- stable <stable@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ stable <stable@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Thomas Gleixner <tglx@linutronix.de>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Sean Paul <sean@poorly.run>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBGZWIgMjMsIDIwMjEgYXQgMTozNyBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBIaQo+Cj4gQW0gMjMuMDIuMjEgdW0gMTI6MTkgc2No
-cmllYiBHcmVnIEtIOgo+ID4gT24gVHVlLCBGZWIgMjMsIDIwMjEgYXQgMTE6NTg6NDJBTSArMDEw
-MCwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6Cj4gPj4gVVNCIGRldmljZXMgY2Fubm90IHBlcmZv
-cm0gRE1BIGFuZCBoZW5jZSBoYXZlIG5vIGRtYV9tYXNrIHNldCBpbiB0aGVpcgo+ID4+IGRldmlj
-ZSBzdHJ1Y3R1cmUuIEltcG9ydGluZyBkbWFidWYgaW50byBhIFVTQi1iYXNlZCBkcml2ZXIgZmFp
-bHMsIHdoaWNoCj4gPj4gYnJlYWsgam9pbmluZyBhbmQgbWlycm9yaW5nIG9mIGRpc3BsYXkgaW4g
-WDExLgo+ID4+Cj4gPj4gRm9yIFVTQiBkZXZpY2VzLCBwaWNrIHRoZSBhc3NvY2lhdGVkIFVTQiBj
-b250cm9sbGVyIGFzIGF0dGFjaG1lbnQgZGV2aWNlLAo+ID4+IHNvIHRoYXQgaXQgY2FuIHBlcmZv
-cm0gRE1BLiBJZiB0aGUgRE1hIGNvbnRyb2xsZXIgZG9lcyBub3Qgc3VwcG9ydCBETUEKPiA+PiB0
-cmFuc2ZlcnMsIHdlJ3JlIGFvdXQgb2YgbHVjayBhbmQgY2Fubm90IGltcG9ydC4KPiA+Pgo+ID4+
-IERyaXZlcnMgc2hvdWxkIHVzZSBEUk1fR0VNX1NITUVNX0RST1ZFUl9PUFNfVVNCIHRvIGluaXRp
-YWxpemUgdGhlaXIKPiA+PiBpbnN0YW5jZSBvZiBzdHJ1Y3QgZHJtX2RyaXZlci4KPiA+Pgo+ID4+
-IFRlc3RlZCBieSBqb2luaW5nL21pcnJvcmluZyBkaXNwbGF5cyBvZiB1ZGwgYW5kIHJhZGVvbiB1
-biBkZXIgR25vbWUvWDExLgo+ID4+Cj4gPj4gdjM6Cj4gPj4gICAgICAqIGRyb3AgZ2VtX2NyZWF0
-ZV9vYmplY3QKPiA+PiAgICAgICogdXNlIERNQSBtYXNrIG9mIFVTQiBjb250cm9sbGVyLCBpZiBh
-bnkgKERhbmllbCwgQ2hyaXN0aWFuLCBOb3JhbGYpCj4gPj4gdjI6Cj4gPj4gICAgICAqIG1vdmUg
-Zml4IHRvIGltcG9ydGVyIHNpZGUgKENocmlzdGlhbiwgRGFuaWVsKQo+ID4+ICAgICAgKiB1cGRh
-dGUgU0hNRU0gYW5kIENNQSBoZWxwZXJzIGZvciBuZXcgUFJJTUUgY2FsbGJhY2tzCj4gPj4KPiA+
-PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4K
-PiA+PiBGaXhlczogNmViMDIzM2VjMmQwICgidXNiOiBkb24ndCBpbmhlcml0eSBETUEgcHJvcGVy
-dGllcyBmb3IgVVNCIGRldmljZXMiKQo+ID4+IENjOiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxz
-dC5kZT4KPiA+PiBDYzogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9u
-Lm9yZz4KPiA+PiBDYzogSm9oYW4gSG92b2xkIDxqb2hhbkBrZXJuZWwub3JnPgo+ID4+IENjOiBB
-bGFuIFN0ZXJuIDxzdGVybkByb3dsYW5kLmhhcnZhcmQuZWR1Pgo+ID4+IENjOiBBbmR5IFNoZXZj
-aGVua28gPGFuZHJpeS5zaGV2Y2hlbmtvQGxpbnV4LmludGVsLmNvbT4KPiA+PiBDYzogU2ViYXN0
-aWFuIEFuZHJ6ZWogU2lld2lvciA8YmlnZWFzeUBsaW51dHJvbml4LmRlPgo+ID4+IENjOiBNYXRo
-aWFzIE55bWFuIDxtYXRoaWFzLm55bWFuQGxpbnV4LmludGVsLmNvbT4KPiA+PiBDYzogT2xpdmVy
-IE5ldWt1bSA8b25ldWt1bUBzdXNlLmNvbT4KPiA+PiBDYzogVGhvbWFzIEdsZWl4bmVyIDx0Z2x4
-QGxpbnV0cm9uaXguZGU+Cj4gPj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIHY1LjEw
-Kwo+ID4+IC0tLQo+ID4+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jICAgICAgICB8IDM2
-ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ID4+ICAgZHJpdmVycy9ncHUvZHJtL3Rp
-bnkvZ20xMnUzMjAuYyAgICB8ICAyICstCj4gPj4gICBkcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9k
-cnYuYyAgICAgIHwgIDIgKy0KPiA+PiAgIGluY2x1ZGUvZHJtL2RybV9nZW1fc2htZW1faGVscGVy
-LmggfCAxMyArKysrKysrKysrKwo+ID4+ICAgaW5jbHVkZS9kcm0vZHJtX3ByaW1lLmggICAgICAg
-ICAgICB8ICA1ICsrKysrCj4gPj4gICA1IGZpbGVzIGNoYW5nZWQsIDU2IGluc2VydGlvbnMoKyks
-IDIgZGVsZXRpb25zKC0pCj4gPj4KPiA+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9wcmltZS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jCj4gPj4gaW5kZXggMmE1NGY4
-Njg1NmFmLi45MDE1ODUwZjIxNjAgMTAwNjQ0Cj4gPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9wcmltZS5jCj4gPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jCj4gPj4gQEAg
-LTI5LDYgKzI5LDcgQEAKPiA+PiAgICNpbmNsdWRlIDxsaW51eC9leHBvcnQuaD4KPiA+PiAgICNp
-bmNsdWRlIDxsaW51eC9kbWEtYnVmLmg+Cj4gPj4gICAjaW5jbHVkZSA8bGludXgvcmJ0cmVlLmg+
-Cj4gPj4gKyNpbmNsdWRlIDxsaW51eC91c2IuaD4KPiA+Pgo+ID4+ICAgI2luY2x1ZGUgPGRybS9k
-cm0uaD4KPiA+PiAgICNpbmNsdWRlIDxkcm0vZHJtX2Rydi5oPgo+ID4+IEBAIC0xMDU1LDMgKzEw
-NTYsMzggQEAgdm9pZCBkcm1fcHJpbWVfZ2VtX2Rlc3Ryb3koc3RydWN0IGRybV9nZW1fb2JqZWN0
-ICpvYmosIHN0cnVjdCBzZ190YWJsZSAqc2cpCj4gPj4gICAgICBkbWFfYnVmX3B1dChkbWFfYnVm
-KTsKPiA+PiAgIH0KPiA+PiAgIEVYUE9SVF9TWU1CT0woZHJtX3ByaW1lX2dlbV9kZXN0cm95KTsK
-PiA+PiArCj4gPj4gKy8qKgo+ID4+ICsgKiBkcm1fZ2VtX3ByaW1lX2ltcG9ydF91c2IgLSBoZWxw
-ZXIgbGlicmFyeSBpbXBsZW1lbnRhdGlvbiBvZiB0aGUgaW1wb3J0IGNhbGxiYWNrIGZvciBVU0Ig
-ZGV2aWNlcwo+ID4+ICsgKiBAZGV2OiBkcm1fZGV2aWNlIHRvIGltcG9ydCBpbnRvCj4gPj4gKyAq
-IEBkbWFfYnVmOiBkbWEtYnVmIG9iamVjdCB0byBpbXBvcnQKPiA+PiArICoKPiA+PiArICogVGhp
-cyBpcyBhbiBpbXBsZW1lbnRhdGlvbiBvZiBkcm1fZ2VtX3ByaW1lX2ltcG9ydCgpIGZvciBVU0It
-YmFzZWQgZGV2aWNlcy4KPiA+PiArICogVVNCIGRldmljZXMgY2Fubm90IHBlcmZvcm0gRE1BIGRp
-cmVjdGx5LiBUaGlzIGZ1bmN0aW9uIHNlbGVjdHMgdGhlIFVTQiBob3N0Cj4gPj4gKyAqIGNvbnRy
-b2xsZXIgYXMgRE1BIGRldmljZSBpbnN0ZWFkLiBEcml2ZXJzIGNhbiB1c2UgdGhpcyBhcyB0aGVp
-cgo+ID4+ICsgKiAmZHJtX2RyaXZlci5nZW1fcHJpbWVfaW1wb3J0IGltcGxlbWVudGF0aW9uLgo+
-ID4+ICsgKgo+ID4+ICsgKiBTZWUgYWxzbyBkcm1fZ2VtX3ByaW1lX2ltcG9ydCgpLgo+ID4+ICsg
-Ki8KPiA+PiArI2lmZGVmIENPTkZJR19VU0IKPiA+PiArc3RydWN0IGRybV9nZW1fb2JqZWN0ICpk
-cm1fZ2VtX3ByaW1lX2ltcG9ydF91c2Ioc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiA+PiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgZG1hX2J1ZiAq
-ZG1hX2J1ZikKPiA+PiArewo+ID4+ICsgICAgc3RydWN0IHVzYl9kZXZpY2UgKnVkZXY7Cj4gPj4g
-KyAgICBzdHJ1Y3QgZGV2aWNlICp1c2Job3N0Owo+ID4+ICsKPiA+PiArICAgIGlmIChkZXYtPmRl
-di0+YnVzICE9ICZ1c2JfYnVzX3R5cGUpCj4gPj4gKyAgICAgICAgICAgIHJldHVybiBFUlJfUFRS
-KC1FTk9ERVYpOwo+ID4+ICsKPiA+PiArICAgIHVkZXYgPSBpbnRlcmZhY2VfdG9fdXNiZGV2KHRv
-X3VzYl9pbnRlcmZhY2UoZGV2LT5kZXYpKTsKPiA+PiArICAgIGlmICghdWRldi0+YnVzKQo+ID4+
-ICsgICAgICAgICAgICByZXR1cm4gRVJSX1BUUigtRU5PREVWKTsKPiA+PiArCj4gPj4gKyAgICB1
-c2Job3N0ID0gdWRldi0+YnVzLT5jb250cm9sbGVyOwo+ID4+ICsgICAgaWYgKCF1c2Job3N0IHx8
-ICF1c2Job3N0LT5kbWFfbWFzaykKPiA+PiArICAgICAgICAgICAgcmV0dXJuIEVSUl9QVFIoLUVO
-T0RFVik7Cj4gPgo+ID4gSWYgaW5kaXZpZHVhbCBVU0IgZHJpdmVycyBuZWVkIGFjY2VzcyB0byB0
-aGlzIHR5cGUgb2YgdGhpbmcsIHNob3VsZG4ndAo+ID4gdGhhdCBiZSBkb25lIGluIHRoZSBVU0Ig
-Y29yZSBpdHNlbGY/Cj4gPgo+ID4ge2hpbnQsIHllc30KPiA+Cj4gPiBUaGVyZSBzaG91bGRuJ3Qg
-YmUgYW55dGhpbmcgInNwZWNpYWwiIGFib3V0IGEgRFJNIGRyaXZlciB0aGF0IG5lZWRzIHRoaXMK
-PiA+IHZzLiBhbnkgb3RoZXIgZHJpdmVyIHRoYXQgbWlnaHQgd2FudCB0byBrbm93IGFib3V0IERN
-QSB0aGluZ3MgcmVsYXRlZCB0bwo+ID4gYSBzcGVjaWZpYyBVU0IgZGV2aWNlLiAgV2h5IGlzbid0
-IHRoaXMgYW4gaXNzdWUgd2l0aCB0aGUgZXhpc3RpbmcKPiA+IHN0b3JhZ2Ugb3IgdjRsIFVTQiBk
-ZXZpY2VzPwo+Cj4gSSBkb24ndCBrbm93IGFib3V0IHZjNCBvciBzdG9yYWdlLiBNeSBndWVzcyBp
-cyB0aGF0IHRoZXkgZG9uJ3QgY2FsbAo+IGRtYV9tYXBfc2d0YWJsZSgpIGZvciBkZXZpY2VzIHdp
-dGggZG1hX21hc2suIElkZWFsbHksIFVTQiBEUk0gZGV2aWNlcwo+IHdvdWxkbid0IGRvIHRoYXQg
-ZWl0aGVyLCBidXQsIGFzIERhbmllbCBleHBsYWluZWQsIERSTSdzIFBSSU1FIGZyYW1ld29yawo+
-IGV4cGVjdHMgYSBkbWFfbWFzayBvbiB0aGUgaW1wb3J0aW5nIGRldmljZS4KPgo+IFRoZSByZWFs
-IGZpeCB3b3VsZCBtb3ZlIHRoaXMgZnJvbSBmcmFtZXdvcmsgdG8gZHJpdmVycywgc28gdGhhdCBl
-YWNoCj4gZHJpdmVyIGNhbiBpbXBvcnQgdGhlIGRtYWJ1ZiBhY2NvcmRpbmcgdG8gaXRzIGNhcGFi
-aWxpdGllcy4gSSB0cmllZCB0bwo+IGRvIHRoaXMgd2l0aCB2MiBvZiB0aGlzIHBhdGNoLCBidXQg
-SSB3YXMgbm90IGZlYXNpYmxlIGF0IHRoaXMgdGltZS4KPgo+IEZvciB0aGlzIHRvIHdvcmssIHdl
-J2QgaGF2ZSByZXdvcmsgYXQgbGVhc3QgMyBkcml2ZXJzLCB0aGUgUFJJTUUKPiBmcmFtZXdvcmsg
-YW5kIHRoZSBkbWFidWYgZnJhbWV3b3JrLiBJIGRvbid0IHRoaW5rIHRoZSBzdGFibGUgbWFpbnRh
-aW5lcgo+IHdvdWxkIGJlIGtlZW4gb24gbWVyZ2luZyB0aGF0LiA7KQo+Cj4gV3J0IHlvdXIgcXVl
-c3Rpb24gYWJvdXQgdGhlIFVTQiBjb3JlOiB3aGF0IHdlIGRvIGhlcmUgaXMgYSB3b3JrYXJvdW5k
-Cj4gZm9yIGRtYWJ1ZiBpbXBvcnRpbmcuIFRoZSBEUk0gVVNCIGRyaXZlcnMgZG9uJ3QgZXZlbiB1
-c2UgdGhlIHJlc3VsdGluZwo+IHBhZ2UgbWFwcGluZyBkaXJlY3RseS4gUHV0dGluZyB0aGUgd29y
-a2Fyb3VuZCBpbnRvIHRoZSBVU0IgY29yZSBpcyBtYXliZQo+IG5vdCB1c2VmdWwuIElmIHdlIGV2
-ZXIgdXNlIERNQSBkaXJlY3RseSBmb3Igc3RyZWFtaW5nIGZyYW1lYnVmZmVycyB0bwo+IHRoZSBk
-ZXZpY2UsIHRoaW5rcyBtaWdodCBiZSBkaWZmZXJlbnQuCgpZZWFoIGlmIHdlIGV2ZXIgZG8gdGhp
-cyAoZGlyZWN0IGRtYSBmcm9tIGRtYS1idWYgdG8gdXNiIGRldmljZXMpIHRoZW4KYSBjbGVhbiBp
-bnRlcmZhY2Ugd291bGQgbmVlZCB0aGUgdXNiIHN1YnN5c3RlbSB0byB0YWtlIGNhcmUgb2YgdGhl
-CmRtYS1idWYgYXR0YWNobWVudCwgZG1hIHNldHVwIGFuZCBldmVyeXRoaW5nIGluIHRoZSB1c2Ig
-aG9zdCBkcml2ZXIuClNvIGV2ZW4gaW4gdGhhdCBoeXBvdGhldGljYWwgd29ybGQsIG5vbmUgb2Yg
-dGhpcyBpcyBhbnl0aGluZyB0aGF0IHVzYgpldmVyIHdpbGwgd2FudCwgd2UnZCBuZWVkIGFuIGlu
-dGVyZmFjZSBhdCBhIHNsaWdodGx5IGhpZ2hlciBsZXZlbC4KRXNzZW50aWFsbHkgdXJiIHRyYW5z
-ZmVyIGZ1bmN0aW9uIHRoYXQgY2FuIHJlY2VpdmUvc2VuZCBpbnRvL2Zyb20KZG1hLWJ1Zi4KLURh
-bmllbAoKPgo+IEJlc3QgcmVnYXJkcwo+IFRob21hcwo+Cj4gPgo+ID4gdGhhbmtzLAo+ID4KPiA+
-IGdyZWcgay1oCj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwo+ID4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4gZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwo+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwKPiA+Cj4KPiAtLQo+IFRob21hcyBaaW1tZXJtYW5uCj4gR3JhcGhpY3Mg
-RHJpdmVyIERldmVsb3Blcgo+IFNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSAo+
-IE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQo+IChIUkIgMzY4MDksIEFH
-IE7DvHJuYmVyZykKPiBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCj4KPiBf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKCgoKLS0g
-CkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6
-Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo=
+On Tue, Feb 23, 2021 at 1:44 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Feb 23, 2021 at 01:37:09PM +0100, Thomas Zimmermann wrote:
+> > Hi
+> >
+> > Am 23.02.21 um 12:19 schrieb Greg KH:
+> > > On Tue, Feb 23, 2021 at 11:58:42AM +0100, Thomas Zimmermann wrote:
+> > > > USB devices cannot perform DMA and hence have no dma_mask set in their
+> > > > device structure. Importing dmabuf into a USB-based driver fails, which
+> > > > break joining and mirroring of display in X11.
+> > > >
+> > > > For USB devices, pick the associated USB controller as attachment device,
+> > > > so that it can perform DMA. If the DMa controller does not support DMA
+> > > > transfers, we're aout of luck and cannot import.
+> > > >
+> > > > Drivers should use DRM_GEM_SHMEM_DROVER_OPS_USB to initialize their
+> > > > instance of struct drm_driver.
+> > > >
+> > > > Tested by joining/mirroring displays of udl and radeon un der Gnome/X11.
+> > > >
+> > > > v3:
+> > > >   * drop gem_create_object
+> > > >   * use DMA mask of USB controller, if any (Daniel, Christian, Noralf)
+> > > > v2:
+> > > >   * move fix to importer side (Christian, Daniel)
+> > > >   * update SHMEM and CMA helpers for new PRIME callbacks
+> > > >
+> > > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > > Fixes: 6eb0233ec2d0 ("usb: don't inherity DMA properties for USB devices")
+> > > > Cc: Christoph Hellwig <hch@lst.de>
+> > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > Cc: Johan Hovold <johan@kernel.org>
+> > > > Cc: Alan Stern <stern@rowland.harvard.edu>
+> > > > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > > Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> > > > Cc: Mathias Nyman <mathias.nyman@linux.intel.com>
+> > > > Cc: Oliver Neukum <oneukum@suse.com>
+> > > > Cc: Thomas Gleixner <tglx@linutronix.de>
+> > > > Cc: <stable@vger.kernel.org> # v5.10+
+> > > > ---
+> > > >   drivers/gpu/drm/drm_prime.c        | 36 ++++++++++++++++++++++++++++++
+> > > >   drivers/gpu/drm/tiny/gm12u320.c    |  2 +-
+> > > >   drivers/gpu/drm/udl/udl_drv.c      |  2 +-
+> > > >   include/drm/drm_gem_shmem_helper.h | 13 +++++++++++
+> > > >   include/drm/drm_prime.h            |  5 +++++
+> > > >   5 files changed, 56 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> > > > index 2a54f86856af..9015850f2160 100644
+> > > > --- a/drivers/gpu/drm/drm_prime.c
+> > > > +++ b/drivers/gpu/drm/drm_prime.c
+> > > > @@ -29,6 +29,7 @@
+> > > >   #include <linux/export.h>
+> > > >   #include <linux/dma-buf.h>
+> > > >   #include <linux/rbtree.h>
+> > > > +#include <linux/usb.h>
+> > > >
+> > > >   #include <drm/drm.h>
+> > > >   #include <drm/drm_drv.h>
+> > > > @@ -1055,3 +1056,38 @@ void drm_prime_gem_destroy(struct drm_gem_object *obj, struct sg_table *sg)
+> > > >           dma_buf_put(dma_buf);
+> > > >   }
+> > > >   EXPORT_SYMBOL(drm_prime_gem_destroy);
+> > > > +
+> > > > +/**
+> > > > + * drm_gem_prime_import_usb - helper library implementation of the import callback for USB devices
+> > > > + * @dev: drm_device to import into
+> > > > + * @dma_buf: dma-buf object to import
+> > > > + *
+> > > > + * This is an implementation of drm_gem_prime_import() for USB-based devices.
+> > > > + * USB devices cannot perform DMA directly. This function selects the USB host
+> > > > + * controller as DMA device instead. Drivers can use this as their
+> > > > + * &drm_driver.gem_prime_import implementation.
+> > > > + *
+> > > > + * See also drm_gem_prime_import().
+> > > > + */
+> > > > +#ifdef CONFIG_USB
+> > > > +struct drm_gem_object *drm_gem_prime_import_usb(struct drm_device *dev,
+> > > > +                                         struct dma_buf *dma_buf)
+> > > > +{
+> > > > + struct usb_device *udev;
+> > > > + struct device *usbhost;
+> > > > +
+> > > > + if (dev->dev->bus != &usb_bus_type)
+> > > > +         return ERR_PTR(-ENODEV);
+> > > > +
+> > > > + udev = interface_to_usbdev(to_usb_interface(dev->dev));
+> > > > + if (!udev->bus)
+> > > > +         return ERR_PTR(-ENODEV);
+> > > > +
+> > > > + usbhost = udev->bus->controller;
+> > > > + if (!usbhost || !usbhost->dma_mask)
+> > > > +         return ERR_PTR(-ENODEV);
+> > >
+> > > If individual USB drivers need access to this type of thing, shouldn't
+> > > that be done in the USB core itself?
+> > >
+> > > {hint, yes}
+> > >
+> > > There shouldn't be anything "special" about a DRM driver that needs this
+> > > vs. any other driver that might want to know about DMA things related to
+> > > a specific USB device.  Why isn't this an issue with the existing
+> > > storage or v4l USB devices?
+> >
+> > I don't know about vc4 or storage. My guess is that they don't call
+> > dma_map_sgtable() for devices with dma_mask. Ideally, USB DRM devices
+> > wouldn't do that either, but, as Daniel explained, DRM's PRIME framework
+> > expects a dma_mask on the importing device.
+> >
+> > The real fix would move this from framework to drivers, so that each driver
+> > can import the dmabuf according to its capabilities. I tried to do this with
+> > v2 of this patch, but I was not feasible at this time.
+> >
+> > For this to work, we'd have rework at least 3 drivers, the PRIME framework
+> > and the dmabuf framework. I don't think the stable maintainer would be keen
+> > on merging that. ;)
+>
+> Why not?  If it fixes an issue that has been reported, we've taken
+> bigger for smaller bugs :)
+
+The problem is also that I can't just invent a bunch of people out of
+thin are to make it happen. If you have them, please send them over,
+there's lots to do here :-)
+
+> > Wrt your question about the USB core: what we do here is a workaround for
+> > dmabuf importing. The DRM USB drivers don't even use the resulting page
+> > mapping directly. Putting the workaround into the USB core is maybe not
+> > useful. If we ever use DMA directly for streaming framebuffers to the
+> > device, thinks might be different.
+>
+> Then I really do not understand the issue here.  Why are you wanting to
+> grab a "naked" reference to the usb host controller device here?  What
+> ensures that it is correct (hint, lots of host controllers do not handle
+> dma), and what prevents it from going away underneath you?
+
+We know it's not correct, it's just a hack. We never use this even,
+it's just there to not have to rewrite/audit large chunks of drm code.
+
+> And if storage doesn't have this problem, I can't see that it would be
+> that difficult for DRM to solve it correctly :)
+
+Give me infinite people, and there's no problem.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
