@@ -2,33 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77689323717
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 07:02:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD578323734
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 07:14:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AEFB89F55;
-	Wed, 24 Feb 2021 06:02:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34BC06E43C;
+	Wed, 24 Feb 2021 06:14:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8F4E89F55
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 06:02:26 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 37B9BADCD;
- Wed, 24 Feb 2021 06:02:25 +0000 (UTC)
-Subject: Re: [PATCH v3] drm: Use USB controller's DMA mask when importing
- dmabufs
-To: Alan Stern <stern@rowland.harvard.edu>,
- Greg KH <gregkh@linuxfoundation.org>
-References: <20210223105842.27011-1-tzimmermann@suse.de>
- <YDTk3L3gNxDE3YrC@kroah.com> <20210223154507.GA1261797@rowland.harvard.edu>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <c89dd869-917c-1842-2173-f582edd02a8f@suse.de>
-Date: Wed, 24 Feb 2021 07:02:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F33306E43C
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 06:14:14 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id t29so643980pfg.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Feb 2021 22:14:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yxOYlDcAmFrvsseVFQZnlbu4c+MCg9v+/OLc+k95JMI=;
+ b=h11vlpce4XGbBFbk13afoWc/iYSBMme7SCx6TA7PPG8goj0ZamXqmwYnchAylwh/kG
+ G334yWOoUrSCVEiaQ2b11Ns6QtNTs6lyIv0I/sP/H6R2B45KRaZjH4ftfQ11MHnI52wq
+ oq6Yme52ovnyQ1MJodGTN8XLzANyTf+v8UvSw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yxOYlDcAmFrvsseVFQZnlbu4c+MCg9v+/OLc+k95JMI=;
+ b=EbFoqFGduV0xJGwZETgySHoNxzjyY7OOw5DCTh1IhIDcvjvX36eGcychaB9U3K5TxD
+ zHhfgFlqcbGOW7e+S7K0qnqpKa/WfXqQtLb8ikByk+sL3sLip3cfvjZx6VmzRw2WZPhs
+ hHb+wQIih9jrQoIkrHrS6WxY54h2VXWBo2QaFocY6dfLYEHKc20qcOA41Hlh7vWo21jY
+ V52esEoq4h9q/pejlAbdIO/IxChHHq5G+GTNVdTnQnHQqRXNoPdCadtfHi/r7eYsdrJv
+ AGkFDhYZDY7kVkDozPtwcWrN+E4HCgWL5IuqpkFm5kfSO1D331uh4OpOpFsTMP2DYU45
+ JCbg==
+X-Gm-Message-State: AOAM530C4QqomZrsW9MzmxPeCuRPZmH3lL+jGVPYnyO2yiO4SXF5tQiM
+ ksmzEkHud2M9mz/psJmqv8Rmhw==
+X-Google-Smtp-Source: ABdhPJxy2AVlk5Xq7aOvwN63bI6UesMrVz7TGyZ2uLn4UrK2JqH1Tv0V+HKRxOP7f5vWqaG+1ITTig==
+X-Received: by 2002:aa7:888b:0:b029:1ec:df4a:4da2 with SMTP id
+ z11-20020aa7888b0000b02901ecdf4a4da2mr29828733pfe.66.1614147254429; 
+ Tue, 23 Feb 2021 22:14:14 -0800 (PST)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:5003:b035:5243:160e])
+ by smtp.gmail.com with ESMTPSA id r13sm1266765pfg.37.2021.02.23.22.14.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Feb 2021 22:14:14 -0800 (PST)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Xin Ji <xji@analogixsemi.com>,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 1/2] dt-bindings: drm/bridge: anx7625: Add power supplies
+Date: Wed, 24 Feb 2021 14:14:08 +0800
+Message-Id: <20210224061409.3996755-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
 MIME-Version: 1.0
-In-Reply-To: <20210223154507.GA1261797@rowland.harvard.edu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,188 +64,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>, airlied@linux.ie,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Oliver Neukum <oneukum@suse.com>, Johan Hovold <johan@kernel.org>,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com, hdegoede@redhat.com,
- stable@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, sean@poorly.run,
- Christoph Hellwig <hch@lst.de>
-Content-Type: multipart/mixed; boundary="===============1492299721=="
+Cc: devicetree@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1492299721==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="9R1rP065BsfpzaNZwDlog0BklX7NyfEXg"
+anx7625 requires 3 power supply regulators.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---9R1rP065BsfpzaNZwDlog0BklX7NyfEXg
-Content-Type: multipart/mixed; boundary="LTzFOk77qcvmY6gh1Piqj2tQH9AdjwTOW";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Alan Stern <stern@rowland.harvard.edu>,
- Greg KH <gregkh@linuxfoundation.org>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>, airlied@linux.ie,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Oliver Neukum <oneukum@suse.com>, Christoph Hellwig <hch@lst.de>,
- christian.koenig@amd.com, hdegoede@redhat.com,
- Thomas Gleixner <tglx@linutronix.de>, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org, Johan Hovold <johan@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, sean@poorly.run
-Message-ID: <c89dd869-917c-1842-2173-f582edd02a8f@suse.de>
-Subject: Re: [PATCH v3] drm: Use USB controller's DMA mask when importing
- dmabufs
-References: <20210223105842.27011-1-tzimmermann@suse.de>
- <YDTk3L3gNxDE3YrC@kroah.com> <20210223154507.GA1261797@rowland.harvard.edu>
-In-Reply-To: <20210223154507.GA1261797@rowland.harvard.edu>
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
+---
+v3->v4: rebase to drm-misc/for-linux-next
+---
+ .../bindings/display/bridge/analogix,anx7625.yaml | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
---LTzFOk77qcvmY6gh1Piqj2tQH9AdjwTOW
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 23.02.21 um 16:45 schrieb Alan Stern:
-> On Tue, Feb 23, 2021 at 12:19:56PM +0100, Greg KH wrote:
->> On Tue, Feb 23, 2021 at 11:58:42AM +0100, Thomas Zimmermann wrote:
->=20
->>> --- a/drivers/gpu/drm/drm_prime.c
->>> +++ b/drivers/gpu/drm/drm_prime.c
->>> @@ -29,6 +29,7 @@
->>>   #include <linux/export.h>
->>>   #include <linux/dma-buf.h>
->>>   #include <linux/rbtree.h>
->>> +#include <linux/usb.h>
->>>
->>>   #include <drm/drm.h>
->>>   #include <drm/drm_drv.h>
->>> @@ -1055,3 +1056,38 @@ void drm_prime_gem_destroy(struct drm_gem_obje=
-ct *obj, struct sg_table *sg)
->>>   	dma_buf_put(dma_buf);
->>>   }
->>>   EXPORT_SYMBOL(drm_prime_gem_destroy);
->>> +
->>> +/**
->>> + * drm_gem_prime_import_usb - helper library implementation of the i=
-mport callback for USB devices
->>> + * @dev: drm_device to import into
->>> + * @dma_buf: dma-buf object to import
->>> + *
->>> + * This is an implementation of drm_gem_prime_import() for USB-based=
- devices.
->>> + * USB devices cannot perform DMA directly. This function selects th=
-e USB host
->>> + * controller as DMA device instead. Drivers can use this as their
->>> + * &drm_driver.gem_prime_import implementation.
->>> + *
->>> + * See also drm_gem_prime_import().
->>> + */
->>> +#ifdef CONFIG_USB
->>> +struct drm_gem_object *drm_gem_prime_import_usb(struct drm_device *d=
-ev,
->>> +						struct dma_buf *dma_buf)
->>> +{
->>> +	struct usb_device *udev;
->>> +	struct device *usbhost;
->>> +
->>> +	if (dev->dev->bus !=3D &usb_bus_type)
->>> +		return ERR_PTR(-ENODEV);
->>> +
->>> +	udev =3D interface_to_usbdev(to_usb_interface(dev->dev));
->>> +	if (!udev->bus)
->>> +		return ERR_PTR(-ENODEV);
->>> +
->>> +	usbhost =3D udev->bus->controller;
->>> +	if (!usbhost || !usbhost->dma_mask)
->>> +		return ERR_PTR(-ENODEV);
->=20
-> Thomas, I doubt that you have to go through all of this.  The
-> usb-storage driver, for instance, just uses the equivalent of
-> dev->dev->dma_mask.  Even though USB devices don't do DMA themselves,
-> the DMA mask value is inherited from the parent host controller's devic=
-e
-> struct.
->=20
-> Have you tried doing this?
-
-But it's the field that is now NULL, isn't it? :S How does usb-storage=20
-get away with this?
-
-Best regards
-Thomas
-
->=20
->> If individual USB drivers need access to this type of thing, shouldn't=
-
->> that be done in the USB core itself?
->>
->> {hint, yes}
->>
->> There shouldn't be anything "special" about a DRM driver that needs th=
-is
->> vs. any other driver that might want to know about DMA things related =
-to
->> a specific USB device.  Why isn't this an issue with the existing
->> storage or v4l USB devices?
->=20
-> If Thomas finds that the approach I outlined above works, then the rest=
-
-> of this email thread becomes moot.  :-)
->=20
-> Alan Stern
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---LTzFOk77qcvmY6gh1Piqj2tQH9AdjwTOW--
-
---9R1rP065BsfpzaNZwDlog0BklX7NyfEXg
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmA16+8FAwAAAAAACgkQlh/E3EQov+CX
-zw/9H1giViFUGZ+0IB/8QsFFclpkiS67GMyI+1cxaO1LACfXNcAhruQkyxuiWST4TpKeErGrx1HO
-b/HJe4yC4wvqnUyKyLpH1uizkZ0WhjYJdgjKsJX+VSlbLm9E216tiw05EYlseR3zerGWys6H60J8
-n8JZ6A/PH55BuvkFxbcsW7TNJyzZOvFvyauM4NOCIxHQhZGjaifDhif6/8WsK/9Tscz0vIUv7int
-GNAePinNOTkjc4aMQy0NPp2SpajrPHAJFVKL6/A6TJVpp081joLFMNiLymavv9qjF+aD3aXCYZJo
-D8o5S2VGyRz8uJ6wFt8mqVRCqL58Qn2J2oFbQIKkrbkHNBjolQRs7AJApNH3m8jN/VQScdyZweJO
-J2y9n8qBN6wGM+Vko53KD5kHRLSKqVnbuWuyK0rVT/w53ru2xLdSOe6xjXw4IKm0T0SVYJEfGm1b
-agmanWU9PBKCGF+xIDBKq4M037F3a+Si7eh0SUdI4IO4YDCsVJbH8K+rZfaRUbkB222HiE+/ZOPD
-Yw3jQCVLQ1L53eKTq6HkN43vCXJl9oOoCRx6skbe0QU/GcRmdNygpQfAATJqNpT610DYvSMpoeza
-9xU9MKsY8aNo/S/7LyksTPZVaEht4ocVttCB/xxYSGaB4jQ52TIqkl4leVyLRaCG9PafY/03ifOJ
-+zw=
-=LMJ3
------END PGP SIGNATURE-----
-
---9R1rP065BsfpzaNZwDlog0BklX7NyfEXg--
-
---===============1492299721==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+index c789784efe306..ab48ab2f4240d 100644
+--- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+@@ -34,6 +34,15 @@ properties:
+     description: used for reset chip control, RESET_N pin B7.
+     maxItems: 1
+ 
++  vdd10-supply:
++    description: Regulator that provides the supply 1.0V power.
++
++  vdd18-supply:
++    description: Regulator that provides the supply 1.8V power.
++
++  vdd33-supply:
++    description: Regulator that provides the supply 3.3V power.
++
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+ 
+@@ -55,6 +64,9 @@ properties:
+ required:
+   - compatible
+   - reg
++  - vdd10-supply
++  - vdd18-supply
++  - vdd33-supply
+   - ports
+ 
+ additionalProperties: false
+@@ -72,6 +84,9 @@ examples:
+             reg = <0x58>;
+             enable-gpios = <&pio 45 GPIO_ACTIVE_HIGH>;
+             reset-gpios = <&pio 73 GPIO_ACTIVE_HIGH>;
++            vdd10-supply = <&pp1000_mipibrdg>;
++            vdd18-supply = <&pp1800_mipibrdg>;
++            vdd33-supply = <&pp3300_mipibrdg>;
+ 
+             ports {
+                 #address-cells = <1>;
+-- 
+2.30.1.766.gb4fecdf3b7-goog
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1492299721==--
