@@ -2,61 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C370C324159
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 17:06:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8DF53241B1
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 17:17:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1E9D6E04E;
-	Wed, 24 Feb 2021 16:06:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4D0E6E8AB;
+	Wed, 24 Feb 2021 16:17:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F15B6E04E
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 16:06:18 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id l12so2415544wry.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 08:06:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 214936E8AB
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 16:17:25 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id s3so2661956otg.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 08:17:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ho7+jbWkPLe62RqDxRMAHg2mRAnGfcFm5FI9bReH5Ic=;
- b=D9i4vOJZBIGoaG+7t5QKqBCGfC4/n8CeTKgeq9x1bR/uneeT5y8a+YXTTLOT1HB1Ft
- D1I47nnO8wj5gV+f014x9CyCCWuHDl8ulsOnbPrudUD32DG5VqZy6JU+utcc+onGTs0g
- /KszCsSwIRecLOl3OudhRxPnxIhxxGRkbR9blfXGfreHJHN6Ad5WSF9HuEBvQJcKBB9v
- x0FjZZjIo10MNHiLgewGvw/VSzz+XjJ6MBYhYHu8zk1SRfJCvLd9LvmTovUCOzjdgR4+
- CNMEUUZ/gtRMI/qerb7DsfaJMB6ucCBErRADFyXswps4GSV2L9YbGPeYpx+7lC+OafMZ
- irqg==
+ :cc; bh=WoFEQ1/bfKoFI9xvg8DWul0UZStnDpuh33pXiEHG16U=;
+ b=N4/rUSMsYrYBLT2mWYW11Tj9i5sFyWaQXEkIWwmk5faDg80d4hXBplnYGQb9fvPTVg
+ hjP97F8wrC7M83DOiTXQ1mubWe8HtNkh9bTaT4tfOOL2gcASsySWCWKbJJpuDagAyl2R
+ wJMirrr073YqLP+Rq4+WnrHyHvuoa6PNBGeL0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ho7+jbWkPLe62RqDxRMAHg2mRAnGfcFm5FI9bReH5Ic=;
- b=oIULJonu+T2iQIP6iLSvi/RGgSEolI2vm2SJEVDjW6HNJtKmRHVjioJgeJPeXjWhIe
- GWT27Sf2zOiGwIHZDKf/3rlGZUhRIgDxOwsd0fgVY/uOfHM90htEie3UZgOJMnqzqm/i
- JuIg/tmRUgBCqIePPyQMZzmyz5HZSVwiaDNerdzyxba7RGcgWvTxyRGH2mFsoWsiosdD
- LGYn2azymQKYRTROBXz1/bfflRQEZRX9/K6oXKe0rJBLQX4gH/2laWzUVJ3EiH5TXhTp
- M7PKzjoNV763rkQp+MPRxRb65pOG22cwHKyiv5uKhxxgmqkxHryiWwdKVbf2xyX3pWT2
- ULYg==
-X-Gm-Message-State: AOAM532Y/Zw4X8Cfrwjb8QrLkXX2iLStb/AWFKxXWL58SOW9I5cEIci6
- 1GMhoriwXdgqBQQf9h/Op0DXtvSSuIAY79LdTycvxw==
-X-Google-Smtp-Source: ABdhPJzMjfW7et16dlBlIUk3RMbaiTevIDWEWvDsfKcc4aiZ0oNOp8ZVMiM1JKkb4SyFU9nFeq+Smn+VtqilCPjJayA=
-X-Received: by 2002:a5d:4521:: with SMTP id j1mr5630733wra.354.1614182777056; 
- Wed, 24 Feb 2021 08:06:17 -0800 (PST)
+ bh=WoFEQ1/bfKoFI9xvg8DWul0UZStnDpuh33pXiEHG16U=;
+ b=lGbu8yxBjGBb3mqjydIuNPwYZt6xUSn5R7itpfmkiIwrzIlBMeNl0cq8Jf89+ap+i0
+ /7CfJ359CR3v+b+/FllEOfxdDFrLNI3JYT/QHMXEgH9VpEHLPOwWQBJnqZhDnu/s5G73
+ 2gx6IHk4Ee5cnWAp+uGWEaoyiUN/8bHmCM3+JXfdvaBftUDH5p7Mh+fQn5yfSqKydAxS
+ byaFB6pfPbCVfDZVDZQltGodGsa2afoh/SDjpN4apuZXmU4uOGQDVMqzGq0D1o9w6Gw6
+ mqRahsZ9JhLgf6KE8DWCGDHvA3qdrBXr9HV4FO8a0YhGYZ5Lm5NS3oxvltH7Zht8+HA3
+ C/xg==
+X-Gm-Message-State: AOAM530O2BR668U/6VVhPXg40WAViAygpvYrNTjMaErExG25UPkjqnTj
+ QeB62sWjC1Ya0cwkZvN2aCF+dOUqbFU6m9QR5RlPTQ==
+X-Google-Smtp-Source: ABdhPJy5Y98h9GUiqrOFjUQF2+PwNwCz5OXAmFFcvCNRB9jriSwRzPjd90bBKiziOEProUm0GiPXnDfVdnnviyzzWx4=
+X-Received: by 2002:a9d:2265:: with SMTP id o92mr24849267ota.188.1614183444301; 
+ Wed, 24 Feb 2021 08:17:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20200811202631.3603-1-alyssa.rosenzweig@collabora.com>
- <CAPj87rMS5zxY6sK4N8zVZF9MHThmURj6kuso=G5+MQDVmNjC4Q@mail.gmail.com>
- <20210223145143.7bfayhp32tzdj637@DESKTOP-E1NTVVP.localdomain>
- <CAPj87rMkSdtrHnoLzK6zAVvST2KH8SprNnp5bS92qpr84g=fPg@mail.gmail.com>
- <20210223165348.edghgglgx4g2lvfw@DESKTOP-E1NTVVP.localdomain>
- <YDU2+A0MNJnrWxPs@maud>
- <20210223183404.jmdw5rojy4s64xfd@DESKTOP-E1NTVVP.localdomain>
- <CAPj87rOVTd7YhbPoYyxhDD1+S7xG23L2v8Hujdh6tGFBq+n+Hg@mail.gmail.com>
- <CAKMK7uG+xNt4iQkB2ysbMQPbe_JSPWCq+3VzV+OOAuAhn=9x0Q@mail.gmail.com>
-In-Reply-To: <CAKMK7uG+xNt4iQkB2ysbMQPbe_JSPWCq+3VzV+OOAuAhn=9x0Q@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 24 Feb 2021 16:06:05 +0000
-Message-ID: <CAPj87rPRgJU0N7-41K2VLuBahEnYQH52FaTqVbDpW7CHu_6VmA@mail.gmail.com>
-Subject: Re: [PATCH] drm/rockchip: Require the YTR modifier for AFBC
-To: Daniel Vetter <daniel@ffwll.ch>
+References: <54ae54f9-1ba9-900b-a56f-f48e2c9a82b0@suse.com>
+ <a9597f1a-39a6-3664-8617-90338e7943d0@epam.com>
+In-Reply-To: <a9597f1a-39a6-3664-8617-90338e7943d0@epam.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 24 Feb 2021 17:17:13 +0100
+Message-ID: <CAKMK7uGV25ERN0wy1pJvZqvC0QXBh=oQ_RfpRy7+ViQbEdBNPQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/xen: adjust Kconfig
+To: Oleksandr Andrushchenko <Oleksandr_Andrushchenko@epam.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,44 +58,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandy Huang <hjc@rock-chips.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- linux-rockchip <linux-rockchip@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, nd <nd@arm.com>,
- Alyssa Rosenzweig <alyssa@collabora.com>
+Cc: "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Jan Beulich <jbeulich@suse.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
-
-On Wed, 24 Feb 2021 at 14:58, Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Tue, Feb 23, 2021 at 7:50 PM Daniel Stone <daniel@fooishbar.org> wrote:
-> > The issue is a userspace one though, not a kernel one. Userspace (e.g.
-> > GNOME Shell, Weston, Xorg) decides ahead of time that it's going to
-> > use XRGB8888, then use the modifiers available to it for that format.
-> > There's no logic in those projects to look at the list of 8bpc
-> > non-alpha formats, examine XRGB vs. XBGR, decide that XBGR is 'better'
-> > since it has more modifiers available, then go use XBGR.
+On Wed, Feb 24, 2021 at 8:55 AM Oleksandr Andrushchenko
+<Oleksandr_Andrushchenko@epam.com> wrote:
 >
-> That sounds a bit like userspace being too simple. Since if they're ok
-> with dealing with modifiers accessing the raw buffer is out the window
-> anyway, so bgr vs rgb shouldn't matter.
+> Hello, Jan!
+>
+> On 2/23/21 6:41 PM, Jan Beulich wrote:
+> > By having selected DRM_XEN, I was assuming I would build the frontend
+> > driver. As it turns out this is a dummy option, and I have really not
+> > been building this (because I had DRM disabled). Make it a promptless
+> > one, moving the "depends on" to the other, real option, and "select"ing
+> > the dummy one.
+> >
+> > Signed-off-by: Jan Beulich <jbeulich@suse.com>
+> Reviewed-by: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
 
-Sure, you can add colour-channel permutations, if you have concrete
-'rough equivalence' mappings, and you check that between KMS + EGL +
-anything external you want to use like PipeWire.
+Since you're maintainer/committer, I'm assuming you'll also merge
+this? Always confusing when there's an r-b but nothing about whether
+the patch will get merged or not.
+-Daniel
 
-We pretty much punted on that long ago and just use XRGB for
-everything. Android punted on that from the beginning and just uses
-XBGR for everything ... so it's not really a matter of dumb vs. smart
-userspace, just equally dumb userspaces which disagree with each
-other. ;)
+> > --- a/drivers/gpu/drm/xen/Kconfig
+> > +++ b/drivers/gpu/drm/xen/Kconfig
+> > @@ -1,15 +1,11 @@
+> >   # SPDX-License-Identifier: GPL-2.0-only
+> >   config DRM_XEN
+> > -     bool "DRM Support for Xen guest OS"
+> > -     depends on XEN
+> > -     help
+> > -       Choose this option if you want to enable DRM support
+> > -       for Xen.
+> > +     bool
+> >
+> >   config DRM_XEN_FRONTEND
+> >       tristate "Para-virtualized frontend driver for Xen guest OS"
+> > -     depends on DRM_XEN
+> > -     depends on DRM
+> > +     depends on XEN && DRM
+> > +     select DRM_XEN
+> >       select DRM_KMS_HELPER
+> >       select VIDEOMODE_HELPERS
+> >       select XEN_XENBUS_FRONTEND
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-Cheers,
-Daniel
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
