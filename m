@@ -2,37 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6E23245FC
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 22:55:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF21432474B
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 00:03:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5E5A6E0B7;
-	Wed, 24 Feb 2021 21:55:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0D4289F06;
+	Wed, 24 Feb 2021 23:03:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from merlin.infradead.org (merlin.infradead.org
- [IPv6:2001:8b0:10b:1231::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A9E66E0B7
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 21:55:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=KuWAhJtiZEuqWgaw7j/dWyBKuxamWBVDd55ICgSvMAE=; b=xDdFXRlVY0wF5OacC5EN8xJbnO
- LvAh1dCeRpg7YLz4a9lPEFFAHNylVaV7ymPTk1fcXAXrtjOz9nHpPYMnOpXwlhidmbeE71EDN2bcr
- E9410knr8bMuAkcjK9C6DtNROMdpMOICKU5u91tNuYhYK0MhyhlfGZ/kobrOXNyirFHY4GF+6g2nd
- xaLwE1clTPhIFRRsmYmjh6Ul124YcLxzQM1z/PpDd9s+TCFn2Ah4Zj9r9aDzu/dFYerSIUWart83C
- ehZYspwu25Q/7A8HshMdG0Pobg1XTtRYzZsduoWI0lY+hCpnwwCFWsNpN7D0AlMTODnFwqPKe1H0e
- Vmoi7eaw==;
-Received: from [2601:1c0:6280:3f0::d05b] (helo=merlin.infradead.org)
- by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lF286-0002J1-0H; Wed, 24 Feb 2021 21:55:34 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH -next] fbdev: atyfb: always declare aty_{ld,st}_lcd()
-Date: Wed, 24 Feb 2021 13:55:28 -0800
-Message-Id: <20210224215528.822-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A97AF6E0AF
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 22:07:36 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id v5so5377039lft.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 14:07:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eCdoHCVRW6Uw+htUzuKdKcryTZrIcnlOlaF3QBuNtPI=;
+ b=pnfdAvL37lGRaGRydf12E8mxjbnYckr76o9iZqqwKGNIYqAxxNGTM2JCpBpoBS//2K
+ BMsPbSlUCyBzB3Rob93WRFdo4i3ks0QUBkLGtf7oZ7SPl7eU/YHpQjSVZeSsc7ZYNStM
+ 23Wr6q1e4LcQQ4mONp2zzbsjODwEsL+LFrJWuLQQRW7x/d03v6bEe8CJvP0T3HuaUysm
+ zCxzjoF2LdHmtzHjKpEuWY5sxmnhqDSORb8iZ3Mm9bO9jXNrjBTffIUjCiW1e0qO3Rkf
+ lHF+n6QAknb+Z59FZvhdxmuHMZ0khMOf9GFzp68cPvCSxb1pPeoyalzTPVeXJN0e+wH0
+ /Vqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eCdoHCVRW6Uw+htUzuKdKcryTZrIcnlOlaF3QBuNtPI=;
+ b=o24ml+tLzCLjNkjbtaYp/3m9Y4v6e1i5mOFHCrsrP78iL08xrCa5qxTmnfjqmDuXdi
+ pLZE2eAFeBaOnp0CAMTTzzCUSvLf38yZi3zpnpQKkmWAe1VgwsHTSPt/FV9/qEx3BjY6
+ PakWPPSpWudpVna0KxK6oHj5PYV3Xv0YG4R2M9A1SW+VxH5VZMy7iziJ0FbDmw8Wz8qQ
+ oyap0tA4Btdyn3wa/wLfuZ9ui8U5qTSWWZ6OkBPPvtInkx5CqtEXTlLWiIisvJN6H+F1
+ ucgFPg0POdIsPgDHNjWQB0Uwud7NoDelGcWlBXQhzMjHvs6m77RGfyaYnB0W8Kk6+Naq
+ wKRQ==
+X-Gm-Message-State: AOAM533k0o5MyxhM12NeQW9JAlQDalSgAe4PXQiJjC5auARK6an4fqJJ
+ tPnz9k/+YJ4E68Xka5C7ZJ7ctgs0NwGGIhGmyjiGQw==
+X-Google-Smtp-Source: ABdhPJz4YqzngUtUWoxP68nx2sq4pyb8wRaKvHohcg8WvubxikscM+3Aju23zh4SaSvsKF9losKLM8y7MOnikkOAKIY=
+X-Received: by 2002:ac2:515c:: with SMTP id q28mr33504lfd.297.1614204454807;
+ Wed, 24 Feb 2021 14:07:34 -0800 (PST)
 MIME-Version: 1.0
+References: <20210224215528.822-1-rdunlap@infradead.org>
+In-Reply-To: <20210224215528.822-1-rdunlap@infradead.org>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Wed, 24 Feb 2021 14:07:23 -0800
+Message-ID: <CAKwvOdn5mF4UQ9F1h-ZSRKUk3Yq8QS4AExV6kCFY88W3KsK72g@mail.gmail.com>
+Subject: Re: [PATCH -next] fbdev: atyfb: always declare aty_{ld,st}_lcd()
+To: Randy Dunlap <rdunlap@infradead.org>
+X-Mailman-Approved-At: Wed, 24 Feb 2021 23:03:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,64 +64,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: linux-fbdev@vger.kernel.org, kernel test robot <lkp@intel.com>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Randy Dunlap <rdunlap@infradead.org>,
- Nick Desaulniers <ndesaulniers@google.com>, dri-devel@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previously added stubs for aty_{ld,}st_lcd() make it
-so that these functions are used regardless of the config
-options that were guarding them, so remove the #ifdef/#endif
-lines and make their declarations always visible.
-This fixes build warnings that were reported by clang:
+On Wed, Feb 24, 2021 at 1:55 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> The previously added stubs for aty_{ld,}st_lcd() make it
+> so that these functions are used regardless of the config
+> options that were guarding them, so remove the #ifdef/#endif
+> lines and make their declarations always visible.
+> This fixes build warnings that were reported by clang:
 
-   drivers/video/fbdev/aty/atyfb_base.c:180:6: warning: no previous prototype for function 'aty_st_lcd' [-Wmissing-prototypes]
-   void aty_st_lcd(int index, u32 val, const struct atyfb_par *par)
-        ^
-   drivers/video/fbdev/aty/atyfb_base.c:180:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void aty_st_lcd(int index, u32 val, const struct atyfb_par *par)
+Yes, though I think GCC would warn similarly with W=1 builds as well,
+which was set for the 0day bot report.
 
-   drivers/video/fbdev/aty/atyfb_base.c:183:5: warning: no previous prototype for function 'aty_ld_lcd' [-Wmissing-prototypes]
-   u32 aty_ld_lcd(int index, const struct atyfb_par *par)
-       ^
-   drivers/video/fbdev/aty/atyfb_base.c:183:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   u32 aty_ld_lcd(int index, const struct atyfb_par *par)
+>
+>    drivers/video/fbdev/aty/atyfb_base.c:180:6: warning: no previous prototype for function 'aty_st_lcd' [-Wmissing-prototypes]
+>    void aty_st_lcd(int index, u32 val, const struct atyfb_par *par)
+>         ^
+>    drivers/video/fbdev/aty/atyfb_base.c:180:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+>    void aty_st_lcd(int index, u32 val, const struct atyfb_par *par)
+>
+>    drivers/video/fbdev/aty/atyfb_base.c:183:5: warning: no previous prototype for function 'aty_ld_lcd' [-Wmissing-prototypes]
+>    u32 aty_ld_lcd(int index, const struct atyfb_par *par)
+>        ^
+>    drivers/video/fbdev/aty/atyfb_base.c:183:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+>    u32 aty_ld_lcd(int index, const struct atyfb_par *par)
+>
+> They should not be marked as static since they are used in
+> mach64_ct.c.
 
-They should not be marked as static since they are used in
-mach64_ct.c.
+Probably don't need to be marked extern either (since that's the
+implicit default), but I don't feel strongly about it.
 
-Fixes: bfa5782b9caa ("fbdev: atyfb: add stubs for aty_{ld,st}_lcd()")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
----
- drivers/video/fbdev/aty/atyfb.h |    3 ---
- 1 file changed, 3 deletions(-)
+Thanks for sending a cleanup for this.
+Acked-by: Nick Desaulniers <ndesaulniers@google.com>
 
---- linux-next-20210219.orig/drivers/video/fbdev/aty/atyfb.h
-+++ linux-next-20210219/drivers/video/fbdev/aty/atyfb.h
-@@ -287,11 +287,8 @@ static inline void aty_st_8(int regindex
- #endif
- }
- 
--#if defined(CONFIG_PMAC_BACKLIGHT) || defined (CONFIG_FB_ATY_GENERIC_LCD) || \
--defined (CONFIG_FB_ATY_BACKLIGHT)
- extern void aty_st_lcd(int index, u32 val, const struct atyfb_par *par);
- extern u32 aty_ld_lcd(int index, const struct atyfb_par *par);
--#endif
- 
-     /*
-      *  DAC operations
+>
+> Fixes: bfa5782b9caa ("fbdev: atyfb: add stubs for aty_{ld,st}_lcd()")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> ---
+>  drivers/video/fbdev/aty/atyfb.h |    3 ---
+>  1 file changed, 3 deletions(-)
+>
+> --- linux-next-20210219.orig/drivers/video/fbdev/aty/atyfb.h
+> +++ linux-next-20210219/drivers/video/fbdev/aty/atyfb.h
+> @@ -287,11 +287,8 @@ static inline void aty_st_8(int regindex
+>  #endif
+>  }
+>
+> -#if defined(CONFIG_PMAC_BACKLIGHT) || defined (CONFIG_FB_ATY_GENERIC_LCD) || \
+> -defined (CONFIG_FB_ATY_BACKLIGHT)
+>  extern void aty_st_lcd(int index, u32 val, const struct atyfb_par *par);
+>  extern u32 aty_ld_lcd(int index, const struct atyfb_par *par);
+> -#endif
+>
+>      /*
+>       *  DAC operations
+
+
+
+-- 
+Thanks,
+~Nick Desaulniers
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
