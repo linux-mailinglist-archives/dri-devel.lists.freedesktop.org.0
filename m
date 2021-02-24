@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA61E32474D
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 00:03:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BBF2324352
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 18:48:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D2946EC02;
-	Wed, 24 Feb 2021 23:03:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FA6A6EB16;
+	Wed, 24 Feb 2021 17:48:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com
- [IPv6:2607:f8b0:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EAE68935C;
- Wed, 24 Feb 2021 17:40:21 +0000 (UTC)
-Received: by mail-il1-x133.google.com with SMTP id e7so2443824ile.7;
- Wed, 24 Feb 2021 09:40:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=KVEFF/e3cq8hSLAqkkWzb/tsBUvxw8HxL0663tRmoQo=;
- b=rYBE3tx41p3vC7kUwVnZVOt8IudcouNv90aVHp5aRhAJWTwWstiIG9UaRmHFnBkT1J
- U24fewXNjZGiaZFhZpq2ulihxcffmastRktVQy01PCBiB0hV5Cns2qWgzjvMr3b9EU7k
- 7XcN6DV9zH3YcToGb6XW27xkxP6Y2joVmWEVJS0m83PlcBp/DY0IawGND8xawJA+4Fwq
- lZhMZvy6HTWMHwcbp1cPGDjsnr591C0nHLhw1Q5L8I/hgf9LLjcSUFGDZBlNpJOleUki
- HlKTFrumpxZPh7ICSMsxUmo5wRAeraFG4DAyIMeNb4NSZWcsNG/c01XghtRuzsus7PjG
- OiEQ==
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
+ [209.85.166.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F5006EAC3;
+ Wed, 24 Feb 2021 17:48:10 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id f20so2885018ioo.10;
+ Wed, 24 Feb 2021 09:48:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=KVEFF/e3cq8hSLAqkkWzb/tsBUvxw8HxL0663tRmoQo=;
- b=Gpw1zMGKp03889D7t3uBy1JI1HkR+mv4O3vrK/9ZHpGRUDwyd//sm4vhfXkXNPKoFM
- Y/3WBzvyVj5rjOVvTWbECv2q1WHS0f+Go806QzD5vbGxdMeR/9pz8zqtVcrUDY04Z8U4
- BhTHJcOMaRkEoJ1Ozy5oHKUODEP2DoXOaartmNsfM/3mTJ4ehJBqTUeD4DOjHe/GJ1Kw
- aAUjGIJyacktHWTvWQMnNUMNXHLeJ1vHyFGa90YWLsCBBEF6e4t+uBYycmgLY4MDqG67
- wQu1gY4Qckt+GCad2A8V7Lp6uWIlTsY2tmsqzhsF70jgdWMWURwZsTNd++UWcsNY4XjH
- 8s/A==
-X-Gm-Message-State: AOAM532MGj+MeVsIwo3nWx4it29NsubTd2oLYuFH+zCuUzpQ/9wiN4Ac
- V7CgATs6R1ZLdLt4Erw/QoNZy9V2oM7Jr8ypdN0=
-X-Google-Smtp-Source: ABdhPJx86Fjs3j/bSxZdqqIGrInEz4YE62R4z11rDBzdrMiNUtL9AvS8Ry4ssztrLtAXwA9epgL09On9AhA7jn5fI64=
-X-Received: by 2002:a92:c145:: with SMTP id b5mr19179398ilh.186.1614188420558; 
- Wed, 24 Feb 2021 09:40:20 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Bv5RQcdIfShLFylSDZtYk4PaZOVGAzg45snN8Ej9HqI=;
+ b=IXgN3HdenaZtyVyP5PIcEQ5pneHizqeN2xeGZEUGllHe03pqB9VgGu/ME2gzmLVBLF
+ oC1RELM/RVYlQpdd2IaXnMkWyJq2GLgBknQksbGip953xudV1WP90mnJvHfpgzsh73mC
+ Yg5yKkpZKTEJNZCdv03pjuVM7ngoEn+aEvCR1ShYGJPzEq8xP+in6KG94mlsvfMNidnL
+ Fdyic+4+uj7aKHoZopPdt6AJC5Z+cIUzzQsM28Oh/IVzUCSCT5uQ0mhkG0OKcdiTpKy5
+ aKTrPv+GVzrMHlipvzz9ewhsyvJPPkm06MFXS2ov8PjeoxKkG9ialKvWVreqZgLm2yrE
+ qLcw==
+X-Gm-Message-State: AOAM5305PyId52JuZwft/KyGB5T56BJyF0kI/IiB3PLqq4SPCDqa//gz
+ gCg8nICOq//eUJpGOAlfMnWJA/QWMu44DdbQkho=
+X-Google-Smtp-Source: ABdhPJyPsqeDDT52Q4AE9Ft31pyz1XZ8gSO1OiAoqFS2of8Tjt9qlj27WdIV8SzQtua/v9tE6qDWNcMAbmesEzZHX8k=
+X-Received: by 2002:a05:6638:2a3:: with SMTP id
+ d3mr5867570jaq.42.1614188889711; 
+ Wed, 24 Feb 2021 09:48:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20210218224849.5591-1-nathan@kernel.org>
-In-Reply-To: <20210218224849.5591-1-nathan@kernel.org>
-From: Sedat Dilek <sedat.dilek@gmail.com>
-Date: Wed, 24 Feb 2021 18:40:09 +0100
-Message-ID: <CA+icZUXGS_bbVRsMVJowVPTZpi8NYQ_18Ec9bXBTztWL6dA=hQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm/swsmu: Avoid using structure_size
- uninitialized in smu_cmn_init_soft_gpu_metrics
-To: Nathan Chancellor <nathan@kernel.org>
-X-Mailman-Approved-At: Wed, 24 Feb 2021 23:03:08 +0000
+References: <CAKb7Uvji_+N+b8HghZckU-uSBWn-=BZwNAiUff2oitbVuNUE2Q@mail.gmail.com>
+ <YDUkfjDA4xLJlxE5@pflmari> <YDUr2OGDsxDyC0l2@pflmari>
+ <CAKb7UvjmdgS536tNzisomi_oXOGk3Q+anp0AfPvA8OruU_9m5Q@mail.gmail.com>
+ <YDYXiTm7MDXgYT7H@pflmari>
+ <CAKb7UvgQXXThAfqJo+FEfUbgLtGzb2kvg9aSFXZn_XWivsv48Q@mail.gmail.com>
+ <YDaAQts9LIb5h3xd@pflmari>
+ <CAKb7Uvi8GUe+F3oMOwtAxOAi5ffF=b=9XYv+fZf742frroXfSA@mail.gmail.com>
+ <YDaEiDkTiqhy/r+i@pflmari>
+ <CAKb7UviFdgqqSrFvZJzfenaKa_0P6hJ4SaDrwA39Lz8jVigDGw@mail.gmail.com>
+ <YDaGtzRDUIbErYDY@pflmari>
+In-Reply-To: <YDaGtzRDUIbErYDY@pflmari>
+From: Ilia Mirkin <imirkin@alum.mit.edu>
+Date: Wed, 24 Feb 2021 12:47:58 -0500
+Message-ID: <CAKb7UvjBQeb84sitYUTLOd6EJo_+_9hXjmT=8r5V1onxtUMh7g@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm/nouveau/kms/nv50-: Report max cursor size to
+ userspace
+To: Alex Riesen <alexander.riesen@cetitec.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,74 +62,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: sedat.dilek@gmail.com
-Cc: Kevin Wang <kevin1.wang@amd.com>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Ben Skeggs <bskeggs@redhat.com>, nouveau <nouveau@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 18, 2021 at 11:49 PM Nathan Chancellor <nathan@kernel.org> wrote:
+On Wed, Feb 24, 2021 at 12:03 PM Alex Riesen
+<alexander.riesen@cetitec.com> wrote:
 >
-> Clang warns:
+> Ilia Mirkin, Wed, Feb 24, 2021 17:57:41 +0100:
+> > On Wed, Feb 24, 2021 at 11:53 AM Alex Riesen <alexander.riesen@cetitec.com> wrote:
+> > > Ilia Mirkin, Wed, Feb 24, 2021 17:48:39 +0100:
+> > > > Just to be crystal clear -- are you saying that 128x128 works or does
+> > > > not work? (You said "yes", which would imply it works OK, but then you
+> > > > said both cases, which would imply doesn't work since 256x256 doesn't
+> > > > work?)
+> > >
+> > > Modetest with 128x128 cursor works. Without damage to the cursor: modetest
+> > > shows normal cursor in vanilla v5.11. Modetest also shows normal cursor in
+> > > vanilla v5.11 with the commit reverted.
+> >
+> > But modetest with 256x256 doesn't work (correctly) right? Or did I
+> > misunderstand?
 >
-> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:764:2: warning:
-> variable 'structure_size' is used uninitialized whenever switch default
-> is taken [-Wsometimes-uninitialized]
->         default:
->         ^~~~~~~
-> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:770:23: note:
-> uninitialized use occurs here
->         memset(header, 0xFF, structure_size);
->                              ^~~~~~~~~~~~~~
-> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:753:25: note:
-> initialize the variable 'structure_size' to silence this warning
->         uint16_t structure_size;
->                                ^
->                                 = 0
-> 1 warning generated.
->
-> Return in the default case, as the size of the header will not be known.
->
-> Fixes: de4b7cd8cb87 ("drm/amd/pm/swsmu: unify the init soft gpu metrics function")
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1304
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> Right. That's why I was asking if I did everything right: it was just corrupted
+> in both kernels.
 
-I fell over this today with Linux v5.11-10201-gc03c21ba6f4e.
+OK. So 128x128 works, 256x256 does not. Interesting.
 
-Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM/Clang v13-git
+>
+> > All the patch does is allow those large cursors to be used, which gets
+> > reported via drm APIs and modesetting picks the largest cursor
+> > available. (And actually I think it's even not required to use the
+> > large cursors, it just controls what's reported in the defaults to
+> > userspace.)
+>
+> Maybe something in X code is not prepared to handle the kernel reporting
+> large cursor support? Even though 128x128 is pretty large, and I don't think
+> I even use that large cursors in X configuration. How can I check?
 
-- Sedat -
+Yes, 64x64 is enough for anyone (or was it 640kb?) But it's unlikely
+to be an issue. I believe that AMD also exposes 256x256 cursors
+depending on the gen:
 
-> ---
->  drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c b/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
-> index bb620fdd4cd2..bcedd4d92e35 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
-> @@ -762,7 +762,7 @@ void smu_cmn_init_soft_gpu_metrics(void *table, uint8_t frev, uint8_t crev)
->                 structure_size = sizeof(struct gpu_metrics_v2_0);
->                 break;
->         default:
-> -               break;
-> +               return;
->         }
->
->  #undef METRICS_VERSION
-> --
-> 2.30.1
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20210218224849.5591-1-nathan%40kernel.org.
+display/dc/dce100/dce100_resource.c:    dc->caps.max_cursor_size = 128;
+display/dc/dce110/dce110_resource.c:    dc->caps.max_cursor_size = 128;
+display/dc/dce112/dce112_resource.c:    dc->caps.max_cursor_size = 128;
+display/dc/dce120/dce120_resource.c:    dc->caps.max_cursor_size = 128;
+display/dc/dce60/dce60_resource.c:      dc->caps.max_cursor_size = 64;
+display/dc/dce60/dce60_resource.c:      dc->caps.max_cursor_size = 64;
+display/dc/dce60/dce60_resource.c:      dc->caps.max_cursor_size = 64;
+display/dc/dce80/dce80_resource.c:      dc->caps.max_cursor_size = 128;
+display/dc/dce80/dce80_resource.c:      dc->caps.max_cursor_size = 128;
+display/dc/dce80/dce80_resource.c:      dc->caps.max_cursor_size = 128;
+display/dc/dcn10/dcn10_resource.c:      dc->caps.max_cursor_size = 256;
+display/dc/dcn20/dcn20_resource.c:      dc->caps.max_cursor_size = 256;
+display/dc/dcn21/dcn21_resource.c:      dc->caps.max_cursor_size = 256;
+display/dc/dcn30/dcn30_resource.c:      dc->caps.max_cursor_size = 256;
+
+which should have the equivalent effect.
+
+But since you're seeing issues with modetest as well (which uses the
+ioctl's pretty directly), presumably Xorg is not to blame.
+
+It's easy enough to adjust the kernel to report a lower size (and
+reject the larger cursors), I just want to understand which gens are
+affected by this.
+
+Cheers,
+
+  -ilia
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
