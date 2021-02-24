@@ -1,117 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F1A32391C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 09:58:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5366F323930
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 10:09:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BFA96EA67;
-	Wed, 24 Feb 2021 08:58:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01F1C6E8AF;
+	Wed, 24 Feb 2021 09:09:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2061.outbound.protection.outlook.com [40.107.223.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 129AC6E8B8;
- Wed, 24 Feb 2021 08:57:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TMXvXweuR+L5PqWI+kxp5gs5xWf8kjJ7D+QBxb2C7QoaahWa60Esqz0ynlyR+EWRim0HMRzCKV0WT+pIlY4Wjbblx3UA9iykHDvBxmBAqB9aB568ApMY/FTHz/D5na1pl76hqMXhNxoyHhwGkd3Q/5t5K91z7BdEXGv4zGVPuMz75yOq8UmSlu0U5TOu1FNDlyB62I5eO8s4IGldTmSSMINIMgRUi/E4bUSPW9L/qduP6T/s8VXjbsipZlN7EWtloZSAK+NRG/WWceJ3GSIpeawY3CMy2XfiwGKF9LfZpuB/SCFKuM6mTyUlzCzMWrDxnBMZtP7O1BmXj/Z0soUCHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JCY+QMR7Q0oQfCI2h/ROV/vwem4KprRAAs9QFoQ2UlU=;
- b=Dk/i7QvfZouChF1mZ2k3xm5V+putNry/nqWFJ7FnKVtBwnxYZSndNoOq9Bk/TzgLzId4nI9COFGCDQYj3VeS9nlXe2NRNlkzfRvwqCHZNayXxHm6s32Q8cyZnbYjmIeL1DzSPejGR3r7qypyRYC1kYRcSpmRkwW0k0r72ZiGMIiy5Qlx6ryt1jAUSeL2yCkJRHepOeBZjG+wBRNvMCcsBtu3Ct2Ub27wVe3X+yyZ/ABBixTVlqSRs08Or6wYzJWgPZuwpysfzafI7h/3KAhCbHa5R7M6nNZnUVawKeitVvoiajCDpH2YDY0/j00Fc0C46P25zIXfZoZP34Znhq+l/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JCY+QMR7Q0oQfCI2h/ROV/vwem4KprRAAs9QFoQ2UlU=;
- b=kcJB/2KUCDIuuXXtRPQJCzcLa+PZO+SPwZ0wEkoHzm3zFql4hH9E8qa3ppqzjlpre06LZt9XPJJNSc4YHrKuH8sOd0Fx0hKnDtxcNhV7L/N5S+GM2Sq37qwxn8yyirkwVpVoBZwWnsI66+giejV1aG7V/qmzhwks07ltwkawWOk=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4389.namprd12.prod.outlook.com (2603:10b6:208:262::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19; Wed, 24 Feb
- 2021 08:57:56 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3868.033; Wed, 24 Feb 2021
- 08:57:56 +0000
-Subject: Re: [PATCH] drm/ttm: Do not add non-system domain BO into swap list
-To: xinhui pan <xinhui.pan@amd.com>, amd-gfx@lists.freedesktop.org
-References: <20210224032808.150465-1-xinhui.pan@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <6a5a48a8-ab8f-6846-c926-176fc3ea2c82@amd.com>
-Date: Wed, 24 Feb 2021 09:57:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20210224032808.150465-1-xinhui.pan@amd.com>
-Content-Language: en-US
-X-Originating-IP: [46.189.55.12]
-X-ClientProxiedBy: AM0PR04CA0138.eurprd04.prod.outlook.com
- (2603:10a6:208:55::43) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF8F16E8AB;
+ Wed, 24 Feb 2021 09:09:10 +0000 (UTC)
+Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MRnXY-1lPOpV2sAs-00TCfi; Wed, 24 Feb 2021 10:08:27 +0100
+Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
+ by mail.cetitecgmbh.com (Postfix) with ESMTP id 732881E01E7;
+ Wed, 24 Feb 2021 09:08:26 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at cetitec.com
+Received: from mail.cetitecgmbh.com ([127.0.0.1])
+ by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com
+ [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Wonho7DAe5NY; Wed, 24 Feb 2021 10:08:26 +0100 (CET)
+Received: from pflmari.corp.cetitec.com (67-usr-pf-main.vpn.it.cetitec.com
+ [10.8.5.67])
+ by mail.cetitecgmbh.com (Postfix) with ESMTPSA id F367C1E01E6;
+ Wed, 24 Feb 2021 10:08:25 +0100 (CET)
+Received: by pflmari.corp.cetitec.com (Postfix, from local account)
+Date: Wed, 24 Feb 2021 10:08:25 +0100
+From: Alex Riesen <alexander.riesen@cetitec.com>
+To: Ilia Mirkin <imirkin@alum.mit.edu>
+Subject: Re: [PATCH 2/3] drm/nouveau/kms/nv50-: Report max cursor size to
+ userspace
+Message-ID: <YDYXiTm7MDXgYT7H@pflmari>
+References: <20210119015415.2511028-1-lyude@redhat.com>
+ <20210119015415.2511028-2-lyude@redhat.com>
+ <YDUN+Re/alMVL0Zn@pflmari>
+ <CAKb7UvhFkw23so-a4JKLzpQLhphzjzarOy-9h+FiKP-aAC=4xw@mail.gmail.com>
+ <YDUg/9fjsvTkRUqr@pflmari>
+ <CAKb7Uvji_+N+b8HghZckU-uSBWn-=BZwNAiUff2oitbVuNUE2Q@mail.gmail.com>
+ <YDUkfjDA4xLJlxE5@pflmari> <YDUr2OGDsxDyC0l2@pflmari>
+ <CAKb7UvjmdgS536tNzisomi_oXOGk3Q+anp0AfPvA8OruU_9m5Q@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.201.250.142] (46.189.55.12) by
- AM0PR04CA0138.eurprd04.prod.outlook.com (2603:10a6:208:55::43) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3890.19 via Frontend Transport; Wed, 24 Feb 2021 08:57:55 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: ea0b52e7-78bd-47bc-9e79-08d8d8a246e7
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4389:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4389EC0F36D84470C7F2719D839F9@MN2PR12MB4389.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0hH9mrVkOvcwgqgLxFJibL96Jciav7lK7XFH7K5IoOtMbJD1qUaKn2iMR3GL86ojixyojvNXckcfjxrJoiPuzzAwhleVrflvF5LT7J3OssBIFkMawb4rUymzI+LQMx5LLA3UOLdJMgeYTkyWi5EdeVlGa2k14tcFAlZe6s1RYR5mMy1PVyLG4RBSB+vasqdVbGr/ukbKlqvy0HKb1k+MqxpKUmuby+N8WJUBjPb0MdciqBhVqoDq7C6ayhZAHVHMyiFKAR5KuzZ5ERNZFvsgEo74d1SqlJwdIMxQUEBd7BbAou6u6w+RbzX5v2b5yrS5OJ0+skus6eyyvZaECBDTsegkIkVOtxtpgAZ7lk5CBcT8Wmig+f53CVRh7UihHjPAMag/s2Mjzne0QQLmhvRQaIwigU4J5voLaxyhz0MrEXGFPF8BEZJYCtdSxeWp/qwlRgpAJ7IwMmcdb1m88MUmguDs5/m4Vf9BBbr8p0WNMdYFbugF/OhERLdTOvAqxH8KaCOV5OHNTP1j/UuMc6HikllWled+U+d5SmABVPkXtYCJlfuE0OA5eiLE08/PNHzRiuYhEAcLpzSGxkHa2BfS2NxVwDOpzg7qvbYwcBbaNZY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(376002)(396003)(39860400002)(346002)(956004)(31696002)(16576012)(26005)(2616005)(316002)(66556008)(66946007)(5660300002)(66476007)(31686004)(6666004)(6486002)(16526019)(450100002)(4326008)(66574015)(86362001)(36756003)(478600001)(186003)(4744005)(52116002)(83380400001)(2906002)(8676002)(8936002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?RERRSkJWaHUrTGdBckpLeWhLUUhnYTM0TjBFdVFUdkp4M2RSbVJHUkpJQStY?=
- =?utf-8?B?dnVzbFlaQ0dMS3V1RUlML2FkSitzdGFveHM1eGFNT2Z5VFJCUmFXTTBPbWFq?=
- =?utf-8?B?THRWZGdISTZxTC94MmtCNC9maFhUb1lZZk9JSC9qL3l4VmxoMDNBOGNJMHFG?=
- =?utf-8?B?cVgwZjd6UGdWbHd0dVNNSjM4VzJndjJhemhNai9pY1JRMGQzVDJZY1VxRUdN?=
- =?utf-8?B?dE43MzJnSUhqcDFtdS9iWmNYTkhYRjVFQUZGL05JVzYzNFZ0U1hDYmFraUxi?=
- =?utf-8?B?VkRoRVVWeXM0SVlaQVNGQ1dLUFo2NVZBLzYzd0ZhZ2NFcllscDVNdFVkM0Fy?=
- =?utf-8?B?WVd0Rk5RSytKV0JtNDB6cGJyOWhGWjlzTFd5TGFmajVTYjZ0OHRkQlkvT2lu?=
- =?utf-8?B?Y2ZBcWR5Z1RaUmdiY3p2YmEwdkFJK0tPSkVwb3BEdk9kcFJmMDZBYmtGMVY4?=
- =?utf-8?B?L21Bbmt0RmJRQWNFK1RpeFR4R0RrY2R4QW8zdG1kNXJUVFJ2OENsbERQR3dZ?=
- =?utf-8?B?QlhTVUNxeU1Sa3VkOTNmaHEwTW1HcDNXMEpUTkZROHNMc1JUNTdIVW1reGxN?=
- =?utf-8?B?NEJvNDErTXdpbXVkNXphcFR6RmY2dXBoVldMeC9zdnVJNG9sM2hwd0dNbjhT?=
- =?utf-8?B?N1c5WXl5WjMzZisyR08vYVBaOFJVR0cxcS8xRFhRQ2h0VUpMVGRuNDlUMGxa?=
- =?utf-8?B?NXNlTm1tMjVDa0N3RnVsRFZ3dWtXSzZ6Y2pqVTBBNVhuLzAvM0FvRzJkbEps?=
- =?utf-8?B?MEwrc2pVdzdyYXF2cUdDZkdYb1hEV1drUlA3U0JPQ05EQTVzeUpPSW4xOTFF?=
- =?utf-8?B?MCt0b3hZbWJPSnk5Wkx5bU40WkhHV2J0S3V3WWFpUlRWZ1dnUGUyclN0UGVn?=
- =?utf-8?B?dm10SWZlTlhWNmxlek9aejRFWTNRbytMWld3M2x4QXBKRWk0WkZSemhrWkRs?=
- =?utf-8?B?ejA3QUZmZW1lNzRJeEpDYW82Z2RmTDZCbm9oRko0MGJkSDlqV3ZNN0tDZ1dZ?=
- =?utf-8?B?cnNZZDlXUEhTRFJVaTdKTmhTNGxINzlzV2phYXBoMjJvVmtaWmkrM3FVeUsr?=
- =?utf-8?B?bUpkS0U3TC9aQzV2QTVEd3dIYW8rbW5SUEh4OVFCSXlVUmFwdGNBRVFXT2hC?=
- =?utf-8?B?OGt0UnhrMXFkMDVadlpGeUZMbVZwNFAvc1NMZmlCVXJUY2FOM0s0amFrTkxE?=
- =?utf-8?B?SHRrd0QremY5Qy9BV21wZWNQSWxSRFo0L2xSeGJOZ21QZXZvam5CZlZFTE5w?=
- =?utf-8?B?cDlTTTZUV1YrZ3dnQ2xzcDN0NHNIeHZteUZzUjJMbHdWMjBYaDJ1clc5d3o3?=
- =?utf-8?B?Wmd4dXpxUkd1STEyeG5QRGoyZkhPUkxIN0pGa2VUalcvNWlnQzNKa0pMRHp0?=
- =?utf-8?B?ZXA2azVDSFVkZmwvQzhCM0hZM3hWMUVwWEdyRTdVaVMvWis2NDZYcGhMc1lE?=
- =?utf-8?B?cmVUUFBmWEs5eDkxc0tBaWRwTEwzYTBmaC9xVDd6eTN2MWVTQ0h1NmoxNnlO?=
- =?utf-8?B?QWQxTzJRY0taU0RIbGdiS2JVUEx1N242c1hzQjdyUHBtRW93MWliMFBzN1lO?=
- =?utf-8?B?bXh5VnFhM1R6Yk5VWXZLanZMUVZ0Zlg3cnVUTHlRUlNmMkVuNjNsUTkycjVI?=
- =?utf-8?B?REE2NldWbU9oRS82YXRCODlKVitycm5TdmJEa2NULzJtUW14ekFWcXpkcHR0?=
- =?utf-8?B?ZWZDRHZ1Q2hNMGN5RHV4WU04c2FhRTZDSFV1Smt4Vldad2YvOTkxWHJyU0g2?=
- =?utf-8?Q?VO4uFav5KekBjdY4saqXcOVf419eT7IVLi+1N6+?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea0b52e7-78bd-47bc-9e79-08d8d8a246e7
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2021 08:57:56.2679 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pzvyh2+LjKDxMl+mAsVn1C+1uxYlKeBjBh1C3QZIWDozadf6RvBeHfnbmNX0KAfF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4389
+Content-Disposition: inline
+In-Reply-To: <CAKb7UvjmdgS536tNzisomi_oXOGk3Q+anp0AfPvA8OruU_9m5Q@mail.gmail.com>
+X-Provags-ID: V03:K1:cGed9gPj+JIzUf3H2cRPnpC8QpnkW70X803lIk1/AQ44QAF3SiG
+ g00oP6MNRxFYbzW5J6kmzHnCpI4c/LDd38xnOztL0+JpRVTlNJ+ysrNYIMSQHb8oAhSYPrG
+ dMIhKmyX+E84qo9WDcwMMFo5MQai1bLvFCFIoioHlAmS1ZHLwhW+bLLBrylJHWbLeHKhJ20
+ vmGWGvRrwXt6K8J4SJBTw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7bn3tjKrTjE=:rZQSYL5WOWbhb84kuRdpMs
+ Y1NbTu4ibzvvwGDO/ld8k+duIBAKUuVMUTil71dDP/n0iSMt2a9iv5v7n1Q9lv/XFD2psI7yM
+ q0g8MLqyWRTks9I95NkXTgRA/0WP+R7nyR8eErOuHgyNu4NB60s66nogT2iR7Y0qPZW6WFvY1
+ vWa+TlbEFmORlXryDe0SLeoZR7Sr1+zCAINHL+Fu7PtOkU0rsP8Wpcyat3ysrtSXtbTNa6ItM
+ UDs3aogTL8XlBJGle1cbKCvQheUnGR0uG58pc0wXXee3zwUPS2VOTIC26viatLAkqrGE0hGaL
+ Xu4B6YM+CzPrb3bBpNJgHXjIEgR86T7yB8y2x1LNjF54vkFE/6GSnI58sAj30dCDQjAEh6ZBT
+ ohmnmwKhZwYoqq3H1eqtDexX7JXUyAua3wmS1bkiyBzI1b7FeDStj19HhO9JpmZAhUcPnpRJ4
+ evW7IlubQA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,29 +70,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ James Jones <jajones@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jeremy Cline <jcline@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>, nouveau <nouveau@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjQuMDIuMjEgdW0gMDQ6Mjggc2NocmllYiB4aW5odWkgcGFuOgo+IEJPIHdvdWxkIGJlIGFk
-ZGVkIGludG8gc3dhcCBsaXN0IGlmIGl0IGlzIHZhbGlkYXRlZCBpbnRvIHN5c3RlbSBkb21haW4u
-Cj4gSWYgQk8gaXMgdmFsaWRhdGVkIGFnYWluIGludG8gbm9uLXN5c3RlbSBkb21haW4sIHNheSwg
-VlJBTSBkb21haW4uIEl0Cj4gYWN0dWFsbHkgc2hvdWxkIG5vdCBiZSBpbiB0aGUgc3dhcCBsaXN0
-Lgo+Cj4gU2lnbmVkLW9mZi1ieTogeGluaHVpIHBhbiA8eGluaHVpLnBhbkBhbWQuY29tPgoKUmV2
-aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KCkdv
-aW5nIHRvIHB1c2ggdGhhdCB0byBkcm0tbWlzYy1maXhlcyB0b21vcnJvdy4KClRoYW5rcywKQ2hy
-aXN0aWFuLgoKPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgfCAyICsrCj4g
-ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL3R0bS90dG1fYm8uYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKPiBp
-bmRleCBhOTdkNDFmNGNlM2MuLjNhMTBiZWJiNzVkNiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vdHRtL3R0bV9iby5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwo+
-IEBAIC0xMTEsNiArMTExLDggQEAgdm9pZCB0dG1fYm9fbW92ZV90b19scnVfdGFpbChzdHJ1Y3Qg
-dHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ICAgCj4gICAJCXN3YXAgPSAmdHRtX2dsb2Iuc3dhcF9s
-cnVbYm8tPnByaW9yaXR5XTsKPiAgIAkJbGlzdF9tb3ZlX3RhaWwoJmJvLT5zd2FwLCBzd2FwKTsK
-PiArCX0gZWxzZSB7Cj4gKwkJbGlzdF9kZWxfaW5pdCgmYm8tPnN3YXApOwo+ICAgCX0KPiAgIAo+
-ICAgCWlmIChiZGV2LT5mdW5jcy0+ZGVsX2Zyb21fbHJ1X25vdGlmeSkKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Ilia Mirkin, Tue, Feb 23, 2021 19:13:59 +0100:
+> On Tue, Feb 23, 2021 at 11:23 AM Alex Riesen <alexander.riesen@cetitec.com> wrote:
+> >
+> >     $ xrandr  --listproviders
+> >     Providers: number : 1
+> >     Provider 0: id: 0x68 cap: 0x7, Source Output, Sink Output, Source Offload crtcs: 4 outputs: 5 associated providers: 0 name:nouveau
+> >
+> > And yes, the cursor looks good in v5.11 even without reverting the commit.
+> 
+> FWIW it's not immediately apparent to me what grave error modesetting
+> is committing in setting the cursor. The logic looks perfectly
+> reasonable. It's not trying to be fancy with rendering the cursor/etc.
+> 
+> The one thing is that it's using drmModeSetCursor2 which sets the
+> hotspot at the same time. But internally inside nouveau I think it
+> should work out to the same thing. Perhaps setting the hotspot, or
+> something in that path, doesn't quite work for 256x256? [Again, no
+> clue what that might be.]
+> 
+> It might also be worthwhile just testing if the 256x256 cursor works
+> quite the way one would want. If you're interested, grab libdrm,
+> there's a test called 'modetest', which has an option to enable a
+> moving cursor (-c iirc). It's hard-coded to 64x64, so you'll have to
+> modify it there too (and probably change the pattern from plain gray
+> to any one of the other ones).
+
+I am interested, so I did.
+
+If I start the test without X running, the sprite of 256x256 cursor always
+contained horizontal lines across it, both with commit reverted and vanilla
+v5.11. Similarly, the 64x64 cursor has no lines across it in both kernels.
+
+The test does not seem to work at all if there is an X server running (using
+modesetting driver): modetest complained about permission denied to set the
+mode, and just sits there, drawing nothing on the displays.
+So I could not run the test in the environment of original problem.
+Am I starting it correctly? Is the change in modetest.c correct?
+
+    $ ./modetest -c |grep '^[0-9]\|preferred'
+    85	86	connected	LVDS-1         	340x190		13	86
+      #0 1920x1080 60.01 1920 2010 2070 2226 1080 1086 1095 1142 152540 flags: phsync, nvsync; type: preferred, driver
+    87	89	connected	DP-1           	470x300		18	88, 89
+      #0 1680x1050 59.88 1680 1728 1760 1840 1050 1053 1059 1080 119000 flags: phsync, nvsync; type: preferred, driver
+    90	0	disconnected	DP-2           	0x0		0	91, 92
+    93	95	connected	DP-3           	520x320		10	94, 95
+      #0 1920x1200 59.95 1920 1968 2000 2080 1200 1203 1209 1235 154000 flags: phsync, nvsync; type: preferred, driver
+    96	0	disconnected	VGA-1          	0x0		0	97
+
+    $ ./modetest -s 85:1920x1080 -s 93:1920x1200 -s 87:1680x1050  -C
+    trying to open device 'i915'...failed
+    trying to open device 'amdgpu'...failed
+    trying to open device 'radeon'...failed
+    trying to open device 'nouveau'...done
+    setting mode 1920x1080-60.01Hz on connectors 85, crtc 50
+    starting cursor
+
+    cursor stopped
+
+This is the change on top of 1225171b (master):
+
+diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
+index fc75383a..cdba7b4e 100644
+--- a/tests/modetest/modetest.c
++++ b/tests/modetest/modetest.c
+@@ -1730,14 +1730,14 @@ static void set_cursors(struct device *dev, struct pipe_arg *pipes, unsigned int
+ 	int ret;
+ 
+ 	/* maybe make cursor width/height configurable some day */
+-	uint32_t cw = 64;
+-	uint32_t ch = 64;
++	uint32_t cw = 256;
++	uint32_t ch = 256;
+ 
+ 	/* create cursor bo.. just using PATTERN_PLAIN as it has
+ 	 * translucent alpha
+ 	 */
+ 	bo = bo_create(dev->fd, DRM_FORMAT_ARGB8888, cw, ch, handles, pitches,
+-		       offsets, UTIL_PATTERN_PLAIN);
++		       offsets, UTIL_PATTERN_SMPTE);
+ 	if (bo == NULL)
+ 		return;
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
