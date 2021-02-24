@@ -1,97 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E45323A4F
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 11:17:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87666323A86
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 11:27:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86C0289F8E;
-	Wed, 24 Feb 2021 10:17:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E97A6E8B2;
+	Wed, 24 Feb 2021 10:27:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2087.outbound.protection.outlook.com [40.107.243.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32FFD89F8E
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 10:17:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E1f2P3yhLHYHU9NZ+aquLjHSHGR+slZ3pNns1o+enRQMpD5YR6DvBKyia3ePOmf8+evoYs037t8m7KAjWnpmPMRFSOCc4qb74NehIlCcorP3kwmt3xnbqJ81eOhY5oCwdVBHaEkjXIHjyvKV4Al/iX9lKDEM6CNOWGgXSG1UqTfyVsom3wVaUyoNHnhwc6RzlE932QF9B0j7cRGbAyUIqwV4y987o0LCDQTcrMlSLma0DVa1RUScUmmAWM+UDlbxaTgwSI4GQw4aOctL61rwSUnB1N/MuHkWu3wPxRzUznyFVACpyKI6XeN+FB3zKsGnd3RvXrvM3lln7BD20sJOFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2WEP1rtU3coCRUi9rCYPz3zRmSIrPhmefGygOyX1n/g=;
- b=gKqxKrDK/JokwO/OChDRgElovVn1iHrN850BgrMEG7giBVPmUum/xOQQEGfnfLgj0zebMd8yGF4GAlAsbFCeirpfsT5bvUWGykCf3FzBQaPl4Xfx5qnm/ODhhN9FgsJa/H1cnXqYJCtdqlwqGR5nqbwXhrCopb2ikpWizVYgIzCYdNiYh7WowQ6dK17DgQxhGvQd8EWZJzSjYU/9Sr6qSXWK5CnOjBDE8hjos+2uXMqCFUqlqMXZp2zGR3/yVOyxoRIqiuKMcvy+sF3bo/0JqRYb6KVHSRhM5BvHQKI6BmZ+cIDX06Y9vyTIUogxGjJJTQeo1+0WyujUJ+EkR+sJ1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org
- smtp.mailfrom=amd.com; dmarc=fail (p=none sp=none pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2WEP1rtU3coCRUi9rCYPz3zRmSIrPhmefGygOyX1n/g=;
- b=UyTamRBrLASjLXt4Mv1XoXWjaCNO4wldHjqeB4sIRR3OweIBizllC9SUNNWN9fTAxYqJg0uqGZWXQ1w6QcBLNbBck1jm5oPOJssnkyEA7Wj5UhLxMo0LwfJ9GUgyPiIn/fdNaVbjOGsfuLbQJkxHBEoEIIw+14+M1BMmac4jhGM=
-Received: from DM5PR1101CA0022.namprd11.prod.outlook.com (2603:10b6:4:4c::32)
- by DM6PR12MB4498.namprd12.prod.outlook.com (2603:10b6:5:2a2::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19; Wed, 24 Feb
- 2021 10:17:11 +0000
-Received: from DM6NAM11FT062.eop-nam11.prod.protection.outlook.com
- (2603:10b6:4:4c:cafe::b2) by DM5PR1101CA0022.outlook.office365.com
- (2603:10b6:4:4c::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19 via Frontend
- Transport; Wed, 24 Feb 2021 10:17:11 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
- 165.204.84.17) smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none
- (message not signed) header.d=none;lists.freedesktop.org; dmarc=fail
- action=none header.from=amd.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- amd.com discourages use of 165.204.84.17 as permitted sender)
-Received: from SATLEXMB01.amd.com (165.204.84.17) by
- DM6NAM11FT062.mail.protection.outlook.com (10.13.173.40) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3868.27 via Frontend Transport; Wed, 24 Feb 2021 10:17:09 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB01.amd.com
- (10.181.40.142) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Wed, 24 Feb
- 2021 04:17:09 -0600
-Received: from SATLEXMB02.amd.com (10.181.40.143) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Wed, 24 Feb
- 2021 04:17:08 -0600
-Received: from wayne-System-Product-Name.amd.com (10.180.168.240) by
- SATLEXMB02.amd.com (10.181.40.143) with Microsoft SMTP Server id 15.1.1979.3
- via Frontend Transport; Wed, 24 Feb 2021 04:17:06 -0600
-From: Wayne Lin <Wayne.Lin@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 2/2] drm/dp_mst: Set CLEAR_PAYLOAD_ID_TABLE as broadcast
-Date: Wed, 24 Feb 2021 18:15:21 +0800
-Message-ID: <20210224101521.6713-3-Wayne.Lin@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210224101521.6713-1-Wayne.Lin@amd.com>
-References: <20210224101521.6713-1-Wayne.Lin@amd.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 833276E8B2;
+ Wed, 24 Feb 2021 10:27:54 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id E4EB7B03B;
+ Wed, 24 Feb 2021 10:27:52 +0000 (UTC)
+Date: Wed, 24 Feb 2021 11:27:50 +0100
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <YDYqJhsuNDKvD3V/@linux-uq9g>
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4a0bd8fa-1046-4106-6a21-08d8d8ad5877
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4498:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB44983DFA333F7CCBDE5CA703FC9F9@DM6PR12MB4498.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:843;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JktcPcyKsZpMS1IRmt98c3/TDYUMDsKr6nhyVTu46DfzaLACiOMduf5+/8BbeNLNsRXfFpXKXk/YjR+05yq4O+2WIMPIgB5/DUyQ7fAXSEeoGAiNdp7Cj7yDcTJEEKcL5F/FqtOcsJpz6Dm9SxShHqNHXepIsQ/fUlQDSu1NrYkfR/nsSc/l3Eq9tJaimELy05dP9dPmqQG6QqoN4Nwm3dF97pBMgqiCBQF+nSjZp6sPM0QL+7DSnMclylA3gOMl8LPcS7aNgX86Q7bnSvmWL5FrS5PhR8wp9AKGc4dRC1QVK+YLTzw8j8TLq2DWR4OnOOKQT3rVCvSsD3JJNxXpkkwaXc+aJCwsBMSWgXZ9R/7IJbiGhsDsHXmPZ70aCN2NhimyDlOA0fVnsAcOh7ZYptoyOCqydIjiFScjTCEw2YLSB9M/bDbCxUrrTjHJkcTIvF4NyNuQ76D0EgJeXRALDktp+TY8cTsSm+hk14hv4FN10xZyZHuR9lYWdBZp6Wlu7k7v7T7DwK3HFGVKGLFuO4CcfhFTczYEKJGMs2mkzRau1BjoUvHykhldqO1BrdRmTRZrOOXijs+Rws7QBmxNF5/XYvG1ZyUKJlYuQemb3b+Vnj0HWUkv4rckXuKGu/omZIFQAf4GApHWE/SOZstoF4FiSt7tlV5x2jgiOtIGCT9gYogAXKweAtKLIHYYV20h
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SATLEXMB01.amd.com; PTR:ErrorRetry; CAT:NONE;
- SFS:(4636009)(376002)(346002)(39860400002)(396003)(136003)(46966006)(36840700001)(83380400001)(82740400003)(36860700001)(426003)(478600001)(54906003)(5660300002)(6916009)(6666004)(81166007)(2616005)(36756003)(2906002)(356005)(336012)(316002)(1076003)(26005)(8676002)(186003)(70586007)(70206006)(86362001)(4326008)(47076005)(8936002)(82310400003)(7696005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2021 10:17:09.7098 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a0bd8fa-1046-4106-6a21-08d8d8ad5877
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB01.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT062.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4498
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,48 +35,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: eryk.brol@amd.com, qingqing.zhuo@amd.com, stable@vger.kernel.org,
- jerry.zuo@amd.com, Wayne Lin <Wayne.Lin@amd.com>, Nicholas.Kazlauskas@amd.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Why & How]
-According to DP spec, CLEAR_PAYLOAD_ID_TABLE is a path broadcast request
-message and current implementation is incorrect. Fix it.
+Hi Dave and Daniel,
 
-Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-Cc: stable@vger.kernel.org
----
- drivers/gpu/drm/drm_dp_mst_topology.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+here's this week's PR for drm-misc-fixes. One of the patches is a memory
+leak; the rest is for hardware issues.
 
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index f11b3f718031..c32b98389349 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -1072,6 +1072,7 @@ static void build_clear_payload_id_table(struct drm_dp_sideband_msg_tx *msg)
- 
- 	req.req_type = DP_CLEAR_PAYLOAD_ID_TABLE;
- 	drm_dp_encode_sideband_req(&req, msg);
-+	msg->path_msg = true;
- }
- 
- static int build_enum_path_resources(struct drm_dp_sideband_msg_tx *msg,
-@@ -2722,7 +2723,8 @@ static int set_hdr_from_dst_qlock(struct drm_dp_sideband_msg_hdr *hdr,
- 
- 	req_type = txmsg->msg[0] & 0x7f;
- 	if (req_type == DP_CONNECTION_STATUS_NOTIFY ||
--		req_type == DP_RESOURCE_STATUS_NOTIFY)
-+		req_type == DP_RESOURCE_STATUS_NOTIFY ||
-+		req_type == DP_CLEAR_PAYLOAD_ID_TABLE)
- 		hdr->broadcast = 1;
- 	else
- 		hdr->broadcast = 0;
--- 
-2.17.1
+Best regards
+Thomas
 
+drm-misc-fixes-2021-02-24:
+ * drm/panel: kd35t133: Work with non-continuous DSI clock
+ * drm/rockchip: Require YTR modifier for AFBC
+ * drm/ttm: Fix a memory leak in error handling
+The following changes since commit f40ddce88593482919761f74910f42f4b84c004b:
+
+  Linux 5.11 (2021-02-14 14:32:24 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-02-24
+
+for you to fetch changes up to 54dab3a718f7094532daf7d25cd14121a0e00e34:
+
+  drm/panel: kd35t133: allow using non-continuous dsi clock (2021-02-23 22:=
+44:58 +0100)
+
+----------------------------------------------------------------
+ * drm/panel: kd35t133: Work with non-continuous DSI clock
+ * drm/rockchip: Require YTR modifier for AFBC
+ * drm/ttm: Fix a memory leak in error handling
+
+----------------------------------------------------------------
+Alyssa Rosenzweig (1):
+      drm/rockchip: Require the YTR modifier for AFBC
+
+Heiko Stuebner (1):
+      drm/panel: kd35t133: allow using non-continuous dsi clock
+
+xinhui pan (1):
+      drm/ttm: Fix a memory leak
+
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c |  3 ++-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h  | 11 +++++++++++
+ drivers/gpu/drm/ttm/ttm_bo.c                 |  9 ++++++---
+ 3 files changed, 19 insertions(+), 4 deletions(-)
+
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+(HRB 36809, AG N=FCrnberg)
+Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
