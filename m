@@ -1,35 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38D75323C5F
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 13:54:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79786323C61
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 13:54:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F4E96EAAF;
-	Wed, 24 Feb 2021 12:54:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E5EE6EAB1;
+	Wed, 24 Feb 2021 12:54:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CEB26EAAF
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 12:54:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 005DA64F97;
- Wed, 24 Feb 2021 12:54:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 250706EAB0;
+ Wed, 24 Feb 2021 12:54:54 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C3D9E64FA1;
+ Wed, 24 Feb 2021 12:54:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614171289;
- bh=EYRaWi8blV+9ujZEjSsC41wqYz+mU0lCnju3XoBnxrg=;
+ s=k20201202; t=1614171293;
+ bh=1jNlxEy8lwJt8einyl+TyR4jYcw2sx3SQc6GezmFQmY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=N8LxvnMWZREQJhw9l26gWWQW56myZLkztc3Mj+NVc88C/73BunGQN9svQRVVMtXVr
- HjQ2H+23QaP1bpEEC+47JfZ2BER6h/iK9dzdb7QOEGjiOGcz0xIEd6Xr2kNCoXReFG
- p8kfI3CFhwmUaPHVcd9Q9nbVjaIsGabXbnv4Duhb2DkhCpo+YNGsRCZjuMlmQ7Zr1l
- gUXZvATAKpwsv5WQ6FRNMsFDT243vs4ifceQvhYi5dGN2Ao2JcJztbb7KDc30PGyOr
- 35nU4puuhwvZWCIs89vY2jDXlTraoYuYXpVIdepDinZfte2ZwgMl9EXt141keJ1JHs
- T2jviTJZxjeOw==
+ b=Q4vZA7wz9mG1rfEuXkQNOips0jsn+84++GFlHWbTLUerFOdg5kSuW91QQ/PHZTL6I
+ YQlOQVXAKU4xM8NM6pFmjdUetleHimvEkVRkDRnus7ghPvYNcBBu13LG2Ifuk8KCxa
+ xEkSu+7XYTC3pUtd30nNPCUaK9oVda8ruB68z6pLYfgY5PEd1xuvNzJF9jcV0NBMQT
+ m+Z3oYqo+KVR2cF7zaBvkcDb3VMFdEY4xqyQNMopBpKB2lubj7SmD8/sm2abOP1LUU
+ +nu4+yDsgTOgypXROZM0WPvcnROJCfhhSnr8BR1w/ilcCQwh1qqEwK4DpB0dn8NvGq
+ X/odeumGeg35A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 11/26] udlfb: Fix memory leak in dlfb_usb_probe
-Date: Wed, 24 Feb 2021 07:54:19 -0500
-Message-Id: <20210224125435.483539-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 14/26] drm/amd/display: Guard against NULL
+ pointer deref when get_i2c_info fails
+Date: Wed, 24 Feb 2021 07:54:22 -0500
+Message-Id: <20210224125435.483539-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210224125435.483539-1-sashal@kernel.org>
 References: <20210224125435.483539-1-sashal@kernel.org>
@@ -48,71 +49,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- syzbot+c9e365d7f450e8aa615d@syzkaller.appspotmail.com,
- dri-devel@lists.freedesktop.org, Zqiang <qiang.zhang@windriver.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Sasha Levin <sashal@kernel.org>, Eric Yang <eric.yang2@amd.com>,
+ Anson Jacob <anson.jacob@amd.com>, amd-gfx@lists.freedesktop.org,
+ Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zqiang <qiang.zhang@windriver.com>
+From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 
-[ Upstream commit 5c0e4110f751934e748a66887c61f8e73805f0f9 ]
+[ Upstream commit 44a09e3d95bd2b7b0c224100f78f335859c4e193 ]
 
-The dlfb_alloc_urb_list function is called in dlfb_usb_probe function,
-after that if an error occurs, the dlfb_free_urb_list function need to
-be called.
+[Why]
+If the BIOS table is invalid or corrupt then get_i2c_info can fail
+and we dereference a NULL pointer.
 
-BUG: memory leak
-unreferenced object 0xffff88810adde100 (size 32):
-  comm "kworker/1:0", pid 17, jiffies 4294947788 (age 19.520s)
-  hex dump (first 32 bytes):
-    10 30 c3 0d 81 88 ff ff c0 fa 63 12 81 88 ff ff  .0........c.....
-    00 30 c3 0d 81 88 ff ff 80 d1 3a 08 81 88 ff ff  .0........:.....
-  backtrace:
-    [<0000000019512953>] kmalloc include/linux/slab.h:552 [inline]
-    [<0000000019512953>] kzalloc include/linux/slab.h:664 [inline]
-    [<0000000019512953>] dlfb_alloc_urb_list drivers/video/fbdev/udlfb.c:1892 [inline]
-    [<0000000019512953>] dlfb_usb_probe.cold+0x289/0x988 drivers/video/fbdev/udlfb.c:1704
-    [<0000000072160152>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
-    [<00000000a8d6726f>] really_probe+0x159/0x480 drivers/base/dd.c:554
-    [<00000000c3ce4b0e>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
-    [<00000000e942e01c>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
-    [<00000000de0a5a5c>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
-    [<00000000463fbcb4>] __device_attach+0x122/0x250 drivers/base/dd.c:912
-    [<00000000b881a711>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
-    [<00000000364bbda5>] device_add+0x5ac/0xc30 drivers/base/core.c:2936
-    [<00000000eecca418>] usb_set_configuration+0x9de/0xb90 drivers/usb/core/message.c:2159
-    [<00000000edfeca2d>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
-    [<000000001830872b>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
-    [<00000000a8d6726f>] really_probe+0x159/0x480 drivers/base/dd.c:554
-    [<00000000c3ce4b0e>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
-    [<00000000e942e01c>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
-    [<00000000de0a5a5c>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
+[How]
+Check that ddc_pin is not NULL before using it and log an error if it
+is because this is unexpected.
 
-Reported-by: syzbot+c9e365d7f450e8aa615d@syzkaller.appspotmail.com
-Signed-off-by: Zqiang <qiang.zhang@windriver.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/20201215063022.16746-1-qiang.zhang@windriver.com
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Reviewed-by: Eric Yang <eric.yang2@amd.com>
+Acked-by: Anson Jacob <anson.jacob@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/udlfb.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/video/fbdev/udlfb.c b/drivers/video/fbdev/udlfb.c
-index 5a0d6fb02bbc5..f7823aa99340d 100644
---- a/drivers/video/fbdev/udlfb.c
-+++ b/drivers/video/fbdev/udlfb.c
-@@ -1020,6 +1020,7 @@ static void dlfb_ops_destroy(struct fb_info *info)
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+index fa0e6c8e2447c..e3bedf4cc9c03 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+@@ -1124,6 +1124,11 @@ static bool construct(
+ 		goto ddc_create_fail;
  	}
- 	vfree(dlfb->backing_buffer);
- 	kfree(dlfb->edid);
-+	dlfb_free_urb_list(dlfb);
- 	usb_put_dev(dlfb->udev);
- 	kfree(dlfb);
  
++	if (!link->ddc->ddc_pin) {
++		DC_ERROR("Failed to get I2C info for connector!\n");
++		goto ddc_create_fail;
++	}
++
+ 	link->ddc_hw_inst =
+ 		dal_ddc_get_line(
+ 			dal_ddc_service_get_ddc_pin(link->ddc));
 -- 
 2.27.0
 
