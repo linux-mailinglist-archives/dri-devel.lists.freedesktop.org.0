@@ -2,54 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE151323BF8
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 13:40:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE55323C18
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 13:51:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5CD56EA89;
-	Wed, 24 Feb 2021 12:40:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D5BF6EA8D;
+	Wed, 24 Feb 2021 12:51:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C88136EA89
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 12:40:44 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id d11so1742781wrj.7
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 04:40:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HRhPlj1aHRVOi3gs8JuQx5ujbUeXgIsk53nwDPobfIc=;
- b=d0H+6s84LfrmhCxlKqm9iuAtf7AbWv9MNiz05h0L717TsS98FBZv0zG8WyGXGe1v3O
- pWUzo4LTRiNWdGOdO8E8SW8zqdunCe9JWRAxLh7Y5m+2ha7iEA5LXIJcwNF7ULANohTO
- cE74c57Zp1mn6ekgF0B2h66H9BPNknjcmelT1JLfot7gkdnkgBcDveQFQIyhv/YMpMt8
- dXSEGx+W/gWdeJgh1/Jme6hH+RGH8Z1NpMlDqBg8iNVs34a9CjPsby3qLhiNfbIS5P7B
- UADTB9ERyTOGXJoVPld+NTQnhcoHmKxufgh6JkK9uYT57OJZoHazMOXFa9+HF//SdJ5I
- oMHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HRhPlj1aHRVOi3gs8JuQx5ujbUeXgIsk53nwDPobfIc=;
- b=FNVVZmRtegj/gol+eu7/8BeS4TfsKKDaXtp+ufTappK33Ocdh16jIEI2fNEkCYjQ4Z
- v0pVq2dZXyiQYXnwPzgSWge1UFDSnDne9HPwEmqHUJEGrWb1nAqv5Yizi3GMMmCcdGu8
- msmwkNaOlSvtTmtfEz6/Dpx3T9xWwCrxlCWltNvERB6gMlPGES/gywLN/Xxe+f3pnmaB
- aKvBonm9RTCMzXU+pSvrFZf2NWEQOPBpMKHYeCL/PgRvYCNyYB3QBkpKxiuYLyqE+FJO
- fWlddhE8gbBYGOdQaHKEl5PjfmBKHy9i/+gOraTlxqaZWzGNyyxHO3vteOhKU6+IdFpO
- gU0Q==
-X-Gm-Message-State: AOAM533eW5fX+4nLyHb384Rp/DU0IELtIZwQkgDZ3MSUaoKdRt+Lo7nu
- eAoystx8WlQIs1dWaVeYWbegIpzDErf94C7kaieVKA==
-X-Google-Smtp-Source: ABdhPJzAf/QssqSJWTXQC9OJJ/N4aJn/AEnU3jtc2sPlav4EU3paeRaAIdayhaZXt+dVFhqKzgGMUV5f3CNGZjZh6ZY=
-X-Received: by 2002:a5d:4521:: with SMTP id j1mr4780729wra.354.1614170443428; 
- Wed, 24 Feb 2021 04:40:43 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C924A6E8D1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 12:51:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B791E64F10;
+ Wed, 24 Feb 2021 12:51:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1614171061;
+ bh=1neO6vpBFzt/S1NpjMwvokk/g+LPW5/FhF1PJIuOnM0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=l3K64oCDcCdEV4DneiaAsxxg456xp7H9tf0rhn620BJAkwLPm2ON4dTLH2wJY0zwb
+ lqCUuS6sTtDnrrQmvsTvx3Otl6wOIEPM438KxGm8d9MysSlG2fTQc9OUBPHYLh9ikx
+ 5+JmmgW60CPaI352uxX/zffdbtUvZQtVgVgFmHUKPFSjsxJ2gJnH9K0qb3KIvzi6K1
+ pB2AWV3ionWqqe4l4DNNjBNO4l26AjcG3RDOEq+SIhIeSfLD7zTQVjoGufAiTZazbu
+ uGTuttTVzpa8FFYYfqmaOZbiB+v2wQdWIL2cZ6J2gCPLwovSQ0/V+/LLVxKmjIvdJC
+ zLDwA5G7tww3g==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.11 25/67] drm/hisilicon: Fix use-after-free
+Date: Wed, 24 Feb 2021 07:49:43 -0500
+Message-Id: <20210224125026.481804-25-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210224125026.481804-1-sashal@kernel.org>
+References: <20210224125026.481804-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20200811202631.3603-1-alyssa.rosenzweig@collabora.com>
- <161411675671.3338515.9688232276427844069.b4-ty@sntech.de>
-In-Reply-To: <161411675671.3338515.9688232276427844069.b4-ty@sntech.de>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 24 Feb 2021 12:40:32 +0000
-Message-ID: <CAPj87rPpw8wjCW8d51KKJvbZt3MOERnt-=hh66qCBXYuOMVk+A@mail.gmail.com>
-Subject: Re: [PATCH] drm/rockchip: Require the YTR modifier for AFBC
-To: Heiko Stuebner <heiko@sntech.de>
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,35 +48,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>, David Airlie <airlied@linux.ie>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- linux-rockchip <linux-rockchip@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- stable <stable@vger.kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: Sasha Levin <sashal@kernel.org>, Tian Tao <tiantao6@hisilicon.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 Feb 2021 at 21:49, Heiko Stuebner <heiko@sntech.de> wrote:
-> On Tue, 11 Aug 2020 16:26:31 -0400, Alyssa Rosenzweig wrote:
-> > The AFBC decoder used in the Rockchip VOP assumes the use of the
-> > YUV-like colourspace transform (YTR). YTR is lossless for RGB(A)
-> > buffers, which covers the RGBA8 and RGB565 formats supported in
-> > vop_convert_afbc_format. Use of YTR is signaled with the
-> > AFBC_FORMAT_MOD_YTR modifier, which prior to this commit was missing. As
-> > such, a producer would have to generate buffers that do not use YTR,
-> > which the VOP would erroneously decode as YTR, leading to severe visual
-> > corruption.
->
-> Applied, thanks!
->
-> [1/1] drm/rockchip: Require the YTR modifier for AFBC
->       commit: 0de764474e6e0a74bd75715fed227d82dcda054c
+From: Tian Tao <tiantao6@hisilicon.com>
 
-Thanks Heiko!
+[ Upstream commit c855af2f9c5c60760fd1bed7889a81bc37d2591d ]
+
+Fix the problem of dev being released twice.
+------------[ cut here ]------------
+refcount_t: underflow; use-after-free.
+WARNING: CPU: 75 PID: 15700 at lib/refcount.c:28 refcount_warn_saturate+0xd4/0x150
+CPU: 75 PID: 15700 Comm: rmmod Tainted: G            E     5.10.0-rc3+ #3
+Hardware name: Huawei TaiShan 200 (Model 2280)/BC82AMDDA, BIOS 0.88 07/24/2019
+pstate: 40400009 (nZcv daif +PAN -UAO -TCO BTYPE=--)
+pc : refcount_warn_saturate+0xd4/0x150
+lr : refcount_warn_saturate+0xd4/0x150
+sp : ffff2028150cbc00
+x29: ffff2028150cbc00 x28: ffff2028150121c0
+x27: 0000000000000000 x26: 0000000000000000
+x25: 0000000000000000 x24: 0000000000000003
+x23: 0000000000000000 x22: ffff2028150cbc90
+x21: ffff2020038a30a8 x20: ffff2028150cbc90
+x19: ffff0020cd938020 x18: 0000000000000010
+x17: 0000000000000000 x16: 0000000000000000
+x15: ffffffffffffffff x14: ffff2028950cb88f
+x13: ffff2028150cb89d x12: 0000000000000000
+x11: 0000000005f5e0ff x10: ffff2028150cb800
+x9 : 00000000ffffffd0 x8 : 75203b776f6c6672
+x7 : ffff800011a6f7c8 x6 : 0000000000000001
+x5 : 0000000000000000 x4 : 0000000000000000
+x3 : 0000000000000000 x2 : ffff202ffe2f9dc0
+x1 : ffffa02fecf40000 x0 : 0000000000000026
+Call trace:
+ refcount_warn_saturate+0xd4/0x150
+ devm_drm_dev_init_release+0x50/0x70
+ devm_action_release+0x20/0x30
+ release_nodes+0x13c/0x218
+ devres_release_all+0x80/0x170
+ device_release_driver_internal+0x128/0x1f0
+ driver_detach+0x6c/0xe0
+ bus_remove_driver+0x74/0x100
+ driver_unregister+0x34/0x60
+ pci_unregister_driver+0x24/0xd8
+ hibmc_pci_driver_exit+0x14/0xe858 [hibmc_drm]
+ __arm64_sys_delete_module+0x1fc/0x2d0
+ el0_svc_common.constprop.3+0xa8/0x188
+ do_el0_svc+0x80/0xa0
+ el0_sync_handler+0x8c/0xb0
+ el0_sync+0x15c/0x180
+CPU: 75 PID: 15700 Comm: rmmod Tainted: G            E     5.10.0-rc3+ #3
+Hardware name: Huawei TaiShan 200 (Model 2280)/BC82AMDDA, BIOS 0.88 07/24/2019
+Call trace:
+ dump_backtrace+0x0/0x208
+ show_stack+0x2c/0x40
+ dump_stack+0xd8/0x10c
+ __warn+0xac/0x128
+ report_bug+0xcc/0x180
+ bug_handler+0x24/0x78
+ call_break_hook+0x80/0xa0
+ brk_handler+0x28/0x68
+ do_debug_exception+0x9c/0x148
+ el1_sync_handler+0x7c/0x128
+ el1_sync+0x80/0x100
+ refcount_warn_saturate+0xd4/0x150
+ devm_drm_dev_init_release+0x50/0x70
+ devm_action_release+0x20/0x30
+ release_nodes+0x13c/0x218
+ devres_release_all+0x80/0x170
+ device_release_driver_internal+0x128/0x1f0
+ driver_detach+0x6c/0xe0
+ bus_remove_driver+0x74/0x100
+ driver_unregister+0x34/0x60
+ pci_unregister_driver+0x24/0xd8
+ hibmc_pci_driver_exit+0x14/0xe858 [hibmc_drm]
+ __arm64_sys_delete_module+0x1fc/0x2d0
+ el0_svc_common.constprop.3+0xa8/0x188
+ do_el0_svc+0x80/0xa0
+ el0_sync_handler+0x8c/0xb0
+ el0_sync+0x15c/0x180
+---[ end trace 00718630d6e5ff18 ]---
+
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/1607941973-32287-1-git-send-email-tiantao6@hisilicon.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+index d845657fd99cc..426f5fb20fadc 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+@@ -366,7 +366,6 @@ static void hibmc_pci_remove(struct pci_dev *pdev)
+ 
+ 	drm_dev_unregister(dev);
+ 	hibmc_unload(dev);
+-	drm_dev_put(dev);
+ }
+ 
+ static const struct pci_device_id hibmc_pci_table[] = {
+-- 
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
