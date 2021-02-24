@@ -1,53 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CAA323610
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 04:34:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F38323633
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 04:49:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EC416E1B3;
-	Wed, 24 Feb 2021 03:34:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A49626E433;
+	Wed, 24 Feb 2021 03:49:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75ED56E1B3;
- Wed, 24 Feb 2021 03:34:52 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id q186so988655oig.12;
- Tue, 23 Feb 2021 19:34:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xFoR+1So4xNhVQtRBlvRYXzZ/BjGkdNa/RVCyND5tfo=;
- b=QUqnq7wWgX5PARl1agRlecBPhP8ciu4OA0B78j6t0BkYe2QftLwlMsqw/PGDzZejcn
- oX8z/Jx8wCgsi4pCdwRoMkrBmNBOEstft1HuJSS3YSwgNbqQ8ncDidXM+u3iyNw0cOdi
- B7ynIGvFxZ+LrN2JhpJ/2TKjQop6BOsJwuVuVLxxk5b3tVGcqVSgBLW/3u5ASq4bGabO
- usFzQdMJImwLDm3msJ4LWa1Uf1WLv0P6HVvSP23CHGyqTbKmkTgYrjgUe1FvvXu2TYRq
- 1M/mYGZDPU4YEN/NbB7utKdnzimhMXXplwfaMrq+az7kkZ3ZkEKgGm6gv24yR8IXaPXI
- MR5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xFoR+1So4xNhVQtRBlvRYXzZ/BjGkdNa/RVCyND5tfo=;
- b=b9Vo/EeXn7g8U5REr0Nd1waHpqT0mV1TtKir9AdWIw/nhhAhta5Safw+ro45i1Tw7M
- 7QlJMr0HM2AoW+qLlqfPV0BaBhubh79u9EFMIUu9S+kO5xT9qiV9DqkEfia/gL+liuTR
- XM4N7zocyiZLhUdCJ5Gkiht5fJ+yBDs5hpWv4dh1Fn0yR7RE+E2I5lzFHRG+Mp/Q4dgj
- x82GiZhxTTbMhfprRPXaboIm8qyvjjpwX3mCY8KrQaKyNFmK1jJVuBEzJZdlubLHNHp1
- X+V6hdDx8tQWcWoZxNhIgPexn3XvSQNvSlFZTZpg3ftIr/8lIsPa84zLr5oSTTYtIu2O
- eOQg==
-X-Gm-Message-State: AOAM530YSkmz6FvejMrR4aXHDsnK8d3ls4BnNqVAby2UkU2C2Eeo6jC+
- GWuVtTj5SzguDYbjBThH8FJSsd7uYkuMmiJez6Y=
-X-Google-Smtp-Source: ABdhPJx8iAK2h4XofXbRO1SM1ka2+8KZ6sLhUOHGIW3v/5LX0ghiREmqS0MCpQSpTu+dOir3ul9MXmMevmR8skNrUQQ=
-X-Received: by 2002:aca:fccb:: with SMTP id a194mr1321523oii.5.1614137691742; 
- Tue, 23 Feb 2021 19:34:51 -0800 (PST)
+Received: from z11.mailgun.us (z11.mailgun.us [104.130.96.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5BCD6E433
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 03:49:15 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1614138558; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=Gz/nJPrGJP7gB6ntnx6Dmk5y7Vmp4Se23+LdipuUkhg=;
+ b=UXrCy/jqRum7KuNdNGQgoVpldAtJ1FbUZU6FJmIID0YMKOoKwSE/SXIM025W6t6QzUezXb5C
+ myW38QgqcDQ9H6o78LoG1GRbQSv64uh/wZNZsbS3pheEw3JHQpss3SEpBrcwwHS6NpxuypQ1
+ 99Ma7T+BIRElfPpvlkySIwlmsBE=
+X-Mailgun-Sending-Ip: 104.130.96.11
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 6035ccaf2a8ee88ea5204d2b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 24 Feb 2021 03:49:03
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id BE798C43462; Wed, 24 Feb 2021 03:49:03 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: kgunda)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 44506C433C6;
+ Wed, 24 Feb 2021 03:49:03 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210224032808.150465-1-xinhui.pan@amd.com>
-In-Reply-To: <20210224032808.150465-1-xinhui.pan@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 23 Feb 2021 22:34:40 -0500
-Message-ID: <CADnq5_NhUK+VHVDNCYsV_k77DAONd+ML0fZo+tJBAiMGQKuWcw@mail.gmail.com>
-Subject: Re: [PATCH] drm/ttm: Do not add non-system domain BO into swap list
-To: xinhui pan <xinhui.pan@amd.com>
+Date: Wed, 24 Feb 2021 09:19:03 +0530
+From: kgunda@codeaurora.org
+To: Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH V1 0/2] Fix WLED FSC Sync and brightness Sync settings
+In-Reply-To: <20210219180839.GB8596@duo.ucw.cz>
+References: <1613743659-4726-1-git-send-email-kgunda@codeaurora.org>
+ <20210219180839.GB8596@duo.ucw.cz>
+Message-ID: <1fcacbe5de8dd7d3a0df2b6108d734f6@codeaurora.org>
+X-Sender: kgunda@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,49 +63,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Christian Koenig <christian.koenig@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ daniel.thompson@linaro.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, robh+dt@kernel.org, jacek.anaszewski@gmail.com,
+ linux-arm-msm@vger.kernel.org, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 23, 2021 at 10:28 PM xinhui pan <xinhui.pan@amd.com> wrote:
->
-> BO would be added into swap list if it is validated into system domain.
-> If BO is validated again into non-system domain, say, VRAM domain. It
-> actually should not be in the swap list.
->
-> Signed-off-by: xinhui pan <xinhui.pan@amd.com>
-
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-
-> ---
->  drivers/gpu/drm/ttm/ttm_bo.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index a97d41f4ce3c..3a10bebb75d6 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -111,6 +111,8 @@ void ttm_bo_move_to_lru_tail(struct ttm_buffer_object *bo,
->
->                 swap = &ttm_glob.swap_lru[bo->priority];
->                 list_move_tail(&bo->swap, swap);
-> +       } else {
-> +               list_del_init(&bo->swap);
->         }
->
->         if (bdev->funcs->del_from_lru_notify)
-> --
-> 2.25.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+On 2021-02-19 23:38, Pavel Machek wrote:
+> Hi!
+> 
+>> The FSC (Full scale current) setting is not updated properly due to 
+>> the
+>> wrong register toggling for WLED5. Also the ILED_SYNC toggle and 
+>> MOD_SYNC
+>> toggle sequence is updated as per the hardware team recommendation to 
+>> fix
+>> the FSC update and brightness update issue.
+> 
+> If this is phone hardware, it might make sense to cc:
+> phone-devel@vger...
+> 
+Yes. it is for phone hardware. Will cc the email.
+> Best regards,
+> 									Pavel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
