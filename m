@@ -2,53 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E00D53242BF
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 18:01:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4822A3242C2
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 18:03:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03D726E059;
-	Wed, 24 Feb 2021 17:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A4376EB13;
+	Wed, 24 Feb 2021 17:03:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 957196E059
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 17:01:32 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id j9so3467125edp.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 09:01:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WIaWLlRGMPWjJAANsdhm+dxvE3B3PRnitJWx+eVprg8=;
- b=hHt2LHfZIrOKnIfRckmAg+Yq/qIAkw5e+fAWcDfPizCozNYpxuHndetb0bIgO0HaV4
- vPfnFXpTnTetk0vb2tM/+XUzPiYn/LgxErMIKzFWuXy7h/cF3ZtUCeJ2deFUQkGZNZIG
- agX74bsYx8h5rrXrYRQr7D6l9S8to6FDPJ8HU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WIaWLlRGMPWjJAANsdhm+dxvE3B3PRnitJWx+eVprg8=;
- b=daFw+ghO9Ha8jcquN5TrSlRrCfFREcbRm3rK91NRPkij+bGGUGFFdkaiaibZ90XJzX
- lGJ1PmeiBQAjk7UmJAuz/ozNdiCmXUbz/v2z1W//U7rT9suzDdmporVteXt0I33JF8N9
- FFIZVanbAkyhCBbSTaHh9mAKRmn2OWNw/RfK3CD8ZRAuiEsfn2Jm3QvnYCOLhwu9+b3q
- XbqkkhTLNEsMAFRSe8vp8aq1bK/GBOSpKBGVxvnyXjNArqOXqxlYC6HHTDm+vmKqDxZ4
- M/htrsfZ/oD50VIjNgzSTLwfQBWy+DmrbUvZQcJ1q8srZkrddOUP1ax7PFQsxluU6drq
- PU5g==
-X-Gm-Message-State: AOAM530rXJlCQ0ek0yd20DmnGVz1nxDrztDxCG0Zee6QN8tkOONUPFJG
- FZNKxiplAad+BulfN1Twh8VphZN3u3Ax2tSu4GrfIQ==
-X-Google-Smtp-Source: ABdhPJzewAeTReHo9MUCUjKxOFpTyAYWsLI54xHmLfOtoCpl2BcLo1l69SMDTPxOObL/cpT7apO4a73B0/+MWuq3JXw=
-X-Received: by 2002:aa7:c542:: with SMTP id s2mr14136553edr.369.1614186091162; 
- Wed, 24 Feb 2021 09:01:31 -0800 (PST)
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C30D6EB13;
+ Wed, 24 Feb 2021 17:03:04 +0000 (UTC)
+Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1N8GAQ-1lsXVY3lU8-014BDu; Wed, 24 Feb 2021 18:02:48 +0100
+Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
+ by mail.cetitecgmbh.com (Postfix) with ESMTP id CE6931E01E7;
+ Wed, 24 Feb 2021 17:02:47 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at cetitec.com
+Received: from mail.cetitecgmbh.com ([127.0.0.1])
+ by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com
+ [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id crA7MmH7Nrc8; Wed, 24 Feb 2021 18:02:47 +0100 (CET)
+Received: from pflmari.corp.cetitec.com (8-usr-pf-main.vpn.it.cetitec.com
+ [10.8.5.8])
+ by mail.cetitecgmbh.com (Postfix) with ESMTPSA id 74E1D1E01E6;
+ Wed, 24 Feb 2021 18:02:47 +0100 (CET)
+Received: by pflmari.corp.cetitec.com (Postfix, from local account)
+Date: Wed, 24 Feb 2021 18:02:47 +0100
+From: Alex Riesen <alexander.riesen@cetitec.com>
+To: Ilia Mirkin <imirkin@alum.mit.edu>
+Subject: Re: [PATCH 2/3] drm/nouveau/kms/nv50-: Report max cursor size to
+ userspace
+Message-ID: <YDaGtzRDUIbErYDY@pflmari>
+References: <CAKb7Uvji_+N+b8HghZckU-uSBWn-=BZwNAiUff2oitbVuNUE2Q@mail.gmail.com>
+ <YDUkfjDA4xLJlxE5@pflmari> <YDUr2OGDsxDyC0l2@pflmari>
+ <CAKb7UvjmdgS536tNzisomi_oXOGk3Q+anp0AfPvA8OruU_9m5Q@mail.gmail.com>
+ <YDYXiTm7MDXgYT7H@pflmari>
+ <CAKb7UvgQXXThAfqJo+FEfUbgLtGzb2kvg9aSFXZn_XWivsv48Q@mail.gmail.com>
+ <YDaAQts9LIb5h3xd@pflmari>
+ <CAKb7Uvi8GUe+F3oMOwtAxOAi5ffF=b=9XYv+fZf742frroXfSA@mail.gmail.com>
+ <YDaEiDkTiqhy/r+i@pflmari>
+ <CAKb7UviFdgqqSrFvZJzfenaKa_0P6hJ4SaDrwA39Lz8jVigDGw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210203091306.140518-1-jagan@amarulasolutions.com>
- <f9cfa159-ac88-325b-d971-7c860fa722ff@foss.st.com>
-In-Reply-To: <f9cfa159-ac88-325b-d971-7c860fa722ff@foss.st.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 24 Feb 2021 22:31:19 +0530
-Message-ID: <CAMty3ZAfy7M7TnM_sb0FqPSFYqc1cLGPXB7S-AE=oUST78dYNA@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: dw-mipi-dsi: Move drm_bridge_add into probe
-To: yannick Fertre <yannick.fertre@foss.st.com>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Heiko Stubner <heiko@sntech.de>
+Content-Disposition: inline
+In-Reply-To: <CAKb7UviFdgqqSrFvZJzfenaKa_0P6hJ4SaDrwA39Lz8jVigDGw@mail.gmail.com>
+X-Provags-ID: V03:K1:m8aAXarQw29INPcCiAgbdhio0t8/aa3bejDz7AmScCE56SBxTUs
+ 0338x89JWxzK3AOgJIuYG+DmB1N6gNyJNZhAnq8IjIxWFD29ZlGRl+wOfqLL9a3jCwNUhnx
+ e1Z6CYtadKxdNNb+tlpzGCwe09alB8qpDd06PaIglKILtvyMlkZGO0c1ObUjdolt9+TpVz1
+ Ea8odAiBUQE116rfcwkQA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vCIRcVpt2tU=:QCbb9kIRJmzls8mByGpaEr
+ 8bRYTGuEXAFzcE9XnrgVrGmVq95BCAc6TIOOAqu14xQJg21QsK0F1UDz0bQ/C1WdxHjUPLUg3
+ GcO0O26g4BOZWW7k24k0dt8I6mySHXg2z48a32D0kLcUO0Vr7jb/Pq6l60+XHCbh0wyNZbgd9
+ ZRhjqeGdI8N1Yjxt7hCVjW3AEiWdvUtDNVG9h7xGfLlUUkFYej5l0RyFJ3/UzdQP7hxQcRlyS
+ lNsKNPGnRGACXcUSbE5cdNfmCczAwjPVhEV1v7sVmF8SjufpafYliJ64BcXrmWKEb0Ggd7qdr
+ w2V/hGkY11wkiQUiYaCKmqrnQPq/ICq4RknnF/RN5Dfxrxdm8FtfQmiWwLwulEx500NEXya7q
+ lEBXyRU/lzVdyWRdbM5DcSRaUaX0j4ttxz4/YhzV4H0SO0oYtZucn+6zG9U3ckJL/8c+ZM4TG
+ C0f8PCBx4g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,55 +71,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jonas Karlman <jonas@kwiboo.se>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Philippe Cornu <philippe.cornu@st.com>, Yannick Fertre <yannick.fertre@st.com>,
- Andrzej Hajda <a.hajda@samsung.com>, Vincent Abriou <vincent.abriou@st.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-kernel <linux-kernel@vger.kernel.org>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Ben Skeggs <bskeggs@redhat.com>, nouveau <nouveau@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yannick,
+Ilia Mirkin, Wed, Feb 24, 2021 17:57:41 +0100:
+> On Wed, Feb 24, 2021 at 11:53 AM Alex Riesen <alexander.riesen@cetitec.com> wrote:
+> > Ilia Mirkin, Wed, Feb 24, 2021 17:48:39 +0100:
+> > > Just to be crystal clear -- are you saying that 128x128 works or does
+> > > not work? (You said "yes", which would imply it works OK, but then you
+> > > said both cases, which would imply doesn't work since 256x256 doesn't
+> > > work?)
+> >
+> > Modetest with 128x128 cursor works. Without damage to the cursor: modetest
+> > shows normal cursor in vanilla v5.11. Modetest also shows normal cursor in
+> > vanilla v5.11 with the commit reverted.
+> 
+> But modetest with 256x256 doesn't work (correctly) right? Or did I
+> misunderstand?
 
-Thanks for testing this change.
+Right. That's why I was asking if I did everything right: it was just corrupted
+in both kernels.
 
-On Mon, Feb 15, 2021 at 1:39 PM yannick Fertre
-<yannick.fertre@foss.st.com> wrote:
->
-> Hello Jagan, I tested your patch on the stm32mp1 board.
-> Unfortunately, the dsi panel does not probe well with this patch. The
-> problem is due to the panel which is placed in the node of the dsi
-> bridge (no problem with i2c devices).
->
-> Regarding component bindings for stm drivers, I am currently working on
-> a new version.
+> All the patch does is allow those large cursors to be used, which gets
+> reported via drm APIs and modesetting picks the largest cursor
+> available. (And actually I think it's even not required to use the
+> large cursors, it just controls what's reported in the defaults to
+> userspace.)
 
-1. All non-I2C bridges are attaching dsi via mipi_dsi_attach during
-the bridge controller probe and that would be expecting
-panel_or_bridge need to be in DSI host attach.
+Maybe something in X code is not prepared to handle the kernel reporting
+large cursor support? Even though 128x128 is pretty large, and I don't think
+I even use that large cursors in X configuration. How can I check?
 
-2. I2C bridges are attaching dsi via mipi_dsi_attach during the bridge
-attach function and that would be expecting panel_or_bridge need to be
-in DSI probe.
-
-I believe these types of DSI controllers followed by DSI panels,
-bridges are not available in Mainline. if I'm not mistaken.
-
-Adding component bindings in this regards never helps, this seems to
-be common for component or non-components DSI host drivers.
-
-One way to handle this issue can be during drm helper initialization,
-like attaching the dsi host instead of calling directly from bridge or
-panel drivers.
-
-Laurent, Heiko - let me know your suggestions if it make sense, thanks.
-
-Jagan.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
