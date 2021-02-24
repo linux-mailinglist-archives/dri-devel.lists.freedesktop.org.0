@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B88A323C1B
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 13:51:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D539323C1D
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 13:51:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD0C36EA90;
-	Wed, 24 Feb 2021 12:51:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5494A6EA94;
+	Wed, 24 Feb 2021 12:51:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B78EF6EA8F;
- Wed, 24 Feb 2021 12:51:09 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 80DCF64F1E;
- Wed, 24 Feb 2021 12:51:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F14936EA92;
+ Wed, 24 Feb 2021 12:51:14 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 94E9364F1D;
+ Wed, 24 Feb 2021 12:51:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614171069;
- bh=7a1T8LIhQNZZBlPgQaxnoKAUPUpVZzUMZjMsijYS4cw=;
+ s=k20201202; t=1614171074;
+ bh=u26AEnUQggNqDbmA/pNenj+pQmoYK8MoQewuYk5WWNE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=F9h80CZz5VLPTzH7Vuf1uRi4KEhRtYctNYCzThm7fNoMpK6t4+AVlNMgtJMUCj4xU
- FBd7llJZYbCG/1GHGID4De9EOluk2T58R9l7S6klZDTQrHSa7+hKeRGBCFXcpTTW8B
- +rfAVYcYLF/0sByBao5bH+g+ERtYRUtI61DAJJdMp1xDLAjLzBzNLWEkmFQsu2KQj9
- NGh8l2jRb6FVK/wVp5Z5ZZHZyB0NnCrM51jQ7kwoG9iPcmbZ+sYHZVR9cNhsnNJme/
- 4n1q+aquFUsOVVpXLjd6uXvqKVyYdBaVhAYTsZQMpAwdeCB/3uFfLL5UKM1eWQ4IFd
- 9Ef//TsbtDU2Q==
+ b=QEPGivp+Zzh+aYvBaxbF1xdhyv0fNFBrZYz8zSS0uj8ksvWbB8PFMPrwESjnlxfll
+ qolRc/bF3Lt081J/wgAdccOtzDBGfDqGoIGGwEmzsoDTOWpj8GXxPhNahmy/51Qk2M
+ Emz8Kk5KG2bo99I4MYujt9O1xWIrY44qg7BoGz72LmitsJ7QoW7RbR+pUIJJW03Z6F
+ 1E64CNNUUy8jETksXgFTSnnA643Cw3215K3kslJGAGi68WOnNYWS3bg7q0MtRngd0w
+ a01Ya98RXcOu0QXqhjOTUD0+10Ij/o5zCftn12hL0ekJ55Le1R88c1JuTy5sd90Qtc
+ JZUX7HrNdM0DA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.11 31/67] drm/amdgpu: Add check to prevent IH
- overflow
-Date: Wed, 24 Feb 2021 07:49:49 -0500
-Message-Id: <20210224125026.481804-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.11 35/67] drm/amd/display: Guard against NULL
+ pointer deref when get_i2c_info fails
+Date: Wed, 24 Feb 2021 07:49:53 -0500
+Message-Id: <20210224125026.481804-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210224125026.481804-1-sashal@kernel.org>
 References: <20210224125026.481804-1-sashal@kernel.org>
@@ -49,125 +49,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Defang Bo <bodefang@126.com>, amd-gfx@lists.freedesktop.org,
+Cc: Sasha Levin <sashal@kernel.org>, Eric Yang <eric.yang2@amd.com>,
+ Anson Jacob <anson.jacob@amd.com>, amd-gfx@lists.freedesktop.org,
+ Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
  Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRGVmYW5nIEJvIDxib2RlZmFuZ0AxMjYuY29tPgoKWyBVcHN0cmVhbSBjb21taXQgZTQx
-ODBjNDI1M2YzZjJkYTA5MDQ3ZjUxMzk5NTkyMjdmNWNmMTE3MyBdCgpTaW1pbGFyIHRvIGNvbW1p
-dCA8YjgyMTc1NzUwMTMxPigiZHJtL2FtZGdwdTogZml4IElIIG92ZXJmbG93IG9uIFZlZ2ExMCB2
-MiIpLgpXaGVuIGFuIHJpbmcgYnVmZmVyIG92ZXJmbG93IGhhcHBlbnMgdGhlIGFwcHJvcHJpYXRl
-IGJpdCBpcyBzZXQgaW4gdGhlIFdQVFIKcmVnaXN0ZXIgd2hpY2ggaXMgYWxzbyB3cml0dGVuIGJh
-Y2sgdG8gbWVtb3J5LiBCdXQgY2xlYXJpbmcgdGhlIGJpdCBpbiB0aGUKV1BUUiBkb2Vzbid0IHRy
-aWdnZXIgYW5vdGhlciBtZW1vcnkgd3JpdGViYWNrLgoKU28gd2hhdCBjYW4gaGFwcGVuIGlzIHRo
-YXQgd2UgZW5kIHVwIHByb2Nlc3NpbmcgdGhlIGJ1ZmZlciBvdmVyZmxvdyBvdmVyIGFuZApvdmVy
-IGFnYWluIGJlY2F1c2UgdGhlIGJpdCBpcyBuZXZlciBjbGVhcmVkLiBSZXN1bHRpbmcgaW4gYSBy
-YW5kb20gc3lzdGVtCmxvY2t1cCBiZWNhdXNlIG9mIGFuIGluZmluaXRlIGxvb3AgaW4gYW4gaW50
-ZXJydXB0IGhhbmRsZXIuCgpSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFu
-LmtvZW5pZ0BhbWQuY29tPgpTaWduZWQtb2ZmLWJ5OiBEZWZhbmcgQm8gPGJvZGVmYW5nQDEyNi5j
-b20+ClNpZ25lZC1vZmYtYnk6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNv
-bT4KU2lnbmVkLW9mZi1ieTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIGRy
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2N6X2loLmMgICAgICB8IDM3ICsrKysrKysrKysrKysr
-KystLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2ljZWxhbmRfaWguYyB8IDM2
-ICsrKysrKysrKysrKysrKy0tLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvdG9u
-Z2FfaWguYyAgIHwgMzcgKysrKysrKysrKysrKysrKy0tLS0tLS0tLQogMyBmaWxlcyBjaGFuZ2Vk
-LCA3MSBpbnNlcnRpb25zKCspLCAzOSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vYW1kL2FtZGdwdS9jel9paC5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
-Y3pfaWguYwppbmRleCBkYTM3ZjhhOTAwYWZiLi4zMDdjMDEzMDFjODdhIDEwMDY0NAotLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9jel9paC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1kZ3B1L2N6X2loLmMKQEAgLTE5NCwxOSArMTk0LDMwIEBAIHN0YXRpYyB1MzIgY3pfaWhf
-Z2V0X3dwdHIoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsCiAKIAl3cHRyID0gbGUzMl90b19j
-cHUoKmloLT53cHRyX2NwdSk7CiAKLQlpZiAoUkVHX0dFVF9GSUVMRCh3cHRyLCBJSF9SQl9XUFRS
-LCBSQl9PVkVSRkxPVykpIHsKLQkJd3B0ciA9IFJFR19TRVRfRklFTEQod3B0ciwgSUhfUkJfV1BU
-UiwgUkJfT1ZFUkZMT1csIDApOwotCQkvKiBXaGVuIGEgcmluZyBidWZmZXIgb3ZlcmZsb3cgaGFw
-cGVuIHN0YXJ0IHBhcnNpbmcgaW50ZXJydXB0Ci0JCSAqIGZyb20gdGhlIGxhc3Qgbm90IG92ZXJ3
-cml0dGVuIHZlY3RvciAod3B0ciArIDE2KS4gSG9wZWZ1bGx5Ci0JCSAqIHRoaXMgc2hvdWxkIGFs
-bG93IHVzIHRvIGNhdGNodXAuCi0JCSAqLwotCQlkZXZfd2FybihhZGV2LT5kZXYsICJJSCByaW5n
-IGJ1ZmZlciBvdmVyZmxvdyAoMHglMDhYLCAweCUwOFgsIDB4JTA4WClcbiIsCi0JCQl3cHRyLCBp
-aC0+cnB0ciwgKHdwdHIgKyAxNikgJiBpaC0+cHRyX21hc2spOwotCQlpaC0+cnB0ciA9ICh3cHRy
-ICsgMTYpICYgaWgtPnB0cl9tYXNrOwotCQl0bXAgPSBSUkVHMzIobW1JSF9SQl9DTlRMKTsKLQkJ
-dG1wID0gUkVHX1NFVF9GSUVMRCh0bXAsIElIX1JCX0NOVEwsIFdQVFJfT1ZFUkZMT1dfQ0xFQVIs
-IDEpOwotCQlXUkVHMzIobW1JSF9SQl9DTlRMLCB0bXApOwotCX0KKwlpZiAoIVJFR19HRVRfRklF
-TEQod3B0ciwgSUhfUkJfV1BUUiwgUkJfT1ZFUkZMT1cpKQorCQlnb3RvIG91dDsKKworCS8qIERv
-dWJsZSBjaGVjayB0aGF0IHRoZSBvdmVyZmxvdyB3YXNuJ3QgYWxyZWFkeSBjbGVhcmVkLiAqLwor
-CXdwdHIgPSBSUkVHMzIobW1JSF9SQl9XUFRSKTsKKworCWlmICghUkVHX0dFVF9GSUVMRCh3cHRy
-LCBJSF9SQl9XUFRSLCBSQl9PVkVSRkxPVykpCisJCWdvdG8gb3V0OworCisJd3B0ciA9IFJFR19T
-RVRfRklFTEQod3B0ciwgSUhfUkJfV1BUUiwgUkJfT1ZFUkZMT1csIDApOworCisJLyogV2hlbiBh
-IHJpbmcgYnVmZmVyIG92ZXJmbG93IGhhcHBlbiBzdGFydCBwYXJzaW5nIGludGVycnVwdAorCSAq
-IGZyb20gdGhlIGxhc3Qgbm90IG92ZXJ3cml0dGVuIHZlY3RvciAod3B0ciArIDE2KS4gSG9wZWZ1
-bGx5CisJICogdGhpcyBzaG91bGQgYWxsb3cgdXMgdG8gY2F0Y2h1cC4KKwkgKi8KKwlkZXZfd2Fy
-bihhZGV2LT5kZXYsICJJSCByaW5nIGJ1ZmZlciBvdmVyZmxvdyAoMHglMDhYLCAweCUwOFgsIDB4
-JTA4WClcbiIsCisJCXdwdHIsIGloLT5ycHRyLCAod3B0ciArIDE2KSAmIGloLT5wdHJfbWFzayk7
-CisJaWgtPnJwdHIgPSAod3B0ciArIDE2KSAmIGloLT5wdHJfbWFzazsKKwl0bXAgPSBSUkVHMzIo
-bW1JSF9SQl9DTlRMKTsKKwl0bXAgPSBSRUdfU0VUX0ZJRUxEKHRtcCwgSUhfUkJfQ05UTCwgV1BU
-Ul9PVkVSRkxPV19DTEVBUiwgMSk7CisJV1JFRzMyKG1tSUhfUkJfQ05UTCwgdG1wKTsKKworCitv
-dXQ6CiAJcmV0dXJuICh3cHRyICYgaWgtPnB0cl9tYXNrKTsKIH0KIApkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvaWNlbGFuZF9paC5jIGIvZHJpdmVycy9ncHUvZHJtL2Ft
-ZC9hbWRncHUvaWNlbGFuZF9paC5jCmluZGV4IDM3ZDhiNmNhNGRhYjguLmNjOTU3NDcxZjMxZWEg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2ljZWxhbmRfaWguYworKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9pY2VsYW5kX2loLmMKQEAgLTE5NCwxOSArMTk0
-LDI5IEBAIHN0YXRpYyB1MzIgaWNlbGFuZF9paF9nZXRfd3B0cihzdHJ1Y3QgYW1kZ3B1X2Rldmlj
-ZSAqYWRldiwKIAogCXdwdHIgPSBsZTMyX3RvX2NwdSgqaWgtPndwdHJfY3B1KTsKIAotCWlmIChS
-RUdfR0VUX0ZJRUxEKHdwdHIsIElIX1JCX1dQVFIsIFJCX09WRVJGTE9XKSkgewotCQl3cHRyID0g
-UkVHX1NFVF9GSUVMRCh3cHRyLCBJSF9SQl9XUFRSLCBSQl9PVkVSRkxPVywgMCk7Ci0JCS8qIFdo
-ZW4gYSByaW5nIGJ1ZmZlciBvdmVyZmxvdyBoYXBwZW4gc3RhcnQgcGFyc2luZyBpbnRlcnJ1cHQK
-LQkJICogZnJvbSB0aGUgbGFzdCBub3Qgb3ZlcndyaXR0ZW4gdmVjdG9yICh3cHRyICsgMTYpLiBI
-b3BlZnVsbHkKLQkJICogdGhpcyBzaG91bGQgYWxsb3cgdXMgdG8gY2F0Y2h1cC4KLQkJICovCi0J
-CWRldl93YXJuKGFkZXYtPmRldiwgIklIIHJpbmcgYnVmZmVyIG92ZXJmbG93ICgweCUwOFgsIDB4
-JTA4WCwgMHglMDhYKVxuIiwKLQkJCSB3cHRyLCBpaC0+cnB0ciwgKHdwdHIgKyAxNikgJiBpaC0+
-cHRyX21hc2spOwotCQlpaC0+cnB0ciA9ICh3cHRyICsgMTYpICYgaWgtPnB0cl9tYXNrOwotCQl0
-bXAgPSBSUkVHMzIobW1JSF9SQl9DTlRMKTsKLQkJdG1wID0gUkVHX1NFVF9GSUVMRCh0bXAsIElI
-X1JCX0NOVEwsIFdQVFJfT1ZFUkZMT1dfQ0xFQVIsIDEpOwotCQlXUkVHMzIobW1JSF9SQl9DTlRM
-LCB0bXApOwotCX0KKwlpZiAoIVJFR19HRVRfRklFTEQod3B0ciwgSUhfUkJfV1BUUiwgUkJfT1ZF
-UkZMT1cpKQorCQlnb3RvIG91dDsKKworCS8qIERvdWJsZSBjaGVjayB0aGF0IHRoZSBvdmVyZmxv
-dyB3YXNuJ3QgYWxyZWFkeSBjbGVhcmVkLiAqLworCXdwdHIgPSBSUkVHMzIobW1JSF9SQl9XUFRS
-KTsKKworCWlmICghUkVHX0dFVF9GSUVMRCh3cHRyLCBJSF9SQl9XUFRSLCBSQl9PVkVSRkxPVykp
-CisJCWdvdG8gb3V0OworCisJd3B0ciA9IFJFR19TRVRfRklFTEQod3B0ciwgSUhfUkJfV1BUUiwg
-UkJfT1ZFUkZMT1csIDApOworCS8qIFdoZW4gYSByaW5nIGJ1ZmZlciBvdmVyZmxvdyBoYXBwZW4g
-c3RhcnQgcGFyc2luZyBpbnRlcnJ1cHQKKwkgKiBmcm9tIHRoZSBsYXN0IG5vdCBvdmVyd3JpdHRl
-biB2ZWN0b3IgKHdwdHIgKyAxNikuIEhvcGVmdWxseQorCSAqIHRoaXMgc2hvdWxkIGFsbG93IHVz
-IHRvIGNhdGNodXAuCisJICovCisJZGV2X3dhcm4oYWRldi0+ZGV2LCAiSUggcmluZyBidWZmZXIg
-b3ZlcmZsb3cgKDB4JTA4WCwgMHglMDhYLCAweCUwOFgpXG4iLAorCQl3cHRyLCBpaC0+cnB0ciwg
-KHdwdHIgKyAxNikgJiBpaC0+cHRyX21hc2spOworCWloLT5ycHRyID0gKHdwdHIgKyAxNikgJiBp
-aC0+cHRyX21hc2s7CisJdG1wID0gUlJFRzMyKG1tSUhfUkJfQ05UTCk7CisJdG1wID0gUkVHX1NF
-VF9GSUVMRCh0bXAsIElIX1JCX0NOVEwsIFdQVFJfT1ZFUkZMT1dfQ0xFQVIsIDEpOworCVdSRUcz
-MihtbUlIX1JCX0NOVEwsIHRtcCk7CisKKworb3V0OgogCXJldHVybiAod3B0ciAmIGloLT5wdHJf
-bWFzayk7CiB9CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3Rvbmdh
-X2loLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS90b25nYV9paC5jCmluZGV4IGNlMzMx
-OTk5M2I0YmQuLjI0OWZjYmVlNzg3MWMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L3RvbmdhX2loLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvdG9uZ2Ff
-aWguYwpAQCAtMTk2LDE5ICsxOTYsMzAgQEAgc3RhdGljIHUzMiB0b25nYV9paF9nZXRfd3B0cihz
-dHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiwKIAogCXdwdHIgPSBsZTMyX3RvX2NwdSgqaWgtPndw
-dHJfY3B1KTsKIAotCWlmIChSRUdfR0VUX0ZJRUxEKHdwdHIsIElIX1JCX1dQVFIsIFJCX09WRVJG
-TE9XKSkgewotCQl3cHRyID0gUkVHX1NFVF9GSUVMRCh3cHRyLCBJSF9SQl9XUFRSLCBSQl9PVkVS
-RkxPVywgMCk7Ci0JCS8qIFdoZW4gYSByaW5nIGJ1ZmZlciBvdmVyZmxvdyBoYXBwZW4gc3RhcnQg
-cGFyc2luZyBpbnRlcnJ1cHQKLQkJICogZnJvbSB0aGUgbGFzdCBub3Qgb3ZlcndyaXR0ZW4gdmVj
-dG9yICh3cHRyICsgMTYpLiBIb3BlZnVsbHkKLQkJICogdGhpcyBzaG91bGQgYWxsb3cgdXMgdG8g
-Y2F0Y2h1cC4KLQkJICovCi0JCWRldl93YXJuKGFkZXYtPmRldiwgIklIIHJpbmcgYnVmZmVyIG92
-ZXJmbG93ICgweCUwOFgsIDB4JTA4WCwgMHglMDhYKVxuIiwKLQkJCSB3cHRyLCBpaC0+cnB0ciwg
-KHdwdHIgKyAxNikgJiBpaC0+cHRyX21hc2spOwotCQlpaC0+cnB0ciA9ICh3cHRyICsgMTYpICYg
-aWgtPnB0cl9tYXNrOwotCQl0bXAgPSBSUkVHMzIobW1JSF9SQl9DTlRMKTsKLQkJdG1wID0gUkVH
-X1NFVF9GSUVMRCh0bXAsIElIX1JCX0NOVEwsIFdQVFJfT1ZFUkZMT1dfQ0xFQVIsIDEpOwotCQlX
-UkVHMzIobW1JSF9SQl9DTlRMLCB0bXApOwotCX0KKwlpZiAoIVJFR19HRVRfRklFTEQod3B0ciwg
-SUhfUkJfV1BUUiwgUkJfT1ZFUkZMT1cpKQorCQlnb3RvIG91dDsKKworCS8qIERvdWJsZSBjaGVj
-ayB0aGF0IHRoZSBvdmVyZmxvdyB3YXNuJ3QgYWxyZWFkeSBjbGVhcmVkLiAqLworCXdwdHIgPSBS
-UkVHMzIobW1JSF9SQl9XUFRSKTsKKworCWlmICghUkVHX0dFVF9GSUVMRCh3cHRyLCBJSF9SQl9X
-UFRSLCBSQl9PVkVSRkxPVykpCisJCWdvdG8gb3V0OworCisJd3B0ciA9IFJFR19TRVRfRklFTEQo
-d3B0ciwgSUhfUkJfV1BUUiwgUkJfT1ZFUkZMT1csIDApOworCisJLyogV2hlbiBhIHJpbmcgYnVm
-ZmVyIG92ZXJmbG93IGhhcHBlbiBzdGFydCBwYXJzaW5nIGludGVycnVwdAorCSAqIGZyb20gdGhl
-IGxhc3Qgbm90IG92ZXJ3cml0dGVuIHZlY3RvciAod3B0ciArIDE2KS4gSG9wZWZ1bGx5CisJICog
-dGhpcyBzaG91bGQgYWxsb3cgdXMgdG8gY2F0Y2h1cC4KKwkgKi8KKworCWRldl93YXJuKGFkZXYt
-PmRldiwgIklIIHJpbmcgYnVmZmVyIG92ZXJmbG93ICgweCUwOFgsIDB4JTA4WCwgMHglMDhYKVxu
-IiwKKwkJd3B0ciwgaWgtPnJwdHIsICh3cHRyICsgMTYpICYgaWgtPnB0cl9tYXNrKTsKKwlpaC0+
-cnB0ciA9ICh3cHRyICsgMTYpICYgaWgtPnB0cl9tYXNrOworCXRtcCA9IFJSRUczMihtbUlIX1JC
-X0NOVEwpOworCXRtcCA9IFJFR19TRVRfRklFTEQodG1wLCBJSF9SQl9DTlRMLCBXUFRSX09WRVJG
-TE9XX0NMRUFSLCAxKTsKKwlXUkVHMzIobW1JSF9SQl9DTlRMLCB0bXApOworCitvdXQ6CiAJcmV0
-dXJuICh3cHRyICYgaWgtPnB0cl9tYXNrKTsKIH0KIAotLSAKMi4yNy4wCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+
+[ Upstream commit 44a09e3d95bd2b7b0c224100f78f335859c4e193 ]
+
+[Why]
+If the BIOS table is invalid or corrupt then get_i2c_info can fail
+and we dereference a NULL pointer.
+
+[How]
+Check that ddc_pin is not NULL before using it and log an error if it
+is because this is unexpected.
+
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Reviewed-by: Eric Yang <eric.yang2@amd.com>
+Acked-by: Anson Jacob <anson.jacob@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+index f4a2088ab1792..278ade3a90ccf 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+@@ -1470,6 +1470,11 @@ static bool dc_link_construct(struct dc_link *link,
+ 		goto ddc_create_fail;
+ 	}
+ 
++	if (!link->ddc->ddc_pin) {
++		DC_ERROR("Failed to get I2C info for connector!\n");
++		goto ddc_create_fail;
++	}
++
+ 	link->ddc_hw_inst =
+ 		dal_ddc_get_line(dal_ddc_service_get_ddc_pin(link->ddc));
+ 
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
