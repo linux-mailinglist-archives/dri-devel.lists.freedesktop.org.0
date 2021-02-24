@@ -2,55 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C647F323ADD
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 11:55:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 017F9323B20
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 12:15:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CB916E8B4;
-	Wed, 24 Feb 2021 10:55:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D592589F07;
+	Wed, 24 Feb 2021 11:15:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 882456E8B4
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 10:55:14 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id n10so1187243pgl.10
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 02:55:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=OZmIVnGmRqkHE37MUl/fX1v3MBrD7OJUk4oQyf7Ar5g=;
- b=Fu+y56orWSMafFuHJB2gQRcLudSEvPXsixZHWx3Vzhm2lfXeA7URLfZREhMOQa9sT5
- janTkD99fgLif91bCE6c+8aSnxVAgrdZYJ4OuRQvAEkRd6dK/cz9L96Gy5Z5X/2O6Ee2
- zaJ/IjrC/aCL+3ObzCALLw9T7D2sydC5HAEgRun1cAy3ylEHZInXS4B86pFHUHj07BeF
- AMG3PCWCZ90V8FPYhlRgggq6AM5KJ3WSu0yKFZ6oC9zoQt0HQ8w/PH5pUh+o4hnwvGDu
- Dc8qx9/oe3DohUddBCu3C3x988pov4KHCsHljoU2L01q0/JM4/zRD7arrZm2Vu6wGdCU
- vTWA==
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D233D89F07
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 11:15:11 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id 7so1510767wrz.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 03:15:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=1Sa2i3Pn6JxJlmatuBNKl5Y5BjCnyJIbLhbxIWmo9lc=;
+ b=zw/BWEU0xhJRMzGN2rcc+fgUFZsCzZoDNy6lsWAB9x7tAbPp8i0CRbRm+YVcISXG9/
+ MWonpJ6Lf/XtDZsIX13obTjg2Uk0bCmlS8XbphLCPO54verJ0hAzuybYSQXno+ILB0We
+ mM7WMClnWxAyBbqqvKsdhr89PBbGPVcQORbkfnVxqmera39IlDNWIQbe5BLajOPOrUyk
+ MWW7RR+Q0BUMtqK/kOEGTtzZhyRqv4LSP8EdfvdABqevYVTR1bisEZoYvUM5U5Qgn9Iv
+ rdi0vFChJ89xJW7xqj28o+kDArTNRk1q2NVKWlkVKLkoqNOuihqJ0xyaHM8wTsk9RzZm
+ 1Pew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=OZmIVnGmRqkHE37MUl/fX1v3MBrD7OJUk4oQyf7Ar5g=;
- b=aAvXuDUGOgRgdk5SqW/Tph0jRkG8OmLP/ZdrvJg9fc4nSexwHmlSnrxFzxZSgMWlyc
- wjeoSakZHXzw5gx7uZ5YSAFEgPCUox+71lCQvaB5qttcAestpfqiaCYVxcsCkBzixzSj
- 3fCoF3A+2i2omxe9YuQbk6tq5xx5akbhAF39KaMXR7nMfLxlfJFOg7ssnGxCIJXLa3po
- FE4r9J6PqjEB9KPEkCBxOW63PiiOnYmny81BHv+/We3907p6G3JnHwnW7iO0RSMe6YTC
- gzGVhKsfY9xbACNMTk6U3FfhfHfkS+ILFSu6aSSk33NZABxmh7x9dfBiASibn7Udcfax
- 7P0w==
-X-Gm-Message-State: AOAM5311WhC/iQ/9Upv5iCt2Jj6laVXko4R0L5vMVgs8cEtZkEIJ3S0n
- 0du/gUjZb2Sk2vwEzxchwFUQegja/U/hb6S2
-X-Google-Smtp-Source: ABdhPJx2XG1jvVXnVdy5x9YOEOPUi1q6X7TnP1iA4ycsuVFhLsB7/6g4EQ16mHtGGG8vOjHLZqlilg==
-X-Received: by 2002:a63:1409:: with SMTP id u9mr27776845pgl.312.1614164114133; 
- Wed, 24 Feb 2021 02:55:14 -0800 (PST)
-Received: from adolin ([49.207.196.12])
- by smtp.gmail.com with ESMTPSA id x2sm2269603pfi.220.2021.02.24.02.55.11
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1Sa2i3Pn6JxJlmatuBNKl5Y5BjCnyJIbLhbxIWmo9lc=;
+ b=ZQaJekYid2RPsG/+Vfkd72qOoKq5DVcxuvQeE/ovRRUjZQcIKPP+62bKSBz43cS8MJ
+ zaM8+u8zrn1uKETw5wdvIsXsb5u9QtKey3xxQZEZi/nGEJXCTXcSvi05S72cpl+s5bcL
+ ZGn3ZZZRp6Ih0GF61Saqc6qRaXjrsVkjEzEb0+e96a8jrZ+IDVxN4/sZZW9749SpvpUg
+ bqQl9mzCXvH/MQQuL4Q/R6GdWRwTnUoQSalmZzD+rksQqcvDdgN6TSMJbTLfmEuUySV8
+ 72s8+FodVf4wvDXLZrTYblpIaJlD8it9+W9zIIgFEESTO+yRtFCEo8/dpEY2eib/Iwf4
+ xv0w==
+X-Gm-Message-State: AOAM531NbrVerkpAPUnfLbgigLDWm6Hvl/p7SkgnSiKHup0LeHho+D05
+ ZnHw0ErEs3yVEU7an9DuQZXBAQ==
+X-Google-Smtp-Source: ABdhPJy47KpFwjh6a9va/BqTgn6xTBovOwYIYWXdTXCSHwrc0OG6hfQ8/1Yjz2BCbty1uAxRn957OQ==
+X-Received: by 2002:adf:cc88:: with SMTP id p8mr14587033wrj.169.1614165310424; 
+ Wed, 24 Feb 2021 03:15:10 -0800 (PST)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id o20sm2176733wmq.30.2021.02.24.03.15.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Feb 2021 02:55:13 -0800 (PST)
-Date: Wed, 24 Feb 2021 16:25:09 +0530
-From: Sumera Priyadarsini <sylphrenadin@gmail.com>
-To: melissa.srw@gmail.com
-Subject: [RFC PATCH] drm/vkms: Add support for virtual hardware mode
-Message-ID: <20210224105509.yzdimgbu2jwe3auf@adolin>
+ Wed, 24 Feb 2021 03:15:09 -0800 (PST)
+Date: Wed, 24 Feb 2021 11:15:05 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Kiran Gunda <kgunda@codeaurora.org>
+Subject: Re: [PATCH V1 1/2] backlight: qcom-wled: Fix FSC update issue for
+ WLED5
+Message-ID: <20210224111505.37t5aq25iszg23iv@maple.lan>
+References: <1614138648-2963-1-git-send-email-kgunda@codeaurora.org>
+ <1614138648-2963-2-git-send-email-kgunda@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
+In-Reply-To: <1614138648-2963-2-git-send-email-kgunda@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,207 +69,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
+ Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
+ robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
+ linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org,
+ lee.jones@linaro.org, linux-leds@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a virtual hardware or vblank-less mode as a module to enable
-VKMS to emulate virtual graphic drivers. This mode can be enabled
-by setting enable_virtual_hw=1 at the time of loading VKMS.
+On Wed, Feb 24, 2021 at 09:20:47AM +0530, Kiran Gunda wrote:
+> Currently, for WLED5, after FSC register update MOD_SYNC_BIT
+> is toggled instead of SYNC_BIT. MOD_SYNC_BIT has to be toggled
+> after the brightness update and SYNC_BIT has to be toggled after
+> FSC update for WLED5. Fix it.
 
-A new function vkms_crtc_composer() has been added to bypass the
-vblank mode and is called directly in the atomic hook in
-vkms_atomic_begin(). However, some crc captures still use vblanks
-which causes the crc-based igt tests to crash. Currently, I am unsure
-about how to approach one-shot implementation of crc reads so I am
-still working on that.
+Code looks fine but the description is a difficult to read (which makes
+mining the history difficult).
 
-This patch has been tested with the igt tests, kms_writeback, kms_atomic,
-kms_lease, kms_flip, kms_pipe_get_crc and preserves results except for
-subtests related to crc reads and skips tests that rely on vertical
-blanking. This patch must be tested after incorporating the
-igt-tests patch: https://lists.freedesktop.org/archives/igt-dev/2021-February/029355.html .
+Basically the descriptions here are very hard to read without the
+context in PATCH 0/2. Since PATCH 0/2 won't enter the version history
+that means these descriptions need to integrate some of the text from
+what is currently PATCH 0/2.
 
-The patch is based on Rodrigo Siqueira's
-patch(https://patchwork.freedesktop.org/patch/316851/?series=48469&rev=3)
-and the ensuing review.
+I would expect this to be more like. It is basically joining together
+text from PATCH 0 and PATCH 1 (I also switched to plural form for SYNC
+bits... the code in the driver has mask generation based on the number
+of strings, is that right?):
 
-Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
----
- drivers/gpu/drm/vkms/vkms_composer.c | 46 ++++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_crtc.c     | 17 ++++++++--
- drivers/gpu/drm/vkms/vkms_drv.c      | 18 ++++++++---
- drivers/gpu/drm/vkms/vkms_drv.h      |  2 ++
- 4 files changed, 75 insertions(+), 8 deletions(-)
+~~~
+Currently, for WLED5, the FSC (Full scale current) setting is not
+updated properly due to driver toggling the wrong register after an FSC
+update.
 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 66c6842d70db..7a8aaf5c5555 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -247,6 +247,52 @@ void vkms_composer_worker(struct work_struct *work)
- 		drm_crtc_add_crc_entry(crtc, true, frame_start++, &crc32);
- }
- 
-+void vkms_crtc_composer(struct vkms_crtc_state *crtc_state)
-+{
-+	struct drm_crtc *crtc = crtc_state->base.crtc;
-+	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-+	struct vkms_composer *primary_composer = NULL;
-+	struct vkms_composer *cursor_composer = NULL;
-+	void *vaddr_out = NULL;
-+	u32 crc32 = 0;
-+	int ret;
-+	bool wb_pending;
-+
-+	wb_pending = crtc_state->wb_pending;
-+
-+	if (crtc_state->num_active_planes >= 1)
-+		primary_composer = crtc_state->active_planes[0]->composer;
-+
-+	if (crtc_state->num_active_planes == 2)
-+		cursor_composer = crtc_state->active_planes[1]->composer;
-+
-+	if (!primary_composer)
-+		return;
-+
-+	if (wb_pending)
-+		vaddr_out = crtc_state->active_writeback;
-+
-+	ret = compose_planes(&vaddr_out, primary_composer, cursor_composer);
-+	if (ret) {
-+		if (ret == -EINVAL && !wb_pending)
-+			kfree(vaddr_out);
-+		return;
-+	}
-+
-+	crc32 = compute_crc(vaddr_out, primary_composer);
-+
-+	if (wb_pending) {
-+		drm_writeback_signal_completion(&out->wb_connector, 0);
-+		spin_lock_irq(&out->composer_lock);
-+		crtc_state->wb_pending = false;
-+		spin_unlock_irq(&out->composer_lock);
-+	} else {
-+		kfree(vaddr_out);
-+	}
-+
-+	drm_crtc_add_crc_entry(crtc, true, 0, &crc32);
-+}
-+
- static const char * const pipe_crc_sources[] = {"auto"};
- 
- const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 6164349cdf11..38de791a4882 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -224,13 +224,19 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
- static void vkms_crtc_atomic_enable(struct drm_crtc *crtc,
- 				    struct drm_atomic_state *state)
- {
--	drm_crtc_vblank_on(crtc);
-+	struct vkms_device *vkmsdev = drm_device_to_vkms_device(crtc->dev);
-+
-+	if (!vkmsdev->config->virtual_hw)
-+		drm_crtc_vblank_on(crtc);
- }
- 
- static void vkms_crtc_atomic_disable(struct drm_crtc *crtc,
- 				     struct drm_atomic_state *state)
- {
--	drm_crtc_vblank_off(crtc);
-+	struct vkms_device *vkmsdev = drm_device_to_vkms_device(crtc->dev);
-+
-+	if (!vkmsdev->config->virtual_hw)
-+		drm_crtc_vblank_off(crtc);
- }
- 
- static void vkms_crtc_atomic_begin(struct drm_crtc *crtc,
-@@ -248,8 +254,13 @@ static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
- 				   struct drm_atomic_state *state)
- {
- 	struct vkms_output *vkms_output = drm_crtc_to_vkms_output(crtc);
-+	struct vkms_crtc_state *vkms_state = to_vkms_crtc_state(crtc->state);
-+	struct vkms_device *vkmsdev = drm_device_to_vkms_device(crtc->dev);
-+
-+	if (vkmsdev->config->virtual_hw)
-+		vkms_crtc_composer(vkms_state);
- 
--	if (crtc->state->event) {
-+	if (crtc->state->event && !vkmsdev->config->virtual_hw) {
- 		spin_lock(&crtc->dev->event_lock);
- 
- 		if (drm_crtc_vblank_get(crtc) != 0)
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 2173b82606f6..945c4495d62a 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -44,6 +44,11 @@ static bool enable_writeback = true;
- module_param_named(enable_writeback, enable_writeback, bool, 0444);
- MODULE_PARM_DESC(enable_writeback, "Enable/Disable writeback connector support");
- 
-+static bool enable_virtual_hw = false;
-+module_param_named(enable_virtual_hw, enable_virtual_hw, bool, 0444);
-+MODULE_PARM_DESC(enable_virtual_hw, "Enable/Disable virtual hardware mode(virtual \
-+hardware mode disables vblank interrupts)");
-+
- DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
- 
- static void vkms_release(struct drm_device *dev)
-@@ -159,12 +164,14 @@ static int vkms_create(struct vkms_config *config)
- 		goto out_devres;
- 	}
- 
--	vkms_device->drm.irq_enabled = true;
-+	vkms_device->drm.irq_enabled = !vkms_device->config->virtual_hw;
- 
--	ret = drm_vblank_init(&vkms_device->drm, 1);
--	if (ret) {
--		DRM_ERROR("Failed to vblank\n");
--		goto out_devres;
-+	if (!vkms_device->config->virtual_hw) {
-+		ret = drm_vblank_init(&vkms_device->drm, 1);
-+		if (ret) {
-+			DRM_ERROR("Failed to vblank\n");
-+			goto out_devres;
-+		}
- 	}
- 
- 	ret = vkms_modeset_init(vkms_device);
-@@ -198,6 +205,7 @@ static int __init vkms_init(void)
- 
- 	config->cursor = enable_cursor;
- 	config->writeback = enable_writeback;
-+	config->virtual_hw = enable_virtual_hw;
- 
- 	return vkms_create(config);
- }
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 35540c7c4416..d4a45518639c 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -85,6 +85,7 @@ struct vkms_device;
- struct vkms_config {
- 	bool writeback;
- 	bool cursor;
-+	bool virtual_hw;
- 	/* only set when instantiated */
- 	struct vkms_device *dev;
- };
-@@ -127,6 +128,7 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
- /* Composer Support */
- void vkms_composer_worker(struct work_struct *work);
- void vkms_set_composer(struct vkms_output *out, bool enabled);
-+void vkms_crtc_composer(struct vkms_crtc_state *crtc_state);
- 
- /* Writeback */
- int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
--- 
-2.25.1
+On WLED5 we should only toggle the MOD_SYNC bit after a brightness
+update. For an FSC update we need to toggle the SYNC bits instead.
 
+Fix it by adopting the common wled3_sync_toggle() for WLED5 and
+introducing new code to the brightness update path to
+compensate.
+~~~
+
+
+Daniel.
+
+
+
+> 
+> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+> ---
+>  drivers/video/backlight/qcom-wled.c | 25 +++++++++++++++++++------
+>  1 file changed, 19 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+> index 3bc7800..aef52b9 100644
+> --- a/drivers/video/backlight/qcom-wled.c
+> +++ b/drivers/video/backlight/qcom-wled.c
+> @@ -348,7 +348,7 @@ static int wled3_sync_toggle(struct wled *wled)
+>  	return rc;
+>  }
+>  
+> -static int wled5_sync_toggle(struct wled *wled)
+> +static int wled5_mod_sync_toggle(struct wled *wled)
+>  {
+>  	int rc;
+>  	u8 val;
+> @@ -445,10 +445,23 @@ static int wled_update_status(struct backlight_device *bl)
+>  			goto unlock_mutex;
+>  		}
+>  
+> -		rc = wled->wled_sync_toggle(wled);
+> -		if (rc < 0) {
+> -			dev_err(wled->dev, "wled sync failed rc:%d\n", rc);
+> -			goto unlock_mutex;
+> +		if (wled->version < 5) {
+> +			rc = wled->wled_sync_toggle(wled);
+> +			if (rc < 0) {
+> +				dev_err(wled->dev, "wled sync failed rc:%d\n", rc);
+> +				goto unlock_mutex;
+> +			}
+> +		} else {
+> +			/*
+> +			 * For WLED5 toggling the MOD_SYNC_BIT updates the
+> +			 * brightness
+> +			 */
+> +			rc = wled5_mod_sync_toggle(wled);
+> +			if (rc < 0) {
+> +				dev_err(wled->dev, "wled mod sync failed rc:%d\n",
+> +					rc);
+> +				goto unlock_mutex;
+> +			}
+>  		}
+>  	}
+>  
+> @@ -1459,7 +1472,7 @@ static int wled_configure(struct wled *wled)
+>  		size = ARRAY_SIZE(wled5_opts);
+>  		*cfg = wled5_config_defaults;
+>  		wled->wled_set_brightness = wled5_set_brightness;
+> -		wled->wled_sync_toggle = wled5_sync_toggle;
+> +		wled->wled_sync_toggle = wled3_sync_toggle;
+>  		wled->wled_cabc_config = wled5_cabc_config;
+>  		wled->wled_ovp_delay = wled5_ovp_delay;
+>  		wled->wled_auto_detection_required =
+> -- 
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+>  a Linux Foundation Collaborative Project
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
