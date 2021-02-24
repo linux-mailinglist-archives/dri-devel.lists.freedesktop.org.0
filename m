@@ -1,35 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C70323943
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 10:15:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6711323957
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 10:22:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96A046E8AA;
-	Wed, 24 Feb 2021 09:15:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B49489BC0;
+	Wed, 24 Feb 2021 09:22:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34D686EA6A
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 09:15:54 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id BE1DFAFE2;
- Wed, 24 Feb 2021 09:15:52 +0000 (UTC)
-To: Melissa Wen <melissa.srw@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Simon Ser <contact@emersion.fr>, Sumera Priyadarsini
- <sylphrenadin@gmail.com>, David Airlie <airlied@linux.ie>
-References: <20210220143749.omaoooquudaqiawf@smtp.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [RFC PATCH 0/3] drm/vkms: add overlay plane support
-Message-ID: <d7e71518-91af-5f9c-1337-66cd1c8c4cc5@suse.de>
-Date: Wed, 24 Feb 2021 10:15:50 +0100
+X-Greylist: delayed 361 seconds by postgrey-1.36 at gabe;
+ Wed, 24 Feb 2021 09:22:04 UTC
+Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60B446E8B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 09:22:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 698E93FB8E;
+ Wed, 24 Feb 2021 10:16:01 +0100 (CET)
+Authentication-Results: pio-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="MhA+2q2N";
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ysZtkX8b-I9f; Wed, 24 Feb 2021 10:15:59 +0100 (CET)
+Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id BB3A33FB77;
+ Wed, 24 Feb 2021 10:15:56 +0100 (CET)
+Received: from [192.168.0.209] (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 2F140360057;
+ Wed, 24 Feb 2021 10:15:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1614158156; bh=ix+su6huoHUWLoam5bGdxjErhPEi4qIOKLMdA1dPgHU=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=MhA+2q2NGiHMfMcJDMTa7neNduFcPwmpSmsTPFQG0lbRffsO/vhzORz07U1rvua4A
+ 8ha06+kF4kkAAYtf6NGt1wC2+iu8HzUXwqeK1TKRr94eT8Jz6ne45QO9HM7vr3LTDd
+ vNINgDMca1lMbaQ/SVtY1PkxJM2aSkX7JsaLBiUs=
+Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for
+ mmap
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20210223105951.912577-1-daniel.vetter@ffwll.ch>
+ <1a7c2295-6241-f2bf-4a78-6cadd43bc248@shipmail.org>
+ <CAKMK7uHzRb6Q_LgPUrrHn18sorYo7ysTgB+PNE36LDUUsJpHDg@mail.gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <f43311c8-a02a-1a29-a53b-88e599c92187@shipmail.org>
+Date: Wed, 24 Feb 2021 10:15:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210220143749.omaoooquudaqiawf@smtp.gmail.com>
+In-Reply-To: <CAKMK7uHzRb6Q_LgPUrrHn18sorYo7ysTgB+PNE36LDUUsJpHDg@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,143 +68,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1969371851=="
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1969371851==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="hNOf2VStOiy4QRJsXFiAcXYrQIxt8ideF"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---hNOf2VStOiy4QRJsXFiAcXYrQIxt8ideF
-Content-Type: multipart/mixed; boundary="DziHSmDbKabno9MRcBRBgFHFFDl8Cg4G4";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Melissa Wen <melissa.srw@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Simon Ser <contact@emersion.fr>, Sumera Priyadarsini
- <sylphrenadin@gmail.com>, David Airlie <airlied@linux.ie>
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <d7e71518-91af-5f9c-1337-66cd1c8c4cc5@suse.de>
-Subject: Re: [RFC PATCH 0/3] drm/vkms: add overlay plane support
-References: <20210220143749.omaoooquudaqiawf@smtp.gmail.com>
-In-Reply-To: <20210220143749.omaoooquudaqiawf@smtp.gmail.com>
-
---DziHSmDbKabno9MRcBRBgFHFFDl8Cg4G4
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 20.02.21 um 15:37 schrieb Melissa Wen:
-> Adding support to overlay type in addition to primary and cursor plane.=
-
-> The planes composition relies on the z order of the active planes and
-> only occurs if there is a primary plane (as in the current behavior).
->=20
-> The first patch decouples cursor from crtc_init. It initializes the CRT=
-C
-> only with primary plane, and setup the cursor plane externally. This is=
-
-> a preparation to allow to initialize the overlay plane between primary
-> and cursor.
->=20
-> The second patch generalize variables and functions names to refer to
-> any kind of plane, not only cursor. The goal is to reuse them for
-> blending overlay and cursor planes to primary.
-
-It's not directly relevant to the patchset here, but sort-of related.
-
-Vkms is effectively shadow buffered. I'd like to promote the new helpers =
-
-for shadow-buffered planes in drm_gem_atomic_helper.h.
-
-There's plane state and helper functions available that automatically=20
-vmap and vunmap framebuffer BOs. You can safe the rsp code in vkms. It=20
-would also help with testing the shadow-plane helpers.
-
-Best regards
-Thomas
-
->=20
-> The third patch creates a module option to enable overlay, and includes=
-
-> overlay to supported types of plane. When the overlay option is enabled=
-,
-> one overlay plane is initialized (plus primary and cursor) and it is
-> included in the planes composition.
->=20
-> This work preserves the current results of IGT tests: kms_cursor_crc;
-> kms_flip and kms_writeback. In addition, subtests related to overlay in=
-
-> kms_atomic and kms_plane_cursor start to pass (pointed out in the commi=
-t
-> message).
->=20
-> Melissa Wen (3):
->    drm/vkms: decouple cursor plane setup from crtc_init
->    drm/vkms: rename cursor to plane on ops of planes composition
->    drm/vkms: add overlay support
->=20
->   drivers/gpu/drm/vkms/vkms_composer.c | 49 ++++++++++++++++-----------=
--
->   drivers/gpu/drm/vkms/vkms_crtc.c     |  4 +--
->   drivers/gpu/drm/vkms/vkms_drv.c      |  5 +++
->   drivers/gpu/drm/vkms/vkms_drv.h      |  3 +-
->   drivers/gpu/drm/vkms/vkms_output.c   | 31 ++++++++++++++----
->   drivers/gpu/drm/vkms/vkms_plane.c    | 20 +++++++++---
->   6 files changed, 76 insertions(+), 36 deletions(-)
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---DziHSmDbKabno9MRcBRBgFHFFDl8Cg4G4--
-
---hNOf2VStOiy4QRJsXFiAcXYrQIxt8ideF
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmA2GUcFAwAAAAAACgkQlh/E3EQov+CM
-kg/9H4L6p79TpN303A0kCfndbMD+p3qiZpCIUkVs7ERJ6jizzqrAveVy4U+VOarh52Qrab1426Id
-TzZPPDIPKz2Y6r1Mtencuqofgvc5EW03kWMdDF7nvcHK8BWOa+p2LM5BzOYB4pwqNWAhwQCGdKY9
-BsWCqfN/J0/hp5kAp4N6BApx+EUSGGv5MVKuK9MNvKx7CTTbz6IuJTPkj9eoNmhPsd7oPl2YxMVp
-zPUUlFnlMueMKea/y+lshqyq11mT1ohAu5Qap5+ld/TQ+TdBGgPFa35tlHGHRhJfREk3LTMTFyBF
-K2WUzXVuFvlKiEk88RhuJMQGn6AfQOp9Odc1TluFrtZQYN6qT29LxqChcxYDCHJsaHjrmFuiXKNT
-IxRQc9xSlghH3Q2Hwj/M6eG431HTu8t6iMBcjMxMk5zEWdYYCxIyTk3/q4XuBpgleGJFlaUQbh1x
-uCu2XdXtt09sZjoPfYimkCaVQ2v6MF5imTmVZJUlG+pvstCOtFvfyx5vdWDSTp69WVozZZoABoCS
-yANw23hJ0Un/0ohnbPgx2Lu19Do54P7LznbWez4j3niw2QX/k+4oZSn5RsZUmaO7baBLJ4CLbJkU
-YEFjOGbEruBschhQczYk9iL7HE9l2Cwdg/PVOS3nmenS4OnP2M5d3sY9OuNWPXJ7nXFXGufSUONt
-wQk=
-=Xh/v
------END PGP SIGNATURE-----
-
---hNOf2VStOiy4QRJsXFiAcXYrQIxt8ideF--
-
---===============1969371851==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1969371851==--
+Ck9uIDIvMjQvMjEgOTo0NSBBTSwgRGFuaWVsIFZldHRlciB3cm90ZToKPiBPbiBXZWQsIEZlYiAy
+NCwgMjAyMSBhdCA4OjQ2IEFNIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkKPiA8dGhvbWFzX29z
+QHNoaXBtYWlsLm9yZz4gd3JvdGU6Cj4+Cj4+IE9uIDIvMjMvMjEgMTE6NTkgQU0sIERhbmllbCBW
+ZXR0ZXIgd3JvdGU6Cj4+PiB0bGRyOyBETUEgYnVmZmVycyBhcmVuJ3Qgbm9ybWFsIG1lbW9yeSwg
+ZXhwZWN0aW5nIHRoYXQgeW91IGNhbiB1c2UKPj4+IHRoZW0gbGlrZSB0aGF0IChsaWtlIGNhbGxp
+bmcgZ2V0X3VzZXJfcGFnZXMgd29ya3MsIG9yIHRoYXQgdGhleSdyZQo+Pj4gYWNjb3VudGluZyBs
+aWtlIGFueSBvdGhlciBub3JtYWwgbWVtb3J5KSBjYW5ub3QgYmUgZ3VhcmFudGVlZC4KPj4+Cj4+
+PiBTaW5jZSBzb21lIHVzZXJzcGFjZSBvbmx5IHJ1bnMgb24gaW50ZWdyYXRlZCBkZXZpY2VzLCB3
+aGVyZSBhbGwKPj4+IGJ1ZmZlcnMgYXJlIGFjdHVhbGx5IGFsbCByZXNpZGVudCBzeXN0ZW0gbWVt
+b3J5LCB0aGVyZSdzIGEgaHVnZQo+Pj4gdGVtcHRhdGlvbiB0byBhc3N1bWUgdGhhdCBhIHN0cnVj
+dCBwYWdlIGlzIGFsd2F5cyBwcmVzZW50IGFuZCB1c2VhYmxlCj4+PiBsaWtlIGZvciBhbnkgbW9y
+ZSBwYWdlY2FjaGUgYmFja2VkIG1tYXAuIFRoaXMgaGFzIHRoZSBwb3RlbnRpYWwgdG8KPj4+IHJl
+c3VsdCBpbiBhIHVhcGkgbmlnaHRtYXJlLgo+Pj4KPj4+IFRvIHN0b3AgdGhpcyBnYXAgcmVxdWly
+ZSB0aGF0IERNQSBidWZmZXIgbW1hcHMgYXJlIFZNX1BGTk1BUCwgd2hpY2gKPj4+IGJsb2NrcyBn
+ZXRfdXNlcl9wYWdlcyBhbmQgYWxsIHRoZSBvdGhlciBzdHJ1Y3QgcGFnZSBiYXNlZAo+Pj4gaW5m
+cmFzdHJ1Y3R1cmUgZm9yIGV2ZXJ5b25lLiBJbiBzcGlyaXQgdGhpcyBpcyB0aGUgdWFwaSBjb3Vu
+dGVycGFydCB0bwo+Pj4gdGhlIGtlcm5lbC1pbnRlcm5hbCBDT05GSUdfRE1BQlVGX0RFQlVHLgo+
+Pj4KPj4+IE1vdGl2YXRlZCBieSBhIHJlY2VudCBwYXRjaCB3aGljaCB3YW50ZWQgdG8gc3dpY2gg
+dGhlIHN5c3RlbSBkbWEtYnVmCj4+PiBoZWFwIHRvIHZtX2luc2VydF9wYWdlIGluc3RlYWQgb2Yg
+dm1faW5zZXJ0X3Bmbi4KPj4+Cj4+PiB2MjoKPj4+Cj4+PiBKYXNvbiBicm91Z2h0IHVwIHRoYXQg
+d2UgYWxzbyB3YW50IHRvIGd1YXJhbnRlZSB0aGF0IGFsbCBwdGVzIGhhdmUgdGhlCj4+PiBwdGVf
+c3BlY2lhbCBmbGFnIHNldCwgdG8gY2F0Y2ggZmFzdCBnZXRfdXNlcl9wYWdlcyAob24gYXJjaGl0
+ZWN0dXJlcwo+Pj4gdGhhdCBzdXBwb3J0IHRoaXMpLiBBbGxvd2luZyBWTV9NSVhFRE1BUCAobGlr
+ZSBWTV9TUEVDSUFMIGRvZXMpIHdvdWxkCj4+PiBzdGlsbCBhbGxvdyB2bV9pbnNlcnRfcGFnZSwg
+YnV0IGxpbWl0aW5nIHRvIFZNX1BGTk1BUCB3aWxsIGNhdGNoIHRoYXQuCj4+Pgo+Pj4gICBGcm9t
+IGF1ZGl0aW5nIHRoZSB2YXJpb3VzIGZ1bmN0aW9ucyB0byBpbnNlcnQgcGZuIHB0ZSBlbnRpcmVz
+Cj4+PiAodm1faW5zZXJ0X3Bmbl9wcm90LCByZW1hcF9wZm5fcmFuZ2UgYW5kIGFsbCBpdCdzIGNh
+bGxlcnMgbGlrZQo+Pj4gZG1hX21tYXBfd2MpIGl0IGxvb2tzIGxpa2UgVk1fUEZOTUFQIGlzIGFs
+cmVhZHkgcmVxdWlyZWQgYW55d2F5LCBzbwo+Pj4gdGhpcyBzaG91bGQgYmUgdGhlIGNvcnJlY3Qg
+ZmxhZyB0byBjaGVjayBmb3IuCj4+Pgo+PiBJZiB3ZSByZXF1aXJlIFZNX1BGTk1BUCwgZm9yIG9y
+ZGluYXJ5IHBhZ2UgbWFwcGluZ3MsIHdlIGFsc28gbmVlZCB0bwo+PiBkaXNhbGxvdyBDT1cgbWFw
+cGluZ3MsIHNpbmNlIGl0IHdpbGwgbm90IHdvcmsgb24gYXJjaGl0ZWN0dXJlcyB0aGF0Cj4+IGRv
+bid0IGhhdmUgQ09ORklHX0FSQ0hfSEFTX1BURV9TUEVDSUFMLCAoc2VlIHRoZSBkb2NzIGZvciB2
+bV9ub3JtYWxfcGFnZSgpKS4KPiBIbSBJIGZpZ3VyZWQgZXZlcnlvbmUganVzdCB1c2VzIE1BUF9T
+SEFSRUQgZm9yIGJ1ZmZlciBvYmplY3RzIHNpbmNlCj4gQ09XIHJlYWxseSBtYWtlcyBhYnNvbHV0
+ZWx5IG5vIHNlbnNlLiBIb3cgd291bGQgd2UgZW5mb3JjZSB0aGlzPwoKUGVyaGFwcyByZXR1cm5p
+bmcgLUVJTlZBTCBvbiBpc19jb3dfbWFwcGluZygpIGF0IG1tYXAgdGltZS4gRWl0aGVyIHRoYXQg
+Cm9yIGFsbG93aW5nIE1JWEVETUFQLgoKPj4gQWxzbyB3b3J0aCBub3RpbmcgaXMgdGhlIGNvbW1l
+bnQgaW4gIHR0bV9ib19tbWFwX3ZtYV9zZXR1cCgpIHdpdGgKPj4gcG9zc2libGUgcGVyZm9ybWFu
+Y2UgaW1wbGljYXRpb25zIHdpdGggeDg2ICsgUEFUICsgVk1fUEZOTUFQICsgbm9ybWFsCj4+IHBh
+Z2VzLiBUaGF0J3MgYSB2ZXJ5IG9sZCBjb21tZW50LCB0aG91Z2gsIGFuZCBtaWdodCBub3QgYmUg
+dmFsaWQgYW55bW9yZS4KPiBJIHRoaW5rIHRoYXQncyB3aHkgdHRtIGhhcyBhIHBhZ2UgY2FjaGUg
+Zm9yIHRoZXNlLCBiZWNhdXNlIGl0IGluZGVlZAo+IHN1Y2tzLiBUaGUgUEFUIGNoYW5nZXMgb24g
+cGFnZXMgYXJlIHJhdGhlciBleHBlbnNpdmUuCgpJSVJDIHRoZSBwYWdlIGNhY2hlIHdhcyBpbXBs
+ZW1lbnRlZCBiZWNhdXNlIG9mIHRoZSBzbG93bmVzcyBvZiB0aGUgCmNhY2hpbmcgbW9kZSB0cmFu
+c2l0aW9uIGl0c2VsZiwgbW9yZSBzcGVjaWZpY2FsbHkgdGhlIHdiaW52ZCgpIGNhbGwgKyAKZ2xv
+YmFsIFRMQiBmbHVzaC4KCj4KPiBUaGVyZSBpcyBzdGlsbCBhbiBpc3N1ZSBmb3IgaW9tZW0gbWFw
+cGluZ3MsIGJlY2F1c2UgdGhlIFBBVCB2YWxpZGF0aW9uCj4gZG9lcyBhIGxpbmVhciB3YWxrIG9m
+IHRoZSByZXNvdXJjZSB0cmVlIChsb2wpIGZvciBldmVyeSB2bV9pbnNlcnRfcGZuLgo+IEJ1dCBm
+b3IgaTkxNSBhdCBsZWFzdCB0aGlzIGlzIGZpeGVkIGJ5IHVzaW5nIHRoZSBpb19tYXBwaW5nCj4g
+aW5mcmFzdHJ1Y3R1cmUsIHdoaWNoIGRvZXMgdGhlIFBBVCByZXNlcnZhdGlvbiBvbmx5IG9uY2Ug
+d2hlbiB5b3Ugc2V0Cj4gdXAgdGhlIG1hcHBpbmcgYXJlYSBhdCBkcml2ZXIgbG9hZC4KClllcywg
+SSBndWVzcyB0aGF0IHdhcyB0aGUgaXNzdWUgdGhhdCB0aGUgY29tbWVudCBkZXNjcmliZXMsIGJ1
+dCB0aGUgCmlzc3VlIHdhc24ndCB0aGVyZSB3aXRoIHZtX2luc2VydF9taXhlZCgpICsgVk1fTUlY
+RURNQVAuCgo+Cj4gQWxzbyBUVE0gdXNlcyBWTV9QRk5NQVAgcmlnaHQgbm93IGZvciBldmVyeXRo
+aW5nLCBzbyBpdCBjYW4ndCBiZSBhCj4gcHJvYmxlbSB0aGF0IGh1cnRzIG11Y2ggOi0pCgpIbW0s
+IGJvdGggNS4xMSBhbmQgZHJtLXRpcCBhcHBlYXJzIHRvIHN0aWxsIHVzZSBNSVhFRE1BUD8KCmh0
+dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L2xhdGVzdC9zb3VyY2UvZHJpdmVycy9ncHUv
+ZHJtL3R0bS90dG1fYm9fdm0uYyNMNTU0Cgo+IC1EYW5pZWwKCi9UaG9tYXMKCgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
