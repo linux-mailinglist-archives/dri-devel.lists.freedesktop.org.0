@@ -2,28 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B8D323FD2
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 16:22:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF163240F4
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 16:55:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 253516EACA;
-	Wed, 24 Feb 2021 15:21:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 175506EADB;
+	Wed, 24 Feb 2021 15:55:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
- by gabe.freedesktop.org (Postfix) with SMTP id 123466EACA
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 15:21:54 +0000 (UTC)
-Received: (qmail 1308142 invoked by uid 1000); 24 Feb 2021 10:21:53 -0500
-Date: Wed, 24 Feb 2021 10:21:53 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v4] drm: Use USB controller's DMA mask when importing
- dmabufs
-Message-ID: <20210224152153.GA1307460@rowland.harvard.edu>
-References: <20210224092304.29932-1-tzimmermann@suse.de>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63A866EADB
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 15:55:02 +0000 (UTC)
+Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1lEwVA-0001kE-FU; Wed, 24 Feb 2021 16:55:00 +0100
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH] drm/etnaviv: add HWDB entry for GC7000 rev 6204
+Date: Wed, 24 Feb 2021 16:55:00 +0100
+Message-Id: <20210224155500.4187550-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210224092304.29932-1-tzimmermann@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::39
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,68 +41,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, gregkh@linuxfoundation.org,
- Christoph Hellwig <hch@lst.de>, hdegoede@redhat.com,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org, sean@poorly.run,
- christian.koenig@amd.com
+Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 24, 2021 at 10:23:04AM +0100, Thomas Zimmermann wrote:
-> USB devices cannot perform DMA and hence have no dma_mask set in their
-> device structure. Therefore importing dmabuf into a USB-based driver
-> fails, which breaks joining and mirroring of display in X11.
-> 
-> For USB devices, pick the associated USB controller as attachment device.
-> This allows the DRM import helpers to perform the DMA setup. If the DMA
-> controller does not support DMA transfers, we're out of luck and cannot
-> import. Our current USB-based DRM drivers don't use DMA, so the actual
-> DMA device is not important.
-> 
-> Drivers should use DRM_GEM_SHMEM_DROVER_OPS_USB to initialize their
-> instance of struct drm_driver.
-> 
-> Tested by joining/mirroring displays of udl and radeon un der Gnome/X11.
-> 
-> v4:
-> 	* implement workaround with USB helper functions (Greg)
-> 	* use struct usb_device->bus->sysdev as DMA device (Takashi)
-> v3:
-> 	* drop gem_create_object
-> 	* use DMA mask of USB controller, if any (Daniel, Christian, Noralf)
-> v2:
-> 	* move fix to importer side (Christian, Daniel)
-> 	* update SHMEM and CMA helpers for new PRIME callbacks
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 6eb0233ec2d0 ("usb: don't inherity DMA properties for USB devices")
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: <stable@vger.kernel.org> # v5.10+
-> ---
+From: Sascha Hauer <s.hauer@pengutronix.de>
 
-> +struct drm_gem_object *drm_gem_prime_import_usb(struct drm_device *dev,
-> +						struct dma_buf *dma_buf)
-> +{
-> +	struct usb_device *udev;
-> +	struct device *dmadev;
-> +	struct drm_gem_object *obj;
-> +
-> +	if (!dev_is_usb(dev->dev))
-> +		return ERR_PTR(-ENODEV);
-> +	udev = interface_to_usbdev(to_usb_interface(dev->dev));
-> +
-> +	dmadev = usb_get_dma_device(udev);
+This is the 3D GPU found on the i.MX8MP SoC.
 
-You can do it this way if you want, but I think usb_get_dma_device would 
-be easier to use if its argument was a pointer to struct usb_interface 
-or (even better) a pointer to a usb_interface's embedded struct device.  
-Then you wouldn't need to compute udev, and the same would be true for 
-other callers.
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-Alan Stern
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+index 167971a09be7..dfc0f536b3b9 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+@@ -37,6 +37,37 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.minor_features10 = 0x0,
+ 		.minor_features11 = 0x0,
+ 	},
++	{
++		.model = 0x7000,
++		.revision = 0x6204,
++		.product_id = ~0U,
++		.customer_id = ~0U,
++		.eco_id = 0,
++		.stream_count = 16,
++		.register_max = 64,
++		.thread_count = 512,
++		.shader_core_count = 2,
++		.vertex_cache_size = 16,
++		.vertex_output_buffer_size = 1024,
++		.pixel_pipes = 1,
++		.instruction_count = 512,
++		.num_constants = 320,
++		.buffer_size = 0,
++		.varyings_count = 16,
++		.features = 0xe0287c8d,
++		.minor_features0 = 0xc1589eff,
++		.minor_features1 = 0xfefbfad9,
++		.minor_features2 = 0xeb9d4fbf,
++		.minor_features3 = 0xedfffced,
++		.minor_features4 = 0xdb0dafc7,
++		.minor_features5 = 0x3b5ac333,
++		.minor_features6 = 0xfcce6000,
++		.minor_features7 = 0xfffbfa6f,
++		.minor_features8 = 0x00e10ef3,
++		.minor_features9 = 0x04c8003c,
++		.minor_features10 = 0x00004060,
++		.minor_features11 = 0x00000024,
++	},
+ 	{
+ 		.model = 0x7000,
+ 		.revision = 0x6214,
+-- 
+2.29.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
