@@ -2,30 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F1A323958
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 10:23:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D85B323966
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 10:27:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA90389DB2;
-	Wed, 24 Feb 2021 09:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 361916EA6A;
+	Wed, 24 Feb 2021 09:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB0D689DB2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 09:23:08 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 61704AE72;
- Wed, 24 Feb 2021 09:23:07 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
- gregkh@linuxfoundation.org, hdegoede@redhat.com, sean@poorly.run,
- noralf@tronnes.org, stern@rowland.harvard.edu
-Subject: [PATCH v4] drm: Use USB controller's DMA mask when importing dmabufs
-Date: Wed, 24 Feb 2021 10:23:04 +0100
-Message-Id: <20210224092304.29932-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.30.1
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 989936EA6A
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 09:27:01 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id d20so1738080oiw.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 01:27:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=AaU5AD5cfuCdiSmP+fj3RMpbiX47V40i+aWxE9QqkU4=;
+ b=gk1JdnGATXIWDuG7GN1NPlFjcHVZ7hYx6cs/sPimVc+KHCvbfs+PzpMfcbjUdjKLWP
+ bcFjuvu9EZbGLT+60thJlF2S9VhjLdQYZRnz5Hr3pGnfCXgpb3altaS7xLfcUPrUOBwr
+ uw/wTXb2ueWmYkvvTdccNKryg+4g/oFu8yHfs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=AaU5AD5cfuCdiSmP+fj3RMpbiX47V40i+aWxE9QqkU4=;
+ b=ENWnnJWNAiB50Y8sufaztGInYMGXcRU4YpDzHOE3pvwPH54TycjRUIL8Czl+uIAiMn
+ 1Y5Rp1+k35ZAfIet+ow/XnEFsg6LD55UfC+ifehX486lGvb7Gqb0AbOmtV2Haz5KFB4Y
+ t0VYSn79hCUVBy+1nqBjZG13RMvcKQb3LyhLQZQCjhKl4jjW4bMWbVPqobRsCiGW6F2S
+ rP6wF8h9YjRcvpd5Y5Ui5IfUPXLPSypn4LpkJqa/c7UO+WVkQw4oN3jvY+ICksxsw5ox
+ ol8RGq+iZ2DM2OlrsOrpMf253N4SewtONiH9kD/nzCxhiLhfpmeHeTYoHO7pLYlOiKG/
+ YJEw==
+X-Gm-Message-State: AOAM531kKwY3IoEKTAUgXds7Q7u9pVTf570K1d82c+nKEFnHDugEUgEn
+ y1GaXcLR4aB3A3Cd4cwn+eAELTVlpdVdq7p/Ypn5nw==
+X-Google-Smtp-Source: ABdhPJxkOXqdZceD4fMBZW7PgANwDT9KotRzzWPEQIfXGHJeo7h/MpioSB2Y9xeQuqFBkRQ+xHvnNEjjT6ibHCT9WeM=
+X-Received: by 2002:a05:6808:aa6:: with SMTP id
+ r6mr2127158oij.128.1614158820894; 
+ Wed, 24 Feb 2021 01:27:00 -0800 (PST)
 MIME-Version: 1.0
+References: <20210203152921.2429937-1-daniel.vetter@ffwll.ch>
+ <81df5b1c-2838-49d8-4ae4-bab4f55b411a@shipmail.org>
+In-Reply-To: <81df5b1c-2838-49d8-4ae4-bab4f55b411a@shipmail.org>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 24 Feb 2021 10:26:49 +0100
+Message-ID: <CAKMK7uHOYRHofSJfDeK1cAX9j_RAaiuZ_S0Dm41AUdCE9QCbnw@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH] dma-fence: Document recoverable page
+ fault implications
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,233 +61,233 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Felix Kuehling <felix.kuehling@amd.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Jerome Glisse <jglisse@redhat.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-USB devices cannot perform DMA and hence have no dma_mask set in their
-device structure. Therefore importing dmabuf into a USB-based driver
-fails, which breaks joining and mirroring of display in X11.
-
-For USB devices, pick the associated USB controller as attachment device.
-This allows the DRM import helpers to perform the DMA setup. If the DMA
-controller does not support DMA transfers, we're out of luck and cannot
-import. Our current USB-based DRM drivers don't use DMA, so the actual
-DMA device is not important.
-
-Drivers should use DRM_GEM_SHMEM_DROVER_OPS_USB to initialize their
-instance of struct drm_driver.
-
-Tested by joining/mirroring displays of udl and radeon un der Gnome/X11.
-
-v4:
-	* implement workaround with USB helper functions (Greg)
-	* use struct usb_device->bus->sysdev as DMA device (Takashi)
-v3:
-	* drop gem_create_object
-	* use DMA mask of USB controller, if any (Daniel, Christian, Noralf)
-v2:
-	* move fix to importer side (Christian, Daniel)
-	* update SHMEM and CMA helpers for new PRIME callbacks
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 6eb0233ec2d0 ("usb: don't inherity DMA properties for USB devices")
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: <stable@vger.kernel.org> # v5.10+
----
- drivers/gpu/drm/drm_prime.c        | 38 ++++++++++++++++++++++++++++++
- drivers/gpu/drm/tiny/gm12u320.c    |  2 +-
- drivers/gpu/drm/udl/udl_drv.c      |  2 +-
- drivers/usb/core/usb.c             | 29 +++++++++++++++++++++++
- include/drm/drm_gem_shmem_helper.h | 13 ++++++++++
- include/drm/drm_prime.h            |  5 ++++
- include/linux/usb.h                |  3 +++
- 7 files changed, 90 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 2a54f86856af..15c82088ab4c 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -29,6 +29,7 @@
- #include <linux/export.h>
- #include <linux/dma-buf.h>
- #include <linux/rbtree.h>
-+#include <linux/usb.h>
- 
- #include <drm/drm.h>
- #include <drm/drm_drv.h>
-@@ -1055,3 +1056,40 @@ void drm_prime_gem_destroy(struct drm_gem_object *obj, struct sg_table *sg)
- 	dma_buf_put(dma_buf);
- }
- EXPORT_SYMBOL(drm_prime_gem_destroy);
-+
-+/**
-+ * drm_gem_prime_import_usb - helper library implementation of the import callback for USB devices
-+ * @dev: drm_device to import into
-+ * @dma_buf: dma-buf object to import
-+ *
-+ * This is an implementation of drm_gem_prime_import() for USB-based devices.
-+ * USB devices cannot perform DMA directly. This function selects the USB host
-+ * controller as DMA device instead. Drivers can use this as their
-+ * &drm_driver.gem_prime_import implementation.
-+ *
-+ * See also drm_gem_prime_import().
-+ */
-+#ifdef CONFIG_USB
-+struct drm_gem_object *drm_gem_prime_import_usb(struct drm_device *dev,
-+						struct dma_buf *dma_buf)
-+{
-+	struct usb_device *udev;
-+	struct device *dmadev;
-+	struct drm_gem_object *obj;
-+
-+	if (!dev_is_usb(dev->dev))
-+		return ERR_PTR(-ENODEV);
-+	udev = interface_to_usbdev(to_usb_interface(dev->dev));
-+
-+	dmadev = usb_get_dma_device(udev);
-+	if (drm_WARN_ONCE(dev, !dmadev, "buffer sharing not supported"))
-+		return ERR_PTR(-ENODEV);
-+
-+	obj = drm_gem_prime_import_dev(dev, dma_buf, dmadev);
-+
-+	put_device(dmadev);
-+
-+	return obj;
-+}
-+EXPORT_SYMBOL(drm_gem_prime_import_usb);
-+#endif
-diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
-index 0b4f4f2af1ef..99e7bd36a220 100644
---- a/drivers/gpu/drm/tiny/gm12u320.c
-+++ b/drivers/gpu/drm/tiny/gm12u320.c
-@@ -611,7 +611,7 @@ static const struct drm_driver gm12u320_drm_driver = {
- 	.minor		 = DRIVER_MINOR,
- 
- 	.fops		 = &gm12u320_fops,
--	DRM_GEM_SHMEM_DRIVER_OPS,
-+	DRM_GEM_SHMEM_DRIVER_OPS_USB,
- };
- 
- static const struct drm_mode_config_funcs gm12u320_mode_config_funcs = {
-diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-index 9269092697d8..2db483b2b199 100644
---- a/drivers/gpu/drm/udl/udl_drv.c
-+++ b/drivers/gpu/drm/udl/udl_drv.c
-@@ -39,7 +39,7 @@ static const struct drm_driver driver = {
- 
- 	/* GEM hooks */
- 	.fops = &udl_driver_fops,
--	DRM_GEM_SHMEM_DRIVER_OPS,
-+	DRM_GEM_SHMEM_DRIVER_OPS_USB,
- 
- 	.name = DRIVER_NAME,
- 	.desc = DRIVER_DESC,
-diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-index 8f07b0516100..253bf71780fd 100644
---- a/drivers/usb/core/usb.c
-+++ b/drivers/usb/core/usb.c
-@@ -748,6 +748,35 @@ void usb_put_intf(struct usb_interface *intf)
- }
- EXPORT_SYMBOL_GPL(usb_put_intf);
- 
-+/**
-+ * usb_get_dma_device - acquire a reference on the usb device's DMA endpoint
-+ * @udev: usb device
-+ *
-+ * While a USB device cannot perform DMA operations by itself, many USB
-+ * controllers can. A call to usb_get_dma_device() returns the DMA endpoint
-+ * for the given USB device, if any. The returned device structure should be
-+ * released with put_device().
-+ *
-+ * Returns: A reference to the usb device's DMA endpoint; or NULL if none
-+ *          exists.
-+ */
-+struct device *usb_get_dma_device(struct usb_device *udev)
-+{
-+	struct device *dmadev;
-+
-+	if (!udev->bus)
-+		return NULL;
-+
-+	dmadev = get_device(udev->bus->sysdev);
-+	if (!dmadev || !dmadev->dma_mask) {
-+		put_device(dmadev);
-+		return NULL;
-+	}
-+
-+	return dmadev;
-+}
-+EXPORT_SYMBOL_GPL(usb_get_dma_device);
-+
- /*			USB device locking
-  *
-  * USB devices and interfaces are locked using the semaphore in their
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 434328d8a0d9..09d12f632cad 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -162,4 +162,17 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_object *obj);
- 	.gem_prime_mmap		= drm_gem_prime_mmap, \
- 	.dumb_create		= drm_gem_shmem_dumb_create
- 
-+#ifdef CONFIG_USB
-+/**
-+ * DRM_GEM_SHMEM_DRIVER_OPS_USB - Default shmem GEM operations for USB devices
-+ *
-+ * This macro provides a shortcut for setting the shmem GEM operations in
-+ * the &drm_driver structure. Drivers for USB-based devices should use this
-+ * macro instead of &DRM_GEM_SHMEM_DRIVER_OPS.
-+ */
-+#define DRM_GEM_SHMEM_DRIVER_OPS_USB \
-+	DRM_GEM_SHMEM_DRIVER_OPS, \
-+	.gem_prime_import = drm_gem_prime_import_usb
-+#endif
-+
- #endif /* __DRM_GEM_SHMEM_HELPER_H__ */
-diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
-index 54f2c58305d2..b42e07edd9e6 100644
---- a/include/drm/drm_prime.h
-+++ b/include/drm/drm_prime.h
-@@ -110,4 +110,9 @@ int drm_prime_sg_to_page_array(struct sg_table *sgt, struct page **pages,
- int drm_prime_sg_to_dma_addr_array(struct sg_table *sgt, dma_addr_t *addrs,
- 				   int max_pages);
- 
-+#ifdef CONFIG_USB
-+struct drm_gem_object *drm_gem_prime_import_usb(struct drm_device *dev,
-+						struct dma_buf *dma_buf);
-+#endif
-+
- #endif /* __DRM_PRIME_H__ */
-diff --git a/include/linux/usb.h b/include/linux/usb.h
-index 7d72c4e0713c..a9bd698c8839 100644
---- a/include/linux/usb.h
-+++ b/include/linux/usb.h
-@@ -711,6 +711,7 @@ struct usb_device {
- 	unsigned use_generic_driver:1;
- };
- #define	to_usb_device(d) container_of(d, struct usb_device, dev)
-+#define dev_is_usb(d)	((d)->bus == &usb_bus_type)
- 
- static inline struct usb_device *interface_to_usbdev(struct usb_interface *intf)
- {
-@@ -746,6 +747,8 @@ extern int usb_lock_device_for_reset(struct usb_device *udev,
- extern int usb_reset_device(struct usb_device *dev);
- extern void usb_queue_reset_device(struct usb_interface *dev);
- 
-+extern struct device *usb_get_dma_device(struct usb_device *udev);
-+
- #ifdef CONFIG_ACPI
- extern int usb_acpi_set_power_state(struct usb_device *hdev, int index,
- 	bool enable);
--- 
-2.30.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBGZWIgMjQsIDIwMjEgYXQgOTo0NyBBTSBUaG9tYXMgSGVsbHN0csO2bSAoSW50ZWwp
+Cjx0aG9tYXNfb3NAc2hpcG1haWwub3JnPiB3cm90ZToKPgo+Cj4gT24gMi8zLzIxIDQ6MjkgUE0s
+IERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPiBSZWNlbnRseSB0aGVyZSB3YXMgYSBmYWlybHkgbG9u
+ZyB0aHJlYWQgYWJvdXQgcmVjb3JlYWJsZSBoYXJkd2FyZSBwYWdlCj4gPiBmYXVsdHMsIGhvdyB0
+aGV5IGNhbiBkZWFkbG9jaywgYW5kIHdoYXQgdG8gZG8gYWJvdXQgdGhhdC4KPiA+Cj4gPiBXaGls
+ZSB0aGUgZGlzY3Vzc2lvbiBpcyBzdGlsbCBmcmVzaCBJIGZpZ3VyZWQgZ29vZCB0aW1lIHRvIHRy
+eSBhbmQKPiA+IGRvY3VtZW50IHRoZSBjb25jbHVzaW9ucyBhIGJpdC4gVGhpcyBkb2N1bWVudGF0
+aW9uIHNlY3Rpb24gZXhwbGFpbnMKPiA+IHdoYXQncyB0aGUgcG90ZW50aWFsIHByb2JsZW0sIGFu
+ZCB0aGUgcmVtZWRpZXMgd2UndmUgZGlzY3Vzc2VkLAo+ID4gcm91Z2hseSBvcmRlcmVkIGZyb20g
+YmVzdCB0byB3b3JzdC4KPiA+Cj4gPiB2MjogTGludXMgLT4gTGludXggdHlwb2UgKERhdmUpCj4g
+Pgo+ID4gdjM6Cj4gPiAtIE1ha2UgaXQgY2xlYXIgZHJpdmVycyBvbmx5IG5lZWQgdG8gaW1wbGVt
+ZW50IG9uZSBvcHRpb24gKENocmlzdGlhbikKPiA+IC0gTWFrZSBpdCBjbGVhcmVyIHRoYXQgaW1w
+bGljaXQgc3luYyBpcyBvdXQgdGhlIHdpbmRvdyB3aXRoIGV4Y2x1c2l2ZQo+ID4gICAgZmVuY2Vz
+IChDaHJpc3RpYW4pCj4gPiAtIEFkZCB0aGUgZmFpcmx5IHRoZW9yZXRpY2FsIG9wdGlvbiBvZiBz
+ZWdlbWVudGluZyB0aGUgbWVtb3J5IChlaXRoZXIKPiA+ICAgIHN0YXRpY2FsbHkgb3IgdGhyb3Vn
+aCBkeW5hbWljIGNoZWNrcyBhdCBydW50aW1lIGZvciB3aGljaCBwaWVjZSBvZgo+ID4gICAgbWVt
+b3J5IGlzIG1hbmFnZWQgaG93KSBhbmQgZXhwbGFpbiB3aHkgaXQncyBub3QgYSBncmVhdCBpZGVh
+IChGZWxpeCkKPiA+Cj4gPiBSZWZlcmVuY2VzOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9kcmkt
+ZGV2ZWwvMjAyMTAxMDcwMzAxMjcuMjAzOTMtMS1GZWxpeC5LdWVobGluZ0BhbWQuY29tLwo+ID4g
+Q2M6IERhdmUgQWlybGllIDxhaXJsaWVkQGdtYWlsLmNvbT4KPiA+IENjOiBNYWFydGVuIExhbmto
+b3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPgo+ID4gQ2M6IFRob21hcyBI
+ZWxsc3Ryw7ZtIDx0aG9tYXMuaGVsbHN0cm9tQGludGVsLmNvbT4KPiA+IENjOiAiQ2hyaXN0aWFu
+IEvDtm5pZyIgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiA+IENjOiBKZXJvbWUgR2xpc3Nl
+IDxqZ2xpc3NlQHJlZGhhdC5jb20+Cj4gPiBDYzogRmVsaXggS3VlaGxpbmcgPGZlbGl4Lmt1ZWhs
+aW5nQGFtZC5jb20+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0
+dGVyQGludGVsLmNvbT4KPiA+IENjOiBTdW1pdCBTZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8u
+b3JnPgo+ID4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwo+ID4gQ2M6IGxpbmFyby1t
+bS1zaWdAbGlzdHMubGluYXJvLm9yZwo+ID4gLS0tCj4gPiAgIERvY3VtZW50YXRpb24vZHJpdmVy
+LWFwaS9kbWEtYnVmLnJzdCB8IDc2ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiA+ICAg
+MSBmaWxlIGNoYW5nZWQsIDc2IGluc2VydGlvbnMoKykKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvRG9j
+dW1lbnRhdGlvbi9kcml2ZXItYXBpL2RtYS1idWYucnN0IGIvRG9jdW1lbnRhdGlvbi9kcml2ZXIt
+YXBpL2RtYS1idWYucnN0Cj4gPiBpbmRleCBhMjEzM2Q2OTg3MmMuLjdmMzdlYzMwZDlmZCAxMDA2
+NDQKPiA+IC0tLSBhL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9kbWEtYnVmLnJzdAo+ID4gKysr
+IGIvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL2RtYS1idWYucnN0Cj4gPiBAQCAtMjU3LDMgKzI1
+Nyw3OSBAQCBmZW5jZXMgaW4gdGhlIGtlcm5lbC4gVGhpcyBtZWFuczoKPiA+ICAgICB1c2Vyc3Bh
+Y2UgaXMgYWxsb3dlZCB0byB1c2UgdXNlcnNwYWNlIGZlbmNpbmcgb3IgbG9uZyBydW5uaW5nIGNv
+bXB1dGUKPiA+ICAgICB3b3JrbG9hZHMuIFRoaXMgYWxzbyBtZWFucyBubyBpbXBsaWNpdCBmZW5j
+aW5nIGZvciBzaGFyZWQgYnVmZmVycyBpbiB0aGVzZQo+ID4gICAgIGNhc2VzLgo+ID4gKwo+ID4g
+K1JlY292ZXJhYmxlIEhhcmR3YXJlIFBhZ2UgRmF1bHRzIEltcGxpY2F0aW9ucwo+ID4gK35+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgo+ID4gKwo+ID4gK01vZGVy
+biBoYXJkd2FyZSBzdXBwb3J0cyByZWNvdmVyYWJsZSBwYWdlIGZhdWx0cywgd2hpY2ggaGFzIGEg
+bG90IG9mCj4gPiAraW1wbGljYXRpb25zIGZvciBETUEgZmVuY2VzLgo+ID4gKwo+ID4gK0ZpcnN0
+LCBhIHBlbmRpbmcgcGFnZSBmYXVsdCBvYnZpb3VzbHkgaG9sZHMgdXAgdGhlIHdvcmsgdGhhdCdz
+IHJ1bm5pbmcgb24gdGhlCj4gPiArYWNjZWxlcmF0b3IgYW5kIGEgbWVtb3J5IGFsbG9jYXRpb24g
+aXMgdXN1YWxseSByZXF1aXJlZCB0byByZXNvbHZlIHRoZSBmYXVsdC4KPiA+ICtCdXQgbWVtb3J5
+IGFsbG9jYXRpb25zIGFyZSBub3QgYWxsb3dlZCB0byBnYXRlIGNvbXBsZXRpb24gb2YgRE1BIGZl
+bmNlcywgd2hpY2gKPiA+ICttZWFucyBhbnkgd29ya2xvYWQgdXNpbmcgcmVjb3ZlcmFibGUgcGFn
+ZSBmYXVsdHMgY2Fubm90IHVzZSBETUEgZmVuY2VzIGZvcgo+ID4gK3N5bmNocm9uaXphdGlvbi4g
+U3luY2hyb25pemF0aW9uIGZlbmNlcyBjb250cm9sbGVkIGJ5IHVzZXJzcGFjZSBtdXN0IGJlIHVz
+ZWQKPiA+ICtpbnN0ZWFkLgo+ID4gKwo+ID4gK09uIEdQVXMgdGhpcyBwb3NlcyBhIHByb2JsZW0s
+IGJlY2F1c2UgY3VycmVudCBkZXNrdG9wIGNvbXBvc2l0b3IgcHJvdG9jb2xzIG9uCj4gPiArTGlu
+dXggcmVseSBvbiBETUEgZmVuY2VzLCB3aGljaCBtZWFucyB3aXRob3V0IGFuIGVudGlyZWx5IG5l
+dyB1c2Vyc3BhY2Ugc3RhY2sKPiA+ICtidWlsdCBvbiB0b3Agb2YgdXNlcnNwYWNlIGZlbmNlcywg
+dGhleSBjYW5ub3QgYmVuZWZpdCBmcm9tIHJlY292ZXJhYmxlIHBhZ2UKPiA+ICtmYXVsdHMuIFNw
+ZWNpZmljYWxseSB0aGlzIG1lYW5zIGltcGxpY2l0IHN5bmNocm9uaXphdGlvbiB3aWxsIG5vdCBi
+ZSBwb3NzaWJsZS4KPiA+ICtUaGUgZXhjZXB0aW9uIGlzIHdoZW4gcGFnZSBmYXVsdHMgYXJlIG9u
+bHkgdXNlZCBhcyBtaWdyYXRpb24gaGludHMgYW5kIG5ldmVyIHRvCj4gPiArb24tZGVtYW5kIGZp
+bGwgYSBtZW1vcnkgcmVxdWVzdC4gRm9yIG5vdyB0aGlzIG1lYW5zIHJlY292ZXJhYmxlIHBhZ2UK
+PiA+ICtmYXVsdHMgb24gR1BVcyBhcmUgbGltaXRlZCB0byBwdXJlIGNvbXB1dGUgd29ya2xvYWRz
+Lgo+ID4gKwo+ID4gK0Z1cnRoZXJtb3JlIEdQVXMgdXN1YWxseSBoYXZlIHNoYXJlZCByZXNvdXJj
+ZXMgYmV0d2VlbiB0aGUgM0QgcmVuZGVyaW5nIGFuZAo+ID4gK2NvbXB1dGUgc2lkZSwgbGlrZSBj
+b21wdXRlIHVuaXRzIG9yIGNvbW1hbmQgc3VibWlzc2lvbiBlbmdpbmVzLiBJZiBib3RoIGEgM0QK
+PiA+ICtqb2Igd2l0aCBhIERNQSBmZW5jZSBhbmQgYSBjb21wdXRlIHdvcmtsb2FkIHVzaW5nIHJl
+Y292ZXJhYmxlIHBhZ2UgZmF1bHRzIGFyZQo+ID4gK3BlbmRpbmcgdGhleSBjb3VsZCBkZWFkbG9j
+azoKPiA+ICsKPiA+ICstIFRoZSAzRCB3b3JrbG9hZCBtaWdodCBuZWVkIHRvIHdhaXQgZm9yIHRo
+ZSBjb21wdXRlIGpvYiB0byBmaW5pc2ggYW5kIHJlbGVhc2UKPiA+ICsgIGhhcmR3YXJlIHJlc291
+cmNlcyBmaXJzdC4KPiA+ICsKPiA+ICstIFRoZSBjb21wdXRlIHdvcmtsb2FkIG1pZ2h0IGJlIHN0
+dWNrIGluIGEgcGFnZSBmYXVsdCwgYmVjYXVzZSB0aGUgbWVtb3J5Cj4gPiArICBhbGxvY2F0aW9u
+IGlzIHdhaXRpbmcgZm9yIHRoZSBETUEgZmVuY2Ugb2YgdGhlIDNEIHdvcmtsb2FkIHRvIGNvbXBs
+ZXRlLgo+ID4gKwo+ID4gK1RoZXJlIGFyZSBhIGZldyBvcHRpb25zIHRvIHByZXZlbnQgdGhpcyBw
+cm9ibGVtLCBvbmUgb2Ygd2hpY2ggZHJpdmVycyBuZWVkIHRvCj4gPiArZW5zdXJlOgo+ID4gKwo+
+ID4gKy0gQ29tcHV0ZSB3b3JrbG9hZHMgY2FuIGFsd2F5cyBiZSBwcmVlbXB0ZWQsIGV2ZW4gd2hl
+biBhIHBhZ2UgZmF1bHQgaXMgcGVuZGluZwo+ID4gKyAgYW5kIG5vdCB5ZXQgcmVwYWlyZWQuIE5v
+dCBhbGwgaGFyZHdhcmUgc3VwcG9ydHMgdGhpcy4KPiA+ICsKPiA+ICstIERNQSBmZW5jZSB3b3Jr
+bG9hZHMgYW5kIHdvcmtsb2FkcyB3aGljaCBuZWVkIHBhZ2UgZmF1bHQgaGFuZGxpbmcgaGF2ZQo+
+ID4gKyAgaW5kZXBlbmRlbnQgaGFyZHdhcmUgcmVzb3VyY2VzIHRvIGd1YXJhbnRlZSBmb3J3YXJk
+IHByb2dyZXNzLiBUaGlzIGNvdWxkIGJlCj4gPiArICBhY2hpZXZlZCB0aHJvdWdoIGUuZy4gdGhy
+b3VnaCBkZWRpY2F0ZWQgZW5naW5lcyBhbmQgbWluaW1hbCBjb21wdXRlIHVuaXQKPiA+ICsgIHJl
+c2VydmF0aW9ucyBmb3IgRE1BIGZlbmNlIHdvcmtsb2Fkcy4KPiA+ICsKPiA+ICstIFRoZSByZXNl
+cnZhdGlvbiBhcHByb2FjaCBjb3VsZCBiZSBmdXJ0aGVyIHJlZmluZWQgYnkgb25seSByZXNlcnZp
+bmcgdGhlCj4gPiArICBoYXJkd2FyZSByZXNvdXJjZXMgZm9yIERNQSBmZW5jZSB3b3JrbG9hZHMg
+d2hlbiB0aGV5IGFyZSBpbi1mbGlnaHQuIFRoaXMgbXVzdAo+ID4gKyAgY292ZXIgdGhlIHRpbWUg
+ZnJvbSB3aGVuIHRoZSBETUEgZmVuY2UgaXMgdmlzaWJsZSB0byBvdGhlciB0aHJlYWRzIHVwIHRv
+Cj4gPiArICBtb21lbnQgd2hlbiBmZW5jZSBpcyBjb21wbGV0ZWQgdGhyb3VnaCBkbWFfZmVuY2Vf
+c2lnbmFsKCkuCj4gPiArCj4gPiArLSBBcyBhIGxhc3QgcmVzb3J0LCBpZiB0aGUgaGFyZHdhcmUg
+cHJvdmlkZXMgbm8gdXNlZnVsIHJlc2VydmF0aW9uIG1lY2hhbmljcywKPiA+ICsgIGFsbCB3b3Jr
+bG9hZHMgbXVzdCBiZSBmbHVzaGVkIGZyb20gdGhlIEdQVSB3aGVuIHN3aXRjaGluZyBiZXR3ZWVu
+IGpvYnMKPiA+ICsgIHJlcXVpcmluZyBETUEgZmVuY2VzIG9yIGpvYnMgcmVxdWlyaW5nIHBhZ2Ug
+ZmF1bHQgaGFuZGxpbmc6IFRoaXMgbWVhbnMgYWxsIERNQQo+ID4gKyAgZmVuY2VzIG11c3QgY29t
+cGxldGUgYmVmb3JlIGEgY29tcHV0ZSBqb2Igd2l0aCBwYWdlIGZhdWx0IGhhbmRsaW5nIGNhbiBi
+ZQo+ID4gKyAgaW5zZXJ0ZWQgaW50byB0aGUgc2NoZWR1bGVyIHF1ZXVlLiBBbmQgdmljZSB2ZXJz
+YSwgYmVmb3JlIGEgRE1BIGZlbmNlIGNhbiBiZQo+ID4gKyAgbWFkZSB2aXNpYmxlIGFueXdoZXJl
+IGluIHRoZSBzeXN0ZW0sIGFsbCBjb21wdXRlIHdvcmtsb2FkcyBtdXN0IGJlIHByZWVtcHRlZAo+
+ID4gKyAgdG8gZ3VhcmFudGVlIGFsbCBwZW5kaW5nIEdQVSBwYWdlIGZhdWx0cyBhcmUgZmx1c2hl
+ZC4KPiA+ICsKPiA+ICstIE9ubHkgYSBmYWlybHkgdGhlb3JldGljYWwgb3B0aW9uIHdvdWxkIGJl
+IHRvIHVudGFuZ2xlIHRoZXNlIGRlcGVuZGVuY2llcyB3aGVuCj4gPiArICBhbGxvY2F0aW5nIG1l
+bW9yeSB0byByZXBhaXIgaGFyZHdhcmUgcGFnZSBmYXVsdHMsIGVpdGhlciB0aHJvdWdoIHNlcGFy
+YXRlCj4gPiArICBtZW1vcnkgYmxvY2tzIG9yIHJ1bnRpbWUgdHJhY2tpbmcgb2YgdGhlIGZ1bGwg
+ZGVwZW5kZW5jeSBncmFwaCBvZiBhbGwgRE1BCj4gPiArICBmZW5jZXMuIFRoaXMgcmVzdWx0cyB2
+ZXJ5IHdpZGUgaW1wYWN0IG9uIHRoZSBrZXJuZWwsIHNpbmNlIHJlc29sdmluZyB0aGUgcGFnZQo+
+ID4gKyAgb24gdGhlIENQVSBzaWRlIGNhbiBpdHNlbGYgaW52b2x2ZSBhIHBhZ2UgZmF1bHQuIEl0
+IGlzIG11Y2ggbW9yZSBmZWFzaWJsZSBhbmQKPiA+ICsgIHJvYnVzdCB0byBsaW1pdCB0aGUgaW1w
+YWN0IG9mIGhhbmRsaW5nIGhhcmR3YXJlIHBhZ2UgZmF1bHRzIHRvIHRoZSBzcGVjaWZpYwo+ID4g
+KyAgZHJpdmVyLgo+ID4gKwo+ID4gK05vdGUgdGhhdCB3b3JrbG9hZHMgdGhhdCBydW4gb24gaW5k
+ZXBlbmRlbnQgaGFyZHdhcmUgbGlrZSBjb3B5IGVuZ2luZXMgb3Igb3RoZXIKPiA+ICtHUFVzIGRv
+IG5vdCBoYXZlIGFueSBpbXBhY3QuIFRoaXMgYWxsb3dzIHVzIHRvIGtlZXAgdXNpbmcgRE1BIGZl
+bmNlcyBpbnRlcm5hbGx5Cj4gPiAraW4gdGhlIGtlcm5lbCBldmVuIGZvciByZXNvbHZpbmcgaGFy
+ZHdhcmUgcGFnZSBmYXVsdHMsIGUuZy4gYnkgdXNpbmcgY29weQo+ID4gK2VuZ2luZXMgdG8gY2xl
+YXIgb3IgY29weSBtZW1vcnkgbmVlZGVkIHRvIHJlc29sdmUgdGhlIHBhZ2UgZmF1bHQuCj4gPiAr
+Cj4gPiArSW4gc29tZSB3YXlzIHRoaXMgcGFnZSBmYXVsdCBwcm9ibGVtIGlzIGEgc3BlY2lhbCBj
+YXNlIG9mIHRoZSBgSW5maW5pdGUgRE1BCj4gPiArRmVuY2VzYCBkaXNjdXNzaW9uczogSW5maW5p
+dGUgZmVuY2VzIGZyb20gY29tcHV0ZSB3b3JrbG9hZHMgYXJlIGFsbG93ZWQgdG8KPiA+ICtkZXBl
+bmQgb24gRE1BIGZlbmNlcywgYnV0IG5vdCB0aGUgb3RoZXIgd2F5IGFyb3VuZC4gQW5kIG5vdCBl
+dmVuIHRoZSBwYWdlIGZhdWx0Cj4gPiArcHJvYmxlbSBpcyBuZXcsIGJlY2F1c2Ugc29tZSBvdGhl
+ciBDUFUgdGhyZWFkIGluIHVzZXJzcGFjZSBtaWdodAo+ID4gK2hpdCBhIHBhZ2UgZmF1bHQgd2hp
+Y2ggaG9sZHMgdXAgYSB1c2Vyc3BhY2UgZmVuY2UgLSBzdXBwb3J0aW5nIHBhZ2UgZmF1bHRzIG9u
+Cj4gPiArR1BVcyBkb2Vzbid0IGFueXRoaW5nIGZ1bmRhbWVudGFsbHkgbmV3Lgo+Cj4gVG8gbWUs
+IGluIGdlbmVyYWwgdGhpcyBsb29rcyBnb29kLiBPbmUgdGhpbmcsIHRob3VnaCBpcyB0aGF0IGZv
+ciBhIGZpcnN0Cj4gdGltZSByZWFkZXIgaXQgbWlnaHQgbm90IGJlIHRvdGFsbHkgY2xlYXIgd2hh
+dCdzIHNwZWNpYWwgd2l0aCBhIGNvbXB1dGUKPiB3b3JrbG9hZC4gUGVyaGFwcyBzb21lIGNsYXJp
+ZmljYXRpb24/CgpJbiB0aGUgZG9jcyB0aGlzIG5ldyBzZWN0aW9uIGlzIHJpZ2h0IGFmdGVyIHRo
+ZSBpbmZpbml0ZSBmZW5jZQpzZWN0aW9uLCB3aGljaCBnb2VzIHRocm91Z2ggdGhpcyBraW5kIG9m
+IHN0dWZmLiBTbyBpdCdzIG5vdCBzbyBtdWNoCiJjb21wdXRlIHdvcmtsb2FkcyIgYnV0ICJpbmZp
+bml0ZSBmZW5jZXMiLCB3aGljaCBJIHRoaW5rIGlzIGV4cGxhaW5lZApwbGVudHkgZW5vdWdoLgoK
+PiBBbHNvIHNpbmNlIHRoZSBjdXJyZW50IGNyb3NzLWRyaXZlciBkbWFfZmVuY2UgbG9ja2luZyBv
+cmRlciBpcwo+Cj4gMSkgZG1hX3Jlc3YgLT4KPiAyKSBtZW1vcnlfYWxsb2NhdGlvbiAvIHJlY2xh
+aW0gLT4KPiAzKSBkbWFfZmVuY2Vfd2FpdC9jcml0aWNhbAo+Cj4gQW5kIHRoZSBsb2NraW5nIG9y
+ZGVyIHJlcXVpcmVkIGZvciByZWNvdmVyYWJsZSBwYWdlZmF1bHQgaXMKPgo+IGEpIGRtYV9yZXN2
+IC0+Cj4gYikgZmVuY2Vfd2FpdC9jcml0aWNhbCAtPgo+IGMpIG1lbW9yeV9hbGxvY2F0aW9uIC8g
+cmVjbGFpbQo+Cj4gKFBvc3NpYmx5IHdpdGggYSkgYW5kIGIpIGludGVyY2hhbmdlZCBhYm92ZSwg
+SXMgaXQgcG9zc2libGUgdG8gc2VydmljZSBhCj4gcmVjb3ZlcmFibGUgcGFnZWZhdWx0IHdpdGhv
+dXQgdGFraW5nIHRoZSBkbWFfcmVzdiBsb2NrPykKCkl0J3Mgd29yc2UsIHNpbmNlIHRoZSBsb2Nr
+IG9yZGVyIHdlIGNhcmUgYWJvdXQgaXM6CjEpIG1tYXBfc2VtCjIpIGRtYV9yZXN2CjMpIHJlY2xh
+aW0KNCkgZG1hX2ZlbmNlX3dhaXQKCkFuZCBmb3IgdGhpcyBuaWNlIGJyYXZlIG5ldyB3b3JsZCBv
+ZiB1bmlmaWVkIHNoYXJlZCBtZW1vcnkvaG1tLCB3ZQpyZWFsbHkgbmVlZCB0byBiZSBhYmxlIHRv
+IHJlc29sdmUgYXJiaXRyYXJ5IGNwdSBzaWRlIHBhZ2UgZmF1bHRzICh3aXRoCmZpeHVwX3VzZXJf
+ZmF1bHQoKSBsaWtlIHRoZSBpb21tdSBkcml2ZXIgZG9lcyB0b28gZm9yIFBBU0lEIG1vZGUpIHRv
+CmJlIGFibGUgdG8gc2VydmUgZ3B1IHBhZ2UgZmF1bHRzLiBTbyBldmVuIGlmIHdlIHRha2UgZG1h
+X3Jlc3YKY29tcGxldGVseSBvdXQgb2YgdGhlIHN5c3RlbSB3ZSBzdGlsbCBoYXZlOgoKMSkgbW1h
+cF9zZW0KMikgcmVjbGFpbQozKSBkbWFfZmVuY2Vfd2FpdAoKU28gd2UnZCBhbHNvIG5lZWQgdG8g
+dGhyb3cgb3V0IGRtYV9mZW5jZV93YWl0LCBhbmQgYXQgdGhhdCBwb2ludCB3ZSdyZQpsb29raW5n
+IGF0IGEgbmV3IGdwdSBkcml2ZXIgc3RhY2suCgo+IEl0J3MgY2xlYXIgdGhhdCB0aGUgZmVuY2Ug
+Y3JpdGljYWwgc2VjdGlvbiBpbiBiKSBpcyBub3QgY29tcGF0aWJsZSB3aXRoCj4gdGhlIGRtYV9m
+ZW5jZSB3YWl0IGluIDMpIGFuZCB0aHVzIHRoZSBtZW1vcnkgcmVzdHJpY3Rpb25zIGFyZSBuZWVk
+ZWQuCj4gQnV0IEkgdGhpbmsgZ2l2ZW4gdGhlIG1lbW9yeSBhbGxvY2F0aW9uIHJlc3RyaWN0aW9u
+cyBmb3IgcmVjb3ZlcmFibGUKPiBwYWdlZmF1bHRzIEkgZ3Vlc3MgYXQgc29tZSBwb2ludCB3ZSBt
+dXN0IGFzayBvdXJzZWx2ZXMgd2h5IGFyZSB0aGV5Cj4gbmVjZXNzYXJ5IGFuZCB3aGF0J3MgdGhl
+IHByaWNlIHRvIGJlIHBhaWQgZm9yIGdldHRpbmcgcmlkIG9mIHRoZW0sIGFuZAo+IGRvY3VtZW50
+IGFsc28gdGhhdC4gKklmKiBpdCdzIHRoZSBjYXNlIHRoYXQgaXQgYWxsIGJvaWxzIGRvd24gdG8g
+dGhlIDIpCj4gLT4gMykgbG9ja2luZyBvcmRlciBhYm92ZSwgYW5kIHRoYXQncyBtYW5kYXRlZCAq
+b25seSogYnkgdGhlIGRtYV9mZW5jZQo+IHdhaXQgaW4gdGhlIHVzZXJwdHIgbW11IG5vdGlmaWVy
+cywgSSB0aGluayB0aGVzZSByZXN0cmljdGlvbnMgYXJlIGEKPiBwcmV0dHkgaGlnaCBwcmljZSB0
+byBwYXkuIFdvdWxkbid0IGl0IGJlIHBvc3NpYmxlIG5vdyB0byByZXBsYWNlIHRoYXQKPiBmZW5j
+ZSB3YWl0IHdpdGggZWl0aGVyIHBhZ2UgcGlubmluZyAod2hpY2ggbm93IGlzIGNvaGVyZW50IHNp
+bmNlIDUuOSkgb3IKPiBwcmVlbXB0LWN0eCBmZW5jZXMgKyB1bnBpbm5lZCBwYWdlcyBpZiBhdmFp
+bGFibGUgYW5kIHRodXMgaW52ZXJ0IHRoZSAyKQo+IC0+IDMpIGxvY2tpbmcgb3JkZXI/CgpJdCdz
+IG5vdCBqdXN0IHVzZXJwdHIsIGl0J3MgYWxzbyBzaHJpbmtlcnMuIG1tYXBfc2VtIHJlcXVpcmVz
+CkdGUF9LRVJORUwgYWxsb2NhdGlvbnMsIHNvIHRoYXQgYWxyZWFkeSBleGNsdWRlcyBvdXIgc2hy
+aW5rZXJzIGlmIHdlCndhbnQgdGhpcy4gVGhhdCBtZWFucyBncHUgbWVtb3J5IGJlY29tZXMgcGlu
+bmVkIHdoZW4gaXQncyBtYW5hZ2VkIHdpdGgKZG1hX2ZlbmNlLiBDaHJpc3RpYW4gS8O2bmlnIGp1
+c3QgcmV3b3JrZWQgdHRtIHRvIHN0b3AgZG9pbmcgdGhhdCwgdG8KcmVtb3ZlIHRoZSBoYXJkIGFu
+ZCBmYWlybHkgYXJiaXRyYXJ5ICJtYXggNTAlIG9mIHN5c3RlbSBtZW1vcnkiIGxpbWl0LgoKVGhl
+IG9ubHkgb3B0aW9uIHRoYXQgd291bGQgd29yayBpcyBpZiB3ZSB0aHJvdyBvdXQgZG1hX2ZlbmNl
+IG91dCBhbmQKZXhjbHVzaXZlbHkgbWFuYWdlIG1lbW9yeSB3aXRoIGdwdSBwYWdlIGZhdWx0cyBv
+bmx5LiBFdmVuIGFjcm9zcyB0aGUKZ3B1cyB0aGF0IGRvIHN1cHBvcnQgcGFnZSBmYXVsdHMgdGhh
+dCdzIG5vdCB0cnVlIGZvciBhbGwgd29ya2xvYWRzLAplLmcuIG52aWRpYSBvbmx5IHN1cHBvcnRz
+IHBhZ2UgZmF1bHRzIG9uIGNvbXB1dGUgZW5naW5lcywgbm90IG9uIGFueQpvZiB0aGUgM2QgZml4
+ZWQgZnVuY3Rpb24gc3R1ZmYgb3IgbWVkaWEgY29kZWNzICh0byBteSBrbm93bGVkZ2UpLiBTbwpu
+b3QgZ29pbmcgdG8gaGFwcGVuLiBJbiBhZGRpdGlvbiwgdGhpcyBwbGFuIHJlcXVpcmVzIHRoYXQg
+d2Ugc3RvcAp1c2luZyBkbWFfZmVuY2UgZm9yIHN5bmMgKG90aGVyd2lzZSB5b3UgY2FuJ3QgdXNl
+IHByZWVtcHQtY3R4IGZlbmNlcykuClRoYXQncyB0aGUgIjEwIHllYXIgcGxhbiB0byByZXYgdGhl
+IGVjb3N5c3RlbSIgcHJvYmxlbSwgYWx0aG91Z2ggd2l0aApsb3RzIG9mIGRpc2N1c3Npb25zIHdp
+dGggQ2hyaXN0aWFuIGFuZCBKYXNvbiBmcm9tIG1lc2EgSSB0aGluayB3ZSd2ZQpib2lsZWQgdGhp
+cyBkb3duIHRvIGEgbW9yZSBtaW5pbWFsIHRhc2sgbGlzdCBieSBub3c6Ci0gdmsgZHJpdmVyIG1v
+ZGUgdGhhdCB1c2VycyB1c2Vyc3BhY2UgZmVuY2VzLiBUaGVyZSdzIGEgc29tZXdoYXQgbmFzdHkK
+cHJvYmxlbSBoZXJlIGJlY2F1c2UgeW91IGNhbiBvbmx5IGRlY2lkZSB3aGljaCBtb2RlIHRvIHVz
+ZSB3aGVuIHlvdQprbm93IHdoaWNoIHdpbnN5cyB0byB1c2UuIEFuZCB3aXRoIHZrIHRoYXQncyBj
+cmVhdGVkIGFmdGVyIHRoZSByZW5kZXIKcGlwZWxpbmUgKHVubGlrZSBnbCkuIFBsdXMgaXQncyBk
+eW5hbWljLCBlLmcuIGlmIHlvdSBydW4gb24gWCBvcgp3YXlsYW5kIHdpdGhvdXQgdGhlIGJlbG93
+IHN0dWZmIHN1cHBvcnQsIGJ1dCB0aGVuIHVzZSBkaXJlY3QgZGlzcGxheQphbmQgdGhlIGtlcm5l
+bCBhbHJlYWR5IGhhcyB0aW1lbGluZSBzeW5jb2JqIHN1cHBvcnQsIHlvdSBzaG91bGQKcHJvYmFi
+bHkgdXNlIHVzZXJzcGFjZSBmZW5jaW5nLgotIG5ldyB3YXlsYW5kL3ggcHJvdG9jb2wgdG8gcGFz
+cyB0aW1lbGluZSBkcm1fc3luY29iIGFyb3VuZCBhcyBzeW5jb2JqCi0gZHJtX3N5bmNvYmogc3Vw
+cG9ydCBpbiBhdG9taWMgaW9jdGwKLSBjb21wb3NpdG9ycyBzd2l0Y2hpbmcgb3ZlciB0byB2ayAr
+IHVzaW5nIHRpbWVsaW5lIHN5bmNvYmogZm9yIGZlbmNpbmcKLSBuZXcgZHJtX3N5bmNvYmogbW9k
+ZSB3aGVyZSB3ZSB3cmFwIGEgdXNlcnNwYWNlIGZlbmNlOiBuZXcgdXNlcnNwYWNlCndvdWxkIHB1
+bGwgdGhlIHVzZXJzcGFjZSBmZW5jZSBvdXQsIGFueSBsZWdhY3kgZHJpdmVycyB3b3VsZCBoYXZl
+IHRvCmJsb2NrIHVudGlsIHRoZSBmZW5jZSBoYXMgc2lnbmFsbGVkLiBUaGlzIHN1Y2tzIGNvbXBh
+cmVkIHRvIGN1cnJlbnQKdGltZWxpbmUgc3luY29iaiwgd2hlcmUgd2UganVzdCB3YWl0IGZvciB0
+aGUgZG1hX2ZlbmNlIHRvIG1hdGVyaWFsaXplLApidXQgc2luY2UgaXQgY2FuIHVzZSB0aGUgc2Ft
+ZSBwYXRocy9pb2N0bHMgaXQgd291bGQgYXQgbGVhc3QgZ2l2ZSB1cyBhCnNtb290aCB1cGdyYWRl
+IHBhdGguIEluY2x1c2l2ZSBhbGxvd2luZyBib3RoIG9sZCBhbmQgbmV3IHVzZXJzcGFjZSB0bwpj
+by1leGlzdCBvbiB0aGUgc2FtZSBjb21wb3NpdG9yIHNlc3Npb24uCgpOb3RlIHRoYXQganVzdCBw
+cmVlbXB0LWN0eCBmZW5jZXMgYWxvbmUgaXNuJ3QgZW5vdWdoLCBzaW5jZSB5b3UgY291bGQKZW5k
+IHVwIHdpdGggc29tZXRoaW5nIGxpa2UgdGhpczoKLSBjb21wdXRlIHdvcmtsb2FkIHVzaW5nIGdw
+dSBwYWdlIGZhdWx0cyBoYW5ncyBhIGFsbCBvZiB0aGUKY29tcHV0ZS9zaGFkZXJjb3JlcyBvbiBw
+YWdlIGZhdWx0cywgd2UgY2FuJ3QgcHJlZW1wdAotIGNvbmN1cnJlbnRseSB0aGVyZSdzIGEgM2Qg
+d29ya2xvYWQgcnVubmluZywgd2hpY2ggYmVjYXVzZSBmaXhlZApmdW5jdGlvbiwgYW5kIG9ubHkg
+cHJlZW1wdCBiZXR3ZWVuIGRyYXcgY2FsbHMuIGl0IGlzIHN0dWNrIHdhaXRpbmcgZm9yCnNvbWUg
+c2hhZGVyIGNvcmVzIHRvIGJlY29tZSBhdmFpYWJsZS4gdGhpcyBpcyBwb3NzaWJsZSBiZWNhdXNl
+IG1vc3QKZ3B1cyBub3dhZGF5cyBoYXZlIHNlcGFyYXRlIGNvbW1hbmQgcXVldWVzIGZvciBjb21w
+dXRlLzNkIHdvcmtsb2FkcwotIG91ciBrZXJuZWwgcGFnZSBmYXVsdCBoYW5kbGVyIGZvciB0aGUg
+Y29tcHV0ZSBqb2Igd2FudHMgdG8gcHJlZW1wdAp0aGUgM2Qgd29ya2xvYWQsIHdoaWNoIHdvbnQg
+aGFwcGVuCi0gZXZlcnlvbmUgaXMgZmlybWx5IHN0dWNrIGFuZCB0aGUgdXNlciBnZXRzIGFuZ3J5
+CgpTbyBqdXN0IHJlcXVpcmluZyB0aGF0IGV2ZXJ5dGhpbmcgdXNlcyBwcmVlbXB0LWN0eCBmZW5j
+ZXMgaXNuJ3QgZW5vdWdoCmR1ZSB0byBzaGFyZWQgcmVzb3VyY2VzIHBvc3NpYmxlIGJsb2NraW5n
+IHByZWVtcHRpb24gZXZlbiBhY3Jvc3MKZW5naW5lcy4gUGx1cyB3ZSdkIHN0aWxsIGhhdmUgdGhl
+IHByb2JsZW0gdGhhdCBkbWFfZmVuY2Vfd2FpdCBmcm9tCnJlY2xhaW0gaXNuJ3QgYWxsb3dlZCwg
+cGlubmluZyBhbGwgdGhlIDNkIHdvcmtsb2FkIG1lbW9yeSBmb3IgZ29vZC4KCkFzaWRlOiBUaGlz
+IG1lYW5zIHRoYXQgZm9yIGNvbXB1dGUgd29ya2xvYWRzIHVzaW5nIHBhZ2UgZmF1bHRzIHdlCmNh
+bm5vdCB1c2UgcHJlZW1wdC1jdHggZmVuY2VzIGVpdGhlciwgYnV0IGluc3RlYWQgbWVtb3J5IHJl
+Y2xhaW0gaGFzCnRvIGV4Y2x1c2l2ZWx5IHVzZSBwdGUgemFwcGluZyAoYm90aCBzaHJpbmtlciBh
+bmQgbW11IG5vdGlmaWVyKS4KCkNoZWVycywgRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3
+YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
