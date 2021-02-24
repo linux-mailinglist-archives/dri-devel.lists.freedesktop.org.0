@@ -1,120 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC9C323F15
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 15:09:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF37323F25
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Feb 2021 15:29:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A8086EABA;
-	Wed, 24 Feb 2021 14:09:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DCDA6EA86;
+	Wed, 24 Feb 2021 14:29:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2072.outbound.protection.outlook.com [40.107.220.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8C8B6EABA;
- Wed, 24 Feb 2021 14:08:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mizA0GVACKGCyi6e3ptfxer+Hw91xVtcAQM5eX5Rx90j00eJPizBG+XHGTDv8kfUVmX2RS6PKWvKqndUdIqRVLA1SJ9/XQ03VFmyW7qH86nlRwLZ7bz3U6MnbVzQ6G9pAuiwU63g9AMfKIUcqdovhBRYv4BzLcp1d9VFN1WJteOHmxWSxIxyWVdZ5cVbVVWllG3ZbWjG5av08lVwgRN1MySw/jT244gdDxhko3LPfHVoHqOt0SE++e1aN9S9V3N1jqC92ivwBW5Evm9IneG4IJl0KqpGbLJxKSU0mTZ4inif/Tpxxziy3SkbQrgo/UJVvs6cgbydHxOxzuKSgKYm4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l3HtsO2R4kYsiXHaQ8Nfb+ElHiXt59I6/0R4bqvXYf0=;
- b=ecWjcrLjXg9S3HXclaCxbJfTLzevtGgZqSovrZxGiiVRCY/+zmKDOfCwUzxYehJxKd0jslmYnSJaOA2ZNFAUJXLrZsu7El7zO5dILYNAjW1jhoocFWJWzBXorrBTST4318QVEINt8dbWfsIdce8zww3LJtun1jG2fkRkMunqFJr7Ic608085CvQTYxupoiUPy3oJz1KtGAp8XucnP2M23sx/57hb6XeHomhfo3FzDEs5IEO1z60elWoTIwa4oHgyzrKo0rC+ZVHpJqonfSYI+yKCRSxWCYTErQ5v9JEYjI08/Fv/oZh591zJTx8nTqBXXfsXnns5nhkf4ujTXNzdEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l3HtsO2R4kYsiXHaQ8Nfb+ElHiXt59I6/0R4bqvXYf0=;
- b=YBCf9GSvAJBqQYv4FR/6jHz28SV/HcPy7D+NUMt00evvYQuooMqKbMF0fX8FGTfbmIp1GeKiVNPvXONAFHlHHBhJQXlmr626xn7enSGhhUnagxsN+0ObEzYwYG/yNzdhnhrPpgGWCHMdhBQBlyXGyk/FdHknTsPQTheztpgk6/o=
-Received: from MN2PR12MB4488.namprd12.prod.outlook.com (2603:10b6:208:24e::19)
- by MN2PR12MB4013.namprd12.prod.outlook.com (2603:10b6:208:163::27)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.33; Wed, 24 Feb
- 2021 14:08:58 +0000
-Received: from MN2PR12MB4488.namprd12.prod.outlook.com
- ([fe80::b0c4:9a8b:4c4c:76af]) by MN2PR12MB4488.namprd12.prod.outlook.com
- ([fe80::b0c4:9a8b:4c4c:76af%7]) with mapi id 15.20.3868.033; Wed, 24 Feb 2021
- 14:08:58 +0000
-From: "Deucher, Alexander" <Alexander.Deucher@amd.com>
-To: Wei Yongjun <weiyongjun1@huawei.com>, Hulk Robot <hulkci@huawei.com>,
- "Wentland, Harry" <Harry.Wentland@amd.com>, "Li, Sun peng (Leo)"
- <Sunpeng.Li@amd.com>, "Koenig, Christian" <Christian.Koenig@amd.com>, David
- Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, "Kazlauskas,
- Nicholas" <Nicholas.Kazlauskas@amd.com>, "Siqueira, Rodrigo"
- <Rodrigo.Siqueira@amd.com>, "Pillai, Aurabindo" <Aurabindo.Pillai@amd.com>,
- "Wang, Chao-kai (Stylon)" <Stylon.Wang@amd.com>, "Lakha, Bhawanpreet"
- <Bhawanpreet.Lakha@amd.com>, Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
- Simon Ser <contact@emersion.fr>, "Zhuo, Qingqing" <Qingqing.Zhuo@amd.com>
-Subject: Re: [PATCH -next] drm/amd/display: Fix unused variable warning
-Thread-Topic: [PATCH -next] drm/amd/display: Fix unused variable warning
-Thread-Index: AQHXCpEf+qXqfm5niUiEVyfzr/76qKpnV/ge
-Date: Wed, 24 Feb 2021 14:08:58 +0000
-Message-ID: <MN2PR12MB4488303E601FF78D31CC76A7F79F9@MN2PR12MB4488.namprd12.prod.outlook.com>
-References: <20210224094942.2691246-1-weiyongjun1@huawei.com>
-In-Reply-To: <20210224094942.2691246-1-weiyongjun1@huawei.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=True;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2021-02-24T14:08:57.450Z;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal
- Distribution
- Only; MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=0;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard; 
-authentication-results: huawei.com; dkim=none (message not signed)
- header.d=none;huawei.com; dmarc=none action=none header.from=amd.com;
-x-originating-ip: [192.161.79.246]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: cc02257a-0efe-452f-dbd9-08d8d8cdba8f
-x-ms-traffictypediagnostic: MN2PR12MB4013:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR12MB40130606E4E69778880F83B4F79F9@MN2PR12MB4013.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: XmH5DSCGe0PhDcm5cbL5VDoDdDm46YM6CGSouIHq1LC/JS52LaOfVzsbL6yFnldRsYmr+Pe1IuaKn10qmLqPRr3IAQv7g/o9eKxynTDRZpmAwXby/x3SOnbYUfioOsaOCw/WLtKtJPHbF1oghzVii8xGHLuWB6BRUK9m3H9IVNnbwXVQdmUJMxEY7hEwugLrQz5W+wp8QAahFQ4dvr26iS0V0GIG7RyAgoCGlkHe7bAzjxjxeQf1N4dxBTkpGBbuohWoM4Nh5KHk7XT5wVGk4x5grDYQJRf3kAPV94nHW6Ns9inF8DrECxsjU+gxrY2Yf2MN6hsYq9ZGx+JREK81vNl1J5COqFSEaZUW8aaaHbLauz51ZNNCeFwqTYPGuyXFAgAadHvLzwAKlOpIn1qEyBc6pAAObmeLoFVC2JNB21yh6uTrjphIIoG3BcYti4bvMSxm0BKOBW2ujdYDz7Ltl1CXzkjosJoszQGIpaxxWc7Sm8Jdos3nOl5BOGPGYUGnItxTdvn1YuwS1Ff1GnZeTOZNk/HeouJrBgTMYidAWHwcRP379P/ZydRBM5XHdsyd
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4488.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(376002)(39860400002)(396003)(136003)(71200400001)(9686003)(7696005)(5660300002)(33656002)(83380400001)(4326008)(66556008)(6636002)(921005)(86362001)(110136005)(52536014)(8936002)(8676002)(55016002)(2906002)(64756008)(76116006)(478600001)(186003)(53546011)(66446008)(26005)(6506007)(54906003)(316002)(66946007)(66476007)(19627405001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?NcEQ0UsYnBL37B5yqHwYj03q8YkYHX4cUW7dNs8urvOQ5pCtxsnjXHFYHS/b?=
- =?us-ascii?Q?6cDeFyTeeW95w9wf7dRt9DaxHosy8Bk1cIY6hrtKPJp+rYBybm7xqo6zDF+D?=
- =?us-ascii?Q?8q6RtL855uRfDyLdAr3cC9SxTZHaxqMC+ef9Lu2srlCXCutvy3EuYZJB3ppX?=
- =?us-ascii?Q?nkJ+wakUA7TXqgFNQGvJ6r+mH8YhA6whATMMSkzvnX4mSv9UlWC5CsiZbNcp?=
- =?us-ascii?Q?Zt4SuAZx9++ybzSvYerPTI4WjsohOpDdBXKJnIgkww18MTMscLxJIV85M2BC?=
- =?us-ascii?Q?3nAD1nurURer9qWG7CCuPY2MYc3u+1Sg2GYzLWd63eL94D7YwGPQTrfNNVwZ?=
- =?us-ascii?Q?jjUx4GyXXb78zuCc8Ue5EcFT04ev2vHzCqSvSXRjhhWjhDxWNbOxErwo1aoE?=
- =?us-ascii?Q?jhEXm49E3emI9DPa94tv380C7gT4YsETJfHDC8hdFhIwXGZEQfO92owcTBHf?=
- =?us-ascii?Q?ghHoy6ehQCy2KRmiXvUoHuhWSXQUeEyipM070yH8xYcRAxXGjANv+WBsg/Qn?=
- =?us-ascii?Q?VmvylaKX4VIEVFTTZFBSSMyR6XXiBW48qKA+Yqa/1DKItVk/ZNkdRCfGq0i1?=
- =?us-ascii?Q?DcFuGWmJXd7GOsFvAoen5+6PA0iOrYpdd0gIslem69H+bflBBAihQ2JAr/Qo?=
- =?us-ascii?Q?5I9f9jrEuv0syw4JGV8Yih25KoS2cyaF4BOCCeCjzz83kj9sJHHy5O1iLP+U?=
- =?us-ascii?Q?axxunjttzZ8k7lkY7ANcZ+UJqlIm1tf5IE1Xm94s9SvggQ0ln3DeonDT/qau?=
- =?us-ascii?Q?jPFu40hE8dUKCgCncJFMI6Tu5+Lz2/+mYUhGKB4NiYDfxCdY5QIdUjuKBFpt?=
- =?us-ascii?Q?VZU/kfspQWUXvycsfp4AI77mVex9pFA677X8jf/pPRvn6Z+0w0aY3/4zsSRf?=
- =?us-ascii?Q?hyIVYsoWNmLvrY3+A51auGxDA4gZsWjhx+CfXGFPmeOQ1xgNJsjsvyhgq2Hs?=
- =?us-ascii?Q?gd9IPsE4zECAjFtdymQLPQYWKI4FE4QZ4awtWSlOqeDRHx3I+pF9pzREefhs?=
- =?us-ascii?Q?LWNzcr33rkbOFEn2AwNcRrKnjjDPmTvtfz4ePq+J0K7hhq0Ir+TrRYWVeI7s?=
- =?us-ascii?Q?rRi5rDSmJObDXSgeVXxYt29UIesP3uO7d0XpOuUkGVHrwDquoiQBS52j2LC9?=
- =?us-ascii?Q?eaWhjNxYFj5G4iTSy6+rfEgqPkHaAalQD585SrjjfSjV6eNSeHd8XbDtyN8v?=
- =?us-ascii?Q?6B0mkeQDf8+1oeqh8dPc63KHGoWeEPo9Ti9S3tn2peulqv3ND68FrXYByksm?=
- =?us-ascii?Q?/S3SHTrSvf8MaKM+ZKPlbnj/AbhxsGpmlzP/JFxZFzaomiWnmktXx1eBuWAj?=
- =?us-ascii?Q?Jd4lzJ5nMmp7Q967yV4nIv6N?=
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48B596EA86
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 14:29:19 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id n1so2787292edv.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 06:29:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JtlZY/rtRHVxIW3gyr8CPFpyVyRRSggQgj1O0T+p0D0=;
+ b=kNhqsiuP3prewarx2AfypefZ5Q3gXwHDmzcV03KL41vPV/TcaVPnFcAPzzkv1GyRm6
+ njFKsRpiduFds63TBbu8aCRloPXgnSSAUNLHRPkECmANBJbj09/3uYn/HhEnbAsHfM9y
+ ijb86asl+2THc4YeeGKUQNre1YTdROR3ObdS4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JtlZY/rtRHVxIW3gyr8CPFpyVyRRSggQgj1O0T+p0D0=;
+ b=PWVGsRI4J3kxkwboMzaEMsbUGDMNybK2qEzjcfvDDKe3BbvT5Mcw0dqX6temAkn3NP
+ ABr96ZoJOTGemVcOX4roKJjgp9dHZzSzuMSf2NDyWc+QnhSby0ip8XWY6i8YnU7/oGT8
+ OYybCbBsc7y+wdP7A760Zidkz42y2fLVccLXAOQruuBCyoFSOVa8wpbyXAYijaskF7ZB
+ dKYpDzKWsd5ics2j7OEvipbfMS3nHW8oUnYlri3buiyRs+X20cu0raUKwULTOrZVLCHp
+ HBW0hdoc1mbWq6XL7mrV/6QCTHpfqu+NIhKdjMCgEYVmmfrr6FpV2ht4GZ2z7MxmFix6
+ oZUQ==
+X-Gm-Message-State: AOAM530+uc4phEUFCMIgzfxFDqGA7xI/MtcAoPs9BcGBevEnnNilEWuQ
+ G7hpl/0n4LBzLymkhrI3a16WFsXvvHrS7Q1bERHS5A==
+X-Google-Smtp-Source: ABdhPJxJafzL5x9cf/J0bstZHGNA7MI7ooxnblidfmkv7qDn963Q4oR2xUZDIVzTQq5fxTtkpKeS1PBVkvWygb8LnPI=
+X-Received: by 2002:aa7:d6cf:: with SMTP id x15mr32772051edr.338.1614176957782; 
+ Wed, 24 Feb 2021 06:29:17 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4488.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc02257a-0efe-452f-dbd9-08d8d8cdba8f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2021 14:08:58.1118 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ADHYcuQtsy+Md5vPs+/oFCx0oys7VUzej1GaJ9JayxNZfmu7INYOAI3IINAi9Ycst5aQPVTKO4AcI/zDTcZhlQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4013
+References: <20210120112158.62109-1-jagan@amarulasolutions.com>
+ <20210120112158.62109-2-jagan@amarulasolutions.com>
+ <9e3c7787-b7fb-09bd-d938-99a8d2b059f6@baylibre.com>
+In-Reply-To: <9e3c7787-b7fb-09bd-d938-99a8d2b059f6@baylibre.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Wed, 24 Feb 2021 19:59:06 +0530
+Message-ID: <CAMty3ZDESBV7EqfK22DmCvyo1ngtUVYkgZG6DdbcY=CeX8qaRw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm: bridge: Add SN65DSI84 DSI to LVDS bridge
+To: Riadh Ghaddab <rghaddab@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,186 +60,412 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============0961628355=="
+Cc: devicetree <devicetree@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0961628355==
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_MN2PR12MB4488303E601FF78D31CC76A7F79F9MN2PR12MB4488namp_"
+Hi Riadh,
 
---_000_MN2PR12MB4488303E601FF78D31CC76A7F79F9MN2PR12MB4488namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-[AMD Official Use Only - Internal Distribution Only]
-
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-________________________________
-From: Wei Yongjun <weiyongjun1@huawei.com>
-Sent: Wednesday, February 24, 2021 4:49 AM
-To: Hulk Robot <hulkci@huawei.com>; Wentland, Harry <Harry.Wentland@amd.com=
->; Li, Sun peng (Leo) <Sunpeng.Li@amd.com>; Deucher, Alexander <Alexander.D=
-eucher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; David Airlie=
- <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Kazlauskas, Nicholas =
-<Nicholas.Kazlauskas@amd.com>; Siqueira, Rodrigo <Rodrigo.Siqueira@amd.com>=
-; Pillai, Aurabindo <Aurabindo.Pillai@amd.com>; Wang, Chao-kai (Stylon) <St=
-ylon.Wang@amd.com>; Lakha, Bhawanpreet <Bhawanpreet.Lakha@amd.com>; Bas Nie=
-uwenhuizen <bas@basnieuwenhuizen.nl>; Simon Ser <contact@emersion.fr>; Zhuo=
-, Qingqing <Qingqing.Zhuo@amd.com>
-Cc: Wei Yongjun <weiyongjun1@huawei.com>; amd-gfx@lists.freedesktop.org <am=
-d-gfx@lists.freedesktop.org>; dri-devel@lists.freedesktop.org <dri-devel@li=
-sts.freedesktop.org>; linux-kernel@vger.kernel.org <linux-kernel@vger.kerne=
-l.org>
-Subject: [PATCH -next] drm/amd/display: Fix unused variable warning
-
-GCC reports the following warning with W=3D1:
-
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5439:33:
- warning: unused variable 'dm' [-Wunused-variable]
- 5439 |  struct amdgpu_display_manager *dm =3D &adev->dm;
-      |                                 ^~
-
-This variable only used when CONFIG_DRM_AMD_DC_DCN is set, this
-commit fix the warning.
-
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gp=
-u/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index e24a13fd2730..bda8d5f4e56a 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5436,8 +5436,8 @@ static inline int dm_set_vblank(struct drm_crtc *crtc=
-, bool enable)
-         struct amdgpu_crtc *acrtc =3D to_amdgpu_crtc(crtc);
-         struct amdgpu_device *adev =3D drm_to_adev(crtc->dev);
-         struct dm_crtc_state *acrtc_state =3D to_dm_crtc_state(crtc->state=
-);
--       struct amdgpu_display_manager *dm =3D &adev->dm;
- #if defined(CONFIG_DRM_AMD_DC_DCN)
-+       struct amdgpu_display_manager *dm =3D &adev->dm;
-         unsigned long flags;
- #endif
-         int rc =3D 0;
-
-
---_000_MN2PR12MB4488303E601FF78D31CC76A7F79F9MN2PR12MB4488namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+On Wed, Feb 17, 2021 at 8:44 PM Riadh Ghaddab <rghaddab@baylibre.com> wrote:
 >
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<p style=3D"font-family:Arial;font-size:11pt;color:#0078D7;margin:5pt;" ali=
-gn=3D"Left">
-[AMD Official Use Only - Internal Distribution Only]<br>
-</p>
-<br>
-<div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Reviewed-by: Alex Deucher &lt;alexander.deucher@amd.com&gt;<br>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Wei Yongjun &lt;weiyo=
-ngjun1@huawei.com&gt;<br>
-<b>Sent:</b> Wednesday, February 24, 2021 4:49 AM<br>
-<b>To:</b> Hulk Robot &lt;hulkci@huawei.com&gt;; Wentland, Harry &lt;Harry.=
-Wentland@amd.com&gt;; Li, Sun peng (Leo) &lt;Sunpeng.Li@amd.com&gt;; Deuche=
-r, Alexander &lt;Alexander.Deucher@amd.com&gt;; Koenig, Christian &lt;Chris=
-tian.Koenig@amd.com&gt;; David Airlie &lt;airlied@linux.ie&gt;; Daniel
- Vetter &lt;daniel@ffwll.ch&gt;; Kazlauskas, Nicholas &lt;Nicholas.Kazlausk=
-as@amd.com&gt;; Siqueira, Rodrigo &lt;Rodrigo.Siqueira@amd.com&gt;; Pillai,=
- Aurabindo &lt;Aurabindo.Pillai@amd.com&gt;; Wang, Chao-kai (Stylon) &lt;St=
-ylon.Wang@amd.com&gt;; Lakha, Bhawanpreet &lt;Bhawanpreet.Lakha@amd.com&gt;=
-;
- Bas Nieuwenhuizen &lt;bas@basnieuwenhuizen.nl&gt;; Simon Ser &lt;contact@e=
-mersion.fr&gt;; Zhuo, Qingqing &lt;Qingqing.Zhuo@amd.com&gt;<br>
-<b>Cc:</b> Wei Yongjun &lt;weiyongjun1@huawei.com&gt;; amd-gfx@lists.freede=
-sktop.org &lt;amd-gfx@lists.freedesktop.org&gt;; dri-devel@lists.freedeskto=
-p.org &lt;dri-devel@lists.freedesktop.org&gt;; linux-kernel@vger.kernel.org=
- &lt;linux-kernel@vger.kernel.org&gt;<br>
-<b>Subject:</b> [PATCH -next] drm/amd/display: Fix unused variable warning<=
-/font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">GCC reports the following warning with W=3D1:<br>
-<br>
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5439:33:<br>
-&nbsp;warning: unused variable 'dm' [-Wunused-variable]<br>
-&nbsp;5439 |&nbsp; struct amdgpu_display_manager *dm =3D &amp;adev-&gt;dm;<=
-br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-^~<br>
-<br>
-This variable only used when CONFIG_DRM_AMD_DC_DCN is set, this<br>
-commit fix the warning.<br>
-<br>
-Reported-by: Hulk Robot &lt;hulkci@huawei.com&gt;<br>
-Signed-off-by: Wei Yongjun &lt;weiyongjun1@huawei.com&gt;<br>
----<br>
-&nbsp;drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-<br>
-&nbsp;1 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gp=
-u/drm/amd/display/amdgpu_dm/amdgpu_dm.c<br>
-index e24a13fd2730..bda8d5f4e56a 100644<br>
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c<br>
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c<br>
-@@ -5436,8 +5436,8 @@ static inline int dm_set_vblank(struct drm_crtc *crtc=
-, bool enable)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct amdgpu_crtc *acrtc =
-=3D to_amdgpu_crtc(crtc);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct amdgpu_device *adev=
- =3D drm_to_adev(crtc-&gt;dev);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct dm_crtc_state *acrt=
-c_state =3D to_dm_crtc_state(crtc-&gt;state);<br>
--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct amdgpu_display_manager *dm =3D=
- &amp;adev-&gt;dm;<br>
-&nbsp;#if defined(CONFIG_DRM_AMD_DC_DCN)<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct amdgpu_display_manager *dm =3D=
- &amp;adev-&gt;dm;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unsigned long flags;<br>
-&nbsp;#endif<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int rc =3D 0;<br>
-<br>
-</div>
-</span></font></div>
-</div>
-</body>
-</html>
+> Hi Jagan,
+>
+> On 20/01/2021 12:21, Jagan Teki wrote:
+>
+> SN65DSI84 is a Single Channel DSI to Dual-link LVDS bridge from
+> Texas Instruments.
+>
+> SN65DSI83, SN65DSI85 are variants of the same family of bridge
+> controllers.
+>
+> Right now the bridge driver is supporting a single link, dual-link
+> support requires to initiate I2C Channel B registers.
+>
+> Tested with STM32MP1 MIPI DSI host design configuration.
+>
+> Do you have the code to support the Dual channel LVDS feature ?
+> If not I recently developed the code for a board using sn65dsi84 with Dual
+> LVDS channel
 
---_000_MN2PR12MB4488303E601FF78D31CC76A7F79F9MN2PR12MB4488namp_--
+I have the basic one, but not have the proper hardware to verify
+dual-link. Please have a look at V2 of similar patches. We will sort
+out the driver so-that it can work with possible configurations.
 
---===============0961628355==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+>
+> Signed-off-by: Matteo Lisi <matteo.lisi@engicam.com>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> ---
+>  MAINTAINERS                           |   6 +
+>  drivers/gpu/drm/bridge/Kconfig        |  19 +
+>  drivers/gpu/drm/bridge/Makefile       |   1 +
+>  drivers/gpu/drm/bridge/ti-sn65dsi84.c | 488 ++++++++++++++++++++++++++
+>  4 files changed, 514 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/ti-sn65dsi84.c
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 12dd1fff2a39..44750ff7640c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5984,6 +5984,12 @@ S: Maintained
+>  F: Documentation/devicetree/bindings/display/ti/
+>  F: drivers/gpu/drm/omapdrm/
+>
+> +DRM DRIVERS FOR TI SN65DSI84 DSI TO LVDS BRIDGE
+> +M: Jagan Teki <jagan@amarulasolutions.com>
+> +S: Maintained
+> +F: Documentation/devicetree/bindings/display/bridge/ti,sn65dsi84.yaml
+> +F: drivers/gpu/drm/bridge/ti-sn65dsi84.c
+> +
+>  DRM DRIVERS FOR V3D
+>  M: Eric Anholt <eric@anholt.net>
+>  S: Supported
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index e4110d6ca7b3..6494881bffb3 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -232,6 +232,25 @@ config DRM_TI_TFP410
+>   help
+>    Texas Instruments TFP410 DVI/HDMI Transmitter driver
+>
+> +config DRM_TI_SN65DSI84
+> + tristate "TI SN65DSI84 DSI to LVDS bridge"
+> + depends on OF
+> + select DRM_KMS_HELPER
+> + select REGMAP_I2C
+> + select DRM_PANEL
+> + select DRM_MIPI_DSI
+> + help
+> +  Texas Instruments SN65DSI84 Single Channel DSI to Dual-link LVDS
+> +  bridge driver.
+> +
+> +  Bridge decodes MIPI DSI 18bpp RGB666 and 240bpp RG888 packets and
+> +  converts the formatted video data stream to a FlatLink compatible
+> +  LVDS output operating at pixel clocks operating from 25 MHx to
+> +  154 MHz.
+> +
+> +  SN65DSI84 offers a Dual-Link LVDS, Single-Link LVDS interface with
+> +  four data lanes per link.
+> +
+>  config DRM_TI_SN65DSI86
+>   tristate "TI SN65DSI86 DSI to eDP bridge"
+>   depends on OF
+> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> index 86e7acc76f8d..3906052ef639 100644
+> --- a/drivers/gpu/drm/bridge/Makefile
+> +++ b/drivers/gpu/drm/bridge/Makefile
+> @@ -20,6 +20,7 @@ obj-$(CONFIG_DRM_TOSHIBA_TC358767) += tc358767.o
+>  obj-$(CONFIG_DRM_TOSHIBA_TC358768) += tc358768.o
+>  obj-$(CONFIG_DRM_TOSHIBA_TC358775) += tc358775.o
+>  obj-$(CONFIG_DRM_I2C_ADV7511) += adv7511/
+> +obj-$(CONFIG_DRM_TI_SN65DSI84) += ti-sn65dsi84.o
+>  obj-$(CONFIG_DRM_TI_SN65DSI86) += ti-sn65dsi86.o
+>  obj-$(CONFIG_DRM_TI_TFP410) += ti-tfp410.o
+>  obj-$(CONFIG_DRM_TI_TPD12S015) += ti-tpd12s015.o
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi84.c b/drivers/gpu/drm/bridge/ti-sn65dsi84.c
+> new file mode 100644
+> index 000000000000..3ed1f9a7d898
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi84.c
+> @@ -0,0 +1,488 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2021 Engicam srl
+> + * Copyright (C) 2021 Amarula Solutions(India)
+> + * Author: Jagan Teki <jagan@amarulasolutions.com>
+> + */
+> +
+> +#include <drm/drm_of.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_mipi_dsi.h>
+> +
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/regmap.h>
+> +
+> +/* sn65dsi84 registers */
+> +#define SN65DSI_SOFT_RESET 0x09
+> +#define SN65DSI_LVDS_CLK 0x0a
+> +#define SN65DSI_CLK_DIV 0x0b
+> +#define SN65DSI_CLK_PLL 0x0d
+> +#define SN65DSI_DSI_CFG 0x10
+> +#define SN65DSI_DSI_CLK_EQ 0x11
+> +#define SN65DSI_DSI_CLK_RANGE 0x12
+> +#define SN65DSI_LVDS_MODE 0x18
+> +#define SN65DSI_CHA_LINE_LO 0x20
+> +#define SN65DSI_CHA_LINE_HI 0x21
+> +#define SN65DSI_CHA_VIRT_LO 0x24
+> +#define SN65DSI_CHA_VIRT_HI 0x25
+> +#define SN65DSI_CHA_SYNC_DELAY_LO 0x28
+> +#define SN65DSI_CHA_SYNC_DELAY_HI 0x29
+> +#define SN65DSI_CHA_HSYNC_WIDTH_LO 0x2c
+> +#define SN65DSI_CHA_HSYNC_WIDTH_HI 0x2d
+> +#define SN65DSI_CHA_VSYNC_WIDTH_LO 0x30
+> +#define SN65DSI_CHA_VSYNC_WIDTH_HI 0x31
+> +#define SN65DSI_CHA_HBACK_PORCH 0x34
+> +#define SN65DSI_CHA_VBACK_PORCH 0x36
+> +#define SN65DSI_CHA_HFRONT_PORCH 0x38
+> +#define SN65DSI_CHA_VFRONT_PORCH 0x3a
+> +#define SN65DSI_CHA_ERR 0xe5
+> +
+> +/* sn65dsi register bits */
+> +#define SN65DSI_RESET_EN BIT(0)
+> +#define SN65DSI_PLL_EN BIT(0)
+> +#define SN65DSI_LVDS_CLK_MASK GENMASK(3, 1)
+> +#define SN65DSI_LVDS_CLK_SHIFT 1
+> +#define SN65DSI_LVDS_CLK_SRC_DSI BIT(0)
+> +#define SN65DSI_CLK_DIV_MASK GENMASK(7, 3)
+> +#define SN65DSI_CLK_DIV_SHIFT 3
+> +#define SN65DSI_DSI_LANE_MASK GENMASK(4, 3)
+> +#define SN65DSI_DSI_LANE_SHIFT 3
+> +#define SN65DSI_LVDS_LINK_CFG BIT(4)
+> +#define SN65DSI_LVDS_CHA_24BPP BIT(3)
+> +#define SN65DSI_CHA_LOW_SYNC_DELAY 0x20
+> +#define SN65DSI_CHA_HIGH_SYNC_DELAY 0x00
+> +
+> +struct sn65dsi {
+> + struct device *dev;
+> + struct drm_bridge bridge;
+> + struct drm_bridge *panel_bridge;
+> +
+> + struct device_node *host_node;
+> + struct mipi_dsi_device *dsi;
+> + u8 dsi_lanes;
+> +
+> + struct regmap *regmap;
+> + struct gpio_desc *enable;
+> +};
+> +
+> +static const struct regmap_config sn65dsi_regmap_config = {
+> + .reg_bits = 8,
+> + .val_bits = 8,
+> + .max_register = SN65DSI_CHA_ERR,
+> + .name = "sn65dsi",
+> + .cache_type = REGCACHE_RBTREE,
+> +};
+> +
+> +static inline struct sn65dsi *bridge_to_sn65dsi(struct drm_bridge *bridge)
+> +{
+> + return container_of(bridge, struct sn65dsi, bridge);
+> +}
+> +
+> +static struct drm_display_mode *bridge_to_mode(struct drm_bridge *bridge)
+> +{
+> + return &bridge->encoder->crtc->state->mode;
+> +}
+> +
+> +static void sn65dsi_setup_channels(struct sn65dsi *sn,
+> +   struct drm_display_mode *mode)
+> +{
+> + u32 hsync_len, hfront_porch, hback_porch;
+> + u32 vsync_len, vfront_porch, vback_porch;
+> +
+> + hfront_porch = mode->hsync_start - mode->hdisplay;
+> + hsync_len = mode->hsync_end - mode->hsync_start;
+> + hback_porch = mode->htotal - mode->hsync_end;
+> +
+> + vfront_porch = mode->vsync_start - mode->vdisplay;
+> + vsync_len = mode->vsync_end - mode->vsync_start;
+> + vback_porch = mode->vtotal - mode->vsync_end;
+> +
+> + /* cha, lower 8-bits of hdisplay */
+> + regmap_write(sn->regmap, SN65DSI_CHA_LINE_LO, mode->hdisplay & 0xff);
+> +
+> + msleep(10);
+> +
+> + /* cha, upper 4-bits of hdisplay */
+> + regmap_write(sn->regmap, SN65DSI_CHA_LINE_HI, (mode->hdisplay >> 8) & 0xff);
+> +
+> + msleep(10);
+> +
+> + /* cha, lower 8-bits of vdisplay */
+> + regmap_write(sn->regmap, SN65DSI_CHA_VIRT_LO, mode->vdisplay & 0xff);
+> +
+> + msleep(10);
+> +
+> + /* cha, upper 4-bits of vdisplay */
+> + regmap_write(sn->regmap, SN65DSI_CHA_VIRT_HI, (mode->vdisplay >> 8) & 0xff);
+> +
+> + msleep(10);
+> +
+>
+> According to the datasheet, the Vertical active parameter are not needed. They are used only for
+> test pattern generation.
 
+I will check this.
+
+>
+> + /*cha, lower sync delay */
+> + regmap_write(sn->regmap, SN65DSI_CHA_SYNC_DELAY_LO, SN65DSI_CHA_LOW_SYNC_DELAY);
+> +
+> + msleep(10);
+> +
+> + /*cha, upper sync delay */
+> + regmap_write(sn->regmap, SN65DSI_CHA_SYNC_DELAY_HI, SN65DSI_CHA_HIGH_SYNC_DELAY);
+> +
+> + msleep(10);
+> +
+> + /* cha, lower 8-bits of hsync_len */
+> + regmap_write(sn->regmap, SN65DSI_CHA_HSYNC_WIDTH_LO, hsync_len & 0xff);
+> +
+> + msleep(10);
+> +
+> + /* cha, upper 2-bits of hsync_len */
+> + regmap_write(sn->regmap, SN65DSI_CHA_HSYNC_WIDTH_HI, (hsync_len >> 8) & 0xff);
+> +
+> + msleep(10);
+> +
+> + /* cha, lower 8-bits of vsync_len */
+> + regmap_write(sn->regmap, SN65DSI_CHA_VSYNC_WIDTH_LO, vsync_len & 0xff);
+> +
+> + msleep(10);
+> +
+> + /* cha, upper 2-bits of vsync_len */
+> + regmap_write(sn->regmap, SN65DSI_CHA_VSYNC_WIDTH_HI, (vsync_len >> 8) & 0xff);
+> +
+> + msleep(10);
+> +
+> + /* cha, hback_porch */
+> + regmap_write(sn->regmap, SN65DSI_CHA_HBACK_PORCH, hback_porch & 0xff);
+> +
+> + msleep(10);
+> +
+> + /* cha, vback_porch */
+> + regmap_write(sn->regmap, SN65DSI_CHA_VBACK_PORCH, vback_porch & 0xff);
+> +
+> + msleep(10);
+> +
+> + /* cha, hfront_porch */
+> + regmap_write(sn->regmap, SN65DSI_CHA_HFRONT_PORCH, hfront_porch & 0xff);
+> +
+> + msleep(10);
+> +
+> + /* cha, vfront_porch */
+> + regmap_write(sn->regmap, SN65DSI_CHA_VFRONT_PORCH, vfront_porch & 0xff);
+> +
+> + msleep(10);
+> +}
+> +
+> +static int sn65dsi_get_clk_range(int min, int max, unsigned long clock,
+> + unsigned long start, unsigned long diff)
+> +{
+> + unsigned long next;
+> + int i;
+> +
+> + for (i = min; i <= max; i++) {
+> + next = start + diff;
+> + if (start <= clock && clock < next)
+> + return i;
+> +
+> + start += diff;
+> + }
+> +
+> + return -EINVAL;
+> +}
+> +
+> +static void sn65dsi_enable(struct drm_bridge *bridge)
+> +{
+> + struct sn65dsi *sn = bridge_to_sn65dsi(bridge);
+> + struct drm_display_mode *mode = bridge_to_mode(bridge);
+> + int bpp = mipi_dsi_pixel_format_to_bpp(sn->dsi->format);
+> + unsigned int lanes = sn->dsi->lanes;
+> + unsigned int pixel_clk = mode->clock * 1000;
+> + unsigned int dsi_clk = pixel_clk * bpp / (lanes * 2);
+> + unsigned int val;
+> +
+> + /* set SOFT_RESET bit */
+> + regmap_write(sn->regmap, SN65DSI_SOFT_RESET, SN65DSI_RESET_EN);
+> +
+> + msleep(10);
+> +
+> + /* set PLL_EN bit */
+> + regmap_write(sn->regmap, SN65DSI_CLK_PLL, 0x0);
+> +
+> + msleep(10);
+> +
+> + /* setup lvds clock */
+> + val = sn65dsi_get_clk_range(0, 5, pixel_clk, 25000000, 25000000);
+> + if (val < 0) {
+> + DRM_DEV_ERROR(sn->dev, "invalid LVDS clock range %d\n", val);
+> + return;
+> + }
+> +
+> + regmap_update_bits(sn->regmap, SN65DSI_LVDS_CLK,
+> +   SN65DSI_LVDS_CLK_MASK,
+> +   val << SN65DSI_LVDS_CLK_SHIFT);
+> +
+> + regmap_update_bits(sn->regmap, SN65DSI_LVDS_CLK,
+> +   SN65DSI_LVDS_CLK_SRC_DSI,
+> +   SN65DSI_LVDS_CLK_SRC_DSI);
+> +
+> + msleep(10);
+> +
+> + /* setup bridge clock divider */
+> + val = (dsi_clk / pixel_clk) - 1;
+> + regmap_update_bits(sn->regmap, SN65DSI_CLK_DIV,
+> +   SN65DSI_CLK_DIV_MASK,
+> +   val << SN65DSI_CLK_DIV_SHIFT);
+> + msleep(10);
+> +
+> + /* configure dsi */
+> + regmap_update_bits(sn->regmap, SN65DSI_DSI_CFG,
+> +   SN65DSI_DSI_LANE_MASK,
+> +   lanes << SN65DSI_DSI_LANE_SHIFT);
+> + msleep(10);
+> +
+> + /* dsi clock range */
+> + val = sn65dsi_get_clk_range(8, 100, dsi_clk, 40000000, 5000000);
+> + if (val < 0) {
+> + DRM_DEV_ERROR(sn->dev, "invalid DSI clock range %d\n", val);
+> + return;
+> + }
+> +
+> + regmap_write(sn->regmap, SN65DSI_DSI_CLK_RANGE, val);
+> +
+> + msleep(10);
+> +
+> + /* setup lvds channels */
+> + regmap_read(sn->regmap, SN65DSI_LVDS_MODE, &val);
+> + if (bpp == 24)
+> + val |= SN65DSI_LVDS_CHA_24BPP;
+> + regmap_write(sn->regmap, SN65DSI_LVDS_MODE, val);
+> +
+> + msleep(10);
+> +
+> + /* TODO Channel B required to set up for dual-link LVDS */
+> + sn65dsi_setup_channels(sn, mode);
+> +
+> + /* set PLL_EN bit */
+> + regmap_write(sn->regmap, SN65DSI_CLK_PLL, SN65DSI_PLL_EN);
+> +
+> + msleep(10);
+> +}
+>
+> According to the initialization sequence from TI, setting up the channel parameters
+> and the PLL clock should be done while the DSI clk are in HS mode and the DSI data
+> lanes are in LP11 mode.
+> Shouldn't this be done in the pre-enable function ?
+
+I believe it doesn't matter as drm_atomic would pre_enable and enable
+in sequence.  I have categories pre_enable for GPIO and the rest of
+bridge initialization for enable code. Did you see any issues with
+this setup, which DSI host are you using for it?
+
+Jagan.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0961628355==--
