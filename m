@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F00803253D7
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 17:45:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77FA43253E0
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 17:47:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA0AD6ECDB;
-	Thu, 25 Feb 2021 16:45:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28A366ECDC;
+	Thu, 25 Feb 2021 16:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD64F6ECDB
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 16:45:43 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id h98so5891689wrh.11
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 08:45:43 -0800 (PST)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B32C66ECD9
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 16:47:05 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id 7so5925992wrz.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 08:47:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NmfdoFo/I40sE8Qkui7EMAEzIBiXEXSbxp8eB2SP+0o=;
- b=CyvMjwQCKIE4FwP+oGnuDUNRdWrlgQScBR04hkOk9PiVy6A8GZtH+0UMGAKN9P6WFq
- jprR6l6l4jotSjXlak+UnylsDzPratmo9PlELn9va5NnXgbB6zFMADb9z92JvBmLqt+q
- wRgeVqBCm4HDwi/u/F7ApMyvrycm0pGlRV6QShWWawLewbTdC3Tts6VsQBk5pcqm5hnP
- 9MILLaj57TZ2eKBM0lGuOKRVNfXbCzCEC9/Q7KyChSbNTtKusWuwcI5NkRhYvmFNknwP
- o261fT1DdagrjZRChZrfOnt8RvVqTNK1YBQHQJdZQ7cf6a714ti8juiVDeImSdgKAhIW
- yHEA==
+ :cc; bh=vYnywbo5Vak2LSUz0aaCB9g6bHBX066R2mPfYBYRPwU=;
+ b=JBm3fS6j3Aknno3t5+UyMULGvWDbHmCQtNR0iUbx8GMKiv1yPjAsvfwsoMlgEIbiKx
+ 0iqHTVfigbT3x9f5FUUdI9mGBcJcJuo2Mwm5h42OQgRaa/LOe1xreuJMw5FSfOZbmJbK
+ Hz+Ytgp1uy+0CONMFEKg2gZYkMZKluId2dDkwzKzOrKlIGeOndOg4zAIdf4s9jMKgTV8
+ rl+kb0SI4JkGFOPYemuiedg29pbzoeP0ykU8CT4T5Fr/znOjNECoP36baZzY6daUPcH8
+ gTaNarxE4/g7JVlmpWhwHFHSSkfTpFdXuR/De4eGbMnh5aySdP3ZHcbnIgBHJcHnLkWB
+ 6JkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NmfdoFo/I40sE8Qkui7EMAEzIBiXEXSbxp8eB2SP+0o=;
- b=mVLv3sxYx/8DgLyel08+VO8rkIsFSlzHFRRMYl8YSgB4Gjym1ISJQvFRCuF7OLBk16
- EP2JjykQYQlZwYl8k8O6YrGaweRF+foNd+QOMAMW91qrH61kX+Wb0FZ3AlZ+2vS9eVNQ
- 7TxKo8zEnn0TOsTe4yLYGryQTN9yN40PE8sjfKisWc7DBRf3sMV4JqBac72gICyqBMh0
- Z3CZeiD5/Bek39tj01wCl9YOnxrOXHqLpuJk3LrSNrzs6nEENMkaOXZMANqaRoSUR1Tl
- +fDqFLrjybX+gx0ngCJPi3/H7jNA/RY04AYr4wCq7RdBBTOpA/inqg6RoNuIoHXrsokg
- TDmw==
-X-Gm-Message-State: AOAM530oLoTuYkA9q0t2+bKgoBGP227HN5gNQIOm6Vocukzq94xhhjQn
- pGuP3KJU3HdNrDl5HDXo03QVJCFg1PnHAh1VXUNp4g==
-X-Google-Smtp-Source: ABdhPJw6VNhGfLB+x+jtrwvxYrcNNxSAxOcW7GDDkzr1pqBrOXtyS043FXS2OonOo7r8BFLfSOCxjTi4WGBs2AY/IfQ=
-X-Received: by 2002:adf:f681:: with SMTP id v1mr4460008wrp.150.1614271542472; 
- Thu, 25 Feb 2021 08:45:42 -0800 (PST)
+ bh=vYnywbo5Vak2LSUz0aaCB9g6bHBX066R2mPfYBYRPwU=;
+ b=Kr0e3y5YX0+IAfx1Qx3TAuuxJxukI25fyK6j8vWP4Xnesf/+6imv32QY+debjH476d
+ jglkoLyfNtMOrYe3J633N7GMuBCiJxmsZkVtpH37a3h3aSvmBII2lptvO/1/yzziszYc
+ ftqYQ98ZimrWhOWWeJ4doyAm+Vm45e83Bp0s80ShYneoj35zzkwZM8f52ggOmXlDgKJx
+ jU4wnPPAA71VTu0XSnTFphL5lMj4JOrpUYpoF001zpJ0+pz0GHHypUEAK5mu+QBl3xLu
+ dgowQ7mU2Tts/liHfoE+CyRx6HYH09EEC7aOr3bcpnYFFqlW0qjcnBmv00xCk109ONBX
+ nHoA==
+X-Gm-Message-State: AOAM532iMiBrtgH93vKqzmmYuqpVdzHWfO0FwQeHHBQgwJNKg8SpXrny
+ h6mbo0CnnJ5aMNdi8piwMRFEVXXWihaLUqnqm2khNA==
+X-Google-Smtp-Source: ABdhPJwUD/uQY/I9MmK5Eut9nsqN4gXqF5Lf3s8EITEG2ZlAMQPu7S96HSYZhe6MCQ1z1I+dahFxVyJba4W7EE2Cd0s=
+X-Received: by 2002:adf:f8cd:: with SMTP id f13mr4255062wrq.27.1614271624253; 
+ Thu, 25 Feb 2021 08:47:04 -0800 (PST)
 MIME-Version: 1.0
 References: <20210225155909.1853812-1-maxime@cerno.tech>
- <20210225155909.1853812-7-maxime@cerno.tech>
-In-Reply-To: <20210225155909.1853812-7-maxime@cerno.tech>
+ <20210225155909.1853812-9-maxime@cerno.tech>
+In-Reply-To: <20210225155909.1853812-9-maxime@cerno.tech>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 25 Feb 2021 16:45:26 +0000
-Message-ID: <CAPY8ntAcVoHGcDCXuFD3677VwJCr6EVzWoxL5stmModa7hQrGw@mail.gmail.com>
-Subject: Re: [PATCH 6/8] drm/vc4: hdmi: Raise the maximum clock rate
+Date: Thu, 25 Feb 2021 16:46:48 +0000
+Message-ID: <CAPY8ntBN=Kra-j7AS_VhYpVJ8y2+=T4EKOT3YBRZzEspuiUkaQ@mail.gmail.com>
+Subject: Re: [PATCH 8/8] drm/vc4: plane: Remove redundant assignment
 To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,34 +77,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 25 Feb 2021 at 15:59, Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> Now that we have the infrastructure in place, we can raise the maximum
-> pixel rate we can reach for HDMI0 on the BCM2711.
->
-> HDMI1 is left untouched since its pixelvalve has a smaller FIFO and
-> would need a clock faster than what we can provide to support the same
-> modes.
->
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Other than no commit text body (which is hardly needed in this case)
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
 > ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/vc4/vc4_plane.c | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 1a6babb53cf4..27464add6468 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -2177,7 +2177,7 @@ static const struct vc4_hdmi_variant bcm2711_hdmi0_variant = {
->         .encoder_type           = VC4_ENCODER_TYPE_HDMI0,
->         .debugfs_name           = "hdmi0_regs",
->         .card_name              = "vc4-hdmi-0",
-> -       .max_pixel_clock        = HDMI_14_MAX_TMDS_CLK,
-> +       .max_pixel_clock        = 600000000,
->         .registers              = vc5_hdmi_hdmi0_fields,
->         .num_registers          = ARRAY_SIZE(vc5_hdmi_hdmi0_fields),
->         .phy_lane_mapping       = {
+> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+> index 5e8b7f72dc05..201831e924d9 100644
+> --- a/drivers/gpu/drm/vc4/vc4_plane.c
+> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
+> @@ -1131,7 +1131,6 @@ static void vc4_plane_atomic_async_update(struct drm_plane *plane,
+>         plane->state->src_y = state->src_y;
+>         plane->state->src_w = state->src_w;
+>         plane->state->src_h = state->src_h;
+> -       plane->state->src_h = state->src_h;
+>         plane->state->alpha = state->alpha;
+>         plane->state->pixel_blend_mode = state->pixel_blend_mode;
+>         plane->state->rotation = state->rotation;
 > --
 > 2.29.2
 >
