@@ -1,109 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D473249CF
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 05:39:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 679E63249FF
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 06:22:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6FF76EC35;
-	Thu, 25 Feb 2021 04:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B4276E8C3;
+	Thu, 25 Feb 2021 05:22:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2063.outbound.protection.outlook.com [40.107.244.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3317E6E8D4;
- Thu, 25 Feb 2021 04:39:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CS8WufoD8sxkSWcR1XZRmapoQrW0YAhOtjcfsk38ACOxZaVAEfRueFsdtIXfzw+hGnkJNX4WPBI8EaatojWJ9Tk+znY0bt8hnbYzF4VZMwGk+aHbM2VfDHEj4VqiYX5cBLLIYZ30AzkJ88czDEsK9POhIAI81fDnX0FGV7lSjFYbAH2rvXc4SU5ZoNwdEmTilpjmII/diTKS7fgY9ncKirm1YuTs4EbSghM+FJ3/Exp3e1WFPZ90rBty65HpVMv//OR8z+06Khow4IB1fftWk8eGTRID3BiuHPqneIT1Kj5aM39kDFh5f8ChXhZQogt6NYJ9kphhzDTKyskNr17fgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CtVM3A+C5SaKAtH8Yt/HTcGTCUZywIgu/bBvrzo/Tes=;
- b=eKAXXJ3b+GaRR44KFD+mJivh1BEhxM39KeMGYRybcZWZMRLUGJwBOA+ahyxFnvrXv6x2KmicakddxKlrT7WUezxm8QE4xbXPL6YZp2agEGjsKqFw3K3KknKr1NUFOMO4BCstN9UzsVjLf124dEiT+J/jN/vgIm69cpKFoS44Yf497AJvuSOjccRyuTaj18AqEXPQ4/VLgCifLNR/Vo1im2k2h/q8ZxS7wNP/axCDczV4YhaHwrxChOCIzY4l7T7Tj0zfgAWMcCLYoagKhGgIY9BaZ/5cw4qLultz6AAQvebmik+3uXOcmEz5n472oWhfzFqH16Q+AAOmnheJ/LdiSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CtVM3A+C5SaKAtH8Yt/HTcGTCUZywIgu/bBvrzo/Tes=;
- b=1HkM3gEPrBcrrWMq7j7/msSf8PASNzXM++qOE86aoukQU9tEO/FHiPuiq8Cklf2zDulsKqQFPhBK3KmKqd3luElxgeUwpb6RZhugPI1/GzARXP49SA3ljf2B2EuP7DPzdaRsFfBYwDZHJkxDyS/Qfwdd2xwDLdImFpRIHHNf8Lg=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB4488.namprd12.prod.outlook.com (2603:10b6:208:24e::19)
- by MN2PR12MB3805.namprd12.prod.outlook.com (2603:10b6:208:15a::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.32; Thu, 25 Feb
- 2021 04:39:14 +0000
-Received: from MN2PR12MB4488.namprd12.prod.outlook.com
- ([fe80::b0c4:9a8b:4c4c:76af]) by MN2PR12MB4488.namprd12.prod.outlook.com
- ([fe80::b0c4:9a8b:4c4c:76af%7]) with mapi id 15.20.3868.033; Thu, 25 Feb 2021
- 04:39:14 +0000
-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu drm-fixes-5.12
-Date: Wed, 24 Feb 2021 23:38:53 -0500
-Message-Id: <20210225043853.3880-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.29.2
-X-Originating-IP: [192.161.79.246]
-X-ClientProxiedBy: BL1PR13CA0469.namprd13.prod.outlook.com
- (2603:10b6:208:2c4::24) To MN2PR12MB4488.namprd12.prod.outlook.com
- (2603:10b6:208:24e::19)
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com
+ [IPv6:2607:f8b0:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31C236E8C3
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 05:22:51 +0000 (UTC)
+Received: by mail-il1-x135.google.com with SMTP id o1so3861022ila.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 21:22:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NBGLbUHfWX61SiPuGbVl+z4WV/5RdoCYOnTg8ALW4Zg=;
+ b=DVAmSyuk+BaSYeGygm5m0R8sQPLdVwq/XOvT42QyATnyJ5AE2bLe8sVQkhInWYpMVi
+ cxUKfMBwiHIEmztfiZ/3h8TJKddNEekmOm7GYYwuiwIaIuwnMUtjKsbbf0q5bNxK5d2k
+ 9C2G/EDOFR2Pnd+Hzr92cMjuy+1rrwZvgriKT/V1A2LxTSoy+BrndozazEO1we9OQTFT
+ L1LD8lsG/Kqfc86TNHyh4iGNhhFL96QFkfPdvNqnAiDXzU+nFNQe9iXtxlQzKqwt32Bz
+ 6T2jB/7TCecIvKmuHUArNRm/1MmVohOaOzc0IKLkh51jCYd5H/r+AdOMkQW5Iob6gRkZ
+ qQCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NBGLbUHfWX61SiPuGbVl+z4WV/5RdoCYOnTg8ALW4Zg=;
+ b=Mq+kJYFFPFnroeVE2ZyEnr5y9fJQBEgT1y6l2ccB+4YB51JwJjEiFi7cQy/J0XI+p0
+ FGHgMokCcplj6+x4W8qkNxmLNiLXZAq9AW3vo6+8zz4IN6YgBiaEluFi1M++si3VNKgO
+ SVSsYJx7CB/oQbgfCp5nWLsC0KA5Mxjt3sQ8Tdu2LV3dtdk+lOIO5KxzABl6H1mUB0jc
+ Oq9vTVMw/PFJBE9/YMzx2x52qNIZfOz7X6bT4dBaPPTOLrFHRo+9X0Mpk7/rWuYih/id
+ rbk1UOd1pyI5MedDOq4e33asDesmINUVz0Oui4eSDVvD8PO0WvR8CCOAXaZspds7Xcw2
+ T4+Q==
+X-Gm-Message-State: AOAM5339Ii4N60dSYNEQQZRG4QYoWNuUx6UTU3IVdDVQz48ydP3Z/Pge
+ YZ6SR9Sj7+73o9vmHv4JdXccXwCVcNWiRJJXfOPLaU010TY0vw==
+X-Google-Smtp-Source: ABdhPJxcuyMPHuz3RT7RRJD234eggZ4GCOSwBDp7tCEvVpntXbijLoSuT8C44xvcJuxdkHusqs1wDwa5dBlSFQ6Tcb4=
+X-Received: by 2002:a05:6e02:b46:: with SMTP id
+ f6mr1015099ilu.230.1614230570310; 
+ Wed, 24 Feb 2021 21:22:50 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (192.161.79.246) by
- BL1PR13CA0469.namprd13.prod.outlook.com (2603:10b6:208:2c4::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.12 via Frontend
- Transport; Thu, 25 Feb 2021 04:39:14 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 1df1fa98-cda9-4f1f-f656-08d8d9474dd3
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3805:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB380538BC06557EB79899FEFCF79E9@MN2PR12MB3805.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:483;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 79qz87us6v875grIWWTZvUFywjZRY1fSTOAa0ftAAAuBq2FXMXmVoq9pwrFhbZn84K5axZxO3IWEUsZu8MGyYT1taIEXnt8jK4RriI0zUSl7PsX/OnTiJRjrKKlUg4G2XCBh6qzCp1ghtsr9p1m30K/JO9Tw3erjBkCdbFIC7n1ec6olacrIiFVykzRhnl2nS7BP8qS/3oB3tTcEOgiPvJilIfa57oVmqebEcUGdr0mnjFYIFUTVSUfcoMT1CWfACq1jhbopuM7+gGzSrnyDZRxdsEdcDTXdFV9cMEQZ7OJoDjxd1dQrynzFkNwjuzhKDgWeRUfxieu/HthTA1zY0IoYW2QwjqptTR3AbTvvqqsidMg0qPHLhJU3kqIMzzCFM9BcohNQRFcseSdPJOUyNhqBbxEtws/loMl9cY77pmxOppsI47xn8gbSlJy5EV+aPk+YNbLi/X5zdRPzv8o+K/I1xa1miuNWviH7iXltJMefRw51bDwRaP+ydiY0noUxyD0f81Ygw7L4HONMUr5ThLMYmyRO1nSb8Tcgq66aRMtmSOuybRoPL8pJBthC3Tms1GTyKguChMhhiiubtNws7LlYeL1E0f3StbWwJomaJBqbYyro7zwKzP024AnTdQR+
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4488.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(376002)(396003)(346002)(366004)(39860400002)(36756003)(186003)(16526019)(66556008)(5660300002)(6506007)(66946007)(66476007)(6666004)(86362001)(2906002)(52116002)(956004)(966005)(69590400012)(316002)(1076003)(2616005)(4326008)(478600001)(6486002)(8936002)(26005)(8676002)(6512007)(83380400001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?EIpYxWSYpZKuxI06AsR1GeeIyRYW2S9sgnW366pNvjOYYMPkMYeFzn7K0odr?=
- =?us-ascii?Q?HB2hebg7mdPVKTgMB5Xj//zUl2vbeOifcQwlGDX3amEa9QQuzG/g/VfpmN7F?=
- =?us-ascii?Q?Qf2bzpzmrj7atNeLQnUh2S9usp0lqU4x55r6nUp5Z/oPFVtT9tV4CyUro8Vl?=
- =?us-ascii?Q?LS8cDNBEx6ksabjDswBgDXX/7ZiLmALdlI1Y5JyCkCw7v+d1xxwsriMZTlMY?=
- =?us-ascii?Q?jF73P9WoWB//U/cHq7yZF7Mow+SXQoIU1b+nKX05ZZ+bpcOGCeGmsBMs/b8J?=
- =?us-ascii?Q?rGeJsIhGhQVwlwS6JspgMqLelnbWh9YjnFeFesN0A9QuPwo1TX6eBKWUoINs?=
- =?us-ascii?Q?CW2srpY/Zz8FEVXHxdSWLBFx6HmFBHbjQDQAw8BvEDh0dG2Szx1hoPp/4hSt?=
- =?us-ascii?Q?drdBeZTJSIpcQWYxRJ4cZvycz+LuQGx89UN3vs6IVl14AO0StBGcqvvs3S8q?=
- =?us-ascii?Q?tn7RdnLYNkzTVHC5Enhh0AsgMjQLWpy3+zh5Ur7llmADjnSZ8Y3LdH80EW3t?=
- =?us-ascii?Q?N6xc3FG/BES0rsEA6OoUuBziHPDRrsJuxqNY4yDIkZROydZQBYbBlF/Wei/M?=
- =?us-ascii?Q?6wY6n26I/zOqg5NXZTWwbdirnWs/SSj28YLL+nSVvTa8jIiCKn37V7PrESaD?=
- =?us-ascii?Q?bi+l/823KccBIs+mICpQxUbysR/ixOYjkkY8Ad41iiijmxyQx3mBBhxAlOC/?=
- =?us-ascii?Q?zMnA6KOMrhkqnR5cYYhov18VqB5+x9h0TMho4jKmo/xqVIujjxsVEa7GbtP4?=
- =?us-ascii?Q?7qADGAS3BjVMHsw7Siac6fmc1jlg4L/FLe6IjURkuEyMbFZTkw4fEOfyOQrQ?=
- =?us-ascii?Q?CMV+2DiuKiCJF23Q0BILWIDX1E+SGIwyXna39K/vW1seKGSorNbeo444ZTVB?=
- =?us-ascii?Q?0JIeN11NRzG/5HXbtElrJiaM864zIu4q1WdK3IvNHL1oHgxZGc25xan8MRH7?=
- =?us-ascii?Q?ED8GZNL8EBFW6oohbkIorG9YNJo/v7vmZfgoK1ensQcpBaWAALj2EvzVTXNg?=
- =?us-ascii?Q?VqlQIATZqf/cNfMUNLt6rudUWSabuX4to8VGoQR6YRSjyWHiXgFCI94c0Cj4?=
- =?us-ascii?Q?lJHijJ1O0VFr3ha+r7Ftb99OqxTVZ2bNvYWBMWkZ5NZHTEbliNhpW4Um8IDd?=
- =?us-ascii?Q?of0Ok+73dTLTK53kwr50C9V26SG5Q1IWsuVmNMtJkTpDfh8GshkI0Kr64zrU?=
- =?us-ascii?Q?i0rfv2/mny9bYHaqq1bQu0OU+dr/LjFF4JkHCO7T+kXH25xezRnNJs1yZZ4j?=
- =?us-ascii?Q?vJagYmgx6Hw/ePyAxeZwEGngRM0x3pJXVyJv+iV5RjWR6kdC4KH4cZ5ZoFwB?=
- =?us-ascii?Q?rOEH/zg8Vl3/1TSKWHt2YIaY?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1df1fa98-cda9-4f1f-f656-08d8d9474dd3
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4488.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2021 04:39:14.7345 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wP8hgPUoL8oMoPxwVK3eCJvIqFjUTHWNlNHYQi84dpQVqzpv9uuaxdh7LRpvPzmkhNu2yS5EgOk1ioUrlc2h1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3805
+References: <20210216161924.1687-1-diego.viola@gmail.com>
+ <CAAVeFuLLw+pb-vvxPbbgDGGLo4Vi-ReJAh_YH-3xUZEDyhDb-Q@mail.gmail.com>
+ <CACAvsv43MhF2JUUhLbxk+aaMkforpF1bvggyfJR=MOnv3wMCfA@mail.gmail.com>
+In-Reply-To: <CACAvsv43MhF2JUUhLbxk+aaMkforpF1bvggyfJR=MOnv3wMCfA@mail.gmail.com>
+From: Diego Viola <diego.viola@gmail.com>
+Date: Thu, 25 Feb 2021 02:22:39 -0300
+Message-ID: <CA+ToGPHOb46YRJmKbEUXv9hqo0fjeGxPQEoQiWniX7WUuVJypA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/nouveau/pmu: fix timeout on GP108
+To: Ben Skeggs <skeggsb@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,67 +63,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Alexandre Courbot <gnurou@gmail.com>, Roy Spliet <nouveau@spliet.org>,
+ Ben Skeggs <bskeggs@redhat.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+Hi Ben,
 
-Fixes for 5.12.
+I can confirm that your last two patches[0][1] fix the timeout issues
+(those from a normal boot and from suspend/resume).
 
-The following changes since commit f730f39eb981af249d57336b47cfe3925632a7fd:
+[0] https://github.com/skeggsb/linux/commit/90224a17437b1f39dbecbb385567c1fce958f992
+[1] https://github.com/skeggsb/linux/commit/0ee6dc49601359042fd254bbd8ba6b4685b4d0d7
 
-  Merge tag 'drm-intel-next-fixes-2021-02-18' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2021-02-19 13:55:07 +1000)
+Tested-by: Diego Viola <diego.viola@gmail.com>
 
-are available in the Git repository at:
+on both patches.
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-5.12-2021-02-24
+Thanks, I appreciate it a lot.
 
-for you to fetch changes up to ea3b4242bc9ca197762119382b37e125815bd67f:
+Diego
 
-  drm/amd/display: Fix system hang after multiple hotplugs (v3) (2021-02-24 09:48:46 -0500)
-
-----------------------------------------------------------------
-amd-drm-fixes-5.12-2021-02-24:
-
-amdgpu:
-- Clang warning fix
-- S0ix platform shutdown/poweroff fix
-- Misc display fixes
-
-----------------------------------------------------------------
-Anson Jacob (1):
-      Revert "drm/amd/display: reuse current context instead of recreating one"
-
-Eric Bernstein (1):
-      drm/amd/display: Remove Assert from dcn10_get_dig_frontend
-
-Nathan Chancellor (1):
-      drm/amd/pm/swsmu: Avoid using structure_size uninitialized in smu_cmn_init_soft_gpu_metrics
-
-Prike Liang (1):
-      drm/amdgpu: fix shutdown and poweroff process failed with s0ix
-
-Qingqing Zhuo (1):
-      drm/amd/display: Fix system hang after multiple hotplugs (v3)
-
-Rodrigo Siqueira (1):
-      drm/amd/display: Add vupdate_no_lock interrupts for DCN2.1
-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   6 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |   6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   9 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 101 ++++++++++++++++-----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |  27 ++++++
- drivers/gpu/drm/amd/display/dc/core/dc.c           |  27 ++----
- drivers/gpu/drm/amd/display/dc/dc_stream.h         |   3 +-
- .../drm/amd/display/dc/dcn10/dcn10_link_encoder.c  |   1 -
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c |   2 +
- .../amd/display/dc/irq/dcn21/irq_service_dcn21.c   |  22 +++++
- drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |   2 +-
- 11 files changed, 158 insertions(+), 48 deletions(-)
+On Wed, Feb 24, 2021 at 6:50 AM Ben Skeggs <skeggsb@gmail.com> wrote:
+>
+> On Wed, 17 Feb 2021 at 13:30, Alexandre Courbot <gnurou@gmail.com> wrote:
+> >
+> > On Wed, Feb 17, 2021 at 1:20 AM Diego Viola <diego.viola@gmail.com> wrote:
+> > >
+> > > This code times out on GP108, probably because the BIOS puts it into a
+> > > bad state.
+> > >
+> > > Since we reset the PMU on driver load anyway, we are at no risk from
+> > > missing a response from it since we are not waiting for one to begin
+> > > with.
+> >
+> > This looks safe to me, provided indeed that the PMU's reset is not
+> > called outside of initialization (which for GP108 is shouldn't be
+> > IIRC?).
+> ISTR that the PMU FW we use prior to GM200 might depend on that being there.
+>
+> I've posted a proposed alternate fix here[1], as we probably shouldn't
+> have been touching PMU there anyway on those GPUs.
+>
+> Ben.
+>
+> [1] https://github.com/skeggsb/linux/commit/90224a17437b1f39dbecbb385567c1fce958f992
+>
+> >
+> > >
+> > > Signed-off-by: Diego Viola <diego.viola@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c | 6 +-----
+> > >  1 file changed, 1 insertion(+), 5 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c
+> > > index a0fe607c9c07..5c802f2d00cb 100644
+> > > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c
+> > > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c
+> > > @@ -102,12 +102,8 @@ nvkm_pmu_reset(struct nvkm_pmu *pmu)
+> > >         if (!pmu->func->enabled(pmu))
+> > >                 return 0;
+> > >
+> > > -       /* Inhibit interrupts, and wait for idle. */
+> > > +       /* Inhibit interrupts. */
+> > >         nvkm_wr32(device, 0x10a014, 0x0000ffff);
+> > > -       nvkm_msec(device, 2000,
+> > > -               if (!nvkm_rd32(device, 0x10a04c))
+> > > -                       break;
+> > > -       );
+> > >
+> > >         /* Reset. */
+> > >         if (pmu->func->reset)
+> > > --
+> > > 2.30.1
+> > >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
