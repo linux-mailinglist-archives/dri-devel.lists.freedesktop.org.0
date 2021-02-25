@@ -1,72 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7245324ADA
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 08:08:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA983324B35
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 08:26:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E75AE6EC49;
-	Thu, 25 Feb 2021 07:08:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0A326EC4F;
+	Thu, 25 Feb 2021 07:26:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 840486EC49;
- Thu, 25 Feb 2021 07:08:10 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id EE2305803A4;
- Thu, 25 Feb 2021 02:08:06 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Thu, 25 Feb 2021 02:08:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=AZu9RdHKS45RqbSECTd/B4xBxs/
- yBPCajZ0CCWUQcYY=; b=F2haPlwESmhsHIgpowjFwxWOr0QbuH5RaENdmik2sON
- QjMZqPrwtpfZdxRq7xw4lHg0nVy2vG3PSgw6C/3QSgIdlLwDskdmC37WqJ6P4WPe
- bWY9NiSeayJ1nXNhQ+nDlAhMwGqvu8HDU9xA8/pnebmYc/kXM1bECEvyPSnzFdij
- 5lA58RDVyIvHOgzTmDXHHnKKRjLzcge4tucz4CvpV2d0WQQ73aAR1NV6U/l6/cee
- rLtGAKKsqOJHhEKLfqtJ47r8g86uTqunfrZQZYEvgIcOSIZsiICCrK8Drpp4tRK5
- eBH7zwLZJu9jqhjQ6tOABzqctn5AGNQrnTBFmhxph8Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=AZu9Rd
- HKS45RqbSECTd/B4xBxs/yBPCajZ0CCWUQcYY=; b=UMrinhy+cK61AOhbMKwx9C
- GFb30hWLQw5UdoOx8pxmhiRopiWfTVQ+W6MgORc2dNzTYYU1WI6IIXM7mjhCS2uT
- NgpwsM3cB7R2z3cyoWtYYCxYKzNw9L2T3BhKmEjvRLe/lbocC/deWpG2M4ISoWpH
- tZGqAkretzNg3UPJXEHoR5dNIAZ6/uh4z7OXZ+cM6O6lS9W4LQQwcdzUC1tZBY1d
- CrWappn1PFJmhQFqdA39KdrjTEnKHP8z8ZBOQQeYVv5E7PK+MEe4clZ1VYV/AQD9
- PsTPmXosctM4Z95uA6UTNd1C2MpYbX+Yh43o5S7IiPkDTmLb8G6mmqu0kdGLCqJg
- ==
-X-ME-Sender: <xms:00w3YIBdueJnRZlKvFrknRG-Dx_X6lyia_1upL53zyaavNM0cqZDBw>
- <xme:00w3YKjr44wHD-t0zfIEZJdfAb2GMAaj8mTGHDjWkfOtWLsHZnoa07VynCLZ1rhB6
- Z19Bq-QmAMcSUWNg_g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkeekgddutddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:00w3YLmeBKkBcd4aey9uT_4Je4M8FkZmqtWudKoqvLdnTX9jZtDdLQ>
- <xmx:00w3YOw2ASPGv603sBv6tV_PF3vN4zGlFqCO9rrEfpH9vkx7UMooOg>
- <xmx:00w3YNQusIQZcMjJ8SBKhdmUzETfdLV6YaWWy6IHFb16kq7-9yTCUA>
- <xmx:1kw3YOAg1gYFaF7YTyaRoxB9Ry69BXhMUhhYV-ZqyGtr56zAlbI1UQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 11857240064;
- Thu, 25 Feb 2021 02:08:02 -0500 (EST)
-Date: Thu, 25 Feb 2021 08:08:00 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 01/11] drm/atomic: Pass the full state to planes async
- atomic check and update
-Message-ID: <20210225070800.cylmzc4aw4lf64m3@gilmour>
-References: <20210219120032.260676-1-maxime@cerno.tech>
- <cead3a20-08cf-78a4-88a9-c6b6697bd8b8@suse.de>
+Received: from z11.mailgun.us (z11.mailgun.us [104.130.96.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAE106EC4B
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 07:26:20 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1614237982; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=cUew4Av0FJC4vQyEP5MpOnxBX/HGR6/3GwBlUCObe0g=;
+ b=ncf51Igj1Wo+YMVjt5QiO/3zUZVxO1zuHUtnXf5DkaVIf7geMZT9UWZ07iRGN0qmrtQUteMf
+ QDoJBNswFbYwkO/JnAlYXjatI+kU91+ivFqhL4n3L7+PWHa1rbt2aCOiC6oVpB526Kim/3lQ
+ lkZSDhG3KDDZK40BN9ojC07xP5E=
+X-Mailgun-Sending-Ip: 104.130.96.11
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 603751127f306299bf11abe0 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 25 Feb 2021 07:26:10
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 57667C433C6; Thu, 25 Feb 2021 07:26:09 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 6D79BC433CA;
+ Thu, 25 Feb 2021 07:26:08 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <cead3a20-08cf-78a4-88a9-c6b6697bd8b8@suse.de>
+Date: Wed, 24 Feb 2021 23:26:08 -0800
+From: abhinavk@codeaurora.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [Freedreno] [PATCH] drm/msm/dsi_pll_7nm: Fix variable usage for
+ pll_lockdet_rate
+In-Reply-To: <20210224230528.1216677-1-dmitry.baryshkov@linaro.org>
+References: <20210224230528.1216677-1-dmitry.baryshkov@linaro.org>
+Message-ID: <ab841076b17c509f2009145697e8cb67@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,69 +63,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Sandy Huang <hjc@rock-chips.com>,
- linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>, freedreno@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-arm-kernel@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>
-Content-Type: multipart/mixed; boundary="===============1005517881=="
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dmitry
 
---===============1005517881==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="rlwiyewnrnff76nn"
-Content-Disposition: inline
+Thanks for the patch.
 
-
---rlwiyewnrnff76nn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Wed, Feb 24, 2021 at 12:33:45PM +0100, Thomas Zimmermann wrote:
-> Hi Maxime,
->=20
-> for the whole series:
->=20
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Applied the whole series, thanks to everyone involved in the review,
-it's been a pretty daunting one :)
-
-Maxime
-
---rlwiyewnrnff76nn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYDdM0AAKCRDj7w1vZxhR
-xXSQAP9UU9PXpkIhgKjNrqj/cEuwE6x8DBwzz7lZblBuahSxVgEAmjXn+ByN2oJW
-HFh1nkqeJIGSo3HrbEWp+YkGuQ0BuAw=
-=HL4n
------END PGP SIGNATURE-----
-
---rlwiyewnrnff76nn--
-
---===============1005517881==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+On 2021-02-24 15:05, Dmitry Baryshkov wrote:
+> The PLL_LOCKDET_RATE_1 was being programmed with a hardcoded value
+> directly, but the same value was also being specified in the
+> dsi_pll_regs struct pll_lockdet_rate variable: let's use it!
+> 
+> Based on 362cadf34b9f ("drm/msm/dsi_pll_10nm: Fix variable usage for
+> pll_lockdet_rate")
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
+> b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
+> index 0458eda15114..e29b3bfd63d1 100644
+> --- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
+> @@ -325,7 +325,7 @@ static void dsi_pll_commit(struct dsi_pll_7nm *pll)
+>  	pll_write(base + REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_LOW_1,
+> reg->frac_div_start_low);
+>  	pll_write(base + REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_MID_1,
+> reg->frac_div_start_mid);
+>  	pll_write(base + REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_HIGH_1,
+> reg->frac_div_start_high);
+> -	pll_write(base + REG_DSI_7nm_PHY_PLL_PLL_LOCKDET_RATE_1, 0x40);
+> +	pll_write(base + REG_DSI_7nm_PHY_PLL_PLL_LOCKDET_RATE_1,
+> reg->pll_lockdet_rate);
+>  	pll_write(base + REG_DSI_7nm_PHY_PLL_PLL_LOCK_DELAY, 0x06);
+>  	pll_write(base + REG_DSI_7nm_PHY_PLL_CMODE_1, 0x10); /* TODO: 0x00 
+> for CPHY */
+>  	pll_write(base + REG_DSI_7nm_PHY_PLL_CLOCK_INVERTERS,
+> reg->pll_clock_inverters);
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1005517881==--
