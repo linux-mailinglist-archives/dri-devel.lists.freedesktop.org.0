@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34586324757
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 00:05:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 663BA3247B4
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 01:00:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DAC26EC04;
-	Wed, 24 Feb 2021 23:05:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E62196E0DE;
+	Thu, 25 Feb 2021 00:00:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C15FA6EC05
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 23:05:31 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id h125so5633837lfd.7
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Feb 2021 15:05:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RlKikzIt/rONQFY4pZWTu3Ycq1cfYGrrRaic2XmO02k=;
- b=MzOp94cSmfjpzUawBnjMSye+NAvtXmGFYcpJw12vAjojlYfUUv0Wv2wWyXZBP9Yjg0
- 7cJ1Pj76XmGaR9u5QOaIk4Dqh9IhMnY0PJEt356JmFijQQrVlYXs1/hNfZdVSxI7KHLZ
- ZILg+3nxMnwA+TmLtEvlcoQQOmfGSb0BAcpzszhRRp4TnNsrpJYbtOMirN4A7StPWcyV
- Nd1hpgpA7KOjz25aRlKhTowffmA1PnWOyGLsJBCGri9khSEYrO6dclcx5i/xv+Y/1z9S
- upXNXFQSy4bOrUZ12V6ebgkH0ToFg5OkyA5jIHWkImj9KKH8e7Mj+8OCiTKQbb7nmFF7
- nQsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RlKikzIt/rONQFY4pZWTu3Ycq1cfYGrrRaic2XmO02k=;
- b=VK0RHJP0SVYrd1R2qRxx+qizX/t5xiRjkDd6IKpx8+ToabgUzu5FslVKsoMXW9IgJ9
- BjWR3egSVH66vHwjn1QwYoRZJNtMSxSRZn18On7Nu9JSQYr8VWqKbsEEeVKlO9ntcap+
- ozmY0fAN2I+gOz4oCgWos1GERBbVj5RNznPzR/7DNTfD3VOFUTO3hBMw5u/89QhCoYf/
- z7x//cYwhk5/XtPYrZKkNRRXfT0H7Lp+wmGz+L7IMWjVNX3Io9TrBL5FmuIqvIBwKAEl
- xN2Wf0qFEozPCFlzezkME07hMyjLi/JQy2EOhLBMftJRg/pfGVzY/2PYxFRwr3dKaYzK
- Zcvg==
-X-Gm-Message-State: AOAM531h2DkJkmlJyS9IgT6MUbIk8xSjX3OR+3OicjyzvXFh9JkSDO2J
- J/5qYlhtAXQkIZYH3Ito7CCPsA==
-X-Google-Smtp-Source: ABdhPJwUERX5nQ+xjx77ee9XxWTPYrpU0fvjarXhqh4xrXuFrfdFUwpDWEC4dmNfM9rI7Tn8uVFbBQ==
-X-Received: by 2002:a19:ca01:: with SMTP id a1mr186246lfg.372.1614207930020;
- Wed, 24 Feb 2021 15:05:30 -0800 (PST)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id b28sm776114lfo.190.2021.02.24.15.05.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Feb 2021 15:05:29 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>,
-	Sean Paul <sean@poorly.run>
-Subject: [PATCH] drm/msm/dsi_pll_7nm: Fix variable usage for pll_lockdet_rate
-Date: Thu, 25 Feb 2021 02:05:28 +0300
-Message-Id: <20210224230528.1216677-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A519D6E0DE
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 00:00:29 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 54F5864F0A
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 00:00:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1614211229;
+ bh=5Qa3QNFWHxl5V0hx98tzsmDTZrZy+cG6hXcCQMhS6gE=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=sOPBr+lPiyjZXLAXr67gnl92SpSFV1ES/QpeS/lVl8kBAKS5cjsSL3TdIa5E4mtde
+ JoEUsF+o50LilVGPtBzNV3kM/9fAQ1Y04F2RqI76vSI2QRw3Yf4ASiVDJSNKhOEtRm
+ YBlfNl9KHlCiifzHlBA+AITT9rwBZv00DHUBD8ws4Wn2o+RR/NYEZE8cCYtPi4PJKc
+ bDiVCsxeMgBT+0axvrfPiepDriAkNaAMhPE83vw/bT/mJ1fQqferOtn1PhHxr27KNl
+ +rdrMUtZ5Azf+qvON+86Y5/Lh6MzR4qcW1xAy2y5Bxqo+yWzMh0aEyI0UjAJhDb+Tz
+ tDD3KzeXDBoYw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 4347D65382; Thu, 25 Feb 2021 00:00:29 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: =?UTF-8?B?W0J1ZyAyMDk3MTNdIGFtZGdwdSBkcml2ZXJzL2dwdS9kcm0vYW1k?=
+ =?UTF-8?B?L2FtZGdwdS8uLi9kaXNwbGF5L2RjL2RjbjEwL2RjbjEwX2xpbmtfZW5jb2Rl?=
+ =?UTF-8?B?ci5jOjQ4MyBkY24xMF9nZXRfZGlnX2Zyb250ZW5kKzB4OWUvMHhjMCBbYW1k?=
+ =?UTF-8?B?Z3B1XSB3aGVuIHJlc3VtaW5nIGZyb20gUzMgc3RhdGU=?=
+Date: Thu, 25 Feb 2021 00:00:28 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: samy@lahfa.xyz
+X-Bugzilla-Status: REOPENED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209713-2300-6AV0Wvd9bi@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209713-2300@https.bugzilla.kernel.org/>
+References: <bug-209713-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,41 +66,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The PLL_LOCKDET_RATE_1 was being programmed with a hardcoded value
-directly, but the same value was also being specified in the
-dsi_pll_regs struct pll_lockdet_rate variable: let's use it!
+https://bugzilla.kernel.org/show_bug.cgi?id=209713
 
-Based on 362cadf34b9f ("drm/msm/dsi_pll_10nm: Fix variable usage for
-pll_lockdet_rate")
+--- Comment #17 from Lahfa Samy (samy@lahfa.xyz) ---
+> Looks like this is fixed in 5.11.0 and 5.11.1.
+I'm still getting this issue reliably under kernel 5.11.1 when resuming from
+suspended state.(In reply to Oliver Reeh from comment #16)
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So I confirm this for 5.11.1, still not solved.
 
-diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
-index 0458eda15114..e29b3bfd63d1 100644
---- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
-+++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
-@@ -325,7 +325,7 @@ static void dsi_pll_commit(struct dsi_pll_7nm *pll)
- 	pll_write(base + REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_LOW_1, reg->frac_div_start_low);
- 	pll_write(base + REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_MID_1, reg->frac_div_start_mid);
- 	pll_write(base + REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_HIGH_1, reg->frac_div_start_high);
--	pll_write(base + REG_DSI_7nm_PHY_PLL_PLL_LOCKDET_RATE_1, 0x40);
-+	pll_write(base + REG_DSI_7nm_PHY_PLL_PLL_LOCKDET_RATE_1, reg->pll_lockdet_rate);
- 	pll_write(base + REG_DSI_7nm_PHY_PLL_PLL_LOCK_DELAY, 0x06);
- 	pll_write(base + REG_DSI_7nm_PHY_PLL_CMODE_1, 0x10); /* TODO: 0x00 for CPHY */
- 	pll_write(base + REG_DSI_7nm_PHY_PLL_CLOCK_INVERTERS, reg->pll_clock_inverters);
 -- 
-2.30.0
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
