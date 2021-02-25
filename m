@@ -1,56 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA983324B35
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 08:26:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E386324BFD
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 09:25:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0A326EC4F;
-	Thu, 25 Feb 2021 07:26:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1741C6EC61;
+	Thu, 25 Feb 2021 08:25:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from z11.mailgun.us (z11.mailgun.us [104.130.96.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAE106EC4B
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 07:26:20 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1614237982; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=cUew4Av0FJC4vQyEP5MpOnxBX/HGR6/3GwBlUCObe0g=;
- b=ncf51Igj1Wo+YMVjt5QiO/3zUZVxO1zuHUtnXf5DkaVIf7geMZT9UWZ07iRGN0qmrtQUteMf
- QDoJBNswFbYwkO/JnAlYXjatI+kU91+ivFqhL4n3L7+PWHa1rbt2aCOiC6oVpB526Kim/3lQ
- lkZSDhG3KDDZK40BN9ojC07xP5E=
-X-Mailgun-Sending-Ip: 104.130.96.11
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 603751127f306299bf11abe0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 25 Feb 2021 07:26:10
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 57667C433C6; Thu, 25 Feb 2021 07:26:09 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 6D79BC433CA;
- Thu, 25 Feb 2021 07:26:08 +0000 (UTC)
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9EF76EC4D;
+ Thu, 25 Feb 2021 07:26:23 +0000 (UTC)
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DmPRl0XdtzlPlk;
+ Thu, 25 Feb 2021 15:24:19 +0800 (CST)
+Received: from huawei.com (10.69.192.56) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.498.0; Thu, 25 Feb 2021
+ 15:26:12 +0800
+From: Luo Jiaxing <luojiaxing@huawei.com>
+To: <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <bskeggs@redhat.com>
+Subject: [PATCH v1 1/2] drm/nouveau/kms/nv50-: Remove several set but not used
+ variables "ret" in disp.c
+Date: Thu, 25 Feb 2021 15:27:06 +0800
+Message-ID: <1614238026-43279-1-git-send-email-luojiaxing@huawei.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Date: Wed, 24 Feb 2021 23:26:08 -0800
-From: abhinavk@codeaurora.org
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [Freedreno] [PATCH] drm/msm/dsi_pll_7nm: Fix variable usage for
- pll_lockdet_rate
-In-Reply-To: <20210224230528.1216677-1-dmitry.baryshkov@linaro.org>
-References: <20210224230528.1216677-1-dmitry.baryshkov@linaro.org>
-Message-ID: <ab841076b17c509f2009145697e8cb67@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Thu, 25 Feb 2021 08:25:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,52 +42,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: luojiaxing@huawei.com, linux-kernel@vger.kernel.org, linuxarm@openeuler.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry
-
-Thanks for the patch.
-
-On 2021-02-24 15:05, Dmitry Baryshkov wrote:
-> The PLL_LOCKDET_RATE_1 was being programmed with a hardcoded value
-> directly, but the same value was also being specified in the
-> dsi_pll_regs struct pll_lockdet_rate variable: let's use it!
-> 
-> Based on 362cadf34b9f ("drm/msm/dsi_pll_10nm: Fix variable usage for
-> pll_lockdet_rate")
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
-> b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
-> index 0458eda15114..e29b3bfd63d1 100644
-> --- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
-> @@ -325,7 +325,7 @@ static void dsi_pll_commit(struct dsi_pll_7nm *pll)
->  	pll_write(base + REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_LOW_1,
-> reg->frac_div_start_low);
->  	pll_write(base + REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_MID_1,
-> reg->frac_div_start_mid);
->  	pll_write(base + REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_HIGH_1,
-> reg->frac_div_start_high);
-> -	pll_write(base + REG_DSI_7nm_PHY_PLL_PLL_LOCKDET_RATE_1, 0x40);
-> +	pll_write(base + REG_DSI_7nm_PHY_PLL_PLL_LOCKDET_RATE_1,
-> reg->pll_lockdet_rate);
->  	pll_write(base + REG_DSI_7nm_PHY_PLL_PLL_LOCK_DELAY, 0x06);
->  	pll_write(base + REG_DSI_7nm_PHY_PLL_CMODE_1, 0x10); /* TODO: 0x00 
-> for CPHY */
->  	pll_write(base + REG_DSI_7nm_PHY_PLL_CLOCK_INVERTERS,
-> reg->pll_clock_inverters);
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4ZXMgdGhlIGZvbGxvd2luZyB3YXJuaW5nIHdoZW4gdXNpbmcgVz0xIHRvIGJ1aWxkIGtlcm5l
+bDoKCmRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYzogSW4gZnVuY3Rpb24g
+4oCYbnY1MF9tc3RtX2NsZWFudXDigJk6CmRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUw
+L2Rpc3AuYzoxMzg5OjY6IHdhcm5pbmc6IHZhcmlhYmxlIOKAmHJldOKAmSBzZXQgYnV0IG5vdCB1
+c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQogMTM4OSB8ICBpbnQgcmV0OwogICAgICB8
+ICAgICAgXn5+CmRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYzogSW4gZnVu
+Y3Rpb24g4oCYbnY1MF9tc3RtX3ByZXBhcmXigJk6CmRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rp
+c3BudjUwL2Rpc3AuYzoxNDEzOjY6IHdhcm5pbmc6IHZhcmlhYmxlIOKAmHJldOKAmSBzZXQgYnV0
+IG5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQogMTQxMyB8ICBpbnQgcmV0Owog
+ICAgICB8ICAgICAgXn5+CgpTaWduZWQtb2ZmLWJ5OiBMdW8gSmlheGluZyA8bHVvamlheGluZ0Bo
+dWF3ZWkuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYyB8
+IDggKysrLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25z
+KC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5j
+IGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jCmluZGV4IDE5NjYxMmEu
+LjgyOGY0OGQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rp
+c3AuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwLmMKQEAgLTEz
+ODYsMTIgKzEzODYsMTEgQEAgbnY1MF9tc3RtX2NsZWFudXAoc3RydWN0IG52NTBfbXN0bSAqbXN0
+bSkKIHsKIAlzdHJ1Y3Qgbm91dmVhdV9kcm0gKmRybSA9IG5vdXZlYXVfZHJtKG1zdG0tPm91dHAt
+PmJhc2UuYmFzZS5kZXYpOwogCXN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlcjsKLQlpbnQgcmV0
+OwogCiAJTlZfQVRPTUlDKGRybSwgIiVzOiBtc3RtIGNsZWFudXBcbiIsIG1zdG0tPm91dHAtPmJh
+c2UuYmFzZS5uYW1lKTsKLQlyZXQgPSBkcm1fZHBfY2hlY2tfYWN0X3N0YXR1cygmbXN0bS0+bWdy
+KTsKKwlkcm1fZHBfY2hlY2tfYWN0X3N0YXR1cygmbXN0bS0+bWdyKTsKIAotCXJldCA9IGRybV9k
+cF91cGRhdGVfcGF5bG9hZF9wYXJ0MigmbXN0bS0+bWdyKTsKKwlkcm1fZHBfdXBkYXRlX3BheWxv
+YWRfcGFydDIoJm1zdG0tPm1ncik7CiAKIAlkcm1fZm9yX2VhY2hfZW5jb2RlcihlbmNvZGVyLCBt
+c3RtLT5vdXRwLT5iYXNlLmJhc2UuZGV2KSB7CiAJCWlmIChlbmNvZGVyLT5lbmNvZGVyX3R5cGUg
+PT0gRFJNX01PREVfRU5DT0RFUl9EUE1TVCkgewpAQCAtMTQxMCwxMCArMTQwOSw5IEBAIG52NTBf
+bXN0bV9wcmVwYXJlKHN0cnVjdCBudjUwX21zdG0gKm1zdG0pCiB7CiAJc3RydWN0IG5vdXZlYXVf
+ZHJtICpkcm0gPSBub3V2ZWF1X2RybShtc3RtLT5vdXRwLT5iYXNlLmJhc2UuZGV2KTsKIAlzdHJ1
+Y3QgZHJtX2VuY29kZXIgKmVuY29kZXI7Ci0JaW50IHJldDsKIAogCU5WX0FUT01JQyhkcm0sICIl
+czogbXN0bSBwcmVwYXJlXG4iLCBtc3RtLT5vdXRwLT5iYXNlLmJhc2UubmFtZSk7Ci0JcmV0ID0g
+ZHJtX2RwX3VwZGF0ZV9wYXlsb2FkX3BhcnQxKCZtc3RtLT5tZ3IpOworCWRybV9kcF91cGRhdGVf
+cGF5bG9hZF9wYXJ0MSgmbXN0bS0+bWdyKTsKIAogCWRybV9mb3JfZWFjaF9lbmNvZGVyKGVuY29k
+ZXIsIG1zdG0tPm91dHAtPmJhc2UuYmFzZS5kZXYpIHsKIAkJaWYgKGVuY29kZXItPmVuY29kZXJf
+dHlwZSA9PSBEUk1fTU9ERV9FTkNPREVSX0RQTVNUKSB7Ci0tIAoyLjcuNAoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
