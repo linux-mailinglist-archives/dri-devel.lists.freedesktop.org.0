@@ -1,49 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D16B7324CC4
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 10:25:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B04324D02
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 10:37:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 481D56EC6F;
-	Thu, 25 Feb 2021 09:25:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D03586E10E;
+	Thu, 25 Feb 2021 09:36:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF49E6EC6F
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 09:25:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=wxvgBttwLRXKiBtnuQuBExpUbktoMEcQOfPPhDTJ7cU=; b=teQ8aAgWBf6GcNDSf8iHMBQ9PG
- IaiwWq66vJCUGaB8VbBFtvx3wCmDQTHNRCfex0npW/uviNMlrAl5c15jzsxzvF2Eh0+AZeYCrJXzn
- Jb7xNxW8npEKp2rRPti6sBYprw2MJe0AgaGniwBkBZEo3AccuA3Z4V2bSLY0cCg0HeQqytrgbinnJ
- GF+mnjpL7OK+4tVaPFBur+M/TnpojFeGeiQqTZw0/KK7fNQgvDRdTSXa9Hv8wbMPfbeuCEY06xd20
- tBV59zDWZ8iTHJAK84ZLHmRFX4j8bOsO4EggDRyd43EElz42doo+NgTT7ICBul/Z5pPLkY/2lBHRP
- ce13YBoA==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:62132
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1lFCu8-0000dv-MZ; Thu, 25 Feb 2021 10:25:52 +0100
-Subject: Re: [PATCH] drm/shmem-helpers: vunmap: Don't put pages for dma-buf
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-References: <20210219122203.51130-1-noralf@tronnes.org>
- <2eb66df9-05bc-c52c-b6b7-793cac59f4d3@suse.de>
- <5169579f-04cf-230d-f9be-f3eb068b0e51@tronnes.org>
- <6754ac45-b433-65cf-02a7-a785f616b8a8@suse.de>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <980dd782-f921-c4af-5507-b23f3cca4f79@tronnes.org>
-Date: Thu, 25 Feb 2021 10:25:51 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1963C6E10E
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 09:36:56 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id z126so5483037oiz.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 01:36:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=W7MC3/QnDlOBciI7HO8xeix5Zlcj2JKBczxxvejpGvM=;
+ b=lWVfsr9CjnfmWsbtgiQDe3qnCpNonlE1+yy6onxrYumeosbwmI5YZ1zc2PCcDmQys9
+ YTNqDJBBicYF+nv26NUpn+0XLVwgm4vchwi60h3lH1i8USM7cW49N6d/f/TDPnZDQci5
+ tIhKlFseJT9Isl7DaI/wfR2ucMNRXIwsvmQuM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=W7MC3/QnDlOBciI7HO8xeix5Zlcj2JKBczxxvejpGvM=;
+ b=tjGFJbdr2dHqM8uECoZHYVMfCy4+dc/G864hGeDvOJN4ndbv3WPdTTlKu2LcJ+T6zW
+ h/LbBQwK3hUggtqwy1KjvevZVgoN1Q2XIFR5e/8R3ZXOY3SK/U02v6jr5k7FHldo0rlc
+ EJh42KsZ4Qw44kJao/y5xcU029wQhQFuv7jpB4qodrgGqomwGBPFZIK34wiu2GFVgoTe
+ uQtHylwskEFs5CZVRy2bVoyjJyZQOlGcSA6h6HyzZLMpMcoC0z184yra5ANDOoMOAs0a
+ M2WMRtSKJtuHiD/ntfIfySs+nwy/JkPbofe2GBXNA6Rw3GL+chx0Yw5Pef4GJ63IEyVd
+ JSLw==
+X-Gm-Message-State: AOAM530ODsyeoJRd7qg4PeVMAah2FMTLYcc+m5irgdQMB7DBLdWkjx3D
+ 7BKDJZmhzVzTimZRvzEfeLyWEAQSlnrjSvqp2D9eRg==
+X-Google-Smtp-Source: ABdhPJxgMzBnZ6ZO00bpxTer9CP2+NvwZV0qXHayexi0FhKDb9yYPkpK6gRp93FaxCrJVUx6Zo3ApI85aRMgXGS1LZI=
+X-Received: by 2002:a05:6808:aa6:: with SMTP id
+ r6mr1324550oij.128.1614245815316; 
+ Thu, 25 Feb 2021 01:36:55 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <6754ac45-b433-65cf-02a7-a785f616b8a8@suse.de>
+References: <20210224092304.29932-1-tzimmermann@suse.de>
+In-Reply-To: <20210224092304.29932-1-tzimmermann@suse.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 25 Feb 2021 10:36:44 +0100
+Message-ID: <CAKMK7uGi1j_7xt7XeSaUu6noq+UOsS5nNHBDQBp46uwWHOofnA@mail.gmail.com>
+Subject: Re: [PATCH v4] drm: Use USB controller's DMA mask when importing
+ dmabufs
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,62 +59,276 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Dave Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
+ Christoph Hellwig <hch@lst.de>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>, Alan Stern <stern@rowland.harvard.edu>,
+ dri-devel <dri-devel@lists.freedesktop.org>, stable <stable@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMjUuMDIuMjAyMSAwOS4xMiwgc2tyZXYgVGhvbWFzIFppbW1lcm1hbm46Cj4gSGkKPiAK
-PiBBbSAyNC4wMi4yMSB1bSAxODoxNCBzY2hyaWViIE5vcmFsZiBUcsO4bm5lczoKPj4KPj4KPj4g
-RGVuIDE5LjAyLjIwMjEgMTQuNTQsIHNrcmV2IFRob21hcyBaaW1tZXJtYW5uOgo+Pj4gSGkKPj4+
-Cj4+PiBBbSAxOS4wMi4yMSB1bSAxMzoyMiBzY2hyaWViIE5vcmFsZiBUcsO4bm5lczoKPj4+PiBk
-bWEtYnVmIGltcG9ydGluZyB3YXMgcmV3b3JrZWQgaW4gY29tbWl0IDdkMmNkNzJhOWFhMwo+Pj4+
-ICgiZHJtL3NobWVtLWhlbHBlcnM6IFNpbXBsaWZ5IGRtYS1idWYgaW1wb3J0aW5nIikuIEJlZm9y
-ZSB0aGF0IGNvbW1pdAo+Pj4+IGRybV9nZW1fc2htZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlKCkg
-ZGlkIHNldCAtPnBhZ2VzX3VzZV9jb3VudD0xIGFuZAo+Pj4+IGRybV9nZW1fc2htZW1fdnVubWFw
-X2xvY2tlZCgpIGNvdWxkIGNhbGwgZHJtX2dlbV9zaG1lbV9wdXRfcGFnZXMoKQo+Pj4+IHVuY29u
-ZGl0aW9uYWxseS4gTm93IHdpdGhvdXQgdGhlIHVzZSBjb3VudCBzZXQsIHB1dCBwYWdlcyBpcyBj
-YWxsZWQKPj4+PiBhbHNvCj4+Pj4gb24gZG1hLWJ1ZnMuIEZpeCB0aGlzIGJ5IG9ubHkgcHV0dGlu
-ZyBwYWdlcyBpZiBpdCdzIG5vdCBpbXBvcnRlZC4KPj4+Pgo+Pj4+IEZpeGVzOiA3ZDJjZDcyYTlh
-YTMgKCJkcm0vc2htZW0taGVscGVyczogU2ltcGxpZnkgZG1hLWJ1ZiBpbXBvcnRpbmciKQo+Pj4+
-IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+Pj4+IENjOiBUaG9t
-YXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPj4+PiBTaWduZWQtb2ZmLWJ5OiBO
-b3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9yZz4KPj4+Cj4+PiBKdXN0IHdoZW4gSSBz
-YXcgdGhlIGVycm9yLiBOaWNlLiA6KQo+Pj4KPj4+IEFja2VkLWJ5OiBUaG9tYXMgWmltbWVybWFu
-biA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPj4+IFRlc3RlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4g
-PHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4+Pgo+Pgo+PiBTaG91bGQgSSBhcHBseSB0aGlzIHRvIGRy
-bS1taXNjLWZpeGVzPwo+IAo+IEkgdGhpbmsgc28uIFBpbmcgbWUgaWYgeW91IHdhbnQgbWUgdG8g
-YWRkIGl0Lgo+IAoKSSdkIGFwcHJlY2lhdGUgaWYgeW91IGNvdWxkIGRvIGl0LiBJIGhhdmVuJ3Qg
-YXBwbGllZCBhIHBhdGNoIGluIGFsbW9zdCBhCnllYXIgbm93IGFuZCBuZWVkIHRvIGRpZyBvdXQg
-bXkgbm90ZXMgb24gaG93IEkgZG8gaXQuIC1maXhlcyBzdHVmZiBpcwpmb3IgbWUgYSAiaG9sZCBt
-eSBicmVhdGggYW5kIGhvcGUgSSBkb24ndCBzY3JldyB1cCBhbnl0aGluZyIgZXhlcmNpc2UuClN0
-cmVzc2Z1bCA6LwoKT25lIGRheSBpbiB0aGUgZnV0dXJlIEkgaG9wZSB0aGVyZSdzIGEgZ3JlZW4g
-YnV0dG9uIEkgY2FuIHB1c2ggdGhhdApzYXlzOiBNZXJnZSBwYXRjaCB0byAtZml4ZXMgYW5kIG1h
-a2Ugc3VyZSBldmVyeXRoaW5nIGlzIE9LLiBUaGF0IHdvdWxkCmJlIG5pY2UgOikKClRoYW5rcywK
-Tm9yYWxmLgoKPiBCZXN0IHJlZ2FyZHMKPiBUaG9tYXMKPiAKPj4KPj4gTm9yYWxmLgo+Pgo+Pj4g
-Rm9yIHRlc3RpbmcgdGhlIEdVRCBkcml2ZXIsIHlvdSBtYXkgYWxzbyB3YW50IHRvIGtlZXAgYW4g
-ZXllIGF0IFsxXQo+Pj4KPj4+IEJlc3QgcmVnYXJkcwo+Pj4gVGhvbWFzCj4+Pgo+Pj4gWzFdCj4+
-PiBodHRwczovL2xvcmUua2VybmVsLm9yZy9kcmktZGV2ZWwvMDJhNDVjMTEtZmM3My0xZTVhLTM4
-MzktMzBiMDgwOTUwYWY4QGFtZC5jb20vVC8jdAo+Pj4KPj4+Cj4+Pgo+Pj4+IC0tLQo+Pj4+IMKg
-wqAgZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMgfCA3ICsrKystLS0KPj4+
-PiDCoMKgIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4+
-Pj4KPj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVy
-LmMKPj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jCj4+Pj4gaW5k
-ZXggOTgyNWMzNzhkZmE2Li5jOGE2NTQ3YTE3NTcgMTAwNjQ0Cj4+Pj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMKPj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2dlbV9zaG1lbV9oZWxwZXIuYwo+Pj4+IEBAIC0zNTcsMTMgKzM1NywxNCBAQCBzdGF0aWMg
-dm9pZCBkcm1fZ2VtX3NobWVtX3Z1bm1hcF9sb2NrZWQoc3RydWN0Cj4+Pj4gZHJtX2dlbV9zaG1l
-bV9vYmplY3QgKnNobWVtLAo+Pj4+IMKgwqDCoMKgwqDCoCBpZiAoLS1zaG1lbS0+dm1hcF91c2Vf
-Y291bnQgPiAwKQo+Pj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybjsKPj4+PiDCoMKgIC3C
-oMKgwqAgaWYgKG9iai0+aW1wb3J0X2F0dGFjaCkKPj4+PiArwqDCoMKgIGlmIChvYmotPmltcG9y
-dF9hdHRhY2gpIHsKPj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkbWFfYnVmX3Z1bm1hcChvYmot
-PmltcG9ydF9hdHRhY2gtPmRtYWJ1ZiwgbWFwKTsKPj4+PiAtwqDCoMKgIGVsc2UKPj4+PiArwqDC
-oMKgIH0gZWxzZSB7Cj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgdnVubWFwKHNobWVtLT52YWRk
-cik7Cj4+Pj4gK8KgwqDCoMKgwqDCoMKgIGRybV9nZW1fc2htZW1fcHV0X3BhZ2VzKHNobWVtKTsK
-Pj4+PiArwqDCoMKgIH0KPj4+PiDCoMKgIMKgwqDCoMKgwqAgc2htZW0tPnZhZGRyID0gTlVMTDsK
-Pj4+PiAtwqDCoMKgIGRybV9nZW1fc2htZW1fcHV0X3BhZ2VzKHNobWVtKTsKPj4+PiDCoMKgIH0K
-Pj4+PiDCoMKgIMKgIC8qCj4+Pj4KPj4+Cj4gCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, Feb 24, 2021 at 10:23 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>
+> USB devices cannot perform DMA and hence have no dma_mask set in their
+> device structure. Therefore importing dmabuf into a USB-based driver
+> fails, which breaks joining and mirroring of display in X11.
+>
+> For USB devices, pick the associated USB controller as attachment device.
+> This allows the DRM import helpers to perform the DMA setup. If the DMA
+> controller does not support DMA transfers, we're out of luck and cannot
+> import. Our current USB-based DRM drivers don't use DMA, so the actual
+> DMA device is not important.
+>
+> Drivers should use DRM_GEM_SHMEM_DROVER_OPS_USB to initialize their
+> instance of struct drm_driver.
+>
+> Tested by joining/mirroring displays of udl and radeon un der Gnome/X11.
+>
+> v4:
+>         * implement workaround with USB helper functions (Greg)
+>         * use struct usb_device->bus->sysdev as DMA device (Takashi)
+> v3:
+>         * drop gem_create_object
+>         * use DMA mask of USB controller, if any (Daniel, Christian, Noralf)
+> v2:
+>         * move fix to importer side (Christian, Daniel)
+>         * update SHMEM and CMA helpers for new PRIME callbacks
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 6eb0233ec2d0 ("usb: don't inherity DMA properties for USB devices")
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: <stable@vger.kernel.org> # v5.10+
+> ---
+>  drivers/gpu/drm/drm_prime.c        | 38 ++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/tiny/gm12u320.c    |  2 +-
+>  drivers/gpu/drm/udl/udl_drv.c      |  2 +-
+>  drivers/usb/core/usb.c             | 29 +++++++++++++++++++++++
+>  include/drm/drm_gem_shmem_helper.h | 13 ++++++++++
+>  include/drm/drm_prime.h            |  5 ++++
+>  include/linux/usb.h                |  3 +++
+>  7 files changed, 90 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 2a54f86856af..15c82088ab4c 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -29,6 +29,7 @@
+>  #include <linux/export.h>
+>  #include <linux/dma-buf.h>
+>  #include <linux/rbtree.h>
+> +#include <linux/usb.h>
+>
+>  #include <drm/drm.h>
+>  #include <drm/drm_drv.h>
+> @@ -1055,3 +1056,40 @@ void drm_prime_gem_destroy(struct drm_gem_object *obj, struct sg_table *sg)
+>         dma_buf_put(dma_buf);
+>  }
+>  EXPORT_SYMBOL(drm_prime_gem_destroy);
+> +
+> +/**
+> + * drm_gem_prime_import_usb - helper library implementation of the import callback for USB devices
+> + * @dev: drm_device to import into
+> + * @dma_buf: dma-buf object to import
+> + *
+> + * This is an implementation of drm_gem_prime_import() for USB-based devices.
+> + * USB devices cannot perform DMA directly. This function selects the USB host
+> + * controller as DMA device instead. Drivers can use this as their
+> + * &drm_driver.gem_prime_import implementation.
+
+We're still just papering over drm_prime.c here, and this kerneldoc
+here is sounding way too much like this is a sensible thing to do and
+doesn't mention the fundamental problem.
+
+I'd do something like the below as the entire kerneldoc:
+
+<doc>
+FIXME:
+
+drm_gem_prime_fd_to_handle() and drm_gem_prime_handle_to_fd() require
+that importers call dma_buf_attach() even if they never do actual
+device DMA, but only CPU access through dma_buf_vmap(). Fixing this is
+a bit more involved, since the import/export cache is also tied to
+&drm_gem_object.import_attach.
+
+Meanwhile this function here can be used to paper over this problem
+for USB devices by fishing out the USB host controller device, as long
+as that supports DMA. Otherwise importing can still needlessly fail.
+</doc>
+Since we do not actually have usb drm drivers that do dma I don't want
+to give people wrong impressions about what's going on here. I still
+think the better approach would be to copypaste this hack into each of
+the tree drivers, with the above as a comment, since sharing bad code
+isn't a good idea imo - all that does is hide the problem and make the
+next person feel like it's all peachy. But also ok if there's a
+giantic warning label on the shared code.
+
+With that: Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+
+> + *
+> + * See also drm_gem_prime_import().
+> + */
+> +#ifdef CONFIG_USB
+> +struct drm_gem_object *drm_gem_prime_import_usb(struct drm_device *dev,
+> +                                               struct dma_buf *dma_buf)
+> +{
+> +       struct usb_device *udev;
+> +       struct device *dmadev;
+> +       struct drm_gem_object *obj;
+> +
+> +       if (!dev_is_usb(dev->dev))
+> +               return ERR_PTR(-ENODEV);
+> +       udev = interface_to_usbdev(to_usb_interface(dev->dev));
+> +
+> +       dmadev = usb_get_dma_device(udev);
+> +       if (drm_WARN_ONCE(dev, !dmadev, "buffer sharing not supported"))
+> +               return ERR_PTR(-ENODEV);
+> +
+> +       obj = drm_gem_prime_import_dev(dev, dma_buf, dmadev);
+> +
+> +       put_device(dmadev);
+> +
+> +       return obj;
+> +}
+> +EXPORT_SYMBOL(drm_gem_prime_import_usb);
+> +#endif
+> diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
+> index 0b4f4f2af1ef..99e7bd36a220 100644
+> --- a/drivers/gpu/drm/tiny/gm12u320.c
+> +++ b/drivers/gpu/drm/tiny/gm12u320.c
+> @@ -611,7 +611,7 @@ static const struct drm_driver gm12u320_drm_driver = {
+>         .minor           = DRIVER_MINOR,
+>
+>         .fops            = &gm12u320_fops,
+> -       DRM_GEM_SHMEM_DRIVER_OPS,
+> +       DRM_GEM_SHMEM_DRIVER_OPS_USB,
+>  };
+>
+>  static const struct drm_mode_config_funcs gm12u320_mode_config_funcs = {
+> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
+> index 9269092697d8..2db483b2b199 100644
+> --- a/drivers/gpu/drm/udl/udl_drv.c
+> +++ b/drivers/gpu/drm/udl/udl_drv.c
+> @@ -39,7 +39,7 @@ static const struct drm_driver driver = {
+>
+>         /* GEM hooks */
+>         .fops = &udl_driver_fops,
+> -       DRM_GEM_SHMEM_DRIVER_OPS,
+> +       DRM_GEM_SHMEM_DRIVER_OPS_USB,
+>
+>         .name = DRIVER_NAME,
+>         .desc = DRIVER_DESC,
+> diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+> index 8f07b0516100..253bf71780fd 100644
+> --- a/drivers/usb/core/usb.c
+> +++ b/drivers/usb/core/usb.c
+> @@ -748,6 +748,35 @@ void usb_put_intf(struct usb_interface *intf)
+>  }
+>  EXPORT_SYMBOL_GPL(usb_put_intf);
+>
+> +/**
+> + * usb_get_dma_device - acquire a reference on the usb device's DMA endpoint
+> + * @udev: usb device
+> + *
+> + * While a USB device cannot perform DMA operations by itself, many USB
+> + * controllers can. A call to usb_get_dma_device() returns the DMA endpoint
+> + * for the given USB device, if any. The returned device structure should be
+> + * released with put_device().
+> + *
+> + * Returns: A reference to the usb device's DMA endpoint; or NULL if none
+> + *          exists.
+> + */
+> +struct device *usb_get_dma_device(struct usb_device *udev)
+> +{
+> +       struct device *dmadev;
+> +
+> +       if (!udev->bus)
+> +               return NULL;
+> +
+> +       dmadev = get_device(udev->bus->sysdev);
+> +       if (!dmadev || !dmadev->dma_mask) {
+> +               put_device(dmadev);
+> +               return NULL;
+> +       }
+> +
+> +       return dmadev;
+> +}
+> +EXPORT_SYMBOL_GPL(usb_get_dma_device);
+> +
+>  /*                     USB device locking
+>   *
+>   * USB devices and interfaces are locked using the semaphore in their
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> index 434328d8a0d9..09d12f632cad 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -162,4 +162,17 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_object *obj);
+>         .gem_prime_mmap         = drm_gem_prime_mmap, \
+>         .dumb_create            = drm_gem_shmem_dumb_create
+>
+> +#ifdef CONFIG_USB
+> +/**
+> + * DRM_GEM_SHMEM_DRIVER_OPS_USB - Default shmem GEM operations for USB devices
+> + *
+> + * This macro provides a shortcut for setting the shmem GEM operations in
+> + * the &drm_driver structure. Drivers for USB-based devices should use this
+> + * macro instead of &DRM_GEM_SHMEM_DRIVER_OPS.
+> + */
+> +#define DRM_GEM_SHMEM_DRIVER_OPS_USB \
+> +       DRM_GEM_SHMEM_DRIVER_OPS, \
+> +       .gem_prime_import = drm_gem_prime_import_usb
+> +#endif
+> +
+>  #endif /* __DRM_GEM_SHMEM_HELPER_H__ */
+> diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
+> index 54f2c58305d2..b42e07edd9e6 100644
+> --- a/include/drm/drm_prime.h
+> +++ b/include/drm/drm_prime.h
+> @@ -110,4 +110,9 @@ int drm_prime_sg_to_page_array(struct sg_table *sgt, struct page **pages,
+>  int drm_prime_sg_to_dma_addr_array(struct sg_table *sgt, dma_addr_t *addrs,
+>                                    int max_pages);
+>
+> +#ifdef CONFIG_USB
+> +struct drm_gem_object *drm_gem_prime_import_usb(struct drm_device *dev,
+> +                                               struct dma_buf *dma_buf);
+> +#endif
+> +
+>  #endif /* __DRM_PRIME_H__ */
+> diff --git a/include/linux/usb.h b/include/linux/usb.h
+> index 7d72c4e0713c..a9bd698c8839 100644
+> --- a/include/linux/usb.h
+> +++ b/include/linux/usb.h
+> @@ -711,6 +711,7 @@ struct usb_device {
+>         unsigned use_generic_driver:1;
+>  };
+>  #define        to_usb_device(d) container_of(d, struct usb_device, dev)
+> +#define dev_is_usb(d)  ((d)->bus == &usb_bus_type)
+>
+>  static inline struct usb_device *interface_to_usbdev(struct usb_interface *intf)
+>  {
+> @@ -746,6 +747,8 @@ extern int usb_lock_device_for_reset(struct usb_device *udev,
+>  extern int usb_reset_device(struct usb_device *dev);
+>  extern void usb_queue_reset_device(struct usb_interface *dev);
+>
+> +extern struct device *usb_get_dma_device(struct usb_device *udev);
+> +
+>  #ifdef CONFIG_ACPI
+>  extern int usb_acpi_set_power_state(struct usb_device *hdev, int index,
+>         bool enable);
+> --
+> 2.30.1
+>
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
