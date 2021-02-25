@@ -1,30 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F64324D2F
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 10:53:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB87324D5A
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 10:58:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1197D6EC74;
-	Thu, 25 Feb 2021 09:53:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 718576EC70;
+	Thu, 25 Feb 2021 09:58:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 784FB6EC74;
- Thu, 25 Feb 2021 09:53:24 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id 2708A1C0B8B; Thu, 25 Feb 2021 10:53:23 +0100 (CET)
-Date: Thu, 25 Feb 2021 10:53:22 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: udldrm does not recover from powersave? Re: udldrmfb: causes WARN in
- i915 on X60 (x86-32)
-Message-ID: <20210225095322.GA5089@amd>
-References: <20210224200912.GA27905@duo.ucw.cz>
- <452585d5-9d18-f5a8-9d6b-6d39aa037480@suse.de>
+Received: from foo.stuge.se (foo.stuge.se [212.116.89.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 850AE6EC70
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 09:58:31 +0000 (UTC)
+Received: (qmail 6197 invoked by uid 1000); 25 Feb 2021 09:58:25 -0000
+Message-ID: <20210225095825.6196.qmail@stuge.se>
+Date: Thu, 25 Feb 2021 09:58:24 +0000
+From: Peter Stuge <peter@stuge.se>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v6 3/3] drm: Add GUD USB Display driver
+References: <20210219121702.50964-1-noralf@tronnes.org>
+ <20210219121702.50964-4-noralf@tronnes.org>
 MIME-Version: 1.0
-In-Reply-To: <452585d5-9d18-f5a8-9d6b-6d39aa037480@suse.de>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Disposition: inline
+In-Reply-To: <20210219121702.50964-4-noralf@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,72 +35,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, kernel list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com, airlied@redhat.com,
- sean@poorly.run
-Content-Type: multipart/mixed; boundary="===============0752273195=="
+Cc: hudson@trmm.net, markus@raatikainen.cc,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-usb@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, th020394@gmail.com, lkundrak@v3.sk,
+ pontus.fuchs@gmail.com, sam@ravnborg.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0752273195==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="tKW2IUtsqtDRztdT"
-Content-Disposition: inline
-
-
---tKW2IUtsqtDRztdT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> >This is in -next, but I get same behaviour on 5.11; and no, udl does
->=20
-> Thanks for reporting. We are in the process of fixing the issue. The late=
-st
-> patch is at [1].
->
-
-Thank you, that fixes the DMA issue, and I can use the udl.
-
-=2E..for a while. Then screensaver blanks laptop screen, udl screen
-blanks too. Upon hitting a key, internal screen shows up, udl does
-not.
-
-I try rerunning xrandr ... --auto, but could not recover it.
-
-Any ideas?
-
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---tKW2IUtsqtDRztdT
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmA3c5IACgkQMOfwapXb+vIK+wCfcBgCyVwqlwT9BhlQBINozkZu
-6EMAn2cKNi7+6HsERfcaiq/3RwULgi5f
-=/Y0f
------END PGP SIGNATURE-----
-
---tKW2IUtsqtDRztdT--
-
---===============0752273195==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0752273195==--
+SGkgTm9yYWxmLAoKTm9yYWxmIFRyw7hubmVzIHdyb3RlOgo+IFRoZSBkcml2ZXIgc3VwcG9ydHMg
+YSBvbmUgYml0IG1vbm9jaHJvbWUgdHJhbnNmZXIgZm9ybWF0OiBSMS4gVGhpcyBpcyBub3QKPiBp
+bXBsZW1lbnRlZCBpbiB0aGUgZ2FkZ2V0IGRyaXZlci4gSXQgaXMgYWRkZWQgaW4gcHJlcGFyYXRp
+b24gZm9yIGZ1dHVyZQo+IG1vbm9jaHJvbWUgZS1pbmsgZGlzcGxheXMuCgpJIGZvcmdvdCwgYnV0
+IEkgaGF2ZSBhIHR3by10b25lIChibGFjay9yZWQpIGUtaW5rIGRpc3BsYXkgaGVyZSwgYW5kIEkK
+YWxzbyBoYXZlIGEgMy1icHAgUkdCIFRGVCBkaXNwbGF5LgoKU2hvdWxkIHdlIGFkZCBtYXliZSBS
+MiBhbmQgUjM/IChvciBSMy9SOCBmb3IgbnVtYmVyIG9mIGNvbG91cnM/KQoKSSdtIHBhcnRpY3Vs
+YXJseSBjb25zaWRlcmluZyB0aGUgMy1icHAgUkdCIHBhbmVsIGZvciBHVUQgdXNlIG5vdywgYW5k
+CndoaWxlIGl0IHdpbGwgc3VyZWx5IHdvcmsgd2l0aCBzYXkgYSAxNi1iaXQgUkdCIG1vZGUgbWFu
+eSBiaXRzIHdpbGwKYmUgd2FzdGVkIGluIHRoZSBwcm9jZXNzLgoKV2hhdCBhcmUgeW91ciB0aG91
+Z2h0cz8gV291bGQgeW91IHRha2UgYSBwYXRjaCBmb3IgdGhhdCBub3csIGxhdGVyLCBuZXZlcj8K
+CgovL1BldGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
