@@ -1,58 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B01B3252BA
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 16:49:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BF5D3252D6
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 16:59:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A33A6E2B4;
-	Thu, 25 Feb 2021 15:49:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECBDC6ECAE;
+	Thu, 25 Feb 2021 15:59:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com
- [IPv6:2607:f8b0:4864:20::c36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5660B6E24D
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 15:49:50 +0000 (UTC)
-Received: by mail-oo1-xc36.google.com with SMTP id f26so1470784oog.5
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 07:49:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=66axxPgwk3y05kB6nKdd5S7hoUR2QbV0PBw5haTS2vs=;
- b=UkUb6lYM0OqUY3i9FUThvV8RMHyrZ2S8hl0K66TNTtVDMzFiYLKnas85uCzMga/5uF
- ErR5NNobcwUwyefHR6o2XoqihokuelRklf150sryisbyHHCyzmWrecZzxsZ9R28NwLPI
- t+CnXHuTGRaUYX4r06wpOfwtk/IY3uZ9NChrI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=66axxPgwk3y05kB6nKdd5S7hoUR2QbV0PBw5haTS2vs=;
- b=fJwDKnCeU2uBF8HPRumBInaKbYEls97lM8ESESp9WTF3URCHVb1XSrR5eVyIsYDk9m
- qiSlK9Lq/cjQ63Hpxvs6wFCybduwhp+MjZ9eLwk+HjQQamKNUNJ04lbWd8BL3RHo6rDe
- 5xylOlaTZhrfPtyYsskbgDJ/Ygj4lAXV44xw8GRJdQdcbaFNcaDKHs/AdHzlyq13uRyv
- QSFMi1ocWnQZDmxYNQbDRxYyHLCDpB3Jh83bNGqlsXYzL0EEnOgHDsStg6KkClyhM1+k
- tWm1b6ReGkSvmF9QoAws3pdz15oYK5q+SzbwmuAErXBE8tiax+rAnDVchg/nKizxBOql
- ZysA==
-X-Gm-Message-State: AOAM533cjsfvy9Zhw/bHudVZsnxvp6+SRy5klW0CQXvY968rTbAsVrSq
- 9LpJdwiocpvYM75gpmQqJhtHuuAECYvZFa+/ymzoQA==
-X-Google-Smtp-Source: ABdhPJz39Q8y6xrB2+kTt8RumQPbOjQYl9WE9QhULnlXSouL9frT3IALzZMloRVIqo/UupTpwCivyAkSOGQkuUnakGc=
-X-Received: by 2002:a4a:c697:: with SMTP id m23mr2848326ooq.28.1614268189468; 
- Thu, 25 Feb 2021 07:49:49 -0800 (PST)
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 103226ECAE
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 15:59:19 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id B085AB3C;
+ Thu, 25 Feb 2021 10:59:15 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Thu, 25 Feb 2021 10:59:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm2; bh=+SMPealCjSq/PwFRY80381eUIB
+ TCEdDPlWwxCC9pVsc=; b=nNtxGAkzeCB1X6yZKvkfF4Blbsu9aKS3pVRn//mq22
+ U/115xG+7ABqKcnJO+olHyMpdyvFG62yVAdVgtmPthpGDn7tiIU35QQKbY5ylqUI
+ GdKVQXN1bKWcrPpJx+N9ER57NjaiODJEQtpugNt5PgEHVPZ4bZmsfPb7oJt12ZsE
+ Z510oTRVDzKp/t6dKAdwnGLsa3+Yc9XIixekEnhQfr9CUEkrc4+VRmrQWkTEfeEQ
+ zH4RVf4Rf5iC5aDKmW0fJhO7b/ZWryKqGoHwi4O+5GoISxe9fFMIrndCAzVtUDie
+ Vuw9jNRXl7mEivbKcTp5doz+3AFS9N/jFKy+J6Zi27bA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=+SMPea
+ lCjSq/PwFRY80381eUIBTCEdDPlWwxCC9pVsc=; b=XkBGjbTNEoP/2XZ0G6A9Sh
+ dnPqmUfDFiW3R+fwP5qFoYb+f/0bjcOzcp/94ndZsmQUY/wbI8+pUtNzsZcPLaXN
+ S/Jcg3LzeOWEBI5oKUx3eLzXkImXfmh2Jkx/SxoeYZk08ebKzpJ9G/Rh1JM3Q18O
+ DpAZLqUySqIC+y2x9sF8l6ypycVT+fPsN2RfmU5CJUDSg/iU4g6I3IffHt79bf0n
+ lmLwAw8wllK/hzX2le/MGa62JTjFYl/Lqm+4m+w2Pv4cI6KTNattg+OYu/n0eDTI
+ VH4M9X2r2fTEmhmMcSV+9Ax5Gs42qg3+lTYhdflknes+hWDfrNkD7iBulxoV8kmA
+ ==
+X-ME-Sender: <xms:UMk3YHbFD9pemCouU6D2WuXM6zm7sYHYJw17ueKFqWMNHKNwzEhxpg>
+ <xme:UMk3YGYz3ahhSRDzjdtdp_UF6XpIjzuxkag_5vaXVGQoDEWGbaQ3Iq7YmkWVMiQN8
+ _urFmigJMmBZ81eP3g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkeelgdekgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepteeikefgffekgeekledtheduteetjefgkeeuvefhhfetgedugfektdeugeffgfef
+ necukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+ hrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:UMk3YJ_exG8mUIgEVkcURn-iHV7ukSol15ZakzDoK-qQpO8ZoWONfg>
+ <xmx:UMk3YNoPTdhNC0xHwR6lGl2nUR38KvVPotHIJY35ef36cyDW5N-7lw>
+ <xmx:UMk3YCpgSTrU8yHGrxWdOOBE6LO1SbuxZOBcYh5CbggoGmLZya6srQ>
+ <xmx:U8k3YIigYUIizC5-g3PSSHEZcePHWOeiultvpMlUePIWeOqXsQWJZo-9Pac>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 935F7240066;
+ Thu, 25 Feb 2021 10:59:12 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Mike Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/8] drm/vc4: hdmi: Support the 4k @ 60Hz modes
+Date: Thu, 25 Feb 2021 16:59:01 +0100
+Message-Id: <20210225155909.1853812-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20210223105951.912577-1-daniel.vetter@ffwll.ch>
- <1a7c2295-6241-f2bf-4a78-6cadd43bc248@shipmail.org>
- <CAKMK7uHzRb6Q_LgPUrrHn18sorYo7ysTgB+PNE36LDUUsJpHDg@mail.gmail.com>
- <f43311c8-a02a-1a29-a53b-88e599c92187@shipmail.org>
- <CAKMK7uE2UrOruQPWG9KPBQ781f9Bq9xpVRNserAC9BZ2VzDutQ@mail.gmail.com>
- <b30dacb0-edea-0a3c-6163-0f329e58ba61@gmail.com>
- <YDd/hlf8uM3+lxhr@phenom.ffwll.local>
-In-Reply-To: <YDd/hlf8uM3+lxhr@phenom.ffwll.local>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Thu, 25 Feb 2021 16:49:38 +0100
-Message-ID: <CAKMK7uFezcV52oTZbHeve2HFFATeCGyK6zTT6nE1KVP69QRr0A@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for
- mmap
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,128 +79,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>,
- Matthew Wilcox <willy@infradead.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Daniel Vetter <daniel.vetter@intel.com>,
+ Phil Elwell <phil@raspberrypi.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBGZWIgMjUsIDIwMjEgYXQgMTE6NDQgQU0gRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZm
-d2xsLmNoPiB3cm90ZToKPgo+IE9uIFRodSwgRmViIDI1LCAyMDIxIGF0IDExOjI4OjMxQU0gKzAx
-MDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gPiBBbSAyNC4wMi4yMSB1bSAxMDozMSBzY2hy
-aWViIERhbmllbCBWZXR0ZXI6Cj4gPiA+IE9uIFdlZCwgRmViIDI0LCAyMDIxIGF0IDEwOjE2IEFN
-IFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkKPiA+ID4gPHRob21hc19vc0BzaGlwbWFpbC5vcmc+
-IHdyb3RlOgo+ID4gPiA+Cj4gPiA+ID4gT24gMi8yNC8yMSA5OjQ1IEFNLCBEYW5pZWwgVmV0dGVy
-IHdyb3RlOgo+ID4gPiA+ID4gT24gV2VkLCBGZWIgMjQsIDIwMjEgYXQgODo0NiBBTSBUaG9tYXMg
-SGVsbHN0csO2bSAoSW50ZWwpCj4gPiA+ID4gPiA8dGhvbWFzX29zQHNoaXBtYWlsLm9yZz4gd3Jv
-dGU6Cj4gPiA+ID4gPiA+IE9uIDIvMjMvMjEgMTE6NTkgQU0sIERhbmllbCBWZXR0ZXIgd3JvdGU6
-Cj4gPiA+ID4gPiA+ID4gdGxkcjsgRE1BIGJ1ZmZlcnMgYXJlbid0IG5vcm1hbCBtZW1vcnksIGV4
-cGVjdGluZyB0aGF0IHlvdSBjYW4gdXNlCj4gPiA+ID4gPiA+ID4gdGhlbSBsaWtlIHRoYXQgKGxp
-a2UgY2FsbGluZyBnZXRfdXNlcl9wYWdlcyB3b3Jrcywgb3IgdGhhdCB0aGV5J3JlCj4gPiA+ID4g
-PiA+ID4gYWNjb3VudGluZyBsaWtlIGFueSBvdGhlciBub3JtYWwgbWVtb3J5KSBjYW5ub3QgYmUg
-Z3VhcmFudGVlZC4KPiA+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+IFNpbmNlIHNvbWUgdXNlcnNw
-YWNlIG9ubHkgcnVucyBvbiBpbnRlZ3JhdGVkIGRldmljZXMsIHdoZXJlIGFsbAo+ID4gPiA+ID4g
-PiA+IGJ1ZmZlcnMgYXJlIGFjdHVhbGx5IGFsbCByZXNpZGVudCBzeXN0ZW0gbWVtb3J5LCB0aGVy
-ZSdzIGEgaHVnZQo+ID4gPiA+ID4gPiA+IHRlbXB0YXRpb24gdG8gYXNzdW1lIHRoYXQgYSBzdHJ1
-Y3QgcGFnZSBpcyBhbHdheXMgcHJlc2VudCBhbmQgdXNlYWJsZQo+ID4gPiA+ID4gPiA+IGxpa2Ug
-Zm9yIGFueSBtb3JlIHBhZ2VjYWNoZSBiYWNrZWQgbW1hcC4gVGhpcyBoYXMgdGhlIHBvdGVudGlh
-bCB0bwo+ID4gPiA+ID4gPiA+IHJlc3VsdCBpbiBhIHVhcGkgbmlnaHRtYXJlLgo+ID4gPiA+ID4g
-PiA+Cj4gPiA+ID4gPiA+ID4gVG8gc3RvcCB0aGlzIGdhcCByZXF1aXJlIHRoYXQgRE1BIGJ1ZmZl
-ciBtbWFwcyBhcmUgVk1fUEZOTUFQLCB3aGljaAo+ID4gPiA+ID4gPiA+IGJsb2NrcyBnZXRfdXNl
-cl9wYWdlcyBhbmQgYWxsIHRoZSBvdGhlciBzdHJ1Y3QgcGFnZSBiYXNlZAo+ID4gPiA+ID4gPiA+
-IGluZnJhc3RydWN0dXJlIGZvciBldmVyeW9uZS4gSW4gc3Bpcml0IHRoaXMgaXMgdGhlIHVhcGkg
-Y291bnRlcnBhcnQgdG8KPiA+ID4gPiA+ID4gPiB0aGUga2VybmVsLWludGVybmFsIENPTkZJR19E
-TUFCVUZfREVCVUcuCj4gPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gPiBNb3RpdmF0ZWQgYnkgYSBy
-ZWNlbnQgcGF0Y2ggd2hpY2ggd2FudGVkIHRvIHN3aWNoIHRoZSBzeXN0ZW0gZG1hLWJ1Zgo+ID4g
-PiA+ID4gPiA+IGhlYXAgdG8gdm1faW5zZXJ0X3BhZ2UgaW5zdGVhZCBvZiB2bV9pbnNlcnRfcGZu
-Lgo+ID4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ID4gdjI6Cj4gPiA+ID4gPiA+ID4KPiA+ID4gPiA+
-ID4gPiBKYXNvbiBicm91Z2h0IHVwIHRoYXQgd2UgYWxzbyB3YW50IHRvIGd1YXJhbnRlZSB0aGF0
-IGFsbCBwdGVzIGhhdmUgdGhlCj4gPiA+ID4gPiA+ID4gcHRlX3NwZWNpYWwgZmxhZyBzZXQsIHRv
-IGNhdGNoIGZhc3QgZ2V0X3VzZXJfcGFnZXMgKG9uIGFyY2hpdGVjdHVyZXMKPiA+ID4gPiA+ID4g
-PiB0aGF0IHN1cHBvcnQgdGhpcykuIEFsbG93aW5nIFZNX01JWEVETUFQIChsaWtlIFZNX1NQRUNJ
-QUwgZG9lcykgd291bGQKPiA+ID4gPiA+ID4gPiBzdGlsbCBhbGxvdyB2bV9pbnNlcnRfcGFnZSwg
-YnV0IGxpbWl0aW5nIHRvIFZNX1BGTk1BUCB3aWxsIGNhdGNoIHRoYXQuCj4gPiA+ID4gPiA+ID4K
-PiA+ID4gPiA+ID4gPiAgICBGcm9tIGF1ZGl0aW5nIHRoZSB2YXJpb3VzIGZ1bmN0aW9ucyB0byBp
-bnNlcnQgcGZuIHB0ZSBlbnRpcmVzCj4gPiA+ID4gPiA+ID4gKHZtX2luc2VydF9wZm5fcHJvdCwg
-cmVtYXBfcGZuX3JhbmdlIGFuZCBhbGwgaXQncyBjYWxsZXJzIGxpa2UKPiA+ID4gPiA+ID4gPiBk
-bWFfbW1hcF93YykgaXQgbG9va3MgbGlrZSBWTV9QRk5NQVAgaXMgYWxyZWFkeSByZXF1aXJlZCBh
-bnl3YXksIHNvCj4gPiA+ID4gPiA+ID4gdGhpcyBzaG91bGQgYmUgdGhlIGNvcnJlY3QgZmxhZyB0
-byBjaGVjayBmb3IuCj4gPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gSWYgd2UgcmVxdWlyZSBWTV9Q
-Rk5NQVAsIGZvciBvcmRpbmFyeSBwYWdlIG1hcHBpbmdzLCB3ZSBhbHNvIG5lZWQgdG8KPiA+ID4g
-PiA+ID4gZGlzYWxsb3cgQ09XIG1hcHBpbmdzLCBzaW5jZSBpdCB3aWxsIG5vdCB3b3JrIG9uIGFy
-Y2hpdGVjdHVyZXMgdGhhdAo+ID4gPiA+ID4gPiBkb24ndCBoYXZlIENPTkZJR19BUkNIX0hBU19Q
-VEVfU1BFQ0lBTCwgKHNlZSB0aGUgZG9jcyBmb3Igdm1fbm9ybWFsX3BhZ2UoKSkuCj4gPiA+ID4g
-PiBIbSBJIGZpZ3VyZWQgZXZlcnlvbmUganVzdCB1c2VzIE1BUF9TSEFSRUQgZm9yIGJ1ZmZlciBv
-YmplY3RzIHNpbmNlCj4gPiA+ID4gPiBDT1cgcmVhbGx5IG1ha2VzIGFic29sdXRlbHkgbm8gc2Vu
-c2UuIEhvdyB3b3VsZCB3ZSBlbmZvcmNlIHRoaXM/Cj4gPiA+ID4gUGVyaGFwcyByZXR1cm5pbmcg
-LUVJTlZBTCBvbiBpc19jb3dfbWFwcGluZygpIGF0IG1tYXAgdGltZS4gRWl0aGVyIHRoYXQKPiA+
-ID4gPiBvciBhbGxvd2luZyBNSVhFRE1BUC4KPiA+ID4gPgo+ID4gPiA+ID4gPiBBbHNvIHdvcnRo
-IG5vdGluZyBpcyB0aGUgY29tbWVudCBpbiAgdHRtX2JvX21tYXBfdm1hX3NldHVwKCkgd2l0aAo+
-ID4gPiA+ID4gPiBwb3NzaWJsZSBwZXJmb3JtYW5jZSBpbXBsaWNhdGlvbnMgd2l0aCB4ODYgKyBQ
-QVQgKyBWTV9QRk5NQVAgKyBub3JtYWwKPiA+ID4gPiA+ID4gcGFnZXMuIFRoYXQncyBhIHZlcnkg
-b2xkIGNvbW1lbnQsIHRob3VnaCwgYW5kIG1pZ2h0IG5vdCBiZSB2YWxpZCBhbnltb3JlLgo+ID4g
-PiA+ID4gSSB0aGluayB0aGF0J3Mgd2h5IHR0bSBoYXMgYSBwYWdlIGNhY2hlIGZvciB0aGVzZSwg
-YmVjYXVzZSBpdCBpbmRlZWQKPiA+ID4gPiA+IHN1Y2tzLiBUaGUgUEFUIGNoYW5nZXMgb24gcGFn
-ZXMgYXJlIHJhdGhlciBleHBlbnNpdmUuCj4gPiA+ID4gSUlSQyB0aGUgcGFnZSBjYWNoZSB3YXMg
-aW1wbGVtZW50ZWQgYmVjYXVzZSBvZiB0aGUgc2xvd25lc3Mgb2YgdGhlCj4gPiA+ID4gY2FjaGlu
-ZyBtb2RlIHRyYW5zaXRpb24gaXRzZWxmLCBtb3JlIHNwZWNpZmljYWxseSB0aGUgd2JpbnZkKCkg
-Y2FsbCArCj4gPiA+ID4gZ2xvYmFsIFRMQiBmbHVzaC4KPiA+Cj4gPiBZZXMsIGV4YWN0bHkgdGhh
-dC4gVGhlIGdsb2JhbCBUTEIgZmx1c2ggaXMgd2hhdCByZWFsbHkgYnJlYWtzIG91ciBuZWNrIGhl
-cmUKPiA+IGZyb20gYSBwZXJmb3JtYW5jZSBwZXJzcGVjdGl2ZS4KPiA+Cj4gPiA+ID4gPiBUaGVy
-ZSBpcyBzdGlsbCBhbiBpc3N1ZSBmb3IgaW9tZW0gbWFwcGluZ3MsIGJlY2F1c2UgdGhlIFBBVCB2
-YWxpZGF0aW9uCj4gPiA+ID4gPiBkb2VzIGEgbGluZWFyIHdhbGsgb2YgdGhlIHJlc291cmNlIHRy
-ZWUgKGxvbCkgZm9yIGV2ZXJ5IHZtX2luc2VydF9wZm4uCj4gPiA+ID4gPiBCdXQgZm9yIGk5MTUg
-YXQgbGVhc3QgdGhpcyBpcyBmaXhlZCBieSB1c2luZyB0aGUgaW9fbWFwcGluZwo+ID4gPiA+ID4g
-aW5mcmFzdHJ1Y3R1cmUsIHdoaWNoIGRvZXMgdGhlIFBBVCByZXNlcnZhdGlvbiBvbmx5IG9uY2Ug
-d2hlbiB5b3Ugc2V0Cj4gPiA+ID4gPiB1cCB0aGUgbWFwcGluZyBhcmVhIGF0IGRyaXZlciBsb2Fk
-Lgo+ID4gPiA+IFllcywgSSBndWVzcyB0aGF0IHdhcyB0aGUgaXNzdWUgdGhhdCB0aGUgY29tbWVu
-dCBkZXNjcmliZXMsIGJ1dCB0aGUKPiA+ID4gPiBpc3N1ZSB3YXNuJ3QgdGhlcmUgd2l0aCB2bV9p
-bnNlcnRfbWl4ZWQoKSArIFZNX01JWEVETUFQLgo+ID4gPiA+Cj4gPiA+ID4gPiBBbHNvIFRUTSB1
-c2VzIFZNX1BGTk1BUCByaWdodCBub3cgZm9yIGV2ZXJ5dGhpbmcsIHNvIGl0IGNhbid0IGJlIGEK
-PiA+ID4gPiA+IHByb2JsZW0gdGhhdCBodXJ0cyBtdWNoIDotKQo+ID4gPiA+IEhtbSwgYm90aCA1
-LjExIGFuZCBkcm0tdGlwIGFwcGVhcnMgdG8gc3RpbGwgdXNlIE1JWEVETUFQPwo+ID4gPiA+Cj4g
-PiA+ID4gaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvbGF0ZXN0L3NvdXJjZS9kcml2
-ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192bS5jI0w1NTQKPiA+ID4gVWggdGhhdCdzIGJhZCwgYmVj
-YXVzZSBtaXhlZCBtYXBzIHBvaW50aW5nIGF0IHN0cnVjdCBwYWdlIHdvbnQgc3RvcAo+ID4gPiBn
-dXAuIEF0IGxlYXN0IGFmYWlrLgo+ID4KPiA+IEh1aT8gSSdtIHByZXR0eSBzdXJlIE1JWEVETUFQ
-IHN0b3BzIGd1cCBhcyB3ZWxsLiBPdGhlcndpc2Ugd2Ugd291bGQgaGF2ZQo+ID4gYWxyZWFkeSBz
-ZWVuIHRvbnMgb2YgcHJvYmxlbXMgd2l0aCB0aGUgcGFnZSBjYWNoZS4KPgo+IE9uIGFueSBhcmNo
-aXRlY3R1cmUgd2hpY2ggaGFzIENPTkZJR19BUkNIX0hBU19QVEVfU1BFQ0lBTCB2bV9pbnNlcnRf
-bWl4ZWQKPiBib2lscyBkb3duIHRvIHZtX2luc2VydF9wZm4gd3J0IGd1cC4gQW5kIHNwZWNpYWwg
-cHRlIHN0b3BzIGd1cCBmYXN0IHBhdGguCj4KPiBCdXQgaWYgeW91IGRvbid0IGhhdmUgVk1fSU8g
-b3IgVk1fUEZOTUFQIHNldCwgdGhlbiBJJ20gbm90IHNlZWluZyBob3cKPiB5b3UncmUgc3RvcHBp
-bmcgZ3VwIHNsb3cgcGF0aC4gU2VlIGNoZWNrX3ZtYV9mbGFncygpIGluIG1tL2d1cC5jLgo+Cj4g
-QWxzbyBpZiB5b3UgZG9uJ3QgaGF2ZSBDT05GSUdfQVJDSF9IQVNfUFRFX1NQRUNJQUwgdGhlbiBJ
-IGRvbid0IHRoaW5rCj4gdm1faW5zZXJ0X21peGVkIGV2ZW4gd29ya3Mgb24gaW9tZW0gcGZucy4g
-VGhlcmUncyB0aGUgZGV2bWFwIGV4Y2VwdGlvbiwKPiBidXQgd2UncmUgbm90IGRldm1hcC4gV29y
-c2UgdHRtIGFidXNlcyBzb21lIGFjY2lkZW50YWwgY29kZXBhdGggdG8gc211Z2dsZQo+IGluIGh1
-Z2VwdGUgc3VwcG9ydCBieSBpbnRlbnRpb25hbGx5IG5vdCBiZWluZyBkZXZtYXAuCj4KPiBTbyBJ
-J20gcmVhbGx5IG5vdCBzdXJlIHRoaXMgd29ya3MgYXMgd2UgdGhpbmsgaXQgc2hvdWxkLiBNYXli
-ZSBnb29kIHRvIGRvCj4gYSBxdWljayB0ZXN0IHByb2dyYW0gb24gYW1kZ3B1IHdpdGggYSBidWZm
-ZXIgaW4gc3lzdGVtIG1lbW9yeSBvbmx5IGFuZCB0cnkKPiB0byBkbyBkaXJlY3QgaW8gaW50byBp
-dC4gSWYgaXQgd29ya3MsIHlvdSBoYXZlIGEgcHJvYmxlbSwgYW5kIGEgYmFkIG9uZS4KClRoYXQn
-cyBwcm9iYWJseSBpbXBvc3NpYmxlLCBzaW5jZSBhIHF1aWNrIGdpdCBncmVwIHNob3dzIHRoYXQg
-cHJldHR5Cm11Y2ggYW55dGhpbmcgcmVhc29uYWJsZSBoYXMgc3BlY2lhbCBwdGVzOiBhcmMsIGFy
-bSwgYXJtNjQsIHBvd2VycGMsCnJpc2N2LCBzMzkwLCBzaCwgc3BhcmMsIHg4Ni4gSSBkb24ndCB0
-aGluayB5b3UnbGwgaGF2ZSBhIHBsYXRmb3JtCndoZXJlIHlvdSBjYW4gcGx1ZyBhbiBhbWRncHUg
-aW4gYW5kIGFjdHVhbGx5IGV4ZXJjaXNlIHRoZSBidWcgOi0pCgpTbyBtYXliZSB3ZSBzaG91bGQg
-anVzdCBzd2l0Y2ggb3ZlciB0byBWTV9QRk5NQVAgZm9yIHR0bSBmb3IgbW9yZSBjbGFyaXR5Pwot
-RGFuaWVsCgoKPgo+ID4KPiA+IFJlZ2FyZHMsCj4gPiBDaHJpc3RpYW4uCj4gPgo+ID4gPiBDaHJp
-c3RpYW4sIGRvIHdlIG5lZWQgdG8gcGF0Y2ggdGhpcyB1cCwgYW5kIG1heWJlIGZpeCB1cCB0dG0g
-ZmF1bHQKPiA+ID4gaGFuZGxlciB0byB1c2UgaW9fbWFwcGluZyBzbyB0aGUgdm1faW5zZXJ0X3Bm
-biBzdHVmZiBpcyBmYXN0Pwo+ID4gPiAtRGFuaWVsCj4gPgo+Cj4gLS0KPiBEYW5pZWwgVmV0dGVy
-Cj4gU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCj4gaHR0cDovL2Jsb2cuZmZ3
-bGwuY2gKCgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBv
-cmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+Hi,
+
+Here is a series that enables the higher resolutions on the HDMI0 Controller
+found in the BCM2711 (RPi4).
+
+In order to work it needs a few adjustments to config.txt, most notably to
+enable the enable_hdmi_4kp60 and force_turbo options.
+
+The firmware also has a glitch at the moment and will not properly release the
+BSC controllers, which will make the EDID retrieval fail.
+
+We can work around this using the following config.txt options:
+
+disable_fw_kms_setup=1
+hdmi_edid_file:0=1
+hdmi_edid_filename:0=1366x768.bin
+hdmi_ignore_edid:0=1
+hdmi_edid_file:1=1
+hdmi_edid_filename:1=1366x768.bin
+hdmi_ignore_edid:1=1
+
+A fix will come for the firmware eventually.
+
+Let me know what you think,
+Maxime
+
+Maxime Ripard (8):
+  clk: Add range accessors
+  drm/vc4: hvs: Make the HVS bind first
+  drm/vc4: hdmi: Properly compute the BVB clock rate
+  drm/vc4: hdmi: Check and warn if we can't reach 4kp60 frequencies
+  drm/vc4: hdmi: Enable the scrambler
+  drm/vc4: hdmi: Raise the maximum clock rate
+  drm/vc4: plane: Fix typo in scaler width and height
+  drm/vc4: plane: Remove redundant assignment
+
+ drivers/clk/clk.c                   | 30 ++++++++++
+ drivers/gpu/drm/vc4/vc4_drv.c       | 11 +++-
+ drivers/gpu/drm/vc4/vc4_hdmi.c      | 88 ++++++++++++++++++++++++++---
+ drivers/gpu/drm/vc4/vc4_hdmi.h      |  8 +++
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h |  3 +
+ drivers/gpu/drm/vc4/vc4_plane.c     |  5 +-
+ include/linux/clk.h                 | 16 ++++++
+ 7 files changed, 148 insertions(+), 13 deletions(-)
+
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
