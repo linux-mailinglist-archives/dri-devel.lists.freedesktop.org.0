@@ -2,35 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA4D324D0C
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 10:39:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1410D324D15
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 10:43:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63EE489C96;
-	Thu, 25 Feb 2021 09:39:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12A6A6E114;
+	Thu, 25 Feb 2021 09:43:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA92389C96
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 09:39:10 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4BA62AC1D;
- Thu, 25 Feb 2021 09:39:09 +0000 (UTC)
-Subject: Re: [PATCH] drm/shmem-helpers: vunmap: Don't put pages for dma-buf
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 503606E114
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 09:43:24 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id b16so5130217otq.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 01:43:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nlt66PlWCk9/RWdJrwXB+Jkp0aarHFKV5bYF6JjCDGA=;
+ b=NEa4cAEZft2Rzi1FMCvcm1bdLdDGdy3qJsz3MMjyPIYK2dzYWrzUiKU/2VS5tAxYRi
+ FxZ5YzMnnD4LoZPVoFcct6Ll0DnIBRFZSlyGGvQ1Qb6UER8qW3IQmu77celTYdK1XREk
+ hGw9jgKclE9ep9TqQ5Apye4hz+kErxTvMZ+BY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nlt66PlWCk9/RWdJrwXB+Jkp0aarHFKV5bYF6JjCDGA=;
+ b=R5Q+MkYmhV6sgvjWhxhvjP+eD0b6mIjstLM/zeDCG2fHIZ+MDTux1PcIgaWqajY+Se
+ OxSUdb7r9/GJuUplqunJeFBv2GtaO57OxRj7sc/khIvq1ncfUOm3r7dVt4g++xFHSbDz
+ j096/KeaQiVF6+dq7farTs9zgLko1+0Z2Gj8t928DIuUXUjlYygTYNwajWBbCYYWDzEO
+ i20nnL2vqpIQwceiIHwNx0mvvaMIce2ayjVDCaCDJL7rDl5EfaEchKVYvC6Ys5XoVDrj
+ WZ+2oFzd5b2MsBsgaF/3mlMXi7vDz14bhytvv6QfCApaLvcZQaWs4ehKM88oCiJFG8P0
+ HRGw==
+X-Gm-Message-State: AOAM531+m2TbxEcdlG0bli4lxlQrorp/Ql6orRvoMPl7Bpa3IR1FIvEm
+ okrA+0kD+ivUgcGHXCccbCAF0WKrtJ/4GhCuT+caYw==
+X-Google-Smtp-Source: ABdhPJzm9NlmBL0Od4HrxuTXA4SMoOVMcdlf8v0kZS4XsRnOUZfPkVRLHpsDKt6yqmhZZ2QL0hVy5RaXDu7Jl26k8jM=
+X-Received: by 2002:a9d:2265:: with SMTP id o92mr1570400ota.188.1614246203629; 
+ Thu, 25 Feb 2021 01:43:23 -0800 (PST)
+MIME-Version: 1.0
 References: <20210219122203.51130-1-noralf@tronnes.org>
  <2eb66df9-05bc-c52c-b6b7-793cac59f4d3@suse.de>
  <5169579f-04cf-230d-f9be-f3eb068b0e51@tronnes.org>
- <6754ac45-b433-65cf-02a7-a785f616b8a8@suse.de>
- <980dd782-f921-c4af-5507-b23f3cca4f79@tronnes.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <e1bb65e6-9b23-1438-fa18-81fbe6d4d61e@suse.de>
-Date: Thu, 25 Feb 2021 10:39:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-MIME-Version: 1.0
-In-Reply-To: <980dd782-f921-c4af-5507-b23f3cca4f79@tronnes.org>
+In-Reply-To: <5169579f-04cf-230d-f9be-f3eb068b0e51@tronnes.org>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Thu, 25 Feb 2021 10:43:12 +0100
+Message-ID: <CAKMK7uH06XqRUWOuyZCG+6X9zVs6FGYWOFE0RggfY7Jx91AQjw@mail.gmail.com>
+Subject: Re: [PATCH] drm/shmem-helpers: vunmap: Don't put pages for dma-buf
+To: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,201 +60,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: multipart/mixed; boundary="===============1154826318=="
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1154826318==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="RFENdaxrIr1iuSQ66slzwREtD73ZHIDA5"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---RFENdaxrIr1iuSQ66slzwREtD73ZHIDA5
-Content-Type: multipart/mixed; boundary="G2k4vHSMT0utwQ1lOg7B8Mw3FYC2Q773f";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Message-ID: <e1bb65e6-9b23-1438-fa18-81fbe6d4d61e@suse.de>
-Subject: Re: [PATCH] drm/shmem-helpers: vunmap: Don't put pages for dma-buf
-References: <20210219122203.51130-1-noralf@tronnes.org>
- <2eb66df9-05bc-c52c-b6b7-793cac59f4d3@suse.de>
- <5169579f-04cf-230d-f9be-f3eb068b0e51@tronnes.org>
- <6754ac45-b433-65cf-02a7-a785f616b8a8@suse.de>
- <980dd782-f921-c4af-5507-b23f3cca4f79@tronnes.org>
-In-Reply-To: <980dd782-f921-c4af-5507-b23f3cca4f79@tronnes.org>
-
---G2k4vHSMT0utwQ1lOg7B8Mw3FYC2Q773f
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-
-
-Am 25.02.21 um 10:25 schrieb Noralf Tr=C3=B8nnes:
->=20
->=20
-> Den 25.02.2021 09.12, skrev Thomas Zimmermann:
->> Hi
->>
->> Am 24.02.21 um 18:14 schrieb Noralf Tr=C3=B8nnes:
->>>
->>>
->>> Den 19.02.2021 14.54, skrev Thomas Zimmermann:
->>>> Hi
->>>>
->>>> Am 19.02.21 um 13:22 schrieb Noralf Tr=C3=B8nnes:
->>>>> dma-buf importing was reworked in commit 7d2cd72a9aa3
->>>>> ("drm/shmem-helpers: Simplify dma-buf importing"). Before that comm=
-it
->>>>> drm_gem_shmem_prime_import_sg_table() did set ->pages_use_count=3D1=
- and
->>>>> drm_gem_shmem_vunmap_locked() could call drm_gem_shmem_put_pages()
->>>>> unconditionally. Now without the use count set, put pages is called=
-
->>>>> also
->>>>> on dma-bufs. Fix this by only putting pages if it's not imported.
->>>>>
->>>>> Fixes: 7d2cd72a9aa3 ("drm/shmem-helpers: Simplify dma-buf importing=
-")
->>>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>>>> Signed-off-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
->>>>
->>>> Just when I saw the error. Nice. :)
->>>>
->>>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>> Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>
->>>
->>> Should I apply this to drm-misc-fixes?
->>
->> I think so. Ping me if you want me to add it.
->>
->=20
-> I'd appreciate if you could do it. I haven't applied a patch in almost =
-a
-> year now and need to dig out my notes on how I do it. -fixes stuff is
-> for me a "hold my breath and hope I don't screw up anything" exercise.
-> Stressful :/
-
-Applied now to drm-misc-next. If it breaks, I'll also take the blame. :) =
-
-I took the liberty of moving your S-o-b line to the top of the tag. IIRC =
-
-this is the preferred style. Thanks again for the fix.
-
-Best regards
-Thomas
-
->=20
-> One day in the future I hope there's a green button I can push that
-> says: Merge patch to -fixes and make sure everything is OK. That would
-> be nice :)
->=20
-> Thanks,
-> Noralf.
->=20
->> Best regards
->> Thomas
->>
->>>
->>> Noralf.
->>>
->>>> For testing the GUD driver, you may also want to keep an eye at [1]
->>>>
->>>> Best regards
->>>> Thomas
->>>>
->>>> [1]
->>>> https://lore.kernel.org/dri-devel/02a45c11-fc73-1e5a-3839-30b080950a=
-f8@amd.com/T/#t
->>>>
->>>>
->>>>
->>>>> ---
->>>>>  =C2=A0=C2=A0 drivers/gpu/drm/drm_gem_shmem_helper.c | 7 ++++---
->>>>>  =C2=A0=C2=A0 1 file changed, 4 insertions(+), 3 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c
->>>>> b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>>>> index 9825c378dfa6..c8a6547a1757 100644
->>>>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
->>>>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>>>> @@ -357,13 +357,14 @@ static void drm_gem_shmem_vunmap_locked(struc=
-t
->>>>> drm_gem_shmem_object *shmem,
->>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (--shmem->vmap_use_count >=
- 0)
->>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retur=
-n;
->>>>>  =C2=A0=C2=A0 -=C2=A0=C2=A0=C2=A0 if (obj->import_attach)
->>>>> +=C2=A0=C2=A0=C2=A0 if (obj->import_attach) {
->>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_b=
-uf_vunmap(obj->import_attach->dmabuf, map);
->>>>> -=C2=A0=C2=A0=C2=A0 else
->>>>> +=C2=A0=C2=A0=C2=A0 } else {
->>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vunma=
-p(shmem->vaddr);
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_gem_shmem_put_pages=
-(shmem);
->>>>> +=C2=A0=C2=A0=C2=A0 }
->>>>>  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 shmem->vaddr =3D NULL;=
-
->>>>> -=C2=A0=C2=A0=C2=A0 drm_gem_shmem_put_pages(shmem);
->>>>>  =C2=A0=C2=A0 }
->>>>>  =C2=A0=C2=A0 =C2=A0 /*
->>>>>
->>>>
->>
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---G2k4vHSMT0utwQ1lOg7B8Mw3FYC2Q773f--
-
---RFENdaxrIr1iuSQ66slzwREtD73ZHIDA5
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmA3cDwFAwAAAAAACgkQlh/E3EQov+BG
-LxAAnAyr4ix+bTPhge09mxCSQxvFR4cr/1g42Ut+aQmtaZI2oq5jZP5hpfqYMib0LOJcs79DGnqz
-GKJPBiird6SnAdqIfQphcQakb3JQRBJbc7IJhXBICJFiTfm/9uZfOGz4fXvz3VA4QKSeENtrQHgl
-rHJKYetL64mjawG0G0iFoTfS5Fndas/R2r1tcJ9p0I1K3qLtK9KX6i9m8qsJk+C14T1ZxgSj6nT4
-QWMQfS6CCYLKoxOASs4p+/1d0sU7vdknKhnsLMFhV8Jtpgd+3Rvjhk7eG1l5CQPv6zLt5PS3SCGD
-mkZNCr9r86JZmGEo7Mp+RGHKsC/iwCQFEPvBmzsMHOv+nnyy9IVR7jrTgo/3gOohF0iXjpo1eUjX
-wJuSDzJzw4WzZBNQUITvGF62BcDUazT1rVQXOCiPlWz2sgOWgftP4DAP0vhv2I10cuzwropnixuy
-AZ/KhVIoiBc+NY7cBqCXG4rxeLP6zvfBmf5yxhyqKZ6DzsLiQJY6wrndgSl990XJB4vFopgMvpGq
-41SO2sN3snpo5ygdyR1KwmY4VxXjT2SpHnmInDQphKaGPTGvCAVvtrFVFscfEAGL3h4P+rDRE9eh
-84AZ+ezhcswc2xgeVylfXpXJgZcrAQbr4NWynqkT79qKllXPoQYlcMqJdrpxEZxWMvdPwa8lpwnR
-owg=
-=BJEW
------END PGP SIGNATURE-----
-
---RFENdaxrIr1iuSQ66slzwREtD73ZHIDA5--
-
---===============1154826318==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1154826318==--
+T24gV2VkLCBGZWIgMjQsIDIwMjEgYXQgNjoxNCBQTSBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0
+cm9ubmVzLm9yZz4gd3JvdGU6Cj4KPgo+Cj4gRGVuIDE5LjAyLjIwMjEgMTQuNTQsIHNrcmV2IFRo
+b21hcyBaaW1tZXJtYW5uOgo+ID4gSGkKPiA+Cj4gPiBBbSAxOS4wMi4yMSB1bSAxMzoyMiBzY2hy
+aWViIE5vcmFsZiBUcsO4bm5lczoKPiA+PiBkbWEtYnVmIGltcG9ydGluZyB3YXMgcmV3b3JrZWQg
+aW4gY29tbWl0IDdkMmNkNzJhOWFhMwo+ID4+ICgiZHJtL3NobWVtLWhlbHBlcnM6IFNpbXBsaWZ5
+IGRtYS1idWYgaW1wb3J0aW5nIikuIEJlZm9yZSB0aGF0IGNvbW1pdAo+ID4+IGRybV9nZW1fc2ht
+ZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlKCkgZGlkIHNldCAtPnBhZ2VzX3VzZV9jb3VudD0xIGFu
+ZAo+ID4+IGRybV9nZW1fc2htZW1fdnVubWFwX2xvY2tlZCgpIGNvdWxkIGNhbGwgZHJtX2dlbV9z
+aG1lbV9wdXRfcGFnZXMoKQo+ID4+IHVuY29uZGl0aW9uYWxseS4gTm93IHdpdGhvdXQgdGhlIHVz
+ZSBjb3VudCBzZXQsIHB1dCBwYWdlcyBpcyBjYWxsZWQgYWxzbwo+ID4+IG9uIGRtYS1idWZzLiBG
+aXggdGhpcyBieSBvbmx5IHB1dHRpbmcgcGFnZXMgaWYgaXQncyBub3QgaW1wb3J0ZWQuCj4gPj4K
+PiA+PiBGaXhlczogN2QyY2Q3MmE5YWEzICgiZHJtL3NobWVtLWhlbHBlcnM6IFNpbXBsaWZ5IGRt
+YS1idWYgaW1wb3J0aW5nIikKPiA+PiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBm
+ZndsbC5jaD4KPiA+PiBDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+
+Cj4gPj4gU2lnbmVkLW9mZi1ieTogTm9yYWxmIFRyw7hubmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+
+Cj4gPgo+ID4gSnVzdCB3aGVuIEkgc2F3IHRoZSBlcnJvci4gTmljZS4gOikKPiA+Cj4gPiBBY2tl
+ZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4gPiBUZXN0ZWQt
+Ynk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+ID4KPgo+IFNob3Vs
+ZCBJIGFwcGx5IHRoaXMgdG8gZHJtLW1pc2MtZml4ZXM/Cgpkcm0tbWlzYy1uZXh0LWZpeGVzIGJl
+Y2F1c2Ugd2UncmUgaW4gdGhlIG1lcmdlIHdpbmRvdy4KLURhbmllbAoKPgo+IE5vcmFsZi4KPgo+
+ID4gRm9yIHRlc3RpbmcgdGhlIEdVRCBkcml2ZXIsIHlvdSBtYXkgYWxzbyB3YW50IHRvIGtlZXAg
+YW4gZXllIGF0IFsxXQo+ID4KPiA+IEJlc3QgcmVnYXJkcwo+ID4gVGhvbWFzCj4gPgo+ID4gWzFd
+Cj4gPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9kcmktZGV2ZWwvMDJhNDVjMTEtZmM3My0xZTVh
+LTM4MzktMzBiMDgwOTUwYWY4QGFtZC5jb20vVC8jdAo+ID4KPiA+Cj4gPj4gLS0tCj4gPj4gICBk
+cml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYyB8IDcgKysrKy0tLQo+ID4+ICAg
+MSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKPiA+Pgo+ID4+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYwo+ID4+
+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMKPiA+PiBpbmRleCA5ODI1
+YzM3OGRmYTYuLmM4YTY1NDdhMTc1NyAxMDA2NDQKPiA+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX2dlbV9zaG1lbV9oZWxwZXIuYwo+ID4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2Vt
+X3NobWVtX2hlbHBlci5jCj4gPj4gQEAgLTM1NywxMyArMzU3LDE0IEBAIHN0YXRpYyB2b2lkIGRy
+bV9nZW1fc2htZW1fdnVubWFwX2xvY2tlZChzdHJ1Y3QKPiA+PiBkcm1fZ2VtX3NobWVtX29iamVj
+dCAqc2htZW0sCj4gPj4gICAgICAgaWYgKC0tc2htZW0tPnZtYXBfdXNlX2NvdW50ID4gMCkKPiA+
+PiAgICAgICAgICAgcmV0dXJuOwo+ID4+ICAgLSAgICBpZiAob2JqLT5pbXBvcnRfYXR0YWNoKQo+
+ID4+ICsgICAgaWYgKG9iai0+aW1wb3J0X2F0dGFjaCkgewo+ID4+ICAgICAgICAgICBkbWFfYnVm
+X3Z1bm1hcChvYmotPmltcG9ydF9hdHRhY2gtPmRtYWJ1ZiwgbWFwKTsKPiA+PiAtICAgIGVsc2UK
+PiA+PiArICAgIH0gZWxzZSB7Cj4gPj4gICAgICAgICAgIHZ1bm1hcChzaG1lbS0+dmFkZHIpOwo+
+ID4+ICsgICAgICAgIGRybV9nZW1fc2htZW1fcHV0X3BhZ2VzKHNobWVtKTsKPiA+PiArICAgIH0K
+PiA+PiAgICAgICAgIHNobWVtLT52YWRkciA9IE5VTEw7Cj4gPj4gLSAgICBkcm1fZ2VtX3NobWVt
+X3B1dF9wYWdlcyhzaG1lbSk7Cj4gPj4gICB9Cj4gPj4gICAgIC8qCj4gPj4KPiA+CgoKCi0tIApE
+YW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8v
+YmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
