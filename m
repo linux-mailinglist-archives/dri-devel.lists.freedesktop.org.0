@@ -1,67 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F973324DF6
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 11:25:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE191324DFC
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 11:28:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DDCC6EC85;
-	Thu, 25 Feb 2021 10:25:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62EFC6EC8A;
+	Thu, 25 Feb 2021 10:28:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE3F6EC85
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 10:25:54 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id m1so4355166wml.2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 02:25:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=qtTO3l0yhHIrazRtLFS+om08YvRX5sl5TWHFOMKpxcY=;
- b=Y29xvRL2SdE14yqgwXClhqLMFLUfjiVw2oLteoDj6/cgAiCiDnIVqYIPX1fDvTVnp4
- kKN0ODaTB27weQ4wxO4WjhpbdmMH4q9dOH5JtAVoN+p8LIdq/wErg/5GGzppIXZCCafw
- EeefXPYZZQm/NAbjSXt7SWSbMgmO93Ff1rcNc=
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB5E26EC8A;
+ Thu, 25 Feb 2021 10:28:34 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id h10so6142790edl.6;
+ Thu, 25 Feb 2021 02:28:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=TVKAjWBFusaHyTtxALPIeACysl8qlhJqMmxF1Z/3BQc=;
+ b=KvT6uHV3ltQQhKNAxhivu1WaoQNP6hJd5KdyNGhOZzV3MFX5tYjNtdWuTP9AjxAm9u
+ t/N1MkyWh8kg69o8urHsk7zDck/zOgNio6qdWVGet3ki3S9ysgXQblGyreIP5Ph77p6y
+ EwPT8y17+qmJx8LH1tG6oiIcwq9Fj8SGseVhOB8JKtsFaRnNkB7NJBmnWgRjKcT2iIOk
+ S6xvGKbX/th/EYMn2UPD+kklrD1e3BQ7mEFUCSEdzwlviaulkxoq1JjKeX/we/Lid9ve
+ thgLqK+DQ3yQv6sdq63aRRPiPRh+ux2fQvmPwRS+Faz0MZaG7bKGu328voC0IKZamAvr
+ ujuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qtTO3l0yhHIrazRtLFS+om08YvRX5sl5TWHFOMKpxcY=;
- b=E7KhT0qkdZE31ZsctuYj3YZYiO63Zw+ykVmTLiJhz9KKQKWlllfiKrW69SbnDqcEBZ
- +9r/8CJ1BKggSseoTpWnDeRt9qMGFoQpGL/v5lPMTxTJ0bzzlzF6VYTXsQcPJBH/x8qp
- mREQzZKhy4SvkeriNYyJ5Uslf0KQ5+Tl501YHGShGNTv2Evyw3olrwU2F7/pYEHOT6xc
- Obd+gveYrTY66LfVnuO/YkNoLPNijjjU2W5aIBvQ6gNjEv5QIaaI5uwfI3KLVWkZ3VbU
- gHy95jhXv/53k1QASQwdu+9R0dA/A7GkJ4L2uNE+wG5Ys0afu0p5J6yXwMu1MXoXMY4q
- ClWw==
-X-Gm-Message-State: AOAM530J5yJn3topDvke7GNlHgPew14FDFHXh9pl5/dE7t6qqAeud3LD
- 1eSIRtrMmPIWoHl5bWe8fPDmcg==
-X-Google-Smtp-Source: ABdhPJy/V9WqScGmrk3qYdNxr/wcer8xFT/W0Xfyro9Bqv2ccY/aRjJNdpbs8APYw4X2L56GO8nqvA==
-X-Received: by 2002:a05:600c:210f:: with SMTP id
- u15mr2458738wml.119.1614248752833; 
- Thu, 25 Feb 2021 02:25:52 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d17sm8386388wrv.93.2021.02.25.02.25.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Feb 2021 02:25:52 -0800 (PST)
-Date: Thu, 25 Feb 2021 11:25:50 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Subject: Re: [PATCH v4 00/14] RFC Support hot device unplug in amdgpu
-Message-ID: <YDd7LkMw+S4obnFe@phenom.ffwll.local>
-References: <YAfyPEB2gpMnW/PP@phenom.ffwll.local>
- <8ea4b2d7-d5f3-3708-724d-c70520603283@amd.com>
- <CAKMK7uE11MonjPB3dmy6u=b029am1p2KqJ57DgLUGu-9QgtebA@mail.gmail.com>
- <75e782f1-4cb9-9210-87d2-e7d2a76782f1@amd.com>
- <CAKMK7uH=ycuBQ5qbujA8kwcrExAC4YAM26W-7wJjE7RS4zPiHw@mail.gmail.com>
- <6152bf16-6086-17f5-4157-c9be0ef84155@amd.com>
- <YCJa2HraImprr4Ew@phenom.ffwll.local>
- <871a02d8-e776-dd37-bd25-3169f8167923@amd.com>
- <CAKMK7uEKERRmQRfngkO_1yfi6kHJjarJncFm3eZ1Uxcf9pNWGg@mail.gmail.com>
- <c8666ac8-e7b4-59e1-dac7-a10d77aeb9ff@amd.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=TVKAjWBFusaHyTtxALPIeACysl8qlhJqMmxF1Z/3BQc=;
+ b=YRnZEtoiox+TapmQIINPhq8ZWPkOGbKTScpaAIKViEJpRNRIKNJAzrkWcxH3J6+Q4Z
+ 4Q6eDKM4wCUPJk4h5NLJQgpNQ0FfPzAdYzM0n3Gzo91QWmaT7+wm7HATUX/hIKyE+X2E
+ TagjGvks8l5mN8dwQBY4MiLHUJ0pvqFLDKLhc49gxrmWLEtj96wER2Mt/bqQdCcRk6Ll
+ GdfJpSC620YSXqRJI4Xcu19hk2D/xEArNtuQzze6jg2xxOntEqgnt/5bHENmHBndQgyo
+ jy15tpSnoG7GpdYslRAhM2dhxzmzf8B9RRGsH2g7cpwFmz5YKxDJMnUsohsN0mlHq4Jv
+ vd+g==
+X-Gm-Message-State: AOAM530jUGmOKhX+TPm7JlcFXDFIxahXI7gmnZ6RXCmCq0XnH1Evk5q/
+ dgrwY+LYrpgukmKtR64WHEs=
+X-Google-Smtp-Source: ABdhPJxQxWpA8AILfgr1cKP4yfsCw8NTRfhgVfgrxKucOL6WpWcAlGS0EyTXuI5Jrm/OQ3hF+5Bjbw==
+X-Received: by 2002:a05:6402:c15:: with SMTP id
+ co21mr2140459edb.115.1614248913374; 
+ Thu, 25 Feb 2021 02:28:33 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:fc8:43:f4c0:95af?
+ ([2a02:908:1252:fb60:fc8:43:f4c0:95af])
+ by smtp.gmail.com with ESMTPSA id v11sm2635553eds.14.2021.02.25.02.28.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Feb 2021 02:28:32 -0800 (PST)
+Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for
+ mmap
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+References: <20210223105951.912577-1-daniel.vetter@ffwll.ch>
+ <1a7c2295-6241-f2bf-4a78-6cadd43bc248@shipmail.org>
+ <CAKMK7uHzRb6Q_LgPUrrHn18sorYo7ysTgB+PNE36LDUUsJpHDg@mail.gmail.com>
+ <f43311c8-a02a-1a29-a53b-88e599c92187@shipmail.org>
+ <CAKMK7uE2UrOruQPWG9KPBQ781f9Bq9xpVRNserAC9BZ2VzDutQ@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <b30dacb0-edea-0a3c-6163-0f329e58ba61@gmail.com>
+Date: Thu, 25 Feb 2021 11:28:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <c8666ac8-e7b4-59e1-dac7-a10d77aeb9ff@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <CAKMK7uE2UrOruQPWG9KPBQ781f9Bq9xpVRNserAC9BZ2VzDutQ@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,86 +77,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Greg KH <gregkh@linuxfoundation.org>, Alex Deucher <Alexander.Deucher@amd.com>,
- Qiang Yu <yuq825@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Matthew Wilcox <willy@infradead.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 24, 2021 at 11:30:50AM -0500, Andrey Grodzovsky wrote:
-> 
-> On 2021-02-19 5:24 a.m., Daniel Vetter wrote:
-> > On Thu, Feb 18, 2021 at 9:03 PM Andrey Grodzovsky
-> > <Andrey.Grodzovsky@amd.com> wrote:
-> > > Looked a bit into it, I want to export sync_object to FD and import  from that FD
-> > > such that I will wait on the imported sync object handle from one thread while
-> > > signaling the exported sync object handle from another (post device unplug) ?
-> > > 
-> > > My problem is how to create a sync object with a non signaled 'fake' fence ?
-> > > I only see API that creates it with already signaled fence (or none) -
-> > > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Felixir.bootlin.com%2Flinux%2Flatest%2Fsource%2Fdrivers%2Fgpu%2Fdrm%2Fdrm_syncobj.c%23L56&amp;data=04%7C01%7CAndrey.Grodzovsky%40amd.com%7C5085bdd151c642514d2408d8d4c08e56%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637493270792459284%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=sZWIn0Lo7ZujBq0e7MdFPhJDARXWpOlLgLzANMS8cCY%3D&amp;reserved=0
-> > > 
-> > > P.S I expect the kernel to crash since unlike with dma_bufs we don't hold
-> > > drm device reference here on export.
-> > Well maybe there's no crash. I think if you go through all your
-> > dma_fence that you have and force-complete them, then I think external
-> > callers wont go into the driver anymore. But there's still pointers
-> > potentially pointing at your device struct and all that, but should
-> > work. Still needs some audit ofc.
-> > 
-> > Wrt how you get such a free-standing fence, that's amdgpu specific. Roughly
-> > - submit cs
-> > - get the fence for that (either sync_file, but I don't think amdgpu
-> > supports that, or maybe through drm_syncobj)
-> > - hotunplug
-> > - wait on that fence somehow (drm_syncobj has direct uapi for this,
-> > same for sync_file I think)
-> > 
-> > Cheers, Daniel
-> 
-> 
-> Indeed worked fine, did with 2 devices. Since syncobj is refcounted, even
-> after I
-> destroyed the original syncobj and unplugged the device, the exported
-> syncobj and the
-> fence inside didn't go anywhere.
-> 
-> See my 3 tests in my branch on Gitlab
-> https://gitlab.freedesktop.org/agrodzov/igt-gpu-tools/-/commits/master
-> and let me know if I should go ahead and do a merge request (into which
-> target project/branch ?) or you
-> have more comments.
-
-igt still works with patch submission.
--Daniel
-
-> 
-> Andrey
-> 
-> 
-> > 
-> > > Andrey
-> > > 
-> > > On 2/9/21 4:50 AM, Daniel Vetter wrote:
-> > > > Yeah in the end we'd need 2 hw devices for testing full fence
-> > > > functionality. A useful intermediate step would be to just export the
-> > > > fence (either as sync_file, which I think amdgpu doesn't support because
-> > > > no android egl support in mesa) or drm_syncobj (which you can do as
-> > > > standalone fd too iirc), and then just using the fence a bit from
-> > > > userspace (like wait on it or get its status) after the device is
-> > > > unplugged.
-> > 
-> > 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMjQuMDIuMjEgdW0gMTA6MzEgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIFdlZCwgRmVi
+IDI0LCAyMDIxIGF0IDEwOjE2IEFNIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkKPiA8dGhvbWFz
+X29zQHNoaXBtYWlsLm9yZz4gd3JvdGU6Cj4+Cj4+IE9uIDIvMjQvMjEgOTo0NSBBTSwgRGFuaWVs
+IFZldHRlciB3cm90ZToKPj4+IE9uIFdlZCwgRmViIDI0LCAyMDIxIGF0IDg6NDYgQU0gVGhvbWFz
+IEhlbGxzdHLDtm0gKEludGVsKQo+Pj4gPHRob21hc19vc0BzaGlwbWFpbC5vcmc+IHdyb3RlOgo+
+Pj4+IE9uIDIvMjMvMjEgMTE6NTkgQU0sIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4+Pj4+IHRsZHI7
+IERNQSBidWZmZXJzIGFyZW4ndCBub3JtYWwgbWVtb3J5LCBleHBlY3RpbmcgdGhhdCB5b3UgY2Fu
+IHVzZQo+Pj4+PiB0aGVtIGxpa2UgdGhhdCAobGlrZSBjYWxsaW5nIGdldF91c2VyX3BhZ2VzIHdv
+cmtzLCBvciB0aGF0IHRoZXkncmUKPj4+Pj4gYWNjb3VudGluZyBsaWtlIGFueSBvdGhlciBub3Jt
+YWwgbWVtb3J5KSBjYW5ub3QgYmUgZ3VhcmFudGVlZC4KPj4+Pj4KPj4+Pj4gU2luY2Ugc29tZSB1
+c2Vyc3BhY2Ugb25seSBydW5zIG9uIGludGVncmF0ZWQgZGV2aWNlcywgd2hlcmUgYWxsCj4+Pj4+
+IGJ1ZmZlcnMgYXJlIGFjdHVhbGx5IGFsbCByZXNpZGVudCBzeXN0ZW0gbWVtb3J5LCB0aGVyZSdz
+IGEgaHVnZQo+Pj4+PiB0ZW1wdGF0aW9uIHRvIGFzc3VtZSB0aGF0IGEgc3RydWN0IHBhZ2UgaXMg
+YWx3YXlzIHByZXNlbnQgYW5kIHVzZWFibGUKPj4+Pj4gbGlrZSBmb3IgYW55IG1vcmUgcGFnZWNh
+Y2hlIGJhY2tlZCBtbWFwLiBUaGlzIGhhcyB0aGUgcG90ZW50aWFsIHRvCj4+Pj4+IHJlc3VsdCBp
+biBhIHVhcGkgbmlnaHRtYXJlLgo+Pj4+Pgo+Pj4+PiBUbyBzdG9wIHRoaXMgZ2FwIHJlcXVpcmUg
+dGhhdCBETUEgYnVmZmVyIG1tYXBzIGFyZSBWTV9QRk5NQVAsIHdoaWNoCj4+Pj4+IGJsb2NrcyBn
+ZXRfdXNlcl9wYWdlcyBhbmQgYWxsIHRoZSBvdGhlciBzdHJ1Y3QgcGFnZSBiYXNlZAo+Pj4+PiBp
+bmZyYXN0cnVjdHVyZSBmb3IgZXZlcnlvbmUuIEluIHNwaXJpdCB0aGlzIGlzIHRoZSB1YXBpIGNv
+dW50ZXJwYXJ0IHRvCj4+Pj4+IHRoZSBrZXJuZWwtaW50ZXJuYWwgQ09ORklHX0RNQUJVRl9ERUJV
+Ry4KPj4+Pj4KPj4+Pj4gTW90aXZhdGVkIGJ5IGEgcmVjZW50IHBhdGNoIHdoaWNoIHdhbnRlZCB0
+byBzd2ljaCB0aGUgc3lzdGVtIGRtYS1idWYKPj4+Pj4gaGVhcCB0byB2bV9pbnNlcnRfcGFnZSBp
+bnN0ZWFkIG9mIHZtX2luc2VydF9wZm4uCj4+Pj4+Cj4+Pj4+IHYyOgo+Pj4+Pgo+Pj4+PiBKYXNv
+biBicm91Z2h0IHVwIHRoYXQgd2UgYWxzbyB3YW50IHRvIGd1YXJhbnRlZSB0aGF0IGFsbCBwdGVz
+IGhhdmUgdGhlCj4+Pj4+IHB0ZV9zcGVjaWFsIGZsYWcgc2V0LCB0byBjYXRjaCBmYXN0IGdldF91
+c2VyX3BhZ2VzIChvbiBhcmNoaXRlY3R1cmVzCj4+Pj4+IHRoYXQgc3VwcG9ydCB0aGlzKS4gQWxs
+b3dpbmcgVk1fTUlYRURNQVAgKGxpa2UgVk1fU1BFQ0lBTCBkb2VzKSB3b3VsZAo+Pj4+PiBzdGls
+bCBhbGxvdyB2bV9pbnNlcnRfcGFnZSwgYnV0IGxpbWl0aW5nIHRvIFZNX1BGTk1BUCB3aWxsIGNh
+dGNoIHRoYXQuCj4+Pj4+Cj4+Pj4+ICAgIEZyb20gYXVkaXRpbmcgdGhlIHZhcmlvdXMgZnVuY3Rp
+b25zIHRvIGluc2VydCBwZm4gcHRlIGVudGlyZXMKPj4+Pj4gKHZtX2luc2VydF9wZm5fcHJvdCwg
+cmVtYXBfcGZuX3JhbmdlIGFuZCBhbGwgaXQncyBjYWxsZXJzIGxpa2UKPj4+Pj4gZG1hX21tYXBf
+d2MpIGl0IGxvb2tzIGxpa2UgVk1fUEZOTUFQIGlzIGFscmVhZHkgcmVxdWlyZWQgYW55d2F5LCBz
+bwo+Pj4+PiB0aGlzIHNob3VsZCBiZSB0aGUgY29ycmVjdCBmbGFnIHRvIGNoZWNrIGZvci4KPj4+
+Pj4KPj4+PiBJZiB3ZSByZXF1aXJlIFZNX1BGTk1BUCwgZm9yIG9yZGluYXJ5IHBhZ2UgbWFwcGlu
+Z3MsIHdlIGFsc28gbmVlZCB0bwo+Pj4+IGRpc2FsbG93IENPVyBtYXBwaW5ncywgc2luY2UgaXQg
+d2lsbCBub3Qgd29yayBvbiBhcmNoaXRlY3R1cmVzIHRoYXQKPj4+PiBkb24ndCBoYXZlIENPTkZJ
+R19BUkNIX0hBU19QVEVfU1BFQ0lBTCwgKHNlZSB0aGUgZG9jcyBmb3Igdm1fbm9ybWFsX3BhZ2Uo
+KSkuCj4+PiBIbSBJIGZpZ3VyZWQgZXZlcnlvbmUganVzdCB1c2VzIE1BUF9TSEFSRUQgZm9yIGJ1
+ZmZlciBvYmplY3RzIHNpbmNlCj4+PiBDT1cgcmVhbGx5IG1ha2VzIGFic29sdXRlbHkgbm8gc2Vu
+c2UuIEhvdyB3b3VsZCB3ZSBlbmZvcmNlIHRoaXM/Cj4+IFBlcmhhcHMgcmV0dXJuaW5nIC1FSU5W
+QUwgb24gaXNfY293X21hcHBpbmcoKSBhdCBtbWFwIHRpbWUuIEVpdGhlciB0aGF0Cj4+IG9yIGFs
+bG93aW5nIE1JWEVETUFQLgo+Pgo+Pj4+IEFsc28gd29ydGggbm90aW5nIGlzIHRoZSBjb21tZW50
+IGluICB0dG1fYm9fbW1hcF92bWFfc2V0dXAoKSB3aXRoCj4+Pj4gcG9zc2libGUgcGVyZm9ybWFu
+Y2UgaW1wbGljYXRpb25zIHdpdGggeDg2ICsgUEFUICsgVk1fUEZOTUFQICsgbm9ybWFsCj4+Pj4g
+cGFnZXMuIFRoYXQncyBhIHZlcnkgb2xkIGNvbW1lbnQsIHRob3VnaCwgYW5kIG1pZ2h0IG5vdCBi
+ZSB2YWxpZCBhbnltb3JlLgo+Pj4gSSB0aGluayB0aGF0J3Mgd2h5IHR0bSBoYXMgYSBwYWdlIGNh
+Y2hlIGZvciB0aGVzZSwgYmVjYXVzZSBpdCBpbmRlZWQKPj4+IHN1Y2tzLiBUaGUgUEFUIGNoYW5n
+ZXMgb24gcGFnZXMgYXJlIHJhdGhlciBleHBlbnNpdmUuCj4+IElJUkMgdGhlIHBhZ2UgY2FjaGUg
+d2FzIGltcGxlbWVudGVkIGJlY2F1c2Ugb2YgdGhlIHNsb3duZXNzIG9mIHRoZQo+PiBjYWNoaW5n
+IG1vZGUgdHJhbnNpdGlvbiBpdHNlbGYsIG1vcmUgc3BlY2lmaWNhbGx5IHRoZSB3YmludmQoKSBj
+YWxsICsKPj4gZ2xvYmFsIFRMQiBmbHVzaC4KClllcywgZXhhY3RseSB0aGF0LiBUaGUgZ2xvYmFs
+IFRMQiBmbHVzaCBpcyB3aGF0IHJlYWxseSBicmVha3Mgb3VyIG5lY2sgCmhlcmUgZnJvbSBhIHBl
+cmZvcm1hbmNlIHBlcnNwZWN0aXZlLgoKPj4+IFRoZXJlIGlzIHN0aWxsIGFuIGlzc3VlIGZvciBp
+b21lbSBtYXBwaW5ncywgYmVjYXVzZSB0aGUgUEFUIHZhbGlkYXRpb24KPj4+IGRvZXMgYSBsaW5l
+YXIgd2FsayBvZiB0aGUgcmVzb3VyY2UgdHJlZSAobG9sKSBmb3IgZXZlcnkgdm1faW5zZXJ0X3Bm
+bi4KPj4+IEJ1dCBmb3IgaTkxNSBhdCBsZWFzdCB0aGlzIGlzIGZpeGVkIGJ5IHVzaW5nIHRoZSBp
+b19tYXBwaW5nCj4+PiBpbmZyYXN0cnVjdHVyZSwgd2hpY2ggZG9lcyB0aGUgUEFUIHJlc2VydmF0
+aW9uIG9ubHkgb25jZSB3aGVuIHlvdSBzZXQKPj4+IHVwIHRoZSBtYXBwaW5nIGFyZWEgYXQgZHJp
+dmVyIGxvYWQuCj4+IFllcywgSSBndWVzcyB0aGF0IHdhcyB0aGUgaXNzdWUgdGhhdCB0aGUgY29t
+bWVudCBkZXNjcmliZXMsIGJ1dCB0aGUKPj4gaXNzdWUgd2Fzbid0IHRoZXJlIHdpdGggdm1faW5z
+ZXJ0X21peGVkKCkgKyBWTV9NSVhFRE1BUC4KPj4KPj4+IEFsc28gVFRNIHVzZXMgVk1fUEZOTUFQ
+IHJpZ2h0IG5vdyBmb3IgZXZlcnl0aGluZywgc28gaXQgY2FuJ3QgYmUgYQo+Pj4gcHJvYmxlbSB0
+aGF0IGh1cnRzIG11Y2ggOi0pCj4+IEhtbSwgYm90aCA1LjExIGFuZCBkcm0tdGlwIGFwcGVhcnMg
+dG8gc3RpbGwgdXNlIE1JWEVETUFQPwo+Pgo+PiBodHRwczovL2VsaXhpci5ib290bGluLmNvbS9s
+aW51eC9sYXRlc3Qvc291cmNlL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMjTDU1NAo+
+IFVoIHRoYXQncyBiYWQsIGJlY2F1c2UgbWl4ZWQgbWFwcyBwb2ludGluZyBhdCBzdHJ1Y3QgcGFn
+ZSB3b250IHN0b3AKPiBndXAuIEF0IGxlYXN0IGFmYWlrLgoKSHVpPyBJJ20gcHJldHR5IHN1cmUg
+TUlYRURNQVAgc3RvcHMgZ3VwIGFzIHdlbGwuIE90aGVyd2lzZSB3ZSB3b3VsZCBoYXZlIAphbHJl
+YWR5IHNlZW4gdG9ucyBvZiBwcm9ibGVtcyB3aXRoIHRoZSBwYWdlIGNhY2hlLgoKUmVnYXJkcywK
+Q2hyaXN0aWFuLgoKPiBDaHJpc3RpYW4sIGRvIHdlIG5lZWQgdG8gcGF0Y2ggdGhpcyB1cCwgYW5k
+IG1heWJlIGZpeCB1cCB0dG0gZmF1bHQKPiBoYW5kbGVyIHRvIHVzZSBpb19tYXBwaW5nIHNvIHRo
+ZSB2bV9pbnNlcnRfcGZuIHN0dWZmIGlzIGZhc3Q/Cj4gLURhbmllbAoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
