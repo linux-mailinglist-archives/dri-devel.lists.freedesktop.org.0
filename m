@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4CE7324FC8
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 13:19:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF54A324FF0
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 13:46:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD8E6E151;
-	Thu, 25 Feb 2021 12:19:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B157A6E0B8;
+	Thu, 25 Feb 2021 12:46:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA0266E151
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 12:19:36 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id a11so1126812wmd.5
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 04:19:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=1KsoHRKW/ThoUZzfR5xLk9411RK+VQI6DIZAlA3M9Hk=;
- b=ju8xAV//Q/VpSmTU1nEnNDciWc05BwjNvu1nj5sZf6OLs66sSfy/iJOwS/QZgTojCU
- 81lRgbrzyJ/lxhJRXY6F/wX2xGBqHC2m78fKdhaZJw8j47aTnV2GqedkMO9OK0rBCPYm
- Uyfzs8OBNii1k4Xi7dS+xK6eW9YS33ZkR6zw4=
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EC7E6E0B8
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 12:46:32 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id i9so4231550wml.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 04:46:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ctQ049Qrt9wEqVuupXOSFKQVJpuUemyU7XofTRjq+zE=;
+ b=QJzWtazFE2cK3tpA6ycjUChBEA4Amhwi709FTWrdo1+DAiEJvohAaRyFZ46sy0rfIY
+ ZhzAlAWwoT6XBBaFe4LlTpfRgDKW9GkI//5nsROxlHpUSl7shutTqZdDJP0hTTSTkmvz
+ oyc/K+WYIsivVGmpYKCx2vFDvRjxJwqCI+G7d7EbGdxGhmA9SfT3X1FmIwU36eVf36Is
+ JaqI1Fbd2JoP20pRWejlP4OW1hxjv4T/XnXLaOPJdZ5fbmzscbm8NFRZcg522u1kPmwy
+ JeJ2eh/IGjwSTVGmgEcEE2bLWHpgQYOi49sfJP6h3pIh8tEFFCB60p3C26U/D7FZcxV2
+ J36g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=1KsoHRKW/ThoUZzfR5xLk9411RK+VQI6DIZAlA3M9Hk=;
- b=Ksj2dmxWf5KNPZdzvGcpxxp244qZUYdBNdLjG9PwzlneQJ7JT2s0fPipbcxQtp9vzZ
- fJiLnjMnjB2LNHzyjlehtEDyY7zbHexPygpikeXY+31lBBUVhCsHmd3Yw2KB6xXKeDZx
- 4Lv1JMekxho0YlSb8hN2laaNnIlbRVVSJHB9fYTsAhXy+jjMtNSiUCmtsvzp0sgB8TNr
- Q4bXGExdgNX7ypIQeWvwd/WN5ZzLySSImm0L+kdHeRbNlq40aWoU/e9uQyRnZz5/074F
- 1OoaA7yJutAmWQKBjsm5f6MH5cYejAWXOJM2HwmX88rQqec8+fiFup9HKvvXGbwmkXH/
- btyg==
-X-Gm-Message-State: AOAM532Tf6d7rONTs+O/+6nit3pn6WIGauvGIpBPFc/RAfZT0QdNNd9t
- lkFYFpHuqcIhG3ghmUMNlpbjr5KBR3SDyQ==
-X-Google-Smtp-Source: ABdhPJycJER3KYTceCd4VTt+zKy07f9zcEv/89GkMWIOVTfZMpoIccaE72ocFgj6aQfuJpFpqphH1g==
-X-Received: by 2002:a1c:e905:: with SMTP id q5mr3034729wmc.84.1614255575395;
- Thu, 25 Feb 2021 04:19:35 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b15sm8489955wmd.41.2021.02.25.04.19.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Feb 2021 04:19:34 -0800 (PST)
-Date: Thu, 25 Feb 2021 13:19:32 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 01/15] drm/arc: Switch to devm_drm_dev_alloc
-Message-ID: <YDeV1BTZZnEw1TQg@phenom.ffwll.local>
-References: <20210112084358.2771527-1-daniel.vetter@ffwll.ch>
- <06a84729-c3e0-ed1a-807c-6629ed8cf2f9@suse.de>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ctQ049Qrt9wEqVuupXOSFKQVJpuUemyU7XofTRjq+zE=;
+ b=SC2B+yK9/QMTVuF0o0MJpGzpKFKRzWpwhcZpjPPiOxxzZ9xYrL2b+ddunDbC9eYSTt
+ 1YQzCw6yydbcg6XUPeXLGanIl2VHWEkL/O6hQ8ctrtX8EC2yvbz2dcNKElovXW7byDuA
+ J3hOq69DaD9ALVFVX9lNctA3Vk6GEgpmIgf81k9Bly3g3KhbUQrqXtCn2ha70qJShbqG
+ ZUtmEJsYRPBp/+67AJTBVxVaWIqGkvn+6XQHVcILIxSW9mNsOtDdf2Xp4VjhBKZZbOcx
+ J442ZXSJCbNPLn0pMleYDG2G0bq3n7S4tO5/vf/z9n/l86bRqo5OIctss28isLhmu+y6
+ jsZQ==
+X-Gm-Message-State: AOAM5330IuQxmSkPPSQjqMB8bqCThNHkpMd0lSiLxLVgCciWezZS1UfC
+ FggO/f/+28iCjtrnG4DSS9c0zOOU1Wsmb81p6Y2H1ayXRycs0g==
+X-Google-Smtp-Source: ABdhPJyS3y7Yt+vLL3FwWd9OVsFOCvL/NwZCXN8irm4poF/xlmOev3fS/gusBSNEIsD3iDXERJ0p1Ut7wP57qcYbWL8=
+X-Received: by 2002:a1c:1982:: with SMTP id 124mr3143741wmz.84.1614257190909; 
+ Thu, 25 Feb 2021 04:46:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <06a84729-c3e0-ed1a-807c-6629ed8cf2f9@suse.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20200811202631.3603-1-alyssa.rosenzweig@collabora.com>
+ <CAPj87rMS5zxY6sK4N8zVZF9MHThmURj6kuso=G5+MQDVmNjC4Q@mail.gmail.com>
+ <d17ea299-b21e-b298-9098-f47b780be106@rock-chips.com>
+In-Reply-To: <d17ea299-b21e-b298-9098-f47b780be106@rock-chips.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 25 Feb 2021 12:46:19 +0000
+Message-ID: <CAPj87rMBt9bJhPcyX--xa_wMse9JCttHCfz1PkFXFwHcRheuJg@mail.gmail.com>
+Subject: Re: [PATCH] drm/rockchip: Require the YTR modifier for AFBC
+To: Huang Jiachai <hjc@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,156 +63,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- Daniel Vetter <daniel.vetter@intel.com>, tiantao6@hisilicon.com,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ linux-rockchip <linux-rockchip@lists.infradead.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ =?UTF-8?B?6Zer5a2d5Yab?= <andy.yan@rock-chips.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 12, 2021 at 12:42:16PM +0100, Thomas Zimmermann wrote:
-> Hi
-> =
+Hi Sandy,
 
-> Am 12.01.21 um 09:43 schrieb Daniel Vetter:
-> > - Need to embedded the drm_device, but for now we keep the usual
-> >    pointer chasing.
-> > - No more devm_kzalloc, which fixes a lifetime issues on driver
-> >    remove.
-> > - No more drm_dev_put, that's done by devm_ now.
-> > =
+On Thu, 25 Feb 2021 at 02:17, Huang Jiachai <hjc@rock-chips.com> wrote:
+>      RK3399 and px30 can support YTR afbc format[RGB only], there is an
+> hidden control bit to control this.
 
-> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Alexey Brodkin <abrodkin@synopsys.com>
-> =
+Great, thanks for providing this information!
 
-> For the whole patchset:
-> =
+> Hi Alyssa,
+>
+>      Can you add the following patch to test on your platform? thanks.
+>
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> index 99bdb5a2a185..0780ad46230a 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> @@ -105,7 +105,7 @@
+>   #define AFBC_FMT_U8U8U8U8      0x5
+>   #define AFBC_FMT_U8U8U8                0x4
+>
+> -#define AFBC_TILE_16x16                BIT(4)
+> +#define AFBC_FMT_YTR           BIT(4)
+>
+>   /*
+>    * The coefficients of the following matrix are all fixed points.
+> @@ -952,7 +952,9 @@ static void vop_plane_atomic_update(struct drm_plane
+> *plane,
+>          if (rockchip_afbc(fb->modifier)) {
+>                  int afbc_format =
+> vop_convert_afbc_format(fb->format->format);
+>
+> -               VOP_AFBC_SET(vop, format, afbc_format | AFBC_TILE_16x16);
+> +               if (fb->modifier & AFBC_FORMAT_MOD_YTR)
+> +                       afbc_format |= AFBC_FMT_YTR;
+> +               VOP_AFBC_SET(vop, format, afbc_format);
+>                  VOP_AFBC_SET(vop, hreg_block_split, 0);
+>                  VOP_AFBC_SET(vop, win_sel, VOP_WIN_TO_INDEX(vop_win));
+>                  VOP_AFBC_SET(vop, hdr_ptr, dma_addr);
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> index 4a2099cb582e..48e131b88c23 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> @@ -20,6 +20,7 @@
+>   #define ROCKCHIP_AFBC_MOD \
+>          DRM_FORMAT_MOD_ARM_AFBC( \
+>                  AFBC_FORMAT_MOD_BLOCK_SIZE_16x16 | AFBC_FORMAT_MOD_SPARSE \
+> +                       | AFBC_FORMAT_MOD_YTR \
+>          )
 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> =
+Looks good - this will help us confirm. I think the complete patch
+though would advertise both YTR and non-YTR modifiers: per Arm's
+recommendation, it sounds like [AX]RGB8888 formats should only
+advertise the non-YTR variant, and [AX]BGR8888 should advertise both
+variants. Does that make sense?
 
-> There's a comment on patch 7.
-
-Queued up the entire pile for 5.13, thanks for taking a look.
--Daniel
-
-> =
-
-> Best regards
-> Thomas
-> =
-
-> > ---
-> >   drivers/gpu/drm/arc/arcpgu.h     |  1 +
-> >   drivers/gpu/drm/arc/arcpgu_drv.c | 33 +++++++++++++-------------------
-> >   2 files changed, 14 insertions(+), 20 deletions(-)
-> > =
-
-> > diff --git a/drivers/gpu/drm/arc/arcpgu.h b/drivers/gpu/drm/arc/arcpgu.h
-> > index 6aac44b953ad..cd9e932f501e 100644
-> > --- a/drivers/gpu/drm/arc/arcpgu.h
-> > +++ b/drivers/gpu/drm/arc/arcpgu.h
-> > @@ -9,6 +9,7 @@
-> >   #define _ARCPGU_H_
-> >   struct arcpgu_drm_private {
-> > +	struct drm_device	drm;
-> >   	void __iomem		*regs;
-> >   	struct clk		*clk;
-> >   	struct drm_framebuffer	*fb;
-> > diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arc=
-pgu_drv.c
-> > index f164818ec477..68eb4a31c54b 100644
-> > --- a/drivers/gpu/drm/arc/arcpgu_drv.c
-> > +++ b/drivers/gpu/drm/arc/arcpgu_drv.c
-> > @@ -42,18 +42,14 @@ static void arcpgu_setup_mode_config(struct drm_dev=
-ice *drm)
-> >   DEFINE_DRM_GEM_CMA_FOPS(arcpgu_drm_ops);
-> > -static int arcpgu_load(struct drm_device *drm)
-> > +static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
-> >   {
-> > -	struct platform_device *pdev =3D to_platform_device(drm->dev);
-> > -	struct arcpgu_drm_private *arcpgu;
-> > +	struct platform_device *pdev =3D to_platform_device(arcpgu->drm.dev);
-> >   	struct device_node *encoder_node =3D NULL, *endpoint_node =3D NULL;
-> > +	struct drm_device *drm =3D &arcpgu->drm;
-> >   	struct resource *res;
-> >   	int ret;
-> > -	arcpgu =3D devm_kzalloc(&pdev->dev, sizeof(*arcpgu), GFP_KERNEL);
-> > -	if (arcpgu =3D=3D NULL)
-> > -		return -ENOMEM;
-> > -
-> >   	drm->dev_private =3D arcpgu;
-> >   	arcpgu->clk =3D devm_clk_get(drm->dev, "pxlclk");
-> > @@ -162,30 +158,28 @@ static struct drm_driver arcpgu_drm_driver =3D {
-> >   static int arcpgu_probe(struct platform_device *pdev)
-> >   {
-> > -	struct drm_device *drm;
-> > +	struct arcpgu_drm_private *arcpgu;
-> >   	int ret;
-> > -	drm =3D drm_dev_alloc(&arcpgu_drm_driver, &pdev->dev);
-> > -	if (IS_ERR(drm))
-> > -		return PTR_ERR(drm);
-> > +	arcpgu =3D devm_drm_dev_alloc(&pdev->dev, &arcpgu_drm_driver,
-> > +				    struct arcpgu_drm_private, drm);
-> > +	if (IS_ERR(arcpgu))
-> > +		return PTR_ERR(arcpgu);
-> > -	ret =3D arcpgu_load(drm);
-> > +	ret =3D arcpgu_load(arcpgu);
-> >   	if (ret)
-> > -		goto err_unref;
-> > +		return ret;
-> > -	ret =3D drm_dev_register(drm, 0);
-> > +	ret =3D drm_dev_register(&arcpgu->drm, 0);
-> >   	if (ret)
-> >   		goto err_unload;
-> > -	drm_fbdev_generic_setup(drm, 16);
-> > +	drm_fbdev_generic_setup(&arcpgu->drm, 16);
-> >   	return 0;
-> >   err_unload:
-> > -	arcpgu_unload(drm);
-> > -
-> > -err_unref:
-> > -	drm_dev_put(drm);
-> > +	arcpgu_unload(&arcpgu->drm);
-> >   	return ret;
-> >   }
-> > @@ -196,7 +190,6 @@ static int arcpgu_remove(struct platform_device *pd=
-ev)
-> >   	drm_dev_unregister(drm);
-> >   	arcpgu_unload(drm);
-> > -	drm_dev_put(drm);
-> >   	return 0;
-> >   }
-> > =
-
-> =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
-
-
-
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Cheers,
+Daniel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
