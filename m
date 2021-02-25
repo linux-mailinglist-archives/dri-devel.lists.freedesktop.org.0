@@ -2,53 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1333258B0
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 22:34:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80843258B8
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 22:36:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5BE06E364;
-	Thu, 25 Feb 2021 21:34:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A78726E3C1;
+	Thu, 25 Feb 2021 21:36:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 133D56E364
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 21:34:09 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id v5so10744546lft.13
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 13:34:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z33fwCKGRLdRggSVLa36+oxEo5k56+kIObYh56DIr1o=;
- b=iVOvgwBHTElHBmSyV8PIt+/n4PL5NWhFj7/q6FN4WduvYDrIce/fCRUQYtkupW2DJ2
- WAkqWlxLpGMGuZuQzh5k/1CYCcKI/HswXTLxgiylWtVEldlvWj9jCLVmA8rlGH9/5IDc
- W0KAGWMSe9u1PUJ9XO6r5QuvrlGbRgs6HM3O/HwMXFweNW5RbmKimMXu3HcyA2xiikkY
- 3jCvA6OtwNK0/kic08DPa5I6tVW7VIQzCDdLC5oqzC0bfT8Tk8cSjjPgvaM+nWkm2BuW
- +NUABQpD18/jDPEFRuwHFY8SGx35eolwPjMCHURDTydHrY1IK863vZMSZdU63aOONaRg
- TSXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z33fwCKGRLdRggSVLa36+oxEo5k56+kIObYh56DIr1o=;
- b=iqAF/vqQOMQWhGjPlbFtFkJuesHxl+pe1Tbc9lwM1Eqetos43Gc9M+sliJld8SO3qX
- xQC5Es1UEiz5/J3pVREPr7ea8PK0tJYh5Bo43XZi5FIAbFJrH7VbGpJwzBHJ+vrD29mm
- 68ssfn9AWKM2gElnWn57YEDbM3suoviz/174q3P++wKnNMlFmS2IbzrHiiFn584TOgIS
- CYkM8tBTJ/DyUmMNiKkHQoL2d7fqdSspqGLVcDMMfUh/RvxvvlZZKf+/zFc6kBt9eUJ9
- OCrfSEAAulcSOnQID8tz+dDCoiW82jpwezFh8iD1ttm/nwdoqEmKAq+Y5oF2Jqhq6mn8
- Totg==
-X-Gm-Message-State: AOAM5320fFaEJFvHH9NfaFEZVnVykolrTCSJ95PUdvJs+jj3noH6Id75
- wBpEIbI4silADTxrA5kvZBLiCyAupnFBCMoq5AMUag==
-X-Google-Smtp-Source: ABdhPJwidz3VEFA1ImAO0a1g5OYBZZNdfVwrSeMhrhMW+jPSmbGKY9IlX0eQ/dAZ/ZuXoIxIYaDlY8Fz4hPCCRSI9ZA=
-X-Received: by 2002:a05:6512:12c1:: with SMTP id
- p1mr3098656lfg.374.1614288847058; 
- Thu, 25 Feb 2021 13:34:07 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39A706E3C1;
+ Thu, 25 Feb 2021 21:36:23 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0020064EFA;
+ Thu, 25 Feb 2021 21:36:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1614288982;
+ bh=vhR06eEJtDZ0r97bs4jU4YhRSpx9NcqTr0R2mpv+aSo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Avuf5TFdxU8dfLyGY3bl8VlfmjoSEy30btLo9dx84eVSgZAok+ltJN/7aXBZfZpOd
+ Bp2zI8zESCw6lYHJjFHlJT5YkjbvUi6WOqNxV92d9u5WEt94NeQN+YKqFDGAEX7fqL
+ tM+HYLv0oC4BnZMNfUyIcTRVjXj4EDlRjL3a89eTpPhofePsiDfSwAJRmdKWxJPIYf
+ Uk8Paz4LdHZvpM4Zz4zaS/KxUxQlnnm2wP/6MDSjEz8SjiOgZxLVatxXurGdfNQsgU
+ vs55lHfX1LpXtlgKN8JHB8a8eQQYO9swShtJlwblI0JTQ5hPhyH3C9nG1NoISmhnbw
+ UwGZnQ4Ke6kKg==
+Received: by mail-oi1-f171.google.com with SMTP id q186so7576770oig.12;
+ Thu, 25 Feb 2021 13:36:21 -0800 (PST)
+X-Gm-Message-State: AOAM531ITe8zF+EX/f30LqL/jSNd36RNJaw13j0zAi/cO/M0FqRjHY8+
+ DA/lq/dw08PmigsKS2nVYt304Wg0LpQtdcouAtU=
+X-Google-Smtp-Source: ABdhPJybVJcHMJTDZedQxlBiUnKZZcDkyTWHOLi5187NOxBRl/xxjKkBQg64kUB5T4FFzlA5mQYjKZG0yiDibO3jb2M=
+X-Received: by 2002:aca:b457:: with SMTP id d84mr312789oif.4.1614288981097;
+ Thu, 25 Feb 2021 13:36:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20210225150119.405469-1-arnd@kernel.org>
-In-Reply-To: <20210225150119.405469-1-arnd@kernel.org>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Thu, 25 Feb 2021 13:33:56 -0800
-Message-ID: <CAKwvOdkWfQi4vPphJ9X+xQ5MdzGhrHr1mj=oFGh3Yv5TB=76_Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix an uninitialized index variable
-To: Arnd Bergmann <arnd@kernel.org>
+References: <20210225143339.3693838-1-arnd@kernel.org>
+In-Reply-To: <20210225143339.3693838-1-arnd@kernel.org>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Thu, 25 Feb 2021 22:36:04 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a0Zi2MAzG2f6Te-LYuDuLd4yiy4b3VRYQY6EspqzMnQ5w@mail.gmail.com>
+Message-ID: <CAK8P3a0Zi2MAzG2f6Te-LYuDuLd4yiy4b3VRYQY6EspqzMnQ5w@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: fix 64-bit integer division
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Bindu Ramamurthy <bindu.r@amd.com>, 
+ Vladimir Stempen <vladimir.stempen@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,132 +57,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, Eryk Brol <eryk.brol@amd.com>,
- Arnd Bergmann <arnd@arndb.de>,
- clang-built-linux <clang-built-linux@googlegroups.com>,
- Leo Li <sunpeng.li@amd.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: Arnd Bergmann <arnd@arndb.de>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Nathan Chancellor <nathan@kernel.org>, David Airlie <airlied@linux.ie>,
  Aurabindo Pillai <aurabindo.pillai@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 25, 2021 at 7:01 AM Arnd Bergmann <arnd@kernel.org> wrote:
+On Thu, Feb 25, 2021 at 3:33 PM Arnd Bergmann <arnd@kernel.org> wrote:
 >
 > From: Arnd Bergmann <arnd@arndb.de>
 >
-> clang points out that the new logic uses an always-uninitialized
-> array index:
+> The new display synchronization code caused a regression
+> on all 32-bit architectures:
 >
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9810:38: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
->                         timing  = &edid->detailed_timings[i];
->                                                           ^
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9720:7: note: initialize the variable 'i' to silence this warning
+> ld.lld: error: undefined symbol: __aeabi_uldivmod
+> >>> referenced by dce_clock_source.c
+> >>>               gpu/drm/amd/display/dc/dce/dce_clock_source.o:(get_pixel_clk_frequency_100hz) in archive drivers/built-in.a
 >
-> My best guess is that the index should have been returned by the
-> parse_hdmi_amd_vsdb() function that walks an array here, so do that.
+> ld.lld: error: undefined symbol: __aeabi_ldivmod
+> >>> referenced by dc_resource.c
+> >>>               gpu/drm/amd/display/dc/core/dc_resource.o:(resource_are_vblanks_synchronizable) in archive drivers/built-in.a
+> >>> referenced by dc_resource.c
+> >>>               gpu/drm/amd/display/dc/core/dc_resource.o:(resource_are_vblanks_synchronizable) in archive drivers/built-in.a
+> >>> referenced by dc_resource.c
+> >>>               gpu/drm/amd/display/dc/core/dc_resource.o:(resource_are_vblanks_synchronizable) in archive drivers/built-in.a
 >
-> Fixes: f9b4f20c4777 ("drm/amd/display: Add Freesync HDMI support to DM")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index b19b93c74bae..667c0d52dbfa 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -9736,7 +9736,7 @@ static bool parse_edid_cea(struct amdgpu_dm_connector *aconnector,
->         return false;
->  }
->
-> -static bool parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
-> +static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
->                 struct edid *edid, struct amdgpu_hdmi_vsdb_info *vsdb_info)
->  {
->         uint8_t *edid_ext = NULL;
-> @@ -9746,7 +9746,7 @@ static bool parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
->         /*----- drm_find_cea_extension() -----*/
->         /* No EDID or EDID extensions */
->         if (edid == NULL || edid->extensions == 0)
-> -               return false;
-> +               return -ENODEV;
->
->         /* Find CEA extension */
->         for (i = 0; i < edid->extensions; i++) {
-> @@ -9756,14 +9756,15 @@ static bool parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
->         }
->
->         if (i == edid->extensions)
-> -               return false;
-> +               return -ENODEV;
->
->         /*----- cea_db_offsets() -----*/
->         if (edid_ext[0] != CEA_EXT)
-> -               return false;
-> +               return -ENODEV;
->
->         valid_vsdb_found = parse_edid_cea(aconnector, edid_ext, EDID_LENGTH, vsdb_info);
-> -       return valid_vsdb_found;
-> +
-> +       return valid_vsdb_found ? i : -ENODEV;
+> This is not a fast path, so the use of an explicit div_u64/div_s64
+> seems appropriate.
 
-Thanks for the patch!
+I found two more instances:
 
-I don't think we need a local variable to store the return value from
-one function call that's immediately returned, ie.
+>>> referenced by dcn20_optc.c
+>>>               gpu/drm/amd/display/dc/dcn20/dcn20_optc.o:(optc2_align_vblanks) in archive drivers/built-in.a
 
-return parse_edid_cea(aconnector, edid_ext, EDID_LENGTH, vsdb_info) ?
-i : -ENODEV;
+>>> referenced by dcn10_hw_sequencer.c
+>>>               gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.o:(reduceSizeAndFraction) in archive drivers/built-in.a
 
-would suffice, but the patch is still fine as is.
+I have patches for both, but will let the randconfig build box keep working
+on it over night to see if there are any others. Let me know if you want a
+combined patch or one per file once there are no more regressions.
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-
->  }
->
->  void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
-> @@ -9781,7 +9782,6 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
->         struct amdgpu_device *adev = drm_to_adev(dev);
->         bool freesync_capable = false;
->         struct amdgpu_hdmi_vsdb_info vsdb_info = {0};
-> -       bool hdmi_valid_vsdb_found = false;
->
->         if (!connector->state) {
->                 DRM_ERROR("%s - Connector has no state", __func__);
-> @@ -9857,8 +9857,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
->                         }
->                 }
->         } else if (edid && amdgpu_dm_connector->dc_sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A) {
-> -               hdmi_valid_vsdb_found = parse_hdmi_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
-> -               if (hdmi_valid_vsdb_found && vsdb_info.freesync_supported) {
-> +               i = parse_hdmi_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
-> +               if (i >= 0 && vsdb_info.freesync_supported) {
-
-reusing `i` here is safe, for now, but reuse of variables like this in
-separate branches like this might not get noticed if the function is
-amended in the future.
-
->                         timing  = &edid->detailed_timings[i];
->                         data    = &timing->data.other_data;
->
-> --
-> 2.29.2
->
-
-
--- 
-Thanks,
-~Nick Desaulniers
+        Arnd
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
