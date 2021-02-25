@@ -2,48 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10E2F32575E
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 21:14:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 001D83257DC
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 21:41:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2B026E0F3;
-	Thu, 25 Feb 2021 20:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B9186E06E;
+	Thu, 25 Feb 2021 20:41:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E92636E0F3
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 20:14:45 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id AB70E64F2C;
- Thu, 25 Feb 2021 20:14:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C8C96E06E
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 20:40:59 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 37A8964E51
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 20:40:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614284085;
- bh=+kyHhMSELA7u0ljOd/RrnjS0EEam6Tj7onyzl/Iok6Q=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=XPlRHEU2b7PqaDxbMLHtBDGTFMXpTLWJg+jvm1hLHFNJjStSV/FE+iMGtvgX3WU7i
- PzSgqNx2HhGuFxky74p3/NU8YoIlN1XI72PJjs8wpzwSJMcD+Lb/SkEu4VkHf5WCUZ
- UgutSHhKiX4njzQb+ozMkvAibKC5Sb3H2Wy2E5gMg7nTv/jHxDjfPY3RL4UU6Lke5G
- wA7dH3TR2myMutqHKn6mgbR1FyuUwcDQSntvrtafEixVA17zaSS0Qm2ByopA43CHn2
- +wbdWtQABwPe1+67MQUhjbGU4otmqKUQbDUxPY8dip9VyPuhJUtcoDB+22qq3GBl6p
- tJdRwkcNN5HoA==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
- [127.0.0.1])
- by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 7BA1560A0E;
- Thu, 25 Feb 2021 20:14:45 +0000 (UTC)
-Subject: Re: [git pull] drm fixes + msm-next for 5.12-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tyht2VHck6c0oh21+H=b_M=h1dvm4BNqe6AkPYZ+Ph_Uw@mail.gmail.com>
-References: <CAPM=9tyht2VHck6c0oh21+H=b_M=h1dvm4BNqe6AkPYZ+Ph_Uw@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9tyht2VHck6c0oh21+H=b_M=h1dvm4BNqe6AkPYZ+Ph_Uw@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-next-2021-02-26
-X-PR-Tracked-Commit-Id: d153e8c156dafeb847fd655f416cf81c007e8706
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: fdce29602f865b016012eadeaec99800da916d3d
-Message-Id: <161428408544.10391.12019334825346782312.pr-tracker-bot@kernel.org>
-Date: Thu, 25 Feb 2021 20:14:45 +0000
-To: Dave Airlie <airlied@gmail.com>
+ s=k20201202; t=1614285659;
+ bh=SwSTDVNvZIBCmsR4ys0Y7I2JAhb+YdH1QiXH0/pOOYs=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=OvOdZBIdUzGqo9X80nF2zW9pagkC2hdIBbxg+Ipkv4sJfTMyzKosGly9mUIMSHnP0
+ jVlHc6eHv+1WFz7m8t4jzFGH5z7ClCijIS3cxp1yEt1jxLdYh1hUH+YqHtbCvLYMNP
+ Nc6mRSJCwia8IM7mpGzB5qBN7aoLhQYdD/gDr69b+wtisb4ulSdyvU2JcyskihvtRj
+ 214Qdn/3C75nl8K/+peMJJItlbkDH+kTa+sIVJjqHo9lzVcuhPPDpKECw+/L6f3KQl
+ Ik3C+QO3Ommz8CEzSfyOWpM/84zZxStxNJqnBVy77akgTxHAQWq0U7YqhCwwntoNG8
+ 8bmZBEl27MTIQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 2CED0653D0; Thu, 25 Feb 2021 20:40:59 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211649] "drm/amd/display: reuse current context instead of
+ recreating one" cause hdmi hotplug blackscreen on amdgpu
+Date: Thu, 25 Feb 2021 20:40:58 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211649-2300-5r7MdwSqrH@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211649-2300@https.bugzilla.kernel.org/>
+References: <bug-211649-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,28 +64,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 26 Feb 2021 05:23:53 +1000:
+https://bugzilla.kernel.org/show_bug.cgi?id=211649
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-next-2021-02-26
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/fdce29602f865b016012eadeaec99800da916d3d
-
-Thank you!
+--- Comment #15 from Alex Deucher (alexdeucher@gmail.com) ---
+Reverted:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=efc8278eecfd5e6fa36c5d41e71d038f534fe107
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
