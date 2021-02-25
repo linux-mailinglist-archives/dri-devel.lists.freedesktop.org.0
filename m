@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D40A3253F6
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 17:50:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D0E1325400
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 17:51:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 565376ECDF;
-	Thu, 25 Feb 2021 16:50:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B2C96ECE3;
+	Thu, 25 Feb 2021 16:51:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA81F6ECDF
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 16:50:17 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id a11so1935140wmd.5
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 08:50:17 -0800 (PST)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8499D6ECE3
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 16:51:40 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id 7so5941095wrz.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 08:51:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ujtq4Dq47uF2eTEGpffKSWLYbYoXaFOz7LZhMGMgJmo=;
- b=ryg5umGlDRp6y1sOQMhcEBBz9zkU36sVN1nEaT2XCjPSbBuErpKioDj7ge/NrTkygh
- 04qPq9nQ1h+hMy9XTwEwcATvf39Z64gGNeu1k6fkIDFmUhIQVIl56+PPMlWcAINbvyku
- JLkASHT7Sx67EeAXx3NYxnOi7wdxohuGMdhpuJa4wE86LIWIbQxhOhUnYRq5gnkzuHeI
- Dhr1dQTKOpoqGAuqJrutZgOkI/LGuBDAcwHdWq/DmWhwbv+8zZQzR9EVODcS2sn5lrhB
- nKJYptojkdt6a2eEfewwcFIkv40rANfQT4cP8oYXt2rbzLsXIIa8RasVs59ukg5oyn0C
- hZRQ==
+ :cc; bh=pC8GhdhL7FQzyqXKBARK8g3SpEQ7eUs8uU1WApnchic=;
+ b=JNszVqasWRybdF5BPfiaCuQMheCTMfDfriRVZJWjKuwJ2E0sm0/dNmOePpPBohPaNe
+ 5pUTIEmXZj6LQuh+XRSwviI4m8nOuQ7HwbPHdnT2A15QAUzbNlR4Zv6/p+c7bbb1CbwA
+ bNPU064gWYVMObYHH2lB9hVj75/SUsLlTsYbAsXrcg2mp3E63xKhHYrfsq2A+XS4vIMP
+ uEbrzjHIDy++H8BfLHv+TArG7SC/n3J0UbSbjAmArv8ct6TNNef2KP5+Z0WPWeKZm3ZE
+ ZZ7RpwK8dCsI28gROB5nCtcdTLXRCdLSSZAH1CUIvicTAUIkSzD/YPZ5ZAhi2vt4ewrR
+ fYBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Ujtq4Dq47uF2eTEGpffKSWLYbYoXaFOz7LZhMGMgJmo=;
- b=FBFwKZ7gfb/lKx4K6whC5L2UvxuJsb2Nq0m87BIiVWD+uEyooQ10h+EgeVLHqsMSDC
- rhzV4WOcXqqhvO7As6H4mOScPUQC7vTSu+PxAOPTscp42G6G3jYzLXjH1MDvlnPmXyOW
- ow56DLmlgQTO5eY6dKu8ZJZn3G1H080yi6oh3vgAQgWUKe50yNoJlniUydV97TL/2ii0
- GHZucY3B9PnP/9fzVWF/MO6nrn78N0/jXZufMCFSLMgBaRajhA6QDbL7CH6+A76J3Eko
- PWUDMyL0KoipCOUw+C828LP6/nXR8QRT7uUFnWxT6xQ6lmx01/Iy7kqtVRiXh4uVqqdY
- 2hiA==
-X-Gm-Message-State: AOAM530f0gHusRAqNfRNILh43+Ibc0KZ/fR4F2knIwp1104YUJGYHpIJ
- hGCfeZETFLaA44zOj0laczLrEObwZsMy38uXwpihLA==
-X-Google-Smtp-Source: ABdhPJxZqSZhEEKMJ++j9qXWBx8PHurKD3HHd01rqa+Uwo1VLRjo9ks0dRY4UTLj3KZLtNP2UAdHMe//su/KOGVkytE=
-X-Received: by 2002:a1c:28c1:: with SMTP id o184mr3932948wmo.183.1614271816426; 
- Thu, 25 Feb 2021 08:50:16 -0800 (PST)
+ bh=pC8GhdhL7FQzyqXKBARK8g3SpEQ7eUs8uU1WApnchic=;
+ b=DdA6cF/L6Yhd8CxKoTwBKwdS6O+wAY7837KL0+tptIrFx+eyagotojVpeT6mtXtFxP
+ 0l/tU1yk4DESzLC9Nj0bcfzEZG6XZGBzThX9KJcQZQbYkN8DT39NgJTyDIw3BaM7Ghe1
+ U3/nonq49fP9hhUPFsgeaVkmIgeikWBpFdrD5FCXSNFh/UOGJUaFaTG/newgpsYH2Wxh
+ GutWq1eSm8sEpIObGvEMtZprMYSHVjKB1hBeZQdpTCDWHUVL2ELNYQPrS85Hsr7XyYzA
+ d6FtPq9+kYPZgd7RoMzUninacv5Z1wDuzQ5b2bRx4Mw9m9zNkVEkbVYoXwJKp6YU+Kx7
+ etcg==
+X-Gm-Message-State: AOAM533mbxGalZJxQRClGSxezI5B5SPWslttyeGAJjoand72f01iJdVS
+ KN4d3F/9wZZpes8euwQoOvwPlZsT3Js8QP7Uq+Jd6BIzZG8=
+X-Google-Smtp-Source: ABdhPJwvIr51FEdcMlolg+/kkVFJSRrYfHL29cXZcfOelOKj1lJWo2tx8JJS8TlA+oHH861XElivlNjSOtVpt172Fds=
+X-Received: by 2002:a5d:4e05:: with SMTP id p5mr4354391wrt.273.1614271899137; 
+ Thu, 25 Feb 2021 08:51:39 -0800 (PST)
 MIME-Version: 1.0
 References: <20210225155909.1853812-1-maxime@cerno.tech>
- <20210225155909.1853812-8-maxime@cerno.tech>
-In-Reply-To: <20210225155909.1853812-8-maxime@cerno.tech>
+ <20210225155909.1853812-3-maxime@cerno.tech>
+In-Reply-To: <20210225155909.1853812-3-maxime@cerno.tech>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 25 Feb 2021 16:50:00 +0000
-Message-ID: <CAPY8ntBtL=mbz1-4yOcaJg2kiawk_1sosDY1Aa0dL=en7W3e9g@mail.gmail.com>
-Subject: Re: [PATCH 7/8] drm/vc4: plane: Fix typo in scaler width and height
+Date: Thu, 25 Feb 2021 16:51:23 +0000
+Message-ID: <CAPY8ntApkdz_WjuBqgjXHRbE5AGvLUPup=bi2rTt94ssX_CTpw@mail.gmail.com>
+Subject: Re: [PATCH 2/8] drm/vc4: hvs: Make the HVS bind first
 To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,32 +77,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 25 Feb 2021 at 15:59, Maxime Ripard <maxime@cerno.tech> wrote:
 >
+> We'll need to have the HVS binding before the HDMI controllers so that
+> we can check whether the firmware allows to run in 4kp60. Reorder a bit
+> the component list, and document the current constraints we're aware of.
+>
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Again no commit text body, but possibly not warranted
+Based on my understanding of bind ordering this makes sense, but I
+don't consider myself an expert there.
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
 > ---
->  drivers/gpu/drm/vc4/vc4_plane.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/vc4/vc4_drv.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-> index 4a075294ff4c..5e8b7f72dc05 100644
-> --- a/drivers/gpu/drm/vc4/vc4_plane.c
-> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
-> @@ -912,9 +912,9 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
->                 if (!vc4_state->is_unity) {
->                         vc4_dlist_write(vc4_state,
->                                         VC4_SET_FIELD(vc4_state->crtc_w,
-> -                                                     SCALER_POS1_SCL_WIDTH) |
-> +                                                     SCALER5_POS1_SCL_WIDTH) |
->                                         VC4_SET_FIELD(vc4_state->crtc_h,
-> -                                                     SCALER_POS1_SCL_HEIGHT));
-> +                                                     SCALER5_POS1_SCL_HEIGHT));
->                 }
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+> index 556ad0f02a0d..0310590ee66e 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.c
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
+> @@ -303,12 +303,21 @@ static const struct component_master_ops vc4_drm_ops = {
+>         .unbind = vc4_drm_unbind,
+>  };
 >
->                 /* Position Word 2: Source Image Size */
+> +/*
+> + * This list determines the binding order of our components, and we have
+> + * a few constraints:
+> + *   - The TXP driver needs to be bound before the PixelValves (CRTC)
+> + *     but after the HVS to set the possible_crtc field properly
+> + *   - The HDMI driver needs to be bound after the HVS so that we can
+> + *     lookup the HVS maximum core clock rate and figure out if we
+> + *     support 4kp60 or not.
+> + */
+>  static struct platform_driver *const component_drivers[] = {
+> +       &vc4_hvs_driver,
+>         &vc4_hdmi_driver,
+>         &vc4_vec_driver,
+>         &vc4_dpi_driver,
+>         &vc4_dsi_driver,
+> -       &vc4_hvs_driver,
+>         &vc4_txp_driver,
+>         &vc4_crtc_driver,
+>         &vc4_v3d_driver,
 > --
 > 2.29.2
 >
