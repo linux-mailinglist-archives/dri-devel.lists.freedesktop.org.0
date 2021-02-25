@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6551E3253C0
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 17:44:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F00803253D7
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 17:45:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B53516E159;
-	Thu, 25 Feb 2021 16:44:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA0AD6ECDB;
+	Thu, 25 Feb 2021 16:45:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DAD86E159
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 16:44:56 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id x16so5172502wmk.3
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 08:44:56 -0800 (PST)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD64F6ECDB
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 16:45:43 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id h98so5891689wrh.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 08:45:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6iPK6uivn8FFkX3yHN1+4B6rSK87b8XBOG8TYCDXX44=;
- b=Kzmkjd4ootJtYamFrgEptXlT20fDyCoRFqBNzr49bd2VescRZE13IAcfwVgJeoDcBP
- RvT8tzPsyBgeIhblwcPiNrce6dTV4kf2lSNQnIIioTLxyUjnoxJlOYx/IUHZAbi+a/ew
- X7lOC8lIHyokARQ55OywZDk9b4aUxbAYpb292dulEhpo1KDMUJ1uxDigTwnKF1aWCMsL
- uJdYBz1b5ZBaeeEScLhzELr/Q6VTt7E9WP1VtNluB0tq0d8D+6oeAkO1NbR7cwq9np51
- zOatApTcSLI1HN7oRJHKLKUNm3bvwM4I6LxpeVfEnoQxNTILyYTEne7R03V1h+DeFTCq
- IsHg==
+ :cc; bh=NmfdoFo/I40sE8Qkui7EMAEzIBiXEXSbxp8eB2SP+0o=;
+ b=CyvMjwQCKIE4FwP+oGnuDUNRdWrlgQScBR04hkOk9PiVy6A8GZtH+0UMGAKN9P6WFq
+ jprR6l6l4jotSjXlak+UnylsDzPratmo9PlELn9va5NnXgbB6zFMADb9z92JvBmLqt+q
+ wRgeVqBCm4HDwi/u/F7ApMyvrycm0pGlRV6QShWWawLewbTdC3Tts6VsQBk5pcqm5hnP
+ 9MILLaj57TZ2eKBM0lGuOKRVNfXbCzCEC9/Q7KyChSbNTtKusWuwcI5NkRhYvmFNknwP
+ o261fT1DdagrjZRChZrfOnt8RvVqTNK1YBQHQJdZQ7cf6a714ti8juiVDeImSdgKAhIW
+ yHEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6iPK6uivn8FFkX3yHN1+4B6rSK87b8XBOG8TYCDXX44=;
- b=lU1zlmyRyseQPxpEW1StEfuUWYvC0FSO+UT+FXb91wXTjyepQ+kwhP8iOs+/wNTeub
- 4CW4hqAmPC02pYD33GTT5dFV0RCUXFDHgzerNPgK5O4Np+Osh2bKSMiC6S8oCNEEfm8x
- zdB6AxstMvHkeykKP4Yc/EbiP9TdMirAiJW4RALOBQT0wSSn9uxLG6aS0u9QG6S67lJ3
- RpCP8TNeH4QpLC+r8hzc0xlRsmUTzxjlddlPzF7Wq/QrP0wbdpuEsoGtKZjhW2hdrCFr
- zf3hKzE9ZxsUC2Rhh6CohjJkXHE1JeNlFFl/boEftNvZUBM/aH9zqobxyAEYQdMut1zc
- vFqw==
-X-Gm-Message-State: AOAM530F0+Ltgp6kHF0UZEpggFbeTFIz84xwDpx8VMr19Sy+zF91zTsB
- RJjZGcoP4wtm2y145O09tnsvVQZwsA9hKQr2TTohdQ==
-X-Google-Smtp-Source: ABdhPJz8YavJqOPhv1n1aVPWC1SJiwSPzls+Uo6e5WTyIH8p4pWZiir/kx9JJ5VQ3WYCnzJxmPmmoJLfmxg1w79fOYs=
-X-Received: by 2002:a1c:a916:: with SMTP id s22mr4144063wme.82.1614271494646; 
- Thu, 25 Feb 2021 08:44:54 -0800 (PST)
+ bh=NmfdoFo/I40sE8Qkui7EMAEzIBiXEXSbxp8eB2SP+0o=;
+ b=mVLv3sxYx/8DgLyel08+VO8rkIsFSlzHFRRMYl8YSgB4Gjym1ISJQvFRCuF7OLBk16
+ EP2JjykQYQlZwYl8k8O6YrGaweRF+foNd+QOMAMW91qrH61kX+Wb0FZ3AlZ+2vS9eVNQ
+ 7TxKo8zEnn0TOsTe4yLYGryQTN9yN40PE8sjfKisWc7DBRf3sMV4JqBac72gICyqBMh0
+ Z3CZeiD5/Bek39tj01wCl9YOnxrOXHqLpuJk3LrSNrzs6nEENMkaOXZMANqaRoSUR1Tl
+ +fDqFLrjybX+gx0ngCJPi3/H7jNA/RY04AYr4wCq7RdBBTOpA/inqg6RoNuIoHXrsokg
+ TDmw==
+X-Gm-Message-State: AOAM530oLoTuYkA9q0t2+bKgoBGP227HN5gNQIOm6Vocukzq94xhhjQn
+ pGuP3KJU3HdNrDl5HDXo03QVJCFg1PnHAh1VXUNp4g==
+X-Google-Smtp-Source: ABdhPJw6VNhGfLB+x+jtrwvxYrcNNxSAxOcW7GDDkzr1pqBrOXtyS043FXS2OonOo7r8BFLfSOCxjTi4WGBs2AY/IfQ=
+X-Received: by 2002:adf:f681:: with SMTP id v1mr4460008wrp.150.1614271542472; 
+ Thu, 25 Feb 2021 08:45:42 -0800 (PST)
 MIME-Version: 1.0
 References: <20210225155909.1853812-1-maxime@cerno.tech>
- <20210225155909.1853812-4-maxime@cerno.tech>
-In-Reply-To: <20210225155909.1853812-4-maxime@cerno.tech>
+ <20210225155909.1853812-7-maxime@cerno.tech>
+In-Reply-To: <20210225155909.1853812-7-maxime@cerno.tech>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 25 Feb 2021 16:44:39 +0000
-Message-ID: <CAPY8ntDMm_o8O-SOk7Tkh=yh5czQ0iS37p==DyhxBVPVmriGWw@mail.gmail.com>
-Subject: Re: [PATCH 3/8] drm/vc4: hdmi: Properly compute the BVB clock rate
+Date: Thu, 25 Feb 2021 16:45:26 +0000
+Message-ID: <CAPY8ntAcVoHGcDCXuFD3677VwJCr6EVzWoxL5stmModa7hQrGw@mail.gmail.com>
+Subject: Re: [PATCH 6/8] drm/vc4: hdmi: Raise the maximum clock rate
 To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,63 +75,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
-
 On Thu, 25 Feb 2021 at 15:59, Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> The BVB clock rate computation doesn't take into account a mode clock of
-> 594MHz that we're going to need to support 4k60.
+> Now that we have the infrastructure in place, we can raise the maximum
+> pixel rate we can reach for HDMI0 on the BCM2711.
+>
+> HDMI1 is left untouched since its pixelvalve has a smaller FIFO and
+> would need a clock faster than what we can provide to support the same
+> modes.
 >
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
 > ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 11 +++--------
->  1 file changed, 3 insertions(+), 8 deletions(-)
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index eee9751009c2..b5bc742993a4 100644
+> index 1a6babb53cf4..27464add6468 100644
 > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -91,7 +91,6 @@
->  # define VC4_HD_M_ENABLE                       BIT(0)
->
->  #define CEC_CLOCK_FREQ 40000
-> -#define VC4_HSM_MID_CLOCK 149985000
->
->  #define HDMI_14_MAX_TMDS_CLK   (340 * 1000 * 1000)
->
-> @@ -739,7 +738,7 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
->                 conn_state_to_vc4_hdmi_conn_state(conn_state);
->         struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
->         struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-> -       unsigned long pixel_rate, hsm_rate;
-> +       unsigned long bvb_rate, pixel_rate, hsm_rate;
->         int ret;
->
->         ret = pm_runtime_get_sync(&vc4_hdmi->pdev->dev);
-> @@ -793,12 +792,8 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
->
->         vc4_hdmi_cec_update_clk_div(vc4_hdmi);
->
-> -       /*
-> -        * FIXME: When the pixel freq is 594MHz (4k60), this needs to be setup
-> -        * at 300MHz.
-> -        */
-> -       ret = clk_set_min_rate(vc4_hdmi->pixel_bvb_clock,
-> -                              (hsm_rate > VC4_HSM_MID_CLOCK ? 150000000 : 75000000));
-> +       bvb_rate = roundup(mode->clock * 1000 / 2, 75000000);
-
-Minor hesitation here that I would need to check the hardware over.
-As I read your code, if the clock falls 300MHz and 450MHz then you'd
-ask for a bvb_rate of 225MHz. Depending on what the source clock is
-that may not be valid.
-The firmware goes for 75, 150, or 300MHz only.
-
-  Dave
-
-> +       ret = clk_set_min_rate(vc4_hdmi->pixel_bvb_clock, bvb_rate);
->         if (ret) {
->                 DRM_ERROR("Failed to set pixel bvb clock rate: %d\n", ret);
->                 clk_disable_unprepare(vc4_hdmi->hsm_clock);
+> @@ -2177,7 +2177,7 @@ static const struct vc4_hdmi_variant bcm2711_hdmi0_variant = {
+>         .encoder_type           = VC4_ENCODER_TYPE_HDMI0,
+>         .debugfs_name           = "hdmi0_regs",
+>         .card_name              = "vc4-hdmi-0",
+> -       .max_pixel_clock        = HDMI_14_MAX_TMDS_CLK,
+> +       .max_pixel_clock        = 600000000,
+>         .registers              = vc5_hdmi_hdmi0_fields,
+>         .num_registers          = ARRAY_SIZE(vc5_hdmi_hdmi0_fields),
+>         .phy_lane_mapping       = {
 > --
 > 2.29.2
 >
