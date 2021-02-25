@@ -2,69 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D485F3253F0
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 17:49:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D40A3253F6
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 17:50:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A5136ECE2;
-	Thu, 25 Feb 2021 16:49:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 565376ECDF;
+	Thu, 25 Feb 2021 16:50:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7BE46ECDF;
- Thu, 25 Feb 2021 16:49:15 +0000 (UTC)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailout.west.internal (Postfix) with ESMTP id 3220AAFC;
- Thu, 25 Feb 2021 11:49:15 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Thu, 25 Feb 2021 11:49:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=cuAQURJdnfSgehNwqoZk1C/1YBf
- RDgosoa7HMN3+99M=; b=NVV8IVnKUCdyez/2KHwR8UOkjaDSmanqd3E33w1kFsr
- Sw34LaOmm/7oe/E6b8wAmOUPKn4rUMJIuzeyqWalCgKUYupGwIxWrzi8TUyu4uFL
- tf3UuFYcvXERsZNmXejkAkyVWcqvGCwXtgFTB44uQNEl6ggQ6GH+kT0piYN+HfDw
- Lphbug6Zx4cZUt3KiyZTyl32HieS/jJDTVYMrfoGZEL52ZcDqVbJSTi2YZEyfFb0
- jKgTEX6XlXkmI0Fi7g1cwOgW+P06t+6MQ37C4GUM1PmcaJhSh1pCvt7SavUojb3i
- 8zjofSneb1MNvly5P3RYybN3ppbZGMeXQ5/wb7duvbQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=cuAQUR
- JdnfSgehNwqoZk1C/1YBfRDgosoa7HMN3+99M=; b=kRJtWZ6HDijMQL9cp6CxhS
- qOl1UMUjIrHlE/D6w0f218HRPmQUoMkiuzmjvz4037Vrj7n/sHe+vn4KCG7WgYpK
- vPnRc8NrJtHgf9ZARvBk4lGCe12nl6i26nesAX6C7Y1EcrZt1VyB4dXuvAofqyO8
- Wd2gZBGaQIVCtXvt0hirThb/Je1xAOCFbdRlViNAo6rsReLr3pDglBApPtk0r4o1
- zxpHn96fQIgD0loMwQM1Su5WbeRebNOxM4E7qz9alCzPwfkilBffrIEPAUc85ylC
- kfivvBpIdfjkL3OM0b41cspZHNIAa6i1Jc0l2tKQ7Jm+exNN7NHGQ8i4T6FDLJvg
- ==
-X-ME-Sender: <xms:CdU3YJhQOi6bPBWvtyfxwYR9u77XlV8inMMZYueH0E0UhHnprgsE7A>
- <xme:CdU3YABMf6v_20BWGfCThOthB-2oMeARuqrTFrvKCNKav3hsM9hy3NpuS2qu_cv3h
- Sr0Vtw48dKiET1ARhs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkeelgdeliecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:CdU3YCfd8Nv10qBBCpRZ6miJuhrm4ctV0DZwYGqgs1x5QEfhkfXSpQ>
- <xmx:CdU3YAcpWF-v3oYu-1fIt6yE7B5pT6J3qSDHA2Lj0THx769vAqSykA>
- <xmx:CdU3YOiuhHOun0-CbMJjXrQS1oLBVXjCE5N-cHro0wppHb8kKGme_Q>
- <xmx:CtU3YMNwiWR3KwEW_QtMlfDdROYJ4eEM0W58PduR2fIa9DMeNTYgIw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 93D4E1080067;
- Thu, 25 Feb 2021 11:49:13 -0500 (EST)
-Date: Thu, 25 Feb 2021 17:49:11 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/compat: Clear bounce structures
-Message-ID: <20210225164911.k2bwswyivied36i5@gilmour>
-References: <20210222100643.400935-1-daniel.vetter@ffwll.ch>
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA81F6ECDF
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 16:50:17 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id a11so1935140wmd.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 08:50:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ujtq4Dq47uF2eTEGpffKSWLYbYoXaFOz7LZhMGMgJmo=;
+ b=ryg5umGlDRp6y1sOQMhcEBBz9zkU36sVN1nEaT2XCjPSbBuErpKioDj7ge/NrTkygh
+ 04qPq9nQ1h+hMy9XTwEwcATvf39Z64gGNeu1k6fkIDFmUhIQVIl56+PPMlWcAINbvyku
+ JLkASHT7Sx67EeAXx3NYxnOi7wdxohuGMdhpuJa4wE86LIWIbQxhOhUnYRq5gnkzuHeI
+ Dhr1dQTKOpoqGAuqJrutZgOkI/LGuBDAcwHdWq/DmWhwbv+8zZQzR9EVODcS2sn5lrhB
+ nKJYptojkdt6a2eEfewwcFIkv40rANfQT4cP8oYXt2rbzLsXIIa8RasVs59ukg5oyn0C
+ hZRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ujtq4Dq47uF2eTEGpffKSWLYbYoXaFOz7LZhMGMgJmo=;
+ b=FBFwKZ7gfb/lKx4K6whC5L2UvxuJsb2Nq0m87BIiVWD+uEyooQ10h+EgeVLHqsMSDC
+ rhzV4WOcXqqhvO7As6H4mOScPUQC7vTSu+PxAOPTscp42G6G3jYzLXjH1MDvlnPmXyOW
+ ow56DLmlgQTO5eY6dKu8ZJZn3G1H080yi6oh3vgAQgWUKe50yNoJlniUydV97TL/2ii0
+ GHZucY3B9PnP/9fzVWF/MO6nrn78N0/jXZufMCFSLMgBaRajhA6QDbL7CH6+A76J3Eko
+ PWUDMyL0KoipCOUw+C828LP6/nXR8QRT7uUFnWxT6xQ6lmx01/Iy7kqtVRiXh4uVqqdY
+ 2hiA==
+X-Gm-Message-State: AOAM530f0gHusRAqNfRNILh43+Ibc0KZ/fR4F2knIwp1104YUJGYHpIJ
+ hGCfeZETFLaA44zOj0laczLrEObwZsMy38uXwpihLA==
+X-Google-Smtp-Source: ABdhPJxZqSZhEEKMJ++j9qXWBx8PHurKD3HHd01rqa+Uwo1VLRjo9ks0dRY4UTLj3KZLtNP2UAdHMe//su/KOGVkytE=
+X-Received: by 2002:a1c:28c1:: with SMTP id o184mr3932948wmo.183.1614271816426; 
+ Thu, 25 Feb 2021 08:50:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210222100643.400935-1-daniel.vetter@ffwll.ch>
+References: <20210225155909.1853812-1-maxime@cerno.tech>
+ <20210225155909.1853812-8-maxime@cerno.tech>
+In-Reply-To: <20210225155909.1853812-8-maxime@cerno.tech>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 25 Feb 2021 16:50:00 +0000
+Message-ID: <CAPY8ntBtL=mbz1-4yOcaJg2kiawk_1sosDY1Aa0dL=en7W3e9g@mail.gmail.com>
+Subject: Re: [PATCH 7/8] drm/vc4: plane: Fix typo in scaler width and height
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,68 +62,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- stable@vger.kernel.org, DRI Development <dri-devel@lists.freedesktop.org>,
- syzbot+620cf21140fc7e772a5d@syzkaller.appspotmail.com
-Content-Type: multipart/mixed; boundary="===============0568371350=="
+Cc: Tim Gover <tim.gover@raspberrypi.com>, Stephen Boyd <sboyd@kernel.org>,
+ Mike Turquette <mturquette@baylibre.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Phil Elwell <phil@raspberrypi.com>, David Airlie <airlied@linux.ie>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-clk@vger.kernel.org,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 25 Feb 2021 at 15:59, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
---===============0568371350==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="to5j3sdi4ygdh66q"
-Content-Disposition: inline
+Again no commit text body, but possibly not warranted
 
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
---to5j3sdi4ygdh66q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Feb 22, 2021 at 11:06:43AM +0100, Daniel Vetter wrote:
-> Some of them have gaps, or fields we don't clear. Native ioctl code
-> does full copies plus zero-extends on size mismatch, so nothing can
-> leak. But compat is more hand-rolled so need to be careful.
->=20
-> None of these matter for performance, so just memset.
->=20
-> Also I didn't fix up the CONFIG_DRM_LEGACY or CONFIG_DRM_AGP ioctl, those
-> are security holes anyway.
->=20
-> Reported-by: syzbot+620cf21140fc7e772a5d@syzkaller.appspotmail.com # vbla=
-nk ioctl
-> Cc: syzbot+620cf21140fc7e772a5d@syzkaller.appspotmail.com
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
-Maxime
-
---to5j3sdi4ygdh66q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYDfVBwAKCRDj7w1vZxhR
-xe5PAP0f5XHtUCcC/Qvx5dzE+wAYFK8EvdJ+HJxByv0h2TCa3AD8DtkQmUtBpgjI
-7ZXCtqX4GggrmLOTfU5RQ3ICfer8dwY=
-=FxUz
------END PGP SIGNATURE-----
-
---to5j3sdi4ygdh66q--
-
---===============0568371350==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> ---
+>  drivers/gpu/drm/vc4/vc4_plane.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+> index 4a075294ff4c..5e8b7f72dc05 100644
+> --- a/drivers/gpu/drm/vc4/vc4_plane.c
+> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
+> @@ -912,9 +912,9 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
+>                 if (!vc4_state->is_unity) {
+>                         vc4_dlist_write(vc4_state,
+>                                         VC4_SET_FIELD(vc4_state->crtc_w,
+> -                                                     SCALER_POS1_SCL_WIDTH) |
+> +                                                     SCALER5_POS1_SCL_WIDTH) |
+>                                         VC4_SET_FIELD(vc4_state->crtc_h,
+> -                                                     SCALER_POS1_SCL_HEIGHT));
+> +                                                     SCALER5_POS1_SCL_HEIGHT));
+>                 }
+>
+>                 /* Position Word 2: Source Image Size */
+> --
+> 2.29.2
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0568371350==--
