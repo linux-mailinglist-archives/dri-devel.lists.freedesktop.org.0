@@ -1,34 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429CB3251CB
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 15:58:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4023C3251DD
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 16:01:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 889846E188;
-	Thu, 25 Feb 2021 14:58:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A4506E1BA;
+	Thu, 25 Feb 2021 15:01:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9145B6E1B2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 14:57:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=WcjXd4OF0djPDUFVtvVeDIyYimXmqHL7XHs56sCVr80=; 
- b=SYF4sYrj/vYSCWWAek4NBnQN/R/lvApD1Q0+drAv+3nvR+AvA/bG85/xyWQ03yetZG6542ltPfhEdKQzQKE0pUoeP7ewtOD0O4Ikeef+Ub0xVGJoMxEDCokVMCwMD2c4n99FtacoOI87U6fn1yQi9wwUjnJVfSmXs6HgfhFpEousWXHSHz4RNXY8X2r3mih0GczItPpwwCoYZLyWfLaMPbKm+mxBRaY0tBFiikP/3s9IhXBVXCxIPvT2KZ0ctUDGPRL3JYmGxgDsFaGnDXezRQD2Gt3Q536lNFtj8LorVgVfG0wKrbr0h29AP88eHNs/ocMIYidJsE5VwSq8IaXCUg==;
-Received: from lneuilly-657-1-8-171.w81-250.abo.wanadoo.fr ([81.250.147.171]
- helo=localhost) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1lFI4y-0003gU-I9; Thu, 25 Feb 2021 15:57:24 +0100
-From: Neil Roberts <nroberts@igalia.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>, Eric Anholt
- <eric@anholt.duckdns.org>
-Subject: Re: [PATCH RESEND] drm/vc4: Fix an error code vc4_create_object()
-In-Reply-To: <20210225144210.GA2222@kadam>
-References: <20210225144210.GA2222@kadam>
-Date: Thu, 25 Feb 2021 15:57:14 +0100
-Message-ID: <875z2gci0l.fsf@yahoo.co.uk>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A55736E1BA;
+ Thu, 25 Feb 2021 15:01:28 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DB3B764EC3;
+ Thu, 25 Feb 2021 15:01:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1614265288;
+ bh=rTp6tlRl/+2dDCi+5gBT4LR+IqVuF5cDPLNiC8PJHgk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=jYFhNaZbbSoTDYljzbyuXXwgaGElH7/NWFsFNQhQ0ZoAdxEgpmjKWwUUu1s2Fli55
+ 9FL9kT4HbFgnoCICaopvKBMhYoCiXfOXBFuMEVE8k6Q84QY9hsCwa5yJHoyViq4v1X
+ EX7tPknLeA2y0OW0L5A8mWn1P2bv6+vBhgqELGcPZG8j6su4kf+Kg+/L96oO+quyl6
+ 71p38s+XZbNuKnAKIhqqAX3KgeM5DPUWGgkFGbfSeHNJLnPQuoalrJrn6A57tV3ngW
+ iaX1C009z+deiIsRBEnQ0n2G5zZ2RRY5moTt6Lf/Fvl81G5WA1QbJOXFi9UVJXZlmp
+ eWEboNG471QWQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH] drm/amd/display: Fix an uninitialized index variable
+Date: Thu, 25 Feb 2021 16:01:02 +0100
+Message-Id: <20210225150119.405469-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,36 +45,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Stylon Wang <stylon.wang@amd.com>, Eryk Brol <eryk.brol@amd.com>,
+ Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ clang-built-linux@googlegroups.com,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRlckBvcmFjbGUuY29tPiB3cml0ZXM6Cgo+IFRoZSB2
-YzRfY3JlYXRlX29iamVjdCgpIG5lZWRzIHRvIHJldHVybiBOVUxMIG9uIGVycm9yLCBub3QgZXJy
-b3IKPiBwb2ludGVycy4gIElmIGl0IHJldHVybnMgYW4gZXJyb3IgcG9pbnRlciB0aGVuIHRoYXQg
-d2lsbCBsZWFkIHRvIGFuCj4gT29wcyBpbiB0aGUgY2FsbGVycy4gIEZvcnR1bmF0ZWx5LCBpbiBj
-dXJyZW50IGtlcm5lbHMgc21hbGwgYWxsb2NhdGlvbnMKPiBhbHdheXMgc3VjY2VkIHNvIHRoaXMg
-d2lsbCBuZXZlciBoYXBwZW4uCj4KPiBGaXhlczogYzgyNmE2ZTEwNjQ0ICgiZHJtL3ZjNDogQWRk
-IGEgQk8gY2FjaGUuIikKPiBTaWduZWQtb2ZmLWJ5OiBEYW4gQ2FycGVudGVyIDxkYW4uY2FycGVu
-dGVyQG9yYWNsZS5jb20+Cj4gLS0tCj4gSSBzZW50IHRoaXMgcGF0Y2ggbGFzdCBKdW5lIGJ1dCBp
-dCB3YXMgbmV2ZXIgYXBwbGllZC4KPgo+ICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9iby5jIHwg
-MiArLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPgo+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9iby5jIGIvZHJpdmVycy9ncHUv
-ZHJtL3ZjNC92YzRfYm8uYwo+IGluZGV4IDcyZDMwZDkwYjg1NmMuLjBhZjI0NmE1NjA5Y2EgMTAw
-NjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfYm8uYwo+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS92YzQvdmM0X2JvLmMKPiBAQCAtMzg5LDcgKzM4OSw3IEBAIHN0cnVjdCBkcm1fZ2Vt
-X29iamVjdCAqdmM0X2NyZWF0ZV9vYmplY3Qoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc2l6ZV90
-IHNpemUpCj4gIAo+ICAJYm8gPSBremFsbG9jKHNpemVvZigqYm8pLCBHRlBfS0VSTkVMKTsKPiAg
-CWlmICghYm8pCj4gLQkJcmV0dXJuIEVSUl9QVFIoLUVOT01FTSk7Cj4gKwkJcmV0dXJuIE5VTEw7
-CgpUaGlzIGNoYW5nZSBsb29rcyByaWdodCB0byBtZS4gRm9yIHJlZmVyZW5jZSwgdGhlIGNvZGUg
-dGhhdCBjYWxscyBpdApsb29rcyBsaWtlIHRoaXM6CgoJaWYgKGRybS0+ZHJpdmVyLT5nZW1fY3Jl
-YXRlX29iamVjdCkKCQlnZW1fb2JqID0gZHJtLT5kcml2ZXItPmdlbV9jcmVhdGVfb2JqZWN0KGRy
-bSwgc2l6ZSk7CiAgICAgICAgLyog4oCmICovCglpZiAoIWdlbV9vYmopCgkJcmV0dXJuIEVSUl9Q
-VFIoLUVOT01FTSk7CgpSZXZpZXdlZC1ieTogTmVpbCBSb2JlcnRzIDxucm9iZXJ0c0BpZ2FsaWEu
-Y29tPgoKUmVnYXJkcywKLSBOZWlsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+From: Arnd Bergmann <arnd@arndb.de>
+
+clang points out that the new logic uses an always-uninitialized
+array index:
+
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9810:38: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
+                        timing  = &edid->detailed_timings[i];
+                                                          ^
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9720:7: note: initialize the variable 'i' to silence this warning
+
+My best guess is that the index should have been returned by the
+parse_hdmi_amd_vsdb() function that walks an array here, so do that.
+
+Fixes: f9b4f20c4777 ("drm/amd/display: Add Freesync HDMI support to DM")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index b19b93c74bae..667c0d52dbfa 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -9736,7 +9736,7 @@ static bool parse_edid_cea(struct amdgpu_dm_connector *aconnector,
+ 	return false;
+ }
+ 
+-static bool parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
++static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+ 		struct edid *edid, struct amdgpu_hdmi_vsdb_info *vsdb_info)
+ {
+ 	uint8_t *edid_ext = NULL;
+@@ -9746,7 +9746,7 @@ static bool parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+ 	/*----- drm_find_cea_extension() -----*/
+ 	/* No EDID or EDID extensions */
+ 	if (edid == NULL || edid->extensions == 0)
+-		return false;
++		return -ENODEV;
+ 
+ 	/* Find CEA extension */
+ 	for (i = 0; i < edid->extensions; i++) {
+@@ -9756,14 +9756,15 @@ static bool parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+ 	}
+ 
+ 	if (i == edid->extensions)
+-		return false;
++		return -ENODEV;
+ 
+ 	/*----- cea_db_offsets() -----*/
+ 	if (edid_ext[0] != CEA_EXT)
+-		return false;
++		return -ENODEV;
+ 
+ 	valid_vsdb_found = parse_edid_cea(aconnector, edid_ext, EDID_LENGTH, vsdb_info);
+-	return valid_vsdb_found;
++
++	return valid_vsdb_found ? i : -ENODEV;
+ }
+ 
+ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -9781,7 +9782,6 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	bool freesync_capable = false;
+ 	struct amdgpu_hdmi_vsdb_info vsdb_info = {0};
+-	bool hdmi_valid_vsdb_found = false;
+ 
+ 	if (!connector->state) {
+ 		DRM_ERROR("%s - Connector has no state", __func__);
+@@ -9857,8 +9857,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+ 			}
+ 		}
+ 	} else if (edid && amdgpu_dm_connector->dc_sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A) {
+-		hdmi_valid_vsdb_found = parse_hdmi_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
+-		if (hdmi_valid_vsdb_found && vsdb_info.freesync_supported) {
++		i = parse_hdmi_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
++		if (i >= 0 && vsdb_info.freesync_supported) {
+ 			timing  = &edid->detailed_timings[i];
+ 			data    = &timing->data.other_data;
+ 
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
