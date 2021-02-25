@@ -1,61 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 907CD3254C9
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 18:51:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 413FF32551F
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 19:06:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5265B6E156;
-	Thu, 25 Feb 2021 17:51:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C7C46E24E;
+	Thu, 25 Feb 2021 18:06:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-2.mailgun.net (m42-2.mailgun.net [69.72.42.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF2166E156
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 17:51:54 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1614275515; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=DGq6IDzFUvvJIL7ZMOUaKbC0+G2XRnz/QgQTPcnn1yo=;
- b=ThzzcvKGWxG1gSxYHXJiwmHaQ/RWDXCpno+1sSEGwfjZQYN/op2SZ/h1tm8QwanwThee3E/V
- KETleo99fU8d7kmNIECsK9QxzS5O4TlWQIh4ySMW2i7iYaKxZwn0ovghM020nGd93yrXqoSd
- LnYybroqvsMqQzXrZQ3WOeXHpgg=
-X-Mailgun-Sending-Ip: 69.72.42.2
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 6037e3baa27401dc65b0f0c6 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 25 Feb 2021 17:51:54
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 01048C43466; Thu, 25 Feb 2021 17:51:53 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 7C253C433ED;
- Thu, 25 Feb 2021 17:51:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7C253C433ED
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=jcrouse@codeaurora.org
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH v3 3/3] drm/msm: Improve the a6xx page fault handler
-Date: Thu, 25 Feb 2021 10:51:35 -0700
-Message-Id: <20210225175135.91922-4-jcrouse@codeaurora.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210225175135.91922-1-jcrouse@codeaurora.org>
-References: <20210225175135.91922-1-jcrouse@codeaurora.org>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B89A6E24E
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 18:06:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=DX60RB6KmgJHGc7SEXuVw8LZv6BoOlMx0I0YVqIYzdw=; b=d0Uyb9tujVFA6G3qvRKVbmAiOW
+ YQfF8fiaEf05dDxIabpRCSj2vF+BT5xoPyN0nf26bs+Cx/zVbNKUvlj/VPHWy5I0ud/X7AjiTXmnL
+ zOyRQfoIGzqNucGasVEKyrjklrNCWPdfdcRdhxVK1oVeU4R7UEVo4+nJgbQ7iZfzPqJmANXk/uJxR
+ YneiRWUg+OkPQ4fyageXBSTCBAHA8qLel3U3fS6mnR8qetVJvBlR6x0Px8/7tbscQKN95YVzGWczs
+ tpjQdob4vChsiXfIy87El5EFIu24cYX4zFIttZ9bxpOSNy7gFcc3vHgyloOyXuU62rN/gdec6WV4P
+ OP+6EMfA==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:63061
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1lFL2D-0004iG-4j; Thu, 25 Feb 2021 19:06:45 +0100
+Subject: Re: [PATCH v6 3/3] drm: Add GUD USB Display driver
+To: Peter Stuge <peter@stuge.se>
+References: <20210219121702.50964-1-noralf@tronnes.org>
+ <20210219121702.50964-4-noralf@tronnes.org>
+ <20210225095825.6196.qmail@stuge.se>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <ecd868f9-5877-63ea-7d3b-504147489b61@tronnes.org>
+Date: Thu, 25 Feb 2021 19:06:40 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
+In-Reply-To: <20210225095825.6196.qmail@stuge.se>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,202 +55,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- Robin Murphy <robin.murphy@arm.com>, Sharat Masetty <smasetty@codeaurora.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- "Kristian H. Kristensen" <hoegsberg@google.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, Will Deacon <will@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: hudson@trmm.net, markus@raatikainen.cc,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-usb@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, th020394@gmail.com, lkundrak@v3.sk,
+ pontus.fuchs@gmail.com, sam@ravnborg.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the new adreno-smmu-priv fault info function to get more SMMU
-debug registers and print the current TTBR0 to debug per-instance
-pagetables and figure out which GPU block generated the request.
-
-Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
----
-
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c |  4 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 76 +++++++++++++++++++++++++--
- drivers/gpu/drm/msm/msm_iommu.c       | 11 +++-
- drivers/gpu/drm/msm/msm_mmu.h         |  4 +-
- 4 files changed, 87 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index 7e553d3efeb2..56b548921c4e 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -1075,7 +1075,7 @@ bool a5xx_idle(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
- 	return true;
- }
- 
--static int a5xx_fault_handler(void *arg, unsigned long iova, int flags)
-+static int a5xx_fault_handler(void *arg, unsigned long iova, int flags, void *data)
- {
- 	struct msm_gpu *gpu = arg;
- 	pr_warn_ratelimited("*** gpu fault: iova=%08lx, flags=%d (%u,%u,%u,%u)\n",
-@@ -1085,7 +1085,7 @@ static int a5xx_fault_handler(void *arg, unsigned long iova, int flags)
- 			gpu_read(gpu, REG_A5XX_CP_SCRATCH_REG(6)),
- 			gpu_read(gpu, REG_A5XX_CP_SCRATCH_REG(7)));
- 
--	return -EFAULT;
-+	return 0;
- }
- 
- static void a5xx_cp_err_irq(struct msm_gpu *gpu)
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 064b7face504..97eabd87740c 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -959,18 +959,88 @@ static void a6xx_recover(struct msm_gpu *gpu)
- 	msm_gpu_hw_init(gpu);
- }
- 
--static int a6xx_fault_handler(void *arg, unsigned long iova, int flags)
-+static const char *a6xx_uche_fault_block(struct msm_gpu *gpu, u32 mid)
-+{
-+	static const char *uche_clients[7] = {
-+		"VFD", "SP", "VSC", "VPC", "HLSQ", "PC", "LRZ",
-+	};
-+	u32 val;
-+
-+	if (mid < 1 || mid > 3)
-+		return "UNKNOWN";
-+
-+	/*
-+	 * The source of the data depends on the mid ID read from FSYNR1.
-+	 * and the client ID read from the UCHE block
-+	 */
-+	val = gpu_read(gpu, REG_A6XX_UCHE_CLIENT_PF);
-+
-+	/* mid = 3 is most precise and refers to only one block per client */
-+	if (mid == 3)
-+		return uche_clients[val & 7];
-+
-+	/* For mid=2 the source is TP or VFD except when the client id is 0 */
-+	if (mid == 2)
-+		return ((val & 7) == 0) ? "TP" : "TP|VFD";
-+
-+	/* For mid=1 just return "UCHE" as a catchall for everything else */
-+	return "UCHE";
-+}
-+
-+static const char *a6xx_fault_block(struct msm_gpu *gpu, u32 id)
-+{
-+	if (id == 0)
-+		return "CP";
-+	else if (id == 4)
-+		return "CCU";
-+	else if (id == 6)
-+		return "CDP Prefetch";
-+
-+	return a6xx_uche_fault_block(gpu, id);
-+}
-+
-+#define ARM_SMMU_FSR_TF                 BIT(1)
-+#define ARM_SMMU_FSR_PF			BIT(3)
-+#define ARM_SMMU_FSR_EF			BIT(4)
-+
-+static int a6xx_fault_handler(void *arg, unsigned long iova, int flags, void *data)
- {
- 	struct msm_gpu *gpu = arg;
-+	struct adreno_smmu_fault_info *info = data;
-+	const char *type = "UNKNOWN";
- 
--	pr_warn_ratelimited("*** gpu fault: iova=%08lx, flags=%d (%u,%u,%u,%u)\n",
-+	/*
-+	 * Print a default message if we couldn't get the data from the
-+	 * adreno-smmu-priv
-+	 */
-+	if (!info) {
-+		pr_warn_ratelimited("*** gpu fault: iova=%.16lx flags=%d (%u,%u,%u,%u)\n",
- 			iova, flags,
- 			gpu_read(gpu, REG_A6XX_CP_SCRATCH_REG(4)),
- 			gpu_read(gpu, REG_A6XX_CP_SCRATCH_REG(5)),
- 			gpu_read(gpu, REG_A6XX_CP_SCRATCH_REG(6)),
- 			gpu_read(gpu, REG_A6XX_CP_SCRATCH_REG(7)));
- 
--	return -EFAULT;
-+		return 0;
-+	}
-+
-+	if (info->fsr & ARM_SMMU_FSR_TF)
-+		type = "TRANSLATION";
-+	else if (info->fsr & ARM_SMMU_FSR_PF)
-+		type = "PERMISSION";
-+	else if (info->fsr & ARM_SMMU_FSR_EF)
-+		type = "EXTERNAL";
-+
-+	pr_warn_ratelimited("*** gpu fault: ttbr0=%.16llx iova=%.16lx dir=%s type=%s source=%s (%u,%u,%u,%u)\n",
-+			info->ttbr0, iova,
-+			flags & IOMMU_FAULT_WRITE ? "WRITE" : "READ", type,
-+			a6xx_fault_block(gpu, info->fsynr1 & 0xff),
-+			gpu_read(gpu, REG_A6XX_CP_SCRATCH_REG(4)),
-+			gpu_read(gpu, REG_A6XX_CP_SCRATCH_REG(5)),
-+			gpu_read(gpu, REG_A6XX_CP_SCRATCH_REG(6)),
-+			gpu_read(gpu, REG_A6XX_CP_SCRATCH_REG(7)));
-+
-+	return 0;
- }
- 
- static void a6xx_cp_hw_err_irq(struct msm_gpu *gpu)
-diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-index 50d881794758..6975b95c3c29 100644
---- a/drivers/gpu/drm/msm/msm_iommu.c
-+++ b/drivers/gpu/drm/msm/msm_iommu.c
-@@ -211,8 +211,17 @@ static int msm_fault_handler(struct iommu_domain *domain, struct device *dev,
- 		unsigned long iova, int flags, void *arg)
- {
- 	struct msm_iommu *iommu = arg;
-+	struct adreno_smmu_priv *adreno_smmu = dev_get_drvdata(iommu->base.dev);
-+	struct adreno_smmu_fault_info info, *ptr = NULL;
-+
-+	if (adreno_smmu->get_fault_info) {
-+		adreno_smmu->get_fault_info(adreno_smmu->cookie, &info);
-+		ptr = &info;
-+	}
-+
- 	if (iommu->base.handler)
--		return iommu->base.handler(iommu->base.arg, iova, flags);
-+		return iommu->base.handler(iommu->base.arg, iova, flags, ptr);
-+
- 	pr_warn_ratelimited("*** fault: iova=%16lx, flags=%d\n", iova, flags);
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
-index 61ade89d9e48..a88f44c3268d 100644
---- a/drivers/gpu/drm/msm/msm_mmu.h
-+++ b/drivers/gpu/drm/msm/msm_mmu.h
-@@ -26,7 +26,7 @@ enum msm_mmu_type {
- struct msm_mmu {
- 	const struct msm_mmu_funcs *funcs;
- 	struct device *dev;
--	int (*handler)(void *arg, unsigned long iova, int flags);
-+	int (*handler)(void *arg, unsigned long iova, int flags, void *data);
- 	void *arg;
- 	enum msm_mmu_type type;
- };
-@@ -43,7 +43,7 @@ struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain);
- struct msm_mmu *msm_gpummu_new(struct device *dev, struct msm_gpu *gpu);
- 
- static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *arg,
--		int (*handler)(void *arg, unsigned long iova, int flags))
-+		int (*handler)(void *arg, unsigned long iova, int flags, void *data))
- {
- 	mmu->arg = arg;
- 	mmu->handler = handler;
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpEZW4gMjUuMDIuMjAyMSAxMC41OCwgc2tyZXYgUGV0ZXIgU3R1Z2U6Cj4gSGkgTm9yYWxmLAo+
+IAo+IE5vcmFsZiBUcsO4bm5lcyB3cm90ZToKPj4gVGhlIGRyaXZlciBzdXBwb3J0cyBhIG9uZSBi
+aXQgbW9ub2Nocm9tZSB0cmFuc2ZlciBmb3JtYXQ6IFIxLiBUaGlzIGlzIG5vdAo+PiBpbXBsZW1l
+bnRlZCBpbiB0aGUgZ2FkZ2V0IGRyaXZlci4gSXQgaXMgYWRkZWQgaW4gcHJlcGFyYXRpb24gZm9y
+IGZ1dHVyZQo+PiBtb25vY2hyb21lIGUtaW5rIGRpc3BsYXlzLgo+IAo+IEkgZm9yZ290LCBidXQg
+SSBoYXZlIGEgdHdvLXRvbmUgKGJsYWNrL3JlZCkgZS1pbmsgZGlzcGxheSBoZXJlLCBhbmQgSQo+
+IGFsc28gaGF2ZSBhIDMtYnBwIFJHQiBURlQgZGlzcGxheS4KPiAKPiBTaG91bGQgd2UgYWRkIG1h
+eWJlIFIyIGFuZCBSMz8gKG9yIFIzL1I4IGZvciBudW1iZXIgb2YgY29sb3Vycz8pCj4gCj4gSSdt
+IHBhcnRpY3VsYXJseSBjb25zaWRlcmluZyB0aGUgMy1icHAgUkdCIHBhbmVsIGZvciBHVUQgdXNl
+IG5vdywgYW5kCj4gd2hpbGUgaXQgd2lsbCBzdXJlbHkgd29yayB3aXRoIHNheSBhIDE2LWJpdCBS
+R0IgbW9kZSBtYW55IGJpdHMgd2lsbAo+IGJlIHdhc3RlZCBpbiB0aGUgcHJvY2Vzcy4KPiAKPiBX
+aGF0IGFyZSB5b3VyIHRob3VnaHRzPyBXb3VsZCB5b3UgdGFrZSBhIHBhdGNoIGZvciB0aGF0IG5v
+dywgbGF0ZXIsIG5ldmVyPwo+IAoKSSd2ZSBiZWVuIGFudGljaXBhdGluZyB0aGUgbmVlZCBmb3Ig
+bW9yZSBmb3JtYXRzLCBidXQgSSBkaWRuJ3Qgd2FudCB0bwphZGQgdGhlbSB3aXRob3V0IGhhdmlu
+ZyBhIHVzZXIuIE90aGVyd2lzZSBJIGNvdWxkIGVuZCB1cCBhZGRpbmcgc3R1ZmYKdGhhdCB3b3Vs
+ZCBuZXZlciBiZSB1c2VkLiBJZiB5b3UgY2FuIHRlc3QsIHRoZXJlJ3Mgbm8gcHJvYmxlbSBhZGRp
+bmcKc3VwcG9ydCBmb3IgbW9yZSBmb3JtYXRzIG5vdy4KClRoZSBSMSBuYW1lIGlzIGRlcml2ZWQg
+ZnJvbSBEUk1fRk9STUFUX1I4IHdoaWNoIGlzIGEgOCBiaXQgbW9ub2Nocm9tZQoob3Igb25lIGNv
+bG9yIGNoYW5uZWwpIGZvcm1hdC4KCkxpbnV4IGhhcyB0aGVzZSBvbmUgYnl0ZSBjb2xvciBwaXhl
+bCBmb3JtYXRzIGN1cnJlbnRseSBkZWZpbmVkOgoKLyogY29sb3IgaW5kZXggKi8KI2RlZmluZSBE
+Uk1fRk9STUFUX0M4CQlmb3VyY2NfY29kZSgnQycsICc4JywgJyAnLCAnICcpIC8qIFs3OjBdIEMg
+Ki8KCi8qIDggYnBwIFJlZCAqLwojZGVmaW5lIERSTV9GT1JNQVRfUjgJCWZvdXJjY19jb2RlKCdS
+JywgJzgnLCAnICcsICcgJykgLyogWzc6MF0gUiAqLwoKLyogOCBicHAgUkdCICovCiNkZWZpbmUg
+RFJNX0ZPUk1BVF9SR0IzMzIJZm91cmNjX2NvZGUoJ1InLCAnRycsICdCJywgJzgnKSAvKiBbNzow
+XSBSOkc6QgozOjM6MiAqLwojZGVmaW5lIERSTV9GT1JNQVRfQkdSMjMzCWZvdXJjY19jb2RlKCdC
+JywgJ0cnLCAnUicsICc4JykgLyogWzc6MF0gQjpHOlIKMjozOjMgKi8KCkFuZCB0aGVzZSB0d28g
+Y29sb3IgZm9ybWF0czoKCi8qIDE2IGJwcCBSRyAqLwojZGVmaW5lIERSTV9GT1JNQVRfUkc4OAkJ
+Zm91cmNjX2NvZGUoJ1InLCAnRycsICc4JywgJzgnKSAvKiBbMTU6MF0gUjpHCjg6OCBsaXR0bGUg
+ZW5kaWFuICovCiNkZWZpbmUgRFJNX0ZPUk1BVF9HUjg4CQlmb3VyY2NfY29kZSgnRycsICdSJywg
+JzgnLCAnOCcpIC8qIFsxNTowXSBHOlIKODo4IGxpdHRsZSBlbmRpYW4gKi8KCi8qIDMyIGJwcCBS
+RyAqLwojZGVmaW5lIERSTV9GT1JNQVRfUkcxNjE2CWZvdXJjY19jb2RlKCdSJywgJ0cnLCAnMycs
+ICcyJykgLyogWzMxOjBdIFI6RwoxNjoxNiBsaXR0bGUgZW5kaWFuICovCiNkZWZpbmUgRFJNX0ZP
+Uk1BVF9HUjE2MTYJZm91cmNjX2NvZGUoJ0cnLCAnUicsICczJywgJzInKSAvKiBbMzE6MF0gRzpS
+CjE2OjE2IGxpdHRsZSBlbmRpYW4gKi8KCgpCdWlsZGluZyBvbiB0aGF0IEkgd291bGQgZGVmaW5l
+IGEgMiBicHAgUkcgZm9ybWF0IGxpa2UgdGhpcyBpbiB0aGUgZHJpdmVyOgoKc3RhdGljIGNvbnN0
+IHN0cnVjdCBkcm1fZm9ybWF0X2luZm8gZ3VkX2RybV9mb3JtYXRfcmcxMSA9IHsKCS5mb3JtYXQg
+PSBHVURfRFJNX0ZPUk1BVF9SRzExLAoJLm51bV9wbGFuZXMgPSAxLAoJLmNoYXJfcGVyX2Jsb2Nr
+ID0geyAxLCAwLCAwIH0sCgkuYmxvY2tfdyA9IHsgNCwgMCwgMCB9LCAvKiA0IHBpeGVscyBwZXIg
+YmxvY2svYnl0ZSAqLwoJLmJsb2NrX2ggPSB7IDEsIDAsIDAgfSwKCS5oc3ViID0gMSwKCS52c3Vi
+ID0gMSwKfTsKCkFuZCBhIDMgYnBwIFJHQiBmb3JtYXQgbGlrZSB0aGlzOgoKc3RhdGljIGNvbnN0
+IHN0cnVjdCBkcm1fZm9ybWF0X2luZm8gZ3VkX2RybV9mb3JtYXRfcmdiMTExID0gewoJLmZvcm1h
+dCA9IEdVRF9EUk1fRk9STUFUX1JHQjExMSwKCS5udW1fcGxhbmVzID0gMSwKCS5jaGFyX3Blcl9i
+bG9jayA9IHsgMSwgMCwgMCB9LAoJLmJsb2NrX3cgPSB7IDIsIDAsIDAgfSwgLyogMiBwaXhlbHMg
+cGVyIGJsb2NrL2J5dGUgKi8KCS5ibG9ja19oID0geyAxLCAwLCAwIH0sCgkuaHN1YiA9IDEsCgku
+dnN1YiA9IDEsCn07CgpUaGUgTUlQSSBEQkkgc3RhbmRhcmQgZGVmaW5lcyAyIHdheXMgdG8gdHJh
+bnNtaXQgMnggMy1icHAgcGl4ZWxzIGluIG9uZQpieXRlIChYPXBhZCBiaXQpOgotIE9wdGlvbiAx
+OiBYICBYICBSMSBHMSBCMSBSMiBHMiBCMgotIE9wdGlvbiAyOiBYICBSMSBHMSBCMSBYICBSMiBH
+MiBCMgoKU28gbWF5YmUgd2Ugc2hvdWxkIGhhdmUgR1VEX0RSTV9GT1JNQVRfUkdCMTExX09QVElP
+TjEgYW5kCkdVRF9EUk1fRk9STUFUX1JHQjExMV9PUFRJT04yPwpPciBqdXN0IHVzZSBvcHRpb24g
+MiBhbmQgbGV0IHRoZSBkaXNwbGF5IGZpeCBpdCB1cCBpZiBuZWVkZWQ/CgpXaGF0IGZvcm1hdCBk
+b2VzIHlvdXIgMyBicHAgZGlzcGxheSB1c2U/CgpBbmQgdGhlbiBzb21ldGhpbmcgbGlrZSB0aGlz
+IGZvciB0aGUgY29udmVyc2lvbiBmdW5jdGlvbjoKCnN0YXRpYyBzaXplX3QgZ3VkX3hyZ2I4ODg4
+X3RvX2NvbG9yKHU4ICpkc3QsIGNvbnN0IHN0cnVjdApkcm1fZm9ybWF0X2luZm8gKmZvcm1hdCwK
+CQkJCSAgICB1MzIgKnNyYywgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIsCgkJCQkgICAgc3Ry
+dWN0IGRybV9yZWN0ICpyZWN0KQp7Cgl1bnNpZ25lZCBpbnQgYmxvY2tfd2lkdGggPSBkcm1fZm9y
+bWF0X2luZm9fYmxvY2tfd2lkdGgoZm9ybWF0LCAwKTsKCXVuc2lnbmVkIGludCB4LCB5LCB3aWR0
+aCwgaGVpZ2h0OwoJdTggciwgZywgYiwgKmJsb2NrID0gZHN0OyAvKiBBc3NpZ24gdG8gc2lsZW5j
+ZSBjb21waWxlciB3YXJuaW5nICovCglzaXplX3QgbGVuOwoKCVdBUk5fT05fT05DRShmb3JtYXQt
+PmNoYXJfcGVyX2Jsb2NrWzBdICE9IDEpOwoKCS8qIFN0YXJ0IG9uIGEgYnl0ZSBib3VuZGFyeSAq
+LwoJcmVjdC0+eDEgPSBBTElHTl9ET1dOKHJlY3QtPngxLCBibG9ja193aWR0aCk7Cgl3aWR0aCA9
+IGRybV9yZWN0X3dpZHRoKHJlY3QpOwoJaGVpZ2h0ID0gZHJtX3JlY3RfaGVpZ2h0KHJlY3QpOwoJ
+bGVuID0gZHJtX2Zvcm1hdF9pbmZvX21pbl9waXRjaChmb3JtYXQsIDAsIHdpZHRoKSAqIGhlaWdo
+dDsKCglmb3IgKHkgPSAwOyB5IDwgaGVpZ2h0OyB5KyspIHsKCQlmb3IgKHggPSAwOyB4IDwgd2lk
+dGg7IHgrKykgewoJCQlpZiAoISh4ICUgYmxvY2tfd2lkdGgpKSB7CgkJCQlibG9jayA9IGRzdCsr
+OwoJCQkJKmJsb2NrID0gMDsKCQkJfQoKCQkJLyogcixnLGIgYXJlIGJ5dGVzIHNvIG5vIG5lZWQg
+dG8gbWFzayBvdXQgYW55dGhpbmcgZXhwbGljaXRseSAqLwoJCQlyID0gKnNyYyA+PiAxNjsKCQkJ
+ZyA9ICpzcmMgPj4gODsKCQkJYiA9ICpzcmMrKzsKCgkJCXN3aXRjaCAoZm9ybWF0LT5mb3JtYXQp
+IHsKCQkJY2FzZSBHVURfRFJNX0ZPUk1BVF9SRzExOgoJCQkJKmJsb2NrIDw8PSAyOwoJCQkJKmJs
+b2NrIHw9ICgociA+PiA3KSA8PCAxKSB8IChnID4+IDcpOwoJCQkJYnJlYWs7CgkJCWNhc2UgR1VE
+X0RSTV9GT1JNQVRfUkdCMTExX09QVElPTjE6CgkJCQkqYmxvY2sgPDw9IDM7CgkJCQkqYmxvY2sg
+fD0gKChyID4+IDcpIDw8IDIpIHwgKChnID4+IDcpIDw8IDEpIHwgKGIgPj4gNyk7CgkJCQlicmVh
+azsKCQkJY2FzZSBHVURfRFJNX0ZPUk1BVF9SR0IxMTFfT1BUSU9OMjoKCQkJCSpibG9jayA8PD0g
+NDsKCQkJCSpibG9jayB8PSAoKHIgPj4gNykgPDwgMikgfCAoKGcgPj4gNykgPDwgMSkgfCAoYiA+
+PiA3KTsKCQkJCWJyZWFrOwoJCQlkZWZhdWx0OgoJCQkJV0FSTl9PTl9PTkNFKDEpOwoJCQkJcmV0
+dXJuIGxlbjsKCQkJfTsKCQl9Cgl9CgoJcmV0dXJuIGxlbjsKfQoKTm9yYWxmLgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
