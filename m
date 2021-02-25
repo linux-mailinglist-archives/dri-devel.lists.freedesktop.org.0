@@ -1,60 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070A7324BFE
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 09:25:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 151753248E2
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 03:32:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67D106EC64;
-	Thu, 25 Feb 2021 08:25:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3051889D9B;
+	Thu, 25 Feb 2021 02:32:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 501 seconds by postgrey-1.36 at gabe;
- Thu, 25 Feb 2021 02:26:20 UTC
-Received: from smtphy.263.net (syd-smtp02.263.net [13.237.61.158])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC54D6E8BB
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 02:26:19 +0000 (UTC)
-Received: from smtp.263.net (unknown [211.157.147.163])
- by smtphy.263.net (Postfix) with ESMTPS id DE9521200AF
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 10:17:57 +0800 (CST)
-Received: from regular1.263xmail.com (unknown [192.168.165.183])
- by smtp.263.net (Postfix) with ESMTP id 1B075399
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 10:17:49 +0800 (CST)
-Received: from localhost (unknown [192.168.167.13])
- by regular1.263xmail.com (Postfix) with ESMTP id 9C83D753;
- Thu, 25 Feb 2021 10:17:42 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ADDR-CHECKED4: 1
-X-ANTISPAM-LEVEL: 2
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-Received: from [172.16.12.76] (unknown [58.22.7.114])
- by smtp.263.net (postfix) whith ESMTP id
- P4303T140473561245440S1614219461056529_; 
- Thu, 25 Feb 2021 10:17:41 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <edb3996bb4b85072960a16637b0355ca>
-X-RL-SENDER: hjc@rock-chips.com
-X-SENDER: hjc@rock-chips.com
-X-LOGIN-NAME: hjc@rock-chips.com
-X-FST-TO: hjc@rock-chips.com
-X-SENDER-IP: 58.22.7.114
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-From: Huang Jiachai <hjc@rock-chips.com>
-Subject: Re: [PATCH] drm/rockchip: Require the YTR modifier for AFBC
-To: Daniel Stone <daniel@fooishbar.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-References: <20200811202631.3603-1-alyssa.rosenzweig@collabora.com>
- <CAPj87rMS5zxY6sK4N8zVZF9MHThmURj6kuso=G5+MQDVmNjC4Q@mail.gmail.com>
-Message-ID: <d17ea299-b21e-b298-9098-f47b780be106@rock-chips.com>
-Date: Thu, 25 Feb 2021 10:17:40 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2040.outbound.protection.outlook.com [40.107.220.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C771889CF4
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 02:32:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WUINbJktJyktuwDqNHHaN7eJ0hGX5OEiHbD257YYAJZQ8GEtVd3CpQd4TPKR29hD73Vu+Ka9OgVmJDNADKzxh+RMf0MkuEtsfZYCTZjPpcum0seNLqA+qfrVBJ0wRQ+xtUhvSUQLT1lL28FwXd4ODAT75f5XvSYoW9ARlmLfXvkdFffDGv32o028D+BT5YOZ9/CXGgaY9j8kim5HGx87PxBWqUrOiNKIrQdEg/ovfNgQG2bg9jkE2ANyXSwCtkSM43tu6qQy6Oaxej/ws7QeWoixb/JZLWABvD6EbrC6KTkLm5oSxxWZ8QH3deamfmECCJ+fvxE6/bbfI8X+CHrMBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zrGacAg2KMSeLERA18QjLBOzjT4L7F1WNi5Z1BGhyaI=;
+ b=M47PnxQtC008jBZ/OH56Qyc1w19YhE62fr7MsW1D44mehaGpSln1/s87bdmhYhICJ4PYK8vWPyef5rElSLS7Ux7eTR6BlTit1OdqEsouXbsfhHmdOYIA2nIJYgdezEru09RM7LpIv86geBZZ0LkwCeAWkDSmXz/2PfVVWwtIpmsEe6E5QIFPn6cxAGtdHqlm7SJWTvFgM4qS7U8fV7B3g2MH014GHO3LG4ATInD/LNwEs37vqqdi51XC0ddH2LYp87Oozqn6UIhYSVihOyDHpjqotyEqS+7NdWM8JqgNHpBUuTdKV/Jh81AZV8nC2+nY7xAEHV3Fl+PXlWDitVQBIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zrGacAg2KMSeLERA18QjLBOzjT4L7F1WNi5Z1BGhyaI=;
+ b=Nx0LWy1rXQvpag5pdEVAKkiluW54ZqGSTH/xf9w8SA8GZlv+Agr6MzLd6/x9boUh3gGYpZEKJrxl97GwfuxA2nQnlqxgHNVhYYKEdXqtb2i/Zamu5r0lE7mtQYwaBYshJ62991grST8l6WDcSXO+PxSsjeWCjVNxk/hw66bIFkk=
+Received: from BN8PR12MB4770.namprd12.prod.outlook.com (2603:10b6:408:a1::30)
+ by BN8PR12MB3362.namprd12.prod.outlook.com (2603:10b6:408:44::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.38; Thu, 25 Feb
+ 2021 02:32:28 +0000
+Received: from BN8PR12MB4770.namprd12.prod.outlook.com
+ ([fe80::2054:faac:dec5:d93]) by BN8PR12MB4770.namprd12.prod.outlook.com
+ ([fe80::2054:faac:dec5:d93%6]) with mapi id 15.20.3868.033; Thu, 25 Feb 2021
+ 02:32:28 +0000
+From: "Lin, Wayne" <Wayne.Lin@amd.com>
+To: "lyude@redhat.com" <lyude@redhat.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v2 0/2] Set CLEAR_PAYLOAD_ID_TABLE as broadcast request
+Thread-Topic: [PATCH v2 0/2] Set CLEAR_PAYLOAD_ID_TABLE as broadcast request
+Thread-Index: AQHXCpY0DEYRJMD5VUGE2cXXmPgsRqpnmwMAgACLtQA=
+Date: Thu, 25 Feb 2021 02:32:27 +0000
+Message-ID: <BN8PR12MB4770EFCCD1B4D0D363B95FC9FC9E9@BN8PR12MB4770.namprd12.prod.outlook.com>
+References: <20210224101521.6713-1-Wayne.Lin@amd.com>
+ <10aa57cb1a982cbc07195319580bc9604961f186.camel@redhat.com>
+In-Reply-To: <10aa57cb1a982cbc07195319580bc9604961f186.camel@redhat.com>
+Accept-Language: en-US, zh-TW
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ActionId=0dbf33d4-f1d5-48d8-935b-3e78014334bf;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ContentBits=0;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Enabled=true;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Method=Privileged;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Name=Public_0;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SetDate=2021-02-25T02:29:21Z;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [165.204.134.249]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: f8846ce0-ea59-457c-2cc5-08d8d9359809
+x-ms-traffictypediagnostic: BN8PR12MB3362:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BN8PR12MB336284557FDEF715B1EF9EC8FC9E9@BN8PR12MB3362.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Xm/xzY19GPRwI6kRBS4LyUJqdP9WLKWlt7GAYaCxMXPxXMG0VkHYyBAaIJMcXi2+YnO1akysJ57tNC4DKtCFdDt90zpRJVj7IfRVHBFS4ZIzUOcqcFPAruJKcg7X3FrycY+3/QcuSQBunRSEyq9qDHhbbFFw1Oqeb8MA1G0XatzigOg5kz3eZmuNhqFz/LInGOWdpDAYY0cU7uZ/yAw7X6qCbAWOfOPxQ5CmQZ4iMskVzVHMTSeayNCNlpSgIZGXuilz5rS3jD3f/1QeY98lzxAHfMa/grimIZIKrfWco7QBzq9n73Xm75G0a8LvmS6LBmhPfngE/gyrHRzUMmAXh+QoLBem51Kb8S6m3hRlT7gk98PVfhDOPLk6m3Tr7Mp6snfAAVa7AHBQRhbLqXOXd6NkM2O5SgElbZsdMAK5wkZTeVLtrEUWA20yjziMA/3ORKt2AqBvkZKN1n6NlEGiFYQkAgJIDHtd7mA3HnoZvfv2Bgr9COmDxbNrnN8SnIKymQlmgG0sDNgwB2FMdygDrg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB4770.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(39860400002)(346002)(366004)(396003)(136003)(55016002)(83380400001)(66476007)(76116006)(66946007)(4326008)(52536014)(110136005)(33656002)(9686003)(316002)(64756008)(7696005)(71200400001)(478600001)(86362001)(66446008)(54906003)(66556008)(5660300002)(8936002)(6506007)(53546011)(2906002)(186003)(26005)(8676002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?QWFXd29vTDhMZ3d6RlNRQUpNYUZlZkYxSjFUZ3hlMUQwWlpuRTNicnM2aGZV?=
+ =?utf-8?B?UHhPLzlsMWdwQzg1T0RSVXN6dEVLZ3piSG5ZT1pnOFpueEVuT0RlbmthbmNP?=
+ =?utf-8?B?aE1wNG12bURRYktYNEN0ZE9wazJydkx3WHIyL00rQWNhZHhTMStLUXNwSUxM?=
+ =?utf-8?B?eHdNNEVMdlBGRFZXdUgxVElRaE9SZnBxWEE1dWZ1NEN2RnIrTjZJZ3A2akY2?=
+ =?utf-8?B?b1RpM29qakpLNTVuUGd4N3pmb3VnNUpady9vaWlGTnErSlJyTFJLSlA0WDlx?=
+ =?utf-8?B?emZ3MEh4eW9qRm9idm52dkFYV3hmS2ExUEg2MUg3YmtVbm5DVm1WeStXQ1hN?=
+ =?utf-8?B?M2JVd0VQMHNzeGZocGZtS1U0QTlpVWY0UDBDQW1YTDE0WWZtamIvSHJmUW1W?=
+ =?utf-8?B?QjVqTEUyZU1nQ3ZlOUpPcmtBZ3hGUTlrVExkWlgyWXZLczBxbjQ3Z2lBWDR3?=
+ =?utf-8?B?c1NtN1hJbnlMYlZySVZ1VStXRllNQ2ZOZ2Z3NnVMZXFjNEpDQVlhMlQwcUpO?=
+ =?utf-8?B?Yll6QzZRSzVDcEhOUENxbHkvK0s1RVdYd0FHd2dxTVFhL1R6QW9rS1N0cHFw?=
+ =?utf-8?B?ektkSHNPaldQNlVzcjVKUzc4N1FlQ2wvTWlFcjhvUGRtS0lsRmQvaUM1dkZt?=
+ =?utf-8?B?Y2hZcWlQSlRVNzBJeEVpRFI3ZTdYd1A1UjNDSCs0UEhUZ0VsZEJUczE1eDFU?=
+ =?utf-8?B?RFZFdDNIdUNxWlhTaVB3WTFCUEYzcjNvV3NJbVBkb201QXlYeGxnUDAwalNL?=
+ =?utf-8?B?NFFMeEFlR2hYZFVNM1VDSkVQQzQ5NmtySk8xNVQzUHkwaEZDcDRRcU9jR3Jp?=
+ =?utf-8?B?d0FxeFIxdW10anp1cDVuOW9OS2o4d1JPUE9yYnI5VmN4WGxZTXd0K1RQQjFJ?=
+ =?utf-8?B?Uzg0L0MxWHdZcW5pZk5wZXg1VEVTOGJqYWpkc0RSRDVrMVNmSzZUMGYzc01k?=
+ =?utf-8?B?eU95TW1KYmpzSzJzRjBXK3FVRmY2V3NiT1FjWEpleGVjVzR5dWQ1b0VZREhy?=
+ =?utf-8?B?d0xlczd6OVd3TFJRRkdMR3duQnB5Y2JyQ083UWRUTlBwY0lOWXRtZ3BoVEdy?=
+ =?utf-8?B?Y1VyR1QvZitCSXFLV1JScWIvR2ZjWlpHNUJpRzJYY2ZZbGQ2UHlwOURKUEF4?=
+ =?utf-8?B?WXVSV01rbGM4amNYYXVmSjgrSGtTVG96SFU4VmpXSnVvbkNOam9sS1Uyb3pL?=
+ =?utf-8?B?S0k4emJ5a3RsS2J2b2pPQ3I0YWJyOENkYU9iYXV2UENPcmNMdWN0U3MvSVFx?=
+ =?utf-8?B?c0VzZVpSRXllaHJ1UUJ5ZEticGpueitCK1RzY2RqeEF5dkFiand1MldSQzZL?=
+ =?utf-8?B?ZGpQRGFCZXFKVDExL0c5MzRXMzVWOWU3a0E3aEtYQmJqelJUVDRTZnUzbHUw?=
+ =?utf-8?B?aEZuUlE2b2NxSDE4OVlxM3ZkQllZOUI0dVV2bUsyZ0JSL2VaWEUwUG4rRzJE?=
+ =?utf-8?B?aXR6ckU3UTNkU080ZmFwSk9VeFRxR1RrRnlxSWltcTVhUStPUnhDVzRVZXk3?=
+ =?utf-8?B?d0JQKy9LTDN4MGhtZ3lmb0N0YUhvSkFVUVRpNmVjSE1GQSt2VVlOQVlWajlC?=
+ =?utf-8?B?L2NCNmE2RDROL0o3b0t6cS9uTHFSTmFodkVoRDVZUkRPTkY3Y3p4T1FzNFhD?=
+ =?utf-8?B?ZnZQdlR3aXFGbTBFNjJLb3ZZdEFoQzdoYzBRVThRZ1ZUeFhQclYrbEhUTkRF?=
+ =?utf-8?B?VDVSdlZ2NWtmQzE5bGZ3WHQwN044eGlncnJKUWpGSjFQNThvMGpXL296MGZa?=
+ =?utf-8?Q?KA8TsC89Ckq5OEbGSzQ7vYjBeRC5EvfzQUm3qhf?=
 MIME-Version: 1.0
-In-Reply-To: <CAPj87rMS5zxY6sK4N8zVZF9MHThmURj6kuso=G5+MQDVmNjC4Q@mail.gmail.com>
-X-Mailman-Approved-At: Thu, 25 Feb 2021 08:25:29 +0000
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB4770.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8846ce0-ea59-457c-2cc5-08d8d9359809
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Feb 2021 02:32:27.9087 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6HVBd5Jsgnc9VHljJB+rQywT5chL0fmxhPkFvocNYluW4ce7Ejul4FcKVLhNIXVQJD6Km/UNgMZ2ySlc85NXYg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3362
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,100 +128,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- linux-rockchip <linux-rockchip@lists.infradead.org>,
- =?UTF-8?B?6Zer5a2d5Yab?= <andy.yan@rock-chips.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: "Brol, Eryk" <Eryk.Brol@amd.com>, "Zhuo, Qingqing" <Qingqing.Zhuo@amd.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>, "Zuo,
+ Jerry" <Jerry.Zuo@amd.com>, "Kazlauskas,
+ Nicholas" <Nicholas.Kazlauskas@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGFuaWVsLAoKIMKgwqDCoCBSSzMzOTkgYW5kIHB4MzAgY2FuIHN1cHBvcnQgWVRSIGFmYmMg
-Zm9ybWF0W1JHQiBvbmx5XSwgdGhlcmUgaXMgYW4gCmhpZGRlbiBjb250cm9sIGJpdCB0byBjb250
-cm9sIHRoaXMuCgpIaSBBbHlzc2EsCgogwqDCoMKgIENhbiB5b3UgYWRkIHRoZSBmb2xsb3dpbmcg
-cGF0Y2ggdG8gdGVzdCBvbiB5b3VyIHBsYXRmb3JtPyB0aGFua3MuCgpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AuYyAKYi9kcml2ZXJzL2dwdS9k
-cm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5jCmluZGV4IDk5YmRiNWEyYTE4NS4uMDc4MGFk
-NDYyMzBhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJt
-X3ZvcC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wLmMK
-QEAgLTEwNSw3ICsxMDUsNyBAQAogwqAjZGVmaW5lIEFGQkNfRk1UX1U4VThVOFU4wqDCoMKgwqDC
-oCAweDUKIMKgI2RlZmluZSBBRkJDX0ZNVF9VOFU4VTjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgMHg0CgotI2RlZmluZSBBRkJDX1RJTEVfMTZ4MTbCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgQklUKDQpCisjZGVmaW5lIEFGQkNfRk1UX1lUUsKgwqDCoMKgwqDCoMKgwqDCoMKg
-IEJJVCg0KQoKIMKgLyoKIMKgICogVGhlIGNvZWZmaWNpZW50cyBvZiB0aGUgZm9sbG93aW5nIG1h
-dHJpeCBhcmUgYWxsIGZpeGVkIHBvaW50cy4KQEAgLTk1Miw3ICs5NTIsOSBAQCBzdGF0aWMgdm9p
-ZCB2b3BfcGxhbmVfYXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lIAoqcGxhbmUsCiDCoMKg
-wqDCoMKgwqDCoCBpZiAocm9ja2NoaXBfYWZiYyhmYi0+bW9kaWZpZXIpKSB7CiDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgaW50IGFmYmNfZm9ybWF0ID0gCnZvcF9jb252ZXJ0X2FmYmNf
-Zm9ybWF0KGZiLT5mb3JtYXQtPmZvcm1hdCk7CgotwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBWT1BfQUZCQ19TRVQodm9wLCBmb3JtYXQsIGFmYmNfZm9ybWF0IHwgQUZCQ19USUxFXzE2eDE2
-KTsKK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKGZiLT5tb2RpZmllciAmIEFGQkNf
-Rk9STUFUX01PRF9ZVFIpCivCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBhZmJjX2Zvcm1hdCB8PSBBRkJDX0ZNVF9ZVFI7CivCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIFZPUF9BRkJDX1NFVCh2b3AsIGZvcm1hdCwgYWZiY19mb3JtYXQpOwogwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIFZPUF9BRkJDX1NFVCh2b3AsIGhyZWdfYmxvY2tfc3BsaXQs
-IDApOwogwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFZPUF9BRkJDX1NFVCh2b3AsIHdp
-bl9zZWwsIFZPUF9XSU5fVE9fSU5ERVgodm9wX3dpbikpOwogwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIFZPUF9BRkJDX1NFVCh2b3AsIGhkcl9wdHIsIGRtYV9hZGRyKTsKZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wLmggCmIvZHJpdmVy
-cy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AuaAppbmRleCA0YTIwOTljYjU4MmUu
-LjQ4ZTEzMWI4OGMyMyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tj
-aGlwX2RybV92b3AuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJt
-X3ZvcC5oCkBAIC0yMCw2ICsyMCw3IEBACiDCoCNkZWZpbmUgUk9DS0NISVBfQUZCQ19NT0QgXAog
-wqDCoMKgwqDCoMKgwqAgRFJNX0ZPUk1BVF9NT0RfQVJNX0FGQkMoIFwKIMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBBRkJDX0ZPUk1BVF9NT0RfQkxPQ0tfU0laRV8xNngxNiB8IEFGQkNf
-Rk9STUFUX01PRF9TUEFSU0UgXAorwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgfCBBRkJDX0ZPUk1BVF9NT0RfWVRSIFwKIMKgwqDCoMKgwqDCoMKgICkKCuWcqCAy
-MDIxLzIvMjMgMjI6MjcsIERhbmllbCBTdG9uZSDlhpnpgZM6Cj4gSGksCj4KPiBPbiBXZWQsIDEy
-IEF1ZyAyMDIwIGF0IDA4OjA1LCBBbHlzc2EgUm9zZW56d2VpZwo+IDxhbHlzc2Eucm9zZW56d2Vp
-Z0Bjb2xsYWJvcmEuY29tPiB3cm90ZToKPj4gVGhlIEFGQkMgZGVjb2RlciB1c2VkIGluIHRoZSBS
-b2NrY2hpcCBWT1AgYXNzdW1lcyB0aGUgdXNlIG9mIHRoZQo+PiBZVVYtbGlrZSBjb2xvdXJzcGFj
-ZSB0cmFuc2Zvcm0gKFlUUikuIFlUUiBpcyBsb3NzbGVzcyBmb3IgUkdCKEEpCj4+IGJ1ZmZlcnMs
-IHdoaWNoIGNvdmVycyB0aGUgUkdCQTggYW5kIFJHQjU2NSBmb3JtYXRzIHN1cHBvcnRlZCBpbgo+
-PiB2b3BfY29udmVydF9hZmJjX2Zvcm1hdC4gVXNlIG9mIFlUUiBpcyBzaWduYWxlZCB3aXRoIHRo
-ZQo+PiBBRkJDX0ZPUk1BVF9NT0RfWVRSIG1vZGlmaWVyLCB3aGljaCBwcmlvciB0byB0aGlzIGNv
-bW1pdCB3YXMgbWlzc2luZy4gQXMKPj4gc3VjaCwgYSBwcm9kdWNlciB3b3VsZCBoYXZlIHRvIGdl
-bmVyYXRlIGJ1ZmZlcnMgdGhhdCBkbyBub3QgdXNlIFlUUiwKPj4gd2hpY2ggdGhlIFZPUCB3b3Vs
-ZCBlcnJvbmVvdXNseSBkZWNvZGUgYXMgWVRSLCBsZWFkaW5nIHRvIHNldmVyZSB2aXN1YWwKPj4g
-Y29ycnVwdGlvbi4KPj4KPj4gVGhlIHVwc3RyZWFtIEFGQkMgc3VwcG9ydCB3YXMgZGV2ZWxvcGVk
-IGFnYWluc3QgYSBjYXB0dXJlZCBmcmFtZSwgd2hpY2gKPj4gZmFpbGVkIHRvIGV4ZXJjaXNlIG1v
-ZGlmaWVyIHN1cHBvcnQuIFByaW9yIHRvIGJyaW5nLXVwIG9mIEFGQkMgaW4gTWVzYQo+PiAoaW4g
-dGhlIFBhbmZyb3N0IGRyaXZlciksIG5vIG9wZW4gdXNlcnNwYWNlIHJlc3BlY3RlZCBtb2RpZmll
-cgo+PiByZXBvcnRpbmcuIEFzIHN1Y2gsIHRoaXMgY2hhbmdlIGlzIG5vdCBleHBlY3RlZCB0byBh
-ZmZlY3QgYnJva2VuCj4+IHVzZXJzcGFjZXMuCj4+Cj4+IFRlc3RlZCBvbiBSSzMzOTkgd2l0aCBQ
-YW5mcm9zdCBhbmQgV2VzdG9uLgo+IEJ1bXBpbmcgdGhpcyBvbmU6IGl0IHNlZW1zIGxpa2UgdGhl
-IFJvY2tjaGlwIFZPUCBlaXRoZXIgYWx3YXlzIGFwcGxpZXMKPiB0aGUgWVRSIHRyYW5zZm9ybSwg
-b3IgaGFzIGEgWVRSIGNvbnRyb2wgYml0IHdoaWNoIGlzIG5vdCBkb2N1bWVudGVkIGluCj4gdGhl
-IGRyaXZlcidzIHJlZ2lzdGVyIGRlZmluaXRpb25zLiBUaGlzIG1lYW5zIHRoYXQgaXQgaXMgaW5j
-b3JyZWN0IHRvCj4gYWR2ZXJ0aXNlIHRoZSBjdXJyZW50bHktdXNlZCBtb2RpZmllciwgd2hpY2gg
-c3BlY2lmaWVzIHRoYXQgWVRSIGlzCj4gX25vdF8gdXNlZCwgYW5kIGRvaW5nIHNvIGJyZWFrcyBQ
-YW5mcm9zdCB3aGljaCBjb3JyZWN0bHkgdXNlcyB0aGUKPiBtb2RpZmllciBhcyBkb2N1bWVudGVk
-LiBCYXNlZCBvbiBvdXIga25vd2xlZGdlIG9mIE1hbGksIHdlIGJlbGlldmUKPiB0aGF0IFBhbmZy
-b3N0IGlzIGNvcnJlY3QsIGFuZCB0aGUgZXJyb3IgbGllcyB3aXRoIFJvY2tjaGlwIGVycm9uZW91
-c2x5Cj4gdXNpbmcgdGhlIFlUUiB0cmFuc2Zvcm0gaW4gdGhlIFZPUCdzIEFGQkMgZGVjb2RlciBk
-ZXNwaXRlIGRlY2xhcmluZwo+IHRocm91Z2ggdGhlIG1vZGlmaWVyIHRoYXQgWVRSIGlzIG5vdCBp
-biB1c2UuCj4KPiBMb29raW5nIGF0IHRoZSBkb3duc3RyZWFtIHZlbmRvciB0cmVlLCBWT1AyIGFz
-IHVzZWQgaW4gbmV3ZXIgU29DcyBoYXMKPiBleHBsaWNpdCBjb250cm9sIGJpdHMgZm9yIFlUUiBh
-bmQgb3RoZXIgQUZCQyBrbm9icywgYnV0IHRoaXMgaGFzIGJlZW4KPiBzdWJzdGFudGlhbGx5IHJl
-d29ya2VkIGZyb20gdGhlIG9yaWdpbmFsIFZPUCBhbmQgaXMgbm90IGFwcGxpY2FibGUgdG8KPiB0
-aGlzIElQIGJsb2NrLgo+Cj4gTWFyaywgb3Igb3RoZXJzIGZyb20gUm9ja2NoaXAsIGNhbiB5b3Ug
-cGxlYXNlOgo+IC0gZXhwbGFpbiBpZiB0aGVyZSBpcyBhIHdheSB0byBlbmFibGUvZGlzYWJsZSB0
-aGUgWVRSIHRyYW5zZm9ybSBpbiB0aGUKPiBWT1AncyBBRkJDIGRlY29kZXIsIHNpbWlsYXIgdG8g
-dGhlIHNwbGl0LWJsb2NrIGNvbnRyb2wgYml0Pwo+IC0gYWNrIHRoaXMgcGF0Y2ggd2hpY2ggY29y
-cmVjdGx5IGRlY2xhcmVzIHRoYXQgdGhlIFlUUiB0cmFuc2Zvcm0gaXMgaW4KPiB1c2UgaW4gb3Jk
-ZXIgdG8gbWFrZSBQYW5mcm9zdCB3b3JrLCBzbyBpdCBjYW4gYmUgbWVyZ2VkIHRocm91Z2gKPiBk
-cm0tbWlzYywgb3IgcHJvdmlkZSBhbm90aGVyIHNvbHV0aW9uIHdoaWNoIGZpeGVzIHRoaXMgQVBJ
-IG1pc3Rha2U/Cj4gLSBpZiBWT1AgZG9lcyBoYXZlIGEgaGlkZGVuIFlUUi1kaXNhYmxlIGJpdCwg
-YWRkIHN1cHBvcnQgdG8gZGlzYWJsZQo+IFlUUiBzbyByb2NrY2hpcC1kcm0gY2FuIGNvbnRpbnVl
-IGFkdmVydGlzaW5nIHRoZSBub24tWVRSIG1vZGlmaWVyLCBhbmQKPiBDYyB0aGlzIHBhdGNoIGZv
-ciBiYWNrcG9ydGluZyB0byBldmVyeSBrZXJuZWwgdHJlZSB3aGljaCBkZWNsYXJlcyBBRkJDCj4g
-bW9kaWZpZXIgc3VwcG9ydD8KPgo+IFRoYW5rcyBpbiBhZHZhbmNlLgo+Cj4gQ2hlZXJzLAo+IERh
-bmllbAo+Cj4KPgotLSAKQmVzdCBSZWdhcmQKCum7hOWutumSlwpTYW5keSBIdWFuZwpBZGRyOiDn
-po/lt57luILpvJPmpbzljLrpk5znm5jot6/ova/ku7blpKfpgZM4OeWPt+emj+W3nui9r+S7tuWb
-rUHljLoyMeWPt+alvCgzNTAwMDMpCiAgICAgICBOby4gMjEgQnVpbGRpbmcsIEEgRGlzdHJpY3Qs
-IE5vLjg5LHNvZnR3YXJlIEJvdWxldmFyZCAKRnV6aG91LEZ1amlhbixQUkMKVGVs77yaKzg2IDA1
-OTEtODc4ODQ5MTkgIDg2OTAKRS1tYWls77yaaGpjQHJvY2stY2hpcHMuY29tCgoKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+[AMD Public Use]
+
+Thanks Lyude!
+
+Regards,
+Wayne
+
+> -----Original Message-----
+> From: Lyude Paul <lyude@redhat.com>
+> Sent: Thursday, February 25, 2021 2:09 AM
+> To: Lin, Wayne <Wayne.Lin@amd.com>; dri-devel@lists.freedesktop.org
+> Cc: ville.syrjala@linux.intel.com; stable@vger.kernel.org; Kazlauskas, Nicholas <Nicholas.Kazlauskas@amd.com>; Wentland, Harry
+> <Harry.Wentland@amd.com>; Zuo, Jerry <Jerry.Zuo@amd.com>; Brol, Eryk <Eryk.Brol@amd.com>; Zhuo, Qingqing
+> <Qingqing.Zhuo@amd.com>
+> Subject: Re: [PATCH v2 0/2] Set CLEAR_PAYLOAD_ID_TABLE as broadcast request
+>
+> also - I meant to reply to v2, not v1 :). Just so you don't worry that I pushed the wrong patch series version
+>
+> On Wed, 2021-02-24 at 18:15 +0800, Wayne Lin wrote:
+> > While testing MST hotplug events on daisy chain monitors, find out
+> > that CLEAR_PAYLOAD_ID_TABLE is not broadcasted and payload id table is
+> > not reset. Dig in deeper and find out two parts needed to be fixed.
+> >
+> > 1. Link_Count_Total & Link_Count_Remaining of Broadcast message are
+> > incorrect. Should set lct=1 & lcr=6 2. CLEAR_PAYLOAD_ID_TABLE request
+> > message is not set as path broadcast request message. Should fix this.
+> >
+> > Changes since v1:
+> > *Refer to the suggestion from Ville Syrjala. While preparing hdr-rad,
+> > take broadcast case into consideration.
+> >
+> > Wayne Lin (2):
+> >   drm/dp_mst: Revise broadcast msg lct & lcr
+> >   drm/dp_mst: Set CLEAR_PAYLOAD_ID_TABLE as broadcast
+> >
+> >  drivers/gpu/drm/drm_dp_mst_topology.c | 17 ++++++++++++-----
+> >  1 file changed, 12 insertions(+), 5 deletions(-)
+> >
+> > --
+> > 2.17.1
+> >
+>
+> --
+> Sincerely,
+>    Lyude Paul (she/her)
+>    Software Engineer at Red Hat
+>
+> Note: I deal with a lot of emails and have a lot of bugs on my plate. If you've asked me a question, are waiting for a review/merge on a
+> patch, etc. and I haven't responded in a while, please feel free to send me another email to check on my status. I don't bite!
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
