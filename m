@@ -2,31 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DFCF32545A
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 18:07:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5A0325472
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 18:16:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5CF56ECE6;
-	Thu, 25 Feb 2021 17:07:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D49FF6ECEB;
+	Thu, 25 Feb 2021 17:16:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 564A36ECDA;
- Thu, 25 Feb 2021 17:07:30 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id 0E5941C0B81; Thu, 25 Feb 2021 18:07:27 +0100 (CET)
-Date: Thu, 25 Feb 2021 18:07:26 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: udldrm does not recover from powersave? Re: udldrmfb: causes
- WARN in i915 on X60 (x86-32)
-Message-ID: <20210225170726.GA31110@duo.ucw.cz>
-References: <20210224200912.GA27905@duo.ucw.cz>
- <452585d5-9d18-f5a8-9d6b-6d39aa037480@suse.de>
- <20210225095322.GA5089@amd>
- <4fb31ea5-ef20-4752-4782-8d9f1afdf51d@suse.de>
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 959C86ECEB
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 17:16:07 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id h98so5988558wrh.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 09:16:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pgcY/OZF65ERBl6MAK6W0hY0CpUqOvXRa/TDDVIblrs=;
+ b=Zvr95u8GzHK4DYlgfOFC4q5TZH1ZlqlxSXULVyDhVfyFnWIaKJsaHiWjQc0YTz4yaI
+ BRUtwJSUC8NzJ2TsM1j6CHT6Ykr6rYPFS0HVcn4KFhRQmZTfEvxzQ+QkTdfdcJD7iIwi
+ BDOMs35CANJbfFK/EbSGBJoM4MAim9TuKfa9i7feeDcbl6fhlqe5MBtzKKzZiaa4LF0T
+ ppuVdkQHuHVQHQD3MplBqeHh8AXqEKHiOhzkE5uoPwTv0qNWbD8ZUNcC9yzKWvYPKJLr
+ 3UDwV51qh8RjaATBxBzMs3iE+GwBvGJQHPSiDjNZhr6eA2fTAx+OgS7UmM1cKtIPRWs3
+ lVsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pgcY/OZF65ERBl6MAK6W0hY0CpUqOvXRa/TDDVIblrs=;
+ b=WCrjAqxhiAgfcEMXdt/6fQRwPY1PhVhp7vc/JUvzY4gdfjfsrJqzfZxJ9bMYqJWn6Q
+ KeLUxuShDHRhJGbL0LNNqt7vmNhWqfThx0DvciyjVPnVYAGYFhsjTCloyExzC7JHJyDH
+ hKquW1Ad/VKqm6xDs3RTMJZJgqV7dTbhelmDr4KSe4hPvCKCoo+5yk2aR31hi1orMbDJ
+ Ve5tDN3Pzr4Jj3dLEUu5J55dnddFwzPnHZle2GA95RgAY49/RN+dSU4o0yZJsHzB5tHI
+ U8gowIQSDKEIOCigzzD7u+HE95r4pIw4D7deSxCrLWwwzOkPXuXzKSNDPrYvxWzlGuPF
+ y06w==
+X-Gm-Message-State: AOAM533afclcgmBLSevex3RUoeg5MbCa2LVAy5Q4RO2t9W8lIp/jNwhR
+ c5jZWvwK8uacZ/XQ3Ya0F9umIq8WmidL1TDfcevvCA==
+X-Google-Smtp-Source: ABdhPJzvaaIvsIuZY81xtukaleNmpcL7+wykHbOc4CXehrpeggQQBtBruvil1QLIyGhO/rwHf1v7B3hxb6w/IvNSkJY=
+X-Received: by 2002:adf:f681:: with SMTP id v1mr4592118wrp.150.1614273366172; 
+ Thu, 25 Feb 2021 09:16:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <4fb31ea5-ef20-4752-4782-8d9f1afdf51d@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210225155909.1853812-1-maxime@cerno.tech>
+ <20210225155909.1853812-4-maxime@cerno.tech>
+ <CAPY8ntDMm_o8O-SOk7Tkh=yh5czQ0iS37p==DyhxBVPVmriGWw@mail.gmail.com>
+In-Reply-To: <CAPY8ntDMm_o8O-SOk7Tkh=yh5czQ0iS37p==DyhxBVPVmriGWw@mail.gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 25 Feb 2021 17:15:50 +0000
+Message-ID: <CAPY8ntDOwhT7XC4v=HNxy8D0mCc03wJKu+xV3coFNxCkE7abSA@mail.gmail.com>
+Subject: Re: [PATCH 3/8] drm/vc4: hdmi: Properly compute the BVB clock rate
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,107 +63,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, kernel list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com, airlied@redhat.com,
- sean@poorly.run
-Content-Type: multipart/mixed; boundary="===============2140635746=="
+Cc: Tim Gover <tim.gover@raspberrypi.com>, Stephen Boyd <sboyd@kernel.org>,
+ Mike Turquette <mturquette@baylibre.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Phil Elwell <phil@raspberrypi.com>, David Airlie <airlied@linux.ie>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-clk@vger.kernel.org,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 25 Feb 2021 at 16:44, Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
+>
+> Hi Maxime
+>
+> On Thu, 25 Feb 2021 at 15:59, Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > The BVB clock rate computation doesn't take into account a mode clock of
+> > 594MHz that we're going to need to support 4k60.
+> >
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >  drivers/gpu/drm/vc4/vc4_hdmi.c | 11 +++--------
+> >  1 file changed, 3 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > index eee9751009c2..b5bc742993a4 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > @@ -91,7 +91,6 @@
+> >  # define VC4_HD_M_ENABLE                       BIT(0)
+> >
+> >  #define CEC_CLOCK_FREQ 40000
+> > -#define VC4_HSM_MID_CLOCK 149985000
+> >
+> >  #define HDMI_14_MAX_TMDS_CLK   (340 * 1000 * 1000)
+> >
+> > @@ -739,7 +738,7 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
+> >                 conn_state_to_vc4_hdmi_conn_state(conn_state);
+> >         struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+> >         struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+> > -       unsigned long pixel_rate, hsm_rate;
+> > +       unsigned long bvb_rate, pixel_rate, hsm_rate;
+> >         int ret;
+> >
+> >         ret = pm_runtime_get_sync(&vc4_hdmi->pdev->dev);
+> > @@ -793,12 +792,8 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
+> >
+> >         vc4_hdmi_cec_update_clk_div(vc4_hdmi);
+> >
+> > -       /*
+> > -        * FIXME: When the pixel freq is 594MHz (4k60), this needs to be setup
+> > -        * at 300MHz.
+> > -        */
+> > -       ret = clk_set_min_rate(vc4_hdmi->pixel_bvb_clock,
+> > -                              (hsm_rate > VC4_HSM_MID_CLOCK ? 150000000 : 75000000));
+> > +       bvb_rate = roundup(mode->clock * 1000 / 2, 75000000);
+>
+> Minor hesitation here that I would need to check the hardware over.
+> As I read your code, if the clock falls 300MHz and 450MHz then you'd
+> ask for a bvb_rate of 225MHz. Depending on what the source clock is
+> that may not be valid.
+> The firmware goes for 75, 150, or 300MHz only.
 
---===============2140635746==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="T4sUOijqQbZv57TR"
-Content-Disposition: inline
+The information I have says it has to be an integer divide of 600MHz
+(PLLC @ 3GHz / 5), so 225MHz is not valid.
 
+(Minor contradictory information though as PLLC is bumped to 3.3GHz
+with enable_4kp60, but we still appear to get 300MHz for BVB after the
+/5. A little more checking warranted around here).
 
---T4sUOijqQbZv57TR
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> > > > This is in -next, but I get same behaviour on 5.11; and no, udl does
-> > >=20
-> > > Thanks for reporting. We are in the process of fixing the issue. The =
-latest
-> > > patch is at [1].
-> > >=20
-> >=20
-> > Thank you, that fixes the DMA issue, and I can use the udl.
-> >=20
-> > ...for a while. Then screensaver blanks laptop screen, udl screen
-> > blanks too. Upon hitting a key, internal screen shows up, udl does
-> > not.
-> >=20
-> > I try rerunning xrandr ... --auto, but could not recover it.
-> >=20
-> > Any ideas?
->=20
-> Did it work before the regression?
->=20
-> For testing, could you please remove the fix and then do
->=20
->   git revert 6eb0233ec2d0
->=20
-> This would restore the old version. Please report back on the
-> results.
-
-Ok, I went to 7f206cf3ec2b with 6eb0233ec2d0 reverted. That fails to
-build:
-
-drivers/usb/core/message.c: In function =E2=80=98usb_set_configuration=E2=
-=80=99:
-drivers/usb/core/message.c:2100:12: error: =E2=80=98struct device=E2=80=99 =
-has no member named =E2=80=98dma_pfn_offset=E2=80=99
- 2100 |   intf->dev.dma_pfn_offset =3D dev->dev.dma_pfn_offset;
-      |            ^
-drivers/usb/core/message.c:2100:38: error: =E2=80=98struct device=E2=80=99 =
-has no member named =E2=80=98dma_pfn_offset=E2=80=99
- 2100 |   intf->dev.dma_pfn_offset =3D dev->dev.dma_pfn_offset;
-      |                                      ^
-  CC      drivers/net/ethernet/intel/e1000e/param.o
-make[3]: *** [scripts/Makefile.build:271: drivers/usb/core/message.o]
-Error 1
-
-So I tried to go to bad commit's parent:
-
-git checkout 6eb0233ec2d0^
-git log
-commit cf141ae989e2ff119cd320326da5923b480d1641
-    ARM/keystone: move the DMA offset handling under ifdef CONFIG_ARM_LPAE
-
-But that resulted in lockup soon after "--setprovidersource" command
-was isued.
-
-Best regards,
-									Pavel
-
---=20
-http://www.livejournal.com/~pavelmachek
-
---T4sUOijqQbZv57TR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYDfZTgAKCRAw5/Bqldv6
-8puHAKC6y3/9FJshPuwi5TGRXtugLLvqRACgmwbLRxRTo5cLtjr+rw0WaJviAC8=
-=6IoU
------END PGP SIGNATURE-----
-
---T4sUOijqQbZv57TR--
-
---===============2140635746==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>   Dave
+>
+> > +       ret = clk_set_min_rate(vc4_hdmi->pixel_bvb_clock, bvb_rate);
+> >         if (ret) {
+> >                 DRM_ERROR("Failed to set pixel bvb clock rate: %d\n", ret);
+> >                 clk_disable_unprepare(vc4_hdmi->hsm_clock);
+> > --
+> > 2.29.2
+> >
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2140635746==--
