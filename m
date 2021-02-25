@@ -1,38 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4023C3251DD
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 16:01:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A97643251F0
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 16:06:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A4506E1BA;
-	Thu, 25 Feb 2021 15:01:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC7DC6ECBF;
+	Thu, 25 Feb 2021 15:06:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A55736E1BA;
- Thu, 25 Feb 2021 15:01:28 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DB3B764EC3;
- Thu, 25 Feb 2021 15:01:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614265288;
- bh=rTp6tlRl/+2dDCi+5gBT4LR+IqVuF5cDPLNiC8PJHgk=;
- h=From:To:Cc:Subject:Date:From;
- b=jYFhNaZbbSoTDYljzbyuXXwgaGElH7/NWFsFNQhQ0ZoAdxEgpmjKWwUUu1s2Fli55
- 9FL9kT4HbFgnoCICaopvKBMhYoCiXfOXBFuMEVE8k6Q84QY9hsCwa5yJHoyViq4v1X
- EX7tPknLeA2y0OW0L5A8mWn1P2bv6+vBhgqELGcPZG8j6su4kf+Kg+/L96oO+quyl6
- 71p38s+XZbNuKnAKIhqqAX3KgeM5DPUWGgkFGbfSeHNJLnPQuoalrJrn6A57tV3ngW
- iaX1C009z+deiIsRBEnQ0n2G5zZ2RRY5moTt6Lf/Fvl81G5WA1QbJOXFi9UVJXZlmp
- eWEboNG471QWQ==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH] drm/amd/display: Fix an uninitialized index variable
-Date: Thu, 25 Feb 2021 16:01:02 +0100
-Message-Id: <20210225150119.405469-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 151266ECC0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 15:06:24 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id f33so5918081otf.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 07:06:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8X3d7AH7K+QUX1HOFus++mj3s5Je75s5RJZh6MvT3L4=;
+ b=XRk5ulULiJaY05e1RegxtKFNw9malgHXFuO2NiuDECmEKeDQ3JqFDwwxDTtkWXdajW
+ T04WkZgJeM26WKR9UzMABmB2rlSI9S/r7JU9ymKttt66yWOTqMCavGWTXbwyG5RaQF2s
+ BVao4lPzXalDNZQT+jY8MtJGgqgrb+7in6DU8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8X3d7AH7K+QUX1HOFus++mj3s5Je75s5RJZh6MvT3L4=;
+ b=VPvfyrAxgr1c4BzbL3YddLg/lhI2B1lYmtl3CCGMG4fOMujkREfrgRWXuNtNwW6OgA
+ xmihuCULpw+oR9q/8VFMWhcrDq9MEDtNyW9mgMgQ7eqmnGbrccIfFKLhCzT9w8X3rnfp
+ h6uQgk+Cvyje7X0IOZDFmM2gvNHYCGmbfSWoy3Ju8e3KcrC9/KXfHRlZecSdVzGgOVBf
+ 4dqG3XEss41N6Pu/4cQeFuB5hVrHA/8hxEbrFF6P2i3I1p7HBDTYntqh/1eZUUJsbsk0
+ sZXMof8y6R8JbxknSuIlP6TXod/Rgj05JrDT1UopE5YzrSsZl/ZQaFB6r55Qy4xH47AF
+ iJVw==
+X-Gm-Message-State: AOAM533UruWU33z6r95jR+nNy98bqj239Hm9JhIgH6WCeMdn9sxIIVeo
+ P1LLxj/YbEgQbBGPoG8KzYyfG7EaimcRY7Cxg768UA==
+X-Google-Smtp-Source: ABdhPJx27Mfpb3Tcx0KPOWahwlh4en7igagQZuJVI/petsFC9Np2XpGcdmkdrXLsANh4L4kuKWypA0FIggT/+IzMzcg=
+X-Received: by 2002:a9d:2265:: with SMTP id o92mr2608987ota.188.1614265583119; 
+ Thu, 25 Feb 2021 07:06:23 -0800 (PST)
 MIME-Version: 1.0
+References: <20210224105509.yzdimgbu2jwe3auf@adolin>
+ <CAKMK7uFwdHaaGs8BPSAah1Vp5pJWTzxoruLgOWxQu1aDAyCKLQ@mail.gmail.com>
+ <20210225102520.uysa4muovemqi66n@sirius.home.kraxel.org>
+ <YDd8qOETBy8z/qDh@phenom.ffwll.local>
+ <20210225132722.s2deh35qwhan5kkf@sirius.home.kraxel.org>
+In-Reply-To: <20210225132722.s2deh35qwhan5kkf@sirius.home.kraxel.org>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 25 Feb 2021 16:06:12 +0100
+Message-ID: <CAKMK7uHSFzq6kw9-1Bhw0RdP524umz9Z3jrqBB-PQfyxCvtixQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] drm/vkms: Add support for virtual hardware mode
+To: Gerd Hoffmann <kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,103 +61,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, Eryk Brol <eryk.brol@amd.com>,
- Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
- clang-built-linux@googlegroups.com,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Sumera Priyadarsini <sylphrenadin@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Dave Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Melissa Wen <melissa.srw@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Thu, Feb 25, 2021 at 2:27 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> On Thu, Feb 25, 2021 at 11:32:08AM +0100, Daniel Vetter wrote:
+> > On Thu, Feb 25, 2021 at 11:25:20AM +0100, Gerd Hoffmann wrote:
+> > > On Thu, Feb 25, 2021 at 10:09:42AM +0100, Daniel Vetter wrote:
+> > > > On Wed, Feb 24, 2021 at 11:55 AM Sumera Priyadarsini
+> > > > <sylphrenadin@gmail.com> wrote:
+> > > > >
+> > > > > Add a virtual hardware or vblank-less mode as a module to enable
+> > > > > VKMS to emulate virtual graphic drivers. This mode can be enabled
+> > > > > by setting enable_virtual_hw=1 at the time of loading VKMS.
+> > > > >
+> > > > > A new function vkms_crtc_composer() has been added to bypass the
+> > > > > vblank mode and is called directly in the atomic hook in
+> > > > > vkms_atomic_begin(). However, some crc captures still use vblanks
+> > > > > which causes the crc-based igt tests to crash. Currently, I am unsure
+> > > > > about how to approach one-shot implementation of crc reads so I am
+> > > > > still working on that.
+> > > >
+> > > > Gerd, Zack: For virtual hw like virtio-gpu or vmwgfx that does
+> > > > one-shot upload and damage tracking, what do you think is the best way
+> > > > to capture crc for validation? Assuming that's even on the plans
+> > > > anywhere ...
+> > > >
+> > > > Ideally it'd be a crc that the host side captures, so that we really
+> > > > have end-to-end validation, including the damage uploads and all that.
+> > >
+> > > Disclaimer:  Not knowing much about the crc thing beside having noticed
+> > > it exists and seems to be used for display content checking.
+> > >
+> > > > For vkms we're going for now with one-shot crc generation after each
+> > > > atomic flip (or DIRTYFB ioctl call). Will need a pile of igt changes,
+> > > > but seems like the most fitting model.
+> > > > Other option would be that we'd wire up something on the kernel side
+> > > > that generates a crc on-demand every time igt reads a new crc value
+> > > > (maybe with some rate limiting). But that's not really how virtual hw
+> > > > works when everything is pushed explicitly to the host side.
+> > >
+> > > igt runs inside the guest, right?
+> >
+> > Yup. There's some debugfs files for capture crc on a specific CRTC. So
+> > supporting this would mean some virtio-gpu revision so you could ask the
+> > host side for a crc when you do a screen update, and the host side would
+> > send that back to you on a virtio channel as some kind of message.
+>
+> Waded through the source code a bit.  So, the vkms crc code merges all
+> planes (specifically the cursor plane) before calculating the crc.
+> Which is a bit of a problem, we try to avoid that and rarely actually
+> merge the planes anywhere in the virtualization stack.  Instead we
+> prefer to pass through the cursor plane separately, so we can -- for
+> example -- use that to simply set the cursor sprite of the qemu gtk
+> window.  It's much more snappy because moving+rendering the pointer
+> doesn't need a round-trip to the guest then.
+>
+> So, it would be quite some effort on the host side, we would have to
+> merge planes just for crc calculation.
+>
+> > > You can ask qemu to write out a screen dump.
+>
+> Hmm, the (hardware) cursor is not in the screen dump either.
+>
+> A software cursor (when using for example cirrus which has no cursor
+> plane) would be there.
+>
+> > > Another option to access the screen would be vnc.
+>
+> vnc clients can get the cursor sprite.  They can't get the position
+> though, only set it (it's a one-way ticket in the vnc protocol).
+> Typically not a problem because desktops set the position in response
+> to the pointer events so guest + host position match nevertheless.
+> But for test cases which don't look at input events and set the cursor
+> to a fixed place this is a problem ...
 
-clang points out that the new logic uses an always-uninitialized
-array index:
+Hm yeah that sounds like a bit too much to wire through, and kinda
+defeats end-to-end testing if qemu would take a separate path for crc
+generation.
+-Daniel
 
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9810:38: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
-                        timing  = &edid->detailed_timings[i];
-                                                          ^
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9720:7: note: initialize the variable 'i' to silence this warning
+> > > On-demand crc via debugfs or ioctl would work too, but yes that wouldn't
+> > > verify the host-side.  At least not without virtio protocol extensions.
+> > > We could add a new command asking the host to crc the display and return
+> > > the result for on-demand crc.  Or add a crc request flag to an existing
+> > > command (VIRTIO_GPU_CMD_RESOURCE_FLUSH probably).
+> >
+> > Yup, I think that's what would be needed. The question here is, what do
+> > you think would be the most natural way for virtio host side stack to
+> > support this?
+>
+> virtio has feature flags, so we can easily introduce an extension in a
+> backward compatible way.  Each command sends a reply, with optional
+> payload, so it would make sense to send the crc with the
+> VIRTIO_GPU_CMD_RESOURCE_FLUSH reply.
+>
+> Alternatively introduce a communication channel independent of the gpu,
+> using for example virtio-serial or vsock, let the guest send crc
+> requests to qemu that way.  Which would work with all qemu display
+> devices, not only virtio-gpu.
+>
+> take care,
+>   Gerd
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-My best guess is that the index should have been returned by the
-parse_hdmi_amd_vsdb() function that walks an array here, so do that.
 
-Fixes: f9b4f20c4777 ("drm/amd/display: Add Freesync HDMI support to DM")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index b19b93c74bae..667c0d52dbfa 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -9736,7 +9736,7 @@ static bool parse_edid_cea(struct amdgpu_dm_connector *aconnector,
- 	return false;
- }
- 
--static bool parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
-+static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
- 		struct edid *edid, struct amdgpu_hdmi_vsdb_info *vsdb_info)
- {
- 	uint8_t *edid_ext = NULL;
-@@ -9746,7 +9746,7 @@ static bool parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
- 	/*----- drm_find_cea_extension() -----*/
- 	/* No EDID or EDID extensions */
- 	if (edid == NULL || edid->extensions == 0)
--		return false;
-+		return -ENODEV;
- 
- 	/* Find CEA extension */
- 	for (i = 0; i < edid->extensions; i++) {
-@@ -9756,14 +9756,15 @@ static bool parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
- 	}
- 
- 	if (i == edid->extensions)
--		return false;
-+		return -ENODEV;
- 
- 	/*----- cea_db_offsets() -----*/
- 	if (edid_ext[0] != CEA_EXT)
--		return false;
-+		return -ENODEV;
- 
- 	valid_vsdb_found = parse_edid_cea(aconnector, edid_ext, EDID_LENGTH, vsdb_info);
--	return valid_vsdb_found;
-+
-+	return valid_vsdb_found ? i : -ENODEV;
- }
- 
- void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
-@@ -9781,7 +9782,6 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 	struct amdgpu_device *adev = drm_to_adev(dev);
- 	bool freesync_capable = false;
- 	struct amdgpu_hdmi_vsdb_info vsdb_info = {0};
--	bool hdmi_valid_vsdb_found = false;
- 
- 	if (!connector->state) {
- 		DRM_ERROR("%s - Connector has no state", __func__);
-@@ -9857,8 +9857,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 			}
- 		}
- 	} else if (edid && amdgpu_dm_connector->dc_sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A) {
--		hdmi_valid_vsdb_found = parse_hdmi_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
--		if (hdmi_valid_vsdb_found && vsdb_info.freesync_supported) {
-+		i = parse_hdmi_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
-+		if (i >= 0 && vsdb_info.freesync_supported) {
- 			timing  = &edid->detailed_timings[i];
- 			data    = &timing->data.other_data;
- 
 -- 
-2.29.2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
