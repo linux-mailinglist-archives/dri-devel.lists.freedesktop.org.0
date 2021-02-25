@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A97643251F0
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 16:06:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B463252AA
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Feb 2021 16:47:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC7DC6ECBF;
-	Thu, 25 Feb 2021 15:06:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE4826ECA1;
+	Thu, 25 Feb 2021 15:47:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 151266ECC0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 15:06:24 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id f33so5918081otf.11
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 07:06:24 -0800 (PST)
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
+ [IPv6:2607:f8b0:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD7C96ECA1
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 15:47:00 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id l64so6465769oig.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 07:47:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8X3d7AH7K+QUX1HOFus++mj3s5Je75s5RJZh6MvT3L4=;
- b=XRk5ulULiJaY05e1RegxtKFNw9malgHXFuO2NiuDECmEKeDQ3JqFDwwxDTtkWXdajW
- T04WkZgJeM26WKR9UzMABmB2rlSI9S/r7JU9ymKttt66yWOTqMCavGWTXbwyG5RaQF2s
- BVao4lPzXalDNZQT+jY8MtJGgqgrb+7in6DU8=
+ :cc:content-transfer-encoding;
+ bh=p1FuJXZMatJHyJTGkObaxlo1fAYr8nIDoteIQbCQluQ=;
+ b=CySFpdI+Jsei8FbEThQbhvVfeq0NF3DKnmK4tWuxHtE64J8KA7qxG9/Kcz83gyVyY6
+ M0MP2JJCTD6SIdr0nI4j0bHUdPee8x/pGJJ+Ubsa2uPskvU7x7FxNbIjImla1Z2A5D6z
+ Eix+yQWlA+5DvZVobTnKFrWjuwKxUJJWY5m34=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8X3d7AH7K+QUX1HOFus++mj3s5Je75s5RJZh6MvT3L4=;
- b=VPvfyrAxgr1c4BzbL3YddLg/lhI2B1lYmtl3CCGMG4fOMujkREfrgRWXuNtNwW6OgA
- xmihuCULpw+oR9q/8VFMWhcrDq9MEDtNyW9mgMgQ7eqmnGbrccIfFKLhCzT9w8X3rnfp
- h6uQgk+Cvyje7X0IOZDFmM2gvNHYCGmbfSWoy3Ju8e3KcrC9/KXfHRlZecSdVzGgOVBf
- 4dqG3XEss41N6Pu/4cQeFuB5hVrHA/8hxEbrFF6P2i3I1p7HBDTYntqh/1eZUUJsbsk0
- sZXMof8y6R8JbxknSuIlP6TXod/Rgj05JrDT1UopE5YzrSsZl/ZQaFB6r55Qy4xH47AF
- iJVw==
-X-Gm-Message-State: AOAM533UruWU33z6r95jR+nNy98bqj239Hm9JhIgH6WCeMdn9sxIIVeo
- P1LLxj/YbEgQbBGPoG8KzYyfG7EaimcRY7Cxg768UA==
-X-Google-Smtp-Source: ABdhPJx27Mfpb3Tcx0KPOWahwlh4en7igagQZuJVI/petsFC9Np2XpGcdmkdrXLsANh4L4kuKWypA0FIggT/+IzMzcg=
-X-Received: by 2002:a9d:2265:: with SMTP id o92mr2608987ota.188.1614265583119; 
- Thu, 25 Feb 2021 07:06:23 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=p1FuJXZMatJHyJTGkObaxlo1fAYr8nIDoteIQbCQluQ=;
+ b=Gqx/b4mrTAfgx4luo3Sl2BafGqQPdJoqrVubSL9a0F4ArupzdrhZZ3FvpR6uO44788
+ u6DGsRibKf7QuQD0KOlny3TJXQnUUkFCYlfxIUWIA9GLVa7S5VQjxz6UxzAzKgoWtWSD
+ OewS0VD47euLNGnzwq/ln3XgXTS2CftQdovSKT85u741TjOnukCovL1YPLWOhA5NMnR9
+ gjTX46Y04qxZvpSQXCqMndMovoaP2lByDcx0uT8PAHiZYN2/tVzyr+Ad4hFsFdGvVo/n
+ 7E+rnokDlMwDjNhzmKXtlYA6U15mU5Hn+LycOK9wnsOgM3dTMN0lDhNzj1ah0ITnSPbQ
+ hheA==
+X-Gm-Message-State: AOAM530Wg+WScGewH4Gv/oLnsq7cloUEVhCxrDBPjr/cQREPX+zJFUNm
+ BATYNd12RyPcDt6XUf0JgYrEFIMC0JyFu4CQg7QzaQ==
+X-Google-Smtp-Source: ABdhPJxspYsQHTFQg7SDpkytyC8G0vPt+TIbNebEDGa69KvpuOK83CJolun8M8yhLHfATBMQZZYY7R75AJ28FRK4W7Q=
+X-Received: by 2002:a05:6808:4c9:: with SMTP id
+ a9mr2303337oie.101.1614268019504; 
+ Thu, 25 Feb 2021 07:46:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20210224105509.yzdimgbu2jwe3auf@adolin>
- <CAKMK7uFwdHaaGs8BPSAah1Vp5pJWTzxoruLgOWxQu1aDAyCKLQ@mail.gmail.com>
- <20210225102520.uysa4muovemqi66n@sirius.home.kraxel.org>
- <YDd8qOETBy8z/qDh@phenom.ffwll.local>
- <20210225132722.s2deh35qwhan5kkf@sirius.home.kraxel.org>
-In-Reply-To: <20210225132722.s2deh35qwhan5kkf@sirius.home.kraxel.org>
+References: <20210225125301.1723047-1-arnd@kernel.org>
+ <7c41b175-6da2-6801-43c2-c4038c08b228@amd.com>
+In-Reply-To: <7c41b175-6da2-6801-43c2-c4038c08b228@amd.com>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 25 Feb 2021 16:06:12 +0100
-Message-ID: <CAKMK7uHSFzq6kw9-1Bhw0RdP524umz9Z3jrqBB-PQfyxCvtixQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] drm/vkms: Add support for virtual hardware mode
-To: Gerd Hoffmann <kraxel@redhat.com>
+Date: Thu, 25 Feb 2021 16:46:48 +0100
+Message-ID: <CAKMK7uEqztQYkqwuduAwvz_87tq_SBwjSYZF7x5b-aWb-kHVsw@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/pci: rework AGP dependency
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,131 +60,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Sumera Priyadarsini <sylphrenadin@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Dave Airlie <airlied@linux.ie>,
+Cc: Arnd Bergmann <arnd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ David Airlie <airlied@linux.ie>, Nouveau Dev <nouveau@lists.freedesktop.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Melissa Wen <melissa.srw@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 25, 2021 at 2:27 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> On Thu, Feb 25, 2021 at 11:32:08AM +0100, Daniel Vetter wrote:
-> > On Thu, Feb 25, 2021 at 11:25:20AM +0100, Gerd Hoffmann wrote:
-> > > On Thu, Feb 25, 2021 at 10:09:42AM +0100, Daniel Vetter wrote:
-> > > > On Wed, Feb 24, 2021 at 11:55 AM Sumera Priyadarsini
-> > > > <sylphrenadin@gmail.com> wrote:
-> > > > >
-> > > > > Add a virtual hardware or vblank-less mode as a module to enable
-> > > > > VKMS to emulate virtual graphic drivers. This mode can be enabled
-> > > > > by setting enable_virtual_hw=1 at the time of loading VKMS.
-> > > > >
-> > > > > A new function vkms_crtc_composer() has been added to bypass the
-> > > > > vblank mode and is called directly in the atomic hook in
-> > > > > vkms_atomic_begin(). However, some crc captures still use vblanks
-> > > > > which causes the crc-based igt tests to crash. Currently, I am unsure
-> > > > > about how to approach one-shot implementation of crc reads so I am
-> > > > > still working on that.
-> > > >
-> > > > Gerd, Zack: For virtual hw like virtio-gpu or vmwgfx that does
-> > > > one-shot upload and damage tracking, what do you think is the best way
-> > > > to capture crc for validation? Assuming that's even on the plans
-> > > > anywhere ...
-> > > >
-> > > > Ideally it'd be a crc that the host side captures, so that we really
-> > > > have end-to-end validation, including the damage uploads and all that.
-> > >
-> > > Disclaimer:  Not knowing much about the crc thing beside having noticed
-> > > it exists and seems to be used for display content checking.
-> > >
-> > > > For vkms we're going for now with one-shot crc generation after each
-> > > > atomic flip (or DIRTYFB ioctl call). Will need a pile of igt changes,
-> > > > but seems like the most fitting model.
-> > > > Other option would be that we'd wire up something on the kernel side
-> > > > that generates a crc on-demand every time igt reads a new crc value
-> > > > (maybe with some rate limiting). But that's not really how virtual hw
-> > > > works when everything is pushed explicitly to the host side.
-> > >
-> > > igt runs inside the guest, right?
-> >
-> > Yup. There's some debugfs files for capture crc on a specific CRTC. So
-> > supporting this would mean some virtio-gpu revision so you could ask the
-> > host side for a crc when you do a screen update, and the host side would
-> > send that back to you on a virtio channel as some kind of message.
->
-> Waded through the source code a bit.  So, the vkms crc code merges all
-> planes (specifically the cursor plane) before calculating the crc.
-> Which is a bit of a problem, we try to avoid that and rarely actually
-> merge the planes anywhere in the virtualization stack.  Instead we
-> prefer to pass through the cursor plane separately, so we can -- for
-> example -- use that to simply set the cursor sprite of the qemu gtk
-> window.  It's much more snappy because moving+rendering the pointer
-> doesn't need a round-trip to the guest then.
->
-> So, it would be quite some effort on the host side, we would have to
-> merge planes just for crc calculation.
->
-> > > You can ask qemu to write out a screen dump.
->
-> Hmm, the (hardware) cursor is not in the screen dump either.
->
-> A software cursor (when using for example cirrus which has no cursor
-> plane) would be there.
->
-> > > Another option to access the screen would be vnc.
->
-> vnc clients can get the cursor sprite.  They can't get the position
-> though, only set it (it's a one-way ticket in the vnc protocol).
-> Typically not a problem because desktops set the position in response
-> to the pointer events so guest + host position match nevertheless.
-> But for test cases which don't look at input events and set the cursor
-> to a fixed place this is a problem ...
-
-Hm yeah that sounds like a bit too much to wire through, and kinda
-defeats end-to-end testing if qemu would take a separate path for crc
-generation.
--Daniel
-
-> > > On-demand crc via debugfs or ioctl would work too, but yes that wouldn't
-> > > verify the host-side.  At least not without virtio protocol extensions.
-> > > We could add a new command asking the host to crc the display and return
-> > > the result for on-demand crc.  Or add a crc request flag to an existing
-> > > command (VIRTIO_GPU_CMD_RESOURCE_FLUSH probably).
-> >
-> > Yup, I think that's what would be needed. The question here is, what do
-> > you think would be the most natural way for virtio host side stack to
-> > support this?
->
-> virtio has feature flags, so we can easily introduce an extension in a
-> backward compatible way.  Each command sends a reply, with optional
-> payload, so it would make sense to send the crc with the
-> VIRTIO_GPU_CMD_RESOURCE_FLUSH reply.
->
-> Alternatively introduce a communication channel independent of the gpu,
-> using for example virtio-serial or vsock, let the guest send crc
-> requests to qemu that way.  Which would work with all qemu display
-> devices, not only virtio-gpu.
->
-> take care,
->   Gerd
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBGZWIgMjUsIDIwMjEgYXQgMTo1OSBQTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
+YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMjUuMDIuMjEgdW0gMTM6NTIgc2Nocmll
+YiBBcm5kIEJlcmdtYW5uOgo+ID4gRnJvbTogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4K
+PiA+Cj4gPiBJIG5vdGljZWQgYSB3YXJuaW5nIGZyb20gJ25tJyB3aGVuIENPTkZJR19UUklNX1VO
+VVNFRF9LU1lNUyBpcyBzZXQKPiA+IGFuZCBJU19SRUFDSEFCTEUoQ09ORklHX0FHUCkgaXMgZmFs
+c2U6Cj4gPgo+ID4gZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvcGNpL2FncC5v
+OiBubyBzeW1ib2xzCj4gPgo+ID4gSSBsYXRlciBmb3VuZCB0aGlzIGlzIGNvbXBsZXRlbHkgaGFy
+bWxlc3MgYW5kIHdlIHNob3VsZCBmaW5kIGEgd2F5Cj4gPiB0byBzdXBwcmVzcyB0aGUgd2Fybmlu
+ZywgYnV0IGF0IHRoYXQgcG9pbnQgSSBoYWQgYWxyZWFkeSBkb25lIGEKPiA+IGNsZWFudXAgcGF0
+Y2ggdG8gYWRkcmVzcyB0aGlzIGluc3RhbmNlLgo+ID4KPiA+IEl0IHR1cm5zIG91dCB0aGlzIGNv
+ZGUgY291bGQgYmUgaW1wcm92ZWQgYW55d2F5LCBhcyB0aGUgY3VycmVudCB2ZXJzaW9uCj4gPiBi
+ZWhhdmVzIHVuZXhwZWN0ZWRseSB3aGVuIEFHUCBpcyBhIGxvYWRhYmxlIG1vZHVsZSBidXQgbm91
+dmVhdSBpcyBidWlsdC1pbgo+ID4gaXRzZWxmLCBpbiB3aGljaCBjYXNlIGl0IHNpbGVudGx5IG9t
+aXRzIGFncCBzdXBwb3J0Lgo+ID4KPiA+IEEgYmV0dGVyIHdheSB0byBoYW5kbGUgdGhpcyBpcyB3
+aXRoIGEgS2NvbmZpZyBkZXBlbmRlbmN5IHRoYXQgcmVxdWlyZXMKPiA+IEFHUCBlaXRoZXIgdG8g
+YmUgZGlzYWJsZWQsIG9yIGZvcmNlcyBub3V2ZWF1IHRvIGJlIGEgbW9kdWxlIGZvciBBR1A9bS4K
+PiA+IFdpdGggdGhpcyBjaGFuZ2UsIHRoZSBjb21waWxlLXRpbWUgaGFjayBjYW4gYmUgcmVtb3Zl
+ZCBhbmQgbGxkIG5vCj4gPiBsb25nZXIgd2FybnMuCj4gPgo+ID4gRml4ZXM6IDM0MGIwZTdjNTAw
+YSAoImRybS9ub3V2ZWF1L3BjaTogbWVyZ2UgYWdwIGhhbmRsaW5nIGZyb20gbm91dmVhdSBkcm0i
+KQo+ID4gU2lnbmVkLW9mZi1ieTogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4KPiA+IC0t
+LQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9LYnVpbGQgICAgICAgICAgICAgICAgIHwg
+MSArCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L0tjb25maWcgICAgICAgICAgICAgICAg
+fCAxICsKPiA+ICAgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvcGNpL0tidWls
+ZCB8IDIgKy0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvcGNpL2Fn
+cC5jICB8IDIgLS0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvcGNp
+L2FncC5oICB8IDkgKysrKystLS0tCj4gPiAgIDUgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25z
+KCspLCA3IGRlbGV0aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+bm91dmVhdS9LYnVpbGQgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9LYnVpbGQKPiA+IGluZGV4
+IDYwNTg2ZmI4Mjc1ZS4uMTczYjhkOWQ4NWUzIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL25vdXZlYXUvS2J1aWxkCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9LYnVp
+bGQKPiA+IEBAIC0xNSw2ICsxNSw3IEBAIG5vdXZlYXUteSA6PSAkKG52aWYteSkKPiA+ICAgIy0g
+Y29kZSBhbHNvIHVzZWQgYnkgdmFyaW91cyB1c2Vyc3BhY2UgdG9vbHMvdGVzdHMKPiA+ICAgaW5j
+bHVkZSAkKHNyYykvbnZrbS9LYnVpbGQKPiA+ICAgbm91dmVhdS15ICs9ICQobnZrbS15KQo+ID4g
+K25vdXZlYXUtbSArPSAkKG52a20tbSkKPiA+Cj4gPiAgICMgRFJNIC0gZ2VuZXJhbAo+ID4gICBp
+ZmRlZiBDT05GSUdfWDg2Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUv
+S2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L0tjb25maWcKPiA+IGluZGV4IDI3OGUw
+NDgyMzVhOS4uOTAyNzZhNTU3YTcwIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL25v
+dXZlYXUvS2NvbmZpZwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvS2NvbmZpZwo+
+ID4gQEAgLTIsNiArMiw3IEBACj4gPiAgIGNvbmZpZyBEUk1fTk9VVkVBVQo+ID4gICAgICAgdHJp
+c3RhdGUgIk5vdXZlYXUgKE5WSURJQSkgY2FyZHMiCj4gPiAgICAgICBkZXBlbmRzIG9uIERSTSAm
+JiBQQ0kgJiYgTU1VCj4gPiArICAgICBkZXBlbmRzIG9uIEFHUCB8fCAhQUdQCj4KPiBNeSBmaXJz
+dCB0aG91Z2h0IHdhcyBXVEY/IEJ1dCB0aGVuIEkgcmVhbGl6ZWQgdGhhdCB0aGlzIHRvdGFsbHkg
+bWFrZXMgc2Vuc2UuCgpkZXBlbmRzIG9uIFNZTSB8fCAhU1lNCgppcyBlc3NlbnRpYWxseQoKb3B0
+aW9uYWwgZGVwZW5kcyBvbiBTWU0KCndoZW4gU1lNIGlzIGEgdHJpLXN0YXRlLiBJIHRoaW5rIHRo
+ZXJlIHdhcyBldmVuIHBhdGNoZXMgdG8ga2NvbmZpZyB0bwphZGQgc29tZXRoaW5nIGxpa2UgdGhh
+dCBzaW5jZSBpdCdzIHN1Y2ggYSBjb21tb24gcGF0dGVybi4gTWlnaHQgYmUKbmVhdCB0byByZXN1
+cnJlY3QgdGhhdCBmb3IgbW9yZSBjbGFyaXR5LgotRGFuaWVsCgo+IFdlIHNob3VsZCBwcm9iYWJs
+eSBoYXZlIHRoZSBzYW1lIGZvciByYWRlb24gYXMgd2VsbC4KPgo+IEFwYXJ0IGZyb20gdGhhdCB0
+aGUgcGF0Y2ggaXMgQWNrZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcKPiA8Y2hyaXN0aWFuLmtvZW5p
+Z0BhbWQuY29tPgo+Cj4gPiAgICAgICBzZWxlY3QgSU9NTVVfQVBJCj4gPiAgICAgICBzZWxlY3Qg
+RldfTE9BREVSCj4gPiAgICAgICBzZWxlY3QgRFJNX0tNU19IRUxQRVIKPiA+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9udmttL3N1YmRldi9wY2kvS2J1aWxkIGIvZHJpdmVy
+cy9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvcGNpL0tidWlsZAo+ID4gaW5kZXggMTc0YmRm
+OTk1MjcxLi5hNDAwYzY4MGNmNjUgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91
+dmVhdS9udmttL3N1YmRldi9wY2kvS2J1aWxkCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91
+dmVhdS9udmttL3N1YmRldi9wY2kvS2J1aWxkCj4gPiBAQCAtMSw1ICsxLDUgQEAKPiA+ICAgIyBT
+UERYLUxpY2Vuc2UtSWRlbnRpZmllcjogTUlUCj4gPiAtbnZrbS15ICs9IG52a20vc3ViZGV2L3Bj
+aS9hZ3Aubwo+ID4gK252a20tJChDT05GSUdfQUdQKSArPSBudmttL3N1YmRldi9wY2kvYWdwLm8K
+PiA+ICAgbnZrbS15ICs9IG52a20vc3ViZGV2L3BjaS9iYXNlLm8KPiA+ICAgbnZrbS15ICs9IG52
+a20vc3ViZGV2L3BjaS9wY2llLm8KPiA+ICAgbnZrbS15ICs9IG52a20vc3ViZGV2L3BjaS9udjA0
+Lm8KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9udmttL3N1YmRldi9w
+Y2kvYWdwLmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9udmttL3N1YmRldi9wY2kvYWdwLmMK
+PiA+IGluZGV4IDM4NWE5MGY5MWVkNi4uODZjOWUxZDY1OGFmIDEwMDY0NAo+ID4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvcGNpL2FncC5jCj4gPiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9udmttL3N1YmRldi9wY2kvYWdwLmMKPiA+IEBAIC0yMCw3ICsy
+MCw2IEBACj4gPiAgICAqIE9USEVSIERFQUxJTkdTIElOIFRIRSBTT0ZUV0FSRS4KPiA+ICAgICov
+Cj4gPiAgICNpbmNsdWRlICJhZ3AuaCIKPiA+IC0jaWZkZWYgX19OVktNX1BDSV9BR1BfSF9fCj4g
+PiAgICNpbmNsdWRlIDxjb3JlL29wdGlvbi5oPgo+ID4KPiA+ICAgc3RydWN0IG52a21fZGV2aWNl
+X2FncF9xdWlyayB7Cj4gPiBAQCAtMTcyLDQgKzE3MSwzIEBAIG52a21fYWdwX2N0b3Ioc3RydWN0
+IG52a21fcGNpICpwY2kpCj4gPgo+ID4gICAgICAgcGNpLT5hZ3AubXRyciA9IGFyY2hfcGh5c193
+Y19hZGQocGNpLT5hZ3AuYmFzZSwgcGNpLT5hZ3Auc2l6ZSk7Cj4gPiAgIH0KPiA+IC0jZW5kaWYK
+PiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9udmttL3N1YmRldi9wY2kv
+YWdwLmggYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9udmttL3N1YmRldi9wY2kvYWdwLmgKPiA+
+IGluZGV4IGFkNGQzNjIxZDAyYi4uMDQxZmUxZmJmMDkzIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvcGNpL2FncC5oCj4gPiArKysgYi9kcml2ZXJz
+L2dwdS9kcm0vbm91dmVhdS9udmttL3N1YmRldi9wY2kvYWdwLmgKPiA+IEBAIC0xLDE1ICsxLDE0
+IEBACj4gPiAtLyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IE1JVCAqLwo+ID4gLSNpbmNsdWRl
+ICJwcml2LmgiCj4gPiAtI2lmIGRlZmluZWQoQ09ORklHX0FHUCkgfHwgKGRlZmluZWQoQ09ORklH
+X0FHUF9NT0RVTEUpICYmIGRlZmluZWQoTU9EVUxFKSkKPiA+ICAgI2lmbmRlZiBfX05WS01fUENJ
+X0FHUF9IX18KPiA+ICAgI2RlZmluZSBfX05WS01fUENJX0FHUF9IX18KPiA+Cj4gPiArLyogU1BE
+WC1MaWNlbnNlLUlkZW50aWZpZXI6IE1JVCAqLwo+ID4gKyNpbmNsdWRlICJwcml2LmgiCj4gPiAr
+I2lmIElTX0VOQUJMRUQoQ09ORklHX0FHUCkKPiA+ICAgdm9pZCBudmttX2FncF9jdG9yKHN0cnVj
+dCBudmttX3BjaSAqKTsKPiA+ICAgdm9pZCBudmttX2FncF9kdG9yKHN0cnVjdCBudmttX3BjaSAq
+KTsKPiA+ICAgdm9pZCBudmttX2FncF9wcmVpbml0KHN0cnVjdCBudmttX3BjaSAqKTsKPiA+ICAg
+aW50IG52a21fYWdwX2luaXQoc3RydWN0IG52a21fcGNpICopOwo+ID4gICB2b2lkIG52a21fYWdw
+X2Zpbmkoc3RydWN0IG52a21fcGNpICopOwo+ID4gLSNlbmRpZgo+ID4gICAjZWxzZQo+ID4gICBz
+dGF0aWMgaW5saW5lIHZvaWQgbnZrbV9hZ3BfY3RvcihzdHJ1Y3QgbnZrbV9wY2kgKnBjaSkge30K
+PiA+ICAgc3RhdGljIGlubGluZSB2b2lkIG52a21fYWdwX2R0b3Ioc3RydWN0IG52a21fcGNpICpw
+Y2kpIHt9Cj4gPiBAQCAtMTcsMyArMTYsNSBAQCBzdGF0aWMgaW5saW5lIHZvaWQgbnZrbV9hZ3Bf
+cHJlaW5pdChzdHJ1Y3QgbnZrbV9wY2kgKnBjaSkge30KPiA+ICAgc3RhdGljIGlubGluZSBpbnQg
+bnZrbV9hZ3BfaW5pdChzdHJ1Y3QgbnZrbV9wY2kgKnBjaSkgeyByZXR1cm4gLUVOT1NZUzsgfQo+
+ID4gICBzdGF0aWMgaW5saW5lIHZvaWQgbnZrbV9hZ3BfZmluaShzdHJ1Y3QgbnZrbV9wY2kgKnBj
+aSkge30KPiA+ICAgI2VuZGlmCj4gPiArCj4gPiArI2VuZGlmCj4KCgotLSAKRGFuaWVsIFZldHRl
+cgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwu
+Y2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
