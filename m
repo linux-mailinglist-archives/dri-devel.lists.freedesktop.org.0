@@ -2,55 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32EE232623A
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 13:00:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9AA1326252
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 13:09:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47BC36EDCE;
-	Fri, 26 Feb 2021 12:00:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 020E66E3F4;
+	Fri, 26 Feb 2021 12:09:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C19CF6EDF6
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 12:00:07 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id i14so4241501pjz.4
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 04:00:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OTt+hzwUzbEnNK6etaUVSe6BNGtkKbiycN/jXlNteq0=;
- b=asNZJiY/ZN5/+Dh0isecfCCWU4RODpQNusNjrlECjqzWIL/uwWIBOBPJCh5a8J+icW
- 58k9I4EH5I4J8AuSpTqnnQcatHcS4FICl89ylMgE79cPJMPQlwoD4Z/p7k5XYUTnrJ9i
- DBGfYfLLHS7jSrrdepRYAYw2f2QJMR6adyYDSKAMy3Mx/V2f7O3VJO1n4oyhEBPiNSeX
- L3u7OGk5NKdOPy6L05PUQtw8Fz6ksdNKiN25JGwnR/7D9ujyhoiPYkrB63j8RRydcs/W
- LnXCfsNq7zfQLv/doZ4JHMDtMK2LOK9POnSS9qDubVbq2SgAs0KoG9BWMjrMktcCJ+gf
- PUPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OTt+hzwUzbEnNK6etaUVSe6BNGtkKbiycN/jXlNteq0=;
- b=sWvaNvXdB9J0c1K96MB4UNQ67rgLPg2jviwp4itbUupLs7cMw3I/FZ/D18Ve5GiFx5
- VL0Dn8Z92e384bz/nSkynD01/2wsjHQ/6WFYbKMsrUrN5cXk9sGKxN1eg7EptKTsoThs
- csxd2X4EB6cdgqx9YXyn/TKofGfd0hkpT0Ot3HY6wc/wu+jD7C5wKHhUjhIf5eO26U+a
- D3TK+Rja7b1xDuPiX/n0xAKSD/cBf05LGJ6O1Mq0BGx+Yj8AxsSCvKNwa2+epMPWbetL
- iGgMPkeDo8zSXIBkX0MUtzFoB7/flxKY/UfrwCQ2pDrRxqUo1HsnDtkDVtnRICmMyK/2
- Kqrw==
-X-Gm-Message-State: AOAM530wVxr2GqerCiELaHC4PVJgzMYNaaYRfrcS1V3Ko11DkhyXJnZ6
- /bfV9lRXjiAHnbTmvmJMziDNwOCb2T7T6DcuBVD86A==
-X-Google-Smtp-Source: ABdhPJyfnocGVGubk0og9fBr+6c+QqVcyum8wyer3OWW0BX2xL+xddU+EDj2PYGrP8++GK2VEYgewJ7knmtQVGv/4t0=
-X-Received: by 2002:a17:90a:8b83:: with SMTP id
- z3mr3182942pjn.75.1614340807377; 
- Fri, 26 Feb 2021 04:00:07 -0800 (PST)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5ED36E3F4
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 12:09:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=069mkm7tqItUG64Ib7wUtneTZFgWoa3IFZJXAvEdDLw=; b=dLfKwVJh7zQUEaYCNBkkubHqqr
+ ktYyAfOJhtunI4nYnifVe4V5LgzTWkZeQujkEhMpOcxOyUh5aL2E9H4UNKk5yz3bzJKG/KAgB0djH
+ 3T4oB1NeEpJDYReVt0iDNm4AY8cqyt4TF1ePmSlTA/kJ+aovs8QSAOIGx1o2/57qoWw0+zlZZse2R
+ vsg4BPJbhQc5PojOwsbvPt0/FdWRe4TuAC1HzrULRL1qzWYkNNDW6mkAjFHUJ7DUZk6SgXn4ZiwDp
+ M41saTuaKFIz575OJcR6ILGnZxsWyH0uG/6vV2+dRrWxObfNjPfHScffIPcTsmFrcM8/+OQpu+kZl
+ 0PkEbyig==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:65161
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1lFbvr-0007hf-M6; Fri, 26 Feb 2021 13:09:19 +0100
+Subject: Re: [PATCH v6 3/3] drm: Add GUD USB Display driver
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+To: Peter Stuge <peter@stuge.se>
+References: <20210219121702.50964-1-noralf@tronnes.org>
+ <20210219121702.50964-4-noralf@tronnes.org>
+ <20210219214243.11330.qmail@stuge.se>
+ <5c00a868-3a2f-438b-3670-ee86caef4d2a@tronnes.org>
+Message-ID: <3ee3fad6-61be-b848-a68f-df7c2e0001f9@tronnes.org>
+Date: Fri, 26 Feb 2021 13:09:15 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <1613619715-28785-1-git-send-email-victor.liu@nxp.com>
- <1613619715-28785-3-git-send-email-victor.liu@nxp.com>
-In-Reply-To: <1613619715-28785-3-git-send-email-victor.liu@nxp.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Fri, 26 Feb 2021 12:59:56 +0100
-Message-ID: <CAG3jFysoPCDW5RQeDLa3b97UrH0yKi=K=tJLFuXK6YZHZm+T+g@mail.gmail.com>
-Subject: Re: [PATCH v4 02/14] media: uapi: Add some RGB bus formats for
- i.MX8qm/qxp pixel combiner
-To: Liu Ying <victor.liu@nxp.com>
+In-Reply-To: <5c00a868-3a2f-438b-3670-ee86caef4d2a@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,82 +56,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@pengutronix.de,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- s.hauer@pengutronix.de, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, kishon@ti.com,
- Andrzej Hajda <a.hajda@samsung.com>, Vinod Koul <vkoul@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, linux-imx@nxp.com,
- Mauro Carvalho Chehab <mchehab@kernel.org>, shawnguo@kernel.org,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: hudson@trmm.net, markus@raatikainen.cc,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-usb@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, th020394@gmail.com, lkundrak@v3.sk,
+ pontus.fuchs@gmail.com, sam@ravnborg.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Liu,
-
-This patch looks good to me
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-
-On Thu, 18 Feb 2021 at 04:56, Liu Ying <victor.liu@nxp.com> wrote:
->
-> This patch adds RGB666_1X30_CPADLO, RGB888_1X30_CPADLO, RGB666_1X36_CPADLO
-> and RGB888_1X36_CPADLO bus formats used by i.MX8qm/qxp pixel combiner.
-> The RGB pixels with padding low per component are transmitted on a 30-bit
-> input bus(10-bit per component) from a display controller or a 36-bit
-> output bus(12-bit per component) to a pixel link.
->
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
-> v3->v4:
-> * No change.
->
-> v2->v3:
-> * No change.
->
-> v1->v2:
-> * No change.
->
->  include/uapi/linux/media-bus-format.h | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-> index 0dfc11e..ec3323d 100644
-> --- a/include/uapi/linux/media-bus-format.h
-> +++ b/include/uapi/linux/media-bus-format.h
-> @@ -34,7 +34,7 @@
->
->  #define MEDIA_BUS_FMT_FIXED                    0x0001
->
-> -/* RGB - next is       0x101e */
-> +/* RGB - next is       0x1022 */
->  #define MEDIA_BUS_FMT_RGB444_1X12              0x1016
->  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE      0x1001
->  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE      0x1002
-> @@ -59,9 +59,13 @@
->  #define MEDIA_BUS_FMT_RGB888_3X8_DELTA         0x101d
->  #define MEDIA_BUS_FMT_RGB888_1X7X4_SPWG                0x1011
->  #define MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA       0x1012
-> +#define MEDIA_BUS_FMT_RGB666_1X30_CPADLO       0x101e
-> +#define MEDIA_BUS_FMT_RGB888_1X30_CPADLO       0x101f
->  #define MEDIA_BUS_FMT_ARGB8888_1X32            0x100d
->  #define MEDIA_BUS_FMT_RGB888_1X32_PADHI                0x100f
->  #define MEDIA_BUS_FMT_RGB101010_1X30           0x1018
-> +#define MEDIA_BUS_FMT_RGB666_1X36_CPADLO       0x1020
-> +#define MEDIA_BUS_FMT_RGB888_1X36_CPADLO       0x1021
->  #define MEDIA_BUS_FMT_RGB121212_1X36           0x1019
->  #define MEDIA_BUS_FMT_RGB161616_1X48           0x101a
->
-> --
-> 2.7.4
->
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpEZW4gMjAuMDIuMjAyMSAxOC4yNywgc2tyZXYgTm9yYWxmIFRyw7hubmVzOgo+IAo+IAo+IERl
+biAxOS4wMi4yMDIxIDIyLjQyLCBza3JldiBQZXRlciBTdHVnZToKCj4+Cj4+IE1vcmUgZ2VuZXJh
+bGx5IGl0J3Mgbm90IHZlcnkgdHlwaWNhbCBpbiBVU0IgdG8gcmVwb3J0IHRoZSBkYXRhIHNpemUK
+Pj4gc2VwYXJhdGVseSBmcm9tIHRoZSBkYXRhIGl0c2VsZiwgaWYgcmVwb3J0aW5nIHNpemUgZXhw
+bGljaXRseSBhdCBhbGwuCj4+Cj4+IFNpemVzIGNhbiBiZSBwYXJ0IG9mIHRoZSBkYXRhIHN0cnVj
+dHVyZSBpdHNlbGYgKGxpa2UgaW4gZGVzY3JpcHRvcnMpIGJ1dAo+PiBvbiB0aGUgYXBwbGljYXRp
+b24gbGF5ZXIgKGxpa2UgaGVyZSkgaXQncyBjb252ZW5pZW50IHRvIGp1c3QgZGVjaWRlIGEKPj4g
+c2Vuc2libGUgZml4ZWQgbWF4aW11bSBzaXplIGFuZCBsZXQgdGhlIGhvc3QgdHJ5IHRvIGFsd2F5
+cyB0cmFuc2Zlcgo+PiB0aGF0IHNpemUgd2hpbGUgYWNjZXB0aW5nIHNob3J0IHRyYW5zZmVycy4g
+VW5saWtlIHJlYWQoKSBhIHNob3J0Cj4+IHRyYW5zZmVyIG9ubHkgZXZlciBoYXBwZW5zIGlmIGFu
+ZCB3aGVuIGEgZGV2aWNlIGludGVuZHMgZm9yIGl0LAo+PiBzbyB0aGF0J3MgbGlrZSBhbiBpbi1i
+YW5kIGhhbmRzaGFrZSBidXQgImZvciBmcmVlIi4KPj4KPj4gT2gsIGFuZCBkb2VzL3Nob3VsZCB0
+aGUgR1VEIEVESUQgY2hhbmdlIGlmIHRoZSBwYW5lbCAiYmVoaW5kIiB0aGUgZGV2aWNlCj4+IENQ
+VSBvbiBhIGhvdHBsdWdnYWJsZSBjb25uZWN0b3IgY2hhbmdlcz8gSXQgd291bGRuJ3QgYmUgZ3Jl
+YXQgdG8gcmVxdWlyZQo+PiBHVUQgZHJpdmVyIHJlcHJvYmUgaW4gdGhhdCBjYXNlLiBCdXQgbWF5
+YmUgRFJNIHJlcXVpcmVzIHRoYXQgYW55d2F5Pwo+Pgo+IAo+IElmIGd1ZF9jb25uZWN0b3Jfc3Rh
+dHVzX3JlcS5zdGF0dXMgaGFzIGNoYW5nZWQgc2luY2UgbGFzdCBwb2xsIG9yCj4gR1VEX0NPTk5F
+Q1RPUl9TVEFUVVNfQ0hBTkdFRCBpcyBzZXQsIERSTSB3aWxsIG5vdGlmeSB1c2Vyc3BhY2Ugd2hp
+Y2gKPiB3aWxsIHJlcHJvYmUgdGhlIGNvbm5lY3Rvci4gY29ubmVjdG9yLT5lcG9jaF9jb3VudGVy
+KysgaW4KPiBndWRfY29ubmVjdG9yX3N0YXR1c19yZXF1ZXN0KCkgdHJpZ2dlcnMgdGhhdC4KPiAK
+Pj4KPj4gSSdtIHNvcnJ5IEkgZGlkbid0IHNwb3QgdGhpcyBwYXR0ZXJuIGVhcmxpZXIsIEkgdW5k
+ZXJzdGFuZCB0aGF0IGl0J3MgbGF0ZQo+PiBpbiB0aGUgZ2FtZSBhbmQgdGhhdCBjaGFuZ2luZyBp
+dCBuZWVkcyB0aGUgZ2FkZ2V0IHRvIGNoYW5nZSBhcyB3ZWxsLCBidXQgSQo+PiBkbyByZWFsbHkg
+dGhpbmsgdGhpcyBpcyBhIHdvcnRod2hpbGUgY2hhbmdlIHRocm91Z2hvdXQgdGhlIHByb3RvY29s
+Lgo+Pgo+IAo+IEkgc2VlIHdoYXQgeW91IG1lYW4sIEknbGwgZ2l2ZSBpdCBhIHRyeS4KPiAKClBl
+dGVyLCBwbGVhc2UgaGF2ZSBhIGxvb2sgYXQgdGhpcyBkaWZmIGFuZCBzZWUgaWYgSSdtIG9uIHRo
+ZSByaWdodCB0cmFjawpoZXJlOiBodHRwczovL2dpc3QuZ2l0aHViLmNvbS9ub3Ryby9hNDNhOTNh
+M2FhMGNjNzVkOTMwODkwYjdiMjU0ZmMwYQoKSSB3YW50IHRvIGF2b2lkIHdhaXN0aW5nIGEgcGF0
+Y2ggdmVyc2lvbiBjeWNsZSBieSBiZWluZyB3YXkgb2ZmLgoKTm9yYWxmLgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
