@@ -1,58 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F5E325D8B
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 07:31:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDDB3325D99
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 07:38:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19E9B6E8F1;
-	Fri, 26 Feb 2021 06:31:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A1A46E8F2;
+	Fri, 26 Feb 2021 06:38:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-2.mailgun.net (m42-2.mailgun.net [69.72.42.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 658F66E8F1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 06:31:34 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1614321096; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=hdl2zflkyzgnrN66H07L0bWdahCjua7YjvzKEgluVvI=;
- b=JMD525vqpptKZcGSxs+UIX8cAx0XVXBqD55AjGWJzv8Uzc8Z987NXV1r7y5lGQn5MbfyrxRW
- e6bsexNFU6W9lLvddj9/+XnyHQLhyRBNw9ZiFOdtOVDU6NHAHwygi7LSQC946XHgVnKdsLBb
- hWc7mNojKh69hB7O4fAWl4rfo2s=
-X-Mailgun-Sending-Ip: 69.72.42.2
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 603895c26bec4e44c6a40381 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 26 Feb 2021 06:31:30
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id C33DCC43462; Fri, 26 Feb 2021 06:31:29 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: kgunda)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id B790FC433ED;
- Fri, 26 Feb 2021 06:31:28 +0000 (UTC)
+X-Greylist: delayed 102010 seconds by postgrey-1.36 at gabe;
+ Fri, 26 Feb 2021 06:37:58 UTC
+Received: from regular1.263xmail.com (regular1.263xmail.com [211.150.70.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B18C86E8F2
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 06:37:58 +0000 (UTC)
+Received: from localhost (unknown [192.168.167.235])
+ by regular1.263xmail.com (Postfix) with ESMTP id 95F8F777;
+ Fri, 26 Feb 2021 14:37:54 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-ANTISPAM-LEVEL: 2
+X-SKE-CHECKED: 1
+X-ABS-CHECKED: 1
+Received: from [172.16.12.76] (unknown [58.22.7.114])
+ by smtp.263.net (postfix) whith ESMTP id
+ P19731T140185115293440S1614321473188104_; 
+ Fri, 26 Feb 2021 14:37:53 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <5a105a916e8deb098b3f54bc85a97a5b>
+X-RL-SENDER: hjc@rock-chips.com
+X-SENDER: hjc@rock-chips.com
+X-LOGIN-NAME: hjc@rock-chips.com
+X-FST-TO: hjc@rock-chips.com
+X-SENDER-IP: 58.22.7.114
+X-ATTACHMENT-NUM: 0
+X-System-Flag: 0
+Subject: Re: [PATCH] drm/rockchip: Require the YTR modifier for AFBC
+To: Daniel Stone <daniel@fooishbar.org>
+References: <20200811202631.3603-1-alyssa.rosenzweig@collabora.com>
+ <CAPj87rMS5zxY6sK4N8zVZF9MHThmURj6kuso=G5+MQDVmNjC4Q@mail.gmail.com>
+ <d17ea299-b21e-b298-9098-f47b780be106@rock-chips.com>
+ <CAPj87rMBt9bJhPcyX--xa_wMse9JCttHCfz1PkFXFwHcRheuJg@mail.gmail.com>
+From: Huang Jiachai <hjc@rock-chips.com>
+Message-ID: <a7db35ea-b4c8-caf1-dfdf-0195a5d6590e@rock-chips.com>
+Date: Fri, 26 Feb 2021 14:37:53 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Date: Fri, 26 Feb 2021 12:01:28 +0530
-From: kgunda@codeaurora.org
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH V1 1/2] backlight: qcom-wled: Fix FSC update issue for
- WLED5
-In-Reply-To: <20210224111505.37t5aq25iszg23iv@maple.lan>
-References: <1614138648-2963-1-git-send-email-kgunda@codeaurora.org>
- <1614138648-2963-2-git-send-email-kgunda@codeaurora.org>
- <20210224111505.37t5aq25iszg23iv@maple.lan>
-Message-ID: <6ab55df25e193718c143964dda085d8c@codeaurora.org>
-X-Sender: kgunda@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+In-Reply-To: <CAPj87rMBt9bJhPcyX--xa_wMse9JCttHCfz1PkFXFwHcRheuJg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,126 +61,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
- Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
- linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org,
- lee.jones@linaro.org, linux-leds@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ linux-rockchip <linux-rockchip@lists.infradead.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ =?UTF-8?B?6Zer5a2d5Yab?= <andy.yan@rock-chips.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-02-24 16:45, Daniel Thompson wrote:
-> On Wed, Feb 24, 2021 at 09:20:47AM +0530, Kiran Gunda wrote:
->> Currently, for WLED5, after FSC register update MOD_SYNC_BIT
->> is toggled instead of SYNC_BIT. MOD_SYNC_BIT has to be toggled
->> after the brightness update and SYNC_BIT has to be toggled after
->> FSC update for WLED5. Fix it.
-> 
-> Code looks fine but the description is a difficult to read (which makes
-> mining the history difficult).
-> 
-> Basically the descriptions here are very hard to read without the
-> context in PATCH 0/2. Since PATCH 0/2 won't enter the version history
-> that means these descriptions need to integrate some of the text from
-> what is currently PATCH 0/2.
-> 
-> I would expect this to be more like. It is basically joining together
-> text from PATCH 0 and PATCH 1 (I also switched to plural form for SYNC
-> bits... the code in the driver has mask generation based on the number
-> of strings, is that right?):
-Sorry for the trouble. Yes, you are correct. The mask generation is
-based on the number of strings defined in the device tree and only those
-strings are enabled. However, there is no issue if the SYNC bits of all
-the strings are cleared/set. The SYNC takes place only for enabled 
-strings.
-
-> ~~~
-> Currently, for WLED5, the FSC (Full scale current) setting is not
-> updated properly due to driver toggling the wrong register after an FSC
-> update.
-> 
-> On WLED5 we should only toggle the MOD_SYNC bit after a brightness
-> update. For an FSC update we need to toggle the SYNC bits instead.
-> 
-> Fix it by adopting the common wled3_sync_toggle() for WLED5 and
-> introducing new code to the brightness update path to
-> compensate.
-> ~~~
-> I will update the Documentation/patch description clearly
-as suggested.
-> 
-> Daniel.
-> 
-> 
-> 
->> 
->> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
->> ---
->>  drivers/video/backlight/qcom-wled.c | 25 +++++++++++++++++++------
->>  1 file changed, 19 insertions(+), 6 deletions(-)
->> 
->> diff --git a/drivers/video/backlight/qcom-wled.c 
->> b/drivers/video/backlight/qcom-wled.c
->> index 3bc7800..aef52b9 100644
->> --- a/drivers/video/backlight/qcom-wled.c
->> +++ b/drivers/video/backlight/qcom-wled.c
->> @@ -348,7 +348,7 @@ static int wled3_sync_toggle(struct wled *wled)
->>  	return rc;
->>  }
->> 
->> -static int wled5_sync_toggle(struct wled *wled)
->> +static int wled5_mod_sync_toggle(struct wled *wled)
->>  {
->>  	int rc;
->>  	u8 val;
->> @@ -445,10 +445,23 @@ static int wled_update_status(struct 
->> backlight_device *bl)
->>  			goto unlock_mutex;
->>  		}
->> 
->> -		rc = wled->wled_sync_toggle(wled);
->> -		if (rc < 0) {
->> -			dev_err(wled->dev, "wled sync failed rc:%d\n", rc);
->> -			goto unlock_mutex;
->> +		if (wled->version < 5) {
->> +			rc = wled->wled_sync_toggle(wled);
->> +			if (rc < 0) {
->> +				dev_err(wled->dev, "wled sync failed rc:%d\n", rc);
->> +				goto unlock_mutex;
->> +			}
->> +		} else {
->> +			/*
->> +			 * For WLED5 toggling the MOD_SYNC_BIT updates the
->> +			 * brightness
->> +			 */
->> +			rc = wled5_mod_sync_toggle(wled);
->> +			if (rc < 0) {
->> +				dev_err(wled->dev, "wled mod sync failed rc:%d\n",
->> +					rc);
->> +				goto unlock_mutex;
->> +			}
->>  		}
->>  	}
->> 
->> @@ -1459,7 +1472,7 @@ static int wled_configure(struct wled *wled)
->>  		size = ARRAY_SIZE(wled5_opts);
->>  		*cfg = wled5_config_defaults;
->>  		wled->wled_set_brightness = wled5_set_brightness;
->> -		wled->wled_sync_toggle = wled5_sync_toggle;
->> +		wled->wled_sync_toggle = wled3_sync_toggle;
->>  		wled->wled_cabc_config = wled5_cabc_config;
->>  		wled->wled_ovp_delay = wled5_ovp_delay;
->>  		wled->wled_auto_detection_required =
->> --
->> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
->> Forum,
->>  a Linux Foundation Collaborative Project
->> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgRGFuaWVsLAoK5ZyoIDIwMjEvMi8yNSAyMDo0NiwgRGFuaWVsIFN0b25lIOWGmemBkzoKPiBI
+aSBTYW5keSwKPgo+IE9uIFRodSwgMjUgRmViIDIwMjEgYXQgMDI6MTcsIEh1YW5nIEppYWNoYWkg
+PGhqY0Byb2NrLWNoaXBzLmNvbT4gd3JvdGU6Cj4+ICAgICAgIFJLMzM5OSBhbmQgcHgzMCBjYW4g
+c3VwcG9ydCBZVFIgYWZiYyBmb3JtYXRbUkdCIG9ubHldLCB0aGVyZSBpcyBhbgo+PiBoaWRkZW4g
+Y29udHJvbCBiaXQgdG8gY29udHJvbCB0aGlzLgo+IEdyZWF0LCB0aGFua3MgZm9yIHByb3ZpZGlu
+ZyB0aGlzIGluZm9ybWF0aW9uIQo+Cj4+IEhpIEFseXNzYSwKPj4KPj4gICAgICAgQ2FuIHlvdSBh
+ZGQgdGhlIGZvbGxvd2luZyBwYXRjaCB0byB0ZXN0IG9uIHlvdXIgcGxhdGZvcm0/IHRoYW5rcy4K
+Pj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1f
+dm9wLmMKPj4gYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5jCj4+
+IGluZGV4IDk5YmRiNWEyYTE4NS4uMDc4MGFkNDYyMzBhIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wLmMKPj4gQEAgLTEwNSw3ICsxMDUsNyBAQAo+
+PiAgICAjZGVmaW5lIEFGQkNfRk1UX1U4VThVOFU4ICAgICAgMHg1Cj4+ICAgICNkZWZpbmUgQUZC
+Q19GTVRfVThVOFU4ICAgICAgICAgICAgICAgIDB4NAo+Pgo+PiAtI2RlZmluZSBBRkJDX1RJTEVf
+MTZ4MTYgICAgICAgICAgICAgICAgQklUKDQpCj4+ICsjZGVmaW5lIEFGQkNfRk1UX1lUUiAgICAg
+ICAgICAgQklUKDQpCj4+Cj4+ICAgIC8qCj4+ICAgICAqIFRoZSBjb2VmZmljaWVudHMgb2YgdGhl
+IGZvbGxvd2luZyBtYXRyaXggYXJlIGFsbCBmaXhlZCBwb2ludHMuCj4+IEBAIC05NTIsNyArOTUy
+LDkgQEAgc3RhdGljIHZvaWQgdm9wX3BsYW5lX2F0b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFu
+ZQo+PiAqcGxhbmUsCj4+ICAgICAgICAgICBpZiAocm9ja2NoaXBfYWZiYyhmYi0+bW9kaWZpZXIp
+KSB7Cj4+ICAgICAgICAgICAgICAgICAgIGludCBhZmJjX2Zvcm1hdCA9Cj4+IHZvcF9jb252ZXJ0
+X2FmYmNfZm9ybWF0KGZiLT5mb3JtYXQtPmZvcm1hdCk7Cj4+Cj4+IC0gICAgICAgICAgICAgICBW
+T1BfQUZCQ19TRVQodm9wLCBmb3JtYXQsIGFmYmNfZm9ybWF0IHwgQUZCQ19USUxFXzE2eDE2KTsK
+Pj4gKyAgICAgICAgICAgICAgIGlmIChmYi0+bW9kaWZpZXIgJiBBRkJDX0ZPUk1BVF9NT0RfWVRS
+KQo+PiArICAgICAgICAgICAgICAgICAgICAgICBhZmJjX2Zvcm1hdCB8PSBBRkJDX0ZNVF9ZVFI7
+Cj4+ICsgICAgICAgICAgICAgICBWT1BfQUZCQ19TRVQodm9wLCBmb3JtYXQsIGFmYmNfZm9ybWF0
+KTsKPj4gICAgICAgICAgICAgICAgICAgVk9QX0FGQkNfU0VUKHZvcCwgaHJlZ19ibG9ja19zcGxp
+dCwgMCk7Cj4+ICAgICAgICAgICAgICAgICAgIFZPUF9BRkJDX1NFVCh2b3AsIHdpbl9zZWwsIFZP
+UF9XSU5fVE9fSU5ERVgodm9wX3dpbikpOwo+PiAgICAgICAgICAgICAgICAgICBWT1BfQUZCQ19T
+RVQodm9wLCBoZHJfcHRyLCBkbWFfYWRkcik7Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5oCj4+IGIvZHJpdmVycy9ncHUvZHJtL3JvY2tj
+aGlwL3JvY2tjaGlwX2RybV92b3AuaAo+PiBpbmRleCA0YTIwOTljYjU4MmUuLjQ4ZTEzMWI4OGMy
+MyAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92
+b3AuaAo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5o
+Cj4+IEBAIC0yMCw2ICsyMCw3IEBACj4+ICAgICNkZWZpbmUgUk9DS0NISVBfQUZCQ19NT0QgXAo+
+PiAgICAgICAgICAgRFJNX0ZPUk1BVF9NT0RfQVJNX0FGQkMoIFwKPj4gICAgICAgICAgICAgICAg
+ICAgQUZCQ19GT1JNQVRfTU9EX0JMT0NLX1NJWkVfMTZ4MTYgfCBBRkJDX0ZPUk1BVF9NT0RfU1BB
+UlNFIFwKPj4gKyAgICAgICAgICAgICAgICAgICAgICAgfCBBRkJDX0ZPUk1BVF9NT0RfWVRSIFwK
+Pj4gICAgICAgICAgICkKPiBMb29rcyBnb29kIC0gdGhpcyB3aWxsIGhlbHAgdXMgY29uZmlybS4g
+SSB0aGluayB0aGUgY29tcGxldGUgcGF0Y2gKPiB0aG91Z2ggd291bGQgYWR2ZXJ0aXNlIGJvdGgg
+WVRSIGFuZCBub24tWVRSIG1vZGlmaWVyczogcGVyIEFybSdzCj4gcmVjb21tZW5kYXRpb24sIGl0
+IHNvdW5kcyBsaWtlIFtBWF1SR0I4ODg4IGZvcm1hdHMgc2hvdWxkIG9ubHkKPiBhZHZlcnRpc2Ug
+dGhlIG5vbi1ZVFIgdmFyaWFudCwgYW5kIFtBWF1CR1I4ODg4IHNob3VsZCBhZHZlcnRpc2UgYm90
+aAo+IHZhcmlhbnRzLiBEb2VzIHRoYXQgbWFrZSBzZW5zZT8KeWVzLCBSR0IgZm9ybWF0IGhhdmUg
+WVRSIGFuZCBub24tWVRSIHZhcmlhbnQsIFlVViBmb3JtYXQgb25seSBoYXZlIApub24tWVRSIHZh
+cmlhbnQuCj4gQ2hlZXJzLAo+IERhbmllbAo+Cj4KPgoKCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
