@@ -1,53 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3078F326884
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 21:29:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33761326887
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 21:33:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22F346E091;
-	Fri, 26 Feb 2021 20:29:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63AE86E0D4;
+	Fri, 26 Feb 2021 20:33:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com
- [IPv6:2607:f8b0:4864:20::74a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 312F76E3D0
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 19:48:27 +0000 (UTC)
-Received: by mail-qk1-x74a.google.com with SMTP id x21so8308028qkm.19
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 11:48:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=sender:date:message-id:mime-version:subject:from:cc;
- bh=TnNtS4KbVDrVJO3kPWuj8JRX/g6SzfnQp8/5tdqnzIk=;
- b=wEhB2yQiHllYIIW7+GztsuhLxSvJs4RXAgDaE6kAAMN9/jgGbiyv1XCNsxaWP9TAek
- VsdTRaoCccnGUS8Zj8xY2lzj9KwNu7luFTHT5shAqmdz3W9W9L27ViD8inNDMVlSuvo1
- HHgQWCYVc0hxtdByNqzw5srgMd0W5yRX65760+HwFwZFpP5ZyjUAvhJvFp74+AhQuBEm
- vdOyFeNBOPkyf1gufErHhGuF5xgEXE0mIea595hzcfboqzQQhEPb0b0tsyZ6F+e0DT7O
- RK2YUKtKHhsmOQsQlOdfSLAD5Dsp48PjD3BgqwaTFOwU6WePF1clAokkjNAoDhgs8vVS
- E1mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
- :cc; bh=TnNtS4KbVDrVJO3kPWuj8JRX/g6SzfnQp8/5tdqnzIk=;
- b=H13KIsygfUTdukJ5OrrgRYG2d7FUQ+TlLHd/luD6T9u0Ds/llIruzE+0KIoT0KGp+W
- Vkk0KtQtl8ohthWZ9jDCIh9YUOoW1wne5RpwpB0FASfS772rFup4pSgECDkQDo+FJtUa
- mnoCf8DTS4Ta8xrpRP/QfhgYGlxpGQLlOGLdpmXvMLBE7XLg3b3U9jHf0MnL30c9aaN+
- SgMcvC+GrZpQhBZVlIiM5bvOkA7xNHbZcdmMv3OJd78EpfhcxL8jvZDXFkE/wwvZES56
- NuTFr1PqgGEF77jovJ368CUEC86y8B9/cDjjob3eaPw8wpOyK5qKYtrkh7io+31rQWlT
- k9Ew==
-X-Gm-Message-State: AOAM532xMhKtSyjRy8S3fmJJJdYArcxnHHJbOxEl3sHZ0tW4Uy29lfwB
- xvG+3cfaDNO00YCdo7h9UgR8DciXNJrewXiz
-X-Google-Smtp-Source: ABdhPJxsnS5602xJJsh3HowqU2B/YiLGHyRP1FTTiior7VcjohO9mFIARa8RDSofk/e2vVrAYJXItW/4QxB/pNjE
-X-Received: from markyacoub.nyc.corp.google.com
- ([2620:0:1003:513:24ad:644f:832c:b762])
- (user=markyacoub job=sendgmr) by 2002:a0c:b8a3:: with SMTP id
- y35mr4101268qvf.23.1614368906268; Fri, 26 Feb 2021 11:48:26 -0800 (PST)
-Date: Fri, 26 Feb 2021 14:48:10 -0500
-Message-Id: <20210226194810.3419873-1-markyacoub@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
-Subject: [PATCH] drm/amdgpu: Verify bo size can fit framebuffer size
-From: Mark Yacoub <markyacoub@google.com>
-X-Mailman-Approved-At: Fri, 26 Feb 2021 20:29:30 +0000
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2296E0D4
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 20:33:16 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id 29B5B1C0B8A; Fri, 26 Feb 2021 21:33:13 +0100 (CET)
+Date: Fri, 26 Feb 2021 21:33:12 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v5] drm: Use USB controller's DMA mask when importing
+ dmabufs
+Message-ID: <20210226203312.GA3379@duo.ucw.cz>
+References: <20210226092648.4584-1-tzimmermann@suse.de>
+ <YDkBuu0AhZy+C/Y/@phenom.ffwll.local>
+MIME-Version: 1.0
+In-Reply-To: <YDkBuu0AhZy+C/Y/@phenom.ffwll.local>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,96 +37,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Sean Paul <seanpaul@chromium.org>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Mark Yacoub <markyacoub@google.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, gregkh@linuxfoundation.org,
+ Christoph Hellwig <hch@lst.de>, hdegoede@redhat.com, stern@rowland.harvard.edu,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org,
+ sean@poorly.run, christian.koenig@amd.com
+Content-Type: multipart/mixed; boundary="===============1161214712=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When creating a new framebuffer, verify that the bo size associated with
-it can handle the fb size.
-drm_gem_fb_init_with_funcs implements this check by calculating the
-minimum expected size of each plane. amdgpu now uses this function to
-initialize its fb as it performs the required checks.
 
-The bug was caught using igt-gpu-tools test: kms_addfb_basic.too-high
-and kms_addfb_basic.bo-too-small
+--===============1161214712==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="FCuugMFkClbJLl1L"
+Content-Disposition: inline
 
-Suggested-by: Sean Paul <seanpaul@chromium.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Mark Yacoub <markyacoub@google.com>
 
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 8 +++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c      | 3 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h    | 1 +
- 3 files changed, 8 insertions(+), 4 deletions(-)
+--FCuugMFkClbJLl1L
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index 48cb33e5b3826..61684d543b8ef 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -872,13 +872,14 @@ static int amdgpu_display_get_fb_info(const struct amdgpu_framebuffer *amdgpu_fb
+Hi!
 
- int amdgpu_display_framebuffer_init(struct drm_device *dev,
- 				    struct amdgpu_framebuffer *rfb,
-+				    struct drm_file *file,
- 				    const struct drm_mode_fb_cmd2 *mode_cmd,
- 				    struct drm_gem_object *obj)
- {
- 	int ret, i;
- 	rfb->base.obj[0] = obj;
--	drm_helper_mode_fill_fb_struct(dev, &rfb->base, mode_cmd);
--	ret = drm_framebuffer_init(dev, &rfb->base, &amdgpu_fb_funcs);
-+	ret = drm_gem_fb_init_with_funcs(dev, &rfb->base, file, mode_cmd,
-+					 &amdgpu_fb_funcs);
- 	if (ret)
- 		goto fail;
 
-@@ -953,7 +954,8 @@ amdgpu_display_user_framebuffer_create(struct drm_device *dev,
- 		return ERR_PTR(-ENOMEM);
- 	}
+> > +	struct device *dmadev;
+> > +	struct drm_gem_object *obj;
+> > +
+> > +	if (!dev_is_usb(dev->dev))
+> > +		return ERR_PTR(-ENODEV);
+> > +
+> > +	dmadev =3D usb_intf_get_dma_device(to_usb_interface(dev->dev));
+> > +	if (drm_WARN_ONCE(dev, !dmadev, "buffer sharing not supported"))
+> > +		return ERR_PTR(-ENODEV);
+> > +
+> > +	obj =3D drm_gem_prime_import_dev(dev, dma_buf, dmadev);
+> > +
+> > +	put_device(dmadev);
+>=20
+> Just realized there's another can of worms here because dma_buf_attach
+> does not refcount the struct device. But the dma_buf can easily outlive
+> the underlying device, at least right now.
+>=20
+> We should probably require that devices get rid of all their mappings in
+> their hotunplug code.
+>=20
+> Ofc now that we pick some random other device struct this gets kinda
+> worse.
+>=20
+> Anyway, also just another pre-existing condition that we should worry
+> about here. It's all still a very bad hack.
 
--	ret = amdgpu_display_framebuffer_init(dev, amdgpu_fb, mode_cmd, obj);
-+	ret = amdgpu_display_framebuffer_init(dev, amdgpu_fb, file_priv,
-+					      mode_cmd, obj);
- 	if (ret) {
- 		kfree(amdgpu_fb);
- 		drm_gem_object_put(obj);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c
-index 0bf7d36c6686d..2b9c9a621c437 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c
-@@ -233,7 +233,8 @@ static int amdgpufb_create(struct drm_fb_helper *helper,
- 	}
+This is actually regression fix if I understand this correctly. Bug
+means udl is unusable, so that's kind of bad.
 
- 	ret = amdgpu_display_framebuffer_init(adev_to_drm(adev), &rfbdev->rfb,
--					      &mode_cmd, gobj);
-+					      helper->client.file, &mode_cmd,
-+					      gobj);
- 	if (ret) {
- 		DRM_ERROR("failed to initialize framebuffer %d\n", ret);
- 		goto out;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-index 319cb19e1b99f..997b93674955e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-@@ -604,6 +604,7 @@ int amdgpu_display_get_crtc_scanoutpos(struct drm_device *dev,
+Should we revert the original commit causing this while this get
+sorted out?
 
- int amdgpu_display_framebuffer_init(struct drm_device *dev,
- 				    struct amdgpu_framebuffer *rfb,
-+				    struct drm_file *file,
- 				    const struct drm_mode_fb_cmd2 *mode_cmd,
- 				    struct drm_gem_object *obj);
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
 
---
-2.30.1.766.gb4fecdf3b7-goog
+--FCuugMFkClbJLl1L
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYDlbCAAKCRAw5/Bqldv6
+8j4pAJ4pMO1Nkx0d7xHie+0D2+0Scx6kHgCeOO4KKjPOZuK7ZRg1nTfB7wz7+Rc=
+=n8h1
+-----END PGP SIGNATURE-----
+
+--FCuugMFkClbJLl1L--
+
+--===============1161214712==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1161214712==--
