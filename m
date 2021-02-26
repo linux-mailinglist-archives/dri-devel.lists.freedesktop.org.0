@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B85326888
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 21:34:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF7132688A
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 21:36:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2EDB6E117;
-	Fri, 26 Feb 2021 20:34:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 291B66E2D1;
+	Fri, 26 Feb 2021 20:36:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com
- [IPv6:2607:f8b0:4864:20::f49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2D956E117
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 20:34:14 +0000 (UTC)
-Received: by mail-qv1-xf49.google.com with SMTP id k4so7730511qvf.8
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 12:34:14 -0800 (PST)
+Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com
+ [IPv6:2607:f8b0:4864:20::f4a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAEA16E2D1
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 20:36:44 +0000 (UTC)
+Received: by mail-qv1-xf4a.google.com with SMTP id q104so7714036qvq.20
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 12:36:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=sender:date:message-id:mime-version:subject:from:to:cc;
- bh=cbkRU90b5SgpivSa1jA0/1Ze/TRby2Uo+UMPBFBsn+Q=;
- b=vO5YUurN5t/pIQPQwysm7PJlRJXnOZbrg8yNFLKTGN+EsuK3fQSkIJAqO2mzsxzXa3
- yVKOfLylFcUDhL8H7Pr+HTBwTGLJS1xcTvn5EgD3/MTN/nOXpbJoO8RTS1z9JatIluHa
- IT79VtUsV8sr77JOvyRiewpDICRi8rxFDDIttWL3e697D5W9nz0MYQfzSgh8s7VCgL+X
- KnDGRmrnvAVthnQ6yXurxBOVwwJmSBTqjIUHXV+aZRPkrBINbmAuTfAnDrqHwoRkjRpm
- OwGk1Z03VZkXOwG0j5M8MuFLFVh0on/EAL6ff76O2s9E6KDll5FWw+0UKKpf35HnOvjc
- 63tQ==
+ bh=0pEO+fF9soyTteAWVXFhli3RBhZZDM2irVHu5JgPPOg=;
+ b=hdQ+eW59qvqXdKkf0muOZSGJF16Ccy9fy8cLkTHPj+4ogVOC7WFNzPtkD2U4ll4UGU
+ tGTW3JbemVsgY+wCAfg9Qyv1g3sH8nOVv1YHqy1Epo92Xn+EKIUvjorIW+6vj1UiVDqT
+ GwXW5CRqeBiEhUqoG2pWcqodbj+gs6j5vwxvvb4ec8n9v5SaxUxUDoSP5UNigVLPBt+A
+ Bjb45PsKiIbA81haWHvkUGad1RtPByiIzrHhfm/+IDNEfn4Ol0LqJsJ6h6q2ZUOHtK4W
+ rv+49+17WOtzKkk2+A7gugxW16tVLJ+s6x0bJ8FY5ufhzkLf5uCFmUbirV1vYaWoKnfw
+ CFTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
  :to:cc;
- bh=cbkRU90b5SgpivSa1jA0/1Ze/TRby2Uo+UMPBFBsn+Q=;
- b=O1Mv6z/+H0UXbGmfV0j/rHsMFMESz613xOjrfTnZtsfG4tYACubm2HnfMWL0IRVDm/
- J2veE7QSs+BYIiBF+2e+lRmkHZGsRlNDsSyHf6B47RRFIhoo7Wox8ZWJy5/dvsz8Pj4j
- VHiNTj+nYeydCVBeq+ywnHyhxBcaaXMrPY+LLa5XuXjgBK4fihq8JW8YIWP1jWbFpw8h
- IwIlBdqOb+xWwLBjVKnLXOf2QVpAJ0PROvgn1YO5yTjjfP7EcVtpCAvlzEXvxGTJ2azu
- GaB3E22X9pXCOQ3d/oCQDxcF70R8EvNzrs3k2BjvB7Ar4DZvUigG4+ec+Cxe0sSPVQL5
- MwCA==
-X-Gm-Message-State: AOAM532RVPZtWj6ji2yKwRk49mrhBIEJcPRIw7X2Gxts9tnI25ZRzS+3
- hpcAlqpKp9omS2xp1o8JFbSyq7MlTxtMYcb3
-X-Google-Smtp-Source: ABdhPJynoO04pVb4k8WipKPiNtd9o43Go8Sw0kz7Tkzlhl6nN+4hgMo7yhAwZdLA0cMmCsBs1XmwcERzXSbYB/K9
+ bh=0pEO+fF9soyTteAWVXFhli3RBhZZDM2irVHu5JgPPOg=;
+ b=J1mcaHPuF8f79V40MyfHKxMuWCofVt+tiw0pqMCkCytFIiPPrIzCiYqXNgaa7Oi1hv
+ F6JEsiWMiL0HFL8VP/0XLWkeKrDdELv5WXEvABQg7eTcoZxCnq+471p8Ij5850zxjZe6
+ 3MxvFcYtPnA7xOAwHrEhpJLStAWiJc446tyTYvTZNzc+P0FAojwwvB2GZjtJz3pjRsQB
+ Zzxx1KMdk7SfAWwCahT0PuyvrSFJADVoMwasM7gCeMpEn0VbmEFWO+nkUoTRSrT6d/sI
+ AtIJDgLzKg2lzLGXkmedQ48KmmskKznGn/ylTBUkFFPQ90fToI28EFJJ6/ouyWP8+58w
+ hHXg==
+X-Gm-Message-State: AOAM531Jurttk9IJugFp8/E6Pgy4A+2mpr8+fuci/oM2AzmHbrFEF5rH
+ wEcvsmiHjmuOAk29mI5PNEL9Og2bXCUyjK1n
+X-Google-Smtp-Source: ABdhPJz7CW53c/Kk9zHUgwHcO+33LedMqKffhhP/vsE96/7gz/7VxtQDl25oxlwI5qFWJgAeU4YEZOVlLVcs7P76
 X-Received: from markyacoub.nyc.corp.google.com
  ([2620:0:1003:513:24ad:644f:832c:b762])
- (user=markyacoub job=sendgmr) by 2002:a0c:f946:: with SMTP id
- i6mr4248802qvo.40.1614371653926; Fri, 26 Feb 2021 12:34:13 -0800 (PST)
-Date: Fri, 26 Feb 2021 15:34:00 -0500
-Message-Id: <20210226203400.3424408-1-markyacoub@google.com>
+ (user=markyacoub job=sendgmr) by 2002:ad4:58d2:: with SMTP id
+ dh18mr4221967qvb.1.1614371803945; Fri, 26 Feb 2021 12:36:43 -0800 (PST)
+Date: Fri, 26 Feb 2021 15:36:40 -0500
+Message-Id: <20210226203640.3424790-1-markyacoub@google.com>
 Mime-Version: 1.0
 X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
 Subject: [PATCH] [PATCH] drm/amdgpu: Verify bo size can fit framebuffer size
@@ -81,8 +81,7 @@ Suggested-by: Sean Paul <seanpaul@chromium.org>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: amd-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Mark Yacoub <markyacoub@google.com>
-Change-Id: I9de3e21657510781b97f06afdc5db06d79f6f0f4
+Signed-off-by: Mark Yacoub <markyacoub@google.com
 ---
  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 8 +++++---
  drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c      | 3 ++-
