@@ -1,29 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700803265C1
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 17:43:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 884013265F2
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 17:57:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB80A6EE15;
-	Fri, 26 Feb 2021 16:43:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF9696E0F5;
+	Fri, 26 Feb 2021 16:57:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
- by gabe.freedesktop.org (Postfix) with SMTP id 518F36EE20
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 16:43:44 +0000 (UTC)
-Received: (qmail 1394367 invoked by uid 1000); 26 Feb 2021 11:43:42 -0500
-Date: Fri, 26 Feb 2021 11:43:42 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v5] drm: Use USB controller's DMA mask when importing
- dmabufs
-Message-ID: <20210226164342.GC1392547@rowland.harvard.edu>
-References: <20210226092648.4584-1-tzimmermann@suse.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A9006E0F5
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 16:57:29 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1AD7F64F0D;
+ Fri, 26 Feb 2021 16:57:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1614358647;
+ bh=D6Ll0Gy5CJCzeg9qJEhC+n1ib3HpyruXYBbUWhZU4Yc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Qy2sdYiF2mQY/XJoT3V8jzCdI2nQKbFWesmeSF5YoCtnXAeYIGK3nBTi/Qth7JPjJ
+ dyYlIlww6Cn12G9EFHYCWff/a8IFAiJu8v48ad1QyhrwchAFioUDG00vU0nrrzjkw0
+ pCuYNoTJXUNUO3EQZhqQBxV6xhIZMAhrmC/xi3YRxMqy90CUwuxTh5f/BJ37OTYLoZ
+ ZpIy5SeQ0oBMZfuIIqiAIeJlJbs68POHA1hrruKcRcTbxjGsLl3+X/fRyMN7J3dCsY
+ gMySPfclEcYDkvWkV68dj4CNBmS08x7RZ0dQm+fRgLut/eRVTg8iL0o/6s02EznXyT
+ XY0dxlbF8qJBw==
+Date: Fri, 26 Feb 2021 17:57:23 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v3 6/7] drm: sun4i: dsi: Use drm_panel_bridge, connector
+ API
+Message-ID: <20210226165723.szblbiswz5vgapq2@hendrix>
+References: <20210214194102.126146-1-jagan@amarulasolutions.com>
+ <20210214194102.126146-7-jagan@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210226092648.4584-1-tzimmermann@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210214194102.126146-7-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,117 +47,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pavel Machek <pavel@ucw.cz>, airlied@linux.ie, gregkh@linuxfoundation.org,
- Christoph Hellwig <hch@lst.de>, hdegoede@redhat.com,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- stable@vger.kernel.org, sean@poorly.run, christian.koenig@amd.com
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-amarula@amarulasolutions.com, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 26, 2021 at 10:26:47AM +0100, Thomas Zimmermann wrote:
-> USB devices cannot perform DMA and hence have no dma_mask set in their
-> device structure. Therefore importing dmabuf into a USB-based driver
-> fails, which breaks joining and mirroring of display in X11.
-> 
-> For USB devices, pick the associated USB controller as attachment device.
-> This allows the DRM import helpers to perform the DMA setup. If the DMA
-> controller does not support DMA transfers, we're out of luck and cannot
-> import. Our current USB-based DRM drivers don't use DMA, so the actual
-> DMA device is not important.
-> 
-> Drivers should use DRM_GEM_SHMEM_DROVER_OPS_USB to initialize their
-> instance of struct drm_driver.
-> 
-> Tested by joining/mirroring displays of udl and radeon un der Gnome/X11.
-> 
-> v5:
-> 	* provide a helper for USB interfaces (Alan)
-> 	* add FIXME item to documentation and TODO list (Daniel)
+Hi,
 
-> --- a/drivers/usb/core/usb.c
-> +++ b/drivers/usb/core/usb.c
-> @@ -748,6 +748,37 @@ void usb_put_intf(struct usb_interface *intf)
->  }
->  EXPORT_SYMBOL_GPL(usb_put_intf);
->  
-> +/**
-> + * usb_get_dma_device - acquire a reference on the usb device's DMA endpoint
-> + * @udev: usb device
-> + *
-> + * While a USB device cannot perform DMA operations by itself, many USB
-> + * controllers can. A call to usb_get_dma_device() returns the DMA endpoint
-> + * for the given USB device, if any. The returned device structure should be
-> + * released with put_device().
-> + *
-> + * See also usb_intf_get_dma_device().
-> + *
-> + * Returns: A reference to the usb device's DMA endpoint; or NULL if none
-> + *          exists.
-> + */
-> +struct device *usb_get_dma_device(struct usb_device *udev)
-> +{
-> +	struct device *dmadev;
-> +
-> +	if (!udev->bus)
-> +		return NULL;
-> +
-> +	dmadev = get_device(udev->bus->sysdev);
-> +	if (!dmadev || !dmadev->dma_mask) {
-> +		put_device(dmadev);
-> +		return NULL;
-> +	}
-> +
-> +	return dmadev;
-> +}
-> +EXPORT_SYMBOL_GPL(usb_get_dma_device);
+On Mon, Feb 15, 2021 at 01:11:01AM +0530, Jagan Teki wrote:
+> Use drm_panel_bridge to replace manual panel handling code.
+>
+> This simplifies the driver to allows all components in the
+> display pipeline to be treated as bridges, paving the way
+> to generic connector handling.
+>
+> Use drm_bridge_connector_init to create a connector for display
+> pipelines that use drm_bridge.
+>
+> This allows splitting connector operations across multiple bridges
+> when necessary, instead of having the last bridge in the chain
+> creating the connector and handling all connector operations
+> internally.
+>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 
-There's no point making this a separate function, since it has no
-callers of its own.  Just make usb_intf_get_dma_device the only new
-function.
+Most of the code removed in that patch was actually introduced earlier
+which feels a bit weird. Is there a reason we can't do that one first,
+and then introduce the bridge support?
 
-> --- a/include/linux/usb.h
-> +++ b/include/linux/usb.h
-> @@ -711,6 +711,7 @@ struct usb_device {
->  	unsigned use_generic_driver:1;
->  };
->  #define	to_usb_device(d) container_of(d, struct usb_device, dev)
-> +#define dev_is_usb(d)	((d)->bus == &usb_bus_type)
->  
->  static inline struct usb_device *interface_to_usbdev(struct usb_interface *intf)
->  {
-> @@ -746,6 +747,29 @@ extern int usb_lock_device_for_reset(struct usb_device *udev,
->  extern int usb_reset_device(struct usb_device *dev);
->  extern void usb_queue_reset_device(struct usb_interface *dev);
->  
-> +extern struct device *usb_get_dma_device(struct usb_device *udev);
-> +
-> +/**
-> + * usb_intf_get_dma_device - acquire a reference on the usb interface's DMA endpoint
-> + * @intf: the usb interface
-> + *
-> + * While a USB device cannot perform DMA operations by itself, many USB
-> + * controllers can. A call to usb_intf_get_dma_device() returns the DMA endpoint
-> + * for the given USB interface, if any. The returned device structure should be
-> + * released with put_device().
-> + *
-> + * See also usb_get_dma_device().
-> + *
-> + * Returns: A reference to the usb interface's DMA endpoint; or NULL if none
-> + *          exists.
-> + */
-> +static inline struct device *usb_intf_get_dma_device(struct usb_interface *intf)
-> +{
-> +	if (!intf)
-> +		return NULL;
-
-Why would intf ever be NULL?
-
-> +	return usb_get_dma_device(interface_to_usbdev(intf));
-> +}
-
-Alan Stern
+Maxime
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
