@@ -1,58 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E04325D9E
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 07:41:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 573CB325E49
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 08:30:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF2FA6E8F4;
-	Fri, 26 Feb 2021 06:41:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 262966E8FB;
+	Fri, 26 Feb 2021 07:30:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from z11.mailgun.us (z11.mailgun.us [104.130.96.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0442B6E8F4
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 06:40:56 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1614321659; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=QGZVSyhl+UTYEZKQcx1TjnWHZZiS7iYEtl3Q3+3S5z8=;
- b=mVg7EWm4iYiwerDYlsfCfPJ/gk5boZzRFqv3i2xmvXmMMPYq+20CWvu2VS6r/hRhL75AANh3
- LuZXIkavPsiRcE/RbqHtyUwIBiPyV8POVypoK0j75ZQVlax0F8EwNtuf3vPiYvv/RY4ANyLB
- 9VACNCNn9d1L0tCmj7WEJ8lMqgs=
-X-Mailgun-Sending-Ip: 104.130.96.11
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 603897f6cc1f7d7e952e8a52 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 26 Feb 2021 06:40:54
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 0B250C43461; Fri, 26 Feb 2021 06:40:54 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: kgunda)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 0F68FC433CA;
- Fri, 26 Feb 2021 06:40:52 +0000 (UTC)
+X-Greylist: delayed 1041 seconds by postgrey-1.36 at gabe;
+ Fri, 26 Feb 2021 01:18:42 UTC
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7292C6E086;
+ Fri, 26 Feb 2021 01:18:42 +0000 (UTC)
+Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Dmrsd1ZJGzRHRD;
+ Fri, 26 Feb 2021 08:59:49 +0800 (CST)
+Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
+ DGGEMM406-HUB.china.huawei.com (10.3.20.214) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Fri, 26 Feb 2021 09:01:17 +0800
+Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
+ dggemi761-chm.china.huawei.com (10.1.198.147) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2106.2; Fri, 26 Feb 2021 09:01:17 +0800
+Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
+ dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.2106.006;
+ Fri, 26 Feb 2021 09:01:17 +0800
+From: "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+To: luojiaxing <luojiaxing@huawei.com>, "nouveau@lists.freedesktop.org"
+ <nouveau@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "bskeggs@redhat.com" <bskeggs@redhat.com>
+Subject: RE: [Linuxarm]  [PATCH v1] drm/nouveau/device: append a
+ NUL-terminated character for the string which filled by strncpy()
+Thread-Topic: [Linuxarm]  [PATCH v1] drm/nouveau/device: append a
+ NUL-terminated character for the string which filled by strncpy()
+Thread-Index: AQHXC2rCMCjd7ClCyEWCr1KHIxXraKppnNNQ
+Date: Fri, 26 Feb 2021 01:01:17 +0000
+Message-ID: <1b841f487ad742ee941282b534bdcb4d@hisilicon.com>
+References: <1614253132-21793-1-git-send-email-luojiaxing@huawei.com>
+In-Reply-To: <1614253132-21793-1-git-send-email-luojiaxing@huawei.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.126.200.34]
 MIME-Version: 1.0
-Date: Fri, 26 Feb 2021 12:10:52 +0530
-From: kgunda@codeaurora.org
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH V1 2/2] backlight: qcom-wled: Correct the sync_toggle
- sequence
-In-Reply-To: <20210224112632.lgm2yj6ekayuqg2p@maple.lan>
-References: <1614138648-2963-1-git-send-email-kgunda@codeaurora.org>
- <1614138648-2963-3-git-send-email-kgunda@codeaurora.org>
- <20210224112632.lgm2yj6ekayuqg2p@maple.lan>
-Message-ID: <427d82a0baa7ec1c3232469e81daa9a0@codeaurora.org>
-X-Sender: kgunda@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Fri, 26 Feb 2021 07:30:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,116 +60,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
- Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
- linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org,
- lee.jones@linaro.org, linux-leds@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: luojiaxing <luojiaxing@huawei.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linuxarm@openeuler.org" <linuxarm@openeuler.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-02-24 16:56, Daniel Thompson wrote:
-> On Wed, Feb 24, 2021 at 09:20:48AM +0530, Kiran Gunda wrote:
->> Currently the FSC SYNC_BIT and MOD_SYNC_BIT are toggled
->> from 1 to 0 to update the FSC and brightenss settings.
->> Change this sequence form 0 to 1 as per the hardware team
->> recommendation to update the FSC and brightness correctly.
-> 
-> Again... this patch description feels somewhat rushed. A patch
-> description is there to support code reviewer and to go on the version
-> history to assist with future maintainance. They matter!
-> 
-> Anyhow I don't recognise the "from 1 to 0" in the code since both 
-> before
-> an after the change it goes "from 0 to 1" and "from 1 to 0" but in a
-> different order. Doesn't the code actually currently implement "set 
-> then
-> clear"? If so then, likewise the new code is adopting "clear then set".
-> 
-I would have used "set" and "clear" instead of "0" and "1".
-Yes. The current code implementation is "set" all SYN bits and then 
-"clear"
-all SYNC bits. The new code is modified to change the sequence from 
-"clear"
-first and then "set" to ensure both FSC and brightness are updated.
-
-> As with patch 1, the sync bits modified by wled3_sync_toggle singular
-> or plural?
-It is plural. We have to "clear" and "set" all sync bits.
-> 
-> Finally a description that is more sympathetic to the reviewer would be
-> welcome.  For example the following (if my guess is right and it is
-> true) makes things much easier for the reviewer:
-> Sure. I will update the documentation and patch description clearly.
->   "The sync takes place during a 0 to 1 transition of the sync
->   bits so the hardware team recommends a clear-then-set approach in
->   order to guarantee such a transition regardless of the previous
->   register state".
-> 
-> 
-> Daniel.
-> 
-> 
->> 
->> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
->> ---
->>  drivers/video/backlight/qcom-wled.c | 12 ++++++------
->>  1 file changed, 6 insertions(+), 6 deletions(-)
->> 
->> diff --git a/drivers/video/backlight/qcom-wled.c 
->> b/drivers/video/backlight/qcom-wled.c
->> index aef52b9..19f83ac 100644
->> --- a/drivers/video/backlight/qcom-wled.c
->> +++ b/drivers/video/backlight/qcom-wled.c
->> @@ -337,13 +337,13 @@ static int wled3_sync_toggle(struct wled *wled)
->> 
->>  	rc = regmap_update_bits(wled->regmap,
->>  				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
->> -				mask, mask);
->> +				mask, WLED3_SINK_REG_SYNC_CLEAR);
->>  	if (rc < 0)
->>  		return rc;
->> 
->>  	rc = regmap_update_bits(wled->regmap,
->>  				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
->> -				mask, WLED3_SINK_REG_SYNC_CLEAR);
->> +				mask, mask);
->> 
->>  	return rc;
->>  }
->> @@ -353,17 +353,17 @@ static int wled5_mod_sync_toggle(struct wled 
->> *wled)
->>  	int rc;
->>  	u8 val;
->> 
->> -	val = (wled->cfg.mod_sel == MOD_A) ? WLED5_SINK_REG_SYNC_MOD_A_BIT :
->> -					     WLED5_SINK_REG_SYNC_MOD_B_BIT;
->>  	rc = regmap_update_bits(wled->regmap,
->>  				wled->sink_addr + WLED5_SINK_REG_MOD_SYNC_BIT,
->> -				WLED5_SINK_REG_SYNC_MASK, val);
->> +				WLED5_SINK_REG_SYNC_MASK, 0);
->>  	if (rc < 0)
->>  		return rc;
->> 
->> +	val = (wled->cfg.mod_sel == MOD_A) ? WLED5_SINK_REG_SYNC_MOD_A_BIT :
->> +					     WLED5_SINK_REG_SYNC_MOD_B_BIT;
->>  	return regmap_update_bits(wled->regmap,
->>  				  wled->sink_addr + WLED5_SINK_REG_MOD_SYNC_BIT,
->> -				  WLED5_SINK_REG_SYNC_MASK, 0);
->> +				  WLED5_SINK_REG_SYNC_MASK, val);
->>  }
->> 
->>  static int wled_ovp_fault_status(struct wled *wled, bool *fault_set)
->> --
->> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
->> Forum,
->>  a Linux Foundation Collaborative Project
->> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTHVvIEppYXhpbmcgW21h
+aWx0bzpsdW9qaWF4aW5nQGh1YXdlaS5jb21dDQo+IFNlbnQ6IEZyaWRheSwgRmVicnVhcnkgMjYs
+IDIwMjEgMTI6MzkgQU0NCj4gVG86IG5vdXZlYXVAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOw0KPiBic2tlZ2dzQHJlZGhhdC5jb20NCj4gQ2M6
+IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4YXJtQG9wZW5ldWxlci5vcmc7IGx1
+b2ppYXhpbmcNCj4gPGx1b2ppYXhpbmdAaHVhd2VpLmNvbT4NCj4gU3ViamVjdDogW0xpbnV4YXJt
+XSBbUEFUQ0ggdjFdIGRybS9ub3V2ZWF1L2RldmljZTogYXBwZW5kIGEgTlVMLXRlcm1pbmF0ZWQN
+Cj4gY2hhcmFjdGVyIGZvciB0aGUgc3RyaW5nIHdoaWNoIGZpbGxlZCBieSBzdHJuY3B5KCkNCj4g
+DQo+IEZvbGxvd2luZyB3YXJuaW5nIGlzIGZvdW5kIHdoZW4gdXNpbmcgVz0xIHRvIGJ1aWxkIGtl
+cm5lbDoNCj4gDQo+IEluIGZ1bmN0aW9uIOKAmG52a21fdWRldmljZV9pbmZv4oCZLA0KPiAgICAg
+aW5saW5lZCBmcm9tIOKAmG52a21fdWRldmljZV9tdGhk4oCZIGF0DQo+IGRyaXZlcnMvZ3B1L2Ry
+bS9ub3V2ZWF1L252a20vZW5naW5lL2RldmljZS91c2VyLmM6MTk1OjEwOg0KPiBkcml2ZXJzL2dw
+dS9kcm0vbm91dmVhdS9udmttL2VuZ2luZS9kZXZpY2UvdXNlci5jOjE2NDoyOiB3YXJuaW5nOiDi
+gJhzdHJuY3B54oCZDQo+IHNwZWNpZmllZCBib3VuZCAxNiBlcXVhbHMgZGVzdGluYXRpb24gc2l6
+ZSBbLVdzdHJpbmdvcC10cnVuY2F0aW9uXQ0KPiAgIDE2NCB8ICBzdHJuY3B5KGFyZ3MtPnYwLmNo
+aXAsIGRldmljZS0+Y2hpcC0+bmFtZSwgc2l6ZW9mKGFyZ3MtPnYwLmNoaXApKTsNCj4gZHJpdmVy
+cy9ncHUvZHJtL25vdXZlYXUvbnZrbS9lbmdpbmUvZGV2aWNlL3VzZXIuYzoxNjU6Mjogd2Fybmlu
+Zzog4oCYc3RybmNweeKAmQ0KPiBzcGVjaWZpZWQgYm91bmQgNjQgZXF1YWxzIGRlc3RpbmF0aW9u
+IHNpemUgWy1Xc3RyaW5nb3AtdHJ1bmNhdGlvbl0NCj4gICAxNjUgfCAgc3RybmNweShhcmdzLT52
+MC5uYW1lLCBkZXZpY2UtPm5hbWUsIHNpemVvZihhcmdzLT52MC5uYW1lKSk7DQo+IA0KPiBUaGUg
+cmVhc29uIG9mIHRoaXMgd2FybmluZyBpcyBzdHJuY3B5KCkgZG9lcyBub3QgZ3VhcmFudGVlIHRo
+YXQgdGhlDQo+IGRlc3RpbmF0aW9uIGJ1ZmZlciB3aWxsIGJlIE5VTCB0ZXJtaW5hdGVkLiBJZiB0
+aGUgbGVuZ3RoIG9mIHNvdXJjZSBzdHJpbmcNCj4gaXMgYmlnZ2VyIHRoYW4gbnVtYmVyIHdlIHNl
+dCBieSB0aGlyZCBpbnB1dCBwYXJhbWV0ZXIsIG9ubHkgZmlyc3QgW251bWJlcl0NCj4gb2YgY2hh
+cmFjdGVycyBpcyBjb3BpZWQgdG8gdGhlIGRlc3RpbmF0aW9uLCBhbmQgbm8gTlVMLXRlcm1pbmF0
+ZWQgaXMNCj4gYXV0b21hdGljYWxseSBhZGRlZC4gVGhlcmUgYXJlIHNvbWUgcG90ZW50aWFsIHJp
+c2tzLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTHVvIEppYXhpbmcgPGx1b2ppYXhpbmdAaHVhd2Vp
+LmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9udmttL2VuZ2luZS9kZXZp
+Y2UvdXNlci5jIHwgNiArKysrLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyks
+IDIgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZl
+YXUvbnZrbS9lbmdpbmUvZGV2aWNlL3VzZXIuYw0KPiBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1
+L252a20vZW5naW5lL2RldmljZS91c2VyLmMNCj4gaW5kZXggZmVhOWQ4Zi4uMmEzMmZlMCAxMDA2
+NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9lbmdpbmUvZGV2aWNlL3Vz
+ZXIuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9udmttL2VuZ2luZS9kZXZpY2Uv
+dXNlci5jDQo+IEBAIC0xNjEsOCArMTYxLDEwIEBAIG52a21fdWRldmljZV9pbmZvKHN0cnVjdCBu
+dmttX3VkZXZpY2UgKnVkZXYsIHZvaWQgKmRhdGEsDQo+IHUzMiBzaXplKQ0KPiAgCWlmIChpbWVt
+ICYmIGFyZ3MtPnYwLnJhbV9zaXplID4gMCkNCj4gIAkJYXJncy0+djAucmFtX3VzZXIgPSBhcmdz
+LT52MC5yYW1fdXNlciAtIGltZW0tPnJlc2VydmVkOw0KPiANCj4gLQlzdHJuY3B5KGFyZ3MtPnYw
+LmNoaXAsIGRldmljZS0+Y2hpcC0+bmFtZSwgc2l6ZW9mKGFyZ3MtPnYwLmNoaXApKTsNCj4gLQlz
+dHJuY3B5KGFyZ3MtPnYwLm5hbWUsIGRldmljZS0+bmFtZSwgc2l6ZW9mKGFyZ3MtPnYwLm5hbWUp
+KTsNCj4gKwlzdHJuY3B5KGFyZ3MtPnYwLmNoaXAsIGRldmljZS0+Y2hpcC0+bmFtZSwgc2l6ZW9m
+KGFyZ3MtPnYwLmNoaXApIC0gMSk7DQo+ICsJYXJncy0+djAuY2hpcFtzaXplb2YoYXJncy0+djAu
+Y2hpcCkgLSAxXSA9ICdcMCc7DQo+ICsJc3RybmNweShhcmdzLT52MC5uYW1lLCBkZXZpY2UtPm5h
+bWUsIHNpemVvZihhcmdzLT52MC5uYW1lKSAtIDEpOw0KPiArCWFyZ3MtPnYwLm5hbWVbc2l6ZW9m
+KGFyZ3MtPnYwLm5hbWUpIC0gMV0gPSAnXDAnOw0KDQoNCklzbid0IGl0IGJldHRlciB0byB1c2Ug
+c25wcmludGYoKT8NCg0KPiAgCXJldHVybiAwOw0KPiAgfQ0KPiANClRoYW5rcw0KQmFycnkNCg0K
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
