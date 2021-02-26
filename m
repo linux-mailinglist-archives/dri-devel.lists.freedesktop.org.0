@@ -1,43 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D3E432625D
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 13:12:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF42332625F
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 13:12:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0DF6E3D3;
-	Fri, 26 Feb 2021 12:12:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 901046EDC3;
+	Fri, 26 Feb 2021 12:12:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F260B89D73
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 12:12:08 +0000 (UTC)
-IronPort-SDR: imdEQZs32KQSegwiNKUuL6yEuPQ7UdhQXNQTgLD8JMx2+t9kGHKmJ5VlI/9dgJJ/3eRbupisyj
- 6+30Qk27WS5g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9906"; a="185912543"
-X-IronPort-AV: E=Sophos;i="5.81,208,1610438400"; d="scan'208";a="185912543"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2021 04:12:08 -0800
-IronPort-SDR: QCKg8pjubAp90lXqeGeoPALpG5qzrqJOgRL0AlLgP82lLZJzn6fJKDI7O11yztOLi9VKo11et/
- UWa6hqZMV76g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,208,1610438400"; d="scan'208";a="404877581"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga008.jf.intel.com with SMTP; 26 Feb 2021 04:12:04 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 26 Feb 2021 14:12:03 +0200
-Date: Fri, 26 Feb 2021 14:12:03 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH -next] fbdev: atyfb: use LCD management functions for
- PPC_PMAC also
-Message-ID: <YDjlkzg7/qnPBIKI@intel.com>
-References: <20210226000537.8674-1-rdunlap@infradead.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210226000537.8674-1-rdunlap@infradead.org>
-X-Patchwork-Hint: comment
+Received: from m42-2.mailgun.net (m42-2.mailgun.net [69.72.42.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C8E36EDC3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 12:12:53 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1614341573; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=Cmqghx6zhcQDDabwf+FgyE0f9AAgFN3Iix4YVts5sgY=;
+ b=SFsAuXk/D8OOALpvzXlI7OvRMkB7uKYckRSJmpPVO/Or8eioUauHmLkv02PkR/rYEjXhzfjn
+ WKFJb86b4jriYjWlePU2yBIAZrCR/mktt8lonqTS46EpDEdU3R9BzOWIAfo1S7mlQ+JOeSQM
+ clA1MoFCV3b1y+pAXZXK2cfs250=
+X-Mailgun-Sending-Ip: 69.72.42.2
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 6038e5c4cc1f7d7e95ed1b83 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 26 Feb 2021 12:12:52
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 6B80FC43464; Fri, 26 Feb 2021 12:12:52 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+Received: from kgunda-linux.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: kgunda)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 3F910C433CA;
+ Fri, 26 Feb 2021 12:12:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3F910C433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=kgunda@codeaurora.org
+From: Kiran Gunda <kgunda@codeaurora.org>
+To: bjorn.andersson@linaro.org, jingoohan1@gmail.com, lee.jones@linaro.org,
+ b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+ daniel.thompson@linaro.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
+ robh+dt@kernel.org, mark.rutland@arm.com, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH V2 0/2]  Fix WLED FSC Sync and brightness Sync settings
+Date: Fri, 26 Feb 2021 17:42:22 +0530
+Message-Id: <1614341544-5306-1-git-send-email-kgunda@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,89 +66,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org,
+ Kiran Gunda <kgunda@codeaurora.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 25, 2021 at 04:05:37PM -0800, Randy Dunlap wrote:
-> Include PPC_PMAC in the configs that use aty_ld_lcd() and
-> aty_st_lcd() implementations so that the PM code may work
-> correctly for PPC_PMAC.
-> =
+This patch series has the following two WLED fixes
+ 1. As per the current implementation, for WLED5, after
+    the FSC (Full Scale Current) update the driver is incorrectly
+    toggling the MOD_SYNC register instead of toggling the SYNC register.
+    The patch 1/2 fixes this by toggling the SYNC register after
+    FSC update.
 
-> Suggested-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> ---
-> Daniel- We also need this patch:
-> https://lore.kernel.org/dri-devel/20210224215528.822-1-rdunlap@infradead.=
-org/
-> to fix a kernel test robot build error.
-> =
+ 2. Currently, the sync bits are transitioned from 1 to 0
+    after FSC and brightness update. As per hardware team recommendation
+    the FSC and brightness sync takes place from 0 to 1 transition.
+    The patch 2/2 fies this issue.
 
->  drivers/video/fbdev/aty/atyfb_base.c |    8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> =
 
-> --- linux-next-20210219.orig/drivers/video/fbdev/aty/atyfb_base.c
-> +++ linux-next-20210219/drivers/video/fbdev/aty/atyfb_base.c
-> @@ -132,8 +132,7 @@
->  #define PRINTKI(fmt, args...)	printk(KERN_INFO "atyfb: " fmt, ## args)
->  #define PRINTKE(fmt, args...)	printk(KERN_ERR "atyfb: " fmt, ## args)
->  =
+Changes from V1:
+   1. Updated the cover letter.
+   2. Updated the description of the patches as per Daniel's suggestion.
 
-> -#if defined(CONFIG_PMAC_BACKLIGHT) || defined(CONFIG_FB_ATY_GENERIC_LCD)=
- || \
-> -defined(CONFIG_FB_ATY_BACKLIGHT)
-> +#if defined(CONFIG_PPC_PMAC)
 
-Did you send an old version by accident? That's definitely
-not what we want since it would break everything except PPC_PMAC.
+Kiran Gunda (2):
+  backlight: qcom-wled: Fix FSC update issue for WLED5
+  backlight: qcom-wled: Correct the sync_toggle sequence
 
->  static const u32 lt_lcd_regs[] =3D {
->  	CNFG_PANEL_LG,
->  	LCD_GEN_CNTL_LG,
-> @@ -175,8 +174,7 @@ u32 aty_ld_lcd(int index, const struct a
->  		return aty_ld_le32(LCD_DATA, par);
->  	}
->  }
-> -#else /* defined(CONFIG_PMAC_BACKLIGHT) || defined(CONFIG_FB_ATY_BACKLIG=
-HT) \
-> -	 defined(CONFIG_FB_ATY_GENERIC_LCD) */
-> +#else /* defined(CONFIG_PPC_PMAC) */
->  void aty_st_lcd(int index, u32 val, const struct atyfb_par *par)
->  { }
->  =
+ drivers/video/backlight/qcom-wled.c | 37 +++++++++++++++++++++++++------------
+ 1 file changed, 25 insertions(+), 12 deletions(-)
 
-> @@ -184,7 +182,7 @@ u32 aty_ld_lcd(int index, const struct a
->  {
->  	return 0;
->  }
-> -#endif /* defined(CONFIG_PMAC_BACKLIGHT) || defined (CONFIG_FB_ATY_GENER=
-IC_LCD) */
-> +#endif /* defined(CONFIG_PPC_PMAC) */
->  =
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+ a Linux Foundation Collaborative Project
 
->  #ifdef CONFIG_FB_ATY_GENERIC_LCD
->  /*
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
