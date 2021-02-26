@@ -1,49 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9AA1326252
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 13:09:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D3E432625D
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 13:12:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 020E66E3F4;
-	Fri, 26 Feb 2021 12:09:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0DF6E3D3;
+	Fri, 26 Feb 2021 12:12:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5ED36E3F4
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 12:09:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=069mkm7tqItUG64Ib7wUtneTZFgWoa3IFZJXAvEdDLw=; b=dLfKwVJh7zQUEaYCNBkkubHqqr
- ktYyAfOJhtunI4nYnifVe4V5LgzTWkZeQujkEhMpOcxOyUh5aL2E9H4UNKk5yz3bzJKG/KAgB0djH
- 3T4oB1NeEpJDYReVt0iDNm4AY8cqyt4TF1ePmSlTA/kJ+aovs8QSAOIGx1o2/57qoWw0+zlZZse2R
- vsg4BPJbhQc5PojOwsbvPt0/FdWRe4TuAC1HzrULRL1qzWYkNNDW6mkAjFHUJ7DUZk6SgXn4ZiwDp
- M41saTuaKFIz575OJcR6ILGnZxsWyH0uG/6vV2+dRrWxObfNjPfHScffIPcTsmFrcM8/+OQpu+kZl
- 0PkEbyig==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:65161
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1lFbvr-0007hf-M6; Fri, 26 Feb 2021 13:09:19 +0100
-Subject: Re: [PATCH v6 3/3] drm: Add GUD USB Display driver
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-To: Peter Stuge <peter@stuge.se>
-References: <20210219121702.50964-1-noralf@tronnes.org>
- <20210219121702.50964-4-noralf@tronnes.org>
- <20210219214243.11330.qmail@stuge.se>
- <5c00a868-3a2f-438b-3670-ee86caef4d2a@tronnes.org>
-Message-ID: <3ee3fad6-61be-b848-a68f-df7c2e0001f9@tronnes.org>
-Date: Fri, 26 Feb 2021 13:09:15 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F260B89D73
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 12:12:08 +0000 (UTC)
+IronPort-SDR: imdEQZs32KQSegwiNKUuL6yEuPQ7UdhQXNQTgLD8JMx2+t9kGHKmJ5VlI/9dgJJ/3eRbupisyj
+ 6+30Qk27WS5g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9906"; a="185912543"
+X-IronPort-AV: E=Sophos;i="5.81,208,1610438400"; d="scan'208";a="185912543"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2021 04:12:08 -0800
+IronPort-SDR: QCKg8pjubAp90lXqeGeoPALpG5qzrqJOgRL0AlLgP82lLZJzn6fJKDI7O11yztOLi9VKo11et/
+ UWa6hqZMV76g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,208,1610438400"; d="scan'208";a="404877581"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga008.jf.intel.com with SMTP; 26 Feb 2021 04:12:04 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 26 Feb 2021 14:12:03 +0200
+Date: Fri, 26 Feb 2021 14:12:03 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH -next] fbdev: atyfb: use LCD management functions for
+ PPC_PMAC also
+Message-ID: <YDjlkzg7/qnPBIKI@intel.com>
+References: <20210226000537.8674-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <5c00a868-3a2f-438b-3670-ee86caef4d2a@tronnes.org>
+Content-Disposition: inline
+In-Reply-To: <20210226000537.8674-1-rdunlap@infradead.org>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,44 +50,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hudson@trmm.net, markus@raatikainen.cc,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-usb@vger.kernel.org,
- dri-devel@lists.freedesktop.org, th020394@gmail.com, lkundrak@v3.sk,
- pontus.fuchs@gmail.com, sam@ravnborg.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMjAuMDIuMjAyMSAxOC4yNywgc2tyZXYgTm9yYWxmIFRyw7hubmVzOgo+IAo+IAo+IERl
-biAxOS4wMi4yMDIxIDIyLjQyLCBza3JldiBQZXRlciBTdHVnZToKCj4+Cj4+IE1vcmUgZ2VuZXJh
-bGx5IGl0J3Mgbm90IHZlcnkgdHlwaWNhbCBpbiBVU0IgdG8gcmVwb3J0IHRoZSBkYXRhIHNpemUK
-Pj4gc2VwYXJhdGVseSBmcm9tIHRoZSBkYXRhIGl0c2VsZiwgaWYgcmVwb3J0aW5nIHNpemUgZXhw
-bGljaXRseSBhdCBhbGwuCj4+Cj4+IFNpemVzIGNhbiBiZSBwYXJ0IG9mIHRoZSBkYXRhIHN0cnVj
-dHVyZSBpdHNlbGYgKGxpa2UgaW4gZGVzY3JpcHRvcnMpIGJ1dAo+PiBvbiB0aGUgYXBwbGljYXRp
-b24gbGF5ZXIgKGxpa2UgaGVyZSkgaXQncyBjb252ZW5pZW50IHRvIGp1c3QgZGVjaWRlIGEKPj4g
-c2Vuc2libGUgZml4ZWQgbWF4aW11bSBzaXplIGFuZCBsZXQgdGhlIGhvc3QgdHJ5IHRvIGFsd2F5
-cyB0cmFuc2Zlcgo+PiB0aGF0IHNpemUgd2hpbGUgYWNjZXB0aW5nIHNob3J0IHRyYW5zZmVycy4g
-VW5saWtlIHJlYWQoKSBhIHNob3J0Cj4+IHRyYW5zZmVyIG9ubHkgZXZlciBoYXBwZW5zIGlmIGFu
-ZCB3aGVuIGEgZGV2aWNlIGludGVuZHMgZm9yIGl0LAo+PiBzbyB0aGF0J3MgbGlrZSBhbiBpbi1i
-YW5kIGhhbmRzaGFrZSBidXQgImZvciBmcmVlIi4KPj4KPj4gT2gsIGFuZCBkb2VzL3Nob3VsZCB0
-aGUgR1VEIEVESUQgY2hhbmdlIGlmIHRoZSBwYW5lbCAiYmVoaW5kIiB0aGUgZGV2aWNlCj4+IENQ
-VSBvbiBhIGhvdHBsdWdnYWJsZSBjb25uZWN0b3IgY2hhbmdlcz8gSXQgd291bGRuJ3QgYmUgZ3Jl
-YXQgdG8gcmVxdWlyZQo+PiBHVUQgZHJpdmVyIHJlcHJvYmUgaW4gdGhhdCBjYXNlLiBCdXQgbWF5
-YmUgRFJNIHJlcXVpcmVzIHRoYXQgYW55d2F5Pwo+Pgo+IAo+IElmIGd1ZF9jb25uZWN0b3Jfc3Rh
-dHVzX3JlcS5zdGF0dXMgaGFzIGNoYW5nZWQgc2luY2UgbGFzdCBwb2xsIG9yCj4gR1VEX0NPTk5F
-Q1RPUl9TVEFUVVNfQ0hBTkdFRCBpcyBzZXQsIERSTSB3aWxsIG5vdGlmeSB1c2Vyc3BhY2Ugd2hp
-Y2gKPiB3aWxsIHJlcHJvYmUgdGhlIGNvbm5lY3Rvci4gY29ubmVjdG9yLT5lcG9jaF9jb3VudGVy
-KysgaW4KPiBndWRfY29ubmVjdG9yX3N0YXR1c19yZXF1ZXN0KCkgdHJpZ2dlcnMgdGhhdC4KPiAK
-Pj4KPj4gSSdtIHNvcnJ5IEkgZGlkbid0IHNwb3QgdGhpcyBwYXR0ZXJuIGVhcmxpZXIsIEkgdW5k
-ZXJzdGFuZCB0aGF0IGl0J3MgbGF0ZQo+PiBpbiB0aGUgZ2FtZSBhbmQgdGhhdCBjaGFuZ2luZyBp
-dCBuZWVkcyB0aGUgZ2FkZ2V0IHRvIGNoYW5nZSBhcyB3ZWxsLCBidXQgSQo+PiBkbyByZWFsbHkg
-dGhpbmsgdGhpcyBpcyBhIHdvcnRod2hpbGUgY2hhbmdlIHRocm91Z2hvdXQgdGhlIHByb3RvY29s
-Lgo+Pgo+IAo+IEkgc2VlIHdoYXQgeW91IG1lYW4sIEknbGwgZ2l2ZSBpdCBhIHRyeS4KPiAKClBl
-dGVyLCBwbGVhc2UgaGF2ZSBhIGxvb2sgYXQgdGhpcyBkaWZmIGFuZCBzZWUgaWYgSSdtIG9uIHRo
-ZSByaWdodCB0cmFjawpoZXJlOiBodHRwczovL2dpc3QuZ2l0aHViLmNvbS9ub3Ryby9hNDNhOTNh
-M2FhMGNjNzVkOTMwODkwYjdiMjU0ZmMwYQoKSSB3YW50IHRvIGF2b2lkIHdhaXN0aW5nIGEgcGF0
-Y2ggdmVyc2lvbiBjeWNsZSBieSBiZWluZyB3YXkgb2ZmLgoKTm9yYWxmLgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Feb 25, 2021 at 04:05:37PM -0800, Randy Dunlap wrote:
+> Include PPC_PMAC in the configs that use aty_ld_lcd() and
+> aty_st_lcd() implementations so that the PM code may work
+> correctly for PPC_PMAC.
+> =
+
+> Suggested-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> ---
+> Daniel- We also need this patch:
+> https://lore.kernel.org/dri-devel/20210224215528.822-1-rdunlap@infradead.=
+org/
+> to fix a kernel test robot build error.
+> =
+
+>  drivers/video/fbdev/aty/atyfb_base.c |    8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+> =
+
+> --- linux-next-20210219.orig/drivers/video/fbdev/aty/atyfb_base.c
+> +++ linux-next-20210219/drivers/video/fbdev/aty/atyfb_base.c
+> @@ -132,8 +132,7 @@
+>  #define PRINTKI(fmt, args...)	printk(KERN_INFO "atyfb: " fmt, ## args)
+>  #define PRINTKE(fmt, args...)	printk(KERN_ERR "atyfb: " fmt, ## args)
+>  =
+
+> -#if defined(CONFIG_PMAC_BACKLIGHT) || defined(CONFIG_FB_ATY_GENERIC_LCD)=
+ || \
+> -defined(CONFIG_FB_ATY_BACKLIGHT)
+> +#if defined(CONFIG_PPC_PMAC)
+
+Did you send an old version by accident? That's definitely
+not what we want since it would break everything except PPC_PMAC.
+
+>  static const u32 lt_lcd_regs[] =3D {
+>  	CNFG_PANEL_LG,
+>  	LCD_GEN_CNTL_LG,
+> @@ -175,8 +174,7 @@ u32 aty_ld_lcd(int index, const struct a
+>  		return aty_ld_le32(LCD_DATA, par);
+>  	}
+>  }
+> -#else /* defined(CONFIG_PMAC_BACKLIGHT) || defined(CONFIG_FB_ATY_BACKLIG=
+HT) \
+> -	 defined(CONFIG_FB_ATY_GENERIC_LCD) */
+> +#else /* defined(CONFIG_PPC_PMAC) */
+>  void aty_st_lcd(int index, u32 val, const struct atyfb_par *par)
+>  { }
+>  =
+
+> @@ -184,7 +182,7 @@ u32 aty_ld_lcd(int index, const struct a
+>  {
+>  	return 0;
+>  }
+> -#endif /* defined(CONFIG_PMAC_BACKLIGHT) || defined (CONFIG_FB_ATY_GENER=
+IC_LCD) */
+> +#endif /* defined(CONFIG_PPC_PMAC) */
+>  =
+
+>  #ifdef CONFIG_FB_ATY_GENERIC_LCD
+>  /*
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
