@@ -1,131 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A9E325E73
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 08:52:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E958C325E85
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 08:59:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E0396ED9A;
-	Fri, 26 Feb 2021 07:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11E296EDAA;
+	Fri, 26 Feb 2021 07:59:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2045.outbound.protection.outlook.com [40.107.223.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA5E6ED9A;
- Fri, 26 Feb 2021 07:52:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EXHSlDfLtwsv5oDCMHk6OtUK2eH+hdHaIXSzDM1t9nVWmczdapzxCqZx6+U1KO3fsxh/+CjKLEJKaHVqOUB/Ae+qbI5NvzdEd9s4zmSnMYKym18DQ+6ZazOFFndNynZHd+3IvxcP6o21k5ZprzriI2MeH4pTQxpIA6PZ3yruw6z6fiKj2gORKn2d1Yds/Xj6PEeeB+GsJ3ivhoKRp5WVsT7IhfPUtgJ/n/dDSqG6+Jo01SvHlCmGG4DohljHl3LKTUvEKT9DTQTr6cbmQ8I2qGVmCSmIyduQ3oFJSD7beIX2sML0asGzMswhNd3gdgWolbWxhg/AWwMXA0Mxx0IqiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rBH6Rmgmdubjj9KCMSI3FkvN0Xcijp+GpeaNa8cgpFQ=;
- b=S4iM9NrJrZ4eNVJh94PdtfIs15tRUkgexn0dQjvjJW1gvwDGve54Rg0aF6vOsG+eZwKtI6A8nOSIdoqN33lwCYZ6ZxTwemhwkCA1m8LX3wRjqTZkVEYLS9khs/giW6vhWafAHTMJi0QXYHs+SIq03Tf1xQx3U3B8/9EbHsg4LtAFYBV1lmElTRcR4mLtgapChlrSo9qO1JiON0h2sG1JArVz6HrPbdndyHYKqMUnP/RRW5WmDFX1j31FFaUftulg5FVYOMusF3ti5nqwoOFZOKm/aTCJnbA/veLy2n/eOGat3976MPuApyixaK2rGMVfXxfDJeNxrVv1oh+xZHeESw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rBH6Rmgmdubjj9KCMSI3FkvN0Xcijp+GpeaNa8cgpFQ=;
- b=0K8ND9u9bdzFuJAghuLCnKXS6NYhGVu8UAUcrA4K1Gj+SKQzBHQk0MHdnFgZwQS+GfoRr6ATomYMswhqE75TNGMDo8zPk3Jl2Lj9ook9qY+gGCM2/zxLVHuPcDAMFe0Q3AlcUfmpIiKTq9EOYvrKQLTYB3vLbOA/hp+91OwZ9WE=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4047.namprd12.prod.outlook.com (2603:10b6:208:1de::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.32; Fri, 26 Feb
- 2021 07:52:37 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3868.033; Fri, 26 Feb 2021
- 07:52:37 +0000
-Subject: Re: [PATCH 0/3] drm/ttm: constify static vm_operations_structs
-To: Alex Deucher <alexdeucher@gmail.com>,
- Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- David Airlie <airlied@linux.ie>, Alex Deucher <alexander.deucher@amd.com>,
- Ben Skeggs <bskeggs@redhat.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Likun Gao <Likun.Gao@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, nouveau <nouveau@lists.freedesktop.org>
-References: <20210209234817.55112-1-rikard.falkeborn@gmail.com>
- <e819cb08-98b6-c87d-4d95-338e06f88a48@amd.com>
- <YCPcIwxso67M3VqR@phenom.ffwll.local>
- <CADnq5_PPeNxBSryxJbT1sX=n_m_3HxKtGk5QRxtczU9qdae3cw@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <5ebcc73e-ed35-7bd6-5b4e-993ffbffb868@amd.com>
-Date: Fri, 26 Feb 2021 08:52:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <CADnq5_PPeNxBSryxJbT1sX=n_m_3HxKtGk5QRxtczU9qdae3cw@mail.gmail.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:bcf6:4057:c09:be71]
-X-ClientProxiedBy: AM8P189CA0001.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:218::6) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67E526EDA7
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 07:59:53 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id DD4F3AAAE;
+ Fri, 26 Feb 2021 07:59:51 +0000 (UTC)
+Subject: Re: [PATCH v4] drm: Use USB controller's DMA mask when importing
+ dmabufs
+To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ gregkh@linuxfoundation.org, hdegoede@redhat.com, sean@poorly.run,
+ noralf@tronnes.org, stern@rowland.harvard.edu
+References: <20210224092304.29932-1-tzimmermann@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <ab79a3a7-2659-2dd2-889d-e2356a1b8176@suse.de>
+Date: Fri, 26 Feb 2021 08:59:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:bcf6:4057:c09:be71]
- (2a02:908:1252:fb60:bcf6:4057:c09:be71) by
- AM8P189CA0001.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:218::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3890.19 via Frontend Transport; Fri, 26 Feb 2021 07:52:35 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: b43910ed-7e7b-47d2-06fe-08d8da2b7bb3
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4047:
-X-MS-Exchange-MinimumUrlDomainAge: lists.freedesktop.org#0
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB40479C03DA628165C44502CC839D9@MN2PR12MB4047.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: l2G2ty0oW3VOSOD8qE0Rq2mtyUXlWd+moOdti82uQli15x2NZJ1zfYuFwbXR66Hl6G4ExPP45eJPmxQC+rQPccNUgRxvYkDcwndUkiFJ0F7552irG/tXfVBhexPmbCcD1Ib4lLR+X28RO4GVt3513xKwZ4J30GsPcaO7sh0SV4a6edt1TgQsO3ErtG5653lcWBj7SgNpEavcnfqsfoAJ7MUU0ph9c/PrB3GNjVbn/fEOUpRgpLhmDTsYryL4D0TzPglET7MxdJI/QKBI+cftkvn1qR3Wxu1S4fPq/mAf/weFGxGZNmSzb1E256pHomqEM3Y0Ku5AuzPON0LLQ6q8PEg7l4wIybu1ioLUJz2lH+FpyhnWglOo8rpuJQ6I90blh6iy1m13OgXhNFTcpfkIrpeAmdWByp6Aq9pW3gms01tbVJzbTX5okq0RX7HPj7HvH/Je9TwVoVo2whytHRXwwVnhmRVIznR2ED8wNAHC8Yvr6m7UcR/CbQq13cxGBCBj6M5lgMrmTWS1d2+1nqGyTeo1Q+5xTV7qVz4NccfxRyhWm23js+kuwkRlPmvqAe192dwCO1POO0/df+Ez4hunQUPMocfcxk+D15hD73DMdS3RDzYpxmV+fq82jmRyiEKa2TnO3Ousoxv6RNiAwG4RvmAquthppVWab00BC1BoTtC/A68+x4dAqSnsAg9ZHjOFx0zJ8JzQeRuluCXK3o2rDQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(366004)(136003)(396003)(39860400002)(83380400001)(45080400002)(478600001)(186003)(2906002)(2616005)(36756003)(110136005)(966005)(921005)(66946007)(6486002)(31686004)(16526019)(5660300002)(6666004)(52116002)(8676002)(86362001)(8936002)(53546011)(316002)(31696002)(66556008)(66476007)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?OGsxYWpPZUlSL0w2QWFYSU5hTm1LU3F2UmhFUHIrV25PZWZLMkVYVzNIRW91?=
- =?utf-8?B?dGV0bUR0bHNsSFQvUE11RnRwUU9sOE11MXVDZkE2eis2b05UWWZlRklhSE43?=
- =?utf-8?B?Rzh4bXBwcVZ3cGUzQWNEV0laaWV1Q0JSSEZjN0FOanI1YU04T3VjbEwwclN5?=
- =?utf-8?B?NE03dTF3R01kcXZMZ29MQ2FKK1ViMXJ0QlZLRFdQNzhkVkQ3SkYySC9SdDQ5?=
- =?utf-8?B?U09yN3pacXZPY3dkaWlYZjJpRmNJL05EZjZqQmo3YnBBOTMvaTRWbGJQeXBt?=
- =?utf-8?B?cDNxUWs3V29HMXpydk5EWHBveXBkS3E5a3lCSER4VnFyc2Q5YkxsSlhTdVl6?=
- =?utf-8?B?SXJ0UFc0bGw4MmcxbGQ4R0I2QVlCejV0cXltdVpZU2N5bDFGSm5Hc01yWDRh?=
- =?utf-8?B?cTIyZElLTjljbWJpcmpxU1VUc2Zwcno3OEVUWlh0TnUxMktCTWZhSFA2Zzhm?=
- =?utf-8?B?cW5GUEdWVlB6NmM1aHJ0cVNzUUVtWGVRcGx4K2xraUIzTktORVhoazhLbEdI?=
- =?utf-8?B?RlhEVjR4N3lSSUQzd1N1M3ZDMUQvbDZiTXVvWndURFF6VFQ4bm9FZEk5MUpJ?=
- =?utf-8?B?MUtaUmttNFBaakFuTm8xVzdydmIxSEJNMkJMdEw4RVdRczdpTitydEFiNzZx?=
- =?utf-8?B?M3RVWTdCRm95K2hQckdlQVhnQWZETHg2eG9GNkIrOW5QQ3FCYTQvb1ZwY2tj?=
- =?utf-8?B?VlAyNGNZbnJBVnVQK3pEa2pSbmlHejh5a1Rlem5UUmx3UkpYYmVJbnZlVGEx?=
- =?utf-8?B?a25veS9SQWZ2Z0lvUWF3VVh5a2dyYlRXdkxHUjJraHNmOEZobjcreitQdC83?=
- =?utf-8?B?SmQ4ejNWSFB5YnlkOW9MTTQ2TTQ0VGY4Wm5jTW8wT0VVZWtnMzV1bTZMYWRh?=
- =?utf-8?B?bE1ZNzE3YlJmcW5aMXJjR2pxRHE4R2V4djBsSEw1WmVvU3YxakZKajZMMGJI?=
- =?utf-8?B?bTAya3c2SGUvVnpMRzNsTWl0a1p6aFJkcytONjY2Witac241YVdMbHMvelFo?=
- =?utf-8?B?MGZRN3VlNXdxRzBOTWRNeXc5Myt0SUJ1U0ZQYjVnWHFGL3E2Sk1Hc1ppTXpm?=
- =?utf-8?B?d25MNFpKRHMyZjF4M3E3YkVnamZFWmZDNGVpRXA4VVNKYXJyT285dzZmbmlC?=
- =?utf-8?B?U1h5S2w1UUJqTkZlV3RPcTlmeXVCM24xYVlqa3o2clRFSFdHMGFJQU83QzBw?=
- =?utf-8?B?V09DM0srR1VtZVk0LzB2M0lJQjhPdXhreWpvNTNuUnljdVRFT2JFSzFFd2pW?=
- =?utf-8?B?Q2prOGZ2MnZ3Wk82dUgwbTJ4bUQrWERxWkhJR1huV0pTS1NMWUN2SjV0UTBy?=
- =?utf-8?B?a2JsYjdjSjF4SzFETEtGV1pDNFVEMS9QUXZKYXN3b1M2ZWRXQ3U0WWYxUDJj?=
- =?utf-8?B?OGxoYU82Qk91TXNDejdUc3BndHBnZlBERjNqYWp6bWhWSjFXNkljTm1oUWpt?=
- =?utf-8?B?eDRQNEx3TUJ0dVA5cDJtcVpMRFZZNG1vb0xySzF6bUNjZjhyeVdMWmcyNXFr?=
- =?utf-8?B?RFRaMnBoUTZISTNld3IraXVqejlZT3lXRXFPQlQ0eDY4MXJkZkw0ZXFRWjAw?=
- =?utf-8?B?bHVzaDAyU24rVmM4UG11TElMMHZxOTBNa2ZjVHB4VFVseUVRMnk4VnZWbGd4?=
- =?utf-8?B?MXR4R1E5ZjcxZUUwWFdEcG90L3o4bmhwd3VOTUVFUlBseHVpaERyQUxzT3Na?=
- =?utf-8?B?d2FnTm1XYm5HbUk2TFdvaTMwa2NVNUpZbk40U1RXL0tXU0xmaHlSMTBVamF6?=
- =?utf-8?B?ZllndUdYN3VTVXZ5aEhyb2tNZFg0WjRta3o0M3JIYTcwR2FMWDV6V004cmZW?=
- =?utf-8?B?UzlIdU1PY3hOZGY0Q3BsRDNWUWJ4THB1MUk1RW5MRXp5Q3plSktZK2ZTSDFp?=
- =?utf-8?Q?+GpgKuQA31dow?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b43910ed-7e7b-47d2-06fe-08d8da2b7bb3
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2021 07:52:36.9782 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xdYQWc7WvKrzG9bW1N8RZiLEesexYC7OLsVSumoEshS0ACu2z/Dmny3VgC0ZULxH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4047
+In-Reply-To: <20210224092304.29932-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,54 +42,336 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: multipart/mixed; boundary="===============0463977187=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjMuMDIuMjEgdW0gMTg6MzEgc2NocmllYiBBbGV4IERldWNoZXI6Cj4gT24gV2VkLCBGZWIg
-MTAsIDIwMjEgYXQgODoxNCBBTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+IHdyb3Rl
-Ogo+PiBPbiBXZWQsIEZlYiAxMCwgMjAyMSBhdCAwODo0NTo1NkFNICswMTAwLCBDaHJpc3RpYW4g
-S8O2bmlnIHdyb3RlOgo+Pj4gUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlh
-bi5rb2VuaWdAYW1kLmNvbT4gZm9yIHRoZSBzZXJpZXMuCj4+IFNtYXNoIGl0IGludG8gLW1pc2M/
-Cj4gQENocmlzdGlhbiBLb2VuaWcgZGlkIHRoZXNlIGV2ZXIgbGFuZD8gIEkgZG9uJ3Qgc2VlIHRo
-ZW0gaW4gZHJtLW1pc2MuCgpJJ3ZlIGp1c3QgcHVzaGVkIHRoZW0gdG8gZHJtLW1pc2MtbmV4dC4g
-U29ycnkgZm9yIHRoZSBkZWxheSwgdG90YWxseSAKZm9yZ290IGFib3V0IHRoZW0uCgpDaHJpc3Rp
-YW4uCgo+Cj4gQWxleAo+Cj4+IC1EYW5pZWwKPj4KPj4+IEFtIDEwLjAyLjIxIHVtIDAwOjQ4IHNj
-aHJpZWIgUmlrYXJkIEZhbGtlYm9ybjoKPj4+PiBDb25zdGlmeSBhIGZldyBzdGF0aWMgdm1fb3Bl
-cmF0aW9uc19zdHJ1Y3QgdGhhdCBhcmUgbmV2ZXIgbW9kaWZpZWQuIFRoZWlyCj4+Pj4gb25seSB1
-c2FnZSBpcyB0byBhc3NpZ24gdGhlaXIgYWRkcmVzcyB0byB0aGUgdm1fb3BzIGZpZWxkIGluIHRo
-ZQo+Pj4+IHZtX2FyZWFfc3RydWN0LCB3aGljaCBpcyBhIHBvaW50ZXIgdG8gY29uc3Qgdm1fb3Bl
-cmF0aW9uc19zdHJ1Y3QuIE1ha2UgdGhlbQo+Pj4+IGNvbnN0IHRvIGFsbG93IHRoZSBjb21waWxl
-ciB0byBwdXQgdGhlbSBpbiByZWFkLW9ubHkgbWVtb3J5Lgo+Pj4+Cj4+Pj4gV2l0aCB0aGlzIHNl
-cmllcyBhcHBsaWVkLCBhbGwgc3RhdGljIHN0cnVjdCB2bV9vcGVyYXRpb25zX3N0cnVjdCBpbiB0
-aGUKPj4+PiBrZXJuZWwgdHJlZSBhcmUgY29uc3QuCj4+Pj4KPj4+PiBSaWthcmQgRmFsa2Vib3Ju
-ICgzKToKPj4+PiAgICAgZHJtL2FtZGdwdS90dG06IGNvbnN0aWZ5IHN0YXRpYyB2bV9vcGVyYXRp
-b25zX3N0cnVjdAo+Pj4+ICAgICBkcm0vcmFkZW9uL3R0bTogY29uc3RpZnkgc3RhdGljIHZtX29w
-ZXJhdGlvbnNfc3RydWN0Cj4+Pj4gICAgIGRybS9ub3V2ZWF1L3R0bTogY29uc3RpZnkgc3RhdGlj
-IHZtX29wZXJhdGlvbnNfc3RydWN0Cj4+Pj4KPj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
-ZGdwdS9hbWRncHVfdHRtLmMgfCAyICstCj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUv
-bm91dmVhdV90dG0uYyAgIHwgMiArLQo+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFk
-ZW9uX3R0bS5jICAgICB8IDIgKy0KPj4+PiAgICAzIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9u
-cygrKSwgMyBkZWxldGlvbnMoLSkKPj4+Pgo+PiAtLQo+PiBEYW5pZWwgVmV0dGVyCj4+IFNvZnR3
-YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgo+PiBodHRwczovL25hbTExLnNhZmVsaW5r
-cy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cCUzQSUyRiUyRmJsb2cuZmZ3bGwuY2gl
-MkYmYW1wO2RhdGE9MDQlN0MwMSU3Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQuY29tJTdDOWQ3MzBl
-NTZlZmU1NGQzMjE1ZWUwOGQ4ZDgyMGQ2NDIlN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRl
-MTgzZCU3QzAlN0MwJTdDNjM3NDk2OTgyODM3NjE5NjQ1JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNk
-OGV5SldJam9pTUM0d0xqQXdNREFpTENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pY
-VkNJNk1uMCUzRCU3QzEwMDAmYW1wO3NkYXRhPWI0VVU4YnplWCUyQmExVmZPYmU4bXRhN2Z3dGpW
-diUyRjF3bzQlMkZQVnVHWkZXOFElM0QmYW1wO3Jlc2VydmVkPTAKPj4gX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPj4gZHJpLWRldmVsIG1haWxpbmcgbGlz
-dAo+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4+IGh0dHBzOi8vbmFtMTEuc2Fm
-ZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRmxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZyUyRm1haWxtYW4lMkZsaXN0aW5mbyUyRmRyaS1kZXZlbCZhbXA7ZGF0YT0w
-NCU3QzAxJTdDY2hyaXN0aWFuLmtvZW5pZyU0MGFtZC5jb20lN0M5ZDczMGU1NmVmZTU0ZDMyMTVl
-ZTA4ZDhkODIwZDY0MiU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3QzAl
-N0M2Mzc0OTY5ODI4Mzc2Mjk2MzglN0NVbmtub3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lNQzR3
-TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdD
-MTAwMCZhbXA7c2RhdGE9UktKaDZwJTJCVHhhRDBsSDZNJTJCMHMzbmFoM3RCYXRSRnFvVHZ5M01o
-N0x6NU0lM0QmYW1wO3Jlc2VydmVkPTAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0463977187==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="6e9K8dMXU0lJ77IHXdrcRYc7Zhg3KhCLW"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--6e9K8dMXU0lJ77IHXdrcRYc7Zhg3KhCLW
+Content-Type: multipart/mixed; boundary="Dq8wcrgO1lNZQieHaRiYicMoWZ1kNSVEY";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ gregkh@linuxfoundation.org, hdegoede@redhat.com, sean@poorly.run,
+ noralf@tronnes.org, stern@rowland.harvard.edu
+Cc: stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christoph Hellwig <hch@lst.de>
+Message-ID: <ab79a3a7-2659-2dd2-889d-e2356a1b8176@suse.de>
+Subject: Re: [PATCH v4] drm: Use USB controller's DMA mask when importing
+ dmabufs
+References: <20210224092304.29932-1-tzimmermann@suse.de>
+In-Reply-To: <20210224092304.29932-1-tzimmermann@suse.de>
+
+--Dq8wcrgO1lNZQieHaRiYicMoWZ1kNSVEY
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Greg, do you have comments on this patch?
+
+Am 24.02.21 um 10:23 schrieb Thomas Zimmermann:
+> USB devices cannot perform DMA and hence have no dma_mask set in their
+> device structure. Therefore importing dmabuf into a USB-based driver
+> fails, which breaks joining and mirroring of display in X11.
+>=20
+> For USB devices, pick the associated USB controller as attachment devic=
+e.
+> This allows the DRM import helpers to perform the DMA setup. If the DMA=
+
+> controller does not support DMA transfers, we're out of luck and cannot=
+
+> import. Our current USB-based DRM drivers don't use DMA, so the actual
+> DMA device is not important.
+>=20
+> Drivers should use DRM_GEM_SHMEM_DROVER_OPS_USB to initialize their
+> instance of struct drm_driver.
+>=20
+> Tested by joining/mirroring displays of udl and radeon un der Gnome/X11=
+=2E
+>=20
+> v4:
+> 	* implement workaround with USB helper functions (Greg)
+> 	* use struct usb_device->bus->sysdev as DMA device (Takashi)
+> v3:
+> 	* drop gem_create_object
+> 	* use DMA mask of USB controller, if any (Daniel, Christian, Noralf)
+> v2:
+> 	* move fix to importer side (Christian, Daniel)
+> 	* update SHMEM and CMA helpers for new PRIME callbacks
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 6eb0233ec2d0 ("usb: don't inherity DMA properties for USB device=
+s")
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: <stable@vger.kernel.org> # v5.10+
+> ---
+>   drivers/gpu/drm/drm_prime.c        | 38 +++++++++++++++++++++++++++++=
++
+>   drivers/gpu/drm/tiny/gm12u320.c    |  2 +-
+>   drivers/gpu/drm/udl/udl_drv.c      |  2 +-
+>   drivers/usb/core/usb.c             | 29 +++++++++++++++++++++++
+>   include/drm/drm_gem_shmem_helper.h | 13 ++++++++++
+>   include/drm/drm_prime.h            |  5 ++++
+>   include/linux/usb.h                |  3 +++
+>   7 files changed, 90 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 2a54f86856af..15c82088ab4c 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -29,6 +29,7 @@
+>   #include <linux/export.h>
+>   #include <linux/dma-buf.h>
+>   #include <linux/rbtree.h>
+> +#include <linux/usb.h>
+>  =20
+>   #include <drm/drm.h>
+>   #include <drm/drm_drv.h>
+> @@ -1055,3 +1056,40 @@ void drm_prime_gem_destroy(struct drm_gem_object=
+ *obj, struct sg_table *sg)
+>   	dma_buf_put(dma_buf);
+>   }
+>   EXPORT_SYMBOL(drm_prime_gem_destroy);
+> +
+> +/**
+> + * drm_gem_prime_import_usb - helper library implementation of the imp=
+ort callback for USB devices
+> + * @dev: drm_device to import into
+> + * @dma_buf: dma-buf object to import
+> + *
+> + * This is an implementation of drm_gem_prime_import() for USB-based d=
+evices.
+> + * USB devices cannot perform DMA directly. This function selects the =
+USB host
+> + * controller as DMA device instead. Drivers can use this as their
+> + * &drm_driver.gem_prime_import implementation.
+> + *
+> + * See also drm_gem_prime_import().
+> + */
+> +#ifdef CONFIG_USB
+> +struct drm_gem_object *drm_gem_prime_import_usb(struct drm_device *dev=
+,
+> +						struct dma_buf *dma_buf)
+> +{
+> +	struct usb_device *udev;
+> +	struct device *dmadev;
+> +	struct drm_gem_object *obj;
+> +
+> +	if (!dev_is_usb(dev->dev))
+> +		return ERR_PTR(-ENODEV);
+> +	udev =3D interface_to_usbdev(to_usb_interface(dev->dev));
+> +
+> +	dmadev =3D usb_get_dma_device(udev);
+> +	if (drm_WARN_ONCE(dev, !dmadev, "buffer sharing not supported"))
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	obj =3D drm_gem_prime_import_dev(dev, dma_buf, dmadev);
+> +
+> +	put_device(dmadev);
+> +
+> +	return obj;
+> +}
+> +EXPORT_SYMBOL(drm_gem_prime_import_usb);
+> +#endif
+> diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm1=
+2u320.c
+> index 0b4f4f2af1ef..99e7bd36a220 100644
+> --- a/drivers/gpu/drm/tiny/gm12u320.c
+> +++ b/drivers/gpu/drm/tiny/gm12u320.c
+> @@ -611,7 +611,7 @@ static const struct drm_driver gm12u320_drm_driver =
+=3D {
+>   	.minor		 =3D DRIVER_MINOR,
+>  =20
+>   	.fops		 =3D &gm12u320_fops,
+> -	DRM_GEM_SHMEM_DRIVER_OPS,
+> +	DRM_GEM_SHMEM_DRIVER_OPS_USB,
+>   };
+>  =20
+>   static const struct drm_mode_config_funcs gm12u320_mode_config_funcs =
+=3D {
+> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_dr=
+v.c
+> index 9269092697d8..2db483b2b199 100644
+> --- a/drivers/gpu/drm/udl/udl_drv.c
+> +++ b/drivers/gpu/drm/udl/udl_drv.c
+> @@ -39,7 +39,7 @@ static const struct drm_driver driver =3D {
+>  =20
+>   	/* GEM hooks */
+>   	.fops =3D &udl_driver_fops,
+> -	DRM_GEM_SHMEM_DRIVER_OPS,
+> +	DRM_GEM_SHMEM_DRIVER_OPS_USB,
+>  =20
+>   	.name =3D DRIVER_NAME,
+>   	.desc =3D DRIVER_DESC,
+> diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+> index 8f07b0516100..253bf71780fd 100644
+> --- a/drivers/usb/core/usb.c
+> +++ b/drivers/usb/core/usb.c
+> @@ -748,6 +748,35 @@ void usb_put_intf(struct usb_interface *intf)
+>   }
+>   EXPORT_SYMBOL_GPL(usb_put_intf);
+>  =20
+> +/**
+> + * usb_get_dma_device - acquire a reference on the usb device's DMA en=
+dpoint
+> + * @udev: usb device
+> + *
+> + * While a USB device cannot perform DMA operations by itself, many US=
+B
+> + * controllers can. A call to usb_get_dma_device() returns the DMA end=
+point
+> + * for the given USB device, if any. The returned device structure sho=
+uld be
+> + * released with put_device().
+> + *
+> + * Returns: A reference to the usb device's DMA endpoint; or NULL if n=
+one
+> + *          exists.
+> + */
+> +struct device *usb_get_dma_device(struct usb_device *udev)
+> +{
+> +	struct device *dmadev;
+> +
+> +	if (!udev->bus)
+> +		return NULL;
+> +
+> +	dmadev =3D get_device(udev->bus->sysdev);
+> +	if (!dmadev || !dmadev->dma_mask) {
+> +		put_device(dmadev);
+> +		return NULL;
+> +	}
+> +
+> +	return dmadev;
+> +}
+> +EXPORT_SYMBOL_GPL(usb_get_dma_device);
+> +
+>   /*			USB device locking
+>    *
+>    * USB devices and interfaces are locked using the semaphore in their=
+
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_s=
+hmem_helper.h
+> index 434328d8a0d9..09d12f632cad 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -162,4 +162,17 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struc=
+t drm_gem_object *obj);
+>   	.gem_prime_mmap		=3D drm_gem_prime_mmap, \
+>   	.dumb_create		=3D drm_gem_shmem_dumb_create
+>  =20
+> +#ifdef CONFIG_USB
+> +/**
+> + * DRM_GEM_SHMEM_DRIVER_OPS_USB - Default shmem GEM operations for USB=
+ devices
+> + *
+> + * This macro provides a shortcut for setting the shmem GEM operations=
+ in
+> + * the &drm_driver structure. Drivers for USB-based devices should use=
+ this
+> + * macro instead of &DRM_GEM_SHMEM_DRIVER_OPS.
+> + */
+> +#define DRM_GEM_SHMEM_DRIVER_OPS_USB \
+> +	DRM_GEM_SHMEM_DRIVER_OPS, \
+> +	.gem_prime_import =3D drm_gem_prime_import_usb
+> +#endif
+> +
+>   #endif /* __DRM_GEM_SHMEM_HELPER_H__ */
+> diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
+> index 54f2c58305d2..b42e07edd9e6 100644
+> --- a/include/drm/drm_prime.h
+> +++ b/include/drm/drm_prime.h
+> @@ -110,4 +110,9 @@ int drm_prime_sg_to_page_array(struct sg_table *sgt=
+, struct page **pages,
+>   int drm_prime_sg_to_dma_addr_array(struct sg_table *sgt, dma_addr_t *=
+addrs,
+>   				   int max_pages);
+>  =20
+> +#ifdef CONFIG_USB
+> +struct drm_gem_object *drm_gem_prime_import_usb(struct drm_device *dev=
+,
+> +						struct dma_buf *dma_buf);
+> +#endif
+> +
+>   #endif /* __DRM_PRIME_H__ */
+> diff --git a/include/linux/usb.h b/include/linux/usb.h
+> index 7d72c4e0713c..a9bd698c8839 100644
+> --- a/include/linux/usb.h
+> +++ b/include/linux/usb.h
+> @@ -711,6 +711,7 @@ struct usb_device {
+>   	unsigned use_generic_driver:1;
+>   };
+>   #define	to_usb_device(d) container_of(d, struct usb_device, dev)
+> +#define dev_is_usb(d)	((d)->bus =3D=3D &usb_bus_type)
+>  =20
+>   static inline struct usb_device *interface_to_usbdev(struct usb_inter=
+face *intf)
+>   {
+> @@ -746,6 +747,8 @@ extern int usb_lock_device_for_reset(struct usb_dev=
+ice *udev,
+>   extern int usb_reset_device(struct usb_device *dev);
+>   extern void usb_queue_reset_device(struct usb_interface *dev);
+>  =20
+> +extern struct device *usb_get_dma_device(struct usb_device *udev);
+> +
+>   #ifdef CONFIG_ACPI
+>   extern int usb_acpi_set_power_state(struct usb_device *hdev, int inde=
+x,
+>   	bool enable);
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--Dq8wcrgO1lNZQieHaRiYicMoWZ1kNSVEY--
+
+--6e9K8dMXU0lJ77IHXdrcRYc7Zhg3KhCLW
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmA4qnYFAwAAAAAACgkQlh/E3EQov+An
+hQ/+KwccQGtHg+1C4ng+lrWHQimvio7WKE6DnapDgBOeusDM6xOUB17hfkSjQpU2D/kmzwqTIxNK
+6v6baIBrI3QSXuX8+4I5W/tngl+41zFNMYE2tld6u+8MkXqNf4M9d2E4OH37Bhy2MfD2omavYPMg
+AY9JQz/tiOkim7O2E31xChmaTQ2zB9dinZI/ze1E8JWyr9s98AGTPV5q8ZJ2khlpRZjCNzSGZh1F
+5D5768pDqFYb6sRbmDwl+IPit5n97hOT2PUoNY1EOQ7dRkhg0GrsSD6GKKvVmQiaYu2KCY9aDaqu
+djmVHUKOC1eNOxR5Ep2zeYbLkPDIebzQ9oFownH5FPBsjvLpl85j0U68CbNe0p6Eh9AUM91UMWVD
+BghvL3jfbzjE2LaG6jMtWivSMW2B3peRRab6JQcrqdzwGrMKDamqkdc5l804ojoOBxRHLobvCI4g
+O9rbFvWhxI2Zf5wV5flknu1b7PUiBe53hJHZoszcihVtXQvi/xiReNnBMZZ2KEY1nHx/PJADekKp
+sNC7o2bn2F32d3EobKDJRD6tLEv9CdSQnDOK2aIZg53hgxSWc/VYDPPQoFSfysuN9UsBgj1YQfbr
+8rXFvzZH+hfP3N+iZ4AKKttSWTEUUHPFvoxG+ijgg7K91UQyM+FTz+VYCN0C7ZrBFTuXV3tneij4
+Lbg=
+=SEjD
+-----END PGP SIGNATURE-----
+
+--6e9K8dMXU0lJ77IHXdrcRYc7Zhg3KhCLW--
+
+--===============0463977187==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0463977187==--
