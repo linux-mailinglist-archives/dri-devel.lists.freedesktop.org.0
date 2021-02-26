@@ -2,52 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C305325F50
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 09:42:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E011325F69
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 09:48:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D20F6E8F7;
-	Fri, 26 Feb 2021 08:42:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD2EF6E902;
+	Fri, 26 Feb 2021 08:48:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com
- [IPv6:2607:f8b0:4864:20::e2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 975286E8F7;
- Fri, 26 Feb 2021 08:42:52 +0000 (UTC)
-Received: by mail-vs1-xe2a.google.com with SMTP id l192so4366123vsd.5;
- Fri, 26 Feb 2021 00:42:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=14VFYof0i1qhYtG6IP3r3atV1+gp0vez9of+ccnZeiE=;
- b=Pvz10iUnUx+4sFedZ1zNZsUQN9/Tg5jsorHKwE5wPtgKu2OdoFe6xaPGMf/ZPeypRz
- vefchTEm94QXlj14JNWU7ghRDx00Bqb2W6xr+TViDYKU7eR9XBzIjgQPhfcI/7ojMqf6
- pu6K6G3IbLqVA54ULc5B6KrL6Qjbkej1K1Lz5m1D4qJmHMAYq5iBpjo1W3VDcl/n81lk
- s8XP+U1ClndLU1PdJJhT/XCfpjFhTcEUl3VW1Zt91BuNPicIUtMyQ8H5HVrKHZSVVuwq
- t6ICl/YtnM0DiaVshCwX3UZp8Y7OcfvnEWSey3vvwZNxp3DX5si9gbm+XS6QUVsyQYzN
- lwrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=14VFYof0i1qhYtG6IP3r3atV1+gp0vez9of+ccnZeiE=;
- b=Tn5mtXFo4cDCHG2H1PnEeTcbVgU3gAD8+g2jLA2w/qlk5vFOAVJcdsH2KphGsgnZyX
- vw/9jPKvjHDPH3WmHLM2yIIHN7WMlXd74/zxglLzkRhwYZ1PIzhFK/m/Agp/NpLuT9/M
- c0mXcd0CBTz8q3tLdWxEIReiy3DK0PUH7CbTXz4roY7/1U1XLyqTurQ6BnX+wTHevGZT
- iL8mKU4U+wx4iAtB7jOzpetypdLmiaa4SnfSpUTseGN+HJZ4rydJOIiY2Miq00hHbVi2
- e+OASOs4Nc+sZRFRo7uZxPvLVDuxkRHCK/yL/boiZpfR3WogPVtgsOwWV9iYuzv8K7RR
- IMkg==
-X-Gm-Message-State: AOAM531NuQGEqVRGrLhfPTEVftDWsp5wFNgj0AiWt/JdZ/sH9PtoMNdY
- 6KdFue8eU6ghlnSJuI2GBRw4I6VQrwf90I4QyzM+JLy1nu0=
-X-Google-Smtp-Source: ABdhPJwqY2uMfng18zKynwKhtRhcp3b3XhyOloQlQZfTjQMtZko7IIBA3ZXlv8cLMdnjrnAMFJ7YNI1/1r2EoOEsuFY=
-X-Received: by 2002:a67:fad5:: with SMTP id g21mr974561vsq.29.1614328971759;
- Fri, 26 Feb 2021 00:42:51 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13FFB6E8FC;
+ Fri, 26 Feb 2021 08:48:12 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 93B73ACD4;
+ Fri, 26 Feb 2021 08:48:10 +0000 (UTC)
+Subject: Re: udldrm does not recover from powersave? Re: udldrmfb: causes WARN
+ in i915 on X60 (x86-32)
+To: Pavel Machek <pavel@ucw.cz>
+References: <20210224200912.GA27905@duo.ucw.cz>
+ <452585d5-9d18-f5a8-9d6b-6d39aa037480@suse.de> <20210225095322.GA5089@amd>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <ece8d515-5de1-6303-e62e-8ab7bce61102@suse.de>
+Date: Fri, 26 Feb 2021 09:48:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210224155500.4187550-1-l.stach@pengutronix.de>
-In-Reply-To: <20210224155500.4187550-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Fri, 26 Feb 2021 09:42:40 +0100
-Message-ID: <CAH9NwWff6CCebmowLLfNC6gGCNv1ZKK8sfF7=BBx3djQYfLEYA@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: add HWDB entry for GC7000 rev 6204
-To: Lucas Stach <l.stach@pengutronix.de>
+In-Reply-To: <20210225095322.GA5089@amd>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,87 +40,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sascha Hauer <kernel@pengutronix.de>, patchwork-lst@pengutronix.de,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, kernel list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com, airlied@redhat.com,
+ sean@poorly.run
+Content-Type: multipart/mixed; boundary="===============0909774966=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mi., 24. Feb. 2021 um 16:55 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
->
-> From: Sascha Hauer <s.hauer@pengutronix.de>
->
-> This is the 3D GPU found on the i.MX8MP SoC.
->
-Can you provide some information about where you have taken these
-values (galcore version,
-database entry name)?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0909774966==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="R9SctC0uQGGWA18ld3uV2EUoWdWXbdHcF"
 
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> index 167971a09be7..dfc0f536b3b9 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> @@ -37,6 +37,37 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .minor_features10 = 0x0,
->                 .minor_features11 = 0x0,
->         },
-> +       {
-> +               .model = 0x7000,
-> +               .revision = 0x6204,
-> +               .product_id = ~0U,
-> +               .customer_id = ~0U,
-> +               .eco_id = 0,
-> +               .stream_count = 16,
-> +               .register_max = 64,
-> +               .thread_count = 512,
-> +               .shader_core_count = 2,
-> +               .vertex_cache_size = 16,
-> +               .vertex_output_buffer_size = 1024,
-> +               .pixel_pipes = 1,
-> +               .instruction_count = 512,
-> +               .num_constants = 320,
-> +               .buffer_size = 0,
-> +               .varyings_count = 16,
-> +               .features = 0xe0287c8d,
-> +               .minor_features0 = 0xc1589eff,
-> +               .minor_features1 = 0xfefbfad9,
-> +               .minor_features2 = 0xeb9d4fbf,
-> +               .minor_features3 = 0xedfffced,
-> +               .minor_features4 = 0xdb0dafc7,
-> +               .minor_features5 = 0x3b5ac333,
-> +               .minor_features6 = 0xfcce6000,
-> +               .minor_features7 = 0xfffbfa6f,
-> +               .minor_features8 = 0x00e10ef3,
-> +               .minor_features9 = 0x04c8003c,
-> +               .minor_features10 = 0x00004060,
-> +               .minor_features11 = 0x00000024,
-> +       },
->         {
->                 .model = 0x7000,
->                 .revision = 0x6214,
-> --
-> 2.29.2
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--R9SctC0uQGGWA18ld3uV2EUoWdWXbdHcF
+Content-Type: multipart/mixed; boundary="5YbiRPKFIGwMzBdTT84emkODExBeeAPmC";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Pavel Machek <pavel@ucw.cz>
+Cc: intel-gfx@lists.freedesktop.org,
+ kernel list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ rodrigo.vivi@intel.com, airlied@redhat.com, sean@poorly.run
+Message-ID: <ece8d515-5de1-6303-e62e-8ab7bce61102@suse.de>
+Subject: Re: udldrm does not recover from powersave? Re: udldrmfb: causes WARN
+ in i915 on X60 (x86-32)
+References: <20210224200912.GA27905@duo.ucw.cz>
+ <452585d5-9d18-f5a8-9d6b-6d39aa037480@suse.de> <20210225095322.GA5089@amd>
+In-Reply-To: <20210225095322.GA5089@amd>
 
-I really would love to see a hwdb in mesa instead of adding more
-entries to the kernel one.
+--5YbiRPKFIGwMzBdTT84emkODExBeeAPmC
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
--- 
-greets
---
-Christian Gmeiner, MSc
+Hi
 
-https://christian-gmeiner.info/privacypolicy
+Am 25.02.21 um 10:53 schrieb Pavel Machek:
+> Hi!
+>=20
+>>> This is in -next, but I get same behaviour on 5.11; and no, udl does
+>>
+>> Thanks for reporting. We are in the process of fixing the issue. The l=
+atest
+>> patch is at [1].
+>>
+>=20
+> Thank you, that fixes the DMA issue, and I can use the udl.
+>=20
+> ...for a while. Then screensaver blanks laptop screen, udl screen
+> blanks too. Upon hitting a key, internal screen shows up, udl does
+> not.
+>=20
+> I try rerunning xrandr ... --auto, but could not recover it.
+>=20
+> Any ideas?
+
+Seems unrelated. I tested for the issue with the last good revision and=20
+with the latest fix applied. I use Gnome/X11.
+
+With both kernels, the udl adapter's display came back after suspending. =
+
+So I'd attribute the problem to something else.
+
+Best regards
+Thomas
+
+>=20
+> Best regards,
+> 								Pavel
+>=20
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+(HRB 36809, AG N=FCrnberg)
+Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+
+
+--5YbiRPKFIGwMzBdTT84emkODExBeeAPmC--
+
+--R9SctC0uQGGWA18ld3uV2EUoWdWXbdHcF
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmA4tcQFAwAAAAAACgkQlh/E3EQov+Ci
+ng//WJBJQMFY2/H+nPFNVaVndjuuoD5EU9nKdbgzA8jvKxHcbFVkcGieeUvFZydB3yEC80UYioes
+YF5KaWKtAAt4BqiIR+s1afZ64dWXXtfy2/40ynpkd7bSwotj9B6T614avMu/4N3B+++oeB8l6Kkh
+ejo1CcNzxLM2P8k1gzxDSzdz9R+to3cKPe8hGw9TnQs5SVU5uOkLPwp3upO4/UrVhG5y2xBV0V0m
+l72f/aXUx/zH37EEMPdv4O/YkWfwYl4j0LY/TCxY72kKO0ACyGmtB4hbqysLHQYlPR/0gF++BU9f
+nNjWVjS4lUx9dEyxKsssGP5pu6QA/3ReGhZY65gaNvxe+Czo1sLaljoY/fuTZH+LGyVAkVKzY+zw
+910fw5LR+hgalsfBzt2URyYxbZ2JRISSLZNaGt3pw/zYFO/sWpulVdsJydTG40bg0OaUlixFRxWi
+9AiSk605jtBlYAGz9EnKVQOXvGtI+dIkwMTVOiqj4o/LT48rDOjm5yQAt9zdcSrS6lHAtFXC7LAw
+BnXzhnW3jjxlHt/tc9r5YSwFH0Fg706nQbOn6Df3YZVjk6ByvdvzgNV0iYPygwrqSq4l0f5m/F2O
++HPPtahhFB8JCEJTA/xGqAkFUZ6ESaoY7UE/S0CS8k0WuMJemJB4XqEt48shQUKhnUITYat6GY7K
+OSI=
+=E5MT
+-----END PGP SIGNATURE-----
+
+--R9SctC0uQGGWA18ld3uV2EUoWdWXbdHcF--
+
+--===============0909774966==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0909774966==--
