@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F5A326125
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 11:19:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 759B0326138
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 11:28:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFE076ECC7;
-	Fri, 26 Feb 2021 10:19:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 716A36EDBA;
+	Fri, 26 Feb 2021 10:28:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4E0E6ECC7
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 10:19:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D379A64EC4;
- Fri, 26 Feb 2021 10:19:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E993E6EDBA
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 10:28:51 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B434A64ED2;
+ Fri, 26 Feb 2021 10:28:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1614334756;
- bh=rVlXloPPfLPQpOVuD12Sp6NkildN63CEci+e0FiVlhE=;
+ s=korg; t=1614335331;
+ bh=jg4KYD3nWRaiBaQ1WklFiccD7vWbIckOLF0IvTz3pgo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cjs4hYVNXDmfmmdyXCTsKBgRLRgYL4JG5p2I5vt10SsKBzccD6/kOjosiGXVB3TVJ
- ij4tMsqY6ZQqRxlDgAzaFV4TwEc+dBvWrktVdpSDAVGh5Tpu+YrINg2obGa/D2JyRu
- D2D5gIO4oUC3b/bLaaU/gQv3sqXN2n8Q+h+eH6Ww=
-Date: Fri, 26 Feb 2021 11:19:13 +0100
+ b=LMfrw4aTMBE4hcgBPIz+2UBAi4YleWnBzkIVm55F2R+lulxnEvQP4zEXgzQYfWOkz
+ GWOw4Hl39c8LDOcL9yJDpr9MXqUk0J7XhRaCOrkrDviyzp4RPtCjlVLNrQVitaPJMg
+ As7K8Pk74mkiSwiCfNA6CigWq1vVpciUn4rG+QNE=
+Date: Fri, 26 Feb 2021 11:28:47 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Subject: Re: [PATCH v5] drm: Use USB controller's DMA mask when importing
  dmabufs
-Message-ID: <YDjLIfVqbQzAgBE+@kroah.com>
+Message-ID: <YDjNXzMUaciWIxxi@kroah.com>
 References: <20210226092648.4584-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -193,24 +193,76 @@ herwise.
 > +
 > +	if (!dev_is_usb(dev->dev))
 > +		return ERR_PTR(-ENODEV);
+> +
+> +	dmadev =3D usb_intf_get_dma_device(to_usb_interface(dev->dev));
+> +	if (drm_WARN_ONCE(dev, !dmadev, "buffer sharing not supported"))
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	obj =3D drm_gem_prime_import_dev(dev, dma_buf, dmadev);
+> +
+> +	put_device(dmadev);
+> +
+> +	return obj;
+> +}
+> +EXPORT_SYMBOL(drm_gem_prime_import_usb);
+> +#endif
+> diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u=
+320.c
+> index 0b4f4f2af1ef..99e7bd36a220 100644
+> --- a/drivers/gpu/drm/tiny/gm12u320.c
+> +++ b/drivers/gpu/drm/tiny/gm12u320.c
+> @@ -611,7 +611,7 @@ static const struct drm_driver gm12u320_drm_driver =
+=3D {
+>  	.minor		 =3D DRIVER_MINOR,
+>  =
 
-I have resisted the "dev_is_*()" type of function for USB for a long
-time now, and I really don't want to add it now.
+>  	.fops		 =3D &gm12u320_fops,
+> -	DRM_GEM_SHMEM_DRIVER_OPS,
+> +	DRM_GEM_SHMEM_DRIVER_OPS_USB,
+>  };
+>  =
 
-The driver core explicitly was not created with RTI (run type
-identification), but over time it has been slowly added on a per-bus
-basis for various reasons, some good and others not good.
+>  static const struct drm_mode_config_funcs gm12u320_mode_config_funcs =3D=
+ {
+> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
+> index 9269092697d8..2db483b2b199 100644
+> --- a/drivers/gpu/drm/udl/udl_drv.c
+> +++ b/drivers/gpu/drm/udl/udl_drv.c
+> @@ -39,7 +39,7 @@ static const struct drm_driver driver =3D {
+>  =
 
-In this function, why would a drm device that was NOT a usb device ever
-call it?  Because of that, I don't think dev_is_usb() is needed at all,
-just don't call this function unless it really is a USB device.
+>  	/* GEM hooks */
+>  	.fops =3D &udl_driver_fops,
+> -	DRM_GEM_SHMEM_DRIVER_OPS,
+> +	DRM_GEM_SHMEM_DRIVER_OPS_USB,
+>  =
 
-If you need help enforcing it, add a 'struct usb_interface *' to the
-function parameters but please don't create this function.
+>  	.name =3D DRIVER_NAME,
+>  	.desc =3D DRIVER_DESC,
+> diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+> index 8f07b0516100..5e07921e87ba 100644
+> --- a/drivers/usb/core/usb.c
+> +++ b/drivers/usb/core/usb.c
+> @@ -748,6 +748,37 @@ void usb_put_intf(struct usb_interface *intf)
+>  }
+>  EXPORT_SYMBOL_GPL(usb_put_intf);
+>  =
 
-Hm, looks like we have 2 extern definitions of usb_bus_type in different
-.h files, I should go fix that up now to try to prevent this type of
-thing in the first place...
+> +/**
+> + * usb_get_dma_device - acquire a reference on the usb device's DMA endp=
+oint
+> + * @udev: usb device
+> + *
+> + * While a USB device cannot perform DMA operations by itself, many USB
+> + * controllers can. A call to usb_get_dma_device() returns the DMA endpo=
+int
+> + * for the given USB device, if any. The returned device structure shoul=
+d be
+> + * released with put_device().
+
+"must be" released.
+
+Same for the other documentation in here.
 
 thanks,
 
