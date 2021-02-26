@@ -1,62 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8746326648
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 18:26:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFDBA326657
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 18:30:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D6A889C19;
-	Fri, 26 Feb 2021 17:26:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 129486EE29;
+	Fri, 26 Feb 2021 17:30:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2F4D89C19
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 17:26:04 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id u14so9328335wri.3
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 09:26:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Bqhbgu1Yp7BWdaUz/Li+kTuQBD64JpudY4kka6cuYOU=;
- b=de/+gQcXIlBR8jVkGwRajly9Ur7JLImRwKdA+cqTXTZs2N9AXIZdKdqD63bPpunD4X
- skq0DwsLCISevZLfmV9iOR6B/XV8PPTB0urSK1KY3HiY0yFlCuOSPH1MXrt8FHbRz5dq
- qm9yXsuQ9A/7hySFuR9vYhZQXbjIhgI0PgCuHk+GmglnrOlbRmcijDueB9SRpR8saq8X
- Si6LEabKe9dqZqHszSD2dChA8chYp7GnBZgSNV1yPlWZYAX+1UB7xHqJLcqjV4ESJ+mW
- XmgfxsxOViwwKJgHzfnSA+RUuMgpP09C2JcsYvCwhZoLeuwu+l1MLZTugYxD1FPiG2gG
- YggA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Bqhbgu1Yp7BWdaUz/Li+kTuQBD64JpudY4kka6cuYOU=;
- b=qLelBCOgjUWIpRDDsXV4u6XrbB7n3Ykwwcw8Pwkrn4fpuhq3g3Jb111prHRJ0TGswM
- 86O0kGhcYqPRUM2FmeYyFjziDuyVOJwEKyCOlO2ruZXNozW7wj70q85ZtQZ5xG6vdJje
- 3T5oJFFlEIWlkDi/X3d1qxCigchlvspbzKM17ap4F3iCoH1F9RE0n3aY/P+/FUax8B6E
- Il19F5G9G3jSye/dVIvi+APqlwsBbE5uh4svU6uWAAbc3Ypc8ZaynEoeWtqWNn6qHPTi
- qjO+6QrCcfzxxM2LvHvb5aIb8FIy49BVNUBCn1Ji0BfKa8/kH49tdAioruUavNa/VwHT
- vdgQ==
-X-Gm-Message-State: AOAM530mNGWg/7jYI/GnubCdtnaFsRMEXVIb457qSWccy3XJ6pKz+HAt
- TjZpiunVE9mLJlQduYNIJpfDeQ==
-X-Google-Smtp-Source: ABdhPJxv59nbOS4VjGoDEpvCB0o1HoLwhHwNNBMlJkKj6HsOImMA6tQWRJDOfwNGqiBMHmLBgvAGBQ==
-X-Received: by 2002:adf:e409:: with SMTP id g9mr4219176wrm.423.1614360363351; 
- Fri, 26 Feb 2021 09:26:03 -0800 (PST)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id m9sm57861wro.52.2021.02.26.09.26.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Feb 2021 09:26:02 -0800 (PST)
-Date: Fri, 26 Feb 2021 17:26:01 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Kiran Gunda <kgunda@codeaurora.org>
-Subject: Re: [PATCH V2 2/2] backlight: qcom-wled: Correct the sync_toggle
- sequence
-Message-ID: <20210226172601.aknj2d4hghkkqjol@maple.lan>
-References: <1614341544-5306-1-git-send-email-kgunda@codeaurora.org>
- <1614341544-5306-3-git-send-email-kgunda@codeaurora.org>
+Received: from merlin.infradead.org (merlin.infradead.org
+ [IPv6:2001:8b0:10b:1231::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4C416EE29
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 17:30:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=cUpjOvqMFT82ciPpS3h3o5kw6NB7VHxKS03NBNLEB6M=; b=UaiPO/LgLQiER5zhsEULNyTVN+
+ TmwnBO4Z/tFKMrmlKMmPfy3CB92WJPrWm5gY5caTqf6W5/a0GCMl3c9P6N7gNrEgS05wSFMbNwT5f
+ 2Rd6M7cLbjEKvtQK6mlk31Dm2p5NIlLYHD5f/LhIBPuKcviX1awZ5SCECfRzjo4T0j/hIHpa9CgLb
+ kwu6NBNJ5ZyuQO9/JJTJ/0fdO6GEHHhDV+G5pb1PHkL5LH0J5X8VLh82czZzVss4OjsPZDJ2k1Jv5
+ 8yqDLkvGm/0/UmRwr4IA391AoLwSSjO8i+0uahbG8XMPGSmh+Gvlu6cMV0/+P3FBh2sqVx3IWR+pP
+ CkJVfmaQ==;
+Received: from [2601:1c0:6280:3f0::3ba4] (helo=merlin.infradead.org)
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1lFgwP-0008Ov-Tg; Fri, 26 Feb 2021 17:30:14 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH -next v2] fbdev: atyfb: use LCD management functions for
+ PPC_PMAC also
+Date: Fri, 26 Feb 2021 09:30:08 -0800
+Message-Id: <20210226173008.18236-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1614341544-5306-3-git-send-email-kgunda@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,93 +46,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
- Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
- linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org,
- lee.jones@linaro.org, linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, dri-devel@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 26, 2021 at 05:42:24PM +0530, Kiran Gunda wrote:
-> As per the current implementation, after FSC (Full Scale Current)
-> and brightness update the sync bits are transitioned from 1 to 0.
-
-This still seems to incorrectly describe the current behaviour.
-
-Surely in most cases (i.e. every time except the first) the value of the
-sync bit is 0 when the function is called and we get both a 0 to 1
-and then a 1 to 0 transition.
-
-That is why I recommended set-then-clear terminology to describe the
-current behaviour. It is concise and correct.
-
-
-Daniel.
-
-
-
-> But, the FSC and brightness sync takes place during a 0 to 1
-> transition of the sync bits. So the hardware team recommends a
-> clear-then-set approach in order to guarantee such a transition
-> regardless of the previous register state.
-> 
-> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
-> ---
->  drivers/video/backlight/qcom-wled.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-> index aef52b9..19f83ac 100644
-> --- a/drivers/video/backlight/qcom-wled.c
-> +++ b/drivers/video/backlight/qcom-wled.c
-> @@ -337,13 +337,13 @@ static int wled3_sync_toggle(struct wled *wled)
->  
->  	rc = regmap_update_bits(wled->regmap,
->  				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
-> -				mask, mask);
-> +				mask, WLED3_SINK_REG_SYNC_CLEAR);
->  	if (rc < 0)
->  		return rc;
->  
->  	rc = regmap_update_bits(wled->regmap,
->  				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
-> -				mask, WLED3_SINK_REG_SYNC_CLEAR);
-> +				mask, mask);
->  
->  	return rc;
->  }
-> @@ -353,17 +353,17 @@ static int wled5_mod_sync_toggle(struct wled *wled)
->  	int rc;
->  	u8 val;
->  
-> -	val = (wled->cfg.mod_sel == MOD_A) ? WLED5_SINK_REG_SYNC_MOD_A_BIT :
-> -					     WLED5_SINK_REG_SYNC_MOD_B_BIT;
->  	rc = regmap_update_bits(wled->regmap,
->  				wled->sink_addr + WLED5_SINK_REG_MOD_SYNC_BIT,
-> -				WLED5_SINK_REG_SYNC_MASK, val);
-> +				WLED5_SINK_REG_SYNC_MASK, 0);
->  	if (rc < 0)
->  		return rc;
->  
-> +	val = (wled->cfg.mod_sel == MOD_A) ? WLED5_SINK_REG_SYNC_MOD_A_BIT :
-> +					     WLED5_SINK_REG_SYNC_MOD_B_BIT;
->  	return regmap_update_bits(wled->regmap,
->  				  wled->sink_addr + WLED5_SINK_REG_MOD_SYNC_BIT,
-> -				  WLED5_SINK_REG_SYNC_MASK, 0);
-> +				  WLED5_SINK_REG_SYNC_MASK, val);
->  }
->  
->  static int wled_ovp_fault_status(struct wled *wled, bool *fault_set)
-> -- 
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
->  a Linux Foundation Collaborative Project
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SW5jbHVkZSBQUENfUE1BQyBpbiB0aGUgY29uZmlncyB0aGF0IHVzZSBhdHlfbGRfbGNkKCkgYW5k
+CmF0eV9zdF9sY2QoKSBpbXBsZW1lbnRhdGlvbnMgc28gdGhhdCB0aGUgUE0gY29kZSBtYXkgd29y
+awpjb3JyZWN0bHkgZm9yIFBQQ19QTUFDLgoKU3VnZ2VzdGVkLWJ5OiBWaWxsZSBTeXJqw6Rsw6Qg
+PHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBSYW5keSBEdW5s
+YXAgPHJkdW5sYXBAaW5mcmFkZWFkLm9yZz4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0
+ZXJAZmZ3bGwuY2g+CkNjOiBOaWNrIERlc2F1bG5pZXJzIDxuZGVzYXVsbmllcnNAZ29vZ2xlLmNv
+bT4KQ2M6IGxpbnV4LWZiZGV2QHZnZXIua2VybmVsLm9yZwpDYzogZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpDYzogQmFydGxvbWllaiBab2xuaWVya2lld2ljeiA8Yi56b2xuaWVya2ll
+QHNhbXN1bmcuY29tPgpDYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgpDYzogRGF2
+aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgpDYzogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxh
+QGxpbnV4LmludGVsLmNvbT4KLS0tCkRhbmllbC0gV2UgYWxzbyBuZWVkIHRoaXMgcGF0Y2g6Cmh0
+dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC8yMDIxMDIyNDIxNTUyOC44MjItMS1yZHVu
+bGFwQGluZnJhZGVhZC5vcmcvCnRvIGZpeCBhIGtlcm5lbCB0ZXN0IHJvYm90IGJ1aWxkIGVycm9y
+LgoKdjI6IHNlbmQgdGhlIGNvcnJlY3QgdmVyc2lvbiBvZiB0aGlzIHBhdGNoICh0aGFua3MsIFZp
+bGxlKQoKIGRyaXZlcnMvdmlkZW8vZmJkZXYvYXR5L2F0eWZiX2Jhc2UuYyB8ICAgIDkgKysrKyst
+LS0tCiAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQoKLS0t
+IGxpbnV4LW5leHQtMjAyMTAyMTkub3JpZy9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2F0eS9hdHlmYl9i
+YXNlLmMKKysrIGxpbnV4LW5leHQtMjAyMTAyMTkvZHJpdmVycy92aWRlby9mYmRldi9hdHkvYXR5
+ZmJfYmFzZS5jCkBAIC0xMzMsNyArMTMzLDcgQEAKICNkZWZpbmUgUFJJTlRLRShmbXQsIGFyZ3Mu
+Li4pCXByaW50ayhLRVJOX0VSUiAiYXR5ZmI6ICIgZm10LCAjIyBhcmdzKQogCiAjaWYgZGVmaW5l
+ZChDT05GSUdfUE1BQ19CQUNLTElHSFQpIHx8IGRlZmluZWQoQ09ORklHX0ZCX0FUWV9HRU5FUklD
+X0xDRCkgfHwgXAotZGVmaW5lZChDT05GSUdfRkJfQVRZX0JBQ0tMSUdIVCkKK2RlZmluZWQoQ09O
+RklHX0ZCX0FUWV9CQUNLTElHSFQpIHx8IGRlZmluZWQgKENPTkZJR19QUENfUE1BQykKIHN0YXRp
+YyBjb25zdCB1MzIgbHRfbGNkX3JlZ3NbXSA9IHsKIAlDTkZHX1BBTkVMX0xHLAogCUxDRF9HRU5f
+Q05UTF9MRywKQEAgLTE3NSw4ICsxNzUsOCBAQCB1MzIgYXR5X2xkX2xjZChpbnQgaW5kZXgsIGNv
+bnN0IHN0cnVjdCBhCiAJCXJldHVybiBhdHlfbGRfbGUzMihMQ0RfREFUQSwgcGFyKTsKIAl9CiB9
+Ci0jZWxzZSAvKiBkZWZpbmVkKENPTkZJR19QTUFDX0JBQ0tMSUdIVCkgfHwgZGVmaW5lZChDT05G
+SUdfRkJfQVRZX0JBQ0tMSUdIVCkgXAotCSBkZWZpbmVkKENPTkZJR19GQl9BVFlfR0VORVJJQ19M
+Q0QpICovCisjZWxzZSAvKiBkZWZpbmVkKENPTkZJR19QTUFDX0JBQ0tMSUdIVCkgfHwgZGVmaW5l
+ZChDT05GSUdfRkJfQVRZX0JBQ0tMSUdIVCkgfHwKKwkgZGVmaW5lZChDT05GSUdfRkJfQVRZX0dF
+TkVSSUNfTENEKSB8fCBkZWZpbmVkKENPTkZJR19QUENfUE1BQykgKi8KIHZvaWQgYXR5X3N0X2xj
+ZChpbnQgaW5kZXgsIHUzMiB2YWwsIGNvbnN0IHN0cnVjdCBhdHlmYl9wYXIgKnBhcikKIHsgfQog
+CkBAIC0xODQsNyArMTg0LDggQEAgdTMyIGF0eV9sZF9sY2QoaW50IGluZGV4LCBjb25zdCBzdHJ1
+Y3QgYQogewogCXJldHVybiAwOwogfQotI2VuZGlmIC8qIGRlZmluZWQoQ09ORklHX1BNQUNfQkFD
+S0xJR0hUKSB8fCBkZWZpbmVkIChDT05GSUdfRkJfQVRZX0dFTkVSSUNfTENEKSAqLworI2VuZGlm
+IC8qIGRlZmluZWQoQ09ORklHX1BNQUNfQkFDS0xJR0hUKSB8fCBkZWZpbmVkKENPTkZJR19GQl9B
+VFlfQkFDS0xJR0hUKSB8fAorCSAgZGVmaW5lZCAoQ09ORklHX0ZCX0FUWV9HRU5FUklDX0xDRCkg
+fHwgZGVmaW5lZChDT05GSUdfUFBDX1BNQUMpICovCiAKICNpZmRlZiBDT05GSUdfRkJfQVRZX0dF
+TkVSSUNfTENECiAvKgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
