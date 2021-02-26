@@ -2,50 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23003326217
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 12:46:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19230326228
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 12:52:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 343A86E0CD;
-	Fri, 26 Feb 2021 11:46:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15B1E6E2C7;
+	Fri, 26 Feb 2021 11:52:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D286B6E0CD
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 11:46:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=o4+yVi71TUHK4ZbIbHpcIM8GtAca784/pykRj1YkBck=; b=NSp9dSW1JnT5/iiU78swZYu1Pn
- p2TKGwHECFmbYxxG5IU/r9Tj/OWhxHSbAkTLOA7xqyXgPwLD9SMrLrJo+H+P6FkCKADMfJXrwDl3N
- 8eGIVGFjjcx59ojIBSrlZrnkoqnm6vJRQmgshusoEU8cgyYpMDtuRc1dpp0ffEYWiyRi5/0rZbuon
- b0sPStT6xQQF0VBB2ogSmvfKAofY5MELwMRSR10BMd75KfGTHgCOah6TPWWTLiEQV3UYtd0YRzijR
- 0tKCfeTXyzxGyEFsjIQA8hisPvOd7AzwCYAvtnWGC+aRrvadOQR4sRbLRZHA0P9gxQRO5Bq/hDI+m
- xYUauKMQ==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:65104
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1lFbZW-0003di-JL; Fri, 26 Feb 2021 12:46:14 +0100
-Subject: Re: [PATCH v5] drm: Use USB controller's DMA mask when importing
- dmabufs
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@linux.ie, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- gregkh@linuxfoundation.org, hdegoede@redhat.com, sean@poorly.run,
- stern@rowland.harvard.edu
-References: <20210226092648.4584-1-tzimmermann@suse.de>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <a01b527b-69d1-d967-ab85-5407241b07f3@tronnes.org>
-Date: Fri, 26 Feb 2021 12:46:10 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41E5A6E2C7
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 11:52:50 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id o6so5939041pjf.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 03:52:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MboCJTnSVOsg8iDl/Ytx71C/vRtXv8vtcexDfc3Ue6Q=;
+ b=ciW/AiXB8i8nLGP934iHFFnQEtqDN6xDF/7p7P/mEe1/XJTnSNexLZkPm7joRF7lOY
+ cE0Cn3WHbKC1oskCjNIdD3Q/H/oWQt2cmsos27FAty4Wy+708ZaO2bywYURhJ4iZk5Cf
+ ChaYps5qpb7yT8MlORTSqv+Iopb920EhqN7aUJo0SxaXLb1OvvCp/pMuglMoEOKDwLGr
+ QuIqIrpUcduiuRCusADGM62Yu1pgizOs1+tM8TeFc40pirsqAg9i7tgVfF6V3zjNlckO
+ qPDssRfGEHO5OYRvqGw2PQazlGsdTR/IZDwqQ0aymVuO0tEfRZTyaleLAH78Tlpjkig/
+ YYbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MboCJTnSVOsg8iDl/Ytx71C/vRtXv8vtcexDfc3Ue6Q=;
+ b=ZPieEo6ogtIMH385xS4Y4bHd/GY5fore728SMyJP8OF3tZH+QPPUIpZ3HtIgalO8fX
+ PlMFhzeeibERmqMKTjjuXr6jitadElbMIZ7AKzqmjcn7PMT2G+GbCgivzfE7BOoEI3q5
+ 1b+PT1GDJcScgH2Zr940vvIgcFoSw3Bu/bDl4Fiv5C4RYtEsnUgje1g5BMn/dW1aTEzL
+ id+j7ueYoad3/Gh9pFcudCo2XG4CBH4vcwuYATKXb5cjfphIO262XBDmYeQ6T2tyaM+v
+ yf/IJCYOgOkRt6Mq8GdUWuhPl1zyRaW5Ou3zZDoqMlI+/7C3kQ1sEDiM9RnRcK8nh0Dz
+ jJ2w==
+X-Gm-Message-State: AOAM5313B1iPJoZ1G2ds5Yms4NKe4iNSxZgPStre5aW3MfVbPkH/F3tV
+ 8LrN0Miu96wg9g4xuhyLTGbzePQyH8UysszBm/+BEg==
+X-Google-Smtp-Source: ABdhPJwXRb71oswV+DAkAJmkVpFsBDgs0LQFkzICKAIYFYSo49YWbwL95uo+mAX/yk0mnI/bxGguPfEj3sfTIkzCrdo=
+X-Received: by 2002:a17:90b:1b52:: with SMTP id
+ nv18mr3187467pjb.19.1614340369882; 
+ Fri, 26 Feb 2021 03:52:49 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210226092648.4584-1-tzimmermann@suse.de>
+References: <1613619715-28785-1-git-send-email-victor.liu@nxp.com>
+ <1613619715-28785-2-git-send-email-victor.liu@nxp.com>
+In-Reply-To: <1613619715-28785-2-git-send-email-victor.liu@nxp.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Fri, 26 Feb 2021 12:52:39 +0100
+Message-ID: <CAG3jFyskt5ottSuGVe2VgR-rvbieauaFZFhXg5sYJxqwxgKawA@mail.gmail.com>
+Subject: Re: [PATCH v4 01/14] phy: Add LVDS configuration options
+To: Liu Ying <victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,82 +62,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>, dri-devel@lists.freedesktop.org,
- Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@pengutronix.de,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ s.hauer@pengutronix.de, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, kishon@ti.com,
+ Andrzej Hajda <a.hajda@samsung.com>, Vinod Koul <vkoul@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, linux-imx@nxp.com,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, shawnguo@kernel.org,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMjYuMDIuMjAyMSAxMC4yNiwgc2tyZXYgVGhvbWFzIFppbW1lcm1hbm46Cj4gVVNCIGRl
-dmljZXMgY2Fubm90IHBlcmZvcm0gRE1BIGFuZCBoZW5jZSBoYXZlIG5vIGRtYV9tYXNrIHNldCBp
-biB0aGVpcgo+IGRldmljZSBzdHJ1Y3R1cmUuIFRoZXJlZm9yZSBpbXBvcnRpbmcgZG1hYnVmIGlu
-dG8gYSBVU0ItYmFzZWQgZHJpdmVyCj4gZmFpbHMsIHdoaWNoIGJyZWFrcyBqb2luaW5nIGFuZCBt
-aXJyb3Jpbmcgb2YgZGlzcGxheSBpbiBYMTEuCj4gCj4gRm9yIFVTQiBkZXZpY2VzLCBwaWNrIHRo
-ZSBhc3NvY2lhdGVkIFVTQiBjb250cm9sbGVyIGFzIGF0dGFjaG1lbnQgZGV2aWNlLgo+IFRoaXMg
-YWxsb3dzIHRoZSBEUk0gaW1wb3J0IGhlbHBlcnMgdG8gcGVyZm9ybSB0aGUgRE1BIHNldHVwLiBJ
-ZiB0aGUgRE1BCj4gY29udHJvbGxlciBkb2VzIG5vdCBzdXBwb3J0IERNQSB0cmFuc2ZlcnMsIHdl
-J3JlIG91dCBvZiBsdWNrIGFuZCBjYW5ub3QKPiBpbXBvcnQuIE91ciBjdXJyZW50IFVTQi1iYXNl
-ZCBEUk0gZHJpdmVycyBkb24ndCB1c2UgRE1BLCBzbyB0aGUgYWN0dWFsCj4gRE1BIGRldmljZSBp
-cyBub3QgaW1wb3J0YW50Lgo+IAo+IERyaXZlcnMgc2hvdWxkIHVzZSBEUk1fR0VNX1NITUVNX0RS
-T1ZFUl9PUFNfVVNCIHRvIGluaXRpYWxpemUgdGhlaXIKPiBpbnN0YW5jZSBvZiBzdHJ1Y3QgZHJt
-X2RyaXZlci4KPiAKPiBUZXN0ZWQgYnkgam9pbmluZy9taXJyb3JpbmcgZGlzcGxheXMgb2YgdWRs
-IGFuZCByYWRlb24gdW4gZGVyIEdub21lL1gxMS4KPiAKPiB2NToKPiAJKiBwcm92aWRlIGEgaGVs
-cGVyIGZvciBVU0IgaW50ZXJmYWNlcyAoQWxhbikKPiAJKiBhZGQgRklYTUUgaXRlbSB0byBkb2N1
-bWVudGF0aW9uIGFuZCBUT0RPIGxpc3QgKERhbmllbCkKPiB2NDoKPiAJKiBpbXBsZW1lbnQgd29y
-a2Fyb3VuZCB3aXRoIFVTQiBoZWxwZXIgZnVuY3Rpb25zIChHcmVnKQo+IAkqIHVzZSBzdHJ1Y3Qg
-dXNiX2RldmljZS0+YnVzLT5zeXNkZXYgYXMgRE1BIGRldmljZSAoVGFrYXNoaSkKPiB2MzoKPiAJ
-KiBkcm9wIGdlbV9jcmVhdGVfb2JqZWN0Cj4gCSogdXNlIERNQSBtYXNrIG9mIFVTQiBjb250cm9s
-bGVyLCBpZiBhbnkgKERhbmllbCwgQ2hyaXN0aWFuLCBOb3JhbGYpCj4gdjI6Cj4gCSogbW92ZSBm
-aXggdG8gaW1wb3J0ZXIgc2lkZSAoQ2hyaXN0aWFuLCBEYW5pZWwpCj4gCSogdXBkYXRlIFNITUVN
-IGFuZCBDTUEgaGVscGVycyBmb3IgbmV3IFBSSU1FIGNhbGxiYWNrcwo+IAo+IFNpZ25lZC1vZmYt
-Ynk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+IEZpeGVzOiA2ZWIw
-MjMzZWMyZDAgKCJ1c2I6IGRvbid0IGluaGVyaXR5IERNQSBwcm9wZXJ0aWVzIGZvciBVU0IgZGV2
-aWNlcyIpCj4gVGVzdGVkLWJ5OiBQYXZlbCBNYWNoZWsgPHBhdmVsQHVjdy5jej4KPiBBY2tlZC1i
-eTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IEFja2VkLWJ5
-OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+IENjOiBDaHJpc3RvcGgg
-SGVsbHdpZyA8aGNoQGxzdC5kZT4KPiBDYzogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGlu
-dXhmb3VuZGF0aW9uLm9yZz4KPiBDYzogPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+ICMgdjUuMTAr
-Cj4gLS0tCgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMKPiBpbmRleCAyYTU0Zjg2ODU2YWYuLjU5MDEzYmIxY2Q0
-YiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMKPiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMKPiBAQCAtMjksNiArMjksNyBAQAo+ICAjaW5jbHVkZSA8
-bGludXgvZXhwb3J0Lmg+Cj4gICNpbmNsdWRlIDxsaW51eC9kbWEtYnVmLmg+Cj4gICNpbmNsdWRl
-IDxsaW51eC9yYnRyZWUuaD4KPiArI2luY2x1ZGUgPGxpbnV4L3VzYi5oPgo+ICAKPiAgI2luY2x1
-ZGUgPGRybS9kcm0uaD4KPiAgI2luY2x1ZGUgPGRybS9kcm1fZHJ2Lmg+Cj4gQEAgLTEwNTUsMyAr
-MTA1Niw0NyBAQCB2b2lkIGRybV9wcmltZV9nZW1fZGVzdHJveShzdHJ1Y3QgZHJtX2dlbV9vYmpl
-Y3QgKm9iaiwgc3RydWN0IHNnX3RhYmxlICpzZykKPiAgCWRtYV9idWZfcHV0KGRtYV9idWYpOwo+
-ICB9Cj4gIEVYUE9SVF9TWU1CT0woZHJtX3ByaW1lX2dlbV9kZXN0cm95KTsKPiArCj4gKy8qKgo+
-ICsgKiBkcm1fZ2VtX3ByaW1lX2ltcG9ydF91c2IgLSBoZWxwZXIgbGlicmFyeSBpbXBsZW1lbnRh
-dGlvbiBvZiB0aGUgaW1wb3J0IGNhbGxiYWNrIGZvciBVU0IgZGV2aWNlcwo+ICsgKiBAZGV2OiBk
-cm1fZGV2aWNlIHRvIGltcG9ydCBpbnRvCj4gKyAqIEBkbWFfYnVmOiBkbWEtYnVmIG9iamVjdCB0
-byBpbXBvcnQKPiArICoKPiArICogVGhpcyBpcyBhbiBpbXBsZW1lbnRhdGlvbiBvZiBkcm1fZ2Vt
-X3ByaW1lX2ltcG9ydCgpIGZvciBVU0ItYmFzZWQgZGV2aWNlcy4KPiArICogVVNCIGRldmljZXMg
-Y2Fubm90IHBlcmZvcm0gRE1BIGRpcmVjdGx5LiBUaGlzIGZ1bmN0aW9uIHNlbGVjdHMgdGhlIFVT
-QiBob3N0Cj4gKyAqIGNvbnRyb2xsZXIgYXMgRE1BIGRldmljZSBpbnN0ZWFkLiBEcml2ZXJzIGNh
-biB1c2UgdGhpcyBhcyB0aGVpcgo+ICsgKiAmZHJtX2RyaXZlci5nZW1fcHJpbWVfaW1wb3J0IGlt
-cGxlbWVudGF0aW9uLgo+ICsgKgo+ICsgKiBTZWUgYWxzbyBkcm1fZ2VtX3ByaW1lX2ltcG9ydCgp
-Lgo+ICsgKgo+ICsgKiBGSVhNRTogVGhlIGRtYS1idWYgZnJhbWV3b3JrIGV4cGVjdHMgdG8gbWFw
-IHRoZSBleHBvcnRlZCBwYWdlcyBpbnRvCj4gKyAqICAgICAgICB0aGUgaW1wb3J0ZXIncyBETUEg
-YXJlYS4gVVNCIGRldmljZXMgZG9uJ3Qgc3VwcG9ydCBETUEsIGFuZAo+ICsgKiAgICAgICAgaW1w
-b3J0aW5nIHdvdWxkIGZhaWwuIEZvaXIgdGhlIHRpbWUgYmVpbmcsIHRoaXMgZnVuY3Rpb24gcHJv
-dmlkZXMKCnMvRm9pci9Gb3IvCgpOb3JhbGYuCgo+ICsgKiAgICAgICAgYSB3b3JrYXJvdW5kIGJ5
-IHVzaW5nIHRoZSBVU0IgY29udHJvbGxlcidzIERNQSBhcmVhLiBUaGUgcmVhbAo+ICsgKiAgICAg
-ICAgc29sdXRpb24gaXMgdG8gcmVtb3ZlIHBhZ2UtbWFwcGluZyBvcGVyYXRpb25zIGZyb20gdGhl
-IGRtYS1idWYKPiArICogICAgICAgIGZyYW1ld29yay4KPiArICoKPiArICogUmV0dXJuczogQSBH
-RU0gb2JqZWN0IG9uIHN1Y2Nlc3MsIG9yIGEgcG9pbnRlci1lbmNvZGVyIGVycm5vIHZhbHVlIG90
-aGVyd2lzZS4KPiArICovCj4gKyNpZmRlZiBDT05GSUdfVVNCCj4gK3N0cnVjdCBkcm1fZ2VtX29i
-amVjdCAqZHJtX2dlbV9wcmltZV9pbXBvcnRfdXNiKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4g
-KwkJCQkJCXN0cnVjdCBkbWFfYnVmICpkbWFfYnVmKQo+ICt7Cj4gKwlzdHJ1Y3QgZGV2aWNlICpk
-bWFkZXY7Cj4gKwlzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iajsKPiArCj4gKwlpZiAoIWRldl9p
-c191c2IoZGV2LT5kZXYpKQo+ICsJCXJldHVybiBFUlJfUFRSKC1FTk9ERVYpOwo+ICsKPiArCWRt
-YWRldiA9IHVzYl9pbnRmX2dldF9kbWFfZGV2aWNlKHRvX3VzYl9pbnRlcmZhY2UoZGV2LT5kZXYp
-KTsKPiArCWlmIChkcm1fV0FSTl9PTkNFKGRldiwgIWRtYWRldiwgImJ1ZmZlciBzaGFyaW5nIG5v
-dCBzdXBwb3J0ZWQiKSkKPiArCQlyZXR1cm4gRVJSX1BUUigtRU5PREVWKTsKPiArCj4gKwlvYmog
-PSBkcm1fZ2VtX3ByaW1lX2ltcG9ydF9kZXYoZGV2LCBkbWFfYnVmLCBkbWFkZXYpOwo+ICsKPiAr
-CXB1dF9kZXZpY2UoZG1hZGV2KTsKPiArCj4gKwlyZXR1cm4gb2JqOwo+ICt9Cj4gK0VYUE9SVF9T
-WU1CT0woZHJtX2dlbV9wcmltZV9pbXBvcnRfdXNiKTsKPiArI2VuZGlmCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hey Liu,
+
+Thanks for submitting this series.
+
+This patch looks good to me.
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
+
+On Thu, 18 Feb 2021 at 04:56, Liu Ying <victor.liu@nxp.com> wrote:
+>
+> This patch allows LVDS PHYs to be configured through
+> the generic functions and through a custom structure
+> added to the generic union.
+>
+> The parameters added here are based on common LVDS PHY
+> implementation practices.  The set of parameters
+> should cover all potential users.
+>
+> Cc: Kishon Vijay Abraham I <kishon@ti.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> v3->v4:
+> * No change.
+>
+> v2->v3:
+> * No change.
+>
+> v1->v2:
+> * No change.
+>
+>  include/linux/phy/phy-lvds.h | 48 ++++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/phy/phy.h      |  4 ++++
+>  2 files changed, 52 insertions(+)
+>  create mode 100644 include/linux/phy/phy-lvds.h
+>
+> diff --git a/include/linux/phy/phy-lvds.h b/include/linux/phy/phy-lvds.h
+> new file mode 100644
+> index 00000000..1b5b9d6
+> --- /dev/null
+> +++ b/include/linux/phy/phy-lvds.h
+> @@ -0,0 +1,48 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright 2020 NXP
+> + */
+> +
+> +#ifndef __PHY_LVDS_H_
+> +#define __PHY_LVDS_H_
+> +
+> +/**
+> + * struct phy_configure_opts_lvds - LVDS configuration set
+> + *
+> + * This structure is used to represent the configuration state of a
+> + * LVDS phy.
+> + */
+> +struct phy_configure_opts_lvds {
+> +       /**
+> +        * @bits_per_lane_and_dclk_cycle:
+> +        *
+> +        * Number of bits per data lane and differential clock cycle.
+> +        */
+> +       unsigned int bits_per_lane_and_dclk_cycle;
+> +
+> +       /**
+> +        * @differential_clk_rate:
+> +        *
+> +        * Clock rate, in Hertz, of the LVDS differential clock.
+> +        */
+> +       unsigned long differential_clk_rate;
+> +
+> +       /**
+> +        * @lanes:
+> +        *
+> +        * Number of active, consecutive, data lanes, starting from
+> +        * lane 0, used for the transmissions.
+> +        */
+> +       unsigned int lanes;
+> +
+> +       /**
+> +        * @is_slave:
+> +        *
+> +        * Boolean, true if the phy is a slave which works together
+> +        * with a master phy to support dual link transmission,
+> +        * otherwise a regular phy or a master phy.
+> +        */
+> +       bool is_slave;
+> +};
+> +
+> +#endif /* __PHY_LVDS_H_ */
+> diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
+> index e435bdb..d450b44 100644
+> --- a/include/linux/phy/phy.h
+> +++ b/include/linux/phy/phy.h
+> @@ -17,6 +17,7 @@
+>  #include <linux/regulator/consumer.h>
+>
+>  #include <linux/phy/phy-dp.h>
+> +#include <linux/phy/phy-lvds.h>
+>  #include <linux/phy/phy-mipi-dphy.h>
+>
+>  struct phy;
+> @@ -51,10 +52,13 @@ enum phy_mode {
+>   *             the MIPI_DPHY phy mode.
+>   * @dp:                Configuration set applicable for phys supporting
+>   *             the DisplayPort protocol.
+> + * @lvds:      Configuration set applicable for phys supporting
+> + *             the LVDS phy mode.
+>   */
+>  union phy_configure_opts {
+>         struct phy_configure_opts_mipi_dphy     mipi_dphy;
+>         struct phy_configure_opts_dp            dp;
+> +       struct phy_configure_opts_lvds          lvds;
+>  };
+>
+>  /**
+> --
+> 2.7.4
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
