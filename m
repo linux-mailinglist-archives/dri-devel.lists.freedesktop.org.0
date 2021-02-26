@@ -1,33 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E54A325FDA
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 10:19:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9006325FF7
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 10:26:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31BC76E8FE;
-	Fri, 26 Feb 2021 09:19:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EB176E8E8;
+	Fri, 26 Feb 2021 09:26:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E9376E8FE;
- Fri, 26 Feb 2021 09:19:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF08E6E8E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 09:26:51 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 06E5CAAAE;
- Fri, 26 Feb 2021 09:19:13 +0000 (UTC)
-Subject: Re: [PATCH] drm/vgem: use shmem helpers
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20210223105951.912577-2-daniel.vetter@ffwll.ch>
- <20210225102306.1173073-1-daniel.vetter@ffwll.ch>
+ by mx2.suse.de (Postfix) with ESMTP id 61464ACD9;
+ Fri, 26 Feb 2021 09:26:50 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <373f003f-1e7b-78ee-6de7-2982372f48b9@suse.de>
-Date: Fri, 26 Feb 2021 10:19:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ gregkh@linuxfoundation.org, hdegoede@redhat.com, sean@poorly.run,
+ noralf@tronnes.org, stern@rowland.harvard.edu
+Subject: [PATCH v5] drm: Use USB controller's DMA mask when importing dmabufs
+Date: Fri, 26 Feb 2021 10:26:47 +0100
+Message-Id: <20210226092648.4584-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-In-Reply-To: <20210225102306.1173073-1-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,534 +38,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Melissa Wen <melissa.srw@gmail.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>
-Content-Type: multipart/mixed; boundary="===============0342966587=="
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0342966587==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="0jf8Vk0eqlezQi7cfyGU7xCdhC6iXofH2"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0jf8Vk0eqlezQi7cfyGU7xCdhC6iXofH2
-Content-Type: multipart/mixed; boundary="QcuBX9FGW3w3M2dzllYiueD1X5yC4m1w2";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- John Stultz <john.stultz@linaro.org>, Sumit Semwal
- <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Melissa Wen <melissa.srw@gmail.com>, Chris Wilson <chris@chris-wilson.co.uk>
-Message-ID: <373f003f-1e7b-78ee-6de7-2982372f48b9@suse.de>
-Subject: Re: [PATCH] drm/vgem: use shmem helpers
-References: <20210223105951.912577-2-daniel.vetter@ffwll.ch>
- <20210225102306.1173073-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20210225102306.1173073-1-daniel.vetter@ffwll.ch>
-
---QcuBX9FGW3w3M2dzllYiueD1X5yC4m1w2
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 25.02.21 um 11:23 schrieb Daniel Vetter:
-> Aside from deleting lots of code the real motivation here is to switch
-> the mmap over to VM_PFNMAP, to be more consistent with what real gpu
-> drivers do. They're all VM_PFNMP, which means get_user_pages doesn't
-> work, and even if you try and there's a struct page behind that,
-> touching it and mucking around with its refcount can upset drivers
-> real bad.
->=20
-> v2: Review from Thomas:
-> - sort #include
-> - drop more dead code that I didn't spot somehow
->=20
-> v3: select DRM_GEM_SHMEM_HELPER to make it build (intel-gfx-ci)
-
-Since you're working on it, could you move the config item into a=20
-Kconfig file under vgem?
-
-Best regards
-Thomas
-
->=20
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: John Stultz <john.stultz@linaro.org>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Melissa Wen <melissa.srw@gmail.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> ---
->   drivers/gpu/drm/Kconfig         |   1 +
->   drivers/gpu/drm/vgem/vgem_drv.c | 340 +------------------------------=
--
->   2 files changed, 4 insertions(+), 337 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 8e73311de583..94e4ac830283 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -274,6 +274,7 @@ source "drivers/gpu/drm/kmb/Kconfig"
->   config DRM_VGEM
->   	tristate "Virtual GEM provider"
->   	depends on DRM
-> +	select DRM_GEM_SHMEM_HELPER
->   	help
->   	  Choose this option to get a virtual graphics memory manager,
->   	  as used by Mesa's software renderer for enhanced performance.
-> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vge=
-m_drv.c
-> index a0e75f1d5d01..b1b3a5ffc542 100644
-> --- a/drivers/gpu/drm/vgem/vgem_drv.c
-> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
-> @@ -38,6 +38,7 @@
->  =20
->   #include <drm/drm_drv.h>
->   #include <drm/drm_file.h>
-> +#include <drm/drm_gem_shmem_helper.h>
->   #include <drm/drm_ioctl.h>
->   #include <drm/drm_managed.h>
->   #include <drm/drm_prime.h>
-> @@ -50,87 +51,11 @@
->   #define DRIVER_MAJOR	1
->   #define DRIVER_MINOR	0
->  =20
-> -static const struct drm_gem_object_funcs vgem_gem_object_funcs;
-> -
->   static struct vgem_device {
->   	struct drm_device drm;
->   	struct platform_device *platform;
->   } *vgem_device;
->  =20
-> -static void vgem_gem_free_object(struct drm_gem_object *obj)
-> -{
-> -	struct drm_vgem_gem_object *vgem_obj =3D to_vgem_bo(obj);
-> -
-> -	kvfree(vgem_obj->pages);
-> -	mutex_destroy(&vgem_obj->pages_lock);
-> -
-> -	if (obj->import_attach)
-> -		drm_prime_gem_destroy(obj, vgem_obj->table);
-> -
-> -	drm_gem_object_release(obj);
-> -	kfree(vgem_obj);
-> -}
-> -
-> -static vm_fault_t vgem_gem_fault(struct vm_fault *vmf)
-> -{
-> -	struct vm_area_struct *vma =3D vmf->vma;
-> -	struct drm_vgem_gem_object *obj =3D vma->vm_private_data;
-> -	/* We don't use vmf->pgoff since that has the fake offset */
-> -	unsigned long vaddr =3D vmf->address;
-> -	vm_fault_t ret =3D VM_FAULT_SIGBUS;
-> -	loff_t num_pages;
-> -	pgoff_t page_offset;
-> -	page_offset =3D (vaddr - vma->vm_start) >> PAGE_SHIFT;
-> -
-> -	num_pages =3D DIV_ROUND_UP(obj->base.size, PAGE_SIZE);
-> -
-> -	if (page_offset >=3D num_pages)
-> -		return VM_FAULT_SIGBUS;
-> -
-> -	mutex_lock(&obj->pages_lock);
-> -	if (obj->pages) {
-> -		get_page(obj->pages[page_offset]);
-> -		vmf->page =3D obj->pages[page_offset];
-> -		ret =3D 0;
-> -	}
-> -	mutex_unlock(&obj->pages_lock);
-> -	if (ret) {
-> -		struct page *page;
-> -
-> -		page =3D shmem_read_mapping_page(
-> -					file_inode(obj->base.filp)->i_mapping,
-> -					page_offset);
-> -		if (!IS_ERR(page)) {
-> -			vmf->page =3D page;
-> -			ret =3D 0;
-> -		} else switch (PTR_ERR(page)) {
-> -			case -ENOSPC:
-> -			case -ENOMEM:
-> -				ret =3D VM_FAULT_OOM;
-> -				break;
-> -			case -EBUSY:
-> -				ret =3D VM_FAULT_RETRY;
-> -				break;
-> -			case -EFAULT:
-> -			case -EINVAL:
-> -				ret =3D VM_FAULT_SIGBUS;
-> -				break;
-> -			default:
-> -				WARN_ON(PTR_ERR(page));
-> -				ret =3D VM_FAULT_SIGBUS;
-> -				break;
-> -		}
-> -
-> -	}
-> -	return ret;
-> -}
-> -
-> -static const struct vm_operations_struct vgem_gem_vm_ops =3D {
-> -	.fault =3D vgem_gem_fault,
-> -	.open =3D drm_gem_vm_open,
-> -	.close =3D drm_gem_vm_close,
-> -};
-> -
->   static int vgem_open(struct drm_device *dev, struct drm_file *file)
->   {
->   	struct vgem_file *vfile;
-> @@ -159,265 +84,12 @@ static void vgem_postclose(struct drm_device *dev=
-, struct drm_file *file)
->   	kfree(vfile);
->   }
->  =20
-> -static struct drm_vgem_gem_object *__vgem_gem_create(struct drm_device=
- *dev,
-> -						unsigned long size)
-> -{
-> -	struct drm_vgem_gem_object *obj;
-> -	int ret;
-> -
-> -	obj =3D kzalloc(sizeof(*obj), GFP_KERNEL);
-> -	if (!obj)
-> -		return ERR_PTR(-ENOMEM);
-> -
-> -	obj->base.funcs =3D &vgem_gem_object_funcs;
-> -
-> -	ret =3D drm_gem_object_init(dev, &obj->base, roundup(size, PAGE_SIZE)=
-);
-> -	if (ret) {
-> -		kfree(obj);
-> -		return ERR_PTR(ret);
-> -	}
-> -
-> -	mutex_init(&obj->pages_lock);
-> -
-> -	return obj;
-> -}
-> -
-> -static void __vgem_gem_destroy(struct drm_vgem_gem_object *obj)
-> -{
-> -	drm_gem_object_release(&obj->base);
-> -	kfree(obj);
-> -}
-> -
-> -static struct drm_gem_object *vgem_gem_create(struct drm_device *dev,
-> -					      struct drm_file *file,
-> -					      unsigned int *handle,
-> -					      unsigned long size)
-> -{
-> -	struct drm_vgem_gem_object *obj;
-> -	int ret;
-> -
-> -	obj =3D __vgem_gem_create(dev, size);
-> -	if (IS_ERR(obj))
-> -		return ERR_CAST(obj);
-> -
-> -	ret =3D drm_gem_handle_create(file, &obj->base, handle);
-> -	if (ret) {
-> -		drm_gem_object_put(&obj->base);
-> -		return ERR_PTR(ret);
-> -	}
-> -
-> -	return &obj->base;
-> -}
-> -
-> -static int vgem_gem_dumb_create(struct drm_file *file, struct drm_devi=
-ce *dev,
-> -				struct drm_mode_create_dumb *args)
-> -{
-> -	struct drm_gem_object *gem_object;
-> -	u64 pitch, size;
-> -
-> -	pitch =3D args->width * DIV_ROUND_UP(args->bpp, 8);
-> -	size =3D args->height * pitch;
-> -	if (size =3D=3D 0)
-> -		return -EINVAL;
-> -
-> -	gem_object =3D vgem_gem_create(dev, file, &args->handle, size);
-> -	if (IS_ERR(gem_object))
-> -		return PTR_ERR(gem_object);
-> -
-> -	args->size =3D gem_object->size;
-> -	args->pitch =3D pitch;
-> -
-> -	drm_gem_object_put(gem_object);
-> -
-> -	DRM_DEBUG("Created object of size %llu\n", args->size);
-> -
-> -	return 0;
-> -}
-> -
->   static struct drm_ioctl_desc vgem_ioctls[] =3D {
->   	DRM_IOCTL_DEF_DRV(VGEM_FENCE_ATTACH, vgem_fence_attach_ioctl, DRM_RE=
-NDER_ALLOW),
->   	DRM_IOCTL_DEF_DRV(VGEM_FENCE_SIGNAL, vgem_fence_signal_ioctl, DRM_RE=
-NDER_ALLOW),
->   };
->  =20
-> -static int vgem_mmap(struct file *filp, struct vm_area_struct *vma)
-> -{
-> -	unsigned long flags =3D vma->vm_flags;
-> -	int ret;
-> -
-> -	ret =3D drm_gem_mmap(filp, vma);
-> -	if (ret)
-> -		return ret;
-> -
-> -	/* Keep the WC mmaping set by drm_gem_mmap() but our pages
-> -	 * are ordinary and not special.
-> -	 */
-> -	vma->vm_flags =3D flags | VM_DONTEXPAND | VM_DONTDUMP;
-> -	return 0;
-> -}
-> -
-> -static const struct file_operations vgem_driver_fops =3D {
-> -	.owner		=3D THIS_MODULE,
-> -	.open		=3D drm_open,
-> -	.mmap		=3D vgem_mmap,
-> -	.poll		=3D drm_poll,
-> -	.read		=3D drm_read,
-> -	.unlocked_ioctl =3D drm_ioctl,
-> -	.compat_ioctl	=3D drm_compat_ioctl,
-> -	.release	=3D drm_release,
-> -};
-> -
-> -static struct page **vgem_pin_pages(struct drm_vgem_gem_object *bo)
-> -{
-> -	mutex_lock(&bo->pages_lock);
-> -	if (bo->pages_pin_count++ =3D=3D 0) {
-> -		struct page **pages;
-> -
-> -		pages =3D drm_gem_get_pages(&bo->base);
-> -		if (IS_ERR(pages)) {
-> -			bo->pages_pin_count--;
-> -			mutex_unlock(&bo->pages_lock);
-> -			return pages;
-> -		}
-> -
-> -		bo->pages =3D pages;
-> -	}
-> -	mutex_unlock(&bo->pages_lock);
-> -
-> -	return bo->pages;
-> -}
-> -
-> -static void vgem_unpin_pages(struct drm_vgem_gem_object *bo)
-> -{
-> -	mutex_lock(&bo->pages_lock);
-> -	if (--bo->pages_pin_count =3D=3D 0) {
-> -		drm_gem_put_pages(&bo->base, bo->pages, true, true);
-> -		bo->pages =3D NULL;
-> -	}
-> -	mutex_unlock(&bo->pages_lock);
-> -}
-> -
-> -static int vgem_prime_pin(struct drm_gem_object *obj)
-> -{
-> -	struct drm_vgem_gem_object *bo =3D to_vgem_bo(obj);
-> -	long n_pages =3D obj->size >> PAGE_SHIFT;
-> -	struct page **pages;
-> -
-> -	pages =3D vgem_pin_pages(bo);
-> -	if (IS_ERR(pages))
-> -		return PTR_ERR(pages);
-> -
-> -	/* Flush the object from the CPU cache so that importers can rely
-> -	 * on coherent indirect access via the exported dma-address.
-> -	 */
-> -	drm_clflush_pages(pages, n_pages);
-> -
-> -	return 0;
-> -}
-> -
-> -static void vgem_prime_unpin(struct drm_gem_object *obj)
-> -{
-> -	struct drm_vgem_gem_object *bo =3D to_vgem_bo(obj);
-> -
-> -	vgem_unpin_pages(bo);
-> -}
-> -
-> -static struct sg_table *vgem_prime_get_sg_table(struct drm_gem_object =
-*obj)
-> -{
-> -	struct drm_vgem_gem_object *bo =3D to_vgem_bo(obj);
-> -
-> -	return drm_prime_pages_to_sg(obj->dev, bo->pages, bo->base.size >> PA=
-GE_SHIFT);
-> -}
-> -
-> -static struct drm_gem_object* vgem_prime_import(struct drm_device *dev=
-,
-> -						struct dma_buf *dma_buf)
-> -{
-> -	struct vgem_device *vgem =3D container_of(dev, typeof(*vgem), drm);
-> -
-> -	return drm_gem_prime_import_dev(dev, dma_buf, &vgem->platform->dev);
-> -}
-> -
-> -static struct drm_gem_object *vgem_prime_import_sg_table(struct drm_de=
-vice *dev,
-> -			struct dma_buf_attachment *attach, struct sg_table *sg)
-> -{
-> -	struct drm_vgem_gem_object *obj;
-> -	int npages;
-> -
-> -	obj =3D __vgem_gem_create(dev, attach->dmabuf->size);
-> -	if (IS_ERR(obj))
-> -		return ERR_CAST(obj);
-> -
-> -	npages =3D PAGE_ALIGN(attach->dmabuf->size) / PAGE_SIZE;
-> -
-> -	obj->table =3D sg;
-> -	obj->pages =3D kvmalloc_array(npages, sizeof(struct page *), GFP_KERN=
-EL);
-> -	if (!obj->pages) {
-> -		__vgem_gem_destroy(obj);
-> -		return ERR_PTR(-ENOMEM);
-> -	}
-> -
-> -	obj->pages_pin_count++; /* perma-pinned */
-> -	drm_prime_sg_to_page_array(obj->table, obj->pages, npages);
-> -	return &obj->base;
-> -}
-> -
-> -static int vgem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_=
-map *map)
-> -{
-> -	struct drm_vgem_gem_object *bo =3D to_vgem_bo(obj);
-> -	long n_pages =3D obj->size >> PAGE_SHIFT;
-> -	struct page **pages;
-> -	void *vaddr;
-> -
-> -	pages =3D vgem_pin_pages(bo);
-> -	if (IS_ERR(pages))
-> -		return PTR_ERR(pages);
-> -
-> -	vaddr =3D vmap(pages, n_pages, 0, pgprot_writecombine(PAGE_KERNEL));
-> -	if (!vaddr)
-> -		return -ENOMEM;
-> -	dma_buf_map_set_vaddr(map, vaddr);
-> -
-> -	return 0;
-> -}
-> -
-> -static void vgem_prime_vunmap(struct drm_gem_object *obj, struct dma_b=
-uf_map *map)
-> -{
-> -	struct drm_vgem_gem_object *bo =3D to_vgem_bo(obj);
-> -
-> -	vunmap(map->vaddr);
-> -	vgem_unpin_pages(bo);
-> -}
-> -
-> -static int vgem_prime_mmap(struct drm_gem_object *obj,
-> -			   struct vm_area_struct *vma)
-> -{
-> -	int ret;
-> -
-> -	if (obj->size < vma->vm_end - vma->vm_start)
-> -		return -EINVAL;
-> -
-> -	if (!obj->filp)
-> -		return -ENODEV;
-> -
-> -	ret =3D call_mmap(obj->filp, vma);
-> -	if (ret)
-> -		return ret;
-> -
-> -	vma_set_file(vma, obj->filp);
-> -	vma->vm_flags |=3D VM_DONTEXPAND | VM_DONTDUMP;
-> -	vma->vm_page_prot =3D pgprot_writecombine(vm_get_page_prot(vma->vm_fl=
-ags));
-> -
-> -	return 0;
-> -}
-> -
-> -static const struct drm_gem_object_funcs vgem_gem_object_funcs =3D {
-> -	.free =3D vgem_gem_free_object,
-> -	.pin =3D vgem_prime_pin,
-> -	.unpin =3D vgem_prime_unpin,
-> -	.get_sg_table =3D vgem_prime_get_sg_table,
-> -	.vmap =3D vgem_prime_vmap,
-> -	.vunmap =3D vgem_prime_vunmap,
-> -	.vm_ops =3D &vgem_gem_vm_ops,
-> -};
-> +DEFINE_DRM_GEM_FOPS(vgem_driver_fops);
->  =20
->   static const struct drm_driver vgem_driver =3D {
->   	.driver_features		=3D DRIVER_GEM | DRIVER_RENDER,
-> @@ -427,13 +99,7 @@ static const struct drm_driver vgem_driver =3D {
->   	.num_ioctls 			=3D ARRAY_SIZE(vgem_ioctls),
->   	.fops				=3D &vgem_driver_fops,
->  =20
-> -	.dumb_create			=3D vgem_gem_dumb_create,
-> -
-> -	.prime_handle_to_fd =3D drm_gem_prime_handle_to_fd,
-> -	.prime_fd_to_handle =3D drm_gem_prime_fd_to_handle,
-> -	.gem_prime_import =3D vgem_prime_import,
-> -	.gem_prime_import_sg_table =3D vgem_prime_import_sg_table,
-> -	.gem_prime_mmap =3D vgem_prime_mmap,
-> +	DRM_GEM_SHMEM_DRIVER_OPS,
->  =20
->   	.name	=3D DRIVER_NAME,
->   	.desc	=3D DRIVER_DESC,
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---QcuBX9FGW3w3M2dzllYiueD1X5yC4m1w2--
-
---0jf8Vk0eqlezQi7cfyGU7xCdhC6iXofH2
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmA4vQ8FAwAAAAAACgkQlh/E3EQov+Db
-fBAAsVQTLw4TIhHQWwdRZ4e72XDYHDUoalbQDE+frURx6+wynKq15ru3vr1wnqBdkDl7QVr0Rg2q
-CMmxOGw5kzvgAwl5cm8xP93XsaxQPIf2qANqBLdezGwSYL/YBlEupIErqH8kjAnBMnXRU0rYaKQ4
-HgZNKrAS9bbIuYuFRidGhBAr7+NfV9w2qZAkaYgEqcJtCjUUJ5PcYnVpXUYuRNU654LpzflycHBW
-ZnBlsX47Xja6QSjkZdBC8qOfwGu8NYFvXoTosnGLHXl3aE3AiwmBoN/dQP3k0ZgOtCb/uQMSN7iH
-CQexdjiOSyEkylim1oj4+0+uwieNAtwuN7IiCPZ0OaY1sqHRlzEpwbl8+CCjeN+PWHGOrjHIiDLz
-mkNfO9jWr10oDh3ZF99YOXZK03xnZOrrIJP8v8IRG+Q+KUPMc+O84MN3nDJvgfywvJM6JD9nxDtv
-TxzVPSnMddbYvavb3opr0jA3jRuXTSirc442ksuaqyiWyWb+rp4bV+5CIB6zuchRNPGXh0qRjety
-n3GkXClTkn5SY+NpmDcWVSdqN1vg7C9rx8R8piaU+mulEBFj/w3uR8SbgpWpFziT8ZqJoMFaKpnd
-baBxYifNb1D0lo3bMtSi/k7BqnCLfoHkwFr/E/G0JFSZ36twdolpP7QRvb8Sj/naw8QBlOXo/ocY
-Kb0=
-=+t8g
------END PGP SIGNATURE-----
-
---0jf8Vk0eqlezQi7cfyGU7xCdhC6iXofH2--
-
---===============0342966587==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0342966587==--
+VVNCIGRldmljZXMgY2Fubm90IHBlcmZvcm0gRE1BIGFuZCBoZW5jZSBoYXZlIG5vIGRtYV9tYXNr
+IHNldCBpbiB0aGVpcgpkZXZpY2Ugc3RydWN0dXJlLiBUaGVyZWZvcmUgaW1wb3J0aW5nIGRtYWJ1
+ZiBpbnRvIGEgVVNCLWJhc2VkIGRyaXZlcgpmYWlscywgd2hpY2ggYnJlYWtzIGpvaW5pbmcgYW5k
+IG1pcnJvcmluZyBvZiBkaXNwbGF5IGluIFgxMS4KCkZvciBVU0IgZGV2aWNlcywgcGljayB0aGUg
+YXNzb2NpYXRlZCBVU0IgY29udHJvbGxlciBhcyBhdHRhY2htZW50IGRldmljZS4KVGhpcyBhbGxv
+d3MgdGhlIERSTSBpbXBvcnQgaGVscGVycyB0byBwZXJmb3JtIHRoZSBETUEgc2V0dXAuIElmIHRo
+ZSBETUEKY29udHJvbGxlciBkb2VzIG5vdCBzdXBwb3J0IERNQSB0cmFuc2ZlcnMsIHdlJ3JlIG91
+dCBvZiBsdWNrIGFuZCBjYW5ub3QKaW1wb3J0LiBPdXIgY3VycmVudCBVU0ItYmFzZWQgRFJNIGRy
+aXZlcnMgZG9uJ3QgdXNlIERNQSwgc28gdGhlIGFjdHVhbApETUEgZGV2aWNlIGlzIG5vdCBpbXBv
+cnRhbnQuCgpEcml2ZXJzIHNob3VsZCB1c2UgRFJNX0dFTV9TSE1FTV9EUk9WRVJfT1BTX1VTQiB0
+byBpbml0aWFsaXplIHRoZWlyCmluc3RhbmNlIG9mIHN0cnVjdCBkcm1fZHJpdmVyLgoKVGVzdGVk
+IGJ5IGpvaW5pbmcvbWlycm9yaW5nIGRpc3BsYXlzIG9mIHVkbCBhbmQgcmFkZW9uIHVuIGRlciBH
+bm9tZS9YMTEuCgp2NToKCSogcHJvdmlkZSBhIGhlbHBlciBmb3IgVVNCIGludGVyZmFjZXMgKEFs
+YW4pCgkqIGFkZCBGSVhNRSBpdGVtIHRvIGRvY3VtZW50YXRpb24gYW5kIFRPRE8gbGlzdCAoRGFu
+aWVsKQp2NDoKCSogaW1wbGVtZW50IHdvcmthcm91bmQgd2l0aCBVU0IgaGVscGVyIGZ1bmN0aW9u
+cyAoR3JlZykKCSogdXNlIHN0cnVjdCB1c2JfZGV2aWNlLT5idXMtPnN5c2RldiBhcyBETUEgZGV2
+aWNlIChUYWthc2hpKQp2MzoKCSogZHJvcCBnZW1fY3JlYXRlX29iamVjdAoJKiB1c2UgRE1BIG1h
+c2sgb2YgVVNCIGNvbnRyb2xsZXIsIGlmIGFueSAoRGFuaWVsLCBDaHJpc3RpYW4sIE5vcmFsZikK
+djI6CgkqIG1vdmUgZml4IHRvIGltcG9ydGVyIHNpZGUgKENocmlzdGlhbiwgRGFuaWVsKQoJKiB1
+cGRhdGUgU0hNRU0gYW5kIENNQSBoZWxwZXJzIGZvciBuZXcgUFJJTUUgY2FsbGJhY2tzCgpTaWdu
+ZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KRml4ZXM6
+IDZlYjAyMzNlYzJkMCAoInVzYjogZG9uJ3QgaW5oZXJpdHkgRE1BIHByb3BlcnRpZXMgZm9yIFVT
+QiBkZXZpY2VzIikKVGVzdGVkLWJ5OiBQYXZlbCBNYWNoZWsgPHBhdmVsQHVjdy5jej4KQWNrZWQt
+Ynk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KQWNrZWQtYnk6
+IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkNjOiBDaHJpc3RvcGggSGVs
+bHdpZyA8aGNoQGxzdC5kZT4KQ2M6IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91
+bmRhdGlvbi5vcmc+CkNjOiA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4gIyB2NS4xMCsKLS0tCiBE
+b2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdCAgICAgICAgIHwgMTUgKysrKysrKysrKwogZHJpdmVy
+cy9ncHUvZHJtL2RybV9wcmltZS5jICAgICAgICB8IDQ1ICsrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKwogZHJpdmVycy9ncHUvZHJtL3RpbnkvZ20xMnUzMjAuYyAgICB8ICAyICstCiBkcml2
+ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuYyAgICAgIHwgIDIgKy0KIGRyaXZlcnMvdXNiL2NvcmUv
+dXNiLmMgICAgICAgICAgICAgfCAzMSArKysrKysrKysrKysrKysrKysrKwogaW5jbHVkZS9kcm0v
+ZHJtX2dlbV9zaG1lbV9oZWxwZXIuaCB8IDE2ICsrKysrKysrKysrCiBpbmNsdWRlL2RybS9kcm1f
+cHJpbWUuaCAgICAgICAgICAgIHwgIDUgKysrKwogaW5jbHVkZS9saW51eC91c2IuaCAgICAgICAg
+ICAgICAgICB8IDI0ICsrKysrKysrKysrKysrKysKIDggZmlsZXMgY2hhbmdlZCwgMTM4IGluc2Vy
+dGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9ncHUv
+dG9kby5yc3QgYi9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdAppbmRleCBmODcyZDNkMzMyMTgu
+LmMxODVlMGEyOTUxZSAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QKKysr
+IGIvRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QKQEAgLTYxNyw2ICs2MTcsMjEgQEAgQ29udGFj
+dDogRGFuaWVsIFZldHRlcgogCiBMZXZlbDogSW50ZXJtZWRpYXRlCiAKK1JlbW92ZSBhdXRvbWF0
+aWMgcGFnZSBtYXBwaW5nIGZyb20gZG1hLWJ1ZiBpbXBvcnRpbmcKKy0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKworV2hlbiBpbXBvcnRpbmcgZG1h
+LWJ1ZnMsIHRoZSBkbWEtYnVmIGFuZCBQUklNRSBmcmFtZXdvcmtzIGF1dG9tYXRpY2FsbHkgbWFw
+CitpbXBvcnRlZCBwYWdlcyBpbnRvIHRoZSBpbXBvcnRlcidzIERNQSBhcmVhLiBUaGlzIGlzIGEg
+cHJvYmxlbSBmb3IgVVNCIGRldmljZXMsCit3aGljaCBkbyBub3Qgc3VwcG9ydCBETUEgb3BlcmF0
+aW9ucy4gQnkgZGVmYXVsdCwgaW1wb3J0aW5nIGZhaWxzIGZvciBVU0IKK2RldmljZXMuIFVTQi1i
+YXNlZCBkcml2ZXJzIHdvcmsgYXJvdW5kIHRoaXMgcHJvYmxlbSBieSBlbXBsb3lpbmcKK2RybV9n
+ZW1fcHJpbWVfaW1wb3J0X3VzYigpLiBUbyBmaXggdGhlIGlzc3VlLCBhdXRvbWF0aWMgcGFnZSBt
+YXBwaW5ncyBzaG91bGQKK2JlIHJlbW92ZWQgZnJvbSB0aGUgYnVmZmVyLXNoYXJpbmcgY29kZS4K
+KworQ29udGFjdDogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+LCBEYW5p
+ZWwgVmV0dGVyCisKK0xldmVsOiBBZHZhbmNlZAorCisKIEJldHRlciBUZXN0aW5nCiA9PT09PT09
+PT09PT09PQogCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMKaW5kZXggMmE1NGY4Njg1NmFmLi41OTAxM2JiMWNkNGIg
+MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYworKysgYi9kcml2ZXJzL2dw
+dS9kcm0vZHJtX3ByaW1lLmMKQEAgLTI5LDYgKzI5LDcgQEAKICNpbmNsdWRlIDxsaW51eC9leHBv
+cnQuaD4KICNpbmNsdWRlIDxsaW51eC9kbWEtYnVmLmg+CiAjaW5jbHVkZSA8bGludXgvcmJ0cmVl
+Lmg+CisjaW5jbHVkZSA8bGludXgvdXNiLmg+CiAKICNpbmNsdWRlIDxkcm0vZHJtLmg+CiAjaW5j
+bHVkZSA8ZHJtL2RybV9kcnYuaD4KQEAgLTEwNTUsMyArMTA1Niw0NyBAQCB2b2lkIGRybV9wcmlt
+ZV9nZW1fZGVzdHJveShzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgc3RydWN0IHNnX3RhYmxl
+ICpzZykKIAlkbWFfYnVmX3B1dChkbWFfYnVmKTsKIH0KIEVYUE9SVF9TWU1CT0woZHJtX3ByaW1l
+X2dlbV9kZXN0cm95KTsKKworLyoqCisgKiBkcm1fZ2VtX3ByaW1lX2ltcG9ydF91c2IgLSBoZWxw
+ZXIgbGlicmFyeSBpbXBsZW1lbnRhdGlvbiBvZiB0aGUgaW1wb3J0IGNhbGxiYWNrIGZvciBVU0Ig
+ZGV2aWNlcworICogQGRldjogZHJtX2RldmljZSB0byBpbXBvcnQgaW50bworICogQGRtYV9idWY6
+IGRtYS1idWYgb2JqZWN0IHRvIGltcG9ydAorICoKKyAqIFRoaXMgaXMgYW4gaW1wbGVtZW50YXRp
+b24gb2YgZHJtX2dlbV9wcmltZV9pbXBvcnQoKSBmb3IgVVNCLWJhc2VkIGRldmljZXMuCisgKiBV
+U0IgZGV2aWNlcyBjYW5ub3QgcGVyZm9ybSBETUEgZGlyZWN0bHkuIFRoaXMgZnVuY3Rpb24gc2Vs
+ZWN0cyB0aGUgVVNCIGhvc3QKKyAqIGNvbnRyb2xsZXIgYXMgRE1BIGRldmljZSBpbnN0ZWFkLiBE
+cml2ZXJzIGNhbiB1c2UgdGhpcyBhcyB0aGVpcgorICogJmRybV9kcml2ZXIuZ2VtX3ByaW1lX2lt
+cG9ydCBpbXBsZW1lbnRhdGlvbi4KKyAqCisgKiBTZWUgYWxzbyBkcm1fZ2VtX3ByaW1lX2ltcG9y
+dCgpLgorICoKKyAqIEZJWE1FOiBUaGUgZG1hLWJ1ZiBmcmFtZXdvcmsgZXhwZWN0cyB0byBtYXAg
+dGhlIGV4cG9ydGVkIHBhZ2VzIGludG8KKyAqICAgICAgICB0aGUgaW1wb3J0ZXIncyBETUEgYXJl
+YS4gVVNCIGRldmljZXMgZG9uJ3Qgc3VwcG9ydCBETUEsIGFuZAorICogICAgICAgIGltcG9ydGlu
+ZyB3b3VsZCBmYWlsLiBGb2lyIHRoZSB0aW1lIGJlaW5nLCB0aGlzIGZ1bmN0aW9uIHByb3ZpZGVz
+CisgKiAgICAgICAgYSB3b3JrYXJvdW5kIGJ5IHVzaW5nIHRoZSBVU0IgY29udHJvbGxlcidzIERN
+QSBhcmVhLiBUaGUgcmVhbAorICogICAgICAgIHNvbHV0aW9uIGlzIHRvIHJlbW92ZSBwYWdlLW1h
+cHBpbmcgb3BlcmF0aW9ucyBmcm9tIHRoZSBkbWEtYnVmCisgKiAgICAgICAgZnJhbWV3b3JrLgor
+ICoKKyAqIFJldHVybnM6IEEgR0VNIG9iamVjdCBvbiBzdWNjZXNzLCBvciBhIHBvaW50ZXItZW5j
+b2RlciBlcnJubyB2YWx1ZSBvdGhlcndpc2UuCisgKi8KKyNpZmRlZiBDT05GSUdfVVNCCitzdHJ1
+Y3QgZHJtX2dlbV9vYmplY3QgKmRybV9nZW1fcHJpbWVfaW1wb3J0X3VzYihzdHJ1Y3QgZHJtX2Rl
+dmljZSAqZGV2LAorCQkJCQkJc3RydWN0IGRtYV9idWYgKmRtYV9idWYpCit7CisJc3RydWN0IGRl
+dmljZSAqZG1hZGV2OworCXN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqOworCisJaWYgKCFkZXZf
+aXNfdXNiKGRldi0+ZGV2KSkKKwkJcmV0dXJuIEVSUl9QVFIoLUVOT0RFVik7CisKKwlkbWFkZXYg
+PSB1c2JfaW50Zl9nZXRfZG1hX2RldmljZSh0b191c2JfaW50ZXJmYWNlKGRldi0+ZGV2KSk7CisJ
+aWYgKGRybV9XQVJOX09OQ0UoZGV2LCAhZG1hZGV2LCAiYnVmZmVyIHNoYXJpbmcgbm90IHN1cHBv
+cnRlZCIpKQorCQlyZXR1cm4gRVJSX1BUUigtRU5PREVWKTsKKworCW9iaiA9IGRybV9nZW1fcHJp
+bWVfaW1wb3J0X2RldihkZXYsIGRtYV9idWYsIGRtYWRldik7CisKKwlwdXRfZGV2aWNlKGRtYWRl
+dik7CisKKwlyZXR1cm4gb2JqOworfQorRVhQT1JUX1NZTUJPTChkcm1fZ2VtX3ByaW1lX2ltcG9y
+dF91c2IpOworI2VuZGlmCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdGlueS9nbTEydTMy
+MC5jIGIvZHJpdmVycy9ncHUvZHJtL3RpbnkvZ20xMnUzMjAuYwppbmRleCAwYjRmNGYyYWYxZWYu
+Ljk5ZTdiZDM2YTIyMCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3RpbnkvZ20xMnUzMjAu
+YworKysgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9nbTEydTMyMC5jCkBAIC02MTEsNyArNjExLDcg
+QEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIGdtMTJ1MzIwX2RybV9kcml2ZXIgPSB7
+CiAJLm1pbm9yCQkgPSBEUklWRVJfTUlOT1IsCiAKIAkuZm9wcwkJID0gJmdtMTJ1MzIwX2ZvcHMs
+Ci0JRFJNX0dFTV9TSE1FTV9EUklWRVJfT1BTLAorCURSTV9HRU1fU0hNRU1fRFJJVkVSX09QU19V
+U0IsCiB9OwogCiBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9tb2RlX2NvbmZpZ19mdW5jcyBnbTEy
+dTMyMF9tb2RlX2NvbmZpZ19mdW5jcyA9IHsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS91
+ZGwvdWRsX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmMKaW5kZXggOTI2OTA5
+MjY5N2Q4Li4yZGI0ODNiMmIxOTkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRs
+X2Rydi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jCkBAIC0zOSw3ICszOSw3
+IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciBkcml2ZXIgPSB7CiAKIAkvKiBHRU0g
+aG9va3MgKi8KIAkuZm9wcyA9ICZ1ZGxfZHJpdmVyX2ZvcHMsCi0JRFJNX0dFTV9TSE1FTV9EUklW
+RVJfT1BTLAorCURSTV9HRU1fU0hNRU1fRFJJVkVSX09QU19VU0IsCiAKIAkubmFtZSA9IERSSVZF
+Ul9OQU1FLAogCS5kZXNjID0gRFJJVkVSX0RFU0MsCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9j
+b3JlL3VzYi5jIGIvZHJpdmVycy91c2IvY29yZS91c2IuYwppbmRleCA4ZjA3YjA1MTYxMDAuLjVl
+MDc5MjFlODdiYSAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvY29yZS91c2IuYworKysgYi9kcml2
+ZXJzL3VzYi9jb3JlL3VzYi5jCkBAIC03NDgsNiArNzQ4LDM3IEBAIHZvaWQgdXNiX3B1dF9pbnRm
+KHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRmKQogfQogRVhQT1JUX1NZTUJPTF9HUEwodXNiX3B1
+dF9pbnRmKTsKIAorLyoqCisgKiB1c2JfZ2V0X2RtYV9kZXZpY2UgLSBhY3F1aXJlIGEgcmVmZXJl
+bmNlIG9uIHRoZSB1c2IgZGV2aWNlJ3MgRE1BIGVuZHBvaW50CisgKiBAdWRldjogdXNiIGRldmlj
+ZQorICoKKyAqIFdoaWxlIGEgVVNCIGRldmljZSBjYW5ub3QgcGVyZm9ybSBETUEgb3BlcmF0aW9u
+cyBieSBpdHNlbGYsIG1hbnkgVVNCCisgKiBjb250cm9sbGVycyBjYW4uIEEgY2FsbCB0byB1c2Jf
+Z2V0X2RtYV9kZXZpY2UoKSByZXR1cm5zIHRoZSBETUEgZW5kcG9pbnQKKyAqIGZvciB0aGUgZ2l2
+ZW4gVVNCIGRldmljZSwgaWYgYW55LiBUaGUgcmV0dXJuZWQgZGV2aWNlIHN0cnVjdHVyZSBzaG91
+bGQgYmUKKyAqIHJlbGVhc2VkIHdpdGggcHV0X2RldmljZSgpLgorICoKKyAqIFNlZSBhbHNvIHVz
+Yl9pbnRmX2dldF9kbWFfZGV2aWNlKCkuCisgKgorICogUmV0dXJuczogQSByZWZlcmVuY2UgdG8g
+dGhlIHVzYiBkZXZpY2UncyBETUEgZW5kcG9pbnQ7IG9yIE5VTEwgaWYgbm9uZQorICogICAgICAg
+ICAgZXhpc3RzLgorICovCitzdHJ1Y3QgZGV2aWNlICp1c2JfZ2V0X2RtYV9kZXZpY2Uoc3RydWN0
+IHVzYl9kZXZpY2UgKnVkZXYpCit7CisJc3RydWN0IGRldmljZSAqZG1hZGV2OworCisJaWYgKCF1
+ZGV2LT5idXMpCisJCXJldHVybiBOVUxMOworCisJZG1hZGV2ID0gZ2V0X2RldmljZSh1ZGV2LT5i
+dXMtPnN5c2Rldik7CisJaWYgKCFkbWFkZXYgfHwgIWRtYWRldi0+ZG1hX21hc2spIHsKKwkJcHV0
+X2RldmljZShkbWFkZXYpOworCQlyZXR1cm4gTlVMTDsKKwl9CisKKwlyZXR1cm4gZG1hZGV2Owor
+fQorRVhQT1JUX1NZTUJPTF9HUEwodXNiX2dldF9kbWFfZGV2aWNlKTsKKwogLyoJCQlVU0IgZGV2
+aWNlIGxvY2tpbmcKICAqCiAgKiBVU0IgZGV2aWNlcyBhbmQgaW50ZXJmYWNlcyBhcmUgbG9ja2Vk
+IHVzaW5nIHRoZSBzZW1hcGhvcmUgaW4gdGhlaXIKZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2Ry
+bV9nZW1fc2htZW1faGVscGVyLmggYi9pbmNsdWRlL2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5o
+CmluZGV4IDQzNDMyOGQ4YTBkOS4uZWE4MTQ0ZjMzYzFmIDEwMDY0NAotLS0gYS9pbmNsdWRlL2Ry
+bS9kcm1fZ2VtX3NobWVtX2hlbHBlci5oCisrKyBiL2luY2x1ZGUvZHJtL2RybV9nZW1fc2htZW1f
+aGVscGVyLmgKQEAgLTE2Miw0ICsxNjIsMjAgQEAgc3RydWN0IHNnX3RhYmxlICpkcm1fZ2VtX3No
+bWVtX2dldF9wYWdlc19zZ3Qoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwogCS5nZW1fcHJp
+bWVfbW1hcAkJPSBkcm1fZ2VtX3ByaW1lX21tYXAsIFwKIAkuZHVtYl9jcmVhdGUJCT0gZHJtX2dl
+bV9zaG1lbV9kdW1iX2NyZWF0ZQogCisjaWZkZWYgQ09ORklHX1VTQgorLyoqCisgKiBEUk1fR0VN
+X1NITUVNX0RSSVZFUl9PUFNfVVNCIC0gRGVmYXVsdCBzaG1lbSBHRU0gb3BlcmF0aW9ucyBmb3Ig
+VVNCIGRldmljZXMKKyAqCisgKiBUaGlzIG1hY3JvIHByb3ZpZGVzIGEgc2hvcnRjdXQgZm9yIHNl
+dHRpbmcgdGhlIHNobWVtIEdFTSBvcGVyYXRpb25zIGluCisgKiB0aGUgJmRybV9kcml2ZXIgc3Ry
+dWN0dXJlLiBEcml2ZXJzIGZvciBVU0ItYmFzZWQgZGV2aWNlcyBzaG91bGQgdXNlIHRoaXMKKyAq
+IG1hY3JvIGluc3RlYWQgb2YgJkRSTV9HRU1fU0hNRU1fRFJJVkVSX09QUy4KKyAqCisgKiBGSVhN
+RTogU3VwcG9ydCBVU0IgZGV2aWNlcyB3aXRoIGRlZmF1bHQgU0hNRU0gZHJpdmVyIG9wcy4gU2Vl
+IHRoZQorICogICAgICAgIGRvY3VtZW50YXRpb24gb2YgZHJtX2dlbV9wcmltZV9pbXBvcnRfdXNi
+KCkgZm9yIGRldGFpbHMuCisgKi8KKyNkZWZpbmUgRFJNX0dFTV9TSE1FTV9EUklWRVJfT1BTX1VT
+QiBcCisJRFJNX0dFTV9TSE1FTV9EUklWRVJfT1BTLCBcCisJLmdlbV9wcmltZV9pbXBvcnQgPSBk
+cm1fZ2VtX3ByaW1lX2ltcG9ydF91c2IKKyNlbmRpZgorCiAjZW5kaWYgLyogX19EUk1fR0VNX1NI
+TUVNX0hFTFBFUl9IX18gKi8KZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9wcmltZS5oIGIv
+aW5jbHVkZS9kcm0vZHJtX3ByaW1lLmgKaW5kZXggNTRmMmM1ODMwNWQyLi5iNDJlMDdlZGQ5ZTYg
+MTAwNjQ0Ci0tLSBhL2luY2x1ZGUvZHJtL2RybV9wcmltZS5oCisrKyBiL2luY2x1ZGUvZHJtL2Ry
+bV9wcmltZS5oCkBAIC0xMTAsNCArMTEwLDkgQEAgaW50IGRybV9wcmltZV9zZ190b19wYWdlX2Fy
+cmF5KHN0cnVjdCBzZ190YWJsZSAqc2d0LCBzdHJ1Y3QgcGFnZSAqKnBhZ2VzLAogaW50IGRybV9w
+cmltZV9zZ190b19kbWFfYWRkcl9hcnJheShzdHJ1Y3Qgc2dfdGFibGUgKnNndCwgZG1hX2FkZHJf
+dCAqYWRkcnMsCiAJCQkJICAgaW50IG1heF9wYWdlcyk7CiAKKyNpZmRlZiBDT05GSUdfVVNCCitz
+dHJ1Y3QgZHJtX2dlbV9vYmplY3QgKmRybV9nZW1fcHJpbWVfaW1wb3J0X3VzYihzdHJ1Y3QgZHJt
+X2RldmljZSAqZGV2LAorCQkJCQkJc3RydWN0IGRtYV9idWYgKmRtYV9idWYpOworI2VuZGlmCisK
+ICNlbmRpZiAvKiBfX0RSTV9QUklNRV9IX18gKi8KZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgv
+dXNiLmggYi9pbmNsdWRlL2xpbnV4L3VzYi5oCmluZGV4IDdkNzJjNGUwNzEzYy4uZTZlMGFjZjZh
+MTkzIDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L3VzYi5oCisrKyBiL2luY2x1ZGUvbGludXgv
+dXNiLmgKQEAgLTcxMSw2ICs3MTEsNyBAQCBzdHJ1Y3QgdXNiX2RldmljZSB7CiAJdW5zaWduZWQg
+dXNlX2dlbmVyaWNfZHJpdmVyOjE7CiB9OwogI2RlZmluZQl0b191c2JfZGV2aWNlKGQpIGNvbnRh
+aW5lcl9vZihkLCBzdHJ1Y3QgdXNiX2RldmljZSwgZGV2KQorI2RlZmluZSBkZXZfaXNfdXNiKGQp
+CSgoZCktPmJ1cyA9PSAmdXNiX2J1c190eXBlKQogCiBzdGF0aWMgaW5saW5lIHN0cnVjdCB1c2Jf
+ZGV2aWNlICppbnRlcmZhY2VfdG9fdXNiZGV2KHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRmKQog
+ewpAQCAtNzQ2LDYgKzc0NywyOSBAQCBleHRlcm4gaW50IHVzYl9sb2NrX2RldmljZV9mb3JfcmVz
+ZXQoc3RydWN0IHVzYl9kZXZpY2UgKnVkZXYsCiBleHRlcm4gaW50IHVzYl9yZXNldF9kZXZpY2Uo
+c3RydWN0IHVzYl9kZXZpY2UgKmRldik7CiBleHRlcm4gdm9pZCB1c2JfcXVldWVfcmVzZXRfZGV2
+aWNlKHN0cnVjdCB1c2JfaW50ZXJmYWNlICpkZXYpOwogCitleHRlcm4gc3RydWN0IGRldmljZSAq
+dXNiX2dldF9kbWFfZGV2aWNlKHN0cnVjdCB1c2JfZGV2aWNlICp1ZGV2KTsKKworLyoqCisgKiB1
+c2JfaW50Zl9nZXRfZG1hX2RldmljZSAtIGFjcXVpcmUgYSByZWZlcmVuY2Ugb24gdGhlIHVzYiBp
+bnRlcmZhY2UncyBETUEgZW5kcG9pbnQKKyAqIEBpbnRmOiB0aGUgdXNiIGludGVyZmFjZQorICoK
+KyAqIFdoaWxlIGEgVVNCIGRldmljZSBjYW5ub3QgcGVyZm9ybSBETUEgb3BlcmF0aW9ucyBieSBp
+dHNlbGYsIG1hbnkgVVNCCisgKiBjb250cm9sbGVycyBjYW4uIEEgY2FsbCB0byB1c2JfaW50Zl9n
+ZXRfZG1hX2RldmljZSgpIHJldHVybnMgdGhlIERNQSBlbmRwb2ludAorICogZm9yIHRoZSBnaXZl
+biBVU0IgaW50ZXJmYWNlLCBpZiBhbnkuIFRoZSByZXR1cm5lZCBkZXZpY2Ugc3RydWN0dXJlIHNo
+b3VsZCBiZQorICogcmVsZWFzZWQgd2l0aCBwdXRfZGV2aWNlKCkuCisgKgorICogU2VlIGFsc28g
+dXNiX2dldF9kbWFfZGV2aWNlKCkuCisgKgorICogUmV0dXJuczogQSByZWZlcmVuY2UgdG8gdGhl
+IHVzYiBpbnRlcmZhY2UncyBETUEgZW5kcG9pbnQ7IG9yIE5VTEwgaWYgbm9uZQorICogICAgICAg
+ICAgZXhpc3RzLgorICovCitzdGF0aWMgaW5saW5lIHN0cnVjdCBkZXZpY2UgKnVzYl9pbnRmX2dl
+dF9kbWFfZGV2aWNlKHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRmKQoreworCWlmICghaW50ZikK
+KwkJcmV0dXJuIE5VTEw7CisJcmV0dXJuIHVzYl9nZXRfZG1hX2RldmljZShpbnRlcmZhY2VfdG9f
+dXNiZGV2KGludGYpKTsKK30KKwogI2lmZGVmIENPTkZJR19BQ1BJCiBleHRlcm4gaW50IHVzYl9h
+Y3BpX3NldF9wb3dlcl9zdGF0ZShzdHJ1Y3QgdXNiX2RldmljZSAqaGRldiwgaW50IGluZGV4LAog
+CWJvb2wgZW5hYmxlKTsKLS0gCjIuMzAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
