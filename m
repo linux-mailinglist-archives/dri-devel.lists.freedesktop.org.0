@@ -2,61 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8812F32661F
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 18:09:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26844326621
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 18:10:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE5D16EDFA;
-	Fri, 26 Feb 2021 17:09:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54BF46EE22;
+	Fri, 26 Feb 2021 17:10:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBBD76EDFA
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 17:09:08 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id u11so2282410wmq.5
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 09:09:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=oPmNNtgVI1eH+eqDytkra/zaGpGkiEOuBv8E+PK1q2E=;
- b=L7hDueq6FbCIPz8Y3pcSNYtyDe8eNaCraw1jcrjoeS23ebZwbWTe2IvnUl3GTrNLmq
- dp/21SOTMaADDXil2WuhCsxvlC5Bd8t6Q0CQjJBwgdkDx6CfVANpZLQhHs7HuFp/tUKp
- ugk+lZE1L3c+edikdt8ARj5u40FArM+iVyHpBjX8Uv1EsQ60LVXZpBDQQ8fdHQnKZfNz
- cTjpmuu4CpOZKv6UhEPfmTf1zEiyzlIUG2JkbTKRtqrdRvBv5kIBCgG2Genf1uTGFD+J
- sm4ouIPR9uM8KYMJ6DojeiG7g8mio0pX6cOcHUcdrBSc1xVMNbSKwqDTO5CEYpuya8rP
- U7mg==
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00ECC6EE22
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 17:10:36 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id do6so16061779ejc.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 09:10:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8cbXSutADW2HnccBzsx17kylWCaUrrRJFrKcsn0yvik=;
+ b=JfbszjOmCX+PVGFopEGBxjB1Jak26rT0UOItBmRUGXhJTtXcJonq69NSSbUk1sIOW3
+ LW0urpPkZpl7FR1LLt/bgc6TQZ68AQTowHwzxTxI6wSTZBaSN7knNI7GcIWPf0DR2u9Y
+ iD8feA+xWmrW5CGxpGtSI2yDDu4vthuo+eaf8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=oPmNNtgVI1eH+eqDytkra/zaGpGkiEOuBv8E+PK1q2E=;
- b=gUtQwtUFeZufhh8e3ijAQFcI1dV6f0FKtk/lB8h3WA39lUqYAtxeaXGkHVdFLudgdX
- IxWpucQGf2pxuerNHRAc1ZHveE8DgYFbwEH003m4NBXRwmqyr0oPSdBLLdCc/oY/Kr2Y
- QpCclA50b6UQOovwf6RkzQrK0nZXcoGN8Lfil6GOZm+vTqa82JJHfZbPw6VXCr1hTtAZ
- K6LqEDxjCJbzGjDHLJj8CqQb6W1+58kqZVDNVZvxODd61dbTV2x+n9ZaLu1sOFLIIYBp
- jNDqoAC3DLNGHA2CU6vQkPgz/fbPquK4a9mVqaZ8GEE8WRc0Yq6Bv18uwKXT/AG6rNTh
- 56vw==
-X-Gm-Message-State: AOAM532kcWsBBQaV/MHl4y0m62RuYLaQ3D7mSBWgqNenv3pYn78X/jTM
- J2O+fnbREZlbABxNjVjgIpQYuQ==
-X-Google-Smtp-Source: ABdhPJy+3JLr8vLHWKe27u3nSTX1ODTzNCh6BSKvpoFvfptBEwnzyGPmA8wyoRhYBiUAbOt8tHcXWw==
-X-Received: by 2002:a1c:5584:: with SMTP id j126mr3925587wmb.153.1614359347431; 
- Fri, 26 Feb 2021 09:09:07 -0800 (PST)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id m9sm19290337wml.3.2021.02.26.09.09.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Feb 2021 09:09:06 -0800 (PST)
-Date: Fri, 26 Feb 2021 17:09:04 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Kiran Gunda <kgunda@codeaurora.org>
-Subject: Re: [PATCH V2 1/2] backlight: qcom-wled: Fix FSC update issue for
- WLED5
-Message-ID: <20210226170904.u5ysz6kg4tqbh3us@maple.lan>
-References: <1614341544-5306-1-git-send-email-kgunda@codeaurora.org>
- <1614341544-5306-2-git-send-email-kgunda@codeaurora.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8cbXSutADW2HnccBzsx17kylWCaUrrRJFrKcsn0yvik=;
+ b=ah1Nv3ZsSSyOUnut/IlUX6gPxsr7K+dw/YtIF5uV763A3Brfl0CKHsvK0witK6GtcC
+ B5/sYSOoP/B/IGMNm3ZtAvZ94Gp9kW1jfTI4l7ZkOn/B7TEclG+yn3aEmHYpdFnka1vl
+ QTuDkZnw0/rwDL4zwJlZPDJPJ9w/bOaPrpnBR6+HrBlCbvcLyh7BV9jiv5q26nBRJsUO
+ tbc2qjQ9TB5xarl6J82t69lnWnr17t5mdJeHQSCegQz9gggwr7IqLCcy84hqHBT+O8D0
+ O2ciC1HF+R1uLPtcrqEJzDF6MoKseZDjSVSmTK/Meb5xEzu/SDs0sFrf+fqY+ZY6GsjD
+ M2jg==
+X-Gm-Message-State: AOAM531tUvQPoF8gbBcgxnHHe+WQM0HqNSsHdaBAlPKiHrHiGkAM5Vzz
+ d+NDdX9bA33Y1TNZAaq6RzVSjav86BL5yKAN5sC9zeJ3fj0=
+X-Google-Smtp-Source: ABdhPJyoRe19nZ9z4W4jlGo1Iv1K22wYujENsfoQaGitC+8/Bf6NlCl1UQGu+3U13HjQEIT69OXRAFMFqUHPeiblH/o=
+X-Received: by 2002:a17:906:3fc3:: with SMTP id
+ k3mr4479825ejj.522.1614359435652; 
+ Fri, 26 Feb 2021 09:10:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1614341544-5306-2-git-send-email-kgunda@codeaurora.org>
+References: <20210214194102.126146-1-jagan@amarulasolutions.com>
+ <20210214194102.126146-7-jagan@amarulasolutions.com>
+ <20210226165723.szblbiswz5vgapq2@hendrix>
+In-Reply-To: <20210226165723.szblbiswz5vgapq2@hendrix>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Fri, 26 Feb 2021 22:40:24 +0530
+Message-ID: <CAMty3ZC0ynvk3qnWDSnpMD-_hJiP-edga6+HfqhRH_g0BkAqgg@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] drm: sun4i: dsi: Use drm_panel_bridge,
+ connector API
+To: Maxime Ripard <mripard@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,94 +62,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
- Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
- linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org,
- lee.jones@linaro.org, linux-leds@vger.kernel.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@csie.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 26, 2021 at 05:42:23PM +0530, Kiran Gunda wrote:
-> Currently, for WLED5, the FSC (Full scale current) setting is not
-> updated properly due to driver toggling the wrong register after
-> an FSC update.
-> 
-> On WLED5 we should only toggle the MOD_SYNC bit after a brightness
-> update. For an FSC update we need to toggle the SYNC bits instead.
-> 
-> Fix it by adopting the common wled3_sync_toggle() for WLED5 and
-> introducing new code to the brightness update path to compensate.
-> 
-> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+On Fri, Feb 26, 2021 at 10:27 PM Maxime Ripard <mripard@kernel.org> wrote:
+>
+> Hi,
+>
+> On Mon, Feb 15, 2021 at 01:11:01AM +0530, Jagan Teki wrote:
+> > Use drm_panel_bridge to replace manual panel handling code.
+> >
+> > This simplifies the driver to allows all components in the
+> > display pipeline to be treated as bridges, paving the way
+> > to generic connector handling.
+> >
+> > Use drm_bridge_connector_init to create a connector for display
+> > pipelines that use drm_bridge.
+> >
+> > This allows splitting connector operations across multiple bridges
+> > when necessary, instead of having the last bridge in the chain
+> > creating the connector and handling all connector operations
+> > internally.
+> >
+> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+>
+> Most of the code removed in that patch was actually introduced earlier
+> which feels a bit weird. Is there a reason we can't do that one first,
+> and then introduce the bridge support?
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+This patch adds new bridge API's which requires the driver has to
+support the bridge first.
 
-
-Daniel.
-
-> ---
->  drivers/video/backlight/qcom-wled.c | 25 +++++++++++++++++++------
->  1 file changed, 19 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-> index 3bc7800..aef52b9 100644
-> --- a/drivers/video/backlight/qcom-wled.c
-> +++ b/drivers/video/backlight/qcom-wled.c
-> @@ -348,7 +348,7 @@ static int wled3_sync_toggle(struct wled *wled)
->  	return rc;
->  }
->  
-> -static int wled5_sync_toggle(struct wled *wled)
-> +static int wled5_mod_sync_toggle(struct wled *wled)
->  {
->  	int rc;
->  	u8 val;
-> @@ -445,10 +445,23 @@ static int wled_update_status(struct backlight_device *bl)
->  			goto unlock_mutex;
->  		}
->  
-> -		rc = wled->wled_sync_toggle(wled);
-> -		if (rc < 0) {
-> -			dev_err(wled->dev, "wled sync failed rc:%d\n", rc);
-> -			goto unlock_mutex;
-> +		if (wled->version < 5) {
-> +			rc = wled->wled_sync_toggle(wled);
-> +			if (rc < 0) {
-> +				dev_err(wled->dev, "wled sync failed rc:%d\n", rc);
-> +				goto unlock_mutex;
-> +			}
-> +		} else {
-> +			/*
-> +			 * For WLED5 toggling the MOD_SYNC_BIT updates the
-> +			 * brightness
-> +			 */
-> +			rc = wled5_mod_sync_toggle(wled);
-> +			if (rc < 0) {
-> +				dev_err(wled->dev, "wled mod sync failed rc:%d\n",
-> +					rc);
-> +				goto unlock_mutex;
-> +			}
->  		}
->  	}
->  
-> @@ -1459,7 +1472,7 @@ static int wled_configure(struct wled *wled)
->  		size = ARRAY_SIZE(wled5_opts);
->  		*cfg = wled5_config_defaults;
->  		wled->wled_set_brightness = wled5_set_brightness;
-> -		wled->wled_sync_toggle = wled5_sync_toggle;
-> +		wled->wled_sync_toggle = wled3_sync_toggle;
->  		wled->wled_cabc_config = wled5_cabc_config;
->  		wled->wled_ovp_delay = wled5_ovp_delay;
->  		wled->wled_auto_detection_required =
-> -- 
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
->  a Linux Foundation Collaborative Project
-> 
+Jagan.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
