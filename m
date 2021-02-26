@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B892332608C
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 10:53:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04333260DF
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 11:07:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8D606E8FF;
-	Fri, 26 Feb 2021 09:53:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B5C88825E;
+	Fri, 26 Feb 2021 10:07:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-57.freemail.mail.aliyun.com
- (out30-57.freemail.mail.aliyun.com [115.124.30.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E6226E8FF
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 09:53:42 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R771e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04394;
+Received: from out30-133.freemail.mail.aliyun.com
+ (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06A2589D86;
+ Fri, 26 Feb 2021 10:07:22 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R151e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04395;
  MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
- TI=SMTPD_---0UPdKI.Y_1614333215; 
+ TI=SMTPD_---0UPdKhw-_1614334036; 
 Received: from
  j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0UPdKI.Y_1614333215) by smtp.aliyun-inc.com(127.0.0.1);
- Fri, 26 Feb 2021 17:53:40 +0800
+ fp:SMTPD_---0UPdKhw-_1614334036) by smtp.aliyun-inc.com(127.0.0.1);
+ Fri, 26 Feb 2021 18:07:20 +0800
 From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 To: bskeggs@redhat.com
-Subject: [PATCH] drm/nouveau/mc: make tu102_mc_intr_unarm static
-Date: Fri, 26 Feb 2021 17:53:32 +0800
-Message-Id: <1614333212-18299-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH] drm/nouveau/fifo:  make tu102_fifo_runlist static
+Date: Fri, 26 Feb 2021 18:07:15 +0800
+Message-Id: <1614334035-33886-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 X-Mailer: git-send-email 1.8.3.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,28 +50,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fix the following sparse warning:
 
-drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c:50:1: warning: symbol
-'tu102_mc_intr_unarm' was not declared. Should it be static?
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/tu102.c:53:1: warning: symbol
+'tu102_fifo_runlist' was not declared. Should it be static?
 
 Reported-by: Abaci Robot <abaci@linux.alibaba.com>
 Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c | 2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/tu102.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c
-index 58db83e..d5840e7 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c
-@@ -46,7 +46,7 @@ struct tu102_mc {
- 		nvkm_wr32(device, 0xb81610, 0x6);
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/tu102.c b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/tu102.c
+index e417044..260b197 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/tu102.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/tu102.c
+@@ -49,7 +49,7 @@
+ 	/*XXX: how to wait? can you even wait? */
  }
  
--void
-+static void
- tu102_mc_intr_unarm(struct nvkm_mc *base)
- {
- 	struct tu102_mc *mc = tu102_mc(base);
+-const struct gk104_fifo_runlist_func
++static const struct gk104_fifo_runlist_func
+ tu102_fifo_runlist = {
+ 	.size = 16,
+ 	.cgrp = gv100_fifo_runlist_cgrp,
 -- 
 1.8.3.1
 
