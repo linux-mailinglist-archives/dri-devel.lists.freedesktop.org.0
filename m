@@ -1,61 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 415BD3263AE
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 15:04:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 555BE3263D6
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 15:12:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B02406EDF7;
-	Fri, 26 Feb 2021 14:04:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 874B66EDEF;
+	Fri, 26 Feb 2021 14:12:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE1656EDF7
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 14:04:50 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id i7so1095571wmb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 06:04:50 -0800 (PST)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 781406EDE7
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 14:12:14 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id f12so4916212wrx.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 06:12:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=ayfUP5ItpQZtt3c7ct2J5uiyz1LNVGzkIBowS2RlVnE=;
- b=N6VyBky6yrqmzsy3dtU3wFEmf2p5/yMikH4oimPwK7PglK8Pij8uusTZ+Fw5C3lKHT
- 2FQ/M2z77/6QhLKYabYLTRTV5YfQVLhUCZn3qLwcG5DiWpfnU9rdkd+QjWNJ8wVpHaTR
- r+Ujv2inCUOmi6ulejm2tN8fK5VDSD9S5D9ss=
+ bh=OLZmcrWCxeZ6c41xxieRiW431fw/N9XWlSm0QCK8aNA=;
+ b=VOcdabzu8g4dgYtvD9enjeHhI2Qoyldr9w1hr7i8FkRX60efmkgnZb0bI1C2KeFlIM
+ 5RDTPqC6bKoEPNjwfA3wStXJhWUAGlJcnfH5Vstw9df1T5ooWK3uhbRtVT7aIjeUKMGx
+ 4YRoBWfaKY3fiwyGqlz40xxze4Gkl0mFMjgiE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=ayfUP5ItpQZtt3c7ct2J5uiyz1LNVGzkIBowS2RlVnE=;
- b=NIEdZuptX/C8fq9RMulTQVRlclp0X8fxR97cHvIZ1XAqUlFGAvUH4EaWMlnofdTIIH
- B3LJ2lAGuw3QEmozg7W1286eAQg+4MSFNAe393FEkps+LetxdWyX0s27j4ZokEZH9Nt+
- Eb7/rxeBfnG6qkJ3sDa8KtgpSsqWTePFOL9psN1wQal7VKq4fZbRXGcH5yNDMxZnnJLK
- SXbOLGMcq9PPKB+hPUDeJf25iDNjZx4Hf+xp3Mfjy9cH2AKq/bnOPGCI2xxyk2K1gGZn
- 93c73gBMWlX6PtTincY/UDpKAt0rk7k5As1a2a28Nqa/sPfPCa89uIF0WHDto4a5J0Tu
- FyMQ==
-X-Gm-Message-State: AOAM530Thvg0aIBH1XmmtsQNrtjtkwD5L0PTUtNAGMqwjM0cHoz/Qz4l
- TTlQ8JDMWlsHyEegxoU0nlxkwA==
-X-Google-Smtp-Source: ABdhPJyGjQR51ZYzketlxzLlW+Bl8fDsgk+tAL5gaimSbPXnlXhVgDhi2+XdNg5WEU9PZRvzrOAQXA==
-X-Received: by 2002:a1c:32c4:: with SMTP id y187mr3064971wmy.120.1614348289516; 
- Fri, 26 Feb 2021 06:04:49 -0800 (PST)
+ bh=OLZmcrWCxeZ6c41xxieRiW431fw/N9XWlSm0QCK8aNA=;
+ b=cmeb3arY3JrSLVIFWeVJzO1NF3YAzBF4/U9wEnRY1B70X0cUVzS7uQGLUnft9Z6hrG
+ 4Esg1zNkvh1H+6KEWapab0n/zaEe5lq8vJ58zBH/HEa6HaN54Cv+FCF7bev3Mc2k9dMC
+ Df83nX50ko10AXGo9E3bxIlCNHcoKarxY+UROtzqvIlDRP4ApdQdzCSmWYTv4YUmqqbS
+ brkr1t3GvF6TlqBelBMOmYZCpakXsKS/qCshOrYpK1ZG796XQn75O6UWUxC43QmTpa/u
+ lzBqzbO/BIsJ72MN/7HQ/0wWYluX5r4Z9Tz1lOyYNj1LrKOnW0jwsjCdPWymT+6ckeua
+ 6bcw==
+X-Gm-Message-State: AOAM530q2fEW1yPKN7Xf3jEiHI5f0zPJR0mZMbW78jKvJspg2/SaSXve
+ 4u6fgYZ9h5YmvDqCGwGprsfHbw==
+X-Google-Smtp-Source: ABdhPJzYPmqGaNyqUXkiVVgbrvJb2KvCF2x7gu7Ydgs4PuNrKsP56kZG5lsKCB1mCP6CGGKNadmezQ==
+X-Received: by 2002:a5d:5710:: with SMTP id a16mr3315733wrv.275.1614348733008; 
+ Fri, 26 Feb 2021 06:12:13 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t8sm7570627wrr.10.2021.02.26.06.04.47
+ by smtp.gmail.com with ESMTPSA id f14sm11335741wmf.7.2021.02.26.06.12.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Feb 2021 06:04:47 -0800 (PST)
-Date: Fri, 26 Feb 2021 15:04:45 +0100
+ Fri, 26 Feb 2021 06:12:12 -0800 (PST)
+Date: Fri, 26 Feb 2021 15:12:10 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/vgem: use shmem helpers
-Message-ID: <YDj//RhSq4JMeEmn@phenom.ffwll.local>
-References: <20210223105951.912577-2-daniel.vetter@ffwll.ch>
- <20210225102306.1173073-1-daniel.vetter@ffwll.ch>
- <373f003f-1e7b-78ee-6de7-2982372f48b9@suse.de>
- <CAKMK7uFz2ZR63OV737cFqp+pCQFpJzMP5u8RcBnER9akK4wgng@mail.gmail.com>
- <3a230466-d797-c9dd-74c9-58b39d5c825e@suse.de>
+Subject: Re: [PATCH v5] drm: Use USB controller's DMA mask when importing
+ dmabufs
+Message-ID: <YDkBuu0AhZy+C/Y/@phenom.ffwll.local>
+References: <20210226092648.4584-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <3a230466-d797-c9dd-74c9-58b39d5c825e@suse.de>
+In-Reply-To: <20210226092648.4584-1-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,569 +66,364 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Melissa Wen <melissa.srw@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Pavel Machek <pavel@ucw.cz>, airlied@linux.ie, gregkh@linuxfoundation.org,
+ Christoph Hellwig <hch@lst.de>, hdegoede@redhat.com, stern@rowland.harvard.edu,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ stable@vger.kernel.org, sean@poorly.run, christian.koenig@amd.com
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 26, 2021 at 02:51:58PM +0100, Thomas Zimmermann wrote:
-> Hi
+On Fri, Feb 26, 2021 at 10:26:47AM +0100, Thomas Zimmermann wrote:
+> USB devices cannot perform DMA and hence have no dma_mask set in their
+> device structure. Therefore importing dmabuf into a USB-based driver
+> fails, which breaks joining and mirroring of display in X11.
 > =
 
-> Am 26.02.21 um 14:30 schrieb Daniel Vetter:
-> > On Fri, Feb 26, 2021 at 10:19 AM Thomas Zimmermann <tzimmermann@suse.de=
-> wrote:
-> > > =
-
-> > > Hi
-> > > =
-
-> > > Am 25.02.21 um 11:23 schrieb Daniel Vetter:
-> > > > Aside from deleting lots of code the real motivation here is to swi=
-tch
-> > > > the mmap over to VM_PFNMAP, to be more consistent with what real gpu
-> > > > drivers do. They're all VM_PFNMP, which means get_user_pages doesn't
-> > > > work, and even if you try and there's a struct page behind that,
-> > > > touching it and mucking around with its refcount can upset drivers
-> > > > real bad.
-> > > > =
-
-> > > > v2: Review from Thomas:
-> > > > - sort #include
-> > > > - drop more dead code that I didn't spot somehow
-> > > > =
-
-> > > > v3: select DRM_GEM_SHMEM_HELPER to make it build (intel-gfx-ci)
-> > > =
-
-> > > Since you're working on it, could you move the config item into a
-> > > Kconfig file under vgem?
-> > =
-
-> > We have a lot of drivers still without their own Kconfig. I thought
-> > we're only doing that for drivers which have multiple options, or
-> > otherwise would clutter up the main drm/Kconfig file?
-> > =
-
-> > Not opposed to this, just feels like if we do this, should do it for
-> > all of them.
+> For USB devices, pick the associated USB controller as attachment device.
+> This allows the DRM import helpers to perform the DMA setup. If the DMA
+> controller does not support DMA transfers, we're out of luck and cannot
+> import. Our current USB-based DRM drivers don't use DMA, so the actual
+> DMA device is not important.
 > =
 
-> I didn't know that there was a rule for how to handle this. I just didn't
-> like to have driver config rules in the main Kconfig file.
+> Drivers should use DRM_GEM_SHMEM_DROVER_OPS_USB to initialize their
+> instance of struct drm_driver.
+> =
 
-I don't think it is an actual rule, just how the driver Kconfig files
-started out.
+> Tested by joining/mirroring displays of udl and radeon un der Gnome/X11.
+> =
 
-> But yeah, maybe let's change this consistently in a separate patchset.
+> v5:
+> 	* provide a helper for USB interfaces (Alan)
+> 	* add FIXME item to documentation and TODO list (Daniel)
+> v4:
+> 	* implement workaround with USB helper functions (Greg)
+> 	* use struct usb_device->bus->sysdev as DMA device (Takashi)
+> v3:
+> 	* drop gem_create_object
+> 	* use DMA mask of USB controller, if any (Daniel, Christian, Noralf)
+> v2:
+> 	* move fix to importer side (Christian, Daniel)
+> 	* update SHMEM and CMA helpers for new PRIME callbacks
+> =
 
-Yeah I looked, we should also put all the driver files at the bottom, and
-maybe sort them alphabetically or something like that. It's a bit a mess
-right now.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 6eb0233ec2d0 ("usb: don't inherity DMA properties for USB devices")
+> Tested-by: Pavel Machek <pavel@ucw.cz>
+> Acked-by: Christian K=F6nig <christian.koenig@amd.com>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: <stable@vger.kernel.org> # v5.10+
+> ---
+>  Documentation/gpu/todo.rst         | 15 ++++++++++
+>  drivers/gpu/drm/drm_prime.c        | 45 ++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/tiny/gm12u320.c    |  2 +-
+>  drivers/gpu/drm/udl/udl_drv.c      |  2 +-
+>  drivers/usb/core/usb.c             | 31 ++++++++++++++++++++
+>  include/drm/drm_gem_shmem_helper.h | 16 +++++++++++
+>  include/drm/drm_prime.h            |  5 ++++
+>  include/linux/usb.h                | 24 ++++++++++++++++
+>  8 files changed, 138 insertions(+), 2 deletions(-)
+> =
+
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index f872d3d33218..c185e0a2951e 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -617,6 +617,21 @@ Contact: Daniel Vetter
+>  =
+
+>  Level: Intermediate
+>  =
+
+> +Remove automatic page mapping from dma-buf importing
+> +----------------------------------------------------
+> +
+> +When importing dma-bufs, the dma-buf and PRIME frameworks automatically =
+map
+> +imported pages into the importer's DMA area. This is a problem for USB d=
+evices,
+> +which do not support DMA operations. By default, importing fails for USB
+> +devices. USB-based drivers work around this problem by employing
+> +drm_gem_prime_import_usb(). To fix the issue, automatic page mappings sh=
+ould
+> +be removed from the buffer-sharing code.
+> +
+> +Contact: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter
+> +
+> +Level: Advanced
+> +
+> +
+>  Better Testing
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>  =
+
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 2a54f86856af..59013bb1cd4b 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -29,6 +29,7 @@
+>  #include <linux/export.h>
+>  #include <linux/dma-buf.h>
+>  #include <linux/rbtree.h>
+> +#include <linux/usb.h>
+>  =
+
+>  #include <drm/drm.h>
+>  #include <drm/drm_drv.h>
+> @@ -1055,3 +1056,47 @@ void drm_prime_gem_destroy(struct drm_gem_object *=
+obj, struct sg_table *sg)
+>  	dma_buf_put(dma_buf);
+>  }
+>  EXPORT_SYMBOL(drm_prime_gem_destroy);
+> +
+> +/**
+> + * drm_gem_prime_import_usb - helper library implementation of the impor=
+t callback for USB devices
+> + * @dev: drm_device to import into
+> + * @dma_buf: dma-buf object to import
+> + *
+> + * This is an implementation of drm_gem_prime_import() for USB-based dev=
+ices.
+> + * USB devices cannot perform DMA directly. This function selects the US=
+B host
+> + * controller as DMA device instead. Drivers can use this as their
+> + * &drm_driver.gem_prime_import implementation.
+> + *
+> + * See also drm_gem_prime_import().
+> + *
+> + * FIXME: The dma-buf framework expects to map the exported pages into
+> + *        the importer's DMA area. USB devices don't support DMA, and
+> + *        importing would fail. Foir the time being, this function provi=
+des
+> + *        a workaround by using the USB controller's DMA area. The real
+> + *        solution is to remove page-mapping operations from the dma-buf
+> + *        framework.
+> + *
+> + * Returns: A GEM object on success, or a pointer-encoder errno value ot=
+herwise.
+> + */
+> +#ifdef CONFIG_USB
+> +struct drm_gem_object *drm_gem_prime_import_usb(struct drm_device *dev,
+> +						struct dma_buf *dma_buf)
+> +{
+> +	struct device *dmadev;
+> +	struct drm_gem_object *obj;
+> +
+> +	if (!dev_is_usb(dev->dev))
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	dmadev =3D usb_intf_get_dma_device(to_usb_interface(dev->dev));
+> +	if (drm_WARN_ONCE(dev, !dmadev, "buffer sharing not supported"))
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	obj =3D drm_gem_prime_import_dev(dev, dma_buf, dmadev);
+> +
+> +	put_device(dmadev);
+
+Just realized there's another can of worms here because dma_buf_attach
+does not refcount the struct device. But the dma_buf can easily outlive
+the underlying device, at least right now.
+
+We should probably require that devices get rid of all their mappings in
+their hotunplug code.
+
+Ofc now that we pick some random other device struct this gets kinda
+worse.
+
+Anyway, also just another pre-existing condition that we should worry
+about here. It's all still a very bad hack.
 -Daniel
 
-> =
+> +
+> +	return obj;
+> +}
+> +EXPORT_SYMBOL(drm_gem_prime_import_usb);
+> +#endif
+> diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u=
+320.c
+> index 0b4f4f2af1ef..99e7bd36a220 100644
+> --- a/drivers/gpu/drm/tiny/gm12u320.c
+> +++ b/drivers/gpu/drm/tiny/gm12u320.c
+> @@ -611,7 +611,7 @@ static const struct drm_driver gm12u320_drm_driver =
+=3D {
+>  	.minor		 =3D DRIVER_MINOR,
+>  =
 
-> Best regards
-> Thomas
-> =
+>  	.fops		 =3D &gm12u320_fops,
+> -	DRM_GEM_SHMEM_DRIVER_OPS,
+> +	DRM_GEM_SHMEM_DRIVER_OPS_USB,
+>  };
+>  =
 
-> > -Daniel
-> > =
-
-> > =
-
-> > > =
-
-> > > Best regards
-> > > Thomas
-> > > =
-
-> > > > =
-
-> > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > Cc: John Stultz <john.stultz@linaro.org>
-> > > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > > > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
-> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > > Cc: Melissa Wen <melissa.srw@gmail.com>
-> > > > Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> > > > ---
-> > > >    drivers/gpu/drm/Kconfig         |   1 +
-> > > >    drivers/gpu/drm/vgem/vgem_drv.c | 340 +-------------------------=
-------
-> > > >    2 files changed, 4 insertions(+), 337 deletions(-)
-> > > > =
-
-> > > > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> > > > index 8e73311de583..94e4ac830283 100644
-> > > > --- a/drivers/gpu/drm/Kconfig
-> > > > +++ b/drivers/gpu/drm/Kconfig
-> > > > @@ -274,6 +274,7 @@ source "drivers/gpu/drm/kmb/Kconfig"
-> > > >    config DRM_VGEM
-> > > >        tristate "Virtual GEM provider"
-> > > >        depends on DRM
-> > > > +     select DRM_GEM_SHMEM_HELPER
-> > > >        help
-> > > >          Choose this option to get a virtual graphics memory manage=
-r,
-> > > >          as used by Mesa's software renderer for enhanced performan=
-ce.
-> > > > diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem=
-/vgem_drv.c
-> > > > index a0e75f1d5d01..b1b3a5ffc542 100644
-> > > > --- a/drivers/gpu/drm/vgem/vgem_drv.c
-> > > > +++ b/drivers/gpu/drm/vgem/vgem_drv.c
-> > > > @@ -38,6 +38,7 @@
-> > > > =
-
-> > > >    #include <drm/drm_drv.h>
-> > > >    #include <drm/drm_file.h>
-> > > > +#include <drm/drm_gem_shmem_helper.h>
-> > > >    #include <drm/drm_ioctl.h>
-> > > >    #include <drm/drm_managed.h>
-> > > >    #include <drm/drm_prime.h>
-> > > > @@ -50,87 +51,11 @@
-> > > >    #define DRIVER_MAJOR        1
-> > > >    #define DRIVER_MINOR        0
-> > > > =
-
-> > > > -static const struct drm_gem_object_funcs vgem_gem_object_funcs;
-> > > > -
-> > > >    static struct vgem_device {
-> > > >        struct drm_device drm;
-> > > >        struct platform_device *platform;
-> > > >    } *vgem_device;
-> > > > =
-
-> > > > -static void vgem_gem_free_object(struct drm_gem_object *obj)
-> > > > -{
-> > > > -     struct drm_vgem_gem_object *vgem_obj =3D to_vgem_bo(obj);
-> > > > -
-> > > > -     kvfree(vgem_obj->pages);
-> > > > -     mutex_destroy(&vgem_obj->pages_lock);
-> > > > -
-> > > > -     if (obj->import_attach)
-> > > > -             drm_prime_gem_destroy(obj, vgem_obj->table);
-> > > > -
-> > > > -     drm_gem_object_release(obj);
-> > > > -     kfree(vgem_obj);
-> > > > -}
-> > > > -
-> > > > -static vm_fault_t vgem_gem_fault(struct vm_fault *vmf)
-> > > > -{
-> > > > -     struct vm_area_struct *vma =3D vmf->vma;
-> > > > -     struct drm_vgem_gem_object *obj =3D vma->vm_private_data;
-> > > > -     /* We don't use vmf->pgoff since that has the fake offset */
-> > > > -     unsigned long vaddr =3D vmf->address;
-> > > > -     vm_fault_t ret =3D VM_FAULT_SIGBUS;
-> > > > -     loff_t num_pages;
-> > > > -     pgoff_t page_offset;
-> > > > -     page_offset =3D (vaddr - vma->vm_start) >> PAGE_SHIFT;
-> > > > -
-> > > > -     num_pages =3D DIV_ROUND_UP(obj->base.size, PAGE_SIZE);
-> > > > -
-> > > > -     if (page_offset >=3D num_pages)
-> > > > -             return VM_FAULT_SIGBUS;
-> > > > -
-> > > > -     mutex_lock(&obj->pages_lock);
-> > > > -     if (obj->pages) {
-> > > > -             get_page(obj->pages[page_offset]);
-> > > > -             vmf->page =3D obj->pages[page_offset];
-> > > > -             ret =3D 0;
-> > > > -     }
-> > > > -     mutex_unlock(&obj->pages_lock);
-> > > > -     if (ret) {
-> > > > -             struct page *page;
-> > > > -
-> > > > -             page =3D shmem_read_mapping_page(
-> > > > -                                     file_inode(obj->base.filp)->i=
-_mapping,
-> > > > -                                     page_offset);
-> > > > -             if (!IS_ERR(page)) {
-> > > > -                     vmf->page =3D page;
-> > > > -                     ret =3D 0;
-> > > > -             } else switch (PTR_ERR(page)) {
-> > > > -                     case -ENOSPC:
-> > > > -                     case -ENOMEM:
-> > > > -                             ret =3D VM_FAULT_OOM;
-> > > > -                             break;
-> > > > -                     case -EBUSY:
-> > > > -                             ret =3D VM_FAULT_RETRY;
-> > > > -                             break;
-> > > > -                     case -EFAULT:
-> > > > -                     case -EINVAL:
-> > > > -                             ret =3D VM_FAULT_SIGBUS;
-> > > > -                             break;
-> > > > -                     default:
-> > > > -                             WARN_ON(PTR_ERR(page));
-> > > > -                             ret =3D VM_FAULT_SIGBUS;
-> > > > -                             break;
-> > > > -             }
-> > > > -
-> > > > -     }
-> > > > -     return ret;
-> > > > -}
-> > > > -
-> > > > -static const struct vm_operations_struct vgem_gem_vm_ops =3D {
-> > > > -     .fault =3D vgem_gem_fault,
-> > > > -     .open =3D drm_gem_vm_open,
-> > > > -     .close =3D drm_gem_vm_close,
-> > > > -};
-> > > > -
-> > > >    static int vgem_open(struct drm_device *dev, struct drm_file *fi=
-le)
-> > > >    {
-> > > >        struct vgem_file *vfile;
-> > > > @@ -159,265 +84,12 @@ static void vgem_postclose(struct drm_device =
-*dev, struct drm_file *file)
-> > > >        kfree(vfile);
-> > > >    }
-> > > > =
-
-> > > > -static struct drm_vgem_gem_object *__vgem_gem_create(struct drm_de=
-vice *dev,
-> > > > -                                             unsigned long size)
-> > > > -{
-> > > > -     struct drm_vgem_gem_object *obj;
-> > > > -     int ret;
-> > > > -
-> > > > -     obj =3D kzalloc(sizeof(*obj), GFP_KERNEL);
-> > > > -     if (!obj)
-> > > > -             return ERR_PTR(-ENOMEM);
-> > > > -
-> > > > -     obj->base.funcs =3D &vgem_gem_object_funcs;
-> > > > -
-> > > > -     ret =3D drm_gem_object_init(dev, &obj->base, roundup(size, PA=
-GE_SIZE));
-> > > > -     if (ret) {
-> > > > -             kfree(obj);
-> > > > -             return ERR_PTR(ret);
-> > > > -     }
-> > > > -
-> > > > -     mutex_init(&obj->pages_lock);
-> > > > -
-> > > > -     return obj;
-> > > > -}
-> > > > -
-> > > > -static void __vgem_gem_destroy(struct drm_vgem_gem_object *obj)
-> > > > -{
-> > > > -     drm_gem_object_release(&obj->base);
-> > > > -     kfree(obj);
-> > > > -}
-> > > > -
-> > > > -static struct drm_gem_object *vgem_gem_create(struct drm_device *d=
-ev,
-> > > > -                                           struct drm_file *file,
-> > > > -                                           unsigned int *handle,
-> > > > -                                           unsigned long size)
-> > > > -{
-> > > > -     struct drm_vgem_gem_object *obj;
-> > > > -     int ret;
-> > > > -
-> > > > -     obj =3D __vgem_gem_create(dev, size);
-> > > > -     if (IS_ERR(obj))
-> > > > -             return ERR_CAST(obj);
-> > > > -
-> > > > -     ret =3D drm_gem_handle_create(file, &obj->base, handle);
-> > > > -     if (ret) {
-> > > > -             drm_gem_object_put(&obj->base);
-> > > > -             return ERR_PTR(ret);
-> > > > -     }
-> > > > -
-> > > > -     return &obj->base;
-> > > > -}
-> > > > -
-> > > > -static int vgem_gem_dumb_create(struct drm_file *file, struct drm_=
-device *dev,
-> > > > -                             struct drm_mode_create_dumb *args)
-> > > > -{
-> > > > -     struct drm_gem_object *gem_object;
-> > > > -     u64 pitch, size;
-> > > > -
-> > > > -     pitch =3D args->width * DIV_ROUND_UP(args->bpp, 8);
-> > > > -     size =3D args->height * pitch;
-> > > > -     if (size =3D=3D 0)
-> > > > -             return -EINVAL;
-> > > > -
-> > > > -     gem_object =3D vgem_gem_create(dev, file, &args->handle, size=
-);
-> > > > -     if (IS_ERR(gem_object))
-> > > > -             return PTR_ERR(gem_object);
-> > > > -
-> > > > -     args->size =3D gem_object->size;
-> > > > -     args->pitch =3D pitch;
-> > > > -
-> > > > -     drm_gem_object_put(gem_object);
-> > > > -
-> > > > -     DRM_DEBUG("Created object of size %llu\n", args->size);
-> > > > -
-> > > > -     return 0;
-> > > > -}
-> > > > -
-> > > >    static struct drm_ioctl_desc vgem_ioctls[] =3D {
-> > > >        DRM_IOCTL_DEF_DRV(VGEM_FENCE_ATTACH, vgem_fence_attach_ioctl=
-, DRM_RENDER_ALLOW),
-> > > >        DRM_IOCTL_DEF_DRV(VGEM_FENCE_SIGNAL, vgem_fence_signal_ioctl=
-, DRM_RENDER_ALLOW),
-> > > >    };
-> > > > =
-
-> > > > -static int vgem_mmap(struct file *filp, struct vm_area_struct *vma)
-> > > > -{
-> > > > -     unsigned long flags =3D vma->vm_flags;
-> > > > -     int ret;
-> > > > -
-> > > > -     ret =3D drm_gem_mmap(filp, vma);
-> > > > -     if (ret)
-> > > > -             return ret;
-> > > > -
-> > > > -     /* Keep the WC mmaping set by drm_gem_mmap() but our pages
-> > > > -      * are ordinary and not special.
-> > > > -      */
-> > > > -     vma->vm_flags =3D flags | VM_DONTEXPAND | VM_DONTDUMP;
-> > > > -     return 0;
-> > > > -}
-> > > > -
-> > > > -static const struct file_operations vgem_driver_fops =3D {
-> > > > -     .owner          =3D THIS_MODULE,
-> > > > -     .open           =3D drm_open,
-> > > > -     .mmap           =3D vgem_mmap,
-> > > > -     .poll           =3D drm_poll,
-> > > > -     .read           =3D drm_read,
-> > > > -     .unlocked_ioctl =3D drm_ioctl,
-> > > > -     .compat_ioctl   =3D drm_compat_ioctl,
-> > > > -     .release        =3D drm_release,
-> > > > -};
-> > > > -
-> > > > -static struct page **vgem_pin_pages(struct drm_vgem_gem_object *bo)
-> > > > -{
-> > > > -     mutex_lock(&bo->pages_lock);
-> > > > -     if (bo->pages_pin_count++ =3D=3D 0) {
-> > > > -             struct page **pages;
-> > > > -
-> > > > -             pages =3D drm_gem_get_pages(&bo->base);
-> > > > -             if (IS_ERR(pages)) {
-> > > > -                     bo->pages_pin_count--;
-> > > > -                     mutex_unlock(&bo->pages_lock);
-> > > > -                     return pages;
-> > > > -             }
-> > > > -
-> > > > -             bo->pages =3D pages;
-> > > > -     }
-> > > > -     mutex_unlock(&bo->pages_lock);
-> > > > -
-> > > > -     return bo->pages;
-> > > > -}
-> > > > -
-> > > > -static void vgem_unpin_pages(struct drm_vgem_gem_object *bo)
-> > > > -{
-> > > > -     mutex_lock(&bo->pages_lock);
-> > > > -     if (--bo->pages_pin_count =3D=3D 0) {
-> > > > -             drm_gem_put_pages(&bo->base, bo->pages, true, true);
-> > > > -             bo->pages =3D NULL;
-> > > > -     }
-> > > > -     mutex_unlock(&bo->pages_lock);
-> > > > -}
-> > > > -
-> > > > -static int vgem_prime_pin(struct drm_gem_object *obj)
-> > > > -{
-> > > > -     struct drm_vgem_gem_object *bo =3D to_vgem_bo(obj);
-> > > > -     long n_pages =3D obj->size >> PAGE_SHIFT;
-> > > > -     struct page **pages;
-> > > > -
-> > > > -     pages =3D vgem_pin_pages(bo);
-> > > > -     if (IS_ERR(pages))
-> > > > -             return PTR_ERR(pages);
-> > > > -
-> > > > -     /* Flush the object from the CPU cache so that importers can =
-rely
-> > > > -      * on coherent indirect access via the exported dma-address.
-> > > > -      */
-> > > > -     drm_clflush_pages(pages, n_pages);
-> > > > -
-> > > > -     return 0;
-> > > > -}
-> > > > -
-> > > > -static void vgem_prime_unpin(struct drm_gem_object *obj)
-> > > > -{
-> > > > -     struct drm_vgem_gem_object *bo =3D to_vgem_bo(obj);
-> > > > -
-> > > > -     vgem_unpin_pages(bo);
-> > > > -}
-> > > > -
-> > > > -static struct sg_table *vgem_prime_get_sg_table(struct drm_gem_obj=
-ect *obj)
-> > > > -{
-> > > > -     struct drm_vgem_gem_object *bo =3D to_vgem_bo(obj);
-> > > > -
-> > > > -     return drm_prime_pages_to_sg(obj->dev, bo->pages, bo->base.si=
-ze >> PAGE_SHIFT);
-> > > > -}
-> > > > -
-> > > > -static struct drm_gem_object* vgem_prime_import(struct drm_device =
-*dev,
-> > > > -                                             struct dma_buf *dma_b=
-uf)
-> > > > -{
-> > > > -     struct vgem_device *vgem =3D container_of(dev, typeof(*vgem),=
- drm);
-> > > > -
-> > > > -     return drm_gem_prime_import_dev(dev, dma_buf, &vgem->platform=
-->dev);
-> > > > -}
-> > > > -
-> > > > -static struct drm_gem_object *vgem_prime_import_sg_table(struct dr=
-m_device *dev,
-> > > > -                     struct dma_buf_attachment *attach, struct sg_=
-table *sg)
-> > > > -{
-> > > > -     struct drm_vgem_gem_object *obj;
-> > > > -     int npages;
-> > > > -
-> > > > -     obj =3D __vgem_gem_create(dev, attach->dmabuf->size);
-> > > > -     if (IS_ERR(obj))
-> > > > -             return ERR_CAST(obj);
-> > > > -
-> > > > -     npages =3D PAGE_ALIGN(attach->dmabuf->size) / PAGE_SIZE;
-> > > > -
-> > > > -     obj->table =3D sg;
-> > > > -     obj->pages =3D kvmalloc_array(npages, sizeof(struct page *), =
-GFP_KERNEL);
-> > > > -     if (!obj->pages) {
-> > > > -             __vgem_gem_destroy(obj);
-> > > > -             return ERR_PTR(-ENOMEM);
-> > > > -     }
-> > > > -
-> > > > -     obj->pages_pin_count++; /* perma-pinned */
-> > > > -     drm_prime_sg_to_page_array(obj->table, obj->pages, npages);
-> > > > -     return &obj->base;
-> > > > -}
-> > > > -
-> > > > -static int vgem_prime_vmap(struct drm_gem_object *obj, struct dma_=
-buf_map *map)
-> > > > -{
-> > > > -     struct drm_vgem_gem_object *bo =3D to_vgem_bo(obj);
-> > > > -     long n_pages =3D obj->size >> PAGE_SHIFT;
-> > > > -     struct page **pages;
-> > > > -     void *vaddr;
-> > > > -
-> > > > -     pages =3D vgem_pin_pages(bo);
-> > > > -     if (IS_ERR(pages))
-> > > > -             return PTR_ERR(pages);
-> > > > -
-> > > > -     vaddr =3D vmap(pages, n_pages, 0, pgprot_writecombine(PAGE_KE=
-RNEL));
-> > > > -     if (!vaddr)
-> > > > -             return -ENOMEM;
-> > > > -     dma_buf_map_set_vaddr(map, vaddr);
-> > > > -
-> > > > -     return 0;
-> > > > -}
-> > > > -
-> > > > -static void vgem_prime_vunmap(struct drm_gem_object *obj, struct d=
-ma_buf_map *map)
-> > > > -{
-> > > > -     struct drm_vgem_gem_object *bo =3D to_vgem_bo(obj);
-> > > > -
-> > > > -     vunmap(map->vaddr);
-> > > > -     vgem_unpin_pages(bo);
-> > > > -}
-> > > > -
-> > > > -static int vgem_prime_mmap(struct drm_gem_object *obj,
-> > > > -                        struct vm_area_struct *vma)
-> > > > -{
-> > > > -     int ret;
-> > > > -
-> > > > -     if (obj->size < vma->vm_end - vma->vm_start)
-> > > > -             return -EINVAL;
-> > > > -
-> > > > -     if (!obj->filp)
-> > > > -             return -ENODEV;
-> > > > -
-> > > > -     ret =3D call_mmap(obj->filp, vma);
-> > > > -     if (ret)
-> > > > -             return ret;
-> > > > -
-> > > > -     vma_set_file(vma, obj->filp);
-> > > > -     vma->vm_flags |=3D VM_DONTEXPAND | VM_DONTDUMP;
-> > > > -     vma->vm_page_prot =3D pgprot_writecombine(vm_get_page_prot(vm=
-a->vm_flags));
-> > > > -
-> > > > -     return 0;
-> > > > -}
-> > > > -
-> > > > -static const struct drm_gem_object_funcs vgem_gem_object_funcs =3D=
+>  static const struct drm_mode_config_funcs gm12u320_mode_config_funcs =3D=
  {
-> > > > -     .free =3D vgem_gem_free_object,
-> > > > -     .pin =3D vgem_prime_pin,
-> > > > -     .unpin =3D vgem_prime_unpin,
-> > > > -     .get_sg_table =3D vgem_prime_get_sg_table,
-> > > > -     .vmap =3D vgem_prime_vmap,
-> > > > -     .vunmap =3D vgem_prime_vunmap,
-> > > > -     .vm_ops =3D &vgem_gem_vm_ops,
-> > > > -};
-> > > > +DEFINE_DRM_GEM_FOPS(vgem_driver_fops);
-> > > > =
+> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
+> index 9269092697d8..2db483b2b199 100644
+> --- a/drivers/gpu/drm/udl/udl_drv.c
+> +++ b/drivers/gpu/drm/udl/udl_drv.c
+> @@ -39,7 +39,7 @@ static const struct drm_driver driver =3D {
+>  =
 
-> > > >    static const struct drm_driver vgem_driver =3D {
-> > > >        .driver_features                =3D DRIVER_GEM | DRIVER_REND=
-ER,
-> > > > @@ -427,13 +99,7 @@ static const struct drm_driver vgem_driver =3D {
-> > > >        .num_ioctls                     =3D ARRAY_SIZE(vgem_ioctls),
-> > > >        .fops                           =3D &vgem_driver_fops,
-> > > > =
+>  	/* GEM hooks */
+>  	.fops =3D &udl_driver_fops,
+> -	DRM_GEM_SHMEM_DRIVER_OPS,
+> +	DRM_GEM_SHMEM_DRIVER_OPS_USB,
+>  =
 
-> > > > -     .dumb_create                    =3D vgem_gem_dumb_create,
-> > > > -
-> > > > -     .prime_handle_to_fd =3D drm_gem_prime_handle_to_fd,
-> > > > -     .prime_fd_to_handle =3D drm_gem_prime_fd_to_handle,
-> > > > -     .gem_prime_import =3D vgem_prime_import,
-> > > > -     .gem_prime_import_sg_table =3D vgem_prime_import_sg_table,
-> > > > -     .gem_prime_mmap =3D vgem_prime_mmap,
-> > > > +     DRM_GEM_SHMEM_DRIVER_OPS,
-> > > > =
+>  	.name =3D DRIVER_NAME,
+>  	.desc =3D DRIVER_DESC,
+> diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+> index 8f07b0516100..5e07921e87ba 100644
+> --- a/drivers/usb/core/usb.c
+> +++ b/drivers/usb/core/usb.c
+> @@ -748,6 +748,37 @@ void usb_put_intf(struct usb_interface *intf)
+>  }
+>  EXPORT_SYMBOL_GPL(usb_put_intf);
+>  =
 
-> > > >        .name   =3D DRIVER_NAME,
-> > > >        .desc   =3D DRIVER_DESC,
-> > > > =
+> +/**
+> + * usb_get_dma_device - acquire a reference on the usb device's DMA endp=
+oint
+> + * @udev: usb device
+> + *
+> + * While a USB device cannot perform DMA operations by itself, many USB
+> + * controllers can. A call to usb_get_dma_device() returns the DMA endpo=
+int
+> + * for the given USB device, if any. The returned device structure shoul=
+d be
+> + * released with put_device().
+> + *
+> + * See also usb_intf_get_dma_device().
+> + *
+> + * Returns: A reference to the usb device's DMA endpoint; or NULL if none
+> + *          exists.
+> + */
+> +struct device *usb_get_dma_device(struct usb_device *udev)
+> +{
+> +	struct device *dmadev;
+> +
+> +	if (!udev->bus)
+> +		return NULL;
+> +
+> +	dmadev =3D get_device(udev->bus->sysdev);
+> +	if (!dmadev || !dmadev->dma_mask) {
+> +		put_device(dmadev);
+> +		return NULL;
+> +	}
+> +
+> +	return dmadev;
+> +}
+> +EXPORT_SYMBOL_GPL(usb_get_dma_device);
+> +
+>  /*			USB device locking
+>   *
+>   * USB devices and interfaces are locked using the semaphore in their
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shm=
+em_helper.h
+> index 434328d8a0d9..ea8144f33c1f 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -162,4 +162,20 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct =
+drm_gem_object *obj);
+>  	.gem_prime_mmap		=3D drm_gem_prime_mmap, \
+>  	.dumb_create		=3D drm_gem_shmem_dumb_create
+>  =
 
-> > > =
+> +#ifdef CONFIG_USB
+> +/**
+> + * DRM_GEM_SHMEM_DRIVER_OPS_USB - Default shmem GEM operations for USB d=
+evices
+> + *
+> + * This macro provides a shortcut for setting the shmem GEM operations in
+> + * the &drm_driver structure. Drivers for USB-based devices should use t=
+his
+> + * macro instead of &DRM_GEM_SHMEM_DRIVER_OPS.
+> + *
+> + * FIXME: Support USB devices with default SHMEM driver ops. See the
+> + *        documentation of drm_gem_prime_import_usb() for details.
+> + */
+> +#define DRM_GEM_SHMEM_DRIVER_OPS_USB \
+> +	DRM_GEM_SHMEM_DRIVER_OPS, \
+> +	.gem_prime_import =3D drm_gem_prime_import_usb
+> +#endif
+> +
+>  #endif /* __DRM_GEM_SHMEM_HELPER_H__ */
+> diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
+> index 54f2c58305d2..b42e07edd9e6 100644
+> --- a/include/drm/drm_prime.h
+> +++ b/include/drm/drm_prime.h
+> @@ -110,4 +110,9 @@ int drm_prime_sg_to_page_array(struct sg_table *sgt, =
+struct page **pages,
+>  int drm_prime_sg_to_dma_addr_array(struct sg_table *sgt, dma_addr_t *add=
+rs,
+>  				   int max_pages);
+>  =
 
-> > > --
-> > > Thomas Zimmermann
-> > > Graphics Driver Developer
-> > > SUSE Software Solutions Germany GmbH
-> > > Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> > > (HRB 36809, AG N=FCrnberg)
-> > > Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> > > =
+> +#ifdef CONFIG_USB
+> +struct drm_gem_object *drm_gem_prime_import_usb(struct drm_device *dev,
+> +						struct dma_buf *dma_buf);
+> +#endif
+> +
+>  #endif /* __DRM_PRIME_H__ */
+> diff --git a/include/linux/usb.h b/include/linux/usb.h
+> index 7d72c4e0713c..e6e0acf6a193 100644
+> --- a/include/linux/usb.h
+> +++ b/include/linux/usb.h
+> @@ -711,6 +711,7 @@ struct usb_device {
+>  	unsigned use_generic_driver:1;
+>  };
+>  #define	to_usb_device(d) container_of(d, struct usb_device, dev)
+> +#define dev_is_usb(d)	((d)->bus =3D=3D &usb_bus_type)
+>  =
 
-> > =
+>  static inline struct usb_device *interface_to_usbdev(struct usb_interfac=
+e *intf)
+>  {
+> @@ -746,6 +747,29 @@ extern int usb_lock_device_for_reset(struct usb_devi=
+ce *udev,
+>  extern int usb_reset_device(struct usb_device *dev);
+>  extern void usb_queue_reset_device(struct usb_interface *dev);
+>  =
 
-> > =
-
-> =
-
+> +extern struct device *usb_get_dma_device(struct usb_device *udev);
+> +
+> +/**
+> + * usb_intf_get_dma_device - acquire a reference on the usb interface's =
+DMA endpoint
+> + * @intf: the usb interface
+> + *
+> + * While a USB device cannot perform DMA operations by itself, many USB
+> + * controllers can. A call to usb_intf_get_dma_device() returns the DMA =
+endpoint
+> + * for the given USB interface, if any. The returned device structure sh=
+ould be
+> + * released with put_device().
+> + *
+> + * See also usb_get_dma_device().
+> + *
+> + * Returns: A reference to the usb interface's DMA endpoint; or NULL if =
+none
+> + *          exists.
+> + */
+> +static inline struct device *usb_intf_get_dma_device(struct usb_interfac=
+e *intf)
+> +{
+> +	if (!intf)
+> +		return NULL;
+> +	return usb_get_dma_device(interface_to_usbdev(intf));
+> +}
+> +
+>  #ifdef CONFIG_ACPI
+>  extern int usb_acpi_set_power_state(struct usb_device *hdev, int index,
+>  	bool enable);
 > -- =
 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+> 2.30.1
 > =
-
-
-
 
 
 -- =
