@@ -1,58 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAB21325C5D
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 05:09:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 345B1325CCD
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 06:01:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F39B6E8D8;
-	Fri, 26 Feb 2021 04:09:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0713E6E8E7;
+	Fri, 26 Feb 2021 05:01:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16B286E8D8
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 04:09:12 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id k22so4608994pll.6
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Feb 2021 20:09:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sS7O64Dax1Oof6uU+LILebhJ2b6dwBPbMV6PckIKTic=;
- b=SBfjWgcX7J4qKX7Tx/bBySKwNSomYsKyezXTnuznVIVzwnGIJhBnf+Q6aKLZklE010
- piLfpJ38GSZPZ04u3WRoGx6Dx/iXambXNJlWc10p5BJu0BkQisRIGletv6H5lAFWrucj
- gzU9iSRDzzcenUY9x2wowgr0zRYUXiLTv44+BLxGLx0Xor+xXaqi2N6H2iv+SGv2Z4ZC
- rmt4QWoPPXQy9J2PVfp7jFSeS9EwqLsqmOcBzHKTz4T1Tuo5q9paDQmHdhaz7ePPAh3y
- UlzVxEERei8fpd1u1UXtchb1bQ9knVi+9o4h85Hfpt2HGT3rdWg5NU5k/+WS71bPE4o+
- XYpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sS7O64Dax1Oof6uU+LILebhJ2b6dwBPbMV6PckIKTic=;
- b=QaBxWeE84Q/fzKqLQJ265Mmc8DNygqR1TEElb4KmLkRXRkZURV6hgCaYh4Sn6XAX8C
- 8ofc8Kjs6lw9l7/6cqWiqBdtJ1z0z09FrG6gF2hhzEMG7TBLjmPVFMiirYmly/Y6tnO4
- 0KeVCSJvLjb4yByiOeAxXCSLCaUa9qBuBZB6qwktWRyLf906U+zsI3yYnEf83g6SJuMn
- cf9PkuKcOHMy8lyIDPs/LSqpIhwGlNB2kCoDNaEscTKO7URIjmZerEXcc6fNZo3+EhnN
- N1l1rO6X5vJU9oRF+rPb7uE8C4BfmLi5mzB6Soz+da/telwmFjrIauQLaWdggjFcGjEA
- lOwg==
-X-Gm-Message-State: AOAM533FlYQd1WY/X5wRTVmx/LFCtCyGYfGJJxkfOkbNALZOtaKoIREm
- JyQfz05CT1RfjeEAYiSAqNZpnA==
-X-Google-Smtp-Source: ABdhPJzoeipTVrF8IbTxJwEupx0T2MyCKRlMEoY2FfiRRoVqjyRaqdsS61hiZWm94ZbjbWhgc9g5IQ==
-X-Received: by 2002:a17:902:a985:b029:e3:8796:a128 with SMTP id
- bh5-20020a170902a985b02900e38796a128mr1326366plb.81.1614312551589; 
- Thu, 25 Feb 2021 20:09:11 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id
- z2sm7792202pfc.8.2021.02.25.20.09.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Feb 2021 20:09:10 -0800 (PST)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Subject: [PATCH] dma-buf: heaps: Set VM_PFNMAP in mmap for system and cma heaps
-Date: Fri, 26 Feb 2021 04:09:08 +0000
-Message-Id: <20210226040908.3274666-1-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.25.1
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB5506E8E7;
+ Fri, 26 Feb 2021 05:01:10 +0000 (UTC)
+IronPort-SDR: AE7u4uS+DCQYntAJKuCSO+R9mCk4GtYXKS8w9e1OvoSq3wTCSH2ms6OnJR/4qf4YrXZfLlJtPG
+ LfJYf0A8CFEQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9906"; a="164993933"
+X-IronPort-AV: E=Sophos;i="5.81,207,1610438400"; d="scan'208";a="164993933"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2021 21:01:10 -0800
+IronPort-SDR: MwUHK9Y/FNDbll/XnPZ49GjXvdQWmatbO8ziam9+t6CxyKyRwggiv877l1ZAgxmteTO0Igfd2+
+ A3yoEK9AEBYQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,207,1610438400"; d="scan'208";a="516384038"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by orsmga004.jf.intel.com with ESMTP; 25 Feb 2021 21:01:09 -0800
+Received: from bgsmsx602.gar.corp.intel.com (10.109.78.81) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 25 Feb 2021 21:01:08 -0800
+Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
+ BGSMSX602.gar.corp.intel.com (10.109.78.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Fri, 26 Feb 2021 10:31:06 +0530
+Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
+ BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.2106.002;
+ Fri, 26 Feb 2021 10:31:06 +0530
+From: "Gupta, Anshuman" <anshuman.gupta@intel.com>
+To: Colin King <colin.king@canonical.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, "C,
+ Ramalingam" <ramalingam.c@intel.com>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH][next] drm/i915/hdcp: Fix null pointer dereference of
+ connector->encoder
+Thread-Topic: [PATCH][next] drm/i915/hdcp: Fix null pointer dereference of
+ connector->encoder
+Thread-Index: AQHXChjJmIv7gDW21UG5hJXtQsGn1Kpp5AuQ
+Date: Fri, 26 Feb 2021 05:01:06 +0000
+Message-ID: <acbf924a09544030966f95c750b1bfa7@intel.com>
+References: <20210223191909.16682-1-colin.king@canonical.com>
+In-Reply-To: <20210223191909.16682-1-colin.king@canonical.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.223.10.1]
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,58 +74,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Sandeep Patil <sspatil@google.com>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, Liam Mark <lmark@codeaurora.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Laura Abbott <labbott@kernel.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
- linux-media@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UGVyIGRpc2N1c3Npb24gYW5kIHBhdGNoZXMgaGVyZToKICBodHRwczovL2xvcmUua2VybmVsLm9y
-Zy9kcmktZGV2ZWwvMjAyMTAyMjMxMDU5NTEuOTEyNTc3LTEtZGFuaWVsLnZldHRlckBmZndsbC5j
-aC8KCkRhbmllbCBpcyBwbGFubmluZyBvbiBtYWtpbmcgVk1fUEZOTUFQIHJlcXVpcmVkIG9uIGRt
-YWJ1ZnMuCgpUaHVzIHRvIGF2b2lkIHRoZSB3YXJuX29uIG5vaXNlLCBzZXQgdGhlIFZNX1BGTk1B
-UCBpbiB0aGUKc3lzdGVtIGFuZCBjbWEgaGVhcCdzIG1tYXAgaGFuZGxlci4KCkNjOiBEYW5pZWwg
-VmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+CkNjOiBKYXNvbiBHdW50aG9ycGUgPGpnZ0B6aWVwZS5j
-YT4KQ2M6IENocmlzdGlhbiBLb2VuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KQ2M6IFN1
-bWl0IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+CkNjOiBMaWFtIE1hcmsgPGxtYXJr
-QGNvZGVhdXJvcmEub3JnPgpDYzogQ2hyaXMgR29sZHN3b3J0aHkgPGNnb2xkc3dvQGNvZGVhdXJv
-cmEub3JnPgpDYzogTGF1cmEgQWJib3R0IDxsYWJib3R0QGtlcm5lbC5vcmc+CkNjOiBCcmlhbiBT
-dGFya2V5IDxCcmlhbi5TdGFya2V5QGFybS5jb20+CkNjOiBIcmlkeWEgVmFsc2FyYWp1IDxocmlk
-eWFAZ29vZ2xlLmNvbT4KQ2M6IFN1cmVuIEJhZ2hkYXNhcnlhbiA8c3VyZW5iQGdvb2dsZS5jb20+
-CkNjOiBTYW5kZWVwIFBhdGlsIDxzc3BhdGlsQGdvb2dsZS5jb20+CkNjOiBEYW5pZWwgTWVudHog
-PGRhbmllbG1lbnR6QGdvb2dsZS5jb20+CkNjOiDDmHJqYW4gRWlkZSA8b3JqYW4uZWlkZUBhcm0u
-Y29tPgpDYzogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4KQ2M6IEV6ZXF1aWVs
-IEdhcmNpYSA8ZXplcXVpZWxAY29sbGFib3JhLmNvbT4KQ2M6IFNpbW9uIFNlciA8Y29udGFjdEBl
-bWVyc2lvbi5mcj4KQ2M6IEphbWVzIEpvbmVzIDxqYWpvbmVzQG52aWRpYS5jb20+CkNjOiBsaW51
-eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKU2lnbmVkLW9mZi1ieTogSm9obiBTdHVsdHogPGpvaG4uc3R1bHR6QGxpbmFyby5vcmc+Ci0t
-LQogZHJpdmVycy9kbWEtYnVmL2hlYXBzL2NtYV9oZWFwLmMgICAgfCAxICsKIGRyaXZlcnMvZG1h
-LWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jIHwgNCArKystCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5z
-ZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9o
-ZWFwcy9jbWFfaGVhcC5jIGIvZHJpdmVycy9kbWEtYnVmL2hlYXBzL2NtYV9oZWFwLmMKaW5kZXgg
-MzY0ZmMyZjNlNDk5Li4zNGJjMzk4N2Y5NDIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9o
-ZWFwcy9jbWFfaGVhcC5jCisrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9jbWFfaGVhcC5jCkBA
-IC0xODUsNiArMTg1LDcgQEAgc3RhdGljIGludCBjbWFfaGVhcF9tbWFwKHN0cnVjdCBkbWFfYnVm
-ICpkbWFidWYsIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKQogCiAJdm1hLT52bV9vcHMgPSAm
-ZG1hX2hlYXBfdm1fb3BzOwogCXZtYS0+dm1fcHJpdmF0ZV9kYXRhID0gYnVmZmVyOworCXZtYS0+
-dm1fZmxhZ3MgfD0gVk1fUEZOTUFQOwogCiAJcmV0dXJuIDA7CiB9CmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9z
-eXN0ZW1faGVhcC5jCmluZGV4IDM1NDhiMjBjYjk4Yy4uODk5NWUzY2JmY2FmIDEwMDY0NAotLS0g
-YS9kcml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYworKysgYi9kcml2ZXJzL2RtYS1i
-dWYvaGVhcHMvc3lzdGVtX2hlYXAuYwpAQCAtMjI4LDggKzIyOCwxMCBAQCBzdGF0aWMgaW50IHN5
-c3RlbV9oZWFwX21tYXAoc3RydWN0IGRtYV9idWYgKmRtYWJ1Ziwgc3RydWN0IHZtX2FyZWFfc3Ry
-dWN0ICp2bWEpCiAJCQlyZXR1cm4gcmV0OwogCQlhZGRyICs9IFBBR0VfU0laRTsKIAkJaWYgKGFk
-ZHIgPj0gdm1hLT52bV9lbmQpCi0JCQlyZXR1cm4gMDsKKwkJCWJyZWFrOwogCX0KKworCXZtYS0+
-dm1fZmxhZ3MgfD0gVk1fUEZOTUFQOwogCXJldHVybiAwOwogfQogCi0tIAoyLjI1LjEKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+
+
+> -----Original Message-----
+> From: Colin King <colin.king@canonical.com>
+> Sent: Wednesday, February 24, 2021 12:49 AM
+> To: Jani Nikula <jani.nikula@linux.intel.com>; Joonas Lahtinen
+> <joonas.lahtinen@linux.intel.com>; Vivi, Rodrigo <rodrigo.vivi@intel.com>;
+> David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; C, Ramalingam
+> <ramalingam.c@intel.com>; Gupta, Anshuman <anshuman.gupta@intel.com>;
+> intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+> Cc: kernel-janitors@vger.kernel.org; linux-kernel@vger.kernel.org
+> Subject: [PATCH][next] drm/i915/hdcp: Fix null pointer dereference of
+> connector->encoder
+> 
+> From: Colin Ian King <colin.king@canonical.com>
+> 
+> The recent commit 6c63e6e14da7 ("drm/i915/hdcp: No HDCP when encoder is't
+> initialized") added a null pointer check on connector->encoder hence implying
+> that it could potentially be null.  This means that the initialization of dig_port via
+> the call intel_attached_dig_port may cause a null pointer dereference on
+> connector->encoder. Fix this by only assigning dig_port after a null check has
+> been performed on connector->encoder.
+> 
+> Addresses-Coverity: ("Dereference before null check")
+> Fixes: 36e5e7042b20 ("drm/i915: Don't fully disable HDCP on a port if multiple
+> pipes are using it")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Looks good to me.
+Reviewed-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_hdcp.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> index ae1371c36a32..7525ea31766c 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> @@ -2260,7 +2260,7 @@ int intel_hdcp_enable(struct intel_connector
+> *connector,
+>  		      const struct intel_crtc_state *pipe_config, u8 content_type)
+> {
+>  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+> -	struct intel_digital_port *dig_port =
+> intel_attached_dig_port(connector);
+> +	struct intel_digital_port *dig_port;
+>  	struct intel_hdcp *hdcp = &connector->hdcp;
+>  	unsigned long check_link_interval = DRM_HDCP_CHECK_PERIOD_MS;
+>  	int ret = -EINVAL;
+> @@ -2274,6 +2274,7 @@ int intel_hdcp_enable(struct intel_connector
+> *connector,
+>  		return -ENODEV;
+>  	}
+> 
+> +	dig_port = intel_attached_dig_port(connector);
+>  	mutex_lock(&hdcp->mutex);
+>  	mutex_lock(&dig_port->hdcp_mutex);
+>  	drm_WARN_ON(&dev_priv->drm,
+> --
+> 2.30.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
