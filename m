@@ -2,54 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0883232659D
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 17:36:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14FDE3265A7
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Feb 2021 17:38:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 352646E417;
-	Fri, 26 Feb 2021 16:36:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F419D6E40A;
+	Fri, 26 Feb 2021 16:38:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 948996E417
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 16:36:22 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id b145so6610216pfb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 08:36:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nsvOAu55FgLPhCToArkAdRGmd43y7a+b+sjefBpof74=;
- b=wHthvJCA47mzp0GyO2hNpSjiMVwhSaeG1TJh+ToVxTuVf9I5588PEAwguEOImdCZmI
- wGW/GXpmbaQ+7Uv3XCtiK6jhhbh95Wi0lJYG90FMHhwygxxdPlnOXHg4ofF2d++yXWth
- WjKwVYBpxK6qjzjouT5YgFgy+6W4tLs0CfaOdh8FU0UItgLJw2qxGdTS8aVHlVWOhTEr
- Qb5EmkbN8nbESoMM+J/16eQ8QAtT7Hkq33+n7HmdJoezAW3ZPm9j6LPalw1LFqBUUJNe
- /KqUmeHKIkd8rbqW6jxSGsme7lsK6uUexa5cs35UOF0h7snhPF88CDu1TQUuCth4w0b/
- uZGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nsvOAu55FgLPhCToArkAdRGmd43y7a+b+sjefBpof74=;
- b=tFsQCT/D88Vzno+hYvMm3SnN2YAi20kfu/oMgNqO3sXfsh2uaxOsfwFPWzYxI/zi3F
- nmQqMr7ScGuzZnAbP5wO+7JI8BWVJzGaebiQLSrKs3FvJMqGHYJ7IS+XY/TflBARjn0r
- wofws3kSkffkeXntr83ZfVYIauiRXzGglYMSEeZibVYlaJkx5ha7Jdz7xGCQAxL3/Tsa
- rlEzbtinRhV63aaxcXNpTxmTTY0DjuwQpxBsDtd8TnzBylhZT8w7+pH4pLBPxUplL8XB
- VQNp4PluPIrKGCpRA4VGd+J/m8Ug89YKrCId+TgbDp/6YbxIJdQE1VwDAOKRnn1To9t3
- oITQ==
-X-Gm-Message-State: AOAM533TV6tn8b8DXLDTBQHLGS8+mLvHl43/TlM+dKdXLhCvX4X1d6Yy
- +jfJMbWQnckiNTPlpzTY4Rlx43OcIXsAGsfydQpHtA==
-X-Google-Smtp-Source: ABdhPJzI5t1t6CVjbpJ/jYBjS/sGpFHq14yb4uuIzCsaZRWH5vV3GcNvACclb/rgNZRwFG9uqbl8nYuoLgHlhngXL5g=
-X-Received: by 2002:a63:ee4b:: with SMTP id n11mr3638677pgk.265.1614357382184; 
- Fri, 26 Feb 2021 08:36:22 -0800 (PST)
+Received: from merlin.infradead.org (merlin.infradead.org
+ [IPv6:2001:8b0:10b:1231::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61D5E6E40A
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Feb 2021 16:38:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=cJovxi5fmivlMzTNFK7Hd5WeerVzqJFBxjTpoKstnCE=; b=XZPpJxh2rt+EtM7F9/8orkDvql
+ c48+bn9P+Jx5tgPDS4YA2jYTdMgNUCFYmV5RMiQObH8/i0ZqpsYdVjBKY9gfk79xNxj4MwkTLjOv1
+ TtHkJePZ+d+Tzo8AR76MvgknBWL4+NMIifuapua/lzBY8/14zFcRXEidPhikakfSVICX92+ksNN8y
+ BB0KL/7QxTEyx4+5q9XgBH0Avk7KlWqaqQVyQ7zGR5AEGO9/l2JOvk3PLVJ1Il9x1UM620k592pMk
+ gOPQ27t1MMFBnZzjAguz92FFIR89l9ITBBBHnWhuaWSCHFdksr2vNCG5yDA9l+nbkuifjAMQXgvWX
+ DL2rf+kw==;
+Received: from [2601:1c0:6280:3f0::3ba4]
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1lFg80-0004FD-MQ; Fri, 26 Feb 2021 16:38:09 +0000
+Subject: Re: [PATCH -next] fbdev: atyfb: use LCD management functions for
+ PPC_PMAC also
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20210226000537.8674-1-rdunlap@infradead.org>
+ <YDjlkzg7/qnPBIKI@intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <03364ba0-8266-99e5-9315-34d8820e8732@infradead.org>
+Date: Fri, 26 Feb 2021 08:38:02 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <1614356086-19745-1-git-send-email-pthombar@cadence.com>
- <1614356118-21409-1-git-send-email-pthombar@cadence.com>
-In-Reply-To: <1614356118-21409-1-git-send-email-pthombar@cadence.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Fri, 26 Feb 2021 17:36:11 +0100
-Message-ID: <CAG3jFysryArs1DD3pgQAqO8AaW_+OH_Jpb4=o7uc93jaXFKF0Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: MHDP8546 bridge binding
- changes for HDCP
-To: Parshuram Thombare <pthombar@cadence.com>
+In-Reply-To: <YDjlkzg7/qnPBIKI@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,107 +51,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, kishon@ti.com,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, sjakhade@cadence.com,
- nikhil.nd@ti.com, mparab@cadence.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Parshuram,
-
-Thanks for submitting this.
-
-This series rebased on upstream-drm-misc/for-linux-next fails dt
-binding verification.
-$ make dt_binding_check
-DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-
-
-On Fri, 26 Feb 2021 at 17:18, Parshuram Thombare <pthombar@cadence.com> wrote:
->
-> Add binding changes for HDCP in the MHDP8546 DPI/DP bridge binding.
->
-> Signed-off-by: Parshuram Thombare <pthombar@cadence.com>
-> ---
->  .../display/bridge/cdns,mhdp8546.yaml         | 20 +++++++++++++------
->  1 file changed, 14 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-> index 63427878715e..89b4bf783c53 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-> @@ -18,7 +18,7 @@ properties:
->
->    reg:
->      minItems: 1
-> -    maxItems: 2
-> +    maxItems: 3
->      items:
->        - description:
->            Register block of mhdptx apb registers up to PHY mapped area (AUX_CONFIG_P).
-> @@ -26,13 +26,16 @@ properties:
->            included in the associated PHY.
->        - description:
->            Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
-> +      - description:
-> +          Register block of mhdptx sapb registers.
->
->    reg-names:
->      minItems: 1
-> -    maxItems: 2
-> +    maxItems: 3
->      items:
->        - const: mhdptx
->        - const: j721e-intg
-> +      - const: mhdptx-sapb
-
-The reg & reg-names changes appear to be introducing the failure.
-
->
->    clocks:
->      maxItems: 1
-> @@ -53,6 +56,11 @@ properties:
->    power-domains:
->      maxItems: 1
->
-> +  hdcp-config:
-> +    maxItems: 1
-> +    description:
-> +      HDCP version supported. Bit [0]:HDCP2.2 [1]:HDCP1.4.
-> +
->    interrupts:
->      maxItems: 1
->
-> @@ -98,15 +106,15 @@ allOf:
->      then:
->        properties:
->          reg:
-> -          minItems: 2
-> +          minItems: 3
->          reg-names:
-> -          minItems: 2
-> +          minItems: 3
->      else:
->        properties:
->          reg:
-> -          maxItems: 1
-> +          maxItems: 2
->          reg-names:
-> -          maxItems: 1
-> +          maxItems: 2
->
->  required:
->    - compatible
-> --
-> 2.25.1
->
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMi8yNi8yMSA0OjEyIEFNLCBWaWxsZSBTeXJqw6Rsw6Qgd3JvdGU6Cj4gT24gVGh1LCBGZWIg
+MjUsIDIwMjEgYXQgMDQ6MDU6MzdQTSAtMDgwMCwgUmFuZHkgRHVubGFwIHdyb3RlOgo+PiBJbmNs
+dWRlIFBQQ19QTUFDIGluIHRoZSBjb25maWdzIHRoYXQgdXNlIGF0eV9sZF9sY2QoKSBhbmQKPj4g
+YXR5X3N0X2xjZCgpIGltcGxlbWVudGF0aW9ucyBzbyB0aGF0IHRoZSBQTSBjb2RlIG1heSB3b3Jr
+Cj4+IGNvcnJlY3RseSBmb3IgUFBDX1BNQUMuCj4+Cj4+IFN1Z2dlc3RlZC1ieTogVmlsbGUgU3ly
+asOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPj4gU2lnbmVkLW9mZi1ieTog
+UmFuZHkgRHVubGFwIDxyZHVubGFwQGluZnJhZGVhZC5vcmc+Cj4+IENjOiBEYW5pZWwgVmV0dGVy
+IDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+PiBDYzogTmljayBEZXNhdWxuaWVycyA8bmRlc2F1
+bG5pZXJzQGdvb2dsZS5jb20+Cj4+IENjOiBsaW51eC1mYmRldkB2Z2VyLmtlcm5lbC5vcmcKPj4g
+Q2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPj4gQ2M6IEJhcnRsb21pZWogWm9s
+bmllcmtpZXdpY3ogPGIuem9sbmllcmtpZUBzYW1zdW5nLmNvbT4KPj4gQ2M6IFNhbSBSYXZuYm9y
+ZyA8c2FtQHJhdm5ib3JnLm9yZz4KPj4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5p
+ZT4KPj4gQ2M6IEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBsaW51eC5pbnRlbC5jb20+Cj4+IC0t
+LQo+PiBEYW5pZWwtIFdlIGFsc28gbmVlZCB0aGlzIHBhdGNoOgo+PiBodHRwczovL2xvcmUua2Vy
+bmVsLm9yZy9kcmktZGV2ZWwvMjAyMTAyMjQyMTU1MjguODIyLTEtcmR1bmxhcEBpbmZyYWRlYWQu
+b3JnLwo+PiB0byBmaXggYSBrZXJuZWwgdGVzdCByb2JvdCBidWlsZCBlcnJvci4KPj4KPj4gIGRy
+aXZlcnMvdmlkZW8vZmJkZXYvYXR5L2F0eWZiX2Jhc2UuYyB8ICAgIDggKysrLS0tLS0KPj4gIDEg
+ZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCj4+Cj4+IC0tLSBs
+aW51eC1uZXh0LTIwMjEwMjE5Lm9yaWcvZHJpdmVycy92aWRlby9mYmRldi9hdHkvYXR5ZmJfYmFz
+ZS5jCj4+ICsrKyBsaW51eC1uZXh0LTIwMjEwMjE5L2RyaXZlcnMvdmlkZW8vZmJkZXYvYXR5L2F0
+eWZiX2Jhc2UuYwo+PiBAQCAtMTMyLDggKzEzMiw3IEBACj4+ICAjZGVmaW5lIFBSSU5US0koZm10
+LCBhcmdzLi4uKQlwcmludGsoS0VSTl9JTkZPICJhdHlmYjogIiBmbXQsICMjIGFyZ3MpCj4+ICAj
+ZGVmaW5lIFBSSU5US0UoZm10LCBhcmdzLi4uKQlwcmludGsoS0VSTl9FUlIgImF0eWZiOiAiIGZt
+dCwgIyMgYXJncykKPj4gIAo+PiAtI2lmIGRlZmluZWQoQ09ORklHX1BNQUNfQkFDS0xJR0hUKSB8
+fCBkZWZpbmVkKENPTkZJR19GQl9BVFlfR0VORVJJQ19MQ0QpIHx8IFwKPj4gLWRlZmluZWQoQ09O
+RklHX0ZCX0FUWV9CQUNLTElHSFQpCj4+ICsjaWYgZGVmaW5lZChDT05GSUdfUFBDX1BNQUMpCj4g
+Cj4gRGlkIHlvdSBzZW5kIGFuIG9sZCB2ZXJzaW9uIGJ5IGFjY2lkZW50PyBUaGF0J3MgZGVmaW5p
+dGVseQo+IG5vdCB3aGF0IHdlIHdhbnQgc2luY2UgaXQgd291bGQgYnJlYWsgZXZlcnl0aGluZyBl
+eGNlcHQgUFBDX1BNQUMuCgoKWWlrZXMhCgpZZXMsIHRoYW5rcyBmb3IgY2F0Y2hpbmcgdGhhdC4K
+SSdsbCBnZXQgdGhlIG5ld2VyIHZlcnNpb24gb3V0IHNvb24uCgo+PiAgc3RhdGljIGNvbnN0IHUz
+MiBsdF9sY2RfcmVnc1tdID0gewo+PiAgCUNORkdfUEFORUxfTEcsCj4+ICAJTENEX0dFTl9DTlRM
+X0xHLAo+PiBAQCAtMTc1LDggKzE3NCw3IEBAIHUzMiBhdHlfbGRfbGNkKGludCBpbmRleCwgY29u
+c3Qgc3RydWN0IGEKPj4gIAkJcmV0dXJuIGF0eV9sZF9sZTMyKExDRF9EQVRBLCBwYXIpOwo+PiAg
+CX0KPj4gIH0KPj4gLSNlbHNlIC8qIGRlZmluZWQoQ09ORklHX1BNQUNfQkFDS0xJR0hUKSB8fCBk
+ZWZpbmVkKENPTkZJR19GQl9BVFlfQkFDS0xJR0hUKSBcCj4+IC0JIGRlZmluZWQoQ09ORklHX0ZC
+X0FUWV9HRU5FUklDX0xDRCkgKi8KPj4gKyNlbHNlIC8qIGRlZmluZWQoQ09ORklHX1BQQ19QTUFD
+KSAqLwo+PiAgdm9pZCBhdHlfc3RfbGNkKGludCBpbmRleCwgdTMyIHZhbCwgY29uc3Qgc3RydWN0
+IGF0eWZiX3BhciAqcGFyKQo+PiAgeyB9Cj4+ICAKPj4gQEAgLTE4NCw3ICsxODIsNyBAQCB1MzIg
+YXR5X2xkX2xjZChpbnQgaW5kZXgsIGNvbnN0IHN0cnVjdCBhCj4+ICB7Cj4+ICAJcmV0dXJuIDA7
+Cj4+ICB9Cj4+IC0jZW5kaWYgLyogZGVmaW5lZChDT05GSUdfUE1BQ19CQUNLTElHSFQpIHx8IGRl
+ZmluZWQgKENPTkZJR19GQl9BVFlfR0VORVJJQ19MQ0QpICovCj4+ICsjZW5kaWYgLyogZGVmaW5l
+ZChDT05GSUdfUFBDX1BNQUMpICovCj4+ICAKPj4gICNpZmRlZiBDT05GSUdfRkJfQVRZX0dFTkVS
+SUNfTENECj4+ICAvKgo+IAoKCi0tIAp+UmFuZHkKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAo=
