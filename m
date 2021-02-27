@@ -1,58 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F92C326EC6
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Feb 2021 20:48:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FCFA326EC7
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Feb 2021 20:48:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3AE86E108;
-	Sat, 27 Feb 2021 19:48:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96CBB6E176;
+	Sat, 27 Feb 2021 19:48:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8653C6E108
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Feb 2021 19:48:43 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id b18so5415901wrn.6
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Feb 2021 11:48:43 -0800 (PST)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C544A6E176
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Feb 2021 19:48:46 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id u187so8119960wmg.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Feb 2021 11:48:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pCdXkUGdbXxFWrdiSKZfKK1y/JajvMt7IrRHviPqOz0=;
- b=onzxmnsTlNeB9dC9J7rdV7ptcwlxHTIBpgpxZXjv8/FHudXcYgeeqiaBgZeiXDYntz
- vtRuUCw8Yo8ZOQhAVuYYzkz3umOci/qSK+wIek+5kAvYwOLvtKS0vcC+Z5CQgNvFHo0e
- v2JfZndjJ+mSuEuvtQPfl3k1Ii/rnF3UYEM7ltFUBL9NEoyqRUxm8tNPjffJ1LTNqzf0
- iIq26tFMBbv4DWdCMeRhVlQ95dWSoX8ODnvi0OlY6ZkxMuLbdIDMcmIUU/BCIuITa7YZ
- 3ZFSTY4qgET0VGxV5YwXmPLLBs/l643AQrLs56q+/+vBdbvU+FD98Db9W6F8pCulibhi
- CQxQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=3zBUcE8OjRKKFCJPCaa9dvaEFr+ZbWy6syWrW42zrkM=;
+ b=ElpvCLN33e1rbeNfDApJ1zLinkN0r+DOzXBhsWyUYT7IeCwVS8VvZxawLzKZVb/VU2
+ PPWjQVT0P4WZtluJhgCUFN8T4f4Euz7RNekVpUbeOxJfYf80kxRa1gYQVLb5BAOwGXbF
+ H4KU9QfQ4I5WxK0PulbFVfiXo7CeNJ0pgz/4k0gYNDVQeZPmiNVssBJzr8fZmu1jSxwJ
+ +0e3BeG0t0vQaBffyKvDLdkDQdTQPbzhIol49wCbgXUAsYREFtYkDRfHICw0N2nAYn1I
+ lBGUcm8b1w2HCW59t7GqLb/cgVsPAuwIYSdgGM5OUTAJ4KATNTkfRgunfTUYSUmDMlBF
+ 9AgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pCdXkUGdbXxFWrdiSKZfKK1y/JajvMt7IrRHviPqOz0=;
- b=Tu3uzpO0T7jBBkXfJrCZRKvUnBXx0IqfyxRolQzV/hbQS3wBq8Q6lweVPaiHuxW3ia
- rbWgUOFz7U3IRZmzpFmq0rqc0IshDMvEarnynw6Qjk9RsAtxSbDyim7jNuyOWpLrq4QT
- sIoN+ItfSnTuUDjed6kiGCqDGrk2N+SUlRsUzCR/QswfyM27bju0TwS3Qz5rE01JYjSW
- t28ARsbc+PvbDJWofMEz543eLULGVrF6Q7LLDbC3aFUNnACmZLWC3ekFtyS+eapdPqTR
- e9itYgXe6wfXTVn86ySrCA9L7f9nQwWzAxjOWqa4dubXc8cl7gRPaZwbm34U0eWg3b55
- kN2w==
-X-Gm-Message-State: AOAM533/atPOS0YlZvDJOTvlV264n64g2eR0NY+RveA8brUowWGhHej9
- XDifEq99cOfMRnTqzor+xVc=
-X-Google-Smtp-Source: ABdhPJyz/QGbhv7EhcO+Hxa4/UEfYcnXP98xYulRVfFLCIJ7Ph1hsXUKcPtLBABP0YsS9pvfFtcwzQ==
-X-Received: by 2002:a5d:640b:: with SMTP id z11mr9027206wru.327.1614455322140; 
- Sat, 27 Feb 2021 11:48:42 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3zBUcE8OjRKKFCJPCaa9dvaEFr+ZbWy6syWrW42zrkM=;
+ b=JM1FU1nnQNKNjN2o0ZHWxmhgGi5g3tMEepV1ONlYVhALmpqAxhCcBWy6pAaUMyifjc
+ o3Nko6fYMM7FV/WPGpMSnsya4bWZDBIQQg7OgdG4y639rvTdIBY6hlK/hqlbSDFa+oe0
+ G7lOMLuJtKnBjlITpanGjPB7CwwDLrQLE9BsHWeasE5CryMZVsL/rFHhynpKt9OLIEy8
+ wuhk862qSd2VkgJ3BLTrZB/1QDL0OaFM73L4iCPBVjOaxP9OFE64kb3+sRT3jkmjTHnf
+ jrO2AbsUq87kGvjT7GOTg8hM0+GbyG9jArOx+zBf0NrKpgpfi+7YEP5aWMCR5SHs6NhG
+ XwPg==
+X-Gm-Message-State: AOAM533zFj0yMCFZhlA/czMK7OJg51jh9BmFeIbxgmsEBt2vjP2Q3iMH
+ AkNMf7GgTdGHzmEM9NhAg291lOFywTU=
+X-Google-Smtp-Source: ABdhPJzcJEXURqsycE6wWUh8pCHWGTK8K6WYqwE3tFWUrfI4Dy8SosuMEG4rTXkMvh7khYbYvORHhw==
+X-Received: by 2002:a05:600c:2048:: with SMTP id
+ p8mr8590325wmg.170.1614455325418; 
+ Sat, 27 Feb 2021 11:48:45 -0800 (PST)
 Received: from adgra-XPS-15-9570.home
  (2a01cb0008bd2700289c166d32b9da85.ipv6.abo.wanadoo.fr.
  [2a01:cb00:8bd:2700:289c:166d:32b9:da85])
- by smtp.gmail.com with ESMTPSA id f9sm12453123wro.77.2021.02.27.11.48.41
+ by smtp.gmail.com with ESMTPSA id f9sm12453123wro.77.2021.02.27.11.48.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 27 Feb 2021 11:48:41 -0800 (PST)
+ Sat, 27 Feb 2021 11:48:45 -0800 (PST)
 From: Adrien Grassein <adrien.grassein@gmail.com>
 To: 
-Subject: [PATCH v6 0/2] Add support of Lontium lt8912 MIPI to HDMI bridge
-Date: Sat, 27 Feb 2021 20:48:34 +0100
-Message-Id: <20210227194836.1848753-1-adrien.grassein@gmail.com>
+Subject: [PATCH v6 1/2] dt-bindings: display: bridge: Add documentation for
+ LT8912B
+Date: Sat, 27 Feb 2021 20:48:35 +0100
+Message-Id: <20210227194836.1848753-2-adrien.grassein@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210227194836.1848753-1-adrien.grassein@gmail.com>
+References: <20210227194836.1848753-1-adrien.grassein@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,55 +80,140 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-this patch set adds the support of the Lontium lt8912 MIPI to HDMI
-bridge in the kernel.
+Lontium LT8912B is a DSI to HDMI bridge.
 
-It's only support the video part, not the audio part yet
-since I don't have the datasheet of this component.
-I get the current i2c configuration from Digi and
-Boundary drivers.
-Developed using the DB_DSIHD board from BoundaryDevices.
-
-Update in v2
-  - Use standard data-lanes instead of a custom prop;
-  - Use hdmi-connector node.
-
-Update in v3
-  - Fix indentation;
-  - Implement missing bridge functions;
-  - Add some comments.
-
-Update in v4
-  - Fix bridge ops;
-  - Fix i2c error detection.
-
-Update in v5
-  - Fix lt8912 name (lt8912b instead of lt8912);
-  - Implement HPD via a workaround. In fact I don't have the datasheet
-    of this component yet so I can't say if the configuration of the
-registers is correct or if I have an HW issue on my board. So, I choose
-to implement a fake version of HPD using a workqueue and polling the
-status regularly.
-
-Update in v6
-  - Fix a warning found by "kernel test robot"
-
-Thanks,
-
-Adrien Grassein (2):
-  dt-bindings: display: bridge: Add documentation for LT8912B
-  drm/bridge: Introduce LT8912B DSI to HDMI bridge
-
- .../display/bridge/lontium,lt8912b.yaml       | 102 +++
- MAINTAINERS                                   |   6 +
- drivers/gpu/drm/bridge/Kconfig                |  14 +
- drivers/gpu/drm/bridge/Makefile               |   1 +
- drivers/gpu/drm/bridge/lontium-lt8912b.c      | 818 ++++++++++++++++++
- 5 files changed, 941 insertions(+)
+Signed-off-by: Adrien Grassein <adrien.grassein@gmail.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+ .../display/bridge/lontium,lt8912b.yaml       | 102 ++++++++++++++++++
+ MAINTAINERS                                   |   5 +
+ 2 files changed, 107 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
- create mode 100644 drivers/gpu/drm/bridge/lontium-lt8912b.c
 
+diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
+new file mode 100644
+index 000000000000..735d0233a7d6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
+@@ -0,0 +1,102 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/lontium,lt8912b.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Lontium LT8912B MIPI to HDMI Bridge
++
++maintainers:
++  - Adrien Grassein <adrien.grassein@gmail.com>
++
++description: |
++  The LT8912B is a bridge device which convert DSI to HDMI
++
++properties:
++  compatible:
++    enum:
++      - lontium,lt8912b
++
++  reg:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++    description: GPIO connected to active high RESET pin.
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Primary MIPI port for MIPI input
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes: true
++
++            required:
++              - data-lanes
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: |
++          HDMI port, should be connected to a node compatible with the
++          hdmi-connector binding.
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - reset-gpios
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c4 {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      hdmi-bridge@48 {
++        compatible = "lontium,lt8912b";
++        reg = <0x48>;
++        reset-gpios = <&max7323 0 GPIO_ACTIVE_LOW>;
++
++        ports {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          port@0 {
++            reg = <0>;
++
++            hdmi_out_in: endpoint {
++              data-lanes = <0 1 2 3>;
++              remote-endpoint = <&mipi_dsi_out>;
++            };
++          };
++
++          port@1 {
++              reg = <1>;
++
++              endpoint {
++                  remote-endpoint = <&hdmi_in>;
++              };
++          };
++        };
++      };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 16ada1a4b751..6366b8eac3f6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10460,6 +10460,11 @@ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
+ F:	drivers/hid/hid-lg-g15.c
+ 
++LONTIUM LT8912B MIPI TO HDMI BRIDGE
++M:	Adrien Grassein <adrien.grassein@gmail.com>
++S:	Maintained
++F:	Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
++
+ LSILOGIC MPT FUSION DRIVERS (FC/SAS/SPI)
+ M:	Sathya Prakash <sathya.prakash@broadcom.com>
+ M:	Sreekanth Reddy <sreekanth.reddy@broadcom.com>
 -- 
 2.25.1
 
