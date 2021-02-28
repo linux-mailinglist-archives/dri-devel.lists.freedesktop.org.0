@@ -1,60 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5809A327044
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Feb 2021 05:46:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C80327089
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Feb 2021 06:30:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B05436E0F7;
-	Sun, 28 Feb 2021 04:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35A8F6E12C;
+	Sun, 28 Feb 2021 05:30:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB8B66E0F7
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Feb 2021 04:46:33 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id b14so13450852qkk.0
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Feb 2021 20:46:33 -0800 (PST)
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
+ [IPv6:2607:f8b0:4864:20::82c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A8F56E12C
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Feb 2021 05:30:47 +0000 (UTC)
+Received: by mail-qt1-x82c.google.com with SMTP id v64so9769319qtd.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Feb 2021 21:30:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Pp1NDptXLpgMs6Y9kcffno2o0nPwQQkewth041jNW4I=;
- b=nEtfEecLdq2WmHSwjp1AllXlI192bn15pGwqOVmK93EX/las5J3lX9DilPt1+uLW1K
- deZKTQ4dWzlV6AL4uDtLSklhbqjYM3RHw+Sdlu1yxKh8yCC6xyt0kHjUaPuHHzr4MxRY
- cs3YNCVNZ75h3xOjaP56ZZnl+wlE1YndzRvs99/axIAZT3WMFw+s8SrGOvQAQNgp/oYS
- EMYSehSwS6Cg3Dd4bDXSJUIASti6QwaMESvMt9Hei7Hct1myX+h6oT26H9ICbjq8t0zm
- nDa1TSX5B7wCkhteguLAOijZuXKRXZvseRuT9DcxQ8KclELAlCryBctAOitwatCk1qWX
- ENLw==
+ bh=XUOjIahCE3m3vqcOaZ6XgdoLkVb449SXw7uK1/M5V3g=;
+ b=MuwZKT9UvXBdOYHaV4/EciRChdOhh5hxcyYDVfc+5GNOHOaRuNESeLbLfHECxdv4Kn
+ CX6aylPzdYia0JEGyukL5sa6k87d2Zk6WCSjDOmjVlix1xLVb0FkeRL1mDhlgtS0jQXw
+ qmx/msyYGtB9DR4De6Crf/SCcOF7ZE0gAfcH59pHmY96UjWZHnxCaotxuc+IuHhmOIy3
+ jykXM29/CQVg40QGZzAoGonZnHYWZUigAMm8/qYIYgnXjTf/E+YAAFYiqwa2ta5M8ZrF
+ rBRYJ5TF+l0GSdD0XRfHF/GAFKi36EqmqneeFBg1SOJ2miWGfqtsWQ6wfYrkbG/NHa0F
+ lhHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Pp1NDptXLpgMs6Y9kcffno2o0nPwQQkewth041jNW4I=;
- b=X7Zz0hB1DSq/MJhpPA7Pq9/F8m3UMNubocZ29BnuQRiEHbr2UuOLO1bvStVlPFpqTa
- cjEP3WFOLH8mnsPxAqv0RI8qsJsO+9oDYwemOJKfkqeQtBu9B8g9ejPIpORug9ChFYkQ
- ZAlm9QFhzqmT92weO2VriX3ENnoWmlPogrmoAXF6o5oYk2aTB2Wk/zKjN2gBxJPPttyr
- dhSWY1utsO2elkB92mYZQSORfK1uIyvI6P3UVHrQ1fxbnmvwU218YICRmi5uK3XhTh8z
- SZ1SDcWGYC29ipV6gEnMG/iGUfSDGNiwuMiC7n3MI7oEQd8/M0nCfDxmgtbnsKNk8L9q
- V9Mg==
-X-Gm-Message-State: AOAM5323ovQNqHiaz2C6PT+Wy52s8ZL/a8XVPvVeiDyiGkKNSKuUmOqM
- uwMvDFqOjmEqlvJSGPYa+xE=
-X-Google-Smtp-Source: ABdhPJzH46iCTCbKlHVKZCz6qPa/WoA7zCbYltBScVy9f3K/D00QckID1sUzgQmQy/iOnqLQ3VsOEA==
-X-Received: by 2002:a05:620a:1477:: with SMTP id
- j23mr9488182qkl.486.1614487592451; 
- Sat, 27 Feb 2021 20:46:32 -0800 (PST)
+ bh=XUOjIahCE3m3vqcOaZ6XgdoLkVb449SXw7uK1/M5V3g=;
+ b=oDtRk6vMW8Z9S8fugWK9oBfTJbmeNNo/qs3cfbPSNr1iUjIKsABEz0t+IJcewPSfT/
+ 1wn7yEmAuxqUeZF4YZCNN6xUrEhJV0a10yE+JGbz+ozbqHXq+SxF4TvM6CWXyh+CXf8L
+ Oz3T5oV9cvl6FpWCGjStKYlOXbIbU1Pwsw7IZMoVSyJLOccVDTfBPw6Kr9LNWgNOQRR0
+ suIa8oEGmv78UB29nhY6dAaS2aN/EBpQyuc6KyBUcwvlmWjyLzJdpOyv/4AkF96MyIHa
+ iTf8yoc2ThUUvsOKD4ZRTyFYxGM0RRp3mymq4O6AoyMKYCM2UBP86FnhgwqwZ1pSKgs+
+ oW2g==
+X-Gm-Message-State: AOAM532Jm2L9hahXAv6hnPnlZ1SFERSDbA93IAxGQfydPTTHHSmIp4W5
+ eR1AiOwydKS8nst+QzNH8f0=
+X-Google-Smtp-Source: ABdhPJzJqiTDSuCeDvpyz+fZRp4K1vOddRwuBKzeTGhVSvawFga+ywpgxU+0Q1bAlmV0s9/x8bfqyQ==
+X-Received: by 2002:ac8:4d07:: with SMTP id w7mr8625447qtv.70.1614490246356;
+ Sat, 27 Feb 2021 21:30:46 -0800 (PST)
 Received: from tong-desktop.local ([2601:5c0:c200:27c6:94d2:9984:c3fe:c09a])
- by smtp.googlemail.com with ESMTPSA id j20sm10050656qtl.36.2021.02.27.20.46.31
+ by smtp.googlemail.com with ESMTPSA id i13sm8755906qtv.95.2021.02.27.21.30.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 27 Feb 2021 20:46:32 -0800 (PST)
+ Sat, 27 Feb 2021 21:30:46 -0800 (PST)
 From: Tong Zhang <ztong0001@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+To: Thomas Winischhofer <thomas@winischhofer.net>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/fb-helper: only unmap if buffer not null
-Date: Sat, 27 Feb 2021 23:46:25 -0500
-Message-Id: <20210228044625.171151-1-ztong0001@gmail.com>
+Subject: [PATCH] video: fbdev: sis: catch out of bounds in SiS_DoCalcDelay
+Date: Sun, 28 Feb 2021 00:30:40 -0500
+Message-Id: <20210228053040.231920-1-ztong0001@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,65 +72,95 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_fbdev_cleanup() can be called when fb_helper->buffer is null, hence
-fb_helper->buffer should be checked before calling
-drm_client_buffer_vunmap(). This buffer is also checked in
-drm_client_framebuffer_delete(), so we should also do the same thing for
-drm_client_buffer_vunmap().
+idx1 is read from hardware and the range is [0, 30],
+the size of ThLowA and ThLowB is 24, so there could possibly an out of
+bounds access. This patch catches the OOB access and print a warning.
 
-[  199.128742] RIP: 0010:drm_client_buffer_vunmap+0xd/0x20
-[  199.129031] Code: 43 18 48 8b 53 20 49 89 45 00 49 89 55 08 5b 44 89 e0 41 5c 41 5d 41 5e 5d
-c3 0f 1f 00 53 48 89 fb 48 8d 7f 10 e8 73 7d a1 ff <48> 8b 7b 10 48 8d 73 18 5b e9 75 53 fc ff 0
-f 1f 44 00 00 48 b8 00
-[  199.130041] RSP: 0018:ffff888103f3fc88 EFLAGS: 00010282
-[  199.130329] RAX: 0000000000000001 RBX: 0000000000000000 RCX: ffffffff8214d46d
-[  199.130733] RDX: 1ffffffff079c6b9 RSI: 0000000000000246 RDI: ffffffff83ce35c8
-[  199.131119] RBP: ffff888103d25458 R08: 0000000000000001 R09: fffffbfff0791761
-[  199.131505] R10: ffffffff83c8bb07 R11: fffffbfff0791760 R12: 0000000000000000
-[  199.131891] R13: ffff888103d25468 R14: ffff888103d25418 R15: ffff888103f18120
-[  199.132277] FS:  00007f36fdcbb6a0(0000) GS:ffff88815b400000(0000) knlGS:0000000000000000
-[  199.132721] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  199.133033] CR2: 0000000000000010 CR3: 0000000103d26000 CR4: 00000000000006f0
-[  199.133420] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[  199.133807] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[  199.134195] Call Trace:
-[  199.134333]  drm_fbdev_cleanup+0x179/0x1a0
-[  199.134562]  drm_fbdev_client_unregister+0x2b/0x40
-[  199.134828]  drm_client_dev_unregister+0xa8/0x180
-[  199.135088]  drm_dev_unregister+0x61/0x110
-[  199.135315]  mgag200_pci_remove+0x38/0x52 [mgag200]
-[  199.135586]  pci_device_remove+0x62/0xe0
-[  199.135806]  device_release_driver_internal+0x148/0x270
-[  199.136094]  driver_detach+0x76/0xe0
-[  199.136294]  bus_remove_driver+0x7e/0x100
-[  199.136521]  pci_unregister_driver+0x28/0xf0
-[  199.136759]  __x64_sys_delete_module+0x268/0x300
-[  199.137016]  ? __ia32_sys_delete_module+0x300/0x300
-[  199.137285]  ? call_rcu+0x3e4/0x580
-[  199.137481]  ? fpregs_assert_state_consistent+0x4d/0x60
-[  199.137767]  ? exit_to_user_mode_prepare+0x2f/0x130
-[  199.138037]  do_syscall_64+0x33/0x40
-[  199.138237]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[  199.138517] RIP: 0033:0x7f36fdc3dcf7
+[    4.771691] ==================================================================
+[    4.771693] BUG: KASAN: global-out-of-bounds in SiS_DoCalcDelay+0xa9/0x160 [sisfb]
+[    4.771718] Read of size 1 at addr ffffffffc0048b1f by task modprobe/96
+[    4.771722] CPU: 0 PID: 96 Comm: modprobe Not tainted 5.11.0-rc7 #92
+[    4.771727] Call Trace:
+[    4.771729]  dump_stack+0x7d/0xa3
+[    4.771733]  print_address_description.constprop.0+0x1a/0x140
+[    4.771738]  ? SiS_DoCalcDelay+0xa9/0x160 [sisfb]
+[    4.771760]  ? SiS_DoCalcDelay+0xa9/0x160 [sisfb]
+[    4.771782]  kasan_report.cold+0x7f/0x10e
+[    4.771786]  ? SiS_DoCalcDelay+0xa9/0x160 [sisfb]
+[    4.771808]  SiS_DoCalcDelay+0xa9/0x160 [sisfb]
+[    4.771830]  ? SiS_GetFIFOThresholdIndex300+0xb0/0xb0 [sisfb]
+[    4.771853]  ? sisfb_probe.cold+0x3a0f/0x4f7d [sisfb]
+[    4.771876]  ? SiS_GetRefCRTVCLK+0x6c/0x80 [sisfb]
+[    4.771900]  ? SiS_GetVCLK2Ptr+0x28b/0x800 [sisfb]
+[    4.771923]  SiSSetMode+0x26de/0x4770 [sisfb]
+[    4.771946]  ? SiS_LoadDAC+0x3e0/0x3e0 [sisfb]
+[    4.771968]  ? ___slab_alloc+0x412/0x5d0
+[    4.771971]  ? set_inverse_trans_unicode.isra.0+0x147/0x170
+[    4.771975]  ? sisfb_syncaccel+0x12f/0x140 [sisfb]
+[    4.771998]  sisfb_set_mode.isra.0+0x264/0x12b0 [sisfb]
+[    4.772020]  ? kasan_module_alloc+0x5f/0xc0
+[    4.772023]  sisfb_set_par+0x3b3/0x930 [sisfb]
+[    4.772046]  fbcon_init+0x447/0x980
+[    4.772049]  ? sisfb_probe+0x1490/0x1490 [sisfb]
+[    4.772071]  visual_init+0x182/0x240
+[    4.772074]  do_bind_con_driver+0x2db/0x460
+[    4.772078]  do_take_over_console+0x205/0x280
+[    4.772082]  do_fbcon_takeover+0x80/0x100
+[    4.772085]  register_framebuffer+0x301/0x4c0
+[    4.772088]  ? do_remove_conflicting_framebuffers+0xf0/0xf0
+[    4.772092]  ? fb_copy_cmap+0x10b/0x160
+[    4.772096]  sisfb_probe.cold+0x2fca/0x4f7d [sisfb]
+[    4.772120]  ? rpm_resume+0x1cd/0xac0
+[    4.772124]  ? sisfb_check_var+0x990/0x990 [sisfb]
+[    4.772146]  ? pm_runtime_get_if_active+0x190/0x190
+[    4.772150]  ? _raw_spin_lock_irqsave+0x7b/0xd0
+[    4.772154]  ? _raw_spin_lock_irqsave+0x7b/0xd0
+[    4.772157]  ? __mutex_lock_slowpath+0x10/0x10
+[    4.772161]  ? sisfb_check_var+0x990/0x990 [sisfb]
+[    4.772183]  local_pci_probe+0x6f/0xb0
+[    4.772349] The buggy address belongs to the variable:
+[    4.772350]  ThLowA.47581+0x1f/0xffffffffffff9500 [sisfb]
+[    4.772373]
+[    4.772373] Memory state around the buggy address:
+[    4.772375]  ffffffffc0048a00: 00 00 00 00 f9 f9 f9 f9 00 00 f9 f9 f9 f9 f9 f9
+[    4.772377]  ffffffffc0048a80: 00 00 05 f9 f9 f9 f9 f9 00 00 f9 f9 f9 f9 f9 f9
+[    4.772379] >ffffffffc0048b00: 00 00 00 f9 f9 f9 f9 f9 00 04 f9 f9 f9 f9 f9 f9
+[    4.772380]                             ^
+[    4.772382]  ffffffffc0048b80: 00 00 00 00 00 00 f9 f9 f9 f9 f9 f9 00 07 f9 f9
+[    4.772384]  ffffffffc0048c00: f9 f9 f9 f9 00 00 00 f9 f9 f9 f9 f9 00 f9 f9 f9
+[    4.772385] ==================================================================
 
 Signed-off-by: Tong Zhang <ztong0001@gmail.com>
 ---
- drivers/gpu/drm/drm_fb_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/video/fbdev/sis/init.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index b9a616737c0e..f6baa2046124 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -2048,7 +2048,7 @@ static void drm_fbdev_cleanup(struct drm_fb_helper *fb_helper)
+diff --git a/drivers/video/fbdev/sis/init.c b/drivers/video/fbdev/sis/init.c
+index b568c646a76c..fb9815e7af4b 100644
+--- a/drivers/video/fbdev/sis/init.c
++++ b/drivers/video/fbdev/sis/init.c
+@@ -2249,6 +2249,10 @@ SiS_GetFIFOThresholdA300(unsigned short idx1, unsigned short idx2)
+ 		34, 3,37, 5,47, 7, 67,11
+    };
  
- 	if (shadow)
- 		vfree(shadow);
--	else
-+	else if (fb_helper->buffer)
- 		drm_client_buffer_vunmap(fb_helper->buffer);
++   if (idx1>22) {
++     printk(KERN_WARNING "idx1 out of bounds: %d\n", idx1);
++     idx1 = 22;
++   }
+    return (unsigned short)((ThLowA[idx1 + 1] * idx2) + ThLowA[idx1]);
+ }
  
- 	drm_client_framebuffer_delete(fb_helper->buffer);
+@@ -2261,6 +2265,10 @@ SiS_GetFIFOThresholdB300(unsigned short idx1, unsigned short idx2)
+ 		42, 4,45, 6,55, 8, 75,12
+    };
+ 
++   if (idx1>22) {
++     printk(KERN_WARNING "idx1 out of bounds: %d\n", idx1);
++     idx1 = 22;
++   }
+    return (unsigned short)((ThLowB[idx1 + 1] * idx2) + ThLowB[idx1]);
+ }
+ 
 -- 
 2.25.1
 
