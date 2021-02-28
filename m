@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C8A3274FD
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Feb 2021 23:56:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64057327500
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Feb 2021 23:56:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BEEF6E435;
-	Sun, 28 Feb 2021 22:56:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 022CE6E42E;
+	Sun, 28 Feb 2021 22:56:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2650E89FEA
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Feb 2021 17:11:58 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id a22so23795763ejv.9
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Feb 2021 09:11:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=dfQ46OGWItLgoKPUR/Czwfd0qqTUSj25+jf5yrElG/4=;
- b=GzeA/aDB2UBhnNVhm++I/Jk3Up7Sjll8FWko6UUVrR8GbwUj6tdWvj7U7T3p1JnaWE
- tuDT5n8KyfWwgonEFcDAlbP9Wnm/lzI5ynLZd5zXrmZLcqy0e5qJFV+Ury6tgPUdhcIC
- ZnUpySrUVv3A0oExsLsVOkNej6wDTO/NVed1e1lRxfeovoJIixufVCuML3LKRgEXHaK6
- AQIpA41ncR2vIctG/YIpRBR7PPh4Vs9caRlig7rCLuPUPKUXlteysI6kNYwN/3Yc//ci
- tD2NQsug/MYd9mQ+dWSVvw0ZV+w1YK/V6hQL8df04yN35+nWGaht76tutf0kiQ1Fxgq5
- E6Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dfQ46OGWItLgoKPUR/Czwfd0qqTUSj25+jf5yrElG/4=;
- b=GfDitwpA7oayiv+0izbZC13vZ0q9ekxU4k9VmyT5G6YsGfT3Hygh5u7xabfxerJ5zI
- 3FTfY4oef0117+caMfFp7yD14ypLVpT5XE3+0LnJNJAn6GEzg7S4z0w6M84Nc2Ukjh37
- W9OhzEhur2kylziAWesvOgvcbtxcVK88TpJFVmYjZFY1UTXH1u0RoZls/J9blhfyejpM
- W0lhnFrmezi7JuGDlMW8BgvFVkGGRHiNC6+DjW6WXc1LX57bGjQyEI1KRlWm7yxtEcRj
- 392cOCLTVs0HBAcT3fhyv0T9QzEDzq1HzSRn7tU2qURgZuDGSAJ0ild/HgAHvlwpNaVp
- P2cw==
-X-Gm-Message-State: AOAM532OW3aaEC4gf1TQMtzjvAkaLSoWn2zI6nk/AJ9r+9zAwjqh5tG+
- q6WdZXxaqrARU5KVqCL1GQ==
-X-Google-Smtp-Source: ABdhPJw5sLbCUCcgxkhNvC6IgO3vmNaTgOeasYPBEho60Poa4WNRXoZ/cPiXNkLCHgbgyBJUziViqw==
-X-Received: by 2002:a17:906:acb:: with SMTP id
- z11mr3855755ejf.193.1614532316774; 
- Sun, 28 Feb 2021 09:11:56 -0800 (PST)
-Received: from localhost.localdomain ([46.53.249.223])
- by smtp.gmail.com with ESMTPSA id fw3sm6654338ejb.82.2021.02.28.09.11.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Feb 2021 09:11:56 -0800 (PST)
-Date: Sun, 28 Feb 2021 20:11:54 +0300
-From: Alexey Dobriyan <adobriyan@gmail.com>
-To: torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
- akpm@linux-foundation.org, linux-arch@vger.kernel.org
-Subject: [PATCH 12/11] pragma once: scripted treewide conversion
-Message-ID: <YDvO2kmidKZaK26j@localhost.localdomain>
-References: <YDvLYzsGu+l1pQ2y@localhost.localdomain>
+X-Greylist: delayed 356 seconds by postgrey-1.36 at gabe;
+ Sun, 28 Feb 2021 21:26:29 UTC
+Received: from mout1.freenet.de (mout1.freenet.de [IPv6:2001:748:100:40::2:3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13CC26E170
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Feb 2021 21:26:28 +0000 (UTC)
+Received: from [195.4.92.122] (helo=sub3.freenet.de)
+ by mout1.freenet.de with esmtpa (ID tobias.klausmann@01019freenet.de) (port
+ 25) (Exim 4.92 #3)
+ id 1lGTUN-00062t-0F; Sun, 28 Feb 2021 22:20:31 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=freenet.de; 
+ s=mjaymdexmjqk;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
+ Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=bvmbqBYdqmyXDlb9iC2UD+AE/jgJF3p6Z8kjKsCHDOM=; b=jZ23In8mhbasLA47eZx8u8rHZo
+ fnysbwKh8dhbrr7s/zFJXGRNHFuqNpYV0WIgxMO3cEol9wp06O+n+WC7xvbrJGrOVyu9JMjDcUJRN
+ DXM2pOJ18TJSazRPQZinOe7bXLZRuKPxrx1EcB9h9vPMOiSTEFXFfXJj5/lXg7N59dJK48UK1dpZ9
+ jdixypM43BCIXyzg7fyANdwITHlMoV5/O5ouDG1zihDtQRLrWnvllWL/3dRN7dvoXaFoS4/vgfTjL
+ w9MaZzYknWMOd5pTfLJSls2U4gDa2LqQkaZ+kZ0tNSdSZq2m/hSesSSDmfVTppS2SdhRCIwSEO1sB
+ YCaxN86A==;
+Received: from p200300c7ff251d003265ecfffeba1802.dip0.t-ipconnect.de
+ ([2003:c7:ff25:1d00:3265:ecff:feba:1802]:57452 helo=sieben.fritz.box)
+ by sub3.freenet.de with esmtpsa (ID tobias.klausmann@01019freenet.de)
+ (TLSv1.2:ECDHE-RSA-CHACHA20-POLY1305:256) (port 587) (Exim 4.92 #3)
+ id 1lGTUM-000194-QY; Sun, 28 Feb 2021 22:20:30 +0100
+From: Tobias <tobias.klausmann@freenet.de>
+To: dri-devel@lists.freedesktop.org,
+	airlied@redhat.com,
+	bskeggs@redhat.com
+Subject: [PATCH] Revert "drm/nouveau: fix dma syncing warning with debugging
+ on."
+Date: Sun, 28 Feb 2021 22:19:56 +0100
+Message-Id: <20210228211956.2363-1-tobias.klausmann@freenet.de>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YDvLYzsGu+l1pQ2y@localhost.localdomain>
+X-Originated-At: 2003:c7:ff25:1d00:3265:ecff:feba:1802!57452
+X-FNSign: v=2
+ s=50ACFAD1FEC28FFEDEC40686C8A03038530A1E1C9D022CDCA495641A72278677
+X-Scan-TS: Sun, 28 Feb 2021 22:20:30 +0100
 X-Mailman-Approved-At: Sun, 28 Feb 2021 22:56:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,104 +63,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tobias <tobias.klausmann@freenet.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[  Bcc a lot of lists so that people understand what's this is all         ]
-[  about without creating uber-cc-thread.                                  ]
-[  Apologies if I missed your subsystem                                    ]
-[  Please see [PATCH 11/11: pragma once: conversion script (in Python 2)]  ]
+This reverts commit f295c8cfec833c2707ff1512da10d65386dde7af.
 
-Hi, Linus.
+Starting with commit f295c8cfec833c2707ff1512da10d65386dde7af
+("drm/nouveau: fix dma syncing warning with debugging on.")
+the following oops occures:
 
-Please run the script below from top-level directory, it will convert
-most kernel headers to #pragma once directive advancing them into
-21-st century.
+   BUG: kernel NULL pointer dereference, address: 0000000000000000
+   #PF: supervisor read access in kernel mode
+   #PF: error_code(0x0000) - not-present page
+   PGD 0 P4D 0
+   Oops: 0000 [#1] PREEMPT SMP PTI
+   CPU: 6 PID: 1013 Comm: Xorg.bin Tainted: G E     5.11.0-desktop-rc0+ #2
+   Hardware name: Acer Aspire VN7-593G/Pluto_KLS, BIOS V1.11 08/01/2018
+   RIP: 0010:nouveau_bo_sync_for_device+0x40/0xb0 [nouveau]
+   Call Trace:
+    nouveau_bo_validate+0x5d/0x80 [nouveau]
+    nouveau_gem_ioctl_pushbuf+0x662/0x1120 [nouveau]
+    ? nouveau_gem_ioctl_new+0xf0/0xf0 [nouveau]
+    drm_ioctl_kernel+0xa6/0xf0 [drm]
+    drm_ioctl+0x1f4/0x3a0 [drm]
+    ? nouveau_gem_ioctl_new+0xf0/0xf0 [nouveau]
+    nouveau_drm_ioctl+0x50/0xa0 [nouveau]
+    __x64_sys_ioctl+0x7e/0xb0
+    do_syscall_64+0x33/0x80
+    entry_SYSCALL_64_after_hwframe+0x44/0xae
+   ---[ end trace ccfb1e7f4064374f ]---
+   RIP: 0010:nouveau_bo_sync_for_device+0x40/0xb0 [nouveau]
 
-The advantages are:
+Reverting the commit, fixes the issue!
 
-* less LOC
+Signed-off-by: Tobias Klausmann <tobias.klausmann@freenet.de>
+---
+ drivers/gpu/drm/nouveau/nouveau_bo.c | 35 +++++-----------------------
+ 1 file changed, 6 insertions(+), 29 deletions(-)
 
-	18087 files changed, 18878 insertions(+), 99804 deletions(-)
-	= -81 kLOC (give or take)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 2375711877cf..33dc886d1d6d 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -547,7 +547,7 @@ nouveau_bo_sync_for_device(struct nouveau_bo *nvbo)
+ {
+ 	struct nouveau_drm *drm = nouveau_bdev(nvbo->bo.bdev);
+ 	struct ttm_tt *ttm_dma = (struct ttm_tt *)nvbo->bo.ttm;
+-	int i, j;
++	int i;
+ 
+ 	if (!ttm_dma)
+ 		return;
+@@ -556,21 +556,10 @@ nouveau_bo_sync_for_device(struct nouveau_bo *nvbo)
+ 	if (nvbo->force_coherent)
+ 		return;
+ 
+-	for (i = 0; i < ttm_dma->num_pages; ++i) {
+-		struct page *p = ttm_dma->pages[i];
+-		size_t num_pages = 1;
+-
+-		for (j = i + 1; j < ttm_dma->num_pages; ++j) {
+-			if (++p != ttm_dma->pages[j])
+-				break;
+-
+-			++num_pages;
+-		}
++	for (i = 0; i < ttm_dma->num_pages; i++)
+ 		dma_sync_single_for_device(drm->dev->dev,
+ 					   ttm_dma->dma_address[i],
+-					   num_pages * PAGE_SIZE, DMA_TO_DEVICE);
+-		i += num_pages;
+-	}
++					   PAGE_SIZE, DMA_TO_DEVICE);
+ }
+ 
+ void
+@@ -578,7 +567,7 @@ nouveau_bo_sync_for_cpu(struct nouveau_bo *nvbo)
+ {
+ 	struct nouveau_drm *drm = nouveau_bdev(nvbo->bo.bdev);
+ 	struct ttm_tt *ttm_dma = (struct ttm_tt *)nvbo->bo.ttm;
+-	int i, j;
++	int i;
+ 
+ 	if (!ttm_dma)
+ 		return;
+@@ -587,21 +576,9 @@ nouveau_bo_sync_for_cpu(struct nouveau_bo *nvbo)
+ 	if (nvbo->force_coherent)
+ 		return;
+ 
+-	for (i = 0; i < ttm_dma->num_pages; ++i) {
+-		struct page *p = ttm_dma->pages[i];
+-		size_t num_pages = 1;
+-
+-		for (j = i + 1; j < ttm_dma->num_pages; ++j) {
+-			if (++p != ttm_dma->pages[j])
+-				break;
+-
+-			++num_pages;
+-		}
+-
++	for (i = 0; i < ttm_dma->num_pages; i++)
+ 		dma_sync_single_for_cpu(drm->dev->dev, ttm_dma->dma_address[i],
+-					num_pages * PAGE_SIZE, DMA_FROM_DEVICE);
+-		i += num_pages;
+-	}
++					PAGE_SIZE, DMA_FROM_DEVICE);
+ }
+ 
+ void nouveau_bo_add_io_reserve_lru(struct ttm_buffer_object *bo)
+-- 
+2.30.1
 
-* less mental tax on developers forced to name things which aren't even
-  real code
-
-* less junk in preprocessor hashtables and editors/IDEs autocompletion
-  lists
-
-There are two bit exceptions: UAPI headers and ACPICA.
-Given ubiquity of #pragma once, I personally think even these subsystems
-should be converted in the future.
-
-Compile tested on alpha, arc, arm, arm64, h8300, ia64, m68k, microblaze,
-mips, nios2, parisc, powerpc, riscv, s390, sh, sparc, um-i386, um-x86_64,
-i386, x86_64, xtensa (allnoconfig, all defconfigs, allmodconfig with or
-without SMP/DEBUG_KERNEL + misc stuff).
-
-Not compile tested on csky, hexagon, nds32, openrisc. 
-
-Love,
-	Alexey
-
-Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
-
-
-
-#!/bin/sh -x
-find . -type f -name '*.h' -print	|\
-LC_ALL=C sort				|\
-sed -e 's#^./##g'			|\
-xargs ./scripts/pragma-once.py
-
-find . -type d -name 'uapi' | xargs git checkout -f
-git checkout -f arch/alpha/include/asm/cmpxchg.h
-git checkout -f arch/arm/mach-imx/hardware.h
-git checkout -f arch/arm/mach-ixp4xx/include/mach/hardware.h
-git checkout -f arch/arm/mach-sa1100/include/mach/hardware.h
-git checkout -f arch/mips/include/asm/mips-cps.h
-git checkout -f arch/x86/boot/boot.h
-git checkout -f arch/x86/boot/ctype.h
-git checkout -f arch/x86/include/asm/cpufeatures.h
-git checkout -f arch/x86/include/asm/disabled-features.h
-git checkout -f arch/x86/include/asm/required-features.h
-git checkout -f arch/x86/include/asm/vmxfeatures.h
-git checkout -f arch/x86/include/asm/vvar.h
-git checkout -f drivers/acpi/acpica/
-git checkout -f drivers/gpu/drm/amd/pm/inc/vega10_ppsmc.h
-git checkout -f drivers/gpu/drm/amd/pm/powerplay/ppsmc.h
-git checkout -f drivers/input/misc/yealink.h
-git checkout -f drivers/media/usb/dvb-usb-v2/mxl111sf-demod.h
-git checkout -f drivers/media/usb/dvb-usb-v2/mxl111sf-tuner.h
-git checkout -f drivers/pcmcia/yenta_socket.h
-git checkout -f drivers/staging/rtl8723bs/include/hal_com_h2c.h
-git checkout -f include/linux/acpi.h
-git checkout -f include/linux/bitops.h
-git checkout -f include/linux/compiler_types.h
-git checkout -f include/linux/device.h
-git checkout -f include/linux/kbuild.h
-git checkout -f include/linux/libfdt_env.h
-git checkout -f include/linux/local_lock.h
-git checkout -f include/linux/spinlock.h
-git checkout -f include/linux/spinlock_api_smp.h
-git checkout -f include/linux/spinlock_types.h
-git checkout -f include/linux/tracepoint.h
-git checkout -f mm/gup_test.h
-git checkout -f net/batman-adv/main.h
-git checkout -f scripts/dtc/
-git checkout -f tools/include/linux/bitops.h
-git checkout -f tools/include/linux/compiler.h
-git checkout -f tools/testing/selftests/clone3/clone3_selftests.h
-git checkout -f tools/testing/selftests/futex/include/atomic.h
-git checkout -f tools/testing/selftests/futex/include/futextest.h
-git checkout -f tools/testing/selftests/futex/include/logging.h
-git checkout -f tools/testing/selftests/kselftest.h
-git checkout -f tools/testing/selftests/kselftest_harness.h
-git checkout -f tools/testing/selftests/pidfd/pidfd.h
-git checkout -f tools/testing/selftests/x86/helpers.h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
