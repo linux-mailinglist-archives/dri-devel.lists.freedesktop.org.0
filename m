@@ -2,29 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EE643271B3
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Feb 2021 10:20:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 273DA32721C
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Feb 2021 12:44:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9A926E154;
-	Sun, 28 Feb 2021 09:20:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EC1A6E1EE;
+	Sun, 28 Feb 2021 11:44:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id D69226E154
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Feb 2021 09:20:15 +0000 (UTC)
-Received: from atomide.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id 5B2A68057;
- Sun, 28 Feb 2021 09:20:48 +0000 (UTC)
-Date: Sun, 28 Feb 2021 11:20:06 +0200
-From: Tony Lindgren <tony@atomide.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCH] drm/panel: panel-dsi-cm: disable TE for now
-Message-ID: <YDtgRnq27wLViPu9@atomide.com>
-References: <YDnyVV/O78sQjtWb@atomide.com>
- <20210227214542.99961-1-sebastian.reichel@collabora.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EDD36E1EE
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Feb 2021 11:44:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 4D35664E59
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Feb 2021 11:44:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1614512647;
+ bh=/Ypo85xgcjNUfJJ0jKZZRy7uYeIf3DB/QYDOe6WtdtQ=;
+ h=From:To:Subject:Date:From;
+ b=XJCkm5Q8hpH/gO54vuBphqpPDcFAuGU3dWzLS7twTZvzfeI22/qXihPWm+Eicplhj
+ 4EgAwNxzNtPsZW7IxTijbyjtd3AQQ7mlXQplTrJfmHJjtvEQRl8vpqIm4BIcJChyGr
+ wWlbIkFVehDuFqja6+azpYSYuXkNpdcDU1fL+/pU9yLP+QTT+gUgz5KMM2MfPXrz3S
+ rWWI25m9pe/NOsfzAbyThApk+X3YI+1/7X3re9IDOyctfRm3pnhmKUvvBEFNe+0+3H
+ x0HxRQFLGXTRT54v/HhrpBptgRCCfBmz5nlDvFdFklpkY6gJRuILJmulB49LH35MId
+ K0kLMjamSdcug==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 4079B65360; Sun, 28 Feb 2021 11:44:07 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211997] New: sys-kernel/gentoo-sources-5.11.2 crash upon
+ disconnect HDMI monitor AMDGPU
+Date: Sun, 28 Feb 2021 11:44:06 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: stefan@konink.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-211997-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210227214542.99961-1-sebastian.reichel@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,35 +64,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Sekhar Nori <nsekhar@ti.com>, Sebastian Reichel <sre@kernel.org>,
- dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>,
- Nikhil Devshatwar <nikhil.nd@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Sebastian Reichel <sebastian.reichel@collabora.com> [210227 21:51]:
-> From: Sebastian Reichel <sre@kernel.org>
-> 
-> Disable TE for Droid 4 panel, since implementation is currently
-> broken. Also disable it for N950 panel, which is untested.
-> 
-> Reported-by: Tony Lindgren <tony@atomide.com>
-> Reported-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Fixes: 4c1b935fea54 ("drm/omap: dsi: move TE GPIO handling into core")
-> Signed-off-by: Sebastian Reichel <sre@kernel.org>
-> ---
-> I suggest to start by fix the regression like this and look into
-> proper Droid 4 TE support separatly. Assumption is, that Tomi
-> tested taal panel, droid4 panel is 'broken' and N950 (himalaya)
-> is untested [*], so choosing safe default. Patch is compile-tested
-> only.
+https://bugzilla.kernel.org/show_bug.cgi?id=211997
 
-Makes sense to me and fixes the regression:
+            Bug ID: 211997
+           Summary: sys-kernel/gentoo-sources-5.11.2 crash upon disconnect
+                    HDMI monitor AMDGPU
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.11.2-gentoo
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: stefan@konink.de
+        Regression: No
 
-Tested-by: Tony Lindgren <tony@atomide.com>
+Created attachment 295529
+  --> https://bugzilla.kernel.org/attachment.cgi?id=295529&action=edit
+dmesg
+
+When disconnecting a second monitor on a AMD Ryzen 5 2500U with Radeon Vega
+Mobile Gfx the system seems to hang. It is reachable over a wired connection,
+but the screen (other than a moving mouse) does not repond to any input.
+Connecting new devices such as an external mouse does not seem to influence the
+running session.
+
+Connected over netconsole, and later direct via the wired connection the error
+presented in dmesg:
+
+[drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
+[CRTC:70:crtc-1] flip_done timed out
+[drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]] *ERROR*
+[CRTC:70:crtc-1] flip_done timed out
+[drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]] *ERROR*
+[PLANE:50:plane-2] flip_done timed out
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
