@@ -2,56 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E60329509
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 00:26:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F16932950B
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 00:26:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A86E189D9A;
-	Mon,  1 Mar 2021 23:26:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADA6289DBC;
+	Mon,  1 Mar 2021 23:26:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85C3789DA3
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 23:26:09 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id 2so17071867ljr.5
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Mar 2021 15:26:09 -0800 (PST)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8007989E3F
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 23:26:11 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id d3so28281724lfg.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Mar 2021 15:26:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yKDf3QO37bgAs0Xrvk527NLCW0728Tq3GZSclgxPbb4=;
- b=f/qKmhYB12KE9d1JmkLIUYuvF0QzqnjXrHTl42WXoRWJB/k0Q9cUPE3vIEQbY3aL3b
- Xyc+hyX48ABrYsaXdrzZeuGwTTKdlfVFcu0FPCLBeTpUTiYUmdREsund/sz4ZrIGOi3S
- 1y15/amRDBnyeDdXx3BRIK+zHOVBYfCjNtp0c7oq9f6u0KP9IqL9pNQotl5Y03SRFKY5
- 5mpjl/Fbwv8fgh2vSMExevw47CkX1/8GYvH3IjXz7S+xHILUCYlIBEEUdU0upc33zco3
- EVSFP8oMxMUQ+/4NB3xxpzBoPhvZlhnUNsGHiugcEmtFbfelSmJiDYVJ0+6syFgiNozH
- QHbw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=gfgu+pAvfWG6VFJRhvipkkqbx67rCdpP3wQluOyEGj8=;
+ b=wQSEIXHdAbqwiaquPFRTjMmgcsaklFvVednS9YAD58aQu7QkwEJMhNgWpBpU/MWAxi
+ b2BD8ArE0F7ZCd/AFcXfG75FrDCrHY8sMb6vpzr5PtsR15sTOxM4d0C/wS6QBr4hptWM
+ SOelZVr3FdOYci8XSUgz5MZcLfr3MX9XPWuNGmIYtxc5XlG4A8TTR1T6GlI2/V5htVH3
+ 9yZPOPnFghNwRy7AYFrjG1Txp7wXfoQNf4Pkk0SOFqY4WYRAV9Hn2mx9rWJZu4DU74UX
+ PEW4mIQjlTiqirukDWy17I+u+5WSVpn2zlU7tuAhPLS0S2CUBhtPMIWUZpECLe4jUFLb
+ 20aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yKDf3QO37bgAs0Xrvk527NLCW0728Tq3GZSclgxPbb4=;
- b=pF62fvGKEydkzibTFvNicXRghMhNRPMcWuRJY5JwAathE1tG4lDgwU6ZicTEOkkGpM
- 77LJEc/7oSgTRYiVFbdWkcH3kxHg/jUcG0I9aQeiC5MvD5XhNuKm1E/O+HgydVcKt/RP
- ixxj6ppSoInY9iR/sTGzk6vbDCX/yPPuIj8DZMJvMOYTWEyGzTpTNjuTxMoWwOr6BaCa
- v8hGuIKDsWakfSyxLtlnPha5Jze0XjXoq31vSNSl6RzPbnVhfQw7+nA8pV8O0Q6zplcc
- lOJLTgwLnXb/ZLbA4x9fG9Q3wMdxFKvlJq2wfB6ntUI4hrN+CV0efr5dyHbM112v7ceu
- utYA==
-X-Gm-Message-State: AOAM531Z+N/CCwmJ4u+aWH5tpkWU5Bii/h/J/kt/lbPvThpNSLliZxw7
- VXW2dw6aX6ctbLn8LGZp6UiLpg==
-X-Google-Smtp-Source: ABdhPJwnByTzd2iAiMVc77lpgPAWpGltVB+jZ16ovZKzkKSZ9cAYy0ubIBSqT98LKT2EdjT4wJfNFw==
-X-Received: by 2002:a2e:8e7a:: with SMTP id t26mr10261462ljk.243.1614641167817; 
- Mon, 01 Mar 2021 15:26:07 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=gfgu+pAvfWG6VFJRhvipkkqbx67rCdpP3wQluOyEGj8=;
+ b=rzhFbc2rY1A2y64xOkTVv8YrHg7XLc2hPky+PDYBdQEdIodayELbdu3TARN02M1dVs
+ KyygMJGnwLFgDZggngkwHu6VULvxv12aDfDQAM+xcx7Guy5Gsg6NSt+RJSfkxc609exJ
+ QRFr4Yyq3uu2VKhwsnmCi9RwhFNQxV+LQUrNpsnp5WypcUzDygSO1XQqeIreGkjAXcIw
+ /JO2KB/MZev/xqz2ND7eVXlT7u2kBvP1WO1ntcaBEcaIMkAPUDKYK3H32JI7SbvvRdzb
+ 8wFxFZgLcLhwQB5vE3lpyv/3jd9MOIl7R8bEGXKo/AlqGWSGZ3Q5hapauTRs4/oJIB9R
+ he6Q==
+X-Gm-Message-State: AOAM532yNgKnFQ5wB2sfwP/Jksy7OnoeLeluQOyKdln9i+g55TQccp9d
+ y5H4BQdvLP6Pcy03lzUqtDs3vA==
+X-Google-Smtp-Source: ABdhPJx6ASBwwcP9kXYkJMtBjyoCs8MQwLCZEi6291t5cVDBPlr2e2TkK3I715Zn3/v1DMoZnlCA5Q==
+X-Received: by 2002:ac2:4d39:: with SMTP id h25mr7166090lfk.604.1614641169920; 
+ Mon, 01 Mar 2021 15:26:09 -0800 (PST)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id b20sm154749lfa.183.2021.03.01.15.26.06
+ by smtp.gmail.com with ESMTPSA id b20sm154749lfa.183.2021.03.01.15.26.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Mar 2021 15:26:07 -0800 (PST)
+ Mon, 01 Mar 2021 15:26:09 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Jonathan Marek <jonathan@marek.ca>
-Subject: [RFC 00/24] drm/msm/dsi: refactor MSM DSI PHY/PLL drivers
-Date: Tue,  2 Mar 2021 02:24:43 +0300
-Message-Id: <20210301232506.3057401-1-dmitry.baryshkov@linaro.org>
+Subject: [RFC 02/24] drm/msm/dsi: drop multiple pll enable_seq support
+Date: Tue,  2 Mar 2021 02:24:45 +0300
+Message-Id: <20210301232506.3057401-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210301232506.3057401-1-dmitry.baryshkov@linaro.org>
+References: <20210301232506.3057401-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,85 +75,213 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an RFC attempt to restructure MSM DSI PHY drivers. What started
-as an attempt to grok the overcomplicated PHY drivers, has lead up to
-the idea of merging PHY and PLL code, reducing abstractions, code
-duplication, dropping dead code, etc.
+The only PLL using multiple enable sequences is the 28nm PLL, which just
+does the single step in the loop. Push that support back into the PLL
+code.
 
-The patches were mainly tested on RB5 (sm8250, 7nm) and lightly tested on RB3
-(sdm845, 10nm), DB410c (apq8016, 28nm-lp).
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c    |  3 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c    | 23 +++++--
+ .../gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c   |  3 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_pll.c         | 65 +++++++------------
+ drivers/gpu/drm/msm/dsi/phy/dsi_pll.h         |  4 +-
+ 5 files changed, 42 insertions(+), 56 deletions(-)
 
-The following changes since commit fe07bfda2fb9cdef8a4d4008a409bb02f35f1bd8:
-
-  Linux 5.12-rc1 (2021-02-28 16:05:19 -0800)
-
-are available in the Git repository at:
-
-  ssh://git@git.linaro.org/people/dmitry.baryshkov/kernel.git dsi-phy-rfc
-
-for you to fetch changes up to 819a9071587f1acba14a6780f422d78fdb55d671:
-
-  arm64: dts: qcom: sdm845: assign DSI clock source parents (2021-03-02 02:23:14 +0300)
-
-----------------------------------------------------------------
-Dmitry Baryshkov (24):
-      drm/msm/dsi: fuse dsi_pll_* code into dsi_phy_* code
-      drm/msm/dsi: drop multiple pll enable_seq support
-      drm/msm/dsi: move all PLL callbacks into PHY config struct
-      drm/msm/dsi: move min/max PLL rate to phy config
-      drm/msm/dsi: remove msm_dsi_pll_set_usecase
-      drm/msm/dsi: stop setting clock parents manually
-      arm64: dts: qcom: sm8250: assign DSI clock source parents
-      drm/msm/dsi: push provided clocks handling into a generic code
-      clk: mux: provide devm_clk_hw_register_mux()
-      clk: divider: add devm_clk_hw_register_divider
-      drm/msm/dsi: use devm_clk_*register to registe DSI PHY clocks
-      drm/msm/dsi: use devm_of_clk_add_hw_provider
-      drm/msm/dsi: replace PHY's init callback with configurable data
-      drm/msm/dsi: make save/restore_state phy-level functions
-      drm/msm/dsi: limit vco_delay to 28nm PHY
-      drm/msi/dsi: inline msm_dsi_pll_helper_clk_prepare/unprepare
-      drm/msm/dsi: make save_state/restore_state callbacks accept msm_dsi_phy
-      drm/msm/dsi: drop msm_dsi_pll abstracton
-      drm/msm/dsi: drop PLL accessor functions
-      drm/msm/dsi: move ioremaps to dsi_phy_driver_probe
-      drm/msm/dsi: remove duplicate fields from dsi_pll_Nnm instances
-      drm/msm/dsi: remove temp data from global pll structure
-      drm/msm/dsi: drop global msm_dsi_phy_type enumaration
-      arm64: dts: qcom: sdm845: assign DSI clock source parents
-
- arch/arm64/boot/dts/qcom/sdm845.dtsi            |    6 +
- arch/arm64/boot/dts/qcom/sm8250.dtsi            |    6 +
- drivers/clk/clk-mux.c                           |   35 +
- drivers/gpu/drm/msm/Kconfig                     |    8 -
- drivers/gpu/drm/msm/Makefile                    |    9 -
- drivers/gpu/drm/msm/dsi/dsi.h                   |   56 +-
- drivers/gpu/drm/msm/dsi/dsi_host.c              |   51 --
- drivers/gpu/drm/msm/dsi/dsi_manager.c           |   18 +-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c           |  129 +--
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.h           |   31 +-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c      |  741 ++++++++++++++-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c      |  925 ++++++++++++++++++-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c      |    3 +-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c      |  662 +++++++++++++-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c |  476 +++++++++-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c       |  769 +++++++++++++++-
- drivers/gpu/drm/msm/dsi/pll/dsi_pll.c           |  184 ----
- drivers/gpu/drm/msm/dsi/pll/dsi_pll.h           |  130 ---
- drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c      |  881 ------------------
- drivers/gpu/drm/msm/dsi/pll/dsi_pll_14nm.c      | 1096 -----------------------
- drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm.c      |  643 -------------
- drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm_8960.c |  526 -----------
- drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c       |  912 -------------------
- include/linux/clk-provider.h                    |   30 +
- 24 files changed, 3678 insertions(+), 4649 deletions(-)
- delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll.c
- delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll.h
- delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
- delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_14nm.c
- delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm.c
- delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm_8960.c
- delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
+index 4cf289ff8d7e..bd73aa612e76 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
+@@ -1087,8 +1087,7 @@ struct msm_dsi_pll *msm_dsi_pll_14nm_init(struct platform_device *pdev, int id)
+ 
+ 	pll_14nm->vco_delay = 1;
+ 
+-	pll->en_seq_cnt = 1;
+-	pll->enable_seqs[0] = dsi_pll_14nm_enable_seq;
++	pll->enable_seq = dsi_pll_14nm_enable_seq;
+ 
+ 	ret = pll_14nm_register(pll_14nm);
+ 	if (ret) {
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+index b2eac57700ce..e92070633b5f 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+@@ -311,7 +311,7 @@ static const struct clk_ops clk_ops_dsi_pll_28nm_vco = {
+ /*
+  * PLL Callbacks
+  */
+-static int dsi_pll_28nm_enable_seq_hpm(struct msm_dsi_pll *pll)
++static int _dsi_pll_28nm_enable_seq_hpm(struct msm_dsi_pll *pll)
+ {
+ 	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(pll);
+ 	struct device *dev = &pll_28nm->pdev->dev;
+@@ -386,6 +386,19 @@ static int dsi_pll_28nm_enable_seq_hpm(struct msm_dsi_pll *pll)
+ 	return locked ? 0 : -EINVAL;
+ }
+ 
++static int dsi_pll_28nm_enable_seq_hpm(struct msm_dsi_pll *pll)
++{
++	int i, ret;
++
++	for (i = 0; i < 3; i++) {
++		ret = _dsi_pll_28nm_enable_seq_hpm(pll);
++		if (!ret)
++			return 0;
++	}
++
++	return ret;
++}
++
+ static int dsi_pll_28nm_enable_seq_lp(struct msm_dsi_pll *pll)
+ {
+ 	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(pll);
+@@ -619,15 +632,11 @@ struct msm_dsi_pll *msm_dsi_pll_28nm_init(struct platform_device *pdev,
+ 	if (type == MSM_DSI_PHY_28NM_HPM) {
+ 		pll_28nm->vco_delay = 1;
+ 
+-		pll->en_seq_cnt = 3;
+-		pll->enable_seqs[0] = dsi_pll_28nm_enable_seq_hpm;
+-		pll->enable_seqs[1] = dsi_pll_28nm_enable_seq_hpm;
+-		pll->enable_seqs[2] = dsi_pll_28nm_enable_seq_hpm;
++		pll->enable_seq = dsi_pll_28nm_enable_seq_hpm;
+ 	} else if (type == MSM_DSI_PHY_28NM_LP) {
+ 		pll_28nm->vco_delay = 1000;
+ 
+-		pll->en_seq_cnt = 1;
+-		pll->enable_seqs[0] = dsi_pll_28nm_enable_seq_lp;
++		pll->enable_seq = dsi_pll_28nm_enable_seq_lp;
+ 	} else {
+ 		DRM_DEV_ERROR(&pdev->dev, "phy type (%d) is not 28nm\n", type);
+ 		return ERR_PTR(-EINVAL);
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
+index 50ed935a5d3e..1b9a5abc9275 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
+@@ -515,8 +515,7 @@ struct msm_dsi_pll *msm_dsi_pll_28nm_8960_init(struct platform_device *pdev,
+ 	pll->save_state = dsi_pll_28nm_save_state;
+ 	pll->restore_state = dsi_pll_28nm_restore_state;
+ 
+-	pll->en_seq_cnt = 1;
+-	pll->enable_seqs[0] = dsi_pll_28nm_enable_seq;
++	pll->enable_seq = dsi_pll_28nm_enable_seq;
+ 
+ 	ret = pll_28nm_register(pll_28nm);
+ 	if (ret) {
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c b/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c
+index a45fe95aff49..b409ae2874b4 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c
+@@ -5,46 +5,6 @@
+ 
+ #include "dsi_pll.h"
+ 
+-static int dsi_pll_enable(struct msm_dsi_pll *pll)
+-{
+-	int i, ret = 0;
+-
+-	/*
+-	 * Certain PLLs do not allow VCO rate update when it is on.
+-	 * Keep track of their status to turn on/off after set rate success.
+-	 */
+-	if (unlikely(pll->pll_on))
+-		return 0;
+-
+-	/* Try all enable sequences until one succeeds */
+-	for (i = 0; i < pll->en_seq_cnt; i++) {
+-		ret = pll->enable_seqs[i](pll);
+-		DBG("DSI PLL %s after sequence #%d",
+-			ret ? "unlocked" : "locked", i + 1);
+-		if (!ret)
+-			break;
+-	}
+-
+-	if (ret) {
+-		DRM_ERROR("DSI PLL failed to lock\n");
+-		return ret;
+-	}
+-
+-	pll->pll_on = true;
+-
+-	return 0;
+-}
+-
+-static void dsi_pll_disable(struct msm_dsi_pll *pll)
+-{
+-	if (unlikely(!pll->pll_on))
+-		return;
+-
+-	pll->disable_seq(pll);
+-
+-	pll->pll_on = false;
+-}
+-
+ /*
+  * DSI PLL Helper functions
+  */
+@@ -64,15 +24,36 @@ long msm_dsi_pll_helper_clk_round_rate(struct clk_hw *hw,
+ int msm_dsi_pll_helper_clk_prepare(struct clk_hw *hw)
+ {
+ 	struct msm_dsi_pll *pll = hw_clk_to_pll(hw);
++	int ret = 0;
+ 
+-	return dsi_pll_enable(pll);
++	/*
++	 * Certain PLLs do not allow VCO rate update when it is on.
++	 * Keep track of their status to turn on/off after set rate success.
++	 */
++	if (unlikely(pll->pll_on))
++		return 0;
++
++	ret = pll->enable_seq(pll);
++	if (ret) {
++		DRM_ERROR("DSI PLL failed to lock\n");
++		return ret;
++	}
++
++	pll->pll_on = true;
++
++	return 0;
+ }
+ 
+ void msm_dsi_pll_helper_clk_unprepare(struct clk_hw *hw)
+ {
+ 	struct msm_dsi_pll *pll = hw_clk_to_pll(hw);
+ 
+-	dsi_pll_disable(pll);
++	if (unlikely(!pll->pll_on))
++		return;
++
++	pll->disable_seq(pll);
++
++	pll->pll_on = false;
+ }
+ 
+ void msm_dsi_pll_helper_unregister_clks(struct platform_device *pdev,
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_pll.h b/drivers/gpu/drm/msm/dsi/phy/dsi_pll.h
+index 3405982a092c..3eedb79d8939 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_pll.h
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_pll.h
+@@ -12,7 +12,6 @@
+ #include "dsi.h"
+ 
+ #define NUM_DSI_CLOCKS_MAX	6
+-#define MAX_DSI_PLL_EN_SEQS	10
+ 
+ struct msm_dsi_pll {
+ 	enum msm_dsi_phy_type type;
+@@ -23,9 +22,8 @@ struct msm_dsi_pll {
+ 
+ 	unsigned long	min_rate;
+ 	unsigned long	max_rate;
+-	u32		en_seq_cnt;
+ 
+-	int (*enable_seqs[MAX_DSI_PLL_EN_SEQS])(struct msm_dsi_pll *pll);
++	int (*enable_seq)(struct msm_dsi_pll *pll);
+ 	void (*disable_seq)(struct msm_dsi_pll *pll);
+ 	int (*get_provider)(struct msm_dsi_pll *pll,
+ 			struct clk **byte_clk_provider,
+-- 
+2.30.0
 
 _______________________________________________
 dri-devel mailing list
