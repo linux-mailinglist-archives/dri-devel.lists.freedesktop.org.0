@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC083283EA
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 17:28:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A166328380
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 17:21:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27E706E05F;
-	Mon,  1 Mar 2021 16:28:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E31B46E7EC;
+	Mon,  1 Mar 2021 16:21:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 743656E05F
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 16:28:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6AF9864ED9;
- Mon,  1 Mar 2021 16:28:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68CC56E7EC
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 16:21:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 487F564EDD;
+ Mon,  1 Mar 2021 16:21:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1614616118;
- bh=6DiDhhDVMJtr2qP/TseStO3xH99XjbzC85OAo4XHrqQ=;
+ s=korg; t=1614615702;
+ bh=3wsdApE+ivQdIPQmSRneskk1l606D7TT1f/TPSoSOTY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WWkDuGG5qcLd7/c9UnxeKe3yQX/xMqrPPWffT6lacbDtSFE1m2oJNL3WMSC465JoZ
- vMqmMkCS/zdhLm7Io3X33dEWJ1A3tk5iuulYuWRZtq7wnzd9qqpIRRxjJ6mJq4zvKd
- 917/uyQO4RxWa8hFpmZxTAJDkzVZ3jLkPwE/iJxA=
+ b=cFpmWGjSdpIDk3L5htrNH7p/2rHxLT3/4j2QdfrG2oQshTs30AwLpGusCCSi3245f
+ Gw+hg2R8O1tQ3/839UNXLmya3GsGRBGk+X5wZ0kBenOc+QJFwCV/T62HAZvwNNnOeS
+ 0+lJxb9IEqwDAvVSJANz8/Fyawxqh9gBdni7/uOE=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4.14 041/176] fbdev: aty: SPARC64 requires FB_ATY_CT
-Date: Mon,  1 Mar 2021 17:11:54 +0100
-Message-Id: <20210301161023.014716561@linuxfoundation.org>
+Subject: [PATCH 4.9 029/134] fbdev: aty: SPARC64 requires FB_ATY_CT
+Date: Mon,  1 Mar 2021 17:12:10 +0100
+Message-Id: <20210301161015.009709858@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210301161020.931630716@linuxfoundation.org>
-References: <20210301161020.931630716@linuxfoundation.org>
+In-Reply-To: <20210301161013.585393984@linuxfoundation.org>
+References: <20210301161013.585393984@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,10 +93,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 5e58f5ec0a28e..d00588d9b0258 100644
+index 5d3b0db5ce0af..c0d4e645f3b51 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1411,6 +1411,7 @@ config FB_ATY
+@@ -1405,6 +1405,7 @@ config FB_ATY
  	select FB_CFB_IMAGEBLIT
  	select FB_BACKLIGHT if FB_ATY_BACKLIGHT
  	select FB_MACMODES if PPC
@@ -104,7 +104,7 @@ index 5e58f5ec0a28e..d00588d9b0258 100644
  	help
  	  This driver supports graphics boards with the ATI Mach64 chips.
  	  Say Y if you have such a graphics board.
-@@ -1421,7 +1422,6 @@ config FB_ATY
+@@ -1415,7 +1416,6 @@ config FB_ATY
  config FB_ATY_CT
  	bool "Mach64 CT/VT/GT/LT (incl. 3D RAGE) support"
  	depends on PCI && FB_ATY
