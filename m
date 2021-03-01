@@ -1,31 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A962D32886F
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 18:42:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 085EE32892F
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 18:54:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E62F96E029;
-	Mon,  1 Mar 2021 17:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69CC46E875;
+	Mon,  1 Mar 2021 17:54:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 813F36E029
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 17:42:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B6EA865307;
- Mon,  1 Mar 2021 17:42:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 892D66E875
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 17:54:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 96BCC65366;
+ Mon,  1 Mar 2021 17:54:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1614620555;
- bh=K+OjDIPYCbxWk0EUBLNudxD/OFd+ePHa1hMiMN+nUjs=;
+ s=korg; t=1614621249;
+ bh=vmBJfQov9r+kOBWsOrfukGcLZjgVtA6JQZx4OWgTqvY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EUDWYybSwo2C4X0Jivqmz73eoiOY9FSvGITzikmcpnwZE1rX08O3Q4X9LfhM0hX+t
- x/7Rc8T0F7+nE8d1ypV00vsMMjsVYFGrYk26YlKPav5R6KmHWLu+I9BXGiqdfWF27H
- bbJxEmVoDqVeNsA1q5MAAT3fPz/e6Khn7LFdwxEw=
+ b=YR6I3FEw7LU2fHM9LIeEZpZfTTm35rUrI+r8rZsfDZLSjpuPTJDNoIyGy1TNSwgWu
+ M/dbLuebD9qOKSVvEMxvSSLOKt5SRth6v4rKBJ2VmHrumRg1CRVhLSSQ4/mLt4de01
+ eSV4Wn3yIZXvILWhDZeI8+y4GY7iml5pB2L4fcXc=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.11 168/775] fbdev: aty: SPARC64 requires FB_ATY_CT
-Date: Mon,  1 Mar 2021 17:05:36 +0100
-Message-Id: <20210301161209.944252582@linuxfoundation.org>
+Subject: [PATCH 5.11 430/775] kselftests: dmabuf-heaps: Fix Makefiles
+ inclusion of the kernels usr/include dir
+Date: Mon,  1 Mar 2021 17:09:58 +0100
+Message-Id: <20210301161222.820380302@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210301161201.679371205@linuxfoundation.org>
 References: <20210301161201.679371205@linuxfoundation.org>
@@ -43,75 +44,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>,
+Cc: Sasha Levin <sashal@kernel.org>, Sandeep Patil <sspatil@google.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, stable@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, sparclinux@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ Suren Baghdasaryan <surenb@google.com>, Laura Abbott <labbott@kernel.org>,
+ linux-kselftest@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>,
+ Hridya Valsaraju <hridya@google.com>, linux-media@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Daniel Mentz <danielmentz@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Randy Dunlap <rdunlap@infradead.org>
+From: John Stultz <john.stultz@linaro.org>
 
-[ Upstream commit c6c90c70db4d9a0989111d6b994d545659410f7a ]
+[ Upstream commit 64ba3d591c9d2be2a9c09e99b00732afe002ad0d ]
 
-It looks like SPARC64 requires FB_ATY_CT to build without errors,
-so have FB_ATY select FB_ATY_CT if both SPARC64 and PCI are enabled
-instead of using "default y if SPARC64 && PCI", which is not strong
-enough to prevent build errors.
+Copied in from somewhere else, the makefile was including
+the kerne's usr/include dir, which caused the asm/ioctl.h file
+to be used.
 
-As it currently is, FB_ATY_CT can be disabled, resulting in build
-errors:
+Unfortunately, that file has different values for _IOC_SIZEBITS
+and _IOC_WRITE than include/uapi/asm-generic/ioctl.h which then
+causes the _IOCW macros to give the wrong ioctl numbers,
+specifically for DMA_BUF_IOCTL_SYNC.
 
-ERROR: modpost: "aty_postdividers" [drivers/video/fbdev/aty/atyfb.ko] undefined!
-ERROR: modpost: "aty_ld_pll_ct" [drivers/video/fbdev/aty/atyfb.ko] undefined!
+This patch simply removes the extra include from the Makefile
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Fixes: f7018c213502 ("video: move fbdev to drivers/video/fbdev")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: sparclinux@vger.kernel.org
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: Shuah Khan <shuah@kernel.org>
+Cc: Brian Starkey <brian.starkey@arm.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Laura Abbott <labbott@kernel.org>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Sandeep Patil <sspatil@google.com>
+Cc: Daniel Mentz <danielmentz@google.com>
+Cc: linux-media@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
-Cc: linux-fbdev@vger.kernel.org
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/20201127031752.10371-1-rdunlap@infradead.org
+Cc: linux-kselftest@vger.kernel.org
+Fixes: a8779927fd86c ("kselftests: Add dma-heap test")
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/Kconfig | 2 +-
+ tools/testing/selftests/dmabuf-heaps/Makefile | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index cfb7f5612ef0f..4f02db65dedec 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -1269,6 +1269,7 @@ config FB_ATY
- 	select FB_CFB_IMAGEBLIT
- 	select FB_BACKLIGHT if FB_ATY_BACKLIGHT
- 	select FB_MACMODES if PPC
-+	select FB_ATY_CT if SPARC64 && PCI
- 	help
- 	  This driver supports graphics boards with the ATI Mach64 chips.
- 	  Say Y if you have such a graphics board.
-@@ -1279,7 +1280,6 @@ config FB_ATY
- config FB_ATY_CT
- 	bool "Mach64 CT/VT/GT/LT (incl. 3D RAGE) support"
- 	depends on PCI && FB_ATY
--	default y if SPARC64 && PCI
- 	help
- 	  Say Y here to support use of ATI's 64-bit Rage boards (or other
- 	  boards based on the Mach64 CT, VT, GT, and LT chipsets) as a
+diff --git a/tools/testing/selftests/dmabuf-heaps/Makefile b/tools/testing/selftests/dmabuf-heaps/Makefile
+index 607c2acd20829..604b43ece15f5 100644
+--- a/tools/testing/selftests/dmabuf-heaps/Makefile
++++ b/tools/testing/selftests/dmabuf-heaps/Makefile
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
+-CFLAGS += -static -O3 -Wl,-no-as-needed -Wall -I../../../../usr/include
++CFLAGS += -static -O3 -Wl,-no-as-needed -Wall
+ 
+ TEST_GEN_PROGS = dmabuf-heap
+ 
 -- 
 2.27.0
 
