@@ -1,64 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC375327AB8
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 10:29:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 668B2327AC7
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 10:30:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17C7A6E52D;
-	Mon,  1 Mar 2021 09:29:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C8986E542;
+	Mon,  1 Mar 2021 09:30:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-2.mailgun.net (m42-2.mailgun.net [69.72.42.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6292C6E526
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 09:29:07 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1614590949; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=2sWU5eZ7cISZC9fb9u+h6bDTob0QedHUYcyBKSNzW30=;
- b=MCNph4SW0INLfLzNEgOUjmtgfJOmj4+mf72imviuImagDwy/LECayiBr2yf6IzQrEPlapPfA
- l1VIkibx4rSizwubLJYxT/UUQWLQaEyI7CgVSnOiuaplsKZL8j4RXyRi3Y1ytSiQftVaImnY
- XNWH21YZqdsMg6BzPezQFVkXolk=
-X-Mailgun-Sending-Ip: 69.72.42.2
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 603cb3e07aa94c52e70c5a89 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 01 Mar 2021 09:29:04
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 35E7EC433ED; Mon,  1 Mar 2021 09:29:04 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
+Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
+ [213.80.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1918E6E542
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 09:30:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 7F9013F3ED;
+ Mon,  1 Mar 2021 10:30:17 +0100 (CET)
+Authentication-Results: ste-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=pCe4h5hu; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
-Received: from kgunda-linux.qualcomm.com (unknown [202.46.22.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: kgunda)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 183C2C433CA;
- Mon,  1 Mar 2021 09:28:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 183C2C433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=kgunda@codeaurora.org
-From: Kiran Gunda <kgunda@codeaurora.org>
-To: bjorn.andersson@linaro.org, jingoohan1@gmail.com, lee.jones@linaro.org,
- b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
- daniel.thompson@linaro.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
- robh+dt@kernel.org, mark.rutland@arm.com, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-fbdev@vger.kernel.org
-Subject: [PATCH V3 2/2] backlight: qcom-wled: Correct the sync_toggle sequence
-Date: Mon,  1 Mar 2021 14:58:36 +0530
-Message-Id: <1614590916-27070-3-git-send-email-kgunda@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1614590916-27070-1-git-send-email-kgunda@codeaurora.org>
-References: <1614590916-27070-1-git-send-email-kgunda@codeaurora.org>
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id BORA2uAGNfPw; Mon,  1 Mar 2021 10:30:16 +0100 (CET)
+Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 40C363F3A1;
+ Mon,  1 Mar 2021 10:30:15 +0100 (CET)
+Received: from [10.249.254.148] (unknown [192.198.151.43])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 345443600BA;
+ Mon,  1 Mar 2021 10:30:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1614591014; bh=3M80a/1f9JbAl4GxdIuyXLw/uMvexNR7mYhs6+1/djw=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=pCe4h5huN02nxVaL3T3oHruyzP0bsOGK6asZ7NRtWIFz22VF1uGszJNR0T59yh9JT
+ 2m43J/f5XHtav4eWaJcm8BdiaWbyjKHAFNBnu8KRKPPS62BBNgUmdfwl+MnmgyCu4v
+ 6bD8ZC7JXxHVw1pZ6RAy+bNEOaJg+UzA8Q0JaMJg=
+Subject: Re: [PATCH 17/35] drm/amdkfd: register HMM device private zone
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210107030127.20393-1-Felix.Kuehling@amd.com>
+ <20210107030127.20393-18-Felix.Kuehling@amd.com>
+ <CAKMK7uEd9KZAmeNd9Z9GF9p0yUButHc+8_PERRuNR79+uqAhbQ@mail.gmail.com>
+ <7f837938-3ad8-6ecf-d2b7-952b177cffb8@shipmail.org>
+ <YDyswwICD3KmsBrf@phenom.ffwll.local>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <4439d7b1-3ee3-b697-6edc-48b69f4638b9@shipmail.org>
+Date: Mon, 1 Mar 2021 10:30:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
+MIME-Version: 1.0
+In-Reply-To: <YDyswwICD3KmsBrf@phenom.ffwll.local>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,72 +68,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: phone-devel@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Sierra <alex.sierra@amd.com>, Philip Yang <Philip.Yang@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As per the current implementation, after FSC (Full Scale Current)
-and brightness update the sync bits are transitioned from set-then-clear.
-But, the FSC and brightness sync takes place during a clear-then-set
-transition of the sync bits. So the hardware team recommends a
-clear-then-set approach in order to guarantee such a transition
-regardless of the previous register state.
-
-Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
----
- drivers/video/backlight/qcom-wled.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-index aef52b9..19f83ac 100644
---- a/drivers/video/backlight/qcom-wled.c
-+++ b/drivers/video/backlight/qcom-wled.c
-@@ -337,13 +337,13 @@ static int wled3_sync_toggle(struct wled *wled)
- 
- 	rc = regmap_update_bits(wled->regmap,
- 				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
--				mask, mask);
-+				mask, WLED3_SINK_REG_SYNC_CLEAR);
- 	if (rc < 0)
- 		return rc;
- 
- 	rc = regmap_update_bits(wled->regmap,
- 				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
--				mask, WLED3_SINK_REG_SYNC_CLEAR);
-+				mask, mask);
- 
- 	return rc;
- }
-@@ -353,17 +353,17 @@ static int wled5_mod_sync_toggle(struct wled *wled)
- 	int rc;
- 	u8 val;
- 
--	val = (wled->cfg.mod_sel == MOD_A) ? WLED5_SINK_REG_SYNC_MOD_A_BIT :
--					     WLED5_SINK_REG_SYNC_MOD_B_BIT;
- 	rc = regmap_update_bits(wled->regmap,
- 				wled->sink_addr + WLED5_SINK_REG_MOD_SYNC_BIT,
--				WLED5_SINK_REG_SYNC_MASK, val);
-+				WLED5_SINK_REG_SYNC_MASK, 0);
- 	if (rc < 0)
- 		return rc;
- 
-+	val = (wled->cfg.mod_sel == MOD_A) ? WLED5_SINK_REG_SYNC_MOD_A_BIT :
-+					     WLED5_SINK_REG_SYNC_MOD_B_BIT;
- 	return regmap_update_bits(wled->regmap,
- 				  wled->sink_addr + WLED5_SINK_REG_MOD_SYNC_BIT,
--				  WLED5_SINK_REG_SYNC_MASK, 0);
-+				  WLED5_SINK_REG_SYNC_MASK, val);
- }
- 
- static int wled_ovp_fault_status(struct wled *wled, bool *fault_set)
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
- a Linux Foundation Collaborative Project
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Ck9uIDMvMS8yMSA5OjU4IEFNLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+IE9uIE1vbiwgTWFyIDAx
+LCAyMDIxIGF0IDA5OjQ2OjQ0QU0gKzAxMDAsIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkgd3Jv
+dGU6Cj4+IE9uIDMvMS8yMSA5OjMyIEFNLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+Pj4gT24gV2Vk
+LCBKYW4gMDYsIDIwMjEgYXQgMTA6MDE6MDlQTSAtMDUwMCwgRmVsaXggS3VlaGxpbmcgd3JvdGU6
+Cj4+Pj4gRnJvbTogUGhpbGlwIFlhbmcgPFBoaWxpcC5ZYW5nQGFtZC5jb20+Cj4+Pj4KPj4+PiBS
+ZWdpc3RlciB2cmFtIG1lbW9yeSBhcyBNRU1PUllfREVWSUNFX1BSSVZBVEUgdHlwZSByZXNvdXJj
+ZSwgdG8KPj4+PiBhbGxvY2F0ZSB2cmFtIGJhY2tpbmcgcGFnZXMgZm9yIHBhZ2UgbWlncmF0aW9u
+Lgo+Pj4+Cj4+Pj4gU2lnbmVkLW9mZi1ieTogUGhpbGlwIFlhbmcgPFBoaWxpcC5ZYW5nQGFtZC5j
+b20+Cj4+Pj4gU2lnbmVkLW9mZi1ieTogRmVsaXggS3VlaGxpbmcgPEZlbGl4Lkt1ZWhsaW5nQGFt
+ZC5jb20+Cj4+PiBTbyBtYXliZSBJJ20gZ2V0dGluZyB0aGlzIGFsbCB3cm9uZywgYnV0IEkgdGhp
+bmsgdGhhdCB0aGUgY3VycmVudCB0dG0KPj4+IGZhdWx0IGNvZGUgcmVsaWVzIG9uIGRldm1hcCBw
+dGUgZW50cmllcyAoZXNwZWNpYWxseSBmb3IgaHVnZXB0ZSBlbnRyaWVzKQo+Pj4gdG8gc3RvcCBn
+ZXRfdXNlcl9wYWdlcy4gQnV0IHRoaXMgb25seSB3b3JrcyBpZiB0aGUgcHRlIGhhcHBlbnMgdG8g
+bm90Cj4+PiBwb2ludCBhdCBhIHJhbmdlIHdpdGggZGV2bWFwIHBhZ2VzLgo+PiBJIGRvbid0IHRo
+aW5rIHRoYXQncyBpbiBUVE0geWV0LCBidXQgdGhlIHByb3Bvc2VkIGZpeCwgeWVzIChzZWUgZW1h
+aWwgSSBqdXN0Cj4+IHNlbnQgaW4gYW5vdGhlciB0aHJlYWQpLAo+PiBidXQgb25seSBmb3IgaHVn
+ZSBwdGVzLgo+Pgo+Pj4gVGhpcyBwYXRjaCBoZXJlIGNoYW5nZXMgdGhhdCwgYW5kIHNvIHByb2Jh
+Ymx5IGJyZWFrcyB0aGlzIGRldm1hcCBwdGUgaGFjawo+Pj4gdHRtIGlzIHVzaW5nPwo+Pj4KPj4+
+IElmIEknbSBub3Qgd3JvbmcgaGVyZSB0aGVuIEkgdGhpbmsgd2UgbmVlZCB0byBmaXJzdCBmaXgg
+dXAgdGhlIHR0bSBjb2RlIHRvCj4+PiBub3QgdXNlIHRoZSBkZXZtYXAgaGFjayBhbnltb3JlLCBi
+ZWZvcmUgYSB0dG0gYmFzZWQgZHJpdmVyIGNhbiByZWdpc3RlciBhCj4+PiBkZXZfcGFnZW1hcC4g
+QWxzbyBhZGRpbmcgVGhvbWFzIHNpbmNlIHRoYXQganVzdCBjYW1lIHVwIGluIGFub3RoZXIKPj4+
+IGRpc2N1c3Npb24uCj4+IEl0IGRvZXNuJ3QgYnJlYWsgdGhlIHR0bSBkZXZtYXAgaGFjayBwZXIg
+c2UsIGJ1dCBpdCBpbmRlZWQgYWxsb3dzIGd1cCB0byB0aGUKPj4gcmFuZ2UgcmVnaXN0ZXJlZCwg
+YnV0IGhlcmUncyB3aGVyZSBteSBsYWNrIG9mIHVuZGVyc3RhbmRpbmcgd2h5IHdlIGNhbid0Cj4+
+IGFsbG93IGd1cC1pbmcgVFRNIHB0ZXMgaWYgdGhlcmUgaW5kZWVkIGlzIGEgYmFja2luZyBzdHJ1
+Y3QtcGFnZT8gQmVjYXVzZQo+PiByZWdpc3RlcmluZyBNRU1PUllfREVWSUNFX1BSSVZBVEUgaW1w
+bGllcyB0aGF0LCByaWdodD8KPiBXZSBuZWVkIHRvIGtlZXAgc3VwcG9ydGluZyBidWZmZXIgYmFz
+ZWQgbWVtb3J5IG1hbmFnZW1lbnQgZm9yIGFsbCB0aGUKPiBub24tY29tcHV0ZSB1c2Vycy4gQmVj
+YXVzZSB0aG9zZSByZXF1aXJlIGVuZC1vZi1iYXRjaCBkbWFfZmVuY2Ugc2VtYW50aWNzLAo+IHdo
+aWNoIHByZXZlbnRzIHVzIGZyb20gdXNpbmcgZ3B1IHBhZ2UgZmF1bHRzLCB3aGljaCBtYWtlcyBo
+bW0gbm90IHJlYWxseQo+IHdvcmsuCj4KPiBBbmQgZm9yIGJ1ZmZlciBiYXNlZCBtZW1vcnkgbWFu
+YWdlciB3ZSBjYW4ndCBoYXZlIGd1cCBwaW4gcmFuZG9tIHBhZ2VzIGluCj4gdGhlcmUsIHRoYXQn
+cyBub3QgcmVhbGx5IGhvdyBpdCB3b3Jrcy4gV29yc3QgY2FzZSB0dG0ganVzdCBhc3N1bWVzIGl0
+IGNhbgo+IGFjdHVhbGx5IG1vdmUgYnVmZmVycyBhbmQgcmVhbGxvY2F0ZSB0aGVtIGFzIGl0IHNl
+ZXMgZml0LCBhbmQgeW91ciBndXAKPiBtYXBwaW5nIChmb3IgZGlyZWN0IGkvbyBvciB3aGF0ZXZl
+cikgbm93IHBvaW50cyBhdCBhIHBhZ2Ugb2YgYSBidWZmZXIgdGhhdAo+IHlvdSBkb24ndCBldmVu
+IG93biBhbnltb3JlLiBUaGF0J3Mgbm90IGdvb2QuIEhlbmNlIGFsc28gYWxsIHRoZQo+IGRpc2N1
+c3Npb25zIGFib3V0IHByZXZlbnRpbmcgZ3VwIGZvciBibyBtYXBwaW5ncyBpbiBnZW5lcmFsLgo+
+Cj4gT25jZSB3ZSB0aHJvdyBobW0gaW50byB0aGUgbWl4IHdlIG5lZWQgdG8gYmUgcmVhbGx5IGNh
+cmVmdWwgdGhhdCB0aGUgdHdvCj4gd29ybGRzIGRvbid0IGNvbGxpZGUuIFB1cmUgaG1tIGlzIGZp
+bmUsIHB1cmUgYm8gbWFuYWdlZCBtZW1vcnkgaXMgZmluZSwKPiBtaXhpbmcgdGhlbSBpcyB0cmlj
+a3kuCj4gLURhbmllbAoKSG1tLCBPSyBzbyB0aGVuIHJlZ2lzdGVyaW5nIE1FTU9SWV9ERVZJQ0Vf
+UFJJVkFURSBtZWFucyB3ZSBjYW4ndCBzZXQgCnB4eF9kZXZtYXAgYmVjYXVzZSB0aGF0IHdvdWxk
+IGFsbG93IGd1cCwgd2hpY2gsIGluIHR1cm4sIG1lYW5zIG5vIGh1Z2UgClRUTSBwdGVzLgoKL1Ro
+b21hcwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
