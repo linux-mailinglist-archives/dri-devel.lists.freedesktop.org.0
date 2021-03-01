@@ -1,60 +1,108 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9437B3293E5
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 22:41:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7B103294FA
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 23:44:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3486E0AB;
-	Mon,  1 Mar 2021 21:41:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0658B89E32;
+	Mon,  1 Mar 2021 22:44:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4EC66E0AB
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 21:41:54 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id k9so8016097lfo.12
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Mar 2021 13:41:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=y0nwR1AwY5pVQ0Nz4+ZuZuQPwcfLVnsZ3mxhVOAYPs4=;
- b=HNBZInMzcEaCJA5KlSiW+cWsrJhdPO/K+qNFUyDf3+MPRBgbG+/Qt+7+XRLNhfkgwh
- XGTUJUybeocqQ46oRrHvBvxTFFE/NRTW50bdplFT8faFHhKpCpwbUrtdvYK0xwuqYnEj
- 7UNi7bc3uB8QNX5QUta5AZRpdwfCd6h9j4u6kms0PLrXrRg7BH+rWJjUdGSxv2Vv3cup
- hEccxzasX/M0hcrIcVwiflf1tMaNA59cs01WdjIhSFtV0F8tSXQjlf29nQydcljlr6LP
- 1howDRoiRaCUiXWU0O9uvPpsOWaeBvXbEfVR3zJ4pWb1KxNTEhhINnqp2ObLBcwy+ou3
- JEGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=y0nwR1AwY5pVQ0Nz4+ZuZuQPwcfLVnsZ3mxhVOAYPs4=;
- b=Hre6bpdbS9hKlvCstiQL7nvu48HkcxGVvhDCYl3XuWFxrY/mL286beGJYaBKPG4fx1
- 4vOsKwZ1ZdaGFxrF2Ix9AqoqSFuf96I9jTyYlMVrRINddLUVfwN4ifsio1FHbLMo2IG5
- isHnIBn4Y/UE0Y/n2fgC5Ru5NXdKedIR7GSy+gTaUSaJ5aO1/OFIWCL2wFBk8YZBhOKw
- kxprLkA8bZyjwwy9pxVgbVcd+VnzQS0huEAh5tLsQSxp0CtT1XwBdw6RqwIWQMPXSUAL
- PSIU8TG4T/O3bG/jNCLCvdeaYa8ddmYhvwU1Da+royELT3btrQzWQ918PEDsS5AIfmx8
- L9Eg==
-X-Gm-Message-State: AOAM5338HLUSJFiMIRvFI9WlBZ49p6d7aCZ6vos/P/neAPYYAe3GRRjA
- JzUCUPTvB/44j87BSkYGJn0dnA==
-X-Google-Smtp-Source: ABdhPJyX81jFiRjQbjDhw5btDlV5Bw8oqfTNPQamCrTmQPFNBvX3ObXJGLFIG3CJ9eFW+n2q4cW63A==
-X-Received: by 2002:a05:6512:2356:: with SMTP id
- p22mr10073795lfu.3.1614634913192; 
- Mon, 01 Mar 2021 13:41:53 -0800 (PST)
-Received: from umbar.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id 197sm167575ljf.70.2021.03.01.13.41.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Mar 2021 13:41:52 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Jonathan Marek <jonathan@marek.ca>
-Subject: [PATCH] gpu/drm/msm: fix shutdown hook in case GPU components failed
- to bind
-Date: Tue,  2 Mar 2021 00:41:52 +0300
-Message-Id: <20210301214152.1805737-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.1
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2073.outbound.protection.outlook.com [40.107.236.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EFFE89E32;
+ Mon,  1 Mar 2021 22:43:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NKgsHmlHhHV9aXmz08MHgxJx/TJc521f681URbiFrFW7CK0lsk/T+InPH8GHmSGkxNOjqPWiXxJP0muUKQAR8urVw2DKAesKU7sRjZ566ipmdmCjLHOw3rKjE+8GiW59qE21FZ0o+7fbMio6E5Iv/vTEa7y+E0fvjEwtoK0lP2TibrmxlRCw7fFOI/+33i0ECNSfjMC8DpgncQn4BNCcwOMHQiXaY4srn+qbYifoxMUqYLcjIRVXgysCGw3pFdOU4zI8qvRkPFcDeIHc676V56v1TRgxIoqpsUYDXjCVUx9bSzBvG9S9KTUslj4bC2oWge6XrknudLP3J8oZyrTwAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=467TCT7/Hk6Piag2xX2XtSEFfo4I2U0/JbdrlbeaYcw=;
+ b=CDPK0C/fEoc+92QXRoXABo/WXJ/6+QwsOpc1F8ghXHupLghs+ftM1PLwccJO/nLPCOA48kZcge/5NJx3w1SBE0RH/1o8yixw4umK4c0Y41YpVa1sFqiZ9V63ewEkeW9IPuXNzQjmZhNaluvwSZRbRYmxQ08hNMud5SrssBYEgVTca0j8bxRLeV1qX7pdTUXBGKlK1NLH7kgRi6i3o1NwgjaTMvkk9UE7yGicKQFwnROchGDY3PupKC2rfD0sCkJJeznpT/EhacjrHKBqYuOEIMy4rmmBJGgkOV0dwt7EbIPtUN0BIiEXvdaEMd0lqrtV7y2QONYQe7L/zwzK+cA21Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=467TCT7/Hk6Piag2xX2XtSEFfo4I2U0/JbdrlbeaYcw=;
+ b=ZSqyGipT8LS3PyB9xlKyK/2Qje9en/euCD1Y5Q0Fv90snXu6hqYAhOGrdlQLup8uO/9/DRbvwxrYb7aTRxWaTPBR9AAzd2z4xBQHeTRbARcgYpfqSYav2p6a2AGemLkpomsuViEDiyPPCsvCA25tJRZ5tzdIToZf+5PXHFgvtrM=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB4734.namprd12.prod.outlook.com (2603:10b6:805:e2::20)
+ by SN6PR12MB2621.namprd12.prod.outlook.com (2603:10b6:805:73::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.33; Mon, 1 Mar
+ 2021 22:43:57 +0000
+Received: from SN6PR12MB4734.namprd12.prod.outlook.com
+ ([fe80::2984:fa58:6c16:469e]) by SN6PR12MB4734.namprd12.prod.outlook.com
+ ([fe80::2984:fa58:6c16:469e%3]) with mapi id 15.20.3890.028; Mon, 1 Mar 2021
+ 22:43:57 +0000
+From: Oak Zeng <Oak.Zeng@amd.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: ioremap buffer according to TTM mem caching setting
+Date: Mon,  1 Mar 2021 16:43:48 -0600
+Message-Id: <1614638628-10508-1-git-send-email-Oak.Zeng@amd.com>
+X-Mailer: git-send-email 2.7.4
+X-Originating-IP: [165.204.55.250]
+X-ClientProxiedBy: YT1PR01CA0121.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::30) To SN6PR12MB4734.namprd12.prod.outlook.com
+ (2603:10b6:805:e2::20)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ozeng-develop.amd.com (165.204.55.250) by
+ YT1PR01CA0121.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::30) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.20.3890.25 via Frontend Transport; Mon, 1 Mar 2021 22:43:56 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 34bd2f6f-7aae-4e87-58a0-08d8dd037fa0
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2621:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR12MB26219D057D2CCE8C84232277809A9@SN6PR12MB2621.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: P6N1kQ/mvtviSzL+XvRai/nnHTW/tJ7P2qyE54jfubNvRCLRM+E2H0zZFuxb7SjUCTSKf4kl7+O4MgbaK0/eXdKh8P6n5JNLFBp1QwhcPxdCYd+ZuCqgQVqeolzWYD3w0WsjTex87q8442J8MVLhhXp0rXKqaxzrLFnh3ib1d2gb9yzpNgUcg04YoG2oy+8QJdLst4PeQZ4g0wvIxekWNkRCzM+YrPPaTUnDlAS+B+p5XWachz9JQbRhYOeLKd2sp+gldBArJxOCgzjn/OI6a2z3muu6wJ9BdO00IcBQutAVjZpovXgKSHrwCNO5wV0Yh26Mi/AympWQBpoF6Pgg4lpdP67HqA47eK04WJZGsiSo4A7r2qXBIOf5kxEQb5KmFqh5GFU++tKsTCnzEq2oqkWwskjrxhcrkjqRxUfy3f74qsKA9UpeAAAuQSovThcqlLUn0OO3AtPzaT6U1MZqwvnXMNCjBQGp3QSKg9wUkPUYhD/mqDTA6pYe5Uez9otYWKSVYMp8yusbcdeHlnD8aA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB4734.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(346002)(376002)(39860400002)(136003)(366004)(4326008)(5660300002)(6666004)(66476007)(36756003)(66946007)(316002)(86362001)(6486002)(478600001)(450100002)(2616005)(66556008)(186003)(2906002)(16526019)(7696005)(8676002)(26005)(956004)(8936002)(52116002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?NzSJJtL5+RISc/bUkZS8ssscwEHSl6OOirjP9gYJ0SI6nmZH1CgTWdpM3kM5?=
+ =?us-ascii?Q?ZK3n+bG406CKv9mjE5RNFyfRpoxbCllP4EwbdAviIz0HkyZMOh8bxdmcC0C1?=
+ =?us-ascii?Q?OZzToTbUApuEHfjKx9INPDZeO9gyO1RykzN05U5Jtkidvf/JksLXKFojblAR?=
+ =?us-ascii?Q?W7LcMhsfMYsEWjmc17Ag6oohGwZu9ApblbAP8KqmLp7A2ci029xsVYykBU/N?=
+ =?us-ascii?Q?lcWxaqnKKv/q07PThN3uTCCdm97kE4HhiGFq0bEIMdMJduZZqomMFA8A82gZ?=
+ =?us-ascii?Q?RfUtqUvlctAJTay6ufmX0+3C/yyigMFKtZCofHMsi1nrzlntFnoeGR+146Iy?=
+ =?us-ascii?Q?UkHPcbZLLlTpaeC8r/oj9rVl7z5A3Cp7WKwRKkYxfFjy7O8dpJhqylq9eBtS?=
+ =?us-ascii?Q?lEpV2GHB5f6FvPW0fZeIBte3dC4/IrtYfEyAFpVKyzFTBclc6I4b3MORX2vU?=
+ =?us-ascii?Q?UbVsgHKCWRCzzClix/j/OneNrlNsy0ZnG53LeJ/qDYyJkXv4PGQd9fTk3y6a?=
+ =?us-ascii?Q?5pE8Q4h6UFJug+9QqtLype70I/E0Nb8Rh3CsQj/qIaZ3OjDB0DFo9brHGwSz?=
+ =?us-ascii?Q?7rFT0nO+AHwIy6aL7Vr8/D/EP05FgGnOTlPrAMLjofU10ImBs6GCf0FI9CsD?=
+ =?us-ascii?Q?row2l8knrN6S3R9A7+b/Fq7neME7nJW/kePMjlOBTIySFEN8VgqPUB9lcmwK?=
+ =?us-ascii?Q?6fEN9zeDlr9CczbAVP/Z4S+jwHkCgIEMQqG6ojR7NDenbZSLwVj+sLiaJ8Hx?=
+ =?us-ascii?Q?FDVtM/O5K/k2i6odoHOxz9eSBCdbGmG0MQRask3QpY3YsWwOZMIZMk1TOoJR?=
+ =?us-ascii?Q?z3fpohtZCpSFiDyMUP4isboRKgwlk6W6Uy9WnEkvcyBq+B0sQvCqNdh84QoH?=
+ =?us-ascii?Q?ZEk0JAtYX+QOT/NuUc1vG1u4fUEIX6+yVSOU9dD19e3vBH+Y+atBPZ2O22T9?=
+ =?us-ascii?Q?V3i6gIBrcjxvkUWzAGQ24ZR1CKapwRuSl1fwCOSCqRd9b8in4vCUmOAWq694?=
+ =?us-ascii?Q?1wFVpLpkunji/H+UGswBSW/yr0ScMRuR2XvbRbaiSwEWVjy8DjuN9lk6zf8f?=
+ =?us-ascii?Q?Lr46PAj1XqauQheLLmkqz8dna6aWpd09X3wv2GVE5s6DbgbQPWdTe9uZ+sms?=
+ =?us-ascii?Q?lrGDRl46RFNghF6djYlPywlfO9WWKaYyL8ZLqPxcy1ANqVxExgGxq2zOaHHE?=
+ =?us-ascii?Q?4tvSeVsYO2OUz+LgohqVdiB/Qz6uewITeMehpE/CG9QHIwloPhkrzdsXNhmt?=
+ =?us-ascii?Q?aQOjQCl/xXhWfuUfHCe/ybiRKc8cF0UMHX7HWkDmPKeyv6DgGZun9OZEXv5R?=
+ =?us-ascii?Q?JxWK7eIpgWkqNYDZK//+6gVO?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34bd2f6f-7aae-4e87-58a0-08d8dd037fa0
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4734.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2021 22:43:57.1708 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JCWlSBvgw+Ux6qDW7uPWfnqQWa8fJ838V57qUoNuvHcofqWxUa5/uMlJy/0uesES
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2621
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,99 +115,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org
+Cc: Felix.Kuehling@amd.com, harish.kasiviswanathan@amd.com,
+ christian.koenig@amd.com, jinhuieric.huang@amd.com, Alexander.Deucher@amd.com,
+ Oak Zeng <Oak.Zeng@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-if GPU components have failed to bind, shutdown callback would fail with
-the following backtrace. Add safeguard check to stop that oops from
-happening and allow the board to reboot.
+If tbo.mem.bus.caching is cached, buffer is intended to be mapped
+as cached from CPU. Map it with ioremap_cache.
 
-[   66.617046] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
-[   66.626066] Mem abort info:
-[   66.628939]   ESR = 0x96000006
-[   66.632088]   EC = 0x25: DABT (current EL), IL = 32 bits
-[   66.637542]   SET = 0, FnV = 0
-[   66.640688]   EA = 0, S1PTW = 0
-[   66.643924] Data abort info:
-[   66.646889]   ISV = 0, ISS = 0x00000006
-[   66.650832]   CM = 0, WnR = 0
-[   66.653890] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000107f81000
-[   66.660505] [0000000000000000] pgd=0000000100bb2003, p4d=0000000100bb2003, pud=0000000100897003, pmd=0000000000000000
-[   66.671398] Internal error: Oops: 96000006 [#1] PREEMPT SMP
-[   66.677115] Modules linked in:
-[   66.680261] CPU: 6 PID: 352 Comm: reboot Not tainted 5.11.0-rc2-00309-g79e3faa756b2 #38
-[   66.688473] Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
-[   66.695347] pstate: 60400005 (nZCv daif +PAN -UAO -TCO BTYPE=--)
-[   66.701507] pc : msm_atomic_commit_tail+0x78/0x4e0
-[   66.706437] lr : commit_tail+0xa4/0x184
-[   66.710381] sp : ffff8000108f3af0
-[   66.713791] x29: ffff8000108f3af0 x28: ffff418c44337000
-[   66.719242] x27: 0000000000000000 x26: ffff418c40a24490
-[   66.724693] x25: ffffd3a842a4f1a0 x24: 0000000000000008
-[   66.730146] x23: ffffd3a84313f030 x22: ffff418c444ce000
-[   66.735598] x21: ffff418c408a4980 x20: 0000000000000000
-[   66.741049] x19: 0000000000000000 x18: ffff800010710fbc
-[   66.746500] x17: 000000000000000c x16: 0000000000000001
-[   66.751954] x15: 0000000000010008 x14: 0000000000000068
-[   66.757405] x13: 0000000000000001 x12: 0000000000000000
-[   66.762855] x11: 0000000000000001 x10: 00000000000009b0
-[   66.768306] x9 : ffffd3a843192000 x8 : ffff418c44337000
-[   66.773757] x7 : 0000000000000000 x6 : 00000000a401b34e
-[   66.779210] x5 : 00ffffffffffffff x4 : 0000000000000000
-[   66.784660] x3 : 0000000000000000 x2 : ffff418c444ce000
-[   66.790111] x1 : ffffd3a841dce530 x0 : ffff418c444cf000
-[   66.795563] Call trace:
-[   66.798075]  msm_atomic_commit_tail+0x78/0x4e0
-[   66.802633]  commit_tail+0xa4/0x184
-[   66.806217]  drm_atomic_helper_commit+0x160/0x390
-[   66.811051]  drm_atomic_commit+0x4c/0x60
-[   66.815082]  drm_atomic_helper_disable_all+0x1f4/0x210
-[   66.820355]  drm_atomic_helper_shutdown+0x80/0x130
-[   66.825276]  msm_pdev_shutdown+0x14/0x20
-[   66.829303]  platform_shutdown+0x28/0x40
-[   66.833330]  device_shutdown+0x158/0x330
-[   66.837357]  kernel_restart+0x40/0xa0
-[   66.841122]  __do_sys_reboot+0x228/0x250
-[   66.845148]  __arm64_sys_reboot+0x28/0x34
-[   66.849264]  el0_svc_common.constprop.0+0x74/0x190
-[   66.854187]  do_el0_svc+0x24/0x90
-[   66.857595]  el0_svc+0x14/0x20
-[   66.860739]  el0_sync_handler+0x1a4/0x1b0
-[   66.864858]  el0_sync+0x174/0x180
-[   66.868269] Code: 1ac020a0 2a000273 eb02007f 54ffff01 (f9400285)
-[   66.874525] ---[ end trace 20dedb2a3229fec8 ]---
+This wasn't necessary before as device memory was never mapped
+as cached from CPU side. It becomes necessary for aldebaran as
+device memory is mapped cached from CPU.
 
-Fixes: 9d5cbf5fe46e ("drm/msm: add shutdown support for display platform_driver")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Oak Zeng <Oak.Zeng@amd.com>
+Reviewed-by: Christian Konig <Christian.Koenig@amd.com>
 ---
- drivers/gpu/drm/msm/msm_atomic.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/ttm/ttm_bo_util.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
-index 6a326761dc4a..2fd0cf6421ad 100644
---- a/drivers/gpu/drm/msm/msm_atomic.c
-+++ b/drivers/gpu/drm/msm/msm_atomic.c
-@@ -207,7 +207,12 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
- 	struct msm_kms *kms = priv->kms;
- 	struct drm_crtc *async_crtc = NULL;
- 	unsigned crtc_mask = get_crtc_mask(state);
--	bool async = kms->funcs->vsync_time &&
-+	bool async;
-+
-+	if (!kms)
-+		return;
-+
-+	async = kms->funcs->vsync_time &&
- 			can_do_async(state, &async_crtc);
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index 031e581..8c65a13 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -91,6 +91,8 @@ static int ttm_resource_ioremap(struct ttm_device *bdev,
  
- 	trace_msm_atomic_commit_tail_start(async, crtc_mask);
+ 		if (mem->bus.caching == ttm_write_combined)
+ 			addr = ioremap_wc(mem->bus.offset, bus_size);
++		else if (mem->bus.caching == ttm_cached)
++			addr = ioremap_cache(mem->bus.offset, bus_size);
+ 		else
+ 			addr = ioremap(mem->bus.offset, bus_size);
+ 		if (!addr) {
+@@ -372,6 +374,9 @@ static int ttm_bo_ioremap(struct ttm_buffer_object *bo,
+ 		if (mem->bus.caching == ttm_write_combined)
+ 			map->virtual = ioremap_wc(bo->mem.bus.offset + offset,
+ 						  size);
++		else if (mem->bus.caching == ttm_cached)
++			map->virtual = ioremap_cache(bo->mem.bus.offset + offset,
++						  size);
+ 		else
+ 			map->virtual = ioremap(bo->mem.bus.offset + offset,
+ 					       size);
+@@ -490,6 +495,9 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *map)
+ 		else if (mem->bus.caching == ttm_write_combined)
+ 			vaddr_iomem = ioremap_wc(mem->bus.offset,
+ 						 bo->base.size);
++		else if (mem->bus.caching == ttm_cached)
++			vaddr_iomem = ioremap_cache(mem->bus.offset,
++						  bo->base.size);
+ 		else
+ 			vaddr_iomem = ioremap(mem->bus.offset, bo->base.size);
+ 
 -- 
-2.30.1
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
