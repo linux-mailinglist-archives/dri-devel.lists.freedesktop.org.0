@@ -2,54 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0608D3282BD
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 16:43:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C2D32831E
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 17:10:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9E9F6E03C;
-	Mon,  1 Mar 2021 15:43:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D38866E82F;
+	Mon,  1 Mar 2021 16:10:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 521916E03C
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 15:43:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614613433;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=CQn7g+FvITuXu9PhqqHAnWCmDG6jgNmR15zTEk3x5bE=;
- b=VEFDEPfjDsIdBhbxfFym+NiTRxTa4iK8KyGgI83xpxoR4JPnpDFmhgTCBpXXds7mZh7Leg
- gVuPXqATEbDzEhEe4T63hkWN3KPL5tHm2TQS4lM8w8I8fBBXSz6CE2KCQm3XHzOCLWvYuh
- vJ2BDdJDdRDNKoVhPHblNkn+SQsTADE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-SsEkDmwOPgOOy_oEAjxQxw-1; Mon, 01 Mar 2021 10:43:51 -0500
-X-MC-Unique: SsEkDmwOPgOOy_oEAjxQxw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE4D0100CCC3;
- Mon,  1 Mar 2021 15:43:49 +0000 (UTC)
-Received: from x1.localdomain (ovpn-113-1.ams2.redhat.com [10.36.113.1])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 515155C1D1;
- Mon,  1 Mar 2021 15:43:48 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Subject: [PATCH] drm/i915/display/vlv_dsi: Do no shut down displays on reboot
- if a DSI panel is used
-Date: Mon,  1 Mar 2021 16:43:47 +0100
-Message-Id: <20210301154347.50052-1-hdegoede@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Received: from m42-2.mailgun.net (m42-2.mailgun.net [69.72.42.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26C726E82F
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 16:10:53 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1614615055; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=o09V222UbtF+m7URYAndN7kvp3AxBbab4TCWrtmYtDo=;
+ b=i7u1OcPtXD2z4d9TDdYywVo9Q03x7dYdFt3Od5KImhnm2WqrwFij/OvK9FEoSuG/e7eZ8PLh
+ 7YMBRU/CIZbgtozE0CB1o/AyoweQ9xy5IlrzWq8Urt8M6/eAhBvyOJ4dNMfb90g4+z8t8rCL
+ ApfhEI0LgvVtFblwOf2VXjh2BtM=
+X-Mailgun-Sending-Ip: 69.72.42.2
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 603d1207fee96fcaf4ae938a (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 01 Mar 2021 16:10:47
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 3953DC43465; Mon,  1 Mar 2021 16:10:47 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+Received: from kgunda-linux.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: kgunda)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id E958AC433C6;
+ Mon,  1 Mar 2021 16:10:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E958AC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=kgunda@codeaurora.org
+From: Kiran Gunda <kgunda@codeaurora.org>
+To: bjorn.andersson@linaro.org, jingoohan1@gmail.com, lee.jones@linaro.org,
+ b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+ daniel.thompson@linaro.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
+ robh+dt@kernel.org, mark.rutland@arm.com, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH V4 0/2] Fix WLED FSC Sync and brightness Sync settings
+Date: Mon,  1 Mar 2021 21:40:28 +0530
+Message-Id: <1614615030-12703-1-git-send-email-kgunda@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,86 +66,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org,
+ Kiran Gunda <kgunda@codeaurora.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After the recently added commit fe0f1e3bfdfe ("drm/i915: Shut down
-displays gracefully on reboot"), the DSI panel on a Cherry Trail based
-Predia Basic tablet would no longer properly light up after reboot.
+This patch series has the following two WLED fixes
+ 1. As per the current implementation, for WLED5, after
+    the FSC (Full Scale Current) update the driver is incorrectly
+    toggling the MOD_SYNC register instead of toggling the SYNC register.
+    The patch 1/2 fixes this by toggling the SYNC register after
+    FSC update.
 
-The backlight still turns back on after reboot, but the LCD shows an
-all black display. The display is also all black during the time that
-EFI / the GOP is managing it, so e.g. the grub menu also is not visible.
+ 2. Currently, the sync bits are set-then-cleared after FSC and brightness
+    update. As per hardware team recommendation the FSC and brightness sync
+    takes place from clear-then-set transition of the sync bits.
+    The patch 2/2 fies this issue.
 
-In this scenario the panel is initialized so that it appears to be working
-and the fastboot code skips doing a modeset. Forcing a modeset by doing a
-chvt to a text-console over ssh followed by echo-ing 1 and then 0 to
-/sys/class/graphics/fb0/blank causes the panel to work again.
+Changes from V3:
+  1. Updated the patch description as per Daneil's suggestion.
+  2. Added Daniel's "Reviewed-by" tag for patch 2/2.
+  3. Updated the cover letter to use "set" and "clear" properly.
+ 
+Changes from V2:
+  1. Added Daniel's "Reviewed-by" tag for patch 1/2.
+  2. Updated the patch 2/2 description with "set" and "clear"
+     terminology instead of "1" and "0".
+  3. Updated the cover letter with "set" and "clear" terminology
+     instead of "1" and "0".
 
-Add a QUIRK_SKIP_SHUTDOWN quirk which turns i915_driver_shutdown() into
-a no-op when set; and set this on vlv/chv devices when a DSI panel is
-detected, to work around this.
+Changes from V1:
+  1. Updated the cover letter.
+  2. Updated the description of the patches as per Daniel's suggestion.
 
-Admittedly this is a bit of a big hammer, but these platforms have been
-around for quite some time now and they have always worked fine without
-the new behavior to shutdown everything on shutdown/reboot. This approach
-simply disables the recently introduced new shutdown behavior in this
-specific case where it is known to cause problems. Which is a nice and
-simple way to deal with this.
+Kiran Gunda (2):
+  backlight: qcom-wled: Fix FSC update issue for WLED5
+  backlight: qcom-wled: Correct the sync_toggle sequence
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/i915/display/vlv_dsi.c | 3 +++
- drivers/gpu/drm/i915/i915_drv.c        | 3 +++
- drivers/gpu/drm/i915/i915_drv.h        | 1 +
- 3 files changed, 7 insertions(+)
+ drivers/video/backlight/qcom-wled.c | 37 +++++++++++++++++++++++++------------
+ 1 file changed, 25 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
-index f94025ec603a..792ef868b6af 100644
---- a/drivers/gpu/drm/i915/display/vlv_dsi.c
-+++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
-@@ -1949,6 +1949,9 @@ void vlv_dsi_init(struct drm_i915_private *dev_priv)
- 
- 	vlv_dsi_add_properties(intel_connector);
- 
-+	/* Some BIOS-es fail to re-init the DSI panel on reboot if we turn it off */
-+	dev_priv->quirks |= QUIRK_SKIP_SHUTDOWN;
-+
- 	return;
- 
- err_cleanup_connector:
-diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-index 8e9cb44e66e5..92f2af55af6d 100644
---- a/drivers/gpu/drm/i915/i915_drv.c
-+++ b/drivers/gpu/drm/i915/i915_drv.c
-@@ -1048,6 +1048,9 @@ static void intel_shutdown_encoders(struct drm_i915_private *dev_priv)
- 
- void i915_driver_shutdown(struct drm_i915_private *i915)
- {
-+	if (i915->quirks & QUIRK_SKIP_SHUTDOWN)
-+		return;
-+
- 	disable_rpm_wakeref_asserts(&i915->runtime_pm);
- 
- 	i915_gem_suspend(i915);
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 26d69d06aa6d..272cd7cb22d4 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -517,6 +517,7 @@ struct i915_psr {
- #define QUIRK_PIN_SWIZZLED_PAGES (1<<5)
- #define QUIRK_INCREASE_T12_DELAY (1<<6)
- #define QUIRK_INCREASE_DDI_DISABLED_TIME (1<<7)
-+#define QUIRK_SKIP_SHUTDOWN (1<<8)
- 
- struct intel_fbdev;
- struct intel_fbc_work;
 -- 
-2.30.1
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+ a Linux Foundation Collaborative Project
 
 _______________________________________________
 dri-devel mailing list
