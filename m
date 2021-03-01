@@ -1,62 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7C4327A2D
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 09:58:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 550B0327A32
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 09:59:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1280D6E519;
-	Mon,  1 Mar 2021 08:58:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 551576E50B;
+	Mon,  1 Mar 2021 08:59:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C07B6E50B
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 08:58:46 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id n22so2861430wmc.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Mar 2021 00:58:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=P3UdnxtAWHNx69cmvBpJOsPYrv9Sop0lGmWdQXeDDkU=;
- b=dOUQQoWIEtia66CcRBz8dIwxj0hzbFDyfxUcEn3xHPRMm0Od8qZZictP9fuXeOhPqV
- /q9C5INDJbkj9+oHc47Vvdc5O6vWn4Z8B4v305i3bounp0BxGOSNTs9Y4Fx5d5Ujy57A
- O29Jp4bewesQuz7AgYfVCDgEe9jhNxXVqDuqU=
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BF936E50B
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 08:59:48 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id u18so4861820ljd.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Mar 2021 00:59:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AYs79IPnRt3qtzNnShKWZ7vyowWc2VUelHvdooVHnZg=;
+ b=kcf6kcitYZpg70CypoUp8KXILwBgfW62DpbNjWslqlp4qw62fI7tzmXjPZQCmQxMc8
+ y7E4AtX2Fmm4bNLcfXcEPW4KygtdDIAQoh7/Gppn2wuQW/GKYs0Umn4Wm46XccGHSmBe
+ jy7uA45XkN8GMGoDoJDciHZsVQhSFIR5XDAoh0rW972s2s04adtjid+35nHXnoln8MA8
+ FxCO26S/5xLKeLnx947E7nXZn0Rnap1zKbmn2OkkQ+VOi8uxBgu0gE1sSxomW3gthjJM
+ ufu7iyDDX3VZgWZtHNc17YGxcgin7Xk21+hnZeVkHrui+fqknKWQ+8YcQvAzXeWUB5vl
+ a9WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=P3UdnxtAWHNx69cmvBpJOsPYrv9Sop0lGmWdQXeDDkU=;
- b=O+4b/roKWPbXTaUomQdAcJE1WgNdRqaob58l6yRrBo3g49hqrNOyDErJDhq0f80z7a
- ILFD1Wst4Hh3ha5D951DoBhEp4DqcQ04klqEJUTmsTooNq7twpXxCCTvmqoFkOf29dPJ
- m2yxxNFgQYqMLf6pdwkJa7onudhZKZAvz1XXJTDahrbUULRlxibecNXWjbKLELiiKXED
- oxMy8W1eAchPS++BH782CTkv45fZ7dtzgp83GXRRg7kcciFJOQJFp7VkUnyNwDWJefbP
- CoQQLtd5LbDuwBjSqb57MFiGsMBwhWSL2MNKL7nfBWzPhSpH68u3hVf5hwA+MwpGuZxd
- 6fqA==
-X-Gm-Message-State: AOAM530N/ZobprLeB94lfu1jATTIVh4Dw1nQMaV+bDVzUslG35tpfGsU
- zuo32hL2tkJDFai+dLw7MrwnGkIJLV6ISw==
-X-Google-Smtp-Source: ABdhPJzbaWVhbPoJjVsCnUtEgLJaYBKmDFSDTWv8H2gN3h9K/eZEJExj+pyhlXiCS+zIa+9aPoHh9w==
-X-Received: by 2002:a05:600c:290a:: with SMTP id
- i10mr7065094wmd.91.1614589125322; 
- Mon, 01 Mar 2021 00:58:45 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 6sm26596038wra.63.2021.03.01.00.58.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Mar 2021 00:58:44 -0800 (PST)
-Date: Mon, 1 Mar 2021 09:58:43 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>
-Subject: Re: [PATCH 17/35] drm/amdkfd: register HMM device private zone
-Message-ID: <YDyswwICD3KmsBrf@phenom.ffwll.local>
-References: <20210107030127.20393-1-Felix.Kuehling@amd.com>
- <20210107030127.20393-18-Felix.Kuehling@amd.com>
- <CAKMK7uEd9KZAmeNd9Z9GF9p0yUButHc+8_PERRuNR79+uqAhbQ@mail.gmail.com>
- <7f837938-3ad8-6ecf-d2b7-952b177cffb8@shipmail.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AYs79IPnRt3qtzNnShKWZ7vyowWc2VUelHvdooVHnZg=;
+ b=GTdpkiCQA3PpcYARyqFFOLAyOFiJrGdxzexWcEJ/lwNoVMoIcxwrJV1Rs7NQgs24VW
+ fPJOldv204NQmgyw4LSI2txOP9d/fwfo8qEflZzHsqlS+KvqqmSrwVRmtB7Je1pUccep
+ in0k1mdFP1ymXYNRcSclJkSR/UX/wZnDVVWiYzqK85K14j1OF3E2vAV4qdKCYadCX7dY
+ RBd3hjZXLK4QS6tIVOf5Uq8GRS2aYGz8+KfuGXmZ3Z9TNe6w5epVt0avmVHFRQ6Lt4i5
+ LAWnlkRxzySLvFL3eMsUfteU8NqCCD42DIxmzT0TdVX2zwCQ1/w34kf8V8Zp53Fjyhxi
+ EtJg==
+X-Gm-Message-State: AOAM532Bbt9lVrajJqLsTger9O26KspLV9zBLsly2no1FQj7oBjdg6O4
+ NhaOixorLWCtxCMUJQbIEPRlV0GOYzMwbSrJDiravg==
+X-Google-Smtp-Source: ABdhPJyj3pw+C0NXHPjoJdDWHXn0vLK/WBMS4zWE5j9GGEZHyMLzxq+OeogebxlDuBb2zgJuFq1OMvgpJB8dxst6o6c=
+X-Received: by 2002:a2e:9754:: with SMTP id f20mr6463797ljj.200.1614589186573; 
+ Mon, 01 Mar 2021 00:59:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <7f837938-3ad8-6ecf-d2b7-952b177cffb8@shipmail.org>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20210211113309.1.I629b2366a6591410359c7fcf6d385b474b705ca2@changeid>
+In-Reply-To: <20210211113309.1.I629b2366a6591410359c7fcf6d385b474b705ca2@changeid>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 1 Mar 2021 09:59:35 +0100
+Message-ID: <CACRpkdbQa3BZwgtp3=061cu+y+4qkMqtXQhXH_VuHB3KcLyDCA@mail.gmail.com>
+Subject: Re: [PATCH] drm/dsi: Add _NO_ to MIPI_DSI_* flags disabling features
+To: Nicolas Boichat <drinkcat@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,82 +60,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, Philip Yang <Philip.Yang@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, MSM <linux-arm-msm@vger.kernel.org>,
+ Jordan Crouse <jcrouse@codeaurora.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
+ Xin Ji <xji@analogixsemi.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Rajendra Nayak <rnayak@codeaurora.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ freedreno <freedreno@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 01, 2021 at 09:46:44AM +0100, Thomas Hellstr=F6m (Intel) wrote:
-> On 3/1/21 9:32 AM, Daniel Vetter wrote:
-> > On Wed, Jan 06, 2021 at 10:01:09PM -0500, Felix Kuehling wrote:
-> > > From: Philip Yang <Philip.Yang@amd.com>
-> > > =
+On Thu, Feb 11, 2021 at 4:34 AM Nicolas Boichat <drinkcat@chromium.org> wrote:
 
-> > > Register vram memory as MEMORY_DEVICE_PRIVATE type resource, to
-> > > allocate vram backing pages for page migration.
-> > > =
+> Many of the DSI flags have names opposite to their actual effects,
+> e.g. MIPI_DSI_MODE_EOT_PACKET means that EoT packets will actually
+> be disabled. Fix this by including _NO_ in the flag names, e.g.
+> MIPI_DSI_MODE_NO_EOT_PACKET.
 
-> > > Signed-off-by: Philip Yang <Philip.Yang@amd.com>
-> > > Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> > So maybe I'm getting this all wrong, but I think that the current ttm
-> > fault code relies on devmap pte entries (especially for hugepte entries)
-> > to stop get_user_pages. But this only works if the pte happens to not
-> > point at a range with devmap pages.
-> =
+Unless someone like me interpreted it literally...
 
-> I don't think that's in TTM yet, but the proposed fix, yes (see email I j=
-ust
-> sent in another thread),
-> but only for huge ptes.
-> =
+Like in these:
 
-> > =
+>  drivers/gpu/drm/mcde/mcde_dsi.c                      | 2 +-
+>  drivers/gpu/drm/panel/panel-novatek-nt35510.c        | 2 +-
+>  drivers/gpu/drm/panel/panel-samsung-s6d16d0.c        | 2 +-
+>  drivers/gpu/drm/panel/panel-sony-acx424akp.c         | 2 +-
 
-> > This patch here changes that, and so probably breaks this devmap pte ha=
-ck
-> > ttm is using?
-> > =
+> diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
+> index 2314c8122992..f4cdc3cfd7d0 100644
+> --- a/drivers/gpu/drm/mcde/mcde_dsi.c
+> +++ b/drivers/gpu/drm/mcde/mcde_dsi.c
+> @@ -760,7 +760,7 @@ static void mcde_dsi_start(struct mcde_dsi *d)
+>                 DSI_MCTL_MAIN_DATA_CTL_BTA_EN |
+>                 DSI_MCTL_MAIN_DATA_CTL_READ_EN |
+>                 DSI_MCTL_MAIN_DATA_CTL_REG_TE_EN;
+> -       if (d->mdsi->mode_flags & MIPI_DSI_MODE_EOT_PACKET)
+> +       if (d->mdsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
+>                 val |= DSI_MCTL_MAIN_DATA_CTL_HOST_EOT_GEN;
 
-> > If I'm not wrong here then I think we need to first fix up the ttm code=
- to
-> > not use the devmap hack anymore, before a ttm based driver can register=
- a
-> > dev_pagemap. Also adding Thomas since that just came up in another
-> > discussion.
-> =
+If you read the code you can see that this is interpreted as inserting
+an EOT packet, so here you need to change the logic such:
 
-> It doesn't break the ttm devmap hack per se, but it indeed allows gup to =
-the
-> range registered, but here's where my lack of understanding why we can't
-> allow gup-ing TTM ptes if there indeed is a backing struct-page? Because
-> registering MEMORY_DEVICE_PRIVATE implies that, right?
+if (!d->mdsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
+    val |= DSI_MCTL_MAIN_DATA_CTL_HOST_EOT_GEN;
 
-We need to keep supporting buffer based memory management for all the
-non-compute users. Because those require end-of-batch dma_fence semantics,
-which prevents us from using gpu page faults, which makes hmm not really
-work.
+This will make sure the host generates the EOT packet in HS mode
+*unless* the flag is set.
 
-And for buffer based memory manager we can't have gup pin random pages in
-there, that's not really how it works. Worst case ttm just assumes it can
-actually move buffers and reallocate them as it sees fit, and your gup
-mapping (for direct i/o or whatever) now points at a page of a buffer that
-you don't even own anymore. That's not good. Hence also all the
-discussions about preventing gup for bo mappings in general.
+(I checked the data sheet.)
 
-Once we throw hmm into the mix we need to be really careful that the two
-worlds don't collide. Pure hmm is fine, pure bo managed memory is fine,
-mixing them is tricky.
--Daniel
--- =
+> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+> index b9a0e56f33e2..9d9334656803 100644
+> --- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+> +++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+> @@ -899,7 +899,7 @@ static int nt35510_probe(struct mipi_dsi_device *dsi)
+>         dsi->hs_rate = 349440000;
+>         dsi->lp_rate = 9600000;
+>         dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS |
+> -               MIPI_DSI_MODE_EOT_PACKET;
+> +               MIPI_DSI_MODE_NO_EOT_PACKET;
 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Here you should just delete the MIPI_DSI_MODE_EOT_PACKET
+flag because this was used with the MCDE driver which interpret the
+flag literally.
+
+> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
+> index 4aac0d1573dd..b04b9975e9b2 100644
+> --- a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
+> +++ b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
+> @@ -186,7 +186,7 @@ static int s6d16d0_probe(struct mipi_dsi_device *dsi)
+>          */
+>         dsi->mode_flags =
+>                 MIPI_DSI_CLOCK_NON_CONTINUOUS |
+> -               MIPI_DSI_MODE_EOT_PACKET;
+> +               MIPI_DSI_MODE_NO_EOT_PACKET;
+
+Same, just delete the flag.
+
+> --- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
+> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
+> @@ -97,7 +97,7 @@ static int s6e63m0_dsi_probe(struct mipi_dsi_device *dsi)
+>         dsi->hs_rate = 349440000;
+>         dsi->lp_rate = 9600000;
+>         dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
+> -               MIPI_DSI_MODE_EOT_PACKET |
+> +               MIPI_DSI_MODE_NO_EOT_PACKET |
+>                 MIPI_DSI_MODE_VIDEO_BURST;
+
+Same, just delete the flag.
+
+> diff --git a/drivers/gpu/drm/panel/panel-sony-acx424akp.c b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
+> index 065efae213f5..6b706cbf2f9c 100644
+> --- a/drivers/gpu/drm/panel/panel-sony-acx424akp.c
+> +++ b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
+> @@ -450,7 +450,7 @@ static int acx424akp_probe(struct mipi_dsi_device *dsi)
+>         else
+>                 dsi->mode_flags =
+>                         MIPI_DSI_CLOCK_NON_CONTINUOUS |
+> -                       MIPI_DSI_MODE_EOT_PACKET;
+> +                       MIPI_DSI_MODE_NO_EOT_PACKET;
+
+Same, just delete the flag.
+
+These are all just semantic bugs due to the ambiguity of the flags, it is
+possible to provide a Fixes: flag for each file using this flag the wrong way
+but I dunno if it's worth it.
+
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
