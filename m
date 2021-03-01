@@ -2,44 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABFC8327C22
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 11:30:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55CB3327C9D
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 11:52:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81E6A6E581;
-	Mon,  1 Mar 2021 10:30:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC86889CD9;
+	Mon,  1 Mar 2021 10:52:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
- [209.85.167.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CD396E581
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 10:30:31 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id i21so15256295oii.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Mar 2021 02:30:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/Rz2v/U2nVOok1bv0Vmx4Yapjfx0RV8rEkl36cbA/54=;
- b=dF02T1DaTyScVE6AugVvJfV1bE3EMrFW/HbL2sBmXLC0Lw4+314n7PuPNqEU7hJXfv
- rYPr21o26kNHW2aEpt9mBv2qXia0UIVKpFgkIxGguHy4XG6VmLnitMbTPjmA4XMfxGNZ
- XIuSUMc+afrGS/i0jmmRHyDjLe8WjWhiGaylE5WoC2i/xls6qd05UFXRV17xN0ns4BHV
- SN9J+Ho/0Zdor86VL0P9tTxER245Yns4e8jB8EGXtefgib6lxRxJXNWBfWn3LFJda1eD
- Pz+YgqGGvqp2amUBBEMZnP4UP63q4biZXttokOOJYwAT6b+mom+ziJUOzIDwhn5Hn+lV
- uaAg==
-X-Gm-Message-State: AOAM530I4n1jdWebHeVMKNl0Z4gGVjarkDRRShwuO/EsahUFW7SbHTa1
- 1DJlC7in7wUk5xAz3JbxQ3fCCcjQsNuylCeBmEqK1CUr
-X-Google-Smtp-Source: ABdhPJxps7w7g2gNnNEepZQYsGT0MTyaHe2etwgYRDOpqOEje9uRa9Qlj9u/ysUYg1TXeKSDqi3xSFEtTeipfl3g3IQ=
-X-Received: by 2002:a54:4007:: with SMTP id x7mr11367286oie.87.1614594630547; 
- Mon, 01 Mar 2021 02:30:30 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCA7A89CD9
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 10:52:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CB4DA64D90;
+ Mon,  1 Mar 2021 10:52:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1614595970;
+ bh=Qz9hXkoLqUJEA+4tO3Qh81j1cTk/PaX+4CMLrJuOVVo=;
+ h=Subject:To:Cc:From:Date:From;
+ b=EwPiuc258RbdqIRTzbmqpoarugDQTclRQ+LRX3BXfCHC8UuCOGxl4OJ4OR8kb3kuO
+ qWV+4cKwSU57yAncrkM1cRT0wswSS4O4Hq98Rq2zcBImMTdGHWXllnUdNdyzKm7oGb
+ zBwrDWqQPbQ1GljgDKkgYGbgugpn4X3OW3lXQeWE=
+Subject: Patch "drm/nouveau/kms: handle mDP connectors" has been added to the
+ 5.4-stable tree
+To: bskeggs@redhat.com, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, kherbst@redhat.com, markpearson@lenovo.com
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 01 Mar 2021 11:49:42 +0100
+Message-ID: <161459578248215@kroah.com>
 MIME-Version: 1.0
-References: <20210113170253.443820-1-kieran.bingham+renesas@ideasonboard.com>
- <CAMuHMdVwjWwcWR45BTAjL5Lp66s5coc_Jp1EcBF1ad7MJpY0Og@mail.gmail.com>
-In-Reply-To: <CAMuHMdVwjWwcWR45BTAjL5Lp66s5coc_Jp1EcBF1ad7MJpY0Og@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 1 Mar 2021 11:30:18 +0100
-Message-ID: <CAMuHMdV0fEsDWUok=MaxnTXxngMWa5PCEHHCUoBYrqurUEf=1Q@mail.gmail.com>
-Subject: Re: [PATCH] drm: rcar-du: Use drmm_encoder_alloc() to manage encoder
-To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,48 +43,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: stable-commits@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 14, 2021 at 11:00 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Wed, Jan 13, 2021 at 6:02 PM Kieran Bingham
-> <kieran.bingham+renesas@ideasonboard.com> wrote:
-> > The encoder allocation was converted to a DRM managed resource at the
-> > same time as the addition of a new helper drmm_encoder_alloc() which
-> > simplifies the same process.
-> >
-> > Convert the custom drm managed resource allocation of the encoder
-> > with the helper to simplify the implementation, and prevent hitting a
-> > WARN_ON() due to the handling the drm_encoder_init() call directly
-> > without registering a .destroy() function op.
-> >
-> > Fixes: f5f16725edbc ("drm: rcar-du: Use DRM-managed allocation for encoders")
-> > Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> As in "the WARNING from drm_encoder_init() is gone".
 
-JFYI, the WARNING is now in v5.12-rc1, the fix isn't.
+This is a note to let you know that I've just added the patch titled
 
-Gr{oetje,eeting}s,
+    drm/nouveau/kms: handle mDP connectors
 
-                        Geert
+to the 5.4-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+The filename of the patch is:
+     drm-nouveau-kms-handle-mdp-connectors.patch
+and it can be found in the queue-5.4 subdirectory.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From d1f5a3fc85566e9ddce9361ef180f070367e6eab Mon Sep 17 00:00:00 2001
+From: Karol Herbst <kherbst@redhat.com>
+Date: Fri, 27 Nov 2020 19:39:09 +0100
+Subject: drm/nouveau/kms: handle mDP connectors
+
+From: Karol Herbst <kherbst@redhat.com>
+
+commit d1f5a3fc85566e9ddce9361ef180f070367e6eab upstream.
+
+In some cases we have the handle those explicitly as the fallback
+connector type detection fails and marks those as eDP connectors.
+
+Attempting to use such a connector with mutter leads to a crash of mutter
+as it ends up with two eDP displays.
+
+Information is taken from the official DCB documentation.
+
+Cc: stable@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Reported-by: Mark Pearson <markpearson@lenovo.com>
+Tested-by: Mark Pearson <markpearson@lenovo.com>
+Signed-off-by: Karol Herbst <kherbst@redhat.com>
+Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/bios/conn.h |    1 +
+ drivers/gpu/drm/nouveau/nouveau_connector.c             |    1 +
+ 2 files changed, 2 insertions(+)
+
+--- a/drivers/gpu/drm/nouveau/include/nvkm/subdev/bios/conn.h
++++ b/drivers/gpu/drm/nouveau/include/nvkm/subdev/bios/conn.h
+@@ -14,6 +14,7 @@ enum dcb_connector_type {
+ 	DCB_CONNECTOR_LVDS_SPWG = 0x41,
+ 	DCB_CONNECTOR_DP = 0x46,
+ 	DCB_CONNECTOR_eDP = 0x47,
++	DCB_CONNECTOR_mDP = 0x48,
+ 	DCB_CONNECTOR_HDMI_0 = 0x60,
+ 	DCB_CONNECTOR_HDMI_1 = 0x61,
+ 	DCB_CONNECTOR_HDMI_C = 0x63,
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -1240,6 +1240,7 @@ drm_conntype_from_dcb(enum dcb_connector
+ 	case DCB_CONNECTOR_DMS59_DP0:
+ 	case DCB_CONNECTOR_DMS59_DP1:
+ 	case DCB_CONNECTOR_DP       :
++	case DCB_CONNECTOR_mDP      :
+ 	case DCB_CONNECTOR_USB_C    : return DRM_MODE_CONNECTOR_DisplayPort;
+ 	case DCB_CONNECTOR_eDP      : return DRM_MODE_CONNECTOR_eDP;
+ 	case DCB_CONNECTOR_HDMI_0   :
+
+
+Patches currently in stable-queue which might be from kherbst@redhat.com are
+
+queue-5.4/drm-nouveau-kms-handle-mdp-connectors.patch
+queue-5.4/drm-nouveau-bail-out-of-nouveau_channel_new-if-chann.patch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
