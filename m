@@ -1,71 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF55B32796A
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 09:40:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA9A327985
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 09:44:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC7ED6E511;
-	Mon,  1 Mar 2021 08:40:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14D7C6E509;
+	Mon,  1 Mar 2021 08:44:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
- [213.80.101.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD01F6E509;
- Mon,  1 Mar 2021 08:40:05 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 796FD3F630;
- Mon,  1 Mar 2021 09:40:03 +0100 (CET)
-Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=KFKC1cY5; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.449
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.449 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id egBorp5EqkHP; Mon,  1 Mar 2021 09:40:02 +0100 (CET)
-Received: by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 5D5FB3F758;
- Mon,  1 Mar 2021 09:39:57 +0100 (CET)
-Received: from [10.249.254.148] (unknown [192.198.151.43])
- by mail1.shipmail.org (Postfix) with ESMTPSA id E47263600BA;
- Mon,  1 Mar 2021 09:39:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1614587997; bh=3yD8FoJ9tqt8v8EC2ovVKJDzIsnt+TH/fSsrxvLzKcI=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=KFKC1cY5Bl6oZF7XHixRFkB3vh2NnxNLPQZm1ZT5hBiDj4BNARy/P9spZVDis/y7b
- eUo5AoTRQkOueepPu8iQnwC4xwc9/Wvz3AZSAWax4UrwndgyWuVR4PT9xI+O7+NKmW
- /iP0XNKaBE1dz9imtoJwaMYVFzduO2lH+xU/lqeg=
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for
- mmap
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20210223105951.912577-1-daniel.vetter@ffwll.ch>
- <1a7c2295-6241-f2bf-4a78-6cadd43bc248@shipmail.org>
- <CAKMK7uHzRb6Q_LgPUrrHn18sorYo7ysTgB+PNE36LDUUsJpHDg@mail.gmail.com>
- <f43311c8-a02a-1a29-a53b-88e599c92187@shipmail.org>
- <CAKMK7uE2UrOruQPWG9KPBQ781f9Bq9xpVRNserAC9BZ2VzDutQ@mail.gmail.com>
- <b30dacb0-edea-0a3c-6163-0f329e58ba61@gmail.com>
- <YDd/hlf8uM3+lxhr@phenom.ffwll.local>
- <CAKMK7uFezcV52oTZbHeve2HFFATeCGyK6zTT6nE1KVP69QRr0A@mail.gmail.com>
- <61c5c371-debe-4ca0-a067-ce306e51ef88@shipmail.org>
- <CAKMK7uFUiJyMP0E5JUzMOx=NyMW+ZObGsaFOh409x0LOvGbnzg@mail.gmail.com>
- <0d69bd00-e673-17cf-c9e3-ccbcd52649a6@shipmail.org>
- <CAKMK7uE=8+hj-MUFXHFoG_hAbz_Obi8a99+DE5_d1K+KZaG+tQ@mail.gmail.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <b367b7e8-f202-4d23-d672-a5c9bc7fcec1@shipmail.org>
-Date: Mon, 1 Mar 2021 09:39:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C1636E509
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 08:44:17 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id m1so13601910wml.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Mar 2021 00:44:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=casXV986YYPpP/xVweHLp0D+mMI8e5v7nph9gP3C210=;
+ b=KwubmRjBCacpJEoQ8nI/i0O6N0bT0UF+rjnwIHXkRjuHaOxDxcAX0+0VI97PkXE4F8
+ p7b3CKJDuNdeBcyWyvkGT1jJBXYzz0SpeF3EyRCUj7ZrYmituxGo0H3ApF/wvLI4V94g
+ 6t027mMCenAmki/gYvyzyzx95eC0WzyShZCyI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=casXV986YYPpP/xVweHLp0D+mMI8e5v7nph9gP3C210=;
+ b=qJTDT6+o4dTa8vO/xJ1TGNME62Iaz9w9BslA34g23de25bRwCwYb2fNWafHNbBviZP
+ Uw7Ik4vrvDP9PpuWFG0SA21AD+aq3FBSArodMhyjvLEFYL/BkB+HU2E7wtA+B0V/wjoT
+ /kefd/sLY4AEWHbQi3mRB+6eIZiU6L8o3N6Glokfmp7B6wcMru5ZQmGgQDZofDaQev5p
+ vl3GAti1BgwlC2aGwVGGYrTIVKbKN+EtGRT603jISbEUH81jnz9+S/Y56oN0IRHS44Ef
+ IRYk6iMbSDqkdyvIg6RqmCO40Aa/hVJiLSib73IWNkKd5ke+4iPEcVt5opkVwitmQkC+
+ jQcQ==
+X-Gm-Message-State: AOAM530Ifw9I8s/F5wYTBuIue6VvRZnJ3zMLVoTvhYYNmtLuDZRvTWHX
+ vveJ7BmywEiOQdChnLCCBzho2w==
+X-Google-Smtp-Source: ABdhPJw127V6ng7xDem45/zMMy84q21yO4BFfknDh2GJ/IHtBlg9Nbdd5BlIUoB8hUto+ypMIgI5XA==
+X-Received: by 2002:a05:600c:2248:: with SMTP id
+ a8mr14413003wmm.167.1614588256291; 
+ Mon, 01 Mar 2021 00:44:16 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id l22sm25045665wrb.4.2021.03.01.00.44.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Mar 2021 00:44:15 -0800 (PST)
+Date: Mon, 1 Mar 2021 09:44:13 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: add remap_pfn_range_notrack instead of reinventing it in i915
+Message-ID: <YDypXb3M1uVBxcyH@phenom.ffwll.local>
+Mail-Followup-To: Christoph Hellwig <hch@lst.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Peter Zijlstra <peterz@infradead.org>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org
+References: <20210301083320.943079-1-hch@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uE=8+hj-MUFXHFoG_hAbz_Obi8a99+DE5_d1K+KZaG+tQ@mail.gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210301083320.943079-1-hch@lst.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,62 +75,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Wilcox <willy@infradead.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Suren Baghdasaryan <surenb@google.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, linux-mm@kvack.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiAzLzEvMjEgOToyOCBBTSwgRGFuaWVsIFZldHRlciB3cm90ZToKPiBPbiBTYXQsIEZl
-YiAyNywgMjAyMSBhdCA5OjA2IEFNIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkKPiA8dGhvbWFz
-X29zQHNoaXBtYWlsLm9yZz4gd3JvdGU6Cj4+IE9uIDIvMjYvMjEgMjoyOCBQTSwgRGFuaWVsIFZl
-dHRlciB3cm90ZToKPj4+IFNvIEkgdGhpbmsgaXQgc3RvcHMgZ3VwLiBCdXQgSSBoYXZlbid0IHZl
-cmlmaWVkIGF0IGFsbC4gV291bGQgYmUgZ29vZAo+Pj4gaWYgQ2hyaXN0aWFuIGNhbiBjaGVjayB0
-aGlzIHdpdGggc29tZSBkaXJlY3QgaW8gdG8gYSBidWZmZXIgaW4gc3lzdGVtCj4+PiBtZW1vcnku
-Cj4+IEhtbSwKPj4KPj4gRG9jcyAoYWdhaW4gdm1fbm9ybWFsX3BhZ2UoKSBzYXkpCj4+Cj4+ICAg
-ICogVk1fTUlYRURNQVAgbWFwcGluZ3MgY2FuIGxpa2V3aXNlIGNvbnRhaW4gbWVtb3J5IHdpdGgg
-b3Igd2l0aG91dCAic3RydWN0Cj4+ICAgICogcGFnZSIgYmFja2luZywgaG93ZXZlciB0aGUgZGlm
-ZmVyZW5jZSBpcyB0aGF0IF9hbGxfIHBhZ2VzIHdpdGggYSBzdHJ1Y3QKPj4gICAgKiBwYWdlICh0
-aGF0IGlzLCB0aG9zZSB3aGVyZSBwZm5fdmFsaWQgaXMgdHJ1ZSkgYXJlIHJlZmNvdW50ZWQgYW5k
-Cj4+IGNvbnNpZGVyZWQKPj4gICAgKiBub3JtYWwgcGFnZXMgYnkgdGhlIFZNLiBUaGUgZGlzYWR2
-YW50YWdlIGlzIHRoYXQgcGFnZXMgYXJlIHJlZmNvdW50ZWQKPj4gICAgKiAod2hpY2ggY2FuIGJl
-IHNsb3dlciBhbmQgc2ltcGx5IG5vdCBhbiBvcHRpb24gZm9yIHNvbWUgUEZOTUFQCj4+IHVzZXJz
-KS4gVGhlCj4+ICAgICogYWR2YW50YWdlIGlzIHRoYXQgd2UgZG9uJ3QgaGF2ZSB0byBmb2xsb3cg
-dGhlIHN0cmljdCBsaW5lYXJpdHkgcnVsZSBvZgo+PiAgICAqIFBGTk1BUCBtYXBwaW5ncyBpbiBv
-cmRlciB0byBzdXBwb3J0IENPV2FibGUgbWFwcGluZ3MuCj4+Cj4+IGJ1dCBpdCdzIHRydWUgX192
-bV9pbnNlcnRfbWl4ZWQoKSBlbmRzIHVwIGluIHRoZSBpbnNlcnRfcGZuKCkgcGF0aCwgc28KPj4g
-dGhlIGFib3ZlIGlzbid0IHJlYWxseSB0cnVlLCB3aGljaCBtYWtlcyBtZSB3b25kZXIgaWYgYW5k
-IGluIHRoYXQgY2FzZQo+PiB3aHkgdGhlcmUgY291bGQgYW55IGxvbmdlciBldmVyIGJlIGEgc2ln
-bmlmaWNhbnQgcGVyZm9ybWFuY2UgZGlmZmVyZW5jZQo+PiBiZXR3ZWVuIE1JWEVETUFQIGFuZCBQ
-Rk5NQVAuCj4gWWVhaCBpdCdzIGRlZmluaXRlbHkgY29uZnVzaW5nLiBJIGd1ZXNzIEknbGwgaGFj
-ayB1cCBhIHBhdGNoIGFuZCBzZWUKPiB3aGF0IHN0aWNrcy4KPgo+PiBCVFcgcmVnYXJkaW5nIHRo
-ZSBUVE0gaHVnZXB0ZXMsIEkgZG9uJ3QgdGhpbmsgd2UgZXZlciBsYW5kZWQgdGhhdCBkZXZtYXAK
-Pj4gaGFjaywgc28gdGhleSBhcmUgKGZvciB0aGUgbm9uLWd1cCBjYXNlKSByZWx5aW5nIG9uCj4+
-IHZtYV9pc19zcGVjaWFsX2h1Z2UoKS4gRm9yIHRoZSBndXAgY2FzZSwgSSB0aGluayB0aGUgYnVn
-IGlzIHN0aWxsIHRoZXJlLgo+IE1heWJlIHRoZXJlJ3MgYW5vdGhlciBkZXZtYXAgaGFjaywgYnV0
-IHRoZSB0dG1fdm1faW5zZXJ0IGZ1bmN0aW9ucyBkbwo+IHVzZSBQRk5fREVWIGFuZCBhbGwgdGhh
-dC4gQW5kIEkgdGhpbmsgdGhhdCBzdG9wcyBndXBfZmFzdCBmcm9tIHRyeWluZwo+IHRvIGZpbmQg
-dGhlIHVuZGVybHlpbmcgcGFnZS4KPiAtRGFuaWVsCgpIbW0gcGVyaGFwcyBpdCBtaWdodCwgYnV0
-IEkgZG9uJ3QgdGhpbmsgc28uIFRoZSBmaXggSSB0cmllZCBvdXQgd2FzIHRvIHNldAoKUEZOX0RF
-ViB8IFBGTl9NQVAgZm9yIGh1Z2UgUFRFcyB3aGljaCBjYXVzZXMgcGZuX2Rldm1hcCgpIHRvIGJl
-IHRydWUsIAphbmQgdGhlbgoKZm9sbG93X2Rldm1hcF9wbWQoKS0+Z2V0X2Rldl9wYWdlbWFwKCkg
-d2hpY2ggcmV0dXJucyBOVUxMIGFuZCBndXBfZmFzdCgpIApiYWNrcyBvZmYsCgppbiB0aGUgZW5k
-IHRoYXQgd291bGQgbWVhbiBzZXR0aW5nIGluIHN0b25lIHRoYXQgImlmIHRoZXJlIGlzIGEgaHVn
-ZSAKZGV2bWFwIHBhZ2UgdGFibGUgZW50cnkgZm9yIHdoaWNoIHdlIGhhdmVuJ3QgcmVnaXN0ZXJl
-ZCBhbnkgZGV2bWFwIApzdHJ1Y3QgcGFnZXMgKGdldF9kZXZfcGFnZW1hcCByZXR1cm5zIE5VTEwp
-LCB3ZSBzaG91bGQgdHJlYXQgdGhhdCBhcyBhIAoic3BlY2lhbCIgaHVnZSBwYWdlIHRhYmxlIGVu
-dHJ5Ii4KCiBGcm9tIHdoYXQgSSBjYW4gdGVsbCwgYWxsIGNvZGUgY2FsbGluZyBnZXRfZGV2X3Bh
-Z2VtYXAoKSBhbHJlYWR5IGRvZXMgCnRoYXQsIGl0J3MganVzdCBhIHF1ZXN0aW9uIG9mIGdldHRp
-bmcgaXQgYWNjZXB0ZWQgYW5kIGZvcm1hbGl6aW5nIGl0LgoKL1Rob21hcwoKCgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, Mar 01, 2021 at 09:33:18AM +0100, Christoph Hellwig wrote:
+> Hi all,
+> 
+> i915 has some reason to want to avoid the track_pfn_remap overhead in
+> remap_pfn_range.  Add a function to the core VM to do just that rather
+> than reinventing the functionality poorly in the driver.
+
+It's not _notrack it's "rely on the tracking established by the struct
+io_mapping". Exporting a _notrack version to drivers sounds like not
+something we want to ever do. So I think you want a helper which takes the
+io_mapping, and not something that encourages drivers to go full stupid.
+
+> Note that the remap_io_sg path does get exercises when using Xorg on my
+> Thinkpad X1, so this should be considered lightly tested, I've not
+> managed to hit the remap_io_mapping path at all.
+
+Needs an older machine and old userspace. intel-gfx CI should still check
+whether it's all ok.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
