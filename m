@@ -1,34 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02B73327B4C
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 10:56:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5407327B6C
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 11:02:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA6B66E550;
-	Mon,  1 Mar 2021 09:56:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8222289320;
+	Mon,  1 Mar 2021 10:02:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A75F6E550;
- Mon,  1 Mar 2021 09:56:25 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DB4BAAE03;
- Mon,  1 Mar 2021 09:56:23 +0000 (UTC)
-Subject: Re: [PATCH] drm/gem: add checks of drm_gem_object->funcs
-To: =?UTF-8?Q?Pavel_Turinsk=c3=bd?= <ledoian@kam.mff.cuni.cz>,
- airlied@linux.ie, daniel@ffwll.ch,
- Alexander Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20210228161022.53468-1-ledoian@kam.mff.cuni.cz>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <e7f0747c-cb10-692a-aa36-194efcab49ef@suse.de>
-Date: Mon, 1 Mar 2021 10:56:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A99089320
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 10:02:43 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id h98so15413388wrh.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Mar 2021 02:02:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=XZipS0r+2O0ULBwm6Jk3yIYPHelEH46+P8E8sbBaM9U=;
+ b=GinUznSYZfF+VzEGo0tJV8PZ9XUk9HjQzr8yHcQVhrjWHd/iSlafH+RzuMh3ru33X/
+ h1wy69UaUYiGTeedXN7yuV0KfkItl42fsYmy3J09hA7jc6zLThAWPsZtDtlmfAYK92VB
+ 85zhAumdUGFPzf89n5FCVN7YKcuIIQjY05rmYfVeCuzWPINd9RDF1Lf7PtN1DI9JLyHQ
+ k87xgm0W8J/l6/Vty7+AYRyuEY2xEcO2WLDttvmnn18toZi5rmx3VCB26rUUKMkzKb8u
+ H5Ed6gF96cS44epBs267nIRdnq8blQq9jbam/LnyDOksDi9w1L87zpEfBt0jtPYkNtHz
+ D5IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=XZipS0r+2O0ULBwm6Jk3yIYPHelEH46+P8E8sbBaM9U=;
+ b=MXjZr8/VpUyAkI3BN86elbKouPoq+R+0WjzlaqTVct+doDBQK+MGeEuzF/PwvOclqE
+ +WzSNY0LoWS/HDXJUbFV/ysDsDNh0BkaMaRP32c24iodx+pAVy48qevLO4CpdgfDElun
+ pchgsNLhEYnggFYOp8TFpHJjuPBSOcjhdJF5gBV31RWCcUKzCoHSGnyqdsMj7Fu7Beo5
+ jf9QIhVrSV9mGXg2en1yi8PlVa8l1I7MxHMHqtBylnvOYYmWVzUJyMokJ8TxQfthdWZx
+ tgylp1ZHnw0Rul0YGEVf2tsFz5yZlimvXn3g/A66kKXYh59v1LE+yAYG6MrzzjG5M530
+ sdwQ==
+X-Gm-Message-State: AOAM531s/xDH8zTFUDjv3aEknoJdSrEunSzB5t+f72CvxQwyAvdLfld3
+ bINf/LkTACRSaTrlVSWZw5Sk1A==
+X-Google-Smtp-Source: ABdhPJzcEOS66BToEGp2vmi7xT4nDMdmFn965xO54Gu11rFVHj40mQNIuRUKldTKzGK+jQljMZLWNA==
+X-Received: by 2002:a5d:4e0e:: with SMTP id p14mr15421982wrt.130.1614592962247; 
+ Mon, 01 Mar 2021 02:02:42 -0800 (PST)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id m6sm24444120wrv.73.2021.03.01.02.02.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Mar 2021 02:02:41 -0800 (PST)
+Date: Mon, 1 Mar 2021 10:02:39 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Kiran Gunda <kgunda@codeaurora.org>
+Subject: Re: [PATCH V3 2/2] backlight: qcom-wled: Correct the sync_toggle
+ sequence
+Message-ID: <20210301100239.orbt7km6lgjwvzii@maple.lan>
+References: <1614590916-27070-1-git-send-email-kgunda@codeaurora.org>
+ <1614590916-27070-3-git-send-email-kgunda@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <20210228161022.53468-1-ledoian@kam.mff.cuni.cz>
+Content-Disposition: inline
+In-Reply-To: <1614590916-27070-3-git-send-email-kgunda@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,322 +69,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1151866202=="
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
+ Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
+ robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
+ linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org,
+ lee.jones@linaro.org, linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1151866202==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="5rzwza5zwjgSSgTgCDrDCKBOl7FLnC4qh"
+On Mon, Mar 01, 2021 at 02:58:36PM +0530, Kiran Gunda wrote:
+> As per the current implementation, after FSC (Full Scale Current)
+> and brightness update the sync bits are transitioned from set-then-clear.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---5rzwza5zwjgSSgTgCDrDCKBOl7FLnC4qh
-Content-Type: multipart/mixed; boundary="776yVYzRqTk0UYi04kjKkAqXozinKJY0p";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Pavel_Turinsk=c3=bd?= <ledoian@kam.mff.cuni.cz>,
- airlied@linux.ie, daniel@ffwll.ch,
- Alexander Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-Message-ID: <e7f0747c-cb10-692a-aa36-194efcab49ef@suse.de>
-Subject: Re: [PATCH] drm/gem: add checks of drm_gem_object->funcs
-References: <20210228161022.53468-1-ledoian@kam.mff.cuni.cz>
-In-Reply-To: <20210228161022.53468-1-ledoian@kam.mff.cuni.cz>
+This does not makes sense since there are too many verbs. Set and clear
+are both verbs so in this context: "the code will set the bit and then
+the code will clear the bit".
 
---776yVYzRqTk0UYi04kjKkAqXozinKJY0p
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Either:
 
-(cc'ing amd devs)
+s/transitioned from set-then-clear/set-then-cleared/.
 
-Hi
+Or:
 
-Am 28.02.21 um 17:10 schrieb Pavel Turinsk=C3=BD:
-> The checks were removed in commit d693def4fd1c ("drm: Remove obsolete G=
-EM
-> and PRIME callbacks from struct drm_driver") and can lead to following
-> kernel oops:
+s/transitioned from set-then-clear/using a set-then-clear approach/.
 
-Thanks for reporting. All drivers are supposed to set the funcs pointer=20
-in their GEM objects. This looks like a radeon bug. Adding the AMD devs.
+> But, the FSC and brightness sync takes place during a clear-then-set
+> transition of the sync bits.
 
-Best regards
-Thomas
+Likewise this no longer makes sense and had also become misleading.
+Two changes of state, clear and then set, do not usually result in a
+single transition.
 
->=20
-> [  139.449098] BUG: kernel NULL pointer dereference, address: 000000000=
-0000008
-> [  139.449110] #PF: supervisor read access in kernel mode
-> [  139.449113] #PF: error_code(0x0000) - not-present page
-> [  139.449116] PGD 0 P4D 0
-> [  139.449121] Oops: 0000 [#1] PREEMPT SMP PTI
-> [  139.449126] CPU: 4 PID: 1181 Comm: Xorg Not tainted 5.11.2LEdoian #2=
+Either:
 
-> [  139.449130] Hardware name: Gigabyte Technology Co., Ltd. To be fille=
-d by O.E.M./Z77-DS3H, BIOS F4 04/25/2012
-> [  139.449133] RIP: 0010:drm_gem_handle_create_tail+0xcb/0x190 [drm]
-> [  139.449185] Code: 00 48 89 ef e8 06 b4 49 f7 45 85 e4 78 77 48 8d 6b=
- 18 4c 89 ee 48 89 ef e8 c2 f5 00 00 89 c2 85 c0 75 3e 48 8b 83 40 01 00 =
-00 <48> 8b 40 0
-> 8 48 85 c0 74 0f 4c 89 ee 48 89 df e8 71 5d 87 f7 85 c0
-> [  139.449190] RSP: 0018:ffffbe21c194bd28 EFLAGS: 00010246
-> [  139.449194] RAX: 0000000000000000 RBX: ffff9da9b3caf078 RCX: 0000000=
-000000000
-> [  139.449197] RDX: 0000000000000000 RSI: ffffffffc039b893 RDI: 0000000=
-000000000
-> [  139.449199] RBP: ffff9da9b3caf090 R08: 0000000000000040 R09: ffff9da=
-983b911c0
-> [  139.449202] R10: ffff9da984749e00 R11: ffff9da9859bfc38 R12: 0000000=
-000000007
-> [  139.449204] R13: ffff9da9859bfc00 R14: ffff9da9859bfc50 R15: ffff9da=
-9859bfc38
-> [  139.449207] FS:  00007f6332a56900(0000) GS:ffff9daea7b00000(0000) kn=
-lGS:0000000000000000
-> [  139.449211] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  139.449214] CR2: 0000000000000008 CR3: 00000001319b8005 CR4: 0000000=
-0001706e0
-> [  139.449217] Call Trace:
-> [  139.449224]  drm_gem_prime_fd_to_handle+0xff/0x1d0 [drm]
-> [  139.449274]  ? drm_prime_destroy_file_private+0x20/0x20 [drm]
-> [  139.449323]  drm_ioctl_kernel+0xac/0xf0 [drm]
-> [  139.449363]  drm_ioctl+0x20f/0x3b0 [drm]
-> [  139.449403]  ? drm_prime_destroy_file_private+0x20/0x20 [drm]
-> [  139.449454]  radeon_drm_ioctl+0x49/0x80 [radeon]
-> [  139.449500]  __x64_sys_ioctl+0x84/0xc0
-> [  139.449507]  do_syscall_64+0x33/0x40
-> [  139.449514]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> [  139.449522] RIP: 0033:0x7f63330fbe6b
-> [  139.449526] Code: ff ff ff 85 c0 79 8b 49 c7 c4 ff ff ff ff 5b 5d 4c=
- 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa b8 10 00 00 00 0f =
-05 <48> 3d 01 f
-> 0 ff ff 73 01 c3 48 8b 0d d5 af 0c 00 f7 d8 64 89 01 48
-> [  139.449529] RSP: 002b:00007fff1e9c4438 EFLAGS: 00000246 ORIG_RAX: 00=
-00000000000010
-> [  139.449534] RAX: ffffffffffffffda RBX: 00007fff1e9c447c RCX: 00007f6=
-3330fbe6b
-> [  139.449537] RDX: 00007fff1e9c447c RSI: 00000000c00c642e RDI: 0000000=
-000000012
-> [  139.449539] RBP: 00000000c00c642e R08: 00007fff1e9c4520 R09: 00007f6=
-3331c7a60
-> [  139.449542] R10: 00007f6329fb9ab0 R11: 0000000000000246 R12: 000055f=
-69810ad40
-> [  139.449544] R13: 0000000000000012 R14: 0000000000100000 R15: 00007ff=
-f1e9c4c20
-> [  139.449549] Modules linked in: 8021q garp mrp bridge stp llc nls_iso=
-8859_1 vfat fat fuse btrfs blake2b_generic xor raid6_pq libcrc32c crypto_=
-user tun i2c_de
-> v it87 hwmon_vid snd_seq snd_hda_codec_realtek snd_hda_codec_generic le=
-dtrig_audio sg snd_hda_codec_hdmi virtio_balloon snd_hda_intel virtio_con=
-sole snd_intel_
-> dspcfg soundwire_intel virtio_pci soundwire_generic_allocation soundwir=
-e_cadence virtio_blk snd_hda_codec intel_rapl_msr btusb intel_rapl_common=
- virtio_net btr
-> tl net_failover uvcvideo snd_usb_audio snd_hda_core btbcm x86_pkg_temp_=
-thermal failover soundwire_bus btintel intel_powerclamp snd_soc_core core=
-temp snd_usbmid
-> i_lib iTCO_wdt videobuf2_vmalloc bluetooth intel_pmc_bxt snd_hwdep kvm_=
-intel videobuf2_memops snd_rawmidi snd_compress videobuf2_v4l2 ac97_bus s=
-nd_pcm_dmaengin
-> e iTCO_vendor_support crct10dif_pclmul at24 crc32_pclmul videobuf2_comm=
-on snd_seq_device mei_hdcp snd_pcm ghash_clmulni_intel kvm videodev aesni=
-_intel crypto_s
-> imd snd_timer snd cryptd mc ecdh_generic
-> [  139.449642]  glue_helper rfkill soundcore joydev mousedev rapl ecc i=
-ntel_cstate r8169 i2c_i801 intel_uncore atl1c realtek irqbypass mdio_devr=
-es mei_me libph
-> y i2c_smbus mei mac_hid lpc_ich ext4 crc32c_generic crc16 mbcache jbd2 =
-dm_mod ata_generic pata_acpi uas usb_storage sr_mod crc32c_intel serio_ra=
-w cdrom xhci_pc
-> i pata_jmicron xhci_pci_renesas radeon usbhid i915 intel_gtt nouveau mx=
-m_wmi wmi video i2c_algo_bit drm_ttm_helper ttm drm_kms_helper syscopyare=
-a sysfillrect s
-> ysimgblt fb_sys_fops cec drm agpgart
-> [  139.449707] CR2: 0000000000000008
-> [  139.449710] ---[ end trace f5ce5774498d18e1 ]---
->=20
-> Signed-off-by: Pavel Turinsk=C3=BD <ledoian@kam.mff.cuni.cz>
-> Fixes: d693def4fd1c ("drm: Remove obsolete GEM and PRIME callbacks from=
- struct drm_driver")
-> Cc: stable@vger.kernel.org
+s/clear-then-set/0 to 1/
+
+Alternatively, if you want to stick exclusively to the set/clear
+terminology then replace the whole quoted section with:
+
+  But, the FSC and brightness sync takes place when the sync bits are
+  set (e.g. on a rising edge).
+
+
+> So the hardware team recommends a
+> clear-then-set approach in order to guarantee such a transition
+> regardless of the previous register state.
+> 
+> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+
+With one of each of the changes proposed above:
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+
+
+Daniel.
+
+
 > ---
->=20
-> This is a very symptomatic patch around issue I ran into. I do not know=
- if the
-> funcs property should ever be NULL. I basically restored all the checks=
- that
-> were removed in the mentioned commit. Unfortunately, I do not understan=
-d drm
-> nor will I have time to delve into it in forseeable future.
->=20
->   drivers/gpu/drm/drm_gem.c   | 20 ++++++++++----------
->   drivers/gpu/drm/drm_prime.c |  2 +-
->   2 files changed, 11 insertions(+), 11 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 92f89cee213e..451f290c737c 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -249,7 +249,7 @@ drm_gem_object_release_handle(int id, void *ptr, vo=
-id *data)
->   	struct drm_file *file_priv =3D data;
->   	struct drm_gem_object *obj =3D ptr;
->  =20
-> -	if (obj->funcs->close)
-> +	if (obj->funcs && obj->funcs->close)
->   		obj->funcs->close(obj, file_priv);
->  =20
->   	drm_gem_remove_prime_handles(obj, file_priv);
-> @@ -401,7 +401,7 @@ drm_gem_handle_create_tail(struct drm_file *file_pr=
-iv,
->   	if (ret)
->   		goto err_remove;
->  =20
-> -	if (obj->funcs->open) {
-> +	if (obj->funcs && obj->funcs->open) {
->   		ret =3D obj->funcs->open(obj, file_priv);
->   		if (ret)
->   			goto err_revoke;
-> @@ -977,7 +977,7 @@ drm_gem_object_free(struct kref *kref)
->   	struct drm_gem_object *obj =3D
->   		container_of(kref, struct drm_gem_object, refcount);
->  =20
-> -	if (WARN_ON(!obj->funcs->free))
-> +	if (!obj->funcs || WARN_ON(!obj->funcs->free))
->   		return;
->  =20
->   	obj->funcs->free(obj);
-> @@ -1079,7 +1079,7 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, =
-unsigned long obj_size,
->  =20
->   	vma->vm_private_data =3D obj;
->  =20
-> -	if (obj->funcs->mmap) {
-> +	if (obj->funcs && obj->funcs->mmap) {
->   		ret =3D obj->funcs->mmap(obj, vma);
->   		if (ret) {
->   			drm_gem_object_put(obj);
-> @@ -1087,7 +1087,7 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, =
-unsigned long obj_size,
->   		}
->   		WARN_ON(!(vma->vm_flags & VM_DONTEXPAND));
->   	} else {
-> -		if (obj->funcs->vm_ops)
-> +		if (obj->funcs && obj->funcs->vm_ops)
->   			vma->vm_ops =3D obj->funcs->vm_ops;
->   		else {
->   			drm_gem_object_put(obj);
-> @@ -1188,13 +1188,13 @@ void drm_gem_print_info(struct drm_printer *p, =
-unsigned int indent,
->   	drm_printf_indent(p, indent, "imported=3D%s\n",
->   			  obj->import_attach ? "yes" : "no");
->  =20
-> -	if (obj->funcs->print_info)
-> +	if (obj->funcs && obj->funcs->print_info)
->   		obj->funcs->print_info(p, indent, obj);
->   }
->  =20
->   int drm_gem_pin(struct drm_gem_object *obj)
->   {
-> -	if (obj->funcs->pin)
-> +	if (obj->funcs && obj->funcs->pin)
->   		return obj->funcs->pin(obj);
->   	else
->   		return 0;
-> @@ -1202,7 +1202,7 @@ int drm_gem_pin(struct drm_gem_object *obj)
->  =20
->   void drm_gem_unpin(struct drm_gem_object *obj)
->   {
-> -	if (obj->funcs->unpin)
-> +	if (obj->funcs && obj->funcs->unpin)
->   		obj->funcs->unpin(obj);
->   }
->  =20
-> @@ -1210,7 +1210,7 @@ int drm_gem_vmap(struct drm_gem_object *obj, stru=
-ct dma_buf_map *map)
->   {
->   	int ret;
->  =20
-> -	if (!obj->funcs->vmap)
-> +	if (!obj->funcs || !obj->funcs->vmap)
->   		return -EOPNOTSUPP;
->  =20
->   	ret =3D obj->funcs->vmap(obj, map);
-> @@ -1227,7 +1227,7 @@ void drm_gem_vunmap(struct drm_gem_object *obj, s=
-truct dma_buf_map *map)
->   	if (dma_buf_map_is_null(map))
->   		return;
->  =20
-> -	if (obj->funcs->vunmap)
-> +	if (obj->funcs && obj->funcs->vunmap)
->   		obj->funcs->vunmap(obj, map);
->  =20
->   	/* Always set the mapping to NULL. Callers may rely on this. */
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index 7db55fce35d8..1566dcf417e2 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -620,7 +620,7 @@ struct sg_table *drm_gem_map_dma_buf(struct dma_buf=
-_attachment *attach,
->   	if (WARN_ON(dir =3D=3D DMA_NONE))
->   		return ERR_PTR(-EINVAL);
->  =20
-> -	if (WARN_ON(!obj->funcs->get_sg_table))
-> +	if (!obj->funcs || WARN_ON(!obj->funcs->get_sg_table))
->   		return ERR_PTR(-ENOSYS);
->  =20
->   	sgt =3D obj->funcs->get_sg_table(obj);
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---776yVYzRqTk0UYi04kjKkAqXozinKJY0p--
-
---5rzwza5zwjgSSgTgCDrDCKBOl7FLnC4qh
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmA8ukYFAwAAAAAACgkQlh/E3EQov+Ab
-txAA0e3VYz4K8bPfzDTff9LMvvGLgiv98+srqSycEmvZRcevXb7oNo0Gsn6txNR9mrV2WqlYKhuW
-tPeRRERrwumrBv0ASIJ1oiRqZFWC5iIrKLUDAzwtoQQs79D61+KsKe0rUk4QHazWXZoObGUgE8vN
-0i8GRrq1sVrG1RKn/B72f8OVmGsLnqvftDnd7V2BUovWol2ihRXm5rnXfU2chSiHHBuWY0QrzciC
-ZoGmUdF5I7AQ9eXZAq61+vyOlZUBuKy7zd0MtA+TJryxcFBMq24ZfB/CMyCCbrMhWyb88fAWBsGQ
-ep8Cfg/9px3gc816KjkavKGDX7KFep8FoeiQBjLbKS6BSlzlDyMbC/Kd31rVOp7NK3Z7GQ2TiDX1
-7tHqIeS4vKjfuySnIS8mJpG5qgKpwIDs/UhvCC/QfGklE2gf/40Rj8IjTfd3VSU3/L5P7Y+t+b+b
-/UBTwvKGFp1sH3aGCs9+rFhnv+t4yQN0U9JWvRWweWo2Y8d/KlztgHH4gMkFWyJJwwj1Rdru12q6
-REh3nAg6aziXFerbzCNBoz4qJlnsZzgedPJjBkmQVYc2Lo07AlGSWTK3CEK47uj5vslAD5DGlN8A
-43f/54mKWivLMu/eNiMK0bZVl5pZw0MpGQc2rAyxrI9hWre+eWqzDElkFHGIV4V1cspVeQW5kY/3
-f/s=
-=viSC
------END PGP SIGNATURE-----
-
---5rzwza5zwjgSSgTgCDrDCKBOl7FLnC4qh--
-
---===============1151866202==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>  drivers/video/backlight/qcom-wled.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+> index aef52b9..19f83ac 100644
+> --- a/drivers/video/backlight/qcom-wled.c
+> +++ b/drivers/video/backlight/qcom-wled.c
+> @@ -337,13 +337,13 @@ static int wled3_sync_toggle(struct wled *wled)
+>  
+>  	rc = regmap_update_bits(wled->regmap,
+>  				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
+> -				mask, mask);
+> +				mask, WLED3_SINK_REG_SYNC_CLEAR);
+>  	if (rc < 0)
+>  		return rc;
+>  
+>  	rc = regmap_update_bits(wled->regmap,
+>  				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
+> -				mask, WLED3_SINK_REG_SYNC_CLEAR);
+> +				mask, mask);
+>  
+>  	return rc;
+>  }
+> @@ -353,17 +353,17 @@ static int wled5_mod_sync_toggle(struct wled *wled)
+>  	int rc;
+>  	u8 val;
+>  
+> -	val = (wled->cfg.mod_sel == MOD_A) ? WLED5_SINK_REG_SYNC_MOD_A_BIT :
+> -					     WLED5_SINK_REG_SYNC_MOD_B_BIT;
+>  	rc = regmap_update_bits(wled->regmap,
+>  				wled->sink_addr + WLED5_SINK_REG_MOD_SYNC_BIT,
+> -				WLED5_SINK_REG_SYNC_MASK, val);
+> +				WLED5_SINK_REG_SYNC_MASK, 0);
+>  	if (rc < 0)
+>  		return rc;
+>  
+> +	val = (wled->cfg.mod_sel == MOD_A) ? WLED5_SINK_REG_SYNC_MOD_A_BIT :
+> +					     WLED5_SINK_REG_SYNC_MOD_B_BIT;
+>  	return regmap_update_bits(wled->regmap,
+>  				  wled->sink_addr + WLED5_SINK_REG_MOD_SYNC_BIT,
+> -				  WLED5_SINK_REG_SYNC_MASK, 0);
+> +				  WLED5_SINK_REG_SYNC_MASK, val);
+>  }
+>  
+>  static int wled_ovp_fault_status(struct wled *wled, bool *fault_set)
+> -- 
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+>  a Linux Foundation Collaborative Project
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1151866202==--
