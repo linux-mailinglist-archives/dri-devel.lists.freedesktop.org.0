@@ -2,49 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26E5328ADF
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 19:24:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7176C328ADE
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 19:24:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A62AB6E880;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80B686E87A;
 	Mon,  1 Mar 2021 18:24:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 026536E874
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 17:41:38 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id c10so3265718ejx.9
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Mar 2021 09:41:38 -0800 (PST)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 713B36E85A
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 17:48:09 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id bm21so10989105ejb.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Mar 2021 09:48:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=fmHYggjF6Jt5DNFcsFSXOplHqC900eWwjViJfxnrUOQ=;
- b=Ph1JJjuOqS4RxbqS5YT9VFHcNI4IsMz6yueacxoRJOBEhFCZmrQlo4o8hTpMGQg0g8
- yGfirBtjYWTm3xk6zvuiwfoOQigcl0HGdhkD+nmMAvEfzfgd5dLF83Og2lb1imAVxogv
- y4mNixTDxFJLhVO8tR+3vw0+RzC1RDcW/pYxE4QKHiFdKAyEoWaFxG2NMf+5gnPeuWst
- bHxUSUFHOmTB0v8nmtUQiSZJ4vk9G2nvuKdV54l8KbFHM1iiOABIWrG2cG04IMNDBMvp
- dETm8q8Ir5t+J6IDRu7GCrqLOC+ULWe9Tcxxuw0N9VNu9P2Ma9JZgR2SVhVZJsi3oLWp
- OB6A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kKAwYJoDEnuNKA7NDxSNMttjG6oI4M6ycG0b0QK71X4=;
+ b=K3Wu1CRni/FcygK9s0nDOo+LOi/QsIK9pC2qcIZisiCTiBFFyeG5pGO1PFD9D/2JZ+
+ Bvf0xq9pahLEzCNVwR9seMyOWNxggnLxnVpPYz2NHM0bue7mr7+fChOYOmf8EbleGsYG
+ Cun1hkf7ALRFNd9gwzGa6mZCa5tGjeIanfEoghvOU4rstxztSLec6d5coGH3dSuXLdGD
+ UVnvPjD8qxQc3p2sYkGCkiM9SCZH8PNIsEtC8Vji1iCWutIfMu51gqijkUUbnIgSDTic
+ 4+1E8YDV37gk2mJSHsHeqiVn9k/kW0QroJD69JR9ul1xZ/puiRxS3eOG/yLlJFCdJMlW
+ sM2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=fmHYggjF6Jt5DNFcsFSXOplHqC900eWwjViJfxnrUOQ=;
- b=iX9yn7U4dteFW0eeN71sYXL5E9nqQmzIrS66+AOVEeBH/DH+AmN/k8IaBHXpWEsea1
- Vg/cPt7xrcEp517yjg2xaACoAWfDShRufkKuRVk5UyF0WQCM9MeI/P70ywNAwQ24BxNS
- 6VaOBlVSLzyZdi7uuLVS8s3qLBM216oKNO9WfN6NN+HeaN1yvvILw+mH9+ovfVBjohYC
- 7InZCJpYLirGT6xaK3kqD+R8Y04f0xW5xQZlObBCav7kFGwI6EbUnXBmcZk52FIn97by
- t4jdjQNTX4M5ZVcIVDWAkhucQanb0MBRfdtD2tuwtq2ZZ/gmsTqqx2EcKWuDy6ZKYr6S
- upUg==
-X-Gm-Message-State: AOAM532QVstInK8j7qwldXF8rjQgAvz1olop0NDfdq3AqfoxUCvJZ7MT
- LHxQVXFUFT3XbK6xzLz6PEHhC+A7fAUrOMteiIRCGA==
-X-Google-Smtp-Source: ABdhPJxoABcMaR5kEmZSB4acbSvWKHsyI5hA+pRpVuNgxn2ziEZdCLJsXUnLoSJMlehoTnOmuiGIuHuaGsNwmQBFxUQ=
-X-Received: by 2002:a17:906:4c85:: with SMTP id
- q5mr16916646eju.375.1614620497482; 
- Mon, 01 Mar 2021 09:41:37 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kKAwYJoDEnuNKA7NDxSNMttjG6oI4M6ycG0b0QK71X4=;
+ b=M7FRXnyhfrxS58HDe7d1JKpRI9Ui3de+LqueVZ85WoHxwzE/w5eZqqMGdemJK3jFBI
+ Mn26Gjz/unAW2Cm8WqzwnLAZrUypbRB/HzPymCceoRNzJCxKHXv+MPn4eAsEEBjz+vR6
+ u5J9FsLWKodPInl0oyqzevLgbJ+IOY5AYR1anqAcCSqOpTsdNi0QDEnP7JhjFCwnIGO8
+ k+SCR8pHZ/xdT2e2cfTtksiKIu3Yi8xJntp/bWUWpjIMCBgzEVGBaBc9MlVMUXxFVrhR
+ 06k2EXw+XedhiYq4Bfxuy+c6CNc9lHRj4AX8nmiL93ObiWu8OLEgYqbg97UVWMfs1qWX
+ 8Bpg==
+X-Gm-Message-State: AOAM531u/WU1XIM1WdVLdzjjQtdUTZQ9C2jUFF9ZcZlQGWx5+3t2+qeD
+ V9jaIzDBIJV9WcynKoQdD3KX/0/E/EV08yDguIRJdiYaJCqtjjt7
+X-Google-Smtp-Source: ABdhPJzP4WNgoNINfvklMYsaaLWAkFd6O+mPU5Y3Qmi5KdRFJb3oaFi3Gphz6n7E8p4bAtOgLQVCxAsdCar9WQ9UggE=
+X-Received: by 2002:a17:906:d8ca:: with SMTP id
+ re10mr17047184ejb.18.1614620888000; 
+ Mon, 01 Mar 2021 09:48:08 -0800 (PST)
 MIME-Version: 1.0
+References: <CA+G9fYvApAT=vx_XxhbMZ=rS8ShhYkSKa0JsHC8k0dFn5xwU=Q@mail.gmail.com>
+In-Reply-To: <CA+G9fYvApAT=vx_XxhbMZ=rS8ShhYkSKa0JsHC8k0dFn5xwU=Q@mail.gmail.com>
 From: Naresh Kamboju <naresh.kamboju@linaro.org>
-Date: Mon, 1 Mar 2021 23:11:26 +0530
-Message-ID: <CA+G9fYvApAT=vx_XxhbMZ=rS8ShhYkSKa0JsHC8k0dFn5xwU=Q@mail.gmail.com>
-Subject: rcar_du_kms.c:781:24: error: passing argument 1 of
+Date: Mon, 1 Mar 2021 23:17:56 +0530
+Message-ID: <CA+G9fYsDd2Rk0YO=bELuWqcsA817v2GEaJvPxXfOJAVu0Jy5ig@mail.gmail.com>
+Subject: Re: rcar_du_kms.c:781:24: error: passing argument 1 of
  '__drmm_add_action' from incompatible pointer type
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Sasha Levin <sashal@kernel.org>
@@ -72,41 +75,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On stable rc 5.11 the x86_64 build failed due to below errors/warnings.
+On Mon, 1 Mar 2021 at 23:11, Naresh Kamboju <naresh.kamboju@linaro.org> wrote:
+>
+> On stable rc 5.11 the x86_64 build failed due to below errors/warnings.
 
-drivers/gpu/drm/rcar-du/rcar_du_kms.c: In function 'rcar_du_modeset_cleanup':
-drivers/gpu/drm/rcar-du/rcar_du_kms.c:754:32: error: implicit
-declaration of function 'to_rcar_du_device'; did you mean
-'to_rtc_device'? [-Werror=implicit-function-declaration]
-  struct rcar_du_device *rcdu = to_rcar_du_device(dev);
-                                ^~~~~~~~~~~~~~~~~
-                                to_rtc_device
-drivers/gpu/drm/rcar-du/rcar_du_kms.c:754:32: warning: initialization
-makes pointer from integer without a cast [-Wint-conversion]
-In file included from drivers/gpu/drm/rcar-du/rcar_du_kms.c:17:0:
-drivers/gpu/drm/rcar-du/rcar_du_kms.c: In function 'rcar_du_modeset_init':
-drivers/gpu/drm/rcar-du/rcar_du_kms.c:781:24: error: passing argument
-1 of '__drmm_add_action' from incompatible pointer type
-[-Werror=incompatible-pointer-types]
-  ret = drmm_add_action(&rcdu->ddev, rcar_du_modeset_cleanup, NULL);
-                        ^
-include/drm/drm_managed.h:25:20: note: in definition of macro 'drmm_add_action'
-  __drmm_add_action(dev, action, data, #action)
-                    ^~~
-include/drm/drm_managed.h:27:18: note: expected 'struct drm_device *'
-but argument is of type 'struct drm_device **'
- int __must_check __drmm_add_action(struct drm_device *dev,
-                  ^~~~~~~~~~~~~~~~~
-cc1: some warnings being treated as errors
+These build failures were also noticed on stable rc 5.10 for arm64,
+arm, x86_64, and i386 architectures.
 
-Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-
-Build link,
-https://ci.linaro.org/job/openembedded-lkft-linux-stable-rc-5.11/DISTRO=lkft,MACHINE=ls2088ardb,label=docker-buster-lkft/8/consoleText
-
--- 
-Linaro LKFT
-https://lkft.linaro.org
+>
+> drivers/gpu/drm/rcar-du/rcar_du_kms.c: In function 'rcar_du_modeset_cleanup':
+> drivers/gpu/drm/rcar-du/rcar_du_kms.c:754:32: error: implicit
+> declaration of function 'to_rcar_du_device'; did you mean
+> 'to_rtc_device'? [-Werror=implicit-function-declaration]
+>   struct rcar_du_device *rcdu = to_rcar_du_device(dev);
+>                                 ^~~~~~~~~~~~~~~~~
+>                                 to_rtc_device
+> drivers/gpu/drm/rcar-du/rcar_du_kms.c:754:32: warning: initialization
+> makes pointer from integer without a cast [-Wint-conversion]
+> In file included from drivers/gpu/drm/rcar-du/rcar_du_kms.c:17:0:
+> drivers/gpu/drm/rcar-du/rcar_du_kms.c: In function 'rcar_du_modeset_init':
+> drivers/gpu/drm/rcar-du/rcar_du_kms.c:781:24: error: passing argument
+> 1 of '__drmm_add_action' from incompatible pointer type
+> [-Werror=incompatible-pointer-types]
+>   ret = drmm_add_action(&rcdu->ddev, rcar_du_modeset_cleanup, NULL);
+>                         ^
+> include/drm/drm_managed.h:25:20: note: in definition of macro 'drmm_add_action'
+>   __drmm_add_action(dev, action, data, #action)
+>                     ^~~
+> include/drm/drm_managed.h:27:18: note: expected 'struct drm_device *'
+> but argument is of type 'struct drm_device **'
+>  int __must_check __drmm_add_action(struct drm_device *dev,
+>                   ^~~~~~~~~~~~~~~~~
+> cc1: some warnings being treated as errors
+>
+> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+>
+> Build link,
+> https://ci.linaro.org/job/openembedded-lkft-linux-stable-rc-5.11/DISTRO=lkft,MACHINE=ls2088ardb,label=docker-buster-lkft/8/consoleText
+>
+> --
+> Linaro LKFT
+> https://lkft.linaro.org
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
