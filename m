@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55CB3327C9D
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 11:52:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB3BB327CA7
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Mar 2021 11:56:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC86889CD9;
-	Mon,  1 Mar 2021 10:52:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE6F16E59D;
+	Mon,  1 Mar 2021 10:56:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCA7A89CD9
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 10:52:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CB4DA64D90;
- Mon,  1 Mar 2021 10:52:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A961B6E59D
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 10:56:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D90B060235;
+ Mon,  1 Mar 2021 10:56:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1614595970;
- bh=Qz9hXkoLqUJEA+4tO3Qh81j1cTk/PaX+4CMLrJuOVVo=;
+ s=korg; t=1614596161;
+ bh=6nArLoo71twjqHItfW0VRr1nThEtMq89eult4VrbDQM=;
  h=Subject:To:Cc:From:Date:From;
- b=EwPiuc258RbdqIRTzbmqpoarugDQTclRQ+LRX3BXfCHC8UuCOGxl4OJ4OR8kb3kuO
- qWV+4cKwSU57yAncrkM1cRT0wswSS4O4Hq98Rq2zcBImMTdGHWXllnUdNdyzKm7oGb
- zBwrDWqQPbQ1GljgDKkgYGbgugpn4X3OW3lXQeWE=
+ b=gRLGG/tc1ibfrf7SCtxp5IFC6mSlq3Y3j9YXNKaBKshnmoywGXjQujUBslIZAYCoD
+ Upn/8Y9qc7jUaFxMSg3YFzvL2uKR2lD6csqzfpfc2FYlomf73cuigl35kvBDMqlh2e
+ /IOJgnDMm/JAaATfizU0GzvwONz6x7uvVcgUkWR8=
 Subject: Patch "drm/nouveau/kms: handle mDP connectors" has been added to the
- 5.4-stable tree
+ 5.10-stable tree
 To: bskeggs@redhat.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, kherbst@redhat.com, markpearson@lenovo.com
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 01 Mar 2021 11:49:42 +0100
-Message-ID: <161459578248215@kroah.com>
+Date: Mon, 01 Mar 2021 11:50:07 +0100
+Message-ID: <16145958075185@kroah.com>
 MIME-Version: 1.0
 X-stable: commit
 X-Patchwork-Hint: ignore 
@@ -54,12 +54,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/nouveau/kms: handle mDP connectors
 
-to the 5.4-stable tree which can be found at:
+to the 5.10-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-nouveau-kms-handle-mdp-connectors.patch
-and it can be found in the queue-5.4 subdirectory.
+and it can be found in the queue-5.10 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -107,7 +107,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	DCB_CONNECTOR_HDMI_C = 0x63,
 --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-@@ -1240,6 +1240,7 @@ drm_conntype_from_dcb(enum dcb_connector
+@@ -1210,6 +1210,7 @@ drm_conntype_from_dcb(enum dcb_connector
  	case DCB_CONNECTOR_DMS59_DP0:
  	case DCB_CONNECTOR_DMS59_DP1:
  	case DCB_CONNECTOR_DP       :
@@ -119,8 +119,8 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from kherbst@redhat.com are
 
-queue-5.4/drm-nouveau-kms-handle-mdp-connectors.patch
-queue-5.4/drm-nouveau-bail-out-of-nouveau_channel_new-if-chann.patch
+queue-5.10/drm-nouveau-kms-handle-mdp-connectors.patch
+queue-5.10/drm-nouveau-bail-out-of-nouveau_channel_new-if-chann.patch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
