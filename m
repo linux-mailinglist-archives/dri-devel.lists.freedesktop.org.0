@@ -2,62 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BDF3329F00
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 13:45:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AABBE329F1E
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 13:47:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A0F46E938;
-	Tue,  2 Mar 2021 12:45:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B39126E93A;
+	Tue,  2 Mar 2021 12:47:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2FE16E933
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Mar 2021 12:45:16 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id e2so16562041ljo.7
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Mar 2021 04:45:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AsAU40DSj2V8WyiPA2FnCGE9liTgJLKy+L+ScTeuyXY=;
- b=PPIYu9Codq6bxO4eijFwZSN7sqEF6h57TWa30qKtAgsbaS4NOYln26tnSZmm5A06uQ
- HSlmfOCo200P2iltZ9IwZ3LVzotYpr96QK26ldWtZ1io+7hsCOxGGza2jnPCIW7gQhes
- E2qgUVYUSoZ9Xowjg+T/1rNu+7Ar7PGHkaY0TNLM9j0VPAO0OrQDDruTCl2ILmbeMcZF
- SgrOs9o/x/0fX6ImLbQCF8YBtoj3QVsoatFFqr9eVXXmfkKtG/s7zCrfJVLi6kVCRqxm
- AzhWl+4obu7lprBNtTsAlS4O3r0A2DkNlNIJrPl9HWM/qCcsqF2sx5bj8gT+vh91l8b4
- 9Tdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AsAU40DSj2V8WyiPA2FnCGE9liTgJLKy+L+ScTeuyXY=;
- b=f66RSt3FSAi2XDVukfd/mrdvDnrgdaSSntTf6lvNB6doKnAHDuBOx37r+k6bIvEPTR
- tdCmDlgnbs84ZvwmhTby2H6Y1m12Vp+d6p+aJpPlXL857zKab3LEPQisv7J9kPiczCWJ
- cHh+AD15s+kKrDbNMTWlcHDxDOOu+WFi1JIw739Ip2XC0pb9hMeDGZ07Rc0efiCfghlF
- ChhegqESemPuVViZONcuURsw/b/Wkhwem1NRUjWiLW2+7DE3BVWh1PMzbEZe82l37y8R
- FeliUYGRiUvcZxrXCfZSn5h0yiQEn9IB6jF5tELnx2ksM1tWkjjqtwUewv8wSeUX2+tZ
- zsGw==
-X-Gm-Message-State: AOAM53027qXXGPtXfZNFJNpqiciTkFPFfXLpzG3VYaNPi0UPWSuw9nmL
- 6IkMMmHUq2DUQC8Jax0O/LQ=
-X-Google-Smtp-Source: ABdhPJzhcU+vHPyphQdH9ezeBIdtlG/p4Ceab1j1WVSTIZLVrG5Q9r0fuGhUTYPcz3EHVcVEQbwfLg==
-X-Received: by 2002:a2e:8e28:: with SMTP id r8mr12675196ljk.156.1614689115461; 
- Tue, 02 Mar 2021 04:45:15 -0800 (PST)
-Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru.
- [109.252.193.52])
- by smtp.gmail.com with ESMTPSA id m16sm2634705lfh.109.2021.03.02.04.45.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Mar 2021 04:45:15 -0800 (PST)
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Matt Merhar <mattmerhar@protonmail.com>, Peter Geis <pgwipeout@gmail.com>,
- Nicolas Chauvet <kwizart@gmail.com>
-Subject: [PATCH v13 2/2] drm/tegra: dc: Extend debug stats with total number
- of events
-Date: Tue,  2 Mar 2021 15:44:45 +0300
-Message-Id: <20210302124445.29444-3-digetx@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210302124445.29444-1-digetx@gmail.com>
-References: <20210302124445.29444-1-digetx@gmail.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDB146E0A2;
+ Tue,  2 Mar 2021 12:46:59 +0000 (UTC)
+IronPort-SDR: lVUTSbBcPHox6YsjqAOJtWyhRff2AWAL3TAqbZORCaStlNACfRImWZdgu+Iu3KjcjmMB5SinCE
+ EVM70/rihO8w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9910"; a="250842710"
+X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="250842710"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2021 04:46:57 -0800
+IronPort-SDR: jIAEDA8K3Tw4q4E0+xBEk+hIdtc4Z+53W73+k1VDtsldkGuU69QWIfDQNwqaQooORiqwMMCZo7
+ EjMWMY0xtD7w==
+X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="406692523"
+Received: from rwathan-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.61.106])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2021 04:46:54 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH resend 1/2] drm/i915/display: Add a
+ intel_pipe_is_enabled() helper
+In-Reply-To: <20210302120040.94435-2-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210302120040.94435-1-hdegoede@redhat.com>
+ <20210302120040.94435-2-hdegoede@redhat.com>
+Date: Tue, 02 Mar 2021 14:46:51 +0200
+Message-ID: <87a6rlpvt0.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,98 +51,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's useful to know the total number of underflow events and currently
-the debug stats are getting reset each time CRTC is being disabled. Let's
-account the overall number of events that doesn't get a reset.
+On Tue, 02 Mar 2021, Hans de Goede <hdegoede@redhat.com> wrote:
+> Factor the code to check if a pipe is currently enabled out of
+> assert_pipe() and put it in a new intel_pipe_is_enabled() helper,
+> so that it can be re-used without copy-pasting it.
+>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Tested-by: Peter Geis <pgwipeout@gmail.com>
-Tested-by: Nicolas Chauvet <kwizart@gmail.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/tegra/dc.c | 10 ++++++++++
- drivers/gpu/drm/tegra/dc.h |  5 +++++
- 2 files changed, 15 insertions(+)
+Does what it says on the box.
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 7c6079984906..1399e4032701 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -1539,6 +1539,11 @@ static int tegra_dc_show_stats(struct seq_file *s, void *data)
- 	seq_printf(s, "underflow: %lu\n", dc->stats.underflow);
- 	seq_printf(s, "overflow: %lu\n", dc->stats.overflow);
- 
-+	seq_printf(s, "frames total: %lu\n", dc->stats.frames_total);
-+	seq_printf(s, "vblank total: %lu\n", dc->stats.vblank_total);
-+	seq_printf(s, "underflow total: %lu\n", dc->stats.underflow_total);
-+	seq_printf(s, "overflow total: %lu\n", dc->stats.overflow_total);
-+
- 	return 0;
- }
- 
-@@ -2310,6 +2315,7 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		/*
- 		dev_dbg(dc->dev, "%s(): frame end\n", __func__);
- 		*/
-+		dc->stats.frames_total++;
- 		dc->stats.frames++;
- 	}
- 
-@@ -2318,6 +2324,7 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		dev_dbg(dc->dev, "%s(): vertical blank\n", __func__);
- 		*/
- 		drm_crtc_handle_vblank(&dc->base);
-+		dc->stats.vblank_total++;
- 		dc->stats.vblank++;
- 	}
- 
-@@ -2325,6 +2332,7 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		/*
- 		dev_dbg(dc->dev, "%s(): underflow\n", __func__);
- 		*/
-+		dc->stats.underflow_total++;
- 		dc->stats.underflow++;
- 	}
- 
-@@ -2332,11 +2340,13 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		/*
- 		dev_dbg(dc->dev, "%s(): overflow\n", __func__);
- 		*/
-+		dc->stats.overflow_total++;
- 		dc->stats.overflow++;
- 	}
- 
- 	if (status & HEAD_UF_INT) {
- 		dev_dbg_ratelimited(dc->dev, "%s(): head underflow\n", __func__);
-+		dc->stats.underflow_total++;
- 		dc->stats.underflow++;
- 	}
- 
-diff --git a/drivers/gpu/drm/tegra/dc.h b/drivers/gpu/drm/tegra/dc.h
-index 0d7bdf66a1ec..ba4ed35139fb 100644
---- a/drivers/gpu/drm/tegra/dc.h
-+++ b/drivers/gpu/drm/tegra/dc.h
-@@ -48,6 +48,11 @@ struct tegra_dc_stats {
- 	unsigned long vblank;
- 	unsigned long underflow;
- 	unsigned long overflow;
-+
-+	unsigned long frames_total;
-+	unsigned long vblank_total;
-+	unsigned long underflow_total;
-+	unsigned long overflow_total;
- };
- 
- struct tegra_windowgroup_soc {
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+
+
+> ---
+>  drivers/gpu/drm/i915/display/intel_display.c | 20 ++++++++++++++------
+>  drivers/gpu/drm/i915/display/intel_display.h |  2 ++
+>  2 files changed, 16 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index e1060076ac83..9cb304aee285 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -442,17 +442,13 @@ void assert_panel_unlocked(struct drm_i915_private *dev_priv, enum pipe pipe)
+>  	     pipe_name(pipe));
+>  }
+>  
+> -void assert_pipe(struct drm_i915_private *dev_priv,
+> -		 enum transcoder cpu_transcoder, bool state)
+> +bool intel_pipe_is_enabled(struct drm_i915_private *dev_priv,
+> +			   enum transcoder cpu_transcoder)
+>  {
+>  	bool cur_state;
+>  	enum intel_display_power_domain power_domain;
+>  	intel_wakeref_t wakeref;
+>  
+> -	/* we keep both pipes enabled on 830 */
+> -	if (IS_I830(dev_priv))
+> -		state = true;
+> -
+>  	power_domain = POWER_DOMAIN_TRANSCODER(cpu_transcoder);
+>  	wakeref = intel_display_power_get_if_enabled(dev_priv, power_domain);
+>  	if (wakeref) {
+> @@ -464,6 +460,18 @@ void assert_pipe(struct drm_i915_private *dev_priv,
+>  		cur_state = false;
+>  	}
+>  
+> +	return cur_state;
+> +}
+> +
+> +void assert_pipe(struct drm_i915_private *dev_priv,
+> +		 enum transcoder cpu_transcoder, bool state)
+> +{
+> +	bool cur_state = intel_pipe_is_enabled(dev_priv, cpu_transcoder);
+> +
+> +	/* we keep both pipes enabled on 830 */
+> +	if (IS_I830(dev_priv))
+> +		state = true;
+> +
+>  	I915_STATE_WARN(cur_state != state,
+>  			"transcoder %s assertion failure (expected %s, current %s)\n",
+>  			transcoder_name(cpu_transcoder),
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.h b/drivers/gpu/drm/i915/display/intel_display.h
+> index 0e4c1481fa00..642cc87f3e38 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display.h
+> @@ -533,6 +533,8 @@ void intel_enable_pipe(const struct intel_crtc_state *new_crtc_state);
+>  void intel_disable_pipe(const struct intel_crtc_state *old_crtc_state);
+>  void i830_enable_pipe(struct drm_i915_private *dev_priv, enum pipe pipe);
+>  void i830_disable_pipe(struct drm_i915_private *dev_priv, enum pipe pipe);
+> +bool intel_pipe_is_enabled(struct drm_i915_private *dev_priv,
+> +			   enum transcoder cpu_transcoder);
+>  enum pipe intel_crtc_pch_transcoder(struct intel_crtc *crtc);
+>  int vlv_get_hpll_vco(struct drm_i915_private *dev_priv);
+>  int vlv_get_cck_clock(struct drm_i915_private *dev_priv,
+
 -- 
-2.29.2
-
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
