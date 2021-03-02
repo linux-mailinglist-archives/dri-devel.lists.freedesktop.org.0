@@ -1,148 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC84329F8A
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 13:54:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C4C4329F9A
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 13:54:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B70B36E940;
-	Tue,  2 Mar 2021 12:54:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C75B26E942;
+	Tue,  2 Mar 2021 12:54:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0014ca01.pphosted.com (mx0b-0014ca01.pphosted.com
- [208.86.201.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91EB26E940
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Mar 2021 12:54:03 +0000 (UTC)
-Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
- by mx0b-0014ca01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 122CnBDp007165; Tue, 2 Mar 2021 04:53:53 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint;
- bh=P68+5+ZAxn9B7q8g5dQazmEMAq9GvY17YJuLJja82PM=;
- b=UXDKSNbcAgUJt/qmHFpQedTDjfdeKRPvQlRzhVQHeVXk9JeMpyXuA93ciFpZUePcR+UU
- h00ZeKc9WxtLJL3VEmcqRfvL5wUrcnUwNZtB1TXPDHhu25CR7d1qmxwknaQwzTfD04I8
- MUg6IxFI8kYqiSRDofCneT2No8A1jvqXDBebLEEDKPQZcJnQJmriilb1yskJb+GJJUM0
- QTruvS/EtmoKd0HR+XKKySp7Fs1gKzSlZCSzsLbePd6qs2rPpcSlKMaJ92PYilNvl2xx
- 0CEJO6FcCFydPzCOa3VioW9Uraeme/r80h16bNVt9ER5Z5aB1sPw2jEe5aNeS86ZuSsu aQ== 
-Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2172.outbound.protection.outlook.com [104.47.56.172])
- by mx0b-0014ca01.pphosted.com with ESMTP id 36yjj2h4qf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Mar 2021 04:53:53 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EACrELcQqtQbHsLXpF+Z1D1aDwEg8FMsGlEz3Fscpoyf6Q9WqqhKwbckZN0J+mFVrvY/1j+1cRqwyoSWmJSu9AoJRatKFYXwEaTCigyRZy7oH9ko47k2Kb0K3ESgDY58WvK4VSJMrMb0IKHC8xfs7Lv/8U3bvTgndV5dsY/T/gIZCgl6YuuLxrEd+KL8KYniomqKF6/fqfo5YKWMWEZEo61JodDGszujdotVRE7xSUoGud5Pz2X5lCuQ3A6b+aKS9PYXjCxdIuikyw8HNAzo/aoY+a9f22ak2V4eHr+EdxZ8jVCLYuq2OnwNY7z4WUH5cWu1dk3XoWtiKToYHmIkkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P68+5+ZAxn9B7q8g5dQazmEMAq9GvY17YJuLJja82PM=;
- b=jaFAK1t8ai4yZ1lxN+tadan8oSWNf+m1sQfz1LAHBOhnW/LRVt66S1B6d1a1yB7xQ7AqsV/dDS53QM6pxXo9JUdagbFlSe2FTEcKJaKspNZGxQ3/9YEuXm2enOla2m2Ep8RL53V0k20xRFp84mm8DvcICrvIaLbpnErUVN9WOIcht0ZV5UXpNs7VYCXst25f1yyWpbUy9HcW8kVBD6olnwk2m7Ok1krbKDrXxJhuT6DpSeOFrPrucH8Vl8NJLlbxwLVB1AWBSlu1FPahP8nsmlodGXnZK4JRLcG5FjELuIGc0niGWYSL8t7Pb/Olle72i7P/7P3lvMMuj6nWSBvJmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cadence.com; dmarc=pass action=none header.from=cadence.com;
- dkim=pass header.d=cadence.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P68+5+ZAxn9B7q8g5dQazmEMAq9GvY17YJuLJja82PM=;
- b=qYl7eREn1znKvv9Mr5Mqzv3GHHg2wj1VSMdlg5RXArCfS6MVpVEILQnP2d1R0DP5UaDOO7ix7X2ifviFb07jX2CwBSFRJhWwHGltkYrH4edKPRqZxv2sl8zX4yAOPbUcAifIROVzRR5zaadeiEgRjUVER2vjidj0C1nwmSfgf4Y=
-Received: from DM5PR07MB3196.namprd07.prod.outlook.com (2603:10b6:3:e4::16) by
- DM6PR07MB5914.namprd07.prod.outlook.com (2603:10b6:5:15e::15) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3890.23; Tue, 2 Mar 2021 12:53:50 +0000
-Received: from DM5PR07MB3196.namprd07.prod.outlook.com
- ([fe80::3160:6a62:6e4d:2226]) by DM5PR07MB3196.namprd07.prod.outlook.com
- ([fe80::3160:6a62:6e4d:2226%5]) with mapi id 15.20.3890.029; Tue, 2 Mar 2021
- 12:53:50 +0000
-From: Parshuram Raju Thombare <pthombar@cadence.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: RE: [PATCH v2 1/2] dt-bindings: drm/bridge: MHDP8546 bridge binding
- changes for HDCP
-Thread-Topic: [PATCH v2 1/2] dt-bindings: drm/bridge: MHDP8546 bridge binding
- changes for HDCP
-Thread-Index: AQHXDo0sCc9s3aGgTUeo76y9eToCYapvRZgAgAAHa+CAAAWAAIABVXGg
-Date: Tue, 2 Mar 2021 12:53:50 +0000
-Message-ID: <DM5PR07MB319628C858F667D9E5058904C1999@DM5PR07MB3196.namprd07.prod.outlook.com>
-References: <1614597685-4192-1-git-send-email-pthombar@cadence.com>
- <1614597746-4563-1-git-send-email-pthombar@cadence.com>
- <YD0LKg3Jl5nauMqF@pendragon.ideasonboard.com>
- <DM5PR07MB319661E8BFEB251CE17AF587C19A9@DM5PR07MB3196.namprd07.prod.outlook.com>
- <YD0WAMySrv53lxFR@pendragon.ideasonboard.com>
-In-Reply-To: <YD0WAMySrv53lxFR@pendragon.ideasonboard.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNccHRob21iYXJcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy01M2ZiZTYyZi03YjU2LTExZWItODYyZC0wMGUwNGIzNmI1YjFcYW1lLXRlc3RcNTNmYmU2MzEtN2I1Ni0xMWViLTg2MmQtMDBlMDRiMzZiNWIxYm9keS50eHQiIHN6PSI5MjMiIHQ9IjEzMjU5MTYzMjI4MTQ5NTMxMCIgaD0iWTQzbDBVNk1zMC9SSmMvOHJtalpyenNyYnBZPSIgaWQ9IiIgYmw9IjAiIGJvPSIxIi8+PC9tZXRhPg==
-x-dg-rorf: true
-authentication-results: ideasonboard.com; dkim=none (message not signed)
- header.d=none;ideasonboard.com; dmarc=none action=none
- header.from=cadence.com;
-x-originating-ip: [59.145.174.78]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cfff1cd0-e6cf-40d5-b710-08d8dd7a3a74
-x-ms-traffictypediagnostic: DM6PR07MB5914:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR07MB5914DFB6EFD91D0AC3D4E73CC1999@DM6PR07MB5914.namprd07.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: MAJQ6tFUod/u/K6AwSZfNCo40h7aFNWn/74QVDDanPoBxb0SA2Z/EqncpEZeD57gcys0DXifYMs9WCRltntTHspdmKeZC4dJ4odVj7vEnyYkaWA/xGfdWwAA3F3wNPuSRcxddDsxOHQ03sBG6LdfigMcDnCSbAKaWTUnJklr4QMbhK1WZ1uAMI3hb+KrSnad8mv/kFYIrwu2NVz5s1S7iH13Hq8sACV0ZyLUDeuUz999mun9iA7Ab1kivQ/KUkEAn+Rc4jARBOkeWYZ7lp7dF/mwUlv1dj7uhpFzqDDI9DwdFRKgiF9IbiAUUT/HOZEDG6XUEby2EhPMzYq0hIZn8ET7/tIkChZMWWmZO3z4FsyEjVUH0m9IrVcIkQwK+bK3WLHxtYUcIazn+DcJ6NPCkQ/1mU0noG9r+42iQriLDjSfIRqmId2pZuP0Eb85uxnyXs3dPwymgAN4YDpEWGbTe4WOfMm4eA3FfMdTMN3/DSQJmCotV/pHXz0fOpYPbvFtR3OgLasdlxYpcV+9orRtCLY89H7zCsPXSOob9jUuwV7YiLw551bZ75uDhaDE2iTE
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR07MB3196.namprd07.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(396003)(39860400002)(136003)(376002)(366004)(36092001)(107886003)(186003)(52536014)(4744005)(2906002)(7416002)(6506007)(71200400001)(8936002)(66946007)(316002)(33656002)(26005)(76116006)(54906003)(66556008)(64756008)(55016002)(6916009)(8676002)(5660300002)(9686003)(478600001)(66446008)(66476007)(7696005)(86362001)(4326008);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?VmhSV1NCZThyaUNIeVdETTZVNnlNdEM2YjU5N256Z2JmUkQ2WnlYUUFhV3h5?=
- =?utf-8?B?Mi8rd0I0ZE9XbHU4SUdueDl1ZDM5WlY5L3NaS1FCbWdCWlJvZUJDUUk3SEdS?=
- =?utf-8?B?bW40UkdHend4U0lsSDY0MEFyTWorOWxuMk1mei85Z0NYWEhzd0d2a0xSL2pz?=
- =?utf-8?B?RTB2L1dZa1RaMnFLR09JN2Y5akgya25JcE5OaklGOUxIN2FwUzc1ZC9KUFhn?=
- =?utf-8?B?MUsyZFBsZVU5bFlVWHBQdzNiUi9sRVRWMXppRWsxeFZkSk94QzN6dXRNMGJt?=
- =?utf-8?B?L1lJZ2xJejhwQS9oRWUxTnlzbEJnRUkvZFlaZ1BlNVVheHFDQWExcGMzK1M4?=
- =?utf-8?B?aXQrZDR0WThPSDVrVzhvVXNUek9HVEJhR1hob1NlSGVJVVZvL0pvWU8yNC9h?=
- =?utf-8?B?UnBVU0s5dlhnSVN2Z2p5VEhVTVV0VmozSnFxR3RpaWt5dXRpeXNmNHMrVW95?=
- =?utf-8?B?RmtXUHg5WU5IOGxjaEQwUmlCSE9wbzZyWjdVaVF5TDkzM1VzTmtGTUNKazhk?=
- =?utf-8?B?RG4yczQyaTNBeUloZUhwLzd2MnZoMXY3R0hnS1RocWwzaUNLTk5uakM0QzlJ?=
- =?utf-8?B?SElJUis5S0NLQ1M5MVRqaURGNnR3QmdaSzJVeFZjN3c2NVRXMndNOGpCK0xG?=
- =?utf-8?B?QkhIeXhVNFdXTEozQjVNejJJK3N2WFpndVFKem1HZ0x5dDVpcUp4dTkwQXhS?=
- =?utf-8?B?TXZUdEdFN3o5a0lVQVdOemVpazE4RE42aFdoc1lBTGdZaWxJUmMxVzhKcE9a?=
- =?utf-8?B?Nll5WXpIUCtYUGZUNkI0YWRhbzNFbzR3YlVtQkhacDRTejAvZ1pPZjd5WWV2?=
- =?utf-8?B?MTVNby9wTURRT0ovcXVPcjA5NzBySXFUdEJJN1Y0ankyMERRZHJZTkJNUzlP?=
- =?utf-8?B?ZTJTM3NIT2dWVERsZnN2cnQyQWVNZEU0ZEJwRHBia3BvZkd0Q2ZVclJ1YWFp?=
- =?utf-8?B?eGRUL0p1V1dPWEhKZkNCOFNKL1d1TXg4czc3eXhlbm45VC9pZm9LazBXSE9P?=
- =?utf-8?B?N2QxSW1wTGprRng1SzFHUlk3UU1rSmtlRFdhYjM3dUxpeTVpRStIZC94RlpP?=
- =?utf-8?B?R0Z1b1ExWHdSaFNJbGVTTmJTaytaQlNhOXRlNkl6ZDJLRlp3SW9NejBTZDNV?=
- =?utf-8?B?czIwN0tWbGtMYlpvTVl3MXY5Q3JCMnBTaE9OYnJRenhzWlJkVGVWWng2Rk1C?=
- =?utf-8?B?cHFDa0J6UjU5bk0xMjhGZmRjU2Rzb20vdEFPOXVvcndHakI4TXo4QVdDbEVY?=
- =?utf-8?B?QjFiWk5nU3FQenI5YTkzZzFzUk9BY1I4U0VKQXp3TGNXR1puQzFkUTdkYlox?=
- =?utf-8?B?QnJqaGhSU3YxbGQyVTEwb1pyTm9CZmJlNHVlUklSYkxvaXlLREpVdnRnZzkr?=
- =?utf-8?B?clRxN0VRcDgzWWJnWno0U3BYeFovT1d0TnhPY0lkMlFWc2d5OFIrUnJDYTVR?=
- =?utf-8?B?Rlp3ZmRVL0dGRmZZRzRvd2FJQUEzd2dpM3NDeDdDNHV0bVkxa3JqNE13UjBG?=
- =?utf-8?B?Y2UrWVF6RkhSMm4zYTZTMi9CZ1Z2MUlBZnlDUDIxRk5hNjg1bDFFZWRNNnNs?=
- =?utf-8?B?ampZOTY3NGdTVndPemp5Y25UZHZBU0ZFNHBjem1BR0hLSTFOOTJVUFdWaFA4?=
- =?utf-8?B?c050S2tseGg3d1B3UmM3Yjk5THlLd0lFbXA2RzBpeHArZmZvQi9jWW1VMTli?=
- =?utf-8?B?Z3FwNlZQRGxBbUczUXpYQ0k4RitrZUpHa09sK3hIcHNwcE44Z2x6VUVJeVR1?=
- =?utf-8?Q?dMn7QasDF7yJ3uX51UPgG8Cp7LCni+laCUv3TIn?=
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F02C89DB9;
+ Tue,  2 Mar 2021 12:54:48 +0000 (UTC)
+IronPort-SDR: Hentue9CwyZPDNgDF6cN8kufxcBWjF3KE3ys4XPwwMkFV2EahbXW4fGYMk0Yer6cwQ6iSEnZ7Z
+ /gNIGRomrrOA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9910"; a="183404235"
+X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="183404235"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2021 04:54:47 -0800
+IronPort-SDR: XCshpGSBpDyWv174l5tCtjzmcN5GPQA88IWP1TG5vnxiCi/OKfgdCytI3LZWFyWN32M8BjwyUD
+ C1lX7rhlQ/Jw==
+X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="406694828"
+Received: from rwathan-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.61.106])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2021 04:54:44 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH resend 2/2] drm/i915/display: Make vlv_find_free_pps()
+ skip pipes which are in use for non DP purposes
+In-Reply-To: <20210302120040.94435-3-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210302120040.94435-1-hdegoede@redhat.com>
+ <20210302120040.94435-3-hdegoede@redhat.com>
+Date: Tue, 02 Mar 2021 14:54:41 +0200
+Message-ID: <877dmppvfy.fsf@intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR07MB3196.namprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cfff1cd0-e6cf-40d5-b710-08d8dd7a3a74
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2021 12:53:50.8121 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZRWiSD1CpCiQRHMxqH53EMEV3AZIo3xzJL+x0kNY2LlqefdUpWPmoG+fyoqVwV6+W/pq2QwhtYELO5JKSBmWnF5cwZOmxrkBUF/LSQ2z87o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR07MB5914
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-02_06:2021-03-01,
- 2021-03-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check
- score=0 bulkscore=0
- clxscore=1015 adultscore=0 impostorscore=0 mlxlogscore=999 mlxscore=0
- lowpriorityscore=0 spamscore=0 phishscore=0 priorityscore=1501
- malwarescore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2009150000 definitions=main-2103020105
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,41 +51,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "kishon@ti.com" <kishon@ti.com>, "a.hajda@samsung.com" <a.hajda@samsung.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "robert.foss@linaro.org" <robert.foss@linaro.org>,
- Swapnil Kashinath Jakhade <sjakhade@cadence.com>,
- "nikhil.nd@ti.com" <nikhil.nd@ti.com>, Milind Parab <mparab@cadence.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
-
->> > Is this a property of the hardware, that is, are there multiple versions
->> > of this IP core covered by the same compatible string that support HDCP
->> > 1.4 only, DHCP 2.2 only or both ? Or is it a way to select what a given
->> > system will offer ?[]
->>
->> MHDP hardware supports both HDCP 2.2 and 1.4. So, this is a way
->> to select the version of HDCP, system wish to support.
+On Tue, 02 Mar 2021, Hans de Goede <hdegoede@redhat.com> wrote:
+> As explained by a long comment block, on VLV intel_setup_outputs()
+> sometimes thinks there might be an eDP panel connected while there is none.
+> In this case intel_setup_outputs() will call intel_dp_init() to check.
 >
->Then I'm not sure this qualifies as a DT property, which should describe
->the system, not configure it. A way for userspace to configure this
->would be better.
+> In this scenario vlv_find_free_pps() ends up selecting pipe A for the pps,
+> even though this might be in use for non DP purposes. When this is the case
+> then the assert_pipe() in vlv_force_pll_on() will fail when called from
+> vlv_power_sequencer_kick().
+>
+> This happens on a Voyo winpad A15, leading to the following WARN/backtrace:
+>
+> [    8.661531] ------------[ cut here ]------------
+> [    8.661590] transcoder A assertion failure (expected off, current on)
+> [    8.661647] WARNING: CPU: 2 PID: 243 at drivers/gpu/drm/i915/display/intel_display.c:1288 assert_pipe+0x125/0xc20 [i915]
+> [    8.661822] Modules linked in: i915(E+) mmc_block crct10dif_pclmul crc32_pclmul crc32c_intel ghash_clmulni_intel i2c_algo_bit drm_kms_helper cec drm drm_privacy_screen_helper video(E) sdhci_acpi sdhci i2c_hid pwm_lpss_platform pwm_lpss mmc_core i2c_dev fuse
+> [    8.661944] CPU: 2 PID: 243 Comm: systemd-udevd Tainted: G            E     5.11.0-rc5+ #228
+> [    8.661954] Hardware name: To be filled by O.E.M. To be filled by O.E.M./Aptio CRB, BIOS 5.6.5 11/20/2014
+> [    8.661961] RIP: 0010:assert_pipe+0x125/0xc20 [i915]
+> [    8.662050] Code: c7 c2 e5 39 4a c0 74 c9 48 c7 c6 53 3b 4a c0 83 fb 06 77 0a 89 db 48 8b 34 dd 80 38 45 c0 48 c7 c7 c8 ff 47 c0 e8 13 6c 8f df <0f> 0b e9 1d ff ff ff 89 db 48 8b 34 dd 80 38 45 c0 eb a0 48 c7 c2
+> [    8.662058] RSP: 0018:ffffa939c0557690 EFLAGS: 00010286
+> [    8.662071] RAX: 0000000000000039 RBX: 0000000000000000 RCX: ffff89c67bd19058
+> [    8.662078] RDX: 00000000ffffffd8 RSI: 0000000000000027 RDI: ffff89c67bd19050
+> [    8.662085] RBP: ffff89c64a3c0000 R08: 0000000000000001 R09: 0000000000000001
+> [    8.662091] R10: ffffa939c05574c0 R11: ffffffffa0961248 R12: 0000000000000009
+> [    8.662098] R13: 0000000000000000 R14: 00000000e0000000 R15: ffff89c64a3c0000
+> [    8.662105] FS:  00007fe824e42380(0000) GS:ffff89c67bd00000(0000) knlGS:0000000000000000
+> [    8.662113] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [    8.662120] CR2: 00007fffdc770558 CR3: 0000000106ab8000 CR4: 00000000001006e0
+> [    8.662127] Call Trace:
+> [    8.662148]  assert_pipe+0xa9e/0xc20 [i915]
+> [    8.662252]  vlv_force_pll_on+0xfb/0x1b0 [i915]
+> [    8.662344]  intel_dp_sync_state+0xd92/0x2e70 [i915]
+> [    8.662448]  intel_dp_sync_state+0x1908/0x2e70 [i915]
+> [    8.662541]  intel_dp_sync_state+0x1a3e/0x2e70 [i915]
+> [    8.662620]  ? recalibrate_cpu_khz+0x10/0x10
+> [    8.662633]  ? ktime_get_with_offset+0xad/0x160
+> [    8.662658]  intel_dp_sync_state+0x1f21/0x2e70 [i915]
+> [    8.662788]  intel_dp_encoder_suspend+0x41f/0x14b0 [i915]
+> [    8.662875]  ? drm_dp_dpcd_access+0x50/0xf0 [drm_kms_helper]
+> [    8.662940]  ? __mutex_lock+0x7e/0x7a0
+> [    8.662950]  ? drm_dp_dpcd_access+0x50/0xf0 [drm_kms_helper]
+> [    8.662982]  ? drm_dp_dpcd_access+0x50/0xf0 [drm_kms_helper]
+> [    8.663025]  intel_dp_encoder_suspend+0xdf3/0x14b0 [i915]
+> [    8.663112]  ? find_held_lock+0x2b/0x80
+> [    8.663132]  drm_dp_dpcd_access+0x62/0xf0 [drm_kms_helper]
+> [    8.663181]  drm_dp_dpcd_read+0xb6/0xf0 [drm_kms_helper]
+> [    8.663223]  drm_dp_read_dpcd_caps+0x20/0x110 [drm_kms_helper]
+> [    8.663262]  intel_dp_init_connector+0x79e/0x1010 [i915]
+> [    8.663366]  intel_dp_init+0x251/0x480 [i915]
+> [    8.663453]  intel_modeset_init_nogem+0x1998/0x1b70 [i915]
+> [    8.663540]  ? intel_pcode_init+0x3b6b/0x5d60 [i915]
+> [    8.663625]  i915_driver_probe+0x5d5/0xcb0 [i915]
+> [    8.663734]  ? drm_privacy_screen_get+0x163/0x1a0 [drm_privacy_screen_helper]
+> [    8.663759]  i915_params_free+0x11a/0x200 [i915]
+> [    8.663830]  ? __pm_runtime_resume+0x58/0x90
+> [    8.663849]  local_pci_probe+0x42/0x80
+> [    8.663869]  pci_device_probe+0xd9/0x190
+> [    8.663892]  really_probe+0xf2/0x440
+> [    8.663915]  driver_probe_device+0xe1/0x150
+> [    8.663930]  device_driver_attach+0xa8/0xb0
+> [    8.663948]  __driver_attach+0x8c/0x150
+> [    8.663957]  ? device_driver_attach+0xb0/0xb0
+> [    8.663966]  ? device_driver_attach+0xb0/0xb0
+> [    8.663979]  bus_for_each_dev+0x67/0x90
+> [    8.663998]  bus_add_driver+0x12e/0x1f0
+> [    8.664015]  driver_register+0x8b/0xe0
+> [    8.664025]  ? 0xffffffffc055a000
+> [    8.664039]  init_module+0x62/0x7c [i915]
+> [    8.664127]  do_one_initcall+0x5b/0x2d0
+> [    8.664143]  ? rcu_read_lock_sched_held+0x3f/0x80
+> [    8.664155]  ? kmem_cache_alloc_trace+0x292/0x2c0
+> [    8.664178]  do_init_module+0x5c/0x260
+> [    8.664194]  __do_sys_init_module+0x13d/0x1a0
+> [    8.664247]  do_syscall_64+0x33/0x40
+> [    8.664260]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> [    8.664272] RIP: 0033:0x7fe825d9a6be
+> [    8.664284] Code: 48 8b 0d bd 27 0c 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 49 89 ca b8 af 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 8a 27 0c 00 f7 d8 64 89 01 48
+> [    8.664293] RSP: 002b:00007fffdc778028 EFLAGS: 00000246 ORIG_RAX: 00000000000000af
+> [    8.664307] RAX: ffffffffffffffda RBX: 00005573f0770cf0 RCX: 00007fe825d9a6be
+> [    8.664314] RDX: 00007fe825ed035a RSI: 000000000052b0a0 RDI: 00005573f112ae10
+> [    8.664321] RBP: 00005573f112ae10 R08: 00005573f112ae10 R09: 00007fffdc774f70
+> [    8.664328] R10: 00005573f0759010 R11: 0000000000000246 R12: 00007fe825ed035a
+> [    8.664334] R13: 00005573f077e1e0 R14: 0000000000000007 R15: 00005573f077f2d0
+> [    8.664379] irq event stamp: 126913
+> [    8.664385] hardirqs last  enabled at (126919): [<ffffffff9f162af9>] console_unlock+0x4e9/0x600
+> [    8.664397] hardirqs last disabled at (126924): [<ffffffff9f162a6c>] console_unlock+0x45c/0x600
+> [    8.664406] softirqs last  enabled at (126624): [<ffffffff9fe01112>] asm_call_irq_on_stack+0x12/0x20
+> [    8.664416] softirqs last disabled at (126619): [<ffffffff9fe01112>] asm_call_irq_on_stack+0x12/0x20
+> [    8.664426] ---[ end trace 5049606d4dbfaebc ]---
+>
+> Add a check for the combination of the DPLL not being enabled (indicating
+> that DP is not active on the pipe), while the pipe is enabled; and when
+> both conditions are true don't use the pipe for pps. This fixes the above
+> WARN/backtrace. After this the attempt to detect the non existing eDP
+> panel on port B results in the following 2 info messages:
+>
+> [    8.461967] i915 0000:00:02.0: [drm] Pipe A is used for non DP, not using it for pps
+> [    8.675304] i915 0000:00:02.0: [drm] failed to retrieve link info, disabling eDP
+>
+> Indicating that everything is working as it should.
+>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_pps.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_pps.c b/drivers/gpu/drm/i915/display/intel_pps.c
+> index f20ba71f4307..757e82825919 100644
+> --- a/drivers/gpu/drm/i915/display/intel_pps.c
+> +++ b/drivers/gpu/drm/i915/display/intel_pps.c
+> @@ -121,6 +121,7 @@ static enum pipe vlv_find_free_pps(struct drm_i915_private *dev_priv)
+>  {
+>  	struct intel_encoder *encoder;
+>  	unsigned int pipes = (1 << PIPE_A) | (1 << PIPE_B);
+> +	enum pipe pipe;
+>  
+>  	/*
+>  	 * We don't have power sequencer currently.
+> @@ -146,6 +147,27 @@ static enum pipe vlv_find_free_pps(struct drm_i915_private *dev_priv)
+>  		}
+>  	}
+>  
+> +	/*
+> +	 * If the DPLL is not enabled and the pipe is enabled then the pipe is
+> +	 * in use for non DP uses. In this case we *must* not use it for pps.
+> +	 * This may happen when PIPE A is used for a DSI panel, yet the VLV code
+> +	 * in intel_setup_outputs() thinks port B may be used for eDP and calls
+> +	 * intel_dp_init() to check.
+> +	 */
+> +	for (pipe = PIPE_A; pipe <= PIPE_B; pipe++) {
+> +		if (!(pipes & (1 << pipe)))
+> +			continue;
 
-Since this is for source device, I am not sure how useful it is to allow
-user to change HDCP version supported. I think doing it in DTS
-gives more control over HDCP to system designer/integrator.
+This should be:
 
-Regards,
-Parshuram Thombare
+	for_each_pipe_masked(dev_priv, pipe, pipes) {
+
+Other than that, I think this looks sound, but I'd like to get Ville's
+ack on it too.
+
+BR,
+Jani.
+
+> +
+> +		if (intel_de_read(dev_priv, DPLL(pipe)) & DPLL_VCO_ENABLE)
+> +			continue;
+> +
+> +		if (intel_pipe_is_enabled(dev_priv, (enum transcoder)pipe)) {
+> +			drm_info(&dev_priv->drm, "Pipe %c is used for non DP, not using it for pps\n",
+> +				 pipe_name(pipe));
+> +			pipes &= ~(1 << pipe);
+> +		}
+> +	}
+> +
+>  	if (pipes == 0)
+>  		return INVALID_PIPE;
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
