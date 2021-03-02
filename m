@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD5E329D51
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 12:56:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C4F329D59
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 12:57:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 246026E12D;
-	Tue,  2 Mar 2021 11:56:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AB6789A5E;
+	Tue,  2 Mar 2021 11:57:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BABF06E12D
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Mar 2021 11:56:23 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0762764F3B;
- Tue,  2 Mar 2021 11:56:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 054ED89A5E
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Mar 2021 11:57:27 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D066064F6D;
+ Tue,  2 Mar 2021 11:57:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614686181;
- bh=w5+klbtmrDyzDtf7tEXEAkP53qpm7CdcXJ60QrZ+CoU=;
+ s=k20201202; t=1614686246;
+ bh=DAHWNOz5vE2QWZnkWineTNEuvZE7o7JmBE4M3QOYJyk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FwYzLxlf/qL/+hmjzRhDvSAW4WO3EYC0rCEYnqKE5hhcY7JV/9Wqf+GMAWMlrryrg
- AmvOiaAY5TWsC6bgOZXgI4gsryadAIdIopnPTyPGbYdrck/96ZMKVo2PjKfq662wl3
- 3kGJSNH/q9tx0q5F5g0mjZZslPtZSMNCNZ2eoXy/j9r7yDlnSZJpBJdYvwJ6ZV5szu
- aXbotWQW3ypUX8HMz/XHtsfY16OITs8UwU0ScfpI+I1vSD0fCeVw39MJYytYTm03ut
- UKOWkSH7JGsb5cWT04ZMxtGimEexbNfsHYdHufaKseFBnj761XJUpSHhjj38iNq16A
- WH+O4+fGYTCLA==
+ b=UpH4U8J3CCDPzUbOwFkWryRTtV3EGcaqW69E04978GSqf1LUGP5ESvvAe/WPUudGE
+ +ud4/J2gUhfp9dxdigWUMtbS8EfWBM0o3/Y5SdDWS1Aj5nlPKkzigFdQ3nAAV2DpsU
+ TAcEDdbr9hh2dxTJFAeBY/PUokVJ5iU23k5JcSp6CKTyBNd5KWzMlCZ+mQDNG7VCsB
+ l7hF9tOSi+iOJ6GeJtB4BXlodcxcF/WSBtjz3sjyJdEe7Tjsaf5GYiDMxpapX4Nkg+
+ fv2GkvALiyKwdMxMqpvsDC5kYaNl+CpEqSKQZW1dJV/FhGw7WWLt97stcGJ8cQoVEr
+ liMZAX4iTGvaQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.11 36/52] drm/msm/a5xx: Remove overwriting
+Subject: [PATCH AUTOSEL 5.10 32/47] drm/msm/a5xx: Remove overwriting
  A5XX_PC_DBG_ECO_CNTL register
-Date: Tue,  2 Mar 2021 06:55:17 -0500
-Message-Id: <20210302115534.61800-36-sashal@kernel.org>
+Date: Tue,  2 Mar 2021 06:56:31 -0500
+Message-Id: <20210302115646.62291-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210302115534.61800-1-sashal@kernel.org>
-References: <20210302115534.61800-1-sashal@kernel.org>
+In-Reply-To: <20210302115646.62291-1-sashal@kernel.org>
+References: <20210302115646.62291-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -83,7 +83,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index a5af223eaf50..81506d2539b0 100644
+index 69ed2c609466..5e11cdb207d8 100644
 --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
 @@ -626,8 +626,6 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
