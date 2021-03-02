@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F40932A5D0
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 17:24:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 997FC32A5D2
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 17:24:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BAF56E1F2;
-	Tue,  2 Mar 2021 16:24:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B0B86E24D;
+	Tue,  2 Mar 2021 16:24:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from lb3-smtp-cloud7.xs4all.net (lb3-smtp-cloud7.xs4all.net
  [194.109.24.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F2D06E1F2
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Mar 2021 16:24:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 816766E1FB
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Mar 2021 16:24:16 +0000 (UTC)
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
  by smtp-cloud7.xs4all.net with ESMTPA
- id H7oZlNjwSOruFH7oklAWO9; Tue, 02 Mar 2021 17:24:14 +0100
+ id H7oZlNjwSOruFH7oklAWOO; Tue, 02 Mar 2021 17:24:15 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
- t=1614702254; bh=g4EqIicwlsCbluUsMLX/Juo9LDEWnCrvsgtLgDt/ZM8=;
+ t=1614702255; bh=JcmsffEL5WpBEoNeg3xiXwWYe1OCSoVS4wjvJzi8Lyo=;
  h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
- b=gmfWZKXxuct/TEtQ+b/UxHaeImqgniSdszKj9DFEFz9ouzzAmU7S2LVtUJkc1kwLL
- Yf9AHFOgiEDhWr1xI84Ohcwzb32klIpYYRsZw3hjtSuXOgCYMMeXxHXjgF8MXQld2G
- rH0nuprxBdF/ZNv2sZWnhJRgoRy6ahOaxKmeEnynJ4O3qif+4yB4w/E4WsFcAgNrgV
- u9nzYcPPt5axjTrvVkJpEcChrRvOagarPoTRsolk3dSMarGy08bUH+8qXHni+Ch++L
- PCYdtY9DQIFXaJnDizV9Z7uqFtuxXNa7eJfBcZMz3n22L6xfJz45KonjB0/QmnHkDZ
- fllPQehCiokiw==
+ b=Z5p6AxY40Gdg4RncvYdR/6YBOWlashNd/+qCJa9TFcm9tB659XFHqZtdXQjp0cct+
+ 2ie9h58xaQtlOhel4ELRs+b9e3cktfPRG2ndCK9qD5Kn2jnRxDMv8L243yyD7a2tRM
+ FpeNm+WqKqxFHAASxkSaMVOvA35Tx8ioJusQR+Csh8zlU6fqw37PBzq9WSVF8wTeeG
+ l8fEsSHYUegvrsp5wBrVqvllIKMY1mehRcFKQpGioBKZEhYY9D2GXaXEDqm+AF6mzF
+ VQE5IgNq2T8nnZqDrai1B71/oMyjeZQWZJl3mQm8b0uhC9UsLVjdPdwwAlr0Tz+s3w
+ GX+9faNSB6jaQ==
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To: linux-media@vger.kernel.org
-Subject: [PATCHv2 4/6] dt-bindings: display: ti: ti,
- omap5-dss.txt: add cec clock
-Date: Tue,  2 Mar 2021 17:24:01 +0100
-Message-Id: <20210302162403.983585-5-hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv2 5/6] dra7.dtsi/omap5.dtsi: add cec clock
+Date: Tue,  2 Mar 2021 17:24:02 +0100
+Message-Id: <20210302162403.983585-6-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210302162403.983585-1-hverkuil-cisco@xs4all.nl>
 References: <20210302162403.983585-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4xfC3izUHoGEhUuhakLv2+dkIjeIDtYHJO1pPfWD8nhP0CbF8pP8lcKrrDjdGvxaxHQng+R8j+ekxirIIpQGQ0/8Le44tj2HOvxPeBSA/oVA8c20A3KlJI
- qAwivk7ksrQFTk/ZGgDyWVboNo5Z3fy0f0Wcwgmrx1yeumIeRb9Ce3enmtGjOTVvYH9h3nnfjAzMEgPSXPOfVnMBMKXJaghj0zC1k/IgBSL57TXssDv7kADO
- x7B0m73iHBAZJmlGeQOYVeauXwHYL0oGnIShi+kdnpkD/dLpOSM0VKOLRXOT1cufIH8REhhe0Py/sC9HHl+q12wS5a07+4bNz1CSD25AhU5Ik3ebj2swsi7U
- xqEC/NeO80+yW2FWOFbj0vnkTPAUXH+BYT2UmY1t5qHG8s2S6w+QGwl+1008KMedN4h+Gu1Oc6M6nf1//gQvD6slMVqeQIJJonHCwaij0rcCr6SRQ43KDPBw
- 1mYZXqz1cq+oZzKWp+p7gx5Mhhc80hGfiS0vJrua2C6Dy5XjG++fKgZ2bSw=
+X-CMAE-Envelope: MS4xfNUB+sdY0Nm8qd3cl9r7BXSq0BBS7jqi5Lu6jbPac3arDT5eCsLhjN4ypUHGaM2YpYyJnV31GXmxKoYqT0CqX1Lz/ZMa6SdDIHgabasbOhLt6izKl1Tm
+ UTyZAA8uUXpaZbycaoFWudPaObMjWAdDrSNQw41Bccl8+t60umcly65lV7yOFQBDPkOrIG8oqehso9PYjgDzE50hSUDZh9gvHh8jpP/CeYt+7ZzK3BuABCh2
+ 3NqeIsObJ0lCwJoHLZXHrvVIQWnH9H+xgaeD6tvtUof5lG/PApXApoFug8rXa+RUYy3jngEPKfV+9jbd12Af+qW0HieOIq9ngQT0JXi5384ddUjLh6lY5Wq0
+ ZYPUHeVrrAaCMzswM4IEEO7W2l450QzGSMkP2omkQ748eSpJLmdkuUZdUVknZ4WOYlVgQbbGfr0w80i2aH3g6Gi/R6PrA1gRyxMyYdVYCkytHdzRHCMmy3+J
+ LWZ+tE9IYAzu26jJI+qfl1M+YK8Akpy+dmg2zS082RTbuTC8BhC7A/YIM7E=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,29 +61,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The cec clock is required as well in order to support HDMI CEC,
-document this.
+Add cec clock to the dra7 and omap5 device trees.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Acked-by: Tony Lindgren <tony@atomide.com>
 ---
- Documentation/devicetree/bindings/display/ti/ti,omap5-dss.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm/boot/dts/dra7.dtsi  | 5 +++--
+ arch/arm/boot/dts/omap5.dtsi | 5 +++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/ti/ti,omap5-dss.txt b/Documentation/devicetree/bindings/display/ti/ti,omap5-dss.txt
-index 20861218649f..c321c67472f0 100644
---- a/Documentation/devicetree/bindings/display/ti/ti,omap5-dss.txt
-+++ b/Documentation/devicetree/bindings/display/ti/ti,omap5-dss.txt
-@@ -89,8 +89,8 @@ Required properties:
- - interrupts: the HDMI interrupt line
- - ti,hwmods: "dss_hdmi"
- - vdda-supply: vdda power supply
--- clocks: handles to fclk and pll clock
--- clock-names: "fck", "sys_clk"
-+- clocks: handles to fclk, pll and cec clock
-+- clock-names: "fck", "sys_clk", "cec"
- 
- Optional nodes:
- - Video port for HDMI output
+diff --git a/arch/arm/boot/dts/dra7.dtsi b/arch/arm/boot/dts/dra7.dtsi
+index ce1194744f84..efe579ddb324 100644
+--- a/arch/arm/boot/dts/dra7.dtsi
++++ b/arch/arm/boot/dts/dra7.dtsi
+@@ -879,8 +879,9 @@ hdmi: encoder@0 {
+ 						interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>;
+ 						status = "disabled";
+ 						clocks = <&dss_clkctrl DRA7_DSS_DSS_CORE_CLKCTRL 9>,
+-							 <&dss_clkctrl DRA7_DSS_DSS_CORE_CLKCTRL 10>;
+-						clock-names = "fck", "sys_clk";
++							 <&dss_clkctrl DRA7_DSS_DSS_CORE_CLKCTRL 10>,
++							 <&dss_clkctrl DRA7_DSS_DSS_CORE_CLKCTRL 11>;
++						clock-names = "fck", "sys_clk", "cec";
+ 						dmas = <&sdma_xbar 76>;
+ 						dma-names = "audio_tx";
+ 					};
+diff --git a/arch/arm/boot/dts/omap5.dtsi b/arch/arm/boot/dts/omap5.dtsi
+index e025b7c9a357..6726e1f1b07c 100644
+--- a/arch/arm/boot/dts/omap5.dtsi
++++ b/arch/arm/boot/dts/omap5.dtsi
+@@ -586,8 +586,9 @@ hdmi: encoder@0 {
+ 						interrupts = <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>;
+ 						status = "disabled";
+ 						clocks = <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 9>,
+-							 <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 10>;
+-						clock-names = "fck", "sys_clk";
++							 <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 10>,
++							 <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 11>;
++						clock-names = "fck", "sys_clk", "cec";
+ 						dmas = <&sdma 76>;
+ 						dma-names = "audio_tx";
+ 					};
 -- 
 2.30.1
 
