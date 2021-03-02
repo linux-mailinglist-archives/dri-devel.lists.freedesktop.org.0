@@ -1,60 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F50329536
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 00:26:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F0132955E
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 01:06:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECA5889DA4;
-	Mon,  1 Mar 2021 23:26:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 262496E8A7;
+	Tue,  2 Mar 2021 00:06:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 013056E90D
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Mar 2021 23:26:27 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id v5so28274630lft.13
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Mar 2021 15:26:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=F/g683yfKMbSwanrv0GKDcyKMtduWqmgNMeU84dPM/I=;
- b=u0I4XS9EQX/RrTgjEwRh1DB7T0t3yiqaL5emtUIOeGbIpVH0/EREIEzn4RvRWESsqA
- xEUUdpsONp6kPF32tGzTBE94mowKWllT6WY9CYChA2dnE2ynT7pGeDc4SdLMxrrpCSLI
- CAvN2wuXn92uG5cAgZc9hE7yokZMAPHejx4aSopWGqI7WoPMHLgt9ccVApik+q22aMz1
- pMcowInq9xmemsW1rvs7yc7doJMWX1hyMzuFKn/uncOPRs8WtaN0J7ReuR1Ln0zk0wZb
- DySM1kicgk7quh/UMfNsYudSI50LG/bjVJ/OXRF2l+jBcx0Ge67SmxeEJEY9PBguo1jX
- nnXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=F/g683yfKMbSwanrv0GKDcyKMtduWqmgNMeU84dPM/I=;
- b=ks4kn27kGV1Ww8p+GY3ZgyigZXEK1jYwNlFqxJ0yuzebgHQqWd8Jspm+Jpq7K5X0i6
- b6ls0KuthjtRAKl7zfbq4SaBvS7Zix/dQuFncld5ITtcPW63QFbpzZwtzSX68Sgd5Y+x
- at3jOIMmKHCPapCgCYGslVe/pOCbYUWh33maEzosshzKyK3GiknBlHJszDLmkjfOVoV1
- JzzBYd1Ubl6Igq5yjmDOey5c8eEqC3nhKpFUXuCPzwPiQF0vDLZoQl8FMCUjKuyMCRWj
- Y+JwjAJoHGZ/2/bBUFFYkNwwNly8uZCYGCURsFhUnmt5WMzCIbRyk1YSjypFOLJEA9hg
- IgcQ==
-X-Gm-Message-State: AOAM531z9zc0D+vLmv2rIH9Jzz3smuv/gvI8LgQoJCTCasjBKANqbO9s
- b6a5dFbyLw3bLY1l9TWGRhgCfg==
-X-Google-Smtp-Source: ABdhPJwPTWy+s1unheR5Ge4u57rIEixPwt6TRaRd9RWzxhBf4Acq36RsiXpxUxAqkYPLHx06kQ+yWg==
-X-Received: by 2002:a19:9109:: with SMTP id t9mr10475451lfd.49.1614641186429; 
- Mon, 01 Mar 2021 15:26:26 -0800 (PST)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id b20sm154749lfa.183.2021.03.01.15.26.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Mar 2021 15:26:25 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Jonathan Marek <jonathan@marek.ca>
-Subject: [RFC 24/24] arm64: dts: qcom: sdm845: assign DSI clock source parents
-Date: Tue,  2 Mar 2021 02:25:07 +0300
-Message-Id: <20210301232506.3057401-25-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210301232506.3057401-1-dmitry.baryshkov@linaro.org>
-References: <20210301232506.3057401-1-dmitry.baryshkov@linaro.org>
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 442BB6E8A6;
+ Tue,  2 Mar 2021 00:06:07 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B603d816e0001>; Mon, 01 Mar 2021 16:06:06 -0800
+Received: from HKMAIL103.nvidia.com (10.18.16.12) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 2 Mar
+ 2021 00:06:05 +0000
+Received: from HKMAIL102.nvidia.com (10.18.16.11) by HKMAIL103.nvidia.com
+ (10.18.16.12) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 2 Mar
+ 2021 00:06:03 +0000
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.173)
+ by HKMAIL102.nvidia.com (10.18.16.11) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2 via Frontend Transport; Tue, 2 Mar 2021 00:06:03 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b63K01FdiVsIqUhKrOhuQvXOVqlZ+nf5eby75HkfXbXZY8EPHikKGmgdKvI8SSklxSLgMnjEeVyGwNjrrZFbflSpi41hCRUb7nxTRfWiFPB0XoeAa3xpEEmKGuprtUiQPYcNonNPAUFpWEFJzODa4oZ293Xb/79grWL2t88GBcbov4F6CkoOeyERwatS9gMuH5UPQa4yGLqq6m7tsRhtS/CpRVQ3Y0DuJcvjDgFgCdKjf5FYlWjSt0350UEUO3yGOwQn8GCMVU+Ys+cRv6RC54N0wPDB9qZaJImjqdTyNibc/l5f1+otuFRCnneIFNrfGTU1lk1vZgcizopYOJj50A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SlRygJWLB5PGvQRv237k1PGGvIniA6bUeamuyGdUW0Q=;
+ b=K2C5xC/X551eoMtRGhaEbPxDzAA/7wcGeS/jEUgXP1KAa5UMTyF7dYbW5EXk8g3IilFtGD8LcGD3z3YHPW34D5YZLGwNiUJugcbTQSWaMVj0KfyRHb51QetYgB+cvQZAfe36aSl2AMiomGdYB2XGYNTgbriIbQOXqppqpjs3YrS4bFpkUnMvkUY9LQ/4g4Ix7UI9pxULodbVhQjZYhOFFrIJP3P7aH87CZSJ7TpzazFx2gFZYZZ1Nfv21R+BjkHLR2tIidDSGAhDHjLqe73EhbzRKq2Eg4jez7SzeQWie/X3LTchpjeVQLIxPCgkit+9gz24nCethlPmBujOb1g7pw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB4010.namprd12.prod.outlook.com (2603:10b6:5:1ce::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.28; Tue, 2 Mar
+ 2021 00:06:01 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3890.026; Tue, 2 Mar 2021
+ 00:06:01 +0000
+Date: Mon, 1 Mar 2021 20:05:59 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alistair Popple <apopple@nvidia.com>
+Subject: Re: [PATCH v3 5/8] mm: Device exclusive memory access
+Message-ID: <20210302000559.GA763995@nvidia.com>
+References: <20210226071832.31547-1-apopple@nvidia.com>
+ <20210226071832.31547-6-apopple@nvidia.com>
+Content-Disposition: inline
+In-Reply-To: <20210226071832.31547-6-apopple@nvidia.com>
+X-ClientProxiedBy: BLAPR03CA0058.namprd03.prod.outlook.com
+ (2603:10b6:208:32d::33) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.162.115.133) by
+ BLAPR03CA0058.namprd03.prod.outlook.com (2603:10b6:208:32d::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19 via Frontend
+ Transport; Tue, 2 Mar 2021 00:06:00 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1lGsY3-003Clj-EX; Mon, 01 Mar 2021 20:05:59 -0400
+X-Header: ProcessedBy-CMR-outbound
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1614643566; bh=SlRygJWLB5PGvQRv237k1PGGvIniA6bUeamuyGdUW0Q=;
+ h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+ From:To:CC:Subject:Message-ID:References:Content-Type:
+ Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+ X-MS-Exchange-MessageSentRepresentingType:X-Header;
+ b=G+aFSB2VntL5W0jA/emAOatTaR93Kvlu880urJxzE0aooLL+wY2cRJY+lFct4vqaw
+ Cym6aSwol8ACDdqNJ1oidKX1oFbV4r/6xWmF1qFIDA3WOEJAnE2xyoI2blqci+Ft0S
+ E0tFEFKhyrw3fDvTG4jECWHczZEQoJeKOXKFtFhAkdqOESc3Wm6V8RadVIZu8NxbLE
+ noEMI3hd8dNm0CgtXcrZnhTeR/DwF+uIMCm7kjGNO83sFYeZLWFTMNjVw2VViGQ4BZ
+ aZzvvfAbrefuotXg/F8oZ4PHOmDNU/aTk9Hi0HsdNiz5TlJYuSeBUn90SJQOfhUcu3
+ +PVpa1qYNq7LA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,48 +90,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org
+Cc: rcampbell@nvidia.com, linux-doc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hch@infradead.org, linux-mm@kvack.org,
+ jglisse@redhat.com, bskeggs@redhat.com, jhubbard@nvidia.com,
+ akpm@linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Assign DSI clock source parents to DSI PHY clocks.
+On Fri, Feb 26, 2021 at 06:18:29PM +1100, Alistair Popple wrote:
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- arch/arm64/boot/dts/qcom/sdm845.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
+> +/**
+> + * make_device_exclusive_range() - Mark a range for exclusive use by a device
+> + * @mm: mm_struct of assoicated target process
+> + * @start: start of the region to mark for exclusive device access
+> + * @end: end address of region
+> + * @pages: returns the pages which were successfully mark for exclusive acces
+> + *
+> + * Returns: number of pages successfully marked for exclusive access
+> + *
+> + * This function finds the ptes mapping page(s) to the given address range and
+> + * replaces them with special swap entries preventing userspace CPU access. On
+> + * fault these entries are replaced with the original mapping after calling MMU
+> + * notifiers.
+> + */
+> +int make_device_exclusive_range(struct mm_struct *mm, unsigned long start,
+> +				unsigned long end, struct page **pages)
+> +{
+> +	long npages = (end - start) >> PAGE_SHIFT;
+> +	long i;
+> +
+> +	npages = get_user_pages_remote(mm, start, npages,
+> +				       FOLL_GET | FOLL_WRITE | FOLL_SPLIT_PMD,
+> +				       pages, NULL, NULL);
+> +	for (i = 0; i < npages; i++) {
+> +		if (!trylock_page(pages[i])) {
+> +			put_page(pages[i]);
+> +			pages[i] = NULL;
+> +			continue;
+> +		}
+> +
+> +		if (!try_to_protect(pages[i])) {
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-index 454f794af547..2166549382c1 100644
---- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-@@ -4113,6 +4113,9 @@ dsi0: dsi@ae94000 {
- 					      "core",
- 					      "iface",
- 					      "bus";
-+				assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>, <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
-+				assigned-clock-parents = <&dsi0_phy 0>, <&dsi0_phy 1>;
-+
- 				operating-points-v2 = <&dsi_opp_table>;
- 				power-domains = <&rpmhpd SDM845_CX>;
- 
-@@ -4179,6 +4182,9 @@ dsi1: dsi@ae96000 {
- 					      "core",
- 					      "iface",
- 					      "bus";
-+				assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK_SRC>, <&dispcc DISP_CC_MDSS_PCLK1_CLK_SRC>;
-+				assigned-clock-parents = <&dsi1_phy 0>, <&dsi1_phy 1>;
-+
- 				operating-points-v2 = <&dsi_opp_table>;
- 				power-domains = <&rpmhpd SDM845_CX>;
- 
--- 
-2.30.0
+Isn't this racy? get_user_pages returns the ptes at an instant in
+time, they could have already been changed to something else?
 
+I would think you'd want to switch to the swap entry atomically under
+th PTLs?
+
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
