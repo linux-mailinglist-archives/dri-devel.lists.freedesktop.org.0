@@ -1,59 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0754432AC85
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 23:53:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A222532AC91
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 00:19:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2034A6E29D;
-	Tue,  2 Mar 2021 22:53:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2847E89CE0;
+	Tue,  2 Mar 2021 23:19:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 545846E28A;
- Tue,  2 Mar 2021 22:53:25 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id mm21so38158426ejb.12;
- Tue, 02 Mar 2021 14:53:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=SBf1AJb9EdpD1tLxm/hr0d4X6asZC8lvXwuuUxwzI0k=;
- b=SFCvXSfDnXKmDiBntDQ3HhhjDv1BUT1f49sz3EtWcxdmAJWqUHza3f+nojyfSdReAE
- 1OWF13UIkReZvm6D2LggNEX0y1Adg2s7Jw0Soc88PKJTxM76hUxudjmWkDUw91WaEjrJ
- t1efgzZOmkFIAMybduHqTzRRdCT0DJy0GyKhPdACsoaXah3MBkXQhh+RRGYoHCkMlYbF
- Y5LJL9oX+gfTXrMgWih1Lx4DR9zu9f7UwsqqK1wh+0UVOaKohtO+nDfUXjRlUs5m/Pgs
- vB811RNQw1RtjzYBnIN0AbFdqGFC2g+l3K/lxzSwHWpXz6BubsSDC1lzniVH6829ohcR
- +cKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SBf1AJb9EdpD1tLxm/hr0d4X6asZC8lvXwuuUxwzI0k=;
- b=LCVQLDQJl0BsHThuLgLTIWLUpNSw6ZZpzC0bfNXh+VgtVjOLrYpW/ZGVXZ8Vb/NN3D
- 5Fo+AzRY7XRmjeGZCQ/grST+24F0RVzWSLJs3oByoMlaEUX8RIu8a8+DRZNDFzCQxF9N
- z0m/TT1o4QqipHXU3VOJNmRmqUlEGC6PQWz64vPv3j0/c8XM9S02MHJzeaOUQxzqkvPT
- Qk+ZzW85gnIgQeHx4C7Z9deav9IHuw3l3r80DyUziQ9VkyjuoQFCDDZLWb8shrqO25Y+
- Jr/9I3lueNCx2MK/1MsbqkUG+30+6VjHc3osOhaAPcHoeQ1kPP0pG4QmeXxeM0+B/nSI
- Hnjg==
-X-Gm-Message-State: AOAM533E72/qpk2Kb4/HQjRI6fP8JVk6HDsGb2UTIuA2dMMx0pFywIeA
- lFzGjNEPYpFrvp0wZMOBLIpLQghZwymJntCqmXE=
-X-Google-Smtp-Source: ABdhPJx+ooDsadMSwgD7IHVdZfg8CXVNw8i+etr8HqoS2H2q4MN9Mj5b5LLD8WE/oq+rVom/2mDkSYlaOlQS/VqLGKs=
-X-Received: by 2002:a17:906:ad96:: with SMTP id
- la22mr23902401ejb.237.1614725603988; 
- Tue, 02 Mar 2021 14:53:23 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2520389CE0
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Mar 2021 23:19:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0067A64F2C;
+ Tue,  2 Mar 2021 23:18:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1614727140;
+ bh=Anexr7Llvf84ZS8OZ4LRFE0gk0oQZ9aE+DtC8CM24i4=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=qvX9L6IZS8mnwkSyzhftMe254C7ycVXPjr3n6DJ66RsT63OCU3PnVvJ3tU7Nj45rc
+ A30zpHx6jvS+avlnyrdUEz774gV+7BAb2fx3C6SG96A8YAbnCDapsW74UzgpqJrwJt
+ 9+xXKQozeJ9QWtdUMiQqujf1aU+mRZuql5akKKur2Qmx/iiF8SkidhRdakDMt3AkIQ
+ 7BWRY/eKKmOGRZHWaept6iECYJXfIMLz2qf2G7mSoXHlpYkAxDSMMN3GwPkYcnCvV6
+ J8VH1q6BJ6TNKPO+SaH5PvUSKiuky9DCIUmr4tCma4vlWO++53srvijHAAJ4/QQKky
+ DiA1OwBxzsBsQ==
 MIME-Version: 1.0
-References: <1614638628-10508-1-git-send-email-Oak.Zeng@amd.com>
- <202103021104.NudsKKei-lkp@intel.com>
- <34b706ca-d15f-223f-e1a3-2ec071d578a2@gmail.com>
- <DM6PR12MB4732C8CF2FE2642A44B32C9C80999@DM6PR12MB4732.namprd12.prod.outlook.com>
-In-Reply-To: <DM6PR12MB4732C8CF2FE2642A44B32C9C80999@DM6PR12MB4732.namprd12.prod.outlook.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 3 Mar 2021 08:53:12 +1000
-Message-ID: <CAPM=9txN_i922jP1CB1tQepBoK7qNfLq-q-nRzV6yMYP9r6xSg@mail.gmail.com>
-Subject: Re: [PATCH] drm/ttm: ioremap buffer according to TTM mem caching
- setting
-To: "Zeng, Oak" <Oak.Zeng@amd.com>
+In-Reply-To: <20210225155909.1853812-2-maxime@cerno.tech>
+References: <20210225155909.1853812-1-maxime@cerno.tech>
+ <20210225155909.1853812-2-maxime@cerno.tech>
+Subject: Re: [PATCH 1/8] clk: Add range accessors
+From: Stephen Boyd <sboyd@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <maxime@cerno.tech>, Mike Turquette <mturquette@baylibre.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org
+Date: Tue, 02 Mar 2021 15:18:58 -0800
+Message-ID: <161472713858.1478170.9594904338107431350@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,36 +49,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>,
- "Kasiviswanathan, Harish" <Harish.Kasiviswanathan@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Koenig,
- Christian" <Christian.Koenig@amd.com>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Huang,
- JinHuiEric" <JinHuiEric.Huang@amd.com>, Dave Airlie <airlied@redhat.com>,
- "dan.j.williams@intel.com" <dan.j.williams@intel.com>, "Kuehling,
- Felix" <Felix.Kuehling@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Daniel Vetter <daniel.vetter@intel.com>,
+ Phil Elwell <phil@raspberrypi.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAzIE1hciAyMDIxIGF0IDA4OjQ1LCBaZW5nLCBPYWsgPE9hay5aZW5nQGFtZC5jb20+
-IHdyb3RlOgo+Cj4gW0FNRCBPZmZpY2lhbCBVc2UgT25seSAtIEludGVybmFsIERpc3RyaWJ1dGlv
-biBPbmx5XQo+Cj4KPiBIaSBEYW5pZWwsIFRob21hcywgRGFuLAo+Cj4KPgo+IERvZXMgYmVsb3cg
-bWVzc2FnZSBtZWFuIHRoZSBjYWxsaW5nIGlvcmVtYXBfY2FjaGUgZmFpbGVkIGludGVs4oCZcyBk
-cml2ZXIgYnVpbGQ/IEkgY2FuIHNlZSBib3RoIGlvcmVtYXBfY2FjaGUgYW5kIGlvcmVtYXBfd2Mg
-YXJlIGRlZmluZWQgaW4gYXJjaC94ODYvbW0vaW9yZW1hcC5jIOKAkyB3aHkgaW9yZW1hcF93YyBk
-b2VzbuKAmXQgYnJlYWsgaW50ZWwgZHJpdmVy4oCZcyBidWlsZD8KCkp1c3QgdG8gY2xlYXIgdXAg
-Y29uZnVzaW9uIGhlcmUsIHRoZSBsaW51eCBrZXJuZWwgcm9ib3QgaXMgaG9zdGVkIGJ5CkludGVs
-IGl0IGRvZXMgbm90IHRlc3QgaW50ZWwgZHJpdmVyIGJ1aWxkcyBleGNsdXNpdmVseSwgaXQgdGVz
-dHMgYSBsb3QKb2YgZGlmZmVyZW50IGJ1aWxkcyBhY3Jvc3MgbG90cyBvZiBkaWZmZXJlbnQgYXJj
-aGl0ZWN0dXJlcywuCgpJZiB0aGUgcm9ib3QgY29tcGxhaW5zIGl0J3MgYmVjYXVzZSB5b3VyIHBh
-dGNoIGJyZWFrcyBpbiB0aGUKY29uZmlndXJhdGlvbiBpdCBkZXNjcmliZXMsIHRha2UgdGhlIHRp
-bWUgdG8gcmVhZCB0aGF0IGNvbmZpZ3VyYXRpb24KaW5mbyBhbmQgcmVhbGlzZSBpdCdzIG5vdGhp
-bmcgdG8gZG8gd2l0aCBJbnRlbCBhdCBhbGwuCgpEYXZlLgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Quoting Maxime Ripard (2021-02-25 07:59:02)
+> Some devices might need to access the current available range of a clock
+> to discover their capabilities. Let's add those accessors.
+
+This needs more than two sentences to describe what's required.
+
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/clk/clk.c   | 30 ++++++++++++++++++++++++++++++
+>  include/linux/clk.h | 16 ++++++++++++++++
+>  2 files changed, 46 insertions(+)
+> 
+> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> index 8c1d04db990d..b7307d4f090d 100644
+> --- a/drivers/clk/clk.c
+> +++ b/drivers/clk/clk.c
+> @@ -2407,6 +2407,36 @@ int clk_set_max_rate(struct clk *clk, unsigned long rate)
+>  }
+>  EXPORT_SYMBOL_GPL(clk_set_max_rate);
+>  
+> +long clk_get_min_rate(struct clk *clk)
+
+I need to read the rest of the patches but I don't see the justification
+for this sort of API vs. having the consumer constrain the clk frequency
+that it wants. Is the code that's setting the min/max constraints not
+the same as the code that's calling this API? Would an OPP table better
+serve this so the device knows what frequencies are valid?s Please
+provide the use case/justification in the commit text.
+
+Why two functions instead of one function to get both min and max?
+
+> +{
+> +       unsigned long min_rate, max_rate;
+> +
+> +       if (!clk)
+> +               return 0;
+> +
+> +       clk_prepare_lock();
+
+Please add a comment indicating why we grab the lock. Yes
+clk_core_get_boundaries() has a lock held assertion, but I don't know
+why we care about the lock here besides that we don't want the consumers
+to change while we calculate the boundaries as it may be some inaccurate
+number.
+
+> +       clk_core_get_boundaries(clk->core, &min_rate, &max_rate);
+> +       clk_prepare_unlock();
+> +
+> +       return min_rate;
+> +}
+> +EXPORT_SYMBOL_GPL(clk_get_min_rate);
+> +
+> +long clk_get_max_rate(struct clk *clk)
+> +{
+> +       unsigned long min_rate, max_rate;
+> +
+> +       if (!clk)
+> +               return 0;
+
+ULONG_MAX?
+
+> +
+> +       clk_prepare_lock();
+> +       clk_core_get_boundaries(clk->core, &min_rate, &max_rate);
+> +       clk_prepare_unlock();
+> +
+> +       return max_rate;
+> +}
+> +EXPORT_SYMBOL_GPL(clk_get_max_rate);
+> +
+>  /**
+>   * clk_get_parent - return the parent of a clk
+>   * @clk: the clk whose parent gets returned
+> diff --git a/include/linux/clk.h b/include/linux/clk.h
+> index 31ff1bf1b79f..6f0c00ddf3ac 100644
+> --- a/include/linux/clk.h
+> +++ b/include/linux/clk.h
+> @@ -709,6 +709,22 @@ int clk_set_min_rate(struct clk *clk, unsigned long rate);
+>   */
+>  int clk_set_max_rate(struct clk *clk, unsigned long rate);
+>  
+> +/**
+> + * clk_get_min_rate - get the minimum clock rate for a clock source
+> + * @clk: clock source
+> +  *
+> + * Returns the minimum rate or negative errno.
+
+Hmm?
+
+> + */
+> +long clk_get_min_rate(struct clk *clk);
+
+Why long instead of unsigned long? Error values don't seem to be
+returned.
+
+> +
+> +/**
+> + * clk_get_max_rate - get the maximum clock rate for a clock source
+> + * @clk: clock source
+> +  *
+> + * Returns the maximum rate or negative errno.
+> + */
+> +long clk_get_max_rate(struct clk *clk);
+> +
+>  /**
+>   * clk_set_parent - set the parent clock source for this clock
+>   * @clk: clock source
+> --
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
