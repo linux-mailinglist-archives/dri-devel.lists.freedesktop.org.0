@@ -1,44 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC59432A290
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 15:51:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3706932A337
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 16:03:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1761F6E95C;
-	Tue,  2 Mar 2021 14:51:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F91C6E0C2;
+	Tue,  2 Mar 2021 15:03:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6329A6E974;
- Tue,  2 Mar 2021 14:51:40 +0000 (UTC)
-IronPort-SDR: CdZoHmF/05l0BnUFHQXn+/IIUyh1gJViTGWkqx995FMz3igP7yzAoYYtt6toljeuBH3zTC4uOu
- otnwla1XUrcA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9910"; a="184400731"
-X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="184400731"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2021 06:51:34 -0800
-IronPort-SDR: bAByi1EsF+UlW5bHKaX0U5/hFytRjCPqGCrb0T3np9xmfy+EvHgllPXpCcsPhbKgu8nHzLELut
- NwPi1WQY08jA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; d="scan'208";a="406079818"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga007.jf.intel.com with SMTP; 02 Mar 2021 06:51:30 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 02 Mar 2021 16:51:30 +0200
-Date: Tue, 2 Mar 2021 16:51:30 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH resend 2/2] drm/i915/display: Make vlv_find_free_pps()
- skip pipes which are in use for non DP purposes
-Message-ID: <YD5Q8mA6y4/qcelo@intel.com>
-References: <20210302120040.94435-1-hdegoede@redhat.com>
- <20210302120040.94435-3-hdegoede@redhat.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2048.outbound.protection.outlook.com [40.107.94.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66ACC6E0C2;
+ Tue,  2 Mar 2021 15:03:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E+nHPxUHcVtV895KsVS2Tl/5reco8Kq4jngdQpatxU3nc6IRegDGYpqilzr0nN3rqZeiBrMa7zQuIyKWb2MCo1t74jVCCxaZfVxPkYeruyE9CnjgiJPdH6lc3G3gK9nqFcMY46yqOldzr+nKXmoa3+NiXmjaevWRX5sneQhprd0/5ftFCUdMzDZnQcGkM/8tk74jLor42fP9qOKg1Xud0TE2yhTRJVeF3tc6Nevajn2x8pLMUNpxhglBKRVhy4yNWyeVnMUqYYm5gr7Jtf3WV4bhK9Lx7dhym9AKIoN5ydUanI2ZwYOLZPFnkUGWjrT0cG8g/i+/kx3/cyieePY9WQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nhs/2kh4QWEojycmrbvQR9n49jtJ3eV3rratgmup9Go=;
+ b=PX0hmyqkd65Xuj3gY+ciIEhgqobiElGJsFUZA5tRFwxxeHrzxIXiakkWnCwz8iaK9OolVnWhCnztLhuzNBOBlRIGXL4eWZYy4jFOiTP01FN/noiXgi9CqBi9AZemVmJ32LtyYnchKQjY/lBgyUxCmgzNaolYA9a0qM4S4VwpmpXGZxvM4cSdzXq8eugvxdKMJ4OFNioH86Bz3NWe666ZdX19de9NdBYchFoMk+td+p6cRpF9TaSapNBvLqEZUxf7jq+2Ua2O213Cyk91PtvDF0WMLLFveRKpWIjhTeLdmNfZMleU0HdyslKDFymS8n23I2/paF8DnH4u8ItEVADU8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nhs/2kh4QWEojycmrbvQR9n49jtJ3eV3rratgmup9Go=;
+ b=db3CeuCO+s/Z/YWzBBNSP6ozUTltaiB/xYDynTIiHhcJUDp/ZmYkLiUfwA7DGm6moGA0lwgVEN6bNagWUcxYwUm4ZSWwNeinS7WHedy/AiT+k8eKki0Pwun8y7mhARAckbPFyqFj+c1smzokbonwFHzHV8CE26+HbXZwiYPF2bY=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4379.namprd12.prod.outlook.com (2603:10b6:303:5e::11)
+ by MW2PR12MB2540.namprd12.prod.outlook.com (2603:10b6:907:7::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.23; Tue, 2 Mar
+ 2021 15:03:17 +0000
+Received: from MW3PR12MB4379.namprd12.prod.outlook.com
+ ([fe80::8c0c:5b9b:fec6:e12b]) by MW3PR12MB4379.namprd12.prod.outlook.com
+ ([fe80::8c0c:5b9b:fec6:e12b%3]) with mapi id 15.20.3912.017; Tue, 2 Mar 2021
+ 15:03:17 +0000
+Subject: Re: [PATCH][next] drm/amd/display: fix the return of the
+ uninitialized value in ret
+To: Colin King <colin.king@canonical.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Anson Jacob <Anson.Jacob@amd.com>, Mikita Lipski <Mikita.Lipski@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210302140509.8466-1-colin.king@canonical.com>
+From: Harry Wentland <harry.wentland@amd.com>
+Message-ID: <b9a11c62-f469-8f5b-9585-74b73cd5a9db@amd.com>
+Date: Tue, 2 Mar 2021 10:03:13 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+In-Reply-To: <20210302140509.8466-1-colin.king@canonical.com>
+Content-Language: en-US
+X-Originating-IP: [198.200.67.155]
+X-ClientProxiedBy: YTOPR0101CA0030.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:15::43) To MW3PR12MB4379.namprd12.prod.outlook.com
+ (2603:10b6:303:5e::11)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210302120040.94435-3-hdegoede@redhat.com>
-X-Patchwork-Hint: comment
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.193] (198.200.67.155) by
+ YTOPR0101CA0030.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::43) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.20 via Frontend
+ Transport; Tue, 2 Mar 2021 15:03:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: fb1dce5e-9fe8-46bc-5f32-08d8dd8c4f5f
+X-MS-TrafficTypeDiagnostic: MW2PR12MB2540:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MW2PR12MB2540BACE034BF77F073FCFB98C999@MW2PR12MB2540.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: T8jXZkuocYpUw/NYKWP1XnWMLhHwT9yOO845A/bB9FN2nD3jvmKoZLugHxNMwEx1ZwnYe949P6+JH6s/NVxA1XIUQaMC+akTB9thCfIJBQBgkFhBAI3/+It+txYnvF1tC5vAfajyU8Rc52u7jDInk78tU05fZlmlV1JdpnUkOn8DgCXMdTStF4cbEf77iCym+bjErsv3LaTqaHYZj185jGx8C5WlljYudRrYZxOellZvJGjANym97Q9sGE6bYfhM2DEm3kFKCY4xVp4I0yjvGRPkE9In8lqsW0Q/MsNup1OGPepcZh5m8XdV9PPdT3fm43exeWoIdNrbSlLCMyezNJ6/WYTG9Bq4iXkxSV0fyFznAIQ4wu2VEEJklrfRjT8cnw3vmt8glVsyoITFuvYTg5aOcewDHA5ySHDnDBl8BJgu7C5KBcCXCxtzWq0FZIXpOXstdqjfjsxYyBs08Veplt9GKsIOnWqGjfeWBL0I4sif1EulvWrhnRwaFY5x7FRb9Fu4o20n//4l2y/biRTKXqcuo4m213Xj9IAv5y8OCkKpjHQfnoXohWS2ktLcviH2iZ0sfQTWeGdMFDBlzTjmVx6v7VkH4OujCOa1aNa6pq//uscvHtgVylQaJVGdEtca
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW3PR12MB4379.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(346002)(136003)(396003)(39860400002)(5660300002)(16576012)(6486002)(44832011)(8676002)(316002)(478600001)(31686004)(8936002)(16526019)(66556008)(921005)(956004)(36756003)(26005)(83380400001)(2906002)(52116002)(86362001)(53546011)(186003)(2616005)(4326008)(66946007)(31696002)(66476007)(110136005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?NWhTc3krMUZWWDcxVkRDMk5BancyQkU0bW1sRVlUckI4YW80eGJYQnRzaHkx?=
+ =?utf-8?B?RWVMcFNjeHorVEFKaWJmVjBVK1BoVWJtQ3VPVU15L0czK2t5OGkzeGcvZmZO?=
+ =?utf-8?B?S1VmMWtXMk04dWlmT2NGZHZhamtSSXYvR2gxaUdxM0VnbkM5ZDZ6aVJRU0hp?=
+ =?utf-8?B?SE9VdSsvSWpGQTRsMEZWbis5Uk5MekxlMGhoNHcwMWw1NFlldHJjYkh1NHJJ?=
+ =?utf-8?B?N0VZOVNyTWU0Ujlaa1ZEUk1Wbmxlclo4dmg4NGVCZzdrbFlhbVFoTzVaaFMx?=
+ =?utf-8?B?N3gzRlc5MVJnRW40N0xta1ZVcGs0TFlJNnhYZ0dxdmRLQjZudkhMaFhWUDE0?=
+ =?utf-8?B?S0NKb2FKOEptRDBOcHoxR2ZjOUtWOExnclpqWUg4STUySjVGVlp4S2hiYzAw?=
+ =?utf-8?B?d3cyeTJ4Z1czakdaWGkrR2l3cFZnTk0yc2JnZjk4YUFBdEw0QWZ2eXZjZ2Z0?=
+ =?utf-8?B?UjduTlVnSlhlMkp0MEsrcmYzQnYwdHdWMkNsODAvY21mUHF1VnY4Q3BzYzNJ?=
+ =?utf-8?B?MTZ1SW5OMzBZeDBoenpiUUdQck9GbG0xTWh5c0dTTS84RExXU1AyUXAyWVhV?=
+ =?utf-8?B?M1JZSWhKUjlsNjdLOTN5bDVmeWhRNTRKcERSVFJoZG94dEFPOVJWaGltWC9Y?=
+ =?utf-8?B?TnFSeDhuVk1qN2s3T0lweEU2M1M3WUMvNzBPQ1F3czk1RmNsODRMMHZKb0NE?=
+ =?utf-8?B?Mis5Q01jNnliSGs0ZmlOSzk1VG1GWGx2RWg2MHBXUFBaWWtUTGd2R2ZMU0RL?=
+ =?utf-8?B?UXNSekFiWHRaYUlvOG9EU3JUaGxBcmVHaVN4VjgwVjNZMitFRUtxUjRUL2l6?=
+ =?utf-8?B?Ym0rRUZPSmo3dXdxMVdqQU55SjFCdkY4RG9iRmFsb05WaHZScmMxS0xnaFdE?=
+ =?utf-8?B?MEFlNDI0WEpCUFJZRHpHOUhBSmh5MGNtbFJxaFF1TnpzV2Nsa3VVcXBwSzlZ?=
+ =?utf-8?B?Z1RnZVRwbzMwcjRCNzlEMXdsQThwWUUwRVFxb2Zod09LSnBtQW5oWUx0ZEN6?=
+ =?utf-8?B?bkhDR3hvZGZUUkU4dzE1T1BYLzMwQlQ3cXZ3aDhpU1RzVEZsQXhZSnIwOTc0?=
+ =?utf-8?B?OGYyUm04bVo4L1lLWUxnQmpwYU1OYW1DeDdWQmxjMWV1UDFicDR5Ujk3VnVp?=
+ =?utf-8?B?YXo0cGZhL0dSSHVaRk1uNytOUTBSM29SRVdiUE5mVnpjbE5RcGV5ZWYvV1lS?=
+ =?utf-8?B?R0ZZd1NHdlluTm5vb2VkTndLL3JtL2xpUFZJMXp1T3VOZ0htQU9jdnR3VHdY?=
+ =?utf-8?B?QlFVSFVTYk5pV3ZwWXczQ28vb1FhZVd6R2R2aG81NjUxZU8zMjVuUzBFYnZr?=
+ =?utf-8?B?S3FBeERPK1AvNExMV0tzWHlPZUNUczYxQ1RGdE9lZUJTaE1iS1c1anM0V3N2?=
+ =?utf-8?B?SHBlVVVwZW1lN3RlVHNrY2RvYUh3ZlBPaHBtTE1xOHVtZXFWN0U5MkZQeitF?=
+ =?utf-8?B?cVZENldYSE4xOWVtS2JwREZ4eEx5cC8rMU1nQ0J1aUdIVGJRUzJPWFdpY25p?=
+ =?utf-8?B?VU56RnlGOW5RdmpraEJVc1ZqdmN6TFFaemFWQ25pQW5VQ3Brb21FSDlTWmQ5?=
+ =?utf-8?B?UE1jSVFGZnV0ZGNNaFVVRk5TcXRIVGgxZGtVTGZmaGJjWVIrRUNGSTcwZFRN?=
+ =?utf-8?B?ZG9VY0NiclBrSnpRQkNhTysyR3Fkb0RYU1JOV3gvblhZbnpXVHNDazNheGdT?=
+ =?utf-8?B?Vkk2YXZTQWVFYzhhbnQ2bjJQRjc5T25CakF1M1o2Wm5PY1E0eUJuSmVSeHpX?=
+ =?utf-8?Q?DTLXfr+SjFEuSUqhxFRnute/uMPKyi1mwgKV6hs?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb1dce5e-9fe8-46bc-5f32-08d8dd8c4f5f
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4379.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2021 15:03:17.2035 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Vc0XOq0cG++lM7lvkZjChzy7aUxvGrpBPPCITK8Q94qRn9UxbCMuVeKWqpGS50d3b8lZyA3oM1RRBV0gbsKmdg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2540
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,225 +131,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 02, 2021 at 01:00:40PM +0100, Hans de Goede wrote:
-> As explained by a long comment block, on VLV intel_setup_outputs()
-> sometimes thinks there might be an eDP panel connected while there is non=
-e.
-> In this case intel_setup_outputs() will call intel_dp_init() to check.
-> =
+On 2021-03-02 9:05 a.m., Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
+> 
+> Currently if stream->signal is neither SIGNAL_TYPE_DISPLAY_PORT_MST or
+> SIGNAL_TYPE_DISPLAY_PORT then variable ret is uninitialized and this is
+> checked for > 0 at the end of the function.  Ret should be initialized,
+> I believe setting it to zero is a correct default.
+> 
+> Addresses-Coverity: ("Uninitialized scalar variable")
+> Fixes: bd0c064c161c ("drm/amd/display: Add return code instead of boolean for future use")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 
-> In this scenario vlv_find_free_pps() ends up selecting pipe A for the pps,
-> even though this might be in use for non DP purposes. When this is the ca=
-se
-> then the assert_pipe() in vlv_force_pll_on() will fail when called from
-> vlv_power_sequencer_kick().
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 
-The idea is that you *can* select a PPS from a pipe used for a non-DP
-port since those don't care about the PPS stuff. So this doesn't seem
-correct.
+Harry
 
-a) I would like to see the VBT for this machine
-b) I wonder if the DSI PLL is sufficient for getting the PPS going?
-c) If we do need the normal DPLL is there any harm to DSI in enabling it?
-
-> =
-
-> This happens on a Voyo winpad A15, leading to the following WARN/backtrac=
-e:
-> =
-
-> [    8.661531] ------------[ cut here ]------------
-> [    8.661590] transcoder A assertion failure (expected off, current on)
-> [    8.661647] WARNING: CPU: 2 PID: 243 at drivers/gpu/drm/i915/display/i=
-ntel_display.c:1288 assert_pipe+0x125/0xc20 [i915]
-> [    8.661822] Modules linked in: i915(E+) mmc_block crct10dif_pclmul crc=
-32_pclmul crc32c_intel ghash_clmulni_intel i2c_algo_bit drm_kms_helper cec =
-drm drm_privacy_screen_helper video(E) sdhci_acpi sdhci i2c_hid pwm_lpss_pl=
-atform pwm_lpss mmc_core i2c_dev fuse
-> [    8.661944] CPU: 2 PID: 243 Comm: systemd-udevd Tainted: G            =
-E     5.11.0-rc5+ #228
-> [    8.661954] Hardware name: To be filled by O.E.M. To be filled by O.E.=
-M./Aptio CRB, BIOS 5.6.5 11/20/2014
-> [    8.661961] RIP: 0010:assert_pipe+0x125/0xc20 [i915]
-> [    8.662050] Code: c7 c2 e5 39 4a c0 74 c9 48 c7 c6 53 3b 4a c0 83 fb 0=
-6 77 0a 89 db 48 8b 34 dd 80 38 45 c0 48 c7 c7 c8 ff 47 c0 e8 13 6c 8f df <=
-0f> 0b e9 1d ff ff ff 89 db 48 8b 34 dd 80 38 45 c0 eb a0 48 c7 c2
-> [    8.662058] RSP: 0018:ffffa939c0557690 EFLAGS: 00010286
-> [    8.662071] RAX: 0000000000000039 RBX: 0000000000000000 RCX: ffff89c67=
-bd19058
-> [    8.662078] RDX: 00000000ffffffd8 RSI: 0000000000000027 RDI: ffff89c67=
-bd19050
-> [    8.662085] RBP: ffff89c64a3c0000 R08: 0000000000000001 R09: 000000000=
-0000001
-> [    8.662091] R10: ffffa939c05574c0 R11: ffffffffa0961248 R12: 000000000=
-0000009
-> [    8.662098] R13: 0000000000000000 R14: 00000000e0000000 R15: ffff89c64=
-a3c0000
-> [    8.662105] FS:  00007fe824e42380(0000) GS:ffff89c67bd00000(0000) knlG=
-S:0000000000000000
-> [    8.662113] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [    8.662120] CR2: 00007fffdc770558 CR3: 0000000106ab8000 CR4: 000000000=
-01006e0
-> [    8.662127] Call Trace:
-> [    8.662148]  assert_pipe+0xa9e/0xc20 [i915]
-> [    8.662252]  vlv_force_pll_on+0xfb/0x1b0 [i915]
-> [    8.662344]  intel_dp_sync_state+0xd92/0x2e70 [i915]
-> [    8.662448]  intel_dp_sync_state+0x1908/0x2e70 [i915]
-> [    8.662541]  intel_dp_sync_state+0x1a3e/0x2e70 [i915]
-> [    8.662620]  ? recalibrate_cpu_khz+0x10/0x10
-> [    8.662633]  ? ktime_get_with_offset+0xad/0x160
-> [    8.662658]  intel_dp_sync_state+0x1f21/0x2e70 [i915]
-> [    8.662788]  intel_dp_encoder_suspend+0x41f/0x14b0 [i915]
-> [    8.662875]  ? drm_dp_dpcd_access+0x50/0xf0 [drm_kms_helper]
-> [    8.662940]  ? __mutex_lock+0x7e/0x7a0
-> [    8.662950]  ? drm_dp_dpcd_access+0x50/0xf0 [drm_kms_helper]
-> [    8.662982]  ? drm_dp_dpcd_access+0x50/0xf0 [drm_kms_helper]
-> [    8.663025]  intel_dp_encoder_suspend+0xdf3/0x14b0 [i915]
-> [    8.663112]  ? find_held_lock+0x2b/0x80
-> [    8.663132]  drm_dp_dpcd_access+0x62/0xf0 [drm_kms_helper]
-> [    8.663181]  drm_dp_dpcd_read+0xb6/0xf0 [drm_kms_helper]
-> [    8.663223]  drm_dp_read_dpcd_caps+0x20/0x110 [drm_kms_helper]
-> [    8.663262]  intel_dp_init_connector+0x79e/0x1010 [i915]
-> [    8.663366]  intel_dp_init+0x251/0x480 [i915]
-> [    8.663453]  intel_modeset_init_nogem+0x1998/0x1b70 [i915]
-> [    8.663540]  ? intel_pcode_init+0x3b6b/0x5d60 [i915]
-> [    8.663625]  i915_driver_probe+0x5d5/0xcb0 [i915]
-> [    8.663734]  ? drm_privacy_screen_get+0x163/0x1a0 [drm_privacy_screen_=
-helper]
-> [    8.663759]  i915_params_free+0x11a/0x200 [i915]
-> [    8.663830]  ? __pm_runtime_resume+0x58/0x90
-> [    8.663849]  local_pci_probe+0x42/0x80
-> [    8.663869]  pci_device_probe+0xd9/0x190
-> [    8.663892]  really_probe+0xf2/0x440
-> [    8.663915]  driver_probe_device+0xe1/0x150
-> [    8.663930]  device_driver_attach+0xa8/0xb0
-> [    8.663948]  __driver_attach+0x8c/0x150
-> [    8.663957]  ? device_driver_attach+0xb0/0xb0
-> [    8.663966]  ? device_driver_attach+0xb0/0xb0
-> [    8.663979]  bus_for_each_dev+0x67/0x90
-> [    8.663998]  bus_add_driver+0x12e/0x1f0
-> [    8.664015]  driver_register+0x8b/0xe0
-> [    8.664025]  ? 0xffffffffc055a000
-> [    8.664039]  init_module+0x62/0x7c [i915]
-> [    8.664127]  do_one_initcall+0x5b/0x2d0
-> [    8.664143]  ? rcu_read_lock_sched_held+0x3f/0x80
-> [    8.664155]  ? kmem_cache_alloc_trace+0x292/0x2c0
-> [    8.664178]  do_init_module+0x5c/0x260
-> [    8.664194]  __do_sys_init_module+0x13d/0x1a0
-> [    8.664247]  do_syscall_64+0x33/0x40
-> [    8.664260]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> [    8.664272] RIP: 0033:0x7fe825d9a6be
-> [    8.664284] Code: 48 8b 0d bd 27 0c 00 f7 d8 64 89 01 48 83 c8 ff c3 6=
-6 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 49 89 ca b8 af 00 00 00 0f 05 <=
-48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 8a 27 0c 00 f7 d8 64 89 01 48
-> [    8.664293] RSP: 002b:00007fffdc778028 EFLAGS: 00000246 ORIG_RAX: 0000=
-0000000000af
-> [    8.664307] RAX: ffffffffffffffda RBX: 00005573f0770cf0 RCX: 00007fe82=
-5d9a6be
-> [    8.664314] RDX: 00007fe825ed035a RSI: 000000000052b0a0 RDI: 00005573f=
-112ae10
-> [    8.664321] RBP: 00005573f112ae10 R08: 00005573f112ae10 R09: 00007fffd=
-c774f70
-> [    8.664328] R10: 00005573f0759010 R11: 0000000000000246 R12: 00007fe82=
-5ed035a
-> [    8.664334] R13: 00005573f077e1e0 R14: 0000000000000007 R15: 00005573f=
-077f2d0
-> [    8.664379] irq event stamp: 126913
-> [    8.664385] hardirqs last  enabled at (126919): [<ffffffff9f162af9>] c=
-onsole_unlock+0x4e9/0x600
-> [    8.664397] hardirqs last disabled at (126924): [<ffffffff9f162a6c>] c=
-onsole_unlock+0x45c/0x600
-> [    8.664406] softirqs last  enabled at (126624): [<ffffffff9fe01112>] a=
-sm_call_irq_on_stack+0x12/0x20
-> [    8.664416] softirqs last disabled at (126619): [<ffffffff9fe01112>] a=
-sm_call_irq_on_stack+0x12/0x20
-> [    8.664426] ---[ end trace 5049606d4dbfaebc ]---
-> =
-
-> Add a check for the combination of the DPLL not being enabled (indicating
-> that DP is not active on the pipe), while the pipe is enabled; and when
-> both conditions are true don't use the pipe for pps. This fixes the above
-> WARN/backtrace. After this the attempt to detect the non existing eDP
-> panel on port B results in the following 2 info messages:
-> =
-
-> [    8.461967] i915 0000:00:02.0: [drm] Pipe A is used for non DP, not us=
-ing it for pps
-> [    8.675304] i915 0000:00:02.0: [drm] failed to retrieve link info, dis=
-abling eDP
-> =
-
-> Indicating that everything is working as it should.
-> =
-
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_pps.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> =
-
-> diff --git a/drivers/gpu/drm/i915/display/intel_pps.c b/drivers/gpu/drm/i=
-915/display/intel_pps.c
-> index f20ba71f4307..757e82825919 100644
-> --- a/drivers/gpu/drm/i915/display/intel_pps.c
-> +++ b/drivers/gpu/drm/i915/display/intel_pps.c
-> @@ -121,6 +121,7 @@ static enum pipe vlv_find_free_pps(struct drm_i915_pr=
-ivate *dev_priv)
->  {
->  	struct intel_encoder *encoder;
->  	unsigned int pipes =3D (1 << PIPE_A) | (1 << PIPE_B);
-> +	enum pipe pipe;
->  =
-
->  	/*
->  	 * We don't have power sequencer currently.
-> @@ -146,6 +147,27 @@ static enum pipe vlv_find_free_pps(struct drm_i915_p=
-rivate *dev_priv)
->  		}
->  	}
->  =
-
-> +	/*
-> +	 * If the DPLL is not enabled and the pipe is enabled then the pipe is
-> +	 * in use for non DP uses. In this case we *must* not use it for pps.
-> +	 * This may happen when PIPE A is used for a DSI panel, yet the VLV code
-> +	 * in intel_setup_outputs() thinks port B may be used for eDP and calls
-> +	 * intel_dp_init() to check.
-> +	 */
-> +	for (pipe =3D PIPE_A; pipe <=3D PIPE_B; pipe++) {
-> +		if (!(pipes & (1 << pipe)))
-> +			continue;
-> +
-> +		if (intel_de_read(dev_priv, DPLL(pipe)) & DPLL_VCO_ENABLE)
-> +			continue;
-> +
-> +		if (intel_pipe_is_enabled(dev_priv, (enum transcoder)pipe)) {
-> +			drm_info(&dev_priv->drm, "Pipe %c is used for non DP, not using it fo=
-r pps\n",
-> +				 pipe_name(pipe));
-> +			pipes &=3D ~(1 << pipe);
-> +		}
-> +	}
-> +
->  	if (pipes =3D=3D 0)
->  		return INVALID_PIPE;
->  =
-
-> -- =
-
-> 2.30.1
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> index 5159399f8239..5750818db8f6 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> @@ -530,7 +530,7 @@ bool dm_helpers_dp_write_dsc_enable(
+>   {
+>   	uint8_t enable_dsc = enable ? 1 : 0;
+>   	struct amdgpu_dm_connector *aconnector;
+> -	uint8_t ret;
+> +	uint8_t ret = 0;
+>   
+>   	if (!stream)
+>   		return false;
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
