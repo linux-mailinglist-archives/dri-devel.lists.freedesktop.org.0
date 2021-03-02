@@ -2,55 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B056432A98E
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 19:42:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96EA232A992
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 19:44:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FDD56E241;
-	Tue,  2 Mar 2021 18:42:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEACF6E270;
+	Tue,  2 Mar 2021 18:44:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFCB26E241
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Mar 2021 18:42:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id C4E0964F2A
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Mar 2021 18:42:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614710572;
- bh=KISAyFqXfsbqgDo4RckrF7uk93kHxUZTWB2DulZ/tLA=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=KocogrzK55+20w7bcCot+SpM/WahbBJC4vEJ8qXNFQUfSAKvPDWnqizTcIVB1p5GS
- X/TRNuRoJREL/vCKvi5FOMYMrPGkBHMoKhk0wilt6NazpPJ7h5K+42QDPHeRlWe7Oz
- zeRreEdSqM1QNA9pm7ZVCtZAk9pV/cNLqnfwgiLt00mzQXCmnTfIaoPBon+nDx74eX
- ctaFMY/eHQcBf17GFtsRt/epdCPg634iWDTwMkqnka8l77Jya6QPVkTV1C5vqtD+Me
- yuXbn8kaobFZwnsYPMfK1A7XCMphSpwQV69NhU7vY+zzqAASu2jZ4tvYwA5C0jOvbt
- a24qr2Vop399Q==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id B4BE76529C; Tue,  2 Mar 2021 18:42:52 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D89406E270
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Mar 2021 18:44:33 +0000 (UTC)
+IronPort-SDR: xv2Ev2uG5ccjjB8o+hLpxtvhpBmTq642d1U8OEH6qXgcEvugA1YAH7orN1CJO4h/xkOWdTKeQ6
+ 4jSVaL6RtbcQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9911"; a="166825730"
+X-IronPort-AV: E=Sophos;i="5.81,217,1610438400"; d="scan'208";a="166825730"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2021 10:44:33 -0800
+IronPort-SDR: 3N54j6u+UKv5F+srWXLLffW/0ZKqth39sscGFOlihFfeYmvEQZXtys7AY/YUwUU7eCq72anj1p
+ HgnIUcYKwcoA==
+X-IronPort-AV: E=Sophos;i="5.81,217,1610438400"; d="scan'208";a="406855356"
+Received: from gbain-mobl.ger.corp.intel.com (HELO delly.intel.com)
+ ([10.252.45.167])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2021 10:44:31 -0800
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211875] CPU frequency scaling lost after "WARNING: CPU: 2 PID:
- 2358578 at smu8_send_msg_to_smc_with_parameter+0xfe/0x140 [amdgpu]"
-Date: Tue, 02 Mar 2021 18:42:52 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: erhard_f@mailbox.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211875-2300-9s4ZzszBRD@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211875-2300@https.bugzilla.kernel.org/>
-References: <bug-211875-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH] drm: fix drm_mode_create_blob comment
+Date: Tue,  2 Mar 2021 20:44:27 +0200
+Message-Id: <20210302184427.1301264-1-lionel.g.landwerlin@intel.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,22 +45,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Ben Widawsky <ben@bwidawsk.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=211875
+Just a silly mistake
 
---- Comment #5 from Erhard F. (erhard_f@mailbox.org) ---
-I don't know. This is a new machine and have seen this since 5.10.x which was
-the first kernel I tried on it.
+Signed-off-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Suggested-by: Ben Widawsky <ben@bwidawsk.net>
+---
+ include/uapi/drm/drm_mode.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index b49fbf2bdc408..93b494f704b91 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -993,7 +993,7 @@ struct drm_format_modifier {
+ };
+ 
+ /**
+- * struct drm_mode_create_blob - Create New block property
++ * struct drm_mode_create_blob - Create New blob property
+  *
+  * Create a new 'blob' data property, copying length bytes from data pointer,
+  * and returning new blob ID.
 -- 
-You may reply to this email to add a comment.
+2.30.1
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
