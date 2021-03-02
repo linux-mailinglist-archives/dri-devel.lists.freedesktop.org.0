@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34FC632A882
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 18:46:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF2132A884
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 18:51:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A16926E1ED;
-	Tue,  2 Mar 2021 17:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD46E6E97F;
+	Tue,  2 Mar 2021 17:51:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2E3F6E159
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Mar 2021 17:46:43 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id jt13so36942656ejb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Mar 2021 09:46:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
+ [IPv6:2607:f8b0:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9642C6E159;
+ Tue,  2 Mar 2021 17:51:17 +0000 (UTC)
+Received: by mail-ot1-x336.google.com with SMTP id v12so19712791ott.10;
+ Tue, 02 Mar 2021 09:51:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RPmqkm376YmcwT7JP2kVIYMk9ag7VM/mKieAOclAGOA=;
- b=Tv0kPggItmAsQeD+UDRSdoWoPIZmSHRqOwGwVaLgE3f/vdWKaa+v3oNYgQf3EbzIVe
- L8//O9Z2jF0G7KMiO02g5vFF9mEMOAE8waWGElgzgQ/nWWQV1djlKjllB/d+VUt/yLEz
- ELblIL8wi4BU5OawUFYxbxg2vOK8De7qVPXcA=
+ :cc; bh=wbXZh+y7Wwg/hAULiKSl5XcTTJtTCwhI9jiu/kuN7UU=;
+ b=TpxZtlx9zhSj5DDnDsYDla0q4cE4cGz3bke3+P6NzMosLpXoRLfFhOR+4q1q4iNdt9
+ Us/EyQ3dq9wGSQK3IXeDBbioRv8i366HWBIfEMxDQ4mXNhhzhb0WC27LQ/omHh4k8+jz
+ KWjh8/3Wfjr47eA+kvLj//+JNSZux8xNyLLKIcSDdFMMaSfgUnMwXxKMC1IStHsBWno2
+ hD6cYKKOyvZItGEhPwErlJGvycxSTS9ycmdRowc9KvOZ5X5IfEjt69DFpySEfUqwmX/L
+ moGAb6FhFwY9GcmNI5XSCW9lcI53YETfrgtHcZNye2VyW10iFdtK/EhLL8TuWLDJBFt2
+ JFug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=RPmqkm376YmcwT7JP2kVIYMk9ag7VM/mKieAOclAGOA=;
- b=UYLg059L91gANhGDgeXKNFbsCgIbkQEx5lC4ZvdmYREyfZYOGq/D4jz1Lxv3o8GEAz
- wplGDP4xD6eQEQdr0wvlkp7PNCrlY6cfqXK5AfTaPJJEGIZ16PRA7zEYuy+8/J28TITs
- RG6SbeDzyYJUUujv6YNIr0zdG9YT22BNumxOoPsgZBaD3jBHJ9qjuHOmpthLSFgpqbF0
- dD4cRZqSdbLwpXD8gfdn1XuiM4eOKb2nAgP1ZJCfn5+QIqox1MVYoz2/F6dTuA7V6tvf
- Z5OouFMUBpMnJpWTSyccAVtn4iJsXO4NCZmcZ4+O/BAxG3j1xwmFNaMNTuJ7nW/yemYB
- +IjA==
-X-Gm-Message-State: AOAM531QMbLpRfVWZMNXqqD5gtaveT7slHsd62wRag5doik+Vbn3QKUw
- DYct0pJkHP785Q3IIvetRJWn3AGKtEyZZWH+VdV+WQ==
-X-Google-Smtp-Source: ABdhPJx7AkaIyyOwx2qyxpqGH7hcad7AAViqsSy3TOF4cnDdUJk27MkJvw07Ek8vNPvIjRJlIknBwJ9rzXlKGT1e3v0=
-X-Received: by 2002:a17:907:3fa3:: with SMTP id
- hr35mr22059253ejc.418.1614707202338; 
- Tue, 02 Mar 2021 09:46:42 -0800 (PST)
+ bh=wbXZh+y7Wwg/hAULiKSl5XcTTJtTCwhI9jiu/kuN7UU=;
+ b=KtzBN+Ct3uNWuI6Z4UsEZctxN7S3bFFeHHaITbtUiZmdZgCMDco3DziJ+XFz5zeZiv
+ rPEGP6ITl455/G+8lbFOb2/bRNrzlWhR6MU2ESvFG5u0oIuOhoE4vo+rvPGe2bxrzv+9
+ HfLXYrDi++bbqg8eLO0vX5vnnzsBoR9iB48HyGRtxyaThnEj1yOqSI4spLcHsArA0V2W
+ ZsW4098IM7zGgkBdPlYokzmqP21lL4zgtRKvrjvLhgp8l4Q7BfsOniSBBkf4SWxwnapQ
+ Q1QPrno3x+6vqmNhDIPiR5meg5RGmARDgXWBq3CsCWIC6h8mqi7bwNos4YQg6YOZNVEa
+ WwZg==
+X-Gm-Message-State: AOAM532yoMWYdtlZIxrkFUG9NYUXwJT9YTUr5FwJy0Ov8exrjLXYONqY
+ musn7g1FNKVMjNtcH6VTkuYvaI+2Akag26eGTEQ=
+X-Google-Smtp-Source: ABdhPJyiLqxx0zpTF7yD/rJdXT8zQnIclm83GIlN1LSHj9qFzjDCbyr3HFtAZ/1Q1a4kGUf8K0Cr8EnDa0ewPwwwXnQ=
+X-Received: by 2002:a9d:20c3:: with SMTP id x61mr8005751ota.311.1614707476945; 
+ Tue, 02 Mar 2021 09:51:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20210214194102.126146-1-jagan@amarulasolutions.com>
- <20210214194102.126146-7-jagan@amarulasolutions.com>
- <20210226165723.szblbiswz5vgapq2@hendrix>
- <CAMty3ZC0ynvk3qnWDSnpMD-_hJiP-edga6+HfqhRH_g0BkAqgg@mail.gmail.com>
- <20210302163505.2d42x364qsm26jo7@gilmour>
-In-Reply-To: <20210302163505.2d42x364qsm26jo7@gilmour>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Tue, 2 Mar 2021 23:16:30 +0530
-Message-ID: <CAMty3ZAxm3QtWNDm6yN6UKXz5HrWVU17NA6rQaOAae0XSPEmLQ@mail.gmail.com>
-Subject: Re: [PATCH v3 6/7] drm: sun4i: dsi: Use drm_panel_bridge,
- connector API
-To: Maxime Ripard <maxime@cerno.tech>
+References: <20210302140509.8466-1-colin.king@canonical.com>
+ <b9a11c62-f469-8f5b-9585-74b73cd5a9db@amd.com>
+In-Reply-To: <b9a11c62-f469-8f5b-9585-74b73cd5a9db@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 2 Mar 2021 12:51:05 -0500
+Message-ID: <CADnq5_Nrg_L+9vFhsxbbeimSvWM2xkD7Og8aARmYGSMUE9rx+Q@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amd/display: fix the return of the
+ uninitialized value in ret
+To: Harry Wentland <harry.wentland@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,70 +62,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@csie.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: Anson Jacob <Anson.Jacob@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Colin King <colin.king@canonical.com>, Mikita Lipski <Mikita.Lipski@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 2, 2021 at 10:05 PM Maxime Ripard <maxime@cerno.tech> wrote:
+Applied.  Thanks!
+
+Alex
+
+On Tue, Mar 2, 2021 at 10:03 AM Harry Wentland <harry.wentland@amd.com> wrote:
 >
-> On Fri, Feb 26, 2021 at 10:40:24PM +0530, Jagan Teki wrote:
-> > On Fri, Feb 26, 2021 at 10:27 PM Maxime Ripard <mripard@kernel.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Mon, Feb 15, 2021 at 01:11:01AM +0530, Jagan Teki wrote:
-> > > > Use drm_panel_bridge to replace manual panel handling code.
-> > > >
-> > > > This simplifies the driver to allows all components in the
-> > > > display pipeline to be treated as bridges, paving the way
-> > > > to generic connector handling.
-> > > >
-> > > > Use drm_bridge_connector_init to create a connector for display
-> > > > pipelines that use drm_bridge.
-> > > >
-> > > > This allows splitting connector operations across multiple bridges
-> > > > when necessary, instead of having the last bridge in the chain
-> > > > creating the connector and handling all connector operations
-> > > > internally.
-> > > >
-> > > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > >
-> > > Most of the code removed in that patch was actually introduced earlier
-> > > which feels a bit weird. Is there a reason we can't do that one first,
-> > > and then introduce the bridge support?
+> On 2021-03-02 9:05 a.m., Colin King wrote:
+> > From: Colin Ian King <colin.king@canonical.com>
 > >
-> > This patch adds new bridge API's which requires the driver has to
-> > support the bridge first.
+> > Currently if stream->signal is neither SIGNAL_TYPE_DISPLAY_PORT_MST or
+> > SIGNAL_TYPE_DISPLAY_PORT then variable ret is uninitialized and this is
+> > checked for > 0 at the end of the function.  Ret should be initialized,
+> > I believe setting it to zero is a correct default.
+> >
+> > Addresses-Coverity: ("Uninitialized scalar variable")
+> > Fixes: bd0c064c161c ("drm/amd/display: Add return code instead of boolean for future use")
+> > Signed-off-by: Colin Ian King <colin.king@canonical.com>
 >
-> I'm not sure what you're saying, you can definitely have a bridge
-> without support for a downstream bridge.
-
-I understand your point. what I'm saying here is, This patch
-introduces two new bridge API's
-
-devm_drm_panel_bridge_add
-drm_bridge_connector_init
-
-In order to add these API's the driver has to support the bridge
-first. All the patches before this one support bridge and this patch
-introduce new APIs, ie the reason we have code removed in this patch
-which has been added before.
-
-Okay. I think I will send the next version series till bridge
-conversion. Improvement patches like this can take care of later
-versions and even it depends on Patch v3 5/7 which indeed require a
-separate discussion. This way it makes less confusion.
-
-Hope it's fine for you?
-
-Jagan.
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+>
+> Harry
+>
+> > ---
+> >   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > index 5159399f8239..5750818db8f6 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > @@ -530,7 +530,7 @@ bool dm_helpers_dp_write_dsc_enable(
+> >   {
+> >       uint8_t enable_dsc = enable ? 1 : 0;
+> >       struct amdgpu_dm_connector *aconnector;
+> > -     uint8_t ret;
+> > +     uint8_t ret = 0;
+> >
+> >       if (!stream)
+> >               return false;
+> >
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
