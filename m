@@ -1,80 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D609329EDD
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 13:42:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1E6329F73
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Mar 2021 13:49:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFDC46E14D;
-	Tue,  2 Mar 2021 12:41:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A18A6E93E;
+	Tue,  2 Mar 2021 12:49:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C76736E14D;
- Tue,  2 Mar 2021 12:41:58 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B603e32960000>; Tue, 02 Mar 2021 04:41:58 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 2 Mar
- 2021 12:41:57 +0000
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
- by HQMAIL109.nvidia.com (172.20.187.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2 via Frontend Transport; Tue, 2 Mar 2021 12:41:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=krA99G49gRreljlKnK0aS7mxZ7LlG+Ie6zX++/BaLGR8IVZ2rACMD3perTBfdZeKJNwNPv2B/qg7aDWJK/ECQOvAUMX11b6ZH/JIw8b8Q4vOGJRqQBJ4kxutBukAm45pTiSAsRWR+WKHRv1XrnJZMEK9q7cUcY4yK8tcv0zXdVvvKGscZqRiFh2BBNTA2J0iM6hLviWYVoOQ9Jtgvnpl2J56M/IuxOHnavUvxN4P9bPevR1pYIIuAUMVjb0TePnxgIEkiDzHLmM6Grz95ZWZzSwWCxB3NOus6ZxtFtNoj8EGleLaUR5kO259yA9NVT6g3G/Q9XS0Hz1mFR8OzNqrRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oE+KS2DDNZXXTciEYWOFI2+Rv0T7GevVzlHvgXrL1vk=;
- b=Cpob7Z6LjeMafeO1X3g9tmDrZSYJZRWzkeQvw+/vfl+L9NBvUyNv42P8vtOWjF4jd3qHcfMvVu/IaDRKIUak3Sdd/KJdSFjhYIkUEOpJdWZuxF7TQzrfr2NStXg3A6rtyQot4M30+D7Hynnjw+QEmqzp/NDX3XMCwGrUXEBHoOalvSCtcnK7/5rObPVDcO2Du4fva4PVsJkHB6aduNt0vIL8sFxdFbU0w1L2POULgYQVAUX/p+gj1kICvEes47Ak3XJGKpq+Nq3zm8AYqJT40DrooGR3NWcF2qY+W32nihdri0QQXbVkt9FHsh6CqreHXHiVXLA/7CeY2ysFUwaiaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR12MB2486.namprd12.prod.outlook.com (2603:10b6:4:b2::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.23; Tue, 2 Mar
- 2021 12:41:54 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3912.017; Tue, 2 Mar 2021
- 12:41:54 +0000
-Date: Tue, 2 Mar 2021 08:41:52 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alistair Popple <apopple@nvidia.com>
-Subject: Re: [PATCH v3 5/8] mm: Device exclusive memory access
-Message-ID: <20210302124152.GF4247@nvidia.com>
-References: <20210226071832.31547-1-apopple@nvidia.com>
- <20210226071832.31547-6-apopple@nvidia.com>
- <20210302000559.GA763995@nvidia.com> <2758096.Z30Q8iEM0t@nvdebian>
-Content-Disposition: inline
-In-Reply-To: <2758096.Z30Q8iEM0t@nvdebian>
-X-ClientProxiedBy: BL0PR05CA0018.namprd05.prod.outlook.com
- (2603:10b6:208:91::28) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9288F6E93E
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Mar 2021 12:49:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1614688971; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=FF5GwOFbVjRhJqJErMdD+9jWbXkGYVwkZGwfZ42C1bnR5anu8aj5vejU2dOPGoZ1ki
+ ScjIDTkKRmEdGhm9AP+ty6DrkS0ZlyZZrj+SAPU7L0QfhOs35e+dUuY29sROz7bzsJAg
+ maTMDRsZjWL7nTSwiCdSoOfVs6wGQicClRS+3uFwhHHKeHoeYI+GWzEUmVVUoZVEKNgU
+ P3jnDDhn5lbtPv6vZcJyOF3sjEK2SNnFZxpZpi4ZYmsjsKccGrA7YZTyNxnCurPAYKF8
+ vNYP5+G36dPjfGTt9vqM9JxyGmuCkO/WDV7famXzKdiflb9vvoiHqIGOCuOWuIzsdG3u
+ NnOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1614688971;
+ s=strato-dkim-0002; d=strato.com;
+ h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+ bh=M0joGJvVjkLtNUFWRb3GQ9CRUi9TJEmtHMRhbe4S2cw=;
+ b=QTtYZP1hkAN9hOw400/TAB0zXFI077PWm2UUw6HZWLoNZz4aZR8iAVRO1AZ8bby8On
+ ejPWX2BssQ+hXbetDYOtgyizW7FBnmmZOhKrw0XlZamOJOxJiEPIAjh/yrPjnK38QxZO
+ NSlj17UTw7o24Js5HYxPFCDCH3lFH/HRHlp2YGOaaMdhwr5ZcqPQCnIi1iON93xW53Ua
+ 0X9GHlunl9r0vvGQmD1mjLm/8yHJbS+CDpdBC1jZXD6wmdDiepGup99+1ZSmOQfRkR5a
+ Yd/ZX1tXPW4zcyazuEntJohI1k0OF/kDNGpBlbryilMqaItzUkZO2QM86coaCA6LdqY9
+ SHBA==
+ARC-Authentication-Results: i=1; strato.com;
+    dkim=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1614688971;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+ bh=M0joGJvVjkLtNUFWRb3GQ9CRUi9TJEmtHMRhbe4S2cw=;
+ b=P6ygV2kn0wugpEuzjnVy/kAoc4uZBO/F378TFoA6XjCN9dNH4ZqShr/LuS3vqrT84O
+ K93pJ/EkkAkNSrupReYpz3TUJzrKXrrhBjKc1t/Tgk4WLIlvXukH4IGRo7QsJfpVSrDu
+ jao8RfGcBlJRm9vnwLvf03wc8uzg/s+lA4bmh5HEn0smTvnSKUu7Nj0778Bu1G/VHIz+
+ ehRVWMBgGs+PMnGe6mcfkIRpMrQlWBGY5kQn0q2Al0TPcAlrj6Z7CjyZCYhi4FIo671Y
+ w23tqbjMf78XxjiV1LGwu2hbljZ81J97U9ZPCsrjQyne8aHtRE4KYGvhZ4PyMcrTHSS0
+ AF+w==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1OAA2UNf2M7Nk1d30M="
+X-RZG-CLASS-ID: mo00
+Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.20.2 DYNA|AUTH)
+ with ESMTPSA id d08e86x22Cgo8sA
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Tue, 2 Mar 2021 13:42:50 +0100 (CET)
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+To: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm: panel-simple: fix missing DRM_MODE_CONNECTOR_DPI for
+ Ortustech com37h3m
+Date: Tue,  2 Mar 2021 13:42:49 +0100
+Message-Id: <ff968cde9b64538101395cc660b7af3fda0945b4.1614688968.git.hns@goldelico.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.162.115.133) by
- BL0PR05CA0018.namprd05.prod.outlook.com (2603:10b6:208:91::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3912.16 via Frontend Transport; Tue, 2 Mar 2021 12:41:53 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1lH4LY-0049UW-8j; Tue, 02 Mar 2021 08:41:52 -0400
-X-Header: ProcessedBy-CMR-outbound
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1614688918; bh=oE+KS2DDNZXXTciEYWOFI2+Rv0T7GevVzlHvgXrL1vk=;
- h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
- From:To:CC:Subject:Message-ID:References:Content-Type:
- Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
- X-MS-Exchange-MessageSentRepresentingType:X-Header;
- b=Bw0nEP7xQqtv/nLkS6v87rsYK4W26pKht7z811sA9bGQ3XHCUEIfPvhuuBMUKZcRU
- pAJq9hfH1SoA0dHn+aJGBP04I4M2L2qPJE1TygCDd5kzCoIOQcGEMPS/NNNxZnLCke
- x8ntsVBil6b42sWjx7HjnuKjj1uzGa9TYXcyj0X/7S44f25X84ctGNS+nO9EP8gULV
- /Hvqqk8TbzX0WaGb91HnEorl8EjdWgaz+/iBNcbX+JKwJ1TwXI1wXq0m50R+r4U6o+
- 2nrlhXmgtatriXc63+cNtMOVqtHh2T5ak/Hbdu27vvIMlE5M13UxGUGX5Ah8HiurSt
- x1cR2frsdzj6g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,43 +73,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, linux-doc@vger.kernel.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hch@infradead.org, linux-mm@kvack.org,
- jglisse@redhat.com, bskeggs@redhat.com, jhubbard@nvidia.com,
- akpm@linux-foundation.org
+Cc: "H. Nikolaus Schaller" <hns@goldelico.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kernel@pyra-handheld.com,
+ letux-kernel@openphoenux.org, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 02, 2021 at 07:57:58PM +1100, Alistair Popple wrote:
+Without we get an "Specify missing connector_type" warning.
 
-> The intent was a driver could use HMM or some other mechanism to keep PTEs 
-> synchronised if required. However I just looked at patch 8 in the series again 
-> and it appears I got this wrong when converting from the old migration 
-> approach:
-> 
-> +               mutex_unlock(&svmm->mutex);
-> +               ret = nouveau_atomic_range_fault(svmm, drm, args,
-> +                                               size, hmm_flags, mm);
-> 
-> The mutex needs to be unlocked after the range fault to ensure the PTE hasn't 
-> changed. But this ends up being a problem because try_to_protect() calls 
-> notifiers which need to take that mutex and hence deadlocks.
+Fixes: ddb8e853dc85 ("drm/panel: panel-simple: validate panel description")
+Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+---
+ drivers/gpu/drm/panel/panel-simple.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-you have to check the notifier sequence under the mutex and loop
-again. The mutex should only cover programming the HW to use the
-pages, nothing else.
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 4e2dad314c7953..502b5f1c4fd16c 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -3226,6 +3226,7 @@ static const struct panel_desc ortustech_com37h3m = {
+ 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+ 	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
+ 		     DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE,
++	.connector_type = DRM_MODE_CONNECTOR_DPI,
+ };
+ 
+ static const struct drm_display_mode ortustech_com43h4m85ulc_mode  = {
+-- 
+2.26.2
 
-> However try_to_protect() scans the PTEs again under the PTL so checking the 
-> mapping of interest actually gets replaced during the rmap walk seems like a 
-> reasonable solution. Thanks for the comments.
-
-It does seem cleaner if you can manage it, the notifier will still be
-needd to program the HW though
-
-Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
