@@ -1,38 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD8932B8D4
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 16:07:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ADDE32B8E9
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 16:22:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C4346E9BA;
-	Wed,  3 Mar 2021 15:07:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1069E89D58;
+	Wed,  3 Mar 2021 15:22:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4568E6E9B0
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 15:07:06 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1614784024; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WOCfvp5fZ7RQpAJujyOHb75KYUX8Y3HLFSKf5Touce4=;
- b=LU828IrttC2yBWawUgQ7pCSnre+Q9m451ATdkCS3Cis+fqrbz5dLoBob0aJLoumO6B6lwZ
- v8T8Gk6NqYnwCunUZiUy5bmdakywhhcK22lUctLRyDxTSMe8H4Hb7wBMGViex/Ww6FNk83
- BuJAD/Ot7mmp+XB8Vya/LOfgLUHc33g=
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id CC4C4AD29;
- Wed,  3 Mar 2021 15:07:04 +0000 (UTC)
-Date: Wed, 3 Mar 2021 16:07:04 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: drm/ttm: ttm_bo_release called without lock
-Message-ID: <YD+mGFJ5KYWwrJHH@alley>
-References: <YD+eYcMMcdlXB8PY@alley>
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A497589D58;
+ Wed,  3 Mar 2021 15:22:31 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id w65so2755874oie.7;
+ Wed, 03 Mar 2021 07:22:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=1zkQQ97wCx5l4oAwiKRm3PYTro4R8m4Ik8B878uu3kM=;
+ b=kDN8FhKHHCBKtHgQukPsPJbWp9YgHQ8aiisj3cwnFjz+bHxAf3P04S+T5e/1SB8m2Q
+ eiAbfA5W0GVf517ujz3FM4zc9W/Wu0ST833kAEKQidkTq61QtUjTznUaHSOMIchOhqEJ
+ BkYwYzZbob7171aXW9LVFwoGxjftRqVvONBXgFUcIdW66LKUxIOSxzIQLK7pik9lrvKH
+ jIimY9tWWbz8WdyQna+oJ1lRNcY/jk84cvi60POdccek60TKvwvOVgcxOpeLFrmqT+C9
+ L/6dUWWz2en//yIWdsgfc8tSNcB6aa7hUojzqDdRhYdsfhWKYRwk+MvVzYqR1+3rCSJ/
+ GDuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=1zkQQ97wCx5l4oAwiKRm3PYTro4R8m4Ik8B878uu3kM=;
+ b=PCgtThuL6yxVa29R3Oyq+9wi6d21+cbM85pQ/5NItvnLRn5LhoeIgC7OqpNJKGLKlu
+ ZJKCIOgEhs921LzqelMbUXqO9TB1NmZm0oxcP2lC9JdRfrSI6L4Iu8piOCqQZyp0/muw
+ e6Ct52cvS9gHkPVnuLjYwnAgVDj5Yb1L+x7kG27PoISUZOkFdEqRCUb6k4gaxyQ+hxii
+ d7a9PLgxJR203hz+0B8JRc1onEBIXCTItZSWnUKh9lNPIjvrDhJUbLXi4Vfm57gegCrb
+ qSa5dXvJr5Wz7qCUf71IwkQWGVBIFz/HYVkRRcYILFiZmZEF+AiHwA2xNl4l0DUyPs6s
+ ybyg==
+X-Gm-Message-State: AOAM533mizGHbXVq2WgtW8//JQjG1RC0+kSLXWLuLPdSC5EID19vRzf+
+ AxJjX0sSk2iqZ8OPUyVtcdmdlpidUeoo62b2f2U=
+X-Google-Smtp-Source: ABdhPJwi6JJYtdHJou1KLhj6ufmDeaRaqJbFih9YWS87D4y+uBYiLw1BGv2+cLgbEdPSlrMVt5w8YmVyzRP20pFsvlg=
+X-Received: by 2002:a05:6808:f15:: with SMTP id
+ m21mr7596595oiw.123.1614784951023; 
+ Wed, 03 Mar 2021 07:22:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YD+eYcMMcdlXB8PY@alley>
+References: <20210303134319.3160762-1-lee.jones@linaro.org>
+ <20210303134319.3160762-5-lee.jones@linaro.org>
+In-Reply-To: <20210303134319.3160762-5-lee.jones@linaro.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 3 Mar 2021 10:22:20 -0500
+Message-ID: <CADnq5_OaxR7WLNtQizH=wf1W9y0F3zzWVkwmPwXOq975_pPoFw@mail.gmail.com>
+Subject: Re: [PATCH 04/53] drm/amd/display/dc/bios/command_table: Remove
+ unused variable
+To: Lee Jones <lee.jones@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,106 +64,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
- Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Leo Li <sunpeng.li@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Qinglang Miao <miaoqinglang@huawei.com>,
+ David Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed 2021-03-03 15:34:09, Petr Mladek wrote:
-> Hi,
-> 
-> the following warning is filling my kernel log buffer
-> with 5.12-rc1+ kernels:
-> 
-> [  941.070598] WARNING: CPU: 0 PID: 11 at drivers/gpu/drm/ttm/ttm_bo.c:139 ttm_bo_move_to_lru_tail+0x1ba/0x210
-> [  941.070601] Modules linked in:
-> [  941.070603] CPU: 0 PID: 11 Comm: kworker/0:1 Kdump: loaded Tainted: G        W         5.12.0-rc1-default+ #81
-> [  941.070605] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba527-rebuilt.opensuse.org 04/01/2014
-> [  941.070606] Workqueue: events qxl_gc_work
-> [  941.070609] RIP: 0010:ttm_bo_move_to_lru_tail+0x1ba/0x210
-> [  941.070610] Code: 93 e8 02 00 00 48 89 0a e9 00 ff ff ff 48 8b 87 38 01 00 00 be ff ff ff ff 48 8d 78 70 e8 8e 7d 46 00 85 c0 0f 85 6f fe ff ff <0f> 0b 8b 93 fc 02 00 00 85 d2 0f 84 6d fe ff ff 48 89 df 5b 5d 41
-> [  941.070612] RSP: 0018:ffffbddf4008fd38 EFLAGS: 00010246
-> [  941.070614] RAX: 0000000000000000 RBX: ffff95ae485bac00 RCX: 0000000000000002
-> [  941.070615] RDX: 0000000000000000 RSI: ffff95ae485badb0 RDI: ffff95ae40305108
-> [  941.070616] RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000001
-> [  941.070617] R10: ffffbddf4008fc10 R11: ffffffffa5401580 R12: ffff95ae42a94e90
-> [  941.070618] R13: ffff95ae485bae70 R14: ffff95ae485bac00 R15: ffff95ae455d1800
-> [  941.070620] FS:  0000000000000000(0000) GS:ffff95aebf600000(0000) knlGS:0000000000000000
-> [  941.070621] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  941.070622] CR2: 00007f8ffb2f8000 CR3: 0000000102c5e005 CR4: 0000000000370ef0
-> [  941.070624] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> [  941.070626] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> [  941.070627] Call Trace:
-> [  941.070630]  ttm_bo_release+0x551/0x600
-> [  941.070635]  qxl_bo_unref+0x3a/0x50
-> [  941.070638]  qxl_release_free_list+0x62/0xc0
-> [  941.070643]  qxl_release_free+0x76/0xe0
-> [  941.070646]  qxl_garbage_collect+0xd9/0x190
-> [  941.080241]  process_one_work+0x2b0/0x630
-> [  941.080249]  ? process_one_work+0x630/0x630
-> [  941.080251]  worker_thread+0x39/0x3f0
-> [  941.080255]  ? process_one_work+0x630/0x630
-> [  941.080257]  kthread+0x13a/0x150
-> [  941.080260]  ? kthread_create_worker_on_cpu+0x70/0x70
-> [  941.080265]  ret_from_fork+0x1f/0x30
-> [  941.080277] irq event stamp: 757191
-> [  941.080278] hardirqs last  enabled at (757197): [<ffffffffa217431f>] vprintk_emit+0x27f/0x2c0
-> [  941.080280] hardirqs last disabled at (757202): [<ffffffffa21742dc>] vprintk_emit+0x23c/0x2c0
-> [  941.080281] softirqs last  enabled at (755768): [<ffffffffa300030f>] __do_softirq+0x30f/0x432
-> [  941.080284] softirqs last disabled at (755763): [<ffffffffa20eb0aa>] irq_exit_rcu+0xea/0xf0
-
-I have just realized that it actually prints two warnings over and
-over again. The 2nd one is:
-
-[  186.078790] WARNING: CPU: 0 PID: 146 at drivers/gpu/drm/ttm/ttm_bo.c:512 ttm_bo_release+0x533/0x600
-[  186.078794] Modules linked in:
-[  186.078795] CPU: 0 PID: 146 Comm: kworker/0:2 Kdump: loaded Tainted: G        W         5.12.0-rc1-default+ #81
-[  186.078797] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba527-rebuilt.opensuse.org 04/01/2014
-[  186.078799] Workqueue: events qxl_gc_work
-[  186.078801] RIP: 0010:ttm_bo_release+0x533/0x600
-[  186.078803] Code: e9 c6 fb ff ff 4c 8b 7d d0 b9 4c 1d 00 00 31 d2 be 01 00 00 00 49 8b bf d0 fe ff ff e8 86 f1 04 00 49 8b 
-47 e0 e9 2b ff ff ff <0f> 0b 48 8b 45 d0 31 d2 4c 89 f7 48 8d 70 08 c7 80 94 00 00 00 00
-[  186.078805] RSP: 0018:ffffa22a402e3d60 EFLAGS: 00010202
-[  186.078807] RAX: 0000000000000001 RBX: ffff9334cd8f5668 RCX: 0000000000001180
-[  186.078808] RDX: ffff93353f61a7c0 RSI: ffffffffa6401580 RDI: ffff9334c44f9588
-[  186.078810] RBP: ffffa22a402e3d90 R08: 0000000000000001 R09: 0000000000000001
-[  186.078811] R10: ffffa22a402e3c10 R11: ffffffffa6401580 R12: ffff9334c48fa300
-[  186.078812] R13: ffff9334c0f24e90 R14: ffff9334cd8f5400 R15: ffff9334c4528000
-[  186.078813] FS:  0000000000000000(0000) GS:ffff93353f600000(0000) knlGS:0000000000000000
-[  186.078814] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  186.078816] CR2: 00007f1908079860 CR3: 0000000021824004 CR4: 0000000000370ef0
-[  186.078818] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[  186.078819] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[  186.078821] Call Trace:
-[  186.078826]  qxl_bo_unref+0x3a/0x50
-[  186.078829]  qxl_release_free_list+0x62/0xc0
-[  186.078834]  qxl_release_free+0x76/0xe0
-[  186.078837]  qxl_garbage_collect+0xd9/0x190
-[  186.078843]  process_one_work+0x2b0/0x630
-[  186.078850]  ? process_one_work+0x630/0x630
-[  186.078853]  worker_thread+0x39/0x3f0
-[  186.078857]  ? process_one_work+0x630/0x630
-[  186.078859]  kthread+0x13a/0x150
-[  186.078861]  ? kthread_create_worker_on_cpu+0x70/0x70
-[  186.078866]  ret_from_fork+0x1f/0x30
-[  186.078879] irq event stamp: 619687
-[  186.091417] hardirqs last  enabled at (619761): [<ffffffffa317293b>] console_unlock+0x45b/0x570
-[  186.091421] hardirqs last disabled at (619766): [<ffffffffa31742dc>] vprintk_emit+0x23c/0x2c0
-[  186.091423] softirqs last  enabled at (617742): [<ffffffffa400030f>] __do_softirq+0x30f/0x432
-[  186.091425] softirqs last disabled at (617737): [<ffffffffa30eb0aa>] irq_exit_rcu+0xea/0xf0
-[  186.091427] ---[ end trace ac74376b06d2036c ]---
-
-
-Tke kernel is based on Linus' tree and the last commit
-f69d02e37a85645aa90d1 ("Merge tag 'misc-5.12-2021-03-02' of
-git://git.kernel.dk/linux-block").
-
-Best Regards,
-Petr
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBNYXIgMywgMjAyMSBhdCA4OjQzIEFNIExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFy
+by5vcmc+IHdyb3RlOgo+Cj4gTm9uZSBvZiB0aGUgc3Vycm91bmRpbmcgY29kZSB3YXMgcmVtb3Zl
+ZCBqdXN0IGluIGNhc2UgZXZlbiBhIHNtYWxsCj4gZnJhY3Rpb24gb2YgaXQgd2FzIGZ1bmN0aW9u
+YWwuCj4KPiBGaXhlcyB0aGUgZm9sbG93aW5nIFc9MSBrZXJuZWwgYnVpbGQgd2FybmluZyhzKToK
+Pgo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9kaXNwbGF5L2RjL2Jpb3MvY29tbWFu
+ZF90YWJsZS5jOiBJbiBmdW5jdGlvbiDigJhhZGp1c3RfZGlzcGxheV9wbGxfdjLigJk6Cj4gIGRy
+aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvZGMvYmlvcy9jb21tYW5kX3RhYmxl
+LmM6MTQ1OTozNTogd2FybmluZzogdmFyaWFibGUg4oCYcGFyYW1z4oCZIHNldCBidXQgbm90IHVz
+ZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdCj4KPiBDYzogSGFycnkgV2VudGxhbmQgPGhh
+cnJ5LndlbnRsYW5kQGFtZC5jb20+Cj4gQ2M6IExlbyBMaSA8c3VucGVuZy5saUBhbWQuY29tPgo+
+IENjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gQ2M6ICJDaHJp
+c3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IENjOiBEYXZpZCBBaXJs
+aWUgPGFpcmxpZWRAbGludXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5j
+aD4KPiBDYzogUWluZ2xhbmcgTWlhbyA8bWlhb3FpbmdsYW5nQGh1YXdlaS5jb20+Cj4gQ2M6IGFt
+ZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKPiBTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3Jn
+PgoKVGhpcyBmdW5jdGlvbiBzaG91bGQgYmUgY2FsbGluZyB0aGUgYXRvbSBjbWQgdGFibGUgd2l0
+aCB0aGUKcGFyYW1ldGVycy4gIEp1c3Qgc2VudCBhIHBhdGNoIHRvIGZpeCB0aGlzOgpodHRwczov
+L3BhdGNod29yay5mcmVlZGVza3RvcC5vcmcvcGF0Y2gvNDIyODMzLwoKQWxleAoKPiAtLS0KPiAg
+ZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Jpb3MvY29tbWFuZF90YWJsZS5jIHwgMTIg
+KysrLS0tLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDkgZGVsZXRp
+b25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Jp
+b3MvY29tbWFuZF90YWJsZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Jpb3Mv
+Y29tbWFuZF90YWJsZS5jCj4gaW5kZXggYWZjMTBiOTU0ZmZhNy4uOWQzYmMzYTA3MzgyMSAxMDA2
+NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvYmlvcy9jb21tYW5kX3Rh
+YmxlLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvYmlvcy9jb21tYW5k
+X3RhYmxlLmMKPiBAQCAtMTUxNywyMCArMTUxNywxNCBAQCBzdGF0aWMgZW51bSBicF9yZXN1bHQg
+YWRqdXN0X2Rpc3BsYXlfcGxsX3YyKAo+ICAgICAgICAgc3RydWN0IGJwX2FkanVzdF9waXhlbF9j
+bG9ja19wYXJhbWV0ZXJzICpicF9wYXJhbXMpCj4gIHsKPiAgICAgICAgIGVudW0gYnBfcmVzdWx0
+IHJlc3VsdCA9IEJQX1JFU1VMVF9GQUlMVVJFOwo+IC0gICAgICAgQURKVVNUX0RJU1BMQVlfUExM
+X1BTX0FMTE9DQVRJT04gcGFyYW1zID0geyAwIH07Cj4KPiAgICAgICAgIC8qIFdlIG5lZWQgdG8g
+Y29udmVydCBmcm9tIEtIeiB1bml0cyBpbnRvIDEwS0h6IHVuaXRzIGFuZCB0aGVuIGNvbnZlcnQK
+PiAgICAgICAgICAqIG91dHB1dCBwaXhlbCBjbG9jayBiYWNrIDEwS0h6LS0+S0h6ICovCj4gICAg
+ICAgICB1aW50MzJfdCBwaXhlbF9jbG9ja18xMEtIel9pbiA9IGJwX3BhcmFtcy0+cGl4ZWxfY2xv
+Y2sgLyAxMDsKPgo+IC0gICAgICAgcGFyYW1zLnVzUGl4ZWxDbG9jayA9IGNwdV90b19sZTE2KCh1
+aW50MTZfdCkocGl4ZWxfY2xvY2tfMTBLSHpfaW4pKTsKPiAtICAgICAgIHBhcmFtcy51Y1RyYW5z
+bWl0dGVySUQgPQo+IC0gICAgICAgICAgICAgICAgICAgICAgIGJwLT5jbWRfaGVscGVyLT5lbmNv
+ZGVyX2lkX3RvX2F0b20oCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IGRhbF9ncmFwaGljc19vYmplY3RfaWRfZ2V0X2VuY29kZXJfaWQoCj4gLSAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBicF9wYXJhbXMtPmVuY29k
+ZXJfb2JqZWN0X2lkKSk7Cj4gLSAgICAgICBwYXJhbXMudWNFbmNvZGVNb2RlID0KPiAtICAgICAg
+ICAgICAgICAgICAgICAgICAodWludDhfdClicC0+Y21kX2hlbHBlci0+ZW5jb2Rlcl9tb2RlX2Jw
+X3RvX2F0b20oCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJwX3Bh
+cmFtcy0+c2lnbmFsX3R5cGUsIGZhbHNlKTsKPiArICAgICAgIGJwLT5jbWRfaGVscGVyLT5lbmNv
+ZGVyX2lkX3RvX2F0b20oCj4gKyAgICAgICAgICAgICAgIGRhbF9ncmFwaGljc19vYmplY3RfaWRf
+Z2V0X2VuY29kZXJfaWQoYnBfcGFyYW1zLT5lbmNvZGVyX29iamVjdF9pZCkpOwo+ICsgICAgICAg
+YnAtPmNtZF9oZWxwZXItPmVuY29kZXJfbW9kZV9icF90b19hdG9tKGJwX3BhcmFtcy0+c2lnbmFs
+X3R5cGUsIGZhbHNlKTsKPiAgICAgICAgIHJldHVybiByZXN1bHQ7Cj4gIH0KPgo+IC0tCj4gMi4y
+Ny4wCj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+
+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
