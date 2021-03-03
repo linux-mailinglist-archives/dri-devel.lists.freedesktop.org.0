@@ -1,51 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09CCB32B697
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 11:31:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9E032B6B5
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 11:37:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CFB06E0DA;
-	Wed,  3 Mar 2021 10:31:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA4489B3C;
+	Wed,  3 Mar 2021 10:37:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com
- [IPv6:2607:f8b0:4864:20::e31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F1676E0D8
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 10:31:16 +0000 (UTC)
-Received: by mail-vs1-xe31.google.com with SMTP id l27so4796127vsj.4
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 02:31:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ud8XCo4zETwyBcC5uBZYedvwqDLvaKNv5XeUnTbkcFs=;
- b=MUXW0BLcopSj2WEivWF6kbF45NTv7iE6q4bdW0n64jAOThRVEwx0mwL70/W8QAcW22
- kbp43yMWDe8/wr6M408sE0OwjffCirBG9ZLdfmUcFX2sgeaA6c0HU/locnDgty4g8tBY
- P1x3TV2Q9JYZyg4RAnN+KCw0Zda/CC2Tbyeok=
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A735389B3C;
+ Wed,  3 Mar 2021 10:37:26 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id mj10so21117581ejb.5;
+ Wed, 03 Mar 2021 02:37:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language;
+ bh=FBTX+XnqunpZRURaos2Wq+e0yOnSvyBwRWIyAu4wSdc=;
+ b=PWnsSSQO0I+T0GEnwNT40y88GuZgNKSXM8v3TntHQO3awwVGV3ACtHRdsMJLSbL78G
+ 04lgzg8mi7Ug7wrBhftLZfJtukR/Rln4QB++EeNKS1anRzAQoydyKnW2mzeHxGL2yZyE
+ jUcV+YmP5pmlIdqrElE18Hdt6FYw/m4GBXecdI2RXCQTs3RXaRyVlziBmHcWaakpOMvQ
+ ZcrAYFpx3qsvfpbYzZ2PfO0jK7ummf0q0V8/u71LMzXbzo6eNd+wuxGFotK3qpGqC1ll
+ IJCvWVyI+Ls0xc12wc0UFb/Ux5Hxz7CyurCESyACHHX+wDJCddud4hGdi88EtcgCG/Vz
+ sZ8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ud8XCo4zETwyBcC5uBZYedvwqDLvaKNv5XeUnTbkcFs=;
- b=cZpqR5itLU/rk60GXSbjKWV+ZMECRMmpPoKTW+XanB3wxQiBYM4v/GHIAZ/UxMP4Pl
- srqi3ob6P7UCxJQQm0CGuhNH+vyMWQBK+r8eQMuPyKWnTjn+S1eYU/yvoXO1etEWPA+B
- 7fS3fPY2V+64IStvjJFGRXvjxI4UY7V+a6NoM++xnHfGeZ0MZtZZHOESFgca8/IQd01I
- YNDR+fDFfWaQOzN3pFOFEqHB3kpS1QqDMUkJLHSS7mEk6WzwqNZ4zr22X5JN8Xe5hoeR
- nx6JvlHnfT11XygSPxWHJas+HWOzSuhAuNkVR8HDr7rerVCSwMu2L+fHFCHui/5LCLr0
- 5Ocw==
-X-Gm-Message-State: AOAM531i+9GIW9AZtLeb2MzNGv4h0J7EoNemcrfICdBuMKrMPHtOKRL9
- 7cMHi6XOPOCBHs1HyTdvDASPkqfT4NIIIluN83Wi9Q==
-X-Google-Smtp-Source: ABdhPJzM84ST5K0eaxhWuR85D0QFzIegAthMVmk/sn+EGXAtrfigTFMmmkIb7ZyoUsPiJw5uyoHo0rSSZNkvG9/REng=
-X-Received: by 2002:a67:1046:: with SMTP id 67mr5250935vsq.21.1614767475658;
- Wed, 03 Mar 2021 02:31:15 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language;
+ bh=FBTX+XnqunpZRURaos2Wq+e0yOnSvyBwRWIyAu4wSdc=;
+ b=pYTIOiQvcseLQ03bk0aSMvGj64CAu2Lv0sH7J9wneupqw4PCLSp2cCi25ERjAQ3pyX
+ 1JwCko/aVDjkdFfOC6iL9Qbio2EcEx1V1lzEih6pcQhERenlljLNWqz0eK6lzq1s3+Gs
+ vWBNgQGUE74G8j9Oar4LbjW1e/G75KAUqSGTgKzJPYqq7AE5CyFasa3LzBsyqu2UTmbV
+ mgZu6gQ1fa0VRziyv9qLdy6V1Ijvixx6Z1uQCTyJYkRHP2DujySwXylRISi8OdJxotyz
+ EbjAa8ZvnNBRyJnAXmfwTlpkA+Png0Uz5J3ayyzuYwdGkutomIcxREIEzeNQuk/TWwwX
+ bqOA==
+X-Gm-Message-State: AOAM531hnZAD5PwleGM6hZ3q9u3TMx/LNRu0VHVlU1/BDw2Zn3B/jfcy
+ eQDXt18kgi2JhHZARAO1Kiw=
+X-Google-Smtp-Source: ABdhPJygHxPhY6fKGaxW7MhOy6oDLSgWU5ivsp7w4zuTTOxk5LgjZBZ1Lk6AfbzW8A05ekBjZGpvag==
+X-Received: by 2002:a17:906:26c9:: with SMTP id
+ u9mr26211212ejc.166.1614767845362; 
+ Wed, 03 Mar 2021 02:37:25 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:c1c9:255f:21eb:6396?
+ ([2a02:908:1252:fb60:c1c9:255f:21eb:6396])
+ by smtp.gmail.com with ESMTPSA id t11sm21226275edd.1.2021.03.03.02.37.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Mar 2021 02:37:24 -0800 (PST)
+Subject: Re: [PATCH] drm/ttm: ioremap buffer according to TTM mem caching
+ setting
+To: Thomas Zimmermann <tzimmermann@suse.de>, Oak Zeng <Oak.Zeng@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <1614638628-10508-1-git-send-email-Oak.Zeng@amd.com>
+ <cff35ce0-3ad1-cc4a-f6ec-d423a913d0bc@suse.de>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <e5e46c63-7dcf-44b0-6df9-4c88b9904fa1@gmail.com>
+Date: Wed, 3 Mar 2021 11:37:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210211113309.1.I629b2366a6591410359c7fcf6d385b474b705ca2@changeid>
- <CACRpkdbQa3BZwgtp3=061cu+y+4qkMqtXQhXH_VuHB3KcLyDCA@mail.gmail.com>
-In-Reply-To: <CACRpkdbQa3BZwgtp3=061cu+y+4qkMqtXQhXH_VuHB3KcLyDCA@mail.gmail.com>
-From: Nicolas Boichat <drinkcat@chromium.org>
-Date: Wed, 3 Mar 2021 18:31:04 +0800
-Message-ID: <CANMq1KAsvXZAjmYCMQsAUwpkzuA9-PRnNWkpsLuNbOkP6DixGA@mail.gmail.com>
-Subject: Re: [PATCH] drm/dsi: Add _NO_ to MIPI_DSI_* flags disabling features
-To: Linus Walleij <linus.walleij@linaro.org>
+In-Reply-To: <cff35ce0-3ad1-cc4a-f6ec-d423a913d0bc@suse.de>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,146 +73,268 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, MSM <linux-arm-msm@vger.kernel.org>,
- Jordan Crouse <jcrouse@codeaurora.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- Xin Ji <xji@analogixsemi.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Rajendra Nayak <rnayak@codeaurora.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: jinhuieric.huang@amd.com, Alexander.Deucher@amd.com, Felix.Kuehling@amd.com,
+ harish.kasiviswanathan@amd.com, christian.koenig@amd.com
+Content-Type: multipart/mixed; boundary="===============0597658075=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 1, 2021 at 4:59 PM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> On Thu, Feb 11, 2021 at 4:34 AM Nicolas Boichat <drinkcat@chromium.org> wrote:
->
-> > Many of the DSI flags have names opposite to their actual effects,
-> > e.g. MIPI_DSI_MODE_EOT_PACKET means that EoT packets will actually
-> > be disabled. Fix this by including _NO_ in the flag names, e.g.
-> > MIPI_DSI_MODE_NO_EOT_PACKET.
->
-> Unless someone like me interpreted it literally...
->
-> Like in these:
->
-> >  drivers/gpu/drm/mcde/mcde_dsi.c                      | 2 +-
-> >  drivers/gpu/drm/panel/panel-novatek-nt35510.c        | 2 +-
-> >  drivers/gpu/drm/panel/panel-samsung-s6d16d0.c        | 2 +-
-> >  drivers/gpu/drm/panel/panel-sony-acx424akp.c         | 2 +-
->
-> > diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-> > index 2314c8122992..f4cdc3cfd7d0 100644
-> > --- a/drivers/gpu/drm/mcde/mcde_dsi.c
-> > +++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-> > @@ -760,7 +760,7 @@ static void mcde_dsi_start(struct mcde_dsi *d)
-> >                 DSI_MCTL_MAIN_DATA_CTL_BTA_EN |
-> >                 DSI_MCTL_MAIN_DATA_CTL_READ_EN |
-> >                 DSI_MCTL_MAIN_DATA_CTL_REG_TE_EN;
-> > -       if (d->mdsi->mode_flags & MIPI_DSI_MODE_EOT_PACKET)
-> > +       if (d->mdsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
-> >                 val |= DSI_MCTL_MAIN_DATA_CTL_HOST_EOT_GEN;
->
-> If you read the code you can see that this is interpreted as inserting
-> an EOT packet, so here you need to change the logic such:
->
-> if (!d->mdsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
->     val |= DSI_MCTL_MAIN_DATA_CTL_HOST_EOT_GEN;
->
-> This will make sure the host generates the EOT packet in HS mode
-> *unless* the flag is set.
->
-> (I checked the data sheet.)
->
-> > diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> > index b9a0e56f33e2..9d9334656803 100644
-> > --- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> > +++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> > @@ -899,7 +899,7 @@ static int nt35510_probe(struct mipi_dsi_device *dsi)
-> >         dsi->hs_rate = 349440000;
-> >         dsi->lp_rate = 9600000;
-> >         dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS |
-> > -               MIPI_DSI_MODE_EOT_PACKET;
-> > +               MIPI_DSI_MODE_NO_EOT_PACKET;
->
-> Here you should just delete the MIPI_DSI_MODE_EOT_PACKET
-> flag because this was used with the MCDE driver which interpret the
-> flag literally.
->
-> > diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
-> > index 4aac0d1573dd..b04b9975e9b2 100644
-> > --- a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
-> > @@ -186,7 +186,7 @@ static int s6d16d0_probe(struct mipi_dsi_device *dsi)
-> >          */
-> >         dsi->mode_flags =
-> >                 MIPI_DSI_CLOCK_NON_CONTINUOUS |
-> > -               MIPI_DSI_MODE_EOT_PACKET;
-> > +               MIPI_DSI_MODE_NO_EOT_PACKET;
->
-> Same, just delete the flag.
->
-> > --- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
-> > @@ -97,7 +97,7 @@ static int s6e63m0_dsi_probe(struct mipi_dsi_device *dsi)
-> >         dsi->hs_rate = 349440000;
-> >         dsi->lp_rate = 9600000;
-> >         dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
-> > -               MIPI_DSI_MODE_EOT_PACKET |
-> > +               MIPI_DSI_MODE_NO_EOT_PACKET |
-> >                 MIPI_DSI_MODE_VIDEO_BURST;
->
-> Same, just delete the flag.
->
-> > diff --git a/drivers/gpu/drm/panel/panel-sony-acx424akp.c b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
-> > index 065efae213f5..6b706cbf2f9c 100644
-> > --- a/drivers/gpu/drm/panel/panel-sony-acx424akp.c
-> > +++ b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
-> > @@ -450,7 +450,7 @@ static int acx424akp_probe(struct mipi_dsi_device *dsi)
-> >         else
-> >                 dsi->mode_flags =
-> >                         MIPI_DSI_CLOCK_NON_CONTINUOUS |
-> > -                       MIPI_DSI_MODE_EOT_PACKET;
-> > +                       MIPI_DSI_MODE_NO_EOT_PACKET;
->
-> Same, just delete the flag.
->
-> These are all just semantic bugs due to the ambiguity of the flags, it is
-> possible to provide a Fixes: flag for each file using this flag the wrong way
-> but I dunno if it's worth it.
+This is a multi-part message in MIME format.
+--===============0597658075==
+Content-Type: multipart/alternative;
+ boundary="------------236F69DFE7C6FD9C41A5F923"
+Content-Language: en-US
 
-Wow nice catch.
+This is a multi-part message in MIME format.
+--------------236F69DFE7C6FD9C41A5F923
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-I think we should fix all of those _before_ my patch is applied, with
-proper Fixes tags so that this can be backported to stable branches,
-even if it's a no-op. I can look into it but that may take a bit of
-time.
+Hi Thomas,
 
-Thanks,
+Am 03.03.21 um 09:49 schrieb Thomas Zimmermann:
+> Hi
+>
+> Am 01.03.21 um 23:43 schrieb Oak Zeng:
+>> If tbo.mem.bus.caching is cached, buffer is intended to be mapped
+>> as cached from CPU. Map it with ioremap_cache.
+>
+> Just a question for my understanding: This is on-device memory? 
+> Accessing device memory is usually slow. If that memory can be mapped 
+> with CPU caching enabled, access will roughly be as fast as for system 
+> memory?
+
+There is still a penalty associated with accessing it from the CPU, but 
+it is much faster (both lower latency as well as throughput) as 
+traditional device memory accessed over PCIe.
+
+Regards,
+Christian.
 
 >
-> Yours,
-> Linus Walleij
+> Best regards
+> Thomas
+>
+>>
+>> This wasn't necessary before as device memory was never mapped
+>> as cached from CPU side. It becomes necessary for aldebaran as
+>> device memory is mapped cached from CPU.
+>>
+>> Signed-off-by: Oak Zeng <Oak.Zeng@amd.com>
+>> Reviewed-by: Christian Konig <Christian.Koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/ttm/ttm_bo_util.c | 8 ++++++++
+>>   1 file changed, 8 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c 
+>> b/drivers/gpu/drm/ttm/ttm_bo_util.c
+>> index 031e581..8c65a13 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+>> @@ -91,6 +91,8 @@ static int ttm_resource_ioremap(struct ttm_device 
+>> *bdev,
+>>             if (mem->bus.caching == ttm_write_combined)
+>>               addr = ioremap_wc(mem->bus.offset, bus_size);
+>> +        else if (mem->bus.caching == ttm_cached)
+>> +            addr = ioremap_cache(mem->bus.offset, bus_size);
+>>           else
+>>               addr = ioremap(mem->bus.offset, bus_size);
+>>           if (!addr) {
+>> @@ -372,6 +374,9 @@ static int ttm_bo_ioremap(struct 
+>> ttm_buffer_object *bo,
+>>           if (mem->bus.caching == ttm_write_combined)
+>>               map->virtual = ioremap_wc(bo->mem.bus.offset + offset,
+>>                             size);
+>> +        else if (mem->bus.caching == ttm_cached)
+>> +            map->virtual = ioremap_cache(bo->mem.bus.offset + offset,
+>> +                          size);
+>>           else
+>>               map->virtual = ioremap(bo->mem.bus.offset + offset,
+>>                              size);
+>> @@ -490,6 +495,9 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, 
+>> struct dma_buf_map *map)
+>>           else if (mem->bus.caching == ttm_write_combined)
+>>               vaddr_iomem = ioremap_wc(mem->bus.offset,
+>>                            bo->base.size);
+>> +        else if (mem->bus.caching == ttm_cached)
+>> +            vaddr_iomem = ioremap_cache(mem->bus.offset,
+>> +                          bo->base.size);
+>>           else
+>>               vaddr_iomem = ioremap(mem->bus.offset, bo->base.size);
+>>
+>
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+
+
+--------------236F69DFE7C6FD9C41A5F923
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    Hi Thomas,<br>
+    <br>
+    <div class="moz-cite-prefix">Am 03.03.21 um 09:49 schrieb Thomas
+      Zimmermann:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:cff35ce0-3ad1-cc4a-f6ec-d423a913d0bc@suse.de">Hi
+      <br>
+      <br>
+      Am 01.03.21 um 23:43 schrieb Oak Zeng:
+      <br>
+      <blockquote type="cite">If tbo.mem.bus.caching is cached, buffer
+        is intended to be mapped
+        <br>
+        as cached from CPU. Map it with ioremap_cache.
+        <br>
+      </blockquote>
+      <br>
+      Just a question for my understanding: This is on-device memory?
+      Accessing device memory is usually slow. If that memory can be
+      mapped with CPU caching enabled, access will roughly be as fast as
+      for system memory?
+      <br>
+    </blockquote>
+    <br>
+    There is still a penalty associated with accessing it from the CPU,
+    but it is much faster (both lower latency as well as throughput) as
+    traditional device memory accessed over PCIe.<br>
+    <br>
+    Regards,<br>
+    Christian.<br>
+    <br>
+    <blockquote type="cite"
+      cite="mid:cff35ce0-3ad1-cc4a-f6ec-d423a913d0bc@suse.de">
+      <br>
+      Best regards
+      <br>
+      Thomas
+      <br>
+      <br>
+      <blockquote type="cite">
+        <br>
+        This wasn't necessary before as device memory was never mapped
+        <br>
+        as cached from CPU side. It becomes necessary for aldebaran as
+        <br>
+        device memory is mapped cached from CPU.
+        <br>
+        <br>
+        Signed-off-by: Oak Zeng <a class="moz-txt-link-rfc2396E" href="mailto:Oak.Zeng@amd.com">&lt;Oak.Zeng@amd.com&gt;</a>
+        <br>
+        Reviewed-by: Christian Konig <a class="moz-txt-link-rfc2396E" href="mailto:Christian.Koenig@amd.com">&lt;Christian.Koenig@amd.com&gt;</a>
+        <br>
+        ---
+        <br>
+          drivers/gpu/drm/ttm/ttm_bo_util.c | 8 ++++++++
+        <br>
+          1 file changed, 8 insertions(+)
+        <br>
+        <br>
+        diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c
+        b/drivers/gpu/drm/ttm/ttm_bo_util.c
+        <br>
+        index 031e581..8c65a13 100644
+        <br>
+        --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+        <br>
+        +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+        <br>
+        @@ -91,6 +91,8 @@ static int ttm_resource_ioremap(struct
+        ttm_device *bdev,
+        <br>
+                    if (mem-&gt;bus.caching == ttm_write_combined)
+        <br>
+                      addr = ioremap_wc(mem-&gt;bus.offset, bus_size);
+        <br>
+        +        else if (mem-&gt;bus.caching == ttm_cached)
+        <br>
+        +            addr = ioremap_cache(mem-&gt;bus.offset, bus_size);
+        <br>
+                  else
+        <br>
+                      addr = ioremap(mem-&gt;bus.offset, bus_size);
+        <br>
+                  if (!addr) {
+        <br>
+        @@ -372,6 +374,9 @@ static int ttm_bo_ioremap(struct
+        ttm_buffer_object *bo,
+        <br>
+                  if (mem-&gt;bus.caching == ttm_write_combined)
+        <br>
+                      map-&gt;virtual = ioremap_wc(bo-&gt;mem.bus.offset
+        + offset,
+        <br>
+                                    size);
+        <br>
+        +        else if (mem-&gt;bus.caching == ttm_cached)
+        <br>
+        +            map-&gt;virtual =
+        ioremap_cache(bo-&gt;mem.bus.offset + offset,
+        <br>
+        +                          size);
+        <br>
+                  else
+        <br>
+                      map-&gt;virtual = ioremap(bo-&gt;mem.bus.offset +
+        offset,
+        <br>
+                                     size);
+        <br>
+        @@ -490,6 +495,9 @@ int ttm_bo_vmap(struct ttm_buffer_object
+        *bo, struct dma_buf_map *map)
+        <br>
+                  else if (mem-&gt;bus.caching == ttm_write_combined)
+        <br>
+                      vaddr_iomem = ioremap_wc(mem-&gt;bus.offset,
+        <br>
+                                   bo-&gt;base.size);
+        <br>
+        +        else if (mem-&gt;bus.caching == ttm_cached)
+        <br>
+        +            vaddr_iomem = ioremap_cache(mem-&gt;bus.offset,
+        <br>
+        +                          bo-&gt;base.size);
+        <br>
+                  else
+        <br>
+                      vaddr_iomem = ioremap(mem-&gt;bus.offset,
+        bo-&gt;base.size);
+        <br>
+          <br>
+      </blockquote>
+      <br>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">_______________________________________________
+amd-gfx mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:amd-gfx@lists.freedesktop.org">amd-gfx@lists.freedesktop.org</a>
+<a class="moz-txt-link-freetext" href="https://lists.freedesktop.org/mailman/listinfo/amd-gfx">https://lists.freedesktop.org/mailman/listinfo/amd-gfx</a>
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------236F69DFE7C6FD9C41A5F923--
+
+--===============0597658075==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0597658075==--
