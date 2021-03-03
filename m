@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BCDD32B83F
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 14:44:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2549232B841
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 14:44:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D15A6E976;
-	Wed,  3 Mar 2021 13:44:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 143976E958;
+	Wed,  3 Mar 2021 13:44:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E240A6E947
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 13:44:15 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id u14so23750259wri.3
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 05:44:15 -0800 (PST)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37E4B6E975
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 13:44:17 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id u14so23750326wri.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 05:44:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oU+Wuk0/TjV8ruLVEbq6ixpjRneTtMF4qHY1z5Ned04=;
- b=q18eepXedncQkYrl7klqtSmyDsv1da3LROy3QdvrfbU4mhiYOow55NlC78cGMJgA4C
- +GqgDuboY2FgIAY9TSeBbzjPOkPhkKsh7+7UNDRyjUdgXfmDz9dnTN5wQfjwzcnDO+IP
- qEZJCDueuZ/8dUhqZuD3xLnZu0EtraaFy4HzVGdD+QsUgs89Lf8rJMxMG5Gt/5CSBmxv
- jhUsJhSCPxYAjbSqDfO8IaS2rxC5grdYGZUqLkV0/R7Th3+rmSYHFfLutzrfLU4Xclp+
- 5j2th56OokJ5gqK0uC3EidXW/5JfJ+FoK7bL268Je2dRQZy9qy0mxxOCaJHt4o0sRu1r
- eU0A==
+ bh=N+MStikPfDla/YrgFsim+wcVpR21mbPxef0tFFhFog8=;
+ b=ZxPSjAYBeY6Ew+0mFhPGBPYY8Lyk40dtOffmYtbori5yFJdKNqaMJMJ4bPkHDjQOR2
+ SiGlbR9HHyRVwl++Vt8ramhkvCPBZ4SM3jZl9MH6WQV+SQrw/OsXzrJh90N8kfG6oSc0
+ GtxuD7iALslsZBmuYINQ3CWxJ5jklICLZS8AdjWjmA95LTw3SAi8MxssOdHSPDoGwmv3
+ Q9CLG05cLv7lPoTsXOcobB03h3+yJ1Em7U7yN3iUbcWXb8JrDgPD/KbWF4u6HSfeDBqO
+ hLuu+f7Db0t497c+BSz1rm4+dglWkMOMoJh/lt8OQqxBgiYpj3VTmnv7eUuTE1NBuS/U
+ Q2+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oU+Wuk0/TjV8ruLVEbq6ixpjRneTtMF4qHY1z5Ned04=;
- b=FMBxlMs5RxYqPiHjJeK7RwXJGSSWxpSpFrL/mNpx9ha4Uk5dSoBhd+GVE0ypsaI2jQ
- lzwve4Wl5uBIN1wsNxaHqRZaOoriM1i91SdynwQzsSGww1t8DFpD1cLjPyauqpJdSOX4
- +CAZbXM3AT94lelsWWzfK7prmBBYQYfE/Wu8JR26m4oXoWBdGqkinBXqJhBL8vzdPc53
- 5ReEdNC3c8CCmhreg3fTSsRH3woJiUOci3Bp3dcFLIp3deRfadQrlNcxZ0WDRCK2Luvn
- efyIqiMTfSPCB2MDChvCp0YuSQkx3f5t3p0lW2gWXZCgIxrLM6cNvIchcXCtb8jxCRuj
- v0sA==
-X-Gm-Message-State: AOAM5321DQW8GNuTLW9oqiTsM4XgAvO8O/v8WdqGWU9wj8jFa6WuPpAl
- k4wD9fuXXmD7lB36ijbPuYjIQGMOn1gggw==
-X-Google-Smtp-Source: ABdhPJxAWbIB9dzrj4kD6cvlizaCG/C3XcFqBAgW0/W0ST4tthKwcOPqZQAVqX04CamVOPFrRTadFg==
-X-Received: by 2002:adf:fecc:: with SMTP id q12mr27041197wrs.317.1614779054571; 
- Wed, 03 Mar 2021 05:44:14 -0800 (PST)
+ bh=N+MStikPfDla/YrgFsim+wcVpR21mbPxef0tFFhFog8=;
+ b=NRjusFboJpwzQO4wsW+nrj65XO0Dyj/Ij3aZ9ntj9EjlOTIOZ5XO+huU6JAQHH1cZz
+ jqel3C8Htf7SatIurRKzD4yKifaTCUO3bEHr4LUac+f2Nw8AU5GnxElaiauYNvBmkNED
+ kuxNGjxU54kJ+0uP2xwVJXGIofKUeBPXkCevMrMPNYbrslMVoTvJFTGXOeQOfdaCvBto
+ HwyvnGo2CSVP07MhxZ3Tyve++kOarP+2NuJWHhf8McyTUJyaeCt9LYj25zQWwS61l2FX
+ LazVbIkQjtzEWJuRMsBKuNzBfk6LbVTN+mUKurYaHOFygGAfNtiqQwNF652Z7Mvwl5mV
+ gF2g==
+X-Gm-Message-State: AOAM530XcNVY4L1djsVox+TTamCmpX2c/1SsG8kMoZrNKC2DY1q252nK
+ TlkzSR0+1Q8UwHd904XJ+LBU9w==
+X-Google-Smtp-Source: ABdhPJzLqIembOWI8dg3akIVz8pRPBnUzgJo227nUhNe6H9k+zht4gvQ/bdOAbNzhRgyqzED/CRomQ==
+X-Received: by 2002:adf:f2c3:: with SMTP id d3mr27872270wrp.380.1614779055888; 
+ Wed, 03 Mar 2021 05:44:15 -0800 (PST)
 Received: from dell.default ([91.110.221.155])
- by smtp.gmail.com with ESMTPSA id w18sm6109524wrr.7.2021.03.03.05.44.13
+ by smtp.gmail.com with ESMTPSA id w18sm6109524wrr.7.2021.03.03.05.44.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 05:44:14 -0800 (PST)
+ Wed, 03 Mar 2021 05:44:15 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 39/53] drm/vmwgfx/vmwgfx_cmdbuf_res: Rename param description
- and remove another
-Date: Wed,  3 Mar 2021 13:43:05 +0000
-Message-Id: <20210303134319.3160762-40-lee.jones@linaro.org>
+Subject: [PATCH 40/53] drm/vmwgfx/vmwgfx_shader: Demote kernel-doc abuses and
+ fix-up worthy headers
+Date: Wed,  3 Mar 2021 13:43:06 +0000
+Message-Id: <20210303134319.3160762-41-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210303134319.3160762-1-lee.jones@linaro.org>
 References: <20210303134319.3160762-1-lee.jones@linaro.org>
@@ -75,14 +75,14 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Also fix a small formatting issue.
-
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c:83: warning: Function parameter or member 'res_type' not described in 'vmw_cmdbuf_res_lookup'
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c:83: warning: Excess function parameter 'resource_type' description in 'vmw_cmdbuf_res_lookup'
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c:161: warning: Excess function parameter 'man' description in 'vmw_cmdbuf_res_revert'
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c:330: warning: Cannot understand  *
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c:134: warning: Function parameter or member 'res' not described in 'vmw_res_to_shader'
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c:663: warning: Function parameter or member 'base' not described in 'vmw_user_shader_base_to_res'
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c:695: warning: Function parameter or member 'p_base' not described in 'vmw_user_shader_base_release'
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c:965: warning: Function parameter or member 'dev_priv' not described in 'vmw_compat_shader_add'
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c:965: warning: Function parameter or member 'size' not described in 'vmw_compat_shader_add'
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c:965: warning: Excess function parameter 'tfile' description in 'vmw_compat_shader_add'
 
 Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
 Cc: Roland Scheidegger <sroland@vmware.com>
@@ -91,40 +91,58 @@ Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 Signed-off-by: Zack Rusin <zackr@vmware.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210115181313.3431493-36-lee.jones@linaro.org
+Link: https://patchwork.freedesktop.org/patch/msgid/20210115181313.3431493-37-lee.jones@linaro.org
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-index 44d858ce4ce7f..92509fbf2fd1d 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-@@ -69,7 +69,7 @@ struct vmw_cmdbuf_res_manager {
-  * vmw_cmdbuf_res_lookup - Look up a command buffer resource
-  *
-  * @man: Pointer to the command buffer resource manager
-- * @resource_type: The resource type, that combined with the user key
-+ * @res_type: The resource type, that combined with the user key
-  * identifies the resource.
-  * @user_key: The user key.
-  *
-@@ -148,7 +148,6 @@ void vmw_cmdbuf_res_commit(struct list_head *list)
- /**
-  * vmw_cmdbuf_res_revert - Revert a list of command buffer resource actions
-  *
-- * @man: Pointer to the command buffer resource manager
-  * @list: Caller's list of command buffer resource action
-  *
-  * This function reverts a list of command buffer resource
-@@ -327,7 +326,6 @@ void vmw_cmdbuf_res_man_destroy(struct vmw_cmdbuf_res_manager *man)
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
+index 905ae50aaa2ae..a0db065640131 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
+@@ -125,7 +125,7 @@ static const struct vmw_res_func vmw_dx_shader_func = {
+ 	.commit_notify = vmw_dx_shader_commit_notify,
+ };
+ 
+-/**
++/*
+  * Shader management:
+  */
+ 
+@@ -654,7 +654,7 @@ int vmw_dx_shader_add(struct vmw_cmdbuf_res_manager *man,
+ 
+ 
+ 
+-/**
++/*
+  * User-space shader management:
+  */
+ 
+@@ -686,7 +686,7 @@ static void vmw_shader_free(struct vmw_resource *res)
+ 			    vmw_shader_size);
  }
  
- /**
-- *
-  * vmw_cmdbuf_res_man_size - Return the size of a command buffer managed
-  * resource manager
+-/**
++/*
+  * This function is called when user space has no more references on the
+  * base object. It releases the base-object's reference on the resource object.
+  */
+@@ -945,13 +945,13 @@ int vmw_shader_remove(struct vmw_cmdbuf_res_manager *man,
+  * vmw_compat_shader_add - Create a compat shader and stage it for addition
+  * as a command buffer managed resource.
   *
++ * @dev_priv: Pointer to device private structure.
+  * @man: Pointer to the compat shader manager identifying the shader namespace.
+  * @user_key: The key that is used to identify the shader. The key is
+  * unique to the shader type.
+  * @bytecode: Pointer to the bytecode of the shader.
+  * @shader_type: Shader type.
+- * @tfile: Pointer to a struct ttm_object_file that the guest-backed shader is
+- * to be created with.
++ * @size: Command size.
+  * @list: Caller's list of staged command buffer resource actions.
+  *
+  */
 -- 
 2.27.0
 
