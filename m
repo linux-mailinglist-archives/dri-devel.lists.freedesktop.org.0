@@ -2,34 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C07932B5CE
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 08:46:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94CEB32B5D0
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 08:47:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 692C06E8CF;
-	Wed,  3 Mar 2021 07:46:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2A0B89C8F;
+	Wed,  3 Mar 2021 07:47:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07E8B6E8CF
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 07:46:13 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5ABFEAE85;
- Wed,  3 Mar 2021 07:46:12 +0000 (UTC)
-Subject: Re: [PATCH] drm/stm: ltdc: Use simple encoder
-To: Jagan Teki <jagan@amarulasolutions.com>,
- Yannick Fertre <yannick.fertre@st.com>,
- Philippe Cornu <philippe.cornu@st.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Vincent Abriou <vincent.abriou@st.com>
-References: <20210302175700.28640-1-jagan@amarulasolutions.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <f3b319f3-a590-59d9-34e6-ea9585e4b987@suse.de>
-Date: Wed, 3 Mar 2021 08:46:11 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5413389C8F
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 07:47:50 +0000 (UTC)
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi
+ [91.157.208.71])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 421848CA;
+ Wed,  3 Mar 2021 08:47:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1614757668;
+ bh=2eUYi8WkyCSR/IvUdJsbthJPtQ8SRxzb0VtzXPk/p90=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=dVcgqk6Fgs4I4LnyK+D2lONMjr5SFZ+SWIgq8d+XqaQVuko4jJblguOh7oAL78fjQ
+ f9VGFYaxjN/93eV1HvVHDNZlDmUyXQTFJ1DGX798vK+BH7gD2uPrR+G7vKWQjHZTwV
+ FKJjBHLWn7p/zWscwc0TJwA2bOHkGiHLs7YTPQp4=
+Subject: Re: [PATCHv2 6/6] drm/omapdrm/dss/hdmi5: add CEC support
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org
+References: <20210302162403.983585-1-hverkuil-cisco@xs4all.nl>
+ <20210302162403.983585-7-hverkuil-cisco@xs4all.nl>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Message-ID: <fe8eefe2-16d0-5d15-8a88-508d71a1f505@ideasonboard.com>
+Date: Wed, 3 Mar 2021 09:47:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210302175700.28640-1-jagan@amarulasolutions.com>
+In-Reply-To: <20210302162403.983585-7-hverkuil-cisco@xs4all.nl>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,141 +48,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, linux-amarula@amarulasolutions.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com
-Content-Type: multipart/mixed; boundary="===============1445971019=="
+Cc: devicetree@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
+ Sekhar Nori <nsekhar@ti.com>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1445971019==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="bl6v7NspN0i9e20DD9xHGMKbj2G05wY3M"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---bl6v7NspN0i9e20DD9xHGMKbj2G05wY3M
-Content-Type: multipart/mixed; boundary="9TvzBKred9dq2nu7AoCV2JSXFpzq1yehy";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jagan Teki <jagan@amarulasolutions.com>,
- Yannick Fertre <yannick.fertre@st.com>,
- Philippe Cornu <philippe.cornu@st.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Vincent Abriou <vincent.abriou@st.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-amarula@amarulasolutions.com,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org
-Message-ID: <f3b319f3-a590-59d9-34e6-ea9585e4b987@suse.de>
-Subject: Re: [PATCH] drm/stm: ltdc: Use simple encoder
-References: <20210302175700.28640-1-jagan@amarulasolutions.com>
-In-Reply-To: <20210302175700.28640-1-jagan@amarulasolutions.com>
-
---9TvzBKred9dq2nu7AoCV2JSXFpzq1yehy
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-
-
-Am 02.03.21 um 18:57 schrieb Jagan Teki:
-> STM ltdc driver uses an empty implementation for its encoder.
-> Replace the code with the generic simple encoder.
->=20
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
+On 02/03/2021 18:24, Hans Verkuil wrote:
+> Add HDMI CEC support for OMAP5.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
->   drivers/gpu/drm/stm/ltdc.c | 12 ++----------
->   1 file changed, 2 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-> index 7812094f93d6..aeeb43524ca0 100644
-> --- a/drivers/gpu/drm/stm/ltdc.c
-> +++ b/drivers/gpu/drm/stm/ltdc.c
-> @@ -31,6 +31,7 @@
->   #include <drm/drm_of.h>
->   #include <drm/drm_plane_helper.h>
->   #include <drm/drm_probe_helper.h>
-> +#include <drm/drm_simple_kms_helper.h>
->   #include <drm/drm_vblank.h>
->  =20
->   #include <video/videomode.h>
-> @@ -1020,14 +1021,6 @@ static int ltdc_crtc_init(struct drm_device *dde=
-v, struct drm_crtc *crtc)
->   	return ret;
->   }
->  =20
-> -/*
-> - * DRM_ENCODER
-> - */
-> -
-> -static const struct drm_encoder_funcs ltdc_encoder_funcs =3D {
-> -	.destroy =3D drm_encoder_cleanup,
-> -};
-> -
->   static void ltdc_encoder_disable(struct drm_encoder *encoder)
->   {
->   	struct drm_device *ddev =3D encoder->dev;
-> @@ -1088,8 +1081,7 @@ static int ltdc_encoder_init(struct drm_device *d=
-dev, struct drm_bridge *bridge)
->   	encoder->possible_crtcs =3D CRTC_MASK;
->   	encoder->possible_clones =3D 0;	/* No cloning support */
->  =20
-> -	drm_encoder_init(ddev, encoder, &ltdc_encoder_funcs,
-> -			 DRM_MODE_ENCODER_DPI, NULL);
-> +	drm_simple_encoder_init(ddev, encoder, DRM_MODE_ENCODER_DPI);
->  =20
->   	drm_encoder_helper_add(encoder, &ltdc_encoder_helper_funcs);
->  =20
->=20
+>   drivers/gpu/drm/omapdrm/Kconfig          |   8 +
+>   drivers/gpu/drm/omapdrm/Makefile         |   1 +
+>   drivers/gpu/drm/omapdrm/dss/hdmi.h       |   1 +
+>   drivers/gpu/drm/omapdrm/dss/hdmi5.c      |  63 +++++--
+>   drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c  | 209 +++++++++++++++++++++++
+>   drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h  |  42 +++++
+>   drivers/gpu/drm/omapdrm/dss/hdmi5_core.c |  35 +++-
+>   drivers/gpu/drm/omapdrm/dss/hdmi5_core.h |  33 +++-
+>   8 files changed, 373 insertions(+), 19 deletions(-)
+>   create mode 100644 drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c
+>   create mode 100644 drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+<snip>
 
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
+> index 070cbf5fb57d..a83b634f6011 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
+> @@ -30,8 +30,18 @@
+>   #define HDMI_CORE_IH_PHY_STAT0			0x00410
+>   #define HDMI_CORE_IH_I2CM_STAT0			0x00414
+>   #define HDMI_CORE_IH_CEC_STAT0			0x00418
+> +#define CEC_STAT_DONE				BIT(0)
+> +#define CEC_STAT_EOM				BIT(1)
+> +#define CEC_STAT_NACK				BIT(2)
+> +#define CEC_STAT_ARBLOST			BIT(3)
+> +#define CEC_STAT_ERROR_INIT			BIT(4)
+> +#define CEC_STAT_ERROR_FOLL			BIT(5)
+> +#define CEC_STAT_WAKEUP				BIT(6)
+> +
+>   #define HDMI_CORE_IH_VP_STAT0			0x0041C
+>   #define HDMI_CORE_IH_I2CMPHY_STAT0		0x00420
+> +#define HDMI_CORE_IH_MUTE_I2CM_STAT0            0x00614
 
---9TvzBKred9dq2nu7AoCV2JSXFpzq1yehy--
+The line above has indentation in spaces, but everything else uses tabs.
 
---bl6v7NspN0i9e20DD9xHGMKbj2G05wY3M
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Other than that:
 
------BEGIN PGP SIGNATURE-----
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmA/PsMFAwAAAAAACgkQlh/E3EQov+Dr
-UBAAuXXQEQ3csuHxGxgGgnNutgeRgkO2kZGVoMKdxgPNNBAaimSJkdJsITzIOJrXogBcTjal0j0t
-cdYJUmcCp1Gx5eSF40LqYioc5kyCSRCiNZt4TZtm7IGjv9IyOPrIUXAXNAuvzSlIFJkqmv/HN1ji
-6f5RH2HrN8JDSROD8ps4F7Y4JRfyItQ2uTMcgfkExn3jwEsprPFnSmJ34AadEVvxDB3l7xK04J+O
-ooCQak7yvK6rmUvV+AwcDzh83wLVRdyMT40vGJEx40w2BBbdqCy+KvnnciA3RH1RfbmWwihf0EXb
-W32BPvD49/0NcscEdigpBIul8vkPFSdv2rxU4SfZAawGpmTlp/0eJehnf10QwxPuBtY/OMaiXhjR
-eXmP3I73XHjWfsC8cFX8ILJ5ctOLNczjvOwDf3+01G17i9cPCE6yoY1lmwdc4lSQdMO+xN5YFUNr
-UChIgbDbnfZx/6WauXfIZmRwtlx5l1bv6bLz913QL4FxtEMra3bt4A71mV3l00rZ6JU+AjFfwcaB
-S/vLAlhVP4Nk6e4YWT1KZNfdAN642+HYFiAs0CYTT49q0f0W5h45Wh10WZnXmtnCJsFCIOyGcaP9
-r2Bfydaol9+YB7+N+WMh4HQhXPqdx2TDOxuHIzOoD64dTWo77IPKUR2KHmUq8N1Sa4ha0YitXq7c
-F94=
-=9Vnb
------END PGP SIGNATURE-----
-
---bl6v7NspN0i9e20DD9xHGMKbj2G05wY3M--
-
---===============1445971019==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+  Tomi
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1445971019==--
