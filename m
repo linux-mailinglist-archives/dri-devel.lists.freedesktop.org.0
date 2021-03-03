@@ -2,55 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C991132B8D0
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 16:05:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD8932B8D4
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 16:07:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFF826E99A;
-	Wed,  3 Mar 2021 15:04:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C4346E9BA;
+	Wed,  3 Mar 2021 15:07:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70B386E99A;
- Wed,  3 Mar 2021 15:04:58 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id d9so23787647ote.12;
- Wed, 03 Mar 2021 07:04:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=awzIJukxIn3496jKn3aKkaMrZCk6YH4VW3bDiugzALY=;
- b=RvRlGkNcFhWi7u1KmBynlduvXvAvc5OgEvxiJvS8PkXgDfg5eLyypszajtTEC3vJcT
- g+M4/ctfXdbDVaf8d2jFcnHfHSWvEj770ZYER3fDS8ZqspeBmhnyCqerqOnTROD8Kmyv
- FGC5mJ414a341MXNhLGFui63z4U8M27ryMOYVGqbAyfpRTfrc2k65TcW/eWR2nB5OF1i
- zE0viYtCfNdF5ZmLuBKaPRCj5g5bg7zHsoAqcciTUEs0nyEQ96k1tVCb2UDiHUm66baO
- +cyAectTSxRsmkOMK9NTlCGwqJijr91TYjvbLEi9ySDKzYKjsbNdBjzRB61RDlYvzxKE
- ktDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=awzIJukxIn3496jKn3aKkaMrZCk6YH4VW3bDiugzALY=;
- b=O8Oz7TeFW5ngptkwLfp3vYeIOmb95EEVyn6IY6xSskRisfQ5YDyeI+qrXBc9bo9aX1
- zcjJQRxYY/0XG/HkeDMnkJD0JfNZbjPaCgXvLkVXqruQWY1XFq3S1ZZ6rbFFEwEX7cSu
- ULXyzYnqCRqOrAgrldauMMxcOJMgZiY6xmRGVgHr1ApRVfwd/7Ofg05SW9w6dldlHFZX
- wYK5U/u8FN2LgzHJPWUPlNyA36DrQV9KX2al5pZq1rRMbAc6oymPhz5w7WVursLUs2+6
- TA7+JGiM756YsRTYCLFuMU7Tk17NVs5g45heKKAJ32HSUIpayX/bjEgdDW+cw8mpZlGl
- 5/EQ==
-X-Gm-Message-State: AOAM532JCZscoxc661IoTE6q/PrDuHDLGPglFYYUpkRjBwPsF4YPx56K
- +S2uRaGqkdHiKrY/b5Mv4gTua62VewJ3da7oC1Y=
-X-Google-Smtp-Source: ABdhPJzjEtQEJOeMzY2F5sci2j3avEqTW+zAuyAP1IMbYxRCWx1YIw/nrcT+hm+hR+SpmGexRmYpr1qyraOIoTWIEv4=
-X-Received: by 2002:a9d:20c3:: with SMTP id x61mr11841920ota.311.1614783897805; 
- Wed, 03 Mar 2021 07:04:57 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4568E6E9B0
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 15:07:06 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1614784024; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WOCfvp5fZ7RQpAJujyOHb75KYUX8Y3HLFSKf5Touce4=;
+ b=LU828IrttC2yBWawUgQ7pCSnre+Q9m451ATdkCS3Cis+fqrbz5dLoBob0aJLoumO6B6lwZ
+ v8T8Gk6NqYnwCunUZiUy5bmdakywhhcK22lUctLRyDxTSMe8H4Hb7wBMGViex/Ww6FNk83
+ BuJAD/Ot7mmp+XB8Vya/LOfgLUHc33g=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id CC4C4AD29;
+ Wed,  3 Mar 2021 15:07:04 +0000 (UTC)
+Date: Wed, 3 Mar 2021 16:07:04 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: drm/ttm: ttm_bo_release called without lock
+Message-ID: <YD+mGFJ5KYWwrJHH@alley>
+References: <YD+eYcMMcdlXB8PY@alley>
 MIME-Version: 1.0
-References: <YD4eZLCFU+fbTGIp@mwanda>
- <MW3PR12MB45540A69909BB5556C6E1C11F9999@MW3PR12MB4554.namprd12.prod.outlook.com>
-In-Reply-To: <MW3PR12MB45540A69909BB5556C6E1C11F9999@MW3PR12MB4554.namprd12.prod.outlook.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 3 Mar 2021 10:04:46 -0500
-Message-ID: <CADnq5_NsD2qkoTK9mJhhTLGi4hSP4b+MNMcg6=6xPYYCfWG4rA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix off by one in
- hdmi_14_process_transaction()
-To: "Lakha, Bhawanpreet" <Bhawanpreet.Lakha@amd.com>
+Content-Disposition: inline
+In-Reply-To: <YD+eYcMMcdlXB8PY@alley>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,108 +45,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Li, Sun peng \(Leo\)" <Sunpeng.Li@amd.com>, "Siqueira,
- Rodrigo" <Rodrigo.Siqueira@amd.com>,
- "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Liu,
- Wenjing" <Wenjing.Liu@amd.com>, David Airlie <airlied@linux.ie>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
+ Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Wed 2021-03-03 15:34:09, Petr Mladek wrote:
+> Hi,
+> 
+> the following warning is filling my kernel log buffer
+> with 5.12-rc1+ kernels:
+> 
+> [  941.070598] WARNING: CPU: 0 PID: 11 at drivers/gpu/drm/ttm/ttm_bo.c:139 ttm_bo_move_to_lru_tail+0x1ba/0x210
+> [  941.070601] Modules linked in:
+> [  941.070603] CPU: 0 PID: 11 Comm: kworker/0:1 Kdump: loaded Tainted: G        W         5.12.0-rc1-default+ #81
+> [  941.070605] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba527-rebuilt.opensuse.org 04/01/2014
+> [  941.070606] Workqueue: events qxl_gc_work
+> [  941.070609] RIP: 0010:ttm_bo_move_to_lru_tail+0x1ba/0x210
+> [  941.070610] Code: 93 e8 02 00 00 48 89 0a e9 00 ff ff ff 48 8b 87 38 01 00 00 be ff ff ff ff 48 8d 78 70 e8 8e 7d 46 00 85 c0 0f 85 6f fe ff ff <0f> 0b 8b 93 fc 02 00 00 85 d2 0f 84 6d fe ff ff 48 89 df 5b 5d 41
+> [  941.070612] RSP: 0018:ffffbddf4008fd38 EFLAGS: 00010246
+> [  941.070614] RAX: 0000000000000000 RBX: ffff95ae485bac00 RCX: 0000000000000002
+> [  941.070615] RDX: 0000000000000000 RSI: ffff95ae485badb0 RDI: ffff95ae40305108
+> [  941.070616] RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000001
+> [  941.070617] R10: ffffbddf4008fc10 R11: ffffffffa5401580 R12: ffff95ae42a94e90
+> [  941.070618] R13: ffff95ae485bae70 R14: ffff95ae485bac00 R15: ffff95ae455d1800
+> [  941.070620] FS:  0000000000000000(0000) GS:ffff95aebf600000(0000) knlGS:0000000000000000
+> [  941.070621] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [  941.070622] CR2: 00007f8ffb2f8000 CR3: 0000000102c5e005 CR4: 0000000000370ef0
+> [  941.070624] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> [  941.070626] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> [  941.070627] Call Trace:
+> [  941.070630]  ttm_bo_release+0x551/0x600
+> [  941.070635]  qxl_bo_unref+0x3a/0x50
+> [  941.070638]  qxl_release_free_list+0x62/0xc0
+> [  941.070643]  qxl_release_free+0x76/0xe0
+> [  941.070646]  qxl_garbage_collect+0xd9/0x190
+> [  941.080241]  process_one_work+0x2b0/0x630
+> [  941.080249]  ? process_one_work+0x630/0x630
+> [  941.080251]  worker_thread+0x39/0x3f0
+> [  941.080255]  ? process_one_work+0x630/0x630
+> [  941.080257]  kthread+0x13a/0x150
+> [  941.080260]  ? kthread_create_worker_on_cpu+0x70/0x70
+> [  941.080265]  ret_from_fork+0x1f/0x30
+> [  941.080277] irq event stamp: 757191
+> [  941.080278] hardirqs last  enabled at (757197): [<ffffffffa217431f>] vprintk_emit+0x27f/0x2c0
+> [  941.080280] hardirqs last disabled at (757202): [<ffffffffa21742dc>] vprintk_emit+0x23c/0x2c0
+> [  941.080281] softirqs last  enabled at (755768): [<ffffffffa300030f>] __do_softirq+0x30f/0x432
+> [  941.080284] softirqs last disabled at (755763): [<ffffffffa20eb0aa>] irq_exit_rcu+0xea/0xf0
 
-Alex
+I have just realized that it actually prints two warnings over and
+over again. The 2nd one is:
 
-On Tue, Mar 2, 2021 at 2:26 PM Lakha, Bhawanpreet
-<Bhawanpreet.Lakha@amd.com> wrote:
->
-> [AMD Official Use Only - Internal Distribution Only]
->
->
-> Thanks
->
-> Reviewed-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-> ________________________________
-> From: Dan Carpenter <dan.carpenter@oracle.com>
-> Sent: March 2, 2021 6:15 AM
-> To: Wentland, Harry <Harry.Wentland@amd.com>; Lakha, Bhawanpreet <Bhawanpreet.Lakha@amd.com>
-> Cc: Li, Sun peng (Leo) <Sunpeng.Li@amd.com>; Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Dan Carpenter <dan.carpenter@oracle.com>; Lakha, Bhawanpreet <Bhawanpreet.Lakha@amd.com>; Siqueira, Rodrigo <Rodrigo.Siqueira@amd.com>; Liu, Wenjing <Wenjing.Liu@amd.com>; amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>; dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>; kernel-janitors@vger.kernel.org <kernel-janitors@vger.kernel.org>
-> Subject: [PATCH] drm/amd/display: Fix off by one in hdmi_14_process_transaction()
->
-> The hdcp_i2c_offsets[] array did not have an entry for
-> HDCP_MESSAGE_ID_WRITE_CONTENT_STREAM_TYPE so it led to an off by one
-> read overflow.  I added an entry and copied the 0x0 value for the offset
-> from similar code in drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c.
->
-> I also declared several of these arrays as having HDCP_MESSAGE_ID_MAX
-> entries.  This doesn't change the code, but it's just a belt and
-> suspenders approach to try future proof the code.
->
-> Fixes: 4c283fdac08a ("drm/amd/display: Add HDCP module")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
-> From static analysis, as mentioned in the commit message the offset
-> is basically an educated guess.
->
-> I reported this bug on Apr 16, 2020 but I guess we lost take of it.
->
->  drivers/gpu/drm/amd/display/dc/hdcp/hdcp_msg.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/hdcp/hdcp_msg.c b/drivers/gpu/drm/amd/display/dc/hdcp/hdcp_msg.c
-> index 5e384a8a83dc..51855a2624cf 100644
-> --- a/drivers/gpu/drm/amd/display/dc/hdcp/hdcp_msg.c
-> +++ b/drivers/gpu/drm/amd/display/dc/hdcp/hdcp_msg.c
-> @@ -39,7 +39,7 @@
->  #define HDCP14_KSV_SIZE 5
->  #define HDCP14_MAX_KSV_FIFO_SIZE 127*HDCP14_KSV_SIZE
->
-> -static const bool hdcp_cmd_is_read[] = {
-> +static const bool hdcp_cmd_is_read[HDCP_MESSAGE_ID_MAX] = {
->          [HDCP_MESSAGE_ID_READ_BKSV] = true,
->          [HDCP_MESSAGE_ID_READ_RI_R0] = true,
->          [HDCP_MESSAGE_ID_READ_PJ] = true,
-> @@ -75,7 +75,7 @@ static const bool hdcp_cmd_is_read[] = {
->          [HDCP_MESSAGE_ID_WRITE_CONTENT_STREAM_TYPE] = false
->  };
->
-> -static const uint8_t hdcp_i2c_offsets[] = {
-> +static const uint8_t hdcp_i2c_offsets[HDCP_MESSAGE_ID_MAX] = {
->          [HDCP_MESSAGE_ID_READ_BKSV] = 0x0,
->          [HDCP_MESSAGE_ID_READ_RI_R0] = 0x8,
->          [HDCP_MESSAGE_ID_READ_PJ] = 0xA,
-> @@ -106,7 +106,8 @@ static const uint8_t hdcp_i2c_offsets[] = {
->          [HDCP_MESSAGE_ID_WRITE_REPEATER_AUTH_SEND_ACK] = 0x60,
->          [HDCP_MESSAGE_ID_WRITE_REPEATER_AUTH_STREAM_MANAGE] = 0x60,
->          [HDCP_MESSAGE_ID_READ_REPEATER_AUTH_STREAM_READY] = 0x80,
-> -       [HDCP_MESSAGE_ID_READ_RXSTATUS] = 0x70
-> +       [HDCP_MESSAGE_ID_READ_RXSTATUS] = 0x70,
-> +       [HDCP_MESSAGE_ID_WRITE_CONTENT_STREAM_TYPE] = 0x0,
->  };
->
->  struct protection_properties {
-> @@ -184,7 +185,7 @@ static const struct protection_properties hdmi_14_protection = {
->          .process_transaction = hdmi_14_process_transaction
->  };
->
-> -static const uint32_t hdcp_dpcd_addrs[] = {
-> +static const uint32_t hdcp_dpcd_addrs[HDCP_MESSAGE_ID_MAX] = {
->          [HDCP_MESSAGE_ID_READ_BKSV] = 0x68000,
->          [HDCP_MESSAGE_ID_READ_RI_R0] = 0x68005,
->          [HDCP_MESSAGE_ID_READ_PJ] = 0xFFFFFFFF,
-> --
-> 2.30.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+[  186.078790] WARNING: CPU: 0 PID: 146 at drivers/gpu/drm/ttm/ttm_bo.c:512 ttm_bo_release+0x533/0x600
+[  186.078794] Modules linked in:
+[  186.078795] CPU: 0 PID: 146 Comm: kworker/0:2 Kdump: loaded Tainted: G        W         5.12.0-rc1-default+ #81
+[  186.078797] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba527-rebuilt.opensuse.org 04/01/2014
+[  186.078799] Workqueue: events qxl_gc_work
+[  186.078801] RIP: 0010:ttm_bo_release+0x533/0x600
+[  186.078803] Code: e9 c6 fb ff ff 4c 8b 7d d0 b9 4c 1d 00 00 31 d2 be 01 00 00 00 49 8b bf d0 fe ff ff e8 86 f1 04 00 49 8b 
+47 e0 e9 2b ff ff ff <0f> 0b 48 8b 45 d0 31 d2 4c 89 f7 48 8d 70 08 c7 80 94 00 00 00 00
+[  186.078805] RSP: 0018:ffffa22a402e3d60 EFLAGS: 00010202
+[  186.078807] RAX: 0000000000000001 RBX: ffff9334cd8f5668 RCX: 0000000000001180
+[  186.078808] RDX: ffff93353f61a7c0 RSI: ffffffffa6401580 RDI: ffff9334c44f9588
+[  186.078810] RBP: ffffa22a402e3d90 R08: 0000000000000001 R09: 0000000000000001
+[  186.078811] R10: ffffa22a402e3c10 R11: ffffffffa6401580 R12: ffff9334c48fa300
+[  186.078812] R13: ffff9334c0f24e90 R14: ffff9334cd8f5400 R15: ffff9334c4528000
+[  186.078813] FS:  0000000000000000(0000) GS:ffff93353f600000(0000) knlGS:0000000000000000
+[  186.078814] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  186.078816] CR2: 00007f1908079860 CR3: 0000000021824004 CR4: 0000000000370ef0
+[  186.078818] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[  186.078819] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[  186.078821] Call Trace:
+[  186.078826]  qxl_bo_unref+0x3a/0x50
+[  186.078829]  qxl_release_free_list+0x62/0xc0
+[  186.078834]  qxl_release_free+0x76/0xe0
+[  186.078837]  qxl_garbage_collect+0xd9/0x190
+[  186.078843]  process_one_work+0x2b0/0x630
+[  186.078850]  ? process_one_work+0x630/0x630
+[  186.078853]  worker_thread+0x39/0x3f0
+[  186.078857]  ? process_one_work+0x630/0x630
+[  186.078859]  kthread+0x13a/0x150
+[  186.078861]  ? kthread_create_worker_on_cpu+0x70/0x70
+[  186.078866]  ret_from_fork+0x1f/0x30
+[  186.078879] irq event stamp: 619687
+[  186.091417] hardirqs last  enabled at (619761): [<ffffffffa317293b>] console_unlock+0x45b/0x570
+[  186.091421] hardirqs last disabled at (619766): [<ffffffffa31742dc>] vprintk_emit+0x23c/0x2c0
+[  186.091423] softirqs last  enabled at (617742): [<ffffffffa400030f>] __do_softirq+0x30f/0x432
+[  186.091425] softirqs last disabled at (617737): [<ffffffffa30eb0aa>] irq_exit_rcu+0xea/0xf0
+[  186.091427] ---[ end trace ac74376b06d2036c ]---
+
+
+Tke kernel is based on Linus' tree and the last commit
+f69d02e37a85645aa90d1 ("Merge tag 'misc-5.12-2021-03-02' of
+git://git.kernel.dk/linux-block").
+
+Best Regards,
+Petr
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
