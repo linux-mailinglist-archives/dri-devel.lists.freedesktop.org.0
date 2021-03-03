@@ -2,71 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C4532B5FD
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 09:45:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E9F532B605
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 09:47:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC3B789E43;
-	Wed,  3 Mar 2021 08:45:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB3589D57;
+	Wed,  3 Mar 2021 08:47:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6650989E43
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 08:45:34 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id 983A25805E2;
- Wed,  3 Mar 2021 03:45:33 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Wed, 03 Mar 2021 03:45:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=g2WN8dh9S6beHjsSfHM2t9eCL2x
- 4c0kK7t6liU13tYM=; b=eJs4935jICw/rcWK+7HalLsR4zOfpHiucCbNB2QOj/f
- uA/oipkrR1a+uBm2tqcvXMHfbEECQhnXRo3gwcLLNLdnlLPTZAmr3g6amSfOKUy4
- xIDmyxOlo4XelIJYsCdb5i01gsV0QC15FPoPctfxdvHI2KHs8QBDVnYgOyVNknFn
- arUzvz/y6UA3gXk6SASobQhfwAAOMtwehkX+a+kVlqYVmpNPmxa1CeJEz6fpx9Ay
- xjRngQN3JmL9nXzl0jMEKCr+nG9kvzP3sYgpnh5/TZ+Fp+YZfQ+1ik54m6j+9DiU
- mS3Rh6c/VcCkrmtTtYRXCwBN8wX6D8pF7BVS1Sf1ZAw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=g2WN8d
- h9S6beHjsSfHM2t9eCL2x4c0kK7t6liU13tYM=; b=Y7vOGwgxXZ5RcMxAKp0Wx9
- PIfUqcWVyAZu7i0Gbali2dQJzzpZfVITW4ffqpyRHIrS6ditpr4NpPifdqpWNrRq
- 525oQ29ZDAncM9rGFuHxL/dvkzi9/kIruSrl3RZoFov8Gpv/x2PkCnku5EwsHSaM
- W1wCsovs5om4Rn8PYPFbL/Fg/j930em6R+Qn63i/tEvdIPxttyEmDlwdit1wO699
- jURhBeNkrM+cdpvD/LZrnD7UzZ1OUxkLN7nN9Rid+z5r0+6n2mmtzRYWtiqf3exq
- gnTRl0UdHN+EkFgxpzOX9S49ynEoZx5QnbRn3gZTQjwMdeXmz1XEo1kTg1vOL7aw
- ==
-X-ME-Sender: <xms:qkw_YGyhckhaMB7y0oyD5OMHA_Z9NamONJOy0AOK0gW7E48FIfOYaw>
- <xme:qkw_YEQuiMlZP7eMdVvHbkx6R4vdbgWSpdvTEoCJ7g6ivuFugGd4PHemk2R-UbLCW
- K8a0swHRMttqFO0UIs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddtuddgudduiecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
- heegudenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:qkw_YBtMsi-0DaaAElAA4t7HGRV7Jvur5O-OI2jQfisKx8JfV1sLRw>
- <xmx:qkw_YOueU7PVyv3bRF5Z_jOcPG-bGGGfNAQlDbaNsmFEt-RsSwzghw>
- <xmx:qkw_YPy4sIeMeFbg6lzobTOtrkA3Uubr7ZjbwU_aIIRb27A5tWBjUQ>
- <xmx:rUw_YApjbEVu4SVmyZq6wglhpApObVBZHIatXnUCFh6nt9O80mlLZw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 04D9124005C;
- Wed,  3 Mar 2021 03:45:29 -0500 (EST)
-Date: Wed, 3 Mar 2021 09:45:27 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH 1/8] clk: Add range accessors
-Message-ID: <20210303084527.rziaoiqsr7r4bhcv@gilmour>
-References: <20210225155909.1853812-1-maxime@cerno.tech>
- <20210225155909.1853812-2-maxime@cerno.tech>
- <161472713858.1478170.9594904338107431350@swboyd.mtv.corp.google.com>
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8195C89FCE;
+ Wed,  3 Mar 2021 08:47:49 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id 18so27278107lff.6;
+ Wed, 03 Mar 2021 00:47:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=eWlJk+OnUnN9JCibD9zStSD7Qx5vgzXkE9PysrxYBtA=;
+ b=NyD3e1Ka8yYKlRZUlrZ56n2iLCBnVTU1GTtrUJrKibyUuUZHZMIBDISqzOAz//z0C3
+ f0szh3nF3aQMQ3UEGxhpVkrVHmBaGyTgsRUYcC+2H1ns56R8ay9VmlV56aU/dyxc78B8
+ CsqDkywylWsCAuJeBJm8vwDUz7RMODF4i2VJpCHeoWu2oNVKsc6Wyk4KJeqrKg1QU6Bg
+ 3PXXmT16ZCVvOU7pKtdxuotETlgT5eSoslgH7fSqCGkR4hYemlCjZvIzqENeGgj64qFh
+ jhAMF7zW0SCNKuSmIzJv0g7UddCgxLnlBkDOX2GpViYF9F3yVf+BXA857xEgGb0gtHfi
+ J8pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=eWlJk+OnUnN9JCibD9zStSD7Qx5vgzXkE9PysrxYBtA=;
+ b=PW9hdqZA1Pba5/lfgXG5UaRYXz7jL0jLZcxDwhkUOOsPm5R5HFmqTAPruBhD7phbVX
+ /AogpRKQv9LiCL5dQM4loyxlf0rl56SUxKWy11M0xOYGeb8hzBwjTd+lGfDYApmnlPsa
+ 3m7CxoIuPHs2VbzS4kx/PD2Q+UyYQDew2JpPJLxwKxt9m+TNGW2dVk25vLvMu73z4Rt4
+ zf6XZhz6+O9SgkCkbUXMI0hi1s2BPKILPrAYTE3rwTXz8cU5BPWEp5B5iXr0Y7WoWlQj
+ k9WyF3hrfBGl2veL/x/NaYuHZtxzk0fzIw6HOAn1HBNKMnTBKtuAmMF2BvsLcmz8pIIm
+ pz5Q==
+X-Gm-Message-State: AOAM5335KKQ+1TjBgmYyHpjGUgXO1ql1Bt65nq1PIy/slYW8JZ2olyuE
+ Hncyq7KuWgrVX/jwaRlGdKE=
+X-Google-Smtp-Source: ABdhPJw/Z3UrCmSGqLcwPxBRaweDlfI/gTxHWq8OSU55aO9oYpXnBm7UTbUqOmosk+c6krqAGELWOA==
+X-Received: by 2002:a05:6512:906:: with SMTP id
+ e6mr14889181lft.224.1614761267909; 
+ Wed, 03 Mar 2021 00:47:47 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id e2sm1412822ljp.135.2021.03.03.00.47.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Mar 2021 00:47:47 -0800 (PST)
+Date: Wed, 3 Mar 2021 10:47:44 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Manasi Navare <manasi.d.navare@intel.com>
+Subject: Re: [PATCH] drm/atomic: Add the crtc to affected crtc only if
+ uapi.enable = true
+Message-ID: <20210303104744.2c064f09@eldfell>
+In-Reply-To: <20210302204132.12058-1-manasi.d.navare@intel.com>
+References: <20210302204132.12058-1-manasi.d.navare@intel.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <161472713858.1478170.9594904338107431350@swboyd.mtv.corp.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,109 +67,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, Mike Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Content-Type: multipart/mixed; boundary="===============0468085749=="
+Cc: Daniel Vetter <daniel.vetter@intel.com>, intel-gfx@lists.freedesktop.org,
+ Daniel Stone <daniels@collabora.com>, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1249872110=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0468085749==
+--===============1249872110==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="nriz3ja25tqexae2"
-Content-Disposition: inline
+ boundary="Sig_/pJX5GT0nhakO8wdfDGFJhv9"; protocol="application/pgp-signature"
 
-
---nriz3ja25tqexae2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Sig_/pJX5GT0nhakO8wdfDGFJhv9
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Stephen,
+On Tue,  2 Mar 2021 12:41:32 -0800
+Manasi Navare <manasi.d.navare@intel.com> wrote:
 
-On Tue, Mar 02, 2021 at 03:18:58PM -0800, Stephen Boyd wrote:
-> Quoting Maxime Ripard (2021-02-25 07:59:02)
-> > Some devices might need to access the current available range of a clock
-> > to discover their capabilities. Let's add those accessors.
+> In case of a modeset where a mode gets split across mutiple CRTCs
+> in the driver specific implementation (bigjoiner in i915) we wrongly count
+> the affected CRTCs based on the drm_crtc_mask and indicate the stolen CRT=
+C as
+> an affected CRTC in atomic_check_only().
+> This triggers a warning since affected CRTCs doent match requested CRTC.
 >=20
-> This needs more than two sentences to describe what's required.
+> To fix this in such bigjoiner configurations, we should only
+> increment affected crtcs if that CRTC is enabled in UAPI not
+> if it is just used internally in the driver to split the mode.
+
+Hi,
+
+I think that makes sense to me. Stealing CRTCs that are not currently
+used by the userspace (display server) should be ok, as long as that
+is completely invisible to userspace: meaning that it does not cause
+userspace to unexpectedly e.g. receive or miss per-crtc atomic
+completion events.
+
+Can that also be asserted somehow, or does this already do that?
+
+
+Thanks,
+pq
+
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Cc: Simon Ser <contact@emersion.fr>
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+> Cc: Daniel Stone <daniels@collabora.com>
+> Cc: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+> ---
+>  drivers/gpu/drm/drm_atomic.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 >=20
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >  drivers/clk/clk.c   | 30 ++++++++++++++++++++++++++++++
-> >  include/linux/clk.h | 16 ++++++++++++++++
-> >  2 files changed, 46 insertions(+)
-> >=20
-> > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> > index 8c1d04db990d..b7307d4f090d 100644
-> > --- a/drivers/clk/clk.c
-> > +++ b/drivers/clk/clk.c
-> > @@ -2407,6 +2407,36 @@ int clk_set_max_rate(struct clk *clk, unsigned l=
-ong rate)
-> >  }
-> >  EXPORT_SYMBOL_GPL(clk_set_max_rate);
-> > =20
-> > +long clk_get_min_rate(struct clk *clk)
->=20
-> I need to read the rest of the patches but I don't see the justification
-> for this sort of API vs. having the consumer constrain the clk frequency
-> that it wants. Is the code that's setting the min/max constraints not
-> the same as the code that's calling this API? Would an OPP table better
-> serve this so the device knows what frequencies are valid?s Please
-> provide the use case/justification in the commit text.
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 5b4547e0f775..d7acd6bbd97e 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -1358,8 +1358,10 @@ int drm_atomic_check_only(struct drm_atomic_state =
+*state)
+>  		}
+>  	}
+> =20
+> -	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
+> -		affected_crtc |=3D drm_crtc_mask(crtc);
+> +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
+> +		if (new_crtc_state->enable)
+> +			affected_crtc |=3D drm_crtc_mask(crtc);
+> +	}
+> =20
+>  	/*
+>  	 * For commits that allow modesets drivers can add other CRTCs to the
 
-The patch that uses it is the patch 4
 
-The issue I'm trying to solve is that all the RaspberryPi have a
-configuration file for the firmware, and the firmware is in charge of
-the clocks communicating through a mailbox interface.
-
-By default, one of the main clocks in the system can only reach 500MHz,
-and that's the range reported by the firmware when queried. However, in
-order to support display modes with a fairly high bandwidth such as 4k
-at 60Hz, that clock needs to be raised to at least 550MHz, and the
-firmware configuration has a special parameter for that one. Setting
-that parameter will increase the range of the clock to have proper
-boundaries for that display mode.
-
-If a user doesn't enable it and tries to use those display modes, the
-display will be completely blank.
-
-There's no way to query the firmware configuration directly, so we can
-instead query the range of the clock and see if the firmware enables us
-to use those modes, warn the user and ignore the modes that wouldn't
-work. That's what those accessors are here for
-
-> Why two functions instead of one function to get both min and max?
-
-Since we have clk_set_min_rate and clk_set_max_rate, it made sense to me
-to mirror that, but I'd be happy to change if you think otherwise
-
-I'll address your other commenst
-
-Maxime
-
---nriz3ja25tqexae2
-Content-Type: application/pgp-signature; name="signature.asc"
+--Sig_/pJX5GT0nhakO8wdfDGFJhv9
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYD9MpwAKCRDj7w1vZxhR
-xXFkAQC+xeNLEteW4viT0I9EgT4GDnxl6LNXLtMjY6QR4lk6OQD/WOWVAnP4FkZy
-khC5H7aQZrwFRz+De7C2IE6KukldgAQ=
-=2EUg
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmA/TTAACgkQI1/ltBGq
+qqcCPQ//eset8Sbn++qBnY+OjT7WTXWID+kEiYS8AI+HW10HW7/yngtzwQJHpapx
+1kalvplv4q0Q3yNFmhlI29NLrr64OqNYnTlaQ0aD4UXvYColjmKm/wzxWWjhKFPM
+1vKxR3EXw/sW51ok5m+ydKa8dw0UF0FHegPAwrtbA33H9I5K/sKW8PT5Mwt/g7qc
+atEayfJ+ixLur/rHmr4CA8gK2G2vc3EwvXdd5e/s3p5FM+Pjjv6ZYYVhBEZ0MGnv
+FjuAToHGy3TlAZLikhERtaKwZmMhW5n6JPXe9hFghWeXgwENpvjcadMvTySfhrpb
+hqrpFj8LAFiTi31HyI2CYW9ILuhT9TYOLvQ2EfFVLRnZoQzCPlNPhrf0yXaD6+8a
+eqFeGAX1vwyZfyNyfQfZdE77BDJNqJavR4uQsRqWyiAL6vx1lGpbsOJe+vUHRTpf
+SkJpaTfIrJalW9VheuRSImYZl/HfIlDoVsYABVYxoP6RDnk/VUadi/dY1CyuHgw+
+6AgJugG1BhopkdaTF60e84x5woS0JRXhbX75dJa8I4sZiSStRKxC/nWd5NZiugdI
+d+6swIT2YnJv0EYXJ66SmCKAEvppYIyjMobg3s2zMrhz9n6hvH3EDbkVcyZlLavG
+qlGQjnaJZ3RPpHpXFGKVHA5XEPaI9F1qnRf/IadBBYQyZ95XZrM=
+=oLmk
 -----END PGP SIGNATURE-----
 
---nriz3ja25tqexae2--
+--Sig_/pJX5GT0nhakO8wdfDGFJhv9--
 
---===============0468085749==
+--===============1249872110==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -192,4 +174,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0468085749==--
+--===============1249872110==--
