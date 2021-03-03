@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B4732B82C
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 14:44:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3437332B82E
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 14:44:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 988226E8F2;
-	Wed,  3 Mar 2021 13:43:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 649126E8FE;
+	Wed,  3 Mar 2021 13:43:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25EDF6E8FD
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 13:43:54 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id n22so5227800wmc.2
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 05:43:54 -0800 (PST)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E5A46E8F9
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 13:43:55 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id w11so23713344wrr.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 05:43:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eTcc77PaUiGKf9phoAd/vzPQm0tz3YbgYP/6lveIZh4=;
- b=Hv3a0tcAo2K75m0PVXruwEWL4rfLpWzsc4Q8ptX+wlRQui8I+T9dLgLHzoAzZ504j/
- XcEzu5iref2iOCnTh/o7cuHw+viXjLLMy8clfd4ZxtHnXl0RQYy2eGfS2ggWC1qnxc5p
- xC4l5DEddko48sXzz7/SS7YKf1p0wal7oJ5cXs9QtL18zSF/4lmjSmI2HgSN3tyE6B1S
- /FTU0+aJKxH890PwQM1AEg3ZlrQQ+JU2ilGVGkvuv97eQX2CwvOuTVNBVkTMCDWRoCS6
- t3to01UjR2QuViV0QUnqOsUPl5w4dzGd0Yi/iMWuHy/RtGZ8ifOVWd3phAkfkQ8RvNOA
- kRGQ==
+ bh=BenSWVQP2zN1koiPW0t4kws5hTFRiEoau/BE1y9GfNM=;
+ b=Ng8hdaWRiiyvyJ7rnmG9yRryrouH4pj2frjYm54JU0V/Kij/mLkEoTUEP+yMJyN858
+ 43bEo3V8esgmfbqdFHDVhOX+SYmO5tr9O/V0Mceqz5W1Xcgm7WGS+5ivEqcwlqOs8Ds7
+ gUsslo0geHrYU/ZKFsr3zq/YneNyJndoy2Em75uprLvmdbJe7KRxkSvIsl559Ym/lM8a
+ V4HEidvwkXJY7TwiMQqabQmXvPddzJPgihMF4HHRUsKPHxZdQKO0HpYJ2lh1WlJB06N5
+ cC4fLLZcxrlhDnzlMsFU70uqIMOuAxIpB4tT9G1IKwKiYZzRepB8asZvagjaujELaLUf
+ SRXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eTcc77PaUiGKf9phoAd/vzPQm0tz3YbgYP/6lveIZh4=;
- b=a1YSMkU4wIu6rBY/MVTeclQFErIIo75vfxvVNu22VRD4vhR6iyVy8TO6+UfHkGPsc2
- 94g3XbLIvGTxJhMDb/L+M9g2qP1yVDFwbRNpx13Yktp+9nZMjiIbeeweXsKUSBezCaKN
- 6Z7rfYwXpq2aP17NAvs/2oWFqzVzTiizhFRvqxGrDFkLsI+TwWVCwyU0coDifh8rMAg4
- zHmPWVrqK9TZv8ntmFOOl/M9fuqDQZdK0gpZidXwayeaImHNX9+ch2Sq50ssQici1ps8
- WmzrE9bMyO4CWsZg+/C/UPIAni3YC0zSpqcwprXKxW0QVPZOn9zNEpcgt2PXlyI45uKP
- rExg==
-X-Gm-Message-State: AOAM533rwDUmwggPHDGdnMmH77s55ilFEmDD83MxrhM2rTMw2TDH2GL5
- w7s8kze7WmOAWlZhyMGCKL54Jw==
-X-Google-Smtp-Source: ABdhPJzCUtL2oe5CKkrYfLuRcO0VMQwAKyVrObWALyWobvl6AF/6diNzxih8O3BeA+r07qK/DufcjQ==
-X-Received: by 2002:a05:600c:190a:: with SMTP id
- j10mr9157109wmq.140.1614779032867; 
- Wed, 03 Mar 2021 05:43:52 -0800 (PST)
+ bh=BenSWVQP2zN1koiPW0t4kws5hTFRiEoau/BE1y9GfNM=;
+ b=I/NK64xOsX36FFO8jBr4/dxRunHq96lM0VCGcvRIF6AcQj7DOFJiGwFT363YA2GwW0
+ CwnASVIuP2ImwmPypDicl/MhrKoNkLGrzSMY4JGySzMFcVWWJweqkyewaSQXWX6EKTuW
+ mRD4p+HBE59tw0uY4Xzqe2hyIfbL8uLPX4NowVpSWr7jEfbXgqTITg5ULsRmxwQxkEFx
+ TGGnsbWFlxI7+hvvMV9mqKVA9TiTaC6O9+15A400n1duK3ho/nH5a2zXer6hvogRvCT/
+ UiLp+2I8vfpeBXSZ6jM9CyE1VTi1aKXrJ9cvFlPLH7iy/7FH/9o8d7FfTypK3n6Ylo06
+ UuOA==
+X-Gm-Message-State: AOAM533rwW3Nc7v4oeiVXKlChbS4iHDUEIlFdmcug7Ngdf5n6Pw6Q9sF
+ pHKN2WYmv2/aoQGivpONol8p/g==
+X-Google-Smtp-Source: ABdhPJycA6TC1eg5KWRI2oQfh3Gk2eiMaVqoQpFQ2CQX+w8wHkausDg6d3nojKl6dS4quQKwNJFznw==
+X-Received: by 2002:a5d:6042:: with SMTP id j2mr28094272wrt.336.1614779034339; 
+ Wed, 03 Mar 2021 05:43:54 -0800 (PST)
 Received: from dell.default ([91.110.221.155])
  by smtp.gmail.com with ESMTPSA id w18sm6109524wrr.7.2021.03.03.05.43.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 05:43:52 -0800 (PST)
+ Wed, 03 Mar 2021 05:43:53 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 21/53] drm/nouveau/nouveau_svm: Remove unused variable 'ret'
- from void function
-Date: Wed,  3 Mar 2021 13:42:47 +0000
-Message-Id: <20210303134319.3160762-22-lee.jones@linaro.org>
+Subject: [PATCH 22/53] drm/nouveau/nouveau_ioc32: Demote kernel-doc abuse to
+ standard comment block
+Date: Wed,  3 Mar 2021 13:42:48 +0000
+Message-Id: <20210303134319.3160762-23-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210303134319.3160762-1-lee.jones@linaro.org>
 References: <20210303134319.3160762-1-lee.jones@linaro.org>
@@ -71,39 +70,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
-cy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9zdm0uYzogSW4gZnVuY3Rpb24g4oCYbm91dmVhdV9w
-Zm5zX21hcOKAmToKIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfc3ZtLmM6ODEwOjY6
-IHdhcm5pbmc6IHZhcmlhYmxlIOKAmHJldOKAmSBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1i
-dXQtc2V0LXZhcmlhYmxlXQoKQ2M6IEJlbiBTa2VnZ3MgPGJza2VnZ3NAcmVkaGF0LmNvbT4KQ2M6
-IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmll
-bEBmZndsbC5jaD4KQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IG5vdXZl
-YXVAbGlzdHMuZnJlZWRlc2t0b3Aub3JnClNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpv
-bmVzQGxpbmFyby5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9zdm0u
-YyB8IDUgKystLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25z
-KC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9zdm0uYyBi
-L2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfc3ZtLmMKaW5kZXggMWMzZjg5MDM3N2Qy
-Yy4uMjZhZjZlZTkxNTM2OCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91
-dmVhdV9zdm0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X3N2bS5jCkBA
-IC04MTEsNyArODExLDYgQEAgbm91dmVhdV9wZm5zX21hcChzdHJ1Y3Qgbm91dmVhdV9zdm1tICpz
-dm1tLCBzdHJ1Y3QgbW1fc3RydWN0ICptbSwKIAkJIHVuc2lnbmVkIGxvbmcgYWRkciwgdTY0ICpw
-Zm5zLCB1bnNpZ25lZCBsb25nIG5wYWdlcykKIHsKIAlzdHJ1Y3Qgbm91dmVhdV9wZm5tYXBfYXJn
-cyAqYXJncyA9IG5vdXZlYXVfcGZuc190b19hcmdzKHBmbnMpOwotCWludCByZXQ7CiAKIAlhcmdz
-LT5wLmFkZHIgPSBhZGRyOwogCWFyZ3MtPnAuc2l6ZSA9IG5wYWdlcyA8PCBQQUdFX1NISUZUOwpA
-QCAtODE5LDggKzgxOCw4IEBAIG5vdXZlYXVfcGZuc19tYXAoc3RydWN0IG5vdXZlYXVfc3ZtbSAq
-c3ZtbSwgc3RydWN0IG1tX3N0cnVjdCAqbW0sCiAJbXV0ZXhfbG9jaygmc3ZtbS0+bXV0ZXgpOwog
-CiAJc3ZtbS0+dm1tLT52bW0ub2JqZWN0LmNsaWVudC0+c3VwZXIgPSB0cnVlOwotCXJldCA9IG52
-aWZfb2JqZWN0X2lvY3RsKCZzdm1tLT52bW0tPnZtbS5vYmplY3QsIGFyZ3MsIHNpemVvZigqYXJn
-cykgKwotCQkJCW5wYWdlcyAqIHNpemVvZihhcmdzLT5wLnBoeXNbMF0pLCBOVUxMKTsKKwludmlm
-X29iamVjdF9pb2N0bCgmc3ZtbS0+dm1tLT52bW0ub2JqZWN0LCBhcmdzLCBzaXplb2YoKmFyZ3Mp
-ICsKKwkJCSAgbnBhZ2VzICogc2l6ZW9mKGFyZ3MtPnAucGh5c1swXSksIE5VTEwpOwogCXN2bW0t
-PnZtbS0+dm1tLm9iamVjdC5jbGllbnQtPnN1cGVyID0gZmFsc2U7CiAKIAltdXRleF91bmxvY2so
-JnN2bW0tPm11dGV4KTsKLS0gCjIuMjcuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/gpu/drm/nouveau/nouveau_ioc32.c:52: warning: Function parameter or member 'filp' not described in 'nouveau_compat_ioctl'
+ drivers/gpu/drm/nouveau/nouveau_ioc32.c:52: warning: Function parameter or member 'cmd' not described in 'nouveau_compat_ioctl'
+ drivers/gpu/drm/nouveau/nouveau_ioc32.c:52: warning: Function parameter or member 'arg' not described in 'nouveau_compat_ioctl'
+
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/gpu/drm/nouveau/nouveau_ioc32.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_ioc32.c b/drivers/gpu/drm/nouveau/nouveau_ioc32.c
+index 8ddf9b2325a42..2af3615c5205c 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_ioc32.c
++++ b/drivers/gpu/drm/nouveau/nouveau_ioc32.c
+@@ -38,7 +38,7 @@
+ 
+ #include "nouveau_ioctl.h"
+ 
+-/**
++/*
+  * Called whenever a 32-bit process running under a 64-bit kernel
+  * performs an ioctl on /dev/dri/card<n>.
+  *
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
