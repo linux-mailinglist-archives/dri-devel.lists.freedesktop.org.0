@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3EA32B847
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 14:45:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF8B32B848
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 14:45:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72D3F6E980;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 915166E981;
 	Wed,  3 Mar 2021 13:44:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38A896E97D
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 13:44:25 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id o2so5884101wme.5
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 05:44:25 -0800 (PST)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31A466E983
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 13:44:26 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id d11so23736239wrj.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 05:44:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7qqHnZY9azPURq/zESXDkivU/6fDs3hRcSOtRIxqVho=;
- b=KHHkfD9oMrDLgRGT9BRw5QflsrbtFF3LreHHXNdLoUenAu3jbytf104HvLb7XWSeoJ
- SVMtJgdIrBSIAa+e1T7fCS/BrqQEFmXq/pGqaG/qRCT4Q7/U4PKuGoQI5XV7TqfwzEM4
- xhqFTH8QfJVdSkAgfFRES9Kuu4EwWaNLUWnD4JVXYvZhaGYMWphzo2zxOg0xlAGIsy24
- nakblZCIrZoZjzEFp2tnyeLL/GC2ml/D70+t2ArnjLuPCHd8VaCfi0UwfN8mfFStkALw
- VoWDH1d7kIn49EJT0qO8PZSo/nMqEqbrR2n6UcOMgL/z3l1vgKv+qIydVp05R/0pkDB8
- QFjQ==
+ bh=H3xPEHi6egTkwvWXcCWYIyS0K3zaWAAbSzwMQ/qKgYI=;
+ b=JBhtQCRKcqLPe0dwAMaSPsbnFi0wbQuCUn4xQf9Xb3MLfWa9Gekp03nTcRSi+Ab/+4
+ umFVmud0hLFrAqQlcj4BHxjvAb3WDfGHHr1ph2IViuFyrvlOe+0HHy5cZwlNjNsj2JWe
+ CumSKeKBGrNyEpwGgKRtM7bifqHTKUspukU9gInkM1LspVA3xD+Lx2uGtaxgDfWc4vpP
+ EkU9TQh2OqP0bvOkrAHO7jZhcjYEjJSyAGjKdhoX6ntx7DEdSqBMxl+/gBGPpXmJpyTD
+ iXAR5/KdBwxlVrToW2OsLt2/arAH1yDev4SJGJd+7v0Zp8zIvVvzKlMpsKI0knh7wvK5
+ ww1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7qqHnZY9azPURq/zESXDkivU/6fDs3hRcSOtRIxqVho=;
- b=tGFw2cF5dbaSV5zkpW1NJTtyIZZRiTJelqKZBrnzr+n4SVxWObbmhSpsohZ7FgRnDR
- 5eWDQnfDHn18hixMcxyOe0e3tW5/DTghUCtfhsHc5holwbVpJq4Qykm1Qz79FXV3ueOn
- C3lgKzuVYkqnTLNmdjm8p7KKXzkHEsZSSvHjhW2oP8xUGlOeNy1jCkvnldPG0/yAN4L0
- kXqzL7aFk9yWOEiRbT8Gw5XQuadFfcP0J9Ikg3KeyEeWmCsXpN1wYsSVGCMtI1+xZNMh
- 5C6AYt/yLRk7Rf/g62EXrcjzbkg/nIUlTC3aOsFRUJgu6bMbwx6TOQki0rKbr9feBE4T
- KEpg==
-X-Gm-Message-State: AOAM531QdkxQVdbIUgFwz4hfDlO/dp13vbmLb959Dd6dPkJXW6AMm9uI
- s3YquwywkahTCibIfasug9GXxw==
-X-Google-Smtp-Source: ABdhPJz9votcon5DHgeLgHgLV3hpp3bV0kvfgrgW9O58tctnt1s1Gl+oDWKTuwCob4HsDlWt6cVzAg==
-X-Received: by 2002:a1c:f20e:: with SMTP id s14mr9055056wmc.104.1614779063880; 
- Wed, 03 Mar 2021 05:44:23 -0800 (PST)
+ bh=H3xPEHi6egTkwvWXcCWYIyS0K3zaWAAbSzwMQ/qKgYI=;
+ b=Sg7OmM6iHd6prNS4PALXiqXGKFJT0H2uyTpcipivkHW8q/aoqY5yxHYdbNVOb1Nl7X
+ Xz3deXRtkcDiKJEAUhyVc6Vezs3NWl/b8lPyJ9PbINl/DOSQQ+r3y4e5v8D5fRUf7wEk
+ E6URZ/znrQ6+123G8SE0MRvhK7/O6sBXnOlQsfvwD41WcFVX8PoAljlwN5qe32zTCZtR
+ +5c548c+TzG+dl+LVpWyHIs0WE2UcEEkrJugfKoBaXAGT7eO0I5hKEmw3+s2GTlhWmi/
+ yYAai5+KhHiJGbwtRE14faAXZ9oqxsEnHs2Pu03CqpmVqefTxnwIjY0SxuO0eu6s4B8L
+ 2fhA==
+X-Gm-Message-State: AOAM531a3Nvo8BpMLVmF1e8nCKg94AZhTYzecE5QWVFyj6UeeI+Q7Gy1
+ WhhviUlGiZAjNdHCSNEZEpmqyQ==
+X-Google-Smtp-Source: ABdhPJxDyaHvKTYB+FuVTEoLeXNmHOSn2maq6TRxgw6HeBYfJpgKfvcihdXAfSMYdVDQlfT/xV4TLA==
+X-Received: by 2002:a5d:528f:: with SMTP id c15mr27394416wrv.142.1614779064899; 
+ Wed, 03 Mar 2021 05:44:24 -0800 (PST)
 Received: from dell.default ([91.110.221.155])
- by smtp.gmail.com with ESMTPSA id w18sm6109524wrr.7.2021.03.03.05.44.22
+ by smtp.gmail.com with ESMTPSA id w18sm6109524wrr.7.2021.03.03.05.44.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 05:44:23 -0800 (PST)
+ Wed, 03 Mar 2021 05:44:24 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 47/53] drm/vmwgfx/vmwgfx_binding: Provide some missing param
- descriptions and remove others
-Date: Wed,  3 Mar 2021 13:43:13 +0000
-Message-Id: <20210303134319.3160762-48-lee.jones@linaro.org>
+Subject: [PATCH 48/53] drm/vmwgfx/vmwgfx_msg: Fix misspelling of 'msg'
+Date: Wed,  3 Mar 2021 13:43:14 +0000
+Message-Id: <20210303134319.3160762-49-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210303134319.3160762-1-lee.jones@linaro.org>
 References: <20210303134319.3160762-1-lee.jones@linaro.org>
@@ -77,15 +76,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/vmwgfx/vmwgfx_binding.c:340: warning: Function parameter or member 'shader_slot' not described in 'vmw_binding_add'
- drivers/gpu/drm/vmwgfx/vmwgfx_binding.c:340: warning: Function parameter or member 'slot' not described in 'vmw_binding_add'
- drivers/gpu/drm/vmwgfx/vmwgfx_binding.c:376: warning: Function parameter or member 'from' not described in 'vmw_binding_transfer'
- drivers/gpu/drm/vmwgfx/vmwgfx_binding.c:498: warning: Function parameter or member 'to' not described in 'vmw_binding_state_commit'
- drivers/gpu/drm/vmwgfx/vmwgfx_binding.c:498: warning: Excess function parameter 'ctx' description in 'vmw_binding_state_commit'
- drivers/gpu/drm/vmwgfx/vmwgfx_binding.c:498: warning: Excess function parameter 'scrubbed' description in 'vmw_binding_state_commit'
- drivers/gpu/drm/vmwgfx/vmwgfx_binding.c:520: warning: Function parameter or member 'cbs' not described in 'vmw_binding_rebind_all'
- drivers/gpu/drm/vmwgfx/vmwgfx_binding.c:520: warning: Excess function parameter 'ctx' description in 'vmw_binding_rebind_all'
- drivers/gpu/drm/vmwgfx/vmwgfx_binding.c:795: warning: Function parameter or member 'shader_slot' not described in 'vmw_emit_set_sr'
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c:261: warning: Function parameter or member 'msg' not described in 'vmw_send_msg'
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c:261: warning: Excess function parameter 'logmsg' description in 'vmw_send_msg'
 
 Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
 Cc: Roland Scheidegger <sroland@vmware.com>
@@ -95,60 +87,24 @@ Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 Signed-off-by: Zack Rusin <zackr@vmware.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210115181601.3432599-5-lee.jones@linaro.org
+Link: https://patchwork.freedesktop.org/patch/msgid/20210115181601.3432599-6-lee.jones@linaro.org
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_binding.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_binding.c b/drivers/gpu/drm/vmwgfx/vmwgfx_binding.c
-index 180f6dbc9460d..81f525a82b77f 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_binding.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_binding.c
-@@ -330,6 +330,8 @@ static void vmw_binding_drop(struct vmw_ctx_bindinfo *bi)
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+index 15b5bde693242..609269625468d 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+@@ -253,7 +253,7 @@ static unsigned long vmw_port_hb_in(struct rpc_channel *channel, char *reply,
+  * vmw_send_msg: Sends a message to the host
   *
-  * @cbs: Pointer to the context binding state tracker.
-  * @bi: Information about the binding to track.
-+ * @shader_slot: The shader slot of the binding.
-+ * @slot: The slot of the binding.
+  * @channel: RPC channel
+- * @logmsg: NULL terminated string
++ * @msg: NULL terminated string
   *
-  * Starts tracking the binding in the context binding
-  * state structure @cbs.
-@@ -367,6 +369,7 @@ void vmw_binding_add_uav_index(struct vmw_ctx_binding_state *cbs, uint32 slot,
-  * vmw_binding_transfer: Transfer a context binding tracking entry.
-  *
-  * @cbs: Pointer to the persistent context binding state tracker.
-+ * @from: Staged binding info built during execbuf
-  * @bi: Information about the binding to track.
-  *
+  * Returns: 0 on success
   */
-@@ -484,9 +487,8 @@ void vmw_binding_res_list_scrub(struct list_head *head)
- /**
-  * vmw_binding_state_commit - Commit staged binding info
-  *
-- * @ctx: Pointer to context to commit the staged binding info to.
-+ * @to:   Staged binding info area to copy into to.
-  * @from: Staged binding info built during execbuf.
-- * @scrubbed: Transfer only scrubbed bindings.
-  *
-  * Transfers binding info from a temporary structure
-  * (typically used by execbuf) to the persistent
-@@ -511,7 +513,7 @@ void vmw_binding_state_commit(struct vmw_ctx_binding_state *to,
- /**
-  * vmw_binding_rebind_all - Rebind all scrubbed bindings of a context
-  *
-- * @ctx: The context resource
-+ * @cbs: Pointer to the context binding state tracker.
-  *
-  * Walks through the context binding list and rebinds all scrubbed
-  * resources.
-@@ -789,6 +791,7 @@ static void vmw_collect_dirty_view_ids(struct vmw_ctx_binding_state *cbs,
-  * vmw_binding_emit_set_sr - Issue delayed DX shader resource binding commands
-  *
-  * @cbs: Pointer to the context's struct vmw_ctx_binding_state
-+ * @shader_slot: The shader slot of the binding.
-  */
- static int vmw_emit_set_sr(struct vmw_ctx_binding_state *cbs,
- 			   int shader_slot)
 -- 
 2.27.0
 
