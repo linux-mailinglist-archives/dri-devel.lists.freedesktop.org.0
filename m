@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040E632B81C
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 14:43:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0648932B81E
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 14:43:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7F066E869;
-	Wed,  3 Mar 2021 13:43:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7C616E8DD;
+	Wed,  3 Mar 2021 13:43:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5BA86E86D
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 13:43:35 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id i9so5240226wml.0
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 05:43:35 -0800 (PST)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BD8F6E8D9
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 13:43:37 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id u16so5731919wrt.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 05:43:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sSYYF9avR+ibuwGTDH+u4wL/4B2uArbe+K5Pi6OSJeE=;
- b=ycKjNwxVRbCbFBAENcOkX967iuzNILRBy64Agv/v6AoZsMb6fh2R8wRdvYyJH6Cj2D
- TgcS8VnsiDfrUZ4+cXJGZ7euWyTdOdLNdKMr+YOK635Vr7OgrzD4hBE02dgD7nopt4ZM
- w0Lut7zaa1OSOrPr2NtQ7k3kyGq7LnzgpWxg/3jlkxOLCPITPG/yUPcRKl6OLgvuy9yI
- AMlLutx1kgcc7QtPN/Xk2FNrgBpBoYKNVwWWNI0+HI/7NtZ9Vvkzae0XtKZKuVpk3BQ5
- fDtXc95a7S4ZQr7B2TODC9Z/hm0uLpjbMGGrYxonprBaU5PcGThm2OYN0sDp65mrMGI5
- 7v2w==
+ bh=K5sJeJ74F8ymxQq/7xf9FhHZmcrAt5y0yMPNHooyiic=;
+ b=N3q181yJisryPIByDaizfjLwDLbgVp2sSUSlV1VTGiJIerqGb19KH2SBPvAKguZifR
+ I/iBsFNFweL2WQUEyLnk4hzJijHleRbyOOxWWFxboGtV6plw4vkLLVhRVDF0qymFFDqh
+ w8gomQnPFF0fUFn87WrNRwqG9HWCghz9iplUle3MXnVjy2mHL6Y3m3Ae4i+B2jY23gZp
+ zpMdZFt4R3rikBkgzyz/bOQklHbTOzqFE8FKqLCfx6LT7FdVi9UQS0PBAAmWEXMQr+cv
+ hdTuBN3aQssflEmx5QR+Wmnna7UAkSRvdCRqviYtZRMjwHvmJrflxvVf/+lNtZxIyDrY
+ ZlOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sSYYF9avR+ibuwGTDH+u4wL/4B2uArbe+K5Pi6OSJeE=;
- b=SszQzcdIK0RysD1Uc6E+OLrG/6q/aN64IXML0n2x+sjPmZ0CW+cs9rUQPrjccccoWR
- q38kpjswDVsgr9Utzcj2Y/Pbs8Cdow51hOe77ZJHjcPppbvQrNF1bmwmNYoTMVQv2XoX
- G5ty6ufU3VFIHMSgWDtpd3f8sAlGuy+j7JMCE0/n9QA33CK2LCBJAA3swG/6X0XaCb4m
- HTC4Glidocz9bvB0taf3+o0V6YF/W1WPodYnTzCOsTGoUEz67DTdQ6BwKYF7i7yZna0N
- WrOCP7sdYCjvzL2RgBf2hHK4CyrSNnURb5XmooHOE4v+UhcxPIyLkEvS9zIJEIFJpIH4
- BXhg==
-X-Gm-Message-State: AOAM530O5S+VMdfy4hBZ+Rg7kVti1do2+fXYr1oAzULCg1apGuMVucv9
- nVsx5NR+vun6FDFjgIJj1o6Zjw==
-X-Google-Smtp-Source: ABdhPJwiGxjArDO8rR5idnJXWqI7FvnqHY0aib4SalTLxl3V/8oEa/eGolnFiAQ3rvhsAU4vK+Y5xw==
-X-Received: by 2002:a1c:68c5:: with SMTP id d188mr8916602wmc.119.1614779014483; 
- Wed, 03 Mar 2021 05:43:34 -0800 (PST)
+ bh=K5sJeJ74F8ymxQq/7xf9FhHZmcrAt5y0yMPNHooyiic=;
+ b=Xl/5yKkQqI5giAekRYsxrGGrmDsCLGGlLq+1OO7aNIAUU814/ZuCf85pyTIxwUw9xP
+ U/PKrmlSxWWC6KMW3ZVFCIcSW3EFVxvpWJVTziMzJMIQ1Qt/pf3VAd773/W+/4uKVjfn
+ Au5C0tQqgkjY3+0sCWG0PVDabreM7o7ojnA4tOSQ4J5CBa3PMquBWH4aX13Gi5L/uDHQ
+ +5heehBD8aYPeUAkZ5lFESK8bPzsNxX/kc9WoJ8vL10ZpQtfHiQcxmZZheI6/LW43R+8
+ ToND33NgDyvJbVvheSXuvL1gSmr05cRZ7WViXbOEeAOPqYHaedJB9F1AGH6jVhrwoTm4
+ hrSA==
+X-Gm-Message-State: AOAM530P7/WepgOowk6EWwDIflXhvfk8drw8vgi3r81dy8A5z/Fcg7Xh
+ SPCvChcdOfJpdsg4SFPw6qcakQ==
+X-Google-Smtp-Source: ABdhPJwi4JvCkBousamcRU/iub7Snug2xhsNyhh47wRAiEEVp0mD51d0zPloNpxfNF3p6PXkuyD4wg==
+X-Received: by 2002:a5d:404f:: with SMTP id w15mr22817085wrp.106.1614779015699; 
+ Wed, 03 Mar 2021 05:43:35 -0800 (PST)
 Received: from dell.default ([91.110.221.155])
- by smtp.gmail.com with ESMTPSA id w18sm6109524wrr.7.2021.03.03.05.43.33
+ by smtp.gmail.com with ESMTPSA id w18sm6109524wrr.7.2021.03.03.05.43.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 05:43:34 -0800 (PST)
+ Wed, 03 Mar 2021 05:43:35 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 05/53] include: drm: drm_atomic: Make use of 'new_plane_state'
-Date: Wed,  3 Mar 2021 13:42:31 +0000
-Message-Id: <20210303134319.3160762-6-lee.jones@linaro.org>
+Subject: [PATCH 06/53] drm/nouveau/nvkm/subdev/volt/gk20a: Demote
+ non-conformant kernel-doc headers
+Date: Wed,  3 Mar 2021 13:42:32 +0000
+Message-Id: <20210303134319.3160762-7-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210303134319.3160762-1-lee.jones@linaro.org>
 References: <20210303134319.3160762-1-lee.jones@linaro.org>
@@ -66,43 +67,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SW4gdGhlIG1hY3JvIGZvcl9lYWNoX29sZG5ld19wbGFuZV9pbl9zdGF0ZSgpICduZXdfcGxhbmVf
-c3RhdGUnIGlzIHByb3ZpZGVkCmFzIGEgY29udGFpbmVyIGZvciBzdGF0ZS0+cGxhbmVzW2ldLm5l
-d19zdGF0ZSwgYnV0IGlzIG5vdCB1dGlsaXNlZCBpbgpzb21lIHVzZS1jYXNlcywgc28gd2UgZmFr
-ZS11c2UgaXQgaW5zdGVhZC4KCkZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3
-YXJuaW5nKHMpOgoKIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvYW1kZ3B1
-X2RtL2FtZGdwdV9kbS5jOiBJbiBmdW5jdGlvbiDigJhhbWRncHVfZG1fY29tbWl0X2N1cnNvcnPi
-gJk6CiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9kaXNwbGF5L2FtZGdwdV9kbS9hbWRn
-cHVfZG0uYzo3NjQ5OjQ0OiB3YXJuaW5nOiB2YXJpYWJsZSDigJhuZXdfcGxhbmVfc3RhdGXigJkg
-c2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KCkNjOiBNYWFydGVu
-IExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPgpDYzogTWF4aW1l
-IFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPgpDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
-ZXJtYW5uQHN1c2UuZGU+CkNjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+CkNjOiBE
-YW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+CkNjOiBSb2IgQ2xhcmsgPHJvYmRjbGFya0Bn
-bWFpbC5jb20+CkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnClNpZ25lZC1vZmYt
-Ynk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+Ci0tLQogaW5jbHVkZS9kcm0vZHJt
-X2F0b21pYy5oIHwgMyArKy0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVs
-ZXRpb24oLSkKCmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fYXRvbWljLmggYi9pbmNsdWRl
-L2RybS9kcm1fYXRvbWljLmgKaW5kZXggY2U3MDIzZTkxMTVkNy4uYTcxYzE5ZTFkNzg1YyAxMDA2
-NDQKLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2F0b21pYy5oCisrKyBiL2luY2x1ZGUvZHJtL2RybV9h
-dG9taWMuaApAQCAtODY3LDcgKzg2Nyw4IEBAIHZvaWQgZHJtX3N0YXRlX2R1bXAoc3RydWN0IGRy
-bV9kZXZpY2UgKmRldiwgc3RydWN0IGRybV9wcmludGVyICpwKTsKIAkJCSAgICAgKChwbGFuZSkg
-PSAoX19zdGF0ZSktPnBsYW5lc1tfX2ldLnB0ciwJXAogCQkJICAgICAgKHZvaWQpKHBsYW5lKSAv
-KiBPbmx5IHRvIGF2b2lkIHVudXNlZC1idXQtc2V0LXZhcmlhYmxlIHdhcm5pbmcgKi8sIFwKIAkJ
-CSAgICAgIChvbGRfcGxhbmVfc3RhdGUpID0gKF9fc3RhdGUpLT5wbGFuZXNbX19pXS5vbGRfc3Rh
-dGUsXAotCQkJICAgICAgKG5ld19wbGFuZV9zdGF0ZSkgPSAoX19zdGF0ZSktPnBsYW5lc1tfX2ld
-Lm5ld19zdGF0ZSwgMSkpCisJCQkgICAgICAobmV3X3BsYW5lX3N0YXRlKSA9IChfX3N0YXRlKS0+
-cGxhbmVzW19faV0ubmV3X3N0YXRlLCBcCisJCQkgICAgICAodm9pZCkobmV3X3BsYW5lX3N0YXRl
-KSAvKiBPbmx5IHRvIGF2b2lkIHVudXNlZC1idXQtc2V0LXZhcmlhYmxlIHdhcm5pbmcgKi8sIDEp
-KQogCiAvKioKICAqIGZvcl9lYWNoX29sZG5ld19wbGFuZV9pbl9zdGF0ZV9yZXZlcnNlIC0gaXRl
-cmF0ZSBvdmVyIGFsbCBwbGFuZXMgaW4gYW4gYXRvbWljCi0tIAoyLjI3LjAKCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:53: warning: Function parameter or member 'speedo' not described in 'gk20a_volt_get_cvb_voltage'
+ drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:53: warning: Function parameter or member 's_scale' not described in 'gk20a_volt_get_cvb_voltage'
+ drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:53: warning: Function parameter or member 'coef' not described in 'gk20a_volt_get_cvb_voltage'
+ drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:69: warning: Function parameter or member 'speedo' not described in 'gk20a_volt_get_cvb_t_voltage'
+ drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:69: warning: Function parameter or member 'temp' not described in 'gk20a_volt_get_cvb_t_voltage'
+ drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:69: warning: Function parameter or member 's_scale' not described in 'gk20a_volt_get_cvb_t_voltage'
+ drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:69: warning: Function parameter or member 't_scale' not described in 'gk20a_volt_get_cvb_t_voltage'
+ drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:69: warning: Function parameter or member 'coef' not described in 'gk20a_volt_get_cvb_t_voltage'
+
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c b/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c
+index 8c2faa9645111..ccac88da88648 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c
+@@ -45,7 +45,7 @@ static const struct cvb_coef gk20a_cvb_coef[] = {
+ 	/* 852 */ { 1608418, -21643, -269,     0,    763,  -48},
+ };
+ 
+-/**
++/*
+  * cvb_mv = ((c2 * speedo / s_scale + c1) * speedo / s_scale + c0)
+  */
+ static inline int
+@@ -58,7 +58,7 @@ gk20a_volt_get_cvb_voltage(int speedo, int s_scale, const struct cvb_coef *coef)
+ 	return mv;
+ }
+ 
+-/**
++/*
+  * cvb_t_mv =
+  * ((c2 * speedo / s_scale + c1) * speedo / s_scale + c0) +
+  * ((c3 * speedo / s_scale + c4 + c5 * T / t_scale) * T / t_scale)
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
