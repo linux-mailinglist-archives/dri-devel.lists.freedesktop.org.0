@@ -1,61 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1229C32B90C
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 16:58:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEA5232B945
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 17:40:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 549646E19B;
-	Wed,  3 Mar 2021 15:58:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 890AD6E1A8;
+	Wed,  3 Mar 2021 16:40:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E09D6E19B
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 15:58:00 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id p8so16834353ejb.10
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 07:57:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Hg2X96E1/emMHJce4+gx+0gGfOSltBwCGBU7E2RTTt8=;
- b=FM8zq8JMV9Qf0L28oIBoYSCl26jL46kgbWyD3MoJNV+XBNlSCrFOJLcaXqdATltLOe
- AdPdPyHSDc2RWedSm82aLtrg33ZxDFrUN7aP2KNDI8dSP51zi6cUpCAyHC7rolPoyeAI
- 7r/sQ/VpRiqzmvoF1dTNcsULmYUr4S10PBpiQ5Qf2sJqJnKqxogNTKCNvUJp3kxLosp0
- 6kQ1VNTjIGFi3ADVHWIIFSawFPYu1rq8aBM7SXv2YEJPBGKysHYW26m8i7I2xdV6gpfZ
- jb6Z4LWmh7tqawUGNrUGGtpC5VEk8Nu3Ph2Su38U28NlOgLd0Gz5JNDjI405W7DJCAb2
- s1tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Hg2X96E1/emMHJce4+gx+0gGfOSltBwCGBU7E2RTTt8=;
- b=UtddffSdn5iHy/Tp6qw3QedOkqWXGKXbJg17LZEM1f0xCLnnmbtAbNJAtmZqTQcuU5
- 6eLa9wHtXndrE3lq+HcXoMmY0QuQTXqTSkaIpxj1lTuhu0pwD5AjXZFJFq9ro4AKgpAW
- YBzlL18NJA4tZ0JCuUzqXYx2l3c8o5tYKBJcu1YCUlFeTs8zTrXHYRjyCcjXG/ApIpoF
- 0H9uJK+tmBKEUHYXogrib8OswGkoK7nD+phLpouQlgcxXfMPahLJ9H4t2pYHyw2XbmZX
- fGKwP9XPdzhb3AOxlAO3IKCbPhopIcqJTwDp4BlmVa9wCbl+zfdUnHdRbFHYgr5T2WEE
- qbUQ==
-X-Gm-Message-State: AOAM5301+UOrjv4/0USLavF36/zaq3PQ9Fdjn0Nf7x6qG8lmc5VoqhGC
- QCZM3ryafsLKwUp70UPiGsXjssIJjEP9pg==
-X-Google-Smtp-Source: ABdhPJxVRkv0Rc1iXUQgtB1nj0wBToUH1TnbDAYO/oXlRt7myOGKe+WL4yzGaI8LCgoJihrvViCoMg==
-X-Received: by 2002:a17:906:aada:: with SMTP id
- kt26mr3674849ejb.137.1614787078776; 
- Wed, 03 Mar 2021 07:57:58 -0800 (PST)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:5325:59de:46ba:e1d6])
- by smtp.gmail.com with ESMTPSA id i6sm17657743ejz.95.2021.03.03.07.57.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 07:57:58 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: daniel@ffwll.ch,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ttm: soften TTM warnings
-Date: Wed,  3 Mar 2021 16:57:57 +0100
-Message-Id: <20210303155757.82497-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0EF06E1A8
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 16:40:36 +0000 (UTC)
+IronPort-SDR: 1YIxfJOBiU+MK8wQ+o5bvzMAQgleZ2Bqodez6a/MhsEyOhnnnLdOmyR0ikDotdZ2vee12gDeB2
+ cUTWsaBScW6w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9912"; a="206924197"
+X-IronPort-AV: E=Sophos;i="5.81,220,1610438400"; d="scan'208";a="206924197"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2021 08:40:36 -0800
+IronPort-SDR: 0XYFIBMlOFlhWrfU3MSu1x9ikTgf40abOhUWdwDLCGy2CZdDDLAmlj71YmJ3iUYccdsxg6kSbq
+ YXr27WKPzxQA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,220,1610438400"; d="scan'208";a="406518537"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga007.jf.intel.com with SMTP; 03 Mar 2021 08:40:30 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 03 Mar 2021 18:40:29 +0200
+Date: Wed, 3 Mar 2021 18:40:29 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH -next v2] fbdev: atyfb: use LCD management functions for
+ PPC_PMAC also
+Message-ID: <YD+7/alPK5NtDnTq@intel.com>
+References: <20210226173008.18236-1-rdunlap@infradead.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210226173008.18236-1-rdunlap@infradead.org>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,30 +50,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UVhMIGluZGVlZCB1bnJlZnMgcGlubmVkIEJPcyBhbmQgdGhlIHdhcm5pbmdzIGFyZSBzcGFtbWlu
-ZyBwZW9wbGVzIGxvZyBmaWxlcy4KCk1ha2Ugc3VyZSB3ZSB3YXJuIG9ubHkgb25jZSB1bnRpbCB0
-aGUgUVhMIGRyaXZlciBpcyBmaXhlZC4KClNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcg
-PGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9i
-by5jIHwgNSArKystLQogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlv
-bnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jIGIvZHJpdmVy
-cy9ncHUvZHJtL3R0bS90dG1fYm8uYwppbmRleCAyMGEyNTY2MGIzNWIuLjI0NWZhMmMwNTkyNyAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYworKysgYi9kcml2ZXJzL2dw
-dS9kcm0vdHRtL3R0bV9iby5jCkBAIC0xMzYsNyArMTM2LDggQEAgdm9pZCB0dG1fYm9fbW92ZV90
-b19scnVfdGFpbChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAogCXN0cnVjdCB0dG1fYm9f
-ZGV2aWNlICpiZGV2ID0gYm8tPmJkZXY7CiAJc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICpt
-YW47CiAKLQlkbWFfcmVzdl9hc3NlcnRfaGVsZChiby0+YmFzZS5yZXN2KTsKKwlpZiAoIWJvLT5k
-ZWxldGVkKQorCQlkbWFfcmVzdl9hc3NlcnRfaGVsZChiby0+YmFzZS5yZXN2KTsKIAogCWlmIChi
-by0+cGluX2NvdW50KSB7CiAJCXR0bV9ib19kZWxfZnJvbV9scnUoYm8pOwpAQCAtNTA5LDcgKzUx
-MCw3IEBAIHN0YXRpYyB2b2lkIHR0bV9ib19yZWxlYXNlKHN0cnVjdCBrcmVmICprcmVmKQogCQkg
-KiBzaHJpbmtlcnMsIG5vdyB0aGF0IHRoZXkgYXJlIHF1ZXVlZCBmb3IKIAkJICogZGVzdHJ1Y3Rp
-b24uCiAJCSAqLwotCQlpZiAoV0FSTl9PTihiby0+cGluX2NvdW50KSkgeworCQlpZiAoV0FSTl9P
-Tl9PTkNFKGJvLT5waW5fY291bnQpKSB7CiAJCQliby0+cGluX2NvdW50ID0gMDsKIAkJCXR0bV9i
-b19tb3ZlX3RvX2xydV90YWlsKGJvLCAmYm8tPm1lbSwgTlVMTCk7CiAJCX0KLS0gCjIuMjUuMQoK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Fri, Feb 26, 2021 at 09:30:08AM -0800, Randy Dunlap wrote:
+> Include PPC_PMAC in the configs that use aty_ld_lcd() and
+> aty_st_lcd() implementations so that the PM code may work
+> correctly for PPC_PMAC.
+> =
+
+> Suggested-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> ---
+> Daniel- We also need this patch:
+> https://lore.kernel.org/dri-devel/20210224215528.822-1-rdunlap@infradead.=
+org/
+> to fix a kernel test robot build error.
+> =
+
+> v2: send the correct version of this patch (thanks, Ville)
+
+Both patches pushed to drm-misc-fixes. Thanks.
+
+> =
+
+>  drivers/video/fbdev/aty/atyfb_base.c |    9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> =
+
+> --- linux-next-20210219.orig/drivers/video/fbdev/aty/atyfb_base.c
+> +++ linux-next-20210219/drivers/video/fbdev/aty/atyfb_base.c
+> @@ -133,7 +133,7 @@
+>  #define PRINTKE(fmt, args...)	printk(KERN_ERR "atyfb: " fmt, ## args)
+>  =
+
+>  #if defined(CONFIG_PMAC_BACKLIGHT) || defined(CONFIG_FB_ATY_GENERIC_LCD)=
+ || \
+> -defined(CONFIG_FB_ATY_BACKLIGHT)
+> +defined(CONFIG_FB_ATY_BACKLIGHT) || defined (CONFIG_PPC_PMAC)
+>  static const u32 lt_lcd_regs[] =3D {
+>  	CNFG_PANEL_LG,
+>  	LCD_GEN_CNTL_LG,
+> @@ -175,8 +175,8 @@ u32 aty_ld_lcd(int index, const struct a
+>  		return aty_ld_le32(LCD_DATA, par);
+>  	}
+>  }
+> -#else /* defined(CONFIG_PMAC_BACKLIGHT) || defined(CONFIG_FB_ATY_BACKLIG=
+HT) \
+> -	 defined(CONFIG_FB_ATY_GENERIC_LCD) */
+> +#else /* defined(CONFIG_PMAC_BACKLIGHT) || defined(CONFIG_FB_ATY_BACKLIG=
+HT) ||
+> +	 defined(CONFIG_FB_ATY_GENERIC_LCD) || defined(CONFIG_PPC_PMAC) */
+>  void aty_st_lcd(int index, u32 val, const struct atyfb_par *par)
+>  { }
+>  =
+
+> @@ -184,7 +184,8 @@ u32 aty_ld_lcd(int index, const struct a
+>  {
+>  	return 0;
+>  }
+> -#endif /* defined(CONFIG_PMAC_BACKLIGHT) || defined (CONFIG_FB_ATY_GENER=
+IC_LCD) */
+> +#endif /* defined(CONFIG_PMAC_BACKLIGHT) || defined(CONFIG_FB_ATY_BACKLI=
+GHT) ||
+> +	  defined (CONFIG_FB_ATY_GENERIC_LCD) || defined(CONFIG_PPC_PMAC) */
+>  =
+
+>  #ifdef CONFIG_FB_ATY_GENERIC_LCD
+>  /*
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
