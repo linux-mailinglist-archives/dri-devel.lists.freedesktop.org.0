@@ -2,45 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC3632B8FD
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 16:37:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA0C32B900
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 16:42:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE04489950;
-	Wed,  3 Mar 2021 15:37:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 520E76E199;
+	Wed,  3 Mar 2021 15:42:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5F3F289950
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 15:37:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 9A5EB2A6045;
- Wed,  3 Mar 2021 16:37:22 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id 34ZwQl79IsgD; Wed,  3 Mar 2021 16:37:21 +0100 (CET)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id E38C22A6042;
- Wed,  3 Mar 2021 16:37:20 +0100 (CET)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.94)
- (envelope-from <michel@daenzer.net>)
- id 1lHTYs-001za5-F3; Wed, 03 Mar 2021 16:37:18 +0100
-To: syzbot <syzbot+620cf21140fc7e772a5d@syzkaller.appspotmail.com>,
- airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- glider@google.com, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
-References: <00000000000056cda705bbe93d11@google.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: KMSAN: kernel-infoleak in compat_drm_wait_vblank
-Message-ID: <79146a29-a05d-f5b9-e81b-bda1db95b952@daenzer.net>
-Date: Wed, 3 Mar 2021 16:37:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 801836E199
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 15:42:04 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 123FV1Iw013435
+ for <dri-devel@lists.freedesktop.org>; Wed, 3 Mar 2021 16:42:02 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=subject : to :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=G7hBdVhTStDGePQzzwf0GcGqdxZLtsn5Dcgq+1CvVT4=;
+ b=jnNGONnZRfzde9tfql+cL8ZbaFT/513qtlBUZDLJHOnL5Ma3yQdDqz9tWF2FmJFYoWPh
+ 27ZFSkIDp0CfFJ0tjyx1iXJGVGJDyFq62GDkbcZY65TGllKsiOyZv3ih7GGfYmM+KI1M
+ AqwbhavfVGToNZc68jkuI84rNeResyf87Dkr+MfwT3DDKrRfeHB/uQ2QbKiPZQV8TNz2
+ 5nzERXFvT0SXakjFY2+aY0JfCe0z2JX4E3BJY4X1vy8vqkueQ4bZvQQ5q0OrX6LiBBVW
+ 0Qd6vWLi1bCMVc5ynEUfjajMlhwWdCKCIwhJsHhw87++EIpWT0Gzp0JShc/ksbbr7n4H sw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 370xehxgym-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 16:42:02 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 285BD10002A
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 16:42:01 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 97F44246CE0
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 16:42:01 +0100 (CET)
+Received: from lmecxl0951.lme.st.com (10.75.127.51) by SFHDAG2NODE3.st.com
+ (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 3 Mar
+ 2021 16:42:01 +0100
+Subject: Re: [PATCH] drm/stm: ltdc: Use simple encoder
+To: <dri-devel@lists.freedesktop.org>
+References: <20210302175700.28640-1-jagan@amarulasolutions.com>
+From: yannick Fertre <yannick.fertre@foss.st.com>
+Message-ID: <ff263bca-23fd-2459-dc57-f217fe7f4ee5@foss.st.com>
+Date: Wed, 3 Mar 2021 16:42:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <00000000000056cda705bbe93d11@google.com>
-Content-Language: en-CA
+In-Reply-To: <20210302175700.28640-1-jagan@amarulasolutions.com>
+Content-Language: en-US
+X-Originating-IP: [10.75.127.51]
+X-ClientProxiedBy: SFHDAG1NODE2.st.com (10.75.127.2) To SFHDAG2NODE3.st.com
+ (10.75.127.6)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-03_05:2021-03-03,
+ 2021-03-03 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,88 +69,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMS0wMi0yMiAxMDoxNSBhLm0uLCBzeXpib3Qgd3JvdGU6Cj4gSGVsbG8sCj4gCj4gc3l6
-Ym90IGZvdW5kIHRoZSBmb2xsb3dpbmcgaXNzdWUgb246Cj4gCj4gSEVBRCBjb21taXQ6ICAgIDI5
-YWQ4MWExIGFyY2gveDg2OiBhZGQgbWlzc2luZyBpbmNsdWRlIHRvIHNwYXJzZW1lbS5oCj4gZ2l0
-IHRyZWU6ICAgICAgIGh0dHBzOi8vZ2l0aHViLmNvbS9nb29nbGUva21zYW4uZ2l0IG1hc3Rlcgo+
-IGNvbnNvbGUgb3V0cHV0OiBodHRwczovL3N5emthbGxlci5hcHBzcG90LmNvbS94L2xvZy50eHQ/
-eD0xMTFlNjMxMmQwMDAwMAo+IGtlcm5lbCBjb25maWc6ICBodHRwczovL3N5emthbGxlci5hcHBz
-cG90LmNvbS94Ly5jb25maWc/eD1jOGUzYjM4Y2E5MjI4M2UKPiBkYXNoYm9hcmQgbGluazogaHR0
-cHM6Ly9zeXprYWxsZXIuYXBwc3BvdC5jb20vYnVnP2V4dGlkPTYyMGNmMjExNDBmYzdlNzcyYTVk
-Cj4gY29tcGlsZXI6ICAgICAgIERlYmlhbiBjbGFuZyB2ZXJzaW9uIDExLjAuMS0yCj4gdXNlcnNw
-YWNlIGFyY2g6IGkzODYKPiAKPiBVbmZvcnR1bmF0ZWx5LCBJIGRvbid0IGhhdmUgYW55IHJlcHJv
-ZHVjZXIgZm9yIHRoaXMgaXNzdWUgeWV0Lgo+IAo+IElNUE9SVEFOVDogaWYgeW91IGZpeCB0aGUg
-aXNzdWUsIHBsZWFzZSBhZGQgdGhlIGZvbGxvd2luZyB0YWcgdG8gdGhlIGNvbW1pdDoKPiBSZXBv
-cnRlZC1ieTogc3l6Ym90KzYyMGNmMjExNDBmYzdlNzcyYTVkQHN5emthbGxlci5hcHBzcG90bWFp
-bC5jb20KPiAKPiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PQo+IEJVRzogS01TQU46IGtlcm5lbC1pbmZvbGVhayBpbiBrbXNhbl9jb3B5X3RvX3Vz
-ZXIrMHg5Yy8weGIwIG1tL2ttc2FuL2ttc2FuX2hvb2tzLmM6MjQ5Cj4gQ1BVOiAxIFBJRDogMjY5
-OTkgQ29tbTogc3l6LWV4ZWN1dG9yLjIgTm90IHRhaW50ZWQgNS4xMS4wLXJjNy1zeXprYWxsZXIg
-IzAKPiBIYXJkd2FyZSBuYW1lOiBHb29nbGUgR29vZ2xlIENvbXB1dGUgRW5naW5lL0dvb2dsZSBD
-b21wdXRlIEVuZ2luZSwgQklPUyBHb29nbGUgMDEvMDEvMjAxMQo+IENhbGwgVHJhY2U6Cj4gICBf
-X2R1bXBfc3RhY2sgbGliL2R1bXBfc3RhY2suYzo3OSBbaW5saW5lXQo+ICAgZHVtcF9zdGFjaysw
-eDIxYy8weDI4MCBsaWIvZHVtcF9zdGFjay5jOjEyMAo+ICAga21zYW5fcmVwb3J0KzB4ZmIvMHgx
-ZTAgbW0va21zYW4va21zYW5fcmVwb3J0LmM6MTE4Cj4gICBrbXNhbl9pbnRlcm5hbF9jaGVja19t
-ZW1vcnkrMHg0ODQvMHg1MjAgbW0va21zYW4va21zYW4uYzo0MzcKPiAgIGttc2FuX2NvcHlfdG9f
-dXNlcisweDljLzB4YjAgbW0va21zYW4va21zYW5faG9va3MuYzoyNDkKPiAgIGluc3RydW1lbnRf
-Y29weV90b191c2VyIGluY2x1ZGUvbGludXgvaW5zdHJ1bWVudGVkLmg6MTIxIFtpbmxpbmVdCj4g
-ICBfY29weV90b191c2VyKzB4MWFjLzB4MjcwIGxpYi91c2VyY29weS5jOjMzCj4gICBjb3B5X3Rv
-X3VzZXIgaW5jbHVkZS9saW51eC91YWNjZXNzLmg6MjA5IFtpbmxpbmVdCj4gICBjb21wYXRfZHJt
-X3dhaXRfdmJsYW5rKzB4MzZmLzB4NDUwIGRyaXZlcnMvZ3B1L2RybS9kcm1faW9jMzIuYzo4NjYK
-PiAgIGRybV9jb21wYXRfaW9jdGwrMHgzZjYvMHg1OTAgZHJpdmVycy9ncHUvZHJtL2RybV9pb2Mz
-Mi5jOjk5NQo+ICAgX19kb19jb21wYXRfc3lzX2lvY3RsIGZzL2lvY3RsLmM6ODQyIFtpbmxpbmVd
-Cj4gICBfX3NlX2NvbXBhdF9zeXNfaW9jdGwrMHg1M2QvMHgxMTAwIGZzL2lvY3RsLmM6NzkzCj4g
-ICBfX2lhMzJfY29tcGF0X3N5c19pb2N0bCsweDRhLzB4NzAgZnMvaW9jdGwuYzo3OTMKPiAgIGRv
-X3N5c2NhbGxfMzJfaXJxc19vbiBhcmNoL3g4Ni9lbnRyeS9jb21tb24uYzo3OSBbaW5saW5lXQo+
-ICAgX19kb19mYXN0X3N5c2NhbGxfMzIrMHgxMDIvMHgxNjAgYXJjaC94ODYvZW50cnkvY29tbW9u
-LmM6MTQxCj4gICBkb19mYXN0X3N5c2NhbGxfMzIrMHg2YS8weGMwIGFyY2gveDg2L2VudHJ5L2Nv
-bW1vbi5jOjE2Ngo+ICAgZG9fU1lTRU5URVJfMzIrMHg3My8weDkwIGFyY2gveDg2L2VudHJ5L2Nv
-bW1vbi5jOjIwOQo+ICAgZW50cnlfU1lTRU5URVJfY29tcGF0X2FmdGVyX2h3ZnJhbWUrMHg0ZC8w
-eDVjCj4gUklQOiAwMDIzOjB4ZjdmNDc1NDkKPiBDb2RlOiAwMyA3NCBjMCAwMSAxMCAwNSAwMyA3
-NCBiOCAwMSAxMCAwNiAwMyA3NCBiNCAwMSAxMCAwNyAwMyA3NCBiMCAwMSAxMCAwOCAwMyA3NCBk
-OCAwMSAwMCAwMCAwMCAwMCAwMCA1MSA1MiA1NSA4OSBlNSAwZiAzNCBjZCA4MCA8NWQ+IDVhIDU5
-IGMzIDkwIDkwIDkwIDkwIDhkIGI0IDI2IDAwIDAwIDAwIDAwIDhkIGI0IDI2IDAwIDAwIDAwIDAw
-Cj4gUlNQOiAwMDJiOjAwMDAwMDAwZjU1NDE1ZmMgRUZMQUdTOiAwMDAwMDI5NiBPUklHX1JBWDog
-MDAwMDAwMDAwMDAwMDAzNgo+IFJBWDogZmZmZmZmZmZmZmZmZmZkYSBSQlg6IDAwMDAwMDAwMDAw
-MDAwMDMgUkNYOiAwMDAwMDAwMGMwMTg2NDNhCj4gUkRYOiAwMDAwMDAwMDIwMDAwMTAwIFJTSTog
-MDAwMDAwMDAwMDAwMDAwMCBSREk6IDAwMDAwMDAwMDAwMDAwMDAKPiBSQlA6IDAwMDAwMDAwMDAw
-MDAwMDAgUjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOTogMDAwMDAwMDAwMDAwMDAwMAo+IFIxMDog
-MDAwMDAwMDAwMDAwMDAwMCBSMTE6IDAwMDAwMDAwMDAwMDAwMDAgUjEyOiAwMDAwMDAwMDAwMDAw
-MDAwCj4gUjEzOiAwMDAwMDAwMDAwMDAwMDAwIFIxNDogMDAwMDAwMDAwMDAwMDAwMCBSMTU6IDAw
-MDAwMDAwMDAwMDAwMDAKPiAKPiBVbmluaXQgd2FzIHN0b3JlZCB0byBtZW1vcnkgYXQ6Cj4gICBr
-bXNhbl9zYXZlX3N0YWNrX3dpdGhfZmxhZ3MgbW0va21zYW4va21zYW4uYzoxMjEgW2lubGluZV0K
-PiAgIGttc2FuX2ludGVybmFsX2NoYWluX29yaWdpbisweGFkLzB4MTMwIG1tL2ttc2FuL2ttc2Fu
-LmM6Mjg5Cj4gICBfX21zYW5fY2hhaW5fb3JpZ2luKzB4NTcvMHhhMCBtbS9rbXNhbi9rbXNhbl9p
-bnN0ci5jOjE0Nwo+ICAgY29tcGF0X2RybV93YWl0X3ZibGFuaysweDQzYy8weDQ1MCBkcml2ZXJz
-L2dwdS9kcm0vZHJtX2lvYzMyLmM6ODY1Cj4gICBkcm1fY29tcGF0X2lvY3RsKzB4M2Y2LzB4NTkw
-IGRyaXZlcnMvZ3B1L2RybS9kcm1faW9jMzIuYzo5OTUKPiAgIF9fZG9fY29tcGF0X3N5c19pb2N0
-bCBmcy9pb2N0bC5jOjg0MiBbaW5saW5lXQo+ICAgX19zZV9jb21wYXRfc3lzX2lvY3RsKzB4NTNk
-LzB4MTEwMCBmcy9pb2N0bC5jOjc5Mwo+ICAgX19pYTMyX2NvbXBhdF9zeXNfaW9jdGwrMHg0YS8w
-eDcwIGZzL2lvY3RsLmM6NzkzCj4gICBkb19zeXNjYWxsXzMyX2lycXNfb24gYXJjaC94ODYvZW50
-cnkvY29tbW9uLmM6NzkgW2lubGluZV0KPiAgIF9fZG9fZmFzdF9zeXNjYWxsXzMyKzB4MTAyLzB4
-MTYwIGFyY2gveDg2L2VudHJ5L2NvbW1vbi5jOjE0MQo+ICAgZG9fZmFzdF9zeXNjYWxsXzMyKzB4
-NmEvMHhjMCBhcmNoL3g4Ni9lbnRyeS9jb21tb24uYzoxNjYKPiAgIGRvX1NZU0VOVEVSXzMyKzB4
-NzMvMHg5MCBhcmNoL3g4Ni9lbnRyeS9jb21tb24uYzoyMDkKPiAgIGVudHJ5X1NZU0VOVEVSX2Nv
-bXBhdF9hZnRlcl9od2ZyYW1lKzB4NGQvMHg1Ywo+IAo+IExvY2FsIHZhcmlhYmxlIC0tLS1yZXFA
-Y29tcGF0X2RybV93YWl0X3ZibGFuayBjcmVhdGVkIGF0Ogo+ICAgY29tcGF0X2RybV93YWl0X3Zi
-bGFuaysweDdiLzB4NDUwIGRyaXZlcnMvZ3B1L2RybS9kcm1faW9jMzIuYzo4NDkKPiAgIGNvbXBh
-dF9kcm1fd2FpdF92YmxhbmsrMHg3Yi8weDQ1MCBkcml2ZXJzL2dwdS9kcm0vZHJtX2lvYzMyLmM6
-ODQ5Cj4gCj4gQnl0ZXMgMTItMTUgb2YgMTYgYXJlIHVuaW5pdGlhbGl6ZWQKPiBNZW1vcnkgYWNj
-ZXNzIG9mIHNpemUgMTYgc3RhcnRzIGF0IGZmZmY4ODgxNGZmZTNjOTgKPiBEYXRhIGNvcGllZCB0
-byB1c2VyIGFkZHJlc3MgMDAwMDAwMDAyMDAwMDEwMAo+ID09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Cgpjb21wYXRfZHJtX3dhaXRfdmJsYW5rIHdv
-dWxkIG5lZWQgdG8gaW5pdGlhbGl6ZQoKCXJlcS5yZXBseS50dmFsX3VzZWMgPSByZXEzMi5yZXBs
-eS50dmFsX3VzZWM7CgpiZWZvcmUgY2FsbGluZyBkcm1faW9jdGxfa2VybmVsLCBzaW5jZSBpdCdz
-IG5vdCBhbGlhc2VkIGJ5IGFueSByZXEucmVxdWVzdC4qIG1lbWJlciwgYW5kIGRybV93YWl0X3Zi
-bGFua19pb2N0bCBkb2Vzbid0IGFsd2F5cyB3cml0ZSB0byBpdC4KCgotLSAKRWFydGhsaW5nIE1p
-Y2hlbCBEw6RuemVyICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgIGh0dHBzOi8vcmVkaGF0
-LmNvbQpMaWJyZSBzb2Z0d2FyZSBlbnRodXNpYXN0ICAgICAgICAgICAgIHwgICAgICAgICAgICAg
-TWVzYSBhbmQgWCBkZXZlbG9wZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCg==
+Thanks Jagan for the patch.
+
+Tested-by: Yannick Fertre <yannick.fertre@foss.st.com>
+
+
+On 3/2/21 6:57 PM, Jagan Teki wrote:
+> STM ltdc driver uses an empty implementation for its encoder.
+> Replace the code with the generic simple encoder.
+> 
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> ---
+>   drivers/gpu/drm/stm/ltdc.c | 12 ++----------
+>   1 file changed, 2 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+> index 7812094f93d6..aeeb43524ca0 100644
+> --- a/drivers/gpu/drm/stm/ltdc.c
+> +++ b/drivers/gpu/drm/stm/ltdc.c
+> @@ -31,6 +31,7 @@
+>   #include <drm/drm_of.h>
+>   #include <drm/drm_plane_helper.h>
+>   #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_simple_kms_helper.h>
+>   #include <drm/drm_vblank.h>
+>   
+>   #include <video/videomode.h>
+> @@ -1020,14 +1021,6 @@ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
+>   	return ret;
+>   }
+>   
+> -/*
+> - * DRM_ENCODER
+> - */
+> -
+> -static const struct drm_encoder_funcs ltdc_encoder_funcs = {
+> -	.destroy = drm_encoder_cleanup,
+> -};
+> -
+>   static void ltdc_encoder_disable(struct drm_encoder *encoder)
+>   {
+>   	struct drm_device *ddev = encoder->dev;
+> @@ -1088,8 +1081,7 @@ static int ltdc_encoder_init(struct drm_device *ddev, struct drm_bridge *bridge)
+>   	encoder->possible_crtcs = CRTC_MASK;
+>   	encoder->possible_clones = 0;	/* No cloning support */
+>   
+> -	drm_encoder_init(ddev, encoder, &ltdc_encoder_funcs,
+> -			 DRM_MODE_ENCODER_DPI, NULL);
+> +	drm_simple_encoder_init(ddev, encoder, DRM_MODE_ENCODER_DPI);
+>   
+>   	drm_encoder_helper_add(encoder, &ltdc_encoder_helper_funcs);
+>   
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
