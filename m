@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC39C32B840
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 14:44:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D4432B845
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 14:44:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77D5D6E947;
-	Wed,  3 Mar 2021 13:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EBBD6E97B;
+	Wed,  3 Mar 2021 13:44:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 787426E958
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 13:44:19 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id f12so19932853wrx.8
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 05:44:19 -0800 (PST)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88AFD6E958
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 13:44:20 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id f12so19932910wrx.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 05:44:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cWfSkLsOFqMqwFajDViY0GDy36kEao+sHnvIWX+OuUc=;
- b=mzLCVvzT8ZvO420Azr5mfjX30PlXUIrvbQHxMtN4US7RxeQlR04wUoXvV46MOWj67E
- TWBlNF4/fpmvc9jBPbo8VUcZihj5NbZNatn1o4r/fSJ+yH4/3bVrwGGDdLvQ3qZiVJh2
- SkXaBry/0wkXurG3AA4Ii8agUSDhJfuQLrC0Fijehb/xyKuNWqT2fuZGhON2EEEwzyNf
- saNBVVglJJvtHS4T1+IJlUj26Hbale91MzMi3i9Y3teiy9iiWr0/Slz1czb37udJnR/E
- 7n7Q1YnI5xP0NRV/cB7DCp6C/uWjoNIIh7DO9fX7nE3KgwNNfcgC7mm34lRPE0XyViv4
- o1ZA==
+ bh=vEJvtnthzxGLrB5bQwa4uMR+8QlI7X4kpk4nucMTE3c=;
+ b=M3vfJNlivn2MoPxBwPRWD4bTTqeqqG8QnJoarAygkTYue/NKMFOklFxuJPRD4hPDGR
+ n29NRPFIHqLXys8C0/TLJRC1IiyQJiSwdI96kiLnquGwIc1Q2EprMXp2s/OmL5e1ppvE
+ zt3wJKtimq5Fqv6t/Tppo9p5QJyfYLq6DSVM7GywQNabq/fXvDzTtJmFfY368k5dufGZ
+ JWZDg/rqsmdWQz54JeK6Q1eXYSl4Y2lcjN1Oe2yyQGBpUPnTab4IVQiS4C1Ch38dR81N
+ u40lqKp3osyQFcCWbZOWzvUjCbweeaFd+Em42nbsPDkaab76WQxvgAxyopt4BKk0dHnD
+ cS7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cWfSkLsOFqMqwFajDViY0GDy36kEao+sHnvIWX+OuUc=;
- b=hMSFpxlu2u5N5j2v/plOEgVJxwZwbYsUqiouPj3fNK29kmppSLJbOl5baDkpNgFZGO
- js0SU0awZpwvaxsdpgtsefDjo2Ar0DVSIbeutDd/s3RuUPFFRldtYJiwPBQj110AaUOC
- dFzqgtDdRiLJYFKKU5RM5N0D0ElPYPdUI6yAPCb49qNeqMqp760RPu5qUYefMmuYDNr9
- 5gr083Ensrn6jjy5HsA+M4sAvoR2gWvvawZKA6WXc2XARRKakIGlu9InzdeR5GTanCMr
- zPMuHEYkGW2vF0+oV2TWIYUypyhXutyY5teDo5jIRqHS5VCYLqITdQPN3H4VCvgdZO9y
- Vt3g==
-X-Gm-Message-State: AOAM5328u88u2maA4wYcPQqYRHWX1AkxVCGQ4reLW/WwL6L4pBamJIsh
- kO5HMnt536C1vVQk1mcugdiVQg==
-X-Google-Smtp-Source: ABdhPJxsWGUQqx0lYnqLB5s/MsxjPNI/91pZrxh/sj18e4bbCtcGtgCnCi4+SM9FZvcs2lKnc2i7PA==
-X-Received: by 2002:a05:6000:1281:: with SMTP id
- f1mr27793282wrx.243.1614779058227; 
- Wed, 03 Mar 2021 05:44:18 -0800 (PST)
+ bh=vEJvtnthzxGLrB5bQwa4uMR+8QlI7X4kpk4nucMTE3c=;
+ b=IiQiaOOf3djLZwGI6ATHn6KH8enjUB606mqxbx0J8wpp2ZVsB3lKZAuoikgb94KSAb
+ SDBOvDC7Wa6a9MXsrNL9oIZ9p4QdwWXvsNDjaNbZ3wy3tLlzcm3GsmQoOYGoD9/NiqFv
+ ROeQMZE7vs0hD4CXsrx81ILaAdKn+bYfW4yIb6sYLLQdZSt2EkBC5Wsfx2JNU26RpHQE
+ /CeZM8x2Kx66TCwk410KekbG4PRV5NW2B0O58HlRXM0dyUfpMH0yo7LQFRwmn4C09MS8
+ Abfh0+V429uosss1wXXO2coihjv5rIz6SAu44BoPXZWgJQppYOYpUu3qc3eT/XP0Lgjk
+ bJxQ==
+X-Gm-Message-State: AOAM531G+cEyY4rRl5q6cvVgPbIR0oVUM1S6jmgoD3dw9XsPk7FeBEdM
+ EYOm7kQbuaz8ZRpmAbWd1VGXXQ==
+X-Google-Smtp-Source: ABdhPJxd8tXaGDq8DipT3hL1GqitxbrI9v1AI6atczwx3xV3+lTp+RKru1jUJ4ndP3PEbZXuiorlJQ==
+X-Received: by 2002:adf:f743:: with SMTP id z3mr26906208wrp.304.1614779059267; 
+ Wed, 03 Mar 2021 05:44:19 -0800 (PST)
 Received: from dell.default ([91.110.221.155])
- by smtp.gmail.com with ESMTPSA id w18sm6109524wrr.7.2021.03.03.05.44.17
+ by smtp.gmail.com with ESMTPSA id w18sm6109524wrr.7.2021.03.03.05.44.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 05:44:17 -0800 (PST)
+ Wed, 03 Mar 2021 05:44:18 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 42/53] drm/vmwgfx/vmwgfx_cmdbuf_res: Remove unused variable
- 'ret'
-Date: Wed,  3 Mar 2021 13:43:08 +0000
-Message-Id: <20210303134319.3160762-43-lee.jones@linaro.org>
+Subject: [PATCH 43/53] drm/vmwgfx/vmwgfx_stdu: Add some missing param/member
+ descriptions
+Date: Wed,  3 Mar 2021 13:43:09 +0000
+Message-Id: <20210303134319.3160762-44-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210303134319.3160762-1-lee.jones@linaro.org>
 References: <20210303134319.3160762-1-lee.jones@linaro.org>
@@ -71,42 +70,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: David Airlie <airlied@linux.ie>, Roland Scheidegger <sroland@vmware.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  VMware Graphics <linux-graphics-maintainer@vmware.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
-cy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfY21kYnVmX3Jlcy5jOiBJbiBmdW5jdGlvbiDigJh2bXdf
-Y21kYnVmX3Jlc19yZXZlcnTigJk6CiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9jbWRi
-dWZfcmVzLmM6MTYyOjY6IHdhcm5pbmc6IHZhcmlhYmxlIOKAmHJldOKAmSBzZXQgYnV0IG5vdCB1
-c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQoKQ2M6IFZNd2FyZSBHcmFwaGljcyA8bGlu
-dXgtZ3JhcGhpY3MtbWFpbnRhaW5lckB2bXdhcmUuY29tPgpDYzogUm9sYW5kIFNjaGVpZGVnZ2Vy
-IDxzcm9sYW5kQHZtd2FyZS5jb20+CkNjOiBaYWNrIFJ1c2luIDx6YWNrckB2bXdhcmUuY29tPgpD
-YzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgpDYzogRGFuaWVsIFZldHRlciA8ZGFu
-aWVsQGZmd2xsLmNoPgpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpTaWduZWQt
-b2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgpTaWduZWQtb2ZmLWJ5OiBa
-YWNrIFJ1c2luIDx6YWNrckB2bXdhcmUuY29tPgpMaW5rOiBodHRwczovL3BhdGNod29yay5mcmVl
-ZGVza3RvcC5vcmcvcGF0Y2gvbXNnaWQvMjAyMTAxMTUxODEzMTMuMzQzMTQ5My00MC1sZWUuam9u
-ZXNAbGluYXJvLm9yZwotLS0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2NtZGJ1Zl9y
-ZXMuYyB8IDQgKy0tLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAzIGRlbGV0aW9u
-cygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2NtZGJ1Zl9y
-ZXMuYyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2NtZGJ1Zl9yZXMuYwppbmRleCA5
-MjUwOWZiZjJmZDFkLi5iMjYyZDYxZDgzOWQ1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-dm13Z2Z4L3Ztd2dmeF9jbWRidWZfcmVzLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92
-bXdnZnhfY21kYnVmX3Jlcy5jCkBAIC0xNTksNyArMTU5LDYgQEAgdm9pZCB2bXdfY21kYnVmX3Jl
-c19jb21taXQoc3RydWN0IGxpc3RfaGVhZCAqbGlzdCkKIHZvaWQgdm13X2NtZGJ1Zl9yZXNfcmV2
-ZXJ0KHN0cnVjdCBsaXN0X2hlYWQgKmxpc3QpCiB7CiAJc3RydWN0IHZtd19jbWRidWZfcmVzICpl
-bnRyeSwgKm5leHQ7Ci0JaW50IHJldDsKIAogCWxpc3RfZm9yX2VhY2hfZW50cnlfc2FmZShlbnRy
-eSwgbmV4dCwgbGlzdCwgaGVhZCkgewogCQlzd2l0Y2ggKGVudHJ5LT5zdGF0ZSkgewpAQCAtMTY3
-LDggKzE2Niw3IEBAIHZvaWQgdm13X2NtZGJ1Zl9yZXNfcmV2ZXJ0KHN0cnVjdCBsaXN0X2hlYWQg
-Kmxpc3QpCiAJCQl2bXdfY21kYnVmX3Jlc19mcmVlKGVudHJ5LT5tYW4sIGVudHJ5KTsKIAkJCWJy
-ZWFrOwogCQljYXNlIFZNV19DTURCVUZfUkVTX0RFTDoKLQkJCXJldCA9IGRybV9odF9pbnNlcnRf
-aXRlbSgmZW50cnktPm1hbi0+cmVzb3VyY2VzLAotCQkJCQkJICZlbnRyeS0+aGFzaCk7CisJCQlk
-cm1faHRfaW5zZXJ0X2l0ZW0oJmVudHJ5LT5tYW4tPnJlc291cmNlcywgJmVudHJ5LT5oYXNoKTsK
-IAkJCWxpc3RfZGVsKCZlbnRyeS0+aGVhZCk7CiAJCQlsaXN0X2FkZF90YWlsKCZlbnRyeS0+aGVh
-ZCwgJmVudHJ5LT5tYW4tPmxpc3QpOwogCQkJZW50cnktPnN0YXRlID0gVk1XX0NNREJVRl9SRVNf
-Q09NTUlUVEVEOwotLSAKMi4yNy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:77: warning: Function parameter or member 'pitch' not described in 'vmw_stdu_dirty'
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:125: warning: Function parameter or member 'content_fb_type' not described in 'vmw_screen_target_display_unit'
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:125: warning: Function parameter or member 'display_width' not described in 'vmw_screen_target_display_unit'
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:125: warning: Function parameter or member 'display_height' not described in 'vmw_screen_target_display_unit'
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:125: warning: Function parameter or member 'cpp' not described in 'vmw_screen_target_display_unit'
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:682: warning: Function parameter or member 'user_fence_rep' not described in 'vmw_kms_stdu_dma'
+
+Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
+Cc: Roland Scheidegger <sroland@vmware.com>
+Cc: Zack Rusin <zackr@vmware.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210115181313.3431493-41-lee.jones@linaro.org
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+index fbe9778813648..01567534f4fae 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+@@ -61,6 +61,7 @@ enum stdu_content_type {
+  * @bottom: Bottom side of bounding box.
+  * @fb_left: Left side of the framebuffer/content bounding box
+  * @fb_top: Top of the framebuffer/content bounding box
++ * @pitch: framebuffer pitch (stride)
+  * @buf: buffer object when DMA-ing between buffer and screen targets.
+  * @sid: Surface ID when copying between surface and screen targets.
+  */
+@@ -109,8 +110,11 @@ struct vmw_stdu_update_gb_image {
+  *               content_vfbs dimensions, then this is a pointer into the
+  *               corresponding field in content_vfbs.  If not, then this
+  *               is a separate buffer to which content_vfbs will blit to.
+- * @content_type:  content_fb type
+- * @defined:  true if the current display unit has been initialized
++ * @content_fb_type: content_fb type
++ * @display_width:  display width
++ * @display_height: display height
++ * @defined:     true if the current display unit has been initialized
++ * @cpp:         Bytes per pixel
+  */
+ struct vmw_screen_target_display_unit {
+ 	struct vmw_display_unit base;
+@@ -652,6 +656,7 @@ static void vmw_stdu_bo_cpu_commit(struct vmw_kms_dirty *dirty)
+  * @file_priv: Pointer to a struct drm-file identifying the caller. May be
+  * set to NULL, but then @user_fence_rep must also be set to NULL.
+  * @vfb: Pointer to the buffer-object backed framebuffer.
++ * @user_fence_rep: User-space provided structure for fence information.
+  * @clips: Array of clip rects. Either @clips or @vclips must be NULL.
+  * @vclips: Alternate array of clip rects. Either @clips or @vclips must
+  * be NULL.
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
