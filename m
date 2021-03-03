@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC59232B842
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 14:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC39C32B840
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 14:44:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32FD06E973;
-	Wed,  3 Mar 2021 13:44:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77D5D6E947;
+	Wed,  3 Mar 2021 13:44:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 761E36E947
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 13:44:18 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id l12so23738655wry.2
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 05:44:18 -0800 (PST)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 787426E958
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 13:44:19 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id f12so19932853wrx.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 05:44:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FWkqFrvWeK76Y3iFCArRn0HDFC1AVp5EXu1AxGszpQA=;
- b=JDYmcNANhdbTHQufB6+ZlXI755geSXoJ34u2EDuKznl+G+oe16GAYHFpK8LqJ9InRv
- fb+qv2vU1wNpRN8GkIu8B78Z9MhFPYLvQ5RZBEPVwe9xuPfwJW7Uge8z3AMY/48S0sss
- L7Sfc3DpMwdYY3ITiVVa8R8wd1eD+keB1/dsz1g5oBRdrkgFPTiYrxT6iXC0QT2JHt8V
- uCSetT/eGRfMpqBjZy4oegCnccSqN6Qit6SfgAMwLFF9LOesQL3inwicuh4H/Ok8US1J
- pwqppOTdwzXNgF2uSPZdxJ9pkMK7AOSjheVbugoiIyOollZSLbhMV4S3GJ3PE3nHwso+
- +WBA==
+ bh=cWfSkLsOFqMqwFajDViY0GDy36kEao+sHnvIWX+OuUc=;
+ b=mzLCVvzT8ZvO420Azr5mfjX30PlXUIrvbQHxMtN4US7RxeQlR04wUoXvV46MOWj67E
+ TWBlNF4/fpmvc9jBPbo8VUcZihj5NbZNatn1o4r/fSJ+yH4/3bVrwGGDdLvQ3qZiVJh2
+ SkXaBry/0wkXurG3AA4Ii8agUSDhJfuQLrC0Fijehb/xyKuNWqT2fuZGhON2EEEwzyNf
+ saNBVVglJJvtHS4T1+IJlUj26Hbale91MzMi3i9Y3teiy9iiWr0/Slz1czb37udJnR/E
+ 7n7Q1YnI5xP0NRV/cB7DCp6C/uWjoNIIh7DO9fX7nE3KgwNNfcgC7mm34lRPE0XyViv4
+ o1ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FWkqFrvWeK76Y3iFCArRn0HDFC1AVp5EXu1AxGszpQA=;
- b=YCQVrld8oIQw7EZ9WdJH/liFeinoa0bNoHCN9KkQ+JPVpkCGS2KfjAAVjBPhRAzuz/
- pbunP/tNxnz6TRjtX3at4jyfyXN0s1IIlkAKzhheJPHXWXGfaAuz7uiPzz3t/3xqAiuv
- 5raYqfN+OVou4K4D6YFMSpUtO19Jz0mKp+mZ87QWTBecoW1SYhmF0eWnp+7dIwNT6UGS
- /S7ZN+pWsUQhxedQ/pdCygm3Hh94452fwZ6LvkMDbuwSFTkQDctboVq4BUUSInFctxpF
- rNBR6EvjexdlAMrChDnEQ8ytGyL+qsFQOwd4/JJUI3BiVNsCVY2EbT3MoYy1lBUDYA0G
- /isg==
-X-Gm-Message-State: AOAM530mhc1HVjeDcv8xCrWGYbyJkfOj/eNZXI6LIqYsqwo1FFKn3j95
- OiaFuxJB/fVy/5RSd7E9iEcuS0Os0cWvCA==
-X-Google-Smtp-Source: ABdhPJw7H07jnRLOoG6m43qVmpJvmWYKHbzSMHAjc3d+Wg2Kjmi+Ql4lLmruLVzvUO8jjio1P0hjCg==
-X-Received: by 2002:a5d:528f:: with SMTP id c15mr27393903wrv.142.1614779057184; 
- Wed, 03 Mar 2021 05:44:17 -0800 (PST)
+ bh=cWfSkLsOFqMqwFajDViY0GDy36kEao+sHnvIWX+OuUc=;
+ b=hMSFpxlu2u5N5j2v/plOEgVJxwZwbYsUqiouPj3fNK29kmppSLJbOl5baDkpNgFZGO
+ js0SU0awZpwvaxsdpgtsefDjo2Ar0DVSIbeutDd/s3RuUPFFRldtYJiwPBQj110AaUOC
+ dFzqgtDdRiLJYFKKU5RM5N0D0ElPYPdUI6yAPCb49qNeqMqp760RPu5qUYefMmuYDNr9
+ 5gr083Ensrn6jjy5HsA+M4sAvoR2gWvvawZKA6WXc2XARRKakIGlu9InzdeR5GTanCMr
+ zPMuHEYkGW2vF0+oV2TWIYUypyhXutyY5teDo5jIRqHS5VCYLqITdQPN3H4VCvgdZO9y
+ Vt3g==
+X-Gm-Message-State: AOAM5328u88u2maA4wYcPQqYRHWX1AkxVCGQ4reLW/WwL6L4pBamJIsh
+ kO5HMnt536C1vVQk1mcugdiVQg==
+X-Google-Smtp-Source: ABdhPJxsWGUQqx0lYnqLB5s/MsxjPNI/91pZrxh/sj18e4bbCtcGtgCnCi4+SM9FZvcs2lKnc2i7PA==
+X-Received: by 2002:a05:6000:1281:: with SMTP id
+ f1mr27793282wrx.243.1614779058227; 
+ Wed, 03 Mar 2021 05:44:18 -0800 (PST)
 Received: from dell.default ([91.110.221.155])
- by smtp.gmail.com with ESMTPSA id w18sm6109524wrr.7.2021.03.03.05.44.16
+ by smtp.gmail.com with ESMTPSA id w18sm6109524wrr.7.2021.03.03.05.44.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 05:44:16 -0800 (PST)
+ Wed, 03 Mar 2021 05:44:17 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 41/53] drm/vmwgfx/vmwgfx_cmdbuf: Fix a bunch of missing or
- incorrectly formatted/named params
-Date: Wed,  3 Mar 2021 13:43:07 +0000
-Message-Id: <20210303134319.3160762-42-lee.jones@linaro.org>
+Subject: [PATCH 42/53] drm/vmwgfx/vmwgfx_cmdbuf_res: Remove unused variable
+ 'ret'
+Date: Wed,  3 Mar 2021 13:43:08 +0000
+Message-Id: <20210303134319.3160762-43-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210303134319.3160762-1-lee.jones@linaro.org>
 References: <20210303134319.3160762-1-lee.jones@linaro.org>
@@ -70,105 +71,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: David Airlie <airlied@linux.ie>, Roland Scheidegger <sroland@vmware.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  VMware Graphics <linux-graphics-maintainer@vmware.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes the following W=1 kernel build warning(s):
-
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:58: warning: Function parameter or member 'block_submission' not described in 'vmw_cmdbuf_context'
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:109: warning: cannot understand function prototype: 'struct vmw_cmdbuf_man '
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:164: warning: Function parameter or member 'handle' not described in 'vmw_cmdbuf_header'
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:257: warning: Function parameter or member 'header' not described in '__vmw_cmdbuf_header_free'
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:380: warning: Function parameter or member 'notempty' not described in 'vmw_cmdbuf_ctx_process'
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1168: warning: Function parameter or member 'context' not described in 'vmw_cmdbuf_preempt'
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1193: warning: Function parameter or member 'context' not described in 'vmw_cmdbuf_startstop'
-
-Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-Cc: Roland Scheidegger <sroland@vmware.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
-Signed-off-by: Zack Rusin <zackr@vmware.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210115181313.3431493-38-lee.jones@linaro.org
----
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-index 45fbc41440f1e..3158924ffa852 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-@@ -48,6 +48,7 @@
-  * @hw_submitted: List of command buffers submitted to hardware.
-  * @preempted: List of preempted command buffers.
-  * @num_hw_submitted: Number of buffers currently being processed by hardware
-+ * @block_submission: Identifies a block command submission.
-  */
- struct vmw_cmdbuf_context {
- 	struct list_head submitted;
-@@ -58,7 +59,7 @@ struct vmw_cmdbuf_context {
- };
- 
- /**
-- * struct vmw_cmdbuf_man: - Command buffer manager
-+ * struct vmw_cmdbuf_man - Command buffer manager
-  *
-  * @cur_mutex: Mutex protecting the command buffer used for incremental small
-  * kernel command submissions, @cur.
-@@ -143,7 +144,7 @@ struct vmw_cmdbuf_man {
-  * @cb_context: The device command buffer context.
-  * @list: List head for attaching to the manager lists.
-  * @node: The range manager node.
-- * @handle. The DMA address of @cb_header. Handed to the device on command
-+ * @handle: The DMA address of @cb_header. Handed to the device on command
-  * buffer submission.
-  * @cmd: Pointer to the command buffer space of this buffer.
-  * @size: Size of the command buffer space of this buffer.
-@@ -249,7 +250,7 @@ static void vmw_cmdbuf_header_inline_free(struct vmw_cmdbuf_header *header)
-  * __vmw_cmdbuf_header_free - Free a struct vmw_cmdbuf_header  and its
-  * associated structures.
-  *
-- * header: Pointer to the header to free.
-+ * @header: Pointer to the header to free.
-  *
-  * For internal use. Must be called with man::lock held.
-  */
-@@ -365,10 +366,11 @@ static void vmw_cmdbuf_ctx_submit(struct vmw_cmdbuf_man *man,
- }
- 
- /**
-- * vmw_cmdbuf_ctx_submit: Process a command buffer context.
-+ * vmw_cmdbuf_ctx_process - Process a command buffer context.
-  *
-  * @man: The command buffer manager.
-  * @ctx: The command buffer context.
-+ * @notempty: Pass back count of non-empty command submitted lists.
-  *
-  * Submit command buffers to hardware if possible, and process finished
-  * buffers. Typically freeing them, but on preemption or error take
-@@ -1161,6 +1163,7 @@ static int vmw_cmdbuf_send_device_command(struct vmw_cmdbuf_man *man,
-  * context.
-  *
-  * @man: The command buffer manager.
-+ * @context: Device context to pass command through.
-  *
-  * Synchronously sends a preempt command.
-  */
-@@ -1184,6 +1187,7 @@ static int vmw_cmdbuf_preempt(struct vmw_cmdbuf_man *man, u32 context)
-  * context.
-  *
-  * @man: The command buffer manager.
-+ * @context: Device context to start/stop.
-  * @enable: Whether to enable or disable the context.
-  *
-  * Synchronously sends a device start / stop context command.
--- 
-2.27.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
+cy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfY21kYnVmX3Jlcy5jOiBJbiBmdW5jdGlvbiDigJh2bXdf
+Y21kYnVmX3Jlc19yZXZlcnTigJk6CiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9jbWRi
+dWZfcmVzLmM6MTYyOjY6IHdhcm5pbmc6IHZhcmlhYmxlIOKAmHJldOKAmSBzZXQgYnV0IG5vdCB1
+c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQoKQ2M6IFZNd2FyZSBHcmFwaGljcyA8bGlu
+dXgtZ3JhcGhpY3MtbWFpbnRhaW5lckB2bXdhcmUuY29tPgpDYzogUm9sYW5kIFNjaGVpZGVnZ2Vy
+IDxzcm9sYW5kQHZtd2FyZS5jb20+CkNjOiBaYWNrIFJ1c2luIDx6YWNrckB2bXdhcmUuY29tPgpD
+YzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgpDYzogRGFuaWVsIFZldHRlciA8ZGFu
+aWVsQGZmd2xsLmNoPgpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpTaWduZWQt
+b2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgpTaWduZWQtb2ZmLWJ5OiBa
+YWNrIFJ1c2luIDx6YWNrckB2bXdhcmUuY29tPgpMaW5rOiBodHRwczovL3BhdGNod29yay5mcmVl
+ZGVza3RvcC5vcmcvcGF0Y2gvbXNnaWQvMjAyMTAxMTUxODEzMTMuMzQzMTQ5My00MC1sZWUuam9u
+ZXNAbGluYXJvLm9yZwotLS0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2NtZGJ1Zl9y
+ZXMuYyB8IDQgKy0tLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAzIGRlbGV0aW9u
+cygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2NtZGJ1Zl9y
+ZXMuYyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2NtZGJ1Zl9yZXMuYwppbmRleCA5
+MjUwOWZiZjJmZDFkLi5iMjYyZDYxZDgzOWQ1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+dm13Z2Z4L3Ztd2dmeF9jbWRidWZfcmVzLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92
+bXdnZnhfY21kYnVmX3Jlcy5jCkBAIC0xNTksNyArMTU5LDYgQEAgdm9pZCB2bXdfY21kYnVmX3Jl
+c19jb21taXQoc3RydWN0IGxpc3RfaGVhZCAqbGlzdCkKIHZvaWQgdm13X2NtZGJ1Zl9yZXNfcmV2
+ZXJ0KHN0cnVjdCBsaXN0X2hlYWQgKmxpc3QpCiB7CiAJc3RydWN0IHZtd19jbWRidWZfcmVzICpl
+bnRyeSwgKm5leHQ7Ci0JaW50IHJldDsKIAogCWxpc3RfZm9yX2VhY2hfZW50cnlfc2FmZShlbnRy
+eSwgbmV4dCwgbGlzdCwgaGVhZCkgewogCQlzd2l0Y2ggKGVudHJ5LT5zdGF0ZSkgewpAQCAtMTY3
+LDggKzE2Niw3IEBAIHZvaWQgdm13X2NtZGJ1Zl9yZXNfcmV2ZXJ0KHN0cnVjdCBsaXN0X2hlYWQg
+Kmxpc3QpCiAJCQl2bXdfY21kYnVmX3Jlc19mcmVlKGVudHJ5LT5tYW4sIGVudHJ5KTsKIAkJCWJy
+ZWFrOwogCQljYXNlIFZNV19DTURCVUZfUkVTX0RFTDoKLQkJCXJldCA9IGRybV9odF9pbnNlcnRf
+aXRlbSgmZW50cnktPm1hbi0+cmVzb3VyY2VzLAotCQkJCQkJICZlbnRyeS0+aGFzaCk7CisJCQlk
+cm1faHRfaW5zZXJ0X2l0ZW0oJmVudHJ5LT5tYW4tPnJlc291cmNlcywgJmVudHJ5LT5oYXNoKTsK
+IAkJCWxpc3RfZGVsKCZlbnRyeS0+aGVhZCk7CiAJCQlsaXN0X2FkZF90YWlsKCZlbnRyeS0+aGVh
+ZCwgJmVudHJ5LT5tYW4tPmxpc3QpOwogCQkJZW50cnktPnN0YXRlID0gVk1XX0NNREJVRl9SRVNf
+Q09NTUlUVEVEOwotLSAKMi4yNy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWwK
