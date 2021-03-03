@@ -2,50 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15AAB32B6FB
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 11:59:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9790532B7E3
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 13:50:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8B776E10F;
-	Wed,  3 Mar 2021 10:58:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68DCC6E3CE;
+	Wed,  3 Mar 2021 12:49:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 853226E10F
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 10:58:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=RgKmcd8Y2kjZxyQZf6Rm/UlmUS6YJhPJkPSy8kcTa5E=; b=rmfHG1dCneW+9c3ZvQhiKCjQ1/
- yn4F6zrJaJlgneU6ZrbT6DmX2bI/8uo+sL/9kTR5zagicV/1LJvLvDOnUaZJfPtID/EYp1SyDQvJI
- MgaYq9hyBc7+N8JRAyZgpl64IvVJ51kLwGkl9kvc+ikTXgvMBakOEEO0zvnhYZK8E3/Udt8ctiM1G
- xhdZr7mpehZOZ9P9kf6HYoemi72OVIXuAPyVRK3elZL0lsrEP6eMfuX7rQ2j7FPVPoq92c38gJ0xo
- zX607DPDxm8Sch419lscBxsipPlZk72i431whfwC4oNJQj929JkYYXT02wziJMEPuurIWz/IvohHd
- UfQpsBGQ==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:64686
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1lHPDR-0004gC-8O; Wed, 03 Mar 2021 11:58:53 +0100
-Subject: Re: [PATCH v7] drm: Use USB controller's DMA mask when importing
- dmabufs
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@linux.ie, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- gregkh@linuxfoundation.org, hdegoede@redhat.com, sean@poorly.run,
- stern@rowland.harvard.edu, dan.carpenter@oracle.com
-References: <20210303084512.25635-1-tzimmermann@suse.de>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <f1271ed4-1bb1-0fe6-a5b1-db9dbae575fe@tronnes.org>
-Date: Wed, 3 Mar 2021 11:58:49 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FD5A6E3CE
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 12:49:56 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id e9so4089177pjs.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 04:49:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=UENSETCCSEDGxjTkQmqskiUgabV6KTJ5GVCGqRR2WeU=;
+ b=FCtkSXDEcxgX1TqpqqdTnD8DMSoRVbK1hEuV3/IhT/lllSVvPuEtO4J4uGFDBefbOj
+ ImvnczGzv+lY/tPJLrhxQqyNFK9mB8S3WK430mXnkWSTY+HNP7JVFga5xneXH4SoIGru
+ Kmi5BFYtY69xEBr6B8BJKuGTMT6yC3GpB43G0lds2vOPR7/yhALobcKNHJmM2yFdRtfS
+ 5y07AutoWsGjS+sPh+dcj1S4kddIUpMNDre6Yc1WxKKbXKJbrOvitFaPQGawApqRNxY4
+ bCU5QJszHbPbysh8ofYcOsDuCSMuQa4pBYJ5z+IJSpJTltnwvNfxfArSO+Qk9vmFGSzY
+ gePw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=UENSETCCSEDGxjTkQmqskiUgabV6KTJ5GVCGqRR2WeU=;
+ b=Vvn4IU81EvO+/BDKvmRzz+qW/THKV4M5/s/aCQDGkbNs7J0vWh5l0/icrXDGbeZ5Bt
+ Yu4q+67u81T5eOOKne/lOffo6Fxkavy8JrchyQ7HsWDP5tjTKr+UAqTRlzpCvkfHRW12
+ U/Zm61mTE5W4ZEd7A8wbIjozTdpG1JYlh5+Vaer5wxuxYnq124XznKrwuR7rWyukVsIh
+ g0RiyhW//JotWcmy6ht4XWDW4dDS2qWD6nR+9XE3JnwHGY/hxvub+EUkYDHVGo9oZAXI
+ IWUTOGlkvRnmx2HagUJT3hpHxEl9iJaUGGxxiR54s64nVjk0D+y6GpNVDipe7TrnfdKn
+ iXhg==
+X-Gm-Message-State: AOAM530rnjzLC5TPSplLEm1CK93b6Wbz97qmAFsWe5gd0+wkHL457NzL
+ lPONcoLDCykSyT8k9Z/gWDU=
+X-Google-Smtp-Source: ABdhPJxKGgC9YUoFjWyKXMfkcrb48impfAYkzV47xMdbWioftwa0OsXTkQLd+BsvpwC2mHNsIm1Mzg==
+X-Received: by 2002:a17:90a:5887:: with SMTP id
+ j7mr9143604pji.178.1614775795754; 
+ Wed, 03 Mar 2021 04:49:55 -0800 (PST)
+Received: from adolin ([49.207.223.176])
+ by smtp.gmail.com with ESMTPSA id q192sm24878430pfc.85.2021.03.03.04.49.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Mar 2021 04:49:55 -0800 (PST)
+Date: Wed, 3 Mar 2021 18:19:50 +0530
+From: Sumera Priyadarsini <sylphrenadin@gmail.com>
+To: melissa.srw@gmail.com
+Subject: [PATCH V2 0/2] Add virtual hardware module
+Message-ID: <cover.1614775351.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210303084512.25635-1-tzimmermann@suse.de>
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,82 +64,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>, dri-devel@lists.freedesktop.org,
- Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMDMuMDMuMjAyMSAwOS40NSwgc2tyZXYgVGhvbWFzIFppbW1lcm1hbm46Cj4gVVNCIGRl
-dmljZXMgY2Fubm90IHBlcmZvcm0gRE1BIGFuZCBoZW5jZSBoYXZlIG5vIGRtYV9tYXNrIHNldCBp
-biB0aGVpcgo+IGRldmljZSBzdHJ1Y3R1cmUuIFRoZXJlZm9yZSBpbXBvcnRpbmcgZG1hYnVmIGlu
-dG8gYSBVU0ItYmFzZWQgZHJpdmVyCj4gZmFpbHMsIHdoaWNoIGJyZWFrcyBqb2luaW5nIGFuZCBt
-aXJyb3Jpbmcgb2YgZGlzcGxheSBpbiBYMTEuCj4gCj4gRm9yIFVTQiBkZXZpY2VzLCBwaWNrIHRo
-ZSBhc3NvY2lhdGVkIFVTQiBjb250cm9sbGVyIGFzIGF0dGFjaG1lbnQgZGV2aWNlLgo+IFRoaXMg
-YWxsb3dzIHRoZSBEUk0gaW1wb3J0IGhlbHBlcnMgdG8gcGVyZm9ybSB0aGUgRE1BIHNldHVwLiBJ
-ZiB0aGUgRE1BCj4gY29udHJvbGxlciBkb2VzIG5vdCBzdXBwb3J0IERNQSB0cmFuc2ZlcnMsIHdl
-J3JlIG91dCBvZiBsdWNrIGFuZCBjYW5ub3QKPiBpbXBvcnQuIE91ciBjdXJyZW50IFVTQi1iYXNl
-ZCBEUk0gZHJpdmVycyBkb24ndCB1c2UgRE1BLCBzbyB0aGUgYWN0dWFsCj4gRE1BIGRldmljZSBp
-cyBub3QgaW1wb3J0YW50Lgo+IAo+IERyaXZlcnMgc2hvdWxkIHVzZSBEUk1fR0VNX1NITUVNX0RS
-T1ZFUl9PUFNfVVNCIHRvIGluaXRpYWxpemUgdGhlaXIKPiBpbnN0YW5jZSBvZiBzdHJ1Y3QgZHJt
-X2RyaXZlci4KPiAKClRoaXMgZG9lc24ndCBzZWVtIHRvIGJlIHRoZSBjYXNlIGFueW1vcmUuCgo+
-IFRlc3RlZCBieSBqb2luaW5nL21pcnJvcmluZyBkaXNwbGF5cyBvZiB1ZGwgYW5kIHJhZGVvbiB1
-biBkZXIgR25vbWUvWDExLgoKcy91biBkZXIvdW5kZXIvCgo+IAo+IHY3Ogo+IAkqIGZpeCB1c2Ut
-YmVmb3JlLWluaXQgYnVnIGluIGdtMTJ1MzIwIChEYW4pCj4gdjY6Cj4gCSogaW1wbGVtZW50IHdv
-cmthcm91bmQgaW4gRFJNIGRyaXZlcnMgYW5kIGhvbGQgcmVmZXJlbmNlIHRvCj4gCSAgRE1BIGRl
-dmljZSB3aGlsZSBVU0IgZGV2aWNlIGlzIGluIHVzZQo+IAkqIHJlbW92ZSBkZXZfaXNfdXNiKCkg
-KEdyZWcpCj4gCSogY29sbGFwc2UgVVNCIGhlbHBlciBpbnRvIHVzYl9pbnRmX2dldF9kbWFfZGV2
-aWNlKCkgKEFsYW4pCj4gCSogaW50ZWdyYXRlIERhbmllbCdzIFRPRE8gc3RhdGVtZW50IChEYW5p
-ZWwpCj4gCSogZml4IHR5cG9zIChHcmVnKQo+IHY1Ogo+IAkqIHByb3ZpZGUgYSBoZWxwZXIgZm9y
-IFVTQiBpbnRlcmZhY2VzIChBbGFuKQo+IAkqIGFkZCBGSVhNRSBpdGVtIHRvIGRvY3VtZW50YXRp
-b24gYW5kIFRPRE8gbGlzdCAoRGFuaWVsKQo+IHY0Ogo+IAkqIGltcGxlbWVudCB3b3JrYXJvdW5k
-IHdpdGggVVNCIGhlbHBlciBmdW5jdGlvbnMgKEdyZWcpCj4gCSogdXNlIHN0cnVjdCB1c2JfZGV2
-aWNlLT5idXMtPnN5c2RldiBhcyBETUEgZGV2aWNlIChUYWthc2hpKQo+IHYzOgo+IAkqIGRyb3Ag
-Z2VtX2NyZWF0ZV9vYmplY3QKPiAJKiB1c2UgRE1BIG1hc2sgb2YgVVNCIGNvbnRyb2xsZXIsIGlm
-IGFueSAoRGFuaWVsLCBDaHJpc3RpYW4sIE5vcmFsZikKPiB2MjoKPiAJKiBtb3ZlIGZpeCB0byBp
-bXBvcnRlciBzaWRlIChDaHJpc3RpYW4sIERhbmllbCkKPiAJKiB1cGRhdGUgU0hNRU0gYW5kIENN
-QSBoZWxwZXJzIGZvciBuZXcgUFJJTUUgY2FsbGJhY2tzCj4gCj4gU2lnbmVkLW9mZi1ieTogVGhv
-bWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4gRml4ZXM6IDZlYjAyMzNlYzJk
-MCAoInVzYjogZG9uJ3QgaW5oZXJpdHkgRE1BIHByb3BlcnRpZXMgZm9yIFVTQiBkZXZpY2VzIikK
-PiBUZXN0ZWQtYnk6IFBhdmVsIE1hY2hlayA8cGF2ZWxAdWN3LmN6Pgo+IFJldmlld2VkLWJ5OiBH
-cmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgo+IEFja2VkLWJ5
-OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gQWNrZWQtYnk6
-IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cj4gQ2M6IENocmlzdG9waCBI
-ZWxsd2lnIDxoY2hAbHN0LmRlPgo+IENjOiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51
-eGZvdW5kYXRpb24ub3JnPgo+IENjOiA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4gIyB2NS4xMCsK
-PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4K
-PiAtLS0KPiAgRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QgICAgICB8IDIxICsrKysrKysrKysr
-KysrKysrKysrKwo+ICBkcml2ZXJzL2dwdS9kcm0vdGlueS9nbTEydTMyMC5jIHwgMjggKysrKysr
-KysrKysrKysrKysrKysrKysrKystLQo+ICBkcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuYyAg
-IHwgMTcgKysrKysrKysrKysrKysrKysKPiAgZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2Lmgg
-ICB8ICAxICsKPiAgZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfbWFpbi5jICB8ICA5ICsrKysrKysr
-Kwo+ICBkcml2ZXJzL3VzYi9jb3JlL3VzYi5jICAgICAgICAgIHwgMzIgKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysKPiAgaW5jbHVkZS9saW51eC91c2IuaCAgICAgICAgICAgICB8ICAy
-ICsrCj4gIDcgZmlsZXMgY2hhbmdlZCwgMTA4IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0p
-Cj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90aW55L2dtMTJ1MzIwLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vdGlueS9nbTEydTMyMC5jCj4gaW5kZXggMGI0ZjRmMmFmMWVmLi40ZmUzNzJm
-NDNjZjUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3RpbnkvZ20xMnUzMjAuYwo+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS90aW55L2dtMTJ1MzIwLmMKClsuLi5dCgo+IEBAIC02MzgsMTIg
-KzY1NiwxNSBAQCBzdGF0aWMgaW50IGdtMTJ1MzIwX3VzYl9wcm9iZShzdHJ1Y3QgdXNiX2ludGVy
-ZmFjZSAqaW50ZXJmYWNlLAo+ICAJCQkJICAgICAgc3RydWN0IGdtMTJ1MzIwX2RldmljZSwgZGV2
-KTsKPiAgCWlmIChJU19FUlIoZ20xMnUzMjApKQo+ICAJCXJldHVybiBQVFJfRVJSKGdtMTJ1MzIw
-KTsKPiArCWRldiA9ICZnbTEydTMyMC0+ZGV2Owo+ICsKPiArCWdtMTJ1MzIwLT5kbWFkZXYgPSB1
-c2JfaW50Zl9nZXRfZG1hX2RldmljZSh0b191c2JfaW50ZXJmYWNlKGRldi0+ZGV2KSk7Cj4gKwlp
-ZiAoIWdtMTJ1MzIwLT5kbWFkZXYpCj4gKwkJZHJtX3dhcm4oZGV2LCAiYnVmZmVyIHNoYXJpbmcg
-bm90IHN1cHBvcnRlZCIpOyAvKiBub3QgYW4gZXJyb3IgKi8KPiAgCgpXaGVuIGltcGxlbWVudGlu
-ZyB0aGlzIGluIG15IG93biBkcml2ZXIgSSBkaXNjb3ZlcmVkIHRoYXQgdGhpcyBkZXZpY2UKcmVm
-IHdpbGwgbGVhayBpZiBwcm9iaW5nIGZhaWxzIGFmdGVyIHRoaXMuCgpJJ3ZlIGRvbmUgaXQgbGlr
-ZSB0aGlzOgoKCWdkcm0tPmRtYWRldiA9IHVzYl9pbnRmX2dldF9kbWFfZGV2aWNlKGludGYpOwoJ
-aWYgKCFnZHJtLT5kbWFkZXYpCgkJZGV2X3dhcm4oZGV2LCAiYnVmZmVyIHNoYXJpbmcgbm90IHN1
-cHBvcnRlZCIpOwoKCXJldCA9IGRybV9kZXZfcmVnaXN0ZXIoZHJtLCAwKTsKCWlmIChyZXQpIHsK
-CQlwdXRfZGV2aWNlKGdkcm0tPmRtYWRldik7CgkJcmV0dXJuIHJldDsKCX0KCkFuIGV2ZW4gYmV0
-dGVyIHNvbHV0aW9uIHdvdWxkIGJlIHRvIGhhdmUgYSBkZXZtXyB2ZXJzaW9uIG9mIHRoZSBmdW5j
-dGlvbi4KCk5vcmFsZi4KCj4gIAlJTklUX0RFTEFZRURfV09SSygmZ20xMnUzMjAtPmZiX3VwZGF0
-ZS53b3JrLCBnbTEydTMyMF9mYl91cGRhdGVfd29yayk7Cj4gIAltdXRleF9pbml0KCZnbTEydTMy
-MC0+ZmJfdXBkYXRlLmxvY2spOwo+ICAKPiAtCWRldiA9ICZnbTEydTMyMC0+ZGV2Owo+IC0KPiAg
-CXJldCA9IGRybW1fbW9kZV9jb25maWdfaW5pdChkZXYpOwo+ICAJaWYgKHJldCkKPiAgCQlyZXR1
-cm4gcmV0OwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This patchset adds support for emulating virtual hardware with VKMS.
+The virtual hardware mode can be enabled by using the following command
+while loading the module:
+        sudo modprobe vkms enable_virtual_hw=1
+
+The first patch adds virtual hardware support as a module option. The
+second patch adds new atomic helper functions for the virtual mode
+and modifies the existing atomic helpers for usage by the vblank mode
+This gives us two sets of drm_crtc_helper_funcs struct for both modes,
+making the code flow cleaner and easier to debug.
+
+This patchset has been tested with the igt tests, kms_writeback, kms_atomic,
+kms_lease, kms_flip, kms_pipe_get_crc and preserves results except for
+subtests related to crc reads and skips tests that rely on vertical
+blanking. This patchset must be tested after incorporating the
+igt-tests patch: https://lists.freedesktop.org/archives/igt-dev/2021-February/029355.html .
+
+Sumera Priyadarsini (2):
+  drm/vkms: Add support for virtual hardware mode
+  drm/vkms: Add crtc atomic helper functions for virtual mode
+
+ drivers/gpu/drm/vkms/vkms_composer.c | 88 +++++++++++++++++-----------
+ drivers/gpu/drm/vkms/vkms_crtc.c     | 45 ++++++++++----
+ drivers/gpu/drm/vkms/vkms_drv.c      | 18 ++++--
+ drivers/gpu/drm/vkms/vkms_drv.h      |  4 ++
+ 4 files changed, 106 insertions(+), 49 deletions(-)
+
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
