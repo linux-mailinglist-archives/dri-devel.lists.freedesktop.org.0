@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3BE32B8B4
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 15:47:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F5FE32B8C1
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 15:55:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B819989904;
-	Wed,  3 Mar 2021 14:47:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E3F589CCB;
+	Wed,  3 Mar 2021 14:55:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AE798991D
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 14:47:25 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id n22so5409237wmc.2
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 06:47:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2UGn20PQxJqEKTFAC3EFVHnHz1ZJw2m1WZDwhJNb+Iw=;
- b=PfGdnhVOxPMdNIWrE0A3QNUF8gAe+nELjZltascoIWbJ5sLFj4YgG9ZrV3TBY3Csfp
- fAxw0eBD/FkOX0adMzibZvBALKRq75aACSdkAdPizipYGqwQwCYvSXcQJVGDzaeHau1/
- FptWixcWGpEV0obeZLxGaxXNWdwuiQbetD/cSPh0ZmNaOAGJJklXYnQkAyr84gh3bv9X
- +pFwknfvv7+MonHIwCfnBlDiwPRVnjtNvcBECoCew1YPVEwwqt1B50V5ZAnqsnUjMn36
- 5jC6hZgwryg6sNFNYKLtEvf61M7YsFvDEzx7UD/qKwd73xQGEroM3du02S/x46WwP5Ty
- /1Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2UGn20PQxJqEKTFAC3EFVHnHz1ZJw2m1WZDwhJNb+Iw=;
- b=VPz22OtQ/oNb+JOT8Qq8Dy1C2zqoEEVzaXPuurKadj5zqvRUAr4TEtQgN7ArMLi3wL
- 9j4YbjabelA6n5drvHBCYfELBylj3WuzHG7WzfH3Uf7y0dLpDqLKLs6H/dZYBNPdXdB7
- hSFBMeS+khMZDNtnq+RvwT8xkLin1CZtBtAoH40aRNin90fRfxcZsck52awvIIu7sMWA
- IgYzHTVJ6lYp5Vy+QYtKD/ZsYBHFr0fgRcs/LMnoYAX6hQp1xtxTinXWvNGg0KlAxrvi
- ewNg/6tPLrXZsG5CjixVOvNqLhJAhbTkes7z9SfMoyLnrwupYeBR1Z0w3VBdOSCUwj6i
- CSbQ==
-X-Gm-Message-State: AOAM5313Ut3IJsN/Mq90iqtaSp9LDRdGmkddrKEoyj9vZDYglDnsffwa
- HZenp5H+mssrLfRL5Ob1Cf/sMQ==
-X-Google-Smtp-Source: ABdhPJz+i6eb5nwXlp7WpWuXa9PrjDmdQa0kNy+e8ZT5cHAX5Gkl7tpL7+1lbOkBOjeMEV57c9Q4gQ==
-X-Received: by 2002:a1c:2017:: with SMTP id g23mr9338841wmg.126.1614782843814; 
- Wed, 03 Mar 2021 06:47:23 -0800 (PST)
-Received: from dell.default ([91.110.221.155])
- by smtp.gmail.com with ESMTPSA id a14sm36567233wrg.84.2021.03.03.06.47.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Mar 2021 06:47:23 -0800 (PST)
-From: Lee Jones <lee.jones@linaro.org>
-To: lee.jones@linaro.org
-Subject: [PATCH 17/30] scsi: lpfc: lpfc_sli: Fix a bunch of kernel-doc issues
-Date: Wed,  3 Mar 2021 14:46:18 +0000
-Message-Id: <20210303144631.3175331-18-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210303144631.3175331-1-lee.jones@linaro.org>
-References: <20210303144631.3175331-1-lee.jones@linaro.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B829D89CCB
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 14:55:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 6232264EE1
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 14:55:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1614783336;
+ bh=bWdn0VsO9Cu6Zu4Xztdouk64imKjZEFl3h8fagG90rM=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=pUX9UI+6qPywmc1ypOVFR15t6OBi92YX4WHUYYC8lJk3/h9COAd/RE6Zo5mm8UOO4
+ mbtpHxYshJMzM9rxuqWmm4odxh96ZVwxgJeIsyGhBUcHr4lncX4Hb7Xo4zdtr5dvVj
+ NvnUfbgG/TYofPM+NCIpdVYE6AvYqEKe4PioeMNM9zpq6QNpatrWAoRSZjjj31pkt+
+ WgZlbczTjxRSUwzDVwN0aSdI/MWTxL6LybGqO2Ad9PnPm/axgbkAH/SxYSjgs7aFe+
+ D+1ndrEho6UeDIMimdIC7BXc8AodbCGCPpjUlp0A5I2lok2kKa2bh/7fRYbkHLp7hh
+ YSVdJ0iKaK9Dw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 54EE465374; Wed,  3 Mar 2021 14:55:36 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211981] AMDGPU: without cable attached videocard shuts down and
+ does not wake up again,
+ log prints "[drm] Cannot find any crtc or sizes"
+Date: Wed, 03 Mar 2021 14:55:36 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: raulvior.bcn@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211981-2300-Q02ep2zP4v@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211981-2300@https.bugzilla.kernel.org/>
+References: <bug-211981-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,85 +65,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dick Kennedy <dick.kennedy@broadcom.com>, linux-scsi@vger.kernel.org,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, James Smart <james.smart@broadcom.com>,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
-cy9zY3NpL2xwZmMvbHBmY19zbGkuYzo5NjU0OiB3YXJuaW5nOiBleHBlY3RpbmcgcHJvdG90eXBl
-IGZvciBscGZjX3NsaV9pb2NiMndxZSgpLiBQcm90b3R5cGUgd2FzIGZvciBscGZjX3NsaTRfaW9j
-YjJ3cWUoKSBpbnN0ZWFkCiBkcml2ZXJzL3Njc2kvbHBmYy9scGZjX3NsaS5jOjEwNDM5OiB3YXJu
-aW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdwaGJhJyBub3QgZGVzY3JpYmVkIGlu
-ICdscGZjX3NsaV9pc3N1ZV9mY3BfaW8nCiBkcml2ZXJzL3Njc2kvbHBmYy9scGZjX3NsaS5jOjEw
-NDM5OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdyaW5nX251bWJlcicg
-bm90IGRlc2NyaWJlZCBpbiAnbHBmY19zbGlfaXNzdWVfZmNwX2lvJwogZHJpdmVycy9zY3NpL2xw
-ZmMvbHBmY19zbGkuYzoxMDQzOTogd2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJl
-ciAncGlvY2InIG5vdCBkZXNjcmliZWQgaW4gJ2xwZmNfc2xpX2lzc3VlX2ZjcF9pbycKIGRyaXZl
-cnMvc2NzaS9scGZjL2xwZmNfc2xpLmM6MTA0Mzk6IHdhcm5pbmc6IEZ1bmN0aW9uIHBhcmFtZXRl
-ciBvciBtZW1iZXIgJ2ZsYWcnIG5vdCBkZXNjcmliZWQgaW4gJ2xwZmNfc2xpX2lzc3VlX2ZjcF9p
-bycKIGRyaXZlcnMvc2NzaS9scGZjL2xwZmNfc2xpLmM6MTQxODk6IHdhcm5pbmc6IGV4cGVjdGlu
-ZyBwcm90b3R5cGUgZm9yIGxwZmNfc2xpNF9zcF9wcm9jZXNzX2NxKCkuIFByb3RvdHlwZSB3YXMg
-Zm9yIF9fbHBmY19zbGk0X3NwX3Byb2Nlc3NfY3EoKSBpbnN0ZWFkCiBkcml2ZXJzL3Njc2kvbHBm
-Yy9scGZjX3NsaS5jOjE0NzU0OiB3YXJuaW5nOiBleHBlY3RpbmcgcHJvdG90eXBlIGZvciBscGZj
-X3NsaTRfaGJhX3Byb2Nlc3NfY3EoKS4gUHJvdG90eXBlIHdhcyBmb3IgbHBmY19zbGk0X2RseV9o
-YmFfcHJvY2Vzc19jcSgpIGluc3RlYWQKIGRyaXZlcnMvc2NzaS9scGZjL2xwZmNfc2xpLmM6MTcy
-MzA6IHdhcm5pbmc6IGV4cGVjdGluZyBwcm90b3R5cGUgZm9yIGxwZmNfc2xpNF9mcmVlX3hyaSgp
-LiBQcm90b3R5cGUgd2FzIGZvciBfX2xwZmNfc2xpNF9mcmVlX3hyaSgpIGluc3RlYWQKIGRyaXZl
-cnMvc2NzaS9scGZjL2xwZmNfc2xpLmM6MTg5NTA6IHdhcm5pbmc6IGV4cGVjdGluZyBwcm90b3R5
-cGUgZm9yIGxwZmNfc2xpNF9mcmVlX3JwaSgpLiBQcm90b3R5cGUgd2FzIGZvciBfX2xwZmNfc2xp
-NF9mcmVlX3JwaSgpIGluc3RlYWQKCkNjOiBKYW1lcyBTbWFydCA8amFtZXMuc21hcnRAYnJvYWRj
-b20uY29tPgpDYzogRGljayBLZW5uZWR5IDxkaWNrLmtlbm5lZHlAYnJvYWRjb20uY29tPgpDYzog
-IkphbWVzIEUuSi4gQm90dG9tbGV5IiA8amVqYkBsaW51eC5pYm0uY29tPgpDYzogIk1hcnRpbiBL
-LiBQZXRlcnNlbiIgPG1hcnRpbi5wZXRlcnNlbkBvcmFjbGUuY29tPgpDYzogU3VtaXQgU2Vtd2Fs
-IDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0
-aWFuLmtvZW5pZ0BhbWQuY29tPgpDYzogbGludXgtc2NzaUB2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxp
-bnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpDYzogbGluYXJvLW1tLXNpZ0BsaXN0cy5saW5hcm8ub3JnClNpZ25lZC1vZmYtYnk6IExl
-ZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+Ci0tLQogZHJpdmVycy9zY3NpL2xwZmMvbHBm
-Y19zbGkuYyB8IDEyICsrKysrKy0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygr
-KSwgNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3Njc2kvbHBmYy9scGZjX3Ns
-aS5jIGIvZHJpdmVycy9zY3NpL2xwZmMvbHBmY19zbGkuYwppbmRleCBmYTFhNzE0YTc4ZjA5Li45
-ODAxMTkzOTgzZmYwIDEwMDY0NAotLS0gYS9kcml2ZXJzL3Njc2kvbHBmYy9scGZjX3NsaS5jCisr
-KyBiL2RyaXZlcnMvc2NzaS9scGZjL2xwZmNfc2xpLmMKQEAgLTk2MzUsNyArOTYzNSw3IEBAIGxw
-ZmNfc2xpNF9icGwyc2dsKHN0cnVjdCBscGZjX2hiYSAqcGhiYSwgc3RydWN0IGxwZmNfaW9jYnEg
-KnBpb2NicSwKIH0KIAogLyoqCi0gKiBscGZjX3NsaV9pb2NiMndxZSAtIENvbnZlcnQgdGhlIElP
-Q0IgdG8gYSB3b3JrIHF1ZXVlIGVudHJ5LgorICogbHBmY19zbGk0X2lvY2Iyd3FlIC0gQ29udmVy
-dCB0aGUgSU9DQiB0byBhIHdvcmsgcXVldWUgZW50cnkuCiAgKiBAcGhiYTogUG9pbnRlciB0byBI
-QkEgY29udGV4dCBvYmplY3QuCiAgKiBAaW9jYnE6IFBvaW50ZXIgdG8gY29tbWFuZCBpb2NiLgog
-ICogQHdxZTogUG9pbnRlciB0byB0aGUgd29yayBxdWV1ZSBlbnRyeS4KQEAgLTEwNDIxLDcgKzEw
-NDIxLDcgQEAgX19scGZjX3NsaV9pc3N1ZV9pb2NiX3M0KHN0cnVjdCBscGZjX2hiYSAqcGhiYSwg
-dWludDMyX3QgcmluZ19udW1iZXIsCiAJcmV0dXJuIDA7CiB9CiAKLS8qKgorLyoKICAqIGxwZmNf
-c2xpX2lzc3VlX2ZjcF9pbyAtIFdyYXBwZXIgZnVuYyBmb3IgaXNzdWluZyBmY3AgaS9vCiAgKgog
-ICogVGhpcyByb3V0aW5lIHdyYXBzIHRoZSBhY3R1YWwgZmNwIGkvbyBmdW5jdGlvbiBmb3IgaXNz
-dXNpbmcgV1FFIGZvciBzbGktNApAQCAtMTQxNzAsNyArMTQxNzAsNyBAQCBfX2xwZmNfc2xpNF9w
-cm9jZXNzX2NxKHN0cnVjdCBscGZjX2hiYSAqcGhiYSwgc3RydWN0IGxwZmNfcXVldWUgKmNxLAog
-fQogCiAvKioKLSAqIGxwZmNfc2xpNF9zcF9wcm9jZXNzX2NxIC0gUHJvY2VzcyBhIHNsb3ctcGF0
-aCBldmVudCBxdWV1ZSBlbnRyeQorICogX19scGZjX3NsaTRfc3BfcHJvY2Vzc19jcSAtIFByb2Nl
-c3MgYSBzbG93LXBhdGggZXZlbnQgcXVldWUgZW50cnkKICAqIEBjcTogcG9pbnRlciB0byBDUSB0
-byBwcm9jZXNzCiAgKgogICogVGhpcyByb3V0aW5lIGNhbGxzIHRoZSBjcSBwcm9jZXNzaW5nIHJv
-dXRpbmUgd2l0aCBhIGhhbmRsZXIgc3BlY2lmaWMKQEAgLTE0NzQ0LDcgKzE0NzQ0LDcgQEAgbHBm
-Y19zbGk0X2hiYV9wcm9jZXNzX2NxKHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykKIH0KIAogLyoq
-Ci0gKiBscGZjX3NsaTRfaGJhX3Byb2Nlc3NfY3EgLSBmYXN0LXBhdGggd29yayBoYW5kbGVyIHdo
-ZW4gc3RhcnRlZCBieSB0aW1lcgorICogbHBmY19zbGk0X2RseV9oYmFfcHJvY2Vzc19jcSAtIGZh
-c3QtcGF0aCB3b3JrIGhhbmRsZXIgd2hlbiBzdGFydGVkIGJ5IHRpbWVyCiAgKiBAd29yazogcG9p
-bnRlciB0byB3b3JrIGVsZW1lbnQKICAqCiAgKiB0cmFuc2xhdGVzIGZyb20gdGhlIHdvcmsgaGFu
-ZGxlciBhbmQgY2FsbHMgdGhlIGZhc3QtcGF0aCBoYW5kbGVyLgpAQCAtMTcyMTgsNyArMTcyMTgs
-NyBAQCBscGZjX3NsaTRfYWxsb2NfeHJpKHN0cnVjdCBscGZjX2hiYSAqcGhiYSkKIH0KIAogLyoq
-Ci0gKiBscGZjX3NsaTRfZnJlZV94cmkgLSBSZWxlYXNlIGFuIHhyaSBmb3IgcmV1c2UuCisgKiBf
-X2xwZmNfc2xpNF9mcmVlX3hyaSAtIFJlbGVhc2UgYW4geHJpIGZvciByZXVzZS4KICAqIEBwaGJh
-OiBwb2ludGVyIHRvIGxwZmMgaGJhIGRhdGEgc3RydWN0dXJlLgogICogQHhyaTogeHJpIHRvIHJl
-bGVhc2UuCiAgKgpAQCAtMTg5MzgsNyArMTg5MzgsNyBAQCBscGZjX3NsaTRfYWxsb2NfcnBpKHN0
-cnVjdCBscGZjX2hiYSAqcGhiYSkKIH0KIAogLyoqCi0gKiBscGZjX3NsaTRfZnJlZV9ycGkgLSBS
-ZWxlYXNlIGFuIHJwaSBmb3IgcmV1c2UuCisgKiBfX2xwZmNfc2xpNF9mcmVlX3JwaSAtIFJlbGVh
-c2UgYW4gcnBpIGZvciByZXVzZS4KICAqIEBwaGJhOiBwb2ludGVyIHRvIGxwZmMgaGJhIGRhdGEg
-c3RydWN0dXJlLgogICogQHJwaTogcnBpIHRvIGZyZWUKICAqCi0tIAoyLjI3LjAKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+https://bugzilla.kernel.org/show_bug.cgi?id=211981
+
+--- Comment #2 from raul (raulvior.bcn@gmail.com) ---
+(In reply to Alex Deucher from comment #1)
+> Does setting amdgpu.runpm=0 fix it?
+
+Yes, it does.
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
