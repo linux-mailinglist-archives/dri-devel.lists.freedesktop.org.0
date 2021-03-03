@@ -2,31 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F1132B68C
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 11:25:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09CCB32B697
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 11:31:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E192A89F6D;
-	Wed,  3 Mar 2021 10:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CFB06E0DA;
+	Wed,  3 Mar 2021 10:31:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E8FE89F6D;
- Wed,  3 Mar 2021 10:25:46 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212])
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1lHOhN-0003wm-12; Wed, 03 Mar 2021 10:25:45 +0000
-To: Yongqiang Sun <yongqiang.sun@amd.com>
-From: Colin Ian King <colin.king@canonical.com>
-Subject: re: drm/amd/display: Implement dmub trace event
-Message-ID: <7e54081f-f226-851e-e4c4-23a299d3a711@canonical.com>
-Date: Wed, 3 Mar 2021 10:25:44 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com
+ [IPv6:2607:f8b0:4864:20::e31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F1676E0D8
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 10:31:16 +0000 (UTC)
+Received: by mail-vs1-xe31.google.com with SMTP id l27so4796127vsj.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 02:31:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ud8XCo4zETwyBcC5uBZYedvwqDLvaKNv5XeUnTbkcFs=;
+ b=MUXW0BLcopSj2WEivWF6kbF45NTv7iE6q4bdW0n64jAOThRVEwx0mwL70/W8QAcW22
+ kbp43yMWDe8/wr6M408sE0OwjffCirBG9ZLdfmUcFX2sgeaA6c0HU/locnDgty4g8tBY
+ P1x3TV2Q9JYZyg4RAnN+KCw0Zda/CC2Tbyeok=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ud8XCo4zETwyBcC5uBZYedvwqDLvaKNv5XeUnTbkcFs=;
+ b=cZpqR5itLU/rk60GXSbjKWV+ZMECRMmpPoKTW+XanB3wxQiBYM4v/GHIAZ/UxMP4Pl
+ srqi3ob6P7UCxJQQm0CGuhNH+vyMWQBK+r8eQMuPyKWnTjn+S1eYU/yvoXO1etEWPA+B
+ 7fS3fPY2V+64IStvjJFGRXvjxI4UY7V+a6NoM++xnHfGeZ0MZtZZHOESFgca8/IQd01I
+ YNDR+fDFfWaQOzN3pFOFEqHB3kpS1QqDMUkJLHSS7mEk6WzwqNZ4zr22X5JN8Xe5hoeR
+ nx6JvlHnfT11XygSPxWHJas+HWOzSuhAuNkVR8HDr7rerVCSwMu2L+fHFCHui/5LCLr0
+ 5Ocw==
+X-Gm-Message-State: AOAM531i+9GIW9AZtLeb2MzNGv4h0J7EoNemcrfICdBuMKrMPHtOKRL9
+ 7cMHi6XOPOCBHs1HyTdvDASPkqfT4NIIIluN83Wi9Q==
+X-Google-Smtp-Source: ABdhPJzM84ST5K0eaxhWuR85D0QFzIegAthMVmk/sn+EGXAtrfigTFMmmkIb7ZyoUsPiJw5uyoHo0rSSZNkvG9/REng=
+X-Received: by 2002:a67:1046:: with SMTP id 67mr5250935vsq.21.1614767475658;
+ Wed, 03 Mar 2021 02:31:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Language: en-US
+References: <20210211113309.1.I629b2366a6591410359c7fcf6d385b474b705ca2@changeid>
+ <CACRpkdbQa3BZwgtp3=061cu+y+4qkMqtXQhXH_VuHB3KcLyDCA@mail.gmail.com>
+In-Reply-To: <CACRpkdbQa3BZwgtp3=061cu+y+4qkMqtXQhXH_VuHB3KcLyDCA@mail.gmail.com>
+From: Nicolas Boichat <drinkcat@chromium.org>
+Date: Wed, 3 Mar 2021 18:31:04 +0800
+Message-ID: <CANMq1KAsvXZAjmYCMQsAUwpkzuA9-PRnNWkpsLuNbOkP6DixGA@mail.gmail.com>
+Subject: Re: [PATCH] drm/dsi: Add _NO_ to MIPI_DSI_* flags disabling features
+To: Linus Walleij <linus.walleij@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,206 +58,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, MSM <linux-arm-msm@vger.kernel.org>,
+ Jordan Crouse <jcrouse@codeaurora.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
+ Xin Ji <xji@analogixsemi.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Rajendra Nayak <rnayak@codeaurora.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Daniel Wheeler <daniel.wheeler@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Tony Cheng <Tony.Cheng@amd.com>
+ Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, Mar 1, 2021 at 4:59 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> On Thu, Feb 11, 2021 at 4:34 AM Nicolas Boichat <drinkcat@chromium.org> wrote:
+>
+> > Many of the DSI flags have names opposite to their actual effects,
+> > e.g. MIPI_DSI_MODE_EOT_PACKET means that EoT packets will actually
+> > be disabled. Fix this by including _NO_ in the flag names, e.g.
+> > MIPI_DSI_MODE_NO_EOT_PACKET.
+>
+> Unless someone like me interpreted it literally...
+>
+> Like in these:
+>
+> >  drivers/gpu/drm/mcde/mcde_dsi.c                      | 2 +-
+> >  drivers/gpu/drm/panel/panel-novatek-nt35510.c        | 2 +-
+> >  drivers/gpu/drm/panel/panel-samsung-s6d16d0.c        | 2 +-
+> >  drivers/gpu/drm/panel/panel-sony-acx424akp.c         | 2 +-
+>
+> > diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
+> > index 2314c8122992..f4cdc3cfd7d0 100644
+> > --- a/drivers/gpu/drm/mcde/mcde_dsi.c
+> > +++ b/drivers/gpu/drm/mcde/mcde_dsi.c
+> > @@ -760,7 +760,7 @@ static void mcde_dsi_start(struct mcde_dsi *d)
+> >                 DSI_MCTL_MAIN_DATA_CTL_BTA_EN |
+> >                 DSI_MCTL_MAIN_DATA_CTL_READ_EN |
+> >                 DSI_MCTL_MAIN_DATA_CTL_REG_TE_EN;
+> > -       if (d->mdsi->mode_flags & MIPI_DSI_MODE_EOT_PACKET)
+> > +       if (d->mdsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
+> >                 val |= DSI_MCTL_MAIN_DATA_CTL_HOST_EOT_GEN;
+>
+> If you read the code you can see that this is interpreted as inserting
+> an EOT packet, so here you need to change the logic such:
+>
+> if (!d->mdsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
+>     val |= DSI_MCTL_MAIN_DATA_CTL_HOST_EOT_GEN;
+>
+> This will make sure the host generates the EOT packet in HS mode
+> *unless* the flag is set.
+>
+> (I checked the data sheet.)
+>
+> > diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+> > index b9a0e56f33e2..9d9334656803 100644
+> > --- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+> > +++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+> > @@ -899,7 +899,7 @@ static int nt35510_probe(struct mipi_dsi_device *dsi)
+> >         dsi->hs_rate = 349440000;
+> >         dsi->lp_rate = 9600000;
+> >         dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS |
+> > -               MIPI_DSI_MODE_EOT_PACKET;
+> > +               MIPI_DSI_MODE_NO_EOT_PACKET;
+>
+> Here you should just delete the MIPI_DSI_MODE_EOT_PACKET
+> flag because this was used with the MCDE driver which interpret the
+> flag literally.
+>
+> > diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
+> > index 4aac0d1573dd..b04b9975e9b2 100644
+> > --- a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
+> > +++ b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
+> > @@ -186,7 +186,7 @@ static int s6d16d0_probe(struct mipi_dsi_device *dsi)
+> >          */
+> >         dsi->mode_flags =
+> >                 MIPI_DSI_CLOCK_NON_CONTINUOUS |
+> > -               MIPI_DSI_MODE_EOT_PACKET;
+> > +               MIPI_DSI_MODE_NO_EOT_PACKET;
+>
+> Same, just delete the flag.
+>
+> > --- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
+> > +++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
+> > @@ -97,7 +97,7 @@ static int s6e63m0_dsi_probe(struct mipi_dsi_device *dsi)
+> >         dsi->hs_rate = 349440000;
+> >         dsi->lp_rate = 9600000;
+> >         dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
+> > -               MIPI_DSI_MODE_EOT_PACKET |
+> > +               MIPI_DSI_MODE_NO_EOT_PACKET |
+> >                 MIPI_DSI_MODE_VIDEO_BURST;
+>
+> Same, just delete the flag.
+>
+> > diff --git a/drivers/gpu/drm/panel/panel-sony-acx424akp.c b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
+> > index 065efae213f5..6b706cbf2f9c 100644
+> > --- a/drivers/gpu/drm/panel/panel-sony-acx424akp.c
+> > +++ b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
+> > @@ -450,7 +450,7 @@ static int acx424akp_probe(struct mipi_dsi_device *dsi)
+> >         else
+> >                 dsi->mode_flags =
+> >                         MIPI_DSI_CLOCK_NON_CONTINUOUS |
+> > -                       MIPI_DSI_MODE_EOT_PACKET;
+> > +                       MIPI_DSI_MODE_NO_EOT_PACKET;
+>
+> Same, just delete the flag.
+>
+> These are all just semantic bugs due to the ambiguity of the flags, it is
+> possible to provide a Fixes: flag for each file using this flag the wrong way
+> but I dunno if it's worth it.
 
-Static analysis on linux-next wit Coverity has found a potential null
-pointer dereference in commit:
+Wow nice catch.
 
-commit 70732504c53b2d3aae2cebc457515a304672d5bb
-Author: Yongqiang Sun <yongqiang.sun@amd.com>
-Date:   Fri Feb 19 14:50:23 2021 -0500
+I think we should fix all of those _before_ my patch is applied, with
+proper Fixes tags so that this can be backported to stable branches,
+even if it's a no-op. I can look into it but that may take a bit of
+time.
 
-    drm/amd/display: Implement dmub trace event
+Thanks,
 
-The analysis is as follows:
-
-400 enum dmub_status dmub_srv_hw_init(struct dmub_srv *dmub,
-401                                  const struct dmub_srv_hw_params
-*params)
-402 {
-403        struct dmub_fb *inst_fb = params->fb[DMUB_WINDOW_0_INST_CONST];
-404        struct dmub_fb *stack_fb = params->fb[DMUB_WINDOW_1_STACK];
-405        struct dmub_fb *data_fb = params->fb[DMUB_WINDOW_2_BSS_DATA];
-406        struct dmub_fb *bios_fb = params->fb[DMUB_WINDOW_3_VBIOS];
-407        struct dmub_fb *mail_fb = params->fb[DMUB_WINDOW_4_MAILBOX];
-408        struct dmub_fb *tracebuff_fb =
-params->fb[DMUB_WINDOW_5_TRACEBUFF];
-409        struct dmub_fb *fw_state_fb = params->fb[DMUB_WINDOW_6_FW_STATE];
-410        struct dmub_fb *scratch_mem_fb =
-params->fb[DMUB_WINDOW_7_SCRATCH_MEM];
-411
-412        struct dmub_rb_init_params rb_params, outbox0_rb_params;
-413        struct dmub_window cw0, cw1, cw2, cw3, cw4, cw5, cw6;
-414        struct dmub_region inbox1, outbox1, outbox0;
-415
-
-   1. Condition !dmub->sw_init, taking false branch.
-
-416        if (!dmub->sw_init)
-417                return DMUB_STATUS_INVALID;
-418
-419        dmub->fb_base = params->fb_base;
-420        dmub->fb_offset = params->fb_offset;
-421        dmub->psp_version = params->psp_version;
-422
-
-   2. Condition dmub->hw_funcs.reset, taking true branch.
-
-423        if (dmub->hw_funcs.reset)
-424                dmub->hw_funcs.reset(dmub);
-425
-
-   3. Condition inst_fb, taking true branch.
-   4. Condition data_fb, taking true branch.
-
-426        if (inst_fb && data_fb) {
-427                cw0.offset.quad_part = inst_fb->gpu_addr;
-428                cw0.region.base = DMUB_CW0_BASE;
-429                cw0.region.top = cw0.region.base + inst_fb->size - 1;
-430
-431                cw1.offset.quad_part = stack_fb->gpu_addr;
-432                cw1.region.base = DMUB_CW1_BASE;
-433                cw1.region.top = cw1.region.base + stack_fb->size - 1;
-434
-
-   5. Condition params->load_inst_const, taking true branch.
-   6. Condition dmub->hw_funcs.backdoor_load, taking true branch.
-
-435                if (params->load_inst_const &&
-dmub->hw_funcs.backdoor_load) {
-436                    /**
-437                     * Read back all the instruction memory so we
-don't hang the
-438                     * DMCUB when backdoor loading if the write from
-x86 hasn't been
-439                     * flushed yet. This only occurs in backdoor loading.
-440                     */
-441                    dmub_flush_buffer_mem(inst_fb);
-442                    dmub->hw_funcs.backdoor_load(dmub, &cw0, &cw1);
-443                }
-444
-445        }
-446
-
-   7. Condition inst_fb, taking true branch.
-   8. Condition data_fb, taking true branch.
-   9. Condition bios_fb, taking true branch.
-   10. Condition mail_fb, taking true branch.
-   11. Condition tracebuff_fb, taking false branch.
-   12. var_compare_op: Comparing tracebuff_fb to null implies that
-tracebuff_fb might be null.
-
-447        if (inst_fb && data_fb && bios_fb && mail_fb && tracebuff_fb &&
-448            fw_state_fb && scratch_mem_fb) {
-449                cw2.offset.quad_part = data_fb->gpu_addr;
-450                cw2.region.base = DMUB_CW0_BASE + inst_fb->size;
-451                cw2.region.top = cw2.region.base + data_fb->size;
-452
-453                cw3.offset.quad_part = bios_fb->gpu_addr;
-454                cw3.region.base = DMUB_CW3_BASE;
-455                cw3.region.top = cw3.region.base + bios_fb->size;
-456
-457                cw4.offset.quad_part = mail_fb->gpu_addr;
-458                cw4.region.base = DMUB_CW4_BASE;
-459                cw4.region.top = cw4.region.base + mail_fb->size;
-460
-461                /**
-462                 * Doubled the mailbox region to accomodate inbox and
-outbox.
-463                 * Note: Currently, currently total mailbox size is
-16KB. It is split
-464                 * equally into 8KB between inbox and outbox. If this
-config is
-465                 * changed, then uncached base address configuration
-of outbox1
-466                 * has to be updated in funcs->setup_out_mailbox.
-467                 */
-468                inbox1.base = cw4.region.base;
-469                inbox1.top = cw4.region.base + DMUB_RB_SIZE;
-470                outbox1.base = inbox1.top;
-471                outbox1.top = cw4.region.top;
-472
-473                cw5.offset.quad_part = tracebuff_fb->gpu_addr;
-474                cw5.region.base = DMUB_CW5_BASE;
-475                cw5.region.top = cw5.region.base + tracebuff_fb->size;
-476
-477                outbox0.base = DMUB_REGION5_BASE +
-TRACE_BUFFER_ENTRY_OFFSET;
-478                outbox0.top = outbox0.base + sizeof(struct
-dmcub_trace_buf_entry) * PERF_TRACE_MAX_ENTRY;
-479
-480
-481                cw6.offset.quad_part = fw_state_fb->gpu_addr;
-482                cw6.region.base = DMUB_CW6_BASE;
-483                cw6.region.top = cw6.region.base + fw_state_fb->size;
-484
-485                dmub->fw_state = fw_state_fb->cpu_addr;
-486
-487                dmub->scratch_mem_fb = *scratch_mem_fb;
-488
-489                if (dmub->hw_funcs.setup_windows)
-490                        dmub->hw_funcs.setup_windows(dmub, &cw2,
-&cw3, &cw4,
-491                                                     &cw5, &cw6);
-492
-493                if (dmub->hw_funcs.setup_outbox0)
-494                        dmub->hw_funcs.setup_outbox0(dmub, &outbox0);
-495
-496                if (dmub->hw_funcs.setup_mailbox)
-497                        dmub->hw_funcs.setup_mailbox(dmub, &inbox1);
-498                if (dmub->hw_funcs.setup_out_mailbox)
-499                        dmub->hw_funcs.setup_out_mailbox(dmub, &outbox1);
-500        }
-501
-
-   13. Condition mail_fb, taking true branch.
-
-502        if (mail_fb) {
-503                dmub_memset(&rb_params, 0, sizeof(rb_params));
-504                rb_params.ctx = dmub;
-505                rb_params.base_address = mail_fb->cpu_addr;
-506                rb_params.capacity = DMUB_RB_SIZE;
-507
-508                dmub_rb_init(&dmub->inbox1_rb, &rb_params);
-509
-510                // Initialize outbox1 ring buffer
-511                rb_params.ctx = dmub;
-512                rb_params.base_address = (void *) ((uint64_t)
-(mail_fb->cpu_addr) + DMUB_RB_SIZE);
-513                rb_params.capacity = DMUB_RB_SIZE;
-514                dmub_rb_init(&dmub->outbox1_rb, &rb_params);
-515
-516        }
-517
-518        dmub_memset(&outbox0_rb_params, 0, sizeof(outbox0_rb_params));
-519        outbox0_rb_params.ctx = dmub;
-
-
-Dereference after null check (FORWARD_NULL)
-    14. var_deref_op: Dereferencing null pointer tracebuff_fb.
-
-520        outbox0_rb_params.base_address = (void
-*)((uint64_t)(tracebuff_fb->cpu_addr) + TRACE_BUFFER_ENTRY_OFFSET);
-521        outbox0_rb_params.capacity = sizeof(struct
-dmcub_trace_buf_entry) * PERF_TRACE_MAX_ENTRY;
-
-
-The check on line 447 implies that tracebuf_fb could possibly be null,
-however on line 520 tracebuf_fb is being dereferenced, so there is a
-possibly (perhaps unlikely) null pointer dereference issue here.
-
-Colin
-522        dmub_rb_init(&dmub->outbox0_rb, &outbox0_rb_params);
+>
+> Yours,
+> Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
