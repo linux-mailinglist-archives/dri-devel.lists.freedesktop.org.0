@@ -1,65 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0731832BA63
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 21:36:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F391632BA64
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Mar 2021 21:38:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FAFA6E9C4;
-	Wed,  3 Mar 2021 20:36:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D19A6E9C8;
+	Wed,  3 Mar 2021 20:38:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B6016E9C4
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 20:36:50 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id lr13so44846071ejb.8
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 12:36:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=o2+Q6O0kP3hXVaH6RrOrAT86ZiO5hSSMv+VhixmNO9A=;
- b=ZZFwQ+Z8Dxmao1vKT3pONZXkIyptGIhPeTrY2/JTXq2B0rR23tHJira7qN9AKyupn2
- Z+gEYa3o6PrNxIOanxueJQd4Xhro9AkXoqTBtPeGbx8WT/T/VqViCnSe36EAhdRWDUwk
- kHDP3DRkdAc5YcM0zGM4PmWwXc6YHPEvQCjheQj3N66CizfNOTvD/miCfke0f8YhP4Y7
- lWgJ1UeR2r/+YF9IgyZLG1GbBM/bjwEHvJB3Q7B1moNPP9eyS++CgSvyrSfFp0b66Fd7
- Cs8ETYCRyPrNTCX8oTuD1IXryc+B3OUYAfTZRCleUTWnAOWDX8uFtzDxw3SFx0hwFYdK
- fwwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=o2+Q6O0kP3hXVaH6RrOrAT86ZiO5hSSMv+VhixmNO9A=;
- b=jLfkshxHc0VC/WAVyGGAXUZY1+9BtcSf2jWIzh3qiqPtw0uAjfVFx4BlGEtbjYga+C
- zivbRoiayi3lbyZeMqpR12xssV6c4cTBgTAe2aFAEmis3cwJNiiygv3Qwas3e57NeUxv
- 1CkDmMaqF3Y6Kv3lth4hgEFpPv8T4hb20OWWxeWdKj9yEw3vg5+DA0fCbj/1W923NyiV
- r5X5uuZdVySI7lwMu7gAQrb8jL35vTsFIOnJ3lAEF4f7IwnUp1kJlfs1YkN1yeUyo0Ox
- XwiZy9UO7DDSEaBg7EfHzAQ5rIaf/TxO63eorGvH6ppxcp47rq8T7HNouXSfczyso35b
- joig==
-X-Gm-Message-State: AOAM531ApIltHPAkxQ28CPuBmNCmOvzGqmyPqnKB4UA52YSrAcZzsQFD
- UoLVMu4Zt48lXsmDbPysB27K7GpsvAlaaA==
-X-Google-Smtp-Source: ABdhPJy+19wKzSawFzt8iuBoV6ozxRlPdo5K2yy45W9HTwXDF6AmIU4+gOebfqzgNQghhHgDiaGu4g==
-X-Received: by 2002:a17:906:29c3:: with SMTP id
- y3mr564731eje.430.1614803809108; 
- Wed, 03 Mar 2021 12:36:49 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:a1be:4bb2:37f3:bf4b?
- ([2a02:908:1252:fb60:a1be:4bb2:37f3:bf4b])
- by smtp.gmail.com with ESMTPSA id c2sm14484106ejn.63.2021.03.03.12.36.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Mar 2021 12:36:48 -0800 (PST)
-Subject: Re: [PATCH] drm/ttm: soften TTM warnings
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210303155757.82497-1-christian.koenig@amd.com>
- <CAKMK7uFgCxZeX3bPzfStdX0LMXc2MVTAZTY_jLJ66k+=Qnvgng@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <0636c6e8-4532-20eb-d361-3cfb30d62717@gmail.com>
-Date: Wed, 3 Mar 2021 21:36:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3B5B6E9C8;
+ Wed,  3 Mar 2021 20:38:53 +0000 (UTC)
+IronPort-SDR: 6TDWgRTOwooP/zjSNI9SvJzLANfQZioflWIKHpqCD6gX9VsQ4N6BTb8PxwHfCS2GKCcaqFnbQ+
+ sOMYugYVIJxw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9912"; a="183895946"
+X-IronPort-AV: E=Sophos;i="5.81,220,1610438400"; d="scan'208";a="183895946"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2021 12:38:52 -0800
+IronPort-SDR: pN9K3TDOnshdZh2IEWKSCKRMyI5B0P10V3dcUzjwoMw10HpQL3dw2leZGbigI7rxYdMyoBeFso
+ w5dsERZPmk7w==
+X-IronPort-AV: E=Sophos;i="5.81,220,1610438400"; d="scan'208";a="407406107"
+Received: from labuser-z97x-ud5h.jf.intel.com (HELO labuser-Z97X-UD5H)
+ ([10.165.21.211])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2021 12:38:51 -0800
+Date: Wed, 3 Mar 2021 12:44:33 -0800
+From: "Navare, Manasi" <manasi.d.navare@intel.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH] drm/atomic: Add the crtc to affected crtc only if
+ uapi.enable = true
+Message-ID: <20210303204433.GA15819@labuser-Z97X-UD5H>
+References: <20210302204132.12058-1-manasi.d.navare@intel.com>
+ <20210303104744.2c064f09@eldfell>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uFgCxZeX3bPzfStdX0LMXc2MVTAZTY_jLJ66k+=Qnvgng@mail.gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210303104744.2c064f09@eldfell>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,44 +50,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Daniel Vetter <daniel.vetter@intel.com>, intel-gfx@lists.freedesktop.org,
+ Daniel Stone <daniels@collabora.com>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpBbSAwMy4wMy4yMSB1bSAxODoxOSBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gT24gV2VkLCBN
-YXIgMywgMjAyMSBhdCA0OjU3IFBNIENocmlzdGlhbiBLw7ZuaWcKPiA8Y2tvZW5pZy5sZWljaHR6
-dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+PiBRWEwgaW5kZWVkIHVucmVmcyBwaW5uZWQgQk9z
-IGFuZCB0aGUgd2FybmluZ3MgYXJlIHNwYW1taW5nIHBlb3BsZXMgbG9nIGZpbGVzLgo+Pgo+PiBN
-YWtlIHN1cmUgd2Ugd2FybiBvbmx5IG9uY2UgdW50aWwgdGhlIFFYTCBkcml2ZXIgaXMgZml4ZWQu
-Cj4+Cj4+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdA
-YW1kLmNvbT4KPiBDYW4geW91IHBscyBhZGQgRklYTUUgY29tbWVudHMgdG8gZWFjaCB0aGF0IHF4
-bCBpcyBicm9rZW4gYW5kIG5lZWRzIHRvCj4gYmUgZml4ZWQgZmlyc3Q/IEFsc28gcGxlYXNlIGFk
-ZCBhIFJlZmVyZW5jZXM6IGxpbmsgdG8gdGhlIGJ1ZyByZXBvcnQKPiBvbiBsb3JlLmtlcm5lbC5v
-cmcgb3Igd2hlcmV2ZXIgaXQgd2FzLgoKV2FzIHRoZXJlIGEgYnVnIHJlcG9ydD8gSSBvbmx5IGdv
-dCBub3RpZmljYXRpb25zIGJ5IG1haWwgc28gZmFyLgoKQ2hyaXN0aWFuLgoKPgo+IFdpdGggdGhh
-dDogci1iOiBtZQo+IC1EYW5pZWwKPgo+PiAtLS0KPj4gICBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0
-bV9iby5jIHwgNSArKystLQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDIg
-ZGVsZXRpb25zKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9i
-by5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwo+PiBpbmRleCAyMGEyNTY2MGIzNWIu
-LjI0NWZhMmMwNTkyNyAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8u
-Ywo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4+IEBAIC0xMzYsNyArMTM2
-LDggQEAgdm9pZCB0dG1fYm9fbW92ZV90b19scnVfdGFpbChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmpl
-Y3QgKmJvLAo+PiAgICAgICAgICBzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiA9IGJvLT5iZGV2
-Owo+PiAgICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlX21hbmFnZXIgKm1hbjsKPj4KPj4gLSAg
-ICAgICBkbWFfcmVzdl9hc3NlcnRfaGVsZChiby0+YmFzZS5yZXN2KTsKPj4gKyAgICAgICBpZiAo
-IWJvLT5kZWxldGVkKQo+PiArICAgICAgICAgICAgICAgZG1hX3Jlc3ZfYXNzZXJ0X2hlbGQoYm8t
-PmJhc2UucmVzdik7Cj4+Cj4+ICAgICAgICAgIGlmIChiby0+cGluX2NvdW50KSB7Cj4+ICAgICAg
-ICAgICAgICAgICAgdHRtX2JvX2RlbF9mcm9tX2xydShibyk7Cj4+IEBAIC01MDksNyArNTEwLDcg
-QEAgc3RhdGljIHZvaWQgdHRtX2JvX3JlbGVhc2Uoc3RydWN0IGtyZWYgKmtyZWYpCj4+ICAgICAg
-ICAgICAgICAgICAgICogc2hyaW5rZXJzLCBub3cgdGhhdCB0aGV5IGFyZSBxdWV1ZWQgZm9yCj4+
-ICAgICAgICAgICAgICAgICAgICogZGVzdHJ1Y3Rpb24uCj4+ICAgICAgICAgICAgICAgICAgICov
-Cj4+IC0gICAgICAgICAgICAgICBpZiAoV0FSTl9PTihiby0+cGluX2NvdW50KSkgewo+PiArICAg
-ICAgICAgICAgICAgaWYgKFdBUk5fT05fT05DRShiby0+cGluX2NvdW50KSkgewo+PiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgYm8tPnBpbl9jb3VudCA9IDA7Cj4+ICAgICAgICAgICAgICAgICAg
-ICAgICAgICB0dG1fYm9fbW92ZV90b19scnVfdGFpbChibywgJmJvLT5tZW0sIE5VTEwpOwo+PiAg
-ICAgICAgICAgICAgICAgIH0KPj4gLS0KPj4gMi4yNS4xCj4+Cj4KCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, Mar 03, 2021 at 10:47:44AM +0200, Pekka Paalanen wrote:
+> On Tue,  2 Mar 2021 12:41:32 -0800
+> Manasi Navare <manasi.d.navare@intel.com> wrote:
+> =
+
+> > In case of a modeset where a mode gets split across mutiple CRTCs
+> > in the driver specific implementation (bigjoiner in i915) we wrongly co=
+unt
+> > the affected CRTCs based on the drm_crtc_mask and indicate the stolen C=
+RTC as
+> > an affected CRTC in atomic_check_only().
+> > This triggers a warning since affected CRTCs doent match requested CRTC.
+> > =
+
+> > To fix this in such bigjoiner configurations, we should only
+> > increment affected crtcs if that CRTC is enabled in UAPI not
+> > if it is just used internally in the driver to split the mode.
+> =
+
+> Hi,
+> =
+
+> I think that makes sense to me. Stealing CRTCs that are not currently
+> used by the userspace (display server) should be ok, as long as that
+> is completely invisible to userspace: meaning that it does not cause
+> userspace to unexpectedly e.g. receive or miss per-crtc atomic
+> completion events.
+
+Yes since we are only doing atomic_check_only() here, the stolen
+crtc is completely invisible to the userspace and hence that is =
+
+indicated by uapi.enable which is not true for this stolen
+crtc. However if allow modeset flag set, then it will do a full
+modeset and indicate the uapi.enable for this stolen crtc as well
+since that cannot be used for other modeset requested by userspace.
+
+> =
+
+> Can that also be asserted somehow, or does this already do that?
+
+Not clear what you want the assertion for? Could you elaborate
+
+Manasi
+
+> =
+
+> =
+
+> Thanks,
+> pq
+> =
+
+> > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > Cc: Simon Ser <contact@emersion.fr>
+> > Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+> > Cc: Daniel Stone <daniels@collabora.com>
+> > Cc: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_atomic.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> > index 5b4547e0f775..d7acd6bbd97e 100644
+> > --- a/drivers/gpu/drm/drm_atomic.c
+> > +++ b/drivers/gpu/drm/drm_atomic.c
+> > @@ -1358,8 +1358,10 @@ int drm_atomic_check_only(struct drm_atomic_stat=
+e *state)
+> >  		}
+> >  	}
+> >  =
+
+> > -	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
+> > -		affected_crtc |=3D drm_crtc_mask(crtc);
+> > +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
+> > +		if (new_crtc_state->enable)
+> > +			affected_crtc |=3D drm_crtc_mask(crtc);
+> > +	}
+> >  =
+
+> >  	/*
+> >  	 * For commits that allow modesets drivers can add other CRTCs to the
+> =
+
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
