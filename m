@@ -2,53 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A144232CE48
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 09:21:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 070ED32CE49
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 09:21:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D3D6E217;
-	Thu,  4 Mar 2021 08:21:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B941C6E4B7;
+	Thu,  4 Mar 2021 08:21:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0BC36E217
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 08:21:04 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id m11so31377971lji.10
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Mar 2021 00:21:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9AL08l20kDaPVuLk597Zm/T67XJS41Kni3JLdRMWhiY=;
- b=rLSvZs8dq65OgpOsJHRzPx3CUz870MeurmxeOq+Es6ornwbydz6CJyhQTlG0iOcbdS
- P3PXzTrgEtzzINlkT87osaOCkmWMNKnasSqHBOxi6o4clszQOOV9BMtA6mur3ojt4jP3
- MkEQuag69pYlkPxLcjqRp3br/wtdeDDtbWFYRflTn78IwqqN46KHxkUxkVgrBahfT058
- 0TazYUJpjEaaM5W6UiG+4BlMlA6lODI5D7XGBYYG3O7yed7ADrw01cykzYvydddd4NWu
- XKGZtOem70KxgMeTpNSDKR56zBszmeInuaOlEdnPIDBbiY3c3jAiXqmldCp5RLQJafzu
- Zwow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9AL08l20kDaPVuLk597Zm/T67XJS41Kni3JLdRMWhiY=;
- b=ZwLTLOpmxHyFXA0Uhp6y8AveovO4eExOueK700XQTg9je0N9X7x45+Z9ECPdu5cK2+
- 7GuVgsw6SjKNO10iMdgmukI0Vt9kYI0vmm5YYLQXC0qEwPhTXnYr0HkoVhlW4i6wS48V
- HD09SJn1SW0azYQrotESBz162NY3ZeONdHEl4GVAntKkCVoYxw4qWtPbSJelM8psqY8G
- 0tSiJcjfxGD2U9zttPXe9B2CrI3C6RaOzXOFKq5EVg1LEMFszu/yaAHO8OD9BAzw2gbp
- DEkxEvqQOZ/lhtSXr3RIQo4M6Hr+txG1l2cnpasXztkocW7ydFr94gz4NPvQqH1ZoIEK
- VCTQ==
-X-Gm-Message-State: AOAM531o5P+qLbg5hjQMoPkHBMC3PWFfl+FtTd/EqqMW17poFZv1207J
- SV34tSbVJqZelAi1u9rMYyI3318qDhEXvkRKJTsXYA==
-X-Google-Smtp-Source: ABdhPJyELnkhjKH756+TT58T3ytYAeeG9nYJVMvVKvNWPPMV0hqlzoSjroskiX2muHQP/6qn1BO6PcwU7zO/48I2laE=
-X-Received: by 2002:a2e:864a:: with SMTP id i10mr1584415ljj.467.1614846063320; 
- Thu, 04 Mar 2021 00:21:03 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AFF66E4B7
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 08:21:08 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id BDC00AAC5;
+ Thu,  4 Mar 2021 08:21:06 +0000 (UTC)
+Subject: Re: [PATCH] drm/stm: ltdc: Use simple encoder
+To: Jagan Teki <jagan@amarulasolutions.com>,
+ Yannick Fertre <yannick.fertre@st.com>,
+ Philippe Cornu <philippe.cornu@st.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Vincent Abriou <vincent.abriou@st.com>
+References: <20210302175700.28640-1-jagan@amarulasolutions.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <791a6f75-3603-9b84-c267-76c24fb77ee2@suse.de>
+Date: Thu, 4 Mar 2021 09:21:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210304004138.1785057-1-linus.walleij@linaro.org>
- <CANMq1KAiYK+0Y+j82R2Smt6Hhc3jwZ==DD2Vu4xRKcr8cOm3Fw@mail.gmail.com>
-In-Reply-To: <CANMq1KAiYK+0Y+j82R2Smt6Hhc3jwZ==DD2Vu4xRKcr8cOm3Fw@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 4 Mar 2021 09:20:52 +0100
-Message-ID: <CACRpkdbHYSnpYB1nJ3Z0ATTU6qZKooUMtmJYUb5dotzgbCXTTw@mail.gmail.com>
-Subject: Re: [PATCH] drm/mcde/panel: Inverse misunderstood flag
-To: Nicolas Boichat <drinkcat@chromium.org>
+In-Reply-To: <20210302175700.28640-1-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,54 +42,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Sean Paul <sean@poorly.run>, dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-arm-kernel@lists.infradead.org, linux-amarula@amarulasolutions.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com
+Content-Type: multipart/mixed; boundary="===============0377273727=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 4, 2021 at 2:57 AM Nicolas Boichat <drinkcat@chromium.org> wrote:
-> On Thu, Mar 4, 2021 at 8:41 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> >
-> > A recent patch renaming MIPI_DSI_MODE_EOT_PACKET to
-> > MIPI_DSI_MODE_NO_EOT_PACKET brought to light the
-> > misunderstanding in the current MCDE driver and all
-> > its associated panel drivers that MIPI_DSI_MODE_EOT_PACKET
-> > would mean "use EOT packet" when in fact it means the
-> > reverse.
-> >
-> > Fix it up by implementing the flag right in the MCDE
-> > DSI driver and remove the flag from panels that actually
-> > want the EOT packet.
-> >
-> > Suggested-by: Nicolas Boichat <drinkcat@chromium.org>
-> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
->
-> Reviewed-by: Nicolas Boichat <drinkcat@chromium.org>
->
-> I wonder if it's worth adding the fixes, should be:
->
-> Fixes: 5fc537bfd000 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
-> Fixes: 899f24ed8d3a ("drm/panel: Add driver for Novatek NT35510-based panels")
-> Fixes: ac1d6d74884e ("drm/panel: Add driver for Samsung S6D16D0 panel")
-> Fixes: 435e06c06cb2 ("drm/panel: s6e63m0: Add DSI transport")
-> Fixes: 8152c2bfd780 ("drm/panel: Add driver for Sony ACX424AKP panel")
->
-> But then you'd almost need to separate the patches in multiple bits
-> (these patches landed in very different releases).
->
-> I'll leave that up to the maintainers to decide: this would only
-> matter if anybody tried to use these panels on LTS releases with a
-> non-MCDE driver (or MCDE with other panels).
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0377273727==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="j2ZI2tgr2HFWGwvR1rVkDX8CF1cKP4vlo"
 
-It's not even a regression until someone else starts to use these panel
-drivers (currently noone does), so I'd say let's just apply this and then
-rebase and apply your cleanup on top.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--j2ZI2tgr2HFWGwvR1rVkDX8CF1cKP4vlo
+Content-Type: multipart/mixed; boundary="AK4xx3qya29Jz8JQWpNRhf5ZcjrKlNi2q";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jagan Teki <jagan@amarulasolutions.com>,
+ Yannick Fertre <yannick.fertre@st.com>,
+ Philippe Cornu <philippe.cornu@st.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Vincent Abriou <vincent.abriou@st.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-amarula@amarulasolutions.com,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org
+Message-ID: <791a6f75-3603-9b84-c267-76c24fb77ee2@suse.de>
+Subject: Re: [PATCH] drm/stm: ltdc: Use simple encoder
+References: <20210302175700.28640-1-jagan@amarulasolutions.com>
+In-Reply-To: <20210302175700.28640-1-jagan@amarulasolutions.com>
 
-Yours,
-Linus Walleij
+--AK4xx3qya29Jz8JQWpNRhf5ZcjrKlNi2q
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+shall I merge this patch?
+
+Am 02.03.21 um 18:57 schrieb Jagan Teki:
+> STM ltdc driver uses an empty implementation for its encoder.
+> Replace the code with the generic simple encoder.
+>=20
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> ---
+>   drivers/gpu/drm/stm/ltdc.c | 12 ++----------
+>   1 file changed, 2 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+> index 7812094f93d6..aeeb43524ca0 100644
+> --- a/drivers/gpu/drm/stm/ltdc.c
+> +++ b/drivers/gpu/drm/stm/ltdc.c
+> @@ -31,6 +31,7 @@
+>   #include <drm/drm_of.h>
+>   #include <drm/drm_plane_helper.h>
+>   #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_simple_kms_helper.h>
+>   #include <drm/drm_vblank.h>
+>  =20
+>   #include <video/videomode.h>
+> @@ -1020,14 +1021,6 @@ static int ltdc_crtc_init(struct drm_device *dde=
+v, struct drm_crtc *crtc)
+>   	return ret;
+>   }
+>  =20
+> -/*
+> - * DRM_ENCODER
+> - */
+> -
+> -static const struct drm_encoder_funcs ltdc_encoder_funcs =3D {
+> -	.destroy =3D drm_encoder_cleanup,
+> -};
+> -
+>   static void ltdc_encoder_disable(struct drm_encoder *encoder)
+>   {
+>   	struct drm_device *ddev =3D encoder->dev;
+> @@ -1088,8 +1081,7 @@ static int ltdc_encoder_init(struct drm_device *d=
+dev, struct drm_bridge *bridge)
+>   	encoder->possible_crtcs =3D CRTC_MASK;
+>   	encoder->possible_clones =3D 0;	/* No cloning support */
+>  =20
+> -	drm_encoder_init(ddev, encoder, &ltdc_encoder_funcs,
+> -			 DRM_MODE_ENCODER_DPI, NULL);
+> +	drm_simple_encoder_init(ddev, encoder, DRM_MODE_ENCODER_DPI);
+>  =20
+>   	drm_encoder_helper_add(encoder, &ltdc_encoder_helper_funcs);
+>  =20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--AK4xx3qya29Jz8JQWpNRhf5ZcjrKlNi2q--
+
+--j2ZI2tgr2HFWGwvR1rVkDX8CF1cKP4vlo
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmBAmHEFAwAAAAAACgkQlh/E3EQov+BW
+LhAAtB/ROfja0It2G8hWcRI1jXKJrtGPKUZIpEwiBosfhFdoBUfLdpOGtOi0znaiJ4dRHDk+4khw
+wm0kT8mbAiTAT/TZhQRuoemVyZGsirZ4ICHNmw2E9h02hAtiPCkKy9rRrbu8+y1bvxZxumWjENo6
+Ci/tDyehZM1vExRGZxddNVwsU7leHcd4wCr6jNhQ0fFktMkaGhbSY/COIRg5m4yLdGNsnexEm3CT
+FOlO7DJCOysCFdsx5Uoy38H4NUxPMbM1S6Qg5pr+nEyfI/d4iitPbbY5NA83/34xMYnQzZVQIPYw
+ZCENZyrIFHOoU0eLsq37X8V0c/8tXM/mJ/GcnahFGlH8NdhG1ctBazEG/lJJgMinYHwb78gv+dgq
+SSiN73IfbtYSl14tY+62kvwlUYCythX4HchKxB8OEmrlt6wo3JQabarUViOM8/VZMAlBCz6MjOH5
+HCKgEo7IIf9ApMFSV/oSJVuuqPQy6drWK0A1umrDHedwk2Oym1cOk0/q3ca/3XGOUQM8bwol6pFN
+Sb8X8HKNay9VvUCIwOVljUmAfJUeT1ux8sdwpP7RizOLQbs8r4tLcmHV9LG71E+8AibF1FnsZeap
+Q2mhgZiG+0y0nTCqmIwUNFwYcRPc8yF8FDc8snsqhTfD9Ykp2MhmOlyH/Tv2BOkrrdRTpF5aLDRv
+Bac=
+=kdMO
+-----END PGP SIGNATURE-----
+
+--j2ZI2tgr2HFWGwvR1rVkDX8CF1cKP4vlo--
+
+--===============0377273727==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0377273727==--
