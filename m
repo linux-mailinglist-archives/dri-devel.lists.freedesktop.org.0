@@ -1,36 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C7E32D708
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 16:48:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A36C32D71D
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 16:52:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38B066EA26;
-	Thu,  4 Mar 2021 15:48:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 185556EA2C;
+	Thu,  4 Mar 2021 15:52:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 34A5A6EA26;
- Thu,  4 Mar 2021 15:48:27 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 684D61FB;
- Thu,  4 Mar 2021 07:48:26 -0800 (PST)
-Received: from [10.57.48.219] (unknown [10.57.48.219])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0AF083F766;
- Thu,  4 Mar 2021 07:48:23 -0800 (PST)
-Subject: Re: [PATCH 16/17] iommu: remove DOMAIN_ATTR_IO_PGTABLE_CFG
-To: Christoph Hellwig <hch@lst.de>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Li Yang <leoyang.li@nxp.com>
-References: <20210301084257.945454-1-hch@lst.de>
- <20210301084257.945454-17-hch@lst.de>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <d567ad5c-5f89-effa-7260-88c6d86b4695@arm.com>
-Date: Thu, 4 Mar 2021 15:48:23 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 848D26EA2C
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 15:52:03 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3482F5C0068;
+ Thu,  4 Mar 2021 10:52:00 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Thu, 04 Mar 2021 10:52:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=b57Uf8ioZOoGZyMVnhn75H7VYbW
+ 5wt1QrSdXz9JcpVI=; b=pzvrnuPPKKki3h8dAiU7pvwK+COwsO12yACUjB6O/kc
+ tM+b5nvyeBtSGlM2E1xKrPdFuwD2VIcK1JNj4sk5iC2AR6TpDvGekDkCTHJYGqyZ
+ Cpu9uwjSYn3chjLVWHYuZHruQH1QeHnihNZSob8KAAnh6Ys1dua2EDup6pcFIa1d
+ pFHLcwuWgFRzAztj/nqJmMvOHvHX1zJniDE0s8EBEAJbIdeGtVA0TkCMhf8vu7Iq
+ TmcqG1yr0cErkJ+/jglZD4lBL1dr8//2x0rSfn3IW7+TYvYIhrgzmDAvcxLPDUP+
+ 9lv4o6sp3vYV2Cod2cbqLSfkm5J4MzLp4T6QvC3Xvtw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=b57Uf8
+ ioZOoGZyMVnhn75H7VYbW5wt1QrSdXz9JcpVI=; b=fHtWG78gQv5JoKvcgYwOsf
+ bzFdqJi1tceGno4OftALuPWefUcVJlfpfKHVdM/wIW4UJW12wY6dRYDu210OSk11
+ DypFIFDI40AJjE9QXcVyaazWQ2KNeDWX3wgo6AtvOJWYw8fBkRMYYrwuQ9O80x4n
+ 2V3b32tQsjPEq0mQ7sdbqn6nN3zS109sE5Xr8sJ5/KCdwUDs2VjKP+ZHbQw6UPkr
+ rsf96m+PXF9HeShP+7GdY2lu0UOygpiVaz8fvR0cVta4QaCnfeD9D7h7e01AhiXw
+ +bFceVIF7d327jP9LgqXAnGGoICPgRPx0oUZloMFXX+1Q3NoX05xgN8lPDGBwm4A
+ ==
+X-ME-Sender: <xms:HwJBYGGdEjS4XdKGFbTpo72cO57YAgbPSf7MiavfPxtAzPj-fVHnuQ>
+ <xme:HwJBYHVEtGCXmb1QjR0tWwMvJTMoG02AFwIS3PchJo8hOPoCFLWzVr3iBAe1aPo9F
+ 2zOXgCSO5hOwUq6ULA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddtgedgjeehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
+ gfevnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:HwJBYAKcfqvZk_e1zz8L86iRmZBcWYSlKlLb0TGA3uwRdXvYR02WZg>
+ <xmx:HwJBYAGlzZcqS8KUjo7xXlX-KbzKMlqqxJDhnuMQ7quRpxJ7LXl5dQ>
+ <xmx:HwJBYMXr_ZvTCPNGmXncrvvnLzBaaLBqMaT2zi2WokJchlXROvZOOg>
+ <xmx:IAJBYDS2HILrIXemdKzG6CdLob_Yj8s5m5o31a4LNawWbAqCN166-Q>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id D379524005B;
+ Thu,  4 Mar 2021 10:51:58 -0500 (EST)
+Date: Thu, 4 Mar 2021 16:51:57 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Marjan Pascolo <marjan.pascolo@trexom.it>
+Subject: Re: [PATCH] pinctrl/sunxi: adding input-debounce-ns property
+Message-ID: <20210304155157.5mxw7h2ul4fb673r@gilmour>
+References: <d244aa6b-00b7-d768-83cb-e5a228b7ee08@trexom.it>
+ <20210114081732.9386-1-giulio.benetti@benettiengineering.com>
+ <20210114114219.faulkwww3dhdqwmc@gilmour>
+ <c3bc06e3-4193-dc0b-b2b3-d54636481e28@trexom.it>
+ <20210217110313.ly5ly5u5vyh2s7dh@gilmour>
+ <4171ad5c-97f1-5738-9127-078fea74bbf7@trexom.it>
 MIME-Version: 1.0
-In-Reply-To: <20210301084257.945454-17-hch@lst.de>
-Content-Language: en-GB
+In-Reply-To: <4171ad5c-97f1-5738-9127-078fea74bbf7@trexom.it>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,188 +82,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- linux-arm-msm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- iommu@lists.linux-foundation.org, netdev@vger.kernel.org,
- freedreno@lists.freedesktop.org, David Woodhouse <dwmw2@infradead.org>,
- linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: linux-arm-kernel@lists.infradead.org, wens@csie.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1601649358=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-03-01 08:42, Christoph Hellwig wrote:
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Moreso than the previous patch, where the feature is at least relatively 
-generic (note that there's a bunch of in-flight development around 
-DOMAIN_ATTR_NESTING), I'm really not convinced that it's beneficial to 
-bloat the generic iommu_ops structure with private driver-specific 
-interfaces. The attribute interface is a great compromise for these 
-kinds of things, and you can easily add type-checked wrappers around it 
-for external callers (maybe even make the actual attributes internal 
-between the IOMMU core and drivers) if that's your concern.
+--===============1601649358==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="wzbll5gpg4mgw7pz"
+Content-Disposition: inline
 
-Robin.
 
-> ---
->   drivers/gpu/drm/msm/adreno/adreno_gpu.c |  2 +-
->   drivers/iommu/arm/arm-smmu/arm-smmu.c   | 40 +++++++------------------
->   drivers/iommu/iommu.c                   |  9 ++++++
->   include/linux/iommu.h                   |  9 +++++-
->   4 files changed, 29 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> index 0f184c3dd9d9ec..78d98ab2ee3a68 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -191,7 +191,7 @@ void adreno_set_llc_attributes(struct iommu_domain *iommu)
->   	struct io_pgtable_domain_attr pgtbl_cfg;
->   
->   	pgtbl_cfg.quirks = IO_PGTABLE_QUIRK_ARM_OUTER_WBWA;
-> -	iommu_domain_set_attr(iommu, DOMAIN_ATTR_IO_PGTABLE_CFG, &pgtbl_cfg);
-> +	iommu_domain_set_pgtable_attr(iommu, &pgtbl_cfg);
->   }
->   
->   struct msm_gem_address_space *
-> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> index 2e17d990d04481..2858999c86dfd1 100644
-> --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> @@ -1515,40 +1515,22 @@ static int arm_smmu_domain_enable_nesting(struct iommu_domain *domain)
->   	return ret;
->   }
->   
-> -static int arm_smmu_domain_set_attr(struct iommu_domain *domain,
-> -				    enum iommu_attr attr, void *data)
-> +static int arm_smmu_domain_set_pgtable_attr(struct iommu_domain *domain,
-> +		struct io_pgtable_domain_attr *pgtbl_cfg)
->   {
-> -	int ret = 0;
->   	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
-> +	int ret = -EPERM;
->   
-> -	mutex_lock(&smmu_domain->init_mutex);
-> -
-> -	switch(domain->type) {
-> -	case IOMMU_DOMAIN_UNMANAGED:
-> -		switch (attr) {
-> -		case DOMAIN_ATTR_IO_PGTABLE_CFG: {
-> -			struct io_pgtable_domain_attr *pgtbl_cfg = data;
-> -
-> -			if (smmu_domain->smmu) {
-> -				ret = -EPERM;
-> -				goto out_unlock;
-> -			}
-> +	if (domain->type != IOMMU_DOMAIN_UNMANAGED)
-> +		return -EINVAL;
->   
-> -			smmu_domain->pgtbl_cfg = *pgtbl_cfg;
-> -			break;
-> -		}
-> -		default:
-> -			ret = -ENODEV;
-> -		}
-> -		break;
-> -	case IOMMU_DOMAIN_DMA:
-> -		ret = -ENODEV;
-> -		break;
-> -	default:
-> -		ret = -EINVAL;
-> +	mutex_lock(&smmu_domain->init_mutex);
-> +	if (!smmu_domain->smmu) {
-> +		smmu_domain->pgtbl_cfg = *pgtbl_cfg;
-> +		ret = 0;
->   	}
-> -out_unlock:
->   	mutex_unlock(&smmu_domain->init_mutex);
-> +
->   	return ret;
->   }
->   
-> @@ -1609,7 +1591,7 @@ static struct iommu_ops arm_smmu_ops = {
->   	.device_group		= arm_smmu_device_group,
->   	.dma_use_flush_queue	= arm_smmu_dma_use_flush_queue,
->   	.dma_enable_flush_queue	= arm_smmu_dma_enable_flush_queue,
-> -	.domain_set_attr	= arm_smmu_domain_set_attr,
-> +	.domain_set_pgtable_attr = arm_smmu_domain_set_pgtable_attr,
->   	.domain_enable_nesting	= arm_smmu_domain_enable_nesting,
->   	.of_xlate		= arm_smmu_of_xlate,
->   	.get_resv_regions	= arm_smmu_get_resv_regions,
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 2e9e058501a953..8490aefd4b41f8 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -2693,6 +2693,15 @@ int iommu_domain_enable_nesting(struct iommu_domain *domain)
->   }
->   EXPORT_SYMBOL_GPL(iommu_domain_enable_nesting);
->   
-> +int iommu_domain_set_pgtable_attr(struct iommu_domain *domain,
-> +		struct io_pgtable_domain_attr *pgtbl_cfg)
-> +{
-> +	if (!domain->ops->domain_set_pgtable_attr)
-> +		return -EINVAL;
-> +	return domain->ops->domain_set_pgtable_attr(domain, pgtbl_cfg);
-> +}
-> +EXPORT_SYMBOL_GPL(iommu_domain_set_pgtable_attr);
-> +
->   void iommu_get_resv_regions(struct device *dev, struct list_head *list)
->   {
->   	const struct iommu_ops *ops = dev->bus->iommu_ops;
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index aed88aa3bd3edf..39d3ed4d2700ac 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -40,6 +40,7 @@ struct iommu_domain;
->   struct notifier_block;
->   struct iommu_sva;
->   struct iommu_fault_event;
-> +struct io_pgtable_domain_attr;
->   
->   /* iommu fault flags */
->   #define IOMMU_FAULT_READ	0x0
-> @@ -107,7 +108,6 @@ enum iommu_cap {
->    */
->   
->   enum iommu_attr {
-> -	DOMAIN_ATTR_IO_PGTABLE_CFG,
->   	DOMAIN_ATTR_MAX,
->   };
->   
-> @@ -196,6 +196,7 @@ struct iommu_iotlb_gather {
->    * @dma_enable_flush_queue: Try to enable the DMA flush queue
->    * @domain_set_attr: Change domain attributes
->    * @domain_enable_nesting: Enable nesting
-> + * @domain_set_pgtable_attr: Set io page table attributes
->    * @get_resv_regions: Request list of reserved regions for a device
->    * @put_resv_regions: Free list of reserved regions for a device
->    * @apply_resv_region: Temporary helper call-back for iova reserved ranges
-> @@ -249,6 +250,8 @@ struct iommu_ops {
->   	int (*domain_set_attr)(struct iommu_domain *domain,
->   			       enum iommu_attr attr, void *data);
->   	int (*domain_enable_nesting)(struct iommu_domain *domain);
-> +	int (*domain_set_pgtable_attr)(struct iommu_domain *domain,
-> +			struct io_pgtable_domain_attr *pgtbl_cfg);
->   
->   	/* Request/Free a list of reserved regions for a device */
->   	void (*get_resv_regions)(struct device *dev, struct list_head *list);
-> @@ -493,9 +496,13 @@ extern int iommu_group_id(struct iommu_group *group);
->   extern struct iommu_domain *iommu_group_default_domain(struct iommu_group *);
->   
->   bool iommu_dma_use_flush_queue(struct iommu_domain *domain);
-> +int iommu_domain_set_pgtable_attr(struct iommu_domain *domain,
-> +		struct io_pgtable_domain_attr *pgtbl_cfg);
->   extern int iommu_domain_set_attr(struct iommu_domain *domain, enum iommu_attr,
->   				 void *data);
->   int iommu_domain_enable_nesting(struct iommu_domain *domain);
-> +int iommu_domain_set_pgtable_attr(struct iommu_domain *domain,
-> +		struct io_pgtable_domain_attr *pgtbl_cfg);
->   
->   extern int report_iommu_fault(struct iommu_domain *domain, struct device *dev,
->   			      unsigned long iova, int flags);
-> 
+--wzbll5gpg4mgw7pz
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Feb 26, 2021 at 01:53:00PM +0100, Marjan Pascolo wrote:
+> Hi Maxime,
+>=20
+> Il 17/02/2021 12:03, Maxime Ripard ha scritto:
+> > Hi,
+> >=20
+> > On Wed, Feb 10, 2021 at 05:22:37PM +0100, Marjan Pascolo wrote:
+> > > On Allwinner SoC interrupt debounce can be controlled by two oscillat=
+or
+> > > (32KHz and 24MHz) and a prescale divider.
+> > > Oscillator and prescale divider are set through
+> > > device tree property "input-debounce" which have 1uS accuracy.
+> > > For acheive nS precision a new device tree poperty is made
+> > > named "input-debounce-ns".
+> > > "input-debounce-ns" is checked only if "input-debounce"
+> > > property is not defined.
+> > >=20
+> > > Suggested-by: Maxime Ripard <maxime@cerno.tech>
+> > > Signed-off-by: Marjan Pascolo <marjan.pascolo@trexom.it>
+> > > ---
+> > > ---
+> > >  =A0.../pinctrl/allwinner,sun4i-a10-pinctrl.yaml=A0 |=A0 9 +++++++
+> > >  =A0drivers/pinctrl/sunxi/pinctrl-sunxi.c=A0=A0=A0=A0=A0=A0=A0=A0 | 2=
+5 ++++++++++++++++---
+> > >  =A02 files changed, 30 insertions(+), 4 deletions(-)
+> > >=20
+> > > diff --git
+> > > a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinct=
+rl.yaml
+> > > b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinct=
+rl.yaml
+> > > index 5240487dfe50..346776de3a44 100644
+> > > ---
+> > > a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinct=
+rl.yaml
+> > > +++
+> > > b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinct=
+rl.yaml
+> > > @@ -93,6 +93,15 @@ properties:
+> > >  =A0=A0=A0=A0 minItems: 1
+> > >  =A0=A0=A0=A0 maxItems: 5
+> > >=20
+> > > +=A0 input-debounce-ns:
+> > > +=A0=A0=A0 description:
+> > > +=A0=A0=A0=A0=A0 Debouncing periods in nanoseconds, one period per in=
+terrupt
+> > > +=A0=A0=A0=A0=A0 bank found in the controller.
+> > > +=A0=A0=A0=A0=A0 Only checked if input-debounce is not present
+> > > +=A0=A0=A0 $ref: /schemas/types.yaml#/definitions/uint32-array
+> > > +=A0=A0=A0 minItems: 1
+> > > +=A0=A0=A0 maxItems: 5
+> > > +
+> > This should be a separate patch, with the DT maintainers in Cc.
+> >=20
+> > You should enforce that the properties are mutually exclusive through
+> > the schema too
+>=20
+> I'm sorry, I've ignored documentaion about /Documentation.
+>=20
+> I see that some additional YAML operator (like oneOf) are used.
+>=20
+> oneOf should fit the schema, but I can't understand if oneOf's options mu=
+st
+> be a literal value, or if could also be a node.
+>=20
+> Otherwise I'll use if ..then..else.
+
+dependencies is what you're looking for, not oneOf or if
+
+Maxime
+
+--wzbll5gpg4mgw7pz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYEECHQAKCRDj7w1vZxhR
+xbQNAQD7DNIY6ibok+p7Ri/WlH9zj11VeetLEFNL/J+sPfqHkwD/TuX1Muj5Vzk2
+QlPPj3sJmotBVGEczGFFMoAmc/zR9gM=
+=z3zV
+-----END PGP SIGNATURE-----
+
+--wzbll5gpg4mgw7pz--
+
+--===============1601649358==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1601649358==--
