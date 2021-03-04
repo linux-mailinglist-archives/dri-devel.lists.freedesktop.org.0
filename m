@@ -2,42 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 175B532E3C2
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 09:37:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B4F432E3BD
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 09:37:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBC7A6EB0E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A83B6E303;
 	Fri,  5 Mar 2021 08:36:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1056 seconds by postgrey-1.36 at gabe;
- Thu, 04 Mar 2021 09:19:47 UTC
-Received: from m12-14.163.com (m12-14.163.com [220.181.12.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B62736EA17
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 09:19:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=XqR7Y
- MSkZJXyMrPRdGCfI1mzopJWNr2t2Xyn/TQd1K8=; b=CnZPW7rD+VFECVbW1hvAW
- eDYnmPIZx0beEiqe64kTS83tuHwEM+P0O0iJVQTE0T/wSg8jCC2nxGh9upyEIEpl
- qSfwez9mOkkCguHyN4ISV8SaAM/rTW0DNGhMwU5iBJJFBW1S+l6bebOTuqoDwsiT
- zOvbpQSV22IC7Zwu9oSXmA=
-Received: from COOL-20201210PM.ccdomain.com (unknown [218.94.48.178])
- by smtp10 (Coremail) with SMTP id DsCowABXZZmyoUBg0zCSng--.12062S2;
- Thu, 04 Mar 2021 17:00:37 +0800 (CST)
-From: zuoqilin1@163.com
-To: b.zolnierkie@samsung.com, rdunlap@infradead.org, tzimmermann@suse.de,
- vaibhavgupta40@gmail.com, joe@perches.com
-Subject: [PATCH] video: Fix typo issue
-Date: Thu,  4 Mar 2021 17:00:31 +0800
-Message-Id: <20210304090031.2359-1-zuoqilin1@163.com>
-X-Mailer: git-send-email 2.28.0.windows.1
+X-Greylist: delayed 555 seconds by postgrey-1.36 at gabe;
+ Thu, 04 Mar 2021 11:19:26 UTC
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DAFB6EA19;
+ Thu,  4 Mar 2021 11:19:26 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id A5EF3321; Thu,  4 Mar 2021 12:10:08 +0100 (CET)
+Date: Thu, 4 Mar 2021 12:10:04 +0100
+From: Joerg Roedel <joro@8bytes.org>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: cleanup unused or almost unused IOMMU APIs and the FSL PAMU driver
+Message-ID: <20210304111004.GA26414@8bytes.org>
+References: <20210301084257.945454-1-hch@lst.de>
 MIME-Version: 1.0
-X-CM-TRANSID: DsCowABXZZmyoUBg0zCSng--.12062S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWruFy8AFW7Ww1rCr4DGw4UJwb_yoWfArb_A3
- 48WF9rXrW29r1kGr1ktayDZrWay34xXr1UXwnxt34rJFW7Wr9Y934Dur1xWayjgrWUJa43
- Zw1vgFyxXF4fCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUY5HUDUUUUU==
-X-Originating-IP: [218.94.48.178]
-X-CM-SenderInfo: 52xr1xpolqiqqrwthudrp/xtbBRRVLiVPAKTvT+AAAs4
+Content-Disposition: inline
+In-Reply-To: <20210301084257.945454-1-hch@lst.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Approved-At: Fri, 05 Mar 2021 08:36:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,39 +39,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zuoqilin <zuoqilin@yulong.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, kvm@vger.kernel.org,
+ Will Deacon <will@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ dri-devel@lists.freedesktop.org, Li Yang <leoyang.li@nxp.com>,
+ iommu@lists.linux-foundation.org, netdev@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ linuxppc-dev@lists.ozlabs.org, David Woodhouse <dwmw2@infradead.org>,
+ linux-arm-kernel@lists.infradead.org, Lu Baolu <baolu.lu@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: zuoqilin <zuoqilin@yulong.com>
+On Mon, Mar 01, 2021 at 09:42:40AM +0100, Christoph Hellwig wrote:
+> Diffstat:
+>  arch/powerpc/include/asm/fsl_pamu_stash.h   |   12 
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c     |    2 
+>  drivers/iommu/amd/iommu.c                   |   23 
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |   85 ---
+>  drivers/iommu/arm/arm-smmu/arm-smmu.c       |  122 +---
+>  drivers/iommu/dma-iommu.c                   |    8 
+>  drivers/iommu/fsl_pamu.c                    |  264 ----------
+>  drivers/iommu/fsl_pamu.h                    |   10 
+>  drivers/iommu/fsl_pamu_domain.c             |  694 ++--------------------------
+>  drivers/iommu/fsl_pamu_domain.h             |   46 -
+>  drivers/iommu/intel/iommu.c                 |   55 --
+>  drivers/iommu/iommu.c                       |   75 ---
+>  drivers/soc/fsl/qbman/qman_portal.c         |   56 --
+>  drivers/vfio/vfio_iommu_type1.c             |   31 -
+>  drivers/vhost/vdpa.c                        |   10 
+>  include/linux/iommu.h                       |   81 ---
+>  16 files changed, 214 insertions(+), 1360 deletions(-)
 
-Change 'frequncy' to 'frequency'.
+Nice cleanup, thanks. The fsl_pamu driver and interface has always been
+a little bit of an alien compared to other IOMMU drivers. I am inclined
+to merge this after -rc3 is out, given some reviews. Can you also please
+add changelogs to the last three patches?
 
-Signed-off-by: zuoqilin <zuoqilin@yulong.com>
----
- drivers/video/fbdev/aty/atyfb_base.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks,
 
-diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
-index e946903a..83b76d3 100644
---- a/drivers/video/fbdev/aty/atyfb_base.c
-+++ b/drivers/video/fbdev/aty/atyfb_base.c
-@@ -3390,7 +3390,7 @@ static int init_from_bios(struct atyfb_par *par)
- 
- 		PRINTKI("Mach64 BIOS is located at %x, mapped at %x.\n", rom_addr, bios_base);
- 
--		/* check for frequncy table */
-+		/* check for frequency table */
- 		bios_ptr = (u8*)bios_base;
- 		rom_table_offset = (u16)(bios_ptr[0x48] | (bios_ptr[0x49] << 8));
- 		freq_table_offset = bios_ptr[rom_table_offset + 16] | (bios_ptr[rom_table_offset + 17] << 8);
--- 
-1.9.1
-
-
+	Joerg
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
