@@ -1,47 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC71232BF3D
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 00:51:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9246032C39D
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 01:22:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4CE6896ED;
-	Wed,  3 Mar 2021 23:51:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47DA36E448;
+	Thu,  4 Mar 2021 00:22:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A4C9896ED
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 23:51:44 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DF33964F41
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Mar 2021 23:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614815502;
- bh=4yS5iyJsfhsmr+JcD2q/iH0huGBVo0X7ndYyoZeb90s=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Wcwfy2oLdCegFM+NSj5hIFVc7IO8f2MbMGQGKYiV4XONi62oteEtvl+UFt7TgUooX
- xiruDUU4P/IxGiiuoopVydls3hf2BifOFr2bt8yvypmBGYvhHvLEn6m6Ktj44nFMRj
- 7ZOo6u6VD2EG9ooX02rLJ3SYXMg7kraYH/js/b7pXTTCo4o4Q8l5NPm7DhpBExYjrN
- IyFDCuHCiNN3XddxFZxvFnaBHSFfJyOjNp6dYsuCwvMxp3zL8ky0CqyQAa5uqaF/ls
- ST/IYm6MOPIVvf4xZ9X8MfzmxAy6Y0APTx5JZhlHvEuFTk+wD8xY8ix3gm1zdHZEsT
- gR9zYjPEVUKgQ==
-Received: by mail-ej1-f50.google.com with SMTP id ci14so26738356ejc.7
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 15:51:41 -0800 (PST)
-X-Gm-Message-State: AOAM5338KiZvzU9qR9eJowINXjf+UbIgCl+5OMeF62A2aC23J0TXmfeC
- pOD2NJAIrrWdkOq2f+fAdQB1F5Z6QgDKOSA+0A==
-X-Google-Smtp-Source: ABdhPJxjTF125VBav37vNTxcoNrEEtc96QdczKSVNaMWeC6x43SJnAkfM2Ubk2nF5FkmmMzIcHZNXpwWfscGCx+RprI=
-X-Received: by 2002:a17:906:a106:: with SMTP id
- t6mr1209918ejy.63.1614815500452; 
- Wed, 03 Mar 2021 15:51:40 -0800 (PST)
+Received: from m42-2.mailgun.net (m42-2.mailgun.net [69.72.42.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E6C86E448
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 00:22:19 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1614817339; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=2aRVPyBEMl+RGf7YTiFr6GVO3CZ1fdkjT1ey8/UYb4U=;
+ b=cSpNNeYbGLawWVlJ3GBqdKku0NiUSbOSs/rKKGeGNUn89iZRHYLWE6eTrcDkdVXjhtI880SE
+ Ng/c5XWw2KmouGkzPzy7bBXtYFOrr4Cne99ck4qkhjdpr7asUVvNUdYCQOWkv+cGessGvdUf
+ tq7gvtnEWypQsyKDW7fR6EpH2V0=
+X-Mailgun-Sending-Ip: 69.72.42.2
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 60402838e5eea4c43b1d3e62 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 04 Mar 2021 00:22:16
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 85937C5382B; Thu,  4 Mar 2021 00:22:16 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 9F75EC2E895;
+ Thu,  4 Mar 2021 00:22:12 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210223215057.125708-1-robh@kernel.org>
-In-Reply-To: <20210223215057.125708-1-robh@kernel.org>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 4 Mar 2021 07:51:29 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-x2RTU9c0=ibRdiO8-o8F0GU0DNa5UDSeKsmboSJfHDw@mail.gmail.com>
-Message-ID: <CAAOTY_-x2RTU9c0=ibRdiO8-o8F0GU0DNa5UDSeKsmboSJfHDw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: mediatek,
- dpi: Convert to use graph schema
-To: Rob Herring <robh@kernel.org>
+Date: Wed, 03 Mar 2021 16:22:12 -0800
+From: abhinavk@codeaurora.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH] gpu/drm/msm: fix shutdown hook in case GPU components
+ failed to bind
+In-Reply-To: <20210301214152.1805737-1-dmitry.baryshkov@linaro.org>
+References: <20210301214152.1805737-1-dmitry.baryshkov@linaro.org>
+Message-ID: <d4ded333eb80ac51d416bd48cd5483c3@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,50 +63,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DTML <devicetree@vger.kernel.org>, Jitao shi <jitao.shi@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Sean Paul <sean@poorly.run>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFJvYjoKClJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+IOaWvCAyMDIx5bm0MuaciDI0
-5pelIOmAseS4iSDkuIrljYg1OjUx5a+r6YGT77yaCj4KPiBVcGRhdGUgdGhlIG1lZGlhdGVrLGRw
-aSBiaW5kaW5nIHRvIHVzZSB0aGUgZ3JhcGggc2NoZW1hLiBNaXNzZWQKPiB0aGlzIG9uZSBmcm9t
-IHRoZSBtYXNzIGNvbnZlcnNpb24gc2luY2UgaXQncyBub3QgcGFydCBvZiBkcm0tbWlzYy4KCkFw
-cGxpZWQgdG8gbWVkaWF0ZWstZHJtLW5leHQgWzFdLCB0aGFua3MuCgpbMV0gaHR0cHM6Ly9naXQu
-a2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvY2h1bmt1YW5nLmh1L2xpbnV4Lmdp
-dC9sb2cvP2g9bWVkaWF0ZWstZHJtLW5leHQKClJlZ2FyZHMsCkNodW4tS3VhbmcuCgo+Cj4gQ2M6
-IENodW4tS3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwub3JnPgo+IENjOiBQaGlsaXBwIFph
-YmVsIDxwLnphYmVsQHBlbmd1dHJvbml4LmRlPgo+IENjOiBNYXR0aGlhcyBCcnVnZ2VyIDxtYXR0
-aGlhcy5iZ2dAZ21haWwuY29tPgo+IENjOiBDSyBIdSA8Y2suaHVAbWVkaWF0ZWsuY29tPgo+IENj
-OiBKaXRhbyBzaGkgPGppdGFvLnNoaUBtZWRpYXRlay5jb20+Cj4gQ2M6IGRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogbGludXgtbWVkaWF0ZWtAbGlzdHMuaW5mcmFkZWFkLm9y
-Zwo+IFNpZ25lZC1vZmYtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Cj4gLS0tCj4g
-IC4uLi9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRwaS55YW1sICAgICAgIHwg
-MTEgKysrLS0tLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgOCBkZWxl
-dGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxkcGkueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2
-aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRwaS55YW1sCj4gaW5k
-ZXggNmNkYjczNGM5MWE5Li5lYjg0YjUzY2FiYjEgMTAwNjQ0Cj4gLS0tIGEvRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZHBpLnlhbWwK
-PiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRl
-ay9tZWRpYXRlayxkcGkueWFtbAo+IEBAIC01MCwxNSArNTAsMTAgQEAgcHJvcGVydGllczoKPiAg
-ICAgICAgLSBjb25zdDogc2xlZXAKPgo+ICAgIHBvcnQ6Cj4gLSAgICB0eXBlOiBvYmplY3QKPiAr
-ICAgICRyZWY6IC9zY2hlbWFzL2dyYXBoLnlhbWwjL3Byb3BlcnRpZXMvcG9ydAo+ICAgICAgZGVz
-Y3JpcHRpb246Cj4gLSAgICAgIE91dHB1dCBwb3J0IG5vZGUgd2l0aCBlbmRwb2ludCBkZWZpbml0
-aW9ucyBhcyBkZXNjcmliZWQgaW4KPiAtICAgICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL2dyYXBoLnR4dC4gVGhpcyBwb3J0IHNob3VsZCBiZSBjb25uZWN0ZWQKPiAtICAgICAg
-dG8gdGhlIGlucHV0IHBvcnQgb2YgYW4gYXR0YWNoZWQgSERNSSBvciBMVkRTIGVuY29kZXIgY2hp
-cC4KPiAtCj4gLSAgICBwcm9wZXJ0aWVzOgo+IC0gICAgICBlbmRwb2ludDoKPiAtICAgICAgICB0
-eXBlOiBvYmplY3QKPiArICAgICAgT3V0cHV0IHBvcnQgbm9kZS4gVGhpcyBwb3J0IHNob3VsZCBi
-ZSBjb25uZWN0ZWQgdG8gdGhlIGlucHV0IHBvcnQgb2YgYW4KPiArICAgICAgYXR0YWNoZWQgSERN
-SSBvciBMVkRTIGVuY29kZXIgY2hpcC4KPgo+ICByZXF1aXJlZDoKPiAgICAtIGNvbXBhdGlibGUK
-PiAtLQo+IDIuMjcuMAo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo=
+On 2021-03-01 13:41, Dmitry Baryshkov wrote:
+> if GPU components have failed to bind, shutdown callback would fail 
+> with
+> the following backtrace. Add safeguard check to stop that oops from
+> happening and allow the board to reboot.
+> 
+> [   66.617046] Unable to handle kernel NULL pointer dereference at
+> virtual address 0000000000000000
+> [   66.626066] Mem abort info:
+> [   66.628939]   ESR = 0x96000006
+> [   66.632088]   EC = 0x25: DABT (current EL), IL = 32 bits
+> [   66.637542]   SET = 0, FnV = 0
+> [   66.640688]   EA = 0, S1PTW = 0
+> [   66.643924] Data abort info:
+> [   66.646889]   ISV = 0, ISS = 0x00000006
+> [   66.650832]   CM = 0, WnR = 0
+> [   66.653890] user pgtable: 4k pages, 48-bit VAs, 
+> pgdp=0000000107f81000
+> [   66.660505] [0000000000000000] pgd=0000000100bb2003,
+> p4d=0000000100bb2003, pud=0000000100897003, pmd=0000000000000000
+> [   66.671398] Internal error: Oops: 96000006 [#1] PREEMPT SMP
+> [   66.677115] Modules linked in:
+> [   66.680261] CPU: 6 PID: 352 Comm: reboot Not tainted
+> 5.11.0-rc2-00309-g79e3faa756b2 #38
+> [   66.688473] Hardware name: Qualcomm Technologies, Inc. Robotics RB5 
+> (DT)
+> [   66.695347] pstate: 60400005 (nZCv daif +PAN -UAO -TCO BTYPE=--)
+> [   66.701507] pc : msm_atomic_commit_tail+0x78/0x4e0
+> [   66.706437] lr : commit_tail+0xa4/0x184
+> [   66.710381] sp : ffff8000108f3af0
+> [   66.713791] x29: ffff8000108f3af0 x28: ffff418c44337000
+> [   66.719242] x27: 0000000000000000 x26: ffff418c40a24490
+> [   66.724693] x25: ffffd3a842a4f1a0 x24: 0000000000000008
+> [   66.730146] x23: ffffd3a84313f030 x22: ffff418c444ce000
+> [   66.735598] x21: ffff418c408a4980 x20: 0000000000000000
+> [   66.741049] x19: 0000000000000000 x18: ffff800010710fbc
+> [   66.746500] x17: 000000000000000c x16: 0000000000000001
+> [   66.751954] x15: 0000000000010008 x14: 0000000000000068
+> [   66.757405] x13: 0000000000000001 x12: 0000000000000000
+> [   66.762855] x11: 0000000000000001 x10: 00000000000009b0
+> [   66.768306] x9 : ffffd3a843192000 x8 : ffff418c44337000
+> [   66.773757] x7 : 0000000000000000 x6 : 00000000a401b34e
+> [   66.779210] x5 : 00ffffffffffffff x4 : 0000000000000000
+> [   66.784660] x3 : 0000000000000000 x2 : ffff418c444ce000
+> [   66.790111] x1 : ffffd3a841dce530 x0 : ffff418c444cf000
+> [   66.795563] Call trace:
+> [   66.798075]  msm_atomic_commit_tail+0x78/0x4e0
+> [   66.802633]  commit_tail+0xa4/0x184
+> [   66.806217]  drm_atomic_helper_commit+0x160/0x390
+> [   66.811051]  drm_atomic_commit+0x4c/0x60
+> [   66.815082]  drm_atomic_helper_disable_all+0x1f4/0x210
+> [   66.820355]  drm_atomic_helper_shutdown+0x80/0x130
+> [   66.825276]  msm_pdev_shutdown+0x14/0x20
+> [   66.829303]  platform_shutdown+0x28/0x40
+> [   66.833330]  device_shutdown+0x158/0x330
+> [   66.837357]  kernel_restart+0x40/0xa0
+> [   66.841122]  __do_sys_reboot+0x228/0x250
+> [   66.845148]  __arm64_sys_reboot+0x28/0x34
+> [   66.849264]  el0_svc_common.constprop.0+0x74/0x190
+> [   66.854187]  do_el0_svc+0x24/0x90
+> [   66.857595]  el0_svc+0x14/0x20
+> [   66.860739]  el0_sync_handler+0x1a4/0x1b0
+> [   66.864858]  el0_sync+0x174/0x180
+> [   66.868269] Code: 1ac020a0 2a000273 eb02007f 54ffff01 (f9400285)
+> [   66.874525] ---[ end trace 20dedb2a3229fec8 ]---
+> 
+> Fixes: 9d5cbf5fe46e ("drm/msm: add shutdown support for display
+> platform_driver")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/msm_atomic.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_atomic.c 
+> b/drivers/gpu/drm/msm/msm_atomic.c
+> index 6a326761dc4a..2fd0cf6421ad 100644
+> --- a/drivers/gpu/drm/msm/msm_atomic.c
+> +++ b/drivers/gpu/drm/msm/msm_atomic.c
+> @@ -207,7 +207,12 @@ void msm_atomic_commit_tail(struct 
+> drm_atomic_state *state)
+>  	struct msm_kms *kms = priv->kms;
+>  	struct drm_crtc *async_crtc = NULL;
+>  	unsigned crtc_mask = get_crtc_mask(state);
+> -	bool async = kms->funcs->vsync_time &&
+> +	bool async;
+> +
+> +	if (!kms)
+> +		return;
+> +
+> +	async = kms->funcs->vsync_time &&
+>  			can_do_async(state, &async_crtc);
+> 
+>  	trace_msm_atomic_commit_tail_start(async, crtc_mask);
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
