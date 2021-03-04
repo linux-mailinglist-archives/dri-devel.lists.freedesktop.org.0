@@ -1,74 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E25532CDE4
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 08:46:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DDFF32CDEB
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 08:48:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE5B66E9FE;
-	Thu,  4 Mar 2021 07:46:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 383016EA03;
+	Thu,  4 Mar 2021 07:48:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53ED36E9FE;
- Thu,  4 Mar 2021 07:46:29 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id mj10so27390729ejb.5;
- Wed, 03 Mar 2021 23:46:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language;
- bh=mw9FcVdR9rQzHHZj0vnCkJGH7I+pJ8JEfes/9h+ULVI=;
- b=BQZgca85d2XnSC7/nC4c+B3dWtNClTTkyQdWrUw7CbZgeaVBQfJWrc8dDV1MDv2+bI
- JLZ/VkG2oVRaKUql7WK5dN+IP2hST2h9QzfdDanBmKQtoQFsw620+JYe1D8fIXPVs24g
- yBvrGU99HVlwiFGrbLx3ocCZyoPC4RFXRGdsd3PAm0MyrZ4TzT9iv9HUKf3FqzvbDNIK
- 0PgGaBqn3LdRmYvwzO8t3Vk9tcBk8l2HvAluDjcxjq63nrgQx4TdO1iIKC7j47R7nZhB
- quYORluFFRzwxLGMkR375QsZD8XD6oYY3NTXJp6WL0/PWgZm4m1MoosuXcm+Q8n/N81m
- TcKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language;
- bh=mw9FcVdR9rQzHHZj0vnCkJGH7I+pJ8JEfes/9h+ULVI=;
- b=cOoEsZLqFpUwbKW6LQCQPndixiS9ED2dyPoARPwnPfNlzk1N7TN0r4ovQ/ucH5IquH
- HiwoSpJM/hH14+zvX+BhCVpzaVnuk3XpMqRTNr+ZC9P1QRtqK9XQcY3nsNL5FS/C/e6U
- DBWyxg/7rapZllYa4TFwyx70SsCNwLwo9Dx1a0Ox/q1L6x7eQARH/dAVmPa1rT0vwP1z
- cftA3TLZvsdPgM51oeDkNeeneyhprCz4CM062BJroNtFdxKmxqoaveg0XYbgCGVATg+F
- y2IVCX1ZLrFhW/AhmGzxYPlYYsD/pZm1vRO7TKpyz4KFa3mWh2CxHipNJlxiPVEz4YNe
- 0LSQ==
-X-Gm-Message-State: AOAM533stlrM7ee2HIYZWRoG7QRmrJoRenyzjXXwTYOq2oWCOAWNXr2u
- /783ut1cvQDxlPoSLUWTLOg=
-X-Google-Smtp-Source: ABdhPJw2pewmjKhSqidGFD0NCAILMtXo141txBPvgiKRUumLZjYlz3Y+zhl+iWCBqmnBVPif3po5eA==
-X-Received: by 2002:a17:906:f88a:: with SMTP id
- lg10mr2896144ejb.39.1614843987964; 
- Wed, 03 Mar 2021 23:46:27 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:64f0:29b:e922:7ee4?
- ([2a02:908:1252:fb60:64f0:29b:e922:7ee4])
- by smtp.gmail.com with ESMTPSA id b18sm22676046ejb.77.2021.03.03.23.46.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Mar 2021 23:46:27 -0800 (PST)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2058.outbound.protection.outlook.com [40.107.94.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCE156EA02;
+ Thu,  4 Mar 2021 07:48:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lG/SDkZeWDYIQo57/2y7UZjVcUhonSLxp5Dvzn0ehSVldw2rsl26SXjBuvwAz6Gh4qlSLoDv0apaPeAOFfWXnUmZVbg6Oi/zTJmH+/doJqy7mwASpRkuwlB/t9JFKmPEQNpj6g1P4iYIjDxZqMfOhO78Z8b4AN6959nKVqXykRJc4prJgVMHs0Wwr7/BYsnA68II4f0eI2cDMCdA1dAF5I7URjJNVFuCE94CW4LAWok3icBrB2zUy1rji55UD22eSf9M2aWwzESyMF+xMast/0UbJdCsZ+33N+9V8wnsImeuL62lIQJViewiKVNIYRy3XN1J6dn2npGR8B0gh3SLFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y6mDwO/uoFvlqtIU6ayf6GSbyVdhjRavEFrnD+aLs4o=;
+ b=H/JMNBwt0bu/ZV5IQwFaD+nNEzdSb7/5UAjtrWdT/ntUNH8PxODpLtc8C4yNoHMCP25x8yGzycbyttMEqmkV8xl71eje0cWH7FDrfAT+mZ5aSdqCjf0fPtOpG199JITtgcWdhcDzDKy5DOSnPTdhkbOb4JWWusX/8g1qtHwvwfz0I/efYDcjtqTu1TljQOt9a3rbbj9TFgJbDg6nsyvJB8ibYGD2Hc3bGjGnYK7ZxzFuPZDCD6MpIZCyGdW2p2YTp2vcT1qmLOHV2+c42jKf5ATFGsFlRnwjOT+siuaFSRhN8kDR8oxu7xd7rVoalu5WiO+KEQH49/FEy2piNqJoTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y6mDwO/uoFvlqtIU6ayf6GSbyVdhjRavEFrnD+aLs4o=;
+ b=ia0LjtrQp9xJQ03lJfDtpP+z7bobXMZrmjJKnwmq3655y5f9VSff8R2haW8BsZX/b9hoiJk8da5EmSfZxEC1LJMuOa3i2p7tW/qhZPnQajSpIXt+YlkpzfZZAhnJk5PshK6MehzuTo4MTd1mFyBW7EdEqiI42MrZyJog0Hjrvaw=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4255.namprd12.prod.outlook.com (2603:10b6:208:198::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17; Thu, 4 Mar
+ 2021 07:48:06 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3912.017; Thu, 4 Mar 2021
+ 07:48:06 +0000
 Subject: Re: [PATCH] drm/ttm: ioremap buffer according to TTM mem caching
  setting
-To: "Zeng, Oak" <Oak.Zeng@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- "dan.j.williams@intel.com" <dan.j.williams@intel.com>
-References: <1614638628-10508-1-git-send-email-Oak.Zeng@amd.com>
- <202103021104.NudsKKei-lkp@intel.com>
- <34b706ca-d15f-223f-e1a3-2ec071d578a2@gmail.com>
- <DM6PR12MB4732C8CF2FE2642A44B32C9C80999@DM6PR12MB4732.namprd12.prod.outlook.com>
- <c64ab60b-6541-6a78-d30e-9d2904debcd0@gmail.com>
- <DM6PR12MB4732BD6E9C9C1AE00CD1713380989@DM6PR12MB4732.namprd12.prod.outlook.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <4fcb0d6d-3e44-c3b0-0c10-2b0a32932c8d@gmail.com>
-Date: Thu, 4 Mar 2021 08:46:26 +0100
+To: Oak Zeng <Oak.Zeng@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, brahma_sw_dev@amd.com
+References: <1614805925-32431-1-git-send-email-Oak.Zeng@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <eadf2818-2365-8b01-79a9-266bcde2f00d@amd.com>
+Date: Thu, 4 Mar 2021 08:48:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <DM6PR12MB4732BD6E9C9C1AE00CD1713380989@DM6PR12MB4732.namprd12.prod.outlook.com>
+In-Reply-To: <1614805925-32431-1-git-send-email-Oak.Zeng@amd.com>
 Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:64f0:29b:e922:7ee4]
+X-ClientProxiedBy: AM9P195CA0010.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21f::15) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:64f0:29b:e922:7ee4]
+ (2a02:908:1252:fb60:64f0:29b:e922:7ee4) by
+ AM9P195CA0010.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:21f::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3890.20 via Frontend Transport; Thu, 4 Mar 2021 07:48:04 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: d04f076a-ad7d-4d86-d6e7-08d8dee1d8ca
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4255:
+X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB42557ABF47081E6C15B7616B83979@MN2PR12MB4255.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CXvtRJ4Tb2pTpzoIEhK4ePblsYqfan82ntIzzjikr7Wup4x6agWL16mRSiW3cs8k729fFGqFvrCaALtOR8iPufMLrP2XKV+ZPJKRlHyGds94AadIxR3k5NqDn7K/HUq7yDUZJfls92AZiQ0t16dCVICTM3lWVhZYg1V9rU9p5M9mvFV6l89URA9OJx5c4iVLW9Dow7CmrppVdSNZDMGLIhX5g+XKcTR3kwTX9hWCzQmKfqdBH9Yg4q/5PuZvnmIO9cyAEQDinDAR2KLbjfNMVP7UvIp4b3xDMLbZPNhXMvv9HO+XdvvBKjnhZKsEh3BNMCasTfLtJKfYio3B/2Zi8t1cW4cMvFWl+l4lQzzVxov1+Zq4GqGXt7+L+H4QrPfVkRiFc8dguGYi4UUsgvEirxDgfEusMMuRD1iil/vaW4A+krYp1Uybn3+viHaa1/CdeL99ppBkDRs3jHIfwtdCJXRhQO7/055UK2hmH9uhZfeHKu6pE+64h4G2mWV/hrkXqbwzz3FsK1YQsI+zomo8HiVk6LpiPwLydAGlwl+8Cmmw0XySzj33JTGH9qOyEfbYEeypbM6qGVVbgSjPp9OK1lXJfdmgHuT5+tishJWgFgs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(366004)(136003)(346002)(376002)(396003)(66946007)(6636002)(4326008)(8676002)(36756003)(450100002)(66556008)(6486002)(66476007)(316002)(6666004)(478600001)(86362001)(2616005)(31686004)(31696002)(52116002)(5660300002)(2906002)(186003)(8936002)(16526019)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?QjJoVzhMRjJ0SGhIanBmRHJvdHV4SHFyWXFBZ0tIT2xudFJpMlpqQlhmM2F3?=
+ =?utf-8?B?cURUc1pySTU1NkIxb1oxSEpxdWV2T2syaklWaUVqNGdrQ1VNODk2Y0VJWSty?=
+ =?utf-8?B?OXNPaURCTHV0MFlyVGRSMkRIRjNjVmRxY2lJWTVBZEdpN0ZwdFIrRTZ1aXQ2?=
+ =?utf-8?B?YUhPVEZleFhHL3QxY1ZybDQxTCtITngyWG45Q3l5QlhCeDJ4akFqRS83Qk1W?=
+ =?utf-8?B?cVhsTXlWazFzUzNlditHYlZTK3lLSnROMUUvTlYrWVoyYnNKSHNyVXljNUFp?=
+ =?utf-8?B?dlpZZ1ZGQ1kvRXBEMDNGZStwa1RFeXpwUGNNclp0N0c0SlBaZjBST0hOYUl5?=
+ =?utf-8?B?ei9naTFMUkdNZ1pyUHBYd3JzOEVSMjJZd2ZmSHpIL3VIVFZKOEYveTBrM3NL?=
+ =?utf-8?B?citNeitKWG1xbzlWZGdzdzhTZkUvMlZ6UjY4RitCbEh4NTRUdHRaQ2FQOWRP?=
+ =?utf-8?B?VUpPckpnZEI1R0UvWHljdmFGUTA4bWtKNVRkT3NIK1MxMkVyK1c3ZFI0S3kz?=
+ =?utf-8?B?SzRNTnZ5d21YVVhSeEwrOVlacVlOUDRFQ3ptRTVtYmladU0wNUFXaWNRQVJN?=
+ =?utf-8?B?SFozR1JGamk4Y214dzBmcVdiRUF3cVI3SXNCSTZ0SjVsNHhhUFBZd2F3S01Q?=
+ =?utf-8?B?MUM4bUVITHZlNkI0MmNUWnYrVEY5RHAvZHVjVHhlL0RRV0E3dTh6TlU0T0ti?=
+ =?utf-8?B?N3ppVGVxaytCRXlnRFpTV1BIUkxib1ZOeitjc0RkMVA1MFRqdkpMVFNKZXZC?=
+ =?utf-8?B?d1RXVEhUdSs1SGdGaTIvTnJBUUk1QSs4K1RDUUZxZ2NQbTNlb3QxWWVsZmFD?=
+ =?utf-8?B?c1ozRTFlY3ZZYno3ZkVuM0p3SU1GYzhXQ1d1aWsrSi9RUnR4dStjaWFmV0xV?=
+ =?utf-8?B?cGhoUEp5akZkaEVxdVhTYWNFb1h3bG5DVTJCYlkwbnYwV3VNTkx3YitieEE5?=
+ =?utf-8?B?U25lbmNGNG1NazZlenVHelBaZ3B6ZVBjRTV2bjF4Q1hNYXZ6b3BlU1pBNTJi?=
+ =?utf-8?B?elV6YlRPL1FvY3pRNDRwUElzU0dCRG8zK2pBWDlaRURiSFVlUXBscktJY1V6?=
+ =?utf-8?B?QUFMM24ydHBHdTlxTVlrSEpXWTl0NVJmK0J5Wjk4Sm5JbmJYNE9MeDBCOWwr?=
+ =?utf-8?B?NkNscHhKaTJnRkpjZ0dWZnRkekp3aFdKQkhURSttV2hFdTlFdk4wOHd3bmpR?=
+ =?utf-8?B?SysrTEZWNlFadk5OdkFERVFXVmE0Z3UyNEZreE5QVnFGNkYyRTNodHZjejla?=
+ =?utf-8?B?KzNRNTJ0UTcyRVVQcVNhdENqZk42TzZmWUk5bGVHWk9BclQvUG9keTNyekx0?=
+ =?utf-8?B?aUkzcDFoUm5WNUxPbVU1MDdUeThuOWdxSnJlZ1hxWFByYW85M0FRRk8rYlZL?=
+ =?utf-8?B?NWd3RW56d3VHc2JNSDcyNzNFU0p2dFltUHpZSG9xWHdvcmVmQjQ4L2I0MlFF?=
+ =?utf-8?B?aml4R3BaQ1pkZE1XVm83cm1xei8zdmNMNFBzSFR3bFJFT2V6NUVLYWdiVjZ6?=
+ =?utf-8?B?YnV2Vk95WkJCelBaNGRQSjBYNUhVVnZzcFgwNVQ1WUVTM0owWGZYS0JKcmdK?=
+ =?utf-8?B?MS83NVVNZTlBMDBoVDV4TkRwRlR5YldWRUJWTjJIcGFRbng1MTFvN1ltOFpp?=
+ =?utf-8?B?TUtUc2JCTmdKR1E0djNwR2RqSlN4OU1ZVXhhOUNsWkdzYklNSW9XbHhsa0lT?=
+ =?utf-8?B?SFphVzRCZXF0YjRZSlZtUHZQNERhYTB4bVVUSDloRzgrVDFHY3dQK1lWWnVJ?=
+ =?utf-8?B?aFVobTZZSTNIc1VHVEpERExqRWFzQ0dMM2dqYkRxTU5Pd1VBQm03eTVDY0oy?=
+ =?utf-8?B?NjNRS3NPYkdGc3o5VGZXSFBDRmV0cG9ONklRa3I3eVNFeEdUOVBlSndZTGNr?=
+ =?utf-8?Q?4XjVYP03Ho4ao?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d04f076a-ad7d-4d86-d6e7-08d8dee1d8ca
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2021 07:48:06.3822 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k/34s+mb+Hl9ZThAYuewgVlZ1YR8ohwJMyClgVy60HxanauWgDqyffHBqBIzvEB4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4255
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,741 +130,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>, "Kuehling,
- Felix" <Felix.Kuehling@amd.com>, "Kasiviswanathan,
- Harish" <Harish.Kasiviswanathan@amd.com>, "Huang,
- JinHuiEric" <JinHuiEric.Huang@amd.com>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
-Content-Type: multipart/mixed; boundary="===============1533533628=="
+Cc: Alexander.Deucher@amd.com, jinhuieric.huang@amd.com, Felix.Kuehling@amd.com,
+ harish.kasiviswanathan@amd.com
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---===============1533533628==
-Content-Type: multipart/alternative;
- boundary="------------6D60D1BF07A71B2A655DF29E"
-Content-Language: en-US
-
-This is a multi-part message in MIME format.
---------------6D60D1BF07A71B2A655DF29E
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Hi Oak,
-
-as far as I know some architectures like PowerPC/ARM/MIPS need that. And 
-we at least officially support PowerPC and ARM and MIPS is best effort 
-and shouldn't break if possible.
-
-Thomas just recently had a whole bunch of DMA-buf patches to also fix 
-that up for DMA-bufs vmap as well, previously we have just been casting 
-away the __iomem and hoped that it always works.
+I think we should check for CONFIG_X86 instead, but in general it sounds 
+like the right approach to me for now.
 
 Regards,
 Christian.
 
-Am 03.03.21 um 21:59 schrieb Zeng, Oak:
->
-> [AMD Official Use Only - Internal Distribution Only]
->
->
-> Hi Christian,
->
-> Can you explain why __iomem annotation is mandatory for amdgpu driver? 
-> If this is the case, we can’t switch to memremap. The only fix seems 
-> to me is add a #ifdef __x86_64__ to the ioremap_cache codes.
->
-> Regards,
->
-> Oak
->
-> *From:* Christian König <ckoenig.leichtzumerken@gmail.com>
-> *Sent:* Wednesday, March 3, 2021 5:46 AM
-> *To:* Zeng, Oak <Oak.Zeng@amd.com>; amd-gfx@lists.freedesktop.org; 
-> dri-devel@lists.freedesktop.org; Daniel Vetter <daniel@ffwll.ch>; Dave 
-> Airlie <airlied@redhat.com>; Thomas Hellström (Intel) 
-> <thomas_os@shipmail.org>; dan.j.williams@intel.com
-> *Cc:* kbuild-all@lists.01.org; Kuehling, Felix 
-> <Felix.Kuehling@amd.com>; Kasiviswanathan, Harish 
-> <Harish.Kasiviswanathan@amd.com>; Deucher, Alexander 
-> <Alexander.Deucher@amd.com>; Huang, JinHuiEric 
-> <JinHuiEric.Huang@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>
-> *Subject:* Re: [PATCH] drm/ttm: ioremap buffer according to TTM mem 
-> caching setting
->
-> Hi Oak,
->
->
->     config: parisc-randconfig-r012-20210302 (attached as .config)
->
->
-> It's not the Intel driver build which fails here, but the build bot is 
-> just hosted by Intel.
->
-> The problem is that the parisc architecture doesn't defines the 
-> ioremap_cache() function.
->
-> I've looked at using memremap() instead of ioremap_cache(). The 
-> problem is that we do support architectures with the TTM as well as 
-> amndgpu code where the __iomem annotation is mandatory and correct.
->
-> Regards,
-> Christian.
->
-> Am 02.03.21 um 23:45 schrieb Zeng, Oak:
->
->     [AMD Official Use Only - Internal Distribution Only]
->
->     Hi Daniel, Thomas, Dan,
->
->     Does below message mean the calling ioremap_cache failed intel’s
->     driver build? I can see both ioremap_cache and ioremap_wc are
->     defined in arch/x86/mm/ioremap.c – why ioremap_wc doesn’t break
->     intel driver’s build?
->
->     Are we supposed to use memremap (offset, size, MEMREMAP_WB) to
->     replace ioremap_cache? When I read here
->     https://lwn.net/Articles/653585/
->     <https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flwn.net%2FArticles%2F653585%2F&data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624296472%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&sdata=ljCFrIfrYbb%2FXmKKS2TJ7dSQ7oCRNWoUhWS4gEBv%2FW4%3D&reserved=0>
->     I felt that ioremap_cache returns an address annotated with _iomem
->     while memremap returns an address without __iomem annotation. In
->     our use case, GPU memory is treated as UEFI SPM (specific purpose
->     memory). I am not very sure whether memremap (thus no __iomem
->     annotation) is the right thing to do. What I am sure is, we have
->     tested ioremap_cache and it works fine on AMD system.
->
->     I will send out a test patch replacing ioremap_cache with
->     ioremap_wc, to trigger Intel build robot to see whether it fails
->     Intel build. I suppose it will not fail Intel build.
->
->     Regards,
->
->     Oak
->
->     *From:* Christian König <ckoenig.leichtzumerken@gmail.com>
->     <mailto:ckoenig.leichtzumerken@gmail.com>
->     *Sent:* Tuesday, March 2, 2021 6:31 AM
->     *To:* amd-gfx@lists.freedesktop.org
->     <mailto:amd-gfx@lists.freedesktop.org>;
->     dri-devel@lists.freedesktop.org
->     <mailto:dri-devel@lists.freedesktop.org>; Daniel Vetter
->     <daniel@ffwll.ch> <mailto:daniel@ffwll.ch>; Dave Airlie
->     <airlied@redhat.com> <mailto:airlied@redhat.com>; Thomas Hellström
->     (Intel) <thomas_os@shipmail.org> <mailto:thomas_os@shipmail.org>
->     *Cc:* Zeng, Oak <Oak.Zeng@amd.com> <mailto:Oak.Zeng@amd.com>;
->     kbuild-all@lists.01.org <mailto:kbuild-all@lists.01.org>;
->     Kuehling, Felix <Felix.Kuehling@amd.com>
->     <mailto:Felix.Kuehling@amd.com>; Kasiviswanathan, Harish
->     <Harish.Kasiviswanathan@amd.com>
->     <mailto:Harish.Kasiviswanathan@amd.com>; Deucher, Alexander
->     <Alexander.Deucher@amd.com> <mailto:Alexander.Deucher@amd.com>;
->     Huang, JinHuiEric <JinHuiEric.Huang@amd.com>
->     <mailto:JinHuiEric.Huang@amd.com>; Koenig, Christian
->     <Christian.Koenig@amd.com> <mailto:Christian.Koenig@amd.com>
->     *Subject:* Re: [PATCH] drm/ttm: ioremap buffer according to TTM
->     mem caching setting
->
->     Hi guys,
->
->     adding the usual suspects direct. Does anybody of hand know how to
->     check if an architecture supports ioremap_cache()?
->
->     For now we only need this on X86, but I would feel better if we
->     don't use an #ifdef here.
->
->     Regards,
->     Christian.
->
->     Am 02.03.21 um 05:12 schrieb kernel test robot:
->
->         Hi Oak,
->
->           
->
->         Thank you for the patch! Yet something to improve:
->
->           
->
->         [auto build test ERROR on drm-intel/for-linux-next]
->
->         [also build test ERROR on drm-tip/drm-tip linus/master v5.12-rc1 next-20210302]
->
->         [cannot apply to tegra-drm/drm/tegra/for-next drm-exynos/exynos-drm-next drm/drm-next]
->
->         [If your patch is applied to the wrong git tree, kindly drop us a note.
->
->         And when submitting patch, we suggest to use '--base' as documented in
->
->         https://git-scm.com/docs/git-format-patch  <https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit-scm.com%2Fdocs%2Fgit-format-patch&data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624306464%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&sdata=3f5ib%2FlZ6DXXF%2Bk1rXPKGu1IkOhXHdkUmX3obtuIRtA%3D&reserved=0>]
->
->           
->
->         url:https://github.com/0day-ci/linux/commits/Oak-Zeng/drm-ttm-ioremap-buffer-according-to-TTM-mem-caching-setting/20210302-064500  <https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2F0day-ci%2Flinux%2Fcommits%2FOak-Zeng%2Fdrm-ttm-ioremap-buffer-according-to-TTM-mem-caching-setting%2F20210302-064500&data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624306464%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&sdata=Y9h9ZHM7d2Sqo3XQWr%2Frpb2DAk9SkHFIm5nD4ABFNbE%3D&reserved=0>
->
->         base:   git://anongit.freedesktop.org/drm-intel for-linux-next
->
->         config: parisc-randconfig-r012-20210302 (attached as .config)
->
->         compiler: hppa-linux-gcc (GCC) 9.3.0
->
->         reproduce (this is a W=1 build):
->
->                  wgethttps://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross  <https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fraw.githubusercontent.com%2Fintel%2Flkp-tests%2Fmaster%2Fsbin%2Fmake.cross&data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624316464%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&sdata=wGo3Nwk4mWZjb2W3E7qKf3FtKzLOxCVmQu1zd2rmzRU%3D&reserved=0>  -O ~/bin/make.cross
->
->                  chmod +x ~/bin/make.cross
->
->                  #https://github.com/0day-ci/linux/commit/225bb3711439ec559dd72ae5af8e62d34ea60a64  <https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2F0day-ci%2Flinux%2Fcommit%2F225bb3711439ec559dd72ae5af8e62d34ea60a64&data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624316464%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&sdata=kOz18UAawmA4SZ6IrCGRt4HISfsmmjfGN2TUgAtm0Ak%3D&reserved=0>
->
->                  git remote add linux-reviewhttps://github.com/0day-ci/linux  <https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2F0day-ci%2Flinux&data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624326458%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&sdata=QnKs47gjzAz%2Fjv%2FAO6H%2BwYNQF6mdk1D8dCNveW0YHuM%3D&reserved=0>
->
->                  git fetch --no-tags linux-review Oak-Zeng/drm-ttm-ioremap-buffer-according-to-TTM-mem-caching-setting/20210302-064500
->
->                  git checkout 225bb3711439ec559dd72ae5af8e62d34ea60a64
->
->                  # save the attached .config to linux build tree
->
->                  COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=parisc
->
->           
->
->         If you fix the issue, kindly add following tag as appropriate
->
->         Reported-by: kernel test robot<lkp@intel.com>  <mailto:lkp@intel.com>
->
->           
->
->         All errors (new ones prefixed by >>):
->
->           
->
->             drivers/gpu/drm/ttm/ttm_bo_util.c: In function 'ttm_resource_ioremap':
->
->                 drivers/gpu/drm/ttm/ttm_bo_util.c:95:11: error: implicit declaration of function 'ioremap_cache'; did you mean 'ioremap_uc'? [-Werror=implicit-function-declaration]
->
->                95 |    addr = ioremap_cache(mem->bus.offset, bus_size);
->
->                   |           ^~~~~~~~~~~~~
->
->                   |           ioremap_uc
->
->             drivers/gpu/drm/ttm/ttm_bo_util.c:95:9: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
->
->                95 |    addr = ioremap_cache(mem->bus.offset, bus_size);
->
->                   |         ^
->
->             drivers/gpu/drm/ttm/ttm_bo_util.c: In function 'ttm_bo_ioremap':
->
->             drivers/gpu/drm/ttm/ttm_bo_util.c:379:17: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
->
->               379 |    map->virtual = ioremap_cache(bo->mem.bus.offset + offset,
->
->                   |                 ^
->
->             drivers/gpu/drm/ttm/ttm_bo_util.c: In function 'ttm_bo_vmap':
->
->             drivers/gpu/drm/ttm/ttm_bo_util.c:500:16: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
->
->               500 |    vaddr_iomem = ioremap_cache(mem->bus.offset,
->
->                   |                ^
->
->             cc1: some warnings being treated as errors
->
->           
->
->           
->
->         vim +95 drivers/gpu/drm/ttm/ttm_bo_util.c
->
->           
->
->              74
->
->              75  static int ttm_resource_ioremap(struct ttm_bo_device *bdev,
->
->              76                                struct ttm_resource *mem,
->
->              77                                void **virtual)
->
->              78  {
->
->              79          int ret;
->
->              80          void *addr;
->
->              81
->
->              82          *virtual = NULL;
->
->              83          ret = ttm_mem_io_reserve(bdev, mem);
->
->              84          if (ret || !mem->bus.is_iomem)
->
->              85                  return ret;
->
->              86
->
->              87          if (mem->bus.addr) {
->
->              88                  addr = mem->bus.addr;
->
->              89          } else {
->
->              90                  size_t bus_size = (size_t)mem->num_pages << PAGE_SHIFT;
->
->              91
->
->              92                  if (mem->bus.caching == ttm_write_combined)
->
->              93                         addr = ioremap_wc(mem->bus.offset, bus_size);
->
->              94                  else if (mem->bus.caching == ttm_cached)
->
->            > 95                         addr = ioremap_cache(mem->bus.offset, bus_size);
->
->              96                  else
->
->              97                         addr = ioremap(mem->bus.offset, bus_size);
->
->              98                  if (!addr) {
->
->              99                         ttm_mem_io_free(bdev, mem);
->
->             100                         return -ENOMEM;
->
->             101                  }
->
->             102          }
->
->             103          *virtual = addr;
->
->             104          return 0;
->
->             105  }
->
->             106
->
->           
->
->         ---
->
->         0-DAY CI Kernel Test Service, Intel Corporation
->
->         https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org  <https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.01.org%2Fhyperkitty%2Flist%2Fkbuild-all%40lists.01.org&data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624326458%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&sdata=MY6tEGVY0X4VyS750dYmsfVoR71Zp78YdxuqqRljnsI%3D&reserved=0>
->
->
->
->
->         _______________________________________________
->
->         amd-gfx mailing list
->
->         amd-gfx@lists.freedesktop.org  <mailto:amd-gfx@lists.freedesktop.org>
->
->         https://lists.freedesktop.org/mailman/listinfo/amd-gfx  <https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624336455%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&sdata=Or3tWmS5M6mXOaFP4FHsEbg0rqoizNGpTl6JEkD6fac%3D&reserved=0>
->
-
-
---------------6D60D1BF07A71B2A655DF29E
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html;
-      charset=windows-1252">
-  </head>
-  <body>
-    Hi Oak,<br>
-    <br>
-    as far as I know some architectures like PowerPC/ARM/MIPS need that.
-    And we at least officially support PowerPC and ARM and MIPS is best
-    effort and shouldn't break if possible.<br>
-    <br>
-    Thomas just recently had a whole bunch of DMA-buf patches to also
-    fix that up for DMA-bufs vmap as well, previously we have just been
-    casting away the __iomem and hoped that it always works.<br>
-    <br>
-    Regards,<br>
-    Christian.<br>
-    <br>
-    <div class="moz-cite-prefix">Am 03.03.21 um 21:59 schrieb Zeng, Oak:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:DM6PR12MB4732BD6E9C9C1AE00CD1713380989@DM6PR12MB4732.namprd12.prod.outlook.com">
-      <meta http-equiv="Content-Type" content="text/html;
-        charset=windows-1252">
-      <meta name="Generator" content="Microsoft Word 15 (filtered
-        medium)">
-      <style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:DengXian;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-@font-face
-	{font-family:"\@DengXian";
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-pre
-	{mso-style-priority:99;
-	mso-style-link:"HTML Preformatted Char";
-	margin:0in;
-	font-size:10.0pt;
-	font-family:"Courier New";}
-span.HTMLPreformattedChar
-	{mso-style-name:"HTML Preformatted Char";
-	mso-style-priority:99;
-	mso-style-link:"HTML Preformatted";
-	font-family:Consolas;}
-span.EmailStyle22
-	{mso-style-type:personal-reply;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext="edit" spidmax="1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext="edit">
-<o:idmap v:ext="edit" data="1" />
-</o:shapelayout></xml><![endif]-->
-      <p
-        style="font-family:Arial;font-size:11pt;color:#0078D7;margin:5pt;"
-        align="Left">
-        [AMD Official Use Only - Internal Distribution Only]<br>
-      </p>
-      <br>
-      <div>
-        <div class="WordSection1">
-          <p class="MsoNormal">Hi Christian,<o:p></o:p></p>
-          <p class="MsoNormal"><o:p> </o:p></p>
-          <p class="MsoNormal">Can you explain why __iomem annotation is
-            mandatory for amdgpu driver? If this is the case, we can’t
-            switch to memremap. The only fix seems to me is add a #ifdef
-            __x86_64__ to the ioremap_cache codes.<o:p></o:p></p>
-          <p class="MsoNormal"><o:p> </o:p></p>
-          <div>
-            <p class="MsoNormal">Regards,<o:p></o:p></p>
-            <p class="MsoNormal">Oak<o:p></o:p></p>
-          </div>
-          <p class="MsoNormal"><o:p> </o:p></p>
-          <div style="border:none;border-left:solid blue
-            1.5pt;padding:0in 0in 0in 4.0pt">
-            <div>
-              <div style="border:none;border-top:solid #E1E1E1
-                1.0pt;padding:3.0pt 0in 0in 0in">
-                <p class="MsoNormal"><b>From:</b> Christian König
-                  <a class="moz-txt-link-rfc2396E" href="mailto:ckoenig.leichtzumerken@gmail.com">&lt;ckoenig.leichtzumerken@gmail.com&gt;</a>
-                  <br>
-                  <b>Sent:</b> Wednesday, March 3, 2021 5:46 AM<br>
-                  <b>To:</b> Zeng, Oak <a class="moz-txt-link-rfc2396E" href="mailto:Oak.Zeng@amd.com">&lt;Oak.Zeng@amd.com&gt;</a>;
-                  <a class="moz-txt-link-abbreviated" href="mailto:amd-gfx@lists.freedesktop.org">amd-gfx@lists.freedesktop.org</a>;
-                  <a class="moz-txt-link-abbreviated" href="mailto:dri-devel@lists.freedesktop.org">dri-devel@lists.freedesktop.org</a>; Daniel Vetter
-                  <a class="moz-txt-link-rfc2396E" href="mailto:daniel@ffwll.ch">&lt;daniel@ffwll.ch&gt;</a>; Dave Airlie
-                  <a class="moz-txt-link-rfc2396E" href="mailto:airlied@redhat.com">&lt;airlied@redhat.com&gt;</a>; Thomas Hellström (Intel)
-                  <a class="moz-txt-link-rfc2396E" href="mailto:thomas_os@shipmail.org">&lt;thomas_os@shipmail.org&gt;</a>;
-                  <a class="moz-txt-link-abbreviated" href="mailto:dan.j.williams@intel.com">dan.j.williams@intel.com</a><br>
-                  <b>Cc:</b> <a class="moz-txt-link-abbreviated" href="mailto:kbuild-all@lists.01.org">kbuild-all@lists.01.org</a>; Kuehling, Felix
-                  <a class="moz-txt-link-rfc2396E" href="mailto:Felix.Kuehling@amd.com">&lt;Felix.Kuehling@amd.com&gt;</a>; Kasiviswanathan,
-                  Harish <a class="moz-txt-link-rfc2396E" href="mailto:Harish.Kasiviswanathan@amd.com">&lt;Harish.Kasiviswanathan@amd.com&gt;</a>;
-                  Deucher, Alexander <a class="moz-txt-link-rfc2396E" href="mailto:Alexander.Deucher@amd.com">&lt;Alexander.Deucher@amd.com&gt;</a>;
-                  Huang, JinHuiEric <a class="moz-txt-link-rfc2396E" href="mailto:JinHuiEric.Huang@amd.com">&lt;JinHuiEric.Huang@amd.com&gt;</a>;
-                  Koenig, Christian <a class="moz-txt-link-rfc2396E" href="mailto:Christian.Koenig@amd.com">&lt;Christian.Koenig@amd.com&gt;</a><br>
-                  <b>Subject:</b> Re: [PATCH] drm/ttm: ioremap buffer
-                  according to TTM mem caching setting<o:p></o:p></p>
-              </div>
-            </div>
-            <p class="MsoNormal"><o:p> </o:p></p>
-            <p class="MsoNormal">Hi Oak,<br>
-              <br>
-              <br>
-              <o:p></o:p></p>
-            <blockquote style="margin-top:5.0pt;margin-bottom:5.0pt">
-              <pre>config: parisc-randconfig-r012-20210302 (attached as .config)<o:p></o:p></pre>
-            </blockquote>
-            <p class="MsoNormal" style="margin-bottom:12.0pt"><br>
-              It's not the Intel driver build which fails here, but the
-              build bot is just hosted by Intel.<br>
-              <br>
-              The problem is that the parisc architecture doesn't
-              defines the ioremap_cache() function.<br>
-              <br>
-              I've looked at using memremap() instead of
-              ioremap_cache(). The problem is that we do support
-              architectures with the TTM as well as amndgpu code where
-              the __iomem annotation is mandatory and correct.<br>
-              <br>
-              Regards,<br>
-              Christian.<o:p></o:p></p>
-            <div>
-              <p class="MsoNormal">Am 02.03.21 um 23:45 schrieb Zeng,
-                Oak:<o:p></o:p></p>
-            </div>
-            <blockquote style="margin-top:5.0pt;margin-bottom:5.0pt">
-              <p style="margin:5.0pt"><span
-                  style="font-family:&quot;Arial&quot;,sans-serif;color:#0078D7">[AMD
-                  Official Use Only - Internal Distribution Only]<o:p></o:p></span></p>
-              <p class="MsoNormal"><o:p> </o:p></p>
-              <div>
-                <p class="MsoNormal">Hi Daniel, Thomas, Dan,<o:p></o:p></p>
-                <p class="MsoNormal"> <o:p></o:p></p>
-                <p class="MsoNormal">Does below message mean the calling
-                  ioremap_cache failed intel’s driver build? I can see
-                  both ioremap_cache and ioremap_wc are defined in
-                  arch/x86/mm/ioremap.c – why ioremap_wc doesn’t break
-                  intel driver’s build?<o:p></o:p></p>
-                <p class="MsoNormal"> <o:p></o:p></p>
-                <p class="MsoNormal">Are we supposed to use memremap
-                  (offset, size, MEMREMAP_WB) to replace ioremap_cache?
-                  When I read here
-                  <a
-href="https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flwn.net%2FArticles%2F653585%2F&amp;data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624296472%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=ljCFrIfrYbb%2FXmKKS2TJ7dSQ7oCRNWoUhWS4gEBv%2FW4%3D&amp;reserved=0"
-                    moz-do-not-send="true">
-                    https://lwn.net/Articles/653585/</a> I felt that
-                  ioremap_cache returns an address annotated with _iomem
-                  while memremap returns an address without __iomem
-                  annotation. In our use case, GPU memory is treated as
-                  UEFI SPM (specific purpose memory). I am not very sure
-                  whether memremap (thus no __iomem annotation) is the
-                  right thing to do. What I am sure is, we have tested
-                  ioremap_cache and it works fine on AMD system.<o:p></o:p></p>
-                <p class="MsoNormal"> <o:p></o:p></p>
-                <p class="MsoNormal">I will send out a test patch
-                  replacing ioremap_cache with ioremap_wc, to trigger
-                  Intel build robot to see whether it fails Intel build.
-                  I suppose it will not fail Intel build.<o:p></o:p></p>
-                <p class="MsoNormal"> <o:p></o:p></p>
-                <div>
-                  <p class="MsoNormal">Regards,<o:p></o:p></p>
-                  <p class="MsoNormal">Oak<o:p></o:p></p>
-                </div>
-                <p class="MsoNormal"> <o:p></o:p></p>
-                <div style="border:none;border-left:solid blue
-                  1.5pt;padding:0in 0in 0in 4.0pt">
-                  <div>
-                    <div style="border:none;border-top:solid #E1E1E1
-                      1.0pt;padding:3.0pt 0in 0in 0in">
-                      <p class="MsoNormal"><b>From:</b> Christian König
-                        <a
-                          href="mailto:ckoenig.leichtzumerken@gmail.com"
-                          moz-do-not-send="true">
-                          &lt;ckoenig.leichtzumerken@gmail.com&gt;</a> <br>
-                        <b>Sent:</b> Tuesday, March 2, 2021 6:31 AM<br>
-                        <b>To:</b> <a
-                          href="mailto:amd-gfx@lists.freedesktop.org"
-                          moz-do-not-send="true">amd-gfx@lists.freedesktop.org</a>;
-                        <a href="mailto:dri-devel@lists.freedesktop.org"
-                          moz-do-not-send="true">dri-devel@lists.freedesktop.org</a>;
-                        Daniel Vetter
-                        <a href="mailto:daniel@ffwll.ch"
-                          moz-do-not-send="true">&lt;daniel@ffwll.ch&gt;</a>;
-                        Dave Airlie <a href="mailto:airlied@redhat.com"
-                          moz-do-not-send="true">
-                          &lt;airlied@redhat.com&gt;</a>; Thomas
-                        Hellström (Intel) <a
-                          href="mailto:thomas_os@shipmail.org"
-                          moz-do-not-send="true">
-                          &lt;thomas_os@shipmail.org&gt;</a><br>
-                        <b>Cc:</b> Zeng, Oak <a
-                          href="mailto:Oak.Zeng@amd.com"
-                          moz-do-not-send="true">&lt;Oak.Zeng@amd.com&gt;</a>;
-                        <a href="mailto:kbuild-all@lists.01.org"
-                          moz-do-not-send="true">
-                          kbuild-all@lists.01.org</a>; Kuehling, Felix <a
-                          href="mailto:Felix.Kuehling@amd.com"
-                          moz-do-not-send="true">
-                          &lt;Felix.Kuehling@amd.com&gt;</a>;
-                        Kasiviswanathan, Harish <a
-                          href="mailto:Harish.Kasiviswanathan@amd.com"
-                          moz-do-not-send="true">
-                          &lt;Harish.Kasiviswanathan@amd.com&gt;</a>;
-                        Deucher, Alexander <a
-                          href="mailto:Alexander.Deucher@amd.com"
-                          moz-do-not-send="true">
-                          &lt;Alexander.Deucher@amd.com&gt;</a>; Huang,
-                        JinHuiEric <a
-                          href="mailto:JinHuiEric.Huang@amd.com"
-                          moz-do-not-send="true">
-                          &lt;JinHuiEric.Huang@amd.com&gt;</a>; Koenig,
-                        Christian <a
-                          href="mailto:Christian.Koenig@amd.com"
-                          moz-do-not-send="true">
-                          &lt;Christian.Koenig@amd.com&gt;</a><br>
-                        <b>Subject:</b> Re: [PATCH] drm/ttm: ioremap
-                        buffer according to TTM mem caching setting<o:p></o:p></p>
-                    </div>
-                  </div>
-                  <p class="MsoNormal"> <o:p></o:p></p>
-                  <p class="MsoNormal" style="margin-bottom:12.0pt">Hi
-                    guys,<br>
-                    <br>
-                    adding the usual suspects direct. Does anybody of
-                    hand know how to check if an architecture supports
-                    ioremap_cache()?<br>
-                    <br>
-                    For now we only need this on X86, but I would feel
-                    better if we don't use an #ifdef here.<br>
-                    <br>
-                    Regards,<br>
-                    Christian.<o:p></o:p></p>
-                  <div>
-                    <p class="MsoNormal">Am 02.03.21 um 05:12 schrieb
-                      kernel test robot:<o:p></o:p></p>
-                  </div>
-                  <blockquote
-                    style="margin-top:5.0pt;margin-bottom:5.0pt">
-                    <pre>Hi Oak,<o:p></o:p></pre>
-                    <pre> <o:p></o:p></pre>
-                    <pre>Thank you for the patch! Yet something to improve:<o:p></o:p></pre>
-                    <pre> <o:p></o:p></pre>
-                    <pre>[auto build test ERROR on drm-intel/for-linux-next]<o:p></o:p></pre>
-                    <pre>[also build test ERROR on drm-tip/drm-tip linus/master v5.12-rc1 next-20210302]<o:p></o:p></pre>
-                    <pre>[cannot apply to tegra-drm/drm/tegra/for-next drm-exynos/exynos-drm-next drm/drm-next]<o:p></o:p></pre>
-                    <pre>[If your patch is applied to the wrong git tree, kindly drop us a note.<o:p></o:p></pre>
-                    <pre>And when submitting patch, we suggest to use '--base' as documented in<o:p></o:p></pre>
-                    <pre><a href="https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit-scm.com%2Fdocs%2Fgit-format-patch&amp;data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624306464%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3f5ib%2FlZ6DXXF%2Bk1rXPKGu1IkOhXHdkUmX3obtuIRtA%3D&amp;reserved=0" moz-do-not-send="true">https://git-scm.com/docs/git-format-patch</a>]<o:p></o:p></pre>
-                    <pre> <o:p></o:p></pre>
-                    <pre>url:    <a href="https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2F0day-ci%2Flinux%2Fcommits%2FOak-Zeng%2Fdrm-ttm-ioremap-buffer-according-to-TTM-mem-caching-setting%2F20210302-064500&amp;data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624306464%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=Y9h9ZHM7d2Sqo3XQWr%2Frpb2DAk9SkHFIm5nD4ABFNbE%3D&amp;reserved=0" moz-do-not-send="true">https://github.com/0day-ci/linux/commits/Oak-Zeng/drm-ttm-ioremap-buffer-according-to-TTM-mem-caching-setting/20210302-064500</a><o:p></o:p></pre>
-                    <pre>base:   git://anongit.freedesktop.org/drm-intel for-linux-next<o:p></o:p></pre>
-                    <pre>config: parisc-randconfig-r012-20210302 (attached as .config)<o:p></o:p></pre>
-                    <pre>compiler: hppa-linux-gcc (GCC) 9.3.0<o:p></o:p></pre>
-                    <pre>reproduce (this is a W=1 build):<o:p></o:p></pre>
-                    <pre>        wget <a href="https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fraw.githubusercontent.com%2Fintel%2Flkp-tests%2Fmaster%2Fsbin%2Fmake.cross&amp;data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624316464%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=wGo3Nwk4mWZjb2W3E7qKf3FtKzLOxCVmQu1zd2rmzRU%3D&amp;reserved=0" moz-do-not-send="true">https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross</a> -O ~/bin/make.cross<o:p></o:p></pre>
-                    <pre>        chmod +x ~/bin/make.cross<o:p></o:p></pre>
-                    <pre>        # <a href="https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2F0day-ci%2Flinux%2Fcommit%2F225bb3711439ec559dd72ae5af8e62d34ea60a64&amp;data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624316464%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=kOz18UAawmA4SZ6IrCGRt4HISfsmmjfGN2TUgAtm0Ak%3D&amp;reserved=0" moz-do-not-send="true">https://github.com/0day-ci/linux/commit/225bb3711439ec559dd72ae5af8e62d34ea60a64</a><o:p></o:p></pre>
-                    <pre>        git remote add linux-review <a href="https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2F0day-ci%2Flinux&amp;data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624326458%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=QnKs47gjzAz%2Fjv%2FAO6H%2BwYNQF6mdk1D8dCNveW0YHuM%3D&amp;reserved=0" moz-do-not-send="true">https://github.com/0day-ci/linux</a><o:p></o:p></pre>
-                    <pre>        git fetch --no-tags linux-review Oak-Zeng/drm-ttm-ioremap-buffer-according-to-TTM-mem-caching-setting/20210302-064500<o:p></o:p></pre>
-                    <pre>        git checkout 225bb3711439ec559dd72ae5af8e62d34ea60a64<o:p></o:p></pre>
-                    <pre>        # save the attached .config to linux build tree<o:p></o:p></pre>
-                    <pre>        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=parisc <o:p></o:p></pre>
-                    <pre> <o:p></o:p></pre>
-                    <pre>If you fix the issue, kindly add following tag as appropriate<o:p></o:p></pre>
-                    <pre>Reported-by: kernel test robot <a href="mailto:lkp@intel.com" moz-do-not-send="true">&lt;lkp@intel.com&gt;</a><o:p></o:p></pre>
-                    <pre> <o:p></o:p></pre>
-                    <pre>All errors (new ones prefixed by &gt;&gt;):<o:p></o:p></pre>
-                    <pre> <o:p></o:p></pre>
-                    <pre>   drivers/gpu/drm/ttm/ttm_bo_util.c: In function 'ttm_resource_ioremap':<o:p></o:p></pre>
-                    <blockquote
-                      style="margin-top:5.0pt;margin-bottom:5.0pt">
-                      <blockquote
-                        style="margin-top:5.0pt;margin-bottom:5.0pt">
-                        <pre>drivers/gpu/drm/ttm/ttm_bo_util.c:95:11: error: implicit declaration of function 'ioremap_cache'; did you mean 'ioremap_uc'? [-Werror=implicit-function-declaration]<o:p></o:p></pre>
-                      </blockquote>
-                    </blockquote>
-                    <pre>      95 |    addr = ioremap_cache(mem-&gt;bus.offset, bus_size);<o:p></o:p></pre>
-                    <pre>         |           ^~~~~~~~~~~~~<o:p></o:p></pre>
-                    <pre>         |           ioremap_uc<o:p></o:p></pre>
-                    <pre>   drivers/gpu/drm/ttm/ttm_bo_util.c:95:9: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]<o:p></o:p></pre>
-                    <pre>      95 |    addr = ioremap_cache(mem-&gt;bus.offset, bus_size);<o:p></o:p></pre>
-                    <pre>         |         ^<o:p></o:p></pre>
-                    <pre>   drivers/gpu/drm/ttm/ttm_bo_util.c: In function 'ttm_bo_ioremap':<o:p></o:p></pre>
-                    <pre>   drivers/gpu/drm/ttm/ttm_bo_util.c:379:17: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]<o:p></o:p></pre>
-                    <pre>     379 |    map-&gt;virtual = ioremap_cache(bo-&gt;mem.bus.offset + offset,<o:p></o:p></pre>
-                    <pre>         |                 ^<o:p></o:p></pre>
-                    <pre>   drivers/gpu/drm/ttm/ttm_bo_util.c: In function 'ttm_bo_vmap':<o:p></o:p></pre>
-                    <pre>   drivers/gpu/drm/ttm/ttm_bo_util.c:500:16: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]<o:p></o:p></pre>
-                    <pre>     500 |    vaddr_iomem = ioremap_cache(mem-&gt;bus.offset,<o:p></o:p></pre>
-                    <pre>         |                ^<o:p></o:p></pre>
-                    <pre>   cc1: some warnings being treated as errors<o:p></o:p></pre>
-                    <pre> <o:p></o:p></pre>
-                    <pre> <o:p></o:p></pre>
-                    <pre>vim +95 drivers/gpu/drm/ttm/ttm_bo_util.c<o:p></o:p></pre>
-                    <pre> <o:p></o:p></pre>
-                    <pre>    74  <o:p></o:p></pre>
-                    <pre>    75  static int ttm_resource_ioremap(struct ttm_bo_device *bdev,<o:p></o:p></pre>
-                    <pre>    76                                struct ttm_resource *mem,<o:p></o:p></pre>
-                    <pre>    77                                void **virtual)<o:p></o:p></pre>
-                    <pre>    78  {<o:p></o:p></pre>
-                    <pre>    79          int ret;<o:p></o:p></pre>
-                    <pre>    80          void *addr;<o:p></o:p></pre>
-                    <pre>    81  <o:p></o:p></pre>
-                    <pre>    82          *virtual = NULL;<o:p></o:p></pre>
-                    <pre>    83          ret = ttm_mem_io_reserve(bdev, mem);<o:p></o:p></pre>
-                    <pre>    84          if (ret || !mem-&gt;bus.is_iomem)<o:p></o:p></pre>
-                    <pre>    85                  return ret;<o:p></o:p></pre>
-                    <pre>    86  <o:p></o:p></pre>
-                    <pre>    87          if (mem-&gt;bus.addr) {<o:p></o:p></pre>
-                    <pre>    88                  addr = mem-&gt;bus.addr;<o:p></o:p></pre>
-                    <pre>    89          } else {<o:p></o:p></pre>
-                    <pre>    90                  size_t bus_size = (size_t)mem-&gt;num_pages &lt;&lt; PAGE_SHIFT;<o:p></o:p></pre>
-                    <pre>    91  <o:p></o:p></pre>
-                    <pre>    92                  if (mem-&gt;bus.caching == ttm_write_combined)<o:p></o:p></pre>
-                    <pre>    93                         addr = ioremap_wc(mem-&gt;bus.offset, bus_size);<o:p></o:p></pre>
-                    <pre>    94                  else if (mem-&gt;bus.caching == ttm_cached)<o:p></o:p></pre>
-                    <pre>  &gt; 95                         addr = ioremap_cache(mem-&gt;bus.offset, bus_size);<o:p></o:p></pre>
-                    <pre>    96                  else<o:p></o:p></pre>
-                    <pre>    97                         addr = ioremap(mem-&gt;bus.offset, bus_size);<o:p></o:p></pre>
-                    <pre>    98                  if (!addr) {<o:p></o:p></pre>
-                    <pre>    99                         ttm_mem_io_free(bdev, mem);<o:p></o:p></pre>
-                    <pre>   100                         return -ENOMEM;<o:p></o:p></pre>
-                    <pre>   101                  }<o:p></o:p></pre>
-                    <pre>   102          }<o:p></o:p></pre>
-                    <pre>   103          *virtual = addr;<o:p></o:p></pre>
-                    <pre>   104          return 0;<o:p></o:p></pre>
-                    <pre>   105  }<o:p></o:p></pre>
-                    <pre>   106  <o:p></o:p></pre>
-                    <pre> <o:p></o:p></pre>
-                    <pre>---<o:p></o:p></pre>
-                    <pre>0-DAY CI Kernel Test Service, Intel Corporation<o:p></o:p></pre>
-                    <pre><a href="https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.01.org%2Fhyperkitty%2Flist%2Fkbuild-all%40lists.01.org&amp;data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624326458%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=MY6tEGVY0X4VyS750dYmsfVoR71Zp78YdxuqqRljnsI%3D&amp;reserved=0" moz-do-not-send="true">https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org</a><o:p></o:p></pre>
-                    <p class="MsoNormal"><br>
-                      <br>
-                      <br>
-                      <o:p></o:p></p>
-                    <pre>_______________________________________________<o:p></o:p></pre>
-                    <pre>amd-gfx mailing list<o:p></o:p></pre>
-                    <pre><a href="mailto:amd-gfx@lists.freedesktop.org" moz-do-not-send="true">amd-gfx@lists.freedesktop.org</a><o:p></o:p></pre>
-                    <pre><a href="https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=04%7C01%7COak.Zeng%40amd.com%7Cc047ecb316df47cde7ed08d8de3188d4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637503651624336455%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=Or3tWmS5M6mXOaFP4FHsEbg0rqoizNGpTl6JEkD6fac%3D&amp;reserved=0" moz-do-not-send="true">https://lists.freedesktop.org/mailman/listinfo/amd-gfx</a><o:p></o:p></pre>
-                  </blockquote>
-                  <p class="MsoNormal"> <o:p></o:p></p>
-                </div>
-              </div>
-            </blockquote>
-            <p class="MsoNormal"><o:p> </o:p></p>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------6D60D1BF07A71B2A655DF29E--
-
---===============1533533628==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Am 03.03.21 um 22:12 schrieb Oak Zeng:
+> If tbo.mem.bus.caching is cached, buffer is intended to be mapped
+> as cached from CPU. Map it with ioremap_cache.
+>
+> This wasn't necessary before as device memory was never mapped
+> as cached from CPU side. It becomes necessary for aldebaran as
+> device memory is mapped cached from CPU.
+>
+> Signed-off-by: Oak Zeng <Oak.Zeng@amd.com>
+> Reviewed-by: Christian Konig <Christian.Koenig@amd.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo_util.c | 14 ++++++++++++++
+>   1 file changed, 14 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index 031e581..7c848e2 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -91,6 +91,10 @@ static int ttm_resource_ioremap(struct ttm_device *bdev,
+>   
+>   		if (mem->bus.caching == ttm_write_combined)
+>   			addr = ioremap_wc(mem->bus.offset, bus_size);
+> +#ifdef __x86_64__
+> +		else if (mem->bus.caching == ttm_cached)
+> +			addr = ioremap_cache(mem->bus.offset, bus_size);
+> +#endif
+>   		else
+>   			addr = ioremap(mem->bus.offset, bus_size);
+>   		if (!addr) {
+> @@ -372,6 +376,11 @@ static int ttm_bo_ioremap(struct ttm_buffer_object *bo,
+>   		if (mem->bus.caching == ttm_write_combined)
+>   			map->virtual = ioremap_wc(bo->mem.bus.offset + offset,
+>   						  size);
+> +#ifdef __x86_64__
+> +		else if (mem->bus.caching == ttm_cached)
+> +			map->virtual = ioremap_cache(bo->mem.bus.offset + offset,
+> +						  size);
+> +#endif
+>   		else
+>   			map->virtual = ioremap(bo->mem.bus.offset + offset,
+>   					       size);
+> @@ -490,6 +499,11 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *map)
+>   		else if (mem->bus.caching == ttm_write_combined)
+>   			vaddr_iomem = ioremap_wc(mem->bus.offset,
+>   						 bo->base.size);
+> +		else if (mem->bus.caching == ttm_cached)
+> +#ifdef __x86_64__
+> +			vaddr_iomem = ioremap_cache(mem->bus.offset,
+> +						  bo->base.size);
+> +#endif
+>   		else
+>   			vaddr_iomem = ioremap(mem->bus.offset, bo->base.size);
+>   
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1533533628==--
