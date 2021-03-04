@@ -2,48 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9916232CEA2
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 09:41:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C81C32CEA5
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 09:42:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07F0D6EA07;
-	Thu,  4 Mar 2021 08:41:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47BDC6E901;
+	Thu,  4 Mar 2021 08:42:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
- [IPv6:2607:f8b0:4864:20::b30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 439166E47B
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 04:14:20 +0000 (UTC)
-Received: by mail-yb1-xb30.google.com with SMTP id c131so27035874ybf.7
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Mar 2021 20:14:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=matrixcomsec.com; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=D/nnFXScPC5zGFLLIQblBA+/a0krXF60vxkADct1ql4=;
- b=bmQvbxg4762RlD2gySX5hldC/Q5ZXzxAbgdFYmyQw43PZW8rgy+B0nw5G+2h3e+uKI
- N00PEImwF4yv+rk/vsEJkMHl7IyWau9FPair1yjzQDx6ppXc3GQ0GRBeZ5xSLZwhbdWe
- Ba/8Yeljy6YEiU/cgffsRvKdQ9PVkDrHVjiQM=
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E1F889CF3;
+ Thu,  4 Mar 2021 08:42:28 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id z11so41771814lfb.9;
+ Thu, 04 Mar 2021 00:42:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=mCUvXtDbpYOmVLpGyxtriKsie7qQBaDkkpJAR4b0GYI=;
+ b=AKxBQiYTyrirpvLqGRQN0cJ3rA8sXCmI7M+wf8I3B+W0S6C+h01pH+r8eZ3pYJTOsR
+ xnoCuc03cIYxCzb2X3gr9x5dGkHesoN47XELfqDlPqaYV4qNteqcdfFSUdYLgd9CYzYF
+ EGELzfc6R2LRTT+Era2ZoPQVWIhnrEcOg5jnCF1Qz2iw1IBUX5SN5FZrAGVKiIHZHsFc
+ +aSFvrm/AT1gd7E5je7UbznVLs0atsu+dRGPJCMLUtikx9OHa9ul3QLDHhcc+V1U34zN
+ m43zbLxvMESWspeFFzR1PiFJvkNdJwru3smjiV6k9IMGoaot/CdxZaKTyr8bo64qV7in
+ VQ/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=D/nnFXScPC5zGFLLIQblBA+/a0krXF60vxkADct1ql4=;
- b=FLVLYiCn7o7VTJHHnLRA5bIW5gUM0PWn7KLCM9DSzj7oCsky0wrSwM7ghV/P/cIpXj
- XcWJOVXPMgYmOn3vkMi2chKiapC+tsC3ijkI6OoejdWDWAa3749Hpcv8INQ1Xj+9aNgn
- +Mr3brL+tGyLJmX7Bm2MRZdepiQQu2hFeC+I1qoNJeEV400U87g8cfchIiuFC7epuxHE
- 5UcFGlF+WGlTGffuBHgtvYs4rp0JxhuTol3C7I2yDcjDt9rTzZQZaM60rbtH1dTHNR12
- 8aoslme3zYGUWLWGXXjkOAPpKZUzfD4jG2qoKlNz4YG2LQ4Lw5HmlE8q2ih2GlGyNFnk
- QW8g==
-X-Gm-Message-State: AOAM533SWlsUBMqXGu5q5D9/pW1L5coMd/FXGoG7ZAsmomW2ZWyUc01E
- l0n8Gq0AfUh45ayL8/BsJozYN7YlZ7CAvOK0xAdEPG7Nxi54Q8If
-X-Google-Smtp-Source: ABdhPJzzeEvXaH3pR4BcT4f+3vD8xiudimM9OeBrauIaS8/FnkiSFUhczOUhj1E64xSQpMtolbNECbCyDqAXBJuTCOE=
-X-Received: by 2002:a25:76c3:: with SMTP id r186mr3759496ybc.269.1614831258748; 
- Wed, 03 Mar 2021 20:14:18 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=mCUvXtDbpYOmVLpGyxtriKsie7qQBaDkkpJAR4b0GYI=;
+ b=H0OzTViyf2rgzUlbZi2cJE8p9o05O4ngd3XLBCpYjjaeY9nHSpDCE/X8xxGsN8eizD
+ 88m6jCeqdIpN68ux4V51zV2ZRHzRfQnSduYvmED+FzcEmPCvOy5dqt4rhI4Cwb/GEZ1P
+ +v+jdYi1aAF4IbB6/Y3HC4yVUA9tGcQ/jbnYeb3YfXNvKrQfGTl8X/79fZFydhsRf/wE
+ GjzVds+iy/K2cqnh+j/p8z3qBhC6KMMwyFrmvfGy/dhkuhezBtZuHDb//6anwDAsO4e4
+ Vwr7kWSjQBhcu/WtSzPuKrAS/vwjyH1slT6EruwedfIIImhEa6hqMowReX2zQ9TV2Ep9
+ +lYg==
+X-Gm-Message-State: AOAM531f3c0KV3b7QLMmfbsPIhS1MP73g4rf1X+JpwoesN9wxo8ZRE/1
+ g7OQO57b7zN49fNnCKc4NmM=
+X-Google-Smtp-Source: ABdhPJy0KC4m50xJdjI43gjSGC2IrbFgY9DBzNv50vRzlaKoo8/7uxdNuGQB474G5AcPIhCpteiEug==
+X-Received: by 2002:a05:6512:31d0:: with SMTP id
+ j16mr1694036lfe.467.1614847346826; 
+ Thu, 04 Mar 2021 00:42:26 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id d11sm1077200lfs.291.2021.03.04.00.42.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Mar 2021 00:42:26 -0800 (PST)
+Date: Thu, 4 Mar 2021 10:42:23 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: "Navare, Manasi" <manasi.d.navare@intel.com>
+Subject: Re: [PATCH] drm/atomic: Add the crtc to affected crtc only if
+ uapi.enable = true
+Message-ID: <20210304104223.6b3490bc@eldfell>
+In-Reply-To: <20210303204433.GA15819@labuser-Z97X-UD5H>
+References: <20210302204132.12058-1-manasi.d.navare@intel.com>
+ <20210303104744.2c064f09@eldfell>
+ <20210303204433.GA15819@labuser-Z97X-UD5H>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-From: Hardik Panchal <hardik.panchal@matrixcomsec.com>
-Date: Thu, 4 Mar 2021 09:43:22 +0530
-Message-ID: <CAESbsVNtvJaPGSYqvgzGGeriH11vcnJrQ=nnCJ4sbfyE1Y1pmQ@mail.gmail.com>
-Subject: Query regarding DRM mastership sharing between multiple process
-To: dri-devel@lists.freedesktop.org
-X-Mailman-Approved-At: Thu, 04 Mar 2021 08:41:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,124 +69,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0821099228=="
+Cc: Daniel Vetter <daniel.vetter@intel.com>, intel-gfx@lists.freedesktop.org,
+ Daniel Stone <daniels@collabora.com>, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1369322366=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0821099228==
-Content-Type: multipart/alternative; boundary="0000000000008ce9a405bcae3366"
+--===============1369322366==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/eKQv8/pHSZT3FZUwsOzSPdK"; protocol="application/pgp-signature"
 
---0000000000008ce9a405bcae3366
-Content-Type: text/plain; charset="UTF-8"
-
-Hello Sir/Madam,
-
-I am trying to render some stuff using DRM with Qt GUI application and
-decoded stream from Intel H/w decoder.
-
-I have two applications one is for GUI content and another one is for
-decoded video streams. While doing this I am facing an issue that only
-singal process acquires DRM mastership while the other one is getting
-error.
-
-While wondering how to get the privilege to render stuff I came
-across GET_MAGIC and AUTH_MAGIC.
-Please refer to this text from the MAN page of DRM.
-
-All DRM devices provide authentication mechanisms. Only a DRM-Master is
-> allowed to perform mode-setting or modify core state and only one user can
-> be DRM-Master at a time. See drmSetMaster
-> <https://www.commandlinux.com/man-page/man3/drmSetMaster.3.html>(3) for
-> information on how to become DRM-Master and what the limitations are. Other
-> DRM users can be authenticated to the DRM-Master via drmAuthMagic
-> <https://www.commandlinux.com/man-page/man3/drmAuthMagic.3.html>(3) so
-> they can perform buffer allocations and rendering.
->
-
-As per this the client which is authenticated using magic code should be
-able to allocate buffer and rendering.
-But while doing this I am not able to use drmModeSetPlane() for rendering
-stuff on display from an authenticated client application. It is giving me
-Permission Denied.
-
-As per my understanding if the client is authenticated by using
-GET/AUTH_MAGIC it should be able to set a plane and render stuff on the
-display.
-
-Is my understanding correct? Can we use this method to simultaneously
-render from two applications?
-
-Thank you in advance.
-
-Having Addiction of Self-Dependence
-
-*Hardik Panchal*
-SDT - Satatya Devices
-Contact No. : 9924472937
-Email : hardik23398@gmail.com
-
---0000000000008ce9a405bcae3366
-Content-Type: text/html; charset="UTF-8"
+--Sig_/eKQv8/pHSZT3FZUwsOzSPdK
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hello=C2=A0Sir/Madam,<div><br></div><div>I am trying to re=
-nder some stuff using DRM with Qt GUI application and decoded stream from I=
-ntel H/w decoder.</div><div><br></div><div>I have two applications one is f=
-or GUI content and another one is for decoded video streams. While doing th=
-is I am facing an issue that only singal process acquires DRM mastership wh=
-ile the other one is getting error.=C2=A0</div><div><br></div><div>While wo=
-ndering how to get the privilege=C2=A0to render stuff I came across=C2=A0GE=
-T_MAGIC and AUTH_MAGIC.</div><div>Please refer to this text from the MAN pa=
-ge of DRM.</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex"><span style=3D"color:rgb(51,51,51);font-family:&quot;Helvetica Neue&q=
-uot;,Helvetica,Arial,sans-serif;font-size:14px">All DRM devices provide aut=
-hentication mechanisms. Only a DRM-Master is allowed to perform mode-settin=
-g or modify core state and only one user can be DRM-Master at a time. See=
-=C2=A0</span><span style=3D"box-sizing:border-box;font-weight:700;color:rgb=
-(80,32,0);font-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif=
-;font-size:14px"><a href=3D"https://www.commandlinux.com/man-page/man3/drmS=
-etMaster.3.html" target=3D"_blank" style=3D"color:rgb(51,122,183);box-sizin=
-g:border-box;background-color:transparent;text-decoration-line:none">drmSet=
-Master</a></span><span style=3D"color:rgb(51,51,51);font-family:&quot;Helve=
-tica Neue&quot;,Helvetica,Arial,sans-serif;font-size:14px">(3) for informat=
-ion on how to become DRM-Master and what the limitations are. Other DRM use=
-rs can be authenticated to the DRM-Master via=C2=A0</span><span style=3D"bo=
-x-sizing:border-box;font-weight:700;color:rgb(80,32,0);font-family:&quot;He=
-lvetica Neue&quot;,Helvetica,Arial,sans-serif;font-size:14px"><a href=3D"ht=
-tps://www.commandlinux.com/man-page/man3/drmAuthMagic.3.html" target=3D"_bl=
-ank" style=3D"color:rgb(51,122,183);box-sizing:border-box;background-color:=
-transparent;text-decoration-line:none">drmAuthMagic</a></span><span style=
-=3D"color:rgb(51,51,51);font-family:&quot;Helvetica Neue&quot;,Helvetica,Ar=
-ial,sans-serif;font-size:14px">(3) so they can perform buffer allocations a=
-nd rendering.=C2=A0</span><a name=3D"m_3527178621886524055_lbAF" style=3D"c=
-olor:rgb(51,122,183);box-sizing:border-box;font-family:&quot;Helvetica Neue=
-&quot;,Helvetica,Arial,sans-serif;font-size:14px">=C2=A0</a><br></blockquot=
-e><div><br></div><div>As per this the client which is authenticated using m=
-agic code should be able to allocate buffer and rendering.</div><div>But wh=
-ile doing this I am not able to use drmModeSetPlane() for rendering stuff o=
-n display from an authenticated client application. It is giving me Permiss=
-ion Denied.</div><div><br></div><div>As per my understanding if the client =
-is authenticated by using GET/AUTH_MAGIC it should be able to set a plane a=
-nd render stuff on the display.</div><div><br></div><div>Is my understandin=
-g correct? Can we use this method to simultaneously render from two applica=
-tions?=C2=A0</div><div><br></div><div>Thank you in advance.</div><div><div =
-dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><d=
-iv dir=3D"ltr"><div><div dir=3D"ltr"><div><blockquote style=3D"margin:0px 0=
-px 0px 0.8ex;padding-left:1ex;border-left:1px solid rgb(204,204,204)"><font=
- color=3D"#ff9900">Having Addiction of Self-Dependence</font></blockquote><=
-/div><div><b><font color=3D"#3d85c6"><font color=3D"#ff9900"></font><font c=
-olor=3D"#005000"></font><font color=3D"#b08000"></font><font color=3D"#ff99=
-00"></font>Hardik Panchal</font></b></div><div><font color=3D"#3d85c6" face=
-=3D"arial,helvetica,sans-serif">SDT - Satatya Devices</font></div><div><fon=
-t color=3D"#3d85c6" face=3D"arial,helvetica,sans-serif">Contact No. : 99244=
-72937</font></div><div><font color=3D"#3d85c6" face=3D"arial,helvetica,sans=
--serif">Email : <a href=3D"mailto:hardik23398@gmail.com" target=3D"_blank">=
-hardik23398@gmail.com</a></font></div></div></div></div></div></div></div>
+On Wed, 3 Mar 2021 12:44:33 -0800
+"Navare, Manasi" <manasi.d.navare@intel.com> wrote:
 
---0000000000008ce9a405bcae3366--
+> On Wed, Mar 03, 2021 at 10:47:44AM +0200, Pekka Paalanen wrote:
+> > On Tue,  2 Mar 2021 12:41:32 -0800
+> > Manasi Navare <manasi.d.navare@intel.com> wrote:
+> >  =20
+> > > In case of a modeset where a mode gets split across mutiple CRTCs
+> > > in the driver specific implementation (bigjoiner in i915) we wrongly =
+count
+> > > the affected CRTCs based on the drm_crtc_mask and indicate the stolen=
+ CRTC as
+> > > an affected CRTC in atomic_check_only().
+> > > This triggers a warning since affected CRTCs doent match requested CR=
+TC.
+> > >=20
+> > > To fix this in such bigjoiner configurations, we should only
+> > > increment affected crtcs if that CRTC is enabled in UAPI not
+> > > if it is just used internally in the driver to split the mode. =20
+> >=20
+> > Hi,
+> >=20
+> > I think that makes sense to me. Stealing CRTCs that are not currently
+> > used by the userspace (display server) should be ok, as long as that
+> > is completely invisible to userspace: meaning that it does not cause
+> > userspace to unexpectedly e.g. receive or miss per-crtc atomic
+> > completion events. =20
+>=20
+> Yes since we are only doing atomic_check_only() here, the stolen
 
---===============0821099228==
+But the real not-test-only commit will follow if this test-only commit
+succeeds, and keeping the guarantees for the real commit are important.
+
+> crtc is completely invisible to the userspace and hence that is=20
+> indicated by uapi.enable which is not true for this stolen
+> crtc. However if allow modeset flag set, then it will do a full
+> modeset and indicate the uapi.enable for this stolen crtc as well
+> since that cannot be used for other modeset requested by userspace.
+>=20
+> >=20
+> > Can that also be asserted somehow, or does this already do that? =20
+>=20
+> Not clear what you want the assertion for? Could you elaborate
+
+As assertion that when the real atomic commit happens and then
+completion events are fired, they match exactly the affected crtcs mask.
+
+I understand this may be off-topic for this particular patch, but since
+we are discussing the topic, such checks would be really nice. I'm
+curious if such checks already exist.
+
+
+Thanks,
+pq
+
+>=20
+> Manasi
+>=20
+> >=20
+> >=20
+> > Thanks,
+> > pq
+> >  =20
+> > > Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> > > Cc: Simon Ser <contact@emersion.fr>
+> > > Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+> > > Cc: Daniel Stone <daniels@collabora.com>
+> > > Cc: Daniel Vetter <daniel.vetter@intel.com>
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_atomic.c | 6 ++++--
+> > >  1 file changed, 4 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomi=
+c.c
+> > > index 5b4547e0f775..d7acd6bbd97e 100644
+> > > --- a/drivers/gpu/drm/drm_atomic.c
+> > > +++ b/drivers/gpu/drm/drm_atomic.c
+> > > @@ -1358,8 +1358,10 @@ int drm_atomic_check_only(struct drm_atomic_st=
+ate *state)
+> > >  		}
+> > >  	}
+> > > =20
+> > > -	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
+> > > -		affected_crtc |=3D drm_crtc_mask(crtc);
+> > > +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
+> > > +		if (new_crtc_state->enable)
+> > > +			affected_crtc |=3D drm_crtc_mask(crtc);
+> > > +	}
+> > > =20
+> > >  	/*
+> > >  	 * For commits that allow modesets drivers can add other CRTCs to t=
+he =20
+> >  =20
+>=20
+>=20
+
+
+--Sig_/eKQv8/pHSZT3FZUwsOzSPdK
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmBAnW8ACgkQI1/ltBGq
+qqcFCw/9G1+ZHHKwPAT0dabHK9NIdG4MjGQMwmZMc9gNBca3eUt7CgNS88sTFmY1
+Zfej90sWSmYtpo6tlrFrQtwbxQ8x3XV6DEaEEfyh/JQzDLrunvFQ2kaK1hAyrd0P
+aOuzwXKGYZjwsdNJsKsv6GjdviYT+qtRJFLwYSl9AnJcgxg16wrqEiwlF1Rt3p15
+cDpLK46FQsUvUBrU2xAv/7kg25+M4hAEPYnS2aTEi3AFMs2sJDpYhZEyIyjqsjng
+OM3b8f4vp97125B+ixqMCY3RayBVZuItpO/ELidpu7bfHkfBl9ZscDXY8QxVcfHm
+r2m9D1bpHRCEKWkoeyTV0ac9MnhXD0lrsBPsB//UAku15Fblcros4KZc10DoTz79
+qBlJBb0kCp54BQyIVFu/n9R7IQ7lYXK9I/t2BTxjExJEaoE81MVAefQ2T3ErgzZX
+FyyDtWbHTgDYDlpBnB5gFnQS/AlAFcGqKzHMytXqVj4y9xg6PWdP3u0fuspey+uy
+A4btQbEnkJTIxBctswLk0yRNYxq3EAF54Vsl2NUhjGFpIcFGZ+JxpuyvGBkGF7aU
+5ycC52AGo1s3uM8Bg7nyfivK3flrQwvogLjmBMD8MYxbC+8lMASXyX5TfTseFmpT
+fTyA1ggWSpKqYEpCRTe5yC0a/9XoJptO4vdfLUdNShJ1O9bV3j4=
+=yCWz
+-----END PGP SIGNATURE-----
+
+--Sig_/eKQv8/pHSZT3FZUwsOzSPdK--
+
+--===============1369322366==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -184,4 +216,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0821099228==--
+--===============1369322366==--
