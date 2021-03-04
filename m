@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E2F32D8B7
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 18:40:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AAF432D8B6
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 18:40:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2792D6EA4B;
-	Thu,  4 Mar 2021 17:40:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C44C6E10B;
+	Thu,  4 Mar 2021 17:40:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF2A6EA4B
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DBC66E10B
  for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 17:40:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 2BAB964F64
+Received: by mail.kernel.org (Postfix) with ESMTPS id 7DD0164F51
  for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 17:40:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1614879619;
- bh=bcBqsL+dXAimvGWeyYMhq7bKVsD2GD72OuKaHXrljGA=;
+ bh=peEPHYNm4X5MfrdjghmNJ4fMqOnkbQCF326Vs91/GWE=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=HaD7woTv3VhJ0hacz8bzMP+nmEd3Q1dXz6kCz394yu7zwlxgyjnulgTT0Y21MhXr5
- AdCp4BGOafWsvJHeRRxRprzEQhbZJRRJn36ioDX5JcdLCVHOsGfyJ8wXHz0kIWzynq
- z7iFmjTsw13i85+Mb8NI20eknU6gZheq7hQqYlGx5oNtRVhde+0Bs/57u2yV4eKM82
- g5GzQNRV5iwBeKN2lk39ZUIOWFH/Hed6ZLM2roycFQsTcIoc2wr5C+gPFzBEMQ4NdN
- xnZd+7Kvtlmjv+j3ci/8/rpKPSNBZYJuN0sc4slin15NbYH6orRs6kSm2kPPnPEeXy
- Xm/GIxbKATutw==
+ b=Ng1CrhoqNxsEDmn+riAHrJP4GeEytT4sTH/wdw+lvOaRo1bMy8+LQxLP+6RmvDg6S
+ LdezpvZQm34Bnnlq8m5L/VUlWYN/pViiRzbYhi+TuxDNUAbx3MjoAhg4a7BZ8EhV62
+ wTfy3+U6B0WcwCxCS8e1m55RolJ63LFr5Rlk3awPPIwI08xtwbIusMukrLN+jxOh77
+ OOjbe1UVMrxyz/9ez6M++Cut5JGuZ9GNqwBiUvMlvJucrd6coQAAE57J6uBA9ToRoC
+ G6tUYd6SkAOVWQMZUPl4aSoFPXC7Yvp6CbsBkZCbKN4O10qb+oDeHiqgRPeDpvJL8F
+ 2IiAniOmC0Hrg==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 267866537D; Thu,  4 Mar 2021 17:40:19 +0000 (UTC)
+ id 7947F65372; Thu,  4 Mar 2021 17:40:19 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211997] sys-kernel/gentoo-sources-5.11.2 crash upon disconnect
- HDMI monitor AMDGPU
+Subject: [Bug 211649] "drm/amd/display: reuse current context instead of
+ recreating one" cause hdmi hotplug blackscreen on amdgpu
 Date: Thu, 04 Mar 2021 17:40:18 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
@@ -41,14 +41,14 @@ X-Bugzilla-Keywords:
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: stefan@konink.de
 X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: DUPLICATE
+X-Bugzilla-Resolution: CODE_FIX
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution
-Message-ID: <bug-211997-2300-8nr2X39BHs@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211997-2300@https.bugzilla.kernel.org/>
-References: <bug-211997-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-211649-2300-EryMnHhakV@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211649-2300@https.bugzilla.kernel.org/>
+References: <bug-211649-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -69,18 +69,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=211997
+https://bugzilla.kernel.org/show_bug.cgi?id=211649
 
 Stefan de Konink (stefan@konink.de) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Resolution|PATCH_ALREADY_AVAILABLE     |DUPLICATE
+                 CC|                            |stefan@konink.de
 
---- Comment #5 from Stefan de Konink (stefan@konink.de) ---
-
-
-*** This bug has been marked as a duplicate of bug 211649 ***
+--- Comment #18 from Stefan de Konink (stefan@konink.de) ---
+*** Bug 211997 has been marked as a duplicate of this bug. ***
 
 -- 
 You may reply to this email to add a comment.
