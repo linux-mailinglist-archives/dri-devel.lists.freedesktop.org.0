@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D8432D38B
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 13:49:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1E832D3A0
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 13:54:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94A466E4AE;
-	Thu,  4 Mar 2021 12:49:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB67E6E4F3;
+	Thu,  4 Mar 2021 12:54:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 113AD6E4AE
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 12:49:45 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id C513564F34
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 12:49:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C20806E4F3
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 12:54:27 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 6E29E64F2C
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 12:54:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614862184;
- bh=r7QuXDLKXEF2mkERKBQzqpV0YX5wwF/7dIgGq+FJATo=;
+ s=k20201202; t=1614862467;
+ bh=s0RZmBs2pkyRu/Vf3UO6L52qEtvxkg78ABGEl6yE5nQ=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=q7ImUVGEV+74MrVmDT2ifREhGLLZvagajaWQnnFIMJNu0Ii3GB2e+3aGsQLYriBXp
- h4DGxOwEsSAOi7dNqlh9OmJI9pghTrfLdAJaE4+ONyCgo+fNHD3sKqRZGzgt7szXHs
- Gl2Tv2x2WpD6sbFSGmfJy3J2zxwiDkzrr7eXz3rNtLizKgbW3Z6lM96khVbjgyGiwS
- fhsde09DEiIGu9L+jT4wqwNK/bVnVURGsVk7Ou4faxCYzd+IiBVL97Udri1ZYF5zv5
- DrFATRP/Rrq0V8xjx4I1bVXx56rL5mPKI90KvPcctEWB1aD8CgZYKS/+vUJjVtmsV3
- hxIVSFIkXQOeA==
+ b=b+R1Q1QzLJmwGIcEjwVvBKSJkliwdUPquXlFgscNOjUd5g4TWt7eRmqh4O9SBeG3s
+ XgkXcTkWNd0UY8MaJNiA/SXHxiBflTrOOL25Q6RweDb0FBJvwz6PEF3WlOZRtzPuXv
+ NWR8+Xrq06fq6luwdq9yCKqE/+blJ51rjjrMdYGelgezxMreibL2FXIISsXGUmCOCz
+ wm6nqowJeaS7lI2g0QTXd18Jh/Sihn48/SxDN8G400QQwoz3ZOFUIz6NaMv2m/VjfF
+ QppqdJdr4kFQO4+yt+4lbiMg99YMk0uWIDO2pr5K9a1btvvFrZuYWxl5ltAqwqFrHX
+ h5bTlPRhogSJA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id BDF7D653C6; Thu,  4 Mar 2021 12:49:44 +0000 (UTC)
+ id 6305D653C6; Thu,  4 Mar 2021 12:54:27 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211997] sys-kernel/gentoo-sources-5.11.2 crash upon disconnect
  HDMI monitor AMDGPU
-Date: Thu, 04 Mar 2021 12:49:44 +0000
+Date: Thu, 04 Mar 2021 12:54:27 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -39,14 +39,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stefan@konink.de
+X-Bugzilla-Who: pmenzel+bugzilla.kernel.org@molgen.mpg.de
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: PATCH_ALREADY_AVAILABLE
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-211997-2300-0Rvd8P5han@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211997-2300-hqYjxzhcoc@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211997-2300@https.bugzilla.kernel.org/>
 References: <bug-211997-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,16 +71,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=211997
 
-Stefan de Konink (stefan@konink.de) changed:
+--- Comment #4 from Paul Menzel (pmenzel+bugzilla.kernel.org@molgen.mpg.de) ---
+Thank you for updating the status. Can you please mark it as a duplicate of bug
+#211649 [1].
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |PATCH_ALREADY_AVAILABLE
-
---- Comment #3 from Stefan de Konink (stefan@konink.de) ---
-Resolved by
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=efc8278eecfd5e6fa36c5d41e71d038f534fe107
+[1]: https://bugzilla.kernel.org/show_bug.cgi?id=211649
 
 -- 
 You may reply to this email to add a comment.
