@@ -2,31 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B0D32D000
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 10:49:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D8432D38B
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 13:49:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 777226EA12;
-	Thu,  4 Mar 2021 09:49:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94A466E4AE;
+	Thu,  4 Mar 2021 12:49:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B8CD6E243;
- Thu,  4 Mar 2021 09:49:32 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1lHkbo-0004S9-BN; Thu, 04 Mar 2021 09:49:28 +0000
-From: Colin King <colin.king@canonical.com>
-To: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- virtualization@lists.linux-foundation.org,
- spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] qxl: Fix uninitialised struct field head.surface_id
-Date: Thu,  4 Mar 2021 09:49:28 +0000
-Message-Id: <20210304094928.2280722-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.30.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 113AD6E4AE
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 12:49:45 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id C513564F34
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 12:49:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1614862184;
+ bh=r7QuXDLKXEF2mkERKBQzqpV0YX5wwF/7dIgGq+FJATo=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=q7ImUVGEV+74MrVmDT2ifREhGLLZvagajaWQnnFIMJNu0Ii3GB2e+3aGsQLYriBXp
+ h4DGxOwEsSAOi7dNqlh9OmJI9pghTrfLdAJaE4+ONyCgo+fNHD3sKqRZGzgt7szXHs
+ Gl2Tv2x2WpD6sbFSGmfJy3J2zxwiDkzrr7eXz3rNtLizKgbW3Z6lM96khVbjgyGiwS
+ fhsde09DEiIGu9L+jT4wqwNK/bVnVURGsVk7Ou4faxCYzd+IiBVL97Udri1ZYF5zv5
+ DrFATRP/Rrq0V8xjx4I1bVXx56rL5mPKI90KvPcctEWB1aD8CgZYKS/+vUJjVtmsV3
+ hxIVSFIkXQOeA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id BDF7D653C6; Thu,  4 Mar 2021 12:49:44 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211997] sys-kernel/gentoo-sources-5.11.2 crash upon disconnect
+ HDMI monitor AMDGPU
+Date: Thu, 04 Mar 2021 12:49:44 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: stefan@konink.de
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: PATCH_ALREADY_AVAILABLE
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-211997-2300-0Rvd8P5han@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211997-2300@https.bugzilla.kernel.org/>
+References: <bug-211997-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,41 +64,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Colin Ian King <colin.king@canonical.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=211997
 
-The surface_id struct field in head is not being initialized and
-static analysis warns that this is being passed through to
-dev->monitors_config->heads[i] on an assignment. Clear up this
-warning by initializing it to zero.
+Stefan de Konink (stefan@konink.de) changed:
 
-Addresses-Coverity: ("Uninitialized scalar variable")
-Fixes: a6d3c4d79822 ("qxl: hook monitors_config updates into crtc, not encoder.")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/gpu/drm/qxl/qxl_display.c | 1 +
- 1 file changed, 1 insertion(+)
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |PATCH_ALREADY_AVAILABLE
 
-diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-index 012bce0cdb65..10738e04c09b 100644
---- a/drivers/gpu/drm/qxl/qxl_display.c
-+++ b/drivers/gpu/drm/qxl/qxl_display.c
-@@ -328,6 +328,7 @@ static void qxl_crtc_update_monitors_config(struct drm_crtc *crtc,
- 
- 	head.id = i;
- 	head.flags = 0;
-+	head.surface_id = 0;
- 	oldcount = qdev->monitors_config->count;
- 	if (crtc->state->active) {
- 		struct drm_display_mode *mode = &crtc->mode;
+--- Comment #3 from Stefan de Konink (stefan@konink.de) ---
+Resolved by
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=efc8278eecfd5e6fa36c5d41e71d038f534fe107
+
 -- 
-2.30.0
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
