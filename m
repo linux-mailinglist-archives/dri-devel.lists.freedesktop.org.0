@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1E832D3A0
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 13:54:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F7E32D3A1
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 13:54:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB67E6E4F3;
-	Thu,  4 Mar 2021 12:54:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4745E6EA17;
+	Thu,  4 Mar 2021 12:54:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C20806E4F3
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 12:54:27 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 6E29E64F2C
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 12:54:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D7B46EA17
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 12:54:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id F2C7064F34
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 12:54:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614862467;
- bh=s0RZmBs2pkyRu/Vf3UO6L52qEtvxkg78ABGEl6yE5nQ=;
+ s=k20201202; t=1614862489;
+ bh=2vq+dAliNv2ZFIyPSXVtBoWouGbp0su5bfgyuakkGCI=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=b+R1Q1QzLJmwGIcEjwVvBKSJkliwdUPquXlFgscNOjUd5g4TWt7eRmqh4O9SBeG3s
- XgkXcTkWNd0UY8MaJNiA/SXHxiBflTrOOL25Q6RweDb0FBJvwz6PEF3WlOZRtzPuXv
- NWR8+Xrq06fq6luwdq9yCKqE/+blJ51rjjrMdYGelgezxMreibL2FXIISsXGUmCOCz
- wm6nqowJeaS7lI2g0QTXd18Jh/Sihn48/SxDN8G400QQwoz3ZOFUIz6NaMv2m/VjfF
- QppqdJdr4kFQO4+yt+4lbiMg99YMk0uWIDO2pr5K9a1btvvFrZuYWxl5ltAqwqFrHX
- h5bTlPRhogSJA==
+ b=rlDF6CU+CAsgQ6ApoH3CJFeW+wpGH89VJaKYUo+ABARi/4Zsxi7iRK+GH8ZPg29RH
+ ly0AApdZbZBm1kEPWaC+p5ouV5ljxFN9i+KTkOGTwmlbA0g0s6Owdna/yfl7tVo3i1
+ HPP9KQ9KskBFvmSVMQ5y4v+GGZho5ZKlK7EBTSsSM9HPDJ9nc8yLvXz69mjs5M34fY
+ 6ffjzow43MTJHPTdMYLA/OtH7jNoXzGrX92Q8r1sqGy0PxAliXdxZ+K/sf6htqfm8q
+ gfpmtDgVmzNswl/GYiOfuOcv6ll40cM/mP+ErAURpe1pUfErk4m/uUq+JpaJ7pngnH
+ /GDw/AtUjlE0Q==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 6305D653C6; Thu,  4 Mar 2021 12:54:27 +0000 (UTC)
+ id ECD4D6537D; Thu,  4 Mar 2021 12:54:48 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211997] sys-kernel/gentoo-sources-5.11.2 crash upon disconnect
- HDMI monitor AMDGPU
-Date: Thu, 04 Mar 2021 12:54:27 +0000
+Subject: [Bug 211649] "drm/amd/display: reuse current context instead of
+ recreating one" cause hdmi hotplug blackscreen on amdgpu
+Date: Thu, 04 Mar 2021 12:54:48 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -40,15 +40,15 @@ X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: pmenzel+bugzilla.kernel.org@molgen.mpg.de
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: PATCH_ALREADY_AVAILABLE
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211997-2300-hqYjxzhcoc@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211997-2300@https.bugzilla.kernel.org/>
-References: <bug-211997-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-211649-2300-XIEVVlfF0m@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211649-2300@https.bugzilla.kernel.org/>
+References: <bug-211649-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -69,13 +69,17 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=211997
+https://bugzilla.kernel.org/show_bug.cgi?id=211649
 
---- Comment #4 from Paul Menzel (pmenzel+bugzilla.kernel.org@molgen.mpg.de) ---
-Thank you for updating the status. Can you please mark it as a duplicate of bug
-#211649 [1].
+Paul Menzel (pmenzel+bugzilla.kernel.org@molgen.mpg.de) changed:
 
-[1]: https://bugzilla.kernel.org/show_bug.cgi?id=211649
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |pmenzel+bugzilla.kernel.org
+                   |                            |@molgen.mpg.de
+
+--- Comment #16 from Paul Menzel (pmenzel+bugzilla.kernel.org@molgen.mpg.de) ---
+Can this bug be closed then?
 
 -- 
 You may reply to this email to add a comment.
