@@ -1,35 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B1B32D864
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 18:12:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A33DC32D8A2
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 18:31:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE12A6EA3E;
-	Thu,  4 Mar 2021 17:12:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE776EA4D;
+	Thu,  4 Mar 2021 17:31:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 537046EA3E;
- Thu,  4 Mar 2021 17:12:39 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6110231B;
- Thu,  4 Mar 2021 09:12:38 -0800 (PST)
-Received: from [10.57.19.206] (unknown [10.57.19.206])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 427663F7D7;
- Thu,  4 Mar 2021 09:12:34 -0800 (PST)
-Subject: Re: [PATCH] devfreq: Register devfreq as a cooling device
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-References: <20210304125034.28404-1-daniel.lezcano@linaro.org>
- <5f06e0c5-b2d9-5e11-01b6-fdd0dac635a7@arm.com>
- <8d153937-c5fc-1de2-d510-d3f91f7a9724@linaro.org>
-From: Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <71bc8b07-ea0e-17a9-8c7f-d20669e9da12@arm.com>
-Date: Thu, 4 Mar 2021 17:12:32 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EA4D6EA4D;
+ Thu,  4 Mar 2021 17:31:48 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id dm26so12387982edb.12;
+ Thu, 04 Mar 2021 09:31:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=mFJkIu2FXvtkDpFJE0YmuEWK9i6pyLOFA3YFPGlSnuQ=;
+ b=rbfU5Rzi5WWAWPDeItQayYWECjBCBdyIrhMGDTSQadNzXv1rj1LQPD0/71lcd4ffIV
+ QGck7qKZWwO0fGOzJ86FRZCB3Ay35I5dNiKN60PQv9n6sxeA7bNjc0waBxHx0XaCJjcl
+ PSGeQKKfoWXC/HvxP695/eI/YoTRCZiIbjehNwBmXkIEwJ6WZ2hY8+uACQ6pMNCkf3wd
+ hwMLwbLgz9LvxU6eGD7JMyGV6dGbhQWwRICmPzF6spDRsk9UPBK9OjvPJHuryT+98Bcr
+ mkjUSnm9Zbb4cQsKFQLNkiGxBZsiscD6INOnHhti06QS3jCMrbCN3zZOxCzjezaEzRSJ
+ BZug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=mFJkIu2FXvtkDpFJE0YmuEWK9i6pyLOFA3YFPGlSnuQ=;
+ b=g/5PoI788KEQOLPtRtxA0j5/06+SdF1hiGamvHGnThh4gdzbNFyZnGe5VSIyF4gwD9
+ GBropCdcO6s84jqtztqXZnCOdNaH1jNVD6+26S0F5U1r+K+u0wEnqICd0tcjF2GG5Z1y
+ Ep8Ucx6u53eTxfJZ3jQtdlSoptNF3MqQGuiBaznVgjVO9canEyebM2TU6H4A/uq1T1kC
+ ct21IOs3Dl0GA85nfVxWaOj0TddQAaIVWwUm1ilLtj/WQ0hpq4WGp2/woFe6EeP0V0WG
+ vwkOlwtFk9G7MqCskd/9uuD62/O/zEdolgcrYy+ARlm9PL/BWfvCik+YWTC0Czib9Oqi
+ NzbQ==
+X-Gm-Message-State: AOAM533HAU58kTXIicbwvWerBgBbt62OvSZH3A83gQNeyPEkCl1hC6eh
+ 5DW3gOfT8zW8OwkFkW74eEim+yezaNtLIg==
+X-Google-Smtp-Source: ABdhPJySeN8uiUqgTpENA26YsEEuwFtAbWjPpIPsqXivHhLe1BffZ6+r04tbmEkvf2yUmhEIlMqi8g==
+X-Received: by 2002:a05:6402:10ce:: with SMTP id
+ p14mr5535773edu.348.1614879107166; 
+ Thu, 04 Mar 2021 09:31:47 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:3d04:4b7c:635f:3a0?
+ ([2a02:908:1252:fb60:3d04:4b7c:635f:3a0])
+ by smtp.gmail.com with ESMTPSA id b19sm24917478edu.51.2021.03.04.09.31.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Mar 2021 09:31:46 -0800 (PST)
+Subject: Re: [PATCH] drm/ttm: ioremap buffer according to TTM mem caching
+ setting
+To: "Bhardwaj, Rajneesh" <rajneesh.bhardwaj@amd.com>,
+ Oak Zeng <Oak.Zeng@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, brahma_sw_dev@amd.com
+References: <1614873891-5836-1-git-send-email-Oak.Zeng@amd.com>
+ <69501a46-ffbe-437c-3651-03400b3455a5@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <4fd6a67c-34dd-9510-4057-835c0c8eb190@gmail.com>
+Date: Thu, 4 Mar 2021 18:31:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <8d153937-c5fc-1de2-d510-d3f91f7a9724@linaro.org>
+In-Reply-To: <69501a46-ffbe-437c-3651-03400b3455a5@amd.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,138 +75,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DRM DRIVERS FOR LIMA" <lima@lists.freedesktop.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-pm@vger.kernel.org,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- linux-kernel@vger.kernel.org,
- "open list:DRM DRIVERS FOR LIMA" <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- kyungmin.park@samsung.com, myungjoo.ham@samsung.com,
- Qiang Yu <yuq825@gmail.com>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
- Sean Paul <sean@poorly.run>, cwchoi00@gmail.com,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Alexander.Deucher@amd.com, jinhuieric.huang@amd.com, Felix.Kuehling@amd.com,
+ harish.kasiviswanathan@amd.com, christian.koenig@amd.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 3/4/21 4:53 PM, Daniel Lezcano wrote:
-> 
-> Hi Lukasz,
-> 
-> thanks for commenting this patch,
-> 
-> On 04/03/2021 14:47, Lukasz Luba wrote:
->> Hi Daniel,
->>
->> On 3/4/21 12:50 PM, Daniel Lezcano wrote:
->>> Currently the default behavior is to manually having the devfreq
->>> backend to register themselves as a devfreq cooling device.
->>>
->>> There are no so many and actually it makes more sense to register the
->>> devfreq device when adding it.
->>>
->>> Consequently, every devfreq becomes a cooling device like cpufreq is.
->>>
->>> Having a devfreq being registered as a cooling device can not mitigate
->>> a thermal zone if it is not bound to this one. Thus, the current
->>> configurations are not impacted by this change.
->>
->> There are also different type of devices, which register into devfreq
->> framework like NoC buses, UFS/eMMC, jpeg and video accelerators, ISP,
->> etc.
->> In some platforms there are plenty of those devices and they all would
->> occupy memory due to private freq_table in devfreq_cooling, function:
->> devfreq_cooling_gen_tables().
->>
->> IIRC in OdroidXU4 there are ~20 devfreq devs for NoC buses.
-> 
-> I'm curious, do you have a pointer to such kernels having all those
-> devfreq ?
-
-Sure, it's mainline code, you can build it with exynos_defconfig.
-You can check the DT files to find them arch/arm/boot/dts/exynos*.
-(this particular OdroidXU4 is Exynos5422, but it grabs some generic dt
-files).
-
-Here is the mainline kernel content of /sys/class/devfreq/
-----------------------------------------------------------
-sys/class/devfreq /
-10c20000.memory-controller  soc:bus-g2d          soc:bus-mfc
-11800000.gpu                soc:bus-g2d-acp      soc:bus-mscl
-soc:bus-disp1               soc:bus-gen          soc:bus-noc
-soc:bus-disp1-fimd          soc:bus-gscl-scaler  soc:bus-peri
-soc:bus-fsys-apb            soc:bus-jpeg         soc:bus-wcore
-soc:bus-fsys2               soc:bus-jpeg-apb
-----------------------------------------------------------
-
-IIRC some Odroid kernel maintained by Hardkernel had more devices
-in this dir.
-
-
-Here is how these bus devices print themselves during boot:
-----------------------------------------------------------
-[    8.674840] exynos-bus: new bus device registered: soc:bus-wcore ( 
-88700 KHz ~ 532000 KHz)
-[    8.686412] exynos-bus: new bus device registered: soc:bus-noc ( 
-66600 KHz ~ 111000 KHz)
-[    8.696080] exynos-bus: new bus device registered: soc:bus-fsys-apb 
-(111000 KHz ~ 222000 KHz)
-[    8.706590] exynos-bus: new bus device registered: soc:bus-fsys2 ( 
-75000 KHz ~ 200000 KHz)
-[    8.717661] exynos-bus: new bus device registered: soc:bus-mfc ( 
-83250 KHz ~ 333000 KHz)
-[    8.728139] exynos-bus: new bus device registered: soc:bus-gen ( 
-88700 KHz ~ 266000 KHz)
-[    8.737551] exynos-bus: new bus device registered: soc:bus-peri ( 
-66600 KHz ~  66600 KHz)
-[    8.748625] exynos-bus: new bus device registered: soc:bus-g2d ( 
-83250 KHz ~ 333000 KHz)
-[    8.759427] exynos-bus: new bus device registered: soc:bus-g2d-acp ( 
-66500 KHz ~ 266000 KHz)
-[    8.770366] exynos-bus: new bus device registered: soc:bus-jpeg ( 
-75000 KHz ~ 300000 KHz)
-[    8.781135] exynos-bus: new bus device registered: soc:bus-jpeg-apb ( 
-83250 KHz ~ 166500 KHz)
-[    8.791366] exynos-bus: new bus device registered: soc:bus-disp1-fimd 
-(120000 KHz ~ 200000 KHz)
-[    8.802418] exynos-bus: new bus device registered: soc:bus-disp1 
-(120000 KHz ~ 300000 KHz)
-[    8.813050] exynos-bus: new bus device registered: 
-soc:bus-gscl-scaler (150000 KHz ~ 300000 KHz)
-[    8.825308] exynos-bus: new bus device registered: soc:bus-mscl ( 
-84000 KHz ~ 666000 KHz)
-
-----------------------------------------------------------
-
-
-> 
->> It's true that they will not affect thermal zones, but unnecessarily,
->> they all will show up in the /sys/class/thermal/ as
->> thermal-devfreq-X
->>
->>
->> IMO the devfreq shouldn't be tight with devfreq cooling thermal.
-> 
-> The energy model is tied with a cooling device initialization.
-> 
-> So if we want to do power limitation, the energy model must be
-> initialized with the device, thus the cooling device also.
-> 
-> That is the reason why I'm ending up with this change. Chanwoo
-> suggestion makes sense and that will allow to move the initialization to
-> devfreq which is more sane but it does not solve the initial problem
-> with the energy model.
-
-Make sense, the 'is_cooling_device' does the job.
-
-Regards,
-Lukasz
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMDQuMDMuMjEgdW0gMTg6MDEgc2NocmllYiBCaGFyZHdhaiwgUmFqbmVlc2g6Cj4gSSB3YXMg
+d29uZGVyaW5nIGlmIGEgbWFuYWdlZCB2ZXJzaW9uIG9mIHN1Y2ggQVBJIGV4aXN0cyBidXQgbG9v
+a3MgbGlrZSAKPiBub25lLiBXZSBvbmx5IGhhdmUgZGV2bV9pb3JlbWFwX3djIGJ1dCB0aGF0IGlz
+IHZhbGlkIG9ubHkgZm9yIAo+IFBBR0VfQ0FDSEVfTU9ERV9XQyB3aGVyZWFzIGlvcmVtYXBfY2Fj
+aGUgdXNlcyBfV0IuIE9uZSBtb3JlIHNtYWxsIAo+IGNvbW1lbnQgYmVsb3cuCj4KPgo+IEFja2Vk
+LWJ5OiBSYWpuZWVzaCBCaGFyZHdhaiA8cmFqbmVlc2guYmhhcmR3YWpAYW1kLmNvbT4KPgo+IE9u
+IDMvNC8yMDIxIDExOjA0IEFNLCBPYWsgWmVuZyB3cm90ZToKPj4gSWYgdGJvLm1lbS5idXMuY2Fj
+aGluZyBpcyBjYWNoZWQsIGJ1ZmZlciBpcyBpbnRlbmRlZCB0byBiZSBtYXBwZWQKPj4gYXMgY2Fj
+aGVkIGZyb20gQ1BVLiBNYXAgaXQgd2l0aCBpb3JlbWFwX2NhY2hlLgo+Pgo+PiBUaGlzIHdhc24n
+dCBuZWNlc3NhcnkgYmVmb3JlIGFzIGRldmljZSBtZW1vcnkgd2FzIG5ldmVyIG1hcHBlZAo+PiBh
+cyBjYWNoZWQgZnJvbSBDUFUgc2lkZS4gSXQgYmVjb21lcyBuZWNlc3NhcnkgZm9yIGFsZGViYXJh
+biBhcwo+PiBkZXZpY2UgbWVtb3J5IGlzIG1hcHBlZCBjYWNoZWQgZnJvbSBDUFUuCj4+Cj4+IFNp
+Z25lZC1vZmYtYnk6IE9hayBaZW5nIDxPYWsuWmVuZ0BhbWQuY29tPgo+PiBSZXZpZXdlZC1ieTog
+Q2hyaXN0aWFuIEtvbmlnIDxDaHJpc3RpYW4uS29lbmlnQGFtZC5jb20+Cj4+IC0tLQo+PiDCoCBk
+cml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib191dGlsLmMgfCAxNCArKysrKysrKysrKysrKwo+PiDC
+oCAxIGZpbGUgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygrKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdXRpbC5jIAo+PiBiL2RyaXZlcnMvZ3B1L2RybS90dG0v
+dHRtX2JvX3V0aWwuYwo+PiBpbmRleCAwMzFlNTgxLi43NDI5NDY0IDEwMDY0NAo+PiAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib191dGlsLmMKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L3R0bS90dG1fYm9fdXRpbC5jCj4+IEBAIC05MSw2ICs5MSwxMCBAQCBzdGF0aWMgaW50IHR0bV9y
+ZXNvdXJjZV9pb3JlbWFwKHN0cnVjdCB0dG1fZGV2aWNlIAo+PiAqYmRldiwKPj4gwqAgwqDCoMKg
+wqDCoMKgwqDCoMKgIGlmIChtZW0tPmJ1cy5jYWNoaW5nID09IHR0bV93cml0ZV9jb21iaW5lZCkK
+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYWRkciA9IGlvcmVtYXBfd2MobWVtLT5idXMu
+b2Zmc2V0LCBidXNfc2l6ZSk7Cj4+ICsjaWZkZWYgQ09ORklHX1g4Ngo+Cj4KPiBQbGVhc2UgdXNl
+ICNpZiBkZWZpbmVkIChDT05GSUdfWDg2KQoKQWN0dWFsbHkgI2lmZGVmIGlzIHVzdWFsbHkgcHJl
+ZmVycmVkLgoKQ2hyaXN0aWFuLgoKPgo+PiArwqDCoMKgwqDCoMKgwqAgZWxzZSBpZiAobWVtLT5i
+dXMuY2FjaGluZyA9PSB0dG1fY2FjaGVkKQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBhZGRy
+ID0gaW9yZW1hcF9jYWNoZShtZW0tPmJ1cy5vZmZzZXQsIGJ1c19zaXplKTsKPj4gKyNlbmRpZgo+
+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZWxzZQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBh
+ZGRyID0gaW9yZW1hcChtZW0tPmJ1cy5vZmZzZXQsIGJ1c19zaXplKTsKPj4gwqDCoMKgwqDCoMKg
+wqDCoMKgIGlmICghYWRkcikgewo+PiBAQCAtMzcyLDYgKzM3NiwxMSBAQCBzdGF0aWMgaW50IHR0
+bV9ib19pb3JlbWFwKHN0cnVjdCAKPj4gdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+PiDCoMKgwqDC
+oMKgwqDCoMKgwqAgaWYgKG1lbS0+YnVzLmNhY2hpbmcgPT0gdHRtX3dyaXRlX2NvbWJpbmVkKQo+
+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBtYXAtPnZpcnR1YWwgPSBpb3JlbWFwX3djKGJv
+LT5tZW0uYnVzLm9mZnNldCArIG9mZnNldCwKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNpemUpOwo+PiArI2lmZGVmIENPTkZJR19YODYK
+Pj4gK8KgwqDCoMKgwqDCoMKgIGVsc2UgaWYgKG1lbS0+YnVzLmNhY2hpbmcgPT0gdHRtX2NhY2hl
+ZCkKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbWFwLT52aXJ0dWFsID0gaW9yZW1hcF9jYWNo
+ZShiby0+bWVtLmJ1cy5vZmZzZXQgKyBvZmZzZXQsCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzaXplKTsKPj4gKyNlbmRpZgo+PiDCoMKgwqDC
+oMKgwqDCoMKgwqAgZWxzZQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBtYXAtPnZpcnR1
+YWwgPSBpb3JlbWFwKGJvLT5tZW0uYnVzLm9mZnNldCArIG9mZnNldCwKPj4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2l6ZSk7Cj4+IEBA
+IC00OTAsNiArNDk5LDExIEBAIGludCB0dG1fYm9fdm1hcChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmpl
+Y3QgKmJvLCAKPj4gc3RydWN0IGRtYV9idWZfbWFwICptYXApCj4+IMKgwqDCoMKgwqDCoMKgwqDC
+oCBlbHNlIGlmIChtZW0tPmJ1cy5jYWNoaW5nID09IHR0bV93cml0ZV9jb21iaW5lZCkKPj4gwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdmFkZHJfaW9tZW0gPSBpb3JlbWFwX3djKG1lbS0+YnVz
+Lm9mZnNldCwKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBiby0+YmFzZS5zaXplKTsKPj4gK8KgwqDCoMKgwqDCoMKgIGVsc2UgaWYgKG1lbS0+
+YnVzLmNhY2hpbmcgPT0gdHRtX2NhY2hlZCkKPj4gKyNpZmRlZiBDT05GSUdfWDg2Cj4+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIHZhZGRyX2lvbWVtID0gaW9yZW1hcF9jYWNoZShtZW0tPmJ1cy5v
+ZmZzZXQsCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBiby0+YmFzZS5zaXplKTsKPj4gKyNlbmRpZgo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZWxz
+ZQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB2YWRkcl9pb21lbSA9IGlvcmVtYXAobWVt
+LT5idXMub2Zmc2V0LCBiby0+YmFzZS5zaXplKTsKPiBfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwo+IGFtZC1nZnggbWFpbGluZyBsaXN0Cj4gYW1kLWdmeEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2FtZC1nZngKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbAo=
