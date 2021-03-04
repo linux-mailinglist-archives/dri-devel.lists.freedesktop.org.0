@@ -1,70 +1,110 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F033132D934
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 19:06:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D86632D9A4
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 19:51:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 747ED6EA5B;
-	Thu,  4 Mar 2021 18:05:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99A8A6EA63;
+	Thu,  4 Mar 2021 18:51:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B45C86EA5B;
- Thu,  4 Mar 2021 18:05:55 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id dx17so23591338ejb.2;
- Thu, 04 Mar 2021 10:05:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=1kFbFZPA0oqUzyK6k1THFBO4JGyWy6axKrA1ySkqkG0=;
- b=EZcYifieQPOY3UzN/TTrHw1uGwcr/xOpWgejGfki5fh5OGvfRGw7NWPb4iml+oT7D/
- 0sdH8AZNpVCn+PG35swfOOZ6KclMkVajlL48RQIIONOR+HQcoForzm0u+8eS7eKOA/0E
- +jBkYVxay68hpG3on+h9C/Slz1vn7ywHdE8xp7F3DU8uE1ir3B0l/9+104Bhea4yNWIx
- y7Uc3CjP5fMgcf1qIcSW87J9vkA5lMn5vY8DaIXW68W1qEKRpVkkSIQ/F81GtBWC11OR
- rfKl3MOirFvok4YZo2Zh1ACEV/tWltEnJQyDdUCjqRyiUvNczW9VhVmt0VCPA/7EkcuD
- WH3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=1kFbFZPA0oqUzyK6k1THFBO4JGyWy6axKrA1ySkqkG0=;
- b=QquwfD+ii98rvFUq9GTJ2vuk0AGIy0wpQQMh15lisMf/FRbu2ktNi1M70Bw7wwynkJ
- JEVrQ1Al0SpSoHomH1GAplf1lRgtw5K3rqqhs9ngJoFtrqPtMDy0K01ZMjbfdMA5+nE3
- /837g+69LL7uDA9DNlvOBQ/W5zZjNhU7Ype1KNjcfdulgKeD+0CmaD+IiS8rSE+eRZBS
- fba+PfzGM6ynoZq+FDpvV4ecLGXG3yzzs5d34BDH8xX4zc9fMroI2UWPb9Bvxnk4Nr/F
- 7Ak3J7/QXHoCbCQEUrwdJU9qY3zuhH6oYfZSSOMUBiPM9R52hgJdT3HLm1XxZJls1bNd
- MQ9Q==
-X-Gm-Message-State: AOAM533UIUQFNZ2qXvdOW2Ljmb60x7Udk49FFP4UNDnc+RsDdXOF5jDv
- hnI6G7fo4d0exfr5girasi4=
-X-Google-Smtp-Source: ABdhPJzfXRQwiddGgkdTWQ9x5UtvXBwSjKAXf2IUgmn4hC1E5lbsS+uKa6NKDDhdZkNEemeOuN6bxA==
-X-Received: by 2002:a17:906:3b99:: with SMTP id
- u25mr5587920ejf.277.1614881154444; 
- Thu, 04 Mar 2021 10:05:54 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:3d04:4b7c:635f:3a0?
- ([2a02:908:1252:fb60:3d04:4b7c:635f:3a0])
- by smtp.gmail.com with ESMTPSA id y12sm2368ejb.104.2021.03.04.10.05.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Mar 2021 10:05:54 -0800 (PST)
-Subject: Re: [PATCH] drm/ttm: ioremap buffer according to TTM mem caching
- setting
-To: "Bhardwaj, Rajneesh" <rajneesh.bhardwaj@amd.com>,
- Oak Zeng <Oak.Zeng@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, brahma_sw_dev@amd.com
-References: <1614873891-5836-1-git-send-email-Oak.Zeng@amd.com>
- <69501a46-ffbe-437c-3651-03400b3455a5@amd.com>
- <4fd6a67c-34dd-9510-4057-835c0c8eb190@gmail.com>
- <cc59a59a-116e-68d7-88fd-6c359a5e98c5@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <d02a157f-55b0-0454-6470-889055cbfb43@gmail.com>
-Date: Thu, 4 Mar 2021 19:05:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-MIME-Version: 1.0
-In-Reply-To: <cc59a59a-116e-68d7-88fd-6c359a5e98c5@amd.com>
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+ (mail-bl2nam02on0609.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe46::609])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99AF76EA61;
+ Thu,  4 Mar 2021 18:51:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cg4+5imIluMaBvSH5yFfoshG1f/iiLodRUPkYN/lXTswn6WFjw3GRo1Z7Jcc9bvXaLu5wbejxiAvOo7EDpIpeLwJvTaI3fVSOsTd4Ld6ugMvMGYBojzl9DYDY9/mqfzpBfMOiBUa7QM/0cweGLbNjVYKRarMUW4KAL4hSUlpvRMxmxmd/2Dm7ZZkqGgJBCths1rkb6OWm9TMZNRipDfMpq3OLrnI76ZTi5Gz3AqOwde/Nae1n4f8UJ7UmIYu1A5u1sjfwE3TziDFAxYMq2cU0wGLpCIJbyv8hk5nWSETuz/3J2tFQzE842TaoWMOeYAk1D8mepQQmlYiCkn35cctJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BipIAdY8QxQQP9r6vHHu+nKM1rymChBcqHijC+nbeCA=;
+ b=RMHxy+DeqeWrvEpYm+I3UB/xxmtS3TII7qhtC6vA+aHfKfxD4KXrkbXLluVqBxLOVAFw7OAEM7PCWOQuqVxqnuiqbVlmnH+rMH7acZ3fU4AR5vCQIrJOXBkRODfMw57NQr6QgywDd1OJvjEkqvSob7Dn1HQS9Lnx5px43y7VwgqyBsuxkWPNjuXjkTRmASoTiFrA3G0bsLsWqwGSMUerUqLB5CVPxSvo7WcuXYwHECau4Dzy3UE+ybtaL3UjKDqKO677OuyTsGTYJnycM0uQLMvvpTykbStg/CGH+oIPqZXGL+yzt1V0DxqLuPtvXKxDvcrphfovy4H5249h7ct9tg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BipIAdY8QxQQP9r6vHHu+nKM1rymChBcqHijC+nbeCA=;
+ b=Ys4/evoBToQxjsqvA/ahZwbN2aNWrExJnd7xb1ydvFWoMQvqiyVNYm7jOcJmMkxTJTjSD2K+XL7Zqz2Ir3FjS33ZwozcGq1kT0J9vVR8Hzd52vo1GKomCF0k2HGDZcPb38WF9t9gJWeiSjILNLXRwySANbuWWWpCiqapjo0LNW8=
+Received: from MN2PR05MB6624.namprd05.prod.outlook.com (2603:10b6:208:d8::18)
+ by MN2PR05MB6125.namprd05.prod.outlook.com (2603:10b6:208:ca::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.9; Thu, 4 Mar
+ 2021 18:47:43 +0000
+Received: from MN2PR05MB6624.namprd05.prod.outlook.com
+ ([fe80::88de:ad34:82d7:a02e]) by MN2PR05MB6624.namprd05.prod.outlook.com
+ ([fe80::88de:ad34:82d7:a02e%6]) with mapi id 15.20.3912.017; Thu, 4 Mar 2021
+ 18:47:43 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [patch 2/7] drm/vmgfx: Replace kmap_atomic()
+Thread-Topic: [patch 2/7] drm/vmgfx: Replace kmap_atomic()
+Thread-Index: AQHXEQkLtX7XWO+vPk2wGitdZqo3uKp0K5sA
+Date: Thu, 4 Mar 2021 18:47:43 +0000
+Message-ID: <66B6DD38-3BE5-4B94-A15C-8A1B1D417754@vmware.com>
+References: <20210303132023.077167457@linutronix.de>
+ <20210303132711.487711828@linutronix.de>
+In-Reply-To: <20210303132711.487711828@linutronix.de>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.40.0.2.32)
+authentication-results: linutronix.de; dkim=none (message not signed)
+ header.d=none;linutronix.de; dmarc=none action=none header.from=vmware.com;
+x-originating-ip: [71.175.59.246]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d81edded-bcea-45f9-f99b-08d8df3dfef9
+x-ms-traffictypediagnostic: MN2PR05MB6125:
+x-ld-processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR05MB6125484484510E5027259DC8CE979@MN2PR05MB6125.namprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: l6yWHHBuxV8YJRmdyaUbgkKzCLKdQoJpyqKB8CqV17BBJlzKVnhb1uMlqU8W2keYa+XVz+8o2u5Iil4oDiBMbRe0+5slc+hZQ6Lq5bzkTIOgAj9m49gyrkSegqNvFk4qluXekjg1PVOT0VV3THj/9KdSkaKEBxpSEaRzVD6d1XwWWcoHmI4AIC+fvYwNlgApvPeOQFJJ2fT/OaWrZlROSYclq2ZtJuJLYIwSUXIQxzcSA3FCiTMSSazom4SGjeQ72Szg/Jfw04r9NNgmQDaEH3+w5uhnnA0Noi0KTSee+2YuY3gAaotCxhis6lEGxmKogbxxb/EAPcnoEhv3+KNRGuCifWHAkJjFtfj79ME9iginQYs6wKHlsO2t4d4z9YO3aZLdQrcizD8iQbm87oSnESjfuUjahEwtzGbCu+ZRDs78zCx8hFDfSewIApdx9LATcOtIoYXtfaFHBjW/08cXW06wLjgCD8+hgHT8erDtRmGljdvXRJ/c0qcrq5xVYcuNlikz/EZSio7sqpNGE0fomfn4o2/T6IRoW1gkotyQYEe7rbvCaGh3vs755L1CrpxiItiYScrld8ldPixOT7evwg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR05MB6624.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(136003)(396003)(376002)(39860400002)(366004)(66556008)(36756003)(83380400001)(4326008)(71200400001)(6512007)(6486002)(64756008)(478600001)(26005)(66446008)(186003)(66946007)(316002)(7416002)(66476007)(76116006)(54906003)(5660300002)(2616005)(8936002)(6916009)(53546011)(6506007)(33656002)(2906002)(8676002)(86362001)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?eq87qIr1HBOFvLSlJue1w71kyUaFeWgVttgXvOKpqXZCAuT96fSaRqRiBdwf?=
+ =?us-ascii?Q?VHQZw8r6Xbqm9N4Q8roodmhLric0CGKCGsecOusVd/lR8BF0uWSLr6NMWSYX?=
+ =?us-ascii?Q?l5nNMmAqfHsH+XeDaHDp/ht4JA/f4CF2ULkXir+daX7xMLUcrnzuE47doIa9?=
+ =?us-ascii?Q?6phadXu9IM392jZHBeAxBivi8AqqSBFuz/uMez8vvkq/2dySNiJL2R1c/hgB?=
+ =?us-ascii?Q?CkxsKFcP3r0/FoY0wlhqBp21LQTz1pKFQN+CBD2X6zn3IVahqKGrz8svtI6f?=
+ =?us-ascii?Q?pcCj5ok6hNWjsAu1mXLUznKm9ZQASlk5H4+f1Bt0WcV/svpHerdX8066uw/C?=
+ =?us-ascii?Q?RCS5Q6LzHhsPBPmzd8Cqu9f+su6K+jyBiYGo9ZjHeltjOTqgdRzi4c9YA7+E?=
+ =?us-ascii?Q?liAV4Fqn00lFOJu9nPy1R9kPczbflsLsHxpCEV1TqZGr5mshcx+Y58QouO/U?=
+ =?us-ascii?Q?jMj8463Dp5JuxD/+QC4Tl/YINnzj6ZAjOOyEef80P9Lc62K3NWLSInSEQ1pd?=
+ =?us-ascii?Q?GT/kW1dczeixs9tT0MCdqatkJnN2fw+fLIOjIfic0cSUEtdgQLEgIzV1yZbv?=
+ =?us-ascii?Q?KNr1boFYna9j/JDIAVTo0n26uogUu9Ie6H1pYgmmzJKd4CLHxU1M+Y7EAaGc?=
+ =?us-ascii?Q?AXehVIRvOyru5SkAkiBIyCWMq13MtlDCscnscRZrthenJcoYEBM6HM+esj9P?=
+ =?us-ascii?Q?i+HTl4Ab4jWIkynQGytIqcgmb/r3g8GI5h+eTGEGXd+7S8AyU6O5W9Hqic0e?=
+ =?us-ascii?Q?bmWfzcg5QqHTUzMvKSvO4N/unVHe5W/hbUaszZvGgZKJvOYrGh6dyaewZUG1?=
+ =?us-ascii?Q?54SqQ9jTHcz1CvDLGM64q7Dngsr/+6J81w383OxW1yl+21S5RUtxzl+x1XR9?=
+ =?us-ascii?Q?07EMtoxWs3QdDOCtHvD8pD60CyfeGef9v3z/VfqkFp0ZSFLxMr1iv1omU1kM?=
+ =?us-ascii?Q?jbXwOWyc3QWxbWgP+Xo/a3tsAhvHev3aLjLk8kwjrq4RKQkHyeuN2Th0rc3Z?=
+ =?us-ascii?Q?Hdah1sr++AltbQH+SAASvUstP8OUUPQhiqXO9i8GEMUeLHWSiXqaaMiqib9w?=
+ =?us-ascii?Q?7o7YlqAbofgU2j/Q0vCsF2uvFK3U5l9PvHHS59XaV4Y0KyJAUqXZhn4A0w/r?=
+ =?us-ascii?Q?WpMFi2PCmcpmxZQcFARg/+RaCRdjeBTh5ctblg4KCJvZTcBBc2KKQrX02Byu?=
+ =?us-ascii?Q?JeSL45ccYgM4dbRdoHB8+tf6OClVgquxhVWfOpUQ7atjW9avsEMx7Xdilyxh?=
+ =?us-ascii?Q?gH7+RWYlWYtkf83xoGtJJrNdDoTxZJOhTHTer1++A0d1mko02TsRnwgf9T/5?=
+ =?us-ascii?Q?OjKI0kMMvYnZUffK8rIEFSaB?=
+Content-ID: <7EE4BFD3EF0A8644B48E47036134F532@namprd05.prod.outlook.com>
+MIME-Version: 1.0
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR05MB6624.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d81edded-bcea-45f9-f99b-08d8df3dfef9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2021 18:47:43.4460 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yfiT4G+ZB/Ef0pgYDKS0QJ2U7yAeQXQkiXvzB2LIMClOOE/hQzrO7KbdxwnjdBt2fY6WMBU3x83emiFK0gE4qQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR05MB6125
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,86 +117,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander.Deucher@amd.com, jinhuieric.huang@amd.com, Felix.Kuehling@amd.com,
- harish.kasiviswanathan@amd.com, christian.koenig@amd.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Roland Scheidegger <sroland@vmware.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Huang Rui <ray.huang@amd.com>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ "spice-devel@lists.freedesktop.org" <spice-devel@lists.freedesktop.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Christian Koenig <christian.koenig@amd.com>, Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpBbSAwNC4wMy4yMSB1bSAxODo0MCBzY2hyaWViIEJoYXJkd2FqLCBSYWpuZWVzaDoKPgo+IE9u
-IDMvNC8yMDIxIDEyOjMxIFBNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+PiBbQ0FVVElPTjog
-RXh0ZXJuYWwgRW1haWxdCj4+Cj4+IEFtIDA0LjAzLjIxIHVtIDE4OjAxIHNjaHJpZWIgQmhhcmR3
-YWosIFJham5lZXNoOgo+Pj4gSSB3YXMgd29uZGVyaW5nIGlmIGEgbWFuYWdlZCB2ZXJzaW9uIG9m
-IHN1Y2ggQVBJIGV4aXN0cyBidXQgbG9va3MgbGlrZQo+Pj4gbm9uZS4gV2Ugb25seSBoYXZlIGRl
-dm1faW9yZW1hcF93YyBidXQgdGhhdCBpcyB2YWxpZCBvbmx5IGZvcgo+Pj4gUEFHRV9DQUNIRV9N
-T0RFX1dDIHdoZXJlYXMgaW9yZW1hcF9jYWNoZSB1c2VzIF9XQi4gT25lIG1vcmUgc21hbGwKPj4+
-IGNvbW1lbnQgYmVsb3cuCj4+Pgo+Pj4KPj4+IEFja2VkLWJ5OiBSYWpuZWVzaCBCaGFyZHdhaiA8
-cmFqbmVlc2guYmhhcmR3YWpAYW1kLmNvbT4KPj4+Cj4+PiBPbiAzLzQvMjAyMSAxMTowNCBBTSwg
-T2FrIFplbmcgd3JvdGU6Cj4+Pj4gSWYgdGJvLm1lbS5idXMuY2FjaGluZyBpcyBjYWNoZWQsIGJ1
-ZmZlciBpcyBpbnRlbmRlZCB0byBiZSBtYXBwZWQKPj4+PiBhcyBjYWNoZWQgZnJvbSBDUFUuIE1h
-cCBpdCB3aXRoIGlvcmVtYXBfY2FjaGUuCj4+Pj4KPj4+PiBUaGlzIHdhc24ndCBuZWNlc3Nhcnkg
-YmVmb3JlIGFzIGRldmljZSBtZW1vcnkgd2FzIG5ldmVyIG1hcHBlZAo+Pj4+IGFzIGNhY2hlZCBm
-cm9tIENQVSBzaWRlLiBJdCBiZWNvbWVzIG5lY2Vzc2FyeSBmb3IgYWxkZWJhcmFuIGFzCj4+Pj4g
-ZGV2aWNlIG1lbW9yeSBpcyBtYXBwZWQgY2FjaGVkIGZyb20gQ1BVLgo+Pj4+Cj4+Pj4gU2lnbmVk
-LW9mZi1ieTogT2FrIFplbmcgPE9hay5aZW5nQGFtZC5jb20+Cj4+Pj4gUmV2aWV3ZWQtYnk6IENo
-cmlzdGlhbiBLb25pZyA8Q2hyaXN0aWFuLktvZW5pZ0BhbWQuY29tPgo+Pj4+IC0tLQo+Pj4+IMKg
-IGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0aWwuYyB8IDE0ICsrKysrKysrKysrKysrCj4+
-Pj4gwqAgMSBmaWxlIGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKykKPj4+Pgo+Pj4+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib191dGlsLmMKPj4+PiBiL2RyaXZlcnMvZ3B1
-L2RybS90dG0vdHRtX2JvX3V0aWwuYwo+Pj4+IGluZGV4IDAzMWU1ODEuLjc0Mjk0NjQgMTAwNjQ0
-Cj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdXRpbC5jCj4+Pj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdXRpbC5jCj4+Pj4gQEAgLTkxLDYgKzkxLDEwIEBA
-IHN0YXRpYyBpbnQgdHRtX3Jlc291cmNlX2lvcmVtYXAoc3RydWN0IHR0bV9kZXZpY2UKPj4+PiAq
-YmRldiwKPj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChtZW0tPmJ1cy5jYWNoaW5nID09
-IHR0bV93cml0ZV9jb21iaW5lZCkKPj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBhZGRy
-ID0gaW9yZW1hcF93YyhtZW0tPmJ1cy5vZmZzZXQsIGJ1c19zaXplKTsKPj4+PiArI2lmZGVmIENP
-TkZJR19YODYKPj4+Cj4+Pgo+Pj4gUGxlYXNlIHVzZSAjaWYgZGVmaW5lZCAoQ09ORklHX1g4NikK
-Pj4KPj4gQWN0dWFsbHkgI2lmZGVmIGlzIHVzdWFsbHkgcHJlZmVycmVkLgo+Cj4gb29wcywgaSB3
-YXMgcmVmZXJyaW5nIHRvIElTX0VOQUJMRUQgKENPTkZJRykgYW5kIG5vdCBpZiBkZWZpbmVkLgoK
-V2VsbCwgdGhhdCBpcyBpbmRlZWQgYSBnb29kIGlkZWEgZm9yIG1vc3QgY29uZmlnIG9wdGlvbnMu
-CgpCdXQgaW4gdGhpcyBjYXNlICNpZmRlZiBhbG9uZSBzaG91bGQgd29yayBhcyB3ZWxsLgoKQ2hy
-aXN0aWFuLgoKPgo+Cj4+Cj4+IENocmlzdGlhbi4KPj4KPj4+Cj4+Pj4gK8KgwqDCoMKgwqDCoMKg
-IGVsc2UgaWYgKG1lbS0+YnVzLmNhY2hpbmcgPT0gdHRtX2NhY2hlZCkKPj4+PiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBhZGRyID0gaW9yZW1hcF9jYWNoZShtZW0tPmJ1cy5vZmZzZXQsIGJ1c19z
-aXplKTsKPj4+PiArI2VuZGlmCj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIGVsc2UKPj4+PiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBhZGRyID0gaW9yZW1hcChtZW0tPmJ1cy5vZmZzZXQsIGJ1
-c19zaXplKTsKPj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKCFhZGRyKSB7Cj4+Pj4gQEAgLTM3
-Miw2ICszNzYsMTEgQEAgc3RhdGljIGludCB0dG1fYm9faW9yZW1hcChzdHJ1Y3QKPj4+PiB0dG1f
-YnVmZmVyX29iamVjdCAqYm8sCj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChtZW0tPmJ1cy5j
-YWNoaW5nID09IHR0bV93cml0ZV9jb21iaW5lZCkKPj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBtYXAtPnZpcnR1YWwgPSBpb3JlbWFwX3djKGJvLT5tZW0uYnVzLm9mZnNldCArIG9mZnNl
-dCwKPj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgc2l6ZSk7Cj4+Pj4gKyNpZmRlZiBDT05GSUdfWDg2Cj4+Pj4gK8KgwqDCoMKgwqDCoMKg
-IGVsc2UgaWYgKG1lbS0+YnVzLmNhY2hpbmcgPT0gdHRtX2NhY2hlZCkKPj4+PiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBtYXAtPnZpcnR1YWwgPSBpb3JlbWFwX2NhY2hlKGJvLT5tZW0uYnVzLm9m
-ZnNldCArIG9mZnNldCwKPj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgc2l6ZSk7Cj4+Pj4gKyNlbmRpZgo+Pj4+IMKgwqDCoMKgwqDCoMKgwqDC
-oCBlbHNlCj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbWFwLT52aXJ0dWFsID0gaW9y
-ZW1hcChiby0+bWVtLmJ1cy5vZmZzZXQgKyBvZmZzZXQsCj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2l6ZSk7Cj4+Pj4gQEAgLTQ5
-MCw2ICs0OTksMTEgQEAgaW50IHR0bV9ib192bWFwKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAq
-Ym8sCj4+Pj4gc3RydWN0IGRtYV9idWZfbWFwICptYXApCj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKg
-IGVsc2UgaWYgKG1lbS0+YnVzLmNhY2hpbmcgPT0gdHRtX3dyaXRlX2NvbWJpbmVkKQo+Pj4+IMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHZhZGRyX2lvbWVtID0gaW9yZW1hcF93YyhtZW0tPmJ1
-cy5vZmZzZXQsCj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBiby0+YmFzZS5zaXplKTsKPj4+PiArwqDCoMKgwqDCoMKgwqAgZWxzZSBpZiAo
-bWVtLT5idXMuY2FjaGluZyA9PSB0dG1fY2FjaGVkKQo+Pj4+ICsjaWZkZWYgQ09ORklHX1g4Ngo+
-Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHZhZGRyX2lvbWVtID0gaW9yZW1hcF9jYWNoZSht
-ZW0tPmJ1cy5vZmZzZXQsCj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIGJvLT5iYXNlLnNpemUpOwo+Pj4+ICsjZW5kaWYKPj4+PiDCoMKgwqDC
-oMKgwqDCoMKgwqAgZWxzZQo+Pj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHZhZGRyX2lv
-bWVtID0gaW9yZW1hcChtZW0tPmJ1cy5vZmZzZXQsIGJvLT5iYXNlLnNpemUpOwo+Pj4gX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPj4+IGFtZC1nZnggbWFp
-bGluZyBsaXN0Cj4+PiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+Pj4gaHR0cHM6Ly9u
-YW0xMS5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJG
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnJTJGbWFpbG1hbiUyRmxpc3RpbmZvJTJGYW1kLWdmeCZhbXA7
-ZGF0YT0wNCU3QzAxJTdDcmFqbmVlc2guYmhhcmR3YWolNDBhbWQuY29tJTdDYzQzODY1NDRlYTEw
-NDg3ZDNhMGMwOGQ4ZGYzMzYzYTElN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3
-QzAlN0MwJTdDNjM3NTA0NzU5MjY0NzkzOTcwJTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJ
-am9pTUM0d0xqQXdNREFpTENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1u
-MCUzRCU3QzEwMDAmYW1wO3NkYXRhPW5NMlV0UVFkQWN0eWFwZlpTcmhmeCUyQm9KJTJCZHN6VjRZ
-cDYyTFRlaHNVV3dZJTNEJmFtcDtyZXNlcnZlZD0wIAo+Pj4KPj4KCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+
+> On Mar 3, 2021, at 08:20, Thomas Gleixner <tglx@linutronix.de> wrote:
+> 
+> From: Thomas Gleixner <tglx@linutronix.de>
+> 
+> There is no reason to disable pagefaults and preemption as a side effect of
+> kmap_atomic_prot().
+> 
+> Use kmap_local_page_prot() instead and document the reasoning for the
+> mapping usage with the given pgprot.
+> 
+> Remove the NULL pointer check for the map. These functions return a valid
+> address for valid pages and the return was bogus anyway as it would have
+> left preemption and pagefaults disabled.
+> 
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
+> Cc: Roland Scheidegger <sroland@vmware.com>
+> Cc: Zack Rusin <zackr@vmware.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+> drivers/gpu/drm/vmwgfx/vmwgfx_blit.c |   30 ++++++++++++------------------
+> 1 file changed, 12 insertions(+), 18 deletions(-)
+> 
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+> @@ -375,12 +375,12 @@ static int vmw_bo_cpu_blit_line(struct v
+> 		copy_size = min_t(u32, copy_size, PAGE_SIZE - src_page_offset);
+> 
+> 		if (unmap_src) {
+> -			kunmap_atomic(d->src_addr);
+> +			kunmap_local(d->src_addr);
+> 			d->src_addr = NULL;
+> 		}
+> 
+> 		if (unmap_dst) {
+> -			kunmap_atomic(d->dst_addr);
+> +			kunmap_local(d->dst_addr);
+> 			d->dst_addr = NULL;
+> 		}
+> 
+> @@ -388,12 +388,8 @@ static int vmw_bo_cpu_blit_line(struct v
+> 			if (WARN_ON_ONCE(dst_page >= d->dst_num_pages))
+> 				return -EINVAL;
+> 
+> -			d->dst_addr =
+> -				kmap_atomic_prot(d->dst_pages[dst_page],
+> -						 d->dst_prot);
+> -			if (!d->dst_addr)
+> -				return -ENOMEM;
+> -
+> +			d->dst_addr = kmap_local_page_prot(d->dst_pages[dst_page],
+> +							   d->dst_prot);
+> 			d->mapped_dst = dst_page;
+> 		}
+> 
+> @@ -401,12 +397,8 @@ static int vmw_bo_cpu_blit_line(struct v
+> 			if (WARN_ON_ONCE(src_page >= d->src_num_pages))
+> 				return -EINVAL;
+> 
+> -			d->src_addr =
+> -				kmap_atomic_prot(d->src_pages[src_page],
+> -						 d->src_prot);
+> -			if (!d->src_addr)
+> -				return -ENOMEM;
+> -
+> +			d->src_addr = kmap_local_page_prot(d->src_pages[src_page],
+> +							   d->src_prot);
+> 			d->mapped_src = src_page;
+> 		}
+> 		diff->do_cpy(diff, d->dst_addr + dst_page_offset,
+> @@ -436,8 +428,10 @@ static int vmw_bo_cpu_blit_line(struct v
+>  *
+>  * Performs a CPU blit from one buffer object to another avoiding a full
+>  * bo vmap which may exhaust- or fragment vmalloc space.
+> - * On supported architectures (x86), we're using kmap_atomic which avoids
+> - * cross-processor TLB- and cache flushes and may, on non-HIGHMEM systems
+> + *
+> + * On supported architectures (x86), we're using kmap_local_prot() which
+> + * avoids cross-processor TLB- and cache flushes. kmap_local_prot() will
+> + * either map a highmem page with the proper pgprot on HIGHMEM=y systems or
+>  * reference already set-up mappings.
+>  *
+>  * Neither of the buffer objects may be placed in PCI memory
+> @@ -500,9 +494,9 @@ int vmw_bo_cpu_blit(struct ttm_buffer_ob
+> 	}
+> out:
+> 	if (d.src_addr)
+> -		kunmap_atomic(d.src_addr);
+> +		kunmap_local(d.src_addr);
+> 	if (d.dst_addr)
+> -		kunmap_atomic(d.dst_addr);
+> +		kunmap_local(d.dst_addr);
+> 
+> 	return ret;
+> }
+
+
+Looks good. Thanks.
+
+Reviewed-by: Zack Rusin <zackr@vmware.com>
+
+z
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
