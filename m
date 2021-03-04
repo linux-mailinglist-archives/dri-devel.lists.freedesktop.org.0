@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579F632DDC7
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 00:20:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A96832DE12
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 00:53:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD8C46EA8A;
-	Thu,  4 Mar 2021 23:20:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C59F6EA8F;
+	Thu,  4 Mar 2021 23:53:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77DE56EA8A
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 23:20:23 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id d12so405832pfo.7
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Mar 2021 15:20:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=1viYL6LhK+5nIQ13ju++XlarHcY6osyk1cCjbOPG1F0=;
- b=KcWKRMcTqPHZF1q05Ce0JCzTme39nwPKHDDiT/YIqKCsscOzC9PyUbaxoEvglXFwrK
- 1w32NYPCKD9OTcIgZBeCWhzZDLKez5Sl3ufwPZjZCA9VnxgZhu0jIuSF7RZQwDPMX1lw
- Z5a47mYCKuV+OVShTvu9KWHrGgTAPKj4pQIvMwsZNm24ziWIXPihJMDYtexedzbB1N5u
- nyE1nYLI9TW/aaWhK7GA7d3xngcaHhqA/h6acr3mB5GPKA7G2GqQUQQXj+4luvgel37m
- P4UBL+C8Ll6L9gUFrsn3ZL/qjxkKcuBQ2s/cwt2cj3mDi8uyuMqv3qGrJM83UhMY0Tty
- Fa4A==
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B19C66EA8F
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 23:53:11 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id j12so538943pfj.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Mar 2021 15:53:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Qnp/ZHTkSIkVYskvkrF513Ugb3dk9usGZrQyQUnFAEk=;
+ b=Wgqw+87O9xoe5W14UsxraXU6NYwlrhsNsCGv+E1NklZkP4eYldm/NAWr8Ok9Xq3BER
+ g8Y0zPvu/kMnEk1MY1x8XpDbNkzjleZeMkkwOlP1w9Rbj7/69N/r3SVOQC0Js0I6kCab
+ CdiUXNPRZyk9gt0IpUp1JGWYqRVH1u09T5IjA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=1viYL6LhK+5nIQ13ju++XlarHcY6osyk1cCjbOPG1F0=;
- b=AWqkMGisjYOrdZjcKB11T3DsyXjatQ0Bmja8IKrNjbmPmXHn2uD5iIrrhvtknpoi6T
- Q2jrJQ79K0KgfjTHxYxYrCtBGOGOV9askobiNzSATrBz8aXjgzlYBhS7anSYIFeLYzVH
- oLqeKyG0T0oYsc2disrEsxsHQExBqGFxsH/gl99c1DhM6wUq/Ist6UIxGDcdiVd/eipI
- CpQxyaIKMkYr8AkvxvwB3aR/dO2iCECLPRB7pHzpvyluNBLrpSZFhHVhGwj0eZxKpUou
- 69R5BVBS+q875+Fyh/uAv4YLToyk11a4x3bXdnl/hOdbpdp5Ld2OyZetG/lz6AQDPbL6
- sVEw==
-X-Gm-Message-State: AOAM531g1ihvXRQVdgoiEaAWSirQ6S2j8+ZezMLhl4tuO6CH2oOi/cV4
- vjoupqQaf5FT1iiQo/vCsM/7bZP3HHcpHg==
-X-Google-Smtp-Source: ABdhPJw2jFY8Rq+iS4tDrmeKtrXjB9IUAoh4ZkSvegh37qen93VKtQdaq2WlbCBS2hJuKS1jzQ4vsA==
-X-Received: by 2002:aa7:8d05:0:b029:1ec:b460:f21d with SMTP id
- j5-20020aa78d050000b02901ecb460f21dmr6027582pfe.29.1614900023086; 
- Thu, 04 Mar 2021 15:20:23 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id
- u66sm429290pfc.72.2021.03.04.15.20.21
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Qnp/ZHTkSIkVYskvkrF513Ugb3dk9usGZrQyQUnFAEk=;
+ b=Mf1klbi9rI6D4Jt8/xtM2xboOUhvLmBuywOaL27IULtYfBy/qpRfeZHqk2sbdqJbmz
+ lmTk/flbeenk60VbvmrK36CILmZJlnmz/Iu6JTb9g6xiTIUrBf8OGdrG7hsovNSIXmGW
+ sISPPA82NtSRptgSbzXlnEWuFZLzps8YhWn3XNsmOj2gxZMHWCb7gvHW0tkG19xkkSI2
+ SpzCnm4deDV3Qb0ufInKXiaR1g3Wdn+kJKELh0DXN2QdrnXqEwSRD7sUajacTl7OHIzr
+ H0CEzGCQw1/7mrGol26goUuznBUieppnddoWWcv+kk3Hw96+2UWcBV1i9axhfgwlM5JV
+ zeoA==
+X-Gm-Message-State: AOAM532qpjMobCzEXcdD9BgIuhXItnjUFFgklX0Bgi6GBqKwZ+JHDvHp
+ wLAtN9joi67HhGF7rUrSl25QAQ==
+X-Google-Smtp-Source: ABdhPJy4x/gHMFUZGwtp7tcOp3lrs2YSyiDqqo8LnNYjXNY5rgKoSevRVezwQxVGQyGEYR1olzYgTQ==
+X-Received: by 2002:aa7:9577:0:b029:1ee:ea22:5eeb with SMTP id
+ x23-20020aa795770000b02901eeea225eebmr6177361pfq.33.1614901991316; 
+ Thu, 04 Mar 2021 15:53:11 -0800 (PST)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:1:c4da:3a70:94aa:f337])
+ by smtp.gmail.com with ESMTPSA id r4sm319449pjl.15.2021.03.04.15.53.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Mar 2021 15:20:22 -0800 (PST)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Subject: [PATCH v8 5/5] dma-buf: system_heap: Add deferred freeing to the
- system heap
-Date: Thu,  4 Mar 2021 23:20:11 +0000
-Message-Id: <20210304232011.1479036-6-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210304232011.1479036-1-john.stultz@linaro.org>
-References: <20210304232011.1479036-1-john.stultz@linaro.org>
+ Thu, 04 Mar 2021 15:53:10 -0800 (PST)
+From: Douglas Anderson <dianders@chromium.org>
+To: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH 1/3] drm/bridge: ti-sn65dsi86: Simplify refclk handling
+Date: Thu,  4 Mar 2021 15:51:59 -0800
+Message-Id: <20210304155144.1.Ic9c04f960190faad5290738b2a35d73661862735@changeid>
+X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,88 +67,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Sandeep Patil <sspatil@google.com>,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, Liam Mark <lmark@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
- linux-media@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: robdclark@chromium.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VXRpbGl6ZSB0aGUgZGVmZXJyZWQgZnJlZSBoZWxwZXIgbGlicmFyeSBpbiB0aGUgc3lzdGVtIGhl
-YXAuCgpUaGlzIHByb3ZpZGVzIGEgbmljZSBwZXJmb3JtYW5jZSBidW1wIGFuZCBwdXRzIHRoZQpz
-eXN0ZW0gaGVhcCBwZXJmb3JtYW5jZSBvbiBwYXIgd2l0aCBJT04uCgpDYzogRGFuaWVsIFZldHRl
-ciA8ZGFuaWVsQGZmd2xsLmNoPgpDYzogQ2hyaXN0aWFuIEtvZW5pZyA8Y2hyaXN0aWFuLmtvZW5p
-Z0BhbWQuY29tPgpDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KQ2M6
-IExpYW0gTWFyayA8bG1hcmtAY29kZWF1cm9yYS5vcmc+CkNjOiBDaHJpcyBHb2xkc3dvcnRoeSA8
-Y2dvbGRzd29AY29kZWF1cm9yYS5vcmc+CkNjOiBMYXVyYSBBYmJvdHQgPGxhYmJvdHRAa2VybmVs
-Lm9yZz4KQ2M6IEJyaWFuIFN0YXJrZXkgPEJyaWFuLlN0YXJrZXlAYXJtLmNvbT4KQ2M6IEhyaWR5
-YSBWYWxzYXJhanUgPGhyaWR5YUBnb29nbGUuY29tPgpDYzogU3VyZW4gQmFnaGRhc2FyeWFuIDxz
-dXJlbmJAZ29vZ2xlLmNvbT4KQ2M6IFNhbmRlZXAgUGF0aWwgPHNzcGF0aWxAZ29vZ2xlLmNvbT4K
-Q2M6IERhbmllbCBNZW50eiA8ZGFuaWVsbWVudHpAZ29vZ2xlLmNvbT4KQ2M6IMOYcmphbiBFaWRl
-IDxvcmphbi5laWRlQGFybS5jb20+CkNjOiBSb2JpbiBNdXJwaHkgPHJvYmluLm11cnBoeUBhcm0u
-Y29tPgpDYzogRXplcXVpZWwgR2FyY2lhIDxlemVxdWllbEBjb2xsYWJvcmEuY29tPgpDYzogU2lt
-b24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPgpDYzogSmFtZXMgSm9uZXMgPGpham9uZXNAbnZp
-ZGlhLmNvbT4KQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwpDYzogZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpTaWduZWQtb2ZmLWJ5OiBKb2huIFN0dWx0eiA8am9obi5zdHVs
-dHpAbGluYXJvLm9yZz4KLS0tCnYyOgoqIFJld29yayBkZWZlcnJlZC1mcmVlIGFwaSB0byB1c2Ug
-cmVhc29uIGVudW0gYXMgc3VnZ2VzdGVkIGJ5CiAgU3VyZW4gQmFnaGRhc2FyeWFuCiogUmV3b3Jr
-IGZvciBkZWZlcnJlZC1mcmVlIGFwaSBjaGFuZ2UgdG8gdXNlIG5yX3BhZ2VzIHJhdGhlcgogIHRo
-YW4gc2l6ZSBhcyBzdWdnc3RlZCBieSBTdXJlbiBCYWdoZGFzYXJ5YW4Kdjg6CiogUmV3b3JrZWQg
-dG8gZHJvcCBidWZmZXIgemVyb2luZyBsb2dpYywgYXMgdGhlIGRybV9wYWdlX3Bvb2wgbm93CiAg
-aGFuZGxlcyB0aGF0LgotLS0KIGRyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9LY29uZmlnICAgICAgIHwg
-IDEgKwogZHJpdmVycy9kbWEtYnVmL2hlYXBzL3N5c3RlbV9oZWFwLmMgfCAyOCArKysrKysrKysr
-KysrKysrKysrKysrLS0tLS0tCiAyIGZpbGVzIGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDYg
-ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL2hlYXBzL0tjb25maWcg
-Yi9kcml2ZXJzL2RtYS1idWYvaGVhcHMvS2NvbmZpZwppbmRleCA3ZTI4OTM0ZTBkZWYuLjEwNjMy
-Y2NmYjRhNSAxMDA2NDQKLS0tIGEvZHJpdmVycy9kbWEtYnVmL2hlYXBzL0tjb25maWcKKysrIGIv
-ZHJpdmVycy9kbWEtYnVmL2hlYXBzL0tjb25maWcKQEAgLTUsNiArNSw3IEBAIGNvbmZpZyBETUFC
-VUZfSEVBUFNfU1lTVEVNCiAJYm9vbCAiRE1BLUJVRiBTeXN0ZW0gSGVhcCIKIAlkZXBlbmRzIG9u
-IERNQUJVRl9IRUFQUwogCXNlbGVjdCBEUk1fUEFHRV9QT09MCisJc2VsZWN0IERNQUJVRl9IRUFQ
-U19ERUZFUlJFRF9GUkVFCiAJaGVscAogCSAgQ2hvb3NlIHRoaXMgb3B0aW9uIHRvIGVuYWJsZSB0
-aGUgc3lzdGVtIGRtYWJ1ZiBoZWFwLiBUaGUgc3lzdGVtIGhlYXAKIAkgIGlzIGJhY2tlZCBieSBw
-YWdlcyBmcm9tIHRoZSBidWRkeSBhbGxvY2F0b3IuIElmIGluIGRvdWJ0LCBzYXkgWS4KZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jIGIvZHJpdmVycy9kbWEt
-YnVmL2hlYXBzL3N5c3RlbV9oZWFwLmMKaW5kZXggMDA2MjcxODgxZDg1Li5jNzUzYzgyZmQ5ZjEg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jCisrKyBiL2Ry
-aXZlcnMvZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jCkBAIC0yMiw2ICsyMiw3IEBACiAjaW5j
-bHVkZSA8bGludXgvdm1hbGxvYy5oPgogCiAjaW5jbHVkZSA8ZHJtL3BhZ2VfcG9vbC5oPgorI2lu
-Y2x1ZGUgImRlZmVycmVkLWZyZWUtaGVscGVyLmgiCiAKIHN0YXRpYyBzdHJ1Y3QgZG1hX2hlYXAg
-KnN5c19oZWFwOwogCkBAIC0zMyw2ICszNCw3IEBAIHN0cnVjdCBzeXN0ZW1faGVhcF9idWZmZXIg
-ewogCXN0cnVjdCBzZ190YWJsZSBzZ190YWJsZTsKIAlpbnQgdm1hcF9jbnQ7CiAJdm9pZCAqdmFk
-ZHI7CisJc3RydWN0IGRlZmVycmVkX2ZyZWVsaXN0X2l0ZW0gZGVmZXJyZWRfZnJlZTsKIH07CiAK
-IHN0cnVjdCBkbWFfaGVhcF9hdHRhY2htZW50IHsKQEAgLTI5MCwyNyArMjkyLDQxIEBAIHN0YXRp
-YyB1bnNpZ25lZCBsb25nIHN5c3RlbV9oZWFwX2ZyZWVfcGFnZXMoc3RydWN0IGRybV9wYWdlX3Bv
-b2wgKnBvb2wsIHN0cnVjdCBwCiAJcmV0dXJuIDEgPDwgcG9vbC0+b3JkZXI7CiB9CiAKLXN0YXRp
-YyB2b2lkIHN5c3RlbV9oZWFwX2RtYV9idWZfcmVsZWFzZShzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVm
-KQorc3RhdGljIHZvaWQgc3lzdGVtX2hlYXBfYnVmX2ZyZWUoc3RydWN0IGRlZmVycmVkX2ZyZWVs
-aXN0X2l0ZW0gKml0ZW0sCisJCQkJIGVudW0gZGZfcmVhc29uIHJlYXNvbikKIHsKLQlzdHJ1Y3Qg
-c3lzdGVtX2hlYXBfYnVmZmVyICpidWZmZXIgPSBkbWFidWYtPnByaXY7CisJc3RydWN0IHN5c3Rl
-bV9oZWFwX2J1ZmZlciAqYnVmZmVyOwogCXN0cnVjdCBzZ190YWJsZSAqdGFibGU7CiAJc3RydWN0
-IHNjYXR0ZXJsaXN0ICpzZzsKIAlpbnQgaSwgajsKIAorCWJ1ZmZlciA9IGNvbnRhaW5lcl9vZihp
-dGVtLCBzdHJ1Y3Qgc3lzdGVtX2hlYXBfYnVmZmVyLCBkZWZlcnJlZF9mcmVlKTsKIAl0YWJsZSA9
-ICZidWZmZXItPnNnX3RhYmxlOwogCWZvcl9lYWNoX3NnKHRhYmxlLT5zZ2wsIHNnLCB0YWJsZS0+
-bmVudHMsIGkpIHsKIAkJc3RydWN0IHBhZ2UgKnBhZ2UgPSBzZ19wYWdlKHNnKTsKIAotCQlmb3Ig
-KGogPSAwOyBqIDwgTlVNX09SREVSUzsgaisrKSB7Ci0JCQlpZiAoY29tcG91bmRfb3JkZXIocGFn
-ZSkgPT0gb3JkZXJzW2pdKQotCQkJCWJyZWFrOworCQlpZiAocmVhc29uID09IERGX1VOREVSX1BS
-RVNTVVJFKSB7CisJCQlfX2ZyZWVfcGFnZXMocGFnZSwgY29tcG91bmRfb3JkZXIocGFnZSkpOwor
-CQl9IGVsc2UgeworCQkJZm9yIChqID0gMDsgaiA8IE5VTV9PUkRFUlM7IGorKykgeworCQkJCWlm
-IChjb21wb3VuZF9vcmRlcihwYWdlKSA9PSBvcmRlcnNbal0pCisJCQkJCWJyZWFrOworCQkJfQor
-CQkJZHJtX3BhZ2VfcG9vbF9hZGQoJnBvb2xzW2pdLCBwYWdlKTsKIAkJfQotCQlkcm1fcGFnZV9w
-b29sX2FkZCgmcG9vbHNbal0sIHBhZ2UpOwogCX0KIAlzZ19mcmVlX3RhYmxlKHRhYmxlKTsKIAlr
-ZnJlZShidWZmZXIpOwogfQogCitzdGF0aWMgdm9pZCBzeXN0ZW1faGVhcF9kbWFfYnVmX3JlbGVh
-c2Uoc3RydWN0IGRtYV9idWYgKmRtYWJ1ZikKK3sKKwlzdHJ1Y3Qgc3lzdGVtX2hlYXBfYnVmZmVy
-ICpidWZmZXIgPSBkbWFidWYtPnByaXY7CisJaW50IG5wYWdlcyA9IFBBR0VfQUxJR04oYnVmZmVy
-LT5sZW4pIC8gUEFHRV9TSVpFOworCisJZGVmZXJyZWRfZnJlZSgmYnVmZmVyLT5kZWZlcnJlZF9m
-cmVlLCBzeXN0ZW1faGVhcF9idWZfZnJlZSwgbnBhZ2VzKTsKK30KKwogc3RhdGljIGNvbnN0IHN0
-cnVjdCBkbWFfYnVmX29wcyBzeXN0ZW1faGVhcF9idWZfb3BzID0gewogCS5hdHRhY2ggPSBzeXN0
-ZW1faGVhcF9hdHRhY2gsCiAJLmRldGFjaCA9IHN5c3RlbV9oZWFwX2RldGFjaCwKLS0gCjIuMjUu
-MQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+The clock framework makes it simple to deal with an optional clock.
+You can call clk_get_optional() and if the clock isn't specified it'll
+just return NULL without complaint. It's valid to pass NULL to
+enable/disable/prepare/unprepare. Let's make use of this to simplify
+things a tiny bit.
+
+NOTE: this makes things look a tad bit asymmetric now since we check
+for NULL before clk_prepare_enable() but not for
+clk_disable_unprepare(). This seemed OK to me. We already have to
+check for NULL in the enable case anyway so why not avoid the extra
+call?
+
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index f27306c51e4d..942019842ff4 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -1261,14 +1261,9 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
+ 		return ret;
+ 	}
+ 
+-	pdata->refclk = devm_clk_get(pdata->dev, "refclk");
+-	if (IS_ERR(pdata->refclk)) {
+-		ret = PTR_ERR(pdata->refclk);
+-		if (ret == -EPROBE_DEFER)
+-			return ret;
+-		DRM_DEBUG_KMS("refclk not found\n");
+-		pdata->refclk = NULL;
+-	}
++	pdata->refclk = devm_clk_get_optional(pdata->dev, "refclk");
++	if (IS_ERR(pdata->refclk))
++		return PTR_ERR(pdata->refclk);
+ 
+ 	ret = ti_sn_bridge_parse_dsi_host(pdata);
+ 	if (ret)
+-- 
+2.30.1.766.gb4fecdf3b7-goog
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
