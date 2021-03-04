@@ -2,33 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84CC932D47A
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 14:47:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B081532D4BF
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Mar 2021 15:01:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8493C6E0E4;
-	Thu,  4 Mar 2021 13:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB416E429;
+	Thu,  4 Mar 2021 14:01:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 145686E0D5;
- Thu,  4 Mar 2021 13:47:45 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 30CE731B;
- Thu,  4 Mar 2021 05:47:44 -0800 (PST)
-Received: from [10.57.19.206] (unknown [10.57.19.206])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BAF7F3F766;
- Thu,  4 Mar 2021 05:47:39 -0800 (PST)
-Subject: Re: [PATCH] devfreq: Register devfreq as a cooling device
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-References: <20210304125034.28404-1-daniel.lezcano@linaro.org>
-From: Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <5f06e0c5-b2d9-5e11-01b6-fdd0dac635a7@arm.com>
-Date: Thu, 4 Mar 2021 13:47:37 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 946AC6E429
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 14:01:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id C629C64F48
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Mar 2021 14:01:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1614866463;
+ bh=jGIgRu2JrFWgv2wUvTYJOk2MmqTfmSoUaRUq+jBkUxE=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=GodmhFy5BooEj7MpYGqgCJbPi2dZzRkXQ4ajL9xSKB9u82ShAOeA4mFmkuLFwH/zm
+ TbuMejnr0DEzsGu851qLPsLqhsbMFa+8GueN7QSRQ7LK3nBixgTtokv+uuJnNHcJgH
+ npQNpDdb7fsQfU5Rxa+FeSWJPiKzP/Uz4M6nEIzPcKoX/RRRa0pIUWGuNoRIsJS9wH
+ DewqQBmGMeEFmdR5FJPC1dMFCI5I9fgLMB84QwvRXdBWm5JRrBwqr4vSb409PokMRL
+ PPbu0J9xdL7/E0tx4DAA7wl1wEHCnAMVunt5htlRxJVXOMPbABl3PRTZannTDJ1jsv
+ CmVe2G12sXp/w==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id B6696653C5; Thu,  4 Mar 2021 14:01:03 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211649] "drm/amd/display: reuse current context instead of
+ recreating one" cause hdmi hotplug blackscreen on amdgpu
+Date: Thu, 04 Mar 2021 14:01:03 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211649-2300-KpdUsFB6JM@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211649-2300@https.bugzilla.kernel.org/>
+References: <bug-211649-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20210304125034.28404-1-daniel.lezcano@linaro.org>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,58 +64,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DRM DRIVERS FOR LIMA" <lima@lists.freedesktop.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-pm@vger.kernel.org,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- linux-kernel@vger.kernel.org,
- "open list:DRM DRIVERS FOR LIMA" <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- kyungmin.park@samsung.com, myungjoo.ham@samsung.com,
- Qiang Yu <yuq825@gmail.com>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
- Sean Paul <sean@poorly.run>, cwchoi00@gmail.com,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+https://bugzilla.kernel.org/show_bug.cgi?id=211649
 
-On 3/4/21 12:50 PM, Daniel Lezcano wrote:
-> Currently the default behavior is to manually having the devfreq
-> backend to register themselves as a devfreq cooling device.
-> 
-> There are no so many and actually it makes more sense to register the
-> devfreq device when adding it.
-> 
-> Consequently, every devfreq becomes a cooling device like cpufreq is.
-> 
-> Having a devfreq being registered as a cooling device can not mitigate
-> a thermal zone if it is not bound to this one. Thus, the current
-> configurations are not impacted by this change.
+--- Comment #17 from Alex Deucher (alexdeucher@gmail.com) ---
+(In reply to Paul Menzel from comment #16)
+> Can this bug be closed then?
 
-There are also different type of devices, which register into devfreq
-framework like NoC buses, UFS/eMMC, jpeg and video accelerators, ISP,
-etc.
-In some platforms there are plenty of those devices and they all would
-occupy memory due to private freq_table in devfreq_cooling, function:
-devfreq_cooling_gen_tables().
+Only the person that opens the bug can close it, but yes, it can be closed.
 
-IIRC in OdroidXU4 there are ~20 devfreq devs for NoC buses.
+-- 
+You may reply to this email to add a comment.
 
-It's true that they will not affect thermal zones, but unnecessarily,
-they all will show up in the /sys/class/thermal/ as
-thermal-devfreq-X.
-
-IMO the devfreq shouldn't be tight with devfreq cooling thermal.
-
-CpuFreq is different because it handles only CPUs. Here we have
-many different devices.
-
-Regards,
-Lukasz
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
