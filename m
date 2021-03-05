@@ -2,65 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224B332F5C7
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 23:18:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B2CD32F5D5
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 23:22:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C22E76EC7A;
-	Fri,  5 Mar 2021 22:18:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E66656EC7E;
+	Fri,  5 Mar 2021 22:22:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02BEF6E1D3
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 22:18:29 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id 130so3585765qkh.11
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Mar 2021 14:18:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kEPdvK71SYnnYxU/iYMYQe/u4D1Hboa4Ycom7Yjf1Uw=;
- b=LAiu13ud2ieteI1GC7oTRufOmHJCXPRSrLKl5fh0T8ZtOH0SD/XlcVSIeqtPxBrL0v
- iorOjbfWYdI1rWZzDfENDWZx8rWebaQIaZN0iTWtJd+9UisdnfWvF0ZbBMn7/8T5RkXE
- /BvplMJpUvWr0rMw7G6eU9PvsjcrG7DHhnA8e9G2HaD31Up6Hhrnod7o+pyJem9nXIsv
- K1CQefEQsOIioZWB7+IYnXZLZkLGu0yxY44HFIDj+BNXPnXLC0BZQT4bOoPA/QB135zk
- p3SNWX8ZsmJeiCQG6SQZfV52KZp/A/Wi8b9PP/MEeArtw/cAjHY26STc9U0jeXtca+xb
- H2fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kEPdvK71SYnnYxU/iYMYQe/u4D1Hboa4Ycom7Yjf1Uw=;
- b=i2s4zBGONsDLQ7vd38HRtRJy12htR2L2X4cAIH9MwDnXgJXuGj6wWDIDnPVlT15s4n
- zHD/F8PU6jlbuThqY4IEAZ/JeN5/X0fuzaHyTj2hMmt+q2RC9ReUI9UmntPwcCjyMIg3
- /eBbRxVCR5BSPvuds2pvEMUfV5iYJKqxPrPtjfgi6F5184WBwPyp3hbMRWJ2tPYZbEFT
- 2nOY/3i9+1aFuIeY696ycn3xykZ5CxMp5asAyBXbdJFEp6g+ErPl56Q+ZyWismFaK5RP
- 13gNe4uxk5RkOI2kJ1aDNL9nb5esCNiKDqQgjPSivy0wJWLOKy9YITjY4xiXXvRQ7mFn
- lswg==
-X-Gm-Message-State: AOAM5307ADry4YuXqBOtDqZ5CPdrlXY5kDv2qTBDFeUMQIZN5lujop0e
- +SKmbWCSOtimgoLq1+AhQIO5vg==
-X-Google-Smtp-Source: ABdhPJzQrZBfsrI9YYiNPI9gMDvzV87Lgi/44erfU6o3ciulWwl/Z0QtFrZefcU5AlH8znMSAZt34w==
-X-Received: by 2002:ae9:ef89:: with SMTP id
- d131mr11080051qkg.214.1614982709146; 
- Fri, 05 Mar 2021 14:18:29 -0800 (PST)
-Received: from [192.168.0.189] (modemcable068.184-131-66.mc.videotron.ca.
- [66.131.184.68])
- by smtp.gmail.com with ESMTPSA id z2sm2898711qkg.22.2021.03.05.14.18.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Mar 2021 14:18:28 -0800 (PST)
-Subject: Re: [PATCH] drm/msm/dsi: support CPHY mode for 7nm pll/phy
-To: Rob Herring <robh@kernel.org>
-References: <20210215162805.21481-1-jonathan@marek.ca>
- <20210305214802.GA701567@robh.at.kernel.org>
-From: Jonathan Marek <jonathan@marek.ca>
-Message-ID: <cbaf67d2-d5b8-9684-061b-8de9382a438b@marek.ca>
-Date: Fri, 5 Mar 2021 17:17:10 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 860696EC7F
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 22:22:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614982927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aPyMsdHMnfaSpLLwitdtmkV1UTfjg0RUBiyEq1fqjlk=;
+ b=AmptPShX6ktuNf4CsW4G1sq28MTMh7GG5sjbd5cSQsixiFh8LU4n3k9DfEE5eU2Nmkl6vh
+ Rj2pYivTEs8W9wu+9Zj/st1LK93zI2ncuPZ9ubqiCd/bihdSbQKAP8BTlhT7ofZ+K5Ox3L
+ 3IVqv8wdiPYcgTGowaZNxZNTZiFSGpY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-177-PeNlqFzlPsSfWOOkoEvYJg-1; Fri, 05 Mar 2021 17:22:04 -0500
+X-MC-Unique: PeNlqFzlPsSfWOOkoEvYJg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 238B3801814;
+ Fri,  5 Mar 2021 22:22:02 +0000 (UTC)
+Received: from Whitewolf.lyude.net (ovpn-117-70.rdu2.redhat.com [10.10.117.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E58B31A353;
+ Fri,  5 Mar 2021 22:21:59 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: nouveau@lists.freedesktop.org
+Subject: [PATCH v2] drm/nouveau/kms/nve4-nv108: Don't advertise 256x256 cursor
+ support yet
+Date: Fri,  5 Mar 2021 17:21:33 -0500
+Message-Id: <20210305222135.1269175-1-lyude@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210305214802.GA701567@robh.at.kernel.org>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,63 +55,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jordan Crouse <jcrouse@codeaurora.org>,
- Rajendra Nayak <rnayak@codeaurora.org>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- Konrad Dybcio <konradybcio@gmail.com>, Viresh Kumar <viresh.kumar@linaro.org>,
- "Kristian H. Kristensen" <hoegsberg@google.com>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Kalyan Thota <kalyan_t@codeaurora.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ James Jones <jajones@nvidia.com>, open list <linux-kernel@vger.kernel.org>,
+ stable@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
+ Dave Airlie <airlied@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/5/21 4:48 PM, Rob Herring wrote:
-> On Mon, Feb 15, 2021 at 11:27:44AM -0500, Jonathan Marek wrote:
->> Add the required changes to support 7nm pll/phy in CPHY mode.
->>
->> This adds a "qcom,dsi-phy-cphy-mode" property for the PHY node to enable
->> the CPHY mode.
->>
->> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
->> ---
->>   .../devicetree/bindings/display/msm/dsi.txt   |  1 +
->>   drivers/gpu/drm/msm/dsi/dsi.c                 | 12 +--
->>   drivers/gpu/drm/msm/dsi/dsi.h                 |  6 +-
->>   drivers/gpu/drm/msm/dsi/dsi.xml.h             |  2 +
->>   drivers/gpu/drm/msm/dsi/dsi_host.c            | 34 +++++--
->>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.c         | 49 +++++++++-
->>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.h         |  3 +
->>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     | 89 ++++++++++++++-----
->>   drivers/gpu/drm/msm/dsi/pll/dsi_pll.c         |  4 +-
->>   drivers/gpu/drm/msm/dsi/pll/dsi_pll.h         |  5 +-
->>   drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c     | 71 +++++++++------
->>   11 files changed, 210 insertions(+), 66 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/display/msm/dsi.txt b/Documentation/devicetree/bindings/display/msm/dsi.txt
->> index b9a64d3ff184..7ffc86a9816b 100644
->> --- a/Documentation/devicetree/bindings/display/msm/dsi.txt
->> +++ b/Documentation/devicetree/bindings/display/msm/dsi.txt
->> @@ -124,6 +124,7 @@ Required properties:
->>   Optional properties:
->>   - qcom,dsi-phy-regulator-ldo-mode: Boolean value indicating if the LDO mode PHY
->>     regulator is wanted.
->> +- qcom,dsi-phy-cphy-mode: Boolean value indicating if CPHY mode is wanted.
-> 
-> This is board or SoC dependent? The latter should be implied by an SoC
-> specific compatible.
-> 
+While Kepler does technically support 256x256 cursors, it turns out that
+in order for us to use these correctly we need to make sure that the cursor
+plane uses a ctxdma that is set to use small (4K)/large (128K) pages -
+whichever is applicable to the given cursor surface.
 
-It is board specific, 7nm dsi phy can operate in either D-PHY or C-PHY mode.
+Right now however, we share the main kmsVramCtxDma that is used for all but
+the ovly plane which defaults to small pages - resulting in artifacts when
+we use 256x256 cursor surfaces. So until we teach nouveau to use a separate
+ctxdma for the cursor, let's just stop advertising 256x256 cursors by
+default - which should fix the issues that users were seeing.
+
+Coincidentally - this is also why small ovlys don't work on Kepler: the
+ctxdma we use for ovlys is set to large pages.
+
+Changes since v2:
+* Fix comments and patch description
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Fixes: d3b2f0f7921c ("drm/nouveau/kms/nv50-: Report max cursor size to userspace")
+Cc: <stable@vger.kernel.org> # v5.11+
+---
+ drivers/gpu/drm/nouveau/dispnv50/disp.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index 196612addfd6..d92cf9e17ac3 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -2693,9 +2693,19 @@ nv50_display_create(struct drm_device *dev)
+ 	else
+ 		nouveau_display(dev)->format_modifiers = disp50xx_modifiers;
+ 
+-	if (disp->disp->object.oclass >= GK104_DISP) {
++	/* FIXME: 256x256 cursors are supported on Kepler, however unlike Maxwell and later
++	 * generations Kepler requires that we specify the page type, small (4K) or large (128K),
++	 * correctly for the ctxdma being used on curs/ovly. We currently share a ctxdma across all
++	 * display planes (except ovly) that defaults to small pages, which results in artifacting
++	 * on 256x256 cursors. Until we teach nouveau to create an appropriate ctxdma for the cursor
++	 * fb in use, simply avoid advertising support for 256x256 cursors.
++	 */
++	if (disp->disp->object.oclass >= GM107_DISP) {
+ 		dev->mode_config.cursor_width = 256;
+ 		dev->mode_config.cursor_height = 256;
++	} else if (disp->disp->object.oclass >= GK104_DISP) {
++		dev->mode_config.cursor_width = 128;
++		dev->mode_config.cursor_height = 128;
+ 	} else {
+ 		dev->mode_config.cursor_width = 64;
+ 		dev->mode_config.cursor_height = 64;
+-- 
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
