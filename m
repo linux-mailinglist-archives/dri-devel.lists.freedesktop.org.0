@@ -1,56 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BD132ED3D
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 15:36:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AC0F32ED56
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 15:42:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6B566EBA6;
-	Fri,  5 Mar 2021 14:35:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA3F36EB4C;
+	Fri,  5 Mar 2021 14:42:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D21E6EBA0
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 14:35:56 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 4780E64FD4
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 14:35:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614954955;
- bh=B6Wz8mHk4b2Vb9vz1c/zhw/N5NItVuvmntHs4JVs8nU=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=CUuRiiyPfOh2elmUIzj9RH58UtSr1/Srd7vyQ320+VsL+VO38upDcgPqUs6T2MOxv
- 5FKyo+/mdoRBv4DrbwJvYp3xmAkG+wyyKjvVVvM1Y+qcIl7WsV/XKuDU82oetXldcd
- NOdStL9sty4vYy/q89D6cB85Pos19akJPG/wd2vGtYYKswweUk9zBIR2UyvxaUr+Mf
- 2Y1PAMgHR0OpDzOhOCZjXS5XrzxxW8zc8HdzkLYizs0frQaSNy/AFS/agMXloMC1SU
- oPyXR82E7aV8jUsUfsDKUODLqNWBV8CZkh0j/XS28BRfLUwXA1J9Ibjl9UqkB6YoEG
- ny4MvW1cYn2Cw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 446DF6530C; Fri,  5 Mar 2021 14:35:55 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 209457] AMDGPU resume fail with RX 580 GPU
-Date: Fri, 05 Mar 2021 14:35:54 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kernel@svenfoo.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-209457-2300-ynfKJtnuqr@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-209457-2300@https.bugzilla.kernel.org/>
-References: <bug-209457-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BE8F6EB4C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 14:42:50 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63424CC;
+ Fri,  5 Mar 2021 15:42:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1614955366;
+ bh=bMuI8UpfMQpHCbcoQe+eoO0QA7zazuAOf8WdDwDBFk0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Kkpsm+0lwl1cGnwTF3H7InTwqKUjV9YQtxurc1C98C8clODboDXch8hzLKnYudXQu
+ KUJQ9ca8NagMlzsxQ6QQbZkmj4Dh2/P7VL2e5u/8CgVfUxMiIt8xonirT7g9QgQFRY
+ pcBcy23vkSkpOWdr4J/L2kShKFymN41ROCjSYeoE=
+Date: Fri, 5 Mar 2021 16:42:15 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Subject: Re: [PATCH v5 2/2] drm/bridge: anx7688: Add ANX7688 bridge driver
+ support
+Message-ID: <YEJDR1dfssc2PMgt@pendragon.ideasonboard.com>
+References: <20210305124351.15079-1-dafna.hirschfeld@collabora.com>
+ <20210305124351.15079-3-dafna.hirschfeld@collabora.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210305124351.15079-3-dafna.hirschfeld@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,115 +47,288 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, drinkcat@chromium.org,
+ jonas@kwiboo.se, airlied@linux.ie, enric.balletbo@collabora.com,
+ narmstrong@baylibre.com, dri-devel@lists.freedesktop.org, a.hajda@samsung.com,
+ robh+dt@kernel.org, hsinyi@chromium.org, chunkuang.hu@kernel.org,
+ kernel@collabora.com, dafna3@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=209457
+Hi Dafna,
 
-Sven Neumann (kernel@svenfoo.org) changed:
+Thank you for the patch.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |kernel@svenfoo.org
+On Fri, Mar 05, 2021 at 01:43:51PM +0100, Dafna Hirschfeld wrote:
+> From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> 
+> This driver adds support for the ANX7688 HDMI to DP converter block of the
+> ANX7688 device.
+> 
+> For our use case, the only reason the Linux kernel driver is necessary is
+> to reject resolutions that require more bandwidth than what is available
+> on the DP side. DP bandwidth and lane count are reported by the bridge via
+> 2 registers and, as far as we know, only chips that have a firmware
+> version greater than 0.85 support these two registers.
+> 
+> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> [The driver is OF only so should depends on CONFIG_OF]
+> Reported-by: kbuild test robot <lkp@intel.com>
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> [convert the driver to be a i2c driver]
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  drivers/gpu/drm/bridge/analogix/Kconfig       |  11 ++
+>  drivers/gpu/drm/bridge/analogix/Makefile      |   1 +
+>  .../drm/bridge/analogix/analogix-anx7688.c    | 186 ++++++++++++++++++
+>  3 files changed, 198 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/analogix/analogix-anx7688.c
+> 
+> diff --git a/drivers/gpu/drm/bridge/analogix/Kconfig b/drivers/gpu/drm/bridge/analogix/Kconfig
+> index 024ea2a570e7..323327aabc38 100644
+> --- a/drivers/gpu/drm/bridge/analogix/Kconfig
+> +++ b/drivers/gpu/drm/bridge/analogix/Kconfig
+> @@ -11,6 +11,17 @@ config DRM_ANALOGIX_ANX6345
+>  	  ANX6345 transforms the LVTTL RGB output of an
+>  	  application processor to eDP or DisplayPort.
+>  
+> +config DRM_ANALOGIX_ANX7688
+> +	tristate "Analogix ANX7688 bridge"
+> +	depends on OF
+> +	select DRM_KMS_HELPER
+> +	select REGMAP_I2C
+> +	help
+> +	  ANX7688 is an ultra-low power 4K Ultra-HD (4096x2160p60)
+> +	  mobile HD transmitter designed for portable
+> +	  devices. The ANX7688 converts HDMI 2.0 to
+> +	  DisplayPort 1.3 Ultra-HD.
+> +
+>  config DRM_ANALOGIX_ANX78XX
+>  	tristate "Analogix ANX78XX bridge"
+>  	select DRM_ANALOGIX_DP
+> diff --git a/drivers/gpu/drm/bridge/analogix/Makefile b/drivers/gpu/drm/bridge/analogix/Makefile
+> index 44da392bb9f9..8f2272b8b732 100644
+> --- a/drivers/gpu/drm/bridge/analogix/Makefile
+> +++ b/drivers/gpu/drm/bridge/analogix/Makefile
+> @@ -2,5 +2,6 @@
+>  analogix_dp-objs := analogix_dp_core.o analogix_dp_reg.o analogix-i2c-dptx.o
+>  obj-$(CONFIG_DRM_ANALOGIX_ANX6345) += analogix-anx6345.o
+>  obj-$(CONFIG_DRM_ANALOGIX_ANX7625) += anx7625.o
+> +obj-$(CONFIG_DRM_ANALOGIX_ANX7688) += analogix-anx7688.o
+>  obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
+>  obj-$(CONFIG_DRM_ANALOGIX_DP) += analogix_dp.o
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx7688.c b/drivers/gpu/drm/bridge/analogix/analogix-anx7688.c
+> new file mode 100644
+> index 000000000000..85a4b1a23035
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx7688.c
+> @@ -0,0 +1,186 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * ANX7688 HDMI->DP bridge driver
+> + *
+> + * Copyright 2020 Google LLC
+> + */
+> +
+> +#include <linux/types.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/regmap.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_print.h>
 
---- Comment #20 from Sven Neumann (kernel@svenfoo.org) ---
-I am experiencing what appears to be the same problem. My hardware is a Lenovo
-Thinkpad 14s with AMD Ryzen 4750u. The notebook quite frequently doesn't come
-out of suspend. Or rather it seems to come out of suspend, but can not
-initialize the graphics hardware, resulting in a black screen:
+Alphabetical order please :-)
 
-Mar 05 13:31:23 zapp systemd[1]: Starting Suspend...
-Mar 05 13:31:23 zapp systemd-sleep[4072]: Suspending system...
-Mar 05 13:31:23 zapp kernel: PM: suspend entry (s2idle)
-Mar 05 13:31:23 zapp kernel: Filesystems sync: 0.009 seconds
-Mar 05 13:31:38 zapp kernel: rfkill: input handler enabled
-Mar 05 13:31:38 zapp kernel: Freezing user space processes ... (elapsed 0.003
-seconds) done.
-Mar 05 13:31:38 zapp kernel: OOM killer disabled.
-Mar 05 13:31:38 zapp kernel: Freezing remaining freezable tasks ... (elapsed
-0.001 seconds) done.
-Mar 05 13:31:38 zapp kernel: [drm] free PSP TMR buffer
-Mar 05 13:31:38 zapp kernel: ACPI: EC: interrupt blocked
-Mar 05 13:31:38 zapp kernel: ACPI: button: The lid device is not compliant to
-SW_LID.
-Mar 05 13:31:38 zapp kernel: ACPI: EC: interrupt unblocked
-Mar 05 13:31:38 zapp kernel: pci 0000:00:00.2: can't derive routing for PCI INT
-A
-Mar 05 13:31:38 zapp kernel: pci 0000:00:00.2: PCI INT A: no GSI
-Mar 05 13:31:38 zapp kernel: usb usb2: root hub lost power or was reset
-Mar 05 13:31:38 zapp kernel: usb usb3: root hub lost power or was reset
-Mar 05 13:31:38 zapp kernel: xhci_hcd 0000:05:00.0: Zeroing 64bit base
-registers, expecting fault
-Mar 05 13:31:38 zapp kernel: [drm] PCIE GART of 1024M enabled (table at
-0x000000F400900000).
-Mar 05 13:31:38 zapp kernel: [drm] PSP is resuming...
-Mar 05 13:31:38 zapp kernel: [drm] reserve 0x400000 from 0xf41f800000 for PSP
-TMR
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: SMU is resuming...
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: dpm has been disabled
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: SMU is resumed
-successfully!
-Mar 05 13:31:38 zapp kernel: usb 2-2: reset high-speed USB device number 2
-using xhci_hcd
-Mar 05 13:31:38 zapp kernel: [drm] kiq ring mec 2 pipe 1 q 0
-Mar 05 13:31:38 zapp kernel: [drm] DMUB hardware initialized:
-version=0x00000001
-Mar 05 13:31:38 zapp kernel: [drm] VCN decode and encode initialized
-successfully(under DPG Mode).
-Mar 05 13:31:38 zapp kernel: [drm] JPEG decode initialized successfully.
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: ring gfx uses VM inv
-eng 0 on hub 0
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: ring comp_1.0.0 uses
-VM inv eng 1 on hub 0
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: ring comp_1.1.0 uses
-VM inv eng 4 on hub 0
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: ring comp_1.2.0 uses
-VM inv eng 5 on hub 0
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: ring comp_1.3.0 uses
-VM inv eng 6 on hub 0
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: ring comp_1.0.1 uses
-VM inv eng 7 on hub 0
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: ring comp_1.1.1 uses
-VM inv eng 8 on hub 0
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: ring comp_1.2.1 uses
-VM inv eng 9 on hub 0
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: ring comp_1.3.1 uses
-VM inv eng 10 on hub 0
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: ring kiq_2.1.0 uses
-VM inv eng 11 on hub 0
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: ring sdma0 uses VM
-inv eng 0 on hub 1
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: ring vcn_dec uses VM
-inv eng 1 on hub 1
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: ring vcn_enc0 uses VM
-inv eng 4 on hub 1
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: ring vcn_enc1 uses VM
-inv eng 5 on hub 1
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: amdgpu: ring jpeg_dec uses VM
-inv eng 6 on hub 1
-Mar 05 13:31:38 zapp kernel: amdgpu 0000:06:00.0: [drm:amdgpu_ib_ring_tests
-[amdgpu]] *ERROR* IB test failed on gfx (-110).
-Mar 05 13:31:38 zapp kernel: fbcon: Taking over console
-Mar 05 13:31:38 zapp kernel: [drm:amdgpu_device_delayed_init_work_handler
-[amdgpu]] *ERROR* ib ring test failed (-110).
-Mar 05 13:31:38 zapp kernel: [drm] Failed to add display topology, DTM TA is
-not initialized.
+> +
+> +/* Register addresses */
+> +#define ANX7688_VENDOR_ID_REG		0x00
+> +#define ANX7688_DEVICE_ID_REG		0x02
+> +
+> +#define ANX7688_FW_VERSION_REG		0x80
+> +
+> +#define ANX7688_DP_BANDWIDTH_REG	0x85
+> +#define ANX7688_DP_LANE_COUNT_REG	0x86
+> +
+> +#define ANX7688_VENDOR_ID		0x1f29
+> +#define ANX7688_DEVICE_ID		0x7688
+> +
+> +/* First supported firmware version (0.85) */
+> +#define ANX7688_MINIMUM_FW_VERSION	0x0085
+> +
+> +static const struct regmap_config anx7688_regmap_config = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +};
+> +
+> +struct anx7688 {
+> +	struct i2c_client *client;
+> +	struct regmap *regmap;
+> +	struct drm_bridge bridge;
+> +	bool filter;
+> +};
+> +
+> +static inline struct anx7688 *
+> +bridge_to_anx7688(struct drm_bridge *bridge)
+> +{
+> +	return container_of(bridge, struct anx7688, bridge);
+> +}
+> +
+> +static bool anx7688_bridge_mode_fixup(struct drm_bridge *bridge,
+> +				      const struct drm_display_mode *mode,
+> +				      struct drm_display_mode *adjusted_mode)
+> +{
+> +	struct anx7688 *anx = bridge_to_anx7688(bridge);
+> +	int totalbw, requiredbw;
+> +	u8 dpbw, lanecount;
+> +	u8 regs[2];
+> +	int ret;
+> +
+> +	if (!anx->filter)
+> +		return true;
+> +
+> +	/* Read both regs 0x85 (bandwidth) and 0x86 (lane count). */
+> +	ret = regmap_bulk_read(anx->regmap, ANX7688_DP_BANDWIDTH_REG, regs, 2);
+> +	if (ret < 0) {
+> +		DRM_ERROR("Failed to read bandwidth/lane count\n");
+> +		return false;
+> +	}
+> +	dpbw = regs[0];
+> +	lanecount = regs[1];
+> +
+> +	/* Maximum 0x19 bandwidth (6.75 Gbps Turbo mode), 2 lanes */
+> +	if (dpbw > 0x19 || lanecount > 2) {
+> +		DRM_ERROR("Invalid bandwidth/lane count (%02x/%d)\n", dpbw,
+> +			  lanecount);
+> +		return false;
+> +	}
+> +
+> +	/* Compute available bandwidth (kHz) */
+> +	totalbw = dpbw * lanecount * 270000 * 8 / 10;
+> +
+> +	/* Required bandwidth (8 bpc, kHz) */
+> +	requiredbw = mode->clock * 8 * 3;
+> +
+> +	DRM_DEBUG_KMS("DP bandwidth: %d kHz (%02x/%d); mode requires %d Khz\n",
+> +		      totalbw, dpbw, lanecount, requiredbw);
+> +
+> +	if (totalbw == 0) {
+> +		DRM_ERROR("Bandwidth/lane count are 0, not rejecting modes\n");
+> +		return true;
+> +	}
+> +
+> +	return totalbw >= requiredbw;
+> +}
+> +
+> +static const struct drm_bridge_funcs anx7688_bridge_funcs = {
+> +	.mode_fixup = anx7688_bridge_mode_fixup,
+> +};
+> +
+> +static int anx7688_bridge_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct anx7688 *anx7688;
+> +	u16 vendor, device, fw_version;
+> +	u8 buffer[4];
+> +	int ret;
+> +
+> +	anx7688 = devm_kzalloc(dev, sizeof(*anx7688), GFP_KERNEL);
+> +	if (!anx7688)
+> +		return -ENOMEM;
+> +
+> +	anx7688->client = client;
+> +	i2c_set_clientdata(client, anx7688);
+> +
+> +	anx7688->regmap = devm_regmap_init_i2c(client, &anx7688_regmap_config);
 
+No need to check for errors ?
 
-The most relevant part seems to be
+> +
+> +	/* Read both vendor and device id (4 bytes). */
+> +	ret = regmap_bulk_read(anx7688->regmap, ANX7688_VENDOR_ID_REG,
+> +			       buffer, 4);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to read chip vendor/device id\n");
+> +		return ret;
+> +	}
+> +
+> +	vendor = (u16)buffer[1] << 8 | buffer[0];
+> +	device = (u16)buffer[3] << 8 | buffer[2];
 
-[drm:amdgpu_ib_ring_tests [amdgpu]] *ERROR* IB test failed on gfx (-110).
+We need a better regmap API for devices with variable-width registers
+:-S
 
-This is on 5.12-rc1+, compiled from master this morning. But I have seen this
-problem with Ubuntu mainline kernels 5.10.17, 5.10.20 and 5.11.3 as well.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +	if (vendor != ANX7688_VENDOR_ID || device != ANX7688_DEVICE_ID) {
+> +		dev_err(dev, "Invalid vendor/device id %04x/%04x\n",
+> +			vendor, device);
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret = regmap_bulk_read(anx7688->regmap, ANX7688_FW_VERSION_REG,
+> +			       buffer, 2);
+> +	if (ret) {
+> +		dev_err(&client->dev, "Failed to read firmware version\n");
+> +		return ret;
+> +	}
+> +
+> +	fw_version = (u16)buffer[0] << 8 | buffer[1];
+> +	dev_info(dev, "ANX7688 firmware version 0x%04x\n", fw_version);
+> +
+> +	anx7688->bridge.of_node = dev->of_node;
+> +
+> +	/* FW version >= 0.85 supports bandwidth/lane count registers */
+> +	if (fw_version >= ANX7688_MINIMUM_FW_VERSION)
+> +		anx7688->filter = true;
+> +	else
+> +		/* Warn, but not fail, for backwards compatibility */
+> +		DRM_WARN("Old ANX7688 FW version (0x%04x), not filtering\n",
+> +			 fw_version);
+> +
+> +	anx7688->bridge.funcs = &anx7688_bridge_funcs;
+> +	drm_bridge_add(&anx7688->bridge);
+> +
+> +	return 0;
+> +}
+> +
+> +static int anx7688_bridge_remove(struct i2c_client *client)
+> +{
+> +	struct anx7688 *anx7688 = i2c_get_clientdata(client);
+> +
+> +	drm_bridge_remove(&anx7688->bridge);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id anx7688_bridge_match_table[] = {
+> +	{ .compatible = "analogix,anx7688", },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, anx7688_bridge_match_table);
+> +
+> +static struct i2c_driver anx7688_bridge_driver = {
+> +	.probe_new = anx7688_bridge_probe,
+> +	.remove = anx7688_bridge_remove,
+> +	.driver = {
+> +		.name = "anx7688-bridge",
+> +		.of_match_table = anx7688_bridge_match_table,
+> +	},
+> +};
+> +
+> +module_i2c_driver(anx7688_bridge_driver);
+> +
+> +MODULE_DESCRIPTION("ANX7688 HDMI->DP bridge driver");
+> +MODULE_AUTHOR("Nicolas Boichat <drinkcat@chromium.org>");
+> +MODULE_AUTHOR("Enric Balletbo i Serra <enric.balletbo@collabora.com>");
+> +MODULE_LICENSE("GPL");
 
 -- 
-You may reply to this email to add a comment.
+Regards,
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
