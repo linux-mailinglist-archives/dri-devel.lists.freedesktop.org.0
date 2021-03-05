@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E2332F2D9
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 19:39:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 089F132F2DC
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 19:39:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32A9B6EC13;
-	Fri,  5 Mar 2021 18:39:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 995A96EC21;
+	Fri,  5 Mar 2021 18:39:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6C6E6EC15
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 18:39:44 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id d13so3984461edp.4
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Mar 2021 10:39:44 -0800 (PST)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB3956EC15
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 18:39:45 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id b13so4002241edx.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Mar 2021 10:39:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vj0fR0Hv68keiBerGEZYm4j5yOSf6bjnsnQtt9w94hk=;
- b=I5pYnbMlKeDeCDB02kLVpDRlSoszuEhN46XklEhNp0i5VoztFotrZFPataFwQ9/G1h
- xxM+sVa9t134rnWSwJzg380KeaJSYcWDzJtNmMHycZ/z/lPiuqBeBjYVcuyxLZbzaPev
- IiiVtgBUl/a/5uTbR0JbfU+p44Cd0MOT4ajcoTNsHPvPBaNkLKETIe6JHb0KE1Cv6CNe
- VosCzuvOce/XE82mppCqA5GbIU1aaHPYWe7HmyZH/mMkmmfr3zWtInHCSaWXBWFFllfQ
- m/1Gv6G8MMlwKHx+3a4xCbfshZ9vXeA7cMHGNyccW6oWoS/uQTD0o5VDx+GqzYDfYZYP
- 3RMA==
+ bh=tf33K71twIkxM4hJLRQD7HM9YN0mvsbuZX3c9Y/Nb9I=;
+ b=u+RQmqprzdy1MsB9sKjqgF24R2C9QV0O0WKwjebxR2m9olvz/IuHLOB8f7XTwUUEm1
+ T3cavT85BvevU66boYJpX7L9BxVXrTBlGOO78vm0u8ZfARGtgp80vloUbmvO+fbVofU+
+ /gFe6a0ls/VO68TRl2HIckJpW9enTQe1HaODNwQLtA66ooso7WVrsrh4F4IqedMjpANn
+ P2CR0ryw0lepLKDI1mpFQJjLy+CT0pwBu1l2+6IVEFojYNp5CCq89o5BfYX5NJ6X8S60
+ Pfn8lffoT0Xzsz34iOwfew4rs3RlP32OSIUkOtQoBtXb9jQ7M1XISF4b7DFf1dZivutY
+ 7gIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vj0fR0Hv68keiBerGEZYm4j5yOSf6bjnsnQtt9w94hk=;
- b=eqDN3KvRh//1/6p6HW8I3vkSNdcTtMgG1Co0crsju+c2jEvEjk7EQNsDgm5DomAzjx
- gl7swt7SLSQEkojyP8sxvCwPizzV3XYybulLd0OAeXiThy2b53AIRrf3LJbD1JxQEvuy
- iD2RW8W/Mt8VwHQSpcoIKAPGSy1LTa6Do8jktc3LJVKn9vZDB9ITqA7f92lEG3ulRZUw
- apvWM4dhPuwVM3Ed3nqjyfVdJiJOTK89Pk+BIiwAXRUBCvI/CzN4DTZM7epZnbUTif2u
- /BZYWwQdkt3UgATWNasy/R6ga8GNJuuiKzlTiK9XwyPRKnmoGsGiXSK9Ew1OZ8mIUClD
- cAQQ==
-X-Gm-Message-State: AOAM531fiWjEBsGV3/q0t4H7Sxk7ojvyfvX9DhqoxkhHaDmVvXg1Z6F4
- EbP/ROAUBKQylAagzrHMZ12baOVi9HNxmg==
-X-Google-Smtp-Source: ABdhPJwGAzsAAqA4EE0xVB7Wy2nLESquIY3Pc0XL21zHXY/3rsG7/17j+Pe8EUPUWNYxgGUsP8OcyA==
-X-Received: by 2002:a05:6402:215:: with SMTP id
- t21mr10491472edv.363.1614969583148; 
- Fri, 05 Mar 2021 10:39:43 -0800 (PST)
+ bh=tf33K71twIkxM4hJLRQD7HM9YN0mvsbuZX3c9Y/Nb9I=;
+ b=d5LZE+TPzbm3G9iAny+95f1pj5owc67Jih1/tJ1R5uf6K7FrixKMpPiHIwqeMIZcXa
+ wD3LfZP54nacTdiSmGaDtKGjE/EjGk7SL1M/jduA0V7VsNxcZZPjX90flF8lC6mkyvWa
+ 1oFJtrCI4Lx35smPqfMTqc4u9BQ+WWojhhYJuKIzv+FGzA4Lk6BcYst34f9X7+iwBMo+
+ sytzzbG8JtCYGWDzlsUQzykYmyWbNLi6eQZtPNwVKwNndO3rLbyanjpy6wSpyf86wklU
+ hZg6RCMYxueQLCLhlyUdIHlsQIJgAYOUDo6IshAqz82PTtSPKoneZgG8/eGtlrGfezFF
+ wisg==
+X-Gm-Message-State: AOAM531xJgtOpiChc0ZWa3buL7w6wMY0UPuOYTspJx9Go9raBOqn1Knl
+ kl/WhPB/gs4jOEHVYwRTg/HdlwlD9MvCTA==
+X-Google-Smtp-Source: ABdhPJxq1XvPuZG+i3nd4X6EJSujEotsK7sBnnc87kaoOOWNne65bWKi2tQr2yAU6w/Ac+93oV1M8Q==
+X-Received: by 2002:aa7:dd49:: with SMTP id o9mr10358033edw.14.1614969584316; 
+ Fri, 05 Mar 2021 10:39:44 -0800 (PST)
 Received: from arch-x1c3.. (cpc92308-cmbg19-2-0-cust99.5-4.cable.virginm.net.
  [82.24.248.100])
- by smtp.gmail.com with ESMTPSA id o1sm2121808eds.26.2021.03.05.10.39.41
+ by smtp.gmail.com with ESMTPSA id o1sm2121808eds.26.2021.03.05.10.39.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Mar 2021 10:39:42 -0800 (PST)
+ Fri, 05 Mar 2021 10:39:43 -0800 (PST)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/7] ARM: configs: at91: sama5: update with savedefconfig
-Date: Fri,  5 Mar 2021 18:39:23 +0000
-Message-Id: <20210305183924.1754026-7-emil.l.velikov@gmail.com>
+Subject: [PATCH 7/7] ARM: dts: at91: sama5d4: add vdec0 component
+Date: Fri,  5 Mar 2021 18:39:24 +0000
+Message-Id: <20210305183924.1754026-8-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210305183924.1754026-1-emil.l.velikov@gmail.com>
 References: <20210305183924.1754026-1-emil.l.velikov@gmail.com>
@@ -78,8 +77,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Emil Velikov <emil.velikov@collabora.com>
 
-While enabling an extra config, I've noticed that savedefconfig produced
-a notable delta. Split out the no-op changes for clarity sake.
+The SoC features a Hantro G1 compatible video decoder.
 
 Cc: Ezequiel Garcia <ezequiel@collabora.com>
 Cc: Philipp Zabel <p.zabel@pengutronix.de>
@@ -87,156 +85,242 @@ Cc: linux-media@vger.kernel.org
 Cc: linux-rockchip@lists.infradead.org
 Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
 ---
- arch/arm/configs/sama5_defconfig | 48 ++++++++++++--------------------
- 1 file changed, 18 insertions(+), 30 deletions(-)
+ arch/arm/boot/dts/sama5d4.dtsi                |   9 ++
+ arch/arm/configs/sama5_defconfig              |   3 +
+ drivers/staging/media/hantro/Kconfig          |  10 +-
+ drivers/staging/media/hantro/Makefile         |   3 +
+ drivers/staging/media/hantro/hantro_drv.c     |   3 +
+ drivers/staging/media/hantro/hantro_hw.h      |   1 +
+ .../staging/media/hantro/sama5d4_vdec_hw.c    | 118 ++++++++++++++++++
+ 7 files changed, 146 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/staging/media/hantro/sama5d4_vdec_hw.c
 
+diff --git a/arch/arm/boot/dts/sama5d4.dtsi b/arch/arm/boot/dts/sama5d4.dtsi
+index 05c55875835d..deaf1f6cc784 100644
+--- a/arch/arm/boot/dts/sama5d4.dtsi
++++ b/arch/arm/boot/dts/sama5d4.dtsi
+@@ -101,6 +101,15 @@ nfc_sram: sram@100000 {
+ 			ranges = <0 0x100000 0x2400>;
+ 		};
+ 
++		vdec0: vdec@00300000 {
++			compatible = "atmel,sama5d4-vdec";
++			reg = <0x00300000 0x100000>;
++			interrupts = <19 IRQ_TYPE_LEVEL_HIGH 4>;
++			interrupt-names = "vdec";
++			clocks = <&pmc PMC_TYPE_PERIPHERAL 19>;
++			clock-names = "vdec_clk";
++		};
++
+ 		usb0: gadget@400000 {
+ 			compatible = "atmel,sama5d3-udc";
+ 			reg = <0x00400000 0x100000
 diff --git a/arch/arm/configs/sama5_defconfig b/arch/arm/configs/sama5_defconfig
-index 5f6297e6c549..0dca50c64503 100644
+index 0dca50c64503..10806f38abfb 100644
 --- a/arch/arm/configs/sama5_defconfig
 +++ b/arch/arm/configs/sama5_defconfig
-@@ -1,7 +1,6 @@
- # CONFIG_LOCALVERSION_AUTO is not set
- # CONFIG_SWAP is not set
- CONFIG_SYSVIPC=y
--CONFIG_FHANDLE=y
- CONFIG_NO_HZ_IDLE=y
- CONFIG_HIGH_RES_TIMERS=y
- CONFIG_LOG_BUF_SHIFT=14
-@@ -9,29 +8,26 @@ CONFIG_CGROUPS=y
- CONFIG_BLK_DEV_INITRD=y
- CONFIG_EMBEDDED=y
- CONFIG_SLAB=y
--CONFIG_MODULES=y
--CONFIG_MODULE_FORCE_LOAD=y
--CONFIG_MODULE_UNLOAD=y
--CONFIG_MODULE_FORCE_UNLOAD=y
--# CONFIG_BLK_DEV_BSG is not set
- CONFIG_ARCH_AT91=y
- CONFIG_SOC_SAMA5D2=y
- CONFIG_SOC_SAMA5D3=y
- CONFIG_SOC_SAMA5D4=y
- # CONFIG_ATMEL_CLOCKSOURCE_PIT is not set
--CONFIG_AEABI=y
- CONFIG_UACCESS_WITH_MEMCPY=y
--CONFIG_ZBOOT_ROM_TEXT=0x0
--CONFIG_ZBOOT_ROM_BSS=0x0
- CONFIG_ARM_APPENDED_DTB=y
- CONFIG_CMDLINE="console=ttyS0,115200 initrd=0x21100000,25165824 root=/dev/ram0 rw"
- CONFIG_KEXEC=y
- CONFIG_VFP=y
- CONFIG_NEON=y
- CONFIG_KERNEL_MODE_NEON=y
--# CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS is not set
- CONFIG_PM_DEBUG=y
- CONFIG_PM_ADVANCED_DEBUG=y
-+CONFIG_MODULES=y
-+CONFIG_MODULE_FORCE_LOAD=y
-+CONFIG_MODULE_UNLOAD=y
-+CONFIG_MODULE_FORCE_UNLOAD=y
-+# CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS is not set
- CONFIG_NET=y
- CONFIG_PACKET=y
- CONFIG_UNIX=y
-@@ -41,13 +37,7 @@ CONFIG_IP_PNP=y
- CONFIG_IP_PNP_DHCP=y
- CONFIG_IP_PNP_BOOTP=y
- CONFIG_IP_PNP_RARP=y
--# CONFIG_INET_XFRM_MODE_TRANSPORT is not set
--# CONFIG_INET_XFRM_MODE_TUNNEL is not set
--# CONFIG_INET_XFRM_MODE_BEET is not set
- # CONFIG_INET_DIAG is not set
--# CONFIG_INET6_XFRM_MODE_TRANSPORT is not set
--# CONFIG_INET6_XFRM_MODE_TUNNEL is not set
--# CONFIG_INET6_XFRM_MODE_BEET is not set
- CONFIG_IPV6_SIT_6RD=y
- CONFIG_BRIDGE=m
- CONFIG_BRIDGE_VLAN_FILTERING=y
-@@ -68,7 +58,6 @@ CONFIG_MTD=y
- CONFIG_MTD_CMDLINE_PARTS=y
- CONFIG_MTD_BLOCK=y
- CONFIG_MTD_CFI=y
--CONFIG_MTD_M25P80=y
- CONFIG_MTD_RAW_NAND=y
- CONFIG_MTD_NAND_ATMEL=y
- CONFIG_MTD_SPI_NOR=y
-@@ -87,8 +76,8 @@ CONFIG_BLK_DEV_SD=y
- CONFIG_NETDEVICES=y
- CONFIG_NET_DSA_MICROCHIP_KSZ9477=m
- CONFIG_NET_DSA_MICROCHIP_KSZ9477_SPI=m
--CONFIG_MACB=y
- # CONFIG_NET_VENDOR_BROADCOM is not set
-+CONFIG_MACB=y
- # CONFIG_NET_VENDOR_CIRRUS is not set
- # CONFIG_NET_VENDOR_FARADAY is not set
- # CONFIG_NET_VENDOR_INTEL is not set
-@@ -103,7 +92,9 @@ CONFIG_MACB=y
- CONFIG_MICREL_PHY=y
- CONFIG_LIBERTAS_THINFIRM=m
- CONFIG_LIBERTAS_THINFIRM_USB=m
--CONFIG_RTL8187=m
-+CONFIG_MWIFIEX=m
-+CONFIG_MWIFIEX_SDIO=m
-+CONFIG_MWIFIEX_USB=m
- CONFIG_RT2X00=m
- CONFIG_RT2500USB=m
- CONFIG_RT73USB=m
-@@ -111,10 +102,7 @@ CONFIG_RT2800USB=m
- CONFIG_RT2800USB_RT53XX=y
- CONFIG_RT2800USB_RT55XX=y
- CONFIG_RT2800USB_UNKNOWN=y
--CONFIG_MWIFIEX=m
--CONFIG_MWIFIEX_SDIO=m
--CONFIG_MWIFIEX_USB=m
--# CONFIG_INPUT_MOUSEDEV is not set
-+CONFIG_RTL8187=m
- CONFIG_INPUT_EVDEV=y
- # CONFIG_KEYBOARD_ATKBD is not set
- CONFIG_KEYBOARD_QT1070=y
-@@ -136,9 +124,9 @@ CONFIG_SPI_ATMEL=y
- CONFIG_SPI_GPIO=y
- CONFIG_GPIO_SYSFS=y
- CONFIG_GPIO_SAMA5D2_PIOBU=m
-+CONFIG_POWER_RESET=y
- CONFIG_POWER_SUPPLY=y
- CONFIG_BATTERY_ACT8945A=y
--CONFIG_POWER_RESET=y
- CONFIG_SENSORS_JC42=m
- CONFIG_WATCHDOG=y
- CONFIG_AT91SAM9X_WATCHDOG=y
-@@ -177,11 +165,11 @@ CONFIG_SND=y
- CONFIG_SND_SOC=y
- CONFIG_SND_ATMEL_SOC=y
- CONFIG_SND_ATMEL_SOC_WM8904=y
--# CONFIG_HID_GENERIC is not set
- CONFIG_SND_ATMEL_SOC_CLASSD=y
- CONFIG_SND_ATMEL_SOC_PDMIC=y
- CONFIG_SND_ATMEL_SOC_TSE850_PCM5142=m
- CONFIG_SND_ATMEL_SOC_I2S=y
-+# CONFIG_HID_GENERIC is not set
- CONFIG_USB=y
- CONFIG_USB_ANNOUNCE_NEW_DEVICES=y
- CONFIG_USB_EHCI_HCD=y
-@@ -235,14 +223,14 @@ CONFIG_NLS_CODEPAGE_437=y
- CONFIG_NLS_CODEPAGE_850=y
- CONFIG_NLS_ISO8859_1=y
- CONFIG_NLS_UTF8=y
-+CONFIG_CRYPTO_USER_API_HASH=m
-+CONFIG_CRYPTO_USER_API_SKCIPHER=m
-+CONFIG_CRYPTO_DEV_ATMEL_AES=y
-+CONFIG_CRYPTO_DEV_ATMEL_TDES=y
-+CONFIG_CRYPTO_DEV_ATMEL_SHA=y
- CONFIG_STRIP_ASM_SYMS=y
- CONFIG_DEBUG_FS=y
- CONFIG_DEBUG_MEMORY_INIT=y
- # CONFIG_SCHED_DEBUG is not set
- # CONFIG_FTRACE is not set
- CONFIG_DEBUG_USER=y
--CONFIG_CRYPTO_USER_API_HASH=m
--CONFIG_CRYPTO_USER_API_SKCIPHER=m
--CONFIG_CRYPTO_DEV_ATMEL_AES=y
--CONFIG_CRYPTO_DEV_ATMEL_TDES=y
--CONFIG_CRYPTO_DEV_ATMEL_SHA=y
+@@ -200,6 +200,9 @@ CONFIG_RTC_DRV_AT91RM9200=y
+ CONFIG_DMADEVICES=y
+ CONFIG_AT_HDMAC=y
+ CONFIG_AT_XDMAC=y
++CONFIG_STAGING=y
++CONFIG_STAGING_MEDIA=y
++CONFIG_VIDEO_HANTRO=y
+ # CONFIG_IOMMU_SUPPORT is not set
+ CONFIG_IIO=y
+ CONFIG_AT91_ADC=y
+diff --git a/drivers/staging/media/hantro/Kconfig b/drivers/staging/media/hantro/Kconfig
+index 5b6cf9f62b1a..43762c8164e0 100644
+--- a/drivers/staging/media/hantro/Kconfig
++++ b/drivers/staging/media/hantro/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config VIDEO_HANTRO
+ 	tristate "Hantro VPU driver"
+-	depends on ARCH_MXC || ARCH_ROCKCHIP || COMPILE_TEST
++	depends on ARCH_MXC || ARCH_ROCKCHIP || ARCH_AT91 || COMPILE_TEST
+ 	depends on VIDEO_DEV && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select MEDIA_CONTROLLER_REQUEST_API
+@@ -24,6 +24,14 @@ config VIDEO_HANTRO_IMX8M
+ 	help
+ 	  Enable support for i.MX8M SoCs.
+ 
++config VIDEO_HANTRO_SAMA5D4
++	bool "Hantro VDEC SAMA5D4 support"
++	depends on VIDEO_HANTRO
++	depends on ARCH_AT91 || COMPILE_TEST
++	default y
++	help
++	  Enable support for Atmel SAMA5D4 SoCs.
++
+ config VIDEO_HANTRO_ROCKCHIP
+ 	bool "Hantro VPU Rockchip support"
+ 	depends on VIDEO_HANTRO
+diff --git a/drivers/staging/media/hantro/Makefile b/drivers/staging/media/hantro/Makefile
+index 3747a32799b2..f4b99901eeee 100644
+--- a/drivers/staging/media/hantro/Makefile
++++ b/drivers/staging/media/hantro/Makefile
+@@ -22,6 +22,9 @@ hantro-vpu-y += \
+ hantro-vpu-$(CONFIG_VIDEO_HANTRO_IMX8M) += \
+ 		imx8m_vpu_hw.o
+ 
++hantro-vpu-$(CONFIG_VIDEO_HANTRO_SAMA5D4) += \
++		sama5d4_vdec_hw.o
++
+ hantro-vpu-$(CONFIG_VIDEO_HANTRO_ROCKCHIP) += \
+ 		rk3288_vpu_hw.o \
+ 		rk3399_vpu_hw.o
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index e5f200e64993..19f1202574a2 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -478,6 +478,9 @@ static const struct of_device_id of_hantro_match[] = {
+ #endif
+ #ifdef CONFIG_VIDEO_HANTRO_IMX8M
+ 	{ .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
++#endif
++#ifdef CONFIG_VIDEO_HANTRO_SAMA5D4
++	{ .compatible = "atmel,sama5d4-vdec", .data = &sama5d4_vdec_variant, },
+ #endif
+ 	{ /* sentinel */ }
+ };
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index 73c71bb2320c..4d39da1d1581 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -152,6 +152,7 @@ extern const struct hantro_variant rk3399_vpu_variant;
+ extern const struct hantro_variant rk3328_vpu_variant;
+ extern const struct hantro_variant rk3288_vpu_variant;
+ extern const struct hantro_variant imx8mq_vpu_variant;
++extern const struct hantro_variant sama5d4_vdec_variant;
+ 
+ extern const struct hantro_postproc_regs hantro_g1_postproc_regs;
+ 
+diff --git a/drivers/staging/media/hantro/sama5d4_vdec_hw.c b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
+new file mode 100644
+index 000000000000..9cf1068d986b
+--- /dev/null
++++ b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
+@@ -0,0 +1,118 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Hantro VDEC driver
++ *
++ * Copyright (C) 2021 Collabora Ltd, Emil Velikov <emil.velikov@collabora.com>
++ */
++
++#include "hantro.h"
++
++
++/*
++ * Supported formats.
++ */
++
++static const struct hantro_fmt sama5d4_vdec_postproc_fmts[] = {
++	{
++		.fourcc = V4L2_PIX_FMT_YUYV,
++		.codec_mode = HANTRO_MODE_NONE,
++	},
++};
++
++static const struct hantro_fmt sama5d4_vdec_fmts[] = {
++	{
++		.fourcc = V4L2_PIX_FMT_NV12,
++		.codec_mode = HANTRO_MODE_NONE,
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_MPEG2_SLICE,
++		.codec_mode = HANTRO_MODE_MPEG2_DEC,
++		.max_depth = 2,
++		.frmsize = {
++			.min_width = 48,
++			.max_width = 1280,
++			.step_width = MB_DIM,
++			.min_height = 48,
++			.max_height = 720,
++			.step_height = MB_DIM,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_VP8_FRAME,
++		.codec_mode = HANTRO_MODE_VP8_DEC,
++		.max_depth = 2,
++		.frmsize = {
++			.min_width = 48,
++			.max_width = 1280,
++			.step_width = MB_DIM,
++			.min_height = 48,
++			.max_height = 720,
++			.step_height = MB_DIM,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_H264_SLICE,
++		.codec_mode = HANTRO_MODE_H264_DEC,
++		.max_depth = 2,
++		.frmsize = {
++			.min_width = 48,
++			.max_width = 1280,
++			.step_width = MB_DIM,
++			.min_height = 48,
++			.max_height = 720,
++			.step_height = MB_DIM,
++		},
++	},
++};
++
++static int sama5d4_hw_init(struct hantro_dev *vpu)
++{
++	return 0;
++}
++
++/*
++ * Supported codec ops.
++ */
++
++static const struct hantro_codec_ops sama5d4_vdec_codec_ops[] = {
++	[HANTRO_MODE_MPEG2_DEC] = {
++		.run = hantro_g1_mpeg2_dec_run,
++		.reset = hantro_g1_reset,
++		.init = hantro_mpeg2_dec_init,
++		.exit = hantro_mpeg2_dec_exit,
++	},
++	[HANTRO_MODE_VP8_DEC] = {
++		.run = hantro_g1_vp8_dec_run,
++		.reset = hantro_g1_reset,
++		.init = hantro_vp8_dec_init,
++		.exit = hantro_vp8_dec_exit,
++	},
++	[HANTRO_MODE_H264_DEC] = {
++		.run = hantro_g1_h264_dec_run,
++		.reset = hantro_g1_reset,
++		.init = hantro_h264_dec_init,
++		.exit = hantro_h264_dec_exit,
++	},
++};
++
++static const struct hantro_irq sama5d4_irqs[] = {
++	{ "vdec", hantro_g1_irq },
++};
++
++static const char * const sama5d4_clk_names[] = { "vdec_clk" };
++
++const struct hantro_variant sama5d4_vdec_variant = {
++	.dec_fmts = sama5d4_vdec_fmts,
++	.num_dec_fmts = ARRAY_SIZE(sama5d4_vdec_fmts),
++	.postproc_fmts = sama5d4_vdec_postproc_fmts,
++	.num_postproc_fmts = ARRAY_SIZE(sama5d4_vdec_postproc_fmts),
++	.postproc_regs = &hantro_g1_postproc_regs,
++	.codec = HANTRO_MPEG2_DECODER | HANTRO_VP8_DECODER |
++		 HANTRO_H264_DECODER,
++	.codec_ops = sama5d4_vdec_codec_ops,
++	.init = sama5d4_hw_init,
++	.irqs = sama5d4_irqs,
++	.num_irqs = ARRAY_SIZE(sama5d4_irqs),
++	.clk_names = sama5d4_clk_names,
++	.num_clocks = ARRAY_SIZE(sama5d4_clk_names),
++};
 -- 
 2.30.1
 
