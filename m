@@ -1,37 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6083E32EE16
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 16:14:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CDCF32EE33
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 16:18:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 875196EB37;
-	Fri,  5 Mar 2021 15:14:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F5986EB41;
+	Fri,  5 Mar 2021 15:17:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D1896EB37
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 15:14:08 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8B206EB41
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 15:17:56 +0000 (UTC)
 Received: from [IPv6:2003:c7:cf38:3800:8df:3f9b:2ff1:d151]
  (p200300c7cf38380008df3f9b2ff1d151.dip0.t-ipconnect.de
  [IPv6:2003:c7:cf38:3800:8df:3f9b:2ff1:d151])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: dafna)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9B8981F46B91;
- Fri,  5 Mar 2021 15:14:06 +0000 (GMT)
-Subject: Re: [PATCH v5 1/2] dt-bindings: usb: add analogix,anx7688.yaml
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 300A91F46B95;
+ Fri,  5 Mar 2021 15:17:55 +0000 (GMT)
+Subject: Re: [PATCH v5 2/2] drm/bridge: anx7688: Add ANX7688 bridge driver
+ support
+To: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-usb@vger.kernel.org
 References: <20210305124351.15079-1-dafna.hirschfeld@collabora.com>
- <20210305124351.15079-2-dafna.hirschfeld@collabora.com>
- <YEJBgEPO4J5+/HhD@pendragon.ideasonboard.com>
+ <20210305124351.15079-3-dafna.hirschfeld@collabora.com>
 From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <35f505ee-d939-4b42-490b-321b961bdec3@collabora.com>
-Date: Fri, 5 Mar 2021 16:14:03 +0100
+Message-ID: <5ecb7e50-5566-0285-892e-129b6bcd7dc5@collabora.com>
+Date: Fri, 5 Mar 2021 16:17:52 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <YEJBgEPO4J5+/HhD@pendragon.ideasonboard.com>
+In-Reply-To: <20210305124351.15079-3-dafna.hirschfeld@collabora.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,267 +46,272 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: megous@megous.com, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
- drinkcat@chromium.org, jonas@kwiboo.se, airlied@linux.ie,
- enric.balletbo@collabora.com, narmstrong@baylibre.com,
- dri-devel@lists.freedesktop.org, a.hajda@samsung.com, robh+dt@kernel.org,
- hsinyi@chromium.org, chunkuang.hu@kernel.org, kernel@collabora.com,
- dafna3@gmail.com
+Cc: megous@megous.com, chunkuang.hu@kernel.org, jernej.skrabec@siol.net,
+ drinkcat@chromium.org, jonas@kwiboo.se, airlied@linux.ie, dafna3@gmail.com,
+ narmstrong@baylibre.com, a.hajda@samsung.com, robh+dt@kernel.org,
+ Laurent.pinchart@ideasonboard.com, hsinyi@chromium.org,
+ enric.balletbo@collabora.com, kernel@collabora.com
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-On 05.03.21 15:34, Laurent Pinchart wrote:
-> Hi Dafna,
-> 
-> Thank you for the patch.
-> 
-> On Fri, Mar 05, 2021 at 01:43:50PM +0100, Dafna Hirschfeld wrote:
->> ANX7688 is a USB Type-C port controller with a MUX. It converts HDMI 2.0 to
->> DisplayPort 1.3 Ultra-HDi (4096x2160p60).
->> The integrated crosspoint switch (the MUX) supports USB 3.1 data transfer
->> along with the DisplayPort Alternate Mode signaling over USB Type-C.
->> Additionally, an on-chip microcontroller (OCM) is available to manage the
->> signal switching, Channel Configuration (CC) detection, USB Power
->> Delivery (USB-PD), Vendor Defined Message (VDM) protocol support and other
->> functions as defined in the USB TypeC and USB Power Delivery
->> specifications.
->>
->> ANX7688 is found on Acer Chromebook R13 (elm) and on
->> Pine64 PinePhone.
->>
->> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->> ---
->>   .../bindings/usb/analogix,anx7688.yaml        | 177 ++++++++++++++++++
->>   1 file changed, 177 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/usb/analogix,anx7688.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/usb/analogix,anx7688.yaml b/Documentation/devicetree/bindings/usb/analogix,anx7688.yaml
->> new file mode 100644
->> index 000000000000..6c4dd6b4b28b
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/usb/analogix,anx7688.yaml
->> @@ -0,0 +1,177 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/usb/analogix,anx7688.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Analogix ANX7688 Type-C Port Controller with HDMI to DP conversion
->> +
->> +maintainers:
->> +  - Nicolas Boichat <drinkcat@chromium.org>
->> +  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
->> +
->> +description: |
->> +  ANX7688 is a USB Type-C port controller with a MUX. It converts HDMI 2.0 to
->> +  DisplayPort 1.3 Ultra-HDi (4096x2160p60).
->> +  The integrated crosspoint switch (the MUX) supports USB 3.1 data transfer along with
->> +  the DisplayPort Alternate Mode signaling over USB Type-C. Additionally,
->> +  an on-chip microcontroller (OCM) is available to manage the signal switching,
->> +  Channel Configuration (CC) detection, USB Power Delivery (USB-PD), Vendor
->> +  Defined Message (VDM) protocol support and other functions as defined in the
->> +  USB TypeC and USB Power Delivery specifications.
->> +
->> +
-> 
-> Extra blank line ?
-> 
->> +properties:
->> +  compatible:
->> +    const: analogix,anx7688
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  avdd33-supply:
->> +    description: 3.3V Analog core supply voltage.
->> +
->> +  dvdd18-supply:
->> +    description: 1.8V Digital I/O supply voltage.
->> +
->> +  avdd18-supply:
->> +    description: 1.8V Analog core power supply voltage.
->> +
->> +  avdd10-supply:
->> +    description: 1.0V Analog core power supply voltage.
->> +
->> +  dvdd10-supply:
->> +    description: 1.0V Digital core supply voltage.
->> +
-> 
-> That's lots of supplies. If there's a reasonable chance that some of
-> them will always be driven by the same regulator (especially if the
-> ANX7688 documentation requires that), then they could be grouped. For
-> instance dvdd18-supply and avdd18-supply could be grouped into
-> vdd18-supply. It would still allow us to extend the bindings in a
-> backward compatible way later if a system uses different regulators. You
-> have more information about the hardware than I do, so it's your call.
-> 
->> +  hdmi5v-supply:
->> +    description: 5V power supply for the HDMI.
->> +
->> +  hdmi_vt-supply:
->> +    description: Termination voltage for HDMI input.
-> 
-> Maybe hdmi-vt-supply ?
-> 
->> +
->> +  clocks:
->> +    description: The input clock specifier.
->> +    maxItems: 1
-> 
-> How about
-> 
->      items:
->        - description: The input clock specifier.
-> 
->> +
->> +  clock-names:
->> +    items:
->> +      - const: xtal
->> +
->> +  hpd-gpios:
->> +    description: |
->> +      In USB Type-C applications, DP_HPD has no use. In standard DisplayPort
->> +      applications, DP_HPD is used as DP hot-plug.
->> +    maxItems: 1
->> +
->> +  enable-gpios:
->> +    description: Chip power down control. No internal pull-down or pull-up resistor.
->> +    maxItems: 1
->> +
->> +  reset-gpios:
->> +    description: Reset input signal. Active low.
->> +    maxItems: 1
->> +
->> +  vbus-det-gpios:
->> +    description: |
->> +      An input gpio for VBUS detection and high voltage detection,
->> +      external resistance divide VBUS voltage to 1/8.
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    description: |
->> +      The interrupt notifies 4 possible events - TCPC ALERT int, PD int, DP int, HDMI int.
->> +    maxItems: 1
->> +
->> +  cabledet-gpios:
->> +    description: An output gpio, indicates by the device that a cable is plugged.
->> +    maxItems: 1
->> +
->> +  vbus-ctrl-gpios:
->> +    description:
->> +      External VBUS power path. Enable VBUS source and disable VBUS sink or vice versa.
->> +    maxItems: 1
->> +
->> +  vconn-en1-gpios:
->> +    description: Controls the VCONN switch on the CC1 pin.
->> +    maxItems: 1
->> +
->> +  vconn-en2-gpios:
->> +    description: Controls the VCONN switch on the CC2 pin.
->> +    maxItems: 1
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: Video port for HDMI input.
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: USB port for the USB3 input.
->> +
->> +      port@2:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: USB Type-c connector, see connector/usb-connector.yaml.
->> +
->> +    required:
->> +      - port@0
-> 
-> As all the ports exist at the hardware level, should they always be
-> present ? The endpoints are optional of course, in case a port isn't
-> connected on a particular system.
-> 
->> +
->> +required:
->> +  - compatible
->> +  - reg
-> 
-> Shouldn't clocks and regulators be also required ?
-
-hmm, theoretically yes. Practically, in the case of Acer R13 (mediatek elm) device,
-the ANX7688 is powered up and controlled by the Embedded Controller. The kernel only
-needs to read few registers from that device for the drm bridge driver.
-(also mentioned that in the cover letter).
+Adding megous@megous.com and linux-usb@vger.kernel.org to the list
 
 Thanks,
 Dafna
 
+On 05.03.21 13:43, Dafna Hirschfeld wrote:
+> From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 > 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> This driver adds support for the ANX7688 HDMI to DP converter block of the
+> ANX7688 device.
 > 
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +    #include <dt-bindings/interrupt-controller/irq.h>
->> +
->> +    i2c0 {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        anx7688: anx7688@2c {
->> +            compatible = "analogix,anx7688";
->> +            reg = <0x2c>;
->> +            avdd33-supply = <&reg_dcdc1>;
->> +            dvdd18-supply = <&reg_ldo_io1>;
->> +            avdd18-supply = <&reg_ldo_io1>;
->> +            avdd10-supply = <&reg_anx1v0>;
->> +            dvdd10-supply = <&reg_anx1v0>;
->> +            hdmi_vt-supply = <&reg_dldo1>;
->> +            enable-gpios = <&pio 3 10 GPIO_ACTIVE_LOW>; /* PD10 */
->> +            reset-gpios = <&pio 3 6 GPIO_ACTIVE_HIGH>; /* PD6 */
->> +            interrupt-parent = <&r_pio>;
->> +            interrupts = <0 11 IRQ_TYPE_EDGE_FALLING>; /* PL11 */
->> +            cabledet-gpios = <&r_pio 0 8 GPIO_ACTIVE_HIGH>; /* PL8 */
->> +            vconn-en1-gpios = <&pio 3 9 GPIO_ACTIVE_LOW>; /* PD9 */
->> +            vconn-en2-gpios = <&pio 3 9 GPIO_ACTIVE_LOW>; /* PD9 */
->> +            ports {
->> +                #address-cells = <1>;
->> +                #size-cells = <0>;
->> +
->> +                port@0 {
->> +                    reg = <0>;
->> +                    anx7688_in0: endpoint {
->> +                        remote-endpoint = <&hdmi0_out>;
->> +                    };
->> +                };
->> +
->> +                port@1 {
->> +                    reg = <1>;
->> +                    anx7688_in1: endpoint {
->> +                        remote-endpoint = <&usbdrd_phy_ss>;
->> +                    };
->> +                };
->> +                port@2 {
->> +                    reg = <2>;
->> +                    anx7688_out: endpoint {
->> +                        remote-endpoint = <&typec_connector>;
->> +                    };
->> +                };
->> +            };
->> +        };
->> +    };
+> For our use case, the only reason the Linux kernel driver is necessary is
+> to reject resolutions that require more bandwidth than what is available
+> on the DP side. DP bandwidth and lane count are reported by the bridge via
+> 2 registers and, as far as we know, only chips that have a firmware
+> version greater than 0.85 support these two registers.
+> 
+> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> [The driver is OF only so should depends on CONFIG_OF]
+> Reported-by: kbuild test robot <lkp@intel.com>
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> [convert the driver to be a i2c driver]
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>   drivers/gpu/drm/bridge/analogix/Kconfig       |  11 ++
+>   drivers/gpu/drm/bridge/analogix/Makefile      |   1 +
+>   .../drm/bridge/analogix/analogix-anx7688.c    | 186 ++++++++++++++++++
+>   3 files changed, 198 insertions(+)
+>   create mode 100644 drivers/gpu/drm/bridge/analogix/analogix-anx7688.c
+> 
+> diff --git a/drivers/gpu/drm/bridge/analogix/Kconfig b/drivers/gpu/drm/bridge/analogix/Kconfig
+> index 024ea2a570e7..323327aabc38 100644
+> --- a/drivers/gpu/drm/bridge/analogix/Kconfig
+> +++ b/drivers/gpu/drm/bridge/analogix/Kconfig
+> @@ -11,6 +11,17 @@ config DRM_ANALOGIX_ANX6345
+>   	  ANX6345 transforms the LVTTL RGB output of an
+>   	  application processor to eDP or DisplayPort.
+>   
+> +config DRM_ANALOGIX_ANX7688
+> +	tristate "Analogix ANX7688 bridge"
+> +	depends on OF
+> +	select DRM_KMS_HELPER
+> +	select REGMAP_I2C
+> +	help
+> +	  ANX7688 is an ultra-low power 4K Ultra-HD (4096x2160p60)
+> +	  mobile HD transmitter designed for portable
+> +	  devices. The ANX7688 converts HDMI 2.0 to
+> +	  DisplayPort 1.3 Ultra-HD.
+> +
+>   config DRM_ANALOGIX_ANX78XX
+>   	tristate "Analogix ANX78XX bridge"
+>   	select DRM_ANALOGIX_DP
+> diff --git a/drivers/gpu/drm/bridge/analogix/Makefile b/drivers/gpu/drm/bridge/analogix/Makefile
+> index 44da392bb9f9..8f2272b8b732 100644
+> --- a/drivers/gpu/drm/bridge/analogix/Makefile
+> +++ b/drivers/gpu/drm/bridge/analogix/Makefile
+> @@ -2,5 +2,6 @@
+>   analogix_dp-objs := analogix_dp_core.o analogix_dp_reg.o analogix-i2c-dptx.o
+>   obj-$(CONFIG_DRM_ANALOGIX_ANX6345) += analogix-anx6345.o
+>   obj-$(CONFIG_DRM_ANALOGIX_ANX7625) += anx7625.o
+> +obj-$(CONFIG_DRM_ANALOGIX_ANX7688) += analogix-anx7688.o
+>   obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
+>   obj-$(CONFIG_DRM_ANALOGIX_DP) += analogix_dp.o
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx7688.c b/drivers/gpu/drm/bridge/analogix/analogix-anx7688.c
+> new file mode 100644
+> index 000000000000..85a4b1a23035
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx7688.c
+> @@ -0,0 +1,186 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * ANX7688 HDMI->DP bridge driver
+> + *
+> + * Copyright 2020 Google LLC
+> + */
+> +
+> +#include <linux/types.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/regmap.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_print.h>
+> +
+> +/* Register addresses */
+> +#define ANX7688_VENDOR_ID_REG		0x00
+> +#define ANX7688_DEVICE_ID_REG		0x02
+> +
+> +#define ANX7688_FW_VERSION_REG		0x80
+> +
+> +#define ANX7688_DP_BANDWIDTH_REG	0x85
+> +#define ANX7688_DP_LANE_COUNT_REG	0x86
+> +
+> +#define ANX7688_VENDOR_ID		0x1f29
+> +#define ANX7688_DEVICE_ID		0x7688
+> +
+> +/* First supported firmware version (0.85) */
+> +#define ANX7688_MINIMUM_FW_VERSION	0x0085
+> +
+> +static const struct regmap_config anx7688_regmap_config = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +};
+> +
+> +struct anx7688 {
+> +	struct i2c_client *client;
+> +	struct regmap *regmap;
+> +	struct drm_bridge bridge;
+> +	bool filter;
+> +};
+> +
+> +static inline struct anx7688 *
+> +bridge_to_anx7688(struct drm_bridge *bridge)
+> +{
+> +	return container_of(bridge, struct anx7688, bridge);
+> +}
+> +
+> +static bool anx7688_bridge_mode_fixup(struct drm_bridge *bridge,
+> +				      const struct drm_display_mode *mode,
+> +				      struct drm_display_mode *adjusted_mode)
+> +{
+> +	struct anx7688 *anx = bridge_to_anx7688(bridge);
+> +	int totalbw, requiredbw;
+> +	u8 dpbw, lanecount;
+> +	u8 regs[2];
+> +	int ret;
+> +
+> +	if (!anx->filter)
+> +		return true;
+> +
+> +	/* Read both regs 0x85 (bandwidth) and 0x86 (lane count). */
+> +	ret = regmap_bulk_read(anx->regmap, ANX7688_DP_BANDWIDTH_REG, regs, 2);
+> +	if (ret < 0) {
+> +		DRM_ERROR("Failed to read bandwidth/lane count\n");
+> +		return false;
+> +	}
+> +	dpbw = regs[0];
+> +	lanecount = regs[1];
+> +
+> +	/* Maximum 0x19 bandwidth (6.75 Gbps Turbo mode), 2 lanes */
+> +	if (dpbw > 0x19 || lanecount > 2) {
+> +		DRM_ERROR("Invalid bandwidth/lane count (%02x/%d)\n", dpbw,
+> +			  lanecount);
+> +		return false;
+> +	}
+> +
+> +	/* Compute available bandwidth (kHz) */
+> +	totalbw = dpbw * lanecount * 270000 * 8 / 10;
+> +
+> +	/* Required bandwidth (8 bpc, kHz) */
+> +	requiredbw = mode->clock * 8 * 3;
+> +
+> +	DRM_DEBUG_KMS("DP bandwidth: %d kHz (%02x/%d); mode requires %d Khz\n",
+> +		      totalbw, dpbw, lanecount, requiredbw);
+> +
+> +	if (totalbw == 0) {
+> +		DRM_ERROR("Bandwidth/lane count are 0, not rejecting modes\n");
+> +		return true;
+> +	}
+> +
+> +	return totalbw >= requiredbw;
+> +}
+> +
+> +static const struct drm_bridge_funcs anx7688_bridge_funcs = {
+> +	.mode_fixup = anx7688_bridge_mode_fixup,
+> +};
+> +
+> +static int anx7688_bridge_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct anx7688 *anx7688;
+> +	u16 vendor, device, fw_version;
+> +	u8 buffer[4];
+> +	int ret;
+> +
+> +	anx7688 = devm_kzalloc(dev, sizeof(*anx7688), GFP_KERNEL);
+> +	if (!anx7688)
+> +		return -ENOMEM;
+> +
+> +	anx7688->client = client;
+> +	i2c_set_clientdata(client, anx7688);
+> +
+> +	anx7688->regmap = devm_regmap_init_i2c(client, &anx7688_regmap_config);
+> +
+> +	/* Read both vendor and device id (4 bytes). */
+> +	ret = regmap_bulk_read(anx7688->regmap, ANX7688_VENDOR_ID_REG,
+> +			       buffer, 4);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to read chip vendor/device id\n");
+> +		return ret;
+> +	}
+> +
+> +	vendor = (u16)buffer[1] << 8 | buffer[0];
+> +	device = (u16)buffer[3] << 8 | buffer[2];
+> +	if (vendor != ANX7688_VENDOR_ID || device != ANX7688_DEVICE_ID) {
+> +		dev_err(dev, "Invalid vendor/device id %04x/%04x\n",
+> +			vendor, device);
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret = regmap_bulk_read(anx7688->regmap, ANX7688_FW_VERSION_REG,
+> +			       buffer, 2);
+> +	if (ret) {
+> +		dev_err(&client->dev, "Failed to read firmware version\n");
+> +		return ret;
+> +	}
+> +
+> +	fw_version = (u16)buffer[0] << 8 | buffer[1];
+> +	dev_info(dev, "ANX7688 firmware version 0x%04x\n", fw_version);
+> +
+> +	anx7688->bridge.of_node = dev->of_node;
+> +
+> +	/* FW version >= 0.85 supports bandwidth/lane count registers */
+> +	if (fw_version >= ANX7688_MINIMUM_FW_VERSION)
+> +		anx7688->filter = true;
+> +	else
+> +		/* Warn, but not fail, for backwards compatibility */
+> +		DRM_WARN("Old ANX7688 FW version (0x%04x), not filtering\n",
+> +			 fw_version);
+> +
+> +	anx7688->bridge.funcs = &anx7688_bridge_funcs;
+> +	drm_bridge_add(&anx7688->bridge);
+> +
+> +	return 0;
+> +}
+> +
+> +static int anx7688_bridge_remove(struct i2c_client *client)
+> +{
+> +	struct anx7688 *anx7688 = i2c_get_clientdata(client);
+> +
+> +	drm_bridge_remove(&anx7688->bridge);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id anx7688_bridge_match_table[] = {
+> +	{ .compatible = "analogix,anx7688", },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, anx7688_bridge_match_table);
+> +
+> +static struct i2c_driver anx7688_bridge_driver = {
+> +	.probe_new = anx7688_bridge_probe,
+> +	.remove = anx7688_bridge_remove,
+> +	.driver = {
+> +		.name = "anx7688-bridge",
+> +		.of_match_table = anx7688_bridge_match_table,
+> +	},
+> +};
+> +
+> +module_i2c_driver(anx7688_bridge_driver);
+> +
+> +MODULE_DESCRIPTION("ANX7688 HDMI->DP bridge driver");
+> +MODULE_AUTHOR("Nicolas Boichat <drinkcat@chromium.org>");
+> +MODULE_AUTHOR("Enric Balletbo i Serra <enric.balletbo@collabora.com>");
+> +MODULE_LICENSE("GPL");
 > 
 _______________________________________________
 dri-devel mailing list
