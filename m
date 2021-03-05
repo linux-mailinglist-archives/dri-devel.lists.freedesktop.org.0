@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB4032F43E
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 20:50:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B93732F440
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 20:51:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7C76EC37;
-	Fri,  5 Mar 2021 19:50:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4093A6EC38;
+	Fri,  5 Mar 2021 19:51:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E4E86EC37
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:50:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 3FDDF65018
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:50:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 942EA6EC38
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:51:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 6B22A65018
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:51:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614973813;
- bh=Qh10UzHVp38naRqDwDaza74lYWpLdqFjMks9Mxfcu2w=;
+ s=k20201202; t=1614973907;
+ bh=5DranuQlOTgjEtIvfF8dZRyijqz/rLwKvmcMbUMZDwg=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=O+KYWGHhpda2975rZoSJ+N11iGp4iCNQEh/7fqUhL98f42Hw2EpPJSUwlSeXXKi5E
- mmGy4kcA9Oh7F5KPqQJtpYqUdFkZSz66/7qyOUpN2bjS/M83idqIB3OehwSQWBj6dU
- 67uPNKApKb0sdWcrTPa7LKBGI8YAfL8PCL+VhXUJDXFa8ClEcODBWDpG/iZWYMLfkf
- lSIQcK0rFJnDaOMnoPQTnePAgepTy7RdcN38nxdWPMakgoLbKfDofr8cucLTyAbs3F
- kKGQRfkPJQSRuaZ6SDuTpDaFOm+ArKOdchLeH3uzgwisbUaPM5xrHy2EwB/nIrq8q2
- +lPV+30Nx0z6w==
+ b=rZZ8m1p1otO1DH4AvNx1Tlhu6SjjZJiADKbrfglBPfbsMAvLdNJJ3mldoPEEYpWB5
+ 1f8omFEl1aYNGTe+LfwarETmLYNuXHF1NCRq9bPdEhWcTcNmmnynWfMvTn3WedgQCe
+ CZBIuAea2nI6C4OrtgBCK36ByVX6sK6Y8U/vowtij+Od2Pia2RWxUg82Q6wufGVD0p
+ an9sdBgD2AbI/AuS+B20Dr6jAeUQfOTnhEdffN6V3R1wko+5EKETsNDvm8w5OP5OpE
+ T1q4hidM4jms2ccUOf9gSqTphif2aLc5JF1px06ThNeW0CnvyNOpySYfIPOvemBjJC
+ gQ1W9nN6IvVoQ==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 3065565307; Fri,  5 Mar 2021 19:50:13 +0000 (UTC)
+ id 6730265307; Fri,  5 Mar 2021 19:51:47 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 212077] AMD GPU discrete card memory at highest frequency even
  while not in use
-Date: Fri, 05 Mar 2021 19:50:12 +0000
+Date: Fri, 05 Mar 2021 19:51:47 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -39,14 +39,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: high
-X-Bugzilla-Who: bat_malin@abv.bg
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-212077-2300-tYDnSRcyVS@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-212077-2300-JBXulaLlbd@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-212077-2300@https.bugzilla.kernel.org/>
 References: <bug-212077-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,10 +71,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=212077
 
---- Comment #1 from Bat Malin (bat_malin@abv.bg) ---
-Created attachment 295679
-  --> https://bugzilla.kernel.org/attachment.cgi?id=295679&action=edit
-Picture of memory status
+Alex Deucher (alexdeucher@gmail.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
+
+--- Comment #2 from Alex Deucher (alexdeucher@gmail.com) ---
+Should be fixed with this patch:
+https://patchwork.freedesktop.org/patch/422999/
 
 -- 
 You may reply to this email to add a comment.
