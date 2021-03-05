@@ -1,73 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C8C32E2E2
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 08:24:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5512732E340
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 08:56:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAE0B6EAE3;
-	Fri,  5 Mar 2021 07:24:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9C7A6EB0A;
+	Fri,  5 Mar 2021 07:56:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27A686EAE3
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 07:24:09 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1257K2HL190956;
- Fri, 5 Mar 2021 07:24:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=uWmflhu+h7bxWvzYHXWilSvhq8wM4VlKGBtw0ZO98GE=;
- b=Co5n8q5d4nCOFDtoCmJEao6xe7PnBVNddOxTgwpaGTg131MA86/8QfODNy1pq06yV+S9
- L1likEHoa3PofpwhKYe2TpwZ3zpaUOvcm/gtxFvGwO/Pnxp4uqvsRUtLTz2oTR1PPRhO
- GDuueCMRTEV5rBBX3Hpu3rQoH416qO2f2H9bukNb1LKszcy/c0QVEtPwyvLqDwWWRjOQ
- oivhCtl2S2PA6WGQCpHIrUfVfdvToC6j7EFWpEtWjUHw/Mi7mLMJezJHxK/hlNTxLyme
- 459SRTutzM4asoP9NLOzFlSXf8/+Snuj4dsGQzMHUnZxyfAC1CA31s363jgxCjhNmy5W CQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 36yeqn9f0g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 05 Mar 2021 07:24:03 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1257F9CT130759;
- Fri, 5 Mar 2021 07:24:02 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3030.oracle.com with ESMTP id 370011wara-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 05 Mar 2021 07:24:02 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 1257O0Hp017150;
- Fri, 5 Mar 2021 07:24:00 GMT
-Received: from kadam (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 04 Mar 2021 23:23:59 -0800
-Date: Fri, 5 Mar 2021 10:23:50 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH] drm/msm/dp: Fix warnings reported by kbot in DP driver
-Message-ID: <20210305072350.GF2222@kadam>
-References: <1614907912-6880-1-git-send-email-abhinavk@codeaurora.org>
- <161492735848.1478170.885416005935439120@swboyd.mtv.corp.google.com>
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C7436EB09;
+ Fri,  5 Mar 2021 07:56:42 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id e19so1657548ejt.3;
+ Thu, 04 Mar 2021 23:56:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=UvZKJAhEYZDSOh+YQjmelWPAgRKRYYnv5wTPYE9mJkM=;
+ b=jZFaTOIfx1y4vjy/v8tdTvqV5eKQXJTDMJGiTmvjy3f5P3BnE5c3r4nYaUIKqjTGyi
+ 0esKj0ZOMfW4qwkoBswnRun4CepREYO/ZyYxM+i4KXNgnIYDSFP6RnSTvOruYFrMXurt
+ P/N57m23xkDu/AyW4wqZZghVLSabteRQ/kxoaY/OrhxDoBDb7zQOlbtZtiKZA3KhcyJf
+ SmRgoF0GFuNsvHzZVwijZDxpnrVlqpgRi2LA+/4N8nasJV9483Qw5ZVM80k+3uCDLNTq
+ ygUjZHR2UAqfnGuU05xt/ptpM5xBlGWelkdUXt0HES2wXhfChAbxI/iuhuiZD6gm+f6k
+ Lt6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=UvZKJAhEYZDSOh+YQjmelWPAgRKRYYnv5wTPYE9mJkM=;
+ b=d1jLSO9Lj5mLKsN0ByGooUBWeWAHXQrhl4SxrIdAcyNFKuzB1qWW8OPvZYQOd5cP+t
+ rRqJzCn2iY+kvCY8vO7DmW/laJ1YCDKX2nbZqyGz+27m9KOpalDGgtYWeyfKnP5Sk6sj
+ MN404InnjJKYhq/WLN62fJA5/rpdKtPuDvfbxO7K13bXIwF2SrzjzngTPWHw8QPzeBEH
+ 7oKlo0KLIEx+SiduhDqb9qXNXXzX24SPTcbDY7jh4Oq30nTU3UfKYWhHsTLGl+NGlckT
+ wTezT2nIaDpbQ7utCj7QPgvVgwt7tt2hKFBHWkDX86JKcBj9ztuDP+HKCUapaik+qQOQ
+ yDWQ==
+X-Gm-Message-State: AOAM532vDMWfJMu1DxSyBp4DzbqogqrhSx2uIsPOiZmJaSOg1NcLwjlg
+ J0TD9Cf3GG+UBRpvJ2n2quq4DjTvUgn7IQ==
+X-Google-Smtp-Source: ABdhPJy3JuU0OC/t0Z9vtb3rH41uoj7pzLdZxhM4iIki3uy14HwH274tTe4vq6CFBfDOtBW0YeHq4g==
+X-Received: by 2002:a17:907:78d9:: with SMTP id
+ kv25mr1229314ejc.415.1614931000804; 
+ Thu, 04 Mar 2021 23:56:40 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:9f0d:d59a:6448:4a90?
+ ([2a02:908:1252:fb60:9f0d:d59a:6448:4a90])
+ by smtp.gmail.com with ESMTPSA id t15sm1033621edw.84.2021.03.04.23.56.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Mar 2021 23:56:40 -0800 (PST)
+Subject: Re: [PATCH 1/1] drm/ttm: Ignore signaled move fences
+To: Felix Kuehling <felix.kuehling@amd.com>, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org
+References: <20210227034524.21763-1-Felix.Kuehling@amd.com>
+ <c66e10a6-b5e1-b096-3c59-c107e1e12312@gmail.com>
+ <482d3b8f-27dc-6815-b6f6-4987fe5ed21c@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <db49503a-236e-b4a1-e90d-da8ee21d11b4@gmail.com>
+Date: Fri, 5 Mar 2021 08:56:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <161492735848.1478170.885416005935439120@swboyd.mtv.corp.google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9913
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxscore=0 phishscore=0
- malwarescore=0 spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103050033
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9913
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 clxscore=1011
- priorityscore=1501 mlxlogscore=999 suspectscore=0 malwarescore=0
- impostorscore=0 bulkscore=0 adultscore=0 mlxscore=0 phishscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103050033
+In-Reply-To: <482d3b8f-27dc-6815-b6f6-4987fe5ed21c@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,101 +74,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tanmay@codeaurora.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, khsieh@codeaurora.org, seanpaul@chromium.org,
- Abhinav Kumar <abhinavk@codeaurora.org>, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 04, 2021 at 10:55:58PM -0800, Stephen Boyd wrote:
-> > @@ -368,44 +368,21 @@ static int dp_debug_init(struct dp_debug *dp_debug, struct drm_minor *minor)
-> >         int rc = 0;
-> >         struct dp_debug_private *debug = container_of(dp_debug,
-> >                         struct dp_debug_private, dp_debug);
-> > -       struct dentry *file;
-> > -       struct dentry *test_active;
-> > -       struct dentry *test_data, *test_type;
-> >  
-> > -       file = debugfs_create_file("dp_debug", 0444, minor->debugfs_root,
-> > +       debugfs_create_file("dp_debug", 0444, minor->debugfs_root,
-> >                         debug, &dp_debug_fops);
-> > -       if (IS_ERR_OR_NULL(file)) {
-> > -               rc = PTR_ERR(file);
-> > -               DRM_ERROR("[%s] debugfs create file failed, rc=%d\n",
-> > -                                 DEBUG_NAME, rc);
-> > -       }
-> >  
-> > -       test_active = debugfs_create_file("msm_dp_test_active", 0444,
-> > +       debugfs_create_file("msm_dp_test_active", 0444,
-> >                         minor->debugfs_root,
-> >                         debug, &test_active_fops);
-> > -       if (IS_ERR_OR_NULL(test_active)) {
-> > -               rc = PTR_ERR(test_active);
-> > -               DRM_ERROR("[%s] debugfs test_active failed, rc=%d\n",
-> > -                                 DEBUG_NAME, rc);
-> > -       }
-> >  
-> > -       test_data = debugfs_create_file("msm_dp_test_data", 0444,
-> > +       debugfs_create_file("msm_dp_test_data", 0444,
-> >                         minor->debugfs_root,
-> >                         debug, &dp_test_data_fops);
-> > -       if (IS_ERR_OR_NULL(test_data)) {
-> > -               rc = PTR_ERR(test_data);
-> > -               DRM_ERROR("[%s] debugfs test_data failed, rc=%d\n",
-> > -                                 DEBUG_NAME, rc);
-> > -       }
-> >  
-> > -       test_type = debugfs_create_file("msm_dp_test_type", 0444,
-> > +       debugfs_create_file("msm_dp_test_type", 0444,
-> >                         minor->debugfs_root,
-> >                         debug, &dp_test_type_fops);
-> > -       if (IS_ERR_OR_NULL(test_type)) {
-> > -               rc = PTR_ERR(test_type);
-> > -               DRM_ERROR("[%s] debugfs test_type failed, rc=%d\n",
-> > -                                 DEBUG_NAME, rc);
-> > -       }
-> 
-> Debugfs failures.
-
-[ Update.  I misunderstood what you were saying, and initially thought
-  you were critiquing the patch instead of the commit message.  The
-  patch looks okay.  Probably a lot of maintainers would prefer it
-  broken multiple chunks with one patch per class of warning.  But I
-  already wrote this email and I love the sound of my own voice so I'm
-  sending it.  - dan ]
-
-The Smatch warning for this was that the error handling was slightly
-off because debugfs_create_file() doesn't return NULL these days.  But
-really these functions are not supposed to be error checked in the
-normal case.
-
-If you do a `git grep -w debugfs_create_file` there are 1472 callers
-and only 192 check.  This is partly because Greg went through and did a
-mass delete of error handling.
-
-The way that debugfs works is if you fail to create a directory then
-the debugfs_create_file will check if the root is an error pointer.  So
-passing it "handles" errors itself.
-
-The one time where I've seen that checking for errors is essential is
-if they driver dereferences the "test_data" dentry itself.  That's
-pretty uncommon.
-
-[ So probably the commit message for this chunk should be:
-
-  Delete unnecessary debugfs error handling
-
-  Debugfs functions are not supposed to be checked in the normal case
-  so delete this code.  Also it silences a Smatch warning that we're
-  checking for NULL when these functions only return error pointers.  ]
-
-regards,
-dan carpenter
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpBbSAwNS4wMy4yMSB1bSAwMjoyMSBzY2hyaWViIEZlbGl4IEt1ZWhsaW5nOgo+IEFtIDIwMjEt
+MDMtMDEgdW0gMTA6MDkgYS5tLiBzY2hyaWViIENocmlzdGlhbiBLw7ZuaWc6Cj4+IEFtIDI3LjAy
+LjIxIHVtIDA0OjQ1IHNjaHJpZWIgRmVsaXggS3VlaGxpbmc6Cj4+PiBNb3ZlIGZlbmNlcyB0aGF0
+IGhhdmUgYWxyZWFkeSBzaWduYWxlZCBzaG91bGQgbm90IHByZXZlbnQgbWVtb3J5Cj4+PiBhbGxv
+Y2F0aW9ucyB3aXRoIG5vX3dhaXRfZ3B1Lgo+Pj4KPj4+IFNpZ25lZC1vZmYtYnk6IEZlbGl4IEt1
+ZWhsaW5nIDxGZWxpeC5LdWVobGluZ0BhbWQuY29tPgo+PiBSZXZpZXdlZC1ieTogQ2hyaXN0aWFu
+IEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IEkgd29yayBvbiB0aGlzIG9uIEFs
+ZXgncyByZWJhc2VkIGFtZC1zdGFnaW5nLWRybS1uZXh0LiBTaG91bGQgdGhpcyBnbwo+IGludG8g
+YW55IG90aGVyIGJyYW5jaGVzPwoKSSBoYXZlIGEgYnJhbmNoIHdpdGggc3R1ZmYgZm9yIDUuMTMg
+d2hpY2ggSSB3YW50IHRvIHB1c2ggdG8gCmRybS1taXNjLW5leHQgYXMgc29vbiBhcyA1LjEyLXJj
+MSBpcyBvdXQuCgpHb2luZyB0byBhZGQgdGhpcyBvbmUgaGVyZSB0byB0aGF0IGNvbGxlY3Rpb24g
+YXMgd2VsbCB1bmxlc3MgeW91IHNheSAKdGhhdCB0aGlzIGlzIHJlYWxseSBhIGJ1ZyBmaXggYW5k
+IHdlIG5lZWQgaXQgZWFybGllci4KClJlZ2FyZHMsCkNocmlzdGlhbi4KCj4KPiBUaGFua3MsCj4g
+IMKgIEZlbGl4Cj4KPgo+Pj4gLS0tCj4+PiAgwqAgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8u
+YyB8IDMgKystCj4+PiAgwqAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxl
+dGlvbigtKQo+Pj4KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5j
+IGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwo+Pj4gaW5kZXggM2ExMGJlYmI3NWQ2Li5k
+ZTFlYzgzOGNmOGIgMTAwNjQ0Cj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5j
+Cj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4+PiBAQCAtNzMwLDggKzcz
+MCw5IEBAIHN0YXRpYyBpbnQgdHRtX2JvX2FkZF9tb3ZlX2ZlbmNlKHN0cnVjdAo+Pj4gdHRtX2J1
+ZmZlcl9vYmplY3QgKmJvLAo+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gMDsKPj4+ICDC
+oCDCoMKgwqDCoMKgIGlmIChub193YWl0X2dwdSkgewo+Pj4gK8KgwqDCoMKgwqDCoMKgIHJldCA9
+IGRtYV9mZW5jZV9pc19zaWduYWxlZChmZW5jZSkgPyAwIDogLUVCVVNZOwo+Pj4gIMKgwqDCoMKg
+wqDCoMKgwqDCoCBkbWFfZmVuY2VfcHV0KGZlbmNlKTsKPj4+IC3CoMKgwqDCoMKgwqDCoCByZXR1
+cm4gLUVCVVNZOwo+Pj4gK8KgwqDCoMKgwqDCoMKgIHJldHVybiByZXQ7Cj4+PiAgwqDCoMKgwqDC
+oCB9Cj4+PiAgwqAgwqDCoMKgwqDCoCBkbWFfcmVzdl9hZGRfc2hhcmVkX2ZlbmNlKGJvLT5iYXNl
+LnJlc3YsIGZlbmNlKTsKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
