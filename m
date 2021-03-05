@@ -2,62 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1487132F60B
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 23:45:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6218332F61A
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 23:52:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 648A56E1D3;
-	Fri,  5 Mar 2021 22:45:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 799DD6E3AE;
+	Fri,  5 Mar 2021 22:52:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BA6E6EC7B
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 22:45:24 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id e7so6359489lft.2
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Mar 2021 14:45:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FOK/3RIskxWxbqQcsQFEJPI1xEXUn3wcudWwNgFLA5Y=;
- b=esQGue9YpbsE2BnWamAL/QS+ol5Ucaio/gc+QJfuWX9TbLxhuL05JRd3iaSTfMM+ZT
- SiCIUdqkt8tbyazqA3tu4C1PT9WRxXlhvtGblEcwUnghR/sk7FrHE67qdwjza+l+FWXu
- tTGzH4Z61uWCAwD3mS/yzOaQgAJkJBJ6cm7lrbwi7pH64elU8VDOJG7h+NmyHFy6mxKK
- Xlu0PLQqVpRdSt7LgyjGRKDhJEoscP5+lkzj8Q1c5YJB+1WYs5tANy1gVnyQpDO4Hn8B
- K9cNNmZT/qed/93qTT31VIuLDADjh5aUelqOSHsu+S+4isIjhjinDO4yR1RZGtqmZ7Dv
- ljwQ==
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
+ [209.85.210.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B22386E3AE
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 22:52:37 +0000 (UTC)
+Received: by mail-ot1-f49.google.com with SMTP id j8so3417091otc.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Mar 2021 14:52:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FOK/3RIskxWxbqQcsQFEJPI1xEXUn3wcudWwNgFLA5Y=;
- b=Wuzu2AlzraDgCBuWoSSGx0gnFq5nUdj1A+qpYbtqJ8BaGdVodLjp2L24deTEvoOsgX
- eTg7yzlV6XCALuepr726OWCfsV4qIsl/m9gNz26tLAZ/0jmNTu/wYRsFMvjtuAr7g3rn
- Si35ZJ4/9FVB4iTtXO5DUmgxQu7JqFkUOW7xex13A4BkpOPsg2LssLc0zxKtUtHpUqHI
- uHTPLuerAgNQ0OxjXAWHHzQ46EVCRuChMCJFB7xkwLlzuVweBTXyBJzpRX2UfbWK6TV4
- 4VwPrhvOVRTzhVjMP/Ktu47b8qZlgJFVzyQKpXb/pgQaDtSsnp475od3xNiq8xCmTNUp
- PToQ==
-X-Gm-Message-State: AOAM533UaJpz8k8gkKWsltN7i2rMooUZmEmiMCTPRU/w4v5LU3PrZ5tw
- XFVXGMyRNc5ervEiA24yqjjViw==
-X-Google-Smtp-Source: ABdhPJxjyVuZEQnq1OV6y0hg3sDLiB7MWslzlTpE7fxnRrUrVIFuHPqDIijjs0T2rvjKc5sWEMYCfQ==
-X-Received: by 2002:a05:6512:230f:: with SMTP id
- o15mr6940292lfu.326.1614984322570; 
- Fri, 05 Mar 2021 14:45:22 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id 3sm468042lfq.1.2021.03.05.14.45.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Mar 2021 14:45:22 -0800 (PST)
-Subject: Re: [PATCH] drm/msm/dsi: support CPHY mode for 7nm pll/phy
-To: Jonathan Marek <jonathan@marek.ca>, freedreno@lists.freedesktop.org
-References: <20210215162805.21481-1-jonathan@marek.ca>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <3e511cd9-2dbc-abf0-23c0-26779eb1777f@linaro.org>
-Date: Sat, 6 Mar 2021 01:45:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=fUZFQaxs9RK/nivefXJKnBUxIyLdj8Lj9lxBmJxd9y8=;
+ b=ter4N6BTv0V/MkgJ/3VTVAjxGlht28vvmwlsXkq/PFQcFIDe/jpsqnNiCrvxRzAExa
+ G+aS00yP7pO+zthnPCBmEW/rmTQtrcKAn4KN2nOAKilMV2v06Kz1K6EJxLOyesdZxUZS
+ PwlMsacjotPZl4F8b42xXRA1ZQt1i5cVWVJ/7qa13gtzgKf11J/jjES+IomOIsJXTnIy
+ /Wf3Vv/21J313lpgczQ/hLUZLlrvVUtUgcFVxq8zxnb6z/Mq5eQyVn0iaLCn9BEuZ1R8
+ aRwQEwOVmwFgnt8Rbso4vp35YeyH//P6DMxBkGaJCDBwn/+BQINXa08tmsBlBDPEbYHk
+ 5YcQ==
+X-Gm-Message-State: AOAM533HHFTZz7vIHR0rxLcs506AodHp7ZcdBiBSD/UQMMDnuNpJpBTH
+ wcW+EggqMs+PC7Ubq4aQOA==
+X-Google-Smtp-Source: ABdhPJwlh+CUnCHrztqC0i3YQRWh8hWwtwlWL3hesELWhTlIBXv8/e94LdBUBtiOVgIXc/QuyRjaNw==
+X-Received: by 2002:a9d:67c2:: with SMTP id c2mr10005348otn.343.1614984757122; 
+ Fri, 05 Mar 2021 14:52:37 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id g11sm835060oif.9.2021.03.05.14.52.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Mar 2021 14:52:35 -0800 (PST)
+Received: (nullmailer pid 790202 invoked by uid 1000);
+ Fri, 05 Mar 2021 22:52:34 -0000
+Date: Fri, 5 Mar 2021 16:52:34 -0600
+From: Rob Herring <robh@kernel.org>
+To: Giulio Benetti <giulio.benetti@benettiengineering.com>
+Subject: Re: [PATCH 1/9] dt-bindings: Add Jenson Display vendor prefix
+Message-ID: <20210305225234.GA790152@robh.at.kernel.org>
+References: <20210218225458.823773-1-giulio.benetti@benettiengineering.com>
+ <20210218225458.823773-2-giulio.benetti@benettiengineering.com>
 MIME-Version: 1.0
-In-Reply-To: <20210215162805.21481-1-jonathan@marek.ca>
-Content-Language: en-GB
+Content-Disposition: inline
+In-Reply-To: <20210218225458.823773-2-giulio.benetti@benettiengineering.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,121 +60,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jordan Crouse <jcrouse@codeaurora.org>,
- Rajendra Nayak <rnayak@codeaurora.org>, David Airlie <airlied@linux.ie>,
- Sam Ravnborg <sam@ravnborg.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- Konrad Dybcio <konradybcio@gmail.com>, Viresh Kumar <viresh.kumar@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- "Kristian H. Kristensen" <hoegsberg@google.com>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Kalyan Thota <kalyan_t@codeaurora.org>, Dave Airlie <airlied@redhat.com>,
- Sean Paul <sean@poorly.run>, open list <linux-kernel@vger.kernel.org>,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: devicetree@vger.kernel.org,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Arnd Bergmann <arnd@arndb.de>,
+ David Airlie <airlied@linux.ie>, allen <allen.chen@ite.com.tw>,
+ Daniel Palmer <daniel@0x0f.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>,
+ Lubomir Rintel <lkundrak@v3.sk>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Max Merchel <Max.Merchel@tq-group.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Giulio Benetti <giulio.benetti@micronovasrl.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/02/2021 19:27, Jonathan Marek wrote:
-> Add the required changes to support 7nm pll/phy in CPHY mode.
+On Thu, 18 Feb 2021 23:54:49 +0100, Giulio Benetti wrote:
+> From: Giulio Benetti <giulio.benetti@micronovasrl.com>
 > 
-> This adds a "qcom,dsi-phy-cphy-mode" property for the PHY node to enable
-> the CPHY mode.
+> Update Documentation/devicetree/bindings/vendor-prefixes.yaml to
+> include "jenson" as a vendor prefix for "Jenson Display".
+> Company website: http://www.jensondisplay.com/
 > 
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-
-Other that few comments bellow:
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
+> Signed-off-by: Giulio Benetti <giulio.benetti@micronovasrl.com>
+> Signed-off-by: Giulio Benetti <giulio.benetti@benettiengineering.com>
 > ---
->   .../devicetree/bindings/display/msm/dsi.txt   |  1 +
->   drivers/gpu/drm/msm/dsi/dsi.c                 | 12 +--
->   drivers/gpu/drm/msm/dsi/dsi.h                 |  6 +-
->   drivers/gpu/drm/msm/dsi/dsi.xml.h             |  2 +
->   drivers/gpu/drm/msm/dsi/dsi_host.c            | 34 +++++--
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy.c         | 49 +++++++++-
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy.h         |  3 +
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     | 89 ++++++++++++++-----
->   drivers/gpu/drm/msm/dsi/pll/dsi_pll.c         |  4 +-
->   drivers/gpu/drm/msm/dsi/pll/dsi_pll.h         |  5 +-
->   drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c     | 71 +++++++++------
->   11 files changed, 210 insertions(+), 66 deletions(-)
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dsi.txt b/Documentation/devicetree/bindings/display/msm/dsi.txt
-> index b9a64d3ff184..7ffc86a9816b 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dsi.txt
-> +++ b/Documentation/devicetree/bindings/display/msm/dsi.txt
-> @@ -124,6 +124,7 @@ Required properties:
->   Optional properties:
->   - qcom,dsi-phy-regulator-ldo-mode: Boolean value indicating if the LDO mode PHY
->     regulator is wanted.
-> +- qcom,dsi-phy-cphy-mode: Boolean value indicating if CPHY mode is wanted.
->   - qcom,mdss-mdp-transfer-time-us:	Specifies the dsi transfer time for command mode
->   					panels in microseconds. Driver uses this number to adjust
->   					the clock rate according to the expected transfer time.
 
-This should go in a separate patch, shan't it?
-
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-> index 627048851d99..68d8547f7264 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
-> @@ -13,7 +13,7 @@ struct drm_encoder *msm_dsi_get_encoder(struct msm_dsi *msm_dsi)
->   	return msm_dsi->encoder;
->   }
->   
-> -static int dsi_get_phy(struct msm_dsi *msm_dsi)
-> +static int dsi_get_phy(struct msm_dsi *msm_dsi, bool *cphy_mode)
-
-I see no need to pass the 'cphy_mode' through the bool pointer and back 
-to msm_dsi_host_init. What about just putting it into struct msm_dsi?
-
->   {
->   	struct platform_device *pdev = msm_dsi->pdev;
->   	struct platform_device *phy_pdev;
-> @@ -29,6 +29,7 @@ static int dsi_get_phy(struct msm_dsi *msm_dsi)
->   	if (phy_pdev)
->   		msm_dsi->phy = platform_get_drvdata(phy_pdev);
->   
-> +	*cphy_mode = of_property_read_bool(phy_node, "qcom,dsi-phy-cphy-mode");
->   	of_node_put(phy_node);
->   
->   	if (!phy_pdev || !msm_dsi->phy) {
-> @@ -65,6 +66,7 @@ static void dsi_destroy(struct msm_dsi *msm_dsi)
->   static struct msm_dsi *dsi_init(struct platform_device *pdev)
->   {
->   	struct msm_dsi *msm_dsi;
-> +	bool cphy_mode;
->   	int ret;
->   
->   	if (!pdev)
-> @@ -79,13 +81,13 @@ static struct msm_dsi *dsi_init(struct platform_device *pdev)
->   	msm_dsi->pdev = pdev;
->   	platform_set_drvdata(pdev, msm_dsi);
->   
-> -	/* Init dsi host */
-> -	ret = msm_dsi_host_init(msm_dsi);
-> +	/* GET dsi PHY */
-> +	ret = dsi_get_phy(msm_dsi, &cphy_mode);
->   	if (ret)
->   		goto destroy_dsi;
->   
-> -	/* GET dsi PHY */
-> -	ret = dsi_get_phy(msm_dsi);
-> +	/* Init dsi host */
-> +	ret = msm_dsi_host_init(msm_dsi, cphy_mode);
->   	if (ret)
->   		goto destroy_dsi;
-
-
--- 
-With best wishes
-Dmitry
+Acked-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
