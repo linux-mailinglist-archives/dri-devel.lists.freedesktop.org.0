@@ -2,55 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02F4B32F603
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 23:42:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1487132F60B
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 23:45:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C82B6E170;
-	Fri,  5 Mar 2021 22:42:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 648A56E1D3;
+	Fri,  5 Mar 2021 22:45:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
- [209.85.210.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D686F6E170
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 22:42:30 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id f33so3332033otf.11
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Mar 2021 14:42:30 -0800 (PST)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BA6E6EC7B
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 22:45:24 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id e7so6359489lft.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Mar 2021 14:45:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FOK/3RIskxWxbqQcsQFEJPI1xEXUn3wcudWwNgFLA5Y=;
+ b=esQGue9YpbsE2BnWamAL/QS+ol5Ucaio/gc+QJfuWX9TbLxhuL05JRd3iaSTfMM+ZT
+ SiCIUdqkt8tbyazqA3tu4C1PT9WRxXlhvtGblEcwUnghR/sk7FrHE67qdwjza+l+FWXu
+ tTGzH4Z61uWCAwD3mS/yzOaQgAJkJBJ6cm7lrbwi7pH64elU8VDOJG7h+NmyHFy6mxKK
+ Xlu0PLQqVpRdSt7LgyjGRKDhJEoscP5+lkzj8Q1c5YJB+1WYs5tANy1gVnyQpDO4Hn8B
+ K9cNNmZT/qed/93qTT31VIuLDADjh5aUelqOSHsu+S+4isIjhjinDO4yR1RZGtqmZ7Dv
+ ljwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=c2C6WMShY+WqUn8ocEbn4JzI7GfAfSZXHH5finzHrgs=;
- b=l5XTtzNnbh+06JKOMii2eIjlC42hJg7EnArViAIyR9vEkLdFV/3e3RXU77OmhEoaRH
- hiWfjHyPfPGcaXBqR/PQMQCoFf0S8z6c6G4oYIaoOf3UV9SQLKz1ELonD8JReiPT5udk
- s7Mf5xWqO0lCkK8DB0eVrCYNMfz2BW1KypG3XUUJqYXyDqIYhzjE0iK7bTEusXXuXAz9
- Yw75mQMWD3TEf0+6++T7BoUKP2w8zJVlRFvCEzgiIuCBz0leqE1AGRPds0xRntxXRjlx
- GvhrU9dRb7Sipmfbv5NXd2WE83Ijz7UiQq9ZbGkIGphu+sNt+162BNbfZVFCvSfdPnqi
- fNiQ==
-X-Gm-Message-State: AOAM533J1o8W1ddHjZnbLqWbRBsAMrBf7jUvwl0UUvmUoV7m4uhy80wk
- t9fXCPwjAjlLcqfDhH/yvQ==
-X-Google-Smtp-Source: ABdhPJwHxoXqLZ4lWQqRohvKICEtEIomW3eK+a4HsIZziHEivB+j570TIzOlpHgX/R5ljdy1hLfbaQ==
-X-Received: by 2002:a05:6830:18f1:: with SMTP id
- d17mr9590230otf.196.1614984150157; 
- Fri, 05 Mar 2021 14:42:30 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id f19sm811965oiw.38.2021.03.05.14.42.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Mar 2021 14:42:29 -0800 (PST)
-Received: (nullmailer pid 776845 invoked by uid 1000);
- Fri, 05 Mar 2021 22:42:27 -0000
-Date: Fri, 5 Mar 2021 16:42:27 -0600
-From: Rob Herring <robh@kernel.org>
-To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v4 08/14] dt-bindings: display: bridge: Add i.MX8qxp
- pixel link to DPI binding
-Message-ID: <20210305224227.GA772562@robh.at.kernel.org>
-References: <1613619715-28785-1-git-send-email-victor.liu@nxp.com>
- <1613619715-28785-9-git-send-email-victor.liu@nxp.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FOK/3RIskxWxbqQcsQFEJPI1xEXUn3wcudWwNgFLA5Y=;
+ b=Wuzu2AlzraDgCBuWoSSGx0gnFq5nUdj1A+qpYbtqJ8BaGdVodLjp2L24deTEvoOsgX
+ eTg7yzlV6XCALuepr726OWCfsV4qIsl/m9gNz26tLAZ/0jmNTu/wYRsFMvjtuAr7g3rn
+ Si35ZJ4/9FVB4iTtXO5DUmgxQu7JqFkUOW7xex13A4BkpOPsg2LssLc0zxKtUtHpUqHI
+ uHTPLuerAgNQ0OxjXAWHHzQ46EVCRuChMCJFB7xkwLlzuVweBTXyBJzpRX2UfbWK6TV4
+ 4VwPrhvOVRTzhVjMP/Ktu47b8qZlgJFVzyQKpXb/pgQaDtSsnp475od3xNiq8xCmTNUp
+ PToQ==
+X-Gm-Message-State: AOAM533UaJpz8k8gkKWsltN7i2rMooUZmEmiMCTPRU/w4v5LU3PrZ5tw
+ XFVXGMyRNc5ervEiA24yqjjViw==
+X-Google-Smtp-Source: ABdhPJxjyVuZEQnq1OV6y0hg3sDLiB7MWslzlTpE7fxnRrUrVIFuHPqDIijjs0T2rvjKc5sWEMYCfQ==
+X-Received: by 2002:a05:6512:230f:: with SMTP id
+ o15mr6940292lfu.326.1614984322570; 
+ Fri, 05 Mar 2021 14:45:22 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id 3sm468042lfq.1.2021.03.05.14.45.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Mar 2021 14:45:22 -0800 (PST)
+Subject: Re: [PATCH] drm/msm/dsi: support CPHY mode for 7nm pll/phy
+To: Jonathan Marek <jonathan@marek.ca>, freedreno@lists.freedesktop.org
+References: <20210215162805.21481-1-jonathan@marek.ca>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <3e511cd9-2dbc-abf0-23c0-26779eb1777f@linaro.org>
+Date: Sat, 6 Mar 2021 01:45:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1613619715-28785-9-git-send-email-victor.liu@nxp.com>
+In-Reply-To: <20210215162805.21481-1-jonathan@marek.ca>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,99 +70,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net,
- Laurent.pinchart@ideasonboard.com, kernel@pengutronix.de,
- narmstrong@baylibre.com, airlied@linux.ie, s.hauer@pengutronix.de,
- jonas@kwiboo.se, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kishon@ti.com, a.hajda@samsung.com, vkoul@kernel.org, linux-imx@nxp.com,
- mchehab@kernel.org, shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jordan Crouse <jcrouse@codeaurora.org>,
+ Rajendra Nayak <rnayak@codeaurora.org>, David Airlie <airlied@linux.ie>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ Konrad Dybcio <konradybcio@gmail.com>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "Kristian H. Kristensen" <hoegsberg@google.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Kalyan Thota <kalyan_t@codeaurora.org>, Dave Airlie <airlied@redhat.com>,
+ Sean Paul <sean@poorly.run>, open list <linux-kernel@vger.kernel.org>,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBGZWIgMTgsIDIwMjEgYXQgMTE6NDE6NDlBTSArMDgwMCwgTGl1IFlpbmcgd3JvdGU6
-Cj4gVGhpcyBwYXRjaCBhZGRzIGJpbmRpbmdzIGZvciBpLk1YOHF4cCBwaXhlbCBsaW5rIHRvIERQ
-SShQWEwyRFBJKS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBMaXUgWWluZyA8dmljdG9yLmxpdUBueHAu
-Y29tPgo+IC0tLQo+IHYzLT52NDoKPiAqIEFkZCAnZnNsLHNjLXJlc291cmNlJyBwcm9wZXJ0eS4g
-KFJvYikKPiAKPiB2Mi0+djM6Cj4gKiBEcm9wICdmc2wsc3lzY29uJyBwcm9wZXJ0eS4gKFJvYikK
-PiAqIE1lbnRpb24gdGhlIENTUiBtb2R1bGUgY29udHJvbHMgUFhMMkRQSS4KPiAKPiB2MS0+djI6
-Cj4gKiBVc2UgZ3JhcGggc2NoZW1hLiAoTGF1cmVudCkKPiAKPiAgLi4uL2Rpc3BsYXkvYnJpZGdl
-L2ZzbCxpbXg4cXhwLXB4bDJkcGkueWFtbCAgICAgICAgfCAxMDggKysrKysrKysrKysrKysrKysr
-KysrCj4gIDEgZmlsZSBjaGFuZ2VkLCAxMDggaW5zZXJ0aW9ucygrKQo+ICBjcmVhdGUgbW9kZSAx
-MDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2Zz
-bCxpbXg4cXhwLXB4bDJkcGkueWFtbAo+IAo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvZnNsLGlteDhxeHAtcHhsMmRwaS55YW1s
-IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2ZzbCxp
-bXg4cXhwLXB4bDJkcGkueWFtbAo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggMDAwMDAw
-MDAuLmU0ZTc3ZmEKPiAtLS0gL2Rldi9udWxsCj4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2ZzbCxpbXg4cXhwLXB4bDJkcGkueWFtbAo+IEBA
-IC0wLDAgKzEsMTA4IEBACj4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4wLW9u
-bHkgT1IgQlNELTItQ2xhdXNlKQo+ICslWUFNTCAxLjIKPiArLS0tCj4gKyRpZDogaHR0cDovL2Rl
-dmljZXRyZWUub3JnL3NjaGVtYXMvZGlzcGxheS9icmlkZ2UvZnNsLGlteDhxeHAtcHhsMmRwaS55
-YW1sIwo+ICskc2NoZW1hOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvbWV0YS1zY2hlbWFzL2NvcmUu
-eWFtbCMKPiArCj4gK3RpdGxlOiBGcmVlc2NhbGUgaS5NWDhxeHAgUGl4ZWwgTGluayB0byBEaXNw
-bGF5IFBpeGVsIEludGVyZmFjZQo+ICsKPiArbWFpbnRhaW5lcnM6Cj4gKyAgLSBMaXUgWWluZyA8
-dmljdG9yLmxpdUBueHAuY29tPgo+ICsKPiArZGVzY3JpcHRpb246IHwKPiArICBUaGUgRnJlZXNj
-YWxlIGkuTVg4cXhwIFBpeGVsIExpbmsgdG8gRGlzcGxheSBQaXhlbCBJbnRlcmZhY2UoUFhMMkRQ
-SSkKPiArICBpbnRlcmZhY2VzIHRoZSBwaXhlbCBsaW5rIDM2LWJpdCBkYXRhIG91dHB1dCBhbmQg
-dGhlIERTSSBjb250cm9sbGVy4oCZcwo+ICsgIE1JUEktRFBJIDI0LWJpdCBkYXRhIGlucHV0LCBh
-bmQgaW5wdXRzIG9mIExWRFMgRGlzcGxheSBCcmlkZ2UoTERCKSBtb2R1bGUKPiArICB1c2VkIGlu
-IExWRFMgbW9kZSwgdG8gcmVtYXAgdGhlIHBpeGVsIGNvbG9yIGNvZGluZ3MgYmV0d2VlbiB0aG9z
-ZSBtb2R1bGVzLgo+ICsgIFRoaXMgbW9kdWxlIGlzIHB1cmVseSBjb21iaW5hdG9yaWFsLgo+ICsK
-PiArICBUaGUgaS5NWDhxeHAgUFhMMkRQSSBpcyBjb250cm9sbGVkIGJ5IENvbnRyb2wgYW5kIFN0
-YXR1cyBSZWdpc3RlcnMoQ1NSKSBtb2R1bGUuCj4gKyAgVGhlIENTUiBtb2R1bGUsIGFzIGEgc3lz
-dGVtIGNvbnRyb2xsZXIsIGNvbnRhaW5zIHRoZSBQWEwyRFBJJ3MgY29uZmlndXJhdGlvbgo+ICsg
-IHJlZ2lzdGVyLgoKU28gdGhpcyBub2RlIHNob3VsZCBiZSBhIGNoaWxkIG9mIHRoZSBDU1IuIElk
-ZWFsbHksIHRoaXMgc2NoZW1hIGlzIGFsc28gCnJlZmVyZW5jZWQgZnJvbSB0aGUgQ1NSJ3Mgc2No
-ZW1hIChhbmQgaWYgdGhhdCBkb2Vzbid0IGV4aXN0LCBpdCBzaG91bGQgCmJlIHRoZXJlIGZpcnN0
-KS4KCj4gKwo+ICtwcm9wZXJ0aWVzOgo+ICsgIGNvbXBhdGlibGU6Cj4gKyAgICBjb25zdDogZnNs
-LGlteDhxeHAtcHhsMmRwaQo+ICsKPiArICBmc2wsc2MtcmVzb3VyY2U6Cj4gKyAgICAkcmVmOiAv
-c2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzIKPiArICAgIGRlc2NyaXB0aW9u
-OiBUaGUgU0NVIHJlc291cmNlIElEIGFzc29jaWF0ZWQgd2l0aCB0aGlzIFBYTDJEUEkgaW5zdGFu
-Y2UuCj4gKwo+ICsgIHBvd2VyLWRvbWFpbnM6Cj4gKyAgICBtYXhJdGVtczogMQo+ICsKPiArICBm
-c2wsY29tcGFuaW9uLXB4bDJkcGk6Cj4gKyAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9k
-ZWZpbml0aW9ucy9waGFuZGxlCj4gKyAgICBkZXNjcmlwdGlvbjogfAo+ICsgICAgICBBIHBoYW5k
-bGUgd2hpY2ggcG9pbnRzIHRvIGNvbXBhbmlvbiBQWEwyRFBJIHdoaWNoIGlzIHVzZWQgYnkgZG93
-bnN0cmVhbQo+ICsgICAgICBMVkRTIERpc3BsYXkgQnJpZGdlKExEQikgaW4gc3BsaXQgbW9kZS4K
-PiArCj4gKyAgcG9ydHM6Cj4gKyAgICAkcmVmOiAvc2NoZW1hcy9ncmFwaC55YW1sIy9wcm9wZXJ0
-aWVzL3BvcnRzCj4gKwo+ICsgICAgcHJvcGVydGllczoKPiArICAgICAgcG9ydEAwOgo+ICsgICAg
-ICAgICRyZWY6IC9zY2hlbWFzL2dyYXBoLnlhbWwjL3Byb3BlcnRpZXMvcG9ydAo+ICsgICAgICAg
-IGRlc2NyaXB0aW9uOiBUaGUgUFhMMkRQSSBpbnB1dCBwb3J0IG5vZGUgZnJvbSBwaXhlbCBsaW5r
-Lgo+ICsKPiArICAgICAgcG9ydEAxOgo+ICsgICAgICAgICRyZWY6IC9zY2hlbWFzL2dyYXBoLnlh
-bWwjL3Byb3BlcnRpZXMvcG9ydAo+ICsgICAgICAgIGRlc2NyaXB0aW9uOiBUaGUgUFhMMkRQSSBv
-dXRwdXQgcG9ydCBub2RlIHRvIGRvd25zdHJlYW0gYnJpZGdlLgo+ICsKPiArICAgIHJlcXVpcmVk
-Ogo+ICsgICAgICAtIHBvcnRAMAo+ICsgICAgICAtIHBvcnRAMQo+ICsKPiArcmVxdWlyZWQ6Cj4g
-KyAgLSBjb21wYXRpYmxlCj4gKyAgLSBmc2wsc2MtcmVzb3VyY2UKPiArICAtIHBvd2VyLWRvbWFp
-bnMKPiArICAtIHBvcnRzCj4gKwo+ICthZGRpdGlvbmFsUHJvcGVydGllczogZmFsc2UKPiArCj4g
-K2V4YW1wbGVzOgo+ICsgIC0gfAo+ICsgICAgI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2Zpcm13YXJl
-L2lteC9yc3JjLmg+Cj4gKyAgICBweGwyZHBpIHsKPiArICAgICAgICBjb21wYXRpYmxlID0gImZz
-bCxpbXg4cXhwLXB4bDJkcGkiOwo+ICsgICAgICAgIGZzbCxzYy1yZXNvdXJjZSA9IDxJTVhfU0Nf
-Ul9NSVBJXzA+Owo+ICsgICAgICAgIHBvd2VyLWRvbWFpbnMgPSA8JnBkIElNWF9TQ19SX01JUElf
-MD47Cj4gKwo+ICsgICAgICAgIHBvcnRzIHsKPiArICAgICAgICAgICAgI2FkZHJlc3MtY2VsbHMg
-PSA8MT47Cj4gKyAgICAgICAgICAgICNzaXplLWNlbGxzID0gPDA+Owo+ICsKPiArICAgICAgICAg
-ICAgcG9ydEAwIHsKPiArICAgICAgICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+Owo+ICsg
-ICAgICAgICAgICAgICAgI3NpemUtY2VsbHMgPSA8MD47Cj4gKyAgICAgICAgICAgICAgICByZWcg
-PSA8MD47Cj4gKwo+ICsgICAgICAgICAgICAgICAgbWlwaV9sdmRzXzBfcHhsMmRwaV9kY19waXhl
-bF9saW5rMDogZW5kcG9pbnRAMCB7Cj4gKyAgICAgICAgICAgICAgICAgICAgcmVnID0gPDA+Owo+
-ICsgICAgICAgICAgICAgICAgICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmZGNfcGl4ZWxfbGluazBf
-bWlwaV9sdmRzXzBfcHhsMmRwaT47Cj4gKyAgICAgICAgICAgICAgICB9Owo+ICsKPiArICAgICAg
-ICAgICAgICAgIG1pcGlfbHZkc18wX3B4bDJkcGlfZGNfcGl4ZWxfbGluazE6IGVuZHBvaW50QDEg
-ewo+ICsgICAgICAgICAgICAgICAgICAgICByZWcgPSA8MT47Cj4gKyAgICAgICAgICAgICAgICAg
-ICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmZGNfcGl4ZWxfbGluazFfbWlwaV9sdmRzXzBfcHhsMmRw
-aT47Cj4gKyAgICAgICAgICAgICAgICB9Owo+ICsgICAgICAgICAgICB9Owo+ICsKPiArICAgICAg
-ICAgICAgcG9ydEAxIHsKPiArICAgICAgICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+Owo+
-ICsgICAgICAgICAgICAgICAgI3NpemUtY2VsbHMgPSA8MD47Cj4gKyAgICAgICAgICAgICAgICBy
-ZWcgPSA8MT47Cj4gKwo+ICsgICAgICAgICAgICAgICAgbWlwaV9sdmRzXzBfcHhsMmRwaV9taXBp
-X2x2ZHNfMF9sZGJfY2gwOiBlbmRwb2ludEAwIHsKPiArICAgICAgICAgICAgICAgICAgICByZWcg
-PSA8MD47Cj4gKyAgICAgICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZtaXBpX2x2
-ZHNfMF9sZGJfY2gwX21pcGlfbHZkc18wX3B4bDJkcGk+Owo+ICsgICAgICAgICAgICAgICAgfTsK
-PiArCj4gKyAgICAgICAgICAgICAgICBtaXBpX2x2ZHNfMF9weGwyZHBpX21pcGlfbHZkc18wX2xk
-Yl9jaDE6IGVuZHBvaW50QDEgewo+ICsgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwxPjsKPiAr
-ICAgICAgICAgICAgICAgICAgICByZW1vdGUtZW5kcG9pbnQgPSA8Jm1pcGlfbHZkc18wX2xkYl9j
-aDFfbWlwaV9sdmRzXzBfcHhsMmRwaT47Cj4gKyAgICAgICAgICAgICAgICB9Owo+ICsgICAgICAg
-ICAgICB9Owo+ICsgICAgICAgIH07Cj4gKyAgICB9Owo+IC0tIAo+IDIuNy40Cj4gCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 15/02/2021 19:27, Jonathan Marek wrote:
+> Add the required changes to support 7nm pll/phy in CPHY mode.
+> 
+> This adds a "qcom,dsi-phy-cphy-mode" property for the PHY node to enable
+> the CPHY mode.
+> 
+> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+
+Other that few comments bellow:
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+> ---
+>   .../devicetree/bindings/display/msm/dsi.txt   |  1 +
+>   drivers/gpu/drm/msm/dsi/dsi.c                 | 12 +--
+>   drivers/gpu/drm/msm/dsi/dsi.h                 |  6 +-
+>   drivers/gpu/drm/msm/dsi/dsi.xml.h             |  2 +
+>   drivers/gpu/drm/msm/dsi/dsi_host.c            | 34 +++++--
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.c         | 49 +++++++++-
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.h         |  3 +
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     | 89 ++++++++++++++-----
+>   drivers/gpu/drm/msm/dsi/pll/dsi_pll.c         |  4 +-
+>   drivers/gpu/drm/msm/dsi/pll/dsi_pll.h         |  5 +-
+>   drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c     | 71 +++++++++------
+>   11 files changed, 210 insertions(+), 66 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dsi.txt b/Documentation/devicetree/bindings/display/msm/dsi.txt
+> index b9a64d3ff184..7ffc86a9816b 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dsi.txt
+> +++ b/Documentation/devicetree/bindings/display/msm/dsi.txt
+> @@ -124,6 +124,7 @@ Required properties:
+>   Optional properties:
+>   - qcom,dsi-phy-regulator-ldo-mode: Boolean value indicating if the LDO mode PHY
+>     regulator is wanted.
+> +- qcom,dsi-phy-cphy-mode: Boolean value indicating if CPHY mode is wanted.
+>   - qcom,mdss-mdp-transfer-time-us:	Specifies the dsi transfer time for command mode
+>   					panels in microseconds. Driver uses this number to adjust
+>   					the clock rate according to the expected transfer time.
+
+This should go in a separate patch, shan't it?
+
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+> index 627048851d99..68d8547f7264 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
+> @@ -13,7 +13,7 @@ struct drm_encoder *msm_dsi_get_encoder(struct msm_dsi *msm_dsi)
+>   	return msm_dsi->encoder;
+>   }
+>   
+> -static int dsi_get_phy(struct msm_dsi *msm_dsi)
+> +static int dsi_get_phy(struct msm_dsi *msm_dsi, bool *cphy_mode)
+
+I see no need to pass the 'cphy_mode' through the bool pointer and back 
+to msm_dsi_host_init. What about just putting it into struct msm_dsi?
+
+>   {
+>   	struct platform_device *pdev = msm_dsi->pdev;
+>   	struct platform_device *phy_pdev;
+> @@ -29,6 +29,7 @@ static int dsi_get_phy(struct msm_dsi *msm_dsi)
+>   	if (phy_pdev)
+>   		msm_dsi->phy = platform_get_drvdata(phy_pdev);
+>   
+> +	*cphy_mode = of_property_read_bool(phy_node, "qcom,dsi-phy-cphy-mode");
+>   	of_node_put(phy_node);
+>   
+>   	if (!phy_pdev || !msm_dsi->phy) {
+> @@ -65,6 +66,7 @@ static void dsi_destroy(struct msm_dsi *msm_dsi)
+>   static struct msm_dsi *dsi_init(struct platform_device *pdev)
+>   {
+>   	struct msm_dsi *msm_dsi;
+> +	bool cphy_mode;
+>   	int ret;
+>   
+>   	if (!pdev)
+> @@ -79,13 +81,13 @@ static struct msm_dsi *dsi_init(struct platform_device *pdev)
+>   	msm_dsi->pdev = pdev;
+>   	platform_set_drvdata(pdev, msm_dsi);
+>   
+> -	/* Init dsi host */
+> -	ret = msm_dsi_host_init(msm_dsi);
+> +	/* GET dsi PHY */
+> +	ret = dsi_get_phy(msm_dsi, &cphy_mode);
+>   	if (ret)
+>   		goto destroy_dsi;
+>   
+> -	/* GET dsi PHY */
+> -	ret = dsi_get_phy(msm_dsi);
+> +	/* Init dsi host */
+> +	ret = msm_dsi_host_init(msm_dsi, cphy_mode);
+>   	if (ret)
+>   		goto destroy_dsi;
+
+
+-- 
+With best wishes
+Dmitry
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
