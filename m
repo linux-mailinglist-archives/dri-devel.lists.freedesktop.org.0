@@ -2,50 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E2A332F58C
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 22:51:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 224B332F5C7
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 23:18:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 465A46EC71;
-	Fri,  5 Mar 2021 21:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C22E76EC7A;
+	Fri,  5 Mar 2021 22:18:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D2B76EC71
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 21:51:47 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4DshJy076tz1rwtx;
- Fri,  5 Mar 2021 22:51:46 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4DshJx5sTLz1qr4f;
- Fri,  5 Mar 2021 22:51:45 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id 6X9gwMVB49vc; Fri,  5 Mar 2021 22:51:43 +0100 (CET)
-X-Auth-Info: qhpkLmOj9S85Ko1ZTaGma9HfMQrER1CXafE6q9cZuKo=
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Fri,  5 Mar 2021 22:51:43 +0100 (CET)
-Subject: Re: [PATCH v3 2/2] drm: bridge: Add TI SN65DSI83/84/85 DSI to LVDS
- bridge
-To: Jagan Teki <jagan@amarulasolutions.com>, Rob Herring
- <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Sam Ravnborg <sam@ravnborg.org>
-References: <20210214174453.104616-1-jagan@amarulasolutions.com>
- <20210214174453.104616-2-jagan@amarulasolutions.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <3fe11764-7eee-50ec-2da2-cbf24b268016@denx.de>
-Date: Fri, 5 Mar 2021 22:51:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
+ [IPv6:2607:f8b0:4864:20::72c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02BEF6E1D3
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 22:18:29 +0000 (UTC)
+Received: by mail-qk1-x72c.google.com with SMTP id 130so3585765qkh.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Mar 2021 14:18:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marek-ca.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=kEPdvK71SYnnYxU/iYMYQe/u4D1Hboa4Ycom7Yjf1Uw=;
+ b=LAiu13ud2ieteI1GC7oTRufOmHJCXPRSrLKl5fh0T8ZtOH0SD/XlcVSIeqtPxBrL0v
+ iorOjbfWYdI1rWZzDfENDWZx8rWebaQIaZN0iTWtJd+9UisdnfWvF0ZbBMn7/8T5RkXE
+ /BvplMJpUvWr0rMw7G6eU9PvsjcrG7DHhnA8e9G2HaD31Up6Hhrnod7o+pyJem9nXIsv
+ K1CQefEQsOIioZWB7+IYnXZLZkLGu0yxY44HFIDj+BNXPnXLC0BZQT4bOoPA/QB135zk
+ p3SNWX8ZsmJeiCQG6SQZfV52KZp/A/Wi8b9PP/MEeArtw/cAjHY26STc9U0jeXtca+xb
+ H2fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kEPdvK71SYnnYxU/iYMYQe/u4D1Hboa4Ycom7Yjf1Uw=;
+ b=i2s4zBGONsDLQ7vd38HRtRJy12htR2L2X4cAIH9MwDnXgJXuGj6wWDIDnPVlT15s4n
+ zHD/F8PU6jlbuThqY4IEAZ/JeN5/X0fuzaHyTj2hMmt+q2RC9ReUI9UmntPwcCjyMIg3
+ /eBbRxVCR5BSPvuds2pvEMUfV5iYJKqxPrPtjfgi6F5184WBwPyp3hbMRWJ2tPYZbEFT
+ 2nOY/3i9+1aFuIeY696ycn3xykZ5CxMp5asAyBXbdJFEp6g+ErPl56Q+ZyWismFaK5RP
+ 13gNe4uxk5RkOI2kJ1aDNL9nb5esCNiKDqQgjPSivy0wJWLOKy9YITjY4xiXXvRQ7mFn
+ lswg==
+X-Gm-Message-State: AOAM5307ADry4YuXqBOtDqZ5CPdrlXY5kDv2qTBDFeUMQIZN5lujop0e
+ +SKmbWCSOtimgoLq1+AhQIO5vg==
+X-Google-Smtp-Source: ABdhPJzQrZBfsrI9YYiNPI9gMDvzV87Lgi/44erfU6o3ciulWwl/Z0QtFrZefcU5AlH8znMSAZt34w==
+X-Received: by 2002:ae9:ef89:: with SMTP id
+ d131mr11080051qkg.214.1614982709146; 
+ Fri, 05 Mar 2021 14:18:29 -0800 (PST)
+Received: from [192.168.0.189] (modemcable068.184-131-66.mc.videotron.ca.
+ [66.131.184.68])
+ by smtp.gmail.com with ESMTPSA id z2sm2898711qkg.22.2021.03.05.14.18.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Mar 2021 14:18:28 -0800 (PST)
+Subject: Re: [PATCH] drm/msm/dsi: support CPHY mode for 7nm pll/phy
+To: Rob Herring <robh@kernel.org>
+References: <20210215162805.21481-1-jonathan@marek.ca>
+ <20210305214802.GA701567@robh.at.kernel.org>
+From: Jonathan Marek <jonathan@marek.ca>
+Message-ID: <cbaf67d2-d5b8-9684-061b-8de9382a438b@marek.ca>
+Date: Fri, 5 Mar 2021 17:17:10 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20210214174453.104616-2-jagan@amarulasolutions.com>
+In-Reply-To: <20210305214802.GA701567@robh.at.kernel.org>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,83 +73,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-amarula@amarulasolutions.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jordan Crouse <jcrouse@codeaurora.org>,
+ Rajendra Nayak <rnayak@codeaurora.org>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ Konrad Dybcio <konradybcio@gmail.com>, Viresh Kumar <viresh.kumar@linaro.org>,
+ "Kristian H. Kristensen" <hoegsberg@google.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
+ open list <linux-kernel@vger.kernel.org>,
+ Emil Velikov <emil.velikov@collabora.com>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/14/21 6:44 PM, Jagan Teki wrote:
+On 3/5/21 4:48 PM, Rob Herring wrote:
+> On Mon, Feb 15, 2021 at 11:27:44AM -0500, Jonathan Marek wrote:
+>> Add the required changes to support 7nm pll/phy in CPHY mode.
+>>
+>> This adds a "qcom,dsi-phy-cphy-mode" property for the PHY node to enable
+>> the CPHY mode.
+>>
+>> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+>> ---
+>>   .../devicetree/bindings/display/msm/dsi.txt   |  1 +
+>>   drivers/gpu/drm/msm/dsi/dsi.c                 | 12 +--
+>>   drivers/gpu/drm/msm/dsi/dsi.h                 |  6 +-
+>>   drivers/gpu/drm/msm/dsi/dsi.xml.h             |  2 +
+>>   drivers/gpu/drm/msm/dsi/dsi_host.c            | 34 +++++--
+>>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.c         | 49 +++++++++-
+>>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.h         |  3 +
+>>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     | 89 ++++++++++++++-----
+>>   drivers/gpu/drm/msm/dsi/pll/dsi_pll.c         |  4 +-
+>>   drivers/gpu/drm/msm/dsi/pll/dsi_pll.h         |  5 +-
+>>   drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c     | 71 +++++++++------
+>>   11 files changed, 210 insertions(+), 66 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/msm/dsi.txt b/Documentation/devicetree/bindings/display/msm/dsi.txt
+>> index b9a64d3ff184..7ffc86a9816b 100644
+>> --- a/Documentation/devicetree/bindings/display/msm/dsi.txt
+>> +++ b/Documentation/devicetree/bindings/display/msm/dsi.txt
+>> @@ -124,6 +124,7 @@ Required properties:
+>>   Optional properties:
+>>   - qcom,dsi-phy-regulator-ldo-mode: Boolean value indicating if the LDO mode PHY
+>>     regulator is wanted.
+>> +- qcom,dsi-phy-cphy-mode: Boolean value indicating if CPHY mode is wanted.
+> 
+> This is board or SoC dependent? The latter should be implied by an SoC
+> specific compatible.
+> 
 
-[...]
+It is board specific, 7nm dsi phy can operate in either D-PHY or C-PHY mode.
 
-> +static const struct regmap_config sn65dsi_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.max_register = SN65DSI_CHA_ERR,
-> +	.name = "sn65dsi",
-> +	.cache_type = REGCACHE_RBTREE,
-> +};
-
-You might want to look at the driver I posted one more time, it defines 
-the regmap precisely and limits each register access, see:
-[PATCH 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 driver
-that way it can be dumped via debugfs and the regmap does not cache 
-registers which do not exist, like it does here.
-
-[...]
-
-> +static int sn65dsi_get_clk_range(int min, int max, unsigned long clock,
-> +				 unsigned long start, unsigned long diff)
-> +{
-> +	unsigned long next;
-> +	int i;
-> +
-> +	for (i = min; i <= max; i++) {
-> +		next = start + diff;
-> +		if (start <= clock && clock < next)
-> +			return i;
-> +
-> +		start += diff;
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-
-The clock rates can be calculated in linear time, see the driver above, 
-it is implemented there.
-
-> +static void sn65dsi_enable(struct drm_bridge *bridge)
-> +{
-> +	struct sn65dsi *sn = bridge_to_sn65dsi(bridge);
-> +	struct drm_display_mode *mode = bridge_to_mode(bridge);
-> +	int bpp = mipi_dsi_pixel_format_to_bpp(sn->dsi->format);
-> +	unsigned int lanes = sn->dsi->lanes;
-> +	unsigned int pixel_clk = mode->clock * 1000;
-> +	unsigned int dsi_clk = pixel_clk * bpp / (lanes * 2);
-> +	unsigned int val;
-> +
-> +	/* reset SOFT_RESET bit */
-> +	regmap_write(sn->regmap, SN65DSI_SOFT_RESET, 0x0);
-> +
-> +	msleep(10);
-
-Why is there msleep(10) all over the place ?
-I don't see such a requirement listed anywhere in the DSI83 datasheet.
-
-> +	/* reset PLL_EN bit */
-> +	regmap_write(sn->regmap, SN65DSI_CLK_PLL, 0x0);
-> +
-> +	msleep(10);
-
-Here too.
-
-[...]
-
-You also want to check the feedback on the driver I posted, it deals 
-with polling for the PLL to be ready, which seems to be missing here. 
-That should remove most of the msleep() calls.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
