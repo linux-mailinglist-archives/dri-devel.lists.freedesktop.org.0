@@ -1,57 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D0CA32DF22
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 02:32:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5E832DF42
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 02:53:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BCB9891A6;
-	Fri,  5 Mar 2021 01:32:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 794196EABE;
+	Fri,  5 Mar 2021 01:53:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-2.mailgun.net (m42-2.mailgun.net [69.72.42.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7FC96E197
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 01:32:12 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1614907934; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=MrBaxd8I1lCJhc1xiJgcuKzJdIqqY481nXmjMo1dSxY=;
- b=pl76956UOhT7BceqCxnfZ3PzwmGgUL2d054xEWVRZdeZDGEnH+Q7R+tLaGcLdbDrIHbb0WtH
- mTArvTcPbk4WKF4/eu3imNSQKeejs6QgDs545wULLwCkmG90DsfsVhIFSJjlSv4r2tBDoOoI
- iZDZ7cPJfZmiSAYyLRr3oxZt+IQ=
-X-Mailgun-Sending-Ip: 69.72.42.2
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 60418a16c862e1b9fdbce140 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 05 Mar 2021 01:32:06
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 37DE8C43463; Fri,  5 Mar 2021 01:32:06 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id A7FCFC433CA;
- Fri,  5 Mar 2021 01:32:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A7FCFC433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=abhinavk@codeaurora.org
-From: Abhinav Kumar <abhinavk@codeaurora.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm/dp: Fix warnings reported by kbot in DP driver
-Date: Thu,  4 Mar 2021 17:31:52 -0800
-Message-Id: <1614907912-6880-1-git-send-email-abhinavk@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6DEC6EABE
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 01:52:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614909178;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1PouAGyaEAojf3ovTLFX1yOmiU99mhHbemhpq78aaTo=;
+ b=fTiapm5qm/coo+vtDgKpiclSo6I5ELEFVdKDmCUKOKwMuQf+xdKRw7XGf76Vmct8PPyQGi
+ IPsNSu7RnIZrXG8YL/7p4YcvdkW/VDaTSLr21FtxNmnVLo/CxQYuAzlOv0SZbNwEpM6zzY
+ tg+7RG76c53HrvThOkL5Ok+C++krqEw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-21-aoH0ADXoPxG-HWKJhQM3Yw-1; Thu, 04 Mar 2021 20:52:56 -0500
+X-MC-Unique: aoH0ADXoPxG-HWKJhQM3Yw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56E2F1842142;
+ Fri,  5 Mar 2021 01:52:54 +0000 (UTC)
+Received: from Whitewolf.lyude.net (ovpn-113-27.rdu2.redhat.com [10.10.113.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9FCD52BFEB;
+ Fri,  5 Mar 2021 01:52:52 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: nouveau@lists.freedesktop.org
+Subject: [PATCH] drm/nouveau/kms/nve4-nv108: Limit cursors to 128x128
+Date: Thu,  4 Mar 2021 20:52:41 -0500
+Message-Id: <20210305015242.740590-1-lyude@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,120 +54,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
- swboyd@chromium.org, khsieh@codeaurora.org, seanpaul@chromium.org,
- tanmay@codeaurora.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org, dan.carpenter@oracle.com
-MIME-Version: 1.0
+Cc: "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ James Jones <jajones@nvidia.com>, open list <linux-kernel@vger.kernel.org>,
+ stable@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
+ Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the warnings reported by kbot across MSM DP driver.
+While Kepler does technically support 256x256 cursors, it turns out that
+Kepler actually has some additional requirements for scanout surfaces that
+we're not enforcing correctly, which aren't present on Maxwell and later.
+Cursor surfaces must always use small pages (4K), and overlay surfaces must
+always use large pages (128K).
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
+Fixing this correctly though will take a bit more work: as we'll need to
+add some code in prepare_fb() to move cursor FBs in large pages to small
+pages, and vice-versa for overlay FBs. So until we have the time to do
+that, just limit cursor surfaces to 128x128 - a size small enough to always
+default to small pages.
+
+This means small ovlys are still broken on Kepler, but it is extremely
+unlikely anyone cares about those anyway :).
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Fixes: d3b2f0f7921c ("drm/nouveau/kms/nv50-: Report max cursor size to userspace")
+Cc: <stable@vger.kernel.org> # v5.11+
 ---
- drivers/gpu/drm/msm/dp/dp_debug.c | 33 +++++----------------------------
- drivers/gpu/drm/msm/dp/dp_hpd.c   |  4 ++--
- drivers/gpu/drm/msm/dp/dp_power.c |  2 +-
- 3 files changed, 8 insertions(+), 31 deletions(-)
+ drivers/gpu/drm/nouveau/dispnv50/disp.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_debug.c b/drivers/gpu/drm/msm/dp/dp_debug.c
-index 84670bc..2f6247e 100644
---- a/drivers/gpu/drm/msm/dp/dp_debug.c
-+++ b/drivers/gpu/drm/msm/dp/dp_debug.c
-@@ -226,7 +226,7 @@ static int dp_test_data_show(struct seq_file *m, void *data)
- 					debug->link->test_video.test_h_width);
- 			seq_printf(m, "vdisplay: %d\n",
- 					debug->link->test_video.test_v_height);
--					seq_printf(m, "bpc: %u\n",
-+			seq_printf(m, "bpc: %u\n",
- 					dp_link_bit_depth_to_bpc(bpc));
- 		} else
- 			seq_puts(m, "0");
-@@ -368,44 +368,21 @@ static int dp_debug_init(struct dp_debug *dp_debug, struct drm_minor *minor)
- 	int rc = 0;
- 	struct dp_debug_private *debug = container_of(dp_debug,
- 			struct dp_debug_private, dp_debug);
--	struct dentry *file;
--	struct dentry *test_active;
--	struct dentry *test_data, *test_type;
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index 196612addfd6..1c9c0cdf85db 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -2693,9 +2693,20 @@ nv50_display_create(struct drm_device *dev)
+ 	else
+ 		nouveau_display(dev)->format_modifiers = disp50xx_modifiers;
  
--	file = debugfs_create_file("dp_debug", 0444, minor->debugfs_root,
-+	debugfs_create_file("dp_debug", 0444, minor->debugfs_root,
- 			debug, &dp_debug_fops);
--	if (IS_ERR_OR_NULL(file)) {
--		rc = PTR_ERR(file);
--		DRM_ERROR("[%s] debugfs create file failed, rc=%d\n",
--				  DEBUG_NAME, rc);
--	}
- 
--	test_active = debugfs_create_file("msm_dp_test_active", 0444,
-+	debugfs_create_file("msm_dp_test_active", 0444,
- 			minor->debugfs_root,
- 			debug, &test_active_fops);
--	if (IS_ERR_OR_NULL(test_active)) {
--		rc = PTR_ERR(test_active);
--		DRM_ERROR("[%s] debugfs test_active failed, rc=%d\n",
--				  DEBUG_NAME, rc);
--	}
- 
--	test_data = debugfs_create_file("msm_dp_test_data", 0444,
-+	debugfs_create_file("msm_dp_test_data", 0444,
- 			minor->debugfs_root,
- 			debug, &dp_test_data_fops);
--	if (IS_ERR_OR_NULL(test_data)) {
--		rc = PTR_ERR(test_data);
--		DRM_ERROR("[%s] debugfs test_data failed, rc=%d\n",
--				  DEBUG_NAME, rc);
--	}
- 
--	test_type = debugfs_create_file("msm_dp_test_type", 0444,
-+	debugfs_create_file("msm_dp_test_type", 0444,
- 			minor->debugfs_root,
- 			debug, &dp_test_type_fops);
--	if (IS_ERR_OR_NULL(test_type)) {
--		rc = PTR_ERR(test_type);
--		DRM_ERROR("[%s] debugfs test_type failed, rc=%d\n",
--				  DEBUG_NAME, rc);
--	}
- 
- 	debug->root = minor->debugfs_root;
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_hpd.c b/drivers/gpu/drm/msm/dp/dp_hpd.c
-index 5b8fe3202..e1c90fa 100644
---- a/drivers/gpu/drm/msm/dp/dp_hpd.c
-+++ b/drivers/gpu/drm/msm/dp/dp_hpd.c
-@@ -34,8 +34,8 @@ int dp_hpd_connect(struct dp_usbpd *dp_usbpd, bool hpd)
- 
- 	dp_usbpd->hpd_high = hpd;
- 
--	if (!hpd_priv->dp_cb && !hpd_priv->dp_cb->configure
--				&& !hpd_priv->dp_cb->disconnect) {
-+	if (!hpd_priv->dp_cb || !hpd_priv->dp_cb->configure
-+				|| !hpd_priv->dp_cb->disconnect) {
- 		pr_err("hpd dp_cb not initialized\n");
- 		return -EINVAL;
- 	}
-diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
-index 9c4ea00..3961ba4 100644
---- a/drivers/gpu/drm/msm/dp/dp_power.c
-+++ b/drivers/gpu/drm/msm/dp/dp_power.c
-@@ -269,7 +269,7 @@ int dp_power_clk_enable(struct dp_power *dp_power,
- 		DRM_ERROR("failed to '%s' clks for: %s. err=%d\n",
- 			enable ? "enable" : "disable",
- 			dp_parser_pm_name(pm_type), rc);
--			return rc;
-+		return rc;
- 	}
- 
- 	if (pm_type == DP_CORE_PM)
+-	if (disp->disp->object.oclass >= GK104_DISP) {
++	/* FIXME: 256x256 cursors are supported on Kepler, however unlike Maxwell and later
++	 * generations Kepler requires that we use small pages (4K) for cursor scanout surfaces. The
++	 * proper fix for this is to teach nouveau to migrate fbs being used for the cursor plane to
++	 * small page allocations in prepare_fb(). When this is implemented, we should also force
++	 * large pages (128K) for ovly fbs in order to fix Kepler ovlys.
++	 * But until then, just limit cursors to 128x128 - which is small enough to avoid ever using
++	 * large pages.
++	 */
++	if (disp->disp->object.oclass >= GM107_DISP) {
+ 		dev->mode_config.cursor_width = 256;
+ 		dev->mode_config.cursor_height = 256;
++	} else if (disp->disp->object.oclass >= GK104_DISP) {
++		dev->mode_config.cursor_width = 128;
++		dev->mode_config.cursor_height = 128;
+ 	} else {
+ 		dev->mode_config.cursor_width = 64;
+ 		dev->mode_config.cursor_height = 64;
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
