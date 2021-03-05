@@ -1,48 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2CD32F5D5
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 23:22:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F4B32F603
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 23:42:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E66656EC7E;
-	Fri,  5 Mar 2021 22:22:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C82B6E170;
+	Fri,  5 Mar 2021 22:42:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 860696EC7F
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 22:22:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614982927;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=aPyMsdHMnfaSpLLwitdtmkV1UTfjg0RUBiyEq1fqjlk=;
- b=AmptPShX6ktuNf4CsW4G1sq28MTMh7GG5sjbd5cSQsixiFh8LU4n3k9DfEE5eU2Nmkl6vh
- Rj2pYivTEs8W9wu+9Zj/st1LK93zI2ncuPZ9ubqiCd/bihdSbQKAP8BTlhT7ofZ+K5Ox3L
- 3IVqv8wdiPYcgTGowaZNxZNTZiFSGpY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-177-PeNlqFzlPsSfWOOkoEvYJg-1; Fri, 05 Mar 2021 17:22:04 -0500
-X-MC-Unique: PeNlqFzlPsSfWOOkoEvYJg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 238B3801814;
- Fri,  5 Mar 2021 22:22:02 +0000 (UTC)
-Received: from Whitewolf.lyude.net (ovpn-117-70.rdu2.redhat.com [10.10.117.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E58B31A353;
- Fri,  5 Mar 2021 22:21:59 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: nouveau@lists.freedesktop.org
-Subject: [PATCH v2] drm/nouveau/kms/nve4-nv108: Don't advertise 256x256 cursor
- support yet
-Date: Fri,  5 Mar 2021 17:21:33 -0500
-Message-Id: <20210305222135.1269175-1-lyude@redhat.com>
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
+ [209.85.210.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D686F6E170
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 22:42:30 +0000 (UTC)
+Received: by mail-ot1-f49.google.com with SMTP id f33so3332033otf.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Mar 2021 14:42:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=c2C6WMShY+WqUn8ocEbn4JzI7GfAfSZXHH5finzHrgs=;
+ b=l5XTtzNnbh+06JKOMii2eIjlC42hJg7EnArViAIyR9vEkLdFV/3e3RXU77OmhEoaRH
+ hiWfjHyPfPGcaXBqR/PQMQCoFf0S8z6c6G4oYIaoOf3UV9SQLKz1ELonD8JReiPT5udk
+ s7Mf5xWqO0lCkK8DB0eVrCYNMfz2BW1KypG3XUUJqYXyDqIYhzjE0iK7bTEusXXuXAz9
+ Yw75mQMWD3TEf0+6++T7BoUKP2w8zJVlRFvCEzgiIuCBz0leqE1AGRPds0xRntxXRjlx
+ GvhrU9dRb7Sipmfbv5NXd2WE83Ijz7UiQq9ZbGkIGphu+sNt+162BNbfZVFCvSfdPnqi
+ fNiQ==
+X-Gm-Message-State: AOAM533J1o8W1ddHjZnbLqWbRBsAMrBf7jUvwl0UUvmUoV7m4uhy80wk
+ t9fXCPwjAjlLcqfDhH/yvQ==
+X-Google-Smtp-Source: ABdhPJwHxoXqLZ4lWQqRohvKICEtEIomW3eK+a4HsIZziHEivB+j570TIzOlpHgX/R5ljdy1hLfbaQ==
+X-Received: by 2002:a05:6830:18f1:: with SMTP id
+ d17mr9590230otf.196.1614984150157; 
+ Fri, 05 Mar 2021 14:42:30 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id f19sm811965oiw.38.2021.03.05.14.42.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Mar 2021 14:42:29 -0800 (PST)
+Received: (nullmailer pid 776845 invoked by uid 1000);
+ Fri, 05 Mar 2021 22:42:27 -0000
+Date: Fri, 5 Mar 2021 16:42:27 -0600
+From: Rob Herring <robh@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH v4 08/14] dt-bindings: display: bridge: Add i.MX8qxp
+ pixel link to DPI binding
+Message-ID: <20210305224227.GA772562@robh.at.kernel.org>
+References: <1613619715-28785-1-git-send-email-victor.liu@nxp.com>
+ <1613619715-28785-9-git-send-email-victor.liu@nxp.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Disposition: inline
+In-Reply-To: <1613619715-28785-9-git-send-email-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,70 +63,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- James Jones <jajones@nvidia.com>, open list <linux-kernel@vger.kernel.org>,
- stable@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
- Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net,
+ Laurent.pinchart@ideasonboard.com, kernel@pengutronix.de,
+ narmstrong@baylibre.com, airlied@linux.ie, s.hauer@pengutronix.de,
+ jonas@kwiboo.se, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kishon@ti.com, a.hajda@samsung.com, vkoul@kernel.org, linux-imx@nxp.com,
+ mchehab@kernel.org, shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While Kepler does technically support 256x256 cursors, it turns out that
-in order for us to use these correctly we need to make sure that the cursor
-plane uses a ctxdma that is set to use small (4K)/large (128K) pages -
-whichever is applicable to the given cursor surface.
-
-Right now however, we share the main kmsVramCtxDma that is used for all but
-the ovly plane which defaults to small pages - resulting in artifacts when
-we use 256x256 cursor surfaces. So until we teach nouveau to use a separate
-ctxdma for the cursor, let's just stop advertising 256x256 cursors by
-default - which should fix the issues that users were seeing.
-
-Coincidentally - this is also why small ovlys don't work on Kepler: the
-ctxdma we use for ovlys is set to large pages.
-
-Changes since v2:
-* Fix comments and patch description
-
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Fixes: d3b2f0f7921c ("drm/nouveau/kms/nv50-: Report max cursor size to userspace")
-Cc: <stable@vger.kernel.org> # v5.11+
----
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 196612addfd6..d92cf9e17ac3 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -2693,9 +2693,19 @@ nv50_display_create(struct drm_device *dev)
- 	else
- 		nouveau_display(dev)->format_modifiers = disp50xx_modifiers;
- 
--	if (disp->disp->object.oclass >= GK104_DISP) {
-+	/* FIXME: 256x256 cursors are supported on Kepler, however unlike Maxwell and later
-+	 * generations Kepler requires that we specify the page type, small (4K) or large (128K),
-+	 * correctly for the ctxdma being used on curs/ovly. We currently share a ctxdma across all
-+	 * display planes (except ovly) that defaults to small pages, which results in artifacting
-+	 * on 256x256 cursors. Until we teach nouveau to create an appropriate ctxdma for the cursor
-+	 * fb in use, simply avoid advertising support for 256x256 cursors.
-+	 */
-+	if (disp->disp->object.oclass >= GM107_DISP) {
- 		dev->mode_config.cursor_width = 256;
- 		dev->mode_config.cursor_height = 256;
-+	} else if (disp->disp->object.oclass >= GK104_DISP) {
-+		dev->mode_config.cursor_width = 128;
-+		dev->mode_config.cursor_height = 128;
- 	} else {
- 		dev->mode_config.cursor_width = 64;
- 		dev->mode_config.cursor_height = 64;
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBGZWIgMTgsIDIwMjEgYXQgMTE6NDE6NDlBTSArMDgwMCwgTGl1IFlpbmcgd3JvdGU6
+Cj4gVGhpcyBwYXRjaCBhZGRzIGJpbmRpbmdzIGZvciBpLk1YOHF4cCBwaXhlbCBsaW5rIHRvIERQ
+SShQWEwyRFBJKS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBMaXUgWWluZyA8dmljdG9yLmxpdUBueHAu
+Y29tPgo+IC0tLQo+IHYzLT52NDoKPiAqIEFkZCAnZnNsLHNjLXJlc291cmNlJyBwcm9wZXJ0eS4g
+KFJvYikKPiAKPiB2Mi0+djM6Cj4gKiBEcm9wICdmc2wsc3lzY29uJyBwcm9wZXJ0eS4gKFJvYikK
+PiAqIE1lbnRpb24gdGhlIENTUiBtb2R1bGUgY29udHJvbHMgUFhMMkRQSS4KPiAKPiB2MS0+djI6
+Cj4gKiBVc2UgZ3JhcGggc2NoZW1hLiAoTGF1cmVudCkKPiAKPiAgLi4uL2Rpc3BsYXkvYnJpZGdl
+L2ZzbCxpbXg4cXhwLXB4bDJkcGkueWFtbCAgICAgICAgfCAxMDggKysrKysrKysrKysrKysrKysr
+KysrCj4gIDEgZmlsZSBjaGFuZ2VkLCAxMDggaW5zZXJ0aW9ucygrKQo+ICBjcmVhdGUgbW9kZSAx
+MDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2Zz
+bCxpbXg4cXhwLXB4bDJkcGkueWFtbAo+IAo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2Rl
+dmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvZnNsLGlteDhxeHAtcHhsMmRwaS55YW1s
+IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2ZzbCxp
+bXg4cXhwLXB4bDJkcGkueWFtbAo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggMDAwMDAw
+MDAuLmU0ZTc3ZmEKPiAtLS0gL2Rldi9udWxsCj4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
+cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2ZzbCxpbXg4cXhwLXB4bDJkcGkueWFtbAo+IEBA
+IC0wLDAgKzEsMTA4IEBACj4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4wLW9u
+bHkgT1IgQlNELTItQ2xhdXNlKQo+ICslWUFNTCAxLjIKPiArLS0tCj4gKyRpZDogaHR0cDovL2Rl
+dmljZXRyZWUub3JnL3NjaGVtYXMvZGlzcGxheS9icmlkZ2UvZnNsLGlteDhxeHAtcHhsMmRwaS55
+YW1sIwo+ICskc2NoZW1hOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvbWV0YS1zY2hlbWFzL2NvcmUu
+eWFtbCMKPiArCj4gK3RpdGxlOiBGcmVlc2NhbGUgaS5NWDhxeHAgUGl4ZWwgTGluayB0byBEaXNw
+bGF5IFBpeGVsIEludGVyZmFjZQo+ICsKPiArbWFpbnRhaW5lcnM6Cj4gKyAgLSBMaXUgWWluZyA8
+dmljdG9yLmxpdUBueHAuY29tPgo+ICsKPiArZGVzY3JpcHRpb246IHwKPiArICBUaGUgRnJlZXNj
+YWxlIGkuTVg4cXhwIFBpeGVsIExpbmsgdG8gRGlzcGxheSBQaXhlbCBJbnRlcmZhY2UoUFhMMkRQ
+SSkKPiArICBpbnRlcmZhY2VzIHRoZSBwaXhlbCBsaW5rIDM2LWJpdCBkYXRhIG91dHB1dCBhbmQg
+dGhlIERTSSBjb250cm9sbGVy4oCZcwo+ICsgIE1JUEktRFBJIDI0LWJpdCBkYXRhIGlucHV0LCBh
+bmQgaW5wdXRzIG9mIExWRFMgRGlzcGxheSBCcmlkZ2UoTERCKSBtb2R1bGUKPiArICB1c2VkIGlu
+IExWRFMgbW9kZSwgdG8gcmVtYXAgdGhlIHBpeGVsIGNvbG9yIGNvZGluZ3MgYmV0d2VlbiB0aG9z
+ZSBtb2R1bGVzLgo+ICsgIFRoaXMgbW9kdWxlIGlzIHB1cmVseSBjb21iaW5hdG9yaWFsLgo+ICsK
+PiArICBUaGUgaS5NWDhxeHAgUFhMMkRQSSBpcyBjb250cm9sbGVkIGJ5IENvbnRyb2wgYW5kIFN0
+YXR1cyBSZWdpc3RlcnMoQ1NSKSBtb2R1bGUuCj4gKyAgVGhlIENTUiBtb2R1bGUsIGFzIGEgc3lz
+dGVtIGNvbnRyb2xsZXIsIGNvbnRhaW5zIHRoZSBQWEwyRFBJJ3MgY29uZmlndXJhdGlvbgo+ICsg
+IHJlZ2lzdGVyLgoKU28gdGhpcyBub2RlIHNob3VsZCBiZSBhIGNoaWxkIG9mIHRoZSBDU1IuIElk
+ZWFsbHksIHRoaXMgc2NoZW1hIGlzIGFsc28gCnJlZmVyZW5jZWQgZnJvbSB0aGUgQ1NSJ3Mgc2No
+ZW1hIChhbmQgaWYgdGhhdCBkb2Vzbid0IGV4aXN0LCBpdCBzaG91bGQgCmJlIHRoZXJlIGZpcnN0
+KS4KCj4gKwo+ICtwcm9wZXJ0aWVzOgo+ICsgIGNvbXBhdGlibGU6Cj4gKyAgICBjb25zdDogZnNs
+LGlteDhxeHAtcHhsMmRwaQo+ICsKPiArICBmc2wsc2MtcmVzb3VyY2U6Cj4gKyAgICAkcmVmOiAv
+c2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzIKPiArICAgIGRlc2NyaXB0aW9u
+OiBUaGUgU0NVIHJlc291cmNlIElEIGFzc29jaWF0ZWQgd2l0aCB0aGlzIFBYTDJEUEkgaW5zdGFu
+Y2UuCj4gKwo+ICsgIHBvd2VyLWRvbWFpbnM6Cj4gKyAgICBtYXhJdGVtczogMQo+ICsKPiArICBm
+c2wsY29tcGFuaW9uLXB4bDJkcGk6Cj4gKyAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9k
+ZWZpbml0aW9ucy9waGFuZGxlCj4gKyAgICBkZXNjcmlwdGlvbjogfAo+ICsgICAgICBBIHBoYW5k
+bGUgd2hpY2ggcG9pbnRzIHRvIGNvbXBhbmlvbiBQWEwyRFBJIHdoaWNoIGlzIHVzZWQgYnkgZG93
+bnN0cmVhbQo+ICsgICAgICBMVkRTIERpc3BsYXkgQnJpZGdlKExEQikgaW4gc3BsaXQgbW9kZS4K
+PiArCj4gKyAgcG9ydHM6Cj4gKyAgICAkcmVmOiAvc2NoZW1hcy9ncmFwaC55YW1sIy9wcm9wZXJ0
+aWVzL3BvcnRzCj4gKwo+ICsgICAgcHJvcGVydGllczoKPiArICAgICAgcG9ydEAwOgo+ICsgICAg
+ICAgICRyZWY6IC9zY2hlbWFzL2dyYXBoLnlhbWwjL3Byb3BlcnRpZXMvcG9ydAo+ICsgICAgICAg
+IGRlc2NyaXB0aW9uOiBUaGUgUFhMMkRQSSBpbnB1dCBwb3J0IG5vZGUgZnJvbSBwaXhlbCBsaW5r
+Lgo+ICsKPiArICAgICAgcG9ydEAxOgo+ICsgICAgICAgICRyZWY6IC9zY2hlbWFzL2dyYXBoLnlh
+bWwjL3Byb3BlcnRpZXMvcG9ydAo+ICsgICAgICAgIGRlc2NyaXB0aW9uOiBUaGUgUFhMMkRQSSBv
+dXRwdXQgcG9ydCBub2RlIHRvIGRvd25zdHJlYW0gYnJpZGdlLgo+ICsKPiArICAgIHJlcXVpcmVk
+Ogo+ICsgICAgICAtIHBvcnRAMAo+ICsgICAgICAtIHBvcnRAMQo+ICsKPiArcmVxdWlyZWQ6Cj4g
+KyAgLSBjb21wYXRpYmxlCj4gKyAgLSBmc2wsc2MtcmVzb3VyY2UKPiArICAtIHBvd2VyLWRvbWFp
+bnMKPiArICAtIHBvcnRzCj4gKwo+ICthZGRpdGlvbmFsUHJvcGVydGllczogZmFsc2UKPiArCj4g
+K2V4YW1wbGVzOgo+ICsgIC0gfAo+ICsgICAgI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2Zpcm13YXJl
+L2lteC9yc3JjLmg+Cj4gKyAgICBweGwyZHBpIHsKPiArICAgICAgICBjb21wYXRpYmxlID0gImZz
+bCxpbXg4cXhwLXB4bDJkcGkiOwo+ICsgICAgICAgIGZzbCxzYy1yZXNvdXJjZSA9IDxJTVhfU0Nf
+Ul9NSVBJXzA+Owo+ICsgICAgICAgIHBvd2VyLWRvbWFpbnMgPSA8JnBkIElNWF9TQ19SX01JUElf
+MD47Cj4gKwo+ICsgICAgICAgIHBvcnRzIHsKPiArICAgICAgICAgICAgI2FkZHJlc3MtY2VsbHMg
+PSA8MT47Cj4gKyAgICAgICAgICAgICNzaXplLWNlbGxzID0gPDA+Owo+ICsKPiArICAgICAgICAg
+ICAgcG9ydEAwIHsKPiArICAgICAgICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+Owo+ICsg
+ICAgICAgICAgICAgICAgI3NpemUtY2VsbHMgPSA8MD47Cj4gKyAgICAgICAgICAgICAgICByZWcg
+PSA8MD47Cj4gKwo+ICsgICAgICAgICAgICAgICAgbWlwaV9sdmRzXzBfcHhsMmRwaV9kY19waXhl
+bF9saW5rMDogZW5kcG9pbnRAMCB7Cj4gKyAgICAgICAgICAgICAgICAgICAgcmVnID0gPDA+Owo+
+ICsgICAgICAgICAgICAgICAgICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmZGNfcGl4ZWxfbGluazBf
+bWlwaV9sdmRzXzBfcHhsMmRwaT47Cj4gKyAgICAgICAgICAgICAgICB9Owo+ICsKPiArICAgICAg
+ICAgICAgICAgIG1pcGlfbHZkc18wX3B4bDJkcGlfZGNfcGl4ZWxfbGluazE6IGVuZHBvaW50QDEg
+ewo+ICsgICAgICAgICAgICAgICAgICAgICByZWcgPSA8MT47Cj4gKyAgICAgICAgICAgICAgICAg
+ICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmZGNfcGl4ZWxfbGluazFfbWlwaV9sdmRzXzBfcHhsMmRw
+aT47Cj4gKyAgICAgICAgICAgICAgICB9Owo+ICsgICAgICAgICAgICB9Owo+ICsKPiArICAgICAg
+ICAgICAgcG9ydEAxIHsKPiArICAgICAgICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+Owo+
+ICsgICAgICAgICAgICAgICAgI3NpemUtY2VsbHMgPSA8MD47Cj4gKyAgICAgICAgICAgICAgICBy
+ZWcgPSA8MT47Cj4gKwo+ICsgICAgICAgICAgICAgICAgbWlwaV9sdmRzXzBfcHhsMmRwaV9taXBp
+X2x2ZHNfMF9sZGJfY2gwOiBlbmRwb2ludEAwIHsKPiArICAgICAgICAgICAgICAgICAgICByZWcg
+PSA8MD47Cj4gKyAgICAgICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZtaXBpX2x2
+ZHNfMF9sZGJfY2gwX21pcGlfbHZkc18wX3B4bDJkcGk+Owo+ICsgICAgICAgICAgICAgICAgfTsK
+PiArCj4gKyAgICAgICAgICAgICAgICBtaXBpX2x2ZHNfMF9weGwyZHBpX21pcGlfbHZkc18wX2xk
+Yl9jaDE6IGVuZHBvaW50QDEgewo+ICsgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwxPjsKPiAr
+ICAgICAgICAgICAgICAgICAgICByZW1vdGUtZW5kcG9pbnQgPSA8Jm1pcGlfbHZkc18wX2xkYl9j
+aDFfbWlwaV9sdmRzXzBfcHhsMmRwaT47Cj4gKyAgICAgICAgICAgICAgICB9Owo+ICsgICAgICAg
+ICAgICB9Owo+ICsgICAgICAgIH07Cj4gKyAgICB9Owo+IC0tIAo+IDIuNy40Cj4gCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
