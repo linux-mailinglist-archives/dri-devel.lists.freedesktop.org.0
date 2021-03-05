@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A100332F432
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 20:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB4032F43E
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 20:50:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B83686EC30;
-	Fri,  5 Mar 2021 19:47:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7C76EC37;
+	Fri,  5 Mar 2021 19:50:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 925A06EC30
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:47:37 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 59B7D6509F
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:47:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E4E86EC37
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:50:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 3FDDF65018
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:50:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614973657;
- bh=JetewTseQMoO4iq1UG3QoYPrFsUjkldpNC05bjQebJs=;
+ s=k20201202; t=1614973813;
+ bh=Qh10UzHVp38naRqDwDaza74lYWpLdqFjMks9Mxfcu2w=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=GWd66O4ddH4RVywg6Pk8uDZ7+SiykI0vCmcG5ZSkgL1h7rDnOm+A8QRc7Bu+8rsSv
- 40vCOo4qQVIt3gOwyWP273pL823MH3Vf6mXgPBN86kiH483XZT1lFb2uWjnnIBsU7O
- Ox/3gZNBnUpgZcUKwFc9Vcr7E/wr9dA1JraXvctoQzgYWCenX2ZM/FASfOe3zpYSL7
- bZtTrMbds3SEqBw1B6eJJEbiDshw1PQK6TgpwjNsivhuVjqUbcS4Eo78G4dQdBDlZ5
- 5/T1/+b1xvnvH4cPsyz26ZYx92TgFRxPPkjrNViBGVXOxFKrVGz9nv+gpaz669jLg/
- CR92cvB6LDr9w==
+ b=O+KYWGHhpda2975rZoSJ+N11iGp4iCNQEh/7fqUhL98f42Hw2EpPJSUwlSeXXKi5E
+ mmGy4kcA9Oh7F5KPqQJtpYqUdFkZSz66/7qyOUpN2bjS/M83idqIB3OehwSQWBj6dU
+ 67uPNKApKb0sdWcrTPa7LKBGI8YAfL8PCL+VhXUJDXFa8ClEcODBWDpG/iZWYMLfkf
+ lSIQcK0rFJnDaOMnoPQTnePAgepTy7RdcN38nxdWPMakgoLbKfDofr8cucLTyAbs3F
+ kKGQRfkPJQSRuaZ6SDuTpDaFOm+ArKOdchLeH3uzgwisbUaPM5xrHy2EwB/nIrq8q2
+ +lPV+30Nx0z6w==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 53F0C61484; Fri,  5 Mar 2021 19:47:37 +0000 (UTC)
+ id 3065565307; Fri,  5 Mar 2021 19:50:13 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 212077] AMD GPU discrete card memory at highest frequency even
  while not in use
-Date: Fri, 05 Mar 2021 19:47:37 +0000
+Date: Fri, 05 Mar 2021 19:50:12 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,8 +45,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: short_desc
-Message-ID: <bug-212077-2300-Yzt1DYbkLb@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-212077-2300-tYDnSRcyVS@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-212077-2300@https.bugzilla.kernel.org/>
 References: <bug-212077-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,13 +71,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=212077
 
-Bat Malin (bat_malin@abv.bg) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-            Summary|AMD GPU discrete card       |AMD GPU discrete card
-                   |memory at highest frequency |memory at highest frequency
-                   |even not in use             |even while not in use
+--- Comment #1 from Bat Malin (bat_malin@abv.bg) ---
+Created attachment 295679
+  --> https://bugzilla.kernel.org/attachment.cgi?id=295679&action=edit
+Picture of memory status
 
 -- 
 You may reply to this email to add a comment.
