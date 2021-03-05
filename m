@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53A2932F431
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 20:47:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A100332F432
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 20:47:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC936EC32;
-	Fri,  5 Mar 2021 19:47:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B83686EC30;
+	Fri,  5 Mar 2021 19:47:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA9C6EC32
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:47:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 135AD6509A
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:47:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 925A06EC30
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:47:37 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 59B7D6509F
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:47:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614973636;
- bh=85FglGM+NUJlUQrJRDlxOmOj8jXtaiCy1uWZRKu0za0=;
+ s=k20201202; t=1614973657;
+ bh=JetewTseQMoO4iq1UG3QoYPrFsUjkldpNC05bjQebJs=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=t1KGU/mAZDDHnjRA71dz71EbXpcMVjCGF7Jx9A/MOauVFmFO92417ZL1c/Rgju02/
- m/cT2xdH1sIJLyxmkBwkLegCp0aHAhm6kSKfwY5pn2bkJVwqtvJENP/hiPtHUSNQhQ
- D2A/GRXsy90LgWd3QVZi2PyElbvVV0lwjRiFFZhyuoEoMfS+U91UiUVAW+nRdXWsOI
- 9JeVhhQzoZgKm5dYlyGIuUzzyDVSOTNBD2E6MvZQRRe66T5yujstOmX5pGCPxEuUnA
- 9YRZNPY9avPOVjKGCgs+/dzPi5ByJmkllPIm0caMXoDp2qg5UZzR9WlT8obj5E80LA
- bch9k4lX/RG5Q==
+ b=GWd66O4ddH4RVywg6Pk8uDZ7+SiykI0vCmcG5ZSkgL1h7rDnOm+A8QRc7Bu+8rsSv
+ 40vCOo4qQVIt3gOwyWP273pL823MH3Vf6mXgPBN86kiH483XZT1lFb2uWjnnIBsU7O
+ Ox/3gZNBnUpgZcUKwFc9Vcr7E/wr9dA1JraXvctoQzgYWCenX2ZM/FASfOe3zpYSL7
+ bZtTrMbds3SEqBw1B6eJJEbiDshw1PQK6TgpwjNsivhuVjqUbcS4Eo78G4dQdBDlZ5
+ 5/T1/+b1xvnvH4cPsyz26ZYx92TgFRxPPkjrNViBGVXOxFKrVGz9nv+gpaz669jLg/
+ CR92cvB6LDr9w==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 0809165307; Fri,  5 Mar 2021 19:47:16 +0000 (UTC)
+ id 53F0C61484; Fri,  5 Mar 2021 19:47:37 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 212077] AMD GPU discrete card memory at highest frequency even
- not in use
-Date: Fri, 05 Mar 2021 19:47:15 +0000
+ while not in use
+Date: Fri, 05 Mar 2021 19:47:37 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -46,7 +46,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: short_desc
-Message-ID: <bug-212077-2300-Z2k9Zoxs87@https.bugzilla.kernel.org/>
+Message-ID: <bug-212077-2300-Yzt1DYbkLb@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-212077-2300@https.bugzilla.kernel.org/>
 References: <bug-212077-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -75,9 +75,9 @@ Bat Malin (bat_malin@abv.bg) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-            Summary|AMD GPU at highest          |AMD GPU discrete card
-                   |frequency even not in use   |memory at highest frequency
-                   |                            |even not in use
+            Summary|AMD GPU discrete card       |AMD GPU discrete card
+                   |memory at highest frequency |memory at highest frequency
+                   |even not in use             |even while not in use
 
 -- 
 You may reply to this email to add a comment.
