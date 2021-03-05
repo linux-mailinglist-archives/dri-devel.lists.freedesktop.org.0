@@ -1,31 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E884D32F031
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 17:39:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAB9132F090
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 18:04:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DCAB6EB82;
-	Fri,  5 Mar 2021 16:39:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1AD26E223;
+	Fri,  5 Mar 2021 17:03:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id DCB716EB82
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 16:39:27 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E7C2D11FB;
- Fri,  5 Mar 2021 08:39:26 -0800 (PST)
-Received: from cubie.arm.com (unknown [10.37.8.7])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 186DD3F73B;
- Fri,  5 Mar 2021 08:39:25 -0800 (PST)
-From: carsten.haitzler@foss.arm.com
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/komeda: Fix off-by-1 when with readback conn due to
- rounding
-Date: Fri,  5 Mar 2021 16:38:53 +0000
-Message-Id: <20210305163853.66157-1-carsten.haitzler@foss.arm.com>
-X-Mailer: git-send-email 2.30.0
-MIME-Version: 1.0
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF9E66E13C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 17:03:54 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id e23so2067006wmh.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Mar 2021 09:03:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=lZkNk3yYW/8ijhrD082tSx7qBCi8O3cbnVc/FrlwdlU=;
+ b=TgZURChUGXUbgDO2bV0UsU+s1j/d5KKVOwy39jkcxWe/38xJxE8XgQo917QUm+QWZx
+ 2rsQ+GfXyOcIsol9aos7nC+fVNMkUvQwzoG5Zz6McgO7oengrXe5q+vHiuUp+foGg+49
+ Sda8/VQh1uaa3anhia/BbnTRkLROiFiCh+yjAMM2y4Kt5Z0Vz/E9vgcbBTKTsFBN18Z3
+ us1vgkBE5QhZ3hUt66DqUWgUzb23W/10IX7tmRGQrOgYj/m6dnbsJfywsit+pgpB+JW1
+ koIJk3T02fYaDHy/Xf2D/JPPaD7P24OeeE/UgmWLHqJ7eLs/J6XJUXjBQPjrNY+FA4nl
+ 3YoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=lZkNk3yYW/8ijhrD082tSx7qBCi8O3cbnVc/FrlwdlU=;
+ b=t017CSj8b+xF7aYsfq/jXmUJG2cq5NByaqTClHMsYW1h+UpEn8ydeFE3j9MwdG7QqR
+ RsYoVcZu0rlUNMVxUTeMikN7hQ18dIXYUuESD8B2x8rMuPzE/IUoB+6HbPKlkDwnV8+Q
+ E0JZrsGZDi9btQmMnNqR0UrfeM/gGmPCBbvJBgw0RU7bQg5nj7TeYBizMFnAmrhfb0Jy
+ FmcxKD5rMtKqJyX/NUQvyIpq7MWFKYlpxEXzJX/ZAkKHcMpWtisPuEJNrkHgwNOGvm0U
+ z6jyd7QSqCRELh0Qmc1qwtyDTl31uIBl8GkWd+POKuLR1yluVuqXRLTTghTZDeLLZeMS
+ bFVg==
+X-Gm-Message-State: AOAM531pyt5Vze3nVMVIgOq/JiF/D9/XvZEYzZCwd3dGAUH1fKmH1NyI
+ tcUXqGMJGrJdXFuNuPDciHIvcA==
+X-Google-Smtp-Source: ABdhPJweZmT9/DaMkRyVEAelVHMaLzH8C50RUNPjNl2+9ptTTzFrB7lyNizfKFE7Fyek/6A+5FD0Vg==
+X-Received: by 2002:a05:600c:35c1:: with SMTP id
+ r1mr9670239wmq.60.1614963832386; 
+ Fri, 05 Mar 2021 09:03:52 -0800 (PST)
+Received: from localhost.localdomain
+ (lns-bzn-59-82-252-141-80.adsl.proxad.net. [82.252.141.80])
+ by smtp.gmail.com with ESMTPSA id p17sm4760934wmq.47.2021.03.05.09.03.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Mar 2021 09:03:51 -0800 (PST)
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+To: cwchoi00@gmail.com
+Subject: [PATCH v2 2/4] devfreq/drivers/lima: Use devfreq cooling device
+ registration
+Date: Fri,  5 Mar 2021 18:03:35 +0100
+Message-Id: <20210305170338.13647-2-daniel.lezcano@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210305170338.13647-1-daniel.lezcano@linaro.org>
+References: <20210305170338.13647-1-daniel.lezcano@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,60 +67,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: liviu.dudau@arm.com, Carsten Haitzler <carsten.haitzler@arm.com>,
- steven.price@arm.com
+Cc: "moderated list:DRM DRIVERS FOR LIMA" <lima@lists.freedesktop.org>,
+ linux-pm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org,
+ "open list:DRM DRIVERS FOR LIMA" <dri-devel@lists.freedesktop.org>,
+ steven.price@arm.com, Qiang Yu <yuq825@gmail.com>, lukasz.luba@arm.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Carsten Haitzler <carsten.haitzler@arm.com>
+The devfreq core code is able to register the devfreq device as a
+cooling device if the 'is_cooling_device' flag is set in the profile.
 
-When setting up a readback conenctor that writes data back to memory
-rather than to an actual output device (HDMI etc.), rounding was ses
-to round-down. As the DPU uses a higher internal number of bits when
-generating a color value, this round-down back to 8bit ended up with
-everything being off-by one. e.g. #ffffff became #fefefe. This sets
-rounding to "round" so things end up correct by turning on the round
-flag (LW_TRC).
+Use this flag and remove the cooling device registering code.
 
-Signed-off-by: Carsten Haitzler <carsten.haitzler@arm.com>
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 ---
- drivers/gpu/drm/arm/display/komeda/d71/d71_component.c | 6 +++++-
- drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h      | 1 +
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/lima/lima_devfreq.c | 14 +-------------
+ drivers/gpu/drm/lima/lima_devfreq.h |  2 --
+ 2 files changed, 1 insertion(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-index 8a02ade369db..d551e79fa0f1 100644
---- a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-+++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-@@ -468,7 +468,11 @@ static void d71_wb_layer_update(struct komeda_component *c,
- 	struct komeda_layer_state *st = to_layer_st(state);
- 	struct drm_connector_state *conn_st = state->wb_conn->state;
- 	struct komeda_fb *kfb = to_kfb(conn_st->writeback_job->fb);
--	u32 ctrl = L_EN | LW_OFM, mask = L_EN | LW_OFM | LW_TBU_EN;
-+	/* LW_TRC sets rounding to round not truncate which is needed for
-+         * the output of writeback to match the input in the most common
-+         * use cases like RGB888 -> RGB888, so set this bit by default */
-+	u32 ctrl = L_EN | LW_OFM | LW_TRC;
-+	u32 mask = L_EN | LW_OFM | LW_TBU_EN | LW_TRC;
- 	u32 __iomem *reg = c->reg;
+diff --git a/drivers/gpu/drm/lima/lima_devfreq.c b/drivers/gpu/drm/lima/lima_devfreq.c
+index 5686ad4aaf7c..86aea1bdc4f4 100644
+--- a/drivers/gpu/drm/lima/lima_devfreq.c
++++ b/drivers/gpu/drm/lima/lima_devfreq.c
+@@ -7,7 +7,6 @@
+  */
+ #include <linux/clk.h>
+ #include <linux/devfreq.h>
+-#include <linux/devfreq_cooling.h>
+ #include <linux/device.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_opp.h>
+@@ -84,17 +83,13 @@ static struct devfreq_dev_profile lima_devfreq_profile = {
+ 	.polling_ms = 50, /* ~3 frames */
+ 	.target = lima_devfreq_target,
+ 	.get_dev_status = lima_devfreq_get_dev_status,
++	.is_cooling_device = true,
+ };
  
- 	d71_layer_update_fb(c, kfb, st->addr);
-diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h b/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h
-index e80172a0b320..a8036689d721 100644
---- a/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h
-+++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h
-@@ -321,6 +321,7 @@
- #define LAYER_WR_FORMAT		0x0D8
+ void lima_devfreq_fini(struct lima_device *ldev)
+ {
+ 	struct lima_devfreq *devfreq = &ldev->devfreq;
  
- /* Layer_WR control bits */
-+#define LW_TRC			BIT(1)
- #define LW_OFM			BIT(4)
- #define LW_LALPHA(x)		(((x) & 0xFF) << 8)
- #define LW_A_WCACHE(x)		(((x) & 0xF) << 28)
+-	if (devfreq->cooling) {
+-		devfreq_cooling_unregister(devfreq->cooling);
+-		devfreq->cooling = NULL;
+-	}
+-
+ 	if (devfreq->devfreq) {
+ 		devm_devfreq_remove_device(ldev->dev, devfreq->devfreq);
+ 		devfreq->devfreq = NULL;
+@@ -110,7 +105,6 @@ void lima_devfreq_fini(struct lima_device *ldev)
+ 
+ int lima_devfreq_init(struct lima_device *ldev)
+ {
+-	struct thermal_cooling_device *cooling;
+ 	struct device *dev = ldev->dev;
+ 	struct opp_table *opp_table;
+ 	struct devfreq *devfreq;
+@@ -173,12 +167,6 @@ int lima_devfreq_init(struct lima_device *ldev)
+ 
+ 	ldevfreq->devfreq = devfreq;
+ 
+-	cooling = of_devfreq_cooling_register(dev->of_node, devfreq);
+-	if (IS_ERR(cooling))
+-		dev_info(dev, "Failed to register cooling device\n");
+-	else
+-		ldevfreq->cooling = cooling;
+-
+ 	return 0;
+ 
+ err_fini:
+diff --git a/drivers/gpu/drm/lima/lima_devfreq.h b/drivers/gpu/drm/lima/lima_devfreq.h
+index 2d9b3008ce77..c43a2069e5d3 100644
+--- a/drivers/gpu/drm/lima/lima_devfreq.h
++++ b/drivers/gpu/drm/lima/lima_devfreq.h
+@@ -9,7 +9,6 @@
+ 
+ struct devfreq;
+ struct opp_table;
+-struct thermal_cooling_device;
+ 
+ struct lima_device;
+ 
+@@ -17,7 +16,6 @@ struct lima_devfreq {
+ 	struct devfreq *devfreq;
+ 	struct opp_table *clkname_opp_table;
+ 	struct opp_table *regulators_opp_table;
+-	struct thermal_cooling_device *cooling;
+ 
+ 	ktime_t busy_time;
+ 	ktime_t idle_time;
 -- 
-2.30.0
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
