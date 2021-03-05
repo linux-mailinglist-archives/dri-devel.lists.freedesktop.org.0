@@ -1,40 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D4832F3CD
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 20:26:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7824332F42F
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 20:44:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 440946EC2A;
-	Fri,  5 Mar 2021 19:26:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6186E2E1;
+	Fri,  5 Mar 2021 19:44:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CED66EC28;
- Fri,  5 Mar 2021 19:26:23 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AACEB64EE1;
- Fri,  5 Mar 2021 19:26:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 609156E2E1
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:44:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 342CF65018
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:44:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614972380;
- bh=kzXYKMiq9Kkvuj6hwxwweKjjTNV2kJilH9HJ4zHWnII=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mhjy/umtZMGPHhww/Toccm83mrAVBcsEC6FjiUGG8RyIGnrlIpxIG2lDDjtPap7T2
- xHray4YZm9AXCC9ISMPa7+arUPGPB52+IZyMYQAj/k2bg3iU6m3BmFfRCT5OuuF725
- EWTA6MdhMWh/e+OZBIUaeUOcq9zvINyKyOugSMkslEnqr8wwd1L9ttRkuaUCeg2Ywp
- 6o844vPD9q7Ow8b6cIWVtUbg2z0sw9ppKigy9BZMwPYPcv/r6hMlSwcN6eFn+qlWX+
- 7ooRMGVipKLvZ4/A7mVIqIXkV/L5+r7YIdyhlH1Vw7CorhDfX9e8q32LE6kjXrvFt2
- KAqToyS7hzrIw==
-Date: Fri, 5 Mar 2021 13:26:17 -0600
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH][next] drm/radeon/si_dpm: Replace one-element array with
- flexible-array in struct SISLANDS_SMC_SWSTATE
-Message-ID: <20210305192617.GA152661@embeddedor>
-References: <20210303190458.GA16321@embeddedor>
- <CADnq5_M3dSMnKQMRv3SVaK6-w5ebJxX6w2-oy8v7+2muw3S3vg@mail.gmail.com>
+ s=k20201202; t=1614973461;
+ bh=s+tEj/7K6LE5iEP2S6nC3sTxCsdbXS97L96VotngQMw=;
+ h=From:To:Subject:Date:From;
+ b=gOeUdJWA+eaMv0pY8w/mjytLi50MdaQJx+VBERbhu+4oFUSqnxtj8lkk9bR/7+Iyr
+ JXWqaYHRZY11kUCWMXoaFHJxdmJ+PDI8qlJvjN/j+lpc4QYzYe4EnBnRdgtPR+eN82
+ hEiX2gZfw1WuJJ62HHTtcvMqhlu2eWT7oi3Rep1R+tN91DRQRjTfnBEjPoP42p1j9C
+ MxqID4OZ2VwBFei4psN4/qKLV52IMNp51x/wHm3kpZU10NpSKkAqrs2OXoWaRWEa+b
+ afKMhCou4hVDnZd3Ki1ASzLcYh/v+bjFGX2cn3LMNsxLUCZr789kLuJ9418y/56yFb
+ uH/3qoSPWh5XQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 30A5E65307; Fri,  5 Mar 2021 19:44:21 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212077] New: AMD GPU at highest frequency even not in use
+Date: Fri, 05 Mar 2021 19:44:20 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: bat_malin@abv.bg
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-212077-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CADnq5_M3dSMnKQMRv3SVaK6-w5ebJxX6w2-oy8v7+2muw3S3vg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,24 +63,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- linux-hardening@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 05, 2021 at 02:10:44PM -0500, Alex Deucher wrote:
-> Applied.  Thanks!
+https://bugzilla.kernel.org/show_bug.cgi?id=212077
 
-Awesome. :)
+            Bug ID: 212077
+           Summary: AMD GPU at highest frequency even not in use
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.11.3
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: high
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: bat_malin@abv.bg
+        Regression: No
 
-Thanks, Alex.
---
-Gustavo
+Created attachment 295677
+  --> https://bugzilla.kernel.org/attachment.cgi?id=295677&action=edit
+Dmesg
+
+1.240847] amdgpu: Clock is not in range of specified clock range for watermark
+from DAL!  Using highest water mark set.
+[    1.240850] amdgpu: Clock is not in range of specified clock range for
+watermark from DAL!  Using highest water mark set.
+[    1.240851] amdgpu: Clock is not in range of specified clock range for
+watermark from DAL!  Using highest water mark set.
+[    1.240852] amdgpu: Clock is not in range of specified clock range for
+watermark from DAL!  Using highest water mark set.
+[    1.240853] amdgpu: Clock is not in range of specified clock range for
+watermark from DAL!  Using highest water mark set.
+[    1.240854] amdgpu: Clock is not in range of specified clock range for
+watermark from DAL!  Using highest water mark set.
+[    1.240855] amdgpu: Clock is not in range of specified clock range for
+watermark from DAL!  Using highest water mark set.
+[    1.240856] amdgpu: Clock is not in range of specified clock range for
+watermark from DAL!  Using highest water mark set.
+[    1.240857] amdgpu: Clock is not in range of specified clock range for
+watermark from DAL!  Using highest water mark set.
+[    1.240858] amdgpu: Clock is not in range of specified clock range for
+watermark from DAL!  Using highest water mark set.
+Dmesg attached
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
