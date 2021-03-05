@@ -1,54 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 342CE32F2CF
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 19:38:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D11232F2CD
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 19:38:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 249096EC09;
-	Fri,  5 Mar 2021 18:38:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 969EC6E2B6;
+	Fri,  5 Mar 2021 18:38:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6623C6EB6D;
- Fri,  5 Mar 2021 18:38:19 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id i21so3573978oii.2;
- Fri, 05 Mar 2021 10:38:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NuHbNZ1pCaMD75xKPyicfsteJCNdNgmFyqDm5jntMkg=;
- b=QTriOvFOgzxFv2eZ9ihENSK9Df09qTS/DruECsSFH5Sw4oG5qzZp8dI5XzMGXH15Dh
- y2qwHDqCvJ2QXqvo+txAz2tLQMaxC13wIN2f+9blsjLVvy5glhB7P9IAwwRXnTORChQv
- XU5mE1Veu52ojTGnk0TrGJ5JKXxg36ONwyTwJaZleJFMELIN/qmxyFzjrjtIJ0UVVDpn
- kg2r5yIl+gy/+KaZK0LzlvT+tWx06slMIerNge13J6h2waZLv3CeGi9XMdkYOmwWwvpt
- SUO3wS5V+puwfdol9aeeqsnJmVX4B5GkpmzFzuLxKWW2+8KmzK/wM5moqN4dc+gB7t1k
- S4Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NuHbNZ1pCaMD75xKPyicfsteJCNdNgmFyqDm5jntMkg=;
- b=Y9wNZDigN3TfVPRP3J2JKVcMnPRkWObGVXzHgR8kY8+3K0Tx8Hfkf0oMTouEog1tUe
- xKRTsjsfbzBhGZdCoFyjqBekq+ozuzS/DuYMvNAO1WtozbkR11ZEvhtJMhqXpqq2dS3A
- ziaZLXL0205Rqyn/VzKSsifabR8fnOY0EEoBC2cLmgXcahbe3NjWbth9FfDQUIpFsMVp
- r/EM9SNCSolWi2SYBtGdvhVyztRVvrW84Y7p3wu9NOycF2TTpYYWUlF+Z76CfuW04NB9
- UNna1Qb1MiE/poJdcqb89El/ryazU7btzfY3rdE5JaMy339ilDlH6Pbp2bqh1bWexAye
- C3QQ==
-X-Gm-Message-State: AOAM532PmP5yx8QocOI/+1APNEmB0TF+TWVXyWyL7yKYjQnCmCOjnIaw
- HtVGaTN2KT0vNzgL7/gJK0ilXBbwYrjv6gTAX98=
-X-Google-Smtp-Source: ABdhPJz0QWrubxnVvKfD+3rMD2OUVXyA1FXnY3QQjHZaZxL2kT/xA2ba7/jwCphvhlofJ9ONnGpq3uvRfWAWoyX3+04=
-X-Received: by 2002:aca:af10:: with SMTP id y16mr5168997oie.120.1614969498664; 
- Fri, 05 Mar 2021 10:38:18 -0800 (PST)
+Received: from z11.mailgun.us (z11.mailgun.us [104.130.96.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFD976E2B6
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 18:38:17 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1614969497; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=osjZTzJLJWcqCLVpSskqeQnmz4nbllh1a3JglbqZKiI=;
+ b=q2dTXmxOCPx6ud7elZ5rE98M/0YSTtvnPxxrfoHUo2mOfjvNR8oS0CllQJnP90rLeUsuUISR
+ VEkhnoCeAcLV3q+w0bx1c7V3hq5MiqhxTk0iotFI5RXTsIedYvBzo+lRy2Mm+IMXUZEKMWmV
+ k81nk8OPMoUB7dB15zzXSIUbDS4=
+X-Mailgun-Sending-Ip: 104.130.96.11
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 60427a98c862e1b9fdaf139d (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 05 Mar 2021 18:38:16
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id E8715C43461; Fri,  5 Mar 2021 18:38:15 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id C04E1C433C6;
+ Fri,  5 Mar 2021 18:38:14 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210303140654.67950-1-colin.king@canonical.com>
-In-Reply-To: <20210303140654.67950-1-colin.king@canonical.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 5 Mar 2021 13:38:07 -0500
-Message-ID: <CADnq5_Nj0_X5E0gqtMEr8FL_UVn+WwjWSycBhWUvcg=zVRHEZA@mail.gmail.com>
-Subject: Re: [PATCH][next] drm/amd/display: remove redundant initialization of
- variable status
-To: Colin King <colin.king@canonical.com>
+Date: Fri, 05 Mar 2021 10:38:14 -0800
+From: abhinavk@codeaurora.org
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [Freedreno] [PATCH] drm/msm/dp: Fix warnings reported by kbot in
+ DP driver
+In-Reply-To: <20210305072350.GF2222@kadam>
+References: <1614907912-6880-1-git-send-email-abhinavk@codeaurora.org>
+ <161492735848.1478170.885416005935439120@swboyd.mtv.corp.google.com>
+ <20210305072350.GF2222@kadam>
+Message-ID: <4dc46ac4940a0c9d070f04088df58c81@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,55 +65,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, kernel-janitors@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, khsieh@codeaurora.org,
+ seanpaul@chromium.org, tanmay@codeaurora.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Hi Stephen
 
-Alex
+Thanks for the review.
+I will break this up into patches according to the class of warning to 
+show the warning in the commit text
+and resend the patches.
 
-On Wed, Mar 3, 2021 at 9:07 AM Colin King <colin.king@canonical.com> wrote:
->
-> From: Colin Ian King <colin.king@canonical.com>
->
-> The variable status is being initialized with a value that is never read
-> and it is being updated later with a new value.  The initialization is
-> redundant and can be removed.
->
-> Addresses-Coverity: ("Unused value")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
-> index 03741e170b61..15ed09b7a452 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
-> @@ -81,7 +81,7 @@ static void dmub_psr_get_state(struct dmub_psr *dmub, enum dc_psr_state *state)
->  {
->         struct dmub_srv *srv = dmub->ctx->dmub_srv->dmub;
->         uint32_t raw_state;
-> -       enum dmub_status status = DMUB_STATUS_INVALID;
-> +       enum dmub_status status;
->
->         // Send gpint command and wait for ack
->         status = dmub_srv_send_gpint_command(srv, DMUB_GPINT__GET_PSR_STATE, 0, 30);
-> --
-> 2.30.0
->
+Abhinav
+On 2021-03-04 23:23, Dan Carpenter wrote:
+> On Thu, Mar 04, 2021 at 10:55:58PM -0800, Stephen Boyd wrote:
+>> > @@ -368,44 +368,21 @@ static int dp_debug_init(struct dp_debug *dp_debug, struct drm_minor *minor)
+>> >         int rc = 0;
+>> >         struct dp_debug_private *debug = container_of(dp_debug,
+>> >                         struct dp_debug_private, dp_debug);
+>> > -       struct dentry *file;
+>> > -       struct dentry *test_active;
+>> > -       struct dentry *test_data, *test_type;
+>> >
+>> > -       file = debugfs_create_file("dp_debug", 0444, minor->debugfs_root,
+>> > +       debugfs_create_file("dp_debug", 0444, minor->debugfs_root,
+>> >                         debug, &dp_debug_fops);
+>> > -       if (IS_ERR_OR_NULL(file)) {
+>> > -               rc = PTR_ERR(file);
+>> > -               DRM_ERROR("[%s] debugfs create file failed, rc=%d\n",
+>> > -                                 DEBUG_NAME, rc);
+>> > -       }
+>> >
+>> > -       test_active = debugfs_create_file("msm_dp_test_active", 0444,
+>> > +       debugfs_create_file("msm_dp_test_active", 0444,
+>> >                         minor->debugfs_root,
+>> >                         debug, &test_active_fops);
+>> > -       if (IS_ERR_OR_NULL(test_active)) {
+>> > -               rc = PTR_ERR(test_active);
+>> > -               DRM_ERROR("[%s] debugfs test_active failed, rc=%d\n",
+>> > -                                 DEBUG_NAME, rc);
+>> > -       }
+>> >
+>> > -       test_data = debugfs_create_file("msm_dp_test_data", 0444,
+>> > +       debugfs_create_file("msm_dp_test_data", 0444,
+>> >                         minor->debugfs_root,
+>> >                         debug, &dp_test_data_fops);
+>> > -       if (IS_ERR_OR_NULL(test_data)) {
+>> > -               rc = PTR_ERR(test_data);
+>> > -               DRM_ERROR("[%s] debugfs test_data failed, rc=%d\n",
+>> > -                                 DEBUG_NAME, rc);
+>> > -       }
+>> >
+>> > -       test_type = debugfs_create_file("msm_dp_test_type", 0444,
+>> > +       debugfs_create_file("msm_dp_test_type", 0444,
+>> >                         minor->debugfs_root,
+>> >                         debug, &dp_test_type_fops);
+>> > -       if (IS_ERR_OR_NULL(test_type)) {
+>> > -               rc = PTR_ERR(test_type);
+>> > -               DRM_ERROR("[%s] debugfs test_type failed, rc=%d\n",
+>> > -                                 DEBUG_NAME, rc);
+>> > -       }
+>> 
+>> Debugfs failures.
+> 
+> [ Update.  I misunderstood what you were saying, and initially thought
+>   you were critiquing the patch instead of the commit message.  The
+>   patch looks okay.  Probably a lot of maintainers would prefer it
+>   broken multiple chunks with one patch per class of warning.  But I
+>   already wrote this email and I love the sound of my own voice so I'm
+>   sending it.  - dan ]
+> 
+> The Smatch warning for this was that the error handling was slightly
+> off because debugfs_create_file() doesn't return NULL these days.  But
+> really these functions are not supposed to be error checked in the
+> normal case.
+> 
+> If you do a `git grep -w debugfs_create_file` there are 1472 callers
+> and only 192 check.  This is partly because Greg went through and did a
+> mass delete of error handling.
+> 
+> The way that debugfs works is if you fail to create a directory then
+> the debugfs_create_file will check if the root is an error pointer.  So
+> passing it "handles" errors itself.
+> 
+> The one time where I've seen that checking for errors is essential is
+> if they driver dereferences the "test_data" dentry itself.  That's
+> pretty uncommon.
+> 
+> [ So probably the commit message for this chunk should be:
+> 
+>   Delete unnecessary debugfs error handling
+> 
+>   Debugfs functions are not supposed to be checked in the normal case
+>   so delete this code.  Also it silences a Smatch warning that we're
+>   checking for NULL when these functions only return error pointers.  ]
+> 
+> regards,
+> dan carpenter
+> 
 > _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Freedreno mailing list
+> Freedreno@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/freedreno
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
