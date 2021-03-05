@@ -1,53 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A88D32F3A0
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 20:14:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41CCB32F3A9
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 20:17:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A0636EC1F;
-	Fri,  5 Mar 2021 19:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C54B6EC27;
+	Fri,  5 Mar 2021 19:17:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com
- [209.85.161.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9484E6EC1F
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:14:38 +0000 (UTC)
-Received: by mail-oo1-f53.google.com with SMTP id l11so677738oov.13
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Mar 2021 11:14:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ahnVuVrp3hmi8OUmRx9LZ5ZjgKO6WwU83me0vSNT/jM=;
- b=lZsf+/m1aGkOdQ8HUcyJf6+nXDVcK01bB+MLyv3d/Hd5u2rfndMnmKvuCSN1JrIAGF
- e9gHtbSFoviTdtG7odLybDfn+O/7kXH0LKGiNCk7Jxk952xOLknKQYMJ5i3V8jwQyuQY
- B91olXSe+uGVsaIbBONLjdCDj9e1ocX958W9+6PDAv2xb44mGeqkiRfWhrq/9XMISdMa
- wIjSs2i3WgVEoQiE2nwg0PetRQ5v1t+gl5fIqVKO17BmJwFbJ207YTFEu+ueSXjE8i6c
- /Obb1YSU6tvEM9sEBhf1ILdnVQWDjBHlStj4zKy4CjJRUep6bFkgJIg22/82UgYJnAZe
- EEQg==
-X-Gm-Message-State: AOAM531P3IkyqSabiwpZrKM2HUPoiAbeU9Jd9h+NQOdCW1na2Fr7ZNgH
- Ph8OvxcR7lSWK2AIBajCBw==
-X-Google-Smtp-Source: ABdhPJxAtGAYmnXHAGusGObW6k43DZ48CS1JE+xa7Bv8d5o3UT8yuZqG/VMK0adpv9k9plZkOCTHCQ==
-X-Received: by 2002:a4a:6b44:: with SMTP id h4mr8948136oof.38.1614971677892;
- Fri, 05 Mar 2021 11:14:37 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id y143sm694815oie.50.2021.03.05.11.14.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Mar 2021 11:14:37 -0800 (PST)
-Received: (nullmailer pid 495683 invoked by uid 1000);
- Fri, 05 Mar 2021 19:14:36 -0000
-Date: Fri, 5 Mar 2021 13:14:36 -0600
-From: Rob Herring <robh@kernel.org>
-To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v7] dt-bindings: display: panel: one file of all simple
- LVDS panels with dual ports
-Message-ID: <20210305191436.GA495631@robh.at.kernel.org>
-References: <1613017672-2734-1-git-send-email-victor.liu@nxp.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1613017672-2734-1-git-send-email-victor.liu@nxp.com>
+Received: from m42-2.mailgun.net (m42-2.mailgun.net [69.72.42.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE9106EC23
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 19:17:32 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1614971855; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=tQsjUdisHqup2rm/CiOsVWOKMCAiCZyMziboVUEMsXo=;
+ b=Zv/Za7ks980vmtDErV12kM2wB5mWiljdZjNYiBu1a9NMvT+iqVmUBmbsDr29JTZmNGURDmz2
+ kkk/ijYUxZXcJKQ/vp7BSRuL2PRRsr8FkiiPwE4oCEgjkHxVYOCS6Ht700+e4Esqe0rcuwzP
+ I5yirnG25FxYbCclorAkB6YdEaw=
+X-Mailgun-Sending-Ip: 69.72.42.2
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 604283c860050cf4d0cfcb57 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 05 Mar 2021 19:17:28
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 84925C433ED; Fri,  5 Mar 2021 19:17:28 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 84D5DC433C6;
+ Fri,  5 Mar 2021 19:17:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 84D5DC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=abhinavk@codeaurora.org
+From: Abhinav Kumar <abhinavk@codeaurora.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3] drm/msm/dp: Fix indentation kbot warnings in DP driver
+Date: Fri,  5 Mar 2021 11:17:17 -0800
+Message-Id: <1614971839-2686-1-git-send-email-abhinavk@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,74 +64,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
+ swboyd@chromium.org, khsieh@codeaurora.org, seanpaul@chromium.org,
+ tanmay@codeaurora.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org, dan.carpenter@oracle.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 11 Feb 2021 12:27:52 +0800, Liu Ying wrote:
-> To complement panel-simple.yaml, create panel-simple-lvds-dual-ports.yaml.
-> panel-simple-lvds-dual-ports.yaml is for all simple LVDS panels that
-> have dual LVDS ports and require only a single power-supply.
-> The first port receives odd pixels, and the second port receives even pixels.
-> Optionally, a backlight and an enable GPIO can be specified as properties.
-> 
-> Panels with swapped pixel order, if any, need dedicated bindings.
-> 
-> Migrate 'auo,g133han01', 'auo,g185han01', 'auo,g190ean01',
-> 'koe,tx26d202vm0bwa' and 'nlt,nl192108ac18-02d' over to the new file.
-> 
-> The objectives with one file for all the simple LVDS panels with dual ports are:
-> - Make it simpler to add bindings for this kind of LVDS panels
-> - Keep the number of bindings file lower
-> - Keep the binding documentation for this kind of LVDS panels more consistent
-> - Make it possible for drivers to get pixel order via
->   drm_of_lvds_get_dual_link_pixel_order(), as the 'ports' property is required
-> 
-> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
-> v6->v7:
-> * Reference '#/$defs/port-base' instead of '#/properties/port'. (Rob)
-> 
-> v5->v6:
-> * Use OF graph schema.
-> * Drop Rob's R-b tag, as review is needed.
-> 
-> v4->v5:
-> * Require the 'ports' property and update commit message accordingly. (Rob)
-> * Add Rob's R-b tag.
-> 
-> v3->v4:
-> * Add type and descriptions for dual-lvds-{odd,even}-pixels properties.
->   Also, update descriptions for port@0 and port@1 properties accordingly. (Rob)
-> 
-> v2->v3:
-> * Do not allow 'port' property. (Rob)
-> * Define port number. (Rob)
-> * Specify 'dual-lvds-odd-pixels' and 'dual-lvds-even-pixels' properties. (Rob)
-> 
-> v1->v2:
-> * Correct pixel order in example LVDS panel node.
-> 
->  .../panel/panel-simple-lvds-dual-ports.yaml        | 118 +++++++++++++++++++++
->  .../bindings/display/panel/panel-simple.yaml       |  10 --
->  2 files changed, 118 insertions(+), 10 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-> 
+Fix a couple of indentation warnings reported by
+kbot across MSM DP driver:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+New smatch warnings:
+drivers/gpu/drm/msm/dp/dp_debug.c:229 dp_test_data_show()
+warn: inconsistent indenting
+
+drivers/gpu/drm/msm/dp/dp_power.c:203 dp_power_clk_enable()
+warn: inconsistent indenting
+
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
+---
+ drivers/gpu/drm/msm/dp/dp_debug.c | 2 +-
+ drivers/gpu/drm/msm/dp/dp_power.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_debug.c b/drivers/gpu/drm/msm/dp/dp_debug.c
+index 84670bc..6c6998f 100644
+--- a/drivers/gpu/drm/msm/dp/dp_debug.c
++++ b/drivers/gpu/drm/msm/dp/dp_debug.c
+@@ -226,7 +226,7 @@ static int dp_test_data_show(struct seq_file *m, void *data)
+ 					debug->link->test_video.test_h_width);
+ 			seq_printf(m, "vdisplay: %d\n",
+ 					debug->link->test_video.test_v_height);
+-					seq_printf(m, "bpc: %u\n",
++			seq_printf(m, "bpc: %u\n",
+ 					dp_link_bit_depth_to_bpc(bpc));
+ 		} else
+ 			seq_puts(m, "0");
+diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
+index 9c4ea00..3961ba4 100644
+--- a/drivers/gpu/drm/msm/dp/dp_power.c
++++ b/drivers/gpu/drm/msm/dp/dp_power.c
+@@ -269,7 +269,7 @@ int dp_power_clk_enable(struct dp_power *dp_power,
+ 		DRM_ERROR("failed to '%s' clks for: %s. err=%d\n",
+ 			enable ? "enable" : "disable",
+ 			dp_parser_pm_name(pm_type), rc);
+-			return rc;
++		return rc;
+ 	}
+ 
+ 	if (pm_type == DP_CORE_PM)
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
