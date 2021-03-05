@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97EEF32F6DA
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Mar 2021 00:52:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1F332F6D1
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Mar 2021 00:51:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05A606ECA4;
-	Fri,  5 Mar 2021 23:51:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 073056EC9B;
+	Fri,  5 Mar 2021 23:51:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 420 seconds by postgrey-1.36 at gabe;
+ Fri, 05 Mar 2021 23:51:39 UTC
 Received: from smtpcmd15177.aruba.it (smtpcmd02102.aruba.it [62.149.158.102])
- by gabe.freedesktop.org (Postfix) with ESMTP id E38626EC9A
+ by gabe.freedesktop.org (Postfix) with ESMTP id CF2116EC99
  for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 23:51:39 +0000 (UTC)
 Received: from ubuntu.localdomain ([146.241.168.111])
  by Aruba Outgoing Smtp  with ESMTPSA
- id IK7Ql1dnx4WhhIK7QloTFc; Sat, 06 Mar 2021 00:44:36 +0100
+ id IK7Ql1dnx4WhhIK7YloTHf; Sat, 06 Mar 2021 00:44:37 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
- t=1614987876; bh=tMO301YBNGQILSS/q8i5FANdCpgCVqKVYK0idqTu+Wk=;
+ t=1614987877; bh=zj5wFkwnUKvak0MvXjjnMADm8KGpQzx1i5yM6cUK7Cc=;
  h=From:To:Subject:Date:MIME-Version;
- b=O08qk03jfoUar4QzIBTMMNFxKiO9SFjWhRsegvE0PySfbGdgBg4EN5uCTScGPa1CU
- Cp3L6RhJzpo7wVuGL8tpVawxH/HKheCSTf+QWry8oO80B0jS+7X63x1W6xhsx2EHfn
- gfbP/U06J4CpmuoW/OdK7/4z18aXFECAC2I7HmfI1XXQOt5B7TQbOqBG64mu2DF6E8
- SMXVcvXEoijSfxcp9hu6B+VpygifGjqsnW3sfJkASxCEz4Oo4mv7lw6W5ski9R2r6e
- 2XMitncU40ZxMnWjbf5kphrcL/CfuAS+O034Tnj0lUIfnWeAb5yRzJUn1gAGqBRMqh
- 9owFMM/53wmzg==
+ b=ncXC41Jkh6TuUFjwSp4T3txWcsyJVbcTR1nSM/+n09P5+LTAVFEx2Y5dum090ecnt
+ tSErK9VLpjc6APhdGqFENPeV5/bRsrRaigblLD2O+DI9AwAtOGWyxCGkPgmtmpU8Qk
+ KL3nQ1fvTMOh3LIr6sgbmjM4a9fJw37YZ9sEtLqdLJImrMdGgiQZSqAhkePQZA/89h
+ gH/of2Jr4F/1Labws24wsrLQza6V8dw0zCT9N+OkywploEqg+08dwXd0phci8y0/Yo
+ 4IjOWKsredLVjI4WDuG/m1k6ETuGqwAXJH4IF6jeGjKCPTHAl6l7BdXE4z+AQ8e6Wj
+ tBIINLIsyGl3A==
 From: Giulio Benetti <giulio.benetti@benettiengineering.com>
 To: Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 0/9] Add 4 Jenson simple panels
-Date: Sat,  6 Mar 2021 00:44:17 +0100
-Message-Id: <20210305234427.572114-1-giulio.benetti@benettiengineering.com>
+Subject: [PATCH v2 1/9] dt-bindings: Add Jenson Display vendor prefix
+Date: Sat,  6 Mar 2021 00:44:18 +0100
+Message-Id: <20210305234427.572114-2-giulio.benetti@benettiengineering.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210305225444.GA792026@robh.at.kernel.org>
+In-Reply-To: <20210305234427.572114-1-giulio.benetti@benettiengineering.com>
 References: <20210305225444.GA792026@robh.at.kernel.org>
+ <20210305234427.572114-1-giulio.benetti@benettiengineering.com>
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfOffs5pqnnRBLcapguHYPVJojdxbjXchYQJdCxJkREg5DMPkVndksiIgWrFHD+CwXjHKudCRTvLoJXgpGtw5HfHkChKZVtIYia6e3kdElrdQVC51A9r+
- QVl85IyGvQSAv+X3vPueoQgXnOw70xJY3M5aZwOqYda1ORHnxhoSUxNbwXkPK/4vy7VdeaEVlHxdYAj4Un+9VWXTz1/0SEhkitQxF1r2+O+juHI1Zpqm1/me
- A5TsRTaqoGUFb6QZwkt6Q6PZZ7l2Pv/cLIY3CSIsR5WJ8mlRfyA9dGfDhznPAKTyCqpPqqH9GeuElv9jP7Luy/90ecgxVxtRYz8mssCA8Jfdi8/0eomDJ3mJ
- JbATtDmP/q3grqE1CLgUnGtF5BSj7CGkvpuZvdAalGNQ5/Cgj06fUul+N9psu/6XyCKUoebPKYZmG98rgeqDbAAyLKsIn3npfUDGoVlAqkD8bsdsOAn8h4Fc
- cYYH44EJBdvS+7mRykEUrHFCF3EfcYZcewFWTBOChk8Qjt/unTxlWy0Y2JXpXzGU0G/DHL/bsufKoCAfzPllxdeHmXbx9N9ylSSzklm0PuFh1Dy9tIuvdXbb
- jtDttsBLeA1y5HM9SY0zQOMJ1rMW0jPFIxHRkQgkKy09VGn7u4bMLRbULMRsRGWLw76f/DfEhK1Jek4aGWgiY2M2uYfZm3/zpA8h08WXvykCSj9SHzaTdHk/
- 25gJ516Gq/Idh3WYRsy0oH9PH/4skKxApESCwBwHvqRQgx7NXHSBNA==
+X-CMAE-Envelope: MS4wfNaWtsmNG+JI9yJvugQwlq9YmKZ7R8gEHN0u/bg2tlOBXnw2mMjpbbIrzNkQj2hOIDKIvQU1O8f0mr43HSBDpcPa9C+3iycUdyJgA7oq88Wuo0XOwn6U
+ sXl65bWcDQzZY18+SL8yEP8PL4JPpi7BGlLXC+H0gVBvlQb9Zp+KjEDNHoSq+Ew6gIh4FNjOzvxGZpK7S/HS1gqE6SfPWSARPBaNR0dsk7m0ZBCDCuEjBgnV
+ 4O1+QVj+wDIZjJ0kveGePMlplFHRrMeFQFxk0zfWtbzfI+ox3ziKK4pTZHyWrDvl5NgK904sr17ZOz9vrxflo8Le96KEJ13mHx7NA+zhe0Plh9fyMZp9oxXV
+ yYF1ZDHAv2A67VB56ISuGZqEMHbpuanwUDcNgkpr0DvtK5UfY9/QS91qZjwiDDd7U8QVJ264jdCcAoOOc7hbmM1wZO4NFyFa/1DECwErs/FeV9xV3qoJJ0Wm
+ Rw5Pc5QHJnARdOe9aT58e/KNXjKdTMl2FWhMQVTEN+ceKOnCGGhwP9Q0mXisRlEjWqeUaR89Afzy2DO3oRsfoh8P9ck9ijQ6gkcQ0MRYpmZQBPxqTOncoAM8
+ +uF/Jm/N7QNHpHMLp85/Xzw1UnEljq8ur/irLQvrAJsjjRtYP/4CW5sJykolpnU6EPlVDVVNdpCxW6MDJ9C28OMQOK8TZoYXSZIiNC73hqtTGC7hu7S4ijlp
+ vj8+dy7gyOoL6+gWUwCwzyNhHG8xEzgcAjSqroHNgt7BjsBn1qRBJg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,25 +71,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Giulio Benetti <giulio.benetti@micronovasrl.com>
 
-This patchset introduce Jenson vendor and add 4 of its panels to
-panel-simple driver.
+Update Documentation/devicetree/bindings/vendor-prefixes.yaml to
+include "jenson" as a vendor prefix for "Jenson Display".
+Company website: http://www.jensondisplay.com/
 
-Giulio Benetti (9):
-  dt-bindings: Add Jenson Display vendor prefix
-  dt-bindings: display/panel: add Jenson JT60245-01
-  dt-bindings: display/panel: add Jenson JT60248-01
-  dt-bindings: display/panel: add Jenson JT60249-01
-  dt-bindings: display/panel: add Jenson JT60250-02
-  drm/panel: simple: add Jenson JT60245-01
-  drm/panel: simple: add Jenson JT60248-01
-  drm/panel: simple: add Jenson JT60249-01
-  drm/panel: simple: add Jenson JT60250-02
+Signed-off-by: Giulio Benetti <giulio.benetti@micronovasrl.com>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
- .../bindings/display/panel/panel-simple.yaml  |   8 ++
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- drivers/gpu/drm/panel/panel-simple.c          | 108 ++++++++++++++++++
- 3 files changed, 118 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index f6064d84a424..a1312637d6ff 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -553,6 +553,8 @@ patternProperties:
+     description: Japan Display Inc.
+   "^jedec,.*":
+     description: JEDEC Solid State Technology Association
++  "^jenson,.*":
++    description: Jenson Display
+   "^jesurun,.*":
+     description: Shenzhen Jesurun Electronics Business Dept.
+   "^jianda,.*":
 -- 
 2.25.1
 
