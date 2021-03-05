@@ -2,37 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B951B32E011
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 04:27:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80A932E051
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 04:53:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77DF96EAC8;
-	Fri,  5 Mar 2021 03:27:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E31466EACA;
+	Fri,  5 Mar 2021 03:53:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
- Fri, 05 Mar 2021 03:27:42 UTC
-Received: from mail.ud03.udmedia.de (ud03.udmedia.de [194.117.254.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A30666EAC8
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 03:27:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=nuetzel-hh.de; h=
- mime-version:date:from:to:cc:subject:message-id:content-type
- :content-transfer-encoding; s=k1; bh=7ywjFbmwLAy3ddi7yuzBq8og7Bh
- D/4+yblcU3dvTR28=; b=d0aCdRHdfu0YRtq7gFxdYlOrp4xfu4xtgd44SM4UyBA
- JIgYdIL+4H1ma+e3qPvJZB0Zfi4+xbmHquk6MInHN0fMkkQD776qwe8h5MBuJsKc
- zO2yYwbbm42LwGed98AupAsTXx4MLsn4P9f9ujXEoJszwS61RYDOJiSaAEVfF/vk
- =
-Received: (qmail 817918 invoked from network); 5 Mar 2021 04:20:59 +0100
-Received: by mail.ud03.udmedia.de with ESMTPA; 5 Mar 2021 04:20:59 +0100
-X-UD-Smtp-Session: ud03?335p7@1MerksG8ntHCdf4e
-MIME-Version: 1.0
-Date: Fri, 05 Mar 2021 04:20:58 +0100
-From: =?UTF-8?Q?Dieter_N=C3=BCtzel?= <Dieter@nuetzel-hh.de>
-To: DRI Devel <dri-devel@lists.freedesktop.org>
-Subject: Is LLVM 13 (git) really ready for testing/development? libclc didn't
- compile
-User-Agent: Roundcube Webmail/1.4.11
-Message-ID: <f9700ce86b6d893a162c099fb680cc0f@nuetzel-hh.de>
-X-Sender: Dieter@nuetzel-hh.de
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F4406EACA
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 03:53:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 4DC3564EEC;
+ Fri,  5 Mar 2021 03:53:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1614916431;
+ bh=Rrd9hsVbmZqX5xa8+XqI0+6AprlRxcT4lb3vQmV2+2E=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=d6oSRZIim6X7DEUWVCjRq6AcErutn0LJ1ZWfFXQ3O9/L6VTVRh3x+agNH0zjhf88C
+ XrxTJvVj6kktnatT+On5GtLybmvr7lPMMJinvKwQS4YpUX5D+KV9uP+WZBCXjJqHqE
+ SDMp6WgWE7/v3q5Qc01LmlKlc70w4hzhIpr29kfgeTqq+dVRGY0qVssFJtYZX+3XH9
+ PADTGP+ACuMkz09naAVJCotQZheeSbQF/Q+pPbSeAC/13JWLCh7HRHXwhaY3jsGybK
+ NzQr90UfcDwFD0enItsL98GGXDG4NqfbPYMwIElKw5D/VkLHXgWD9HWVu4H6QmlH/v
+ QZsGyyDzsD1Tg==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
+ [127.0.0.1])
+ by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 3AED5609E1;
+ Fri,  5 Mar 2021 03:53:51 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.12-rc2
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9txjSRSZPBttCM9xnZj5_V5oJ0jAYf2PFuZgVyHaNBMo5Q@mail.gmail.com>
+References: <CAPM=9txjSRSZPBttCM9xnZj5_V5oJ0jAYf2PFuZgVyHaNBMo5Q@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9txjSRSZPBttCM9xnZj5_V5oJ0jAYf2PFuZgVyHaNBMo5Q@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2021-03-05
+X-PR-Tracked-Commit-Id: a1f1054124936c717a64e47862e3d0d820f67a87
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 280d542f6ffac0e6d65dc267f92191d509b13b64
+Message-Id: <161491643118.26664.11132900033917030021.pr-tracker-bot@kernel.org>
+Date: Fri, 05 Mar 2021 03:53:51 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,83 +56,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>,
- =?UTF-8?Q?Marek_Ol=C5=A1=C3=A1k?= <maraeo@gmail.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8gTWFyZWssCgpjYW4ndCBjb21waWxlIGFueXRoaW5nLCBoZXJlLgpQb29yIEludGVsIE5l
-aGFsZW0gWDM0NzAuCgpUcnlpbmcgTExWTSAxMi1yYzIgbGF0ZXIuCgpHcmVldGluZ3MsCkRpZXRl
-cgoKbGx2bS1wcm9qZWN0L2xpYmNsYz4gY2QgYnVpbGQgJiYgY21ha2UgLi4vCi0tIFRoZSBDWFgg
-Y29tcGlsZXIgaWRlbnRpZmljYXRpb24gaXMgR05VIDEwLjIuMQotLSBEZXRlY3RpbmcgQ1hYIGNv
-bXBpbGVyIEFCSSBpbmZvCi0tIERldGVjdGluZyBDWFggY29tcGlsZXIgQUJJIGluZm8gLSBkb25l
-Ci0tIENoZWNrIGZvciB3b3JraW5nIENYWCBjb21waWxlcjogL3Vzci9iaW4vYysrIC0gc2tpcHBl
-ZAotLSBEZXRlY3RpbmcgQ1hYIGNvbXBpbGUgZmVhdHVyZXMKLS0gRGV0ZWN0aW5nIENYWCBjb21w
-aWxlIGZlYXR1cmVzIC0gZG9uZQpMTFZNIHZlcnNpb246IDEzLjAuMGdpdApMTFZNIHN5c3RlbSBs
-aWJzOgpMTFZNIGxpYnM6IC1sTExWTS0xM2dpdApMTFZNIGxpYmRpcjogL3Vzci9sb2NhbC9saWIK
-TExWTSBiaW5kaXI6IC91c3IvbG9jYWwvYmluCkxMVk0gbGQgZmxhZ3M6IC1ML3Vzci9sb2NhbC9s
-aWIKTExWTSBjeHggZmxhZ3M6IAotSS91c3IvbG9jYWwvaW5jbHVkZTstc3RkPWMrKzE0Ozs7LWZu
-by1leGNlcHRpb25zOy1EX0dOVV9TT1VSQ0U7LURfX1NURENfQ09OU1RBTlRfTUFDUk9TOy1EX19T
-VERDX0ZPUk1BVF9NQUNST1M7LURfX1NURENfTElNSVRfTUFDUk9TOy1mbm8tcnR0aTstZm5vLWV4
-Y2VwdGlvbnMKCmNsYW5nOiAvdXNyL2xvY2FsL2Jpbi9jbGFuZwpsbHZtLWFzOiAvdXNyL2xvY2Fs
-L2Jpbi9sbHZtLWFzCmxsdm0tbGluazogL3Vzci9sb2NhbC9iaW4vbGx2bS1saW5rCm9wdDogL3Vz
-ci9sb2NhbC9iaW4vb3B0Cmxsdm0tc3BpcnY6IC91c3IvbG9jYWwvYmluL2xsdm0tc3BpcnYKCi0t
-IENoZWNrIGZvciB3b3JraW5nIENMQyBjb21waWxlcjogL3Vzci9sb2NhbC9iaW4vY2xhbmcKLS0g
-Q2hlY2sgZm9yIHdvcmtpbmcgQ0xDIGNvbXBpbGVyOiAvdXNyL2xvY2FsL2Jpbi9jbGFuZyAtLSB3
-b3JrcwotLSBDaGVjayBmb3Igd29ya2luZyBMTEFzbSBjb21waWxlcjogL3Vzci9sb2NhbC9iaW4v
-bGx2bS1hcwotLSBDaGVjayBmb3Igd29ya2luZyBMTEFzbSBjb21waWxlcjogL3Vzci9sb2NhbC9i
-aW4vbGx2bS1hcyAtLSBicm9rZW4KQ01ha2UgRXJyb3IgYXQgY21ha2UvQ01ha2VUZXN0TExBc21D
-b21waWxlci5jbWFrZTo0MCAobWVzc2FnZSk6CiAgIFRoZSBMTEFzbSBjb21waWxlciAiL3Vzci9s
-b2NhbC9iaW4vbGx2bS1hcyIgaXMgbm90IGFibGUgdG8gY29tcGlsZSBhIApzaW1wbGUKICAgdGVz
-dCBwcm9ncmFtLgoKICAgSXQgZmFpbHMgd2l0aCB0aGUgZm9sbG93aW5nIG91dHB1dDoKCiAgICBD
-aGFuZ2UgRGlyOiAvb3B0L2xsdm0tcHJvamVjdC9saWJjbGMvYnVpbGQvQ01ha2VGaWxlcy9DTWFr
-ZVRtcAoKCgogICBSdW4gQnVpbGQgQ29tbWFuZChzKTovdXNyL2Jpbi9nbWFrZSBjbVRDXzg3YWY5
-L2Zhc3QgJiYgL3Vzci9iaW4vZ21ha2UgCi1mCiAgIENNYWtlRmlsZXMvY21UQ184N2FmOS5kaXIv
-YnVpbGQubWFrZSBDTWFrZUZpbGVzL2NtVENfODdhZjkuZGlyL2J1aWxkCgogICBnbWFrZVsxXTog
-VmVyemVpY2huaXMKICAg4oCeL29wdC9sbHZtLXByb2plY3QvbGliY2xjL2J1aWxkL0NNYWtlRmls
-ZXMvQ01ha2VUbXDigJwgd2lyZCBiZXRyZXRlbgoKICAgQnVpbGRpbmcgTExBc20gb2JqZWN0IENN
-YWtlRmlsZXMvY21UQ184N2FmOS5kaXIvdGVzdExMQXNtQ29tcGlsZXIuYmMKCiAgIC91c3IvbG9j
-YWwvYmluL2NsYW5nIC1FIC1QIC14IGNsCiAgIAovb3B0L2xsdm0tcHJvamVjdC9saWJjbGMvYnVp
-bGQvQ01ha2VGaWxlcy9DTWFrZVRtcC90ZXN0TExBc21Db21waWxlci5sbCAKLW8KICAgQ01ha2VG
-aWxlcy9jbVRDXzg3YWY5LmRpci90ZXN0TExBc21Db21waWxlci5iYy50ZW1wCgogICAvdXNyL2xv
-Y2FsL2Jpbi9sbHZtLWFzIC1vIApDTWFrZUZpbGVzL2NtVENfODdhZjkuZGlyL3Rlc3RMTEFzbUNv
-bXBpbGVyLmJjCiAgIENNYWtlRmlsZXMvY21UQ184N2FmOS5kaXIvdGVzdExMQXNtQ29tcGlsZXIu
-YmMudGVtcAoKICAgL3Vzci9sb2NhbC9iaW4vbGx2bS1hczoKICAgQ01ha2VGaWxlcy9jbVRDXzg3
-YWY5LmRpci90ZXN0TExBc21Db21waWxlci5iYy50ZW1wOjE6MTogZXJyb3I6IApleHBlY3RlZAog
-ICB0b3AtbGV2ZWwgZW50aXR5CgogICB0eXBlZGVmIHVuc2lnbmVkIGNoYXIgdWNoYXI7CgogICBe
-CgogICBnbWFrZVsxXTogKioqIFtDTWFrZUZpbGVzL2NtVENfODdhZjkuZGlyL2J1aWxkLm1ha2U6
-ODY6CiAgIENNYWtlRmlsZXMvY21UQ184N2FmOS5kaXIvdGVzdExMQXNtQ29tcGlsZXIuYmNdIEZl
-aGxlciAxCgogICBnbWFrZVsxXTogVmVyemVpY2huaXMKICAg4oCeL29wdC9sbHZtLXByb2plY3Qv
-bGliY2xjL2J1aWxkL0NNYWtlRmlsZXMvQ01ha2VUbXDigJwgd2lyZCB2ZXJsYXNzZW4KCiAgIGdt
-YWtlOiAqKiogW01ha2VmaWxlOjE0MDogY21UQ184N2FmOS9mYXN0XSBGZWhsZXIgMgoKCgoKCgoK
-ICAgQ01ha2Ugd2lsbCBub3QgYmUgYWJsZSB0byBjb3JyZWN0bHkgZ2VuZXJhdGUgdGhpcyBwcm9q
-ZWN0LgpDYWxsIFN0YWNrIChtb3N0IHJlY2VudCBjYWxsIGZpcnN0KToKICAgQ01ha2VMaXN0cy50
-eHQ6MTI3IChlbmFibGVfbGFuZ3VhZ2UpCgoKLS0gQ29uZmlndXJpbmcgaW5jb21wbGV0ZSwgZXJy
-b3JzIG9jY3VycmVkIQpTZWUgYWxzbyAiL29wdC9sbHZtLXByb2plY3QvbGliY2xjL2J1aWxkL0NN
-YWtlRmlsZXMvQ01ha2VPdXRwdXQubG9nIi4KU2VlIGFsc28gIi9vcHQvbGx2bS1wcm9qZWN0L2xp
-YmNsYy9idWlsZC9DTWFrZUZpbGVzL0NNYWtlRXJyb3IubG9nIi4KCgpDTWFrZUVycm9yLmxvZwpE
-ZXRlcm1pbmluZyBpZiB0aGUgTExBc20gY29tcGlsZXIgd29ya3MgZmFpbGVkIHdpdGggdGhlIGZv
-bGxvd2luZyAKb3V0cHV0OgpDaGFuZ2UgRGlyOiAvb3B0L2xsdm0tcHJvamVjdC9saWJjbGMvYnVp
-bGQvQ01ha2VGaWxlcy9DTWFrZVRtcAoKUnVuIEJ1aWxkIENvbW1hbmQocyk6L3Vzci9iaW4vZ21h
-a2UgY21UQ184N2FmOS9mYXN0ICYmIC91c3IvYmluL2dtYWtlICAKLWYgQ01ha2VGaWxlcy9jbVRD
-Xzg3YWY5LmRpci9idWlsZC5tYWtlIENNYWtlRmlsZXMvY21UQ184N2FmOS5kaXIvYnVpbGQKZ21h
-a2VbMV06IFZlcnplaWNobmlzIArigJ4vb3B0L2xsdm0tcHJvamVjdC9saWJjbGMvYnVpbGQvQ01h
-a2VGaWxlcy9DTWFrZVRtcOKAnCB3aXJkIGJldHJldGVuCkJ1aWxkaW5nIExMQXNtIG9iamVjdCBD
-TWFrZUZpbGVzL2NtVENfODdhZjkuZGlyL3Rlc3RMTEFzbUNvbXBpbGVyLmJjCi91c3IvbG9jYWwv
-YmluL2NsYW5nIC1FIC1QICAgICAteCBjbCAKL29wdC9sbHZtLXByb2plY3QvbGliY2xjL2J1aWxk
-L0NNYWtlRmlsZXMvQ01ha2VUbXAvdGVzdExMQXNtQ29tcGlsZXIubGwgCi1vIENNYWtlRmlsZXMv
-Y21UQ184N2FmOS5kaXIvdGVzdExMQXNtQ29tcGlsZXIuYmMudGVtcAovdXNyL2xvY2FsL2Jpbi9s
-bHZtLWFzIC1vIENNYWtlRmlsZXMvY21UQ184N2FmOS5kaXIvdGVzdExMQXNtQ29tcGlsZXIuYmMg
-CkNNYWtlRmlsZXMvY21UQ184N2FmOS5kaXIvdGVzdExMQXNtQ29tcGlsZXIuYmMudGVtcAovdXNy
-L2xvY2FsL2Jpbi9sbHZtLWFzOiAKQ01ha2VGaWxlcy9jbVRDXzg3YWY5LmRpci90ZXN0TExBc21D
-b21waWxlci5iYy50ZW1wOjE6MTogZXJyb3I6IGV4cGVjdGVkIAp0b3AtbGV2ZWwgZW50aXR5CnR5
-cGVkZWYgdW5zaWduZWQgY2hhciB1Y2hhcjsKXgpnbWFrZVsxXTogKioqIFtDTWFrZUZpbGVzL2Nt
-VENfODdhZjkuZGlyL2J1aWxkLm1ha2U6ODY6IApDTWFrZUZpbGVzL2NtVENfODdhZjkuZGlyL3Rl
-c3RMTEFzbUNvbXBpbGVyLmJjXSBGZWhsZXIgMQpnbWFrZVsxXTogVmVyemVpY2huaXMgCuKAni9v
-cHQvbGx2bS1wcm9qZWN0L2xpYmNsYy9idWlsZC9DTWFrZUZpbGVzL0NNYWtlVG1w4oCcIHdpcmQg
-dmVybGFzc2VuCmdtYWtlOiAqKiogW01ha2VmaWxlOjE0MDogY21UQ184N2FmOS9mYXN0XSBGZWhs
-ZXIgMgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+The pull request you sent on Fri, 5 Mar 2021 12:50:16 +1000:
+
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-03-05
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/280d542f6ffac0e6d65dc267f92191d509b13b64
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
