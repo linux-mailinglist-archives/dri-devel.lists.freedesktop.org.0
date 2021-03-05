@@ -1,52 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F8832DFC5
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 03:50:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B951B32E011
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Mar 2021 04:27:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 246236EAC2;
-	Fri,  5 Mar 2021 02:50:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77DF96EAC8;
+	Fri,  5 Mar 2021 03:27:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F19B6EAC2
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 02:50:29 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id lr13so639088ejb.8
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Mar 2021 18:50:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=YGRfRIp1eWtsLxeR92yoH2sHmF6Y+KibUhiFCncOcNc=;
- b=Tb0/lwlNMXmR3v/fA6ngU4Ygz3suanV5D6nJTt3c03Mp5SquA2r/DxmWSJpG/VzxNS
- qbVbMLB+RahOne4qUuEFeddc+g3hTqtIq/k3bh+d3849PhQldrnpy6L8qOAwaFuqiwml
- AJqZTe6BkF0CMM6P+tbGCu+DMLJ977imGZmSU/5KrnKMFNC9wh3xCqBvWeQxLqeY4VYL
- 2uxmOng5tE72mkmHPR3KAQ1JX7chi2zoILn2NkkG8iEnDUvpn0D3McgyLEKL6QLXTJlI
- Yk9WSU6hr+SM8kvDzRZVTq9TFBVikWjsFbkub07x7mW5Yw5K1rO+ex8hWxidZ4IYxsdL
- lUpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=YGRfRIp1eWtsLxeR92yoH2sHmF6Y+KibUhiFCncOcNc=;
- b=KFfnl2fcYR2KQUiNSqs+DeCZpaz6MI3JgJFK+YgoYYh+NOmUL2fcaBsfiVK/ZfcQvv
- uh3qhCCy+QAVsR5ALBCMJOPY7vNdUyj50YiW6/ZbkeL4xCNyxHB4fO1KvZjzj9wm5Pv2
- S9gMHewX4ez0pegUgL9MsKgb0ACEH9QeYaIuqit9IGenBccQYiLHXoqfrgKCSFxD7aDu
- Idwx47wU4PThvumsIbL8loWRlKuLikMFkCibEie56LVqM4yz5PdK6Ly+Ur8Y3YjRCqW9
- mhDbn0yhrrXkr+nzFOFA/yLsTSql8S0PSaBCJpd2KH1Y8bAN7jSqWh7grTc7BPSpH9pB
- 4hIw==
-X-Gm-Message-State: AOAM530mLSHZa01MqWaFKqWYAltOUDWuBXJ1NSIJ4baFJvsUJbpCkEKc
- z855wMnis95NJD2atjlAMuWVFll/gHFpTqEi7DU=
-X-Google-Smtp-Source: ABdhPJzk75s7U4TzmbLok5MFqP1CB3nJjhN1aRhMIInFffmBBqCRPE0uRwEtryEVXqbwac5itP5VPkxYlVO5ixbRaMI=
-X-Received: by 2002:a17:906:81c9:: with SMTP id
- e9mr434637ejx.456.1614912627932; 
- Thu, 04 Mar 2021 18:50:27 -0800 (PST)
+X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
+ Fri, 05 Mar 2021 03:27:42 UTC
+Received: from mail.ud03.udmedia.de (ud03.udmedia.de [194.117.254.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A30666EAC8
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 03:27:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=nuetzel-hh.de; h=
+ mime-version:date:from:to:cc:subject:message-id:content-type
+ :content-transfer-encoding; s=k1; bh=7ywjFbmwLAy3ddi7yuzBq8og7Bh
+ D/4+yblcU3dvTR28=; b=d0aCdRHdfu0YRtq7gFxdYlOrp4xfu4xtgd44SM4UyBA
+ JIgYdIL+4H1ma+e3qPvJZB0Zfi4+xbmHquk6MInHN0fMkkQD776qwe8h5MBuJsKc
+ zO2yYwbbm42LwGed98AupAsTXx4MLsn4P9f9ujXEoJszwS61RYDOJiSaAEVfF/vk
+ =
+Received: (qmail 817918 invoked from network); 5 Mar 2021 04:20:59 +0100
+Received: by mail.ud03.udmedia.de with ESMTPA; 5 Mar 2021 04:20:59 +0100
+X-UD-Smtp-Session: ud03?335p7@1MerksG8ntHCdf4e
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 5 Mar 2021 12:50:16 +1000
-Message-ID: <CAPM=9txjSRSZPBttCM9xnZj5_V5oJ0jAYf2PFuZgVyHaNBMo5Q@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.12-rc2
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 05 Mar 2021 04:20:58 +0100
+From: =?UTF-8?Q?Dieter_N=C3=BCtzel?= <Dieter@nuetzel-hh.de>
+To: DRI Devel <dri-devel@lists.freedesktop.org>
+Subject: Is LLVM 13 (git) really ready for testing/development? libclc didn't
+ compile
+User-Agent: Roundcube Webmail/1.4.11
+Message-ID: <f9700ce86b6d893a162c099fb680cc0f@nuetzel-hh.de>
+X-Sender: Dieter@nuetzel-hh.de
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,103 +45,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Karol Herbst <kherbst@redhat.com>,
+ =?UTF-8?Q?Marek_Ol=C5=A1=C3=A1k?= <maraeo@gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
-
-More may show up but this is what I have at this staged. These are
-based on the commit in your tree where the swapfile issue is fixed,
-and neither of the merged trees are in the bad area.
-
-Otherwise just a single nouveau regression fix, and a bunch of amdgpu fixes.
-
-Dave.
-
-drm-fixes-2021-03-05:
-drm fixes for 5.12-rc2
-
-amdgpu:
-- S0ix fix
-- Handle new NV12 SKU
-- Misc power fixes
-- Display uninitialized value fix
-- PCIE debugfs register access fix
-
-nouveau:
-- regression fix for gk104
-The following changes since commit f69d02e37a85645aa90d18cacfff36dba370f797:
-
-  Merge tag 'misc-5.12-2021-03-02' of git://git.kernel.dk/linux-block
-(2021-03-02 18:18:17 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-03-05
-
-for you to fetch changes up to a1f1054124936c717a64e47862e3d0d820f67a87:
-
-  Merge tag 'amd-drm-fixes-5.12-2021-03-03' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2021-03-05
-11:13:22 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.12-rc2
-
-amdgpu:
-- S0ix fix
-- Handle new NV12 SKU
-- Misc power fixes
-- Display uninitialized value fix
-- PCIE debugfs register access fix
-
-nouveau:
-- regression fix for gk104
-
-----------------------------------------------------------------
-Alex Deucher (4):
-      drm/amdgpu: Only check for S0ix if AMD_PMC is configured
-      drm/amdgpu/pm: make unsupported power profile messages debug
-      drm/amdgpu/swsmu/vangogh: Only use RLCPowerNotify msg for disable
-      drm/amdgpu: enable BACO runpm by default on sienna cichlid and
-navy flounder
-
-Asher.Song (1):
-      drm/amdgpu:disable VCN for Navi12 SKU
-
-Ben Skeggs (1):
-      drm/nouveau/fifo/gk104-gp1xx: fix creation of sw class
-
-Colin Ian King (1):
-      drm/amd/display: fix the return of the uninitialized value in ret
-
-Dave Airlie (2):
-      Merge branch '00.00-inst' of git://github.com/skeggsb/linux into drm-fixes
-      Merge tag 'amd-drm-fixes-5.12-2021-03-03' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-
-Evan Quan (1):
-      drm/amd/pm: correct Arcturus mmTHM_BACO_CNTL register address
-
-Kevin Wang (1):
-      drm/amdgpu: fix parameter error of RREG32_PCIE() in amdgpu_regs_pcie
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c                  |  3 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c               |  4 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c                   |  2 --
- drivers/gpu/drm/amd/amdgpu/nv.c                           |  6 ++++--
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  2 +-
- drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c         |  2 +-
- drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c            | 15 ++++++++++++---
- drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c          |  6 +++---
- drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c           |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c          |  3 +++
- 10 files changed, 29 insertions(+), 16 deletions(-)
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGVsbG8gTWFyZWssCgpjYW4ndCBjb21waWxlIGFueXRoaW5nLCBoZXJlLgpQb29yIEludGVsIE5l
+aGFsZW0gWDM0NzAuCgpUcnlpbmcgTExWTSAxMi1yYzIgbGF0ZXIuCgpHcmVldGluZ3MsCkRpZXRl
+cgoKbGx2bS1wcm9qZWN0L2xpYmNsYz4gY2QgYnVpbGQgJiYgY21ha2UgLi4vCi0tIFRoZSBDWFgg
+Y29tcGlsZXIgaWRlbnRpZmljYXRpb24gaXMgR05VIDEwLjIuMQotLSBEZXRlY3RpbmcgQ1hYIGNv
+bXBpbGVyIEFCSSBpbmZvCi0tIERldGVjdGluZyBDWFggY29tcGlsZXIgQUJJIGluZm8gLSBkb25l
+Ci0tIENoZWNrIGZvciB3b3JraW5nIENYWCBjb21waWxlcjogL3Vzci9iaW4vYysrIC0gc2tpcHBl
+ZAotLSBEZXRlY3RpbmcgQ1hYIGNvbXBpbGUgZmVhdHVyZXMKLS0gRGV0ZWN0aW5nIENYWCBjb21w
+aWxlIGZlYXR1cmVzIC0gZG9uZQpMTFZNIHZlcnNpb246IDEzLjAuMGdpdApMTFZNIHN5c3RlbSBs
+aWJzOgpMTFZNIGxpYnM6IC1sTExWTS0xM2dpdApMTFZNIGxpYmRpcjogL3Vzci9sb2NhbC9saWIK
+TExWTSBiaW5kaXI6IC91c3IvbG9jYWwvYmluCkxMVk0gbGQgZmxhZ3M6IC1ML3Vzci9sb2NhbC9s
+aWIKTExWTSBjeHggZmxhZ3M6IAotSS91c3IvbG9jYWwvaW5jbHVkZTstc3RkPWMrKzE0Ozs7LWZu
+by1leGNlcHRpb25zOy1EX0dOVV9TT1VSQ0U7LURfX1NURENfQ09OU1RBTlRfTUFDUk9TOy1EX19T
+VERDX0ZPUk1BVF9NQUNST1M7LURfX1NURENfTElNSVRfTUFDUk9TOy1mbm8tcnR0aTstZm5vLWV4
+Y2VwdGlvbnMKCmNsYW5nOiAvdXNyL2xvY2FsL2Jpbi9jbGFuZwpsbHZtLWFzOiAvdXNyL2xvY2Fs
+L2Jpbi9sbHZtLWFzCmxsdm0tbGluazogL3Vzci9sb2NhbC9iaW4vbGx2bS1saW5rCm9wdDogL3Vz
+ci9sb2NhbC9iaW4vb3B0Cmxsdm0tc3BpcnY6IC91c3IvbG9jYWwvYmluL2xsdm0tc3BpcnYKCi0t
+IENoZWNrIGZvciB3b3JraW5nIENMQyBjb21waWxlcjogL3Vzci9sb2NhbC9iaW4vY2xhbmcKLS0g
+Q2hlY2sgZm9yIHdvcmtpbmcgQ0xDIGNvbXBpbGVyOiAvdXNyL2xvY2FsL2Jpbi9jbGFuZyAtLSB3
+b3JrcwotLSBDaGVjayBmb3Igd29ya2luZyBMTEFzbSBjb21waWxlcjogL3Vzci9sb2NhbC9iaW4v
+bGx2bS1hcwotLSBDaGVjayBmb3Igd29ya2luZyBMTEFzbSBjb21waWxlcjogL3Vzci9sb2NhbC9i
+aW4vbGx2bS1hcyAtLSBicm9rZW4KQ01ha2UgRXJyb3IgYXQgY21ha2UvQ01ha2VUZXN0TExBc21D
+b21waWxlci5jbWFrZTo0MCAobWVzc2FnZSk6CiAgIFRoZSBMTEFzbSBjb21waWxlciAiL3Vzci9s
+b2NhbC9iaW4vbGx2bS1hcyIgaXMgbm90IGFibGUgdG8gY29tcGlsZSBhIApzaW1wbGUKICAgdGVz
+dCBwcm9ncmFtLgoKICAgSXQgZmFpbHMgd2l0aCB0aGUgZm9sbG93aW5nIG91dHB1dDoKCiAgICBD
+aGFuZ2UgRGlyOiAvb3B0L2xsdm0tcHJvamVjdC9saWJjbGMvYnVpbGQvQ01ha2VGaWxlcy9DTWFr
+ZVRtcAoKCgogICBSdW4gQnVpbGQgQ29tbWFuZChzKTovdXNyL2Jpbi9nbWFrZSBjbVRDXzg3YWY5
+L2Zhc3QgJiYgL3Vzci9iaW4vZ21ha2UgCi1mCiAgIENNYWtlRmlsZXMvY21UQ184N2FmOS5kaXIv
+YnVpbGQubWFrZSBDTWFrZUZpbGVzL2NtVENfODdhZjkuZGlyL2J1aWxkCgogICBnbWFrZVsxXTog
+VmVyemVpY2huaXMKICAg4oCeL29wdC9sbHZtLXByb2plY3QvbGliY2xjL2J1aWxkL0NNYWtlRmls
+ZXMvQ01ha2VUbXDigJwgd2lyZCBiZXRyZXRlbgoKICAgQnVpbGRpbmcgTExBc20gb2JqZWN0IENN
+YWtlRmlsZXMvY21UQ184N2FmOS5kaXIvdGVzdExMQXNtQ29tcGlsZXIuYmMKCiAgIC91c3IvbG9j
+YWwvYmluL2NsYW5nIC1FIC1QIC14IGNsCiAgIAovb3B0L2xsdm0tcHJvamVjdC9saWJjbGMvYnVp
+bGQvQ01ha2VGaWxlcy9DTWFrZVRtcC90ZXN0TExBc21Db21waWxlci5sbCAKLW8KICAgQ01ha2VG
+aWxlcy9jbVRDXzg3YWY5LmRpci90ZXN0TExBc21Db21waWxlci5iYy50ZW1wCgogICAvdXNyL2xv
+Y2FsL2Jpbi9sbHZtLWFzIC1vIApDTWFrZUZpbGVzL2NtVENfODdhZjkuZGlyL3Rlc3RMTEFzbUNv
+bXBpbGVyLmJjCiAgIENNYWtlRmlsZXMvY21UQ184N2FmOS5kaXIvdGVzdExMQXNtQ29tcGlsZXIu
+YmMudGVtcAoKICAgL3Vzci9sb2NhbC9iaW4vbGx2bS1hczoKICAgQ01ha2VGaWxlcy9jbVRDXzg3
+YWY5LmRpci90ZXN0TExBc21Db21waWxlci5iYy50ZW1wOjE6MTogZXJyb3I6IApleHBlY3RlZAog
+ICB0b3AtbGV2ZWwgZW50aXR5CgogICB0eXBlZGVmIHVuc2lnbmVkIGNoYXIgdWNoYXI7CgogICBe
+CgogICBnbWFrZVsxXTogKioqIFtDTWFrZUZpbGVzL2NtVENfODdhZjkuZGlyL2J1aWxkLm1ha2U6
+ODY6CiAgIENNYWtlRmlsZXMvY21UQ184N2FmOS5kaXIvdGVzdExMQXNtQ29tcGlsZXIuYmNdIEZl
+aGxlciAxCgogICBnbWFrZVsxXTogVmVyemVpY2huaXMKICAg4oCeL29wdC9sbHZtLXByb2plY3Qv
+bGliY2xjL2J1aWxkL0NNYWtlRmlsZXMvQ01ha2VUbXDigJwgd2lyZCB2ZXJsYXNzZW4KCiAgIGdt
+YWtlOiAqKiogW01ha2VmaWxlOjE0MDogY21UQ184N2FmOS9mYXN0XSBGZWhsZXIgMgoKCgoKCgoK
+ICAgQ01ha2Ugd2lsbCBub3QgYmUgYWJsZSB0byBjb3JyZWN0bHkgZ2VuZXJhdGUgdGhpcyBwcm9q
+ZWN0LgpDYWxsIFN0YWNrIChtb3N0IHJlY2VudCBjYWxsIGZpcnN0KToKICAgQ01ha2VMaXN0cy50
+eHQ6MTI3IChlbmFibGVfbGFuZ3VhZ2UpCgoKLS0gQ29uZmlndXJpbmcgaW5jb21wbGV0ZSwgZXJy
+b3JzIG9jY3VycmVkIQpTZWUgYWxzbyAiL29wdC9sbHZtLXByb2plY3QvbGliY2xjL2J1aWxkL0NN
+YWtlRmlsZXMvQ01ha2VPdXRwdXQubG9nIi4KU2VlIGFsc28gIi9vcHQvbGx2bS1wcm9qZWN0L2xp
+YmNsYy9idWlsZC9DTWFrZUZpbGVzL0NNYWtlRXJyb3IubG9nIi4KCgpDTWFrZUVycm9yLmxvZwpE
+ZXRlcm1pbmluZyBpZiB0aGUgTExBc20gY29tcGlsZXIgd29ya3MgZmFpbGVkIHdpdGggdGhlIGZv
+bGxvd2luZyAKb3V0cHV0OgpDaGFuZ2UgRGlyOiAvb3B0L2xsdm0tcHJvamVjdC9saWJjbGMvYnVp
+bGQvQ01ha2VGaWxlcy9DTWFrZVRtcAoKUnVuIEJ1aWxkIENvbW1hbmQocyk6L3Vzci9iaW4vZ21h
+a2UgY21UQ184N2FmOS9mYXN0ICYmIC91c3IvYmluL2dtYWtlICAKLWYgQ01ha2VGaWxlcy9jbVRD
+Xzg3YWY5LmRpci9idWlsZC5tYWtlIENNYWtlRmlsZXMvY21UQ184N2FmOS5kaXIvYnVpbGQKZ21h
+a2VbMV06IFZlcnplaWNobmlzIArigJ4vb3B0L2xsdm0tcHJvamVjdC9saWJjbGMvYnVpbGQvQ01h
+a2VGaWxlcy9DTWFrZVRtcOKAnCB3aXJkIGJldHJldGVuCkJ1aWxkaW5nIExMQXNtIG9iamVjdCBD
+TWFrZUZpbGVzL2NtVENfODdhZjkuZGlyL3Rlc3RMTEFzbUNvbXBpbGVyLmJjCi91c3IvbG9jYWwv
+YmluL2NsYW5nIC1FIC1QICAgICAteCBjbCAKL29wdC9sbHZtLXByb2plY3QvbGliY2xjL2J1aWxk
+L0NNYWtlRmlsZXMvQ01ha2VUbXAvdGVzdExMQXNtQ29tcGlsZXIubGwgCi1vIENNYWtlRmlsZXMv
+Y21UQ184N2FmOS5kaXIvdGVzdExMQXNtQ29tcGlsZXIuYmMudGVtcAovdXNyL2xvY2FsL2Jpbi9s
+bHZtLWFzIC1vIENNYWtlRmlsZXMvY21UQ184N2FmOS5kaXIvdGVzdExMQXNtQ29tcGlsZXIuYmMg
+CkNNYWtlRmlsZXMvY21UQ184N2FmOS5kaXIvdGVzdExMQXNtQ29tcGlsZXIuYmMudGVtcAovdXNy
+L2xvY2FsL2Jpbi9sbHZtLWFzOiAKQ01ha2VGaWxlcy9jbVRDXzg3YWY5LmRpci90ZXN0TExBc21D
+b21waWxlci5iYy50ZW1wOjE6MTogZXJyb3I6IGV4cGVjdGVkIAp0b3AtbGV2ZWwgZW50aXR5CnR5
+cGVkZWYgdW5zaWduZWQgY2hhciB1Y2hhcjsKXgpnbWFrZVsxXTogKioqIFtDTWFrZUZpbGVzL2Nt
+VENfODdhZjkuZGlyL2J1aWxkLm1ha2U6ODY6IApDTWFrZUZpbGVzL2NtVENfODdhZjkuZGlyL3Rl
+c3RMTEFzbUNvbXBpbGVyLmJjXSBGZWhsZXIgMQpnbWFrZVsxXTogVmVyemVpY2huaXMgCuKAni9v
+cHQvbGx2bS1wcm9qZWN0L2xpYmNsYy9idWlsZC9DTWFrZUZpbGVzL0NNYWtlVG1w4oCcIHdpcmQg
+dmVybGFzc2VuCmdtYWtlOiAqKiogW01ha2VmaWxlOjE0MDogY21UQ184N2FmOS9mYXN0XSBGZWhs
+ZXIgMgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
