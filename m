@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2440532F9AA
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Mar 2021 12:18:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FCB32FADD
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Mar 2021 14:33:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19CB06E500;
-	Sat,  6 Mar 2021 11:18:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0DFB6E51B;
+	Sat,  6 Mar 2021 13:33:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84B926E500;
- Sat,  6 Mar 2021 11:17:58 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id s16so2687100plr.9;
- Sat, 06 Mar 2021 03:17:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xdaYIHbo42EzW4+tTrCCIBJZrl43XKwjfdhXKE79QkI=;
- b=OU8IkoIgBcGiyXFXs7IFjfZBTGGs0bWhDh2k3i2p+t5/sRh2gppxbcqpCrkBP/7Lne
- Dp0G+U77bTBi4eAhBRLbDSjcd6glcsaLr9G0ohROwCRG1diGuR7pp1U7UoQeaA2BE0zf
- x3zEuKMokoALIZ7dgB4wqajTb7GTVjLo+ocBnn6BeYOUqgNYlYxgSTv31GuDJ0kVQ6Lh
- go5XkMfJBomHLOvtZzTo1gDKE/iBCo9C78UGgbHxepzHYRDuEVr+W6DCwqgGaG12weBS
- uDDfYHxABSD2akfNtdqx15BmZcqQ2ezXQHhiYfIVTd+wZL66l3gQY191krzaNGOJsoyP
- 3aPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xdaYIHbo42EzW4+tTrCCIBJZrl43XKwjfdhXKE79QkI=;
- b=dUx76KaPRXr2l4NUSb/Qm+TjQ9BH4AizJy+Pq/lmJLh8rMB/qZERnYJ6ThisOTRuuI
- kwpuGB8kE/RoOhLi8dLYmO6GG8i+F6B3DOCbbZD8XvwrvJVibPD9G7pbj61TCjue3jQ6
- C+E5qf88b1jfUbNnxuspPH95IL/04PZ4JKjYy44TBNAuj3pHSZDroGwdLywMglcgrAjc
- tT8Zg68iZrigHDVs+/EqrdXkx/0tBu56VYmMo95vtbQKXBXsVvjJyQ7wpOSl+URVq0j6
- tcNrS3b18F6K1loYRez6Rceh/RY5dWl0Pw4FIOLbjGQ89IMaw9iHo9NVw9d5cechmEMj
- II5w==
-X-Gm-Message-State: AOAM533gsW+KOwpSTuPFBeSHZM2P1dJ92JAvXQem1xfjrQLSEibBx9Hg
- scV+DbGp1hD/64q3KiI74yI=
-X-Google-Smtp-Source: ABdhPJx4gWaZVfPNcXcXFDwquU8hwFVxF7LWE6D2TVf8jy2qAw7j6kTV29gabrWD9ercYIzdRabKrg==
-X-Received: by 2002:a17:90a:6286:: with SMTP id
- d6mr15012274pjj.234.1615029478197; 
- Sat, 06 Mar 2021 03:17:58 -0800 (PST)
-Received: from localhost.localdomain ([178.236.46.205])
- by smtp.gmail.com with ESMTPSA id u15sm4925194pfk.128.2021.03.06.03.17.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Mar 2021 03:17:57 -0800 (PST)
-From: menglong8.dong@gmail.com
-X-Google-Original-From: zhang.yunkai@zte.com.cn
-To: bskeggs@redhat.com
-Subject: [PATCH] drm/nouveau: remove duplicate include in nouveau_dmem and base
-Date: Sat,  6 Mar 2021 03:17:51 -0800
-Message-Id: <20210306111751.216932-1-zhang.yunkai@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F03CF6E51B
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Mar 2021 13:33:25 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 008F465020
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Mar 2021 13:33:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1615037605;
+ bh=CmffAdkgXWimcrDz0SSS464OSIyzxAff8L0rDtAFWuo=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=Dt4zVl6mMxYhejR484jhKb+vIhsPF3ihxlglzbojNP6pXY8h1TP66x8GfoJkjz8QH
+ NkEQCUl1iQaNLPyHIzPY4XMBRyCtl252OUuCxU5YvWPkgixGJZKBHgKFed+8CZbusP
+ rHIwd+fCiqkSItetYMmjR88xJThZUphaVke4DLHlwAuByBYwHRdzze6nOj9cB3QeDG
+ /md41pLgsAm7hWzYZO2Fg6+MRotgJ4VfYofoOLDECQ9t5nzoo74ioNEOX9sLEWTI+9
+ i08kY8mtlF41yWMg07xw63vBiWjlfFaH4aSqI0oaqF2wM6+P4KPnN05EAzQwfVE/1n
+ FivFcQHM7SgSw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id F173265307; Sat,  6 Mar 2021 13:33:24 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211033] [bisected][regression] amdgpu: *ERROR* Restoring old
+ state failed with -12
+Date: Sat, 06 Mar 2021 13:33:24 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: honza.klos@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-211033-2300-8706Tg2yHW@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211033-2300@https.bugzilla.kernel.org/>
+References: <bug-211033-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,54 +64,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- zhang.yunkai@zte.com.cn
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zhang Yunkai <zhang.yunkai@zte.com.cn>
-
-'if000c.h' included in 'nouveau_dmem.c' is duplicated.
-'priv.h' included in 'base.c' is duplicated.
-
-Signed-off-by: Zhang Yunkai <zhang.yunkai@zte.com.cn>
----
- drivers/gpu/drm/nouveau/nouveau_dmem.c           | 1 -
- drivers/gpu/drm/nouveau/nvkm/engine/nvenc/base.c | 2 --
- 2 files changed, 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-index 92987daa5e17..f5cc057b123b 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-@@ -33,7 +33,6 @@
- #include <nvif/if000c.h>
- #include <nvif/if500b.h>
- #include <nvif/if900b.h>
--#include <nvif/if000c.h>
- 
- #include <nvhw/class/cla0b5.h>
- 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/nvenc/base.c b/drivers/gpu/drm/nouveau/nvkm/engine/nvenc/base.c
-index c39e797dc7c9..09524168431c 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/nvenc/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/nvenc/base.c
-@@ -20,8 +20,6 @@
-  * OTHER DEALINGS IN THE SOFTWARE.
-  */
- #include "priv.h"
--
--#include "priv.h"
- #include <core/firmware.h>
- 
- static void *
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMTEwMzMKCkphbiBL
+bG9zIChob256YS5rbG9zQGdtYWlsLmNvbSkgY2hhbmdlZDoKCiAgICAgICAgICAgV2hhdCAgICB8
+UmVtb3ZlZCAgICAgICAgICAgICAgICAgICAgIHxBZGRlZAotLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAg
+ICAgICAgICAgICAgICAgQ0N8ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHxob256YS5rbG9z
+QGdtYWlsLmNvbQoKLS0tIENvbW1lbnQgIzE3IGZyb20gSmFuIEtsb3MgKGhvbnphLmtsb3NAZ21h
+aWwuY29tKSAtLS0KSSBkb24ndCB0aGluayB0aGlzIGlzIGxpbWl0ZWQganVzdCB0byBLVk1zIGFu
+ZCBzdWNoLiBPbiBteSBWZWdhIDY0ICsKNS4xMS4zLWFyY2gxIChoYWQgdGhlIHNhbWUgcHJvYmxl
+bSB3aXRoIDUuMTEuMiwgNS4xMCBldGMuKSwgc29tZXRpbWVzLCB3aGVuIEkKcmV0dXJuIHRvIFBD
+IGFmdGVyIGEgd2hpbGUgYW5kIG15IDIgbW9uaXRvcnMgYXJlIHNsZWVwaW5nLCBvbmx5IG9uZSBt
+b25pdG9yCndha2VzIHVwLCB0aGUgb3RoZXIgb25lIHJlbWFpbnMgaW4gc2xlZXAgbW9kZS4gRG1l
+c2cgc2hvd3MgdGhpczoKCltixZllIDYgMTQ6MjJdIFtkcm1dIHBlcmZvcm1fbGlua190cmFpbmlu
+Z193aXRoX3JldHJpZXM6IExpbmsgdHJhaW5pbmcgYXR0ZW1wdCAxCm9mIDQgZmFpbGVkCltixZll
+IDYgMTQ6MjNdIFtkcm1dIHBlcmZvcm1fbGlua190cmFpbmluZ193aXRoX3JldHJpZXM6IExpbmsg
+dHJhaW5pbmcgYXR0ZW1wdCAyCm9mIDQgZmFpbGVkClsgICswLDQ3MzM1Ml0gW2RybV0gcGVyZm9y
+bV9saW5rX3RyYWluaW5nX3dpdGhfcmV0cmllczogTGluayB0cmFpbmluZyBhdHRlbXB0IDMKb2Yg
+NCBmYWlsZWQKWyAgKzAsNDM3NzUzXSBbZHJtXSBlbmFibGluZyBsaW5rIDAgZmFpbGVkOiAxNQpb
+ICArMCw0MzIyNzZdIFtkcm1dIHBlcmZvcm1fbGlua190cmFpbmluZ193aXRoX3JldHJpZXM6IExp
+bmsgdHJhaW5pbmcgYXR0ZW1wdCAxCm9mIDQgZmFpbGVkClsgICswLDQwNTgyN10gW2RybV0gcGVy
+Zm9ybV9saW5rX3RyYWluaW5nX3dpdGhfcmV0cmllczogTGluayB0cmFpbmluZyBhdHRlbXB0IDIK
+b2YgNCBmYWlsZWQKWyAgKzAsNDc2MTcyXSBbZHJtXSBwZXJmb3JtX2xpbmtfdHJhaW5pbmdfd2l0
+aF9yZXRyaWVzOiBMaW5rIHRyYWluaW5nIGF0dGVtcHQgMwpvZiA0IGZhaWxlZApbICArMCw0MTU0
+NjZdIFtkcm1dIGVuYWJsaW5nIGxpbmsgMSBmYWlsZWQ6IDE1CgpTd2l0Y2hpbmcgdG8gdGVybWlu
+YWwgYW5kIHdhaXRpbmcgYSBzZWMgb3IgdHdvIG1ha2VzIGJvdGggbW9uaXRvcnMgd29yaywKc3dp
+dGNoaW5nIGJhY2sgdG8gWDExIGFuZCBldmVyeXRoaW5nIGlzIE9LLiBJdCBzZWVtcyB0byBtZSB0
+aGF0IHRoZXJlIG1pZ2h0IGJlCnNvbWUga2luZCBvZiBidWcgd2hlcmUgaWYgdGhlIGZpcnN0IGxp
+bmsgdHJhaW5pbmcgYXR0ZW1wdCBmYWlscywgdGhlIHN1YnNlcXVlbnQKb25lcyBBTFdBWVMgZmFp
+bCBhcyB3ZWxsLCBzbyB0aGVyZSBpcyBhY3R1YWxseSBvbmx5IGEgc2luZ2xlIGFjdHVhbCBsaW5r
+CnRyYWluaW5nIGF0dGVtcHQgdGhhdCBoYXMgYSBjaGFuY2UgdG8gc3VjY2VlZC4KCi0tIApZb3Ug
+bWF5IHJlcGx5IHRvIHRoaXMgZW1haWwgdG8gYWRkIGEgY29tbWVudC4KCllvdSBhcmUgcmVjZWl2
+aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0
+aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
