@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A8832F700
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Mar 2021 00:57:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3914932F73B
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Mar 2021 01:26:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DEF26ECA5;
-	Fri,  5 Mar 2021 23:57:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30E5A6ECB3;
+	Sat,  6 Mar 2021 00:26:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 589 seconds by postgrey-1.36 at gabe;
- Fri, 05 Mar 2021 23:57:03 UTC
-Received: from mail.micronovasrl.com (mail.micronovasrl.com [212.103.203.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E5296ECA5
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 23:57:03 +0000 (UTC)
-Received: from mail.micronovasrl.com (mail.micronovasrl.com [127.0.0.1])
- by mail.micronovasrl.com (Postfix) with ESMTP id 84385B04A11
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Mar 2021 00:47:11 +0100 (CET)
-Authentication-Results: mail.micronovasrl.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)" header.d=micronovasrl.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=micronovasrl.com;
- h=content-transfer-encoding:content-language:content-type
- :content-type:in-reply-to:mime-version:user-agent:date:date
- :message-id:from:from:references:to:subject:subject; s=dkim; t=
- 1614988031; x=1615852032; bh=ZkXoD99BmHsbR1hrl64a63EOD1CUA4i6MBW
- iJn8lTPo=; b=SnT8nMBrh7O0wFyq4kYGlK+Djiv3TbcaYkcom1gqk0Rr3mqJUxt
- 4ITdmhYq+efKbjV9CWGwizP/FPwOlYu5L45oRUJHtllfXkKveWGzeqxSSMVLGuyG
- PZTJkjc01RfJJFtt0Vkd7IptkazCCzyN9t8A9NA4U6shS0qsc4Nb1BR4=
-X-Virus-Scanned: Debian amavisd-new at mail.micronovasrl.com
-X-Spam-Flag: NO
-X-Spam-Score: -2.9
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 tagged_above=-10 required=4.5
- tests=[ALL_TRUSTED=-1, BAYES_00=-1.9, LOTS_OF_MONEY=0.001,
- NICE_REPLY_A=-0.001] autolearn=unavailable autolearn_force=no
-Received: from mail.micronovasrl.com ([127.0.0.1])
- by mail.micronovasrl.com (mail.micronovasrl.com [127.0.0.1]) (amavisd-new,
- port 10026)
- with ESMTP id FEZN7SYfkR0Z for <dri-devel@lists.freedesktop.org>;
- Sat,  6 Mar 2021 00:47:11 +0100 (CET)
-Received: from [192.168.50.85] (146-241-168-111.dyn.eolo.it [146.241.168.111])
- by mail.micronovasrl.com (Postfix) with ESMTPSA id D0FEBB04710;
- Sat,  6 Mar 2021 00:47:09 +0100 (CET)
-Subject: Re: [PATCH 4/9] dt-bindings: display/panel: add Jenson JT60245-01
-To: Rob Herring <robh@kernel.org>,
- Giulio Benetti <giulio.benetti@benettiengineering.com>
-References: <20210218225458.823773-1-giulio.benetti@benettiengineering.com>
- <20210218225458.823773-5-giulio.benetti@benettiengineering.com>
- <20210305225444.GA792026@robh.at.kernel.org>
-From: Giulio Benetti <giulio.benetti@micronovasrl.com>
-Message-ID: <bf765112-4f69-1054-d70f-c5fd831d7995@micronovasrl.com>
-Date: Sat, 6 Mar 2021 00:47:10 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBBCF6ECB1
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Mar 2021 00:26:43 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id n9so1487517pgi.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Mar 2021 16:26:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=SnpC6f7BpJ8tZNLRp5Cw3z8Kw07+oTU7VTtXi15iO+E=;
+ b=jq1Lw6tgvNAk9hkISI/vE38aIwoYVIf0ldffXAOzjjMLMAFsY1E1xwsn5sYNYhJMXv
+ w+f+/HJ96aPz1nGb/W0K4TmbIx1yzm+KrATFMa5hlXh7tqsf2F9sdUJOVcnJ8AetWJAY
+ frywgkx4ti1iVC19r6plKwgpfS8LySG8CkUb4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=SnpC6f7BpJ8tZNLRp5Cw3z8Kw07+oTU7VTtXi15iO+E=;
+ b=uTiak1R/CvmtMH+WSBzIchCYBghzGS0fT+eEMPsbgGYsWytDdNZkqYZReQ/K82YX46
+ wRH7PgmWy3obggY4+55uL4llfFF7bwLeY2yxCFqLmBo6QQFTvfCQCDGTLMaH/HahgG9T
+ sSWIKZdDA9AE4m581SuRMm1GsHqjysw88g1VSczpmjKglyrHPAV0Pmo3aVdBMsG4bjYp
+ nM7/a0qu9SIjiDoDCDH/SgEI5JkpUhKRFIMSfwnUpJjNpR/6M0i/cd+LaXHEl6BOIzGd
+ 8In9DE4n1K65wKDd8pTyzHMsIALUFkfu9Y3DO2FFqe0tB2ITiVKj87hk7oKH2WGywEQW
+ 1yXA==
+X-Gm-Message-State: AOAM531VSiMWEcYA0kmLWORfQZwmG+lrfOvw3MbCGWqCh2Q4KCyMvogp
+ DkJIBFJRi4G6cC9ZMLlNEwvT0A==
+X-Google-Smtp-Source: ABdhPJzBIFwqkw60RxxzGbz2ZZTXuBOwt5iqDwSUgfGViCIoDu5mwu/y3DnzPCgRutYL0MesqDnn2Q==
+X-Received: by 2002:a63:cf06:: with SMTP id j6mr10633599pgg.195.1614990403493; 
+ Fri, 05 Mar 2021 16:26:43 -0800 (PST)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:1:48f0:8f48:7388:d921])
+ by smtp.gmail.com with ESMTPSA id 192sm3608905pfa.122.2021.03.05.16.26.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Mar 2021 16:26:42 -0800 (PST)
+From: Douglas Anderson <dianders@chromium.org>
+To: "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Rob Clark <robdclark@gmail.com>, Jordan Crouse <jcrouse@codeaurora.org>
+Subject: [PATCH 2/3] drm/msm: Use nvmem_cell_read_variable_le_u32() to read
+ speed bin
+Date: Fri,  5 Mar 2021 16:26:21 -0800
+Message-Id: <20210305162546.2.Id496c6fea0cb92ff6ea8ef1faf5d468eb09465e3@changeid>
+X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
+In-Reply-To: <20210305162546.1.I323dad4343256b48af2be160b84b1e87985cc9be@changeid>
+References: <20210305162546.1.I323dad4343256b48af2be160b84b1e87985cc9be@changeid>
 MIME-Version: 1.0
-In-Reply-To: <20210305225444.GA792026@robh.at.kernel.org>
-Content-Language: it
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,74 +66,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- Shawn Guo <shawnguo@kernel.org>, Daniel Palmer <daniel@0x0f.com>,
- linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Lubomir Rintel <lkundrak@v3.sk>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org, allen <allen.chen@ite.com.tw>,
- Max Merchel <Max.Merchel@tq-group.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Sam Ravnborg <sam@ravnborg.org>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-15"; Format="flowed"
+Cc: freedreno@lists.freedesktop.org, Ulf Hansson <ulf.hansson@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Niklas Cassel <niklas.cassel@linaro.org>,
+ Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>, swboyd@chromium.org,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+Let's use the newly-added nvmem_cell_read_variable_le_u32() to future
+proof ourselves a little bit.
 
-Il 05/03/2021 23:54, Rob Herring ha scritto:
-> On Thu, Feb 18, 2021 at 11:54:52PM +0100, Giulio Benetti wrote:
->> From: Giulio Benetti <giulio.benetti@micronovasrl.com>
->>
->> Add DT binding for "jenson,jt60245-01".
->>
->> Signed-off-by: Giulio Benetti <giulio.benetti@micronovasrl.com>
->> Signed-off-by: Giulio Benetti <giulio.benetti@benettiengineering.com>
->> ---
->>   .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simpl=
-e.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
->> index 08afd6501094..fd0d2a573350 100644
->> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
->> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
->> @@ -169,6 +169,8 @@ properties:
->>         - jenson,jt60248-01
->>           # Jenson Display JT60249-01 5" (800x480) TFT LCD panel
->>         - jenson,jt60249-01
->> +        # Jenson Display JT60245-01 7" (800x480) TFT LCD panel
->> +      - jenson,jt60245-01
-> =
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+This is based on my previous patch ("drm/msm: Fix speed-bin support
+not to access outside valid memory") which has already landed in
+msm-next. In case it's not obvious, this patch has a strong dependency
+on my previous patch and also on patch #1 in this series.
 
-> It was going so well. Alpha-numeric order please.
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-I've sent v2 patchset, but I didn't add your "Acked-by:" since
-alphabetical order was wrong.
-
-Best regards
--- =
-
-Giulio Benetti
-CTO
-
-MICRONOVA SRL
-Sede: Via A. Niedda 3 - 35010 Vigonza (PD)
-Tel. 049/8931563 - Fax 049/8931346
-Cod.Fiscale - P.IVA 02663420285
-Capitale Sociale =A4 26.000 i.v.
-Iscritta al Reg. Imprese di Padova N. 02663420285
-Numero R.E.A. 258642
-
->>           # King & Display KD116N21-30NV-A010 eDP TFT LCD panel
->>         - kingdisplay,kd116n21-30nv-a010
->>           # Kaohsiung Opto-Electronics Inc. 5.7" QVGA (320 x 240) TFT LC=
-D panel
->> -- =
-
->> 2.25.1
->>
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 0e2024defd79..e34705d17559 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1351,17 +1351,16 @@ static int a6xx_set_supported_hw(struct device *dev, struct a6xx_gpu *a6xx_gpu,
+ {
+ 	struct opp_table *opp_table;
+ 	u32 supp_hw = UINT_MAX;
+-	u16 speedbin;
++	u32 speedbin;
+ 	int ret;
+ 
+-	ret = nvmem_cell_read_u16(dev, "speed_bin", &speedbin);
++	ret = nvmem_cell_read_variable_le_u32(dev, "speed_bin", &speedbin);
+ 	if (ret) {
+ 		DRM_DEV_ERROR(dev,
+ 			      "failed to read speed-bin (%d). Some OPPs may not be supported by hardware",
+ 			      ret);
+ 		goto done;
+ 	}
+-	speedbin = le16_to_cpu(speedbin);
+ 
+ 	supp_hw = fuse_to_supp_hw(dev, revn, speedbin);
+ 
+-- 
+2.30.1.766.gb4fecdf3b7-goog
 
 _______________________________________________
 dri-devel mailing list
