@@ -1,56 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFFA632F945
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Mar 2021 11:05:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9822732F973
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Mar 2021 11:48:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95D816E4E8;
-	Sat,  6 Mar 2021 10:04:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B39BA6E4F9;
+	Sat,  6 Mar 2021 10:48:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
- [209.85.210.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A714D6ECAA;
- Sat,  6 Mar 2021 00:03:59 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id h22so3509920otr.6;
- Fri, 05 Mar 2021 16:03:59 -0800 (PST)
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 632BC6E4F9;
+ Sat,  6 Mar 2021 10:47:29 +0000 (UTC)
+Received: by mail-pf1-x443.google.com with SMTP id 16so2445941pfn.5;
+ Sat, 06 Mar 2021 02:47:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+OVArO45cIFAZDllkGVnvJRDcrMzTd8kZJ6zshsC9EY=;
+ b=cS+ut13MTQYqZC81q17e6WqC26TgE19vcCvDknXlTxQN/o/aOdlCMKbh1WS7MF7LrO
+ MGpVAK9HQhFi+tImfmnY69TGVP3cjERsOmtegbYTchJy3SQyrk7FO3CmQDEO0idwbAen
+ r+zfjxTdYYI0qxny+Wkr0B41QRWHAYywnT6DXK/kgqFswlcD9z81EgyG0Bc2NDr6/gg6
+ JCV7ttYE0yEPud/xNvmx1iG6aG+e5c43xw7432AfpOtR0fbuO9Ag91sxptBdWhetCc3W
+ dntq/r93iMWPmTNvVLUedJRUxO0fZI3L3zQD640Xh7TBlwYJs9Zm8xFaWSF8K97kDY+z
+ bXyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FCbBlEEqgxfjPjtQfKvWFaWJOfXoBc2uhQxuYQUH8F0=;
- b=UEPylbni3xQLvOVRt8gQRymTS37ytSahh4ebfQy+BGX/tOBXPJgHEgAJx/B13HMSFP
- b2ZrDeF1fzfUB4cgxwIhwABKQkKIkW+TBxoKZrAnqhUlimp3Ms/gMEadfD+KdRzXSx1n
- exMIbZQ3epR+nt+eDIB2iAFnygFB5gdHv/IPjZmI1sEd8got7yhzuocEQOFleEE9kk1u
- 7Xe6I9Lo1YEHfXlE/90JL9SVLXV64rxVSDMcq+G89CxaC8dDPQuU3EqLvS8soJZvknlK
- YFO6XBHpvtO4jCgg51N6wBFonFQ8hw6OffNeJwiwPLFQJOjeN5XQ4u7TPC1NA7xECLjk
- zWOw==
-X-Gm-Message-State: AOAM531SHO2Tdp++EOKuXCLVUt4lFICYHCJJcKKDUsGqbroEMYwFpvWR
- 9HkEnd0r34iVzIhwwP3Ul9IP8buMmjYECA==
-X-Google-Smtp-Source: ABdhPJzRKzsBPykuIWvPs6D0/mVp6QfrzfuTLzcU4fKlvNZ/0BrLG9XMzEOrDTHlSF1F9IcBXVzQDQ==
-X-Received: by 2002:a05:6830:1057:: with SMTP id
- b23mr10458873otp.206.1614989038345; 
- Fri, 05 Mar 2021 16:03:58 -0800 (PST)
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com.
- [209.85.167.182])
- by smtp.gmail.com with ESMTPSA id n11sm859656oij.51.2021.03.05.16.03.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Mar 2021 16:03:57 -0800 (PST)
-Received: by mail-oi1-f182.google.com with SMTP id m25so4396696oie.12;
- Fri, 05 Mar 2021 16:03:56 -0800 (PST)
-X-Received: by 2002:a54:4794:: with SMTP id o20mr9228337oic.51.1614989036851; 
- Fri, 05 Mar 2021 16:03:56 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+OVArO45cIFAZDllkGVnvJRDcrMzTd8kZJ6zshsC9EY=;
+ b=CWoQJz13d8iDk3CDZam+6uEPq5tafVUp5zQLe7XyaGx0k3rCGZRr+O5cXyWt6/5PlT
+ kgAgfCMF6R9PHaNrlg1SE0Seak6vKbaOBgvQJcvlgrMQOQXv0xd3Woro/u/7sObe9IBi
+ hBRGs4iTsyWa0qY4+8/UYSMmkreyNxVQyQXB8MD8UcZo1QKciVy2DBPl59/5yDX4hA6h
+ e6CH5eoL2Z4LsprJsZHGWIyXK+vqeudIW6uzhXT4XAUKXsBrIH6X25j5e5gh2ZPL0S5B
+ 07gM6ptwK8oHfoQDmexypJTAZTNjVkFYuQpRQYl6ykhjqSAE0rD2KOJFxAuv8j+GTbnb
+ HLyg==
+X-Gm-Message-State: AOAM533fgR3QY8gEERYSa7hhOY1Ed38cP6ffWKoeM6tUo9yyKrop+2OL
+ UnFi5OChzTniTfyUaNaUIK0=
+X-Google-Smtp-Source: ABdhPJyjym9wsWQn1eiIbQ3l+me663Tkn6GiPbKErmB1Gshj4oPC5Bw8MUW2B9eaGSZMPxxLNd8Ycw==
+X-Received: by 2002:a65:40c4:: with SMTP id u4mr12188962pgp.139.1615027648964; 
+ Sat, 06 Mar 2021 02:47:28 -0800 (PST)
+Received: from localhost.localdomain ([178.236.46.205])
+ by smtp.gmail.com with ESMTPSA id o62sm4677955pga.43.2021.03.06.02.47.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 06 Mar 2021 02:47:28 -0800 (PST)
+From: menglong8.dong@gmail.com
+X-Google-Original-From: zhang.yunkai@zte.com.cn
+To: sunpeng.li@amd.com
+Subject: [PATCH] drm/amd/display: remove duplicate include in amdgpu_dm.c
+Date: Sat,  6 Mar 2021 02:47:20 -0800
+Message-Id: <20210306104720.215738-1-zhang.yunkai@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210301084257.945454-1-hch@lst.de>
-In-Reply-To: <20210301084257.945454-1-hch@lst.de>
-From: Li Yang <leoyang.li@nxp.com>
-Date: Fri, 5 Mar 2021 18:03:45 -0600
-X-Gmail-Original-Message-ID: <CADRPPNTSzuuqW97_vd3h5cpHe7gOLyw3zCaqapb8YVqPF-rOfA@mail.gmail.com>
-Message-ID: <CADRPPNTSzuuqW97_vd3h5cpHe7gOLyw3zCaqapb8YVqPF-rOfA@mail.gmail.com>
-Subject: Re: cleanup unused or almost unused IOMMU APIs and the FSL PAMU driver
-To: Christoph Hellwig <hch@lst.de>
-X-Mailman-Approved-At: Sat, 06 Mar 2021 10:04:47 +0000
+X-Mailman-Approved-At: Sat, 06 Mar 2021 10:48:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,57 +66,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Will Deacon <will@kernel.org>,
- Joerg Roedel <joro@8bytes.org>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>, Netdev <netdev@vger.kernel.org>,
- freedreno@lists.freedesktop.org, David Woodhouse <dwmw2@infradead.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Lu Baolu <baolu.lu@linux.intel.com>
+Cc: stylon.wang@amd.com, Zhang Yunkai <zhang.yunkai@zte.com.cn>,
+ airlied@linux.ie, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, nicholas.kazlauskas@amd.com,
+ Bhawanpreet.Lakha@amd.com, aurabindo.pillai@amd.com,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 1, 2021 at 2:44 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> Hi all,
->
-> there are a bunch of IOMMU APIs that are entirely unused, or only used as
-> a private communication channel between the FSL PAMU driver and it's only
-> consumer, the qbman portal driver.
->
-> So this series drops a huge chunk of entirely unused FSL PAMU
-> functionality, then drops all kinds of unused IOMMU APIs, and then
-> replaces what is left of the iommu_attrs with properly typed, smaller
-> and easier to use specific APIs.
+From: Zhang Yunkai <zhang.yunkai@zte.com.cn>
 
-It looks like the unused APIs were added for functionality that were
-never completed later on.  So
+'drm/drm_hdcp.h' included in 'amdgpu_dm.c' is duplicated.
+It is also included in the 79th line.
 
-Acked-by: Li Yang <leoyang.li@nxp.com>
+Signed-off-by: Zhang Yunkai <zhang.yunkai@zte.com.cn>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 1 -
+ 1 file changed, 1 deletion(-)
 
->
-> Diffstat:
->  arch/powerpc/include/asm/fsl_pamu_stash.h   |   12
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c     |    2
->  drivers/iommu/amd/iommu.c                   |   23
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |   85 ---
->  drivers/iommu/arm/arm-smmu/arm-smmu.c       |  122 +---
->  drivers/iommu/dma-iommu.c                   |    8
->  drivers/iommu/fsl_pamu.c                    |  264 ----------
->  drivers/iommu/fsl_pamu.h                    |   10
->  drivers/iommu/fsl_pamu_domain.c             |  694 ++--------------------------
->  drivers/iommu/fsl_pamu_domain.h             |   46 -
->  drivers/iommu/intel/iommu.c                 |   55 --
->  drivers/iommu/iommu.c                       |   75 ---
->  drivers/soc/fsl/qbman/qman_portal.c         |   56 --
->  drivers/vfio/vfio_iommu_type1.c             |   31 -
->  drivers/vhost/vdpa.c                        |   10
->  include/linux/iommu.h                       |   81 ---
->  16 files changed, 214 insertions(+), 1360 deletions(-)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 3e1fd1e7d09f..fee46fbcb0b7 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -44,7 +44,6 @@
+ #include "amdgpu_dm.h"
+ #ifdef CONFIG_DRM_AMD_DC_HDCP
+ #include "amdgpu_dm_hdcp.h"
+-#include <drm/drm_hdcp.h>
+ #endif
+ #include "amdgpu_pm.h"
+ 
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
