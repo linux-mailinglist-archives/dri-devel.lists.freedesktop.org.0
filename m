@@ -1,44 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA0632F944
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Mar 2021 11:04:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFFA632F945
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Mar 2021 11:05:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 173756E4DD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95D816E4E8;
 	Sat,  6 Mar 2021 10:04:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 980726EC80
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Mar 2021 23:02:35 +0000 (UTC)
-Received: from remote.user (localhost [127.0.0.1])
- by rere.qmqm.pl (Postfix) with ESMTPSA id 4Dsjtb56rBzL0;
- Sat,  6 Mar 2021 00:02:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
- t=1614985352; bh=SZHwnu6Rhn8QiMnEN2V1F4jUIvqNotWt5soGJPrBegA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oQId8WMfqBoaRrfZPG9CkUf0ZVKeWwczfSPSv0TOjPq4wAk55pdhc9Ew+V+8lPSCH
- wR/HYFeMgFz63iYdebjAfc25Ui8cYBPeLUWgyRarMOH8GPzCx1XcoMeuetALOveUeb
- F/BYmh5JP3VsdTW+4JtEzJAg+X4fmmIL3MyvGXJSOz/EkyQFeJPRWQzaijxbq/3HMy
- mMgXbpOXMYC5J1H003FVZf2IP2WWemzYzbw3vkpKBP3H8RW991gZHSDohXnSlmY/ow
- eDpRzkIREhXZfJ4nyAmM3yj8lvnlij5N35ftdWwCULVuL8DhAy0VCYUPbzkTZshKoc
- B0P2pde08URTw==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.4 at mail
-Date: Sat, 6 Mar 2021 00:02:22 +0100
-From: =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v13 1/2] drm/tegra: dc: Support memory bandwidth management
-Message-ID: <20210305230222.GA28867@qmqm.qmqm.pl>
-References: <20210302124445.29444-1-digetx@gmail.com>
- <20210302124445.29444-2-digetx@gmail.com>
- <20210303230827.GA22628@qmqm.qmqm.pl>
- <1b352c7e-cc72-ba08-32ba-08c05cc3aa03@gmail.com>
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
+ [209.85.210.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A714D6ECAA;
+ Sat,  6 Mar 2021 00:03:59 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id h22so3509920otr.6;
+ Fri, 05 Mar 2021 16:03:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FCbBlEEqgxfjPjtQfKvWFaWJOfXoBc2uhQxuYQUH8F0=;
+ b=UEPylbni3xQLvOVRt8gQRymTS37ytSahh4ebfQy+BGX/tOBXPJgHEgAJx/B13HMSFP
+ b2ZrDeF1fzfUB4cgxwIhwABKQkKIkW+TBxoKZrAnqhUlimp3Ms/gMEadfD+KdRzXSx1n
+ exMIbZQ3epR+nt+eDIB2iAFnygFB5gdHv/IPjZmI1sEd8got7yhzuocEQOFleEE9kk1u
+ 7Xe6I9Lo1YEHfXlE/90JL9SVLXV64rxVSDMcq+G89CxaC8dDPQuU3EqLvS8soJZvknlK
+ YFO6XBHpvtO4jCgg51N6wBFonFQ8hw6OffNeJwiwPLFQJOjeN5XQ4u7TPC1NA7xECLjk
+ zWOw==
+X-Gm-Message-State: AOAM531SHO2Tdp++EOKuXCLVUt4lFICYHCJJcKKDUsGqbroEMYwFpvWR
+ 9HkEnd0r34iVzIhwwP3Ul9IP8buMmjYECA==
+X-Google-Smtp-Source: ABdhPJzRKzsBPykuIWvPs6D0/mVp6QfrzfuTLzcU4fKlvNZ/0BrLG9XMzEOrDTHlSF1F9IcBXVzQDQ==
+X-Received: by 2002:a05:6830:1057:: with SMTP id
+ b23mr10458873otp.206.1614989038345; 
+ Fri, 05 Mar 2021 16:03:58 -0800 (PST)
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com.
+ [209.85.167.182])
+ by smtp.gmail.com with ESMTPSA id n11sm859656oij.51.2021.03.05.16.03.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Mar 2021 16:03:57 -0800 (PST)
+Received: by mail-oi1-f182.google.com with SMTP id m25so4396696oie.12;
+ Fri, 05 Mar 2021 16:03:56 -0800 (PST)
+X-Received: by 2002:a54:4794:: with SMTP id o20mr9228337oic.51.1614989036851; 
+ Fri, 05 Mar 2021 16:03:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1b352c7e-cc72-ba08-32ba-08c05cc3aa03@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210301084257.945454-1-hch@lst.de>
+In-Reply-To: <20210301084257.945454-1-hch@lst.de>
+From: Li Yang <leoyang.li@nxp.com>
+Date: Fri, 5 Mar 2021 18:03:45 -0600
+X-Gmail-Original-Message-ID: <CADRPPNTSzuuqW97_vd3h5cpHe7gOLyw3zCaqapb8YVqPF-rOfA@mail.gmail.com>
+Message-ID: <CADRPPNTSzuuqW97_vd3h5cpHe7gOLyw3zCaqapb8YVqPF-rOfA@mail.gmail.com>
+Subject: Re: cleanup unused or almost unused IOMMU APIs and the FSL PAMU driver
+To: Christoph Hellwig <hch@lst.de>
 X-Mailman-Approved-At: Sat, 06 Mar 2021 10:04:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,43 +63,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pm@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Matt Merhar <mattmerhar@protonmail.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kvm@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Linux IOMMU <iommu@lists.linux-foundation.org>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, Netdev <netdev@vger.kernel.org>,
+ freedreno@lists.freedesktop.org, David Woodhouse <dwmw2@infradead.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXIgMDUsIDIwMjEgYXQgMTI6NDU6NTFBTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
-IHdyb3RlOgo+IDA0LjAzLjIwMjEgMDI6MDgsIE1pY2hhxYIgTWlyb3PFgmF3INC/0LjRiNC10YI6
-Cj4gPiBPbiBUdWUsIE1hciAwMiwgMjAyMSBhdCAwMzo0NDo0NFBNICswMzAwLCBEbWl0cnkgT3Np
-cGVua28gd3JvdGU6Cj4gPj4gRGlzcGxheSBjb250cm9sbGVyIChEQykgcGVyZm9ybXMgaXNvY2hy
-b25vdXMgbWVtb3J5IHRyYW5zZmVycywgYW5kIHRodXMsCj4gPj4gaGFzIGEgcmVxdWlyZW1lbnQg
-Zm9yIGEgbWluaW11bSBtZW1vcnkgYmFuZHdpZHRoIHRoYXQgc2hhbGwgYmUgZnVsZmlsbGVkLAo+
-ID4+IG90aGVyd2lzZSBmcmFtZWJ1ZmZlciBkYXRhIGNhbid0IGJlIGZldGNoZWQgZmFzdCBlbm91
-Z2ggYW5kIHRoaXMgcmVzdWx0cwo+ID4+IGluIGEgREMncyBkYXRhLUZJRk8gdW5kZXJmbG93IHRo
-YXQgZm9sbG93cyBieSBhIHZpc3VhbCBjb3JydXB0aW9uLgpbLi4uXQo+ID4+ICsJLyoKPiA+PiAr
-CSAqIEhvcml6b250YWwgZG93bnNjYWxlIHRha2VzIGV4dHJhIGJhbmR3aWR0aCB3aGljaCByb3Vn
-aGx5IGRlcGVuZHMKPiA+PiArCSAqIG9uIHRoZSBzY2FsZWQgd2lkdGguCj4gPj4gKwkgKi8KPiA+
-PiArCWlmIChzcmNfdyA+IGRzdF93KQo+ID4+ICsJCW11bCA9IChzcmNfdyAtIGRzdF93KSAqIGJw
-cCAvIDIwNDggKyAxOwo+ID4+ICsJZWxzZQo+ID4+ICsJCW11bCA9IDE7Cj4gPiAKPiA+IERvZXMg
-aXQgcmVhbGx5IG5lZWQgbW9yZSBiYW5kd2lkdGggdG8gc2NhbGUgZG93bj8gRG9lcyBpdCByZWFk
-IHRoZSBzYW1lCj4gPiBkYXRhIG11bHRpcGxlIHRpbWVzIGp1c3QgdG8gdGhyb3cgaXQgYXdheT8K
-PiBUaGUgaGFyZHdhcmUgaXNuJ3Qgb3B0aW1pemVkIGZvciBkb3duc2NhbGUsIGl0IGluZGVlZCB0
-YWtlcyBtb3JlCj4gYmFuZHdpZHRoLiBZb3UnbGwgd2l0bmVzcyBhIHNldmVyZSB1bmRlcmZsb3cg
-b2YgcGxhbmUncyBtZW1vcnkgRklGTwo+IGJ1ZmZlciBvbiB0cnlpbmcgdG8gZG93bnNjYWxlIDEw
-ODBwIHBsYW5lIHRvIDUweDUwLgpbLi4uXQoKSW4geW91ciBleGFtcGxlLCBkb2VzIGl0IHJlYWxs
-eSBuZWVkIDE2eCB0aGUgYmFuZHdpZHRoIGNvbXBhcmVkIHRvCm5vIHNjYWxpbmcgY2FzZT8gIFRo
-ZSBuYWl2ZSB3YXkgdG8gaW1wbGVtZW50IGRvd25zY2FsaW5nIHdvdWxkIGJlIHRvIHJlYWQKYWxs
-IHRoZSBwaXhlbHMgYW5kIG9ubHkgdGFrZSBldmVyeSBOLXRoLiAgTWF5YmUgdGhlIHByb2JsZW0g
-aXMgdGhhdCBpbgpkb3duc2NhbGluZyBtb2RlIHRoZSBsYXRlbmN5IHJlcXVpcmVtZW50cyBhcmUg
-dGlnaHRlcj8gIFdoeSB3b3VsZCBiYW5kd2lkdGgKcmVxdWlyZWQgYmUgcHJvcG9ydGlvbmFsIHRv
-IGEgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSB3aWR0aHMgKGluc3RlYWQgZS5nLgp0byBzcmMvZHN0
-IG9yIGRzdCpjYWNoZWxpbmVfc2l6ZSk/CgpCZXN0IFJlZ2FyZHMKTWljaGHFgiBNaXJvc8WCYXcK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Mar 1, 2021 at 2:44 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> Hi all,
+>
+> there are a bunch of IOMMU APIs that are entirely unused, or only used as
+> a private communication channel between the FSL PAMU driver and it's only
+> consumer, the qbman portal driver.
+>
+> So this series drops a huge chunk of entirely unused FSL PAMU
+> functionality, then drops all kinds of unused IOMMU APIs, and then
+> replaces what is left of the iommu_attrs with properly typed, smaller
+> and easier to use specific APIs.
+
+It looks like the unused APIs were added for functionality that were
+never completed later on.  So
+
+Acked-by: Li Yang <leoyang.li@nxp.com>
+
+>
+> Diffstat:
+>  arch/powerpc/include/asm/fsl_pamu_stash.h   |   12
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c     |    2
+>  drivers/iommu/amd/iommu.c                   |   23
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |   85 ---
+>  drivers/iommu/arm/arm-smmu/arm-smmu.c       |  122 +---
+>  drivers/iommu/dma-iommu.c                   |    8
+>  drivers/iommu/fsl_pamu.c                    |  264 ----------
+>  drivers/iommu/fsl_pamu.h                    |   10
+>  drivers/iommu/fsl_pamu_domain.c             |  694 ++--------------------------
+>  drivers/iommu/fsl_pamu_domain.h             |   46 -
+>  drivers/iommu/intel/iommu.c                 |   55 --
+>  drivers/iommu/iommu.c                       |   75 ---
+>  drivers/soc/fsl/qbman/qman_portal.c         |   56 --
+>  drivers/vfio/vfio_iommu_type1.c             |   31 -
+>  drivers/vhost/vdpa.c                        |   10
+>  include/linux/iommu.h                       |   81 ---
+>  16 files changed, 214 insertions(+), 1360 deletions(-)
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
