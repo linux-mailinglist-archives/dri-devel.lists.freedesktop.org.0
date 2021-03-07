@@ -2,54 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C98330432
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Mar 2021 20:17:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A3E330442
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Mar 2021 20:28:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC426E0BC;
-	Sun,  7 Mar 2021 19:17:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED0E689EB1;
+	Sun,  7 Mar 2021 19:28:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 346DD6E0BC
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Mar 2021 19:17:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 1293B64F56
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Mar 2021 19:17:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615144669;
- bh=4LsziScC2uOdFcrZDQ710hinPxx2CctK8bVTRWITFgs=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=kkFAt4lREBYNuLGSq8pO2t74OwMtxrghTcOuU+43RQ9lUwuPn5611vOU6JUaXxk/o
- WGSILCQ1IWKxuLPQEHS77rXRwgGhYWCSjh0bv2mi9rIDneOjS1j7nX6hzk0X7f5Zgo
- +W4DklFlEExq99SNmA0dK1hMWj2KN+OBVthJdMGxSTZAVhASDdcfhUP6yw6ZoV93wR
- S8MqJmFxeSu5svKn19NJtgiMqh15bY5WJhbJx0a0w1C5SBoFP58Ws0f5VlR3lf7ldc
- QCazTBxJTOqGVsXPAmN9dfbVnebVLJC3zKi10HrvMF5HxvGA4X7B/ee1SHR+FSOjWo
- 6jxCrYxgSfH9g==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 0EA8C65349; Sun,  7 Mar 2021 19:17:49 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212109] Analogix ANX6345 bridge fails to initialize after suspend
-Date: Sun, 07 Mar 2021 19:17:48 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: jaron@kent-dobias.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc cf_regression
-Message-ID: <bug-212109-2300-DKu5ziByOW@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212109-2300@https.bugzilla.kernel.org/>
-References: <bug-212109-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECF0B89EB1
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Mar 2021 19:28:50 +0000 (UTC)
+From: Paul Cercueil <paul@crapouillou.net>
+To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH 1/2] dt-bindings: panel/kingdisplay,
+ kd035g6-54nt: Remove spi-cs-high
+Date: Sun,  7 Mar 2021 19:28:29 +0000
+Message-Id: <20210307192830.208245-1-paul@crapouillou.net>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,25 +32,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>, od@zcrc.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=212109
+The NT39016 panel is a fun beast, even though the documentation states
+that the CS line is active-low, it will work just fine if the CS line is
+configured as active-high, but it won't work if the CS line is forced
+low or forced high.
 
-Jaron Kent-Dobias (jaron@kent-dobias.com) changed:
+Since it did actually work with the spi-cs-high property, this is not a
+bugfix, but we should nonetheless remove that property from the example
+to match the documentation.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |jaron@kent-dobias.com
-         Regression|No                          |Yes
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
+ .../bindings/display/panel/kingdisplay,kd035g6-54nt.yaml         | 1 -
+ 1 file changed, 1 deletion(-)
 
+diff --git a/Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54nt.yaml b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54nt.yaml
+index 6960036975fa..c45c92a3d41f 100644
+--- a/Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54nt.yaml
++++ b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54nt.yaml
+@@ -47,7 +47,6 @@ examples:
+ 
+             spi-max-frequency = <3125000>;
+             spi-3wire;
+-            spi-cs-high;
+ 
+             reset-gpios = <&gpe 2 GPIO_ACTIVE_LOW>;
+ 
 -- 
-You may reply to this email to add a comment.
+2.30.1
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
