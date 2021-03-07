@@ -2,54 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 930BC33045A
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Mar 2021 20:51:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEC4E330483
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Mar 2021 21:28:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 794086E241;
-	Sun,  7 Mar 2021 19:51:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 626656E048;
+	Sun,  7 Mar 2021 20:28:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 071516E241
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Mar 2021 19:51:42 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 7670965029
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Mar 2021 19:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615146701;
- bh=44AsI67eNxR1i/Yu1wzFpSvu4M8HM1Iq0FlPsHeDAFs=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=I+/PPahIXmbnnQ75b8H5HlpgKO/o0uwUbB6zQy5wa8ZR6z6qyohpsb+eBKqeeOkpp
- /vfKSRVOwzNFG92Yng7HQSw3OzIfC4pPUCmDIdsRwSvbURqHQ13eRBVuf0t/MCRI7E
- q44sMvN4hXIoyzhUL049f/KjHeMIaVWeGgZWR5Z21k5vWhoBZKuXhfgMJmsyUbmsXP
- 91hOIpB6nqfyKh0f1Ebkp875oGTqfC4MwjToqe52Klr4qcoyUqm9O4wbjP7iYRhz+l
- LupsNB03GMIQyUNHHx6bF8rV9j/yfzcAB8ksDExmpQtj7jOTx3cmrWNzbeerCZxUW7
- XCqGcgtk9Ne5g==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 6BA0E65349; Sun,  7 Mar 2021 19:51:41 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212109] Analogix ANX6345 bridge fails to initialize after suspend
-Date: Sun, 07 Mar 2021 19:51:41 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: jaron@kent-dobias.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-212109-2300-egnoOe1coH@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212109-2300@https.bugzilla.kernel.org/>
-References: <bug-212109-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 373CB6E048
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Mar 2021 20:28:55 +0000 (UTC)
+From: Paul Cercueil <paul@crapouillou.net>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2 0/5] Add option to mmap GEM buffers cached
+Date: Sun,  7 Mar 2021 20:28:30 +0000
+Message-Id: <20210307202835.253907-1-paul@crapouillou.net>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,23 +33,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=212109
+Rework of my previous patchset which added support for GEM buffers
+backed by non-coherent memory to the ingenic-drm driver.
 
---- Comment #2 from Jaron Kent-Dobias (jaron@kent-dobias.com) ---
-Additional information: the 5.10 and 5.11 series appear to attempt different
-suspends: the 5.10 enters "s2idle" suspend, while the 5.11 enters "deep"
-suspend.
+Having GEM buffers backed by non-coherent memory is interesting in
+the particular case where it is faster to render to a non-coherent
+buffer then sync the data cache, than to render to a write-combine
+buffer, and (by extension) much faster than using a shadow buffer.
+This is true for instance on some Ingenic SoCs, where even simple
+blits (e.g. memcpy) are about three times faster using this method.
+
+For the record, the previous patchset was accepted for 5.10 then had
+to be reverted, as it conflicted with some changes made to the DMA API.
+
+This new patchset is pretty different as it adds the functionality to
+the DRM core. The first three patches add variants to existing functions
+but with the "non-coherent memory" twist, exported as GPL symbols. The
+fourth patch adds a function to be used with the damage helpers.
+Finally, the last patch adds support for non-coherent GEM buffers to the
+ingenic-drm driver. The functionality is enabled through a module
+parameter, and is disabled by default.
+
+Cheers,
+-Paul
+
+Paul Cercueil (5):
+  drm: Add and export function drm_gem_cma_create_noncoherent
+  drm: Add and export function drm_gem_cma_dumb_create_noncoherent
+  drm: Add and export function drm_gem_cma_mmap_noncoherent
+  drm: Add and export function drm_gem_cma_sync_data
+  drm/ingenic: Add option to alloc cached GEM buffers
+
+ drivers/gpu/drm/drm_gem_cma_helper.c      | 223 +++++++++++++++++++---
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c |  49 ++++-
+ drivers/gpu/drm/ingenic/ingenic-drm.h     |   4 +
+ drivers/gpu/drm/ingenic/ingenic-ipu.c     |  14 +-
+ include/drm/drm_gem_cma_helper.h          |  13 ++
+ 5 files changed, 273 insertions(+), 30 deletions(-)
 
 -- 
-You may reply to this email to add a comment.
+2.30.1
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
