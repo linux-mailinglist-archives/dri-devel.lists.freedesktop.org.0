@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A68B933044E
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Mar 2021 20:37:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 930BC33045A
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Mar 2021 20:51:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7D8A899C7;
-	Sun,  7 Mar 2021 19:37:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 794086E241;
+	Sun,  7 Mar 2021 19:51:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 009DB8987A
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Mar 2021 19:37:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 36F636503E
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Mar 2021 19:37:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 071516E241
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Mar 2021 19:51:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 7670965029
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Mar 2021 19:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615145835;
- bh=SOQXzqVuhQDJUzx0bFJ09SFjS9jEOyDWRRgbmoI0y6A=;
+ s=k20201202; t=1615146701;
+ bh=44AsI67eNxR1i/Yu1wzFpSvu4M8HM1Iq0FlPsHeDAFs=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=lt9Qla1oQpqVFw+kZ92aw+GBSlukwX302UtCflpjrKXZ6CUq8ErLOluUMvzGN+YQx
- E/+5fY3sErzwuc5jvFZeEqJsy7gQOshHtrVs8RIUoPueT65NZL+/bHlcjSp2I2aPZv
- HzwzEBmjp2ifnZRQXX+r4nGXEJdveYHtXIqN/ZZmQYSDgJAuAFxdVg6qmlk87106h8
- GrO6yjW7xDDTkBquV7DBxS+RZSapEicWxAr5IUgu82oTvNmjLX6CGp+EG5rMfUXFXp
- fpIvhwaDIljgAL/yWBoxfKyP4xo7nVITIGgkb4CNtjqM/VdDL08j7gMQwj7HpirI2d
- HEPT9gMb9j2tw==
+ b=I+/PPahIXmbnnQ75b8H5HlpgKO/o0uwUbB6zQy5wa8ZR6z6qyohpsb+eBKqeeOkpp
+ /vfKSRVOwzNFG92Yng7HQSw3OzIfC4pPUCmDIdsRwSvbURqHQ13eRBVuf0t/MCRI7E
+ q44sMvN4hXIoyzhUL049f/KjHeMIaVWeGgZWR5Z21k5vWhoBZKuXhfgMJmsyUbmsXP
+ 91hOIpB6nqfyKh0f1Ebkp875oGTqfC4MwjToqe52Klr4qcoyUqm9O4wbjP7iYRhz+l
+ LupsNB03GMIQyUNHHx6bF8rV9j/yfzcAB8ksDExmpQtj7jOTx3cmrWNzbeerCZxUW7
+ XCqGcgtk9Ne5g==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 2974465349; Sun,  7 Mar 2021 19:37:15 +0000 (UTC)
+ id 6BA0E65349; Sun,  7 Mar 2021 19:51:41 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 212109] Analogix ANX6345 bridge fails to initialize after suspend
-Date: Sun, 07 Mar 2021 19:37:14 +0000
+Date: Sun, 07 Mar 2021 19:51:41 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -44,8 +44,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-212109-2300-n2C3UhcDhS@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-212109-2300-egnoOe1coH@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-212109-2300@https.bugzilla.kernel.org/>
 References: <bug-212109-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -70,10 +70,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=212109
 
---- Comment #1 from Jaron Kent-Dobias (jaron@kent-dobias.com) ---
-Created attachment 295707
-  --> https://bugzilla.kernel.org/attachment.cgi?id=295707&action=edit
-dmesg log ending immediately after bug in question
+--- Comment #2 from Jaron Kent-Dobias (jaron@kent-dobias.com) ---
+Additional information: the 5.10 and 5.11 series appear to attempt different
+suspends: the 5.10 enters "s2idle" suspend, while the 5.11 enters "deep"
+suspend.
 
 -- 
 You may reply to this email to add a comment.
