@@ -2,25 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CAD4330443
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Mar 2021 20:29:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A68B933044E
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Mar 2021 20:37:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 408786E1B7;
-	Sun,  7 Mar 2021 19:28:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7D8A899C7;
+	Sun,  7 Mar 2021 19:37:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 573026E1B7
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Mar 2021 19:28:58 +0000 (UTC)
-From: Paul Cercueil <paul@crapouillou.net>
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 2/2] MIPS: ingenic: gcw0: SPI panel does not require
- active-high CS
-Date: Sun,  7 Mar 2021 19:28:30 +0000
-Message-Id: <20210307192830.208245-2-paul@crapouillou.net>
-In-Reply-To: <20210307192830.208245-1-paul@crapouillou.net>
-References: <20210307192830.208245-1-paul@crapouillou.net>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 009DB8987A
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Mar 2021 19:37:16 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 36F636503E
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Mar 2021 19:37:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1615145835;
+ bh=SOQXzqVuhQDJUzx0bFJ09SFjS9jEOyDWRRgbmoI0y6A=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=lt9Qla1oQpqVFw+kZ92aw+GBSlukwX302UtCflpjrKXZ6CUq8ErLOluUMvzGN+YQx
+ E/+5fY3sErzwuc5jvFZeEqJsy7gQOshHtrVs8RIUoPueT65NZL+/bHlcjSp2I2aPZv
+ HzwzEBmjp2ifnZRQXX+r4nGXEJdveYHtXIqN/ZZmQYSDgJAuAFxdVg6qmlk87106h8
+ GrO6yjW7xDDTkBquV7DBxS+RZSapEicWxAr5IUgu82oTvNmjLX6CGp+EG5rMfUXFXp
+ fpIvhwaDIljgAL/yWBoxfKyP4xo7nVITIGgkb4CNtjqM/VdDL08j7gMQwj7HpirI2d
+ HEPT9gMb9j2tw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 2974465349; Sun,  7 Mar 2021 19:37:15 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212109] Analogix ANX6345 bridge fails to initialize after suspend
+Date: Sun, 07 Mar 2021 19:37:14 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: jaron@kent-dobias.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-212109-2300-n2C3UhcDhS@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212109-2300@https.bugzilla.kernel.org/>
+References: <bug-212109-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -34,43 +63,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>, od@zcrc.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The NT39016 panel is a fun beast, even though the documentation states
-that the CS line is active-low, it will work just fine if the CS line is
-configured as active-high, but it won't work if the CS line is forced
-low or forced high.
+https://bugzilla.kernel.org/show_bug.cgi?id=212109
 
-Since it did actually work with the spi-cs-high property, this is not a
-bugfix, but we should nonetheless remove that property to match the
-documentation.
+--- Comment #1 from Jaron Kent-Dobias (jaron@kent-dobias.com) ---
+Created attachment 295707
+  --> https://bugzilla.kernel.org/attachment.cgi?id=295707&action=edit
+dmesg log ending immediately after bug in question
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- arch/mips/boot/dts/ingenic/gcw0.dts | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/arch/mips/boot/dts/ingenic/gcw0.dts b/arch/mips/boot/dts/ingenic/gcw0.dts
-index bc72304a2440..f4c04f2263ea 100644
---- a/arch/mips/boot/dts/ingenic/gcw0.dts
-+++ b/arch/mips/boot/dts/ingenic/gcw0.dts
-@@ -345,7 +345,6 @@ nt39016@0 {
- 
- 			spi-max-frequency = <3125000>;
- 			spi-3wire;
--			spi-cs-high;
- 
- 			reset-gpios = <&gpe 2 GPIO_ACTIVE_LOW>;
- 
 -- 
-2.30.1
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
