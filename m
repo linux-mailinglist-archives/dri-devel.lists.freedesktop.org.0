@@ -2,41 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C217A330184
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Mar 2021 14:58:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 643673302B7
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Mar 2021 16:43:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A2A26E14D;
-	Sun,  7 Mar 2021 13:58:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E7F76E135;
+	Sun,  7 Mar 2021 15:43:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5CC06E145;
- Sun,  7 Mar 2021 13:58:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0163865111;
- Sun,  7 Mar 2021 13:58:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 008CC6E135
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Mar 2021 15:43:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 005A2650F7
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Mar 2021 15:43:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615125485;
- bh=YKt1LXGSyxpuPifHhhxpZ+S1YLgBmWcQUOqe7nLhOq0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WqSK8JUX/29n3s4p+BOjOaPQWdjnQU1tJ+CcDryDmwwOHJdsKLPwFcdj2QksriMWs
- 0GEXGs3V4XWuuh617v0HkwHTL/aYexmXjtXP3qLLAQNSPG9XvbR2p/w+Atizgx2o9Y
- hdE2cpQHkxmiR4HNfPL7gt+iJFdvc4LTEwSTIsVnqpOkDWNS83HyB4lzAcvvxuTlXN
- lqZGlccH3sq7SH9COBeXgBDKqJa7RdX//3jMLmwxFeUYPXtnOFcLc25FugXFfBtj0+
- cXgeWXmrBfk61X87x/xBCxM6dgvpV/skpS/pGFH5RGum6U+K/3x+ouYTU19fg9Udne
- H8iwy2UHjF5wQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 3/8] drm/amdgpu: enable BACO runpm by default on
- sienna cichlid and navy flounder
-Date: Sun,  7 Mar 2021 08:57:56 -0500
-Message-Id: <20210307135801.967583-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210307135801.967583-1-sashal@kernel.org>
-References: <20210307135801.967583-1-sashal@kernel.org>
+ s=k20201202; t=1615131785;
+ bh=EF68KiGiMjIkkodGvCgyfLh99srHQIB9u+cZJWVaSqw=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=eGwMhW4oxG88f3hWZG6G7ESx+s+8hTeXIdySxEO02TA1ZokVBWMqPWKFE/238VFJC
+ hRZll+TAHdUaE2JRi6/0yJTJ/q9U4MWfTEPBEiwLE5AQ8F6QcuRkWOMkg9qdcWinhf
+ /NBxQnrW09Kw9+jj96K6ru1TUyTLg7ymdmHTm7/aP2ZF8FXE6aY8/0Z8/fgoEZ6SFK
+ xVxiT1wmHHgRmD4tt9ioeoJ1nswK33cJcIa/6TvmBFaYdHxaNTkV5xaIvt6sdQrHj9
+ gdwv+Ke+vI4f7ZptvpEMXQtDR3468n78B3FlNtpCj9EQb5TOWDGY3YFYrHN0njr5Ie
+ XAseC2sCwSIIA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id EBB8E65350; Sun,  7 Mar 2021 15:43:04 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
+ drm, commit_tail, amdgpu_dm_atomic_commit_tail
+Date: Sun, 07 Mar 2021 15:43:04 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kolAflash@kolahilft.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211277-2300-iZxzA7XE65@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
+References: <bug-211277-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,47 +64,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Evan Quan <evan.quan@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=211277
 
-[ Upstream commit 25951362db7b3791488ec45bf56c0043f107b94b ]
+--- Comment #14 from kolAflash (kolAflash@kolahilft.de) ---
+(In reply to Jerome C from comment #13)
 
-It works fine and was only disabled because primary GPUs
-don't enter runpm if there is a console bound to the fbdev due
-to the kmap.  This will at least allow runpm on secondary cards.
+I don't get how you got to your results.
+There's no straight path from 5.10.4 to 5.11-rc5, as they are on different
+branches (5.10.y and master).
 
-Reviewed-by: Evan Quan <evan.quan@amd.com>
-Reviewed-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 2 --
- 1 file changed, 2 deletions(-)
+Nevertheless, your result may be reasonable from the point of the git history.
+I'm not sure about the commit ID a10aad137, but it has an completly identical
+twin commit c6d2b0fbb (also removing AMD_PG_SUPPORT_VCN_DPG from that
+expression).
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=c6d2b0fbb893d5c7dda405aa0e7bcbecf1c75f98
+And c6d2b0fbb has been applied between v5.10-rc2 and v5.10-rc3 (a10aad137 is
+only in master).
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-index efda38349a03..48cd9109ec97 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-@@ -169,8 +169,6 @@ int amdgpu_driver_load_kms(struct amdgpu_device *adev, unsigned long flags)
- #endif
- 		case CHIP_VEGA20:
- 		case CHIP_ARCTURUS:
--		case CHIP_SIENNA_CICHLID:
--		case CHIP_NAVY_FLOUNDER:
- 			/* enable runpm if runpm=1 */
- 			if (amdgpu_runtime_pm > 0)
- 				adev->runpm = true;
+So if c6d2b0fbb (a.k.a a10aad137) is responsible, this explains why I started
+recognizing the problem when Debian-Testing went from Linux-5.9 to Linux-5.10.
+
+I'm now running a 5.10.21 kernel where I reverted c6d2b0fbb. And I'll try using
+this kernel for at least one week and also run some iterative tests with it. 
+
+
+
+Regarding reproduction in general:
+
+I really wonder what triggers this bug. I didn't went so far to test with more
+than 50 tests (sleep-wake iterations). Especially I didn't tried more than 50 
+because the bug definitely appeared more often if it happened under "natural"
+(non-testing) circumstances.
+
+Some test series I did which are hard to make sense of statistically:
+I tried 20 tests and nothing happened. A few minutes later I decided to try 50
+more tests and it directly failed on the first one. So I had to reboot, tried
+again 50 tests and nothing happened. Afterwards I put my notebook into s2ram
+and when I woke it the next day it immediately crashed.
+
+
+
+By the way the two times it crashed recently (see above) happened with a kernel
+I compiled from clean kernel.org sources. Also I never experienced the bug with
+a clean 5.8.18 compiled from kernel.org running with the same system for about
+a week. So I'm quite convinced it's nothing Debian specific.
+
 -- 
-2.30.1
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
