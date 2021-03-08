@@ -2,43 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D16003318CA
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 21:43:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9353318D1
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 21:46:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC6706E3D2;
-	Mon,  8 Mar 2021 20:43:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97FC26E88A;
+	Mon,  8 Mar 2021 20:46:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E68176E3D2
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 20:43:26 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 75B23E7B;
- Mon,  8 Mar 2021 21:43:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1615236204;
- bh=eUIxsi6KUQOw5q47XWeSrdAkbyfhRraA71IbHa9KDhY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lJhlDVqUrAmPMxbo24TtmerInhAUXJLZaYnFraZ2XCkmvBAJATYIs9i1t1BE9Lk0k
- fb9L467HOf4vTHEbdlOR5LnBULflEuzWb+cU5MsFGvJI/kbFsptv1cpB+cHK4ddugF
- H2Sb8UI3Q2n057EJoJi1R2O9WUnyXMi/uzLNxvFE=
-Date: Mon, 8 Mar 2021 22:42:53 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Parshuram Raju Thombare <pthombar@cadence.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: drm/bridge: MHDP8546 bridge binding
- changes for HDCP
-Message-ID: <YEaMTbJ7Wx7otX2k@pendragon.ideasonboard.com>
-References: <1614597685-4192-1-git-send-email-pthombar@cadence.com>
- <1614597746-4563-1-git-send-email-pthombar@cadence.com>
- <YD0LKg3Jl5nauMqF@pendragon.ideasonboard.com>
- <DM5PR07MB319661E8BFEB251CE17AF587C19A9@DM5PR07MB3196.namprd07.prod.outlook.com>
- <YD0WAMySrv53lxFR@pendragon.ideasonboard.com>
- <DM5PR07MB319628C858F667D9E5058904C1999@DM5PR07MB3196.namprd07.prod.outlook.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3AC76E887;
+ Mon,  8 Mar 2021 20:46:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6FCF164DF5;
+ Mon,  8 Mar 2021 20:46:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1615236371;
+ bh=fJsMy6YyZc0GKNaInkxN1wNn9x/iFUp/YIamYo3r9jI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=GstGoT78JFxcmwrLZvbduyxRkkzi3fBn4/2ug3/IqmAiiXC/qScbn1IB1l4LQTSe3
+ BhDMTGvLDckABUwk1+MnssjPMYdAkU0PTrrmwQhtkyw+r1qbuJM6NSejids/mj5rAi
+ Kiq+/4VbA0+8LDY5mhc1/LZi9wwCa1w+ge388GTUqcIL3yH3YGjPL48trvXCRQPzUR
+ qRO6rLigtFBI3biLv9xYgKuqbQv3cpF271T/R8oj0piQYywprrJ3OYm5/mhf0HkJmU
+ FAP4uGMpwOwnkIwV3GWJflWEa8TVwjW9EE8m0hQtYUvsVXpFxZOwL1W8Vc9waTyYN0
+ +6L6Qlp6gZrag==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH] [variant b] drm/amdkfd: fix build error with missing
+ AMD_IOMMU_V2
+Date: Mon,  8 Mar 2021 21:45:49 +0100
+Message-Id: <20210308204606.2634726-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <DM5PR07MB319628C858F667D9E5058904C1999@DM5PR07MB3196.namprd07.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,55 +46,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "kishon@ti.com" <kishon@ti.com>, "a.hajda@samsung.com" <a.hajda@samsung.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "robert.foss@linaro.org" <robert.foss@linaro.org>,
- Swapnil Kashinath Jakhade <sjakhade@cadence.com>,
- "nikhil.nd@ti.com" <nikhil.nd@ti.com>, Milind Parab <mparab@cadence.com>
+Cc: Philip Yang <philip.yang@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Parshuram,
+From: Arnd Bergmann <arnd@arndb.de>
 
-On Tue, Mar 02, 2021 at 12:53:50PM +0000, Parshuram Raju Thombare wrote:
-> Hi Laurent,
-> 
-> >>> Is this a property of the hardware, that is, are there multiple versions
-> >>> of this IP core covered by the same compatible string that support HDCP
-> >>> 1.4 only, DHCP 2.2 only or both ? Or is it a way to select what a given
-> >>> system will offer ?[]
-> >>
-> >> MHDP hardware supports both HDCP 2.2 and 1.4. So, this is a way
-> >> to select the version of HDCP, system wish to support.
-> >
-> > Then I'm not sure this qualifies as a DT property, which should describe
-> > the system, not configure it. A way for userspace to configure this
-> > would be better.
-> 
-> Since this is for source device, I am not sure how useful it is to allow
-> user to change HDCP version supported. I think doing it in DTS
-> gives more control over HDCP to system designer/integrator.
+Using 'imply AMD_IOMMU_V2' does not guarantee that the driver can link
+against the exported functions. If the GPU driver is built-in but the
+IOMMU driver is a loadable module, the kfd_iommu.c file is indeed
+built but does not work:
 
-But how would they do so ? What would be the rationale for selecting a
-particular version in DT ?
+x86_64-linux-ld: drivers/gpu/drm/amd/amdkfd/kfd_iommu.o: in function `kfd_iommu_bind_process_to_device':
+kfd_iommu.c:(.text+0x516): undefined reference to `amd_iommu_bind_pasid'
+x86_64-linux-ld: drivers/gpu/drm/amd/amdkfd/kfd_iommu.o: in function `kfd_iommu_unbind_process':
+kfd_iommu.c:(.text+0x691): undefined reference to `amd_iommu_unbind_pasid'
+x86_64-linux-ld: drivers/gpu/drm/amd/amdkfd/kfd_iommu.o: in function `kfd_iommu_suspend':
+kfd_iommu.c:(.text+0x966): undefined reference to `amd_iommu_set_invalidate_ctx_cb'
+x86_64-linux-ld: kfd_iommu.c:(.text+0x97f): undefined reference to `amd_iommu_set_invalid_ppr_cb'
+x86_64-linux-ld: kfd_iommu.c:(.text+0x9a4): undefined reference to `amd_iommu_free_device'
+x86_64-linux-ld: drivers/gpu/drm/amd/amdkfd/kfd_iommu.o: in function `kfd_iommu_resume':
+kfd_iommu.c:(.text+0xa9a): undefined reference to `amd_iommu_init_device'
+x86_64-linux-ld: kfd_iommu.c:(.text+0xadc): undefined reference to `amd_iommu_set_invalidate_ctx_cb'
+x86_64-linux-ld: kfd_iommu.c:(.text+0xaff): undefined reference to `amd_iommu_set_invalid_ppr_cb'
+x86_64-linux-ld: kfd_iommu.c:(.text+0xc72): undefined reference to `amd_iommu_bind_pasid'
+x86_64-linux-ld: kfd_iommu.c:(.text+0xe08): undefined reference to `amd_iommu_set_invalidate_ctx_cb'
+x86_64-linux-ld: kfd_iommu.c:(.text+0xe26): undefined reference to `amd_iommu_set_invalid_ppr_cb'
+x86_64-linux-ld: kfd_iommu.c:(.text+0xe42): undefined reference to `amd_iommu_free_device'
 
-I'm not thinking about giving control of this parameter to the end-user,
-but in the context of an embedded system, it may be useful to select
-which HDCP versions to offer based on different constraints at runtime.
-This really seems like a system configuration parameter to me, not a
-system description.
+Change the 'imply' to a weak dependency that still allows compiling
+in all other configurations but disallows the configuration that
+causes a link failure.
 
+Fixes: 64d1c3a43a6f ("drm/amdkfd: Centralize IOMMUv2 code and make it conditional")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/amd/amdkfd/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdkfd/Kconfig b/drivers/gpu/drm/amd/amdkfd/Kconfig
+index f02c938f75da..d01dba2af3bb 100644
+--- a/drivers/gpu/drm/amd/amdkfd/Kconfig
++++ b/drivers/gpu/drm/amd/amdkfd/Kconfig
+@@ -6,7 +6,7 @@
+ config HSA_AMD
+ 	bool "HSA kernel driver for AMD GPU devices"
+ 	depends on DRM_AMDGPU && (X86_64 || ARM64 || PPC64)
+-	imply AMD_IOMMU_V2 if X86_64
++	depends on AMD_IOMMU_V2=y || DRM_AMDGPU=m
+ 	select HMM_MIRROR
+ 	select MMU_NOTIFIER
+ 	select DRM_AMDGPU_USERPTR
 -- 
-Regards,
+2.29.2
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
