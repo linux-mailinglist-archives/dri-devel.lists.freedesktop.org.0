@@ -1,53 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA6C3314F6
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 18:36:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8739B331500
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 18:39:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8929C6E40D;
-	Mon,  8 Mar 2021 17:36:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADACC89E5F;
+	Mon,  8 Mar 2021 17:39:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
- [209.85.166.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 899016E40D
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 17:36:18 +0000 (UTC)
-Received: by mail-io1-f53.google.com with SMTP id o11so10852332iob.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Mar 2021 09:36:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JBA6up/vPaAHWMxjZYEnP/CnL1gFfsdNRmBXWfPosnI=;
- b=OGHX6LV4NXm2wgUA12QZrLT3BHKOpIwH5ySOb2VkIvypY52lxasLpWM9pY+OCcKBeP
- 6o4zFlGq4ShzijthIbXpE7JCG43c27AOTiJFAnOqYAI9yRUb6Pm878AM/n5fy7Cd5hfr
- GqWfP0R10fXjmQLoYtyyBF2mqJ9/PY3kIEPO1U7pOYN3Ek6wluU1XouxrUvhK/OdRS75
- AgFO/u4jM6czGRTNZ+bNGd9gwbakoPliXU3Qi9+bl6t+zHsIZNEw9IwH7Tvvt1/MPhqS
- Jn6JRHGDDenA6++e5TiUG5dEDNCo2+dTRsfOtMDKqt0yB5zRmG3MhxEArW86agCymB4f
- wQWw==
-X-Gm-Message-State: AOAM5305gROh9z8GaA/CBtqlX/9UgH8aSmlgyTHmiD9MEoijCHpxSxek
- HZtGfnryJEeGUaTBRvtDfw==
-X-Google-Smtp-Source: ABdhPJyJaGJBruRnAkdq1spRqZqtn2RV1GOv+7vhvyAfJFtvmSgGafdf13MYdJGctj/hpQjFitOtMg==
-X-Received: by 2002:a6b:5c0d:: with SMTP id z13mr19258278ioh.6.1615224977961; 
- Mon, 08 Mar 2021 09:36:17 -0800 (PST)
-Received: from robh.at.kernel.org ([64.188.179.253])
- by smtp.gmail.com with ESMTPSA id y18sm6506926ili.16.2021.03.08.09.36.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 09:36:17 -0800 (PST)
-Received: (nullmailer pid 2674975 invoked by uid 1000);
- Mon, 08 Mar 2021 17:36:15 -0000
-Date: Mon, 8 Mar 2021 10:36:15 -0700
-From: Rob Herring <robh@kernel.org>
-To: Parshuram Thombare <pthombar@cadence.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: drm/bridge: MHDP8546 bridge binding
- changes for HDCP
-Message-ID: <20210308173615.GA2668115@robh.at.kernel.org>
-References: <1614597685-4192-1-git-send-email-pthombar@cadence.com>
- <1614597746-4563-1-git-send-email-pthombar@cadence.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68F3089E5F
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 17:39:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 82E5865267
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 17:39:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1615225181;
+ bh=baZ0S27yNGsgSRuBQuEc7EQ99mNCKCsVpravg35iT7E=;
+ h=From:To:Subject:Date:From;
+ b=ewEnSLIklu/Pp9hBrzY4P7bUKjL+/VYi4RwJS1AW0Q6rK0KxTNB0kgJr2kyVuvhkR
+ 70rJI9qbMQNnfq6fFXZCiRVxP7kBTSh5HabnIPBBrB6yHIMF3+LqWxxlvEOTYkRlHp
+ Gh2Qyn/XD/XnqTSiXYwgrjJ20CrD+kUlF0UPMuuR5DqQTYDEI72waVVuRWdK3Fv6Gc
+ F8qZZZ0V4Bd6GCuFhxwjDa6yltDWnfEelU2vsnAoGxt1QE6wb0j616BVFsawFqPYaN
+ L0snSL42BxKk7qUJvOasDIf5EgXovAr/NM1FBIMaC+jpVji1xfxvMLn1jg/KmNuLbb
+ OnCraODUlsr8g==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 73E2A65349; Mon,  8 Mar 2021 17:39:41 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212137] New: kernel NULL pointer dereference, black screen when
+ using two graphics cards
+Date: Mon, 08 Mar 2021 17:39:41 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: mail@dennisfoster.us
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-212137-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1614597746-4563-1-git-send-email-pthombar@cadence.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,117 +64,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, narmstrong@baylibre.com, airlied@linux.ie,
- robert.foss@linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kishon@ti.com, a.hajda@samsung.com,
- laurent.pinchart@ideasonboard.com, sjakhade@cadence.com, nikhil.nd@ti.com,
- mparab@cadence.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 01, 2021 at 12:22:26PM +0100, Parshuram Thombare wrote:
-> Add binding changes for HDCP in the MHDP8546 DPI/DP bridge binding.
-> This binding is not used in any upstreamed DTS yet, so changing
-> index of property 'j721e-intg' should not affect anything.
+https://bugzilla.kernel.org/show_bug.cgi?id=212137
 
-TI folks might disagree, but weren't Cc'ed.
+            Bug ID: 212137
+           Summary: kernel NULL pointer dereference, black screen when
+                    using two graphics cards
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.11
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: high
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: mail@dennisfoster.us
+        Regression: No
 
-> 
-> Signed-off-by: Parshuram Thombare <pthombar@cadence.com>
-> ---
->  .../display/bridge/cdns,mhdp8546.yaml         | 29 ++++++++++++-------
->  1 file changed, 19 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-> index 63427878715e..5fdadadaac16 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-> @@ -17,21 +17,24 @@ properties:
->        - ti,j721e-mhdp8546
->  
->    reg:
-> -    minItems: 1
-> -    maxItems: 2
-> +    minItems: 2
-> +    maxItems: 3
->      items:
->        - description:
->            Register block of mhdptx apb registers up to PHY mapped area (AUX_CONFIG_P).
->            The AUX and PMA registers are not part of this range, they are instead
->            included in the associated PHY.
-> +      - description:
-> +          Register block of mhdptx sapb registers.
->        - description:
->            Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
->  
->    reg-names:
-> -    minItems: 1
-> -    maxItems: 2
-> +    minItems: 2
-> +    maxItems: 3
->      items:
->        - const: mhdptx
-> +      - const: mhdptx-sapb
->        - const: j721e-intg
->  
->    clocks:
-> @@ -53,6 +56,11 @@ properties:
->    power-domains:
->      maxItems: 1
->  
-> +  hdcp-config:
-> +    maxItems: 1
-> +    description:
-> +      HDCP version supported. Bit [0]:HDCP2.2 [1]:HDCP1.4.
+Created attachment 295741
+  --> https://bugzilla.kernel.org/attachment.cgi?id=295741&action=edit
+lspci -vvv
 
-2.2 is not backwards compatible with 1.4? What's the setting if not 
-present? Maybe just a 'disable 2.2 boolean' if that's the non-common 
-case.
+On linux v5.11 and above (up to 5.11.4) I cannot longer boot the system
+(GNOME/Wayland) using two graphics cards. It gets stuck with black screen with
+no response to keyboard/mouse.
 
-In any case, it needs a type and constraints on the values.
+In systemd journal there are some messages about kernel bug:
+
+Mar 08 11:54:05 homeserver kernel: BUG: kernel NULL pointer dereference,
+address: 0000000000000008
+Mar 08 11:54:05 homeserver kernel: #PF: supervisor read access in kernel mode
+Mar 08 11:54:05 homeserver kernel: #PF: error_code(0x0000) - not-present page
+Mar 08 11:54:05 homeserver kernel: PGD 0 P4D 0
+Mar 08 11:54:05 homeserver kernel: Oops: 0000 [#1] PREEMPT SMP NOPTI
+Mar 08 11:54:05 homeserver kernel: CPU: 6 PID: 608 Comm: gnome-shell Tainted: G
+OE 5.11.4-arch1-1 #1
+Mar 08 11:54:05 homeserver kernel: Hardware name: Gigabyte Technology Co., Ltd.
+A320M-S2H/A320M-S2H-CF, BIOS F2 11/03/2020
+Mar 08 11:54:05 homeserver kernel: RIP:
+0010:drm_gem_handle_create_tail+0xcb/0x190 [drm]
+Mar 08 11:54:05 homeserver kernel: Code: 00 48 89 df e8 c6 20 59 f4 45 85 e4 78
+77 48 8d 5d 18 4c 89 ee 48 89 df e8 42 fe 00 00 89 c2 85 c0 75 3e 48 8b 85 40
+01 00 00 <48> 8b 40 08 48 85 c0 74 0f 4c 89 ee 48 89 ef e8 81 8b 91 f4 85 c0
+Mar 08 11:54:05 homeserver kernel: RSP: 0018:ffffb7a7c16bfd30 EFLAGS: 00010246
+Mar 08 11:54:05 homeserver kernel: RAX: 0000000000000000 RBX: ffffa0eabe065090
+RCX: 0000000000000001
 
 
-> +
->    interrupts:
->      maxItems: 1
->  
-> @@ -98,15 +106,15 @@ allOf:
->      then:
->        properties:
->          reg:
-> -          minItems: 2
-> +          minItems: 3
->          reg-names:
-> -          minItems: 2
-> +          minItems: 3
->      else:
->        properties:
->          reg:
-> -          maxItems: 1
-> +          maxItems: 2
->          reg-names:
-> -          maxItems: 1
-> +          maxItems: 2
->  
->  required:
->    - compatible
-> @@ -129,8 +137,9 @@ examples:
->  
->          mhdp: dp-bridge@f0fb000000 {
->              compatible = "cdns,mhdp8546";
-> -            reg = <0xf0 0xfb000000 0x0 0x1000000>;
-> -            reg-names = "mhdptx";
-> +            reg = <0xf0 0xfb000000 0x0 0x1000000>,
-> +                  <0x0 0x4f48000 0x0 0x74>;
-> +            reg-names = "mhdptx", "mhdptx-sapb";
->              clocks = <&mhdp_clock>;
->              phys = <&dp_phy>;
->              phy-names = "dpphy";
-> -- 
-> 2.25.1
-> 
+Everything works perfectly fine using current LTS v5.10.21.
+I am using Radeon RX 470 as a primary card, and the older ATI FirePro 2270 as a
+secondary one in order to provide two extra monitor outputs.
+
+I've attached my lspci output as well as full systemd log.
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
