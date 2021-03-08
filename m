@@ -2,31 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17843330EB7
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 13:55:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 522A1330F3E
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 14:33:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97AA46E51D;
-	Mon,  8 Mar 2021 12:55:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7536E6E3C6;
+	Mon,  8 Mar 2021 13:33:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB026E866
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 12:55:26 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
- by mslow2.mail.gandi.net (Postfix) with ESMTP id A9BDC3A6A4B
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 12:34:47 +0000 (UTC)
-X-Originating-IP: 86.247.11.12
-Received: from haruko.lan (lfbn-idf2-1-654-12.w86-247.abo.wanadoo.fr
- [86.247.11.12]) (Authenticated sender: schroder@emersion.fr)
- by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id B7DD5E0009;
- Mon,  8 Mar 2021 12:34:24 +0000 (UTC)
-From: Simon Ser <contact@emersion.fr>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/uapi: document kernel capabilities
-Date: Mon,  8 Mar 2021 13:34:21 +0100
-Message-Id: <20210308123421.747836-1-contact@emersion.fr>
-X-Mailer: git-send-email 2.30.1
-MIME-Version: 1.0
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C44D189B11
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 13:33:07 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id j2so11460058wrx.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Mar 2021 05:33:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=RsjSwA8oB0o8PW0ry99uhxTdXQdH9BOaf5mimdTgeO0=;
+ b=lWgaqsU8BQOwg9ws+DhQ/BWpAGGUh8wAnGaIk1lwDEofYiLOAhnUDvwTgdcltFd/Uf
+ YsZHPTY6e6kNXalk/rmRj1JzpwNfZBxiP6yn6cwPmGg0Dph1wbF4d3Ul5NSoB4s8GwYD
+ nlH4qfp6V1l53JUThiQx/V0USq4Gt1khL5dGlV8juzFC9xCtxFPTHoTRadWc7zznJ8qw
+ s+gy9jH9Xoq/gFjjgsSjZvcFBW1f1akBVwlFUVL2FLsro5Kb7d78Np120TBRReONbPnQ
+ fZlJimyI9CR1S0CynZOBmLY9R54Zyoa3bAPsezbfw/RyxXar3+qr6KMWSKS7m523eMAW
+ OgUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=RsjSwA8oB0o8PW0ry99uhxTdXQdH9BOaf5mimdTgeO0=;
+ b=NYkLw85cqj9Eeetcxdq3jStdP4SzmpIIGMMpg8b1eO7o21QSN6pgjVNA6axIFmsIek
+ quS7K1hEVOsTiOFGevbyEPhcALxzABFz5X6XCzovMBsWJiCf/bfGZsDaJ50CcnkGv3Fm
+ g3OUrjDzujo3h9d4SoC0HSW30OADS3Uoo0x98lioszvkc757zq88t/dVAueaKiYvWj2N
+ w9j0VbR41j3HHnAZEBnn65wXJG10vOMv+XyaHdbuwG6/92ArN8ajiq7Hn4xCLIs2ZgdX
+ UT4yT+VozTrYA3QE7/ixqKnBPYBXj3Bem3N0zUsjPw+kAowp6aqPhlXvOXr4gndsowdX
+ Rujw==
+X-Gm-Message-State: AOAM530LCKjPzSXLDu1tHVCR6te63ZYqjT/7sQdi8IbLczUrt2b32rmT
+ 3eWxifRpVehY+GNiy4UkZlU90Q==
+X-Google-Smtp-Source: ABdhPJw3x/ONzAujdJQrvrdWPrHpTxgLjwa+71+eZDx0LcFQ+0Bvu7wMMD+q/fjcOPEFvjgfd2vEMw==
+X-Received: by 2002:adf:b609:: with SMTP id f9mr22017714wre.223.1615210386308; 
+ Mon, 08 Mar 2021 05:33:06 -0800 (PST)
+Received: from localhost.localdomain
+ (lns-bzn-59-82-252-141-80.adsl.proxad.net. [82.252.141.80])
+ by smtp.gmail.com with ESMTPSA id m11sm18942665wrz.40.2021.03.08.05.33.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Mar 2021 05:33:05 -0800 (PST)
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+To: cwchoi00@gmail.com
+Subject: [PATCH v6 2/4] PM / devfreq: msm: Use devfreq cooling device
+ registration
+Date: Mon,  8 Mar 2021 14:30:38 +0100
+Message-Id: <20210308133041.10516-2-daniel.lezcano@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210308133041.10516-1-daniel.lezcano@linaro.org>
+References: <20210308133041.10516-1-daniel.lezcano@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,174 +66,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, linux-pm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ linux-kernel@vger.kernel.org,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ steven.price@arm.com, Sean Paul <sean@poorly.run>, lukasz.luba@arm.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document all of the DRM_CAP_* defines.
+The devfreq core code is able to register the devfreq device as a
+cooling device if the 'is_cooling_device' flag is set in the profile.
 
-v2 (Pekka):
-- Describe what the bit depth is
-- Expand on preferred dumb buffer memory access patterns
-- Explain what a PRIME buffer is
-- Mention DRM_IOCTL_PRIME_FD_TO_HANDLE and DRM_IOCTL_PRIME_HANDLE_TO_FD
-- Explicitly reference CLOCK_REALTIME and CLOCK_MONOTONIC
-- Make it clear DRM_CAP_CRTC_IN_VBLANK_EVENT applies to both DRM_EVENT_VBLANK
-  and DRM_EVENT_FLIP_COMPLETE
+Use this flag and remove the cooling device registering code.
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Pekka Paalanen <ppaalanen@gmail.com>
+Tested on dragonboard 845c
+
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 ---
- include/uapi/drm/drm.h | 112 +++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 108 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/msm_gpu.c | 12 +-----------
+ drivers/gpu/drm/msm/msm_gpu.h |  2 --
+ 2 files changed, 1 insertion(+), 13 deletions(-)
 
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index 0827037c5484..79e9c9d5e7a9 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -625,30 +625,134 @@ struct drm_gem_open {
- 	__u64 size;
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index ab7c167b0623..eade94271a60 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -14,7 +14,6 @@
+ #include <generated/utsrelease.h>
+ #include <linux/string_helpers.h>
+ #include <linux/devfreq.h>
+-#include <linux/devfreq_cooling.h>
+ #include <linux/devcoredump.h>
+ #include <linux/sched/task.h>
+ 
+@@ -82,6 +81,7 @@ static struct devfreq_dev_profile msm_devfreq_profile = {
+ 	.target = msm_devfreq_target,
+ 	.get_dev_status = msm_devfreq_get_dev_status,
+ 	.get_cur_freq = msm_devfreq_get_cur_freq,
++	.is_cooling_device = true,
  };
  
-+/**
-+ * DRM_CAP_DUMB_BUFFER
-+ *
-+ * If set to 1, the driver supports creating dumb buffers via the
-+ * &DRM_IOCTL_MODE_CREATE_DUMB ioctl.
-+ */
- #define DRM_CAP_DUMB_BUFFER		0x1
-+/**
-+ * DRM_CAP_VBLANK_HIGH_CRTC
-+ *
-+ * If set to 1, the kernel supports specifying a CRTC index in the high bits of
-+ * &drm_wait_vblank_request.type.
-+ */
- #define DRM_CAP_VBLANK_HIGH_CRTC	0x2
-+/**
-+ * DRM_CAP_DUMB_PREFERRED_DEPTH
-+ *
-+ * The preferred bit depth for dumb buffers.
-+ *
-+ * The bit depth is the number of bits used to indicate the color of a single
-+ * pixel excluding any padding. This is different from the number of bits per
-+ * pixel. For instance, XRGB8888 has a bit depth of 24 but has 32 bits per
-+ * pixel.
-+ */
- #define DRM_CAP_DUMB_PREFERRED_DEPTH	0x3
-+/**
-+ * DRM_CAP_DUMB_PREFER_SHADOW
-+ *
-+ * If set to 1, the driver prefers userspace to render to a shadow buffer
-+ * instead of directly rendering to a dumb buffer. For best speed, userspace
-+ * should do streaming ordered memory copies into the dumb buffer and never
-+ * read from it.
-+ */
- #define DRM_CAP_DUMB_PREFER_SHADOW	0x4
-+/**
-+ * DRM_CAP_PRIME
-+ *
-+ * Bitfield of supported PRIME sharing capabilities. See &DRM_PRIME_CAP_IMPORT
-+ * and &DRM_PRIME_CAP_EXPORT.
-+ *
-+ * PRIME buffers are exposed as dma-buf file descriptors. See
-+ * Documentation/gpu/drm-mm.rst, section "PRIME Buffer Sharing".
-+ */
- #define DRM_CAP_PRIME			0x5
-+/**
-+ * DRM_PRIME_CAP_IMPORT
-+ *
-+ * If this bit is set in &DRM_CAP_PRIME, the driver supports importing PRIME
-+ * buffers via the &DRM_IOCTL_PRIME_FD_TO_HANDLE ioctl.
-+ */
- #define  DRM_PRIME_CAP_IMPORT		0x1
-+/**
-+ * DRM_PRIME_CAP_EXPORT
-+ *
-+ * If this bit is set in &DRM_CAP_PRIME, the driver supports exporting PRIME
-+ * buffers via the &DRM_IOCTL_PRIME_HANDLE_TO_FD ioctl.
-+ */
- #define  DRM_PRIME_CAP_EXPORT		0x2
-+/**
-+ * DRM_CAP_TIMESTAMP_MONOTONIC
-+ *
-+ * If set to 0, the kernel will report timestamps with ``CLOCK_REALTIME`` in
-+ * struct drm_event_vblank. If set to 1, the kernel will report timestamps with
-+ * ``CLOCK_MONOTONIC``. See ``clock_gettime(2)`` for the definition of these
-+ * clocks.
-+ */
- #define DRM_CAP_TIMESTAMP_MONOTONIC	0x6
-+/**
-+ * DRM_CAP_ASYNC_PAGE_FLIP
-+ *
-+ * If set to 1, the driver supports &DRM_MODE_PAGE_FLIP_ASYNC.
-+ */
- #define DRM_CAP_ASYNC_PAGE_FLIP		0x7
--/*
-- * The CURSOR_WIDTH and CURSOR_HEIGHT capabilities return a valid widthxheight
-- * combination for the hardware cursor. The intention is that a hardware
-- * agnostic userspace can query a cursor plane size to use.
-+/**
-+ * DRM_CAP_CURSOR_WIDTH
-+ *
-+ * The ``CURSOR_WIDTH`` and ``CURSOR_HEIGHT`` capabilities return a valid
-+ * width x height combination for the hardware cursor. The intention is that a
-+ * hardware agnostic userspace can query a cursor plane size to use.
-  *
-  * Note that the cross-driver contract is to merely return a valid size;
-  * drivers are free to attach another meaning on top, eg. i915 returns the
-  * maximum plane size.
-  */
- #define DRM_CAP_CURSOR_WIDTH		0x8
-+/**
-+ * DRM_CAP_CURSOR_HEIGHT
-+ *
-+ * See &DRM_CAP_CURSOR_WIDTH.
-+ */
- #define DRM_CAP_CURSOR_HEIGHT		0x9
-+/**
-+ * DRM_CAP_ADDFB2_MODIFIERS
-+ *
-+ * If set to 1, the driver supports supplying modifiers in the
-+ * &DRM_IOCTL_MODE_ADDFB2 ioctl.
-+ */
- #define DRM_CAP_ADDFB2_MODIFIERS	0x10
-+/**
-+ * DRM_CAP_PAGE_FLIP_TARGET
-+ *
-+ * If set to 1, the driver supports the &DRM_MODE_PAGE_FLIP_TARGET_ABSOLUTE and
-+ * &DRM_MODE_PAGE_FLIP_TARGET_RELATIVE flags in
-+ * &drm_mode_crtc_page_flip_target.flags for the &DRM_IOCTL_MODE_PAGE_FLIP
-+ * ioctl.
-+ */
- #define DRM_CAP_PAGE_FLIP_TARGET	0x11
-+/**
-+ * DRM_CAP_CRTC_IN_VBLANK_EVENT
-+ *
-+ * If set to 1, the kernel supports reporting the CRTC ID in
-+ * &drm_event_vblank.crtc_id for the &DRM_EVENT_VBLANK and
-+ * &DRM_EVENT_FLIP_COMPLETE events.
-+ */
- #define DRM_CAP_CRTC_IN_VBLANK_EVENT	0x12
-+/**
-+ * DRM_CAP_SYNCOBJ
-+ *
-+ * If set to 1, the driver supports sync objects. See
-+ * Documentation/gpu/drm-mm.rst, section "DRM Sync Objects".
-+ */
- #define DRM_CAP_SYNCOBJ		0x13
-+/**
-+ * DRM_CAP_SYNCOBJ_TIMELINE
-+ *
-+ * If set to 1, the driver supports timeline operations on sync objects. See
-+ * Documentation/gpu/drm-mm.rst, section "DRM Sync Objects".
-+ */
- #define DRM_CAP_SYNCOBJ_TIMELINE	0x14
+ static void msm_devfreq_init(struct msm_gpu *gpu)
+@@ -112,14 +112,6 @@ static void msm_devfreq_init(struct msm_gpu *gpu)
+ 	}
  
- /* DRM_IOCTL_GET_CAP ioctl argument type */
+ 	devfreq_suspend_device(gpu->devfreq.devfreq);
+-
+-	gpu->cooling = of_devfreq_cooling_register(gpu->pdev->dev.of_node,
+-			gpu->devfreq.devfreq);
+-	if (IS_ERR(gpu->cooling)) {
+-		DRM_DEV_ERROR(&gpu->pdev->dev,
+-				"Couldn't register GPU cooling device\n");
+-		gpu->cooling = NULL;
+-	}
+ }
+ 
+ static int enable_pwrrail(struct msm_gpu *gpu)
+@@ -1056,6 +1048,4 @@ void msm_gpu_cleanup(struct msm_gpu *gpu)
+ 	if (gpu->worker) {
+ 		kthread_destroy_worker(gpu->worker);
+ 	}
+-
+-	devfreq_cooling_unregister(gpu->cooling);
+ }
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index d7cd02cd2109..93419368bac8 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -155,8 +155,6 @@ struct msm_gpu {
+ 	struct msm_gpu_state *crashstate;
+ 	/* True if the hardware supports expanded apriv (a650 and newer) */
+ 	bool hw_apriv;
+-
+-	struct thermal_cooling_device *cooling;
+ };
+ 
+ static inline struct msm_gpu *dev_to_gpu(struct device *dev)
 -- 
-2.30.1
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
