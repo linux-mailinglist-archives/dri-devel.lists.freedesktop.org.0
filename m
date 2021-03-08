@@ -2,56 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C8F330547
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 01:18:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4E883305AF
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 02:49:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 042ED6E111;
-	Mon,  8 Mar 2021 00:18:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4180E6E1DE;
+	Mon,  8 Mar 2021 01:49:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEC196E111
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 00:18:46 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 197C565151
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 00:18:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615162725;
- bh=AKjBp2cxsjlEQjhsirlKhmLXQVmHSr+v4s2T5qXSDkQ=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=BcVVyp0f2lwz3y0ritqakzlNbi9Xou3BoIEYVhzXc0zSRWEZ0xNe5lPCu3Wr7pD0p
- SoSnrcXCuhTM7lNw9QFyzuKKXEMEdxrC8s6OxV8fp3apMDcjKxF/RGW+OJ0rk/+w+2
- V/REHua2qn8xufBZD6pi7yHQxbu4WntISN/pt4/wdH8adAKkdXjYDMOwG7SAx6nWQD
- oKOU476rarBvtUUqsn6XvWAHzTUQRrZ+qN1FFjRWljBmauJmQ/Vo9Di5dCM3P56+h3
- pTdZTE6Ks25h3eTJBKbKIenUulataZScbwPqaZUu/lajShQsmvJuO30TnxuGcNfTN8
- 8bVpqORwGT9Qw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 10D8665343; Mon,  8 Mar 2021 00:18:45 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 924DB6E1DE
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 01:49:32 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370--cHiGI5cNdqDgLeo8nqQHA-1; Sun, 07 Mar 2021 20:49:26 -0500
+X-MC-Unique: -cHiGI5cNdqDgLeo8nqQHA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75E54189DF4F;
+ Mon,  8 Mar 2021 01:49:25 +0000 (UTC)
+Received: from dreadlord-bne-redhat-com.bne.redhat.com (unknown [10.64.32.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B3F7C60BF1;
+ Mon,  8 Mar 2021 01:49:24 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: =?UTF-8?B?W0J1ZyAyMTIxMDddIFRlbXBlcmF0dXJlIGluY3JlYXNlIGJ5IDE1?=
- =?UTF-8?B?wrBDIG9uIHJhZGVvbiBncHU=?=
-Date: Mon, 08 Mar 2021 00:18:44 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: Dieter@nuetzel-hh.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-212107-2300-099sNXQKcc@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212107-2300@https.bugzilla.kernel.org/>
-References: <bug-212107-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH] drm/nouveau: fix dma syncing for loops
+Date: Mon,  8 Mar 2021 11:49:23 +1000
+Message-Id: <20210308014923.30163-1-airlied@gmail.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,23 +47,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: skeggsb@gmail.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMTIxMDcKCkRpZXRl
-ciBOw7x0emVsIChEaWV0ZXJAbnVldHplbC1oaC5kZSkgY2hhbmdlZDoKCiAgICAgICAgICAgV2hh
-dCAgICB8UmVtb3ZlZCAgICAgICAgICAgICAgICAgICAgIHxBZGRlZAotLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tCiAgICAgICAgICAgICAgICAgQ0N8ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHxEaWV0
-ZXJAbnVldHplbC1oaC5kZQoKLS0tIENvbW1lbnQgIzIgZnJvbSBEaWV0ZXIgTsO8dHplbCAoRGll
-dGVyQG51ZXR6ZWwtaGguZGUpIC0tLQpJdCBjb3VsZCBiZSB0aGUgWmVyb0NvcmUgdGhpbmcsIHdo
-aWNoIGhhcyBmaW5hbGx5IGxhbmRlZCB3aXRoIDUuMTEuClBsZWFzZSB2ZXJpZnksIHRoYXQgeW91
-ciBnZnggZmFucyBzdG9wcGVkIHdpdGggNS4xMSBhbmQgcnVubmluZyB3aXRoIGFsbAprZXJuZWxz
-IGJlbG93IDUuMTEuCgotLSAKWW91IG1heSByZXBseSB0byB0aGlzIGVtYWlsIHRvIGFkZCBhIGNv
-bW1lbnQuCgpZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRj
-aGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+From: Dave Airlie <airlied@redhat.com>
+
+The index variable should only be increased in one place.
+
+Noticed this while trying to track down another oops.
+
+Fixes: f295c8cfec83 ("drm/nouveau: fix dma syncing warning with debugging on.")
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_bo.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 2375711877cf..4f693843def5 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -556,7 +556,7 @@ nouveau_bo_sync_for_device(struct nouveau_bo *nvbo)
+ 	if (nvbo->force_coherent)
+ 		return;
+ 
+-	for (i = 0; i < ttm_dma->num_pages; ++i) {
++	for (i = 0; i < ttm_dma->num_pages;) {
+ 		struct page *p = ttm_dma->pages[i];
+ 		size_t num_pages = 1;
+ 
+@@ -587,7 +587,7 @@ nouveau_bo_sync_for_cpu(struct nouveau_bo *nvbo)
+ 	if (nvbo->force_coherent)
+ 		return;
+ 
+-	for (i = 0; i < ttm_dma->num_pages; ++i) {
++	for (i = 0; i < ttm_dma->num_pages;) {
+ 		struct page *p = ttm_dma->pages[i];
+ 		size_t num_pages = 1;
+ 
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
