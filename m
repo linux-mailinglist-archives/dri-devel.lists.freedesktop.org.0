@@ -2,116 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE86A330620
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 03:54:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D509330630
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 03:59:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 815226E0A6;
-	Mon,  8 Mar 2021 02:54:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9EA76E283;
+	Mon,  8 Mar 2021 02:59:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2051.outbound.protection.outlook.com [40.107.22.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2E836E0A6
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 02:54:49 +0000 (UTC)
+Received: from EUR02-AM5-obe.outbound.protection.outlook.com
+ (mail-eopbgr00047.outbound.protection.outlook.com [40.107.0.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5941F6E1A7
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 02:59:13 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EnoPqSPWm5scTR1zyUFot1xlVnNYFZSYEmM4RLSRfkl4bXCDQOVxCExDunVZHu5P55LgTtG/ON4AxfXHmroFBT+AXbrPYv8AWoojLmbityM6mP+6Xumf8VwDqBHPnn43zqZLl9pd5VDJ9zMC/Yu10KgKu7XLbWlYI5m/F4GotOlQsr2xPzzvVcFn+5oCHGOsTDPiA1xDtJzZzYfJXudOTt8keUiw1wv4HLXugCRqngaBdsrjsMP3IZjDHaJxA28Wx88MunPBCKP6QJscUOb5THRm7NPSYQSz/7xzDSapuRXqNHQyDZMsCw6ZAefndFWLAjn6Vp/zschN8eNZPX6DBw==
+ b=RbNVAyICeky4T91G0ug8vdvHEM6OznrPyvRDJYvLLR6ixWqC94TOyjE6aLiqu7G2BeTJlT8oikQ/2BMHMNRXqvSjZQe9tTf0HcIqZowtzunnpyDCmIo2vJ0wvLTUYPkSlX6amf0Er5j5Ekl5uNu0qTUHFDwfJB9DetZbb/rr6uWu5Q0uqoQNzm+7LADR94CcljII9kQIBEHfevaONhaUsffzBO2lHrUw/gBRGQv2BnPwChahoYMMkTMbEsmOVfCLU8SCIqa3w5IX2GT4ix3hno+egvjRkz+nIiTYQaFGVbpf3vjUamPSrM+Fz9WVPbs4NzqHi+onuG3pilaOsmjXig==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4vTCTKuqudHM63WNBiq0dEtaM3+qkgHBWsY5NcdTxd0=;
- b=L99ONO/7A0oVlv8Mob0vIrA1pJkSM5Q9KHLdrqe7JI0vIz9JDzCG8kZhInPNGxPLQ1N+tZ8mECuUazbghBV/liECu7JAEf6vv4EwfHmuX8mq+LCmkTDN0l6XFgh44bGDLiDDOukxCU0tFVcdmWThBMJR50HWQX6gug/UTz6ZhlaX0se8dyEnP1+ec5wZ7gYlN4blQvzt5PJ/VjCzmyyqnxCeKLh6qvSwZ36AhTKkgdRUQ1tZxCt2suRNUoR5Ma/mwxnMIXhfwE5/sTN1PxC8KsLTWkKatUbWtDi44F8Ewl0n1Vq3FOZnUfKktH0znvo4Zyx0XwzjEOoDpCLUMEs8yQ==
+ bh=I2ZopNTbXY8YACoWMR6OQ1EGo2e7LpJmvtZFUP9FQyA=;
+ b=N4Emtcaty9HSht9rerNYjxpT1Kp3UOnmVltB67FExwkM42TKkvrTS68vMiG5eI933AddaupAOHLU+y3zgoDYlxJri6IQTMeutu6mpXKIWtYaa7a3Dd8PszS5zkzIEuUDBGVF08RutGlcojf7hhzzaq7n/w+lKE5UMZ5yrs1ch73syriloYpFImTju7J5vbcC2afgM2JK4fXnbsxrY77bwYohw1RHhXdybsO7nLPrY3BElLDaT+1/849kXQrgg+ZpU4M8yPX+YaH9FDlexioeqquqEPyFVV/JRUepnCz++rTRh/es/G6+wp6nvR8O6uI2PBQU8Kw/eHZbdZBWqZaeaw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4vTCTKuqudHM63WNBiq0dEtaM3+qkgHBWsY5NcdTxd0=;
- b=EfGKrBOvcRkJs9n6pKnzh4COiawhSiXc/XDishkb8JRl8i5XPfEgDlyAjxMKyfLVit0qAuYijRMcWWD9cPjYXsgOIOJnwChARjcF7CshUvDVT88nAJswis1KCDLnkF6skhgfGm5SQL+rMp0Pb/dMhTlitkJnRGdWlpwrymS5wXU=
+ bh=I2ZopNTbXY8YACoWMR6OQ1EGo2e7LpJmvtZFUP9FQyA=;
+ b=RMj/9y2xv2Ifb1bXjOtc3VHxeGAFoQrNn0FKhXC2ub6GdVFUx00oiusriSRIBU3gBkAd+0/tcflD+/1/RfPd2h97V7td+831l65b/ltNhE2D13rEaLoH6Zljl4fgi3viFWrW7k9L95jqf5vlvEkgt5PndcmKO1pLl9sSKdlk6xE=
 Authentication-Results: linaro.org; dkim=none (message not signed)
  header.d=none;linaro.org; dmarc=none action=none header.from=nxp.com;
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VE1PR04MB7344.eurprd04.prod.outlook.com (2603:10a6:800:1a1::10)
+ by VI1PR0401MB2528.eurprd04.prod.outlook.com (2603:10a6:800:56::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.19; Mon, 8 Mar
- 2021 02:54:46 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.23; Mon, 8 Mar
+ 2021 02:59:09 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3912.027; Mon, 8 Mar 2021
- 02:54:46 +0000
-Message-ID: <95188cbe469c657047cdee846098e9c9c118f3e2.camel@nxp.com>
-Subject: Re: [PATCH v3 2/5] phy: Add LVDS configuration options
+ 02:59:09 +0000
+Message-ID: <b11a9b29b508cc4db4499d01848890643027a36c.camel@nxp.com>
+Subject: Re: [PATCH v3 0/5] phy: phy-fsl-imx8-mipi-dphy: Add i.MX8qxp LVDS
+ PHY mode support
 From: Liu Ying <victor.liu@nxp.com>
 To: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 08 Mar 2021 10:53:15 +0800
-In-Reply-To: <CAG3jFyvJZkVRs4NnDmPmGk-Qkr0voyvf3JNvKFAKDyxcCNR3Cw@mail.gmail.com>
+Date: Mon, 08 Mar 2021 10:57:37 +0800
+In-Reply-To: <CAG3jFyvWZV_WVeR1+EvvH0C47CqCtPDMULiOVKzR51ukzFMJwA@mail.gmail.com>
 References: <1607651182-12307-1-git-send-email-victor.liu@nxp.com>
- <1607651182-12307-3-git-send-email-victor.liu@nxp.com>
- <CAG3jFyvJZkVRs4NnDmPmGk-Qkr0voyvf3JNvKFAKDyxcCNR3Cw@mail.gmail.com>
+ <a89d5c08c9f0793acfb9d056d5748e4a3cf16c2f.camel@nxp.com>
+ <CAG3jFyvWZV_WVeR1+EvvH0C47CqCtPDMULiOVKzR51ukzFMJwA@mail.gmail.com>
 User-Agent: Evolution 3.36.4-0ubuntu1 
 X-Originating-IP: [119.31.174.66]
-X-ClientProxiedBy: HKAPR04CA0002.apcprd04.prod.outlook.com
- (2603:1096:203:d0::12) To VI1PR04MB3983.eurprd04.prod.outlook.com
+X-ClientProxiedBy: MAXPR0101CA0013.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:c::23) To VI1PR04MB3983.eurprd04.prod.outlook.com
  (2603:10a6:803:4c::16)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from blueberry.ap.freescale.net (119.31.174.66) by
- HKAPR04CA0002.apcprd04.prod.outlook.com (2603:1096:203:d0::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3912.17 via Frontend Transport; Mon, 8 Mar 2021 02:54:39 +0000
+ MAXPR0101CA0013.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:c::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
+ Transport; Mon, 8 Mar 2021 02:59:01 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: fc8caac5-308a-4c77-6028-08d8e1dd880d
-X-MS-TrafficTypeDiagnostic: VE1PR04MB7344:
+X-MS-Office365-Filtering-Correlation-Id: 591dbe19-7ad3-4b0f-d2cc-08d8e1de2473
+X-MS-TrafficTypeDiagnostic: VI1PR0401MB2528:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VE1PR04MB73444707D7914BD38B4B7BA298939@VE1PR04MB7344.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <VI1PR0401MB25288C47834B1B99CE84519298939@VI1PR0401MB2528.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nLTayPXjcG6x5E+0/knL7nGIH0TBOY3eiugePbyiH0GdwUorP/45HdeVhFY7K7wmizQnqp2HvTCN3h5h0R0TUkq/37SThEOy1ZbaF6NOOh7SVIbsOE9+942PbxfOBZFLT9rGqZ2HsrzPXEZj9pSwhHxW8jK4Y56kiWQ62Y38Exmb3n2Bs57yjLOHegWsLKO9Wmjc06Vr+zkgtgbBz1dfuF4zQv+sXiWQO31+XRP25Oe0Jfq1UDUazOS5+hr0B1kKq4arXTjZG2YEptONCgIH6SnAg3E2f0c9UziMfLNoPN+xNBh7nywL9L1apufDnhma3e9vWVHv1iVr+RNrFFVG5Hgn3N7PYEvZbYG5y8ofl/cSSdD52LKhiSHxs4sKhVTZhWC+tHjj5AoX9yhfVY1V28WWEFzecdxoG/eTY0z9OvYRsA4jtuJChvTl0dUypG13dAhLoQeDJfSmui86bHfds53S8egpA9Pb+gMuMMonsdJ3qEMmpdUbwushLYmvsAR3SL+jpygHOzGDu4N64PHdCw==
+X-Microsoft-Antispam-Message-Info: Pe53asKPh0Xv8EJDpcTDVAZnSAJRWoB3Qtv2eawt7ceTG/aWfUdR3FoMIa0gjmQwMoStot4JPjiMbsCQK/eM31EqZ2lkaFT2SSJn1DyLgV4NJxqeuSSzz4Me10c7V7CYUIU7RlJEBOb0/+ZWwiMQVw7DjUfpzzMoTPFaCvlaQr1h8wE+SMRnHrA+Jzkd1gAvDRXCBoCl5VXroy0445Kq27uevP8Z2C/Yg9bF8Bx2c2Lobh7O6RMA7hVyrU5oqG5inp8hgpeJaoECa+H91RYlYhJ3gGCEAjzeRirQlsNeuocNXpZZnGlFHw8dbW1yO1c5VpxanRbOO/SPYr0HNh96N447FXahFcE2WR4dh/pisHpgTQjs4pr/9r4McPpLznBH9RqD/0iEvYFIe0/ho4ZiAzB2EGFXO1FdW0ok5SSONv/op15HJxNGwGSIDQJ2NcNBXH11EPvTOlnzb7gcn03fye+kckIytFyoW1blBGSeeK7tT79UXFo7Y3KTqanNm3fUd2caEUTf7wZKSTE8vEGOS3/4GFBsrKA/DgV+Hbspzl9mCbq7/x6BT/htUzbwrG8h/Crun2l5Z/5uMTYzYMk81UwqfihS0fb7sFskKM8sGK0=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(346002)(366004)(136003)(39860400002)(376002)(316002)(16526019)(26005)(4326008)(6666004)(8936002)(54906003)(6512007)(186003)(83380400001)(6486002)(6506007)(36756003)(66946007)(66556008)(8676002)(2906002)(956004)(66476007)(2616005)(478600001)(52116002)(6916009)(5660300002)(86362001)(7416002);
+ SFS:(4636009)(346002)(376002)(366004)(39860400002)(396003)(136003)(478600001)(6666004)(966005)(36756003)(8676002)(4326008)(6512007)(6506007)(45080400002)(2616005)(956004)(66556008)(86362001)(66946007)(66476007)(6916009)(26005)(186003)(16526019)(8936002)(4001150100001)(52116002)(83380400001)(2906002)(316002)(6486002)(54906003)(7416002)(5660300002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?aEk1Y1VEZVZsRFI1clJ3S1NDeFFDcVAzWlRwak9YTjlYalZndG9zZUNTdElj?=
- =?utf-8?B?cFJJSy95UDRWR1BGYThuT1lhSkJMcEk3TjlyT1RXWm13WGFZNEsrMkRzdVVN?=
- =?utf-8?B?UEdXenF5dXJ0NGZLSCtnd2VhcUlxeWJIcVpTcFFSTzNtc01GWkNKRGEzcGJo?=
- =?utf-8?B?ZjJDWTBvaGtRdEFXaUVrVjFkVmdGSmxtWlduUTkxdEVnd1NBRTIyNW1ZVFhs?=
- =?utf-8?B?QUVwVFdicFM5M28rb05kckZnSzRzclFsQU5WTUNqdlpBaWZmSDBHbEZ3am9l?=
- =?utf-8?B?VUpOR0MyOU5USiszdzA5QkFNWk1pRUk1QklNQUlrZ3VTUFlRL0c5THA4aVNP?=
- =?utf-8?B?c09RTU9zSXJzT1B1SURSRVRBdmtldGJtK285L0VkOHpCTHEwbHdXSktheEoz?=
- =?utf-8?B?My84MktGUWFDYWFKMDFSbWpxc3ZMUzJRcDNoSnUwNUVMNDJTeUZmbzNCQXJG?=
- =?utf-8?B?akpRc2U0SVhhL0RxdnNSdmg5bHIxYi9qQlgrTDhza0VNclVKL0Y3VXRmay95?=
- =?utf-8?B?QmowN0NBY3lhUnBqUU9XQXdYSXkxSHNqZFZWZStlb2VUaFZmY0VwTUp5dkNN?=
- =?utf-8?B?WHM5SVlJZkpUcUMzRDFrWjBFMTcrU3pyY2FzcHcwVW1ZSkVYMERkSlRGRW5o?=
- =?utf-8?B?eHdoYzh5K0t1TWw1dGllcFFHcUVWcWpWVHlrbk1mUC9oRUFqaTQ3SGZqM1hm?=
- =?utf-8?B?VnVRWGh1KzZmY2drcUdIUjBBR1ZxSG02aDJDUzBOdzByZWZydjFGTzlJMEJM?=
- =?utf-8?B?WWdhSG93d21sdkhJbUZwV1Y4YVIzU1g4OFhOUDJaUkZ1Z1hyWXpPUm9JZXBE?=
- =?utf-8?B?RzVZSVMrblNEYkp0UXd1cFFFVysyd25iMkFuS3ZxNExGWHBkQUZpRkF2MlZE?=
- =?utf-8?B?MjJveDFmeUxuMjZzdDQrQUZyaHdXYUEvY0Q5VGJqTjBRandqZWpvSkFHd3p1?=
- =?utf-8?B?YUxoUm5YeGdFNkoxSzRsM3l0ckxob1BNZTZ2TWcwelI4aS8vbHF1c1Y4eXdD?=
- =?utf-8?B?eGlDOEF5YjNqNXB2bzJEditIalBMbTRXK0ZVQmNKL2x4cW9XNU1Uak9Hb1Ez?=
- =?utf-8?B?dXQyckZLR1JUZnpnRXJkUnQvQ09IbDNUZ2dwT3BpK0VoV0tOOFd4ZGpxVVli?=
- =?utf-8?B?Smo1L2I0ME9EZ1I4WEd1U010TmlISjFjaEIvKzlZTFI0MWNldkg2VWw4Vi9u?=
- =?utf-8?B?aUorWU9IZVFjK29OSldRNWlRWXlhQXFrbzF4d0YveFlzRGlaVVROTm5EOFpU?=
- =?utf-8?B?cXh3QnJ4L1hSRDRSamc4NDlLY1BmdURiencrT3pUTERUVjF6eHZ3b1V6TmxU?=
- =?utf-8?B?ODN6dmJnTElCbkpnWVB3MEhoZFZrZWVLc052eWpwRDJ1TDMwTDUxaXNHY0pI?=
- =?utf-8?B?K2dYdUpJbit4WkVHT0JZSklkQ3MyZHBlU1JvZ1R6ZTFPdWw0bUxpZU80allY?=
- =?utf-8?B?Q2oraEIyZ0xsRTFOM1B4cmZrOW84Vy9Kc2Q4YUJZaXpOMmVubEEyYndiYm50?=
- =?utf-8?B?NXpYVVZ4aEM4V1k0elp4Uk43WmwwcXZLNE81ODJxYWszMHcwek82MVR2bVdj?=
- =?utf-8?B?STFORklPaUY2aEZLSFErWEM1RlppQjk2SG1LMzhmejRGUEtZbk1MK01HeGkw?=
- =?utf-8?B?UmZKZFZrc09UMkcwQnpHWmJVR1ZCbWs4ZUV5TVJXdUp1anFGbDh3MGlHUlht?=
- =?utf-8?B?VDVha2ZTb2VZS1VTWktNdWpYcVF6WXo3cUtHU2svRXNZSDQrcGY1eFRpTVJV?=
- =?utf-8?Q?+FV16QcdIkUZRDSVf6pUmg/iS+E9L2QBAsQnYGP?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?OWNndnF1WitTbEtMNG5Rbklab2h4cW92UDVPSmN6OTVRZk5uODM1WDBKQ29Q?=
+ =?utf-8?B?enJ4ZVVyalVMS3dtazFoZGFLd0F3aVcwdWc0S3h3cmppaG4zOEJyU1dhci9S?=
+ =?utf-8?B?QndvMjVzQTZUMklvbHR2WGFpQ3pGU2tqZUloOE4wc0FNTXp6cmFmR2RqWlhq?=
+ =?utf-8?B?Nm84d29VTkhzQVpRWFFScGpHb3NmamJIU0kydytYS3dPS21qTG9kSGtwRm9w?=
+ =?utf-8?B?VGJTM0EvZytBZlZGakRHUHlpZmRtN21UVGRKYXBpQmNNdlIvb1E5R1hDWTZ6?=
+ =?utf-8?B?ckdTYlJPb0RIM2tDR2lTay9vb2YyWGw5QVhTZFBHZUxQZjBmYnBYSFhwbUJs?=
+ =?utf-8?B?WVpYdkpQYWV3dkhDaGtaaWRYOVB1cktKVmdCNGRHNmYwUTJaLyt0TUZIMlE4?=
+ =?utf-8?B?T3p6R2hpRnl3NTZ1QXRqTDl6ZE5yYTcxM1V5VkQ0cFZFSE8vaDNjNXVRTEwx?=
+ =?utf-8?B?WDlWNFJOakluclA4bzc5Q2psMkowNVNrVE8zUUkxMzMvU2VVSWVUY1BLN2Q4?=
+ =?utf-8?B?bXl3cVNZL295b2JmcTVtaXl4SEFtcVRRSVAzb1N1OEdidW1Na09teTlDZDVt?=
+ =?utf-8?B?MFZFZWNkTEh6UzV3eUF1dmd1ckhDS3pJNmVTbVR1R0I3Z1YxRndWbVlmTXNX?=
+ =?utf-8?B?Y3dVNEZaTkI2MmlIL0R4b1g5ZXdFbDJGZ2h3ekUyeldSWXB2SXhPTjFhM216?=
+ =?utf-8?B?cmVqSEdCTzFReUpnL2hmMmUyYkU1MHVQdWh5Z3ZqWFhOWVpCNGxzSDZ4SGlI?=
+ =?utf-8?B?L2ErK1BmbnR0WGVPTlUvczlISUNsQjZ2WlhtSXh2UWtCT09xVkN5UUpCR01V?=
+ =?utf-8?B?ZnBTenIwaGpNL0g1Ylh1enh2OUhMaDQvbHQ0MEwyTFRlYjl3d251MGprbVd2?=
+ =?utf-8?B?cEthZXVXUTVWeUx6eUdhMWYweGlZdUNFcEc4R2FvRnZiNHhBc2pYY3JXS1p3?=
+ =?utf-8?B?dStveENRMnlMNE8vZ2hXS2NMVGd6a0k0a3V4dmxCR1BMYWxkS0xtTDg0WEdD?=
+ =?utf-8?B?bVpaZEd4am1kdmFqbUphem1ZSVN5MVVPQkNkd3A2elJyTDcyT01UdEpzQlR6?=
+ =?utf-8?B?d3BybWJIQzdRbk5XVnd1UmN0RzFyYy9DTGorUUtxdjRlRUtXUzFhMDB5bFJu?=
+ =?utf-8?B?WlFtWGZ4Vkk2eS91c0dNLysxbUc2RWtHV2Q4ZklYY2VGQmJhemowbXZ5RmpJ?=
+ =?utf-8?B?Y3dOMXB2OWppR09sRmsvOENzNE5nZWJSOWlZWGhHZEJKd0hQZklQVlVkYUtH?=
+ =?utf-8?B?WVhZdHlySFNxZkhXTHIxRzIxTThoVzcvS2tIeEcxS2VheExwckhXdXpKaTRX?=
+ =?utf-8?B?azBmWTVKaUt4bU5DUmNqUU44RWZJRC81TzdzU09ab01zeW1kN3QrREdjUXhu?=
+ =?utf-8?B?UUU2aUxnVVdiRHZ6dXduUjRxSHJnc3llNm1VajJWQzI1WU5MUWNYdUk1d2Nu?=
+ =?utf-8?B?VUs2YjhqZW82TklYVm1JNW5BRkNrVlNyVDRIK2hLRnJJSVJSWWZ2TzdoQjdP?=
+ =?utf-8?B?VSs1blJkYlQ5VHFCSURpVkV4MjB4Y2Y2ZnlXQkl0ZzJWZWVZVUdvYnZVNVZT?=
+ =?utf-8?B?aEhwNk5tNGtHOHpvclVLTGVlMHoyOCtPSmVDSnZZaWpkenpnVTVTc3BRV2Mz?=
+ =?utf-8?B?YS9yOTE5U3lRaEFDbnpGV3hUQUIvbXZhdExyMkdmejI0Z0FNNGRkSit2Z0Fm?=
+ =?utf-8?B?b2FuZTNiZXAybHpNbVJrdHNMRER0RVh6VWQwWkU3d0dOUkhKWlJNaG12djV2?=
+ =?utf-8?Q?sX9bs7z7C1IU9coTIsI3+3969WJNche/2HoGBfU?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc8caac5-308a-4c77-6028-08d8e1dd880d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 591dbe19-7ad3-4b0f-d2cc-08d8e1de2473
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2021 02:54:46.4412 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2021 02:59:08.8252 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dUguIGO2oiY7I7CokILHy/O+CPg/iTJBkR/kG+MnViG+UraElHqlK/MX/VD7RsJL9q0oseCMsWNcgC/+N7vOOQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB7344
+X-MS-Exchange-CrossTenant-UserPrincipalName: rLEt05FjQdJfb2HDP8pT593Ph3rFmTT6RrHvyatF8BY2idQZXkEgurzxEimevETRfYi4b2H85aG2SYOQIzzrpw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0401MB2528
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,139 +144,89 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2021-03-05 at 16:03 +0100, Robert Foss wrote:
+On Fri, 2021-03-05 at 16:22 +0100, Robert Foss wrote:
 > Hey Liu,
 > 
-> This patch seems to be included in both this series and the "Add some
-> DRM bridge drivers support for i.MX8qm/qxp SoCs" series. Instead of
-> having the two series have a conflict I would suggest either merging
-> them (if that makes sense) or removing this patch from one of them and
-> explicitly stating that there is a dependency on the other series.
+> Looking at this series[1], all but patch#2 has been reviewed, and #2
+> looks good to me. So I think this series is ready to have v4 re-spun
+> and and all of the r-bs from v3 added to the relevant patches.
 
-I choose not to merge them, because they are self-contained
-respectively and splitting them makes the patch number(14) of the "Add
-some DRM bridge drivers support for i.MX8qm/qxp SoCs" series look
-better.  I guess this series will land prior to the other one, so I
-would drop this patch from that series and state the dependency
-there(actually, I mentioned I also sent this patch via this series
-there).
+Will respin this series soon with all R-b tags added.
 
-> 
-> (the patch itself still looks good though :) )
-
-Thanks for your review :)
-
+Thanks,
 Liu Ying
 
 > 
-> On Fri, 11 Dec 2020 at 02:56, Liu Ying <victor.liu@nxp.com> wrote:
-> > This patch allows LVDS PHYs to be configured through
-> > the generic functions and through a custom structure
-> > added to the generic union.
+> [1] https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.kernel.org%2Fproject%2Fdri-devel%2Fcover%2F1607651182-12307-1-git-send-email-victor.liu%40nxp.com%2F&amp;data=04%7C01%7Cvictor.liu%40nxp.com%7C36731aa7c5f949c44d0008d8dfea79db%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637505545446542467%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=T5JcZt9YDHHyH%2FCf02ErQZ5rn3qp3N5jayxk9It4knM%3D&amp;reserved=0
+> 
+> On Fri, 19 Feb 2021 at 10:22, Liu Ying <victor.liu@nxp.com> wrote:
+> > A gentle ping.
 > > 
-> > The parameters added here are based on common LVDS PHY
-> > implementation practices.  The set of parameters
-> > should cover all potential users.
+> > Vinod, Kishon, it would be nice if you may help review this.
 > > 
-> > Cc: Kishon Vijay Abraham I <kishon@ti.com>
-> > Cc: Vinod Koul <vkoul@kernel.org>
-> > Cc: NXP Linux Team <linux-imx@nxp.com>
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > ---
-> > v2->v3:
-> > * No change.
+> > Thanks,
+> > Liu Ying
 > > 
-> > v1->v2:
-> > * No change.
-> > 
-> >  include/linux/phy/phy-lvds.h | 48 ++++++++++++++++++++++++++++++++++++++++++++
-> >  include/linux/phy/phy.h      |  4 ++++
-> >  2 files changed, 52 insertions(+)
-> >  create mode 100644 include/linux/phy/phy-lvds.h
-> > 
-> > diff --git a/include/linux/phy/phy-lvds.h b/include/linux/phy/phy-lvds.h
-> > new file mode 100644
-> > index 00000000..1b5b9d6
-> > --- /dev/null
-> > +++ b/include/linux/phy/phy-lvds.h
-> > @@ -0,0 +1,48 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Copyright 2020 NXP
-> > + */
-> > +
-> > +#ifndef __PHY_LVDS_H_
-> > +#define __PHY_LVDS_H_
-> > +
-> > +/**
-> > + * struct phy_configure_opts_lvds - LVDS configuration set
-> > + *
-> > + * This structure is used to represent the configuration state of a
-> > + * LVDS phy.
-> > + */
-> > +struct phy_configure_opts_lvds {
-> > +       /**
-> > +        * @bits_per_lane_and_dclk_cycle:
-> > +        *
-> > +        * Number of bits per data lane and differential clock cycle.
-> > +        */
-> > +       unsigned int bits_per_lane_and_dclk_cycle;
-> > +
-> > +       /**
-> > +        * @differential_clk_rate:
-> > +        *
-> > +        * Clock rate, in Hertz, of the LVDS differential clock.
-> > +        */
-> > +       unsigned long differential_clk_rate;
-> > +
-> > +       /**
-> > +        * @lanes:
-> > +        *
-> > +        * Number of active, consecutive, data lanes, starting from
-> > +        * lane 0, used for the transmissions.
-> > +        */
-> > +       unsigned int lanes;
-> > +
-> > +       /**
-> > +        * @is_slave:
-> > +        *
-> > +        * Boolean, true if the phy is a slave which works together
-> > +        * with a master phy to support dual link transmission,
-> > +        * otherwise a regular phy or a master phy.
-> > +        */
-> > +       bool is_slave;
-> > +};
-> > +
-> > +#endif /* __PHY_LVDS_H_ */
-> > diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
-> > index e435bdb..d450b44 100644
-> > --- a/include/linux/phy/phy.h
-> > +++ b/include/linux/phy/phy.h
-> > @@ -17,6 +17,7 @@
-> >  #include <linux/regulator/consumer.h>
-> > 
-> >  #include <linux/phy/phy-dp.h>
-> > +#include <linux/phy/phy-lvds.h>
-> >  #include <linux/phy/phy-mipi-dphy.h>
-> > 
-> >  struct phy;
-> > @@ -51,10 +52,13 @@ enum phy_mode {
-> >   *             the MIPI_DPHY phy mode.
-> >   * @dp:                Configuration set applicable for phys supporting
-> >   *             the DisplayPort protocol.
-> > + * @lvds:      Configuration set applicable for phys supporting
-> > + *             the LVDS phy mode.
-> >   */
-> >  union phy_configure_opts {
-> >         struct phy_configure_opts_mipi_dphy     mipi_dphy;
-> >         struct phy_configure_opts_dp            dp;
-> > +       struct phy_configure_opts_lvds          lvds;
-> >  };
-> > 
-> >  /**
-> > --
-> > 2.7.4
-> > 
+> > On Fri, 2020-12-11 at 09:46 +0800, Liu Ying wrote:
+> > > Hi,
+> > > 
+> > > This series adds i.MX8qxp LVDS PHY mode support for the Mixel PHY in the
+> > > Freescale i.MX8qxp SoC.
+> > > 
+> > > The Mixel PHY is MIPI DPHY + LVDS PHY combo, which can works in either
+> > > MIPI DPHY mode or LVDS PHY mode.  The PHY mode is controlled by i.MX8qxp
+> > > SCU firmware.  The PHY driver would call a SCU function to configure the
+> > > mode.
+> > > 
+> > > The PHY driver is already supporting the Mixel MIPI DPHY in i.MX8mq SoC,
+> > > where it appears to be a single MIPI DPHY.
+> > > 
+> > > 
+> > > Patch 1/5 sets PHY mode in the Northwest Logic MIPI DSI host controller
+> > > bridge driver, since i.MX8qxp SoC embeds this controller IP to support
+> > > MIPI DSI displays together with the Mixel PHY.
+> > > 
+> > > Patch 2/5 allows LVDS PHYs to be configured through the generic PHY functions
+> > > and through a custom structure added to the generic PHY configuration union.
+> > > 
+> > > Patch 3/5 converts mixel,mipi-dsi-phy plain text dt binding to json-schema.
+> > > 
+> > > Patch 4/5 adds dt binding support for the Mixel combo PHY in i.MX8qxp SoC.
+> > > 
+> > > Patch 5/5 adds the i.MX8qxp LVDS PHY mode support in the Mixel PHY driver.
+> > > 
+> > > 
+> > > Welcome comments, thanks.
+> > > 
+> > > v2->v3:
+> > > * Improve readability of mixel_dphy_set_mode() in the Mixel PHY driver. (Guido)
+> > > * Improve the 'clock-names' property in the PHY dt binding.
+> > > 
+> > > v1->v2:
+> > > * Convert mixel,mipi-dsi-phy plain text dt binding to json-schema. (Guido)
+> > > * Print invalid PHY mode in dmesg from the Mixel PHY driver. (Guido)
+> > > * Add Guido's R-b tag on the patch for the nwl-dsi drm bridge driver.
+> > > 
+> > > Liu Ying (5):
+> > >   drm/bridge: nwl-dsi: Set PHY mode in nwl_dsi_enable()
+> > >   phy: Add LVDS configuration options
+> > >   dt-bindings: phy: Convert mixel,mipi-dsi-phy to json-schema
+> > >   dt-bindings: phy: mixel: mipi-dsi-phy: Add Mixel combo PHY support for
+> > >     i.MX8qxp
+> > >   phy: freescale: phy-fsl-imx8-mipi-dphy: Add i.MX8qxp LVDS PHY mode
+> > >     support
+> > > 
+> > >  .../devicetree/bindings/phy/mixel,mipi-dsi-phy.txt |  29 ---
+> > >  .../bindings/phy/mixel,mipi-dsi-phy.yaml           | 107 ++++++++
+> > >  drivers/gpu/drm/bridge/nwl-dsi.c                   |   6 +
+> > >  drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c     | 269 ++++++++++++++++++++-
+> > >  include/linux/phy/phy-lvds.h                       |  48 ++++
+> > >  include/linux/phy/phy.h                            |   4 +
+> > >  6 files changed, 423 insertions(+), 40 deletions(-)
+> > >  delete mode 100644 Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.txt
+> > >  create mode 100644 Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.yaml
+> > >  create mode 100644 include/linux/phy/phy-lvds.h
+> > > 
 
 _______________________________________________
 dri-devel mailing list
