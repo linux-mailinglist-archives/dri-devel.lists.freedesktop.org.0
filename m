@@ -2,60 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D9233094A
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 09:21:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84EAC330968
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 09:32:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC77789F97;
-	Mon,  8 Mar 2021 08:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6072189ECB;
+	Mon,  8 Mar 2021 08:32:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8049789F97
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 08:20:55 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id e7so19704041lft.2
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Mar 2021 00:20:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=J/JMbWCZWM0J0pDDJfDbT7bWfcrsMBFXdhvoxd656+s=;
- b=O+Otr76QVAvorl3+hTnyjNLJVYViq5lki841jAtD2zWMBBvbAl4on2HYagQEdOk8/L
- hezQioBt7Sd2v4e51yEGE8ssoks9Kkso02USaSllvDreu95jUJsRiW3o+d4s9e/t7MUg
- QuBKa1ELqKyJXFDWKlkCxEAL/LPRuu2DfkDvl9R5aOVY13izEzJjTY6nqQ6y5ledu/oG
- own2Fjg+pzRZxXZpvO7BMhrg3b2ZQGSV7W2c5Ezks2GPGrNO6/Kzb8IDkKz7whmcnYfK
- 1C1ibiK8M/keQ5us3f9SsqQ+lmNS6fwS9u3LDjQ+3FnNv5sOTwkaGKIBMaMtt3yXWj0W
- Y+Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=J/JMbWCZWM0J0pDDJfDbT7bWfcrsMBFXdhvoxd656+s=;
- b=mp73aBDKUM6Bv3XCVnJfHYoc04IkW4dP0ot2gx95Fn1HfdCaRsPFAYhOxwUDGN4C3O
- Do22Tx75CtRKgXxee53gvdx/zpxcuszEucp6lIqDMHdebBdgtyDKIFg2lGOuoebessIs
- GNNQH9c4gcCef6HeXFijFW2UizsfB/8qfgsKXlCg5KcFs5zij9UFxwyfuJccj3i2O4n4
- OK1hJkW5UaVRh/cITht5CYbNe3ueP1wxxp5ZGewVTxchEYaJx/fLVSx0KHWTnVmtm+eK
- 7+94qm29guxr0uj5Az7QMWD9n96fEdaNeefb9Iv0nvBoijXnYHDvGxXuNqUpMxHOsS10
- YxqQ==
-X-Gm-Message-State: AOAM530YLQlgxly5gM1qeOJrgFec1Fz5nrQ0fIM9X4l2TufYL1841EK9
- y2bafyDhL/a+M/09PI1wm1w=
-X-Google-Smtp-Source: ABdhPJyIUejB9zcnxxpslI99HAy6rYbuB58cdacymgkRN53Q7KOxNHqBivVxLnK7Inr/923ukCV37w==
-X-Received: by 2002:a05:6512:2083:: with SMTP id
- t3mr13397920lfr.590.1615191653880; 
- Mon, 08 Mar 2021 00:20:53 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id e2sm1424660ljp.135.2021.03.08.00.20.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Mar 2021 00:20:53 -0800 (PST)
-Date: Mon, 8 Mar 2021 10:20:43 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/uapi: document kernel capabilities
-Message-ID: <20210308102043.7246e484@eldfell>
-In-Reply-To: <zaAAWSkCocn-BDN-fR6Oi8EA0pCVhc3gwthb6JWi84iyYmdyCJ1sWiYgtw6POBH6TseYGQ9x-NWTPAJ-9gKfCFFWv9lyt6s0F7sRrEQW-yI=@emersion.fr>
-References: <20210304221057.657146-1-contact@emersion.fr>
- <20210305102850.769bf34d@eldfell>
- <zaAAWSkCocn-BDN-fR6Oi8EA0pCVhc3gwthb6JWi84iyYmdyCJ1sWiYgtw6POBH6TseYGQ9x-NWTPAJ-9gKfCFFWv9lyt6s0F7sRrEQW-yI=@emersion.fr>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E44889ECB;
+ Mon,  8 Mar 2021 08:32:19 +0000 (UTC)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DvBNz6wqGz16HjZ;
+ Mon,  8 Mar 2021 16:30:27 +0800 (CST)
+Received: from huawei.com (10.69.192.56) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.498.0; Mon, 8 Mar 2021
+ 16:32:05 +0800
+From: Luo Jiaxing <luojiaxing@huawei.com>
+To: <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <bskeggs@redhat.com>
+Subject: [PATCH v1] drm/nouveau/device: use snprintf() to replace strncpy() to
+ avoid NUL-terminated string loss
+Date: Mon, 8 Mar 2021 16:32:52 +0800
+Message-ID: <1615192372-47348-1-git-send-email-luojiaxing@huawei.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,134 +41,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1881096099=="
+Cc: song.bao.hua@hisilicon.com, luojiaxing@huawei.com,
+ linux-kernel@vger.kernel.org, linuxarm@openeuler.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1881096099==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/+0T1YJEkuqwBYMpMbhDGEsn"; protocol="application/pgp-signature"
-
---Sig_/+0T1YJEkuqwBYMpMbhDGEsn
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, 06 Mar 2021 10:56:49 +0000
-Simon Ser <contact@emersion.fr> wrote:
-
-> On Friday, March 5th, 2021 at 9:28 AM, Pekka Paalanen <ppaalanen@gmail.co=
-m> wrote:
->=20
-> > > +/**
-> > > + * DRM_CAP_DUMB_PREFERRED_DEPTH
-> > > + *
-> > > + * The preferred depth (in bits) for dumb buffers. =20
-> >
-> > this is literally depth, not bits per pixel, right? =20
->=20
-> "Depth" is pretty ambiguous [1]. Maybe we should be more explicit here an=
-d say
-> that it's the number of bits used to indicate the color of a single pixel=
-? And
-> maybe add a note that it's different from bits per pixel?
-
-Yes, indeed.  I was already assuming the meaning of "depth" in drmModeAddFB=
-().
-
-> [1]: https://en.wikipedia.org/wiki/Color_depth
->=20
-
-> > > +/**
-> > > + * DRM_CAP_PRIME
-> > > + *
-> > > + * Bitfield of supported PRIME sharing capabilities. See &DRM_PRIME_=
-CAP_IMPORT
-> > > + * and &DRM_PRIME_CAP_EXPORT.
-> > > + */
-> > >  #define DRM_CAP_PRIME			0x5
-> > > +/**
-> > > + * DRM_PRIME_CAP_IMPORT
-> > > + *
-> > > + * If this bit is set in &DRM_CAP_PRIME, the driver supports importi=
-ng PRIME
-> > > + * buffers. =20
-> >
-> > What are PRIME buffers? =20
->=20
-> Will add something like:
->=20
->     PRIME buffers are exposed as dma-buf file descriptors. See
->     Documentation/gpu/drm-mm.rst, section "PRIME Buffer Sharing".
-
-Sounds good.
-
-> > > + */
-> > >  #define  DRM_PRIME_CAP_IMPORT		0x1
-> > > +/**
-> > > + * DRM_PRIME_CAP_EXPORT
-> > > + *
-> > > + * If this bit is set in &DRM_CAP_PRIME, the driver supports exporti=
-ng PRIME
-> > > + * buffers. =20
-> >
-> > What's the export API? HandleToFD()? =20
->=20
-> Yes. Will add a note about it. Same for import.
-
-Cool.
-
-
-> > > +/**
-> > > + * DRM_CAP_CRTC_IN_VBLANK_EVENT
-> > > + *
-> > > + * If set to 1, the kernel supports reporting the CRTC ID in
-> > > + * &drm_event_vblank.crtc_id. =20
-> >
-> > Does this not apply also to the pageflip / atomic completion event? =20
->=20
-> Both DRM_EVENT_VBLANK and DRM_EVENT_FLIP_COMPLETE use the struct
-> drm_event_vblank, so yes. I'll mention these two events explicitly.
-
-They do? Seems like I have been spoiled by the libdrm API that uses
-drmEventContext with different callbacks for these things.
-
-
-Thanks,
-pq
-
---Sig_/+0T1YJEkuqwBYMpMbhDGEsn
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmBF3lsACgkQI1/ltBGq
-qqcvZBAAhN6hT9+62sE6pc9Yr31Hf5lGw0jb9NbKMPqbVO0A1iTS4P9S49zoM6oi
-u9qdLIe5D4xgBzSNpfnWrZvDsx9mv4/hVTkv/nIJoTsa+rKFxALO4I78yo1xLwHx
-/gG0V7wjCtIt1yXat3p4Xqz3v05CjcxnTJ1d0RJVtugrrWiyXTjZ+nBOxUlqHA0m
-hpOTpvk23vOyY/L6VeHubKsxivz8S7AEZ2wnPr9G9PCKGo1HtHn/skjES2J+Q0oy
-xhHoBnjJTV/fK/iQpT8xWmr+PbuCsKr39ZonFq4FCDgCD/wiXO14YzdVKuOKWZDe
-licPedx11rWhrO5h02/sYTOfe6iamLLzWxT6/v7vrsIKJteXGsXxNcJ6+mngYyPj
-Apldi5OlHNmjrxQAquuEBAK05t4nl01Awl2oN4gdMyUdW7fUiywKxhERf5SYJ2p1
-D8oXXK8+kEWIUSRb8ZkAFp7O2GaqHywKSB+wguobcARF+NggSAyESf6lKeW4srre
-BCLlLbfZ95ArfsBlNkaWqfRbtif2MSBhh3aNCSqaRVlrvdRbmhuJgQPCSdTGrkYa
-U5jLc/tYPXToKwXtGxsdW16qlQ/J+yYWekqOgiUIsAozU3PoXqXNjophRKPEO943
-2FvJzStOTr5pxN0Up3qE+BIT4BRYZ6n231Bckwt7YscgIUrzqhk=
-=arkZ
------END PGP SIGNATURE-----
-
---Sig_/+0T1YJEkuqwBYMpMbhDGEsn--
-
---===============1881096099==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1881096099==--
+Rm9sbG93aW5nIHdhcm5pbmcgaXMgZm91bmQgd2hlbiB1c2luZyBXPTEgdG8gYnVpbGQga2VybmVs
+OgoKSW4gZnVuY3Rpb24g4oCYbnZrbV91ZGV2aWNlX2luZm/igJksCiAgICBpbmxpbmVkIGZyb20g
+4oCYbnZrbV91ZGV2aWNlX210aGTigJkgYXQgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9l
+bmdpbmUvZGV2aWNlL3VzZXIuYzoxOTU6MTA6CmRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L252a20v
+ZW5naW5lL2RldmljZS91c2VyLmM6MTY0OjI6IHdhcm5pbmc6IOKAmHN0cm5jcHnigJkgc3BlY2lm
+aWVkIGJvdW5kIDE2IGVxdWFscyBkZXN0aW5hdGlvbiBzaXplIFstV3N0cmluZ29wLXRydW5jYXRp
+b25dCiAgMTY0IHwgIHN0cm5jcHkoYXJncy0+djAuY2hpcCwgZGV2aWNlLT5jaGlwLT5uYW1lLCBz
+aXplb2YoYXJncy0+djAuY2hpcCkpOwpkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9udmttL2VuZ2lu
+ZS9kZXZpY2UvdXNlci5jOjE2NToyOiB3YXJuaW5nOiDigJhzdHJuY3B54oCZIHNwZWNpZmllZCBi
+b3VuZCA2NCBlcXVhbHMgZGVzdGluYXRpb24gc2l6ZSBbLVdzdHJpbmdvcC10cnVuY2F0aW9uXQog
+IDE2NSB8ICBzdHJuY3B5KGFyZ3MtPnYwLm5hbWUsIGRldmljZS0+bmFtZSwgc2l6ZW9mKGFyZ3Mt
+PnYwLm5hbWUpKTsKClRoZSByZWFzb24gb2YgdGhpcyB3YXJuaW5nIGlzIHN0cm5jcHkoKSBkb2Vz
+IG5vdCBndWFyYW50ZWUgdGhhdCB0aGUKZGVzdGluYXRpb24gYnVmZmVyIHdpbGwgYmUgTlVMIHRl
+cm1pbmF0ZWQuIElmIHRoZSBsZW5ndGggb2Ygc291cmNlIHN0cmluZwppcyBiaWdnZXIgdGhhbiBu
+dW1iZXIgd2Ugc2V0IGJ5IHRoaXJkIGlucHV0IHBhcmFtZXRlciwgb25seSBhIHBhcnQgb2YKY2hh
+cmFjdGVycyBpcyBjb3BpZWQgdG8gdGhlIGRlc3RpbmF0aW9uLCBhbmQgbm8gTlVMLXRlcm1pbmF0
+ZWQgc3RyaW5nIGlzCmF1dG9tYXRpY2FsbHkgYWRkZWQuIFRoZXJlIGFyZSBzb21lIHBvdGVudGlh
+bCByaXNrcy4KClNvIHVzZSBzbnByaW50ZigpIHRvIHJlcGxhY2Ugc3RybmNweSgpLgoKU2lnbmVk
+LW9mZi1ieTogTHVvIEppYXhpbmcgPGx1b2ppYXhpbmdAaHVhd2VpLmNvbT4KLS0tCiBkcml2ZXJz
+L2dwdS9kcm0vbm91dmVhdS9udmttL2VuZ2luZS9kZXZpY2UvdXNlci5jIHwgNCArKy0tCiAxIGZp
+bGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L252a20vZW5naW5lL2RldmljZS91c2VyLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9udmttL2VuZ2luZS9kZXZpY2UvdXNlci5jCmluZGV4IGZlYTlk
+OGYuLjRiZjY1YmIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L252a20vZW5n
+aW5lL2RldmljZS91c2VyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9lbmdp
+bmUvZGV2aWNlL3VzZXIuYwpAQCAtMTYxLDggKzE2MSw4IEBAIG52a21fdWRldmljZV9pbmZvKHN0
+cnVjdCBudmttX3VkZXZpY2UgKnVkZXYsIHZvaWQgKmRhdGEsIHUzMiBzaXplKQogCWlmIChpbWVt
+ICYmIGFyZ3MtPnYwLnJhbV9zaXplID4gMCkKIAkJYXJncy0+djAucmFtX3VzZXIgPSBhcmdzLT52
+MC5yYW1fdXNlciAtIGltZW0tPnJlc2VydmVkOwogCi0Jc3RybmNweShhcmdzLT52MC5jaGlwLCBk
+ZXZpY2UtPmNoaXAtPm5hbWUsIHNpemVvZihhcmdzLT52MC5jaGlwKSk7Ci0Jc3RybmNweShhcmdz
+LT52MC5uYW1lLCBkZXZpY2UtPm5hbWUsIHNpemVvZihhcmdzLT52MC5uYW1lKSk7CisJc25wcmlu
+dGYoYXJncy0+djAuY2hpcCwgc2l6ZW9mKGFyZ3MtPnYwLmNoaXApLCAiJXMiLCBkZXZpY2UtPmNo
+aXAtPm5hbWUpOworCXNucHJpbnRmKGFyZ3MtPnYwLm5hbWUsIHNpemVvZihhcmdzLT52MC5uYW1l
+KSwgIiVzIiwgZGV2aWNlLT5uYW1lKTsKIAlyZXR1cm4gMDsKIH0KIAotLSAKMi43LjQKCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
