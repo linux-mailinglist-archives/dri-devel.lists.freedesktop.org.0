@@ -2,29 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667EE3318E6
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 21:55:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5380F3318E5
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 21:55:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EB4F6E875;
-	Mon,  8 Mar 2021 20:55:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B36C26E3D0;
+	Mon,  8 Mar 2021 20:55:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
  [208.91.0.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A44246E3D0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE2976E875
  for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 20:54:59 +0000 (UTC)
 Received: from sc9-mailhost1.vmware.com (10.113.161.71) by
  EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
- 15.0.1156.6; Mon, 8 Mar 2021 12:54:56 -0800
+ 15.0.1156.6; Mon, 8 Mar 2021 12:54:57 -0800
 Received: from vertex.localdomain (unknown [10.16.119.57])
- by sc9-mailhost1.vmware.com (Postfix) with ESMTP id 487EF2040A;
- Mon,  8 Mar 2021 12:54:57 -0800 (PST)
+ by sc9-mailhost1.vmware.com (Postfix) with ESMTP id 2303F2040A;
+ Mon,  8 Mar 2021 12:54:58 -0800 (PST)
 From: Zack Rusin <zackr@vmware.com>
 To: <linux-kernel@vger.kernel.org>
-Subject: [PATCH 0/2] locking/rwsem: Add down_write_interruptible and use it
-Date: Mon, 8 Mar 2021 15:54:54 -0500
-Message-ID: <20210308205456.1317366-1-zackr@vmware.com>
+Subject: [PATCH 1/2] locking/rwsem: Add down_write_interruptible
+Date: Mon, 8 Mar 2021 15:54:55 -0500
+Message-ID: <20210308205456.1317366-2-zackr@vmware.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210308205456.1317366-1-zackr@vmware.com>
+References: <20210308205456.1317366-1-zackr@vmware.com>
 MIME-Version: 1.0
 Received-SPF: None (EX13-EDG-OU-002.vmware.com: zackr@vmware.com does not
  designate permitted sender hosts)
@@ -40,54 +42,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Roland Scheidegger <sroland@vmware.com>, dri-devel@lists.freedesktop.org,
- Martin Krastev <krastevm@vmware.com>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-vmwgfx has really ugly implemention of an interruptible lock trying
-to match rw sem semantics. By adding a small bit of code implementing
-down_write_interruptible to rwsem which already supported
-down_read_interruptible we can completely remove all of the custom
-code from vmwgfx.
+Add an interruptible version of down_write. It's the other
+side of the already implemented down_read_interruptible.
+It allows drivers which used custom locking code to
+support interruptible rw semaphores to switch over
+to rwsem.
 
 Cc: Peter Zijlstra <peterz@infradead.org>
 Cc: Ingo Molnar <mingo@redhat.com>
 Cc: Will Deacon <will@kernel.org>
-Cc: Martin Krastev <krastevm@vmware.com>
-Cc: Roland Scheidegger <sroland@vmware.com>
 Cc: linux-kernel@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
+---
+ include/linux/rwsem.h  |  1 +
+ kernel/locking/rwsem.c | 23 +++++++++++++++++++++++
+ 2 files changed, 24 insertions(+)
 
-Zack Rusin (2):
-  locking/rwsem: Add down_write_interruptible
-  drm/vmwgfx: Remove custom locking code
-
- drivers/gpu/drm/vmwgfx/Makefile               |   2 +-
- drivers/gpu/drm/vmwgfx/ttm_lock.c             | 194 ----------------
- drivers/gpu/drm/vmwgfx/ttm_lock.h             | 218 ------------------
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c            |  24 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_context.c       |   4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  57 +----
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |  32 ++-
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c       |   4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_fb.c            |  10 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         |   8 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           |   4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_resource.c      |   8 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_shader.c        |   4 +-
- .../gpu/drm/vmwgfx/vmwgfx_simple_resource.c   |   4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c       |  16 +-
- include/linux/rwsem.h                         |   1 +
- kernel/locking/rwsem.c                        |  23 ++
- 17 files changed, 98 insertions(+), 515 deletions(-)
- delete mode 100644 drivers/gpu/drm/vmwgfx/ttm_lock.c
- delete mode 100644 drivers/gpu/drm/vmwgfx/ttm_lock.h
-
+diff --git a/include/linux/rwsem.h b/include/linux/rwsem.h
+index 4c715be48717..753ae2cb8677 100644
+--- a/include/linux/rwsem.h
++++ b/include/linux/rwsem.h
+@@ -135,6 +135,7 @@ extern int down_read_trylock(struct rw_semaphore *sem);
+  * lock for writing
+  */
+ extern void down_write(struct rw_semaphore *sem);
++extern int __must_check down_write_interruptible(struct rw_semaphore *sem);
+ extern int __must_check down_write_killable(struct rw_semaphore *sem);
+ 
+ /*
+diff --git a/kernel/locking/rwsem.c b/kernel/locking/rwsem.c
+index abba5df50006..0eadd20347de 100644
+--- a/kernel/locking/rwsem.c
++++ b/kernel/locking/rwsem.c
+@@ -1270,6 +1270,11 @@ static inline void __down_write(struct rw_semaphore *sem)
+ 	__down_write_common(sem, TASK_UNINTERRUPTIBLE);
+ }
+ 
++static inline int __down_write_interruptible(struct rw_semaphore *sem)
++{
++	return __down_write_common(sem, TASK_INTERRUPTIBLE);
++}
++
+ static inline int __down_write_killable(struct rw_semaphore *sem)
+ {
+ 	return __down_write_common(sem, TASK_KILLABLE);
+@@ -1408,6 +1413,24 @@ void __sched down_write(struct rw_semaphore *sem)
+ }
+ EXPORT_SYMBOL(down_write);
+ 
++/*
++ * interruptible lock for writing
++ */
++int __sched down_write_interruptible(struct rw_semaphore *sem)
++{
++	might_sleep();
++	rwsem_acquire(&sem->dep_map, 0, 0, _RET_IP_);
++
++	if (LOCK_CONTENDED_RETURN(sem, __down_write_trylock,
++				  __down_write_interruptible)) {
++		rwsem_release(&sem->dep_map, _RET_IP_);
++		return -EINTR;
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL(down_write_interruptible);
++
+ /*
+  * lock for writing
+  */
 -- 
 2.27.0
 
