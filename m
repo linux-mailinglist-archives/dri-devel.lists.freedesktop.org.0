@@ -2,66 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED12C3310A7
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 15:21:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CCF73310B0
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 15:22:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 239686E32A;
-	Mon,  8 Mar 2021 14:20:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 815DE89B68;
+	Mon,  8 Mar 2021 14:22:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B8456E32A
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 14:20:57 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id q25so21225159lfc.8
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Mar 2021 06:20:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0qSqLyKBzw4nb8j17jU5SupuAgYw/Y4EGFPBpUKaihs=;
- b=H1L0Z5d54+bKkv1NMZjlGMdv2lvvIaogWTE4at+h3hahV4w7UFyPR7pcmfObjw2SQQ
- 9K0qL4nLHig0eSQpmZzm6K5Vy2/VwG39JxGa29NIRBlEsRLCeTGHsO9OFpq6RiQ9++7l
- eoJ5nB1iV47JAXv2LLW0YwiqsqvtVmypkSXlG6MNAQzSomEJZJCIdc+vh1rVQ62JL/2y
- dWv+qMyUjBhA6MH8CJpwAJ35KwXVjBgR3KKtSTVD6LCRIlRiwz5UcYEich/+TuZybcs2
- T27tgfeWT9FtKn+gMEKmMx5zg2LkuKixR50cY9tkIloCU6c4H+3oFTFcGzNYAMF9xq4f
- 8+vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0qSqLyKBzw4nb8j17jU5SupuAgYw/Y4EGFPBpUKaihs=;
- b=M0vV63Jx0e6SwZ/3dsgM3pBPSrldjnWGqleZ0xn2Lgqz8D999BIBVxcz9ZQwD8im57
- pm1quJTsa7aaTXHt+VYy7+geD8HQnNyfO1y7xrfU2gGfncoUYiG/X4ll/d4fCR1bi6Tw
- Gncnz2bkWIzig6QrvvSQwO94nH6In3GnVJIUoOkTqlOQwNlFkMB9cL7jc+nqWEwCRwrG
- FLYRjfEa/yNpfvsC7oHvdMUOaiz9g/9xTe7wzmdqSMh82/dKcRAucDmgGDeT5omQHmkh
- aPdI8WvkCAqWXlog3iqMDcdTnpZUPVtkZxEGmZrEis2TXxCDpRI7fHFFwhFRFGgdqkJv
- YCLg==
-X-Gm-Message-State: AOAM531sedXANIYuBu1U2oa3OJX9Oo3/59RfnrZELrkJKhhpWwr2EMkt
- 7+EVVRFwFuta70449HPQXdZ67QhWZJ0=
-X-Google-Smtp-Source: ABdhPJznNPgojN/nObRq+gs8Ca5XApc8sug9k/GrLjNKYrfLSpPuBe0IYA6WM0BuWX8Ci3xWPlXlhQ==
-X-Received: by 2002:a19:ac42:: with SMTP id r2mr5176532lfc.548.1615213255627; 
- Mon, 08 Mar 2021 06:20:55 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-52.dynamic.spd-mgts.ru.
- [109.252.193.52])
- by smtp.googlemail.com with ESMTPSA id v10sm1367316lfb.238.2021.03.08.06.20.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Mar 2021 06:20:54 -0800 (PST)
-Subject: Re: [PATCH v13 1/2] drm/tegra: dc: Support memory bandwidth management
-To: =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-References: <20210302124445.29444-1-digetx@gmail.com>
- <20210302124445.29444-2-digetx@gmail.com>
- <20210303230827.GA22628@qmqm.qmqm.pl>
- <1b352c7e-cc72-ba08-32ba-08c05cc3aa03@gmail.com>
- <20210305230222.GA28867@qmqm.qmqm.pl>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <5cc7aaa9-1168-64ba-f311-2f27038dcf4a@gmail.com>
-Date: Mon, 8 Mar 2021 17:20:54 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26CBD89B68
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 14:22:34 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 128ELpMf030911; Mon, 8 Mar 2021 15:22:31 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ mime-version; s=selector1;
+ bh=rlricdE70O7GaP5H/fDILnTjjifnjoiAsY/5cN+eJZs=;
+ b=iMS7rb9/23O7p7wbK2kMLiG3T5WHiHR76IapC+OHgtUdhzKISlSLvj9bVejy/TrMn3Ms
+ wh8WiuEc4gTauHGVk1PnKVUavGVB2f+VZ7bY3tiaxZUV2LG2+rLAsVaWurzdScMNZyJw
+ 0QxH5juL8GDCQK76XwmtOUFAobSIN5M1Pv0fs5W122Za1NSjj68xahg0mERgeW78FFXA
+ e+brdhKVPtg/3TjBHMclFNbUh92N4OlNiUmV2PnkhaIX5tDAAHATYAdcVbUlq/mBgzXA
+ uvOffkJEyqac/TR+cVhjbRqDo2WOIAl/NYreciyFNpOgry7tT4d1f98vXgAp5Y9axal7 jg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 3741y6k04e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 08 Mar 2021 15:22:31 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1F3F410002A;
+ Mon,  8 Mar 2021 15:22:30 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id EF32424AF08;
+ Mon,  8 Mar 2021 15:22:29 +0100 (CET)
+Received: from SFHDAG2NODE3.st.com (10.75.127.6) by SFHDAG2NODE3.st.com
+ (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 8 Mar
+ 2021 15:22:29 +0100
+Received: from SFHDAG2NODE3.st.com ([fe80::31b3:13bf:2dbe:f64c]) by
+ SFHDAG2NODE3.st.com ([fe80::31b3:13bf:2dbe:f64c%20]) with mapi id
+ 15.00.1473.003; Mon, 8 Mar 2021 15:22:29 +0100
+From: Philippe CORNU - foss <philippe.cornu@foss.st.com>
+To: Yannick FERTRE - foss <yannick.fertre@foss.st.com>, "Raphael GALLAIS-POU -
+ foss" <raphael.gallais-pou@foss.st.com>, Yannick FERTRE
+ <yannick.fertre@st.com>, Philippe CORNU <philippe.cornu@st.com>, "Benjamin
+ Gaignard" <benjamin.gaignard@linaro.org>, Vincent ABRIOU
+ <vincent.abriou@st.com>, Sam Ravnborg <sam@ravnborg.org>, Joe Perches
+ <joe@perches.com>
+Subject: RE: [PATCH 1/2] drm/stm: dsi: Avoid printing errors for -EPROBE_DEFER
+Thread-Topic: [PATCH 1/2] drm/stm: dsi: Avoid printing errors for -EPROBE_DEFER
+Thread-Index: AQHXCPxP1JW0jPBz9kimszP//+ain6p50u6AgABm/FU=
+Date: Mon, 8 Mar 2021 14:22:29 +0000
+Message-ID: <1615213345469.50782@foss.st.com>
+References: <20210222092205.32086-1-raphael.gallais-pou@foss.st.com>
+ <20210222092205.32086-2-raphael.gallais-pou@foss.st.com>,
+ <7db3bebd-2cfa-d8d8-40e5-81702295e151@foss.st.com>
+In-Reply-To: <7db3bebd-2cfa-d8d8-40e5-81702295e151@foss.st.com>
+Accept-Language: fr-FR, en-US
+Content-Language: fr-FR
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.47]
 MIME-Version: 1.0
-In-Reply-To: <20210305230222.GA28867@qmqm.qmqm.pl>
-Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-08_08:2021-03-08,
+ 2021-03-08 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,51 +80,250 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pm@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Matt Merhar <mattmerhar@protonmail.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Raphael GALLAIS-POU <raphael.gallais-pou@st.com>,
+ David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Alexandre TORGUE - foss <alexandre.torgue@foss.st.com>, Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Alexandre TORGUE <alexandre.torgue@st.com>
+Content-Type: multipart/mixed; boundary="===============1138515426=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MDYuMDMuMjAyMSAwMjowMiwgTWljaGHFgiBNaXJvc8WCYXcg0L/QuNGI0LXRgjoKPiBPbiBGcmks
-IE1hciAwNSwgMjAyMSBhdCAxMjo0NTo1MUFNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6
-Cj4+IDA0LjAzLjIwMjEgMDI6MDgsIE1pY2hhxYIgTWlyb3PFgmF3INC/0LjRiNC10YI6Cj4+PiBP
-biBUdWUsIE1hciAwMiwgMjAyMSBhdCAwMzo0NDo0NFBNICswMzAwLCBEbWl0cnkgT3NpcGVua28g
-d3JvdGU6Cj4+Pj4gRGlzcGxheSBjb250cm9sbGVyIChEQykgcGVyZm9ybXMgaXNvY2hyb25vdXMg
-bWVtb3J5IHRyYW5zZmVycywgYW5kIHRodXMsCj4+Pj4gaGFzIGEgcmVxdWlyZW1lbnQgZm9yIGEg
-bWluaW11bSBtZW1vcnkgYmFuZHdpZHRoIHRoYXQgc2hhbGwgYmUgZnVsZmlsbGVkLAo+Pj4+IG90
-aGVyd2lzZSBmcmFtZWJ1ZmZlciBkYXRhIGNhbid0IGJlIGZldGNoZWQgZmFzdCBlbm91Z2ggYW5k
-IHRoaXMgcmVzdWx0cwo+Pj4+IGluIGEgREMncyBkYXRhLUZJRk8gdW5kZXJmbG93IHRoYXQgZm9s
-bG93cyBieSBhIHZpc3VhbCBjb3JydXB0aW9uLgo+IFsuLi5dCj4+Pj4gKwkvKgo+Pj4+ICsJICog
-SG9yaXpvbnRhbCBkb3duc2NhbGUgdGFrZXMgZXh0cmEgYmFuZHdpZHRoIHdoaWNoIHJvdWdobHkg
-ZGVwZW5kcwo+Pj4+ICsJICogb24gdGhlIHNjYWxlZCB3aWR0aC4KPj4+PiArCSAqLwo+Pj4+ICsJ
-aWYgKHNyY193ID4gZHN0X3cpCj4+Pj4gKwkJbXVsID0gKHNyY193IC0gZHN0X3cpICogYnBwIC8g
-MjA0OCArIDE7Cj4+Pj4gKwllbHNlCj4+Pj4gKwkJbXVsID0gMTsKPj4+Cj4+PiBEb2VzIGl0IHJl
-YWxseSBuZWVkIG1vcmUgYmFuZHdpZHRoIHRvIHNjYWxlIGRvd24/IERvZXMgaXQgcmVhZCB0aGUg
-c2FtZQo+Pj4gZGF0YSBtdWx0aXBsZSB0aW1lcyBqdXN0IHRvIHRocm93IGl0IGF3YXk/Cj4+IFRo
-ZSBoYXJkd2FyZSBpc24ndCBvcHRpbWl6ZWQgZm9yIGRvd25zY2FsZSwgaXQgaW5kZWVkIHRha2Vz
-IG1vcmUKPj4gYmFuZHdpZHRoLiBZb3UnbGwgd2l0bmVzcyBhIHNldmVyZSB1bmRlcmZsb3cgb2Yg
-cGxhbmUncyBtZW1vcnkgRklGTwo+PiBidWZmZXIgb24gdHJ5aW5nIHRvIGRvd25zY2FsZSAxMDgw
-cCBwbGFuZSB0byA1MHg1MC4KPiBbLi4uXQo+IAo+IEluIHlvdXIgZXhhbXBsZSwgZG9lcyBpdCBy
-ZWFsbHkgbmVlZCAxNnggdGhlIGJhbmR3aWR0aCBjb21wYXJlZCB0bwo+IG5vIHNjYWxpbmcgY2Fz
-ZT8gIFRoZSBuYWl2ZSB3YXkgdG8gaW1wbGVtZW50IGRvd25zY2FsaW5nIHdvdWxkIGJlIHRvIHJl
-YWQKPiBhbGwgdGhlIHBpeGVscyBhbmQgb25seSB0YWtlIGV2ZXJ5IE4tdGguICBNYXliZSB0aGUg
-cHJvYmxlbSBpcyB0aGF0IGluCj4gZG93bnNjYWxpbmcgbW9kZSB0aGUgbGF0ZW5jeSByZXF1aXJl
-bWVudHMgYXJlIHRpZ2h0ZXI/ICBXaHkgd291bGQgYmFuZHdpZHRoCj4gcmVxdWlyZWQgYmUgcHJv
-cG9ydGlvbmFsIHRvIGEgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSB3aWR0aHMgKGluc3RlYWQgZS5n
-Lgo+IHRvIHNyYy9kc3Qgb3IgZHN0KmNhY2hlbGluZV9zaXplKT8KClNlZW1zIHlvdSdyZSByaWdo
-dCwgaXQncyBhY3R1YWxseSBub3QgdGhlIGJhbmR3aWR0aC4gUmVjZW50bHkgSSBhZGRlZAptZW1v
-cnkgY2xpZW50IHN0YXRpc3RpY3MgZ2F0aGVyaW5nIHN1cHBvcnQgdG8gZ3JhdGUta2VybmVsIGZv
-ciBUZWdyYTIwCmFuZCBpdCBzaG93cyB0aGF0IHRoZSBjb25zdW1lZCBiYW5kd2lkdGggaXMgYWN0
-dWFsbHkgbG93ZXIgd2hlbiBwbGFuZSBpcwpkb3duc2NhbGVkLgoKU28gaXQgc2hvdWxkIGJlIHRo
-ZSBsYXRlbmN5LCB3aGljaCBkZXBlbmRzIG9uIG1lbW9yeSBmcmVxdWVuY3ksIGFuZAp0aHVzLCBv
-biBiYW5kd2lkdGguIEknbGwgdHJ5IHRvIGltcHJvdmUgY29tbWVudCB0byB0aGUgY29kZSBpbiB0
-aGUgbmV4dAp2ZXJzaW9uLCB0aGFua3MuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+--===============1138515426==
+Content-Language: fr-FR
+Content-Type: multipart/alternative;
+	boundary="_000_161521334546950782fossstcom_"
+
+--_000_161521334546950782fossstcom_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+Applied on drm-misc-next.
+Many thanks Rapha=EBl & Yannick for your patch.
+Note: I have updated the "From:" field to yannick.fertre@foss.st.com for mo=
+re consistency.
+Philippe :-)
+
+
+________________________________
+De : Yannick FERTRE - foss
+Envoy=E9 : lundi 8 mars 2021 10:10
+=C0 : Raphael GALLAIS-POU - foss; Yannick FERTRE; Philippe CORNU; Benjamin =
+Gaignard; Vincent ABRIOU; Sam Ravnborg; Joe Perches
+Cc : David Airlie; Daniel Vetter; Maxime Coquelin; Alexandre TORGUE; dri-de=
+vel@lists.freedesktop.org; linux-stm32@st-md-mailman.stormreply.com; linux-=
+arm-kernel@lists.infradead.org; linux-kernel@vger.kernel.org; Philippe CORN=
+U - foss; Raphael GALLAIS-POU; Alexandre TORGUE - foss
+Objet : Re: [PATCH 1/2] drm/stm: dsi: Avoid printing errors for -EPROBE_DEF=
+ER
+
+Tested-by: Yannick Fertre <yannick.fertre@foss.st.com>
+
+On 2/22/21 10:22 AM, Raphael GALLAIS-POU - foss wrote:
+> From: Yannick Fertre <yannick.fertre@st.com>
+>
+> Don't print error when probe deferred error is returned.
+>
+> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
+> ---
+>   drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 9 +++------
+>   1 file changed, 3 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/=
+dw_mipi_dsi-stm.c
+> index 2e1f2664495d..8399d337589d 100644
+> --- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> +++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> @@ -363,8 +363,7 @@ static int dw_mipi_dsi_stm_probe(struct platform_devi=
+ce *pdev)
+>        dsi->vdd_supply =3D devm_regulator_get(dev, "phy-dsi");
+>        if (IS_ERR(dsi->vdd_supply)) {
+>                ret =3D PTR_ERR(dsi->vdd_supply);
+> -             if (ret !=3D -EPROBE_DEFER)
+> -                     DRM_ERROR("Failed to request regulator: %d\n", ret)=
+;
+> +             dev_err_probe(dev, ret, "Failed to request regulator\n");
+>                return ret;
+>        }
+>
+> @@ -377,9 +376,7 @@ static int dw_mipi_dsi_stm_probe(struct platform_devi=
+ce *pdev)
+>        dsi->pllref_clk =3D devm_clk_get(dev, "ref");
+>        if (IS_ERR(dsi->pllref_clk)) {
+>                ret =3D PTR_ERR(dsi->pllref_clk);
+> -             if (ret !=3D -EPROBE_DEFER)
+> -                     DRM_ERROR("Unable to get pll reference clock: %d\n"=
+,
+> -                               ret);
+> +             dev_err_probe(dev, ret, "Unable to get pll reference clock\=
+n");
+>                goto err_clk_get;
+>        }
+>
+> @@ -419,7 +416,7 @@ static int dw_mipi_dsi_stm_probe(struct platform_devi=
+ce *pdev)
+>        dsi->dsi =3D dw_mipi_dsi_probe(pdev, &dw_mipi_dsi_stm_plat_data);
+>        if (IS_ERR(dsi->dsi)) {
+>                ret =3D PTR_ERR(dsi->dsi);
+> -             DRM_ERROR("Failed to initialize mipi dsi host: %d\n", ret);
+> +             dev_err_probe(dev, ret, "Failed to initialize mipi dsi host=
+\n");
+>                goto err_dsi_probe;
+>        }
+>
+>
+
+--_000_161521334546950782fossstcom_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none"><!-- p { margin-top: 0px; m=
+argin-bottom: 0px; } .EmailQuote { margin-left: 1pt; padding-left: 4pt; bor=
+der-left: 2px solid rgb(128, 0, 0); }--></style>
+</head>
+<body dir=3D"ltr" style=3D"font-size:12pt;color:#000000;background-color:#F=
+FFFFF;font-family:Calibri,Arial,Helvetica,sans-serif;">
+<div>Applied on drm-misc-next.<br>
+</div>
+<div>Many thanks Rapha=EBl &amp; Yannick&nbsp;for your patch.<br>
+</div>
+<div>Note: I have&nbsp;updated the &quot;From:&quot; field&nbsp;to yannick.=
+fertre@foss.st.com&nbsp;for more consistency.<br>
+</div>
+<div>Philippe :-)<br>
+</div>
+<p><br>
+</p>
+<hr tabindex=3D"-1" style=3D"color: rgb(33, 33, 33); font-size: 12pt; displ=
+ay: inline-block; width: 98%;">
+<div style=3D"color: rgb(33, 33, 33);">
+<div>
+<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
+color=3D"#000000" style=3D"font-size:11pt"><b>De :</b> Yannick FERTRE - fos=
+s<br>
+<b>Envoy=E9 :</b> lundi 8 mars 2021 10:10<br>
+<b>=C0 :</b> Raphael GALLAIS-POU - foss; Yannick FERTRE; Philippe CORNU; Be=
+njamin Gaignard; Vincent ABRIOU; Sam Ravnborg; Joe Perches<br>
+<b>Cc&nbsp;:</b> David Airlie; Daniel Vetter; Maxime Coquelin; Alexandre TO=
+RGUE; dri-devel@lists.freedesktop.org; linux-stm32@st-md-mailman.stormreply=
+.com; linux-arm-kernel@lists.infradead.org; linux-kernel@vger.kernel.org; P=
+hilippe CORNU - foss; Raphael GALLAIS-POU;
+ Alexandre TORGUE - foss<br>
+<b>Objet :</b> Re: [PATCH 1/2] drm/stm: dsi: Avoid printing errors for -EPR=
+OBE_DEFER</font>
+<div>&nbsp;</div>
+</div>
+</div>
+<font size=3D"2"><span style=3D"font-size:10pt;">
+<div class=3D"PlainText">Tested-by: Yannick Fertre &lt;yannick.fertre@foss.=
+st.com&gt;<br>
+<br>
+On 2/22/21 10:22 AM, Raphael GALLAIS-POU - foss wrote:<br>
+&gt; From: Yannick Fertre &lt;yannick.fertre@st.com&gt;<br>
+&gt; <br>
+&gt; Don't print error when probe deferred error is returned.<br>
+&gt; <br>
+&gt; Signed-off-by: Raphael Gallais-Pou &lt;raphael.gallais-pou@foss.st.com=
+&gt;<br>
+&gt; Signed-off-by: Yannick Fertre &lt;yannick.fertre@foss.st.com&gt;<br>
+&gt; ---<br>
+&gt;&nbsp;&nbsp; drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 9 &#43;&#43;&#43;-=
+-----<br>
+&gt;&nbsp;&nbsp; 1 file changed, 3 insertions(&#43;), 6 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/s=
+tm/dw_mipi_dsi-stm.c<br>
+&gt; index 2e1f2664495d..8399d337589d 100644<br>
+&gt; --- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c<br>
+&gt; &#43;&#43;&#43; b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c<br>
+&gt; @@ -363,8 &#43;363,7 @@ static int dw_mipi_dsi_stm_probe(struct platfo=
+rm_device *pdev)<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dsi-&gt;vdd_supply =3D devm_=
+regulator_get(dev, &quot;phy-dsi&quot;);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (IS_ERR(dsi-&gt;vdd_suppl=
+y)) {<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; ret =3D PTR_ERR(dsi-&gt;vdd_supply);<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; if (ret !=3D -EPROBE_DEFER)<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DRM_ERROR(&quot;Failed =
+to request regulator: %d\n&quot;, ret);<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; dev_err_probe(dev, ret, &quot;Failed to request regulator\n&quot;);=
+<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; return ret;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&gt;&nbsp;&nbsp; <br>
+&gt; @@ -377,9 &#43;376,7 @@ static int dw_mipi_dsi_stm_probe(struct platfo=
+rm_device *pdev)<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dsi-&gt;pllref_clk =3D devm_=
+clk_get(dev, &quot;ref&quot;);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (IS_ERR(dsi-&gt;pllref_cl=
+k)) {<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; ret =3D PTR_ERR(dsi-&gt;pllref_clk);<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; if (ret !=3D -EPROBE_DEFER)<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DRM_ERROR(&quot;Unable =
+to get pll reference clock: %d\n&quot;,<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ret);<br>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; dev_err_probe(dev, ret, &quot;Unable to get pll reference clock\n&q=
+uot;);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; goto err_clk_get;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&gt;&nbsp;&nbsp; <br>
+&gt; @@ -419,7 &#43;416,7 @@ static int dw_mipi_dsi_stm_probe(struct platfo=
+rm_device *pdev)<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dsi-&gt;dsi =3D dw_mipi_dsi_=
+probe(pdev, &amp;dw_mipi_dsi_stm_plat_data);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (IS_ERR(dsi-&gt;dsi)) {<b=
+r>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; ret =3D PTR_ERR(dsi-&gt;dsi);<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; DRM_ERROR(&quot;Failed to initialize mipi dsi host: %d\n&quot;, ret);<b=
+r>
+&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; dev_err_probe(dev, ret, &quot;Failed to initialize mipi dsi host\n&=
+quot;);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; goto err_dsi_probe;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&gt;&nbsp;&nbsp; <br>
+&gt; <br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_161521334546950782fossstcom_--
+
+--===============1138515426==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1138515426==--
