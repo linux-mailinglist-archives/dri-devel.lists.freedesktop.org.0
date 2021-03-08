@@ -2,39 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D027331E14
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 05:48:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7FBD331F97
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 08:00:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0665F6E8AA;
-	Tue,  9 Mar 2021 04:48:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B59FE6E422;
+	Tue,  9 Mar 2021 07:00:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 329026E8A9;
- Tue,  9 Mar 2021 04:48:47 +0000 (UTC)
-IronPort-SDR: EmDziyfGOIEOpjTkZlimOaj1407IEhpZy9Vl7R//BFlXSeNdbVeCt200s1OVH6Nqs/UYd6yT59
- WRCARLy5mTIg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="184796088"
-X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="184796088"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2021 20:48:47 -0800
-IronPort-SDR: lOVjO46bmJnEC/pa/Wc8t8OhA6pGseMUm/pQZQoAixNFvm2zQrGR5q6jzJry2yj00+eBefp04X
- fdHqcIGQoqBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="376369265"
-Received: from linux-akn.iind.intel.com ([10.223.34.148])
- by fmsmga007.fm.intel.com with ESMTP; 08 Mar 2021 20:48:45 -0800
-From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 3/3] drm/i915/display: Configure HDMI2.1 Pcon for FRL only
- if Src-Ctl mode is available
-Date: Tue,  9 Mar 2021 10:09:15 +0530
-Message-Id: <20210309043915.1921-4-ankit.k.nautiyal@intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210309043915.1921-1-ankit.k.nautiyal@intel.com>
-References: <20210309043915.1921-1-ankit.k.nautiyal@intel.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C99D89F9F
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 13:57:07 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <pza@pengutronix.de>)
+ id 1lJGNd-0006hW-TY; Mon, 08 Mar 2021 14:57:05 +0100
+Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <pza@pengutronix.de>)
+ id 1lJGNc-0000Su-NW; Mon, 08 Mar 2021 14:57:04 +0100
+Date: Mon, 8 Mar 2021 14:57:04 +0100
+From: Philipp Zabel <pza@pengutronix.de>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH 4/7] media: hantro: imx: remove unused include
+Message-ID: <20210308135704.GB18168@pengutronix.de>
+References: <20210305183924.1754026-1-emil.l.velikov@gmail.com>
+ <20210305183924.1754026-5-emil.l.velikov@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210305183924.1754026-5-emil.l.velikov@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 14:54:05 up 18 days, 17:17, 83 users,  load average: 0.02, 0.11, 0.13
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: pza@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-Mailman-Approved-At: Tue, 09 Mar 2021 07:00:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,38 +56,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, uma.shankar@intel.com, dri-devel@lists.freedesktop.org
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently we see only the MAX FRL BW from PCON before going for FRL.
-Also add the check if source control mode is supported by the
-PCON, before starting configuring PCON for FRL training.
+Hi Emil,
 
-Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Fri, Mar 05, 2021 at 06:39:21PM +0000, Emil Velikov wrote:
+> From: Emil Velikov <emil.velikov@collabora.com>
+> 
+> The current imx8 code does not use the jpeg encoder. Remove the
+> unnecessary include.
+> 
+> Cc: Ezequiel Garcia <ezequiel@collabora.com>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-rockchip@lists.infradead.org
+> Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 2e90359ce21f..8e401d3fd29d 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -2638,7 +2638,8 @@ void intel_dp_check_frl_training(struct intel_dp *intel_dp)
- 	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
- 
- 	/* Always go for FRL training if supported */
--	if (!intel_dp_is_hdmi_2_1_sink(intel_dp) ||
-+	if (!(intel_dp->dpcd[2] & DP_PCON_SOURCE_CTL_MODE) ||
-+	    !intel_dp_is_hdmi_2_1_sink(intel_dp) ||
- 	    intel_dp->frl.is_trained)
- 		return;
- 
--- 
-2.29.2
+thank you, patches 2-4 could be tagged
 
+Fixes: 8e4aaa687863 ("media: hantro: add initial i.MX8MQ support")
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+
+regards
+Philipp
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
