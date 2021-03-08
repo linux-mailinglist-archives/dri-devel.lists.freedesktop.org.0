@@ -1,43 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E3D33104E
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 15:04:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED12C3310A7
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Mar 2021 15:21:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BDB489C59;
-	Mon,  8 Mar 2021 14:04:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 239686E32A;
+	Mon,  8 Mar 2021 14:20:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E321689C3F
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 14:04:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8206F64EBC;
- Mon,  8 Mar 2021 14:04:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615212240;
- bh=E1p7ETbjo4cfMPaI3vXRnRJoJxKJzun0W2n67A7eow4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QtR5QVRpLfOz0bim/vdh8qduvyb+P64c5oDctr1Kc1SbnxPiGtubTojmJQbxlNC90
- H9k3ur/telJzc8ORujkgR/jBPqC1JH+5gr6Fp1J4VSmJWF/lP9NxFa8Eo7xTt8WaBh
- Qs1VqnP1n9pCkjh4GkMZOh7thjL78Ti6e2EyC+3lWHpsGqy62xgN7AVkBkLdVcESxl
- vfQ6ljG6XZAWXMV/1oItTkkb6o2HMZaL+Bp+Nhkj6coKuQ3NtQnGgmIlQm/hb/L0tP
- lhwDn9aLAU4T67KRUQv8+eCNfZO9zKNLD4+NosvHIlELW9XqKoqr62yJDGM4uf5L1Y
- KNFuA02Mf8PKQ==
-Received: by earth.universe (Postfix, from userid 1000)
- id 742BE3C0C95; Mon,  8 Mar 2021 15:03:58 +0100 (CET)
-Date: Mon, 8 Mar 2021 15:03:58 +0100
-From: Sebastian Reichel <sre@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCHv1 1/6] rtc: m41t80: add support for protected clock
-Message-ID: <20210308140358.diolcpbaq7gow3y4@earth.universe>
-References: <20210222171247.97609-1-sebastian.reichel@collabora.com>
- <20210222171247.97609-2-sebastian.reichel@collabora.com>
- <YDQgLTPE0E+/1Cwv@piout.net> <YDQhgkftoW4J9AtY@piout.net>
- <20210223012657.bbp5u65nw4tpcjgd@earth.universe>
- <20210306195645.GA1112592@robh.at.kernel.org>
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B8456E32A
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 14:20:57 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id q25so21225159lfc.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Mar 2021 06:20:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0qSqLyKBzw4nb8j17jU5SupuAgYw/Y4EGFPBpUKaihs=;
+ b=H1L0Z5d54+bKkv1NMZjlGMdv2lvvIaogWTE4at+h3hahV4w7UFyPR7pcmfObjw2SQQ
+ 9K0qL4nLHig0eSQpmZzm6K5Vy2/VwG39JxGa29NIRBlEsRLCeTGHsO9OFpq6RiQ9++7l
+ eoJ5nB1iV47JAXv2LLW0YwiqsqvtVmypkSXlG6MNAQzSomEJZJCIdc+vh1rVQ62JL/2y
+ dWv+qMyUjBhA6MH8CJpwAJ35KwXVjBgR3KKtSTVD6LCRIlRiwz5UcYEich/+TuZybcs2
+ T27tgfeWT9FtKn+gMEKmMx5zg2LkuKixR50cY9tkIloCU6c4H+3oFTFcGzNYAMF9xq4f
+ 8+vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0qSqLyKBzw4nb8j17jU5SupuAgYw/Y4EGFPBpUKaihs=;
+ b=M0vV63Jx0e6SwZ/3dsgM3pBPSrldjnWGqleZ0xn2Lgqz8D999BIBVxcz9ZQwD8im57
+ pm1quJTsa7aaTXHt+VYy7+geD8HQnNyfO1y7xrfU2gGfncoUYiG/X4ll/d4fCR1bi6Tw
+ Gncnz2bkWIzig6QrvvSQwO94nH6In3GnVJIUoOkTqlOQwNlFkMB9cL7jc+nqWEwCRwrG
+ FLYRjfEa/yNpfvsC7oHvdMUOaiz9g/9xTe7wzmdqSMh82/dKcRAucDmgGDeT5omQHmkh
+ aPdI8WvkCAqWXlog3iqMDcdTnpZUPVtkZxEGmZrEis2TXxCDpRI7fHFFwhFRFGgdqkJv
+ YCLg==
+X-Gm-Message-State: AOAM531sedXANIYuBu1U2oa3OJX9Oo3/59RfnrZELrkJKhhpWwr2EMkt
+ 7+EVVRFwFuta70449HPQXdZ67QhWZJ0=
+X-Google-Smtp-Source: ABdhPJznNPgojN/nObRq+gs8Ca5XApc8sug9k/GrLjNKYrfLSpPuBe0IYA6WM0BuWX8Ci3xWPlXlhQ==
+X-Received: by 2002:a19:ac42:: with SMTP id r2mr5176532lfc.548.1615213255627; 
+ Mon, 08 Mar 2021 06:20:55 -0800 (PST)
+Received: from [192.168.2.145] (109-252-193-52.dynamic.spd-mgts.ru.
+ [109.252.193.52])
+ by smtp.googlemail.com with ESMTPSA id v10sm1367316lfb.238.2021.03.08.06.20.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Mar 2021 06:20:54 -0800 (PST)
+Subject: Re: [PATCH v13 1/2] drm/tegra: dc: Support memory bandwidth management
+To: =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+References: <20210302124445.29444-1-digetx@gmail.com>
+ <20210302124445.29444-2-digetx@gmail.com>
+ <20210303230827.GA22628@qmqm.qmqm.pl>
+ <1b352c7e-cc72-ba08-32ba-08c05cc3aa03@gmail.com>
+ <20210305230222.GA28867@qmqm.qmqm.pl>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <5cc7aaa9-1168-64ba-f311-2f27038dcf4a@gmail.com>
+Date: Mon, 8 Mar 2021 17:20:54 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-In-Reply-To: <20210306195645.GA1112592@robh.at.kernel.org>
+In-Reply-To: <20210305230222.GA28867@qmqm.qmqm.pl>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,158 +74,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
+Cc: linux-pm@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mtd@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, kernel@collabora.com,
- Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1858366524=="
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Matt Merhar <mattmerhar@protonmail.com>, Peter Geis <pgwipeout@gmail.com>,
+ linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1858366524==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tz3no5iwp6fmwznd"
-Content-Disposition: inline
-
-
---tz3no5iwp6fmwznd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Sat, Mar 06, 2021 at 11:56:45AM -0800, Rob Herring wrote:
-> On Tue, Feb 23, 2021 at 02:26:57AM +0100, Sebastian Reichel wrote:
-> > On Mon, Feb 22, 2021 at 10:26:26PM +0100, Alexandre Belloni wrote:
-> > > On 22/02/2021 22:20:47+0100, Alexandre Belloni wrote:
-> > > > On 22/02/2021 18:12:42+0100, Sebastian Reichel wrote:
-> > > > > Congatec's QMX6 system on module (SoM) uses a m41t62 as RTC. The
-> > > > > modules SQW clock output defaults to 32768 Hz. This behaviour is
-> > > > > used to provide the i.MX6 CKIL clock. Once the RTC driver is prob=
-ed,
-> > > > > the clock is disabled and all i.MX6 functionality depending on
-> > > > > the 32 KHz clock has undefined behaviour. On systems using hardwa=
-re
-> > > > > watchdog it seems to likely trigger a lot earlier than configured.
-> > > > >=20
-> > > > > The proper solution would be to describe this dependency in DT,
-> > > > > but that will result in a deadlock. The kernel will see, that
-> > > > > i.MX6 system clock needs the RTC clock and do probe deferral.
-> > > > > But the i.MX6 I2C module never becomes usable without the i.MX6
-> > > > > CKIL clock and thus the RTC's clock will not be probed. So from
-> > > > > the kernel's perspective this is a chicken-and-egg problem.
-> > > > >=20
-> > > >=20
-> > > > Reading the previous paragraph, I was going to suggest describing t=
-he
-> > > > dependency and wondering whether this would cause a circular depend=
-ency.
-> > > > I guess this will keep being an issue for clocks on an I2C or SPI b=
-us...
-> >=20
-> > Yes, it is a circular dependency on this particular system on
-> > module. It only works because the RTC enables the clock by
-> > default. The i.MX6 CKIL is expected to be always enabled.
->=20
-> I think you should describe the circular clocking and then provide a way=
-=20
-> to break the dependency.
-
-This is very much not trivial. The clock is required during early
-initialization of the i.MX. At this point we are far from probing
-I2C drivers and without the I2C driver the clock is not registered.
-The current i.MX code expects the system clocks to be fixed clocks,
-since they must be enabled before any code is executed (incl.
-bootloader) and must never be disabled. From a HW design point of
-view it does not make sense to have a SW controllable clock for it,
-since it just adds extra cost. I believe for QMX6 it is only SW
-controllable, because that avoids the need for an extra crystal.
-
-So how is the clock framework supposed to know, that it can ignore
-the clock during registration? I see the following options:
-
-1. My solution is the simplest one. Keep i.MX clock code the same
-   (it assumes a fixed-clock being used for CKIL) and avoid
-   registering RTC clock. This basically means the RTC is considered
-   to be a fixed-clock on this system, which is what the HW designers
-   seemed to have in mind (vendor kernel for the QMX6 is old enough
-   (4.9.x) to not to have CLK feature in the RTC driver. Vendor
-   U-Boot also does not touch the RTC. Booting mainline kernel once
-   bricks QMX6 boards until RTC battery is removed, so one could
-   actually argue addition of the CLK feature in 1373e77b4f10 (4.13)
-   is a regression). Currently Qualcomm device uses "protected-clocks"
-   for FW controlled clocks where Linux would crash the system by
-   trying to access them. IMHO the RTC is similar, since disabling
-   or modifying its frequency on QMX6 results in undefined behaviour
-   and possibly system crash.
-
-2. Make i.MX clock code use the RTC as CKIL clock provider, but
-   ignore it somehow. I see three sub-options:
-
-2.1. Add a property 'boot-enabled' to the RTC node, so that the
-     clock framework is aware of clock being enabled. This can
-     be used to satisfy clock dependencies somehow.
-
-2.2. The RTC device is not probed without I2C bus, but the driver
-     could also register a fake clock purely based on DT
-     information by adding some early init hook and take over
-     the clock once the I2C part is being probed. I think this
-     is a bad idea regarding maintainability of the driver.
-     Also for systems not using the RTC clock, the early clock
-     registration is basically wrong: If the kernel disables
-     the RTC it will stay disabled across boots if the RTC has
-     a backup battery. Basically we cannot imply anything from
-     the RTC compatible value alone.
-
-2.3 The i.MX core code could request CKIL with some flag, that
-    it's fine to have an unresolvable clock and just expect it
-    to be boot-enabled. The rationale would be, that CKIL must
-    be always-enabled.
-
-> It's a somewhat common issue.
-
-It is? This only works, because one can treat the RTC's clock
-output like a fixed clock by not messing around with it.
-
--- Sebastian
-
---tz3no5iwp6fmwznd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmBGLsQACgkQ2O7X88g7
-+ppYag//VqCs0DzfkeAZpa06OpqMBRfRplqZWf6IlhyET4qXikZHjob95UJcdPuT
-EQ26LP3hKVnN2BE36R2sVifMQ5LixPbWsb/iFw21kIDFdbjhagyI6sotvpd/96N9
-hPEbc8ifVNAr/407a/sW5OzC9seCqW9DO9Xt35IPRyIOPZHj9eUBa1hS+1stC0Q1
-2EqtwU5dkxY/aQDT/50riSszhggjhMS5ITmKXDzQe0dQizYIPIixn1+v6B7CAt8k
-1sWIdZiyt3PPd4fm5F8dvtEirkmG5Wjkv9UQVdi+30RHuJfK5ONIISl2gREbjPL6
-vQSHEfqz6iQYWiwZN4t21opDnloT+wh5ljNghlpnIyeAPcQSfiWN89qUZ3A639+I
-0VxlHLxs0EfLWdNXVxnUW1zXO6EVjhGB8KnSPQic2EFcJNrId8yejK0e6GBsZ6fc
-i6mIonybZnSy7rwnkapkfsJ77CA/Uq3Jvb9PI7WgxA/PljLejUue5Plce2b/iJpZ
-Bus/MtIloeZzBqCTFTa8gCArgYxPB06ROpCM/gvjqmx1/XGVervqJXdChT7Wbk+8
-0KQEkXoz+POcUJemu0OUYsvOW5jTNlkotqrweY4Qdyx/0/VuA1HXEEQQ6J3NBf1x
-qI2tYZkqjU5R2rnSbhvcnxMPnfwL3MwL9gm7iTvf6wUvEz8iP6c=
-=vlxG
------END PGP SIGNATURE-----
-
---tz3no5iwp6fmwznd--
-
---===============1858366524==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1858366524==--
+MDYuMDMuMjAyMSAwMjowMiwgTWljaGHFgiBNaXJvc8WCYXcg0L/QuNGI0LXRgjoKPiBPbiBGcmks
+IE1hciAwNSwgMjAyMSBhdCAxMjo0NTo1MUFNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6
+Cj4+IDA0LjAzLjIwMjEgMDI6MDgsIE1pY2hhxYIgTWlyb3PFgmF3INC/0LjRiNC10YI6Cj4+PiBP
+biBUdWUsIE1hciAwMiwgMjAyMSBhdCAwMzo0NDo0NFBNICswMzAwLCBEbWl0cnkgT3NpcGVua28g
+d3JvdGU6Cj4+Pj4gRGlzcGxheSBjb250cm9sbGVyIChEQykgcGVyZm9ybXMgaXNvY2hyb25vdXMg
+bWVtb3J5IHRyYW5zZmVycywgYW5kIHRodXMsCj4+Pj4gaGFzIGEgcmVxdWlyZW1lbnQgZm9yIGEg
+bWluaW11bSBtZW1vcnkgYmFuZHdpZHRoIHRoYXQgc2hhbGwgYmUgZnVsZmlsbGVkLAo+Pj4+IG90
+aGVyd2lzZSBmcmFtZWJ1ZmZlciBkYXRhIGNhbid0IGJlIGZldGNoZWQgZmFzdCBlbm91Z2ggYW5k
+IHRoaXMgcmVzdWx0cwo+Pj4+IGluIGEgREMncyBkYXRhLUZJRk8gdW5kZXJmbG93IHRoYXQgZm9s
+bG93cyBieSBhIHZpc3VhbCBjb3JydXB0aW9uLgo+IFsuLi5dCj4+Pj4gKwkvKgo+Pj4+ICsJICog
+SG9yaXpvbnRhbCBkb3duc2NhbGUgdGFrZXMgZXh0cmEgYmFuZHdpZHRoIHdoaWNoIHJvdWdobHkg
+ZGVwZW5kcwo+Pj4+ICsJICogb24gdGhlIHNjYWxlZCB3aWR0aC4KPj4+PiArCSAqLwo+Pj4+ICsJ
+aWYgKHNyY193ID4gZHN0X3cpCj4+Pj4gKwkJbXVsID0gKHNyY193IC0gZHN0X3cpICogYnBwIC8g
+MjA0OCArIDE7Cj4+Pj4gKwllbHNlCj4+Pj4gKwkJbXVsID0gMTsKPj4+Cj4+PiBEb2VzIGl0IHJl
+YWxseSBuZWVkIG1vcmUgYmFuZHdpZHRoIHRvIHNjYWxlIGRvd24/IERvZXMgaXQgcmVhZCB0aGUg
+c2FtZQo+Pj4gZGF0YSBtdWx0aXBsZSB0aW1lcyBqdXN0IHRvIHRocm93IGl0IGF3YXk/Cj4+IFRo
+ZSBoYXJkd2FyZSBpc24ndCBvcHRpbWl6ZWQgZm9yIGRvd25zY2FsZSwgaXQgaW5kZWVkIHRha2Vz
+IG1vcmUKPj4gYmFuZHdpZHRoLiBZb3UnbGwgd2l0bmVzcyBhIHNldmVyZSB1bmRlcmZsb3cgb2Yg
+cGxhbmUncyBtZW1vcnkgRklGTwo+PiBidWZmZXIgb24gdHJ5aW5nIHRvIGRvd25zY2FsZSAxMDgw
+cCBwbGFuZSB0byA1MHg1MC4KPiBbLi4uXQo+IAo+IEluIHlvdXIgZXhhbXBsZSwgZG9lcyBpdCBy
+ZWFsbHkgbmVlZCAxNnggdGhlIGJhbmR3aWR0aCBjb21wYXJlZCB0bwo+IG5vIHNjYWxpbmcgY2Fz
+ZT8gIFRoZSBuYWl2ZSB3YXkgdG8gaW1wbGVtZW50IGRvd25zY2FsaW5nIHdvdWxkIGJlIHRvIHJl
+YWQKPiBhbGwgdGhlIHBpeGVscyBhbmQgb25seSB0YWtlIGV2ZXJ5IE4tdGguICBNYXliZSB0aGUg
+cHJvYmxlbSBpcyB0aGF0IGluCj4gZG93bnNjYWxpbmcgbW9kZSB0aGUgbGF0ZW5jeSByZXF1aXJl
+bWVudHMgYXJlIHRpZ2h0ZXI/ICBXaHkgd291bGQgYmFuZHdpZHRoCj4gcmVxdWlyZWQgYmUgcHJv
+cG9ydGlvbmFsIHRvIGEgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSB3aWR0aHMgKGluc3RlYWQgZS5n
+Lgo+IHRvIHNyYy9kc3Qgb3IgZHN0KmNhY2hlbGluZV9zaXplKT8KClNlZW1zIHlvdSdyZSByaWdo
+dCwgaXQncyBhY3R1YWxseSBub3QgdGhlIGJhbmR3aWR0aC4gUmVjZW50bHkgSSBhZGRlZAptZW1v
+cnkgY2xpZW50IHN0YXRpc3RpY3MgZ2F0aGVyaW5nIHN1cHBvcnQgdG8gZ3JhdGUta2VybmVsIGZv
+ciBUZWdyYTIwCmFuZCBpdCBzaG93cyB0aGF0IHRoZSBjb25zdW1lZCBiYW5kd2lkdGggaXMgYWN0
+dWFsbHkgbG93ZXIgd2hlbiBwbGFuZSBpcwpkb3duc2NhbGVkLgoKU28gaXQgc2hvdWxkIGJlIHRo
+ZSBsYXRlbmN5LCB3aGljaCBkZXBlbmRzIG9uIG1lbW9yeSBmcmVxdWVuY3ksIGFuZAp0aHVzLCBv
+biBiYW5kd2lkdGguIEknbGwgdHJ5IHRvIGltcHJvdmUgY29tbWVudCB0byB0aGUgY29kZSBpbiB0
+aGUgbmV4dAp2ZXJzaW9uLCB0aGFua3MuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
