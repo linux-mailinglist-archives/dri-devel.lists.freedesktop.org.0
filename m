@@ -1,49 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199A9331F98
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 08:00:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98146331F69
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 07:40:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10ABD6E48B;
-	Tue,  9 Mar 2021 07:00:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C60686E486;
+	Tue,  9 Mar 2021 06:40:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38DDA897C3
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Mar 2021 13:59:37 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <pza@pengutronix.de>)
- id 1lJGQ3-0006wG-IN; Mon, 08 Mar 2021 14:59:35 +0100
-Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <pza@pengutronix.de>)
- id 1lJGQ3-0000U5-5o; Mon, 08 Mar 2021 14:59:35 +0100
-Date: Mon, 8 Mar 2021 14:59:35 +0100
-From: Philipp Zabel <pza@pengutronix.de>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH 5/7] media: hantro: introduce hantro_g1.c for common API
-Message-ID: <20210308135935.GC18168@pengutronix.de>
-References: <20210305183924.1754026-1-emil.l.velikov@gmail.com>
- <20210305183924.1754026-6-emil.l.velikov@gmail.com>
+Received: from m42-2.mailgun.net (m42-2.mailgun.net [69.72.42.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF0016E486
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Mar 2021 06:40:48 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1615272050; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=EhG3KsTQoCjy4nAe8WbAaYFX/7mUkiPY+Ifi3+SDrmg=;
+ b=Lh+2lcHwsect1sGt5pHFsEonKyFlvL1ItVGUZA4Zaio0uuylMWvKirHJiXzcaTqko2HA20+l
+ tq4naHYgpzG/Y+EzROSXFLL5Qvy5X3dqHfGLvAnI2GVnS/yMPOOZuBwfhNcOCUzer3rHHehg
+ QyWf7Tk6o5H7tQAy8xNKsAD+Rz4=
+X-Mailgun-Sending-Ip: 69.72.42.2
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 6047186e81003345dcab2209 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 09 Mar 2021 06:40:46
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 56C35C43464; Tue,  9 Mar 2021 06:40:45 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 1D56AC433CA;
+ Tue,  9 Mar 2021 06:40:44 +0000 (UTC)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210305183924.1754026-6-emil.l.velikov@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 14:59:16 up 18 days, 17:23, 83 users,  load average: 0.00, 0.05, 0.09
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: pza@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
-X-Mailman-Approved-At: Tue, 09 Mar 2021 07:00:34 +0000
+Date: Tue, 09 Mar 2021 12:10:44 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 2/3] iommu/io-pgtable-arm: Add IOMMU_LLC page protection
+ flag
+In-Reply-To: <4988e2ef35f76a0c2f1fe3f66f023a3b@codeaurora.org>
+References: <cover.1610372717.git.saiprakash.ranjan@codeaurora.org>
+ <3f589e7de3f9fa93e84c83420c5270c546a0c368.1610372717.git.saiprakash.ranjan@codeaurora.org>
+ <20210129090516.GB3998@willie-the-truck>
+ <5d23fce629323bcda71594010824aad0@codeaurora.org>
+ <20210201111556.GA7172@willie-the-truck>
+ <CAF6AEGsARmkAFsjaQLfa2miMgeijo183MWDKGtW_ti-UCpzBqA@mail.gmail.com>
+ <20210201182016.GA21629@jcrouse1-lnx.qualcomm.com>
+ <7e9aade14d0b7f69285852ade4a5a9f4@codeaurora.org>
+ <20210203214612.GB19847@willie-the-truck>
+ <4988e2ef35f76a0c2f1fe3f66f023a3b@codeaurora.org>
+Message-ID: <9362873a3bcf37cdd073a6128f29c683@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,32 +73,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ freedreno <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, "list@263.net:IOMMU DRIVERS , 
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, Sean Paul <sean@poorly.run>,
+ Kristian H Kristensen <hoegsberg@google.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 05, 2021 at 06:39:22PM +0000, Emil Velikov wrote:
-> From: Emil Velikov <emil.velikov@collabora.com>
-> 
-> The Hantro G1 IRQ and reset handling it pretty standard. I was this
-> close to duplicating it, yet again, before reconsidering and refactoring
-> it to a separate file.
-> 
-> Cc: Ezequiel Garcia <ezequiel@collabora.com>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-rockchip@lists.infradead.org
-> Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+Hi,
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+On 2021-02-05 17:38, Sai Prakash Ranjan wrote:
+> On 2021-02-04 03:16, Will Deacon wrote:
+>> On Tue, Feb 02, 2021 at 11:56:27AM +0530, Sai Prakash Ranjan wrote:
+>>> On 2021-02-01 23:50, Jordan Crouse wrote:
+>>> > On Mon, Feb 01, 2021 at 08:20:44AM -0800, Rob Clark wrote:
+>>> > > On Mon, Feb 1, 2021 at 3:16 AM Will Deacon <will@kernel.org> wrote:
+>>> > > > On Fri, Jan 29, 2021 at 03:12:59PM +0530, Sai Prakash Ranjan wrote:
+>>> > > > > On 2021-01-29 14:35, Will Deacon wrote:
+>>> > > > > > On Mon, Jan 11, 2021 at 07:45:04PM +0530, Sai Prakash Ranjan wrote:
+>>> > > > > > > +#define IOMMU_LLC        (1 << 6)
+>>> > > > > >
+>>> > > > > > On reflection, I'm a bit worried about exposing this because I think it
+>>> > > > > > will
+>>> > > > > > introduce a mismatched virtual alias with the CPU (we don't even have a
+>>> > > > > > MAIR
+>>> > > > > > set up for this memory type). Now, we also have that issue for the PTW,
+>>> > > > > > but
+>>> > > > > > since we always use cache maintenance (i.e. the streaming API) for
+>>> > > > > > publishing the page-tables to a non-coheren walker, it works out.
+>>> > > > > > However,
+>>> > > > > > if somebody expects IOMMU_LLC to be coherent with a DMA API coherent
+>>> > > > > > allocation, then they're potentially in for a nasty surprise due to the
+>>> > > > > > mismatched outer-cacheability attributes.
+>>> > > > > >
+>>> > > > >
+>>> > > > > Can't we add the syscached memory type similar to what is done on android?
+>>> > > >
+>>> > > > Maybe. How does the GPU driver map these things on the CPU side?
+>>> > >
+>>> > > Currently we use writecombine mappings for everything, although there
+>>> > > are some cases that we'd like to use cached (but have not merged
+>>> > > patches that would give userspace a way to flush/invalidate)
+>>> > >
+>>> >
+>>> > LLC/system cache doesn't have a relationship with the CPU cache.  Its
+>>> > just a
+>>> > little accelerator that sits on the connection from the GPU to DDR and
+>>> > caches
+>>> > accesses. The hint that Sai is suggesting is used to mark the buffers as
+>>> > 'no-write-allocate' to prevent GPU write operations from being cached in
+>>> > the LLC
+>>> > which a) isn't interesting and b) takes up cache space for read
+>>> > operations.
+>>> >
+>>> > Its easiest to think of the LLC as a bonus accelerator that has no cost
+>>> > for
+>>> > us to use outside of the unfortunate per buffer hint.
+>>> >
+>>> > We do have to worry about the CPU cache w.r.t I/O coherency (which is a
+>>> > different hint) and in that case we have all of concerns that Will
+>>> > identified.
+>>> >
+>>> 
+>>> For mismatched outer cacheability attributes which Will mentioned, I 
+>>> was
+>>> referring to [1] in android kernel.
+>> 
+>> I've lost track of the conversation here :/
+>> 
+>> When the GPU has a buffer mapped with IOMMU_LLC, is the buffer also 
+>> mapped
+>> into the CPU and with what attributes? Rob said "writecombine for
+>> everything" -- does that mean ioremap_wc() / MEMREMAP_WC?
+>> 
+> 
+> Rob answered this.
+> 
+>> Finally, we need to be careful when we use the word "hint" as 
+>> "allocation
+>> hint" has a specific meaning in the architecture, and if we only 
+>> mismatch on
+>> those then we're actually ok. But I think IOMMU_LLC is more than just 
+>> a
+>> hint, since it actually drives eviction policy (i.e. it enables 
+>> writeback).
+>> 
+>> Sorry for the pedantry, but I just want to make sure we're all talking
+>> about the same things!
+>> 
+> 
+> Sorry for the confusion which probably was caused by my mentioning of
+> android, NWA(no write allocate) is an allocation hint which we can 
+> ignore
+> for now as it is not introduced yet in upstream.
+> 
 
-regards
-Philipp
+Any chance of taking this forward? We do not want to miss out on small 
+fps
+gain when the product gets released.
+
+Thanks,
+Sai
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
