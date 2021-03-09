@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B45B53327D3
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 14:54:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0503327D4
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 14:55:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAAE36E903;
-	Tue,  9 Mar 2021 13:54:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 871FF6E904;
+	Tue,  9 Mar 2021 13:55:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C8A86E902;
- Tue,  9 Mar 2021 13:54:56 +0000 (UTC)
-IronPort-SDR: nVdSHGw7gW5+UiUOmmjNBMKBHLKGVh1vfLQMoWae4iR22lJThr1PvLW/z8vhg87djpjIqXjpPd
- b7rJ2Gp1uAdA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="175842805"
-X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="175842805"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2021 05:54:55 -0800
-IronPort-SDR: d6kOvt9EDTzIZE6lZsnPEM+U4HbKWdHjCHqfXv0leKlKWmuESysUDU66gC1KqgUdSD7DKTuFgO
- Unc24HwDxPEw==
-X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="437656492"
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D14C76E904;
+ Tue,  9 Mar 2021 13:55:00 +0000 (UTC)
+IronPort-SDR: IEwAmRhqPPL92JU1hSa1H+Trq2gzzP4J8dGCloHUdLw5XTDc2i/vSXNd9+UmkKQGJk34j5T6nF
+ E+a1ODEsKTYw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="168151631"
+X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="168151631"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2021 05:55:00 -0800
+IronPort-SDR: HH7UaDceu6izhkz73RCLVFhEzhDbok5LCLRQR0Lu69+Zt6NaAOha57Q8hrStUK6i6PJZ9V/3oq
+ YpIl/aXLwqww==
+X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="369792813"
 Received: from kjwindec-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.48.180])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2021 05:54:53 -0800
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2021 05:54:58 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC v1 5/6] drm/edid: use the new displayid iterator for finding CEA
- extension
-Date: Tue,  9 Mar 2021 15:54:13 +0200
-Message-Id: <8a527f66b856d6c099313046e028a18f9257baa8.1615297748.git.jani.nikula@intel.com>
+Subject: [RFC v1 6/6] drm/edid: use the new displayid iterator for tile info
+Date: Tue,  9 Mar 2021 15:54:14 +0200
+Message-Id: <96ad612f337691cc31ab25f6a661bf1d3721fab9.1615297748.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1615297748.git.jani.nikula@intel.com>
 References: <cover.1615297748.git.jani.nikula@intel.com>
@@ -54,62 +53,114 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Neatly reduce displayid boilerplate in code. No functional changes.
+Neatly reduce displayid boilerplate in code. Remove excessive debug
+logging while at it, no other functional changes.
+
+The old displayid iterator becomes unused; remove it as well as make
+drm_find_displayid_extension() static.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 25 +++++++++----------------
- 1 file changed, 9 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/drm_displayid.c |  6 +++---
+ drivers/gpu/drm/drm_edid.c      | 37 +++++++--------------------------
+ include/drm/drm_displayid.h     | 12 -----------
+ 3 files changed, 10 insertions(+), 45 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_displayid.c b/drivers/gpu/drm/drm_displayid.c
+index 88070267aac9..b146f2d0d72a 100644
+--- a/drivers/gpu/drm/drm_displayid.c
++++ b/drivers/gpu/drm/drm_displayid.c
+@@ -33,9 +33,9 @@ static int validate_displayid(const u8 *displayid, int length, int idx)
+ 	return 0;
+ }
+ 
+-const u8 *drm_find_displayid_extension(const struct edid *edid,
+-				       int *length, int *idx,
+-				       int *ext_index)
++static const u8 *drm_find_displayid_extension(const struct edid *edid,
++					      int *length, int *idx,
++					      int *ext_index)
+ {
+ 	const u8 *displayid = drm_find_edid_extension(edid, DISPLAYID_EXT, ext_index);
+ 	const struct displayid_hdr *base;
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index fbaa7d679cb2..4526e2557dca 100644
+index 4526e2557dca..81d5f2524246 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -3266,35 +3266,28 @@ const u8 *drm_find_edid_extension(const struct edid *edid,
+@@ -5969,43 +5969,20 @@ static void drm_parse_tiled_block(struct drm_connector *connector,
+ 	}
+ }
  
- static const u8 *drm_find_cea_extension(const struct edid *edid)
+-static void drm_displayid_parse_tiled(struct drm_connector *connector,
+-				      const u8 *displayid, int length, int idx)
+-{
+-	const struct displayid_block *block;
+-
+-	idx += sizeof(struct displayid_hdr);
+-	for_each_displayid_db(displayid, block, idx, length) {
+-		DRM_DEBUG_KMS("block id 0x%x, rev %d, len %d\n",
+-			      block->tag, block->rev, block->num_bytes);
+-
+-		switch (block->tag) {
+-		case DATA_BLOCK_TILED_DISPLAY:
+-			drm_parse_tiled_block(connector, block);
+-			break;
+-		default:
+-			DRM_DEBUG_KMS("found DisplayID tag 0x%x, unhandled\n", block->tag);
+-			break;
+-		}
+-	}
+-}
+-
+ void drm_update_tile_info(struct drm_connector *connector,
+ 			  const struct edid *edid)
  {
+-	const void *displayid = NULL;
+-	int ext_index = 0;
 -	int length, idx;
- 	const struct displayid_block *block;
++	const struct displayid_block *block;
 +	struct displayid_iter iter;
- 	const u8 *cea;
--	const u8 *displayid;
--	int ext_index;
-+	int ext_index = 0;
  
- 	/* Look for a top level CEA extension block */
- 	/* FIXME: make callers iterate through multiple CEA ext blocks? */
--	ext_index = 0;
- 	cea = drm_find_edid_extension(edid, CEA_EXT, &ext_index);
- 	if (cea)
- 		return cea;
- 
- 	/* CEA blocks can also be found embedded in a DisplayID block */
--	ext_index = 0;
+ 	connector->has_tile = false;
 -	for (;;) {
 -		displayid = drm_find_displayid_extension(edid, &length, &idx,
 -							 &ext_index);
 -		if (!displayid)
--			return NULL;
--
--		idx += sizeof(struct displayid_hdr);
--		for_each_displayid_db(displayid, block, idx, length) {
--			if (block->tag == DATA_BLOCK_CTA)
--				return (const u8 *)block;
+-			break;
+ 
+-		drm_displayid_parse_tiled(connector, displayid, length, idx);
 +	displayid_iter_edid_begin(edid, &iter);
 +	displayid_iter_for_each(block, &iter) {
-+		if (block->tag == DATA_BLOCK_CTA) {
-+			cea = (const u8 *)block;
-+			break;
- 		}
++		if (block->tag == DATA_BLOCK_TILED_DISPLAY)
++			drm_parse_tiled_block(connector, block);
  	}
 +	displayid_iter_end(&iter);
  
--	return NULL;
-+	return cea;
- }
+ 	if (!connector->has_tile && connector->tile_group) {
+ 		drm_mode_put_tile_group(connector->dev, connector->tile_group);
+diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
+index 27e06c98db17..10ee863f1734 100644
+--- a/include/drm/drm_displayid.h
++++ b/include/drm/drm_displayid.h
+@@ -96,18 +96,6 @@ struct displayid_detailed_timing_block {
+ 	struct displayid_detailed_timings_1 timings[];
+ };
  
- static __always_inline const struct drm_display_mode *cea_mode_for_vic(u8 vic)
+-#define for_each_displayid_db(displayid, block, idx, length) \
+-	for ((block) = (const struct displayid_block *)&(displayid)[idx]; \
+-	     (idx) + sizeof(struct displayid_block) <= (length) && \
+-	     (idx) + sizeof(struct displayid_block) + (block)->num_bytes <= (length) && \
+-	     (block)->num_bytes > 0; \
+-	     (idx) += sizeof(struct displayid_block) + (block)->num_bytes, \
+-	     (block) = (const struct displayid_block *)&(displayid)[idx])
+-
+-const u8 *drm_find_displayid_extension(const struct edid *edid,
+-				       int *length, int *idx,
+-				       int *ext_index);
+-
+ /* DisplayID iteration */
+ struct displayid_iter {
+ 	const struct edid *edid;
 -- 
 2.20.1
 
