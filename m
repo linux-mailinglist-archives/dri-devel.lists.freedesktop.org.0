@@ -2,39 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED0403325C3
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 13:50:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A7C332753
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 14:38:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE7F86E5A4;
-	Tue,  9 Mar 2021 12:50:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD8FD6E4AA;
+	Tue,  9 Mar 2021 13:38:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A9716E5A4;
- Tue,  9 Mar 2021 12:50:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=pZ/COBNbblJO+x07w0308qCGnfsww0L8iErIm0GU3pk=; b=OwbzsZ7Ekm7vjuMsGUDxy9IzZB
- aYNSzv5gJVgAdrZj4EuSbYdC1NbhsHVYWcyKD5HDML0sTHUjneU88cMrc3Usnq8uFrRYRRNCb+Hdr
- m/LqpRf/aHhyPRh4rbrxdW7Pct4tPO2kTbhNdtH+K69l6xJOlJj/z1ZgMXfV2ROYPp8npVcU+rXU2
- Dew94FhovF/W/xp164C6bDgOeS09uC5hy43MtfnWObcKL9V0I/qfat/PfktpUvW/U88XS4brjBEcF
- l9YfOHt2tK9eaWDDUj7m9uUz4lbGzPnWNMCRt191+VjJdsHevacr700C9rBOS5UCEU0HdvhMZicVp
- j5kcRFpA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
- Linux)) id 1lJbo5-000aTt-T6; Tue, 09 Mar 2021 12:50:04 +0000
-Date: Tue, 9 Mar 2021 12:49:49 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Alistair Popple <apopple@nvidia.com>
-Subject: Re: [PATCH v5 1/8] mm: Remove special swap entry functions
-Message-ID: <20210309124949.GJ3479805@casper.infradead.org>
-References: <20210309121505.23608-1-apopple@nvidia.com>
- <20210309121505.23608-2-apopple@nvidia.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 172F06E4AA
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Mar 2021 13:38:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615297118;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YwnskBRnq7W3vKZTpjKb6moUdQcFbZ8CYP71h7crH9c=;
+ b=DOkXU10sqfyID92ZHrTTGIBhWUBiRgTNgxkwYIvC2kolMvcFVOqEyfpthd3TZYf2JB19Ro
+ 7N5bqpDdQNXvrMRTIHOekf5vzmIY5YOXo1BPNSCHEGgDqBS46OrHXRIynFuHL9EtgVvzqb
+ 52WKCW0JqRzIQQXJMJN/XLca+HKXF+4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-242-nxdpG69lMomTq0JR65umgg-1; Tue, 09 Mar 2021 08:38:37 -0500
+X-MC-Unique: nxdpG69lMomTq0JR65umgg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41D85760D2;
+ Tue,  9 Mar 2021 13:38:36 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-41.ams2.redhat.com
+ [10.36.113.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C38215C233;
+ Tue,  9 Mar 2021 13:38:35 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0854C18000A2; Tue,  9 Mar 2021 14:38:34 +0100 (CET)
+Date: Tue, 9 Mar 2021 14:38:34 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: xndcn <xndchn@gmail.com>
+Subject: Re: [PATCH] drm/virtio: fix possible leak/unlock
+ virtio_gpu_object_array
+Message-ID: <20210309133834.myyzryugjcvdw3jv@sirius.home.kraxel.org>
+References: <20210305151819.14330-1-xndchn@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <20210305151819.14330-1-xndchn@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
-In-Reply-To: <20210309121505.23608-2-apopple@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,85 +65,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, linux-doc@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kvm-ppc@vger.kernel.org, linux-mm@kvack.org,
- jglisse@redhat.com, bskeggs@redhat.com, jhubbard@nvidia.com,
- akpm@linux-foundation.org
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 09, 2021 at 11:14:58PM +1100, Alistair Popple wrote:
-> -static inline struct page *migration_entry_to_page(swp_entry_t entry)
-> -{
-> -	struct page *p = pfn_to_page(swp_offset(entry));
-> -	/*
-> -	 * Any use of migration entries may only occur while the
-> -	 * corresponding page is locked
-> -	 */
-> -	BUG_ON(!PageLocked(compound_head(p)));
-> -	return p;
-> -}
+On Fri, Mar 05, 2021 at 11:18:19PM +0800, xndcn wrote:
+> virtio_gpu_object array is not freed or unlocked in some
+> failed cases.
 
-> +static inline struct page *pfn_swap_entry_to_page(swp_entry_t entry)
-> +{
-> +	struct page *p = pfn_to_page(swp_offset(entry));
-> +
-> +	/*
-> +	 * Any use of migration entries may only occur while the
-> +	 * corresponding page is locked
-> +	 */
-> +	BUG_ON(is_migration_entry(entry) && !PageLocked(compound_head(p)));
-> +
-> +	return p;
-> +}
+Pushed to drm-misc-next.
 
-I appreciate you're only moving this code, but PageLocked includes an
-implicit compound_head():
+thanks,
+  Gerd
 
-1. __PAGEFLAG(Locked, locked, PF_NO_TAIL)
-
-2. #define __PAGEFLAG(uname, lname, policy)                                \
-        TESTPAGEFLAG(uname, lname, policy)                              \
-
-3. #define TESTPAGEFLAG(uname, lname, policy)                              \
-static __always_inline int Page##uname(struct page *page)               \
-        { return test_bit(PG_##lname, &policy(page, 0)->flags); }
-
-4. #define PF_NO_TAIL(page, enforce) ({                                    \
-                VM_BUG_ON_PGFLAGS(enforce && PageTail(page), page);     \
-                PF_POISONED_CHECK(compound_head(page)); })
-
-5. #define PF_POISONED_CHECK(page) ({                                      \
-                VM_BUG_ON_PGFLAGS(PagePoisoned(page), page);            \
-                page; })
-
-
-This macrology isn't easy to understand the first time you read it (nor,
-indeed, the tenth time), so let me decode it:
-
-Substitute 5 into 4 and remove irrelevancies:
-
-6. #define PF_NO_TAIL(page, enforce) compound_head(page)
-
-Expand 1 in 2:
-
-7.	TESTPAGEFLAG(Locked, locked, PF_NO_TAIL)
-
-Expand 7 in 3:
-
-8. static __always_inline int PageLocked(struct page *page)
-	{ return test_bit(PG_locked, &PF_NO_TAIL(page, 0)->flags); }
-
-Expand 6 in 8:
-
-9. static __always_inline int PageLocked(struct page *page)
-	{ return test_bit(PG_locked, &compound_head(page)->flags); }
-
-(in case it's not clear, compound_head() is idempotent.  that is:
-	f(f(a)) == f(a))
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
