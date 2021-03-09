@@ -2,54 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78586332C30
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 17:35:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DB9332C90
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 17:50:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 311E46E0A1;
-	Tue,  9 Mar 2021 16:35:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 163F16E918;
+	Tue,  9 Mar 2021 16:50:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FD566E0A1
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Mar 2021 16:35:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615307708;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3Iv7BBIxQ8+W8sz1TqvejVKfcifyHSm+wQDXMt7okOA=;
- b=hrW4WBTcOqZVyeSjdge9B8wzEY1geSCkRBHo1NcsWIBrgWz4NU1fGZ1CrXB+kE/eX8LlY7
- NFeCgE8zs0Z/CbjcoFHVsltuc2/CBcwW//zdTWy4ZzEIVdg9ry9PIZ0p64/o9ofKQR11TV
- e8TkKbAtFCVlC7sNuDjFHdsRmHBFcKs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-2LKAOAxWMcKIauY_Ng6y0g-1; Tue, 09 Mar 2021 11:28:28 -0500
-X-MC-Unique: 2LKAOAxWMcKIauY_Ng6y0g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90CCD108BD0B;
- Tue,  9 Mar 2021 16:28:26 +0000 (UTC)
-Received: from [10.36.114.143] (ovpn-114-143.ams2.redhat.com [10.36.114.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E403E10023AE;
- Tue,  9 Mar 2021 16:28:16 +0000 (UTC)
-Subject: Re: [PATCH 5/9] vmw_balloon: remove the balloon-vmware file system
-To: Christoph Hellwig <hch@lst.de>, Al Viro <viro@zeniv.linux.org.uk>
-References: <20210309155348.974875-1-hch@lst.de>
- <20210309155348.974875-6-hch@lst.de>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <8bdd6f30-3cd1-ad7f-df95-bbb85623ae64@redhat.com>
-Date: Tue, 9 Mar 2021 17:28:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2043.outbound.protection.outlook.com [40.107.92.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D8F26E8AF;
+ Tue,  9 Mar 2021 16:50:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lBOIINa8eMiiClS/xo1wvms3qPGRJXvbaQszvcwN+5tvfZlgWpLueK+ZII1Yw9DwIUkDrqha1WlDQIPc9I2ryusHUfsOPyDdil7ZRvXD9SZjTEaDR3XAZtAKF4q6N1L+70ynx6VvRoAr6/MIh6qLcglhEbby5DjcxMuaTm4VC7U/L8O+WRifPrSOnO2rH1c1kkpNe5Vm90s6rTAEe+Qedd0b0+Az9GLV2bAo0e06QZTmaRepJSG3GBBiTMKZs89ox0tvzbfeB29x9Ub1xuFTJ5cQzrHZV1g4v2U8dyQPXBTA34bGLocuOz0vlmDzmCpbywjlxNuWtzyFyLp17Oi5uA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7SH1hprtVAekCCiy+NG2XyJ9KGAuMoXJVOV6KDuIRVk=;
+ b=CpiAFF1ZaFXWRxwfau4LllWz41gHk1BV2ZedyunVMKfoXzJ3BJlOdIDRRngnVN7RkTJa331H8EE8DYFC7C/uGn5SMs1iOhc93gsMimxJWmhKS81rK9Vg9l9Y40Dlmkszlde5LMVRrXfU7nwvX21EdALe18FE7KPFBbHQJEoFl5X4SWI2H/Jen/P3IsQyiwSYuF77GzehWPIcXug9FWZfo8ut+fYlm0qobbbvjvyMqwPa9WaLUN51UOicHgpuSRrDAUn/7t4RqDxEw97DqYmpnCE8WIs2G77KAdnIhzBH0tQzrsUStcuf0cDuVPDQ+SW/A4XKaSg+oxIjgitVasqIzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7SH1hprtVAekCCiy+NG2XyJ9KGAuMoXJVOV6KDuIRVk=;
+ b=1ahvGXuvDAmvaYRisil59TYcxleuOxtHprGqlBWOiueZ7Mg/0CbF98DJSu4cHtvMYeTdbhXXhT6TjdpFH/LSJ6N0aLDabS0XOMZ50nxqdpOCXE83kJ+nfpNEpOqQv7bkxHPvKhhpTD6Kxn8yNTVheBlnPI1AJPQOXUsUyIGmoXg=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from BL0PR12MB4948.namprd12.prod.outlook.com (2603:10b6:208:1cc::20)
+ by MN2PR12MB4224.namprd12.prod.outlook.com (2603:10b6:208:1dd::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.27; Tue, 9 Mar
+ 2021 16:50:42 +0000
+Received: from BL0PR12MB4948.namprd12.prod.outlook.com
+ ([fe80::ec8d:851e:525d:a6ab]) by BL0PR12MB4948.namprd12.prod.outlook.com
+ ([fe80::ec8d:851e:525d:a6ab%9]) with mapi id 15.20.3784.031; Tue, 9 Mar 2021
+ 16:50:42 +0000
+From: Felix Kuehling <Felix.Kuehling@amd.com>
+To: arnd@kernel.org,
+	alexander.deucher@amd.com,
+	christian.koenig@amd.com
+Subject: [PATCH v2 1/1] drm/amdkfd: fix build error with AMD_IOMMU_V2=m
+Date: Tue,  9 Mar 2021 11:50:18 -0500
+Message-Id: <20210309165018.26213-1-Felix.Kuehling@amd.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <4c692eff-9d57-278e-8da4-36bc2c293506@amd.com>
+References: <4c692eff-9d57-278e-8da4-36bc2c293506@amd.com>
+X-Originating-IP: [165.204.55.251]
+X-ClientProxiedBy: YT1PR01CA0054.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2e::23) To BL0PR12MB4948.namprd12.prod.outlook.com
+ (2603:10b6:208:1cc::20)
 MIME-Version: 1.0
-In-Reply-To: <20210309155348.974875-6-hch@lst.de>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Harpoon.amd.com (165.204.55.251) by
+ YT1PR01CA0054.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2e::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3912.26 via Frontend Transport; Tue, 9 Mar 2021 16:50:41 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 9a219696-5ac1-4927-ac2b-08d8e31b79b7
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4224:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4224A8E2AD6A5225AAA6A81892929@MN2PR12MB4224.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: J2ZDMm8sdSXirKFjH8uPxn1fWRKgFwkbJYj0bDJgkE0g5wFUhhxCFjt34nh19XACNKAIHO6FohXlBRcn1mwaLuDUtDDQU1lm4QH5wzjByY/aP0t0XR1EAHglC74wYX3dmMnP9+XJsuLFck9DQ3n7JEcfKagqPk7By13dMgr0uAaS56Jc0c4Ie5QNoC7k9gqrTg0Qg4dQrtPE7W91kh6wB66JnsaFcQSWWh/SeujJv14Jtnv/ltGK91X869AwAMoXLjxMn1WYmAVilWCdLzVxoVyqa1LumM5HtK9DuHxkGWRxdGIoZJEwoQRiU9y5uPHSw0Z2mtsLi5IXuMa+KIS2RqpXaLgHpKG1iV4/Kj6m8m5taE+08Di7iVNGZSmrj1TJwDIlwc4vCnVL+X4cYppFBj8v0cPJLnuT8t4xIKgaN3wk9cHYcXUpyNwH0SIu9GWH7/qtflhNREFxFthPCpVJNVw4kgTj627s1uWH/aSD+uRSQAr0kripIHcc8omi6kFgkYOeOKivpScoslD267KpKw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(376002)(366004)(39860400002)(346002)(83380400001)(26005)(4326008)(7696005)(5660300002)(16526019)(66946007)(66556008)(186003)(8676002)(52116002)(6666004)(956004)(1076003)(478600001)(2616005)(36756003)(2906002)(6636002)(86362001)(8936002)(6486002)(316002)(66476007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?U6nO768hT+BG1RFerGi72AAQhaxpGu9DCvGH+CApMY7rympNz8CgRvxqqVOV?=
+ =?us-ascii?Q?m0ZPqUaI0XprOP6nAl/BV6blVauc1s0+NWWvq9MAtvQsDSLquBQhmvyqNRGG?=
+ =?us-ascii?Q?ZbBtb+7jWtFL2bTHZPHUkvJvORnMPWim4qeKplBYTwRkF60aRPO41uuWS5Zg?=
+ =?us-ascii?Q?/m+gQkCgS20LSrCgCNxC/8w2fw/FVpLTfcgHKItBkpePgQWO544DAwyHRhA0?=
+ =?us-ascii?Q?JAWuzeJHiV/+a8vUZLvBHsF+yygVtbMXRGXnNUaVKzZoCnOlfCyY5v223UTM?=
+ =?us-ascii?Q?0pbjnVLAUItou8EqGczRG+FzPnkCng5onnJEwkHq65xPRdmzA5WyGim1fFfM?=
+ =?us-ascii?Q?3zQyCWYRJes0vOU/fwu+CxAWdMmrYMb5nDWwM8MY2v6qIJ3m1exfSsb9mMqZ?=
+ =?us-ascii?Q?STzSWq9a/KoUEx+a9TV8tGAR/VgbobMfQLRwo0pJLfaxD/eg0u5Eqx1wBe+z?=
+ =?us-ascii?Q?fxHMmfelRf+8KnkA6w22k81hpM1N8pqw6kCShLkTAJjLYb3JraRUIdE+x2by?=
+ =?us-ascii?Q?/Ccq8E3KKIxEgZw0fInVgN4H0LUNFzkkqbyTNCIteZXKe6CP4qCEc7P38EhJ?=
+ =?us-ascii?Q?lmclNgNYgIscB7PlThisESWsQpiLw4j2BHtrEum1ZGvXdWThsiFBuVAs36uf?=
+ =?us-ascii?Q?qOkIPf0TajruFG+pqh3N4t6lDEaJ1eAK5eahjvyUXgHXMikFDSpMuhMr+EfF?=
+ =?us-ascii?Q?d5KY9oeLjNx/dVJBU4rToDsR3K36LAt5c8ugbHc4EtE1lKstFEuO5954BzS0?=
+ =?us-ascii?Q?pzUwAT8e1VIEWz2PBhzgv7LBQJ1d3Pox+G/yi1zlCj1Xrlg68z3gqHAdwMrq?=
+ =?us-ascii?Q?PaJ5AuH1YYDYbrAsbPPyuCvdXlMclG482If7a9QwpnKkMuGgVeUBsVmcpMI4?=
+ =?us-ascii?Q?cJPGqcSsx3sYveMIsXCjJXEntlK+/4toZBnPsPJm3EnIa/xJdJu3nzP5XV5F?=
+ =?us-ascii?Q?Fx4jbLX/abyULV59v/C6CvdoXXHIsTpI4PM95Bez/QqzuvCZAAFNE8++4MwV?=
+ =?us-ascii?Q?Zugk0cwvwUa53q1sFBtcfcwEH0enyW4RO7i3KP+kFkdMCpLyGS9dFpvyr8O0?=
+ =?us-ascii?Q?XPQDfFfdi/uFpYU3Pio7lGIZgpjxXVJtFHYTKaonICzglLZiZYnADX7zi2Kq?=
+ =?us-ascii?Q?tGolVMWKwv57sYRBdWbnA5ojbddQEDUY1D48TQRby1rIisvWioly1PkGybEp?=
+ =?us-ascii?Q?rXPvc/JYV2jTwqvmjUhimzxExe9QCAgf+QXDE0vk/8QuqNoy4Uqarzi/6Du6?=
+ =?us-ascii?Q?5THpxm5QYs7MaIaVKfMRs9BX4rZEmOgf2f1psJJp0AWT276id4mdvUEmOlPH?=
+ =?us-ascii?Q?8AFo3PP76p74WxjOO/mrGR2U?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a219696-5ac1-4927-ac2b-08d8e31b79b7
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2021 16:50:42.0698 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wxS0bkn31NhLx87z4O68g/sfuF4EXyMWDmL8mpCpQ9CPxXe+F/Fr6yPLqSe1HY0S9zvtI54lw0IJgpzESqgNsw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4224
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,94 +117,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- "VMware, Inc." <pv-drivers@vmware.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linux-mm@kvack.org, Minchan Kim <minchan@kernel.org>,
- Alex Williamson <alex.williamson@redhat.com>, Nadav Amit <namit@vmware.com>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, Nitin Gupta <ngupta@vflare.org>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org, arnd@arndb.de
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09.03.21 16:53, Christoph Hellwig wrote:
-> Just use the generic anon_inode file system.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   drivers/misc/vmw_balloon.c | 24 ++----------------------
->   1 file changed, 2 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/misc/vmw_balloon.c b/drivers/misc/vmw_balloon.c
-> index 5d057a05ddbee8..be4be32f858253 100644
-> --- a/drivers/misc/vmw_balloon.c
-> +++ b/drivers/misc/vmw_balloon.c
-> @@ -16,6 +16,7 @@
->   //#define DEBUG
->   #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->   
-> +#include <linux/anon_inodes.h>
->   #include <linux/types.h>
->   #include <linux/io.h>
->   #include <linux/kernel.h>
-> @@ -1735,20 +1736,6 @@ static inline void vmballoon_debugfs_exit(struct vmballoon *b)
->   
->   
->   #ifdef CONFIG_BALLOON_COMPACTION
-> -
-> -static int vmballoon_init_fs_context(struct fs_context *fc)
-> -{
-> -	return init_pseudo(fc, BALLOON_VMW_MAGIC) ? 0 : -ENOMEM;
-> -}
-> -
-> -static struct file_system_type vmballoon_fs = {
-> -	.name           	= "balloon-vmware",
-> -	.init_fs_context	= vmballoon_init_fs_context,
-> -	.kill_sb        	= kill_anon_super,
-> -};
-> -
-> -static struct vfsmount *vmballoon_mnt;
-> -
->   /**
->    * vmballoon_migratepage() - migrates a balloon page.
->    * @b_dev_info: balloon device information descriptor.
-> @@ -1878,8 +1865,6 @@ static void vmballoon_compaction_deinit(struct vmballoon *b)
->   		iput(b->b_dev_info.inode);
->   
->   	b->b_dev_info.inode = NULL;
-> -	kern_unmount(vmballoon_mnt);
-> -	vmballoon_mnt = NULL;
->   }
->   
->   /**
-> @@ -1895,13 +1880,8 @@ static void vmballoon_compaction_deinit(struct vmballoon *b)
->    */
->   static __init int vmballoon_compaction_init(struct vmballoon *b)
->   {
-> -	vmballoon_mnt = kern_mount(&vmballoon_fs);
-> -	if (IS_ERR(vmballoon_mnt))
-> -		return PTR_ERR(vmballoon_mnt);
-> -
->   	b->b_dev_info.migratepage = vmballoon_migratepage;
-> -	b->b_dev_info.inode = alloc_anon_inode_sb(vmballoon_mnt->mnt_sb);
-> -
-> +	b->b_dev_info.inode = alloc_anon_inode();
->   	if (IS_ERR(b->b_dev_info.inode))
->   		return PTR_ERR(b->b_dev_info.inode);
->   
-> 
+Using 'imply AMD_IOMMU_V2' does not guarantee that the driver can link
+against the exported functions. If the GPU driver is built-in but the
+IOMMU driver is a loadable module, the kfd_iommu.c file is indeed
+built but does not work:
 
-Same comment regarding BALLOON_VMW_MAGIC and includes (mount.h, 
-pseudo_fs.h).
+x86_64-linux-ld: drivers/gpu/drm/amd/amdkfd/kfd_iommu.o: in function `kfd_iommu_bind_process_to_device':
+kfd_iommu.c:(.text+0x516): undefined reference to `amd_iommu_bind_pasid'
+x86_64-linux-ld: drivers/gpu/drm/amd/amdkfd/kfd_iommu.o: in function `kfd_iommu_unbind_process':
+kfd_iommu.c:(.text+0x691): undefined reference to `amd_iommu_unbind_pasid'
+x86_64-linux-ld: drivers/gpu/drm/amd/amdkfd/kfd_iommu.o: in function `kfd_iommu_suspend':
+kfd_iommu.c:(.text+0x966): undefined reference to `amd_iommu_set_invalidate_ctx_cb'
+x86_64-linux-ld: kfd_iommu.c:(.text+0x97f): undefined reference to `amd_iommu_set_invalid_ppr_cb'
+x86_64-linux-ld: kfd_iommu.c:(.text+0x9a4): undefined reference to `amd_iommu_free_device'
+x86_64-linux-ld: drivers/gpu/drm/amd/amdkfd/kfd_iommu.o: in function `kfd_iommu_resume':
+kfd_iommu.c:(.text+0xa9a): undefined reference to `amd_iommu_init_device'
+x86_64-linux-ld: kfd_iommu.c:(.text+0xadc): undefined reference to `amd_iommu_set_invalidate_ctx_cb'
+x86_64-linux-ld: kfd_iommu.c:(.text+0xaff): undefined reference to `amd_iommu_set_invalid_ppr_cb'
+x86_64-linux-ld: kfd_iommu.c:(.text+0xc72): undefined reference to `amd_iommu_bind_pasid'
+x86_64-linux-ld: kfd_iommu.c:(.text+0xe08): undefined reference to `amd_iommu_set_invalidate_ctx_cb'
+x86_64-linux-ld: kfd_iommu.c:(.text+0xe26): undefined reference to `amd_iommu_set_invalid_ppr_cb'
+x86_64-linux-ld: kfd_iommu.c:(.text+0xe42): undefined reference to `amd_iommu_free_device'
 
-Apart from that looks good.
+Use IS_REACHABLE to only build IOMMU-V2 support if the amd_iommu symbols
+are reachable by the amdkfd driver. Output a warning if they are not,
+because that may not be what the user was expecting.
 
+Fixes: 64d1c3a43a6f ("drm/amdkfd: Centralize IOMMUv2 code and make it conditional")
+Reported-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_iommu.c | 6 ++++++
+ drivers/gpu/drm/amd/amdkfd/kfd_iommu.h | 9 +++++++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_iommu.c b/drivers/gpu/drm/amd/amdkfd/kfd_iommu.c
+index 66bbca61e3ef..9318936aa805 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_iommu.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_iommu.c
+@@ -20,6 +20,10 @@
+  * OTHER DEALINGS IN THE SOFTWARE.
+  */
+ 
++#include <linux/kconfig.h>
++
++#if IS_REACHABLE(CONFIG_AMD_IOMMU_V2)
++
+ #include <linux/printk.h>
+ #include <linux/device.h>
+ #include <linux/slab.h>
+@@ -355,3 +359,5 @@ int kfd_iommu_add_perf_counters(struct kfd_topology_device *kdev)
+ 
+ 	return 0;
+ }
++
++#endif
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_iommu.h b/drivers/gpu/drm/amd/amdkfd/kfd_iommu.h
+index dd23d9fdf6a8..afd420b01a0c 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_iommu.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_iommu.h
+@@ -23,7 +23,9 @@
+ #ifndef __KFD_IOMMU_H__
+ #define __KFD_IOMMU_H__
+ 
+-#if defined(CONFIG_AMD_IOMMU_V2_MODULE) || defined(CONFIG_AMD_IOMMU_V2)
++#include <linux/kconfig.h>
++
++#if IS_REACHABLE(CONFIG_AMD_IOMMU_V2)
+ 
+ #define KFD_SUPPORT_IOMMU_V2
+ 
+@@ -46,6 +48,9 @@ static inline int kfd_iommu_check_device(struct kfd_dev *kfd)
+ }
+ static inline int kfd_iommu_device_init(struct kfd_dev *kfd)
+ {
++#if IS_MODULE(CONFIG_AMD_IOMMU_V2)
++	WARN_ONCE(1, "iommu_v2 module is not usable by built-in KFD");
++#endif
+ 	return 0;
+ }
+ 
+@@ -73,6 +78,6 @@ static inline int kfd_iommu_add_perf_counters(struct kfd_topology_device *kdev)
+ 	return 0;
+ }
+ 
+-#endif /* defined(CONFIG_AMD_IOMMU_V2) */
++#endif /* IS_REACHABLE(CONFIG_AMD_IOMMU_V2) */
+ 
+ #endif /* __KFD_IOMMU_H__ */
 -- 
-Thanks,
-
-David / dhildenb
+2.30.0
 
 _______________________________________________
 dri-devel mailing list
