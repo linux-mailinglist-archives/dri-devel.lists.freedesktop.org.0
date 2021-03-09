@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 947023327CA
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 14:54:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 355C43327CB
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 14:54:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 793A76E8F7;
-	Tue,  9 Mar 2021 13:54:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D58E76E8FA;
+	Tue,  9 Mar 2021 13:54:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2146E8F7;
- Tue,  9 Mar 2021 13:54:35 +0000 (UTC)
-IronPort-SDR: ycC7NE3SKvorsIR4tfUonsbSD1Zbe36wCLVMtvTuM5F7Mv1iTyrteVYPiOEuKXrtU5E11KpmUl
- Fs+vBJN2Ra6w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="252258567"
-X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="252258567"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2021 05:54:35 -0800
-IronPort-SDR: yTkuoRG9ZUBSDlRF0PITdCsz/RIYWLAtdOk+L1uy6t7UrnEdysordNQs+GnCIqomzzXaHPUtFe
- CVHEyQn3veig==
-X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="403238698"
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AD3A6E8FA;
+ Tue,  9 Mar 2021 13:54:41 +0000 (UTC)
+IronPort-SDR: JVULJyFatTwYQGLQkYxidxysIGdj4UkwzvjIy2DPniflD6q2YjomSFcJiMxSFt956MP9yJm6zB
+ /wHOPmyBFUFA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="184877454"
+X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="184877454"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2021 05:54:40 -0800
+IronPort-SDR: TI0aZ1vfNwvWrfuahVGAPEQszGLS7PBbJsibMCl/qy7Egd3wKL6c0VQ7Djnmv37VjFMjC4FwIy
+ tweDC/SmLXyg==
+X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="447507107"
 Received: from kjwindec-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.48.180])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2021 05:54:33 -0800
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2021 05:54:38 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC v1 1/6] drm/edid: make a number of functions,
- parameters and variables const
-Date: Tue,  9 Mar 2021 15:54:09 +0200
-Message-Id: <23463d5d4c75291d0665a23c91160e38cf6dbe5d.1615297748.git.jani.nikula@intel.com>
+Subject: [RFC v1 2/6] drm/displayid: add separate drm_displayid.c
+Date: Tue,  9 Mar 2021 15:54:10 +0200
+Message-Id: <6c62c8b87ea14bc4dd4d9ecaf9d100afaab3478d.1615297748.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1615297748.git.jani.nikula@intel.com>
 References: <cover.1615297748.git.jani.nikula@intel.com>
@@ -49,224 +48,130 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If there's no need to change it, it should be const. There's more to be
-done, but start off with changes that make follow-up work easier. No
-functional changes.
-
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/drm_edid.c  | 58 ++++++++++++++++++-------------------
- include/drm/drm_displayid.h |  4 +--
- 2 files changed, 31 insertions(+), 31 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index c2bbe7bee7b6..d510b827a1f8 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -1585,7 +1585,7 @@ module_param_named(edid_fixup, edid_fixup, int, 0400);
- MODULE_PARM_DESC(edid_fixup,
- 		 "Minimum number of valid EDID header bytes (0-8, default 6)");
- 
--static int validate_displayid(u8 *displayid, int length, int idx);
-+static int validate_displayid(const u8 *displayid, int length, int idx);
- 
- static int drm_edid_block_checksum(const u8 *raw_edid)
- {
-@@ -3241,10 +3241,10 @@ add_detailed_modes(struct drm_connector *connector, struct edid *edid,
- /*
-  * Search EDID for CEA extension block.
-  */
--static u8 *drm_find_edid_extension(const struct edid *edid,
--				   int ext_id, int *ext_index)
-+static const u8 *drm_find_edid_extension(const struct edid *edid,
-+					 int ext_id, int *ext_index)
- {
--	u8 *edid_ext = NULL;
-+	const u8 *edid_ext = NULL;
- 	int i;
- 
- 	/* No EDID or EDID extensions */
-@@ -3253,7 +3253,7 @@ static u8 *drm_find_edid_extension(const struct edid *edid,
- 
- 	/* Find CEA extension */
- 	for (i = *ext_index; i < edid->extensions; i++) {
--		edid_ext = (u8 *)edid + EDID_LENGTH * (i + 1);
-+		edid_ext = (const u8 *)edid + EDID_LENGTH * (i + 1);
- 		if (edid_ext[0] == ext_id)
- 			break;
- 	}
-@@ -3267,12 +3267,12 @@ static u8 *drm_find_edid_extension(const struct edid *edid,
- }
- 
- 
--static u8 *drm_find_displayid_extension(const struct edid *edid,
--					int *length, int *idx,
--					int *ext_index)
-+static const u8 *drm_find_displayid_extension(const struct edid *edid,
-+					      int *length, int *idx,
-+					      int *ext_index)
- {
--	u8 *displayid = drm_find_edid_extension(edid, DISPLAYID_EXT, ext_index);
--	struct displayid_hdr *base;
-+	const u8 *displayid = drm_find_edid_extension(edid, DISPLAYID_EXT, ext_index);
-+	const struct displayid_hdr *base;
- 	int ret;
- 
- 	if (!displayid)
-@@ -3286,18 +3286,18 @@ static u8 *drm_find_displayid_extension(const struct edid *edid,
- 	if (ret)
- 		return NULL;
- 
--	base = (struct displayid_hdr *)&displayid[*idx];
-+	base = (const struct displayid_hdr *)&displayid[*idx];
- 	*length = *idx + sizeof(*base) + base->bytes;
- 
- 	return displayid;
- }
- 
--static u8 *drm_find_cea_extension(const struct edid *edid)
-+static const u8 *drm_find_cea_extension(const struct edid *edid)
- {
- 	int length, idx;
--	struct displayid_block *block;
--	u8 *cea;
--	u8 *displayid;
-+	const struct displayid_block *block;
-+	const u8 *cea;
-+	const u8 *displayid;
- 	int ext_index;
- 
- 	/* Look for a top level CEA extension block */
-@@ -3318,7 +3318,7 @@ static u8 *drm_find_cea_extension(const struct edid *edid)
- 		idx += sizeof(struct displayid_hdr);
- 		for_each_displayid_db(displayid, block, idx, length) {
- 			if (block->tag == DATA_BLOCK_CTA)
--				return (u8 *)block;
-+				return (const u8 *)block;
- 		}
- 	}
- 
-@@ -4503,8 +4503,8 @@ static void clear_eld(struct drm_connector *connector)
- static void drm_edid_to_eld(struct drm_connector *connector, struct edid *edid)
- {
- 	uint8_t *eld = connector->eld;
--	u8 *cea;
--	u8 *db;
-+	const u8 *cea;
-+	const u8 *db;
- 	int total_sad_count = 0;
- 	int mnl;
- 	int dbl;
-@@ -4600,7 +4600,7 @@ int drm_edid_to_sad(struct edid *edid, struct cea_sad **sads)
- {
- 	int count = 0;
- 	int i, start, end, dbl;
--	u8 *cea;
-+	const u8 *cea;
- 
- 	cea = drm_find_cea_extension(edid);
- 	if (!cea) {
-@@ -4619,7 +4619,7 @@ int drm_edid_to_sad(struct edid *edid, struct cea_sad **sads)
- 	}
- 
- 	for_each_cea_db(cea, i, start, end) {
--		u8 *db = &cea[i];
-+		const u8 *db = &cea[i];
- 
- 		if (cea_db_tag(db) == AUDIO_BLOCK) {
- 			int j;
-@@ -4631,7 +4631,7 @@ int drm_edid_to_sad(struct edid *edid, struct cea_sad **sads)
- 			if (!*sads)
- 				return -ENOMEM;
- 			for (j = 0; j < count; j++) {
--				u8 *sad = &db[1 + j * 3];
-+				const u8 *sad = &db[1 + j * 3];
- 
- 				(*sads)[j].format = (sad[0] & 0x78) >> 3;
- 				(*sads)[j].channels = sad[0] & 0x7;
-@@ -4755,7 +4755,7 @@ EXPORT_SYMBOL(drm_av_sync_delay);
-  */
- bool drm_detect_hdmi_monitor(struct edid *edid)
- {
--	u8 *edid_ext;
-+	const u8 *edid_ext;
- 	int i;
- 	int start_offset, end_offset;
- 
-@@ -4793,7 +4793,7 @@ EXPORT_SYMBOL(drm_detect_hdmi_monitor);
-  */
- bool drm_detect_monitor_audio(struct edid *edid)
- {
--	u8 *edid_ext;
-+	const u8 *edid_ext;
- 	int i, j;
- 	bool has_audio = false;
- 	int start_offset, end_offset;
-@@ -5287,13 +5287,13 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
- 	return quirks;
- }
- 
--static int validate_displayid(u8 *displayid, int length, int idx)
-+static int validate_displayid(const u8 *displayid, int length, int idx)
- {
- 	int i, dispid_length;
- 	u8 csum = 0;
--	struct displayid_hdr *base;
-+	const struct displayid_hdr *base;
- 
--	base = (struct displayid_hdr *)&displayid[idx];
-+	base = (const struct displayid_hdr *)&displayid[idx];
- 
- 	DRM_DEBUG_KMS("base revision 0x%x, length %d, %d %d\n",
- 		      base->rev, base->bytes, base->prod_id, base->ext_count);
-@@ -5359,7 +5359,7 @@ static struct drm_display_mode *drm_mode_displayid_detailed(struct drm_device *d
- }
- 
- static int add_displayid_detailed_1_modes(struct drm_connector *connector,
--					  struct displayid_block *block)
-+					  const struct displayid_block *block)
- {
- 	struct displayid_detailed_timing_block *det = (struct displayid_detailed_timing_block *)block;
- 	int i;
-@@ -5387,9 +5387,9 @@ static int add_displayid_detailed_1_modes(struct drm_connector *connector,
- static int add_displayid_detailed_modes(struct drm_connector *connector,
- 					struct edid *edid)
- {
--	u8 *displayid;
-+	const u8 *displayid;
- 	int length, idx;
--	struct displayid_block *block;
-+	const struct displayid_block *block;
- 	int num_modes = 0;
- 	int ext_index = 0;
- 
-diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
-index 77941efb5426..f141c0eff083 100644
---- a/include/drm/drm_displayid.h
-+++ b/include/drm/drm_displayid.h
-@@ -93,11 +93,11 @@ struct displayid_detailed_timing_block {
- };
- 
- #define for_each_displayid_db(displayid, block, idx, length) \
--	for ((block) = (struct displayid_block *)&(displayid)[idx]; \
-+	for ((block) = (const struct displayid_block *)&(displayid)[idx]; \
- 	     (idx) + sizeof(struct displayid_block) <= (length) && \
- 	     (idx) + sizeof(struct displayid_block) + (block)->num_bytes <= (length) && \
- 	     (block)->num_bytes > 0; \
- 	     (idx) += sizeof(struct displayid_block) + (block)->num_bytes, \
--	     (block) = (struct displayid_block *)&(displayid)[idx])
-+	     (block) = (const struct displayid_block *)&(displayid)[idx])
- 
- #endif
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+V2UnbGwgYmUgYWRkaW5nIG1vcmUgRGlzcGxheUlEIHNwZWNpZmljIGZ1bmN0aW9ucyBnb2luZyBm
+b3J3YXJkLCBzbwpzdGFydCBvZmYgYnkgc3BsaXR0aW5nIG91dCBhIGZldyBmdW5jdGlvbnMgdG8g
+YSBzZXBhcmF0ZSBmaWxlLgoKV2UgZG9uJ3QgYm90aGVyIHdpdGggZXhwb3J0aW5nIHRoZSBmdW5j
+dGlvbnM7IGF0IGxlYXN0IGZvciBub3cgdGhleQpzaG91bGQgYmUgbmVlZGVkIHNvbGVseSB3aXRo
+aW4gZHJtLmtvLgoKTm8gZnVuY3Rpb25hbCBjaGFuZ2VzLgoKU2lnbmVkLW9mZi1ieTogSmFuaSBO
+aWt1bGEgPGphbmkubmlrdWxhQGludGVsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vTWFrZWZp
+bGUgICAgICAgIHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fZGlzcGxheWlkLmMgfCA1OSAr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS9kcm1fZWRp
+ZC5jICAgICAgfCA1OCArKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogaW5jbHVkZS9k
+cm0vZHJtX2Rpc3BsYXlpZC5oICAgICB8ICA4ICsrKysrCiBpbmNsdWRlL2RybS9kcm1fZWRpZC5o
+ICAgICAgICAgIHwgIDMgKysKIDUgZmlsZXMgY2hhbmdlZCwgNzMgaW5zZXJ0aW9ucygrKSwgNTcg
+ZGVsZXRpb25zKC0pCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2RybV9kaXNw
+bGF5aWQuYwoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZSBiL2RyaXZlcnMv
+Z3B1L2RybS9NYWtlZmlsZQppbmRleCA1ZWI1YmY3YzE2ZTMuLjc4ZWYyZmQxNGYxMCAxMDA2NDQK
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9NYWtl
+ZmlsZQpAQCAtNyw3ICs3LDcgQEAgZHJtLXkgICAgICAgOj0JZHJtX2F1dGgubyBkcm1fY2FjaGUu
+byBcCiAJCWRybV9maWxlLm8gZHJtX2dlbS5vIGRybV9pb2N0bC5vIGRybV9pcnEubyBcCiAJCWRy
+bV9kcnYubyBcCiAJCWRybV9zeXNmcy5vIGRybV9oYXNodGFiLm8gZHJtX21tLm8gXAotCQlkcm1f
+Y3J0Yy5vIGRybV9mb3VyY2MubyBkcm1fbW9kZXMubyBkcm1fZWRpZC5vIFwKKwkJZHJtX2NydGMu
+byBkcm1fZm91cmNjLm8gZHJtX21vZGVzLm8gZHJtX2VkaWQubyBkcm1fZGlzcGxheWlkLm8gXAog
+CQlkcm1fZW5jb2Rlcl9zbGF2ZS5vIFwKIAkJZHJtX3RyYWNlX3BvaW50cy5vIGRybV9wcmltZS5v
+IFwKIAkJZHJtX3JlY3QubyBkcm1fdm1hX21hbmFnZXIubyBkcm1fZmxpcF93b3JrLm8gXApkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kaXNwbGF5aWQuYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9kcm1fZGlzcGxheWlkLmMKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMDAw
+Li45MDhiYmU2ZmViNjEKLS0tIC9kZXYvbnVsbAorKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rp
+c3BsYXlpZC5jCkBAIC0wLDAgKzEsNTkgQEAKKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBN
+SVQKKy8qCisgKiBDb3B5cmlnaHQgwqkgMjAyMSBJbnRlbCBDb3Jwb3JhdGlvbgorICovCisKKyNp
+bmNsdWRlIDxkcm0vZHJtX2Rpc3BsYXlpZC5oPgorI2luY2x1ZGUgPGRybS9kcm1fZWRpZC5oPgor
+I2luY2x1ZGUgPGRybS9kcm1fcHJpbnQuaD4KKworc3RhdGljIGludCB2YWxpZGF0ZV9kaXNwbGF5
+aWQoY29uc3QgdTggKmRpc3BsYXlpZCwgaW50IGxlbmd0aCwgaW50IGlkeCkKK3sKKwlpbnQgaSwg
+ZGlzcGlkX2xlbmd0aDsKKwl1OCBjc3VtID0gMDsKKwljb25zdCBzdHJ1Y3QgZGlzcGxheWlkX2hk
+ciAqYmFzZTsKKworCWJhc2UgPSAoY29uc3Qgc3RydWN0IGRpc3BsYXlpZF9oZHIgKikmZGlzcGxh
+eWlkW2lkeF07CisKKwlEUk1fREVCVUdfS01TKCJiYXNlIHJldmlzaW9uIDB4JXgsIGxlbmd0aCAl
+ZCwgJWQgJWRcbiIsCisJCSAgICAgIGJhc2UtPnJldiwgYmFzZS0+Ynl0ZXMsIGJhc2UtPnByb2Rf
+aWQsIGJhc2UtPmV4dF9jb3VudCk7CisKKwkvKiArMSBmb3IgRGlzcElEIGNoZWNrc3VtICovCisJ
+ZGlzcGlkX2xlbmd0aCA9IHNpemVvZigqYmFzZSkgKyBiYXNlLT5ieXRlcyArIDE7CisJaWYgKGRp
+c3BpZF9sZW5ndGggPiBsZW5ndGggLSBpZHgpCisJCXJldHVybiAtRUlOVkFMOworCisJZm9yIChp
+ID0gMDsgaSA8IGRpc3BpZF9sZW5ndGg7IGkrKykKKwkJY3N1bSArPSBkaXNwbGF5aWRbaWR4ICsg
+aV07CisJaWYgKGNzdW0pIHsKKwkJRFJNX05PVEUoIkRpc3BsYXlJRCBjaGVja3N1bSBpbnZhbGlk
+LCByZW1haW5kZXIgaXMgJWRcbiIsIGNzdW0pOworCQlyZXR1cm4gLUVJTlZBTDsKKwl9CisKKwly
+ZXR1cm4gMDsKK30KKworY29uc3QgdTggKmRybV9maW5kX2Rpc3BsYXlpZF9leHRlbnNpb24oY29u
+c3Qgc3RydWN0IGVkaWQgKmVkaWQsCisJCQkJICAgICAgIGludCAqbGVuZ3RoLCBpbnQgKmlkeCwK
+KwkJCQkgICAgICAgaW50ICpleHRfaW5kZXgpCit7CisJY29uc3QgdTggKmRpc3BsYXlpZCA9IGRy
+bV9maW5kX2VkaWRfZXh0ZW5zaW9uKGVkaWQsIERJU1BMQVlJRF9FWFQsIGV4dF9pbmRleCk7CisJ
+Y29uc3Qgc3RydWN0IGRpc3BsYXlpZF9oZHIgKmJhc2U7CisJaW50IHJldDsKKworCWlmICghZGlz
+cGxheWlkKQorCQlyZXR1cm4gTlVMTDsKKworCS8qIEVESUQgZXh0ZW5zaW9ucyBibG9jayBjaGVj
+a3N1bSBpc24ndCBmb3IgdXMgKi8KKwkqbGVuZ3RoID0gRURJRF9MRU5HVEggLSAxOworCSppZHgg
+PSAxOworCisJcmV0ID0gdmFsaWRhdGVfZGlzcGxheWlkKGRpc3BsYXlpZCwgKmxlbmd0aCwgKmlk
+eCk7CisJaWYgKHJldCkKKwkJcmV0dXJuIE5VTEw7CisKKwliYXNlID0gKGNvbnN0IHN0cnVjdCBk
+aXNwbGF5aWRfaGRyICopJmRpc3BsYXlpZFsqaWR4XTsKKwkqbGVuZ3RoID0gKmlkeCArIHNpemVv
+ZigqYmFzZSkgKyBiYXNlLT5ieXRlczsKKworCXJldHVybiBkaXNwbGF5aWQ7Cit9CmRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRp
+ZC5jCmluZGV4IGQ1MTBiODI3YTFmOC4uNThlNjFmNzkyYmM3IDEwMDY0NAotLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vZHJtX2VkaWQuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwpAQCAt
+MTU4NSw4ICsxNTg1LDYgQEAgbW9kdWxlX3BhcmFtX25hbWVkKGVkaWRfZml4dXAsIGVkaWRfZml4
+dXAsIGludCwgMDQwMCk7CiBNT0RVTEVfUEFSTV9ERVNDKGVkaWRfZml4dXAsCiAJCSAiTWluaW11
+bSBudW1iZXIgb2YgdmFsaWQgRURJRCBoZWFkZXIgYnl0ZXMgKDAtOCwgZGVmYXVsdCA2KSIpOwog
+Ci1zdGF0aWMgaW50IHZhbGlkYXRlX2Rpc3BsYXlpZChjb25zdCB1OCAqZGlzcGxheWlkLCBpbnQg
+bGVuZ3RoLCBpbnQgaWR4KTsKLQogc3RhdGljIGludCBkcm1fZWRpZF9ibG9ja19jaGVja3N1bShj
+b25zdCB1OCAqcmF3X2VkaWQpCiB7CiAJaW50IGk7CkBAIC0zMjQxLDggKzMyMzksOCBAQCBhZGRf
+ZGV0YWlsZWRfbW9kZXMoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rvciwgc3RydWN0IGVk
+aWQgKmVkaWQsCiAvKgogICogU2VhcmNoIEVESUQgZm9yIENFQSBleHRlbnNpb24gYmxvY2suCiAg
+Ki8KLXN0YXRpYyBjb25zdCB1OCAqZHJtX2ZpbmRfZWRpZF9leHRlbnNpb24oY29uc3Qgc3RydWN0
+IGVkaWQgKmVkaWQsCi0JCQkJCSBpbnQgZXh0X2lkLCBpbnQgKmV4dF9pbmRleCkKK2NvbnN0IHU4
+ICpkcm1fZmluZF9lZGlkX2V4dGVuc2lvbihjb25zdCBzdHJ1Y3QgZWRpZCAqZWRpZCwKKwkJCQkg
+IGludCBleHRfaWQsIGludCAqZXh0X2luZGV4KQogewogCWNvbnN0IHU4ICplZGlkX2V4dCA9IE5V
+TEw7CiAJaW50IGk7CkBAIC0zMjY2LDMyICszMjY0LDYgQEAgc3RhdGljIGNvbnN0IHU4ICpkcm1f
+ZmluZF9lZGlkX2V4dGVuc2lvbihjb25zdCBzdHJ1Y3QgZWRpZCAqZWRpZCwKIAlyZXR1cm4gZWRp
+ZF9leHQ7CiB9CiAKLQotc3RhdGljIGNvbnN0IHU4ICpkcm1fZmluZF9kaXNwbGF5aWRfZXh0ZW5z
+aW9uKGNvbnN0IHN0cnVjdCBlZGlkICplZGlkLAotCQkJCQkgICAgICBpbnQgKmxlbmd0aCwgaW50
+ICppZHgsCi0JCQkJCSAgICAgIGludCAqZXh0X2luZGV4KQotewotCWNvbnN0IHU4ICpkaXNwbGF5
+aWQgPSBkcm1fZmluZF9lZGlkX2V4dGVuc2lvbihlZGlkLCBESVNQTEFZSURfRVhULCBleHRfaW5k
+ZXgpOwotCWNvbnN0IHN0cnVjdCBkaXNwbGF5aWRfaGRyICpiYXNlOwotCWludCByZXQ7Ci0KLQlp
+ZiAoIWRpc3BsYXlpZCkKLQkJcmV0dXJuIE5VTEw7Ci0KLQkvKiBFRElEIGV4dGVuc2lvbnMgYmxv
+Y2sgY2hlY2tzdW0gaXNuJ3QgZm9yIHVzICovCi0JKmxlbmd0aCA9IEVESURfTEVOR1RIIC0gMTsK
+LQkqaWR4ID0gMTsKLQotCXJldCA9IHZhbGlkYXRlX2Rpc3BsYXlpZChkaXNwbGF5aWQsICpsZW5n
+dGgsICppZHgpOwotCWlmIChyZXQpCi0JCXJldHVybiBOVUxMOwotCi0JYmFzZSA9IChjb25zdCBz
+dHJ1Y3QgZGlzcGxheWlkX2hkciAqKSZkaXNwbGF5aWRbKmlkeF07Ci0JKmxlbmd0aCA9ICppZHgg
+KyBzaXplb2YoKmJhc2UpICsgYmFzZS0+Ynl0ZXM7Ci0KLQlyZXR1cm4gZGlzcGxheWlkOwotfQot
+CiBzdGF0aWMgY29uc3QgdTggKmRybV9maW5kX2NlYV9leHRlbnNpb24oY29uc3Qgc3RydWN0IGVk
+aWQgKmVkaWQpCiB7CiAJaW50IGxlbmd0aCwgaWR4OwpAQCAtNTI4NywzMiArNTI1OSw2IEBAIHUz
+MiBkcm1fYWRkX2Rpc3BsYXlfaW5mbyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLCBj
+b25zdCBzdHJ1Y3QgZWRpZCAqZWRpCiAJcmV0dXJuIHF1aXJrczsKIH0KIAotc3RhdGljIGludCB2
+YWxpZGF0ZV9kaXNwbGF5aWQoY29uc3QgdTggKmRpc3BsYXlpZCwgaW50IGxlbmd0aCwgaW50IGlk
+eCkKLXsKLQlpbnQgaSwgZGlzcGlkX2xlbmd0aDsKLQl1OCBjc3VtID0gMDsKLQljb25zdCBzdHJ1
+Y3QgZGlzcGxheWlkX2hkciAqYmFzZTsKLQotCWJhc2UgPSAoY29uc3Qgc3RydWN0IGRpc3BsYXlp
+ZF9oZHIgKikmZGlzcGxheWlkW2lkeF07Ci0KLQlEUk1fREVCVUdfS01TKCJiYXNlIHJldmlzaW9u
+IDB4JXgsIGxlbmd0aCAlZCwgJWQgJWRcbiIsCi0JCSAgICAgIGJhc2UtPnJldiwgYmFzZS0+Ynl0
+ZXMsIGJhc2UtPnByb2RfaWQsIGJhc2UtPmV4dF9jb3VudCk7Ci0KLQkvKiArMSBmb3IgRGlzcElE
+IGNoZWNrc3VtICovCi0JZGlzcGlkX2xlbmd0aCA9IHNpemVvZigqYmFzZSkgKyBiYXNlLT5ieXRl
+cyArIDE7Ci0JaWYgKGRpc3BpZF9sZW5ndGggPiBsZW5ndGggLSBpZHgpCi0JCXJldHVybiAtRUlO
+VkFMOwotCi0JZm9yIChpID0gMDsgaSA8IGRpc3BpZF9sZW5ndGg7IGkrKykKLQkJY3N1bSArPSBk
+aXNwbGF5aWRbaWR4ICsgaV07Ci0JaWYgKGNzdW0pIHsKLQkJRFJNX05PVEUoIkRpc3BsYXlJRCBj
+aGVja3N1bSBpbnZhbGlkLCByZW1haW5kZXIgaXMgJWRcbiIsIGNzdW0pOwotCQlyZXR1cm4gLUVJ
+TlZBTDsKLQl9Ci0KLQlyZXR1cm4gMDsKLX0KLQogc3RhdGljIHN0cnVjdCBkcm1fZGlzcGxheV9t
+b2RlICpkcm1fbW9kZV9kaXNwbGF5aWRfZGV0YWlsZWQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwK
+IAkJCQkJCQkgICAgc3RydWN0IGRpc3BsYXlpZF9kZXRhaWxlZF90aW1pbmdzXzEgKnRpbWluZ3Mp
+CiB7CmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZGlzcGxheWlkLmggYi9pbmNsdWRlL2Ry
+bS9kcm1fZGlzcGxheWlkLmgKaW5kZXggZjE0MWMwZWZmMDgzLi4zYzZkYjIyYTUxOGEgMTAwNjQ0
+Ci0tLSBhL2luY2x1ZGUvZHJtL2RybV9kaXNwbGF5aWQuaAorKysgYi9pbmNsdWRlL2RybS9kcm1f
+ZGlzcGxheWlkLmgKQEAgLTIyLDYgKzIyLDEwIEBACiAjaWZuZGVmIERSTV9ESVNQTEFZSURfSAog
+I2RlZmluZSBEUk1fRElTUExBWUlEX0gKIAorI2luY2x1ZGUgPGxpbnV4L3R5cGVzLmg+CisKK3N0
+cnVjdCBlZGlkOworCiAjZGVmaW5lIERBVEFfQkxPQ0tfUFJPRFVDVF9JRCAweDAwCiAjZGVmaW5l
+IERBVEFfQkxPQ0tfRElTUExBWV9QQVJBTUVURVJTIDB4MDEKICNkZWZpbmUgREFUQV9CTE9DS19D
+T0xPUl9DSEFSQUNURVJJU1RJQ1MgMHgwMgpAQCAtMTAwLDQgKzEwNCw4IEBAIHN0cnVjdCBkaXNw
+bGF5aWRfZGV0YWlsZWRfdGltaW5nX2Jsb2NrIHsKIAkgICAgIChpZHgpICs9IHNpemVvZihzdHJ1
+Y3QgZGlzcGxheWlkX2Jsb2NrKSArIChibG9jayktPm51bV9ieXRlcywgXAogCSAgICAgKGJsb2Nr
+KSA9IChjb25zdCBzdHJ1Y3QgZGlzcGxheWlkX2Jsb2NrICopJihkaXNwbGF5aWQpW2lkeF0pCiAK
+K2NvbnN0IHU4ICpkcm1fZmluZF9kaXNwbGF5aWRfZXh0ZW5zaW9uKGNvbnN0IHN0cnVjdCBlZGlk
+ICplZGlkLAorCQkJCSAgICAgICBpbnQgKmxlbmd0aCwgaW50ICppZHgsCisJCQkJICAgICAgIGlu
+dCAqZXh0X2luZGV4KTsKKwogI2VuZGlmCmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZWRp
+ZC5oIGIvaW5jbHVkZS9kcm0vZHJtX2VkaWQuaAppbmRleCBhMTU4ZjU4NWY2NTguLjc1OTMyOGE1
+ZWViMiAxMDA2NDQKLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2VkaWQuaAorKysgYi9pbmNsdWRlL2Ry
+bS9kcm1fZWRpZC5oCkBAIC01NDMsNSArNTQzLDggQEAgc3RydWN0IGRybV9kaXNwbGF5X21vZGUg
+KmRybV9tb2RlX2ZpbmRfZG10KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiBzdHJ1Y3QgZHJtX2Rp
+c3BsYXlfbW9kZSAqCiBkcm1fZGlzcGxheV9tb2RlX2Zyb21fY2VhX3ZpYyhzdHJ1Y3QgZHJtX2Rl
+dmljZSAqZGV2LAogCQkJICAgICAgdTggdmlkZW9fY29kZSk7Citjb25zdCB1OCAqZHJtX2ZpbmRf
+ZWRpZF9leHRlbnNpb24oY29uc3Qgc3RydWN0IGVkaWQgKmVkaWQsCisJCQkJICBpbnQgZXh0X2lk
+LCBpbnQgKmV4dF9pbmRleCk7CisKIAogI2VuZGlmIC8qIF9fRFJNX0VESURfSF9fICovCi0tIAoy
+LjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
