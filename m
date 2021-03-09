@@ -1,28 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8A43327FA
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 15:02:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F3E3329EC
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 16:15:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D1B16E8FB;
-	Tue,  9 Mar 2021 14:02:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9084A89F2D;
+	Tue,  9 Mar 2021 15:14:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foo.stuge.se (foo.stuge.se [212.116.89.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C75D6E8FB
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Mar 2021 14:02:05 +0000 (UTC)
-Received: (qmail 13095 invoked by uid 1000); 9 Mar 2021 14:02:00 -0000
-Message-ID: <20210309140200.13094.qmail@stuge.se>
-Date: Tue, 9 Mar 2021 14:02:00 +0000
-From: Peter Stuge <peter@stuge.se>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v7 3/3] drm: Add GUD USB Display driver
-References: <20210305163104.30756-1-noralf@tronnes.org>
- <20210305163104.30756-4-noralf@tronnes.org>
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
+ [IPv6:2607:f8b0:4864:20::72e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30F5D89F2D
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Mar 2021 15:14:57 +0000 (UTC)
+Received: by mail-qk1-x72e.google.com with SMTP id l132so13297601qke.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Mar 2021 07:14:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7MrPV8J5TBwRP2XTDenNEVDLqEA1C2gDo3lt+AylHJg=;
+ b=kzpPHQlBIF4+6LV5REOgk4hd860I5fwmqU2hco2bMJsl2jvOVyhLCi3cxyUg+gYSnI
+ S/3f0zavZsXfo583h+EDFc5NEFVxC/Bo6PIR/GQqOI9hawIfiNAeh9I53XsHUkUnPhtH
+ ccqY6z9XUAB4/cGr2/ut5puxovjwn+g7GjjtqIulLitEP6myj0ItoWZEd1yrGczd4nWm
+ /FJsGw3wXtNGtq75Xl2otJgxhFs3twc1MfwsBYHmBOru8ykOTRJxtPTdaNvx1Htaw3Yr
+ fTTWMpyUv8LdTN641FtKq8sjmNGXYWiAREFq0QVHWlSZvbgj8uNNZMVJOw3z+am6bxiH
+ xIew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7MrPV8J5TBwRP2XTDenNEVDLqEA1C2gDo3lt+AylHJg=;
+ b=JY7sNe3a+RCoeJoOedsaL/7yWFwoHkHht+e5+4BEoQst1/KlZxIYHKW1M3Ux/Bj//O
+ B4NfCmLAiHhW4PECiWrrKUbKCDQOJByRSDe/NWJcMwuaU66uDGVLP4zBW/Ztoao3xhCh
+ PGGIRt73AX3F0pfCHJDT4TCoMF8dCOUp7Kn8JEI1MiUjpjDViJkINhho5x55RvNVFvvK
+ 3F7VJuE0ATfS8ebxtSy5uDsgXFMVJn+6GLSeQoJiRju/UdaIuK2Okv4yBECDFTVLSwvk
+ lgJJMWTwNC/pYAf8Gi4bIhQe6Q3ijfdsPTK8G7fW6cane5iif4cHqkon/sYnK5OiGq+i
+ v5DA==
+X-Gm-Message-State: AOAM533MCqLnjINZv2wROxXuh0/Cp3/Gci4+FKV2kLH31SKzuTUoSr53
+ VWYEu2Ja8m32h/pjE+8wGytzHbqXz1WZU8QElVCPAQ==
+X-Google-Smtp-Source: ABdhPJzVlEwNEHQWahsLhzstfMLZXkIj/+jRZQzIdcrvUeWVyWtSBn6T9++RBPWw8oTT696f0ki1+UBA3Fas0/UT2Jc=
+X-Received: by 2002:a37:8cd:: with SMTP id 196mr24729622qki.434.1615302896316; 
+ Tue, 09 Mar 2021 07:14:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210305163104.30756-4-noralf@tronnes.org>
+References: <20210224224751.1215018-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20210224224751.1215018-1-dmitry.baryshkov@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 9 Mar 2021 18:14:45 +0300
+Message-ID: <CAA8EJppWYvE6=TeQVExZB33-yUx+3YCQh4sde=xywyfKucRkEw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dsi: fix check-before-set in the 7nm dsi_pll code
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -35,151 +60,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hudson@trmm.net, markus@raatikainen.cc,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-usb@vger.kernel.org,
- dri-devel@lists.freedesktop.org, th020394@gmail.com, lkundrak@v3.sk,
- pontus.fuchs@gmail.com, sam@ravnborg.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Jonathan Marek <jonathan@marek.ca>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8gTm9yYWxmLAoKSSd2ZSBtYWRlIHNvbWUgcHJvZ3Jlc3Mgd2l0aCBteSB0ZXN0IGRldmlj
-ZS4gSSdtIGltcGxlbWVudGluZyBSMQpmaXJzdCBhbmQgb25jZSB0aGF0IHdvcmtzIEknbGwgdGVz
-dCBSR0IxMTEgYXMgd2VsbC4gQWxvbmcgdGhlIHdheQpJJ3ZlIGZvdW5kIGEgY291cGxlIG9mIHRo
-aW5ncyBpbiB0aGUgY29kZToKCk5vcmFsZiBUcsO4bm5lcyB3cm90ZToKPiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vZ3VkL2d1ZF9kcnYuYwouLgo+ICtzdGF0aWMgaW50IGd1ZF9wcm9iZShzdHJ1Y3Qg
-dXNiX2ludGVyZmFjZSAqaW50ZiwgY29uc3Qgc3RydWN0IHVzYl9kZXZpY2VfaWQgKmlkKQouLgo+
-ICsJCWlmIChmb3JtYXQgPT0gR1VEX0RSTV9GT1JNQVRfUjEpCj4gKwkJCWNvbnRpbnVlOyAvKiBJ
-bnRlcm5hbCBub3QgZm9yIHVzZXJzcGFjZSAqLwoKWW91IGFscmVhZHkgZm91bmQgUkdCMTExIG1p
-c3NpbmcgaGVyZS4KCgo+ICtzdGF0aWMgaW50IGd1ZF91c2JfY29udHJvbF9tc2coc3RydWN0IHVz
-Yl9pbnRlcmZhY2UgKmludGYsIGJvb2wgaW4sCj4gKwkJCSAgICAgICB1OCByZXF1ZXN0LCB1MTYg
-dmFsdWUsIHZvaWQgKmJ1Ziwgc2l6ZV90IGxlbikKLi4KPiArc3RhdGljIGludCBndWRfdXNiX3Ry
-YW5zZmVyKHN0cnVjdCBndWRfZGV2aWNlICpnZHJtLCBib29sIGluLCB1OCByZXF1ZXN0LCB1MTYg
-aW5kZXgsCi4uCj4gKwlyZXQgPSBndWRfdXNiX2NvbnRyb2xfbXNnKGludGYsIGluLCByZXF1ZXN0
-LCBpbmRleCwgYnVmLCBsZW4pOwoKVGhlIHUxNiBpbmRleCBwYXJhbWV0ZXIgdG8gZ3VkX3VzYl90
-cmFuc2ZlcigpIGFuZCBhdCBsZWFzdCBhbHNvIApndWRfdXNiX3tnZXQsc2V0LGdldF91OCxzZXRf
-dTh9KCkgaXMgZXZlbnR1YWxseSBwYXNzZWQgaW4gdTE2IHZhbHVlCmluIHRoZSBjYWxsIHRvIGd1
-ZF91c2JfY29udHJvbF9tc2coKSwgd2hpY2ggaGFkIG1lIGNvbmZ1c2VkIGZvciBhIGJpdC4KCldo
-YXQgZG8geW91IHRoaW5rIGFib3V0IHJlbmFtaW5nIGFsbCBvZiB0aG9zZSBwYXJhbWV0ZXJzIHRv
-IHdWYWx1ZSwKdG8gc2hvdyB0aGF0IGFuZCB3aGVyZSB0aGV5IGFyZSBwYXJ0IG9mIHRoZSBjb250
-cm9sIHJlcXVlc3Q/IEkgdGhpbmsKaXQgd291bGQgaGVscCBtYWtlIHRoZSBwcm90b2NvbCBtb3Jl
-IGNsZWFyLgoKCkZpbmFsbHksIGFuIGFjdHVhbCBidWc6Cgo+ICsJcmV0ID0gZ3VkX2dldF9wcm9w
-ZXJ0aWVzKGdkcm0pOwo+ICsJaWYgKHJldCkgewo+ICsJCWRldl9lcnIoZGV2LCAiRmFpbGVkIHRv
-IGdldCBwcm9wZXJ0aWVzIChlcnJvcj0lZClcbiIsIHJldCk7Cj4gKwkJcmV0dXJuIHJldDsKPiAr
-CX0KCklmIGd1ZF9nZXRfcHJvcGVydGllcygpIGFuZCBndWRfY29ubmVjdG9yX2FkZF9wcm9wZXJ0
-aWVzKCkgcmVjZWl2ZQphbmQgcHJvY2VzcyAob25seSEpIG9uZSBvciBtb3JlIHVua25vd24gcHJv
-cGVydGllcyB0aGVuIHRoZXkgcmV0dXJuCnRoZSBudW1iZXIgb2YgYnl0ZXMgcmVjZWl2ZWQgZnJv
-bSB0aGUgZGV2aWNlIHJhdGhlciB0aGFuIDAuCgpJIGZpeGVkIHRoaXMgYnkgc2V0dGluZyByZXQg
-PSAwOyBiZWZvcmUgdGhlIGZvcigpIGxvb3AsIGJ1dCBtYXliZSB5b3UKd2FudCB0byBkbyBpdCBh
-bm90aGVyIHdheS4KCgpJIGZvdW5kIHRoaXMgYmVjYXVzZSBJIGNhbid0IGdldCBteSBkZXZpY2Ug
-dG8gc2VuZCAwIGJ5dGVzIElOIHdoZW4KdGhlIGhvc3QgcmVxdWVzdHMgbW9yZSwgaWYgSSBwcm92
-aWRlIG5vIGRhdGEgdGhlIHJlcXVlc3QgU1RBTExzLiBUaGlzCmlzIGZvciBzdXJlIGEgYnVnIGlu
-IG15IGRldmljZSBhbmQgSSdsbCBjb21lIGJhY2sgdG8gaXQsIGJ1dCBmb3Igbm93CkkgYWRkZWQg
-YSBkdW1teSA2NTUzNSBwcm9wZXJ0eSBhcyBhIHdvcmthcm91bmQuCgpXaGF0IGRvIHlvdSB0aGlu
-ayBhYm91dCBmb3JtYWxpemluZyB0aGlzLCBhZGRpbmcgYW4gYWN0dWFsIGR1bW15IHByb3BlcnR5
-PwoKT3IgbWF5YmUgYWRkaW5nIGZsYWdzIHRvIHRoZSBkaXNwbGF5IGRlc2NyaXB0b3IgZm9yICJJ
-IGhhdmUgcHJvcGVydGllcyIsCiJJIGhhdmUgY29ubmVjdG9yIHByb3BlcnRpZXMiIGFuZCAiSSBo
-YXZlIEVESUQiID8KCgo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX3BpcGUuYwouLgo+
-ICtzdGF0aWMgaW50IGd1ZF9wcmVwX2ZsdXNoKHN0cnVjdCBndWRfZGV2aWNlICpnZHJtLCBzdHJ1
-Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwKLi4KPiArCS8qCj4gKwkgKiBJbXBvcnRlZCBidWZmZXJz
-IGFyZSBhc3N1bWVkIHRvIGJlIHdyaXRlLWNvbWJpbmVkIGFuZCB0aHVzIHVuY2FjaGVkCj4gKwkg
-KiB3aXRoIHNsb3cgcmVhZHMgKGF0IGxlYXN0IG9uIEFSTSkuCj4gKwkgKi8KPiArCWlmIChmb3Jt
-YXQgIT0gZmItPmZvcm1hdCkgewo+ICsJCWlmIChmb3JtYXQtPmZvcm1hdCA9PSBHVURfRFJNX0ZP
-Uk1BVF9SMSkgewo+ICsJCQlsZW4gPSBndWRfeHJnYjg4ODhfdG9fcjEyNChidWYsIGZvcm1hdCwg
-dmFkZHIsIGZiLCByZWN0KTsKPiArCQkJaWYgKCFsZW4pIHsKPiArCQkJCXJldCA9IC1FTk9NRU07
-Cj4gKwkJCQlnb3RvIGVuZF9jcHVfYWNjZXNzOwo+ICsJCQl9Cj4gKwkJfSBlbHNlIGlmIChmb3Jt
-YXQtPmZvcm1hdCA9PSBEUk1fRk9STUFUX1JHQjU2NSkgewo+ICsJCQlkcm1fZmJfeHJnYjg4ODhf
-dG9fcmdiNTY1KGJ1ZiwgdmFkZHIsIGZiLCByZWN0LCBndWRfaXNfYmlnX2VuZGlhbigpKTsKPiAr
-CQl9IGVsc2Ugewo+ICsJCQlsZW4gPSBndWRfeHJnYjg4ODhfdG9fY29sb3IoYnVmLCBmb3JtYXQs
-IHZhZGRyLCBmYiwgcmVjdCk7Cj4gKwkJfQoKRG9lcyB0aGlzIHNlY3Rpb24gYWxzbyBuZWVkIGEg
-UkdCMTExIGNhc2U/CgoKPiArdm9pZCBndWRfcGlwZV91cGRhdGUoc3RydWN0IGRybV9zaW1wbGVf
-ZGlzcGxheV9waXBlICpwaXBlLAouLgo+ICsJaWYgKGZiICYmIChjcnRjLT5zdGF0ZS0+bW9kZV9j
-aGFuZ2VkIHx8IGNydGMtPnN0YXRlLT5jb25uZWN0b3JzX2NoYW5nZWQpKQo+ICsJCWd1ZF91c2Jf
-c2V0KGdkcm0sIEdVRF9SRVFfU0VUX1NUQVRFX0NPTU1JVCwgMCwgTlVMTCwgMCk7CgpZb3UgbWVu
-dGlvbmVkIHRoYXQgY29tbWl0IG11c3Qgbm90IGZhaWw7IHdoYXQgaGFwcGVucy9zaG91bGQgaGFw
-cGVuCmlmIGEgcmVxdWVzdCBkb2VzIGZhaWwgaW4gcGlwZV91cGRhdGUoKT8gU29tZSByZWFzb25z
-IGNvdWxkIGJlIHRoYXQKdGhlIGRldmljZSB3YXMgdW5wbHVnZ2VkLCBhIGJhZCBjYWJsZSBpcyBn
-bGl0Y2h5IG9yIGV2ZW4gdGhhdCBzb21lCmRldmljZSBkb2Vzbid0IGV2ZW4gaW1wbGVtZW50IFNU
-QVRFX0NPTU1JVCBvciBkb2VzIGl0IGluY29ycmVjdGx5IGFuZAp3aWxsIHJlcG9ydCBiYWNrIGZh
-aWx1cmU/CgoKPiArKysgYi9pbmNsdWRlL2RybS9ndWQuaAouLgo+ICsgICNkZWZpbmUgR1VEX1NU
-QVRVU19SRVFVRVNUX05PVF9TVVBQT1JURUQJMHgwMgoKTWF5YmUgdGhpcyBjYW4gYmUgcmVtb3Zl
-ZD8gU0VUX1ZFUlNJT04gaGFzIGJlZW4gcmVtb3ZlZCBzbyBpdCdzIG5vCmxvbmdlciB1c2VkIGFu
-eXdoZXJlLCBhbmQgaW4gYW55IGNhc2UgZGV2aWNlcyB0eXBpY2FsbHkgc2lnbmFsIHRoYXQKcmVx
-dWVzdHMgYXJlIHVuc3VwcG9ydGVkIHVzaW5nIGEgcHJvdG9jb2wgU1RBTEwsIHdoaWNoIGNvbWVz
-IGJhY2sKYXMgLUVQSVBFIGZyb20gdGhlIFVTQiBzdGFjay4KCgoKRmluYWxseSwgaGVyZSdzIHRo
-ZSBkcm0gZGVidWcgb3V0cHV0IHdoZW4gSSBjb25uZWN0IG15IGRldmljZToKCk1hciAwOSAxNDo1
-NzoxOSB2bSBrZXJuZWw6IHVzYiAxLTE6IG5ldyBmdWxsLXNwZWVkIFVTQiBkZXZpY2UgbnVtYmVy
-IDI0IHVzaW5nIHVoY2lfaGNkCk1hciAwOSAxNDo1NzoxOSB2bSBrZXJuZWw6IGd1ZCAxLTE6Mjcu
-MDogW2RybTpndWRfcHJvYmVdIHZlcnNpb249MSBmbGFncz0weDIgY29tcHJlc3Npb249MHgwIG1h
-eF9idWZmZXJfc2l6ZT0wCk1hciAwOSAxNDo1NzoxOSB2bSBrZXJuZWw6IGd1ZCAxLTE6MjcuMDog
-W2RybTpndWRfdXNiX3RyYW5zZmVyXSBnZXQ6IHJlcXVlc3Q9MHg0MCBpbmRleD0wIGxlbj0zMgpN
-YXIgMDkgMTQ6NTc6MTkgdm0ga2VybmVsOiBndWQgMS0xOjI3LjA6IFtkcm06Z3VkX3VzYl90cmFu
-c2Zlcl0gZ2V0OiByZXF1ZXN0PTB4NDEgaW5kZXg9MCBsZW49MzIwCk1hciAwOSAxNDo1NzoxOSB2
-bSBrZXJuZWw6IGd1ZCAxLTE6MjcuMDogW2RybTpndWRfcHJvYmVdIElnbm9yaW5nIHVua25vd24g
-cHJvcGVydHk6IDY1NTM1Ck1hciAwOSAxNDo1NzoxOSB2bSBrZXJuZWw6IGd1ZCAxLTE6MjcuMDog
-W2RybTpndWRfdXNiX3RyYW5zZmVyXSBnZXQ6IHJlcXVlc3Q9MHg1MCBpbmRleD0wIGxlbj0yNTYK
-TWFyIDA5IDE0OjU3OjE5IHZtIGtlcm5lbDogZ3VkIDEtMToyNy4wOiBbZHJtOmd1ZF9nZXRfY29u
-bmVjdG9yc10gQ29ubmVjdG9yOiBpbmRleD0wIHR5cGU9MCBmbGFncz0weDAKTWFyIDA5IDE0OjU3
-OjE5IHZtIGtlcm5lbDogZ3VkIDEtMToyNy4wOiBbZHJtOmd1ZF91c2JfdHJhbnNmZXJdIGdldDog
-cmVxdWVzdD0weDUxIGluZGV4PTAgbGVuPTMyMApNYXIgMDkgMTQ6NTc6MTkgdm0ga2VybmVsOiBn
-dWQgMS0xOjI3LjA6IFtkcm06Z3VkX2dldF9jb25uZWN0b3JzXSBwcm9wZXJ0eTogNjU1MzUgPSAw
-KDB4MCkKTWFyIDA5IDE0OjU3OjE5IHZtIGtlcm5lbDogZ3VkIDEtMToyNy4wOiBbZHJtOmd1ZF9n
-ZXRfY29ubmVjdG9yc10gSWdub3JpbmcgdW5rbm93biBwcm9wZXJ0eTogNjU1MzUKTWFyIDA5IDE0
-OjU3OjE5IHZtIGtlcm5lbDogW2RybTpkcm1fbWlub3JfcmVnaXN0ZXJdIApNYXIgMDkgMTQ6NTc6
-MTkgdm0ga2VybmVsOiBbZHJtOmRybV9taW5vcl9yZWdpc3Rlcl0gCk1hciAwOSAxNDo1NzoxOSB2
-bSBrZXJuZWw6IFtkcm06ZHJtX21pbm9yX3JlZ2lzdGVyXSBuZXcgbWlub3IgcmVnaXN0ZXJlZCAw
-Ck1hciAwOSAxNDo1NzoxOSB2bSBrZXJuZWw6IFtkcm06ZHJtX3N5c2ZzX2Nvbm5lY3Rvcl9hZGRd
-IGFkZGluZyAiVVNCLTEiIHRvIHN5c2ZzCk1hciAwOSAxNDo1NzoxOSB2bSBrZXJuZWw6IFtkcm06
-ZHJtX3N5c2ZzX2hvdHBsdWdfZXZlbnRdIGdlbmVyYXRpbmcgaG90cGx1ZyBldmVudApNYXIgMDkg
-MTQ6NTc6MTkgdm0ga2VybmVsOiBbZHJtXSBJbml0aWFsaXplZCBndWQgMS4wLjAgMjAyMDA0MjIg
-Zm9yIDEtMToyNy4wIG9uIG1pbm9yIDAKTWFyIDA5IDE0OjU3OjE5IHZtIGtlcm5lbDogW2RybTpk
-cm1fY2xpZW50X21vZGVzZXRfcHJvYmVdIApNYXIgMDkgMTQ6NTc6MTkgdm0ga2VybmVsOiBbZHJt
-OmRybV9tb2RlX29iamVjdF9nZXRdIE9CSiBJRDogMzUgKDIpCk1hciAwOSAxNDo1NzoxOSB2bSBr
-ZXJuZWw6IFtkcm06ZHJtX2hlbHBlcl9wcm9iZV9zaW5nbGVfY29ubmVjdG9yX21vZGVzXSBbQ09O
-TkVDVE9SOjM1OlVTQi0xXQpNYXIgMDkgMTQ6NTc6MTkgdm0ga2VybmVsOiBndWQgMS0xOjI3LjA6
-IFtkcm06Z3VkX3VzYl90cmFuc2Zlcl0gc2V0OiByZXF1ZXN0PTB4NTMgaW5kZXg9MCBsZW49MApN
-YXIgMDkgMTQ6NTc6MTkgdm0ga2VybmVsOiBndWQgMS0xOjI3LjA6IFtkcm06Z3VkX3VzYl90cmFu
-c2Zlcl0gZ2V0OiByZXF1ZXN0PTB4NTQgaW5kZXg9MCBsZW49MQpNYXIgMDkgMTQ6NTc6MTkgdm0g
-a2VybmVsOiBbZHJtOmRybV9oZWxwZXJfcHJvYmVfc2luZ2xlX2Nvbm5lY3Rvcl9tb2Rlc10gW0NP
-Tk5FQ1RPUjozNTpVU0ItMV0gc3RhdHVzIHVwZGF0ZWQgZnJvbSB1bmtub3duIHRvIGNvbm5lY3Rl
-ZApNYXIgMDkgMTQ6NTc6MTkgdm0ga2VybmVsOiBndWQgMS0xOjI3LjA6IFtkcm06Z3VkX3VzYl90
-cmFuc2Zlcl0gZ2V0OiByZXF1ZXN0PTB4NTYgaW5kZXg9MCBsZW49MjA0OApNYXIgMDkgMTQ6NTc6
-MTkgdm0ga2VybmVsOiBbZHJtOmRybV9zeXNmc19ob3RwbHVnX2V2ZW50XSBnZW5lcmF0aW5nIGhv
-dHBsdWcgZXZlbnQKTWFyIDA5IDE0OjU3OjE5IHZtIGtlcm5lbDogZ3VkIDEtMToyNy4wOiBVU0It
-MTogSW52YWxpZCBFRElEIHNpemUgKHJldD0xKQpNYXIgMDkgMTQ6NTc6MTkgdm0ga2VybmVsOiBn
-dWQgMS0xOjI3LjA6IFtkcm06Z3VkX3VzYl90cmFuc2Zlcl0gZ2V0OiByZXF1ZXN0PTB4NTUgaW5k
-ZXg9MCBsZW49MzA3MgpNYXIgMDkgMTQ6NTc6MTkgdm0ga2VybmVsOiBbZHJtOmRybV9oZWxwZXJf
-cHJvYmVfc2luZ2xlX2Nvbm5lY3Rvcl9tb2Rlc10gW0NPTk5FQ1RPUjozNTpVU0ItMV0gcHJvYmVk
-IG1vZGVzIDoKTWFyIDA5IDE0OjU3OjE5IHZtIGtlcm5lbDogW2RybTpkcm1fbW9kZV9kZWJ1Z19w
-cmludG1vZGVsaW5lXSBNb2RlbGluZSAiNDAweDI0MCI6IDEwNCAxMDAwMCA0MDAgNDAwIDQwMCA0
-MDAgMjQwIDI0MCAyNDAgMjQwIDB4NDAgMHgwCk1hciAwOSAxNDo1NzoxOSB2bSBrZXJuZWw6IFtk
-cm06ZHJtX2NsaWVudF9tb2Rlc2V0X3Byb2JlXSBjb25uZWN0b3IgMzUgZW5hYmxlZD8geWVzCk1h
-ciAwOSAxNDo1NzoxOSB2bSBrZXJuZWw6IFtkcm06ZHJtX2NsaWVudF9tb2Rlc2V0X3Byb2JlXSBO
-b3QgdXNpbmcgZmlybXdhcmUgY29uZmlndXJhdGlvbgpNYXIgMDkgMTQ6NTc6MTkgdm0ga2VybmVs
-OiBbZHJtOmRybV9jbGllbnRfbW9kZXNldF9wcm9iZV0gbG9va2luZyBmb3IgY21kbGluZSBtb2Rl
-IG9uIGNvbm5lY3RvciAzNQpNYXIgMDkgMTQ6NTc6MTkgdm0ga2VybmVsOiBbZHJtOmRybV9jbGll
-bnRfbW9kZXNldF9wcm9iZV0gbG9va2luZyBmb3IgcHJlZmVycmVkIG1vZGUgb24gY29ubmVjdG9y
-IDM1IDAKTWFyIDA5IDE0OjU3OjE5IHZtIGtlcm5lbDogW2RybTpkcm1fY2xpZW50X21vZGVzZXRf
-cHJvYmVdIGZvdW5kIG1vZGUgNDAweDI0MApNYXIgMDkgMTQ6NTc6MTkgdm0ga2VybmVsOiBbZHJt
-OmRybV9jbGllbnRfbW9kZXNldF9wcm9iZV0gcGlja2luZyBDUlRDcyBmb3IgNDAweDI0MCBjb25m
-aWcKTWFyIDA5IDE0OjU3OjE5IHZtIGtlcm5lbDogW2RybTpkcm1fY2xpZW50X21vZGVzZXRfcHJv
-YmVdIGRlc2lyZWQgbW9kZSA0MDB4MjQwIHNldCBvbiBjcnRjIDMzICgwLDApCk1hciAwOSAxNDo1
-NzoxOSB2bSBrZXJuZWw6IFtkcm06ZHJtX21vZGVfb2JqZWN0X2dldF0gT0JKIElEOiAzNSAoMikK
-TWFyIDA5IDE0OjU3OjE5IHZtIGtlcm5lbDogW2RybTpkcm1fbW9kZV9vYmplY3RfcHV0LnBhcnQu
-MF0gT0JKIElEOiAzNSAoMykKTWFyIDA5IDE0OjU3OjE5IHZtIGtlcm5lbDogZ3VkIDEtMToyNy4w
-OiBbZHJtOl9fZHJtX2ZiX2hlbHBlcl9pbml0aWFsX2NvbmZpZ19hbmRfdW5sb2NrXSB0ZXN0IENS
-VEMgMCBwcmltYXJ5IHBsYW5lCk1hciAwOSAxNDo1NzoxOSB2bSBrZXJuZWw6IGd1ZCAxLTE6Mjcu
-MDogW2RybTpkcm1fZmJfaGVscGVyX2dlbmVyaWNfcHJvYmVdIHN1cmZhY2Ugd2lkdGgoNDAwKSwg
-aGVpZ2h0KDI0MCkgYW5kIGJwcCgzMikKTWFyIDA5IDE0OjU3OjE5IHZtIGtlcm5lbDogW2RybTpk
-cm1fbW9kZV9hZGRmYjJdIFtGQjozNl0KTWFyIDA5IDE0OjU3OjE5IHZtIGtlcm5lbDogW2RybTpk
-cm1fbW9kZV9vYmplY3RfcHV0LnBhcnQuMF0gT0JKIElEOiAzNiAoMikKTWFyIDA5IDE0OjU3OjE5
-IHZtIGtlcm5lbDogZ3VkIDEtMToyNy4wOiBbZHJtXSBmYjA6IGd1ZGRybWZiIGZyYW1lIGJ1ZmZl
-ciBkZXZpY2UKCgpJdCBsb29rcyBnb29kLCBJIHRoaW5rPyBIb3dldmVyLCBuZWl0aGVyIEdVRF9S
-RVFfU0VUX0NPTlRST0xMRVJfRU5BQkxFCm5vciBHVURfUkVRX1NFVF9ESVNQTEFZX0VOQUJMRSBp
-cyBldmVyIGNhbGxlZCwgYW5kIHRoZXJlIGlzIG5vIGJ1bGsKb3V0cHV0IGlmIEkgd3JpdGUgdG8g
-L2Rldi9mYjAuCgpDYW4geW91IHRlbGwgd2hhdCdzIG1pc3Npbmc/CgoKTWFueSB0aGFua3MgYW5k
-IGtpbmQgcmVnYXJkcwoKLy9QZXRlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+Rob,
+
+Any feedback on this? The patches were sent about two weeks ago.
+
+On Thu, 25 Feb 2021 at 01:47, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> Fix setting min/max DSI PLL rate for the V4.1 7nm DSI PLL (used on
+> sm8250). Current code checks for pll->type before it is set (as it is
+> set in the msm_dsi_pll_init() after calling device-specific functions.
+>
+> Cc: Jonathan Marek <jonathan@marek.ca>
+> Fixes: 1ef7c99d145c ("drm/msm/dsi: add support for 7nm DSI PHY/PLL")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/dsi/pll/dsi_pll.c     | 2 +-
+>  drivers/gpu/drm/msm/dsi/pll/dsi_pll.h     | 6 ++++--
+>  drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c | 5 +++--
+>  3 files changed, 8 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll.c b/drivers/gpu/drm/msm/dsi/pll/dsi_pll.c
+> index a45fe95aff49..3dc65877fa10 100644
+> --- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll.c
+> +++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll.c
+> @@ -163,7 +163,7 @@ struct msm_dsi_pll *msm_dsi_pll_init(struct platform_device *pdev,
+>                 break;
+>         case MSM_DSI_PHY_7NM:
+>         case MSM_DSI_PHY_7NM_V4_1:
+> -               pll = msm_dsi_pll_7nm_init(pdev, id);
+> +               pll = msm_dsi_pll_7nm_init(pdev, type, id);
+>                 break;
+>         default:
+>                 pll = ERR_PTR(-ENXIO);
+> diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll.h b/drivers/gpu/drm/msm/dsi/pll/dsi_pll.h
+> index 3405982a092c..bbecb1de5678 100644
+> --- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll.h
+> +++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll.h
+> @@ -117,10 +117,12 @@ msm_dsi_pll_10nm_init(struct platform_device *pdev, int id)
+>  }
+>  #endif
+>  #ifdef CONFIG_DRM_MSM_DSI_7NM_PHY
+> -struct msm_dsi_pll *msm_dsi_pll_7nm_init(struct platform_device *pdev, int id);
+> +struct msm_dsi_pll *msm_dsi_pll_7nm_init(struct platform_device *pdev,
+> +                                       enum msm_dsi_phy_type type, int id);
+>  #else
+>  static inline struct msm_dsi_pll *
+> -msm_dsi_pll_7nm_init(struct platform_device *pdev, int id)
+> +msm_dsi_pll_7nm_init(struct platform_device *pdev,
+> +                                       enum msm_dsi_phy_type type, int id)
+>  {
+>         return ERR_PTR(-ENODEV);
+>  }
+> diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
+> index 93bf142e4a4e..c1f6708367ae 100644
+> --- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
+> @@ -852,7 +852,8 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm)
+>         return ret;
+>  }
+>
+> -struct msm_dsi_pll *msm_dsi_pll_7nm_init(struct platform_device *pdev, int id)
+> +struct msm_dsi_pll *msm_dsi_pll_7nm_init(struct platform_device *pdev,
+> +                                       enum msm_dsi_phy_type type, int id)
+>  {
+>         struct dsi_pll_7nm *pll_7nm;
+>         struct msm_dsi_pll *pll;
+> @@ -885,7 +886,7 @@ struct msm_dsi_pll *msm_dsi_pll_7nm_init(struct platform_device *pdev, int id)
+>         pll = &pll_7nm->base;
+>         pll->min_rate = 1000000000UL;
+>         pll->max_rate = 3500000000UL;
+> -       if (pll->type == MSM_DSI_PHY_7NM_V4_1) {
+> +       if (type == MSM_DSI_PHY_7NM_V4_1) {
+>                 pll->min_rate = 600000000UL;
+>                 pll->max_rate = (unsigned long)5000000000ULL;
+>                 /* workaround for max rate overflowing on 32-bit builds: */
+> --
+> 2.30.0
+>
+
+
+-- 
+With best wishes
+Dmitry
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
