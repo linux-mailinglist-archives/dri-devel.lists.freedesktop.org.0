@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C8103327CF
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 14:54:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B45B53327D3
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 14:54:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24AA76E8FF;
-	Tue,  9 Mar 2021 13:54:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAAE36E903;
+	Tue,  9 Mar 2021 13:54:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 456FD6E8FD;
- Tue,  9 Mar 2021 13:54:51 +0000 (UTC)
-IronPort-SDR: iiA8gusjaZE+wPqbT3S9lyvOW9Pc95KcfLSQpkrBoDkOaNlR1X4MIhCGrC3y4baEg0I+tXp+FM
- lg9Y3/T4tTkA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="167508529"
-X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="167508529"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2021 05:54:50 -0800
-IronPort-SDR: eqF9g8oMFZloJDQCpwrq4YgMokudhNKbXWz5AJVPHWhEG071S9yGlzvUrGF+fCqF7YN2Scl3fc
- kQm77foLOjYQ==
-X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="386231450"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C8A86E902;
+ Tue,  9 Mar 2021 13:54:56 +0000 (UTC)
+IronPort-SDR: nVdSHGw7gW5+UiUOmmjNBMKBHLKGVh1vfLQMoWae4iR22lJThr1PvLW/z8vhg87djpjIqXjpPd
+ b7rJ2Gp1uAdA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="175842805"
+X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="175842805"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2021 05:54:55 -0800
+IronPort-SDR: d6kOvt9EDTzIZE6lZsnPEM+U4HbKWdHjCHqfXv0leKlKWmuESysUDU66gC1KqgUdSD7DKTuFgO
+ Unc24HwDxPEw==
+X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="437656492"
 Received: from kjwindec-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.48.180])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2021 05:54:48 -0800
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2021 05:54:53 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC v1 4/6] drm/edid: use the new displayid iterator for detailed
- modes
-Date: Tue,  9 Mar 2021 15:54:12 +0200
-Message-Id: <ca35f536b8c6b25f518a56b443807256a40e7d2c.1615297748.git.jani.nikula@intel.com>
+Subject: [RFC v1 5/6] drm/edid: use the new displayid iterator for finding CEA
+ extension
+Date: Tue,  9 Mar 2021 15:54:13 +0200
+Message-Id: <8a527f66b856d6c099313046e028a18f9257baa8.1615297748.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1615297748.git.jani.nikula@intel.com>
 References: <cover.1615297748.git.jani.nikula@intel.com>
@@ -58,47 +58,58 @@ Neatly reduce displayid boilerplate in code. No functional changes.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 23 ++++++-----------------
- 1 file changed, 6 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 25 +++++++++----------------
+ 1 file changed, 9 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 58e61f792bc7..fbaa7d679cb2 100644
+index fbaa7d679cb2..4526e2557dca 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -5333,27 +5333,16 @@ static int add_displayid_detailed_1_modes(struct drm_connector *connector,
- static int add_displayid_detailed_modes(struct drm_connector *connector,
- 					struct edid *edid)
+@@ -3266,35 +3266,28 @@ const u8 *drm_find_edid_extension(const struct edid *edid,
+ 
+ static const u8 *drm_find_cea_extension(const struct edid *edid)
  {
--	const u8 *displayid;
 -	int length, idx;
  	const struct displayid_block *block;
 +	struct displayid_iter iter;
- 	int num_modes = 0;
--	int ext_index = 0;
--
+ 	const u8 *cea;
+-	const u8 *displayid;
+-	int ext_index;
++	int ext_index = 0;
+ 
+ 	/* Look for a top level CEA extension block */
+ 	/* FIXME: make callers iterate through multiple CEA ext blocks? */
+-	ext_index = 0;
+ 	cea = drm_find_edid_extension(edid, CEA_EXT, &ext_index);
+ 	if (cea)
+ 		return cea;
+ 
+ 	/* CEA blocks can also be found embedded in a DisplayID block */
+-	ext_index = 0;
 -	for (;;) {
 -		displayid = drm_find_displayid_extension(edid, &length, &idx,
 -							 &ext_index);
 -		if (!displayid)
--			break;
- 
+-			return NULL;
+-
 -		idx += sizeof(struct displayid_hdr);
 -		for_each_displayid_db(displayid, block, idx, length) {
--			switch (block->tag) {
--			case DATA_BLOCK_TYPE_1_DETAILED_TIMING:
--				num_modes += add_displayid_detailed_1_modes(connector, block);
--				break;
--			}
--		}
+-			if (block->tag == DATA_BLOCK_CTA)
+-				return (const u8 *)block;
 +	displayid_iter_edid_begin(edid, &iter);
 +	displayid_iter_for_each(block, &iter) {
-+		if (block->tag == DATA_BLOCK_TYPE_1_DETAILED_TIMING)
-+			num_modes += add_displayid_detailed_1_modes(connector, block);
++		if (block->tag == DATA_BLOCK_CTA) {
++			cea = (const u8 *)block;
++			break;
+ 		}
  	}
 +	displayid_iter_end(&iter);
  
- 	return num_modes;
+-	return NULL;
++	return cea;
  }
+ 
+ static __always_inline const struct drm_display_mode *cea_mode_for_vic(u8 vic)
 -- 
 2.20.1
 
