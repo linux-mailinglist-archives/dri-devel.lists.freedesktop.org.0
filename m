@@ -2,52 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F3E3329EC
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 16:15:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B681F332A8F
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 16:34:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9084A89F2D;
-	Tue,  9 Mar 2021 15:14:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21D2F6E0DC;
+	Tue,  9 Mar 2021 15:34:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30F5D89F2D
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Mar 2021 15:14:57 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id l132so13297601qke.7
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Mar 2021 07:14:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7MrPV8J5TBwRP2XTDenNEVDLqEA1C2gDo3lt+AylHJg=;
- b=kzpPHQlBIF4+6LV5REOgk4hd860I5fwmqU2hco2bMJsl2jvOVyhLCi3cxyUg+gYSnI
- S/3f0zavZsXfo583h+EDFc5NEFVxC/Bo6PIR/GQqOI9hawIfiNAeh9I53XsHUkUnPhtH
- ccqY6z9XUAB4/cGr2/ut5puxovjwn+g7GjjtqIulLitEP6myj0ItoWZEd1yrGczd4nWm
- /FJsGw3wXtNGtq75Xl2otJgxhFs3twc1MfwsBYHmBOru8ykOTRJxtPTdaNvx1Htaw3Yr
- fTTWMpyUv8LdTN641FtKq8sjmNGXYWiAREFq0QVHWlSZvbgj8uNNZMVJOw3z+am6bxiH
- xIew==
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98C536E0DC
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Mar 2021 15:33:20 +0000 (UTC)
+Received: by mail-il1-f200.google.com with SMTP id n12so10440421ili.15
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Mar 2021 07:33:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7MrPV8J5TBwRP2XTDenNEVDLqEA1C2gDo3lt+AylHJg=;
- b=JY7sNe3a+RCoeJoOedsaL/7yWFwoHkHht+e5+4BEoQst1/KlZxIYHKW1M3Ux/Bj//O
- B4NfCmLAiHhW4PECiWrrKUbKCDQOJByRSDe/NWJcMwuaU66uDGVLP4zBW/Ztoao3xhCh
- PGGIRt73AX3F0pfCHJDT4TCoMF8dCOUp7Kn8JEI1MiUjpjDViJkINhho5x55RvNVFvvK
- 3F7VJuE0ATfS8ebxtSy5uDsgXFMVJn+6GLSeQoJiRju/UdaIuK2Okv4yBECDFTVLSwvk
- lgJJMWTwNC/pYAf8Gi4bIhQe6Q3ijfdsPTK8G7fW6cane5iif4cHqkon/sYnK5OiGq+i
- v5DA==
-X-Gm-Message-State: AOAM533MCqLnjINZv2wROxXuh0/Cp3/Gci4+FKV2kLH31SKzuTUoSr53
- VWYEu2Ja8m32h/pjE+8wGytzHbqXz1WZU8QElVCPAQ==
-X-Google-Smtp-Source: ABdhPJzVlEwNEHQWahsLhzstfMLZXkIj/+jRZQzIdcrvUeWVyWtSBn6T9++RBPWw8oTT696f0ki1+UBA3Fas0/UT2Jc=
-X-Received: by 2002:a37:8cd:: with SMTP id 196mr24729622qki.434.1615302896316; 
- Tue, 09 Mar 2021 07:14:56 -0800 (PST)
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=i3bJh0n/iRCHRnQEcfouspzVyDO7m+fcgDKM8Pc2v7U=;
+ b=GopBZtHONRB+wN946/rpurYM4ZQkBI9MBU1N/JHnUGrPuwntYnBBWsFMe01WKnJYQx
+ GFrGa941FuMrKNU8NS8gp2N7svIgJ7YEzBC2xNUqrM4QyS0yOd9RLoGSwyPOJkbM0wy9
+ EgT3o3YyUWCb7DlWMzNHNjkPyUTVUDxSQH0p1P3fwtKKjTnv3w93/OoSX7q4OpZLwTfJ
+ Bbcejpw/8XlH+RJ91OIl0BWXiZ05L9t4c3WHUx4Bej7pU7zVgtw3JN0MCqY6aKdN/HrG
+ jefcfl7HRJ8q61LddFM760HdujxWG/JITpoSRypS4924SaYSlrQX/VIK5REpgsjHu7nd
+ SqUg==
+X-Gm-Message-State: AOAM530luo/Rim3uKWKSgf+dtLxw+5pPV/55h5W8jjBsOvsLKVx+8nyJ
+ bsCdOwYGkg373YqmeEbelpwSXjfRjCRBvVcYEzZiQc3BuAyg
+X-Google-Smtp-Source: ABdhPJzFQ/OkQDLzxvBgiV0KstiLfQVTAddPbnHcGgIErwJfRp8tZVdKiw1FIi/VRKn9Ja5QsIoB+Zrz4ltOIRgbISgaZuyDHadg
 MIME-Version: 1.0
-References: <20210224224751.1215018-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20210224224751.1215018-1-dmitry.baryshkov@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 9 Mar 2021 18:14:45 +0300
-Message-ID: <CAA8EJppWYvE6=TeQVExZB33-yUx+3YCQh4sde=xywyfKucRkEw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dsi: fix check-before-set in the 7nm dsi_pll code
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+X-Received: by 2002:a92:c5cf:: with SMTP id s15mr24966046ilt.149.1615303999562; 
+ Tue, 09 Mar 2021 07:33:19 -0800 (PST)
+Date: Tue, 09 Mar 2021 07:33:19 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000192a2105bd1c45b3@google.com>
+Subject: [syzbot] WARNING in __hrtimer_run_queues
+From: syzbot <syzbot+b0b2da1e0f732c818975@syzkaller.appspotmail.com>
+To: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ hamohammed.sa@gmail.com, linux-kernel@vger.kernel.org, melissa.srw@gmail.com, 
+ rodrigosiqueiramelo@gmail.com, syzkaller-bugs@googlegroups.com
+X-Mailman-Approved-At: Tue, 09 Mar 2021 15:34:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,98 +53,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Jonathan Marek <jonathan@marek.ca>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rob,
+Hello,
 
-Any feedback on this? The patches were sent about two weeks ago.
+syzbot found the following issue on:
 
-On Thu, 25 Feb 2021 at 01:47, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> Fix setting min/max DSI PLL rate for the V4.1 7nm DSI PLL (used on
-> sm8250). Current code checks for pll->type before it is set (as it is
-> set in the msm_dsi_pll_init() after calling device-specific functions.
->
-> Cc: Jonathan Marek <jonathan@marek.ca>
-> Fixes: 1ef7c99d145c ("drm/msm/dsi: add support for 7nm DSI PHY/PLL")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/msm/dsi/pll/dsi_pll.c     | 2 +-
->  drivers/gpu/drm/msm/dsi/pll/dsi_pll.h     | 6 ++++--
->  drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c | 5 +++--
->  3 files changed, 8 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll.c b/drivers/gpu/drm/msm/dsi/pll/dsi_pll.c
-> index a45fe95aff49..3dc65877fa10 100644
-> --- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll.c
-> +++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll.c
-> @@ -163,7 +163,7 @@ struct msm_dsi_pll *msm_dsi_pll_init(struct platform_device *pdev,
->                 break;
->         case MSM_DSI_PHY_7NM:
->         case MSM_DSI_PHY_7NM_V4_1:
-> -               pll = msm_dsi_pll_7nm_init(pdev, id);
-> +               pll = msm_dsi_pll_7nm_init(pdev, type, id);
->                 break;
->         default:
->                 pll = ERR_PTR(-ENXIO);
-> diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll.h b/drivers/gpu/drm/msm/dsi/pll/dsi_pll.h
-> index 3405982a092c..bbecb1de5678 100644
-> --- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll.h
-> +++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll.h
-> @@ -117,10 +117,12 @@ msm_dsi_pll_10nm_init(struct platform_device *pdev, int id)
->  }
->  #endif
->  #ifdef CONFIG_DRM_MSM_DSI_7NM_PHY
-> -struct msm_dsi_pll *msm_dsi_pll_7nm_init(struct platform_device *pdev, int id);
-> +struct msm_dsi_pll *msm_dsi_pll_7nm_init(struct platform_device *pdev,
-> +                                       enum msm_dsi_phy_type type, int id);
->  #else
->  static inline struct msm_dsi_pll *
-> -msm_dsi_pll_7nm_init(struct platform_device *pdev, int id)
-> +msm_dsi_pll_7nm_init(struct platform_device *pdev,
-> +                                       enum msm_dsi_phy_type type, int id)
->  {
->         return ERR_PTR(-ENODEV);
->  }
-> diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
-> index 93bf142e4a4e..c1f6708367ae 100644
-> --- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
-> @@ -852,7 +852,8 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm)
->         return ret;
->  }
->
-> -struct msm_dsi_pll *msm_dsi_pll_7nm_init(struct platform_device *pdev, int id)
-> +struct msm_dsi_pll *msm_dsi_pll_7nm_init(struct platform_device *pdev,
-> +                                       enum msm_dsi_phy_type type, int id)
->  {
->         struct dsi_pll_7nm *pll_7nm;
->         struct msm_dsi_pll *pll;
-> @@ -885,7 +886,7 @@ struct msm_dsi_pll *msm_dsi_pll_7nm_init(struct platform_device *pdev, int id)
->         pll = &pll_7nm->base;
->         pll->min_rate = 1000000000UL;
->         pll->max_rate = 3500000000UL;
-> -       if (pll->type == MSM_DSI_PHY_7NM_V4_1) {
-> +       if (type == MSM_DSI_PHY_7NM_V4_1) {
->                 pll->min_rate = 600000000UL;
->                 pll->max_rate = (unsigned long)5000000000ULL;
->                 /* workaround for max rate overflowing on 32-bit builds: */
-> --
-> 2.30.0
->
+HEAD commit:    144c79ef Merge tag 'perf-tools-fixes-for-v5.12-2020-03-07'..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=16972ea2d00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9008fb06fa15d749
+dashboard link: https://syzkaller.appspot.com/bug?extid=b0b2da1e0f732c818975
+compiler:       Debian clang version 11.0.1-2
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b0b2da1e0f732c818975@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+raw_local_irq_restore() called with IRQs enabled
+WARNING: CPU: 1 PID: 10032 at kernel/locking/irqflag-debug.c:10 warn_bogus_irq_restore+0x1f/0x30 kernel/locking/irqflag-debug.c:10
+Modules linked in:
+CPU: 1 PID: 10032 Comm: syz-executor.2 Not tainted 5.12.0-rc2-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:warn_bogus_irq_restore+0x1f/0x30 kernel/locking/irqflag-debug.c:10
+Code: cc cc cc cc cc cc cc cc cc cc cc 80 3d 73 49 54 04 00 74 01 c3 c6 05 69 49 54 04 01 48 c7 c7 60 5d ae 89 31 c0 e8 41 1f fa f7 <0f> 0b c3 cc cc cc cc cc cc cc cc cc cc cc cc cc cc 41 56 53 48 83
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 10032 at drivers/gpu/drm/vkms/vkms_crtc.c:21 vkms_vblank_simulate+0x2c1/0x320 drivers/gpu/drm/vkms/vkms_crtc.c:21
+Modules linked in:
+CPU: 1 PID: 10032 Comm: syz-executor.2 Not tainted 5.12.0-rc2-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:vkms_vblank_simulate+0x2c1/0x320 drivers/gpu/drm/vkms/vkms_crtc.c:21
+Code: 00 00 00 48 c7 c6 a0 28 28 8a 31 c0 e8 18 71 ef ff b8 01 00 00 00 48 83 c4 18 5b 41 5c 41 5d 41 5e 41 5f 5d c3 e8 df e0 13 fd <0f> 0b e9 e8 fd ff ff 89 d9 80 e1 07 38 c1 0f 8c 5c fe ff ff 48 89
+RSP: 0018:ffffc90000dc04a8 EFLAGS: 00010046
+RAX: ffffffff8464ccc1 RBX: 0000000000000002 RCX: ffff8880155bb780
+RDX: 0000000000010103 RSI: 0000000000000002 RDI: 0000000000000001
+RBP: ffff8880b9d26260 R08: ffffffff8464caa1 R09: fffffbfff1b6a1e6
+R10: fffffbfff1b6a1e6 R11: 0000000000000000 R12: dffffc0000000000
+R13: 1ffff110033593d2 R14: 0000000000fe4c00 R15: ffff888019ac8d30
+FS:  0000000001b6c400(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000002e97708 CR3: 000000001ba55000 CR4: 00000000001506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <IRQ>
+ __run_hrtimer kernel/time/hrtimer.c:1519 [inline]
+ __hrtimer_run_queues+0x4c9/0xa00 kernel/time/hrtimer.c:1583
+ hrtimer_interrupt+0x393/0xf70 kernel/time/hrtimer.c:1645
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1089 [inline]
+ __sysvec_apic_timer_interrupt+0xf9/0x270 arch/x86/kernel/apic/apic.c:1106
+ sysvec_apic_timer_interrupt+0x3e/0xb0 arch/x86/kernel/apic/apic.c:1100
+ asm_sysvec_apic_timer_interrupt+0x12/0x20 arch/x86/include/asm/idtentry.h:632
+RIP: 0010:console_unlock+0xaab/0xe00 kernel/printk/printk.c:2586
+Code: 84 5a f7 ff ff eb 29 e8 73 53 18 00 e8 2e 68 ed 07 4d 85 f6 74 df 66 0f 1f 84 00 00 00 00 00 e8 5b 53 18 00 fb f6 44 24 0f 01 <0f> 84 2f f7 ff ff e8 4a 53 18 00 48 c7 c7 b4 4d 6f 8b be 1b 0a 00
+RSP: 0018:ffffc90000dc0800 EFLAGS: 00000246
+RAX: ffffffff81605a45 RBX: 0000000000000000 RCX: ffff8880155bb780
+RDX: 0000000000000103 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: ffffc90000dc0918 R08: ffffffff81605a02 R09: fffffbfff1f27aa9
+R10: fffffbfff1f27aa9 R11: 0000000000000000 R12: dffffc0000000000
+R13: 1ffffffff19ed295 R14: 0000000000000200 R15: 1ffffffff19ed28e
+ vprintk_emit+0x1ab/0x270 kernel/printk/printk.c:2098
+ printk+0x62/0x83 kernel/printk/printk.c:2146
+ show_opcodes+0xc1/0xe0 arch/x86/kernel/dumpstack.c:129
+ show_ip arch/x86/kernel/dumpstack.c:150 [inline]
+ show_iret_regs+0x2f/0x60 arch/x86/kernel/dumpstack.c:155
+ __show_regs+0x29/0x580 arch/x86/kernel/process_64.c:73
+ show_regs+0x35/0x60 arch/x86/kernel/dumpstack.c:469
+ __warn+0x12f/0x270 kernel/panic.c:595
+ report_bug+0x1b1/0x2e0 lib/bug.c:195
+ handle_bug+0x3d/0x70 arch/x86/kernel/traps.c:239
+ exc_invalid_op+0x16/0x40 arch/x86/kernel/traps.c:259
+ asm_exc_invalid_op+0x12/0x20 arch/x86/include/asm/idtentry.h:575
+RIP: 0010:warn_bogus_irq_restore+0x1f/0x30 kernel/locking/irqflag-debug.c:10
+Code: cc cc cc cc cc cc cc cc cc cc cc 80 3d 73 49 54 04 00 74 01 c3 c6 05 69 49 54 04 01 48 c7 c7 60 5d ae 89 31 c0 e8 41 1f fa f7 <0f> 0b c3 cc cc cc cc cc cc cc cc cc cc cc cc cc cc 41 56 53 48 83
+RSP: 0018:ffffc90000dc0c78 EFLAGS: 00010246
+RAX: 74fd7735e664bd00 RBX: ffff888019090088 RCX: ffff8880155bb780
+RDX: 0000000000000102 RSI: 0000000000000102 RDI: 0000000000000000
+RBP: 1ffff920001b8190 R08: ffffffff81605e52 R09: ffffed10173a3f1c
+R10: ffffed10173a3f1c R11: 0000000000000000 R12: 0000000000000003
+R13: ffff88823ffe6dc0 R14: 0000000000000246 R15: dffffc0000000000
+ kvm_wait+0x10e/0x160 arch/x86/kernel/kvm.c:860
+ pv_wait arch/x86/include/asm/paravirt.h:564 [inline]
+ pv_wait_head_or_lock kernel/locking/qspinlock_paravirt.h:470 [inline]
+ __pv_queued_spin_lock_slowpath+0x6b5/0xb90 kernel/locking/qspinlock.c:508
+ pv_queued_spin_lock_slowpath arch/x86/include/asm/paravirt.h:554 [inline]
+ queued_spin_lock_slowpath arch/x86/include/asm/qspinlock.h:51 [inline]
+ queued_spin_lock include/asm-generic/qspinlock.h:85 [inline]
+ do_raw_spin_lock+0x430/0x810 kernel/locking/spinlock_debug.c:113
+ spin_lock include/linux/spinlock.h:354 [inline]
+ tcp_tsq_handler+0x20/0x1f0 net/ipv4/tcp_output.c:1029
+ tcp_tasklet_func+0x403/0x450 net/ipv4/tcp_output.c:1063
+ tasklet_action_common+0x11c/0x3f0 kernel/softirq.c:557
+ __do_softirq+0x318/0x714 kernel/softirq.c:345
+ invoke_softirq kernel/softirq.c:221 [inline]
+ __irq_exit_rcu+0x1d8/0x200 kernel/softirq.c:422
+ irq_exit_rcu+0x5/0x20 kernel/softirq.c:434
+ common_interrupt+0xa1/0xc0 arch/x86/kernel/irq.c:240
+ </IRQ>
+ asm_common_interrupt+0x1e/0x40 arch/x86/include/asm/idtentry.h:623
+RIP: 0010:__raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:161 [inline]
+RIP: 0010:_raw_spin_unlock_irqrestore+0x7a/0xc0 kernel/locking/spinlock.c:191
+Code: 00 fc ff df 80 3c 08 00 74 08 48 89 e7 e8 0e f9 6c f8 f7 04 24 00 02 00 00 75 37 41 f7 c6 00 02 00 00 74 01 fb bf 01 00 00 00 <e8> 81 7f 02 f8 65 8b 05 a2 e4 b1 76 85 c0 74 28 65 48 8b 04 25 28
+RSP: 0018:ffffc90016f27d88 EFLAGS: 00000206
+RAX: 1ffff92002de4fb1 RBX: ffff8880b9d26180 RCX: dffffc0000000000
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000001
+RBP: 0000000000000000 R08: ffffffff817eade0 R09: ffffed10173a4c31
+R10: ffffed10173a4c31 R11: 0000000000000000 R12: ffffc90016f27e58
+R13: 00000000000f4240 R14: 0000000000000286 R15: 0000000000000001
+ hrtimer_start_expires include/linux/hrtimer.h:436 [inline]
+ hrtimer_sleeper_start_expires kernel/time/hrtimer.c:1799 [inline]
+ do_nanosleep+0x17c/0x740 kernel/time/hrtimer.c:1875
+ hrtimer_nanosleep+0x1b9/0x350 kernel/time/hrtimer.c:1931
+ __do_sys_clock_nanosleep kernel/time/posix-timers.c:1267 [inline]
+ __se_sys_clock_nanosleep kernel/time/posix-timers.c:1245 [inline]
+ __x64_sys_clock_nanosleep+0x2f6/0x340 kernel/time/posix-timers.c:1245
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x48a631
+Code: 24 0c 89 3c 24 48 89 4c 24 18 e8 aa e2 ff ff 4c 8b 54 24 18 48 8b 54 24 10 41 89 c0 8b 74 24 0c 8b 3c 24 b8 e6 00 00 00 0f 05 <44> 89 c7 48 89 04 24 e8 e3 e2 ff ff 48 8b 04 24 eb 97 66 2e 0f 1f
+RSP: 002b:00007ffee856c320 EFLAGS: 00000293 ORIG_RAX: 00000000000000e6
+RAX: ffffffffffffffda RBX: 000000000002189a RCX: 000000000048a631
+RDX: 00007ffee856c360 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000001 R08: 0000000000000000 R09: 0000000000000010
+R10: 0000000000000000 R11: 0000000000000293 R12: 000000000056bf60
+R13: 000000000056c9e0 R14: 000000000056bf60 R15: 0000000000021559
 
 
--- 
-With best wishes
-Dmitry
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
