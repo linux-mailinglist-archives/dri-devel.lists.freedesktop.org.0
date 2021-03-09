@@ -1,109 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B64332CA1
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 17:55:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A686B332CDC
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 18:08:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C3B26E09C;
-	Tue,  9 Mar 2021 16:54:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A15B16E4B5;
+	Tue,  9 Mar 2021 17:08:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2078.outbound.protection.outlook.com [40.107.94.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E3CA6E09C
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Mar 2021 16:54:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=REvZNFj5NdqLRsUKrfO9REXJccQ3KwQJGQYG52qujvXt63qcAUxxe0cLXrE9CMXtfJNdLtTxOftN0pYC5rLiTss25jRr89+hFscC3/19GtqVNcHry06J8a2FMKQ7sf9TxIdybnJ58u3yRIJoraJloLzcqNPmTxyIXJvNiQKhCYS5hL9CAmrZ6aS9UrhMVeEf4FaBAMW83PV+xbyEgopr8iw3VOOJIUUQuteoU3v8llr0axyBApRJ1rVD5t58wxJJSY0/C0dbKEiY9sRA4l8I4jJlkZrMFW+RzmZTsTCjG8k8+712nACaH3aOmnZsNl8szdnmnkja3unm1kI+8MZuug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VKpvK/3/3Ub2XKJ/f47QIMrZJJ50utNXNchYEtfdulw=;
- b=PFTb8zNeRDnzxIiAR+ZNjm+vvmucOuSzWb2cedwpZRDrXlRpdsHzauXmHd5cLqcKonmomFwgJEsoAnjVV5Bvk6J1upML5cbMADaNq/ps9103ZMWW46kUbK9wfFiJdCuXxIfyVtkI6V1BDEw3V12Q1hhJnhXRkL369hFxRb/uMMn5AWHGaeiLYTLbgWXY7QcOidfaZnqeiLm6iahFwnQJGvzas3dQbFlCcv4NzfiKM5fJt6EYHFZIsDttlBOZU8hRww4rl+YIIFj4hrwUGGluODj7VBYSCpPEtTHDlRFMeGTuN3sDfSU/75rNMWmOgX58UUeMJ0RWDEs/bGZ741bVng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VKpvK/3/3Ub2XKJ/f47QIMrZJJ50utNXNchYEtfdulw=;
- b=PZIZu0aJ9VmzfjQ5BiGNC+DvF5fWQreDhyerJAF10qutSFy8ubSjKJUdF4q60iVzWaw/TF7nm6/JxnQTpXn49fkVdhpILkbIkbiR8gsKpNc6sKYyjBC8maT66uit9ClvvsYHJ9Bap1VNEG5QpXCPF2z4AmxbX3VfYVFk84/6rmxSCpXYJSePjTmcGTefGKwvrcnECnpf38dGagwr44oGxmst6PCfYeBWGS05Mw77u2hGPL2zNKiSNgLf68H85PyTpjUa3MhQnJh7JXSk4XrpeIcPY64/mvy/f4aRu8I79AbRr623u6beSz0oaqG05fDbg27FYCiJgzC4wH9rHyzZyQ==
-Authentication-Results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR12MB1548.namprd12.prod.outlook.com (2603:10b6:4:a::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3912.26; Tue, 9 Mar 2021 16:54:54 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3912.027; Tue, 9 Mar 2021
- 16:54:54 +0000
-Date: Tue, 9 Mar 2021 12:54:52 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: make alloc_anon_inode more useful
-Message-ID: <20210309165452.GL2356281@nvidia.com>
-References: <20210309155348.974875-1-hch@lst.de>
-Content-Disposition: inline
-In-Reply-To: <20210309155348.974875-1-hch@lst.de>
-X-Originating-IP: [142.162.115.133]
-X-ClientProxiedBy: MN2PR15CA0045.namprd15.prod.outlook.com
- (2603:10b6:208:237::14) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8D56E4B5
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Mar 2021 17:08:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
+ Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=eVJX4ZbIuo6pR2UJmRn+LH26yKYTe8SIJdmlJLQIS8c=; b=T0qc2C45/moPE0pzyelScgo+TE
+ f1zFxwnQrLOAlpTU8+a862+1H3uSDtCmjQLOUZu5du65k+Q8Iw70Aj48YVY5s6cwm+K6TZ70vSk0l
+ n14CWcVFeK3dN0KeHWzTwSyu45kp4Ut4QUXESBtVDBpbm4WZeISO6yzzPS6izRFKBJWJz4KIyByve
+ xAcVoHSA3la1x5Wh6PtYSG8zEk6TpT38FhkypQkDD/HTA92lTF7cyg8CMts677aypCO26Ew9jTCca
+ bXivlaUNPi3F1LGfg/MUuqsXcIOKFMjEhpYMyUtiIyrjIfIAlfHWjHlc77CXAtd/MnZ6qRk2Gcpqe
+ RtZjc4rA==;
+Received: from [2a01:799:95f:4600:cca0:57ac:c55d:a485] (port=52588)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1lJfqm-0001WN-6N; Tue, 09 Mar 2021 18:08:52 +0100
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Subject: Need -fixes commit in drm-misc-next
+Message-ID: <bc4381ab-d9c5-b425-90c5-e01d87dcb576@tronnes.org>
+Date: Tue, 9 Mar 2021 18:08:49 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.162.115.133) by
- MN2PR15CA0045.namprd15.prod.outlook.com (2603:10b6:208:237::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
- Transport; Tue, 9 Mar 2021 16:54:54 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1lJfdE-00A8qz-Vs; Tue, 09 Mar 2021 12:54:53 -0400
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6ef625fe-0a3d-42c7-3b0f-08d8e31c1017
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1548:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB15487F5E00577BA870A1831FC2929@DM5PR12MB1548.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7wb1mpIictjVgMwEJkt4sPVsmOj/7ohub1dlzy2ygvLFHZwntVd5AtW5q620Eux0M5fnWJ6+0+BboPkaVvIjj4opGGgr0f/7OV7OWujUIk2K36SA6e074ZoVv94eoUgvggPwQ1V+drjLwYZNC1heck4+Y0JNjdenRreeFVbcRq5IAI3P8SjVu8lLQFJETGnR2tb4WSw3VyoJUIrnyfMAKrDx9OJYmWZcsmI1SFLd24xz0q7l84vqcKGtFUygqxD47r2RRI8nwreo4lOGpEqGXGb9My8miQVBj0M+5x8dPyFDYjkNRZIznEwxeVAEieiNFrSgTYFuLY0/qxMenyXhnVdMtsS+5JMCFhxMQ/fjG9XZLbUsiy/+YpLrRl2oaukxBMyxvPIh8e0IBl++W+pitD1bQWmo2/HCRoyqv47o0F1g7rPgyPfLi9bs2YBevJuyjy8a8H3hPaM4OUOkzx1U3qPaEAFlWjharVe0V/oKmC1N/2d8nUpdQfozlf3ZW5Icnxr3Ks7kwkF2hQ1tHbuPoQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3834.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(366004)(136003)(376002)(396003)(346002)(54906003)(86362001)(5660300002)(9786002)(33656002)(36756003)(7416002)(1076003)(26005)(186003)(2906002)(4744005)(9746002)(8936002)(8676002)(426003)(4326008)(6916009)(66556008)(66946007)(2616005)(478600001)(83380400001)(66476007)(316002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?jZFzFtuf5R6MqIg4O0DL4z6BTmkDWOHPy1QSqDbGA/CoOfqMTbT4dEvyov+9?=
- =?us-ascii?Q?wqDQM77xS2pkngKlHOmlV4l5xvMAidbdYX/UdjjIeHPttTps/K7XFu1ERM8v?=
- =?us-ascii?Q?xyLfkmvLaRzmV6D/ABpTRYJ+asQVGyoB1OsiwJN5pmwopkQom7Aw7xXwLFYY?=
- =?us-ascii?Q?ZF1eWbaniNXIRPBIEU7EfyE4BwFDWiCGwLluRBPAPlVXg5hTwZiyAtUmtZec?=
- =?us-ascii?Q?CcVfqa7/MT3ZqA2S3YAzo7NG+TZe1HIVGykPEBt9lHl/wEq2BjvxeQ6tgqoc?=
- =?us-ascii?Q?2mXL9f44MWl6xK6gEgQj7eAxCj/lYNzsaH+DvqI0sf+SAbfzTXhfKhuVafp7?=
- =?us-ascii?Q?BziwFtLWNOqKb20duo9JxdW3d2CfBAtsHVHdWvnn8KoeFwuDcA+2abOUorti?=
- =?us-ascii?Q?q9JHjscBDqHrhFUnREJQFlJJ9UY8BTBDhHx2QfO5VR5uX2wUXof6WdFFUzLV?=
- =?us-ascii?Q?b91+pO2LVqKGCdxxnFoUsnA5SFp7+3hhSz0ziIjqbmCL3vQD1F2dtKlexvCQ?=
- =?us-ascii?Q?cdy5uZOmn7Hfy3Oe+T/Sk9ayvXKzHp/S8AtYGn+hOC/bDh+5xv/l6wyhSYsP?=
- =?us-ascii?Q?sSrFkos6W2gAxoBricKXt7iUQOxyf7BE2AheT7taWo92fAf/pWwdglVSQLUL?=
- =?us-ascii?Q?04FvfESpwSIns6V1O+/bDIocOKKZfWG8N7K0I3P/Li5bwiCP7QwMHHhQdB7/?=
- =?us-ascii?Q?hcsTWQTGmsCk7tXycrg+PhhakES4/Mfc7exbZegewNLrn9DwYymp5D2RYR9E?=
- =?us-ascii?Q?BhvhvA4PsSISnIChINmNVijRYFB+Tpf0SLYqeDxZyHqzVteIwSH7V/ng2nPa?=
- =?us-ascii?Q?pNk4x4pQPpTJRYbDgxZVL9s2w61LzwKJ0M+Z0J0xfYSIM2SkK/NkfuHN18qf?=
- =?us-ascii?Q?ip+4HZVH1g+H1vr7LN+cUHxGtUIhVKy+h7cLU1ErQI7ey/F2MgZzU0J63dYU?=
- =?us-ascii?Q?i5AZCPSZorLJVaCF8l8qWUu6AN4RUHvxoLeW87vhQhG1FsocO2+7DZlWVouc?=
- =?us-ascii?Q?0+CwaUMK2I+pBOi9pSrN8CX00OoUsnwV3SPxP1jnpsbTRzLrwrwd8cWDP9gr?=
- =?us-ascii?Q?bLrVgdF1BcCUvnGP1q0iHHNfpdpAi93Nizn5z0BV6RwR9bkeSb/p1cGtUiPb?=
- =?us-ascii?Q?Xji18HoMq0PdwgMYcvs2G6fXWoYOaVxfZFfFlTsw+sg+cRO/rEjSwe4gLA2C?=
- =?us-ascii?Q?nrr65UdppWuAuQirJ7tenBlIbT2mK0Mk9eXsxMR6u7Zc91ZugAAWMy8i8ZfU?=
- =?us-ascii?Q?uYxJE7Iw5gvhh5ExD4JQzc3qWmXa8jHpalXT8mngHJMLuyq2/8SSeOFxsRgQ?=
- =?us-ascii?Q?+BWoUrd8PTJQ32W3UBeWTK43MyYPCmFGXzcVhuloaTuwjQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ef625fe-0a3d-42c7-3b0f-08d8e31c1017
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2021 16:54:54.3541 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yHLv7rz67JwaCrza7WpjYQGi1FXin+ClHRaejpP8M3GuoOUt1zb0btLDz04o8DaC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1548
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,38 +51,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, "VMware,
- Inc." <pv-drivers@vmware.com>, David Hildenbrand <david@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
- Minchan Kim <minchan@kernel.org>, Alex Williamson <alex.williamson@redhat.com>,
- Nadav Amit <namit@vmware.com>, Al Viro <viro@zeniv.linux.org.uk>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, Nitin Gupta <ngupta@vflare.org>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 09, 2021 at 04:53:39PM +0100, Christoph Hellwig wrote:
-> Hi all,
-> 
-> this series first renames the existing alloc_anon_inode to
-> alloc_anon_inode_sb to clearly mark it as requiring a superblock.
-> 
-> It then adds a new alloc_anon_inode that works on the anon_inode
-> file system super block, thus removing tons of boilerplate code.
-> 
-> The few remainig callers of alloc_anon_inode_sb all use alloc_file_pseudo
-> later, but might also be ripe for some cleanup.
+Hi drm-misc maintainers,
 
-I like it
+I have this series:
 
-For a submission plan can we have this on a git branch please? I will
-need a copy for RDMA and Alex will need one for vfio..
+GUD USB Display driver
+https://patchwork.freedesktop.org/series/87044/#rev3
 
-Thanks,
-Jason
+That depends on this drm-misc-fixes commit:
+
+3a3fe21242a3 ("drm: Use USB controller's DMA mask when importing dmabufs")
+
+I would would be nice if it would show up in drm-misc-next soon.
+
+Noralf.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
