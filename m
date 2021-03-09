@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 355C43327CB
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 14:54:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EAAB3327CE
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Mar 2021 14:54:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D58E76E8FA;
-	Tue,  9 Mar 2021 13:54:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 252866E8FE;
+	Tue,  9 Mar 2021 13:54:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AD3A6E8FA;
- Tue,  9 Mar 2021 13:54:41 +0000 (UTC)
-IronPort-SDR: JVULJyFatTwYQGLQkYxidxysIGdj4UkwzvjIy2DPniflD6q2YjomSFcJiMxSFt956MP9yJm6zB
- /wHOPmyBFUFA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="184877454"
-X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="184877454"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2021 05:54:40 -0800
-IronPort-SDR: TI0aZ1vfNwvWrfuahVGAPEQszGLS7PBbJsibMCl/qy7Egd3wKL6c0VQ7Djnmv37VjFMjC4FwIy
- tweDC/SmLXyg==
-X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="447507107"
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1A1D6E8F2;
+ Tue,  9 Mar 2021 13:54:45 +0000 (UTC)
+IronPort-SDR: 3RX+TKsb3VnoJMWPlbZQ0JZwWLmvV5rAfjwft5s46qYOf1QNOznzjXXmfRrk+b61KylkRGwwVA
+ KFMflK3cPzrw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="168151560"
+X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="168151560"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2021 05:54:45 -0800
+IronPort-SDR: SCNYyowuXyU8nEYBaxCa9bvNhj9pYkVnnsLn/UmNWjPMQJou18fcC1/Jbz69jU2w3340RdwZQT
+ 5YpfDJNjhhPA==
+X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; d="scan'208";a="509293330"
 Received: from kjwindec-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.48.180])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2021 05:54:38 -0800
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2021 05:54:43 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC v1 2/6] drm/displayid: add separate drm_displayid.c
-Date: Tue,  9 Mar 2021 15:54:10 +0200
-Message-Id: <6c62c8b87ea14bc4dd4d9ecaf9d100afaab3478d.1615297748.git.jani.nikula@intel.com>
+Subject: [RFC v1 3/6] drm/displayid: add new displayid section/block iterators
+Date: Tue,  9 Mar 2021 15:54:11 +0200
+Message-Id: <d0fd3a830b0ebc082250fb6c1381bb8383715263.1615297748.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1615297748.git.jani.nikula@intel.com>
 References: <cover.1615297748.git.jani.nikula@intel.com>
@@ -48,130 +48,159 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2UnbGwgYmUgYWRkaW5nIG1vcmUgRGlzcGxheUlEIHNwZWNpZmljIGZ1bmN0aW9ucyBnb2luZyBm
-b3J3YXJkLCBzbwpzdGFydCBvZmYgYnkgc3BsaXR0aW5nIG91dCBhIGZldyBmdW5jdGlvbnMgdG8g
-YSBzZXBhcmF0ZSBmaWxlLgoKV2UgZG9uJ3QgYm90aGVyIHdpdGggZXhwb3J0aW5nIHRoZSBmdW5j
-dGlvbnM7IGF0IGxlYXN0IGZvciBub3cgdGhleQpzaG91bGQgYmUgbmVlZGVkIHNvbGVseSB3aXRo
-aW4gZHJtLmtvLgoKTm8gZnVuY3Rpb25hbCBjaGFuZ2VzLgoKU2lnbmVkLW9mZi1ieTogSmFuaSBO
-aWt1bGEgPGphbmkubmlrdWxhQGludGVsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vTWFrZWZp
-bGUgICAgICAgIHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fZGlzcGxheWlkLmMgfCA1OSAr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS9kcm1fZWRp
-ZC5jICAgICAgfCA1OCArKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogaW5jbHVkZS9k
-cm0vZHJtX2Rpc3BsYXlpZC5oICAgICB8ICA4ICsrKysrCiBpbmNsdWRlL2RybS9kcm1fZWRpZC5o
-ICAgICAgICAgIHwgIDMgKysKIDUgZmlsZXMgY2hhbmdlZCwgNzMgaW5zZXJ0aW9ucygrKSwgNTcg
-ZGVsZXRpb25zKC0pCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2RybV9kaXNw
-bGF5aWQuYwoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZSBiL2RyaXZlcnMv
-Z3B1L2RybS9NYWtlZmlsZQppbmRleCA1ZWI1YmY3YzE2ZTMuLjc4ZWYyZmQxNGYxMCAxMDA2NDQK
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9NYWtl
-ZmlsZQpAQCAtNyw3ICs3LDcgQEAgZHJtLXkgICAgICAgOj0JZHJtX2F1dGgubyBkcm1fY2FjaGUu
-byBcCiAJCWRybV9maWxlLm8gZHJtX2dlbS5vIGRybV9pb2N0bC5vIGRybV9pcnEubyBcCiAJCWRy
-bV9kcnYubyBcCiAJCWRybV9zeXNmcy5vIGRybV9oYXNodGFiLm8gZHJtX21tLm8gXAotCQlkcm1f
-Y3J0Yy5vIGRybV9mb3VyY2MubyBkcm1fbW9kZXMubyBkcm1fZWRpZC5vIFwKKwkJZHJtX2NydGMu
-byBkcm1fZm91cmNjLm8gZHJtX21vZGVzLm8gZHJtX2VkaWQubyBkcm1fZGlzcGxheWlkLm8gXAog
-CQlkcm1fZW5jb2Rlcl9zbGF2ZS5vIFwKIAkJZHJtX3RyYWNlX3BvaW50cy5vIGRybV9wcmltZS5v
-IFwKIAkJZHJtX3JlY3QubyBkcm1fdm1hX21hbmFnZXIubyBkcm1fZmxpcF93b3JrLm8gXApkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kaXNwbGF5aWQuYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9kcm1fZGlzcGxheWlkLmMKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMDAw
-Li45MDhiYmU2ZmViNjEKLS0tIC9kZXYvbnVsbAorKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rp
-c3BsYXlpZC5jCkBAIC0wLDAgKzEsNTkgQEAKKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBN
-SVQKKy8qCisgKiBDb3B5cmlnaHQgwqkgMjAyMSBJbnRlbCBDb3Jwb3JhdGlvbgorICovCisKKyNp
-bmNsdWRlIDxkcm0vZHJtX2Rpc3BsYXlpZC5oPgorI2luY2x1ZGUgPGRybS9kcm1fZWRpZC5oPgor
-I2luY2x1ZGUgPGRybS9kcm1fcHJpbnQuaD4KKworc3RhdGljIGludCB2YWxpZGF0ZV9kaXNwbGF5
-aWQoY29uc3QgdTggKmRpc3BsYXlpZCwgaW50IGxlbmd0aCwgaW50IGlkeCkKK3sKKwlpbnQgaSwg
-ZGlzcGlkX2xlbmd0aDsKKwl1OCBjc3VtID0gMDsKKwljb25zdCBzdHJ1Y3QgZGlzcGxheWlkX2hk
-ciAqYmFzZTsKKworCWJhc2UgPSAoY29uc3Qgc3RydWN0IGRpc3BsYXlpZF9oZHIgKikmZGlzcGxh
-eWlkW2lkeF07CisKKwlEUk1fREVCVUdfS01TKCJiYXNlIHJldmlzaW9uIDB4JXgsIGxlbmd0aCAl
-ZCwgJWQgJWRcbiIsCisJCSAgICAgIGJhc2UtPnJldiwgYmFzZS0+Ynl0ZXMsIGJhc2UtPnByb2Rf
-aWQsIGJhc2UtPmV4dF9jb3VudCk7CisKKwkvKiArMSBmb3IgRGlzcElEIGNoZWNrc3VtICovCisJ
-ZGlzcGlkX2xlbmd0aCA9IHNpemVvZigqYmFzZSkgKyBiYXNlLT5ieXRlcyArIDE7CisJaWYgKGRp
-c3BpZF9sZW5ndGggPiBsZW5ndGggLSBpZHgpCisJCXJldHVybiAtRUlOVkFMOworCisJZm9yIChp
-ID0gMDsgaSA8IGRpc3BpZF9sZW5ndGg7IGkrKykKKwkJY3N1bSArPSBkaXNwbGF5aWRbaWR4ICsg
-aV07CisJaWYgKGNzdW0pIHsKKwkJRFJNX05PVEUoIkRpc3BsYXlJRCBjaGVja3N1bSBpbnZhbGlk
-LCByZW1haW5kZXIgaXMgJWRcbiIsIGNzdW0pOworCQlyZXR1cm4gLUVJTlZBTDsKKwl9CisKKwly
-ZXR1cm4gMDsKK30KKworY29uc3QgdTggKmRybV9maW5kX2Rpc3BsYXlpZF9leHRlbnNpb24oY29u
-c3Qgc3RydWN0IGVkaWQgKmVkaWQsCisJCQkJICAgICAgIGludCAqbGVuZ3RoLCBpbnQgKmlkeCwK
-KwkJCQkgICAgICAgaW50ICpleHRfaW5kZXgpCit7CisJY29uc3QgdTggKmRpc3BsYXlpZCA9IGRy
-bV9maW5kX2VkaWRfZXh0ZW5zaW9uKGVkaWQsIERJU1BMQVlJRF9FWFQsIGV4dF9pbmRleCk7CisJ
-Y29uc3Qgc3RydWN0IGRpc3BsYXlpZF9oZHIgKmJhc2U7CisJaW50IHJldDsKKworCWlmICghZGlz
-cGxheWlkKQorCQlyZXR1cm4gTlVMTDsKKworCS8qIEVESUQgZXh0ZW5zaW9ucyBibG9jayBjaGVj
-a3N1bSBpc24ndCBmb3IgdXMgKi8KKwkqbGVuZ3RoID0gRURJRF9MRU5HVEggLSAxOworCSppZHgg
-PSAxOworCisJcmV0ID0gdmFsaWRhdGVfZGlzcGxheWlkKGRpc3BsYXlpZCwgKmxlbmd0aCwgKmlk
-eCk7CisJaWYgKHJldCkKKwkJcmV0dXJuIE5VTEw7CisKKwliYXNlID0gKGNvbnN0IHN0cnVjdCBk
-aXNwbGF5aWRfaGRyICopJmRpc3BsYXlpZFsqaWR4XTsKKwkqbGVuZ3RoID0gKmlkeCArIHNpemVv
-ZigqYmFzZSkgKyBiYXNlLT5ieXRlczsKKworCXJldHVybiBkaXNwbGF5aWQ7Cit9CmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRp
-ZC5jCmluZGV4IGQ1MTBiODI3YTFmOC4uNThlNjFmNzkyYmM3IDEwMDY0NAotLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2VkaWQuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwpAQCAt
-MTU4NSw4ICsxNTg1LDYgQEAgbW9kdWxlX3BhcmFtX25hbWVkKGVkaWRfZml4dXAsIGVkaWRfZml4
-dXAsIGludCwgMDQwMCk7CiBNT0RVTEVfUEFSTV9ERVNDKGVkaWRfZml4dXAsCiAJCSAiTWluaW11
-bSBudW1iZXIgb2YgdmFsaWQgRURJRCBoZWFkZXIgYnl0ZXMgKDAtOCwgZGVmYXVsdCA2KSIpOwog
-Ci1zdGF0aWMgaW50IHZhbGlkYXRlX2Rpc3BsYXlpZChjb25zdCB1OCAqZGlzcGxheWlkLCBpbnQg
-bGVuZ3RoLCBpbnQgaWR4KTsKLQogc3RhdGljIGludCBkcm1fZWRpZF9ibG9ja19jaGVja3N1bShj
-b25zdCB1OCAqcmF3X2VkaWQpCiB7CiAJaW50IGk7CkBAIC0zMjQxLDggKzMyMzksOCBAQCBhZGRf
-ZGV0YWlsZWRfbW9kZXMoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rvciwgc3RydWN0IGVk
-aWQgKmVkaWQsCiAvKgogICogU2VhcmNoIEVESUQgZm9yIENFQSBleHRlbnNpb24gYmxvY2suCiAg
-Ki8KLXN0YXRpYyBjb25zdCB1OCAqZHJtX2ZpbmRfZWRpZF9leHRlbnNpb24oY29uc3Qgc3RydWN0
-IGVkaWQgKmVkaWQsCi0JCQkJCSBpbnQgZXh0X2lkLCBpbnQgKmV4dF9pbmRleCkKK2NvbnN0IHU4
-ICpkcm1fZmluZF9lZGlkX2V4dGVuc2lvbihjb25zdCBzdHJ1Y3QgZWRpZCAqZWRpZCwKKwkJCQkg
-IGludCBleHRfaWQsIGludCAqZXh0X2luZGV4KQogewogCWNvbnN0IHU4ICplZGlkX2V4dCA9IE5V
-TEw7CiAJaW50IGk7CkBAIC0zMjY2LDMyICszMjY0LDYgQEAgc3RhdGljIGNvbnN0IHU4ICpkcm1f
-ZmluZF9lZGlkX2V4dGVuc2lvbihjb25zdCBzdHJ1Y3QgZWRpZCAqZWRpZCwKIAlyZXR1cm4gZWRp
-ZF9leHQ7CiB9CiAKLQotc3RhdGljIGNvbnN0IHU4ICpkcm1fZmluZF9kaXNwbGF5aWRfZXh0ZW5z
-aW9uKGNvbnN0IHN0cnVjdCBlZGlkICplZGlkLAotCQkJCQkgICAgICBpbnQgKmxlbmd0aCwgaW50
-ICppZHgsCi0JCQkJCSAgICAgIGludCAqZXh0X2luZGV4KQotewotCWNvbnN0IHU4ICpkaXNwbGF5
-aWQgPSBkcm1fZmluZF9lZGlkX2V4dGVuc2lvbihlZGlkLCBESVNQTEFZSURfRVhULCBleHRfaW5k
-ZXgpOwotCWNvbnN0IHN0cnVjdCBkaXNwbGF5aWRfaGRyICpiYXNlOwotCWludCByZXQ7Ci0KLQlp
-ZiAoIWRpc3BsYXlpZCkKLQkJcmV0dXJuIE5VTEw7Ci0KLQkvKiBFRElEIGV4dGVuc2lvbnMgYmxv
-Y2sgY2hlY2tzdW0gaXNuJ3QgZm9yIHVzICovCi0JKmxlbmd0aCA9IEVESURfTEVOR1RIIC0gMTsK
-LQkqaWR4ID0gMTsKLQotCXJldCA9IHZhbGlkYXRlX2Rpc3BsYXlpZChkaXNwbGF5aWQsICpsZW5n
-dGgsICppZHgpOwotCWlmIChyZXQpCi0JCXJldHVybiBOVUxMOwotCi0JYmFzZSA9IChjb25zdCBz
-dHJ1Y3QgZGlzcGxheWlkX2hkciAqKSZkaXNwbGF5aWRbKmlkeF07Ci0JKmxlbmd0aCA9ICppZHgg
-KyBzaXplb2YoKmJhc2UpICsgYmFzZS0+Ynl0ZXM7Ci0KLQlyZXR1cm4gZGlzcGxheWlkOwotfQot
-CiBzdGF0aWMgY29uc3QgdTggKmRybV9maW5kX2NlYV9leHRlbnNpb24oY29uc3Qgc3RydWN0IGVk
-aWQgKmVkaWQpCiB7CiAJaW50IGxlbmd0aCwgaWR4OwpAQCAtNTI4NywzMiArNTI1OSw2IEBAIHUz
-MiBkcm1fYWRkX2Rpc3BsYXlfaW5mbyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLCBj
-b25zdCBzdHJ1Y3QgZWRpZCAqZWRpCiAJcmV0dXJuIHF1aXJrczsKIH0KIAotc3RhdGljIGludCB2
-YWxpZGF0ZV9kaXNwbGF5aWQoY29uc3QgdTggKmRpc3BsYXlpZCwgaW50IGxlbmd0aCwgaW50IGlk
-eCkKLXsKLQlpbnQgaSwgZGlzcGlkX2xlbmd0aDsKLQl1OCBjc3VtID0gMDsKLQljb25zdCBzdHJ1
-Y3QgZGlzcGxheWlkX2hkciAqYmFzZTsKLQotCWJhc2UgPSAoY29uc3Qgc3RydWN0IGRpc3BsYXlp
-ZF9oZHIgKikmZGlzcGxheWlkW2lkeF07Ci0KLQlEUk1fREVCVUdfS01TKCJiYXNlIHJldmlzaW9u
-IDB4JXgsIGxlbmd0aCAlZCwgJWQgJWRcbiIsCi0JCSAgICAgIGJhc2UtPnJldiwgYmFzZS0+Ynl0
-ZXMsIGJhc2UtPnByb2RfaWQsIGJhc2UtPmV4dF9jb3VudCk7Ci0KLQkvKiArMSBmb3IgRGlzcElE
-IGNoZWNrc3VtICovCi0JZGlzcGlkX2xlbmd0aCA9IHNpemVvZigqYmFzZSkgKyBiYXNlLT5ieXRl
-cyArIDE7Ci0JaWYgKGRpc3BpZF9sZW5ndGggPiBsZW5ndGggLSBpZHgpCi0JCXJldHVybiAtRUlO
-VkFMOwotCi0JZm9yIChpID0gMDsgaSA8IGRpc3BpZF9sZW5ndGg7IGkrKykKLQkJY3N1bSArPSBk
-aXNwbGF5aWRbaWR4ICsgaV07Ci0JaWYgKGNzdW0pIHsKLQkJRFJNX05PVEUoIkRpc3BsYXlJRCBj
-aGVja3N1bSBpbnZhbGlkLCByZW1haW5kZXIgaXMgJWRcbiIsIGNzdW0pOwotCQlyZXR1cm4gLUVJ
-TlZBTDsKLQl9Ci0KLQlyZXR1cm4gMDsKLX0KLQogc3RhdGljIHN0cnVjdCBkcm1fZGlzcGxheV9t
-b2RlICpkcm1fbW9kZV9kaXNwbGF5aWRfZGV0YWlsZWQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwK
-IAkJCQkJCQkgICAgc3RydWN0IGRpc3BsYXlpZF9kZXRhaWxlZF90aW1pbmdzXzEgKnRpbWluZ3Mp
-CiB7CmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZGlzcGxheWlkLmggYi9pbmNsdWRlL2Ry
-bS9kcm1fZGlzcGxheWlkLmgKaW5kZXggZjE0MWMwZWZmMDgzLi4zYzZkYjIyYTUxOGEgMTAwNjQ0
-Ci0tLSBhL2luY2x1ZGUvZHJtL2RybV9kaXNwbGF5aWQuaAorKysgYi9pbmNsdWRlL2RybS9kcm1f
-ZGlzcGxheWlkLmgKQEAgLTIyLDYgKzIyLDEwIEBACiAjaWZuZGVmIERSTV9ESVNQTEFZSURfSAog
-I2RlZmluZSBEUk1fRElTUExBWUlEX0gKIAorI2luY2x1ZGUgPGxpbnV4L3R5cGVzLmg+CisKK3N0
-cnVjdCBlZGlkOworCiAjZGVmaW5lIERBVEFfQkxPQ0tfUFJPRFVDVF9JRCAweDAwCiAjZGVmaW5l
-IERBVEFfQkxPQ0tfRElTUExBWV9QQVJBTUVURVJTIDB4MDEKICNkZWZpbmUgREFUQV9CTE9DS19D
-T0xPUl9DSEFSQUNURVJJU1RJQ1MgMHgwMgpAQCAtMTAwLDQgKzEwNCw4IEBAIHN0cnVjdCBkaXNw
-bGF5aWRfZGV0YWlsZWRfdGltaW5nX2Jsb2NrIHsKIAkgICAgIChpZHgpICs9IHNpemVvZihzdHJ1
-Y3QgZGlzcGxheWlkX2Jsb2NrKSArIChibG9jayktPm51bV9ieXRlcywgXAogCSAgICAgKGJsb2Nr
-KSA9IChjb25zdCBzdHJ1Y3QgZGlzcGxheWlkX2Jsb2NrICopJihkaXNwbGF5aWQpW2lkeF0pCiAK
-K2NvbnN0IHU4ICpkcm1fZmluZF9kaXNwbGF5aWRfZXh0ZW5zaW9uKGNvbnN0IHN0cnVjdCBlZGlk
-ICplZGlkLAorCQkJCSAgICAgICBpbnQgKmxlbmd0aCwgaW50ICppZHgsCisJCQkJICAgICAgIGlu
-dCAqZXh0X2luZGV4KTsKKwogI2VuZGlmCmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZWRp
-ZC5oIGIvaW5jbHVkZS9kcm0vZHJtX2VkaWQuaAppbmRleCBhMTU4ZjU4NWY2NTguLjc1OTMyOGE1
-ZWViMiAxMDA2NDQKLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2VkaWQuaAorKysgYi9pbmNsdWRlL2Ry
-bS9kcm1fZWRpZC5oCkBAIC01NDMsNSArNTQzLDggQEAgc3RydWN0IGRybV9kaXNwbGF5X21vZGUg
-KmRybV9tb2RlX2ZpbmRfZG10KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiBzdHJ1Y3QgZHJtX2Rp
-c3BsYXlfbW9kZSAqCiBkcm1fZGlzcGxheV9tb2RlX2Zyb21fY2VhX3ZpYyhzdHJ1Y3QgZHJtX2Rl
-dmljZSAqZGV2LAogCQkJICAgICAgdTggdmlkZW9fY29kZSk7Citjb25zdCB1OCAqZHJtX2ZpbmRf
-ZWRpZF9leHRlbnNpb24oY29uc3Qgc3RydWN0IGVkaWQgKmVkaWQsCisJCQkJICBpbnQgZXh0X2lk
-LCBpbnQgKmV4dF9pbmRleCk7CisKIAogI2VuZGlmIC8qIF9fRFJNX0VESURfSF9fICovCi0tIAoy
-LjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Iterating DisplayID blocks across sections (in EDID extensions) is
+unnecessarily complicated for the caller. Implement DisplayID iterators
+to go through all blocks in all sections.
+
+Usage example:
+
+	const struct displayid_block *block;
+	struct displayid_iter iter;
+
+	displayid_iter_edid_begin(edid, &iter);
+	displayid_iter_for_each(block, &iter) {
+		/* operate on block */
+	}
+	displayid_iter_end(&iter);
+
+When DisplayID is stored in EDID extensions, the DisplayID sections map
+to extensions as described in VESA DisplayID v1.3 Appendix B: DisplayID
+as an EDID Extension. This is implemented here.
+
+When DisplayID is stored in its dedicated DDC device 0xA4, according to
+VESA E-DDC v1.3, different rules apply for the structure. This is not
+implemented here, as we don't currently use it, but the idea is you'd
+have a different call for beginning the iteration, for example simply:
+
+	displayid_iter_begin(displayid, &iter);
+
+instead of displayid_iter_edid_begin(), and everything else would be
+hidden away in the iterator functions.
+
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/drm_displayid.c | 74 +++++++++++++++++++++++++++++++++
+ include/drm/drm_displayid.h     | 18 ++++++++
+ 2 files changed, 92 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_displayid.c b/drivers/gpu/drm/drm_displayid.c
+index 908bbe6feb61..88070267aac9 100644
+--- a/drivers/gpu/drm/drm_displayid.c
++++ b/drivers/gpu/drm/drm_displayid.c
+@@ -57,3 +57,77 @@ const u8 *drm_find_displayid_extension(const struct edid *edid,
+ 
+ 	return displayid;
+ }
++
++void displayid_iter_edid_begin(const struct edid *edid,
++			       struct displayid_iter *iter)
++{
++	memset(iter, 0, sizeof(*iter));
++
++	iter->edid = edid;
++}
++
++static const struct displayid_block *
++__displayid_iter_block(const struct displayid_iter *iter)
++{
++	const struct displayid_block *block;
++
++	if (!iter->section)
++		return NULL;
++
++	block = (const struct displayid_block *)&iter->section[iter->idx];
++
++	if (iter->idx + sizeof(struct displayid_block) <= iter->length &&
++	    iter->idx + sizeof(struct displayid_block) + block->num_bytes <= iter->length &&
++	    block->num_bytes > 0)
++		return block;
++
++	return NULL;
++}
++
++const struct displayid_block *
++__displayid_iter_next(struct displayid_iter *iter)
++{
++	const struct displayid_block *block;
++
++	if (!iter->edid)
++		return NULL;
++
++	if (iter->section) {
++		/* current block should always be valid */
++		block = __displayid_iter_block(iter);
++		if (WARN_ON(!block)) {
++			iter->section = NULL;
++			iter->edid = NULL;
++			return NULL;
++		}
++
++		/* next block in section */
++		iter->idx += sizeof(struct displayid_block) + block->num_bytes;
++
++		block = __displayid_iter_block(iter);
++		if (block)
++			return block;
++	}
++
++	for (;;) {
++		iter->section = drm_find_displayid_extension(iter->edid,
++							     &iter->length,
++							     &iter->idx,
++							     &iter->ext_index);
++		if (!iter->section) {
++			iter->edid = NULL;
++			return NULL;
++		}
++
++		iter->idx += sizeof(struct displayid_hdr);
++
++		block = __displayid_iter_block(iter);
++		if (block)
++			return block;
++	}
++}
++
++void displayid_iter_end(struct displayid_iter *iter)
++{
++	memset(iter, 0, sizeof(*iter));
++}
+diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
+index 3c6db22a518a..27e06c98db17 100644
+--- a/include/drm/drm_displayid.h
++++ b/include/drm/drm_displayid.h
+@@ -108,4 +108,22 @@ const u8 *drm_find_displayid_extension(const struct edid *edid,
+ 				       int *length, int *idx,
+ 				       int *ext_index);
+ 
++/* DisplayID iteration */
++struct displayid_iter {
++	const struct edid *edid;
++
++	const u8 *section;
++	int length;
++	int idx;
++	int ext_index;
++};
++
++void displayid_iter_edid_begin(const struct edid *edid,
++			       struct displayid_iter *iter);
++const struct displayid_block *
++__displayid_iter_next(struct displayid_iter *iter);
++#define displayid_iter_for_each(__block, __iter) \
++	while (((__block) = __displayid_iter_next(__iter)))
++void displayid_iter_end(struct displayid_iter *iter);
++
+ #endif
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
