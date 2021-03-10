@@ -2,28 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54DA33401B
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 15:15:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B26F33401C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 15:15:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4FBF6EA2C;
-	Wed, 10 Mar 2021 14:15:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 435A56EA31;
+	Wed, 10 Mar 2021 14:15:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 564EA6EA2C
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 14:15:48 +0000 (UTC)
-Date: Wed, 10 Mar 2021 14:15:32 +0000
+Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch
+ [185.70.40.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E86EB6EA31
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 14:15:53 +0000 (UTC)
+Date: Wed, 10 Mar 2021 14:15:36 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1615385741;
- bh=B+5FHl79Yi6pudtpqI8eO6IXoaiFyOII/lX7y83NyLY=;
+ s=protonmail; t=1615385746;
+ bh=KPlV8uauSKQh6xJNRmCfmwrENr3I7Vm4FgLUagqEE2A=;
  h=Date:To:From:Reply-To:Subject:In-Reply-To:References:From;
- b=igzd+NdaunRGvtXvd7fi4ZFILuIyJIQ5PDJHlPGniV6td4NiX/XaA0fCmEtb4j6Hr
- vXTwx7FLZ/ie/httqtX3cPQVkdeMqPCALUnLwcHYNsroULV4S0xUlKSVHjFAO0H/In
- 3o52aGxBpYxBuLbIkvU3XSEvpc1aaAYPqgsqLEZo=
+ b=lYenuFpvvFrNBmoIL/sMxX2CCA/qdGYV+iE8jAdoOS5DYPYDpNYoFYYKmTpmFRJuF
+ 1cNI9BoB4fmfTE95aKhIZmMs5Lkj6VDBhOIU4eCpoHimz1Bq7jVtWnMr/WgaVASB69
+ 7UgMBKhUIPw64Kjsjwd0iUDj4F01eRb8dvI3zhVo=
 To: dri-devel@lists.freedesktop.org
 From: chatzem <chatzem@protonmail.com>
 Subject: Re: dri-devel Digest, Vol 132, Issue 196
-Message-ID: <CofA6RBkAW2P4oUY_a9X2x2617xQ5MXMlDxTwkylyRg-vPrXwAaJ3lNU7xElyiCcqbwedGQz_KYww0SXcqL7OA_sqwI_cSWKU2Cd8o-0MBA=@protonmail.com>
+Message-ID: <QGa0vmNTny85ipvwIQj43AKa2r54eB7xcpgowOIlVriZGvAN2nztYnlC-mRQenCdM5kNo8b2gK4hG9dbkcLR_y5bClqbajXLQVk4OWetGiw=@protonmail.com>
 In-Reply-To: <mailman.18709.1615371015.1020.dri-devel@lists.freedesktop.org>
 References: <mailman.18709.1615371015.1020.dri-devel@lists.freedesktop.org>
 MIME-Version: 1.0
@@ -45,19 +46,19 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: chatzem <chatzem@protonmail.com>
-Content-Type: multipart/mixed; boundary="===============0745982637=="
+Content-Type: multipart/mixed; boundary="===============1041560440=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a multi-part message in MIME format.
 
---===============0745982637==
+--===============1041560440==
 Content-Type: multipart/alternative;
- boundary="b1_LIGsApUNP41251WDebXK3ZQEWIepVPXjpSe0BVV3g"
+ boundary="b1_hIMQ1GE7cnsV9RD7JrrAZq5YxquOeJem0WwJGfnZm4"
 
 This is a multi-part message in MIME format.
 
---b1_LIGsApUNP41251WDebXK3ZQEWIepVPXjpSe0BVV3g
+--b1_hIMQ1GE7cnsV9RD7JrrAZq5YxquOeJem0WwJGfnZm4
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: base64
 
@@ -390,7 +391,7 @@ dmVsCj4KPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPgo+IEVuZCBvZiBkcmktZGV2
 ZWwgRGlnZXN0LCBWb2wgMTMyLCBJc3N1ZSAxOTYKPiAqKioqKioqKioqKioqKioqKioqKioqKioq
 KioqKioqKioqKioqKioqKioq
 
---b1_LIGsApUNP41251WDebXK3ZQEWIepVPXjpSe0BVV3g
+--b1_hIMQ1GE7cnsV9RD7JrrAZq5YxquOeJem0WwJGfnZm4
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: base64
 
@@ -808,10 +809,10 @@ IFZvbCAxMzIsIElzc3VlIDE5Njxicj4NCioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
 KioqKioqKioqKio8YnI+DQo8L3A+DQo8L2Rpdj4=
 
 
---b1_LIGsApUNP41251WDebXK3ZQEWIepVPXjpSe0BVV3g--
+--b1_hIMQ1GE7cnsV9RD7JrrAZq5YxquOeJem0WwJGfnZm4--
 
 
---===============0745982637==
+--===============1041560440==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -822,5 +823,5 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0745982637==--
+--===============1041560440==--
 
