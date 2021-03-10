@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3E5133397A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 11:09:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D0D33397B
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 11:09:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B13A06E9F1;
-	Wed, 10 Mar 2021 10:09:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DE786E9F3;
+	Wed, 10 Mar 2021 10:09:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com
- (mail-eopbgr130074.outbound.protection.outlook.com [40.107.13.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A946B6E9F1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 10:09:39 +0000 (UTC)
+Received: from EUR03-AM5-obe.outbound.protection.outlook.com
+ (mail-eopbgr30072.outbound.protection.outlook.com [40.107.3.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3431A6E9F3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 10:09:46 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=buHU3n3Lo6uGjwl6mZQjhU0ok1NHcEPYewUYlYvktPgOKTIFc3cBY4J3pmJ8cqv1LEk1QzCP1oL5gy95iT95NZUfZs+zjLRREe3GLAgwit/ThkXWpHtoNo8XINQOGkn8D6cHiMJtKCXgs/p3jmJKoDudWwBBdt/wSi0XHhFYx7Ikn76F4VesGK/LgDE219zsO0MPvZVQNry9uF7/S5MdHmUGtDLRpAOIdvIqZbbcbSEhPZTMYjO7NpnLDnluSin8Bc+PZHRwrGi3wF57Q7Soe2ADCuAY69JjDSydlYf/u0U6BhCb54BGvy/XyTJvE75aCWt0ICDK/DcKXzNKzXjJjQ==
+ b=Vwka3FKQGlPWZ1pUKAVBA07/0Qv4rlm+EOiGvsGqyGEGUziAZ5v7ra5tpNKbGHeIMd3uV/o+QCV8rG1PztPpKQOyUfRUTv898gwlp8EgFSIGNgJgpCR4+bcYDzwzNcSZXYqQq+JttkKRDT8Hr2jmoO73UFCssVl3/NkFgigK9LrlfG1lgRa6I94RJMb6RdD5ipCH/jBYoHQy5pMQayW8eqSDCHiZabKkegxK+1EBv9oYp1O2cVB9Yfs4BPGwPtQsuQdhPQdXal1/irqqQWMD7tQjnu4KuzgEER2r7PVtUIzoHI2GTW6zx8CDkCDSk9zO0kpYEAi4vMemZLJDPK5f7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=46UgzkVnwpzfZGZ5iSOIB2PzEXgN4ntcGflpXKGp77w=;
- b=PpsM8ALL+a+ikGoqQRENRLY60dAdo1RPxjqA4kRESV8vT0xI4wlUAmkGotTFOt6/y3jBOygSSxk/x/xUq1cYrZjyB+6cgmQ7yKIAA7+UYZ+hPAOYwZ/zUMlwzXoYj53tQvi2yDk64YV9rprmvemFnnv1P8tsoDE9XdYyBvd/sPPd/3UmLIIIergY5t5ljh5hGFczXp1RyeVmvZkN93oDfGDAx+w2l7QhAFEveuG2OJFB/BXCKL4j2QwMzpHR0pykVtZMHWdUYdi7bG3mdSwIXQUUPDBl4Uq1aiYc52VCCaV0z1H1l0wtRdyl7Y3qCxYqOjhif7FTrSZem9oWhJRS2w==
+ bh=rnWpmM0X/4Y/yLtRyLpcQ1d8AJTqEF6dyg8o70HruRc=;
+ b=F4NpiPZ0BGMV1uqKST0o1037NSvFsbq/hHC9ALAnPSZ7YZTs3Gh/y9+QUwAh/lKRmwAbexBG5wTs2EXQDy1eoh56SK4DzQ/LnP398auJaiMlbjxHhn37+P1zlH6CAzCCMgP8NpifllHRHxZ4OOn6BC3bKqbsscxh1CWrQwMvrlyeYOtcdWYRFB8mXG7NSgNuqOtDwEuRSk+7ZwGZA9pb6PB1P6q1HYuOjpTeaWdjDG+j8q/Vqhr6b8Oxg/hBTmZw5l+mns3uABDtmBUdZ/6avj1ydWkFhDAaCN1FoiiZ9BH08Sh2zRiJpA8ur7MjDPaucYQ1KYjl83uxibY38Ea5wA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=46UgzkVnwpzfZGZ5iSOIB2PzEXgN4ntcGflpXKGp77w=;
- b=sreWkFejhHgXtB3ds/ZCx3rrzuoGLFMZtslyUe2yDHllrBENtRvh8xs4lMa11Q8aOMJbzmnngGXfG2JrFi+9TfhXY0lss++w2bCqZN+i7vUx4pb+q5RPw5pFjvvpuKEgoRz20s6j3YZ7DsQKmWDksMLfPBcox4op6nx4CGKjLSc=
+ bh=rnWpmM0X/4Y/yLtRyLpcQ1d8AJTqEF6dyg8o70HruRc=;
+ b=XHq0nN0WrPk2rPntaUD3IBawh8BbswFkohLA1pWAApSb/jykmKqFXWZnhRLHpYI47LZG70/DSsDwaa83G3W5jk3zaWWawodu78ELo8KK0cWtwvHgZK2XO16ITIDDuF0qmgjRlQ2Rnh2apHnbjsmbAMUaFw7IfGmzTTLau9A0BuI=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=nxp.com;
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR0401MB2318.eurprd04.prod.outlook.com (2603:10a6:800:27::12)
+ by VI1PR0402MB2813.eurprd04.prod.outlook.com (2603:10a6:800:b1::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17; Wed, 10 Mar
- 2021 10:09:36 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.23; Wed, 10 Mar
+ 2021 10:09:43 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3912.028; Wed, 10 Mar 2021
- 10:09:36 +0000
+ 10:09:43 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
-Subject: [PATCH v5 06/14] drm/bridge: imx: Add i.MX8qm/qxp display pixel link
- support
-Date: Wed, 10 Mar 2021 17:55:30 +0800
-Message-Id: <1615370138-5673-7-git-send-email-victor.liu@nxp.com>
+Subject: [PATCH v5 07/14] dt-bindings: mfd: Add i.MX8qm/qxp Control and Status
+ Registers module binding
+Date: Wed, 10 Mar 2021 17:55:31 +0800
+Message-Id: <1615370138-5673-8-git-send-email-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1615370138-5673-1-git-send-email-victor.liu@nxp.com>
 References: <1615370138-5673-1-git-send-email-victor.liu@nxp.com>
@@ -59,54 +59,54 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (119.31.174.66) by
  HK2PR06CA0010.apcprd06.prod.outlook.com (2603:1096:202:2e::22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.3912.17 via Frontend Transport; Wed, 10 Mar 2021 10:09:30 +0000
+ 15.20.3912.17 via Frontend Transport; Wed, 10 Mar 2021 10:09:36 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 696be50a-b0bb-4e17-da22-08d8e3ac9bda
-X-MS-TrafficTypeDiagnostic: VI1PR0401MB2318:
+X-MS-Office365-Filtering-Correlation-Id: a1464fa2-9da9-4fea-0494-08d8e3ac9fbb
+X-MS-TrafficTypeDiagnostic: VI1PR0402MB2813:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR0401MB2318D04F24653FBFE87BDF1E98919@VI1PR0401MB2318.eurprd04.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <VI1PR0402MB281392A14B62F7E186D3DB4F98919@VI1PR0402MB2813.eurprd04.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:2150;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UC9gjmGWoPdVysbldtkm8SyNqpn2OHh0qdCoVjcgnokljdOHtIqs1TL4kSTxKP7GOA0JNLNVKlosGIlxEEGo33Koc6tbLf/b3FF3jLv5Q/4UWfqe5pbVAO8wK67HZ95+kRepxS/AaA4GXWjmw9osOsY8qgY8ung/rhGRN0dTZWdg2d5+MdehcslxoMBfHAUty0oxf4e3wJVYTwGDPIG+lJt/6gX0RuhwgnXOj5RkPuS2Cv2kZEM/UHxJtH9BO7szfXk2kfxufh6hefbkVIz2kIHzjPPDnyHkr/u4kHhqP7ewjCS1JNQEAQubBR3Z+WaKzJm07Or8Tic1VZHmO1tdon7i5F3h4EwhmHYVMCafST16F496Sy9MbxcDr+k29GKVFe+IraylhEbXH0Y5nwcDV10wMF75YZztrkz/+QBj6MmhtuvsUMTkHItirI7h68ypWoL0OURh/LnR4PXyi0vS9+TXZX5caOqly7tTmRmzP4MrtNsgGOsg2U9WOUDZsnEUbcS5krO0nvXcI4OX2WbrTHkf/KQQbD6J7W3il6zMr5VKPsShCxQS0nOpjvwYH+oJ3WdwMk290lhejEPZ3kcFBw==
+X-Microsoft-Antispam-Message-Info: AK/CM1vB8J48M95ZotgVhNEBB7Avl6zXbd6RK8vBvboy3/jWpa22H2RbTli36uaDHQkFq2FqWIyrUcZov2lWUyRE/MVppBoGZ7fovpk+U6iZ98Vquh5HV2BQiL8178d06xS8YIzgSBe5+2MqzTiQTHtEXciU1SQINujldv0FJgba2Q6jejsBF8rhuXdONUO3MyarYS9TxKzBQF+coQLGXF85EKiKtP8vH/FhGVseiG89QOAI5mMIJ+vBNeUs0tgENVEkHBoJbExuERAUFcmO1Ds5EJsaXKU4RYproNo2WOoD9S+qk3QQuwWf4pfSMF64WmodvoTUD8dydRxdAO+1qF+74mORl+nCa5BEjQPH9/d7IV4zON1FdYSCUciHfSwQpb4tUtwqXvLnO3re1iydGeWE6BuggHnSPmuSOFRkHy/Teu/A06t1NnoDeyglCxZXnqheftDlFyRPjU45Xz/J/G+k5GD7SD12DoSKKnd5iNPyaWU9MOv7pbwxowbMo5JewVhGansPi7A3XnBeZRhl5gYB8BrrXbAU+XckaC9B4hKZgugy1fnIcLOFJQodezjXq9LxAVZ07N7zc7dPnnzTFEjZkNi0X7PPfKNNbo3Cf8WMFhuJTvTwDCA9j45WT/wICIBJrTfDBCysw5z6wPweVw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(136003)(396003)(366004)(376002)(346002)(66476007)(66556008)(8936002)(30864003)(6512007)(2616005)(36756003)(6506007)(316002)(66946007)(69590400012)(956004)(4326008)(86362001)(16526019)(5660300002)(478600001)(8676002)(2906002)(52116002)(6486002)(186003)(7416002)(26005);
+ SFS:(4636009)(366004)(376002)(346002)(39860400002)(396003)(136003)(8936002)(69590400012)(6512007)(6666004)(26005)(36756003)(6506007)(956004)(83380400001)(8676002)(2616005)(5660300002)(52116002)(6486002)(316002)(7416002)(478600001)(966005)(186003)(66946007)(2906002)(66476007)(66556008)(16526019)(86362001)(4326008);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?PYkKw39Q//LvJZhUz3RR3szcHU7Y5SX+Yh24PyHPAbZN6SQajiZpLD7dscRT?=
- =?us-ascii?Q?W4rC7Ym/jWbHraOSuZ75o5oXw0c+xjdSVhZ30nMgeY0+3oAEzB79VP8MYyyD?=
- =?us-ascii?Q?bayuTFRp1Zload4bppoqw/o/FewEjwSbgVtzTLmt4iQPEFOptNQmgXh9pNkc?=
- =?us-ascii?Q?MVmbm17SPziANf8gHdOsUAx0Ln0CPd/EyYd3WVtGt5+4BR9kNqCgggFcfWPJ?=
- =?us-ascii?Q?JAuDzF6/1C9cbDYKont6yHEO5WQNP8UMGSmAITEhiH6aKNtCXCLfTkfK9S9D?=
- =?us-ascii?Q?xPORUHQUT6DtfUwcTdphJSVVl9YieW7WQYPfyGCZyy3Cq/Ak1XbogGvePujB?=
- =?us-ascii?Q?EIBHMAS3ImIe+ua1GwuDOYX4EHPiPfFHcZCE4hftRyvS1VT1xycU9uS3ObgU?=
- =?us-ascii?Q?NR5KZBGgiVjkBXA/VkdQxV3qP3Y/F4eR4jPEBfzLjvolAe1IFpfOWpbWtjjn?=
- =?us-ascii?Q?LN+G4NsD30t0rOa16I64TTzarDHJT/ZXCC7WsSqhmY3QDoyM4aZ/Ef9H+S72?=
- =?us-ascii?Q?p2eH7HuGA9oFyrgh7YEznL5LTlCFyeRvs9glmsXqfLU2nMZpqQ/Iorg1ytJm?=
- =?us-ascii?Q?RPgoy4gPoADP7WfAxUujY5o3DWgIrZTzzfG3oPHBjbomawgS2avz0VP3dQAb?=
- =?us-ascii?Q?p9oKoF0B7SZyVFxyMq1m6L86zt3IQQ8CKZS4X5XstsKNoO51qzdz1RCNe7vX?=
- =?us-ascii?Q?AmAduKoKsailvTUB3Ppljt4SRK8kJDEYP6nwZPkeapJcLGOSmkxJfZXy6qoJ?=
- =?us-ascii?Q?0dxEJ40tnyIUDBbC8w5XuysFYKn/cC3ID3wMox5HLFwWulCl7DzQLMadBHBi?=
- =?us-ascii?Q?g85V3Lkn2WuPioSiN0a6M/RM4PjZZ62WCIipmApYD0cwGPXBiepZdGXpN8UQ?=
- =?us-ascii?Q?cpO9WBNjMZRpaKIdr2MP4gYnyEp7dj015B4iULK90M86lBo+jTQXXtMC71Mi?=
- =?us-ascii?Q?bD9lr6inzXLo8K7ltOcCTfqbW7mVSEW7GzMgabNufcdvbC01qLd1BWdl5mQs?=
- =?us-ascii?Q?gf7wSF8/opEQ5Lw0cZjaqtri8IL1VTAwsSpWF82yd4PcNdEKl5IquW+wtQX+?=
- =?us-ascii?Q?0TCP73+Tf41lXc6a2b7SlvL4zlcWI6e3aW8QDbNF5MuodKvZTG8oXaOwilqf?=
- =?us-ascii?Q?/IpNR8oJXfaf9hRe/hFgHmEM06FISFhCrdKRWkY8EqPAnkXneoWkJKWreSuv?=
- =?us-ascii?Q?D9rgnmO4oYXebm27F/iAB18Fk1173kgAVFSfNPeyhaexA/AYujkNY+j1JhuN?=
- =?us-ascii?Q?hw0RO+mEfqXzmBoqBzi4RFT356S6GDOnexVp4XZFhtA57PxRw0FARKzEtAsN?=
- =?us-ascii?Q?Es+iiJShSVc5jNOOokJ64KKG?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?dOT9XY+EcMRBWOf0DsfNQQfWdA/b4PBR9OPooktLfK1wsXrhUBNs0YpGL1Yf?=
+ =?us-ascii?Q?x3DU61wxdsiBv/fpTt6uciWb/2R7ZRfvDfb1dYpD5q2sbl+Tc90rnq4atpDa?=
+ =?us-ascii?Q?EJIM5MbUuRrkAwOrVm26QGyE4qQzxrEnXc6Zti5R4Hsdb1Houxs3ZaDncZ83?=
+ =?us-ascii?Q?Jdx0zNKlez6WMLn1oF7TsnSbF0UDn1UnUO8EVNzOsbgbVia1tpBwQY62qbuH?=
+ =?us-ascii?Q?0Ob0/TyZ1W21i7hQNpURTWx6Bd+KGsLEkMypUs3lxrjUesjva20HmbWpvg4u?=
+ =?us-ascii?Q?ZRRUN089nFqqyHIvOYjBOHyy2ppvS7bBQFFlPoVaERgbMQQl674lTk8Gqxko?=
+ =?us-ascii?Q?UOpOoUl27/SnKOgYh5oV/ZKZnGDhj+npeLeWCCbT8z8jbS0JAuvYXlytonsR?=
+ =?us-ascii?Q?FJheDWvAFy+817TO0QvOrOcVg7lOcwDOfpHWEHmxCabI6jpYSWPFQAggVY8c?=
+ =?us-ascii?Q?F6FcaRApUcX9aOaek6PLULANTOFK2nhQucfCMUhzzDQEXcoV5hNl6jhBUM4j?=
+ =?us-ascii?Q?Zpb/S09yqAGgEXcETcXgULjdkVSjn1nk6Xrc3/lCYDSz6LhCXMgWbiHImYaE?=
+ =?us-ascii?Q?ll7FQFeESh0F4G7LTNYR1GRQQaesiCAMNfG+LhiQvOyUwTj1lQnroVpD0sS/?=
+ =?us-ascii?Q?+9dJf2BGw2ue+h2v/rK9iI/0orjj5ThkYzFpUK+erptGTj8J8U7TXYdDb9KX?=
+ =?us-ascii?Q?kz1yqPGRQTrAhxhcACPnhnKB2itkjU57hYDr5mYEe2xgYQyXyTKnmtdDI1Q3?=
+ =?us-ascii?Q?W2L14QC/Ilv+2yhSH9vRBRWcZTB/wuDe9rXNLkFKmOL/9z0q+jq2n0vrpWSE?=
+ =?us-ascii?Q?6nYuKKXyFzeoQEsnbUhRIi1jLp5bUwhmUNsKJN6kq5fuUqf+AsnhQby7phZ7?=
+ =?us-ascii?Q?ao4KUFjUCak08w/WBa8/GcdknOEjyEJANiibTzjJuoPAqUMUxtzSONYCn8/C?=
+ =?us-ascii?Q?VZkylkInUFg0csgI2wC4rPp/wdTSLedU7PPrP1HFSXBwJhPUGZxIOU4DF9Yl?=
+ =?us-ascii?Q?0igwxAACKqmVIzST72/veLusH3xzIB1FY7WlW029PJ9dQM6msr5KOWJThjr8?=
+ =?us-ascii?Q?A3ulKrT9TxlhHNd2VszXZAEvxXJmOqMFUaCmC3BFMXcm4+x0J2vVAnbDT3uh?=
+ =?us-ascii?Q?x2NAz1yEkjZApolX6Mc9aVZWMHqPTJtVnkIryLrr4SfXbRWEaKyYncv/82Z/?=
+ =?us-ascii?Q?PMqKiyM1rHXBGQNB7aHb3JbYXD8NHZ6bariSQ8V15LaDXrCZ+S9zf2DTpryA?=
+ =?us-ascii?Q?Ki2UJIRZltZKSNMhvv4S6GLJ4ryPwD8XzYpApuMnIAFKEZBm+sk7aeRBjj32?=
+ =?us-ascii?Q?Dbi/V0T1jP/nHz0ACGXEtQoY?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 696be50a-b0bb-4e17-da22-08d8e3ac9bda
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1464fa2-9da9-4fea-0494-08d8e3ac9fbb
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2021 10:09:36.5504 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2021 10:09:43.0626 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Oj5axFWPF1omkj1tlwqbO3pnhTAM9x8wjA7NdTbFkC6XBC3QWENFUNV+wAZ2mpuGY2wrl2w2N/vfGCXee9zNRg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0401MB2318
+X-MS-Exchange-CrossTenant-UserPrincipalName: SQf8GCOjxovPh5xkcofDqbo3itxDOE4OvJDq4OGamk5SyLqOL9C2zhQSAlyhYeNRuk5zfKZYh1oSh3Ce0zHHrA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB2813
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,494 +129,225 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds a drm bridge driver for i.MX8qm/qxp display pixel link.
-The pixel link forms a standard asynchronous linkage between
-pixel sources(display controller or camera module) and pixel
-consumers(imaging or displays).  It consists of two distinct
-functions, a pixel transfer function and a control interface.
+This patch adds bindings for i.MX8qm/qxp Control and Status Registers module.
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
 v4->v5:
-* Make a comment occupy a line. (Robert)
-* Add Robert's R-b tag.
+* Newly introduced in v5. (Rob)
 
-v3->v4:
-* No change.
+ .../devicetree/bindings/mfd/fsl,imx8qxp-csr.yaml   | 202 +++++++++++++++++++++
+ 1 file changed, 202 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/fsl,imx8qxp-csr.yaml
 
-v2->v3:
-* Drop two macros which help define functions and define them directly.
-* Properly disable all pixel link controls to POR value by calling
-  imx8qxp_pixel_link_disable_all_controls() from
-  imx8qxp_pixel_link_bridge_probe().
-
-v1->v2:
-* Rewrite the function to find the next bridge by properly using OF APIs
-  and dropping unnecessary DT validation. (Rob)
-
- drivers/gpu/drm/bridge/imx/Kconfig              |   8 +
- drivers/gpu/drm/bridge/imx/Makefile             |   1 +
- drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c | 427 ++++++++++++++++++++++++
- 3 files changed, 436 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-
-diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-index f1c91b6..4d1f027 100644
---- a/drivers/gpu/drm/bridge/imx/Kconfig
-+++ b/drivers/gpu/drm/bridge/imx/Kconfig
-@@ -6,3 +6,11 @@ config DRM_IMX8QXP_PIXEL_COMBINER
- 	help
- 	  Choose this to enable pixel combiner found in
- 	  Freescale i.MX8qm/qxp processors.
-+
-+config DRM_IMX8QXP_PIXEL_LINK
-+	tristate "Freescale i.MX8QM/QXP display pixel link"
-+	depends on OF
-+	select DRM_KMS_HELPER
-+	help
-+	  Choose this to enable display pixel link found in
-+	  Freescale i.MX8qm/qxp processors.
-diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
-index 7d7c8d6..c15469f 100644
---- a/drivers/gpu/drm/bridge/imx/Makefile
-+++ b/drivers/gpu/drm/bridge/imx/Makefile
-@@ -1 +1,2 @@
- obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
-+obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) += imx8qxp-pixel-link.o
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
+diff --git a/Documentation/devicetree/bindings/mfd/fsl,imx8qxp-csr.yaml b/Documentation/devicetree/bindings/mfd/fsl,imx8qxp-csr.yaml
 new file mode 100644
-index 00000000..a549624
+index 00000000..0e724d9
 --- /dev/null
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-@@ -0,0 +1,427 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+
-+/*
-+ * Copyright 2020 NXP
-+ */
-+
-+#include <linux/firmware/imx/svc/misc.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_graph.h>
-+#include <linux/platform_device.h>
-+
-+#include <drm/drm_atomic_state_helper.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_print.h>
-+
-+#include <dt-bindings/firmware/imx/rsrc.h>
-+
-+#define DRIVER_NAME		"imx8qxp-display-pixel-link"
-+#define PL_MAX_MST_ADDR		3
-+#define PL_MAX_NEXT_BRIDGES	2
-+
-+struct imx8qxp_pixel_link {
-+	struct drm_bridge bridge;
-+	struct drm_bridge *next_bridge;
-+	struct device *dev;
-+	struct imx_sc_ipc *ipc_handle;
-+	int id;
-+	int stream_id;
-+	int dc_id;
-+	u32 sink_rsc;
-+	u32 mst_addr;
-+	u8 mst_addr_ctrl;
-+	u8 mst_en_ctrl;
-+	u8 mst_vld_ctrl;
-+	u8 sync_ctrl;
-+};
-+
-+static void imx8qxp_pixel_link_enable_mst_en(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-+				      pl->mst_en_ctrl, true);
-+	if (ret)
-+		DRM_DEV_ERROR(pl->dev,
-+			"failed to enable DC%d stream%d pixel link mst_en: %d\n",
-+						pl->dc_id, pl->stream_id, ret);
-+}
-+
-+static void imx8qxp_pixel_link_enable_mst_vld(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-+				      pl->mst_vld_ctrl, true);
-+	if (ret)
-+		DRM_DEV_ERROR(pl->dev,
-+		"failed to enable DC%d stream%d pixel link mst_vld: %d\n",
-+						pl->dc_id, pl->stream_id, ret);
-+}
-+
-+static void imx8qxp_pixel_link_enable_sync(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-+				      pl->sync_ctrl, true);
-+	if (ret)
-+		DRM_DEV_ERROR(pl->dev,
-+			"failed to enable DC%d stream%d pixel link sync: %d\n",
-+						pl->dc_id, pl->stream_id, ret);
-+}
-+
-+static int imx8qxp_pixel_link_disable_mst_en(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-+				      pl->mst_en_ctrl, false);
-+	if (ret)
-+		DRM_DEV_ERROR(pl->dev,
-+		"failed to disable DC%d stream%d pixel link mst_en: %d\n",
-+						pl->dc_id, pl->stream_id, ret);
-+
-+	return ret;
-+}
-+
-+static int imx8qxp_pixel_link_disable_mst_vld(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-+				      pl->mst_vld_ctrl, false);
-+	if (ret)
-+		DRM_DEV_ERROR(pl->dev,
-+		"failed to disable DC%d stream%d pixel link mst_vld: %d\n",
-+						pl->dc_id, pl->stream_id, ret);
-+
-+	return ret;
-+}
-+
-+static int imx8qxp_pixel_link_disable_sync(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-+				      pl->sync_ctrl, false);
-+	if (ret)
-+		DRM_DEV_ERROR(pl->dev,
-+			"failed to disable DC%d stream%d pixel link sync: %d\n",
-+						pl->dc_id, pl->stream_id, ret);
-+
-+	return ret;
-+}
-+
-+static void imx8qxp_pixel_link_set_mst_addr(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx_sc_misc_set_control(pl->ipc_handle,
-+				      pl->sink_rsc, pl->mst_addr_ctrl,
-+				      pl->mst_addr);
-+	if (ret)
-+		DRM_DEV_ERROR(pl->dev,
-+		    "failed to set DC%d stream%d pixel link mst addr(%u): %d\n",
-+		    pl->dc_id, pl->stream_id, pl->mst_addr, ret);
-+}
-+
-+static int imx8qxp_pixel_link_bridge_attach(struct drm_bridge *bridge,
-+					    enum drm_bridge_attach_flags flags)
-+{
-+	struct imx8qxp_pixel_link *pl = bridge->driver_private;
-+
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-+		DRM_DEV_ERROR(pl->dev,
-+			      "do not support creating a drm_connector\n");
-+		return -EINVAL;
-+	}
-+
-+	if (!bridge->encoder) {
-+		DRM_DEV_ERROR(pl->dev, "missing encoder\n");
-+		return -ENODEV;
-+	}
-+
-+	return drm_bridge_attach(bridge->encoder,
-+				 pl->next_bridge, bridge,
-+				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+}
-+
-+static void
-+imx8qxp_pixel_link_bridge_mode_set(struct drm_bridge *bridge,
-+				   const struct drm_display_mode *mode,
-+				   const struct drm_display_mode *adjusted_mode)
-+{
-+	struct imx8qxp_pixel_link *pl = bridge->driver_private;
-+
-+	imx8qxp_pixel_link_set_mst_addr(pl);
-+}
-+
-+static void imx8qxp_pixel_link_bridge_atomic_enable(struct drm_bridge *bridge,
-+			      struct drm_bridge_state *old_bridge_state)
-+{
-+	struct imx8qxp_pixel_link *pl = bridge->driver_private;
-+
-+	imx8qxp_pixel_link_enable_mst_en(pl);
-+	imx8qxp_pixel_link_enable_mst_vld(pl);
-+	imx8qxp_pixel_link_enable_sync(pl);
-+}
-+
-+static void imx8qxp_pixel_link_bridge_atomic_disable(struct drm_bridge *bridge,
-+				struct drm_bridge_state *old_bridge_state)
-+{
-+	struct imx8qxp_pixel_link *pl = bridge->driver_private;
-+
-+	imx8qxp_pixel_link_disable_mst_en(pl);
-+	imx8qxp_pixel_link_disable_mst_vld(pl);
-+	imx8qxp_pixel_link_disable_sync(pl);
-+}
-+
-+static const u32 imx8qxp_pixel_link_bus_output_fmts[] = {
-+	MEDIA_BUS_FMT_RGB888_1X36_CPADLO,
-+	MEDIA_BUS_FMT_RGB666_1X36_CPADLO,
-+};
-+
-+static bool imx8qxp_pixel_link_bus_output_fmt_supported(u32 fmt)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(imx8qxp_pixel_link_bus_output_fmts); i++) {
-+		if (imx8qxp_pixel_link_bus_output_fmts[i] == fmt)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static u32 *
-+imx8qxp_pixel_link_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+					struct drm_bridge_state *bridge_state,
-+					struct drm_crtc_state *crtc_state,
-+					struct drm_connector_state *conn_state,
-+					u32 output_fmt,
-+					unsigned int *num_input_fmts)
-+{
-+	u32 *input_fmts;
-+
-+	if (!imx8qxp_pixel_link_bus_output_fmt_supported(output_fmt))
-+		return NULL;
-+
-+	*num_input_fmts = 1;
-+
-+	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	input_fmts[0] = output_fmt;
-+
-+	return input_fmts;
-+}
-+
-+static u32 *
-+imx8qxp_pixel_link_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
-+					struct drm_bridge_state *bridge_state,
-+					struct drm_crtc_state *crtc_state,
-+					struct drm_connector_state *conn_state,
-+					unsigned int *num_output_fmts)
-+{
-+	*num_output_fmts = ARRAY_SIZE(imx8qxp_pixel_link_bus_output_fmts);
-+	return kmemdup(imx8qxp_pixel_link_bus_output_fmts,
-+			sizeof(imx8qxp_pixel_link_bus_output_fmts), GFP_KERNEL);
-+}
-+
-+static const struct drm_bridge_funcs imx8qxp_pixel_link_bridge_funcs = {
-+	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset		= drm_atomic_helper_bridge_reset,
-+	.attach			= imx8qxp_pixel_link_bridge_attach,
-+	.mode_set		= imx8qxp_pixel_link_bridge_mode_set,
-+	.atomic_enable		= imx8qxp_pixel_link_bridge_atomic_enable,
-+	.atomic_disable		= imx8qxp_pixel_link_bridge_atomic_disable,
-+	.atomic_get_input_bus_fmts =
-+			imx8qxp_pixel_link_bridge_atomic_get_input_bus_fmts,
-+	.atomic_get_output_bus_fmts =
-+			imx8qxp_pixel_link_bridge_atomic_get_output_bus_fmts,
-+};
-+
-+static int imx8qxp_pixel_link_disable_all_controls(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx8qxp_pixel_link_disable_mst_en(pl);
-+	if (ret)
-+		return ret;
-+
-+	ret = imx8qxp_pixel_link_disable_mst_vld(pl);
-+	if (ret)
-+		return ret;
-+
-+	return imx8qxp_pixel_link_disable_sync(pl);
-+}
-+
-+static struct drm_bridge *
-+imx8qxp_pixel_link_find_next_bridge(struct imx8qxp_pixel_link *pl)
-+{
-+	struct device_node *np = pl->dev->of_node;
-+	struct device_node *port, *remote;
-+	struct drm_bridge *next_bridge[PL_MAX_NEXT_BRIDGES];
-+	u32 port_id;
-+	bool found_port = false;
-+	int reg, ep_cnt = 0;
-+	/* select the first next bridge by default */
-+	int bridge_sel = 0;
-+
-+	for (port_id = 1; port_id <= PL_MAX_MST_ADDR + 1; port_id++) {
-+		port = of_graph_get_port_by_id(np, port_id);
-+		if (!port)
-+			continue;
-+
-+		if (of_device_is_available(port)) {
-+			found_port = true;
-+			of_node_put(port);
-+			break;
-+		}
-+
-+		of_node_put(port);
-+	}
-+
-+	if (!found_port) {
-+		DRM_DEV_ERROR(pl->dev, "no available output port\n");
-+		return ERR_PTR(-ENODEV);
-+	}
-+
-+	for (reg = 0; reg < PL_MAX_NEXT_BRIDGES; reg++) {
-+		remote = of_graph_get_remote_node(np, port_id, reg);
-+		if (!remote)
-+			continue;
-+
-+		if (!of_device_is_available(remote->parent)) {
-+			DRM_DEV_DEBUG(pl->dev,
-+			   "port%u endpoint%u remote parent is not available\n",
-+								port_id, reg);
-+			of_node_put(remote);
-+			continue;
-+		}
-+
-+		next_bridge[ep_cnt] = of_drm_find_bridge(remote);
-+		if (!next_bridge[ep_cnt]) {
-+			of_node_put(remote);
-+			return ERR_PTR(-EPROBE_DEFER);
-+		}
-+
-+		/* specially select the next bridge with companion PXL2DPI */
-+		if (of_find_property(remote, "fsl,companion-pxl2dpi", NULL))
-+			bridge_sel = ep_cnt;
-+
-+		ep_cnt++;
-+
-+		of_node_put(remote);
-+	}
-+
-+	pl->mst_addr = port_id - 1;
-+
-+	return next_bridge[bridge_sel];
-+}
-+
-+static int imx8qxp_pixel_link_bridge_probe(struct platform_device *pdev)
-+{
-+	struct imx8qxp_pixel_link *pl;
-+	struct device *dev = &pdev->dev;
-+	struct device_node *np = dev->of_node;
-+	int ret;
-+
-+	pl = devm_kzalloc(dev, sizeof(*pl), GFP_KERNEL);
-+	if (!pl)
-+		return -ENOMEM;
-+
-+	ret = imx_scu_get_handle(&pl->ipc_handle);
-+	if (ret) {
-+		if (ret != -EPROBE_DEFER)
-+			DRM_DEV_ERROR(dev, "failed to get SCU ipc handle: %d\n",
-+									ret);
-+		return ret;
-+	}
-+
-+	pl->id = of_alias_get_id(np, "dc_pl");
-+	if (pl->id < 0) {
-+		DRM_DEV_ERROR(dev,
-+			      "failed to get pixel link node alias id: %d\n",
-+								pl->id);
-+		return pl->id;
-+	}
-+
-+	pl->dev = dev;
-+
-+	pl->dc_id = pl->id / 2;
-+	pl->stream_id = pl->id % 2;
-+
-+	pl->sink_rsc = pl->dc_id ? IMX_SC_R_DC_1 : IMX_SC_R_DC_0;
-+
-+	if (pl->stream_id == 0) {
-+		pl->mst_addr_ctrl = IMX_SC_C_PXL_LINK_MST1_ADDR;
-+		pl->mst_en_ctrl   = IMX_SC_C_PXL_LINK_MST1_ENB;
-+		pl->mst_vld_ctrl  = IMX_SC_C_PXL_LINK_MST1_VLD;
-+		pl->sync_ctrl     = IMX_SC_C_SYNC_CTRL0;
-+	} else {
-+		pl->mst_addr_ctrl = IMX_SC_C_PXL_LINK_MST2_ADDR;
-+		pl->mst_en_ctrl   = IMX_SC_C_PXL_LINK_MST2_ENB;
-+		pl->mst_vld_ctrl  = IMX_SC_C_PXL_LINK_MST2_VLD;
-+		pl->sync_ctrl     = IMX_SC_C_SYNC_CTRL1;
-+	}
-+
-+	/* disable all controls to POR default */
-+	ret = imx8qxp_pixel_link_disable_all_controls(pl);
-+	if (ret)
-+		return ret;
-+
-+	pl->next_bridge = imx8qxp_pixel_link_find_next_bridge(pl);
-+	if (IS_ERR(pl->next_bridge)) {
-+		ret = PTR_ERR(pl->next_bridge);
-+		if (ret != -EPROBE_DEFER)
-+			DRM_DEV_ERROR(dev, "failed to find next bridge: %d\n",
-+									ret);
-+		return ret;
-+	}
-+
-+	platform_set_drvdata(pdev, pl);
-+
-+	pl->bridge.driver_private = pl;
-+	pl->bridge.funcs = &imx8qxp_pixel_link_bridge_funcs;
-+	pl->bridge.of_node = np;
-+
-+	drm_bridge_add(&pl->bridge);
-+
-+	return ret;
-+}
-+
-+static int imx8qxp_pixel_link_bridge_remove(struct platform_device *pdev)
-+{
-+	struct imx8qxp_pixel_link *pl = platform_get_drvdata(pdev);
-+
-+	drm_bridge_remove(&pl->bridge);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id imx8qxp_pixel_link_dt_ids[] = {
-+	{ .compatible = "fsl,imx8qm-dc-pixel-link", },
-+	{ .compatible = "fsl,imx8qxp-dc-pixel-link", },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, imx8qxp_pixel_link_dt_ids);
-+
-+static struct platform_driver imx8qxp_pixel_link_bridge_driver = {
-+	.probe	= imx8qxp_pixel_link_bridge_probe,
-+	.remove = imx8qxp_pixel_link_bridge_remove,
-+	.driver	= {
-+		.of_match_table = imx8qxp_pixel_link_dt_ids,
-+		.name = DRIVER_NAME,
-+	},
-+};
-+module_platform_driver(imx8qxp_pixel_link_bridge_driver);
-+
-+MODULE_DESCRIPTION("i.MX8QXP/QM display pixel link bridge driver");
-+MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
-+MODULE_LICENSE("GPL v2");
-+MODULE_ALIAS("platform:" DRIVER_NAME);
++++ b/Documentation/devicetree/bindings/mfd/fsl,imx8qxp-csr.yaml
+@@ -0,0 +1,202 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/fsl,imx8qxp-csr.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Freescale i.MX8qm/qxp Control and Status Registers Module Bindings
++
++maintainers:
++  - Liu Ying <victor.liu@nxp.com>
++
++description: |
++  As a system controller, the Freescale i.MX8qm/qxp Control and Status
++  Registers(CSR) module represents a set of miscellaneous registers of a
++  specific subsystem.  It may provide control and/or status report interfaces
++  to a mix of standalone hardware devices within that subsystem.  One typical
++  use-case is for some other nodes to acquire a reference to the syscon node
++  by phandle, and the other typical use-case is that the operating system
++  should consider all subnodes of the CSR module as separate child devices.
++
++select:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - fsl,imx8qxp-mipi-lvds-csr
++          - fsl,imx8qm-lvds-csr
++  required:
++    - compatible
++
++properties:
++  $nodename:
++    pattern: "^syscon@[0-9a-f]+$"
++
++  compatible:
++    items:
++      - enum:
++          - fsl,imx8qxp-mipi-lvds-csr
++          - fsl,imx8qm-lvds-csr
++      - const: syscon
++      - const: simple-mfd
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: ipg
++
++patternProperties:
++  "^(ldb|phy|pxl2dpi)$":
++    type: object
++    description: The possible child devices of the CSR module.
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: fsl,imx8qxp-mipi-lvds-csr
++    then:
++      required:
++        - pxl2dpi
++        - ldb
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: fsl,imx8qm-lvds-csr
++    then:
++      required:
++        - phy
++        - ldb
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx8-lpcg.h>
++    #include <dt-bindings/firmware/imx/rsrc.h>
++    mipi_lvds_0_csr: syscon@56221000 {
++        compatible = "fsl,imx8qxp-mipi-lvds-csr", "syscon", "simple-mfd";
++        reg = <0x56221000 0x1000>;
++        clocks = <&mipi_lvds_0_di_mipi_lvds_regs_lpcg IMX_LPCG_CLK_4>;
++        clock-names = "ipg";
++
++        mipi_lvds_0_pxl2dpi: pxl2dpi {
++            compatible = "fsl,imx8qxp-pxl2dpi";
++            fsl,sc-resource = <IMX_SC_R_MIPI_0>;
++            power-domains = <&pd IMX_SC_R_MIPI_0>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++                    reg = <0>;
++
++                    mipi_lvds_0_pxl2dpi_dc0_pixel_link0: endpoint@0 {
++                        reg = <0>;
++                        remote-endpoint = <&dc0_pixel_link0_mipi_lvds_0_pxl2dpi>;
++                    };
++
++                    mipi_lvds_0_pxl2dpi_dc0_pixel_link1: endpoint@1 {
++                        reg = <1>;
++                        remote-endpoint = <&dc0_pixel_link1_mipi_lvds_0_pxl2dpi>;
++                    };
++                };
++
++                port@1 {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++                    reg = <1>;
++
++                    mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch0: endpoint@0 {
++                        reg = <0>;
++                        remote-endpoint = <&mipi_lvds_0_ldb_ch0_mipi_lvds_0_pxl2dpi>;
++                    };
++
++                    mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch1: endpoint@1 {
++                        reg = <1>;
++                        remote-endpoint = <&mipi_lvds_0_ldb_ch1_mipi_lvds_0_pxl2dpi>;
++                    };
++                };
++            };
++        };
++
++        mipi_lvds_0_ldb: ldb {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            compatible = "fsl,imx8qxp-ldb";
++            clocks = <&clk IMX_SC_R_LVDS_0 IMX_SC_PM_CLK_MISC2>,
++                     <&clk IMX_SC_R_LVDS_0 IMX_SC_PM_CLK_BYPASS>;
++            clock-names = "pixel", "bypass";
++            power-domains = <&pd IMX_SC_R_LVDS_0>;
++
++            channel@0 {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                reg = <0>;
++                phys = <&mipi_lvds_0_phy>;
++                phy-names = "lvds_phy";
++
++                port@0 {
++                    reg = <0>;
++
++                    mipi_lvds_0_ldb_ch0_mipi_lvds_0_pxl2dpi: endpoint {
++                        remote-endpoint = <&mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch0>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++
++                    /* ... */
++                };
++            };
++
++            channel@1 {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                reg = <1>;
++                phys = <&mipi_lvds_0_phy>;
++                phy-names = "lvds_phy";
++
++                port@0 {
++                    reg = <0>;
++
++                    mipi_lvds_0_ldb_ch1_mipi_lvds_0_pxl2dpi: endpoint {
++                        remote-endpoint = <&mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch1>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++
++                    /* ... */
++                };
++            };
++        };
++    };
++
++    mipi_lvds_0_phy: phy@56228300 {
++        compatible = "fsl,imx8qxp-mipi-dphy";
++        reg = <0x56228300 0x100>;
++        clocks = <&clk IMX_SC_R_LVDS_0 IMX_SC_PM_CLK_PHY>;
++        clock-names = "phy_ref";
++        #phy-cells = <0>;
++        fsl,syscon = <&mipi_lvds_0_csr>;
++        power-domains = <&pd IMX_SC_R_MIPI_0>;
++    };
 -- 
 2.7.4
 
