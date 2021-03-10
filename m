@@ -2,32 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A21336D4E
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 08:52:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E09BC336D90
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 09:16:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE8616EB07;
-	Thu, 11 Mar 2021 07:52:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23C136EB19;
+	Thu, 11 Mar 2021 08:16:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DC1C6EB07
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 07:52:30 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E67CDAB8C;
- Thu, 11 Mar 2021 07:52:28 +0000 (UTC)
-To: Paul Cercueil <paul@crapouillou.net>
-References: <20210307202835.253907-1-paul@crapouillou.net>
- <ab488f52-f93d-ff50-efc5-bbdceec99ecb@suse.de>
- <YVORPQ.MCVK409VD57J2@crapouillou.net>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 0/5] Add option to mmap GEM buffers cached
-Message-ID: <5246f93f-b383-03be-4d5c-53cd530df079@suse.de>
-Date: Thu, 11 Mar 2021 08:52:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 797AD6EA6E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 21:56:42 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id w9so14753edc.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 13:56:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VVOVwyMyJPWIYMuGyr0Sa4Arv7cvqZ/k7O8fTb2RCLw=;
+ b=mAjciraf9aHmyBGLHUr8xDsXYJ3b2pHUUvFGKdF2VYNnx6Z9/1KtmdkueR5Ex+j6dR
+ QfDDSyAxWRMuafdRAVATK6+sTaW/L7MeL2ZgDskILEM2mBTHuR1uK1jTd+mQl1qP4ZwF
+ Wt3teC221TYejdipPs7vTpX/3l7uOTlHTsKrHuju6PO/+2mLStMUy9BK5sJ7o1U6aVeC
+ YBmC2gticm4D5VAcao7UsuMSRg32egPZ8V0aAWN2SP53cuFtB/cHEEFdPC09YNot2C3Q
+ dGhQL4Foay0FfvGOkNWUcyB9z4fw8NOkU5pk0aKycKJj7GcyQGtv6qQiF8oA0p1eJxP2
+ xNPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VVOVwyMyJPWIYMuGyr0Sa4Arv7cvqZ/k7O8fTb2RCLw=;
+ b=Ja0FGcH1494Q9epOuHEvoBHJzYroz/tNZY31u536B1XcRuZq5aBpGZnfplgGAqlUtT
+ 8AOQd8UPqsRO34YlEEUjD4SAjjcHWV7ubjO0gjOIp/EStATsPJp2+5n5y6kXwlLiPrxC
+ FbeJNmQp+EJHo7DMBAoE23TW0nWNI8EHT9TuDTLysAWAe2EqJXafiEjl1qH3xipHajH3
+ 3Vn6BbR5hY9bC1l+MP/M1vjbg3OYMz8f1XxrEQHZywoa7ff3S1WE7uuoyq1qOXWFWMZ/
+ CGx9bpL4SJqBqWPMYI2OYDELoHk5tuyBugtjvrRsDGFpOhqDauwcPft49Wrr1qK9rkhC
+ DJKw==
+X-Gm-Message-State: AOAM531yyM5pohRFD4kq7MKL96ch+OjSqy6jupp74ePFaQL09xRcfUX7
+ cf3xZ7MIyox0eJk9bqnZbdCP6lDWRBM7bZm+cJ7dng==
+X-Google-Smtp-Source: ABdhPJzGat1mD9Xsk4PPqruPJht8J8OJU6Q7XCXUz0lOaJYDlaAfPYhnlGLYeGjBQ8N/5hduJwp1Wq+B1j4J3Cyu754=
+X-Received: by 2002:aa7:c815:: with SMTP id a21mr5662366edt.38.1615413400913; 
+ Wed, 10 Mar 2021 13:56:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YVORPQ.MCVK409VD57J2@crapouillou.net>
+References: <20201202123420.g3ivr5le4imcrdsa@DESKTOP-E1NTVVP.localdomain>
+ <20201221201019.2897731-1-lpy@google.com>
+In-Reply-To: <20201221201019.2897731-1-lpy@google.com>
+From: Peiyong Lin <lpy@google.com>
+Date: Wed, 10 Mar 2021 13:56:29 -0800
+Message-ID: <CA+0soAnXOknfWBbuHiq4VG8byoQ89u8NdYBtq-n-JMURPUOhUw@mail.gmail.com>
+Subject: Re: [PATCH v5] Add power/gpu_frequency tracepoint.
+To: Brian Starkey <brian.starkey@arm.com>
+X-Mailman-Approved-At: Thu, 11 Mar 2021 08:16:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,207 +62,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- linux-mips@vger.kernel.org, od@zcrc.me, dri-devel@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============0425281040=="
+Cc: Sidath Senanayake <sidaths@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Prahlad Kilambi <prahladk@google.com>, Ingo Molnar <mingo@redhat.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Pavel Machek <pavel@ucw.cz>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ nd@arm.com, zzyiwei@android.com, android-kernel@google.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0425281040==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="KNoks9VeZAPFoGM1bz0Bm3NPD06xo4uk4"
+On Mon, Dec 21, 2020 at 12:10 PM Peiyong Lin <lpy@google.com> wrote:
+>
+> Historically there is no common trace event for GPU frequency, in
+> downstream Android each different hardware vendor implements their own
+> way to expose GPU frequency, for example as a debugfs node.  This patch
+> standardize it as a common trace event in upstream linux kernel to help
+> the ecosystem have a common implementation across hardware vendors.
+> Toolings in the Linux ecosystem will benefit from this especially in the
+> downstream Android, where this information is critical to graphics
+> developers.
+>
+> Signed-off-by: Peiyong Lin <lpy@google.com>
+> ---
+>
+> Changelog since v4:
+>  - Explicitly use class id and instance id to identify a GPU instance.
+>  - Change gpu_id to clock_id to call out its the clock domain in
+>    the GPU instance.
+>
+> Changelog since v3:
+>  - Correct copyright title.
+>
+> Changelog since v2:
+>  - Add more comments to indicate when the event should be emitted.
+>  - Change state to frequency.
+>
+> Changelog since v1:
+>  - Use %u in TP_printk
+>
+>  drivers/gpu/Makefile                    |  1 +
+>  drivers/gpu/trace/Kconfig               |  3 ++
+>  drivers/gpu/trace/Makefile              |  1 +
+>  drivers/gpu/trace/trace_gpu_frequency.c | 13 ++++++++
+>  include/trace/events/power.h            | 41 +++++++++++++++++++++++++
+>  5 files changed, 59 insertions(+)
+>  create mode 100644 drivers/gpu/trace/trace_gpu_frequency.c
+>
+> diff --git a/drivers/gpu/Makefile b/drivers/gpu/Makefile
+> index 835c88318cec..f289a47eb031 100644
+> --- a/drivers/gpu/Makefile
+> +++ b/drivers/gpu/Makefile
+> @@ -6,3 +6,4 @@ obj-$(CONFIG_TEGRA_HOST1X)      += host1x/
+>  obj-y                  += drm/ vga/
+>  obj-$(CONFIG_IMX_IPUV3_CORE)   += ipu-v3/
+>  obj-$(CONFIG_TRACE_GPU_MEM)            += trace/
+> +obj-$(CONFIG_TRACE_GPU_FREQUENCY)              += trace/
+> diff --git a/drivers/gpu/trace/Kconfig b/drivers/gpu/trace/Kconfig
+> index c24e9edd022e..ac4aec8d5845 100644
+> --- a/drivers/gpu/trace/Kconfig
+> +++ b/drivers/gpu/trace/Kconfig
+> @@ -2,3 +2,6 @@
+>
+>  config TRACE_GPU_MEM
+>         bool
+> +
+> +config TRACE_GPU_FREQUENCY
+> +       bool
+> diff --git a/drivers/gpu/trace/Makefile b/drivers/gpu/trace/Makefile
+> index b70fbdc5847f..2b7ae69327d6 100644
+> --- a/drivers/gpu/trace/Makefile
+> +++ b/drivers/gpu/trace/Makefile
+> @@ -1,3 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>
+>  obj-$(CONFIG_TRACE_GPU_MEM) += trace_gpu_mem.o
+> +obj-$(CONFIG_TRACE_GPU_FREQUENCY) += trace_gpu_frequency.o
+> diff --git a/drivers/gpu/trace/trace_gpu_frequency.c b/drivers/gpu/trace/trace_gpu_frequency.c
+> new file mode 100644
+> index 000000000000..668fabd6b77a
+> --- /dev/null
+> +++ b/drivers/gpu/trace/trace_gpu_frequency.c
+> @@ -0,0 +1,13 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * GPU frequency trace points
+> + *
+> + * Copyright (C) 2020 Google LLC
+> + */
+> +
+> +#include <linux/module.h>
+> +
+> +#define CREATE_TRACE_POINTS
+> +#include <trace/events/power.h>
+> +
+> +EXPORT_TRACEPOINT_SYMBOL(gpu_frequency);
+> diff --git a/include/trace/events/power.h b/include/trace/events/power.h
+> index af5018aa9517..590e16169dd1 100644
+> --- a/include/trace/events/power.h
+> +++ b/include/trace/events/power.h
+> @@ -500,6 +500,47 @@ DEFINE_EVENT(dev_pm_qos_request, dev_pm_qos_remove_request,
+>
+>         TP_ARGS(name, type, new_value)
+>  );
+> +
+> +/**
+> + * gpu_frequency - Reports the GPU frequency in GPU clock domains.
+> + *
+> + * This event should be emitted whenever there's a GPU frequency change happens,
+> + * or a GPU goes from idle state to active state, or vice versa.
+> + *
+> + * When the GPU goes from idle state to active state, this event should report
+> + * the GPU frequency of the active state. When the GPU goes from active state to
+> + * idle state, this event should report a zero frequency value.
+> + *
+> + * @frequency:  New frequency (in KHz)
+> + * @gpu_class_id: Id representing the class of the GPU
+> + * @gpu_instance_id: Id representing the instance of class &gpu_class_id
+> + * @clock_id: Id for the clock domain in &gpu_instance_id running at &frequency
+> + */
+> +TRACE_EVENT(gpu_frequency,
+> +
+> +       TP_PROTO(unsigned int frequency, unsigned int gpu_class_id,
+> +                unsigned int gpu_instance_id, unsigned int clock_id),
+> +
+> +       TP_ARGS(frequency, gpu_class_id, gpu_instance_id, clock_id),
+> +
+> +       TP_STRUCT__entry(
+> +               __field(unsigned int, frequency)
+> +               __field(unsigned int, gpu_class_id)
+> +               __field(unsigned int, gpu_instance_id)
+> +               __field(unsigned int, clock_id)
+> +       ),
+> +
+> +       TP_fast_assign(
+> +               __entry->frequency = frequency;
+> +               __entry->gpu_class_id = gpu_class_id;
+> +               __entry->gpu_instance_id = gpu_instance_id;
+> +               __entry->clock_id = clock_id;
+> +       ),
+> +
+> +       TP_printk("frequency=%u gpu_class_id=%u gpu_instance_id=%u clock_id=%u",
+> +               __entry->frequency, __entry->gpu_class_id,
+> +               __entry->gpu_instance_id, __entry->clock_id)
+> +);
+>  #endif /* _TRACE_POWER_H */
+>
+>  /* This part must be outside protection */
+> --
+> 2.29.2.684.gfbc64c5ab5-goog
+>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---KNoks9VeZAPFoGM1bz0Bm3NPD06xo4uk4
-Content-Type: multipart/mixed; boundary="oLrJJkeRxpp4RiGgNAPrS23pgef1an46J";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
- od@zcrc.me, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-mips@vger.kernel.org
-Message-ID: <5246f93f-b383-03be-4d5c-53cd530df079@suse.de>
-Subject: Re: [PATCH v2 0/5] Add option to mmap GEM buffers cached
-References: <20210307202835.253907-1-paul@crapouillou.net>
- <ab488f52-f93d-ff50-efc5-bbdceec99ecb@suse.de>
- <YVORPQ.MCVK409VD57J2@crapouillou.net>
-In-Reply-To: <YVORPQ.MCVK409VD57J2@crapouillou.net>
+Hi there,
 
---oLrJJkeRxpp4RiGgNAPrS23pgef1an46J
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Could you please take a look at this patch?
 
-Hi
-
-Am 10.03.21 um 20:02 schrieb Paul Cercueil:
-> Hi Thomas,
->=20
-> Le lun. 8 mars 2021 =C3=A0 9:41, Thomas Zimmermann <tzimmermann@suse.de=
-> a=20
-> =C3=A9crit :
->> Hi Paul,
->>
->> having individual functions for each mode only makes sense if the=20
->> decision is at compile time. But in patch 5, you're working around=20
->> your earlier design by introducing in-driver helpers that select the=20
->> correct CMA function.
->>
->> In SHMEM helpers we have the flag map_wc in the GEM structure that=20
->> selects the pages caching mode (wc vs uncached). I think CMA should=20
-
-Re-reading this, it should rather be WC and cached.
-
->> use this design as well. Have a map_noncoherent flag in the CMA GEM=20
->> object and set it from the driver's implementation of gem_create_objec=
-t.
->=20
-> Is that a new addition? That severely reduces the patchset size, which =
-
-> is perfect.
-
-It was added a few months ago, around the time you send the first=20
-version of the patches at hand.
-
-Originally, SHMEM uses write combining by default. And several drivers=20
-used default mapping flags instead (so usually cached). IIRC I=20
-streamlined everything and flipped the default. Most drivers can use=20
-cached mappings and only some require WC.
-
-Recently there was also a patchset that added support for cached video=20
-RAM (or something like that). So at some point we could store these=20
-flags in drm_gem_object. For now, I'd just put a flag into=20
-drm_gem_cma_object.
-
->=20
-> I'll send a V3 then.
-
-Great!
-
-Best regards
-Thomas
-
->=20
-> Cheers,
-> -Paul
->=20
->> And in the long run, we could try to consolidate all drivers/helpers=20
->> mapping flags in struct drm_gem_object.
->>
->> Best regards
->> Thomas
->>
->> Am 07.03.21 um 21:28 schrieb Paul Cercueil:
->>> Rework of my previous patchset which added support for GEM buffers
->>> backed by non-coherent memory to the ingenic-drm driver.
->>>
->>> Having GEM buffers backed by non-coherent memory is interesting in
->>> the particular case where it is faster to render to a non-coherent
->>> buffer then sync the data cache, than to render to a write-combine
->>> buffer, and (by extension) much faster than using a shadow buffer.
->>> This is true for instance on some Ingenic SoCs, where even simple
->>> blits (e.g. memcpy) are about three times faster using this method.
->>>
->>> For the record, the previous patchset was accepted for 5.10 then had
->>> to be reverted, as it conflicted with some changes made to the DMA AP=
-I.
->>>
->>> This new patchset is pretty different as it adds the functionality to=
-
->>> the DRM core. The first three patches add variants to existing functi=
-ons
->>> but with the "non-coherent memory" twist, exported as GPL symbols. Th=
-e
->>> fourth patch adds a function to be used with the damage helpers.
->>> Finally, the last patch adds support for non-coherent GEM buffers to =
-the
->>> ingenic-drm driver. The functionality is enabled through a module
->>> parameter, and is disabled by default.
->>>
->>> Cheers,
->>> -Paul
->>>
->>> Paul Cercueil (5):
->>> =C2=A0=C2=A0 drm: Add and export function drm_gem_cma_create_noncoher=
-ent
->>> =C2=A0=C2=A0 drm: Add and export function drm_gem_cma_dumb_create_non=
-coherent
->>> =C2=A0=C2=A0 drm: Add and export function drm_gem_cma_mmap_noncoheren=
-t
->>> =C2=A0=C2=A0 drm: Add and export function drm_gem_cma_sync_data
->>> =C2=A0=C2=A0 drm/ingenic: Add option to alloc cached GEM buffers
->>>
->>> =C2=A0 drivers/gpu/drm/drm_gem_cma_helper.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 223 +++++++++++++++++++---
->>> =C2=A0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c |=C2=A0 49 ++++-
->>> =C2=A0 drivers/gpu/drm/ingenic/ingenic-drm.h=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0=C2=A0 4 +
->>> =C2=A0 drivers/gpu/drm/ingenic/ingenic-ipu.c=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0 14 +-
->>> =C2=A0 include/drm/drm_gem_cma_helper.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 13 ++
->>> =C2=A0 5 files changed, 273 insertions(+), 30 deletions(-)
->>>
->>
->> --=20
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
->=20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---oLrJJkeRxpp4RiGgNAPrS23pgef1an46J--
-
---KNoks9VeZAPFoGM1bz0Bm3NPD06xo4uk4
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmBJzDsFAwAAAAAACgkQlh/E3EQov+B7
-JxAAxcuL3q6SHtclQBjch43wGJvyugcQFie4RBcl0SpfF5XgBBxn6+BkF34vHT1tWzIiJVCBMqdy
-Dv7QPMnIiIVJy/mO4rvAYdYQe+tnhl7wki0dActkMo+jBYddJEjTIbsB8eskezFpf/7fvA30GmxL
-mjSL9/tX0a1LNVyTecOJ7vgk3G7ITjc5RLRqEVq0B9wOS0XP2zoNTbtlnkvIPIdamUlGYzJWT8eD
-na3h/Xp0WZfYzRTKjrhXESOH9urNFTPeMVVwlCbIeMufS+Kt1oMjUC2iLOW4s6EKtDTPWUXIOAzq
-HajhQ/wWJj2f+8gVGU0BFm7Zbdgy2vhEcezJXTUSvwIZzY5Es5KX8YeKVuDXBPptL6FAkmywGRg4
-/YdYZW7IQxns3OUM8NxihkvDRGbErAbCd0Pompwy2jeN3rUKsOn0SEA0UQR9QVekv9xUTFvUqXB+
-yYG3RCvxd9qLmWLPA5P9Wb0ZqStJ++K65+ifthzcE0Mcj85JjMj4/j02dQp/ri5chp3svyJPFi5d
-23+eewAMPiNJK7F5Ux+5mJu6a0KptSNT0jKZtczBmKefsW8ZgvR7dM1xlfM+wYxLY4Ml0wZWI2RF
-nnMPXeg8oTTzrCf3hUoMbseAbsWoyG5fHngPUAfHEley3DV405pcofUg9pDq0uMTUI+TFTR5EuYH
-5Bo=
-=RZlk
------END PGP SIGNATURE-----
-
---KNoks9VeZAPFoGM1bz0Bm3NPD06xo4uk4--
-
---===============0425281040==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Thanks,
+Peiyong
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0425281040==--
