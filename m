@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1528433496D
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 22:08:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9B0334970
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 22:08:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C3DA6EA5B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FFCC6E39B;
 	Wed, 10 Mar 2021 21:08:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
- [IPv6:2607:f8b0:4864:20::d31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 135196E1D8
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 11:43:42 +0000 (UTC)
-Received: by mail-io1-xd31.google.com with SMTP id n14so17558815iog.3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 03:43:42 -0800 (PST)
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com
+ [IPv6:2607:f8b0:4864:20::d32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE8156E1D8
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 11:44:18 +0000 (UTC)
+Received: by mail-io1-xd32.google.com with SMTP id n132so17578760iod.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 03:44:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7MDculd5PWLFOFwl290sy7CTqICAtBb0zJmC/83JNiY=;
- b=jyhuw1uUViTVh9mqzgoJ/J29crJCPM2TJeyX7WB/RlRW8RVVbQjnWXpzdkbCZfVK7y
- RRrsVERxnfxdAdkz2Wf6fgMQwHQl2It5TUvgjZbP1buY9VW1KR7M/9aF3D/QnUKV/wEi
- 0eV7hG5BSbChAnQSi7vhkbAdfpTyn3eiIwZbKdRdU1FMzRH0XrE0EyxjNo5CgF+fzKAm
- i08ouwrBHH3ksVRAE7HJ7qX2f2p4KcP8AQz2XuiChoZ72uOpj1oWu0rCxwH1MzwczzzS
- lDyySAebm6U41iADqPqpRAQMBt1vPFmbIYT316NfnAOljlhkKJhuins3NibQAaRdQNd0
- 0cOA==
+ :cc; bh=op8MuAs4SRxmTKVvah22QByz3q7Mi3iArZEjUk+Thxk=;
+ b=tbZ0SW438zSVkyxkrUhPs282MdsJiT0nydSL1+q+VaeYCp1wR8gU7zUe/TUlSYglgs
+ iIIIODc35S1SjI7uAF2/h03PXLNXux2vFLXcDxyq/ltPNbSZZ+PQHSXmj/FRCFuqxbto
+ lxjj5dWzSescFEfPuLEUc5QVzR9hZEli26Wt4Q5IAuiWYr35c/1Xe+qihbPXQ9JSDBqH
+ YPQ8wM3w5MZBkLolu9DGVN443g1F1hXK4D9B1/hjCnDMAeLrNQDuck9jIUCkskFy6Ezb
+ /0N+E/Ry/VxfIWVLKcCCb5RLWGmjPoNitIV/QJL26I8g429kqEVv8PTtGYxzzuTnST9l
+ yKUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7MDculd5PWLFOFwl290sy7CTqICAtBb0zJmC/83JNiY=;
- b=FRW9JL8riU5G2SjABHgrulDPXHcf11N5QKftj0ckcmQpYRiBiraX/ZSfx+iN/CpkG6
- Qe1dv6wupaMOrS9T9ZMbO+7wq2xtijVC4OJ0dJtFMRLfaENtfdUe7W5t6Gm5XI0BIXm+
- REqCUR4rJwhK9p23BsY8244MFLI1OGiFKtCy/WxDUEZcCqVt5YC3mv8ruFqipnItVswQ
- Bgz8LUYO5cMo9FhN+K9gTpT4akhoHOg6lx1hLY7cLlHaCTS9hComqu4BOHA8Zk7i4sXn
- uo8OnTNstu67T5o7alOyZCheVrKrn+CH0iBxMTVQFzjj9PNpPrOf1ifj5TwdoyWXoxwk
- 8g3A==
-X-Gm-Message-State: AOAM532PW7K3AnwCE4vcElsCTFCMN4q1CbPPrRXtAAbhh1+Ox/EqvTcj
- lwLH2NwQZtLFmuKUNT/mPa+EKtRoxvnFe+P8RZI=
-X-Google-Smtp-Source: ABdhPJymqoFFgZdz05brxOTgEYkI3NFm4i5o0rEnCSDmm6k2DAHa0k4EB+ukDihO1Mqa2o6zn3/4hb1NiTISMd094i4=
-X-Received: by 2002:a6b:4f09:: with SMTP id d9mr2013952iob.60.1615376621486;
- Wed, 10 Mar 2021 03:43:41 -0800 (PST)
+ bh=op8MuAs4SRxmTKVvah22QByz3q7Mi3iArZEjUk+Thxk=;
+ b=POrGZY1/tovNCreDD2Fvf9g7/T1kcVzjWbnb+EHUfl7US2U9AB9J3H0IXCkS1uB1Pa
+ ar6F35+IUpzAR5PenhMqiiB+0bUIk2CqfyyqWcUrDjrbUY9oIOLywXOh8IRmPRmegGMX
+ LcprMz43ttHW3CZGn5Rt8d1epneraYR3SWqu7FaHmgtLCuhEecd6iasR/HUSwu7aTjE9
+ XnPVX7lE6xcRUuc2JOpDphx6GT1pZae8sAJvMzeR/mxcfKjbF9SVCYk+JLwP9zw3NGbA
+ ljvubJRwjjUZpeE/XsFbMhJe8f91r/fXjEguOz5luptkaZWXTlGapGuhdhJmrtLyis/+
+ XSeQ==
+X-Gm-Message-State: AOAM532zqFHWZn6pdbfmn6g4wyOm9E97Uc1HlKPS2QtSh3kPwZIloo7X
+ BMOcXFWQYZ9WBJyIYYy+vnSZFu6BunsC9FIQDrs=
+X-Google-Smtp-Source: ABdhPJz5M2eWPKf4NxOL+8DZYRTGWBX7CV9I1yHd6MspCfR/Ca1EfgXEzeeymZdkKrLM+bP4UCLuaOhuoetCi1bJpNg=
+X-Received: by 2002:a5e:a519:: with SMTP id 25mr1857796iog.3.1615376658157;
+ Wed, 10 Mar 2021 03:44:18 -0800 (PST)
 MIME-Version: 1.0
 References: <1590564453-24499-1-git-send-email-dillon.minfei@gmail.com>
- <1590564453-24499-6-git-send-email-dillon.minfei@gmail.com>
- <159056850384.88029.10852284922297394339@swboyd.mtv.corp.google.com>
-In-Reply-To: <159056850384.88029.10852284922297394339@swboyd.mtv.corp.google.com>
+ <1590564453-24499-7-git-send-email-dillon.minfei@gmail.com>
+ <159056850835.88029.9264848839121822798@swboyd.mtv.corp.google.com>
+In-Reply-To: <159056850835.88029.9264848839121822798@swboyd.mtv.corp.google.com>
 From: dillon min <dillon.minfei@gmail.com>
-Date: Wed, 10 Mar 2021 19:43:05 +0800
-Message-ID: <CAL9mu0+Uh84UGQ-1EW4+eVE1cFxuxJxLTLAa0rgJ_5C2pchUgA@mail.gmail.com>
-Subject: Re: [PATCH v6 5/9] clk: stm32: Fix stm32f429's ltdc driver hang in
- set clock rate
+Date: Wed, 10 Mar 2021 19:43:42 +0800
+Message-ID: <CAL9mu0KBKVufGx96=_5dWokC0uJBW35TnFxEofXA44QhpEK6-g@mail.gmail.com>
+Subject: Re: [PATCH v6 6/9] clk: stm32: Fix ltdc's clock turn off by
+ clk_disable_unused() after kernel startup
 To: Stephen Boyd <sboyd@kernel.org>
 X-Mailman-Approved-At: Wed, 10 Mar 2021 21:07:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,22 +86,20 @@ still need more expert to review, so just a gentle ping for this patch
 
 On Wed, May 27, 2020 at 4:35 PM Stephen Boyd <sboyd@kernel.org> wrote:
 >
-> Quoting dillon.minfei@gmail.com (2020-05-27 00:27:29)
+> Quoting dillon.minfei@gmail.com (2020-05-27 00:27:30)
 > > From: dillon min <dillon.minfei@gmail.com>
 > >
-> > This is due to misuse \u2018PLL_VCO_SAI' and'PLL_SAI' in clk-stm32f4.c
-> > 'PLL_SAI' is 2, 'PLL_VCO_SAI' is 7(defined in
-> > include/dt-bindings/clock/stm32fx-clock.h).
+> > stm32's clk driver register two ltdc gate clk to clk core by
+> > clk_hw_register_gate() and clk_hw_register_composite()
 > >
-> > 'post_div' point to 'post_div_data[]', 'post_div->pll_num'
-> > is PLL_I2S or PLL_SAI.
+> > first: 'stm32f429_gates[]', clk name is 'ltdc', which no user to use.
+> > second: 'stm32f429_aux_clk[]', clk name is 'lcd-tft', used by ltdc driver
 > >
-> > 'clks[PLL_VCO_SAI]' has valid 'struct clk_hw* ' return
-> > from stm32f4_rcc_register_pll() but, at line 1777 of
-> > driver/clk/clk-stm32f4.c, use the 'clks[post_div->pll_num]',
-> > equal to 'clks[PLL_SAI]', this is invalid array member at that time.
+> > both of them point to the same offset of stm32's RCC register. after
+> > kernel enter console, clk core turn off ltdc's clk as 'stm32f429_gates[]'
+> > is no one to use. but, actually 'stm32f429_aux_clk[]' is in use.
 > >
-> > Fixes: 517633ef630e ("clk: stm32f4: Add post divisor for I2S & SAI PLLs")
+> > Fixes: daf2d117cbca ("clk: stm32f4: Add lcd-tft clock")
 > > Signed-off-by: dillon min <dillon.minfei@gmail.com>
 > > ---
 >
