@@ -1,44 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A6333474F
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 20:00:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 313C6334750
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 20:01:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B9CF6E250;
-	Wed, 10 Mar 2021 19:00:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CC406E231;
+	Wed, 10 Mar 2021 19:01:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DB216E250;
- Wed, 10 Mar 2021 19:00:20 +0000 (UTC)
-IronPort-SDR: DlpVBf1XpvDpkDUwh5tr4SqBMaFhCSYCEGYgcdIj/og7p4xtrvQh3gtzGOM4iIwohQXjdYfcm+
- eH5cwwyuuKtA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="168458294"
-X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; d="scan'208";a="168458294"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2021 11:00:19 -0800
-IronPort-SDR: kSDBTH/8VDfZV+B99y7DfHWSaOidglpaH3vwoVqHyBorRxjayf2LqM2qESdTweKwKLccnLWn2Q
- ylxOWsqb2i7w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; d="scan'208";a="403794493"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga008.fm.intel.com with SMTP; 10 Mar 2021 11:00:17 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 10 Mar 2021 21:00:16 +0200
-Date: Wed, 10 Mar 2021 21:00:16 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [Intel-gfx] [RFC v1 2/6] drm/displayid: add separate
- drm_displayid.c
-Message-ID: <YEkXQHR596NZMQPH@intel.com>
-References: <cover.1615297748.git.jani.nikula@intel.com>
- <6c62c8b87ea14bc4dd4d9ecaf9d100afaab3478d.1615297748.git.jani.nikula@intel.com>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 007E86E231
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 19:01:14 +0000 (UTC)
+Date: Wed, 10 Mar 2021 19:01:01 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 5/5] drm/ingenic: Add option to alloc cached GEM buffers
+To: Hillf Danton <hdanton@sina.com>
+Message-Id: <PTORPQ.3IZFI0X29JNH1@crapouillou.net>
+In-Reply-To: <20210308034727.1951-1-hdanton@sina.com>
+References: <20210307202835.253907-1-paul@crapouillou.net>
+ <20210307202835.253907-6-paul@crapouillou.net>
+ <20210308034727.1951-1-hdanton@sina.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6c62c8b87ea14bc4dd4d9ecaf9d100afaab3478d.1615297748.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,272 +34,395 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
+Cc: dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@lst.de>,
+ linux-kernel@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 09, 2021 at 03:54:10PM +0200, Jani Nikula wrote:
-> We'll be adding more DisplayID specific functions going forward, so
-> start off by splitting out a few functions to a separate file.
+Hi Hillf,
+
+Le lun. 8 mars 2021 =E0 11:47, Hillf Danton <hdanton@sina.com> a =E9crit :
+> On Sun,  7 Mar 2021 20:28:35 +0000  Paul Cercueil wrote:
+>>  With the module parameter ingenic-drm.cached_gem_buffers, it is =
+
+>> possible
+>>  to specify that we want GEM buffers backed by non-coherent memory.
+>> =
+
+>>  This dramatically speeds up software rendering on Ingenic SoCs, =
+
+>> even for
+>>  tasks where write-combine memory should in theory be faster (e.g. =
+
+>> simple
+>>  blits).
 > =
 
-> We don't bother with exporting the functions; at least for now they
-> should be needed solely within drm.ko.
+> Wondering if it is due to the tricks at [1].
 > =
 
-> No functional changes.
+> If so, is dma_alloc_noncoherent() necessary in this patchset?
+
+You confuse non-contiguous with non-coherent, which are two different =
+
+things.
+
+Cheers,
+-Paul
+
+> Christoph can you give us a concise lesson on noncoherency covering =
+
+> at least
+> noncoherent device, noncoherent memory(used in this work), no coherent
+> caching(in [1]), their links to speedup, and the thumb rule to handle
+> noncoherency in workdays. It feels toe curling every time I see =
+
+> noncoherence
+> going downtown with speedup hand in hand.
 > =
 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> [1] Subject: [PATCH 6/6] media: uvcvideo: Use dma_alloc_noncontiguos =
 
-Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-
-> ---
->  drivers/gpu/drm/Makefile        |  2 +-
->  drivers/gpu/drm/drm_displayid.c | 59 +++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/drm_edid.c      | 58 ++------------------------------
->  include/drm/drm_displayid.h     |  8 +++++
->  include/drm/drm_edid.h          |  3 ++
->  5 files changed, 73 insertions(+), 57 deletions(-)
->  create mode 100644 drivers/gpu/drm/drm_displayid.c
+> API
+> https://lore.kernel.org/lkml/20210301085236.947011-7-hch@lst.de/#t
 > =
 
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 5eb5bf7c16e3..78ef2fd14f10 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -7,7 +7,7 @@ drm-y       :=3D	drm_auth.o drm_cache.o \
->  		drm_file.o drm_gem.o drm_ioctl.o drm_irq.o \
->  		drm_drv.o \
->  		drm_sysfs.o drm_hashtab.o drm_mm.o \
-> -		drm_crtc.o drm_fourcc.o drm_modes.o drm_edid.o \
-> +		drm_crtc.o drm_fourcc.o drm_modes.o drm_edid.o drm_displayid.o \
->  		drm_encoder_slave.o \
->  		drm_trace_points.o drm_prime.o \
->  		drm_rect.o drm_vma_manager.o drm_flip_work.o \
-> diff --git a/drivers/gpu/drm/drm_displayid.c b/drivers/gpu/drm/drm_displa=
-yid.c
-> new file mode 100644
-> index 000000000000..908bbe6feb61
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_displayid.c
-> @@ -0,0 +1,59 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright =A9 2021 Intel Corporation
-> + */
-> +
-> +#include <drm/drm_displayid.h>
-> +#include <drm/drm_edid.h>
-> +#include <drm/drm_print.h>
-> +
-> +static int validate_displayid(const u8 *displayid, int length, int idx)
-> +{
-> +	int i, dispid_length;
-> +	u8 csum =3D 0;
-> +	const struct displayid_hdr *base;
-> +
-> +	base =3D (const struct displayid_hdr *)&displayid[idx];
-> +
-> +	DRM_DEBUG_KMS("base revision 0x%x, length %d, %d %d\n",
-> +		      base->rev, base->bytes, base->prod_id, base->ext_count);
-> +
-> +	/* +1 for DispID checksum */
-> +	dispid_length =3D sizeof(*base) + base->bytes + 1;
-> +	if (dispid_length > length - idx)
-> +		return -EINVAL;
-> +
-> +	for (i =3D 0; i < dispid_length; i++)
-> +		csum +=3D displayid[idx + i];
-> +	if (csum) {
-> +		DRM_NOTE("DisplayID checksum invalid, remainder is %d\n", csum);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +const u8 *drm_find_displayid_extension(const struct edid *edid,
-> +				       int *length, int *idx,
-> +				       int *ext_index)
-> +{
-> +	const u8 *displayid =3D drm_find_edid_extension(edid, DISPLAYID_EXT, ex=
-t_index);
-> +	const struct displayid_hdr *base;
-> +	int ret;
-> +
-> +	if (!displayid)
-> +		return NULL;
-> +
-> +	/* EDID extensions block checksum isn't for us */
-> +	*length =3D EDID_LENGTH - 1;
-> +	*idx =3D 1;
-> +
-> +	ret =3D validate_displayid(displayid, *length, *idx);
-> +	if (ret)
-> +		return NULL;
-> +
-> +	base =3D (const struct displayid_hdr *)&displayid[*idx];
-> +	*length =3D *idx + sizeof(*base) + base->bytes;
-> +
-> +	return displayid;
-> +}
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index d510b827a1f8..58e61f792bc7 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -1585,8 +1585,6 @@ module_param_named(edid_fixup, edid_fixup, int, 040=
-0);
->  MODULE_PARM_DESC(edid_fixup,
->  		 "Minimum number of valid EDID header bytes (0-8, default 6)");
->  =
+>> =
 
-> -static int validate_displayid(const u8 *displayid, int length, int idx);
-> -
->  static int drm_edid_block_checksum(const u8 *raw_edid)
->  {
->  	int i;
-> @@ -3241,8 +3239,8 @@ add_detailed_modes(struct drm_connector *connector,=
- struct edid *edid,
->  /*
->   * Search EDID for CEA extension block.
->   */
-> -static const u8 *drm_find_edid_extension(const struct edid *edid,
-> -					 int ext_id, int *ext_index)
-> +const u8 *drm_find_edid_extension(const struct edid *edid,
-> +				  int ext_id, int *ext_index)
->  {
->  	const u8 *edid_ext =3D NULL;
->  	int i;
-> @@ -3266,32 +3264,6 @@ static const u8 *drm_find_edid_extension(const str=
-uct edid *edid,
->  	return edid_ext;
->  }
->  =
+>>  Leave it disabled by default, since it is specific to one use-case
+>>  (software rendering).
+>> =
 
-> -
-> -static const u8 *drm_find_displayid_extension(const struct edid *edid,
-> -					      int *length, int *idx,
-> -					      int *ext_index)
-> -{
-> -	const u8 *displayid =3D drm_find_edid_extension(edid, DISPLAYID_EXT, ex=
-t_index);
-> -	const struct displayid_hdr *base;
-> -	int ret;
-> -
-> -	if (!displayid)
-> -		return NULL;
-> -
-> -	/* EDID extensions block checksum isn't for us */
-> -	*length =3D EDID_LENGTH - 1;
-> -	*idx =3D 1;
-> -
-> -	ret =3D validate_displayid(displayid, *length, *idx);
-> -	if (ret)
-> -		return NULL;
-> -
-> -	base =3D (const struct displayid_hdr *)&displayid[*idx];
-> -	*length =3D *idx + sizeof(*base) + base->bytes;
-> -
-> -	return displayid;
-> -}
-> -
->  static const u8 *drm_find_cea_extension(const struct edid *edid)
->  {
->  	int length, idx;
-> @@ -5287,32 +5259,6 @@ u32 drm_add_display_info(struct drm_connector *con=
-nector, const struct edid *edi
->  	return quirks;
->  }
->  =
+>>  v2: Rework code to work with new DRM APIs regarding plane states
+>> =
 
-> -static int validate_displayid(const u8 *displayid, int length, int idx)
-> -{
-> -	int i, dispid_length;
-> -	u8 csum =3D 0;
-> -	const struct displayid_hdr *base;
-> -
-> -	base =3D (const struct displayid_hdr *)&displayid[idx];
-> -
-> -	DRM_DEBUG_KMS("base revision 0x%x, length %d, %d %d\n",
-> -		      base->rev, base->bytes, base->prod_id, base->ext_count);
-> -
-> -	/* +1 for DispID checksum */
-> -	dispid_length =3D sizeof(*base) + base->bytes + 1;
-> -	if (dispid_length > length - idx)
-> -		return -EINVAL;
-> -
-> -	for (i =3D 0; i < dispid_length; i++)
-> -		csum +=3D displayid[idx + i];
-> -	if (csum) {
-> -		DRM_NOTE("DisplayID checksum invalid, remainder is %d\n", csum);
-> -		return -EINVAL;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
->  static struct drm_display_mode *drm_mode_displayid_detailed(struct drm_d=
-evice *dev,
->  							    struct displayid_detailed_timings_1 *timings)
->  {
-> diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
-> index f141c0eff083..3c6db22a518a 100644
-> --- a/include/drm/drm_displayid.h
-> +++ b/include/drm/drm_displayid.h
-> @@ -22,6 +22,10 @@
->  #ifndef DRM_DISPLAYID_H
->  #define DRM_DISPLAYID_H
->  =
+>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>  ---
+>>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 49 =
 
-> +#include <linux/types.h>
-> +
-> +struct edid;
-> +
->  #define DATA_BLOCK_PRODUCT_ID 0x00
->  #define DATA_BLOCK_DISPLAY_PARAMETERS 0x01
->  #define DATA_BLOCK_COLOR_CHARACTERISTICS 0x02
-> @@ -100,4 +104,8 @@ struct displayid_detailed_timing_block {
->  	     (idx) +=3D sizeof(struct displayid_block) + (block)->num_bytes, \
->  	     (block) =3D (const struct displayid_block *)&(displayid)[idx])
->  =
+>> ++++++++++++++++++++++-
+>>   drivers/gpu/drm/ingenic/ingenic-drm.h     |  4 ++
+>>   drivers/gpu/drm/ingenic/ingenic-ipu.c     | 14 ++++++-
+>>   3 files changed, 63 insertions(+), 4 deletions(-)
+>> =
 
-> +const u8 *drm_find_displayid_extension(const struct edid *edid,
-> +				       int *length, int *idx,
-> +				       int *ext_index);
-> +
->  #endif
-> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> index a158f585f658..759328a5eeb2 100644
-> --- a/include/drm/drm_edid.h
-> +++ b/include/drm/drm_edid.h
-> @@ -543,5 +543,8 @@ struct drm_display_mode *drm_mode_find_dmt(struct drm=
-_device *dev,
->  struct drm_display_mode *
->  drm_display_mode_from_cea_vic(struct drm_device *dev,
->  			      u8 video_code);
-> +const u8 *drm_find_edid_extension(const struct edid *edid,
-> +				  int ext_id, int *ext_index);
-> +
->  =
+>>  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c =
 
->  #endif /* __DRM_EDID_H__ */
-> -- =
+>> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  index d60e1eefc9d1..ba1ac0fcda74 100644
+>>  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  @@ -9,6 +9,7 @@
+>>   #include <linux/component.h>
+>>   #include <linux/clk.h>
+>>   #include <linux/dma-mapping.h>
+>>  +#include <linux/io.h>
+>>   #include <linux/module.h>
+>>   #include <linux/mutex.h>
+>>   #include <linux/of_device.h>
+>>  @@ -23,6 +24,7 @@
+>>   #include <drm/drm_color_mgmt.h>
+>>   #include <drm/drm_crtc.h>
+>>   #include <drm/drm_crtc_helper.h>
+>>  +#include <drm/drm_damage_helper.h>
+>>   #include <drm/drm_drv.h>
+>>   #include <drm/drm_gem_cma_helper.h>
+>>   #include <drm/drm_fb_cma_helper.h>
+>>  @@ -99,6 +101,11 @@ struct ingenic_drm {
+>>   	struct notifier_block clock_nb;
+>>   };
+>> =
 
-> 2.20.1
+>>  +static bool ingenic_drm_cached_gem_buf;
+>>  +module_param_named(cached_gem_buffers, ingenic_drm_cached_gem_buf, =
+
+>> bool, 0400);
+>>  +MODULE_PARM_DESC(cached_gem_buffers,
+>>  +		 "Enable fully cached GEM buffers [default=3Dfalse]");
+>>  +
+>>   static bool ingenic_drm_writeable_reg(struct device *dev, unsigned =
+
+>> int reg)
+>>   {
+>>   	switch (reg) {
+>>  @@ -410,6 +417,8 @@ static int =
+
+>> ingenic_drm_plane_atomic_check(struct drm_plane *plane,
+>>   	     old_plane_state->fb->format->format !=3D =
+
+>> new_plane_state->fb->format->format))
+>>   		crtc_state->mode_changed =3D true;
+>> =
+
+>>  +	drm_atomic_helper_check_plane_damage(state, new_plane_state);
+>>  +
+>>   	return 0;
+>>   }
+>> =
+
+>>  @@ -541,10 +550,20 @@ static void ingenic_drm_update_palette(struct =
+
+>> ingenic_drm *priv,
+>>   	}
+>>   }
+>> =
+
+>>  +void ingenic_drm_sync_data(struct device *dev,
+>>  +			   struct drm_plane_state *old_state,
+>>  +			   struct drm_plane_state *state)
+>>  +{
+>>  +	if (ingenic_drm_cached_gem_buf)
+>>  +		drm_gem_cma_sync_data(dev, old_state, state);
+>>  +}
+>>  +
+>>   static void ingenic_drm_plane_atomic_update(struct drm_plane =
+
+>> *plane,
+>>   					    struct drm_atomic_state *state)
+>>   {
+>>   	struct ingenic_drm *priv =3D drm_device_get_priv(plane->dev);
+>>  +	struct drm_plane_state *oldstate =3D =
+
+>> drm_atomic_get_old_plane_state(state,
+>>  +									  plane);
+>>   	struct drm_plane_state *newstate =3D =
+
+>> drm_atomic_get_new_plane_state(state,
+>>   									  plane);
+>>   	struct drm_crtc_state *crtc_state;
+>>  @@ -554,6 +573,8 @@ static void =
+
+>> ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+>>   	u32 fourcc;
+>> =
+
+>>   	if (newstate && newstate->fb) {
+>>  +		ingenic_drm_sync_data(priv->dev, oldstate, newstate);
+>>  +
+>>   		crtc_state =3D newstate->crtc->state;
+>> =
+
+>>   		addr =3D drm_fb_cma_get_gem_addr(newstate->fb, newstate, 0);
+>>  @@ -743,6 +764,26 @@ static void ingenic_drm_disable_vblank(struct =
+
+>> drm_crtc *crtc)
+>>   	regmap_update_bits(priv->map, JZ_REG_LCD_CTRL, =
+
+>> JZ_LCD_CTRL_EOF_IRQ, 0);
+>>   }
+>> =
+
+>>  +static struct drm_framebuffer *
+>>  +ingenic_drm_gem_fb_create(struct drm_device *dev, struct drm_file =
+
+>> *file,
+>>  +			  const struct drm_mode_fb_cmd2 *mode_cmd)
+>>  +{
+>>  +	if (ingenic_drm_cached_gem_buf)
+>>  +		return drm_gem_fb_create_with_dirty(dev, file, mode_cmd);
+>>  +
+>>  +	return drm_gem_fb_create(dev, file, mode_cmd);
+>>  +}
+>>  +
+>>  +static int ingenic_drm_gem_cma_dumb_create(struct drm_file =
+
+>> *file_priv,
+>>  +					   struct drm_device *drm,
+>>  +					   struct drm_mode_create_dumb *args)
+>>  +{
+>>  +	if (ingenic_drm_cached_gem_buf)
+>>  +		return drm_gem_cma_dumb_create_noncoherent(file_priv, drm, args);
+>>  +
+>>  +	return drm_gem_cma_dumb_create(file_priv, drm, args);
+>>  +}
+>>  +
+>>   DEFINE_DRM_GEM_CMA_FOPS(ingenic_drm_fops);
+>> =
+
+>>   static const struct drm_driver ingenic_drm_driver_data =3D {
+>>  @@ -755,7 +796,7 @@ static const struct drm_driver =
+
+>> ingenic_drm_driver_data =3D {
+>>   	.patchlevel		=3D 0,
+>> =
+
+>>   	.fops			=3D &ingenic_drm_fops,
+>>  -	DRM_GEM_CMA_DRIVER_OPS,
+>>  =
+
+>> +	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(ingenic_drm_gem_cma_dumb_creat=
+e),
+>> =
+
+>>   	.irq_handler		=3D ingenic_drm_irq_handler,
+>>   };
+>>  @@ -805,7 +846,7 @@ static const struct drm_encoder_helper_funcs =
+
+>> ingenic_drm_encoder_helper_funcs =3D
+>>   };
+>> =
+
+>>   static const struct drm_mode_config_funcs =
+
+>> ingenic_drm_mode_config_funcs =3D {
+>>  -	.fb_create		=3D drm_gem_fb_create,
+>>  +	.fb_create		=3D ingenic_drm_gem_fb_create,
+>>   	.output_poll_changed	=3D drm_fb_helper_output_poll_changed,
+>>   	.atomic_check		=3D drm_atomic_helper_check,
+>>   	.atomic_commit		=3D drm_atomic_helper_commit,
+>>  @@ -962,6 +1003,8 @@ static int ingenic_drm_bind(struct device =
+
+>> *dev, bool has_components)
+>>   		return ret;
+>>   	}
+>> =
+
+>>  +	drm_plane_enable_fb_damage_clips(&priv->f1);
+>>  +
+>>   	drm_crtc_helper_add(&priv->crtc, &ingenic_drm_crtc_helper_funcs);
+>> =
+
+>>   	ret =3D drm_crtc_init_with_planes(drm, &priv->crtc, primary,
+>>  @@ -990,6 +1033,8 @@ static int ingenic_drm_bind(struct device =
+
+>> *dev, bool has_components)
+>>   			return ret;
+>>   		}
+>> =
+
+>>  +		drm_plane_enable_fb_damage_clips(&priv->f0);
+>>  +
+>>   		if (IS_ENABLED(CONFIG_DRM_INGENIC_IPU) && has_components) {
+>>   			ret =3D component_bind_all(dev, drm);
+>>   			if (ret) {
+>>  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.h =
+
+>> b/drivers/gpu/drm/ingenic/ingenic-drm.h
+>>  index 1b4347f7f084..b6bca356e024 100644
+>>  --- a/drivers/gpu/drm/ingenic/ingenic-drm.h
+>>  +++ b/drivers/gpu/drm/ingenic/ingenic-drm.h
+>>  @@ -185,6 +185,10 @@ void ingenic_drm_plane_config(struct device =
+
+>> *dev,
+>>   			      struct drm_plane *plane, u32 fourcc);
+>>   void ingenic_drm_plane_disable(struct device *dev, struct =
+
+>> drm_plane *plane);
+>> =
+
+>>  +void ingenic_drm_sync_data(struct device *dev,
+>>  +			   struct drm_plane_state *old_state,
+>>  +			   struct drm_plane_state *state);
+>>  +
+>>   extern struct platform_driver *ingenic_ipu_driver_ptr;
+>> =
+
+>>   #endif /* DRIVERS_GPU_DRM_INGENIC_INGENIC_DRM_H */
+>>  diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c =
+
+>> b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+>>  index 5ae6adab8306..7826eab044ba 100644
+>>  --- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
+>>  +++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+>>  @@ -20,6 +20,7 @@
+>> =
+
+>>   #include <drm/drm_atomic.h>
+>>   #include <drm/drm_atomic_helper.h>
+>>  +#include <drm/drm_damage_helper.h>
+>>   #include <drm/drm_drv.h>
+>>   #include <drm/drm_fb_cma_helper.h>
+>>   #include <drm/drm_fourcc.h>
+>>  @@ -285,6 +286,8 @@ static void =
+
+>> ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
+>>   					    struct drm_atomic_state *state)
+>>   {
+>>   	struct ingenic_ipu *ipu =3D plane_to_ingenic_ipu(plane);
+>>  +	struct drm_plane_state *oldstate =3D =
+
+>> drm_atomic_get_old_plane_state(state,
+>>  +									  plane);
+>>   	struct drm_plane_state *newstate =3D =
+
+>> drm_atomic_get_new_plane_state(state,
+>>   									  plane);
+>>   	const struct drm_format_info *finfo;
+>>  @@ -317,6 +320,8 @@ static void =
+
+>> ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
+>>   				JZ_IPU_CTRL_CHIP_EN | JZ_IPU_CTRL_LCDC_SEL);
+>>   	}
+>> =
+
+>>  +	ingenic_drm_sync_data(ipu->master, oldstate, newstate);
+>>  +
+>>   	/* New addresses will be committed in vblank handler... */
+>>   	ipu->addr_y =3D drm_fb_cma_get_gem_addr(newstate->fb, newstate, 0);
+>>   	if (finfo->num_planes > 1)
+>>  @@ -541,7 +546,7 @@ static int =
+
+>> ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
+>> =
+
+>>   	if (!new_plane_state->crtc ||
+>>   	    !crtc_state->mode.hdisplay || !crtc_state->mode.vdisplay)
+>>  -		return 0;
+>>  +		goto out_check_damage;
+>> =
+
+>>   	/* Plane must be fully visible */
+>>   	if (new_plane_state->crtc_x < 0 || new_plane_state->crtc_y < 0 ||
+>>  @@ -558,7 +563,7 @@ static int =
+
+>> ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
+>>   		return -EINVAL;
+>> =
+
+>>   	if (!osd_changed(new_plane_state, old_plane_state))
+>>  -		return 0;
+>>  +		goto out_check_damage;
+>> =
+
+>>   	crtc_state->mode_changed =3D true;
+>> =
+
+>>  @@ -592,6 +597,9 @@ static int =
+
+>> ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
+>>   	ipu->denom_w =3D denom_w;
+>>   	ipu->denom_h =3D denom_h;
+>> =
+
+>>  +out_check_damage:
+>>  +	drm_atomic_helper_check_plane_damage(state, new_plane_state);
+>>  +
+>>   	return 0;
+>>   }
+>> =
+
+>>  @@ -773,6 +781,8 @@ static int ingenic_ipu_bind(struct device *dev, =
+
+>> struct device *master, void *d)
+>>   		return err;
+>>   	}
+>> =
+
+>>  +	drm_plane_enable_fb_damage_clips(plane);
+>>  +
+>>   	/*
+>>   	 * Sharpness settings range is [0,32]
+>>   	 * 0       : nearest-neighbor
+>>  --
+>>  2.30.1
 > =
 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> =
 
--- =
 
-Ville Syrj=E4l=E4
-Intel
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
