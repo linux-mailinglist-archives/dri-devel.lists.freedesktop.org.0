@@ -1,40 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E564333F86
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 14:46:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCDDB333F9F
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 14:51:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C63F96EA15;
-	Wed, 10 Mar 2021 13:46:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89B8C89973;
+	Wed, 10 Mar 2021 13:51:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6D136EA15
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 13:46:05 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id BB1B49E7;
- Wed, 10 Mar 2021 14:46:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1615383961;
- bh=MXgXODAMGUfepWN6MfqFL2OpOjLIYyW5vzVS92C90sQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iS41Y/90WyDKTZuTTLUwa1WrlI3D91YYpk+fVA30sRGtdBDBYe32sICP28mFF0cEa
- bORt5xhF2Tvq9/F2FNtGsBN8xrffm2nJv8U/hjsryltSWyYTcoa9h76gYJlaYPjDw+
- nCRhy037sZBXvwuSmMMK3MQdPHRFGkTSFfKswfc0=
-Date: Wed, 10 Mar 2021 15:45:29 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v5 01/14] media: uapi: Add some RGB bus formats for
- i.MX8qm/qxp pixel combiner
-Message-ID: <YEjNeaZMPptd6oB2@pendragon.ideasonboard.com>
-References: <1615370138-5673-1-git-send-email-victor.liu@nxp.com>
- <1615370138-5673-2-git-send-email-victor.liu@nxp.com>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA0FD89973
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 13:51:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=s5UWRiMtgf7YjKupFmHx+Sw4oCFxws4WVaFHk1KRnxs=; b=LJWZqCil5OjfSuEK8L/Rsp1Bto
+ 5epSNjOP+MyO/zZnsb4ufR59yeGHpHy3DM8nDFp//vD2OdMNuucX0yC4oKX7cODzPJ09Dj3e9BXGF
+ zzZeNACEAX5ejY8hX8lb7gTEECbGBxpbnS8hnnioLiYtVDNpHKlj85dW0Pj9Vzy0Nk9kBfNwDLILk
+ aks+1DL7zPo640yeYf17g3dsdHIEbZomgKTNOCB99RtpvNZfykLf/XTOJNN9q1sdHQG046+IDRUxp
+ X6vuTW+3/U7YB5tkajUwkikPeaMWN3VTWsv/+vdoN/2Y1fJCY118gWSdi9C3XMvMMj8WQTFbX+vYF
+ uqKQL91Q==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
+ Linux)) id 1lJzFK-003Z78-Kt; Wed, 10 Mar 2021 13:51:35 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org
+Subject: [PATCH] fb_defio: Remove custom address_space_operations
+Date: Wed, 10 Mar 2021 13:51:28 +0000
+Message-Id: <20210310135128.846868-1-willy@infradead.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1615370138-5673-2-git-send-email-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,82 +45,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: narmstrong@baylibre.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- a.hajda@samsung.com, lee.jones@linaro.org, kishon@ti.com, linux-imx@nxp.com,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org, jonas@kwiboo.se,
- s.hauer@pengutronix.de, robh+dt@kernel.org, mchehab@kernel.org,
- linux-arm-kernel@lists.infradead.org, jernej.skrabec@siol.net,
- linux-kernel@vger.kernel.org, robert.foss@linaro.org, vkoul@kernel.org,
- kernel@pengutronix.de, shawnguo@kernel.org
+Cc: Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org,
+ "Matthew Wilcox \(Oracle\)" <willy@infradead.org>, linux-mm@kvack.org,
+ Ian Campbell <ijc@hellion.org.uk>, linux-fsdevel@vger.kernel.org,
+ Jaya Kumar <jayakumar.lkml@gmail.com>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Liu,
+There's no need to give the page an address_space.  Leaving the
+page->mapping as NULL will cause the VM to handle set_page_dirty()
+the same way that it's set now, and that was the only reason to
+set the address_space in the first place.
 
-Thank you for the patch.
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+ drivers/video/fbdev/core/fb_defio.c | 33 -----------------------------
+ drivers/video/fbdev/core/fbmem.c    |  4 ----
+ include/linux/fb.h                  |  3 ---
+ 3 files changed, 40 deletions(-)
 
-On Wed, Mar 10, 2021 at 05:55:25PM +0800, Liu Ying wrote:
-> This patch adds RGB666_1X30_CPADLO, RGB888_1X30_CPADLO, RGB666_1X36_CPADLO
-> and RGB888_1X36_CPADLO bus formats used by i.MX8qm/qxp pixel combiner.
-> The RGB pixels with padding low per component are transmitted on a 30-bit
-> input bus(10-bit per component) from a display controller or a 36-bit
-> output bus(12-bit per component) to a pixel link.
-> 
-> Reviewed-by: Robert Foss <robert.foss@linaro.org>
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
-> v4->v5:
-> * Add Robert's R-b tag.
-> 
-> v3->v4:
-> * No change.
-> 
-> v2->v3:
-> * No change.
-> 
-> v1->v2:
-> * No change.
-> 
->  include/uapi/linux/media-bus-format.h | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-> index 0dfc11e..ec3323d 100644
-> --- a/include/uapi/linux/media-bus-format.h
-> +++ b/include/uapi/linux/media-bus-format.h
-> @@ -34,7 +34,7 @@
->  
->  #define MEDIA_BUS_FMT_FIXED			0x0001
->  
-> -/* RGB - next is	0x101e */
-> +/* RGB - next is	0x1022 */
->  #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
->  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
->  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
-> @@ -59,9 +59,13 @@
->  #define MEDIA_BUS_FMT_RGB888_3X8_DELTA		0x101d
->  #define MEDIA_BUS_FMT_RGB888_1X7X4_SPWG		0x1011
->  #define MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA	0x1012
-> +#define MEDIA_BUS_FMT_RGB666_1X30_CPADLO	0x101e
-> +#define MEDIA_BUS_FMT_RGB888_1X30_CPADLO	0x101f
->  #define MEDIA_BUS_FMT_ARGB8888_1X32		0x100d
->  #define MEDIA_BUS_FMT_RGB888_1X32_PADHI		0x100f
->  #define MEDIA_BUS_FMT_RGB101010_1X30		0x1018
-> +#define MEDIA_BUS_FMT_RGB666_1X36_CPADLO	0x1020
-> +#define MEDIA_BUS_FMT_RGB888_1X36_CPADLO	0x1021
->  #define MEDIA_BUS_FMT_RGB121212_1X36		0x1019
->  #define MEDIA_BUS_FMT_RGB161616_1X48		0x101a
->  
-
+diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
+index a591d291b231..1bb208b3c4bb 100644
+--- a/drivers/video/fbdev/core/fb_defio.c
++++ b/drivers/video/fbdev/core/fb_defio.c
+@@ -52,13 +52,6 @@ static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
+ 		return VM_FAULT_SIGBUS;
+ 
+ 	get_page(page);
+-
+-	if (vmf->vma->vm_file)
+-		page->mapping = vmf->vma->vm_file->f_mapping;
+-	else
+-		printk(KERN_ERR "no mapping available\n");
+-
+-	BUG_ON(!page->mapping);
+ 	page->index = vmf->pgoff;
+ 
+ 	vmf->page = page;
+@@ -151,17 +144,6 @@ static const struct vm_operations_struct fb_deferred_io_vm_ops = {
+ 	.page_mkwrite	= fb_deferred_io_mkwrite,
+ };
+ 
+-static int fb_deferred_io_set_page_dirty(struct page *page)
+-{
+-	if (!PageDirty(page))
+-		SetPageDirty(page);
+-	return 0;
+-}
+-
+-static const struct address_space_operations fb_deferred_io_aops = {
+-	.set_page_dirty = fb_deferred_io_set_page_dirty,
+-};
+-
+ int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma)
+ {
+ 	vma->vm_ops = &fb_deferred_io_vm_ops;
+@@ -212,14 +194,6 @@ void fb_deferred_io_init(struct fb_info *info)
+ }
+ EXPORT_SYMBOL_GPL(fb_deferred_io_init);
+ 
+-void fb_deferred_io_open(struct fb_info *info,
+-			 struct inode *inode,
+-			 struct file *file)
+-{
+-	file->f_mapping->a_ops = &fb_deferred_io_aops;
+-}
+-EXPORT_SYMBOL_GPL(fb_deferred_io_open);
+-
+ void fb_deferred_io_cleanup(struct fb_info *info)
+ {
+ 	struct fb_deferred_io *fbdefio = info->fbdefio;
+@@ -228,13 +202,6 @@ void fb_deferred_io_cleanup(struct fb_info *info)
+ 
+ 	BUG_ON(!fbdefio);
+ 	cancel_delayed_work_sync(&info->deferred_work);
+-
+-	/* clear out the mapping that we setup */
+-	for (i = 0 ; i < info->fix.smem_len; i += PAGE_SIZE) {
+-		page = fb_deferred_io_page(info, i);
+-		page->mapping = NULL;
+-	}
+-
+ 	mutex_destroy(&fbdefio->lock);
+ }
+ EXPORT_SYMBOL_GPL(fb_deferred_io_cleanup);
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 06f5805de2de..372b52a2befa 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1415,10 +1415,6 @@ __releases(&info->lock)
+ 		if (res)
+ 			module_put(info->fbops->owner);
+ 	}
+-#ifdef CONFIG_FB_DEFERRED_IO
+-	if (info->fbdefio)
+-		fb_deferred_io_open(info, inode, file);
+-#endif
+ out:
+ 	unlock_fb_info(info);
+ 	if (res)
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index ecfbcc0553a5..a8dccd23c249 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -659,9 +659,6 @@ static inline void __fb_pad_aligned_buffer(u8 *dst, u32 d_pitch,
+ /* drivers/video/fb_defio.c */
+ int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma);
+ extern void fb_deferred_io_init(struct fb_info *info);
+-extern void fb_deferred_io_open(struct fb_info *info,
+-				struct inode *inode,
+-				struct file *file);
+ extern void fb_deferred_io_cleanup(struct fb_info *info);
+ extern int fb_deferred_io_fsync(struct file *file, loff_t start,
+ 				loff_t end, int datasync);
 -- 
-Regards,
+2.30.0
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
