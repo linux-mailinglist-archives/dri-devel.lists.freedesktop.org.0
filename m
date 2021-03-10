@@ -1,50 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BEAA334499
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 18:03:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 041F73344C6
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 18:07:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B17E6E20F;
-	Wed, 10 Mar 2021 17:03:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 234866EA3A;
+	Wed, 10 Mar 2021 17:06:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 485DF6E20F
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 17:03:54 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id
- nh23-20020a17090b3657b02900c0d5e235a8so7836811pjb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 09:03:54 -0800 (PST)
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0423D6E1F9;
+ Wed, 10 Mar 2021 17:06:55 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id x78so19878755oix.1;
+ Wed, 10 Mar 2021 09:06:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ckay+pu+4QlnhlTMgneWcMsMH2vmyeEkqCVZ+1F2Jt4=;
+ b=BuuvW328vUQyFQCiJB0ex0uqb6U68KYKwLjkoH74TeY9hzeTIH0PaOKJBUAr2mXLMt
+ MkM0F9QEc8VKhIJrp/u6cwdFERONDunEnM5xrxlh+ghjBJ2ZDhWbxUY54rpAhZ8cwF0u
+ zqeYW8Dbf/pX7ThZqdr9kpLYKDYYYPSR0lJXFxB46+DXiVnLZfv987kERgE4FwFClnxz
+ C8tvL38uZOfxD6eDCA5DUTBB+bj8MIl0A4XrQieClIFxVrR+4lmJ0WvZSc+sY/R1vgXO
+ 4fn44UllvjIPs7YvP7j8iD/IyKeU1IdBiQX2DC2dazSwflbLnCOvhbwNgqNcFp2ZEugB
+ M9GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6MrHtWGZYE27KKI6Wq6d78SYzIK93xqGXs3BKrhm6Pg=;
- b=rZ/MJtje+pWxm5v1UndIQ2n+QBiL/eMNLMwwzTk/dHE1JA4WrZOreTeEQDt/CfkU5I
- SHl2juSTKvpu2DPFtolJTF5LztzWs3je/kDr2cg5WyWnHWNj1z9tBHMsLkyyp6KZ9k05
- hldAkdv2Jay3+D3J73zZXj1lEJuj9eQZrBltmINNuRjpxBcc0fJwEXRl8xP1v4n/UDv4
- gGpwmmACPR1QhRKjatmz6vm53V3UkfHT1WMpouQ3Hi3ro1riK5pfHjZGkBrTAm7ggiI8
- LnXoq686DS4wc0ns10+onwrCy2QIWrs23WRWjGeRJHKZhy8lfLMXfsnHy16ohb6fhuSf
- w4ew==
-X-Gm-Message-State: AOAM533e7XdiRy57QOU9S4CuO3yBL8dM4O1ZQUZiEBdScgkXel+rPhY7
- Mfg0NXplrxa3kqsV039YR5uvLzPkJFUdMQQgP402kw==
-X-Google-Smtp-Source: ABdhPJyhbBxz8wHmFZJKLL8TnYtz1+CaG5MdKXcW+QsIPLknHUxHZ+DFy70dwWj7vMTTgGSdbn+9kgYtf7gybAk2djM=
-X-Received: by 2002:a17:90b:794:: with SMTP id
- l20mr4420156pjz.207.1615395833773; 
- Wed, 10 Mar 2021 09:03:53 -0800 (PST)
+ bh=Ckay+pu+4QlnhlTMgneWcMsMH2vmyeEkqCVZ+1F2Jt4=;
+ b=nTbSDkerWHtAM99IYVPb0QLBe0jKRochMYxU2yC0uqQoZ2F6z+jnkzW1ggUVBd+2rk
+ npCa2BtwyTdeCBvsKgHbtdfTx/E7SuNSZTli2/ROPd1Zwkipz26l17zYfeQoDF3U4AXq
+ zVDfJcl0wxAxAjSbLpZAXxZHjAYGyuLMP31DIQ034duGbe3zx2e8lc0cNNyX1Mmjn7ji
+ LLWRV0xbl2JJALNPMbnAdu5RmlOWbcHleqZXPjxjqU0A3bF2LXCbN6eC7CF6t+emJNh0
+ w859ivGhrc52YyCFxvAP+1D1svfdOuxinKQcfgoGbIYHdnzXU9q/RfthM/qTfNzffEg/
+ /0oA==
+X-Gm-Message-State: AOAM530Kf4HQqZxlM22gkWLHCWFnujoRiKfku3DcwGpKfqUg9f/QR9OX
+ rXRHI2PW8iGLu2fxj6b3Pu7UawiJ97Yz3oMvcpo=
+X-Google-Smtp-Source: ABdhPJz+N++ipstT7fwx8AeHyiwcCQ4oNiFfp1L623ZgZtgNubYgLNBkODDj1YHjtonmpx8CpU3NaDX2TXdxUWQG8ZE=
+X-Received: by 2002:aca:af10:: with SMTP id y16mr3086498oie.120.1615396014280; 
+ Wed, 10 Mar 2021 09:06:54 -0800 (PST)
 MIME-Version: 1.0
-References: <f9700ce86b6d893a162c099fb680cc0f@nuetzel-hh.de>
- <CABE_ZV3KwwOdsF40K8CuMNtg=1RYvst3iEp=rxQWPbOD1sXnJg@mail.gmail.com>
- <b032baca494c39890485bcef21e59413@nuetzel-hh.de>
- <CABE_ZV1YcpyfattK-9z2TJuAQLxg0w7BwU7tq_8cqe1RQ-mm1A@mail.gmail.com>
-In-Reply-To: <CABE_ZV1YcpyfattK-9z2TJuAQLxg0w7BwU7tq_8cqe1RQ-mm1A@mail.gmail.com>
-From: Jan Vesely <jan.vesely@rutgers.edu>
-Date: Wed, 10 Mar 2021 12:03:42 -0500
-Message-ID: <CABE_ZV0AvsZA3VsFPzi8wYhE0Rk5RDZ+boODQgA9Z+qHEX-0Tw@mail.gmail.com>
-Subject: Re: Is LLVM 13 (git) really ready for testing/development? libclc
- didn't compile
-To: =?UTF-8?Q?Dieter_N=C3=BCtzel?= <Dieter@nuetzel-hh.de>
+References: <20210310163655.2591893-1-daniel@qtec.com>
+In-Reply-To: <20210310163655.2591893-1-daniel@qtec.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 10 Mar 2021 12:06:43 -0500
+Message-ID: <CADnq5_PmbXBaziCEqRODb_DvtKaw9ucXXjkdmdj9N_R8P-9Jcw@mail.gmail.com>
+Subject: Re: [PATCH]] drm/amdgpu/gfx9: add gfxoff quirk
+To: Daniel Gomez <daniel@qtec.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,432 +60,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- Karol Herbst <kherbst@redhat.com>, DRI Devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1406490073=="
+Cc: Evan Quan <evan.quan@amd.com>, linux-media <linux-media@vger.kernel.org>,
+ Guchun Chen <guchun.chen@amd.com>, David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Nirmoy Das <nirmoy.das@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Huang Rui <ray.huang@amd.com>, Monk Liu <Monk.Liu@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Yintian Tao <yttao@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dennis Li <Dennis.Li@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1406490073==
-Content-Type: multipart/alternative; boundary="000000000000d82be705bd31a64b"
-
---000000000000d82be705bd31a64b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-One more update. without changing any cmake files the following cmdline
-should work:
-cmake ../llvm-project/libclc/
--DLLVM_CONFIG=3D/usr/local/llvm-git/bin/llvm-config
--DCMAKE_LLAsm_FLAGS=3D-cl-no-stdinc -DCMAKE_CLC_FLAGS=3D-cl-no-stdinc
-
-Jan
-On Wed, Mar 10, 2021 at 1:20 AM Jan Vesely <jan.vesely@rutgers.edu> wrote:
-
-> hi,
+On Wed, Mar 10, 2021 at 11:37 AM Daniel Gomez <daniel@qtec.com> wrote:
 >
-> sorry the option is actually -cl-no-stdinc. you can add it to
-> 'target_compiler_options'.
-> I should have a patch ready soon(tm), but time is scarce.
+> Disabling GFXOFF via the quirk list fixes a hardware lockup in
+> Ryzen V1605B, RAVEN 0x1002:0x15DD rev 0x83.
 >
-> Jan
+> Signed-off-by: Daniel Gomez <daniel@qtec.com>
+> ---
 >
-> On Sun, Mar 7, 2021 at 9:51 PM Dieter N=C3=BCtzel <Dieter@nuetzel-hh.de> =
-wrote:
+> This patch is a continuation of the work here:
+> https://lkml.org/lkml/2021/2/3/122 where a hardware lockup was discussed and
+> a dma_fence deadlock was provoke as a side effect. To reproduce the issue
+> please refer to the above link.
 >
->> Hello Jan,
->>
->> I very much appreciate your advice.
->> Tried several places...
->> ...where to put it?
->>
->> Dieter
->>
->> Am 06.03.2021 17:56, schrieb Jan Vesely:
->> > Not Marek, but hope this answer will help.
->> > libclc uses clang CLC preprocessor on .ll files, llvm/clang-13 started
->> > including clc declarations by default (clang
->> > cf3ef15a6ec5e5b45c6c54e8fbe3769255e815ce),
->> > thus corrupting any .ll assembly files that are used by libclc.
->> > Inclusion of the default declarations can be turned off using a
->> > cmdline switch but that remains to be implemented in the libclc build
->> > system.
->> > manually adding '-cl-no-stdinc' should work as a workaround.
->> >
->> > Jan
->> >
->> > On Thu, Mar 4, 2021 at 10:27 PM Dieter N=C3=BCtzel <Dieter@nuetzel-hh.=
-de>
->> > wrote:
->> >
->> >> Hello Marek,
->> >>
->> >> can't compile anything, here.
->> >> Poor Intel Nehalem X3470.
->> >>
->> >> Trying LLVM 12-rc2 later.
->> >>
->> >> Greetings,
->> >> Dieter
->> >>
->> >> llvm-project/libclc> cd build && cmake ../
->> >> -- The CXX compiler identification is GNU 10.2.1
->> >> -- Detecting CXX compiler ABI info
->> >> -- Detecting CXX compiler ABI info - done
->> >> -- Check for working CXX compiler: /usr/bin/c++ - skipped
->> >> -- Detecting CXX compile features
->> >> -- Detecting CXX compile features - done
->> >> LLVM version: 13.0.0git
->> >> LLVM system libs:
->> >> LLVM libs: -lLLVM-13git
->> >> LLVM libdir: /usr/local/lib
->> >> LLVM bindir: /usr/local/bin
->> >> LLVM ld flags: -L/usr/local/lib
->> >> LLVM cxx flags:
->> >>
->> >
->> -I/usr/local/include;-std=3Dc++14;;;-fno-exceptions;-D_GNU_SOURCE;-D__ST=
-DC_CONSTANT_MACROS;-D__STDC_FORMAT_MACROS;-D__STDC_LIMIT_MACROS;-fno-rtti;-=
-fno-exceptions
->> >>
->> >> clang: /usr/local/bin/clang
->> >> llvm-as: /usr/local/bin/llvm-as
->> >> llvm-link: /usr/local/bin/llvm-link
->> >> opt: /usr/local/bin/opt
->> >> llvm-spirv: /usr/local/bin/llvm-spirv
->> >>
->> >> -- Check for working CLC compiler: /usr/local/bin/clang
->> >> -- Check for working CLC compiler: /usr/local/bin/clang -- works
->> >> -- Check for working LLAsm compiler: /usr/local/bin/llvm-as
->> >> -- Check for working LLAsm compiler: /usr/local/bin/llvm-as --
->> >> broken
->> >> CMake Error at cmake/CMakeTestLLAsmCompiler.cmake:40 (message):
->> >> The LLAsm compiler "/usr/local/bin/llvm-as" is not able to
->> >> compile a
->> >> simple
->> >> test program.
->> >>
->> >> It fails with the following output:
->> >>
->> >> Change Dir: /opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp
->> >>
->> >> Run Build Command(s):/usr/bin/gmake cmTC_87af9/fast &&
->> >> /usr/bin/gmake
->> >> -f
->> >> CMakeFiles/cmTC_87af9.dir/build.make
->> >> CMakeFiles/cmTC_87af9.dir/build
->> >>
->> >> gmake[1]: Verzeichnis
->> >> =E2=80=9E/opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp=E2=80=9C =
-wird
->> >> betreten
->> >>
->> >> Building LLAsm object
->> >> CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc
->> >>
->> >> /usr/local/bin/clang -E -P -x cl
->> >>
->> >>
->> > /opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp/testLLAsmCompiler.l=
-l
->> >>
->> >> -o
->> >> CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc.temp
->> >>
->> >> /usr/local/bin/llvm-as -o
->> >> CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc
->> >> CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc.temp
->> >>
->> >> /usr/local/bin/llvm-as:
->> >> CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc.temp:1:1: error:
->> >> expected
->> >> top-level entity
->> >>
->> >> typedef unsigned char uchar;
->> >>
->> >> ^
->> >>
->> >> gmake[1]: *** [CMakeFiles/cmTC_87af9.dir/build.make:86:
->> >> CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc] Fehler 1
->> >>
->> >> gmake[1]: Verzeichnis
->> >> =E2=80=9E/opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp=E2=80=9C =
-wird
->> >> verlassen
->> >>
->> >> gmake: *** [Makefile:140: cmTC_87af9/fast] Fehler 2
->> >>
->> >> CMake will not be able to correctly generate this project.
->> >> Call Stack (most recent call first):
->> >> CMakeLists.txt:127 (enable_language)
->> >>
->> >> -- Configuring incomplete, errors occurred!
->> >> See also
->> >> "/opt/llvm-project/libclc/build/CMakeFiles/CMakeOutput.log".
->> >> See also "/opt/llvm-project/libclc/build/CMakeFiles/CMakeError.log".
->> >>
->> >> CMakeError.log
->> >> Determining if the LLAsm compiler works failed with the following
->> >> output:
->> >> Change Dir: /opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp
->> >>
->> >> Run Build Command(s):/usr/bin/gmake cmTC_87af9/fast &&
->> >> /usr/bin/gmake
->> >> -f CMakeFiles/cmTC_87af9.dir/build.make
->> >> CMakeFiles/cmTC_87af9.dir/build
->> >> gmake[1]: Verzeichnis
->> >> =E2=80=9E/opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp=E2=80=9C =
-wird
->> >> betreten
->> >> Building LLAsm object CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc
->> >> /usr/local/bin/clang -E -P     -x cl
->> >>
->> > /opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp/testLLAsmCompiler.l=
-l
->> >>
->> >> -o CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc.temp
->> >> /usr/local/bin/llvm-as -o
->> >> CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc
->> >> CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc.temp
->> >> /usr/local/bin/llvm-as:
->> >> CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc.temp:1:1: error:
->> >> expected
->> >> top-level entity
->> >> typedef unsigned char uchar;
->> >> ^
->> >> gmake[1]: *** [CMakeFiles/cmTC_87af9.dir/build.make:86:
->> >> CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc] Fehler 1
->> >> gmake[1]: Verzeichnis
->> >> =E2=80=9E/opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp=E2=80=9C =
-wird
->> >> verlassen
->> >> gmake: *** [Makefile:140: cmTC_87af9/fast] Fehler 2
->> >> _______________________________________________
->> >> dri-devel mailing list
->> >> dri-devel@lists.freedesktop.org
->> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>
+> The hardware lockup was introduced in 5.6-rc1 for our particular revision as it
+> wasn't part of the new blacklist. Before that, in kernel v5.5, this hardware was
+> working fine without any hardware lock because the GFXOFF was actually disabled
+> by the if condition for the CHIP_RAVEN case. So this patch, adds the 'Radeon
+> Vega Mobile Series [1002:15dd] (rev 83)' to the blacklist to disable the GFXOFF.
 >
+> But besides the fix, I'd like to ask from where this revision comes from. Is it
+> an ASIC revision or is it hardcoded in the VBIOS from our vendor? From what I
+> can see, it comes from the ASIC and I wonder if somehow we can get an APU in the
+> future, 'not blacklisted', with the same problem. Then, should this table only
+> filter for the vendor and device and not the revision? Do you know if there are
+> any revisions for the 1002:15dd validated, tested and functional?
 
---000000000000d82be705bd31a64b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The pci revision id (RID) is used to specify the specific SKU within a
+family.  GFXOFF is supposed to be working on all raven variants.  It
+was tested and functional on all reference platforms and any OEM
+platforms that launched with Linux support.  There are a lot of
+dependencies on sbios in the early raven variants (0x15dd), so it's
+likely more of a specific platform issue, but there is not a good way
+to detect this so we use the DID/SSID/RID as a proxy.  The newer raven
+variants (0x15d8) have much better GFXOFF support since they all
+shipped with newer firmware and sbios.
 
-<div dir=3D"ltr"><div dir=3D"ltr"></div>One more update. without changing a=
-ny cmake files the following cmdline should work:<br>cmake ../llvm-project/=
-libclc/ -DLLVM_CONFIG=3D/usr/local/llvm-git/bin/llvm-config -DCMAKE_LLAsm_F=
-LAGS=3D-cl-no-stdinc -DCMAKE_CLC_FLAGS=3D-cl-no-stdinc<div><br></div><div>J=
-an<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On W=
-ed, Mar 10, 2021 at 1:20 AM Jan Vesely &lt;<a href=3D"mailto:jan.vesely@rut=
-gers.edu">jan.vesely@rutgers.edu</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div dir=3D"ltr">hi,<div><br></div><div>so=
-rry the option is actually -cl-no-stdinc. you can add it to &#39;target_com=
-piler_options&#39;.<br>I should have a patch ready soon(tm), but time is sc=
-arce.<br><br>Jan</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
- class=3D"gmail_attr">On Sun, Mar 7, 2021 at 9:51 PM Dieter N=C3=BCtzel &lt=
-;<a href=3D"mailto:Dieter@nuetzel-hh.de" target=3D"_blank">Dieter@nuetzel-h=
-h.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">Hello Jan,<br>
-<br>
-I very much appreciate your advice.<br>
-Tried several places...<br>
-...where to put it?<br>
-<br>
-Dieter<br>
-<br>
-Am 06.03.2021 17:56, schrieb Jan Vesely:<br>
-&gt; Not Marek, but hope this answer will help.<br>
-&gt; libclc uses clang CLC preprocessor on .ll files, llvm/clang-13 started=
-<br>
-&gt; including clc declarations by default (clang<br>
-&gt; cf3ef15a6ec5e5b45c6c54e8fbe3769255e815ce),<br>
-&gt; thus corrupting any .ll assembly files that are used by libclc.<br>
-&gt; Inclusion of the default declarations can be turned off using a<br>
-&gt; cmdline switch but that remains to be implemented in the libclc build<=
-br>
-&gt; system.<br>
-&gt; manually adding &#39;-cl-no-stdinc&#39; should work as a workaround.<b=
-r>
-&gt; <br>
-&gt; Jan<br>
-&gt; <br>
-&gt; On Thu, Mar 4, 2021 at 10:27 PM Dieter N=C3=BCtzel &lt;<a href=3D"mail=
-to:Dieter@nuetzel-hh.de" target=3D"_blank">Dieter@nuetzel-hh.de</a>&gt;<br>
-&gt; wrote:<br>
-&gt; <br>
-&gt;&gt; Hello Marek,<br>
-&gt;&gt; <br>
-&gt;&gt; can&#39;t compile anything, here.<br>
-&gt;&gt; Poor Intel Nehalem X3470.<br>
-&gt;&gt; <br>
-&gt;&gt; Trying LLVM 12-rc2 later.<br>
-&gt;&gt; <br>
-&gt;&gt; Greetings,<br>
-&gt;&gt; Dieter<br>
-&gt;&gt; <br>
-&gt;&gt; llvm-project/libclc&gt; cd build &amp;&amp; cmake ../<br>
-&gt;&gt; -- The CXX compiler identification is GNU 10.2.1<br>
-&gt;&gt; -- Detecting CXX compiler ABI info<br>
-&gt;&gt; -- Detecting CXX compiler ABI info - done<br>
-&gt;&gt; -- Check for working CXX compiler: /usr/bin/c++ - skipped<br>
-&gt;&gt; -- Detecting CXX compile features<br>
-&gt;&gt; -- Detecting CXX compile features - done<br>
-&gt;&gt; LLVM version: 13.0.0git<br>
-&gt;&gt; LLVM system libs:<br>
-&gt;&gt; LLVM libs: -lLLVM-13git<br>
-&gt;&gt; LLVM libdir: /usr/local/lib<br>
-&gt;&gt; LLVM bindir: /usr/local/bin<br>
-&gt;&gt; LLVM ld flags: -L/usr/local/lib<br>
-&gt;&gt; LLVM cxx flags:<br>
-&gt;&gt; <br>
-&gt; -I/usr/local/include;-std=3Dc++14;;;-fno-exceptions;-D_GNU_SOURCE;-D__=
-STDC_CONSTANT_MACROS;-D__STDC_FORMAT_MACROS;-D__STDC_LIMIT_MACROS;-fno-rtti=
-;-fno-exceptions<br>
-&gt;&gt; <br>
-&gt;&gt; clang: /usr/local/bin/clang<br>
-&gt;&gt; llvm-as: /usr/local/bin/llvm-as<br>
-&gt;&gt; llvm-link: /usr/local/bin/llvm-link<br>
-&gt;&gt; opt: /usr/local/bin/opt<br>
-&gt;&gt; llvm-spirv: /usr/local/bin/llvm-spirv<br>
-&gt;&gt; <br>
-&gt;&gt; -- Check for working CLC compiler: /usr/local/bin/clang<br>
-&gt;&gt; -- Check for working CLC compiler: /usr/local/bin/clang -- works<b=
-r>
-&gt;&gt; -- Check for working LLAsm compiler: /usr/local/bin/llvm-as<br>
-&gt;&gt; -- Check for working LLAsm compiler: /usr/local/bin/llvm-as --<br>
-&gt;&gt; broken<br>
-&gt;&gt; CMake Error at cmake/CMakeTestLLAsmCompiler.cmake:40 (message):<br=
+Alex
+
+
 >
-&gt;&gt; The LLAsm compiler &quot;/usr/local/bin/llvm-as&quot; is not able =
-to<br>
-&gt;&gt; compile a<br>
-&gt;&gt; simple<br>
-&gt;&gt; test program.<br>
-&gt;&gt; <br>
-&gt;&gt; It fails with the following output:<br>
-&gt;&gt; <br>
-&gt;&gt; Change Dir: /opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp<br>
-&gt;&gt; <br>
-&gt;&gt; Run Build Command(s):/usr/bin/gmake cmTC_87af9/fast &amp;&amp;<br>
-&gt;&gt; /usr/bin/gmake<br>
-&gt;&gt; -f<br>
-&gt;&gt; CMakeFiles/cmTC_87af9.dir/build.make<br>
-&gt;&gt; CMakeFiles/cmTC_87af9.dir/build<br>
-&gt;&gt; <br>
-&gt;&gt; gmake[1]: Verzeichnis<br>
-&gt;&gt; =E2=80=9E/opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp=E2=80=
-=9C wird<br>
-&gt;&gt; betreten<br>
-&gt;&gt; <br>
-&gt;&gt; Building LLAsm object<br>
-&gt;&gt; CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc<br>
-&gt;&gt; <br>
-&gt;&gt; /usr/local/bin/clang -E -P -x cl<br>
-&gt;&gt; <br>
-&gt;&gt; <br>
-&gt; /opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp/testLLAsmCompiler.l=
-l<br>
-&gt;&gt; <br>
-&gt;&gt; -o<br>
-&gt;&gt; CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc.temp<br>
-&gt;&gt; <br>
-&gt;&gt; /usr/local/bin/llvm-as -o<br>
-&gt;&gt; CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc<br>
-&gt;&gt; CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc.temp<br>
-&gt;&gt; <br>
-&gt;&gt; /usr/local/bin/llvm-as:<br>
-&gt;&gt; CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc.temp:1:1: error:<br=
+> Logs:
+> [   27.708348] [drm] initializing kernel modesetting (RAVEN
+> 0x1002:0x15DD 0x1002:0x15DD 0x83).
+> [   27.789156] amdgpu: ATOM BIOS: 113-RAVEN-115
 >
-&gt;&gt; expected<br>
-&gt;&gt; top-level entity<br>
-&gt;&gt; <br>
-&gt;&gt; typedef unsigned char uchar;<br>
-&gt;&gt; <br>
-&gt;&gt; ^<br>
-&gt;&gt; <br>
-&gt;&gt; gmake[1]: *** [CMakeFiles/cmTC_87af9.dir/build.make:86:<br>
-&gt;&gt; CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc] Fehler 1<br>
-&gt;&gt; <br>
-&gt;&gt; gmake[1]: Verzeichnis<br>
-&gt;&gt; =E2=80=9E/opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp=E2=80=
-=9C wird<br>
-&gt;&gt; verlassen<br>
-&gt;&gt; <br>
-&gt;&gt; gmake: *** [Makefile:140: cmTC_87af9/fast] Fehler 2<br>
-&gt;&gt; <br>
-&gt;&gt; CMake will not be able to correctly generate this project.<br>
-&gt;&gt; Call Stack (most recent call first):<br>
-&gt;&gt; CMakeLists.txt:127 (enable_language)<br>
-&gt;&gt; <br>
-&gt;&gt; -- Configuring incomplete, errors occurred!<br>
-&gt;&gt; See also<br>
-&gt;&gt; &quot;/opt/llvm-project/libclc/build/CMakeFiles/CMakeOutput.log&qu=
-ot;.<br>
-&gt;&gt; See also &quot;/opt/llvm-project/libclc/build/CMakeFiles/CMakeErro=
-r.log&quot;.<br>
-&gt;&gt; <br>
-&gt;&gt; CMakeError.log<br>
-&gt;&gt; Determining if the LLAsm compiler works failed with the following<=
-br>
-&gt;&gt; output:<br>
-&gt;&gt; Change Dir: /opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp<br>
-&gt;&gt; <br>
-&gt;&gt; Run Build Command(s):/usr/bin/gmake cmTC_87af9/fast &amp;&amp;<br>
-&gt;&gt; /usr/bin/gmake<br>
-&gt;&gt; -f CMakeFiles/cmTC_87af9.dir/build.make<br>
-&gt;&gt; CMakeFiles/cmTC_87af9.dir/build<br>
-&gt;&gt; gmake[1]: Verzeichnis<br>
-&gt;&gt; =E2=80=9E/opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp=E2=80=
-=9C wird<br>
-&gt;&gt; betreten<br>
-&gt;&gt; Building LLAsm object CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.=
-bc<br>
-&gt;&gt; /usr/local/bin/clang -E -P=C2=A0 =C2=A0 =C2=A0-x cl<br>
-&gt;&gt; <br>
-&gt; /opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp/testLLAsmCompiler.l=
-l<br>
-&gt;&gt; <br>
-&gt;&gt; -o CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc.temp<br>
-&gt;&gt; /usr/local/bin/llvm-as -o<br>
-&gt;&gt; CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc<br>
-&gt;&gt; CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc.temp<br>
-&gt;&gt; /usr/local/bin/llvm-as:<br>
-&gt;&gt; CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc.temp:1:1: error:<br=
+> Thanks in advance,
+> Daniel
 >
-&gt;&gt; expected<br>
-&gt;&gt; top-level entity<br>
-&gt;&gt; typedef unsigned char uchar;<br>
-&gt;&gt; ^<br>
-&gt;&gt; gmake[1]: *** [CMakeFiles/cmTC_87af9.dir/build.make:86:<br>
-&gt;&gt; CMakeFiles/cmTC_87af9.dir/testLLAsmCompiler.bc] Fehler 1<br>
-&gt;&gt; gmake[1]: Verzeichnis<br>
-&gt;&gt; =E2=80=9E/opt/llvm-project/libclc/build/CMakeFiles/CMakeTmp=E2=80=
-=9C wird<br>
-&gt;&gt; verlassen<br>
-&gt;&gt; gmake: *** [Makefile:140: cmTC_87af9/fast] Fehler 2<br>
-&gt;&gt; _______________________________________________<br>
-&gt;&gt; dri-devel mailing list<br>
-&gt;&gt; <a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_blan=
-k">dri-devel@lists.freedesktop.org</a><br>
-&gt;&gt; <a href=3D"https://lists.freedesktop.org/mailman/listinfo/dri-deve=
-l" rel=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.org/mailm=
-an/listinfo/dri-devel</a><br>
-</blockquote></div>
-</blockquote></div></div></div>
-
---000000000000d82be705bd31a64b--
-
---===============1406490073==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> index 65db88bb6cbc..319d4b99aec8 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> @@ -1243,6 +1243,8 @@ static const struct amdgpu_gfxoff_quirk amdgpu_gfxoff_quirk_list[] = {
+>         { 0x1002, 0x15dd, 0x103c, 0x83e7, 0xd3 },
+>         /* GFXOFF is unstable on C6 parts with a VBIOS 113-RAVEN-114 */
+>         { 0x1002, 0x15dd, 0x1002, 0x15dd, 0xc6 },
+> +       /* GFXOFF provokes a hw lockup on 83 parts with a VBIOS 113-RAVEN-115 */
+> +       { 0x1002, 0x15dd, 0x1002, 0x15dd, 0x83 },
+>         { 0, 0, 0, 0, 0 },
+>  };
+>
+> --
+> 2.30.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1406490073==--
