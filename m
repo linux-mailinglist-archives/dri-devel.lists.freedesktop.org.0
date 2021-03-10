@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13559334729
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 19:52:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBB3A334735
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 19:54:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5E436E23F;
-	Wed, 10 Mar 2021 18:52:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1DB36E233;
+	Wed, 10 Mar 2021 18:54:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EECC16E23F;
- Wed, 10 Mar 2021 18:52:02 +0000 (UTC)
-IronPort-SDR: 0YjAVGnmzps8Ei7BKzHmAD+sNLmdZX6HwZKVdPpClNL/jBXNLuq8fvM5eo2t4ECOxIDc7d2gqI
- 2zfqogKiC3xA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="273578791"
-X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; d="scan'208";a="273578791"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2021 10:52:02 -0800
-IronPort-SDR: wUsgHdiIdOFjuxOJ37skXD/o2nOh69YpiJzyLdAROxzSi1DaWCuM2C1RjZ+1k1lIcPXEpBy1ii
- ec8TPly0Kj+g==
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5000C6E222;
+ Wed, 10 Mar 2021 18:54:45 +0000 (UTC)
+IronPort-SDR: xweirK/YhJJo6LZDJCeWi6q+1C3KG2f5vF1u1JpL8rW3cAA79dWjqMHbamfJy1BpkDaXGvOsBo
+ JGHcMERROSZA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="186161517"
+X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; d="scan'208";a="186161517"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2021 10:54:44 -0800
+IronPort-SDR: XxtQmEqfzd7x5aLTfSO/O6hvm0Wayz48PvSGxRGkF5T12HE0e3q0qdbN43UZmhBM8ubVrXpxLT
+ Im82CpLm8mGA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; d="scan'208";a="448002155"
+X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; d="scan'208";a="410305306"
 Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga001.jf.intel.com with SMTP; 10 Mar 2021 10:51:55 -0800
+ by orsmga008.jf.intel.com with SMTP; 10 Mar 2021 10:54:39 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 10 Mar 2021 20:51:54 +0200
-Date: Wed, 10 Mar 2021 20:51:54 +0200
+ Wed, 10 Mar 2021 20:54:38 +0200
+Date: Wed, 10 Mar 2021 20:54:38 +0200
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Subject: Re: [PATCH v3 1/3] drm/dp_helper: Define options for FRL training
- for HDMI2.1 PCON
-Message-ID: <YEkVSrqKmUTmO+9L@intel.com>
-References: <20210309043915.1921-1-ankit.k.nautiyal@intel.com>
- <20210309043915.1921-2-ankit.k.nautiyal@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [Intel-gfx] [RFC v1 1/6] drm/edid: make a number of functions,
+ parameters and variables const
+Message-ID: <YEkV7r2G0so84WkR@intel.com>
+References: <cover.1615297748.git.jani.nikula@intel.com>
+ <23463d5d4c75291d0665a23c91160e38cf6dbe5d.1615297748.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210309043915.1921-2-ankit.k.nautiyal@intel.com>
+In-Reply-To: <23463d5d4c75291d0665a23c91160e38cf6dbe5d.1615297748.git.jani.nikula@intel.com>
 X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,195 +51,281 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org, uma.shankar@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 09, 2021 at 10:09:13AM +0530, Ankit Nautiyal wrote:
-> Currently the FRL training mode (Concurrent, Sequential) and
-> training type (Normal, Extended) are not defined properly and
-> are passed as bool values in drm_helpers for pcon
-> configuration for FRL training.
+On Tue, Mar 09, 2021 at 03:54:09PM +0200, Jani Nikula wrote:
+> If there's no need to change it, it should be const. There's more to be
+> done, but start off with changes that make follow-up work easier. No
+> functional changes.
 > =
 
-> This patch:
-> -Add register masks for Sequential and Normal FRL training options.
-> -Fixes the drm_helpers for FRL Training configuration to use the
->  appropriate masks.
-> -Modifies the calls to the above drm_helpers in i915/intel_dp as per
->  the above change.
-> =
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-> v2: Re-used the register masks for these options, instead of enum. (Ville)
-> =
-
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+const is good.
 
 Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
 
 > ---
->  drivers/gpu/drm/drm_dp_helper.c         | 24 ++++++++++++++----------
->  drivers/gpu/drm/i915/display/intel_dp.c | 10 ++++------
->  include/drm/drm_dp_helper.h             |  6 ++++--
->  3 files changed, 22 insertions(+), 18 deletions(-)
+>  drivers/gpu/drm/drm_edid.c  | 58 ++++++++++++++++++-------------------
+>  include/drm/drm_displayid.h |  4 +--
+>  2 files changed, 31 insertions(+), 31 deletions(-)
 > =
 
-> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_hel=
-per.c
-> index eedbb48815b7..cb2f53e56685 100644
-> --- a/drivers/gpu/drm/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/drm_dp_helper.c
-> @@ -2635,14 +2635,16 @@ EXPORT_SYMBOL(drm_dp_pcon_is_frl_ready);
->   * drm_dp_pcon_frl_configure_1() - Set HDMI LINK Configuration-Step1
->   * @aux: DisplayPort AUX channel
->   * @max_frl_gbps: maximum frl bw to be configured between PCON and HDMI =
-sink
-> - * @concurrent_mode: true if concurrent mode or operation is required,
-> - * false otherwise.
-> + * @frl_mode: FRL Training mode, it can be either Concurrent or Sequenti=
-al.
-> + * In Concurrent Mode, the FRL link bring up can be done along with
-> + * DP Link training. In Sequential mode, the FRL link bring up is done p=
-rior to
-> + * the DP Link training.
->   *
->   * Returns 0 if success, else returns negative error code.
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index c2bbe7bee7b6..d510b827a1f8 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -1585,7 +1585,7 @@ module_param_named(edid_fixup, edid_fixup, int, 040=
+0);
+>  MODULE_PARM_DESC(edid_fixup,
+>  		 "Minimum number of valid EDID header bytes (0-8, default 6)");
+>  =
+
+> -static int validate_displayid(u8 *displayid, int length, int idx);
+> +static int validate_displayid(const u8 *displayid, int length, int idx);
+>  =
+
+>  static int drm_edid_block_checksum(const u8 *raw_edid)
+>  {
+> @@ -3241,10 +3241,10 @@ add_detailed_modes(struct drm_connector *connecto=
+r, struct edid *edid,
+>  /*
+>   * Search EDID for CEA extension block.
 >   */
->  =
-
->  int drm_dp_pcon_frl_configure_1(struct drm_dp_aux *aux, int max_frl_gbps,
-> -				bool concurrent_mode)
-> +				u8 frl_mode)
+> -static u8 *drm_find_edid_extension(const struct edid *edid,
+> -				   int ext_id, int *ext_index)
+> +static const u8 *drm_find_edid_extension(const struct edid *edid,
+> +					 int ext_id, int *ext_index)
 >  {
->  	int ret;
->  	u8 buf;
-> @@ -2651,7 +2653,7 @@ int drm_dp_pcon_frl_configure_1(struct drm_dp_aux *=
-aux, int max_frl_gbps,
->  	if (ret < 0)
->  		return ret;
+> -	u8 *edid_ext =3D NULL;
+> +	const u8 *edid_ext =3D NULL;
+>  	int i;
 >  =
 
-> -	if (concurrent_mode)
-> +	if (frl_mode =3D=3D DP_PCON_ENABLE_CONCURRENT_LINK)
->  		buf |=3D DP_PCON_ENABLE_CONCURRENT_LINK;
->  	else
->  		buf &=3D ~DP_PCON_ENABLE_CONCURRENT_LINK;
-> @@ -2694,21 +2696,23 @@ EXPORT_SYMBOL(drm_dp_pcon_frl_configure_1);
->   * drm_dp_pcon_frl_configure_2() - Set HDMI Link configuration Step-2
->   * @aux: DisplayPort AUX channel
->   * @max_frl_mask : Max FRL BW to be tried by the PCON with HDMI Sink
-> - * @extended_train_mode : true for Extended Mode, false for Normal Mode.
-> - * In Normal mode, the PCON tries each frl bw from the max_frl_mask star=
-ting
-> - * from min, and stops when link training is successful. In Extended mod=
-e, all
-> - * frl bw selected in the mask are trained by the PCON.
-> + * @frl_type : FRL training type, can be Extended, or Normal.
-> + * In Normal FRL training, the PCON tries each frl bw from the max_frl_m=
-ask
-> + * starting from min, and stops when link training is successful. In Ext=
-ended
-> + * FRL training, all frl bw selected in the mask are trained by the PCON.
->   *
->   * Returns 0 if success, else returns negative error code.
+>  	/* No EDID or EDID extensions */
+> @@ -3253,7 +3253,7 @@ static u8 *drm_find_edid_extension(const struct edi=
+d *edid,
+>  =
+
+>  	/* Find CEA extension */
+>  	for (i =3D *ext_index; i < edid->extensions; i++) {
+> -		edid_ext =3D (u8 *)edid + EDID_LENGTH * (i + 1);
+> +		edid_ext =3D (const u8 *)edid + EDID_LENGTH * (i + 1);
+>  		if (edid_ext[0] =3D=3D ext_id)
+>  			break;
+>  	}
+> @@ -3267,12 +3267,12 @@ static u8 *drm_find_edid_extension(const struct e=
+did *edid,
+>  }
+>  =
+
+>  =
+
+> -static u8 *drm_find_displayid_extension(const struct edid *edid,
+> -					int *length, int *idx,
+> -					int *ext_index)
+> +static const u8 *drm_find_displayid_extension(const struct edid *edid,
+> +					      int *length, int *idx,
+> +					      int *ext_index)
+>  {
+> -	u8 *displayid =3D drm_find_edid_extension(edid, DISPLAYID_EXT, ext_inde=
+x);
+> -	struct displayid_hdr *base;
+> +	const u8 *displayid =3D drm_find_edid_extension(edid, DISPLAYID_EXT, ex=
+t_index);
+> +	const struct displayid_hdr *base;
+>  	int ret;
+>  =
+
+>  	if (!displayid)
+> @@ -3286,18 +3286,18 @@ static u8 *drm_find_displayid_extension(const str=
+uct edid *edid,
+>  	if (ret)
+>  		return NULL;
+>  =
+
+> -	base =3D (struct displayid_hdr *)&displayid[*idx];
+> +	base =3D (const struct displayid_hdr *)&displayid[*idx];
+>  	*length =3D *idx + sizeof(*base) + base->bytes;
+>  =
+
+>  	return displayid;
+>  }
+>  =
+
+> -static u8 *drm_find_cea_extension(const struct edid *edid)
+> +static const u8 *drm_find_cea_extension(const struct edid *edid)
+>  {
+>  	int length, idx;
+> -	struct displayid_block *block;
+> -	u8 *cea;
+> -	u8 *displayid;
+> +	const struct displayid_block *block;
+> +	const u8 *cea;
+> +	const u8 *displayid;
+>  	int ext_index;
+>  =
+
+>  	/* Look for a top level CEA extension block */
+> @@ -3318,7 +3318,7 @@ static u8 *drm_find_cea_extension(const struct edid=
+ *edid)
+>  		idx +=3D sizeof(struct displayid_hdr);
+>  		for_each_displayid_db(displayid, block, idx, length) {
+>  			if (block->tag =3D=3D DATA_BLOCK_CTA)
+> -				return (u8 *)block;
+> +				return (const u8 *)block;
+>  		}
+>  	}
+>  =
+
+> @@ -4503,8 +4503,8 @@ static void clear_eld(struct drm_connector *connect=
+or)
+>  static void drm_edid_to_eld(struct drm_connector *connector, struct edid=
+ *edid)
+>  {
+>  	uint8_t *eld =3D connector->eld;
+> -	u8 *cea;
+> -	u8 *db;
+> +	const u8 *cea;
+> +	const u8 *db;
+>  	int total_sad_count =3D 0;
+>  	int mnl;
+>  	int dbl;
+> @@ -4600,7 +4600,7 @@ int drm_edid_to_sad(struct edid *edid, struct cea_s=
+ad **sads)
+>  {
+>  	int count =3D 0;
+>  	int i, start, end, dbl;
+> -	u8 *cea;
+> +	const u8 *cea;
+>  =
+
+>  	cea =3D drm_find_cea_extension(edid);
+>  	if (!cea) {
+> @@ -4619,7 +4619,7 @@ int drm_edid_to_sad(struct edid *edid, struct cea_s=
+ad **sads)
+>  	}
+>  =
+
+>  	for_each_cea_db(cea, i, start, end) {
+> -		u8 *db =3D &cea[i];
+> +		const u8 *db =3D &cea[i];
+>  =
+
+>  		if (cea_db_tag(db) =3D=3D AUDIO_BLOCK) {
+>  			int j;
+> @@ -4631,7 +4631,7 @@ int drm_edid_to_sad(struct edid *edid, struct cea_s=
+ad **sads)
+>  			if (!*sads)
+>  				return -ENOMEM;
+>  			for (j =3D 0; j < count; j++) {
+> -				u8 *sad =3D &db[1 + j * 3];
+> +				const u8 *sad =3D &db[1 + j * 3];
+>  =
+
+>  				(*sads)[j].format =3D (sad[0] & 0x78) >> 3;
+>  				(*sads)[j].channels =3D sad[0] & 0x7;
+> @@ -4755,7 +4755,7 @@ EXPORT_SYMBOL(drm_av_sync_delay);
 >   */
->  int drm_dp_pcon_frl_configure_2(struct drm_dp_aux *aux, int max_frl_mask,
-> -				bool extended_train_mode)
-> +				u8 frl_type)
+>  bool drm_detect_hdmi_monitor(struct edid *edid)
 >  {
->  	int ret;
->  	u8 buf =3D max_frl_mask;
+> -	u8 *edid_ext;
+> +	const u8 *edid_ext;
+>  	int i;
+>  	int start_offset, end_offset;
 >  =
 
-> -	if (extended_train_mode)
-> +	if (frl_type =3D=3D DP_PCON_FRL_LINK_TRAIN_EXTENDED)
->  		buf |=3D DP_PCON_FRL_LINK_TRAIN_EXTENDED;
-> +	else
-> +		buf &=3D ~DP_PCON_FRL_LINK_TRAIN_EXTENDED;
->  =
-
->  	ret =3D drm_dp_dpcd_writeb(aux, DP_PCON_HDMI_LINK_CONFIG_2, buf);
->  	if (ret < 0)
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
-15/display/intel_dp.c
-> index 4f89e0de5dde..85ec74ae952e 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -2557,10 +2557,6 @@ static int intel_dp_hdmi_sink_max_frl(struct intel=
-_dp *intel_dp)
->  =
-
->  static int intel_dp_pcon_start_frl_training(struct intel_dp *intel_dp)
+> @@ -4793,7 +4793,7 @@ EXPORT_SYMBOL(drm_detect_hdmi_monitor);
+>   */
+>  bool drm_detect_monitor_audio(struct edid *edid)
 >  {
-> -#define PCON_EXTENDED_TRAIN_MODE (1 > 0)
-> -#define PCON_CONCURRENT_MODE (1 > 0)
-> -#define PCON_SEQUENTIAL_MODE !PCON_CONCURRENT_MODE
-> -#define PCON_NORMAL_TRAIN_MODE !PCON_EXTENDED_TRAIN_MODE
->  #define TIMEOUT_FRL_READY_MS 500
->  #define TIMEOUT_HDMI_LINK_ACTIVE_MS 1000
+> -	u8 *edid_ext;
+> +	const u8 *edid_ext;
+>  	int i, j;
+>  	bool has_audio =3D false;
+>  	int start_offset, end_offset;
+> @@ -5287,13 +5287,13 @@ u32 drm_add_display_info(struct drm_connector *co=
+nnector, const struct edid *edi
+>  	return quirks;
+>  }
 >  =
 
-> @@ -2594,10 +2590,12 @@ static int intel_dp_pcon_start_frl_training(struc=
-t intel_dp *intel_dp)
->  		return -ETIMEDOUT;
+> -static int validate_displayid(u8 *displayid, int length, int idx)
+> +static int validate_displayid(const u8 *displayid, int length, int idx)
+>  {
+>  	int i, dispid_length;
+>  	u8 csum =3D 0;
+> -	struct displayid_hdr *base;
+> +	const struct displayid_hdr *base;
 >  =
 
->  	max_frl_bw_mask =3D intel_dp_pcon_set_frl_mask(max_frl_bw);
-> -	ret =3D drm_dp_pcon_frl_configure_1(&intel_dp->aux, max_frl_bw, PCON_SE=
-QUENTIAL_MODE);
-> +	ret =3D drm_dp_pcon_frl_configure_1(&intel_dp->aux, max_frl_bw,
-> +					  DP_PCON_ENABLE_SEQUENTIAL_LINK);
->  	if (ret < 0)
->  		return ret;
-> -	ret =3D drm_dp_pcon_frl_configure_2(&intel_dp->aux, max_frl_bw_mask, PC=
-ON_NORMAL_TRAIN_MODE);
-> +	ret =3D drm_dp_pcon_frl_configure_2(&intel_dp->aux, max_frl_bw_mask,
-> +					  DP_PCON_FRL_LINK_TRAIN_NORMAL);
->  	if (ret < 0)
->  		return ret;
->  	ret =3D drm_dp_pcon_frl_enable(&intel_dp->aux);
-> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> index edffd1dcca3e..f1c7e09728d4 100644
-> --- a/include/drm/drm_dp_helper.h
-> +++ b/include/drm/drm_dp_helper.h
-> @@ -1171,6 +1171,7 @@ struct drm_device;
->  # define DP_PCON_ENABLE_MAX_BW_48GBPS	       6
->  # define DP_PCON_ENABLE_SOURCE_CTL_MODE       (1 << 3)
->  # define DP_PCON_ENABLE_CONCURRENT_LINK       (1 << 4)
-> +# define DP_PCON_ENABLE_SEQUENTIAL_LINK       (0 << 4)
->  # define DP_PCON_ENABLE_LINK_FRL_MODE         (1 << 5)
->  # define DP_PCON_ENABLE_HPD_READY	      (1 << 6)
->  # define DP_PCON_ENABLE_HDMI_LINK             (1 << 7)
-> @@ -1185,6 +1186,7 @@ struct drm_device;
->  # define DP_PCON_FRL_BW_MASK_40GBPS           (1 << 4)
->  # define DP_PCON_FRL_BW_MASK_48GBPS           (1 << 5)
->  # define DP_PCON_FRL_LINK_TRAIN_EXTENDED      (1 << 6)
-> +# define DP_PCON_FRL_LINK_TRAIN_NORMAL        (0 << 6)
+> -	base =3D (struct displayid_hdr *)&displayid[idx];
+> +	base =3D (const struct displayid_hdr *)&displayid[idx];
 >  =
 
->  /* PCON HDMI LINK STATUS */
->  #define DP_PCON_HDMI_TX_LINK_STATUS           0x303B
-> @@ -2149,9 +2151,9 @@ int drm_dp_get_pcon_max_frl_bw(const u8 dpcd[DP_REC=
-EIVER_CAP_SIZE],
->  int drm_dp_pcon_frl_prepare(struct drm_dp_aux *aux, bool enable_frl_read=
-y_hpd);
->  bool drm_dp_pcon_is_frl_ready(struct drm_dp_aux *aux);
->  int drm_dp_pcon_frl_configure_1(struct drm_dp_aux *aux, int max_frl_gbps,
-> -				bool concurrent_mode);
-> +				u8 frl_mode);
->  int drm_dp_pcon_frl_configure_2(struct drm_dp_aux *aux, int max_frl_mask,
-> -				bool extended_train_mode);
-> +				u8 frl_type);
->  int drm_dp_pcon_reset_frl_config(struct drm_dp_aux *aux);
->  int drm_dp_pcon_frl_enable(struct drm_dp_aux *aux);
+>  	DRM_DEBUG_KMS("base revision 0x%x, length %d, %d %d\n",
+>  		      base->rev, base->bytes, base->prod_id, base->ext_count);
+> @@ -5359,7 +5359,7 @@ static struct drm_display_mode *drm_mode_displayid_=
+detailed(struct drm_device *d
+>  }
 >  =
 
+>  static int add_displayid_detailed_1_modes(struct drm_connector *connecto=
+r,
+> -					  struct displayid_block *block)
+> +					  const struct displayid_block *block)
+>  {
+>  	struct displayid_detailed_timing_block *det =3D (struct displayid_detai=
+led_timing_block *)block;
+>  	int i;
+> @@ -5387,9 +5387,9 @@ static int add_displayid_detailed_1_modes(struct dr=
+m_connector *connector,
+>  static int add_displayid_detailed_modes(struct drm_connector *connector,
+>  					struct edid *edid)
+>  {
+> -	u8 *displayid;
+> +	const u8 *displayid;
+>  	int length, idx;
+> -	struct displayid_block *block;
+> +	const struct displayid_block *block;
+>  	int num_modes =3D 0;
+>  	int ext_index =3D 0;
+>  =
+
+> diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
+> index 77941efb5426..f141c0eff083 100644
+> --- a/include/drm/drm_displayid.h
+> +++ b/include/drm/drm_displayid.h
+> @@ -93,11 +93,11 @@ struct displayid_detailed_timing_block {
+>  };
+>  =
+
+>  #define for_each_displayid_db(displayid, block, idx, length) \
+> -	for ((block) =3D (struct displayid_block *)&(displayid)[idx]; \
+> +	for ((block) =3D (const struct displayid_block *)&(displayid)[idx]; \
+>  	     (idx) + sizeof(struct displayid_block) <=3D (length) && \
+>  	     (idx) + sizeof(struct displayid_block) + (block)->num_bytes <=3D (=
+length) && \
+>  	     (block)->num_bytes > 0; \
+>  	     (idx) +=3D sizeof(struct displayid_block) + (block)->num_bytes, \
+> -	     (block) =3D (struct displayid_block *)&(displayid)[idx])
+> +	     (block) =3D (const struct displayid_block *)&(displayid)[idx])
+>  =
+
+>  #endif
 > -- =
 
-> 2.29.2
+> 2.20.1
+> =
+
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 
 -- =
 
