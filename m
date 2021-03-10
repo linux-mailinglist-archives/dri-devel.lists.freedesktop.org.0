@@ -2,43 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBB3A334735
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 19:54:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3A533473C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 19:55:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1DB36E233;
-	Wed, 10 Mar 2021 18:54:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBF4B6E245;
+	Wed, 10 Mar 2021 18:55:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5000C6E222;
- Wed, 10 Mar 2021 18:54:45 +0000 (UTC)
-IronPort-SDR: xweirK/YhJJo6LZDJCeWi6q+1C3KG2f5vF1u1JpL8rW3cAA79dWjqMHbamfJy1BpkDaXGvOsBo
- JGHcMERROSZA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="186161517"
-X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; d="scan'208";a="186161517"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2021 10:54:44 -0800
-IronPort-SDR: XxtQmEqfzd7x5aLTfSO/O6hvm0Wayz48PvSGxRGkF5T12HE0e3q0qdbN43UZmhBM8ubVrXpxLT
- Im82CpLm8mGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; d="scan'208";a="410305306"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga008.jf.intel.com with SMTP; 10 Mar 2021 10:54:39 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 10 Mar 2021 20:54:38 +0200
-Date: Wed, 10 Mar 2021 20:54:38 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [Intel-gfx] [RFC v1 1/6] drm/edid: make a number of functions,
- parameters and variables const
-Message-ID: <YEkV7r2G0so84WkR@intel.com>
-References: <cover.1615297748.git.jani.nikula@intel.com>
- <23463d5d4c75291d0665a23c91160e38cf6dbe5d.1615297748.git.jani.nikula@intel.com>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C41B66E245
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 18:55:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=xPa0e9GY36MTdUnU4Us/o0bHjoJTlPS3WAbT34ElMIs=; b=IJmYRV4hZ3EEw0NVPp8cuKjNph
+ RppQyGXpVETCuFn+gF9WObaqrL0avriNNB7MqxPayCpLStu3oKdyxypqQUIYVqzuiSUzz4EepXd2V
+ +nh0a+RgbHK/rQuwlYvoe++yt7qkY/kyltg9MTGpfUmBHDlN/VWPVYA532UhHeFtsncYqjO6U9V4o
+ 8X/uSUFjh5IHf8PcBV8ld1L7z9WswWS7jyAigLv4+z2NxZI5EExPrE1auakhoruBj/W4uibXdv9Yi
+ lVuJtGPWNLHqGnhlao9L9ROybrWXETuKs6brYE9PNEQuddzZYNIaa+GanlRS6SYmD5SrVHzISv4Yt
+ c8E4LuYA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
+ Linux)) id 1lK3zX-004Q1q-Qh; Wed, 10 Mar 2021 18:55:33 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org
+Subject: [PATCH v2] fb_defio: Remove custom address_space_operations
+Date: Wed, 10 Mar 2021 18:55:30 +0000
+Message-Id: <20210310185530.1053320-1-willy@infradead.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <23463d5d4c75291d0665a23c91160e38cf6dbe5d.1615297748.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,286 +45,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: William Kucharski <william.kucharski@oracle.com>,
+ Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org,
+ "Matthew Wilcox \(Oracle\)" <willy@infradead.org>, linux-mm@kvack.org,
+ Ian Campbell <ijc@hellion.org.uk>, linux-fsdevel@vger.kernel.org,
+ Jaya Kumar <jayakumar.lkml@gmail.com>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 09, 2021 at 03:54:09PM +0200, Jani Nikula wrote:
-> If there's no need to change it, it should be const. There's more to be
-> done, but start off with changes that make follow-up work easier. No
-> functional changes.
-> =
+There's no need to give the page an address_space.  Leaving the
+page->mapping as NULL will cause the VM to handle set_page_dirty()
+the same way that it's handled now, and that was the only reason to
+set the address_space in the first place.
 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: William Kucharski <william.kucharski@oracle.com>
+---
+v2: Delete local variable definitions
+ drivers/video/fbdev/core/fb_defio.c | 35 -----------------------------
+ drivers/video/fbdev/core/fbmem.c    |  4 ----
+ include/linux/fb.h                  |  3 ---
+ 3 files changed, 42 deletions(-)
 
-const is good.
+diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
+index a591d291b231..b292887a2481 100644
+--- a/drivers/video/fbdev/core/fb_defio.c
++++ b/drivers/video/fbdev/core/fb_defio.c
+@@ -52,13 +52,6 @@ static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
+ 		return VM_FAULT_SIGBUS;
+ 
+ 	get_page(page);
+-
+-	if (vmf->vma->vm_file)
+-		page->mapping = vmf->vma->vm_file->f_mapping;
+-	else
+-		printk(KERN_ERR "no mapping available\n");
+-
+-	BUG_ON(!page->mapping);
+ 	page->index = vmf->pgoff;
+ 
+ 	vmf->page = page;
+@@ -151,17 +144,6 @@ static const struct vm_operations_struct fb_deferred_io_vm_ops = {
+ 	.page_mkwrite	= fb_deferred_io_mkwrite,
+ };
+ 
+-static int fb_deferred_io_set_page_dirty(struct page *page)
+-{
+-	if (!PageDirty(page))
+-		SetPageDirty(page);
+-	return 0;
+-}
+-
+-static const struct address_space_operations fb_deferred_io_aops = {
+-	.set_page_dirty = fb_deferred_io_set_page_dirty,
+-};
+-
+ int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma)
+ {
+ 	vma->vm_ops = &fb_deferred_io_vm_ops;
+@@ -212,29 +194,12 @@ void fb_deferred_io_init(struct fb_info *info)
+ }
+ EXPORT_SYMBOL_GPL(fb_deferred_io_init);
+ 
+-void fb_deferred_io_open(struct fb_info *info,
+-			 struct inode *inode,
+-			 struct file *file)
+-{
+-	file->f_mapping->a_ops = &fb_deferred_io_aops;
+-}
+-EXPORT_SYMBOL_GPL(fb_deferred_io_open);
+-
+ void fb_deferred_io_cleanup(struct fb_info *info)
+ {
+ 	struct fb_deferred_io *fbdefio = info->fbdefio;
+-	struct page *page;
+-	int i;
+ 
+ 	BUG_ON(!fbdefio);
+ 	cancel_delayed_work_sync(&info->deferred_work);
+-
+-	/* clear out the mapping that we setup */
+-	for (i = 0 ; i < info->fix.smem_len; i += PAGE_SIZE) {
+-		page = fb_deferred_io_page(info, i);
+-		page->mapping = NULL;
+-	}
+-
+ 	mutex_destroy(&fbdefio->lock);
+ }
+ EXPORT_SYMBOL_GPL(fb_deferred_io_cleanup);
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 06f5805de2de..372b52a2befa 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1415,10 +1415,6 @@ __releases(&info->lock)
+ 		if (res)
+ 			module_put(info->fbops->owner);
+ 	}
+-#ifdef CONFIG_FB_DEFERRED_IO
+-	if (info->fbdefio)
+-		fb_deferred_io_open(info, inode, file);
+-#endif
+ out:
+ 	unlock_fb_info(info);
+ 	if (res)
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index ecfbcc0553a5..a8dccd23c249 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -659,9 +659,6 @@ static inline void __fb_pad_aligned_buffer(u8 *dst, u32 d_pitch,
+ /* drivers/video/fb_defio.c */
+ int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma);
+ extern void fb_deferred_io_init(struct fb_info *info);
+-extern void fb_deferred_io_open(struct fb_info *info,
+-				struct inode *inode,
+-				struct file *file);
+ extern void fb_deferred_io_cleanup(struct fb_info *info);
+ extern int fb_deferred_io_fsync(struct file *file, loff_t start,
+ 				loff_t end, int datasync);
+-- 
+2.30.0
 
-Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-
-> ---
->  drivers/gpu/drm/drm_edid.c  | 58 ++++++++++++++++++-------------------
->  include/drm/drm_displayid.h |  4 +--
->  2 files changed, 31 insertions(+), 31 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index c2bbe7bee7b6..d510b827a1f8 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -1585,7 +1585,7 @@ module_param_named(edid_fixup, edid_fixup, int, 040=
-0);
->  MODULE_PARM_DESC(edid_fixup,
->  		 "Minimum number of valid EDID header bytes (0-8, default 6)");
->  =
-
-> -static int validate_displayid(u8 *displayid, int length, int idx);
-> +static int validate_displayid(const u8 *displayid, int length, int idx);
->  =
-
->  static int drm_edid_block_checksum(const u8 *raw_edid)
->  {
-> @@ -3241,10 +3241,10 @@ add_detailed_modes(struct drm_connector *connecto=
-r, struct edid *edid,
->  /*
->   * Search EDID for CEA extension block.
->   */
-> -static u8 *drm_find_edid_extension(const struct edid *edid,
-> -				   int ext_id, int *ext_index)
-> +static const u8 *drm_find_edid_extension(const struct edid *edid,
-> +					 int ext_id, int *ext_index)
->  {
-> -	u8 *edid_ext =3D NULL;
-> +	const u8 *edid_ext =3D NULL;
->  	int i;
->  =
-
->  	/* No EDID or EDID extensions */
-> @@ -3253,7 +3253,7 @@ static u8 *drm_find_edid_extension(const struct edi=
-d *edid,
->  =
-
->  	/* Find CEA extension */
->  	for (i =3D *ext_index; i < edid->extensions; i++) {
-> -		edid_ext =3D (u8 *)edid + EDID_LENGTH * (i + 1);
-> +		edid_ext =3D (const u8 *)edid + EDID_LENGTH * (i + 1);
->  		if (edid_ext[0] =3D=3D ext_id)
->  			break;
->  	}
-> @@ -3267,12 +3267,12 @@ static u8 *drm_find_edid_extension(const struct e=
-did *edid,
->  }
->  =
-
->  =
-
-> -static u8 *drm_find_displayid_extension(const struct edid *edid,
-> -					int *length, int *idx,
-> -					int *ext_index)
-> +static const u8 *drm_find_displayid_extension(const struct edid *edid,
-> +					      int *length, int *idx,
-> +					      int *ext_index)
->  {
-> -	u8 *displayid =3D drm_find_edid_extension(edid, DISPLAYID_EXT, ext_inde=
-x);
-> -	struct displayid_hdr *base;
-> +	const u8 *displayid =3D drm_find_edid_extension(edid, DISPLAYID_EXT, ex=
-t_index);
-> +	const struct displayid_hdr *base;
->  	int ret;
->  =
-
->  	if (!displayid)
-> @@ -3286,18 +3286,18 @@ static u8 *drm_find_displayid_extension(const str=
-uct edid *edid,
->  	if (ret)
->  		return NULL;
->  =
-
-> -	base =3D (struct displayid_hdr *)&displayid[*idx];
-> +	base =3D (const struct displayid_hdr *)&displayid[*idx];
->  	*length =3D *idx + sizeof(*base) + base->bytes;
->  =
-
->  	return displayid;
->  }
->  =
-
-> -static u8 *drm_find_cea_extension(const struct edid *edid)
-> +static const u8 *drm_find_cea_extension(const struct edid *edid)
->  {
->  	int length, idx;
-> -	struct displayid_block *block;
-> -	u8 *cea;
-> -	u8 *displayid;
-> +	const struct displayid_block *block;
-> +	const u8 *cea;
-> +	const u8 *displayid;
->  	int ext_index;
->  =
-
->  	/* Look for a top level CEA extension block */
-> @@ -3318,7 +3318,7 @@ static u8 *drm_find_cea_extension(const struct edid=
- *edid)
->  		idx +=3D sizeof(struct displayid_hdr);
->  		for_each_displayid_db(displayid, block, idx, length) {
->  			if (block->tag =3D=3D DATA_BLOCK_CTA)
-> -				return (u8 *)block;
-> +				return (const u8 *)block;
->  		}
->  	}
->  =
-
-> @@ -4503,8 +4503,8 @@ static void clear_eld(struct drm_connector *connect=
-or)
->  static void drm_edid_to_eld(struct drm_connector *connector, struct edid=
- *edid)
->  {
->  	uint8_t *eld =3D connector->eld;
-> -	u8 *cea;
-> -	u8 *db;
-> +	const u8 *cea;
-> +	const u8 *db;
->  	int total_sad_count =3D 0;
->  	int mnl;
->  	int dbl;
-> @@ -4600,7 +4600,7 @@ int drm_edid_to_sad(struct edid *edid, struct cea_s=
-ad **sads)
->  {
->  	int count =3D 0;
->  	int i, start, end, dbl;
-> -	u8 *cea;
-> +	const u8 *cea;
->  =
-
->  	cea =3D drm_find_cea_extension(edid);
->  	if (!cea) {
-> @@ -4619,7 +4619,7 @@ int drm_edid_to_sad(struct edid *edid, struct cea_s=
-ad **sads)
->  	}
->  =
-
->  	for_each_cea_db(cea, i, start, end) {
-> -		u8 *db =3D &cea[i];
-> +		const u8 *db =3D &cea[i];
->  =
-
->  		if (cea_db_tag(db) =3D=3D AUDIO_BLOCK) {
->  			int j;
-> @@ -4631,7 +4631,7 @@ int drm_edid_to_sad(struct edid *edid, struct cea_s=
-ad **sads)
->  			if (!*sads)
->  				return -ENOMEM;
->  			for (j =3D 0; j < count; j++) {
-> -				u8 *sad =3D &db[1 + j * 3];
-> +				const u8 *sad =3D &db[1 + j * 3];
->  =
-
->  				(*sads)[j].format =3D (sad[0] & 0x78) >> 3;
->  				(*sads)[j].channels =3D sad[0] & 0x7;
-> @@ -4755,7 +4755,7 @@ EXPORT_SYMBOL(drm_av_sync_delay);
->   */
->  bool drm_detect_hdmi_monitor(struct edid *edid)
->  {
-> -	u8 *edid_ext;
-> +	const u8 *edid_ext;
->  	int i;
->  	int start_offset, end_offset;
->  =
-
-> @@ -4793,7 +4793,7 @@ EXPORT_SYMBOL(drm_detect_hdmi_monitor);
->   */
->  bool drm_detect_monitor_audio(struct edid *edid)
->  {
-> -	u8 *edid_ext;
-> +	const u8 *edid_ext;
->  	int i, j;
->  	bool has_audio =3D false;
->  	int start_offset, end_offset;
-> @@ -5287,13 +5287,13 @@ u32 drm_add_display_info(struct drm_connector *co=
-nnector, const struct edid *edi
->  	return quirks;
->  }
->  =
-
-> -static int validate_displayid(u8 *displayid, int length, int idx)
-> +static int validate_displayid(const u8 *displayid, int length, int idx)
->  {
->  	int i, dispid_length;
->  	u8 csum =3D 0;
-> -	struct displayid_hdr *base;
-> +	const struct displayid_hdr *base;
->  =
-
-> -	base =3D (struct displayid_hdr *)&displayid[idx];
-> +	base =3D (const struct displayid_hdr *)&displayid[idx];
->  =
-
->  	DRM_DEBUG_KMS("base revision 0x%x, length %d, %d %d\n",
->  		      base->rev, base->bytes, base->prod_id, base->ext_count);
-> @@ -5359,7 +5359,7 @@ static struct drm_display_mode *drm_mode_displayid_=
-detailed(struct drm_device *d
->  }
->  =
-
->  static int add_displayid_detailed_1_modes(struct drm_connector *connecto=
-r,
-> -					  struct displayid_block *block)
-> +					  const struct displayid_block *block)
->  {
->  	struct displayid_detailed_timing_block *det =3D (struct displayid_detai=
-led_timing_block *)block;
->  	int i;
-> @@ -5387,9 +5387,9 @@ static int add_displayid_detailed_1_modes(struct dr=
-m_connector *connector,
->  static int add_displayid_detailed_modes(struct drm_connector *connector,
->  					struct edid *edid)
->  {
-> -	u8 *displayid;
-> +	const u8 *displayid;
->  	int length, idx;
-> -	struct displayid_block *block;
-> +	const struct displayid_block *block;
->  	int num_modes =3D 0;
->  	int ext_index =3D 0;
->  =
-
-> diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
-> index 77941efb5426..f141c0eff083 100644
-> --- a/include/drm/drm_displayid.h
-> +++ b/include/drm/drm_displayid.h
-> @@ -93,11 +93,11 @@ struct displayid_detailed_timing_block {
->  };
->  =
-
->  #define for_each_displayid_db(displayid, block, idx, length) \
-> -	for ((block) =3D (struct displayid_block *)&(displayid)[idx]; \
-> +	for ((block) =3D (const struct displayid_block *)&(displayid)[idx]; \
->  	     (idx) + sizeof(struct displayid_block) <=3D (length) && \
->  	     (idx) + sizeof(struct displayid_block) + (block)->num_bytes <=3D (=
-length) && \
->  	     (block)->num_bytes > 0; \
->  	     (idx) +=3D sizeof(struct displayid_block) + (block)->num_bytes, \
-> -	     (block) =3D (struct displayid_block *)&(displayid)[idx])
-> +	     (block) =3D (const struct displayid_block *)&(displayid)[idx])
->  =
-
->  #endif
-> -- =
-
-> 2.20.1
-> =
-
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
