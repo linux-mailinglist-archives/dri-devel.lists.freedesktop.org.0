@@ -2,53 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CCC33479E
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 20:11:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F783347A0
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 20:12:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7881F6E2A3;
-	Wed, 10 Mar 2021 19:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D803889CCB;
+	Wed, 10 Mar 2021 19:12:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB1D56E2A3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 19:11:49 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id f12so24573542wrx.8
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 11:11:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XZ2N8G7X3AIS0KqmQoEuSmRBCn/+/0Pu32tG/WH4BOw=;
- b=TRjIUEPsdVFdehtlILSAg5T+jHSQgjqcb0VnAvRZO5vnRKBep1Xm9FkspShYO959lF
- mdHCdObY3hKgRfMrhzKtkE+PLxsFqfWzng4U6IBfMjYTDasXkMFojYuW6UDmC9egyGke
- Ma0z9tmeMLoAsRl3K9JKE5mqwSORunty5x267VL215YLmlYt5byTTGKPk+DKw7klSyW/
- jxuMWYSNxMP11At8R9TV595G36jFr64/eK4ZOBRVZRXBCPlflT9pyPdmbRArMmZ65FHh
- nq7sZGhKW+HAfJbVDXDIGDLfdTIzeqFj/bOYNSMgxVb7xaGFvWGvGAyVZ8fc2k6nUSoo
- NG4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XZ2N8G7X3AIS0KqmQoEuSmRBCn/+/0Pu32tG/WH4BOw=;
- b=W7D9u+5p7TkuXtWvN0J8R3RuhjUujn4jdtCWvfYFDhwCrnhfaFp3NCjYyy8f6nfllK
- gPOEM2n7NdSrA/FbQSFVtoGv+cRSdLxnMqBSAm2Y+zi7FHQ29VndD9LWWjUi0B+p6ZjC
- RDyFaJAizsuTx3JV1NWrkYAVE8DJhe5e6ZI4xz+gdN/UX/bCXzayF9hgbgL+FaiHfBWs
- ocyClDwvtApv91Q/UAPIw8FHKyJTl3nEmnefcvu8Awa87cCNgSKvGa+6VV6K2Xe7ot/b
- zCldJ+g3LCLh3wQcQEJFcmY0InNCJqyobNiIq6a9KxXQyLWuTtfjtMefnH+OvAuiuHde
- ze1g==
-X-Gm-Message-State: AOAM531h7LE30QmyYqbXpRps2F6oOkroS36o3Jmj9TRR60BcFL4E4G5v
- v/f8G0OWiQjj9OyHET1RXrNjJ3Vuo6cjsE0o40M=
-X-Google-Smtp-Source: ABdhPJyfzY35biliH49MAj/mEjspbsMQ3GXQgXrIQLY0nr7yuNRryfECpCxNI6I08BlQqKVDixNeEW+P5zSVrSLaVIU=
-X-Received: by 2002:a5d:6b8a:: with SMTP id n10mr5080908wrx.150.1615403508464; 
- Wed, 10 Mar 2021 11:11:48 -0800 (PST)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C34E889CCB;
+ Wed, 10 Mar 2021 19:12:31 +0000 (UTC)
+IronPort-SDR: UEaj4FXvBjV0F/tCh9reA3oewfaABI8pDNav1JdVUdP9z8fOryyF09L/Q9jHB3LAgB8IA1Oxmu
+ 1x5lCKrBB0Dg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="175648512"
+X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; d="scan'208";a="175648512"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2021 11:12:30 -0800
+IronPort-SDR: HipzxYdw+gN21AwTQH3t+Ng6MKWD1GrE4t0kpDe9Vj6FXNA+TOtSRPrxBGtTz0nq/NG4HpuJ1z
+ YEK5iUgf5JeA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; d="scan'208";a="372057886"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga006.jf.intel.com with SMTP; 10 Mar 2021 11:12:28 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 10 Mar 2021 21:12:27 +0200
+Date: Wed, 10 Mar 2021 21:12:27 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [RFC v1 5/6] drm/edid: use the new displayid iterator for
+ finding CEA extension
+Message-ID: <YEkaG4HoEPME4OHa@intel.com>
+References: <cover.1615297748.git.jani.nikula@intel.com>
+ <8a527f66b856d6c099313046e028a18f9257baa8.1615297748.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-References: <CAPM=9tyZF=seWUswnp7M3RbDQC2hLUc0wjpYYyEfn3dgpOf4zw@mail.gmail.com>
- <20210310074851.x4lo4ymkq25e2iw2@gilmour>
-In-Reply-To: <20210310074851.x4lo4ymkq25e2iw2@gilmour>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 11 Mar 2021 05:11:36 +1000
-Message-ID: <CAPM=9tym-LbpFhFCyezYRZeOv6ryEcGj-Jh5yH_87x45g8NN_w@mail.gmail.com>
-Subject: Re: don't base trees on 5.12-rc1
-To: Maxime Ripard <maxime@cerno.tech>
+Content-Disposition: inline
+In-Reply-To: <8a527f66b856d6c099313046e028a18f9257baa8.1615297748.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,43 +51,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 10 Mar 2021 at 17:48, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> Hi Dave,
->
-> On Wed, Mar 10, 2021 at 09:50:29AM +1000, Dave Airlie wrote:
-> > I'm mostly sending this to the -misc maintainers because
-> > drm-misc-fixes is based on rc1 at present.
-> >
-> > This needs to be *rebased* not merged up to 5.12-rc2. Merging will
-> > still have the bad landmine commits in the bisect history. This is a
-> > very special case.
->
-> I'm sorry, I'm not entirely sure I get this. -rc1 is still in the -rc2
-> history, so how would that change anything in the bisect history?
->
+On Tue, Mar 09, 2021 at 03:54:13PM +0200, Jani Nikula wrote:
+> Neatly reduce displayid boilerplate in code. No functional changes.
+> =
 
-We can't get rid of the bad commit range, we can reduce the amount of
-times someone accidentally bisects into it, by not using it as a base
-commit for future changes.
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-If in the future a bisect happens to want to test one of the patches
-in drm-misc-fixes that is based on rc1, it will land the user with an
-rc1 test kernel and could eat their swapfile/disk. We can avoid that
-problem by not using rc1 as a base for drm-misc-fixes.
+Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 25 +++++++++----------------
+>  1 file changed, 9 insertions(+), 16 deletions(-)
+> =
 
-We can't avoid them bisecting into the broken commits between when
-this landed and was fixed, but rebasing trees can minimise the chances
-of this when bisecting other changesets.
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index fbaa7d679cb2..4526e2557dca 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -3266,35 +3266,28 @@ const u8 *drm_find_edid_extension(const struct ed=
+id *edid,
+>  =
 
-Dave.
+>  static const u8 *drm_find_cea_extension(const struct edid *edid)
+>  {
+> -	int length, idx;
+>  	const struct displayid_block *block;
+> +	struct displayid_iter iter;
+>  	const u8 *cea;
+> -	const u8 *displayid;
+> -	int ext_index;
+> +	int ext_index =3D 0;
+>  =
+
+>  	/* Look for a top level CEA extension block */
+>  	/* FIXME: make callers iterate through multiple CEA ext blocks? */
+> -	ext_index =3D 0;
+>  	cea =3D drm_find_edid_extension(edid, CEA_EXT, &ext_index);
+>  	if (cea)
+>  		return cea;
+>  =
+
+>  	/* CEA blocks can also be found embedded in a DisplayID block */
+> -	ext_index =3D 0;
+> -	for (;;) {
+> -		displayid =3D drm_find_displayid_extension(edid, &length, &idx,
+> -							 &ext_index);
+> -		if (!displayid)
+> -			return NULL;
+> -
+> -		idx +=3D sizeof(struct displayid_hdr);
+> -		for_each_displayid_db(displayid, block, idx, length) {
+> -			if (block->tag =3D=3D DATA_BLOCK_CTA)
+> -				return (const u8 *)block;
+> +	displayid_iter_edid_begin(edid, &iter);
+> +	displayid_iter_for_each(block, &iter) {
+> +		if (block->tag =3D=3D DATA_BLOCK_CTA) {
+> +			cea =3D (const u8 *)block;
+> +			break;
+>  		}
+>  	}
+> +	displayid_iter_end(&iter);
+>  =
+
+> -	return NULL;
+> +	return cea;
+>  }
+>  =
+
+>  static __always_inline const struct drm_display_mode *cea_mode_for_vic(u=
+8 vic)
+> -- =
+
+> 2.20.1
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
