@@ -1,31 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5573C33496E
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 22:08:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41836334971
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 22:08:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6ADF6EA5D;
-	Wed, 10 Mar 2021 21:08:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 283116EA60;
+	Wed, 10 Mar 2021 21:08:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1780 seconds by postgrey-1.36 at gabe;
- Wed, 10 Mar 2021 17:07:18 UTC
 Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [142.44.231.140])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA2306E21C
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 17:07:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F9786EA4A
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 17:11:43 +0000 (UTC)
 Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94 #2 (Red Hat
- Linux)) id 1lK1ia-004clg-19; Wed, 10 Mar 2021 16:29:52 +0000
-Date: Wed, 10 Mar 2021 16:29:51 +0000
+ Linux)) id 1lK1lC-004co5-Or; Wed, 10 Mar 2021 16:32:34 +0000
+Date: Wed, 10 Mar 2021 16:32:34 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 3/9] powerpc/pseries: remove the ppc-cmm file system
-Message-ID: <YEjz/+HfILCUwKwb@zeniv-ca.linux.org.uk>
+Subject: Re: [PATCH 4/9] drm: remove the drm file system
+Message-ID: <YEj0omfcBhbXVHy4@zeniv-ca.linux.org.uk>
 References: <20210309155348.974875-1-hch@lst.de>
- <20210309155348.974875-4-hch@lst.de>
+ <20210309155348.974875-5-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210309155348.974875-4-hch@lst.de>
+In-Reply-To: <20210309155348.974875-5-hch@lst.de>
 X-Mailman-Approved-At: Wed, 10 Mar 2021 21:07:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,14 +50,10 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 09, 2021 at 04:53:42PM +0100, Christoph Hellwig wrote:
+On Tue, Mar 09, 2021 at 04:53:43PM +0100, Christoph Hellwig wrote:
 > Just use the generic anon_inode file system.
 
-Umm...  The only problem I see here is the lifetime rules for
-that module, and that's not something introduced in this patchset.
-Said that, looks like the logics around that place is duplicated in
-cmm.c, vmw_balloon.c and virtion_balloon.c and I wonder if it would
-be better off with a helper in mm/balloon.c to be used for that setup...
+Are you changing the lifetime rules for that module?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
