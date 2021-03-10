@@ -1,50 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F12334577
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 18:47:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12D843346F3
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 19:40:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 768536E22B;
-	Wed, 10 Mar 2021 17:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3119F6E13C;
+	Wed, 10 Mar 2021 18:40:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7346E22B;
- Wed, 10 Mar 2021 17:47:38 +0000 (UTC)
-Date: Wed, 10 Mar 2021 18:47:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1615398456;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XVqhHJOY6QvydCCuAwnoK5TKJA34dkf9/Q23ldIBRmI=;
- b=2A1aWkA8UguE1xJWz6OuffjBdFmn/kNQnGXP0O/Nzm5ztoOdGP44iit+jyO3HeZkgcs1gf
- P0Uj8dBSCtAYfw030gb3QircS2Ure8qfqeGEpTMWclVkLcx3am1neaweG3NqDQfsFCefyL
- d7iOqCbotOXKyU+xpCc4nqdp8fp7vL+x8mMyJjvf+bMLbTfX9Vmjn8rrbjeMoEjgIeepn+
- m4qMmnwqf0hKggSLUgKZMsD3o/8PEcTWqkIXhYm8MASLFAw207MFoldHC5IytuJrJOqfEb
- RvR7JsvGAPSou6/2jHwjuU6nsAQZnVGSSfF7MznHtfRb/zmPJM3LhPgQ151WfQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1615398456;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XVqhHJOY6QvydCCuAwnoK5TKJA34dkf9/Q23ldIBRmI=;
- b=7aKrywXbag55QgruhWLE6M1mCs9eNiSgixWJbm2Fkr/fC25B6wx+4knwX74Y2/e4UpZmL6
- Hzma9CHfqI+SL0AA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [PATCH v2 0/3] drm/amdgpu: Remove in_interrupt() usage.
-Message-ID: <20210310174734.hxzmmn5eo5bc5whb@linutronix.de>
-References: <20210209124439.408140-1-bigeasy@linutronix.de>
- <41d0f7db-c2b4-f618-42a7-da9f7cdb76b4@amd.com>
- <20210209165312.bq2yn73fqidt7hgl@linutronix.de>
- <02371b80-667b-81a0-b8d7-7fd085442b1b@amd.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5C12A89DD2;
+ Wed, 10 Mar 2021 18:40:07 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 837CE1FB;
+ Wed, 10 Mar 2021 10:40:06 -0800 (PST)
+Received: from [10.57.52.136] (unknown [10.57.52.136])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0A6053F800;
+ Wed, 10 Mar 2021 10:40:03 -0800 (PST)
+Subject: Re: [PATCH 14/17] iommu: remove DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE
+To: Christoph Hellwig <hch@lst.de>
+References: <20210301084257.945454-1-hch@lst.de>
+ <20210301084257.945454-15-hch@lst.de>
+ <1658805c-ed28-b650-7385-a56fab3383e3@arm.com> <20210310091501.GC5928@lst.de>
+ <20210310092533.GA6819@lst.de>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <fdacf87a-be14-c92c-4084-1d1dd4fc7766@arm.com>
+Date: Wed, 10 Mar 2021 18:39:57 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <02371b80-667b-81a0-b8d7-7fd085442b1b@amd.com>
+In-Reply-To: <20210310092533.GA6819@lst.de>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,53 +44,236 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kvm@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, Li Yang <leoyang.li@nxp.com>,
+ iommu@lists.linux-foundation.org, netdev@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Michael Ellerman <mpe@ellerman.id.au>,
+ virtualization@lists.linux-foundation.org, freedreno@lists.freedesktop.org,
+ David Woodhouse <dwmw2@infradead.org>, linux-arm-msm@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMS0wMi0wOSAxODo0Mzo1NCBbKzAxMDBdLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+
-IEhpIFNlYmFzdGlhbiwKSGkgQ2hyaXN0aWFuLAoKPiB0byBiZSBob25lc3QgSSdtIHRoaW5raW5n
-IGFib3V0IHRoYXQgZm9yIHF1aXRlIHNvbWUgdGltZSBub3cgYW5kIEkgZG9uJ3QKPiB0aGluayB0
-aGF0IHRoaXMgaXMgcG9zc2libGUgd2l0aG91dCBhIHNldmVyZSByZXdyaXRlIG9mIHRoZSBkcml2
-ZXIuCj4gCj4gVGhlIHByb2JsZW0gaXMgc2ltcGx5IHRoYXQgd2UgaGF2ZSBhIGxvdCBvZiBmdW5j
-dGlvbnMgd2hpY2ggZGVhbCB3aXRoCj4gaGFyZHdhcmUgaGFuZGxpbmcgaW5kZXBlbmRlbnQgb2Yg
-dGhlIGNvbnRleHQuIEJ1dCBob3cgcmVnaXN0ZXJzIGFyZSBhY2Nlc3NlZAo+IG5lZWRzIHRvIGJl
-IGRpZmZlcmVudCBkZXBlbmRpbmcgaWYgeW91ciBhcmUgaW4gdGhlIGludGVycnVwdCBoYW5kbGVy
-IG9yIG5vdC4KPiAKPiBZb3Ugd291bGQgbmVlZCB0byBwdXNoIHRoZSBpbmZvcm1hdGlvbiBpZiB3
-ZSBhcmUgY29taW5nIGluIGZyb20gdGhlCj4gaW50ZXJydXB0IGhhbmRsZXIgdGhyb3VnaCBhID4g
-MTAgZnVuY3Rpb24gY2FsbHMuCj4gCj4gSSBkb24ndCB0aGluayB0aGF0IHRoaXMgaXMgZmVhc2li
-bGUgbm9yIGdvb2QgZGVzaWduLgoKWWVhaCwgdGhhdCBpcyB3aGF0IEkgc2F3IGFuZCBkaWRuJ3Qg
-ZXZlbiB0cnkuCgpUaGUgcG9zc2libGUgYmFja3RyYWNlIChhdCB0aGUgYm90dG9tIG9mIHRoaXMg
-ZW1haWwpIGlzIHRoaXMgYSBjb3JyZWN0CmFzc3VtcHRpb24/CgpBbm90aGVyIHF1aWNrIHF1ZXN0
-aW9uOiBZb3UgYWNrZWQgbXkgdGhyZWUtcGF0Y2ggc2VyaWVzLiBJIGRvbid0IHNlZSBpdAppbiB0
-aGUgbmV4dCB0cmVlIGFzIG9mIHRvZGF5LiBJcyB0aGVyZSBhbnl0aGluZyBmb3IgbWUgdG8gZG8/
-Cgo+IFJlZ2FyZHMsCj4gQ2hyaXN0aWFuLgo+IAo+IEFtIDA5LjAyLjIxIHVtIDE3OjUzIHNjaHJp
-ZWIgU2ViYXN0aWFuIEFuZHJ6ZWogU2lld2lvcjoKPiA+IE9uIDIwMjEtMDItMDkgMTM6NTA6MzEg
-WyswMTAwXSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+ID4gUmV2aWV3ZWQtYnk6IENocmlz
-dGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4gZm9yIHRoZSBzZXJpZXMuCj4g
-PiBUaGFuayB5b3UuCj4gPiBBbnkgY2hhbmNlIHlvdSBjb3VsZCBnaXZlIG1lIGEgaGFuZCB3aXRo
-IHRoZSByZW1haW5pbmcgdGhyZWUgdXNlcnMKPiA+IHdpdGhpbiB0aGUgYW1kZ3B1IGRyaXZlcj8g
-SSBkb24ndCBrbm93IGlmIHRoZSBpbl9pbnRlcnJ1cHQoKSBjaGVjayBjYW4KPiA+IGJlIGxpbWl0
-ZWQgdG8gY2VydGFpbiBjYWxsZXJzLgo+ID4gV2hhdCBJIG5vdGljZWQgd2hpbGUgdHJhY2luZyB2
-NS4xMCBpcyB0aGlzOgo+ID4gCj4gPiB8ICAgICAgICAgICAgIFhvcmctMjI1NyAgICBbMDA3XSBk
-Li4uIDU3MjYxLjYyMDA0MzogYW1kZ3B1X2RldmljZV93cmVnOiAweDY5OWYsIDB4MDAwMDFiY2Ys
-IDB4MDAwMDAxMDAKPiA+IHwgID0+IHRyYWNlX2V2ZW50X3Jhd19ldmVudF9hbWRncHVfZGV2aWNl
-X3dyZWcKPiA+IHwgID0+IGFtZGdwdV9kZXZpY2Vfd3JlZy5wYXJ0LjAKPiA+IHwgID0+IGRjZTEx
-MF9hcm1fdmVydF9pbnRyCj4gPiB8ICA9PiBkY2UxMTBfdmJsYW5rX3NldAo+ID4gfCAgPT4gZG1f
-ZW5hYmxlX3ZibGFuawo+ID4gfCAgPT4gZHJtX3ZibGFua19lbmFibGUKPiA+IHwgID0+IGRybV92
-YmxhbmtfZ2V0Cj4gPiB8ICA9PiBkcm1fd2FpdF92YmxhbmtfaW9jdGwKPiA+IHwgID0+IGRybV9p
-b2N0bF9rZXJuZWwKPiA+IHwgID0+IGRybV9pb2N0bAo+ID4gfCAgPT4gYW1kZ3B1X2RybV9pb2N0
-bAo+ID4gfCAgPT4gX194NjRfc3lzX2lvY3RsCj4gPiB8ICA9PiBkb19zeXNjYWxsXzY0Cj4gPiB8
-ICA9PiBlbnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUKPiA+IAo+ID4gSSB0aGluayB0aGF0
-IGFtZGdwdV9kZXZpY2Vfd3JlZygpIC0+IGFtZGdwdV9raXFfd3JlZygpIGNvdWxkIGJlIGludm9r
-ZWQuCj4gPiBJdCBkb2Vzbid0IGhlcmUgYmVjYXVzZSBhbWRncHVfc3Jpb3ZfcnVudGltZSgpIGlz
-IGZhbHNlLgo+ID4gVGhlIHRyYWNlIHNheXMgYGQnIHdoaWNoIG1lYW5zIGludGVycnVwdHMgYXJl
-IGRpc2FibGVkIGJ1dAo+ID4gaW5faW50ZXJydXB0KCkgd2lsbCByZXR1cm4gZmFsc2UgaW4gdGhp
-cyBjYXNlIChubyBJUlEvc29mdGlycSkuCj4gPiAKPiA+IFNlYmFzdGlhbgoKU2ViYXN0aWFuCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 2021-03-10 09:25, Christoph Hellwig wrote:
+> On Wed, Mar 10, 2021 at 10:15:01AM +0100, Christoph Hellwig wrote:
+>> On Thu, Mar 04, 2021 at 03:25:27PM +0000, Robin Murphy wrote:
+>>> On 2021-03-01 08:42, Christoph Hellwig wrote:
+>>>> Use explicit methods for setting and querying the information instead.
+>>>
+>>> Now that everyone's using iommu-dma, is there any point in bouncing this
+>>> through the drivers at all? Seems like it would make more sense for the x86
+>>> drivers to reflect their private options back to iommu_dma_strict (and
+>>> allow Intel's caching mode to override it as well), then have
+>>> iommu_dma_init_domain just test !iommu_dma_strict &&
+>>> domain->ops->flush_iotlb_all.
+>>
+>> Hmm.  I looked at this, and kill off ->dma_enable_flush_queue for
+>> the ARM drivers and just looking at iommu_dma_strict seems like a
+>> very clear win.
+>>
+>> OTOH x86 is a little more complicated.  AMD and intel defaul to lazy
+>> mode, so we'd have to change the global iommu_dma_strict if they are
+>> initialized.  Also Intel has not only a "static" option to disable
+>> lazy mode, but also a "dynamic" one where it iterates structure.  So
+>> I think on the get side we're stuck with the method, but it still
+>> simplifies the whole thing.
+> 
+> Actually... Just mirroring the iommu_dma_strict value into
+> struct iommu_domain should solve all of that with very little
+> boilerplate code.
+
+Yes, my initial thought was to directly replace the attribute with a
+common flag at iommu_domain level, but since in all cases the behaviour
+is effectively global rather than actually per-domain, it seemed
+reasonable to take it a step further. This passes compile-testing for
+arm64 and x86, what do you think?
+
+Robin.
+
+----->8-----
+Subject: [PATCH] iommu: Consolidate strict invalidation handling
+
+Now that everyone is using iommu-dma, the global invalidation policy
+really doesn't need to be woven through several parts of the core API
+and individual drivers, we can just look it up directly at the one point
+that we now make the flush queue decision. If the x86 drivers reflect
+their internal options and overrides back to iommu_dma_strict, that can
+become the canonical source.
+
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+---
+  drivers/iommu/amd/iommu.c   |  2 ++
+  drivers/iommu/dma-iommu.c   |  8 +-------
+  drivers/iommu/intel/iommu.c | 12 ++++++++++++
+  drivers/iommu/iommu.c       | 35 +++++++++++++++++++++++++++--------
+  include/linux/iommu.h       |  2 ++
+  5 files changed, 44 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+index a69a8b573e40..1db29e59d468 100644
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -1856,6 +1856,8 @@ int __init amd_iommu_init_dma_ops(void)
+  	else
+  		pr_info("Lazy IO/TLB flushing enabled\n");
+  
++	iommu_set_dma_strict(amd_iommu_unmap_flush);
++
+  	return 0;
+  
+  }
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index af765c813cc8..789a950cc125 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -304,10 +304,6 @@ static void iommu_dma_flush_iotlb_all(struct iova_domain *iovad)
+  
+  	cookie = container_of(iovad, struct iommu_dma_cookie, iovad);
+  	domain = cookie->fq_domain;
+-	/*
+-	 * The IOMMU driver supporting DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE
+-	 * implies that ops->flush_iotlb_all must be non-NULL.
+-	 */
+  	domain->ops->flush_iotlb_all(domain);
+  }
+  
+@@ -334,7 +330,6 @@ static int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
+  	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+  	unsigned long order, base_pfn;
+  	struct iova_domain *iovad;
+-	int attr;
+  
+  	if (!cookie || cookie->type != IOMMU_DMA_IOVA_COOKIE)
+  		return -EINVAL;
+@@ -371,8 +366,7 @@ static int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
+  	init_iova_domain(iovad, 1UL << order, base_pfn);
+  
+  	if (!cookie->fq_domain && (!dev || !dev_is_untrusted(dev)) &&
+-	    !iommu_domain_get_attr(domain, DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE, &attr) &&
+-	    attr) {
++	    domain->ops->flush_iotlb_all && !iommu_get_dma_strict()) {
+  		if (init_iova_flush_queue(iovad, iommu_dma_flush_iotlb_all,
+  					  iommu_dma_entry_dtor))
+  			pr_warn("iova flush queue initialization failed\n");
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index b5c746f0f63b..f5b452cd1266 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -4377,6 +4377,17 @@ int __init intel_iommu_init(void)
+  
+  	down_read(&dmar_global_lock);
+  	for_each_active_iommu(iommu, drhd) {
++		if (!intel_iommu_strict && cap_caching_mode(iommu->cap)) {
++			/*
++			 * The flush queue implementation does not perform page-selective
++			 * invalidations that are required for efficient TLB flushes in
++			 * virtual environments. The benefit of batching is likely to be
++			 * much lower than the overhead of synchronizing the virtual and
++			 * physical IOMMU page-tables.
++			 */
++			pr_warn("IOMMU batching is disabled due to virtualization");
++			intel_iommu_strict = 1;
++		}
+  		iommu_device_sysfs_add(&iommu->iommu, NULL,
+  				       intel_iommu_groups,
+  				       "%s", iommu->name);
+@@ -4384,6 +4395,7 @@ int __init intel_iommu_init(void)
+  	}
+  	up_read(&dmar_global_lock);
+  
++	iommu_set_dma_strict(intel_iommu_strict);
+  	bus_set_iommu(&pci_bus_type, &intel_iommu_ops);
+  	if (si_domain && !hw_pass_through)
+  		register_memory_notifier(&intel_iommu_memory_nb);
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 2f3399203813..80afcf50cd3c 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -69,6 +69,7 @@ static const char * const iommu_group_resv_type_string[] = {
+  };
+  
+  #define IOMMU_CMD_LINE_DMA_API		BIT(0)
++#define IOMMU_CMD_LINE_STRICT		BIT(1)
+  
+  static void iommu_set_cmd_line_dma_api(void)
+  {
+@@ -80,6 +81,16 @@ static bool iommu_cmd_line_dma_api(void)
+  	return !!(iommu_cmd_line & IOMMU_CMD_LINE_DMA_API);
+  }
+  
++static void iommu_set_cmd_line_strict(void)
++{
++	iommu_cmd_line |= IOMMU_CMD_LINE_STRICT;
++}
++
++static bool iommu_cmd_line_strict(void)
++{
++	return !!(iommu_cmd_line & IOMMU_CMD_LINE_STRICT);
++}
++
+  static int iommu_alloc_default_domain(struct iommu_group *group,
+  				      struct device *dev);
+  static struct iommu_domain *__iommu_domain_alloc(struct bus_type *bus,
+@@ -337,10 +348,25 @@ early_param("iommu.passthrough", iommu_set_def_domain_type);
+  
+  static int __init iommu_dma_setup(char *str)
+  {
+-	return kstrtobool(str, &iommu_dma_strict);
++	int ret = kstrtobool(str, &iommu_dma_strict);
++
++	if (!ret)
++		iommu_set_cmd_line_strict();
++	return ret;
+  }
+  early_param("iommu.strict", iommu_dma_setup);
+  
++void iommu_set_dma_strict(bool val)
++{
++	if (val || !iommu_cmd_line_strict())
++		iommu_dma_strict = val;
++}
++
++bool iommu_get_dma_strict(void)
++{
++	return iommu_dma_strict;
++}
++
+  static ssize_t iommu_group_attr_show(struct kobject *kobj,
+  				     struct attribute *__attr, char *buf)
+  {
+@@ -1520,13 +1546,6 @@ static int iommu_group_alloc_default_domain(struct bus_type *bus,
+  	if (!group->domain)
+  		group->domain = dom;
+  
+-	if (!iommu_dma_strict) {
+-		int attr = 1;
+-		iommu_domain_set_attr(dom,
+-				      DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE,
+-				      &attr);
+-	}
+-
+  	return 0;
+  }
+  
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index eb5e3f14c5ad..11bbfa273d98 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -495,6 +495,8 @@ extern int iommu_domain_get_attr(struct iommu_domain *domain, enum iommu_attr,
+  				 void *data);
+  extern int iommu_domain_set_attr(struct iommu_domain *domain, enum iommu_attr,
+  				 void *data);
++extern void iommu_set_dma_strict(bool val);
++extern bool iommu_get_dma_strict(void);
+  
+  /* Window handling function prototypes */
+  extern int iommu_domain_window_enable(struct iommu_domain *domain, u32 wnd_nr,
+-- 
+2.21.0.dirty
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
