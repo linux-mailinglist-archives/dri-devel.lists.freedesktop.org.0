@@ -1,32 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66437333619
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 08:04:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C4F733362A
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Mar 2021 08:11:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3CE6E12C;
-	Wed, 10 Mar 2021 07:04:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3525B6E9C8;
+	Wed, 10 Mar 2021 07:11:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-133.freemail.mail.aliyun.com
- (out30-133.freemail.mail.aliyun.com [115.124.30.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E3736E12C;
- Wed, 10 Mar 2021 07:04:42 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R621e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04420;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
- TI=SMTPD_---0UREgc7n_1615359875; 
-Received: from
- j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0UREgc7n_1615359875) by smtp.aliyun-inc.com(127.0.0.1);
- Wed, 10 Mar 2021 15:04:40 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: harry.wentland@amd.com
-Subject: [PATCH] drm/amd/display: fix warning comparing pointer to 0
-Date: Wed, 10 Mar 2021 15:04:34 +0800
-Message-Id: <1615359874-14817-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 150666E9C8
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Mar 2021 07:11:05 +0000 (UTC)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DwNVL6h9yz16Hk9;
+ Wed, 10 Mar 2021 15:09:14 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.498.0; Wed, 10 Mar 2021 15:11:00 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <sumit.semwal@linaro.org>, <christian.koenig@amd.com>
+Subject: [PATCH] drm: writeback: Use simple encoder
+Date: Wed, 10 Mar 2021 15:11:44 +0800
+Message-ID: <1615360304-11387-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,42 +41,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, sunpeng.li@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
-MIME-Version: 1.0
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following coccicheck warning:
+The driver uses empty implementations for its encoders. Replace
+the code with the generic simple encoder.
 
-./drivers/gpu/drm/amd/display/dc/dsc/rc_calc.c:76:14-15: WARNING
-comparing pointer to 0.
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 ---
- drivers/gpu/drm/amd/display/dc/dsc/rc_calc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_writeback.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dsc/rc_calc.c b/drivers/gpu/drm/amd/display/dc/dsc/rc_calc.c
-index c6a1cd8..69211f5 100644
---- a/drivers/gpu/drm/amd/display/dc/dsc/rc_calc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dsc/rc_calc.c
-@@ -73,7 +73,7 @@ static void get_qp_set(qp_set qps, enum colour_mode cm, enum bits_per_comp bpc,
- 		TABLE_CASE(420, 12, min);
- 	}
+diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+index dccf4504..dea9b25 100644
+--- a/drivers/gpu/drm/drm_writeback.c
++++ b/drivers/gpu/drm/drm_writeback.c
+@@ -16,6 +16,7 @@
+ #include <drm/drm_drv.h>
+ #include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_property.h>
++#include <drm/drm_simple_kms_helper.h>
+ #include <drm/drm_writeback.h>
  
--	if (table == 0)
-+	if (!table)
- 		return;
+ /**
+@@ -145,10 +146,6 @@ static int create_writeback_properties(struct drm_device *dev)
+ 	return 0;
+ }
  
- 	index = (bpp - table[0].bpp) * 2;
+-static const struct drm_encoder_funcs drm_writeback_encoder_funcs = {
+-	.destroy = drm_encoder_cleanup,
+-};
+-
+ /**
+  * drm_writeback_connector_init - Initialize a writeback connector and its properties
+  * @dev: DRM device
+@@ -190,9 +187,8 @@ int drm_writeback_connector_init(struct drm_device *dev,
+ 		return PTR_ERR(blob);
+ 
+ 	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+-	ret = drm_encoder_init(dev, &wb_connector->encoder,
+-			       &drm_writeback_encoder_funcs,
+-			       DRM_MODE_ENCODER_VIRTUAL, NULL);
++	ret = drm_simple_encoder_init(dev, &wb_connector->encoder,
++				      DRM_MODE_ENCODER_VIRTUAL);
+ 	if (ret)
+ 		goto fail;
+ 
 -- 
-1.8.3.1
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
