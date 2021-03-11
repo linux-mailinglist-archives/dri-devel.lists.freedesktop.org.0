@@ -2,50 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD9D33799B
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 17:41:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0DF9337A00
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 17:51:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86DC86E2E3;
-	Thu, 11 Mar 2021 16:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B53D6EA7F;
+	Thu, 11 Mar 2021 16:51:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
- [209.85.166.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 560AF6E2E3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 16:41:07 +0000 (UTC)
-Received: by mail-io1-f46.google.com with SMTP id m7so3548998iow.7
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 08:41:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=wIM7Ieqmfw1uH+6hgx0cLpcvZ20N4K9oMOEFdEs4Wrk=;
- b=I0/bqlGBIDtFAjPWqcw4TtYvC/6OVboXlFSGYEL9RdA7s8k4dpCPmn6XVsXg/Rmnr3
- uccuBGJjsIS2Xl7Tjah0xJrx8bLki2txuEaOiYNcP1MRKTh8C7ngRVn7CoIZJzvdOP7a
- sIfJ8VxbgcnDMH7ncu3OiBcAGa1FTlHIZQDt2SUyUWkkEdki4hgDj5++Zef83aN31RO7
- 521x3eN/oc3ms8+KWHEaMVfHoQ1FzV/XnPiAgjhcLfRFOncXPa78U/X9npFv83wP+2WB
- meMwMQQkhUwkUbX3zfUqSfBrqzF4X3CjII9dRV4YMZRWhrskQxwSCvxPiJMpb+Lvicgv
- 4zgg==
-X-Gm-Message-State: AOAM532TQuiLrMA36w7Drh8SvjScJNfEGH3BRL4vPmqE6voG42yzT7vb
- 72BQa7vo6TZz6fpBIom6DA==
-X-Google-Smtp-Source: ABdhPJw7qMPNwJYupbpC1Z+kkGIkKIdh0UVPqqHA+nZwXstYcIz5NI0KZXrwynN0T6JM0dUa5Qkd9g==
-X-Received: by 2002:a05:6602:1406:: with SMTP id
- t6mr7012640iov.154.1615480866652; 
- Thu, 11 Mar 2021 08:41:06 -0800 (PST)
-Received: from robh.at.kernel.org ([64.188.179.253])
- by smtp.gmail.com with ESMTPSA id l16sm1542750ils.11.2021.03.11.08.41.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 08:41:04 -0800 (PST)
-Received: (nullmailer pid 841928 invoked by uid 1000);
- Thu, 11 Mar 2021 16:41:02 -0000
-From: Rob Herring <robh@kernel.org>
-To: Carlis <zhangxuezhi3@gmail.com>
-In-Reply-To: <1615385315-130920-1-git-send-email-zhangxuezhi3@gmail.com>
-References: <1615385315-130920-1-git-send-email-zhangxuezhi3@gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: sitronix,
- st7789v: Add Waveshare 2inch LCD module
-Date: Thu, 11 Mar 2021 09:41:02 -0700
-Message-Id: <1615480862.507726.841927.nullmailer@robh.at.kernel.org>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9550B6E433;
+ Thu, 11 Mar 2021 16:51:00 +0000 (UTC)
+IronPort-SDR: 164Wr4JuoCGt0OZRL1mZ8nb/GOQNAIo2GSh+FZRYNimQKjAfTR+woJrZvfROue3eNko+Oufb1a
+ mqX1zMNtSTOQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="176291554"
+X-IronPort-AV: E=Sophos;i="5.81,241,1610438400"; d="scan'208";a="176291554"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2021 08:50:59 -0800
+IronPort-SDR: D/qG3qftOfnDWvqlJdsxHgk0bZSqsPXWpC1hnOlf+K43o3SxpAo0X8M0rJxs7j+N225zq2uCJ6
+ WwexFwjVx3+A==
+X-IronPort-AV: E=Sophos;i="5.81,241,1610438400"; d="scan'208";a="404128043"
+Received: from wkryszax-mobl2.ger.corp.intel.com (HELO zkempczy-mobl2)
+ ([10.213.2.99])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2021 08:50:57 -0800
+Date: Thu, 11 Mar 2021 17:50:54 +0100
+From: Zbigniew =?utf-8?Q?Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>
+To: Jason Ekstrand <jason@jlekstrand.net>
+Subject: Re: [PATCH] i915: Drop relocation support on all new hardware (v3)
+Message-ID: <20210311165054.GA118464@zkempczy-mobl2>
+References: <20210310212606.766121-1-jason@jlekstrand.net>
+ <20210310215007.782649-1-jason@jlekstrand.net>
+ <20210311114432.GB101473@zkempczy-mobl2>
+ <CAOFGe94FEfM6RKf=fcDm03OW1zvJhRpvTtnQ4dXWY+pQrf-K=Q@mail.gmail.com>
+ <CAKMK7uHwYczVHD7SmHAJd9niP4+aanDvEhPviofjmQiEweK3CQ@mail.gmail.com>
+ <CAOFGe96bL1Wu2Qgie7QOhMDoY-3hFhDxhokCekyEHnAC8CgjnQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAOFGe96bL1Wu2Qgie7QOhMDoY-3hFhDxhokCekyEHnAC8CgjnQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,63 +52,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org, zhangxuezhi1@yulong.com
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@redhat.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 10 Mar 2021 22:08:35 +0800, Carlis wrote:
-> From: "Carlis" <zhangxuezhi1@yulong.com>
-> 
-> Document support for the Waveshare 2inch LCD module display, which is a
-> 240x320 2" TFT display driven by a Sitronix ST7789V TFT Controller.
-> 
-> Signed-off-by: Carlis <zhangxuezhi1@yulong.com>
-> ---
->  .../bindings/display/sitronix,st7789v.yaml         | 72 ++++++++++++++++++++++
->  1 file changed, 72 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/sitronix,st7789v.yaml
-> 
-
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.example.dt.yaml: panel@0: compatible: 'oneOf' conditional failed, one must be fixed:
-	['sitronix,st7789v'] is too short
-	'sitronix,st7789v' is not one of ['waveshare,ws-2inch-lcd']
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/sitronix,st7789v.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.example.dt.yaml: panel@0: 'dc-gpios' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/sitronix,st7789v.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.example.dt.yaml: panel@0: 'port', 'power-supply', 'spi-cpha', 'spi-cpol' do not match any of the regexes: 'pinctrl-[0-9]+'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/sitronix,st7789v.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/sitronix,st7789v.example.dt.yaml: display@0: compatible:0: 'sitronix,st7789v' was expected
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/sitronix,st7789v.example.dt.yaml: display@0: compatible: ['waveshare,ws-2inch-lcd', 'sitronix,st7789v'] is too long
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/sitronix,st7789v.example.dt.yaml: display@0: compatible: Additional items are not allowed ('sitronix,st7789v' was unexpected)
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/sitronix,st7789v.example.dt.yaml: display@0: 'power-supply' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-
-See https://patchwork.ozlabs.org/patch/1450539
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBNYXIgMTEsIDIwMjEgYXQgMTA6MjQ6MzhBTSAtMDYwMCwgSmFzb24gRWtzdHJhbmQg
+d3JvdGU6Cj4gT24gVGh1LCBNYXIgMTEsIDIwMjEgYXQgOTo1NyBBTSBEYW5pZWwgVmV0dGVyIDxk
+YW5pZWxAZmZ3bGwuY2g+IHdyb3RlOgo+ID4KPiA+IE9uIFRodSwgTWFyIDExLCAyMDIxIGF0IDQ6
+NTAgUE0gSmFzb24gRWtzdHJhbmQgPGphc29uQGpsZWtzdHJhbmQubmV0PiB3cm90ZToKPiA+ID4K
+PiA+ID4gT24gVGh1LCBNYXIgMTEsIDIwMjEgYXQgNTo0NCBBTSBaYmlnbmlldyBLZW1wY3p5xYRz
+a2kKPiA+ID4gPHpiaWduaWV3LmtlbXBjenluc2tpQGludGVsLmNvbT4gd3JvdGU6Cj4gPiA+ID4K
+PiA+ID4gPiBPbiBXZWQsIE1hciAxMCwgMjAyMSBhdCAwMzo1MDowN1BNIC0wNjAwLCBKYXNvbiBF
+a3N0cmFuZCB3cm90ZToKPiA+ID4gPiA+IFRoZSBWdWxrYW4gZHJpdmVyIGluIE1lc2EgZm9yIElu
+dGVsIGhhcmR3YXJlIG5ldmVyIHVzZXMgcmVsb2NhdGlvbnMgaWYKPiA+ID4gPiA+IGl0J3MgcnVu
+bmluZyBvbiBhIHZlcnNpb24gb2YgaTkxNSB0aGF0IHN1cHBvcnRzIGF0IGxlYXN0IHNvZnRwaW4g
+d2hpY2gKPiA+ID4gPiA+IGFsbCB2ZXJzaW9ucyBvZiBpOTE1IHN1cHBvcnRpbmcgR2VuMTIgZG8u
+ICBPbiB0aGUgT3BlbkdMIHNpZGUsIEdlbjEyKyBpcwo+ID4gPiA+ID4gb25seSBzdXBwb3J0ZWQg
+YnkgaXJpcyB3aGljaCBuZXZlciB1c2VzIHJlbG9jYXRpb25zLiAgVGhlIG9sZGVyIGk5NjUKPiA+
+ID4gPiA+IGRyaXZlciBpbiBNZXNhIGRvZXMgdXNlIHJlbG9jYXRpb25zIGJ1dCBpdCBvbmx5IHN1
+cHBvcnRzIEludGVsIGhhcmR3YXJlCj4gPiA+ID4gPiB0aHJvdWdoIEdlbjExIGFuZCBoYXMgYmVl
+biBkZXByZWNhdGVkIGZvciBhbGwgaGFyZHdhcmUgR2VuOSsuICBUaGUKPiA+ID4gPiA+IGNvbXB1
+dGUgZHJpdmVyIGFsc28gbmV2ZXIgdXNlcyByZWxvY2F0aW9ucy4gIFRoaXMgb25seSBsZWF2ZXMg
+dGhlIG1lZGlhCj4gPiA+ID4gPiBkcml2ZXIgd2hpY2ggaXMgc3VwcG9zZWQgdG8gYmUgc3dpdGNo
+aW5nIHRvIHNvZnRwaW4gZ29pbmcgZm9yd2FyZC4KPiA+ID4gPiA+IE1ha2luZyBzb2Z0cGluIGEg
+cmVxdWlyZW1lbnQgZm9yIGFsbCBmdXR1cmUgaGFyZHdhcmUgc2VlbXMgcmVhc29uYWJsZS4KPiA+
+ID4gPiA+Cj4gPiA+ID4gPiBSZWplY3RpbmcgcmVsb2NhdGlvbnMgc3RhcnRpbmcgd2l0aCBHZW4x
+MiBoYXMgdGhlIGJlbmVmaXQgdGhhdCB3ZSBkb24ndAo+ID4gPiA+ID4gaGF2ZSB0byBib3RoZXIg
+c3VwcG9ydGluZyBpdCBvbiBwbGF0Zm9ybXMgd2l0aCBsb2NhbCBtZW1vcnkuICBHaXZlbiBob3cK
+PiA+ID4gPiA+IG11Y2ggQ1BVIHRvdWNoaW5nIG9mIG1lbW9yeSBpcyByZXF1aXJlZCBmb3IgcmVs
+b2NhdGlvbnMsIG5vdCBoYXZpbmcgdG8KPiA+ID4gPiA+IGRvIHNvIG9uIHBsYXRmb3JtcyB3aGVy
+ZSBub3QgYWxsIG1lbW9yeSBpcyBkaXJlY3RseSBDUFUtYWNjZXNzaWJsZQo+ID4gPiA+ID4gY2Fy
+cmllcyBzaWduaWZpY2FudCBhZHZhbnRhZ2VzLgo+ID4gPiA+ID4KPiA+ID4gPiA+IHYyIChKYXNv
+biBFa3N0cmFuZCk6Cj4gPiA+ID4gPiAgLSBBbGxvdyBUR0wtTFAgcGxhdGZvcm1zIGFzIHRoZXkn
+dmUgYWxyZWFkeSBzaGlwcGVkCj4gPiA+ID4gPgo+ID4gPiA+ID4gdjMgKEphc29uIEVrc3RyYW5k
+KToKPiA+ID4gPiA+ICAtIFdBUk5fT04gcGxhdGZvcm1zIHdpdGggTE1FTSBzdXBwb3J0IGluIGNh
+c2UgdGhlIGNoZWNrIGlzIHdyb25nCj4gPiA+ID4KPiA+ID4gPiBJIHdhcyBhc2tlZCB0byByZXZp
+ZXcgb2YgdGhpcyBwYXRjaC4gSXQgd29ya3MgYWxvbmcgd2l0aCBleHBlY3RlZAo+ID4gPiA+IElH
+VCBjaGVjayBodHRwczovL3BhdGNod29yay5mcmVlZGVza3RvcC5vcmcvcGF0Y2gvNDIzMzYxLz9z
+ZXJpZXM9ODI5NTQmcmV2PTI1Cj4gPiA+ID4KPiA+ID4gPiBCZWZvcmUgSSdsbCBnaXZlIHlvdSBy
+LWIgLSBpc24ndCBpOTE1X2dlbV9leGVjYnVmZmVyMl9pb2N0bCgpIGJldHRlciBwbGFjZQo+ID4g
+PiA+IHRvIGRvIGZvciBsb29wIGp1c3QgYWZ0ZXIgY29weV9mcm9tX3VzZXIoKSBhbmQgY2hlY2sg
+cmVsb2NhdGlvbl9jb3VudD8KPiA+ID4gPiBXZSBoYXZlIGFuIGFjY2VzcyB0byBleGVjMl9saXN0
+IHRoZXJlLCB3ZSBrbm93IHRoZSBnZW4gc28gd2UncmUgYWJsZSB0byBzYXkKPiA+ID4gPiByZWxv
+Y2F0aW9ucyBhcmUgbm90IHN1cHBvcnRlZCBpbW1lZGlhdGUsIHdpdGhvdXQgZW50ZXJpbmcgaTkx
+NV9nZW1fZG9fZXhlY2J1ZmZlcigpLgo+ID4gPgo+ID4gPiBJIGNvbnNpZGVyZWQgdGhhdCBidXQg
+aXQgYWRkcyBhbiBleHRyYSBvYmplY3QgbGlzdCB3YWxrIGZvciBhIGNhc2UKPiA+ID4gd2hpY2gg
+d2UgZXhwZWN0IHRvIG5vdCBoYXBwZW4uICBJJ20gbm90IHN1cmUgaG93IGV4cGVuc2l2ZSB0aGUg
+bGlzdAo+ID4gPiB3YWxrIHdvdWxkIGJlIGlmIGFsbCB3ZSBkbyBpcyBjaGVjayB0aGUgbnVtYmVy
+IG9mIHJlbG9jYXRpb25zIG9uIGVhY2gKPiA+ID4gb2JqZWN0LiAgSSBndWVzcywgaWYgaXQgY29t
+ZXMgcmlnaHQgYWZ0ZXIgYSBjb3B5X2Zyb21fdXNlciwgaXQncyBhbGwKPiA+ID4gaG90IGluIHRo
+ZSBjYWNoZSBzbyBpdCBzaG91bGRuJ3QgbWF0dGVyLiAgT2suICBJJ3ZlIGNvbnZpbmNlZCBteXNl
+bGYuCj4gPiA+IEknbGwgbW92ZSBpdC4KPiA+Cj4gPiBJIHJlYWxseSB3b3VsZG4ndCBtb3ZlIGl0
+IGlmIGl0J3MgYW5vdGhlciBsaXN0IHdhbGsuIEV4ZWNidWYgaGFzIGEgbG90Cj4gPiBvZiBmYXN0
+LXBhdGhzIGdvaW5nIG9uLCBhbmQgd2UgaGF2ZSBleHRlbnNpdmUgdGVzdHMgdG8gbWFrZSBzdXJl
+IGl0Cj4gPiB1bndpbmRzIGNvcnJlY3RseSBpbiBhbGwgY2FzZXMuIEl0J3Mgbm90IHZlcnkgaW50
+dWl0aXZlLCBidXQgZXhlY2J1Zgo+ID4gY29kZSBpc24ndCBzY29yaW5nIHZlcnkgaGlnaCBvbiB0
+aGF0Lgo+IAo+IEFuZCBoZXJlIEknZCBqdXN0IGZpbmlzaGVkIGRvaW5nIHRoZSB0eXBpbmcgdG8g
+bW92ZSBpdC4gIEdvb2QgdGhpbmcgSQo+IGhhZG4ndCBjbG9zZWQgdmltIHlldCBhbmQgaXQgd2Fz
+IHN0aWxsIGluIG15IHVuZG8gYnVmZmVyLiA6LSkKCkJlZm9yZSBlbnRlcmluZyAic2xvd2VyIiBw
+YXRoIGZyb20gbXkgcGVyc3BlY3RpdmUgSSB3b3VsZCBqdXN0IGNoZWNrCmJhdGNoIG9iamVjdCBh
+dCB0aGF0IHBsYWNlLiBXZSBzdGlsbCB3b3VsZCBoYXZlIHNpbmdsZSBsaXN0IHdhbGt0aHJvdWdo
+CmFuZCBxdWljayBjaGVjayBvbiB0aGUgdmVyeSBiZWdpbm5pbmcuCgotLQpaYmlnbmlldwoKPiAK
+PiAtLUphc29uCj4gCj4gPiAtRGFuaWVsCj4gPgo+ID4gPgo+ID4gPiAtLUphc29uCj4gPiA+Cj4g
+PiA+ID4gLS0KPiA+ID4gPiBaYmlnbmlldwo+ID4gPiA+Cj4gPiA+ID4gPgo+ID4gPiA+ID4gU2ln
+bmVkLW9mZi1ieTogSmFzb24gRWtzdHJhbmQgPGphc29uQGpsZWtzdHJhbmQubmV0Pgo+ID4gPiA+
+ID4gQ2M6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+Cj4gPiA+ID4gPiBDYzogRGFu
+aWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4gPiA+ID4gPiAtLS0KPiA+ID4g
+PiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fZXhlY2J1ZmZlci5jIHwgMTUg
+KysrKysrKysrKysrLS0tCj4gPiA+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMo
+KyksIDMgZGVsZXRpb25zKC0pCj4gPiA+ID4gPgo+ID4gPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9leGVjYnVmZmVyLmMgYi9kcml2ZXJzL2dwdS9k
+cm0vaTkxNS9nZW0vaTkxNV9nZW1fZXhlY2J1ZmZlci5jCj4gPiA+ID4gPiBpbmRleCA5OTc3MmYz
+N2JmZjYwLi5iMDJkYmQxNmJmYTAzIDEwMDY0NAo+ID4gPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2V4ZWNidWZmZXIuYwo+ID4gPiA+ID4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2V4ZWNidWZmZXIuYwo+ID4gPiA+ID4gQEAgLTE3
+NjQsNyArMTc2NCw4IEBAIGViX3JlbG9jYXRlX3ZtYV9zbG93KHN0cnVjdCBpOTE1X2V4ZWNidWZm
+ZXIgKmViLCBzdHJ1Y3QgZWJfdm1hICpldikKPiA+ID4gPiA+ICAgICAgIHJldHVybiBlcnI7Cj4g
+PiA+ID4gPiAgfQo+ID4gPiA+ID4KPiA+ID4gPiA+IC1zdGF0aWMgaW50IGNoZWNrX3JlbG9jYXRp
+b25zKGNvbnN0IHN0cnVjdCBkcm1faTkxNV9nZW1fZXhlY19vYmplY3QyICplbnRyeSkKPiA+ID4g
+PiA+ICtzdGF0aWMgaW50IGNoZWNrX3JlbG9jYXRpb25zKGNvbnN0IHN0cnVjdCBpOTE1X2V4ZWNi
+dWZmZXIgKmViLAo+ID4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgY29uc3Qgc3Ry
+dWN0IGRybV9pOTE1X2dlbV9leGVjX29iamVjdDIgKmVudHJ5KQo+ID4gPiA+ID4gIHsKPiA+ID4g
+PiA+ICAgICAgIGNvbnN0IGNoYXIgX191c2VyICphZGRyLCAqZW5kOwo+ID4gPiA+ID4gICAgICAg
+dW5zaWduZWQgbG9uZyBzaXplOwo+ID4gPiA+ID4gQEAgLTE3NzQsNiArMTc3NSwxNCBAQCBzdGF0
+aWMgaW50IGNoZWNrX3JlbG9jYXRpb25zKGNvbnN0IHN0cnVjdCBkcm1faTkxNV9nZW1fZXhlY19v
+YmplY3QyICplbnRyeSkKPiA+ID4gPiA+ICAgICAgIGlmIChzaXplID09IDApCj4gPiA+ID4gPiAg
+ICAgICAgICAgICAgIHJldHVybiAwOwo+ID4gPiA+ID4KPiA+ID4gPiA+ICsgICAgIC8qIFJlbG9j
+YXRpb25zIGFyZSBkaXNhbGxvd2VkIGZvciBhbGwgcGxhdGZvcm1zIGFmdGVyIFRHTC1MUCAqLwo+
+ID4gPiA+ID4gKyAgICAgaWYgKElOVEVMX0dFTihlYi0+aTkxNSkgPj0gMTIgJiYgIUlTX1RJR0VS
+TEFLRShlYi0+aTkxNSkpCj4gPiA+ID4gPiArICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOwo+
+ID4gPiA+ID4gKwo+ID4gPiA+ID4gKyAgICAgLyogQWxsIGRpc2NyZXRlIG1lbW9yeSBwbGF0Zm9y
+bXMgYXJlIEdlbjEyIG9yIGFib3ZlICovCj4gPiA+ID4gPiArICAgICBpZiAoV0FSTl9PTihIQVNf
+TE1FTShlYi0+aTkxNSkpKQo+ID4gPiA+ID4gKyAgICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsK
+PiA+ID4gPiA+ICsKPiA+ID4gPiA+ICAgICAgIGlmIChzaXplID4gTl9SRUxPQyhVTE9OR19NQVgp
+KQo+ID4gPiA+ID4gICAgICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsKPiA+ID4gPiA+Cj4gPiA+
+ID4gPiBAQCAtMTgwNyw3ICsxODE2LDcgQEAgc3RhdGljIGludCBlYl9jb3B5X3JlbG9jYXRpb25z
+KGNvbnN0IHN0cnVjdCBpOTE1X2V4ZWNidWZmZXIgKmViKQo+ID4gPiA+ID4gICAgICAgICAgICAg
+ICBpZiAobnJlbG9jID09IDApCj4gPiA+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgY29udGlu
+dWU7Cj4gPiA+ID4gPgo+ID4gPiA+ID4gLSAgICAgICAgICAgICBlcnIgPSBjaGVja19yZWxvY2F0
+aW9ucygmZWItPmV4ZWNbaV0pOwo+ID4gPiA+ID4gKyAgICAgICAgICAgICBlcnIgPSBjaGVja19y
+ZWxvY2F0aW9ucyhlYiwgJmViLT5leGVjW2ldKTsKPiA+ID4gPiA+ICAgICAgICAgICAgICAgaWYg
+KGVycikKPiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICBnb3RvIGVycjsKPiA+ID4gPiA+
+Cj4gPiA+ID4gPiBAQCAtMTg4MCw3ICsxODg5LDcgQEAgc3RhdGljIGludCBlYl9wcmVmYXVsdF9y
+ZWxvY2F0aW9ucyhjb25zdCBzdHJ1Y3QgaTkxNV9leGVjYnVmZmVyICplYikKPiA+ID4gPiA+ICAg
+ICAgIGZvciAoaSA9IDA7IGkgPCBjb3VudDsgaSsrKSB7Cj4gPiA+ID4gPiAgICAgICAgICAgICAg
+IGludCBlcnI7Cj4gPiA+ID4gPgo+ID4gPiA+ID4gLSAgICAgICAgICAgICBlcnIgPSBjaGVja19y
+ZWxvY2F0aW9ucygmZWItPmV4ZWNbaV0pOwo+ID4gPiA+ID4gKyAgICAgICAgICAgICBlcnIgPSBj
+aGVja19yZWxvY2F0aW9ucyhlYiwgJmViLT5leGVjW2ldKTsKPiA+ID4gPiA+ICAgICAgICAgICAg
+ICAgaWYgKGVycikKPiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gZXJyOwo+
+ID4gPiA+ID4gICAgICAgfQo+ID4gPiA+ID4gLS0KPiA+ID4gPiA+IDIuMjkuMgo+ID4gPiA+ID4K
+PiA+ID4gPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+Cj4gPiA+ID4gPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gPiA+ID4gPiBkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCj4gPiA+ID4gPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo+ID4gPiBfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4gPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4g
+PiA+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+ID4gaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPiA+Cj4gPgo+ID4KPiA+
+IC0tCj4gPiBEYW5pZWwgVmV0dGVyCj4gPiBTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9y
+YXRpb24KPiA+IGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAo=
