@@ -2,73 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D27336FD0
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 11:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79418337043
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 11:42:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7ABE6EB8B;
-	Thu, 11 Mar 2021 10:22:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A92FE6EB84;
+	Thu, 11 Mar 2021 10:42:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
- [213.80.101.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C086F6EB8B;
- Thu, 11 Mar 2021 10:22:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 720F03FF0E;
- Thu, 11 Mar 2021 11:22:11 +0100 (CET)
-Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=C35SujMp; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Lu_sCSalNfHH; Thu, 11 Mar 2021 11:22:09 +0100 (CET)
-Received: by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id E8FB13FF12;
- Thu, 11 Mar 2021 11:22:06 +0100 (CET)
-Received: from [192.168.0.209] (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 8192E360133;
- Thu, 11 Mar 2021 11:22:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1615458126; bh=H6sbSk73dT1wEUsKWPL3sQUoxSXyvYsSnLPwJCXn0/E=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=C35SujMpLmkJlhyicXuduJsg7CneWcEDFq5VDujHYeztDt2fMo5Len21W/TLNCI8Y
- E0OzY5cHFQDXL7ifXcET2yhS3qkE3WTm+YtdEQ+QHb5YcRQookSzAF4nJfl/cXcOmh
- cxZamhW54d65SHjuvxm4YObK6me7wl/yp1YdOBhI=
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for
- mmap
-To: Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <f43311c8-a02a-1a29-a53b-88e599c92187@shipmail.org>
- <CAKMK7uE2UrOruQPWG9KPBQ781f9Bq9xpVRNserAC9BZ2VzDutQ@mail.gmail.com>
- <b30dacb0-edea-0a3c-6163-0f329e58ba61@gmail.com>
- <YDd/hlf8uM3+lxhr@phenom.ffwll.local>
- <CAKMK7uFezcV52oTZbHeve2HFFATeCGyK6zTT6nE1KVP69QRr0A@mail.gmail.com>
- <61c5c371-debe-4ca0-a067-ce306e51ef88@shipmail.org>
- <CAKMK7uFUiJyMP0E5JUzMOx=NyMW+ZObGsaFOh409x0LOvGbnzg@mail.gmail.com>
- <0d69bd00-e673-17cf-c9e3-ccbcd52649a6@shipmail.org>
- <CAKMK7uE=8+hj-MUFXHFoG_hAbz_Obi8a99+DE5_d1K+KZaG+tQ@mail.gmail.com>
- <b367b7e8-f202-4d23-d672-a5c9bc7fcec1@shipmail.org>
- <YDyuYk8x5QeX83s6@phenom.ffwll.local>
- <be8f2503-ffcb-eb58-83be-26fa0fc1837a@shipmail.org>
- <648556e6-2d99-950d-c940-706eb5a8f6cc@amd.com>
- <CAKMK7uHOe=LacUkvGC75dyWAt9TRm7ce8vgxasXOXn-6wJTVnA@mail.gmail.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <9d608c61-c64c-dcde-c719-59a970144404@shipmail.org>
-Date: Thu, 11 Mar 2021 11:22:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A279A6EB83
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 10:42:26 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 4A77E64F94
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 10:42:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1615459346;
+ bh=H2ZbqfFKNi6a1OhN9IPkMG4OnxH4tFI9hiZEoVKzYhI=;
+ h=From:To:Subject:Date:From;
+ b=ek1XHYSrYlNMjfZnTorA7bJOvhqZ2tEyxkyFwfTwiK87smoC8FuptlKX5hq3Z8nC1
+ yjgjrl2rJsSq6F6NPC8zsfOg34WNwcCvLKESO7x7DlxG4yX7oudTc/32vVzVJ36rgx
+ Syy+p2eNcYghaoAUglEH9y6G0bDsXPuSDGBiYDE3bEA9pfpoFCK6M85RwXvy6mrtcc
+ 3YB3tTU/r+4nDEPrIGbjSueD9eLhmDvlM/Rk9Db6TEY0IRJIvZ2yRHM/LX/MW+Y5fe
+ 4fB/F3RGYJucodVq6Vi6SkR/cDdXz+FG5CaPd0pMofuTHWhoI0RV5fMSx1ByhIcjCU
+ ksWjLdWaH8lZg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 3F68D653BD; Thu, 11 Mar 2021 10:42:26 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212229] New: STM32F469: vblank wait timed out on output to
+ /sys/class/graphics/fb0/pan
+Date: Thu, 11 Mar 2021 10:42:25 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Console/Framebuffers
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: eugentoo@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: jsimmons@infradead.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cc cf_regression attachments.created
+Message-ID: <bug-212229-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uHOe=LacUkvGC75dyWAt9TRm7ce8vgxasXOXn-6wJTVnA@mail.gmail.com>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,151 +64,410 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Wilcox <willy@infradead.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Suren Baghdasaryan <surenb@google.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDMvMS8yMSAzOjA5IFBNLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+IE9uIE1vbiwgTWFyIDEs
-IDIwMjEgYXQgMTE6MTcgQU0gQ2hyaXN0aWFuIEvDtm5pZwo+IDxjaHJpc3RpYW4ua29lbmlnQGFt
-ZC5jb20+IHdyb3RlOgo+Pgo+Pgo+PiBBbSAwMS4wMy4yMSB1bSAxMDoyMSBzY2hyaWViIFRob21h
-cyBIZWxsc3Ryw7ZtIChJbnRlbCk6Cj4+PiBPbiAzLzEvMjEgMTA6MDUgQU0sIERhbmllbCBWZXR0
-ZXIgd3JvdGU6Cj4+Pj4gT24gTW9uLCBNYXIgMDEsIDIwMjEgYXQgMDk6Mzk6NTNBTSArMDEwMCwg
-VGhvbWFzIEhlbGxzdHLDtm0gKEludGVsKQo+Pj4+IHdyb3RlOgo+Pj4+PiBIaSwKPj4+Pj4KPj4+
-Pj4gT24gMy8xLzIxIDk6MjggQU0sIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4+Pj4+PiBPbiBTYXQs
-IEZlYiAyNywgMjAyMSBhdCA5OjA2IEFNIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkKPj4+Pj4+
-IDx0aG9tYXNfb3NAc2hpcG1haWwub3JnPiB3cm90ZToKPj4+Pj4+PiBPbiAyLzI2LzIxIDI6Mjgg
-UE0sIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4+Pj4+Pj4+IFNvIEkgdGhpbmsgaXQgc3RvcHMgZ3Vw
-LiBCdXQgSSBoYXZlbid0IHZlcmlmaWVkIGF0IGFsbC4gV291bGQgYmUKPj4+Pj4+Pj4gZ29vZAo+
-Pj4+Pj4+PiBpZiBDaHJpc3RpYW4gY2FuIGNoZWNrIHRoaXMgd2l0aCBzb21lIGRpcmVjdCBpbyB0
-byBhIGJ1ZmZlciBpbgo+Pj4+Pj4+PiBzeXN0ZW0KPj4+Pj4+Pj4gbWVtb3J5Lgo+Pj4+Pj4+IEht
-bSwKPj4+Pj4+Pgo+Pj4+Pj4+IERvY3MgKGFnYWluIHZtX25vcm1hbF9wYWdlKCkgc2F5KQo+Pj4+
-Pj4+Cj4+Pj4+Pj4gICAgICAqIFZNX01JWEVETUFQIG1hcHBpbmdzIGNhbiBsaWtld2lzZSBjb250
-YWluIG1lbW9yeSB3aXRoIG9yCj4+Pj4+Pj4gd2l0aG91dCAic3RydWN0Cj4+Pj4+Pj4gICAgICAq
-IHBhZ2UiIGJhY2tpbmcsIGhvd2V2ZXIgdGhlIGRpZmZlcmVuY2UgaXMgdGhhdCBfYWxsXyBwYWdl
-cwo+Pj4+Pj4+IHdpdGggYSBzdHJ1Y3QKPj4+Pj4+PiAgICAgICogcGFnZSAodGhhdCBpcywgdGhv
-c2Ugd2hlcmUgcGZuX3ZhbGlkIGlzIHRydWUpIGFyZSByZWZjb3VudGVkCj4+Pj4+Pj4gYW5kCj4+
-Pj4+Pj4gY29uc2lkZXJlZAo+Pj4+Pj4+ICAgICAgKiBub3JtYWwgcGFnZXMgYnkgdGhlIFZNLiBU
-aGUgZGlzYWR2YW50YWdlIGlzIHRoYXQgcGFnZXMgYXJlCj4+Pj4+Pj4gcmVmY291bnRlZAo+Pj4+
-Pj4+ICAgICAgKiAod2hpY2ggY2FuIGJlIHNsb3dlciBhbmQgc2ltcGx5IG5vdCBhbiBvcHRpb24g
-Zm9yIHNvbWUgUEZOTUFQCj4+Pj4+Pj4gdXNlcnMpLiBUaGUKPj4+Pj4+PiAgICAgICogYWR2YW50
-YWdlIGlzIHRoYXQgd2UgZG9uJ3QgaGF2ZSB0byBmb2xsb3cgdGhlIHN0cmljdAo+Pj4+Pj4+IGxp
-bmVhcml0eSBydWxlIG9mCj4+Pj4+Pj4gICAgICAqIFBGTk1BUCBtYXBwaW5ncyBpbiBvcmRlciB0
-byBzdXBwb3J0IENPV2FibGUgbWFwcGluZ3MuCj4+Pj4+Pj4KPj4+Pj4+PiBidXQgaXQncyB0cnVl
-IF9fdm1faW5zZXJ0X21peGVkKCkgZW5kcyB1cCBpbiB0aGUgaW5zZXJ0X3BmbigpCj4+Pj4+Pj4g
-cGF0aCwgc28KPj4+Pj4+PiB0aGUgYWJvdmUgaXNuJ3QgcmVhbGx5IHRydWUsIHdoaWNoIG1ha2Vz
-IG1lIHdvbmRlciBpZiBhbmQgaW4gdGhhdAo+Pj4+Pj4+IGNhc2UKPj4+Pj4+PiB3aHkgdGhlcmUg
-Y291bGQgYW55IGxvbmdlciBldmVyIGJlIGEgc2lnbmlmaWNhbnQgcGVyZm9ybWFuY2UKPj4+Pj4+
-PiBkaWZmZXJlbmNlCj4+Pj4+Pj4gYmV0d2VlbiBNSVhFRE1BUCBhbmQgUEZOTUFQLgo+Pj4+Pj4g
-WWVhaCBpdCdzIGRlZmluaXRlbHkgY29uZnVzaW5nLiBJIGd1ZXNzIEknbGwgaGFjayB1cCBhIHBh
-dGNoIGFuZCBzZWUKPj4+Pj4+IHdoYXQgc3RpY2tzLgo+Pj4+Pj4KPj4+Pj4+PiBCVFcgcmVnYXJk
-aW5nIHRoZSBUVE0gaHVnZXB0ZXMsIEkgZG9uJ3QgdGhpbmsgd2UgZXZlciBsYW5kZWQgdGhhdAo+
-Pj4+Pj4+IGRldm1hcAo+Pj4+Pj4+IGhhY2ssIHNvIHRoZXkgYXJlIChmb3IgdGhlIG5vbi1ndXAg
-Y2FzZSkgcmVseWluZyBvbgo+Pj4+Pj4+IHZtYV9pc19zcGVjaWFsX2h1Z2UoKS4gRm9yIHRoZSBn
-dXAgY2FzZSwgSSB0aGluayB0aGUgYnVnIGlzIHN0aWxsCj4+Pj4+Pj4gdGhlcmUuCj4+Pj4+PiBN
-YXliZSB0aGVyZSdzIGFub3RoZXIgZGV2bWFwIGhhY2ssIGJ1dCB0aGUgdHRtX3ZtX2luc2VydCBm
-dW5jdGlvbnMgZG8KPj4+Pj4+IHVzZSBQRk5fREVWIGFuZCBhbGwgdGhhdC4gQW5kIEkgdGhpbmsg
-dGhhdCBzdG9wcyBndXBfZmFzdCBmcm9tIHRyeWluZwo+Pj4+Pj4gdG8gZmluZCB0aGUgdW5kZXJs
-eWluZyBwYWdlLgo+Pj4+Pj4gLURhbmllbAo+Pj4+PiBIbW0gcGVyaGFwcyBpdCBtaWdodCwgYnV0
-IEkgZG9uJ3QgdGhpbmsgc28uIFRoZSBmaXggSSB0cmllZCBvdXQgd2FzCj4+Pj4+IHRvIHNldAo+
-Pj4+Pgo+Pj4+PiBQRk5fREVWIHwgUEZOX01BUCBmb3IgaHVnZSBQVEVzIHdoaWNoIGNhdXNlcyBw
-Zm5fZGV2bWFwKCkgdG8gYmUKPj4+Pj4gdHJ1ZSwgYW5kCj4+Pj4+IHRoZW4KPj4+Pj4KPj4+Pj4g
-Zm9sbG93X2Rldm1hcF9wbWQoKS0+Z2V0X2Rldl9wYWdlbWFwKCkgd2hpY2ggcmV0dXJucyBOVUxM
-IGFuZAo+Pj4+PiBndXBfZmFzdCgpCj4+Pj4+IGJhY2tzIG9mZiwKPj4+Pj4KPj4+Pj4gaW4gdGhl
-IGVuZCB0aGF0IHdvdWxkIG1lYW4gc2V0dGluZyBpbiBzdG9uZSB0aGF0ICJpZiB0aGVyZSBpcyBh
-IGh1Z2UKPj4+Pj4gZGV2bWFwCj4+Pj4+IHBhZ2UgdGFibGUgZW50cnkgZm9yIHdoaWNoIHdlIGhh
-dmVuJ3QgcmVnaXN0ZXJlZCBhbnkgZGV2bWFwIHN0cnVjdAo+Pj4+PiBwYWdlcwo+Pj4+PiAoZ2V0
-X2Rldl9wYWdlbWFwIHJldHVybnMgTlVMTCksIHdlIHNob3VsZCB0cmVhdCB0aGF0IGFzIGEgInNw
-ZWNpYWwiCj4+Pj4+IGh1Z2UKPj4+Pj4gcGFnZSB0YWJsZSBlbnRyeSIuCj4+Pj4+Cj4+Pj4+ICAg
-RnJvbSB3aGF0IEkgY2FuIHRlbGwsIGFsbCBjb2RlIGNhbGxpbmcgZ2V0X2Rldl9wYWdlbWFwKCkg
-YWxyZWFkeQo+Pj4+PiBkb2VzIHRoYXQsCj4+Pj4+IGl0J3MganVzdCBhIHF1ZXN0aW9uIG9mIGdl
-dHRpbmcgaXQgYWNjZXB0ZWQgYW5kIGZvcm1hbGl6aW5nIGl0Lgo+Pj4+IE9oIEkgdGhvdWdodCB0
-aGF0J3MgYWxyZWFkeSBob3cgaXQgd29ya3MsIHNpbmNlIEkgZGlkbid0IHNwb3QgYW55dGhpbmcK
-Pj4+PiBlbHNlIHRoYXQgd291bGQgYmxvY2sgZ3VwX2Zhc3QgZnJvbSBmYWxsaW5nIG92ZXIuIEkg
-Z3Vlc3MgcmVhbGx5IHdvdWxkCj4+Pj4gbmVlZCBzb21lIHRlc3RjYXNlcyB0byBtYWtlIHN1cmUg
-ZGlyZWN0IGkvbyAodGhhdCdzIHRoZSBlYXNpZXN0IHRvIHRlc3QpCj4+Pj4gZmFpbHMgbGlrZSB3
-ZSBleHBlY3QuCj4+PiBZZWFoLCBJSVJDIHRoZSAifCBQRk5fTUFQIiBpcyB0aGUgbWlzc2luZyBw
-aWVjZSBmb3IgVFRNIGh1Z2UgcHRlcy4KPj4+IE90aGVyd2lzZSBwbWRfZGV2bWFwKCkgd2lsbCBu
-b3QgcmV0dXJuIHRydWUgYW5kIHNpbmNlIHRoZXJlIGlzIG5vCj4+PiBwbWRfc3BlY2lhbCgpIHRo
-aW5ncyBicmVhay4KPj4gSXMgdGhhdCBtYXliZSB0aGUgaXNzdWUgd2UgaGF2ZSBzZWVuIHdpdGgg
-YW1kZ3B1IGFuZCBodWdlIHBhZ2VzPwo+IFllYWgsIGVzc2VudGlhbGx5IHdoZW4geW91IGhhdmUg
-YSBodWdlcHRlIGluc2VydGVkIGJ5IHR0bSwgYW5kIGl0Cj4gaGFwcGVucyB0byBwb2ludCBhdCBz
-eXN0ZW0gbWVtb3J5LCB0aGVuIGd1cCB3aWxsIHdvcmsgb24gdGhhdC4gQW5kCj4gY3JlYXRlIGFs
-bCBraW5kcyBvZiBoYXZvYy4KPgo+PiBBcGFydCBmcm9tIHRoYXQgSSdtIGxvc3QgZ3V5cywgdGhh
-dCBkZXZtYXAgYW5kIGd1cCBzdHVmZiBpcyBub3QKPj4gc29tZXRoaW5nIEkgaGF2ZSBhIGdvb2Qg
-a25vd2xlZGdlIG9mIGFwYXJ0IGZyb20gYSBvbmUgbWlsZSBoaWdoIHZpZXcuCj4gSSdtIG5vdCBy
-ZWFsbHkgYmV0dGVyLCBoZW5jZSB3b3VsZCBiZSBnb29kIHRvIGRvIGEgdGVzdGNhc2UgYW5kIHNl
-ZS4KPiBUaGlzIHNob3VsZCBwcm92b2tlIGl0Ogo+IC0gYWxsb2NhdGUgbmljZWx5IGFsaWduZWQg
-Ym8gaW4gc3lzdGVtIG1lbW9yeQo+IC0gbW1hcCwgYWdhaW4gbmljZWx5IGFsaWduZWQgdG8gMk0K
-PiAtIGRvIHNvbWUgZGlyZWN0IGlvIGZyb20gYSBmaWxlc3lzdGVtIGludG8gdGhhdCBtbWFwLCB0
-aGF0IHNob3VsZCB0cmlnZ2VyIGd1cAo+IC0gYmVmb3JlIHRoZSBndXAgY29tcGxldGVzIGZyZWUg
-dGhlIG1tYXAgYW5kIGJvIHNvIHRoYXQgdHRtIHJlY3ljbGVzCj4gdGhlIHBhZ2VzLCB3aGljaCBz
-aG91bGQgdHJpcCB1cCBvbiB0aGUgZWxldmF0ZWQgcmVmY291bnQuIElmIHlvdSB3YWl0Cj4gdW50
-aWwgdGhlIGRpcmVjdCBpbyBpcyBjb21wbGV0ZWx5LCB0aGVuIEkgdGhpbmsgbm90aGluZyBiYWQg
-Y2FuIGJlCj4gb2JzZXJ2ZWQuCj4KPiBPZmMgaWYgeW91ciBhbWRncHUraHVnZXB0ZSBpc3N1ZSBp
-cyBzb21ldGhpbmcgZWxzZSwgdGhlbiBtYXliZSB3ZSBoYXZlCj4gYW5vdGhlciBpc3N1ZS4KPgo+
-IEFsc28gdXN1YWwgY2F2ZWF0OiBJJ20gbm90IGFuIG1tIGhhY2tlciBlaXRoZXIsIHNvIG1pZ2h0
-IGJlIGNvbXBsZXRlbHkgd3JvbmcuCj4gLURhbmllbAoKU28gSSBkaWQgdGhlIGZvbGxvd2luZyBx
-dWljayBleHBlcmltZW50IG9uIHZtd2dmeCwgYW5kIGl0IHR1cm5zIG91dCB0aGF0IAp3aXRoIGl0
-LApmYXN0IGd1cCBuZXZlciBzdWNjZWVkcy4gV2l0aG91dCB0aGUgInwgUEZOX01BUCIsIGl0IHR5
-cGljYWxseSBzdWNjZWVkcwoKSSBzaG91bGQgcHJvYmFibHkgY3JhZnQgYW4gUkZDIGZvcm1hbGl6
-aW5nIHRoaXMuCgovVGhvbWFzCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1f
-Ym9fdm0uYyAKYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192bS5jCmluZGV4IDZkYzk2Y2Y2
-Njc0NC4uNzJiNmZiMTdjOTg0IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9i
-b192bS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMKQEAgLTE5NSw2ICsx
-OTUsNyBAQCBzdGF0aWMgdm1fZmF1bHRfdCB0dG1fYm9fdm1faW5zZXJ0X2h1Z2Uoc3RydWN0IAp2
-bV9mYXVsdCAqdm1mLAogwqDCoMKgwqDCoMKgwqAgcGZuX3QgcGZudDsKIMKgwqDCoMKgwqDCoMKg
-IHN0cnVjdCB0dG1fdHQgKnR0bSA9IGJvLT50dG07CiDCoMKgwqDCoMKgwqDCoCBib29sIHdyaXRl
-ID0gdm1mLT5mbGFncyAmIEZBVUxUX0ZMQUdfV1JJVEU7CivCoMKgwqDCoMKgwqAgc3RydWN0IGRl
-dl9wYWdlbWFwICpwYWdlbWFwOwoKIMKgwqDCoMKgwqDCoMKgIC8qIEZhdWx0IHNob3VsZCBub3Qg
-Y3Jvc3MgYm8gYm91bmRhcnkuICovCiDCoMKgwqDCoMKgwqDCoCBwYWdlX29mZnNldCAmPSB+KGZh
-dWx0X3BhZ2Vfc2l6ZSAtIDEpOwpAQCAtMjEwLDYgKzIxMSwxNyBAQCBzdGF0aWMgdm1fZmF1bHRf
-dCB0dG1fYm9fdm1faW5zZXJ0X2h1Z2Uoc3RydWN0IAp2bV9mYXVsdCAqdm1mLAogwqDCoMKgwqDC
-oMKgwqAgaWYgKChwZm4gJiAoZmF1bHRfcGFnZV9zaXplIC0gMSkpICE9IDApCiDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBvdXRfZmFsbGJhY2s7CgorwqDCoMKgwqDCoMKgIC8q
-CivCoMKgwqDCoMKgwqDCoCAqIEh1Z2UgZW50cmllcyBtdXN0IGJlIHNwZWNpYWwsIHRoYXQgaXMg
-bWFya2luZyB0aGVtIGFzIGRldm1hcAorwqDCoMKgwqDCoMKgwqAgKiB3aXRoIG5vIGJhY2tpbmcg
-ZGV2aWNlIG1hcCByYW5nZS4gSWYgdGhlcmUgaXMgYSBiYWNraW5nCivCoMKgwqDCoMKgwqDCoCAq
-IHJhbmdlLCBEb24ndCBpbnNlcnQgYSBodWdlIGVudHJ5LgorwqDCoMKgwqDCoMKgwqAgKi8KK8Kg
-wqDCoMKgwqDCoCBwYWdlbWFwID0gZ2V0X2Rldl9wYWdlbWFwKHBmbiwgTlVMTCk7CivCoMKgwqDC
-oMKgwqAgaWYgKHBhZ2VtYXApIHsKK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcHV0X2Rl
-dl9wYWdlbWFwKHBhZ2VtYXApOworwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnb3RvIG91
-dF9mYWxsYmFjazsKK8KgwqDCoMKgwqDCoCB9CisKIMKgwqDCoMKgwqDCoMKgIC8qIENoZWNrIHRo
-YXQgbWVtb3J5IGlzIGNvbnRpZ3VvdXMuICovCiDCoMKgwqDCoMKgwqDCoCBpZiAoIWJvLT5tZW0u
-YnVzLmlzX2lvbWVtKSB7CiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZm9yIChpID0g
-MTsgaSA8IGZhdWx0X3BhZ2Vfc2l6ZTsgKytpKSB7CkBAIC0yMjMsNyArMjM1LDcgQEAgc3RhdGlj
-IHZtX2ZhdWx0X3QgdHRtX2JvX3ZtX2luc2VydF9odWdlKHN0cnVjdCAKdm1fZmF1bHQgKnZtZiwK
-IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9CiDCoMKgwqDCoMKgwqDCoCB9CgotwqDC
-oMKgwqDCoMKgIHBmbnQgPSBfX3Bmbl90b19wZm5fdChwZm4sIFBGTl9ERVYpOworwqDCoMKgwqDC
-oMKgIHBmbnQgPSBfX3Bmbl90b19wZm5fdChwZm4sIFBGTl9ERVYgfCBQRk5fTUFQKTsKIMKgwqDC
-oMKgwqDCoMKgIGlmIChmYXVsdF9wYWdlX3NpemUgPT0gKEhQQUdFX1BNRF9TSVpFID4+IFBBR0Vf
-U0hJRlQpKQogwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldCA9IHZtZl9pbnNlcnRf
-cGZuX3BtZF9wcm90KHZtZiwgcGZudCwgcGdwcm90LCB3cml0ZSk7CiDCoCNpZmRlZiBDT05GSUdf
-SEFWRV9BUkNIX1RSQU5TUEFSRU5UX0hVR0VQQUdFX1BVRApAQCAtMjM2LDYgKzI0OCwyMSBAQCBz
-dGF0aWMgdm1fZmF1bHRfdCB0dG1fYm9fdm1faW5zZXJ0X2h1Z2Uoc3RydWN0IAp2bV9mYXVsdCAq
-dm1mLAogwqDCoMKgwqDCoMKgwqAgaWYgKHJldCAhPSBWTV9GQVVMVF9OT1BBR0UpCiDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBvdXRfZmFsbGJhY2s7CgorI2lmIDEKK8KgwqDC
-oMKgwqDCoCB7CivCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGludCBucGFnZXM7CivCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBwYWdlICpwYWdlOworCivCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIG5wYWdlcyA9IGdldF91c2VyX3BhZ2VzX2Zhc3Rfb25seSh2bWYt
-PmFkZHJlc3MsIDEsIDAsIAomcGFnZSk7CivCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlm
-IChucGFnZXMgPT0gMSkgeworwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgRFJNX1dBUk4oIkZhc3QgZ3VwIHN1Y2NlZWRlZC4gQmFkLlxuIik7CivCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwdXRfcGFnZShwYWdlKTsKK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfSBlbHNlIHsKK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIERSTV9JTkZPKCJGYXN0IGd1cCBmYWlsZWQuIEdvb2QuXG4i
-KTsKK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfQorwqDCoMKgwqDCoMKgIH0KKyNlbmRp
-ZgorCiDCoMKgwqDCoMKgwqDCoCByZXR1cm4gVk1fRkFVTFRfTk9QQUdFOwogwqBvdXRfZmFsbGJh
-Y2s6CiDCoMKgwqDCoMKgwqDCoCBjb3VudF92bV9ldmVudChUSFBfRkFVTFRfRkFMTEJBQ0spOwoK
-CgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+https://bugzilla.kernel.org/show_bug.cgi?id=212229
+
+            Bug ID: 212229
+           Summary: STM32F469: vblank wait timed out on output to
+                    /sys/class/graphics/fb0/pan
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: Linux version 5.9.16 (ygenks@xps)
+                    (arm-buildroot-uclinux-uclibcgnueabi-gcc.br_real
+                    (Buildroot 2020.11.2-87-g0611b1a4ab) 9.3.0, GNU ld
+                    (GNU Binutils) 2.32) #3 PREEMPT Thu Mar 11 12:39:46
+                    +03 2021
+          Hardware: ARM
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: high
+          Priority: P1
+         Component: Console/Framebuffers
+          Assignee: jsimmons@infradead.org
+          Reporter: eugentoo@gmail.com
+                CC: dri-devel@lists.freedesktop.org
+        Regression: No
+
+Created attachment 295797
+  --> https://bugzilla.kernel.org/attachment.cgi?id=295797&action=edit
+Kernel config
+
+Distribution:         
+Buildroot 2020.11.3
+
+Kernel version:
+Linux version 5.9.16 (arm-buildroot-uclinux-uclibcgnueabi-gcc.br_real
+(Buildroot 2020.11.2-87-g0611b1a4ab) 9.3.0, GNU ld (GNU Binutils) 2.32) #3
+PREEMPT Thu Mar 11 12:39:46 +03 2021
+
+Kernel config: 
+in attachment
+
+Customized device tree fragment:
+https://github.com/Ygenks/buildroot/blob/2020.11.3-stm32f469-bringup/board/stmicroelectronics/stm32f469-disco/linux/stm32f469-disco.dts
+
+Buildroot config:
+https://github.com/Ygenks/buildroot/blob/2020.11.3-stm32f469-bringup/configs/stm32f469_disco_defconfig
+
+Hardware environment:
+STM32F469i-disco board
+https://www.st.com/resource/en/user_manual/dm00218846-discovery-kit-with-stm32f469ni-mcu-stmicroelectronics.pdf
+
+
+Problem description:
+
+After enabling STM32 DRM MIPI DSI subsystem, frambuffer subsystem and virtual
+terminal for STM32F469 MCU, I've tried to output graphic pattern on the
+OTM8009A display module from Orisetech with following commands:
+
+# Enable full DRM debug
+echo 0xff > /sys/module/drm/parameters/debug
+# Write to framebuffer
+echo 0 0 > /sys/class/graphics/fb0/pan
+
+Last command ends with kernel exception:[   66.500596]
+[drm:drm_atomic_state_init] Allocated atomic state a15f0561
+[   66.502126] [drm:drm_mode_object_get] OBJ ID: 38 (2)
+[   66.503888] [drm:drm_atomic_get_plane_state] Added [PLANE:33:plane-0]
+6275dc03 state to a15f0561
+[   66.506318] [drm:drm_mode_object_get] OBJ ID: 39 (1)
+[   66.508073] [drm:drm_atomic_get_crtc_state] Added [CRTC:35:crtc-0] f2c93995
+state to a15f0561
+[   66.509895] [drm:drm_atomic_get_plane_state] Added [PLANE:36:plane-1]
+3f7997d2 state to a15f0561
+[   66.511287] [drm:drm_atomic_set_fb_for_plane] Set [NOFB] for
+[PLANE:36:plane-1] state 3f7997d2
+[   66.512972] [drm:drm_atomic_set_fb_for_plane] Set [FB:38] for
+[PLANE:33:plane-0] state 6275dc03
+[   66.514687] [drm:drm_mode_object_get] OBJ ID: 38 (3)
+[   66.515820] [drm:drm_mode_object_put] OBJ ID: 38 (4)
+[   66.517632] [drm:drm_atomic_add_affected_connectors] Adding all current
+connectors for [CRTC:35:crtc-0] to a15f0561
+[   66.518912] [drm:drm_mode_object_get] OBJ ID: 32 (4)
+[   66.520049] [drm:drm_mode_object_get] OBJ ID: 32 (5)
+[   66.521869] [drm:drm_atomic_get_connector_state] Added [CONNECTOR:32:DSI-1]
+8f9b11f6 state to a15f0561
+[   66.523030] [drm:drm_mode_object_put] OBJ ID: 32 (5)
+[   66.525084] [drm:drm_atomic_set_crtc_for_connector] Link
+[CONNECTOR:32:DSI-1] state 8f9b11f6 to [NOCRTC]
+[   66.526253] [drm:drm_mode_object_get] OBJ ID: 32 (4)
+[   66.527869] [drm:drm_atomic_set_crtc_for_connector] Link
+[CONNECTOR:32:DSI-1] state 8f9b11f6 to [CRTC:35:crtc-0]
+[   66.529274] [drm:drm_atomic_check_only] checking a15f0561
+[   66.530665] [drm:drm_atomic_helper_check_modeset] Updating routing for
+[CONNECTOR:32:DSI-1]
+[   66.532342] [drm:drm_atomic_helper_check_modeset] [CONNECTOR:32:DSI-1] keeps
+[ENCODER:31:DPI-31], now on [CRTC:35:crtc-0]
+[   66.534645] [drm:drm_atomic_add_encoder_bridges] Adding all bridges for
+[encoder:31:DPI-31] to a15f0561
+[   66.536607] [drm:drm_atomic_get_private_obj_state] Added new private object
+41b1bb6c state b53daef0 to a15f0561
+[   66.538321] [drm:drm_atomic_add_encoder_bridges] Adding all bridges for
+[encoder:31:DPI-31] to a15f0561
+[   66.539298] [drm:ltdc_plane_atomic_check] 
+[   66.540067] [drm:ltdc_plane_atomic_check] 
+[   66.541452] [drm:drm_atomic_commit] committing a15f0561
+[   66.544452] stm32-display 40016800.display-controller:
+[drm:drm_calc_timestamping_constants] crtc 35: hwmode: htotal 708, vtotal 839,
+vdisplay 800
+[   66.546354] stm32-display 40016800.display-controller:
+[drm:drm_calc_timestamping_constants] crtc 35: clock 29700 kHz framedur
+20000404 linedur 23838
+[   66.548126] [drm:ltdc_plane_atomic_update] plane:33 fb:38 (480x800)@(0,0) ->
+(480x800)@(0,0)
+[   66.549066] [drm:ltdc_plane_atomic_update] fb: phys 0xc0600000
+[   66.549881] [drm:ltdc_crtc_atomic_flush] 
+[   66.550655] [drm:ltdc_crtc_enable_vblank] 
+[   66.552747] stm32-display 40016800.display-controller:
+[drm:drm_vblank_enable] enabling vblank on crtc 0, ret: 0
+[   66.555413] stm32-display 40016800.display-controller:
+[drm:drm_crtc_vblank_helper_get_vblank_timestamp_internal] crtc 0 : v p(0,0)@
+66.440496 -> 66.440496 [e 17 us, 0 rep]
+[   66.557840] stm32-display 40016800.display-controller:
+[drm:drm_update_vblank_count] crtc 0: Calculating number of vblanks. diff_ns =
+45639547247, framedur_ns = 20000404)
+[   66.560381] stm32-display 40016800.display-controller:
+[drm:drm_update_vblank_count] updating vblank count on crtc 0: current=271,
+diff=2282, hw=0 hw_last=0
+[   66.563073] stm32-display 40016800.display-controller:
+[drm:drm_crtc_vblank_helper_get_vblank_timestamp_internal] crtc 0 : v p(0,0)@
+66.448156 -> 66.448156 [e 17 us, 0 rep]
+[   66.565476] stm32-display 40016800.display-controller:
+[drm:drm_update_vblank_count] crtc 0: Calculating number of vblanks. diff_ns =
+7660378, framedur_ns = 20000404)
+
+-------------- vvv Exception here vvv -----------------
+
+[   66.567972] stm32-display 40016800.display-controller:
+[drm:drm_update_vblank_count] updating vblank count on crtc 0: current=2553,
+diff=0, hw=0 hw_last=0
+[   76.753724] ------------[ cut here ]------------
+[   76.755426] WARNING: CPU: 0 PID: 46 at
+drivers/gpu/drm/drm_atomic_helper.c:1496
+drm_atomic_helper_wait_for_vblanks+0x12f/0x164
+[   76.755840] [CRTC:35:crtc-0] vblank wait timed out
+[   76.756751] CPU: 0 PID: 46 Comm: sh Tainted: G        W         5.9.16 #3
+[   76.757117] Hardware name: STM32 (Device Tree Support)
+[   76.759186] [<900030bd>] (unwind_backtrace) from [<9000246b>]
+(show_stack+0xb/0xc)
+[   76.760841] [<9000246b>] (show_stack) from [<901c8345>] (__warn+0x79/0x8c)
+[   76.762302] [<901c8345>] (__warn) from [<901c8397>]
+(warn_slowpath_fmt+0x3f/0x74)
+[   76.764937] [<901c8397>] (warn_slowpath_fmt) from [<90141a63>]
+(drm_atomic_helper_wait_for_vblanks+0x12f/0x164)
+[   76.767391] [<90141a63>] (drm_atomic_helper_wait_for_vblanks) from
+[<90142603>] (drm_atomic_helper_commit_tail+0x35/0x40)
+[   76.769689] [<90142603>] (drm_atomic_helper_commit_tail) from [<901426f9>]
+(commit_tail+0xeb/0xfa)
+[   76.771960] [<901426f9>] (commit_tail) from [<90142a15>]
+(drm_atomic_helper_commit+0x95/0xa0)
+
+--------------  Exception here  -----------------
+
+The screen is totally blank.
+Controlling brightness doesn't work too:
+
+~ # echo 255 > /sys/class/backlight/40016c00.dsi.0/brightness
+[ 3147.258092] stm32-display-dsi 40016c00.dsi: failed to write command FIFO
+[ 3147.265921] [drm] mipi dsi dcs write buffer failed
+[ 3147.293878] stm32-display-dsi 40016c00.dsi: failed to write command FIFO
+[ 3147.301125] [drm] mipi dsi dcs write buffer failed
+
+Dmesg output:
+[    0.000000] Booting Linux on physical CPU 0x0
+[    0.000000] Linux version 5.9.16 (ygenks@xps)
+(arm-buildroot-uclinux-uclibcgnueabi-gcc.br_real (Buildroot
+2020.11.2-87-g0611b1a4ab) 9.3.0, GNU ld (GNU Binutils) 2.32) #3 PREEMPT Thu Mar
+11 12:39:46 +03 2021
+[    0.000000] CPU: ARMv7-M [410fc241] revision 1 (ARMv7M), cr=00000000
+[    0.000000] CPU: unknown data cache, unknown instruction cache
+[    0.000000] OF: fdt: Machine model: STMicroelectronics STM32F469i-DISCO
+board
+[    0.000000] Using ARMv7 PMSA Compliant MPU. Region independence: No, Used 5
+of 8 regions
+[    0.000000] Zone ranges:
+[    0.000000]   Normal   [mem 0x00000000c0000000-0x00000000c0ffffff]
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x00000000c0000000-0x00000000c0ffffff]
+[    0.000000] Initmem setup node 0 [mem 0x00000000c0000000-0x00000000c0ffffff]
+[    0.000000] On node 0 totalpages: 4096
+[    0.000000]   Normal zone: 32 pages used for memmap
+[    0.000000]   Normal zone: 0 pages reserved
+[    0.000000]   Normal zone: 4096 pages, LIFO batch:0
+[    0.000000] pcpu-alloc: s0 r0 d32768 u32768 alloc=1*32768
+[    0.000000] pcpu-alloc: [0] 0 
+[    0.000000] Built 1 zonelists, mobility grouping off.  Total pages: 4064
+[    0.000000] Kernel command line: root=/dev/ram mminit_loglevel=4 loglevel=8
+[    0.000000] Dentry cache hash table entries: 2048 (order: 1, 8192 bytes,
+linear)
+[    0.000000] Inode-cache hash table entries: 1024 (order: 0, 4096 bytes,
+linear)
+[    0.000000] mem auto-init: stack:off, heap alloc:off, heap free:off
+[    0.000000] Memory: 15840K/16384K available (1959K kernel code, 163K rwdata,
+856K rodata, 92K init, 119K bss, 544K reserved, 0K cma-reserved)
+[    0.000000] SLUB: HWalign=32, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
+[    0.000000] rcu: Preemptible hierarchical RCU implementation.
+[    0.000000] rcu:     RCU event tracing is enabled.
+[    0.000000]  Trampoline variant of Tasks RCU enabled.
+[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 10
+jiffies.
+[    0.000000] NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16
+[    0.000000] /soc/interrupt-controller@40013c00: bank0
+[    0.000000] random: get_random_bytes called from start_kernel+0x1e3/0x35c
+with crng_init=0
+[    0.000000] ------------[ cut here ]------------
+[    0.000000] WARNING: CPU: 0 PID: 0 at drivers/clk/clk-divider.c:138
+divider_recalc_rate+0x45/0x94
+[    0.000000] pll-r: Zero divisor and CLK_DIVIDER_ALLOW_ZERO not set
+[    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted 5.9.16 #3
+[    0.000000] Hardware name: STM32 (Device Tree Support)
+[    0.000000] [<900030bd>] (unwind_backtrace) from [<9000246b>]
+(show_stack+0xb/0xc)
+[    0.000000] [<9000246b>] (show_stack) from [<901c8345>] (__warn+0x79/0x8c)
+[    0.000000] [<901c8345>] (__warn) from [<901c8397>]
+(warn_slowpath_fmt+0x3f/0x74)
+[    0.000000] [<901c8397>] (warn_slowpath_fmt) from [<90115559>]
+(divider_recalc_rate+0x45/0x94)
+[    0.000000] [<90115559>] (divider_recalc_rate) from [<901155cd>]
+(clk_divider_recalc_rate+0x25/0x28)
+[    0.000000] [<901155cd>] (clk_divider_recalc_rate) from [<90113dbd>]
+(__clk_register+0x2f9/0x408)
+[    0.000000] [<90113dbd>] (__clk_register) from [<90114a89>]
+(clk_hw_register+0x19/0x26)
+[    0.000000] [<90114a89>] (clk_hw_register) from [<901c97e9>]
+(clk_register_pll_div.constprop.0+0x75/0xb0)
+[    0.000000] [<901c97e9>] (clk_register_pll_div.constprop.0) from
+[<901c990d>] (stm32f4_rcc_register_pll.constprop.0+0xe9/0x114)
+[    0.000000] [<901c990d>] (stm32f4_rcc_register_pll.constprop.0) from
+[<902ca43f>] (stm32f42xx_rcc_of_clk_init_driver+0x4a7/0x694)
+[    0.000000] [<902ca43f>] (stm32f42xx_rcc_of_clk_init_driver) from
+[<902c9f2b>] (of_clk_init+0x117/0x158)
+[    0.000000] [<902c9f2b>] (of_clk_init) from [<902c22d1>]
+(time_init+0x15/0x20)
+[    0.000000] [<902c22d1>] (time_init) from [<902c087b>]
+(start_kernel+0x20b/0x35c)
+[    0.000000] [<902c087b>] (start_kernel) from [<00000000>] (0x0)
+[    0.000000] ---[ end trace 4c7da8027ba5f86b ]---
+[    0.000000] ------------[ cut here ]------------
+[    0.000000] WARNING: CPU: 0 PID: 0 at drivers/clk/clk-divider.c:138
+divider_recalc_rate+0x45/0x94
+[    0.000000] pllsai-q: Zero divisor and CLK_DIVIDER_ALLOW_ZERO not set
+[    0.000000] CPU: 0 PID: 0 Comm: swapper Tainted: G        W         5.9.16
+#3
+[    0.000000] Hardware name: STM32 (Device Tree Support)
+[    0.000000] [<900030bd>] (unwind_backtrace) from [<9000246b>]
+(show_stack+0xb/0xc)
+[    0.000000] [<9000246b>] (show_stack) from [<901c8345>] (__warn+0x79/0x8c)
+[    0.000000] [<901c8345>] (__warn) from [<901c8397>]
+(warn_slowpath_fmt+0x3f/0x74)
+[    0.000000] [<901c8397>] (warn_slowpath_fmt) from [<90115559>]
+(divider_recalc_rate+0x45/0x94)
+[    0.000000] [<90115559>] (divider_recalc_rate) from [<901155cd>]
+(clk_divider_recalc_rate+0x25/0x28)
+[    0.000000] [<901155cd>] (clk_divider_recalc_rate) from [<90113dbd>]
+(__clk_register+0x2f9/0x408)
+[    0.000000] [<90113dbd>] (__clk_register) from [<90114a89>]
+(clk_hw_register+0x19/0x26)
+[    0.000000] [<90114a89>] (clk_hw_register) from [<901c97e9>]
+(clk_register_pll_div.constprop.0+0x75/0xb0)
+[    0.000000] [<901c97e9>] (clk_register_pll_div.constprop.0) from
+[<901c990d>] (stm32f4_rcc_register_pll.constprop.0+0xe9/0x114)
+[    0.000000] [<901c990d>] (stm32f4_rcc_register_pll.constprop.0) from
+[<902ca459>] (stm32f42xx_rcc_of_clk_init_driver+0x4c1/0x694)
+[    0.000000] [<902ca459>] (stm32f42xx_rcc_of_clk_init_driver) from
+[<902c9f2b>] (of_clk_init+0x117/0x158)
+[    0.000000] [<902c9f2b>] (of_clk_init) from [<902c22d1>]
+(time_init+0x15/0x20)
+[    0.000000] [<902c22d1>] (time_init) from [<902c087b>]
+(start_kernel+0x20b/0x35c)
+[    0.000000] [<902c087b>] (start_kernel) from [<00000000>] (0x0)
+[    0.000000] ---[ end trace 4c7da8027ba5f86c ]---
+[    0.000000] ------------[ cut here ]------------
+[    0.000000] WARNING: CPU: 0 PID: 0 at drivers/clk/clk-divider.c:138
+divider_recalc_rate+0x45/0x94
+[    0.000000] pllsai-r: Zero divisor and CLK_DIVIDER_ALLOW_ZERO not set
+[    0.000000] CPU: 0 PID: 0 Comm: swapper Tainted: G        W         5.9.16
+#3
+[    0.000000] Hardware name: STM32 (Device Tree Support)
+[    0.000000] [<900030bd>] (unwind_backtrace) from [<9000246b>]
+(show_stack+0xb/0xc)
+[    0.000000] [<9000246b>] (show_stack) from [<901c8345>] (__warn+0x79/0x8c)
+[    0.000000] [<901c8345>] (__warn) from [<901c8397>]
+(warn_slowpath_fmt+0x3f/0x74)
+[    0.000000] [<901c8397>] (warn_slowpath_fmt) from [<90115559>]
+(divider_recalc_rate+0x45/0x94)
+[    0.000000] [<90115559>] (divider_recalc_rate) from [<901155cd>]
+(clk_divider_recalc_rate+0x25/0x28)
+[    0.000000] [<901155cd>] (clk_divider_recalc_rate) from [<90113dbd>]
+(__clk_register+0x2f9/0x408)
+[    0.000000] [<90113dbd>] (__clk_register) from [<90114a89>]
+(clk_hw_register+0x19/0x26)
+[    0.000000] [<90114a89>] (clk_hw_register) from [<901c97e9>]
+(clk_register_pll_div.constprop.0+0x75/0xb0)
+[    0.000000] [<901c97e9>] (clk_register_pll_div.constprop.0) from
+[<901c990d>] (stm32f4_rcc_register_pll.constprop.0+0xe9/0x114)
+[    0.000000] [<901c990d>] (stm32f4_rcc_register_pll.constprop.0) from
+[<902ca459>] (stm32f42xx_rcc_of_clk_init_driver+0x4c1/0x694)
+[    0.000000] [<902ca459>] (stm32f42xx_rcc_of_clk_init_driver) from
+[<902c9f2b>] (of_clk_init+0x117/0x158)
+[    0.000000] [<902c9f2b>] (of_clk_init) from [<902c22d1>]
+(time_init+0x15/0x20)
+[    0.000000] [<902c22d1>] (time_init) from [<902c087b>]
+(start_kernel+0x20b/0x35c)
+[    0.000000] [<902c087b>] (start_kernel) from [<00000000>] (0x0)
+[    0.000000] ---[ end trace 4c7da8027ba5f86d ]---
+[    0.000000] clocksource: arm_system_timer: mask: 0xffffff max_cycles:
+0xffffff, max_idle_ns: 331816030 ns
+[    0.000000] ARM System timer initialized as clocksource
+[    0.000705] sched_clock: 32 bits at 90MHz, resolution 11ns, wraps every
+23860929530ns
+[    0.001454] timer@40000c00: STM32 sched_clock registered
+[    0.002813] Switching to timer-based delay loop, resolution 11ns
+[    0.003546] timer@40000c00: STM32 delay timer registered
+[    0.005080] clocksource: timer@40000c00: mask: 0xffffffff max_cycles:
+0xffffffff, max_idle_ns: 21236227187 ns
+[    0.006860] /soc/timer@40000c00: STM32 clockevent driver initialized (32
+bits)
+[    0.044650] Console: colour dummy device 80x30
+[    0.338349] printk: console [tty0] enabled
+[    0.341119] Calibrating delay loop (skipped), value calculated using timer
+frequency.. 180.00 BogoMIPS (lpj=900000)
+[    0.346491] pid_max: default: 4096 minimum: 301
+[    0.359538] Mount-cache hash table entries: 1024 (order: 0, 4096 bytes,
+linear)
+[    0.363583] Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes,
+linear)
+[    0.438277] rcu: Hierarchical SRCU implementation.
+[    0.451978] devtmpfs: initialized
+[    1.022581] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff,
+max_idle_ns: 19112604462750000 ns
+[    1.027297] pinctrl core: initialized pinctrl subsystem
+[    2.427251] stm32f469-pinctrl soc:pin-controller: No package detected, use
+default one
+[    2.481341] stm32f469-pinctrl soc:pin-controller: GPIOA bank added
+[    2.500606] stm32f469-pinctrl soc:pin-controller: GPIOB bank added
+[    2.519726] stm32f469-pinctrl soc:pin-controller: GPIOC bank added
+[    2.538955] stm32f469-pinctrl soc:pin-controller: GPIOD bank added
+[    2.558419] stm32f469-pinctrl soc:pin-controller: GPIOE bank added
+[    2.577572] stm32f469-pinctrl soc:pin-controller: GPIOF bank added
+[    2.596581] stm32f469-pinctrl soc:pin-controller: GPIOG bank added
+[    2.615330] stm32f469-pinctrl soc:pin-controller: GPIOH bank added
+[    2.635236] stm32f469-pinctrl soc:pin-controller: GPIOI bank added
+[    2.654665] stm32f469-pinctrl soc:pin-controller: GPIOJ bank added
+[    2.658672] random: fast init done
+[    2.675817] stm32f469-pinctrl soc:pin-controller: GPIOK bank added
+[    2.680404] stm32f469-pinctrl soc:pin-controller: Pinctrl STM32 initialized
+[    3.213262] fbcon: Taking over console
+[    3.298080] stm32-dma 40026000.dma-controller: STM32 DMA driver registered
+[    3.392902] stm32-dma 40026400.dma-controller: STM32 DMA driver registered
+[    3.542844] clocksource: Switched to clocksource timer@40000c00
+[   11.432799] workingset: timestamp_bits=30 max_order=12 bucket_order=0
+[   11.896537] io scheduler mq-deadline registered
+[   11.898875] io scheduler kyber registered
+[   11.968019] STM32 USART driver initialized
+[   11.996799] 40004800.serial: ttySTM0 at MMIO 0x40004800 (irq = 32, base_baud
+= 2812500) is a stm32-usart
+[   13.010748] printk: console [ttySTM0] enabled
+[   13.098458] random: crng init done
+[   13.128497] stm32-display-dsi 40016c00.dsi: supply phy-dsi not found, using
+dummy regulator
+[   13.803759] stm32_rtc 40002800.rtc: registered as rtc0
+[   13.812550] stm32_rtc 40002800.rtc: setting system clock to
+2000-01-01T00:48:40 UTC (946687720)
+[   13.831176] stm32_rtc 40002800.rtc: Date/Time must be initialized
+[   13.860713] i2c /dev entries driver
+[   13.980156] mmci-pl18x 40012c00.sdio: Got CD GPIO
+[   14.012526] mmci-pl18x 40012c00.sdio: mmc0: PL180 manf 80 rev8 at 0x40012c00
+irq 33,0 (pio)
+[   15.253083] [drm] Initialized stm 1.0.0 20170330 for
+40016800.display-controller on minor 0
+[   15.827310] Console: switching to colour frame buffer device 60x50
+[   16.655436] stm32-display 40016800.display-controller: [drm] fb0: stmdrmfb
+frame buffer device
+[   16.774113] input: gpio_keys as /devices/platform/gpio_keys/input/input0
+[   16.881363] Freeing unused kernel memory: 28K
+[   16.900370] This architecture does not have kernel memory protection.
+[   16.928387] Run /init as init process
+[   16.944506]   with arguments:
+[   16.957856]     /init
+[   16.968400]   with environment:
+[   16.982443]     HOME=/
+[   16.993970]     TERM=linux
+[   17.006290]     mminit_loglevel=4
+[   47.313970] mmc_vcard: disabling
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are on the CC list for the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
