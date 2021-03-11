@@ -1,37 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7CD337239
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 13:15:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6E633727D
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 13:25:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7078A6EC2B;
-	Thu, 11 Mar 2021 12:15:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 499126EC31;
+	Thu, 11 Mar 2021 12:25:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E69BE6EC2B
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 12:15:48 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6DE1831B;
- Thu, 11 Mar 2021 04:15:48 -0800 (PST)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 769103F793;
- Thu, 11 Mar 2021 04:15:47 -0800 (PST)
-Subject: Re: [RFC PATCH 0/7] drm/panfrost: Add a new submit ioctl
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
-References: <20210311092539.2405596-1-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <86062831-6608-9ae7-c513-e74d3a9c2e33@arm.com>
-Date: Thu, 11 Mar 2021 12:16:33 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AE3F6EC2F;
+ Thu, 11 Mar 2021 12:24:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 2F9E041653;
+ Thu, 11 Mar 2021 13:24:56 +0100 (CET)
+Authentication-Results: pio-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="IU0b+gs1";
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Xe7DiJsaVjtQ; Thu, 11 Mar 2021 13:24:52 +0100 (CET)
+Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 0FF273F39B;
+ Thu, 11 Mar 2021 13:24:50 +0100 (CET)
+Received: from [192.168.0.209] (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 7130E360133;
+ Thu, 11 Mar 2021 13:24:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1615465490; bh=J4GFvQsApCHbaF8LRAPlj2yQA+rhQWbfccw18gipJUo=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=IU0b+gs1hPAzwHsf85mewmcQOy0WEwqO3qLGWOV3Y5WuiOzOB4H0PQ5VP1TBxFDiU
+ WsbexFUj5rw3/qhc5QsPh25G67ryBt/xx4PRuGkvSlpmN27qq/+Nc7i6+KS5dH9OxI
+ s1Y2xjddekjYEc58oXWpqqoaNm5O5zEKQR0SQM4g=
+Subject: Re: [PATCH 17/35] drm/amdkfd: register HMM device private zone
+To: Felix Kuehling <felix.kuehling@amd.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20210107030127.20393-1-Felix.Kuehling@amd.com>
+ <20210107030127.20393-18-Felix.Kuehling@amd.com>
+ <CAKMK7uEd9KZAmeNd9Z9GF9p0yUButHc+8_PERRuNR79+uqAhbQ@mail.gmail.com>
+ <7f837938-3ad8-6ecf-d2b7-952b177cffb8@shipmail.org>
+ <db2d652b-8a6e-d38f-8c08-2ac3a070f4be@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <cd34e4cb-9cc5-8526-bd17-cf7591c756d8@shipmail.org>
+Date: Thu, 11 Mar 2021 13:24:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210311092539.2405596-1-boris.brezillon@collabora.com>
-Content-Language: en-GB
+In-Reply-To: <db2d652b-8a6e-d38f-8c08-2ac3a070f4be@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,126 +68,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Alex Sierra <alex.sierra@amd.com>, Philip Yang <Philip.Yang@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/03/2021 09:25, Boris Brezillon wrote:
-> Hello,
-> 
-> I've been playing with Vulkan lately and struggled quite a bit to
-> implement VkQueueSubmit with the submit ioctl we have. There are
-> several limiting factors that can be worked around if we really have to,
-> but I think it'd be much easier and future-proof if we introduce a new
-> ioctl that addresses the current limitations:
-
-Hi Boris,
-
-I think what you've proposed is quite reasonable, some detailed comments 
-to your points below.
-
-> 
-> 1/ There can only be one out_sync, but Vulkan might ask us to signal
->     several VkSemaphores and possibly one VkFence too, both of those
->     being based on sync objects in my PoC. Making out_sync an array of
->     syncobjs to attach the render_done fence to would make that possible.
->     The other option would be to collect syncobj updates in userspace
->     in a separate thread and propagate those updates to all
->     semaphores+fences waiting on those events (I think the v3dv driver
->     does something like that, but I didn't spend enough time studying
->     the code to be sure, so I might be wrong).
-
-You should be able to avoid the separate thread to propagate by having a 
-proxy object in user space that maps between the one outsync of the job 
-and the possibly many Vulkan objects. But I've had this argument before 
-with the DDK... and the upshot of it was that he Vulkan API is 
-unnecessarily complex here and makes this really hard to do in practise. 
-So I agree adding this capability to the kernel is likely the best approach.
-
-> 2/ Queued jobs might be executed out-of-order (unless they have
->     explicit/implicit deps between them), and Vulkan asks that the out
->     fence be signaled when all jobs are done. Timeline syncobjs are a
->     good match for that use case. All we need to do is pass the same
->     fence syncobj to all jobs being attached to a single QueueSubmit
->     request, but a different point on the timeline. The syncobj
->     timeline wait does the rest and guarantees that we've reached a
->     given timeline point (IOW, all jobs before that point are done)
->     before declaring the fence as signaled.
->     One alternative would be to have dummy 'synchronization' jobs that
->     don't actually execute anything on the GPU but declare a dependency
->     on all other jobs that are part of the QueueSubmit request, and
->     signal the out fence (the scheduler would do most of the work for
->     us, all we have to do is support NULL job heads and signal the
->     fence directly when that happens instead of queueing the job).
-
-I have to admit to being rather hazy on the details of timeline 
-syncobjs, but I thought there was a requirement that the timeline moves 
-monotonically. I.e. if you have multiple jobs signalling the same 
-syncobj just with different points, then AFAIU the API requires that the 
-points are triggered in order.
-
-So I'm not sure that you've actually fixed this point - you either need 
-to force an order (in which case the last job can signal the Vulkan 
-fence) or you still need a dummy job to do the many-to-one dependency.
-
-Or I may have completely misunderstood timeline syncobjs - definitely a 
-possibility :)
-
-> 3/ The current implementation lacks information about BO access,
->     so we serialize all jobs accessing the same set of BOs, even
->     if those jobs might just be reading from them (which can
->     happen concurrently). Other drivers pass an access type to the
->     list of referenced BOs to address that. Another option would be
->     to disable implicit deps (deps based on BOs) and force the driver
->     to pass all deps explicitly (interestingly, some drivers have
->     both the no-implicit-dep and r/w flags, probably to support
->     sub-resource access, so we might want to add that one too).
->     I don't see any userspace workaround to that problem, so that one
->     alone would justify extending the existing ioctl or adding a new
->     one.
-
-Yeah - I think we need this. My only comment is that I think the 
-read/write terminology may come back to bite. Better to use 'shared' and 
-'exclusive' - which better matches the dma_resv_xxx APIs anyway.
-
-Also the current code completely ignores PANFROST_BO_REF_READ. So either 
-that should be defined as 0, or even better we support 3 modes:
-
-  * Exclusive ('write' access)
-  * Shared ('read' access)
-  * No fence - ensures the BO is mapped, but doesn't add any implicit 
-fences.
-
-The last may make sense when doing explicit fences and e.g. doing 
-front-buffer rendering with a display driver which does implicit fencing.
-
-> 4/ There's also the fact that submitting one job at a time adds an
->     overhead when QueueSubmit is being passed more than one
->     CommandBuffer. That one is less problematic, but if we're adding
->     a new ioctl we'd better design it to limit the userspace -> kernel
->     transition overhead.
-
-I've no objection - but I doubt the performance effect is significant. I 
-was pleased to see the handling of stride which makes the interface 
-extendable. In particular I suspect at some point we're going to want a 
-priority field in some form.
-
-> Right now I'm just trying to collect feedback. I don't intend to get
-> those patches merged until we have a userspace user, but I thought
-> starting the discussion early would be a good thing.
-> 
-> Feel free to suggest other approaches.
-
-Other than the above I didn't see any obvious issues, and I know the 
-Vulkan API is problematic in terms of synchronisation primitives - so if 
-this makes it easier to implement then it seems like a good idea to me.
-
-Thanks,
-
-Steve
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Ck9uIDMvNC8yMSA2OjU4IFBNLCBGZWxpeCBLdWVobGluZyB3cm90ZToKPiBBbSAyMDIxLTAzLTAx
+IHVtIDM6NDYgYS5tLiBzY2hyaWViIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCk6Cj4+IE9uIDMv
+MS8yMSA5OjMyIEFNLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+Pj4gT24gV2VkLCBKYW4gMDYsIDIw
+MjEgYXQgMTA6MDE6MDlQTSAtMDUwMCwgRmVsaXggS3VlaGxpbmcgd3JvdGU6Cj4+Pj4gRnJvbTog
+UGhpbGlwIFlhbmcgPFBoaWxpcC5ZYW5nQGFtZC5jb20+Cj4+Pj4KPj4+PiBSZWdpc3RlciB2cmFt
+IG1lbW9yeSBhcyBNRU1PUllfREVWSUNFX1BSSVZBVEUgdHlwZSByZXNvdXJjZSwgdG8KPj4+PiBh
+bGxvY2F0ZSB2cmFtIGJhY2tpbmcgcGFnZXMgZm9yIHBhZ2UgbWlncmF0aW9uLgo+Pj4+Cj4+Pj4g
+U2lnbmVkLW9mZi1ieTogUGhpbGlwIFlhbmcgPFBoaWxpcC5ZYW5nQGFtZC5jb20+Cj4+Pj4gU2ln
+bmVkLW9mZi1ieTogRmVsaXggS3VlaGxpbmcgPEZlbGl4Lkt1ZWhsaW5nQGFtZC5jb20+Cj4+PiBT
+byBtYXliZSBJJ20gZ2V0dGluZyB0aGlzIGFsbCB3cm9uZywgYnV0IEkgdGhpbmsgdGhhdCB0aGUg
+Y3VycmVudCB0dG0KPj4+IGZhdWx0IGNvZGUgcmVsaWVzIG9uIGRldm1hcCBwdGUgZW50cmllcyAo
+ZXNwZWNpYWxseSBmb3IgaHVnZXB0ZSBlbnRyaWVzKQo+Pj4gdG8gc3RvcCBnZXRfdXNlcl9wYWdl
+cy4gQnV0IHRoaXMgb25seSB3b3JrcyBpZiB0aGUgcHRlIGhhcHBlbnMgdG8gbm90Cj4+PiBwb2lu
+dCBhdCBhIHJhbmdlIHdpdGggZGV2bWFwIHBhZ2VzLgo+PiBJIGRvbid0IHRoaW5rIHRoYXQncyBp
+biBUVE0geWV0LCBidXQgdGhlIHByb3Bvc2VkIGZpeCwgeWVzIChzZWUgZW1haWwKPj4gSSBqdXN0
+IHNlbnQgaW4gYW5vdGhlciB0aHJlYWQpLAo+PiBidXQgb25seSBmb3IgaHVnZSBwdGVzLgo+Pgo+
+Pj4gVGhpcyBwYXRjaCBoZXJlIGNoYW5nZXMgdGhhdCwgYW5kIHNvIHByb2JhYmx5IGJyZWFrcyB0
+aGlzIGRldm1hcCBwdGUKPj4+IGhhY2sKPj4+IHR0bSBpcyB1c2luZz8KPj4+Cj4+PiBJZiBJJ20g
+bm90IHdyb25nIGhlcmUgdGhlbiBJIHRoaW5rIHdlIG5lZWQgdG8gZmlyc3QgZml4IHVwIHRoZSB0
+dG0KPj4+IGNvZGUgdG8KPj4+IG5vdCB1c2UgdGhlIGRldm1hcCBoYWNrIGFueW1vcmUsIGJlZm9y
+ZSBhIHR0bSBiYXNlZCBkcml2ZXIgY2FuCj4+PiByZWdpc3RlciBhCj4+PiBkZXZfcGFnZW1hcC4g
+QWxzbyBhZGRpbmcgVGhvbWFzIHNpbmNlIHRoYXQganVzdCBjYW1lIHVwIGluIGFub3RoZXIKPj4+
+IGRpc2N1c3Npb24uCj4+IEl0IGRvZXNuJ3QgYnJlYWsgdGhlIHR0bSBkZXZtYXAgaGFjayBwZXIg
+c2UsIGJ1dCBpdCBpbmRlZWQgYWxsb3dzIGd1cAo+PiB0byB0aGUgcmFuZ2UgcmVnaXN0ZXJlZCwg
+YnV0IGhlcmUncyB3aGVyZSBteSBsYWNrIG9mIHVuZGVyc3RhbmRpbmcgd2h5Cj4+IHdlIGNhbid0
+IGFsbG93IGd1cC1pbmcgVFRNIHB0ZXMgaWYgdGhlcmUgaW5kZWVkIGlzIGEgYmFja2luZwo+PiBz
+dHJ1Y3QtcGFnZT8gQmVjYXVzZSByZWdpc3RlcmluZyBNRU1PUllfREVWSUNFX1BSSVZBVEUgaW1w
+bGllcyB0aGF0LAo+PiByaWdodD8KPiBJIHdhc24ndCBhd2FyZSB0aGF0IFRUTSB1c2VkIGRldm1h
+cCBhdCBhbGwuIElmIGl0IGRvZXMsIHdoYXQgdHlwZSBvZgo+IG1lbW9yeSBkb2VzIGl0IHVzZT8K
+Pgo+IE1FTU9SWV9ERVZJQ0VfUFJJVkFURSBpcyBsaWtlIHN3YXBwZWQgb3V0IG1lbW9yeS4gSXQg
+Y2Fubm90IGJlIG1hcHBlZCBpbgo+IHRoZSBDUFUgcGFnZSB0YWJsZS4gR1VQIHdvdWxkIGNhdXNl
+IGEgcGFnZSBmYXVsdCB0byBzd2FwIGl0IGJhY2sgaW50bwo+IHN5c3RlbSBtZW1vcnkuIFdlIGFy
+ZSBsb29raW5nIGludG8gdXNlIE1FTU9SWV9ERVZJQ0VfR0VORVJJQyBmb3IgYQo+IGZ1dHVyZSBj
+b2hlcmVudCBtZW1vcnkgYXJjaGl0ZWN0dXJlLCB3aGVyZSBkZXZpY2UgbWVtb3J5IGNhbiBiZQo+
+IGNvaGVyZW50bHkgYWNjZXNzZWQgYnkgdGhlIENQVSBhbmQgR1BVLgo+Cj4gQXMgSSB1bmRlcnN0
+YW5kIGl0LCBvdXIgREVWSUNFX1BSSVZBVEUgcmVnaXN0cmF0aW9uIGlzIG5vdCB0aWVkIHRvIGFu
+Cj4gYWN0dWFsIHBoeXNpY2FsIGFkZHJlc3MuIFRodXMgeW91ciBkZXZtYXAgcmVnaXN0cmF0aW9u
+IGFuZCBvdXIgZGV2bWFwCj4gcmVnaXN0cmF0aW9uIGNvdWxkIHByb2JhYmx5IGNvZXhpc3Qgd2l0
+aG91dCBhbnkgY29uZmxpY3QuIFlvdSdsbCBqdXN0Cj4gaGF2ZSB0aGUgb3ZlcmhlYWQgb2YgdHdv
+IHNldHMgb2Ygc3RydWN0IHBhZ2VzIGZvciB0aGUgc2FtZSBtZW1vcnkuCj4KPiBSZWdhcmRzLAo+
+ICDCoCBGZWxpeAoKSGksIEZlbGl4LiBUVE0gZG9lc24ndCB1c2UgZGV2bWFwIHlldCwgYnV0IHRo
+aW5raW5nIG9mIHVzaW5nIGl0IGZvciAKZmFraW5nIHBtZF9zcGVjaWFsKCkgd2hpY2ggaXNuJ3Qg
+YXZhaWxhYmxlLiBUaGF0IHdvdWxkIG1lYW4gcG1kX2Rldm1hcCgpIAorIG5vX3JlZ2lzdGVyZWRf
+ZGV2X3BhZ2VtYXAgbWVhbmluZyBzcGVjaWFsIGluIHRoZSBzZW5zZSBkb2N1bWVudGVkIGJ5IAp2
+bV9ub3JtYWxfcGFnZSgpLiBUaGUgaW1wbGljYXRpb24gaGVyZSB3b3VsZCBiZSB0aGF0IGlmIHlv
+dSByZWdpc3RlciAKbWVtb3J5IGxpa2UgYWJvdmUsIFRUTSB3b3VsZCBuZXZlciBiZSBhYmxlIHRv
+IHNldCB1cCBhIGh1Z2UgcGFnZSB0YWJsZSAKZW50cnkgdG8gaXQuIEJ1dCBpdCBzb3VuZHMgbGlr
+ZSB0aGF0J3Mgbm90IGFuIGlzc3VlPwoKL1Rob21hcwoKPgo+PiAvVGhvbWFzCj4+Cj4+PiAtRGFu
+aWVsCj4+PgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
