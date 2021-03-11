@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C16B338BDB
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 12:52:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3985338BDC
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 12:52:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08CED6F5D1;
-	Fri, 12 Mar 2021 11:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80DAF6F5D2;
+	Fri, 12 Mar 2021 11:52:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A12E46F5D1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 11:51:59 +0000 (UTC)
-Date: Thu, 11 Mar 2021 12:33:31 +0000
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1263D6F5D2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 11:52:07 +0000 (UTC)
+Date: Thu, 11 Mar 2021 13:40:47 +0000
 From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 4/5] drm: Add and export function drm_gem_cma_sync_data
+Subject: Re: [PATCH v2 5/5] drm/ingenic: Add option to alloc cached GEM buffers
 To: Christoph Hellwig <hch@infradead.org>
-Message-Id: <VJ1TPQ.L5I3WNCQNB982@crapouillou.net>
-In-Reply-To: <20210311122846.GC1739082@infradead.org>
+Message-Id: <ZN4TPQ.4G2MK5P8EC4W2@crapouillou.net>
+In-Reply-To: <20210311123040.GD1739082@infradead.org>
 References: <20210307202835.253907-1-paul@crapouillou.net>
- <20210307202835.253907-5-paul@crapouillou.net>
- <20210311122846.GC1739082@infradead.org>
+ <20210307202835.253907-6-paul@crapouillou.net>
+ <20210311123040.GD1739082@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,28 +44,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Le jeu. 11 mars 2021 =E0 12:28, Christoph Hellwig <hch@infradead.org> a =
+Le jeu. 11 mars 2021 =E0 12:30, Christoph Hellwig <hch@infradead.org> a =
 
 =E9crit :
-> On Sun, Mar 07, 2021 at 08:28:34PM +0000, Paul Cercueil wrote:
->>  +	drm_atomic_for_each_plane_damage(&iter, &clip) {
->>  +		for (i =3D 0; i < finfo->num_planes; i++) {
->>  +			daddr =3D drm_fb_cma_get_gem_addr(state->fb, state, i);
->>  +
->>  +			/* Ignore x1/x2 values, invalidate complete lines */
->>  +			offset =3D clip.y1 * state->fb->pitches[i];
->>  +
->>  +			dma_sync_single_for_device(dev, daddr + offset,
->>  +				       (clip.y2 - clip.y1) * state->fb->pitches[i],
->>  +				       DMA_TO_DEVICE);
+> On Sun, Mar 07, 2021 at 08:28:35PM +0000, Paul Cercueil wrote:
+>>  With the module parameter ingenic-drm.cached_gem_buffers, it is =
+
+>> possible
+>>  to specify that we want GEM buffers backed by non-coherent memory.
 > =
 
-> Are these helpers only ever used to transfer data to the device and
-> never from it?  If so please clearly document that.
+> Shouldn't there be a way to discover this through a DT property?
 
-Yes. In the DRM world, are there cases where we transfer data from the =
+Good question. My original way of thinking was that as this feature =
 
-device? I assume these cases are handled by v4l2 instead.
+speeds up only software rendering, this is really =
+
+application-dependent: a modern desktop where everything is rendered =
+
+via the GPU wouldn't benefit much from it. With that in mind, it is =
+
+fine as a module option.
+
+On the other hand... the "software rendering is faster with =
+
+non-coherent buffers" really is a SoC property, since it is only true =
+
+for some generations of Ingenic SoCs and not others. So it would make =
+
+sense to have a DT property for it.
 
 -Paul
 
