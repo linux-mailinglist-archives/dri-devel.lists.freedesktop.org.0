@@ -2,63 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FDDA337326
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 13:56:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D7A33733C
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 14:00:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36C126EC47;
-	Thu, 11 Mar 2021 12:56:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84D726EC54;
+	Thu, 11 Mar 2021 13:00:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99B3A6E532
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 12:56:02 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id y16so1765686wrw.3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 04:56:02 -0800 (PST)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02D1D6EC53
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 13:00:25 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id 7so1782069wrz.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 05:00:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=0Un3tuFjczC1lxj+SCx66+iOtdLG9xhWBFonYOo1aWg=;
- b=IDMDv1gB3BCLpnTA5cMHxhqPselTXXeezm9MM0pC75U4c+nCsSmjVOF3mg3zgscPNI
- WrQ/MzDDVR5B/WDq0SuTtN1uVtbhq+xhpZiX92aoF86cQoy0a1zK4EfGkagqDgisiFR0
- CFmjJ74xvfWWNYUzGi7xheXhpvxpj7sGySsxA=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=laLq4w5cBBPgv4Yt32gfnqKz0NPdTJL/WYi+PW4VG4I=;
+ b=Jf3SQfjZ+Vruv6zVn3xMRID8s49zUHIxA8JrzzQpkQqs+J1FYEsx92oBuuHP3715Za
+ cu8wkOo2wriYktgmnmPwkXg+UpPf+jFloCahD1yngaQ+HGaijQ9dbrQZy3f5z94dY1rh
+ Sy33/bnio/p/ZguVID2tjtikxdg2UKaZM+F+8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=0Un3tuFjczC1lxj+SCx66+iOtdLG9xhWBFonYOo1aWg=;
- b=JnCRYzfP3kSAUOty/N4BDVsY9VWt1yi25QZmV0QyvQGbnPsry9XwqLys8ctLA7J+ew
- G0VM+BOXbv+YJ73Oknf+BS3j5kht1OZwRfMJTzRT9OY8Q/oebepD87/Jot1Kb7tZ74PY
- pkIfQcJk55Bxsb1m9X1mTB40R4+nHxKLRJCO0erzTxYyaWJhHSW4i7XIY1b46lvv0yRe
- Xk3LpGUP1hdC7VtsARPPSzYIjbE945EF04q1NKVE4EeDMGrdUmYY49G/8jp9L1G4qcu/
- esHz9Fcs3NVoWhkE+wf4ia8QGYtiPas8H+xxJwCnsHYkRFEZK+EibL+q2JPbliq1Orwf
- bx9w==
-X-Gm-Message-State: AOAM530pCs02FhMjar3Q5hmtCahsEIz7hnRsyTkYJcm8c+0Bddx+/nyH
- qjrgqxgsuP4TQHn66ddiGAiIFA==
-X-Google-Smtp-Source: ABdhPJxGZhIUMOuTfzea6wtxz2oH95KxpoGxZsC2TvkbN8VtWi9mOv4KYiKI17nxSlbReZSj5ZLvgg==
-X-Received: by 2002:a5d:6205:: with SMTP id y5mr8541064wru.238.1615467361317; 
- Thu, 11 Mar 2021 04:56:01 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=laLq4w5cBBPgv4Yt32gfnqKz0NPdTJL/WYi+PW4VG4I=;
+ b=RT5sqYnKDP3gM5RnuXEfav0LwNOSH4Jb90qyj3cqpoSpE0gYZMHH0TyqupWPyot6Bx
+ Z2vHvBpLawOEFPwjDvnMH4nz2qlH6dAQG6E3E7ynEjWuN++5mlX9SrKqwesz6d3bT+Qo
+ VoKUnjw4+sxRkTJVOD1Bs6mZG7Be5M+BJyYaWlbOivWIJwHxD2mppBNQaNEGrVJrC9KB
+ vn7+4ZwLMrr6iCr8DacWZid/GaEDFzSWAWAXQjJ0xPQdZcRJgs8Ea0wk11p4caeuSx4y
+ hvHyz3FJiPvBplSmoMKWh9IR0uMYkkqlIFzfBjYlQtAjWr2F1zwszPy3T2DiwdA5KDgv
+ NAsQ==
+X-Gm-Message-State: AOAM532x31kT6mYyegHkPS4MEYCbbFKyOa3MV4F7sLsW43YiqKghrw2K
+ mBViw0qNePT5eq6NYmhMBQxAOg==
+X-Google-Smtp-Source: ABdhPJyD2MEeAgzGiLOT0tix7phgqP5M//DqDonBpa0FIMW1EahQzl21eg/o49kzQFLAqxbcG7M91w==
+X-Received: by 2002:a05:6000:1363:: with SMTP id
+ q3mr8627832wrz.74.1615467623597; 
+ Thu, 11 Mar 2021 05:00:23 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p18sm4697974wro.18.2021.03.11.04.56.00
+ by smtp.gmail.com with ESMTPSA id k11sm3662427wmj.1.2021.03.11.05.00.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 04:56:00 -0800 (PST)
-Date: Thu, 11 Mar 2021 13:55:58 +0100
+ Thu, 11 Mar 2021 05:00:22 -0800 (PST)
+Date: Thu, 11 Mar 2021 14:00:21 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
-Subject: Re: KMSAN: kernel-infoleak in compat_drm_wait_vblank
-Message-ID: <YEoTXp1fQ3XhxOV9@phenom.ffwll.local>
-Mail-Followup-To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- syzbot <syzbot+620cf21140fc7e772a5d@syzkaller.appspotmail.com>,
- airlied@linux.ie, dri-devel@lists.freedesktop.org,
- glider@google.com, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
-References: <00000000000056cda705bbe93d11@google.com>
- <79146a29-a05d-f5b9-e81b-bda1db95b952@daenzer.net>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>
+Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for
+ mmap
+Message-ID: <YEoUZe8BtvQdv3TG@phenom.ffwll.local>
+References: <61c5c371-debe-4ca0-a067-ce306e51ef88@shipmail.org>
+ <CAKMK7uFUiJyMP0E5JUzMOx=NyMW+ZObGsaFOh409x0LOvGbnzg@mail.gmail.com>
+ <0d69bd00-e673-17cf-c9e3-ccbcd52649a6@shipmail.org>
+ <CAKMK7uE=8+hj-MUFXHFoG_hAbz_Obi8a99+DE5_d1K+KZaG+tQ@mail.gmail.com>
+ <b367b7e8-f202-4d23-d672-a5c9bc7fcec1@shipmail.org>
+ <YDyuYk8x5QeX83s6@phenom.ffwll.local>
+ <be8f2503-ffcb-eb58-83be-26fa0fc1837a@shipmail.org>
+ <648556e6-2d99-950d-c940-706eb5a8f6cc@amd.com>
+ <CAKMK7uHOe=LacUkvGC75dyWAt9TRm7ce8vgxasXOXn-6wJTVnA@mail.gmail.com>
+ <9d608c61-c64c-dcde-c719-59a970144404@shipmail.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <79146a29-a05d-f5b9-e81b-bda1db95b952@daenzer.net>
+In-Reply-To: <9d608c61-c64c-dcde-c719-59a970144404@shipmail.org>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,133 +76,292 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de,
- syzbot <syzbot+620cf21140fc7e772a5d@syzkaller.appspotmail.com>,
- airlied@linux.ie, syzkaller-bugs@googlegroups.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- glider@google.com
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 03, 2021 at 04:37:18PM +0100, Michel D=E4nzer wrote:
-> On 2021-02-22 10:15 a.m., syzbot wrote:
-> > Hello,
-> > =
-
-> > syzbot found the following issue on:
-> > =
-
-> > HEAD commit:    29ad81a1 arch/x86: add missing include to sparsemem.h
-> > git tree:       https://github.com/google/kmsan.git master
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=3D111e6312d00=
-000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3Dc8e3b38ca92=
-283e
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=3D620cf21140fc7=
-e772a5d
-> > compiler:       Debian clang version 11.0.1-2
-> > userspace arch: i386
-> > =
-
-> > Unfortunately, I don't have any reproducer for this issue yet.
-> > =
-
-> > IMPORTANT: if you fix the issue, please add the following tag to the co=
-mmit:
-> > Reported-by: syzbot+620cf21140fc7e772a5d@syzkaller.appspotmail.com
-> > =
-
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> > BUG: KMSAN: kernel-infoleak in kmsan_copy_to_user+0x9c/0xb0 mm/kmsan/km=
-san_hooks.c:249
-> > CPU: 1 PID: 26999 Comm: syz-executor.2 Not tainted 5.11.0-rc7-syzkaller=
- #0
-> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS=
- Google 01/01/2011
-> > Call Trace:
-> >   __dump_stack lib/dump_stack.c:79 [inline]
-> >   dump_stack+0x21c/0x280 lib/dump_stack.c:120
-> >   kmsan_report+0xfb/0x1e0 mm/kmsan/kmsan_report.c:118
-> >   kmsan_internal_check_memory+0x484/0x520 mm/kmsan/kmsan.c:437
-> >   kmsan_copy_to_user+0x9c/0xb0 mm/kmsan/kmsan_hooks.c:249
-> >   instrument_copy_to_user include/linux/instrumented.h:121 [inline]
-> >   _copy_to_user+0x1ac/0x270 lib/usercopy.c:33
-> >   copy_to_user include/linux/uaccess.h:209 [inline]
-> >   compat_drm_wait_vblank+0x36f/0x450 drivers/gpu/drm/drm_ioc32.c:866
-> >   drm_compat_ioctl+0x3f6/0x590 drivers/gpu/drm/drm_ioc32.c:995
-> >   __do_compat_sys_ioctl fs/ioctl.c:842 [inline]
-> >   __se_compat_sys_ioctl+0x53d/0x1100 fs/ioctl.c:793
-> >   __ia32_compat_sys_ioctl+0x4a/0x70 fs/ioctl.c:793
-> >   do_syscall_32_irqs_on arch/x86/entry/common.c:79 [inline]
-> >   __do_fast_syscall_32+0x102/0x160 arch/x86/entry/common.c:141
-> >   do_fast_syscall_32+0x6a/0xc0 arch/x86/entry/common.c:166
-> >   do_SYSENTER_32+0x73/0x90 arch/x86/entry/common.c:209
-> >   entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
-> > RIP: 0023:0xf7f47549
-> > Code: 03 74 c0 01 10 05 03 74 b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01=
- 10 08 03 74 d8 01 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 =
-90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
-> > RSP: 002b:00000000f55415fc EFLAGS: 00000296 ORIG_RAX: 0000000000000036
-> > RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00000000c018643a
-> > RDX: 0000000020000100 RSI: 0000000000000000 RDI: 0000000000000000
-> > RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> > R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-> > R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-> > =
-
-> > Uninit was stored to memory at:
-> >   kmsan_save_stack_with_flags mm/kmsan/kmsan.c:121 [inline]
-> >   kmsan_internal_chain_origin+0xad/0x130 mm/kmsan/kmsan.c:289
-> >   __msan_chain_origin+0x57/0xa0 mm/kmsan/kmsan_instr.c:147
-> >   compat_drm_wait_vblank+0x43c/0x450 drivers/gpu/drm/drm_ioc32.c:865
-> >   drm_compat_ioctl+0x3f6/0x590 drivers/gpu/drm/drm_ioc32.c:995
-> >   __do_compat_sys_ioctl fs/ioctl.c:842 [inline]
-> >   __se_compat_sys_ioctl+0x53d/0x1100 fs/ioctl.c:793
-> >   __ia32_compat_sys_ioctl+0x4a/0x70 fs/ioctl.c:793
-> >   do_syscall_32_irqs_on arch/x86/entry/common.c:79 [inline]
-> >   __do_fast_syscall_32+0x102/0x160 arch/x86/entry/common.c:141
-> >   do_fast_syscall_32+0x6a/0xc0 arch/x86/entry/common.c:166
-> >   do_SYSENTER_32+0x73/0x90 arch/x86/entry/common.c:209
-> >   entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
-> > =
-
-> > Local variable ----req@compat_drm_wait_vblank created at:
-> >   compat_drm_wait_vblank+0x7b/0x450 drivers/gpu/drm/drm_ioc32.c:849
-> >   compat_drm_wait_vblank+0x7b/0x450 drivers/gpu/drm/drm_ioc32.c:849
-> > =
-
-> > Bytes 12-15 of 16 are uninitialized
-> > Memory access of size 16 starts at ffff88814ffe3c98
-> > Data copied to user address 0000000020000100
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
+On Thu, Mar 11, 2021 at 11:22:06AM +0100, Thomas Hellstr=F6m (Intel) wrote:
 > =
 
-> compat_drm_wait_vblank would need to initialize
+> On 3/1/21 3:09 PM, Daniel Vetter wrote:
+> > On Mon, Mar 1, 2021 at 11:17 AM Christian K=F6nig
+> > <christian.koenig@amd.com> wrote:
+> > > =
+
+> > > =
+
+> > > Am 01.03.21 um 10:21 schrieb Thomas Hellstr=F6m (Intel):
+> > > > On 3/1/21 10:05 AM, Daniel Vetter wrote:
+> > > > > On Mon, Mar 01, 2021 at 09:39:53AM +0100, Thomas Hellstr=F6m (Int=
+el)
+> > > > > wrote:
+> > > > > > Hi,
+> > > > > > =
+
+> > > > > > On 3/1/21 9:28 AM, Daniel Vetter wrote:
+> > > > > > > On Sat, Feb 27, 2021 at 9:06 AM Thomas Hellstr=F6m (Intel)
+> > > > > > > <thomas_os@shipmail.org> wrote:
+> > > > > > > > On 2/26/21 2:28 PM, Daniel Vetter wrote:
+> > > > > > > > > So I think it stops gup. But I haven't verified at all. W=
+ould be
+> > > > > > > > > good
+> > > > > > > > > if Christian can check this with some direct io to a buff=
+er in
+> > > > > > > > > system
+> > > > > > > > > memory.
+> > > > > > > > Hmm,
+> > > > > > > > =
+
+> > > > > > > > Docs (again vm_normal_page() say)
+> > > > > > > > =
+
+> > > > > > > >      * VM_MIXEDMAP mappings can likewise contain memory wit=
+h or
+> > > > > > > > without "struct
+> > > > > > > >      * page" backing, however the difference is that _all_ =
+pages
+> > > > > > > > with a struct
+> > > > > > > >      * page (that is, those where pfn_valid is true) are re=
+fcounted
+> > > > > > > > and
+> > > > > > > > considered
+> > > > > > > >      * normal pages by the VM. The disadvantage is that pag=
+es are
+> > > > > > > > refcounted
+> > > > > > > >      * (which can be slower and simply not an option for so=
+me PFNMAP
+> > > > > > > > users). The
+> > > > > > > >      * advantage is that we don't have to follow the strict
+> > > > > > > > linearity rule of
+> > > > > > > >      * PFNMAP mappings in order to support COWable mappings.
+> > > > > > > > =
+
+> > > > > > > > but it's true __vm_insert_mixed() ends up in the insert_pfn=
+()
+> > > > > > > > path, so
+> > > > > > > > the above isn't really true, which makes me wonder if and i=
+n that
+> > > > > > > > case
+> > > > > > > > why there could any longer ever be a significant performance
+> > > > > > > > difference
+> > > > > > > > between MIXEDMAP and PFNMAP.
+> > > > > > > Yeah it's definitely confusing. I guess I'll hack up a patch =
+and see
+> > > > > > > what sticks.
+> > > > > > > =
+
+> > > > > > > > BTW regarding the TTM hugeptes, I don't think we ever lande=
+d that
+> > > > > > > > devmap
+> > > > > > > > hack, so they are (for the non-gup case) relying on
+> > > > > > > > vma_is_special_huge(). For the gup case, I think the bug is=
+ still
+> > > > > > > > there.
+> > > > > > > Maybe there's another devmap hack, but the ttm_vm_insert func=
+tions do
+> > > > > > > use PFN_DEV and all that. And I think that stops gup_fast fro=
+m trying
+> > > > > > > to find the underlying page.
+> > > > > > > -Daniel
+> > > > > > Hmm perhaps it might, but I don't think so. The fix I tried out=
+ was
+> > > > > > to set
+> > > > > > =
+
+> > > > > > PFN_DEV | PFN_MAP for huge PTEs which causes pfn_devmap() to be
+> > > > > > true, and
+> > > > > > then
+> > > > > > =
+
+> > > > > > follow_devmap_pmd()->get_dev_pagemap() which returns NULL and
+> > > > > > gup_fast()
+> > > > > > backs off,
+> > > > > > =
+
+> > > > > > in the end that would mean setting in stone that "if there is a=
+ huge
+> > > > > > devmap
+> > > > > > page table entry for which we haven't registered any devmap str=
+uct
+> > > > > > pages
+> > > > > > (get_dev_pagemap returns NULL), we should treat that as a "spec=
+ial"
+> > > > > > huge
+> > > > > > page table entry".
+> > > > > > =
+
+> > > > > >   From what I can tell, all code calling get_dev_pagemap() alre=
+ady
+> > > > > > does that,
+> > > > > > it's just a question of getting it accepted and formalizing it.
+> > > > > Oh I thought that's already how it works, since I didn't spot any=
+thing
+> > > > > else that would block gup_fast from falling over. I guess really =
+would
+> > > > > need some testcases to make sure direct i/o (that's the easiest t=
+o test)
+> > > > > fails like we expect.
+> > > > Yeah, IIRC the "| PFN_MAP" is the missing piece for TTM huge ptes.
+> > > > Otherwise pmd_devmap() will not return true and since there is no
+> > > > pmd_special() things break.
+> > > Is that maybe the issue we have seen with amdgpu and huge pages?
+> > Yeah, essentially when you have a hugepte inserted by ttm, and it
+> > happens to point at system memory, then gup will work on that. And
+> > create all kinds of havoc.
+> > =
+
+> > > Apart from that I'm lost guys, that devmap and gup stuff is not
+> > > something I have a good knowledge of apart from a one mile high view.
+> > I'm not really better, hence would be good to do a testcase and see.
+> > This should provoke it:
+> > - allocate nicely aligned bo in system memory
+> > - mmap, again nicely aligned to 2M
+> > - do some direct io from a filesystem into that mmap, that should trigg=
+er gup
+> > - before the gup completes free the mmap and bo so that ttm recycles
+> > the pages, which should trip up on the elevated refcount. If you wait
+> > until the direct io is completely, then I think nothing bad can be
+> > observed.
+> > =
+
+> > Ofc if your amdgpu+hugepte issue is something else, then maybe we have
+> > another issue.
+> > =
+
+> > Also usual caveat: I'm not an mm hacker either, so might be completely =
+wrong.
+> > -Daniel
 > =
 
-> 	req.reply.tval_usec =3D req32.reply.tval_usec;
+> So I did the following quick experiment on vmwgfx, and it turns out that
+> with it,
+> fast gup never succeeds. Without the "| PFN_MAP", it typically succeeds
 > =
 
-> before calling drm_ioctl_kernel, since it's not aliased by any
-> req.request.* member, and drm_wait_vblank_ioctl doesn't always write to
-> it.
+> I should probably craft an RFC formalizing this.
 
-I've fixed this in
+Yeah I think that would be good. Maybe even more formalized if we also
+switch over to VM_PFNMAP, since afaiui these pte flags here only stop the
+fast gup path. And slow gup can still peak through VM_MIXEDMAP. Or
+something like that.
 
-commit e926c474ebee404441c838d18224cd6f246a71b7
-Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Mon Feb 22 11:06:43 2021 +0100
+Otoh your description of when it only sometimes succeeds would indicate my
+understanding of VM_PFNMAP vs VM_MIXEDMAP is wrong here.
 
-    drm/compat: Clear bounce structures
-
-Or at least tried to.
+Christian, what's your take?
 -Daniel
+
+> =
+
+> /Thomas
+> =
+
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> index 6dc96cf66744..72b6fb17c984 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> @@ -195,6 +195,7 @@ static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fau=
+lt
+> *vmf,
+> =A0=A0=A0=A0=A0=A0=A0 pfn_t pfnt;
+> =A0=A0=A0=A0=A0=A0=A0 struct ttm_tt *ttm =3D bo->ttm;
+> =A0=A0=A0=A0=A0=A0=A0 bool write =3D vmf->flags & FAULT_FLAG_WRITE;
+> +=A0=A0=A0=A0=A0=A0 struct dev_pagemap *pagemap;
+> =
+
+> =A0=A0=A0=A0=A0=A0=A0 /* Fault should not cross bo boundary. */
+> =A0=A0=A0=A0=A0=A0=A0 page_offset &=3D ~(fault_page_size - 1);
+> @@ -210,6 +211,17 @@ static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fa=
+ult
+> *vmf,
+> =A0=A0=A0=A0=A0=A0=A0 if ((pfn & (fault_page_size - 1)) !=3D 0)
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto out_fallback;
+> =
+
+> +=A0=A0=A0=A0=A0=A0 /*
+> +=A0=A0=A0=A0=A0=A0=A0 * Huge entries must be special, that is marking th=
+em as devmap
+> +=A0=A0=A0=A0=A0=A0=A0 * with no backing device map range. If there is a =
+backing
+> +=A0=A0=A0=A0=A0=A0=A0 * range, Don't insert a huge entry.
+> +=A0=A0=A0=A0=A0=A0=A0 */
+> +=A0=A0=A0=A0=A0=A0 pagemap =3D get_dev_pagemap(pfn, NULL);
+> +=A0=A0=A0=A0=A0=A0 if (pagemap) {
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 put_dev_pagemap(pagemap);
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto out_fallback;
+> +=A0=A0=A0=A0=A0=A0 }
+> +
+> =A0=A0=A0=A0=A0=A0=A0 /* Check that memory is contiguous. */
+> =A0=A0=A0=A0=A0=A0=A0 if (!bo->mem.bus.is_iomem) {
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 for (i =3D 1; i < fault_pag=
+e_size; ++i) {
+> @@ -223,7 +235,7 @@ static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fau=
+lt
+> *vmf,
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 }
+> =A0=A0=A0=A0=A0=A0=A0 }
+> =
+
+> -=A0=A0=A0=A0=A0=A0 pfnt =3D __pfn_to_pfn_t(pfn, PFN_DEV);
+> +=A0=A0=A0=A0=A0=A0 pfnt =3D __pfn_to_pfn_t(pfn, PFN_DEV | PFN_MAP);
+> =A0=A0=A0=A0=A0=A0=A0 if (fault_page_size =3D=3D (HPAGE_PMD_SIZE >> PAGE_=
+SHIFT))
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D vmf_insert_pfn_pmd_=
+prot(vmf, pfnt, pgprot, write);
+> =A0#ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
+> @@ -236,6 +248,21 @@ static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fa=
+ult
+> *vmf,
+> =A0=A0=A0=A0=A0=A0=A0 if (ret !=3D VM_FAULT_NOPAGE)
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto out_fallback;
+> =
+
+> +#if 1
+> +=A0=A0=A0=A0=A0=A0 {
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 int npages;
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 struct page *page;
+> +
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 npages =3D get_user_pages_fas=
+t_only(vmf->address, 1, 0,
+> &page);
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (npages =3D=3D 1) {
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 DRM_W=
+ARN("Fast gup succeeded. Bad.\n");
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 put_p=
+age(page);
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 } else {
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 DRM_I=
+NFO("Fast gup failed. Good.\n");
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 }
+> +=A0=A0=A0=A0=A0=A0 }
+> +#endif
+> +
+> =A0=A0=A0=A0=A0=A0=A0 return VM_FAULT_NOPAGE;
+> =A0out_fallback:
+> =A0=A0=A0=A0=A0=A0=A0 count_vm_event(THP_FAULT_FALLBACK);
+> =
+
+> =
+
+> =
+
+> =
+
+> =
+
+
 -- =
 
 Daniel Vetter
