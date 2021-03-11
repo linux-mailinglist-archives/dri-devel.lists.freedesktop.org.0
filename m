@@ -2,68 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5D7A33733C
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 14:00:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8358B33733D
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 14:00:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84D726EC54;
-	Thu, 11 Mar 2021 13:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A8E56EC4C;
+	Thu, 11 Mar 2021 13:00:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02D1D6EC53
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 13:00:25 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id 7so1782069wrz.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 05:00:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=laLq4w5cBBPgv4Yt32gfnqKz0NPdTJL/WYi+PW4VG4I=;
- b=Jf3SQfjZ+Vruv6zVn3xMRID8s49zUHIxA8JrzzQpkQqs+J1FYEsx92oBuuHP3715Za
- cu8wkOo2wriYktgmnmPwkXg+UpPf+jFloCahD1yngaQ+HGaijQ9dbrQZy3f5z94dY1rh
- Sy33/bnio/p/ZguVID2tjtikxdg2UKaZM+F+8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=laLq4w5cBBPgv4Yt32gfnqKz0NPdTJL/WYi+PW4VG4I=;
- b=RT5sqYnKDP3gM5RnuXEfav0LwNOSH4Jb90qyj3cqpoSpE0gYZMHH0TyqupWPyot6Bx
- Z2vHvBpLawOEFPwjDvnMH4nz2qlH6dAQG6E3E7ynEjWuN++5mlX9SrKqwesz6d3bT+Qo
- VoKUnjw4+sxRkTJVOD1Bs6mZG7Be5M+BJyYaWlbOivWIJwHxD2mppBNQaNEGrVJrC9KB
- vn7+4ZwLMrr6iCr8DacWZid/GaEDFzSWAWAXQjJ0xPQdZcRJgs8Ea0wk11p4caeuSx4y
- hvHyz3FJiPvBplSmoMKWh9IR0uMYkkqlIFzfBjYlQtAjWr2F1zwszPy3T2DiwdA5KDgv
- NAsQ==
-X-Gm-Message-State: AOAM532x31kT6mYyegHkPS4MEYCbbFKyOa3MV4F7sLsW43YiqKghrw2K
- mBViw0qNePT5eq6NYmhMBQxAOg==
-X-Google-Smtp-Source: ABdhPJyD2MEeAgzGiLOT0tix7phgqP5M//DqDonBpa0FIMW1EahQzl21eg/o49kzQFLAqxbcG7M91w==
-X-Received: by 2002:a05:6000:1363:: with SMTP id
- q3mr8627832wrz.74.1615467623597; 
- Thu, 11 Mar 2021 05:00:23 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k11sm3662427wmj.1.2021.03.11.05.00.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 05:00:22 -0800 (PST)
-Date: Thu, 11 Mar 2021 14:00:21 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for
- mmap
-Message-ID: <YEoUZe8BtvQdv3TG@phenom.ffwll.local>
-References: <61c5c371-debe-4ca0-a067-ce306e51ef88@shipmail.org>
- <CAKMK7uFUiJyMP0E5JUzMOx=NyMW+ZObGsaFOh409x0LOvGbnzg@mail.gmail.com>
- <0d69bd00-e673-17cf-c9e3-ccbcd52649a6@shipmail.org>
- <CAKMK7uE=8+hj-MUFXHFoG_hAbz_Obi8a99+DE5_d1K+KZaG+tQ@mail.gmail.com>
- <b367b7e8-f202-4d23-d672-a5c9bc7fcec1@shipmail.org>
- <YDyuYk8x5QeX83s6@phenom.ffwll.local>
- <be8f2503-ffcb-eb58-83be-26fa0fc1837a@shipmail.org>
- <648556e6-2d99-950d-c940-706eb5a8f6cc@amd.com>
- <CAKMK7uHOe=LacUkvGC75dyWAt9TRm7ce8vgxasXOXn-6wJTVnA@mail.gmail.com>
- <9d608c61-c64c-dcde-c719-59a970144404@shipmail.org>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97D5E6EC4C
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 13:00:30 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:b93f:9fae:b276:a89a])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3438E1F462D3;
+ Thu, 11 Mar 2021 13:00:29 +0000 (GMT)
+Date: Thu, 11 Mar 2021 14:00:23 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [RFC PATCH 0/7] drm/panfrost: Add a new submit ioctl
+Message-ID: <20210311140023.2735aaa5@collabora.com>
+In-Reply-To: <86062831-6608-9ae7-c513-e74d3a9c2e33@arm.com>
+References: <20210311092539.2405596-1-boris.brezillon@collabora.com>
+ <86062831-6608-9ae7-c513-e74d3a9c2e33@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <9d608c61-c64c-dcde-c719-59a970144404@shipmail.org>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,297 +42,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Wilcox <willy@infradead.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 11, 2021 at 11:22:06AM +0100, Thomas Hellstr=F6m (Intel) wrote:
-> =
+Hi Steven,
 
-> On 3/1/21 3:09 PM, Daniel Vetter wrote:
-> > On Mon, Mar 1, 2021 at 11:17 AM Christian K=F6nig
-> > <christian.koenig@amd.com> wrote:
-> > > =
+On Thu, 11 Mar 2021 12:16:33 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-> > > =
+> On 11/03/2021 09:25, Boris Brezillon wrote:
+> > Hello,
+> > 
+> > I've been playing with Vulkan lately and struggled quite a bit to
+> > implement VkQueueSubmit with the submit ioctl we have. There are
+> > several limiting factors that can be worked around if we really have to,
+> > but I think it'd be much easier and future-proof if we introduce a new
+> > ioctl that addresses the current limitations:  
+> 
+> Hi Boris,
+> 
+> I think what you've proposed is quite reasonable, some detailed comments 
+> to your points below.
+> 
+> > 
+> > 1/ There can only be one out_sync, but Vulkan might ask us to signal
+> >     several VkSemaphores and possibly one VkFence too, both of those
+> >     being based on sync objects in my PoC. Making out_sync an array of
+> >     syncobjs to attach the render_done fence to would make that possible.
+> >     The other option would be to collect syncobj updates in userspace
+> >     in a separate thread and propagate those updates to all
+> >     semaphores+fences waiting on those events (I think the v3dv driver
+> >     does something like that, but I didn't spend enough time studying
+> >     the code to be sure, so I might be wrong).  
+> 
+> You should be able to avoid the separate thread to propagate by having a 
+> proxy object in user space that maps between the one outsync of the job 
+> and the possibly many Vulkan objects. But I've had this argument before 
+> with the DDK... and the upshot of it was that he Vulkan API is 
+> unnecessarily complex here and makes this really hard to do in practise. 
+> So I agree adding this capability to the kernel is likely the best approach.
+> 
+> > 2/ Queued jobs might be executed out-of-order (unless they have
+> >     explicit/implicit deps between them), and Vulkan asks that the out
+> >     fence be signaled when all jobs are done. Timeline syncobjs are a
+> >     good match for that use case. All we need to do is pass the same
+> >     fence syncobj to all jobs being attached to a single QueueSubmit
+> >     request, but a different point on the timeline. The syncobj
+> >     timeline wait does the rest and guarantees that we've reached a
+> >     given timeline point (IOW, all jobs before that point are done)
+> >     before declaring the fence as signaled.
+> >     One alternative would be to have dummy 'synchronization' jobs that
+> >     don't actually execute anything on the GPU but declare a dependency
+> >     on all other jobs that are part of the QueueSubmit request, and
+> >     signal the out fence (the scheduler would do most of the work for
+> >     us, all we have to do is support NULL job heads and signal the
+> >     fence directly when that happens instead of queueing the job).  
+> 
+> I have to admit to being rather hazy on the details of timeline 
+> syncobjs, but I thought there was a requirement that the timeline moves 
+> monotonically. I.e. if you have multiple jobs signalling the same 
+> syncobj just with different points, then AFAIU the API requires that the 
+> points are triggered in order.
 
-> > > Am 01.03.21 um 10:21 schrieb Thomas Hellstr=F6m (Intel):
-> > > > On 3/1/21 10:05 AM, Daniel Vetter wrote:
-> > > > > On Mon, Mar 01, 2021 at 09:39:53AM +0100, Thomas Hellstr=F6m (Int=
-el)
-> > > > > wrote:
-> > > > > > Hi,
-> > > > > > =
+I only started looking at the SYNCOBJ_TIMELINE API a few days ago, so I
+might be wrong, but my understanding is that queuing fences (addition
+of new points in the timeline) should happen in order, but signaling
+can happen in any order. When checking for a signaled fence the
+fence-chain logic starts from the last point (or from an explicit point
+if you use the timeline wait flavor) and goes backward, stopping at the
+first un-signaled node. If I'm correct, that means that fences that
+are part of a chain can be signaled in any order.
 
-> > > > > > On 3/1/21 9:28 AM, Daniel Vetter wrote:
-> > > > > > > On Sat, Feb 27, 2021 at 9:06 AM Thomas Hellstr=F6m (Intel)
-> > > > > > > <thomas_os@shipmail.org> wrote:
-> > > > > > > > On 2/26/21 2:28 PM, Daniel Vetter wrote:
-> > > > > > > > > So I think it stops gup. But I haven't verified at all. W=
-ould be
-> > > > > > > > > good
-> > > > > > > > > if Christian can check this with some direct io to a buff=
-er in
-> > > > > > > > > system
-> > > > > > > > > memory.
-> > > > > > > > Hmm,
-> > > > > > > > =
+Note that I also considered using a sync file, which has the ability to
+merge fences, but that required 3 extra ioctls for each syncobj to merge
+(for the export/merge/import round trip), and AFAICT, fences stay around
+until the sync file is destroyed, which forces some garbage collection
+if we want to keep the number of active fences low. One nice thing
+about the fence-chain/syncobj-timeline logic is that signaled fences
+are collected automatically when walking the chain.
 
-> > > > > > > > Docs (again vm_normal_page() say)
-> > > > > > > > =
+> 
+> So I'm not sure that you've actually fixed this point - you either need 
+> to force an order (in which case the last job can signal the Vulkan 
+> fence)
 
-> > > > > > > >      * VM_MIXEDMAP mappings can likewise contain memory wit=
-h or
-> > > > > > > > without "struct
-> > > > > > > >      * page" backing, however the difference is that _all_ =
-pages
-> > > > > > > > with a struct
-> > > > > > > >      * page (that is, those where pfn_valid is true) are re=
-fcounted
-> > > > > > > > and
-> > > > > > > > considered
-> > > > > > > >      * normal pages by the VM. The disadvantage is that pag=
-es are
-> > > > > > > > refcounted
-> > > > > > > >      * (which can be slower and simply not an option for so=
-me PFNMAP
-> > > > > > > > users). The
-> > > > > > > >      * advantage is that we don't have to follow the strict
-> > > > > > > > linearity rule of
-> > > > > > > >      * PFNMAP mappings in order to support COWable mappings.
-> > > > > > > > =
+That options requires adding deps that do not really exist on the last
+jobs, so I'm not sure I like it.
 
-> > > > > > > > but it's true __vm_insert_mixed() ends up in the insert_pfn=
-()
-> > > > > > > > path, so
-> > > > > > > > the above isn't really true, which makes me wonder if and i=
-n that
-> > > > > > > > case
-> > > > > > > > why there could any longer ever be a significant performance
-> > > > > > > > difference
-> > > > > > > > between MIXEDMAP and PFNMAP.
-> > > > > > > Yeah it's definitely confusing. I guess I'll hack up a patch =
-and see
-> > > > > > > what sticks.
-> > > > > > > =
+> or you still need a dummy job to do the many-to-one dependency.
 
-> > > > > > > > BTW regarding the TTM hugeptes, I don't think we ever lande=
-d that
-> > > > > > > > devmap
-> > > > > > > > hack, so they are (for the non-gup case) relying on
-> > > > > > > > vma_is_special_huge(). For the gup case, I think the bug is=
- still
-> > > > > > > > there.
-> > > > > > > Maybe there's another devmap hack, but the ttm_vm_insert func=
-tions do
-> > > > > > > use PFN_DEV and all that. And I think that stops gup_fast fro=
-m trying
-> > > > > > > to find the underlying page.
-> > > > > > > -Daniel
-> > > > > > Hmm perhaps it might, but I don't think so. The fix I tried out=
- was
-> > > > > > to set
-> > > > > > =
+Yeah, that's what I've considered doing before realizing timelined
+syncojbs could solve this problem (assuming I got it right :-/).
 
-> > > > > > PFN_DEV | PFN_MAP for huge PTEs which causes pfn_devmap() to be
-> > > > > > true, and
-> > > > > > then
-> > > > > > =
+> 
+> Or I may have completely misunderstood timeline syncobjs - definitely a 
+> possibility :)
 
-> > > > > > follow_devmap_pmd()->get_dev_pagemap() which returns NULL and
-> > > > > > gup_fast()
-> > > > > > backs off,
-> > > > > > =
+I wouldn't pretend I got it right either :-).
 
-> > > > > > in the end that would mean setting in stone that "if there is a=
- huge
-> > > > > > devmap
-> > > > > > page table entry for which we haven't registered any devmap str=
-uct
-> > > > > > pages
-> > > > > > (get_dev_pagemap returns NULL), we should treat that as a "spec=
-ial"
-> > > > > > huge
-> > > > > > page table entry".
-> > > > > > =
+> 
+> > 3/ The current implementation lacks information about BO access,
+> >     so we serialize all jobs accessing the same set of BOs, even
+> >     if those jobs might just be reading from them (which can
+> >     happen concurrently). Other drivers pass an access type to the
+> >     list of referenced BOs to address that. Another option would be
+> >     to disable implicit deps (deps based on BOs) and force the driver
+> >     to pass all deps explicitly (interestingly, some drivers have
+> >     both the no-implicit-dep and r/w flags, probably to support
+> >     sub-resource access, so we might want to add that one too).
+> >     I don't see any userspace workaround to that problem, so that one
+> >     alone would justify extending the existing ioctl or adding a new
+> >     one.  
+> 
+> Yeah - I think we need this. My only comment is that I think the 
+> read/write terminology may come back to bite. Better to use 'shared' and 
+> 'exclusive' - which better matches the dma_resv_xxx APIs anyway.
+> 
+> Also the current code completely ignores PANFROST_BO_REF_READ. So either 
+> that should be defined as 0, or even better we support 3 modes:
+> 
+>   * Exclusive ('write' access)
+>   * Shared ('read' access)
+>   * No fence - ensures the BO is mapped, but doesn't add any implicit 
+> fences.
+> 
+> The last may make sense when doing explicit fences and e.g. doing 
+> front-buffer rendering with a display driver which does implicit fencing.
 
-> > > > > >   From what I can tell, all code calling get_dev_pagemap() alre=
-ady
-> > > > > > does that,
-> > > > > > it's just a question of getting it accepted and formalizing it.
-> > > > > Oh I thought that's already how it works, since I didn't spot any=
-thing
-> > > > > else that would block gup_fast from falling over. I guess really =
-would
-> > > > > need some testcases to make sure direct i/o (that's the easiest t=
-o test)
-> > > > > fails like we expect.
-> > > > Yeah, IIRC the "| PFN_MAP" is the missing piece for TTM huge ptes.
-> > > > Otherwise pmd_devmap() will not return true and since there is no
-> > > > pmd_special() things break.
-> > > Is that maybe the issue we have seen with amdgpu and huge pages?
-> > Yeah, essentially when you have a hugepte inserted by ttm, and it
-> > happens to point at system memory, then gup will work on that. And
-> > create all kinds of havoc.
-> > =
+Sounds good to me.
 
-> > > Apart from that I'm lost guys, that devmap and gup stuff is not
-> > > something I have a good knowledge of apart from a one mile high view.
-> > I'm not really better, hence would be good to do a testcase and see.
-> > This should provoke it:
-> > - allocate nicely aligned bo in system memory
-> > - mmap, again nicely aligned to 2M
-> > - do some direct io from a filesystem into that mmap, that should trigg=
-er gup
-> > - before the gup completes free the mmap and bo so that ttm recycles
-> > the pages, which should trip up on the elevated refcount. If you wait
-> > until the direct io is completely, then I think nothing bad can be
-> > observed.
-> > =
+> 
+> > 4/ There's also the fact that submitting one job at a time adds an
+> >     overhead when QueueSubmit is being passed more than one
+> >     CommandBuffer. That one is less problematic, but if we're adding
+> >     a new ioctl we'd better design it to limit the userspace -> kernel
+> >     transition overhead.  
+> 
+> I've no objection - but I doubt the performance effect is significant. I 
+> was pleased to see the handling of stride which makes the interface 
+> extendable. In particular I suspect at some point we're going to want a 
+> priority field in some form.
+> 
+> > Right now I'm just trying to collect feedback. I don't intend to get
+> > those patches merged until we have a userspace user, but I thought
+> > starting the discussion early would be a good thing.
+> > 
+> > Feel free to suggest other approaches.  
+> 
+> Other than the above I didn't see any obvious issues, and I know the 
+> Vulkan API is problematic in terms of synchronisation primitives - so if 
+> this makes it easier to implement then it seems like a good idea to me.
 
-> > Ofc if your amdgpu+hugepte issue is something else, then maybe we have
-> > another issue.
-> > =
+Thanks a lot for you review.
 
-> > Also usual caveat: I'm not an mm hacker either, so might be completely =
-wrong.
-> > -Daniel
-> =
+Regards,
 
-> So I did the following quick experiment on vmwgfx, and it turns out that
-> with it,
-> fast gup never succeeds. Without the "| PFN_MAP", it typically succeeds
-> =
-
-> I should probably craft an RFC formalizing this.
-
-Yeah I think that would be good. Maybe even more formalized if we also
-switch over to VM_PFNMAP, since afaiui these pte flags here only stop the
-fast gup path. And slow gup can still peak through VM_MIXEDMAP. Or
-something like that.
-
-Otoh your description of when it only sometimes succeeds would indicate my
-understanding of VM_PFNMAP vs VM_MIXEDMAP is wrong here.
-
-Christian, what's your take?
--Daniel
-
-> =
-
-> /Thomas
-> =
-
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> index 6dc96cf66744..72b6fb17c984 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> @@ -195,6 +195,7 @@ static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fau=
-lt
-> *vmf,
-> =A0=A0=A0=A0=A0=A0=A0 pfn_t pfnt;
-> =A0=A0=A0=A0=A0=A0=A0 struct ttm_tt *ttm =3D bo->ttm;
-> =A0=A0=A0=A0=A0=A0=A0 bool write =3D vmf->flags & FAULT_FLAG_WRITE;
-> +=A0=A0=A0=A0=A0=A0 struct dev_pagemap *pagemap;
-> =
-
-> =A0=A0=A0=A0=A0=A0=A0 /* Fault should not cross bo boundary. */
-> =A0=A0=A0=A0=A0=A0=A0 page_offset &=3D ~(fault_page_size - 1);
-> @@ -210,6 +211,17 @@ static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fa=
-ult
-> *vmf,
-> =A0=A0=A0=A0=A0=A0=A0 if ((pfn & (fault_page_size - 1)) !=3D 0)
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto out_fallback;
-> =
-
-> +=A0=A0=A0=A0=A0=A0 /*
-> +=A0=A0=A0=A0=A0=A0=A0 * Huge entries must be special, that is marking th=
-em as devmap
-> +=A0=A0=A0=A0=A0=A0=A0 * with no backing device map range. If there is a =
-backing
-> +=A0=A0=A0=A0=A0=A0=A0 * range, Don't insert a huge entry.
-> +=A0=A0=A0=A0=A0=A0=A0 */
-> +=A0=A0=A0=A0=A0=A0 pagemap =3D get_dev_pagemap(pfn, NULL);
-> +=A0=A0=A0=A0=A0=A0 if (pagemap) {
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 put_dev_pagemap(pagemap);
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto out_fallback;
-> +=A0=A0=A0=A0=A0=A0 }
-> +
-> =A0=A0=A0=A0=A0=A0=A0 /* Check that memory is contiguous. */
-> =A0=A0=A0=A0=A0=A0=A0 if (!bo->mem.bus.is_iomem) {
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 for (i =3D 1; i < fault_pag=
-e_size; ++i) {
-> @@ -223,7 +235,7 @@ static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fau=
-lt
-> *vmf,
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 }
-> =A0=A0=A0=A0=A0=A0=A0 }
-> =
-
-> -=A0=A0=A0=A0=A0=A0 pfnt =3D __pfn_to_pfn_t(pfn, PFN_DEV);
-> +=A0=A0=A0=A0=A0=A0 pfnt =3D __pfn_to_pfn_t(pfn, PFN_DEV | PFN_MAP);
-> =A0=A0=A0=A0=A0=A0=A0 if (fault_page_size =3D=3D (HPAGE_PMD_SIZE >> PAGE_=
-SHIFT))
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D vmf_insert_pfn_pmd_=
-prot(vmf, pfnt, pgprot, write);
-> =A0#ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
-> @@ -236,6 +248,21 @@ static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fa=
-ult
-> *vmf,
-> =A0=A0=A0=A0=A0=A0=A0 if (ret !=3D VM_FAULT_NOPAGE)
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto out_fallback;
-> =
-
-> +#if 1
-> +=A0=A0=A0=A0=A0=A0 {
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 int npages;
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 struct page *page;
-> +
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 npages =3D get_user_pages_fas=
-t_only(vmf->address, 1, 0,
-> &page);
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (npages =3D=3D 1) {
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 DRM_W=
-ARN("Fast gup succeeded. Bad.\n");
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 put_p=
-age(page);
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 } else {
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 DRM_I=
-NFO("Fast gup failed. Good.\n");
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 }
-> +=A0=A0=A0=A0=A0=A0 }
-> +#endif
-> +
-> =A0=A0=A0=A0=A0=A0=A0 return VM_FAULT_NOPAGE;
-> =A0out_fallback:
-> =A0=A0=A0=A0=A0=A0=A0 count_vm_event(THP_FAULT_FALLBACK);
-> =
-
-> =
-
-> =
-
-> =
-
-> =
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Boris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
