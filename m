@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EF2337D9E
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 20:22:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D22C337D9F
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 20:22:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 196206EB94;
-	Thu, 11 Mar 2021 19:21:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E5C36EBA3;
+	Thu, 11 Mar 2021 19:21:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 550A56EB7B;
- Thu, 11 Mar 2021 19:21:54 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id m22so41607057lfg.5;
- Thu, 11 Mar 2021 11:21:54 -0800 (PST)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9E006EBA8;
+ Thu, 11 Mar 2021 19:21:55 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id x4so34936580lfu.7;
+ Thu, 11 Mar 2021 11:21:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uvJsQOP1p7E9AffUBE2QJK2LpjrpqogJTnHjdmlAy3g=;
- b=AUzo78cMdsJJJhGMTgl8WEDo8UZcgsgRLS0Yrs3VHylHmn638Xd0SAmqI/iOnJbWSm
- ra6zNdyXsoQnp0pdaJ/2AJ+T2f1vxGN7nkfcyzC7lnVdgVqe6j3PeF83K9+mRN7lCkKF
- hQAq0EPSrB3u3utzKBpo32mTaZpxpncfzYqtxGLU1AZ9wDs6a+iUwi3/tM/THbo/ZDAN
- xgEZOlxDMPiB0d0auUpg8aYp4Qwd6tjWO3N9l7/0IolDJz5q2IH9RlTR1XQDHY7RfC0b
- zEx5c6UR/WdmgjlHVlAyXchnUUOiwUpQuyG21mOoptBg6CEVwXiQ26Urb5leOWVJKlXQ
- Z0Tg==
+ bh=uqKfei5o+p1LDmMPic3/GGcfRGKV9mArN/Kd0be+sRk=;
+ b=iiXXfpB1C+gnbK0/DeT43KLI/fORWdk2wUnK2WbfXh1yfxR6laQU0kdWW9RB9j/u2B
+ +iWWZnNjK92tl5VaWjTwR6B44ECS+loZ74TlWriWfCEo4x34cX20+DAK0Z1yWbk04E1f
+ ykCJ56ZNamFlTXptrAN+d6XLxlaJZKnYdg7Ap3ee/6prcStBNurIfldD+vWg56ijpX+h
+ vWzU8iilkhQqhmL6p8UuEdQphJl4t6wFggy8TATlvH+3hnBz4aZ+NLBzVi03+lB3FFAY
+ xIlmwo/13YpOTDAip7ZeKkJj7mb+NA5I3J4+5/nfz956+QWxhOOatqRWDWgV5TlGblul
+ FPRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uvJsQOP1p7E9AffUBE2QJK2LpjrpqogJTnHjdmlAy3g=;
- b=S0gzBTme41NzYKL9k30LP+lS2yXeOk1yQFF4Q+sxCmAAFYhlG+38KzS+aNh75/2OaF
- hXN7c9o8geUQ9jj0J0KCY8qEgJyRwj0sRTci+ty7jDegQqB0tebFpfEr+i43DWtzw0pm
- k56AeJY3egREfYyFZ5HCe2Gd5tyAGtkmh/FPGIew8uf28D1ua0cPMqs2JPiTDqVZ1mqP
- JmMzjoUYJjlobKoC5+jVuHuCBy3O8KcoLWFd2eB6J2iZEPrYYvTIISwJ4voCarESHsS+
- Bveqnbf8nKyaNg0uOv46zkIB8J29JLa+4pMp2O1XsCg0z0v+ybXtZTe5arvRJRmBKaBZ
- t1Sg==
-X-Gm-Message-State: AOAM532JLyqqlhublWTQgYoyg5Z85yP6B0Lu/AyHqMy/trBnNpv3MsxJ
- 2NUOcBvanUlg+7NR6y2PRcI=
-X-Google-Smtp-Source: ABdhPJwW9M4QeeMi8R8HV+0T6eXqDdFannBfc6ezCO7f5Qrvj5lHmCCOXOavy0TnJcIgzJWLxaLzHw==
-X-Received: by 2002:a05:6512:2212:: with SMTP id
- h18mr3101616lfu.330.1615490512780; 
- Thu, 11 Mar 2021 11:21:52 -0800 (PST)
+ bh=uqKfei5o+p1LDmMPic3/GGcfRGKV9mArN/Kd0be+sRk=;
+ b=sRquOkpiQgwoXlcHcUZOUVTPXVxZla+RjUtD3l0HU4TCoxB1CSIC8cjILUH1hyrpe0
+ ntFwqkAo+HjcKLyJWwuBd63J5ZrvVcQEkc1HyKsviqkUHV1F93XN7EJGz3J7G+1o7eNT
+ ws8zin4KisyjiE/ACZVLgXXfBx3tMWkaJWBAVf9Wgn2BzzYay/Xh9QjGKtA3NM90gJg0
+ FzTZLpe//lu7VII5PWOhGx2DEKdcsP+1NPTKrK3QUJO26cXCPZphximQmQn3se1y1rOx
+ bXGUlea9S1V4YEa/sWFiTswROA+wKJELgD6Rz2yHNMUmgs+lnwFWOWh67KqkbsF0tZE8
+ Bd0w==
+X-Gm-Message-State: AOAM530LKwDkkbYKu5TBTAeadhWjOWzlkE8U1rXZjKayWxtx4wEWThLG
+ 1rbvPINcjzchcj85fsMbKB4=
+X-Google-Smtp-Source: ABdhPJxHhzSO5qkov352chgUZ1noI4EztWWaTwMtjW0L+gOi4Y6lGvXdtI/aQNvF79jf49rIBHoPxQ==
+X-Received: by 2002:a05:6512:1192:: with SMTP id
+ g18mr3233341lfr.102.1615490514041; 
+ Thu, 11 Mar 2021 11:21:54 -0800 (PST)
 Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru.
  [109.252.193.52])
- by smtp.gmail.com with ESMTPSA id u14sm1121153lfl.40.2021.03.11.11.21.51
+ by smtp.gmail.com with ESMTPSA id u14sm1121153lfl.40.2021.03.11.11.21.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 11:21:52 -0800 (PST)
+ Thu, 11 Mar 2021 11:21:53 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>, Rob Herring <robh@kernel.org>,
@@ -65,9 +65,10 @@ To: Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
  Mark Brown <broonie@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Jiri Slaby <jirislaby@kernel.org>, Yangtao Li <tiny.windzz@gmail.com>
-Subject: [PATCH v2 13/14] media: venus: Convert to use resource-managed OPP API
-Date: Thu, 11 Mar 2021 22:21:04 +0300
-Message-Id: <20210311192105.14998-14-digetx@gmail.com>
+Subject: [PATCH v2 14/14] memory: samsung: exynos5422-dmc: Convert to use
+ resource-managed OPP API
+Date: Thu, 11 Mar 2021 22:21:05 +0300
+Message-Id: <20210311192105.14998-15-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210311192105.14998-1-digetx@gmail.com>
 References: <20210311192105.14998-1-digetx@gmail.com>
@@ -97,67 +98,67 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yangtao Li <tiny.windzz@gmail.com>
 
-Use resource-managed OPP API to simplify code.
+Use resource-managed API to simplify code.
 
 Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/media/platform/qcom/venus/pm_helpers.c | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+ drivers/memory/samsung/exynos5422-dmc.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-index 43c4e3d9e281..14fa27f26a7d 100644
---- a/drivers/media/platform/qcom/venus/pm_helpers.c
-+++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-@@ -860,45 +860,33 @@ static int core_get_v4(struct device *dev)
- 	if (legacy_binding)
- 		return 0;
+diff --git a/drivers/memory/samsung/exynos5422-dmc.c b/drivers/memory/samsung/exynos5422-dmc.c
+index 1dabb509dec3..56f6e65d40cd 100644
+--- a/drivers/memory/samsung/exynos5422-dmc.c
++++ b/drivers/memory/samsung/exynos5422-dmc.c
+@@ -343,7 +343,7 @@ static int exynos5_init_freq_table(struct exynos5_dmc *dmc,
+ 	int idx;
+ 	unsigned long freq;
  
--	core->opp_table = dev_pm_opp_set_clkname(dev, "core");
-+	core->opp_table = devm_pm_opp_set_clkname(dev, "core");
- 	if (IS_ERR(core->opp_table))
- 		return PTR_ERR(core->opp_table);
+-	ret = dev_pm_opp_of_add_table(dmc->dev);
++	ret = devm_pm_opp_of_add_table(dmc->dev);
+ 	if (ret < 0) {
+ 		dev_err(dmc->dev, "Failed to get OPP table\n");
+ 		return ret;
+@@ -354,7 +354,7 @@ static int exynos5_init_freq_table(struct exynos5_dmc *dmc,
+ 	dmc->opp = devm_kmalloc_array(dmc->dev, dmc->opp_count,
+ 				      sizeof(struct dmc_opp_table), GFP_KERNEL);
+ 	if (!dmc->opp)
+-		goto err_opp;
++		return -ENOMEM;
  
- 	if (core->res->opp_pmdomain) {
--		ret = dev_pm_opp_of_add_table(dev);
-+		ret = devm_pm_opp_of_add_table(dev);
- 		if (!ret) {
- 			core->has_opp_table = true;
- 		} else if (ret != -ENODEV) {
- 			dev_err(dev, "invalid OPP table in device tree\n");
--			dev_pm_opp_put_clkname(core->opp_table);
- 			return ret;
- 		}
+ 	idx = dmc->opp_count - 1;
+ 	for (i = 0, freq = ULONG_MAX; i < dmc->opp_count; i++, freq--) {
+@@ -362,7 +362,7 @@ static int exynos5_init_freq_table(struct exynos5_dmc *dmc,
+ 
+ 		opp = dev_pm_opp_find_freq_floor(dmc->dev, &freq);
+ 		if (IS_ERR(opp))
+-			goto err_opp;
++			return PTR_ERR(opp);
+ 
+ 		dmc->opp[idx - i].freq_hz = freq;
+ 		dmc->opp[idx - i].volt_uv = dev_pm_opp_get_voltage(opp);
+@@ -371,11 +371,6 @@ static int exynos5_init_freq_table(struct exynos5_dmc *dmc,
  	}
  
- 	ret = vcodec_domains_get(dev);
--	if (ret) {
--		if (core->has_opp_table)
--			dev_pm_opp_of_remove_table(dev);
--		dev_pm_opp_put_clkname(core->opp_table);
-+	if (ret)
- 		return ret;
--	}
+ 	return 0;
+-
+-err_opp:
+-	dev_pm_opp_of_remove_table(dmc->dev);
+-
+-	return -EINVAL;
+ }
  
+ /**
+@@ -1567,8 +1562,6 @@ static int exynos5_dmc_remove(struct platform_device *pdev)
+ 	clk_disable_unprepare(dmc->mout_bpll);
+ 	clk_disable_unprepare(dmc->fout_bpll);
+ 
+-	dev_pm_opp_remove_table(dmc->dev);
+-
  	return 0;
  }
  
- static void core_put_v4(struct device *dev)
- {
--	struct venus_core *core = dev_get_drvdata(dev);
--
- 	if (legacy_binding)
- 		return;
- 
- 	vcodec_domains_put(dev);
--
--	if (core->has_opp_table)
--		dev_pm_opp_of_remove_table(dev);
--	dev_pm_opp_put_clkname(core->opp_table);
--
- }
- 
- static int core_power_v4(struct device *dev, int on)
 -- 
 2.29.2
 
