@@ -1,41 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 427B933719F
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 12:44:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 824B53371D8
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 12:55:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 720936E503;
-	Thu, 11 Mar 2021 11:44:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC2016EC0C;
+	Thu, 11 Mar 2021 11:55:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5C506E503;
- Thu, 11 Mar 2021 11:44:40 +0000 (UTC)
-IronPort-SDR: jDqtNT2YH1qMHb3wc3ZP9G1Kv0tJWwkWBOZ3Fa3qjmI1zZ8uYxcmhGBCwFhPh7YVgt3/rmD+TU
- fq1VI07DCs2A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="188692221"
-X-IronPort-AV: E=Sophos;i="5.81,240,1610438400"; d="scan'208";a="188692221"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2021 03:44:39 -0800
-IronPort-SDR: kgZszxngzAXAwRwWdphkS9Mie7MmTzHmKMTOiFB6g0XeQYDWTurOrF/Z/zSr0FmVvvMY0LtlVz
- YvbKOr6aPljg==
-X-IronPort-AV: E=Sophos;i="5.81,240,1610438400"; d="scan'208";a="509995244"
-Received: from wkryszax-mobl2.ger.corp.intel.com (HELO zkempczy-mobl2)
- ([10.213.2.99])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2021 03:44:37 -0800
-Date: Thu, 11 Mar 2021 12:44:32 +0100
-From: Zbigniew =?utf-8?Q?Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>
-To: Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [PATCH] i915: Drop relocation support on all new hardware (v3)
-Message-ID: <20210311114432.GB101473@zkempczy-mobl2>
-References: <20210310212606.766121-1-jason@jlekstrand.net>
- <20210310215007.782649-1-jason@jlekstrand.net>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4844D6EC0C
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 11:55:11 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5868931B;
+ Thu, 11 Mar 2021 03:55:10 -0800 (PST)
+Received: from [10.99.99.12] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 606B43F793;
+ Thu, 11 Mar 2021 03:55:09 -0800 (PST)
+Subject: Re: [PATCH] drm/komeda: Fix off-by-1 when with readback conn due to
+ rounding
+To: Brian Starkey <brian.starkey@arm.com>, james.qian.wang@arm.com
+References: <20210305163853.66157-1-carsten.haitzler@foss.arm.com>
+ <20210309113636.whdolt4v3k5qpgpx@DESKTOP-E1NTVVP.localdomain>
+From: Carsten Haitzler <carsten.haitzler@foss.arm.com>
+Organization: Arm Ltd.
+Message-ID: <b9832558-cb41-14a5-fadd-94f4b0aad81d@foss.arm.com>
+Date: Thu, 11 Mar 2021 11:55:08 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210310215007.782649-1-jason@jlekstrand.net>
+In-Reply-To: <20210309113636.whdolt4v3k5qpgpx@DESKTOP-E1NTVVP.localdomain>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,109 +44,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: nd@arm.com, liviu.dudau@arm.com,
+ Carsten Haitzler <carsten.haitzler@arm.com>, dri-devel@lists.freedesktop.org,
+ steven.price@arm.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 10, 2021 at 03:50:07PM -0600, Jason Ekstrand wrote:
-> The Vulkan driver in Mesa for Intel hardware never uses relocations if
-> it's running on a version of i915 that supports at least softpin which
-> all versions of i915 supporting Gen12 do.  On the OpenGL side, Gen12+ is
-> only supported by iris which never uses relocations.  The older i965
-> driver in Mesa does use relocations but it only supports Intel hardware
-> through Gen11 and has been deprecated for all hardware Gen9+.  The
-> compute driver also never uses relocations.  This only leaves the media
-> driver which is supposed to be switching to softpin going forward.
-> Making softpin a requirement for all future hardware seems reasonable.
+On 3/9/21 11:36 AM, Brian Starkey wrote:
+> Hi Carsten, (+James for komeda)
 > 
-> Rejecting relocations starting with Gen12 has the benefit that we don't
-> have to bother supporting it on platforms with local memory.  Given how
-> much CPU touching of memory is required for relocations, not having to
-> do so on platforms where not all memory is directly CPU-accessible
-> carries significant advantages.
+> Thanks for typing this up.
 > 
-> v2 (Jason Ekstrand):
->  - Allow TGL-LP platforms as they've already shipped
+> On Fri, Mar 05, 2021 at 04:38:53PM +0000, carsten.haitzler@foss.arm.com wrote:
+>> From: Carsten Haitzler <carsten.haitzler@arm.com>
+>>
+>> When setting up a readback conenctor that writes data back to memory
 > 
-> v3 (Jason Ekstrand):
->  - WARN_ON platforms with LMEM support in case the check is wrong
+> s/readback conenctor/writeback connector/ (similar in the subject)
+> 
+>> rather than to an actual output device (HDMI etc.), rounding was ses
+> 
+> s/ses/set/
 
-I was asked to review of this patch. It works along with expected
-IGT check https://patchwork.freedesktop.org/patch/423361/?series=82954&rev=25
+I swear I re-read the log text... I must be auto-correcting in my head 
+as I read. :)
 
-Before I'll give you r-b - isn't i915_gem_execbuffer2_ioctl() better place
-to do for loop just after copy_from_user() and check relocation_count?
-We have an access to exec2_list there, we know the gen so we're able to say
-relocations are not supported immediate, without entering i915_gem_do_execbuffer().
+>> to round-down. As the DPU uses a higher internal number of bits when
+> 
+> "round-down" isn't really accurate - the rounding mode "rounds" based
+> on the most-significant discarded bit - so can round-up too.
+> 
+> Come to think of it, I can't explain 0xff becoming 0xfe, but still,
+> truncation is likely fine.
 
---
-Zbigniew
+Actually it was the other way - I mixed up the src/dest, but TRC does 
+fix it which is the important bit.
 
+>> generating a color value, this round-down back to 8bit ended up with
+>> everything being off-by one. e.g. #ffffff became #fefefe. This sets
+>> rounding to "round" so things end up correct by turning on the round
+>> flag (LW_TRC).
 > 
-> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
+> LW_TRC is the truncation flag. 0: Round, 1: Truncate
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index 99772f37bff60..b02dbd16bfa03 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -1764,7 +1764,8 @@ eb_relocate_vma_slow(struct i915_execbuffer *eb, struct eb_vma *ev)
->  	return err;
->  }
->  
-> -static int check_relocations(const struct drm_i915_gem_exec_object2 *entry)
-> +static int check_relocations(const struct i915_execbuffer *eb,
-> +			     const struct drm_i915_gem_exec_object2 *entry)
->  {
->  	const char __user *addr, *end;
->  	unsigned long size;
-> @@ -1774,6 +1775,14 @@ static int check_relocations(const struct drm_i915_gem_exec_object2 *entry)
->  	if (size == 0)
->  		return 0;
->  
-> +	/* Relocations are disallowed for all platforms after TGL-LP */
-> +	if (INTEL_GEN(eb->i915) >= 12 && !IS_TIGERLAKE(eb->i915))
-> +		return -EINVAL;
-> +
-> +	/* All discrete memory platforms are Gen12 or above */
-> +	if (WARN_ON(HAS_LMEM(eb->i915)))
-> +		return -EINVAL;
-> +
->  	if (size > N_RELOC(ULONG_MAX))
->  		return -EINVAL;
->  
-> @@ -1807,7 +1816,7 @@ static int eb_copy_relocations(const struct i915_execbuffer *eb)
->  		if (nreloc == 0)
->  			continue;
->  
-> -		err = check_relocations(&eb->exec[i]);
-> +		err = check_relocations(eb, &eb->exec[i]);
->  		if (err)
->  			goto err;
->  
-> @@ -1880,7 +1889,7 @@ static int eb_prefault_relocations(const struct i915_execbuffer *eb)
->  	for (i = 0; i < count; i++) {
->  		int err;
->  
-> -		err = check_relocations(&eb->exec[i]);
-> +		err = check_relocations(eb, &eb->exec[i]);
->  		if (err)
->  			return err;
->  	}
-> -- 
-> 2.29.2
+>>
+>> Signed-off-by: Carsten Haitzler <carsten.haitzler@arm.com>
+>> ---
+>>   drivers/gpu/drm/arm/display/komeda/d71/d71_component.c | 6 +++++-
+>>   drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h      | 1 +
+>>   2 files changed, 6 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
+>> index 8a02ade369db..d551e79fa0f1 100644
+>> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
+>> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
+>> @@ -468,7 +468,11 @@ static void d71_wb_layer_update(struct komeda_component *c,
+>>   	struct komeda_layer_state *st = to_layer_st(state);
+>>   	struct drm_connector_state *conn_st = state->wb_conn->state;
+>>   	struct komeda_fb *kfb = to_kfb(conn_st->writeback_job->fb);
+>> -	u32 ctrl = L_EN | LW_OFM, mask = L_EN | LW_OFM | LW_TBU_EN;
+>> +	/* LW_TRC sets rounding to round not truncate which is needed for
+>> +         * the output of writeback to match the input in the most common
+>> +         * use cases like RGB888 -> RGB888, so set this bit by default */
 > 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> /*
+>   * Comment style should be like this
+>   */
+> 
+> Same as above though - your description is inverted. By setting the
+> LW_TRC bit, you're forcing the hardware to truncate instead of round.
+
+Yeah - inverted. But the source does have mixed comment styles with some
+/*
+  * xxxx
+  */
+
+and some
+
+/* xxxx */
+
+and some
+
+/* xxxx
+  */
+
+with the last 2 most common.
+
+>> +	u32 ctrl = L_EN | LW_OFM | LW_TRC;
+>> +	u32 mask = L_EN | LW_OFM | LW_TBU_EN | LW_TRC;
+> 
+> Really nitpicking, but I think it'd be good to keep these in the same
+> order as the bits in the register: L_EN | LW_TRC | LW_OFM | LW_TBU_EN
+
+I can do that. I'll send another with the above.
+
+> Cheers,
+> -Brian
+> 
+>>   	u32 __iomem *reg = c->reg;
+>>   
+>>   	d71_layer_update_fb(c, kfb, st->addr);
+>> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h b/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h
+>> index e80172a0b320..a8036689d721 100644
+>> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h
+>> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h
+>> @@ -321,6 +321,7 @@
+>>   #define LAYER_WR_FORMAT		0x0D8
+>>   
+>>   /* Layer_WR control bits */
+>> +#define LW_TRC			BIT(1)
+>>   #define LW_OFM			BIT(4)
+>>   #define LW_LALPHA(x)		(((x) & 0xFF) << 8)
+>>   #define LW_A_WCACHE(x)		(((x) & 0xF) << 28)
+>> -- 
+>> 2.30.0
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
