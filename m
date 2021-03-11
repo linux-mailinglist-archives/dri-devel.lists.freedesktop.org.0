@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F5B337D90
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 20:21:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A36337D91
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 20:21:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB62B6EB90;
-	Thu, 11 Mar 2021 19:21:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 085D66EB92;
+	Thu, 11 Mar 2021 19:21:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A890D6EB88;
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C2896EB87;
  Thu, 11 Mar 2021 19:21:40 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id u4so41677586lfs.0;
+Received: by mail-lf1-x132.google.com with SMTP id r3so33451636lfc.13;
  Thu, 11 Mar 2021 11:21:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fsTd46l5Jglw9pw96E7Isv1iNj315cStq2faVWwmZQY=;
- b=O48j2praIpm6d4Lp3KF4U9fKQJiq115WXRZyxaVlSiDpKYaJ5MxRkLsSoiTsVizFyZ
- 9mtbn7uErT2P61NT7bKf000cXQyaFBqQgwnt31jXAlIGlGjt3rVlQOporBs+rNCSvjax
- +V0MWKdv5j0hhD3Yc9XvHYoJG+vHeSnUcx2bB5yWiBIK6m7QtTqBGqhfhvpft0zAO8N6
- hJAFrAIkZF+01WGNygJw7ROr1mbs1Fnm6rvVRSSsNARhvbYhqkyAtGP5mU0LZvld5DNp
- x1y6gUv514RtQMOLAbB+TQVu4DbWFxoNvaoRCTTyJCqElg9Lc3SWLoX46LlnmraZAZMG
- n49Q==
+ bh=8i2m6/lbGAJtR7Xwt+kU6jxv1RbA+nyvb63j6asz8nw=;
+ b=MUE9yscja7aODDVELlQzIVChcBIY3VT343YpkiHtPvHUx3/KmJumGYJWGzCDGGbDYx
+ lBnHjCeSfpKyO5cSrJOG01g1+pZVsw/kqlS9XYfHSsavbSfJQNirkFlTmm0BBYoqhcn7
+ 5iz5VS2e9/JCdqaJs4A0fJQ1Y9dAvGwQWXPllP4p/X+X7xwW78N9LTa7PCvIbiyirWcB
+ UQAQAtNx3B39+lHCgLkfVK60Egvxa+6XepdgUXoq54LQhRPeoHmZiVA0mFwbNOXywdtt
+ LDWFTT/gmDp54FCYjR2m7BuwX0hOjgzZFRsNX9GKOgXBhs40uN3GQKwReR3haMNd8+9Z
+ /vfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fsTd46l5Jglw9pw96E7Isv1iNj315cStq2faVWwmZQY=;
- b=DIwUNdJmMIHlvcO8bmkm/qYkQiXo+s6W1ampbjk6A5YXUTR6GWk31xy55o/WocC88d
- uOkIzwb9/9GK/OPPlo21mXvhn0q1wFx6bEXzyUvaFiwJOTBmYc45gGyGczTg6QzNyxzS
- DyEyx4sUPE3oPNga5lUIo/UNlyi1wloZk6VEHt50OC+WqUpSJAlwdgdo+b1u7xNFrihq
- 8iLuxhb9f0mMF34XF8XeC21MyFJSCZoF4EexP2nycHCTjH0566T+8vfYZTppvOcZ7Tp7
- UOBpBgm+YyFVol4xCRxV4oTjzblDaRneqHMrEWZs3z1xrJkYCabuUt8vEdGCPKfuUgu0
- 7R5w==
-X-Gm-Message-State: AOAM530N76oYWtB4Z8E/xuC6qZUMvEHdp6FYgXCnOmW09gKUbrR5MW8q
- 69+EyfQzxnv5iBc39vhKR8E=
-X-Google-Smtp-Source: ABdhPJwYRhhMQoWzZIiXQPyd+9sZC33xOfDiT6XWugm+Ut7Eo3DAK83JRVu3uJVYd9XFqktMJp+AEg==
-X-Received: by 2002:a19:f510:: with SMTP id j16mr3211024lfb.301.1615490497638; 
- Thu, 11 Mar 2021 11:21:37 -0800 (PST)
+ bh=8i2m6/lbGAJtR7Xwt+kU6jxv1RbA+nyvb63j6asz8nw=;
+ b=N3EDKH4caaItPmpIiXqCKPziMPzNPj0BYRVxmuZhtXYfpp96PVwuMzJWYWPTxuMTLK
+ OAkvzOOSf2PdaY8xhVT7bNUiob1xQ/+AmCqP2YdeSoa2LRDV+Fc/G8NaXlXfBq9aSb95
+ PUMWNDu6WWlXVLK23FlOOPQGI0F5rROy/TiAxtQV7r31XKKH0+6orEyeycWV7AnKYdJI
+ d5htHrXd/dsVcYFm5NNYYvRZk70LQXd3WBDEXxVt8fsT8zumGLV6uCP/a7TvXGexEQDe
+ gk7qcMoAceHQKYiEt3aCmcPZObuJ+US1VQoFzQrLAkhshQUnWXJlREr/AeqBLVVq6TgH
+ +sOg==
+X-Gm-Message-State: AOAM532b57Gd+zAF+H5Z63t+7ZnKgtrPMv4D5m0BbUs9zAKkC6/B7J2b
+ qx4HTE71bW6mJ+FJPEB3/Fs=
+X-Google-Smtp-Source: ABdhPJzyUMWCLGE0yuiOb/wr0yRnTsa8uCE3SwXolRlUCGlz7AcSAe4t/FII105i2sbhdr3WZ15zHg==
+X-Received: by 2002:ac2:5052:: with SMTP id a18mr3025894lfm.55.1615490498881; 
+ Thu, 11 Mar 2021 11:21:38 -0800 (PST)
 Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru.
  [109.252.193.52])
- by smtp.gmail.com with ESMTPSA id u14sm1121153lfl.40.2021.03.11.11.21.36
+ by smtp.gmail.com with ESMTPSA id u14sm1121153lfl.40.2021.03.11.11.21.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 11:21:37 -0800 (PST)
+ Thu, 11 Mar 2021 11:21:38 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>, Rob Herring <robh@kernel.org>,
@@ -64,9 +64,9 @@ To: Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
  Mark Brown <broonie@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Jiri Slaby <jirislaby@kernel.org>, Yangtao Li <tiny.windzz@gmail.com>
-Subject: [PATCH v2 01/14] opp: Add devres wrapper for dev_pm_opp_set_clkname
-Date: Thu, 11 Mar 2021 22:20:52 +0300
-Message-Id: <20210311192105.14998-2-digetx@gmail.com>
+Subject: [PATCH v2 02/14] opp: Add devres wrapper for dev_pm_opp_set_regulators
+Date: Thu, 11 Mar 2021 22:20:53 +0300
+Message-Id: <20210311192105.14998-3-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210311192105.14998-1-digetx@gmail.com>
 References: <20210311192105.14998-1-digetx@gmail.com>
@@ -96,84 +96,90 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yangtao Li <tiny.windzz@gmail.com>
 
-Add devres wrapper for dev_pm_opp_set_clkname() to simplify drivers code.
+Add devres wrapper for dev_pm_opp_set_regulators() to simplify drivers
+code.
 
 Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/opp/core.c     | 36 ++++++++++++++++++++++++++++++++++++
- include/linux/pm_opp.h |  6 ++++++
- 2 files changed, 42 insertions(+)
+ drivers/opp/core.c     | 39 +++++++++++++++++++++++++++++++++++++++
+ include/linux/pm_opp.h |  8 ++++++++
+ 2 files changed, 47 insertions(+)
 
 diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index 150be4c28c99..3345ab8da6b2 100644
+index 3345ab8da6b2..32fa2bff847b 100644
 --- a/drivers/opp/core.c
 +++ b/drivers/opp/core.c
-@@ -2119,6 +2119,42 @@ void dev_pm_opp_put_clkname(struct opp_table *opp_table)
+@@ -2047,6 +2047,45 @@ void dev_pm_opp_put_regulators(struct opp_table *opp_table)
  }
- EXPORT_SYMBOL_GPL(dev_pm_opp_put_clkname);
+ EXPORT_SYMBOL_GPL(dev_pm_opp_put_regulators);
  
-+static void devm_pm_opp_clkname_release(void *data)
++static void devm_pm_opp_regulators_release(void *data)
 +{
-+	dev_pm_opp_put_clkname(data);
++	dev_pm_opp_put_regulators(data);
 +}
 +
 +/**
-+ * devm_pm_opp_set_clkname() - Set clk name for the device
-+ * @dev: Device for which clk name is being set.
-+ * @name: Clk name.
++ * devm_pm_opp_set_regulators() - Set regulator names for the device
++ * @dev: Device for which regulator name is being set.
++ * @names: Array of pointers to the names of the regulator.
++ * @count: Number of regulators.
 + *
-+ * In order to support OPP switching, OPP layer needs to get pointer to the
-+ * clock for the device. Simple cases work fine without using this routine (i.e.
-+ * by passing connection-id as NULL), but for a device with multiple clocks
-+ * available, the OPP core needs to know the exact name of the clk to use.
++ * In order to support OPP switching, OPP layer needs to know the name of the
++ * device's regulators, as the core would be required to switch voltages as
++ * well.
 + *
 + * This must be called before any OPPs are initialized for the device.
 + *
 + * The opp_table structure will be freed after the device is destroyed.
 + */
-+struct opp_table *devm_pm_opp_set_clkname(struct device *dev, const char *name)
++struct opp_table *devm_pm_opp_set_regulators(struct device *dev,
++					     const char * const names[],
++					     unsigned int count)
 +{
 +	struct opp_table *opp_table;
 +	int err;
 +
-+	opp_table = dev_pm_opp_set_clkname(dev, name);
++	opp_table = dev_pm_opp_set_regulators(dev, names, count);
 +	if (IS_ERR(opp_table))
 +		return opp_table;
 +
-+	err = devm_add_action_or_reset(dev, devm_pm_opp_clkname_release, opp_table);
++	err = devm_add_action_or_reset(dev, devm_pm_opp_regulators_release,
++				       opp_table);
 +	if (err)
 +		opp_table = ERR_PTR(err);
 +
 +	return opp_table;
 +}
-+EXPORT_SYMBOL_GPL(devm_pm_opp_set_clkname);
++EXPORT_SYMBOL_GPL(devm_pm_opp_set_regulators);
 +
  /**
-  * dev_pm_opp_register_set_opp_helper() - Register custom set OPP helper
-  * @dev: Device for which the helper is getting registered.
+  * dev_pm_opp_set_clkname() - Set clk name for the device
+  * @dev: Device for which clk name is being set.
 diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
-index c0371efa4a0f..6fb992168f1e 100644
+index 6fb992168f1e..284d23665b15 100644
 --- a/include/linux/pm_opp.h
 +++ b/include/linux/pm_opp.h
-@@ -150,6 +150,7 @@ struct opp_table *dev_pm_opp_set_regulators(struct device *dev, const char * con
+@@ -148,6 +148,7 @@ struct opp_table *dev_pm_opp_set_prop_name(struct device *dev, const char *name)
+ void dev_pm_opp_put_prop_name(struct opp_table *opp_table);
+ struct opp_table *dev_pm_opp_set_regulators(struct device *dev, const char * const names[], unsigned int count);
  void dev_pm_opp_put_regulators(struct opp_table *opp_table);
++struct opp_table *devm_pm_opp_set_regulators(struct device *dev, const char * const names[], unsigned int count);
  struct opp_table *dev_pm_opp_set_clkname(struct device *dev, const char *name);
  void dev_pm_opp_put_clkname(struct opp_table *opp_table);
-+struct opp_table *devm_pm_opp_set_clkname(struct device *dev, const char *name);
- struct opp_table *dev_pm_opp_register_set_opp_helper(struct device *dev, int (*set_opp)(struct dev_pm_set_opp_data *data));
- void dev_pm_opp_unregister_set_opp_helper(struct opp_table *opp_table);
- struct opp_table *devm_pm_opp_register_set_opp_helper(struct device *dev, int (*set_opp)(struct dev_pm_set_opp_data *data));
-@@ -355,6 +356,11 @@ static inline struct opp_table *dev_pm_opp_set_clkname(struct device *dev, const
+ struct opp_table *devm_pm_opp_set_clkname(struct device *dev, const char *name);
+@@ -349,6 +350,13 @@ static inline struct opp_table *dev_pm_opp_set_regulators(struct device *dev, co
  
- static inline void dev_pm_opp_put_clkname(struct opp_table *opp_table) {}
+ static inline void dev_pm_opp_put_regulators(struct opp_table *opp_table) {}
  
-+static inline struct opp_table *devm_pm_opp_set_clkname(struct device *dev, const char *name)
++static inline struct opp_table *devm_pm_opp_set_regulators(struct device *dev,
++							   const char * const names[],
++							   unsigned int count)
 +{
 +	return ERR_PTR(-EOPNOTSUPP);
 +}
 +
- static inline struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs)
+ static inline struct opp_table *dev_pm_opp_set_clkname(struct device *dev, const char *name)
  {
  	return ERR_PTR(-EOPNOTSUPP);
 -- 
