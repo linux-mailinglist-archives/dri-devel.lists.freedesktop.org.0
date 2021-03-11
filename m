@@ -2,47 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7226A337FAF
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 22:37:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D8A33805F
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 23:35:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A12006EE81;
-	Thu, 11 Mar 2021 21:37:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 650F26EE83;
+	Thu, 11 Mar 2021 22:35:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com
- [209.85.166.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF97E6EE81
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 21:37:07 +0000 (UTC)
-Received: by mail-io1-f54.google.com with SMTP id n14so23577341iog.3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 13:37:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=88YoBu3IChQNr/V3l4UggEOXALs8K2tk4zELlhVMgFY=;
- b=cacsc5uBz8v/ZhVFRBkxWZ8xmF4cBRzMB3TQ5ZxVj1cUtepWU3fr6Bx4wxuafCRoz3
- 0aOrFlToMWvXi6TPBX2BpHEBnPBpsIn+/5/GPCyUJO8ajfayliiw1UT7lz1j4IBdb+rC
- iZ139o/cYk3JroJQa9uisy/pW2zYfEVMEIgr42bGVXXNg3ahLXzVL2P+km522E4iAdlw
- 7b7OoRD6RgPJkGxySVJie/WA+kS74Wkvgmw8tYmEDeSdG7i0185DcpP2Jpra2MNjajZL
- +/R/RMiAiSc5zxAdNb9QDYnqt5n0Q7XvkJrwTRodiEqFVM2Pvt9z4704NMNtonpDAmpB
- 58Jg==
-X-Gm-Message-State: AOAM530W+2wdNRoViRmcX5IcamTJHqHEE/PCWVc1uhVD6u4+rvijIXF+
- jIt4aYAEt2w8QU8/0KGlnG9NmysZ+aUYUiZZ2aQ=
-X-Google-Smtp-Source: ABdhPJw+YTm5PRWrc1GuPKUsimfEN4Wp8nCWrWwvqjSef29BAoUxRTJMC+nYrrWkOEw2ou0D9TVZCg7ED8EPPW+sLhE=
-X-Received: by 2002:a02:7419:: with SMTP id o25mr5589952jac.100.1615498627003; 
- Thu, 11 Mar 2021 13:37:07 -0800 (PST)
+Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D77F46EE83
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 22:35:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 2426341648;
+ Thu, 11 Mar 2021 23:35:31 +0100 (CET)
+Authentication-Results: pio-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="LfDrSms2";
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Xr6KSZ2zNe6Y; Thu, 11 Mar 2021 23:35:30 +0100 (CET)
+Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 8C1C73F74C;
+ Thu, 11 Mar 2021 23:35:28 +0100 (CET)
+Received: from [192.168.0.209] (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 19BE436016B;
+ Thu, 11 Mar 2021 23:35:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1615502128; bh=cIY+66T7AQC6wG8EIWSRKQCH6obhIO28sZwNAh6y/oU=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=LfDrSms2JbDnqQDVmpXPLclp2fB7kgoJXncb7RXo3tR/Jkf5UoiuRbQmjXbpLSPaD
+ t44AfLF/BX/HxxU/auZNq/06d0we5VhC2uW52GSdJoCzXj5ZwaanIPXG/f3sOk2NfA
+ 9e1FPsc+StHz3CXmF6a/bNYKTm9VGX2QQ9mZKpOo=
+Subject: Re: vmwgfx leaking bo pins?
+To: Zack Rusin <zackr@vmware.com>
+References: <09ebc5cf-3e2c-d233-2c58-ff4d72e01297@shipmail.org>
+ <D04E8A53-C740-480D-9209-1CC6A40A10F2@vmware.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <54448dd1-cfc3-626a-6480-4edfcf97b148@shipmail.org>
+Date: Thu, 11 Mar 2021 23:35:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210310045544.28961.qmail@stuge.se>
- <1894f3f7-bd1d-493e-8d7f-8c10917da51b@tronnes.org>
- <20210311144839.29454.qmail@stuge.se>
- <04a86207-325c-8170-6692-a87ec3b0fe4c@tronnes.org>
- <20210311200226.1166.qmail@stuge.se>
-In-Reply-To: <20210311200226.1166.qmail@stuge.se>
-From: Ilia Mirkin <imirkin@alum.mit.edu>
-Date: Thu, 11 Mar 2021 16:36:56 -0500
-Message-ID: <CAKb7UvihLX0hgBOP3VBG7O+atwZcUVCPVuBdfmDMpg0NjXe-cQ@mail.gmail.com>
-Subject: Re: [PATCH v7 3/3] drm: Add GUD USB Display driver
-To: Peter Stuge <peter@stuge.se>
+In-Reply-To: <D04E8A53-C740-480D-9209-1CC6A40A10F2@vmware.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,65 +64,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hudson@trmm.net, markus@raatikainen.cc,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-usb@vger.kernel.org,
- dri-devel <dri-devel@lists.freedesktop.org>, th020394@gmail.com,
- lkundrak@v3.sk, pontus.fuchs@gmail.com, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 11, 2021 at 3:02 PM Peter Stuge <peter@stuge.se> wrote:
-> > > Hence the question: What does DRM promise about the XRGB8888 mode?
-> >
-> > That it's a 32-bit value. From include/uapi/drm/drm_fourcc.h:
-> >
-> > /* 32 bpp RGB */
-> > #define DRM_FORMAT_XRGB8888   fourcc_code('X', 'R', '2', '4') /* [31:0]
-> > x:R:G:B 8:8:8:8 little endian */
->
-> Okay, "[31:0] x:R:G:B 8:8:8:8" can certainly mean
-> [31:24]=x [23:16]=R [15:8]=G [7:0]=B, which when stored "little endian"
-> becomes B G R X in memory, for which your pix32 code is correct.
->
-> That's the reverse *memory* layout of what the name says :) but yes,
-> the name then matches the representation seen by software. That's the
-> "abstracted" case that I didn't expect, because I thought the name was
-> refering to memory layout and because I was thinking about how traditional
-> graphics adapter video memory has the R component at the lower
-> address, at least in early linear modes.
-
-The definition of the formats is memory layout in little endian. The
-definition you see is of a 32-bit packed little-endian integer, which
-is a fixed memory layout.
-
-Now, if you're on an actual big-endian platform, and you want to
-accept big-endian-packed formats, there's a bit of unpleasantness that
-goes on. Basically there are two options:
-
-1. Ignore the above definition and interpret the formats as
-*big-endian* layouts. This is what nouveau and radeon do. They also
-don't support AddFB2 (which is what allows supplying a format) -- only
-AddFB which just has depth (and bpp). That's fine for nouveau and
-radeon because the relevant userspace just uses AddFB, and knows what
-the drivers want, so it all works out.
-
-2. Comply with the above definition and set
-dev->mode_config.quirk_addfb_prefer_host_byte_order to false. This
-loses you native host packing of RGB565/etc, since they're just not
-defined as formats. There's a DRM_FORMAT_BIG_ENDIAN bit but it's not
-properly supported for anything but the 8888 formats.
-
-I'm not sure why you guys were talking about BE in the first place,
-but since this is a topic I've looked into (in the context of moving
-nouveau from 1 to 2 - but that can't happen due to the reduced format
-availability), figured I'd share some of the current sad state.
-
-Cheers,
-
-  -ilia
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIFphY2sKCk9uIDMvMTEvMjEgMTA6MDcgUE0sIFphY2sgUnVzaW4gd3JvdGU6Cj4+IE9uIE1h
+ciAxMSwgMjAyMSwgYXQgMDU6NDYsIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkgPHRob21hc19v
+c0BzaGlwbWFpbC5vcmc+IHdyb3RlOgo+Pgo+PiBIaSwKPj4KPj4gSSB0cmllZCBsYXRlc3QgZHJt
+LWZpeGVzIHRvZGF5IGFuZCBzYXcgYSBsb3Qgb2YgdGhlc2U6IEZhbGxvdXQgZnJvbSB0dG0gcmV3
+b3JrPwo+IFllcywgSSBmaXhlZCB0aGlzIGluIGQxYTczYzY0MWFmZDI2MTdiZDgwYmNlOGI3MWEw
+OTZmYzViNzRiN2UgaXQgd2FzIGluIGRybS1taXNjLW5leHQgaW4gdGhlIGRybS1taXNjIHRyZWUg
+Zm9yIGEgd2hpbGUgYnV0IGhhc27igJl0IGJlZW4gbWVyZ2VkIGZvciA1LjEyLgo+Cj4gego+Ckht
+bSwgeWVzIGJ1dCBkb2Vzbid0IHRoYXQgZml4IHRyaXAgdGhlIHR0bV9ib191bnBpbigpIApkbWFf
+cmVzdl9hc3NlcnRfaGVsZChiby0+YmFzZS5yZXN2KT8KClRha2luZyB0aGUgcmVzZXJ2YXRpb24g
+dG8gdW5waW4gYXQgVFRNIGJvIGZyZWUgaGFzIGFsd2F5cyBiZWVuIGF3a3dhcmQgCmFuZCB0aGF0
+J3Mgd2h5IHZtd2dmeCBhbmQgSSBndWVzcyBvdGhlciBUVE0gZHJpdmVycyBoYXZlIGJlZW4gc2xv
+cHB5IApkb2luZyB0aGF0IGFzIFRUTSBuZXZlciBjYXJlZC4gUGVyaGFwcyBUVE0gY291bGQgY2hh
+bmdlIHRoZSBwaW5fY291bnQgdG8gCmFuIGF0b21pYyBhbmQgYWxsb3cgdW5sb2NrZWQgdW5waW5u
+aW5nPyBzdGlsbCByZXF1aXJpbmcgdGhlIHJlc2VydmF0aW9uIApsb2NrIGZvciBwaW5fY291bnQg
+dHJhbnNpdGlvbiAwLT4xLCB0aG91Z2guCgpBbHNvLCBwaW5uaW5nIGF0IGJvIGNyZWF0aW9uIGlu
+IHZtd2dmeCBoYXMgYmVlbiB0byBkbyB0aGUgZXF1aXZhbGVudCBvZiAKdHRtX2JvX2luaXRfcmVz
+ZXJ2ZWQoKSAod2hpY2ggYXBpIHdhcyBhZGRlZCBsYXRlcikuIENyZWF0aW5nIHBpbm5lZCAKd291
+bGQgbWFrZSB0aGUgb2JqZWN0IGlzb2xhdGVkIGFuZCBhbGxvd2luZyB0aGUgcmVzZXJ2ZSB0cnls
+b2NrIHRoYXQgCmZvbGxvd2VkIHRvIGFsd2F5cyBzdWNjZWVkLiBXaXRoIHRoZSBpbnRyb2R1Y3Rp
+b24gb2YgdGhlIFRUTSBwaW5fY291bnQsIAppdCBzZWVtcyB0dG1fYm9faW5pdF9yZXNlcnZlZCgp
+IGlzIHVzZWQgdG8gZW5hYmxlIHBpbm5lZCBjcmVhdGlvbiB3aGljaCAKaXMgdXNlZCB0byBlbXVs
+YXRlIHR0bV9ib19pbml0X3Jlc2VydmVkKCkgOikKCi9UaG9tYXMKCgoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
