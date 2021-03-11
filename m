@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85DB5337D95
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 20:22:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD8A337D97
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 20:22:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AEE16EB8D;
-	Thu, 11 Mar 2021 19:21:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7F5F6EBA2;
+	Thu, 11 Mar 2021 19:21:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F0636EB8D;
- Thu, 11 Mar 2021 19:21:47 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id d3so41568314lfg.10;
- Thu, 11 Mar 2021 11:21:46 -0800 (PST)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 483866EB9B;
+ Thu, 11 Mar 2021 19:21:48 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id u4so41678106lfs.0;
+ Thu, 11 Mar 2021 11:21:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=r0YTDRKEg68ROrVXaToU8Wcjr+vVydQlVmQ/OWyjWgg=;
- b=dGAL4j4BsV5QyzEnqra3RC8Xbo9QxrUVyW20WZKTu5fZB8PcaLd6Q0dZfKCdvFFtGY
- ul0GrV226fObFyvFxQHdsMNbIofDBoWGFC/IrhPs5wnHg5gucqUusBLd7Y1rl3JiD7U+
- JfdvYKLKFmLHovCjDXyIZmbwMjZUW872AXXAZXScP0rtMTDL7ip7cViDIq9YBchS8pia
- vEy7cJ9JEDlA7hRLOJ8mB76vzymSptU7r4MgVPfw7koPVSZifFvV7TKQmNzIU3aAd62s
- npiqk8ynaCe2PDF+eZuyBa0Pa0p2uiw4VlxVTHH9yKD5DW7H0xEaMIV38sncrPcbRZcJ
- 2RJA==
+ bh=5ncQjRjK6we9+VW90X3d+oYKqpNBh+iHtiBiBJx8Aeg=;
+ b=l9H5XZVxeMPHehXPINPXOl+HRg28WGRb95v0DKcngMP4zV6Jd9yaFIMMrjgRwFyVzl
+ TilKFAAp8P7x5irOWw16kuK4yqM6NDrZlMmKlFgMZA1ziYB/26w23z640Foe903XBUrL
+ VFMC07CnbmcgLj/ZU3JGoApjVq5UvsV+R+8jgG2yTvfe3i+Wbw2vJKGnpKyhLj8WqNjY
+ hwHQN3xKIj54vBH4M7GldI8MnukPeQ/IEML7d9CwLjXo2gYAJtS5XGhQv6OCcsKAueAU
+ OR6TkLEigWl4mQe3DmzEo87gYdGEco2AuoHxdjkEEMulq7OwP6Jslg2eLH2kwYbo+weA
+ Gfaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=r0YTDRKEg68ROrVXaToU8Wcjr+vVydQlVmQ/OWyjWgg=;
- b=AI07UtUpZpZfN+PLZePXYnmZ4CecANV3axnD8yWNcSw3oPYImRAbztWWZwmRBpZcMe
- KUHKWrWu+n5Egtolc4dsw/wacDPRuMPIM9hR7Ue2aA8TaZuY+lmc7epHGCq6GSLBbblE
- 0CulLpAB1Do8nWVYdFPCJ08VRRAB5eaYAmoOqHuX2VsAKrjwPDat/fzwjvrzpZhNOMv/
- Xv1iFwtBU8bla9co6qtQrCKt/kSViINNio8OXlrzricToqSrWnSGX1+jH6C18WuPbqOz
- pTfC+Gk4m//zSjTlwuZW+2ANf9mTX5S5cZUHjPorwqd85pkVd3RB02mJvNwkicM9Hqvu
- WfwQ==
-X-Gm-Message-State: AOAM532fz4vh4Wp1DOnjaln5V/pxKmNpAjTeAOpo0WiZiLdd1m3ZzWYx
- cmrCYafquO4jWsweF+N5QJg=
-X-Google-Smtp-Source: ABdhPJwb8ysVVPvmoUCYBr2zwcOCS8CSTP0C/1S9MCVIrEL8VL8f1OZN/0+JiI5Ybm1C4mkALqUPWA==
-X-Received: by 2002:a19:4c87:: with SMTP id z129mr3119098lfa.183.1615490503974; 
- Thu, 11 Mar 2021 11:21:43 -0800 (PST)
+ bh=5ncQjRjK6we9+VW90X3d+oYKqpNBh+iHtiBiBJx8Aeg=;
+ b=bl7Fe8l9i+Gpjrn1T3p1yZ/9U+F7uywv7ahFt06BFsZlB8vwpRzBW5FuiuiMpcvbuz
+ DPCC7W6yCC9Nl/+OS1Jb9kXLGhMgS8cZAR2tTkxP+Gwq486fDoO+H3e4x2W/5JMWLekZ
+ jJZjpnoKT17fQSW9MNnesIQYB5m3omQ82oALdd7eZS4w8mJ9VfyRZKVGiek6vsDY/kf7
+ XSLhcNcuIlmk1FaS3l/bSDOIr+W7FfMslQWZC/9V73HNRSGYIwj5ffJzhXnB8HLBt+vV
+ xXJTItcgFiC6rRscmGVV47xUrnN4dJQ99meGJeYdlsuSnHsz5qGd4j7Aq1ZOkA3AbRA4
+ mfgw==
+X-Gm-Message-State: AOAM530lpZP/x+hPuH2RyX9U9KO2Qs1fF5as2a942j0VxftyycH1yVR8
+ MStkZedaU0X6Q1D41f2BiEyPUWussBg=
+X-Google-Smtp-Source: ABdhPJzCh0Qft9dy6G5hWn6tIaRZlWEsGaeKss0+RsKBrcATwvRzpe98QMG4AbkTbMgmz6nalW3KdQ==
+X-Received: by 2002:a19:309:: with SMTP id 9mr3246749lfd.268.1615490505282;
+ Thu, 11 Mar 2021 11:21:45 -0800 (PST)
 Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru.
  [109.252.193.52])
- by smtp.gmail.com with ESMTPSA id u14sm1121153lfl.40.2021.03.11.11.21.42
+ by smtp.gmail.com with ESMTPSA id u14sm1121153lfl.40.2021.03.11.11.21.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Mar 2021 11:21:43 -0800 (PST)
+ Thu, 11 Mar 2021 11:21:45 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>, Rob Herring <robh@kernel.org>,
@@ -64,10 +64,10 @@ To: Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
  Mark Brown <broonie@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Jiri Slaby <jirislaby@kernel.org>, Yangtao Li <tiny.windzz@gmail.com>
-Subject: [PATCH v2 06/14] serial: qcom_geni_serial: Convert to use
- resource-managed OPP API
-Date: Thu, 11 Mar 2021 22:20:57 +0300
-Message-Id: <20210311192105.14998-7-digetx@gmail.com>
+Subject: [PATCH v2 07/14] spi: spi-geni-qcom: Convert to use resource-managed
+ OPP API
+Date: Thu, 11 Mar 2021 22:20:58 +0300
+Message-Id: <20210311192105.14998-8-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210311192105.14998-1-digetx@gmail.com>
 References: <20210311192105.14998-1-digetx@gmail.com>
@@ -100,30 +100,33 @@ From: Yangtao Li <tiny.windzz@gmail.com>
 Use resource-managed OPP API to simplify code.
 
 Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+Acked-by: Mark brown <broonie@kernel.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/tty/serial/qcom_geni_serial.c | 24 +++++++++---------------
- 1 file changed, 9 insertions(+), 15 deletions(-)
+ drivers/spi/spi-geni-qcom.c  | 17 +++++++----------
+ include/linux/qcom-geni-se.h |  2 --
+ 2 files changed, 7 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/tty/serial/qcom_geni_serial.c b/drivers/tty/serial/qcom_geni_serial.c
-index 291649f02821..7c6e029fdb2a 100644
---- a/drivers/tty/serial/qcom_geni_serial.c
-+++ b/drivers/tty/serial/qcom_geni_serial.c
-@@ -1352,6 +1352,7 @@ static int qcom_geni_serial_probe(struct platform_device *pdev)
- 	int irq;
- 	bool console = false;
- 	struct uart_driver *drv;
+diff --git a/drivers/spi/spi-geni-qcom.c b/drivers/spi/spi-geni-qcom.c
+index 881f645661cc..20cc29ea198b 100644
+--- a/drivers/spi/spi-geni-qcom.c
++++ b/drivers/spi/spi-geni-qcom.c
+@@ -666,6 +666,7 @@ static int spi_geni_probe(struct platform_device *pdev)
+ 	void __iomem *base;
+ 	struct clk *clk;
+ 	struct device *dev = &pdev->dev;
 +	struct opp_table *opp_table;
  
- 	if (of_device_is_compatible(pdev->dev.of_node, "qcom,geni-debug-uart"))
- 		console = true;
-@@ -1433,14 +1434,14 @@ static int qcom_geni_serial_probe(struct platform_device *pdev)
- 	if (of_property_read_bool(pdev->dev.of_node, "cts-rts-swap"))
- 		port->cts_rts_swap = true;
- 
--	port->se.opp_table = dev_pm_opp_set_clkname(&pdev->dev, "se");
--	if (IS_ERR(port->se.opp_table))
--		return PTR_ERR(port->se.opp_table);
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0)
+@@ -691,14 +692,15 @@ static int spi_geni_probe(struct platform_device *pdev)
+ 	mas->se.wrapper = dev_get_drvdata(dev->parent);
+ 	mas->se.base = base;
+ 	mas->se.clk = clk;
+-	mas->se.opp_table = dev_pm_opp_set_clkname(&pdev->dev, "se");
+-	if (IS_ERR(mas->se.opp_table))
+-		return PTR_ERR(mas->se.opp_table);
++
 +	opp_table = devm_pm_opp_set_clkname(&pdev->dev, "se");
 +	if (IS_ERR(opp_table))
 +		return PTR_ERR(opp_table);
@@ -136,52 +139,46 @@ index 291649f02821..7c6e029fdb2a 100644
 +		return ret;
  	}
  
- 	port->private_data.drv = drv;
-@@ -1450,7 +1451,7 @@ static int qcom_geni_serial_probe(struct platform_device *pdev)
- 
- 	ret = uart_add_one_port(drv, uport);
- 	if (ret)
--		goto err;
-+		return ret;
- 
- 	irq_set_status_flags(uport->irq, IRQ_NOAUTOEN);
- 	ret = devm_request_irq(uport->dev, uport->irq, qcom_geni_serial_isr,
-@@ -1458,7 +1459,7 @@ static int qcom_geni_serial_probe(struct platform_device *pdev)
- 	if (ret) {
- 		dev_err(uport->dev, "Failed to get IRQ ret %d\n", ret);
- 		uart_remove_one_port(drv, uport);
--		goto err;
-+		return ret;
- 	}
- 
- 	/*
-@@ -1475,16 +1476,11 @@ static int qcom_geni_serial_probe(struct platform_device *pdev)
- 		if (ret) {
- 			device_init_wakeup(&pdev->dev, false);
- 			uart_remove_one_port(drv, uport);
--			goto err;
-+			return ret;
- 		}
- 	}
- 
- 	return 0;
--err:
+ 	spi->bus_num = -1;
+@@ -750,9 +752,6 @@ static int spi_geni_probe(struct platform_device *pdev)
+ 	free_irq(mas->irq, spi);
+ spi_geni_probe_runtime_disable:
+ 	pm_runtime_disable(dev);
 -	dev_pm_opp_of_remove_table(&pdev->dev);
 -put_clkname:
--	dev_pm_opp_put_clkname(port->se.opp_table);
--	return ret;
+-	dev_pm_opp_put_clkname(mas->se.opp_table);
+ 	return ret;
  }
  
- static int qcom_geni_serial_remove(struct platform_device *pdev)
-@@ -1492,8 +1488,6 @@ static int qcom_geni_serial_remove(struct platform_device *pdev)
- 	struct qcom_geni_serial_port *port = platform_get_drvdata(pdev);
- 	struct uart_driver *drv = port->private_data.drv;
+@@ -766,8 +765,6 @@ static int spi_geni_remove(struct platform_device *pdev)
  
+ 	free_irq(mas->irq, spi);
+ 	pm_runtime_disable(&pdev->dev);
 -	dev_pm_opp_of_remove_table(&pdev->dev);
--	dev_pm_opp_put_clkname(port->se.opp_table);
- 	dev_pm_clear_wake_irq(&pdev->dev);
- 	device_init_wakeup(&pdev->dev, false);
- 	uart_remove_one_port(drv, &port->uport);
+-	dev_pm_opp_put_clkname(mas->se.opp_table);
+ 	return 0;
+ }
+ 
+diff --git a/include/linux/qcom-geni-se.h b/include/linux/qcom-geni-se.h
+index ec2ad4b0fe14..cddef864a760 100644
+--- a/include/linux/qcom-geni-se.h
++++ b/include/linux/qcom-geni-se.h
+@@ -47,7 +47,6 @@ struct geni_icc_path {
+  * @num_clk_levels:	Number of valid clock levels in clk_perf_tbl
+  * @clk_perf_tbl:	Table of clock frequency input to serial engine clock
+  * @icc_paths:		Array of ICC paths for SE
+- * @opp_table:		Pointer to the OPP table
+  */
+ struct geni_se {
+ 	void __iomem *base;
+@@ -57,7 +56,6 @@ struct geni_se {
+ 	unsigned int num_clk_levels;
+ 	unsigned long *clk_perf_tbl;
+ 	struct geni_icc_path icc_paths[3];
+-	struct opp_table *opp_table;
+ };
+ 
+ /* Common SE registers */
 -- 
 2.29.2
 
