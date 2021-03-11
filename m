@@ -2,64 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6998B336E4B
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 09:54:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84604336E79
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 10:09:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F33BF6EB33;
-	Thu, 11 Mar 2021 08:54:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA15B6EB44;
+	Thu, 11 Mar 2021 09:09:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A2DB6EB2F;
- Thu, 11 Mar 2021 08:54:12 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id jt13so44632464ejb.0;
- Thu, 11 Mar 2021 00:54:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=74lcwYBpZti2JX+AnLita0F3Q+SuAKneVVEX1qvmJKA=;
- b=m2ZQoyAtypEpW/KCb7CjszP+3lU9faU2B0C5fiEQ8rhrhDhIRRjNTzOjEtOuvgj1zn
- f5etmZBe67c+AU32wiO4tUOs7wFPdx4IeAaI324hVPQwJ3EW09befz86etvH3TL+jHyJ
- /arfJgNqqaYpSsSatjeNa+KavTiHVllAlx3umcHO7IX/e7ilaawSV14QCKusrn5dWyex
- Na3RFLZ/upJYaHv+QLZY32wMAPYQG3IzhEwivbEiwHr/9djS4jVsBIelQRpTiB/VhZHz
- kX+KMvA2VPqR4KDAb7glKdw/Ye+FKFVTzgaa670W7/VLHbERHF6N+n+T+WBq4si34Zw9
- 3U7Q==
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 864BD6EB40
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 09:09:22 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id z25so1175937lja.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 01:09:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qtec.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RnT+lPnIHBw/xRDsclmASuOvNjJ9ngFpJSmXHW9gT1s=;
+ b=LH0uuBBonQYeRw5PRypwMx3pqqtIVdxzggC6gcxg+8Fpd8x2nix9/7lRT5+jzm0UPx
+ MCspsVqaFPDjsy+63ETLGmuUlnp6dsGlWNsqApadi7qWKY9cIUGi0AlLwFkAPAT4uz7D
+ qRVolWJtwHagQiLm6gsOJ2xuXkZksMNT3jXwloZYMpmIFOBU8o11f3bK9fUcjGBZttYS
+ 8RcTOHpkCWZm9fYQGw3tQyFTyN3TkDmCCsjUHr+Ydxg4pY7ef7+ThT2p0ZF1pNWO7bln
+ zEpU4WgnpJ4bBHRTlggPNCS/lCxrESMo2Fs5SI3B+6VbwF2mJvg2MXEy3HFEaM3gqc7J
+ 4/RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=74lcwYBpZti2JX+AnLita0F3Q+SuAKneVVEX1qvmJKA=;
- b=pNY6uEJxcqMk2J1p4L5yAoy2KNQMoyz8mhTsqnS7/T7RxHF1B/Y7XYHZtCwqiVXbdX
- qAYIC0uOXHD02JKO4OypxlselMAoPUSz4fwGXCKS5dXjyWzTeUFo4xxxeW+IKLxqkvDl
- vZ25+SDyqAgv/HPwJwVD57JPJNExIOFbPXLFWQgMRhet11/HyeRzn6mlYplybZ1zOUTI
- VwMH0zZOuijbIE66xRHsCqHoaHQwh9VxBvO38AWYJrDiXpUMGSPSXXVzOjJBpNtLXXtI
- rMnVAosOwMhLiUZZXt9mlNEW0UQy7hmi+ZhDS+JCYi6ekaG/APYl8sqZni3IlyT/pZlV
- 31vw==
-X-Gm-Message-State: AOAM5323PA55tzsT7eYApkHluvC+xpd1MNc1jjtW/3ZK+bAK4QEVfaGy
- 0L0FoWGghOxJJ3/qRai2OpGUEEphNpXSyg==
-X-Google-Smtp-Source: ABdhPJyP7UGP4pXo0vE5y/N26WIhbWazgJI+NMXZgfRjvCM1hfidzzDt6VVqrSor0GNB/xba/9tQXg==
-X-Received: by 2002:a17:906:7e12:: with SMTP id
- e18mr2155102ejr.316.1615452851324; 
- Thu, 11 Mar 2021 00:54:11 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:e21c:b1e1:cff0:2c70?
- ([2a02:908:1252:fb60:e21c:b1e1:cff0:2c70])
- by smtp.gmail.com with ESMTPSA id hd8sm897101ejc.92.2021.03.11.00.54.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Mar 2021 00:54:10 -0800 (PST)
-Subject: Re: [PATCH 1/2] drm/amdgpu: fix compile error on architecture s390
-To: Oak Zeng <Oak.Zeng@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <1615433344-16267-1-git-send-email-Oak.Zeng@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <51520443-87d1-84fd-cc30-70d432acfbb9@gmail.com>
-Date: Thu, 11 Mar 2021 09:54:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RnT+lPnIHBw/xRDsclmASuOvNjJ9ngFpJSmXHW9gT1s=;
+ b=c/PnXU8E6lY7Ko0YOAp+jGAuOwbFLjp1OIjGgj4ENKsdWR0b3yGkRXpi+j5Bf254zy
+ J1PxTqosxhFRqCAYlLZmXc5EJficA/C+LJcGO7E7S9OfFWtPohTEvz2r/vuxYZ6lBbGU
+ gD5p8f6SGv+lQD0OjKiYW2a68JY6tD2qGtH2Fc07dyTK/ckwQK9mf43a9mKzLOBGGcAK
+ vqQ/3iZFQTCrvzIIs96r4RvrmPML8QO4T/2Lhx0seJa+FKtC5Pi0vHBdhJxUMqqjh0Pj
+ rtxJT8HKAIBWSwoPyZQr0WDQdpyO3N93WSyQajUarseA1p+Qc8cX1ct+Xjye7fy1JRoh
+ sJig==
+X-Gm-Message-State: AOAM533O/DwT59/olZ1EZveAH5zjhaKwrZj+41h99Lx24DkAMO7y5vg1
+ iKTDuD31EHqckCt/2BaRQzS5uadhL4/uUzYp/w8+fA==
+X-Google-Smtp-Source: ABdhPJygCiPkPDqr0CqthkNvw/7NV0v7TWfyanbCIGUU8Z08ssP9bcbSuJn6t1JsPsFXX9SBpw2eJhIpt/fNi5u69OM=
+X-Received: by 2002:a2e:557:: with SMTP id 84mr4309802ljf.480.1615453760997;
+ Thu, 11 Mar 2021 01:09:20 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1615433344-16267-1-git-send-email-Oak.Zeng@amd.com>
-Content-Language: en-US
+References: <20210310163655.2591893-1-daniel@qtec.com>
+ <CADnq5_PmbXBaziCEqRODb_DvtKaw9ucXXjkdmdj9N_R8P-9Jcw@mail.gmail.com>
+In-Reply-To: <CADnq5_PmbXBaziCEqRODb_DvtKaw9ucXXjkdmdj9N_R8P-9Jcw@mail.gmail.com>
+From: Daniel Gomez <daniel@qtec.com>
+Date: Thu, 11 Mar 2021 10:09:10 +0100
+Message-ID: <CAH1Ww+T4WwLzg_nnF=1sjm9LW9wCjFb0X9c=qmuubvMqJdW4PA@mail.gmail.com>
+Subject: Re: [PATCH]] drm/amdgpu/gfx9: add gfxoff quirk
+To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,31 +61,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Evan Quan <evan.quan@amd.com>, linux-media <linux-media@vger.kernel.org>,
+ Guchun Chen <guchun.chen@amd.com>, David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Nirmoy Das <nirmoy.das@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Huang Rui <ray.huang@amd.com>, Monk Liu <Monk.Liu@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Yintian Tao <yttao@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dennis Li <Dennis.Li@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTEuMDMuMjEgdW0gMDQ6Mjkgc2NocmllYiBPYWsgWmVuZzoKPiBpb3JlbWFwX2NhY2hlIGlz
-IG5vdCBzdXBwb3J0ZWQgb24gc29tZSBhcmNoaXRlY3R1cmUKPiBzdWNoIGFzIHMzOTAuIFB1dCB0
-aGUgY29kZXMgaW50byBhICNpZmRlZiB0byBmaXgKPiBzb21lIGNvbXBpbGUgZXJyb3IgcmVwb3J0
-ZWQgYnkgdGVzdCByb2JvdC4KPgo+IFNpZ25lZC1vZmYtYnk6IE9hayBaZW5nIDxPYWsuWmVuZ0Bh
-bWQuY29tPgo+IFJlcG9ydGVkLWJ5OiBLZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4K
-ClJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
-IGZvciB0aGUgc2VyaWVzLgoKPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
-ZGdwdV90dG0uYyB8IDIgKy0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
-ZWxldGlvbigtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
-ZGdwdV90dG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYwo+IGlu
-ZGV4IDM3NzUxZTcuLjEwOTE1ODUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9h
-bWRncHUvYW1kZ3B1X3R0bS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
-Z3B1X3R0bS5jCj4gQEAgLTE4MTcsNyArMTgxNyw3IEBAIGludCBhbWRncHVfdHRtX2luaXQoc3Ry
-dWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYpCj4gICAKPiAgIAkvKiBDaGFuZ2UgdGhlIHNpemUgaGVy
-ZSBpbnN0ZWFkIG9mIHRoZSBpbml0IGFib3ZlIHNvIG9ubHkgbHBmbiBpcyBhZmZlY3RlZCAqLwo+
-ICAgCWFtZGdwdV90dG1fc2V0X2J1ZmZlcl9mdW5jc19zdGF0dXMoYWRldiwgZmFsc2UpOwo+IC0j
-aWZkZWYgQ09ORklHXzY0QklUCj4gKyNpZmRlZiBDT05GSUdfWDg2Cj4gICAJaWYgKGFkZXYtPmdt
-Yy54Z21pLmNvbm5lY3RlZF90b19jcHUpCj4gICAJCWFkZXYtPm1tYW4uYXBlcl9iYXNlX2thZGRy
-ID0gaW9yZW1hcF9jYWNoZShhZGV2LT5nbWMuYXBlcl9iYXNlLAo+ICAgCQkJCWFkZXYtPmdtYy52
-aXNpYmxlX3ZyYW1fc2l6ZSk7CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwK
+On Wed, 10 Mar 2021 at 18:06, Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> On Wed, Mar 10, 2021 at 11:37 AM Daniel Gomez <daniel@qtec.com> wrote:
+> >
+> > Disabling GFXOFF via the quirk list fixes a hardware lockup in
+> > Ryzen V1605B, RAVEN 0x1002:0x15DD rev 0x83.
+> >
+> > Signed-off-by: Daniel Gomez <daniel@qtec.com>
+> > ---
+> >
+> > This patch is a continuation of the work here:
+> > https://lkml.org/lkml/2021/2/3/122 where a hardware lockup was discussed and
+> > a dma_fence deadlock was provoke as a side effect. To reproduce the issue
+> > please refer to the above link.
+> >
+> > The hardware lockup was introduced in 5.6-rc1 for our particular revision as it
+> > wasn't part of the new blacklist. Before that, in kernel v5.5, this hardware was
+> > working fine without any hardware lock because the GFXOFF was actually disabled
+> > by the if condition for the CHIP_RAVEN case. So this patch, adds the 'Radeon
+> > Vega Mobile Series [1002:15dd] (rev 83)' to the blacklist to disable the GFXOFF.
+> >
+> > But besides the fix, I'd like to ask from where this revision comes from. Is it
+> > an ASIC revision or is it hardcoded in the VBIOS from our vendor? From what I
+> > can see, it comes from the ASIC and I wonder if somehow we can get an APU in the
+> > future, 'not blacklisted', with the same problem. Then, should this table only
+> > filter for the vendor and device and not the revision? Do you know if there are
+> > any revisions for the 1002:15dd validated, tested and functional?
+>
+> The pci revision id (RID) is used to specify the specific SKU within a
+> family.  GFXOFF is supposed to be working on all raven variants.  It
+> was tested and functional on all reference platforms and any OEM
+> platforms that launched with Linux support.  There are a lot of
+> dependencies on sbios in the early raven variants (0x15dd), so it's
+> likely more of a specific platform issue, but there is not a good way
+> to detect this so we use the DID/SSID/RID as a proxy.  The newer raven
+> variants (0x15d8) have much better GFXOFF support since they all
+> shipped with newer firmware and sbios.
+
+We took one of the first reference platform boards to design our
+custom board based on the V1605B and I assume it has one of the early 'unstable'
+raven variants with RID 0x83. Also, as OEM we are in control of the bios
+(provided by insyde) but I wasn't sure about the RID so, thanks for the
+clarification. Is there anything we can do with the bios to have the GFXOFF
+enabled and 'stable' for this particular revision? Otherwise we'd need to add
+the 0x83 RID to the table. Also, there is an extra ']' in the patch
+subject. Sorry
+for that. Would you need a new patch in case you accept it with the ']' removed?
+
+Good to hear that the newer raven versions have better GFXOFF support.
+
+Daniel
+
+>
+> Alex
+>
+>
+> >
+> > Logs:
+> > [   27.708348] [drm] initializing kernel modesetting (RAVEN
+> > 0x1002:0x15DD 0x1002:0x15DD 0x83).
+> > [   27.789156] amdgpu: ATOM BIOS: 113-RAVEN-115
+> >
+> > Thanks in advance,
+> > Daniel
+> >
+> >  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> > index 65db88bb6cbc..319d4b99aec8 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> > @@ -1243,6 +1243,8 @@ static const struct amdgpu_gfxoff_quirk amdgpu_gfxoff_quirk_list[] = {
+> >         { 0x1002, 0x15dd, 0x103c, 0x83e7, 0xd3 },
+> >         /* GFXOFF is unstable on C6 parts with a VBIOS 113-RAVEN-114 */
+> >         { 0x1002, 0x15dd, 0x1002, 0x15dd, 0xc6 },
+> > +       /* GFXOFF provokes a hw lockup on 83 parts with a VBIOS 113-RAVEN-115 */
+> > +       { 0x1002, 0x15dd, 0x1002, 0x15dd, 0x83 },
+> >         { 0, 0, 0, 0, 0 },
+> >  };
+> >
+> > --
+> > 2.30.1
+> >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
