@@ -1,124 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78C09338636
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 07:51:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB1F93386D8
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 08:53:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 619796F448;
-	Fri, 12 Mar 2021 06:51:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4B536F469;
+	Fri, 12 Mar 2021 07:53:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2059.outbound.protection.outlook.com [40.107.244.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0B316F441;
- Fri, 12 Mar 2021 06:51:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e3dBYz4otQ6tSmpFRUHart5ZG2ryiT8FTm5M55vSz+jqp5IgC3JLP8xi+W0EhF6zKB1sKgWNXEIXkE/fl/twlAVGvOkjcJWzZSPZ5SHxefquhdYfAuYT9JmhDoOhBMSCvU3k5vcVmq9s7fHEYVcNtdq5muhUcZiiaqV2huSJer4k15WleZwV5THkp4xk/zJ2nQNzEtHpWh09B5t17A7MzaCG1wI21m4d4kwpjN12ZprevL7eenAzp8hNUDdfKYZ5vxF/sfEpo8nRS1NEM3aTJ+GAp5bsVdRey8oqkqBe9DXoGQxmFpnU0SohaheEJdGkV0T784tGavfZPCLDpm8xww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rZgyTnwuww3TNCC+KMvtYk6wOTLMRAS1RrWkUs5oRsE=;
- b=TID29C2f7XknlH24w5r6QECbZeGt9EXmVSnO/p5W8YghL9tAFpbowaWSHVyJ6DLVd0zhiAo2zgyn9K02j1QJXbDhN5HEVildc5GDGuF/z/TS69nOOOuX8em6dSqceS39xvB64NykBI3wY2qHZQaDEvA05IqmIjN/FRdzTnA/+IzVMfJEuijqllpsU0ier//7fqncLQ4fJ+1tVdqDRzIld7sWw4zpagftQh7J+ZzPC2Pygbyrf15peSNWD8rt0u+ikGge/1HNnTYLztgaxatqL4nbWk7toPaTKLclI7rfQTzVK6d81AvFaCmFDaIOhx5JcGn6PKWljk3HFegAoSLMiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rZgyTnwuww3TNCC+KMvtYk6wOTLMRAS1RrWkUs5oRsE=;
- b=oSO0ALzP2B92bA36DfgykhG/9OxcSsM9Ac0V4mtcdAD3zi5vUn6SNQuJlvkqRKMDlKO1pFTHB/REXx+bhroFQnfYhMQsfafZ45nAjlFBMtCZCk/PBqYz/BxsNc1vvykVOlTlpIU0PRfQJYjGJIU8o3pB/6RuPK8xZZMQJvKCXrg=
-Received: from DM5PR1201MB0204.namprd12.prod.outlook.com (2603:10b6:4:51::10)
- by DM6PR12MB4973.namprd12.prod.outlook.com (2603:10b6:5:1b7::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.29; Fri, 12 Mar
- 2021 06:51:21 +0000
-Received: from DM5PR1201MB0204.namprd12.prod.outlook.com
- ([fe80::28e0:5877:b4e6:6bdc]) by DM5PR1201MB0204.namprd12.prod.outlook.com
- ([fe80::28e0:5877:b4e6:6bdc%9]) with mapi id 15.20.3912.030; Fri, 12 Mar 2021
- 06:51:21 +0000
-From: "Zhang, Jack (Jian)" <Jack.Zhang1@amd.com>
-To: "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>, Alex Deucher
- <alexdeucher@gmail.com>, Maling list - DRI developers
- <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH] drm/scheduler re-insert Bailing job to avoid memleak
-Thread-Topic: [PATCH] drm/scheduler re-insert Bailing job to avoid memleak
-Thread-Index: AQHXFvPjI2io3Vl5XE2hRbG7VvPkr6p/vlIAgAAOGACAAB2o8A==
-Date: Fri, 12 Mar 2021 06:51:20 +0000
-Message-ID: <DM5PR1201MB0204311EA6CA7F2111A56138BB6F9@DM5PR1201MB0204.namprd12.prod.outlook.com>
-References: <20210312035746.1089855-1-Jack.Zhang1@amd.com>
- <CADnq5_N88ahLAz2w=OgFU3vv7zX8uupW+_GzsHcLrqVbPoURUA@mail.gmail.com>
- <d1e2d40a-095d-a44f-3ce2-f8eae50751ec@amd.com>
-In-Reply-To: <d1e2d40a-095d-a44f-3ce2-f8eae50751ec@amd.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ActionId=f012a59e-4ad7-4d09-9336-06cc25605e89;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=0;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=true;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal
- Use Only - Unrestricted;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2021-03-12T06:50:29Z;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
-authentication-results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-x-originating-ip: [180.167.199.189]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 89dbcc00-542f-4452-61e2-08d8e5233ec2
-x-ms-traffictypediagnostic: DM6PR12MB4973:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR12MB497393638D374BAE33F90F05BB6F9@DM6PR12MB4973.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4125;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: vh6CSybFkjOVCEKt42BzoeyFCmPqPJ/XfurPoxRnsmE3eg12BuiNA+VmFM7XUDao4plUWzCj4rhIrdE9wqqByjKBsStuzjXqna0ms55im2sMVEspcdoP63gZWsxSkQV1MnSo4HT1DEp8mBa4oVua1HuJOrh4GsQT9/PeWTX0ucTya2pB2V0quiIChYHvNJKjYtSJh2zxarlCs385NZr2pcfn3vk/gNe7XBVa3Nr4gaMA3PgYFxIStidC3yV+s3yVkG+d4hZL7cRKQfOyDZ4Xp/+cPBEEu0tVOVUJKlpgLK9wTUuoB5Mq8bnKYZOpo7NiSoEOv7U+7xTeUW6Si07dYUvIyob/u6apF44BkXltNse8sascQTeKRMWxoasQ6DoFrZwMOHcB+bDbPot4f+0kKOu+QAFGJkwQR/FEtBaGIGtrE/JsAVA6hwTKdVQ9XHVbv808CwkmgWIsbGfgaLM4MEsM0Q0nKdezOdWamDx5iwB9w65bsw231rKUskHJy/UQNjrY/+KTTXsHf1uGJqhPpyx247UpkxQU4/9eLhBJ2v3YFd2OKoFwcH26gTd1vBTO8dpSky8f5PRWvrWWnSxtMyJs9BnswJ5+9J/4R7D4vwc=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR1201MB0204.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(136003)(346002)(376002)(39860400002)(8936002)(53546011)(6506007)(71200400001)(45080400002)(26005)(478600001)(186003)(52536014)(966005)(54906003)(110136005)(4326008)(86362001)(33656002)(316002)(66556008)(55016002)(76116006)(5660300002)(9686003)(83380400001)(8676002)(2906002)(66446008)(64756008)(66946007)(66476007)(7696005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?R29CbGlZcGdzMVBES3FVSWVGaDI2OXRNZEdxTG1uVFZraW40bzlxT0ZSTEpq?=
- =?utf-8?B?NTVJMlczdTNNZHBOaWxuS3BvSGhVQVJrTEtjR1lFVCtBV21VeGd6Znd4Y0lG?=
- =?utf-8?B?TTZuaXU5eTJma0hFOFo3RTNLZjF4WnZ0UWlsQjVja2xWQ3pWeWtkTDdIQ0hn?=
- =?utf-8?B?YndJWnloWDJ1V0tJMm96SFZPd0xZREp4dW5JOVRQMncydVFva0szeVNyeURD?=
- =?utf-8?B?WFB3MExvY0dUSTFYbUlpZ2ZHZWZsL0FMU0tIYXVuOUN3eFNTYTR3djJaQllV?=
- =?utf-8?B?YVdRWWQzRFFyVUFOcmgxZkt0ZjZFdUpHUERVRDRRMlNsSjlQNWRKYW5KWDl1?=
- =?utf-8?B?anZ4VnZGclRtdm1tWGJKSXhkU2FBZEQweEhFbE41MXJCdEZVNENVZVRybXA3?=
- =?utf-8?B?ZDArQ0VCeXh2bVFwRlRqUDU5bFFjRTdYZ2NqLzRxWjUrazFuWndyV29QSnQ4?=
- =?utf-8?B?V2pVMmtkNmJSamRzSFAwZGN6VmxhNlJQN1k5Q1k0azkwOS8xQ3JQWnhHeVZn?=
- =?utf-8?B?cTlPV1NYK0VrMFk1R2NtM2NBNTN2STN0QXB5U3JMMG1hMjVCMWFRZ3VrbERy?=
- =?utf-8?B?S1lpSlAxS3hHMmRBNGdFY1o1dExIbWJJeGNUaGlqbytNdE9WL1lGenBiZUdX?=
- =?utf-8?B?ZlZXb2I5RXl6ZU94eDZCd2JJRGlXK3g4bTdScENaZTVhVk9MdVJDYTBjTzFL?=
- =?utf-8?B?QitxbVZtdUo0RSt3QWdRZ3dERkt6NG9oOHRJZ042b2RtNXIyQ1RGU2NXUU50?=
- =?utf-8?B?NEg3RVNJODB5Qm1hTFhNOWt3S3c5RXVxQzFTejl0bmFTYWJaWm85eUlINW43?=
- =?utf-8?B?a3owVUxOZm00R09KWkNjSURYK2lWUXZFM01oT0hid21DWUdJVGlmWCt3amVF?=
- =?utf-8?B?MmVWT1RyalpxVkhUbDQ5SkQwZStPUHdUSi85OTd4VFVSM0JXNzRSSWx6cHla?=
- =?utf-8?B?bEg2dzVnT0JYRWFUczE3d0YyRkV4UUQvazRrK2hsbXdqemF0M2FDdFhiSDRW?=
- =?utf-8?B?cUlPZ1dXaS8rc1VmQmpxcXliYzd3Z2lIRkJ0dzNWYVkyQWY3MU9Yc2gybEhq?=
- =?utf-8?B?YzVtdnlqY1gxM1BLNGRyeEVzWVZXd0tuTXE4a0JBY3IrektoMnJleWN5M1Nk?=
- =?utf-8?B?UmxQM2l6UGxBaXAyc1FmbWpRb0YvUnFQZFBLYUNDM0tOOFlsUlExWXkrdWN1?=
- =?utf-8?B?dFB4MFd1QWtDZGRJWUxUVkJtcEJLRDhDeTFqWGRpODV0VnA2R0lZSWp0M2ta?=
- =?utf-8?B?eDVVMW1RNHYvOEpEK3U0RVk1dkdiZ2duamIxTml2RVlvTXo0NkNNQ3l0WDlP?=
- =?utf-8?B?ZHF3bFlnK1NrNko3N0NUSkdRanhZRXhIUzA0eWFNczl5OFhONzAxa1FEQnU4?=
- =?utf-8?B?VHZjZVRKNkh0cW5jMUlaQUNibUwvUnRsMEN0L0QwbnFhcWFhOUZQSnc2Q1gw?=
- =?utf-8?B?aFpUWHVJdmJDd2sxb2VKbkorMUZRWXNQUTVtQUU4bVJXbUhpUDd1eW5qWWpY?=
- =?utf-8?B?dFYvUWJMZ3dlM3lBY0tzWFhzS2krdnVXcWVrT0crN3NXbTlvdDcxK25wYnE3?=
- =?utf-8?B?M29tSkM4NmJrZ2k0aWI0VUNHSUIwdlFFVFp5Nm9abEhFVkVmUGYwajZEMHd3?=
- =?utf-8?B?Rm04MEY5a2RmUitHaDkyWTQrZmU2OGNWbkpGWU1xV1FhdmxxYW1KS29iNktQ?=
- =?utf-8?B?UVMvai9nVmxOaWJZUThrS0FWaWxmNTNDT1k5Nnl6aCtHSkc3RjFKS2FiUXQr?=
- =?utf-8?Q?l5bv1ZFRjHnSQl2LreZyssIdj8CnSZxmnJN/6SQ?=
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BC7E89873
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 15:02:26 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id hs11so46838543ejc.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 07:02:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qtec.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gXAGBeqlgyf6WoQP72pNeSpQgoAtPfYQxn1Zx/OxGXA=;
+ b=TdgUqRQjhkpcX3i4KO9xpGkYINXAYYI2sRjQNydqKCpSMJhHJcaaZDxlZ2hhp45NxJ
+ ToHf4STUfuUP/xKJFawD44ZpTyXr/KesyFBxWPF0A6MPK3zvYlONOiNykf/yjHbZq2mg
+ 4XO3cdmAPnXL45axUNe8sysY090rzGmZcR+6kQ2ZU8TfERMFpolPeAGtKMXr2m1hLhOw
+ EyoXganQqwqm2eJ/jUS6WWsNQcIR2IxRvkH00Q6lyAj6nttmWVNtTGPr5TcD6mFqBG2+
+ ShKDKQ9no6BJFD805g2FSDqjn9wG4YBXvdK9WmfUDqf8oDT5EH/G+0cAudu4z2e2T4GZ
+ N97A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gXAGBeqlgyf6WoQP72pNeSpQgoAtPfYQxn1Zx/OxGXA=;
+ b=cTzVWwLAXDWC6Tf4aBzj2TgovAj8N1rA5tbSOwZIWE1u/G7D4K2URBoDuME/gX1kvz
+ MD7l4qvGKIXEwHYMAfBUSy6pw7aDFp5ce/xmrWg9SACL2DJXZC60HmOebM70j4iy1yCI
+ tDuDSoz841EgwjgcQ9xZU09cfebcUvlaTl5H7+Gg9Y5P4VWz/TY6vqcINQ9vGHQYqr4n
+ 9vpMh3ZeMmjlcyWmKGRneFOOVi+SL2qtLCsrC0G5SLmoP4EmdPujww36abVIsEDNGxjV
+ lMslvi5+wQoekKmZOesuYdPoXYCNR7T0U0VUanSa14nd4hVTpPQyZDhl546tIyIJVmNX
+ q7sQ==
+X-Gm-Message-State: AOAM533icTowNnFf4UNBt1M7yGgi/v9omwYpBdQHPQZbX0epnEoEGHh4
+ 85OGjkoIeUbdfRr4uGyl10i9NK/H7CrPOHYvIxUFcA==
+X-Google-Smtp-Source: ABdhPJwjyQf5OR9+VAVvMfJiKfK4k/G7OeOAbjpSlgfI0GLPpoln68C8Yq6/HN91ESxzpvtx+LpQAlJ+oX6vvvcOPa8=
+X-Received: by 2002:a17:906:7b8d:: with SMTP id
+ s13mr3505288ejo.247.1615474944849; 
+ Thu, 11 Mar 2021 07:02:24 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR1201MB0204.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89dbcc00-542f-4452-61e2-08d8e5233ec2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Mar 2021 06:51:21.0778 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 56L55FWskUXCvswDTDDRCtrRTkcfcNP7q89Q4s1jknX/33QOJS15MakTs1AQPGkG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4973
+References: <20210310163655.2591893-1-daniel@qtec.com>
+ <CADnq5_PmbXBaziCEqRODb_DvtKaw9ucXXjkdmdj9N_R8P-9Jcw@mail.gmail.com>
+ <CAH1Ww+T4WwLzg_nnF=1sjm9LW9wCjFb0X9c=qmuubvMqJdW4PA@mail.gmail.com>
+ <CAH1Ww+QiAyfQL_bf1u=zLiT=ayKFWA0Fr2n5sBHUxfpzxcPbrg@mail.gmail.com>
+In-Reply-To: <CAH1Ww+QiAyfQL_bf1u=zLiT=ayKFWA0Fr2n5sBHUxfpzxcPbrg@mail.gmail.com>
+From: Alexandre Desnoyers <alex@qtec.com>
+Date: Thu, 11 Mar 2021 16:02:23 +0100
+Message-ID: <CAN22YZcnMzefgHu9FVPGEf73SKjar2tLJO-jvpYAqNJSH4F_qA@mail.gmail.com>
+Subject: Re: [PATCH]] drm/amdgpu/gfx9: add gfxoff quirk
+To: Daniel Gomez <daniel@qtec.com>
+X-Mailman-Approved-At: Fri, 12 Mar 2021 07:53:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,153 +65,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Liu, Monk" <Monk.Liu@amd.com>, "Deng, Emily" <Emily.Deng@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+Cc: Evan Quan <evan.quan@amd.com>, linux-media <linux-media@vger.kernel.org>,
+ Guchun Chen <guchun.chen@amd.com>, David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Nirmoy Das <nirmoy.das@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Monk Liu <Monk.Liu@amd.com>, Yintian Tao <yttao@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dennis Li <Dennis.Li@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only - Internal Distribution Only]
-
-Hi, Andrey,
-
-ok, I have changed it and uploaded V2 patch.
-
-Thanks,
-Jack
------Original Message-----
-From: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>
-Sent: Friday, March 12, 2021 1:04 PM
-To: Alex Deucher <alexdeucher@gmail.com>; Zhang, Jack (Jian) <Jack.Zhang1@amd.com>; Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>; Koenig, Christian <Christian.Koenig@amd.com>; Liu, Monk <Monk.Liu@amd.com>; Deng, Emily <Emily.Deng@amd.com>
-Subject: Re: [PATCH] drm/scheduler re-insert Bailing job to avoid memleak
-
-Check panfrost driver at panfrost_scheduler_stop, and panfrost_job_timedout - they also terminate prematurely in both places so probably worth adding this there too.
-
-Andrey
-
-On 2021-03-11 11:13 p.m., Alex Deucher wrote:
-> +dri-devel
+On Thu, Mar 11, 2021 at 2:49 PM Daniel Gomez <daniel@qtec.com> wrote:
 >
-> Please be sure to cc dri-devel when you send out gpu scheduler patches.
+> On Thu, 11 Mar 2021 at 10:09, Daniel Gomez <daniel@qtec.com> wrote:
+> >
+> > On Wed, 10 Mar 2021 at 18:06, Alex Deucher <alexdeucher@gmail.com> wrote:
+> > >
+> > > On Wed, Mar 10, 2021 at 11:37 AM Daniel Gomez <daniel@qtec.com> wrote:
+> > > >
+> > > > Disabling GFXOFF via the quirk list fixes a hardware lockup in
+> > > > Ryzen V1605B, RAVEN 0x1002:0x15DD rev 0x83.
+> > > >
+> > > > Signed-off-by: Daniel Gomez <daniel@qtec.com>
+> > > > ---
+> > > >
+> > > > This patch is a continuation of the work here:
+> > > > https://lkml.org/lkml/2021/2/3/122 where a hardware lockup was discussed and
+> > > > a dma_fence deadlock was provoke as a side effect. To reproduce the issue
+> > > > please refer to the above link.
+> > > >
+> > > > The hardware lockup was introduced in 5.6-rc1 for our particular revision as it
+> > > > wasn't part of the new blacklist. Before that, in kernel v5.5, this hardware was
+> > > > working fine without any hardware lock because the GFXOFF was actually disabled
+> > > > by the if condition for the CHIP_RAVEN case. So this patch, adds the 'Radeon
+> > > > Vega Mobile Series [1002:15dd] (rev 83)' to the blacklist to disable the GFXOFF.
+> > > >
+> > > > But besides the fix, I'd like to ask from where this revision comes from. Is it
+> > > > an ASIC revision or is it hardcoded in the VBIOS from our vendor? From what I
+> > > > can see, it comes from the ASIC and I wonder if somehow we can get an APU in the
+> > > > future, 'not blacklisted', with the same problem. Then, should this table only
+> > > > filter for the vendor and device and not the revision? Do you know if there are
+> > > > any revisions for the 1002:15dd validated, tested and functional?
+> > >
+> > > The pci revision id (RID) is used to specify the specific SKU within a
+> > > family.  GFXOFF is supposed to be working on all raven variants.  It
+> > > was tested and functional on all reference platforms and any OEM
+> > > platforms that launched with Linux support.  There are a lot of
+> > > dependencies on sbios in the early raven variants (0x15dd), so it's
+> > > likely more of a specific platform issue, but there is not a good way
+> > > to detect this so we use the DID/SSID/RID as a proxy.  The newer raven
+> > > variants (0x15d8) have much better GFXOFF support since they all
+> > > shipped with newer firmware and sbios.
+> >
+> > We took one of the first reference platform boards to design our
+> > custom board based on the V1605B and I assume it has one of the early 'unstable'
+> > raven variants with RID 0x83. Also, as OEM we are in control of the bios
+> > (provided by insyde) but I wasn't sure about the RID so, thanks for the
+> > clarification. Is there anything we can do with the bios to have the GFXOFF
+> > enabled and 'stable' for this particular revision? Otherwise we'd need to add
+> > the 0x83 RID to the table. Also, there is an extra ']' in the patch
+> > subject. Sorry
+> > for that. Would you need a new patch in case you accept it with the ']' removed?
+> >
+> > Good to hear that the newer raven versions have better GFXOFF support.
 >
-> On Thu, Mar 11, 2021 at 10:57 PM Jack Zhang <Jack.Zhang1@amd.com> wrote:
->>
->> re-insert Bailing jobs to avoid memory leak.
->>
->> Signed-off-by: Jack Zhang <Jack.Zhang1@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 +++-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c    | 8 ++++++--
->>   drivers/gpu/drm/scheduler/sched_main.c     | 8 +++++++-
->>   include/drm/gpu_scheduler.h                | 1 +
->>   4 files changed, 17 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> index 79b9cc73763f..86463b0f936e 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> @@ -4815,8 +4815,10 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
->>                                          job ? job->base.id : -1);
->>
->>                  /* even we skipped this reset, still need to set the job to guilty */
->> -               if (job)
->> +               if (job) {
->>                          drm_sched_increase_karma(&job->base);
->> +                       r = DRM_GPU_SCHED_STAT_BAILING;
->> +               }
->>                  goto skip_recovery;
->>          }
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->> index 759b34799221..41390bdacd9e 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->> @@ -34,6 +34,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
->>          struct amdgpu_job *job = to_amdgpu_job(s_job);
->>          struct amdgpu_task_info ti;
->>          struct amdgpu_device *adev = ring->adev;
->> +       int ret;
->>
->>          memset(&ti, 0, sizeof(struct amdgpu_task_info));
->>
->> @@ -52,8 +53,11 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
->>                    ti.process_name, ti.tgid, ti.task_name, ti.pid);
->>
->>          if (amdgpu_device_should_recover_gpu(ring->adev)) {
->> -               amdgpu_device_gpu_recover(ring->adev, job);
->> -               return DRM_GPU_SCHED_STAT_NOMINAL;
->> +               ret = amdgpu_device_gpu_recover(ring->adev, job);
->> +               if (ret == DRM_GPU_SCHED_STAT_BAILING)
->> +                       return DRM_GPU_SCHED_STAT_BAILING;
->> +               else
->> +                       return DRM_GPU_SCHED_STAT_NOMINAL;
->>          } else {
->>                  drm_sched_suspend_timeout(&ring->sched);
->>                  if (amdgpu_sriov_vf(adev)) diff --git
->> a/drivers/gpu/drm/scheduler/sched_main.c
->> b/drivers/gpu/drm/scheduler/sched_main.c
->> index 92d8de24d0a1..a44f621fb5c4 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -314,6 +314,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
->>   {
->>          struct drm_gpu_scheduler *sched;
->>          struct drm_sched_job *job;
->> +       int ret;
->>
->>          sched = container_of(work, struct drm_gpu_scheduler,
->> work_tdr.work);
->>
->> @@ -331,8 +332,13 @@ static void drm_sched_job_timedout(struct work_struct *work)
->>                  list_del_init(&job->list);
->>                  spin_unlock(&sched->job_list_lock);
->>
->> -               job->sched->ops->timedout_job(job);
->> +               ret = job->sched->ops->timedout_job(job);
->>
->> +               if (ret == DRM_GPU_SCHED_STAT_BAILING) {
->> +                       spin_lock(&sched->job_list_lock);
->> +                       list_add(&job->node, &sched->ring_mirror_list);
->> +                       spin_unlock(&sched->job_list_lock);
->> +               }
+> Adding Alex Desnoyer to the loop as he is the electronic/hardware and
+> bios responsible so, he can
+> provide more information about this.
 
-Problem here that since you already dropped the reset locks you are racing here now against other recovery threads as they process the same mirror list, and yet,I think this solution makes things better then they are now with the leak but still, it's only temporary band-aid until the full solution to be implemented. Probably then worth mentioning here with a comment this it's a temporary fix and that races are possible.
+Hello everyone,
 
-Andrey
+We, Qtechnology, are the OEM of the hardware platform where we
+originally discovered the bug.  Our platform is based on the AMD
+Dibbler V-1000 reference design, with the latest Insyde BIOS release
+available for the (now unsupported) Dibbler platform.  We have the
+Insyde BIOS source code internally, so we can make some modifications
+as needed.
 
->>                  /*
->>                   * Guilty job did complete and hence needs to be manually removed
->>                   * See drm_sched_stop doc.
->> diff --git a/include/drm/gpu_scheduler.h
->> b/include/drm/gpu_scheduler.h index 4ea8606d91fe..8093ac2427ef 100644
->> --- a/include/drm/gpu_scheduler.h
->> +++ b/include/drm/gpu_scheduler.h
->> @@ -210,6 +210,7 @@ enum drm_gpu_sched_stat {
->>          DRM_GPU_SCHED_STAT_NONE, /* Reserve 0 */
->>          DRM_GPU_SCHED_STAT_NOMINAL,
->>          DRM_GPU_SCHED_STAT_ENODEV,
->> +       DRM_GPU_SCHED_STAT_BAILING,
->>   };
->>
->>   /**
->> --
->> 2.25.1
->>
->> _______________________________________________
->> amd-gfx mailing list
->> amd-gfx@lists.freedesktop.org
->> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flis
->> ts.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=04%7C01%7C
->> Andrey.Grodzovsky%40amd.com%7Cb8e9c87369a74a6b0f2a08d8e50d4707%7C3dd8
->> 961fe4884e608e11a82d994e183d%7C0%7C0%7C637511192474845823%7CUnknown%7
->> CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJX
->> VCI6Mn0%3D%7C1000&amp;sdata=FgOIeqk34Sk13L%2BbXYxbqja%2BDY8NSva4wDtUW
->> BMS3q0%3D&amp;reserved=0
+The last test that Daniel and myself performed was on a standard
+Dibbler PCB rev.B1 motherboard (NOT our platform), and using the
+corresponding latest AMD released BIOS "RDB1109GA".  As Daniel wrote,
+the hardware lockup can be reproduced on the Dibbler, even if it has a
+different RID that our V1605B APU.
+
+We also have a Neousys Technology POC-515 embedded computer (V-1000,
+V1605B) in our office.  The Neousys PC also uses Insyde BIOS.  This
+computer is also locking-up in the test.
+https://www.neousys-tech.com/en/product/application/rugged-embedded/poc-500-amd-ryzen-ultra-compact-embedded-computer
+
+
+Digging into the BIOS source code, the only reference to GFXOFF is in
+the SMU and PSP firmware release notes, where some bug fixes have been
+mentioned for previous SMU/PSP releases.  After a quick "git grep -i
+gfx | grep -i off", there seems to be no mention of GFXOFF in the
+Insyde UEFI (inluding AMD PI) code base.  I would appreciate any
+information regarding BIOS modification needed to make the GFXOFF
+feature stable.  As you (Alex Deucher) mentionned, it should be
+functional on all AMD Raven reference platforms.
+
+
+Regards,
+
+Alexandre Desnoyers
+
+
+>
+> I've now done a test on the reference platform (dibbler) with the
+> latest bios available
+> and the hw lockup can be also reproduced with the same steps.
+>
+> For reference, I'm using mainline kernel 5.12-rc2.
+>
+> [    5.938544] [drm] initializing kernel modesetting (RAVEN
+> 0x1002:0x15DD 0x1002:0x15DD 0xC1).
+> [    5.939942] amdgpu: ATOM BIOS: 113-RAVEN-11
+>
+> As in the previous cases, the clocks go to 100% of usage when the hang occurs.
+>
+> However, when the gpu hangs, dmesg output displays the following:
+>
+> [ 1568.279847] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx
+> timeout, signaled seq=188, emitted seq=191
+> [ 1568.434084] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process
+> information: process Xorg pid 311 thread Xorg:cs0 pid 312
+> [ 1568.279847] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx
+> timeout, signaled seq=188, emitted seq=191
+> [ 1568.434084] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process
+> information: process Xorg pid 311 thread Xorg:cs0 pid 312
+> [ 1568.507000] amdgpu 0000:01:00.0: amdgpu: GPU reset begin!
+> [ 1628.491882] rcu: INFO: rcu_sched self-detected stall on CPU
+> [ 1628.491882] rcu:     3-...!: (665 ticks this GP)
+> idle=f9a/1/0x4000000000000000 softirq=188533/188533 fqs=15
+> [ 1628.491882] rcu: rcu_sched kthread timer wakeup didn't happen for
+> 58497 jiffies! g726761 f0x0 RCU_GP_WAIT_FQS(5) ->state=0x402
+> [ 1628.491882] rcu:     Possible timer handling issue on cpu=2
+> timer-softirq=55225
+> [ 1628.491882] rcu: rcu_sched kthread starved for 58500 jiffies!
+> g726761 f0x0 RCU_GP_WAIT_FQS(5) ->state=0x402 ->cpu=2
+> [ 1628.491882] rcu:     Unless rcu_sched kthread gets sufficient CPU
+> time, OOM is now expected behavior.
+> [ 1628.491882] rcu: RCU grace-period kthread stack dump:
+> [ 1628.491882] rcu: Stack dump where RCU GP kthread last ran:
+> [ 1808.518445] rcu: INFO: rcu_sched self-detected stall on CPU
+> [ 1808.518445] rcu:     3-...!: (2643 ticks this GP)
+> idle=f9a/1/0x4000000000000000 softirq=188533/188533 fqs=15
+> [ 1808.518445] rcu: rcu_sched kthread starved for 238526 jiffies!
+> g726761 f0x0 RCU_GP_WAIT_FQS(5) ->state=0x0 ->cpu=2
+> [ 1808.518445] rcu:     Unless rcu_sched kthread gets sufficient CPU
+> time, OOM is now expected behavior.
+> [ 1808.518445] rcu: RCU grace-period kthread stack dump:
+> [ 1808.518445] rcu: Stack dump where RCU GP kthread last ran:
+>
+> >
+> > Daniel
+> >
+> > >
+> > > Alex
+> > >
+> > >
+> > > >
+> > > > Logs:
+> > > > [   27.708348] [drm] initializing kernel modesetting (RAVEN
+> > > > 0x1002:0x15DD 0x1002:0x15DD 0x83).
+> > > > [   27.789156] amdgpu: ATOM BIOS: 113-RAVEN-115
+> > > >
+> > > > Thanks in advance,
+> > > > Daniel
+> > > >
+> > > >  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 2 ++
+> > > >  1 file changed, 2 insertions(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> > > > index 65db88bb6cbc..319d4b99aec8 100644
+> > > > --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> > > > +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> > > > @@ -1243,6 +1243,8 @@ static const struct amdgpu_gfxoff_quirk amdgpu_gfxoff_quirk_list[] = {
+> > > >         { 0x1002, 0x15dd, 0x103c, 0x83e7, 0xd3 },
+> > > >         /* GFXOFF is unstable on C6 parts with a VBIOS 113-RAVEN-114 */
+> > > >         { 0x1002, 0x15dd, 0x1002, 0x15dd, 0xc6 },
+> > > > +       /* GFXOFF provokes a hw lockup on 83 parts with a VBIOS 113-RAVEN-115 */
+> > > > +       { 0x1002, 0x15dd, 0x1002, 0x15dd, 0x83 },
+> > > >         { 0, 0, 0, 0, 0 },
+> > > >  };
+> > > >
+> > > > --
+> > > > 2.30.1
+> > > >
+> > > > _______________________________________________
+> > > > dri-devel mailing list
+> > > > dri-devel@lists.freedesktop.org
+> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
