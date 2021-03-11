@@ -2,39 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8417B337072
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 11:49:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8312E33707E
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 11:51:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E9366EB9A;
-	Thu, 11 Mar 2021 10:49:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44E276EB9C;
+	Thu, 11 Mar 2021 10:51:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E0C36EB95;
- Thu, 11 Mar 2021 10:49:12 +0000 (UTC)
-IronPort-SDR: go6Wn1r1Y8gow8lz5c6fwZGn9lEL6fxGiMQmhapZs9/AywGYZ+pQU6c8aVnEm5I+trsOKAMJJc
- cKreHkdWaCTA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="176242248"
-X-IronPort-AV: E=Sophos;i="5.81,240,1610438400"; d="scan'208";a="176242248"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2021 02:49:11 -0800
-IronPort-SDR: au1Y/pof0zWoo4huWC2iB5+sS8WDkSI849xLgLLvEHcbW0FUOmyRA6tz/zdmi4iDxf19FEZfKn
- CmemL5LYLI5Q==
-X-IronPort-AV: E=Sophos;i="5.81,240,1610438400"; d="scan'208";a="404035799"
-Received: from dlesin-mobl.ccr.corp.intel.com (HELO [10.252.33.11])
- ([10.252.33.11])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2021 02:49:06 -0800
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <4606f08e-d0e8-c543-5e96-cee2fd728a41@linux.intel.com>
-Date: Thu, 11 Mar 2021 11:49:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C48B6EB9C
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 10:51:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 0FB7B64FC3
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 10:51:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1615459881;
+ bh=HkJUDF0gM1hl7mHZTbDawEUDaxK5RmrWi653c862yxA=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=IuQrWKSit1C0oALQyLVNekXYKM8BVy8NCJd1/t5qYkwzpYAeQLJPhxymCjljY57lY
+ MnVUg1undy2z7rrhcvD9Z6Vnxl7rKjWT08RQPYovEtlKfAyLDcrdOwrH+W6FVT2PLn
+ wtJcfOEgSPTkOCOWh5oJg0tyqYhP75sfW7uR/Dp8Gl93jpd1uviXE55jqj5JbRRopE
+ ZL1LGNNva8ch9YefAr3hCFu5qOS24GsBAxdn9FmPJrxHbGf07R/3Ovk001diADsJCY
+ aguftGsJbn/0XnhfNu9P7Wb7glsAOFMdjkovUaLM0svX1PQG11776OrZ3Bm2OGbhZD
+ L0tRTp+/FP4Dw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id E9500653BD; Thu, 11 Mar 2021 10:51:20 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212229] STM32F469: vblank wait timed out on output to
+ /sys/class/graphics/fb0/pan
+Date: Thu, 11 Mar 2021 10:51:20 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Console/Framebuffers
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: eugentoo@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: jsimmons@infradead.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-212229-2300-YJyGpOY1BR@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212229-2300@https.bugzilla.kernel.org/>
+References: <bug-212229-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,78 +64,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ZHJtLW1pc2MtZml4ZXMtMjAyMS0wMy0xMToKZHJtLW1pc2MtZml4ZXMgZm9yIHJjMywgcmViYXNl
-ZCBvbiByYzI6Ci0gRml4IG9vcHMgaW4gZHJtX2ZiZGV2X2NsZWFudXAoKQotIHVucGluIHF4bCBi
-b3MgY3JlYXRlZCBhcyBwaW5uZWQgd2hlbiBmcmVlaW5nIHRoZW0sCiAgYW5kIG1ha2UgdHRtIG9u
-bHkgd2FybiBvbmNlIG9uIHRoaXMgYmVoYXZpb3IuCi0gVXNlIExDRCBtYW5hZ2VtZW50IGZvciBh
-dHlmYiBvbiBQUENfTUFDLgotIFVzZSBnaXRsYWIgZm9yIGRybSBidWd6aWxsYSBub3cuCi0gRml4
-IHR0bSBwYWdlIHBvb2wgYWNjb3VudGluZy4KLSBaZXJvIGhlYWQuc3VyZmFjZV9pZCBjb3JyZWN0
-bHkgaW4gcXhsLgotIEFzc29ydGVkIGZpeGVzIGZvciBzaG1lbSBoZWxwZXJzLgotIFNodXRkb3du
-IGttcyBwb2xsIGhlbHBlciBpbiBtZXNvbiBjb3JyZWN0bHkuCi0gQ2xlYXIgaG9sZXMgd2hlbiBj
-b252ZXJ0aW5nIGNvbXBhdCBpb2N0bCdzIGJldHdlZW4gMzItYml0cyBhbmQgNjQtYml0cy4KVGhl
-IGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCBhMzhmZDg3NDg0NjQ4MzE1ODRhMTk0Mzhj
-YmIzMDgyYjVhMmRhYjE1OgoKICBMaW51eCA1LjEyLXJjMiAoMjAyMS0wMy0wNSAxNzozMzo0MSAt
-MDgwMCkKCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0OgoKICBnaXQ6Ly9h
-bm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtLW1pc2MgdGFncy9kcm0tbWlzYy1maXhlcy0y
-MDIxLTAzLTExCgpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gZGUwNjZlMTE2MzA2YmFm
-M2E2YTYyNjkxYWM2M2NmYzBiMWRhYmRkYjoKCiAgZHJtL2NvbXBhdDogQ2xlYXIgYm91bmNlIHN0
-cnVjdHVyZXMgKDIwMjEtMDMtMTEgMTE6MTE6MzMgKzAxMDApCgotLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCmRybS1taXNjLWZp
-eGVzIGZvciByYzMsIHJlYmFzZWQgb24gcmMyOgotIEZpeCBvb3BzIGluIGRybV9mYmRldl9jbGVh
-bnVwKCkKLSB1bnBpbiBxeGwgYm9zIGNyZWF0ZWQgYXMgcGlubmVkIHdoZW4gZnJlZWluZyB0aGVt
-LAogIGFuZCBtYWtlIHR0bSBvbmx5IHdhcm4gb25jZSBvbiB0aGlzIGJlaGF2aW9yLgotIFVzZSBM
-Q0QgbWFuYWdlbWVudCBmb3IgYXR5ZmIgb24gUFBDX01BQy4KLSBVc2UgZ2l0bGFiIGZvciBkcm0g
-YnVnemlsbGEgbm93LgotIEZpeCB0dG0gcGFnZSBwb29sIGFjY291bnRpbmcuCi0gWmVybyBoZWFk
-LnN1cmZhY2VfaWQgY29ycmVjdGx5IGluIHF4bC4KLSBBc3NvcnRlZCBmaXhlcyBmb3Igc2htZW0g
-aGVscGVycy4KLSBTaHV0ZG93biBrbXMgcG9sbCBoZWxwZXIgaW4gbWVzb24gY29ycmVjdGx5Lgot
-IENsZWFyIGhvbGVzIHdoZW4gY29udmVydGluZyBjb21wYXQgaW9jdGwncyBiZXR3ZWVuIDMyLWJp
-dHMgYW5kIDY0LWJpdHMuCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkFudGhvbnkgRGVSb3NzaSAoMSk6CiAgICAgIGRybS90
-dG06IEZpeCBUVE0gcGFnZSBwb29sIGFjY291bnRpbmcKCkFydGVtIExhcGtpbiAoMSk6CiAgICAg
-IGRybTogbWVzb25fZHJ2IGFkZCBzaHV0ZG93biBmdW5jdGlvbgoKQ2hyaXN0aWFuIEvDtm5pZyAo
-MSk6CiAgICAgIGRybS90dG06IHNvZnRlbiBUVE0gd2FybmluZ3MKCkNvbGluIElhbiBLaW5nICgx
-KToKICAgICAgcXhsOiBGaXggdW5pbml0aWFsaXNlZCBzdHJ1Y3QgZmllbGQgaGVhZC5zdXJmYWNl
-X2lkCgpEYW5pZWwgVmV0dGVyICgxKToKICAgICAgZHJtL2NvbXBhdDogQ2xlYXIgYm91bmNlIHN0
-cnVjdHVyZXMKCkdlcmQgSG9mZm1hbm4gKDIpOgogICAgICBkcm0vcXhsOiB1bnBpbiByZWxlYXNl
-IG9iamVjdHMKICAgICAgZHJtL3F4bDogZml4IGxvY2tkZXAgaXNzdWUgaW4gcXhsX2FsbG9jX3Jl
-bGVhc2VfcmVzZXJ2ZWQKCk5laWwgUm9iZXJ0cyAoMik6CiAgICAgIGRybS9zaG1lbS1oZWxwZXI6
-IENoZWNrIGZvciBwdXJnZWQgYnVmZmVycyBpbiBmYXVsdCBoYW5kbGVyCiAgICAgIGRybS9zaG1l
-bS1oZWxwZXI6IERvbid0IHJlbW92ZSB0aGUgb2Zmc2V0IGluIHZtX2FyZWFfc3RydWN0IHBnb2Zm
-CgpOb3JhbGYgVHLDuG5uZXMgKDEpOgogICAgICBkcm0vc2htZW0taGVscGVyczogdnVubWFwOiBE
-b24ndCBwdXQgcGFnZXMgZm9yIGRtYS1idWYKClBhdmVsIFR1cmluc2vDvSAoMSk6CiAgICAgIE1B
-SU5UQUlORVJTOiB1cGRhdGUgZHJtIGJ1ZyByZXBvcnRpbmcgVVJMCgpSYW5keSBEdW5sYXAgKDIp
-OgogICAgICBmYmRldjogYXR5ZmI6IGFsd2F5cyBkZWNsYXJlIGF0eV97bGQsc3R9X2xjZCgpCiAg
-ICAgIGZiZGV2OiBhdHlmYjogdXNlIExDRCBtYW5hZ2VtZW50IGZ1bmN0aW9ucyBmb3IgUFBDX1BN
-QUMgYWxzbwoKVGhvbWFzIFppbW1lcm1hbm4gKDEpOgogICAgICBkcm06IFVzZSBVU0IgY29udHJv
-bGxlcidzIERNQSBtYXNrIHdoZW4gaW1wb3J0aW5nIGRtYWJ1ZnMKClRvbmcgWmhhbmcgKDEpOgog
-ICAgICBkcm0vZmItaGVscGVyOiBvbmx5IHVubWFwIGlmIGJ1ZmZlciBub3QgbnVsbAoKIERvY3Vt
-ZW50YXRpb24vZ3B1L3RvZG8ucnN0ICAgICAgICAgICAgIHwgMjEgKysrKysrKysrKysrKysrKwog
-TUFJTlRBSU5FUlMgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQogZHJpdmVycy9n
-cHUvZHJtL2RybV9mYl9oZWxwZXIuYyAgICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2Ry
-bV9nZW1fc2htZW1faGVscGVyLmMgfCAzMiArKysrKysrKysrKysrKysrKy0tLS0tLS0tCiBkcml2
-ZXJzL2dwdS9kcm0vZHJtX2lvYzMyLmMgICAgICAgICAgICB8IDExICsrKysrKysrKwogZHJpdmVy
-cy9ncHUvZHJtL21lc29uL21lc29uX2Rydi5jICAgICAgfCAxMSArKysrKysrKysKIGRyaXZlcnMv
-Z3B1L2RybS9xeGwvcXhsX2Rpc3BsYXkuYyAgICAgIHwgIDEgKwogZHJpdmVycy9ncHUvZHJtL3F4
-bC9xeGxfcmVsZWFzZS5jICAgICAgfCAxMiArKysrKysrKy0tCiBkcml2ZXJzL2dwdS9kcm0vdGlu
-eS9nbTEydTMyMC5jICAgICAgICB8IDQ0ICsrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0t
-LS0KIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgICAgICAgICAgIHwgIDggKysrKystLQog
-ZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcG9vbC5jICAgICAgICAgfCAgNCArKy0tCiBkcml2ZXJz
-L2dwdS9kcm0vdWRsL3VkbF9kcnYuYyAgICAgICAgICB8IDE3ICsrKysrKysrKysrKysKIGRyaXZl
-cnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5oICAgICAgICAgIHwgIDEgKwogZHJpdmVycy9ncHUvZHJt
-L3VkbC91ZGxfbWFpbi5jICAgICAgICAgfCAxMCArKysrKysrKwogZHJpdmVycy91c2IvY29yZS91
-c2IuYyAgICAgICAgICAgICAgICAgfCAzMiArKysrKysrKysrKysrKysrKysrKysrKysrCiBkcml2
-ZXJzL3ZpZGVvL2ZiZGV2L2F0eS9hdHlmYi5oICAgICAgICB8ICAzIC0tLQogZHJpdmVycy92aWRl
-by9mYmRldi9hdHkvYXR5ZmJfYmFzZS5jICAgfCAgOSArKystLS0tCiBpbmNsdWRlL2xpbnV4L3Vz
-Yi5oICAgICAgICAgICAgICAgICAgICB8ICAyICsrCiAxOCBmaWxlcyBjaGFuZ2VkLCAxODkgaW5z
-ZXJ0aW9ucygrKSwgMzMgZGVsZXRpb25zKC0pCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+https://bugzilla.kernel.org/show_bug.cgi?id=212229
+
+Yauheni Saldatsenka (eugentoo@gmail.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|Linux version 5.9.16        |Linux version 5.9.16
+                   |(ygenks@xps)                |(arm-buildroot-uclinux-ucli
+                   |(arm-buildroot-uclinux-ucli |bcgnueabi-gcc.br_real
+                   |bcgnueabi-gcc.br_real       |(Buildroot
+                   |(Buildroot                  |2020.11.2-87-g0611b1a4ab)
+                   |2020.11.2-87-g0611b1a4ab)   |9.3.0, GNU ld (GNU
+                   |9.3.0, GNU ld (GNU          |Binutils) 2.32) #3 PREEMPT
+                   |Binutils) 2.32) #3 PREEMPT  |Thu Mar 11 12:39:46 +03
+                   |Thu Mar 11 12:39:46 +03     |2021
+                   |2021                        |
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are on the CC list for the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
