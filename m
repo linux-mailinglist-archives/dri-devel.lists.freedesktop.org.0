@@ -1,57 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8312E33707E
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 11:51:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B61EE33714F
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 12:28:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44E276EB9C;
-	Thu, 11 Mar 2021 10:51:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE4AD6EC07;
+	Thu, 11 Mar 2021 11:28:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C48B6EB9C
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 10:51:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 0FB7B64FC3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 10:51:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615459881;
- bh=HkJUDF0gM1hl7mHZTbDawEUDaxK5RmrWi653c862yxA=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=IuQrWKSit1C0oALQyLVNekXYKM8BVy8NCJd1/t5qYkwzpYAeQLJPhxymCjljY57lY
- MnVUg1undy2z7rrhcvD9Z6Vnxl7rKjWT08RQPYovEtlKfAyLDcrdOwrH+W6FVT2PLn
- wtJcfOEgSPTkOCOWh5oJg0tyqYhP75sfW7uR/Dp8Gl93jpd1uviXE55jqj5JbRRopE
- ZL1LGNNva8ch9YefAr3hCFu5qOS24GsBAxdn9FmPJrxHbGf07R/3Ovk001diADsJCY
- aguftGsJbn/0XnhfNu9P7Wb7glsAOFMdjkovUaLM0svX1PQG11776OrZ3Bm2OGbhZD
- L0tRTp+/FP4Dw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id E9500653BD; Thu, 11 Mar 2021 10:51:20 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212229] STM32F469: vblank wait timed out on output to
- /sys/class/graphics/fb0/pan
-Date: Thu, 11 Mar 2021 10:51:20 +0000
-X-Bugzilla-Reason: CC
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Console/Framebuffers
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: eugentoo@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: jsimmons@infradead.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_kernel_version
-Message-ID: <bug-212229-2300-YJyGpOY1BR@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212229-2300@https.bugzilla.kernel.org/>
-References: <bug-212229-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34BD76E4FE;
+ Thu, 11 Mar 2021 11:28:15 +0000 (UTC)
+IronPort-SDR: zuFQGZp3nXJVtnvEcDaETh2Ont5H4enkmORU4KZSt1WgvJuwiAHmcnsMZXqs8VoX1fo3A3hYVS
+ f3opZ3WfNK0A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="252668862"
+X-IronPort-AV: E=Sophos;i="5.81,240,1610438400"; d="scan'208";a="252668862"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2021 03:28:14 -0800
+IronPort-SDR: 2toK/gpDXmqIhoXRbB/I1TnCo7z9qTPyFYBfYkyTt3BmieNbS7P7MKm/4BjPZpv1Ic+7EgnVd0
+ FuBWlnUWG7Ew==
+X-IronPort-AV: E=Sophos;i="5.81,240,1610438400"; d="scan'208";a="438171636"
+Received: from kmosiien-mobl1.amr.corp.intel.com (HELO intel.com)
+ ([10.212.236.4])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2021 03:28:11 -0800
+Date: Thu, 11 Mar 2021 06:28:09 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Message-ID: <YEn+yXnNFFoW5+CF@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,33 +45,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=212229
+Hi Dave and Daniel,
 
-Yauheni Saldatsenka (eugentoo@gmail.com) changed:
+Things are very quiet. Only 1 fix this round.
+Since I will be out next week, if this trend continues I will
+accumulate 2 weeks and send when in -rc4. 
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-     Kernel Version|Linux version 5.9.16        |Linux version 5.9.16
-                   |(ygenks@xps)                |(arm-buildroot-uclinux-ucli
-                   |(arm-buildroot-uclinux-ucli |bcgnueabi-gcc.br_real
-                   |bcgnueabi-gcc.br_real       |(Buildroot
-                   |(Buildroot                  |2020.11.2-87-g0611b1a4ab)
-                   |2020.11.2-87-g0611b1a4ab)   |9.3.0, GNU ld (GNU
-                   |9.3.0, GNU ld (GNU          |Binutils) 2.32) #3 PREEMPT
-                   |Binutils) 2.32) #3 PREEMPT  |Thu Mar 11 12:39:46 +03
-                   |Thu Mar 11 12:39:46 +03     |2021
-                   |2021                        |
+Here goes drm-intel-fixes-2021-03-11:
 
--- 
-You may reply to this email to add a comment.
+- Wedge the GPU if command parser setup fails (Tvrtko)
 
-You are receiving this mail because:
-You are on the CC list for the bug.
+Thanks,
+Rodrigo.
+
+The following changes since commit fe07bfda2fb9cdef8a4d4008a409bb02f35f1bd8:
+
+  Linux 5.12-rc1 (2021-02-28 16:05:19 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2021-03-11
+
+for you to fetch changes up to c3d2c6770b4bc34f4de9f4097e5f0ded75d6b98d:
+
+  drm/i915: Wedge the GPU if command parser setup fails (2021-03-04 10:38:33 -0500)
+
+----------------------------------------------------------------
+- Wedge the GPU if command parser setup fails (Tvrtko)
+
+----------------------------------------------------------------
+Tvrtko Ursulin (1):
+      drm/i915: Wedge the GPU if command parser setup fails
+
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c |  7 ++++++-
+ drivers/gpu/drm/i915/i915_cmd_parser.c    | 19 +++++++++++++------
+ drivers/gpu/drm/i915/i915_drv.h           |  2 +-
+ 3 files changed, 20 insertions(+), 8 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
