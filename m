@@ -2,28 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885E733721A
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 13:10:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7CD337239
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Mar 2021 13:15:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 228BF6EC1F;
-	Thu, 11 Mar 2021 12:10:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7078A6EC2B;
+	Thu, 11 Mar 2021 12:15:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47CC36EC1F
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 12:10:55 +0000 (UTC)
-Date: Thu, 11 Mar 2021 12:10:42 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 5/5] drm/ingenic: Add option to alloc cached GEM buffers
-To: Hillf Danton <hdanton@sina.com>
-Message-Id: <UH0TPQ.KCO6Y7W3SH323@crapouillou.net>
-In-Reply-To: <20210311022743.2542-1-hdanton@sina.com>
-References: <20210307202835.253907-1-paul@crapouillou.net>
- <20210307202835.253907-6-paul@crapouillou.net>
- <20210308034727.1951-1-hdanton@sina.com>
- <PTORPQ.3IZFI0X29JNH1@crapouillou.net>
- <20210311022743.2542-1-hdanton@sina.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E69BE6EC2B
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 12:15:48 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6DE1831B;
+ Thu, 11 Mar 2021 04:15:48 -0800 (PST)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 769103F793;
+ Thu, 11 Mar 2021 04:15:47 -0800 (PST)
+Subject: Re: [RFC PATCH 0/7] drm/panfrost: Add a new submit ioctl
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
+References: <20210311092539.2405596-1-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <86062831-6608-9ae7-c513-e74d3a9c2e33@arm.com>
+Date: Thu, 11 Mar 2021 12:16:33 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210311092539.2405596-1-boris.brezillon@collabora.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,418 +44,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@lst.de>,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Le jeu. 11 mars 2021 =E0 10:27, Hillf Danton <hdanton@sina.com> a =E9crit =
-
-:
-> On Wed, 10 Mar 2021 19:01:01 +0000 Paul Cercueil wrote:
->> Le lun. 8 mars 2021  11:47, Hillf Danton <hdanton@sina.com> a crit :
->>>  On Sun,  7 Mar 2021 20:28:35 +0000  Paul Cercueil wrote:
->>>>   With the module parameter ingenic-drm.cached_gem_buffers, it is
->>>>  possible
->>>>   to specify that we want GEM buffers backed by non-coherent =
-
->>>> memory.
->>>> =
-
->>>>   This dramatically speeds up software rendering on Ingenic SoCs,
->>>>  even for
->>>>   tasks where write-combine memory should in theory be faster (e.g.
->>>>  simple
->>>>   blits).
->>> =
-
->>>  Wondering if it is due to the tricks at [1].
->>> =
-
->>>  If so, is dma_alloc_noncoherent() necessary in this patchset?
->> =
-
->> You confuse non-contiguous with non-coherent, which are two different
->> things.
-> =
-
-> You misunderstood me. From [1] we know coherent caching is arch thing,
-> so your proposal is not mandatory on ARM IMHO - what baffles me is
-> noncoherent back memory can speed up device, coherent ot not, =
-
-> regardless
-> of arch. Can you point me to the reasons behind your speedup?
-
-Well, I did write in the cover letter that it would help *some* SoCs, =
-
-so it is not meant to be a default setting. As you can see in the last =
-
-patch, it is opt-in. Ingenic SoCs are MIPS SoCs, btw.
-
-One thing I should add is that this speeds up *software* rendering (vs. =
-
-write-combine). It makes perfect sense that it speeds up things like =
-
-alpha-blending, but I can't explain why it speeds up standard blits. My =
-
-guess is that cache line invalidation is just extremely fast on this =
-
-SoC.
-
--Paul
-
->> =
-
->> Cheers,
->> -Paul
->> =
-
->>>  Christoph can you give us a concise lesson on noncoherency covering
->>>  at least
->>>  noncoherent device, noncoherent memory(used in this work), no =
-
->>> coherent
->>>  caching(in [1]), their links to speedup, and the thumb rule to =
-
->>> handle
->>>  noncoherency in workdays. It feels toe curling every time I see
->>>  noncoherence
->>>  going downtown with speedup hand in hand.
->>> =
-
->>>  [1] Subject: [PATCH 6/6] media: uvcvideo: Use =
-
->>> dma_alloc_noncontiguos
->>>  API
->>>  https://lore.kernel.org/lkml/20210301085236.947011-7-hch@lst.de/#t
->>> =
-
->>>> =
-
->>>>   Leave it disabled by default, since it is specific to one =
-
->>>> use-case
->>>>   (software rendering).
->>>> =
-
->>>>   v2: Rework code to work with new DRM APIs regarding plane states
->>>> =
-
->>>>   Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>>>   ---
->>>>    drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 49
->>>>  ++++++++++++++++++++++-
->>>>    drivers/gpu/drm/ingenic/ingenic-drm.h     |  4 ++
->>>>    drivers/gpu/drm/ingenic/ingenic-ipu.c     | 14 ++++++-
->>>>    3 files changed, 63 insertions(+), 4 deletions(-)
->>>> =
-
->>>>   diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>>>  b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>>>   index d60e1eefc9d1..ba1ac0fcda74 100644
->>>>   --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>>>   +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>>>   @@ -9,6 +9,7 @@
->>>>    #include <linux/component.h>
->>>>    #include <linux/clk.h>
->>>>    #include <linux/dma-mapping.h>
->>>>   +#include <linux/io.h>
->>>>    #include <linux/module.h>
->>>>    #include <linux/mutex.h>
->>>>    #include <linux/of_device.h>
->>>>   @@ -23,6 +24,7 @@
->>>>    #include <drm/drm_color_mgmt.h>
->>>>    #include <drm/drm_crtc.h>
->>>>    #include <drm/drm_crtc_helper.h>
->>>>   +#include <drm/drm_damage_helper.h>
->>>>    #include <drm/drm_drv.h>
->>>>    #include <drm/drm_gem_cma_helper.h>
->>>>    #include <drm/drm_fb_cma_helper.h>
->>>>   @@ -99,6 +101,11 @@ struct ingenic_drm {
->>>>    	struct notifier_block clock_nb;
->>>>    };
->>>> =
-
->>>>   +static bool ingenic_drm_cached_gem_buf;
->>>>   +module_param_named(cached_gem_buffers, =
-
->>>> ingenic_drm_cached_gem_buf,
->>>>  bool, 0400);
->>>>   +MODULE_PARM_DESC(cached_gem_buffers,
->>>>   +		 "Enable fully cached GEM buffers [default=3Dfalse]");
->>>>   +
->>>>    static bool ingenic_drm_writeable_reg(struct device *dev, =
-
->>>> unsigned
->>>>  int reg)
->>>>    {
->>>>    	switch (reg) {
->>>>   @@ -410,6 +417,8 @@ static int
->>>>  ingenic_drm_plane_atomic_check(struct drm_plane *plane,
->>>>    	     old_plane_state->fb->format->format !=3D
->>>>  new_plane_state->fb->format->format))
->>>>    		crtc_state->mode_changed =3D true;
->>>> =
-
->>>>   +	drm_atomic_helper_check_plane_damage(state, new_plane_state);
->>>>   +
->>>>    	return 0;
->>>>    }
->>>> =
-
->>>>   @@ -541,10 +550,20 @@ static void =
-
->>>> ingenic_drm_update_palette(struct
->>>>  ingenic_drm *priv,
->>>>    	}
->>>>    }
->>>> =
-
->>>>   +void ingenic_drm_sync_data(struct device *dev,
->>>>   +			   struct drm_plane_state *old_state,
->>>>   +			   struct drm_plane_state *state)
->>>>   +{
->>>>   +	if (ingenic_drm_cached_gem_buf)
->>>>   +		drm_gem_cma_sync_data(dev, old_state, state);
->>>>   +}
->>>>   +
->>>>    static void ingenic_drm_plane_atomic_update(struct drm_plane
->>>>  *plane,
->>>>    					    struct drm_atomic_state *state)
->>>>    {
->>>>    	struct ingenic_drm *priv =3D drm_device_get_priv(plane->dev);
->>>>   +	struct drm_plane_state *oldstate =3D
->>>>  drm_atomic_get_old_plane_state(state,
->>>>   +									  plane);
->>>>    	struct drm_plane_state *newstate =3D
->>>>  drm_atomic_get_new_plane_state(state,
->>>>    									  plane);
->>>>    	struct drm_crtc_state *crtc_state;
->>>>   @@ -554,6 +573,8 @@ static void
->>>>  ingenic_drm_plane_atomic_update(struct drm_plane *plane,
->>>>    	u32 fourcc;
->>>> =
-
->>>>    	if (newstate && newstate->fb) {
->>>>   +		ingenic_drm_sync_data(priv->dev, oldstate, newstate);
->>>>   +
->>>>    		crtc_state =3D newstate->crtc->state;
->>>> =
-
->>>>    		addr =3D drm_fb_cma_get_gem_addr(newstate->fb, newstate, 0);
->>>>   @@ -743,6 +764,26 @@ static void =
-
->>>> ingenic_drm_disable_vblank(struct
->>>>  drm_crtc *crtc)
->>>>    	regmap_update_bits(priv->map, JZ_REG_LCD_CTRL,
->>>>  JZ_LCD_CTRL_EOF_IRQ, 0);
->>>>    }
->>>> =
-
->>>>   +static struct drm_framebuffer *
->>>>   +ingenic_drm_gem_fb_create(struct drm_device *dev, struct =
-
->>>> drm_file
->>>>  *file,
->>>>   +			  const struct drm_mode_fb_cmd2 *mode_cmd)
->>>>   +{
->>>>   +	if (ingenic_drm_cached_gem_buf)
->>>>   +		return drm_gem_fb_create_with_dirty(dev, file, mode_cmd);
->>>>   +
->>>>   +	return drm_gem_fb_create(dev, file, mode_cmd);
->>>>   +}
->>>>   +
->>>>   +static int ingenic_drm_gem_cma_dumb_create(struct drm_file
->>>>  *file_priv,
->>>>   +					   struct drm_device *drm,
->>>>   +					   struct drm_mode_create_dumb *args)
->>>>   +{
->>>>   +	if (ingenic_drm_cached_gem_buf)
->>>>   +		return drm_gem_cma_dumb_create_noncoherent(file_priv, drm, =
-
->>>> args);
->>>>   +
->>>>   +	return drm_gem_cma_dumb_create(file_priv, drm, args);
->>>>   +}
->>>>   +
->>>>    DEFINE_DRM_GEM_CMA_FOPS(ingenic_drm_fops);
->>>> =
-
->>>>    static const struct drm_driver ingenic_drm_driver_data =3D {
->>>>   @@ -755,7 +796,7 @@ static const struct drm_driver
->>>>  ingenic_drm_driver_data =3D {
->>>>    	.patchlevel		=3D 0,
->>>> =
-
->>>>    	.fops			=3D &ingenic_drm_fops,
->>>>   -	DRM_GEM_CMA_DRIVER_OPS,
->>>> =
-
->>>>  =
-
->>>> +	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(ingenic_drm_gem_cma_dumb_cre=
-ate),
->>>> =
-
->>>>    	.irq_handler		=3D ingenic_drm_irq_handler,
->>>>    };
->>>>   @@ -805,7 +846,7 @@ static const struct drm_encoder_helper_funcs
->>>>  ingenic_drm_encoder_helper_funcs =3D
->>>>    };
->>>> =
-
->>>>    static const struct drm_mode_config_funcs
->>>>  ingenic_drm_mode_config_funcs =3D {
->>>>   -	.fb_create		=3D drm_gem_fb_create,
->>>>   +	.fb_create		=3D ingenic_drm_gem_fb_create,
->>>>    	.output_poll_changed	=3D drm_fb_helper_output_poll_changed,
->>>>    	.atomic_check		=3D drm_atomic_helper_check,
->>>>    	.atomic_commit		=3D drm_atomic_helper_commit,
->>>>   @@ -962,6 +1003,8 @@ static int ingenic_drm_bind(struct device
->>>>  *dev, bool has_components)
->>>>    		return ret;
->>>>    	}
->>>> =
-
->>>>   +	drm_plane_enable_fb_damage_clips(&priv->f1);
->>>>   +
->>>>    	drm_crtc_helper_add(&priv->crtc, =
-
->>>> &ingenic_drm_crtc_helper_funcs);
->>>> =
-
->>>>    	ret =3D drm_crtc_init_with_planes(drm, &priv->crtc, primary,
->>>>   @@ -990,6 +1033,8 @@ static int ingenic_drm_bind(struct device
->>>>  *dev, bool has_components)
->>>>    			return ret;
->>>>    		}
->>>> =
-
->>>>   +		drm_plane_enable_fb_damage_clips(&priv->f0);
->>>>   +
->>>>    		if (IS_ENABLED(CONFIG_DRM_INGENIC_IPU) && has_components) {
->>>>    			ret =3D component_bind_all(dev, drm);
->>>>    			if (ret) {
->>>>   diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.h
->>>>  b/drivers/gpu/drm/ingenic/ingenic-drm.h
->>>>   index 1b4347f7f084..b6bca356e024 100644
->>>>   --- a/drivers/gpu/drm/ingenic/ingenic-drm.h
->>>>   +++ b/drivers/gpu/drm/ingenic/ingenic-drm.h
->>>>   @@ -185,6 +185,10 @@ void ingenic_drm_plane_config(struct device
->>>>  *dev,
->>>>    			      struct drm_plane *plane, u32 fourcc);
->>>>    void ingenic_drm_plane_disable(struct device *dev, struct
->>>>  drm_plane *plane);
->>>> =
-
->>>>   +void ingenic_drm_sync_data(struct device *dev,
->>>>   +			   struct drm_plane_state *old_state,
->>>>   +			   struct drm_plane_state *state);
->>>>   +
->>>>    extern struct platform_driver *ingenic_ipu_driver_ptr;
->>>> =
-
->>>>    #endif /* DRIVERS_GPU_DRM_INGENIC_INGENIC_DRM_H */
->>>>   diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c
->>>>  b/drivers/gpu/drm/ingenic/ingenic-ipu.c
->>>>   index 5ae6adab8306..7826eab044ba 100644
->>>>   --- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
->>>>   +++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
->>>>   @@ -20,6 +20,7 @@
->>>> =
-
->>>>    #include <drm/drm_atomic.h>
->>>>    #include <drm/drm_atomic_helper.h>
->>>>   +#include <drm/drm_damage_helper.h>
->>>>    #include <drm/drm_drv.h>
->>>>    #include <drm/drm_fb_cma_helper.h>
->>>>    #include <drm/drm_fourcc.h>
->>>>   @@ -285,6 +286,8 @@ static void
->>>>  ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
->>>>    					    struct drm_atomic_state *state)
->>>>    {
->>>>    	struct ingenic_ipu *ipu =3D plane_to_ingenic_ipu(plane);
->>>>   +	struct drm_plane_state *oldstate =3D
->>>>  drm_atomic_get_old_plane_state(state,
->>>>   +									  plane);
->>>>    	struct drm_plane_state *newstate =3D
->>>>  drm_atomic_get_new_plane_state(state,
->>>>    									  plane);
->>>>    	const struct drm_format_info *finfo;
->>>>   @@ -317,6 +320,8 @@ static void
->>>>  ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
->>>>    				JZ_IPU_CTRL_CHIP_EN | JZ_IPU_CTRL_LCDC_SEL);
->>>>    	}
->>>> =
-
->>>>   +	ingenic_drm_sync_data(ipu->master, oldstate, newstate);
->>>>   +
->>>>    	/* New addresses will be committed in vblank handler... */
->>>>    	ipu->addr_y =3D drm_fb_cma_get_gem_addr(newstate->fb, newstate, =
-
->>>> 0);
->>>>    	if (finfo->num_planes > 1)
->>>>   @@ -541,7 +546,7 @@ static int
->>>>  ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
->>>> =
-
->>>>    	if (!new_plane_state->crtc ||
->>>>    	    !crtc_state->mode.hdisplay || !crtc_state->mode.vdisplay)
->>>>   -		return 0;
->>>>   +		goto out_check_damage;
->>>> =
-
->>>>    	/* Plane must be fully visible */
->>>>    	if (new_plane_state->crtc_x < 0 || new_plane_state->crtc_y < 0 =
-
->>>> ||
->>>>   @@ -558,7 +563,7 @@ static int
->>>>  ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
->>>>    		return -EINVAL;
->>>> =
-
->>>>    	if (!osd_changed(new_plane_state, old_plane_state))
->>>>   -		return 0;
->>>>   +		goto out_check_damage;
->>>> =
-
->>>>    	crtc_state->mode_changed =3D true;
->>>> =
-
->>>>   @@ -592,6 +597,9 @@ static int
->>>>  ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
->>>>    	ipu->denom_w =3D denom_w;
->>>>    	ipu->denom_h =3D denom_h;
->>>> =
-
->>>>   +out_check_damage:
->>>>   +	drm_atomic_helper_check_plane_damage(state, new_plane_state);
->>>>   +
->>>>    	return 0;
->>>>    }
->>>> =
-
->>>>   @@ -773,6 +781,8 @@ static int ingenic_ipu_bind(struct device =
-
->>>> *dev,
->>>>  struct device *master, void *d)
->>>>    		return err;
->>>>    	}
->>>> =
-
->>>>   +	drm_plane_enable_fb_damage_clips(plane);
->>>>   +
->>>>    	/*
->>>>    	 * Sharpness settings range is [0,32]
->>>>    	 * 0       : nearest-neighbor
->>>>   --
->>>>   2.30.1
-
-
+On 11/03/2021 09:25, Boris Brezillon wrote:
+> Hello,
+> 
+> I've been playing with Vulkan lately and struggled quite a bit to
+> implement VkQueueSubmit with the submit ioctl we have. There are
+> several limiting factors that can be worked around if we really have to,
+> but I think it'd be much easier and future-proof if we introduce a new
+> ioctl that addresses the current limitations:
+
+Hi Boris,
+
+I think what you've proposed is quite reasonable, some detailed comments 
+to your points below.
+
+> 
+> 1/ There can only be one out_sync, but Vulkan might ask us to signal
+>     several VkSemaphores and possibly one VkFence too, both of those
+>     being based on sync objects in my PoC. Making out_sync an array of
+>     syncobjs to attach the render_done fence to would make that possible.
+>     The other option would be to collect syncobj updates in userspace
+>     in a separate thread and propagate those updates to all
+>     semaphores+fences waiting on those events (I think the v3dv driver
+>     does something like that, but I didn't spend enough time studying
+>     the code to be sure, so I might be wrong).
+
+You should be able to avoid the separate thread to propagate by having a 
+proxy object in user space that maps between the one outsync of the job 
+and the possibly many Vulkan objects. But I've had this argument before 
+with the DDK... and the upshot of it was that he Vulkan API is 
+unnecessarily complex here and makes this really hard to do in practise. 
+So I agree adding this capability to the kernel is likely the best approach.
+
+> 2/ Queued jobs might be executed out-of-order (unless they have
+>     explicit/implicit deps between them), and Vulkan asks that the out
+>     fence be signaled when all jobs are done. Timeline syncobjs are a
+>     good match for that use case. All we need to do is pass the same
+>     fence syncobj to all jobs being attached to a single QueueSubmit
+>     request, but a different point on the timeline. The syncobj
+>     timeline wait does the rest and guarantees that we've reached a
+>     given timeline point (IOW, all jobs before that point are done)
+>     before declaring the fence as signaled.
+>     One alternative would be to have dummy 'synchronization' jobs that
+>     don't actually execute anything on the GPU but declare a dependency
+>     on all other jobs that are part of the QueueSubmit request, and
+>     signal the out fence (the scheduler would do most of the work for
+>     us, all we have to do is support NULL job heads and signal the
+>     fence directly when that happens instead of queueing the job).
+
+I have to admit to being rather hazy on the details of timeline 
+syncobjs, but I thought there was a requirement that the timeline moves 
+monotonically. I.e. if you have multiple jobs signalling the same 
+syncobj just with different points, then AFAIU the API requires that the 
+points are triggered in order.
+
+So I'm not sure that you've actually fixed this point - you either need 
+to force an order (in which case the last job can signal the Vulkan 
+fence) or you still need a dummy job to do the many-to-one dependency.
+
+Or I may have completely misunderstood timeline syncobjs - definitely a 
+possibility :)
+
+> 3/ The current implementation lacks information about BO access,
+>     so we serialize all jobs accessing the same set of BOs, even
+>     if those jobs might just be reading from them (which can
+>     happen concurrently). Other drivers pass an access type to the
+>     list of referenced BOs to address that. Another option would be
+>     to disable implicit deps (deps based on BOs) and force the driver
+>     to pass all deps explicitly (interestingly, some drivers have
+>     both the no-implicit-dep and r/w flags, probably to support
+>     sub-resource access, so we might want to add that one too).
+>     I don't see any userspace workaround to that problem, so that one
+>     alone would justify extending the existing ioctl or adding a new
+>     one.
+
+Yeah - I think we need this. My only comment is that I think the 
+read/write terminology may come back to bite. Better to use 'shared' and 
+'exclusive' - which better matches the dma_resv_xxx APIs anyway.
+
+Also the current code completely ignores PANFROST_BO_REF_READ. So either 
+that should be defined as 0, or even better we support 3 modes:
+
+  * Exclusive ('write' access)
+  * Shared ('read' access)
+  * No fence - ensures the BO is mapped, but doesn't add any implicit 
+fences.
+
+The last may make sense when doing explicit fences and e.g. doing 
+front-buffer rendering with a display driver which does implicit fencing.
+
+> 4/ There's also the fact that submitting one job at a time adds an
+>     overhead when QueueSubmit is being passed more than one
+>     CommandBuffer. That one is less problematic, but if we're adding
+>     a new ioctl we'd better design it to limit the userspace -> kernel
+>     transition overhead.
+
+I've no objection - but I doubt the performance effect is significant. I 
+was pleased to see the handling of stride which makes the interface 
+extendable. In particular I suspect at some point we're going to want a 
+priority field in some form.
+
+> Right now I'm just trying to collect feedback. I don't intend to get
+> those patches merged until we have a userspace user, but I thought
+> starting the discussion early would be a good thing.
+> 
+> Feel free to suggest other approaches.
+
+Other than the above I didn't see any obvious issues, and I know the 
+Vulkan API is problematic in terms of synchronisation primitives - so if 
+this makes it easier to implement then it seems like a good idea to me.
+
+Thanks,
+
+Steve
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
