@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999F6338530
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 06:27:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BA6333856B
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 06:33:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 723396F41A;
-	Fri, 12 Mar 2021 05:27:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 996816E0FE;
+	Fri, 12 Mar 2021 05:33:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 898336E120
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 05:27:02 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id n9so14167421pgi.7
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 21:27:02 -0800 (PST)
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E17326E0FE
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 05:33:14 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ nh23-20020a17090b3657b02900c0d5e235a8so10519420pjb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 21:33:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=J5fqwubZg87avI0rRtQwN+SXtjOKj2+8RaJp62TnkpA=;
- b=mf2lohOPVRGidobqklbZjn3Xnmn4GilOSAPz/Es4rZMVhvRFW16qKSvJwGxacizmDM
- tT+ibJwyDMj0dZ0QwtMsGsshtI9JpOBj3AoJvLaAxuhaZ4HL6tkdafRXi5HPx8aFNxZ7
- 4/jSQSqTdf3ieXs01o99B+bOnXCH2Vj1q5a3kEifOFtvDASGY1G+OFDLlWG+R79T9q7h
- sdjbwjQxL/4vjj48pT1ohmJzSy1nFnAXg+AW9fFrnh+JpHsKDI6C6jrmli1PwCO/6P9O
- ggAmfg1YDpRtAAdzDL+kVupEn08FqGF4jO3q4TaMYNg5dJBZY8ewfS1R7G6SA7fUhvy0
- ssOg==
+ bh=Yn9um0RUV5qS6ZDS+XmJIEF5UruSaGYqcCAn+8nlwK0=;
+ b=AsT0a31K/s61Ur3ZyBxZIWuCMUPx2OBLJZtWxZ9I7oct+ejDM6jX9oK7HtwlYiPt7T
+ dQjLuYCZAG8rAuj79j6RFrwqsCBWIHl1zZxIxaGWyL3wXzAFxfvOrg1KVUKkCisdS34d
+ 5unwD/W+yvGr48R+MEJBx6+vSiF9GuC3bTT6PSiuioz6uxAswGWKYpDGRzTepzNoAdRP
+ 3zIxwnJJsHmQdX+JNQmt3cWaVTgrPnJuzFDEUWUoCjL87wnD0EeFgsqOudsTwbftnhUq
+ yCyR5d02IREhzNavc0wn85MY5VtSWg6BNEHGcN1VNCOVrtgMOvXZX1TUN4TzPyMcy21z
+ fhqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=J5fqwubZg87avI0rRtQwN+SXtjOKj2+8RaJp62TnkpA=;
- b=dhlg3V7qcQ+re09l5ZfY4KdnCyC8djA4BCUOkmbZK1t1/7l4Uzoj9t5JQlaaaQE0cM
- 2YD4wLsCjXoNc5I4Xfuh9MPBz7aA3H7nJuNl2FQ+I74sVFCmnYrhD+WxmoeGISwRJFiW
- /tW2Dr9/0OVPCCxy9UD/uPia0NlgAv9l0Rv4UAUpVAW8KXP6Coe7MMA4tcuNWbf4PY1d
- tRHjbx3KrMHSTVJtLZVNSDH4J+bBqH/UX+sNDzztGJiOKX0JyuOMXGCqZYDwnsgBH5Lk
- 5+XPNSbA99Qywzow25G6s/LNO7n9xQJg8CUbrG6NDy6j+6t4C//txXjW5kwULT47ZCZw
- RH1w==
-X-Gm-Message-State: AOAM530biB9f7oYlI3k11EG4yTcMzC0lROHi8j/c2b9HjTvScM92FACB
- BmkZb9ou7uamDV4X7xj48s7TdA==
-X-Google-Smtp-Source: ABdhPJxSydG1zZQdQJipt4kFNAl189iLlI7sOzPMgqns7aTDEbaSzTwo9QPnHQ8GgoEZNmcDOq5YJA==
-X-Received: by 2002:a62:84c3:0:b029:1f5:8dbf:4e89 with SMTP id
- k186-20020a6284c30000b02901f58dbf4e89mr10615120pfd.49.1615526821953; 
- Thu, 11 Mar 2021 21:27:01 -0800 (PST)
+ bh=Yn9um0RUV5qS6ZDS+XmJIEF5UruSaGYqcCAn+8nlwK0=;
+ b=DA42wQCYtXE7vi3z/WpL/2+oVUdnqHVsPuoR2s9BAD89wNJXzKr4nn634rtHYkdRTw
+ 8dO3T2mLlr7CQfAAOvLVrl/A+MtXBNGC9hCDcrSNYypWYgRRdVJ6qzddzgIGFoGTEm94
+ RMqRRd90WRTCyCQgVSUZ5tlECcALiCK0OVbRiRvmwYPaq+qir+tZlA2rfJJcldzheNAS
+ F+o1NOyePPicWE3OgwpehkIaPjwiSp3YMQjGBoW8YibYrEj6OTeUZUzMsyVamWQZv8Cp
+ fnDO2Inc/x3d+d17lLd2TcAqqyVYPn4OOHaqU/3k/V5JGTu6ml0pIVqVMz/0R+aDq6Rf
+ C1eQ==
+X-Gm-Message-State: AOAM53253JGHiXznE86AfR69hwoCx/TtA6rLrPIGYQ6t2zeVGTDhSG8v
+ Z/5CAksvXYYLtwjcXojOz8KJKQ==
+X-Google-Smtp-Source: ABdhPJyDxvuOHwV2kjRNLGoR8RcX493onMZPdYf0HajVty4Da/2VfFbEKgGgJtSunQpX+xy+QefzoQ==
+X-Received: by 2002:a17:902:e78e:b029:e4:84c1:51ce with SMTP id
+ cp14-20020a170902e78eb02900e484c151cemr11595726plb.25.1615527194476; 
+ Thu, 11 Mar 2021 21:33:14 -0800 (PST)
 Received: from localhost ([122.171.124.15])
- by smtp.gmail.com with ESMTPSA id a144sm4185197pfd.200.2021.03.11.21.27.00
+ by smtp.gmail.com with ESMTPSA id z2sm4059367pfq.198.2021.03.11.21.33.13
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 11 Mar 2021 21:27:01 -0800 (PST)
-Date: Fri, 12 Mar 2021 10:56:59 +0530
+ Thu, 11 Mar 2021 21:33:13 -0800 (PST)
+Date: Fri, 12 Mar 2021 11:03:12 +0530
 From: Viresh Kumar <viresh.kumar@linaro.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v2 05/14] opp: Add devres wrapper for
- dev_pm_opp_register_notifier
-Message-ID: <20210312052659.uih7ikjdnkc5kl4j@vireshk-i7>
+Subject: Re: [PATCH v2 01/14] opp: Add devres wrapper for
+ dev_pm_opp_set_clkname
+Message-ID: <20210312053312.zgke2mzjkqmwn67i@vireshk-i7>
 References: <20210311192105.14998-1-digetx@gmail.com>
- <20210311192105.14998-6-digetx@gmail.com>
+ <20210311192105.14998-2-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210311192105.14998-6-digetx@gmail.com>
+In-Reply-To: <20210311192105.14998-2-digetx@gmail.com>
 User-Agent: NeoMutt/20180716-391-311a52
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,20 +96,29 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11-03-21, 22:20, Dmitry Osipenko wrote:
-> From: Yangtao Li <tiny.windzz@gmail.com>
-> 
-> Add devres wrapper for dev_pm_opp_register_notifier() to simplify driver
-> code.
-> 
-> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/opp/core.c     | 38 ++++++++++++++++++++++++++++++++++++++
->  include/linux/pm_opp.h |  6 ++++++
->  2 files changed, 44 insertions(+)
+> +struct opp_table *devm_pm_opp_set_clkname(struct device *dev, const char *name)
+> +{
+> +	struct opp_table *opp_table;
+> +	int err;
+> +
+> +	opp_table = dev_pm_opp_set_clkname(dev, name);
+> +	if (IS_ERR(opp_table))
+> +		return opp_table;
+> +
+> +	err = devm_add_action_or_reset(dev, devm_pm_opp_clkname_release, opp_table);
+> +	if (err)
+> +		opp_table = ERR_PTR(err);
+> +
+> +	return opp_table;
+> +}
 
-As I said in the previous version, I am not sure if we need this patch
-at all. This has only one user.
+I wonder if we still need to return opp_table from here, or a simple
+integer is fine.. The callers shouldn't be required to use the OPP
+table directly anymore I believe and so better simplify the return
+part of this and all other routines you are adding here..
+
+If there is a user which needs the opp_table, let it use the regular
+non-devm variant.
 
 -- 
 viresh
