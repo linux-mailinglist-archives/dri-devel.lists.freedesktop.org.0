@@ -2,60 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7640A3384A5
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 05:31:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA02F3384AF
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 05:32:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AB236F416;
-	Fri, 12 Mar 2021 04:31:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C80B06E104;
+	Fri, 12 Mar 2021 04:32:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81CDE6F418
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 04:31:36 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id x135so21093365oia.9
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Mar 2021 20:31:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:date:message-id:in-reply-to:references:user-agent
- :subject:mime-version;
- bh=P7ZFSryoemPw5X1XfPOJ+rZNet/zsDUi+x+BQiS5pCs=;
- b=0TvvU1vSlletijzm1pFi+d98wCVPzftJsTf4nlBrqVD08HoET642ZlVrIcdlgAfE1c
- 6KGUmzD0i1ZpZaoV4604NVAXIm1jRWu5KCOEDuiSSF8J1tB+JQ7zyaF32iH9wHOKE/o+
- dqpi1mja6dhx9KUiJGkCGpeLyWBbJVIg9Ed2ufs69EeWQWom+vj5qnp0BrXR0WzZzMhN
- MnpkQpnYR9I/gfRROyegZLhA+91Phf1etvoATzO8+pIc/q4Hw0Igcl+ygY3bwzrmz8PP
- c+IhLBDU0ps9Dr9Nyeyq5dWSffqUz6i4GM1M0S6T9JLkJLOqsGXLZRrHIkARlV7QvNYM
- pS+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:date:message-id:in-reply-to
- :references:user-agent:subject:mime-version;
- bh=P7ZFSryoemPw5X1XfPOJ+rZNet/zsDUi+x+BQiS5pCs=;
- b=QiOa50j0aPE5vMemNIia0SQjPMRCiOwT47wOV4cE1VfFn43STsqKEjuw5i6s6xyBM/
- 3InmaG9FngX1Iq5mlCiW0TNVxvvb/aUkm43Hud1FRhofsZZF++5zYJ5NOV4dg0lCQyta
- NiOPJT2Mbni/SvHTWv9ya8yDlPjQouIRPUjSFbCNtDXkGJffeXqJXYnCmY0kz95jJKJV
- qht69fFgIS7pas7JxqJp/8Dqocy+NV+gnhC+n8CPnZ3FSZXeEUnvJwDGjuikbIUmt1K8
- 8hdYOqwdKOg3FnjsdNvkqbpNEt6bfs4pTMnnINXBEJFcIKyaQ7PCS+it9oZCGsvmuFEb
- 76MA==
-X-Gm-Message-State: AOAM533HrOeCuM2gO0M7aZjmBpuoKTNSgg0W9k/ZGXID3v3cFY1Phg/j
- o14Zcm+PnxmhFnP7EVbf8rdrh32lRDtlzg==
-X-Google-Smtp-Source: ABdhPJyO76qzFnJnnf6xVlqK/slevuoJBXRp8IY2ZvZZluntIDEqebY4xmXXPsy9vcISqOxRVzFdHg==
-X-Received: by 2002:aca:b489:: with SMTP id d131mr8750178oif.39.1615523495699; 
- Thu, 11 Mar 2021 20:31:35 -0800 (PST)
-Received: from [100.78.65.150] ([216.252.221.156])
- by smtp.gmail.com with ESMTPSA id b21sm949902oot.34.2021.03.11.20.31.34
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 11 Mar 2021 20:31:35 -0800 (PST)
-From: Jason Ekstrand <jason@jlekstrand.net>
-To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-Date: Thu, 11 Mar 2021 22:31:33 -0600
-Message-ID: <17824b43488.2817.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
-In-Reply-To: <87sg51un0c.wl-ashutosh.dixit@intel.com>
-References: <20210310210049.723206-1-jason@jlekstrand.net>
- <87sg51un0c.wl-ashutosh.dixit@intel.com>
-User-Agent: AquaMail/1.28.1-1760 (build: 102800003)
-Subject: Re: [PATCH] i915: Drop legacy execbuffer support
+Received: from foo.stuge.se (foo.stuge.se [212.116.89.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25BA86E104
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 04:32:39 +0000 (UTC)
+Received: (qmail 5103 invoked by uid 1000); 12 Mar 2021 04:32:36 -0000
+Message-ID: <20210312043236.5102.qmail@stuge.se>
+Date: Fri, 12 Mar 2021 04:32:36 +0000
+From: Peter Stuge <peter@stuge.se>
+To: Ilia Mirkin <imirkin@alum.mit.edu>
+Subject: Re: [PATCH v7 3/3] drm: Add GUD USB Display driver
+References: <20210310045544.28961.qmail@stuge.se>
+ <1894f3f7-bd1d-493e-8d7f-8c10917da51b@tronnes.org>
+ <20210311144839.29454.qmail@stuge.se>
+ <04a86207-325c-8170-6692-a87ec3b0fe4c@tronnes.org>
+ <20210311200226.1166.qmail@stuge.se>
+ <CAKb7UvihLX0hgBOP3VBG7O+atwZcUVCPVuBdfmDMpg0NjXe-cQ@mail.gmail.com>
+ <20210311225751.2721.qmail@stuge.se>
+ <CAKb7UvgRLa=_4vzeFS-ws6T28S_j8yz8Jq_ONowPcBKaBHwYkw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKb7UvgRLa=_4vzeFS-ws6T28S_j8yz8Jq_ONowPcBKaBHwYkw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,113 +41,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0010820442=="
+Cc: hudson@trmm.net, markus@raatikainen.cc,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-usb@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>, th020394@gmail.com,
+ lkundrak@v3.sk, pontus.fuchs@gmail.com, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---===============0010820442==
-Content-Type: multipart/alternative; boundary="----------17824b435e620fc28179155602"
+Ilia Mirkin wrote:
+> XRGB8888 means that the memory layout should match a 32-bit integer,
+> stored as LE, with the low bits being B, next bits being G, etc. This
+> translates to byte 0 = B, byte 1 = G, etc. If you're on a BE system,
+> and you're handed a XRGB8888 buffer, it still expects that byte 0 = B,
+> etc (except as I outlined, some drivers which are from before these
+> formats were a thing, sort of do their own thing). Thankfully this is
+> equivalent to BGRX8888 (big-endian packing), so you can just munge the
+> format.
 
-This is a multi-part message in MIME format.
-------------17824b435e620fc28179155602
-Content-Type: text/plain; format=flowed; charset="us-ascii"
-Content-Transfer-Encoding: 8bit
+I understand! Thanks a lot for clarifying.
 
-
-On March 11, 2021 20:26:06 "Dixit, Ashutosh" <ashutosh.dixit@intel.com> wrote:
-
-> On Wed, 10 Mar 2021 13:00:49 -0800, Jason Ekstrand wrote:
->>
->> libdrm has supported the newer execbuffer2 ioctl and using it by default
->> when it exists since libdrm commit b50964027bef249a0cc3d511de05c2464e0a1e22
->> which landed Mar 2, 2010.  The i915 and i965 drivers in Mesa at the time
->> both used libdrm and so did the Intel X11 back-end.  The SNA back-end
->> for X11 has always used execbuffer2.
->>
->> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
->> ---
->> .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 100 ------------------
->> drivers/gpu/drm/i915/gem/i915_gem_ioctls.h    |   2 -
->> drivers/gpu/drm/i915/i915_drv.c               |   2 +-
->> 3 files changed, 1 insertion(+), 103 deletions(-)
->
-> Don't we want to clean up references to legacy execbuffer in
-> include/uapi/drm/i915_drm.h too?
-
-I thought about that but Daniel said we should leave them. Maybe a comment 
-is in order?
-
---Jason
+It makes much more sense to me that the format indeed describes
+what is in memory rather than how pixels look to software.
 
 
-------------17824b435e620fc28179155602
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+> > > I'm not sure why you guys were talking about BE in the first place,
+> >
+> > I was worried that the translation didn't consider endianess.
+> 
+> The translation in gud_xrgb8888_to_color definitely seems suspect.
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.=
-w3.org/TR/html4/loose.dtd">
-<html>
-<body>
-<div dir=3D"auto">
-<div dir=3D"auto"><br></div><div dir=3D"auto"><span style=3D"font-size: 12p=
-t;">On March 11, 2021 20:26:06 "Dixit, Ashutosh" &lt;ashutosh.dixit@intel.c=
-om&gt; wrote:</span></div><div id=3D"aqm-original" style=3D"color: black;">
-<div><br></div>
-<blockquote type=3D"cite" class=3D"gmail_quote" style=3D"margin: 0 0 0 0.75=
-ex; border-left: 1px solid #808080; padding-left: 0.75ex;">
-<div dir=3D"auto">On Wed, 10 Mar 2021 13:00:49 -0800, Jason Ekstrand wrote:=
-</div>
-<blockquote type=3D"cite" class=3D"gmail_quote" style=3D"margin: 0 0 0 0.75=
-ex; border-left: 1px solid #0099CC; padding-left: 0.75ex;">
-<div dir=3D"auto"><br></div>
-<div dir=3D"auto">libdrm has supported the newer execbuffer2 ioctl and usin=
-g it by default</div>
-<div dir=3D"auto">when it exists since libdrm commit b50964027bef249a0cc3d5=
-11de05c2464e0a1e22</div>
-<div dir=3D"auto">which landed Mar 2, 2010. &nbsp;The i915 and i965 drivers=
- in Mesa at the time</div>
-<div dir=3D"auto">both used libdrm and so did the Intel X11 back-end. &nbsp=
-;The SNA back-end</div>
-<div dir=3D"auto">for X11 has always used execbuffer2.</div>
-<div dir=3D"auto"><br></div>
-<div dir=3D"auto">Signed-off-by: Jason Ekstrand &lt;jason@jlekstrand.net&gt=
-;</div>
-<div dir=3D"auto">---</div>
-<div dir=3D"auto">.../gpu/drm/i915/gem/i915_gem_execbuffer.c &nbsp; &nbsp;|=
- 100 ------------------</div>
-<div dir=3D"auto">drivers/gpu/drm/i915/gem/i915_gem_ioctls.h &nbsp; &nbsp;|=
- &nbsp; 2 -</div>
-<div dir=3D"auto">drivers/gpu/drm/i915/i915_drv.c &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; | &nbsp; 2 +-</div>
-<div dir=3D"auto">3 files changed, 1 insertion(+), 103 deletions(-)</div>
-</blockquote>
-<div dir=3D"auto"><br></div>
-<div dir=3D"auto">Don't we want to clean up references to legacy execbuffer=
- in</div>
-<div dir=3D"auto">include/uapi/drm/i915_drm.h too?</div>
-</blockquote>
-</div><div dir=3D"auto"><br></div><div dir=3D"auto">I thought about that bu=
-t Daniel said we should leave them. Maybe a comment is in order?</div><div =
-dir=3D"auto"><br></div><div dir=3D"auto">--Jason</div><div dir=3D"auto"><br=
-></div>
-</div></body>
-</html>
-
-------------17824b435e620fc28179155602--
+So to me this means that the gud_pipe translations from XRGB8888 to the
+1-bit formats *do* have to adjust for the reversed order on BE.
 
 
---===============0010820442==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> There's also a gud_is_big_endian, but I'm guessing this applies to the
+> downstream device rather than the host system.
 
+gud_is_big_endian() is a static bool wrapper around defined(__BIG_ENDIAN)
+so yes, it applies to the host.
+
+With memory layout being constant I again think gud_xrgb8888_to_color()
+needs to take further steps to work correctly also on BE hosts. (Maybe
+that's le32_to_cpu(*pix32), maybe drm_fb_swab(), maybe something else?)
+
+
+> I didn't check if dev->mode_config.quirk_addfb_prefer_host_byte_order
+> is set
+
+I can't tell if that's helpful, probably Noralf can.
+
+
+Thanks a lot
+
+//Peter
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0010820442==--
-
