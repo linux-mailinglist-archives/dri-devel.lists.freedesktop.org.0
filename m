@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42DB93387A3
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 09:39:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 939BF3387A4
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 09:39:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B90E6F4AD;
-	Fri, 12 Mar 2021 08:39:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF5DD6F4AC;
+	Fri, 12 Mar 2021 08:39:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2054.outbound.protection.outlook.com [40.107.94.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 719CC6F4A9;
- Fri, 12 Mar 2021 08:39:38 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08on2041.outbound.protection.outlook.com [40.107.100.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CCD86F4B2;
+ Fri, 12 Mar 2021 08:39:44 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hMk4m0lbGpir5uy3oy8JHl2sUn4v7vlqDqN2i50tKAR+9TyNtuKIVgBoUsEyC+/0x8vRfBKYAMZ5dotobrg8Hz2zwQgGwuVhKKn++fHkJhcK1v2bhu8gt6GA3ZecWmojIZXT8TcksTioit0/DQyqProP5XHP9Sbga4UEHrcnoYTCyF6kyXEdn64b8eWXvdhP28aXffUIllTDyl3Rs5PXz/ppxbQXq7qEbX26C+Vh3Og6c5iAO63Wqrq0aEdlcFJO1SU7gc0FRAz07GZZpoHF+59opTypqKLsxbJkS6EV06A6KacEZZp+L7S2sriu1slOUK37JLtT4NOzwqJ3yi7kmg==
+ b=oJuLIurd2NQ1j2PtB0Uq5xG+0Sal1CAfpCWQ6IqPJKycT4RfXApDYIYtJ9/09luxORgbeAR43qW+BtAuu28TQUZVHDBuzD0vzi0Kkvfatvz5/caqXrE3dkrBXo4YOjyjxhwvekvy0VN/53UQjYd/fDVhKt9nCRdE7d30ZtKvjtUHMXZUQ9cVmvykIVDLT8v9Vslpe/OkoNMcqo+vWpOy6sDQ+jbEScIqXVtrjLBzKUBRZhZ45wWpP10bPczPYkqTURT36DmJfPDcXx4paHoNO+m5V9Oj5UHCB7QG27gUCLiqa75cpHvUODbPsIvctsyEAH4K6zYR8HT+fzI6vcC0pg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DHg7+L8laAfAZIffcai4Z1Bzj8ixMXAYd33zbn3eV4o=;
- b=E9bQsbmxDXn/3RezQX5QrYy8DNxAj7luWOrzQsmOeax4UCRwVAlhQfe+3ZImU+134AR/+Kq1Mkbh6pLILu7+l1Ce976B2//n9DFjZ2M9QDc+MkRrp67/2UUe4xYq6Df9l2/qI+EBQ/+S+gXQiqe/lsssYeyjiyvTMgiAgaem7mEzPhzFqt43EP0PicpLCWwt7zyOikBoTaajIUCTrIlWpAGW+DGy1DhrbvAn42ZYw1AnDWkgdvr3AakX65sGzgZygCJkwhIEXOKnJTksbjwyy4BkTrjPI5d6tgT3sbtXBPzM6dCe3nK8OJnVkzPncVlsPgR9svGtXd9v6W14pQq12g==
+ bh=4c9870s3/fS3cTF+SLC8wpSfZhem4zErBulvbvUfaA4=;
+ b=VM6KuhR/qMJsZgCIoXw1xRYpkMNxTVAQPnvDYeR1PHSG8ak6k4xnINOoyL1KvkoV80no+m+Vrpact2AtuGCQmGTL0iKKfBm0eiEtz9t/aLoDrfRp/KNnPZw0vuaGU7V43TuR7ShUFfjhAFGGYOggXBz3hEWI+c22NbA+00SfzlRyJNHWeaLWNu4Y2vQuEuiEtJoU5oFhudsy7scVBDyS0pKyIZftU2lHu2V4tZ3UmQOb7lX0MSZqrHFvsfAKHcjj705RCZYMlKQpXNrvT+zlreq+6IzK1jO99D//Z2XErj2TUNkaA0z3nEH5fIcoUajJyu5FtHJQIG/p8TF5kKgGSg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.112.34) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
@@ -27,18 +27,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DHg7+L8laAfAZIffcai4Z1Bzj8ixMXAYd33zbn3eV4o=;
- b=cO8KXCN0QVAAd7k9TLdnnfUq4pVkQ8cjUCwsBxYH8bg2MK9r3k+nwHqKldUPhOuo0FSVNUB5WlDyZW6oeTIan0qxppz3PgrUaRMqXO8V8jW5/pXezxK3lZ8eiW1JtXOdsAVNQODULvVYgqQXfUzNlVxbiBaEanXEkrzW8pIteZhaz4xq+k6Qr0ElbfGXidI5jy3t7LD3auF2UPhon5CRcTjYxDJt5sBmIZYvYYhPxmHIs07YggPYHUTQDK5x6ryjndtEWfJRplpZk51fa99/2sjR0HWdi0uvxQP6pbNYDD5HYxugGAn20mXIFEwT8N2bi6sEV1OngNUXMDG8SwNhTA==
-Received: from DM3PR12CA0055.namprd12.prod.outlook.com (2603:10b6:0:56::23) by
- DM5PR12MB2422.namprd12.prod.outlook.com (2603:10b6:4:b9::27) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3933.31; Fri, 12 Mar 2021 08:39:36 +0000
-Received: from DM6NAM11FT045.eop-nam11.prod.protection.outlook.com
- (2603:10b6:0:56:cafe::a1) by DM3PR12CA0055.outlook.office365.com
- (2603:10b6:0:56::23) with Microsoft SMTP Server (version=TLS1_2,
+ bh=4c9870s3/fS3cTF+SLC8wpSfZhem4zErBulvbvUfaA4=;
+ b=enLYfE56lHj1dXC/Lk4vaPGIkLQq3F7wbFqadbr6519xrVGj+XXuFdHRDhJ+ASBQbvO5U4qSvZzpnNFKbZ05ut4Sy1SpcpB63YSozeJAR/eDxYU+1FQleSZfpzGxLKCKUTZYwi1FXiyhcfLyq1GYuUKaBp7N6Gse/uYHUsacH/xz1gwqLTJGRJ7DPTP/Rr4F777vehR7U07fxVMFHAvJAwh1efV6mmRNYhpePZvaSBPjPnRAwOh/cpu/ZyGc7sd0U+Gfhc5aTYC8l3o4HaNpx+Kvn0Tsp6UOMELv5rwRSlAF7IbfY1Y6292qZ5X39n6cyldAJJRMicB3g4Rq+Q266w==
+Received: from DM6PR02CA0096.namprd02.prod.outlook.com (2603:10b6:5:1f4::37)
+ by MWHPR12MB1438.namprd12.prod.outlook.com (2603:10b6:300:14::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31; Fri, 12 Mar
+ 2021 08:39:39 +0000
+Received: from DM6NAM11FT012.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:1f4:cafe::59) by DM6PR02CA0096.outlook.office365.com
+ (2603:10b6:5:1f4::37) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
- Transport; Fri, 12 Mar 2021 08:39:36 +0000
+ Transport; Fri, 12 Mar 2021 08:39:38 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
  smtp.mailfrom=nvidia.com; redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=pass action=none header.from=nvidia.com;
@@ -46,18 +46,18 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.112.34 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.112.34; helo=mail.nvidia.com;
 Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT045.mail.protection.outlook.com (10.13.173.123) with Microsoft SMTP
+ DM6NAM11FT012.mail.protection.outlook.com (10.13.173.109) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3933.31 via Frontend Transport; Fri, 12 Mar 2021 08:39:35 +0000
+ 15.20.3933.31 via Frontend Transport; Fri, 12 Mar 2021 08:39:38 +0000
 Received: from localhost (172.20.145.6) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 12 Mar
- 2021 08:39:34 +0000
+ 2021 08:39:37 +0000
 From: Alistair Popple <apopple@nvidia.com>
 To: <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
  <bskeggs@redhat.com>, <akpm@linux-foundation.org>
-Subject: [PATCH v6 6/8] mm: Selftests for exclusive device memory
-Date: Fri, 12 Mar 2021 19:38:49 +1100
-Message-ID: <20210312083851.15981-7-apopple@nvidia.com>
+Subject: [PATCH v6 7/8] nouveau/svm: Refactor nouveau_range_fault
+Date: Fri, 12 Mar 2021 19:38:50 +1100
+Message-ID: <20210312083851.15981-8-apopple@nvidia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210312083851.15981-1-apopple@nvidia.com>
 References: <20210312083851.15981-1-apopple@nvidia.com>
@@ -67,27 +67,27 @@ X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
  HQMAIL107.nvidia.com (172.20.187.13)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1c53020b-4be2-49ec-efe7-08d8e5325df0
-X-MS-TrafficTypeDiagnostic: DM5PR12MB2422:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB2422931B5B308F505F918030DF6F9@DM5PR12MB2422.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Office365-Filtering-Correlation-Id: 5ed76b16-f8b9-41aa-7429-08d8e5325f9e
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1438:
+X-Microsoft-Antispam-PRVS: <MWHPR12MB14386B6CE6DE6B69E273F8EFDF6F9@MWHPR12MB1438.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bnmbdknQTIR0xea5Fxa/Q+oNTWXmIHhzn+BRyrFz2LSwUjmd7QfBwBsrzZfmNYdgnS0MgiCInFDyqW4GYml2N1EASgQVVFBYV2X5rmrR2mi0ZSewslHCESwgqxo4nOMYqXDyVsjyQcGv5PngPv/yD9T8fCzc4k9dA940jYV/LUm5AZ+ttGo5OS08W7d2Brg1e5v/bTvsapFH9/ApXApL1xdjhkQ9+tZyIgQWaguPVaBD0+MPWDnd1UIk6lWOEhbno+XDSgmPn2/E+0YTUf5XxgqqRI0vVdAKf1Woius+3+7PJ3pL+XubmJyINZJdQndUwXrZiIuT5LbNKwhylU6GnRkP+PtAdDTP773KITINVbyQP4hFEb9WmNoryH8/uiGPzEqQcMu1vyNHS77kPDd8ElmCDvGu/yEwWDM8hcD43zPOXQSn40xxYN+fqCvCCLpx3ojkrMPsIsg1UBp5gOTLOBQnOQVXbvmcukXM+JJNJvWLiAOcH9hlS7bMygiJ5wSE9EhDTpP7YRTDKVh6O3JYFNCpT7+SBLgPvLw2rVug4r9lhL2uDV274FeHoozjxEDAqkur3Bz8s04ue1kKC6PIhYlOBsGwXlqQ9UxXnHHKfCpbxXEFd2z9DGB1VJPju5uDZWHkSQND1dFUw0JP8xa0IVZeOAye7ibVnfM3lHzKcbTd3qgApjn0LmR5cQtDlyD2
+X-Microsoft-Antispam-Message-Info: j+yKeutSZ4TOi32SsYmdJHDl1e96d4N+T4LpVQo6ZxLDVW58X7Pw2cB2Ywf+I54k+NJ/GoOtG+qQEVESEehiutafuSAU2HKCZF2inKz/GrnE4J4nzFDHQ5/Mz2uqHPEPHtT4wPGoMik0JWmcr5hl/P+Bgb2mC6yOz6DK18D9N9yICt8fL3fvqZUT8PGMAvOr1pc4kZQ1voTA6nE3UQjeAoOl7T62sN6FbCVbeoyP9x1fgSH/RDLPWqKHyixv254vuI5+dpg4ONFR+0NErDIJknk1qRcp39FhP2Ux7X241j/LzIwEJb1hpJ6ndcVi6pNLI1rp/yXn+G9Ctdi7B1C+OARcK998iV7tq1UTE5sKPcAcOK7C0ACUsg8ksLqV3i7xzrp1yQfWsJKWKBRRtWgoUhpcgeYBctnQcn/kUSqWyAhIrNyuPD+WYLoyjXWQUq4aU0+X4DaXC0so30XDKsYLxu51GmxtK5JarJKLsDndONKtkgib0jCaEBfz4wrj/ixc+vzVOAa2I95wK+gvrM2MjnOOvCAM/Uuqol2oIz4p0mdXP5A6zJ8Fm5jzafw7FizHNUeaWtG/GgNXfmuT4C+Gh/6rFrL/jONssl59yhv0xW4lfRMncv6lpuHJz7GJd0v8P13f+7JYZ7B0QaIRrI6BBHw0F0LZFufviifeZgOZJrJfnDVbpZB8/miFQP6AB4uX
 X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(376002)(396003)(346002)(39860400002)(136003)(46966006)(36840700001)(336012)(36756003)(70206006)(4326008)(8936002)(70586007)(2616005)(2906002)(83380400001)(186003)(82740400003)(478600001)(26005)(82310400003)(356005)(54906003)(426003)(34020700004)(7416002)(16526019)(316002)(47076005)(36906005)(36860700001)(6666004)(107886003)(30864003)(86362001)(110136005)(8676002)(5660300002)(1076003)(7636003);
+ SFS:(4636009)(376002)(346002)(396003)(39860400002)(136003)(46966006)(36840700001)(8936002)(5660300002)(86362001)(110136005)(70206006)(70586007)(316002)(34020700004)(36860700001)(107886003)(36906005)(478600001)(336012)(54906003)(83380400001)(47076005)(8676002)(4326008)(82310400003)(2906002)(16526019)(82740400003)(36756003)(7636003)(356005)(26005)(186003)(6666004)(2616005)(426003)(1076003)(7416002);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2021 08:39:35.9102 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c53020b-4be2-49ec-efe7-08d8e5325df0
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2021 08:39:38.6781 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ed76b16-f8b9-41aa-7429-08d8e5325f9e
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT045.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT012.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2422
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1438
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,422 +109,89 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adds some selftests for exclusive device memory.
+Call mmu_interval_notifier_insert() as part of nouveau_range_fault().
+This doesn't introduce any functional change but makes it easier for a
+subsequent patch to alter the behaviour of nouveau_range_fault() to
+support GPU atomic operations.
 
 Signed-off-by: Alistair Popple <apopple@nvidia.com>
-Acked-by: Jason Gunthorpe <jgg@nvidia.com>
-Tested-by: Ralph Campbell <rcampbell@nvidia.com>
-Reviewed-by: Ralph Campbell <rcampbell@nvidia.com>
 ---
- lib/test_hmm.c                         | 124 ++++++++++++++
- lib/test_hmm_uapi.h                    |   2 +
- tools/testing/selftests/vm/hmm-tests.c | 219 +++++++++++++++++++++++++
- 3 files changed, 345 insertions(+)
+ drivers/gpu/drm/nouveau/nouveau_svm.c | 34 ++++++++++++++++-----------
+ 1 file changed, 20 insertions(+), 14 deletions(-)
 
-diff --git a/lib/test_hmm.c b/lib/test_hmm.c
-index 5c9f5a020c1d..305a9d9e2b4c 100644
---- a/lib/test_hmm.c
-+++ b/lib/test_hmm.c
-@@ -25,6 +25,7 @@
- #include <linux/swapops.h>
- #include <linux/sched/mm.h>
- #include <linux/platform_device.h>
-+#include <linux/rmap.h>
+diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+index 94f841026c3b..a195e48c9aee 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_svm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+@@ -567,18 +567,27 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
+ 	unsigned long hmm_pfns[1];
+ 	struct hmm_range range = {
+ 		.notifier = &notifier->notifier,
+-		.start = notifier->notifier.interval_tree.start,
+-		.end = notifier->notifier.interval_tree.last + 1,
+ 		.default_flags = hmm_flags,
+ 		.hmm_pfns = hmm_pfns,
+ 		.dev_private_owner = drm->dev,
+ 	};
+-	struct mm_struct *mm = notifier->notifier.mm;
++	struct mm_struct *mm = svmm->notifier.mm;
+ 	int ret;
  
- #include "test_hmm_uapi.h"
- 
-@@ -46,6 +47,7 @@ struct dmirror_bounce {
- 	unsigned long		cpages;
- };
- 
-+#define DPT_XA_TAG_ATOMIC 1UL
- #define DPT_XA_TAG_WRITE 3UL
- 
- /*
-@@ -619,6 +621,54 @@ static void dmirror_migrate_alloc_and_copy(struct migrate_vma *args,
- 	}
- }
- 
-+static int dmirror_check_atomic(struct dmirror *dmirror, unsigned long start,
-+			     unsigned long end)
-+{
-+	unsigned long pfn;
-+
-+	for (pfn = start >> PAGE_SHIFT; pfn < (end >> PAGE_SHIFT); pfn++) {
-+		void *entry;
-+		struct page *page;
-+
-+		entry = xa_load(&dmirror->pt, pfn);
-+		page = xa_untag_pointer(entry);
-+		if (xa_pointer_tag(entry) == DPT_XA_TAG_ATOMIC)
-+			return -EPERM;
-+	}
-+
-+	return 0;
-+}
-+
-+static int dmirror_atomic_map(unsigned long start, unsigned long end,
-+			      struct page **pages, struct dmirror *dmirror)
-+{
-+	unsigned long pfn, mapped = 0;
-+	int i;
-+
-+	/* Map the migrated pages into the device's page tables. */
-+	mutex_lock(&dmirror->mutex);
-+
-+	for (i = 0, pfn = start >> PAGE_SHIFT; pfn < (end >> PAGE_SHIFT); pfn++, i++) {
-+		void *entry;
-+
-+		if (!pages[i])
-+			continue;
-+
-+		entry = pages[i];
-+		entry = xa_tag_pointer(entry, DPT_XA_TAG_ATOMIC);
-+		entry = xa_store(&dmirror->pt, pfn, entry, GFP_ATOMIC);
-+		if (xa_is_err(entry)) {
-+			mutex_unlock(&dmirror->mutex);
-+			return xa_err(entry);
-+		}
-+
-+		mapped++;
-+	}
-+
-+	mutex_unlock(&dmirror->mutex);
-+	return mapped;
-+}
-+
- static int dmirror_migrate_finalize_and_map(struct migrate_vma *args,
- 					    struct dmirror *dmirror)
- {
-@@ -661,6 +711,71 @@ static int dmirror_migrate_finalize_and_map(struct migrate_vma *args,
- 	return 0;
- }
- 
-+static int dmirror_exclusive(struct dmirror *dmirror,
-+			     struct hmm_dmirror_cmd *cmd)
-+{
-+	unsigned long start, end, addr;
-+	unsigned long size = cmd->npages << PAGE_SHIFT;
-+	struct mm_struct *mm = dmirror->notifier.mm;
-+	struct page *pages[64];
-+	struct dmirror_bounce bounce;
-+	unsigned long next;
-+	int ret;
-+
-+	start = cmd->addr;
-+	end = start + size;
-+	if (end < start)
-+		return -EINVAL;
-+
-+	/* Since the mm is for the mirrored process, get a reference first. */
-+	if (!mmget_not_zero(mm))
-+		return -EINVAL;
-+
-+	mmap_read_lock(mm);
-+	for (addr = start; addr < end; addr = next) {
-+		int i, mapped;
-+
-+		if (end < addr + (ARRAY_SIZE(pages) << PAGE_SHIFT))
-+			next = end;
-+		else
-+			next = addr + (ARRAY_SIZE(pages) << PAGE_SHIFT);
-+
-+		ret = make_device_exclusive_range(mm, addr, next, pages, NULL);
-+		mapped = dmirror_atomic_map(addr, next, pages, dmirror);
-+		for (i = 0; i < ret; i++) {
-+			if (pages[i]) {
-+				unlock_page(pages[i]);
-+				put_page(pages[i]);
-+			}
-+		}
-+
-+		if (addr + (mapped << PAGE_SHIFT) < next) {
-+			mmap_read_unlock(mm);
-+			mmput(mm);
-+			return -EBUSY;
-+		}
-+	}
-+	mmap_read_unlock(mm);
-+	mmput(mm);
-+
-+	/* Return the migrated data for verification. */
-+	ret = dmirror_bounce_init(&bounce, start, size);
++	ret = mmu_interval_notifier_insert(&notifier->notifier, mm,
++					args->p.addr, args->p.size,
++					&nouveau_svm_mni_ops);
 +	if (ret)
 +		return ret;
-+	mutex_lock(&dmirror->mutex);
-+	ret = dmirror_do_read(dmirror, start, end, &bounce);
-+	mutex_unlock(&dmirror->mutex);
-+	if (ret == 0) {
-+		if (copy_to_user(u64_to_user_ptr(cmd->ptr), bounce.ptr,
-+				 bounce.size))
-+			ret = -EFAULT;
-+	}
 +
-+	cmd->cpages = bounce.cpages;
-+	dmirror_bounce_fini(&bounce);
-+	return ret;
-+}
++	range.start = notifier->notifier.interval_tree.start;
++	range.end = notifier->notifier.interval_tree.last + 1;
 +
- static int dmirror_migrate(struct dmirror *dmirror,
- 			   struct hmm_dmirror_cmd *cmd)
- {
-@@ -949,6 +1064,15 @@ static long dmirror_fops_unlocked_ioctl(struct file *filp,
- 		ret = dmirror_migrate(dmirror, &cmd);
- 		break;
+ 	while (true) {
+-		if (time_after(jiffies, timeout))
+-			return -EBUSY;
++		if (time_after(jiffies, timeout)) {
++			ret = -EBUSY;
++			goto out;
++		}
  
-+	case HMM_DMIRROR_EXCLUSIVE:
-+		ret = dmirror_exclusive(dmirror, &cmd);
-+		break;
-+
-+	case HMM_DMIRROR_CHECK_EXCLUSIVE:
-+		ret = dmirror_check_atomic(dmirror, cmd.addr,
-+					cmd.addr + (cmd.npages << PAGE_SHIFT));
-+		break;
-+
- 	case HMM_DMIRROR_SNAPSHOT:
- 		ret = dmirror_snapshot(dmirror, &cmd);
- 		break;
-diff --git a/lib/test_hmm_uapi.h b/lib/test_hmm_uapi.h
-index 670b4ef2a5b6..f14dea5dcd06 100644
---- a/lib/test_hmm_uapi.h
-+++ b/lib/test_hmm_uapi.h
-@@ -33,6 +33,8 @@ struct hmm_dmirror_cmd {
- #define HMM_DMIRROR_WRITE		_IOWR('H', 0x01, struct hmm_dmirror_cmd)
- #define HMM_DMIRROR_MIGRATE		_IOWR('H', 0x02, struct hmm_dmirror_cmd)
- #define HMM_DMIRROR_SNAPSHOT		_IOWR('H', 0x03, struct hmm_dmirror_cmd)
-+#define HMM_DMIRROR_EXCLUSIVE		_IOWR('H', 0x04, struct hmm_dmirror_cmd)
-+#define HMM_DMIRROR_CHECK_EXCLUSIVE	_IOWR('H', 0x05, struct hmm_dmirror_cmd)
+ 		range.notifier_seq = mmu_interval_read_begin(range.notifier);
+ 		mmap_read_lock(mm);
+@@ -587,7 +596,7 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
+ 		if (ret) {
+ 			if (ret == -EBUSY)
+ 				continue;
+-			return ret;
++			goto out;
+ 		}
  
- /*
-  * Values returned in hmm_dmirror_cmd.ptr for HMM_DMIRROR_SNAPSHOT.
-diff --git a/tools/testing/selftests/vm/hmm-tests.c b/tools/testing/selftests/vm/hmm-tests.c
-index 5d1ac691b9f4..5d3c5db9ed3a 100644
---- a/tools/testing/selftests/vm/hmm-tests.c
-+++ b/tools/testing/selftests/vm/hmm-tests.c
-@@ -1485,4 +1485,223 @@ TEST_F(hmm2, double_map)
- 	hmm_buffer_free(buffer);
+ 		mutex_lock(&svmm->mutex);
+@@ -606,6 +615,9 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
+ 	svmm->vmm->vmm.object.client->super = false;
+ 	mutex_unlock(&svmm->mutex);
+ 
++out:
++	mmu_interval_notifier_remove(&notifier->notifier);
++
+ 	return ret;
  }
  
-+/*
-+ * Basic check of exclusive faulting.
-+ */
-+TEST_F(hmm, exclusive)
-+{
-+	struct hmm_buffer *buffer;
-+	unsigned long npages;
-+	unsigned long size;
-+	unsigned long i;
-+	int *ptr;
-+	int ret;
-+
-+	npages = ALIGN(HMM_BUFFER_SIZE, self->page_size) >> self->page_shift;
-+	ASSERT_NE(npages, 0);
-+	size = npages << self->page_shift;
-+
-+	buffer = malloc(sizeof(*buffer));
-+	ASSERT_NE(buffer, NULL);
-+
-+	buffer->fd = -1;
-+	buffer->size = size;
-+	buffer->mirror = malloc(size);
-+	ASSERT_NE(buffer->mirror, NULL);
-+
-+	buffer->ptr = mmap(NULL, size,
-+			   PROT_READ | PROT_WRITE,
-+			   MAP_PRIVATE | MAP_ANONYMOUS,
-+			   buffer->fd, 0);
-+	ASSERT_NE(buffer->ptr, MAP_FAILED);
-+
-+	/* Initialize buffer in system memory. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Map memory exclusively for device access. */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_EXCLUSIVE, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+
-+	/* Check what the device read. */
-+	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i], i);
-+
-+	/* Fault pages back to system memory and check them. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i]++, i);
-+
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i], i+1);
-+
-+	/* Check atomic access revoked */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_CHECK_EXCLUSIVE, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+
-+	hmm_buffer_free(buffer);
-+}
-+
-+TEST_F(hmm, exclusive_shared)
-+{
-+	struct hmm_buffer *buffer;
-+	unsigned long npages;
-+	unsigned long size;
-+	int *ptr;
-+	int ret, i;
-+
-+	npages = ALIGN(HMM_BUFFER_SIZE, self->page_size) >> self->page_shift;
-+	ASSERT_NE(npages, 0);
-+	size = npages << self->page_shift;
-+
-+	buffer = malloc(sizeof(*buffer));
-+	ASSERT_NE(buffer, NULL);
-+
-+	buffer->fd = -1;
-+	buffer->size = size;
-+	buffer->mirror = malloc(size);
-+	ASSERT_NE(buffer->mirror, NULL);
-+
-+	buffer->ptr = mmap(NULL, size,
-+			   PROT_READ | PROT_WRITE,
-+			   MAP_SHARED | MAP_ANONYMOUS,
-+			   buffer->fd, 0);
-+	ASSERT_NE(buffer->ptr, MAP_FAILED);
-+
-+	/* Initialize buffer in system memory. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Map memory exclusively for device access. */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_EXCLUSIVE, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+
-+	/* Check what the device read. */
-+	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i], i);
-+
-+	/* Fault pages back to system memory and check them. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i]++, i);
-+
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i], i+1);
-+
-+	/* Check atomic access revoked */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_CHECK_EXCLUSIVE, buffer, npages);
-+	ASSERT_FALSE(ret);
-+
-+	/* Map memory exclusively for device access again to check process tear down */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_EXCLUSIVE, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+
-+	hmm_buffer_free(buffer);
-+}
-+
-+/*
-+ * Same as above but for shared anonymous memory.
-+ */
-+TEST_F(hmm, exclusive_mprotect)
-+{
-+	struct hmm_buffer *buffer;
-+	unsigned long npages;
-+	unsigned long size;
-+	unsigned long i;
-+	int *ptr;
-+	int ret;
-+
-+	npages = ALIGN(HMM_BUFFER_SIZE, self->page_size) >> self->page_shift;
-+	ASSERT_NE(npages, 0);
-+	size = npages << self->page_shift;
-+
-+	buffer = malloc(sizeof(*buffer));
-+	ASSERT_NE(buffer, NULL);
-+
-+	buffer->fd = -1;
-+	buffer->size = size;
-+	buffer->mirror = malloc(size);
-+	ASSERT_NE(buffer->mirror, NULL);
-+
-+	buffer->ptr = mmap(NULL, size,
-+			   PROT_READ | PROT_WRITE,
-+			   MAP_PRIVATE | MAP_ANONYMOUS,
-+			   buffer->fd, 0);
-+	ASSERT_NE(buffer->ptr, MAP_FAILED);
-+
-+	/* Initialize buffer in system memory. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Map memory exclusively for device access. */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_EXCLUSIVE, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+
-+	/* Check what the device read. */
-+	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i], i);
-+
-+	ret = mprotect(buffer->ptr, size, PROT_READ);
-+	ASSERT_EQ(ret, 0);
-+
-+	/* Simulate a device writing system memory. */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_WRITE, buffer, npages);
-+	ASSERT_EQ(ret, -EPERM);
-+
-+	hmm_buffer_free(buffer);
-+}
-+
-+/*
-+ * Check copy-on-write works.
-+ */
-+TEST_F(hmm, exclusive_cow)
-+{
-+	struct hmm_buffer *buffer;
-+	unsigned long npages;
-+	unsigned long size;
-+	unsigned long i;
-+	int *ptr;
-+	int ret;
-+
-+	npages = ALIGN(HMM_BUFFER_SIZE, self->page_size) >> self->page_shift;
-+	ASSERT_NE(npages, 0);
-+	size = npages << self->page_shift;
-+
-+	buffer = malloc(sizeof(*buffer));
-+	ASSERT_NE(buffer, NULL);
-+
-+	buffer->fd = -1;
-+	buffer->size = size;
-+	buffer->mirror = malloc(size);
-+	ASSERT_NE(buffer->mirror, NULL);
-+
-+	buffer->ptr = mmap(NULL, size,
-+			   PROT_READ | PROT_WRITE,
-+			   MAP_PRIVATE | MAP_ANONYMOUS,
-+			   buffer->fd, 0);
-+	ASSERT_NE(buffer->ptr, MAP_FAILED);
-+
-+	/* Initialize buffer in system memory. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Map memory exclusively for device access. */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_EXCLUSIVE, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+
-+	fork();
-+
-+	/* Fault pages back to system memory and check them. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i]++, i);
-+
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i], i+1);
-+
-+	hmm_buffer_free(buffer);
-+}
-+
- TEST_HARNESS_MAIN
+@@ -727,14 +739,8 @@ nouveau_svm_fault(struct nvif_notify *notify)
+ 		}
+ 
+ 		notifier.svmm = svmm;
+-		ret = mmu_interval_notifier_insert(&notifier.notifier, mm,
+-						   args.i.p.addr, args.i.p.size,
+-						   &nouveau_svm_mni_ops);
+-		if (!ret) {
+-			ret = nouveau_range_fault(svmm, svm->drm, &args.i,
+-				sizeof(args), hmm_flags, &notifier);
+-			mmu_interval_notifier_remove(&notifier.notifier);
+-		}
++		ret = nouveau_range_fault(svmm, svm->drm, &args.i,
++					sizeof(args), hmm_flags, &notifier);
+ 		mmput(mm);
+ 
+ 		limit = args.i.p.addr + args.i.p.size;
 -- 
 2.20.1
 
