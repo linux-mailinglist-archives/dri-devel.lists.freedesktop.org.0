@@ -1,67 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60256338F9D
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 15:16:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD85338FC2
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 15:22:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0E5E6F47B;
-	Fri, 12 Mar 2021 14:16:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E31D36F551;
+	Fri, 12 Mar 2021 14:22:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39ED16F478
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 14:16:29 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id l19so3899927wmh.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 06:16:29 -0800 (PST)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C10546F551
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 14:22:45 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ b2-20020a7bc2420000b029010be1081172so15291891wmj.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 06:22:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=JUvT0MBo8wfpJuqgpg/e5b4hLDFZsxheVOHt/GP8+ak=;
- b=ZpKisELW/1NbPZmcGKJsMRLVvDNLVWPWsw/1aa6r5tw3VORGMpUZgWBkFVthJa/xq3
- QElXHzLNmP0b1k9Oz6OYhHQVgcX6etL9Cx57VhUmuSUQQlcs2sVgZoJCD0tkoqx5IjUk
- KtuPmGNlN5BFaqQ+GQ2i1uR+Hu8LoNLEsmIbc=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=e4w+I/qltVMaZpzAv1nWIPtn2ghNS5HKzhAOV/OcQBU=;
+ b=ZYTGcYys+/Zea+0jtFGoBgrWP4bQgPF8DqoyJQuuNraBgNLduERLGUjUFfNKrLCAay
+ x/pNzXQ9s7dkNUWv7LyPpqBYR4fr+GAOZGB1Fql7/BuvRHHbzww5RcIa+gqeJSS5UD85
+ SbyHtbv+Iqz5L2wYNxJg2tqcy6e/ExkQbIamg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=JUvT0MBo8wfpJuqgpg/e5b4hLDFZsxheVOHt/GP8+ak=;
- b=N/aqHqz5L9lYTpoLuFrKgPQPPVE7yrH3rmfujymktBohumJoUBpUeRkgnTE5ygEL4K
- 7377L4WniLYutKHEha/981mzYCHwXpN2ywsPQakMeqrOT8PUiQnBa5awxSvWzRJNy4E6
- MwviBFoOPV4J3eFeD904sE2VUpIUUzfwnRXhyue5Tss0KW5hL7f9y4tL6ALl2qX0HB1J
- AM/Ga0fV+kQf4ABBxNzXVtr+mUrfE5QmXnRHiS+3xtHq8Ai0GhSXdwq7sw9OZa4hGpcf
- Df5iXCg3pcxLO5EUmOl9+AlB26eSjwhUhkyOm6aq8VIQQcDlg9ULXxbMxiap9ZaZfktz
- y60Q==
-X-Gm-Message-State: AOAM5333U40pgxK4LJseZ/ZmOIv12y9RTMIGcbCe4K6uYz+PVi1TOnAA
- r4bin/68r6xTFNtSomd3tkIVqLBzayxtxeY8
-X-Google-Smtp-Source: ABdhPJwPVrA85vR0j9D3vFDmDmffNtcLpsOSiqFIT9rSt+1kf1oIEkWflNt28S6E951NW7wydzIidg==
-X-Received: by 2002:a05:600c:22cd:: with SMTP id
- 13mr13050369wmg.90.1615558587807; 
- Fri, 12 Mar 2021 06:16:27 -0800 (PST)
+ bh=e4w+I/qltVMaZpzAv1nWIPtn2ghNS5HKzhAOV/OcQBU=;
+ b=oZqfMwxFa8Df+qR6/b8yUYFNKk6vtzRAiecENoHxgm2uRperhg2ajbdR7pZAKcdP2X
+ /oy4uxZBZ9CETPhU1Gk0t1SL1Xv7zt/QDYgWCMwpWREidrpu9ZessSG5JYPcSdio+WUb
+ LGG5Q1dxbxZb8YbrxPNWKVVJ4jW3myC4BXPVEK8ZX5IzvJ0169dmZ0J8gh5IUex1E5Or
+ ElcH/XD4ZskqMp1j79/UTZJAE0FI1M9ckCfpGJdFMMYsibeSdWhWjJ/Y0XoABgbuwrVm
+ 9AwnPv+ojzTjCWFjRbkvgMjAJck0LhoewKhuY4K3461Hf9vdXgxTeIFAb8+l3KWD27wU
+ fGAA==
+X-Gm-Message-State: AOAM531W+Z5TUJNAA3Tk0sCpzX7ct9aHE95VriLw0XO9+8be23WvaoeW
+ x1hI0qyfrlGhrFlgHdBIrS6Y2Q==
+X-Google-Smtp-Source: ABdhPJywmBqLmetHNuc/QkxjjAKDl0Slt139sCD0THqtTaiLOFSRCggU+h02FT33MwVQ3UuK4U3Ylg==
+X-Received: by 2002:a7b:c084:: with SMTP id r4mr13376756wmh.166.1615558964430; 
+ Fri, 12 Mar 2021 06:22:44 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a3sm7586147wrt.68.2021.03.12.06.16.26
+ by smtp.gmail.com with ESMTPSA id m17sm8169334wrx.92.2021.03.12.06.22.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 06:16:27 -0800 (PST)
-Date: Fri, 12 Mar 2021 15:16:25 +0100
+ Fri, 12 Mar 2021 06:22:43 -0800 (PST)
+Date: Fri, 12 Mar 2021 15:22:41 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [PATCH] i915: Drop relocation support on all new hardware (v3)
-Message-ID: <YEt3uVbUi4/ut7aX@phenom.ffwll.local>
-References: <20210310212606.766121-1-jason@jlekstrand.net>
- <20210310215007.782649-1-jason@jlekstrand.net>
- <20210311114432.GB101473@zkempczy-mobl2>
- <CAOFGe94FEfM6RKf=fcDm03OW1zvJhRpvTtnQ4dXWY+pQrf-K=Q@mail.gmail.com>
- <CAKMK7uHwYczVHD7SmHAJd9niP4+aanDvEhPviofjmQiEweK3CQ@mail.gmail.com>
- <CAOFGe96bL1Wu2Qgie7QOhMDoY-3hFhDxhokCekyEHnAC8CgjnQ@mail.gmail.com>
- <20210311165054.GA118464@zkempczy-mobl2>
- <CAOFGe96W_vgkfw_zs_v0RMrKrrQu2kmYYhfZNdgJt4Rc_duT7w@mail.gmail.com>
- <20210311181953.GA124003@zkempczy-mobl2>
- <CAOFGe94CRE73nJKeGkZmtDa25XnZvSQyYo8nYwfF0Ytfx_6=Pw@mail.gmail.com>
+To: Dmitry Vyukov <dvyukov@google.com>
+Subject: Re: [syzbot] upstream boot error: WARNING in vkms_vblank_simulate
+Message-ID: <YEt5MfyAB7YCFFhl@phenom.ffwll.local>
+Mail-Followup-To: Dmitry Vyukov <dvyukov@google.com>,
+ syzbot <syzbot+333bd014262fd5d0a418@syzkaller.appspotmail.com>,
+ David Airlie <airlied@linux.ie>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>, melissa.srw@gmail.com,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+References: <0000000000009cd8d505bd545452@google.com>
+ <CACT4Y+a68cidsRa1zd8h=rNVkwyYKdihBtO2YBPyyxwc2Twpng@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAOFGe94CRE73nJKeGkZmtDa25XnZvSQyYo8nYwfF0Ytfx_6=Pw@mail.gmail.com>
+In-Reply-To: <CACT4Y+a68cidsRa1zd8h=rNVkwyYKdihBtO2YBPyyxwc2Twpng@mail.gmail.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,110 +75,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Zbigniew =?utf-8?Q?Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ syzbot <syzbot+333bd014262fd5d0a418@syzkaller.appspotmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ LKML <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>,
+ melissa.srw@gmail.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBNYXIgMTEsIDIwMjEgYXQgMTI6NTc6MjVQTSAtMDYwMCwgSmFzb24gRWtzdHJhbmQg
-d3JvdGU6Cj4gT24gVGh1LCBNYXIgMTEsIDIwMjEgYXQgMTI6MjAgUE0gWmJpZ25pZXcgS2VtcGN6
-ecWEc2tpCj4gPHpiaWduaWV3LmtlbXBjenluc2tpQGludGVsLmNvbT4gd3JvdGU6Cj4gPgo+ID4g
-T24gVGh1LCBNYXIgMTEsIDIwMjEgYXQgMTE6MTg6MTFBTSAtMDYwMCwgSmFzb24gRWtzdHJhbmQg
-d3JvdGU6Cj4gPiA+IE9uIFRodSwgTWFyIDExLCAyMDIxIGF0IDEwOjUxIEFNIFpiaWduaWV3IEtl
-bXBjennFhHNraQo+ID4gPiA8emJpZ25pZXcua2VtcGN6eW5za2lAaW50ZWwuY29tPiB3cm90ZToK
-PiA+ID4gPgo+ID4gPiA+IE9uIFRodSwgTWFyIDExLCAyMDIxIGF0IDEwOjI0OjM4QU0gLTA2MDAs
-IEphc29uIEVrc3RyYW5kIHdyb3RlOgo+ID4gPiA+ID4gT24gVGh1LCBNYXIgMTEsIDIwMjEgYXQg
-OTo1NyBBTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+IHdyb3RlOgo+ID4gPiA+ID4g
-Pgo+ID4gPiA+ID4gPiBPbiBUaHUsIE1hciAxMSwgMjAyMSBhdCA0OjUwIFBNIEphc29uIEVrc3Ry
-YW5kIDxqYXNvbkBqbGVrc3RyYW5kLm5ldD4gd3JvdGU6Cj4gPiA+ID4gPiA+ID4KPiA+ID4gPiA+
-ID4gPiBPbiBUaHUsIE1hciAxMSwgMjAyMSBhdCA1OjQ0IEFNIFpiaWduaWV3IEtlbXBjennFhHNr
-aQo+ID4gPiA+ID4gPiA+IDx6Ymlnbmlldy5rZW1wY3p5bnNraUBpbnRlbC5jb20+IHdyb3RlOgo+
-ID4gPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gPiA+IE9uIFdlZCwgTWFyIDEwLCAyMDIxIGF0IDAz
-OjUwOjA3UE0gLTA2MDAsIEphc29uIEVrc3RyYW5kIHdyb3RlOgo+ID4gPiA+ID4gPiA+ID4gPiBU
-aGUgVnVsa2FuIGRyaXZlciBpbiBNZXNhIGZvciBJbnRlbCBoYXJkd2FyZSBuZXZlciB1c2VzIHJl
-bG9jYXRpb25zIGlmCj4gPiA+ID4gPiA+ID4gPiA+IGl0J3MgcnVubmluZyBvbiBhIHZlcnNpb24g
-b2YgaTkxNSB0aGF0IHN1cHBvcnRzIGF0IGxlYXN0IHNvZnRwaW4gd2hpY2gKPiA+ID4gPiA+ID4g
-PiA+ID4gYWxsIHZlcnNpb25zIG9mIGk5MTUgc3VwcG9ydGluZyBHZW4xMiBkby4gIE9uIHRoZSBP
-cGVuR0wgc2lkZSwgR2VuMTIrIGlzCj4gPiA+ID4gPiA+ID4gPiA+IG9ubHkgc3VwcG9ydGVkIGJ5
-IGlyaXMgd2hpY2ggbmV2ZXIgdXNlcyByZWxvY2F0aW9ucy4gIFRoZSBvbGRlciBpOTY1Cj4gPiA+
-ID4gPiA+ID4gPiA+IGRyaXZlciBpbiBNZXNhIGRvZXMgdXNlIHJlbG9jYXRpb25zIGJ1dCBpdCBv
-bmx5IHN1cHBvcnRzIEludGVsIGhhcmR3YXJlCj4gPiA+ID4gPiA+ID4gPiA+IHRocm91Z2ggR2Vu
-MTEgYW5kIGhhcyBiZWVuIGRlcHJlY2F0ZWQgZm9yIGFsbCBoYXJkd2FyZSBHZW45Ky4gIFRoZQo+
-ID4gPiA+ID4gPiA+ID4gPiBjb21wdXRlIGRyaXZlciBhbHNvIG5ldmVyIHVzZXMgcmVsb2NhdGlv
-bnMuICBUaGlzIG9ubHkgbGVhdmVzIHRoZSBtZWRpYQo+ID4gPiA+ID4gPiA+ID4gPiBkcml2ZXIg
-d2hpY2ggaXMgc3VwcG9zZWQgdG8gYmUgc3dpdGNoaW5nIHRvIHNvZnRwaW4gZ29pbmcgZm9yd2Fy
-ZC4KPiA+ID4gPiA+ID4gPiA+ID4gTWFraW5nIHNvZnRwaW4gYSByZXF1aXJlbWVudCBmb3IgYWxs
-IGZ1dHVyZSBoYXJkd2FyZSBzZWVtcyByZWFzb25hYmxlLgo+ID4gPiA+ID4gPiA+ID4gPgo+ID4g
-PiA+ID4gPiA+ID4gPiBSZWplY3RpbmcgcmVsb2NhdGlvbnMgc3RhcnRpbmcgd2l0aCBHZW4xMiBo
-YXMgdGhlIGJlbmVmaXQgdGhhdCB3ZSBkb24ndAo+ID4gPiA+ID4gPiA+ID4gPiBoYXZlIHRvIGJv
-dGhlciBzdXBwb3J0aW5nIGl0IG9uIHBsYXRmb3JtcyB3aXRoIGxvY2FsIG1lbW9yeS4gIEdpdmVu
-IGhvdwo+ID4gPiA+ID4gPiA+ID4gPiBtdWNoIENQVSB0b3VjaGluZyBvZiBtZW1vcnkgaXMgcmVx
-dWlyZWQgZm9yIHJlbG9jYXRpb25zLCBub3QgaGF2aW5nIHRvCj4gPiA+ID4gPiA+ID4gPiA+IGRv
-IHNvIG9uIHBsYXRmb3JtcyB3aGVyZSBub3QgYWxsIG1lbW9yeSBpcyBkaXJlY3RseSBDUFUtYWNj
-ZXNzaWJsZQo+ID4gPiA+ID4gPiA+ID4gPiBjYXJyaWVzIHNpZ25pZmljYW50IGFkdmFudGFnZXMu
-Cj4gPiA+ID4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ID4gPiA+IHYyIChKYXNvbiBFa3N0cmFuZCk6
-Cj4gPiA+ID4gPiA+ID4gPiA+ICAtIEFsbG93IFRHTC1MUCBwbGF0Zm9ybXMgYXMgdGhleSd2ZSBh
-bHJlYWR5IHNoaXBwZWQKPiA+ID4gPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gPiA+ID4gdjMgKEph
-c29uIEVrc3RyYW5kKToKPiA+ID4gPiA+ID4gPiA+ID4gIC0gV0FSTl9PTiBwbGF0Zm9ybXMgd2l0
-aCBMTUVNIHN1cHBvcnQgaW4gY2FzZSB0aGUgY2hlY2sgaXMgd3JvbmcKPiA+ID4gPiA+ID4gPiA+
-Cj4gPiA+ID4gPiA+ID4gPiBJIHdhcyBhc2tlZCB0byByZXZpZXcgb2YgdGhpcyBwYXRjaC4gSXQg
-d29ya3MgYWxvbmcgd2l0aCBleHBlY3RlZAo+ID4gPiA+ID4gPiA+ID4gSUdUIGNoZWNrIGh0dHBz
-Oi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC80MjMzNjEvP3Nlcmllcz04Mjk1NCZy
-ZXY9MjUKPiA+ID4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ID4gPiBCZWZvcmUgSSdsbCBnaXZlIHlv
-dSByLWIgLSBpc24ndCBpOTE1X2dlbV9leGVjYnVmZmVyMl9pb2N0bCgpIGJldHRlciBwbGFjZQo+
-ID4gPiA+ID4gPiA+ID4gdG8gZG8gZm9yIGxvb3AganVzdCBhZnRlciBjb3B5X2Zyb21fdXNlcigp
-IGFuZCBjaGVjayByZWxvY2F0aW9uX2NvdW50Pwo+ID4gPiA+ID4gPiA+ID4gV2UgaGF2ZSBhbiBh
-Y2Nlc3MgdG8gZXhlYzJfbGlzdCB0aGVyZSwgd2Uga25vdyB0aGUgZ2VuIHNvIHdlJ3JlIGFibGUg
-dG8gc2F5Cj4gPiA+ID4gPiA+ID4gPiByZWxvY2F0aW9ucyBhcmUgbm90IHN1cHBvcnRlZCBpbW1l
-ZGlhdGUsIHdpdGhvdXQgZW50ZXJpbmcgaTkxNV9nZW1fZG9fZXhlY2J1ZmZlcigpLgo+ID4gPiA+
-ID4gPiA+Cj4gPiA+ID4gPiA+ID4gSSBjb25zaWRlcmVkIHRoYXQgYnV0IGl0IGFkZHMgYW4gZXh0
-cmEgb2JqZWN0IGxpc3Qgd2FsayBmb3IgYSBjYXNlCj4gPiA+ID4gPiA+ID4gd2hpY2ggd2UgZXhw
-ZWN0IHRvIG5vdCBoYXBwZW4uICBJJ20gbm90IHN1cmUgaG93IGV4cGVuc2l2ZSB0aGUgbGlzdAo+
-ID4gPiA+ID4gPiA+IHdhbGsgd291bGQgYmUgaWYgYWxsIHdlIGRvIGlzIGNoZWNrIHRoZSBudW1i
-ZXIgb2YgcmVsb2NhdGlvbnMgb24gZWFjaAo+ID4gPiA+ID4gPiA+IG9iamVjdC4gIEkgZ3Vlc3Ms
-IGlmIGl0IGNvbWVzIHJpZ2h0IGFmdGVyIGEgY29weV9mcm9tX3VzZXIsIGl0J3MgYWxsCj4gPiA+
-ID4gPiA+ID4gaG90IGluIHRoZSBjYWNoZSBzbyBpdCBzaG91bGRuJ3QgbWF0dGVyLiAgT2suICBJ
-J3ZlIGNvbnZpbmNlZCBteXNlbGYuCj4gPiA+ID4gPiA+ID4gSSdsbCBtb3ZlIGl0Lgo+ID4gPiA+
-ID4gPgo+ID4gPiA+ID4gPiBJIHJlYWxseSB3b3VsZG4ndCBtb3ZlIGl0IGlmIGl0J3MgYW5vdGhl
-ciBsaXN0IHdhbGsuIEV4ZWNidWYgaGFzIGEgbG90Cj4gPiA+ID4gPiA+IG9mIGZhc3QtcGF0aHMg
-Z29pbmcgb24sIGFuZCB3ZSBoYXZlIGV4dGVuc2l2ZSB0ZXN0cyB0byBtYWtlIHN1cmUgaXQKPiA+
-ID4gPiA+ID4gdW53aW5kcyBjb3JyZWN0bHkgaW4gYWxsIGNhc2VzLiBJdCdzIG5vdCB2ZXJ5IGlu
-dHVpdGl2ZSwgYnV0IGV4ZWNidWYKPiA+ID4gPiA+ID4gY29kZSBpc24ndCBzY29yaW5nIHZlcnkg
-aGlnaCBvbiB0aGF0Lgo+ID4gPiA+ID4KPiA+ID4gPiA+IEFuZCBoZXJlIEknZCBqdXN0IGZpbmlz
-aGVkIGRvaW5nIHRoZSB0eXBpbmcgdG8gbW92ZSBpdC4gIEdvb2QgdGhpbmcgSQo+ID4gPiA+ID4g
-aGFkbid0IGNsb3NlZCB2aW0geWV0IGFuZCBpdCB3YXMgc3RpbGwgaW4gbXkgdW5kbyBidWZmZXIu
-IDotKQo+ID4gPiA+Cj4gPiA+ID4gQmVmb3JlIGVudGVyaW5nICJzbG93ZXIiIHBhdGggZnJvbSBt
-eSBwZXJzcGVjdGl2ZSBJIHdvdWxkIGp1c3QgY2hlY2sKPiA+ID4gPiBiYXRjaCBvYmplY3QgYXQg
-dGhhdCBwbGFjZS4gV2Ugc3RpbGwgd291bGQgaGF2ZSBzaW5nbGUgbGlzdCB3YWxrdGhyb3VnaAo+
-ID4gPiA+IGFuZCBxdWljayBjaGVjayBvbiB0aGUgdmVyeSBiZWdpbm5pbmcuCj4gPiA+Cj4gPiA+
-IENhbiB5b3UgYmUgbW9yZSBzcGVjaWZpYyBhYm91dCB3aGF0IGV4YWN0bHkgeW91IHRoaW5rIHdl
-IGNhbiBjaGVjayBhdAo+ID4gPiB0aGUgYmVnaW5uaW5nPyAgRWl0aGVyIHdlIGFkZCBhIGZsYWcg
-dGhhdCB3ZSBjYW4gTygxKSBjaGVjayBhdCB0aGUKPiA+ID4gYmVnaW5uaW5nIG9yIHdlIGhhdmUg
-dG8gY2hlY2sgZXZlcnl0aGluZyBpbiBleGVjMl9saXN0IGZvcgo+ID4gPiBleGVjMl9saXN0W25d
-LnJlbG9jYXRpb25fY291bnQgPT0gMC4gIFRoYXQncyBhIGxpc3Qgd2Fsay4gIEknbSBub3QKPiA+
-ID4gc2VlaW5nIHdoYXQgdXAtZnJvbnQgY2hlY2sgeW91J3JlIHRoaW5raW5nIHdlIGNhbiBkbyB3
-aXRob3V0IHRoZSBsaXN0Cj4gPiA+IHdhbGsuCj4gPgo+ID4gSSBleHBlY3QgdGhhdCBsYXN0IChk
-ZWZhdWx0KSBvciBmaXJzdCAoSTkxNV9FWEVDX0JBVENIX0ZJUlNUKSBleGVjb2JqCj4gPiAoYmF0
-Y2gpIHdpbGwgbGlrZWx5IGhhcyByZWxvY2F0aW9ucy4gU28gd2UgY2FuIGNoZWNrIHRoYXQgc2lu
-Z2xlCj4gPiBvYmplY3Qgd2l0aG91dCBlbnRlcmluZyBpOTE1X2dlbV9kb19leGVjYnVmZmVyKCku
-IElmIHRoYXQgY2hlY2sKPiA+IGlzIG1pc3NlZCAocmVsb2NhdGlvbl9jb3VudCA9IDApIHlvdSds
-bCBjYXRjaCByZWxvY2F0aW9ucyBpbiBvdGhlcgo+ID4gb2JqZWN0cyBpbiBjaGVja19yZWxvY2F0
-aW9ucygpIGFzIHlvdSBhbHJlYWR5IGRpZC4gVGhpcyBpcyBzaW1wbGUKPiA+IG9wdGltaXphdGlv
-biBidXQgd2UgY2FuIGF2b2lkIHR3byBpdGVyYXRpb25zIG92ZXIgYnVmZmVyIGxpc3QKPiA+IChm
-aXJzdCBpcyBpbiBlYl9sb29rdXBfdm1hcygpKS4KPiAKPiBTdXJlLCB3ZSBjYW4gZG8gYW4gZWFy
-bHktZXhpdCBjaGVjayBvZiB0aGUgZmlyc3QgYW5kIGxhc3Qgb2JqZWN0cy4KPiBJJ20ganVzdCBu
-b3Qgc2VlaW5nIHdoYXQgdGhhdCBzYXZlcyB1cyBnaXZlbiB0aGF0IHdlIHN0aWxsIGhhdmUgdG8g
-ZG8KPiB0aGUgZnVsbCBsaXN0LXdhbGsgY2hlY2sgYW55d2F5LiAgRXNwZWNpYWxseSBzaW5jZSB0
-aGlzIGlzIGFuIGVycm9yCj4gcGF0aCB3aGljaCBzaG91bGRuJ3QgYmUgaGl0IGJ5IHJlYWwgdXNl
-cnNwYWNlIGRyaXZlcnMuCgpZZWFoIG9wdGltaXppbmcgZXJyb3IgY2hlY2tpbmcgc291bmRzIGxp
-a2UgdGhlIHdyb25nIHRoaW5nIHRvIG9wdGltaXplLgpVc2Vyc3BhY2UgaXMgd3JvbmcsIGl0IG1p
-Z2h0IGFzIHdlbGwgaGF2ZSB0byB3YWl0IGEgYml0IHVudGlsIGl0IGdldHMgdGhhdApyZWplY3Rp
-b24gOi0pCi1EYW5pZWwKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVs
-IENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Fri, Mar 12, 2021 at 11:46:27AM +0100, Dmitry Vyukov wrote:
+> On Fri, Mar 12, 2021 at 11:26 AM syzbot
+> <syzbot+333bd014262fd5d0a418@syzkaller.appspotmail.com> wrote:
+> >
+> > Hello,
+> >
+> > syzbot found the following issue on:
+> >
+> > HEAD commit:    f78d76e7 Merge tag 'drm-fixes-2021-03-12-1' of git://anong..
+> > git tree:       upstream
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=11c16ba2d00000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=dc02c6afcb046874
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=333bd014262fd5d0a418
+> > userspace arch: arm
+> >
+> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> > Reported-by: syzbot+333bd014262fd5d0a418@syzkaller.appspotmail.com
+> 
+> This WARNING seems to be happening just randomly.
+> It was already reported as:
+> 
+> #syz dup: WARNING in vkms_vblank_simulate (2)
+> https://syzkaller.appspot.com/bug?id=9b10491371879700d6a21c15684c2232ff015084
+> 
+> It now has whooping 48589 crashes and also crashes slow qemu tcg instances.
+
+Yeah your box is too slow. We're trying to simulate hw here, which means
+if we can process less than 1 hrtimer per vblank (standard every 16ms)
+then we scream, because things go very wrong with the simulated hw. And
+the hrtimer is really not that big, all the expensive processing is pushed
+to worker, where we have code to handle if it falls back too much.
+
+So either patch this out or make the code robust against a kernel that
+somehow can't process a single hrtimer every 16ms.
+-Daniel
+
+> 
+> 
+> 
+> > ------------[ cut here ]------------
+> > WARNING: CPU: 0 PID: 0 at drivers/gpu/drm/vkms/vkms_crtc.c:21 vkms_vblank_simulate+0x26c/0x2f4 drivers/gpu/drm/vkms/vkms_crtc.c:41
+> > Modules linked in:
+> > CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.12.0-rc2-syzkaller-00338-gf78d76e72a46 #0
+> > Hardware name: linux,dummy-virt (DT)
+> > pstate: 20000085 (nzCv daIf -PAN -UAO -TCO BTYPE=--)
+> > pc : vkms_vblank_simulate+0x26c/0x2f4 drivers/gpu/drm/vkms/vkms_crtc.c:21
+> > lr : hrtimer_forward_now include/linux/hrtimer.h:510 [inline]
+> > lr : vkms_vblank_simulate+0x90/0x2f4 drivers/gpu/drm/vkms/vkms_crtc.c:19
+> > sp : ffff00006a693cd0
+> > x29: ffff00006a693cd0 x28: ffff00000c9d1e58
+> > x27: dfff800000000000 x26: ffff00006a67f540
+> > x25: 1fffe0000d4cfeb1 x24: 1fffe0000d4cfeaa
+> > x23: ffff00000c9d0d30 x22: 0000000000fe4c00
+> > x21: ffff00006a67f540 x20: ffff00000c9d0e58
+> > x19: ffff00000c9d1e58 x18: ffff00006a6a1b48
+> > x17: 1fffe00001952345 x16: 0000000000000000
+> > x15: ffff8000197bf810 x14: 1fffe0000d4d2750
+> > x13: 0000000000000001 x12: 0000000000000033
+> > x11: 1ffff00002fb4936 x10: 0000000000000007
+> > x9 : 1ffff00002fb4943 x8 : ffff800017d14c00
+> > x7 : 00000000f1f1f1f1 x6 : dfff800000000000
+> > x5 : 7fffffffffffffff x4 : 00000008e44f6b90
+> > x3 : 00000008e54db790 x2 : 00000008e44f6b90
+> > x1 : 00000008e54db790 x0 : 0000000000000002
+> > Call trace:
+> >  vkms_vblank_simulate+0x26c/0x2f4 drivers/gpu/drm/vkms/vkms_crtc.c:41
+> >  __run_hrtimer kernel/time/hrtimer.c:1519 [inline]
+> >  __hrtimer_run_queues+0x590/0xe40 kernel/time/hrtimer.c:1583
+> >  hrtimer_interrupt+0x2d4/0x810 kernel/time/hrtimer.c:1645
+> >  timer_handler drivers/clocksource/arm_arch_timer.c:647 [inline]
+> >  arch_timer_handler_phys+0x4c/0x70 drivers/clocksource/arm_arch_timer.c:665
+> >  handle_percpu_devid_irq+0x19c/0x330 kernel/irq/chip.c:930
+> >  generic_handle_irq_desc include/linux/irqdesc.h:158 [inline]
+> >  generic_handle_irq kernel/irq/irqdesc.c:652 [inline]
+> >  __handle_domain_irq+0x11c/0x1f0 kernel/irq/irqdesc.c:689
+> >  handle_domain_irq include/linux/irqdesc.h:176 [inline]
+> >  gic_handle_irq+0x5c/0x1b0 drivers/irqchip/irq-gic.c:370
+> >  el1_irq+0xb4/0x180 arch/arm64/kernel/entry.S:669
+> >  arch_local_irq_restore arch/arm64/include/asm/irqflags.h:124 [inline]
+> >  queue_work_on+0x74/0x110 kernel/workqueue.c:1528
+> >  queue_work include/linux/workqueue.h:507 [inline]
+> >  cursor_timer_handler+0x64/0x100 drivers/video/fbdev/core/fbcon.c:397
+> >  call_timer_fn+0x1d4/0x9c4 kernel/time/timer.c:1431
+> >  expire_timers kernel/time/timer.c:1476 [inline]
+> >  __run_timers.part.0+0x530/0xa00 kernel/time/timer.c:1745
+> >  __run_timers kernel/time/timer.c:1726 [inline]
+> >  run_timer_softirq+0xa4/0x1a0 kernel/time/timer.c:1758
+> >  _stext+0x2b4/0x1084
+> >  do_softirq_own_stack include/asm-generic/softirq_stack.h:10 [inline]
+> >  invoke_softirq kernel/softirq.c:228 [inline]
+> >  __irq_exit_rcu+0x46c/0x510 kernel/softirq.c:422
+> >  irq_exit+0x14/0x84 kernel/softirq.c:446
+> >  __handle_domain_irq+0x120/0x1f0 kernel/irq/irqdesc.c:692
+> >  handle_domain_irq include/linux/irqdesc.h:176 [inline]
+> >  gic_handle_irq+0x5c/0x1b0 drivers/irqchip/irq-gic.c:370
+> >  el1_irq+0xb4/0x180 arch/arm64/kernel/entry.S:669
+> >  arch_local_irq_enable+0xc/0x14 arch/arm64/include/asm/irqflags.h:37
+> >  default_idle_call+0x64/0xf4 kernel/sched/idle.c:112
+> >  cpuidle_idle_call kernel/sched/idle.c:194 [inline]
+> >  do_idle+0x38c/0x4ec kernel/sched/idle.c:300
+> >  cpu_startup_entry+0x28/0x80 kernel/sched/idle.c:397
+> >  rest_init+0x1d0/0x2cc init/main.c:721
+> >  arch_call_rest_init+0x10/0x1c
+> >  start_kernel+0x3b0/0x3e8 init/main.c:1064
+> >  0x0
+> >
+> >
+> > ---
+> > This report is generated by a bot. It may contain errors.
+> > See https://goo.gl/tpsmEJ for more information about syzbot.
+> > syzbot engineers can be reached at syzkaller@googlegroups.com.
+> >
+> > syzbot will keep track of this issue. See:
+> > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> >
+> > --
+> > You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
+> > To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
+> > To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/0000000000009cd8d505bd545452%40google.com.
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
