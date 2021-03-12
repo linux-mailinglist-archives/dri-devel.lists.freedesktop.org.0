@@ -2,37 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 935D433868E
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 08:31:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 885A93386D0
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 08:52:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 815886F44F;
-	Fri, 12 Mar 2021 07:31:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B62F86F45F;
+	Fri, 12 Mar 2021 07:51:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA78F6F44F
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 07:31:31 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:b93f:9fae:b276:a89a])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E06A21F4687A;
- Fri, 12 Mar 2021 07:31:29 +0000 (GMT)
-Date: Fri, 12 Mar 2021 08:31:25 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [RFC PATCH 0/7] drm/panfrost: Add a new submit ioctl
-Message-ID: <20210312083125.76063c77@collabora.com>
-In-Reply-To: <CAOFGe95d-LQ_rNwncup-G5oj14uCnNrnHr=r1b5jLYnXfMSTiA@mail.gmail.com>
-References: <20210311092539.2405596-1-boris.brezillon@collabora.com>
- <86062831-6608-9ae7-c513-e74d3a9c2e33@arm.com>
- <20210311140023.2735aaa5@collabora.com>
- <CAOFGe94rnS+5FeJ1A8bLxgVDZB4_0Wp2Nx25iCCYGJ=j3KpOCA@mail.gmail.com>
- <20210311182458.0e0140a1@collabora.com>
- <CAOFGe95d-LQ_rNwncup-G5oj14uCnNrnHr=r1b5jLYnXfMSTiA@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2067.outbound.protection.outlook.com [40.107.236.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C2B46F45C;
+ Fri, 12 Mar 2021 07:51:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AM/2bkrhAoVTMYandbs0xTcimZ68hMzfieoJZaBmt9FWvCV2qstF7S5TT8mWEj9XS6JOXuzsD7UaVBw0rsQ/UywzYO7EwVQqJgKQ0WXyZbbKvAebPvoXdf3ApC0QGkTw834Gml5+xTG8XNeuujzcPMHVoikcRmppYVXFF6jBtwN8PE3HLSb5aEqp9N94FGaFyBHgOJBtazOhuWA6Du3OSe+lehIrt7J7C0F6YxZC33OM6kume0jHdNQZGskzwS41lFYlV/DU8NmcYFFavd0VidACC/CkyeFqmIHilJRdKdcpvFHcfBHwtdjhKQNTic+y8a3ZjXVzx56bOIEGtpaH9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iXp7AZWEQUtzSJVLhVzWpvY4BWD8w1//7TUA82TlbGs=;
+ b=FQzLs+MljCVyaK7BJu05A6Wf8xxAwTq9ygppudqwxIqd9HQpmptZtHlmrodWZF6lE3gjMwAx4lZcMznq0f4M0BuziZC/1Hu0or4WhS29cVgXhJCIrVsFCb0Og3Tkq/sGLVx4BZtjdBzVh1G/2BypQ0qVTRs/hBPgUDY9hZAGH43iqk/4PH/PyitjOXyKkhnFBq+B9A28XAS/QZQZOTXXDGfNKxGDCDP42iLMotYueFAAcTYYk8jy5+ETYz7GIjpE1hK8fbH43+0VZRiwrjZF3Suz21B37P9QlHRF0VE8b/J58k1NFv14cp01k5J8H8Q6zNZe7gOy9D7MxCqJy0zgug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iXp7AZWEQUtzSJVLhVzWpvY4BWD8w1//7TUA82TlbGs=;
+ b=ekg65ufNrRH4xF0sM8RhKmJMsSAP8M9lDjv6K5NYMnuraR4t9iSsyTeKKtZy/CNnvp2XIRSyQeMO8v+FFRmV8RFBWILdkmzuJx+15PXUAEXvZShvg3IKEdPMDkbmS0eqP79ba4hkmbtge/5hfTXgHONVfgepfdv4F5Ak8/1RqwI=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB3696.namprd12.prod.outlook.com (2603:10b6:208:169::27)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31; Fri, 12 Mar
+ 2021 07:51:52 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3933.031; Fri, 12 Mar 2021
+ 07:51:52 +0000
+Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for
+ mmap
+To: Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+References: <61c5c371-debe-4ca0-a067-ce306e51ef88@shipmail.org>
+ <CAKMK7uFUiJyMP0E5JUzMOx=NyMW+ZObGsaFOh409x0LOvGbnzg@mail.gmail.com>
+ <0d69bd00-e673-17cf-c9e3-ccbcd52649a6@shipmail.org>
+ <CAKMK7uE=8+hj-MUFXHFoG_hAbz_Obi8a99+DE5_d1K+KZaG+tQ@mail.gmail.com>
+ <b367b7e8-f202-4d23-d672-a5c9bc7fcec1@shipmail.org>
+ <YDyuYk8x5QeX83s6@phenom.ffwll.local>
+ <be8f2503-ffcb-eb58-83be-26fa0fc1837a@shipmail.org>
+ <648556e6-2d99-950d-c940-706eb5a8f6cc@amd.com>
+ <CAKMK7uHOe=LacUkvGC75dyWAt9TRm7ce8vgxasXOXn-6wJTVnA@mail.gmail.com>
+ <9d608c61-c64c-dcde-c719-59a970144404@shipmail.org>
+ <YEoUZe8BtvQdv3TG@phenom.ffwll.local>
+ <0e15ae7a-58d3-c75e-9a6c-e397e11750a7@shipmail.org>
+ <CAKMK7uEzGKUc27xdWTv7KPESsyg1kCYCmVxP3b-HrzNCNO5x7g@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <c96145e3-1386-8a50-2ee6-6af61a60c861@amd.com>
+Date: Fri, 12 Mar 2021 08:51:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+In-Reply-To: <CAKMK7uEzGKUc27xdWTv7KPESsyg1kCYCmVxP3b-HrzNCNO5x7g@mail.gmail.com>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:2108:8a72:3f15:1a1f]
+X-ClientProxiedBy: AM0PR10CA0074.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:15::27) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:2108:8a72:3f15:1a1f]
+ (2a02:908:1252:fb60:2108:8a72:3f15:1a1f) by
+ AM0PR10CA0074.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3912.17 via Frontend Transport; Fri, 12 Mar 2021 07:51:49 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 1077066c-90f1-4971-9421-08d8e52bb272
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3696:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3696267E09B8E21968563D4C836F9@MN2PR12MB3696.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QeGGClAt98m0nX3miHFf0GEWNZh8qYa/w/Mk8NOzI9jBjyS2BaXlO5dAKYMcDXfskHoKy0eftQ6+0xJARr62cb2Qa+ISUG/e7BuqrTSH4Ms/L/zeUrgNAk0HPX1fIShMvgDWlWF1RLsXIcRA6fJO5msSFszktKGB9UhC+LVjTgmOY4E0+RkSrx9KFnTs5HPca3fqjRECsV/HmyUfo/ZLyBqduik9tzy/9OEKgQ1Z2j+/akf6kqRy+xhLBCE/rzAQPJltJzb6j7bmIAiHzNUUFXke02aLV7FBv4Nvh8WRc2fSc+/DrJtOSszkk4Dh1jxDuZCPhlLvlxNAdzsGUAAq62o4aF2zttRRiUc3l1Nj39dke0woMsSVaXq3PQB2udaGintWS3iqG1DhVXGApyKSlSYidc4wH4ndWNL8gioYdiSV6Ws9IfrcGsDl5nT9aQ8NdvRuwi2H6jFsM+gUbMFmAUVJ5AkK2OuHqvN6JMkv95gGLfveY1rcrHcVPyqO4hdJSydMvnUmwE5avjAISdF87Lmgf6KC5ptwub3rr8pBn1BmBTc91gXzwGc6dlr+jLKXqPCRKE3lsr50yQzPhHiN/WBOoU4Lb9jdvx2aTce82Xs/NxM515l8UoUtNkWK1K8JX6OXn1IU+074Xz38+5uJsA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(376002)(346002)(136003)(396003)(366004)(36756003)(2616005)(4326008)(2906002)(8936002)(83380400001)(8676002)(86362001)(31696002)(66476007)(54906003)(316002)(66556008)(110136005)(186003)(66946007)(16526019)(478600001)(31686004)(6486002)(7416002)(5660300002)(52116002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?dUZ2THdRdUErcndqNDdFeDRLci9jRTV0S3FNcS84bXl3UEtVRDduUXpPaXhB?=
+ =?utf-8?B?blJ5YWF0ZzlEb0VwYkFrbURLUUpLU3JOWUxRZTgzVTFrL0U3UUZNYWZUMmh0?=
+ =?utf-8?B?MVlOd2REbldaZ1R3VlpiSUlqZVcwdzZMMkNiTko0L3FDcmRMSkJDRUFyeDYw?=
+ =?utf-8?B?NEFxTTFvRDJhRnpoREZWRzZHUHZ1VWNIQi92WExQZFhyVVljbG11MWd5VUIy?=
+ =?utf-8?B?TE5RQ3haZlFZam80NkdRbnRDbXdNUEw2dGNPRncxaWhsSFFjT0NIazgrcDQ5?=
+ =?utf-8?B?dGhobzlYWDRtbElEVGFWb0dQOFZUODlRZitGVzNWUTc4b0s1Mnd2WnA5Y281?=
+ =?utf-8?B?WHlyQ2tNTnZ1WndFUUdHNDJQYXp6UUIxS0dhaloxMS9ZakF5OGxqZTRKa2FP?=
+ =?utf-8?B?b0wwbHc3TGs2ZHEvZ1VvRU8vQWtjK3hNdVNBbEZxdnhwWmVtd0xSQTFmNURP?=
+ =?utf-8?B?TWJqd3hOVjRCdWxBRzVCY0dkWTU4U295bHRKcUJQQWlLbk0zOXM1dkxrL0ZD?=
+ =?utf-8?B?blVUV0FNUHU1WHdCV1hTRUw0ZTgvM3pvNmpvNS9uU1Y2TnpSVFdJNWhDYWJJ?=
+ =?utf-8?B?MGtSN05XVkV1TDlNalU0VlExNXMwY08zSmdtMUFYaER6S0RFaUpWbWpPNXFr?=
+ =?utf-8?B?SjRUS3E2dXBNNHIyc2ZITy80bTVXOVdSZkx6Sll1TmVkUzFWVEQ0bkpiYndI?=
+ =?utf-8?B?b2o0NXMwN0dLV3pYck5nS1R5cTlXaVB1WHZPWXZ1SVo2Rm5FY1N6THYvWW1m?=
+ =?utf-8?B?c0hWQmJrdytZQ1dnRDNlVGhUV0ZtS2tubTdPRnJGdzJadkRwaVc5bC9YKy9h?=
+ =?utf-8?B?dzlQY1N5WjFEV2FocUVENmNIa3hCdVo4VWV3VEpTa0xpdG1MNEVvRXdHNHAx?=
+ =?utf-8?B?V1g2OHRjTnM4QTM3WVdPMC9UeHpIMGVzSzY3TXFWeGRzL1puUCtrTmZEenJE?=
+ =?utf-8?B?aGpCa2RUWXJvUjRCRVpGd1dXRWZqanlxcFdUdnRNNGpKdXI0NnpXemsybWxm?=
+ =?utf-8?B?L2s2TTRvZnhRVk00NUlYWGZ5RytIMmxSNGEvcHdSOElhMVpsMWNQbnlpenpu?=
+ =?utf-8?B?WEhpRVQxZFRzZ3BPb3czcEw2ZDhtbDBCVVFWV3F6VGdWS0JPWHp4VW1iYVFz?=
+ =?utf-8?B?bDFFUW1LbGt1NzRpRi9UOTNLSnA0TFVJcEZnaXFGWW1jNktjT2x1LzlCRWtV?=
+ =?utf-8?B?M0p4OFlaZm5HK2k0ZlpYYURGWFFubVA2dHYrWnVhK29pNXJyeHBZaTk5dFU4?=
+ =?utf-8?B?MXVvZFBmYkJPK0p1MlB4NldHTkNkV2FzYlVJL1h2eXAycFdvNzRFSm8zektw?=
+ =?utf-8?B?QTRzTE51d3k4dWM1RzdVaGhpY1JXSFBaSVBFNTQ0UU1RSDMrNDZhS1FVRHNP?=
+ =?utf-8?B?U1dldTB3Zy9QWXZFdVpjY215bHNvakNvUFo1RkJRWnhZZEU3RmhnbGo3NGls?=
+ =?utf-8?B?MXZ4WFBSL1RHOXd5WHJWT1grd2xOdnR1cHlGaFdmemh1Ujh4dlRlSS8vOFV3?=
+ =?utf-8?B?UUxFMlBSVEtmNzFXK1IrRUtaNHc0V0hIVUFpK0x3dERWTk9hZTUvVG1mRTkv?=
+ =?utf-8?B?TTNjMUNxK01SMVhkZVZ2NzVFcW9mT1JISEExN0xjMmI2SXNFMUR6alJrVExO?=
+ =?utf-8?B?WkpDbVROK25hYmVISXhrM1Y3eFJuWGZDUXNOMHBuRGpCNnVxdC9rVGpqRHVU?=
+ =?utf-8?B?Mkp6aUY1OHhwZ0NZNXdYRVR6K0hIY3hrSzJRVnpzYTUydjB1OWxFZFZNeXBo?=
+ =?utf-8?B?amwySXVxYVpYSzlHVVRHaGtyN3FuWEMzTXlPd2RWelhWVDc4LzFFUmZVQWNv?=
+ =?utf-8?B?MExZaUlZWnhmVXRZQUtjTndxbW5QYlpwVU5wanJiVGRHSGZHWnlLbHFObC83?=
+ =?utf-8?Q?1SRhHdvw/hDaY?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1077066c-90f1-4971-9421-08d8e52bb272
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2021 07:51:51.9659 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: y663TB2+qZiOkNKbbAYco9e72krETeqX0HwJbVMDi/m4/Yadu4yBSJo+kaESdvSW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3696
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,151 +140,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Herring <robh+dt@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 11 Mar 2021 12:11:48 -0600
-Jason Ekstrand <jason@jlekstrand.net> wrote:
-
-> > > > > > 2/ Queued jobs might be executed out-of-order (unless they have
-> > > > > >     explicit/implicit deps between them), and Vulkan asks that the out
-> > > > > >     fence be signaled when all jobs are done. Timeline syncobjs are a
-> > > > > >     good match for that use case. All we need to do is pass the same
-> > > > > >     fence syncobj to all jobs being attached to a single QueueSubmit
-> > > > > >     request, but a different point on the timeline. The syncobj
-> > > > > >     timeline wait does the rest and guarantees that we've reached a
-> > > > > >     given timeline point (IOW, all jobs before that point are done)
-> > > > > >     before declaring the fence as signaled.
-> > > > > >     One alternative would be to have dummy 'synchronization' jobs that
-> > > > > >     don't actually execute anything on the GPU but declare a dependency
-> > > > > >     on all other jobs that are part of the QueueSubmit request, and
-> > > > > >     signal the out fence (the scheduler would do most of the work for
-> > > > > >     us, all we have to do is support NULL job heads and signal the
-> > > > > >     fence directly when that happens instead of queueing the job).  
-> > > > >
-> > > > > I have to admit to being rather hazy on the details of timeline
-> > > > > syncobjs, but I thought there was a requirement that the timeline moves
-> > > > > monotonically. I.e. if you have multiple jobs signalling the same
-> > > > > syncobj just with different points, then AFAIU the API requires that the
-> > > > > points are triggered in order.  
-> > > >
-> > > > I only started looking at the SYNCOBJ_TIMELINE API a few days ago, so I
-> > > > might be wrong, but my understanding is that queuing fences (addition
-> > > > of new points in the timeline) should happen in order, but signaling
-> > > > can happen in any order. When checking for a signaled fence the
-> > > > fence-chain logic starts from the last point (or from an explicit point
-> > > > if you use the timeline wait flavor) and goes backward, stopping at the
-> > > > first un-signaled node. If I'm correct, that means that fences that
-> > > > are part of a chain can be signaled in any order.  
-> > >
-> > > You don't even need a timeline for this.  Just have a single syncobj
-> > > per-queue and make each submit wait on it and then signal it.
-> > > Alternatively, you can just always hang on to the out-fence from the
-> > > previous submit and make the next one wait on that.  
-> >
-> > That's what I have right now, but it forces the serialization of all
-> > jobs that are pushed during a submit (and there can be more than one
-> > per command buffer on panfrost :-/). Maybe I'm wrong, but I thought it'd
-> > be better to not force this serialization if we can avoid it.  
-> 
-> I'm not familiar with panfrost's needs and I don't work on a tiler and
-> I know there are different issues there.  But...
-> 
-> The Vulkan spec requires that everything that all the submits that
-> happen on a given vkQueue happen in-order.  Search the spec for
-> "Submission order" for more details.
-
-Duh, looks like I completely occulted the "Submission order"
-guarantees. This being said, even after reading this chapter multiple
-times I'm not sure what kind of guarantee this gives us, given the
-execution itself can be out-of-order. My understanding is that
-submission order matters for implicit deps, say you have 2 distinct
-VkSubmitInfo, the first one (in submission order) writing to a buffer
-and the second one reading from it, you really want the first one to
-be submitted first and the second one to wait on the implicit BO fence
-created by the first one. If we were to submit out-of-order, this
-guarantee wouldn't be met. OTOH, if we have 2 completely independent
-submits, I don't really see what submission order gives us if execution
-is out-of-order.
-
-In our case, the kernel driver takes care of the submission
-serialization (gathering implicit and explicit deps, queuing the job and
-assigning the "done" fence to the output sync objects). Once things
-are queued, it's the scheduler (drm_sched) deciding of the execution
-order.
-
-> 
-> So, generally speaking, there are some in-order requirements there.
-> Again, not having a lot of tiler experience, I'm not the one to weigh
-> in.
-> 
-> > > Timelines are overkill here, IMO.  
-> >
-> > Mind developing why you think this is overkill? After looking at the
-> > kernel implementation I thought using timeline syncobjs would be
-> > pretty cheap compared to the other options I considered.  
-> 
-> If you use a regular syncobj, every time you wait on it it inserts a
-> dependency between the current submit and the last thing to signal it
-> on the CPU timeline.  The internal dma_fences will hang around
-> as-needed to ensure those dependencies.  If you use a timeline, you
-> have to also track a uint64_t to reference the current time point.
-> This may work if you need to sync a bunch of in-flight stuff at one
-> go, that may work but if you're trying to serialize, it's just extra
-> tracking for no point.  Again, maybe there's something I'm missing and
-> you don't actually want to serialize.
-
-My understanding (and I might very much be wrong here) is that using a
-regular syncobj to do this actually enforces not only the submission
-order but also the execution order (each job waiting on the previous
-one to complete before being scheduled). The idea of the timeline
-syncobj approach is that jobs that have no inter dependencies can be
-started in any order, the scheduler picking the first whose deps are
-ready (which might not necessarily match submission order). The
-timeline syncobj allows us to have one point per kernel-submission and
-eventually wait on the last point for the fence passed to
-vkSubmitQueue(), and some specific point on the timeline for
-pSignalSemaphores entries.
-
-What's more challenging is signal operation ordering:
-
-"
-Signal operation order is a fundamental ordering in Vulkan, giving
-meaning to the order in which semaphore and fence signal operations
-occur when submitted to a single queue.
 
 
+Am 11.03.21 um 14:17 schrieb Daniel Vetter:
+> [SNIP]
+>>>> So I did the following quick experiment on vmwgfx, and it turns out that
+>>>> with it,
+>>>> fast gup never succeeds. Without the "| PFN_MAP", it typically succeeds
+>>>>
+>>>> I should probably craft an RFC formalizing this.
+>>> Yeah I think that would be good. Maybe even more formalized if we also
+>>> switch over to VM_PFNMAP, since afaiui these pte flags here only stop the
+>>> fast gup path. And slow gup can still peak through VM_MIXEDMAP. Or
+>>> something like that.
+>>>
+>>> Otoh your description of when it only sometimes succeeds would indicate my
+>>> understanding of VM_PFNMAP vs VM_MIXEDMAP is wrong here.
+>> My understanding from reading the vmf_insert_mixed() code is that iff
+>> the arch has pte_special(), VM_MIXEDMAP should be harmless. But that's
+>> not consistent with the vm_normal_page() doc. For architectures without
+>> pte_special, VM_PFNMAP must be used, and then we must also block COW
+>> mappings.
+>>
+>> If we can get someone can commit to verify that the potential PAT WC
+>> performance issue is gone with PFNMAP, I can put together a series with
+>> that included.
+> Iirc when I checked there's not much archs without pte_special, so I
+> guess that's why we luck out. Hopefully.
 
-1.  The initial order is determined by the order in which
-    vkQueueSubmit commands are executed on the host, for a single
-    queue, from first to last.
+I still need to read up a bit on what you guys are discussing here, but 
+it starts to make a picture. Especially my understanding of what 
+VM_MIXEDMAP means seems to have been slightly of.
 
-2.  The order in which VkSubmitInfo structures are specified in the
-    pSubmits parameter of vkQueueSubmit, from lowest index to highest.
+I would say just go ahead and provide patches to always use VM_PFNMAP in 
+TTM and we can test it and see if there are still some issues.
 
-3.  The fence signal operation defined by the fence parameter of a
-    vkQueueSubmit or vkQueueBindSparse command is ordered after all
-    semaphore signal operations defined by that command.
-"
+>> As for existing userspace using COW TTM mappings, I once had a couple of
+>> test cases to verify that it actually worked, in particular together
+>> with huge PMDs and PUDs where breaking COW would imply splitting those,
+>> but I can't think of anything else actually wanting to do that other
+>> than by mistake.
+> Yeah disallowing MAP_PRIVATE mappings would be another good thing to
+> lock down. Really doesn't make much sense.
 
-This means we have to add implicit dependencies on the signaling
-itself. We have two options to guarantee that:
+Completely agree. That sounds like something we should try to avoid.
 
-1/ Transfer one of the queue syncobj timeline point to each semaphore
-   and fence after job submission (the point itself being dependent
-   on the position of the submit entry in the array for semaphores, and
-   the last point for the fence). Problem with this approach is that we
-   now have an extra TRANSFER_SYNCOBJ call per semaphore/fence
+Regards,
+Christian.
 
-2/ Add SYNC jobs (jobs that do not actually execute on the GPU, but
-   serve as a synchronization point) whose responsibility would be to
-   do this muxing/transfer as part of the batch submission process.
+> -Daniel
+>
 
 _______________________________________________
 dri-devel mailing list
