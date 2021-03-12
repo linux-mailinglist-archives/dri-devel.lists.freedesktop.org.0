@@ -1,30 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E91338BDE
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 12:52:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 344D9338BB7
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 12:42:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E0496F5D4;
-	Fri, 12 Mar 2021 11:52:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 637756F5BE;
+	Fri, 12 Mar 2021 11:42:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF2F16F5D3
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 11:52:13 +0000 (UTC)
-Date: Thu, 11 Mar 2021 16:12:55 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 3/5] drm: Add and export function
- drm_gem_cma_mmap_noncoherent
-To: Christoph Hellwig <hch@infradead.org>
-Message-Id: <JPBTPQ.TL10VUKPUBL23@crapouillou.net>
-In-Reply-To: <20210311123642.GA1741910@infradead.org>
-References: <20210307202835.253907-1-paul@crapouillou.net>
- <20210307202835.253907-4-paul@crapouillou.net>
- <20210311122642.GB1739082@infradead.org>
- <3I1TPQ.E55GRWWDYVRG@crapouillou.net>
- <20210311123642.GA1741910@infradead.org>
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BCB86F5BE
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 11:42:29 +0000 (UTC)
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DxkQY2BB7zrVTq;
+ Fri, 12 Mar 2021 19:40:37 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.498.0; Fri, 12 Mar 2021 19:42:21 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <airlied@linux.ie>, <daniel@ffwll.ch>, <krzk@kernel.org>
+Subject: [PATCH] drm/exynos: move to use request_irq by IRQF_NO_AUTOEN flag
+Date: Fri, 12 Mar 2021 19:43:05 +0800
+Message-ID: <1615549385-33784-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,57 +39,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, od@zcrc.me,
- dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+After this patch cbe16f35bee68 genirq: Add IRQF_NO_AUTOEN for
+request_irq/nmi() is merged. request_irq() after setting
+IRQ_NOAUTOEN as below
 
+irq_set_status_flags(irq, IRQ_NOAUTOEN);
+request_irq(dev, irq...);
+can be replaced by request_irq() with IRQF_NO_AUTOEN flag.
 
-Le jeu. 11 mars 2021 =E0 12:36, Christoph Hellwig <hch@infradead.org> a =
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+---
+ drivers/gpu/drm/exynos/exynos5433_drm_decon.c | 4 ++--
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c       | 7 +++----
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-=E9crit :
-> On Thu, Mar 11, 2021 at 12:32:27PM +0000, Paul Cercueil wrote:
->>  > dma_to_phys must not be used by drivers.
->>  >
->>  > I have a proper helper for this waiting for users:
->>  >
->>  > =
-
->> http://git.infradead.org/users/hch/misc.git/commitdiff/96a546e7229ec53aa=
-dbdb7936d1e5e6cb5958952
->>  >
->>  > If you can confirm the helpers works for you I can try to still =
-
->> sneak
->>  > it to Linus for 5.12 to ease the merge pain.
->> =
-
->>  I can try. How do I get a page pointer from a dma_addr_t?
-> =
-
-> You don't - you get it from using virt_to_page on the pointer returned
-> from dma_alloc_noncoherent.  That beind said to keep the API sane I
-> should probably add a wrapper that does that for you.
-
-I tested using:
-
-ret =3D dma_mmap_pages(cma_obj->base.dev->dev,
-                     vma, vma->vm_end - vma->vm_start,
-                     virt_to_page(cma_obj->vaddr));
-
-It works fine.
-
-I think I can use remap_pfn_range() for now, and switch to your new API =
-
-once it's available in drm-misc-next.
-
-Cheers,
--Paul
-
+diff --git a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
+index 1f79bc2..f530aff 100644
+--- a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
++++ b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
+@@ -775,8 +775,8 @@ static int decon_conf_irq(struct decon_context *ctx, const char *name,
+ 			return irq;
+ 		}
+ 	}
+-	irq_set_status_flags(irq, IRQ_NOAUTOEN);
+-	ret = devm_request_irq(ctx->dev, irq, handler, flags, "drm_decon", ctx);
++	ret = devm_request_irq(ctx->dev, irq, handler,
++			       flags | IRQ_NOAUTOEN, "drm_decon", ctx);
+ 	if (ret < 0) {
+ 		dev_err(ctx->dev, "IRQ %s request failed\n", name);
+ 		return ret;
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+index 83ab6b3..fd9b133b 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+@@ -1352,10 +1352,9 @@ static int exynos_dsi_register_te_irq(struct exynos_dsi *dsi,
+ 	}
+ 
+ 	te_gpio_irq = gpio_to_irq(dsi->te_gpio);
+-	irq_set_status_flags(te_gpio_irq, IRQ_NOAUTOEN);
+ 
+ 	ret = request_threaded_irq(te_gpio_irq, exynos_dsi_te_irq_handler, NULL,
+-					IRQF_TRIGGER_RISING, "TE", dsi);
++				   IRQF_TRIGGER_RISING | IRQ_NOAUTOEN, "TE", dsi);
+ 	if (ret) {
+ 		dev_err(dsi->dev, "request interrupt failed with %d\n", ret);
+ 		gpio_free(dsi->te_gpio);
+@@ -1802,9 +1801,9 @@ static int exynos_dsi_probe(struct platform_device *pdev)
+ 	if (dsi->irq < 0)
+ 		return dsi->irq;
+ 
+-	irq_set_status_flags(dsi->irq, IRQ_NOAUTOEN);
+ 	ret = devm_request_threaded_irq(dev, dsi->irq, NULL,
+-					exynos_dsi_irq, IRQF_ONESHOT,
++					exynos_dsi_irq,
++					IRQF_ONESHOT | IRQ_NOAUTOEN,
+ 					dev_name(dev), dsi);
+ 	if (ret) {
+ 		dev_err(dev, "failed to request dsi irq\n");
+-- 
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
