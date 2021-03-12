@@ -2,121 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01F6339125
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 16:22:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4F8339180
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 16:38:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB5C56F892;
-	Fri, 12 Mar 2021 15:22:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A06206E0C2;
+	Fri, 12 Mar 2021 15:38:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr700084.outbound.protection.outlook.com [40.107.70.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E098D6F891;
- Fri, 12 Mar 2021 15:22:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S4DoNmLMvx8h6NJzU54yo9jHySkTQeIjeB3Sx0D6WThFy5iWfhqpjgN5szEJLhAqZuLaN7NvrrLlnrufHmFduSWWPZ36m+xk5rZP4HvPo2dMCkVP2M/XN4+neoedWo8x++/EVNBZuNlXumLyD2IjJ1HJJY6Zy1BWbfnAUfAzAHNivvBTt37EvVTk/bB5FSVgJ2bE1QpiqplIa4gRTDCth2ffRrN5GZXebkWIRgOC0FsoU9OVlBaLOhVWFRtSLqSbCC8UL7tn/UnLwNBOhxSCpgocF0fF9bBJcGwbcJSQ8bjCRC9Lwwx5/PllJ2Iy7mbpMWQTrsY29/D1+X56dLD2Hg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZQhL2py7RJJUwN9CI+vkCUQjijpKu7ZEk5upLHpUHeU=;
- b=KWNruQPuZbshj2jz5mw0p50wBnrjrH5cQ9l9lP9tfLYvfXu6Y1TE4U6utwXZLsiWRBrV7tLk6VDVyOTvDEvVXXpF/QF2InRx0bmdVIwVPcOqTGBcbHOB0k1d7jKCJ9PGuunzAujUCgfHfDrYSSZFPEPscQRsCrSNMT88pgZGQ6zmq+2hzdl1DUjYNrK0NdMpkNZedIDaCC59l8KnklrtOUivxtSvw7wsuvgFqembXV46KU3pbjL5jlTJwyYc+RtKkucw+YKM6a9jzo9gG0Bj1yt+/cvfOyOy2KTS8eKqJIZQH/oRsYC7bPfnTn2JX+XLCv2HGT3XBhKD8dnWk7sgZw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZQhL2py7RJJUwN9CI+vkCUQjijpKu7ZEk5upLHpUHeU=;
- b=Lenyi9eUIuUhFYFOcDQJRwcjrX/1Ye3/CKhblI6ZITwsuJZSz0SwQTozzwLY9cjRnUkQD9QAFCP9IYbaIqSsuUxrn3cNFCRwPA+Inw6qj9quTLOB/94+R0Kkv4PuHgnxHFeorIhEnWfe/+dOzWGMcyjuqXZQqmXRGSr/IqKnniU=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
- by SA0PR12MB4398.namprd12.prod.outlook.com (2603:10b6:806:9f::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31; Fri, 12 Mar
- 2021 15:22:04 +0000
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::29cb:752d:a8a7:24a8]) by SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::29cb:752d:a8a7:24a8%6]) with mapi id 15.20.3912.031; Fri, 12 Mar 2021
- 15:22:04 +0000
-Subject: Re: [PATCH v2] drm/scheduler re-insert Bailing job to avoid memleak
-To: Jack Zhang <Jack.Zhang1@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Christian.Koenig@amd.com, Monk.Liu@amd.com,
- Emily.Deng@amd.com
-References: <20210312065025.1094934-1-Jack.Zhang1@amd.com>
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Message-ID: <01a690d2-6b09-8324-863f-babf2782c550@amd.com>
-Date: Fri, 12 Mar 2021 10:22:01 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-In-Reply-To: <20210312065025.1094934-1-Jack.Zhang1@amd.com>
-Content-Language: en-US
-X-Originating-IP: [2607:fea8:3edf:49b0:8dc6:261f:a3f0:6b7e]
-X-ClientProxiedBy: YTXPR0101CA0024.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00::37) To SN6PR12MB4623.namprd12.prod.outlook.com
- (2603:10b6:805:e9::17)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E20C46E0C2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 15:38:01 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id k16so634789ejx.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 07:38:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ihKylbU9HAdpr1yj9x1AaTze50PGzunh50+y40gS2NU=;
+ b=arlyn3m/nePn1MkGugTj7/5dh5YaA1/yViAWh0fjkXLdqoq6TvxtgIa2gfQcYnRtei
+ q6OJ5ePz2VRXWE2p06VZBjRt5X0ca1QJCC6Cl40gaG9awAXQqrncexP1anVlsqsYiJZv
+ lQaGcA5D+VadR9enV5grQDALk3y+lI+yUEyzITVC/hP4ICbGWVhY1yokTYeHeUhwa+Ew
+ HOXRg3F7TGlaZRfTq8PfMsXNT88s1qfEqmdqSVB/4l9Tl0a6fitOnTIjce/1FHMOX2EB
+ Cfm2V6iY8OGb3R3LL6Y1tIEFJO7bCno/qc5s2owVhAHwg0+kyO+2lEZplbVQAGo7MtBA
+ 3Z7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ihKylbU9HAdpr1yj9x1AaTze50PGzunh50+y40gS2NU=;
+ b=adyfSJimjsU9QUbHy+pCWqLuHfDv8eIzBlpWtMthqZdRqfSZjzjeIxXlY33oyUBWxs
+ BOotE3/ObG3drsT3sO9G29tmMP8gGRYVCWZ/wP2/kp0ikZ98pGwWLswXoOHmWAAVNRVN
+ EGF5pxWqbSKSBunHOR8kXOT7v/O3lPNnLUr+h1eH/qbV+DVSGgPoEu9+bubm0QwI5q8I
+ uJBxryWuiaLql+bQFNorj6s3hhdmKA03x4QwEDW1Q3Z6g2pZ1lcg7DKL0Q7CG0fiXeoI
+ kscdfoLFhbdX2Zbs8q8w5xUIvA2/Zdl04ulB0qCz2K6+r9h9Wyu6OFGe20Gk27fKWeEE
+ hk7g==
+X-Gm-Message-State: AOAM531jyexOOLGErVdUpw8lLZ68guv/CRnqz58TQlaCpRTQVdzrtW4G
+ KWQ3bUornocOXQbMRm/UqiSfEpF9WvBySp5xh72rcg==
+X-Google-Smtp-Source: ABdhPJw7vUZAlWn8+Ffm2ew55WwbkfBGAYXiwAAZUdxOriEe/esbz/DBSuR11BbUJxnW22VB7Cvjf5hZ6/4BMDcOlzQ=
+X-Received: by 2002:a17:906:b288:: with SMTP id
+ q8mr9138256ejz.210.1615563480336; 
+ Fri, 12 Mar 2021 07:38:00 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2607:fea8:3edf:49b0:8dc6:261f:a3f0:6b7e]
- (2607:fea8:3edf:49b0:8dc6:261f:a3f0:6b7e) by
- YTXPR0101CA0024.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00::37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3912.26 via Frontend Transport; Fri, 12 Mar 2021 15:22:03 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 5a9d15e6-561a-4cbf-6c95-08d8e56a972a
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4398:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4398950C96FB89143E13CD36EA6F9@SA0PR12MB4398.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ML+KTCxKXgN3h92l9rbWRFW6bT5Uk4+oLNzQo28BvvfYCeiJDtnpbs8rHiDXJNJvib4GCkGagS+G2ySf0aYEIf0x3g0cPqHpEPeBE3YZPSAvUkVwOymQuKqcvoGAurNYUSuKJ1gyDgX8nQOF7hraPOKkMViSi19CiGX9GYVBS3LNYihnBNoIC4Fk6Yh+203qXecYvP8+s1q/OgVGOJPv36m7kibOk5TLrdWzpEhP8CVLfxAbAshVt/0v59Cq+5TANm6F+/iUCJGHyfUM6R2hWJ3gY5fnvvK7OyuYM9ARncN7zYQsgINszXTKCv4cP6XVhauRc1CW2plGQ8QxDLcXZnNIX6mKtUYcbbBChazYIsy7oi7ee2vK3P52VPZi6EW20b64YPf68LrEwpj+gpQ32hxDo4haEu35ykDjGlkK2E2G79BD1IiYDY81TyBIK7nXQY0EvKnUrB1SUi7G6H7kln34Un2DcyP/XkrduXGHjeWzvjxjTOK4SIu0feHu+tBj0BK1vmK3yVmDg/4zCN35lEr/eZZe2UsD/CWo+xCdqJTosCHNWHCYGt3ns4kH9Z8qed2P05SW74BqIv/wtIVRlDj2C1VO9NyXTACtru0wqLCusbzCgY1tRRLSENWmb5ELd5P1D0op+YLt0Wffb3YVGj7X3/SAM97JWuZxU9aHTzzoJnfKYWMoLm+o8s0d/3J6k9+rWZme+D3tUR9RHzNVjuJ5xpu7Ql7CQXw3hOI/h2E=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(396003)(136003)(346002)(366004)(39860400002)(36756003)(450100002)(6636002)(5660300002)(53546011)(66946007)(6486002)(16526019)(966005)(478600001)(66476007)(316002)(186003)(66556008)(86362001)(31696002)(2906002)(8676002)(52116002)(31686004)(83380400001)(2616005)(8936002)(44832011)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?dWJrazlvSG5oN3NhVnNLdWZKRVFBaEVVV05EWCtxcXIwQjJ0aUU3bU9Jemt1?=
- =?utf-8?B?dUVhMktDK1c3ZktEeHFuRE44MU1BRVpERy9HSnNMV0xLeGVyV3RNTW9jNHA5?=
- =?utf-8?B?NFJhb1pPc2xBSGhTZVVSTUZrRGx0TFNGTFNHeDdpbFVrVG5UK2x5elVhRThj?=
- =?utf-8?B?VVVZM2lBVXA0SUV4NWxySmxCVURoWXJLS04ycy9WQVpISFV6bEFVa0h0V3JX?=
- =?utf-8?B?dllvR0pUcHRBczUwMWxkWXg5RTZHcTNUTkFsVVIzQUVKRzl0ZldZMnJ0RDVq?=
- =?utf-8?B?K0JQR1BzNjZ0aHc1VWN0eVYrQkRUN0tWLzVLV0c0VWtBb0RMa29oT0g5Rjhr?=
- =?utf-8?B?UDdZdkI4WUNLaVBxSEJtN2VURHg3MGR0SWdCQkdEVmYrWXROS1ZxQXl4V2pj?=
- =?utf-8?B?WjFGRE9QRVZsa1loNVhhd3RFNXM1aUdaNnpiQTNTZFU4RXFWSDdwM0hBUVEy?=
- =?utf-8?B?QktkaUx3QW03OGl5TWVWVGlhRTFrTlF6U3JPTXJHTlJHY201WHQ4MEZFUVhM?=
- =?utf-8?B?UWVpYUpaMzFzVGYvMDVTNTlrTW03dFVRWHcveW11WkNqV0I4clpuOURWcnJ2?=
- =?utf-8?B?NmM2NzJFeFE4VWpzNWlLdFE4R3NhNjhHdEFoTEg2MzFjR3hhSFVXTlA5UnlY?=
- =?utf-8?B?UWc2bzlCQkl2bFFWd1ZzaWdRMk1uODZKSXdyaFNhR1YzRVZVaXYyYjl3ZnAx?=
- =?utf-8?B?dXJmL3ZuU1N0SkVMNSsweVhJUmkwUEkwQUU2ekc5TExxTElMcno3ZHV3VjQx?=
- =?utf-8?B?Z2I3UGpyMHcwdEhiemxHemJQMHhGWmlON05FSlE1YURiajdWSHVRcVZVdUlE?=
- =?utf-8?B?WFVuejN2Q0J5bjZpSTdIN09mS1oydkRUSUsySzhxRzY5UFhVZXd6WXBabmZ1?=
- =?utf-8?B?UkNycVI5U0ZMbHpDbHl0M3lnbHc3SkkxMkpWTStNVCtVRHhCd0dJNnl1ZlFJ?=
- =?utf-8?B?bW5tTVZGWTVLdkwzZFZtc3B1ME82WkcwSGZUTmtrVXdTUzJCQzV1cGNWUitl?=
- =?utf-8?B?Z3NtTmVEMVg5YlE3NnJyZlJnQmVHV2VpVEF6c1F0M3gvRFN2SkRwbGZaREF2?=
- =?utf-8?B?S1djKzd4WXFkQ1NBQkxyd1NyUmFjMkVvUlk3VkloZkhVR3ltbkVIWGZMd0dY?=
- =?utf-8?B?MjFMNW0zR0YwZ1ltcERZa1VsR0MxdWdIVWJkaDdUNHRhM0VoODZPc1ROQlFt?=
- =?utf-8?B?bHpHd1MwWGZMdG9PbkQ3NEZzZy83eXNONXhUU0ZEbXE4dU9NaVV6d1lrN2xR?=
- =?utf-8?B?ZitrdGFDeHVYUnNPV0k3UmMyY3BKMDJBUmpuK1FNRjBQbUxpbVZkMUpyMHZo?=
- =?utf-8?B?QkM5T1o0TGhrRjg4TVBDMlRtcTU1ODJrVHN5TFBRUy9uODJHUWlHK0hLalBh?=
- =?utf-8?B?QmpkZXBRWVhTbjRJTTQ3ajI3WFJYSWRiZXlnOGl1elUxTkZwZUNWSDZuUnJE?=
- =?utf-8?B?T3U3TmxjRkR3bDNUUzIrdExlcVY3dURBY1k0Y05yeFVSWGRjeG1XUW1BcW0x?=
- =?utf-8?B?dXlQMnc0Y0tRa2RuRjVtSytnQXptVGtLKzlJVlFhZnF0SDRsbVdkRGhqRmRP?=
- =?utf-8?B?cU9BdkZTc3JJeWg1ZUdETGR3U2RjMUQ2QlZ4Ny9wREI3eTBGUkRhSlVHL1J6?=
- =?utf-8?B?MHFmZUVEY2hWZEhXbnFuaFpyOGpZbFB6bDFFSDdxeHdzN0ZjQktpb01LQ2Vn?=
- =?utf-8?B?d0doNE9lOWRpMFpyL20vbS9LYkxXM04xSWliMFJ4Y1dpdlg1L3htVTV0dmJH?=
- =?utf-8?B?L0NxbkcvQ25IMHBLOWZRRTlOd1RydjRBL0ltMUpQeXI2UVBDZXdlOGd0RExL?=
- =?utf-8?B?SkxWbXZwbzdjT3Z1Z2tSaERvL0VMK1Fja1pkdkRFZVdFWkFBV0pTdGVZeDg5?=
- =?utf-8?Q?GB5IrTupQOTfu?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a9d15e6-561a-4cbf-6c95-08d8e56a972a
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2021 15:22:04.0837 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AmOzrZVzTala0CaFy+WFhDdAUcdveXvHA3FprpQfFop0ReWAaCrjFHCT/bmUIdMaoAuw/zOh0lrqkrAYZJSsAA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4398
+References: <20210311092539.2405596-1-boris.brezillon@collabora.com>
+ <86062831-6608-9ae7-c513-e74d3a9c2e33@arm.com>
+ <20210311140023.2735aaa5@collabora.com>
+ <CAOFGe94rnS+5FeJ1A8bLxgVDZB4_0Wp2Nx25iCCYGJ=j3KpOCA@mail.gmail.com>
+ <20210311182458.0e0140a1@collabora.com>
+ <CAOFGe95d-LQ_rNwncup-G5oj14uCnNrnHr=r1b5jLYnXfMSTiA@mail.gmail.com>
+ <20210312083125.76063c77@collabora.com>
+In-Reply-To: <20210312083125.76063c77@collabora.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Fri, 12 Mar 2021 09:37:49 -0600
+Message-ID: <CAOFGe967tzx56OQv+z8L2ZB-d=1GST3LtuCQJ_LPHpjO2Km3oQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/7] drm/panfrost: Add a new submit ioctl
+To: Boris Brezillon <boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,146 +68,256 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Rob Herring <robh+dt@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Mar 12, 2021 at 1:31 AM Boris Brezillon
+<boris.brezillon@collabora.com> wrote:
+>
+> On Thu, 11 Mar 2021 12:11:48 -0600
+> Jason Ekstrand <jason@jlekstrand.net> wrote:
+>
+> > > > > > > 2/ Queued jobs might be executed out-of-order (unless they have
+> > > > > > >     explicit/implicit deps between them), and Vulkan asks that the out
+> > > > > > >     fence be signaled when all jobs are done. Timeline syncobjs are a
+> > > > > > >     good match for that use case. All we need to do is pass the same
+> > > > > > >     fence syncobj to all jobs being attached to a single QueueSubmit
+> > > > > > >     request, but a different point on the timeline. The syncobj
+> > > > > > >     timeline wait does the rest and guarantees that we've reached a
+> > > > > > >     given timeline point (IOW, all jobs before that point are done)
+> > > > > > >     before declaring the fence as signaled.
+> > > > > > >     One alternative would be to have dummy 'synchronization' jobs that
+> > > > > > >     don't actually execute anything on the GPU but declare a dependency
+> > > > > > >     on all other jobs that are part of the QueueSubmit request, and
+> > > > > > >     signal the out fence (the scheduler would do most of the work for
+> > > > > > >     us, all we have to do is support NULL job heads and signal the
+> > > > > > >     fence directly when that happens instead of queueing the job).
+> > > > > >
+> > > > > > I have to admit to being rather hazy on the details of timeline
+> > > > > > syncobjs, but I thought there was a requirement that the timeline moves
+> > > > > > monotonically. I.e. if you have multiple jobs signalling the same
+> > > > > > syncobj just with different points, then AFAIU the API requires that the
+> > > > > > points are triggered in order.
+> > > > >
+> > > > > I only started looking at the SYNCOBJ_TIMELINE API a few days ago, so I
+> > > > > might be wrong, but my understanding is that queuing fences (addition
+> > > > > of new points in the timeline) should happen in order, but signaling
+> > > > > can happen in any order. When checking for a signaled fence the
+> > > > > fence-chain logic starts from the last point (or from an explicit point
+> > > > > if you use the timeline wait flavor) and goes backward, stopping at the
+> > > > > first un-signaled node. If I'm correct, that means that fences that
+> > > > > are part of a chain can be signaled in any order.
+> > > >
+> > > > You don't even need a timeline for this.  Just have a single syncobj
+> > > > per-queue and make each submit wait on it and then signal it.
+> > > > Alternatively, you can just always hang on to the out-fence from the
+> > > > previous submit and make the next one wait on that.
+> > >
+> > > That's what I have right now, but it forces the serialization of all
+> > > jobs that are pushed during a submit (and there can be more than one
+> > > per command buffer on panfrost :-/). Maybe I'm wrong, but I thought it'd
+> > > be better to not force this serialization if we can avoid it.
+> >
+> > I'm not familiar with panfrost's needs and I don't work on a tiler and
+> > I know there are different issues there.  But...
+> >
+> > The Vulkan spec requires that everything that all the submits that
+> > happen on a given vkQueue happen in-order.  Search the spec for
+> > "Submission order" for more details.
+>
+> Duh, looks like I completely occulted the "Submission order"
+> guarantees. This being said, even after reading this chapter multiple
+> times I'm not sure what kind of guarantee this gives us, given the
+> execution itself can be out-of-order. My understanding is that
+> submission order matters for implicit deps, say you have 2 distinct
+> VkSubmitInfo, the first one (in submission order) writing to a buffer
+> and the second one reading from it, you really want the first one to
+> be submitted first and the second one to wait on the implicit BO fence
+> created by the first one. If we were to submit out-of-order, this
+> guarantee wouldn't be met. OTOH, if we have 2 completely independent
+> submits, I don't really see what submission order gives us if execution
+> is out-of-order.
 
+Right, this is where things get sticky.  What's guaranteed there is
+submission order not execution order.  But, sadly, there's more hidden
+in there than you might think.  Before we can go there, though, we
+need to establish a few details of Mali hardware works.
 
-On 2021-03-12 1:50 a.m., Jack Zhang wrote:
-> re-insert Bailing jobs to avoid memory leak.
+My understanding (feel free to correct me if I'm wrong) is that,
+roughly, Mali has two engines which have to work together to render:
+One engine for compute/vertex/geometry and one for binning and
+fragment.  When you go to submit a draw, you fire off any geometry
+work on the compute engine and the fragment work on the binning
+engine.  At a tile flush boundary (or renderpass in Vulkan), you
+insert a dependency between the geometry work you put on the compute
+engine and the binning/fragment work.  In a GL driver, you'd probably
+kick it off to the kernel at this point.
 
-Usually we put a v2:"Blha blha blha" here to explain
-what was modified in v2
+In Vulkan, things are going to get more tricky.  You can't just kick
+off to the kernel at tile flush boundaries.  You also can't assume
+that all vertex work within a given command buffer is independent of
+all the fragment work.  Let's say you have a sequence like this:
 
-Also - since you make changes to another driver you should
-add their maintainer and mailing list probably
-(use ./scripts/get_maintainer.pl) for this
+vkBeginRenderPass() /* Writes to ImageA */
+vkCmdDraw()
+vkCmdDraw()
+...
+vkEndRenderPass()
+vkPipelineBarrier(imageA /* fragment -> compute */)
+vkCmdDispatch() /* reads imageA, writes BufferB */
+vkBeginRenderPass() /* Writes to ImageC */
+vkCmdBindVertexBuffers(bufferB)
+vkCmdDraw();
+...
+vkEndRenderPass()
 
-> 
-> Signed-off-by: Jack Zhang <Jack.Zhang1@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 +++-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c    | 8 ++++++--
->   drivers/gpu/drm/panfrost/panfrost_job.c    | 2 +-
->   drivers/gpu/drm/scheduler/sched_main.c     | 8 +++++++-
->   include/drm/gpu_scheduler.h                | 1 +
->   5 files changed, 18 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 79b9cc73763f..86463b0f936e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -4815,8 +4815,10 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
->   					job ? job->base.id : -1);
->   
->   		/* even we skipped this reset, still need to set the job to guilty */
-> -		if (job)
-> +		if (job) {
->   			drm_sched_increase_karma(&job->base);
-> +			r = DRM_GPU_SCHED_STAT_BAILING;
-> +		}
->   		goto skip_recovery;
->   	}
->   
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> index 759b34799221..41390bdacd9e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> @@ -34,6 +34,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
->   	struct amdgpu_job *job = to_amdgpu_job(s_job);
->   	struct amdgpu_task_info ti;
->   	struct amdgpu_device *adev = ring->adev;
-> +	int ret;
->   
->   	memset(&ti, 0, sizeof(struct amdgpu_task_info));
->   
-> @@ -52,8 +53,11 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
->   		  ti.process_name, ti.tgid, ti.task_name, ti.pid);
->   
->   	if (amdgpu_device_should_recover_gpu(ring->adev)) {
-> -		amdgpu_device_gpu_recover(ring->adev, job);
-> -		return DRM_GPU_SCHED_STAT_NOMINAL;
-> +		ret = amdgpu_device_gpu_recover(ring->adev, job);
-> +		if (ret == DRM_GPU_SCHED_STAT_BAILING)
-> +			return DRM_GPU_SCHED_STAT_BAILING;
-> +		else
-> +			return DRM_GPU_SCHED_STAT_NOMINAL;
->   	} else {
->   		drm_sched_suspend_timeout(&ring->sched);
->   		if (amdgpu_sriov_vf(adev))
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 6003cfeb1322..c372f4a38736 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -456,7 +456,7 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
->   
->   	/* Scheduler is already stopped, nothing to do. */
->   	if (!panfrost_scheduler_stop(&pfdev->js->queue[js], sched_job))
-> -		return DRM_GPU_SCHED_STAT_NOMINAL;
-> +		return DRM_GPU_SCHED_STAT_BAILING;
+Now you have, in a single command buffer, a draw which writes to an
+image which is read by a compute shader which writes to a buffer which
+is read by vertex fetch for another draw.  The only way to implement
+this on a Mali like device is to ping-pong back and forth between the
+compute and binning engines.  It'd look something like this (assuming
+my mental model):
 
-Note that there is another early termination in panfrost
-at 
-https://elixir.bootlin.com/linux/v5.11.1/source/drivers/gpu/drm/panfrost/panfrost_job.c#L445
-So probably should also add there.
+A: Vertex for the first draw on the compute engine
+B: Vertex for the first draw on the compute engine
+C: Fragment for the first draw on the binning engine; depends on A
+D: Fragment for the second draw on the binning engine; depends on B
+E: Compute on the compute engine; depends on C and D
+F: Vertex for the third draw on the compute engine; depends on E
+G: Fragment for the third draw on the binning engine; depends on F
 
->   
->   	/* Schedule a reset if there's no reset in progress. */
->   	if (!atomic_xchg(&pfdev->reset.pending, 1))
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 92d8de24d0a1..a44f621fb5c4 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -314,6 +314,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
->   {
->   	struct drm_gpu_scheduler *sched;
->   	struct drm_sched_job *job;
-> +	int ret;
->   
->   	sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
->   
-> @@ -331,8 +332,13 @@ static void drm_sched_job_timedout(struct work_struct *work)
->   		list_del_init(&job->list);
->   		spin_unlock(&sched->job_list_lock);
->   
-> -		job->sched->ops->timedout_job(job);
-> +		ret = job->sched->ops->timedout_job(job);
->   
-> +		if (ret == DRM_GPU_SCHED_STAT_BAILING) {
-> +			spin_lock(&sched->job_list_lock);
-> +			list_add(&job->node, &sched->ring_mirror_list);
-> +			spin_unlock(&sched->job_list_lock);
-> +		}
+There are a couple of options for how to do this:
 
-Just reiterating my comment from v1 here since u missed it -
-Problem here that since you already dropped the reset locks you are
-racing here now against other recovery threads as they process the same
-mirror list, and yet,I think this solution makes things better then
-they are now with the leak but still, it's only temporary band-aid until
-the full solution to be implemented as described earlier by Christian.
-Probably then worth mentioning here with a comment this it's a temporary
-fix and that races are possible.
+ 1. Each VkCommandBuffer is actually a bunch of command buffers for
+each engine with dependencies.  vkQueueSubmit() calls the kernel
+submit ioctl a brezillion times to submit them all.
 
-Andrey
+ 2. Same as 1, only the submit ioctl takes an array of things with
+dependencies so that you don't have to do as many round-trips to
+kernels space.
 
->   		/*
->   		 * Guilty job did complete and hence needs to be manually removed
->   		 * See drm_sched_stop doc.
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 4ea8606d91fe..8093ac2427ef 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -210,6 +210,7 @@ enum drm_gpu_sched_stat {
->   	DRM_GPU_SCHED_STAT_NONE, /* Reserve 0 */
->   	DRM_GPU_SCHED_STAT_NOMINAL,
->   	DRM_GPU_SCHED_STAT_ENODEV,
-> +	DRM_GPU_SCHED_STAT_BAILING,
->   };
->   
->   /**
-> 
+ 3. Each VkCommandBuffer is two command buffers: one for compute and
+one for binning, and you use some sort of HW synchronization mechanism
+to handle the dependencies as you ping-pong between them.
+
+Option 1 is the easiest to get going with if you're working on a
+kernel driver that was designed for OpenGL but it has the obvious
+drawback of lots of smaller command buffers and lots of submits.  It's
+not going to scale well.  Option 3 is nice if the hardware can do it
+(I have no idea if Mali can).
+
+Sorry if that's all a re-hash of stuff you already know.  I'm just
+trying to establish a baseline here so we're all talking about the
+same things.
+
+Ok, so what does this have to do with submission order in the spec?
+The mental model of the Vulkan spec is that you have queues and you
+submit commands to those queues.  Command buffers are just big
+sequences of commands.  Those commands kick off work.  The kick-off
+happens in-order but completion is out-of-order.  There are then
+pipeline barriers which allow you to specify dependencies between
+those bits of work such as "future compute work depends on previous
+fragment work".  Importantly, those dependencies can even apply across
+command buffers.
+
+So where does this leave us?  Well, it depends on your submit model
+and exactly how you handle pipeline barriers that sync between
+engines.  If you're taking option 3 above and doing two command
+buffers for each VkCommandBuffer, then you probably want two
+serialized timelines, one for each engine, and some mechanism to tell
+the kernel driver "these two command buffers have to run in parallel"
+so that your ping-pong works.  If you're doing 1 or 2 above, I think
+you probably still want two simple syncobjs, one for each engine.  You
+don't really have any need to go all that far back in history.  All
+you really need to describe is "command buffer X depends on previous
+compute work" or "command buffer X depends on previous binning work".
+As long as your multi-submit ioctl processes the command buffers
+in-order, you can do it all with two syncobjs.
+
+Sorry for the tome.  I hope it wasn't too wrong and was at least a
+little helpful.
+
+--Jason
+
+> In our case, the kernel driver takes care of the submission
+> serialization (gathering implicit and explicit deps, queuing the job and
+> assigning the "done" fence to the output sync objects). Once things
+> are queued, it's the scheduler (drm_sched) deciding of the execution
+> order.
+>
+> >
+> > So, generally speaking, there are some in-order requirements there.
+> > Again, not having a lot of tiler experience, I'm not the one to weigh
+> > in.
+> >
+> > > > Timelines are overkill here, IMO.
+> > >
+> > > Mind developing why you think this is overkill? After looking at the
+> > > kernel implementation I thought using timeline syncobjs would be
+> > > pretty cheap compared to the other options I considered.
+> >
+> > If you use a regular syncobj, every time you wait on it it inserts a
+> > dependency between the current submit and the last thing to signal it
+> > on the CPU timeline.  The internal dma_fences will hang around
+> > as-needed to ensure those dependencies.  If you use a timeline, you
+> > have to also track a uint64_t to reference the current time point.
+> > This may work if you need to sync a bunch of in-flight stuff at one
+> > go, that may work but if you're trying to serialize, it's just extra
+> > tracking for no point.  Again, maybe there's something I'm missing and
+> > you don't actually want to serialize.
+>
+> My understanding (and I might very much be wrong here) is that using a
+> regular syncobj to do this actually enforces not only the submission
+> order but also the execution order (each job waiting on the previous
+> one to complete before being scheduled). The idea of the timeline
+> syncobj approach is that jobs that have no inter dependencies can be
+> started in any order, the scheduler picking the first whose deps are
+> ready (which might not necessarily match submission order). The
+> timeline syncobj allows us to have one point per kernel-submission and
+> eventually wait on the last point for the fence passed to
+> vkSubmitQueue(), and some specific point on the timeline for
+> pSignalSemaphores entries.
+>
+> What's more challenging is signal operation ordering:
+>
+> "
+> Signal operation order is a fundamental ordering in Vulkan, giving
+> meaning to the order in which semaphore and fence signal operations
+> occur when submitted to a single queue.
+>
+>
+>
+> 1.  The initial order is determined by the order in which
+>     vkQueueSubmit commands are executed on the host, for a single
+>     queue, from first to last.
+>
+> 2.  The order in which VkSubmitInfo structures are specified in the
+>     pSubmits parameter of vkQueueSubmit, from lowest index to highest.
+>
+> 3.  The fence signal operation defined by the fence parameter of a
+>     vkQueueSubmit or vkQueueBindSparse command is ordered after all
+>     semaphore signal operations defined by that command.
+> "
+>
+> This means we have to add implicit dependencies on the signaling
+> itself. We have two options to guarantee that:
+>
+> 1/ Transfer one of the queue syncobj timeline point to each semaphore
+>    and fence after job submission (the point itself being dependent
+>    on the position of the submit entry in the array for semaphores, and
+>    the last point for the fence). Problem with this approach is that we
+>    now have an extra TRANSFER_SYNCOBJ call per semaphore/fence
+>
+> 2/ Add SYNC jobs (jobs that do not actually execute on the GPU, but
+>    serve as a synchronization point) whose responsibility would be to
+>    do this muxing/transfer as part of the batch submission process.
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
