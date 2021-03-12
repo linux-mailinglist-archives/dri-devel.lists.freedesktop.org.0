@@ -1,61 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79483388CE
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 10:38:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED4B3388D9
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 10:43:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 887286E57E;
-	Fri, 12 Mar 2021 09:38:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F69C6F526;
+	Fri, 12 Mar 2021 09:43:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C31C6E57E
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 09:38:13 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id ci14so51960653ejc.7
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 01:38:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=S9ZbltjTOGN2YLnKCqAYFDgHOSileUx9fmrdpxMQkVw=;
- b=GJsX3ik5s5ZX9ct38RF6Q/gpizbBLPR2z5Y2i/lIjr+yTuQmsr1PqX8DrPpTO7pnLQ
- Rk1QBBK6VY3b9NW5PWkBTeqCW+LqQKrnRs76rQ3ibOgesRuwSnvK1NDBT0cLwpVM2wpG
- DIvv3qsOU8o+YjthSyrFotcSFGJ9gqL03J+h3RahYUOJplF89M/T7NaOZblrOjKz02EI
- tQwb9s0ERGWymswDOQraVwnCojN7vQnD0U7ajNT3skz9WYgLTYxSN0bXmIZ3FvcfNUwp
- YNWayCSoyyjXWnyzqy9ZIhZlFnVKrF9ljVphtSxxjCjqn+yL2wh3cX9yjEnLZhlWH6C2
- z56Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=S9ZbltjTOGN2YLnKCqAYFDgHOSileUx9fmrdpxMQkVw=;
- b=PC1gsuxppMHHQDp/1+4tkqnx9bDdSuRmC2O8280EOvPb9wCfg7RnrFyyEoC8Ajx0yX
- d3yyKJEYShHn4bqnJT0dV2jzIMcdw1+NV6MTsuj1rIIiglHCRVdObdbaGrLvNgciyEZB
- GfrAl+JbvdChyobqLqTPGHVnqbKkHuiNAVCsG4oxA32SYOW1fo8sBK5x27kn7lLUCAUV
- GX4Z6HoDwdO5vps0EN7cEFBTrlw2GVw9VeKUPdZcuiYfmBMVXzxCwg21VCzwDLZ8xlzH
- TTYdtvOaEbr6qQSVStN5EdJwjszEzr8Q/sTV33VQ9Y5L2EWD8R5hXdyHW/RtLspwfQBu
- qJ+g==
-X-Gm-Message-State: AOAM532crkunBl2FzvVns5ZiNdt5OGxRAKcvn9KT8SICu84PYf9mRNI9
- sXTGX7T9ylKbqbehWl2qplW1QN/ftas=
-X-Google-Smtp-Source: ABdhPJwqS1rLIS5+HfZXJt7pXOmleCm1Q2YX20mmHGcgWXCKDSPbFjhlaZjqR0F5AXGSbhwwO9D5tw==
-X-Received: by 2002:a17:906:cb0a:: with SMTP id
- lk10mr2877135ejb.479.1615541891864; 
- Fri, 12 Mar 2021 01:38:11 -0800 (PST)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:1155:c428:4aae:3d65])
- by smtp.gmail.com with ESMTPSA id i10sm2514914ejv.106.2021.03.12.01.38.11
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 01:38:11 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ttm: make ttm_bo_unpin more defensive
-Date: Fri, 12 Mar 2021 10:38:10 +0100
-Message-Id: <20210312093810.2202-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 736946F522
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 09:43:13 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id C8E9919AB;
+ Fri, 12 Mar 2021 04:43:09 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Fri, 12 Mar 2021 04:43:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:content-transfer-encoding:in-reply-to; s=fm2; bh=9
+ lQvlLw+vU7rUZY13PSSwCQRsmYtgtSB0Kv8oypIsHc=; b=WGdNzxlBXzZxoWZCt
+ jehAeaY73GiS/Z3Pa5UhYwGC8s9HVQ/GGuHxkSqk/PUdatlqGk2t4MsYFQfucuOY
+ wTSnUR3bRx1C+paREhCwXf2a/lO8vUhLPk8mKD7bFxIjmr5/pcjcWIjr6cJCMcd+
+ /y3bE63OSQoDwLTLCtg4JAQ9FdZ3D2qSW25wioDxohwsawMx9i82ki7Upfdb9LiV
+ bY8Ojp0d4KftVoV8tR+nMfJhbc2xMyd1YF6P/rtGNYD3zPMDwrgDqdZSzU6TU6Uu
+ IFBBAx92jBDRLFSCX9HsJKPPjAGi2DZgqfKw6fKdBDESP32Tsfm96vsf7bBxicCr
+ rYWgA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=9lQvlLw+vU7rUZY13PSSwCQRsmYtgtSB0Kv8oypIs
+ Hc=; b=IXwS6yN73kNspy58drT3bcbozEqnzqvtO3pyBPgs+m6qP/F+lrwmEqEiB
+ R9v4F5eU7u43xSVGrWofLH//C8979nfB2tCBol+x6Rp8k6S8/eQW30nMyq8udf7B
+ j1bGwNAU7xDZU3Mxd8nHTQeQL3iFnnLyftV3utPgrk/1BpvkJR58mp6GAegTgyWL
+ fh1mWwKGymHgihFbHKq2MgpsY34v3IWCR/bRjod4zheRWk5/AAzKU2JBYlsz6dHE
+ 2NdxeRD546zPy2lSuBffe2xmZ+vl4mGf7o9nklnghLKtM/zrC1X1JumzyobCdUwi
+ 2PftDAUXLnh/aZ1br0gx0UnLU5JiQ==
+X-ME-Sender: <xms:rDdLYNExMiu30-yvDoEFxntdgwc2tN6URAekYzFr5ts9stMvb7sP6w>
+ <xme:rDdLYCUYw-8KgkLTcENn7MWIXV2Yl2ecQoLAcFrlrot5FQgB-0uetMkNnIbyhDHC5
+ ikqQyJa5z5nqGgtr_o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddvvddgtdejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpefgjeettdejgffgffdvteeutdehtdehgeehueetkeefgefhtdetjeekledu
+ gedvudenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:rDdLYPLdPq3fQq54iAM3MwyxCiRXemXX-XCuLOL1ZscV47RnSAhwDQ>
+ <xmx:rDdLYDFYJ_vDgEL7MFL8bG0WdhLWby8-9Czl3tX6xuwPCVQd2fA-Hw>
+ <xmx:rDdLYDVXbFCLasqR7cKVIwTkRpvNDtwAPcTt8ExMBnZbKgYOCsIkaw>
+ <xmx:rTdLYAg2lepqfTPiWx_uO106RHWESMYEAMc7-AWwp_Mw3766sp_Byg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 20D0E1080068;
+ Fri, 12 Mar 2021 04:43:08 -0500 (EST)
+Date: Fri, 12 Mar 2021 10:43:05 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>
+Subject: Re: don't base trees on 5.12-rc1
+Message-ID: <20210312094305.pcxa3bttrlhaki24@gilmour>
+References: <CAPM=9tyZF=seWUswnp7M3RbDQC2hLUc0wjpYYyEfn3dgpOf4zw@mail.gmail.com>
+ <20210310074851.x4lo4ymkq25e2iw2@gilmour>
+ <CAPM=9tym-LbpFhFCyezYRZeOv6ryEcGj-Jh5yH_87x45g8NN_w@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAPM=9tym-LbpFhFCyezYRZeOv6ryEcGj-Jh5yH_87x45g8NN_w@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,25 +81,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2Ugc2VlbSB0byBoYXZlIHNvbWUgbW9yZSBkcml2ZXIgYnVncyB0aGFuIHRob3VnaHQuCgpTaWdu
-ZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Ci0t
-LQogaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaCB8IDYgKysrKy0tCiAxIGZpbGUgY2hhbmdl
-ZCwgNCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2luY2x1ZGUv
-ZHJtL3R0bS90dG1fYm9fYXBpLmggYi9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2FwaS5oCmluZGV4
-IDRmYjUyM2RmYWIzMi4uZGY5ZmU1OTZlN2M1IDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS90dG0v
-dHRtX2JvX2FwaS5oCisrKyBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgKQEAgLTYwMyw5
-ICs2MDMsMTEgQEAgc3RhdGljIGlubGluZSB2b2lkIHR0bV9ib19waW4oc3RydWN0IHR0bV9idWZm
-ZXJfb2JqZWN0ICpibykKIHN0YXRpYyBpbmxpbmUgdm9pZCB0dG1fYm9fdW5waW4oc3RydWN0IHR0
-bV9idWZmZXJfb2JqZWN0ICpibykKIHsKIAlkbWFfcmVzdl9hc3NlcnRfaGVsZChiby0+YmFzZS5y
-ZXN2KTsKLQlXQVJOX09OX09OQ0UoIWJvLT5waW5fY291bnQpOwogCVdBUk5fT05fT05DRSgha3Jl
-Zl9yZWFkKCZiby0+a3JlZikpOwotCS0tYm8tPnBpbl9jb3VudDsKKwlpZiAoYm8tPnBpbl9jb3Vu
-dCkKKwkJLS1iby0+cGluX2NvdW50OworCWVsc2UKKwkJV0FSTl9PTl9PTkNFKHRydWUpOwogfQog
-CiBpbnQgdHRtX21lbV9ldmljdF9maXJzdChzdHJ1Y3QgdHRtX2RldmljZSAqYmRldiwKLS0gCjIu
-MjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Mar 11, 2021 at 05:11:36AM +1000, Dave Airlie wrote:
+> On Wed, 10 Mar 2021 at 17:48, Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > Hi Dave,
+> >
+> > On Wed, Mar 10, 2021 at 09:50:29AM +1000, Dave Airlie wrote:
+> > > I'm mostly sending this to the -misc maintainers because
+> > > drm-misc-fixes is based on rc1 at present.
+> > >
+> > > This needs to be *rebased* not merged up to 5.12-rc2. Merging will
+> > > still have the bad landmine commits in the bisect history. This is a
+> > > very special case.
+> >
+> > I'm sorry, I'm not entirely sure I get this. -rc1 is still in the -rc2
+> > history, so how would that change anything in the bisect history?
+> >
+> 
+> We can't get rid of the bad commit range, we can reduce the amount of
+> times someone accidentally bisects into it, by not using it as a base
+> commit for future changes.
+> 
+> If in the future a bisect happens to want to test one of the patches
+> in drm-misc-fixes that is based on rc1, it will land the user with an
+> rc1 test kernel and could eat their swapfile/disk. We can avoid that
+> problem by not using rc1 as a base for drm-misc-fixes.
+> 
+> We can't avoid them bisecting into the broken commits between when
+> this landed and was fixed, but rebasing trees can minimise the chances
+> of this when bisecting other changesets.
+
+Ok, yeah, that makes sense. Thanks!
+
+Maxime
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
