@@ -2,36 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BCF9338EF3
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 14:38:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF2D8338F45
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 14:59:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 979E26F620;
-	Fri, 12 Mar 2021 13:38:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76D3B6F63C;
+	Fri, 12 Mar 2021 13:59:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B12796F620
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 13:38:37 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4D12164FDD;
- Fri, 12 Mar 2021 13:38:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1615556315;
- bh=57mbvHMXzCsKbHqNmoo+Ll9JCdRq3K+4lkkIPeyMlmo=;
- h=Subject:To:Cc:From:Date:From;
- b=wRYMe3vw99mVUbqI4Kh1lYO30bgzO0/Akdq+kViKVIj4kVch1nkCdqzTxR9EKtepk
- jhNuuv3zPwNDWHWZMfZ365L+9RtTXMjU2PZN8peu2nqRBIVfncsjGIOwqLW9J5JpNQ
- YYJsxuFIH6vWeDc/9XeJalju0oMqtI+rMxdiUqh8=
-Subject: Patch "drm/fb-helper: only unmap if buffer not null" has been added
- to the 5.11-stable tree
-To: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, sam@ravnborg.org, tzimmermann@suse.de, ztong0001@gmail.com
-From: <gregkh@linuxfoundation.org>
-Date: Fri, 12 Mar 2021 14:38:13 +0100
-Message-ID: <1615556293131213@kroah.com>
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D2686F63E
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 13:59:09 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id mj10so53520704ejb.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 05:59:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RXIde/EuL9AlycuKsAtgcHTZ7jdywusoAi6fwahOfCw=;
+ b=BknlISAggUsQi+qlHObMjrKiXk9pZApVHkwoCxQWKFj2gxNd7YPpUCI+pviR6nrg77
+ mu6BP0BT5ekc63YuJAbcFC0NoTrdqiXrWXnSaAmvbj3utcZk5jt8AgeS7k5M4qn+Ekp9
+ WYDXgJOPj+mNs3utByzrB4h6KkMQKFXiiXd8TrCU7esOy/s7wPJ1Si7MvQ5esYytyvJP
+ Gf21BEenytBxJqgzN9EYcG+H+HI1wjuEbUANZbNVg+5E4zXH7HNNG/LXO2xBKhl0yr6e
+ 5tDUkfAvimYwGQXg1OxITN4nhNnQY2uW6OXTizQzdRgv4SMTIfgOUbV/vVNzlEjAAsAX
+ WGaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RXIde/EuL9AlycuKsAtgcHTZ7jdywusoAi6fwahOfCw=;
+ b=ih1h4OEK0kP0Ws/nbqY2fU90m0BSd9JJemLdKSbhbP7TXH1/6VOU5/LKHu988GffAs
+ gD+hH4COIzYD6LQwLU6/2qNvqfUL9ir+Xb3MCjtxtyckGzAErT6Jp5WBQ9eLP2ajJHRA
+ JSGCrqE6tBrZQnDnCVPPXehOm41MM1O4+u0yWRecE5AnwnRtV+FQ7CmSal9NOJ8wO2JC
+ TICkvD86o36Xnd6lOVAS8zjB15/XEiDMomD94DCHkYqWYoEiujf8BR4zPSwCNMpOdgGn
+ xtIxpc5ipGlWmoP2Mn0LR5FlX5S//dsRW1QFFTFbSXsPcaQOwgyG4oUhg7Ngxzz/c7JQ
+ FxNA==
+X-Gm-Message-State: AOAM532acP5OL+6ENmadCYATTBxScaeiqk43w/bZYw3e3pMO2ZrEohBZ
+ gaArv6qOqbiirmTwAQUINqm5SUaOnuE=
+X-Google-Smtp-Source: ABdhPJwWQzod+Yf64E4j821Lq6l0zFsFmo7ILFDF16sF383JSSfN0eJzoQpOMIBaWf6+8aSDWBNj3A==
+X-Received: by 2002:a17:906:6bd1:: with SMTP id
+ t17mr8791185ejs.319.1615557548178; 
+ Fri, 12 Mar 2021 05:59:08 -0800 (PST)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:8c1c:cfec:8dac:4b29])
+ by smtp.gmail.com with ESMTPSA id lm24sm2776237ejb.53.2021.03.12.05.59.07
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Mar 2021 05:59:07 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/amdgpu: nuke the ih reentrant lock
+Date: Fri, 12 Mar 2021 14:59:06 +0100
+Message-Id: <20210312135906.3262-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-stable: commit
-X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,113 +68,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable-commits@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-This is a note to let you know that I've just added the patch titled
-
-    drm/fb-helper: only unmap if buffer not null
-
-to the 5.11-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     drm-fb-helper-only-unmap-if-buffer-not-null.patch
-and it can be found in the queue-5.11 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From 874a52f9b693ed8bf7a92b3592a547ce8a684e6f Mon Sep 17 00:00:00 2001
-From: Tong Zhang <ztong0001@gmail.com>
-Date: Sat, 27 Feb 2021 23:46:25 -0500
-Subject: drm/fb-helper: only unmap if buffer not null
-
-From: Tong Zhang <ztong0001@gmail.com>
-
-commit 874a52f9b693ed8bf7a92b3592a547ce8a684e6f upstream.
-
-drm_fbdev_cleanup() can be called when fb_helper->buffer is null, hence
-fb_helper->buffer should be checked before calling
-drm_client_buffer_vunmap(). This buffer is also checked in
-drm_client_framebuffer_delete(), so we should also do the same thing for
-drm_client_buffer_vunmap().
-
-[  199.128742] RIP: 0010:drm_client_buffer_vunmap+0xd/0x20
-[  199.129031] Code: 43 18 48 8b 53 20 49 89 45 00 49 89 55 08 5b 44 89 e0 41 5c 41 5d 41 5e 5d
-c3 0f 1f 00 53 48 89 fb 48 8d 7f 10 e8 73 7d a1 ff <48> 8b 7b 10 48 8d 73 18 5b e9 75 53 fc ff 0
-f 1f 44 00 00 48 b8 00
-[  199.130041] RSP: 0018:ffff888103f3fc88 EFLAGS: 00010282
-[  199.130329] RAX: 0000000000000001 RBX: 0000000000000000 RCX: ffffffff8214d46d
-[  199.130733] RDX: 1ffffffff079c6b9 RSI: 0000000000000246 RDI: ffffffff83ce35c8
-[  199.131119] RBP: ffff888103d25458 R08: 0000000000000001 R09: fffffbfff0791761
-[  199.131505] R10: ffffffff83c8bb07 R11: fffffbfff0791760 R12: 0000000000000000
-[  199.131891] R13: ffff888103d25468 R14: ffff888103d25418 R15: ffff888103f18120
-[  199.132277] FS:  00007f36fdcbb6a0(0000) GS:ffff88815b400000(0000) knlGS:0000000000000000
-[  199.132721] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  199.133033] CR2: 0000000000000010 CR3: 0000000103d26000 CR4: 00000000000006f0
-[  199.133420] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[  199.133807] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[  199.134195] Call Trace:
-[  199.134333]  drm_fbdev_cleanup+0x179/0x1a0
-[  199.134562]  drm_fbdev_client_unregister+0x2b/0x40
-[  199.134828]  drm_client_dev_unregister+0xa8/0x180
-[  199.135088]  drm_dev_unregister+0x61/0x110
-[  199.135315]  mgag200_pci_remove+0x38/0x52 [mgag200]
-[  199.135586]  pci_device_remove+0x62/0xe0
-[  199.135806]  device_release_driver_internal+0x148/0x270
-[  199.136094]  driver_detach+0x76/0xe0
-[  199.136294]  bus_remove_driver+0x7e/0x100
-[  199.136521]  pci_unregister_driver+0x28/0xf0
-[  199.136759]  __x64_sys_delete_module+0x268/0x300
-[  199.137016]  ? __ia32_sys_delete_module+0x300/0x300
-[  199.137285]  ? call_rcu+0x3e4/0x580
-[  199.137481]  ? fpregs_assert_state_consistent+0x4d/0x60
-[  199.137767]  ? exit_to_user_mode_prepare+0x2f/0x130
-[  199.138037]  do_syscall_64+0x33/0x40
-[  199.138237]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[  199.138517] RIP: 0033:0x7f36fdc3dcf7
-
-Signed-off-by: Tong Zhang <ztong0001@gmail.com>
-Fixes: 763aea17bf57 ("drm/fb-helper: Unmap client buffer during shutdown")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.11+
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210228044625.171151-1-ztong0001@gmail.com
-Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/drm_fb_helper.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -2043,7 +2043,7 @@ static void drm_fbdev_cleanup(struct drm
- 
- 	if (shadow)
- 		vfree(shadow);
--	else
-+	else if (fb_helper->buffer)
- 		drm_client_buffer_vunmap(fb_helper->buffer);
- 
- 	drm_client_framebuffer_delete(fb_helper->buffer);
-
-
-Patches currently in stable-queue which might be from ztong0001@gmail.com are
-
-queue-5.11/drm-fb-helper-only-unmap-if-buffer-not-null.patch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SW50ZXJydXB0cyBvbiBhcmUgbm9uLXJlZW50cmFudCBvbiBsaW51eC4gVGhpcyBpcyBqdXN0IGFu
+IGFuY2llbnQKbGVmdG92ZXIgZnJvbSByYWRlb24gd2hlcmUgaXJxIHByb2Nlc3Npbmcgd2FzIGtp
+Y2tlZCBvZiBmcm9tIGRpZmZlcmVudApwbGFjZXMuCgpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4g
+S8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jIHwgMSAtCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hbWRncHVfaWguYyAgICAgfCA1IC0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
+bWRncHVfaWguaCAgICAgfCAxIC0KIDMgZmlsZXMgY2hhbmdlZCwgNyBkZWxldGlvbnMoLSkKCmRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZGV2aWNlLmMgYi9k
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZGV2aWNlLmMKaW5kZXggYTE1ZjFiNjA0
+NzMzLi44ODY2MjVmYjQ2NGIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+L2FtZGdwdV9kZXZpY2UuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
+ZGV2aWNlLmMKQEAgLTMyODQsNyArMzI4NCw2IEBAIGludCBhbWRncHVfZGV2aWNlX2luaXQoc3Ry
+dWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsCiAKIAkvKiBtdXRleCBpbml0aWFsaXphdGlvbiBhcmUg
+YWxsIGRvbmUgaGVyZSBzbyB3ZQogCSAqIGNhbiByZWNhbGwgZnVuY3Rpb24gd2l0aG91dCBoYXZp
+bmcgbG9ja2luZyBpc3N1ZXMgKi8KLQlhdG9taWNfc2V0KCZhZGV2LT5pcnEuaWgubG9jaywgMCk7
+CiAJbXV0ZXhfaW5pdCgmYWRldi0+ZmlybXdhcmUubXV0ZXgpOwogCW11dGV4X2luaXQoJmFkZXYt
+PnBtLm11dGV4KTsKIAltdXRleF9pbml0KCZhZGV2LT5nZnguZ3B1X2Nsb2NrX211dGV4KTsKZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9paC5jIGIvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2loLmMKaW5kZXggMTAyNDA2NWYxZjAzLi5mYWFh
+NmFhMmZhYWYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9p
+aC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9paC5jCkBAIC0yMjgs
+MTAgKzIyOCw2IEBAIGludCBhbWRncHVfaWhfcHJvY2VzcyhzdHJ1Y3QgYW1kZ3B1X2RldmljZSAq
+YWRldiwgc3RydWN0IGFtZGdwdV9paF9yaW5nICppaCkKIAl3cHRyID0gYW1kZ3B1X2loX2dldF93
+cHRyKGFkZXYsIGloKTsKIAogcmVzdGFydF9paDoKLQkvKiBpcyBzb21lYm9keSBlbHNlIGFscmVh
+ZHkgcHJvY2Vzc2luZyBpcnFzPyAqLwotCWlmIChhdG9taWNfeGNoZygmaWgtPmxvY2ssIDEpKQot
+CQlyZXR1cm4gSVJRX05PTkU7Ci0KIAlEUk1fREVCVUcoIiVzOiBycHRyICVkLCB3cHRyICVkXG4i
+LCBfX2Z1bmNfXywgaWgtPnJwdHIsIHdwdHIpOwogCiAJLyogT3JkZXIgcmVhZGluZyBvZiB3cHRy
+IHZzLiByZWFkaW5nIG9mIElIIHJpbmcgZGF0YSAqLwpAQCAtMjQ0LDcgKzI0MCw2IEBAIGludCBh
+bWRncHVfaWhfcHJvY2VzcyhzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiwgc3RydWN0IGFtZGdw
+dV9paF9yaW5nICppaCkKIAogCWFtZGdwdV9paF9zZXRfcnB0cihhZGV2LCBpaCk7CiAJd2FrZV91
+cF9hbGwoJmloLT53YWl0X3Byb2Nlc3MpOwotCWF0b21pY19zZXQoJmloLT5sb2NrLCAwKTsKIAog
+CS8qIG1ha2Ugc3VyZSB3cHRyIGhhc24ndCBjaGFuZ2VkIHdoaWxlIHByb2Nlc3NpbmcgKi8KIAl3
+cHRyID0gYW1kZ3B1X2loX2dldF93cHRyKGFkZXYsIGloKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9paC5oIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
+cHUvYW1kZ3B1X2loLmgKaW5kZXggODdlYzZkMjBkYmUwLi4wNjQ5YjU5ODMwYTUgMTAwNjQ0Ci0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9paC5oCisrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9paC5oCkBAIC02NCw3ICs2NCw2IEBAIHN0cnVjdCBh
+bWRncHVfaWhfcmluZyB7CiAKIAlib29sICAgICAgICAgICAgICAgICAgICBlbmFibGVkOwogCXVu
+c2lnbmVkCQlycHRyOwotCWF0b21pY190CQlsb2NrOwogCXN0cnVjdCBhbWRncHVfaWhfcmVncwlp
+aF9yZWdzOwogCiAJLyogRm9yIHdhaXRpbmcgb24gSUggcHJvY2Vzc2luZyBhdCBjaGVja3BvaW50
+LiAqLwotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
