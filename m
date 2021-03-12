@@ -1,40 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FBAB339242
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 16:49:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EDB5339290
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 16:58:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D6A86F8AF;
-	Fri, 12 Mar 2021 15:49:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 527B16F8B5;
+	Fri, 12 Mar 2021 15:58:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 220B76F8A9;
- Fri, 12 Mar 2021 15:49:26 +0000 (UTC)
-IronPort-SDR: QNj3v1ewgRY6k5W6JGZPAks3dSfqDO/6AvaO6hfka01kXQDadhXfdQJGJTnd/0WguSjLueoZtq
- MmYaEmM+niHg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9921"; a="186473804"
-X-IronPort-AV: E=Sophos;i="5.81,244,1610438400"; d="scan'208";a="186473804"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2021 07:49:25 -0800
-IronPort-SDR: KZ+Z5l76G0T5X5us7YuBSXovQtGLxe3YUpNVJri99zDMG4Gl8B1T4Zszsp7CUedkx98utR3X/m
- Hgal7bxAGMXA==
-X-IronPort-AV: E=Sophos;i="5.81,244,1610438400"; d="scan'208";a="448655430"
-Received: from nstrumtz-desk02.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.214.213.111])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2021 07:49:23 -0800
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [RFC 6/6] drm/i915: Allow configuring default request expiry via
- modparam
-Date: Fri, 12 Mar 2021 15:46:22 +0000
-Message-Id: <20210312154622.1767865-7-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210312154622.1767865-1-tvrtko.ursulin@linux.intel.com>
-References: <20210312154622.1767865-1-tvrtko.ursulin@linux.intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 815B46F8B5
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 15:58:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 837B064FE0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 15:58:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1615564723;
+ bh=pvcRZrlOBQAqDQATezcc/2Oo7+T12YmBuxEtJuOVna0=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=T0iXnb4Zz2u5C/PIWPgrdsMQkyWQBfUbwzi21nqT5YODWkp5XNF7cySfSwj6cUkVM
+ dP1ygAhiWKA0cyEcFLwMEmBJlhluhPZhl5p4hLVWxgH5BdeMrPR3Es3U7NWZsmlCuN
+ X9pp8r1pYgIF7YflnBxL1g6EpXEm6ahxlXf75iIWM/Y5GYde71w30fdzLHLThBPve8
+ jbe2p2/n8CIuB7PiEtYbGLLNGInQtTEJHuIofifPkrK3kD3tmQ4ec8Vfaj59ymgCpt
+ hE0LYihBhMGt/s9dRUXRP5dgdVc94cC8TfDNu/SbQx91oVCCNaWRLx8JJo3l+rmd8S
+ 8olGPdFhRpBZA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 73A6165373; Fri, 12 Mar 2021 15:58:43 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 210321] /display/dc/dcn20/dcn20_resource.c:3240
+ dcn20_validate_bandwidth_fp+0x8b/0xd0 [amdgpu]
+Date: Fri, 12 Mar 2021 15:58:43 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tristen.hayfield@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-210321-2300-J4gYV1tUoU@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210321-2300@https.bugzilla.kernel.org/>
+References: <bug-210321-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,90 +64,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=210321
 
-Module parameter is added (request_timeout_ms) to allow configuring the
-default request/fence expiry.
+--- Comment #5 from Tristen Hayfield (tristen.hayfield@gmail.com) ---
+I did some more digging into this. I put some logging inside the if block to
+see if that branch is ever taken:
 
-Default value is inherited from CONFIG_DRM_I915_REQUEST_TIMEOUT.
+        if (voltage_supported && dummy_pstate_supported) {
+                context->bw_ctx.bw.dcn.clk.p_state_change_support = false;
+                goto restore_dml_state;
+        }
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
----
- drivers/gpu/drm/i915/gem/i915_gem_context.c | 8 +++++---
- drivers/gpu/drm/i915/i915_params.c          | 5 +++++
- drivers/gpu/drm/i915/i915_params.h          | 1 +
- 3 files changed, 11 insertions(+), 3 deletions(-)
+in order to log when or if the fallback worked. The logs confirmed that the
+fallback is often used and generally works. Upon starting up the system and
+starting up Xorg I get about a dozen log messages indicating that it entered
+the if block. The only exception seems to be as Florian describes above, that
+when the display shuts off due to power-saving it triggers the assertion.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 21c0176e27a0..1dae5e2514a9 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -866,7 +866,7 @@ static void __set_default_fence_expiry(struct i915_gem_context *ctx)
- 		return;
- 
- 	/* Default expiry for user fences. */
--	ret = __set_watchdog(ctx, CONFIG_DRM_I915_REQUEST_TIMEOUT * 1000);
-+	ret = __set_watchdog(ctx, i915->params.request_timeout_ms * 1000);
- 	if (ret)
- 		drm_notice(&i915->drm,
- 			   "Failed to configure default fence expiry! (%d)",
-@@ -1442,13 +1442,15 @@ __set_watchdog(struct i915_gem_context *ctx, unsigned long timeout_us)
- static int set_watchdog(struct i915_gem_context *ctx,
- 			struct drm_i915_gem_context_param *args)
- {
-+	struct drm_i915_private *i915 = ctx->i915;
-+
- 	if (args->size)
- 		return -EINVAL;
- 
- 	/* Disallow disabling or configuring longer watchdog than default. */
--	if (IS_ACTIVE(CONFIG_DRM_I915_REQUEST_TIMEOUT) &&
-+	if (i915->params.request_timeout_ms &&
- 	    (!args->value ||
--	     args->value > CONFIG_DRM_I915_REQUEST_TIMEOUT * 1000))
-+	     args->value > i915->params.request_timeout_ms * 1000))
- 		return -EPERM;
- 
- 	return __set_watchdog(ctx, args->value);
-diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
-index 6939634e56ed..0320878d96b0 100644
---- a/drivers/gpu/drm/i915/i915_params.c
-+++ b/drivers/gpu/drm/i915/i915_params.c
-@@ -197,6 +197,11 @@ i915_param_named_unsafe(fake_lmem_start, ulong, 0400,
- 	"Fake LMEM start offset (default: 0)");
- #endif
- 
-+#if CONFIG_DRM_I915_REQUEST_TIMEOUT
-+i915_param_named_unsafe(request_timeout_ms, uint, 0600,
-+			"Default request/fence/batch buffer expiration timeout.");
-+#endif
-+
- static __always_inline void _print_param(struct drm_printer *p,
- 					 const char *name,
- 					 const char *type,
-diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
-index 48f47e44e848..34ebb0662547 100644
---- a/drivers/gpu/drm/i915/i915_params.h
-+++ b/drivers/gpu/drm/i915/i915_params.h
-@@ -72,6 +72,7 @@ struct drm_printer;
- 	param(int, enable_dpcd_backlight, -1, 0600) \
- 	param(char *, force_probe, CONFIG_DRM_I915_FORCE_PROBE, 0400) \
- 	param(unsigned long, fake_lmem_start, 0, 0400) \
-+	param(unsigned int, request_timeout_ms, CONFIG_DRM_I915_REQUEST_TIMEOUT, 0600) \
- 	/* leave bools at the end to not create holes */ \
- 	param(bool, enable_hangcheck, true, 0600) \
- 	param(bool, load_detect_test, false, 0600) \
 -- 
-2.27.0
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
