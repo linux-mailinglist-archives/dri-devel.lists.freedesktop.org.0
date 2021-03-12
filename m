@@ -2,57 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29683338F6E
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 15:07:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C5F338F89
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 15:12:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B35546EC39;
-	Fri, 12 Mar 2021 14:07:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BACCC6EBD0;
+	Fri, 12 Mar 2021 14:12:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B89A86EC39
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 14:07:45 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id e18so1847633wrt.6
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 06:07:45 -0800 (PST)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9885C6E10C
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 14:12:31 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id o26so3889782wmc.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 06:12:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=0b94v7S34F+yLOJy1ewvn7dt40NwWiU/Q8n4vHSPEiA=;
- b=XFWc9HL48dKo2J8ISHJxsSvF7n/teqj0UITJY0vXYJ/lbUYwued6kXgJqZQZLkyGql
- 4+0yeQDRwXOJ6smUNxSDubBFHU9KdD8fIzIrlcxkSzqBDtwaKQCIEt+2b1+iCyD6tj0b
- 8SvnkSoKRO24Trx/AL/rHGcFguDp7SviwUzQE=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=FS8E3QfSbLNuEUx0oGFG0GGmNvYIycOcmcrDH3zq20s=;
+ b=EpXn29ELHwyLOmSmA0dpAkvkzt6uQd+2W1sVUIUHPfGbws8JaoUARChu8bwZ+ySzEi
+ nCr0fmdzZQeLZKtpf+sy93qveuEeBtDIH1nlt0EaWvvaxRUMiX+UBQeY9QSHzzh7fC1w
+ qkTT5+yV7aj5TuQgL7jb9WbbOMqqtVTntSsrE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=0b94v7S34F+yLOJy1ewvn7dt40NwWiU/Q8n4vHSPEiA=;
- b=Sh5vunVyedlDT5x/0uO7nRHFnHL/JbmBe2nzSV0Q0aOhVUeqdCMu/g1oK4Tq+RRBHJ
- 90Iy9MOY8td/igGd2HLqs4mLetzzQHMoQzfMl1p3feUhXHGARRFStbRaPagSNymRoE1U
- 0AXWVG+gkcdGviH4DZpJrZNEEMv5tfmNtjWF38YUkPuUminqgjDrYyguWiM3OtmFyJNh
- XF1tBbSbNbHI5xUYOSbGzTzNjNAj0Lx+4kOTwoaN8L1rTldBEY1awL/w4MgvSR/q1D59
- tp1ARLnY25SPfiomuLf2gzi7g7UekcX0VxFI/ydn0D9md7PxSRSHYv1YhvqlCswnDApU
- 8iGA==
-X-Gm-Message-State: AOAM533XtOFXxE1bU5VgPhSP9GgHW6NLNi8K83M6RP4gLP3uol5lKNTn
- b99jnNRkaHHEmkEjxzT6LewR4g==
-X-Google-Smtp-Source: ABdhPJxse6kS7PMvxKaC+u15I2lZJQSm6UO7GbTrgtUDupCCuocqmsqXDUqNwE+1aiA0VjVsMdPYeA==
-X-Received: by 2002:a5d:5047:: with SMTP id h7mr14781415wrt.111.1615558064393; 
- Fri, 12 Mar 2021 06:07:44 -0800 (PST)
+ bh=FS8E3QfSbLNuEUx0oGFG0GGmNvYIycOcmcrDH3zq20s=;
+ b=ExCsJaeJeFEdelPnS21Vfvv6uYbfU03r+G3ZGT0bfOeEPgTC2COqWFj6sFOuLLQvRj
+ AOvOSskpxH9yqZOovC5/zmWYanO7GAsrijjHeQrbgZEULsGikghOcyhDtYSe9fEddU4h
+ BP7r+9WWLVAGMeftAr/DcUQ9LJAoy/NlDyIyZQtr7R0OOaC8XnD8kuFMSmpio4Hw1Ofe
+ crYS8oGMzufo6FVQsRqqKObLbTNeVNESA2ouy09BuW9v7APvRjE8AsWeNt11bGYeADlm
+ fO5eLtDaEohQ8a8McRQcLh0cHtB8t3DH/gLWFCnH7mXILxhrz29C+whg8ctfGffZsI7z
+ TAhw==
+X-Gm-Message-State: AOAM530J4XeonXgSWtpKSUwWNYhQNO8VgAjh+feoTWzDEdxRbe8NIQmv
+ 83pE7RpI8k13xgAR6h1WWFbzMzJ5dEI2djFx
+X-Google-Smtp-Source: ABdhPJx9JKGvYeYalS8uchoaPC4Epklh6gjPywXF2S3wgfsIQjVglkf/531Kk5D6ZMHgJxr/FEKZgg==
+X-Received: by 2002:a1c:1bc7:: with SMTP id
+ b190mr13478032wmb.115.1615558350171; 
+ Fri, 12 Mar 2021 06:12:30 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id v13sm8959320wrt.45.2021.03.12.06.07.43
+ by smtp.gmail.com with ESMTPSA id k4sm10360878wrd.9.2021.03.12.06.12.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 06:07:43 -0800 (PST)
-Date: Fri, 12 Mar 2021 15:07:41 +0100
+ Fri, 12 Mar 2021 06:12:29 -0800 (PST)
+Date: Fri, 12 Mar 2021 15:12:27 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] dma-fence: Document recoverable page fault implications
-Message-ID: <YEt1rVg/flnZHsgG@phenom.ffwll.local>
-References: <20210203152921.2429937-1-daniel.vetter@ffwll.ch>
- <8e28d123-e7ea-aade-dd7f-af0eb2999ce6@amd.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Subject: Re: [PATCH v2] fb_defio: Remove custom address_space_operations
+Message-ID: <YEt2y4QqnanHHviZ@phenom.ffwll.local>
+Mail-Followup-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ William Kucharski <william.kucharski@oracle.com>,
+ Jani Nikula <jani.nikula@intel.com>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, Ian Campbell <ijc@hellion.org.uk>,
+ linux-fsdevel@vger.kernel.org,
+ Jaya Kumar <jayakumar.lkml@gmail.com>,
+ Christoph Hellwig <hch@lst.de>
+References: <20210310185530.1053320-1-willy@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <8e28d123-e7ea-aade-dd7f-af0eb2999ce6@amd.com>
+In-Reply-To: <20210310185530.1053320-1-willy@infradead.org>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,213 +74,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Felix Kuehling <felix.kuehling@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org, Jerome Glisse <jglisse@redhat.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-fbdev@vger.kernel.org, linux-mm@kvack.org,
+ Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ William Kucharski <william.kucharski@oracle.com>,
+ Ian Campbell <ijc@hellion.org.uk>, linux-fsdevel@vger.kernel.org,
+ Jaya Kumar <jayakumar.lkml@gmail.com>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 03, 2021 at 04:40:38PM +0100, Christian K=F6nig wrote:
-> Am 03.02.21 um 16:29 schrieb Daniel Vetter:
-> > Recently there was a fairly long thread about recoreable hardware page
-> > faults, how they can deadlock, and what to do about that.
-> > =
+On Wed, Mar 10, 2021 at 06:55:30PM +0000, Matthew Wilcox (Oracle) wrote:
+> There's no need to give the page an address_space.  Leaving the
+> page->mapping as NULL will cause the VM to handle set_page_dirty()
+> the same way that it's handled now, and that was the only reason to
+> set the address_space in the first place.
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: William Kucharski <william.kucharski@oracle.com>
 
-> > While the discussion is still fresh I figured good time to try and
-> > document the conclusions a bit. This documentation section explains
-> > what's the potential problem, and the remedies we've discussed,
-> > roughly ordered from best to worst.
-> > =
+Thanks for your patch, merged to drm-misc-next for 5.13.
 
-> > v2: Linus -> Linux typoe (Dave)
-> > =
+While I have an expert here, does this mean that for a VM_PFNMAP we could
+pull of the same trick without any struct page backing, assuming we pulle
+the per-page dirty state into some tracking of our own?
 
-> > v3:
-> > - Make it clear drivers only need to implement one option (Christian)
-> > - Make it clearer that implicit sync is out the window with exclusive
-> >    fences (Christian)
-> > - Add the fairly theoretical option of segementing the memory (either
-> >    statically or through dynamic checks at runtime for which piece of
-> >    memory is managed how) and explain why it's not a great idea (Felix)
-> > =
+I'm asking since for DRM drivers we currently have a fairly awkward
+situation with a bounce buffer in system memory going on that we copy out
+of, because we can't directly use the gpu buffers. If we can track
+directly in the gpu buffers, maybe even as some kind of overlay over the
+vma, we could avoid that copy.
 
-> > References: https://nam11.safelinks.protection.outlook.com/?url=3Dhttps=
-%3A%2F%2Flore.kernel.org%2Fdri-devel%2F20210107030127.20393-1-Felix.Kuehlin=
-g%40amd.com%2F&amp;data=3D04%7C01%7Cchristian.koenig%40amd.com%7C767e1096b9=
-554ab5b6dd08d8c8587f0f%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C6374796=
-29728871138%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJ=
-BTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DFth2y8c3LuNbweQGrsS7VjYESGls=
-hu6DfQyikiWBwyQ%3D&amp;reserved=3D0
-> > Cc: Dave Airlie <airlied@gmail.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Thomas Hellstr=F6m <thomas.hellstrom@intel.com>
-> > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
-> > Cc: Jerome Glisse <jglisse@redhat.com>
-> > Cc: Felix Kuehling <felix.kuehling@amd.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> =
-
-> Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
-
-Pulled this in, thanks everyone who helped clarify the situation here.
+Otoh no one cares about fbcon performance, so *shrug*.
 
 Cheers, Daniel
 
-> I still haven't fully given up on supporting implicit sync with user fenc=
-es,
-> but it is really an eeek, let's try very hard to avoid that, problem.
-> =
+> ---
+> v2: Delete local variable definitions
+>  drivers/video/fbdev/core/fb_defio.c | 35 -----------------------------
+>  drivers/video/fbdev/core/fbmem.c    |  4 ----
+>  include/linux/fb.h                  |  3 ---
+>  3 files changed, 42 deletions(-)
+> 
+> diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
+> index a591d291b231..b292887a2481 100644
+> --- a/drivers/video/fbdev/core/fb_defio.c
+> +++ b/drivers/video/fbdev/core/fb_defio.c
+> @@ -52,13 +52,6 @@ static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
+>  		return VM_FAULT_SIGBUS;
+>  
+>  	get_page(page);
+> -
+> -	if (vmf->vma->vm_file)
+> -		page->mapping = vmf->vma->vm_file->f_mapping;
+> -	else
+> -		printk(KERN_ERR "no mapping available\n");
+> -
+> -	BUG_ON(!page->mapping);
+>  	page->index = vmf->pgoff;
+>  
+>  	vmf->page = page;
+> @@ -151,17 +144,6 @@ static const struct vm_operations_struct fb_deferred_io_vm_ops = {
+>  	.page_mkwrite	= fb_deferred_io_mkwrite,
+>  };
+>  
+> -static int fb_deferred_io_set_page_dirty(struct page *page)
+> -{
+> -	if (!PageDirty(page))
+> -		SetPageDirty(page);
+> -	return 0;
+> -}
+> -
+> -static const struct address_space_operations fb_deferred_io_aops = {
+> -	.set_page_dirty = fb_deferred_io_set_page_dirty,
+> -};
+> -
+>  int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma)
+>  {
+>  	vma->vm_ops = &fb_deferred_io_vm_ops;
+> @@ -212,29 +194,12 @@ void fb_deferred_io_init(struct fb_info *info)
+>  }
+>  EXPORT_SYMBOL_GPL(fb_deferred_io_init);
+>  
+> -void fb_deferred_io_open(struct fb_info *info,
+> -			 struct inode *inode,
+> -			 struct file *file)
+> -{
+> -	file->f_mapping->a_ops = &fb_deferred_io_aops;
+> -}
+> -EXPORT_SYMBOL_GPL(fb_deferred_io_open);
+> -
+>  void fb_deferred_io_cleanup(struct fb_info *info)
+>  {
+>  	struct fb_deferred_io *fbdefio = info->fbdefio;
+> -	struct page *page;
+> -	int i;
+>  
+>  	BUG_ON(!fbdefio);
+>  	cancel_delayed_work_sync(&info->deferred_work);
+> -
+> -	/* clear out the mapping that we setup */
+> -	for (i = 0 ; i < info->fix.smem_len; i += PAGE_SIZE) {
+> -		page = fb_deferred_io_page(info, i);
+> -		page->mapping = NULL;
+> -	}
+> -
+>  	mutex_destroy(&fbdefio->lock);
+>  }
+>  EXPORT_SYMBOL_GPL(fb_deferred_io_cleanup);
+> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> index 06f5805de2de..372b52a2befa 100644
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -1415,10 +1415,6 @@ __releases(&info->lock)
+>  		if (res)
+>  			module_put(info->fbops->owner);
+>  	}
+> -#ifdef CONFIG_FB_DEFERRED_IO
+> -	if (info->fbdefio)
+> -		fb_deferred_io_open(info, inode, file);
+> -#endif
+>  out:
+>  	unlock_fb_info(info);
+>  	if (res)
+> diff --git a/include/linux/fb.h b/include/linux/fb.h
+> index ecfbcc0553a5..a8dccd23c249 100644
+> --- a/include/linux/fb.h
+> +++ b/include/linux/fb.h
+> @@ -659,9 +659,6 @@ static inline void __fb_pad_aligned_buffer(u8 *dst, u32 d_pitch,
+>  /* drivers/video/fb_defio.c */
+>  int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma);
+>  extern void fb_deferred_io_init(struct fb_info *info);
+> -extern void fb_deferred_io_open(struct fb_info *info,
+> -				struct inode *inode,
+> -				struct file *file);
+>  extern void fb_deferred_io_cleanup(struct fb_info *info);
+>  extern int fb_deferred_io_fsync(struct file *file, loff_t start,
+>  				loff_t end, int datasync);
+> -- 
+> 2.30.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-> Christian
-> =
-
-> > ---
-> >   Documentation/driver-api/dma-buf.rst | 76 ++++++++++++++++++++++++++++
-> >   1 file changed, 76 insertions(+)
-> > =
-
-> > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/drive=
-r-api/dma-buf.rst
-> > index a2133d69872c..7f37ec30d9fd 100644
-> > --- a/Documentation/driver-api/dma-buf.rst
-> > +++ b/Documentation/driver-api/dma-buf.rst
-> > @@ -257,3 +257,79 @@ fences in the kernel. This means:
-> >     userspace is allowed to use userspace fencing or long running compu=
-te
-> >     workloads. This also means no implicit fencing for shared buffers i=
-n these
-> >     cases.
-> > +
-> > +Recoverable Hardware Page Faults Implications
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +Modern hardware supports recoverable page faults, which has a lot of
-> > +implications for DMA fences.
-> > +
-> > +First, a pending page fault obviously holds up the work that's running=
- on the
-> > +accelerator and a memory allocation is usually required to resolve the=
- fault.
-> > +But memory allocations are not allowed to gate completion of DMA fence=
-s, which
-> > +means any workload using recoverable page faults cannot use DMA fences=
- for
-> > +synchronization. Synchronization fences controlled by userspace must b=
-e used
-> > +instead.
-> > +
-> > +On GPUs this poses a problem, because current desktop compositor proto=
-cols on
-> > +Linux rely on DMA fences, which means without an entirely new userspac=
-e stack
-> > +built on top of userspace fences, they cannot benefit from recoverable=
- page
-> > +faults. Specifically this means implicit synchronization will not be p=
-ossible.
-> > +The exception is when page faults are only used as migration hints and=
- never to
-> > +on-demand fill a memory request. For now this means recoverable page
-> > +faults on GPUs are limited to pure compute workloads.
-> > +
-> > +Furthermore GPUs usually have shared resources between the 3D renderin=
-g and
-> > +compute side, like compute units or command submission engines. If bot=
-h a 3D
-> > +job with a DMA fence and a compute workload using recoverable page fau=
-lts are
-> > +pending they could deadlock:
-> > +
-> > +- The 3D workload might need to wait for the compute job to finish and=
- release
-> > +  hardware resources first.
-> > +
-> > +- The compute workload might be stuck in a page fault, because the mem=
-ory
-> > +  allocation is waiting for the DMA fence of the 3D workload to comple=
-te.
-> > +
-> > +There are a few options to prevent this problem, one of which drivers =
-need to
-> > +ensure:
-> > +
-> > +- Compute workloads can always be preempted, even when a page fault is=
- pending
-> > +  and not yet repaired. Not all hardware supports this.
-> > +
-> > +- DMA fence workloads and workloads which need page fault handling have
-> > +  independent hardware resources to guarantee forward progress. This c=
-ould be
-> > +  achieved through e.g. through dedicated engines and minimal compute =
-unit
-> > +  reservations for DMA fence workloads.
-> > +
-> > +- The reservation approach could be further refined by only reserving =
-the
-> > +  hardware resources for DMA fence workloads when they are in-flight. =
-This must
-> > +  cover the time from when the DMA fence is visible to other threads u=
-p to
-> > +  moment when fence is completed through dma_fence_signal().
-> > +
-> > +- As a last resort, if the hardware provides no useful reservation mec=
-hanics,
-> > +  all workloads must be flushed from the GPU when switching between jo=
-bs
-> > +  requiring DMA fences or jobs requiring page fault handling: This mea=
-ns all DMA
-> > +  fences must complete before a compute job with page fault handling c=
-an be
-> > +  inserted into the scheduler queue. And vice versa, before a DMA fenc=
-e can be
-> > +  made visible anywhere in the system, all compute workloads must be p=
-reempted
-> > +  to guarantee all pending GPU page faults are flushed.
-> > +
-> > +- Only a fairly theoretical option would be to untangle these dependen=
-cies when
-> > +  allocating memory to repair hardware page faults, either through sep=
-arate
-> > +  memory blocks or runtime tracking of the full dependency graph of al=
-l DMA
-> > +  fences. This results very wide impact on the kernel, since resolving=
- the page
-> > +  on the CPU side can itself involve a page fault. It is much more fea=
-sible and
-> > +  robust to limit the impact of handling hardware page faults to the s=
-pecific
-> > +  driver.
-> > +
-> > +Note that workloads that run on independent hardware like copy engines=
- or other
-> > +GPUs do not have any impact. This allows us to keep using DMA fences i=
-nternally
-> > +in the kernel even for resolving hardware page faults, e.g. by using c=
-opy
-> > +engines to clear or copy memory needed to resolve the page fault.
-> > +
-> > +In some ways this page fault problem is a special case of the `Infinit=
-e DMA
-> > +Fences` discussions: Infinite fences from compute workloads are allowe=
-d to
-> > +depend on DMA fences, but not the other way around. And not even the p=
-age fault
-> > +problem is new, because some other CPU thread in userspace might
-> > +hit a page fault which holds up a userspace fence - supporting page fa=
-ults on
-> > +GPUs doesn't anything fundamentally new.
-> =
-
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
