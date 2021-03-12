@@ -1,66 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C5F338F89
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 15:12:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A8D338F99
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Mar 2021 15:15:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BACCC6EBD0;
-	Fri, 12 Mar 2021 14:12:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EE7E6EEC0;
+	Fri, 12 Mar 2021 14:15:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9885C6E10C
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 14:12:31 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id o26so3889782wmc.5
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 06:12:31 -0800 (PST)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34F9D6F40A
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 14:15:07 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id g20so3899717wmk.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Mar 2021 06:15:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=FS8E3QfSbLNuEUx0oGFG0GGmNvYIycOcmcrDH3zq20s=;
- b=EpXn29ELHwyLOmSmA0dpAkvkzt6uQd+2W1sVUIUHPfGbws8JaoUARChu8bwZ+ySzEi
- nCr0fmdzZQeLZKtpf+sy93qveuEeBtDIH1nlt0EaWvvaxRUMiX+UBQeY9QSHzzh7fC1w
- qkTT5+yV7aj5TuQgL7jb9WbbOMqqtVTntSsrE=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Af3mHPZaT2LqPuBFoXyUtYrCtuU51W2QCvy0JH+xM/c=;
+ b=K5+4O2vLpHWuJ+nsGqSzGBmDM8uB6sSAkq04oKhFvkkF3urlatz3lBF6BT07cJZ+ra
+ +GESRZUgblJtgpBXq6pOdVt79sGnPdAYYlw30eDP0KW/hOAcrBRFvd++YJd3fINZyBXB
+ gnXsn+6bg1BNRwdumHXgV1NvaUkDxI8/XLfow=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=FS8E3QfSbLNuEUx0oGFG0GGmNvYIycOcmcrDH3zq20s=;
- b=ExCsJaeJeFEdelPnS21Vfvv6uYbfU03r+G3ZGT0bfOeEPgTC2COqWFj6sFOuLLQvRj
- AOvOSskpxH9yqZOovC5/zmWYanO7GAsrijjHeQrbgZEULsGikghOcyhDtYSe9fEddU4h
- BP7r+9WWLVAGMeftAr/DcUQ9LJAoy/NlDyIyZQtr7R0OOaC8XnD8kuFMSmpio4Hw1Ofe
- crYS8oGMzufo6FVQsRqqKObLbTNeVNESA2ouy09BuW9v7APvRjE8AsWeNt11bGYeADlm
- fO5eLtDaEohQ8a8McRQcLh0cHtB8t3DH/gLWFCnH7mXILxhrz29C+whg8ctfGffZsI7z
- TAhw==
-X-Gm-Message-State: AOAM530J4XeonXgSWtpKSUwWNYhQNO8VgAjh+feoTWzDEdxRbe8NIQmv
- 83pE7RpI8k13xgAR6h1WWFbzMzJ5dEI2djFx
-X-Google-Smtp-Source: ABdhPJx9JKGvYeYalS8uchoaPC4Epklh6gjPywXF2S3wgfsIQjVglkf/531Kk5D6ZMHgJxr/FEKZgg==
-X-Received: by 2002:a1c:1bc7:: with SMTP id
- b190mr13478032wmb.115.1615558350171; 
- Fri, 12 Mar 2021 06:12:30 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Af3mHPZaT2LqPuBFoXyUtYrCtuU51W2QCvy0JH+xM/c=;
+ b=KefACwljFC2wV3xyj3fNh/5+/ECR+K4+itrnsbAKS/cb0rg4obszUjZ8ZhCLBBTFN/
+ tyxHYHKVTfHlwL7i4wPfttNslUBFKVncBAtnihUoN69zFlrJO06IEXQbRxR07x5niwyU
+ roojCrUoAGxaWzH86/E9Ttnd44kuBMfdVdeOy9YulVygrseIfcJ1aOfTptSCbXrDW5Zf
+ dZlLuUMdakv/xPmnrdWelRSAccKGQHiQ1vDObpCT1bZ/yrApDkMN5pkXlhoeQV2mYL24
+ hd41btpMB98KMKXEKoUH4Tr7H7q40HaMNqc9AYz7l5dc6JJ6p6HPXkMmp/R7PQK7iJNK
+ vpUQ==
+X-Gm-Message-State: AOAM533TP/d6v49779Ys0VA1DBAriksC+c8795Seeifn+pWoWRVpT9cG
+ f19lQzKoUHOqpZPkdzi4dn0421SXZAljhpGU
+X-Google-Smtp-Source: ABdhPJzJ0pzqKsGjmqvPE9hbg/rFLfBqAQjZTBv3DIf7Vq2A9IQs0yMNEU+RDC6VOM4LWib9TcBhug==
+X-Received: by 2002:a7b:c2aa:: with SMTP id c10mr13304059wmk.101.1615558505789; 
+ Fri, 12 Mar 2021 06:15:05 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k4sm10360878wrd.9.2021.03.12.06.12.29
+ by smtp.gmail.com with ESMTPSA id u2sm2868382wmm.5.2021.03.12.06.15.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Mar 2021 06:12:29 -0800 (PST)
-Date: Fri, 12 Mar 2021 15:12:27 +0100
+ Fri, 12 Mar 2021 06:15:05 -0800 (PST)
+Date: Fri, 12 Mar 2021 15:15:03 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Subject: Re: [PATCH v2] fb_defio: Remove custom address_space_operations
-Message-ID: <YEt2y4QqnanHHviZ@phenom.ffwll.local>
-Mail-Followup-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- William Kucharski <william.kucharski@oracle.com>,
- Jani Nikula <jani.nikula@intel.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, Ian Campbell <ijc@hellion.org.uk>,
- linux-fsdevel@vger.kernel.org,
- Jaya Kumar <jayakumar.lkml@gmail.com>,
- Christoph Hellwig <hch@lst.de>
-References: <20210310185530.1053320-1-willy@infradead.org>
+To: Jason Ekstrand <jason@jlekstrand.net>
+Subject: Re: [Intel-gfx] [PATCH] i915: Drop legacy execbuffer support
+Message-ID: <YEt3Z2GbRZmmFkE4@phenom.ffwll.local>
+References: <20210310210049.723206-1-jason@jlekstrand.net>
+ <87sg51un0c.wl-ashutosh.dixit@intel.com>
+ <17824b43488.2817.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210310185530.1053320-1-willy@infradead.org>
+In-Reply-To: <17824b43488.2817.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,153 +66,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-mm@kvack.org,
- Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- William Kucharski <william.kucharski@oracle.com>,
- Ian Campbell <ijc@hellion.org.uk>, linux-fsdevel@vger.kernel.org,
- Jaya Kumar <jayakumar.lkml@gmail.com>, Christoph Hellwig <hch@lst.de>
+Cc: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 10, 2021 at 06:55:30PM +0000, Matthew Wilcox (Oracle) wrote:
-> There's no need to give the page an address_space.  Leaving the
-> page->mapping as NULL will cause the VM to handle set_page_dirty()
-> the same way that it's handled now, and that was the only reason to
-> set the address_space in the first place.
+On Thu, Mar 11, 2021 at 10:31:33PM -0600, Jason Ekstrand wrote:
 > 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: William Kucharski <william.kucharski@oracle.com>
-
-Thanks for your patch, merged to drm-misc-next for 5.13.
-
-While I have an expert here, does this mean that for a VM_PFNMAP we could
-pull of the same trick without any struct page backing, assuming we pulle
-the per-page dirty state into some tracking of our own?
-
-I'm asking since for DRM drivers we currently have a fairly awkward
-situation with a bounce buffer in system memory going on that we copy out
-of, because we can't directly use the gpu buffers. If we can track
-directly in the gpu buffers, maybe even as some kind of overlay over the
-vma, we could avoid that copy.
-
-Otoh no one cares about fbcon performance, so *shrug*.
-
-Cheers, Daniel
-
-> ---
-> v2: Delete local variable definitions
->  drivers/video/fbdev/core/fb_defio.c | 35 -----------------------------
->  drivers/video/fbdev/core/fbmem.c    |  4 ----
->  include/linux/fb.h                  |  3 ---
->  3 files changed, 42 deletions(-)
+> On March 11, 2021 20:26:06 "Dixit, Ashutosh" <ashutosh.dixit@intel.com> wrote:
 > 
-> diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
-> index a591d291b231..b292887a2481 100644
-> --- a/drivers/video/fbdev/core/fb_defio.c
-> +++ b/drivers/video/fbdev/core/fb_defio.c
-> @@ -52,13 +52,6 @@ static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
->  		return VM_FAULT_SIGBUS;
->  
->  	get_page(page);
-> -
-> -	if (vmf->vma->vm_file)
-> -		page->mapping = vmf->vma->vm_file->f_mapping;
-> -	else
-> -		printk(KERN_ERR "no mapping available\n");
-> -
-> -	BUG_ON(!page->mapping);
->  	page->index = vmf->pgoff;
->  
->  	vmf->page = page;
-> @@ -151,17 +144,6 @@ static const struct vm_operations_struct fb_deferred_io_vm_ops = {
->  	.page_mkwrite	= fb_deferred_io_mkwrite,
->  };
->  
-> -static int fb_deferred_io_set_page_dirty(struct page *page)
-> -{
-> -	if (!PageDirty(page))
-> -		SetPageDirty(page);
-> -	return 0;
-> -}
-> -
-> -static const struct address_space_operations fb_deferred_io_aops = {
-> -	.set_page_dirty = fb_deferred_io_set_page_dirty,
-> -};
-> -
->  int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma)
->  {
->  	vma->vm_ops = &fb_deferred_io_vm_ops;
-> @@ -212,29 +194,12 @@ void fb_deferred_io_init(struct fb_info *info)
->  }
->  EXPORT_SYMBOL_GPL(fb_deferred_io_init);
->  
-> -void fb_deferred_io_open(struct fb_info *info,
-> -			 struct inode *inode,
-> -			 struct file *file)
-> -{
-> -	file->f_mapping->a_ops = &fb_deferred_io_aops;
-> -}
-> -EXPORT_SYMBOL_GPL(fb_deferred_io_open);
-> -
->  void fb_deferred_io_cleanup(struct fb_info *info)
->  {
->  	struct fb_deferred_io *fbdefio = info->fbdefio;
-> -	struct page *page;
-> -	int i;
->  
->  	BUG_ON(!fbdefio);
->  	cancel_delayed_work_sync(&info->deferred_work);
-> -
-> -	/* clear out the mapping that we setup */
-> -	for (i = 0 ; i < info->fix.smem_len; i += PAGE_SIZE) {
-> -		page = fb_deferred_io_page(info, i);
-> -		page->mapping = NULL;
-> -	}
-> -
->  	mutex_destroy(&fbdefio->lock);
->  }
->  EXPORT_SYMBOL_GPL(fb_deferred_io_cleanup);
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index 06f5805de2de..372b52a2befa 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -1415,10 +1415,6 @@ __releases(&info->lock)
->  		if (res)
->  			module_put(info->fbops->owner);
->  	}
-> -#ifdef CONFIG_FB_DEFERRED_IO
-> -	if (info->fbdefio)
-> -		fb_deferred_io_open(info, inode, file);
-> -#endif
->  out:
->  	unlock_fb_info(info);
->  	if (res)
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index ecfbcc0553a5..a8dccd23c249 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -659,9 +659,6 @@ static inline void __fb_pad_aligned_buffer(u8 *dst, u32 d_pitch,
->  /* drivers/video/fb_defio.c */
->  int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma);
->  extern void fb_deferred_io_init(struct fb_info *info);
-> -extern void fb_deferred_io_open(struct fb_info *info,
-> -				struct inode *inode,
-> -				struct file *file);
->  extern void fb_deferred_io_cleanup(struct fb_info *info);
->  extern int fb_deferred_io_fsync(struct file *file, loff_t start,
->  				loff_t end, int datasync);
-> -- 
-> 2.30.0
+> > On Wed, 10 Mar 2021 13:00:49 -0800, Jason Ekstrand wrote:
+> > > 
+> > > libdrm has supported the newer execbuffer2 ioctl and using it by default
+> > > when it exists since libdrm commit b50964027bef249a0cc3d511de05c2464e0a1e22
+> > > which landed Mar 2, 2010.  The i915 and i965 drivers in Mesa at the time
+> > > both used libdrm and so did the Intel X11 back-end.  The SNA back-end
+> > > for X11 has always used execbuffer2.
+> > > 
+> > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > > ---
+> > > .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 100 ------------------
+> > > drivers/gpu/drm/i915/gem/i915_gem_ioctls.h    |   2 -
+> > > drivers/gpu/drm/i915/i915_drv.c               |   2 +-
+> > > 3 files changed, 1 insertion(+), 103 deletions(-)
+> > 
+> > Don't we want to clean up references to legacy execbuffer in
+> > include/uapi/drm/i915_drm.h too?
 > 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> I thought about that but Daniel said we should leave them. Maybe a comment
+> is in order?
 
+These headers are copied unchanged to userspace for building. We don't use
+kernel-headers packages directly in any of our userspace (I hope at
+least), but still better safe than sorry and avoid compilation failures
+simply due to updated uapi headers that lost a few old things.
+
+Also we need at least the struct size because that's encoded in the ioctl
+number, and at that point might as well keep the entire thing.
+-Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
