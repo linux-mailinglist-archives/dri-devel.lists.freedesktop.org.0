@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76220339D69
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Mar 2021 10:44:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2E7339DC3
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Mar 2021 12:26:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCDCE6E0EF;
-	Sat, 13 Mar 2021 09:43:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75C356E0A2;
+	Sat, 13 Mar 2021 11:26:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5D156E0EF
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Mar 2021 09:43:56 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B397164F14;
- Sat, 13 Mar 2021 09:43:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615628635;
- bh=ymSvKKXkySAaTw1aQJH2nwYOEfn49ej0hD436KOzGgI=;
- h=From:To:Cc:Subject:Date:From;
- b=SpKwZx/ivwzE7HQSnOwj8SeoRatPxhdPr1nx2eUwahvYS4f2DYeKZnO+Ab4W6TLhO
- vSl7Vufuuj8vFSdi9MVYZosTRUvH7xDO5fsQn3l4wHt55E4QVQ9OUD/JWQ7GyzDkN7
- /EH/uYfVJhfpIdmHn+SWWYdKgdBm1kvgZtDk7vI8awzLBFITpts/K1G7ME+psbXPCU
- BsXxDc1ViTiBas6bdMJ/ZwlF+51ZyxPZ9BhrG06s3jZ50JWbXKuJ0ya/nqsxMGVTWI
- 6pHnQLpjC7GdQObrJamifYaKhNsmEM1Zw7Z82dVmh+6qiErGIYRuEa2Kk8t0vukNWn
- YLmbec9AeLltA==
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/mediatek: crtc: Make config-updating atomic
-Date: Sat, 13 Mar 2021 17:43:31 +0800
-Message-Id: <20210313094331.26374-1-chunkuang.hu@kernel.org>
-X-Mailer: git-send-email 2.17.1
+Received: from asav21.altibox.net (asav21.altibox.net [109.247.116.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A36A26E10E
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Mar 2021 11:26:00 +0000 (UTC)
+Received: from localhost.localdomain (unknown [81.166.168.211])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: noralf.tronnes@ebnett.no)
+ by asav21.altibox.net (Postfix) with ESMTPSA id B13BE8003A;
+ Sat, 13 Mar 2021 12:25:57 +0100 (CET)
+From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v8 0/3] GUD USB Display driver
+Date: Sat, 13 Mar 2021 12:25:42 +0100
+Message-Id: <20210313112545.37527-1-noralf@tronnes.org>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=PJ4hB8iC c=1 sm=1 tr=0
+ a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
+ a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=gAmX6pxEAAAA:20 a=e5mUnYsNAAAA:8
+ a=YwjdnX4TFwikY6-GU-cA:9 a=QEXdDO2ut3YA:10 a=Vxmtnl_E_bksehYqCbjh:22
+ a=pHzHmUro8NiASowvMSCR:22 a=Ew2E2A-JSTLzCXPT_086:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,110 +43,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: hudson@trmm.net, markus@raatikainen.cc, sam@ravnborg.org,
+ linux-usb@vger.kernel.org, th020394@gmail.com, lkundrak@v3.sk,
+ pontus.fuchs@gmail.com, peter@stuge.se
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While updating config, the irq would occur and get the partial
-config, so use variable config_updating to make updating atomic.
-
-Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 8b0de90156c6..870f66210848 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -61,6 +61,7 @@ struct mtk_drm_crtc {
- 
- 	/* lock for display hardware access */
- 	struct mutex			hw_lock;
-+	bool				config_updating;
- };
- 
- struct mtk_crtc_state {
-@@ -97,7 +98,7 @@ static void mtk_drm_crtc_finish_page_flip(struct mtk_drm_crtc *mtk_crtc)
- static void mtk_drm_finish_page_flip(struct mtk_drm_crtc *mtk_crtc)
- {
- 	drm_crtc_handle_vblank(&mtk_crtc->base);
--	if (mtk_crtc->pending_needs_vblank) {
-+	if (!mtk_crtc->config_updating && mtk_crtc->pending_needs_vblank) {
- 		mtk_drm_crtc_finish_page_flip(mtk_crtc);
- 		mtk_crtc->pending_needs_vblank = false;
- 	}
-@@ -425,7 +426,8 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc,
- 	}
- }
- 
--static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
-+static void mtk_drm_crtc_update_config(struct mtk_drm_crtc *mtk_crtc,
-+				       bool needs_vblank)
- {
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- 	struct cmdq_pkt *cmdq_handle;
-@@ -436,6 +438,10 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
- 	int i;
- 
- 	mutex_lock(&mtk_crtc->hw_lock);
-+	mtk_crtc->config_updating = true;
-+	if (needs_vblank)
-+		mtk_crtc->pending_needs_vblank = true;
-+
- 	for (i = 0; i < mtk_crtc->layer_nr; i++) {
- 		struct drm_plane *plane = &mtk_crtc->planes[i];
- 		struct mtk_plane_state *plane_state;
-@@ -472,6 +478,7 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
- 		cmdq_pkt_flush_async(cmdq_handle, ddp_cmdq_cb, cmdq_handle);
- 	}
- #endif
-+	mtk_crtc->config_updating = false;
- 	mutex_unlock(&mtk_crtc->hw_lock);
- }
- 
-@@ -532,7 +539,7 @@ void mtk_drm_crtc_async_update(struct drm_crtc *crtc, struct drm_plane *plane,
- 		return;
- 
- 	plane_helper_funcs->atomic_update(plane, new_state);
--	mtk_drm_crtc_hw_config(mtk_crtc);
-+	mtk_drm_crtc_update_config(mtk_crtc, false);
- }
- 
- static void mtk_drm_crtc_atomic_enable(struct drm_crtc *crtc,
-@@ -582,7 +589,7 @@ static void mtk_drm_crtc_atomic_disable(struct drm_crtc *crtc,
- 	}
- 	mtk_crtc->pending_planes = true;
- 
--	mtk_drm_crtc_hw_config(mtk_crtc);
-+	mtk_drm_crtc_update_config(mtk_crtc, false);
- 	/* Wait for planes to be disabled */
- 	drm_crtc_wait_one_vblank(crtc);
- 
-@@ -618,14 +625,12 @@ static void mtk_drm_crtc_atomic_flush(struct drm_crtc *crtc,
- 	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
- 	int i;
- 
--	if (mtk_crtc->event)
--		mtk_crtc->pending_needs_vblank = true;
- 	if (crtc->state->color_mgmt_changed)
- 		for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
- 			mtk_ddp_gamma_set(mtk_crtc->ddp_comp[i], crtc->state);
- 			mtk_ddp_ctm_set(mtk_crtc->ddp_comp[i], crtc->state);
- 		}
--	mtk_drm_crtc_hw_config(mtk_crtc);
-+	mtk_drm_crtc_update_config(mtk_crtc, !!mtk_crtc->event);
- }
- 
- static const struct drm_crtc_funcs mtk_crtc_funcs = {
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpBIHdoaWxlIGJhY2sgSSBoYWQgdGhlIGlkZWEgdG8gdHVybiBhIFJhc3BiZXJyeSBQaSBa
+ZXJvIGludG8gYSAkNQpVU0IgdG8gSERNSS9TRFRWL0RQSSBkaXNwbGF5IGFkYXB0ZXIuCgpUaGUg
+cHJvdG9jb2wgaXMgb3BlbiBzbyBwZW9wbGUgYXJlIGZyZWUgdG8gbWFrZSBkaXNwbGF5cyBpbXBs
+ZW1lbnRpbmcgaXQgYW5kCnVzZSB0aGlzIGRyaXZlciwgYWxsIHRoYXQncyBuZWVkZWQgaXMgdG8g
+YWRkIGEgVVNCIHZpZDpwaWQgdG8gdGhlIGRyaXZlciBmb3IKdGhlIGRpc3BsYXkuCgpTZWUgdGhl
+IHdpa2lbMV0gZm9yIG1vcmUgaW5mb3JtYXRpb24gYW5kIGltYWdlcyBmb3IgdGhlIFJhc3BiZXJy
+eSBQaSBaZXJvLzQuCgpDaGFuZ2VzIGluIHRoaXMgdmVyc2lvbjoKLSBGb3Jnb3QgdG8gZmlsdGVy
+IFJHQjExMSBmcm9tIHJlYWNoaW5nIHVzZXJzcGFjZQotIEhhbmRsZSBhIGRldmljZSB0aGF0IG9u
+bHkgcmV0dXJucyB1bmtub3duIGRldmljZSBwcm9wZXJ0aWVzIChQZXRlcikKLSBzL0dVRF9QSVhF
+TF9GT1JNQVRfUkdCMTExL0dVRF9QSVhFTF9GT1JNQVRfWFJHQjExMTEvIChQZXRlcikKLSBGaXgg
+UjEgYW5kIFhSR0IxMTExIGZvcm1hdCBjb252ZXJzaW9uCi0gQWRkIEZJWE1FIGFib3V0IEJpZyBF
+bmRpYW4gYmVpbmcgYnJva2VuIChQZXRlciwgSWxpYSkKCkkgd2lsbCBhcHBseSB0aGUgcGF0Y2hl
+cyBhcyBzb29uIGFzIHRoZSBkZXBlbmRlbmN5IHNob3dzIHVwIGluIGRybS1taXNjLW5leHQuCgpE
+ZXBlbmRlbmN5Ogpkcm06IFVzZSBVU0IgY29udHJvbGxlcidzIERNQSBtYXNrIHdoZW4gaW1wb3J0
+aW5nIGRtYWJ1ZnNbMl0KKGN1cnJlbnRseSBpbiBkcm0tbWlzYy1maXhlcyBidXQgbm90IGluIGRy
+bS1taXNjLW5leHQgeWV0LCBhbHNvIHByZXNlbnQgaW4KZHJtLXRpcCBhbmQgbGludXgtbmV4dCkK
+Ck5vcmFsZi4KClsxXSBodHRwczovL2dpdGh1Yi5jb20vbm90cm8vZ3VkL3dpa2kKWzJdIGh0dHBz
+Oi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDIxMDMwMzEzMzIyOS4z
+Mjg4LTEtdHppbW1lcm1hbm5Ac3VzZS5kZQoKCk5vcmFsZiBUcsO4bm5lcyAoMyk6CiAgZHJtL3Vh
+cGk6IEFkZCBVU0IgY29ubmVjdG9yIHR5cGUKICBkcm0vcHJvYmUtaGVscGVyOiBDaGVjayBlcG9j
+aCBjb3VudGVyIGluIG91dHB1dF9wb2xsX2V4ZWN1dGUoKQogIGRybTogQWRkIEdVRCBVU0IgRGlz
+cGxheSBkcml2ZXIKCiBNQUlOVEFJTkVSUyAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgOCAr
+CiBkcml2ZXJzL2dwdS9kcm0vS2NvbmZpZyAgICAgICAgICAgICB8ICAgMiArCiBkcml2ZXJzL2dw
+dS9kcm0vTWFrZWZpbGUgICAgICAgICAgICB8ICAgMSArCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2Nv
+bm5lY3Rvci5jICAgICB8ICAgMSArCiBkcml2ZXJzL2dwdS9kcm0vZHJtX3Byb2JlX2hlbHBlci5j
+ICB8ICAgNyArLQogZHJpdmVycy9ncHUvZHJtL2d1ZC9LY29uZmlnICAgICAgICAgfCAgMTQgKwog
+ZHJpdmVycy9ncHUvZHJtL2d1ZC9NYWtlZmlsZSAgICAgICAgfCAgIDQgKwogZHJpdmVycy9ncHUv
+ZHJtL2d1ZC9ndWRfY29ubmVjdG9yLmMgfCA3MjkgKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KwogZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfZHJ2LmMgICAgICAgfCA2NjEgKysrKysrKysrKysr
+KysrKysrKysrKysrKwogZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfaW50ZXJuYWwuaCAgfCAxNTQg
+KysrKysrCiBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9waXBlLmMgICAgICB8IDU1MiArKysrKysr
+KysrKysrKysrKysrKysKIGluY2x1ZGUvZHJtL2d1ZC5oICAgICAgICAgICAgICAgICAgIHwgMzMz
+ICsrKysrKysrKysrKysKIGluY2x1ZGUvdWFwaS9kcm0vZHJtX21vZGUuaCAgICAgICAgIHwgICAx
+ICsKIDEzIGZpbGVzIGNoYW5nZWQsIDI0NjYgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQog
+Y3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9ndWQvS2NvbmZpZwogY3JlYXRlIG1v
+ZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9ndWQvTWFrZWZpbGUKIGNyZWF0ZSBtb2RlIDEwMDY0
+NCBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9jb25uZWN0b3IuYwogY3JlYXRlIG1vZGUgMTAwNjQ0
+IGRyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2Rydi5jCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVy
+cy9ncHUvZHJtL2d1ZC9ndWRfaW50ZXJuYWwuaAogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMv
+Z3B1L2RybS9ndWQvZ3VkX3BpcGUuYwogY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvZHJtL2d1
+ZC5oCgotLSAKMi4yMy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
