@@ -1,34 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163AC33A858
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Mar 2021 22:47:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1BF33A874
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Mar 2021 23:13:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31F0E89CF9;
-	Sun, 14 Mar 2021 21:47:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC2C689A98;
+	Sun, 14 Mar 2021 22:12:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 472 seconds by postgrey-1.36 at gabe;
- Sun, 14 Mar 2021 10:20:12 UTC
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A522B6E342
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Mar 2021 10:20:12 +0000 (UTC)
-Received: from Marijn-Arch-PC.localdomain
- (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 8F3943E8EC;
- Sun, 14 Mar 2021 11:12:15 +0100 (CET)
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: phone-devel@vger.kernel.org
-Subject: [PATCH] backlight: qcom-wled: Use sink_addr for sync toggle
-Date: Sun, 14 Mar 2021 11:11:10 +0100
-Message-Id: <20210314101110.48024-1-marijn.suijten@somainline.org>
-X-Mailer: git-send-email 2.30.2
+Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA3EE89A98
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Mar 2021 22:12:55 +0000 (UTC)
+Received: from remote.user (localhost [127.0.0.1])
+ by rere.qmqm.pl (Postfix) with ESMTPSA id 4DzDM52nMVz77;
+ Sun, 14 Mar 2021 23:12:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+ t=1615759971; bh=z/wZYhYKwga+kEX//9REJYbUOgRuaiWaN10WwRJ8dFQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HqlCwzxvM4E2IujlpOXABaUeT85NM8/knGJmy/8Gvt9EkIEChk2BVux9wf09SCBRn
+ yQPpibsKrmoWVPJLSlT1K0SaHHpyTG2yDOyV/nrN7AP1fCcVJvcFftl7h9m9LBHqx/
+ /HxuxooscE5NW1ZA9VWebD0rTyULnySwyu48FUHgR6ak8S4ex5morpEL/krfOGZ9Fr
+ IipC/pZa5CED+C0oW3dQdYF5xvSkJjPUly5D4fpH5Xj63HjohZZ9PEmwKybyyapyIL
+ QLe3YJABNUdbEnD3Ni3/lKmD/xC355OXODOcJuYHUzoL9qehu7fPjV/JEiOQq40XyG
+ RpC+KMLlNJ32A==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.4 at mail
+Date: Sun, 14 Mar 2021 23:11:30 +0100
+From: =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v15 2/2] drm/tegra: dc: Extend debug stats with total
+ number of events
+Message-ID: <20210314221130.GB2733@qmqm.qmqm.pl>
+References: <20210311172255.25213-1-digetx@gmail.com>
+ <20210311172255.25213-3-digetx@gmail.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sun, 14 Mar 2021 21:47:10 +0000
+Content-Disposition: inline
+In-Reply-To: <20210311172255.25213-3-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,64 +50,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Kiran Gunda <kgunda@codeaurora.org>,
- Obeida Shamoun <oshmoun100@googlemail.com>, Jingoo Han <jingoohan1@gmail.com>,
- linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Lee Jones <lee.jones@linaro.org>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-pm@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Matt Merhar <mattmerhar@protonmail.com>, Peter Geis <pgwipeout@gmail.com>,
+ linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-2"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Obeida Shamoun <oshmoun100@googlemail.com>
+On Thu, Mar 11, 2021 at 08:22:55PM +0300, Dmitry Osipenko wrote:
+> It's useful to know the total number of underflow events and currently
+> the debug stats are getting reset each time CRTC is being disabled. Let's
+> account the overall number of events that doesn't get a reset.
+[...]
 
-WLED3_SINK_REG_SYNC is, as the name implies, a sink register offset.
-Therefore, use the sink address as base instead of the ctrl address.
+Looks good. It seems independent from the other patch.
 
-This fixes the sync toggle on wled4, which can be observed by the fact
-that adjusting brightness now works.
-
-It has no effect on wled3 because sink and ctrl base addresses are the
-same.  This allows adjusting the brightness without having to disable
-then reenable the module.
-
-Signed-off-by: Obeida Shamoun <oshmoun100@googlemail.com>
-Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
----
- drivers/video/backlight/qcom-wled.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-index 091f07e7c145..fc8b443d10fd 100644
---- a/drivers/video/backlight/qcom-wled.c
-+++ b/drivers/video/backlight/qcom-wled.c
-@@ -336,13 +336,13 @@ static int wled3_sync_toggle(struct wled *wled)
- 	unsigned int mask = GENMASK(wled->max_string_count - 1, 0);
- 
- 	rc = regmap_update_bits(wled->regmap,
--				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
-+				wled->sink_addr + WLED3_SINK_REG_SYNC,
- 				mask, mask);
- 	if (rc < 0)
- 		return rc;
- 
- 	rc = regmap_update_bits(wled->regmap,
--				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
-+				wled->sink_addr + WLED3_SINK_REG_SYNC,
- 				mask, WLED3_SINK_REG_SYNC_CLEAR);
- 
- 	return rc;
--- 
-2.30.2
-
+Reviewed-by: Micha=B3 Miros=B3aw <mirq-linux@rere.qmqm.pl>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
