@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4141D33A603
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Mar 2021 17:34:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39BCF33A604
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Mar 2021 17:34:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10D9B89FBC;
-	Sun, 14 Mar 2021 16:34:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE32989FCA;
+	Sun, 14 Mar 2021 16:34:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CA1589F99;
- Sun, 14 Mar 2021 16:34:37 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id e9so4486827wrw.10;
- Sun, 14 Mar 2021 09:34:37 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5548289FC0;
+ Sun, 14 Mar 2021 16:34:39 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id f12so7458916wrx.8;
+ Sun, 14 Mar 2021 09:34:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hPYuaQIiYacDdTRkFz7tGyExYGJ5aL233qtVSVNLxbM=;
- b=u+Tt9wWI4e3BQ1rYQRpaqKQDgHwRnDqzBh78+io9i+PwANlqkgXpLBdJ0l0ArdAeJR
- 0wQLZUsIpbwe8BV0z1sh5u9qJ5lw7zXq+EBwqV+CHMuS5/kC2Cl99xWRUsIMKVQgX3lp
- kZVodOmxbA0vfSykFlRqfrpYBetNmq+8trL0ILDyT8yykYfhnIVmCjxis6SS/GlZDKMA
- fuOT3dCrNcyj9IAkCm5EfrYbWe8Y6OSAr/Zx+wz+UWY2256KVXw/z77MB8Y7oXg/b6f7
- BKnIkcfIZwstErOYkjtwUgnLsyGZvC1+jBV+sPXtYjeUGT7a4M/xHBChZEGLidK3wumh
- H9fw==
+ bh=MuP+ya1TCLfEJhgrcgilzphIjibvsMXSimlz4L+7lFI=;
+ b=exUIeWl24EOjIUmfAaeS6k0OXiU4NcTd8Qy53S/aiIrFYI6/OmAsmn2xJgRSdl/BjC
+ dkBbaKnGOtZpOr1AmAXK8JYrt3X5jsw6rTV30XNiCdt2WgUSOKkl7iJhf1auf6rQwsD1
+ N+XNdDdaXZa3bo+WIvliwJVfj7gms69x+ZKL7ETk18rOTTF4+VZ712iPywymPerxZajH
+ U7YUwD/ZHdovDcY9heblrU9AYlObKY3F4N5i/g11rSd61ztlBjDgLQPoamT0R7Rz+GBY
+ wWACZlpNvox00P0MT1ApkvVV/BbqMo5vN3Nr8Ufa+wSe9IkKjJ8lEJUB0YAcxGGVQl6E
+ wmJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hPYuaQIiYacDdTRkFz7tGyExYGJ5aL233qtVSVNLxbM=;
- b=kdgJMSaNTVQsHSzCUMWjOlwg/zGjUlrh3EC+nYfHXwXslKhyAdmNdePYOAJ4rIlGtX
- yjs8RolS7pKBfmDiAEjXMvspxWowJ8DCiGQ+xN9XjdQFYP1M8YYbjdgtDcSp3ZDYNTU4
- LaunJqnXG3jBSeXnxiDXSHOIHh+lKRH4/WkfM5C4PL51BDTXnerOAGY70JsgvPiNLDxn
- 5WCaQYcA+5xkgR0njRUnL+mSOiGQY313ftX5T1r4XZH4rLY/InRniqonNDpkOi7+WpDQ
- m8HcBK/BhvDVDrwzHX4+wWpIdmPleuA/h0biTE6zJryGy3PC/TQ18zBq4X4+VHzs7hNk
- t03Q==
-X-Gm-Message-State: AOAM533EJkX9LlmjaXF4OEN8BHFBCUXs6iZOipDoVAAola7M92G1kqhr
- B5chLXfnDCaHQQYKuNDPK24=
-X-Google-Smtp-Source: ABdhPJwRxZyo8Lm2nydoYcYZxtHj/cVPyavor29AJZSFgxwGb12emaS8kHyyqbuV8T+gbvxEe7TieQ==
-X-Received: by 2002:a05:6000:18ac:: with SMTP id
- b12mr23809490wri.77.1615739675873; 
- Sun, 14 Mar 2021 09:34:35 -0700 (PDT)
+ bh=MuP+ya1TCLfEJhgrcgilzphIjibvsMXSimlz4L+7lFI=;
+ b=GZMMFaGVqiz/anEhw1c71fps/clgLUJyQYdrBk1VXJmqPi+LGAPrzJ6a18icsJ8pH4
+ IkPCwOKqp1fTjJ3SDrhefLEubQ5RKzyKqkp7jEdm5MKHl6DQDwrPZTYR91nNBmB5Txfp
+ 7DpcDot2HVqNlJYYwF8j/tCk1KBWwzcyQonu1qkWGIK+rCof7/TVnCuHE60IC36yE5Lo
+ GGdimZjAyt5LiJQSRlV9t94riFmmTFBhpMExplU5T1dUOgwxNjSFJ/XDu1oHQGuOTuUW
+ OGN9gvERo4bCWmvAs/0P3cZew04iMxoq3QcWFvEDE7EJ2zKATVcjkHD5kvp7n43PqCvi
+ 2Kwg==
+X-Gm-Message-State: AOAM530IRi0SjUz3axI4kuGBycjTJpbTHq/zTW2HcIhicHSqT+aeli9p
+ 5Bl+pv8s5hO3cYd52I0HSiihgB4T5KU=
+X-Google-Smtp-Source: ABdhPJzvVKezMVimD4xtxAVaXLby/wwTk3qiRh8onBaqhnEjl7HWG4y8DknbiYjDn9c/ALnnPRmnjw==
+X-Received: by 2002:a05:6000:181b:: with SMTP id
+ m27mr24206124wrh.363.1615739678029; 
+ Sun, 14 Mar 2021 09:34:38 -0700 (PDT)
 Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru.
  [109.252.193.52])
- by smtp.gmail.com with ESMTPSA id o7sm15723239wrs.16.2021.03.14.09.34.33
+ by smtp.gmail.com with ESMTPSA id o7sm15723239wrs.16.2021.03.14.09.34.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 09:34:35 -0700 (PDT)
+ Sun, 14 Mar 2021 09:34:37 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>, Rob Herring <robh@kernel.org>,
@@ -65,10 +65,9 @@ To: Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
  Mark Brown <broonie@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Jiri Slaby <jirislaby@kernel.org>, Yangtao Li <tiny.windzz@gmail.com>
-Subject: [PATCH v3 03/15] opp: Add devres wrapper for
- dev_pm_opp_set_supported_hw
-Date: Sun, 14 Mar 2021 19:33:56 +0300
-Message-Id: <20210314163408.22292-4-digetx@gmail.com>
+Subject: [PATCH v3 04/15] opp: Add devres wrapper for dev_pm_opp_of_add_table
+Date: Sun, 14 Mar 2021 19:33:57 +0300
+Message-Id: <20210314163408.22292-5-digetx@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210314163408.22292-1-digetx@gmail.com>
 References: <20210314163408.22292-1-digetx@gmail.com>
@@ -98,82 +97,87 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yangtao Li <tiny.windzz@gmail.com>
 
-Add devres wrapper for dev_pm_opp_set_supported_hw() to simplify drivers
+Add devres wrapper for dev_pm_opp_of_add_table() to simplify drivers
 code.
 
 Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/opp/core.c     | 29 +++++++++++++++++++++++++++++
- include/linux/pm_opp.h |  8 ++++++++
- 2 files changed, 37 insertions(+)
+ drivers/opp/of.c       | 36 ++++++++++++++++++++++++++++++++++++
+ include/linux/pm_opp.h |  6 ++++++
+ 2 files changed, 42 insertions(+)
 
-diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index 6217af05141f..34b054bbb28f 100644
---- a/drivers/opp/core.c
-+++ b/drivers/opp/core.c
-@@ -1857,6 +1857,35 @@ void dev_pm_opp_put_supported_hw(struct opp_table *opp_table)
+diff --git a/drivers/opp/of.c b/drivers/opp/of.c
+index f480c10e6314..c582a9ca397b 100644
+--- a/drivers/opp/of.c
++++ b/drivers/opp/of.c
+@@ -1104,6 +1104,42 @@ static int _of_add_table_indexed(struct device *dev, int index, bool getclk)
+ 	return ret;
  }
- EXPORT_SYMBOL_GPL(dev_pm_opp_put_supported_hw);
  
-+static void devm_pm_opp_supported_hw_release(void *data)
++static void devm_pm_opp_of_table_release(void *data)
 +{
-+	dev_pm_opp_put_supported_hw(data);
++	dev_pm_opp_of_remove_table(data);
 +}
 +
 +/**
-+ * devm_pm_opp_set_supported_hw() - Set supported platforms
-+ * @dev: Device for which supported-hw has to be set.
-+ * @versions: Array of hierarchy of versions to match.
-+ * @count: Number of elements in the array.
++ * devm_pm_opp_of_add_table() - Initialize opp table from device tree
++ * @dev:	device pointer used to lookup OPP table.
 + *
-+ * This is a resource-managed variant of dev_pm_opp_set_supported_hw().
++ * Register the initial OPP table with the OPP library for given device.
 + *
-+ * Return: 0 on success and errorno otherwise.
++ * The opp_table structure will be freed after the device is destroyed.
++ *
++ * Return:
++ * 0		On success OR
++ *		Duplicate OPPs (both freq and volt are same) and opp->available
++ * -EEXIST	Freq are same and volt are different OR
++ *		Duplicate OPPs (both freq and volt are same) and !opp->available
++ * -ENOMEM	Memory allocation failure
++ * -ENODEV	when 'operating-points' property is not found or is invalid data
++ *		in device node.
++ * -ENODATA	when empty 'operating-points' property is found
++ * -EINVAL	when invalid entries are found in opp-v2 table
 + */
-+int devm_pm_opp_set_supported_hw(struct device *dev, const u32 *versions,
-+				 unsigned int count)
++int devm_pm_opp_of_add_table(struct device *dev)
 +{
-+	struct opp_table *opp_table;
++	int ret;
 +
-+	opp_table = dev_pm_opp_set_supported_hw(dev, versions, count);
-+	if (IS_ERR(opp_table))
-+		return PTR_ERR(opp_table);
++	ret = dev_pm_opp_of_add_table(dev);
++	if (ret)
++		return ret;
 +
-+	return devm_add_action_or_reset(dev, devm_pm_opp_supported_hw_release,
-+					opp_table);
++	return devm_add_action_or_reset(dev, devm_pm_opp_of_table_release, dev);
 +}
-+EXPORT_SYMBOL_GPL(devm_pm_opp_set_supported_hw);
++EXPORT_SYMBOL_GPL(devm_pm_opp_of_add_table);
 +
  /**
-  * dev_pm_opp_set_prop_name() - Set prop-extn name
-  * @dev: Device for which the prop-name has to be set.
+  * dev_pm_opp_of_add_table() - Initialize opp table from device tree
+  * @dev:	device pointer used to lookup OPP table.
 diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
-index 3e667af57211..e455b187e405 100644
+index e455b187e405..3f8894012429 100644
 --- a/include/linux/pm_opp.h
 +++ b/include/linux/pm_opp.h
-@@ -144,6 +144,7 @@ int dev_pm_opp_unregister_notifier(struct device *dev, struct notifier_block *nb
+@@ -441,6 +441,7 @@ int dev_pm_opp_of_add_table(struct device *dev);
+ int dev_pm_opp_of_add_table_indexed(struct device *dev, int index);
+ int dev_pm_opp_of_add_table_noclk(struct device *dev, int index);
+ void dev_pm_opp_of_remove_table(struct device *dev);
++int devm_pm_opp_of_add_table(struct device *dev);
+ int dev_pm_opp_of_cpumask_add_table(const struct cpumask *cpumask);
+ void dev_pm_opp_of_cpumask_remove_table(const struct cpumask *cpumask);
+ int dev_pm_opp_of_get_sharing_cpus(struct device *cpu_dev, struct cpumask *cpumask);
+@@ -473,6 +474,11 @@ static inline void dev_pm_opp_of_remove_table(struct device *dev)
+ {
+ }
  
- struct opp_table *dev_pm_opp_set_supported_hw(struct device *dev, const u32 *versions, unsigned int count);
- void dev_pm_opp_put_supported_hw(struct opp_table *opp_table);
-+int devm_pm_opp_set_supported_hw(struct device *dev, const u32 *versions, unsigned int count);
- struct opp_table *dev_pm_opp_set_prop_name(struct device *dev, const char *name);
- void dev_pm_opp_put_prop_name(struct opp_table *opp_table);
- struct opp_table *dev_pm_opp_set_regulators(struct device *dev, const char * const names[], unsigned int count);
-@@ -321,6 +322,13 @@ static inline struct opp_table *dev_pm_opp_set_supported_hw(struct device *dev,
- 
- static inline void dev_pm_opp_put_supported_hw(struct opp_table *opp_table) {}
- 
-+static inline int devm_pm_opp_set_supported_hw(struct device *dev,
-+					       const u32 *versions,
-+					       unsigned int count)
++static inline int devm_pm_opp_of_add_table(struct device *dev)
 +{
 +	return -EOPNOTSUPP;
 +}
 +
- static inline struct opp_table *dev_pm_opp_register_set_opp_helper(struct device *dev,
- 			int (*set_opp)(struct dev_pm_set_opp_data *data))
+ static inline int dev_pm_opp_of_cpumask_add_table(const struct cpumask *cpumask)
  {
+ 	return -EOPNOTSUPP;
 -- 
 2.30.2
 
