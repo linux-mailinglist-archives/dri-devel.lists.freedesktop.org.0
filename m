@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20CE233A600
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Mar 2021 17:34:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7572633A601
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Mar 2021 17:34:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44DE289F85;
-	Sun, 14 Mar 2021 16:34:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21AF389F8E;
+	Sun, 14 Mar 2021 16:34:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A11189F71;
- Sun, 14 Mar 2021 16:34:30 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id b18so7474671wrn.6;
- Sun, 14 Mar 2021 09:34:30 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEE4789F8E;
+ Sun, 14 Mar 2021 16:34:32 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ 124-20020a1c00820000b029010b871409cfso18823591wma.4; 
+ Sun, 14 Mar 2021 09:34:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Dk+u80d7+DPr6f37qq0svEt55gFJ9tkcYaJUZ9gMJ0E=;
- b=odz2KMFjnuhb+rsTA1UTIbkBLsTNRvMBNSMRiw8zxC4bWm7uwaiwsCXODkOpuWYygp
- uPU8oyV7+fL4tqvAu2Qi/KxLJ0NMIZ38VJHySHemlGhL1DlopQm3WtA9Sht2KNeAoAP+
- ZHlURy+2dKRSfqikCGrEaHH90tT+BwxckcE/dd9hWjs9MXYbwQY3As0wpUGcq06VDFmW
- BZuQqJhYdotA3HLtV8KYQagN4hc9Y43XegpW96y5oVt/UTHFtXlOzYG8FybF7viwVXnW
- Qb2ZZrGcp4g4aVCQ/jLBHK8TF8yiL1ImgA0Ni1kpRvRZgV5I0fPJPAEYubbKyERAh0xs
- 1gPA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=suQTUJT95TToQZtvwJl+RSOWWo46pQcxeekooCpqVRE=;
+ b=mWOhEWIIsc3g51/r4PPuTyVIq+fH9uyJTXCIr7ia4jxvUoOPc/NOBuXvxFpp37+sgM
+ oWFUAvtO3jAmlc+Gh7AgygkSjZ3ZdAt9RnsigCjWBcz9qXNGbojGZYMx2MLYv63ioNUr
+ kBcixmyyH2o612X49U7uUmIdbHOjwNNT+W/jZH7lULyWC6HofFScf3nELSuSnNeEgx+7
+ c1LQLMTj0bHwnoJwjMCQgRzFXPsrqvDQDaUB3bSIPpPeyhndLfRs9bM6hCnL521qtyN+
+ slSchI8ROdq4ZXLH6K5M2VnrvEwkx1s1Q0heBXBQFO3w6/7I3w89zIHK/wSRLWOCT3Cn
+ v/gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Dk+u80d7+DPr6f37qq0svEt55gFJ9tkcYaJUZ9gMJ0E=;
- b=KYEjHQh+enUWD7GXpiSBmp9Z6JmN0nF6khUahY0zlDrKsRg8LN1T/dRdk3QhOrl2rF
- 1qJoqDZQZW7oFzIp8EYJDCk4o12zA7Pk2Ymjzap1xfYz+PBOzWyPILCsJso+L4IQKLAd
- UWg1uToUKFdnSP6tMIdCoebF+iTbsNeY959oCk67cSbEmcav4j46o9RxxpU6IX9IueZF
- HgJR1s4QjibdBdJv053P4153WMGzp0aQuuvtLwReKvn86EA7kQQnG8Hs2K5Lzb1mAZiy
- +GeQJ1vOzimpiIfFwUga53vjyztfFNdk7z+yYzWj+m4wPTnJ+V3i4vMMdzItiQR5NmIg
- yqJQ==
-X-Gm-Message-State: AOAM533RWj0ZcjsUW9nQ9KF1vdpRO0H1KKIqU1qwoLQo6BwGfU2mj7AK
- vqSVYY2/EZYBSCUUItKQpv8=
-X-Google-Smtp-Source: ABdhPJyleajyRpBrrXUjD8GqJPpb/1++iWRzfLdTQ72N8RYDVENKPnSXNItvO94J7ZdMRAdWS/ix6g==
-X-Received: by 2002:a5d:6412:: with SMTP id z18mr23774132wru.214.1615739669218; 
- Sun, 14 Mar 2021 09:34:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=suQTUJT95TToQZtvwJl+RSOWWo46pQcxeekooCpqVRE=;
+ b=ZHGGlqD8e/NEMOrbtnh8gDNr1c/DRK/puu49LO5XfNcLtSECnA2WH6W8D13wlTNSdU
+ qaFi2CDVgFruLqMCvl1Qpb0hyBWsvnrJy4NFN5HwCHYE3RlY4RrwewPVmKg0LE8WXvaU
+ CyqFVyJvoC+1B9GbscDPHDyeYHdm2wmv/LJWMiqYb7/81K7l7xW/m9pobTitvnkds961
+ 0McozE+BOKQZXjL+0uiwJKUOwh2ouKiWjgT07eqNWTlsmTZVIAcEUOLnlt6EwZ4k58Wo
+ bQk5/wmdGoRRqKnt4YwCSjaRpHzQ7pyp7WDJA9Uvry8o/Vjr7nRWcsKbNZmOYL7o67Gs
+ jG9A==
+X-Gm-Message-State: AOAM532l2LGuPOB1OhSExw1ykFekaG6LSVFH5lTVcGDpTxM2NmzM92H9
+ m8ADB3q/IQVDyXuQKYQpyHfJIwZn/fo=
+X-Google-Smtp-Source: ABdhPJz0vqh5YDNEcDycdMN9ARg89KMLgBV4wfAIgwa+5wl5vspiGMEYEGXjVQ+So4rOyxhou3mWFw==
+X-Received: by 2002:a1c:61c5:: with SMTP id v188mr21841943wmb.20.1615739671508; 
+ Sun, 14 Mar 2021 09:34:31 -0700 (PDT)
 Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru.
  [109.252.193.52])
- by smtp.gmail.com with ESMTPSA id o7sm15723239wrs.16.2021.03.14.09.34.26
+ by smtp.gmail.com with ESMTPSA id o7sm15723239wrs.16.2021.03.14.09.34.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 09:34:28 -0700 (PDT)
+ Sun, 14 Mar 2021 09:34:31 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>, Rob Herring <robh@kernel.org>,
@@ -64,10 +65,12 @@ To: Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
  Mark Brown <broonie@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Jiri Slaby <jirislaby@kernel.org>, Yangtao Li <tiny.windzz@gmail.com>
-Subject: [PATCH v3 00/15] Introduce devm_pm_opp_* API
-Date: Sun, 14 Mar 2021 19:33:53 +0300
-Message-Id: <20210314163408.22292-1-digetx@gmail.com>
+Subject: [PATCH v3 01/15] opp: Add devres wrapper for dev_pm_opp_set_clkname
+Date: Sun, 14 Mar 2021 19:33:54 +0300
+Message-Id: <20210314163408.22292-2-digetx@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210314163408.22292-1-digetx@gmail.com>
+References: <20210314163408.22292-1-digetx@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,88 +95,79 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds resource-managed OPP API helpers and makes drivers
-to use them.
+From: Yangtao Li <tiny.windzz@gmail.com>
 
-Changelog:
+Add devres wrapper for dev_pm_opp_set_clkname() to simplify drivers code.
 
-v3: - Dropped dev_pm_opp_register_notifier().
+Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/opp/core.c     | 27 +++++++++++++++++++++++++++
+ include/linux/pm_opp.h |  6 ++++++
+ 2 files changed, 33 insertions(+)
 
-    - Changed return type of the devm helpers from opp_table pointer
-      to errno.
-
-    - Corrected drm/msm patch which missed to remove opp_put_supported_hw()
-      from a6xx_gpu. Note that the a5xx_gpu driver was missing the
-      opp_put_supported_hw() at all.
-
-    - Corrected spelling of the ack from Mark Brown.
-
-v2: - This is a continuation of the work that was started by Yangtao Li.
-      Apparently Yangtao doesn't have time to finish it, so I
-      (Dmitry Osipenko) picked up the effort since these patches are
-      wanted by the NVIDIA Tegra voltage-scaling series that I'm
-      working on.
-
-    - Fixed the double put of OPP resources.
-
-    - Dropped all patches that are unrelated to OPP API. I also dropped
-      the Tegra memory patch since it doesn't apply now and because I plan
-      to switch all Tegra drivers soon to a common tegra-specific OPP helper
-      that will use the resource-managed OPP API anyways.
-
-    - Squashed couple patches into a single ones since there was no
-      good reason to separate them.
-
-    - Added acks that were given to a couple of v1 patches.
-
-Dmitry Osipenko (2):
-  opp: Change return type of devm_pm_opp_register_set_opp_helper()
-  opp: Change return type of devm_pm_opp_attach_genpd()
-
-Yangtao Li (13):
-  opp: Add devres wrapper for dev_pm_opp_set_clkname
-  opp: Add devres wrapper for dev_pm_opp_set_regulators
-  opp: Add devres wrapper for dev_pm_opp_set_supported_hw
-  opp: Add devres wrapper for dev_pm_opp_of_add_table
-  serial: qcom_geni_serial: Convert to use resource-managed OPP API
-  spi: spi-geni-qcom: Convert to use resource-managed OPP API
-  spi: spi-qcom-qspi: Convert to use resource-managed OPP API
-  mmc: sdhci-msm: Convert to use resource-managed OPP API
-  drm/msm: Convert to use resource-managed OPP API
-  drm/lima: Convert to use resource-managed OPP API
-  drm/panfrost: Convert to use resource-managed OPP API
-  media: venus: Convert to use resource-managed OPP API
-  memory: samsung: exynos5422-dmc: Convert to use resource-managed OPP
-    API
-
- drivers/gpu/drm/lima/lima_devfreq.c           |  47 ++-----
- drivers/gpu/drm/lima/lima_devfreq.h           |   3 -
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |   2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |  11 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h         |   2 -
- drivers/gpu/drm/msm/adreno/adreno_gpu.c       |   2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  23 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |   2 -
- drivers/gpu/drm/msm/dp/dp_ctrl.c              |  30 +----
- drivers/gpu/drm/msm/dp/dp_ctrl.h              |   1 -
- drivers/gpu/drm/msm/dp/dp_display.c           |   5 +-
- drivers/gpu/drm/msm/dsi/dsi_host.c            |  13 +-
- drivers/gpu/drm/panfrost/panfrost_devfreq.c   |  37 ++----
- drivers/gpu/drm/panfrost/panfrost_devfreq.h   |   2 -
- drivers/media/platform/qcom/venus/core.h      |   1 -
- .../media/platform/qcom/venus/pm_helpers.c    |  35 ++---
- drivers/memory/samsung/exynos5422-dmc.c       |  13 +-
- drivers/mmc/host/sdhci-msm.c                  |  19 +--
- drivers/opp/core.c                            | 122 ++++++++++++++----
- drivers/opp/of.c                              |  36 ++++++
- drivers/spi/spi-geni-qcom.c                   |  16 +--
- drivers/spi/spi-qcom-qspi.c                   |  18 +--
- drivers/tty/serial/qcom_geni_serial.c         |  23 ++--
- include/linux/pm_opp.h                        |  43 +++++-
- include/linux/qcom-geni-se.h                  |   2 -
- 26 files changed, 250 insertions(+), 260 deletions(-)
-
+diff --git a/drivers/opp/core.c b/drivers/opp/core.c
+index 150be4c28c99..02e46508a3a2 100644
+--- a/drivers/opp/core.c
++++ b/drivers/opp/core.c
+@@ -2119,6 +2119,33 @@ void dev_pm_opp_put_clkname(struct opp_table *opp_table)
+ }
+ EXPORT_SYMBOL_GPL(dev_pm_opp_put_clkname);
+ 
++static void devm_pm_opp_clkname_release(void *data)
++{
++	dev_pm_opp_put_clkname(data);
++}
++
++/**
++ * devm_pm_opp_set_clkname() - Set clk name for the device
++ * @dev: Device for which clk name is being set.
++ * @name: Clk name.
++ *
++ * This is a resource-managed variant of dev_pm_opp_set_clkname().
++ *
++ * Return: 0 on success and errorno otherwise.
++ */
++int devm_pm_opp_set_clkname(struct device *dev, const char *name)
++{
++	struct opp_table *opp_table;
++
++	opp_table = dev_pm_opp_set_clkname(dev, name);
++	if (IS_ERR(opp_table))
++		return PTR_ERR(opp_table);
++
++	return devm_add_action_or_reset(dev, devm_pm_opp_clkname_release,
++					opp_table);
++}
++EXPORT_SYMBOL_GPL(devm_pm_opp_set_clkname);
++
+ /**
+  * dev_pm_opp_register_set_opp_helper() - Register custom set OPP helper
+  * @dev: Device for which the helper is getting registered.
+diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
+index c0371efa4a0f..0583d775aa5a 100644
+--- a/include/linux/pm_opp.h
++++ b/include/linux/pm_opp.h
+@@ -150,6 +150,7 @@ struct opp_table *dev_pm_opp_set_regulators(struct device *dev, const char * con
+ void dev_pm_opp_put_regulators(struct opp_table *opp_table);
+ struct opp_table *dev_pm_opp_set_clkname(struct device *dev, const char *name);
+ void dev_pm_opp_put_clkname(struct opp_table *opp_table);
++int devm_pm_opp_set_clkname(struct device *dev, const char *name);
+ struct opp_table *dev_pm_opp_register_set_opp_helper(struct device *dev, int (*set_opp)(struct dev_pm_set_opp_data *data));
+ void dev_pm_opp_unregister_set_opp_helper(struct opp_table *opp_table);
+ struct opp_table *devm_pm_opp_register_set_opp_helper(struct device *dev, int (*set_opp)(struct dev_pm_set_opp_data *data));
+@@ -355,6 +356,11 @@ static inline struct opp_table *dev_pm_opp_set_clkname(struct device *dev, const
+ 
+ static inline void dev_pm_opp_put_clkname(struct opp_table *opp_table) {}
+ 
++static inline int devm_pm_opp_set_clkname(struct device *dev, const char *name)
++{
++	return -EOPNOTSUPP;
++}
++
+ static inline struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs)
+ {
+ 	return ERR_PTR(-EOPNOTSUPP);
 -- 
 2.30.2
 
