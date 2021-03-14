@@ -1,63 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B1933A2AE
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Mar 2021 05:45:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A45E33A333
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Mar 2021 06:56:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECC7A6E14F;
-	Sun, 14 Mar 2021 04:45:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84F7F89E3F;
+	Sun, 14 Mar 2021 05:56:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
- [IPv6:2607:f8b0:4864:20::82e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5EB96E14F;
- Sun, 14 Mar 2021 04:45:34 +0000 (UTC)
-Received: by mail-qt1-x82e.google.com with SMTP id c6so6956459qtc.1;
- Sat, 13 Mar 2021 20:45:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Uoe5TNNaDysbUQasfNAqY0hOSuNv/3CSSDD6bzJQ5fI=;
- b=WRjAdYjdxjs92mVp66j7D7szHl3IbeBRjO+ofLvwzD64sD9QZXZeZ+pSXF8O3MRGbb
- OwveQBhhxwxPv0tAA2vKfzZ+NdQxwrGNwEay93SQFFjGfCfxgh0JMYoFNa4lEQDgAbn9
- pDAqLIHPk9lqkyjQzEHW5mnW8PsX/afur8eptyiKNLL4n48BQ5sgvaCBW84e4zbFUV8h
- nvRV89nzfsIihF9mw2cmPdegTAp4DGB9SRxrG6UNlL1bp9EDUqoVoCdA0TPLs5X5SGP2
- D6YPugWoiJZR0RbsuwQyTSaC3ydtk+eOFv7Jv8QB7vO7mzD4962JS8YuEsGuUNY2/Gzj
- 2lCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Uoe5TNNaDysbUQasfNAqY0hOSuNv/3CSSDD6bzJQ5fI=;
- b=amCMj8cLnaKHxSCQBj2FArJtrEpUVZMhtHW9BK9yBDnC3UcoMW7JabqsEPBQkCIVCB
- rs2Uy6wE/ED7IR/QLK/DglkS0SFBRzdHpm17h2c70HaTgughsGiY0RTHCYP0+gdgaKmi
- em9Lr75aZHIkItvOJ68UthFcSsxdk2q79gXoIU3KaIP6P2dOwhTD0XbBp2WQ4CVA7CHe
- APUlKl0E6ukjU8qwotn+vBKgTfrd4zEZbbs3AP7L/rgAHdDb+GYVr6YZSRjDWB6VCcUH
- wT1d12IxDBcMLipw4h4mX4I//PSy0dpOM8F0JZ5E/VO1zfMHTbb3vy1Ac+/FoOS8AUYn
- tRjA==
-X-Gm-Message-State: AOAM533d/EhkkCIF9hftKG3g5fKZ0Tx+aimEl2OUkLQljB0GX1gJdHk7
- UYcAAXWdkePREX3uFIjwZp0=
-X-Google-Smtp-Source: ABdhPJy2CqupncRenrFBI7C8/dOxkolIyk5MmQG0y9rTuawAaMe1sJkMeoqec5OQ01ETtylsnBEshQ==
-X-Received: by 2002:ac8:149a:: with SMTP id l26mr17763644qtj.210.1615697133669; 
- Sat, 13 Mar 2021 20:45:33 -0800 (PST)
-Received: from localhost.localdomain ([37.19.198.30])
- by smtp.gmail.com with ESMTPSA id f27sm8005836qkh.118.2021.03.13.20.45.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Mar 2021 20:45:33 -0800 (PST)
-From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
- chris@chris-wilson.co.uk, tvrtko.ursulin@intel.com,
- mika.kuoppala@linux.intel.com, maarten.lankhorst@linux.intel.com,
- unixbhaskar@gmail.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] gpu: drm: i915: gt: Rudimentary typo fix in the file
+Received: from desiato.infradead.org (desiato.infradead.org
+ [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6113F89E3F;
+ Sun, 14 Mar 2021 05:56:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+ :In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+ Reply-To:Cc:Content-ID:Content-Description;
+ bh=Xefqu3vKkF6QxL4rotZMwFoLVYhsZK1Asts4uTOyJk8=; b=Bfhvt6lRYJ1q74kvEcx8wTyFoE
+ LnZkEEeQ6mvIgM6Il3sBuRnVIKman37MEzTk9a3uBSNZtZJmCY38/wTP9B93YN0n7u5by6NGMI79f
+ eIAeLpvh+zxbj6g6ukwGWLu5XLXhSAZj/PfMiP97obLF0Py3PIxwVmhwIB6V9VB/y0TV1ZdtcNdH5
+ cJ+UzMPuodIvEgONGcmp3SBsLal2XohLt2oZXwiltlO+7eu1bs6dHRoPwj0zhCKYuklN/quCzj6Ia
+ Gp06/XAF/4xV9cT+E79ZtXgp9hisYbfmRgN01pzyyUJrxkyh2SguTXWNFY++QNBIYZwLQTGSHD11g
+ B7ZKOc8w==;
+Received: from merlin.infradead.org ([2001:8b0:10b:1234::107])
+ by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
+ id 1lLJk0-00DwJe-Gx; Sun, 14 Mar 2021 05:56:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+ Reply-To:Cc:Content-ID:Content-Description;
+ bh=Xefqu3vKkF6QxL4rotZMwFoLVYhsZK1Asts4uTOyJk8=; b=XPThki4oj5XZ/Ldj9sJKNOZUs5
+ R2hzmrSuXfIbd7dL6vAp7G2vTuVpjRfMghkAGqmz20Gl19LAzbKvPBXqdp19qPiofOqSB2YkRXUhx
+ Kn9Pl/ZbCazdZAjSlJli+ZfJdlqoxVfGI018IJ23g+qmUkkmaRSaabhRE6I7ZVY6d67F+iU+ftqYV
+ iGHAeOsoq2L0AOcFnNCw57gUeyiRtb9u+VeCJ1LiJ0ZtnS6bskQzaJ2zXX0r7D/DvWkogUAFcJgaJ
+ alr86IhbXZmIWXeJWyxGil8gmotozfwTxO6pLmSkOMBF2pbDXNtc9W4RmDAt8NIHP2YjSSjENVKOj
+ pAtzlrXg==;
+Received: from [2601:1c0:6280:3f0::9757]
+ by merlin.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+ id 1lLJjW-001B1C-G6; Sun, 14 Mar 2021 05:56:10 +0000
+Subject: Re: [PATCH] gpu: drm: i915: gt: Rudimentary typo fix in the file
  intel_timeline.c
-Date: Sun, 14 Mar 2021 10:13:03 +0530
-Message-Id: <20210314044303.9220-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.26.2
+To: Bhaskar Chowdhury <unixbhaskar@gmail.com>, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, airlied@linux.ie,
+ daniel@ffwll.ch, chris@chris-wilson.co.uk, tvrtko.ursulin@intel.com,
+ mika.kuoppala@linux.intel.com, maarten.lankhorst@linux.intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20210314044303.9220-1-unixbhaskar@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <26e08f86-47a9-fd3d-2d68-5b53c2e1d692@infradead.org>
+Date: Sat, 13 Mar 2021 21:56:05 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <20210314044303.9220-1-unixbhaskar@gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,35 +68,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rdunlap@infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 3/13/21 8:43 PM, Bhaskar Chowdhury wrote:
+> 
+> s/bariers/barriers/
+> 
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 
-s/bariers/barriers/
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- drivers/gpu/drm/i915/gt/intel_timeline.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> ---
+>  drivers/gpu/drm/i915/gt/intel_timeline.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.c b/drivers/gpu/drm/i915/gt/intel_timeline.c
+> index 8015964043eb..2b921c1796dc 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_timeline.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_timeline.c
+> @@ -416,7 +416,7 @@ void intel_timeline_exit(struct intel_timeline *tl)
+>  	spin_unlock(&timelines->lock);
+> 
+>  	/*
+> -	 * Since this timeline is idle, all bariers upon which we were waiting
+> +	 * Since this timeline is idle, all barriers upon which we were waiting
+>  	 * must also be complete and so we can discard the last used barriers
+>  	 * without loss of information.
+>  	 */
+> --
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.c b/drivers/gpu/drm/i915/gt/intel_timeline.c
-index 8015964043eb..2b921c1796dc 100644
---- a/drivers/gpu/drm/i915/gt/intel_timeline.c
-+++ b/drivers/gpu/drm/i915/gt/intel_timeline.c
-@@ -416,7 +416,7 @@ void intel_timeline_exit(struct intel_timeline *tl)
- 	spin_unlock(&timelines->lock);
 
- 	/*
--	 * Since this timeline is idle, all bariers upon which we were waiting
-+	 * Since this timeline is idle, all barriers upon which we were waiting
- 	 * must also be complete and so we can discard the last used barriers
- 	 * without loss of information.
- 	 */
---
-2.26.2
+-- 
+~Randy
 
 _______________________________________________
 dri-devel mailing list
