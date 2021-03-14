@@ -1,43 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8512833A555
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Mar 2021 16:14:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20CE233A600
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Mar 2021 17:34:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2821789FEA;
-	Sun, 14 Mar 2021 15:14:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44DE289F85;
+	Sun, 14 Mar 2021 16:34:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from libero.it (smtp-17-i2.italiaonline.it [213.209.12.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9472089FEA
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Mar 2021 15:13:59 +0000 (UTC)
-Received: from passgat-Modern-14-A10M.homenet.telecomitalia.it
- ([87.20.116.197]) by smtp-17.iol.local with ESMTPA
- id LSRAlDnJYtpGHLSRHlAQKh; Sun, 14 Mar 2021 16:13:56 +0100
-x-libjamoibt: 1601
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2021;
- t=1615734836; bh=4LiH4eemN3AT+2Fo6A4+E/U5d16NklG/3kjcvEQGKGU=;
- h=From;
- b=t9Eq2PKQKBiBLh2ig7HS/WcQrqc3uvMCq8a6A1Fnp3rNMNl3VuRrQOd7mQxhMe6Gt
- ZcE4HpkdC8YFDLOTn0p0uQK2lHwHjjr3gzHh36brolIvhLPOPle0aRdZiyonJVqX+W
- os9AeRLJdIWzUoSm+exeHc0ZKQulYJNpwCoY2phSOlgCSmEGXoeNe3iun/W/snrDMg
- ziA2d48zrqsa5tAngVe4ZTNU1hrm+cRT93wlJUHzSrQZ5FNFTqGPJl2qc6aacK9Lwe
- ayNFRztSDGwR9FT/aNGck7lQJTa5r/HSl3Z2MJ56HctqqUkmTiQuYcJ/gdbKu4BSkz
- YZjwNLc8Nkjmg==
-X-CNFS-Analysis: v=2.4 cv=Q7IXX66a c=1 sm=1 tr=0 ts=604e2834 cx=a_exe
- a=AVqmXbCQpuNSdJmApS5GbQ==:117 a=AVqmXbCQpuNSdJmApS5GbQ==:17
- a=lnTs3XerFxmm0CipDzYA:9
-From: Dario Binacchi <dariobin@libero.it>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/tilcdc: fix LCD pixel clock setting
-Date: Sun, 14 Mar 2021 16:13:41 +0100
-Message-Id: <20210314151342.23404-1-dariobin@libero.it>
-X-Mailer: git-send-email 2.17.1
-X-CMAE-Envelope: MS4xfJ3IOLksAOLKMHBjJUHJ8C33pm/tpWwf2AZBxwcvuuq3NfmiHoveW4kSWQc6lg7BFBbuqPbMy9EiQt+foLbvWoOhA40cle8b86JjJ8xgDlIdjjxl8sIr
- hA0U8jU6QONZidr86fvMlUzzVTQXNZ92Lwj1rV/HiE0F8aoqJT95yLnyUPTHJXK2DFtQwJTJQFR2KWfCSuHxrnZQj3mKQ4PHc92OArrEssUhiJ0gIsv8HQYf
- mbnw01iu2UzHltnfZI06QjUZvMHVj1d7yqcNmtnk4JBSzYgdoFfmj78aW8TwWGOf8rx3f9S/wY9EqaIRRYULsUZFQYfoCxYTu71UOAfxo6acWjeFXuGoyZ3a
- YO1OJfSshi3AnkvEL3jmqaZRdX+hOCfnqAf/gGubrxdEFqnWtQeh+wBgYQsdfJg78e+4HrYA
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A11189F71;
+ Sun, 14 Mar 2021 16:34:30 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id b18so7474671wrn.6;
+ Sun, 14 Mar 2021 09:34:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dk+u80d7+DPr6f37qq0svEt55gFJ9tkcYaJUZ9gMJ0E=;
+ b=odz2KMFjnuhb+rsTA1UTIbkBLsTNRvMBNSMRiw8zxC4bWm7uwaiwsCXODkOpuWYygp
+ uPU8oyV7+fL4tqvAu2Qi/KxLJ0NMIZ38VJHySHemlGhL1DlopQm3WtA9Sht2KNeAoAP+
+ ZHlURy+2dKRSfqikCGrEaHH90tT+BwxckcE/dd9hWjs9MXYbwQY3As0wpUGcq06VDFmW
+ BZuQqJhYdotA3HLtV8KYQagN4hc9Y43XegpW96y5oVt/UTHFtXlOzYG8FybF7viwVXnW
+ Qb2ZZrGcp4g4aVCQ/jLBHK8TF8yiL1ImgA0Ni1kpRvRZgV5I0fPJPAEYubbKyERAh0xs
+ 1gPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dk+u80d7+DPr6f37qq0svEt55gFJ9tkcYaJUZ9gMJ0E=;
+ b=KYEjHQh+enUWD7GXpiSBmp9Z6JmN0nF6khUahY0zlDrKsRg8LN1T/dRdk3QhOrl2rF
+ 1qJoqDZQZW7oFzIp8EYJDCk4o12zA7Pk2Ymjzap1xfYz+PBOzWyPILCsJso+L4IQKLAd
+ UWg1uToUKFdnSP6tMIdCoebF+iTbsNeY959oCk67cSbEmcav4j46o9RxxpU6IX9IueZF
+ HgJR1s4QjibdBdJv053P4153WMGzp0aQuuvtLwReKvn86EA7kQQnG8Hs2K5Lzb1mAZiy
+ +GeQJ1vOzimpiIfFwUga53vjyztfFNdk7z+yYzWj+m4wPTnJ+V3i4vMMdzItiQR5NmIg
+ yqJQ==
+X-Gm-Message-State: AOAM533RWj0ZcjsUW9nQ9KF1vdpRO0H1KKIqU1qwoLQo6BwGfU2mj7AK
+ vqSVYY2/EZYBSCUUItKQpv8=
+X-Google-Smtp-Source: ABdhPJyleajyRpBrrXUjD8GqJPpb/1++iWRzfLdTQ72N8RYDVENKPnSXNItvO94J7ZdMRAdWS/ix6g==
+X-Received: by 2002:a5d:6412:: with SMTP id z18mr23774132wru.214.1615739669218; 
+ Sun, 14 Mar 2021 09:34:29 -0700 (PDT)
+Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru.
+ [109.252.193.52])
+ by smtp.gmail.com with ESMTPSA id o7sm15723239wrs.16.2021.03.14.09.34.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 Mar 2021 09:34:28 -0700 (PDT)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Rob Herring <robh@kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
+ Mark Brown <broonie@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Yangtao Li <tiny.windzz@gmail.com>
+Subject: [PATCH v3 00/15] Introduce devm_pm_opp_* API
+Date: Sun, 14 Mar 2021 19:33:53 +0300
+Message-Id: <20210314163408.22292-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,66 +81,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomba@kernel.org>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Jyri Sarha <jyri.sarha@iki.fi>,
- Dario Binacchi <dariobin@libero.it>
-MIME-Version: 1.0
+Cc: linux-samsung-soc@vger.kernel.org, linux-serial@vger.kernel.org,
+ lima@lists.freedesktop.org, linux-pm@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As reported by TI spruh73x RM, the LCD pixel clock (LCD_PCLK) frequency
-is obtained by dividing LCD_CLK, the LCD controller reference clock,
-for CLKDIV:
+This series adds resource-managed OPP API helpers and makes drivers
+to use them.
 
-LCD_PCLK = LCD_CLK / CLKDIV
+Changelog:
 
-where CLKDIV must be greater than 1.
+v3: - Dropped dev_pm_opp_register_notifier().
 
-Therefore LCD_CLK must be set to 'req_rate * CLKDIV' instead of req_rate
-and the real LCD_CLK rate must be compared with 'req_rate * CLKDIV' and
-not with req_rate.
-Passing req_rate instead of 'req_rate * CLKDIV' to the tilcdc_pclk_diff
-routine caused it to fail even if LCD_CLK was properly set.
+    - Changed return type of the devm helpers from opp_table pointer
+      to errno.
 
-Signed-off-by: Dario Binacchi <dariobin@libero.it>
+    - Corrected drm/msm patch which missed to remove opp_put_supported_hw()
+      from a6xx_gpu. Note that the a5xx_gpu driver was missing the
+      opp_put_supported_hw() at all.
 
----
+    - Corrected spelling of the ack from Mark Brown.
 
- drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+v2: - This is a continuation of the work that was started by Yangtao Li.
+      Apparently Yangtao doesn't have time to finish it, so I
+      (Dmitry Osipenko) picked up the effort since these patches are
+      wanted by the NVIDIA Tegra voltage-scaling series that I'm
+      working on.
 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-index 30213708fc99..02f56c9a5da5 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-@@ -203,7 +203,7 @@ static void tilcdc_crtc_set_clk(struct drm_crtc *crtc)
- 	struct drm_device *dev = crtc->dev;
- 	struct tilcdc_drm_private *priv = dev->dev_private;
- 	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
--	unsigned long clk_rate, real_rate, req_rate;
-+	unsigned long clk_rate, real_rate, req_rate, clk_div_rate;
- 	unsigned int clkdiv;
- 	int ret;
- 
-@@ -211,10 +211,11 @@ static void tilcdc_crtc_set_clk(struct drm_crtc *crtc)
- 
- 	/* mode.clock is in KHz, set_rate wants parameter in Hz */
- 	req_rate = crtc->mode.clock * 1000;
--
--	ret = clk_set_rate(priv->clk, req_rate * clkdiv);
-+	/* LCD clock divisor input rate */
-+	clk_div_rate = req_rate * clkdiv;
-+	ret = clk_set_rate(priv->clk, clk_div_rate);
- 	clk_rate = clk_get_rate(priv->clk);
--	if (ret < 0 || tilcdc_pclk_diff(req_rate, clk_rate) > 5) {
-+	if (ret < 0 || tilcdc_pclk_diff(clk_div_rate, clk_rate) > 5) {
- 		/*
- 		 * If we fail to set the clock rate (some architectures don't
- 		 * use the common clock framework yet and may not implement
+    - Fixed the double put of OPP resources.
+
+    - Dropped all patches that are unrelated to OPP API. I also dropped
+      the Tegra memory patch since it doesn't apply now and because I plan
+      to switch all Tegra drivers soon to a common tegra-specific OPP helper
+      that will use the resource-managed OPP API anyways.
+
+    - Squashed couple patches into a single ones since there was no
+      good reason to separate them.
+
+    - Added acks that were given to a couple of v1 patches.
+
+Dmitry Osipenko (2):
+  opp: Change return type of devm_pm_opp_register_set_opp_helper()
+  opp: Change return type of devm_pm_opp_attach_genpd()
+
+Yangtao Li (13):
+  opp: Add devres wrapper for dev_pm_opp_set_clkname
+  opp: Add devres wrapper for dev_pm_opp_set_regulators
+  opp: Add devres wrapper for dev_pm_opp_set_supported_hw
+  opp: Add devres wrapper for dev_pm_opp_of_add_table
+  serial: qcom_geni_serial: Convert to use resource-managed OPP API
+  spi: spi-geni-qcom: Convert to use resource-managed OPP API
+  spi: spi-qcom-qspi: Convert to use resource-managed OPP API
+  mmc: sdhci-msm: Convert to use resource-managed OPP API
+  drm/msm: Convert to use resource-managed OPP API
+  drm/lima: Convert to use resource-managed OPP API
+  drm/panfrost: Convert to use resource-managed OPP API
+  media: venus: Convert to use resource-managed OPP API
+  memory: samsung: exynos5422-dmc: Convert to use resource-managed OPP
+    API
+
+ drivers/gpu/drm/lima/lima_devfreq.c           |  47 ++-----
+ drivers/gpu/drm/lima/lima_devfreq.h           |   3 -
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |  11 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h         |   2 -
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c       |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  23 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |   2 -
+ drivers/gpu/drm/msm/dp/dp_ctrl.c              |  30 +----
+ drivers/gpu/drm/msm/dp/dp_ctrl.h              |   1 -
+ drivers/gpu/drm/msm/dp/dp_display.c           |   5 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c            |  13 +-
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c   |  37 ++----
+ drivers/gpu/drm/panfrost/panfrost_devfreq.h   |   2 -
+ drivers/media/platform/qcom/venus/core.h      |   1 -
+ .../media/platform/qcom/venus/pm_helpers.c    |  35 ++---
+ drivers/memory/samsung/exynos5422-dmc.c       |  13 +-
+ drivers/mmc/host/sdhci-msm.c                  |  19 +--
+ drivers/opp/core.c                            | 122 ++++++++++++++----
+ drivers/opp/of.c                              |  36 ++++++
+ drivers/spi/spi-geni-qcom.c                   |  16 +--
+ drivers/spi/spi-qcom-qspi.c                   |  18 +--
+ drivers/tty/serial/qcom_geni_serial.c         |  23 ++--
+ include/linux/pm_opp.h                        |  43 +++++-
+ include/linux/qcom-geni-se.h                  |   2 -
+ 26 files changed, 250 insertions(+), 260 deletions(-)
+
 -- 
-2.17.1
+2.30.2
 
 _______________________________________________
 dri-devel mailing list
