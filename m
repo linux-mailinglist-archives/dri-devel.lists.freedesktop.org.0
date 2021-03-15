@@ -2,41 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E3433C258
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 17:42:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E624733C273
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 17:49:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7280889C82;
-	Mon, 15 Mar 2021 16:42:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D4AA89C89;
+	Mon, 15 Mar 2021 16:49:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32F9689C82
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 16:42:09 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 03A2F316;
- Mon, 15 Mar 2021 17:42:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1615826527;
- bh=meXW2nUOk1RhrSoua6G9ceJqPGOfpSiHqaAKI/AhfkY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Oicu7Ws0tGr32dBM25amrfw3RQnN4L1Un074PDc4TwcfPIytxaUZYATbMN8/+borr
- UlDf9fDDiLQhM7K0RDO+YoG6jU5/f83kqULjHX1dziNEsBLJ4H3nZbbVi6lRModJs5
- DfGB9WgmcW/PxEXRS5YiQ0Wnkx9NwXUIMsWnVU9k=
-Date: Mon, 15 Mar 2021 18:41:31 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH 2/3] drm/bridge: ti-sn65dsi86: Move code in prep for EDID
- read fix
-Message-ID: <YE+OO0m8iW8oS3cq@pendragon.ideasonboard.com>
-References: <20210304155144.1.Ic9c04f960190faad5290738b2a35d73661862735@changeid>
- <20210304155144.2.Id492ddb6e2cdd05eb94474b93654b04b270c9bbe@changeid>
- <YE0qyYedS0NilsCy@pendragon.ideasonboard.com>
- <CAD=FV=X_HAdNkvZ7NGKDH9KapRRLgOfN23OZyy3VyaX+ywjRkQ@mail.gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00BC489C89
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 16:49:29 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id CAC4364F2F
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 16:49:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1615826969;
+ bh=cncwAC3uL0+0ZyDZCO7CBZ50SPvUu3VIv9qk5plzym8=;
+ h=From:To:Subject:Date:From;
+ b=Cah6vuz6yqHQjEZ9GjP/FzejLGPmewPNM8MGR3Qag60BIe43rP0TRWFzNrobQPFvj
+ OITrZS1h6vTeDRQ0a6zPvUM2+nYxqRumfw2tfZ6hB58nprw9cYSl3v73mBF/5+uxnS
+ McGV0SLuqt+81/lwP90BoM6J+SYKu7VUBoOmFeJ0jNBHrHnqNA3PtKS9kFyrwGvjpN
+ SQ32V/vNJmZny1WIzA9dE/VKmmA18nX18mR61XNZomThwWL1QncRmX0cc84nbH+rR+
+ Jw9q0ammFXNFYdIOPtfc599q2QB0zzvOQB8ezQk+q7RBxiFEKZhq9isKgfCRym6Q7O
+ OS7tLQ2VRVFgg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id C06E465350; Mon, 15 Mar 2021 16:49:29 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212293] New: [amdgpu] divide error: 0000 on resume from S3
+Date: Mon, 15 Mar 2021 16:49:29 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: contact@scrumplex.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-212293-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=X_HAdNkvZ7NGKDH9KapRRLgOfN23OZyy3VyaX+ywjRkQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,63 +63,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
+https://bugzilla.kernel.org/show_bug.cgi?id=212293
 
-On Mon, Mar 15, 2021 at 09:31:41AM -0700, Doug Anderson wrote:
-> On Sat, Mar 13, 2021 at 1:13 PM Laurent Pinchart wrote:
-> > On Thu, Mar 04, 2021 at 03:52:00PM -0800, Douglas Anderson wrote:
-> > > This patch is _only_ code motion to prepare for the patch
-> > > ("drm/bridge: ti-sn65dsi86: Properly get the EDID, but only if
-> > > refclk") and make it easier to understand.
-> >
-> > s/make/makes/
-> 
-> I was never an expert at grammar, but I think either "make" or "makes"
-> are fine. Simple version with parenthesis:
-> 
-> Mine:
-> 
-> This patch is <blah> to (prepare for the patch <blah>) and (make it
-> easier to understand).
-> 
-> Yours:
-> 
-> This patch is <blah> (to prepare for the patch <blah>) and (makes it
-> easier to understand).
-> 
-> I suppose also valid would be:
-> 
-> This patch is <blah> (to prepare for the patch <blah>) and (to make it
-> easier to understand).
+            Bug ID: 212293
+           Summary: [amdgpu] divide error: 0000 on resume from S3
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.11.6
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: contact@scrumplex.net
+        Regression: No
 
-Your absolutely right. Both versions are fine, and your preferred
-version is best :-)
+Created attachment 295869
+  --> https://bugzilla.kernel.org/attachment.cgi?id=295869&action=edit
+kernel log since resume
 
-> In any case if/when I spin this patch I'm fine changing it to your
-> version just because (as I understand) it's equally valid and maybe
-> looks slightly better?
-> 
-> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> Thanks for the reviews!
+My system experiences a kernel panic when resuming from S3, coming from amdgpu.
+The GPU has to be in a specific state for this to happen. Mainly when my
+desktop environment turns off the screens after some inactivity, and
+subsequently suspends the system.
+
+This issue only occurs with kernel versions 5.11.x. 
+I could only reproduce this with KDE Plasma / KWin on Wayland, while testing
+KDE Plasma / KWin on Xorg and on Wayland (Xorg seems to work fine).
+
+
+REPRODUCTION
+1. Start KDE Plasma / KWin on Wayland
+2. Set Screen Energy Saving "Switch off after" to a low value like 1min
+3. Wait until Plasma has turned off screens
+4. Suspend the system (via SSH for example)
+5. Try to wake from sleep
+
+
+SYSTEM INFO
+CPU: AMD Ryzen 9 3900X
+Mainboard: ASUS ROG STRIX B450-F GAMING II
+GPU: GIGABYTE Radeon RX VEGA 56 GAMING OC 8G
+
+
+ATTACHMENTS
+I attached the kernel panic I could capture via ttyS0.
 
 -- 
-Regards,
+You may reply to this email to add a comment.
 
-Laurent Pinchart
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
