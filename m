@@ -2,28 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A40D33B1ED
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 13:00:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E95B33B1FA
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 13:02:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD4889C9C;
-	Mon, 15 Mar 2021 12:00:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF9F68961D;
+	Mon, 15 Mar 2021 12:02:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0D889C9B
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 12:00:07 +0000 (UTC)
-Date: Mon, 15 Mar 2021 11:59:50 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 4/5] drm: Add and export function drm_gem_cma_sync_data
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Message-Id: <QNE0QQ.C6TR84CKS0AX1@crapouillou.net>
-In-Reply-To: <9c3c8e15-9e8c-4413-e75b-de989a750954@suse.de>
-References: <20210307202835.253907-1-paul@crapouillou.net>
- <20210307202835.253907-5-paul@crapouillou.net>
- <20210311122846.GC1739082@infradead.org>
- <VJ1TPQ.L5I3WNCQNB982@crapouillou.net>
- <9c3c8e15-9e8c-4413-e75b-de989a750954@suse.de>
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 482FC8961D
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 12:02:45 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DzZkv3BqHzkZSK;
+ Mon, 15 Mar 2021 20:01:11 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 15 Mar 2021 20:02:39 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <a.hajda@samsung.com>, <narmstrong@baylibre.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>
+Subject: [PATCH v2] drm/bridge: sii9234: sil-sii8620.c: move to use
+ request_irq by IRQF_NO_AUTOEN flag
+Date: Mon, 15 Mar 2021 20:03:21 +0800
+Message-ID: <1615809801-36857-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,75 +41,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- linux-mips@vger.kernel.org, Christoph Hellwig <hch@infradead.org>, od@zcrc.me,
- dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+After this patch cbe16f35bee68 genirq: Add IRQF_NO_AUTOEN for
+request_irq/nmi() is merged. request_irq() after setting
+IRQ_NOAUTOEN as below
 
-Le lun. 15 mars 2021 =E0 8:43, Thomas Zimmermann <tzimmermann@suse.de> a =
+irq_set_status_flags(irq, IRQ_NOAUTOEN);
+request_irq(dev, irq...);
+can be replaced by request_irq() with IRQF_NO_AUTOEN flag.
 
-=E9crit :
-> Hi
-> =
+v2:
+Fix the problem of using wrong flags
 
-> Am 11.03.21 um 13:33 schrieb Paul Cercueil:
->> =
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+---
+ drivers/gpu/drm/bridge/sii9234.c     | 4 ++--
+ drivers/gpu/drm/bridge/sil-sii8620.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
->> =
-
->> Le jeu. 11 mars 2021 =E0 12:28, Christoph Hellwig <hch@infradead.org> =
-
->> a =7F=E9crit :
->>> On Sun, Mar 07, 2021 at 08:28:34PM +0000, Paul Cercueil wrote:
->>>>  +    drm_atomic_for_each_plane_damage(&iter, &clip) {
->>>>  +        for (i =3D 0; i < finfo->num_planes; i++) {
->>>>  +            daddr =3D drm_fb_cma_get_gem_addr(state->fb, state, i);
->>>>  +
->>>>  +            /* Ignore x1/x2 values, invalidate complete lines */
->>>>  +            offset =3D clip.y1 * state->fb->pitches[i];
->>>>  +
->>>>  +            dma_sync_single_for_device(dev, daddr + offset,
->>>>  +                       (clip.y2 - clip.y1) * =
-
->>>> state->fb->pitches[i],
->>>>  +                       DMA_TO_DEVICE);
->>> =
-
->>> Are these helpers only ever used to transfer data to the device and
->>> never from it?  If so please clearly document that.
->> =
-
->> Yes. In the DRM world, are there cases where we transfer data from =
-
->> the =7Fdevice? I assume these cases are handled by v4l2 instead.
-> =
-
-> Software rendering (i.e., anything wrt dumb buffers) likely reads =
-
-> back framebuffer content during blit operations. For devices where =
-
-> this is a slow operation (e.g., PCI read) we set struct =
-
-> drm_mode_config.prefer_shadow to hint renderers to use shadow =
-
-> buffering.
-
-This has been brought up a few times already. I answered that in the =
-
-cover letter. In my case, *writes* (e.g. dumb memcpy) are also slower =
-
-with a write-combine buffer than with a non-coherent buffer + cache =
-
-sync. So a shadow buffer does nothing for me.
-
-Cheers,
--Paul
-
+diff --git a/drivers/gpu/drm/bridge/sii9234.c b/drivers/gpu/drm/bridge/sii9234.c
+index 15c98a7..54b5097 100644
+--- a/drivers/gpu/drm/bridge/sii9234.c
++++ b/drivers/gpu/drm/bridge/sii9234.c
+@@ -911,10 +911,10 @@ static int sii9234_probe(struct i2c_client *client,
+ 		return -EINVAL;
+ 	}
+ 
+-	irq_set_status_flags(client->irq, IRQ_NOAUTOEN);
+ 	ret = devm_request_threaded_irq(dev, client->irq, NULL,
+ 					sii9234_irq_thread,
+-					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
++					IRQF_TRIGGER_HIGH | IRQF_ONESHOT |
++					IRQF_NO_AUTOEN,
+ 					"sii9234", ctx);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to install IRQ handler\n");
+diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
+index 843265d..4133f6e 100644
+--- a/drivers/gpu/drm/bridge/sil-sii8620.c
++++ b/drivers/gpu/drm/bridge/sil-sii8620.c
+@@ -2308,10 +2308,10 @@ static int sii8620_probe(struct i2c_client *client,
+ 		dev_err(dev, "no irq provided\n");
+ 		return -EINVAL;
+ 	}
+-	irq_set_status_flags(client->irq, IRQ_NOAUTOEN);
+ 	ret = devm_request_threaded_irq(dev, client->irq, NULL,
+ 					sii8620_irq_thread,
+-					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
++					IRQF_TRIGGER_HIGH | IRQF_ONESHOT |
++					IRQF_NO_AUTOEN,
+ 					"sii8620", ctx);
+ 	if (ret < 0)
+ 		return dev_err_probe(dev, ret,
+-- 
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
