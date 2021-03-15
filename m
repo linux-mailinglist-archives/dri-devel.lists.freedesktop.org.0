@@ -2,57 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF24D33C584
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 19:25:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 993C733C588
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 19:26:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC9726E0C6;
-	Mon, 15 Mar 2021 18:25:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93F436E11E;
+	Mon, 15 Mar 2021 18:26:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 075486E0C6
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 18:25:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id B4F9F64F4C
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 18:25:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615832748;
- bh=4My60n3jSp52Jz0WjT24CfEw6CcRtN3i9JEdd3Gt8cE=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Sn0e2w4rKgArwwyrBD7o1cMv+Nz4TiIcLQqnJVQ0JPHleNtResDM5ssrD2tPa2FWh
- KUIvj6Pxt4+dTaEEXN2aGcNJhUV6Y8Mx4Nd4cyXPHDMnxGSmZgwsduoi8yP4Zgs+PY
- B3Nj55G20sbVr67wq53lNSApiugZYE8nJU1y3dq6KwgiCOkRm0V8/LSiVji7zI2f2Q
- kKGlepwVxxd4J1mH0rnwJRIYMNG4OB38uppDBG55kkEAsEevciHg4fLsfL/IbnKtFs
- QUZINqJQ/+nK1W5MzjL3iyKVYyv7sVrukTr/J7j+GlXTmm00GfS5VDBNYdryi2Nivd
- LaLRTUmq9HTVQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id ADC0F65360; Mon, 15 Mar 2021 18:25:48 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: =?UTF-8?B?W0J1ZyAyMTIyNzldIEFNREdQVSBkb2VzbuKAmXQgZXhwb3NlIGFu?=
- =?UTF-8?B?eSB3YXkgb2Ygc2V0dGluZyB0aGUgZnVsbCBSR0IgcmFuZ2UgW3J5emVuKyBt?=
- =?UTF-8?B?b2JpbGVd?=
-Date: Mon, 15 Mar 2021 18:25:48 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: ledufff@hotmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-212279-2300-OEPuf2wCMJ@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212279-2300@https.bugzilla.kernel.org/>
-References: <bug-212279-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 316A66E154;
+ Mon, 15 Mar 2021 18:26:06 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id
+ t23-20020a0568301e37b02901b65ab30024so5609081otr.4; 
+ Mon, 15 Mar 2021 11:26:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YsO66aKCLruG+OQDzYO3UaHdDnPWEUf3gpDAl+0qUto=;
+ b=H3h8N00QtJBq6aCINRl2EmY80P2fXpk1NSs4P2th2wZyJLtIUcDiJy4k4Uge7GxCkF
+ LFfLkL93r8trVbjfB7e6LOPG8fcNdZmjDc1sPCZBFQqVgED0PAXDYXCsATgJAXhxmlCG
+ NM5+kIxQgEBuORUv/GLo/9XjsXP3nri8OdjYdAddjbR+qJLgb3XMsnEXzj/ZFJzKXpPb
+ HQL8yEiN+D3YS2eNQwgMJYPF52K2Yp7mmlPfOFgusDiYHpX5ZmrUWGs3PXbWrL+8Q8Yf
+ OVNNn6iLRlBKvuSa+my2Tsx0Lq2Byy9Eg6GPKSVipyjlFvGHBafP/Z+qegao1pjcbz8L
+ JQyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YsO66aKCLruG+OQDzYO3UaHdDnPWEUf3gpDAl+0qUto=;
+ b=ePK6knEz0n6JeAOnxnn78v41QPBOjBQvPFP53mddqX/26NS9C79vyL/b+At9Htb/07
+ rQc+anxfMCJPyEXvZMKETXB2iOE1VP2t2/G8i+k11ed2bd37t4Of7+iGu2CMvyL//9O9
+ RwwZVnXf3xWRk/HUnrZmuKce2GXWDJJ/TjicFyockjOVLYag+gOf9Qhzwyxb9G6BjMCo
+ V7pU0iKzK4zK67bGOC5Van0A37y5LOpc0c8Z/h6ha03fRzfx8aZpD4AcGwwnvMZdyX2n
+ GyMuzz1xuXAQeWcnvLxxEKyjMTiqSwka1DOI8RK1EC1x5cnbSCfFMDdz39Jd2t445S/9
+ VtNQ==
+X-Gm-Message-State: AOAM531YqUz7TbGSKHLZe8vaKIeDvQf3jCqQKhIN5wtJA4dP2xpePC5/
+ XJMSJbC38CAX89et6zE3hevJq/po5A7GfKsUiOM=
+X-Google-Smtp-Source: ABdhPJyUsTSW+BdKCvvTEcH5LcoX2K3PQpaJSRRXDSD8bvVou3k3bo3Hoj1OOOnXWMdVMMVSkGuKYBfmEdyyeBKg/vQ=
+X-Received: by 2002:a9d:20c3:: with SMTP id x61mr324341ota.311.1615832765510; 
+ Mon, 15 Mar 2021 11:26:05 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210315032136.3669883-1-unixbhaskar@gmail.com>
+In-Reply-To: <20210315032136.3669883-1-unixbhaskar@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 15 Mar 2021 14:25:54 -0400
+Message-ID: <CADnq5_Mu=WrBZURETB_+7R=sStY6-vNN9OQ5B8whDTwsuk2tdQ@mail.gmail.com>
+Subject: Re: [PATCH V2] drm: amd: pm: Mundane typo fixes in the file
+ amdgpu_pm.c
+To: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,27 +62,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Xiaojian Du <Xiaojian.Du@amd.com>,
+ Dave Airlie <airlied@linux.ie>, Kevin Wang <kevin1.wang@amd.com>,
+ Huang Rui <ray.huang@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Nirmoy Das <nirmoy.das@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, "Quan, Evan" <evan.quan@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=212279
+On Sun, Mar 14, 2021 at 11:22 PM Bhaskar Chowdhury
+<unixbhaskar@gmail.com> wrote:
+>
+>
+> s/"an minimum"/"a minimum"/
+> s/"an maxmum"/"a maximum"/
+>
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 
---- Comment #2 from Neil (ledufff@hotmail.com) ---
-Created attachment 295873
-  --> https://bugzilla.kernel.org/attachment.cgi?id=295873&action=edit
-edid-decode
+Applied.  Thanks!
 
-Here is the edid file for my TV (works full rgb range with windows 10)
-I will try to edit the file with wxEDID now, but, it would be less tedious if
-it were automatic as you say.
+Alex
 
--- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.
+> ---
+>  Changes from V1:
+>   Randy's suggestion to adjust the subject line text
+>   And missed out a spell too,which now included
+>
+>  drivers/gpu/drm/amd/pm/amdgpu_pm.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> index 5fa65f191a37..308249ae1a22 100644
+> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> @@ -3315,9 +3315,9 @@ static ssize_t amdgpu_hwmon_show_mclk_label(struct device *dev,
+>   *
+>   * - pwm1_max: pulse width modulation fan control maximum level (255)
+>   *
+> - * - fan1_min: an minimum value Unit: revolution/min (RPM)
+> + * - fan1_min: a minimum value Unit: revolution/min (RPM)
+>   *
+> - * - fan1_max: an maxmum value Unit: revolution/max (RPM)
+> + * - fan1_max: a maximum value Unit: revolution/max (RPM)
+>   *
+>   * - fan1_input: fan speed in RPM
+>   *
+> --
+> 2.30.2
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
