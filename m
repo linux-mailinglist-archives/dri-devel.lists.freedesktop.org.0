@@ -2,31 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3581433AD41
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 09:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2621233AE9A
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 10:24:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44D7489C3B;
-	Mon, 15 Mar 2021 08:22:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62E5389D64;
+	Mon, 15 Mar 2021 09:24:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-56.freemail.mail.aliyun.com
- (out30-56.freemail.mail.aliyun.com [115.124.30.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 269A489C49;
- Mon, 15 Mar 2021 08:22:12 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R531e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04395;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
- TI=SMTPD_---0URxYio-_1615796524; 
-Received: from
- j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0URxYio-_1615796524) by smtp.aliyun-inc.com(127.0.0.1);
- Mon, 15 Mar 2021 16:22:10 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: harry.wentland@amd.com
-Subject: [PATCH] drm/amd/display: Remove unnecessary conversion to bool
-Date: Mon, 15 Mar 2021 16:22:02 +0800
-Message-Id: <1615796522-21363-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0455B89D64
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 09:24:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id F285D64E33
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 09:24:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1615800282;
+ bh=v3jUI9CtqaB2bqW+8s8K6HhUuM0jxhUGsdSyCzicdUU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=fgNY6Vn4Q8S45ET/FakE0hNACrGyPW6w28+2DKM/565DtEWmB5OJ9Az5xfjJqdB7V
+ 6byODB0OToZUfxaIGHkR0uHylSxpulQcS1DAsSPA4bx09yxAJVX0rTVL2OUB6SMisy
+ 7YEIU1lu4u8KPQtp906B7Ee2p+cQqIDPCM59QtwzHnVUysmp4juVbIr3dA53+AdRQA
+ OI/27uFRIlRXthUcs+UzhhC9aBazNRpQkAgS9Ra4K9AmqbXtLhK/PKcsaaaPJdv+qZ
+ 7IGGrE2L26D+yuIQg0hyRq7QH9fK5PI4lkHz4ZR6hc9Y7eM+4Kk5HpyCkgCxTNwO0s
+ IkNdSbJKc2FfQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id E49F06534C; Mon, 15 Mar 2021 09:24:41 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212255] WARNING: at arch/x86/kernel/fpu/core.c:129
+ kernel_fpu_begin_mask
+Date: Mon, 15 Mar 2021 09:24:41 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: info@felicetufo.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-212255-2300-CYqJa23dPi@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212255-2300@https.bugzilla.kernel.org/>
+References: <bug-212255-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,43 +64,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, sunpeng.li@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following coccicheck warnings:
+https://bugzilla.kernel.org/show_bug.cgi?id=212255
 
-./drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c:358:69-74: WARNING:
-conversion to bool not needed here.
+--- Comment #4 from Felice Tufo (info@felicetufo.com) ---
+I confirm that the fix solves the bug on kernel 5.12.0-rc3 (at least on my test
+system).
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c
-index 3e6f760..e153109 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c
-@@ -355,7 +355,7 @@ void mpc3_set_output_gamma(
- 		next_mode = LUT_RAM_A;
- 
- 	mpc3_power_on_ogam_lut(mpc, mpcc_id, true);
--	mpc3_configure_ogam_lut(mpc, mpcc_id, next_mode == LUT_RAM_A ? true:false);
-+	mpc3_configure_ogam_lut(mpc, mpcc_id, next_mode == LUT_RAM_A);
- 
- 	if (next_mode == LUT_RAM_A)
- 		mpc3_program_luta(mpc, mpcc_id, params);
 -- 
-1.8.3.1
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
