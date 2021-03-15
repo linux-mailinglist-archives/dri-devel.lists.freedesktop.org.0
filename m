@@ -1,56 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA8633B074
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 11:58:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B99F33B1AD
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 12:49:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 886ED89A83;
-	Mon, 15 Mar 2021 10:58:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA19289C17;
+	Mon, 15 Mar 2021 11:49:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1AB489A61
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 10:58:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 8FBA964EC4
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 10:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615805884;
- bh=ihjKxAosQdRjMYsq24bm1SS/UBuM8jGiqhEweq6Thyw=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=cBT+2tnQKlxBbLGsf7LiHrT11HOfdLYlFcl0Xqwr/R6ifuvzQZWsrX222oqNNv4FN
- TJYtt5wnTXXWb7LpTlPt2zrou/7IvbNhCPkgNt2k4z3jYMSRKrFseg5MdTHrz6+slw
- LG1g9aVTbv0/gLsEEAfKyVra8x/lEe3xDXkNLRpBdVujq3WGzUp/ngQEuoNNFsqbxi
- NF1eQOylVNwiB3BvDVmo4OXmPPofJWqWOa9eH9OBzj8qRhjhIB0VcZOUmK7XU7BCO4
- NosuvCewRr3Mhbrz0j4USZGG5maWdzawZp+R3OrscwiWMoq6bb3i/A1vvzmf511Edx
- L0seFUIIk5PmA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 86DC865350; Mon, 15 Mar 2021 10:58:04 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 203905] amdgpu:actual_brightness has unreal/wrong value
-Date: Mon, 15 Mar 2021 10:58:03 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: m11.1l1.f64@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-203905-2300-cU6PeieArB@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-203905-2300@https.bugzilla.kernel.org/>
-References: <bug-203905-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4060589C17
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 11:49:02 +0000 (UTC)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DzZQh055qz17LYr;
+ Mon, 15 Mar 2021 19:47:08 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 15 Mar 2021 19:48:55 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <inki.dae@samsung.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <krzk@kernel.org>
+Subject: [PATCH v2] drm/exynos: move to use request_irq by IRQF_NO_AUTOEN flag
+Date: Mon, 15 Mar 2021 19:49:37 +0800
+Message-ID: <1615808977-36044-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,31 +40,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM5MDUKCi0tLSBD
-b21tZW50ICMyNSBmcm9tIG0xMS4xbDEuZjY0QGdtYWlsLmNvbSAtLS0KSSBmb3VuZCBhbm90aGVy
-IHdvcmthcm91bmQgYW5kIGl0J3MgZWFzaWVyIHRoYW4gRVZFUiBhbmQgaXQncyBkb25lIHZpYQpt
-a2luaXRjcGlv8J+YgQoKCkZpcnN0LCB3aGF0J3MgbWtpbml0Y3BpbyhodHRwczovL3dpa2kuYXJj
-aGxpbnV4Lm9yZy9pbmRleC5waHAvTWtpbml0Y3Bpbyk/CgoKClRoZSBpbml0aWFsIHJhbWRpc2sg
-aXMgaW4gZXNzZW5jZSBhIHZlcnkgc21hbGwgZW52aXJvbm1lbnQgKGVhcmx5IHVzZXJzcGFjZSkK
-d2hpY2ggbG9hZHMgdmFyaW91cyBrZXJuZWwgbW9kdWxlcyBhbmQgc2V0cyB1cCBuZWNlc3Nhcnkg
-dGhpbmdzIGJlZm9yZSBoYW5kaW5nCm92ZXIgY29udHJvbCB0byBpbml0LiBUaGlzIG1ha2VzIGl0
-IHBvc3NpYmxlIHRvIGhhdmUsIGZvciBleGFtcGxlLCBlbmNyeXB0ZWQKcm9vdCBmaWxlIHN5c3Rl
-bXMgYW5kIHJvb3QgZmlsZSBzeXN0ZW1zIG9uIGEgc29mdHdhcmUgUkFJRCBhcnJheS4gbWtpbml0
-Y3BpbwphbGxvd3MgZm9yIGVhc3kgZXh0ZW5zaW9uIHdpdGggY3VzdG9tIGhvb2tzLCBoYXMgYXV0
-b2RldGVjdGlvbiBhdCBydW50aW1lLCBhbmQKbWFueSBvdGhlciBmZWF0dXJlcy4KClNvIGdvIGFo
-ZWFkIGFuZCBlZGl0IHdpdGggYHN1ZG8gbmFubyAvZXRjL21raW5pdGNwaW8uY29uZmAKCgpUaGVu
-IGFkZCB0aGUgImFtZGdwdSIgaW4gdGhlIG1vZHVsZXMgc2VjdGlvbiBsaWtlIHRoaXM6CgoKYE1P
-RFVMRVM9KGFtZGdwdSlgCgoKQWZ0ZXIgdGhhdCwgc2ltcGx5IHJ1biBgc3VkbyBta2luaXRjcGlv
-IC1QYCBzbyB0aGF0IGl0IHJlZ2VuZXJhdGVzIG1raW5pdGNwaW8KZm9yIGFsbCBrZXJuZWxzCgoK
-VGhpcyBzb2x2ZWQgbXkgaXNzdWUsIEkgaG9wZSBpdCB3b3JrcyBmb3Igb3RoZXJzIHRvbyA6KV8K
-Ci0tIApZb3UgbWF5IHJlcGx5IHRvIHRoaXMgZW1haWwgdG8gYWRkIGEgY29tbWVudC4KCllvdSBh
-cmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3Np
-Z25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+After this patch cbe16f35bee68 genirq: Add IRQF_NO_AUTOEN for
+request_irq/nmi() is merged. request_irq() after setting
+IRQ_NOAUTOEN as below
+
+irq_set_status_flags(irq, IRQ_NOAUTOEN);
+request_irq(dev, irq...);
+can be replaced by request_irq() with IRQF_NO_AUTOEN flag.
+
+v2:
+Fix the problem of using wrong flags
+
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+---
+ drivers/gpu/drm/exynos/exynos5433_drm_decon.c | 4 ++--
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c       | 7 +++----
+ 2 files changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
+index 1f79bc2..c277d2f 100644
+--- a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
++++ b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
+@@ -775,8 +775,8 @@ static int decon_conf_irq(struct decon_context *ctx, const char *name,
+ 			return irq;
+ 		}
+ 	}
+-	irq_set_status_flags(irq, IRQ_NOAUTOEN);
+-	ret = devm_request_irq(ctx->dev, irq, handler, flags, "drm_decon", ctx);
++	ret = devm_request_irq(ctx->dev, irq, handler,
++			       flags | IRQF_NO_AUTOEN, "drm_decon", ctx);
+ 	if (ret < 0) {
+ 		dev_err(ctx->dev, "IRQ %s request failed\n", name);
+ 		return ret;
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+index 83ab6b3..44e402b 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+@@ -1352,10 +1352,9 @@ static int exynos_dsi_register_te_irq(struct exynos_dsi *dsi,
+ 	}
+ 
+ 	te_gpio_irq = gpio_to_irq(dsi->te_gpio);
+-	irq_set_status_flags(te_gpio_irq, IRQ_NOAUTOEN);
+ 
+ 	ret = request_threaded_irq(te_gpio_irq, exynos_dsi_te_irq_handler, NULL,
+-					IRQF_TRIGGER_RISING, "TE", dsi);
++				   IRQF_TRIGGER_RISING | IRQF_NO_AUTOEN, "TE", dsi);
+ 	if (ret) {
+ 		dev_err(dsi->dev, "request interrupt failed with %d\n", ret);
+ 		gpio_free(dsi->te_gpio);
+@@ -1802,9 +1801,9 @@ static int exynos_dsi_probe(struct platform_device *pdev)
+ 	if (dsi->irq < 0)
+ 		return dsi->irq;
+ 
+-	irq_set_status_flags(dsi->irq, IRQ_NOAUTOEN);
+ 	ret = devm_request_threaded_irq(dev, dsi->irq, NULL,
+-					exynos_dsi_irq, IRQF_ONESHOT,
++					exynos_dsi_irq,
++					IRQF_ONESHOT | IRQF_NO_AUTOEN,
+ 					dev_name(dev), dsi);
+ 	if (ret) {
+ 		dev_err(dev, "failed to request dsi irq\n");
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
