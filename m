@@ -2,56 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2621233AE9A
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 10:24:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8013333AEED
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 10:38:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62E5389D64;
-	Mon, 15 Mar 2021 09:24:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B938889CA1;
+	Mon, 15 Mar 2021 09:38:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0455B89D64
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 09:24:42 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id F285D64E33
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 09:24:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615800282;
- bh=v3jUI9CtqaB2bqW+8s8K6HhUuM0jxhUGsdSyCzicdUU=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=fgNY6Vn4Q8S45ET/FakE0hNACrGyPW6w28+2DKM/565DtEWmB5OJ9Az5xfjJqdB7V
- 6byODB0OToZUfxaIGHkR0uHylSxpulQcS1DAsSPA4bx09yxAJVX0rTVL2OUB6SMisy
- 7YEIU1lu4u8KPQtp906B7Ee2p+cQqIDPCM59QtwzHnVUysmp4juVbIr3dA53+AdRQA
- OI/27uFRIlRXthUcs+UzhhC9aBazNRpQkAgS9Ra4K9AmqbXtLhK/PKcsaaaPJdv+qZ
- 7IGGrE2L26D+yuIQg0hyRq7QH9fK5PI4lkHz4ZR6hc9Y7eM+4Kk5HpyCkgCxTNwO0s
- IkNdSbJKc2FfQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id E49F06534C; Mon, 15 Mar 2021 09:24:41 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212255] WARNING: at arch/x86/kernel/fpu/core.c:129
- kernel_fpu_begin_mask
-Date: Mon, 15 Mar 2021 09:24:41 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: info@felicetufo.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-212255-2300-CYqJa23dPi@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212255-2300@https.bugzilla.kernel.org/>
-References: <bug-212255-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C20489CA1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 09:38:31 +0000 (UTC)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DzWWW18wYzmXgZ;
+ Mon, 15 Mar 2021 17:36:07 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 15 Mar 2021 17:38:24 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <a.hajda@samsung.com>, <narmstrong@baylibre.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>
+Subject: [PATCH] drm/bridge: sii9234: sil-sii8620.c: move to use request_irq
+ by IRQF_NO_AUTOEN flag
+Date: Mon, 15 Mar 2021 17:39:05 +0800
+Message-ID: <1615801145-18513-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,22 +41,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=212255
+After this patch cbe16f35bee68 genirq: Add IRQF_NO_AUTOEN for
+request_irq/nmi() is merged. request_irq() after setting
+IRQ_NOAUTOEN as below
 
---- Comment #4 from Felice Tufo (info@felicetufo.com) ---
-I confirm that the fix solves the bug on kernel 5.12.0-rc3 (at least on my test
-system).
+irq_set_status_flags(irq, IRQ_NOAUTOEN);
+request_irq(dev, irq...);
+can be replaced by request_irq() with IRQF_NO_AUTOEN flag.
 
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+---
+ drivers/gpu/drm/bridge/sii9234.c     | 4 ++--
+ drivers/gpu/drm/bridge/sil-sii8620.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/sii9234.c b/drivers/gpu/drm/bridge/sii9234.c
+index 15c98a7..2742d5d 100644
+--- a/drivers/gpu/drm/bridge/sii9234.c
++++ b/drivers/gpu/drm/bridge/sii9234.c
+@@ -911,10 +911,10 @@ static int sii9234_probe(struct i2c_client *client,
+ 		return -EINVAL;
+ 	}
+ 
+-	irq_set_status_flags(client->irq, IRQ_NOAUTOEN);
+ 	ret = devm_request_threaded_irq(dev, client->irq, NULL,
+ 					sii9234_irq_thread,
+-					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
++					IRQF_TRIGGER_HIGH | IRQF_ONESHOT |
++					IRQ_NOAUTOEN,
+ 					"sii9234", ctx);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to install IRQ handler\n");
+diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
+index 843265d..9476ef0 100644
+--- a/drivers/gpu/drm/bridge/sil-sii8620.c
++++ b/drivers/gpu/drm/bridge/sil-sii8620.c
+@@ -2308,10 +2308,10 @@ static int sii8620_probe(struct i2c_client *client,
+ 		dev_err(dev, "no irq provided\n");
+ 		return -EINVAL;
+ 	}
+-	irq_set_status_flags(client->irq, IRQ_NOAUTOEN);
+ 	ret = devm_request_threaded_irq(dev, client->irq, NULL,
+ 					sii8620_irq_thread,
+-					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
++					IRQF_TRIGGER_HIGH | IRQF_ONESHOT |
++					IRQ_NOAUTOEN,
+ 					"sii8620", ctx);
+ 	if (ret < 0)
+ 		return dev_err_probe(dev, ret,
 -- 
-You may reply to this email to add a comment.
+2.7.4
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
