@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894F733C505
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 19:00:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4353633C55F
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 19:17:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8B9D6E0AD;
-	Mon, 15 Mar 2021 18:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D291D6E09C;
+	Mon, 15 Mar 2021 18:17:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF42A6E0A5
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 18:00:24 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id A557664F26
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 18:00:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27AD26E09C
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 18:17:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 0528464DF0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 18:17:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615831224;
- bh=bdsOj72D1rSiWZ9xxqo45xORGsZNpTxdoOIoWzWL82g=;
+ s=k20201202; t=1615832273;
+ bh=t/zttx8a9PA3U51Y5af1JFzVo4C7awpyZGsiaujAx3c=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=nic3KRH/2/edrlUYic3i1/917EVV1eCvalVvdqTfdBQ3hwjhlZ7fIL1bf7H70tTTV
- iVhGtkLMjotZA0k5oBe8ZAd9CNZ4gkFx+WkOXTsyY1rDtU9Z1PNUBjl/bvfxTqZA7a
- owBgTpgrDhxwkx9Zs9q06SnXaUol8jkYmVfVxK2md4w3CJ0pQYxO7OFlSDjCZP6d9T
- Pqm7Dt1jNtuhPv8htwAxiBBJJqMIoth6jttIRKSgXYQqT/ZENZg2JoSumP2c3I29vX
- abc4fELGoVtLwu/o+tXdnvXY9HiW4MItpNrzSFf2lTbs00+Dhsil+EfznUhM18Sip+
- b5ni3fREK3klA==
+ b=QvgcYWGaW0GQ/nqjC9cfhm2QNkADszhTQ2IcWkLdsR3UCaRGayhqb7/tY3XCYSbUV
+ N6xFfiX4UKREXpWmTdVY+AbEhGNDr/l27206cUDnLRX/6v2+JBp6ZoCAYmUeT128WQ
+ WzZCS8Gj2sViN1YdMY1IvqjjVescTqqfkNVUTBPtqKn//pFlasZJKtpUur65j9b7Gw
+ c8GBoYyQcwZHmYoXCDZKxWaR9YmXncdxndPJ7wYtSO3EIKC4zr+SYkI7OFmuF1Zonv
+ wUiqDBQEwnPFQshRvndQC6v9cBJlS0HqwTHWn4/CCfrvpmw4sKA68eCQ8ulp8VbtWk
+ /bzAW0HPCbryg==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id A2B9065317; Mon, 15 Mar 2021 18:00:24 +0000 (UTC)
+ id E8B266533C; Mon, 15 Mar 2021 18:17:52 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212281] AMDGPU warning stack trace in dmesg
- (dcn20_validate_bandwidth_fp)
-Date: Mon, 15 Mar 2021 18:00:24 +0000
+Subject: [Bug 212259] Entire graphics stack locks up when running SteamVR and
+ sometimes Sway; is sometimes unrecoverable
+Date: Mon, 15 Mar 2021 18:17:52 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -38,7 +38,7 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
+X-Bugzilla-Severity: high
 X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
@@ -46,9 +46,9 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-212281-2300-J4kN31VXkH@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212281-2300@https.bugzilla.kernel.org/>
-References: <bug-212281-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-212259-2300-pr5dySkzul@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212259-2300@https.bugzilla.kernel.org/>
+References: <bug-212259-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -69,7 +69,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=212281
+https://bugzilla.kernel.org/show_bug.cgi?id=212259
 
 Alex Deucher (alexdeucher@gmail.com) changed:
 
@@ -78,7 +78,8 @@ Alex Deucher (alexdeucher@gmail.com) changed:
                  CC|                            |alexdeucher@gmail.com
 
 --- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
-Please attach your full dmesg output and xorg log (if using X).
+What chip is this?  Can you attach your full dmesg output?  Does updating mesa
+help?
 
 -- 
 You may reply to this email to add a comment.
