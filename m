@@ -1,42 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC6833BA95
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 15:11:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9878F33BC20
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 15:34:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF01089DB5;
-	Mon, 15 Mar 2021 14:11:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B8A1890EA;
+	Mon, 15 Mar 2021 14:34:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0B1E89DB5;
- Mon, 15 Mar 2021 14:11:05 +0000 (UTC)
-IronPort-SDR: v8trApa8u77eLfD5F8yV0ByOdZtheZRhdy+ss8AUFznDiZZ8pezRh75xipB8jH8SoNFTpKi7tr
- wXtZDZ2472BQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9923"; a="250458373"
-X-IronPort-AV: E=Sophos;i="5.81,249,1610438400"; d="scan'208";a="250458373"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2021 07:11:04 -0700
-IronPort-SDR: cDoyG6rbCKTgvmiyyoPK90V3im5aYfw+1pnxuY0SL4cm1pNfAPNcAwDzO2U6lkAbtgE8YwDyDw
- GiE9qvJwF55w==
-X-IronPort-AV: E=Sophos;i="5.81,249,1610438400"; d="scan'208";a="411852783"
-Received: from januszk-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.33.195])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2021 07:11:02 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Sean
- Paul <sean@poorly.run>
-Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915/dp_link_training: Add newlines
- to debug messages
-In-Reply-To: <YEoymIV6CJUtO3EH@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210310214845.29021-1-sean@poorly.run>
- <YEoymIV6CJUtO3EH@intel.com>
-Date: Mon, 15 Mar 2021 16:10:58 +0200
-Message-ID: <87eeggpkwd.fsf@intel.com>
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12BCA8901E
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 14:34:36 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ kr3-20020a17090b4903b02900c096fc01deso14879966pjb.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 07:34:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=soZF5v7lT9Dyi1mOKGPLcZ6n6wXgVSldyvSnnFs1msA=;
+ b=mxdzBBReuuFHC4MBfgFZq+288jOa+pAqaf8TYbYpC5jNdsJMtEIkVeO0fV+0d8bqf6
+ hnHF0TbmcoHPtllat+n6bWBFwMiJnySOSqzdG8ONBl5s5Bsu07zD80+J17s/l5/xjMVW
+ 4/gaLzuvtdVH3hmz1aWnptLfRv8VTIdXKv1IB45SA/MDTWTSH43pdfljdqMnwpeQcPX/
+ +DtBRUMFAGV8/GHuKQp1GlW9cGUnREpA3UFLO5w/9GTulzVEOKhF79Nb8zp6iGI6IEIU
+ Zn5UMSAmchcY2DJA/Ykuc0XdH02rmwjOnggT9gD4Cy9i7/beIOiuCORqGBtowxoJCrRs
+ LURA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=soZF5v7lT9Dyi1mOKGPLcZ6n6wXgVSldyvSnnFs1msA=;
+ b=ZWZ4znlKpMt50MpWKqVHYDX6Vbe6Dz7t0dxKFsrPcpYM7o0q8fnViaWr0zKj5DUnTy
+ oeYmrKfOEIQ2cHk1HVRUyaUl/p4r7seUIa168wrMPgQd4sPEWyb1Aj3dEslVDAIJsa0K
+ o+SDJXhGmJNdIb4ilrf2E8LUDGNi21DbIn0ORWQMsgqyimzUAHAyTTEW0b1iuQIBMdNY
+ o6bos2tNXnKaQhRDNhObMGfc74pAU4psdxHVKK4GN5lQ7bS5/3Qf/BbsfPYGn9dnaTQh
+ mGw51GsBoshAGE/KI05owoyzDWEXAxj7x3stfYPVGQF9QLCfRoRm31a9rCNgh7uGSpjM
+ 884w==
+X-Gm-Message-State: AOAM530rsfGOP9ijSy55WIkFEzqRJUlOWoxpKdh8T9dYTrn2Hn9tQxoA
+ KEirznb3w6OVT52cHx9C/M2sQkxY7XE57w==
+X-Google-Smtp-Source: ABdhPJykoZRYEM/BE5xaZCQbNoY6MNE9uJVHNVZ2bqlNCuGgE05upIUDvP3oBtbjDUxTyAmZDmVNgA==
+X-Received: by 2002:a17:90b:108f:: with SMTP id
+ gj15mr13488187pjb.177.1615818875236; 
+ Mon, 15 Mar 2021 07:34:35 -0700 (PDT)
+Received: from omlet.com (jfdmzpr06-ext.jf.intel.com. [134.134.137.75])
+ by smtp.gmail.com with ESMTPSA id x190sm13520383pfx.166.2021.03.15.07.34.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Mar 2021 07:34:34 -0700 (PDT)
+From: Jason Ekstrand <jason@jlekstrand.net>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/3] drm/i915: Drop legacy IOCTLs on new HW
+Date: Mon, 15 Mar 2021 09:34:25 -0500
+Message-Id: <20210315143428.1471489-1-jason@jlekstrand.net>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,45 +68,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAxMSBNYXIgMjAyMSwgVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4
-LmludGVsLmNvbT4gd3JvdGU6Cj4gT24gV2VkLCBNYXIgMTAsIDIwMjEgYXQgMDQ6NDc6NTZQTSAt
-MDUwMCwgU2VhbiBQYXVsIHdyb3RlOgo+PiBGcm9tOiBTZWFuIFBhdWwgPHNlYW5wYXVsQGNocm9t
-aXVtLm9yZz4KPj4gCj4+IFRoaXMgcGF0Y2ggYWRkcyBzb21lIG5ld2xpbmVzIHdoaWNoIGFyZSBt
-aXNzaW5nIGZyb20gZGVidWcgbWVzc2FnZXMuCj4+IFRoaXMgd2lsbCBwcmV2ZW50IGxvZ3MgZnJv
-bSBiZWluZyBzdGFja2VkIHVwIGluIGRtZXNnLgo+PiAKPj4gU2lnbmVkLW9mZi1ieTogU2VhbiBQ
-YXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+Cj4+IC0tLQo+PiAgZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZGlzcGxheS9pbnRlbF9kcF9saW5rX3RyYWluaW5nLmMgfCA0ICsrLS0KPj4gIDEgZmlsZSBj
-aGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4+IAo+PiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9saW5rX3RyYWluaW5nLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwX2xpbmtfdHJhaW5pbmcuYwo+
-PiBpbmRleCA4OTJkN2RiN2Q5NGYuLmFkMDJkNDkzZWMxNiAxMDA2NDQKPj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9saW5rX3RyYWluaW5nLmMKPj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9saW5rX3RyYWluaW5nLmMKPj4g
-QEAgLTI5LDcgKzI5LDcgQEAgc3RhdGljIHZvaWQKPj4gIGludGVsX2RwX2R1bXBfbGlua19zdGF0
-dXMoY29uc3QgdTggbGlua19zdGF0dXNbRFBfTElOS19TVEFUVVNfU0laRV0pCj4+ICB7Cj4+ICAK
-Pj4gLQlEUk1fREVCVUdfS01TKCJsbjBfMToweCV4IGxuMl8zOjB4JXggYWxpZ246MHgleCBzaW5r
-OjB4JXggYWRqX3JlcTBfMToweCV4IGFkal9yZXEyXzM6MHgleCIsCj4+ICsJRFJNX0RFQlVHX0tN
-UygibG4wXzE6MHgleCBsbjJfMzoweCV4IGFsaWduOjB4JXggc2luazoweCV4IGFkal9yZXEwXzE6
-MHgleCBhZGpfcmVxMl8zOjB4JXhcbiIsCj4+ICAJCSAgICAgIGxpbmtfc3RhdHVzWzBdLCBsaW5r
-X3N0YXR1c1sxXSwgbGlua19zdGF0dXNbMl0sCj4+ICAJCSAgICAgIGxpbmtfc3RhdHVzWzNdLCBs
-aW5rX3N0YXR1c1s0XSwgbGlua19zdGF0dXNbNV0pOwo+PiAgfQo+PiBAQCAtNzMxLDcgKzczMSw3
-IEBAIGludGVsX2RwX2xpbmtfdHJhaW5fcGh5KHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHAsCj4+
-ICAKPj4gIG91dDoKPj4gIAlkcm1fZGJnX2ttcygmZHBfdG9faTkxNShpbnRlbF9kcCktPmRybSwK
-Pj4gLQkJICAgICJbQ09OTkVDVE9SOiVkOiVzXSBMaW5rIFRyYWluaW5nICVzIGF0IGxpbmsgcmF0
-ZSA9ICVkLCBsYW5lIGNvdW50ID0gJWQsIGF0ICVzIiwKPj4gKwkJICAgICJbQ09OTkVDVE9SOiVk
-OiVzXSBMaW5rIFRyYWluaW5nICVzIGF0IGxpbmsgcmF0ZSA9ICVkLCBsYW5lIGNvdW50ID0gJWQs
-IGF0ICVzXG4iLAo+Cj4gTG9va2luZyB0aHJvdWdoIHNvbWUgY2kgbG9ncyB3ZSBkbyBnZXQgdGhl
-IG5ld2xpbmUgaGVyZSBzb21laG93LiBBIGJpdAo+IHdlaXJkLgo+Cj4gUmV2aWV3ZWQtYnk6IFZp
-bGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+CgpUaGFua3MgZm9y
-IHRoZSBwYXRjaGVzIGFuZCByZXZpZXcsIHB1c2hlZCB0byBkaW4uCgpCUiwKSmFuaS4KCi0tIApK
-YW5pIE5pa3VsYSwgSW50ZWwgT3BlbiBTb3VyY2UgR3JhcGhpY3MgQ2VudGVyCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+These three patches exist to clean up some of our IOCTL mess in i915.
+We've got more clean-up we should do eventually, but these are some of the
+easiest to drop and most egregious cases.
+
+Test-with: 20210121083742.46592-1-ashutosh.dixit@intel.com
+
+Ashutosh Dixit (1):
+  drm/i915: Disable pread/pwrite ioctl's for future platforms (v3)
+
+Jason Ekstrand (2):
+  drm/i915/gem: Drop legacy execbuffer support (v2)
+  drm/i915/gem: Drop relocation support on all new hardware (v5)
+
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 113 ++----------------
+ drivers/gpu/drm/i915/gem/i915_gem_ioctls.h    |   2 -
+ drivers/gpu/drm/i915/i915_drv.c               |   2 +-
+ drivers/gpu/drm/i915/i915_gem.c               |  14 +++
+ include/uapi/drm/i915_drm.h                   |   1 +
+ 5 files changed, 26 insertions(+), 106 deletions(-)
+
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
