@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7FD33C820
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 22:05:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BF9E33C821
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Mar 2021 22:05:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF7886E1B6;
-	Mon, 15 Mar 2021 21:05:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA6B66E1B5;
+	Mon, 15 Mar 2021 21:05:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E65AD6E1B5
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 21:05:04 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id w8so9474907pjf.4
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 14:05:04 -0700 (PDT)
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A689B6E1B8
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 21:05:06 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id y67so7391918pfb.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Mar 2021 14:05:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gcnogFf2GQss/2TSifdE+AU21wEn+1mSk2Qx4DCzFxI=;
- b=QumtQNYfdXg5RETOcbTi+Id1OW5iu/4W9b2ydxwcC3Bszj0qhjkxur9S2fH2osONwn
- EPZEFjfBGm28gobXy5j0Dq9LECdrKt0iV4whgnD+6/NaT8f1yKh0/aC8iKJEouJbTS6H
- j6swOkksirsQcR9LBrqdI5QTl1+ChRPDY+dOpPC9CAc7yeiG9wZ8Cs7m4Cd8zADxPTdt
- j8gJb/r53RyC051jFjG1JLFzjUdxX7BsvNbUjJ728laEFusKnB+OaQOuxOaOBwT4CT7o
- uQRKI5UKk5tUAlZ1x0BVFk7s4G2WisLfa3MMH5xDe70WFqUGxV8TdWZ/XVjQ2gbYcJG7
- emjw==
+ bh=/X4xASB7HJG4l1k8aoV1Lqfrfv8xnKETIxZWDdgEC78=;
+ b=D/mWRwTwgSARQF7SDJY0H2FPclU80fflZlEMjEiS43BS12HRq/KZLMvxNr9ZpDZkDb
+ GVizS+5O7Bg+iOshlPC1QKJQa8cMVqO4gJ+BfTHOIFnqpcULdMXrGuvZ1G8p25VUwa1n
+ cXGBZ6VdkojgDj1jkGtDdOVxigahHDoS3z6sww8WR3mBGTZYkM+58nQj7MBFfK8gfd4S
+ D2B2wOz30QrZFN2ylYUmZ5WGICS0+BkkG3sQ3vWSzP+RWJk6GfcCT2tPwQ2WnleoP9Pm
+ d6dRrZax3TfzkecWxMTZ92RB908wp6tYLNNGVjjAPmUiN+WVim4/Eu6uKb8N85lyRm42
+ QBwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gcnogFf2GQss/2TSifdE+AU21wEn+1mSk2Qx4DCzFxI=;
- b=U3n4c5iZo8qhxbs8dFSx/FAG3SMm9INA3OMKUfY60cgCnkOO8F3Bd09PYQN9xRNkbF
- ed9bP9Rgreg3UdSSvGLXXhlWdf66ftywcH0oIW6+nwqMHsnLKNBzTGy1oS637hHoeFoe
- nIX1nsH2ICuWMR9nimzbHHWW7+9O9aH/PUTUf6vEX3s8YPIF2SryaghdnG3EapaFRyxZ
- znnIfK8CFqDtPWhobFqLD1RMGHtxshZiISA8UGDn916zoyWUPm2CsA9TPcGdbpC5J/g3
- KT0AVGA/AlfNpWa7TehQAK9uqFn/sZ1mW5c1QHO/E2ix8xi7r/bsgaPl5I1abTXe4b1J
- 01pA==
-X-Gm-Message-State: AOAM532n9489N+aqSEew8m717VR8I17SIdZIzBEImj8aesSv4E4HgLUM
- 1iSLnq4Ky13zmyENGNDINCJlgxIRh/aUKA==
-X-Google-Smtp-Source: ABdhPJxRl0lIYjfCfCwYm8z0oNSF/zw49P0u9iJcJOXVcxMp+7vnnJrJPQNZf22KKPnjPmaTjSRNFQ==
-X-Received: by 2002:a17:90b:120f:: with SMTP id
- gl15mr1021034pjb.77.1615842303987; 
- Mon, 15 Mar 2021 14:05:03 -0700 (PDT)
+ bh=/X4xASB7HJG4l1k8aoV1Lqfrfv8xnKETIxZWDdgEC78=;
+ b=ZkmmvEIkxwIX7wdrIh/zw75DFg0DTugzEesrcuSzbdb6vvxMHAncJkowPz03+0uTV9
+ n4Nd4TMfzkJ2KOeoc+cMPpzwXkj3BioejAhv6hd+zigkpk4vSz8HyJUCSqifsc8dKe6E
+ IXp1lpTsMnv5CpABbYNHg3f3d1vEUFGmK1DLkedHFcNWSpZHxYdzV+I6+UihMIT/V9XS
+ RcN71g9JeZ/i5WjBVHyJKtQOIacxqeuqOHyZ8BSz9CBCwdYOt/aeDS72Bw/1Da7Z7kSO
+ K4JJr8hkfqwW9FDoo446VhxxjolQhchLb4rHM9AJp9dilAL/YPy7J5kYx5VK5B+qY6eY
+ w5zg==
+X-Gm-Message-State: AOAM533ZL7+YlsViqXuj7BZo64WLleaB4DDkwc4F8VEra1/eajP+C/Zm
+ Wg35L+c+jZLz+9INB5IMU+2taTMqtTzV/g==
+X-Google-Smtp-Source: ABdhPJw2h586slSsGksiJ9SdK68SwSiHd3MKVghs1XfnG+X5AE6E8JhFp+917j7JjjLW/C9u2O+Lzg==
+X-Received: by 2002:aa7:9081:0:b029:1f9:26c9:1609 with SMTP id
+ i1-20020aa790810000b02901f926c91609mr25928935pfa.54.1615842305719; 
+ Mon, 15 Mar 2021 14:05:05 -0700 (PDT)
 Received: from omlet.com (jfdmzpr04-ext.jf.intel.com. [134.134.137.73])
- by smtp.gmail.com with ESMTPSA id t19sm13923609pgj.8.2021.03.15.14.05.02
+ by smtp.gmail.com with ESMTPSA id t19sm13923609pgj.8.2021.03.15.14.05.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Mar 2021 14:05:03 -0700 (PDT)
+ Mon, 15 Mar 2021 14:05:05 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/3] dma-buf: add dma_resv_get_singleton (v2)
-Date: Mon, 15 Mar 2021 16:04:52 -0500
-Message-Id: <20210315210453.1667925-3-jason@jlekstrand.net>
+Subject: [PATCH 3/3] dma-buf: Add an API for exporting sync files (v6)
+Date: Mon, 15 Mar 2021 16:04:53 -0500
+Message-Id: <20210315210453.1667925-4-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210315210453.1667925-1-jason@jlekstrand.net>
 References: <20200317212115.419358-1-jason@jlekstrand.net>
@@ -69,102 +69,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Jason Ekstrand <jason@jlekstrand.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+
-CgpBZGQgYSBoZWxwZXIgZnVuY3Rpb24gdG8gZ2V0IGEgc2luZ2xlIGZlbmNlIHJlcHJlc2VudGlu
-ZwphbGwgZmVuY2VzIGluIGEgZG1hX3Jlc3Ygb2JqZWN0LgoKVGhpcyBmZW5jZSBpcyBlaXRoZXIg
-dGhlIG9ubHkgb25lIGluIHRoZSBvYmplY3Qgb3IgYWxsIG5vdApzaWduYWxlZCBmZW5jZXMgb2Yg
-dGhlIG9iamVjdCBpbiBhIGZsYXR0ZWQgb3V0IGRtYV9mZW5jZV9hcnJheS4KCnYyIChKYXNvbiBF
-a3N0cmFuZCk6CiAtIFRha2UgcmVmZXJlbmNlIG9mIGZlbmNlcyBib3RoIGZvciBjcmVhdGluZyB0
-aGUgZG1hX2ZlbmNlX2FycmF5IGFuZCBpbgogICB0aGUgY2FzZSB3aGVyZSB3ZSByZXR1cm4gb25l
-IGZlbmNlLgogLSBIYW5kbGUgdGhlIGNhc2Ugd2hlcmUgZG1hX3Jlc3ZfZ2V0X2xpc3QoKSByZXR1
-cm5zIE5VTEwKClNpZ25lZC1vZmYtYnk6IEphc29uIEVrc3RyYW5kIDxqYXNvbkBqbGVrc3RyYW5k
-Lm5ldD4KLS0tCiBkcml2ZXJzL2RtYS1idWYvZG1hLXJlc3YuYyB8IDExOCArKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrCiBpbmNsdWRlL2xpbnV4L2RtYS1yZXN2LmggICB8ICAg
-MyArCiAyIGZpbGVzIGNoYW5nZWQsIDEyMSBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9kbWEtYnVmL2RtYS1yZXN2LmMgYi9kcml2ZXJzL2RtYS1idWYvZG1hLXJlc3YuYwppbmRl
-eCA2ZGRiZWI1ZGZiZjY1Li4xNzMzZjFlYzg2YTQ0IDEwMDY0NAotLS0gYS9kcml2ZXJzL2RtYS1i
-dWYvZG1hLXJlc3YuYworKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLXJlc3YuYwpAQCAtMzMsNiAr
-MzMsOCBAQAogICovCiAKICNpbmNsdWRlIDxsaW51eC9kbWEtcmVzdi5oPgorI2luY2x1ZGUgPGxp
-bnV4L2RtYS1mZW5jZS1jaGFpbi5oPgorI2luY2x1ZGUgPGxpbnV4L2RtYS1mZW5jZS1hcnJheS5o
-PgogI2luY2x1ZGUgPGxpbnV4L2V4cG9ydC5oPgogI2luY2x1ZGUgPGxpbnV4L21tLmg+CiAjaW5j
-bHVkZSA8bGludXgvc2NoZWQvbW0uaD4KQEAgLTQ5LDYgKzUxLDE5IEBACiAgKiB3cml0ZS1zaWRl
-IHVwZGF0ZXMuCiAgKi8KIAorLyoqCisgKiBkbWFfZmVuY2VfZGVlcF9kaXZlX2Zvcl9lYWNoIC0g
-ZGVlcCBkaXZlIGludG8gdGhlIGZlbmNlIGNvbnRhaW5lcnMKKyAqIEBmZW5jZTogcmVzdWx0aW5n
-IGZlbmNlCisgKiBAY2hhaW46IHZhcmlhYmxlIGZvciBhIGRtYV9mZW5jZV9jaGFpbgorICogQGlu
-ZGV4OiBpbmRleCBpbnRvIGEgZG1hX2ZlbmNlX2FycmF5CisgKiBAaGVhZDogc3RhcnRpbmcgcG9p
-bnQKKyAqCisgKiBIZWxwZXIgdG8gZGVlcCBkaXZlIGludG8gdGhlIGZlbmNlIGNvbnRhaW5lcnMg
-Zm9yIGZsYXR0ZW5pbmcgdGhlbS4KKyAqLworI2RlZmluZSBkbWFfZmVuY2VfZGVlcF9kaXZlX2Zv
-cl9lYWNoKGZlbmNlLCBjaGFpbiwgaW5kZXgsIGhlYWQpCVwKKwlkbWFfZmVuY2VfY2hhaW5fZm9y
-X2VhY2goY2hhaW4sIGhlYWQpCQkJXAorCQlkbWFfZmVuY2VfYXJyYXlfZm9yX2VhY2goZmVuY2Us
-IGluZGV4LCBjaGFpbikKKwogREVGSU5FX1dEX0NMQVNTKHJlc2VydmF0aW9uX3d3X2NsYXNzKTsK
-IEVYUE9SVF9TWU1CT0wocmVzZXJ2YXRpb25fd3dfY2xhc3MpOwogCkBAIC01MTcsNiArNTMyLDEw
-OSBAQCBpbnQgZG1hX3Jlc3ZfZ2V0X2ZlbmNlc19yY3Uoc3RydWN0IGRtYV9yZXN2ICpvYmosCiB9
-CiBFWFBPUlRfU1lNQk9MX0dQTChkbWFfcmVzdl9nZXRfZmVuY2VzX3JjdSk7CiAKKy8qKgorICog
-ZG1hX3Jlc3ZfZ2V0X3NpbmdsZXRvbiAtIGdldCBhIHNpbmdsZSBmZW5jZSBmb3IgdGhlIGRtYV9y
-ZXN2IG9iamVjdAorICogQG9iajogdGhlIHJlc2VydmF0aW9uIG9iamVjdAorICogQGV4dHJhOiBl
-eHRyYSBmZW5jZSB0byBhZGQgdG8gdGhlIHJlc3VsdGluZyBhcnJheQorICogQHJlc3VsdDogcmVz
-dWx0aW5nIGRtYV9mZW5jZQorICoKKyAqIEdldCBhIHNpbmdsZSBmZW5jZSByZXByZXNlbnRpbmcg
-YWxsIHVuc2lnbmFsZWQgZmVuY2VzIGluIHRoZSBkbWFfcmVzdiBvYmplY3QKKyAqIHBsdXMgdGhl
-IGdpdmVuIGV4dHJhIGZlbmNlLiBJZiB3ZSBnb3Qgb25seSBvbmUgZmVuY2UgcmV0dXJuIGEgbmV3
-CisgKiByZWZlcmVuY2UgdG8gdGhhdCwgb3RoZXJ3aXNlIHJldHVybiBhIGRtYV9mZW5jZV9hcnJh
-eSBvYmplY3QuCisgKgorICogUkVUVVJOUworICogUmV0dXJucyAtTk9NRU0gaWYgYWxsb2NhdGlv
-bnMgZmFpbCwgemVybyBvdGhlcndpc2UuCisgKi8KK2ludCBkbWFfcmVzdl9nZXRfc2luZ2xldG9u
-KHN0cnVjdCBkbWFfcmVzdiAqb2JqLCBzdHJ1Y3QgZG1hX2ZlbmNlICpleHRyYSwKKwkJCSAgIHN0
-cnVjdCBkbWFfZmVuY2UgKipyZXN1bHQpCit7CisJc3RydWN0IGRtYV9yZXN2X2xpc3QgKmZvYmog
-PSBkbWFfcmVzdl9nZXRfbGlzdChvYmopOworCXN0cnVjdCBkbWFfZmVuY2UgKmV4Y2wgPSBkbWFf
-cmVzdl9nZXRfZXhjbChvYmopOworCXN0cnVjdCBkbWFfZmVuY2UgKmZlbmNlLCAqY2hhaW4sICoq
-ZmVuY2VzOworCXN0cnVjdCBkbWFfZmVuY2VfYXJyYXkgKmFycmF5OworCXVuc2lnbmVkIGludCBu
-dW1fZmVuY2VzLCBzaGFyZWRfY291bnQ7CisJdW5zaWduZWQgaW50IGksIGo7CisKKwludW1fZmVu
-Y2VzID0gMDsKKwkqcmVzdWx0ID0gTlVMTDsKKworCWRtYV9mZW5jZV9kZWVwX2RpdmVfZm9yX2Vh
-Y2goZmVuY2UsIGNoYWluLCBpLCBleHRyYSkgeworCQlpZiAoZG1hX2ZlbmNlX2lzX3NpZ25hbGVk
-KGZlbmNlKSkKKwkJCWNvbnRpbnVlOworCisJCSpyZXN1bHQgPSBmZW5jZTsKKwkJKytudW1fZmVu
-Y2VzOworCX0KKworCWRtYV9mZW5jZV9kZWVwX2RpdmVfZm9yX2VhY2goZmVuY2UsIGNoYWluLCBp
-LCBleGNsKSB7CisJCWlmIChkbWFfZmVuY2VfaXNfc2lnbmFsZWQoZmVuY2UpKQorCQkJY29udGlu
-dWU7CisKKwkJKnJlc3VsdCA9IGZlbmNlOworCQkrK251bV9mZW5jZXM7CisJfQorCisJc2hhcmVk
-X2NvdW50ID0gZm9iaiA/IGZvYmotPnNoYXJlZF9jb3VudCA6IDA7CisJZm9yIChpID0gMDsgaSA8
-IHNoYXJlZF9jb3VudDsgKytpKSB7CisJCXN0cnVjdCBkbWFfZmVuY2UgKmY7CisKKwkJZiA9IHJj
-dV9kZXJlZmVyZW5jZV9wcm90ZWN0ZWQoZm9iai0+c2hhcmVkW2ldLAorCQkJCQkgICAgICBkbWFf
-cmVzdl9oZWxkKG9iaikpOworCQlkbWFfZmVuY2VfZGVlcF9kaXZlX2Zvcl9lYWNoKGZlbmNlLCBj
-aGFpbiwgaiwgZikgeworCQkJaWYgKGRtYV9mZW5jZV9pc19zaWduYWxlZChmZW5jZSkpCisJCQkJ
-Y29udGludWU7CisKKwkJCSpyZXN1bHQgPSBmZW5jZTsKKwkJCSsrbnVtX2ZlbmNlczsKKwkJfQor
-CX0KKworCWlmIChudW1fZmVuY2VzIDw9IDEpIHsKKwkJKnJlc3VsdCA9IGRtYV9mZW5jZV9nZXQo
-KnJlc3VsdCk7CisJCXJldHVybiAwOworCX0KKworCWZlbmNlcyA9IGttYWxsb2NfYXJyYXkobnVt
-X2ZlbmNlcywgc2l6ZW9mKHN0cnVjdCBkbWFfZmVuY2UqKSwKKwkJCSAgICAgICBHRlBfS0VSTkVM
-KTsKKwlpZiAoIWZlbmNlcykKKwkJcmV0dXJuIC1FTk9NRU07CisKKwludW1fZmVuY2VzID0gMDsK
-KworCWRtYV9mZW5jZV9kZWVwX2RpdmVfZm9yX2VhY2goZmVuY2UsIGNoYWluLCBpLCBleHRyYSkK
-KwkJaWYgKCFkbWFfZmVuY2VfaXNfc2lnbmFsZWQoZmVuY2UpKQorCQkJZmVuY2VzW251bV9mZW5j
-ZXMrK10gPSBkbWFfZmVuY2VfZ2V0KGZlbmNlKTsKKworCWRtYV9mZW5jZV9kZWVwX2RpdmVfZm9y
-X2VhY2goZmVuY2UsIGNoYWluLCBpLCBleGNsKQorCQlpZiAoIWRtYV9mZW5jZV9pc19zaWduYWxl
-ZChmZW5jZSkpCisJCQlmZW5jZXNbbnVtX2ZlbmNlcysrXSA9IGRtYV9mZW5jZV9nZXQoZmVuY2Up
-OworCisJZm9yIChpID0gMDsgaSA8IHNoYXJlZF9jb3VudDsgKytpKSB7CisJCXN0cnVjdCBkbWFf
-ZmVuY2UgKmY7CisKKwkJZiA9IHJjdV9kZXJlZmVyZW5jZV9wcm90ZWN0ZWQoZm9iai0+c2hhcmVk
-W2ldLAorCQkJCQkgICAgICBkbWFfcmVzdl9oZWxkKG9iaikpOworCQlkbWFfZmVuY2VfZGVlcF9k
-aXZlX2Zvcl9lYWNoKGZlbmNlLCBjaGFpbiwgaiwgZikKKwkJCWlmICghZG1hX2ZlbmNlX2lzX3Np
-Z25hbGVkKGZlbmNlKSkKKwkJCQlmZW5jZXNbbnVtX2ZlbmNlcysrXSA9IGRtYV9mZW5jZV9nZXQo
-ZmVuY2UpOworCX0KKworCWFycmF5ID0gZG1hX2ZlbmNlX2FycmF5X2NyZWF0ZShudW1fZmVuY2Vz
-LCBmZW5jZXMsCisJCQkJICAgICAgIGRtYV9mZW5jZV9jb250ZXh0X2FsbG9jKDEpLAorCQkJCSAg
-ICAgICAxLCBmYWxzZSk7CisJaWYgKCFhcnJheSkKKwkJZ290byBlcnJvcl9mcmVlOworCisJKnJl
-c3VsdCA9ICZhcnJheS0+YmFzZTsKKwlyZXR1cm4gMDsKKworZXJyb3JfZnJlZToKKwl3aGlsZSAo
-bnVtX2ZlbmNlcy0tKQorCQlkbWFfZmVuY2VfcHV0KGZlbmNlc1tudW1fZmVuY2VzXSk7CisJa2Zy
-ZWUoZmVuY2VzKTsKKwlyZXR1cm4gLUVOT01FTTsKK30KKwogLyoqCiAgKiBkbWFfcmVzdl93YWl0
-X3RpbWVvdXRfcmN1IC0gV2FpdCBvbiByZXNlcnZhdGlvbidzIG9iamVjdHMKICAqIHNoYXJlZCBh
-bmQvb3IgZXhjbHVzaXZlIGZlbmNlcy4KZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvZG1hLXJl
-c3YuaCBiL2luY2x1ZGUvbGludXgvZG1hLXJlc3YuaAppbmRleCBkNDRhNzdlOGE3ZTM0Li43ODg4
-MWViNmNjYzgyIDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L2RtYS1yZXN2LmgKKysrIGIvaW5j
-bHVkZS9saW51eC9kbWEtcmVzdi5oCkBAIC0yODUsNiArMjg1LDkgQEAgaW50IGRtYV9yZXN2X2dl
-dF9mZW5jZXNfcmN1KHN0cnVjdCBkbWFfcmVzdiAqb2JqLAogCiBpbnQgZG1hX3Jlc3ZfY29weV9m
-ZW5jZXMoc3RydWN0IGRtYV9yZXN2ICpkc3QsIHN0cnVjdCBkbWFfcmVzdiAqc3JjKTsKIAoraW50
-IGRtYV9yZXN2X2dldF9zaW5nbGV0b24oc3RydWN0IGRtYV9yZXN2ICpvYmosIHN0cnVjdCBkbWFf
-ZmVuY2UgKmV4dHJhLAorCQkJICAgc3RydWN0IGRtYV9mZW5jZSAqKnJlc3VsdCk7CisKIGxvbmcg
-ZG1hX3Jlc3Zfd2FpdF90aW1lb3V0X3JjdShzdHJ1Y3QgZG1hX3Jlc3YgKm9iaiwgYm9vbCB3YWl0
-X2FsbCwgYm9vbCBpbnRyLAogCQkJICAgICAgIHVuc2lnbmVkIGxvbmcgdGltZW91dCk7CiAKLS0g
-CjIuMjkuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Modern userspace APIs like Vulkan are built on an explicit
+synchronization model.  This doesn't always play nicely with the
+implicit synchronization used in the kernel and assumed by X11 and
+Wayland.  The client -> compositor half of the synchronization isn't too
+bad, at least on intel, because we can control whether or not i915
+synchronizes on the buffer and whether or not it's considered written.
+
+The harder part is the compositor -> client synchronization when we get
+the buffer back from the compositor.  We're required to be able to
+provide the client with a VkSemaphore and VkFence representing the point
+in time where the window system (compositor and/or display) finished
+using the buffer.  With current APIs, it's very hard to do this in such
+a way that we don't get confused by the Vulkan driver's access of the
+buffer.  In particular, once we tell the kernel that we're rendering to
+the buffer again, any CPU waits on the buffer or GPU dependencies will
+wait on some of the client rendering and not just the compositor.
+
+This new IOCTL solves this problem by allowing us to get a snapshot of
+the implicit synchronization state of a given dma-buf in the form of a
+sync file.  It's effectively the same as a poll() or I915_GEM_WAIT only,
+instead of CPU waiting directly, it encapsulates the wait operation, at
+the current moment in time, in a sync_file so we can check/wait on it
+later.  As long as the Vulkan driver does the sync_file export from the
+dma-buf before we re-introduce it for rendering, it will only contain
+fences from the compositor or display.  This allows to accurately turn
+it into a VkFence or VkSemaphore without any over- synchronization.
+
+v2 (Jason Ekstrand):
+ - Use a wrapper dma_fence_array of all fences including the new one
+   when importing an exclusive fence.
+
+v3 (Jason Ekstrand):
+ - Lock around setting shared fences as well as exclusive
+ - Mark SIGNAL_SYNC_FILE as a read-write ioctl.
+ - Initialize ret to 0 in dma_buf_wait_sync_file
+
+v4 (Jason Ekstrand):
+ - Use the new dma_resv_get_singleton helper
+
+v5 (Jason Ekstrand):
+ - Rename the IOCTLs to import/export rather than wait/signal
+ - Drop the WRITE flag and always get/set the exclusive fence
+
+v6 (Jason Ekstrand):
+ - Drop the sync_file import as it was all-around sketchy and not nearly
+   as useful as import.
+ - Re-introduce READ/WRITE flag support for export
+ - Rework the commit message
+
+Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+---
+ drivers/dma-buf/dma-buf.c    | 55 ++++++++++++++++++++++++++++++++++++
+ include/uapi/linux/dma-buf.h |  6 ++++
+ 2 files changed, 61 insertions(+)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index f264b70c383eb..e7f9dd62c19a9 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -20,6 +20,7 @@
+ #include <linux/debugfs.h>
+ #include <linux/module.h>
+ #include <linux/seq_file.h>
++#include <linux/sync_file.h>
+ #include <linux/poll.h>
+ #include <linux/dma-resv.h>
+ #include <linux/mm.h>
+@@ -362,6 +363,57 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+ 	return ret;
+ }
+ 
++static long dma_buf_export_sync_file(struct dma_buf *dmabuf,
++				     void __user *user_data)
++{
++	struct dma_buf_sync_file arg;
++	struct dma_fence *fence = NULL;
++	struct sync_file *sync_file;
++	int fd, ret;
++
++	if (copy_from_user(&arg, user_data, sizeof(arg)))
++		return -EFAULT;
++
++	if (arg.flags & ~DMA_BUF_SYNC_RW)
++		return -EINVAL;
++
++	fd = get_unused_fd_flags(O_CLOEXEC);
++	if (fd < 0)
++		return fd;
++
++	if (arg.flags & DMA_BUF_SYNC_WRITE) {
++		ret = dma_resv_get_singleton(dmabuf->resv, NULL, &fence);
++		if (ret)
++			goto err_put_fd;
++	} else if (arg.flags & DMA_BUF_SYNC_READ) {
++		fence = dma_resv_get_excl(dmabuf->resv);
++	}
++
++	if (!fence)
++		fence = dma_fence_get_stub();
++
++	sync_file = sync_file_create(fence);
++
++	dma_fence_put(fence);
++
++	if (!sync_file) {
++		ret = -EINVAL;
++		goto err_put_fd;
++	}
++
++	fd_install(fd, sync_file->file);
++
++	arg.fd = fd;
++	if (copy_to_user(user_data, &arg, sizeof(arg)))
++		return -EFAULT;
++
++	return 0;
++
++err_put_fd:
++	put_unused_fd(fd);
++	return ret;
++}
++
+ static long dma_buf_ioctl(struct file *file,
+ 			  unsigned int cmd, unsigned long arg)
+ {
+@@ -405,6 +457,9 @@ static long dma_buf_ioctl(struct file *file,
+ 	case DMA_BUF_SET_NAME_B:
+ 		return dma_buf_set_name(dmabuf, (const char __user *)arg);
+ 
++	case DMA_BUF_IOCTL_EXPORT_SYNC_FILE:
++		return dma_buf_export_sync_file(dmabuf, (void __user *)arg);
++
+ 	default:
+ 		return -ENOTTY;
+ 	}
+diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
+index 7f30393b92c3b..9bce1e8bd31d3 100644
+--- a/include/uapi/linux/dma-buf.h
++++ b/include/uapi/linux/dma-buf.h
+@@ -37,6 +37,11 @@ struct dma_buf_sync {
+ 
+ #define DMA_BUF_NAME_LEN	32
+ 
++struct dma_buf_sync_file {
++	__u32 flags;
++	__s32 fd;
++};
++
+ #define DMA_BUF_BASE		'b'
+ #define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
+ 
+@@ -46,5 +51,6 @@ struct dma_buf_sync {
+ #define DMA_BUF_SET_NAME	_IOW(DMA_BUF_BASE, 1, const char *)
+ #define DMA_BUF_SET_NAME_A	_IOW(DMA_BUF_BASE, 1, u32)
+ #define DMA_BUF_SET_NAME_B	_IOW(DMA_BUF_BASE, 1, u64)
++#define DMA_BUF_IOCTL_EXPORT_SYNC_FILE	_IOWR(DMA_BUF_BASE, 2, struct dma_buf_sync_file)
+ 
+ #endif
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
