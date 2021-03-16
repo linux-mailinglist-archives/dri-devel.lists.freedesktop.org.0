@@ -1,42 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C459433E0C5
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Mar 2021 22:47:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0ECA33E0D2
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Mar 2021 22:51:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2737589BD2;
-	Tue, 16 Mar 2021 21:46:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37633899B5;
+	Tue, 16 Mar 2021 21:51:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C340D89DD3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 21:46:55 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72935D8B;
- Tue, 16 Mar 2021 22:46:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1615931213;
- bh=i2LuQeu7lxvCtawfyP8B93mR5EXB1M5wx/2iAFD9/Sw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RTTpiTs6X37hBs3CYue2FJcvDjSbt35KPyPDALCxJXuyPJuKgGQ6E5KFH7lWpqJhq
- ZSpL00+vVzUOD9K6DORB++81DFLgtci391o0l2fri0HcSGlCa5AmW/nJiOxSBJXkHH
- t8e+99+z+SL6hX9ohr3jjL4I509EoQfE67AICoMY=
-Date: Tue, 16 Mar 2021 23:46:18 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH 3/3] drm/bridge: ti-sn65dsi86: Properly get the EDID, but
- only if refclk
-Message-ID: <YFEnKgwEOWdeQBK6@pendragon.ideasonboard.com>
-References: <20210304155144.1.Ic9c04f960190faad5290738b2a35d73661862735@changeid>
- <20210304155144.3.I60a7fb23ce4589006bc95c64ab8d15c74b876e68@changeid>
- <YE0ru4JpXfX/4Awe@pendragon.ideasonboard.com>
- <CAD=FV=UY_S8jPkXwK6AGs99XrE=pno2sCgLE7qcPWfmoyYVXiw@mail.gmail.com>
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com
+ [209.85.166.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D83D899B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 21:51:29 +0000 (UTC)
+Received: by mail-il1-f176.google.com with SMTP id d5so14162909iln.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 14:51:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=6sggz0cW6S5oWFTZs2rV+TqaEbdoBcz8RBGBjA8S3b8=;
+ b=SHkS8KAUZy8RrgXcg6clA3XB5I/I5eivqErQFoa4lUAheHnTfNBeMo3Y1WDKVQTFhZ
+ GQ8ba2k05PgdIkQQF7bgUYZbAtI/lRAoKRYSdn9rx/eWvdMHC1abpWIADvqm131F7iQn
+ dEqNVf1d6NP26THtEyW76PDwdg2jVaghbqaZGEfQN0YZuk6jO2F5Zb/iXfDPnOBz1tBx
+ i3R1mAB5VZfG1xaiWu1kASZy1F3Xh+bI6x8TIGwOuW2pQ3qs6GEZluRqeYHU2SDAe7+Q
+ BTq/4mekwxWesy9vwHU5fwkWDSjYkAmKGtb5WLqdOIRNYhyJTvi8l5PTqz1NNLzbJw/v
+ yjJQ==
+X-Gm-Message-State: AOAM531aUUZW+YICb9vK2ZwmRYe5cTkuXdaxVQkiZVcDicveurC857Os
+ Zml87TrQ8J5vANyiP3tpcg==
+X-Google-Smtp-Source: ABdhPJwsSv9g0C0LxRsIhgTNLhkUz3c9irY8ZHBA/9wlz76whYv3hXMw4HFmiG/1sHtqi21CBxGXRw==
+X-Received: by 2002:a05:6e02:dce:: with SMTP id
+ l14mr5298695ilj.102.1615931488394; 
+ Tue, 16 Mar 2021 14:51:28 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.253])
+ by smtp.gmail.com with ESMTPSA id b12sm10054845ilr.55.2021.03.16.14.51.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Mar 2021 14:51:27 -0700 (PDT)
+Received: (nullmailer pid 3739030 invoked by uid 1000);
+ Tue, 16 Mar 2021 21:51:23 -0000
+Date: Tue, 16 Mar 2021 15:51:23 -0600
+From: Rob Herring <robh@kernel.org>
+To: Sebastian Reichel <sre@kernel.org>
+Subject: Re: [PATCHv1 1/6] rtc: m41t80: add support for protected clock
+Message-ID: <20210316215123.GA3712408@robh.at.kernel.org>
+References: <20210222171247.97609-1-sebastian.reichel@collabora.com>
+ <20210222171247.97609-2-sebastian.reichel@collabora.com>
+ <YDQgLTPE0E+/1Cwv@piout.net> <YDQhgkftoW4J9AtY@piout.net>
+ <20210223012657.bbp5u65nw4tpcjgd@earth.universe>
+ <20210306195645.GA1112592@robh.at.kernel.org>
+ <20210308140358.diolcpbaq7gow3y4@earth.universe>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAD=FV=UY_S8jPkXwK6AGs99XrE=pno2sCgLE7qcPWfmoyYVXiw@mail.gmail.com>
+In-Reply-To: <20210308140358.diolcpbaq7gow3y4@earth.universe>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,113 +64,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+Cc: linux-rtc@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Sam Ravnborg <sam@ravnborg.org>
+ linux-mtd@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, kernel@collabora.com,
+ Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
-
-On Mon, Mar 15, 2021 at 09:25:37AM -0700, Doug Anderson wrote:
-> On Sat, Mar 13, 2021 at 1:17 PM Laurent Pinchart wrote:
-> > On Thu, Mar 04, 2021 at 03:52:01PM -0800, Douglas Anderson wrote:
-> > > In commit 58074b08c04a ("drm/bridge: ti-sn65dsi86: Read EDID blob over
-> > > DDC") we attempted to make the ti-sn65dsi86 bridge properly read the
-> > > EDID from the panel. That commit kinda worked but it had some serious
-> > > problems.
-> > >
-> > > The problems all stem from the fact that userspace wants to be able to
-> > > read the EDID before it explicitly enables the panel. For eDP panels,
-> > > though, we don't actually power the panel up until the pre-enable
-> > > stage and the pre-enable call happens right before the enable call
-> > > with no way to interject in-between. For eDP panels, you can't read
-> > > the EDID until you power the panel. The result was that
-> > > ti_sn_bridge_connector_get_modes() was always failing to read the EDID
-> > > (falling back to what drm_panel_get_modes() returned) until _after_
-> > > the EDID was needed.
-> > >
-> > > To make it concrete, on my system I saw this happen:
-> > > 1. We'd attach the bridge.
-> > > 2. Userspace would ask for the EDID (several times). We'd try but fail
-> > >    to read the EDID over and over again and fall back to the hardcoded
-> > >    modes.
-> > > 3. Userspace would decide on a mode based only on the hardcoded modes.
-> > > 4. Userspace would ask to turn the panel on.
-> > > 5. Userspace would (eventually) check the modes again (in Chrome OS
-> > >    this happens on the handoff from the boot splash screen to the
-> > >    browser). Now we'd read them properly and, if they were different,
-> > >    userspace would request to change the mode.
-> > >
-> > > The fact that userspace would always end up using the hardcoded modes
-> > > at first significantly decreases the benefit of the EDID
-> > > reading. Also: if the modes were even a tiny bit different we'd end up
-> > > doing a wasteful modeset and at boot.
-> >
-> > s/and at/at/ ?
+On Mon, Mar 08, 2021 at 03:03:58PM +0100, Sebastian Reichel wrote:
+> Hi,
 > 
-> Sure, I can correct if/when I respin or it can be corrected when landed.
+> On Sat, Mar 06, 2021 at 11:56:45AM -0800, Rob Herring wrote:
+> > On Tue, Feb 23, 2021 at 02:26:57AM +0100, Sebastian Reichel wrote:
+> > > On Mon, Feb 22, 2021 at 10:26:26PM +0100, Alexandre Belloni wrote:
+> > > > On 22/02/2021 22:20:47+0100, Alexandre Belloni wrote:
+> > > > > On 22/02/2021 18:12:42+0100, Sebastian Reichel wrote:
+> > > > > > Congatec's QMX6 system on module (SoM) uses a m41t62 as RTC. The
+> > > > > > modules SQW clock output defaults to 32768 Hz. This behaviour is
+> > > > > > used to provide the i.MX6 CKIL clock. Once the RTC driver is probed,
+> > > > > > the clock is disabled and all i.MX6 functionality depending on
+> > > > > > the 32 KHz clock has undefined behaviour. On systems using hardware
+> > > > > > watchdog it seems to likely trigger a lot earlier than configured.
+> > > > > > 
+> > > > > > The proper solution would be to describe this dependency in DT,
+> > > > > > but that will result in a deadlock. The kernel will see, that
+> > > > > > i.MX6 system clock needs the RTC clock and do probe deferral.
+> > > > > > But the i.MX6 I2C module never becomes usable without the i.MX6
+> > > > > > CKIL clock and thus the RTC's clock will not be probed. So from
+> > > > > > the kernel's perspective this is a chicken-and-egg problem.
+> > > > > > 
+> > > > > 
+> > > > > Reading the previous paragraph, I was going to suggest describing the
+> > > > > dependency and wondering whether this would cause a circular dependency.
+> > > > > I guess this will keep being an issue for clocks on an I2C or SPI bus...
+> > > 
+> > > Yes, it is a circular dependency on this particular system on
+> > > module. It only works because the RTC enables the clock by
+> > > default. The i.MX6 CKIL is expected to be always enabled.
+> > 
+> > I think you should describe the circular clocking and then provide a way 
+> > to break the dependency.
 > 
-> > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > index 491c9c4f32d1..af3fb4657af6 100644
-> > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > @@ -16,6 +16,7 @@
-> > >  #include <linux/pm_runtime.h>
-> > >  #include <linux/regmap.h>
-> > >  #include <linux/regulator/consumer.h>
-> > > +#include <linux/workqueue.h>
-> > >
-> > >  #include <asm/unaligned.h>
-> > >
-> > > @@ -130,6 +131,12 @@
-> > >   * @ln_assign:    Value to program to the LN_ASSIGN register.
-> > >   * @ln_polrs:     Value for the 4-bit LN_POLRS field of SN_ENH_FRAME_REG.
-> > >   *
-> > > + * @pre_enabled_early: If true we did an early pre_enable at attach.
-> > > + * @pre_enable_timeout_work: Delayed work to undo the pre_enable from attach
-> > > + *                           if a normal pre_enable never came.
-> >
-> > Could we simplify this by using the runtime PM autosuspend feature ? The
-> > configuration of the bridge would be moved from pre_enable to the PM
-> > runtime resume handler, the clk_disable_unprepare() call moved from
-> > post_disable to the runtime suspend handler, and the work queue replaced
-> > by usage of pm_runtime_put_autosuspend().
+> This is very much not trivial. The clock is required during early
+> initialization of the i.MX. At this point we are far from probing
+> I2C drivers and without the I2C driver the clock is not registered.
+> The current i.MX code expects the system clocks to be fixed clocks,
+> since they must be enabled before any code is executed (incl.
+> bootloader) and must never be disabled. From a HW design point of
+> view it does not make sense to have a SW controllable clock for it,
+> since it just adds extra cost. I believe for QMX6 it is only SW
+> controllable, because that avoids the need for an extra crystal.
 > 
-> It's an interesting idea but I don't think I can make it work, at
-> least not in a generic enough way. Specifically we can also use this
-> bridge chip as a generic GPIO provider in Linux. When someone asks us
-> to read a GPIO then we have to power the bridge on
-> (pm_runtime_get_sync()) and when someone asks us to configure a GPIO
-> as an output then we actually leave the bridge powered until they stop
-> requesting it as an output. At the moment the only user of this
-> functionality (that I know of) is for the HPD pin on trogdor boards
-> (long story about why we don't use the dedicated HPD) but the API
-> supports using these GPIOs for anything and I've tested that it works.
-> It wouldn't be great to have to keep the panel on in order to access
-> the GPIOs.
+> So how is the clock framework supposed to know, that it can ignore
+> the clock during registration? I see the following options:
+> 
+> 1. My solution is the simplest one. Keep i.MX clock code the same
+>    (it assumes a fixed-clock being used for CKIL) and avoid
+>    registering RTC clock. This basically means the RTC is considered
+>    to be a fixed-clock on this system, which is what the HW designers
+>    seemed to have in mind (vendor kernel for the QMX6 is old enough
+>    (4.9.x) to not to have CLK feature in the RTC driver. Vendor
+>    U-Boot also does not touch the RTC. Booting mainline kernel once
+>    bricks QMX6 boards until RTC battery is removed, so one could
+>    actually argue addition of the CLK feature in 1373e77b4f10 (4.13)
+>    is a regression). Currently Qualcomm device uses "protected-clocks"
+>    for FW controlled clocks where Linux would crash the system by
+>    trying to access them. IMHO the RTC is similar, since disabling
+>    or modifying its frequency on QMX6 results in undefined behaviour
+>    and possibly system crash.
+> 
+> 2. Make i.MX clock code use the RTC as CKIL clock provider, but
+>    ignore it somehow. I see three sub-options:
+> 
+> 2.1. Add a property 'boot-enabled' to the RTC node, so that the
+>      clock framework is aware of clock being enabled. This can
+>      be used to satisfy clock dependencies somehow.
+> 
+> 2.2. The RTC device is not probed without I2C bus, but the driver
+>      could also register a fake clock purely based on DT
+>      information by adding some early init hook and take over
+>      the clock once the I2C part is being probed. I think this
+>      is a bad idea regarding maintainability of the driver.
+>      Also for systems not using the RTC clock, the early clock
+>      registration is basically wrong: If the kernel disables
+>      the RTC it will stay disabled across boots if the RTC has
+>      a backup battery. Basically we cannot imply anything from
+>      the RTC compatible value alone.
+> 
+> 2.3 The i.MX core code could request CKIL with some flag, that
+>     it's fine to have an unresolvable clock and just expect it
+>     to be boot-enabled. The rationale would be, that CKIL must
+>     be always-enabled.
 
-The issue you're trying to fix doesn't seem specific to this bridge, so
-handling it in the bridge driver bothers me :-S Is there any way we
-could handle this in the DRM core ? I don't want to see similar
-implementations duplicated in all HDMI/DP bridges.
+I think 2.1 or 2.3 is fine. It boils down to detecting a cycle and then 
+either you have a property or implicitly know to ignore a dependency.
 
-> The other problem is that I think the time scales are different. At
-> boot time I think we'd want to leave the panel on for tens of seconds
-> to give userspace a chance to start up and configure the panel. After
-> userspace starts up I think we'd want autosuspend to be much faster.
-> This could probably be solved by tweaking the runtime delay in code
-> but I didn't fully dig because of the above problem.
+> > It's a somewhat common issue.
+> 
+> It is? This only works, because one can treat the RTC's clock
+> output like a fixed clock by not messing around with it.
 
--- 
-Regards,
+Well, it's not the first time I've heard of the issue. Audio clocks are 
+another example, but a bit different in that the clocks aren't needed 
+until later. It's also come up in context of fw_devlinks which I 
+think has some cycle breaking logic already.
 
-Laurent Pinchart
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
