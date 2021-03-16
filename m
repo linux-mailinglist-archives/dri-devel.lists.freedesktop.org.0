@@ -2,51 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD4E33D83E
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Mar 2021 16:53:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC1133D92A
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Mar 2021 17:23:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E6618907B;
-	Tue, 16 Mar 2021 15:52:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D29089ED6;
+	Tue, 16 Mar 2021 16:23:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD058907B
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 15:52:56 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id t83so28591730oih.12
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 08:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=H9qbH69IBoptMfn8E8EI/JvkYdGz2fb3BHGazwe2dlM=;
- b=N9EuUopTyLYmp/30v4PlCksqyqVrtHnmIWXaZ4XcHcyJlh/IKbvvrNQY1qfiH3e5Ee
- lelk1b8VUwFdD+q76VSpMaPnzL/lvIFOuKBCKDjInKV/GcppAeygsSyrgDsECt+95gH8
- 4Hrr19JKU7qUT90Jqgp59LH0ykjG0DfXZI4HE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=H9qbH69IBoptMfn8E8EI/JvkYdGz2fb3BHGazwe2dlM=;
- b=pAzNQ9kTI/fFRMQesdtvHL9IaqokuZogDP7V3ECHTHybL3YtGoRIVXdPAbdb/WI1eb
- IocM4Owj65G/eOUhK4aXZQOlnZjkrmsrhhFROOjWKt0r5NuGSV1S0SI355wZ85BbBSY9
- 3LwgV5DLiqXqdkSVQyzuGLz4/qrkJ/RFyd1Jk+LaxD5uO7wTPSl5ktTZLMLpj7f5OdUd
- S8L5v8G7+zZXl3+09cNeVxaRE/dpr9X2ZONILBLgjsOK9Kbd0TnOijodOw96W/IfvNs4
- vVQui0Sb5THP9sUeDFjW16/o9xzcya9bJuh8XpVNbrqd+Cs9MZgdBntBt5CMYmt5tcP+
- 9PyA==
-X-Gm-Message-State: AOAM530Qquin0pdI+Ot2WJ4kyNLewLYSlyxQqLeXdoS+cd5LnjzCzWgx
- aE5cKfvVlBRDIEiQ4Kvp7h/VvhCvq7JW4T5f+Ez0wg==
-X-Google-Smtp-Source: ABdhPJznz2I6yaUfu5sapSxfaawTvDWTc4egwzJFTFOwI97d2Oq+qgjhGAyeojv1m2fr5BiGgMr/zgmA3/HTfQyhJ8k=
-X-Received: by 2002:aca:4188:: with SMTP id o130mr152546oia.101.1615909975767; 
- Tue, 16 Mar 2021 08:52:55 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D927A6E417;
+ Tue, 16 Mar 2021 16:23:37 +0000 (UTC)
+IronPort-SDR: CvS+apBy8qUa9ZH2yYFxhxqo9zk+d1kjVko3nzbCOKf5KLOQmIBi7hlWWgfxRAZXhsuJNTwjeU
+ J7sV0n2NMCSQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9925"; a="209231206"
+X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; d="scan'208";a="209231206"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2021 09:23:36 -0700
+IronPort-SDR: a/8RLnzVy4Lmz7gpufT0weTBIH3BVB+ZKamWTPB7jeuVxB1trhn9HzOUv+FgsEnfBFahrkT2+F
+ Sc9BVTHfTsDA==
+X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; d="scan'208";a="412274117"
+Received: from lmirensk-mobl1.ger.corp.intel.com (HELO localhost.localdomain)
+ ([10.214.195.153])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2021 09:23:33 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/6] Default request/fence expiry + watchdog
+Date: Tue, 16 Mar 2021 16:23:20 +0000
+Message-Id: <20210316162326.1994039-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20210316153303.3216674-1-daniel.vetter@ffwll.ch>
- <20210316153303.3216674-3-daniel.vetter@ffwll.ch>
- <20210316154549.GA60450@infradead.org>
-In-Reply-To: <20210316154549.GA60450@infradead.org>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Tue, 16 Mar 2021 16:52:44 +0100
-Message-ID: <CAKMK7uF8Lv0P4TuoctjUiVHtRzAnXf9a50JaYgm0rV+v+7=LFw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] media/videobuf1|2: Mark follow_pfn usage as unsafe
-To: Christoph Hellwig <hch@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,59 +45,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jan Kara <jack@suse.cz>, KVM list <kvm@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux MM <linux-mm@kvack.org>, Daniel Vetter <daniel.vetter@intel.com>,
- Michel Lespinasse <walken@google.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Daniel Jordan <daniel.m.jordan@oracle.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Kees Cook <keescook@chromium.org>, Pawel Osciak <pawel@osciak.com>,
- John Hubbard <jhubbard@nvidia.com>, J??r??me Glisse <jglisse@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Laurent Dufour <ldufour@linux.ibm.com>, Vlastimil Babka <vbabka@suse.cz>,
- LKML <linux-kernel@vger.kernel.org>, Tomasz Figa <tfiga@chromium.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 16, 2021 at 4:46 PM Christoph Hellwig <hch@infradead.org> wrote:
->
-> On Tue, Mar 16, 2021 at 04:33:02PM +0100, Daniel Vetter wrote:
-> > The media model assumes that buffers are all preallocated, so that
-> > when a media pipeline is running we never miss a deadline because the
-> > buffers aren't allocated or available.
-> >
-> > This means we cannot fix the v4l follow_pfn usage through
-> > mmu_notifier, without breaking how this all works. The only real fix
-> > is to deprecate userptr support for VM_IO | VM_PFNMAP mappings and
-> > tell everyone to cut over to dma-buf memory sharing for zerocopy.
-> >
-> > userptr for normal memory will keep working as-is, this only affects
-> > the zerocopy userptr usage enabled in 50ac952d2263 ("[media]
-> > videobuf2-dma-sg: Support io userptr operations on io memory").
->
-> Maybe I'm missing something, but wasn't the conclusion last time that
-> this hackish early device to device copy support can just go away?
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-My understanding is mostly, but with some objections. And I kinda
-don't want to let this die in a bikeshed and then not getting rid of
-follow_pfn as a result. There's enough people who acked this, and the
-full removal got some nack from Mauro iirc.
+"Watchdog" aka "restoring hangcheck" aka default request/fence expiry - second
+post of a somewhat controversial feature, now upgraded to patch status.
 
-Maybe if no bug report ever shows up for 1-2 years we can sunset it
-for real&completely.
--Daniel
+I quote the "watchdog" becuase in classical sense watchdog would allow userspace
+to ping it and so remain alive.
+
+I quote "restoring hangcheck" because this series, contrary to the old
+hangcheck, is not looking at whether the workload is making any progress from
+the kernel side either. (Although disclaimer my memory may be leaky - Daniel
+suspects old hangcheck had some stricter, more indiscriminatory, angles to it.
+But apart from being prone to both false negatives and false positives I can't
+remember that myself.)
+
+Short version - ask is to fail any user submissions after a set time period. In
+this RFC that time is twelve seconds.
+
+Time counts from the moment user submission is "runnable" (implicit and explicit
+dependencies have been cleared) and keeps counting regardless of the GPU
+contetion caused by other users of the system.
+
+So semantics are really a bit weak, but again, I understand this is really
+really wanted by the DRM core even if I am not convinced it is a good idea.
+
+There are two dangers with doing this, text borrowed from a patch in the series:
+
+    This can have an effect that workloads which used to work fine will
+    suddenly start failing.
+
+    Another interaction is with hangcheck where care needs to be taken timeout
+    is not set lower or close to three times the heartbeat interval. Otherwise
+    a hang in any application can cause complete termination of all
+    submissions from unrelated clients. Any users modifying the per engine
+    heartbeat intervals therefore need to be aware of this potential denial of
+    service to avoid inadvertently enabling it.
+
+v2:
+ * Dropped context param.
+ * Improved commit messages and Kconfig text.
+
+Test-with: 20210316161840.1993818-1-tvrtko.ursulin@linux.intel.com
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Chris Wilson (1):
+  drm/i915: Individual request cancellation
+
+Tvrtko Ursulin (5):
+  drm/i915: Restrict sentinel requests further
+  drm/i915: Handle async cancellation in sentinel assert
+  drm/i915: Request watchdog infrastructure
+  drm/i915: Fail too long user submissions by default
+  drm/i915: Allow configuring default request expiry via modparam
+
+ drivers/gpu/drm/i915/Kconfig.profile          |  14 ++
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  39 ++++
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |   4 +
+ drivers/gpu/drm/i915/gt/intel_context_param.h |  11 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h |   4 +
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |   1 +
+ .../drm/i915/gt/intel_execlists_submission.c  |  16 +-
+ .../drm/i915/gt/intel_execlists_submission.h  |   2 +
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   3 +
+ drivers/gpu/drm/i915/gt/intel_gt.h            |   2 +
+ drivers/gpu/drm/i915/gt/intel_gt_requests.c   |  21 ++
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   7 +
+ drivers/gpu/drm/i915/i915_params.c            |   5 +
+ drivers/gpu/drm/i915/i915_params.h            |   1 +
+ drivers/gpu/drm/i915/i915_request.c           | 108 +++++++++-
+ drivers/gpu/drm/i915/i915_request.h           |  12 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c | 201 ++++++++++++++++++
+ 17 files changed, 442 insertions(+), 9 deletions(-)
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
