@@ -2,44 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A4B33D3E8
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Mar 2021 13:34:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED1633D486
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Mar 2021 14:03:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CFAC6E0A1;
-	Tue, 16 Mar 2021 12:34:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5C06E3DF;
+	Tue, 16 Mar 2021 13:03:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB28B6E0A1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 12:34:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=59x9pyn/wzMOcK3CFN84LpsThoYhj5p4Kl3EH7xP18Y=; b=SWGLvYtUKUFl08Fqk6npxrMxtX
- lM7iMf1QPVttH/4cCjHq8NWLuUYIcLqXcUvYSiiSNIPlTHNbl+wfbwg/61XUhxE5QpODmAcAoD3kR
- t6LaQe5rA++Dx+wxyv1QDSdrkx3RmsGNCL1uD8LO9/7ZIovCqfn4NCL231iWLKItKZWAxNz5fvSyu
- ON4mnW0cFea4Ogj5KRXPT7qqkRplXZzlCb2r9Dtl3KW37lIOTJMHajA6VeT/EqhqWklMKIiMn2fNs
- 1XRiGrvQbfz0Ny/BI1c+/YL1UHz7XhrE29qRU7Q2U5jOeFFYOy7Sv4qpWuukd7gVsQPxAX6KYfWsi
- 7HnVc32g==;
-Received: from [2a01:799:95f:4600:cca0:57ac:c55d:a485] (port=64280)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1lM8u0-00080A-QZ; Tue, 16 Mar 2021 13:34:24 +0100
-Subject: Re: [PATCH v8 0/3] GUD USB Display driver
-To: dri-devel@lists.freedesktop.org
-References: <20210313112545.37527-1-noralf@tronnes.org>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <2aca21e4-aab2-426e-87db-f2d2bb2f46c5@tronnes.org>
-Date: Tue, 16 Mar 2021 13:34:20 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C324A6E3DF;
+ Tue, 16 Mar 2021 13:03:50 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83307101E;
+ Tue, 16 Mar 2021 06:03:49 -0700 (PDT)
+Received: from [10.57.55.99] (unknown [10.57.55.99])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 768DC3F792;
+ Tue, 16 Mar 2021 06:03:47 -0700 (PDT)
+Subject: Re: [PATCH 14/17] iommu: remove DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE
+To: Christoph Hellwig <hch@lst.de>
+References: <20210301084257.945454-1-hch@lst.de>
+ <20210301084257.945454-15-hch@lst.de>
+ <1658805c-ed28-b650-7385-a56fab3383e3@arm.com> <20210310091501.GC5928@lst.de>
+ <20210310092533.GA6819@lst.de> <fdacf87a-be14-c92c-4084-1d1dd4fc7766@arm.com>
+ <20210311082609.GA6990@lst.de> <dff8eb80-8f74-972b-17e9-496c1fc0396f@arm.com>
+ <20210315083347.GA28445@lst.de>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <42f5aba4-9271-d106-4a85-1bfc9fd98de1@arm.com>
+Date: Tue, 16 Mar 2021 13:03:42 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210313112545.37527-1-noralf@tronnes.org>
+In-Reply-To: <20210315083347.GA28445@lst.de>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,59 +46,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hudson@trmm.net, markus@raatikainen.cc, sam@ravnborg.org,
- linux-usb@vger.kernel.org, th020394@gmail.com, lkundrak@v3.sk,
- pontus.fuchs@gmail.com, peter@stuge.se
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: freedreno@lists.freedesktop.org, kvm@vger.kernel.org,
+ Will Deacon <will@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Li Yang <leoyang.li@nxp.com>,
+ iommu@lists.linux-foundation.org, Michael Ellerman <mpe@ellerman.id.au>,
+ netdev@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ linuxppc-dev@lists.ozlabs.org, David Woodhouse <dwmw2@infradead.org>,
+ linux-arm-kernel@lists.infradead.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMTMuMDMuMjAyMSAxMi4yNSwgc2tyZXYgTm9yYWxmIFRyw7hubmVzOgo+IEhpLAo+IAo+
-IEEgd2hpbGUgYmFjayBJIGhhZCB0aGUgaWRlYSB0byB0dXJuIGEgUmFzcGJlcnJ5IFBpIFplcm8g
-aW50byBhICQ1Cj4gVVNCIHRvIEhETUkvU0RUVi9EUEkgZGlzcGxheSBhZGFwdGVyLgo+IAo+IFRo
-ZSBwcm90b2NvbCBpcyBvcGVuIHNvIHBlb3BsZSBhcmUgZnJlZSB0byBtYWtlIGRpc3BsYXlzIGlt
-cGxlbWVudGluZyBpdCBhbmQKPiB1c2UgdGhpcyBkcml2ZXIsIGFsbCB0aGF0J3MgbmVlZGVkIGlz
-IHRvIGFkZCBhIFVTQiB2aWQ6cGlkIHRvIHRoZSBkcml2ZXIgZm9yCj4gdGhlIGRpc3BsYXkuCj4g
-Cj4gU2VlIHRoZSB3aWtpWzFdIGZvciBtb3JlIGluZm9ybWF0aW9uIGFuZCBpbWFnZXMgZm9yIHRo
-ZSBSYXNwYmVycnkgUGkgWmVyby80Lgo+IAo+IENoYW5nZXMgaW4gdGhpcyB2ZXJzaW9uOgo+IC0g
-Rm9yZ290IHRvIGZpbHRlciBSR0IxMTEgZnJvbSByZWFjaGluZyB1c2Vyc3BhY2UKPiAtIEhhbmRs
-ZSBhIGRldmljZSB0aGF0IG9ubHkgcmV0dXJucyB1bmtub3duIGRldmljZSBwcm9wZXJ0aWVzIChQ
-ZXRlcikKPiAtIHMvR1VEX1BJWEVMX0ZPUk1BVF9SR0IxMTEvR1VEX1BJWEVMX0ZPUk1BVF9YUkdC
-MTExMS8gKFBldGVyKQo+IC0gRml4IFIxIGFuZCBYUkdCMTExMSBmb3JtYXQgY29udmVyc2lvbgo+
-IC0gQWRkIEZJWE1FIGFib3V0IEJpZyBFbmRpYW4gYmVpbmcgYnJva2VuIChQZXRlciwgSWxpYSkK
-PiAKPiBJIHdpbGwgYXBwbHkgdGhlIHBhdGNoZXMgYXMgc29vbiBhcyB0aGUgZGVwZW5kZW5jeSBz
-aG93cyB1cCBpbiBkcm0tbWlzYy1uZXh0Lgo+IAo+IERlcGVuZGVuY3k6Cj4gZHJtOiBVc2UgVVNC
-IGNvbnRyb2xsZXIncyBETUEgbWFzayB3aGVuIGltcG9ydGluZyBkbWFidWZzWzJdCj4gKGN1cnJl
-bnRseSBpbiBkcm0tbWlzYy1maXhlcyBidXQgbm90IGluIGRybS1taXNjLW5leHQgeWV0LCBhbHNv
-IHByZXNlbnQgaW4KPiBkcm0tdGlwIGFuZCBsaW51eC1uZXh0KQo+IAo+IE5vcmFsZi4KPiAKPiBb
-MV0gaHR0cHM6Ly9naXRodWIuY29tL25vdHJvL2d1ZC93aWtpCj4gWzJdIGh0dHBzOi8vcGF0Y2h3
-b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDIxMDMwMzEzMzIyOS4zMjg4LTEtdHpp
-bW1lcm1hbm5Ac3VzZS5kZQo+IAo+IAo+IE5vcmFsZiBUcsO4bm5lcyAoMyk6Cj4gICBkcm0vdWFw
-aTogQWRkIFVTQiBjb25uZWN0b3IgdHlwZQo+ICAgZHJtL3Byb2JlLWhlbHBlcjogQ2hlY2sgZXBv
-Y2ggY291bnRlciBpbiBvdXRwdXRfcG9sbF9leGVjdXRlKCkKPiAgIGRybTogQWRkIEdVRCBVU0Ig
-RGlzcGxheSBkcml2ZXIKPiAKClBhdGNoZXMgYXJlIG5vdyBhcHBsaWVkIHRvIGRybS1taXNjLW5l
-eHQuClRoYW5rcyBmb3IgcmV2aWV3aW5nIGFuZCB0ZXN0aW5nIQoKTm9yYWxmLgoKPiAgTUFJTlRB
-SU5FUlMgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDggKwo+ICBkcml2ZXJzL2dwdS9kcm0v
-S2NvbmZpZyAgICAgICAgICAgICB8ICAgMiArCj4gIGRyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZSAg
-ICAgICAgICAgIHwgICAxICsKPiAgZHJpdmVycy9ncHUvZHJtL2RybV9jb25uZWN0b3IuYyAgICAg
-fCAgIDEgKwo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX3Byb2JlX2hlbHBlci5jICB8ICAgNyArLQo+
-ICBkcml2ZXJzL2dwdS9kcm0vZ3VkL0tjb25maWcgICAgICAgICB8ICAxNCArCj4gIGRyaXZlcnMv
-Z3B1L2RybS9ndWQvTWFrZWZpbGUgICAgICAgIHwgICA0ICsKPiAgZHJpdmVycy9ncHUvZHJtL2d1
-ZC9ndWRfY29ubmVjdG9yLmMgfCA3MjkgKysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ICBk
-cml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9kcnYuYyAgICAgICB8IDY2MSArKysrKysrKysrKysrKysr
-KysrKysrKysrCj4gIGRyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2ludGVybmFsLmggIHwgMTU0ICsr
-KysrKwo+ICBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9waXBlLmMgICAgICB8IDU1MiArKysrKysr
-KysrKysrKysrKysrKysKPiAgaW5jbHVkZS9kcm0vZ3VkLmggICAgICAgICAgICAgICAgICAgfCAz
-MzMgKysrKysrKysrKysrKwo+ICBpbmNsdWRlL3VhcGkvZHJtL2RybV9tb2RlLmggICAgICAgICB8
-ICAgMSArCj4gIDEzIGZpbGVzIGNoYW5nZWQsIDI0NjYgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlv
-bigtKQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2d1ZC9LY29uZmlnCj4g
-IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZ3VkL01ha2VmaWxlCj4gIGNyZWF0
-ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9jb25uZWN0b3IuYwo+ICBjcmVh
-dGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfZHJ2LmMKPiAgY3JlYXRlIG1v
-ZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2ludGVybmFsLmgKPiAgY3JlYXRlIG1v
-ZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX3BpcGUuYwo+ICBjcmVhdGUgbW9kZSAx
-MDA2NDQgaW5jbHVkZS9kcm0vZ3VkLmgKPiAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+On 2021-03-15 08:33, Christoph Hellwig wrote:
+> On Fri, Mar 12, 2021 at 04:18:24PM +0000, Robin Murphy wrote:
+>>> Let me know what you think of the version here:
+>>>
+>>> http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/iommu-cleanup
+>>>
+>>> I'll happily switch the patch to you as the author if you're fine with
+>>> that as well.
+>>
+>> I still have reservations about removing the attribute API entirely and
+>> pretending that io_pgtable_cfg is anything other than a SoC-specific
+>> private interface,
+> 
+> I think a private inteface would make more sense.  For now I've just
+> condensed it down to a generic set of quirk bits and dropped the
+> attrs structure, which seems like an ok middle ground for now.  That
+> being said I wonder why that quirk isn't simply set in the device
+> tree?
+
+Because it's a software policy decision rather than any inherent 
+property of the platform, and the DT certainly doesn't know *when* any 
+particular device might prefer its IOMMU to use cacheable pagetables to 
+minimise TLB miss latency vs. saving the cache capacity for larger data 
+buffers. It really is most logical to decide this at the driver level.
+
+In truth the overall concept *is* relatively generic (a trend towards 
+larger system caches and cleverer usage is about both raw performance 
+and saving power on off-SoC DRAM traffic), it's just the particular 
+implementation of using io-pgtable to set an outer-cacheable walk 
+attribute in an SMMU TCR that's pretty much specific to Qualcomm SoCs. 
+Hence why having a common abstraction at the iommu_domain level, but 
+where the exact details are free to vary across different IOMMUs and 
+their respective client drivers, is in many ways an ideal fit.
+
+>> but the reworked patch on its own looks reasonable to
+>> me, thanks! (I wasn't too convinced about the iommu_cmd_line wrappers
+>> either...) Just iommu_get_dma_strict() needs an export since the SMMU
+>> drivers can be modular - I consciously didn't add that myself since I was
+>> mistakenly thinking only iommu-dma would call it.
+> 
+> Fixed.  Can I get your signoff for the patch?  Then I'll switch it to
+> over to being attributed to you.
+
+Sure - I would have thought that the one I originally posted still 
+stands, but for the avoidance of doubt, for the parts of commit 
+8b6d45c495bd in your tree that remain from what I wrote:
+
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+
+Cheers,
+Robin.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
