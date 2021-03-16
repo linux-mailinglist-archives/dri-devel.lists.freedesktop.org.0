@@ -2,38 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED1633D486
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Mar 2021 14:03:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C1833D562
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Mar 2021 15:04:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5C06E3DF;
-	Tue, 16 Mar 2021 13:03:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D82F6E3F2;
+	Tue, 16 Mar 2021 14:03:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C324A6E3DF;
- Tue, 16 Mar 2021 13:03:50 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83307101E;
- Tue, 16 Mar 2021 06:03:49 -0700 (PDT)
-Received: from [10.57.55.99] (unknown [10.57.55.99])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 768DC3F792;
- Tue, 16 Mar 2021 06:03:47 -0700 (PDT)
-Subject: Re: [PATCH 14/17] iommu: remove DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE
-To: Christoph Hellwig <hch@lst.de>
-References: <20210301084257.945454-1-hch@lst.de>
- <20210301084257.945454-15-hch@lst.de>
- <1658805c-ed28-b650-7385-a56fab3383e3@arm.com> <20210310091501.GC5928@lst.de>
- <20210310092533.GA6819@lst.de> <fdacf87a-be14-c92c-4084-1d1dd4fc7766@arm.com>
- <20210311082609.GA6990@lst.de> <dff8eb80-8f74-972b-17e9-496c1fc0396f@arm.com>
- <20210315083347.GA28445@lst.de>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <42f5aba4-9271-d106-4a85-1bfc9fd98de1@arm.com>
-Date: Tue, 16 Mar 2021 13:03:42 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 303B76E3F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 14:03:57 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6FED564F9D;
+ Tue, 16 Mar 2021 14:03:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1615903435;
+ bh=ho8VK/nwBd5H2y4bKi45p7YEcMtEVUmmuah52IEH4i4=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=qfBlXzqOKN8+OZvXkcSig6NsWRFQ09BsPvxD0eTyC3mDElfi3qpbcjT/puy5EdIBX
+ Uo8/Lz/Vk4fLgYowCsw+dxO1JF9ZLRbW88SjX6JdLQBs/EkZG4Ozp93/3t0yg0s/kh
+ xty6RA9AlV/Ce2yAkox6W6hG2Rykt0TdEYguHOm38Nc0StjP4SnP2oimyEMNzd3kfW
+ vllR0K0GOk0nibk1GLeZ4L0NZAMCvFHIM249/weo6mX3igAPnoqjGXVuPfTi8inhNI
+ sigi/vc8KYEbiZed4fXaNYXmTCD7GwQ5zXe0xRw126ptZxfBbMeO+pjrlLwB5MzU0x
+ aFEng6GGMMPSg==
+Subject: Re: [PATCH] drm/omap: dsi: fix unsigned expression compared with zero
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ angkery <angkery@163.com>
+References: <20210312071445.1721-1-angkery@163.com>
+ <YE1xsg0gm0nNR8hy@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomba@kernel.org>
+Message-ID: <dd0578a1-9726-4be2-f8a1-b164675b1b02@kernel.org>
+Date: Tue, 16 Mar 2021 16:03:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210315083347.GA28445@lst.de>
-Content-Language: en-GB
+In-Reply-To: <YE1xsg0gm0nNR8hy@pendragon.ideasonboard.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,69 +49,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, kvm@vger.kernel.org,
- Will Deacon <will@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Li Yang <leoyang.li@nxp.com>,
- iommu@lists.linux-foundation.org, Michael Ellerman <mpe@ellerman.id.au>,
- netdev@vger.kernel.org, virtualization@lists.linux-foundation.org,
- linuxppc-dev@lists.ozlabs.org, David Woodhouse <dwmw2@infradead.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Junlin Yang <yangjunlin@yulong.com>, airlied@linux.ie,
+ sebastian.reichel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-03-15 08:33, Christoph Hellwig wrote:
-> On Fri, Mar 12, 2021 at 04:18:24PM +0000, Robin Murphy wrote:
->>> Let me know what you think of the version here:
->>>
->>> http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/iommu-cleanup
->>>
->>> I'll happily switch the patch to you as the author if you're fine with
->>> that as well.
+On 14/03/2021 04:15, Laurent Pinchart wrote:
+> Hi Junlin,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Mar 12, 2021 at 03:14:45PM +0800, angkery wrote:
+>> From: Junlin Yang <yangjunlin@yulong.com>
 >>
->> I still have reservations about removing the attribute API entirely and
->> pretending that io_pgtable_cfg is anything other than a SoC-specific
->> private interface,
+>> r is "u32" always >= 0,mipi_dsi_create_packet may return little than zero.
+>> so r < 0 condition is never accessible.
+>>
+>> Fixes coccicheck warnings:
+>> ./drivers/gpu/drm/omapdrm/dss/dsi.c:2155:5-6:
+>> WARNING: Unsigned expression compared with zero: r < 0
+>>
+>> Signed-off-by: Junlin Yang <yangjunlin@yulong.com>
 > 
-> I think a private inteface would make more sense.  For now I've just
-> condensed it down to a generic set of quirk bits and dropped the
-> attrs structure, which seems like an ok middle ground for now.  That
-> being said I wonder why that quirk isn't simply set in the device
-> tree?
-
-Because it's a software policy decision rather than any inherent 
-property of the platform, and the DT certainly doesn't know *when* any 
-particular device might prefer its IOMMU to use cacheable pagetables to 
-minimise TLB miss latency vs. saving the cache capacity for larger data 
-buffers. It really is most logical to decide this at the driver level.
-
-In truth the overall concept *is* relatively generic (a trend towards 
-larger system caches and cleverer usage is about both raw performance 
-and saving power on off-SoC DRAM traffic), it's just the particular 
-implementation of using io-pgtable to set an outer-cacheable walk 
-attribute in an SMMU TCR that's pretty much specific to Qualcomm SoCs. 
-Hence why having a common abstraction at the iommu_domain level, but 
-where the exact details are free to vary across different IOMMUs and 
-their respective client drivers, is in many ways an ideal fit.
-
->> but the reworked patch on its own looks reasonable to
->> me, thanks! (I wasn't too convinced about the iommu_cmd_line wrappers
->> either...) Just iommu_get_dma_strict() needs an export since the SMMU
->> drivers can be modular - I consciously didn't add that myself since I was
->> mistakenly thinking only iommu-dma would call it.
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> Fixed.  Can I get your signoff for the patch?  Then I'll switch it to
-> over to being attributed to you.
+> Tomi, will you take this in your tree ?
 
-Sure - I would have thought that the one I originally posted still 
-stands, but for the avoidance of doubt, for the parts of commit 
-8b6d45c495bd in your tree that remain from what I wrote:
+Thanks. Yes, I'll pick this up.
 
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+  Tomi
 
-Cheers,
-Robin.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
