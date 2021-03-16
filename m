@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C9C33DFEE
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Mar 2021 22:09:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3761E33DFF7
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Mar 2021 22:09:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 155116E446;
-	Tue, 16 Mar 2021 21:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA5BA6E448;
+	Tue, 16 Mar 2021 21:09:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40FC66E446
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 21:09:00 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- j6-20020a17090adc86b02900cbfe6f2c96so155447pjv.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 14:09:00 -0700 (PDT)
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
+ [IPv6:2607:f8b0:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 871196E448
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 21:09:02 +0000 (UTC)
+Received: by mail-pg1-x52b.google.com with SMTP id q5so10796993pgk.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 14:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9ckCy2DNLTFsurQYOeBCucFOTgTIh9F4lDkIMXpfp3E=;
- b=EXULXbCbiguUB9WJ14EumXRl/eZVdBDFbhjQVofG2rcVniE4EQg33oVRIMix+ZusLa
- +8MB143a5/pM7LdnjT+8wtbrqBRVMqORX/Vf6AjSR/nW5F4k3NJWdIESIus0aExuPQbQ
- mrpxY6qS757zZMH0Z9V3B+PEEx4N0ZpUFMXgE=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=h3nGRIVAZ8p8oH1+FLMCV0ztlq3vh7E/c3Mkltgxfig=;
+ b=At7nxtTZi0r6E/hJAVN5l/dmCfxqOqkm3CirquJCcbKRpxNEj0UlA5R04342G4ZGjg
+ kj2dlf4h7ZIt8YPErpECIjgVtEWlTsoP7vnhaK1z+6SgXoIUci+gdClvaxnPSRnQ6b0X
+ qid///YOVCa2O4AGOuVeqknyZaDXXF+sgX+Jc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9ckCy2DNLTFsurQYOeBCucFOTgTIh9F4lDkIMXpfp3E=;
- b=Gq9IZMbxJ42XcMRXK2+Qp/iuK/mb2WiVVxnW1dZgDzkemQE1HDtY0jC2aGL7gsD/YX
- IqwFV/KWk+69hsIJ0F5XOCeC97knnsCdqLAD+xWERewR9SDkxfCENvOTJF89A2VxXqOH
- mkaZvX7At42A2BF3GSA70BLgUTntvBK80Eh6lYv3PrOYOFaZNelS7vMFPgw8bI+Wr272
- xFDCQpnzDRnxRzac2p6zj+xDFoAy8DVpQc+oAoXHWonRnTyVDeJrL2NgBoyeAFT8vGjz
- FoTXrCS+ur3mZvDfsJU6cQVl/JC9fubz1FJSp1XBpgE0LJSXshh+mtcVgChp+0WsTLwx
- pJBg==
-X-Gm-Message-State: AOAM532romvOESJKcuKBerohPkpdN3LQLUOL0E8hQ6j+TKYmNowRgQbC
- qhqDWJdTVwB9UpFcSxMk+S/ovw==
-X-Google-Smtp-Source: ABdhPJw15Vdgd1+PLOyaEZb9iqRLOxaBungyupgVM9vCCQtdviVgnn9XFWzvSCOChSmWPYvbHpV5bw==
-X-Received: by 2002:a17:90b:4c87:: with SMTP id
- my7mr937342pjb.162.1615928939826; 
- Tue, 16 Mar 2021 14:08:59 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=h3nGRIVAZ8p8oH1+FLMCV0ztlq3vh7E/c3Mkltgxfig=;
+ b=n6lb1T7IKqQdtuXFL3X6RrUFwzCf1GKDc4jXymHAQ5+B3vMbRwqKtjXoJ70ANFCc0o
+ xLA3aFgkywDgLD8Wx8SQX9miXP7S+oSJc5ed+nWir6Td+RvtiCpKghmdRoRg4MqbsMBL
+ D00AgTQSniBKBnAgaR4e+lAf7Rh7Zuy9r0uGFHfMBJnkL+l2siMTQzq6/6AcI6RH99cW
+ YE3k3oZugAB3xZG+JruRFFdg5K6MjMN3LDDBZfGCEEf/4gfzv1BjKOME8H80S+PxAPAQ
+ 3A4vjio57ii6ZulJlgiBAyNjGsqGMVTmFkGg+upXmdaqmmQcEj7mRoXRiy3GBT7hYE7j
+ 1U2A==
+X-Gm-Message-State: AOAM531muC7ofAGUym8LSFW/n74TuyBNsuYawD7/a0g6N+pYFCVeQh2S
+ NWZKDyt0CAiHAXVmGFg00XMLWw==
+X-Google-Smtp-Source: ABdhPJx+sDl3T3tfWxKBS3KMgRQuF3wDhkFfazknzXEMfmOKK8tHUBXu5QUQSZhXOidpHjnVGnihHA==
+X-Received: by 2002:a63:f311:: with SMTP id l17mr1405391pgh.349.1615928942134; 
+ Tue, 16 Mar 2021 14:09:02 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:1:84d6:7fd1:d469:351f])
- by smtp.gmail.com with ESMTPSA id 192sm17358072pfa.122.2021.03.16.14.08.55
+ by smtp.gmail.com with ESMTPSA id 192sm17358072pfa.122.2021.03.16.14.09.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Mar 2021 14:08:59 -0700 (PDT)
+ Tue, 16 Mar 2021 14:09:01 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Herring <robh+dt@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [RFC PATCH 1/3] dt-bindings: display: simple: Add the panel on
+Subject: [RFC PATCH 2/3] drm/panel: panel-simple: Add the panel on
  sc7180-trogdor-pompom
-Date: Tue, 16 Mar 2021 14:08:19 -0700
-Message-Id: <20210316140707.RFC.1.I3a21995726282f1e9fcb70da5eb96f19ed96634f@changeid>
+Date: Tue, 16 Mar 2021 14:08:20 -0700
+Message-Id: <20210316140707.RFC.2.Ie81e36b66aadc4afe29eb6ae9126177b811c381e@changeid>
 X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
+In-Reply-To: <20210316140707.RFC.1.I3a21995726282f1e9fcb70da5eb96f19ed96634f@changeid>
+References: <20210316140707.RFC.1.I3a21995726282f1e9fcb70da5eb96f19ed96634f@changeid>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,93 +77,65 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The sc7180-trogdor-pompom board might be attached to any number of a
-pile of eDP panels. At the moment I'm told that the list might include:
-- KD KD116N21-30NV-A010
-- KD KD116N09-30NH-A016
-- Starry 2081116HHD028001-51D
-- Sharp LQ116M1JW10
+This adds an entry to simple panel for the timings of a panel that
+might be attached to the board sc7180-trogdor-pompom.
 
-It should be noted that while the EDID programmed in the first 3
-panels indicates that they should run with exactly the same timing (to
-keep things simple), the 4th panel not only needs different timing but
-has a different resolution.
+As talked about in the previous patch ("dt-bindings: display: simple:
+Add the panel on sc7180-trogdor-pompom") any number of panels might be
+attached. These panels might have different timings or even different
+resolutions.
 
-As is true in general with eDP panels, we can figure out which panel
-we have and all the info needed to drive its pixel clock by reading
-the EDID. However, we can do this only after we've powered the panel
-on. Powering on the panels requires following the timing diagram in
-each panel's datasheet which specifies delays between certain
-actions. This means that, while we can be quite dynamic about handling
-things we can't just totally skip out on describing the panel like we
-could do if it was connected to an external-facing DP port.
+When we see a pompom panel we'll use some conservative power sequence
+timings that can work with any of the panels that will be
+attached. All the rest of the details about the panel can be found by
+read its EDID.
 
-While the different panels have slightly different delays, it's
-possible to come up with a set of unified delays that will work on all
-the panels. From reading the datasheets:
-* KD KD116N21-30NV-A010 and KD KD116N09-30NH-A016
-  - HPD absent delay: 200 ms
-  - Unprepare delay: 150 ms (datasheet is confusing, might be 500 ms)
-* Starry 2081116HHD028001-51D
-  - HPD absent delay: 100 ms
-  - Enable delay: (link training done till enable BL): 200 ms
-  - Unprepare delay: 500 ms
-* Sharp LQ116M1JW10
-  - HPD absent delay: 200 ms
-  - Unprepare delay: 500 ms
-  - Prepare to enable delay (power on till backlight): 100 ms
-
-Unified:
-- HPD absent delay: 200 ms
-- Unprepare delay: 500 ms
-- Enable delay: 200 ms
-
-NOTE: in theory the only thing that we _really_ need unity on is the
-"HPD absent delay" since once the panel asserts HPD we can read the
-EDID and could make per-panel decisions if we wanted.
-
-Let's create a definition of "a panel that can be attached to pompom"
-as a panel that provides a valid EDID and can work with the standard
-pompom power sequencing. If more panels are later attached to pompom
-then it's fine as long as they work in a compatible way.
-
-One might ask why we can't just use a generic string here and provide
-the timings directly in the device tree file. As I understand it,
-trying to describe generic power sequencing in the device tree is
-frowned upon and the one instance (SD/MMC) is regarded as a mistake
-that shouldn't be repeated. Specifying a power sequence per board (or
-per board class) feels like a reasonable compromise. We're not trying
-to define fully generic power sequence bindings but we can also take
-advantage of the semi-probable properties of the attached device.
-
-NOTE: I believe that past instances of supporting this type of thing
-have used the "white lie" approach. One representative panel was
-listed in the device tree. The power sequencings of this
-representative panel were OK to use across all panels that might be
-attached and other differences were handled by EDID. This patch
-attempts to set a new precedent and avoid the need for the white lie.
+NOTE: if we wanted to optimize things a bit we could figure out which
+of the panels was actually attached and perhaps reduce some of the
+timings by a tiny bit if it was a panel that we recognized. I won't
+attempt this right now but it could be a nice future optimization,
+epsecially getting rid of the 200 ms "enable delay" imposed by the
+Starry panel.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
+For overall discussion about the idea of defining a generic panel at
+the board level, please respond in the bindings patch so we can keep
+all discussion in one place.
 
- .../devicetree/bindings/display/panel/panel-simple.yaml       | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 62b0d54d87b7..9807dbc1cceb 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -140,6 +140,10 @@ properties:
-       - giantplus,gpg48273qs5
-         # GiantPlus GPM940B0 3.0" QVGA TFT LCD panel
-       - giantplus,gpm940b0
-+        # A panel connected to a google,pompom board. Panel is guaranteed to
-+        # confirm to google,pompom-panel power sequencing requirements and then
-+        # the specific panel will be probed via EDID.
-+      - google,pompom-panel
-         # HannStar Display Corp. HSD070PWW1 7.0" WXGA TFT LCD panel
-       - hannstar,hsd070pww1
-         # HannStar Display Corp. HSD100PXN1 10.1" XGA LVDS panel
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 4e2dad314c79..c8964efd562b 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2205,6 +2205,15 @@ static const struct panel_desc hitachi_tx23d38vm0caa = {
+ 	},
+ };
+ 
++static const struct panel_desc google_pompom_panel = {
++	.delay = {
++		.hpd_absent_delay = 200,
++		.enable = 200,
++		.unprepare = 500,
++	},
++	.connector_type = DRM_MODE_CONNECTOR_eDP,
++};
++
+ static const struct drm_display_mode innolux_at043tn24_mode = {
+ 	.clock = 9000,
+ 	.hdisplay = 480,
+@@ -4265,6 +4274,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "hit,tx23d38vm0caa",
+ 		.data = &hitachi_tx23d38vm0caa
++	}, {
++		.compatible = "google,pompom-panel",
++		.data = &google_pompom_panel,
+ 	}, {
+ 		.compatible = "innolux,at043tn24",
+ 		.data = &innolux_at043tn24,
 -- 
 2.31.0.rc2.261.g7f71774620-goog
 
