@@ -1,47 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F78933D1E2
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Mar 2021 11:39:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6150633D269
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Mar 2021 12:06:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E975E6E303;
-	Tue, 16 Mar 2021 10:38:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4B796E34B;
+	Tue, 16 Mar 2021 11:06:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99BA46E303
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 10:38:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id EC7953FA4E;
- Tue, 16 Mar 2021 11:38:56 +0100 (CET)
-Authentication-Results: pio-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="Xu0t5uXz";
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Xqk7IMflfcxL; Tue, 16 Mar 2021 11:38:55 +0100 (CET)
-Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id EB5893FA38;
- Tue, 16 Mar 2021 11:38:54 +0100 (CET)
-Received: from [192.168.0.209] (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 5394F362659;
- Tue, 16 Mar 2021 11:38:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1615891134; bh=RJnZQsn6efy98XhuutxlorTcXXl6L6ThvPBav5VNnlk=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=Xu0t5uXzhWlo6UrNdiDMpj6JIh2R+Q3GmAV0TJu8hFwEL/hn71PMCjP5BPFsd+3ZB
- w3seoeJEA6ATb0E85M9v6H60u+NXoz2Jv7zagao7bfX+AWyjXulzEBb7owK7vL6gDX
- 6COpTY5Bi8gSCKPC5ijqdCs1aAtIuoeWFtVuJNlI=
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6994C6E34B
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 11:06:47 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ c76-20020a1c9a4f0000b029010c94499aedso1211223wme.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 04:06:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=6ArKL55/uySmcjAMI6K0hA/PqeiDazplBCA2cwvFD7Q=;
+ b=VCy71aEdKaxXWdxpDNBH5d6mSRwmrai/8nxJmn2Rowzgzz5JcGd3RxbuyqcfMqCprc
+ laCJ+dEA18u4QQvf+x8+me/j2ChtGsVKlxbWX+CD0ryx7P57IJJVriilKpkI3mx9lAeJ
+ U6ZRUPsTkobP8Nmrh/iAFTdfsoAcn598eZE00=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=6ArKL55/uySmcjAMI6K0hA/PqeiDazplBCA2cwvFD7Q=;
+ b=fA9dSPkpBnQAsyxG2b81Vyb8wFNOv6+RN9Ij/i+uUWBsi/7XJwTYVl4vWtmbouaHaS
+ atTCxwF/zNPqPKacRhro1vJDimDxm2ggJFIpTDHeu43HY2SeRPVuAM8YT5SzfHS0ZOdJ
+ 7onWejU3aofVdyRbisVYi/hiqKlAQrRJFFG4fEHhYqXOj4fhG47H71af0RH7Z+FOIcSm
+ EVcrIakriaMf7sjbe82cl4bVqbzAN/qsdcdAJnF0zibmOdskVIrYyFTZ5hSvWUhZYZ41
+ SNIg8yHCPc/kqJwwA3w37nGCncRfv+FJMml0WbPmz5TmC4NDonYymym3LtBQ03KROc4F
+ V97g==
+X-Gm-Message-State: AOAM533A8K6eyB7BoryIl9df8PPgo4n4zCa+3qfM54WtFbxtkFa60+ej
+ k5haKEfDq3yM0GS/NpWq5NFL3w==
+X-Google-Smtp-Source: ABdhPJzEN79HUP0SkiyDdF0LLq6pNvPc9P4QsP9dK8cRPjKrqwp0+bRRJNNwfxOi8Rw/BJGmo37S/g==
+X-Received: by 2002:a7b:c1c9:: with SMTP id a9mr4058576wmj.145.1615892805876; 
+ Tue, 16 Mar 2021 04:06:45 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id m14sm2680653wmi.27.2021.03.16.04.06.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Mar 2021 04:06:45 -0700 (PDT)
+Date: Tue, 16 Mar 2021 12:06:43 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>
 Subject: Re: [PATCH] drm/ttm: make ttm_bo_unpin more defensive
-To: Daniel Vetter <daniel@ffwll.ch>
+Message-ID: <YFCRQ2LzDzPUvce0@phenom.ffwll.local>
 References: <20210312093810.2202-1-christian.koenig@amd.com>
  <acdb06fe-1024-ef2e-0c56-c4fa61b13cec@shipmail.org>
  <15996529-b536-28aa-644c-c57e67788c97@gmail.com>
@@ -49,14 +56,11 @@ References: <20210312093810.2202-1-christian.koenig@amd.com>
  <daafc050-33ca-90b9-0caa-c59397707291@gmail.com>
  <6654281b-5fb4-5d5f-779e-677cc2d54bb9@shipmail.org>
  <YFB6H/QBKfbQ+evn@phenom.ffwll.local>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <eac45ab1-9f94-e438-716d-45861fd857a3@shipmail.org>
-Date: Tue, 16 Mar 2021 11:38:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ <eac45ab1-9f94-e438-716d-45861fd857a3@shipmail.org>
 MIME-Version: 1.0
-In-Reply-To: <YFB6H/QBKfbQ+evn@phenom.ffwll.local>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <eac45ab1-9f94-e438-716d-45861fd857a3@shipmail.org>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,115 +73,255 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
  dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiAzLzE2LzIxIDEwOjI3IEFNLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+IE9uIE1vbiwg
-TWFyIDE1LCAyMDIxIGF0IDA4OjAwOjMwUE0gKzAxMDAsIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRl
-bCkgd3JvdGU6Cj4+IE9uIDMvMTUvMjEgNzo0NyBQTSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToK
-Pj4+Cj4+PiBBbSAxNS4wMy4yMSB1bSAxODowOCBzY2hyaWViIFRob21hcyBIZWxsc3Ryw7ZtIChJ
-bnRlbCk6Cj4+Pj4gT24gMy8xNS8yMSAxMToyNiBBTSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToK
-Pj4+Pj4KPj4+Pj4gQW0gMTMuMDMuMjEgdW0gMTk6Mjkgc2NocmllYiBUaG9tYXMgSGVsbHN0csO2
-bSAoSW50ZWwpOgo+Pj4+Pj4gSGksIENocmlzdGlhbgo+Pj4+Pj4KPj4+Pj4+IE9uIDMvMTIvMjEg
-MTA6MzggQU0sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+Pj4+Pj4gV2Ugc2VlbSB0byBoYXZl
-IHNvbWUgbW9yZSBkcml2ZXIgYnVncyB0aGFuIHRob3VnaHQuCj4+Pj4+Pj4KPj4+Pj4+PiBTaWdu
-ZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4+
-Pj4+Pj4gLS0tCj4+Pj4+Pj4gIMKgIGluY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmggfCA2ICsr
-KystLQo+Pj4+Pj4+ICDCoCAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAyIGRlbGV0
-aW9ucygtKQo+Pj4+Pj4+Cj4+Pj4+Pj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL3R0bS90dG1f
-Ym9fYXBpLmgKPj4+Pj4+PiBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgKPj4+Pj4+PiBp
-bmRleCA0ZmI1MjNkZmFiMzIuLmRmOWZlNTk2ZTdjNSAxMDA2NDQKPj4+Pj4+PiAtLS0gYS9pbmNs
-dWRlL2RybS90dG0vdHRtX2JvX2FwaS5oCj4+Pj4+Pj4gKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0
-bV9ib19hcGkuaAo+Pj4+Pj4+IEBAIC02MDMsOSArNjAzLDExIEBAIHN0YXRpYyBpbmxpbmUgdm9p
-ZAo+Pj4+Pj4+IHR0bV9ib19waW4oc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibykKPj4+Pj4+
-PiAgwqAgc3RhdGljIGlubGluZSB2b2lkIHR0bV9ib191bnBpbihzdHJ1Y3QgdHRtX2J1ZmZlcl9v
-YmplY3QgKmJvKQo+Pj4+Pj4+ICDCoCB7Cj4+Pj4+Pj4gIMKgwqDCoMKgwqAgZG1hX3Jlc3ZfYXNz
-ZXJ0X2hlbGQoYm8tPmJhc2UucmVzdik7Cj4+Pj4+Pj4gLcKgwqDCoCBXQVJOX09OX09OQ0UoIWJv
-LT5waW5fY291bnQpOwo+Pj4+Pj4+ICDCoMKgwqDCoMKgIFdBUk5fT05fT05DRSgha3JlZl9yZWFk
-KCZiby0+a3JlZikpOwo+Pj4+Pj4+IC3CoMKgwqAgLS1iby0+cGluX2NvdW50Owo+Pj4+Pj4+ICvC
-oMKgwqAgaWYgKGJvLT5waW5fY291bnQpCj4+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgIC0tYm8tPnBp
-bl9jb3VudDsKPj4+Pj4+PiArwqDCoMKgIGVsc2UKPj4+Pj4+PiArwqDCoMKgwqDCoMKgwqAgV0FS
-Tl9PTl9PTkNFKHRydWUpOwo+Pj4+Pj4+ICDCoCB9Cj4+Pj4+Pj4gIMKgIMKgIGludCB0dG1fbWVt
-X2V2aWN0X2ZpcnN0KHN0cnVjdCB0dG1fZGV2aWNlICpiZGV2LAo+Pj4+Pj4gU2luY2UgSSBub3cg
-aGF2ZSBiZWVuIHN0YXJpbmcgZm9yIGhhbGYgYSB5ZWFyIGF0IHRoZSBjb2RlIG9mCj4+Pj4+PiB0
-aGUgZHJpdmVyIHRoYXQgbWFkZSBwaW5uaW5nIGFuIGFydCwgSSBoYXZlIGEgY291cGxlIG9mCj4+
-Pj4+PiBzdWdnZXN0aW9ucyBoZXJlLCBDb3VsZCB3ZSB1c2UgYW4gYXRvbWljIGZvciBwaW5fY291
-bnQsCj4+Pj4+PiBhbGxvd2luZyB1bmxvY2tlZCB1bnBpbm5pbmcgYnV0IHJlcXVpcmUgdGhlIGxv
-Y2sgb25seSBmb3IKPj4+Pj4+IHBpbl9jb3VudCB0cmFuc2l0aW9uIDAtPjEsIChidXQgdW5sb2Nr
-ZWQgZm9yCj4+Pj4+PiBwaW5faWZfYWxyZWFkeV9waW5uZWQpLiBJbiBwYXJ0aWN1bGFyIEkgdGhp
-bmsgdm13Z2Z4IHdvdWxkCj4+Pj4+PiBiZW5lZml0IGZyb20gdW5sb2NrZWQgdW5waW5zLiBBbHNv
-IGlmIHRoZSBhdG9taWMgd2VyZSBhCj4+Pj4+PiByZWZjb3VudF90LCB0aGF0IHdvdWxkIHByb2Jh
-Ymx5IGdpdmUgeW91IHRoZSBhYm92ZQo+Pj4+Pj4gYmVoYXZpb3VyPwo+Pj4+PiBOb3BlLCBJJ3Zl
-IGNvbnNpZGVyZWQgdGhpcyBhcyB3ZWxsIHdoaWxlIG1vdmluZyB0aGUgcGluIGNvdW50IGludG8g
-VFRNLgo+Pj4+Pgo+Pj4+PiBUaGUgcHJvYmxlbSBpcyB0aGF0IHlvdSBub3Qgb25seSBuZWVkIHRo
-ZSBCTyByZXNlcnZlZCBmb3IgMC0+MQo+Pj4+PiB0cmFuc2l0aW9ucywgYnV0IGFsc28gZm9yIDEt
-PjAgdHJhbnNpdGlvbnMgdG8gbW92ZSB0aGUgQk8gb24gdGhlCj4+Pj4+IExSVSBjb3JyZWN0bHku
-Cj4+Pj4gQWgsIGFuZCB0aGVyZSBpcyBubyB3YXkgdG8gaGF2ZSB1cyBrbm93IHRoZSBjb3JyZWN0
-IExSVSBsaXN0IHdpdGhvdXQKPj4+PiByZXNlcnZhdGlvbj8KPj4+IE5vdCByZWFsbHksIHRoZXJl
-IGlzIGFsd2F5cyB0aGUgY2hhbmNlIHRoYXQgQ1BVIEEgaXMgcmVkdWNpbmcgdGhlIGNvdW50Cj4+
-PiBmcm9tIDEtPjAgd2hpbGUgQ1BVIEIgaXMgZG9pbmcgMC0+MSBhbmQgeW91IGVuZCB1cCB3aXRo
-IGEgTFJVIHN0YXR1cwo+Pj4gd2hpY2ggZG9lc24ndCBtYXRjaCB0aGUgcGluIGNvdW50Lgo+Pj4K
-Pj4+IFdlIGNvdWxkIHRyeSB0byBkbyBzb21ldGhpbmcgbGlrZSBhIGxvb3AgdXBkYXRpbmcgdGhl
-IExSVSBzdGF0dXMgdW50aWwKPj4+IGl0IG1hdGNoZXMgdGhlIHBpbiBjb3VudCwgYnV0IHRoZSBp
-bXBsaWNhdGlvbnMgb2YgdGhhdCBhcmUgdXN1YWxseQo+Pj4gcmVhbGx5IG5hc3R5Lgo+Pj4KPj4g
-T0ssIHllYWggSSB3YXMgbW9yZSB0aGlua2luZyBhbG9uZyB0aGUgbGluZXMgb2YgcHJvdGVjdGlu
-ZyB0aGUgTFJVIHN0YXR1cwo+PiB3aXRoIHRoZSBnbG9iYWwgbHJ1IGxvY2sgYW5kIHVucGluIHdv
-dWxkIHRoZW4gYmUKPj4KPj4gaWYgKHJlZmNvdW50X2RlY19hbmRfbG9jaygmYm8tPnBpbl9jb3Vu
-dCwgJnR0bV9nbG9iLmxydV9sb2NrKSkgewo+PiAgwqDCoMKgIGFkZF90b19yZWxldmFudF9scnVz
-KGJvLCBiby0+bHJ1X3N0YXR1cyk7Cj4+ICDCoMKgwqAgc3Bpbl91bmxvY2soJnR0bV9nbG9iLmxy
-dV9sb2NrKTsKPj4gfQo+Pgo+PiBCdXQgbG9va2luZyBhdCB0dG1fYm9fbW92ZV90b19scnVfdGFp
-bCgpIEkgcmVhbGl6ZSB0aGF0J3Mgbm90IHJlYWxseSB0cml2aWFsCj4+IGFueW1vcmUuIEkgaG9w
-ZSBpdCdzIGRvYWJsZSBhdCBzb21lIHBvaW50IHRob3VnaC4KPj4KPj4gQnV0IG1lYW53aGlsZSwg
-cGVyaGFwcyBUVE0gbmVlZHMgdG8gYWNjZXB0IGFuZCBwYXZlIG92ZXIgdGhhdCBkcml2ZXJzIGFy
-ZSBpbgo+PiBmYWN0IGRlc3Ryb3lpbmcgcGlubmVkIGJ1ZmZlcnM/Cj4gRG8gd2UgaGF2ZSBtb3Jl
-IHRyb3VibGUgdGhhbiB0aGUgdmVyeSBmYW5jeSB0cmlja3Mgdm13Z2Z4IGRvZXM/IElmIHNvIEkK
-PiB0aGluayB3ZSBjb3VsZCBkbyBhIHNtYWxsIGhlbHBlciB0aGF0IGxpa2UgdHRtX2RvbnRfY2hl
-Y2tfdW5waW4oKSB0byBzaHV0Cj4gaXQgdXAuIFNpbmNlIHZtd2dmeCBkcml2ZXJzIHRlbmQgdG8g
-bm90IGJlIGxvYWRlZCB3aXRoIGFueSBvdGhlciBkcml2ZXJzCj4gdGhhdCBzaG91bGRuJ3QgcmVk
-dWNlIGFueSB0ZXN0IGNvdmVyYWdlLiBBbmQgYWxsb3dzIHZtd2dmeCBmb2xrcyB0byBmaWd1cmUK
-PiBvdXQgd2hhdCB0byBkbyAtIG1heWJlIHlvdSBkbyBuZWVkIHlvdXIgb3duIGluLWhvdXNlIHBp
-bi91bnBpbiBmb3IgdGhlc2UKPiBzcGVjaWFsIGJvPwo+Cj4gSSBkaWQgdHJ5IHRvIHBhcnNlIHlv
-dXIgcmVwbHkgaW4gdGhlIG90aGVyIHRocmVhZCwgYW5kIHRiaCBJIGRpZG4ndCBncm9jawo+IGl0
-LgoKTm90IHN1cmUgaWYgeW91IG1lYW4gdGhlIGRlc2NyaXB0aW9uIHdhcyB1bmNsZWFyIG9yIGlm
-IHlvdSB0aG91Z2h0IGl0IAp3YXMgYSBiYWQgaWRlYSwgYnV0IGluIGNhc2UgdGhlIGZvcm1lciwg
-d2hhdCBJIG1lYW4gaXMKCnN0YXRpYyB2b2lkIHR0bV9ib19waW4oc3RydWN0IHR0bV9idWZmZXJf
-b2JqZWN0ICpibykKewoKZG1hX3Jlc3ZfYXNzZXJ0X2hlbGQoKcKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLy8gTm8gc3VycHJpc2VzIGlmIGFuIApldmljdG9y
-IGRldGVybWluZWQgdGhhdCB0aGlzIG9iamVjdCBpcyBub3QgcGlubmVkLgoKIMKgwqDCoCBpZiAo
-IXJlZmNvdW50X2luY19ub3RfemVybygmYm8tPnBpbl9jb3VudCkpIHsgLy8gQ291bGQgYmUgbWFk
-ZSAKdHRtX2JvX3Bpbl9pZl9waW5uZWQoKSBhbmQgZXhwb3J0ZWQgaWYgdGhlcmUgYXJlIHVzZXJz
-CiDCoMKgwqAgwqDCoMKgIHNwaW5fbG9jaygmdHRtX2dsb2IubHJ1X2xvY2spO8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgLy8gRG9uJ3QgcmFjZSB3aXRoIAp1bnBpbiAxLT4wCiDCoMKgwqAgwqDCoMKg
-IGlmIChyZWZjb3VudF9yZWFkKCZiby0+cGluX2NvdW50KSA9PSAwICYmIGJvLT5scnUpCiDCoMKg
-wqAgwqDCoMKgIMKgwqDCoCB0dG1fYm9fZGVsX2Zyb21fbHJ1KGJvKTsKIMKgwqDCoCDCoMKgwqAg
-cmVmY291bnRfaW5jKCZiby0+cGluX2NvdW50KTsKIMKgwqDCoCDCoMKgwqAgc3Bpbl91bmxvY2so
-JnR0bV9nbG9iLmxydV9sb2NrKTsKIMKgwqDCoCB9Cn0KCnN0YXRpYyB2b2lkIHR0bV9ib191bnBp
-bihzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvKQp7CiDCoMKgwqAgaWYgKHJlZmNvdW50X2Rl
-Y19hbmRfbG9jaygmYm8tPnBpbl9jb3VudCwgJnR0bV9nbG9iLmxydV9sb2NrKSkgewogwqDCoMKg
-IMKgwqDCoCB0dG1fYm9fbW92ZV90b19scnVfdGFpbChibywgYm8tPmxydV9tZW1fdHlwZSwgYm8t
-PmxydV9wcmlvLAogwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCBOVUxMKTsKIMKg
-wqDCoCDCoMKgwqAgc3Bpbl91bmxvY2soJnR0bV9nbG9iLmxydV9sb2NrKTsKIMKgwqDCoCB9Cn0K
-CkluIGFkZGl0aW9uLCBiby0+bHJ1X21lbV90eXBlIGFuZCBiby0+bHJ1X3ByaW8gd291bGQgbmVl
-ZCB0byBiZSAKcHJvdGVjdGVkIGJ5IHRoZSBscnUgbG9jaywgYW5kIHVwZGF0ZWQgdG9nZXRoZXIg
-d2l0aCB0aGUgTFJVIGxpc3QgCnBvc2l0aW9uLCB3aGljaCB3b3VsZCBiZSB0aGUgZXh0cmEgY29t
-cGxleGl0eSBpbiBmYXN0cGF0aHMuIFdvdWxkbid0IAp0aGF0IHJlc29sdmUgdGhlIHBpbiAtIGxy
-dSBpbmNvbnNpc3RlbmN5PwoKQnV0IHllYWggaWYgdm13Z2Z4IGlzIHRoZSBvbmx5IGRyaXZlciBo
-aXR0aW5nIHRyb3VibGUgYmVjYXVzZSBvZiB0aGlzLCAKdGhlbiBJIGFncmVlIGxldCdzIGxlYXZl
-IGl0IGZvciB3aGVuIC8gaWYgaXQgYmVjb21lcyBuZWVkZWQuIEhhdmluZyBoYWQgCnRoYXQgcmVx
-dWlyZW1lbnQgaW4gdGhlIEludGVsIGRyaXZlciB3b3VsZCBoYXZlIGNvbXBsaWNhdGVkIHRoZSBk
-bWFfcmVzdiAKd29yayBxdWl0ZSBhIGxvdC4KCi9UaG9tYXMKCgo+Cj4gQWxzbyBJIHRoaW5rIGEg
-Y29tbWVudCB3aHkgd2UgbmVlZCBkbWFfcmVzdiAobWF5YmUgaW4gdGhlIGtlcm5lbGRvYyBmb3IK
-PiBwaW4gY291bnQpLCBpLmUuIHRoYXQgaXQncyBuZWVkZWQgdG8ga2VlcCBscnUgc3RhdGUgaW4g
-c3luYyB3aXRoIHBpbiBzdGF0ZQo+IHdvdWxkIGJlIHJlYWxseSBnb29kPwo+IC1EYW5pZWwKPgo+
-PiAvVGhvbWFzCj4+Cj4+Cj4+Cj4+Cj4+Cj4+PiBDaHJpc3RpYW4uCj4+Pgo+Pj4+IC9UaG9tYXMK
-Pj4+Pgo+Pj4+Cj4+Pj4+IENocmlzdGlhbi4KPj4+Pj4KPj4+Pj4+IC9UaG9tYXMKPj4+Pj4+Cj4+
-Pj4+Pgo+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+
-PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKPj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Tue, Mar 16, 2021 at 11:38:53AM +0100, Thomas Hellstr=F6m (Intel) wrote:
+> Hi,
+> =
+
+> On 3/16/21 10:27 AM, Daniel Vetter wrote:
+> > On Mon, Mar 15, 2021 at 08:00:30PM +0100, Thomas Hellstr=F6m (Intel) wr=
+ote:
+> > > On 3/15/21 7:47 PM, Christian K=F6nig wrote:
+> > > > =
+
+> > > > Am 15.03.21 um 18:08 schrieb Thomas Hellstr=F6m (Intel):
+> > > > > On 3/15/21 11:26 AM, Christian K=F6nig wrote:
+> > > > > > =
+
+> > > > > > Am 13.03.21 um 19:29 schrieb Thomas Hellstr=F6m (Intel):
+> > > > > > > Hi, Christian
+> > > > > > > =
+
+> > > > > > > On 3/12/21 10:38 AM, Christian K=F6nig wrote:
+> > > > > > > > We seem to have some more driver bugs than thought.
+> > > > > > > > =
+
+> > > > > > > > Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+> > > > > > > > ---
+> > > > > > > >  =A0 include/drm/ttm/ttm_bo_api.h | 6 ++++--
+> > > > > > > >  =A0 1 file changed, 4 insertions(+), 2 deletions(-)
+> > > > > > > > =
+
+> > > > > > > > diff --git a/include/drm/ttm/ttm_bo_api.h
+> > > > > > > > b/include/drm/ttm/ttm_bo_api.h
+> > > > > > > > index 4fb523dfab32..df9fe596e7c5 100644
+> > > > > > > > --- a/include/drm/ttm/ttm_bo_api.h
+> > > > > > > > +++ b/include/drm/ttm/ttm_bo_api.h
+> > > > > > > > @@ -603,9 +603,11 @@ static inline void
+> > > > > > > > ttm_bo_pin(struct ttm_buffer_object *bo)
+> > > > > > > >  =A0 static inline void ttm_bo_unpin(struct ttm_buffer_obje=
+ct *bo)
+> > > > > > > >  =A0 {
+> > > > > > > >  =A0=A0=A0=A0=A0 dma_resv_assert_held(bo->base.resv);
+> > > > > > > > -=A0=A0=A0 WARN_ON_ONCE(!bo->pin_count);
+> > > > > > > >  =A0=A0=A0=A0=A0 WARN_ON_ONCE(!kref_read(&bo->kref));
+> > > > > > > > -=A0=A0=A0 --bo->pin_count;
+> > > > > > > > +=A0=A0=A0 if (bo->pin_count)
+> > > > > > > > +=A0=A0=A0=A0=A0=A0=A0 --bo->pin_count;
+> > > > > > > > +=A0=A0=A0 else
+> > > > > > > > +=A0=A0=A0=A0=A0=A0=A0 WARN_ON_ONCE(true);
+> > > > > > > >  =A0 }
+> > > > > > > >  =A0 =A0 int ttm_mem_evict_first(struct ttm_device *bdev,
+> > > > > > > Since I now have been staring for half a year at the code of
+> > > > > > > the driver that made pinning an art, I have a couple of
+> > > > > > > suggestions here, Could we use an atomic for pin_count,
+> > > > > > > allowing unlocked unpinning but require the lock only for
+> > > > > > > pin_count transition 0->1, (but unlocked for
+> > > > > > > pin_if_already_pinned). In particular I think vmwgfx would
+> > > > > > > benefit from unlocked unpins. Also if the atomic were a
+> > > > > > > refcount_t, that would probably give you the above
+> > > > > > > behaviour?
+> > > > > > Nope, I've considered this as well while moving the pin count i=
+nto TTM.
+> > > > > > =
+
+> > > > > > The problem is that you not only need the BO reserved for 0->1
+> > > > > > transitions, but also for 1->0 transitions to move the BO on the
+> > > > > > LRU correctly.
+> > > > > Ah, and there is no way to have us know the correct LRU list with=
+out
+> > > > > reservation?
+> > > > Not really, there is always the chance that CPU A is reducing the c=
+ount
+> > > > from 1->0 while CPU B is doing 0->1 and you end up with a LRU status
+> > > > which doesn't match the pin count.
+> > > > =
+
+> > > > We could try to do something like a loop updating the LRU status un=
+til
+> > > > it matches the pin count, but the implications of that are usually
+> > > > really nasty.
+> > > > =
+
+> > > OK, yeah I was more thinking along the lines of protecting the LRU st=
+atus
+> > > with the global lru lock and unpin would then be
+> > > =
+
+> > > if (refcount_dec_and_lock(&bo->pin_count, &ttm_glob.lru_lock)) {
+> > >  =A0=A0=A0 add_to_relevant_lrus(bo, bo->lru_status);
+> > >  =A0=A0=A0 spin_unlock(&ttm_glob.lru_lock);
+> > > }
+> > > =
+
+> > > But looking at ttm_bo_move_to_lru_tail() I realize that's not really =
+trivial
+> > > anymore. I hope it's doable at some point though.
+> > > =
+
+> > > But meanwhile, perhaps TTM needs to accept and pave over that drivers=
+ are in
+> > > fact destroying pinned buffers?
+> > Do we have more trouble than the very fancy tricks vmwgfx does? If so I
+> > think we could do a small helper that like ttm_dont_check_unpin() to sh=
+ut
+> > it up. Since vmwgfx drivers tend to not be loaded with any other drivers
+> > that shouldn't reduce any test coverage. And allows vmwgfx folks to fig=
+ure
+> > out what to do - maybe you do need your own in-house pin/unpin for these
+> > special bo?
+> > =
+
+> > I did try to parse your reply in the other thread, and tbh I didn't gro=
+ck
+> > it.
+> =
+
+> Not sure if you mean the description was unclear or if you thought it was=
+ a
+> bad idea, but in case the former, what I mean is
+
+My unclarity is on what you explained in the vmwgfx thread about how
+vmwgfx uses its pin/unpin and why. That was full of vmwgfx concepts I
+don't know about. This here looks reasonably clear to me, but it does have
+the race Christian sees I think.
+
+> static void ttm_bo_pin(struct ttm_buffer_object *bo)
+> {
+> =
+
+> dma_resv_assert_held()=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0 // No surprises if an evictor
+> determined that this object is not pinned.
+> =
+
+> =A0=A0=A0 if (!refcount_inc_not_zero(&bo->pin_count)) { // Could be made
+> ttm_bo_pin_if_pinned() and exported if there are users
+> =A0=A0=A0 =A0=A0=A0 spin_lock(&ttm_glob.lru_lock);=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0 // Don't race with unpin
+> 1->0
+> =A0=A0=A0 =A0=A0=A0 if (refcount_read(&bo->pin_count) =3D=3D 0 && bo->lru)
+> =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 ttm_bo_del_from_lru(bo);
+> =A0=A0=A0 =A0=A0=A0 refcount_inc(&bo->pin_count);
+> =A0=A0=A0 =A0=A0=A0 spin_unlock(&ttm_glob.lru_lock);
+> =A0=A0=A0 }
+> }
+> =
+
+> static void ttm_bo_unpin(struct ttm_buffer_object *bo)
+> {
+> =A0=A0=A0 if (refcount_dec_and_lock(&bo->pin_count, &ttm_glob.lru_lock)) {
+> =A0=A0=A0 =A0=A0=A0 ttm_bo_move_to_lru_tail(bo, bo->lru_mem_type, bo->lru=
+_prio,
+> =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 NULL);
+> =A0=A0=A0 =A0=A0=A0 spin_unlock(&ttm_glob.lru_lock);
+> =A0=A0=A0 }
+> }
+> =
+
+> In addition, bo->lru_mem_type and bo->lru_prio would need to be protected=
+ by
+> the lru lock, and updated together with the LRU list position, which would
+> be the extra complexity in fastpaths. Wouldn't that resolve the pin - lru
+> inconsistency?
+> =
+
+> But yeah if vmwgfx is the only driver hitting trouble because of this, th=
+en
+> I agree let's leave it for when / if it becomes needed. Having had that
+> requirement in the Intel driver would have complicated the dma_resv work
+> quite a lot.
+
+Yeah I know i915 does a lot of unpin in interesting places, and that's
+part of why I'm worried. I've seen some bugfixes fly by that dropped
+dma_resv_lock around unpin to fix really scary looking stalls
+(rcu_synchronize vs other stuff and lockdep did not catch it). And once I
+see that kind of stuff I'm heavily leaning towards simpler locking we can
+grasp, just to be able to stay on top of the bugs. Because the bugfix did
+not come with any clear explanation for why not taking dma_resv_lock
+actually helps, or any other clear and in-depth locking analysis.
+
+I think we also still have some temporary pin/unpin flying about, but
+maybe those are all gone now.
+
+So i915 gem code and what I've seen there is part of the reasons why I
+think we shouldn't make unpin lockless. It just doesn't look like it leads
+to very managable code. Plus for most drivers pin/unpin really is only
+something for display, and the locking shouldn't matter at all from a perf
+pov.
+-Daniel
+
+
+> =
+
+> /Thomas
+> =
+
+> =
+
+> > =
+
+> > Also I think a comment why we need dma_resv (maybe in the kerneldoc for
+> > pin count), i.e. that it's needed to keep lru state in sync with pin st=
+ate
+> > would be really good?
+> > -Daniel
+> > =
+
+> > > /Thomas
+> > > =
+
+> > > =
+
+> > > =
+
+> > > =
+
+> > > =
+
+> > > > Christian.
+> > > > =
+
+> > > > > /Thomas
+> > > > > =
+
+> > > > > =
+
+> > > > > > Christian.
+> > > > > > =
+
+> > > > > > > /Thomas
+> > > > > > > =
+
+> > > > > > > =
+
+> > > _______________________________________________
+> > > dri-devel mailing list
+> > > dri-devel@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
