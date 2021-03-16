@@ -1,69 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5230833D0D1
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Mar 2021 10:29:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BF4D33D0DD
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Mar 2021 10:32:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 743286E23F;
-	Tue, 16 Mar 2021 09:29:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE8D789829;
+	Tue, 16 Mar 2021 09:32:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5482E6E23F
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 09:29:29 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- y124-20020a1c32820000b029010c93864955so987157wmy.5
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 02:29:29 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52F9789829
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 09:32:48 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id v15so10079807wrx.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 02:32:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=zbIMwFSN52r6+R4buAjNsPf8jPhZxpk+8xX56MHGwM0=;
- b=IjPmoQb/L3Nhi6COttLWn5PBNNp6U6fyow4RX1tDmm9/WVjMdxdKLRaUZ7y9tAXS3U
- O90TbWErfDDCbme63137Jos2B80XRGM2D1ogM6hqXZN3LQSvz9ZsEbe0d1bdQ5UH2qRR
- vjEFMp62x4fUMJPaMYyj5c165gGNG/UbEmInk=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=mHGu/5ZK3gXCx4dgZQO6YqVr4qZthMZoodHsWHtbrgg=;
+ b=Dguc1uXlkKAlC0wQhABHlAL7Z9iWHzralUL72BgTT8PpTzFt4olqBF+f3OvqUwFH7I
+ g17rbZoIPhEGgGVA4OzFl+44OQ6I83p1lObOjlgMpA7HyXzw0btAKvdkrVI17iTMaP2i
+ GBUv3tC/JOe7xoMSGAium0AichNkcexmrJYwM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=zbIMwFSN52r6+R4buAjNsPf8jPhZxpk+8xX56MHGwM0=;
- b=Ouleuu9JsLGT1VTnl3YfOifZz3+yN5dZbHcGUhgGiSULkNsU4WQmUWxblfKg8rBh4Z
- I0lnHYj7rZTA85y0vgnJfjVwH8tHSmrq5oL+PupNDybrGa6J0lBa9h/fxHLc1EZ28XuO
- 8Jw4ml/2Z9UzuGhZqNEoqtmqhebnAGO7qZvWfQqLEBy9AhDFfj3LljJuXyoAr4uX7000
- yEk9ZEfGC4TzQJS4jN26qeEhnVKnBmqBx8451/slVNkEzkKj8dzNfeZjl9o71xHoMfrS
- RntZKvvC6txS/uiO8YioXAQy9iHx8Ou9NHWSmQr55ZUSF4p6I5kR7QkFJBiNdE3Mch5q
- Atow==
-X-Gm-Message-State: AOAM530qyG0rjYVq3GCW53U5J3HNeBwgi7XVis0y1P/C3jpcshvpKyTd
- WS4GnfK2eJXVO7XtTj2jFfImMQ==
-X-Google-Smtp-Source: ABdhPJyIBTDr2KqIevXVPiXBP18IogSX/j3eYKgGVKBjNB1xO4Vf39gfwuU8Jpr2a7d29bv6+yInWw==
-X-Received: by 2002:a1c:6745:: with SMTP id b66mr3874578wmc.114.1615886967960; 
- Tue, 16 Mar 2021 02:29:27 -0700 (PDT)
+ bh=mHGu/5ZK3gXCx4dgZQO6YqVr4qZthMZoodHsWHtbrgg=;
+ b=WZUSriv3VU9yTi3bKHltGwGdEzYZJDuW5wfbtRwCb7s+6a/ts3Vsyrygi4oP/G1JwF
+ 8/3XELNi4vU2NzxUQGo/r9CbhpduT/lxs8F36KNv//HAu9yNrYdRjD3GdWOgvl/0VC15
+ j4CJcHpdvxb5uEqUU2lmm1Sg3nkU6JsKgLGE6JBP41nv6QBe2kk+wY4SUKSHkR7PW9SQ
+ u5e4sxbrW3/E+slKnd2+7koDEjWKPwKQtiI/mkzG13tbVBjdjn1d3BHWMa4k6EacVKx+
+ +CrVuSwZjT3zC9DBDfq8gDINU74gZIdufqo/+9ANh0bXo4xtlNdX1Pi2ACtDrBNLWV0M
+ GfqQ==
+X-Gm-Message-State: AOAM531rB8HjRbDsOcp4Vs6Do6HSA/xwM/8xKG19dLcLxLHm1hIHQrkh
+ HqcZLYstfFCDtRlB5iWzzTw7iFmm8Ej9Q54w
+X-Google-Smtp-Source: ABdhPJypIeRC7MQIfPpgc5RFtSkrGFKscokLCcwSDpikct/a5KgNG4Sp6Mr+WZP3EPyZ1DyN0woHDQ==
+X-Received: by 2002:a5d:6446:: with SMTP id d6mr3836768wrw.328.1615887167039; 
+ Tue, 16 Mar 2021 02:32:47 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k24sm2394213wmr.48.2021.03.16.02.29.26
+ by smtp.gmail.com with ESMTPSA id s16sm21403116wru.91.2021.03.16.02.32.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Mar 2021 02:29:27 -0700 (PDT)
-Date: Tue, 16 Mar 2021 10:29:25 +0100
+ Tue, 16 Mar 2021 02:32:46 -0700 (PDT)
+Date: Tue, 16 Mar 2021 10:32:44 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Dmitry Vyukov <dvyukov@google.com>
-Subject: Re: [syzbot] upstream boot error: WARNING in vkms_vblank_simulate
-Message-ID: <YFB6dTpWNEoo4oB+@phenom.ffwll.local>
-Mail-Followup-To: Dmitry Vyukov <dvyukov@google.com>,
- syzbot <syzbot+333bd014262fd5d0a418@syzkaller.appspotmail.com>,
- David Airlie <airlied@linux.ie>,
- DRI <dri-devel@lists.freedesktop.org>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>, melissa.srw@gmail.com,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-References: <0000000000009cd8d505bd545452@google.com>
- <CACT4Y+a68cidsRa1zd8h=rNVkwyYKdihBtO2YBPyyxwc2Twpng@mail.gmail.com>
- <YEt5MfyAB7YCFFhl@phenom.ffwll.local>
- <CACT4Y+ZRxiFB2GvGSg-ucka23aHYLzxfg09tgpnm1fQGAmTChg@mail.gmail.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: nuke the ih reentrant lock
+Message-ID: <YFB7PKZUZcj5zTLZ@phenom.ffwll.local>
+References: <20210312135906.3262-1-christian.koenig@amd.com>
+ <YEt08RhEI23VPS4g@phenom.ffwll.local>
+ <e5ed96e2-8252-4a3a-593a-24551edaa1e8@gmail.com>
+ <YEt8RlrR86vkqiyZ@phenom.ffwll.local>
+ <YEt8hSb4TMzXEb4a@phenom.ffwll.local>
+ <3ec207d7-6a7a-91ec-95ce-8b1a95b7210f@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CACT4Y+ZRxiFB2GvGSg-ucka23aHYLzxfg09tgpnm1fQGAmTChg@mail.gmail.com>
+In-Reply-To: <3ec207d7-6a7a-91ec-95ce-8b1a95b7210f@gmail.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,161 +70,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- syzbot <syzbot+333bd014262fd5d0a418@syzkaller.appspotmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- LKML <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>,
- melissa.srw@gmail.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 12, 2021 at 05:10:43PM +0100, Dmitry Vyukov wrote:
-> On Fri, Mar 12, 2021 at 3:22 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Fri, Mar 12, 2021 at 11:46:27AM +0100, Dmitry Vyukov wrote:
-> > > On Fri, Mar 12, 2021 at 11:26 AM syzbot
-> > > <syzbot+333bd014262fd5d0a418@syzkaller.appspotmail.com> wrote:
-> > > >
-> > > > Hello,
-> > > >
-> > > > syzbot found the following issue on:
-> > > >
-> > > > HEAD commit:    f78d76e7 Merge tag 'drm-fixes-2021-03-12-1' of git://anong..
-> > > > git tree:       upstream
-> > > > console output: https://syzkaller.appspot.com/x/log.txt?x=11c16ba2d00000
-> > > > kernel config:  https://syzkaller.appspot.com/x/.config?x=dc02c6afcb046874
-> > > > dashboard link: https://syzkaller.appspot.com/bug?extid=333bd014262fd5d0a418
-> > > > userspace arch: arm
-> > > >
-> > > > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > > > Reported-by: syzbot+333bd014262fd5d0a418@syzkaller.appspotmail.com
-> > >
-> > > This WARNING seems to be happening just randomly.
-> > > It was already reported as:
-> > >
-> > > #syz dup: WARNING in vkms_vblank_simulate (2)
-> > > https://syzkaller.appspot.com/bug?id=9b10491371879700d6a21c15684c2232ff015084
-> > >
-> > > It now has whooping 48589 crashes and also crashes slow qemu tcg instances.
-> >
-> > Yeah your box is too slow. We're trying to simulate hw here, which means
-> > if we can process less than 1 hrtimer per vblank (standard every 16ms)
-> > then we scream, because things go very wrong with the simulated hw. And
-> > the hrtimer is really not that big, all the expensive processing is pushed
-> > to worker, where we have code to handle if it falls back too much.
-> >
-> > So either patch this out or make the code robust against a kernel that
-> > somehow can't process a single hrtimer every 16ms.
+On Fri, Mar 12, 2021 at 03:50:35PM +0100, Christian K=F6nig wrote:
+> Am 12.03.21 um 15:36 schrieb Daniel Vetter:
+> > On Fri, Mar 12, 2021 at 03:35:50PM +0100, Daniel Vetter wrote:
+> > > On Fri, Mar 12, 2021 at 03:27:58PM +0100, Christian K=F6nig wrote:
+> > > > =
+
+> > > > Am 12.03.21 um 15:04 schrieb Daniel Vetter:
+> > > > > On Fri, Mar 12, 2021 at 02:59:06PM +0100, Christian K=F6nig wrote:
+> > > > > > Interrupts on are non-reentrant on linux. This is just an ancie=
+nt
+> > > > > > leftover from radeon where irq processing was kicked of from di=
+fferent
+> > > > > > places.
+> > > > > > =
+
+> > > > > > Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+> > > > > Man you tricked me into grepping this on radeon and it looks horr=
+ible.
+> > > > > atomic_t is unordered in linux, so whatever was built there for r=
+adeon
+> > > > > does not wokr like a lock. It's missing all the barriers afiui. G=
+ood
+> > > > > riddance at least for amdgpu.
+> > > > Hui? atomic_xchg() is perfectly ordered as far as I know.
+> > > Oh right, if atomic_ returns a value it's fully ordered. Nice tour in=
+to
+> > > memory-barriers.txt. It's the atomic_t operations that don't return
+> > > anything which are fully unordered, and I mixed that up.
+> > > =
+
+> > > > IIRC Alex added this for R600 because we had boards where interrupt=
+s where
+> > > > sporadically swallowed during driver startup and we had to kick of =
+ring
+> > > > buffer processing manually.
+> > > > =
+
+> > > > Anyway we have a fence processing fallback timer in amdgpu instead =
+and that
+> > > > stuff is probably unused on any modern hardware.
+> > > Ah yes that stuff. Kinda annoying we have these old dma_fence around =
+where
+> > > dma_fence_wait doesn't really work that well, but oh well.
+> > Argh I'm not awake. dma_fence_wait() works well on these, but the gener=
+ic
+> > cb stuff (which is used in ever more place) doesn't, because it misses =
+the
+> > fallback timer the ->wait does.
+> =
+
+> That's not what I meant. See amdgpu_fence_schedule_fallback().
+> =
+
+> As soon as somebody requested a dma_fence to be signaled we start a 500ms
+> timeout for fence processing which is cleared as soon as we see the first
+> interrupt.
+> =
+
+> That is necessary because some motherboards have the ugly behavior of
+> swallowing approx ~0.1% if all MSI interrupts after some idle time.
+> =
+
+> No idea where exactly that comes from, but I have the feeling that this w=
+as
+> the same bug Alex tried to handle on R6xx over 10 years ago with kicking =
+of
+> interrupt processing manually after enabling interrupts for the first tim=
+e.
+
+That's the same thing I mean. I think at least on radeon this is handled
+by periodically waking up in the ->wait callback, but unfortunately that
+doesn't take care of any of the callback based fence waiters. Maybe
+there's a different reason on radeon for the lost interrupts, but I
+thought consequences are the same. I think i915 also had some hacks like
+that, not sure why it still has a ->wait callback tbh. Maybe that's still
+needed for handling the gpu recovery flow on gen2/3, which is rather
+non-standard and violates dma_fence nesting rules a bit. But oh well,
+that's real old stuff.
+-Daniel
+
+> =
+
+> Regards,
+> Christian.
+> =
+
 > > -Daniel
-> 
-> Majority of these happen on the latest Intel CPUs. If that's not fast,
-> then I don't know what' fast :)
-> WARNING must not be used for timing-triggerable conditions. pr_warn is
-> more appropriate here. I assume the call stack and the rest of the
-> info that WARNING prints is completely useless, it's only the binary
-> condition, right.
+> > =
 
-Hm, maybe we do have some bug somewhere left still. But yeah if pr_warn
-does not trigger a full abort with syzbot then we can do that I guess.
+> > > > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > > Thanks,
+> > > > Christian.
+> > > > =
 
-Care to submit that pathc please with a short explainer why it upsets
-syzbot?
+> > > > > > ---
+> > > > > >    drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 1 -
+> > > > > >    drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c     | 5 -----
+> > > > > >    drivers/gpu/drm/amd/amdgpu/amdgpu_ih.h     | 1 -
+> > > > > >    3 files changed, 7 deletions(-)
+> > > > > > =
 
-Thanks, Daniel
+> > > > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drive=
+rs/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > > > > > index a15f1b604733..886625fb464b 100644
+> > > > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > > > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > > > > > @@ -3284,7 +3284,6 @@ int amdgpu_device_init(struct amdgpu_devi=
+ce *adev,
+> > > > > >    	/* mutex initialization are all done here so we
+> > > > > >    	 * can recall function without having locking issues */
+> > > > > > -	atomic_set(&adev->irq.ih.lock, 0);
+> > > > > >    	mutex_init(&adev->firmware.mutex);
+> > > > > >    	mutex_init(&adev->pm.mutex);
+> > > > > >    	mutex_init(&adev->gfx.gpu_clock_mutex);
+> > > > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c b/drivers/g=
+pu/drm/amd/amdgpu/amdgpu_ih.c
+> > > > > > index 1024065f1f03..faaa6aa2faaf 100644
+> > > > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c
+> > > > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c
+> > > > > > @@ -228,10 +228,6 @@ int amdgpu_ih_process(struct amdgpu_device=
+ *adev, struct amdgpu_ih_ring *ih)
+> > > > > >    	wptr =3D amdgpu_ih_get_wptr(adev, ih);
+> > > > > >    restart_ih:
+> > > > > > -	/* is somebody else already processing irqs? */
+> > > > > > -	if (atomic_xchg(&ih->lock, 1))
+> > > > > > -		return IRQ_NONE;
+> > > > > > -
+> > > > > >    	DRM_DEBUG("%s: rptr %d, wptr %d\n", __func__, ih->rptr, wpt=
+r);
+> > > > > >    	/* Order reading of wptr vs. reading of IH ring data */
+> > > > > > @@ -244,7 +240,6 @@ int amdgpu_ih_process(struct amdgpu_device =
+*adev, struct amdgpu_ih_ring *ih)
+> > > > > >    	amdgpu_ih_set_rptr(adev, ih);
+> > > > > >    	wake_up_all(&ih->wait_process);
+> > > > > > -	atomic_set(&ih->lock, 0);
+> > > > > >    	/* make sure wptr hasn't changed while processing */
+> > > > > >    	wptr =3D amdgpu_ih_get_wptr(adev, ih);
+> > > > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.h b/drivers/g=
+pu/drm/amd/amdgpu/amdgpu_ih.h
+> > > > > > index 87ec6d20dbe0..0649b59830a5 100644
+> > > > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.h
+> > > > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.h
+> > > > > > @@ -64,7 +64,6 @@ struct amdgpu_ih_ring {
+> > > > > >    	bool                    enabled;
+> > > > > >    	unsigned		rptr;
+> > > > > > -	atomic_t		lock;
+> > > > > >    	struct amdgpu_ih_regs	ih_regs;
+> > > > > >    	/* For waiting on IH processing at checkpoint. */
+> > > > > > -- =
 
-> 
-> 
-> > > > ------------[ cut here ]------------
-> > > > WARNING: CPU: 0 PID: 0 at drivers/gpu/drm/vkms/vkms_crtc.c:21 vkms_vblank_simulate+0x26c/0x2f4 drivers/gpu/drm/vkms/vkms_crtc.c:41
-> > > > Modules linked in:
-> > > > CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.12.0-rc2-syzkaller-00338-gf78d76e72a46 #0
-> > > > Hardware name: linux,dummy-virt (DT)
-> > > > pstate: 20000085 (nzCv daIf -PAN -UAO -TCO BTYPE=--)
-> > > > pc : vkms_vblank_simulate+0x26c/0x2f4 drivers/gpu/drm/vkms/vkms_crtc.c:21
-> > > > lr : hrtimer_forward_now include/linux/hrtimer.h:510 [inline]
-> > > > lr : vkms_vblank_simulate+0x90/0x2f4 drivers/gpu/drm/vkms/vkms_crtc.c:19
-> > > > sp : ffff00006a693cd0
-> > > > x29: ffff00006a693cd0 x28: ffff00000c9d1e58
-> > > > x27: dfff800000000000 x26: ffff00006a67f540
-> > > > x25: 1fffe0000d4cfeb1 x24: 1fffe0000d4cfeaa
-> > > > x23: ffff00000c9d0d30 x22: 0000000000fe4c00
-> > > > x21: ffff00006a67f540 x20: ffff00000c9d0e58
-> > > > x19: ffff00000c9d1e58 x18: ffff00006a6a1b48
-> > > > x17: 1fffe00001952345 x16: 0000000000000000
-> > > > x15: ffff8000197bf810 x14: 1fffe0000d4d2750
-> > > > x13: 0000000000000001 x12: 0000000000000033
-> > > > x11: 1ffff00002fb4936 x10: 0000000000000007
-> > > > x9 : 1ffff00002fb4943 x8 : ffff800017d14c00
-> > > > x7 : 00000000f1f1f1f1 x6 : dfff800000000000
-> > > > x5 : 7fffffffffffffff x4 : 00000008e44f6b90
-> > > > x3 : 00000008e54db790 x2 : 00000008e44f6b90
-> > > > x1 : 00000008e54db790 x0 : 0000000000000002
-> > > > Call trace:
-> > > >  vkms_vblank_simulate+0x26c/0x2f4 drivers/gpu/drm/vkms/vkms_crtc.c:41
-> > > >  __run_hrtimer kernel/time/hrtimer.c:1519 [inline]
-> > > >  __hrtimer_run_queues+0x590/0xe40 kernel/time/hrtimer.c:1583
-> > > >  hrtimer_interrupt+0x2d4/0x810 kernel/time/hrtimer.c:1645
-> > > >  timer_handler drivers/clocksource/arm_arch_timer.c:647 [inline]
-> > > >  arch_timer_handler_phys+0x4c/0x70 drivers/clocksource/arm_arch_timer.c:665
-> > > >  handle_percpu_devid_irq+0x19c/0x330 kernel/irq/chip.c:930
-> > > >  generic_handle_irq_desc include/linux/irqdesc.h:158 [inline]
-> > > >  generic_handle_irq kernel/irq/irqdesc.c:652 [inline]
-> > > >  __handle_domain_irq+0x11c/0x1f0 kernel/irq/irqdesc.c:689
-> > > >  handle_domain_irq include/linux/irqdesc.h:176 [inline]
-> > > >  gic_handle_irq+0x5c/0x1b0 drivers/irqchip/irq-gic.c:370
-> > > >  el1_irq+0xb4/0x180 arch/arm64/kernel/entry.S:669
-> > > >  arch_local_irq_restore arch/arm64/include/asm/irqflags.h:124 [inline]
-> > > >  queue_work_on+0x74/0x110 kernel/workqueue.c:1528
-> > > >  queue_work include/linux/workqueue.h:507 [inline]
-> > > >  cursor_timer_handler+0x64/0x100 drivers/video/fbdev/core/fbcon.c:397
-> > > >  call_timer_fn+0x1d4/0x9c4 kernel/time/timer.c:1431
-> > > >  expire_timers kernel/time/timer.c:1476 [inline]
-> > > >  __run_timers.part.0+0x530/0xa00 kernel/time/timer.c:1745
-> > > >  __run_timers kernel/time/timer.c:1726 [inline]
-> > > >  run_timer_softirq+0xa4/0x1a0 kernel/time/timer.c:1758
-> > > >  _stext+0x2b4/0x1084
-> > > >  do_softirq_own_stack include/asm-generic/softirq_stack.h:10 [inline]
-> > > >  invoke_softirq kernel/softirq.c:228 [inline]
-> > > >  __irq_exit_rcu+0x46c/0x510 kernel/softirq.c:422
-> > > >  irq_exit+0x14/0x84 kernel/softirq.c:446
-> > > >  __handle_domain_irq+0x120/0x1f0 kernel/irq/irqdesc.c:692
-> > > >  handle_domain_irq include/linux/irqdesc.h:176 [inline]
-> > > >  gic_handle_irq+0x5c/0x1b0 drivers/irqchip/irq-gic.c:370
-> > > >  el1_irq+0xb4/0x180 arch/arm64/kernel/entry.S:669
-> > > >  arch_local_irq_enable+0xc/0x14 arch/arm64/include/asm/irqflags.h:37
-> > > >  default_idle_call+0x64/0xf4 kernel/sched/idle.c:112
-> > > >  cpuidle_idle_call kernel/sched/idle.c:194 [inline]
-> > > >  do_idle+0x38c/0x4ec kernel/sched/idle.c:300
-> > > >  cpu_startup_entry+0x28/0x80 kernel/sched/idle.c:397
-> > > >  rest_init+0x1d0/0x2cc init/main.c:721
-> > > >  arch_call_rest_init+0x10/0x1c
-> > > >  start_kernel+0x3b0/0x3e8 init/main.c:1064
-> > > >  0x0
-> > > >
-> > > >
-> > > > ---
-> > > > This report is generated by a bot. It may contain errors.
-> > > > See https://goo.gl/tpsmEJ for more information about syzbot.
-> > > > syzbot engineers can be reached at syzkaller@googlegroups.com.
-> > > >
-> > > > syzbot will keep track of this issue. See:
-> > > > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> > > >
-> > > > --
-> > > > You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> > > > To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> > > > To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/0000000000009cd8d505bd545452%40google.com.
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+> > > > > > 2.25.1
+> > > > > > =
 
--- 
+> > > > > > _______________________________________________
+> > > > > > dri-devel mailing list
+> > > > > > dri-devel@lists.freedesktop.org
+> > > > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > > -- =
+
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+> =
+
+
+-- =
+
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
