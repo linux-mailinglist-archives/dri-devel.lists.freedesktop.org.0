@@ -2,41 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E9633E1D2
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 00:01:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D6333E255
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 00:47:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70106899DE;
-	Tue, 16 Mar 2021 23:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2C456E44A;
+	Tue, 16 Mar 2021 23:46:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ud03.udmedia.de (ud03.udmedia.de [194.117.254.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FBE9899DE
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 23:01:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=nuetzel-hh.de; h=
- mime-version:date:from:to:cc:subject:in-reply-to:references
- :message-id:content-type:content-transfer-encoding; s=k1; bh=D1m
- mn2SYEj+fSZUb3UdUQXh0F+uHE12afJO/junj5UI=; b=GdYhUOwWMHrjG0EJ/Qo
- o83XFmhwJ5neIbi+bTo0PlZAJt80umsv/JFGZP+6i+qkuoFUxJ3a8R6DpNev0FjQ
- KpKRukmimUdV/xQLb2aMA8LYZatdeq4E1PXOiQs4dFPgonKeJi45Ig70DZE3hHGU
- noAxhjHYob5UKp1ZhCvFpHkI=
-Received: (qmail 614112 invoked from network); 17 Mar 2021 00:01:41 +0100
-Received: by mail.ud03.udmedia.de with ESMTPA; 17 Mar 2021 00:01:41 +0100
-X-UD-Smtp-Session: ud03?335p7@YKd6Wa+9qs7Cdf4e
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C95F66E44D
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 23:46:55 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ r15-20020a05600c35cfb029010e639ca09eso2399165wmq.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 16:46:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NqcHEGtzYszUnRQT2utO15aI8o8Zz2gtnHf8uFMKcXQ=;
+ b=TdoVmwoke9Wc0r7e91+zsv2NJeZwaQm2XSO4zY8/gn5VbXIAFFwAd7cRLxx5oAm0mR
+ NlCpzJXXIQTUoSMwOgCT3aSGCexkdUhQ6hVrIXw/Jf99QruQ9UvEUeZ6ReUMKCzOo53f
+ CN5/hQB53LD0ognh08/uWASWDkgOKJ0m1OK6MdLuX1EO5/BsCs1krvTVfiDVrdWOMFVv
+ bIjEUKVPtnfyPDMraEP3EufutjVVw/6vQhU2Zf/CAzVUUFt2LqrUK8ExMDEvRE24if7q
+ 3IqSxHuhfEflZYIpBcm3iNOwRlREprgR94jsZiKqfJ/0hUAIG9Ot3kBCUHmThywXSrJ6
+ kSAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NqcHEGtzYszUnRQT2utO15aI8o8Zz2gtnHf8uFMKcXQ=;
+ b=UdFHEkZkoXNc69xd7eLPpc853AHzPVO6/o1fRUfoKH14tQBXo/egsGKxpUelT1l2+z
+ ODhd/u+9TaqD1YO+cUZv7sz5nlO1E4eAvd75yr8PjUDrcuk6wJdVpnXou4fKucMkvyf4
+ dy+NMNsklCN89T/WKkPu6XygoTnZ0JNNqaMnoph8ZQxnm+1b8gpiljkJHYSL12nEPIwc
+ 0sJVw6fWKfWrx40j/8J2xUxndYbdxA0M6bXOeCshitRLBVHxzf9ELKEfvj0CVjxaPW56
+ aFoOcQuPmgzyOKlywJ9f4jK1y+6S4zIU6x1VjDG82E0Xurih3ubUcCyIl6KlCNYiAfRs
+ I6hA==
+X-Gm-Message-State: AOAM532pW1K3A9tC10c37HQRJ9Y97zGWd7+R1eMurIx9TdJvo8kN7zL9
+ nKCqsBLe/o6uzVxT+5FznX4sQCJ00eEG3VvtSjA+HA==
+X-Google-Smtp-Source: ABdhPJx6Gk+6ZL58g8FW0I4fZHd0xlCol3zJvk21YJfOqzSRNNVgscREqLFh0+C1aegL60MN9CPmDzyayiUfaySytw0=
+X-Received: by 2002:a7b:c047:: with SMTP id u7mr1061018wmc.98.1615938414203;
+ Tue, 16 Mar 2021 16:46:54 -0700 (PDT)
 MIME-Version: 1.0
-Date: Wed, 17 Mar 2021 00:01:41 +0100
-From: =?UTF-8?Q?Dieter_N=C3=BCtzel?= <Dieter@nuetzel-hh.de>
-To: Jan Vesely <jan.vesely@rutgers.edu>
-Subject: Re: Is LLVM 13 (git) really ready for testing/development? libclc
- didn't compile
-In-Reply-To: <CABE_ZV0AvsZA3VsFPzi8wYhE0Rk5RDZ+boODQgA9Z+qHEX-0Tw@mail.gmail.com>
-References: <f9700ce86b6d893a162c099fb680cc0f@nuetzel-hh.de>
- <CABE_ZV3KwwOdsF40K8CuMNtg=1RYvst3iEp=rxQWPbOD1sXnJg@mail.gmail.com>
- <b032baca494c39890485bcef21e59413@nuetzel-hh.de>
- <CABE_ZV1YcpyfattK-9z2TJuAQLxg0w7BwU7tq_8cqe1RQ-mm1A@mail.gmail.com>
- <CABE_ZV0AvsZA3VsFPzi8wYhE0Rk5RDZ+boODQgA9Z+qHEX-0Tw@mail.gmail.com>
-User-Agent: Roundcube Webmail/1.4.11
-Message-ID: <650ee1742cabf4ee98165b46560fb510@nuetzel-hh.de>
-X-Sender: Dieter@nuetzel-hh.de
+References: <20210302204132.12058-1-manasi.d.navare@intel.com>
+ <20210303104744.2c064f09@eldfell> <20210303204433.GA15819@labuser-Z97X-UD5H>
+ <20210304104223.6b3490bc@eldfell> <20210309005252.GA27491@labuser-Z97X-UD5H>
+ <20210309111350.3be0543f@eldfell>
+ <CAKMK7uEak_2YNDZpyho5bBhhYCvoXh6MoPNL6FmV9sU8oELGPA@mail.gmail.com>
+In-Reply-To: <CAKMK7uEak_2YNDZpyho5bBhhYCvoXh6MoPNL6FmV9sU8oELGPA@mail.gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 16 Mar 2021 23:46:38 +0000
+Message-ID: <CAPj87rOtWpBW3u7M+ePPQqT_RKEmCzDA8u4gRfT-HrcRaR7_zg@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/atomic: Add the crtc to affected crtc
+ only if uapi.enable = true
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,191 +67,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Stone <daniels@collabora.com>
+Content-Type: multipart/mixed; boundary="===============1300844170=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W0NDIHRyaW1tZWQgLSBleGNsdWRlZCBNYXJla10KClRvbyBiYWQgIEphbiwKCidjb25maWd1cmUn
-IHdvcmtzLCBub3cuIEJ1dCBjb21waWxhdGlvbiBicmFrZXMgYWZ0ZXIgdGhhdC4KSG93IGNhbiB3
-ZSBhZGQgJy1jbC1uby1zdGRpbmMnIG9ubHkgdG8gQ01BS0VfQ0xDX0ZMQUdTIGFuZCBOT1QgQ1hY
-IGZsYWdzIAooc2VlIGJlbG93KT8KClRyaWVkCgpsaWJjbGMvYnVpbGQ+IHB3ZAovb3B0L2xsdm0t
-cHJvamVjdC9saWJjbGMvYnVpbGQKCmxpYmNsYy9idWlsZD4gY21ha2UgLi4vIC1ETExWTV9DT05G
-SUc9L3Vzci9sb2NhbC9iaW4vbGx2bS1jb25maWcgCi1EQ01BS0VfTExBc21fRkxBR1M9LWNsLW5v
-LXN0ZGluYyAtRENNQUtFX0NMQ19GTEFHUz0tY2wtbm8tc3RkaW5jCgphbmQKCmxpYmNsYy9idWls
-ZD4gY21ha2UgLi4vLi4vLi4vbGx2bS1wcm9qZWN0L2xpYmNsYy8gCi1ETExWTV9DT05GSUc9L3Vz
-ci9sb2NhbC9iaW4vbGx2bS1jb25maWcgCi1EQ01BS0VfTExBc21fRkxBR1M9LWNsLW5vLXN0ZGlu
-YwoKLS0gVGhlIENYWCBjb21waWxlciBpZGVudGlmaWNhdGlvbiBpcyBHTlUgMTAuMi4xCi0tIERl
-dGVjdGluZyBDWFggY29tcGlsZXIgQUJJIGluZm8KLS0gRGV0ZWN0aW5nIENYWCBjb21waWxlciBB
-QkkgaW5mbyAtIGRvbmUKLS0gQ2hlY2sgZm9yIHdvcmtpbmcgQ1hYIGNvbXBpbGVyOiAvdXNyL2Jp
-bi9jKysgLSBza2lwcGVkCi0tIERldGVjdGluZyBDWFggY29tcGlsZSBmZWF0dXJlcwotLSBEZXRl
-Y3RpbmcgQ1hYIGNvbXBpbGUgZmVhdHVyZXMgLSBkb25lCkxMVk0gdmVyc2lvbjogMTMuMC4wZ2l0
-CkxMVk0gc3lzdGVtIGxpYnM6CkxMVk0gbGliczogLWxMTFZNLTEzZ2l0CkxMVk0gbGliZGlyOiAv
-dXNyL2xvY2FsL2xpYgpMTFZNIGJpbmRpcjogL3Vzci9sb2NhbC9iaW4KTExWTSBsZCBmbGFnczog
-LUwvdXNyL2xvY2FsL2xpYgpMTFZNIGN4eCBmbGFnczogCi1JL3Vzci9sb2NhbC9pbmNsdWRlOy1z
-dGQ9YysrMTQ7OzstZm5vLWV4Y2VwdGlvbnM7LURfR05VX1NPVVJDRTstRF9fU1REQ19DT05TVEFO
-VF9NQUNST1M7LURfX1NURENfRk9STUFUX01BQ1JPUzstRF9fU1REQ19MSU1JVF9NQUNST1M7LWZu
-by1ydHRpOy1mbm8tZXhjZXB0aW9uczstZm5vLWV4Y2VwdGlvbnM7LWNsLW5vLXN0ZGluYwoKY2xh
-bmc6IC91c3IvbG9jYWwvYmluL2NsYW5nCmxsdm0tYXM6IC91c3IvbG9jYWwvYmluL2xsdm0tYXMK
-bGx2bS1saW5rOiAvdXNyL2xvY2FsL2Jpbi9sbHZtLWxpbmsKb3B0OiAvdXNyL2xvY2FsL2Jpbi9v
-cHQKbGx2bS1zcGlydjogL3Vzci9sb2NhbC9iaW4vbGx2bS1zcGlydgoKLS0gQ2hlY2sgZm9yIHdv
-cmtpbmcgQ0xDIGNvbXBpbGVyOiAvdXNyL2xvY2FsL2Jpbi9jbGFuZwotLSBDaGVjayBmb3Igd29y
-a2luZyBDTEMgY29tcGlsZXI6IC91c3IvbG9jYWwvYmluL2NsYW5nIC0tIHdvcmtzCi0tIENoZWNr
-IGZvciB3b3JraW5nIExMQXNtIGNvbXBpbGVyOiAvdXNyL2xvY2FsL2Jpbi9sbHZtLWFzCi0tIENo
-ZWNrIGZvciB3b3JraW5nIExMQXNtIGNvbXBpbGVyOiAvdXNyL2xvY2FsL2Jpbi9sbHZtLWFzIC0t
-IHdvcmtzCi0tIEZvdW5kIFB5dGhvbjM6IC91c3IvYmluL3B5dGhvbjMuOCAoZm91bmQgdmVyc2lv
-biAiMy44LjgiKSBmb3VuZCAKY29tcG9uZW50czogSW50ZXJwcmV0ZXIKQlVJTERJTkcgYW1kZ2Nu
-LS0KICAgICAgICAgREVWSUNFOiB0YWhpdGkgKCAKcGl0Y2Fpcm47dmVyZGU7b2xhbmQ7aGFpbmFu
-O2JvbmFpcmU7a2FiaW5pO2thdmVyaTtoYXdhaWk7bXVsbGluczt0b25nYTtpY2VsYW5kO2NhcnJp
-em87ZmlqaTtzdG9uZXk7cG9sYXJpczEwO3BvbGFyaXMxMTtnZng5MDA7Z2Z4OTAyO2dmeDkwNDtn
-Zng5MDYgCikKQlVJTERJTkcgYW1kZ2NuLS1hbWRoc2EKICAgICAgICAgREVWSUNFOiBub25lICgg
-ICkKQlVJTERJTkcgYW1kZ2NuLW1lc2EtbWVzYTNkCiAgICAgICAgIERFVklDRTogdGFoaXRpICgg
-CnBpdGNhaXJuO3ZlcmRlO29sYW5kO2hhaW5hbjtib25haXJlO2thYmluaTtrYXZlcmk7aGF3YWlp
-O211bGxpbnM7dG9uZ2E7aWNlbGFuZDtjYXJyaXpvO2Zpamk7c3RvbmV5O3BvbGFyaXMxMDtwb2xh
-cmlzMTE7Z2Z4OTAwO2dmeDkwMjtnZng5MDQ7Z2Z4OTA2IAopCkJVSUxESU5HIGNsc3B2LS0KICAg
-ICAgICAgREVWSUNFOiBub25lICggICkKQlVJTERJTkcgbnZwdHgtLQogICAgICAgICBERVZJQ0U6
-IG5vbmUgKCAgKQpCVUlMRElORyBudnB0eC0tbnZpZGlhY2wKICAgICAgICAgREVWSUNFOiBub25l
-ICggICkKQlVJTERJTkcgbnZwdHg2NC0tCiAgICAgICAgIERFVklDRTogbm9uZSAoICApCkJVSUxE
-SU5HIG52cHR4NjQtLW52aWRpYWNsCiAgICAgICAgIERFVklDRTogbm9uZSAoICApCkJVSUxESU5H
-IHI2MDAtLQogICAgICAgICBERVZJQ0U6IGNlZGFyICggcGFsbTtzdW1vO3N1bW8yO3JlZHdvb2Q7
-anVuaXBlciApCiAgICAgICAgIERFVklDRTogY3lwcmVzcyAoIGhlbWxvY2sgKQogICAgICAgICBE
-RVZJQ0U6IGJhcnRzICggdHVya3M7Y2FpY29zICkKICAgICAgICAgREVWSUNFOiBjYXltYW4gKCBh
-cnViYSApCkJVSUxESU5HIHNwaXJ2LW1lc2EzZC0KICAgICAgICAgREVWSUNFOiBub25lICggICkK
-QlVJTERJTkcgc3BpcnY2NC1tZXNhM2QtCiAgICAgICAgIERFVklDRTogbm9uZSAoICApCi0tIENv
-bmZpZ3VyaW5nIGRvbmUKLS0gR2VuZXJhdGluZyBkb25lCi0tIEJ1aWxkIGZpbGVzIGhhdmUgYmVl
-biB3cml0dGVuIHRvOiAvb3B0L2xsdm0tcHJvamVjdC9saWJjbGMvYnVpbGQKbGliY2xjL2J1aWxk
-PiBtYWtlIC1qICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICBTY2FubmluZyBkZXBlbmRlbmNpZXMgb2Yg
-dGFyZ2V0IApnZW5lcmF0ZV9jb252ZXJ0LmNsClNjYW5uaW5nIGRlcGVuZGVuY2llcyBvZiB0YXJn
-ZXQgcHJlcGFyZV9idWlsdGlucwpbICAwJV0gR2VuZXJhdGluZyBjb252ZXJ0LmNsClsgIDAlXSBC
-dWlsZGluZyBDWFggb2JqZWN0IApDTWFrZUZpbGVzL3ByZXBhcmVfYnVpbHRpbnMuZGlyL3V0aWxz
-L3ByZXBhcmUtYnVpbHRpbnMuY3BwLm8KYysrOiBlcnJvcjogdW5yZWNvZ25pemVkIGNvbW1hbmQt
-bGluZSBvcHRpb24g4oCYLWNsLW5vLXN0ZGluY+KAmTsgZGlkIHlvdSAKbWVhbiDigJgtbm9zdGRp
-bmPigJk/Cm1ha2VbMl06ICoqKiBbQ01ha2VGaWxlcy9wcmVwYXJlX2J1aWx0aW5zLmRpci9idWls
-ZC5tYWtlOjgyOiAKQ01ha2VGaWxlcy9wcmVwYXJlX2J1aWx0aW5zLmRpci91dGlscy9wcmVwYXJl
-LWJ1aWx0aW5zLmNwcC5vXSBGZWhsZXIgMQptYWtlWzFdOiAqKiogW0NNYWtlRmlsZXMvTWFrZWZp
-bGUyOjE4MTA6IApDTWFrZUZpbGVzL3ByZXBhcmVfYnVpbHRpbnMuZGlyL2FsbF0gRmVobGVyIDIK
-bWFrZVsxXTogKioqIEVzIHdpcmQgYXVmIG5vY2ggbmljaHQgYmVlbmRldGUgUHJvemVzc2UgZ2V3
-YXJ0ZXQuLi4uClsgIDAlXSBCdWlsdCB0YXJnZXQgZ2VuZXJhdGVfY29udmVydC5jbAptYWtlOiAq
-KiogW01ha2VmaWxlOjE2MDogYWxsXSBGZWhsZXIgMgoKQW5kIFlFUywgbXkgdGltZSBkdXJpbmcg
-dGhlc2UgJ0Nvcm9uYS1UaW1lcycgaXMgbGltaXRlZCwgdG9vLi4uCi4uLm15IHdpZmUgaXMgYSBj
-aGlsZHJlbidzIG51cnNlLCB3ZSA1IGFrdGl2ZSBkb2N0b3JzICg0IHBuZXVtb2xvZ2lzdCksIAo3
-IGVudGlyZSBpbiBvdXIgZmFtaWx5IGFuZCBteSBzZWNvbmQgZGlzY2lwbGluZSB3YXMgbWVkaWNp
-bmUsIHRvby4gOy0pCgpHcmVldGluZ3MgYW5kIEdlc3VuZGhlaXQKdG8gYWxsIG9mIHlvdSEKCkRp
-ZXRlcgoKQW0gMTAuMDMuMjAyMSAxODowMywgc2NocmllYiBKYW4gVmVzZWx5Ogo+IE9uZSBtb3Jl
-IHVwZGF0ZS4gd2l0aG91dCBjaGFuZ2luZyBhbnkgY21ha2UgZmlsZXMgdGhlIGZvbGxvd2luZwo+
-IGNtZGxpbmUgc2hvdWxkIHdvcms6Cj4gY21ha2UgLi4vbGx2bS1wcm9qZWN0L2xpYmNsYy8KPiAt
-RExMVk1fQ09ORklHPS91c3IvbG9jYWwvbGx2bS1naXQvYmluL2xsdm0tY29uZmlnCj4gLURDTUFL
-RV9MTEFzbV9GTEFHUz0tY2wtbm8tc3RkaW5jIC1EQ01BS0VfQ0xDX0ZMQUdTPS1jbC1uby1zdGRp
-bmMKPiAKPiBKYW4KPiAKPiBPbiBXZWQsIE1hciAxMCwgMjAyMSBhdCAxOjIwIEFNIEphbiBWZXNl
-bHkgPGphbi52ZXNlbHlAcnV0Z2Vycy5lZHU+Cj4gd3JvdGU6Cj4gCj4+IGhpLAo+PiAKPj4gc29y
-cnkgdGhlIG9wdGlvbiBpcyBhY3R1YWxseSAtY2wtbm8tc3RkaW5jLiB5b3UgY2FuIGFkZCBpdCB0
-bwo+PiAndGFyZ2V0X2NvbXBpbGVyX29wdGlvbnMnLgo+PiBJIHNob3VsZCBoYXZlIGEgcGF0Y2gg
-cmVhZHkgc29vbih0bSksIGJ1dCB0aW1lIGlzIHNjYXJjZS4KPj4gCj4+IEphbgo+PiAKPj4gT24g
-U3VuLCBNYXIgNywgMjAyMSBhdCA5OjUxIFBNIERpZXRlciBOw7x0emVsIDxEaWV0ZXJAbnVldHpl
-bC1oaC5kZT4KPj4gd3JvdGU6Cj4+IAo+Pj4gSGVsbG8gSmFuLAo+Pj4gCj4+PiBJIHZlcnkgbXVj
-aCBhcHByZWNpYXRlIHlvdXIgYWR2aWNlLgo+Pj4gVHJpZWQgc2V2ZXJhbCBwbGFjZXMuLi4KPj4+
-IC4uLndoZXJlIHRvIHB1dCBpdD8KPj4+IAo+Pj4gRGlldGVyCj4+PiAKPj4+IEFtIDA2LjAzLjIw
-MjEgMTc6NTYsIHNjaHJpZWIgSmFuIFZlc2VseToKPj4+PiBOb3QgTWFyZWssIGJ1dCBob3BlIHRo
-aXMgYW5zd2VyIHdpbGwgaGVscC4KPj4+PiBsaWJjbGMgdXNlcyBjbGFuZyBDTEMgcHJlcHJvY2Vz
-c29yIG9uIC5sbCBmaWxlcywgbGx2bS9jbGFuZy0xMwo+Pj4gc3RhcnRlZAo+Pj4+IGluY2x1ZGlu
-ZyBjbGMgZGVjbGFyYXRpb25zIGJ5IGRlZmF1bHQgKGNsYW5nCj4+Pj4gY2YzZWYxNWE2ZWM1ZTVi
-NDVjNmM1NGU4ZmJlMzc2OTI1NWU4MTVjZSksCj4+Pj4gdGh1cyBjb3JydXB0aW5nIGFueSAubGwg
-YXNzZW1ibHkgZmlsZXMgdGhhdCBhcmUgdXNlZCBieSBsaWJjbGMuCj4+Pj4gSW5jbHVzaW9uIG9m
-IHRoZSBkZWZhdWx0IGRlY2xhcmF0aW9ucyBjYW4gYmUgdHVybmVkIG9mZiB1c2luZyBhCj4+Pj4g
-Y21kbGluZSBzd2l0Y2ggYnV0IHRoYXQgcmVtYWlucyB0byBiZSBpbXBsZW1lbnRlZCBpbiB0aGUg
-bGliY2xjCj4+PiBidWlsZAo+Pj4+IHN5c3RlbS4KPj4+PiBtYW51YWxseSBhZGRpbmcgJy1jbC1u
-by1zdGRpbmMnIHNob3VsZCB3b3JrIGFzIGEgd29ya2Fyb3VuZC4KPj4+PiAKPj4+PiBKYW4KPj4+
-PiAKPj4+PiBPbiBUaHUsIE1hciA0LCAyMDIxIGF0IDEwOjI3IFBNIERpZXRlciBOw7x0emVsCj4+
-PiA8RGlldGVyQG51ZXR6ZWwtaGguZGU+Cj4+Pj4gd3JvdGU6Cj4+Pj4gCj4+Pj4+IEhlbGxvIE1h
-cmVrLAo+Pj4+PiAKPj4+Pj4gY2FuJ3QgY29tcGlsZSBhbnl0aGluZywgaGVyZS4KPj4+Pj4gUG9v
-ciBJbnRlbCBOZWhhbGVtIFgzNDcwLgo+Pj4+PiAKPj4+Pj4gVHJ5aW5nIExMVk0gMTItcmMyIGxh
-dGVyLgo+Pj4+PiAKPj4+Pj4gR3JlZXRpbmdzLAo+Pj4+PiBEaWV0ZXIKPj4+Pj4gCj4+Pj4+IGxs
-dm0tcHJvamVjdC9saWJjbGM+IGNkIGJ1aWxkICYmIGNtYWtlIC4uLwo+Pj4+PiAtLSBUaGUgQ1hY
-IGNvbXBpbGVyIGlkZW50aWZpY2F0aW9uIGlzIEdOVSAxMC4yLjEKPj4+Pj4gLS0gRGV0ZWN0aW5n
-IENYWCBjb21waWxlciBBQkkgaW5mbwo+Pj4+PiAtLSBEZXRlY3RpbmcgQ1hYIGNvbXBpbGVyIEFC
-SSBpbmZvIC0gZG9uZQo+Pj4+PiAtLSBDaGVjayBmb3Igd29ya2luZyBDWFggY29tcGlsZXI6IC91
-c3IvYmluL2MrKyAtIHNraXBwZWQKPj4+Pj4gLS0gRGV0ZWN0aW5nIENYWCBjb21waWxlIGZlYXR1
-cmVzCj4+Pj4+IC0tIERldGVjdGluZyBDWFggY29tcGlsZSBmZWF0dXJlcyAtIGRvbmUKPj4+Pj4g
-TExWTSB2ZXJzaW9uOiAxMy4wLjBnaXQKPj4+Pj4gTExWTSBzeXN0ZW0gbGliczoKPj4+Pj4gTExW
-TSBsaWJzOiAtbExMVk0tMTNnaXQKPj4+Pj4gTExWTSBsaWJkaXI6IC91c3IvbG9jYWwvbGliCj4+
-Pj4+IExMVk0gYmluZGlyOiAvdXNyL2xvY2FsL2Jpbgo+Pj4+PiBMTFZNIGxkIGZsYWdzOiAtTC91
-c3IvbG9jYWwvbGliCj4+Pj4+IExMVk0gY3h4IGZsYWdzOgo+Pj4+PiAKPj4+PiAKPj4+IAo+PiAK
-PiAtSS91c3IvbG9jYWwvaW5jbHVkZTstc3RkPWMrKzE0Ozs7LWZuby1leGNlcHRpb25zOy1EX0dO
-VV9TT1VSQ0U7LURfX1NURENfQ09OU1RBTlRfTUFDUk9TOy1EX19TVERDX0ZPUk1BVF9NQUNST1M7
-LURfX1NURENfTElNSVRfTUFDUk9TOy1mbm8tcnR0aTstZm5vLWV4Y2VwdGlvbnMKPj4+Pj4gCj4+
-Pj4+IGNsYW5nOiAvdXNyL2xvY2FsL2Jpbi9jbGFuZwo+Pj4+PiBsbHZtLWFzOiAvdXNyL2xvY2Fs
-L2Jpbi9sbHZtLWFzCj4+Pj4+IGxsdm0tbGluazogL3Vzci9sb2NhbC9iaW4vbGx2bS1saW5rCj4+
-Pj4+IG9wdDogL3Vzci9sb2NhbC9iaW4vb3B0Cj4+Pj4+IGxsdm0tc3BpcnY6IC91c3IvbG9jYWwv
-YmluL2xsdm0tc3BpcnYKPj4+Pj4gCj4+Pj4+IC0tIENoZWNrIGZvciB3b3JraW5nIENMQyBjb21w
-aWxlcjogL3Vzci9sb2NhbC9iaW4vY2xhbmcKPj4+Pj4gLS0gQ2hlY2sgZm9yIHdvcmtpbmcgQ0xD
-IGNvbXBpbGVyOiAvdXNyL2xvY2FsL2Jpbi9jbGFuZyAtLQo+Pj4gd29ya3MKPj4+Pj4gLS0gQ2hl
-Y2sgZm9yIHdvcmtpbmcgTExBc20gY29tcGlsZXI6IC91c3IvbG9jYWwvYmluL2xsdm0tYXMKPj4+
-Pj4gLS0gQ2hlY2sgZm9yIHdvcmtpbmcgTExBc20gY29tcGlsZXI6IC91c3IvbG9jYWwvYmluL2xs
-dm0tYXMgLS0KPj4+Pj4gYnJva2VuCj4+Pj4+IENNYWtlIEVycm9yIGF0IGNtYWtlL0NNYWtlVGVz
-dExMQXNtQ29tcGlsZXIuY21ha2U6NDAgKG1lc3NhZ2UpOgo+Pj4+PiBUaGUgTExBc20gY29tcGls
-ZXIgIi91c3IvbG9jYWwvYmluL2xsdm0tYXMiIGlzIG5vdCBhYmxlIHRvCj4+Pj4+IGNvbXBpbGUg
-YQo+Pj4+PiBzaW1wbGUKPj4+Pj4gdGVzdCBwcm9ncmFtLgo+Pj4+PiAKPj4+Pj4gSXQgZmFpbHMg
-d2l0aCB0aGUgZm9sbG93aW5nIG91dHB1dDoKPj4+Pj4gCj4+Pj4+IENoYW5nZSBEaXI6IC9vcHQv
-bGx2bS1wcm9qZWN0L2xpYmNsYy9idWlsZC9DTWFrZUZpbGVzL0NNYWtlVG1wCj4+Pj4+IAo+Pj4+
-PiBSdW4gQnVpbGQgQ29tbWFuZChzKTovdXNyL2Jpbi9nbWFrZSBjbVRDXzg3YWY5L2Zhc3QgJiYK
-Pj4+Pj4gL3Vzci9iaW4vZ21ha2UKPj4+Pj4gLWYKPj4+Pj4gQ01ha2VGaWxlcy9jbVRDXzg3YWY5
-LmRpci9idWlsZC5tYWtlCj4+Pj4+IENNYWtlRmlsZXMvY21UQ184N2FmOS5kaXIvYnVpbGQKPj4+
-Pj4gCj4+Pj4+IGdtYWtlWzFdOiBWZXJ6ZWljaG5pcwo+Pj4+PiDigJ4vb3B0L2xsdm0tcHJvamVj
-dC9saWJjbGMvYnVpbGQvQ01ha2VGaWxlcy9DTWFrZVRtcOKAnCB3aXJkCj4+Pj4+IGJldHJldGVu
-Cj4+Pj4+IAo+Pj4+PiBCdWlsZGluZyBMTEFzbSBvYmplY3QKPj4+Pj4gQ01ha2VGaWxlcy9jbVRD
-Xzg3YWY5LmRpci90ZXN0TExBc21Db21waWxlci5iYwo+Pj4+PiAKPj4+Pj4gL3Vzci9sb2NhbC9i
-aW4vY2xhbmcgLUUgLVAgLXggY2wKPj4+Pj4gCj4+Pj4+IAo+Pj4+IAo+Pj4gCj4+IAo+IC9vcHQv
-bGx2bS1wcm9qZWN0L2xpYmNsYy9idWlsZC9DTWFrZUZpbGVzL0NNYWtlVG1wL3Rlc3RMTEFzbUNv
-bXBpbGVyLmxsCj4+Pj4+IAo+Pj4+PiAtbwo+Pj4+PiBDTWFrZUZpbGVzL2NtVENfODdhZjkuZGly
-L3Rlc3RMTEFzbUNvbXBpbGVyLmJjLnRlbXAKPj4+Pj4gCj4+Pj4+IC91c3IvbG9jYWwvYmluL2xs
-dm0tYXMgLW8KPj4+Pj4gQ01ha2VGaWxlcy9jbVRDXzg3YWY5LmRpci90ZXN0TExBc21Db21waWxl
-ci5iYwo+Pj4+PiBDTWFrZUZpbGVzL2NtVENfODdhZjkuZGlyL3Rlc3RMTEFzbUNvbXBpbGVyLmJj
-LnRlbXAKPj4+Pj4gCj4+Pj4+IC91c3IvbG9jYWwvYmluL2xsdm0tYXM6Cj4+Pj4+IENNYWtlRmls
-ZXMvY21UQ184N2FmOS5kaXIvdGVzdExMQXNtQ29tcGlsZXIuYmMudGVtcDoxOjE6IGVycm9yOgo+
-Pj4+PiBleHBlY3RlZAo+Pj4+PiB0b3AtbGV2ZWwgZW50aXR5Cj4+Pj4+IAo+Pj4+PiB0eXBlZGVm
-IHVuc2lnbmVkIGNoYXIgdWNoYXI7Cj4+Pj4+IAo+Pj4+PiBeCj4+Pj4+IAo+Pj4+PiBnbWFrZVsx
-XTogKioqIFtDTWFrZUZpbGVzL2NtVENfODdhZjkuZGlyL2J1aWxkLm1ha2U6ODY6Cj4+Pj4+IENN
-YWtlRmlsZXMvY21UQ184N2FmOS5kaXIvdGVzdExMQXNtQ29tcGlsZXIuYmNdIEZlaGxlciAxCj4+
-Pj4+IAo+Pj4+PiBnbWFrZVsxXTogVmVyemVpY2huaXMKPj4+Pj4g4oCeL29wdC9sbHZtLXByb2pl
-Y3QvbGliY2xjL2J1aWxkL0NNYWtlRmlsZXMvQ01ha2VUbXDigJwgd2lyZAo+Pj4+PiB2ZXJsYXNz
-ZW4KPj4+Pj4gCj4+Pj4+IGdtYWtlOiAqKiogW01ha2VmaWxlOjE0MDogY21UQ184N2FmOS9mYXN0
-XSBGZWhsZXIgMgo+Pj4+PiAKPj4+Pj4gQ01ha2Ugd2lsbCBub3QgYmUgYWJsZSB0byBjb3JyZWN0
-bHkgZ2VuZXJhdGUgdGhpcyBwcm9qZWN0Lgo+Pj4+PiBDYWxsIFN0YWNrIChtb3N0IHJlY2VudCBj
-YWxsIGZpcnN0KToKPj4+Pj4gQ01ha2VMaXN0cy50eHQ6MTI3IChlbmFibGVfbGFuZ3VhZ2UpCj4+
-Pj4+IAo+Pj4+PiAtLSBDb25maWd1cmluZyBpbmNvbXBsZXRlLCBlcnJvcnMgb2NjdXJyZWQhCj4+
-Pj4+IFNlZSBhbHNvCj4+Pj4+ICIvb3B0L2xsdm0tcHJvamVjdC9saWJjbGMvYnVpbGQvQ01ha2VG
-aWxlcy9DTWFrZU91dHB1dC5sb2ciLgo+Pj4+PiBTZWUgYWxzbwo+Pj4gIi9vcHQvbGx2bS1wcm9q
-ZWN0L2xpYmNsYy9idWlsZC9DTWFrZUZpbGVzL0NNYWtlRXJyb3IubG9nIi4KPj4+Pj4gCj4+Pj4+
-IENNYWtlRXJyb3IubG9nCj4+Pj4+IERldGVybWluaW5nIGlmIHRoZSBMTEFzbSBjb21waWxlciB3
-b3JrcyBmYWlsZWQgd2l0aCB0aGUKPj4+IGZvbGxvd2luZwo+Pj4+PiBvdXRwdXQ6Cj4+Pj4+IENo
-YW5nZSBEaXI6IC9vcHQvbGx2bS1wcm9qZWN0L2xpYmNsYy9idWlsZC9DTWFrZUZpbGVzL0NNYWtl
-VG1wCj4+Pj4+IAo+Pj4+PiBSdW4gQnVpbGQgQ29tbWFuZChzKTovdXNyL2Jpbi9nbWFrZSBjbVRD
-Xzg3YWY5L2Zhc3QgJiYKPj4+Pj4gL3Vzci9iaW4vZ21ha2UKPj4+Pj4gLWYgQ01ha2VGaWxlcy9j
-bVRDXzg3YWY5LmRpci9idWlsZC5tYWtlCj4+Pj4+IENNYWtlRmlsZXMvY21UQ184N2FmOS5kaXIv
-YnVpbGQKPj4+Pj4gZ21ha2VbMV06IFZlcnplaWNobmlzCj4+Pj4+IOKAni9vcHQvbGx2bS1wcm9q
-ZWN0L2xpYmNsYy9idWlsZC9DTWFrZUZpbGVzL0NNYWtlVG1w4oCcIHdpcmQKPj4+Pj4gYmV0cmV0
-ZW4KPj4+Pj4gQnVpbGRpbmcgTExBc20gb2JqZWN0Cj4+PiBDTWFrZUZpbGVzL2NtVENfODdhZjku
-ZGlyL3Rlc3RMTEFzbUNvbXBpbGVyLmJjCj4+Pj4+IC91c3IvbG9jYWwvYmluL2NsYW5nIC1FIC1Q
-ICAgICAteCBjbAo+Pj4+PiAKPj4+PiAKPj4+IAo+PiAKPiAvb3B0L2xsdm0tcHJvamVjdC9saWJj
-bGMvYnVpbGQvQ01ha2VGaWxlcy9DTWFrZVRtcC90ZXN0TExBc21Db21waWxlci5sbAo+Pj4+PiAK
-Pj4+Pj4gLW8gQ01ha2VGaWxlcy9jbVRDXzg3YWY5LmRpci90ZXN0TExBc21Db21waWxlci5iYy50
-ZW1wCj4+Pj4+IC91c3IvbG9jYWwvYmluL2xsdm0tYXMgLW8KPj4+Pj4gQ01ha2VGaWxlcy9jbVRD
-Xzg3YWY5LmRpci90ZXN0TExBc21Db21waWxlci5iYwo+Pj4+PiBDTWFrZUZpbGVzL2NtVENfODdh
-ZjkuZGlyL3Rlc3RMTEFzbUNvbXBpbGVyLmJjLnRlbXAKPj4+Pj4gL3Vzci9sb2NhbC9iaW4vbGx2
-bS1hczoKPj4+Pj4gQ01ha2VGaWxlcy9jbVRDXzg3YWY5LmRpci90ZXN0TExBc21Db21waWxlci5i
-Yy50ZW1wOjE6MTogZXJyb3I6Cj4+Pj4+IGV4cGVjdGVkCj4+Pj4+IHRvcC1sZXZlbCBlbnRpdHkK
-Pj4+Pj4gdHlwZWRlZiB1bnNpZ25lZCBjaGFyIHVjaGFyOwo+Pj4+PiBeCj4+Pj4+IGdtYWtlWzFd
-OiAqKiogW0NNYWtlRmlsZXMvY21UQ184N2FmOS5kaXIvYnVpbGQubWFrZTo4NjoKPj4+Pj4gQ01h
-a2VGaWxlcy9jbVRDXzg3YWY5LmRpci90ZXN0TExBc21Db21waWxlci5iY10gRmVobGVyIDEKPj4+
-Pj4gZ21ha2VbMV06IFZlcnplaWNobmlzCj4+Pj4+IOKAni9vcHQvbGx2bS1wcm9qZWN0L2xpYmNs
-Yy9idWlsZC9DTWFrZUZpbGVzL0NNYWtlVG1w4oCcIHdpcmQKPj4+Pj4gdmVybGFzc2VuCj4+Pj4+
-IGdtYWtlOiAqKiogW01ha2VmaWxlOjE0MDogY21UQ184N2FmOS9mYXN0XSBGZWhsZXIgMgo+Pj4+
-PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+Pj4+PiBk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4+Pj4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKPj4+Pj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+--===============1300844170==
+Content-Type: multipart/alternative; boundary="00000000000028646005bdaffbeb"
+
+--00000000000028646005bdaffbeb
+Content-Type: text/plain; charset="UTF-8"
+
+On Tue, 16 Mar 2021 at 21:35, Daniel Vetter <daniel@ffwll.ch> wrote:
+
+> On Tue, Mar 9, 2021 at 10:14 AM Pekka Paalanen <ppaalanen@gmail.com>
+> wrote:
+> > On Mon, 8 Mar 2021 16:52:58 -0800
+> > "Navare, Manasi" <manasi.d.navare@intel.com> wrote:
+> > > Hmm well after the actual real commit, since the second crtc is stolen
+> > > even though it is not being used for the display output, it is
+> > > used for joiner so the uapi.enable will be true after the real commit.
+> > >
+> > > so actually the assertion would fail in this case.
+> > >
+> > > @Ville @Danvet any suggestions here in that case?
+>
+> That is very bad. We can't frob uapi state like that. I think that
+> calls for even more checks to make sure kms drivers who try to play
+> clever games don't get it wrong, so we probably need to check uapi
+> enable and active state in another mask before/after ->atomic_check
+> too. Or something like that.
+>
+
+Yeah. We can _never_ generate externally-visible completion events. We can
+later fail to enable the stolen CRTC - because trying to enable new things
+can fail for any reason whatsoever - but we can't generate spurious
+completion events, as doing so falls into the uncanny valley.
+
+If the kernel is doing clever things behind userspace's back - such as
+stealing planes or CRTCs - then userspace can never know about it, apart
+from failing to enable those resources later. The kernel can either never
+do anything clever (and make userspace bind them both together), or be
+extremely clever (by hiding the entire details from userspace), but it
+cannot choose the halfway house of doing clever things behind userspace's
+back (such as stealing new CRTCs) whilst also exposing all those details to
+userspace (such as delivering spurious completion events for resources
+userspace never requested to be programmed).
+
+Cheers,
+Daniel
+
+--00000000000028646005bdaffbeb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><span style=3D"">On Tue, 16 Mar 2021 at 2=
+1:35, Daniel Vetter &lt;<a href=3D"mailto:daniel@ffwll.ch">daniel@ffwll.ch<=
+/a>&gt; wrote:</span><br></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">On Tue, Mar 9, 2021 at 10:14 AM Pekka Paal=
+anen &lt;<a href=3D"mailto:ppaalanen@gmail.com" target=3D"_blank">ppaalanen=
+@gmail.com</a>&gt; wrote:<br>&gt; On Mon, 8 Mar 2021 16:52:58 -0800<br>
+&gt; &quot;Navare, Manasi&quot; &lt;<a href=3D"mailto:manasi.d.navare@intel=
+.com" target=3D"_blank">manasi.d.navare@intel.com</a>&gt; wrote:<br>&gt; &g=
+t; Hmm well after the actual real commit, since the second crtc is stolen<b=
+r>
+&gt; &gt; even though it is not being used for the display output, it is<br=
+>
+&gt; &gt; used for joiner so the uapi.enable will be true after the real co=
+mmit.<br>
+&gt; &gt;<br>
+&gt; &gt; so actually the assertion would fail in this case.<br>
+&gt; &gt;<br>
+&gt; &gt; @Ville @Danvet any suggestions here in that case?<br>
+<br>
+That is very bad. We can&#39;t frob uapi state like that. I think that<br>
+calls for even more checks to make sure kms drivers who try to play<br>
+clever games don&#39;t get it wrong, so we probably need to check uapi<br>
+enable and active state in another mask before/after -&gt;atomic_check<br>
+too. Or something like that.<br></blockquote><div><br></div><div>Yeah. We c=
+an _never_ generate externally-visible completion events. We can later fail=
+ to enable the stolen CRTC - because trying to enable new things can fail f=
+or any reason whatsoever - but we can&#39;t generate spurious completion ev=
+ents, as doing so falls into the uncanny valley.</div><div><br></div><div>I=
+f the kernel is doing clever things behind userspace&#39;s back - such as s=
+tealing planes or CRTCs - then userspace can never know about it, apart fro=
+m failing to enable those resources later. The kernel can either never do a=
+nything clever (and make userspace bind them both together), or be extremel=
+y clever (by hiding the entire details from userspace), but it cannot choos=
+e the halfway house of doing clever things behind userspace&#39;s back (suc=
+h as stealing new CRTCs) whilst also exposing all those details to userspac=
+e (such as delivering spurious completion events for resources userspace ne=
+ver requested to be programmed).</div><div><br></div><div>Cheers,</div><div=
+>Daniel=C2=A0</div></div></div>
+
+--00000000000028646005bdaffbeb--
+
+--===============1300844170==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1300844170==--
