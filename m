@@ -1,73 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E9B33EAB3
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 08:43:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FCA633EAFF
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 09:05:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 593BD6E103;
-	Wed, 17 Mar 2021 07:43:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 000C36E4DE;
+	Wed, 17 Mar 2021 08:05:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C9E789A8B;
- Wed, 17 Mar 2021 07:43:38 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id j3so1013943edp.11;
- Wed, 17 Mar 2021 00:43:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=hMZ0sTLd+GtZrcVWM9uMcCoDvk0vIa13FCgLGfmne7o=;
- b=F4D2065An/z8HQX8fy+3HCcn7NPj1RfZroiwQP3Stlc+velOjojA+lsYTqdhFvqr+N
- lXX5F6I7XtjXv8nUAEALGo1GA7dSxCV0ikkrs2/PUMeIy/ryCMah048b1bWhgbA6XcZa
- UYW0cr7U+Lr9OeurdG10OrWgI7Ul0rliFvj88Wt/de9U2JW4G82XEJ6ouAjwAGPiBsjG
- BL69iNQWuve8Uz8jiPRWbLb1gcckJCYlK0jlVZ4kcQrff5J0dJVfpOIIZ/eGAG8yd9tn
- WgO+2xi69/vGDgkCElkktEMMThGOKXeoefnWIGUuSGKmLXZaKkSsiZLBlrfmHu40CrH/
- vgSg==
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 359AC6E4DE
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 08:05:02 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id w65so40925178oie.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 01:05:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EI5qglqxsKAU/W0ZKYTsFSvZf8l0B/oXcoORkaxMSD8=;
+ b=fb1VA654QtgBN7yjx24Vbsgr8qILHcsfU8IERmXJmGaXai7ib/t/sz/A2+trz33o9V
+ +jZ2x+KTzIoXu9ur15pcoOP0mcety3wwVzOYYhW2IDGTduuc/R5KdINLJaadqXnV3Anw
+ TPbRuol5s8uvpHLE2zkBMQ0iFY8Iob2xpapBI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=hMZ0sTLd+GtZrcVWM9uMcCoDvk0vIa13FCgLGfmne7o=;
- b=GCm8xFTTGBwFsP6U2kCY8IoTGw8ISPrzIkkc/PLzyCWDODJEmkUFZOz+TzVVlOMaI2
- gqnM1I0iCPQmFX66vXuMQrKpZuAublVrBwarbmQMukcVAw5fuYZcel37vHJi/yo1qI08
- O+th3VCin51MVfIMQj9eS4JaTKfE/T0DzxegNBh2+YaYeZRdUOb8v8T2BvdUjbkqROxi
- h9cXxpAx5ANHBdf1+gMSYO9V3wCkVP5E8hDFDjTRnSokOG7ybJF6g+DyUY4nzvJSB1vW
- a8F6nVNtMk4d6rcXpC5z+UkcjOo211hHBZzgYX5GovO5NCcDrF+sSCXIJ1XN1SuwVmn9
- qKIA==
-X-Gm-Message-State: AOAM530y8MaMdPTiwQvV0Vgs7I+U36W0Y1gK3sFXicYNZsXCkbhzOAoc
- a+S4V4wJbUKggVkQ06mFm4I=
-X-Google-Smtp-Source: ABdhPJx34e5gFsdjxsUDrUJFVgj0nf8u9N6aPsHyglVy2AB7ilhLX917KFNNW5wvku3scg9fSiikmg==
-X-Received: by 2002:aa7:cf14:: with SMTP id a20mr40356536edy.49.1615967017095; 
- Wed, 17 Mar 2021 00:43:37 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:ccdd:b6ca:11e:5cc5?
- ([2a02:908:1252:fb60:ccdd:b6ca:11e:5cc5])
- by smtp.gmail.com with ESMTPSA id d9sm5991608ejj.5.2021.03.17.00.43.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Mar 2021 00:43:36 -0700 (PDT)
-Subject: Re: [PATCH v3] drm/scheduler re-insert Bailing job to avoid memleak
-To: "Zhang, Jack (Jian)" <Jack.Zhang1@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>,
- "Liu, Monk" <Monk.Liu@amd.com>, "Deng, Emily" <Emily.Deng@amd.com>,
- Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Steven Price <steven.price@arm.com>
-References: <20210315052036.1113638-1-Jack.Zhang1@amd.com>
- <DM5PR1201MB020453AA9A2A5C5173AF4D84BB6C9@DM5PR1201MB0204.namprd12.prod.outlook.com>
- <DM5PR1201MB020461EEDC275748389BB631BB6B9@DM5PR1201MB0204.namprd12.prod.outlook.com>
- <DM5PR1201MB020459FE1FFA08DD3A32F7B5BB6A9@DM5PR1201MB0204.namprd12.prod.outlook.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <9b48b715-52dd-e435-2873-2472427dffda@gmail.com>
-Date: Wed, 17 Mar 2021 08:43:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EI5qglqxsKAU/W0ZKYTsFSvZf8l0B/oXcoORkaxMSD8=;
+ b=CehDqxBgccZBZfDpK/d2tnbhI8JupqZjrSjr7PNdjbxeHD6GQbHliFOljB6TMQEJjD
+ hTJdWKtkn3nukA+BFXKat1++UHxHliBKNKsMRj+70tC+wG6ud+GPOeX8tY5VmEnIoov5
+ c5/LKZMRP36IZIjtZi0JDPXZmcvvPqsKprcvlNB1CiBqnetUP/wLm1wxz0kTGqQnbu2+
+ 75XNSSM8xwS7ZteaHwFhp7667NFwg4NO4NBVhs3nlWMsxc0/ZLlnzwiK8KEjcKSNwu40
+ pxo2zZX47WQC42RrlE7NBoCzkQMlWzR649z5IStRL6vBlRPFnWKvFZ3ayjp5HVS4Dcoo
+ gI2g==
+X-Gm-Message-State: AOAM532jlZ2zguO+STElROLthSg4T7pkdsC6B30crrVmM64xUnsbn9F4
+ VJqD0l1O7XtHnEGv1EKvIFtsw1mojEBrDr3mlD3f+w==
+X-Google-Smtp-Source: ABdhPJwZYNnRwoTd/kuED1Yfh8EqOUzOIuqMpTc+matmHqjzLk6Tn4x3yBWT0QFOmmnBuxIzgcZ9JwEdKsAutEEaYeo=
+X-Received: by 2002:aca:4188:: with SMTP id o130mr1878713oia.101.1615968301447; 
+ Wed, 17 Mar 2021 01:05:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <DM5PR1201MB020459FE1FFA08DD3A32F7B5BB6A9@DM5PR1201MB0204.namprd12.prod.outlook.com>
-Content-Language: en-US
+References: <20210316153303.3216674-1-daniel.vetter@ffwll.ch>
+ <20210316153303.3216674-3-daniel.vetter@ffwll.ch>
+ <20210316154549.GA60450@infradead.org>
+ <CAKMK7uF8Lv0P4TuoctjUiVHtRzAnXf9a50JaYgm0rV+v+7=LFw@mail.gmail.com>
+ <20210317072248.GA284559@infradead.org>
+In-Reply-To: <20210317072248.GA284559@infradead.org>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 17 Mar 2021 09:04:50 +0100
+Message-ID: <CAKMK7uGe4-7EzgYo-rLyhxp5Dft-6V_a610TmL0hRucYTpdmRQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] media/videobuf1|2: Mark follow_pfn usage as unsafe
+To: Christoph Hellwig <hch@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,179 +61,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jan Kara <jack@suse.cz>, KVM list <kvm@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>, Daniel Vetter <daniel.vetter@intel.com>,
+ Michel Lespinasse <walken@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Daniel Jordan <daniel.m.jordan@oracle.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, Pawel Osciak <pawel@osciak.com>,
+ John Hubbard <jhubbard@nvidia.com>, J??r??me Glisse <jglisse@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Laurent Dufour <ldufour@linux.ibm.com>, Vlastimil Babka <vbabka@suse.cz>,
+ LKML <linux-kernel@vger.kernel.org>, Tomasz Figa <tfiga@chromium.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I was hoping Andrey would take a look since I'm really busy with other 
-work right now.
+On Wed, Mar 17, 2021 at 8:22 AM Christoph Hellwig <hch@infradead.org> wrote:
+> On Tue, Mar 16, 2021 at 04:52:44PM +0100, Daniel Vetter wrote:
+> > My understanding is mostly, but with some objections. And I kinda
+> > don't want to let this die in a bikeshed and then not getting rid of
+> > follow_pfn as a result. There's enough people who acked this, and the
+> > full removal got some nack from Mauro iirc.
+>
+> Hmm, ok I must have missed that.  I defintively prefer your series over
+> doing nothing, but killing the dead horse ASAP would be even better.
 
-Regards,
-Christian.
+I have a bunch of slow-burner things I need to fix in this area of
+driver mmaps vs get_user_/follow_ conflicts anyway, I'll add a note to
+put the horse out of it's misery in due time. We have a few problems
+still where things might get pinned or used where it really shouldn't
+be.
 
-Am 17.03.21 um 07:46 schrieb Zhang, Jack (Jian):
-> Hi, Andrey/Crhistian and Team,
->
-> I didn't receive the reviewer's message from maintainers on panfrost driver for several days.
-> Due to this patch is urgent for my current working project.
-> Would you please help to give some review ideas?
->
-> Many Thanks,
-> Jack
-> -----Original Message-----
-> From: Zhang, Jack (Jian)
-> Sent: Tuesday, March 16, 2021 3:20 PM
-> To: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; Koenig, Christian <Christian.Koenig@amd.com>; Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>; Liu, Monk <Monk.Liu@amd.com>; Deng, Emily <Emily.Deng@amd.com>; Rob Herring <robh@kernel.org>; Tomeu Vizoso <tomeu.vizoso@collabora.com>; Steven Price <steven.price@arm.com>
-> Subject: RE: [PATCH v3] drm/scheduler re-insert Bailing job to avoid memleak
->
-> [AMD Public Use]
->
-> Ping
->
-> -----Original Message-----
-> From: Zhang, Jack (Jian)
-> Sent: Monday, March 15, 2021 1:24 PM
-> To: Jack Zhang <Jack.Zhang1@amd.com>; dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; Koenig, Christian <Christian.Koenig@amd.com>; Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>; Liu, Monk <Monk.Liu@amd.com>; Deng, Emily <Emily.Deng@amd.com>; Rob Herring <robh@kernel.org>; Tomeu Vizoso <tomeu.vizoso@collabora.com>; Steven Price <steven.price@arm.com>
-> Subject: RE: [PATCH v3] drm/scheduler re-insert Bailing job to avoid memleak
->
-> [AMD Public Use]
->
-> Hi, Rob/Tomeu/Steven,
->
-> Would you please help to review this patch for panfrost driver?
->
-> Thanks,
-> Jack Zhang
->
-> -----Original Message-----
-> From: Jack Zhang <Jack.Zhang1@amd.com>
-> Sent: Monday, March 15, 2021 1:21 PM
-> To: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; Koenig, Christian <Christian.Koenig@amd.com>; Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>; Liu, Monk <Monk.Liu@amd.com>; Deng, Emily <Emily.Deng@amd.com>
-> Cc: Zhang, Jack (Jian) <Jack.Zhang1@amd.com>
-> Subject: [PATCH v3] drm/scheduler re-insert Bailing job to avoid memleak
->
-> re-insert Bailing jobs to avoid memory leak.
->
-> V2: move re-insert step to drm/scheduler logic
-> V3: add panfrost's return value for bailing jobs in case it hits the memleak issue.
->
-> Signed-off-by: Jack Zhang <Jack.Zhang1@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 +++-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c    | 8 ++++++--
->   drivers/gpu/drm/panfrost/panfrost_job.c    | 4 ++--
->   drivers/gpu/drm/scheduler/sched_main.c     | 8 +++++++-
->   include/drm/gpu_scheduler.h                | 1 +
->   5 files changed, 19 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 79b9cc73763f..86463b0f936e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -4815,8 +4815,10 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
->   					job ? job->base.id : -1);
->   
->   		/* even we skipped this reset, still need to set the job to guilty */
-> -		if (job)
-> +		if (job) {
->   			drm_sched_increase_karma(&job->base);
-> +			r = DRM_GPU_SCHED_STAT_BAILING;
-> +		}
->   		goto skip_recovery;
->   	}
->   
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> index 759b34799221..41390bdacd9e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> @@ -34,6 +34,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
->   	struct amdgpu_job *job = to_amdgpu_job(s_job);
->   	struct amdgpu_task_info ti;
->   	struct amdgpu_device *adev = ring->adev;
-> +	int ret;
->   
->   	memset(&ti, 0, sizeof(struct amdgpu_task_info));
->   
-> @@ -52,8 +53,11 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
->   		  ti.process_name, ti.tgid, ti.task_name, ti.pid);
->   
->   	if (amdgpu_device_should_recover_gpu(ring->adev)) {
-> -		amdgpu_device_gpu_recover(ring->adev, job);
-> -		return DRM_GPU_SCHED_STAT_NOMINAL;
-> +		ret = amdgpu_device_gpu_recover(ring->adev, job);
-> +		if (ret == DRM_GPU_SCHED_STAT_BAILING)
-> +			return DRM_GPU_SCHED_STAT_BAILING;
-> +		else
-> +			return DRM_GPU_SCHED_STAT_NOMINAL;
->   	} else {
->   		drm_sched_suspend_timeout(&ring->sched);
->   		if (amdgpu_sriov_vf(adev))
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 6003cfeb1322..e2cb4f32dae1 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -444,7 +444,7 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
->   	 * spurious. Bail out.
->   	 */
->   	if (dma_fence_is_signaled(job->done_fence))
-> -		return DRM_GPU_SCHED_STAT_NOMINAL;
-> +		return DRM_GPU_SCHED_STAT_BAILING;
->   
->   	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
->   		js,
-> @@ -456,7 +456,7 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
->   
->   	/* Scheduler is already stopped, nothing to do. */
->   	if (!panfrost_scheduler_stop(&pfdev->js->queue[js], sched_job))
-> -		return DRM_GPU_SCHED_STAT_NOMINAL;
-> +		return DRM_GPU_SCHED_STAT_BAILING;
->   
->   	/* Schedule a reset if there's no reset in progress. */
->   	if (!atomic_xchg(&pfdev->reset.pending, 1)) diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 92d8de24d0a1..a44f621fb5c4 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -314,6 +314,7 @@ static void drm_sched_job_timedout(struct work_struct *work)  {
->   	struct drm_gpu_scheduler *sched;
->   	struct drm_sched_job *job;
-> +	int ret;
->   
->   	sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
->   
-> @@ -331,8 +332,13 @@ static void drm_sched_job_timedout(struct work_struct *work)
->   		list_del_init(&job->list);
->   		spin_unlock(&sched->job_list_lock);
->   
-> -		job->sched->ops->timedout_job(job);
-> +		ret = job->sched->ops->timedout_job(job);
->   
-> +		if (ret == DRM_GPU_SCHED_STAT_BAILING) {
-> +			spin_lock(&sched->job_list_lock);
-> +			list_add(&job->node, &sched->ring_mirror_list);
-> +			spin_unlock(&sched->job_list_lock);
-> +		}
->   		/*
->   		 * Guilty job did complete and hence needs to be manually removed
->   		 * See drm_sched_stop doc.
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h index 4ea8606d91fe..8093ac2427ef 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -210,6 +210,7 @@ enum drm_gpu_sched_stat {
->   	DRM_GPU_SCHED_STAT_NONE, /* Reserve 0 */
->   	DRM_GPU_SCHED_STAT_NOMINAL,
->   	DRM_GPU_SCHED_STAT_ENODEV,
-> +	DRM_GPU_SCHED_STAT_BAILING,
->   };
->   
->   /**
-> --
-> 2.25.1
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+Can I count that as an ack on the series? You've touched this quite a
+bit recently.
 
+Thanks, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
