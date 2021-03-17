@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0312933F412
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 16:44:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 648C433F415
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 16:44:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F29506E5C3;
-	Wed, 17 Mar 2021 15:44:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D3E56E7E6;
+	Wed, 17 Mar 2021 15:44:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAA286E5C1
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAB036E5C3
  for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 15:44:02 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.nyi.internal (Postfix) with ESMTP id A62E4580A4F;
- Wed, 17 Mar 2021 11:43:59 -0400 (EDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 9BA8E580CE7;
+ Wed, 17 Mar 2021 11:44:00 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 17 Mar 2021 11:43:59 -0400
+ by compute3.internal (MEProxy); Wed, 17 Mar 2021 11:44:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=DyU1IHfahZjmv
- B8T2vyvPQQjQUQxjZM0B+e2lMIwCok=; b=bL9jjq291IgXZcDaZPnjAzWt0bYsj
- 868yI5bl7aFCg/Kd8li2o23VtkC8M/aGpDSld9/QAO65dZMogc8YCBNDFl15JFmB
- ieT3E8Djih5wimu37KbUfKQOet/eLf1eJFKxFX86IqzH76zwEmM9LuGQDfvVX0pa
- 35e8P5YocjvpkfLiM5SPO/nkAqyrjUQ8XODDO1m0+FBF2BXPoypIL74176qQGVZs
- il9eLxypZ2sZV9s3vlACezW3GBvd1mnoV35gVhADuNSLLaqhgZxeF2WLrVjsjoHT
- wTk/s/I5pTvVr2Xe9LoTjiEIcMVCj9Jpc8jwvlboKZlDtVPk0viGD6Mbg==
+ :mime-version:content-transfer-encoding; s=fm2; bh=sIFqD/81G+Jzv
+ YdcfonsNODJum5o8giV1j2x13Dd3Kw=; b=V3yuCT0MabSVMOWSy3sFZ2vpLAO27
+ bQ9i11TYMGouoUfMKf4LXbTcbhRMm3Bpdwvnod5FpxVJ8ThjLOcd3LvLTaL+U2HF
+ 89k93ZlHFpisAOb4m+lYGf6RjuJvMksS9iUTAnM5HDq45TMkQlvnl9Dz7hq9eJ6K
+ fWDvjlrh0v0HCVSeWm5oAzpkGRjQoUUFiXUvg1kqpt28pSsnkx6vZkhV3shmrgiq
+ Np3K3D5FKqhSnt2f6231CtMfv/YLpP+Ymx+Nlb9Fiwemu7v39xQG7TwxQc84IMSA
+ 80xDRIa3CcS1ESr3KlZDDqZj4m+YCRIPTaDHWBVJ8JWF49aW08Fv5nadQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=DyU1IHfahZjmvB8T2vyvPQQjQUQxjZM0B+e2lMIwCok=; b=FgmcRg/z
- eyqLP2qI/VGFYwM3MbGDb/AsNrkQNpqibrtLPSWhnMoOSg39zy2yTIvDPxcowd2y
- 9mtXYxjwbQoaFlYohPfvwTJM3RjBPsybcat89/G1lu+5oXEXZ6MpTEtsOQ9uIO/M
- G6FeGmlRSloYlhiGHdwlRwYFGzE+G/DzXVyGGMy4lxT/ub1A6Jr0+sO4ADC2fOdh
- jyt7HJsFoDqki+ksSo4pYhXRpfsWD3RGM5xJ0K+G+ohlV99w0ZCCQ+usIoFrkXIR
- 3sfOMjdeF5sm8pIKnlRqqzOeoBAzn0C6PDI+AFk312KHIIRYv1rtKiAm3vs/sZ/H
- 0AA1J7Q1U6MIpw==
-X-ME-Sender: <xms:vCNSYDSYSmUxgo2EXhWO5J5Q-wpX3ZdYVDZNKUkZ1kyGZIL3MCfYgA>
- <xme:vCNSYLxGoPCWltUYw-uE8aNv1lN8u1iUX2wbR-0x6JhGPmTCRq_PDX1--wwed3oiM
- VsYNpLEMNxKNIlTkc0>
+ fm2; bh=sIFqD/81G+JzvYdcfonsNODJum5o8giV1j2x13Dd3Kw=; b=w1e8tCMr
+ Y8f/bmpp0wVmkgVg2eCu2vQAlS/i6cPXGGL7VS/QwAfD0NEdZGlewT6/lDESltQG
+ wzPP9ZAiXA+APiu2rDzYlWq5hiY2sAunv++o+3h6dPAHvlAjavEeYcbJN/bYnjit
+ WOFF3dfNnY6vOo0P5KcNPFWpStvV/NOMdWw4EhMgR50EHCFDRbn+uN3doA6gS47Y
+ SVOJxriJdYzEYOP/UiFZVZM/iEA5JoCh5cTYuYiyOcBesFgrrJjQsDeUTNkPRTos
+ kRYn82w2kUIjwecBwOWBSWyij2d4LjkG3sCIQeqFF88sdyNIAG2zT/osJd7VTia5
+ SKRAgd0L/z76pQ==
+X-ME-Sender: <xms:viNSYIWyPwUUpGvKeODSahN00zSJLcdMiFTtmChhJCa2zUvUyF09sw>
+ <xme:viNSYKaOPjgwCBJWIFY80txP7a5uK6KMCqAPyOFNKvNRXSmdkgA0v4Pymng7EpA74
+ pmUgwoN5zMifoJ7WHk>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedgkedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -49,14 +49,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedgkedvucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:vCNSYN0TBR_6yBkMetzeOFpsSQ2Y5y8LgZqC2EU-AnjgOPHMjj05iA>
- <xmx:vCNSYB4R3pMep7ZjCl2qP1Nt6HMffdNn-2aeC92pJOzn7jSURmxqUQ>
- <xmx:vCNSYIVz1_EXssO7r3Fa7-9LadpQaQq2_9BrNs0jL5v3Ndzg8QYC6A>
- <xmx:vyNSYALmnYaHaQ9W-p4udBz0fA7cfc59OCVeQwIn0oCMQiw7Zh40tg>
+X-ME-Proxy: <xmx:viNSYG0WFUm62-d3MtnZwzjntub1zFgHhKtoiXrZa3bL3KWbyZGsYQ>
+ <xmx:viNSYEjIMpFiVWrZLHhmaulT4MiksywKc10mlx7SEylH64OMoY7jmg>
+ <xmx:viNSYCYK2wzk1pbpZWc0yTFXkQ7_jxMQj6XsZhCZ0iIj5UU0GFHB6A>
+ <xmx:wCNSYC2pyal0iOUKjqwbfCS2xzF908dw4aTAJBExGQiIQ1QU7__Gyg>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id BC8BB24005E;
- Wed, 17 Mar 2021 11:43:56 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 6207324005D;
+ Wed, 17 Mar 2021 11:43:58 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
@@ -65,9 +65,9 @@ To: Andrzej Hajda <a.hajda@samsung.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH 01/18] drm: Introduce new HDMI helpers
-Date: Wed, 17 Mar 2021 16:43:35 +0100
-Message-Id: <20210317154352.732095-2-maxime@cerno.tech>
+Subject: [PATCH 02/18] drm/bridge: Add HDMI output fmt helper
+Date: Wed, 17 Mar 2021 16:43:36 +0100
+Message-Id: <20210317154352.732095-3-maxime@cerno.tech>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210317154352.732095-1-maxime@cerno.tech>
 References: <20210317154352.732095-1-maxime@cerno.tech>
@@ -93,240 +93,307 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The new bridge rework to support the input and output formats introduced
-some boilerplate code that will need to be shared across drivers.
+The atomic_get_output_bus_fmts bridge callback is there to list the
+available formats for output by decreasing order of preference.
 
-Since dw-hdmi is the only driver so far, let's introduce those helpers
-based on that code.
+On HDMI controllers, we have a fairly static list that will depend on
+what the HDMI sink is capable of and the BPC our controller can output.
+
+The dw-hdmi driver already has that code done in a fairly generic
+manner, so let's turn that code into an helper for all the HDMI
+controllers to reuse.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/Makefile   |   2 +-
- drivers/gpu/drm/drm_hdmi.c | 170 +++++++++++++++++++++++++++++++++++++
- include/drm/drm_hdmi.h     |  24 ++++++
- 3 files changed, 195 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/drm_hdmi.c
- create mode 100644 include/drm/drm_hdmi.h
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 127 ----------------------
+ drivers/gpu/drm/drm_bridge.c              | 118 ++++++++++++++++++++
+ include/drm/drm_bridge.h                  |   6 +
+ 3 files changed, 124 insertions(+), 127 deletions(-)
 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 5eb5bf7c16e3..1b77bd64a37e 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -17,7 +17,7 @@ drm-y       :=	drm_auth.o drm_cache.o \
- 		drm_plane.o drm_color_mgmt.o drm_print.o \
- 		drm_dumb_buffers.o drm_mode_config.o drm_vblank.o \
- 		drm_syncobj.o drm_lease.o drm_writeback.o drm_client.o \
--		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o \
-+		drm_client_modeset.o drm_atomic_uapi.o drm_hdmi.o drm_hdcp.o \
- 		drm_managed.o drm_vblank_work.o
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index dda4fa9a1a08..d010c9c525d9 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -2514,133 +2514,6 @@ static int dw_hdmi_connector_create(struct dw_hdmi *hdmi)
+  * DRM Bridge Operations
+  */
  
- drm-$(CONFIG_DRM_LEGACY) += drm_bufs.o drm_context.o drm_dma.o drm_legacy_misc.o drm_lock.o \
-diff --git a/drivers/gpu/drm/drm_hdmi.c b/drivers/gpu/drm/drm_hdmi.c
-new file mode 100644
-index 000000000000..3834d5dd6d88
---- /dev/null
-+++ b/drivers/gpu/drm/drm_hdmi.c
-@@ -0,0 +1,170 @@
-+#include <linux/errno.h>
-+#include <linux/hdmi.h>
-+#include <linux/media-bus-format.h>
-+#include <linux/types.h>
-+
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_hdmi.h>
+-/*
+- * Possible output formats :
+- * - MEDIA_BUS_FMT_UYYVYY16_0_5X48,
+- * - MEDIA_BUS_FMT_UYYVYY12_0_5X36,
+- * - MEDIA_BUS_FMT_UYYVYY10_0_5X30,
+- * - MEDIA_BUS_FMT_UYYVYY8_0_5X24,
+- * - MEDIA_BUS_FMT_YUV16_1X48,
+- * - MEDIA_BUS_FMT_RGB161616_1X48,
+- * - MEDIA_BUS_FMT_UYVY12_1X24,
+- * - MEDIA_BUS_FMT_YUV12_1X36,
+- * - MEDIA_BUS_FMT_RGB121212_1X36,
+- * - MEDIA_BUS_FMT_UYVY10_1X20,
+- * - MEDIA_BUS_FMT_YUV10_1X30,
+- * - MEDIA_BUS_FMT_RGB101010_1X30,
+- * - MEDIA_BUS_FMT_UYVY8_1X16,
+- * - MEDIA_BUS_FMT_YUV8_1X24,
+- * - MEDIA_BUS_FMT_RGB888_1X24,
+- */
+-
+-/* Can return a maximum of 11 possible output formats for a mode/connector */
+-#define MAX_OUTPUT_SEL_FORMATS	11
+-
+-static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+-					struct drm_bridge_state *bridge_state,
+-					struct drm_crtc_state *crtc_state,
+-					struct drm_connector_state *conn_state,
+-					unsigned int *num_output_fmts)
+-{
+-	struct drm_connector *conn = conn_state->connector;
+-	struct drm_display_info *info = &conn->display_info;
+-	struct drm_display_mode *mode = &crtc_state->mode;
+-	u8 max_bpc = conn_state->max_requested_bpc;
+-	bool is_hdmi2_sink = info->hdmi.scdc.supported ||
+-			     (info->color_formats & DRM_COLOR_FORMAT_YCRCB420);
+-	u32 *output_fmts;
+-	unsigned int i = 0;
+-
+-	*num_output_fmts = 0;
+-
+-	output_fmts = kcalloc(MAX_OUTPUT_SEL_FORMATS, sizeof(*output_fmts),
+-			      GFP_KERNEL);
+-	if (!output_fmts)
+-		return NULL;
+-
+-	/* If dw-hdmi is the only bridge, avoid negociating with ourselves */
+-	if (list_is_singular(&bridge->encoder->bridge_chain)) {
+-		*num_output_fmts = 1;
+-		output_fmts[0] = MEDIA_BUS_FMT_FIXED;
+-
+-		return output_fmts;
+-	}
+-
+-	/*
+-	 * If the current mode enforces 4:2:0, force the output but format
+-	 * to 4:2:0 and do not add the YUV422/444/RGB formats
+-	 */
+-	if (conn->ycbcr_420_allowed &&
+-	    (drm_mode_is_420_only(info, mode) ||
+-	     (is_hdmi2_sink && drm_mode_is_420_also(info, mode)))) {
+-
+-		/* Order bus formats from 16bit to 8bit if supported */
+-		if (max_bpc >= 16 && info->bpc == 16 &&
+-		    (info->hdmi.y420_dc_modes & DRM_EDID_YCBCR420_DC_48))
+-			output_fmts[i++] = MEDIA_BUS_FMT_UYYVYY16_0_5X48;
+-
+-		if (max_bpc >= 12 && info->bpc >= 12 &&
+-		    (info->hdmi.y420_dc_modes & DRM_EDID_YCBCR420_DC_36))
+-			output_fmts[i++] = MEDIA_BUS_FMT_UYYVYY12_0_5X36;
+-
+-		if (max_bpc >= 10 && info->bpc >= 10 &&
+-		    (info->hdmi.y420_dc_modes & DRM_EDID_YCBCR420_DC_30))
+-			output_fmts[i++] = MEDIA_BUS_FMT_UYYVYY10_0_5X30;
+-
+-		/* Default 8bit fallback */
+-		output_fmts[i++] = MEDIA_BUS_FMT_UYYVYY8_0_5X24;
+-
+-		*num_output_fmts = i;
+-
+-		return output_fmts;
+-	}
+-
+-	/*
+-	 * Order bus formats from 16bit to 8bit and from YUV422 to RGB
+-	 * if supported. In any case the default RGB888 format is added
+-	 */
+-
+-	if (max_bpc >= 16 && info->bpc == 16) {
+-		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+-			output_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
+-
+-		output_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
+-	}
+-
+-	if (max_bpc >= 12 && info->bpc >= 12) {
+-		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+-			output_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
+-
+-		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+-			output_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
+-
+-		output_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
+-	}
+-
+-	if (max_bpc >= 10 && info->bpc >= 10) {
+-		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+-			output_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
+-
+-		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+-			output_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
+-
+-		output_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
+-	}
+-
+-	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+-		output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
+-
+-	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+-		output_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
+-
+-	/* Default 8bit RGB fallback */
+-	output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
+-
+-	*num_output_fmts = i;
+-
+-	return output_fmts;
+-}
+-
+ /*
+  * Possible input formats :
+  * - MEDIA_BUS_FMT_RGB888_1X24
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 64f0effb52ac..253cbca1c19e 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -1035,6 +1035,124 @@ int drm_atomic_bridge_chain_check(struct drm_bridge *bridge,
+ }
+ EXPORT_SYMBOL(drm_atomic_bridge_chain_check);
+ 
++/* Can return a maximum of 11 possible output formats for a mode/connector */
++#define MAX_OUTPUT_SEL_FORMATS	11
 +
 +/**
-+ * drm_hdmi_bus_fmt_is_rgb() - Is the media bus format an RGB format?
-+ * @bus_format: MEDIA_BUS_FMT* to test
++ * drm_bridge_helper_hdmi_atomic_get_output_bus_fmts() - Lists the output formats for an HDMI sink
++ * @bridge: bridge control structure
++ * @bridge_state: bridge state
++ * @crtc_state: CRTC state
++ * @conn_state: connector state
++ * @num_output_fmts: number of formats returned
 + *
-+ * Checks if the media bus format is an RGB one
++ * Returns the supported bus formats on the output end of an HDMI
++ * bridge. The returned array is allocated with kmalloc and will thus
++ * need to be freed. Formats will be listed in decreasing preference
++ * order, the framework eventually picking the highest preference
++ * available across all the bridges.
 + *
 + * RETURNS:
-+ * True if the format is an RGB one, false otherwise
++ * an array of MEDIA_FMT_* on success, NULL on failure
 + */
-+bool drm_hdmi_bus_fmt_is_rgb(u32 bus_format)
++u32 *drm_atomic_helper_bridge_hdmi_get_output_bus_fmts(struct drm_bridge *bridge,
++						       struct drm_bridge_state *bridge_state,
++						       struct drm_crtc_state *crtc_state,
++						       struct drm_connector_state *conn_state,
++						       unsigned int *num_output_fmts)
 +{
-+	switch (bus_format) {
-+	case MEDIA_BUS_FMT_RGB888_1X24:
-+	case MEDIA_BUS_FMT_RGB101010_1X30:
-+	case MEDIA_BUS_FMT_RGB121212_1X36:
-+	case MEDIA_BUS_FMT_RGB161616_1X48:
-+		return true;
++	struct drm_connector *conn = conn_state->connector;
++	struct drm_display_info *info = &conn->display_info;
++	struct drm_display_mode *mode = &crtc_state->mode;
++	u8 max_bpc = conn_state->max_requested_bpc;
++	bool is_hdmi2_sink = info->hdmi.scdc.supported ||
++			     (info->color_formats & DRM_COLOR_FORMAT_YCRCB420);
++	u32 *output_fmts;
++	unsigned int i = 0;
 +
-+	default:
-+		return false;
++	*num_output_fmts = 0;
++
++	output_fmts = kcalloc(MAX_OUTPUT_SEL_FORMATS, sizeof(*output_fmts),
++			      GFP_KERNEL);
++	if (!output_fmts)
++		return NULL;
++
++	/*
++	 * If the current mode enforces 4:2:0, force the output but format
++	 * to 4:2:0 and do not add the YUV422/444/RGB formats
++	 */
++	if (conn->ycbcr_420_allowed &&
++	    (drm_mode_is_420_only(info, mode) ||
++	     (is_hdmi2_sink && drm_mode_is_420_also(info, mode)))) {
++
++		/* Order bus formats from 16bit to 8bit if supported */
++		if (max_bpc >= 16 && info->bpc == 16 &&
++		    (info->hdmi.y420_dc_modes & DRM_EDID_YCBCR420_DC_48))
++			output_fmts[i++] = MEDIA_BUS_FMT_UYYVYY16_0_5X48;
++
++		if (max_bpc >= 12 && info->bpc >= 12 &&
++		    (info->hdmi.y420_dc_modes & DRM_EDID_YCBCR420_DC_36))
++			output_fmts[i++] = MEDIA_BUS_FMT_UYYVYY12_0_5X36;
++
++		if (max_bpc >= 10 && info->bpc >= 10 &&
++		    (info->hdmi.y420_dc_modes & DRM_EDID_YCBCR420_DC_30))
++			output_fmts[i++] = MEDIA_BUS_FMT_UYYVYY10_0_5X30;
++
++		/* Default 8bit fallback */
++		output_fmts[i++] = MEDIA_BUS_FMT_UYYVYY8_0_5X24;
++
++		*num_output_fmts = i;
++
++		return output_fmts;
 +	}
-+}
-+EXPORT_SYMBOL(drm_hdmi_bus_fmt_is_rgb);
 +
-+/**
-+ * drm_hdmi_bus_fmt_is_yuv444() - Is the media bus format an YUV444 format?
-+ * @bus_format: MEDIA_BUS_FMT* to test
-+ *
-+ * Checks if the media bus format is an YUV444 one
-+ *
-+ * RETURNS:
-+ * True if the format is an YUV444 one, false otherwise
-+ */
-+bool drm_hdmi_bus_fmt_is_yuv444(u32 bus_format)
-+{
-+	switch (bus_format) {
-+	case MEDIA_BUS_FMT_YUV8_1X24:
-+	case MEDIA_BUS_FMT_YUV10_1X30:
-+	case MEDIA_BUS_FMT_YUV12_1X36:
-+	case MEDIA_BUS_FMT_YUV16_1X48:
-+		return true;
++	/*
++	 * Order bus formats from 16bit to 8bit and from YUV422 to RGB
++	 * if supported. In any case the default RGB888 format is added
++	 */
 +
-+	default:
-+		return false;
++	if (max_bpc >= 16 && info->bpc == 16) {
++		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
++			output_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
++
++		output_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
 +	}
-+}
-+EXPORT_SYMBOL(drm_hdmi_bus_fmt_is_yuv444);
 +
-+/**
-+ * drm_hdmi_bus_fmt_is_yuv422() - Is the media bus format an YUV422 format?
-+ * @bus_format: MEDIA_BUS_FMT* to test
-+ *
-+ * Checks if the media bus format is an YUV422 one
-+ *
-+ * RETURNS:
-+ * True if the format is an YUV422 one, false otherwise
-+ */
-+bool drm_hdmi_bus_fmt_is_yuv422(u32 bus_format)
-+{
-+	switch (bus_format) {
-+	case MEDIA_BUS_FMT_UYVY8_1X16:
-+	case MEDIA_BUS_FMT_UYVY10_1X20:
-+	case MEDIA_BUS_FMT_UYVY12_1X24:
-+		return true;
++	if (max_bpc >= 12 && info->bpc >= 12) {
++		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
++			output_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
 +
-+	default:
-+		return false;
++		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
++			output_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
++
++		output_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
 +	}
-+}
-+EXPORT_SYMBOL(drm_hdmi_bus_fmt_is_yuv422);
 +
-+/**
-+ * drm_hdmi_bus_fmt_is_yuv420() - Is the media bus format an YUV420 format?
-+ * @bus_format: MEDIA_BUS_FMT* to test
-+ *
-+ * Checks if the media bus format is an YUV420 one
-+ *
-+ * RETURNS:
-+ * True if the format is an YUV420 one, false otherwise
-+ */
-+bool drm_hdmi_bus_fmt_is_yuv420(u32 bus_format)
-+{
-+	switch (bus_format) {
-+	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
-+	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
-+	case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
-+	case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
-+		return true;
++	if (max_bpc >= 10 && info->bpc >= 10) {
++		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
++			output_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
 +
-+	default:
-+		return false;
++		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
++			output_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
++
++		output_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
 +	}
++
++	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
++		output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
++
++	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
++		output_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
++
++	/* Default 8bit RGB fallback */
++	output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
++
++	*num_output_fmts = i;
++
++	return output_fmts;
 +}
-+EXPORT_SYMBOL(drm_hdmi_bus_fmt_is_yuv420);
++EXPORT_SYMBOL_GPL(drm_atomic_helper_bridge_hdmi_get_output_bus_fmts);
 +
-+/**
-+ * drm_hdmi_bus_fmt_color_depth() - Returns the color depth in bits
-+ * @bus_format: MEDIA_BUS_FMT* to test
-+ *
-+ * Computes the number of bits per color for a given media bus format
-+ *
-+ * RETURNS:
-+ * The number of bits per color
-+ */
-+int drm_hdmi_bus_fmt_color_depth(u32 bus_format)
-+{
-+	switch (bus_format) {
-+	case MEDIA_BUS_FMT_RGB888_1X24:
-+	case MEDIA_BUS_FMT_YUV8_1X24:
-+	case MEDIA_BUS_FMT_UYVY8_1X16:
-+	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
-+		return 8;
+ /**
+  * drm_bridge_detect - check if anything is attached to the bridge output
+  * @bridge: bridge control structure
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 2195daa289d2..1d801d77e90a 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -868,6 +868,12 @@ drm_atomic_helper_bridge_propagate_bus_fmt(struct drm_bridge *bridge,
+ 					u32 output_fmt,
+ 					unsigned int *num_input_fmts);
+ 
++u32 *drm_atomic_helper_bridge_hdmi_get_output_bus_fmts(struct drm_bridge *bridge,
++						       struct drm_bridge_state *bridge_state,
++						       struct drm_crtc_state *crtc_state,
++						       struct drm_connector_state *conn_state,
++						       unsigned int *num_output_fmts);
 +
-+	case MEDIA_BUS_FMT_RGB101010_1X30:
-+	case MEDIA_BUS_FMT_YUV10_1X30:
-+	case MEDIA_BUS_FMT_UYVY10_1X20:
-+	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
-+		return 10;
-+
-+	case MEDIA_BUS_FMT_RGB121212_1X36:
-+	case MEDIA_BUS_FMT_YUV12_1X36:
-+	case MEDIA_BUS_FMT_UYVY12_1X24:
-+	case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
-+		return 12;
-+
-+	case MEDIA_BUS_FMT_RGB161616_1X48:
-+	case MEDIA_BUS_FMT_YUV16_1X48:
-+	case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
-+		return 16;
-+
-+	default:
-+		return 0;
-+	}
-+}
-+EXPORT_SYMBOL(drm_hdmi_bus_fmt_color_depth);
-+
-+/**
-+ * drm_hdmi_bus_fmt_color_depth() - Returns the color depth in bits
-+ * @bus_format: MEDIA_BUS_FMT* to test
-+ *
-+ * Computes the number of bits per color for a given media bus format
-+ *
-+ * RETURNS:
-+ * The number of bits per color
-+ */
-+int drm_hdmi_avi_infoframe_output_colorspace(struct hdmi_avi_infoframe *frame,
-+					     struct drm_bus_cfg *out_bus_cfg)
-+{
-+	if (drm_hdmi_bus_fmt_is_yuv444(out_bus_cfg->format))
-+		frame->colorspace = HDMI_COLORSPACE_YUV444;
-+	else if (drm_hdmi_bus_fmt_is_yuv422(out_bus_cfg->format))
-+		frame->colorspace = HDMI_COLORSPACE_YUV422;
-+	else if (drm_hdmi_bus_fmt_is_yuv420(out_bus_cfg->format))
-+		frame->colorspace = HDMI_COLORSPACE_YUV420;
-+	else if (drm_hdmi_bus_fmt_is_rgb(out_bus_cfg->format))
-+		frame->colorspace = HDMI_COLORSPACE_RGB;
-+	else
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_hdmi_avi_infoframe_output_colorspace);
-diff --git a/include/drm/drm_hdmi.h b/include/drm/drm_hdmi.h
-new file mode 100644
-index 000000000000..8cd281699ea0
---- /dev/null
-+++ b/include/drm/drm_hdmi.h
-@@ -0,0 +1,24 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (C) 2013-2015 Mentor Graphics Inc.
-+ * Copyright (C) 2011-2013 Freescale Semiconductor, Inc.
-+ * Copyright (C) 2010, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
-+ */
-+
-+#ifndef __DRM_HDMI_H_
-+#define __DRM_HDMI_H_
-+
-+#include <linux/types.h>
-+
-+struct drm_bus_cfg;
-+struct hdmi_avi_infoframe;
-+
-+bool drm_hdmi_bus_fmt_is_rgb(u32 bus_format);
-+bool drm_hdmi_bus_fmt_is_yuv444(u32 bus_format);
-+bool drm_hdmi_bus_fmt_is_yuv422(u32 bus_format);
-+bool drm_hdmi_bus_fmt_is_yuv420(u32 bus_format);
-+int drm_hdmi_bus_fmt_color_depth(u32 bus_format);
-+int drm_hdmi_avi_infoframe_output_colorspace(struct hdmi_avi_infoframe *frame,
-+					     struct drm_bus_cfg *out_bus_cfg);
-+
-+#endif // __DRM_HDMI_H_
+ enum drm_connector_status drm_bridge_detect(struct drm_bridge *bridge);
+ int drm_bridge_get_modes(struct drm_bridge *bridge,
+ 			 struct drm_connector *connector);
 -- 
 2.30.2
 
