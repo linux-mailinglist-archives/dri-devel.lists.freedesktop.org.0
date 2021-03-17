@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272C433F8D3
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 20:11:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C45733F8FF
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 20:19:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00912899DB;
-	Wed, 17 Mar 2021 19:11:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA28A6E55E;
+	Wed, 17 Mar 2021 19:19:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD1F899DB
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 19:11:36 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 9D2B864F55
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 19:11:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0A4A6E55E
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 19:19:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 60C2764E77
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 19:19:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616008294;
- bh=MA65inSiiEOa3bIbPPD2wz375XYcEo+VPwqzAhSbqRs=;
+ s=k20201202; t=1616008744;
+ bh=BkQlFN8SakU4TYZURxdKOzq+X4FX4s1zBlEXkO+NpWI=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=qdk60SUGNsTDj3xfRpgliPArANJled6DMzcjtp6G5/ewd51WrKLi0cIWNo3NjDSfN
- mbjXlfB7IQtpiXh/KorPbR6B8MR9cvmdiV8eTSkYWQsZG1tJ+1RwBUsHBS1BZKXtLE
- o6gnNHfjgb1u+/JECR7POIJFh31k5MckoazZQC2RbVa/rjLPfKuzDFvMj4yo10HYNi
- PvK3YKhmvvB60mK9x0p2/N3onuuRpN79oRnQsLxGdbRqcfXWumos0uE1du2PuYfRff
- YbY2DGt8KDBPQ5NI4TwJFt8XWnzfIwFyGqVP0XxExksDvNxvF7MDZBS0wAUsqa7ogU
- yUJUcQFfwTDCg==
+ b=XA4MpNs+NwBemg41kjv3qDdnIqaJYYEZ+QZo+1JbPtM70XtzHw8rwdYrBulx83LA9
+ xYWNQRpADgnPoxDX3t949m0p5SaZ68Sv2blSt1aRft+rXsqfM7iZR9WP3ybPpFAJ7V
+ X2A35xKC7EB3AooX8hFuZaATSRDskBHMyIsSRjz/gvISTnrwjXNB6WJx/GaZzEP7Pf
+ s3ftG/ufQ9YpStxr8Zn1GPL6PoBKYFQV/L3nrMkZyQ++H60qlgQugKsqtiPEe2ioES
+ op4880gB3cs3WbYafhElCfA8gVRQjtCXGDLMzk14g42XKBzl9nX/9/WroezWS41//d
+ Mx5EgvVBscUGA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 8C719653C7; Wed, 17 Mar 2021 19:11:34 +0000 (UTC)
+ id 4DC1C6536D; Wed, 17 Mar 2021 19:19:04 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 212077] AMD GPU discrete card memory at highest frequency even
  while not in use
-Date: Wed, 17 Mar 2021 19:11:34 +0000
+Date: Wed, 17 Mar 2021 19:19:04 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -40,13 +40,13 @@ X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: high
 X-Bugzilla-Who: bat_malin@abv.bg
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Status: REOPENED
+X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-212077-2300-p7xQ44HK34@https.bugzilla.kernel.org/>
+Message-ID: <bug-212077-2300-3kAHI6AlK8@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-212077-2300@https.bugzilla.kernel.org/>
 References: <bug-212077-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -75,12 +75,11 @@ Bat Malin (bat_malin@abv.bg) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|REOPENED                    |RESOLVED
-         Resolution|---                         |CODE_FIX
+             Status|RESOLVED                    |REOPENED
+         Resolution|CODE_FIX                    |---
 
---- Comment #8 from Bat Malin (bat_malin@abv.bg) ---
-Code fixed in 5.11.7
-Thank you!
+--- Comment #9 from Bat Malin (bat_malin@abv.bg) ---
+Code fixed but the GPU is still running @highest possible clock
 
 -- 
 You may reply to this email to add a comment.
