@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB6633E36D
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 01:57:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4726B33E37A
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 01:57:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53A2C6E47E;
-	Wed, 17 Mar 2021 00:57:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B88906E488;
+	Wed, 17 Mar 2021 00:57:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3201089B57;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D0186E486;
+ Wed, 17 Mar 2021 00:57:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7A21B64FDF;
  Wed, 17 Mar 2021 00:57:43 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1BD7C64F9B;
- Wed, 17 Mar 2021 00:57:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615942663;
- bh=Vnr7MAJTIlC5HrBZBnBkc8Elfqq+p/iixIUF9T1HFtM=;
+ s=k20201202; t=1615942664;
+ bh=6tv68FGLqvBJOuuHzZh4lgqMBl8erwIjzi2VaN4TVs0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RFWVjSZ93BRpW/e1CqDdvUbwHO+tQ8EHzO/e5O7LBDDBxLf0ElaNq3ZnUznc2wfaP
- WCgI+bz3kN6zXOfIJAVOj8mnY7bU4/63Ab5u74MhrTZUh8TcchBp2fzFqI69by6F8l
- HtItuoctyLwmaei9BzmyXRfKpIHWaVEGMLF161ywnulJP5DgUNhegye97r+ctmTIHG
- KZ6SKDrdXCSAXlOunvHjafxxRjYXPLysX5CQZ5IMw/aN5bhSYoPAEIkI6g1AZfyBod
- 55UKmJpO9py1ZQ46rC9TRcSZoOXPRb2pZFz0y52jp70t2vJCrRdN6Fyz2XN0of7Om1
- Rk33I1so7i9nQ==
+ b=hyqF5KDzS9lIbBCon3gSLGDQ5hglL6pwUSZpEqoDMIXjeLVMnhnMv92c6W8L8yxJF
+ XMH/2zlAp37U/qslVQjU2E9A/7aC7WTXcvVnrwnMJl0tFAzNjsNRlU2ju5LQ1u+N45
+ tnUTBYdNIxA1yB+/bM5N31IDQPFjiWj2mqTldbUIHdYXSh1xkyQDtd6DMdAxEF/CrX
+ K0DuF5mWyeIEY8yd57b+QRNXEhGR51HDL54CkW9+F0unu312XRyIqp1O4OEVk+Dls5
+ SLnzlxNVL6v6tAXROIxNxxaiXCWjEgRm1wI8hEmk3P4mSZ19VasprKZ/KMFxISmeQz
+ 0MYG9x9sbP90w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 40/54] drm/amd/display: Revert
- dram_clock_change_latency for DCN2.1
-Date: Tue, 16 Mar 2021 20:56:39 -0400
-Message-Id: <20210317005654.724862-40-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 41/54] drm/amdgpu: fb BO should be
+ ttm_bo_type_device
+Date: Tue, 16 Mar 2021 20:56:40 -0400
+Message-Id: <20210317005654.724862-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210317005654.724862-1-sashal@kernel.org>
 References: <20210317005654.724862-1-sashal@kernel.org>
@@ -49,50 +49,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Sung Lee <sung.lee@amd.com>,
- Eryk Brol <eryk.brol@amd.com>, Haonan Wang <Haonan.Wang2@amd.com>,
- amd-gfx@lists.freedesktop.org, Daniel Wheeler <daniel.wheeler@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ Nirmoy Das <nirmoy.das@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sung Lee <sung.lee@amd.com>
-
-[ Upstream commit b0075d114c33580f5c9fa9cee8e13d06db41471b ]
-
-[WHY & HOW]
-Using values provided by DF for latency may cause hangs in
-multi display configurations. Revert change to previous value.
-
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Sung Lee <sung.lee@amd.com>
-Reviewed-by: Haonan Wang <Haonan.Wang2@amd.com>
-Acked-by: Eryk Brol <eryk.brol@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-index 4e2dcf259428..b2b1e3664f28 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-@@ -295,7 +295,7 @@ struct _vcs_dpi_soc_bounding_box_st dcn2_1_soc = {
- 	.num_banks = 8,
- 	.num_chans = 4,
- 	.vmm_page_size_bytes = 4096,
--	.dram_clock_change_latency_us = 11.72,
-+	.dram_clock_change_latency_us = 23.84,
- 	.return_bus_width_bytes = 64,
- 	.dispclk_dppclk_vco_speed_mhz = 3600,
- 	.xfc_bus_transport_time_us = 4,
--- 
-2.30.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogTmlybW95IERhcyA8bmlybW95LmRhc0BhbWQuY29tPgoKWyBVcHN0cmVhbSBjb21taXQg
+NTIxZjA0ZjllM2ZmYzczZWY5NmM3NzYwMzVmOGEwYTMxYjRjZGQ4MSBdCgpGQiBCTyBzaG91bGQg
+bm90IGJlIHR0bV9ib190eXBlX2tlcm5lbCB0eXBlIGFuZAphbWRncHVmYl9jcmVhdGVfcGlubmVk
+X29iamVjdCgpIHBpbnMgdGhlIEZCIEJPIGFueXdheS4KClNpZ25lZC1vZmYtYnk6IE5pcm1veSBE
+YXMgPG5pcm1veS5kYXNAYW1kLmNvbT4KQWNrZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlz
+dGlhbi5rb2VuaWdAYW1kLmNvbT4KU2lnbmVkLW9mZi1ieTogQWxleCBEZXVjaGVyIDxhbGV4YW5k
+ZXIuZGV1Y2hlckBhbWQuY29tPgpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtl
+cm5lbC5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2ZiLmMgfCAy
+ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZmIuYyBiL2RyaXZlcnMv
+Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9mYi5jCmluZGV4IGUyYzJlYjQ1YTc5My4uMWVhOGFm
+NDhhZTJmIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZmIu
+YworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZmIuYwpAQCAtMTQ2LDcg
+KzE0Niw3IEBAIHN0YXRpYyBpbnQgYW1kZ3B1ZmJfY3JlYXRlX3Bpbm5lZF9vYmplY3Qoc3RydWN0
+IGFtZGdwdV9mYmRldiAqcmZiZGV2LAogCXNpemUgPSBtb2RlX2NtZC0+cGl0Y2hlc1swXSAqIGhl
+aWdodDsKIAlhbGlnbmVkX3NpemUgPSBBTElHTihzaXplLCBQQUdFX1NJWkUpOwogCXJldCA9IGFt
+ZGdwdV9nZW1fb2JqZWN0X2NyZWF0ZShhZGV2LCBhbGlnbmVkX3NpemUsIDAsIGRvbWFpbiwgZmxh
+Z3MsCi0JCQkJICAgICAgIHR0bV9ib190eXBlX2tlcm5lbCwgTlVMTCwgJmdvYmopOworCQkJCSAg
+ICAgICB0dG1fYm9fdHlwZV9kZXZpY2UsIE5VTEwsICZnb2JqKTsKIAlpZiAocmV0KSB7CiAJCXBy
+X2VycigiZmFpbGVkIHRvIGFsbG9jYXRlIGZyYW1lYnVmZmVyICglZClcbiIsIGFsaWduZWRfc2l6
+ZSk7CiAJCXJldHVybiAtRU5PTUVNOwotLSAKMi4zMC4xCgpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
