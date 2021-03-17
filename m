@@ -2,54 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A4233F55B
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 17:22:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 423B133F58D
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 17:31:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED5688FF9;
-	Wed, 17 Mar 2021 16:22:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD0B76E15D;
+	Wed, 17 Mar 2021 16:31:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E32396E59B;
- Wed, 17 Mar 2021 16:22:17 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- f22-20020a7bc8d60000b029010c024a1407so3731843wml.2; 
- Wed, 17 Mar 2021 09:22:17 -0700 (PDT)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB5E6E15D
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 16:31:20 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id e18so2474460wrt.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 09:31:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LLJ/2r9/jS5wc1sgd4b6Gkg0QJoSZ+U4u6jpN909XPc=;
- b=ovqkJuuSzOcWDkLIh+KlBGYSM7ewLt5II8h6ULSz70U9z800NT+crym/e2LLAoE290
- sd1kFdbhWclmmhDSyOxgEcBp9bnjpwLuiB2z8kMy2jfsH5RmR82Z3bUi7c8KbmIRlXPk
- WekIb++nLe7pB1dV4TcVitPVx/cv3pwQP0roXqP1UoL6c8jfm5toFPs5t9MWzNCUMW0U
- GRYfZbQD7FngSf+J/dQ+cJrOeVU8hd9l4xjXgrBMAdnYkgT6SxRJQr8bryTH63R28ygV
- Ug7QxIL3HMnOcAsLQasjjzff0/7mvZ7D+fGfQ/nf1c1k30cZoyTLJhDr5+xP1nhNAmql
- 6wbg==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=QE6T5rkzVXyVG4b9FRno1df2BtGxnFCnOZE4VoMr7VE=;
+ b=CrX+5ZPcNrwcCneoIbXKNRHVF0R2KhRrGqiTGlT2zqw4tQ+jT6WbsSbuOdfR4wO6IH
+ 6/wlQ1qfe3c4PpUGfku6eJmwxc331NOpDMy0ijZ/r2GBQbxNDp944E3yKgW0UKFZ181T
+ Jn8Ku/iFETMIfR6PM703248kcyaKGf0m2xkVBGmflaesG0yCmr+iF6S/TT/4WbbBzxJo
+ jn7ZfMxbfBD1xleKkQ6U60lHxttSM3bJ/0X/FGlihrVs1LDPLW38jRNEjeyfv/xQ78Cn
+ mJQ0oG0zMUnanuY/vLX8Uh0e/jSgqivRIkNA6vmSEnsgab8E6sA8n4zZwkDiTwkuD7WY
+ 2Vvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LLJ/2r9/jS5wc1sgd4b6Gkg0QJoSZ+U4u6jpN909XPc=;
- b=fArwjTaKTBuXIS7VzdT5u1Dby5Z8mugVel7VjPp16zq1962rSy5JIaR9rJOT/cxBT/
- 84z2dq5KFzkWy7hmAmJBGmxPHtLsTuiTNnVNGL59EfeAqpVCyp59voT2ncyX7LjlgT2L
- xElCaqRauAjPCdX/zjF7oH1yVPER4WYHamAnJ5I6ztxtdB+ycU5ZTzGBDHYKuFfk5nU+
- vx4mlo0Fbmd+lx+xLYzZ4fXHKzSFRV1BDESgfO8DwOUa7T80He0ql+6YGUjXoBN3b7hL
- hCYNdWQwHzxVvUeOrzFq0e8IdZnosddSjBQNRAw98QjoZrGUp2Ol/ksk3wGZLEJWmPNC
- NZSA==
-X-Gm-Message-State: AOAM533S94fjT4ejETGT82bshoaNlRAS30Sp7yK+iBfFaBfptKScom8q
- gu+4K8Ok/x8EL7+KOZPxMUequNV9rmcHsb5IC0Y=
-X-Google-Smtp-Source: ABdhPJyBhVoRwKNysP+CSzeDWV9952uUQkx9M63AL8RmXZqs/wyypjylQCTWBgxpaU/hiK2ungS2ngb6sqr++BEJuOA=
-X-Received: by 2002:a1c:4b15:: with SMTP id y21mr4586006wma.94.1615998135757; 
- Wed, 17 Mar 2021 09:22:15 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QE6T5rkzVXyVG4b9FRno1df2BtGxnFCnOZE4VoMr7VE=;
+ b=Si+BjPCpitx98s+vF+wK/YC2ZKnow16D8W2aIBzD34QenCsE+PKeSe5lleXpQ/DYA7
+ TyTQS+eA8sfPDW9BJ4wSFupS+30Ehk1ouJM83pLQjHYfxvFcqCyVj6YqS2xGxYgRn3d9
+ 5IVQAVP8t8e5yyd7QqsfBMTvSqHpJjip3CpAOKPmMJ7J4JcFXfabq7KxHGzZvWwagXNF
+ xdUlkYnp7x5nXV1WiPNCEIqStqdFMvIq+D/1ZbE8Emj+IUUO/l3hjIX/Td5O5lM89LFL
+ hN3o7NpTigbMpm4M8BFh2l5XOW3FdsSsrU1sZVAMgtjYlrT0xdba9CGoxAdaYUoMMNAk
+ ri7A==
+X-Gm-Message-State: AOAM533lMxy2tawlNOyTQWsw5NeLpXf8kBCYTZ5Cu2zbFJi037byRlsg
+ 8PXMX523MeccULTtcGJwn4E=
+X-Google-Smtp-Source: ABdhPJznMr0BQQsfVJMF7zQOUfeloplh7n6YhrqhslkID7n4r23aVU3uY5EU06FVhUO8bs2rFB4/lQ==
+X-Received: by 2002:adf:828e:: with SMTP id 14mr5331283wrc.123.1615998678851; 
+ Wed, 17 Mar 2021 09:31:18 -0700 (PDT)
+Received: from ziggy.stardust ([213.195.126.134])
+ by smtp.gmail.com with ESMTPSA id s8sm27059845wrn.97.2021.03.17.09.31.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Mar 2021 09:31:17 -0700 (PDT)
+Subject: Re: [PATCH v13 7/8] soc: mediatek: add mtk mutex support for MT8183
+To: Hsin-Yi Wang <hsinyi@chromium.org>, CK Hu <ck.hu@mediatek.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+References: <20210129092209.2584718-1-hsinyi@chromium.org>
+ <20210129092209.2584718-8-hsinyi@chromium.org>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+Message-ID: <8452df75-c9ae-ed1f-3f0a-b449f35bd173@gmail.com>
+Date: Wed, 17 Mar 2021 17:31:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210301214152.1805737-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20210301214152.1805737-1-dmitry.baryshkov@linaro.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 17 Mar 2021 09:25:26 -0700
-Message-ID: <CAF6AEGsN4s_wF0kHx4Y=vMM3AMTCewE4oiBdaxguVAku_nkODw@mail.gmail.com>
-Subject: Re: [PATCH] gpu/drm/msm: fix shutdown hook in case GPU components
- failed to bind
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20210129092209.2584718-8-hsinyi@chromium.org>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,112 +71,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Sean Paul <sean@poorly.run>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 1, 2021 at 1:41 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> if GPU components have failed to bind, shutdown callback would fail with
-> the following backtrace. Add safeguard check to stop that oops from
-> happening and allow the board to reboot.
->
-> [   66.617046] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
-> [   66.626066] Mem abort info:
-> [   66.628939]   ESR = 0x96000006
-> [   66.632088]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [   66.637542]   SET = 0, FnV = 0
-> [   66.640688]   EA = 0, S1PTW = 0
-> [   66.643924] Data abort info:
-> [   66.646889]   ISV = 0, ISS = 0x00000006
-> [   66.650832]   CM = 0, WnR = 0
-> [   66.653890] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000107f81000
-> [   66.660505] [0000000000000000] pgd=0000000100bb2003, p4d=0000000100bb2003, pud=0000000100897003, pmd=0000000000000000
-> [   66.671398] Internal error: Oops: 96000006 [#1] PREEMPT SMP
-> [   66.677115] Modules linked in:
-> [   66.680261] CPU: 6 PID: 352 Comm: reboot Not tainted 5.11.0-rc2-00309-g79e3faa756b2 #38
-> [   66.688473] Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
-> [   66.695347] pstate: 60400005 (nZCv daif +PAN -UAO -TCO BTYPE=--)
-> [   66.701507] pc : msm_atomic_commit_tail+0x78/0x4e0
-> [   66.706437] lr : commit_tail+0xa4/0x184
-> [   66.710381] sp : ffff8000108f3af0
-> [   66.713791] x29: ffff8000108f3af0 x28: ffff418c44337000
-> [   66.719242] x27: 0000000000000000 x26: ffff418c40a24490
-> [   66.724693] x25: ffffd3a842a4f1a0 x24: 0000000000000008
-> [   66.730146] x23: ffffd3a84313f030 x22: ffff418c444ce000
-> [   66.735598] x21: ffff418c408a4980 x20: 0000000000000000
-> [   66.741049] x19: 0000000000000000 x18: ffff800010710fbc
-> [   66.746500] x17: 000000000000000c x16: 0000000000000001
-> [   66.751954] x15: 0000000000010008 x14: 0000000000000068
-> [   66.757405] x13: 0000000000000001 x12: 0000000000000000
-> [   66.762855] x11: 0000000000000001 x10: 00000000000009b0
-> [   66.768306] x9 : ffffd3a843192000 x8 : ffff418c44337000
-> [   66.773757] x7 : 0000000000000000 x6 : 00000000a401b34e
-> [   66.779210] x5 : 00ffffffffffffff x4 : 0000000000000000
-> [   66.784660] x3 : 0000000000000000 x2 : ffff418c444ce000
-> [   66.790111] x1 : ffffd3a841dce530 x0 : ffff418c444cf000
-> [   66.795563] Call trace:
-> [   66.798075]  msm_atomic_commit_tail+0x78/0x4e0
-> [   66.802633]  commit_tail+0xa4/0x184
-> [   66.806217]  drm_atomic_helper_commit+0x160/0x390
-> [   66.811051]  drm_atomic_commit+0x4c/0x60
-> [   66.815082]  drm_atomic_helper_disable_all+0x1f4/0x210
-> [   66.820355]  drm_atomic_helper_shutdown+0x80/0x130
-> [   66.825276]  msm_pdev_shutdown+0x14/0x20
-> [   66.829303]  platform_shutdown+0x28/0x40
-> [   66.833330]  device_shutdown+0x158/0x330
-> [   66.837357]  kernel_restart+0x40/0xa0
-> [   66.841122]  __do_sys_reboot+0x228/0x250
-> [   66.845148]  __arm64_sys_reboot+0x28/0x34
-> [   66.849264]  el0_svc_common.constprop.0+0x74/0x190
-> [   66.854187]  do_el0_svc+0x24/0x90
-> [   66.857595]  el0_svc+0x14/0x20
-> [   66.860739]  el0_sync_handler+0x1a4/0x1b0
-> [   66.864858]  el0_sync+0x174/0x180
-> [   66.868269] Code: 1ac020a0 2a000273 eb02007f 54ffff01 (f9400285)
-> [   66.874525] ---[ end trace 20dedb2a3229fec8 ]---
->
-> Fixes: 9d5cbf5fe46e ("drm/msm: add shutdown support for display platform_driver")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+
+On 29/01/2021 10:22, Hsin-Yi Wang wrote:
+> From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> 
+> Add mtk mutex support for MT8183 SoC.
+> 
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
 > ---
->  drivers/gpu/drm/msm/msm_atomic.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
-> index 6a326761dc4a..2fd0cf6421ad 100644
-> --- a/drivers/gpu/drm/msm/msm_atomic.c
-> +++ b/drivers/gpu/drm/msm/msm_atomic.c
-> @@ -207,7 +207,12 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
->         struct msm_kms *kms = priv->kms;
->         struct drm_crtc *async_crtc = NULL;
->         unsigned crtc_mask = get_crtc_mask(state);
-> -       bool async = kms->funcs->vsync_time &&
-> +       bool async;
+>  drivers/soc/mediatek/mtk-mutex.c | 50 ++++++++++++++++++++++++++++++++
+>  1 file changed, 50 insertions(+)
+> 
+
+Applied to v5.12-next/soc
+
+Thanks
+
+> diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
+> index f531b119da7a9..718a41beb6afb 100644
+> --- a/drivers/soc/mediatek/mtk-mutex.c
+> +++ b/drivers/soc/mediatek/mtk-mutex.c
+> @@ -14,6 +14,8 @@
+>  
+>  #define MT2701_MUTEX0_MOD0			0x2c
+>  #define MT2701_MUTEX0_SOF0			0x30
+> +#define MT8183_MUTEX0_MOD0			0x30
+> +#define MT8183_MUTEX0_SOF0			0x2c
+>  
+>  #define DISP_REG_MUTEX_EN(n)			(0x20 + 0x20 * (n))
+>  #define DISP_REG_MUTEX(n)			(0x24 + 0x20 * (n))
+> @@ -37,6 +39,18 @@
+>  #define MT8167_MUTEX_MOD_DISP_DITHER		15
+>  #define MT8167_MUTEX_MOD_DISP_UFOE		16
+>  
+> +#define MT8183_MUTEX_MOD_DISP_RDMA0		0
+> +#define MT8183_MUTEX_MOD_DISP_RDMA1		1
+> +#define MT8183_MUTEX_MOD_DISP_OVL0		9
+> +#define MT8183_MUTEX_MOD_DISP_OVL0_2L		10
+> +#define MT8183_MUTEX_MOD_DISP_OVL1_2L		11
+> +#define MT8183_MUTEX_MOD_DISP_WDMA0		12
+> +#define MT8183_MUTEX_MOD_DISP_COLOR0		13
+> +#define MT8183_MUTEX_MOD_DISP_CCORR0		14
+> +#define MT8183_MUTEX_MOD_DISP_AAL0		15
+> +#define MT8183_MUTEX_MOD_DISP_GAMMA0		16
+> +#define MT8183_MUTEX_MOD_DISP_DITHER0		17
 > +
-> +       if (!kms)
-> +               return;
-
-I think we could instead just check for null priv->kms in
-msm_pdev_shutdown() and not call drm_atomic_helper_shutdown()?
-
-BR,
--R
-
+>  #define MT8173_MUTEX_MOD_DISP_OVL0		11
+>  #define MT8173_MUTEX_MOD_DISP_OVL1		12
+>  #define MT8173_MUTEX_MOD_DISP_RDMA0		13
+> @@ -87,6 +101,11 @@
+>  #define MT2712_MUTEX_SOF_DSI3			6
+>  #define MT8167_MUTEX_SOF_DPI0			2
+>  #define MT8167_MUTEX_SOF_DPI1			3
+> +#define MT8183_MUTEX_SOF_DSI0			1
+> +#define MT8183_MUTEX_SOF_DPI0			2
 > +
-> +       async = kms->funcs->vsync_time &&
->                         can_do_async(state, &async_crtc);
->
->         trace_msm_atomic_commit_tail_start(async, crtc_mask);
-> --
-> 2.30.1
->
+> +#define MT8183_MUTEX_EOF_DSI0			(MT8183_MUTEX_SOF_DSI0 << 6)
+> +#define MT8183_MUTEX_EOF_DPI0			(MT8183_MUTEX_SOF_DPI0 << 6)
+>  
+>  struct mtk_mutex {
+>  	int id;
+> @@ -181,6 +200,20 @@ static const unsigned int mt8173_mutex_mod[DDP_COMPONENT_ID_MAX] = {
+>  	[DDP_COMPONENT_WDMA1] = MT8173_MUTEX_MOD_DISP_WDMA1,
+>  };
+>  
+> +static const unsigned int mt8183_mutex_mod[DDP_COMPONENT_ID_MAX] = {
+> +	[DDP_COMPONENT_AAL0] = MT8183_MUTEX_MOD_DISP_AAL0,
+> +	[DDP_COMPONENT_CCORR] = MT8183_MUTEX_MOD_DISP_CCORR0,
+> +	[DDP_COMPONENT_COLOR0] = MT8183_MUTEX_MOD_DISP_COLOR0,
+> +	[DDP_COMPONENT_DITHER] = MT8183_MUTEX_MOD_DISP_DITHER0,
+> +	[DDP_COMPONENT_GAMMA] = MT8183_MUTEX_MOD_DISP_GAMMA0,
+> +	[DDP_COMPONENT_OVL0] = MT8183_MUTEX_MOD_DISP_OVL0,
+> +	[DDP_COMPONENT_OVL_2L0] = MT8183_MUTEX_MOD_DISP_OVL0_2L,
+> +	[DDP_COMPONENT_OVL_2L1] = MT8183_MUTEX_MOD_DISP_OVL1_2L,
+> +	[DDP_COMPONENT_RDMA0] = MT8183_MUTEX_MOD_DISP_RDMA0,
+> +	[DDP_COMPONENT_RDMA1] = MT8183_MUTEX_MOD_DISP_RDMA1,
+> +	[DDP_COMPONENT_WDMA0] = MT8183_MUTEX_MOD_DISP_WDMA0,
+> +};
+> +
+>  static const unsigned int mt2712_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
+>  	[MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
+>  	[MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0,
+> @@ -198,6 +231,13 @@ static const unsigned int mt8167_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
+>  	[MUTEX_SOF_DPI1] = MT8167_MUTEX_SOF_DPI1,
+>  };
+>  
+> +/* Add EOF setting so overlay hardware can receive frame done irq */
+> +static const unsigned int mt8183_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
+> +	[MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
+> +	[MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0 | MT8183_MUTEX_EOF_DSI0,
+> +	[MUTEX_SOF_DPI0] = MT8183_MUTEX_SOF_DPI0 | MT8183_MUTEX_EOF_DPI0,
+> +};
+> +
+>  static const struct mtk_mutex_data mt2701_mutex_driver_data = {
+>  	.mutex_mod = mt2701_mutex_mod,
+>  	.mutex_sof = mt2712_mutex_sof,
+> @@ -227,6 +267,14 @@ static const struct mtk_mutex_data mt8173_mutex_driver_data = {
+>  	.mutex_sof_reg = MT2701_MUTEX0_SOF0,
+>  };
+>  
+> +static const struct mtk_mutex_data mt8183_mutex_driver_data = {
+> +	.mutex_mod = mt8183_mutex_mod,
+> +	.mutex_sof = mt8183_mutex_sof,
+> +	.mutex_mod_reg = MT8183_MUTEX0_MOD0,
+> +	.mutex_sof_reg = MT8183_MUTEX0_SOF0,
+> +	.no_clk = true,
+> +};
+> +
+>  struct mtk_mutex *mtk_mutex_get(struct device *dev)
+>  {
+>  	struct mtk_mutex_ctx *mtx = dev_get_drvdata(dev);
+> @@ -457,6 +505,8 @@ static const struct of_device_id mutex_driver_dt_match[] = {
+>  	  .data = &mt8167_mutex_driver_data},
+>  	{ .compatible = "mediatek,mt8173-disp-mutex",
+>  	  .data = &mt8173_mutex_driver_data},
+> +	{ .compatible = "mediatek,mt8183-disp-mutex",
+> +	  .data = &mt8183_mutex_driver_data},
+>  	{},
+>  };
+>  MODULE_DEVICE_TABLE(of, mutex_driver_dt_match);
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
