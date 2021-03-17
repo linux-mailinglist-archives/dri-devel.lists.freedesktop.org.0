@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CADB333F33A
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 15:41:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CDB233F336
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 15:41:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C88C6E7EC;
-	Wed, 17 Mar 2021 14:41:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE0B86E7D2;
+	Wed, 17 Mar 2021 14:41:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F17A96E5D1
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 14:40:57 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id l1so2735977lfk.10
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 07:40:57 -0700 (PDT)
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBA7D6E5D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 14:40:58 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id u4so3477351ljo.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 07:40:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=c9Mgn5Fo/B64RZT42jJq34CnAm2h6JKwR4V3YoeB1BI=;
- b=TTKB/N4hweJoAulRv5YpXzuLKKnPG79njLoEnQx8OQxlIUb7Tj4H2kr3607j8YTvb/
- 9RpNDgf0/1id4vtElh97+LQ3x3baZWsSHbufjAlqf3f4/UAQ99JyPwBnUSDmr8B58ITB
- KhjkfOSb2ebbPftxecvs8Op46D6l5dJLxJ9/pMnToJcgBIdQVPkmX0/88ZgB+XQD7br0
- IPOhe7eDbk3rmK5B+MttVqD4GblCTvVAt6nmknsURFZcU4AnjmjlkVQidbsncokM+iKQ
- 1Rd2XtO+bikzfgAkjAxpItiBGf2q6Tr6iJWXu33nqhUr+/7hP5zfcOCCDaYXoWQfayN0
- jZGA==
+ bh=69KNFaVrTSr7S1ZZcdnbCwBqT6v2VtM4VG8+YzYsLCk=;
+ b=rEqPe1YOskPqXoX+oSNqmbu3NcGqON3WXT0vUrO0nKdnc/UP9DlNDvIBDqGS40Kzqh
+ sZwvfOwrj7+eH47Z/nWmYm0wGDQu4jTSc0vuhVbzsPib53VVW2YtgVmH1iEnIYNBiUcv
+ 16mJvEbNKpjkLmsIqgGw953ItPHV9TMinyV+sI/gRqaBDZRWzadlSHiOFZoBKvrmhb7w
+ WLyT3KK1xyRWCcaFrGMKSNEdE5U24ANm1LOhvUpRLUw/0MikxpJzluBn1ddCksPZrOa/
+ DKpzWoYAp1fe9b0GSpgOL5T8iOk6oUxTHh0JHQ2sZy5LJ1CryOBrlanGeVt7QY+8rm5N
+ QLmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=c9Mgn5Fo/B64RZT42jJq34CnAm2h6JKwR4V3YoeB1BI=;
- b=rOz7DliY1fz5VZUJgrVCdr5CbjMgXNOKlQI48YRiko6lurLBbD0MPkBy/xeK7Gt4MM
- hKoxsbX9H5IONKMVx0PLNzdZJ7cPGqeV42w3tf04VUB0vcRKmywR/UKa52ZNmCPu8Rh7
- k+f24ZOUOMLUbbsA1dSHFD5+tfZA58jpk0OwtK2VPnjuS1dZvfXhxT2fhZiU5LE2+HQF
- KdvraJM8ABsX/eC60eIe/L+DzzIAepeje/eeco/Vxf/Tm/jUtlLPTwaSmSMNS2cJSa2M
- AQoQto+VtVbGVholHunkWpoA8c8yRrLtZ0pjtriIlJ20C4E/ReWUoqWb3F3pplRy78zy
- NWRA==
-X-Gm-Message-State: AOAM530l84B/TFOgYJnhUoSb8mzew8XPHFeHRivDH7DOekYDE9qCdImO
- ykq1UpM44TAy+Lkvc5Lpth4TVQ==
-X-Google-Smtp-Source: ABdhPJyszic/4ZdHV+hnpdmP7pOOJHXI9srFSodNuwIYza0xXvcDkJgghKOQy5qvEOFWHZCSQYcWtA==
-X-Received: by 2002:a05:6512:36c1:: with SMTP id
- e1mr2495384lfs.132.1615992056371; 
- Wed, 17 Mar 2021 07:40:56 -0700 (PDT)
+ bh=69KNFaVrTSr7S1ZZcdnbCwBqT6v2VtM4VG8+YzYsLCk=;
+ b=ZrCYjCrf9BHTY8/Gk3J+whEYc0wNmBKORT78y4hTLIq5iokFsVRMtoWjLZv0ovA0JT
+ k8766OVAKjGff4p1HptD/l+QbtGd0pZO9Hu839XuzRTuVcjV0bLwYiSFHQ5LW7vjgAuG
+ rZQ/brprtf+CR+vZfAHo++1Cw4AVB4dxjNGtQ27F0u0YusS9V4fJVizkx+ZIPSdPqa5g
+ wEFoe42xKxgzLplAqEdkunih6wj1nwIpLFv7PBEJ2DjWWsnjMN8saY+MYHNdCsrE3TlY
+ FtMLI8HrdQGVVUOuYbQDYdWevpWG+Pkl8P0KmR7L7WezEr/Gf2mfUDffIBKjR8srV9vT
+ x9wg==
+X-Gm-Message-State: AOAM533BdCluCHqzQ7GoEVmD+WzJQuJf1bpBSPjz82mI0o2FVdzwnILh
+ xLEbRYyOFwHR2Z9aqHwrwyaMzw==
+X-Google-Smtp-Source: ABdhPJzW6HqYXbe0dc5bBaYJey1PE1XkHpQCvQt5qycNCjJYjMggZw++WMrvCE9y1+eJ6C40auP6tA==
+X-Received: by 2002:a2e:b817:: with SMTP id u23mr2579427ljo.44.1615992057419; 
+ Wed, 17 Mar 2021 07:40:57 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id q8sm1484309lfc.223.2021.03.17.07.40.55
+ by smtp.gmail.com with ESMTPSA id q8sm1484309lfc.223.2021.03.17.07.40.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Mar 2021 07:40:55 -0700 (PDT)
+ Wed, 17 Mar 2021 07:40:56 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Jonathan Marek <jonathan@marek.ca>,
  Michael Turquette <mturquette@baylibre.com>
-Subject: [PATCH v1 15/26] drm/msm/dsi: make save/restore_state phy-level
- functions
-Date: Wed, 17 Mar 2021 17:40:28 +0300
-Message-Id: <20210317144039.556409-16-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v1 16/26] drm/msm/dsi: limit vco_delay to 28nm PHY
+Date: Wed, 17 Mar 2021 17:40:29 +0300
+Message-Id: <20210317144039.556409-17-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210317144039.556409-1-dmitry.baryshkov@linaro.org>
 References: <20210317144039.556409-1-dmitry.baryshkov@linaro.org>
@@ -78,255 +76,123 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Morph msm_dsi_pll_save/restore_state() into msm_dsi_phy_save/restore_state(),
-thus removing last bits of knowledge about msm_dsi_pll from dsi_manager.
+Only 28nm PHY requires sleeping during the VCO rate setting procedure.
+Rewrite sleeping for 28nm and drop vco_delay from the rest of PHYs.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi.h              | 18 ++---------
- drivers/gpu/drm/msm/dsi/dsi_manager.c      |  6 ++--
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c      | 35 +++++++++++++++-------
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.h      | 11 +++++++
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c |  2 +-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c  |  2 +-
- drivers/gpu/drm/msm/dsi/phy/dsi_pll.c      | 26 ----------------
- drivers/gpu/drm/msm/dsi/phy/dsi_pll.h      | 11 -------
- 8 files changed, 42 insertions(+), 69 deletions(-)
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c |  3 ---
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c |  4 ----
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c | 10 ++++------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c  |  3 ---
+ 4 files changed, 4 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-index c4a3ef4a3c09..351bfbeb53bd 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi.h
-@@ -104,21 +104,6 @@ static inline bool msm_dsi_device_connected(struct msm_dsi *msm_dsi)
- 
- struct drm_encoder *msm_dsi_get_encoder(struct msm_dsi *msm_dsi);
- 
--/* dsi pll */
--struct msm_dsi_pll;
--#ifdef CONFIG_DRM_MSM_DSI_PLL
--void msm_dsi_pll_save_state(struct msm_dsi_pll *pll);
--int msm_dsi_pll_restore_state(struct msm_dsi_pll *pll);
--#else
--static inline void msm_dsi_pll_save_state(struct msm_dsi_pll *pll)
--{
--}
--static inline int msm_dsi_pll_restore_state(struct msm_dsi_pll *pll)
--{
--	return 0;
--}
--#endif
--
- /* dsi host */
- struct msm_dsi_host;
- int msm_dsi_host_xfer_prepare(struct mipi_dsi_host *host,
-@@ -192,9 +177,10 @@ int msm_dsi_phy_enable(struct msm_dsi_phy *phy, int src_pll_id,
- void msm_dsi_phy_disable(struct msm_dsi_phy *phy);
- void msm_dsi_phy_get_shared_timings(struct msm_dsi_phy *phy,
- 			struct msm_dsi_phy_shared_timings *shared_timing);
--struct msm_dsi_pll *msm_dsi_phy_get_pll(struct msm_dsi_phy *phy);
- void msm_dsi_phy_set_usecase(struct msm_dsi_phy *phy,
- 			     enum msm_dsi_phy_usecase uc);
-+void msm_dsi_phy_save_state(struct msm_dsi_phy *phy);
-+int msm_dsi_phy_restore_state(struct msm_dsi_phy *phy);
- 
- #endif /* __DSI_CONNECTOR_H__ */
- 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 6b65d86d116a..2976b09a881d 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -493,7 +493,6 @@ static void dsi_mgr_bridge_post_disable(struct drm_bridge *bridge)
- 	struct msm_dsi *msm_dsi1 = dsi_mgr_get_dsi(DSI_1);
- 	struct mipi_dsi_host *host = msm_dsi->host;
- 	struct drm_panel *panel = msm_dsi->panel;
--	struct msm_dsi_pll *src_pll;
- 	bool is_dual_dsi = IS_DUAL_DSI();
- 	int ret;
- 
-@@ -527,9 +526,8 @@ static void dsi_mgr_bridge_post_disable(struct drm_bridge *bridge)
- 								id, ret);
- 	}
- 
--	/* Save PLL status if it is a clock source */
--	src_pll = msm_dsi_phy_get_pll(msm_dsi->phy);
--	msm_dsi_pll_save_state(src_pll);
-+	/* Save PHY status if it is a clock source */
-+	msm_dsi_phy_save_state(msm_dsi->phy);
- 
- 	ret = msm_dsi_host_power_off(host);
- 	if (ret)
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-index 4535cc5d22a5..e9424a4c636e 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-@@ -799,9 +799,9 @@ int msm_dsi_phy_enable(struct msm_dsi_phy *phy, int src_pll_id,
- 	 * source.
- 	 */
- 	if (phy->usecase != MSM_DSI_PHY_SLAVE) {
--		ret = msm_dsi_pll_restore_state(phy->pll);
-+		ret = msm_dsi_phy_restore_state(phy);
- 		if (ret) {
--			DRM_DEV_ERROR(dev, "%s: failed to restore pll state, %d\n",
-+			DRM_DEV_ERROR(dev, "%s: failed to restore phy state, %d\n",
- 				__func__, ret);
- 			goto pll_restor_fail;
- 		}
-@@ -838,17 +838,32 @@ void msm_dsi_phy_get_shared_timings(struct msm_dsi_phy *phy,
- 	       sizeof(*shared_timings));
- }
- 
--struct msm_dsi_pll *msm_dsi_phy_get_pll(struct msm_dsi_phy *phy)
--{
--	if (!phy)
--		return NULL;
--
--	return phy->pll;
--}
--
- void msm_dsi_phy_set_usecase(struct msm_dsi_phy *phy,
- 			     enum msm_dsi_phy_usecase uc)
- {
- 	if (phy)
- 		phy->usecase = uc;
- }
-+
-+void msm_dsi_phy_save_state(struct msm_dsi_phy *phy)
-+{
-+	if (phy->cfg->pll_ops.save_state) {
-+		phy->cfg->pll_ops.save_state(phy->pll);
-+		phy->pll->state_saved = true;
-+	}
-+}
-+
-+int msm_dsi_phy_restore_state(struct msm_dsi_phy *phy)
-+{
-+	int ret;
-+
-+	if (phy->cfg->pll_ops.restore_state && phy->pll->state_saved) {
-+		ret = phy->cfg->pll_ops.restore_state(phy->pll);
-+		if (ret)
-+			return ret;
-+
-+		phy->pll->state_saved = false;
-+	}
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-index 06e560548c8e..75fc24f9f013 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-@@ -6,6 +6,7 @@
- #ifndef __DSI_PHY_H__
- #define __DSI_PHY_H__
- 
-+#include <linux/clk-provider.h>
- #include <linux/regulator/consumer.h>
- 
- #include "dsi.h"
-@@ -16,6 +17,16 @@
- /* v3.0.0 10nm implementation that requires the old timings settings */
- #define V3_0_0_10NM_OLD_TIMINGS_QUIRK	BIT(0)
- 
-+struct msm_dsi_pll {
-+	struct clk_hw	clk_hw;
-+	bool		pll_on;
-+	bool		state_saved;
-+
-+	const struct msm_dsi_phy_cfg *cfg;
-+};
-+
-+#define hw_clk_to_pll(x) container_of(x, struct msm_dsi_pll, clk_hw)
-+
- struct msm_dsi_phy_ops {
- 	int (*pll_init)(struct msm_dsi_phy *phy);
- 	int (*enable)(struct msm_dsi_phy *phy, int src_pll_id,
 diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-index 9910cee8c9a5..81ca0cf2a3ad 100644
+index 81ca0cf2a3ad..7533db8955a5 100644
 --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
 +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-@@ -779,7 +779,7 @@ static int dsi_pll_10nm_init(struct msm_dsi_phy *phy)
- 	phy->pll = pll;
+@@ -96,7 +96,6 @@ struct dsi_pll_10nm {
+ 	/* protects REG_DSI_10nm_PHY_CMN_CLK_CFG0 register */
+ 	spinlock_t postdiv_lock;
  
- 	/* TODO: Remove this when we have proper display handover support */
--	msm_dsi_pll_save_state(pll);
-+	msm_dsi_phy_save_state(phy);
+-	int vco_delay;
+ 	struct dsi_pll_config pll_configuration;
+ 	struct dsi_pll_regs reg_setup;
  
- 	return 0;
- }
+@@ -768,8 +767,6 @@ static int dsi_pll_10nm_init(struct msm_dsi_phy *phy)
+ 	pll = &pll_10nm->base;
+ 	pll->cfg = phy->cfg;
+ 
+-	pll_10nm->vco_delay = 1;
+-
+ 	ret = pll_10nm_register(pll_10nm, phy->provided_clocks);
+ 	if (ret) {
+ 		DRM_DEV_ERROR(&pdev->dev, "failed to register PLL: %d\n", ret);
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
+index c531ddf26521..023727623847 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
+@@ -122,8 +122,6 @@ struct dsi_pll_14nm {
+ 	void __iomem *phy_cmn_mmio;
+ 	void __iomem *mmio;
+ 
+-	int vco_delay;
+-
+ 	struct dsi_pll_input in;
+ 	struct dsi_pll_output out;
+ 
+@@ -1012,8 +1010,6 @@ static int dsi_pll_14nm_init(struct msm_dsi_phy *phy)
+ 	pll = &pll_14nm->base;
+ 	pll->cfg = phy->cfg;
+ 
+-	pll_14nm->vco_delay = 1;
+-
+ 	ret = pll_14nm_register(pll_14nm, phy->provided_clocks);
+ 	if (ret) {
+ 		DRM_DEV_ERROR(&pdev->dev, "failed to register PLL: %d\n", ret);
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+index fa96bfc21fdb..e77b21f0d3bf 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+@@ -69,8 +69,6 @@ struct dsi_pll_28nm {
+ 	struct platform_device *pdev;
+ 	void __iomem *mmio;
+ 
+-	int vco_delay;
+-
+ 	struct pll_28nm_cached_state cached_state;
+ };
+ 
+@@ -209,8 +207,10 @@ static int dsi_pll_28nm_clk_set_rate(struct clk_hw *hw, unsigned long rate,
+ 	pll_write(base + REG_DSI_28nm_PHY_PLL_SDM_CFG4, 0x00);
+ 
+ 	/* Add hardware recommended delay for correct PLL configuration */
+-	if (pll_28nm->vco_delay)
+-		udelay(pll_28nm->vco_delay);
++	if (pll->cfg->type == MSM_DSI_PHY_28NM_HPM)
++		udelay(1);
++	else /* LP */
++		udelay(1000);
+ 
+ 	pll_write(base + REG_DSI_28nm_PHY_PLL_REFCLK_CFG, refclk_cfg);
+ 	pll_write(base + REG_DSI_28nm_PHY_PLL_PWRGEN_CFG, 0x00);
+@@ -576,7 +576,6 @@ static int dsi_pll_28nm_hpm_init(struct msm_dsi_phy *phy)
+ 	}
+ 
+ 	pll = &pll_28nm->base;
+-	pll_28nm->vco_delay = 1;
+ 
+ 	pll->cfg = phy->cfg;
+ 
+@@ -616,7 +615,6 @@ static int dsi_pll_28nm_lp_init(struct msm_dsi_phy *phy)
+ 	}
+ 
+ 	pll = &pll_28nm->base;
+-	pll_28nm->vco_delay = 1000;
+ 
+ 	pll->cfg = phy->cfg;
+ 
 diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-index 0b9438bb8050..c6f0aca66fa9 100644
+index c6f0aca66fa9..d3fea4a2b498 100644
 --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
 +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-@@ -804,7 +804,7 @@ static int dsi_pll_7nm_init(struct msm_dsi_phy *phy)
- 	phy->pll = pll;
+@@ -96,7 +96,6 @@ struct dsi_pll_7nm {
+ 	/* protects REG_DSI_7nm_PHY_CMN_CLK_CFG0 register */
+ 	spinlock_t postdiv_lock;
  
- 	/* TODO: Remove this when we have proper display handover support */
--	msm_dsi_pll_save_state(pll);
-+	msm_dsi_phy_save_state(phy);
+-	int vco_delay;
+ 	struct dsi_pll_config pll_configuration;
+ 	struct dsi_pll_regs reg_setup;
  
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c b/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c
-index 96de79b94f1b..652c2d6bfeec 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c
-@@ -56,29 +56,3 @@ void msm_dsi_pll_helper_clk_unprepare(struct clk_hw *hw)
+@@ -793,8 +792,6 @@ static int dsi_pll_7nm_init(struct msm_dsi_phy *phy)
+ 	pll = &pll_7nm->base;
+ 	pll->cfg = phy->cfg;
  
- 	pll->pll_on = false;
- }
+-	pll_7nm->vco_delay = 1;
 -
--/*
-- * DSI PLL API
-- */
--void msm_dsi_pll_save_state(struct msm_dsi_pll *pll)
--{
--	if (pll->cfg->pll_ops.save_state) {
--		pll->cfg->pll_ops.save_state(pll);
--		pll->state_saved = true;
--	}
--}
--
--int msm_dsi_pll_restore_state(struct msm_dsi_pll *pll)
--{
--	int ret;
--
--	if (pll->cfg->pll_ops.restore_state && pll->state_saved) {
--		ret = pll->cfg->pll_ops.restore_state(pll);
--		if (ret)
--			return ret;
--
--		pll->state_saved = false;
--	}
--
--	return 0;
--}
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_pll.h b/drivers/gpu/drm/msm/dsi/phy/dsi_pll.h
-index c94f079b8275..eca13cf67c21 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_pll.h
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_pll.h
-@@ -6,21 +6,10 @@
- #ifndef __DSI_PLL_H__
- #define __DSI_PLL_H__
- 
--#include <linux/clk-provider.h>
- #include <linux/delay.h>
- 
- #include "dsi.h"
- 
--struct msm_dsi_pll {
--	struct clk_hw	clk_hw;
--	bool		pll_on;
--	bool		state_saved;
--
--	const struct msm_dsi_phy_cfg *cfg;
--};
--
--#define hw_clk_to_pll(x) container_of(x, struct msm_dsi_pll, clk_hw)
--
- static inline void pll_write(void __iomem *reg, u32 data)
- {
- 	msm_writel(data, reg);
+ 	ret = pll_7nm_register(pll_7nm, phy->provided_clocks);
+ 	if (ret) {
+ 		DRM_DEV_ERROR(&pdev->dev, "failed to register PLL: %d\n", ret);
 -- 
 2.30.2
 
