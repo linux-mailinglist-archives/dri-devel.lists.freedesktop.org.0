@@ -2,56 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1F033F913
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 20:23:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D92933F97F
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 20:43:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52A106E841;
-	Wed, 17 Mar 2021 19:23:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B08186E842;
+	Wed, 17 Mar 2021 19:43:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 631E36E841
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 19:23:24 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 160F264EED
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 19:23:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616009004;
- bh=0rImSj0F3/N3xXB7b06TcPJD6JQctPhvkN/RNM4tkt4=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=C9xo4BHNhzqYc4vItLUFfzjmTW8ACbLZNjUKr4CAftmyUKdL1y+5PTbdDw/0qjiEK
- tSU+N70K/CKK7BgeVkmP1zENgnBDri+xsu2e7MpYUO4wWD6nAyyQmekuh/p5l+8kpq
- rgFNHQCzstcbBMuLq7Jbq1Lym1yN7z4Bdk8mW6cp3DQ3TNFHFGY8rQqDKgwbi8YOvN
- BaQ31RB7faWna4hs7mXuzx/XJyPeRlvxD8VIVZ/jfYJ6kKj+M/mWeVvhK+F/7isp7Z
- 8co28yBhM86eRgGbq+49hzAbRdH0U6INwxbPTQ0/SZeVP9w60mYxPXqyETv+Fn1Li9
- ZBYIU6kr+LC0Q==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 11654653C7; Wed, 17 Mar 2021 19:23:24 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212077] AMD GPU discrete card memory at highest frequency even
- while not in use
-Date: Wed, 17 Mar 2021 19:23:23 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: bat_malin@abv.bg
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-212077-2300-WlfaJCm0ZO@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212077-2300@https.bugzilla.kernel.org/>
-References: <bug-212077-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com
+ [IPv6:2607:f8b0:4864:20::f32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99CA66E84F
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 19:43:26 +0000 (UTC)
+Received: by mail-qv1-xf32.google.com with SMTP id dc12so1082783qvb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 12:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5M2o/5txOfVVkT2R7LQazFbw4Qc4fveGxpdbp198xYU=;
+ b=RKgCDWdDwNcrvndpEPh2z1A5LONc8q/kcoUvZhZMJbRafeyUDCMPQ9APb5VdSlrvO0
+ M/apv7bxCnuXge+S6JbVEtTH/JvPNl2yiQQep2q7mXRp8oEs7rTo4fjJbDAvv3Ior9C9
+ MoY4YdsqiJ0l8rOupxYVQbv4QcMBsxNfXvG20=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5M2o/5txOfVVkT2R7LQazFbw4Qc4fveGxpdbp198xYU=;
+ b=fDoTOAs6q0O1rz8cGN4ZX6UM3GYEJ/rJ8aJAhdpUDM4E94MHwd0B4ceykrw93ib9EJ
+ DIvOV/EC1r/95E0WejsOPVYlh6QCWd7Js+l5l9o6ApJfIPOZdnSrijOY5+jDERJUgbuz
+ o1ZaGZc8hsfM4FuW/fgeI2W4jW+ZqEHBYvxII+RkjorVu4bjYklsUoqrBLPkcyZ5DoJI
+ iUtfgGQMqRaKrnLVDSzJIzY+QCa4vD5tBYy1Q3s5/9DnRGtAigqVCmxSu+gyaT7oQ0Fi
+ qyETSgAFPxvEJmc/HQvt5mt7PQpiYsdEjsErDexWJjV+JGn/mNHxwW4073jmbeNO2Xx8
+ hLaQ==
+X-Gm-Message-State: AOAM532XAQLzUXVuOU3af6A9f9+e0d3WpbIR9JQ5d2SqzC5tOWd81fRS
+ YGyiC8GKEzPJIrzK3pNq9Oj/F3wETqAXQQ==
+X-Google-Smtp-Source: ABdhPJzkwkyN2Xjepj3BGVgxUStETNqrgWiW07VvIZMdRlByCPAg2hrgEjCYvyQkiSZ2zMpvwbKifw==
+X-Received: by 2002:a05:6214:13b3:: with SMTP id
+ h19mr781534qvz.31.1616010205582; 
+ Wed, 17 Mar 2021 12:43:25 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com.
+ [209.85.219.173])
+ by smtp.gmail.com with ESMTPSA id b17sm14950410qtp.73.2021.03.17.12.43.23
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Mar 2021 12:43:23 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 133so147002ybd.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 12:43:23 -0700 (PDT)
+X-Received: by 2002:a25:2654:: with SMTP id m81mr6485146ybm.405.1616010202994; 
+ Wed, 17 Mar 2021 12:43:22 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210317164239.1007776-1-robdclark@gmail.com>
+In-Reply-To: <20210317164239.1007776-1-robdclark@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 17 Mar 2021 12:43:11 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WRXqtYNeqXZfSnhSRJcOS5QGauM=vg=XVQ6=EbWkdkDw@mail.gmail.com>
+Message-ID: <CAD=FV=WRXqtYNeqXZfSnhSRJcOS5QGauM=vg=XVQ6=EbWkdkDw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Ratelimit invalid-fence message
+To: Rob Clark <robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,23 +69,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=212077
+Hi,
 
---- Comment #11 from Bat Malin (bat_malin@abv.bg) ---
-Created attachment 295907
-  --> https://bugzilla.kernel.org/attachment.cgi?id=295907&action=edit
-Dmesg (new)
+On Wed, Mar 17, 2021 at 9:40 AM Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> We have seen a couple cases where low memory situations cause something
+> bad to happen, followed by a flood of these messages obscuring the root
+> cause.  Lets ratelimit the dmesg spam so that next time it happens we
+> don't loose the kernel traces leading up to this.
 
--- 
-You may reply to this email to add a comment.
+s/loose/lose
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/msm/msm_fence.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
