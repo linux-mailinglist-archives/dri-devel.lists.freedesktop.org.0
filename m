@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB32B33F41C
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 16:44:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B73433F420
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 16:44:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA5A96E81D;
-	Wed, 17 Mar 2021 15:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B69806E824;
+	Wed, 17 Mar 2021 15:44:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B3986E811
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 15:44:19 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.nyi.internal (Postfix) with ESMTP id 7EB9C580A59;
- Wed, 17 Mar 2021 11:44:18 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A71F36E821
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 15:44:20 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 1CD08580A4F;
+ Wed, 17 Mar 2021 11:44:20 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 17 Mar 2021 11:44:18 -0400
+ by compute1.internal (MEProxy); Wed, 17 Mar 2021 11:44:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=Tyfy+iH+8NQoa
- TsoSHxtXaP6zPio6qeu+0YLstbyujo=; b=YwRfd6aA4uH3GUlVqDkSKeswmiscA
- Cw2ILT+OQ940nUPYYZiHdREDBxzDxtsBMFTTI6RXBqxjASJuQ1QbIHlzCYN15PTH
- tTT8VUpnuYFU4p3JSYPYAiRQPMvM13hHPDZb32C3u4iTD2MHdxPTB9sgWu7LIQ0e
- 3LBvnIyZmOdSd2iEXWfeHBvxy6JJNY6bVf62y90DolcPvlg7PziLy9Xh1QohBus4
- mNYS0tqsTIWut9fZBl5DFVplkB5jgH6tAgAsg9TVHZzZ+X8RsVrbvO+HOnA9h1I7
- bX4XBoMIXnFlTs+HeDeFu2T5MbGcfzxZF5XxzozrhMH/fbwY1zw9UVHwA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=YTINQVeuPITaE
+ 7c2kEQa9k0tDCW0U4kfHCphOlbOg50=; b=UvIiR9QhbGVbggD9Za7+3APTzJFZ5
+ b2D3VbhGpS84ti3BhGj1C/NfPDL8kblS3xEv/WWnXWnqlpzZgRTvMt9Jl30oD+Ti
+ 2A0wVpQb1+mP7WiIrOa8FY5uJxo2Lhw8zUpRO1D0YWcHRtv/b8BESmJ5Jxw/NJnM
+ bmQvflaO8aI522byPiLn1jeG3rwTdvJVVh9u3bTAQdUzum6O56t2ggFR14K0r6Vx
+ c9xHVstdeOvfT9EsBrACD92iAY+YTZmbq0wj1fyiljWjJmpW9fs9Eli1mqq95Wum
+ FPUKN7sRAcqEn3ApFxF/0IfjOf15M4MZbGQSR5ih0B+zOP1ARij2Z92BQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=Tyfy+iH+8NQoaTsoSHxtXaP6zPio6qeu+0YLstbyujo=; b=NAT9t+5F
- l77TzGKXGijmh1nCOGVpn3FXMDMDxlUbXcXT2dzmj7tL4htnXhYk4OkVnSLInGcm
- XFWD+ybGW8O53/lq3BtRm8ZN0je99uoVPxfsc0M396sexzHfm25l173KkjIo5Q2W
- IjKFXmf9IlXSZ3ud/P5F4abtDkscpwFSPPhwpEBVy1hoKWaxHLLMxRnVt8uPUEaH
- mQjOa0Uo9p/k8nZdbW3hxXlVYYUmMcVO9o3sT/2OhGQN3gzVjZRGJW/bMl9Njv5k
- sCh87kjUUrX/a5+q6rIHMcPcFiyT1xLozHEJDIY3g0JN2Ds4I72uALg921q5l2pb
- FJA0xcIZQMKcqA==
-X-ME-Sender: <xms:0iNSYGlqP1TYZNq92UdqA1u3oqO-9gNX2DUxgCkvz5NhlUBj6cLQZw>
- <xme:0iNSYHcosnuWEM0BLjDHCMp9XlBVE84I89qzIfK3FwyESW1O43S-T79evuOBlZ-1g
- DH6Hcjls5ZLiZPRvdw>
+ fm2; bh=YTINQVeuPITaE7c2kEQa9k0tDCW0U4kfHCphOlbOg50=; b=Ikon346/
+ CXAA1o2aZS1HBDEr5WM6jZ8Bik0YLLVVhQ8dxm3JC+9zncyju6QOUhD3ekanKJk8
+ XsOqPiAxbKgRMKDMbA1FuFGHRVQ+G607ZzBe232NDNJFD8SoYF4FkafTzVWdkuFw
+ sTo8w6qM6dB+n7zuTz0wvpvT8ZaMas4uvdAeIwWCGGudUQ2IMM3i7bLSv/wVkDJt
+ wuBUznuFwBN2UNAQFZw3uFQzTT7aYI5zWP41oEPHU2v3CXU44YCyvNyEGsSs/iUV
+ DuxfgGQ4HlJSZ/AxV4SEnOcIk9oOlCjAHg1+4Lp6e2jkChrZH3teB5M8RH3XLw8Y
+ Jsy3Gap03YOR8A==
+X-ME-Sender: <xms:1CNSYLhXEVWgMNcQOl5nMRnJMlkOj2qtutG4ujo2pPlSbcE9L4uRrg>
+ <xme:1CNSYDe7GjrCt8m602phTg-vXe7TOVT9CONg7OO1o1evVjMWt-K3Bic3VRQbCTMPF
+ cSCXyiAkdY5ECRNNUc>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedgkeefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -49,14 +49,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedgkeefucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:0iNSYIGMT2coUMoOfhetRxg66IECZYhgitIbDYgOlxc0gz-p_0P_-g>
- <xmx:0iNSYBeZDkiL4RSnHgTr-e92dyuF5y0tcznXpyZtBwd9vzawFPjPEg>
- <xmx:0iNSYP82zNn_kZiN8sUw9c4di_Nt0hUawzjGEuQU6EbMJ4uUND5F6Q>
- <xmx:0iNSYHntWVi_0PkZsxPjn1D3YWH7GEepN95GCOfBtIkaISLV1Lj7Ig>
+X-ME-Proxy: <xmx:1CNSYJxGOloHtGui_Mj1tBzMUQLcTkBW4WlFwQ_J15hcG6DYUeeKAQ>
+ <xmx:1CNSYFZnsn7wV9wb3fuKSKxWaVewZMRAQOPi_ESLubb65Ke5ZASKgg>
+ <xmx:1CNSYPKPXzpXuUESOEj1mv6SoIlt9gYa8HeyKvczfR9zYPVZaOaWqw>
+ <xmx:1CNSYJQRizyJrPIIShUSZNtRI1IrxZgKiWXJrD2vgB1K8SSW0xw-Ig>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 3C6C924005A;
- Wed, 17 Mar 2021 11:44:18 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id CF53124005D;
+ Wed, 17 Mar 2021 11:44:19 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
@@ -65,9 +65,9 @@ To: Andrzej Hajda <a.hajda@samsung.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH 14/18] drm/vc4: hdmi: Change CSC callback prototype
-Date: Wed, 17 Mar 2021 16:43:48 +0100
-Message-Id: <20210317154352.732095-15-maxime@cerno.tech>
+Subject: [PATCH 15/18] drm/vc4: hdmi: Rework the infoframe prototype
+Date: Wed, 17 Mar 2021 16:43:49 +0100
+Message-Id: <20210317154352.732095-16-maxime@cerno.tech>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210317154352.732095-1-maxime@cerno.tech>
 References: <20210317154352.732095-1-maxime@cerno.tech>
@@ -93,58 +93,134 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to support the YUV output, we'll need the atomic state to know
-what is the state of the associated property in the CSC setup callback.
+In order to support a YUV output, we're going to need to have access to
+the bridge state in the vc4_hdmi_set_avi_infoframe function. Since we
+also need the connector state in that function, let's pass the full
+atomic state.
 
-Let's change the prototype of that callback to allow us to access it.
+While we're at it, since all those functions actually need the vc4_hdmi
+structure, let's pass it instead of the drm_encoder.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 4 +++-
- drivers/gpu/drm/vc4/vc4_hdmi.h | 1 +
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 38 ++++++++++++++++------------------
+ 1 file changed, 18 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 9614de7303b8..56b5654c820f 100644
+index 56b5654c820f..83e44cf44d65 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -490,6 +490,7 @@ static void vc4_hdmi_bridge_post_crtc_powerdown(struct drm_bridge *bridge,
+@@ -330,10 +330,10 @@ static int vc4_hdmi_stop_packet(struct drm_encoder *encoder,
+ 			  BIT(packet_id)), 100);
  }
  
- static void vc4_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
-+			       struct drm_atomic_state *state,
- 			       const struct drm_display_mode *mode)
+-static void vc4_hdmi_write_infoframe(struct drm_encoder *encoder,
++static void vc4_hdmi_write_infoframe(struct vc4_hdmi *vc4_hdmi,
+ 				     union hdmi_infoframe *frame)
  {
- 	u32 csc_ctl;
-@@ -570,6 +571,7 @@ static void vc5_hdmi_set_csc_coeffs(struct vc4_hdmi *vc4_hdmi,
+-	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
++	struct drm_encoder *encoder = &vc4_hdmi->encoder.base.base;
+ 	u32 packet_id = frame->any.type - 0x80;
+ 	const struct vc4_hdmi_register *ram_packet_start =
+ 		&vc4_hdmi->variant->registers[HDMI_RAM_PACKET_START];
+@@ -381,11 +381,13 @@ static void vc4_hdmi_write_infoframe(struct drm_encoder *encoder,
+ 		DRM_ERROR("Failed to wait for infoframe to start: %d\n", ret);
  }
  
- static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
-+			       struct drm_atomic_state *state,
- 			       const struct drm_display_mode *mode)
+-static void vc4_hdmi_set_avi_infoframe(struct drm_encoder *encoder)
++static void vc4_hdmi_set_avi_infoframe(struct vc4_hdmi *vc4_hdmi,
++				       struct drm_atomic_state *state)
  {
- 	u32 csc_ctl = VC5_MT_CP_CSC_CTL_ENABLE | VC4_SET_FIELD(VC4_HD_CSC_CTL_MODE_CUSTOM,
-@@ -860,7 +862,7 @@ static void vc4_hdmi_bridge_pre_crtc_enable(struct drm_bridge *bridge,
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+-	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
++	struct drm_encoder *encoder = &vc4_hdmi->encoder.base.base;
+ 	struct drm_connector *connector = &vc4_hdmi->connector;
+-	struct drm_connector_state *cstate = connector->state;
++	struct drm_connector_state *cstate =
++		drm_atomic_get_new_connector_state(state, connector);
+ 	struct drm_crtc *crtc = encoder->crtc;
+ 	const struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+ 	union hdmi_infoframe frame;
+@@ -406,10 +408,10 @@ static void vc4_hdmi_set_avi_infoframe(struct drm_encoder *encoder)
  
- 	if (vc4_hdmi->variant->csc_setup)
--		vc4_hdmi->variant->csc_setup(vc4_hdmi, mode);
-+		vc4_hdmi->variant->csc_setup(vc4_hdmi, state, mode);
+ 	drm_hdmi_avi_infoframe_bars(&frame.avi, cstate);
  
- 	HDMI_WRITE(HDMI_FIFO_CTL, VC4_HDMI_FIFO_CTL_MASTER_SLAVE_N);
+-	vc4_hdmi_write_infoframe(encoder, &frame);
++	vc4_hdmi_write_infoframe(vc4_hdmi, &frame);
  }
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-index d03c849d6ea0..cf5e58a08eb4 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -78,6 +78,7 @@ struct vc4_hdmi_variant {
  
- 	/* Callback to enable / disable the CSC */
- 	void (*csc_setup)(struct vc4_hdmi *vc4_hdmi,
-+			  struct drm_atomic_state *state,
- 			  const struct drm_display_mode *mode);
+-static void vc4_hdmi_set_spd_infoframe(struct drm_encoder *encoder)
++static void vc4_hdmi_set_spd_infoframe(struct vc4_hdmi *vc4_hdmi)
+ {
+ 	union hdmi_infoframe frame;
+ 	int ret;
+@@ -422,12 +424,11 @@ static void vc4_hdmi_set_spd_infoframe(struct drm_encoder *encoder)
  
- 	/* Callback to configure the video timings in the HDMI block */
+ 	frame.spd.sdi = HDMI_SPD_SDI_PC;
+ 
+-	vc4_hdmi_write_infoframe(encoder, &frame);
++	vc4_hdmi_write_infoframe(vc4_hdmi, &frame);
+ }
+ 
+-static void vc4_hdmi_set_audio_infoframe(struct drm_encoder *encoder)
++static void vc4_hdmi_set_audio_infoframe(struct vc4_hdmi *vc4_hdmi)
+ {
+-	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+ 	union hdmi_infoframe frame;
+ 
+ 	hdmi_audio_infoframe_init(&frame.audio);
+@@ -437,21 +438,19 @@ static void vc4_hdmi_set_audio_infoframe(struct drm_encoder *encoder)
+ 	frame.audio.sample_size = HDMI_AUDIO_SAMPLE_SIZE_STREAM;
+ 	frame.audio.channels = vc4_hdmi->audio.channels;
+ 
+-	vc4_hdmi_write_infoframe(encoder, &frame);
++	vc4_hdmi_write_infoframe(vc4_hdmi, &frame);
+ }
+ 
+-static void vc4_hdmi_set_infoframes(struct drm_encoder *encoder)
++static void vc4_hdmi_set_infoframes(struct vc4_hdmi *vc4_hdmi, struct drm_atomic_state *state)
+ {
+-	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+-
+-	vc4_hdmi_set_avi_infoframe(encoder);
+-	vc4_hdmi_set_spd_infoframe(encoder);
++	vc4_hdmi_set_avi_infoframe(vc4_hdmi, state);
++	vc4_hdmi_set_spd_infoframe(vc4_hdmi);
+ 	/*
+ 	 * If audio was streaming, then we need to reenabled the audio
+ 	 * infoframe here during encoder_enable.
+ 	 */
+ 	if (vc4_hdmi->audio.streaming)
+-		vc4_hdmi_set_audio_infoframe(encoder);
++		vc4_hdmi_set_audio_infoframe(vc4_hdmi);
+ }
+ 
+ static void vc4_hdmi_bridge_post_crtc_disable(struct drm_bridge *bridge,
+@@ -921,7 +920,7 @@ static void vc4_hdmi_bridge_post_crtc_enable(struct drm_bridge *bridge,
+ 		HDMI_WRITE(HDMI_RAM_PACKET_CONFIG,
+ 			   VC4_HDMI_RAM_PACKET_ENABLE);
+ 
+-		vc4_hdmi_set_infoframes(encoder);
++		vc4_hdmi_set_infoframes(vc4_hdmi, state);
+ 	}
+ 
+ 	vc4_hdmi_recenter_fifo(vc4_hdmi);
+@@ -1184,7 +1183,6 @@ static int vc4_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
+ 				    struct snd_soc_dai *dai)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = dai_to_hdmi(dai);
+-	struct drm_encoder *encoder = &vc4_hdmi->encoder.base.base;
+ 	struct device *dev = &vc4_hdmi->pdev->dev;
+ 	u32 audio_packet_config, channel_mask;
+ 	u32 channel_map;
+@@ -1244,7 +1242,7 @@ static int vc4_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
+ 	HDMI_WRITE(HDMI_AUDIO_PACKET_CONFIG, audio_packet_config);
+ 	vc4_hdmi_set_n_cts(vc4_hdmi);
+ 
+-	vc4_hdmi_set_audio_infoframe(encoder);
++	vc4_hdmi_set_audio_infoframe(vc4_hdmi);
+ 
+ 	return 0;
+ }
 -- 
 2.30.2
 
