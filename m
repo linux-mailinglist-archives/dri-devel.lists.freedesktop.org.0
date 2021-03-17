@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645DC33F41F
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 16:44:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A0D33F422
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 16:44:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A81D36E822;
-	Wed, 17 Mar 2021 15:44:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA0E6E828;
+	Wed, 17 Mar 2021 15:44:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 837836E821
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 15:44:22 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id E736A580E69;
- Wed, 17 Mar 2021 11:44:21 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDE256E828
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 15:44:23 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 53836580A4F;
+ Wed, 17 Mar 2021 11:44:23 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Wed, 17 Mar 2021 11:44:21 -0400
+ by compute1.internal (MEProxy); Wed, 17 Mar 2021 11:44:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=furTH81woGCQe
- 0z2ZJY2VMr4gkfvPHQj6f+NQ3/nB+A=; b=IeQ8q7qFkoa6OOMRPIfq9mkoEaJR/
- N/s1i01ENdiKjssAAAiDfOxkF/sZTnPUT4V8qIH1IB3SWs9BbvAuo+HMN+gIjq+t
- jFqESAz1ZMnDFSiU7oXvRSI8lITLwmZsygJnEkTVpb2SCScnGuVtsEfwsYUIaCCz
- HSoDhszn7w2n81s6RcAzvhmdgtk+YqM/Qro+t34wxgZzhFcWXbaToRTVhHZ63VTG
- 56frIanYqSvc19/lcQml/JXBB+H6LABNCFCyAxgb7JmQLz52a6rroOUc/JIgn8Kc
- ztZRtRBSwmELUTjdByW73utmKTqX6Dxi5fwDRBUQYk8wiBeESAGmH8sFw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=22VBMYiRqaWaZ
+ YYbr0aF8h4xBWeIQHqDpJAREftxzUM=; b=LA7QHyMg4xl3ThuZNNh4/s2RbXBXU
+ NyAJ90vqy1mJDTBSaC1oKpqIWjLXRqRno4XyOr3sehxgvSD3DpPYGO9zrjUpSWoa
+ DHqQFvRbbit/ZXw+7s/AM/FEiSgbcppp05v5dRdPmW3BbGwZh4jUPifM8z3y5DoJ
+ PrRnH+mDQ2KMYUG+Uz810dRdcgQevqcKeZ27OihJsYfB3cNrpEa3S4hLheGeRkDC
+ FdKQqek4NezZtTCeML4uZQM5lh/bdWzH8PUJKIVVx2auc3I2VtM1IleB+67lH6Wk
+ bRn4z/w/eh/gByS3ADcrfR+GHzD4SgxebxHR1RVDhewMf0ALRujHN4PdQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=furTH81woGCQe0z2ZJY2VMr4gkfvPHQj6f+NQ3/nB+A=; b=beWdItwz
- Y7k7dyIxFP7vMN5fE0J+uG0bWkPIqWvZuZqYM0qRg5y0R4t8rNqnoogx2ve+98F5
- E7gO9R5JkwG8I4Nif2T+wSA8TaNALFedmeeVNk5VOlpKr7YfOK44hdpkS2wOYR30
- KWFqEAycuqxgEtXQZs4FUYEzSyVe8gmYWAiesQjC/PiJd3xBOvNkg7A2ceEzI6dx
- oyqnWsC9RO/3S0Dn7UG5jT6eqzYbSA2nSes9J0oKnrsrVERTyJogYtITrXpliZFS
- Ynzy/LuFfHc//Z+wRFLJ95VseBPVLJMbKkvf2yFQJhyTgDHnU2f/J13O8lq4e69A
- leYH7Vij3VSy0A==
-X-ME-Sender: <xms:1SNSYKex23abk6s7Ss5E-oGuabPtRa0DDGjbsyNKP16y4N_3H4tzhw>
- <xme:1SNSYEPKEN0wLYFieTGMo2QE6952WIFh7B6QKg4Rv7hd0YMpuokpH4h3H9K5ueU2g
- jIj8c6nHRRuJRslNqw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedgkedvucetufdoteggodetrfdotf
+ fm2; bh=22VBMYiRqaWaZYYbr0aF8h4xBWeIQHqDpJAREftxzUM=; b=jsWpQD7G
+ iwRB5i7GvoLR1ifDa9GuCmYX/DORfKythrVkPdOI3w9AYpTAn3NKyxDDC2+eBBZF
+ k3FpVe1TYtla7lEvRZJzSgL7LatIAa6dj0tQ/GlTQgIwx0cM0SPTFh7fW/nmC54M
+ bcojTxTinFYsE5eloz0nAdhjNDOl2Uccx69FY8/wJtWy1INLbkWo93aOMnfu77BK
+ 8KcxZ/1psKxzcvlfrcP49LkF7JtfzrKEAmPAAuKUuWgcmUljbu0j6qraize0BGgL
+ 14ZypURvc7QIL07CkqNw7UKtcjGJmznYzYhKjwSRkY2zuEEb26v/9oJmq+WxWGDu
+ bwbLEgWnpOFroA==
+X-ME-Sender: <xms:1yNSYOqbf67x3koIXSDKRatoUm42IsPsh3Y346YyqTQpDYT4iL80DQ>
+ <xme:1yNSYHWTA29n3t7Iq9vpJL2bqF9spevGf90G37msfsUPpF8MBeb6sP93uXNHA42ca
+ rIBnlgFBBQ8_L2hfG4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedgkeefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
@@ -49,14 +49,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedgkedvucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:1SNSYLioAr35Oa5qIUlRAGdGRnyNjHPKlBzFCWzhYV5oSyGYzLXk0g>
- <xmx:1SNSYH-SOjydxMqZFf6JgDL2wwwsp23UjN3d_eztyl6m-xqaAa5Fpg>
- <xmx:1SNSYGs-5q-PNRF2jxbwv4DJUWRwEpGkf_Pi34PpRizkVJj6drZ-jw>
- <xmx:1SNSYLPUN9sLO9_SKSEtSs89f5EHSWbCp2Upam8TcXcWq2GBE7C-_Q>
+X-ME-Proxy: <xmx:1yNSYHNpp4JXCzCr2geDIcbfZhodmzgztK9xFuWJURxnS2jZlIUT9Q>
+ <xmx:1yNSYOmDpTYqInUTweLjS6NSAKUVicvDBf4toixUnqQTmuHh-LvBXA>
+ <xmx:1yNSYMrl6EX9-xXIRR1QxQdWkINx0hh6hSt7-0mkd_0q1J39SvIk2w>
+ <xmx:1yNSYN6VBWWlEUvZDqfgQYsa2ZZQFwTk_Mz8f6tczg3t7K4MjeMKAQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 74C56240067;
- Wed, 17 Mar 2021 11:44:21 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 15997240069;
+ Wed, 17 Mar 2021 11:44:22 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
@@ -65,9 +65,10 @@ To: Andrzej Hajda <a.hajda@samsung.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH 16/18] drm/vc4: hdmi: Support HDMI YUV output
-Date: Wed, 17 Mar 2021 16:43:50 +0100
-Message-Id: <20210317154352.732095-17-maxime@cerno.tech>
+Subject: [PATCH 17/18] drm/vc4: hdmi: Move the pixel rate calculation to a
+ helper
+Date: Wed, 17 Mar 2021 16:43:51 +0100
+Message-Id: <20210317154352.732095-18-maxime@cerno.tech>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210317154352.732095-1-maxime@cerno.tech>
 References: <20210317154352.732095-1-maxime@cerno.tech>
@@ -93,223 +94,73 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The HDMI controllers in the BCM2711 support YUV444 and YUV420 outputs,
-let's add support for it.
+In order to implement a fallback mechanism to YUV422 when the pixel rate
+is too high, let's move the pixel rate computation to a function of its
+own that will be shared across two functions.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c      | 73 +++++++++++++++++++++++++++--
- drivers/gpu/drm/vc4/vc4_hdmi_regs.h |  6 +++
- drivers/gpu/drm/vc4/vc4_regs.h      | 16 +++++++
- 3 files changed, 90 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 36 +++++++++++++++++++++++-----------
+ 1 file changed, 25 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 83e44cf44d65..407b468dab67 100644
+index 407b468dab67..c4f91d39d91c 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -33,6 +33,7 @@
+@@ -991,22 +991,16 @@ static void vc4_hdmi_bridge_post_crtc_enable(struct drm_bridge *bridge,
+ #define WIFI_2_4GHz_CH1_MIN_FREQ	2400000000ULL
+ #define WIFI_2_4GHz_CH1_MAX_FREQ	2422000000ULL
  
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_hdmi.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
- #include <linux/clk.h>
-@@ -388,6 +389,8 @@ static void vc4_hdmi_set_avi_infoframe(struct vc4_hdmi *vc4_hdmi,
- 	struct drm_connector *connector = &vc4_hdmi->connector;
- 	struct drm_connector_state *cstate =
- 		drm_atomic_get_new_connector_state(state, connector);
-+	struct drm_bridge_state *bstate =
-+		drm_atomic_get_new_bridge_state(state, &vc4_hdmi->bridge.base);
- 	struct drm_crtc *crtc = encoder->crtc;
- 	const struct drm_display_mode *mode = &crtc->state->adjusted_mode;
- 	union hdmi_infoframe frame;
-@@ -407,6 +410,7 @@ static void vc4_hdmi_set_avi_infoframe(struct vc4_hdmi *vc4_hdmi,
- 					   HDMI_QUANTIZATION_RANGE_LIMITED);
- 
- 	drm_hdmi_avi_infoframe_bars(&frame.avi, cstate);
-+	drm_hdmi_avi_infoframe_output_colorspace(&frame.avi, &bstate->output_bus_cfg);
- 
- 	vc4_hdmi_write_infoframe(vc4_hdmi, &frame);
- }
-@@ -558,6 +562,38 @@ static const u16 vc5_hdmi_csc_full_rgb_to_limited_rgb[3][4] = {
- 	{ 0x0000, 0x0000, 0x1b80, 0x0400 },
- };
- 
-+/*
-+ * Conversion between Full Range RGB and Full Range YUV422 using the
-+ * BT.709 Colorspace
-+ *
-+ * [  0.212639  0.715169  0.072192  0   ]
-+ * [ -0.117208 -0.394207  0.511416  128 ]
-+ * [  0.511416 -0.464524 -0.046891  128 ]
-+ *
-+ * Matrix is signed 2p13 fixed point, with signed 9p6 offsets
-+ */
-+static const u16 vc5_hdmi_csc_full_rgb_to_full_yuv422_bt709[3][4] = {
-+	{ 0x06ce, 0x16e3, 0x024f, 0x0000 },
-+	{ 0xfc41, 0xf364, 0x105e, 0x2000 },
-+	{ 0x105e, 0xf124, 0xfe81, 0x2000 },
-+};
-+
-+/*
-+ * Conversion between Full Range RGB and Full Range YUV444 using the
-+ * BT.709 Colorspace
-+ *
-+ * [ -0.117208 -0.394207  0.511416  128 ]
-+ * [  0.511416 -0.464524 -0.046891  128 ]
-+ * [  0.212639  0.715169  0.072192  0   ]
-+ *
-+ * Matrix is signed 2p13 fixed point, with signed 9p6 offsets
-+ */
-+static const u16 vc5_hdmi_csc_full_rgb_to_full_yuv444_bt709[3][4] = {
-+	{ 0xfc41, 0xf364, 0x105e, 0x2000 },
-+	{ 0x105e, 0xf124, 0xfe81, 0x2000 },
-+	{ 0x06ce, 0x16e3, 0x024f, 0x0000 },
-+};
-+
- static void vc5_hdmi_set_csc_coeffs(struct vc4_hdmi *vc4_hdmi,
- 				    const u16 coeffs[3][4])
+-static int vc4_hdmi_bridge_atomic_check(struct drm_bridge *bridge,
+-					struct drm_bridge_state *bridge_state,
+-					struct drm_crtc_state *crtc_state,
+-					struct drm_connector_state *conn_state)
++static unsigned long vc4_hdmi_calc_pixel_rate(struct drm_bridge *bridge,
++					      struct drm_bridge_state *bridge_state,
++					      struct drm_crtc_state *crtc_state,
++					      struct drm_connector_state *conn_state)
  {
-@@ -573,16 +609,42 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
- 			       struct drm_atomic_state *state,
- 			       const struct drm_display_mode *mode)
- {
-+	struct drm_bridge *bridge = &vc4_hdmi->bridge.base;
-+	struct drm_bridge_state *bridge_state =
-+		drm_atomic_get_new_bridge_state(state, bridge);
-+	u32 if_cfg = 0;
-+	u32 if_xbar = 0x543210;
-+	u32 csc_chan_ctl = 0;
- 	u32 csc_ctl = VC5_MT_CP_CSC_CTL_ENABLE | VC4_SET_FIELD(VC4_HD_CSC_CTL_MODE_CUSTOM,
- 							       VC5_MT_CP_CSC_CTL_MODE);
+-	struct vc4_hdmi_connector_state *vc4_state = conn_state_to_vc4_hdmi_conn_state(conn_state);
+ 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+-	struct vc4_hdmi *vc4_hdmi = bridge_to_vc4_hdmi(bridge);
+ 	unsigned long long pixel_rate = mode->clock * 1000;
++	struct vc4_hdmi *vc4_hdmi = bridge_to_vc4_hdmi(bridge);
+ 	unsigned long long tmds_rate;
  
--	HDMI_WRITE(HDMI_VEC_INTERFACE_XBAR, 0x354021);
-+	if (drm_hdmi_bus_fmt_is_yuv422(bridge_state->output_bus_cfg.format)) {
-+		csc_ctl |= VC4_SET_FIELD(VC5_MT_CP_CSC_CTL_FILTER_MODE_444_TO_422_STANDARD,
-+					 VC5_MT_CP_CSC_CTL_FILTER_MODE_444_TO_422) |
-+			VC5_MT_CP_CSC_CTL_USE_444_TO_422 |
-+			VC5_MT_CP_CSC_CTL_USE_RNG_SUPPRESSION;
- 
--	if (vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode))
--		vc5_hdmi_set_csc_coeffs(vc4_hdmi, &vc5_hdmi_csc_full_rgb_unity);
--	else
--		vc5_hdmi_set_csc_coeffs(vc4_hdmi, &vc5_hdmi_csc_full_rgb_to_limited_rgb);
-+		csc_chan_ctl |= VC4_SET_FIELD(VC5_MT_CP_CHANNEL_CTL_OUTPUT_REMAP_LEGACY_STYLE,
-+					      VC5_MT_CP_CHANNEL_CTL_OUTPUT_REMAP);
- 
-+		if_cfg |= VC4_SET_FIELD(VC5_DVP_HT_VEC_INTERFACE_CFG_SEL_422_FORMAT_422_LEGACY,
-+					VC5_DVP_HT_VEC_INTERFACE_CFG_SEL_422);
-+
-+		vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_to_full_yuv422_bt709);
-+	} else if (drm_hdmi_bus_fmt_is_yuv444(bridge_state->output_bus_cfg.format)) {
-+		vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_to_full_yuv444_bt709);
-+	} else if (drm_hdmi_bus_fmt_is_rgb(bridge_state->output_bus_cfg.format)) {
-+		if_xbar = 0x354021;
-+
-+		if (vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode))
-+			vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_unity);
-+		else
-+			vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_to_limited_rgb);
-+	}
-+
-+	HDMI_WRITE(HDMI_VEC_INTERFACE_CFG, if_cfg);
-+	HDMI_WRITE(HDMI_VEC_INTERFACE_XBAR, if_xbar);
-+	HDMI_WRITE(HDMI_CSC_CHANNEL_CTL, csc_chan_ctl);
- 	HDMI_WRITE(HDMI_CSC_CTL, csc_ctl);
- }
- 
-@@ -1012,6 +1074,7 @@ static const struct drm_bridge_funcs vc4_hdmi_bridge_funcs = {
- 	.atomic_check =	vc4_hdmi_bridge_atomic_check,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_get_output_bus_fmts = drm_atomic_helper_bridge_hdmi_get_output_bus_fmts,
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
- 	.mode_valid =	vc4_hdmi_bridge_mode_valid,
- };
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-index e1b58eac766f..d03b9ad72412 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-@@ -52,6 +52,7 @@ enum vc4_hdmi_field {
- 	HDMI_CSC_24_23,
- 	HDMI_CSC_32_31,
- 	HDMI_CSC_34_33,
-+	HDMI_CSC_CHANNEL_CTL,
- 	HDMI_CSC_CTL,
- 
+-	if (vc4_hdmi->variant->unsupported_odd_h_timings &&
+-	    ((mode->hdisplay % 2) || (mode->hsync_start % 2) ||
+-	     (mode->hsync_end % 2) || (mode->htotal % 2)))
+-		return -EINVAL;
+-
  	/*
-@@ -116,6 +117,7 @@ enum vc4_hdmi_field {
- 	HDMI_TX_PHY_POWERDOWN_CTL,
- 	HDMI_TX_PHY_RESET_CTL,
- 	HDMI_TX_PHY_TMDS_CLK_WORD_SEL,
-+	HDMI_VEC_INTERFACE_CFG,
- 	HDMI_VEC_INTERFACE_XBAR,
- 	HDMI_VERTA0,
- 	HDMI_VERTA1,
-@@ -240,6 +242,7 @@ static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi0_fields[] = {
- 	VC4_HDMI_REG(HDMI_HOTPLUG, 0x1a8),
+ 	 * The 1440p@60 pixel rate is in the same range than the first
+ 	 * WiFi channel (between 2.4GHz and 2.422GHz with 22MHz
+@@ -1032,6 +1026,26 @@ static int vc4_hdmi_bridge_atomic_check(struct drm_bridge *bridge,
+ 	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
+ 		pixel_rate = pixel_rate * 2;
  
- 	VC5_DVP_REG(HDMI_CLOCK_STOP, 0x0bc),
-+	VC5_DVP_REG(HDMI_VEC_INTERFACE_CFG, 0x0ec),
- 	VC5_DVP_REG(HDMI_VEC_INTERFACE_XBAR, 0x0f0),
- 
- 	VC5_PHY_REG(HDMI_TX_PHY_RESET_CTL, 0x000),
-@@ -285,6 +288,7 @@ static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi0_fields[] = {
- 	VC5_CSC_REG(HDMI_CSC_24_23, 0x010),
- 	VC5_CSC_REG(HDMI_CSC_32_31, 0x014),
- 	VC5_CSC_REG(HDMI_CSC_34_33, 0x018),
-+	VC5_CSC_REG(HDMI_CSC_CHANNEL_CTL, 0x02c),
- };
- 
- static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi1_fields[] = {
-@@ -319,6 +323,7 @@ static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi1_fields[] = {
- 	VC4_HDMI_REG(HDMI_HOTPLUG, 0x1a8),
- 
- 	VC5_DVP_REG(HDMI_CLOCK_STOP, 0x0bc),
-+	VC5_DVP_REG(HDMI_VEC_INTERFACE_CFG, 0x0ec),
- 	VC5_DVP_REG(HDMI_VEC_INTERFACE_XBAR, 0x0f0),
- 
- 	VC5_PHY_REG(HDMI_TX_PHY_RESET_CTL, 0x000),
-@@ -364,6 +369,7 @@ static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi1_fields[] = {
- 	VC5_CSC_REG(HDMI_CSC_24_23, 0x010),
- 	VC5_CSC_REG(HDMI_CSC_32_31, 0x014),
- 	VC5_CSC_REG(HDMI_CSC_34_33, 0x018),
-+	VC5_CSC_REG(HDMI_CSC_CHANNEL_CTL, 0x02c),
- };
- 
- static inline
-diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
-index 9d7c034c8b4f..ff5c5faa019e 100644
---- a/drivers/gpu/drm/vc4/vc4_regs.h
-+++ b/drivers/gpu/drm/vc4/vc4_regs.h
-@@ -744,11 +744,27 @@
- # define VC4_HD_CSC_CTL_RGB2YCC			BIT(1)
- # define VC4_HD_CSC_CTL_ENABLE			BIT(0)
- 
-+# define VC5_MT_CP_CSC_CTL_USE_444_TO_422	BIT(6)
-+# define VC5_MT_CP_CSC_CTL_FILTER_MODE_444_TO_422_MASK \
-+						VC4_MASK(5, 4)
-+# define VC5_MT_CP_CSC_CTL_FILTER_MODE_444_TO_422_STANDARD \
-+						3
-+# define VC5_MT_CP_CSC_CTL_USE_RNG_SUPPRESSION	BIT(3)
- # define VC5_MT_CP_CSC_CTL_ENABLE		BIT(2)
- # define VC5_MT_CP_CSC_CTL_MODE_MASK		VC4_MASK(1, 0)
- 
-+# define VC5_MT_CP_CHANNEL_CTL_OUTPUT_REMAP_MASK \
-+						VC4_MASK(7, 6)
-+# define VC5_MT_CP_CHANNEL_CTL_OUTPUT_REMAP_LEGACY_STYLE \
-+						2
++	return pixel_rate;
++}
 +
- # define VC4_DVP_HT_CLOCK_STOP_PIXEL		BIT(1)
- 
-+# define VC5_DVP_HT_VEC_INTERFACE_CFG_SEL_422_MASK \
-+						VC4_MASK(3, 2)
-+# define VC5_DVP_HT_VEC_INTERFACE_CFG_SEL_422_FORMAT_422_LEGACY \
-+						2
++static int vc4_hdmi_bridge_atomic_check(struct drm_bridge *bridge,
++					struct drm_bridge_state *bridge_state,
++					struct drm_crtc_state *crtc_state,
++					struct drm_connector_state *conn_state)
++{
++	struct vc4_hdmi *vc4_hdmi = bridge_to_vc4_hdmi(bridge);
++	struct vc4_hdmi_connector_state *vc4_state =
++		conn_state_to_vc4_hdmi_conn_state(conn_state);
++	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
++	unsigned long long pixel_rate;
 +
- /* HVS display list information. */
- #define HVS_BOOTLOADER_DLIST_END                32
++	if (vc4_hdmi->variant->unsupported_odd_h_timings &&
++	    ((mode->hdisplay % 2) || (mode->hsync_start % 2) ||
++	     (mode->hsync_end % 2) || (mode->htotal % 2)))
++		return -EINVAL;
++
++	pixel_rate = vc4_hdmi_calc_pixel_rate(bridge, bridge_state, crtc_state, conn_state);
+ 	if (pixel_rate > vc4_hdmi->variant->max_pixel_clock)
+ 		return -EINVAL;
  
 -- 
 2.30.2
