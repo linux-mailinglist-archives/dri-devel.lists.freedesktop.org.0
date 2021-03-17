@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D80D33F2F7
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 15:39:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4009433F319
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 15:40:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E6C66E5A3;
-	Wed, 17 Mar 2021 14:39:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BFE36E5AE;
+	Wed, 17 Mar 2021 14:40:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 289056E59D
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 14:39:42 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- a22-20020a17090aa516b02900c1215e9b33so3353542pjq.5
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 07:39:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KwHaB2Vk2IogMgE0yx2ZDvsbIco4uAI0/LKAdZRr7m8=;
- b=c+iKxoVYQ47ih++ylt0hyDgkOBIz9FmY/S3KjzssjWSOxjE7hxBwHRoPZRD1po9ns+
- n1ujLuGiq0vztU4jkVkQaqqT+Fce7X8Q8u65RSh8pzH9qdtunULcjnqJ4e8iNgfidR2h
- 4tcGlrSV+3Ixw7/hGV+eRVPZa/hJzdMbRB1Zjy6wI5zK/fua4O18EC8oVcTKtR2ju+4U
- YzV+s7qaaR33bB+2cPpQA1icVT8iMBhJUtZqg+1sT/PQfJfqJkb+tjJPsW9fNoK6P78f
- sVHpJCu7FJwm3fljiGpidY3eG7JdPluZEUk5QsWhJVFWMW6/HbPE+PB73ZOTGKS5SbnQ
- kiWw==
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 051006E598
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 14:40:43 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id l1so2734674lfk.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 07:40:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JKPjAX5kcSp/PCy1m1ongUU8iosLiNtW2m8y1nr1HjY=;
+ b=HDz6UD+JKFVMWMXjc2rHLqCEhe6lghlysanYMLR2WK+F/CeP2kN/PQXTryPPjrWjpV
+ 12ibD21EamiYBNn9qbJPNob/fU8EnSx+e+9VM0oQmU7n3hR88dRz7zl4LGd4Q9NIIQHP
+ nq7B/9gC6C3GNu/SV4rtmr0H1CBofjj/Cw6hfwCgVdvjJyJQ86qxOoQPod4pkBdP3/PU
+ HZsm/YYNsmZrIz9cWDZXbn4rqnu/qL6MOIe8xBb5qrCH21qErJYl8tZA91TnfLBWHmBo
+ mwR+VJQ3zjoJHDMA26jAnIEhgBaJ/vqdXicfbSF1ggONrjFe7kjf9nELX6fdCBEfKAgl
+ XRCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KwHaB2Vk2IogMgE0yx2ZDvsbIco4uAI0/LKAdZRr7m8=;
- b=i/IOfpUKFiN+rWFR6VMn8lIwZGrHvBgr8S4DsGoVpKTDU5D5k9aFjbZ5JcWEA9T3tK
- c93FdWdSfVDfw+jwfVvKqWGiTuRPgBfu8MR3M6IF1rN30NuHB3gSP1dOE9h3dMO7othG
- VpkwlK/mNoxjlx/2HGgeKW1LwWqldcmMJfPK0KLU81ZvVZz8UMi9F1kZLvAwf2fzfY2/
- gjP2SDd1vXUasqlG50Nrd0SRL1JYO/ZbhWgK4ea7nrJ709M7Y9/7o365twfRpk9cUbxX
- VcgdfUEH1U0XCzfa+ftvEG3hBR6kXDppdcLZ2F2eEimLHMjBCSvXABQvtZ/WQvpC7H0k
- zDJg==
-X-Gm-Message-State: AOAM531KRDtYL1vSrSP7/vhcH+yQ/xmG2o10Lvu8eZj8M9S7jY8yadlV
- 3pCVzJnEyRUtA6j/VDWPvN0wKasoVjmubw==
-X-Google-Smtp-Source: ABdhPJwJu6h/B9LrVeoFsCG+tYza638TDFeLT2HNTca1uTegCsdDlUZpx60ItIDcigmGWnxPmN6v+g==
-X-Received: by 2002:a17:90a:6be4:: with SMTP id
- w91mr5363460pjj.68.1615991981215; 
- Wed, 17 Mar 2021 07:39:41 -0700 (PDT)
-Received: from omlet.lan (jfdmzpr05-ext.jf.intel.com. [134.134.139.74])
- by smtp.gmail.com with ESMTPSA id i17sm21779296pfq.135.2021.03.17.07.39.39
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JKPjAX5kcSp/PCy1m1ongUU8iosLiNtW2m8y1nr1HjY=;
+ b=Mb6MA0rATgyXYUBtqXjJXKjVVuaCtYuazmvt4bogbJAaxySowsMWGZp4cQ9yYI32uV
+ aa39nZ52EhCne7IRSgdBsm1iNaq3Lcgdpm/tvOxRwYk6Jj3t/FExzHXY3AwlhubPrR6v
+ FPoJSzJfuHezomrAKrivcn+81ChjsAsLy3JEA0HdkvLlaveqUMP1rUJxGl8eY7cJC8aB
+ 93oiYFmrrEAjSWJqdDxqh7tduFsr6u+0fzdU3mOSnhvJjFf8TjydKJK1pMgWlgmPpD9P
+ F/sjo8GUvNpRtUhTZeUOJtBqwSRaq1tmVMxWxMaNwLmj7h6cAQQLoaLkDxeE+LjTloGz
+ 8mIw==
+X-Gm-Message-State: AOAM530ekFSdNSI3SjZ7Zrh5w0e2r++TT5vpMspLrF+02iFTzXMK2Z8Z
+ qjCyBoQudDEHRXHMoKyyTwIRmw==
+X-Google-Smtp-Source: ABdhPJx5eBjv3aHadap0zcYS42kdonqDsuJkuCQka6tsYfhKTJnI1zz3fP3vySQ5lWveaPw7t8uw2g==
+X-Received: by 2002:a05:6512:ac7:: with SMTP id
+ n7mr2539554lfu.567.1615992041295; 
+ Wed, 17 Mar 2021 07:40:41 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id q8sm1484309lfc.223.2021.03.17.07.40.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Mar 2021 07:39:40 -0700 (PDT)
-From: Jason Ekstrand <jason@jlekstrand.net>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/gem: Drop relocation support on all new hardware (v6)
-Date: Wed, 17 Mar 2021 09:39:35 -0500
-Message-Id: <20210317143935.2094831-1-jason@jlekstrand.net>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210315143428.1471489-3-jason@jlekstrand.net>
-References: <20210315143428.1471489-3-jason@jlekstrand.net>
+ Wed, 17 Mar 2021 07:40:40 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Jonathan Marek <jonathan@marek.ca>,
+ Michael Turquette <mturquette@baylibre.com>
+Subject: [PATCH v1 00/26] drm/msm/dsi: refactor MSM DSI PHY/PLL drivers
+Date: Wed, 17 Mar 2021 17:40:13 +0300
+Message-Id: <20210317144039.556409-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,61 +67,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Zbigniew=20Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ freedreno@lists.freedesktop.org, linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIFZ1bGthbiBkcml2ZXIgaW4gTWVzYSBmb3IgSW50ZWwgaGFyZHdhcmUgbmV2ZXIgdXNlcyBy
-ZWxvY2F0aW9ucyBpZgppdCdzIHJ1bm5pbmcgb24gYSB2ZXJzaW9uIG9mIGk5MTUgdGhhdCBzdXBw
-b3J0cyBhdCBsZWFzdCBzb2Z0cGluIHdoaWNoCmFsbCB2ZXJzaW9ucyBvZiBpOTE1IHN1cHBvcnRp
-bmcgR2VuMTIgZG8uICBPbiB0aGUgT3BlbkdMIHNpZGUsIEdlbjEyKyBpcwpvbmx5IHN1cHBvcnRl
-ZCBieSBpcmlzIHdoaWNoIG5ldmVyIHVzZXMgcmVsb2NhdGlvbnMuICBUaGUgb2xkZXIgaTk2NQpk
-cml2ZXIgaW4gTWVzYSBkb2VzIHVzZSByZWxvY2F0aW9ucyBidXQgaXQgb25seSBzdXBwb3J0cyBJ
-bnRlbCBoYXJkd2FyZQp0aHJvdWdoIEdlbjExIGFuZCBoYXMgYmVlbiBkZXByZWNhdGVkIGZvciBh
-bGwgaGFyZHdhcmUgR2VuOSsuICBUaGUKY29tcHV0ZSBkcml2ZXIgYWxzbyBuZXZlciB1c2VzIHJl
-bG9jYXRpb25zLiAgVGhpcyBvbmx5IGxlYXZlcyB0aGUgbWVkaWEKZHJpdmVyIHdoaWNoIGlzIHN1
-cHBvc2VkIHRvIGJlIHN3aXRjaGluZyB0byBzb2Z0cGluIGdvaW5nIGZvcndhcmQuCk1ha2luZyBz
-b2Z0cGluIGEgcmVxdWlyZW1lbnQgZm9yIGFsbCBmdXR1cmUgaGFyZHdhcmUgc2VlbXMgcmVhc29u
-YWJsZS4KClRoZXJlIGlzIG9uZSBwaWVjZSBvZiBoYXJkd2FyZSBlbmFibGVkIGJ5IGRlZmF1bHQg
-aW4gaTkxNTogUktMIHdoaWNoIHdhcwplbmFibGVkIGJ5IGUyMmZhNmYwYTk3NiB3aGljaCBoYXMg
-bm90IHlldCBsYW5kZWQgaW4gZHJtLW5leHQgc28gdGhpcwphbG1vc3QgYnV0IG5vdCByZWFsbHkg
-YSB1c2Vyc3BhY2UgQVBJIGNoYW5nZSBmb3IgUktMLiAgSWYgaXQgYmVjb21lcyBhCnByb2JsZW0s
-IHdlIGNhbiBhbHdheXMgYWRkICFJU19ST0NLRVRMQUtFKGViLT5pOTE1KSB0byB0aGUgY29uZGl0
-aW9uLgoKUmVqZWN0aW5nIHJlbG9jYXRpb25zIHN0YXJ0aW5nIHdpdGggbmV3ZXIgR2VuMTIgcGxh
-dGZvcm1zIGhhcyB0aGUKYmVuZWZpdCB0aGF0IHdlIGRvbid0IGhhdmUgdG8gYm90aGVyIHN1cHBv
-cnRpbmcgaXQgb24gcGxhdGZvcm1zIHdpdGgKbG9jYWwgbWVtb3J5LiAgR2l2ZW4gaG93IG11Y2gg
-Q1BVIHRvdWNoaW5nIG9mIG1lbW9yeSBpcyByZXF1aXJlZCBmb3IKcmVsb2NhdGlvbnMsIG5vdCBo
-YXZpbmcgdG8gZG8gc28gb24gcGxhdGZvcm1zIHdoZXJlIG5vdCBhbGwgbWVtb3J5IGlzCmRpcmVj
-dGx5IENQVS1hY2Nlc3NpYmxlIGNhcnJpZXMgc2lnbmlmaWNhbnQgYWR2YW50YWdlcy4KCnYyIChK
-YXNvbiBFa3N0cmFuZCk6CiAtIEFsbG93IFRHTC1MUCBwbGF0Zm9ybXMgYXMgdGhleSd2ZSBhbHJl
-YWR5IHNoaXBwZWQKCnYzIChKYXNvbiBFa3N0cmFuZCk6CiAtIFdBUk5fT04gcGxhdGZvcm1zIHdp
-dGggTE1FTSBzdXBwb3J0IGluIGNhc2UgdGhlIGNoZWNrIGlzIHdyb25nCgp2NCAoSmFzb24gRWtz
-dHJhbmQpOgogLSBDYWxsIG91dCBSb2NrZXQgTGFrZSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UKCnY1
-IChKYXNvbiBFa3N0cmFuZCk6CiAtIERyb3AgdGhlIEhBU19MTUVNIGNoZWNrIGFzIGl0J3MgYWxy
-ZWFkeSBjb3ZlcmVkIGJ5IHRoZSB2ZXJzaW9uIGNoZWNrCgp2NiAoSmFzb24gRWtzdHJhbmQpOgog
-LSBNb3ZlIHRoZSBjaGVjayB0byBlYl92YWxpZGF0ZV92bWEoKSB3aXRoIGFsbCB0aGUgb3RoZXIg
-ZXhlY19vYmplY3QKICAgdmFsaWRhdGlvbiBjaGVja3MuCgpTaWduZWQtb2ZmLWJ5OiBKYXNvbiBF
-a3N0cmFuZCA8amFzb25Aamxla3N0cmFuZC5uZXQ+ClJldmlld2VkLWJ5OiBaYmlnbmlldyBLZW1w
-Y3p5xYRza2kgPHpiaWduaWV3LmtlbXBjenluc2tpQGludGVsLmNvbT4KUmV2aWV3ZWQtYnk6IE1h
-YXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+Ci0tLQog
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2V4ZWNidWZmZXIuYyB8IDcgKysrKysr
-KwogMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9leGVjYnVmZmVyLmMgYi9kcml2ZXJzL2dwdS9kcm0v
-aTkxNS9nZW0vaTkxNV9nZW1fZXhlY2J1ZmZlci5jCmluZGV4IDk5NzcyZjM3YmZmNjAuLmMwODJm
-YjBiZWYzMzAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9l
-eGVjYnVmZmVyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2V4ZWNi
-dWZmZXIuYwpAQCAtNDgzLDYgKzQ4MywxMyBAQCBlYl92YWxpZGF0ZV92bWEoc3RydWN0IGk5MTVf
-ZXhlY2J1ZmZlciAqZWIsCiAJCXN0cnVjdCBkcm1faTkxNV9nZW1fZXhlY19vYmplY3QyICplbnRy
-eSwKIAkJc3RydWN0IGk5MTVfdm1hICp2bWEpCiB7CisJLyogUmVsb2NhdGlvbnMgYXJlIGRpc2Fs
-bG93ZWQgZm9yIGFsbCBwbGF0Zm9ybXMgYWZ0ZXIgVEdMLUxQLiAgVGhpcworCSAqIGFsc28gY292
-ZXJzIGFsbCBwbGF0Zm9ybXMgd2l0aCBsb2NhbCBtZW1vcnkuCisJICovCisJaWYgKGVudHJ5LT5y
-ZWxvY2F0aW9uX2NvdW50ICYmCisJICAgIElOVEVMX0dFTihlYi0+aTkxNSkgPj0gMTIgJiYgIUlT
-X1RJR0VSTEFLRShlYi0+aTkxNSkpCisJCXJldHVybiAtRUlOVkFMOworCiAJaWYgKHVubGlrZWx5
-KGVudHJ5LT5mbGFncyAmIGViLT5pbnZhbGlkX2ZsYWdzKSkKIAkJcmV0dXJuIC1FSU5WQUw7CiAK
-LS0gCjIuMjkuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+Restructure MSM DSI PHY drivers. What started as an attempt to grok the
+overcomplicated PHY drivers, has lead up to the idea of merging PHY and
+PLL code, reducing abstractions, code duplication, dropping dead code,
+etc.
+
+The patches were mainly tested on RB5 (sm8250, 7nm) and DB410c (apq8016,
+28nm-lp) and lightly tested on RB3 (sdm845, 10nm).
+
+Changes since RFC:
+ - Reorder patches to move global clock patches in the beginning and
+   dtsi patches where they are required.
+
+ - remove msm_dsi_phy_set_src_pll() and guess src_pll_id using PHY usecase.
+
+
+The following changes since commit a38fd8748464831584a19438cbb3082b5a2dab15:
+
+  Linux 5.12-rc2 (2021-03-05 17:33:41 -0800)
+
+are available in the Git repository at:
+
+  ssh://git@git.linaro.org/people/dmitry.baryshkov/kernel.git dsi-phy-1
+
+for you to fetch changes up to 79c4c69b676636dac5eab48f33adefbe11246f26:
+
+  drm/msm/dsi: stop passing src_pll_id to the phy_enable call (2021-03-17 17:34:33 +0300)
+
+----------------------------------------------------------------
+Dmitry Baryshkov (26):
+      clk: mux: provide devm_clk_hw_register_mux()
+      clk: divider: add devm_clk_hw_register_divider
+      drm/msm/dsi: fuse dsi_pll_* code into dsi_phy_* code
+      drm/msm/dsi: drop multiple pll enable_seq support
+      drm/msm/dsi: move all PLL callbacks into PHY config struct
+      drm/msm/dsi: move min/max PLL rate to phy config
+      drm/msm/dsi: remove msm_dsi_pll_set_usecase
+      drm/msm/dsi: stop setting clock parents manually
+      arm64: dts: qcom: sm8250: assign DSI clock source parents
+      arm64: dts: qcom: sdm845: assign DSI clock source parents
+      drm/msm/dsi: push provided clocks handling into a generic code
+      drm/msm/dsi: use devm_clk_*register to registe DSI PHY clocks
+      drm/msm/dsi: use devm_of_clk_add_hw_provider
+      drm/msm/dsi: replace PHY's init callback with configurable data
+      drm/msm/dsi: make save/restore_state phy-level functions
+      drm/msm/dsi: limit vco_delay to 28nm PHY
+      drm/msi/dsi: inline msm_dsi_pll_helper_clk_prepare/unprepare
+      drm/msm/dsi: make save_state/restore_state callbacks accept msm_dsi_phy
+      drm/msm/dsi: drop msm_dsi_pll abstracton
+      drm/msm/dsi: drop PLL accessor functions
+      drm/msm/dsi: move ioremaps to dsi_phy_driver_probe
+      drm/msm/dsi: remove duplicate fields from dsi_pll_Nnm instances
+      drm/msm/dsi: remove temp data from global pll structure
+      drm/msm/dsi: drop global msm_dsi_phy_type enumaration
+      drm/msm/dsi: inline msm_dsi_phy_set_src_pll
+      drm/msm/dsi: stop passing src_pll_id to the phy_enable call
+
+ arch/arm64/boot/dts/qcom/sdm845.dtsi            |    6 +
+ arch/arm64/boot/dts/qcom/sm8250.dtsi            |    6 +
+ drivers/clk/clk-mux.c                           |   35 +
+ drivers/gpu/drm/msm/Kconfig                     |    8 -
+ drivers/gpu/drm/msm/Makefile                    |    9 -
+ drivers/gpu/drm/msm/dsi/dsi.h                   |   58 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c              |   51 --
+ drivers/gpu/drm/msm/dsi/dsi_manager.c           |   29 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c           |  150 ++--
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h           |   41 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c      |  745 ++++++++++++++-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c      |  939 ++++++++++++++++++-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c      |   16 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c      |  677 +++++++++++++-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c |  479 +++++++++-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c       |  773 +++++++++++++++-
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll.c           |  184 ----
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll.h           |  130 ---
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c      |  881 ------------------
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll_14nm.c      | 1096 -----------------------
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm.c      |  643 -------------
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm_8960.c |  526 -----------
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c       |  912 -------------------
+ include/linux/clk-provider.h                    |   30 +
+ 24 files changed, 3713 insertions(+), 4711 deletions(-)
+ delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll.c
+ delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll.h
+ delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
+ delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_14nm.c
+ delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm.c
+ delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm_8960.c
+ delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
