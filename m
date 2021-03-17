@@ -2,59 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222E033ECB7
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 10:16:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD21333ED13
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 10:33:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B5276E504;
-	Wed, 17 Mar 2021 09:16:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3C1E89C56;
+	Wed, 17 Mar 2021 09:33:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5CFF6E504
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 09:16:03 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id z2so1012448wrl.5
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 02:16:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=oTL9AJaFLnaIJwp+xH/32TIHC+0/+FSk9wN00bes39U=;
- b=uMXE+VtjZWadyYCebKZ3fIggjz4V1ChdYHWACmzHieC+U5oQgoCuWUExVACd5lgsxw
- w8s4oFwYG2AfLmamwBO9l9q/0TJ0gCkYFIuji6TWH18CtdAPoR6InemljL7TIsIXKRtt
- 4A7O7wFyg52FK5pUVZzz0oLvx9BjVIqhabtjd6KLq01ti84V3Jhp4GcEDmBBZ3vOAH1e
- fUDXTKuJbq6ffGadIu8bCA9YpaFqktUqK6fzurFSa82mW9TodOD9yp+4OW+3IXowiWBO
- aa59V0PpQbYGVaH6WRVool0cghcBDK8OnkTMFtqO/nFZAO4i2WcpJTi7t9ouldiPeFE6
- 4N9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=oTL9AJaFLnaIJwp+xH/32TIHC+0/+FSk9wN00bes39U=;
- b=BGyCoEa2FGyfDCt9Oi624llzfriPqa76krVhEifo26SUw2kwf/F+8eLkU+BeBq4xjW
- tybobcribNFjkjuJQPScd1tK0xnsJvDgTl8xb86kLRS/uP8tt0UclRMjeD07zFksXKUM
- dyt8VNQCptq020YsVlB74Lc+keMosA8spEnHiGehBaLqnFx0X81k3J32tUA/q58838pZ
- 9Iq8dPfHqR74CDaPF486WznMAS0mzcOaJTFIRdxiIWf+54fFCZ5I4UwQM2DCydzHuj2v
- m1/Lx7rix29y2L73fwRY+uvYkfbKj1Hu1srJ61AsCwJGMZJ89GPDQ3hU54VDz0K3xB+w
- YpVg==
-X-Gm-Message-State: AOAM5320WQxFikz9pPxTMVHW3c2dE2fDQKsyJVF1BpsQ85/BtsgXZJyX
- GmBz/rIiv+rCZ9snQftC9j77Gw==
-X-Google-Smtp-Source: ABdhPJzccso7yYfvjZ0BNG+B/bhDroptmdi0xF07T+f0b52aGSdXhB4T8OlAfzgB2MnMHmOq7BNizg==
-X-Received: by 2002:a5d:4587:: with SMTP id p7mr3343208wrq.205.1615972562580; 
- Wed, 17 Mar 2021 02:16:02 -0700 (PDT)
-Received: from dell ([91.110.221.194])
- by smtp.gmail.com with ESMTPSA id p14sm1765900wmc.30.2021.03.17.02.16.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Mar 2021 02:16:02 -0700 (PDT)
-Date: Wed, 17 Mar 2021 09:16:00 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Subject: Re: [PATCH] backlight: qcom-wled: Use sink_addr for sync toggle
-Message-ID: <20210317091600.GJ701493@dell>
-References: <20210314101110.48024-1-marijn.suijten@somainline.org>
+Received: from m42-10.mailgun.net (m42-10.mailgun.net [69.72.42.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7FA889C52
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 09:33:25 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1615973608; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=lZUJUo3Pug7BWyZZPzQMe4b62SCJmcae+oC4ypNhr2I=;
+ b=tXhNOFwbB1qXnIEoAt2QT4FRIij5szEsVolb4nsGhI8oNCVSSNTlm8bZJZ5834bb3F5EPAFY
+ U/DoZw8epQlYGgwKGtPimwXeEaBOGr0rCBXO84P4boyBiXRBAYQYIPGp7+djoVg9E0Y1WTbZ
+ y4hQZclSNbpY0pJUDJv9b+a7nw8=
+X-Mailgun-Sending-Ip: 69.72.42.10
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 6051ccdd1de5dd7b996a07ed (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 17 Mar 2021 09:33:17
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 4D4B8C43465; Wed, 17 Mar 2021 09:33:17 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 7EB7DC433CA;
+ Wed, 17 Mar 2021 09:33:16 +0000 (UTC)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210314101110.48024-1-marijn.suijten@somainline.org>
+Date: Wed, 17 Mar 2021 15:03:16 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH 2/3] iommu/io-pgtable-arm: Add IOMMU_LLC page protection
+ flag
+In-Reply-To: <CAF6AEGuc5i9hMtfU3HSpLVWi_e=emJTPLqntzJfAH69dO_gagA@mail.gmail.com>
+References: <cover.1610372717.git.saiprakash.ranjan@codeaurora.org>
+ <3f589e7de3f9fa93e84c83420c5270c546a0c368.1610372717.git.saiprakash.ranjan@codeaurora.org>
+ <20210129090516.GB3998@willie-the-truck>
+ <5d23fce629323bcda71594010824aad0@codeaurora.org>
+ <20210201111556.GA7172@willie-the-truck>
+ <CAF6AEGsARmkAFsjaQLfa2miMgeijo183MWDKGtW_ti-UCpzBqA@mail.gmail.com>
+ <20210201182016.GA21629@jcrouse1-lnx.qualcomm.com>
+ <7e9aade14d0b7f69285852ade4a5a9f4@codeaurora.org>
+ <20210203214612.GB19847@willie-the-truck>
+ <CAF6AEGvjzkRqr8-z56tJdMs-LsoLMr1m5cVAq_++xCdHjTPKrQ@mail.gmail.com>
+ <CAF6AEGveB=t0gQ0-WZn_qy=scYR60DEcum53saovg5h31ZMHog@mail.gmail.com>
+ <CAF6AEGuc5i9hMtfU3HSpLVWi_e=emJTPLqntzJfAH69dO_gagA@mail.gmail.com>
+Message-ID: <d44fc38c038be1165aa8f4212bd9c91f@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,39 +75,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Kiran Gunda <kgunda@codeaurora.org>,
- Obeida Shamoun <oshmoun100@googlemail.com>, Jingoo Han <jingoohan1@gmail.com>,
- linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- phone-devel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>, Will Deacon <will@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Akhil P Oommen <akhilpo@codeaurora.org>, "\"
+ <iommu@lists.linux-foundation.org>, <linux-arm-kernel@lists.infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arm-msm
+ <linux-arm-msm@vger.kernel.org>, freedreno
+ <freedreno@lists.freedesktop.org>, Kristian H Kristensen
+ <hoegsberg@google.com>, Sean Paul <sean@poorly.run>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel" <dri-devel@lists.freedesktop.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Robin Murphy <robin.murphy@arm.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCAxNCBNYXIgMjAyMSwgTWFyaWpuIFN1aWp0ZW4gd3JvdGU6Cgo+IEZyb206IE9iZWlk
-YSBTaGFtb3VuIDxvc2htb3VuMTAwQGdvb2dsZW1haWwuY29tPgo+IAo+IFdMRUQzX1NJTktfUkVH
-X1NZTkMgaXMsIGFzIHRoZSBuYW1lIGltcGxpZXMsIGEgc2luayByZWdpc3RlciBvZmZzZXQuCj4g
-VGhlcmVmb3JlLCB1c2UgdGhlIHNpbmsgYWRkcmVzcyBhcyBiYXNlIGluc3RlYWQgb2YgdGhlIGN0
-cmwgYWRkcmVzcy4KPiAKPiBUaGlzIGZpeGVzIHRoZSBzeW5jIHRvZ2dsZSBvbiB3bGVkNCwgd2hp
-Y2ggY2FuIGJlIG9ic2VydmVkIGJ5IHRoZSBmYWN0Cj4gdGhhdCBhZGp1c3RpbmcgYnJpZ2h0bmVz
-cyBub3cgd29ya3MuCj4gCj4gSXQgaGFzIG5vIGVmZmVjdCBvbiB3bGVkMyBiZWNhdXNlIHNpbmsg
-YW5kIGN0cmwgYmFzZSBhZGRyZXNzZXMgYXJlIHRoZQo+IHNhbWUuICBUaGlzIGFsbG93cyBhZGp1
-c3RpbmcgdGhlIGJyaWdodG5lc3Mgd2l0aG91dCBoYXZpbmcgdG8gZGlzYWJsZQo+IHRoZW4gcmVl
-bmFibGUgdGhlIG1vZHVsZS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBPYmVpZGEgU2hhbW91biA8b3No
-bW91bjEwMEBnb29nbGVtYWlsLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBLb25yYWQgRHliY2lvIDxr
-b25yYWQuZHliY2lvQHNvbWFpbmxpbmUub3JnPgo+IFNpZ25lZC1vZmYtYnk6IE1hcmlqbiBTdWlq
-dGVuIDxtYXJpam4uc3VpanRlbkBzb21haW5saW5lLm9yZz4KPiAtLS0KPiAgZHJpdmVycy92aWRl
-by9iYWNrbGlnaHQvcWNvbS13bGVkLmMgfCA0ICsrLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5z
-ZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCkFwcGxpZWQsIHRoYW5rcy4KCi0tIApMZWUgSm9u
-ZXMgW+adjueQvOaWr10KU2VuaW9yIFRlY2huaWNhbCBMZWFkIC0gRGV2ZWxvcGVyIFNlcnZpY2Vz
-CkxpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBcm0gU29DcwpGb2xsb3cg
-TGluYXJvOiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Rob,
+
+On 2021-03-16 22:46, Rob Clark wrote:
+
+<snip>...
+
+>> > >
+>> > > When the GPU has a buffer mapped with IOMMU_LLC, is the buffer also mapped
+>> > > into the CPU and with what attributes? Rob said "writecombine for
+>> > > everything" -- does that mean ioremap_wc() / MEMREMAP_WC?
+>> >
+>> > Currently userspace asks for everything WC, so pgprot_writecombine()
+>> >
+>> > The kernel doesn't enforce this, but so far provides no UAPI to do
+>> > anything useful with non-coherent cached mappings (although there is
+>> > interest to support this)
+>> >
+>> 
+>> btw, I'm looking at a benchmark (gl_driver2_off) where (after some
+>> other in-flight optimizations land) we end up bottlenecked on writing
+>> to WC cmdstream buffers.  I assume in the current state, WC goes all
+>> the way to main memory rather than just to system cache?
+>> 
+> 
+> oh, I guess this (mentioned earlier in thread) is what I really want
+> for this benchmark:
+> 
+> https://android-review.googlesource.com/c/kernel/common/+/1549097/3
+> 
+
+You can also check if the system cache lines are allocated for GPU
+or not with patch in https://crrev.com/c/2766723
+
+With the above patch applied,
+cat /sys/kernel/debug/llcc_stats/llcc_scid_status
+
+The SCIDs for GPU are listed in include/linux/soc/qcom/llcc-qcom.h
+
+Thanks,
+Sai
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
