@@ -1,51 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92B233FB9B
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 00:02:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F2533FBCD
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 00:27:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A71556E85F;
-	Wed, 17 Mar 2021 23:02:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6ADF6E07B;
+	Wed, 17 Mar 2021 23:27:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 867176E85F
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 23:02:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616022134;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y1zBaXw6v3nxp+tbBk95VCpO5EeU4VjR0+nYag5nMgA=;
- b=ekB6HX0sh02JPbAwx4u4KVILh2FgFBfOPmAxPual2az2CXCK4JW+fXB5G6dXPUWUmkKffM
- cpoG+D3cGJhcNRW2dj8XHnkHI8P0L58NeyUwuww1mztKaghCxp69kQCTMou6tn4wk6aFtQ
- mh4K7G5wtfUX68guLdnd11//x8ETZPE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-73XNEzRCOgec-Wtk9J0Yig-1; Wed, 17 Mar 2021 19:02:11 -0400
-X-MC-Unique: 73XNEzRCOgec-Wtk9J0Yig-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33FB388EF03;
- Wed, 17 Mar 2021 23:02:09 +0000 (UTC)
-Received: from Whitewolf.lyude.net (ovpn-119-60.rdu2.redhat.com [10.10.119.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DDB02610F0;
- Wed, 17 Mar 2021 23:02:07 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: nouveau@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/nouveau/kms/nv50-: Always validate LUTs in
- nv50_head_atomic_check_lut()
-Date: Wed, 17 Mar 2021 19:01:46 -0400
-Message-Id: <20210317230146.504182-3-lyude@redhat.com>
-In-Reply-To: <20210317230146.504182-1-lyude@redhat.com>
-References: <20210317230146.504182-1-lyude@redhat.com>
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7834F6E04B
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 23:27:40 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id l3so2186444pfc.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 16:27:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ODgJlo11thr3abRRn5H88pJeZKbcK7WUWOM8GS7dn/E=;
+ b=ka7O4tt5b/1Dj+gDV75rnKYCFDViijs6tPrSecl/kL4FE/l3HAn8wK2w7DCA/GvLMz
+ vzLzimLuFdKdgF8qD04l6Hl6ELjSIJ2DmchyQZq+HAFFv7uXuz0J+WyWzxCsFodfyJMD
+ JqVKZ2cm3qQs9iPt7qK9kDLHA527OLYf70mSw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ODgJlo11thr3abRRn5H88pJeZKbcK7WUWOM8GS7dn/E=;
+ b=EFdOA79T7P9JOYm4hNYPmuZ2XSkBlpFGIdteCeQb6HO4Iicmp9LoKJRN6BNUpYO0Ol
+ hzjon5xQ+k66spFAQqunOTtftORt0H5AUtwPBzYtOif01srm9BrTXwFyfc6r10YDAzyO
+ aRNyXxSjaoJ95+dbk1mHOzB4OApMtCvGtBXe6toTQKKiT2VL/ACNSVnlguePh5umgWUQ
+ 2e1xQVUEQefX9//wIow2I+gRDygbKYEVFkiWrQ64Hlf792PHOpAuWBYt9zZ6xSU3KWIP
+ vdTPEvBviGDz9uQCowTDr8AHIURHm/B+29BnUgHyZQATjT0BATFsfaD3SyJWUqX/b52x
+ Nd9g==
+X-Gm-Message-State: AOAM532u53p3vb3VmT3C1cZEUUZ6OWNdRcoBhwMBzBz/z6MsZXXIk0Rf
+ vpzFCoSsWYF55hiXnxGOkCBTuw==
+X-Google-Smtp-Source: ABdhPJzeS30ixDkVh9yP6I/NanMrQ/pjkgpILrw4pj9P0Ogh+/lOMqEh56QvyTw5PcFj2orL9mcEJA==
+X-Received: by 2002:aa7:8a58:0:b029:1fb:8ab:866e with SMTP id
+ n24-20020aa78a580000b02901fb08ab866emr1339585pfa.0.1616023660024; 
+ Wed, 17 Mar 2021 16:27:40 -0700 (PDT)
+Received: from localhost ([2620:15c:202:1:3cf8:6a09:780b:f65d])
+ by smtp.gmail.com with UTF8SMTPSA id x186sm166239pfc.65.2021.03.17.16.27.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Mar 2021 16:27:39 -0700 (PDT)
+Date: Wed, 17 Mar 2021 16:27:37 -0700
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Douglas Anderson <dianders@chromium.org>
+Subject: Re: [RFC PATCH 1/3] dt-bindings: display: simple: Add the panel on
+ sc7180-trogdor-pompom
+Message-ID: <YFKQaXOmOwYyeqvM@google.com>
+References: <20210316140707.RFC.1.I3a21995726282f1e9fcb70da5eb96f19ed96634f@changeid>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Disposition: inline
+In-Reply-To: <20210316140707.RFC.1.I3a21995726282f1e9fcb70da5eb96f19ed96634f@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,318 +65,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- James Jones <jajones@nvidia.com>, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Ben Skeggs <bskeggs@redhat.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: robdclark@chromium.org, devicetree@vger.kernel.org, drinkcat@chromium.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Andy Gross <agross@kernel.org>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Steev Klimaszewski <steev@kali.org>,
+ swboyd@chromium.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When it comes to gamma or degamma luts, nouveau will actually skip the
-calculation of certain LUTs depending on the head and plane states. For
-instance, when the head is disabled we don't perform any error checking on
-the gamma LUT, and likewise if no planes are present and enabled in our
-atomic state we will skip error checking the degamma LUT. This is a bit of
-a problem though, since the per-head gamma and degamma props in DRM can be
-changed even while a head is disabled - a situation which can be triggered
-by the igt testcase mentioned down below.
+On Tue, Mar 16, 2021 at 02:08:19PM -0700, Douglas Anderson wrote:
+> The sc7180-trogdor-pompom board might be attached to any number of a
+> pile of eDP panels. At the moment I'm told that the list might include:
+> - KD KD116N21-30NV-A010
+> - KD KD116N09-30NH-A016
+> - Starry 2081116HHD028001-51D
+> - Sharp LQ116M1JW10
+> 
+> It should be noted that while the EDID programmed in the first 3
+> panels indicates that they should run with exactly the same timing (to
+> keep things simple), the 4th panel not only needs different timing but
+> has a different resolution.
+> 
+> As is true in general with eDP panels, we can figure out which panel
+> we have and all the info needed to drive its pixel clock by reading
+> the EDID. However, we can do this only after we've powered the panel
+> on. Powering on the panels requires following the timing diagram in
+> each panel's datasheet which specifies delays between certain
+> actions. This means that, while we can be quite dynamic about handling
+> things we can't just totally skip out on describing the panel like we
+> could do if it was connected to an external-facing DP port.
+> 
+> While the different panels have slightly different delays, it's
+> possible to come up with a set of unified delays that will work on all
+> the panels. From reading the datasheets:
+> * KD KD116N21-30NV-A010 and KD KD116N09-30NH-A016
+>   - HPD absent delay: 200 ms
+>   - Unprepare delay: 150 ms (datasheet is confusing, might be 500 ms)
+> * Starry 2081116HHD028001-51D
+>   - HPD absent delay: 100 ms
+>   - Enable delay: (link training done till enable BL): 200 ms
+>   - Unprepare delay: 500 ms
+> * Sharp LQ116M1JW10
+>   - HPD absent delay: 200 ms
+>   - Unprepare delay: 500 ms
+>   - Prepare to enable delay (power on till backlight): 100 ms
+> 
+> Unified:
+> - HPD absent delay: 200 ms
+> - Unprepare delay: 500 ms
+> - Enable delay: 200 ms
+> 
+> NOTE: in theory the only thing that we _really_ need unity on is the
+> "HPD absent delay" since once the panel asserts HPD we can read the
+> EDID and could make per-panel decisions if we wanted.
+> 
+> Let's create a definition of "a panel that can be attached to pompom"
+> as a panel that provides a valid EDID and can work with the standard
+> pompom power sequencing. If more panels are later attached to pompom
+> then it's fine as long as they work in a compatible way.
+> 
+> One might ask why we can't just use a generic string here and provide
+> the timings directly in the device tree file. As I understand it,
+> trying to describe generic power sequencing in the device tree is
+> frowned upon and the one instance (SD/MMC) is regarded as a mistake
+> that shouldn't be repeated. Specifying a power sequence per board (or
+> per board class) feels like a reasonable compromise. We're not trying
+> to define fully generic power sequence bindings but we can also take
+> advantage of the semi-probable properties of the attached device.
+> 
+> NOTE: I believe that past instances of supporting this type of thing
+> have used the "white lie" approach. One representative panel was
+> listed in the device tree. The power sequencings of this
+> representative panel were OK to use across all panels that might be
+> attached and other differences were handled by EDID. This patch
+> attempts to set a new precedent and avoid the need for the white lie.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
 
-Originally I thought this was a bit silly and was tempted to just fix the
-igt test to only set gamma/degamma with the head enabled. After a bit of
-thinking though I realized we should fix this in nouveau. This is because
-if a program decides to set an invalid LUT for a head before enabling the
-head, such a property change would succeed while also making it impossible
-to turn the head back on until the LUT is removed or corrected - something
-that could be painful for a user to figure out.
+Sounds reasonable to me if DT maintainers can live with this abstract
+hardware definition. It's clearer than the 'white lie' approach.
 
-So, fix this checking both degamma and gamma LUTs unconditionally during
-atomic checks. We start by calling nv50_head_atomic_check_lut() regardless
-of whether the head is active or not in nv50_head_atomic_check(). Then we
-move the ilut error checking into nv50_head_atomic_check_lut() and add a
-per-head hook for it, primarily because as a per-CRTC property DRM we want
-the LUT to be error checked by the head any time it's included in an atomic
-state. Of course though, actual programming of the degamma lut to hardware
-is still handled in each plane's atomic check and commit.
+It's then up to the vendor/manufacturer to ensure to only ship devices
+with panels that have compatible timings.
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Testcase: igt/kms_color/pipe-invalid-*-lut-sizes
----
- drivers/gpu/drm/nouveau/dispnv50/base907c.c |  6 +----
- drivers/gpu/drm/nouveau/dispnv50/head.c     | 30 +++++++++++++++------
- drivers/gpu/drm/nouveau/dispnv50/head.h     |  2 ++
- drivers/gpu/drm/nouveau/dispnv50/head907d.c |  6 +++++
- drivers/gpu/drm/nouveau/dispnv50/head917d.c |  1 +
- drivers/gpu/drm/nouveau/dispnv50/headc37d.c |  1 +
- drivers/gpu/drm/nouveau/dispnv50/headc57d.c |  1 +
- drivers/gpu/drm/nouveau/dispnv50/wndw.c     |  5 +---
- drivers/gpu/drm/nouveau/dispnv50/wndw.h     |  4 +--
- drivers/gpu/drm/nouveau/dispnv50/wndwc37e.c |  6 +----
- drivers/gpu/drm/nouveau/dispnv50/wndwc57e.c |  7 +++--
- 11 files changed, 41 insertions(+), 28 deletions(-)
+>  .../devicetree/bindings/display/panel/panel-simple.yaml       | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> index 62b0d54d87b7..9807dbc1cceb 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> @@ -140,6 +140,10 @@ properties:
+>        - giantplus,gpg48273qs5
+>          # GiantPlus GPM940B0 3.0" QVGA TFT LCD panel
+>        - giantplus,gpm940b0
+> +        # A panel connected to a google,pompom board. Panel is guaranteed to
+> +        # confirm to google,pompom-panel power sequencing requirements and then
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/base907c.c b/drivers/gpu/drm/nouveau/dispnv50/base907c.c
-index 5396e3707cc4..e6b0417c325b 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/base907c.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/base907c.c
-@@ -103,12 +103,9 @@ base907c_xlut_set(struct nv50_wndw *wndw, struct nv50_wndw_atom *asyw)
- 	return 0;
- }
- 
--static bool
-+static void
- base907c_ilut(struct nv50_wndw *wndw, struct nv50_wndw_atom *asyw, int size)
- {
--	if (size != 256 && size != 1024)
--		return false;
--
- 	if (size == 1024)
- 		asyw->xlut.i.mode = NV907C_SET_BASE_LUT_LO_MODE_INTERPOLATE_1025_UNITY_RANGE;
- 	else
-@@ -116,7 +113,6 @@ base907c_ilut(struct nv50_wndw *wndw, struct nv50_wndw_atom *asyw, int size)
- 
- 	asyw->xlut.i.enable = NV907C_SET_BASE_LUT_LO_ENABLE_ENABLE;
- 	asyw->xlut.i.load = head907d_olut_load;
--	return true;
- }
- 
- static inline u32
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/nouveau/dispnv50/head.c
-index fb821dcf6bd2..3b96eafb7bdd 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/head.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
-@@ -225,9 +225,20 @@ nv50_head_atomic_check_lut(struct nv50_head *head,
- 	struct drm_crtc *crtc = &head->base.base;
- 	struct nv50_disp *disp = nv50_disp(dev);
- 	struct nouveau_drm *drm = nouveau_drm(dev);
--	struct drm_property_blob *olut = asyh->state.gamma_lut;
-+	struct drm_property_blob *olut = asyh->state.gamma_lut,
-+				 *ilut = asyh->state.degamma_lut;
- 	int size;
- 
-+	/* Ensure that the ilut is valid */
-+	if (ilut) {
-+		size = drm_color_lut_size(ilut);
-+		if (!head->func->ilut_check(size)) {
-+			NV_ATOMIC(drm, "Invalid size %d for degamma on [CRTC:%d:%s]\n",
-+				  size, crtc->base.id, crtc->name);
-+			return -EINVAL;
-+		}
-+	}
-+
- 	/* Determine whether core output LUT should be enabled. */
- 	if (olut) {
- 		/* Check if any window(s) have stolen the core output LUT
-@@ -329,8 +340,17 @@ nv50_head_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
- 	struct drm_connector_state *conns;
- 	struct drm_connector *conn;
- 	int i, ret;
-+	bool check_lut = asyh->state.color_mgmt_changed ||
-+			 memcmp(&armh->wndw, &asyh->wndw, sizeof(asyh->wndw));
- 
- 	NV_ATOMIC(drm, "%s atomic_check %d\n", crtc->name, asyh->state.active);
-+
-+	if (check_lut) {
-+		ret = nv50_head_atomic_check_lut(head, asyh);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	if (asyh->state.active) {
- 		for_each_new_connector_in_state(asyh->state.state, conn, conns, i) {
- 			if (conns->crtc == crtc) {
-@@ -356,14 +376,8 @@ nv50_head_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
- 		if (asyh->state.mode_changed || asyh->state.connectors_changed)
- 			nv50_head_atomic_check_mode(head, asyh);
- 
--		if (asyh->state.color_mgmt_changed ||
--		    memcmp(&armh->wndw, &asyh->wndw, sizeof(asyh->wndw))) {
--			int ret = nv50_head_atomic_check_lut(head, asyh);
--			if (ret)
--				return ret;
--
-+		if (check_lut)
- 			asyh->olut.visible = asyh->olut.handle != 0;
--		}
- 
- 		if (asyc) {
- 			if (asyc->set.scaler)
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.h b/drivers/gpu/drm/nouveau/dispnv50/head.h
-index dae841dc05fd..77407f43f873 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/head.h
-+++ b/drivers/gpu/drm/nouveau/dispnv50/head.h
-@@ -28,6 +28,7 @@ struct nv50_head_func {
- 	int (*view)(struct nv50_head *, struct nv50_head_atom *);
- 	int (*mode)(struct nv50_head *, struct nv50_head_atom *);
- 	bool (*olut)(struct nv50_head *, struct nv50_head_atom *, int);
-+	bool (*ilut_check)(int size);
- 	bool olut_identity;
- 	int  olut_size;
- 	int (*olut_set)(struct nv50_head *, struct nv50_head_atom *);
-@@ -70,6 +71,7 @@ extern const struct nv50_head_func head907d;
- int head907d_view(struct nv50_head *, struct nv50_head_atom *);
- int head907d_mode(struct nv50_head *, struct nv50_head_atom *);
- bool head907d_olut(struct nv50_head *, struct nv50_head_atom *, int);
-+bool head907d_ilut_check(int size);
- int head907d_olut_set(struct nv50_head *, struct nv50_head_atom *);
- int head907d_olut_clr(struct nv50_head *);
- int head907d_core_set(struct nv50_head *, struct nv50_head_atom *);
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/head907d.c b/drivers/gpu/drm/nouveau/dispnv50/head907d.c
-index 85648d790743..18fe4c1e2d6a 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/head907d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/head907d.c
-@@ -314,6 +314,11 @@ head907d_olut(struct nv50_head *head, struct nv50_head_atom *asyh, int size)
- 	return true;
- }
- 
-+bool head907d_ilut_check(int size)
-+{
-+	return size == 256 || size == 1024;
-+}
-+
- int
- head907d_mode(struct nv50_head *head, struct nv50_head_atom *asyh)
- {
-@@ -409,6 +414,7 @@ head907d = {
- 	.view = head907d_view,
- 	.mode = head907d_mode,
- 	.olut = head907d_olut,
-+	.ilut_check = head907d_ilut_check,
- 	.olut_size = 1024,
- 	.olut_set = head907d_olut_set,
- 	.olut_clr = head907d_olut_clr,
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/head917d.c b/drivers/gpu/drm/nouveau/dispnv50/head917d.c
-index ea9f8667305e..4ce47b55f72c 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/head917d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/head917d.c
-@@ -119,6 +119,7 @@ head917d = {
- 	.view = head907d_view,
- 	.mode = head907d_mode,
- 	.olut = head907d_olut,
-+	.ilut_check = head907d_ilut_check,
- 	.olut_size = 1024,
- 	.olut_set = head907d_olut_set,
- 	.olut_clr = head907d_olut_clr,
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/headc37d.c b/drivers/gpu/drm/nouveau/dispnv50/headc37d.c
-index 63adfeba50e5..a4a3b78ea42c 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/headc37d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/headc37d.c
-@@ -285,6 +285,7 @@ headc37d = {
- 	.view = headc37d_view,
- 	.mode = headc37d_mode,
- 	.olut = headc37d_olut,
-+	.ilut_check = head907d_ilut_check,
- 	.olut_size = 1024,
- 	.olut_set = headc37d_olut_set,
- 	.olut_clr = headc37d_olut_clr,
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/headc57d.c b/drivers/gpu/drm/nouveau/dispnv50/headc57d.c
-index fd51527b56b8..fd624eb8a0bb 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/headc57d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/headc57d.c
-@@ -236,6 +236,7 @@ headc57d = {
- 	.view = headc37d_view,
- 	.mode = headc57d_mode,
- 	.olut = headc57d_olut,
-+	.ilut_check = head907d_ilut_check,
- 	.olut_identity = true,
- 	.olut_size = 1024,
- 	.olut_set = headc57d_olut_set,
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-index 0cb1f9d848d3..3aecd46edd53 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-@@ -403,10 +403,7 @@ nv50_wndw_atomic_check_lut(struct nv50_wndw *wndw,
- 	/* Recalculate LUT state. */
- 	memset(&asyw->xlut, 0x00, sizeof(asyw->xlut));
- 	if ((asyw->ilut = wndw->func->ilut ? ilut : NULL)) {
--		if (!wndw->func->ilut(wndw, asyw, drm_color_lut_size(ilut))) {
--			DRM_DEBUG_KMS("Invalid ilut\n");
--			return -EINVAL;
--		}
-+		wndw->func->ilut(wndw, asyw, drm_color_lut_size(ilut));
- 		asyw->xlut.handle = wndw->wndw.vram.handle;
- 		asyw->xlut.i.buffer = !asyw->xlut.i.buffer;
- 		asyw->set.xlut = true;
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.h b/drivers/gpu/drm/nouveau/dispnv50/wndw.h
-index f4e0c5080034..9c9f2c2a71a5 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndw.h
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.h
-@@ -64,7 +64,7 @@ struct nv50_wndw_func {
- 	int (*ntfy_clr)(struct nv50_wndw *);
- 	int (*ntfy_wait_begun)(struct nouveau_bo *, u32 offset,
- 			       struct nvif_device *);
--	bool (*ilut)(struct nv50_wndw *, struct nv50_wndw_atom *, int);
-+	void (*ilut)(struct nv50_wndw *wndw, struct nv50_wndw_atom *asyh, int size);
- 	void (*csc)(struct nv50_wndw *, struct nv50_wndw_atom *,
- 		    const struct drm_color_ctm *);
- 	int (*csc_set)(struct nv50_wndw *, struct nv50_wndw_atom *);
-@@ -129,7 +129,7 @@ int wndwc37e_update(struct nv50_wndw *, u32 *);
- 
- int wndwc57e_new(struct nouveau_drm *, enum drm_plane_type, int, s32,
- 		 struct nv50_wndw **);
--bool wndwc57e_ilut(struct nv50_wndw *, struct nv50_wndw_atom *, int);
-+void wndwc57e_ilut(struct nv50_wndw *, struct nv50_wndw_atom *, int);
- int wndwc57e_ilut_set(struct nv50_wndw *, struct nv50_wndw_atom *);
- int wndwc57e_ilut_clr(struct nv50_wndw *);
- int wndwc57e_csc_set(struct nv50_wndw *, struct nv50_wndw_atom *);
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndwc37e.c b/drivers/gpu/drm/nouveau/dispnv50/wndwc37e.c
-index 57df997c5ff3..183d2c0e65b6 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndwc37e.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndwc37e.c
-@@ -82,18 +82,14 @@ wndwc37e_ilut_set(struct nv50_wndw *wndw, struct nv50_wndw_atom *asyw)
- 	return 0;
- }
- 
--static bool
-+static void
- wndwc37e_ilut(struct nv50_wndw *wndw, struct nv50_wndw_atom *asyw, int size)
- {
--	if (size != 256 && size != 1024)
--		return false;
--
- 	asyw->xlut.i.size = size == 1024 ? NVC37E_SET_CONTROL_INPUT_LUT_SIZE_SIZE_1025 :
- 					   NVC37E_SET_CONTROL_INPUT_LUT_SIZE_SIZE_257;
- 	asyw->xlut.i.range = NVC37E_SET_CONTROL_INPUT_LUT_RANGE_UNITY;
- 	asyw->xlut.i.output_mode = NVC37E_SET_CONTROL_INPUT_LUT_OUTPUT_MODE_INTERPOLATE;
- 	asyw->xlut.i.load = head907d_olut_load;
--	return true;
- }
- 
- int
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndwc57e.c b/drivers/gpu/drm/nouveau/dispnv50/wndwc57e.c
-index abdd3bb658b3..37f6da8b3f2a 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndwc57e.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndwc57e.c
-@@ -179,11 +179,11 @@ wndwc57e_ilut_load(struct drm_color_lut *in, int size, void __iomem *mem)
- 	writew(readw(mem - 4), mem + 4);
- }
- 
--bool
-+void
- wndwc57e_ilut(struct nv50_wndw *wndw, struct nv50_wndw_atom *asyw, int size)
- {
--	if (size = size ? size : 1024, size != 256 && size != 1024)
--		return false;
-+	if (!size)
-+		size = 1024;
- 
- 	if (size == 256)
- 		asyw->xlut.i.mode = NVC57E_SET_ILUT_CONTROL_MODE_DIRECT8;
-@@ -193,7 +193,6 @@ wndwc57e_ilut(struct nv50_wndw *wndw, struct nv50_wndw_atom *asyw, int size)
- 	asyw->xlut.i.size = 4 /* VSS header. */ + size + 1 /* Entries. */;
- 	asyw->xlut.i.output_mode = NVC57E_SET_ILUT_CONTROL_INTERPOLATE_DISABLE;
- 	asyw->xlut.i.load = wndwc57e_ilut_load;
--	return true;
- }
- 
- /****************************************************************
--- 
-2.29.2
+s/confirm/conform/ ?
 
+> +        # the specific panel will be probed via EDID.
+> +      - google,pompom-panel
+>          # HannStar Display Corp. HSD070PWW1 7.0" WXGA TFT LCD panel
+>        - hannstar,hsd070pww1
+>          # HannStar Display Corp. HSD100PXN1 10.1" XGA LVDS panel
+
+FWIW:
+
+Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
