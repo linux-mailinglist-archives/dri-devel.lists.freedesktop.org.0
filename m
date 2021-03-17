@@ -1,54 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC50E33FA00
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 21:32:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72FC433FA62
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 22:17:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A11626E03C;
-	Wed, 17 Mar 2021 20:32:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7062D89CAA;
+	Wed, 17 Mar 2021 21:17:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FA166E847
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 20:32:50 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- w21-20020a9d63950000b02901ce7b8c45b4so3072081otk.5
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 13:32:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IHCnunVxEHDcq+HTDx4ulePq7olKHfoa4KrEracuGEE=;
- b=F3jWDKeZzOEZZV+TtU/QAqYOuYjLzlwHXLJOUphmL/VTnC00lws/xyjCQFL1MFzEIq
- cOmU8WIgXcWr8H47lTCo4CJ6guTqcA2xR8IVXUiA4RT0KOFJNwKrTI7IziG13bdXuDmh
- 1mV45jQA3sCOkiQ18AaiLVLPMdYLhTJRLR/3I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IHCnunVxEHDcq+HTDx4ulePq7olKHfoa4KrEracuGEE=;
- b=sxhAI46D2ozyUq3WQUykRr3ZnhhNu3kNP6jLesMWKE/SPouc10tGsmHiDwxfsJhgBa
- kZfiBw/Oz0TRjg2AqTbSAbMlsfnm5tVr0EF3+DYw/JwvRRI2xHvanYEtuvcDgkHxuVSd
- WCSZt1S+44ktSXb8bwFQDRmdUJm1V1Fm1mhmwNRgTHKvOrnBysj2BsJ2Iawr1gwdSNUK
- z6qwcM28JhgZU0YVtXf/Us8T9XfnyYh8hEdWi66sIXDoKAaOj7ECfxzFZsxaBSHHUH6C
- 5lRo/iZnQHDTOV17nu8Ycs7aJkQrqbqBPAreEXW9u0AzQnmxhgWA9cChDZxDQLHmsIR+
- BHEw==
-X-Gm-Message-State: AOAM530n2i6oi8KevljLx6MTlwak/blpsV4srmf2nBxkXDcvk6bJPQWK
- EJFJUcgs4zrSYXRXBb4GfkZ4jkcJYmxjcU9g/1aQkQ==
-X-Google-Smtp-Source: ABdhPJwpaKtWZD5ndm43ILhNLn5AjG91euFm+8cd3zhFc4Jg9VKRXCNzX5CQhv6Shjqegj6++qTq+qWnq/5dHW2jDuI=
-X-Received: by 2002:a9d:6481:: with SMTP id g1mr4590503otl.303.1616013169521; 
- Wed, 17 Mar 2021 13:32:49 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C17189C63;
+ Wed, 17 Mar 2021 21:17:43 +0000 (UTC)
+IronPort-SDR: 0uqWvYJXn/xgLBNDX5W78F/XwoK6w8HrtzeXtB9i1J+P1DY/2+hLZNjpAyyEJRXiAviPDwM2KS
+ 7j7z5kKM+65Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9926"; a="168824753"
+X-IronPort-AV: E=Sophos;i="5.81,257,1610438400"; d="scan'208";a="168824753"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2021 14:17:41 -0700
+IronPort-SDR: AAYchsC5i4LrAN0vhFv8eT2hagSqLhZ4g92YNpGCKK6JxLIzRAKC1aCmpxMLfDd9eTxiLa0PXM
+ gyYY1+jmU16w==
+X-IronPort-AV: E=Sophos;i="5.81,257,1610438400"; d="scan'208";a="450239592"
+Received: from labuser-z97x-ud5h.jf.intel.com (HELO labuser-Z97X-UD5H)
+ ([10.165.21.211])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2021 14:17:41 -0700
+Date: Wed, 17 Mar 2021 14:23:49 -0700
+From: "Navare, Manasi" <manasi.d.navare@intel.com>
+To: Daniel Stone <daniel@fooishbar.org>
+Subject: Re: [Intel-gfx] [PATCH] drm/atomic: Add the crtc to affected crtc
+ only if uapi.enable = true
+Message-ID: <20210317212349.GA30079@labuser-Z97X-UD5H>
+References: <20210302204132.12058-1-manasi.d.navare@intel.com>
+ <20210303104744.2c064f09@eldfell>
+ <20210303204433.GA15819@labuser-Z97X-UD5H>
+ <20210304104223.6b3490bc@eldfell>
+ <20210309005252.GA27491@labuser-Z97X-UD5H>
+ <20210309111350.3be0543f@eldfell>
+ <CAKMK7uEak_2YNDZpyho5bBhhYCvoXh6MoPNL6FmV9sU8oELGPA@mail.gmail.com>
+ <CAPj87rOtWpBW3u7M+ePPQqT_RKEmCzDA8u4gRfT-HrcRaR7_zg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210303134319.3160762-1-lee.jones@linaro.org>
- <16d4300e-bf29-1e85-317b-53d257890cb9@vmware.com> <20210308091932.GB4931@dell>
- <YEobySvG0zPs9xhc@phenom.ffwll.local> <20210311135152.GT701493@dell>
- <20210317081729.GH701493@dell>
-In-Reply-To: <20210317081729.GH701493@dell>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 17 Mar 2021 21:32:38 +0100
-Message-ID: <CAKMK7uEibsgXXTEM1d2CGSswp-koouPSouseP_rwLHTdpxfRpw@mail.gmail.com>
-Subject: Re: [RESEND 00/53] Rid GPU from W=1 warnings
-To: Lee Jones <lee.jones@linaro.org>
+Content-Disposition: inline
+In-Reply-To: <CAPj87rOtWpBW3u7M+ePPQqT_RKEmCzDA8u4gRfT-HrcRaR7_zg@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,75 +56,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Nouveau Dev <nouveau@lists.freedesktop.org>,
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Qinglang Miao <miaoqinglang@huawei.com>, Anthony Koo <Anthony.Koo@amd.com>,
- Jeremy Kolb <jkolb@brandeis.edu>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Rob Clark <rob.clark@linaro.org>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Ben Skeggs <bskeggs@redhat.com>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Dave Airlie <airlied@redhat.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Leo Li <sunpeng.li@amd.com>, Roland Scheidegger <sroland@vmware.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Sean Paul <sean@poorly.run>, Kuogee Hsieh <khsieh@codeaurora.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Colin Ian King <colin.king@canonical.com>,
- freedreno <freedreno@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ Daniel Stone <daniels@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 17, 2021 at 9:17 AM Lee Jones <lee.jones@linaro.org> wrote:
->
-> On Thu, 11 Mar 2021, Lee Jones wrote:
->
-> > On Thu, 11 Mar 2021, Daniel Vetter wrote:
-> >
-> > > On Mon, Mar 08, 2021 at 09:19:32AM +0000, Lee Jones wrote:
-> > > > On Fri, 05 Mar 2021, Roland Scheidegger wrote:
+On Tue, Mar 16, 2021 at 11:46:38PM +0000, Daniel Stone wrote:
+> On Tue, 16 Mar 2021 at 21:35, Daniel Vetter <daniel@ffwll.ch> wrote:
+> 
+> > On Tue, Mar 9, 2021 at 10:14 AM Pekka Paalanen <ppaalanen@gmail.com>
+> > wrote:
+> > > On Mon, 8 Mar 2021 16:52:58 -0800
+> > > "Navare, Manasi" <manasi.d.navare@intel.com> wrote:
+> > > > Hmm well after the actual real commit, since the second crtc is stolen
+> > > > even though it is not being used for the display output, it is
+> > > > used for joiner so the uapi.enable will be true after the real commit.
 > > > >
-> > > > > The vmwgfx ones look all good to me, so for
-> > > > > 23-53: Reviewed-by: Roland Scheidegger <sroland@vmware.com>
-> > > > > That said, they were already signed off by Zack, so not sure what
-> > > > > happened here.
+> > > > so actually the assertion would fail in this case.
 > > > >
-> > > > Yes, they were accepted at one point, then dropped without a reason.
-> > > >
-> > > > Since I rebased onto the latest -next, I had to pluck them back out of
-> > > > a previous one.
-> > >
-> > > They should show up in linux-next again. We merge patches for next merge
-> > > window even during the current merge window, but need to make sure they
-> > > don't pollute linux-next. Occasionally the cut off is wrong so patches
-> > > show up, and then get pulled again.
-> > >
-> > > Unfortunately especially the 5.12 merge cycle was very wobbly due to some
-> > > confusion here. But your patches should all be in linux-next again (they
-> > > are queued up for 5.13 in drm-misc-next, I checked that).
-> > >
-> > > Sorry for the confusion here.
+> > > > @Ville @Danvet any suggestions here in that case?
 > >
-> > Oh, I see.  Well so long as they don't get dropped, I'll be happy.
+> > That is very bad. We can't frob uapi state like that. I think that
+> > calls for even more checks to make sure kms drivers who try to play
+> > clever games don't get it wrong, so we probably need to check uapi
+> > enable and active state in another mask before/after ->atomic_check
+> > too. Or something like that.
 > >
-> > Thanks for the explanation Daniel
->
-> After rebasing today, all of my GPU patches have remained.  Would
-> someone be kind enough to check that everything is still in order
-> please?
+> 
+> Yeah. We can _never_ generate externally-visible completion events. We can
+> later fail to enable the stolen CRTC - because trying to enable new things
+> can fail for any reason whatsoever - but we can't generate spurious
+> completion events, as doing so falls into the uncanny valley.
+> 
+> If the kernel is doing clever things behind userspace's back - such as
+> stealing planes or CRTCs - then userspace can never know about it, apart
+> from failing to enable those resources later. The kernel can either never
+> do anything clever (and make userspace bind them both together), or be
+> extremely clever (by hiding the entire details from userspace), but it
+> cannot choose the halfway house of doing clever things behind userspace's
+> back (such as stealing new CRTCs) whilst also exposing all those details to
+> userspace (such as delivering spurious completion events for resources
+> userspace never requested to be programmed).
+> 
+> Cheers,
+> Daniel
 
-It's still broken somehow. I've kiced Maxime and Maarten again,
-they're also on this thread.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Yes I agree, in this case there will not be any completion events associated with
+the stolen slave CRTC since that does not get used for the output.
+The completion events will only occur on the bigjoiner master crtc.
+
+But I guess like Danvet suggested we need a separate mask for keeping track of active and
+enabled crtcs before and after atomic check. But need to look at how this will fix
+the affected crtc not matching warning.
+
+Manasi
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
