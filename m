@@ -1,49 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DB1733EA98
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 08:32:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD4933EAAC
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 08:42:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E909189A5D;
-	Wed, 17 Mar 2021 07:32:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79AC189A74;
+	Wed, 17 Mar 2021 07:42:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2092 seconds by postgrey-1.36 at gabe;
- Tue, 16 Mar 2021 19:02:52 UTC
-Received: from the.earth.li (the.earth.li
- [IPv6:2a00:1098:86:4d:c0ff:ee:15:900d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67F2D89DD3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 19:02:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=earth.li;
- s=the; h=Content-Type:MIME-Version:Message-ID:Subject:To:From:Date:Sender:
- Reply-To:Cc:Content-Transfer-Encoding:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=5abAEvlb6RQ//aPbXWSlsFscXPRdObN6cMphxdvzJjg=; b=xg1tvYgAsbdUB+jLBkj30dqmd1
- xXNF3flKWiQA6A5RpDXb/gRLMMkpDcBWQseNapujwWNGcgD/j3rKawPNtDnKinp5myE2eGIDhpNiJ
- tV8aMStaMoMtIOdZQCTU0RsyFJXKGzrN5IbYHzp3jfg4jwZbLETRAGvGDfHiSLqqguD+IhFHafnI2
- FS59nvVC+IU4NxVJRk3jIk3op3MgO0BeWRQeowZoko5Sr7Xo6PPhDw4SvBQrgKLMoXB5N5QflXNNp
- nBIwWPF8Cac4CimaOARg41uFTWwYtlrFqu0WbEvgclG/qWnBRTLkunR5o/UbGO+Lb/Xk1WPKpuFzH
- WTJa8e8g==;
-Received: from noodles by the.earth.li with local (Exim 4.92)
- (envelope-from <noodles@earth.li>)
- id 1lMEQ5-0006i4-VW; Tue, 16 Mar 2021 18:27:54 +0000
-Date: Tue, 16 Mar 2021 18:27:53 +0000
-From: Jonathan McDowell <noodles@earth.li>
-To: Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/rockchip: Cope with endpoints that haven't been
- registered yet
-Message-ID: <20210316182753.GA25685@earth.li>
+Received: from m12-13.163.com (m12-13.163.com [220.181.12.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2529489A62
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 07:42:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=HhDgB
+ qjBcvhk9CXs4aaWu4TwFYv97w8AoJIatOGi19I=; b=US64WvfuweYjELoxrxu9I
+ LVTMj2SXNE59ryxPTwN0aoWvBnVLYVTwPmTexdAptIzmkPCey1DWlMEP1OSWt2zM
+ 4FLKSQoPcnBm+/6UfZDZXB70qIEOAH5v2c9Jwj6yuDfyae35IQ9Tl2APb7Uc2GIx
+ gLI+B7CIzTTGe5hboyM3l0=
+Received: from COOL-20201210PM.ccdomain.com (unknown [218.94.48.178])
+ by smtp9 (Coremail) with SMTP id DcCowAC3IwHaslFgA0SmBg--.14447S2;
+ Wed, 17 Mar 2021 15:42:22 +0800 (CST)
+From: zuoqilin1@163.com
+To: airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH] display: Fix typo issue
+Date: Wed, 17 Mar 2021 15:42:28 +0800
+Message-Id: <20210317074228.1147-1-zuoqilin1@163.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Approved-At: Wed, 17 Mar 2021 07:32:24 +0000
+X-CM-TRANSID: DcCowAC3IwHaslFgA0SmBg--.14447S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWruFyrGF43Ary7XF4fGr48JFb_yoWftrb_C3
+ WfZrs8uayUZ3Z0vr1akrn8ZrWSv3WYvrW8X3y0q34Fyw12yr1UGrsrWryxXw15XF1UtFWD
+ Xa18XFn5ZFsrWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU0UEf5UUUUU==
+X-Originating-IP: [218.94.48.178]
+X-CM-SenderInfo: 52xr1xpolqiqqrwthudrp/1tbiZR5YiV8ZNQXaRgAAsA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,78 +48,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: zuoqilin <zuoqilin@yulong.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Rockchip RGB CRTC output driver attempts to avoid probing Rockchip
-subdrivers to see if they're a connected panel or bridge. However part
-of its checks assumes that if no OF platform device is found then it
-can't be a valid bridge or panel. This causes issues with I2C controlled
-bridges that have not yet been registered to the point they can be
-found.
+From: zuoqilin <zuoqilin@yulong.com>
 
-Change this to return EPROBE_DEFER instead of ENODEV and don't ignore
-such devices. The subsequent call to drm_of_find_panel_or_bridge() will
-return EPROBE_DEFER as well if there's actually a valid device we should
-wait for.
+Change 'befor' to 'before'.
 
-Signed-off-by: Jonathan McDowell <noodles@earth.li>
+Signed-off-by: zuoqilin <zuoqilin@yulong.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 8 ++++++--
- drivers/gpu/drm/rockchip/rockchip_rgb.c     | 7 ++++---
- 2 files changed, 10 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/display/vlv_dsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-index 212bd87c0c4a..b0d63a566501 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-@@ -270,11 +270,15 @@ int rockchip_drm_endpoint_is_subdriver(struct device_node *ep)
- 	if (!node)
- 		return -ENODEV;
+diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
+index f94025e..45187ff 100644
+--- a/drivers/gpu/drm/i915/display/vlv_dsi.c
++++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
+@@ -846,7 +846,7 @@ static void intel_dsi_pre_enable(struct intel_atomic_state *state,
+ 	intel_dsi_vbt_exec_sequence(intel_dsi, MIPI_SEQ_INIT_OTP);
  
--	/* status disabled will prevent creation of platform-devices */
-+	/*
-+	 * status disabled will prevent creation of platform-devices,
-+	 * but equally we can't rely on the driver having been registered
-+	 * yet (e.g. I2C bridges).
-+	 */
- 	pdev = of_find_device_by_node(node);
- 	of_node_put(node);
- 	if (!pdev)
--		return -ENODEV;
-+		return -EPROBE_DEFER;
- 
- 	/*
- 	 * All rockchip subdrivers have probed at this point, so
-diff --git a/drivers/gpu/drm/rockchip/rockchip_rgb.c b/drivers/gpu/drm/rockchip/rockchip_rgb.c
-index c079714477d8..989595087397 100644
---- a/drivers/gpu/drm/rockchip/rockchip_rgb.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_rgb.c
-@@ -77,7 +77,7 @@ struct rockchip_rgb *rockchip_rgb_init(struct device *dev,
- 	struct drm_encoder *encoder;
- 	struct device_node *port, *endpoint;
- 	u32 endpoint_id;
--	int ret = 0, child_count = 0;
-+	int subret, ret = 0, child_count = 0;
- 	struct drm_panel *panel;
- 	struct drm_bridge *bridge;
- 
-@@ -96,8 +96,9 @@ struct rockchip_rgb *rockchip_rgb_init(struct device *dev,
- 		if (of_property_read_u32(endpoint, "reg", &endpoint_id))
- 			endpoint_id = 0;
- 
--		/* if subdriver (> 0) or error case (< 0), ignore entry */
--		if (rockchip_drm_endpoint_is_subdriver(endpoint) != 0)
-+		/* if subdriver (> 0) or non-defer error case (< 0), ignore entry */
-+		subret = rockchip_drm_endpoint_is_subdriver(endpoint);
-+		if (subret != 0 && subret != -EPROBE_DEFER)
- 			continue;
- 
- 		child_count++;
+ 	/* Enable port in pre-enable phase itself because as per hw team
+-	 * recommendation, port should be enabled befor plane & pipe */
++	 * recommendation, port should be enabled before plane & pipe */
+ 	if (is_cmd_mode(intel_dsi)) {
+ 		for_each_dsi_port(port, intel_dsi->ports)
+ 			intel_de_write(dev_priv,
 -- 
-2.20.1
+1.9.1
+
 
 _______________________________________________
 dri-devel mailing list
