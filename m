@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8EF733E807
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 04:57:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B76F433E808
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 04:57:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBBA86E4C1;
-	Wed, 17 Mar 2021 03:57:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D51C96E4C4;
+	Wed, 17 Mar 2021 03:57:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-eopbgr60078.outbound.protection.outlook.com [40.107.6.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86EE46E4C1
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 03:57:35 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-eopbgr80088.outbound.protection.outlook.com [40.107.8.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAA2F6E4C4
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 03:57:41 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iMvgX4JjNSd4r60RhIUS8RU8nYOsWuKkNtjcvPpmJ2ylnBBMEomm36jBSi+43/D/uJ/mR/pjKYbgzZI3A94hY0J021SghMSC/ejZa5GAobYRfJ7oK5ZZ3h6QPJdu8Lk5kSE+GVGycA8sQcsmN829YTr2dR2dNS//X1GlikbE6BdgTQEWfEz84xgHBYh7oH3QtldHIYhpweXuRdKhDmRgNdebtoSlDwg1Nx6M7YceENOp/wcQ7ysCOzwbKkZfn9MZ56qpD6FKFlAt7w80+9pBV/Q7blBqVrs9113/a2O9WkJ1kUOn+MJbsUwluoSCxLvbT1WBh2WiZy981oW3V/8HHw==
+ b=N1L51SgEXlJDPSIKXI9iFw6ghaihk5LkWNg0f6/lbKhyeOQs3XMoTjYz+1vx+OsxTZIGhveMaVV4MdLMMCY65NwFOUrtzqVRmv3CuEg+1SB+fvvcg0aQ84is15FrQeDAyUcVEc6ChU8GarxAib3WNQHp4Uvy9f8yKDwZwjgKTagIdvvkkzn7swFvFc3sK79wFXMqtkinaYYrzetTx45DCyF8CZ2DqeGGW3zJ6opR86R6Zdsb4c2p2Zv6KyuZmSl5XSWqXTXT0Q2yoqbzWvBu6LFFYFFEtMJrIGhBkiTClKacUTDkiI0AzM9SJznyB969dWbjZ+hjiig967AvjBFA+g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MFiAvSW3ofQS35U9K/drgTxg7KE2c5Ov25nhcsn/+10=;
- b=Z+04hS+l41ok90vxPz2dKYteMX8+ebsG6T+JZGyd6SpL7ZHFS8rEy6F76jsG0acjRaBp7eNIh6PGSGlu145A0d+fUAYss+UyzuuFofwLlCoB+wM/kXcOx6JWu8eZsq/D1Hn4MuDC1TpY2qiaZOLoNiVP4UrlszwkKzZYAJg+ovHNZXsYJ55HpreCsyebSb6jC2v85Jj/Hm2d6bccCMJrj0WC3B1WbJYAphDkb0taDIrtg+5itfuCPLgROdZUAbheuCam99AFoVcFALeyiXKcp7HAjCcCuQJzOh+ksPXGS4CbhNV0kT6pQs0ubCGZ1MRFw9wj/iH7FP/vIk1htHQx3g==
+ bh=9YrdOt50zFwdkajsHgYKNz7Jhz/ASMpaB8lIPyZ4e7s=;
+ b=MKuaiL80Iuk9ImKA0Rp2zX2wO9V0BTVCZYRSjC2WEqU2weD3XBZ9hxwbRdaAtVw00ymG35O6QeSLqsv0AywFkhj9D4YDN5y3jDnKpye0mwvTwMmWRV7XLpDkVllzxtqhPPVzgp3tFyQdg7zOI1Ef7j4L89EErGMyfX4Jx2gWlQut347AoSqFsrLzhJ9Gsh101Ka9/QuhQV8WU75yCd05Hib3jUchv1hQOiQGXbsc+QNC86aanjSXX/ypPqNdMNKmhj11tuv7J13pQwgxT9qfPZkCVmxaqKeBBMPjRD+GMNpZG9qAIq4DMiB64aRPsQONJWA+2HpUy2iSsZoAsaxdcw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MFiAvSW3ofQS35U9K/drgTxg7KE2c5Ov25nhcsn/+10=;
- b=Wg8r/JkJVXQuj+sYi2oBNUhEeJKPB2ersDPKcWcM8qeenBfDFhWGdC+/ECLZ4apWzkJWgVP8E/e67IO0+iU+Pluh3p4v/Rbk3ML2+8ujBYDSIc5x319DdvgPNX24boOso72yBITsjMpZ3OGYyPCEufBu4ggrIcWLDSBDzA0xUJ4=
+ bh=9YrdOt50zFwdkajsHgYKNz7Jhz/ASMpaB8lIPyZ4e7s=;
+ b=UnYEJjSadu+Z/1SR7QdD2lJaJL2Cgu7ASKega0zi6P2canpXR1nwd2bW98LUv3rzsLQ+BhZ5sGHdcidTVACkQ+pm2YSc/uoC1BQ0xEGnMgDV+SMKfHffHvvFsdp4XkcfkhLfbesvs4K8iMPhMLQesouae/le/SoY3ArimymwRDE=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=nxp.com;
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR04MB6141.eurprd04.prod.outlook.com (2603:10a6:803:f9::18)
+ by VI1PR04MB6991.eurprd04.prod.outlook.com (2603:10a6:803:12d::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Wed, 17 Mar
- 2021 03:57:33 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Wed, 17 Mar
+ 2021 03:57:39 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3933.032; Wed, 17 Mar 2021
- 03:57:33 +0000
+ 03:57:39 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
-Subject: [PATCH v6 12/14] drm/bridge: imx: Add LDB support for i.MX8qxp
-Date: Wed, 17 Mar 2021 11:42:47 +0800
-Message-Id: <1615952569-4711-13-git-send-email-victor.liu@nxp.com>
+Subject: [PATCH v6 13/14] drm/bridge: imx: Add LDB support for i.MX8qm
+Date: Wed, 17 Mar 2021 11:42:48 +0800
+Message-Id: <1615952569-4711-14-git-send-email-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1615952569-4711-1-git-send-email-victor.liu@nxp.com>
 References: <1615952569-4711-1-git-send-email-victor.liu@nxp.com>
@@ -58,54 +58,54 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (119.31.174.66) by
  HK2PR04CA0090.apcprd04.prod.outlook.com (2603:1096:202:15::34) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.3955.18 via Frontend Transport; Wed, 17 Mar 2021 03:57:26 +0000
+ 15.20.3955.18 via Frontend Transport; Wed, 17 Mar 2021 03:57:33 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 898da913-6cbe-43ab-88b9-08d8e8f8cacb
-X-MS-TrafficTypeDiagnostic: VI1PR04MB6141:
+X-MS-Office365-Filtering-Correlation-Id: 18aff6ca-a6c9-4d3e-f45e-08d8e8f8cea8
+X-MS-TrafficTypeDiagnostic: VI1PR04MB6991:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB61414C8EE56DE423A1965680986A9@VI1PR04MB6141.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Microsoft-Antispam-PRVS: <VI1PR04MB699159D8A5E2C14CE0B4C389986A9@VI1PR04MB6991.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6ha+rdj9JFpC0aawjQGZa6tMuK9iVYEEI/lP2ZwMOXamF6G3M4HMyE63KbTtMVPlkAZQX2ltUyVFYXMi/XxwjITfwYlze7UfUyWacZ8CpcI9986BlpNtHMSlwMSuiPKhhNhAt+tbCcHLqTErdUkDr5SeiD89hvIZYlLzHGroFQpCyEckkX+evWp6PLbNsffKhQeANtNvaOZvTZd+eObv1x1BAyaCKEUlu6ozOOjieN/voEUz0YZrwpX5EtEVyUfmUYn6w1XNTfG1++qQMMIQ3cxIvZ+Gtu7PfP2xd6nii/xjtTFMT6vkx9TDxghNiKpMVDNQ1jYzjAVBEElDPjHJeH4BoWUw29ITUygNYvN6qwlkP/ftvZ3yzAUhySkWBH7EmHmwjSqXQo9adPqoy//Z4VyG4ZfuEehvaw5GsFl0Lc61yCyHahDMnfCynb0UpvlPur5wu1rEQlBxFRO4C9Rvl9ER4NdlpI1wAe3P0u+/yy6SC1mmrzIc2Xl6nIv+mW/civGqxiYyoEx9Uvny0QloFAtdZ2ocF61cKhm8Pgv9bhpzXHNRd3SbG2m020r5jl2ppL4nUgjW78HjtzTUmj3MjLONWoap6/E/Vwm2cUKFThX8Rnf8rgdvvPDsXzsisUTjhTtnCgY4uhkE7oCUq7n2Vx44xi6qGzOyTsUez056/qbGm6RfcNRoizrtocBE118G
+X-Microsoft-Antispam-Message-Info: tZgrhyn8HE/Ac3reSacX7GUY3fQj9InN6xCqtOYQR7M13bvwltJzm7xKHcvhaPaLZqVoRok7i/UkIM3KIRPVFkx8LlbXm7vH2eYMav3rgHm5yCvKEjAG24DcUWaMlFn53KC+cZBubv1V8DA8MeJhlXoleILTKT0I7162VROktz0MUifdMEQj8t72QfCyINWgTarH39/bDFAC3e5EXm7/3t/GEOIlpzSjTo9LTDgEUzqXQrDC8uwLCe+YzI0bNTAQHdGmKp8rkChDzlYErCYzjz1RsReUFmuAY1LzVT3giutcKtGR4v5LOCl9tOasju1MGOfcazK7nMmwJ+xuvzvPdb+/tmIRve5n4C/9gjCRc/1C2Wrrz9pF2PPU88q/y2aqGqlXQaKsztLtTtz0mYjU9sGbGOeRpIh7IJdRcONmjv+CStfDRnzW59EI2OmjrSc4b8wpgN3u6YeKs5x/zclN1PzxGJYu2TbXrNMVfxXgqKtpJT5tOlT0VbVFjPHgH/exuC72EWheUSqfgpAWdRA23qs7Bj1IFw1ih9ogW40zd1p62lNH+RLqcibnghiw8fiTpQjtwfYIg2a0vUz61o1zDBFHzt/xOQTZ6GUlwuuJAhzXsC92IdtgVIxBBzV98+/Bezm9/9IeT/tmdutqQls5UOr+PLEdXqB8Dcg1hrnGjc3abnYI/hqYFYswFiTujMZB
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(396003)(39860400002)(136003)(376002)(8676002)(5660300002)(316002)(36756003)(16526019)(186003)(8936002)(69590400012)(83380400001)(4326008)(956004)(2616005)(2906002)(30864003)(52116002)(6486002)(6512007)(6666004)(478600001)(966005)(6506007)(66556008)(66476007)(66946007)(7416002)(26005)(86362001);
+ SFS:(4636009)(366004)(346002)(136003)(39860400002)(396003)(376002)(6506007)(36756003)(2616005)(6512007)(86362001)(6486002)(478600001)(69590400012)(52116002)(186003)(66556008)(30864003)(66946007)(4326008)(66476007)(6666004)(8676002)(956004)(5660300002)(83380400001)(316002)(966005)(26005)(2906002)(16526019)(8936002)(7416002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?0cJuQwPQv7eQyna3eyAd5xGOV8OX9dBF/UDA0+VZnoOW9k4+1b1WVFKZZBAs?=
- =?us-ascii?Q?5L97vlXIOHW2w6Q6v6woorpsmux24C2ZwTyg64lr4sqtoNVRFFd8sfKVDpai?=
- =?us-ascii?Q?9ppwS7nirZT8+r64ihjcpKhNbYAmsdrBPfHiUrzwn086GwQRDyJxWhpOekbB?=
- =?us-ascii?Q?5VBHpMvTUNbWRYfFpCsXxYEZ4f9u1azR3NnXRBnr/HU9ghiWznMjbIlCIZqZ?=
- =?us-ascii?Q?9QKRg96JV/rDKGFapt2pRlyW2TXhgAmkGWfPRsu42cIWiLqPAsSjbBA3U+Rx?=
- =?us-ascii?Q?qwMHW/spQW2s+wYZpWyikYAL4PFYJxwaAyo7PzuPQtHhXlBtKo7g+1OzEKjx?=
- =?us-ascii?Q?QZPbTXwBcFZCWV0q94eV7Jx3NKi0TxdbZSCZVzyE/dMHPb8PbOWLm4+igh7l?=
- =?us-ascii?Q?G4gsG5V89sAPS+1N2QKGMNj9XL19LlzpjOxgnnstSlAx016nZe/Xas15aLLs?=
- =?us-ascii?Q?mTXZLbAAIYBZsLQiHqhUgoc92A0YI4fG/qgRTMPgmYuPCNYSfsFtaFIrWAUO?=
- =?us-ascii?Q?Ch8zrY66uELns9GVlHnpvAsc0+aldOJpcGnEurxGXtINkdHBMpFKNwJTxGZg?=
- =?us-ascii?Q?oALiYCeB0nD2c9QDxlcWWoppBbPDmzP4nf0+y1XTuuRHdQYZFTDnPlZdGpCB?=
- =?us-ascii?Q?90q4MsOLM7W5cQdZ+06bI69yiKIlUdr16SqZ2uRWdqFspDzH4rn7E5iKIyoC?=
- =?us-ascii?Q?rvOykR5YahpdEiRkP+bWVPTBqT/A+pgGqJE3qwGVHtZjceLx68Oy1X9l31Fk?=
- =?us-ascii?Q?8k0iAe9l81Hi4XBH45cNMW8RfN/w8KCyaOzwFlHmsGgCDJuciTi3zPgKinJG?=
- =?us-ascii?Q?l05wDvjLSSq+MrQdI+eqfLLxKFOr9X3swItEOONzllZx+nV8l6JaWAOyBXCL?=
- =?us-ascii?Q?U34IJRd+mVGJw9vW1GTJefVTc8SClX9Bsusaj8hj8cMLATt8lxI8bTcBQut+?=
- =?us-ascii?Q?VqHsxxE1FvxCz1JT/AUJ0rqY8I2d0BeuN/3Fk9jIa+KJnsMCUfc6R0bdg+71?=
- =?us-ascii?Q?Ys7MK37Mmv9DURojdZcsUbWZ9fwWYeSiyCTryXAuH3Eslpm+aiqpJhSYkbMJ?=
- =?us-ascii?Q?tiso/SORPA+S5GQguchW0ZD59IHzp5nupwmA8g+m1ZAIb/H+FnlDnvGvIK+M?=
- =?us-ascii?Q?iwXJLhjuKc+6syH5x2Dg3Voo4EBKn3kjLgwPxPF/6Vac249EuRB/DlIfARMs?=
- =?us-ascii?Q?owwxCMugffSOSE8kpMYeYOTeJ4TMcs+zHWOEnODzHHmfnI2GuRGtP+VCVbDl?=
- =?us-ascii?Q?G9qJR57Cotmi1JTRHz6Md9TFanQD65JwIxEQY2djsTFPMm357hOpRRSk8gDB?=
- =?us-ascii?Q?HU+kJl4fUwnetDT3TImxp9+S?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?+cgggIqFexUQjphcYTBo5BR5V19XAWsGVe4OE0SREx1sNOlMNDff8k69XGkl?=
+ =?us-ascii?Q?9t2jM+FWnZLOIJXS8eUJ7iu/x74NGsnX5JH7UOTRihWz9HcpRH48ptCGLCgB?=
+ =?us-ascii?Q?X0aTDACJI7MNsa8HYrnsBD86g+MoSoaW7SmXah5jrtO/pu5897oxXB4kQYlP?=
+ =?us-ascii?Q?3rbcnbkrbUPmejOIHgsw9obW4zd1oEoI6tNTo85bxO1LW4sv7YKz5sPQYpDO?=
+ =?us-ascii?Q?3s/T815mZeoIT89lx64pTwgzOMqUQ2kLj7S3fYSXRWn5Buv3m2lY9XHtmY3F?=
+ =?us-ascii?Q?+m2iItyt742E4c9oKUcGNILK/vgFWDeFYwhFhtXJNGGsb0RlsLzkuuHBOWKi?=
+ =?us-ascii?Q?O1b8bxGXYrWJzRtRIhfLX5wQJSFyLVDvTUt/H2nkUvXjXiEfDn71w5GovcR6?=
+ =?us-ascii?Q?EOzvzEroOL69LvFLOW5mEcox6kUn3nkM58gQUaraOxBvpRvgCr/isAmf5ePC?=
+ =?us-ascii?Q?s0qVF754GQ7SvaMChquyODsd+of5dSdk4Y5p4rJbyjg+gl8vQGAeTg68dmbp?=
+ =?us-ascii?Q?pX3JOUVnWc0SxB997Z/b1eFmb5WsKkwnhAKv8npqf98BrdS3ysvOFow1Vx83?=
+ =?us-ascii?Q?0Mv8JjmFwLpbnGcpOTkmZiTtvLvS/Vv8Ij4/cGh528gQmndN1bzNt1PdxZMU?=
+ =?us-ascii?Q?oc5ApT1k9eC2TtlNlXypy6IN6/KEvoKX+dGGHIztjFN1gPExu0WsQ53/01qx?=
+ =?us-ascii?Q?mM52KqujWBpUQFoZ7Kjotn5CtMAEXu61xM2tR29HptHZF21akP2YM5rrtYuR?=
+ =?us-ascii?Q?MbFU/+XJciYv1g5akPRIrTbLDOZiRHJizQatYwVwLmwx6aXVxVSL992OXvVF?=
+ =?us-ascii?Q?m9zAUE6C1FL9D+kjRk1ra+jyUV9+Yzgn8kg+oyuX3K1CCT0joLgU3aO+sjdH?=
+ =?us-ascii?Q?WoFbB7po/qEbo0fDqIIDEnaH0XtF4J7TtkapcnVZF0zxfVi6juUmiE/k2jkG?=
+ =?us-ascii?Q?dTphcWb56RgDkk8Ail8lzyjbzcse7U0CibWj4xvytxQbjoxcbbtgUy5b51lM?=
+ =?us-ascii?Q?OUoDY0D7Wof8g9BvaX5BJgYmwngjGFjUdblhP+xLI3r2WQnapXKxipLP8dxX?=
+ =?us-ascii?Q?Z6qTL7zjj+YO2EJVEw9Zi2pBuWQHzW8hZmm5LYukumyUr88udy08D+NxMoEt?=
+ =?us-ascii?Q?q/3qZs/AlG6ViLvpiABWs+VnP9dHot5otmyrYAetHmE3kR0tROsLKwm2imXh?=
+ =?us-ascii?Q?pPJQMb/PDYb5I9eA7e03SFbj7WjiKOK/UCbLP20zLB31JQt782mSZiGorB39?=
+ =?us-ascii?Q?dUYGOrFEKUrjnP0RY/vDklctnEqt60bB1NrdtgawbwF5l9S5sHFCQiBGn0rS?=
+ =?us-ascii?Q?zcJYogotW/yM3XW5//TMvfc5?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 898da913-6cbe-43ab-88b9-08d8e8f8cacb
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18aff6ca-a6c9-4d3e-f45e-08d8e8f8cea8
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2021 03:57:32.8732 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2021 03:57:39.2216 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1v4j4WJk/mX8XaioP7Oh02xjMUMKEuzeLNTMjE4jmeVmcCVClSN0wIg1WM2HrkreqqtHkF4FneD6+r2MyP70PA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6141
+X-MS-Exchange-CrossTenant-UserPrincipalName: +R/Ko+sXzkB2JWSRzc1zNqVF3O6Sk68GOpdBbJQvaRXaGdtK4o6vgg3hlhi4JyB8G3ubmIy9+LKAJNB4gSxOEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6991
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,15 +128,14 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds a drm bridge driver for i.MX8qxp LVDS display bridge(LDB)
+This patch adds a drm bridge driver for i.MX8qm LVDS display bridge(LDB)
 which is officially named as pixel mapper.  The LDB has two channels.
-Each of them supports up to 24bpp parallel input color format and can map
-the input to VESA or JEIDA standards.  The two channels cannot be used
-simultaneously, that is to say, the user should pick one of them to use.
-Two LDB channels from two LDB instances can work together in LDB split
-mode to support a dual link LVDS display.  The channel indexes have to be
-different.  Channel0 outputs odd pixels and channel1 outputs even pixels.
-This patch supports the LDB single mode and split mode.
+Each of them supports up to 30bpp parallel input color format and can
+map the input to VESA or JEIDA standards.  The two channels can be used
+simultaneously, either in dual mode or split mode.  In dual mode, the
+two channels output identical data.  In split mode, channel0 outputs
+odd pixels and channel1 outputs even pixels.  This patch supports the
+LDB single mode and split mode.
 
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
@@ -150,7 +149,7 @@ v5->v6:
 
 v4->v5:
 * Link with the imx-ldb-helper object. (Robert)
-* Correspondingly, rename 'imx8qxp-ldb.c' to 'imx8qxp-ldb-drv.c'.
+* Correspondingly, rename 'imx8qm-ldb.c' to 'imx8qm-ldb-drv.c'.
 
 v3->v4:
 * No change.
@@ -159,54 +158,50 @@ v2->v3:
 * No change.
 
 v1->v2:
-* Drop unnecessary DT validation.
-* Use of_graph_get_endpoint_by_regs() and of_graph_get_remote_endpoint() to
-  get the input remote endpoint in imx8qxp_ldb_set_di_id().
-* Avoid using companion_port OF node after putting it in
-  imx8qxp_ldb_parse_dt_companion().
-* Mention i.MX8qxp LDB official name 'pixel mapper' in the bridge driver
+* Drop unnecessary check for maximum available LDB channels.
+* Mention i.MX8qm LDB official name 'pixel mapper' in the bridge driver
   and Kconfig help message.
 
- drivers/gpu/drm/bridge/imx/Kconfig           |   9 +
- drivers/gpu/drm/bridge/imx/Makefile          |   3 +
- drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c | 720 +++++++++++++++++++++++++++
- 3 files changed, 732 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c
+ drivers/gpu/drm/bridge/imx/Kconfig          |   9 +
+ drivers/gpu/drm/bridge/imx/Makefile         |   3 +
+ drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c | 586 ++++++++++++++++++++++++++++
+ 3 files changed, 598 insertions(+)
+ create mode 100644 drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c
 
 diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-index 1ea1ce7..94f8db4d 100644
+index 94f8db4d..3a8683f 100644
 --- a/drivers/gpu/drm/bridge/imx/Kconfig
 +++ b/drivers/gpu/drm/bridge/imx/Kconfig
 @@ -1,3 +1,12 @@
-+config DRM_IMX8QXP_LDB
-+	tristate "Freescale i.MX8QXP LVDS display bridge"
++config DRM_IMX8QM_LDB
++	tristate "Freescale i.MX8QM LVDS display bridge"
 +	depends on OF
 +	depends on COMMON_CLK
 +	select DRM_KMS_HELPER
 +	help
 +	  Choose this to enable the internal LVDS Display Bridge(LDB) found in
-+	  Freescale i.MX8qxp processor.  Official name of LDB is pixel mapper.
++	  Freescale i.MX8qm processor.  Official name of LDB is pixel mapper.
 +
- config DRM_IMX8QXP_PIXEL_COMBINER
- 	tristate "Freescale i.MX8QM/QXP pixel combiner"
+ config DRM_IMX8QXP_LDB
+ 	tristate "Freescale i.MX8QXP LVDS display bridge"
  	depends on OF
 diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
-index e74dd64..96d5d1e 100644
+index 96d5d1e..aa90ec8 100644
 --- a/drivers/gpu/drm/bridge/imx/Makefile
 +++ b/drivers/gpu/drm/bridge/imx/Makefile
 @@ -1,3 +1,6 @@
-+imx8qxp-ldb-objs := imx-ldb-helper.o imx8qxp-ldb-drv.o
-+obj-$(CONFIG_DRM_IMX8QXP_LDB) += imx8qxp-ldb.o
++imx8qm-ldb-objs := imx-ldb-helper.o imx8qm-ldb-drv.o
++obj-$(CONFIG_DRM_IMX8QM_LDB) += imx8qm-ldb.o
 +
- obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
- obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) += imx8qxp-pixel-link.o
- obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI) += imx8qxp-pxl2dpi.o
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c
+ imx8qxp-ldb-objs := imx-ldb-helper.o imx8qxp-ldb-drv.o
+ obj-$(CONFIG_DRM_IMX8QXP_LDB) += imx8qxp-ldb.o
+ 
+diff --git a/drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c b/drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c
 new file mode 100644
-index 00000000..d7f59c1
+index 00000000..6c92636
 --- /dev/null
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c
-@@ -0,0 +1,720 @@
++++ b/drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c
+@@ -0,0 +1,586 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +
 +/*
@@ -232,70 +227,67 @@ index 00000000..d7f59c1
 +
 +#include "imx-ldb-helper.h"
 +
-+#define  LDB_CH_SEL		(1 << 28)
++#define  LDB_CH0_10BIT_EN		(1 << 22)
++#define  LDB_CH1_10BIT_EN		(1 << 23)
++#define  LDB_CH0_DATA_WIDTH_24BIT	(1 << 24)
++#define  LDB_CH1_DATA_WIDTH_24BIT	(1 << 26)
++#define  LDB_CH0_DATA_WIDTH_30BIT	(2 << 24)
++#define  LDB_CH1_DATA_WIDTH_30BIT	(2 << 26)
 +
-+#define SS_CTRL			0x20
-+#define  CH_HSYNC_M(id)		BIT(0 + ((id) * 2))
-+#define  CH_VSYNC_M(id)		BIT(1 + ((id) * 2))
-+#define  CH_PHSYNC(id)		BIT(0 + ((id) * 2))
-+#define  CH_PVSYNC(id)		BIT(1 + ((id) * 2))
++#define SS_CTRL				0x20
++#define  CH_HSYNC_M(id)			BIT(0 + ((id) * 2))
++#define  CH_VSYNC_M(id)			BIT(1 + ((id) * 2))
++#define  CH_PHSYNC(id)			BIT(0 + ((id) * 2))
++#define  CH_PVSYNC(id)			BIT(1 + ((id) * 2))
 +
-+#define DRIVER_NAME		"imx8qxp-ldb"
++#define DRIVER_NAME			"imx8qm-ldb"
 +
-+struct imx8qxp_ldb_channel {
++struct imx8qm_ldb_channel {
 +	struct ldb_channel base;
 +	struct phy *phy;
-+	unsigned int di_id;
 +};
 +
-+struct imx8qxp_ldb {
++struct imx8qm_ldb {
 +	struct ldb base;
 +	struct device *dev;
-+	struct imx8qxp_ldb_channel channel[MAX_LDB_CHAN_NUM];
++	struct imx8qm_ldb_channel channel[MAX_LDB_CHAN_NUM];
 +	struct clk *clk_pixel;
 +	struct clk *clk_bypass;
-+	struct drm_bridge *companion;
 +	int active_chno;
 +};
 +
-+static inline struct imx8qxp_ldb_channel *
-+base_to_imx8qxp_ldb_channel(struct ldb_channel *base)
++static inline struct imx8qm_ldb_channel *
++base_to_imx8qm_ldb_channel(struct ldb_channel *base)
 +{
-+	return container_of(base, struct imx8qxp_ldb_channel, base);
++	return container_of(base, struct imx8qm_ldb_channel, base);
 +}
 +
-+static inline struct imx8qxp_ldb *base_to_imx8qxp_ldb(struct ldb *base)
++static inline struct imx8qm_ldb *base_to_imx8qm_ldb(struct ldb *base)
 +{
-+	return container_of(base, struct imx8qxp_ldb, base);
++	return container_of(base, struct imx8qm_ldb, base);
 +}
 +
-+static void imx8qxp_ldb_set_phy_cfg(struct imx8qxp_ldb *imx8qxp_ldb,
-+				    unsigned long di_clk, bool is_split,
-+				    struct phy_configure_opts_lvds *phy_cfg)
++static void imx8qm_ldb_set_phy_cfg(struct imx8qm_ldb *imx8qm_ldb,
++				   unsigned long di_clk,
++				   bool is_split, bool is_slave,
++				   struct phy_configure_opts_lvds *phy_cfg)
 +{
 +	phy_cfg->bits_per_lane_and_dclk_cycle = 7;
 +	phy_cfg->lanes = 4;
-+
-+	if (is_split) {
-+		phy_cfg->differential_clk_rate = di_clk / 2;
-+		phy_cfg->is_slave = !imx8qxp_ldb->companion;
-+	} else {
-+		phy_cfg->differential_clk_rate = di_clk;
-+		phy_cfg->is_slave = false;
-+	}
++	phy_cfg->differential_clk_rate = is_split ? di_clk / 2 : di_clk;
++	phy_cfg->is_slave = is_slave;
 +}
 +
-+static int imx8qxp_ldb_bridge_atomic_check(struct drm_bridge *bridge,
-+				   struct drm_bridge_state *bridge_state,
-+				   struct drm_crtc_state *crtc_state,
-+				   struct drm_connector_state *conn_state)
++static int imx8qm_ldb_bridge_atomic_check(struct drm_bridge *bridge,
++					  struct drm_bridge_state *bridge_state,
++					  struct drm_crtc_state *crtc_state,
++					  struct drm_connector_state *conn_state)
 +{
 +	struct ldb_channel *ldb_ch = bridge->driver_private;
 +	struct ldb *ldb = ldb_ch->ldb;
-+	struct imx8qxp_ldb_channel *imx8qxp_ldb_ch =
-+					base_to_imx8qxp_ldb_channel(ldb_ch);
-+	struct imx8qxp_ldb *imx8qxp_ldb = base_to_imx8qxp_ldb(ldb);
-+	struct drm_bridge *companion = imx8qxp_ldb->companion;
++	struct imx8qm_ldb_channel *imx8qm_ldb_ch =
++					base_to_imx8qm_ldb_channel(ldb_ch);
++	struct imx8qm_ldb *imx8qm_ldb = base_to_imx8qm_ldb(ldb);
 +	struct drm_display_mode *adj = &crtc_state->adjusted_mode;
 +	unsigned long di_clk = adj->clock * 1000;
 +	bool is_split = ldb_channel_is_split_link(ldb_ch);
@@ -308,37 +300,41 @@ index 00000000..d7f59c1
 +	if (ret)
 +		return ret;
 +
-+	imx8qxp_ldb_set_phy_cfg(imx8qxp_ldb, di_clk, is_split, phy_cfg);
-+	ret = phy_validate(imx8qxp_ldb_ch->phy, PHY_MODE_LVDS, 0, &opts);
++	imx8qm_ldb_set_phy_cfg(imx8qm_ldb, di_clk, is_split, false, phy_cfg);
++	ret = phy_validate(imx8qm_ldb_ch->phy, PHY_MODE_LVDS, 0, &opts);
 +	if (ret < 0) {
-+		DRM_DEV_DEBUG_DRIVER(imx8qxp_ldb->dev,
++		DRM_DEV_DEBUG_DRIVER(imx8qm_ldb->dev,
 +				     "failed to validate PHY: %d\n", ret);
 +		return ret;
 +	}
 +
-+	if (is_split && companion) {
-+		ret = companion->funcs->atomic_check(companion,
-+					bridge_state, crtc_state, conn_state);
-+		if (ret)
++	if (is_split) {
++		imx8qm_ldb_ch =
++			&imx8qm_ldb->channel[imx8qm_ldb->active_chno ^ 1];
++		imx8qm_ldb_set_phy_cfg(imx8qm_ldb, di_clk, is_split, true,
++									phy_cfg);
++		ret = phy_validate(imx8qm_ldb_ch->phy, PHY_MODE_LVDS, 0, &opts);
++		if (ret < 0) {
++			DRM_DEV_DEBUG_DRIVER(imx8qm_ldb->dev,
++				"failed to validate slave PHY: %d\n", ret);
 +			return ret;
++		}
 +	}
 +
 +	return ret;
 +}
 +
 +static void
-+imx8qxp_ldb_bridge_mode_set(struct drm_bridge *bridge,
-+			    const struct drm_display_mode *mode,
-+			    const struct drm_display_mode *adjusted_mode)
++imx8qm_ldb_bridge_mode_set(struct drm_bridge *bridge,
++			   const struct drm_display_mode *mode,
++			   const struct drm_display_mode *adjusted_mode)
 +{
 +	struct ldb_channel *ldb_ch = bridge->driver_private;
-+	struct ldb_channel *companion_ldb_ch;
 +	struct ldb *ldb = ldb_ch->ldb;
-+	struct imx8qxp_ldb_channel *imx8qxp_ldb_ch =
-+					base_to_imx8qxp_ldb_channel(ldb_ch);
-+	struct imx8qxp_ldb *imx8qxp_ldb = base_to_imx8qxp_ldb(ldb);
-+	struct drm_bridge *companion = imx8qxp_ldb->companion;
-+	struct device *dev = imx8qxp_ldb->dev;
++	struct imx8qm_ldb_channel *imx8qm_ldb_ch =
++					base_to_imx8qm_ldb_channel(ldb_ch);
++	struct imx8qm_ldb *imx8qm_ldb = base_to_imx8qm_ldb(ldb);
++	struct device *dev = imx8qm_ldb->dev;
 +	unsigned long di_clk = adjusted_mode->clock * 1000;
 +	bool is_split = ldb_channel_is_split_link(ldb_ch);
 +	union phy_configure_opts opts = { };
@@ -350,46 +346,46 @@ index 00000000..d7f59c1
 +	if (ret < 0)
 +		DRM_DEV_ERROR(dev, "failed to get runtime PM sync: %d\n", ret);
 +
-+	ret = phy_init(imx8qxp_ldb_ch->phy);
++	ret = phy_init(imx8qm_ldb_ch->phy);
 +	if (ret < 0)
 +		DRM_DEV_ERROR(dev, "failed to initialize PHY: %d\n", ret);
 +
-+	ret = phy_set_mode(imx8qxp_ldb_ch->phy, PHY_MODE_LVDS);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(dev, "failed to set PHY mode: %d\n", ret);
++	clk_set_rate(imx8qm_ldb->clk_bypass, di_clk);
++	clk_set_rate(imx8qm_ldb->clk_pixel, di_clk);
 +
-+	if (is_split && companion) {
-+		companion_ldb_ch = bridge_to_ldb_ch(companion);
-+
-+		companion_ldb_ch->in_bus_format = ldb_ch->in_bus_format;
-+		companion_ldb_ch->out_bus_format = ldb_ch->out_bus_format;
-+	}
-+
-+	clk_set_rate(imx8qxp_ldb->clk_bypass, di_clk);
-+	clk_set_rate(imx8qxp_ldb->clk_pixel, di_clk);
-+
-+	imx8qxp_ldb_set_phy_cfg(imx8qxp_ldb, di_clk, is_split, phy_cfg);
-+	ret = phy_configure(imx8qxp_ldb_ch->phy, &opts);
++	imx8qm_ldb_set_phy_cfg(imx8qm_ldb, di_clk, is_split, false, phy_cfg);
++	ret = phy_configure(imx8qm_ldb_ch->phy, &opts);
 +	if (ret < 0)
 +		DRM_DEV_ERROR(dev, "failed to configure PHY: %d\n", ret);
 +
-+	if (chno == 0)
-+		ldb->ldb_ctrl &= ~LDB_CH_SEL;
-+	else
-+		ldb->ldb_ctrl |= LDB_CH_SEL;
++	if (is_split) {
++		imx8qm_ldb_ch =
++			&imx8qm_ldb->channel[imx8qm_ldb->active_chno ^ 1];
++		imx8qm_ldb_set_phy_cfg(imx8qm_ldb, di_clk, is_split, true,
++									phy_cfg);
++		ret = phy_configure(imx8qm_ldb_ch->phy, &opts);
++		if (ret < 0)
++			DRM_DEV_ERROR(dev, "failed to configure slave PHY: %d\n",
++									ret);
++	}
 +
 +	/* input VSYNC signal from pixel link is active low */
-+	if (imx8qxp_ldb_ch->di_id == 0)
++	if (ldb_ch->chno == 0 || is_split)
 +		ldb->ldb_ctrl |= LDB_DI0_VS_POL_ACT_LOW;
-+	else
++	if (ldb_ch->chno == 1 || is_split)
 +		ldb->ldb_ctrl |= LDB_DI1_VS_POL_ACT_LOW;
 +
-+	/*
-+	 * For split mode, settle input VSYNC signal polarity and
-+	 * channel selection down early.
-+	 */
-+	if (is_split)
-+		regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
++	switch (ldb_ch->out_bus_format) {
++	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
++		break;
++	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
++	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
++		if (ldb_ch->chno == 0 || is_split)
++			ldb->ldb_ctrl |= LDB_CH0_DATA_WIDTH_24BIT;
++		if (ldb_ch->chno == 1 || is_split)
++			ldb->ldb_ctrl |= LDB_CH1_DATA_WIDTH_24BIT;
++		break;
++	}
 +
 +	ldb_bridge_mode_set_helper(bridge, mode, adjusted_mode);
 +
@@ -404,111 +400,108 @@ index 00000000..d7f59c1
 +	else if (adjusted_mode->flags & DRM_MODE_FLAG_PHSYNC)
 +		regmap_update_bits(ldb->regmap, SS_CTRL,
 +				   CH_HSYNC_M(chno), CH_PHSYNC(chno));
-+
-+	if (is_split && companion)
-+		companion->funcs->mode_set(companion, mode, adjusted_mode);
 +}
 +
 +static void
-+imx8qxp_ldb_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-+				     struct drm_bridge_state *old_bridge_state)
++imx8qm_ldb_bridge_atomic_enable(struct drm_bridge *bridge,
++				struct drm_bridge_state *old_bridge_state)
 +{
 +	struct ldb_channel *ldb_ch = bridge->driver_private;
 +	struct ldb *ldb = ldb_ch->ldb;
-+	struct imx8qxp_ldb *imx8qxp_ldb = base_to_imx8qxp_ldb(ldb);
-+	struct drm_bridge *companion = imx8qxp_ldb->companion;
++	struct imx8qm_ldb_channel *imx8qm_ldb_ch =
++					base_to_imx8qm_ldb_channel(ldb_ch);
++	struct imx8qm_ldb *imx8qm_ldb = base_to_imx8qm_ldb(ldb);
++	struct device *dev = imx8qm_ldb->dev;
 +	bool is_split = ldb_channel_is_split_link(ldb_ch);
++	int ret;
 +
-+	clk_prepare_enable(imx8qxp_ldb->clk_pixel);
-+	clk_prepare_enable(imx8qxp_ldb->clk_bypass);
++	clk_prepare_enable(imx8qm_ldb->clk_pixel);
++	clk_prepare_enable(imx8qm_ldb->clk_bypass);
 +
-+	if (is_split && companion)
-+		companion->funcs->atomic_pre_enable(companion, old_bridge_state);
++	/* both DI0 and DI1 connect with pixel link, so ok to use DI0 only */
++	if (ldb_ch->chno == 0 || is_split) {
++		ldb->ldb_ctrl &= ~LDB_CH0_MODE_EN_MASK;
++		ldb->ldb_ctrl |= LDB_CH0_MODE_EN_TO_DI0;
++	}
++	if (ldb_ch->chno == 1 || is_split) {
++		ldb->ldb_ctrl &= ~LDB_CH1_MODE_EN_MASK;
++		ldb->ldb_ctrl |= LDB_CH1_MODE_EN_TO_DI0;
++	}
++
++	if (is_split) {
++		ret = phy_power_on(imx8qm_ldb->channel[0].phy);
++		if (ret)
++			DRM_DEV_ERROR(dev,
++				      "failed to power on channel0 PHY: %d\n",
++				      ret);
++
++		ret = phy_power_on(imx8qm_ldb->channel[1].phy);
++		if (ret)
++			DRM_DEV_ERROR(dev,
++				      "failed to power on channel1 PHY: %d\n",
++				      ret);
++	} else {
++		ret = phy_power_on(imx8qm_ldb_ch->phy);
++		if (ret)
++			DRM_DEV_ERROR(dev, "failed to power on PHY: %d\n", ret);
++	}
++
++	ldb_bridge_enable_helper(bridge);
 +}
 +
 +static void
-+imx8qxp_ldb_bridge_atomic_enable(struct drm_bridge *bridge,
++imx8qm_ldb_bridge_atomic_disable(struct drm_bridge *bridge,
 +				 struct drm_bridge_state *old_bridge_state)
 +{
 +	struct ldb_channel *ldb_ch = bridge->driver_private;
 +	struct ldb *ldb = ldb_ch->ldb;
-+	struct imx8qxp_ldb_channel *imx8qxp_ldb_ch =
-+					base_to_imx8qxp_ldb_channel(ldb_ch);
-+	struct imx8qxp_ldb *imx8qxp_ldb = base_to_imx8qxp_ldb(ldb);
-+	struct drm_bridge *companion = imx8qxp_ldb->companion;
-+	struct device *dev = imx8qxp_ldb->dev;
++	struct imx8qm_ldb_channel *imx8qm_ldb_ch =
++					base_to_imx8qm_ldb_channel(ldb_ch);
++	struct imx8qm_ldb *imx8qm_ldb = base_to_imx8qm_ldb(ldb);
++	struct device *dev = imx8qm_ldb->dev;
 +	bool is_split = ldb_channel_is_split_link(ldb_ch);
 +	int ret;
-+
-+	if (ldb_ch->chno == 0 || is_split) {
-+		ldb->ldb_ctrl &= ~LDB_CH0_MODE_EN_MASK;
-+		ldb->ldb_ctrl |= imx8qxp_ldb_ch->di_id == 0 ?
-+				LDB_CH0_MODE_EN_TO_DI0 : LDB_CH0_MODE_EN_TO_DI1;
-+	}
-+	if (ldb_ch->chno == 1 || is_split) {
-+		ldb->ldb_ctrl &= ~LDB_CH1_MODE_EN_MASK;
-+		ldb->ldb_ctrl |= imx8qxp_ldb_ch->di_id == 0 ?
-+				LDB_CH1_MODE_EN_TO_DI0 : LDB_CH1_MODE_EN_TO_DI1;
-+	}
-+
-+	ldb_bridge_enable_helper(bridge);
-+
-+	ret = phy_power_on(imx8qxp_ldb_ch->phy);
-+	if (ret)
-+		DRM_DEV_ERROR(dev, "failed to power on PHY: %d\n", ret);
-+
-+	if (is_split && companion)
-+		companion->funcs->atomic_enable(companion, old_bridge_state);
-+}
-+
-+static void
-+imx8qxp_ldb_bridge_atomic_disable(struct drm_bridge *bridge,
-+				  struct drm_bridge_state *old_bridge_state)
-+{
-+	struct ldb_channel *ldb_ch = bridge->driver_private;
-+	struct ldb *ldb = ldb_ch->ldb;
-+	struct imx8qxp_ldb_channel *imx8qxp_ldb_ch =
-+					base_to_imx8qxp_ldb_channel(ldb_ch);
-+	struct imx8qxp_ldb *imx8qxp_ldb = base_to_imx8qxp_ldb(ldb);
-+	struct drm_bridge *companion = imx8qxp_ldb->companion;
-+	struct device *dev = imx8qxp_ldb->dev;
-+	bool is_split = ldb_channel_is_split_link(ldb_ch);
-+	int ret;
-+
-+	ret = phy_power_off(imx8qxp_ldb_ch->phy);
-+	if (ret)
-+		DRM_DEV_ERROR(dev, "failed to power off PHY: %d\n", ret);
-+
-+	ret = phy_exit(imx8qxp_ldb_ch->phy);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(dev, "failed to teardown PHY: %d\n", ret);
 +
 +	ldb_bridge_disable_helper(bridge);
 +
-+	clk_disable_unprepare(imx8qxp_ldb->clk_bypass);
-+	clk_disable_unprepare(imx8qxp_ldb->clk_pixel);
++	if (is_split) {
++		ret = phy_power_off(imx8qm_ldb->channel[0].phy);
++		if (ret)
++			DRM_DEV_ERROR(dev,
++				      "failed to power off channel0 PHY: %d\n",
++				      ret);
++		ret = phy_power_off(imx8qm_ldb->channel[1].phy);
++		if (ret)
++			DRM_DEV_ERROR(dev,
++				      "failed to power off channel1 PHY: %d\n",
++				      ret);
++	} else {
++		ret = phy_power_off(imx8qm_ldb_ch->phy);
++		if (ret)
++			DRM_DEV_ERROR(dev, "failed to power off PHY: %d\n", ret);
++	}
 +
-+	if (is_split && companion)
-+		companion->funcs->atomic_disable(companion, old_bridge_state);
++	clk_disable_unprepare(imx8qm_ldb->clk_bypass);
++	clk_disable_unprepare(imx8qm_ldb->clk_pixel);
 +
 +	ret = pm_runtime_put(dev);
 +	if (ret < 0)
 +		DRM_DEV_ERROR(dev, "failed to put runtime PM: %d\n", ret);
 +}
 +
-+static const u32 imx8qxp_ldb_bus_output_fmts[] = {
++static const u32 imx8qm_ldb_bus_output_fmts[] = {
 +	MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
 +	MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
 +	MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
 +	MEDIA_BUS_FMT_FIXED,
 +};
 +
-+static bool imx8qxp_ldb_bus_output_fmt_supported(u32 fmt)
++static bool imx8qm_ldb_bus_output_fmt_supported(u32 fmt)
 +{
 +	int i;
 +
-+	for (i = 0; i < ARRAY_SIZE(imx8qxp_ldb_bus_output_fmts); i++) {
-+		if (imx8qxp_ldb_bus_output_fmts[i] == fmt)
++	for (i = 0; i < ARRAY_SIZE(imx8qm_ldb_bus_output_fmts); i++) {
++		if (imx8qm_ldb_bus_output_fmts[i] == fmt)
 +			return true;
 +	}
 +
@@ -516,7 +509,7 @@ index 00000000..d7f59c1
 +}
 +
 +static u32 *
-+imx8qxp_ldb_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
++imx8qm_ldb_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
 +					struct drm_bridge_state *bridge_state,
 +					struct drm_crtc_state *crtc_state,
 +					struct drm_connector_state *conn_state,
@@ -527,7 +520,7 @@ index 00000000..d7f59c1
 +	const struct drm_format_info *finfo;
 +	u32 *input_fmts;
 +
-+	if (!imx8qxp_ldb_bus_output_fmt_supported(output_fmt))
++	if (!imx8qm_ldb_bus_output_fmt_supported(output_fmt))
 +		return NULL;
 +
 +	*num_input_fmts = 1;
@@ -542,24 +535,24 @@ index 00000000..d7f59c1
 +
 +		/*
 +		 * Look at the first bus format to determine input format.
-+		 * Default to MEDIA_BUS_FMT_RGB888_1X24, if no match.
++		 * Default to MEDIA_BUS_FMT_RGB888_1X36_CPADLO, if no match.
 +		 */
 +		if (di->num_bus_formats) {
 +			finfo = drm_format_info(di->bus_formats[0]);
 +
 +			input_fmts[0] = finfo->depth == 18 ?
-+					MEDIA_BUS_FMT_RGB666_1X24_CPADHI :
-+					MEDIA_BUS_FMT_RGB888_1X24;
++					MEDIA_BUS_FMT_RGB666_1X36_CPADLO :
++					MEDIA_BUS_FMT_RGB888_1X36_CPADLO;
 +		} else {
-+			input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
++			input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X36_CPADLO;
 +		}
 +		break;
 +	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-+		input_fmts[0] = MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
++		input_fmts[0] = MEDIA_BUS_FMT_RGB666_1X36_CPADLO;
 +		break;
 +	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
 +	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-+		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
++		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X36_CPADLO;
 +		break;
 +	default:
 +		kfree(input_fmts);
@@ -571,26 +564,26 @@ index 00000000..d7f59c1
 +}
 +
 +static u32 *
-+imx8qxp_ldb_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
++imx8qm_ldb_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
 +					struct drm_bridge_state *bridge_state,
 +					struct drm_crtc_state *crtc_state,
 +					struct drm_connector_state *conn_state,
 +					unsigned int *num_output_fmts)
 +{
-+	*num_output_fmts = ARRAY_SIZE(imx8qxp_ldb_bus_output_fmts);
-+	return kmemdup(imx8qxp_ldb_bus_output_fmts,
-+			sizeof(imx8qxp_ldb_bus_output_fmts), GFP_KERNEL);
++	*num_output_fmts = ARRAY_SIZE(imx8qm_ldb_bus_output_fmts);
++	return kmemdup(imx8qm_ldb_bus_output_fmts,
++			sizeof(imx8qm_ldb_bus_output_fmts), GFP_KERNEL);
 +}
 +
 +static enum drm_mode_status
-+imx8qxp_ldb_bridge_mode_valid(struct drm_bridge *bridge,
-+			      const struct drm_display_info *info,
-+			      const struct drm_display_mode *mode)
++imx8qm_ldb_bridge_mode_valid(struct drm_bridge *bridge,
++			     const struct drm_display_info *info,
++			     const struct drm_display_mode *mode)
 +{
 +	struct ldb_channel *ldb_ch = bridge->driver_private;
 +	bool is_single = ldb_channel_is_single_link(ldb_ch);
 +
-+	if (mode->clock > 170000)
++	if (mode->clock > 300000)
 +		return MODE_CLOCK_HIGH;
 +
 +	if (mode->clock > 150000 && is_single)
@@ -599,227 +592,92 @@ index 00000000..d7f59c1
 +	return MODE_OK;
 +}
 +
-+static const struct drm_bridge_funcs imx8qxp_ldb_bridge_funcs = {
++static const struct drm_bridge_funcs imx8qm_ldb_bridge_funcs = {
 +	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
 +	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
 +	.atomic_reset		= drm_atomic_helper_bridge_reset,
-+	.mode_valid		= imx8qxp_ldb_bridge_mode_valid,
++	.mode_valid		= imx8qm_ldb_bridge_mode_valid,
 +	.attach			= ldb_bridge_attach_helper,
-+	.atomic_check		= imx8qxp_ldb_bridge_atomic_check,
-+	.mode_set		= imx8qxp_ldb_bridge_mode_set,
-+	.atomic_pre_enable	= imx8qxp_ldb_bridge_atomic_pre_enable,
-+	.atomic_enable		= imx8qxp_ldb_bridge_atomic_enable,
-+	.atomic_disable		= imx8qxp_ldb_bridge_atomic_disable,
++	.atomic_check		= imx8qm_ldb_bridge_atomic_check,
++	.mode_set		= imx8qm_ldb_bridge_mode_set,
++	.atomic_enable		= imx8qm_ldb_bridge_atomic_enable,
++	.atomic_disable		= imx8qm_ldb_bridge_atomic_disable,
 +	.atomic_get_input_bus_fmts =
-+			imx8qxp_ldb_bridge_atomic_get_input_bus_fmts,
++			imx8qm_ldb_bridge_atomic_get_input_bus_fmts,
 +	.atomic_get_output_bus_fmts =
-+			imx8qxp_ldb_bridge_atomic_get_output_bus_fmts,
++			imx8qm_ldb_bridge_atomic_get_output_bus_fmts,
 +};
 +
-+static int imx8qxp_ldb_set_di_id(struct imx8qxp_ldb *imx8qxp_ldb)
++static int imx8qm_ldb_get_phy(struct imx8qm_ldb *imx8qm_ldb)
 +{
-+	struct imx8qxp_ldb_channel *imx8qxp_ldb_ch =
-+			 &imx8qxp_ldb->channel[imx8qxp_ldb->active_chno];
-+	struct ldb_channel *ldb_ch = &imx8qxp_ldb_ch->base;
-+	struct device_node *ep, *remote;
-+	struct device *dev = imx8qxp_ldb->dev;
-+	struct of_endpoint endpoint;
-+	int ret;
++	struct imx8qm_ldb_channel *imx8qm_ldb_ch;
++	struct ldb_channel *ldb_ch;
++	struct device *dev = imx8qm_ldb->dev;
++	int i, ret;
 +
-+	ep = of_graph_get_endpoint_by_regs(ldb_ch->np, 0, -1);
-+	if (!ep) {
-+		DRM_DEV_ERROR(dev, "failed to get port0 endpoint\n");
-+		return -EINVAL;
++	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
++		imx8qm_ldb_ch = &imx8qm_ldb->channel[i];
++		ldb_ch = &imx8qm_ldb_ch->base;
++
++		if (!ldb_ch->is_available)
++			continue;
++
++		imx8qm_ldb_ch->phy = devm_of_phy_get(dev, ldb_ch->np,
++								"lvds_phy");
++		if (IS_ERR(imx8qm_ldb_ch->phy)) {
++			ret = PTR_ERR(imx8qm_ldb_ch->phy);
++			if (ret != -EPROBE_DEFER)
++				DRM_DEV_ERROR(dev,
++					"failed to get channel%d PHY: %d\n",
++								i, ret);
++			return ret;
++		}
 +	}
-+
-+	remote = of_graph_get_remote_endpoint(ep);
-+	of_node_put(ep);
-+	if (!remote) {
-+		DRM_DEV_ERROR(dev, "failed to get port0 remote endpoint\n");
-+		return -EINVAL;
-+	}
-+
-+	ret = of_graph_parse_endpoint(remote, &endpoint);
-+	of_node_put(remote);
-+	if (ret) {
-+		DRM_DEV_ERROR(dev, "failed to parse port0 remote endpoint: %d\n",
-+									ret);
-+		return ret;
-+	}
-+
-+	imx8qxp_ldb_ch->di_id = endpoint.id;
 +
 +	return 0;
 +}
 +
-+static int
-+imx8qxp_ldb_check_chno_and_dual_link(struct ldb_channel *ldb_ch, int link)
-+{
-+	if ((link == DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS && ldb_ch->chno != 0) ||
-+	    (link == DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS && ldb_ch->chno != 1))
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int imx8qxp_ldb_parse_dt_companion(struct imx8qxp_ldb *imx8qxp_ldb)
-+{
-+	struct imx8qxp_ldb_channel *imx8qxp_ldb_ch =
-+			 &imx8qxp_ldb->channel[imx8qxp_ldb->active_chno];
-+	struct ldb_channel *ldb_ch = &imx8qxp_ldb_ch->base;
-+	struct ldb_channel *companion_ldb_ch;
-+	struct device_node *companion;
-+	struct device_node *child;
-+	struct device_node *companion_port = NULL;
-+	struct device_node *port1, *port2;
-+	struct device *dev = imx8qxp_ldb->dev;
-+	const struct of_device_id *match;
-+	u32 i;
-+	int dual_link;
-+	int ret;
-+
-+	/* Locate the companion LDB for dual-link operation, if any. */
-+	companion = of_parse_phandle(dev->of_node, "fsl,companion-ldb", 0);
-+	if (!companion)
-+		return 0;
-+
-+	if (!of_device_is_available(companion)) {
-+		DRM_DEV_ERROR(dev, "companion LDB is not available\n");
-+		ret = -ENODEV;
-+		goto out;
-+	}
-+
-+	/*
-+	 * Sanity check: the companion bridge must have the same compatible
-+	 * string.
-+	 */
-+	match = of_match_device(dev->driver->of_match_table, dev);
-+	if (!of_device_is_compatible(companion, match->compatible)) {
-+		DRM_DEV_ERROR(dev, "companion LDB is incompatible\n");
-+		ret = -ENXIO;
-+		goto out;
-+	}
-+
-+	for_each_available_child_of_node(companion, child) {
-+		ret = of_property_read_u32(child, "reg", &i);
-+		if (ret || i > MAX_LDB_CHAN_NUM - 1) {
-+			DRM_DEV_ERROR(dev,
-+				      "invalid channel node address: %u\n", i);
-+			ret = -EINVAL;
-+			of_node_put(child);
-+			goto out;
-+		}
-+
-+		/*
-+		 * Channel numbers have to be different, because channel0
-+		 * transmits odd pixels and channel1 transmits even pixels.
-+		 */
-+		if (i == (ldb_ch->chno ^ 0x1)) {
-+			companion_port = child;
-+			break;
-+		}
-+	}
-+
-+	if (companion_port == NULL) {
-+		DRM_DEV_ERROR(dev,
-+			      "failed to find companion LDB channel port\n");
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	/*
-+	 * We need to work out if the sink is expecting us to function in
-+	 * dual-link mode.  We do this by looking at the DT port nodes we are
-+	 * connected to.  If they are marked as expecting odd pixels and
-+	 * even pixels than we need to enable LDB split mode.
-+	 */
-+	port1 = of_graph_get_port_by_id(ldb_ch->np, 1);
-+	port2 = of_graph_get_port_by_id(companion_port, 1);
-+	dual_link = drm_of_lvds_get_dual_link_pixel_order(port1, port2);
-+	of_node_put(port1);
-+	of_node_put(port2);
-+
-+	switch (dual_link) {
-+	case DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS:
-+		ldb_ch->link_type = LDB_CH_DUAL_LINK_ODD_EVEN_PIXELS;
-+		break;
-+	case DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS:
-+		ldb_ch->link_type = LDB_CH_DUAL_LINK_EVEN_ODD_PIXELS;
-+		break;
-+	default:
-+		ret = dual_link;
-+		DRM_DEV_ERROR(dev,
-+			      "failed to get dual link pixel order: %d\n", ret);
-+		goto out;
-+	}
-+
-+	ret = imx8qxp_ldb_check_chno_and_dual_link(ldb_ch, dual_link);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(dev,
-+			      "unmatched channel number(%u) vs dual link(%d)\n",
-+							ldb_ch->chno, dual_link);
-+		goto out;
-+	}
-+
-+	imx8qxp_ldb->companion = of_drm_find_bridge(companion_port);
-+	if (!imx8qxp_ldb->companion) {
-+		ret = -EPROBE_DEFER;
-+		DRM_DEV_DEBUG_DRIVER(dev,
-+		       "failed to find bridge for companion bridge: %d\n", ret);
-+		goto out;
-+	}
-+
-+	DRM_DEV_DEBUG_DRIVER(dev,
-+		"dual-link configuration detected (companion bridge %pOF)\n",
-+								companion);
-+
-+	companion_ldb_ch = bridge_to_ldb_ch(imx8qxp_ldb->companion);
-+	companion_ldb_ch->link_type = ldb_ch->link_type;
-+out:
-+	of_node_put(companion_port);
-+	of_node_put(companion);
-+	return ret;
-+}
-+
-+static int imx8qxp_ldb_probe(struct platform_device *pdev)
++static int imx8qm_ldb_probe(struct platform_device *pdev)
 +{
 +	struct device *dev = &pdev->dev;
-+	struct imx8qxp_ldb *imx8qxp_ldb;
-+	struct imx8qxp_ldb_channel *imx8qxp_ldb_ch;
++	struct imx8qm_ldb *imx8qm_ldb;
++	struct imx8qm_ldb_channel *imx8qm_ldb_ch;
 +	struct ldb *ldb;
 +	struct ldb_channel *ldb_ch;
++	struct device_node *port1, *port2;
++	int pixel_order;
 +	int ret, i;
 +
-+	imx8qxp_ldb = devm_kzalloc(dev, sizeof(*imx8qxp_ldb), GFP_KERNEL);
-+	if (!imx8qxp_ldb)
++	imx8qm_ldb = devm_kzalloc(dev, sizeof(*imx8qm_ldb), GFP_KERNEL);
++	if (!imx8qm_ldb)
 +		return -ENOMEM;
 +
-+	imx8qxp_ldb->clk_pixel = devm_clk_get(dev, "pixel");
-+	if (IS_ERR(imx8qxp_ldb->clk_pixel)) {
-+		ret = PTR_ERR(imx8qxp_ldb->clk_pixel);
++	imx8qm_ldb->clk_pixel = devm_clk_get(dev, "pixel");
++	if (IS_ERR(imx8qm_ldb->clk_pixel)) {
++		ret = PTR_ERR(imx8qm_ldb->clk_pixel);
 +		if (ret != -EPROBE_DEFER)
 +			DRM_DEV_ERROR(dev,
 +				      "failed to get pixel clock: %d\n", ret);
 +		return ret;
 +	}
 +
-+	imx8qxp_ldb->clk_bypass = devm_clk_get(dev, "bypass");
-+	if (IS_ERR(imx8qxp_ldb->clk_bypass)) {
-+		ret = PTR_ERR(imx8qxp_ldb->clk_bypass);
++	imx8qm_ldb->clk_bypass = devm_clk_get(dev, "bypass");
++	if (IS_ERR(imx8qm_ldb->clk_bypass)) {
++		ret = PTR_ERR(imx8qm_ldb->clk_bypass);
 +		if (ret != -EPROBE_DEFER)
 +			DRM_DEV_ERROR(dev,
 +				      "failed to get bypass clock: %d\n", ret);
 +		return ret;
 +	}
 +
-+	imx8qxp_ldb->dev = dev;
++	imx8qm_ldb->dev = dev;
 +
-+	ldb = &imx8qxp_ldb->base;
++	ldb = &imx8qm_ldb->base;
 +	ldb->dev = dev;
 +	ldb->ctrl_reg = 0xe0;
 +
 +	for (i = 0; i < MAX_LDB_CHAN_NUM; i++)
-+		ldb->channel[i] = &imx8qxp_ldb->channel[i].base;
++		ldb->channel[i] = &imx8qm_ldb->channel[i].base;
 +
 +	ret = ldb_init_helper(ldb);
 +	if (ret)
@@ -828,55 +686,58 @@ index 00000000..d7f59c1
 +	if (ldb->available_ch_cnt == 0) {
 +		DRM_DEV_DEBUG_DRIVER(dev, "no available channel\n");
 +		return 0;
-+	} else if (ldb->available_ch_cnt > 1) {
-+		DRM_DEV_ERROR(dev, "invalid available channel number(%u)\n",
-+							ldb->available_ch_cnt);
-+		return -ENOTSUPP;
 +	}
 +
-+	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
-+		imx8qxp_ldb_ch = &imx8qxp_ldb->channel[i];
-+		ldb_ch = &imx8qxp_ldb_ch->base;
++	if (ldb->available_ch_cnt == 2) {
++		port1 = of_graph_get_port_by_id(ldb->channel[0]->np, 1);
++		port2 = of_graph_get_port_by_id(ldb->channel[1]->np, 1);
++		pixel_order =
++			drm_of_lvds_get_dual_link_pixel_order(port1, port2);
++		of_node_put(port1);
++		of_node_put(port2);
 +
-+		if (ldb_ch->is_available) {
-+			imx8qxp_ldb->active_chno = ldb_ch->chno;
-+			break;
++		if (pixel_order != DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS) {
++			DRM_DEV_ERROR(dev, "invalid dual link pixel order: %d\n",
++								pixel_order);
++			return -EINVAL;
++		}
++
++		imx8qm_ldb->active_chno = 0;
++		imx8qm_ldb_ch = &imx8qm_ldb->channel[0];
++		ldb_ch = &imx8qm_ldb_ch->base;
++		ldb_ch->link_type = pixel_order;
++	} else {
++		for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
++			imx8qm_ldb_ch = &imx8qm_ldb->channel[i];
++			ldb_ch = &imx8qm_ldb_ch->base;
++
++			if (ldb_ch->is_available) {
++				imx8qm_ldb->active_chno = ldb_ch->chno;
++				break;
++			}
 +		}
 +	}
 +
-+	imx8qxp_ldb_ch->phy = devm_of_phy_get(dev, ldb_ch->np, "lvds_phy");
-+	if (IS_ERR(imx8qxp_ldb_ch->phy)) {
-+		ret = PTR_ERR(imx8qxp_ldb_ch->phy);
-+		if (ret != -EPROBE_DEFER)
-+			DRM_DEV_ERROR(dev, "failed to get channel%d PHY: %d\n",
-+						imx8qxp_ldb->active_chno, ret);
++	ret = imx8qm_ldb_get_phy(imx8qm_ldb);
++	if (ret)
 +		return ret;
-+	}
 +
 +	ret = ldb_find_next_bridge_helper(ldb);
 +	if (ret)
 +		return ret;
 +
-+	ret = imx8qxp_ldb_set_di_id(imx8qxp_ldb);
-+	if (ret)
-+		return ret;
-+
-+	ret = imx8qxp_ldb_parse_dt_companion(imx8qxp_ldb);
-+	if (ret)
-+		return ret;
-+
-+	platform_set_drvdata(pdev, imx8qxp_ldb);
++	platform_set_drvdata(pdev, imx8qm_ldb);
 +	pm_runtime_enable(dev);
 +
-+	ldb_add_bridge_helper(ldb, &imx8qxp_ldb_bridge_funcs);
++	ldb_add_bridge_helper(ldb, &imx8qm_ldb_bridge_funcs);
 +
 +	return ret;
 +}
 +
-+static int imx8qxp_ldb_remove(struct platform_device *pdev)
++static int imx8qm_ldb_remove(struct platform_device *pdev)
 +{
-+	struct imx8qxp_ldb *imx8qxp_ldb = platform_get_drvdata(pdev);
-+	struct ldb *ldb = &imx8qxp_ldb->base;
++	struct imx8qm_ldb *imx8qm_ldb = platform_get_drvdata(pdev);
++	struct ldb *ldb = &imx8qm_ldb->base;
 +
 +	ldb_remove_bridge_helper(ldb);
 +
@@ -885,15 +746,15 @@ index 00000000..d7f59c1
 +	return 0;
 +}
 +
-+static int __maybe_unused imx8qxp_ldb_runtime_suspend(struct device *dev)
++static int __maybe_unused imx8qm_ldb_runtime_suspend(struct device *dev)
 +{
 +	return 0;
 +}
 +
-+static int __maybe_unused imx8qxp_ldb_runtime_resume(struct device *dev)
++static int __maybe_unused imx8qm_ldb_runtime_resume(struct device *dev)
 +{
-+	struct imx8qxp_ldb *imx8qxp_ldb = dev_get_drvdata(dev);
-+	struct ldb *ldb = &imx8qxp_ldb->base;
++	struct imx8qm_ldb *imx8qm_ldb = dev_get_drvdata(dev);
++	struct ldb *ldb = &imx8qm_ldb->base;
 +
 +	/* disable LDB by resetting the control register to POR default */
 +	regmap_write(ldb->regmap, ldb->ctrl_reg, 0);
@@ -901,29 +762,29 @@ index 00000000..d7f59c1
 +	return 0;
 +}
 +
-+static const struct dev_pm_ops imx8qxp_ldb_pm_ops = {
-+	SET_RUNTIME_PM_OPS(imx8qxp_ldb_runtime_suspend,
-+			   imx8qxp_ldb_runtime_resume, NULL)
++static const struct dev_pm_ops imx8qm_ldb_pm_ops = {
++	SET_RUNTIME_PM_OPS(imx8qm_ldb_runtime_suspend,
++			   imx8qm_ldb_runtime_resume, NULL)
 +};
 +
-+static const struct of_device_id imx8qxp_ldb_dt_ids[] = {
-+	{ .compatible = "fsl,imx8qxp-ldb" },
++static const struct of_device_id imx8qm_ldb_dt_ids[] = {
++	{ .compatible = "fsl,imx8qm-ldb" },
 +	{ /* sentinel */ }
 +};
-+MODULE_DEVICE_TABLE(of, imx8qxp_ldb_dt_ids);
++MODULE_DEVICE_TABLE(of, imx8qm_ldb_dt_ids);
 +
-+static struct platform_driver imx8qxp_ldb_driver = {
-+	.probe	= imx8qxp_ldb_probe,
-+	.remove = imx8qxp_ldb_remove,
++static struct platform_driver imx8qm_ldb_driver = {
++	.probe	= imx8qm_ldb_probe,
++	.remove = imx8qm_ldb_remove,
 +	.driver	= {
-+		.pm = &imx8qxp_ldb_pm_ops,
++		.pm = &imx8qm_ldb_pm_ops,
 +		.name = DRIVER_NAME,
-+		.of_match_table = imx8qxp_ldb_dt_ids,
++		.of_match_table = imx8qm_ldb_dt_ids,
 +	},
 +};
-+module_platform_driver(imx8qxp_ldb_driver);
++module_platform_driver(imx8qm_ldb_driver);
 +
-+MODULE_DESCRIPTION("i.MX8QXP LVDS Display Bridge(LDB)/Pixel Mapper bridge driver");
++MODULE_DESCRIPTION("i.MX8QM LVDS Display Bridge(LDB)/Pixel Mapper bridge driver");
 +MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
 +MODULE_LICENSE("GPL v2");
 +MODULE_ALIAS("platform:" DRIVER_NAME);
