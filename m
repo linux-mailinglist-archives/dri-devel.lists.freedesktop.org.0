@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E8E33F414
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 16:44:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4071033F410
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 16:44:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 284236E5C6;
-	Wed, 17 Mar 2021 15:44:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCCE66E598;
+	Wed, 17 Mar 2021 15:44:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB9CB6E7DC
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB19E6E5C6
  for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 15:44:02 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id BB1AE580CE9;
- Wed, 17 Mar 2021 11:44:00 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id E9605580E66;
+ Wed, 17 Mar 2021 11:44:01 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 17 Mar 2021 11:44:00 -0400
+ by compute4.internal (MEProxy); Wed, 17 Mar 2021 11:44:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=a2AhStmxM0xhk
- 9AgsXaC+LW/nNvo7Sdw5nPkPXprYdg=; b=itUFGPR0EQaGLJaoqNxyLb4sG5KM3
- FuuW43yaVQaJbX0N6L5YJMp/nquQjEkkDp4JvmNP3K9RzfZf72kyziYGLQ8A4hux
- P4j5btaykla3+XyPQPOzEiRJgYaeUSV5wUvec1oqVXNknICcLi4/8nVIQJFxtXzQ
- 7eCDrdGkO2kX5MrawSu5d1DjEpujRVXbeYrejdTuAaL4bwiQPc5pY5L3wVZ1O9Ao
- twbctjfW78nKA/Ra4dulQS1SqlT2r7QtB99eBfhN6BbRtSeO7up8H+naeL6fdQtE
- qkT3xa8J+k8Z6BV2utE+49Q8snvz2WHJ92AIH/wzZ7wiJSEANm+F66KOA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=RxWHx4pPwxAQR
+ x8k4ZlKfyiNqaKxA4rQkPy3N5YGr9A=; b=vuUEYhMBl8hBbE24QIfMBzVYebVfN
+ /wy8fcZZFkDDgJPxfayw+VzsT3M7mWOAB8euNH4Hvoqyh0w2gMFB0soS/U7h3rZm
+ 26KhMxpXdX/RqFfmAjf0qdO7XSY6ErUGFdkvzL7wNb7ZWX/aQ8HBMiuF9GveZW6B
+ gDxEvmi7xXpLA5t8KGTRVdTSayKRrB2djgl6Wp6Hvt9PQIT0PdlD9U418/2/NyDc
+ d4qCGdnGhe64oY688IT4hvDKuCH5Ij73/JosrUywu3+zaeSJJGa25kB/DD87YSGx
+ /F968jMAX5dOtm7nUDr6/j4egnd8HlaJUnmCaZHS0hW8L+GWmVqqTkEdw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=a2AhStmxM0xhk9AgsXaC+LW/nNvo7Sdw5nPkPXprYdg=; b=sP4CtAJ2
- akcw3JOq7FlaS18EJ8L9OPiqUlwv4GwVHmaDCIixbkq9hv+X7jp5RWg+zZc1andm
- NBLza0rODpSq8g2S98lO+0Ma3KMDzQlYqj9sQojl8Rxiql6OzauwUvxHU6owlvA3
- fri+UUFMXRTuYwt88zxGtxLBowBjc3ypYtXyfqC72haDkBJOvJS8I1mBzifdUCJe
- BvnxZZm/H4hQf2bvrmcgf6/D2/6F+4dLCNtaIAf/ViwZYEknE6qjbF/k1tpeqPLW
- rdG38dmNJuCnpUGXAuBtzP0YZKOsnlpYrsdmA6aQeUdp96DZjNGnoqmPWLMdwbB0
- Xv9OsNUJG+vR+A==
-X-ME-Sender: <xms:wCNSYKn2q-jC2B8FFDvu9EPw-owLqP9Y6ZGc9kaE1SVApOl4p8LqsA>
- <xme:wCNSYBxdFetActsZXzyJQAT-Fy_LDUi1aTBC7IXxaTZSaM_jo-vHVKTNxUUUZXiRU
- 1qiN4TXXpXT75sviVA>
+ fm2; bh=RxWHx4pPwxAQRx8k4ZlKfyiNqaKxA4rQkPy3N5YGr9A=; b=A8ze/iw4
+ uHxCY0uqk3+Yqyezz/l2HG6pAqg+7Tc4C2HLwnxePzWINYeNz2I1D+VC0sw7n6ky
+ d2bmuIbJIE6wnxIOqHJdvEaiHUp2ZjgkbqgrZUkbCWuwa8fUs9UaASSo8KC+E5s/
+ UjAziz2amBdAO7yImTrT8plw8A0M7fmuzfO2mAo4Hq/Ioc7tb8Cgi1rg9wpx4lhW
+ Ms9Dso+KSAxJx4v9r0V7qabieTSwYCbxZ5Z5nQugjbgixdNyCW2RnOR6PPi79xjd
+ DA9t8aXaKk/08oxjPn4GEt/yBompG+waoPbdM+DI7TrsUfI5skr9GecdnQbr+uHL
+ dsDQlp/B9uGxNA==
+X-ME-Sender: <xms:wSNSYBq4MayJXAjTJUVi-KARuHon0iRT776qxNWg121eilCYhokjTQ>
+ <xme:wSNSYKYPTsPsKH3hqq8JEf9T3Zhy6HZHHrI8YpRDi2n6NJZ-SbT8ll7UnNEzaIgUa
+ 3N2yQ-lW3wZvE7bo4w>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedgkeefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -49,14 +49,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedgkeefucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:wCNSYFjCtAjc8AwodNSfbFy9naa7qP2axVe3qe_atkqgzSjWXwsZ8Q>
- <xmx:wCNSYGW8XFZZl9yeceoyYR-vqJuP1PY2GniVIGJfLzB6JDYwTzm4ZQ>
- <xmx:wCNSYH3-2WizYdzzSfjyDIC2EiBM_DkRsnxJSx5ozosIuMkdfvaWyw>
- <xmx:wCNSYP4cGML2KsVnaFocsp3bNUiDo0nrQUY2Hh7X2Zl0opF6PkrIag>
+X-ME-Proxy: <xmx:wSNSYP-tB95OySbjWqtKLy0EAjtClDsnrf7sZu7HtR_tSrTWkiE_TA>
+ <xmx:wSNSYIkEyn-we0HJR9wNBr9NHLLbND7shvFccSJSUHsouc9wZmncSQ>
+ <xmx:wSNSYMy57_Loi1KMCp2M8FEf26mD2xhYmWhjLKIx9HGkRrUuI5Ed-A>
+ <xmx:wSNSYIgRglKs7jDELJVs4O1asP75qXoFW3I4g9M_wk6dXLsH2uJqNQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 08E3A240065;
- Wed, 17 Mar 2021 11:43:59 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9D688240068;
+ Wed, 17 Mar 2021 11:44:01 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
@@ -65,9 +65,9 @@ To: Andrzej Hajda <a.hajda@samsung.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH 03/18] drm/bridge: dw-hdmi: Use helpers
-Date: Wed, 17 Mar 2021 16:43:37 +0100
-Message-Id: <20210317154352.732095-4-maxime@cerno.tech>
+Subject: [PATCH 04/18] drm/vc4: txp: Properly set the possible_crtcs mask
+Date: Wed, 17 Mar 2021 16:43:38 +0100
+Message-Id: <20210317154352.732095-5-maxime@cerno.tech>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210317154352.732095-1-maxime@cerno.tech>
 References: <20210317154352.732095-1-maxime@cerno.tech>
@@ -93,272 +93,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The current code does a binary or on the possible_crtcs variable of the
+TXP encoder, while we want to set it to that value instead.
+
+Fixes: 39fcb2808376 ("drm/vc4: txp: Turn the TXP into a CRTC of its own")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 141 +++++-----------------
- 1 file changed, 28 insertions(+), 113 deletions(-)
+ drivers/gpu/drm/vc4/vc4_txp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index d010c9c525d9..39b380453183 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -29,6 +29,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_hdmi.h>
- #include <drm/drm_of.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
-@@ -801,92 +802,6 @@ void dw_hdmi_audio_disable(struct dw_hdmi *hdmi)
- }
- EXPORT_SYMBOL_GPL(dw_hdmi_audio_disable);
+diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+index c0122d83b651..2fc7f4b5fa09 100644
+--- a/drivers/gpu/drm/vc4/vc4_txp.c
++++ b/drivers/gpu/drm/vc4/vc4_txp.c
+@@ -507,7 +507,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ 		return ret;
  
--static bool hdmi_bus_fmt_is_rgb(unsigned int bus_format)
--{
--	switch (bus_format) {
--	case MEDIA_BUS_FMT_RGB888_1X24:
--	case MEDIA_BUS_FMT_RGB101010_1X30:
--	case MEDIA_BUS_FMT_RGB121212_1X36:
--	case MEDIA_BUS_FMT_RGB161616_1X48:
--		return true;
--
--	default:
--		return false;
--	}
--}
--
--static bool hdmi_bus_fmt_is_yuv444(unsigned int bus_format)
--{
--	switch (bus_format) {
--	case MEDIA_BUS_FMT_YUV8_1X24:
--	case MEDIA_BUS_FMT_YUV10_1X30:
--	case MEDIA_BUS_FMT_YUV12_1X36:
--	case MEDIA_BUS_FMT_YUV16_1X48:
--		return true;
--
--	default:
--		return false;
--	}
--}
--
--static bool hdmi_bus_fmt_is_yuv422(unsigned int bus_format)
--{
--	switch (bus_format) {
--	case MEDIA_BUS_FMT_UYVY8_1X16:
--	case MEDIA_BUS_FMT_UYVY10_1X20:
--	case MEDIA_BUS_FMT_UYVY12_1X24:
--		return true;
--
--	default:
--		return false;
--	}
--}
--
--static bool hdmi_bus_fmt_is_yuv420(unsigned int bus_format)
--{
--	switch (bus_format) {
--	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
--	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
--	case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
--	case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
--		return true;
--
--	default:
--		return false;
--	}
--}
--
--static int hdmi_bus_fmt_color_depth(unsigned int bus_format)
--{
--	switch (bus_format) {
--	case MEDIA_BUS_FMT_RGB888_1X24:
--	case MEDIA_BUS_FMT_YUV8_1X24:
--	case MEDIA_BUS_FMT_UYVY8_1X16:
--	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
--		return 8;
--
--	case MEDIA_BUS_FMT_RGB101010_1X30:
--	case MEDIA_BUS_FMT_YUV10_1X30:
--	case MEDIA_BUS_FMT_UYVY10_1X20:
--	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
--		return 10;
--
--	case MEDIA_BUS_FMT_RGB121212_1X36:
--	case MEDIA_BUS_FMT_YUV12_1X36:
--	case MEDIA_BUS_FMT_UYVY12_1X24:
--	case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
--		return 12;
--
--	case MEDIA_BUS_FMT_RGB161616_1X48:
--	case MEDIA_BUS_FMT_YUV16_1X48:
--	case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
--		return 16;
--
--	default:
--		return 0;
--	}
--}
--
- /*
-  * this submodule is responsible for the video data synchronization.
-  * for example, for RGB 4:4:4 input, the data map is defined as
-@@ -967,8 +882,8 @@ static int is_color_space_conversion(struct dw_hdmi *hdmi)
- 	struct hdmi_data_info *hdmi_data = &hdmi->hdmi_data;
- 	bool is_input_rgb, is_output_rgb;
+ 	encoder = &txp->connector.encoder;
+-	encoder->possible_crtcs |= drm_crtc_mask(crtc);
++	encoder->possible_crtcs = drm_crtc_mask(crtc);
  
--	is_input_rgb = hdmi_bus_fmt_is_rgb(hdmi_data->enc_in_bus_format);
--	is_output_rgb = hdmi_bus_fmt_is_rgb(hdmi_data->enc_out_bus_format);
-+	is_input_rgb = drm_hdmi_bus_fmt_is_rgb(hdmi_data->enc_in_bus_format);
-+	is_output_rgb = drm_hdmi_bus_fmt_is_rgb(hdmi_data->enc_out_bus_format);
- 
- 	return (is_input_rgb != is_output_rgb) ||
- 	       (is_input_rgb && is_output_rgb && hdmi_data->rgb_limited_range);
-@@ -976,11 +891,11 @@ static int is_color_space_conversion(struct dw_hdmi *hdmi)
- 
- static int is_color_space_decimation(struct dw_hdmi *hdmi)
- {
--	if (!hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format))
-+	if (!drm_hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format))
- 		return 0;
- 
--	if (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_in_bus_format) ||
--	    hdmi_bus_fmt_is_yuv444(hdmi->hdmi_data.enc_in_bus_format))
-+	if (drm_hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_in_bus_format) ||
-+	    drm_hdmi_bus_fmt_is_yuv444(hdmi->hdmi_data.enc_in_bus_format))
- 		return 1;
- 
- 	return 0;
-@@ -988,11 +903,11 @@ static int is_color_space_decimation(struct dw_hdmi *hdmi)
- 
- static int is_color_space_interpolation(struct dw_hdmi *hdmi)
- {
--	if (!hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_in_bus_format))
-+	if (!drm_hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_in_bus_format))
- 		return 0;
- 
--	if (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format) ||
--	    hdmi_bus_fmt_is_yuv444(hdmi->hdmi_data.enc_out_bus_format))
-+	if (drm_hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format) ||
-+	    drm_hdmi_bus_fmt_is_yuv444(hdmi->hdmi_data.enc_out_bus_format))
- 		return 1;
- 
- 	return 0;
-@@ -1012,8 +927,8 @@ static void dw_hdmi_update_csc_coeffs(struct dw_hdmi *hdmi)
- 	unsigned i;
- 	u32 csc_scale = 1;
- 
--	is_input_rgb = hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_in_bus_format);
--	is_output_rgb = hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format);
-+	is_input_rgb = drm_hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_in_bus_format);
-+	is_output_rgb = drm_hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format);
- 
- 	if (!is_input_rgb && is_output_rgb) {
- 		if (hdmi->hdmi_data.enc_out_encoding == V4L2_YCBCR_ENC_601)
-@@ -1061,7 +976,7 @@ static void hdmi_video_csc(struct dw_hdmi *hdmi)
- 	else if (is_color_space_decimation(hdmi))
- 		decimation = HDMI_CSC_CFG_DECMODE_CHROMA_INT_FORMULA3;
- 
--	switch (hdmi_bus_fmt_color_depth(hdmi->hdmi_data.enc_out_bus_format)) {
-+	switch (drm_hdmi_bus_fmt_color_depth(hdmi->hdmi_data.enc_out_bus_format)) {
- 	case 8:
- 		color_depth = HDMI_CSC_SCALE_CSC_COLORDE_PTH_24BPP;
- 		break;
-@@ -1100,10 +1015,10 @@ static void hdmi_video_packetize(struct dw_hdmi *hdmi)
- 	struct hdmi_data_info *hdmi_data = &hdmi->hdmi_data;
- 	u8 val, vp_conf;
- 
--	if (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format) ||
--	    hdmi_bus_fmt_is_yuv444(hdmi->hdmi_data.enc_out_bus_format) ||
--	    hdmi_bus_fmt_is_yuv420(hdmi->hdmi_data.enc_out_bus_format)) {
--		switch (hdmi_bus_fmt_color_depth(
-+	if (drm_hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format) ||
-+	    drm_hdmi_bus_fmt_is_yuv444(hdmi->hdmi_data.enc_out_bus_format) ||
-+	    drm_hdmi_bus_fmt_is_yuv420(hdmi->hdmi_data.enc_out_bus_format)) {
-+		switch (drm_hdmi_bus_fmt_color_depth(
- 					hdmi->hdmi_data.enc_out_bus_format)) {
- 		case 8:
- 			color_depth = 4;
-@@ -1121,8 +1036,8 @@ static void hdmi_video_packetize(struct dw_hdmi *hdmi)
- 		default:
- 			output_select = HDMI_VP_CONF_OUTPUT_SELECTOR_BYPASS;
- 		}
--	} else if (hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format)) {
--		switch (hdmi_bus_fmt_color_depth(
-+	} else if (drm_hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format)) {
-+		switch (drm_hdmi_bus_fmt_color_depth(
- 					hdmi->hdmi_data.enc_out_bus_format)) {
- 		case 0:
- 		case 8:
-@@ -1641,7 +1556,7 @@ static void hdmi_config_AVI(struct dw_hdmi *hdmi,
- 	/* Initialise info frame from DRM mode */
- 	drm_hdmi_avi_infoframe_from_display_mode(&frame, connector, mode);
- 
--	if (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
-+	if (drm_hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
- 		drm_hdmi_avi_infoframe_quant_range(&frame, connector, mode,
- 						   hdmi->hdmi_data.rgb_limited_range ?
- 						   HDMI_QUANTIZATION_RANGE_LIMITED :
-@@ -1652,17 +1567,17 @@ static void hdmi_config_AVI(struct dw_hdmi *hdmi,
- 			HDMI_YCC_QUANTIZATION_RANGE_LIMITED;
- 	}
- 
--	if (hdmi_bus_fmt_is_yuv444(hdmi->hdmi_data.enc_out_bus_format))
-+	if (drm_hdmi_bus_fmt_is_yuv444(hdmi->hdmi_data.enc_out_bus_format))
- 		frame.colorspace = HDMI_COLORSPACE_YUV444;
--	else if (hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format))
-+	else if (drm_hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format))
- 		frame.colorspace = HDMI_COLORSPACE_YUV422;
--	else if (hdmi_bus_fmt_is_yuv420(hdmi->hdmi_data.enc_out_bus_format))
-+	else if (drm_hdmi_bus_fmt_is_yuv420(hdmi->hdmi_data.enc_out_bus_format))
- 		frame.colorspace = HDMI_COLORSPACE_YUV420;
- 	else
- 		frame.colorspace = HDMI_COLORSPACE_RGB;
- 
- 	/* Set up colorimetry */
--	if (!hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
-+	if (!drm_hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
- 		switch (hdmi->hdmi_data.enc_out_encoding) {
- 		case V4L2_YCBCR_ENC_601:
- 			if (hdmi->hdmi_data.enc_in_encoding == V4L2_YCBCR_ENC_XV601)
-@@ -1864,8 +1779,8 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
- 
- 	vmode->mtmdsclock = vmode->mpixelclock;
- 
--	if (!hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format)) {
--		switch (hdmi_bus_fmt_color_depth(
-+	if (!drm_hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format)) {
-+		switch (drm_hdmi_bus_fmt_color_depth(
- 				hdmi->hdmi_data.enc_out_bus_format)) {
- 		case 16:
- 			vmode->mtmdsclock = vmode->mpixelclock * 2;
-@@ -1879,7 +1794,7 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
- 		}
- 	}
- 
--	if (hdmi_bus_fmt_is_yuv420(hdmi->hdmi_data.enc_out_bus_format))
-+	if (drm_hdmi_bus_fmt_is_yuv420(hdmi->hdmi_data.enc_out_bus_format))
- 		vmode->mtmdsclock /= 2;
- 
- 	dev_dbg(hdmi->dev, "final tmdsclock = %d\n", vmode->mtmdsclock);
-@@ -1930,7 +1845,7 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
- 	 * When we're setting a YCbCr420 mode, we need
- 	 * to adjust the horizontal timing to suit.
- 	 */
--	if (hdmi_bus_fmt_is_yuv420(hdmi->hdmi_data.enc_out_bus_format)) {
-+	if (drm_hdmi_bus_fmt_is_yuv420(hdmi->hdmi_data.enc_out_bus_format)) {
- 		hdisplay /= 2;
- 		hblank /= 2;
- 		h_de_hs /= 2;
-@@ -2766,7 +2681,7 @@ static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
- 	.attach = dw_hdmi_bridge_attach,
- 	.detach = dw_hdmi_bridge_detach,
- 	.atomic_check = dw_hdmi_bridge_atomic_check,
--	.atomic_get_output_bus_fmts = dw_hdmi_bridge_atomic_get_output_bus_fmts,
-+	.atomic_get_output_bus_fmts = drm_atomic_helper_bridge_hdmi_get_output_bus_fmts,
- 	.atomic_get_input_bus_fmts = dw_hdmi_bridge_atomic_get_input_bus_fmts,
- 	.atomic_enable = dw_hdmi_bridge_atomic_enable,
- 	.atomic_disable = dw_hdmi_bridge_atomic_disable,
+ 	ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
+ 			       dev_name(dev), txp);
 -- 
 2.30.2
 
