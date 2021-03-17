@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A1133E377
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 01:57:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 316DB33E3F5
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 01:58:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD1CC6E48C;
-	Wed, 17 Mar 2021 00:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E538A6E487;
+	Wed, 17 Mar 2021 00:58:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B30F6E487
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 00:57:45 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AB55564F9E;
- Wed, 17 Mar 2021 00:57:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C689A6E487;
+ Wed, 17 Mar 2021 00:58:37 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A473D64FFC;
+ Wed, 17 Mar 2021 00:58:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615942665;
- bh=/vDZC9ObBHc0XZzNbo9Dx3X2Hf3Qg4Rcv2XiUb2UmTQ=;
+ s=k20201202; t=1615942717;
+ bh=ycdKLRkXafHBSwEDjvdu5pheyZU7MTyYgWw4zPjDw9c=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TpwL2brcLlosTZcz8nzxBlgmOTs/BVVjxkmzkrbCCeChi5jeVrwDkAWMF5COX6z6n
- Mf/iVpyNKc620OyTymE5Xn2glDCmmTuWgw9QU2LZ6wpnjkTBDSzKHWViiMo47NZxEc
- HdfNzcfcHWCdi+HKgj0ZWcqcVPQxGPeWnEAdSvJA1fUP5cEUn0b3BqnROou3jv2tY9
- wIBOFkPHja0BSYKR1xij1Rntt5FmaDlIgojhHQKw+0gwb8UvfziiCNPewRNTipZVfE
- IgsDnj6YMtfvJDuj5bse3vSWb5zkTOWRtz98nXJgpcaUYtNLpCVKIQw8Gz+UXKC8kt
- 2vW5qvtj25hMw==
+ b=FM/UTTCR2CyrsagSmF+w7pkA0yqBsQ1qUjeu2uy46tohXvFtSRf9Y3q9ZOV9dkgsI
+ 1yT8CkGkPV2C+0aaSGStnWdAjaV2klos9bsEtK4e7VP/y/RcuZF2mwCHH/sb1++HNS
+ 8JvXZlj8YjhMnHMtvLUmHU/n7EhSiuiVVOBE6AsqGZFq9FTn5H89lpwgD4CpZdZeBA
+ a+evo3XFbV46AtyC+YvSuk5ZC1yzghBGrJmgeE/f/TV+gdqcbrjVbir8gPUenjE9Vx
+ FqdPZVhjwnX6XPxY8AvZbZTN9+VyVdliogOs787po72X4yj7pC7ZJCZvQWSIjkXCKh
+ oD89m49U2+Hzg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 42/54] drm/radeon: fix AGP dependency
-Date: Tue, 16 Mar 2021 20:56:41 -0400
-Message-Id: <20210317005654.724862-42-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 28/37] drm/amd/display: Revert
+ dram_clock_change_latency for DCN2.1
+Date: Tue, 16 Mar 2021 20:57:53 -0400
+Message-Id: <20210317005802.725825-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210317005654.724862-1-sashal@kernel.org>
-References: <20210317005654.724862-1-sashal@kernel.org>
+In-Reply-To: <20210317005802.725825-1-sashal@kernel.org>
+References: <20210317005802.725825-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -48,30 +49,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, Sung Lee <sung.lee@amd.com>,
+ Eryk Brol <eryk.brol@amd.com>, Haonan Wang <Haonan.Wang2@amd.com>,
+ amd-gfx@lists.freedesktop.org, Daniel Wheeler <daniel.wheeler@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgoKWyBVcHN0
-cmVhbSBjb21taXQgY2JhMmFmYjY1Y2IwNWMzZDE5N2QxNzMyM2ZlZTRlM2M5ZWRlZjljZCBdCgpX
-aGVuIEFHUCBpcyBjb21waWxlZCBhcyBtb2R1bGUgcmFkZW9uIG11c3QgYmUgY29tcGlsZWQgYXMg
-bW9kdWxlIGFzCndlbGwuCgpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3Rp
-YW4ua29lbmlnQGFtZC5jb20+ClJldmlld2VkLWJ5OiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5k
-ZXVjaGVyQGFtZC5jb20+ClNpZ25lZC1vZmYtYnk6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRl
-dWNoZXJAYW1kLmNvbT4KU2lnbmVkLW9mZi1ieTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwu
-b3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9LY29uZmlnIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vS2NvbmZpZyBiL2Ry
-aXZlcnMvZ3B1L2RybS9LY29uZmlnCmluZGV4IDE2ZjczYzEwMjM5NC4uY2E4NjgyNzFmNGM0IDEw
-MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vS2NvbmZpZworKysgYi9kcml2ZXJzL2dwdS9kcm0v
-S2NvbmZpZwpAQCAtMjM5LDYgKzIzOSw3IEBAIHNvdXJjZSAiZHJpdmVycy9ncHUvZHJtL2FybS9L
-Y29uZmlnIgogY29uZmlnIERSTV9SQURFT04KIAl0cmlzdGF0ZSAiQVRJIFJhZGVvbiIKIAlkZXBl
-bmRzIG9uIERSTSAmJiBQQ0kgJiYgTU1VCisJZGVwZW5kcyBvbiBBR1AgfHwgIUFHUAogCXNlbGVj
-dCBGV19MT0FERVIKICAgICAgICAgc2VsZWN0IERSTV9LTVNfSEVMUEVSCiAgICAgICAgIHNlbGVj
-dCBEUk1fVFRNCi0tIAoyLjMwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+From: Sung Lee <sung.lee@amd.com>
+
+[ Upstream commit b0075d114c33580f5c9fa9cee8e13d06db41471b ]
+
+[WHY & HOW]
+Using values provided by DF for latency may cause hangs in
+multi display configurations. Revert change to previous value.
+
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Sung Lee <sung.lee@amd.com>
+Reviewed-by: Haonan Wang <Haonan.Wang2@amd.com>
+Acked-by: Eryk Brol <eryk.brol@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+index f63cbbee7b33..11a4c4029a90 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+@@ -257,7 +257,7 @@ struct _vcs_dpi_soc_bounding_box_st dcn2_1_soc = {
+ 	.num_banks = 8,
+ 	.num_chans = 4,
+ 	.vmm_page_size_bytes = 4096,
+-	.dram_clock_change_latency_us = 11.72,
++	.dram_clock_change_latency_us = 23.84,
+ 	.return_bus_width_bytes = 64,
+ 	.dispclk_dppclk_vco_speed_mhz = 3600,
+ 	.xfc_bus_transport_time_us = 4,
+-- 
+2.30.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
