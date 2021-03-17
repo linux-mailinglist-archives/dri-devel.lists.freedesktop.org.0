@@ -1,64 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423B133F58D
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 17:31:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D5833F5B5
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 17:39:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD0B76E15D;
-	Wed, 17 Mar 2021 16:31:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32BD36E848;
+	Wed, 17 Mar 2021 16:39:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB5E6E15D
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 16:31:20 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id e18so2474460wrt.6
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 09:31:20 -0700 (PDT)
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
+ [IPv6:2607:f8b0:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D17F86E844;
+ Wed, 17 Mar 2021 16:39:24 +0000 (UTC)
+Received: by mail-pg1-x530.google.com with SMTP id n10so25102200pgl.10;
+ Wed, 17 Mar 2021 09:39:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QE6T5rkzVXyVG4b9FRno1df2BtGxnFCnOZE4VoMr7VE=;
- b=CrX+5ZPcNrwcCneoIbXKNRHVF0R2KhRrGqiTGlT2zqw4tQ+jT6WbsSbuOdfR4wO6IH
- 6/wlQ1qfe3c4PpUGfku6eJmwxc331NOpDMy0ijZ/r2GBQbxNDp944E3yKgW0UKFZ181T
- Jn8Ku/iFETMIfR6PM703248kcyaKGf0m2xkVBGmflaesG0yCmr+iF6S/TT/4WbbBzxJo
- jn7ZfMxbfBD1xleKkQ6U60lHxttSM3bJ/0X/FGlihrVs1LDPLW38jRNEjeyfv/xQ78Cn
- mJQ0oG0zMUnanuY/vLX8Uh0e/jSgqivRIkNA6vmSEnsgab8E6sA8n4zZwkDiTwkuD7WY
- 2Vvg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VJKz2h+X44Nyjc70D1nl6aYjywkrSYx9D4C8krqE5s4=;
+ b=gd+e3pDXZbLRr7OHs+dQNTQNYZjTE9SpwbtkhLTG6XdDc7DyYOSisEkNNqZU6WqmDr
+ SCANy+scFCynXXAgg5ILVsnWZCFS+TzUGbVrzDFuocEIGPojXLI/+AJbZDfbA/es7RnX
+ MT4ina1sLUOIX5Dr+/TS0OgO/vG5131jIPjclMFjTkeuVNcOaRKJ0TUsGWow47WLAkP6
+ Nh42/l2OIO0xjCZfZA40hUJ8uit9u+Kw39vxa1av8U4PvgmUULXF/p8CJEie9aPujZPD
+ 5pK+P2kIymqyVSOnP+Qk1Xd+TMP2aDoFPFIUpztfiSbBHevuxPHZGKNLhbYehyF+cU83
+ 6mcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=QE6T5rkzVXyVG4b9FRno1df2BtGxnFCnOZE4VoMr7VE=;
- b=Si+BjPCpitx98s+vF+wK/YC2ZKnow16D8W2aIBzD34QenCsE+PKeSe5lleXpQ/DYA7
- TyTQS+eA8sfPDW9BJ4wSFupS+30Ehk1ouJM83pLQjHYfxvFcqCyVj6YqS2xGxYgRn3d9
- 5IVQAVP8t8e5yyd7QqsfBMTvSqHpJjip3CpAOKPmMJ7J4JcFXfabq7KxHGzZvWwagXNF
- xdUlkYnp7x5nXV1WiPNCEIqStqdFMvIq+D/1ZbE8Emj+IUUO/l3hjIX/Td5O5lM89LFL
- hN3o7NpTigbMpm4M8BFh2l5XOW3FdsSsrU1sZVAMgtjYlrT0xdba9CGoxAdaYUoMMNAk
- ri7A==
-X-Gm-Message-State: AOAM533lMxy2tawlNOyTQWsw5NeLpXf8kBCYTZ5Cu2zbFJi037byRlsg
- 8PXMX523MeccULTtcGJwn4E=
-X-Google-Smtp-Source: ABdhPJznMr0BQQsfVJMF7zQOUfeloplh7n6YhrqhslkID7n4r23aVU3uY5EU06FVhUO8bs2rFB4/lQ==
-X-Received: by 2002:adf:828e:: with SMTP id 14mr5331283wrc.123.1615998678851; 
- Wed, 17 Mar 2021 09:31:18 -0700 (PDT)
-Received: from ziggy.stardust ([213.195.126.134])
- by smtp.gmail.com with ESMTPSA id s8sm27059845wrn.97.2021.03.17.09.31.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Mar 2021 09:31:17 -0700 (PDT)
-Subject: Re: [PATCH v13 7/8] soc: mediatek: add mtk mutex support for MT8183
-To: Hsin-Yi Wang <hsinyi@chromium.org>, CK Hu <ck.hu@mediatek.com>,
- Philipp Zabel <p.zabel@pengutronix.de>
-References: <20210129092209.2584718-1-hsinyi@chromium.org>
- <20210129092209.2584718-8-hsinyi@chromium.org>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-Message-ID: <8452df75-c9ae-ed1f-3f0a-b449f35bd173@gmail.com>
-Date: Wed, 17 Mar 2021 17:31:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=VJKz2h+X44Nyjc70D1nl6aYjywkrSYx9D4C8krqE5s4=;
+ b=g1kDw8qudrQy86vMe6yr7AeYn8cG6eK7KuwhRwxk4wF5jfr4VSEgQBZA09vvbtbQ6y
+ tukxYMvKMARBZrBUQ0S7yv9lr8SlM/LVVIZ2r/J2pcC769WWlWNc5BB5xGSAPQB0Dseb
+ GhRvpkLHztcHX20l6oyZ17in2jUg/eAmMdNTDFcnTK5bLgGTEWQx1/kZh9U9F2eDAQUo
+ 7ntabih0DOdUV3noo3NVkPy9eF5j3EPpXBrgHH24ibqrS0BdYpJ8gBpl44UDqYsjjTyd
+ NOKfJMQ51hj8s0xYQU0edyO+PBE2kzpFvIiyvitB3W+AKK7fiSA4kdTu+0evUCkinjy0
+ ltPA==
+X-Gm-Message-State: AOAM533X7DyOejZX8vCkX6M41gi8g0Hgr2bkLBa8sWjzwjspSqnIAuo6
+ efqJcXOGgC0qj48fVw6Bc/R0EyMtcT0=
+X-Google-Smtp-Source: ABdhPJwwOq0vwgcZGgWOETf0gCZOIdapKzgtw7LIGnEIxTYxUm7egBbqaGJZOUQ1e4gvOxBkLPpErw==
+X-Received: by 2002:a63:2345:: with SMTP id u5mr3462213pgm.326.1615999163670; 
+ Wed, 17 Mar 2021 09:39:23 -0700 (PDT)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ i17sm22008783pfq.135.2021.03.17.09.39.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Mar 2021 09:39:22 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm: Ratelimit invalid-fence message
+Date: Wed, 17 Mar 2021 09:42:39 -0700
+Message-Id: <20210317164239.1007776-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210129092209.2584718-8-hsinyi@chromium.org>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,138 +65,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Rob Clark <robdclark@chromium.org>
 
+We have seen a couple cases where low memory situations cause something
+bad to happen, followed by a flood of these messages obscuring the root
+cause.  Lets ratelimit the dmesg spam so that next time it happens we
+don't loose the kernel traces leading up to this.
 
-On 29/01/2021 10:22, Hsin-Yi Wang wrote:
-> From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> 
-> Add mtk mutex support for MT8183 SoC.
-> 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> ---
->  drivers/soc/mediatek/mtk-mutex.c | 50 ++++++++++++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
-> 
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_fence.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied to v5.12-next/soc
+diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
+index ad2703698b05..cd59a5918038 100644
+--- a/drivers/gpu/drm/msm/msm_fence.c
++++ b/drivers/gpu/drm/msm/msm_fence.c
+@@ -45,7 +45,7 @@ int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
+ 	int ret;
+ 
+ 	if (fence > fctx->last_fence) {
+-		DRM_ERROR("%s: waiting on invalid fence: %u (of %u)\n",
++		DRM_ERROR_RATELIMITED("%s: waiting on invalid fence: %u (of %u)\n",
+ 				fctx->name, fence, fctx->last_fence);
+ 		return -EINVAL;
+ 	}
+-- 
+2.29.2
 
-Thanks
-
-> diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
-> index f531b119da7a9..718a41beb6afb 100644
-> --- a/drivers/soc/mediatek/mtk-mutex.c
-> +++ b/drivers/soc/mediatek/mtk-mutex.c
-> @@ -14,6 +14,8 @@
->  
->  #define MT2701_MUTEX0_MOD0			0x2c
->  #define MT2701_MUTEX0_SOF0			0x30
-> +#define MT8183_MUTEX0_MOD0			0x30
-> +#define MT8183_MUTEX0_SOF0			0x2c
->  
->  #define DISP_REG_MUTEX_EN(n)			(0x20 + 0x20 * (n))
->  #define DISP_REG_MUTEX(n)			(0x24 + 0x20 * (n))
-> @@ -37,6 +39,18 @@
->  #define MT8167_MUTEX_MOD_DISP_DITHER		15
->  #define MT8167_MUTEX_MOD_DISP_UFOE		16
->  
-> +#define MT8183_MUTEX_MOD_DISP_RDMA0		0
-> +#define MT8183_MUTEX_MOD_DISP_RDMA1		1
-> +#define MT8183_MUTEX_MOD_DISP_OVL0		9
-> +#define MT8183_MUTEX_MOD_DISP_OVL0_2L		10
-> +#define MT8183_MUTEX_MOD_DISP_OVL1_2L		11
-> +#define MT8183_MUTEX_MOD_DISP_WDMA0		12
-> +#define MT8183_MUTEX_MOD_DISP_COLOR0		13
-> +#define MT8183_MUTEX_MOD_DISP_CCORR0		14
-> +#define MT8183_MUTEX_MOD_DISP_AAL0		15
-> +#define MT8183_MUTEX_MOD_DISP_GAMMA0		16
-> +#define MT8183_MUTEX_MOD_DISP_DITHER0		17
-> +
->  #define MT8173_MUTEX_MOD_DISP_OVL0		11
->  #define MT8173_MUTEX_MOD_DISP_OVL1		12
->  #define MT8173_MUTEX_MOD_DISP_RDMA0		13
-> @@ -87,6 +101,11 @@
->  #define MT2712_MUTEX_SOF_DSI3			6
->  #define MT8167_MUTEX_SOF_DPI0			2
->  #define MT8167_MUTEX_SOF_DPI1			3
-> +#define MT8183_MUTEX_SOF_DSI0			1
-> +#define MT8183_MUTEX_SOF_DPI0			2
-> +
-> +#define MT8183_MUTEX_EOF_DSI0			(MT8183_MUTEX_SOF_DSI0 << 6)
-> +#define MT8183_MUTEX_EOF_DPI0			(MT8183_MUTEX_SOF_DPI0 << 6)
->  
->  struct mtk_mutex {
->  	int id;
-> @@ -181,6 +200,20 @@ static const unsigned int mt8173_mutex_mod[DDP_COMPONENT_ID_MAX] = {
->  	[DDP_COMPONENT_WDMA1] = MT8173_MUTEX_MOD_DISP_WDMA1,
->  };
->  
-> +static const unsigned int mt8183_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-> +	[DDP_COMPONENT_AAL0] = MT8183_MUTEX_MOD_DISP_AAL0,
-> +	[DDP_COMPONENT_CCORR] = MT8183_MUTEX_MOD_DISP_CCORR0,
-> +	[DDP_COMPONENT_COLOR0] = MT8183_MUTEX_MOD_DISP_COLOR0,
-> +	[DDP_COMPONENT_DITHER] = MT8183_MUTEX_MOD_DISP_DITHER0,
-> +	[DDP_COMPONENT_GAMMA] = MT8183_MUTEX_MOD_DISP_GAMMA0,
-> +	[DDP_COMPONENT_OVL0] = MT8183_MUTEX_MOD_DISP_OVL0,
-> +	[DDP_COMPONENT_OVL_2L0] = MT8183_MUTEX_MOD_DISP_OVL0_2L,
-> +	[DDP_COMPONENT_OVL_2L1] = MT8183_MUTEX_MOD_DISP_OVL1_2L,
-> +	[DDP_COMPONENT_RDMA0] = MT8183_MUTEX_MOD_DISP_RDMA0,
-> +	[DDP_COMPONENT_RDMA1] = MT8183_MUTEX_MOD_DISP_RDMA1,
-> +	[DDP_COMPONENT_WDMA0] = MT8183_MUTEX_MOD_DISP_WDMA0,
-> +};
-> +
->  static const unsigned int mt2712_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
->  	[MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
->  	[MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0,
-> @@ -198,6 +231,13 @@ static const unsigned int mt8167_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
->  	[MUTEX_SOF_DPI1] = MT8167_MUTEX_SOF_DPI1,
->  };
->  
-> +/* Add EOF setting so overlay hardware can receive frame done irq */
-> +static const unsigned int mt8183_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
-> +	[MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
-> +	[MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0 | MT8183_MUTEX_EOF_DSI0,
-> +	[MUTEX_SOF_DPI0] = MT8183_MUTEX_SOF_DPI0 | MT8183_MUTEX_EOF_DPI0,
-> +};
-> +
->  static const struct mtk_mutex_data mt2701_mutex_driver_data = {
->  	.mutex_mod = mt2701_mutex_mod,
->  	.mutex_sof = mt2712_mutex_sof,
-> @@ -227,6 +267,14 @@ static const struct mtk_mutex_data mt8173_mutex_driver_data = {
->  	.mutex_sof_reg = MT2701_MUTEX0_SOF0,
->  };
->  
-> +static const struct mtk_mutex_data mt8183_mutex_driver_data = {
-> +	.mutex_mod = mt8183_mutex_mod,
-> +	.mutex_sof = mt8183_mutex_sof,
-> +	.mutex_mod_reg = MT8183_MUTEX0_MOD0,
-> +	.mutex_sof_reg = MT8183_MUTEX0_SOF0,
-> +	.no_clk = true,
-> +};
-> +
->  struct mtk_mutex *mtk_mutex_get(struct device *dev)
->  {
->  	struct mtk_mutex_ctx *mtx = dev_get_drvdata(dev);
-> @@ -457,6 +505,8 @@ static const struct of_device_id mutex_driver_dt_match[] = {
->  	  .data = &mt8167_mutex_driver_data},
->  	{ .compatible = "mediatek,mt8173-disp-mutex",
->  	  .data = &mt8173_mutex_driver_data},
-> +	{ .compatible = "mediatek,mt8183-disp-mutex",
-> +	  .data = &mt8183_mutex_driver_data},
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, mutex_driver_dt_match);
-> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
