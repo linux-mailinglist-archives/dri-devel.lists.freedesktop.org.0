@@ -1,66 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B37833E2F5
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 01:45:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D43F33E322
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Mar 2021 01:56:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF71589B33;
-	Wed, 17 Mar 2021 00:45:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0415C6E45D;
+	Wed, 17 Mar 2021 00:56:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com
- [IPv6:2607:f8b0:4864:20::835])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CBAE89B33
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Mar 2021 00:45:24 +0000 (UTC)
-Received: by mail-qt1-x835.google.com with SMTP id g24so255720qts.6
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 17:45:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aO/OZ4zO5c+UReCZXfD9/ue3OlGDOu+K9xY/v16MWOM=;
- b=Yjxx9s2kQ4DOhIjHj6+/pNSGqV161HlvXedt3ioyBFMJpaown9V/+E6jKZL9S8hlvD
- /g20NMV4xosL3HCIgWPtGpkvEXYezGYew1XCpu4lMFetz9DROLcwY0BqVdgEc/puWbj2
- CSWigEl1OnH/gTE+ZVG39hnrhmWVqAbwq5ils=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aO/OZ4zO5c+UReCZXfD9/ue3OlGDOu+K9xY/v16MWOM=;
- b=ujoztaC2ZYijlt6Xx5pdMwzXwkMN6eVHGTPTPc1UpQ3MjVKibdszAs2eUv2f3W+uRw
- oOgrywRL/r4dKttw9e3Q9GNuLtNdHTdyAdbocgZ3uGtIajjnb+UNAhCJoM0Miq5tj6JW
- fBxWJ+YcakMjWMlJ6x4aTlRTFuBxfKnNml89/zjqoVGM/vWNuhaLSfFg5p/yeoUDDPU8
- BDhnb+mIYT53Iws+yOl/i1I/yjHJP9iEXaC3+ua8DEEwSlu/K/uH1rxS3iE8weyTSzrG
- 47esnZpMMNGLkqHEi36z13FiOtsR9Jo7bAtW6lWaOm38xnyTBdBseTBG6dsRXvU2lRvT
- omSg==
-X-Gm-Message-State: AOAM531GsUK+cZR6TG6W7A6vDNG2a0XoZ/lqY1UJsfNzIpbyBFaXiurD
- PG9vqx8WbYIVnk1W9sWGusWNG2X+z2qarQ==
-X-Google-Smtp-Source: ABdhPJygC50v/I75wjoAK+cuTkEONUTuebNMXF7eCQGFStqXByYOTLRSTWy6qkEqwVJp9jZrhhoQZw==
-X-Received: by 2002:ac8:5448:: with SMTP id d8mr1482709qtq.392.1615941923197; 
- Tue, 16 Mar 2021 17:45:23 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
- [209.85.219.180])
- by smtp.gmail.com with ESMTPSA id q2sm16048450qkq.59.2021.03.16.17.45.12
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Mar 2021 17:45:14 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id p186so38813708ybg.2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Mar 2021 17:45:12 -0700 (PDT)
-X-Received: by 2002:a25:1883:: with SMTP id 125mr1752626yby.465.1615941912101; 
- Tue, 16 Mar 2021 17:45:12 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 531EF6E45D;
+ Wed, 17 Mar 2021 00:56:30 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 66FA464F9E;
+ Wed, 17 Mar 2021 00:56:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1615942588;
+ bh=2Kv0YtLN6AkklpnndNHV2hbj7iUjXYdYwf4LQGrdoy0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=POy9G/kUIan4fyn3/qYDgfSQvMQYWBERJTHEeAT1ufuS1Ffo1HJ8kMlwYy2Twxy+P
+ mJjyulqa55xbmksZ8n2TjtoCgsV6U0n/KmxthTVz4ZeDgY1ge+uLelPIHqTEijvREH
+ lXz3unbNM0s2cSxHxCrs+hF3y5MXxOekVTu3nqjsd4nxA15XpEG1Rk+l3Rp5x43abT
+ nGOTPF5mCsbJpN0kU6oLATh4+T+KBKHr92OLdNMKf0Ztrzgu6jd54sYn5nrjly3z+n
+ FccF8ioPjdxYbzGjHdHNv12bbxLZLFuyRyPzLp0RORYIb3ceXD3ul0f6WkDpxRA2Wr
+ WaJ5RoaL2HhCg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.11 43/61] drm/amd/display: Enable pflip interrupt
+ upon pipe enable
+Date: Tue, 16 Mar 2021 20:55:17 -0400
+Message-Id: <20210317005536.724046-43-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210317005536.724046-1-sashal@kernel.org>
+References: <20210317005536.724046-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20210304155144.1.Ic9c04f960190faad5290738b2a35d73661862735@changeid>
- <20210304155144.3.I60a7fb23ce4589006bc95c64ab8d15c74b876e68@changeid>
- <YE0ru4JpXfX/4Awe@pendragon.ideasonboard.com>
- <CAD=FV=UY_S8jPkXwK6AGs99XrE=pno2sCgLE7qcPWfmoyYVXiw@mail.gmail.com>
- <YFEnKgwEOWdeQBK6@pendragon.ideasonboard.com>
-In-Reply-To: <YFEnKgwEOWdeQBK6@pendragon.ideasonboard.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 16 Mar 2021 17:44:59 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=W5fpyEf4AqJ+dZ7i_rD_PE40MyNsYNydhPi4BHkEfQcQ@mail.gmail.com>
-Message-ID: <CAD=FV=W5fpyEf4AqJ+dZ7i_rD_PE40MyNsYNydhPi4BHkEfQcQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/bridge: ti-sn65dsi86: Properly get the EDID, but
- only if refclk
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,141 +49,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Sasha Levin <sashal@kernel.org>, Eryk Brol <eryk.brol@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, amd-gfx@lists.freedesktop.org,
+ Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Qingqing Zhuo <qingqing.zhuo@amd.com>
 
-On Tue, Mar 16, 2021 at 2:46 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Doug,
->
-> On Mon, Mar 15, 2021 at 09:25:37AM -0700, Doug Anderson wrote:
-> > On Sat, Mar 13, 2021 at 1:17 PM Laurent Pinchart wrote:
-> > > On Thu, Mar 04, 2021 at 03:52:01PM -0800, Douglas Anderson wrote:
-> > > > In commit 58074b08c04a ("drm/bridge: ti-sn65dsi86: Read EDID blob over
-> > > > DDC") we attempted to make the ti-sn65dsi86 bridge properly read the
-> > > > EDID from the panel. That commit kinda worked but it had some serious
-> > > > problems.
-> > > >
-> > > > The problems all stem from the fact that userspace wants to be able to
-> > > > read the EDID before it explicitly enables the panel. For eDP panels,
-> > > > though, we don't actually power the panel up until the pre-enable
-> > > > stage and the pre-enable call happens right before the enable call
-> > > > with no way to interject in-between. For eDP panels, you can't read
-> > > > the EDID until you power the panel. The result was that
-> > > > ti_sn_bridge_connector_get_modes() was always failing to read the EDID
-> > > > (falling back to what drm_panel_get_modes() returned) until _after_
-> > > > the EDID was needed.
-> > > >
-> > > > To make it concrete, on my system I saw this happen:
-> > > > 1. We'd attach the bridge.
-> > > > 2. Userspace would ask for the EDID (several times). We'd try but fail
-> > > >    to read the EDID over and over again and fall back to the hardcoded
-> > > >    modes.
-> > > > 3. Userspace would decide on a mode based only on the hardcoded modes.
-> > > > 4. Userspace would ask to turn the panel on.
-> > > > 5. Userspace would (eventually) check the modes again (in Chrome OS
-> > > >    this happens on the handoff from the boot splash screen to the
-> > > >    browser). Now we'd read them properly and, if they were different,
-> > > >    userspace would request to change the mode.
-> > > >
-> > > > The fact that userspace would always end up using the hardcoded modes
-> > > > at first significantly decreases the benefit of the EDID
-> > > > reading. Also: if the modes were even a tiny bit different we'd end up
-> > > > doing a wasteful modeset and at boot.
-> > >
-> > > s/and at/at/ ?
-> >
-> > Sure, I can correct if/when I respin or it can be corrected when landed.
-> >
-> > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > index 491c9c4f32d1..af3fb4657af6 100644
-> > > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > @@ -16,6 +16,7 @@
-> > > >  #include <linux/pm_runtime.h>
-> > > >  #include <linux/regmap.h>
-> > > >  #include <linux/regulator/consumer.h>
-> > > > +#include <linux/workqueue.h>
-> > > >
-> > > >  #include <asm/unaligned.h>
-> > > >
-> > > > @@ -130,6 +131,12 @@
-> > > >   * @ln_assign:    Value to program to the LN_ASSIGN register.
-> > > >   * @ln_polrs:     Value for the 4-bit LN_POLRS field of SN_ENH_FRAME_REG.
-> > > >   *
-> > > > + * @pre_enabled_early: If true we did an early pre_enable at attach.
-> > > > + * @pre_enable_timeout_work: Delayed work to undo the pre_enable from attach
-> > > > + *                           if a normal pre_enable never came.
-> > >
-> > > Could we simplify this by using the runtime PM autosuspend feature ? The
-> > > configuration of the bridge would be moved from pre_enable to the PM
-> > > runtime resume handler, the clk_disable_unprepare() call moved from
-> > > post_disable to the runtime suspend handler, and the work queue replaced
-> > > by usage of pm_runtime_put_autosuspend().
-> >
-> > It's an interesting idea but I don't think I can make it work, at
-> > least not in a generic enough way. Specifically we can also use this
-> > bridge chip as a generic GPIO provider in Linux. When someone asks us
-> > to read a GPIO then we have to power the bridge on
-> > (pm_runtime_get_sync()) and when someone asks us to configure a GPIO
-> > as an output then we actually leave the bridge powered until they stop
-> > requesting it as an output. At the moment the only user of this
-> > functionality (that I know of) is for the HPD pin on trogdor boards
-> > (long story about why we don't use the dedicated HPD) but the API
-> > supports using these GPIOs for anything and I've tested that it works.
-> > It wouldn't be great to have to keep the panel on in order to access
-> > the GPIOs.
->
-> The issue you're trying to fix doesn't seem specific to this bridge, so
-> handling it in the bridge driver bothers me :-S Is there any way we
-> could handle this in the DRM core ? I don't want to see similar
-> implementations duplicated in all HDMI/DP bridges.
+[ Upstream commit 7afa0033d6f7fb8a84798ef99d1117661c4e696c ]
 
-Yes, it is true that this problem could affect other drivers.  ...and
-in full disclosure I think there are other similar workarounds already
-present. I haven't personally worked on those chips, but in
-ps8640_bridge_get_edid() there is a somewhat similar workaround to
-chain a pre-enable (though maybe it's not quite as optimized?). I'm
-told that maybe something had to be handled for anx7625 (in
-anx7625_get_edid()?) but that definitely doesn't look at all like it's
-doing a pre-enable, so maybe things for that bridge just work
-differently.
+[Why]
+pflip interrupt would not be enabled promptly if a pipe is disabled
+and re-enabled, causing flip_done timeout error during DP
+compliance tests
 
-One thing that makes me hesitant about trying to moving this to the
-core is that even in sn65dsi86 there is a case where it won't work. As
-I mentioned in the patch I'm not aware of anyone using it in
-production, but if someone was using the MIPI clock as input to the
-bridge chip instead of a fixed "refclk" then trying to get the EDID
-after just "pre-enable" falls over.  Said another way: I can say that
-with this particular bridge chip, if you're using a fixed refclk, you
-can read the EDID after the pre-enable. I don't know if that's always
-true with all other bridge chips.
+[How]
+Enable pflip interrupt upon pipe enablement
 
-So I guess in summary: I think I could put my code in the core, but I
-don't _think_ I can just make it automatically enabled.
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
+Reviewed-by: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Acked-by: Eryk Brol <eryk.brol@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c     |  1 +
+ drivers/gpu/drm/amd/display/dc/dc.h                   |  1 +
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.c     | 11 +++++++++++
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.h     |  6 ++++++
+ .../gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c |  7 +++++++
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubp.c     |  1 +
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c    |  6 ++++++
+ drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c     |  1 +
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c     |  1 +
+ drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h          |  2 ++
+ 10 files changed, 37 insertions(+)
 
-* In sn65dsi I'd have to only enable it if we have a fixed refclk.
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 947cd923fb4c..71d3040afaca 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -4607,6 +4607,7 @@ static int fill_dc_plane_attributes(struct amdgpu_device *adev,
+ 	dc_plane_state->global_alpha_value = plane_info.global_alpha_value;
+ 	dc_plane_state->dcc = plane_info.dcc;
+ 	dc_plane_state->layer_index = plane_info.layer_index; // Always returns 0
++	dc_plane_state->flip_int_enabled = true;
+ 
+ 	/*
+ 	 * Always set input transfer function, since plane state is refreshed
+diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+index 3aedadb34548..414b44b4ced4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc.h
++++ b/drivers/gpu/drm/amd/display/dc/dc.h
+@@ -889,6 +889,7 @@ struct dc_plane_state {
+ 	int layer_index;
+ 
+ 	union surface_update_flags update_flags;
++	bool flip_int_enabled;
+ 	/* private to DC core */
+ 	struct dc_plane_status status;
+ 	struct dc_context *ctx;
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.c
+index 9e796dfeac20..714c71a5fbde 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.c
+@@ -1257,6 +1257,16 @@ void hubp1_soft_reset(struct hubp *hubp, bool reset)
+ 	REG_UPDATE(DCHUBP_CNTL, HUBP_DISABLE, reset ? 1 : 0);
+ }
+ 
++void hubp1_set_flip_int(struct hubp *hubp)
++{
++	struct dcn10_hubp *hubp1 = TO_DCN10_HUBP(hubp);
++
++	REG_UPDATE(DCSURF_SURFACE_FLIP_INTERRUPT,
++		SURFACE_FLIP_INT_MASK, 1);
++
++	return;
++}
++
+ void hubp1_init(struct hubp *hubp)
+ {
+ 	//do nothing
+@@ -1290,6 +1300,7 @@ static const struct hubp_funcs dcn10_hubp_funcs = {
+ 	.dmdata_load = NULL,
+ 	.hubp_soft_reset = hubp1_soft_reset,
+ 	.hubp_in_blank = hubp1_in_blank,
++	.hubp_set_flip_int = hubp1_set_flip_int,
+ };
+ 
+ /*****************************************/
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.h b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.h
+index a9a6ed7f4f99..e2f2f6995935 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.h
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.h
+@@ -74,6 +74,7 @@
+ 	SRI(DCSURF_SURFACE_EARLIEST_INUSE_C, HUBPREQ, id),\
+ 	SRI(DCSURF_SURFACE_EARLIEST_INUSE_HIGH_C, HUBPREQ, id),\
+ 	SRI(DCSURF_SURFACE_CONTROL, HUBPREQ, id),\
++	SRI(DCSURF_SURFACE_FLIP_INTERRUPT, HUBPREQ, id),\
+ 	SRI(HUBPRET_CONTROL, HUBPRET, id),\
+ 	SRI(DCN_EXPANSION_MODE, HUBPREQ, id),\
+ 	SRI(DCHUBP_REQ_SIZE_CONFIG, HUBP, id),\
+@@ -183,6 +184,7 @@
+ 	uint32_t DCSURF_SURFACE_EARLIEST_INUSE_C; \
+ 	uint32_t DCSURF_SURFACE_EARLIEST_INUSE_HIGH_C; \
+ 	uint32_t DCSURF_SURFACE_CONTROL; \
++	uint32_t DCSURF_SURFACE_FLIP_INTERRUPT; \
+ 	uint32_t HUBPRET_CONTROL; \
+ 	uint32_t DCN_EXPANSION_MODE; \
+ 	uint32_t DCHUBP_REQ_SIZE_CONFIG; \
+@@ -332,6 +334,7 @@
+ 	HUBP_SF(HUBPREQ0_DCSURF_SURFACE_CONTROL, SECONDARY_META_SURFACE_TMZ_C, mask_sh),\
+ 	HUBP_SF(HUBPREQ0_DCSURF_SURFACE_CONTROL, SECONDARY_SURFACE_DCC_EN, mask_sh),\
+ 	HUBP_SF(HUBPREQ0_DCSURF_SURFACE_CONTROL, SECONDARY_SURFACE_DCC_IND_64B_BLK, mask_sh),\
++	HUBP_SF(HUBPREQ0_DCSURF_SURFACE_FLIP_INTERRUPT, SURFACE_FLIP_INT_MASK, mask_sh),\
+ 	HUBP_SF(HUBPRET0_HUBPRET_CONTROL, DET_BUF_PLANE1_BASE_ADDRESS, mask_sh),\
+ 	HUBP_SF(HUBPRET0_HUBPRET_CONTROL, CROSSBAR_SRC_CB_B, mask_sh),\
+ 	HUBP_SF(HUBPRET0_HUBPRET_CONTROL, CROSSBAR_SRC_CR_R, mask_sh),\
+@@ -531,6 +534,7 @@
+ 	type PRIMARY_SURFACE_DCC_IND_64B_BLK;\
+ 	type SECONDARY_SURFACE_DCC_EN;\
+ 	type SECONDARY_SURFACE_DCC_IND_64B_BLK;\
++	type SURFACE_FLIP_INT_MASK;\
+ 	type DET_BUF_PLANE1_BASE_ADDRESS;\
+ 	type CROSSBAR_SRC_CB_B;\
+ 	type CROSSBAR_SRC_CR_R;\
+@@ -777,4 +781,6 @@ void hubp1_read_state_common(struct hubp *hubp);
+ bool hubp1_in_blank(struct hubp *hubp);
+ void hubp1_soft_reset(struct hubp *hubp, bool reset);
+ 
++void hubp1_set_flip_int(struct hubp *hubp);
++
+ #endif
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+index 017b67b830e6..3e86e042de0d 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+@@ -2195,6 +2195,13 @@ static void dcn10_enable_plane(
+ 	if (dc->debug.sanity_checks) {
+ 		hws->funcs.verify_allow_pstate_change_high(dc);
+ 	}
++
++	if (!pipe_ctx->top_pipe
++		&& pipe_ctx->plane_state
++		&& pipe_ctx->plane_state->flip_int_enabled
++		&& pipe_ctx->plane_res.hubp->funcs->hubp_set_flip_int)
++			pipe_ctx->plane_res.hubp->funcs->hubp_set_flip_int(pipe_ctx->plane_res.hubp);
++
+ }
+ 
+ void dcn10_program_gamut_remap(struct pipe_ctx *pipe_ctx)
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubp.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubp.c
+index 0df0da2e6a4d..bec7059f6d5d 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubp.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubp.c
+@@ -1597,6 +1597,7 @@ static struct hubp_funcs dcn20_hubp_funcs = {
+ 	.validate_dml_output = hubp2_validate_dml_output,
+ 	.hubp_in_blank = hubp1_in_blank,
+ 	.hubp_soft_reset = hubp1_soft_reset,
++	.hubp_set_flip_int = hubp1_set_flip_int,
+ };
+ 
+ 
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
+index 480d928cb1ca..824f10530be2 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
+@@ -1146,6 +1146,12 @@ void dcn20_enable_plane(
+ 		pipe_ctx->plane_res.hubp->funcs->hubp_set_vm_system_aperture_settings(pipe_ctx->plane_res.hubp, &apt);
+ 	}
+ 
++	if (!pipe_ctx->top_pipe
++		&& pipe_ctx->plane_state
++		&& pipe_ctx->plane_state->flip_int_enabled
++		&& pipe_ctx->plane_res.hubp->funcs->hubp_set_flip_int)
++			pipe_ctx->plane_res.hubp->funcs->hubp_set_flip_int(pipe_ctx->plane_res.hubp);
++
+ //	if (dc->debug.sanity_checks) {
+ //		dcn10_verify_allow_pstate_change_high(dc);
+ //	}
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c
+index f9045852728f..b0c9180b808f 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c
+@@ -838,6 +838,7 @@ static struct hubp_funcs dcn21_hubp_funcs = {
+ 	.hubp_set_flip_control_surface_gsl = hubp2_set_flip_control_surface_gsl,
+ 	.hubp_init = hubp21_init,
+ 	.validate_dml_output = hubp21_validate_dml_output,
++	.hubp_set_flip_int = hubp1_set_flip_int,
+ };
+ 
+ bool hubp21_construct(
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c
+index 88ffa9ff1ed1..f24612523248 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c
+@@ -511,6 +511,7 @@ static struct hubp_funcs dcn30_hubp_funcs = {
+ 	.hubp_init = hubp3_init,
+ 	.hubp_in_blank = hubp1_in_blank,
+ 	.hubp_soft_reset = hubp1_soft_reset,
++	.hubp_set_flip_int = hubp1_set_flip_int,
+ };
+ 
+ bool hubp3_construct(
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h b/drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h
+index 22f3f643ed1b..346dcd87dc10 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h
+@@ -191,6 +191,8 @@ struct hubp_funcs {
+ 	bool (*hubp_in_blank)(struct hubp *hubp);
+ 	void (*hubp_soft_reset)(struct hubp *hubp, bool reset);
+ 
++	void (*hubp_set_flip_int)(struct hubp *hubp);
++
+ };
+ 
+ #endif
+-- 
+2.30.1
 
-* Maybe in ps8640 I could just always enable it and replace the
-existing code? I'd have to find someone to test.
-
-* In anx7625 things look totally different.
-
-Can you give me any advice on how you'd like me to proceed?
-
--Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
