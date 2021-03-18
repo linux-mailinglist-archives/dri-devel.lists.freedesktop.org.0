@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C314534033C
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 11:29:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408C1340340
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 11:29:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 383A06E8C9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D74336E8CF;
 	Thu, 18 Mar 2021 10:29:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74AD36E8C9
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 10:29:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 418496E8C9
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 10:29:29 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 06556AC75;
+ by mx2.suse.de (Postfix) with ESMTP id C6515ACBF;
  Thu, 18 Mar 2021 10:29:27 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
@@ -22,10 +22,9 @@ To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
  broonie@kernel.org, sam@ravnborg.org, robh@kernel.org,
  emil.l.velikov@gmail.com, geert+renesas@glider.be, hdegoede@redhat.com,
  bluescreen_avenger@verizon.net
-Subject: [PATCH v2 04/10] drm/aperture: Add infrastructure for aperture
- ownership
-Date: Thu, 18 Mar 2021 11:29:15 +0100
-Message-Id: <20210318102921.21536-5-tzimmermann@suse.de>
+Subject: [PATCH v2 05/10] drm: Add simpledrm driver
+Date: Thu, 18 Mar 2021 11:29:16 +0100
+Message-Id: <20210318102921.21536-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210318102921.21536-1-tzimmermann@suse.de>
 References: <20210318102921.21536-1-tzimmermann@suse.de>
@@ -50,450 +49,626 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Platform devices might operate on firmware framebuffers, such as VESA or
-EFI. Before a native driver for the graphics hardware can take over the
-device, it has to remove any platform driver that operates on the firmware
-framebuffer. Aperture helpers provide the infrastructure for platform
-drivers to acquire firmware framebuffers, and for native drivers to remove
-them later on.
+The simpledrm driver is a DRM driver for simplefb framebuffers as
+provided by the kernel's boot code. This driver enables basic
+graphical output on many different graphics devices that are provided
+by the platform (e.g., EFI, VESA, embedded framebuffers).
 
-It works similar to the related fbdev mechanism. During initialization, the
-platform driver acquires the firmware framebuffer's I/O memory and provides
-a callback to be removed. The native driver later uses this information to
-remove any platform driver for it's framebuffer I/O memory.
-
-The aperture removal code is integrated into the existing code for removing
-conflicting framebuffers, so native drivers use it automatically.
+With the kernel's simplefb infrastructure, the kernel receives a
+pre-configured framebuffer from the system (i.e., firmware, boot
+loader). It creates a platform device to which simpledrm attaches.
+The system's framebuffer consists of a memory range, size and format.
+Based on these values, simpledrm creates a DRM devices. No actual
+modesetting is possible.
 
 v2:
-	* rename plaform helpers to aperture helpers
-	* tie to device lifetime with devm_ functions
-	* removed unsued remove() callback
-	* rename kickout to detach
-	* make struct drm_aperture private
-	* rebase onto existing drm_aperture.h header file
-	* use MIT license only for simplicity
-	* documentation
+	* rename driver to simpledrm
+	* add dri-devel to MAINTAINERS entry
+	* put native format first in primary-plane format list (Daniel)
+	* inline simplekms_device_cleanup() (Daniel)
+	* use helpers for shadow-buffered planes
+	* fix whitespace errors
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
 ---
- Documentation/gpu/drm-internals.rst |   6 +
- drivers/gpu/drm/Kconfig             |   7 +
- drivers/gpu/drm/Makefile            |   1 +
- drivers/gpu/drm/drm_aperture.c      | 287 ++++++++++++++++++++++++++++
- include/drm/drm_aperture.h          |  38 +++-
- 5 files changed, 338 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/drm_aperture.c
+ MAINTAINERS                      |   7 +
+ drivers/gpu/drm/tiny/Kconfig     |  16 +
+ drivers/gpu/drm/tiny/Makefile    |   1 +
+ drivers/gpu/drm/tiny/simpledrm.c | 527 +++++++++++++++++++++++++++++++
+ 4 files changed, 551 insertions(+)
+ create mode 100644 drivers/gpu/drm/tiny/simpledrm.c
 
-diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
-index 4c7642d2ca34..06af044c882f 100644
---- a/Documentation/gpu/drm-internals.rst
-+++ b/Documentation/gpu/drm-internals.rst
-@@ -78,9 +78,15 @@ DRM_IOCTL_VERSION ioctl.
- Managing Ownership of the Framebuffer Aperture
- ----------------------------------------------
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3dc7b57be31d..e9d53daf8b58 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5744,6 +5744,13 @@ S:	Orphan / Obsolete
+ F:	drivers/gpu/drm/savage/
+ F:	include/uapi/drm/savage_drm.h
  
-+.. kernel-doc:: drivers/gpu/drm/drm_aperture.c
-+   :doc: overview
++DRM DRIVER FOR SIMPLE FRAMEBUFFERS
++M:	Thomas Zimmermann <tzimmermann@suse.de>
++L:	dri-devel@lists.freedesktop.org
++S:	Maintained
++T:	git git://anongit.freedesktop.org/drm/drm-misc
++F:	drivers/gpu/drm/tiny/simplekms.c
 +
- .. kernel-doc:: include/drm/drm_aperture.h
-    :internal:
+ DRM DRIVER FOR SIS VIDEO CARDS
+ S:	Orphan / Obsolete
+ F:	drivers/gpu/drm/sis/
+diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+index 9bbaa1a69050..d46f95d9196d 100644
+--- a/drivers/gpu/drm/tiny/Kconfig
++++ b/drivers/gpu/drm/tiny/Kconfig
+@@ -38,6 +38,22 @@ config DRM_GM12U320
+ 	 This is a KMS driver for projectors which use the GM12U320 chipset
+ 	 for video transfer over USB2/3, such as the Acer C120 mini projector.
  
-+.. kernel-doc:: drivers/gpu/drm/drm_aperture.c
-+   :export:
-+
- Device Instance and Driver Handling
- -----------------------------------
- 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 1461652921be..b9d3fb91d22d 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -221,6 +221,13 @@ config DRM_SCHED
- 	tristate
- 	depends on DRM
- 
-+config DRM_APERTURE
-+	bool
++config DRM_SIMPLEDRM
++	tristate "Simple framebuffer driver"
 +	depends on DRM
++	select DRM_GEM_SHMEM_HELPER
++	select DRM_KMS_HELPER
 +	help
-+	  Controls ownership of graphics apertures. Required to
-+	  synchronize with firmware-based drivers.
++	  DRM driver for simple platform-provided framebuffers.
 +
- source "drivers/gpu/drm/i2c/Kconfig"
- 
- source "drivers/gpu/drm/arm/Kconfig"
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 5eb5bf7c16e3..c9ecb02df0f3 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -32,6 +32,7 @@ drm-$(CONFIG_AGP) += drm_agpsupport.o
- drm-$(CONFIG_PCI) += drm_pci.o
- drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
- drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
-+drm-$(CONFIG_DRM_APERTURE) += drm_aperture.o
- 
- drm_vram_helper-y := drm_gem_vram_helper.o
- obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
-diff --git a/drivers/gpu/drm/drm_aperture.c b/drivers/gpu/drm/drm_aperture.c
++	  This driver assumes that the display hardware has been initialized
++	  by the firmware or bootloader before the kernel boots. Scanout
++	  buffer, size, and display format must be provided via device tree,
++	  UEFI, VESA, etc.
++
++	  On x86 and compatible, you should also select CONFIG_X86_SYSFB to
++	  use UEFI and VESA framebuffers.
++
+ config TINYDRM_HX8357D
+ 	tristate "DRM support for HX8357D display panels"
+ 	depends on DRM && SPI
+diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
+index bef6780bdd6f..9cc847e756da 100644
+--- a/drivers/gpu/drm/tiny/Makefile
++++ b/drivers/gpu/drm/tiny/Makefile
+@@ -3,6 +3,7 @@
+ obj-$(CONFIG_DRM_ARCPGU)		+= arcpgu.o
+ obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus.o
+ obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
++obj-$(CONFIG_DRM_SIMPLEDRM)		+= simpledrm.o
+ obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
+ obj-$(CONFIG_TINYDRM_ILI9225)		+= ili9225.o
+ obj-$(CONFIG_TINYDRM_ILI9341)		+= ili9341.o
+diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
 new file mode 100644
-index 000000000000..4b02b5fed0a1
+index 000000000000..0422c549b97a
 --- /dev/null
-+++ b/drivers/gpu/drm/drm_aperture.c
-@@ -0,0 +1,287 @@
-+// SPDX-License-Identifier: MIT
++++ b/drivers/gpu/drm/tiny/simpledrm.c
+@@ -0,0 +1,527 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +
-+#include <linux/device.h>
-+#include <linux/list.h>
-+#include <linux/mutex.h>
-+#include <linux/slab.h>
-+#include <linux/types.h>
++#include <linux/platform_data/simplefb.h>
++#include <linux/platform_device.h>
 +
-+#include <drm/drm_aperture.h>
++#include <drm/drm_atomic_state_helper.h>
++#include <drm/drm_connector.h>
++#include <drm/drm_damage_helper.h>
++#include <drm/drm_device.h>
 +#include <drm/drm_drv.h>
-+#include <drm/drm_print.h>
++#include <drm/drm_format_helper.h>
++#include <drm/drm_gem_atomic_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
++#include <drm/drm_gem_shmem_helper.h>
++#include <drm/drm_managed.h>
++#include <drm/drm_modeset_helper_vtables.h>
++#include <drm/drm_probe_helper.h>
++#include <drm/drm_simple_kms_helper.h>
 +
-+/**
-+ * DOC: overview
-+ *
-+ * A graphics device might be supported by different drivers, but only one
-+ * driver can be active at any given time. Many systems load a generic
-+ * graphics drivers, such as EFI-GOP or VESA, early during the boot process.
-+ * During later boot stages, they replace the generic driver with a dedicated,
-+ * hardware-specific driver. To take over the device the dedicated driver
-+ * first has to remove the generic driver. DRM aperture functions manage
-+ * ownership of DRM framebuffer memory and hand-over between drivers.
-+ *
-+ * DRM drivers should call drm_fb_helper_remove_conflicting_framebuffers()
-+ * at the top of their probe function. The function removes any generic
-+ * driver that is currently associated with the given framebuffer memory.
-+ * If the framebuffer is located at PCI BAR 0, the rsp code looks as in the
-+ * example given below.
-+ *
-+ * .. code-block:: c
-+ *
-+ *	static int remove_conflicting_framebuffers(struct pci_dev *pdev)
-+ *	{
-+ *		struct apertures_struct *ap;
-+ *		bool primary = false;
-+ *		int ret;
-+ *
-+ *		ap = alloc_apertures(1);
-+ *		if (!ap)
-+ *			return -ENOMEM;
-+ *
-+ *		ap->ranges[0].base = pci_resource_start(pdev, 0);
-+ *		ap->ranges[0].size = pci_resource_len(pdev, 0);
-+ *
-+ *	#ifdef CONFIG_X86
-+ *		primary = pdev->resource[PCI_ROM_RESOURCE].flags & IORESOURCE_ROM_SHADOW;
-+ *	#endif
-+ *		ret = drm_fb_helper_remove_conflicting_framebuffers(ap, "example driver", primary);
-+ *		kfree(ap);
-+ *
-+ *		return ret;
-+ *	}
-+ *
-+ *	static int probe(struct pci_dev *pdev)
-+ *	{
-+ *		int ret;
-+ *
-+ *		// Remove any generic drivers...
-+ *		ret = remove_conflicting_framebuffers(pdev);
-+ *		if (ret)
-+ *			return ret;
-+ *
-+ *		// ... and initialize the hardware.
-+ *		...
-+ *
-+ *		drm_dev_register();
-+ *
-+ *		return 0;
-+ *	}
-+ *
-+ * For PCI devices it is often sufficient to use drm_fb_helper_remove_conflicting_pci_framebuffers()
-+ * and let it detect the framebuffer apertures automatically.
-+ *
-+ * .. code-block:: c
-+ *
-+ *	static int probe(struct pci_dev *pdev)
-+ *	{
-+ *		int ret;
-+ *
-+ *		// Remove any generic drivers...
-+ *		ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "example driver");
-+ *		if (ret)
-+ *			return ret;
-+ *
-+ *		// ... and initialize the hardware.
-+ *		...
-+ *
-+ *		drm_dev_register();
-+ *
-+ *		return 0;
-+ *	}
-+ *
-+ * Drivers that are susceptible to being removed be other drivers, such as
-+ * generic EFI or VESA drivers, have to register themselves as owners of their
-+ * given framebuffer memory. Ownership of the framebuffer memory is achived
-+ * by calling devm_aperture_acquire(). On success, the driver is the owner
-+ * of the framebuffer range. The function fails if the framebuffer is already
-+ * by another driver. See below for an example.
-+ *
-+ * .. code-block:: c
-+ *
-+ *	static struct drm_aperture_funcs ap_funcs = {
-+ *		.detach = ...
-+ *	};
-+ *
-+ *	static int acquire_framebuffers(struct drm_device *dev, struct pci_dev *pdev)
-+ *	{
-+ *		resource_size_t start, len;
-+ *		struct drm_aperture *ap;
-+ *
-+ *		base = pci_resource_start(pdev, 0);
-+ *		size = pci_resource_len(pdev, 0);
-+ *
-+ *		ap = devm_acquire_aperture(dev, base, size, &ap_funcs);
-+ *		if (IS_ERR(ap))
-+ *			return PTR_ERR(ap);
-+ *
-+ *		return 0;
-+ *	}
-+ *
-+ *	static int probe(struct pci_dev *pdev)
-+ *	{
-+ *		struct drm_device *dev;
-+ *		int ret;
-+ *
-+ *		// ... Initialize the device...
-+ *		dev = devm_drm_dev_alloc();
-+ *		...
-+ *
-+ *		// ... and acquire ownership of the framebuffer.
-+ *		ret = acquire_framebuffers(dev, pdev);
-+ *		if (ret)
-+ *			return ret;
-+ *
-+ *		drm_dev_register();
-+ *
-+ *		return 0;
-+ *	}
-+ *
-+ * The generic driver is now subject to forced removal by other drivers. This
-+ * is when the detach function in struct &drm_aperture_funcs comes into play.
-+ * When a driver calls drm_fb_helper_remove_conflicting_framebuffers() et al
-+ * for the registered framebuffer range, the DRM core calls struct
-+ * &drm_aperture_funcs.detach and the generic driver has to onload itself. It
-+ * may not access the device's registers, framebuffer memory, ROM, etc after
-+ * detach returned. If the driver supports hotplugging, detach can be treated
-+ * like an unplug event.
-+ *
-+ * .. code-block:: c
-+ *
-+ *	static void detach_from_device(struct drm_device *dev,
-+ *				       resource_size_t base,
-+ *				       resource_size_t size)
-+ *	{
-+ *		// Signal unplug
-+ *		drm_dev_unplug(dev);
-+ *
-+ *		// Maybe do other clean-up operations
-+ *		...
-+ *	}
-+ *
-+ *	static struct drm_aperture_funcs ap_funcs = {
-+ *		.detach = detach_from_device,
-+ *	};
++#define DRIVER_NAME	"simpledrm"
++#define DRIVER_DESC	"DRM driver for simple-framebuffer platform devices"
++#define DRIVER_DATE	"20200625"
++#define DRIVER_MAJOR	1
++#define DRIVER_MINOR	0
++
++/*
++ * Assume a monitor resolution of 96 dpi to
++ * get a somewhat reasonable screen size.
++ */
++#define RES_MM(d)	\
++	(((d) * 254ul) / (96ul * 10ul))
++
++#define SIMPLEDRM_MODE(hd, vd)	\
++	DRM_SIMPLE_MODE(hd, vd, RES_MM(hd), RES_MM(vd))
++
++/*
++ * Helpers for simplefb
 + */
 +
-+/**
-+ * struct drm_aperture - Represents a DRM framebuffer aperture
-+ *
-+ * This structure has no public fields.
-+ */
-+struct drm_aperture {
-+	struct drm_device *dev;
-+	resource_size_t base;
-+	resource_size_t size;
-+
-+	const struct drm_aperture_funcs *funcs;
-+
-+	struct list_head lh;
-+};
-+
-+static LIST_HEAD(drm_apertures);
-+
-+static DEFINE_MUTEX(drm_apertures_lock);
-+
-+static bool overlap(resource_size_t base1, resource_size_t end1,
-+		    resource_size_t base2, resource_size_t end2)
++static int
++simplefb_get_validated_int(struct drm_device *dev, const char *name,
++			   uint32_t value)
 +{
-+	return (base1 < end2) && (end1 > base2);
++	if (value > INT_MAX) {
++		drm_err(dev, "simplefb: invalid framebuffer %s of %u\n",
++			name, value);
++		return -EINVAL;
++	}
++	return (int)value;
 +}
 +
-+static void devm_aperture_acquire_release(void *data)
++static int
++simplefb_get_validated_int0(struct drm_device *dev, const char *name,
++			    uint32_t value)
 +{
-+	struct drm_aperture *ap = data;
-+	bool detached = !ap->dev;
-+
-+	if (!detached)
-+		mutex_lock(&drm_apertures_lock);
-+
-+	list_del(&ap->lh);
-+
-+	if (!detached)
-+		mutex_unlock(&drm_apertures_lock);
++	if (!value) {
++		drm_err(dev, "simplefb: invalid framebuffer %s of %u\n",
++			name, value);
++		return -EINVAL;
++	}
++	return simplefb_get_validated_int(dev, name, value);
 +}
 +
-+/**
-+ * devm_aperture_acquire - Acquires ownership of a framebuffer on behalf of a DRM driver.
-+ * @dev:	the DRM device to own the framebuffer memory
-+ * @base:	the framebuffer's byte offset in physical memory
-+ * @size:	the framebuffer size in bytes
-+ * @funcs:	callback functions
-+ *
-+ * Installs the given device as the new owner. The function fails if the
-+ * framebuffer range, or parts of it, is currently owned by another driver.
-+ * To evict current owners, callers should use
-+ * drm_fb_helper_remove_conflicting_framebuffers() et al. before calling this
-+ * function. Acquired apertures are released automatically if the underlying
-+ * device goes away.
-+ *
-+ * Returns:
-+ * An instance of struct &drm_aperture on success, or a pointer-encoded
-+ * errno value otherwise.
-+ */
-+struct drm_aperture *
-+devm_aperture_acquire(struct drm_device *dev,
-+		      resource_size_t base, resource_size_t size,
-+		      const struct drm_aperture_funcs *funcs)
++static const struct drm_format_info *
++simplefb_get_validated_format(struct drm_device *dev, const char *format_name)
 +{
-+	size_t end = base + size;
-+	struct list_head *pos;
-+	struct drm_aperture *ap;
-+	int ret;
++	static const struct simplefb_format formats[] = SIMPLEFB_FORMATS;
++	const struct simplefb_format *fmt = formats;
++	const struct simplefb_format *end = fmt + ARRAY_SIZE(formats);
 +
-+	mutex_lock(&drm_apertures_lock);
-+
-+	list_for_each(pos, &drm_apertures) {
-+		ap = container_of(pos, struct drm_aperture, lh);
-+		if (overlap(base, end, ap->base, ap->base + ap->size))
-+			return ERR_PTR(-EBUSY);
++	if (!format_name) {
++		drm_err(dev, "simplefb: missing framebuffer format\n");
++		return ERR_PTR(-EINVAL);
 +	}
 +
-+	ap = devm_kzalloc(dev->dev, sizeof(*ap), GFP_KERNEL);
-+	if (!ap)
-+		return ERR_PTR(-ENOMEM);
++	while (fmt < end) {
++		if (!strcmp(format_name, fmt->name))
++			return drm_format_info(fmt->fourcc);
++		++fmt;
++	}
 +
-+	ap->dev = dev;
-+	ap->base = base;
-+	ap->size = size;
-+	ap->funcs = funcs;
-+	INIT_LIST_HEAD(&ap->lh);
++	drm_err(dev, "simplefb: unknown framebuffer format %s\n",
++		format_name);
 +
-+	list_add(&ap->lh, &drm_apertures);
++	return ERR_PTR(-EINVAL);
++}
 +
-+	mutex_unlock(&drm_apertures_lock);
++static int
++simplefb_get_width_pd(struct drm_device *dev,
++		      const struct simplefb_platform_data *pd)
++{
++	return simplefb_get_validated_int0(dev, "width", pd->width);
++}
 +
-+	ret = devm_add_action_or_reset(dev->dev, devm_aperture_acquire_release, ap);
++static int
++simplefb_get_height_pd(struct drm_device *dev,
++		       const struct simplefb_platform_data *pd)
++{
++	return simplefb_get_validated_int0(dev, "height", pd->height);
++}
++
++static int
++simplefb_get_stride_pd(struct drm_device *dev,
++		       const struct simplefb_platform_data *pd)
++{
++	return simplefb_get_validated_int(dev, "stride", pd->stride);
++}
++
++static const struct drm_format_info *
++simplefb_get_format_pd(struct drm_device *dev,
++		       const struct simplefb_platform_data *pd)
++{
++	return simplefb_get_validated_format(dev, pd->format);
++}
++
++/*
++ * Simple Framebuffer device
++ */
++
++struct simpledrm_device {
++	struct drm_device dev;
++	struct platform_device *pdev;
++
++	/* simplefb settings */
++	struct drm_display_mode mode;
++	const struct drm_format_info *format;
++	unsigned int pitch;
++
++	/* memory management */
++	struct resource *mem;
++	void __iomem *screen_base;
++
++	/* modesetting */
++	uint32_t formats[8];
++	size_t nformats;
++	struct drm_connector connector;
++	struct drm_simple_display_pipe pipe;
++};
++
++static struct simpledrm_device *simpledrm_device_of_dev(struct drm_device *dev)
++{
++	return container_of(dev, struct simpledrm_device, dev);
++}
++
++/*
++ *  Simplefb settings
++ */
++
++static struct drm_display_mode simpledrm_mode(unsigned int width,
++					      unsigned int height)
++{
++	struct drm_display_mode mode = { SIMPLEDRM_MODE(width, height) };
++
++	mode.clock = 60 /* Hz */ * mode.hdisplay * mode.vdisplay;
++	drm_mode_set_name(&mode);
++
++	return mode;
++}
++
++static int simpledrm_device_init_fb(struct simpledrm_device *sdev)
++{
++	int width, height, stride;
++	const struct drm_format_info *format;
++	struct drm_format_name_buf buf;
++	struct drm_device *dev = &sdev->dev;
++	struct platform_device *pdev = sdev->pdev;
++	const struct simplefb_platform_data *pd = dev_get_platdata(&pdev->dev);
++
++	if (pd) {
++		width = simplefb_get_width_pd(dev, pd);
++		if (width < 0)
++			return width;
++		height = simplefb_get_height_pd(dev, pd);
++		if (height < 0)
++			return height;
++		stride = simplefb_get_stride_pd(dev, pd);
++		if (stride < 0)
++			return stride;
++		format = simplefb_get_format_pd(dev, pd);
++		if (IS_ERR(format))
++			return PTR_ERR(format);
++	} else {
++		drm_err(dev, "no simplefb configuration found\n");
++		return -ENODEV;
++	}
++
++	sdev->mode = simpledrm_mode(width, height);
++	sdev->format = format;
++	sdev->pitch = stride;
++
++	drm_dbg_kms(dev, "display mode={" DRM_MODE_FMT "}\n",
++		    DRM_MODE_ARG(&sdev->mode));
++	drm_dbg_kms(dev,
++		    "framebuffer format=\"%s\", size=%dx%d, stride=%d byte\n",
++		    drm_get_format_name(format->format, &buf), width,
++		    height, stride);
++
++	return 0;
++}
++
++/*
++ * Memory management
++ */
++
++static int simpledrm_device_init_mm(struct simpledrm_device *sdev)
++{
++	struct platform_device *pdev = sdev->pdev;
++	struct resource *mem;
++	void __iomem *screen_base;
++
++	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!mem)
++		return -EINVAL;
++
++	screen_base = devm_ioremap_wc(&pdev->dev, mem->start,
++				      resource_size(mem));
++	if (!screen_base)
++		return -ENOMEM;
++
++	sdev->mem = mem;
++	sdev->screen_base = screen_base;
++
++	return 0;
++}
++
++/*
++ * Modesetting
++ */
++
++/*
++ * Support all formats of simplefb and maybe more; in order
++ * of preference. The display's update function will do any
++ * conversion necessary.
++ *
++ * TODO: Add blit helpers for remaining formats and uncomment
++ *       constants.
++ */
++static const uint32_t simpledrm_default_formats[] = {
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_RGB565,
++	//DRM_FORMAT_XRGB1555,
++	//DRM_FORMAT_ARGB1555,
++	DRM_FORMAT_RGB888,
++	//DRM_FORMAT_XRGB2101010,
++	//DRM_FORMAT_ARGB2101010,
++};
++
++static const uint64_t simpledrm_format_modifiers[] = {
++	DRM_FORMAT_MOD_LINEAR,
++	DRM_FORMAT_MOD_INVALID
++};
++
++static int simpledrm_connector_helper_get_modes(struct drm_connector *connector)
++{
++	struct simpledrm_device *sdev = simpledrm_device_of_dev(connector->dev);
++	struct drm_display_mode *mode;
++
++	mode = drm_mode_duplicate(connector->dev, &sdev->mode);
++	if (!mode)
++		return 0;
++
++	if (mode->name[0] == '\0')
++		drm_mode_set_name(mode);
++
++	mode->type |= DRM_MODE_TYPE_PREFERRED;
++	drm_mode_probed_add(connector, mode);
++
++	if (mode->width_mm)
++		connector->display_info.width_mm = mode->width_mm;
++	if (mode->height_mm)
++		connector->display_info.height_mm = mode->height_mm;
++
++	return 1;
++}
++
++static const struct drm_connector_helper_funcs simpledrm_connector_helper_funcs = {
++	.get_modes = simpledrm_connector_helper_get_modes,
++};
++
++static const struct drm_connector_funcs simpledrm_connector_funcs = {
++	.reset = drm_atomic_helper_connector_reset,
++	.fill_modes = drm_helper_probe_single_connector_modes,
++	.destroy = drm_connector_cleanup,
++	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++};
++
++static int
++simpledrm_simple_display_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
++				    const struct drm_display_mode *mode)
++{
++	struct simpledrm_device *sdev = simpledrm_device_of_dev(pipe->connector->dev);
++
++	if (mode->hdisplay != sdev->mode.hdisplay &&
++	    mode->vdisplay != sdev->mode.vdisplay)
++		return MODE_ONE_SIZE;
++	else if (mode->hdisplay != sdev->mode.hdisplay)
++		return MODE_ONE_WIDTH;
++	else if (mode->vdisplay != sdev->mode.vdisplay)
++		return MODE_ONE_HEIGHT;
++
++	return MODE_OK;
++}
++
++static void
++simpledrm_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
++				     struct drm_crtc_state *crtc_state,
++				     struct drm_plane_state *plane_state)
++{
++	struct simpledrm_device *sdev = simpledrm_device_of_dev(pipe->connector->dev);
++	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
++	struct drm_framebuffer *fb = plane_state->fb;
++	void *vmap = shadow_plane_state->map[0].vaddr; /* TODO: Use mapping abstraction properly */
++
++	if (!fb)
++		return;
++
++	drm_fb_blit_dstclip(sdev->screen_base, sdev->pitch,
++			    sdev->format->format, vmap, fb);
++}
++
++static void
++simpledrm_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
++				     struct drm_plane_state *old_plane_state)
++{
++	struct simpledrm_device *sdev = simpledrm_device_of_dev(pipe->connector->dev);
++	struct drm_plane_state *plane_state = pipe->plane.state;
++	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
++	void *vmap = shadow_plane_state->map[0].vaddr; /* TODO: Use mapping abstraction properly */
++	struct drm_framebuffer *fb = plane_state->fb;
++	struct drm_rect clip;
++
++	if (!fb)
++		return;
++
++	if (!drm_atomic_helper_damage_merged(old_plane_state, plane_state, &clip))
++		return;
++
++	drm_fb_blit_rect_dstclip(sdev->screen_base, sdev->pitch,
++				 sdev->format->format, vmap, fb, &clip);
++}
++
++static const struct drm_simple_display_pipe_funcs
++simpledrm_simple_display_pipe_funcs = {
++	.mode_valid = simpledrm_simple_display_pipe_mode_valid,
++	.enable = simpledrm_simple_display_pipe_enable,
++	.update = simpledrm_simple_display_pipe_update,
++	DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS,
++};
++
++static const struct drm_mode_config_funcs simpledrm_mode_config_funcs = {
++	.fb_create = drm_gem_fb_create_with_dirty,
++	.atomic_check = drm_atomic_helper_check,
++	.atomic_commit = drm_atomic_helper_commit,
++};
++
++static const uint32_t *simpledrm_device_formats(struct simpledrm_device *sdev,
++						size_t *nformats_out)
++{
++	struct drm_device *dev = &sdev->dev;
++	size_t i;
++
++	if (sdev->nformats)
++		goto out; /* don't rebuild list on recurring calls */
++
++	/* native format goes first */
++	sdev->formats[0] = sdev->format->format;
++	sdev->nformats = 1;
++
++	/* default formats go second */
++	for (i = 0; i < ARRAY_SIZE(simpledrm_default_formats); ++i) {
++		if (simpledrm_default_formats[i] == sdev->format->format)
++			continue; /* native format already went first */
++		sdev->formats[sdev->nformats] = simpledrm_default_formats[i];
++		sdev->nformats++;
++	}
++
++	/*
++	 * TODO: The simpledrm driver converts framebuffers to the native
++	 * format when copying them to device memory. If there are more
++	 * formats listed than supported by the driver, the native format
++	 * is not supported by the conversion helpers. Therefore *only*
++	 * support the native format and add a conversion helper ASAP.
++	 */
++	if (drm_WARN_ONCE(dev, i != sdev->nformats,
++			  "format conversion helpers required for %p4cc",
++			  &sdev->format->format)) {
++		sdev->nformats = 1;
++	}
++
++out:
++	*nformats_out = sdev->nformats;
++	return sdev->formats;
++}
++
++static int simpledrm_device_init_modeset(struct simpledrm_device *sdev)
++{
++	struct drm_device *dev = &sdev->dev;
++	struct drm_display_mode *mode = &sdev->mode;
++	struct drm_connector *connector = &sdev->connector;
++	struct drm_simple_display_pipe *pipe = &sdev->pipe;
++	const uint32_t *formats;
++	size_t nformats;
++	int ret;
++
++	ret = drmm_mode_config_init(dev);
++	if (ret)
++		return ret;
++
++	dev->mode_config.min_width = mode->hdisplay;
++	dev->mode_config.max_width = mode->hdisplay;
++	dev->mode_config.min_height = mode->vdisplay;
++	dev->mode_config.max_height = mode->vdisplay;
++	dev->mode_config.prefer_shadow = true;
++	dev->mode_config.preferred_depth = sdev->format->cpp[0] * 8;
++	dev->mode_config.funcs = &simpledrm_mode_config_funcs;
++
++	ret = drm_connector_init(dev, connector, &simpledrm_connector_funcs,
++				 DRM_MODE_CONNECTOR_Unknown);
++	if (ret)
++		return ret;
++	drm_connector_helper_add(connector, &simpledrm_connector_helper_funcs);
++
++	formats = simpledrm_device_formats(sdev, &nformats);
++
++	ret = drm_simple_display_pipe_init(dev, pipe, &simpledrm_simple_display_pipe_funcs,
++					   formats, nformats, simpledrm_format_modifiers,
++					   connector);
++	if (ret)
++		return ret;
++
++	drm_mode_config_reset(dev);
++
++	return 0;
++}
++
++/*
++ * Init / Cleanup
++ */
++
++static struct simpledrm_device *
++simpledrm_device_create(struct drm_driver *drv, struct platform_device *pdev)
++{
++	struct simpledrm_device *sdev;
++	int ret;
++
++	sdev = devm_drm_dev_alloc(&pdev->dev, drv, struct simpledrm_device,
++				  dev);
++	if (IS_ERR(sdev))
++		return ERR_CAST(sdev);
++	sdev->pdev = pdev;
++
++	ret = simpledrm_device_init_fb(sdev);
++	if (ret)
++		return ERR_PTR(ret);
++	ret = simpledrm_device_init_mm(sdev);
++	if (ret)
++		return ERR_PTR(ret);
++	ret = simpledrm_device_init_modeset(sdev);
 +	if (ret)
 +		return ERR_PTR(ret);
 +
-+	return ap;
++	return sdev;
 +}
-+EXPORT_SYMBOL(devm_aperture_acquire);
 +
-+void drm_aperture_detach_drivers(resource_size_t base, resource_size_t size)
-+{
-+	resource_size_t end = base + size;
-+	struct list_head *pos, *n;
++/*
++ * DRM driver
++ */
 +
-+	mutex_lock(&drm_apertures_lock);
++DEFINE_DRM_GEM_FOPS(simpledrm_fops);
 +
-+	list_for_each_safe(pos, n, &drm_apertures) {
-+		struct drm_aperture *ap =
-+			container_of(pos, struct drm_aperture, lh);
-+		struct drm_device *dev = ap->dev;
-+
-+		if (!overlap(base, end, ap->base, ap->base + ap->size))
-+			continue;
-+
-+		ap->dev = NULL; /* detach from device */
-+		if (drm_WARN_ON(dev, !ap->funcs->detach))
-+			continue;
-+		ap->funcs->detach(dev, ap->base, ap->size);
-+	}
-+
-+	mutex_unlock(&drm_apertures_lock);
-+}
-+EXPORT_SYMBOL(drm_aperture_detach_drivers);
-diff --git a/include/drm/drm_aperture.h b/include/drm/drm_aperture.h
-index 13766efe9517..696cec75ef78 100644
---- a/include/drm/drm_aperture.h
-+++ b/include/drm/drm_aperture.h
-@@ -4,8 +4,30 @@
- #define _DRM_APERTURE_H_
- 
- #include <linux/fb.h>
-+#include <linux/pci.h>
- #include <linux/vgaarb.h>
- 
-+struct drm_aperture;
-+struct drm_device;
-+
-+struct drm_aperture_funcs {
-+	void (*detach)(struct drm_device *dev, resource_size_t base, resource_size_t size);
++static struct drm_driver simpledrm_driver = {
++	DRM_GEM_SHMEM_DRIVER_OPS,
++	.name			= DRIVER_NAME,
++	.desc			= DRIVER_DESC,
++	.date			= DRIVER_DATE,
++	.major			= DRIVER_MAJOR,
++	.minor			= DRIVER_MINOR,
++	.driver_features	= DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
++	.fops			= &simpledrm_fops,
 +};
 +
-+struct drm_aperture *
-+devm_aperture_acquire(struct drm_device *dev,
-+		      resource_size_t base, resource_size_t size,
-+		      const struct drm_aperture_funcs *funcs);
++/*
++ * Platform driver
++ */
 +
-+#if defined(CONFIG_DRM_APERTURE)
-+void drm_aperture_detach_drivers(resource_size_t base, resource_size_t size);
-+#else
-+static inline void
-+drm_aperture_detach_drivers(resource_size_t base, resource_size_t size)
++static int simpledrm_probe(struct platform_device *pdev)
 +{
++	struct simpledrm_device *sdev;
++	struct drm_device *dev;
++	int ret;
++
++	sdev = simpledrm_device_create(&simpledrm_driver, pdev);
++	if (IS_ERR(sdev))
++		return PTR_ERR(sdev);
++	dev = &sdev->dev;
++
++	ret = drm_dev_register(dev, 0);
++	if (ret)
++		return ret;
++
++	return 0;
 +}
-+#endif
 +
- /**
-  * drm_fb_helper_remove_conflicting_framebuffers - remove firmware-configured framebuffers
-  * @a: memory range, users of which are to be removed
-@@ -20,6 +42,11 @@ static inline int
- drm_fb_helper_remove_conflicting_framebuffers(struct apertures_struct *a,
- 					      const char *name, bool primary)
- {
-+	int i;
++static int simpledrm_remove(struct platform_device *pdev)
++{
++	struct simpledrm_device *sdev = platform_get_drvdata(pdev);
++	struct drm_device *dev = &sdev->dev;
 +
-+	for (i = 0; i < a->count; ++i)
-+		drm_aperture_detach_drivers(a->ranges[i].base, a->ranges[i].size);
++	drm_dev_unregister(dev);
 +
- #if IS_REACHABLE(CONFIG_FB)
- 	return remove_conflicting_framebuffers(a, name, primary);
- #else
-@@ -43,7 +70,16 @@ static inline int
- drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
- 						  const char *name)
- {
--	int ret = 0;
-+	resource_size_t base, size;
-+	int bar, ret = 0;
++	return 0;
++}
 +
-+	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
-+		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
-+			continue;
-+		base = pci_resource_start(pdev, bar);
-+		size = pci_resource_len(pdev, bar);
-+		drm_aperture_detach_drivers(base, size);
-+	}
- 
- 	/*
- 	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
++static struct platform_driver simpledrm_platform_driver = {
++	.driver = {
++		.name = "simple-framebuffer", /* connect to sysfb */
++	},
++	.probe = simpledrm_probe,
++	.remove = simpledrm_remove,
++};
++
++module_platform_driver(simpledrm_platform_driver);
++
++MODULE_DESCRIPTION(DRIVER_DESC);
++MODULE_LICENSE("GPL v2");
 -- 
 2.30.1
 
