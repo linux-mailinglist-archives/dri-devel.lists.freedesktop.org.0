@@ -2,58 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E6534038D
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 11:40:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7C3340380
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 11:39:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20BE86E0FD;
-	Thu, 18 Mar 2021 10:40:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8C5F6E0E3;
+	Thu, 18 Mar 2021 10:39:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com
- [IPv6:2607:f8b0:4864:20::830])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 866D36E0FD
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 10:39:58 +0000 (UTC)
-Received: by mail-qt1-x830.google.com with SMTP id s2so3641344qtx.10
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 03:39:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ayz9aKoCpmgg1fa5GkH0c4F8DTmBCEZswDCuyy4H59U=;
- b=VPeK7peaPO+/n0vISlTMqyEBVPghBkM/1ol/hphu+FgdyYVVD4vJddbg/9tMDcbgGR
- kkrgjS5cjIfxCDI2W7qfookjrZm2Qr54yBLwxJm9JeiE4/+ld5YVrUAjKreTHJChtyJP
- LGYUr9Qvrt5u+YF/Ynyrd06aDmbEbmg548EsUt1KEcZqok3jfP0aIb5KyQ0auJydWb2J
- hn4fgLp6rnOPwx/XuAfAFPq6qw55PV+mwzm0t+I6ajSQJrIXhTHG/EvLz1tqWkFfgAdx
- 06y9TlKpEmonkFVAnUctoqbEX8kGi873cXytjcrMYHtKqHXt6Zz7RwDD4V5Xvyq0VlWu
- RccA==
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com
+ [209.85.217.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3EC16E0E3
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 10:39:19 +0000 (UTC)
+Received: by mail-vs1-f43.google.com with SMTP id b5so1259221vsl.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 03:39:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ayz9aKoCpmgg1fa5GkH0c4F8DTmBCEZswDCuyy4H59U=;
- b=BqgdPoJ+jqFrav9Vbi5yqNv+Gzt+Z3VZaq82lEykql46TkyMG+jA/vh0zTK3i4dKNe
- j6vzoYYe2G8Voptf/yA8/WsUuWfs5fl4EsWwRFntIcwR5Kb2P/BrcqovZYRoG6I1ICQk
- hWlgWGe8y88FVRCAftZSTlq3eoO00MZrbTQY7KRo6zxrJT7UEph9QL7wuf9FLGfmOwQL
- VhnSEjeFhJT7+bFSCcaAcigyyEvrk0sWcbR58RLL+UXh9Tv1v9CQxcLhEsZEe6G2rM8t
- lmv08tGO0Po0tgL/H3pFsZiM7RSrH5MH+p1v75yvANinqc8goAy3ZIvFky3kctoQbGzt
- wJjQ==
-X-Gm-Message-State: AOAM5301fj6hwGugDw295Mhg5jOEN4CNbL+YyxOa3weT/pCkFucjrgho
- ayUSBaP+IYlAtfAiCd/0Ktc=
-X-Google-Smtp-Source: ABdhPJz2sFx7quTsW6EZ/nxZQyM10WClx2kdtxfnDKii5Bcz1/kx8S+pTP5fLGpv3QZ5qKK8cqvUGA==
-X-Received: by 2002:aed:38e9:: with SMTP id k96mr3026870qte.162.1616063996680; 
- Thu, 18 Mar 2021 03:39:56 -0700 (PDT)
-Received: from localhost.localdomain ([156.146.54.246])
- by smtp.gmail.com with ESMTPSA id 46sm1127507qte.7.2021.03.18.03.39.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Mar 2021 03:39:55 -0700 (PDT)
-From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: Few typo fixes
-Date: Thu, 18 Mar 2021 16:07:39 +0530
-Message-Id: <20210318103739.27849-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tAvzu8nz5iln6WgpiSW86z6S3Eft+tfyr3DeEjUUSh8=;
+ b=mIFU5MhJr86++Lw6Wg+CIPBE+y+M1AukvCu0nZDVw3rtY1V1HycaGQtyKbtDMkVUWr
+ zS8Al3IpoW6wc9VwbJ5Ja+Hv5AgYsC3WkrlWprhn+8l527ZEi6DWRzbdYjsupfJbmBUd
+ IxO6H49dDvUedU0cEeNzAueKJHLKiEr6WROYsVn+QO8mWwN6YuxciYWI1OLE2G6dxP4Z
+ RI+KACXWNpWlsZCNdDwvIVVeosoev/5YXv2RqLMBfg58gqmgp1PJUZTj7izjefqFunzZ
+ lK48sFTpUbmtY4N1bBmtAW6A875g19vm9ZOWM4sB5Oin0WxffDhi2qFPcWgZGbc8MzAL
+ pJ/g==
+X-Gm-Message-State: AOAM531KVteZiqLchd2yYIcLntLZDHSphGDPMqhlUUzxuxiK+IAqjAG5
+ k3DYhJQDVsv74mDOO2wCvJPhjhXhYsCOPU7apag=
+X-Google-Smtp-Source: ABdhPJyLRkuI65bcr5OT1r++d1vw1tuL9YMffz3SQ5rZYOlZEhaTfC7OjKL8YtBiPs1j+K6eLMB172cH0IogWEpFT0k=
+X-Received: by 2002:a67:ef0e:: with SMTP id j14mr5704768vsr.40.1616063958823; 
+ Thu, 18 Mar 2021 03:39:18 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210318102921.21536-1-tzimmermann@suse.de>
+ <20210318102921.21536-9-tzimmermann@suse.de>
+In-Reply-To: <20210318102921.21536-9-tzimmermann@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 18 Mar 2021 11:39:07 +0100
+Message-ID: <CAMuHMdVa6hw89zr5nRFaKG0sZYLXdTOktGN7pU2LiAPPbsHEdw@mail.gmail.com>
+Subject: Re: [PATCH v2 08/10] drm/simpledrm: Acquire clocks from DT device node
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,46 +52,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Cc: bluescreen_avenger@verizon.net, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, virtualization@lists.linux-foundation.org,
+ Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Thomas,
 
-s/instatiated/instantiated/
-s/unreference/unreferenced/
+On Thu, Mar 18, 2021 at 11:29 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Make sure required hardware clocks are enabled while the firmware
+> framebuffer is in use.
+>
+> The basic code has been taken from the simplefb driver and adapted
+> to DRM. Clocks are released automatically via devres helpers.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- drivers/gpu/drm/drm_property.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks for your patch!
 
-diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
-index 6ee04803c362..27c824a6eb60 100644
---- a/drivers/gpu/drm/drm_property.c
-+++ b/drivers/gpu/drm/drm_property.c
-@@ -43,7 +43,7 @@
-  * property types and ranges.
-  *
-  * Properties don't store the current value directly, but need to be
-- * instatiated by attaching them to a &drm_mode_object with
-+ * instantiated by attaching them to a &drm_mode_object with
-  * drm_object_attach_property().
-  *
-  * Property values are only 64bit. To support bigger piles of data (like gamma
-@@ -644,7 +644,7 @@ EXPORT_SYMBOL(drm_property_blob_get);
-  * @id: id of the blob property
-  *
-  * If successful, this takes an additional reference to the blob property.
-- * callers need to make sure to eventually unreference the returned property
-+ * callers need to make sure to eventually unreferenced the returned property
-  * again, using drm_property_blob_put().
-  *
-  * Return:
---
-2.26.2
+> --- a/drivers/gpu/drm/tiny/simpledrm.c
+> +++ b/drivers/gpu/drm/tiny/simpledrm.c
 
+> +static int simpledrm_device_init_clocks(struct simpledrm_device *sdev)
+> +{
+> +       struct drm_device *dev = &sdev->dev;
+> +       struct platform_device *pdev = sdev->pdev;
+> +       struct device_node *of_node = pdev->dev.of_node;
+> +       struct clk *clock;
+> +       unsigned int i;
+> +       int ret;
+> +
+> +       if (dev_get_platdata(&pdev->dev) || !of_node)
+> +               return 0;
+> +
+> +       sdev->clk_count = of_clk_get_parent_count(of_node);
+> +       if (!sdev->clk_count)
+> +               return 0;
+> +
+> +       sdev->clks = drmm_kzalloc(dev, sdev->clk_count * sizeof(sdev->clks[0]),
+> +                                 GFP_KERNEL);
+> +       if (!sdev->clks)
+> +               return -ENOMEM;
+> +
+> +       for (i = 0; i < sdev->clk_count; ++i) {
+> +               clock = of_clk_get(of_node, i);
+> +               if (IS_ERR(clock)) {
+> +                       ret = PTR_ERR(clock);
+> +                       if (ret == -EPROBE_DEFER)
+> +                               goto err;
+> +                       drm_err(dev, "clock %u not found: %d\n", i, ret);
+> +                       continue;
+> +               }
+> +               ret = clk_prepare_enable(clock);
+> +               if (ret) {
+> +                       drm_err(dev, "failed to enable clock %u: %d\n",
+> +                               i, ret);
+> +                       clk_put(clock);
+> +               }
+> +               sdev->clks[i] = clock;
+> +       }
+
+of_clk_bulk_get_all() + clk_bulk_prepare_enable()?
+
+There's also devm_clk_bulk_get_all(), but not for the OF variant.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
