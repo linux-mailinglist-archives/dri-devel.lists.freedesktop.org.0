@@ -2,47 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFD2A340ACF
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 18:02:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C981340ADE
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 18:04:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6F1B6E929;
-	Thu, 18 Mar 2021 17:02:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6034B6E92B;
+	Thu, 18 Mar 2021 17:04:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 560426E929
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 17:02:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616086935;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=aaIWi/Aa75Hr56eti79lKQowFccyYMrkVkBuTxfGEhk=;
- b=YVFz/JDRMjCqyoJcJDVcmOr6RvTFR6PiV2rcja1ksY6aMF+ftFMRCePXb7mqeOX+13uXvM
- GeF+e1QVIhJzID11OTOztHmkmkZC9NG1P7bxWpGaoRUlM62JVtQssm44jps4GCSRn1QkpT
- S270WycbgrVK4tUVbCLFtOJ9snqN5Do=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-QzJu-dWLNPiT0vYhS6dp9g-1; Thu, 18 Mar 2021 13:02:11 -0400
-X-MC-Unique: QzJu-dWLNPiT0vYhS6dp9g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB50B190A7A1;
- Thu, 18 Mar 2021 17:02:09 +0000 (UTC)
-Received: from Whitewolf.lyude.net (ovpn-113-18.rdu2.redhat.com [10.10.113.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1192019D9B;
- Thu, 18 Mar 2021 17:02:07 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/dpcd_bl: Don't try vesa interface unless specified
- by VBT
-Date: Thu, 18 Mar 2021 13:02:02 -0400
-Message-Id: <20210318170204.513000-1-lyude@redhat.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1192A6E05A;
+ Thu, 18 Mar 2021 17:04:27 +0000 (UTC)
+IronPort-SDR: 7k4h7yEHIWIj9QrItEIAW8yzLxdEjCitcY/C3bS+XmruMsgqdnAXiTm0/lSDnm3YN93fFbPgxy
+ mIZjewN7Eiyg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9927"; a="209733831"
+X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="209733831"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2021 10:04:26 -0700
+IronPort-SDR: I9cyujX4kZl+NpocI1tKUlFa9qCXEgtI6uEZ4yMeWG3wB+6mel7J16pPc6v03m55IAdbUZYolg
+ zOL6HDr8WeMw==
+X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="413164878"
+Received: from syeghiay-mobl.ger.corp.intel.com (HELO localhost.localdomain)
+ ([10.252.51.182])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2021 10:04:24 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3 0/6] Default request/fence expiry + watchdog
+Date: Thu, 18 Mar 2021 17:04:13 +0000
+Message-Id: <20210318170419.2107512-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,62 +45,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- open list <linux-kernel@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Sean Paul <seanpaul@chromium.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Aaron Ma <aaron.ma@canonical.com>,
- Dave Airlie <airlied@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Looks like that there actually are another subset of laptops on the market
-that don't support the Intel HDR backlight interface, but do advertise
-support for the VESA DPCD backlight interface despite the fact it doesn't
-seem to work.
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Note though I'm not entirely clear on this - on one of the machines where
-this issue was observed, I also noticed that we appeared to be rejecting
-the VBT defined backlight frequency in
-intel_dp_aux_vesa_calc_max_backlight(). It's noted in this function that:
+"Watchdog" aka "restoring hangcheck" aka default request/fence expiry - second
+post of a somewhat controversial feature, now upgraded to patch status.
 
-/* Use highest possible value of Pn for more granularity of brightness
- * adjustment while satifying the conditions below.
- * ...
- * - FxP is within 25% of desired value.
- *   Note: 25% is arbitrary value and may need some tweak.
- */
+I quote the "watchdog" becuase in classical sense watchdog would allow userspace
+to ping it and so remain alive.
 
-So it's possible that this value might just need to be tweaked, but for now
-let's just disable the VESA backlight interface unless it's specified in
-the VBT just to be safe. We might be able to try enabling this again by
-default in the future.
+I quote "restoring hangcheck" because this series, contrary to the old
+hangcheck, is not looking at whether the workload is making any progress from
+the kernel side either. (Although disclaimer my memory may be leaky - Daniel
+suspects old hangcheck had some stricter, more indiscriminatory, angles to it.
+But apart from being prone to both false negatives and false positives I can't
+remember that myself.)
 
-Fixes: 2227816e647a ("drm/i915/dp: Allow forcing specific interfaces through enable_dpcd_backlight")
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Bugzilla: https://gitlab.freedesktop.org/drm/intel/-/issues/3169
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 1 -
- 1 file changed, 1 deletion(-)
+Short version - ask is to fail any user submissions after a set time period. In
+this RFC that time is twelve seconds.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-index 651884390137..4f8337c7fd2e 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-@@ -646,7 +646,6 @@ int intel_dp_aux_init_backlight_funcs(struct intel_connector *connector)
- 			break;
- 		case INTEL_BACKLIGHT_DISPLAY_DDI:
- 			try_intel_interface = true;
--			try_vesa_interface = true;
- 			break;
- 		default:
- 			return -ENODEV;
+Time counts from the moment user submission is "runnable" (implicit and explicit
+dependencies have been cleared) and keeps counting regardless of the GPU
+contetion caused by other users of the system.
+
+So semantics are really a bit weak, but again, I understand this is really
+really wanted by the DRM core even if I am not convinced it is a good idea.
+
+There are some dangers with doing this - text borrowed from a patch in the
+series:
+
+  This can have an effect that workloads which used to work fine will
+  suddenly start failing. Even workloads comprised of short batches but in
+  long dependency chains can be terminated.
+
+  And becuase of lack of agreement on usefulness and safety of fence error
+  propagation this partial execution can be invisible to userspace even if
+  it is "listening" to returned fence status.
+
+  Another interaction is with hangcheck where care needs to be taken timeout
+  is not set lower or close to three times the heartbeat interval. Otherwise
+  a hang in any application can cause complete termination of all
+  submissions from unrelated clients. Any users modifying the per engine
+  heartbeat intervals therefore need to be aware of this potential denial of
+  service to avoid inadvertently enabling it.
+
+  Given all this I am personally not convinced the scheme is a good idea.
+  Intuitively it feels object importers would be better positioned to
+  enforce the time they are willing to wait for something to complete.
+
+v2:
+ * Dropped context param.
+ * Improved commit messages and Kconfig text.
+
+v3:
+ * Log timeouts.
+ * Bump timeout to 20s to see if it helps Tigerlake.
+ * Fix sentinel assert.
+
+Test-with: 20210318162400.2065097-1-tvrtko.ursulin@linux.intel.com
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch
+
+Chris Wilson (1):
+  drm/i915: Individual request cancellation
+
+Tvrtko Ursulin (5):
+  drm/i915: Restrict sentinel requests further
+  drm/i915: Handle async cancellation in sentinel assert
+  drm/i915: Request watchdog infrastructure
+  drm/i915: Fail too long user submissions by default
+  drm/i915: Allow configuring default request expiry via modparam
+
+ drivers/gpu/drm/i915/Kconfig.profile          |  14 ++
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  39 ++++
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |   4 +
+ drivers/gpu/drm/i915/gt/intel_context_param.h |  11 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h |   4 +
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |   1 +
+ .../drm/i915/gt/intel_execlists_submission.c  |  18 +-
+ .../drm/i915/gt/intel_execlists_submission.h  |   2 +
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   3 +
+ drivers/gpu/drm/i915/gt/intel_gt.h            |   2 +
+ drivers/gpu/drm/i915/gt/intel_gt_requests.c   |  26 +++
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   7 +
+ drivers/gpu/drm/i915/i915_params.c            |   5 +
+ drivers/gpu/drm/i915/i915_params.h            |   1 +
+ drivers/gpu/drm/i915/i915_request.c           | 108 +++++++++-
+ drivers/gpu/drm/i915/i915_request.h           |  12 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c | 201 ++++++++++++++++++
+ 17 files changed, 450 insertions(+), 8 deletions(-)
+
 -- 
-2.29.2
+2.27.0
 
 _______________________________________________
 dri-devel mailing list
