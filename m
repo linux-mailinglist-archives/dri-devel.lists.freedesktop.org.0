@@ -1,97 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91CD633FFDA
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 07:45:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9401033FFE0
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 07:46:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A233F6E43A;
-	Thu, 18 Mar 2021 06:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A84A16E095;
+	Thu, 18 Mar 2021 06:46:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0014ca01.pphosted.com (mx0b-0014ca01.pphosted.com
- [208.86.201.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 322FC6E43A
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 06:45:46 +0000 (UTC)
-Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
- by mx0b-0014ca01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12I6dOZW023937; Wed, 17 Mar 2021 23:45:41 -0700
+Received: from mx0a-0014ca01.pphosted.com (mx0a-0014ca01.pphosted.com
+ [208.84.65.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DBA76E095
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 06:46:49 +0000 (UTC)
+Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
+ by mx0a-0014ca01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12I6h2Dr008920; Wed, 17 Mar 2021 23:46:39 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=proofpoint;
- bh=xTmEhTrKLs0vPdfFeDDoRPykGzGmzmtFOdv53q0HUfU=;
- b=ACe93BWZrAFeKX9uDd1f4RnzJZcPgY+9TjE7K51wcF6mf6Pa9tteFbr2nGbaX2aVq1Gi
- 12OZ7UXERtSV6GTSFOu/6f4cohoE/b+EoJWFRfdhcFpPbk19vCafL3cWa+68yppX1D3x
- 1NDG3zZvBJ9KCJJOEPP0hdcFdcObtajOLLtv3ASkbK+K/kzt0pagaqhV7b9mHUGCAIxB
- 0e5UkAxQS5JCjwTaDN+gG+LqSMQlusmCZCWKsOuOcEI7SPWz0dEaKBsukSM+uJv+tU3E
- 8IIQwaD++iFXD/+pcgfZgBQhnSzwvcy4QlNDMTk2SGK156iB2VB5AjeXM5gPMnPxXSkm AA== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2176.outbound.protection.outlook.com [104.47.58.176])
- by mx0b-0014ca01.pphosted.com with ESMTP id 378sv2rj43-1
+ bh=ShvmON/pnRTIjbzYUs588otjOyiWxEa35CtRjgC03+w=;
+ b=TkGaAGFWylgu/bnFEpQ9BYqSlqyEh+kLRC5hjnVSB10DZJdkZThAJyuQmjEl2haAwa62
+ SLTpAjBWujHVBpzjWZ6Mxr0HjgwouhQ7KgUNX5d2M8Cs6yWewFZpm0FlRUQWgtz09QE1
+ vU5m/x7S7qgO96jz0cpZHklHAA7nqckMotnALr0UK+nPOmQvMa6qGci7kHFCOOHAblNN
+ qXfT7GtJblvo/OCKXafxYUvEBSJRStUrlxvOSV9BTAmBdLwQQciHeEbjDauqg4jqf8lz
+ St/pl1CN0M5gEEmqq7lLC/UlYP3HD9mxQlo21has7wvPpDqmd+zzbByIYoyO1kXM58D6 Rg== 
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2107.outbound.protection.outlook.com [104.47.70.107])
+ by mx0a-0014ca01.pphosted.com with ESMTP id 378tu282dy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Mar 2021 23:45:40 -0700
+ Wed, 17 Mar 2021 23:46:39 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=POxXDU265OUK/oNvjchf0KxBUlx574nHAQc9JovP2vbZGp/0f4gdEMBkWtoQgi7AIhIeA6+Z7UNGA2MrCo9wCeSHDwYAkieZo5satQnxf0PofL+PgNYfu3mYXW8HKtd2mcP/z9l/Lk2E7juG5HrAfUrevZRPF5pkCQQ4f87Hxg/q0kwVhpffgmfF1wRYUZmis+86gsspe/kJUKZEKMrYb27edfUyJ+6zPTZQtu8qMJuXZEN32/JdnPZ9on2YB7EOciQKIA2M0IdTn0yaYHWa6CEUXFeBZA4urLh0PFXqRl/AnSkwhVY9+Kdisk347GaZ7h7saoLyrOc0dYhZ6mVvdw==
+ b=kpwRsM5s0oerhqVkUu6gY/obGOWF9CWa/6x1I5Pg+5tesVi3f/+ARJVvt0hS7kcoXrxQhSAw7NsaiVDciunYpsk4OpT9vgCyeH4GsfO6tpXOhGGWGqmG2GydbyW9qZyEei8ythAmNvfS9Clghm18N5+166InR2D3SeX2OlrvgkE0vqLKa5Jwh5ZmkxNS3+Sc0KnWPyQIkbvlr1+3y9tkDOMkU5Kur4tTCpoium3k2KwCt/jt48HhcI34YywmvwGJSdQyaiP5g5JCMowf6XphSpK5fIGT1Y+FKQe9FAxrTdbBwN0CzVMZHdsXn+lnKZ4L9gjkWGORZR+zew4eH/wt5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xTmEhTrKLs0vPdfFeDDoRPykGzGmzmtFOdv53q0HUfU=;
- b=TgHa6HB1+9qqU7iXB2+R4uMnhHGGCpIljZMRx1cj5DMno4BEJzGN1NmaBJ7i6AiQqOQMIQ8mYtxm116ZukUMSrJD38GPxawoL/mhwH/eoSopvQiAtvfILnRcyuGwSNTGkCgHnvA8zgQkM1VpX5zOMQtoXfhsxaM4a7JMlqh8Y8W3unbebEp1+IsfP7y1XuxAzvHjDX309ruWkqndb54/OwvkU1wyuFl2klo/UkmxNOqpjFA05ARTb2d5XHcsCa/DpEGZXFrNuciPPvegXOGAomszvVefYtQlrNeVbJqXGoa7WPyq0ASoOaZa8AewAhLeB8PYBAPJH0j0WJNZmHzcIQ==
+ bh=ShvmON/pnRTIjbzYUs588otjOyiWxEa35CtRjgC03+w=;
+ b=nErM0d+4PaOxoARGFny9SIkAosNqDhIX8KFvK78hmmfZfK/A/WDMedHtwio5if17V3k/tBgPTugiXaSsKdKtm3aG/b4HUhnig8GvT0UXPmaL3FrBDH0vNPA5IvcH6y28XvdxIqtMeb073QBQU1aNx5U9r+L5njZFC26g5ztdPpXWGkzvSQDKrAtlLG2VW5c56eDW5AFiu4ZOYgIUm3wpGATZEdTcCkVm+6GxDXQhYbnJdKMo7/s5tDUmweuy7BX212PbLFbRKTeYlVYL4+1p3RxtOnIp8JJh5/tDAn+Kkqbq2fKoQC41x6e6VA5hmCPVP3zBH25+aC27LPSZxkm4Jg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 64.207.220.244) smtp.rcpttodomain=linux.ie smtp.mailfrom=cadence.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
- dkim=none (message not signed); arc=none
+ 199.43.4.23) smtp.rcpttodomain=linux.ie smtp.mailfrom=cadence.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=cadence.com; dkim=none
+ (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xTmEhTrKLs0vPdfFeDDoRPykGzGmzmtFOdv53q0HUfU=;
- b=Z6FEgSsVbpI7tSzauVincVsHGRbjHKh+PkQ9wpwhpk8lEEWF5DyF3pyM9/Ti8FvdasgoSD7SM21ypjj7c3fXBkRNTys954qrqYOXhhezydxrJeTmru+WFweQk8iygL0+rko2M9fofAhM4hn1L1MvevZBa/C1b3h0A6mTMlnCRiM=
-Received: from BN9PR03CA0339.namprd03.prod.outlook.com (2603:10b6:408:f6::14)
- by DM6PR07MB6844.namprd07.prod.outlook.com (2603:10b6:5:159::14) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=ShvmON/pnRTIjbzYUs588otjOyiWxEa35CtRjgC03+w=;
+ b=igtsHdhLyiCPVkqTg9IlXkx4tOow9nujZxMrbwdMKdKXvnKezWJXeGYF37U7xzM2af2ZODSY2BcnsMRwocpGUtZ0Rksg9fbKkKoq7cLEgygllQ5G9w++PwiH89W1OineR8ludD6I15FjlUF+/Nb/qeN39SkvhJP3RNPFvopXzg4=
+Received: from MW4PR04CA0117.namprd04.prod.outlook.com (2603:10b6:303:83::32)
+ by SN4PR0701MB3807.namprd07.prod.outlook.com (2603:10b6:803:49::32)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Thu, 18 Mar
- 2021 06:45:38 +0000
-Received: from BN8NAM12FT023.eop-nam12.prod.protection.outlook.com
- (2603:10b6:408:f6:cafe::15) by BN9PR03CA0339.outlook.office365.com
- (2603:10b6:408:f6::14) with Microsoft SMTP Server (version=TLS1_2,
+ 2021 06:46:34 +0000
+Received: from MW2NAM12FT048.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:303:83:cafe::a) by MW4PR04CA0117.outlook.office365.com
+ (2603:10b6:303:83::32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend
- Transport; Thu, 18 Mar 2021 06:45:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 64.207.220.244)
+ Transport; Thu, 18 Mar 2021 06:46:34 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 199.43.4.23)
  smtp.mailfrom=cadence.com; linux.ie; dkim=none (message not signed)
  header.d=none;linux.ie; dmarc=pass action=none header.from=cadence.com;
 Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
- 64.207.220.244 as permitted sender) receiver=protection.outlook.com;
- client-ip=64.207.220.244; helo=wcmailrelayl01.cadence.com;
-Received: from wcmailrelayl01.cadence.com (64.207.220.244) by
- BN8NAM12FT023.mail.protection.outlook.com (10.13.183.93) with Microsoft SMTP
+ 199.43.4.23 as permitted sender) receiver=protection.outlook.com;
+ client-ip=199.43.4.23; helo=rmmaillnx1.cadence.com;
+Received: from rmmaillnx1.cadence.com (199.43.4.23) by
+ MW2NAM12FT048.mail.protection.outlook.com (10.13.180.215) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.9 via Frontend Transport; Thu, 18 Mar 2021 06:45:35 +0000
+ 15.20.3955.9 via Frontend Transport; Thu, 18 Mar 2021 06:46:33 +0000
 Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
- by wcmailrelayl01.cadence.com (8.14.7/8.14.4) with ESMTP id
- 12I6jWEI196748
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=OK);
- Wed, 17 Mar 2021 23:45:33 -0700
+ by rmmaillnx1.cadence.com (8.14.4/8.14.4) with ESMTP id
+ 12I6kTHp021426
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 18 Mar 2021 02:46:31 -0400
 X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
 Received: from maileu3.global.cadence.com (10.160.88.99) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 18 Mar 2021 07:45:31 +0100
+ 15.0.1497.2; Thu, 18 Mar 2021 07:46:29 +0100
 Received: from vleu-orange.cadence.com (10.160.88.83) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2 via Frontend Transport; Thu, 18 Mar 2021 07:45:31 +0100
+ 15.0.1497.2 via Frontend Transport; Thu, 18 Mar 2021 07:46:29 +0100
 Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
- by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 12I6jVb8031504;
- Thu, 18 Mar 2021 07:45:31 +0100
+ by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 12I6kTCW031887;
+ Thu, 18 Mar 2021 07:46:29 +0100
 Received: (from pthombar@localhost)
- by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 12I6jVB6031503;
- Thu, 18 Mar 2021 07:45:31 +0100
+ by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 12I6kTEI031880;
+ Thu, 18 Mar 2021 07:46:29 +0100
 From: Parshuram Thombare <pthombar@cadence.com>
 To: <robert.foss@linaro.org>, <robh+dt@kernel.org>,
  <laurent.pinchart@ideasonboard.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH v4 1/2] dt-bindings: drm/bridge: MHDP8546 bridge binding
- changes for HDCP
-Date: Thu, 18 Mar 2021 07:45:30 +0100
-Message-ID: <1616049930-31457-1-git-send-email-pthombar@cadence.com>
+Subject: [PATCH v4 2/2] drm: bridge: cdns-mhdp8546: Enable HDCP
+Date: Thu, 18 Mar 2021 07:46:27 +0100
+Message-ID: <1616049987-31834-1-git-send-email-pthombar@cadence.com>
 X-Mailer: git-send-email 2.2.2
 In-Reply-To: <1616049882-29712-1-git-send-email-pthombar@cadence.com>
 References: <1616049882-29712-1-git-send-email-pthombar@cadence.com>
@@ -99,36 +98,38 @@ MIME-Version: 1.0
 X-OrganizationHeadersPreserved: maileu3.global.cadence.com
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d31c9de6-86f0-48ce-c7d9-08d8e9d96f7f
-X-MS-TrafficTypeDiagnostic: DM6PR07MB6844:
-X-Microsoft-Antispam-PRVS: <DM6PR07MB684494363B4B10C8F713AACEC1699@DM6PR07MB6844.namprd07.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
+X-MS-Office365-Filtering-Correlation-Id: 57be4bcd-43b2-49e0-35d8-08d8e9d991f8
+X-MS-TrafficTypeDiagnostic: SN4PR0701MB3807:
+X-Microsoft-Antispam-PRVS: <SN4PR0701MB38078F69980816C7D3FD4A7DC1699@SN4PR0701MB3807.namprd07.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:209;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9lllGS5w8JXeQhw7EmUh+L+67YPlOAR0tGX2KE3cca3J/0Oogmvolum/mRhkrEYpjVHZd4vZ9VHxDwxXPUdfNbSDZchnEmC6ZBpg+HPFFNBMysGd6FJ+Bi3Pq4skC7BpX7WG+QvLPrJnnpq4QmCBDcZCPO71TNySG+pMCRGP9sbZc2mhv4g5FH3p0VFtv3cMisHqBBlPpJ12Rua/HS98sb2muIVqbsCbYb/Kso9R/yNm9noEpZrbZbIf1VBpncqbQogjIH7Al5V57e4QTYZwVQ3OUdcbLEXIQRg/TH5wGZLY5c1WSLqMLapqpVNiUfiE1nR6kqCb0s7+RAr9YJMBgG6HyjMhtaXmybYpfBgMnf+Rr/QwHsRt2e0HYNEkz8tesQtA6ClTJH/ZcQVCCSUIZBivQIg7gaoiZkb7hdeAjtZ5Mght3sTTQbCwB/SjDn9jfy+TsGhjMvxOtXF3kz3pYKC9m4aNUsg65Icme3r4raOvP03TPhir8/3FP31LnMSFdhjdRri1N4sY0Dy7WDsemCBA/W/A+fGMjyIHJ9Bl1KTeDJLZm04//iiAwhYBguRy/diKrRvQhY+1ZbjvD8wZcl78wUk4GvFNFLBKF1lNBqR9FsJyYvVom+47Rnpi4+tFoO/hNVpSN+F6s/l29xLvvgx7YnweHVb6iW4k77lHG2rSKo/uJRSnOGjegFkqIlkH/4oPKRSswuoL1TQkYId7Q0oXDIsMwT/aCWMB8BGM8Yg=
-X-Forefront-Antispam-Report: CIP:64.207.220.244; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:wcmailrelayl01.cadence.com; PTR:ErrorRetry; CAT:NONE;
- SFS:(4636009)(376002)(396003)(136003)(39860400002)(346002)(36092001)(46966006)(36840700001)(8936002)(36756003)(336012)(26005)(110136005)(36860700001)(82310400003)(70586007)(5660300002)(70206006)(54906003)(426003)(186003)(2906002)(7416002)(2616005)(81166007)(86362001)(83380400001)(356005)(107886003)(82740400003)(8676002)(4326008)(36906005)(316002)(42186006)(478600001)(47076005)(36900700001)(2101003);
+X-Microsoft-Antispam-Message-Info: 0h9x+Gdt7kcAOWDREtw49nZYFPfzXLkqmdlX02vHWjDHpF8LTG32+zLFv3HYurPZqJRT122nXRCSiHtsGIIc+8t8d0tebgZ8VI9631bVufhpTG0EC+5VB8Nh+j0ZqIWgZMoHm+Z8Id85qA6aJ1G/nTGHCzNxVKwYpmS+/J/xB48yPDnib/qX+i8EM2qhoyD6OhhRO2l/h0VvVxufXOI70j8hAs7EpSP9NUh9nS6F7LgUxu/56XQHYD7lrzWD+PmDYIjavZFjsi8JENCp+Ur9IpmLIDol2DdcBDemhQHP0ue3pwFIcE1NJbXK/oW/lbnCU/PmKz9aHCgb2mHujkm0CAu770wjYvD4+N2pUYi78dzYyVEI3V6USJ8bUjkvYa4hSaXT9Bkuw1azjpce5tgkwkCelUG8JuKihas5wLXHHVJgeIIHeeMJa5vvV2es+wTTh2AUFE3OWbPGgD1nDhLZTRu5gpPXjRThZVjUerIiaIdG5i/r3VC3afa2cY2tWsxyc1XGu9EuG3MFeD7xAYpWOuSbri5a5f+PeD4y/EHBpJOsfCJ2SkDKMLCJrBckHmRvSAOxp7xsuEnUL4B0+FZAQAybiQHZdvUt6reSV3bd1MgqTh2l2Ckqod9MSZKZ0gzXCBhCtO9nxawu4jJZf7xf4DcTdhWQA/0bVHfWVvW+VZIsivo2PJvgYRwm6b+LsbgOUh0KwU3nb5UrKLrIl/Pyusdv1ivN/hSlYvxyzitjXx0=
+X-Forefront-Antispam-Report: CIP:199.43.4.23; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:rmmaillnx1.cadence.com; PTR:InfoDomainNonexistent;
+ CAT:NONE;
+ SFS:(4636009)(346002)(396003)(376002)(39860400002)(136003)(36092001)(36840700001)(46966006)(54906003)(8676002)(426003)(70206006)(2616005)(316002)(356005)(110136005)(82740400003)(47076005)(26005)(8936002)(30864003)(83380400001)(478600001)(7416002)(81166007)(36860700001)(4326008)(86362001)(107886003)(186003)(2906002)(82310400003)(42186006)(336012)(5660300002)(36756003)(70586007)(2101003)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2021 06:45:35.9246 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d31c9de6-86f0-48ce-c7d9-08d8e9d96f7f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2021 06:46:33.7474 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57be4bcd-43b2-49e0-35d8-08d8e9d991f8
 X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9; Ip=[64.207.220.244];
- Helo=[wcmailrelayl01.cadence.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM12FT023.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9; Ip=[199.43.4.23];
+ Helo=[rmmaillnx1.cadence.com]
+X-MS-Exchange-CrossTenant-AuthSource: MW2NAM12FT048.eop-nam12.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR07MB6844
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR0701MB3807
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
  definitions=2021-03-18_02:2021-03-17,
  2021-03-18 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check
- score=0 phishscore=0
- mlxlogscore=999 priorityscore=1501 bulkscore=0 impostorscore=0 spamscore=0
- adultscore=0 malwarescore=0 suspectscore=0 mlxscore=0 lowpriorityscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103180051
+ score=0 adultscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 clxscore=1015
+ lowpriorityscore=0 malwarescore=0 spamscore=0 suspectscore=0
+ impostorscore=0 mlxscore=0 mlxlogscore=999 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103180051
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,79 +151,958 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add binding changes for HDCP in the MHDP8546 DPI/DP bridge binding.
+This patch enable HDCP in MHDP driver.
 
 Signed-off-by: Parshuram Thombare <pthombar@cadence.com>
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
 ---
- .../display/bridge/cdns,mhdp8546.yaml         | 24 +++++++++++--------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/bridge/cadence/Makefile       |   2 +-
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 113 +++-
+ .../drm/bridge/cadence/cdns-mhdp8546-core.h   |  21 +
+ .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   | 570 ++++++++++++++++++
+ .../drm/bridge/cadence/cdns-mhdp8546-hdcp.h   |  92 +++
+ 5 files changed, 785 insertions(+), 13 deletions(-)
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.h
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-index 63427878715e..8a85768f6202 100644
---- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-@@ -17,8 +17,8 @@ properties:
-       - ti,j721e-mhdp8546
+diff --git a/drivers/gpu/drm/bridge/cadence/Makefile b/drivers/gpu/drm/bridge/cadence/Makefile
+index 8f647991b374..4d2db8df1bc6 100644
+--- a/drivers/gpu/drm/bridge/cadence/Makefile
++++ b/drivers/gpu/drm/bridge/cadence/Makefile
+@@ -1,4 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-$(CONFIG_DRM_CDNS_MHDP8546) += cdns-mhdp8546.o
+-cdns-mhdp8546-y := cdns-mhdp8546-core.o
++cdns-mhdp8546-y := cdns-mhdp8546-core.o cdns-mhdp8546-hdcp.o
+ cdns-mhdp8546-$(CONFIG_DRM_CDNS_MHDP8546_J721E) += cdns-mhdp8546-j721e.o
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+index d0c65610ebb5..d7e0e6a547b5 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+@@ -42,6 +42,7 @@
+ #include <drm/drm_connector.h>
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_dp_helper.h>
++#include <drm/drm_hdcp.h>
+ #include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+@@ -49,7 +50,7 @@
+ #include <asm/unaligned.h>
  
-   reg:
--    minItems: 1
--    maxItems: 2
-+    minItems: 2
-+    maxItems: 3
-     items:
-       - description:
-           Register block of mhdptx apb registers up to PHY mapped area (AUX_CONFIG_P).
-@@ -26,13 +26,16 @@ properties:
-           included in the associated PHY.
-       - description:
-           Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
-+      - description:
-+          Register block of mhdptx sapb registers.
+ #include "cdns-mhdp8546-core.h"
+-
++#include "cdns-mhdp8546-hdcp.h"
+ #include "cdns-mhdp8546-j721e.h"
  
-   reg-names:
--    minItems: 1
--    maxItems: 2
-+    minItems: 2
-+    maxItems: 3
-     items:
-       - const: mhdptx
-       - const: j721e-intg
-+      - const: mhdptx-sapb
+ static int cdns_mhdp_mailbox_read(struct cdns_mhdp_device *mhdp)
+@@ -1614,10 +1615,47 @@ enum drm_mode_status cdns_mhdp_mode_valid(struct drm_connector *conn,
+ 	return MODE_OK;
+ }
  
-   clocks:
-     maxItems: 1
-@@ -98,15 +101,15 @@ allOf:
-     then:
-       properties:
-         reg:
--          minItems: 2
-+          minItems: 3
-         reg-names:
--          minItems: 2
-+          minItems: 3
-     else:
-       properties:
-         reg:
--          maxItems: 1
-+          maxItems: 2
-         reg-names:
--          maxItems: 1
-+          maxItems: 2
++static int cdns_mhdp_connector_atomic_check(struct drm_connector *conn,
++					    struct drm_atomic_state *state)
++{
++	struct drm_connector_state *old_state, *new_state;
++	struct drm_crtc_state *crtc_state;
++	u64 old_cp, new_cp;
++
++	old_state = drm_atomic_get_old_connector_state(state, conn);
++	new_state = drm_atomic_get_new_connector_state(state, conn);
++	old_cp = old_state->content_protection;
++	new_cp = new_state->content_protection;
++
++	if (old_state->hdcp_content_type != new_state->hdcp_content_type &&
++	    new_cp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
++		new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
++		goto mode_changed;
++	}
++
++	if (!new_state->crtc) {
++		if (old_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED)
++			new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
++		return 0;
++	}
++
++	if (old_cp == new_cp ||
++	    (old_cp == DRM_MODE_CONTENT_PROTECTION_DESIRED &&
++	     new_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED))
++		return 0;
++
++mode_changed:
++	crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
++	crtc_state->mode_changed = true;
++
++	return 0;
++}
++
+ static const struct drm_connector_helper_funcs cdns_mhdp_conn_helper_funcs = {
+ 	.detect_ctx = cdns_mhdp_connector_detect,
+ 	.get_modes = cdns_mhdp_get_modes,
+ 	.mode_valid = cdns_mhdp_mode_valid,
++	.atomic_check = cdns_mhdp_connector_atomic_check,
+ };
  
- required:
-   - compatible
-@@ -129,8 +132,9 @@ examples:
+ static const struct drm_connector_funcs cdns_mhdp_conn_funcs = {
+@@ -1662,7 +1700,7 @@ static int cdns_mhdp_connector_init(struct cdns_mhdp_device *mhdp)
+ 		return ret;
+ 	}
  
-         mhdp: dp-bridge@f0fb000000 {
-             compatible = "cdns,mhdp8546";
--            reg = <0xf0 0xfb000000 0x0 0x1000000>;
--            reg-names = "mhdptx";
-+            reg = <0xf0 0xfb000000 0x0 0x1000000>,
-+                  <0x0 0x4f48000 0x0 0x74>;
-+            reg-names = "mhdptx", "mhdptx-sapb";
-             clocks = <&mhdp_clock>;
-             phys = <&dp_phy>;
-             phy-names = "dpphy";
+-	return 0;
++	return drm_connector_attach_content_protection_property(conn, true);
+ }
+ 
+ static int cdns_mhdp_attach(struct drm_bridge *bridge,
+@@ -1957,6 +1995,14 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
+ 	if (WARN_ON(!conn_state))
+ 		goto out;
+ 
++	if (mhdp->hw_state == MHDP_HW_READY &&
++	    conn_state->content_protection ==
++	    DRM_MODE_CONTENT_PROTECTION_DESIRED) {
++		mutex_unlock(&mhdp->link_mutex);
++		cdns_mhdp_hdcp_enable(mhdp, conn_state->hdcp_content_type);
++		mutex_lock(&mhdp->link_mutex);
++	}
++
+ 	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+ 	if (WARN_ON(!crtc_state))
+ 		goto out;
+@@ -2000,6 +2046,7 @@ static void cdns_mhdp_atomic_disable(struct drm_bridge *bridge,
+ 
+ 	mutex_lock(&mhdp->link_mutex);
+ 
++	cdns_mhdp_hdcp_disable(mhdp);
+ 	mhdp->bridge_enabled = false;
+ 	cdns_mhdp_reg_read(mhdp, CDNS_DP_FRAMER_GLOBAL_CONFIG, &resp);
+ 	resp &= ~CDNS_DP_FRAMER_EN;
+@@ -2288,7 +2335,6 @@ static irqreturn_t cdns_mhdp_irq_handler(int irq, void *data)
+ 	struct cdns_mhdp_device *mhdp = data;
+ 	u32 apb_stat, sw_ev0;
+ 	bool bridge_attached;
+-	int ret;
+ 
+ 	apb_stat = readl(mhdp->regs + CDNS_APB_INT_STATUS);
+ 	if (!(apb_stat & CDNS_APB_INT_MASK_SW_EVENT_INT))
+@@ -2307,20 +2353,54 @@ static irqreturn_t cdns_mhdp_irq_handler(int irq, void *data)
+ 	spin_unlock(&mhdp->start_lock);
+ 
+ 	if (bridge_attached && (sw_ev0 & CDNS_DPTX_HPD)) {
+-		ret = cdns_mhdp_update_link_status(mhdp);
+-		if (mhdp->connector.dev) {
+-			if (ret < 0)
+-				schedule_work(&mhdp->modeset_retry_work);
+-			else
+-				drm_kms_helper_hotplug_event(mhdp->bridge.dev);
+-		} else {
+-			drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
+-		}
++		schedule_work(&mhdp->hpd_work);
++	}
++
++	if (sw_ev0 & ~CDNS_DPTX_HPD) {
++		mhdp->sw_events |= (sw_ev0 & ~CDNS_DPTX_HPD);
++		wake_up(&mhdp->sw_events_wq);
+ 	}
+ 
+ 	return IRQ_HANDLED;
+ }
+ 
++u32 cdns_mhdp_wait_for_sw_event(struct cdns_mhdp_device *mhdp, u32 event)
++{
++	u32 ret;
++
++	ret = wait_event_timeout(mhdp->sw_events_wq,
++				 mhdp->sw_events & event,
++				 msecs_to_jiffies(500));
++	if (!ret) {
++		dev_dbg(mhdp->dev, "SW event 0x%x timeout\n", event);
++		goto sw_event_out;
++	}
++
++	ret = mhdp->sw_events;
++	mhdp->sw_events &= ~event;
++
++sw_event_out:
++	return ret;
++}
++
++static void cdns_mhdp_hpd_work(struct work_struct *work)
++{
++	struct cdns_mhdp_device *mhdp = container_of(work,
++						     struct cdns_mhdp_device,
++						     hpd_work);
++	int ret;
++
++	ret = cdns_mhdp_update_link_status(mhdp);
++	if (mhdp->connector.dev) {
++		if (ret < 0)
++			schedule_work(&mhdp->modeset_retry_work);
++		else
++			drm_kms_helper_hotplug_event(mhdp->bridge.dev);
++	} else {
++		drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
++	}
++}
++
+ static int cdns_mhdp_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -2356,6 +2436,12 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
+ 		return PTR_ERR(mhdp->regs);
+ 	}
+ 
++	mhdp->sapb_regs = devm_platform_ioremap_resource_byname(pdev, "mhdptx-sapb");
++	if (IS_ERR(mhdp->sapb_regs)) {
++		dev_err(dev, "Failed to get SAPB memory resource\n");
++		return PTR_ERR(mhdp->sapb_regs);
++	}
++
+ 	mhdp->phy = devm_of_phy_get_by_index(dev, pdev->dev.of_node, 0);
+ 	if (IS_ERR(mhdp->phy)) {
+ 		dev_err(dev, "no PHY configured\n");
+@@ -2430,13 +2516,16 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
+ 
+ 	/* Initialize the work for modeset in case of link train failure */
+ 	INIT_WORK(&mhdp->modeset_retry_work, cdns_mhdp_modeset_retry_fn);
++	INIT_WORK(&mhdp->hpd_work, cdns_mhdp_hpd_work);
+ 
+ 	init_waitqueue_head(&mhdp->fw_load_wq);
++	init_waitqueue_head(&mhdp->sw_events_wq);
+ 
+ 	ret = cdns_mhdp_load_firmware(mhdp);
+ 	if (ret)
+ 		goto phy_exit;
+ 
++	cdns_mhdp_hdcp_init(mhdp);
+ 	drm_bridge_add(&mhdp->bridge);
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+index 5897a85e3159..8744f4f70649 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+@@ -47,6 +47,10 @@ struct phy;
+ 
+ #define CDNS_SW_EVENT0				0x00044
+ #define CDNS_DPTX_HPD				BIT(0)
++#define CDNS_HDCP_TX_STATUS			BIT(4)
++#define CDNS_HDCP2_TX_IS_KM_STORED		BIT(5)
++#define CDNS_HDCP2_TX_STORE_KM			BIT(6)
++#define CDNS_HDCP_TX_IS_RCVR_ID_VALID		BIT(7)
+ 
+ #define CDNS_SW_EVENT1				0x00048
+ #define CDNS_SW_EVENT2				0x0004c
+@@ -339,8 +343,17 @@ struct cdns_mhdp_platform_info {
+ #define to_cdns_mhdp_bridge_state(s) \
+ 		container_of(s, struct cdns_mhdp_bridge_state, base)
+ 
++struct cdns_mhdp_hdcp {
++	struct delayed_work check_work;
++	struct work_struct prop_work;
++	struct mutex mutex; /* mutex to protect hdcp.value */
++	u32 value;
++	u8 hdcp_content_type;
++};
++
+ struct cdns_mhdp_device {
+ 	void __iomem *regs;
++	void __iomem *sapb_regs;
+ 	void __iomem *j721e_regs;
+ 
+ 	struct device *dev;
+@@ -392,9 +405,17 @@ struct cdns_mhdp_device {
+ 
+ 	/* Work struct to schedule a uevent on link train failure */
+ 	struct work_struct modeset_retry_work;
++	struct work_struct hpd_work;
++
++	wait_queue_head_t sw_events_wq;
++	u32 sw_events;
++
++	struct cdns_mhdp_hdcp hdcp;
+ };
+ 
+ #define connector_to_mhdp(x) container_of(x, struct cdns_mhdp_device, connector)
+ #define bridge_to_mhdp(x) container_of(x, struct cdns_mhdp_device, bridge)
+ 
++u32 cdns_mhdp_wait_for_sw_event(struct cdns_mhdp_device *mhdp, uint32_t event);
++
+ #endif
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+new file mode 100644
+index 000000000000..fccd6fbcc257
+--- /dev/null
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+@@ -0,0 +1,570 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Cadence MHDP8546 DP bridge driver.
++ *
++ * Copyright (C) 2020 Cadence Design Systems, Inc.
++ *
++ */
++
++#include <linux/io.h>
++#include <linux/iopoll.h>
++
++#include <asm/unaligned.h>
++
++#include <drm/drm_hdcp.h>
++
++#include "cdns-mhdp8546-hdcp.h"
++
++static int cdns_mhdp_secure_mailbox_read(struct cdns_mhdp_device *mhdp)
++{
++	int ret, empty;
++
++	WARN_ON(!mutex_is_locked(&mhdp->mbox_mutex));
++
++	ret = readx_poll_timeout(readl, mhdp->sapb_regs + CDNS_MAILBOX_EMPTY,
++				 empty, !empty, MAILBOX_RETRY_US,
++				 MAILBOX_TIMEOUT_US);
++	if (ret < 0)
++		return ret;
++
++	return readl(mhdp->sapb_regs + CDNS_MAILBOX_RX_DATA) & 0xff;
++}
++
++static int cdns_mhdp_secure_mailbox_write(struct cdns_mhdp_device *mhdp,
++					  u8 val)
++{
++	int ret, full;
++
++	WARN_ON(!mutex_is_locked(&mhdp->mbox_mutex));
++
++	ret = readx_poll_timeout(readl, mhdp->sapb_regs + CDNS_MAILBOX_FULL,
++				 full, !full, MAILBOX_RETRY_US,
++				 MAILBOX_TIMEOUT_US);
++	if (ret < 0)
++		return ret;
++
++	writel(val, mhdp->sapb_regs + CDNS_MAILBOX_TX_DATA);
++
++	return 0;
++}
++
++static int cdns_mhdp_secure_mailbox_recv_header(struct cdns_mhdp_device *mhdp,
++						u8 module_id,
++						u8 opcode,
++						u16 req_size)
++{
++	u32 mbox_size, i;
++	u8 header[4];
++	int ret;
++
++	/* read the header of the message */
++	for (i = 0; i < sizeof(header); i++) {
++		ret = cdns_mhdp_secure_mailbox_read(mhdp);
++		if (ret < 0)
++			return ret;
++
++		header[i] = ret;
++	}
++
++	mbox_size = get_unaligned_be16(header + 2);
++
++	if (opcode != header[0] || module_id != header[1] ||
++	    (opcode != HDCP_TRAN_IS_REC_ID_VALID && req_size != mbox_size)) {
++		for (i = 0; i < mbox_size; i++)
++			if (cdns_mhdp_secure_mailbox_read(mhdp) < 0)
++				break;
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int cdns_mhdp_secure_mailbox_recv_data(struct cdns_mhdp_device *mhdp,
++					      u8 *buff, u16 buff_size)
++{
++	int ret;
++	u32 i;
++
++	for (i = 0; i < buff_size; i++) {
++		ret = cdns_mhdp_secure_mailbox_read(mhdp);
++		if (ret < 0)
++			return ret;
++
++		buff[i] = ret;
++	}
++
++	return 0;
++}
++
++static int cdns_mhdp_secure_mailbox_send(struct cdns_mhdp_device *mhdp,
++					 u8 module_id,
++					 u8 opcode,
++					 u16 size,
++					 u8 *message)
++{
++	u8 header[4];
++	int ret;
++	u32 i;
++
++	header[0] = opcode;
++	header[1] = module_id;
++	put_unaligned_be16(size, header + 2);
++
++	for (i = 0; i < sizeof(header); i++) {
++		ret = cdns_mhdp_secure_mailbox_write(mhdp, header[i]);
++		if (ret)
++			return ret;
++	}
++
++	for (i = 0; i < size; i++) {
++		ret = cdns_mhdp_secure_mailbox_write(mhdp, message[i]);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
++static int cdns_mhdp_hdcp_get_status(struct cdns_mhdp_device *mhdp,
++				     u16 *hdcp_port_status)
++{
++	u8 hdcp_status[HDCP_STATUS_SIZE];
++	int ret;
++
++	mutex_lock(&mhdp->mbox_mutex);
++	ret = cdns_mhdp_secure_mailbox_send(mhdp, MB_MODULE_ID_HDCP_TX,
++					    HDCP_TRAN_STATUS_CHANGE, 0, NULL);
++	if (ret)
++		goto err_get_hdcp_status;
++
++	ret = cdns_mhdp_secure_mailbox_recv_header(mhdp, MB_MODULE_ID_HDCP_TX,
++						   HDCP_TRAN_STATUS_CHANGE,
++						   sizeof(hdcp_status));
++	if (ret)
++		goto err_get_hdcp_status;
++
++	ret = cdns_mhdp_secure_mailbox_recv_data(mhdp, hdcp_status,
++						 sizeof(hdcp_status));
++	if (ret)
++		goto err_get_hdcp_status;
++
++	*hdcp_port_status = ((u16)(hdcp_status[0] << 8) | hdcp_status[1]);
++
++err_get_hdcp_status:
++	mutex_unlock(&mhdp->mbox_mutex);
++
++	return ret;
++}
++
++static u8 cdns_mhdp_hdcp_handle_status(struct cdns_mhdp_device *mhdp,
++				       u16 status)
++{
++	u8 err = GET_HDCP_PORT_STS_LAST_ERR(status);
++
++	if (err)
++		dev_dbg(mhdp->dev, "HDCP Error = %d", err);
++
++	return err;
++}
++
++static int cdns_mhdp_hdcp_rx_id_valid_response(struct cdns_mhdp_device *mhdp,
++					       u8 valid)
++{
++	int ret;
++
++	mutex_lock(&mhdp->mbox_mutex);
++	ret = cdns_mhdp_secure_mailbox_send(mhdp, MB_MODULE_ID_HDCP_TX,
++					    HDCP_TRAN_RESPOND_RECEIVER_ID_VALID,
++					    1, &valid);
++	mutex_unlock(&mhdp->mbox_mutex);
++
++	return ret;
++}
++
++static int cdns_mhdp_hdcp_rx_id_valid(struct cdns_mhdp_device *mhdp,
++				      u8 *recv_num, u8 *hdcp_rx_id)
++{
++	u8 rec_id_hdr[2];
++	u8 status;
++	int ret;
++
++	mutex_lock(&mhdp->mbox_mutex);
++	ret = cdns_mhdp_secure_mailbox_send(mhdp, MB_MODULE_ID_HDCP_TX,
++					    HDCP_TRAN_IS_REC_ID_VALID, 0, NULL);
++	if (ret)
++		goto err_rx_id_valid;
++
++	ret = cdns_mhdp_secure_mailbox_recv_header(mhdp, MB_MODULE_ID_HDCP_TX,
++						   HDCP_TRAN_IS_REC_ID_VALID,
++						   sizeof(status));
++	if (ret)
++		goto err_rx_id_valid;
++
++	ret = cdns_mhdp_secure_mailbox_recv_data(mhdp, rec_id_hdr, 2);
++	if (ret)
++		goto err_rx_id_valid;
++
++	*recv_num = rec_id_hdr[0];
++
++	ret = cdns_mhdp_secure_mailbox_recv_data(mhdp, hdcp_rx_id, 5 * *recv_num);
++
++err_rx_id_valid:
++	mutex_unlock(&mhdp->mbox_mutex);
++
++	return ret;
++}
++
++static int cdns_mhdp_hdcp_km_stored_resp(struct cdns_mhdp_device *mhdp,
++					 u32 size, u8 *km)
++{
++	int ret;
++
++	mutex_lock(&mhdp->mbox_mutex);
++	ret = cdns_mhdp_secure_mailbox_send(mhdp, MB_MODULE_ID_HDCP_TX,
++					    HDCP2X_TX_RESPOND_KM, size, km);
++	mutex_unlock(&mhdp->mbox_mutex);
++
++	return ret;
++}
++
++static int cdns_mhdp_hdcp_tx_is_km_stored(struct cdns_mhdp_device *mhdp,
++					  u8 *resp, u32 size)
++{
++	int ret;
++
++	mutex_lock(&mhdp->mbox_mutex);
++	ret = cdns_mhdp_secure_mailbox_send(mhdp, MB_MODULE_ID_HDCP_TX,
++					    HDCP2X_TX_IS_KM_STORED, 0, NULL);
++	if (ret)
++		goto err_is_km_stored;
++
++	ret = cdns_mhdp_secure_mailbox_recv_header(mhdp, MB_MODULE_ID_HDCP_TX,
++						   HDCP2X_TX_IS_KM_STORED,
++						   size);
++	if (ret)
++		goto err_is_km_stored;
++
++	ret = cdns_mhdp_secure_mailbox_recv_data(mhdp, resp, size);
++err_is_km_stored:
++	mutex_unlock(&mhdp->mbox_mutex);
++
++	return ret;
++}
++
++static int cdns_mhdp_hdcp_tx_config(struct cdns_mhdp_device *mhdp,
++				    u8 hdcp_cfg)
++{
++	int ret;
++
++	mutex_lock(&mhdp->mbox_mutex);
++	ret = cdns_mhdp_secure_mailbox_send(mhdp, MB_MODULE_ID_HDCP_TX,
++					    HDCP_TRAN_CONFIGURATION, 1, &hdcp_cfg);
++	mutex_unlock(&mhdp->mbox_mutex);
++
++	return ret;
++}
++
++static int cdns_mhdp_hdcp_set_config(struct cdns_mhdp_device *mhdp,
++				     u8 hdcp_config, bool enable)
++{
++	u16 hdcp_port_status;
++	u32 ret_event;
++	u8 hdcp_cfg;
++	int ret;
++
++	hdcp_cfg = hdcp_config | (enable ? 0x04 : 0) |
++		   (HDCP_CONTENT_TYPE_0 << 3);
++	cdns_mhdp_hdcp_tx_config(mhdp, hdcp_cfg);
++	ret_event = cdns_mhdp_wait_for_sw_event(mhdp, CDNS_HDCP_TX_STATUS);
++	if (!ret_event)
++		return -1;
++
++	ret = cdns_mhdp_hdcp_get_status(mhdp, &hdcp_port_status);
++	if (ret || cdns_mhdp_hdcp_handle_status(mhdp, hdcp_port_status))
++		return -1;
++
++	return 0;
++}
++
++static int cdns_mhdp_hdcp_auth_check(struct cdns_mhdp_device *mhdp)
++{
++	u16 hdcp_port_status;
++	u32 ret_event;
++	int ret;
++
++	ret_event = cdns_mhdp_wait_for_sw_event(mhdp, CDNS_HDCP_TX_STATUS);
++	if (!ret_event)
++		return -1;
++
++	ret = cdns_mhdp_hdcp_get_status(mhdp, &hdcp_port_status);
++	if (ret || cdns_mhdp_hdcp_handle_status(mhdp, hdcp_port_status))
++		return -1;
++
++	if (hdcp_port_status & 1) {
++		dev_dbg(mhdp->dev, "Authentication completed successfully!\n");
++		return 0;
++	}
++
++	dev_dbg(mhdp->dev, "Authentication failed\n");
++
++	return -1;
++}
++
++static int cdns_mhdp_hdcp_check_receviers(struct cdns_mhdp_device *mhdp)
++{
++	u8 hdcp_rec_id[HDCP_MAX_RECEIVERS][HDCP_RECEIVER_ID_SIZE_BYTES];
++	u8 hdcp_num_rec;
++	u32 ret_event;
++
++	ret_event = cdns_mhdp_wait_for_sw_event(mhdp,
++						CDNS_HDCP_TX_IS_RCVR_ID_VALID);
++	if (!ret_event)
++		return -1;
++
++	hdcp_num_rec = 0;
++	memset(&hdcp_rec_id, 0, sizeof(hdcp_rec_id));
++	cdns_mhdp_hdcp_rx_id_valid(mhdp, &hdcp_num_rec, (u8 *)hdcp_rec_id);
++	cdns_mhdp_hdcp_rx_id_valid_response(mhdp, 1);
++
++	return 0;
++}
++
++static int cdns_mhdp_hdcp_auth_22(struct cdns_mhdp_device *mhdp)
++{
++	u8 resp[HDCP_STATUS_SIZE];
++	u16 hdcp_port_status;
++	u32 ret_event;
++	int ret;
++
++	dev_dbg(mhdp->dev, "HDCP: Start 2.2 Authentication\n");
++	ret_event = cdns_mhdp_wait_for_sw_event(mhdp,
++						CDNS_HDCP2_TX_IS_KM_STORED);
++	if (!ret_event)
++		return -1;
++
++	if (ret_event & CDNS_HDCP_TX_STATUS) {
++		mhdp->sw_events &= ~CDNS_HDCP_TX_STATUS;
++		ret = cdns_mhdp_hdcp_get_status(mhdp, &hdcp_port_status);
++		if (ret || cdns_mhdp_hdcp_handle_status(mhdp, hdcp_port_status))
++			return -1;
++	}
++
++	cdns_mhdp_hdcp_tx_is_km_stored(mhdp, resp, sizeof(resp));
++	cdns_mhdp_hdcp_km_stored_resp(mhdp, 0, NULL);
++
++	if (cdns_mhdp_hdcp_check_receviers(mhdp))
++		return -1;
++
++	return 0;
++}
++
++static inline int cdns_mhdp_hdcp_auth_14(struct cdns_mhdp_device *mhdp)
++{
++	dev_dbg(mhdp->dev, "HDCP: Starting 1.4 Authentication\n");
++	return cdns_mhdp_hdcp_check_receviers(mhdp);
++}
++
++static int cdns_mhdp_hdcp_auth(struct cdns_mhdp_device *mhdp,
++			       u8 hdcp_config)
++{
++	int ret;
++
++	ret = cdns_mhdp_hdcp_set_config(mhdp, hdcp_config, true);
++	if (ret)
++		goto auth_failed;
++
++	if (hdcp_config == HDCP_TX_1)
++		ret = cdns_mhdp_hdcp_auth_14(mhdp);
++	else
++		ret = cdns_mhdp_hdcp_auth_22(mhdp);
++
++	if (ret)
++		goto auth_failed;
++
++	ret = cdns_mhdp_hdcp_auth_check(mhdp);
++	if (ret)
++		ret = cdns_mhdp_hdcp_auth_check(mhdp);
++
++auth_failed:
++	return ret;
++}
++
++static int _cdns_mhdp_hdcp_disable(struct cdns_mhdp_device *mhdp)
++{
++	int ret;
++
++	dev_dbg(mhdp->dev, "[%s:%d] HDCP is being disabled...\n",
++		mhdp->connector.name, mhdp->connector.base.id);
++
++	ret = cdns_mhdp_hdcp_set_config(mhdp, 0, false);
++
++	return ret;
++}
++
++static int _cdns_mhdp_hdcp_enable(struct cdns_mhdp_device *mhdp, u8 content_type)
++{
++	int ret, tries = 3;
++	u32 i;
++
++	for (i = 0; i < tries; i++) {
++		if (content_type == DRM_MODE_HDCP_CONTENT_TYPE0 ||
++		    content_type == DRM_MODE_HDCP_CONTENT_TYPE1) {
++			ret = cdns_mhdp_hdcp_auth(mhdp, HDCP_TX_2);
++			if (!ret)
++				return 0;
++			_cdns_mhdp_hdcp_disable(mhdp);
++		}
++
++		if (content_type == DRM_MODE_HDCP_CONTENT_TYPE0) {
++			ret = cdns_mhdp_hdcp_auth(mhdp, HDCP_TX_1);
++			if (!ret)
++				return 0;
++			_cdns_mhdp_hdcp_disable(mhdp);
++		}
++	}
++
++	dev_err(mhdp->dev, "HDCP authentication failed (%d tries/%d)\n",
++		tries, ret);
++
++	return ret;
++}
++
++static int cdns_mhdp_hdcp_check_link(struct cdns_mhdp_device *mhdp)
++{
++	u16 hdcp_port_status;
++	int ret = 0;
++
++	mutex_lock(&mhdp->hdcp.mutex);
++	if (mhdp->hdcp.value == DRM_MODE_CONTENT_PROTECTION_UNDESIRED)
++		goto out;
++
++	ret = cdns_mhdp_hdcp_get_status(mhdp, &hdcp_port_status);
++	if (!ret && hdcp_port_status & HDCP_PORT_STS_AUTH)
++		goto out;
++
++	dev_err(mhdp->dev,
++		"[%s:%d] HDCP link failed, retrying authentication\n",
++		mhdp->connector.name, mhdp->connector.base.id);
++
++	ret = _cdns_mhdp_hdcp_disable(mhdp);
++	if (ret) {
++		mhdp->hdcp.value = DRM_MODE_CONTENT_PROTECTION_DESIRED;
++		schedule_work(&mhdp->hdcp.prop_work);
++		goto out;
++	}
++
++	ret = _cdns_mhdp_hdcp_enable(mhdp, mhdp->hdcp.hdcp_content_type);
++	if (ret) {
++		mhdp->hdcp.value = DRM_MODE_CONTENT_PROTECTION_DESIRED;
++		schedule_work(&mhdp->hdcp.prop_work);
++	}
++out:
++	mutex_unlock(&mhdp->hdcp.mutex);
++	return ret;
++}
++
++static void cdns_mhdp_hdcp_check_work(struct work_struct *work)
++{
++	struct delayed_work *d_work = to_delayed_work(work);
++	struct cdns_mhdp_hdcp *hdcp = container_of(d_work,
++						   struct cdns_mhdp_hdcp,
++						   check_work);
++	struct cdns_mhdp_device *mhdp = container_of(hdcp,
++						     struct cdns_mhdp_device,
++						     hdcp);
++
++	if (!cdns_mhdp_hdcp_check_link(mhdp))
++		schedule_delayed_work(&hdcp->check_work,
++				      DRM_HDCP_CHECK_PERIOD_MS);
++}
++
++static void cdns_mhdp_hdcp_prop_work(struct work_struct *work)
++{
++	struct cdns_mhdp_hdcp *hdcp = container_of(work,
++						   struct cdns_mhdp_hdcp,
++						   prop_work);
++	struct cdns_mhdp_device *mhdp = container_of(hdcp,
++						     struct cdns_mhdp_device,
++						     hdcp);
++	struct drm_device *dev = mhdp->connector.dev;
++	struct drm_connector_state *state;
++
++	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
++	mutex_lock(&mhdp->hdcp.mutex);
++	if (mhdp->hdcp.value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
++		state = mhdp->connector.state;
++		state->content_protection = mhdp->hdcp.value;
++	}
++	mutex_unlock(&mhdp->hdcp.mutex);
++	drm_modeset_unlock(&dev->mode_config.connection_mutex);
++}
++
++int cdns_mhdp_hdcp_set_lc(struct cdns_mhdp_device *mhdp, u8 *val)
++{
++	int ret;
++
++	mutex_lock(&mhdp->mbox_mutex);
++	ret = cdns_mhdp_secure_mailbox_send(mhdp, MB_MODULE_ID_HDCP_GENERAL,
++					    HDCP_GENERAL_SET_LC_128,
++					    16, val);
++	mutex_unlock(&mhdp->mbox_mutex);
++
++	return ret;
++}
++
++int
++cdns_mhdp_hdcp_set_public_key_param(struct cdns_mhdp_device *mhdp,
++				    struct cdns_hdcp_tx_public_key_param *val)
++{
++	int ret;
++
++	mutex_lock(&mhdp->mbox_mutex);
++	ret = cdns_mhdp_secure_mailbox_send(mhdp, MB_MODULE_ID_HDCP_TX,
++					    HDCP2X_TX_SET_PUBLIC_KEY_PARAMS,
++					    sizeof(*val), (u8 *)val);
++	mutex_unlock(&mhdp->mbox_mutex);
++
++	return ret;
++}
++
++int cdns_mhdp_hdcp_enable(struct cdns_mhdp_device *mhdp, u8 content_type)
++{
++	int ret;
++
++	mutex_lock(&mhdp->hdcp.mutex);
++	ret = _cdns_mhdp_hdcp_enable(mhdp, content_type);
++	if (ret)
++		goto out;
++
++	mhdp->hdcp.hdcp_content_type = content_type;
++	mhdp->hdcp.value = DRM_MODE_CONTENT_PROTECTION_ENABLED;
++	schedule_work(&mhdp->hdcp.prop_work);
++	schedule_delayed_work(&mhdp->hdcp.check_work,
++			      DRM_HDCP_CHECK_PERIOD_MS);
++out:
++	mutex_unlock(&mhdp->hdcp.mutex);
++	return ret;
++}
++
++int cdns_mhdp_hdcp_disable(struct cdns_mhdp_device *mhdp)
++{
++	int ret = 0;
++
++	mutex_lock(&mhdp->hdcp.mutex);
++	if (mhdp->hdcp.value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
++		mhdp->hdcp.value = DRM_MODE_CONTENT_PROTECTION_UNDESIRED;
++		schedule_work(&mhdp->hdcp.prop_work);
++		ret = _cdns_mhdp_hdcp_disable(mhdp);
++	}
++	mutex_unlock(&mhdp->hdcp.mutex);
++	cancel_delayed_work_sync(&mhdp->hdcp.check_work);
++
++	return ret;
++}
++
++void cdns_mhdp_hdcp_init(struct cdns_mhdp_device *mhdp)
++{
++	INIT_DELAYED_WORK(&mhdp->hdcp.check_work, cdns_mhdp_hdcp_check_work);
++	INIT_WORK(&mhdp->hdcp.prop_work, cdns_mhdp_hdcp_prop_work);
++	mutex_init(&mhdp->hdcp.mutex);
++}
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.h
+new file mode 100644
+index 000000000000..334c0b8b0d4f
+--- /dev/null
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.h
+@@ -0,0 +1,92 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Cadence MHDP8546 DP bridge driver.
++ *
++ * Copyright (C) 2020 Cadence Design Systems, Inc.
++ *
++ */
++
++#ifndef CDNS_MHDP8546_HDCP_H
++#define CDNS_MHDP8546_HDCP_H
++
++#include "cdns-mhdp8546-core.h"
++
++#define HDCP_MAX_RECEIVERS 32
++#define HDCP_RECEIVER_ID_SIZE_BYTES 5
++#define HDCP_STATUS_SIZE         0x5
++#define HDCP_PORT_STS_AUTH       0x1
++#define HDCP_PORT_STS_LAST_ERR_SHIFT 0x5
++#define HDCP_PORT_STS_LAST_ERR_MASK  (0x0F << 5)
++#define GET_HDCP_PORT_STS_LAST_ERR(__sts__) \
++	(((__sts__) & HDCP_PORT_STS_LAST_ERR_MASK) >> \
++	HDCP_PORT_STS_LAST_ERR_SHIFT)
++
++#define HDCP_CONFIG_1_4     BIT(0) /* use HDCP 1.4 only */
++#define HDCP_CONFIG_2_2     BIT(1) /* use HDCP 2.2 only */
++/* use All HDCP versions */
++#define HDCP_CONFIG_ALL     (BIT(0) | BIT(1))
++#define HDCP_CONFIG_NONE    0
++
++enum {
++	HDCP_GENERAL_SET_LC_128,
++	HDCP_SET_SEED,
++};
++
++enum {
++	HDCP_TRAN_CONFIGURATION,
++	HDCP2X_TX_SET_PUBLIC_KEY_PARAMS,
++	HDCP2X_TX_SET_DEBUG_RANDOM_NUMBERS,
++	HDCP2X_TX_RESPOND_KM,
++	HDCP1_TX_SEND_KEYS,
++	HDCP1_TX_SEND_RANDOM_AN,
++	HDCP_TRAN_STATUS_CHANGE,
++	HDCP2X_TX_IS_KM_STORED,
++	HDCP2X_TX_STORE_KM,
++	HDCP_TRAN_IS_REC_ID_VALID,
++	HDCP_TRAN_RESPOND_RECEIVER_ID_VALID,
++	HDCP_TRAN_TEST_KEYS,
++	HDCP2X_TX_SET_KM_KEY_PARAMS,
++	HDCP_NUM_OF_SUPPORTED_MESSAGES
++};
++
++enum {
++	HDCP_CONTENT_TYPE_0,
++	HDCP_CONTENT_TYPE_1,
++};
++
++#define DRM_HDCP_CHECK_PERIOD_MS (128 * 16)
++
++#define HDCP_PAIRING_R_ID 5
++#define HDCP_PAIRING_M_LEN 16
++#define HDCP_KM_LEN 16
++#define HDCP_PAIRING_M_EKH 16
++
++struct cdns_hdcp_pairing_data {
++	u8 receiver_id[HDCP_PAIRING_R_ID];
++	u8 m[HDCP_PAIRING_M_LEN];
++	u8 km[HDCP_KM_LEN];
++	u8 ekh[HDCP_PAIRING_M_EKH];
++};
++
++enum {
++	HDCP_TX_2,
++	HDCP_TX_1,
++	HDCP_TX_BOTH,
++};
++
++#define DLP_MODULUS_N 384
++#define DLP_E 3
++
++struct cdns_hdcp_tx_public_key_param {
++	u8 N[DLP_MODULUS_N];
++	u8 E[DLP_E];
++};
++
++int cdns_mhdp_hdcp_set_public_key_param(struct cdns_mhdp_device *mhdp,
++					struct cdns_hdcp_tx_public_key_param *val);
++int cdns_mhdp_hdcp_set_lc(struct cdns_mhdp_device *mhdp, u8 *val);
++int cdns_mhdp_hdcp_enable(struct cdns_mhdp_device *mhdp, u8 content_type);
++int cdns_mhdp_hdcp_disable(struct cdns_mhdp_device *mhdp);
++void cdns_mhdp_hdcp_init(struct cdns_mhdp_device *mhdp);
++
++#endif
 -- 
 2.25.1
 
