@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26BDA340ECD
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 21:05:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BADB340ECF
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 21:05:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E1096E95D;
-	Thu, 18 Mar 2021 20:05:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FA1E6E969;
+	Thu, 18 Mar 2021 20:05:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94B026E969
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 20:05:42 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id f26so9074781ljp.8
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 13:05:42 -0700 (PDT)
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0A246E95F
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 20:05:46 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id u10so9095468lju.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 13:05:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=qTXdrqQiFvhXV8lyxgPO5t48QTulHRLpGAEUMWT2zU4=;
- b=K35e8Og+puj32ZpEi5HsRYTFOKd3y2Wi5zpPxY3FAv8wKAuE/GbEbI7GlrqS5GKWsl
- J2i7Y02t8S0vsIDfYmT/jdSDkbWAolnnr9zTq6YtXLDsn6neSf3KVss3nZekJmFIhhfl
- r8OMUY54NfJo32/2sMLxrYSLKwYtHuHNF+nk9PcuqHo21ToLyKF+OXJLk/twD2bNk/HD
- soDmiwPH2NeHHCQ3vdqv/Y1i4byN/LBS9PyS2+SWahcRjVwUVWNYQ65O88GsqjFvoh94
- kpoEzJwy5EBCLrvbFcZwsmvWS99kMBfO/ketmQ69gEd/WuTIT8sb7XCS0M7+UuLpuyXu
- K51w==
+ b=HWoaahEvCeXbu0+bl01gv6FeUi1se5CvWc9FFOc6UMz1ziLDJNLjL3QU9G7LXyLaoj
+ 4a/ASg9Pdlu0q7nA1q/F9T6m1tGJ4E6i2+I9oIejhQXzTKI+Qr8T+IPjJaGBt8NcbWv1
+ 5Y39xEiGWg0hMnxNM9YJ7pgz/bf0YJQHFn9SKnP/o6PPvebw/12r39SFUHz83LGHtGUo
+ tUoMqelioSOL96TVIpKx7imN7jPe0tAJpuqqlly1MmK+rURXGL8S79E0YMUHkkFH6YuI
+ msuLF6D3KSlg6dwcfddgyD8Nvbm60TOe4XQb3qu5mSN8D++qP3aWRPpGXwjbNGPt+fhj
+ kCPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=qTXdrqQiFvhXV8lyxgPO5t48QTulHRLpGAEUMWT2zU4=;
- b=CMHPQlUSQKaB3PZak/Y3HwsTVcUjdCDdl5rdgExFn7kbrPPbq2bg2c2KhPOL4c3pq3
- 9AWGEad8Y+AkYyDWfQuHd/v4dXvsZTXN3tNfu5mympNDGX37nHlXK6wO0DUUtn78mlei
- mU9eAOPPRk7YUNV4ztMU/EvR/vio5Kle1M5thaQlgeW51NW472gccy5HpZfOcqT8Ttuu
- /XzlYvgxXHmPjfn3tvJ8MbhnfgSdp+T2jSc245redkyZKxgNpa8X7pzIYhDDUGHr1dVz
- 1TuTdypV7ENs3bfbl0ccBN2kriR+SUBTNfK+lJy/pnRzsslArsQjszZffQr0T7tukZ4t
- Cbig==
-X-Gm-Message-State: AOAM531T0Fsf4v8aKCZI4UMVSQ9GC3AKKwVwATk+xucFg+Xt5DA9QkTy
- RvyRNBLR+xq8l2hKmTAgPG7NxQ==
-X-Google-Smtp-Source: ABdhPJzlDzlGzdc/pko2iXEN451KHvTJHzvzpyM4dRKRSpnfaBMp191k/w2b1RD5WMNweq49rejWEQ==
-X-Received: by 2002:a2e:6c06:: with SMTP id h6mr6558660ljc.154.1616097940933; 
- Thu, 18 Mar 2021 13:05:40 -0700 (PDT)
+ b=tRsO4P6PIyFhl5n45nX0He0IYNYBS45EJysGvEsQgrbKrI+Edo9977Sxx5LxW1GFdv
+ Cc3Z7s8Y7Jdqy2aePFFeXDULdIU3dlv90zDilNItLHhxT278DmkRNE71JRBZzj8yNgS7
+ 497CErcHKZ/WrcUqP5SDG1UB4bybCQgXSEawzeE7MLjo50UW2T56ezEPwK8DrkrOgZOP
+ lGD9RbYc/gYNROBML+vWDyaPAQa/o4XQS4b6iomDrbHTCOc2mw6PQfoMrOLgDONEKv93
+ eolKqCdWbO7rlMVdUUHXui5yZAwk5DhITzKv+iXjXCHgH6SFF42wBXoiE+XntxH/gp8u
+ YzNw==
+X-Gm-Message-State: AOAM530votMmNH+VDvrmeryXFXbQhjrsYpmmhszybx8fGgjN7vZqVIAd
+ LGMR9FUeh9g2XWsvcZ7WgeSdXdnWn4hd3g==
+X-Google-Smtp-Source: ABdhPJzt7XEvaO4FtiUNuRdZBuNaTu7njdvwZX04GZHhtYg/aMEARKEfhmAqpkSb2DSkVNX7HdBt+w==
+X-Received: by 2002:a2e:8ec6:: with SMTP id e6mr6521709ljl.257.1616097945231; 
+ Thu, 18 Mar 2021 13:05:45 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id m16sm352223lfu.220.2021.03.18.13.05.40
+ by smtp.gmail.com with ESMTPSA id e20sm354062lfc.20.2021.03.18.13.05.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Mar 2021 13:05:40 -0700 (PDT)
+ Thu, 18 Mar 2021 13:05:44 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Jonathan Marek <jonathan@marek.ca>
-Subject: [PATCH] gpu/drm/msm: fix shutdown hook in case GPU components failed
- to bind
-Date: Thu, 18 Mar 2021 23:05:39 +0300
-Message-Id: <20210318200539.2243945-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2] gpu/drm/msm: fix shutdown hook in case GPU components
+ failed to bind
+Date: Thu, 18 Mar 2021 23:05:44 +0300
+Message-Id: <20210318200544.2244007-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
