@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E10B1340A7B
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 17:48:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 611C6340A95
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 17:50:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED2256E91E;
-	Thu, 18 Mar 2021 16:48:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D9876E922;
+	Thu, 18 Mar 2021 16:50:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC5886E12B
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 16:48:02 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 953DC64EED
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 16:48:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5A406E922
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 16:50:06 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 9D86464DF2
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 16:50:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616086081;
- bh=0lbHLm17MBYoes6HSU+EjXDnMfqP7V/uH5NPbugT6WI=;
- h=From:To:Subject:Date:From;
- b=ZsT83dE09N3Et8rJF3p//fEu9ZCnQPfQxk30A7EDgQOL7yfqYjpAOU0jqLc2u3p1I
- W3Y6/A0S6kyDPVapPFkraDcCVYOJNh76SKJTp3nshjGxCxvwozkq+Eml0Rz68f+wbF
- 9TI9PiRwDGJTGiDLgQFSfPa4Ev9XpTHyXrcU/naTzPh6tMabMj1Uq4V+vITwMJ+vnG
- 1eJlJsAw4MJKqbu1O2YZljAdFAHk0B4aRZCSjvpI88dxkF/VIf3ImhrGhPg21je6OZ
- O3ZeZWy/Nc1/GK1ctxG6Q1A8zWzDLdJdFzGXAj4rR0kQqloCKvLqZlQ2x1DoI0CKY+
- LqvGuaWCKNELA==
+ s=k20201202; t=1616086206;
+ bh=oYsWULUEYUgg/XaqVxZUajFDETWUgUQyZr+gfeRl+KQ=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=OXdTVoNAgEsIkG6utgMBr+EVr5HokKE37jESXORTVt08ZT6RU940ojw4pLMqEVJMD
+ UBVyb25wMZ2+XAvhoHTSNYe7heUu5abgIVWC5RcqgNpoVoxf3ZaYXotpro6dvmT/7X
+ am+RzLDI7HOP/J/g4x/ISxQFfidDhiERCDi2MumFakf/cnZzaUDQR8h7QxzQq0Kmv/
+ Y1E7c8L3Rl00ZBZ+ZIOejzwdExZy8OhVQJP5pKB6M9kyztJ2JNfgBQrNqeP+xKR2eb
+ KEQNwlO1ov8C11H7J01ujf4AV2ngZyYG9/eKTLMkUKFh6G1cX+OwXLjKTQN7bro/Si
+ SLabR+e1yPU4w==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 8C17A653CB; Thu, 18 Mar 2021 16:48:01 +0000 (UTC)
+ id 900AE653CB; Thu, 18 Mar 2021 16:50:06 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212333] New: Bisected: 5.11.7 breaks amdgpu resume from S3
-Date: Thu, 18 Mar 2021 16:48:01 +0000
+Subject: [Bug 212333] Bisected: 5.11.7 breaks amdgpu resume from S3
+Date: Thu, 18 Mar 2021 16:50:06 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -44,10 +44,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-212333-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-212333-2300-7bSDck6LUt@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212333-2300@https.bugzilla.kernel.org/>
+References: <bug-212333-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -70,52 +70,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=212333
 
-            Bug ID: 212333
-           Summary: Bisected: 5.11.7 breaks amdgpu resume from S3
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.11.7
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: timo.valtoaho@gmail.com
-        Regression: No
-
-Created attachment 295921
-  --> https://bugzilla.kernel.org/attachment.cgi?id=295921&action=edit
-Working kernel config with CONFIG_AMD_PMC is not set
-
-After upgrading kernel 5.11.6 => 5.11.7 my Asus Vivobook S14 (Model M433I,
-Ryzen 5 4500U), resume from S3 suspend is broken.
-
-Asus has disabled S3 completely, it is not shown in BIOS/UEFI at all. I have
-modified DSDT table which works fine providing working S3.
-
-Now, after upgrade, suspend seems to happen just fine but resume gives me
-scrambled screen for few seconds, then screen goes completely black and mouse
-cursor shows up and is fully alive.I have to do a hard reboot to get away.
-
-Bisecting led to this:
-
-# first bad commit: [084b4f3304f923e39e64216a818a8bbf398dd896] drm/amdgpu: fix
-S0ix handling when the CONFIG_AMD_PMC=m
-
-When I change "CONFIG_AMD_PMC is not set" all is working again.
-CONFIG_AMD_PMC=y also breaks resume. All of this applies also to 5.12-rc3 which
-I tested too.
-
-Also, removing modified DSDT and using S2idle instead of deep, is broken too.
-It has never worked on this laptop. Now s2idle suspends, but resume scrambles
-screen for few seconds, then it works fine on first round. Suspending second
-time will end up on black screen on resume and I have to hard reboot.
-
-OS is Kubuntu 20.10 and firmware is the latest (linux-firmware package v1.195)
-taken from next release.
+--- Comment #1 from Timo Valtoaho (timo.valtoaho@gmail.com) ---
+Created attachment 295923
+  --> https://bugzilla.kernel.org/attachment.cgi?id=295923&action=edit
+git bisect log
 
 -- 
 You may reply to this email to add a comment.
