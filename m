@@ -2,126 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C394433FFD6
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 07:45:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91CD633FFDA
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 07:45:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 563686E094;
-	Thu, 18 Mar 2021 06:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A233F6E43A;
+	Thu, 18 Mar 2021 06:45:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0014ca01.pphosted.com (mx0b-0014ca01.pphosted.com
  [208.86.201.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 217486E094
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 06:45:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 322FC6E43A
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 06:45:46 +0000 (UTC)
 Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
  by mx0b-0014ca01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12I6dOZO023937; Wed, 17 Mar 2021 23:44:55 -0700
+ 12I6dOZW023937; Wed, 17 Mar 2021 23:45:41 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
  h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=proofpoint;
- bh=g/tHLlOZReYuwYhmYy2aT8TO3BjrLcV+XByUQGezf9A=;
- b=cwTw8m60DXK/DjM6wqIIJ3x8ldPejkmYQquITitfn2Ie2j7ofr0ssp0zYq24ECFwclsr
- 0H2VTAMPT0pPNz+G8nii9cQwUXMJhBv4CUfjll3DPk77uLXmnsGj4r5uso80nghzLZht
- JLUVsjY4DN9JnB/25Rw5YD9kpH/oZKAZe3VvLl5eO/9vkzvkfChIaCb0S/EsVbt8KfMM
- upbPmYh73dc4dX3stjtKC1r7wudZ7OSWw6flS9RBr4fdtIFc9gMQaUOmEyUdr/zGct4U
- xrSFeXKBKW8bU/yMVuPXh1odS2efls8cq4l7aSSJdPaZItJ1gYwLp584nhGmrVG710v3 RQ== 
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
- by mx0b-0014ca01.pphosted.com with ESMTP id 378sv2rj2u-1
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=proofpoint;
+ bh=xTmEhTrKLs0vPdfFeDDoRPykGzGmzmtFOdv53q0HUfU=;
+ b=ACe93BWZrAFeKX9uDd1f4RnzJZcPgY+9TjE7K51wcF6mf6Pa9tteFbr2nGbaX2aVq1Gi
+ 12OZ7UXERtSV6GTSFOu/6f4cohoE/b+EoJWFRfdhcFpPbk19vCafL3cWa+68yppX1D3x
+ 1NDG3zZvBJ9KCJJOEPP0hdcFdcObtajOLLtv3ASkbK+K/kzt0pagaqhV7b9mHUGCAIxB
+ 0e5UkAxQS5JCjwTaDN+gG+LqSMQlusmCZCWKsOuOcEI7SPWz0dEaKBsukSM+uJv+tU3E
+ 8IIQwaD++iFXD/+pcgfZgBQhnSzwvcy4QlNDMTk2SGK156iB2VB5AjeXM5gPMnPxXSkm AA== 
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2176.outbound.protection.outlook.com [104.47.58.176])
+ by mx0b-0014ca01.pphosted.com with ESMTP id 378sv2rj43-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Mar 2021 23:44:55 -0700
+ Wed, 17 Mar 2021 23:45:40 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Eq6pDAP+kYxRVzxGUiBTDlufZe/bCBs8hUEXiSyfRtbPMMvjmA436So5xWk0f8Z87bXYgTwl38CoZPoVBdwb2/WqY6yqG4V31Mobw2T5qQ2ByEbaw/hoinT+TeDU/k6Vnb8wB4+4z6jIdFZluMTaVACw5ouk/mRNwYB6Xh+Pge5fO+2IwGzlFpYnf4HTQA/ktVYXXVbwCgHwomchqJNNJntDAEmY82OfjvyUsDuEciQqHJ5O1lGLtu9vWVeKm1Q7v6NGYeyxJ/T3sNAYI9XQ3eDjxYcqwP5PDQUCwiqp69Ul62pffToipuf2yRQ1mtrmpbpF3OM+We1Bw5sBvT2ceg==
+ b=POxXDU265OUK/oNvjchf0KxBUlx574nHAQc9JovP2vbZGp/0f4gdEMBkWtoQgi7AIhIeA6+Z7UNGA2MrCo9wCeSHDwYAkieZo5satQnxf0PofL+PgNYfu3mYXW8HKtd2mcP/z9l/Lk2E7juG5HrAfUrevZRPF5pkCQQ4f87Hxg/q0kwVhpffgmfF1wRYUZmis+86gsspe/kJUKZEKMrYb27edfUyJ+6zPTZQtu8qMJuXZEN32/JdnPZ9on2YB7EOciQKIA2M0IdTn0yaYHWa6CEUXFeBZA4urLh0PFXqRl/AnSkwhVY9+Kdisk347GaZ7h7saoLyrOc0dYhZ6mVvdw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g/tHLlOZReYuwYhmYy2aT8TO3BjrLcV+XByUQGezf9A=;
- b=ihZHF7wLZQxgdHsxPvBCmsOWmZARGqHUWMbnuJMpNSVEXOklC8OQKLvuCL/Orf7ueB2Ax9eYQIMhocfeejLG+v5Fjvoz2AdMQY/ruJR+GnrVGZgp24BYLf3LNLP+gr5ufXimm2Oq8L5588JiqPv4G+ljemSjf2HT7BI4R1mDO50z8GFAme8lriPAK36TgQhaXcVt5QuCIOGjhE8zyJY8MRUit1Mhrf3AxtB0CNSDzKuMTS/GrsPXiw/5yZ1j748u7hA5vqPYCNChF4nWBcnKcsbVqE6bqHOIFydQMRBcqkPn9KNyqD6dO6OC8I+DgqIQoq7W+ZznhvQizp3pdKUwEQ==
+ bh=xTmEhTrKLs0vPdfFeDDoRPykGzGmzmtFOdv53q0HUfU=;
+ b=TgHa6HB1+9qqU7iXB2+R4uMnhHGGCpIljZMRx1cj5DMno4BEJzGN1NmaBJ7i6AiQqOQMIQ8mYtxm116ZukUMSrJD38GPxawoL/mhwH/eoSopvQiAtvfILnRcyuGwSNTGkCgHnvA8zgQkM1VpX5zOMQtoXfhsxaM4a7JMlqh8Y8W3unbebEp1+IsfP7y1XuxAzvHjDX309ruWkqndb54/OwvkU1wyuFl2klo/UkmxNOqpjFA05ARTb2d5XHcsCa/DpEGZXFrNuciPPvegXOGAomszvVefYtQlrNeVbJqXGoa7WPyq0ASoOaZa8AewAhLeB8PYBAPJH0j0WJNZmHzcIQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 158.140.1.148) smtp.rcpttodomain=linux.ie smtp.mailfrom=cadence.com;
+ 64.207.220.244) smtp.rcpttodomain=linux.ie smtp.mailfrom=cadence.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g/tHLlOZReYuwYhmYy2aT8TO3BjrLcV+XByUQGezf9A=;
- b=tla4xUVIgT7selqckH5+LibBJdFS0JdKP3TtFeI17luh3/QlzwPX2Acy2EqsnXF6rdEUKd6iiIm+8V/rakCEX1Wy8dhoRy++b4Z5SevrsjxJ9G8xKvKduF8Xre4BqHp/bofzRvNJXNCYPzyHnu7hnhlSEhqDFR3Y8hozBbICLZ4=
-Received: from MWHPR11CA0048.namprd11.prod.outlook.com (2603:10b6:300:115::34)
- by SN2PR07MB2607.namprd07.prod.outlook.com (2603:10b6:804:7::25) with
+ bh=xTmEhTrKLs0vPdfFeDDoRPykGzGmzmtFOdv53q0HUfU=;
+ b=Z6FEgSsVbpI7tSzauVincVsHGRbjHKh+PkQ9wpwhpk8lEEWF5DyF3pyM9/Ti8FvdasgoSD7SM21ypjj7c3fXBkRNTys954qrqYOXhhezydxrJeTmru+WFweQk8iygL0+rko2M9fofAhM4hn1L1MvevZBa/C1b3h0A6mTMlnCRiM=
+Received: from BN9PR03CA0339.namprd03.prod.outlook.com (2603:10b6:408:f6::14)
+ by DM6PR07MB6844.namprd07.prod.outlook.com (2603:10b6:5:159::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Thu, 18 Mar
- 2021 06:44:52 +0000
-Received: from MW2NAM12FT031.eop-nam12.prod.protection.outlook.com
- (2603:10b6:300:115:cafe::e2) by MWHPR11CA0048.outlook.office365.com
- (2603:10b6:300:115::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Thu, 18 Mar
+ 2021 06:45:38 +0000
+Received: from BN8NAM12FT023.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:408:f6:cafe::15) by BN9PR03CA0339.outlook.office365.com
+ (2603:10b6:408:f6::14) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend
- Transport; Thu, 18 Mar 2021 06:44:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 158.140.1.148)
+ Transport; Thu, 18 Mar 2021 06:45:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 64.207.220.244)
  smtp.mailfrom=cadence.com; linux.ie; dkim=none (message not signed)
  header.d=none;linux.ie; dmarc=pass action=none header.from=cadence.com;
 Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
- 158.140.1.148 as permitted sender) receiver=protection.outlook.com;
- client-ip=158.140.1.148; helo=sjmaillnx2.cadence.com;
-Received: from sjmaillnx2.cadence.com (158.140.1.148) by
- MW2NAM12FT031.mail.protection.outlook.com (10.13.181.126) with Microsoft SMTP
+ 64.207.220.244 as permitted sender) receiver=protection.outlook.com;
+ client-ip=64.207.220.244; helo=wcmailrelayl01.cadence.com;
+Received: from wcmailrelayl01.cadence.com (64.207.220.244) by
+ BN8NAM12FT023.mail.protection.outlook.com (10.13.183.93) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.9 via Frontend Transport; Thu, 18 Mar 2021 06:44:52 +0000
+ 15.20.3955.9 via Frontend Transport; Thu, 18 Mar 2021 06:45:35 +0000
 Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
- by sjmaillnx2.cadence.com (8.14.4/8.14.4) with ESMTP id
- 12I6ilQP020913
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 17 Mar 2021 23:44:49 -0700
+ by wcmailrelayl01.cadence.com (8.14.7/8.14.4) with ESMTP id
+ 12I6jWEI196748
+ (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=OK);
+ Wed, 17 Mar 2021 23:45:33 -0700
 X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
 Received: from maileu3.global.cadence.com (10.160.88.99) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 18 Mar 2021 07:44:46 +0100
+ 15.0.1497.2; Thu, 18 Mar 2021 07:45:31 +0100
 Received: from vleu-orange.cadence.com (10.160.88.83) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2 via Frontend Transport; Thu, 18 Mar 2021 07:44:46 +0100
+ 15.0.1497.2 via Frontend Transport; Thu, 18 Mar 2021 07:45:31 +0100
 Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
- by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 12I6ikKJ029776;
- Thu, 18 Mar 2021 07:44:46 +0100
+ by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 12I6jVb8031504;
+ Thu, 18 Mar 2021 07:45:31 +0100
 Received: (from pthombar@localhost)
- by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 12I6ihxN029759;
- Thu, 18 Mar 2021 07:44:43 +0100
+ by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 12I6jVB6031503;
+ Thu, 18 Mar 2021 07:45:31 +0100
 From: Parshuram Thombare <pthombar@cadence.com>
 To: <robert.foss@linaro.org>, <robh+dt@kernel.org>,
  <laurent.pinchart@ideasonboard.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH v4 0/2] enable HDCP in Cadence MHDP bridge driver
-Date: Thu, 18 Mar 2021 07:44:42 +0100
-Message-ID: <1616049882-29712-1-git-send-email-pthombar@cadence.com>
+Subject: [PATCH v4 1/2] dt-bindings: drm/bridge: MHDP8546 bridge binding
+ changes for HDCP
+Date: Thu, 18 Mar 2021 07:45:30 +0100
+Message-ID: <1616049930-31457-1-git-send-email-pthombar@cadence.com>
 X-Mailer: git-send-email 2.2.2
+In-Reply-To: <1616049882-29712-1-git-send-email-pthombar@cadence.com>
+References: <1616049882-29712-1-git-send-email-pthombar@cadence.com>
 MIME-Version: 1.0
 X-OrganizationHeadersPreserved: maileu3.global.cadence.com
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 46ae7d45-94c4-4190-0bde-08d8e9d95546
-X-MS-TrafficTypeDiagnostic: SN2PR07MB2607:
-X-Microsoft-Antispam-PRVS: <SN2PR07MB260739E2D3CFDABFE64C93C6C1699@SN2PR07MB2607.namprd07.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
+X-MS-Office365-Filtering-Correlation-Id: d31c9de6-86f0-48ce-c7d9-08d8e9d96f7f
+X-MS-TrafficTypeDiagnostic: DM6PR07MB6844:
+X-Microsoft-Antispam-PRVS: <DM6PR07MB684494363B4B10C8F713AACEC1699@DM6PR07MB6844.namprd07.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uaPfxCMibC9NyOlwAN62SYRU1Tunl67b5lVLvluzsqqu5YnxyCxilRld+GAUDnhx5yb/Sdg9PeXRs0AlCp5CshFoiVl8ubFviBVWVJFaioxs/1ASZI6NHSFh6psyzRnd1s3+idqfXrqVYnsYn/K4aw+w7FecnWA65BgEvsIOD726l3jUwOcw+6elEZeYe/R6fpTmZBqNB4ikOTropQfVa7uYCvuNZ6tUTDTqnD9CgdvmMjq1OJbvk1QRhvnug219AFNNSTk6YpuBBvI0kmCGeezPscqZNLkbehzA02+AnBmFtVTsYYKQkxIQJvlRn/qVT7TJgPT5vo8qyvfYqFSJjH8QLLgLMo+0sKOIPx2mcICwKEFeQdVnn5UeE+oSgX1FlTGZOayi2Zq5lXEPaCVX5bFftow/Rwr6OaSZFrYBr/M6b629SSYqluX7VPm3HFQv1BuEzfX2tyoYcx0f68CWDQVuiMVsdIbjIDsmjScQkncSi2DvMP1oDJYrJCxWjOtjmTxdFvo+OC9Gq6MfO+YotqxKJg+EPZTOsoUTvq09GtSkhwTfjVO5VYZN7PhGZ1kS4L8MGtju19fLX2yqoswR5OzD4lde0XCUzpoJSJm/VSolrCe9zUkJETY8j0o0sYgX94yqrBKYSnZpk8BQQ8oAnK5PNIYebrzj/kd9mo2zInhC4aibWoxx1EflBJGSTqUQGjcdzU8Kg2VC59gE8BpLgA==
-X-Forefront-Antispam-Report: CIP:158.140.1.148; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:sjmaillnx2.cadence.com; PTR:unknown.Cadence.COM; CAT:NONE;
- SFS:(4636009)(136003)(376002)(39860400002)(396003)(346002)(36092001)(36840700001)(46966006)(8936002)(26005)(36756003)(86362001)(5660300002)(478600001)(426003)(70206006)(7636003)(7416002)(42186006)(356005)(8676002)(36906005)(2906002)(2616005)(316002)(47076005)(36860700001)(83380400001)(107886003)(110136005)(82740400003)(336012)(82310400003)(4326008)(186003)(70586007)(54906003)(2101003);
+X-Microsoft-Antispam-Message-Info: 9lllGS5w8JXeQhw7EmUh+L+67YPlOAR0tGX2KE3cca3J/0Oogmvolum/mRhkrEYpjVHZd4vZ9VHxDwxXPUdfNbSDZchnEmC6ZBpg+HPFFNBMysGd6FJ+Bi3Pq4skC7BpX7WG+QvLPrJnnpq4QmCBDcZCPO71TNySG+pMCRGP9sbZc2mhv4g5FH3p0VFtv3cMisHqBBlPpJ12Rua/HS98sb2muIVqbsCbYb/Kso9R/yNm9noEpZrbZbIf1VBpncqbQogjIH7Al5V57e4QTYZwVQ3OUdcbLEXIQRg/TH5wGZLY5c1WSLqMLapqpVNiUfiE1nR6kqCb0s7+RAr9YJMBgG6HyjMhtaXmybYpfBgMnf+Rr/QwHsRt2e0HYNEkz8tesQtA6ClTJH/ZcQVCCSUIZBivQIg7gaoiZkb7hdeAjtZ5Mght3sTTQbCwB/SjDn9jfy+TsGhjMvxOtXF3kz3pYKC9m4aNUsg65Icme3r4raOvP03TPhir8/3FP31LnMSFdhjdRri1N4sY0Dy7WDsemCBA/W/A+fGMjyIHJ9Bl1KTeDJLZm04//iiAwhYBguRy/diKrRvQhY+1ZbjvD8wZcl78wUk4GvFNFLBKF1lNBqR9FsJyYvVom+47Rnpi4+tFoO/hNVpSN+F6s/l29xLvvgx7YnweHVb6iW4k77lHG2rSKo/uJRSnOGjegFkqIlkH/4oPKRSswuoL1TQkYId7Q0oXDIsMwT/aCWMB8BGM8Yg=
+X-Forefront-Antispam-Report: CIP:64.207.220.244; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:wcmailrelayl01.cadence.com; PTR:ErrorRetry; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(136003)(39860400002)(346002)(36092001)(46966006)(36840700001)(8936002)(36756003)(336012)(26005)(110136005)(36860700001)(82310400003)(70586007)(5660300002)(70206006)(54906003)(426003)(186003)(2906002)(7416002)(2616005)(81166007)(86362001)(83380400001)(356005)(107886003)(82740400003)(8676002)(4326008)(36906005)(316002)(42186006)(478600001)(47076005)(36900700001)(2101003);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2021 06:44:52.0164 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46ae7d45-94c4-4190-0bde-08d8e9d95546
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2021 06:45:35.9246 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d31c9de6-86f0-48ce-c7d9-08d8e9d96f7f
 X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9; Ip=[158.140.1.148];
- Helo=[sjmaillnx2.cadence.com]
-X-MS-Exchange-CrossTenant-AuthSource: MW2NAM12FT031.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9; Ip=[64.207.220.244];
+ Helo=[wcmailrelayl01.cadence.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM12FT023.eop-nam12.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN2PR07MB2607
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR07MB6844
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
  definitions=2021-03-18_02:2021-03-17,
  2021-03-18 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check
  score=0 phishscore=0
- mlxlogscore=860 priorityscore=1501 bulkscore=0 impostorscore=0 spamscore=0
+ mlxlogscore=999 priorityscore=1501 bulkscore=0 impostorscore=0 spamscore=0
  adultscore=0 malwarescore=0 suspectscore=0 mlxscore=0 lowpriorityscore=0
  clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2103180051
@@ -146,36 +150,79 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series enables HDCP in Cadence MHDP DPI/DP bridge driver.
+Add binding changes for HDCP in the MHDP8546 DPI/DP bridge binding.
 
-Changes since v1:
-- Move sapb reg block right after apb reg block
-- Corresponding changes in binding and example
+Signed-off-by: Parshuram Thombare <pthombar@cadence.com>
+---
+ .../display/bridge/cdns,mhdp8546.yaml         | 24 +++++++++++--------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
-Changes since v2:
-- Revert reg resource sequence in binding and 
-  use resource mapping by name
-- Remove hdcp_config from binding and use
-  DRM HDCP Content Type property to select
-  HDCP version
-
-Changes since v3:
-- Fix kernel test robot warning
-
-Parshuram Thombare (2):
-  dt-bindings: drm/bridge: MHDP8546 bridge binding changes for HDCP
-  drm: bridge: cdns-mhdp8546: Enable HDCP
-
- .../display/bridge/cdns,mhdp8546.yaml         |  24 +-
- drivers/gpu/drm/bridge/cadence/Makefile       |   2 +-
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 113 +++-
- .../drm/bridge/cadence/cdns-mhdp8546-core.h   |  21 +
- .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   | 570 ++++++++++++++++++
- .../drm/bridge/cadence/cdns-mhdp8546-hdcp.h   |  92 +++
- 6 files changed, 799 insertions(+), 23 deletions(-)
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.h
-
+diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+index 63427878715e..8a85768f6202 100644
+--- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+@@ -17,8 +17,8 @@ properties:
+       - ti,j721e-mhdp8546
+ 
+   reg:
+-    minItems: 1
+-    maxItems: 2
++    minItems: 2
++    maxItems: 3
+     items:
+       - description:
+           Register block of mhdptx apb registers up to PHY mapped area (AUX_CONFIG_P).
+@@ -26,13 +26,16 @@ properties:
+           included in the associated PHY.
+       - description:
+           Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
++      - description:
++          Register block of mhdptx sapb registers.
+ 
+   reg-names:
+-    minItems: 1
+-    maxItems: 2
++    minItems: 2
++    maxItems: 3
+     items:
+       - const: mhdptx
+       - const: j721e-intg
++      - const: mhdptx-sapb
+ 
+   clocks:
+     maxItems: 1
+@@ -98,15 +101,15 @@ allOf:
+     then:
+       properties:
+         reg:
+-          minItems: 2
++          minItems: 3
+         reg-names:
+-          minItems: 2
++          minItems: 3
+     else:
+       properties:
+         reg:
+-          maxItems: 1
++          maxItems: 2
+         reg-names:
+-          maxItems: 1
++          maxItems: 2
+ 
+ required:
+   - compatible
+@@ -129,8 +132,9 @@ examples:
+ 
+         mhdp: dp-bridge@f0fb000000 {
+             compatible = "cdns,mhdp8546";
+-            reg = <0xf0 0xfb000000 0x0 0x1000000>;
+-            reg-names = "mhdptx";
++            reg = <0xf0 0xfb000000 0x0 0x1000000>,
++                  <0x0 0x4f48000 0x0 0x74>;
++            reg-names = "mhdptx", "mhdptx-sapb";
+             clocks = <&mhdp_clock>;
+             phys = <&dp_phy>;
+             phy-names = "dpphy";
 -- 
 2.25.1
 
