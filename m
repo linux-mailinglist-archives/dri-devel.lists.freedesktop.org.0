@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A181341088
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 23:55:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978A2341099
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 00:04:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8373A6E117;
-	Thu, 18 Mar 2021 22:55:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 356DA6E1BA;
+	Thu, 18 Mar 2021 23:04:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90BD36E117;
- Thu, 18 Mar 2021 22:55:17 +0000 (UTC)
-IronPort-SDR: mxK7MjlasBVnmtX735wFMCG8MVFiFkLM7d0k4mWvyVTkLo8lUQmJFaow2WCkUiYaKXMlTR/a7X
- ZmM/Nv+fZ7SQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9927"; a="209795225"
-X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="209795225"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2021 15:55:17 -0700
-IronPort-SDR: hMslcz/DeF8NomiujUL9cXTCPRQjQHoWWIdGAxJA2gxbBfjX4gXkHpb41EE/pbE+Xkg+27qxA5
- dhSNbdEfN+jA==
-X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="450650829"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO labuser-Z97X-UD5H)
- ([10.165.21.211])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2021 15:55:16 -0700
-Date: Thu, 18 Mar 2021 16:01:26 -0700
-From: "Navare, Manasi" <manasi.d.navare@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/atomic: Add the crtc to affected crtc only if
- uapi.enable = true
-Message-ID: <20210318230126.GA1900@labuser-Z97X-UD5H>
-References: <20210302204132.12058-1-manasi.d.navare@intel.com>
- <20210303104744.2c064f09@eldfell>
- <20210303204433.GA15819@labuser-Z97X-UD5H>
- <20210304104223.6b3490bc@eldfell>
- <20210309005252.GA27491@labuser-Z97X-UD5H>
- <20210309111350.3be0543f@eldfell>
- <CAKMK7uEak_2YNDZpyho5bBhhYCvoXh6MoPNL6FmV9sU8oELGPA@mail.gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A7646E1BA
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 23:04:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616108640;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=YZlE2SpcI6Z5P+uMCGU6V1+SijPPA2J1aeZ5CJSQ25s=;
+ b=e8Oyxj06xPVHW6tlOkl8BcARhy5zpzafzg/Iil50RVbiSpBJfgbuNsIvaDV/wuWKPZEMMx
+ m2PDkYte35rAElDayOJpIj8rsCO2/ozgcE2wCxyBa8BbHEfH5C7Rlt89cAnbdjY7DJt0ji
+ cOjftT4o5Ajd8jyNSuZIF/amzrVlb/w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-548-ONeMpnShPq2-b4QsQDZxGw-1; Thu, 18 Mar 2021 19:03:57 -0400
+X-MC-Unique: ONeMpnShPq2-b4QsQDZxGw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EDD58189C8;
+ Thu, 18 Mar 2021 23:03:56 +0000 (UTC)
+Received: from Whitewolf.lyude.net (ovpn-113-18.rdu2.redhat.com [10.10.113.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E4EF96A8FC;
+ Thu, 18 Mar 2021 23:03:53 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: nouveau@lists.freedesktop.org
+Subject: [PATCH v2] drm/nouveau/kms/nv50-: Correct size checks for cursors
+Date: Thu, 18 Mar 2021 19:03:49 -0400
+Message-Id: <20210318230351.982064-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uEak_2YNDZpyho5bBhhYCvoXh6MoPNL6FmV9sU8oELGPA@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,161 +54,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Stone <daniels@collabora.com>
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>, Jeremy Cline <jcline@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Martin Peres <martin.peres@mupuf.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-So basically we see this warning only in case of bigjoiner when
-drm_atomic_check gets called without setting the state->allow_modeset flag.
+Found this while trying to make some changes to the kms_cursor_crc test.
+curs507a_acquire checks that the width and height of the cursor framebuffer
+are equal (asyw->image.{w,h}). This isn't entirely correct though, as the
+height of the cursor can be larger than the size of the cursor, as long as
+the width is the same as the cursor size and there's no framebuffer offset.
 
-So do you think that in i915, in intel_atomic_check_bigjoiner() we should only
-steal the crtc when allow_modeset flag is set in state?
-If we add this check there then the affected crtc wont count the slave crtc
-and we wont get this warning.
+Note that I'm not entirely sure why this wasn't previously breaking
+kms_cursor_crc tests - they all set up cursors with the height being one
+pixel larger than the actual size of the cursor. But this seems to fix
+things, and the code before was definitely incorrect - so it's not really
+worth looking into further imho.
 
-Ville, Danvet?
+Changes since v1:
+* Don't use crtc_w everywhere for determining cursor layout, just use fb
+  size again
+* Change check so that we only check that the w/h of the cursor plane is
+  the same, the width of the scanout surface is the same as the framebuffer
+  width, and that there's no offset being used for the cursor surface.
 
-Manasi
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Cc: Martin Peres <martin.peres@mupuf.org>
+Cc: Jeremy Cline <jcline@redhat.com>
+---
+ drivers/gpu/drm/nouveau/dispnv50/curs507a.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/curs507a.c b/drivers/gpu/drm/nouveau/dispnv50/curs507a.c
+index 54fbd6fe751d..00e19fd959ea 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/curs507a.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/curs507a.c
+@@ -98,6 +98,7 @@ static int
+ curs507a_acquire(struct nv50_wndw *wndw, struct nv50_wndw_atom *asyw,
+ 		 struct nv50_head_atom *asyh)
+ {
++	struct nouveau_drm *drm = nouveau_drm(wndw->plane.dev);
+ 	struct nv50_head *head = nv50_head(asyw->state.crtc);
+ 	int ret;
+ 
+@@ -109,8 +110,20 @@ curs507a_acquire(struct nv50_wndw *wndw, struct nv50_wndw_atom *asyw,
+ 	if (ret || !asyh->curs.visible)
+ 		return ret;
+ 
+-	if (asyw->image.w != asyw->image.h)
++	if (asyw->state.crtc_w != asyw->state.crtc_h) {
++		NV_ATOMIC(drm, "Plane width/height must be equal for cursors\n");
+ 		return -EINVAL;
++	}
++
++	if (asyw->image.w != asyw->state.crtc_w) {
++		NV_ATOMIC(drm, "Plane width must be equal to fb width for cursors (height can be larger though)\n");
++		return -EINVAL;
++	}
++
++	if (asyw->state.src_x || asyw->state.src_y) {
++		NV_ATOMIC(drm, "Cursor planes do not support framebuffer offsets\n");
++		return -EINVAL;
++	}
+ 
+ 	ret = head->func->curs_layout(head, asyw, asyh);
+ 	if (ret)
+-- 
+2.29.2
 
-On Tue, Mar 16, 2021 at 10:35:09PM +0100, Daniel Vetter wrote:
-> On Tue, Mar 9, 2021 at 10:14 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> >
-> > On Mon, 8 Mar 2021 16:52:58 -0800
-> > "Navare, Manasi" <manasi.d.navare@intel.com> wrote:
-> >
-> > > On Thu, Mar 04, 2021 at 10:42:23AM +0200, Pekka Paalanen wrote:
-> > > > On Wed, 3 Mar 2021 12:44:33 -0800
-> > > > "Navare, Manasi" <manasi.d.navare@intel.com> wrote:
-> > > >
-> > > > > On Wed, Mar 03, 2021 at 10:47:44AM +0200, Pekka Paalanen wrote:
-> > > > > > On Tue,  2 Mar 2021 12:41:32 -0800
-> > > > > > Manasi Navare <manasi.d.navare@intel.com> wrote:
-> > > > > >
-> > > > > > > In case of a modeset where a mode gets split across mutiple CRTCs
-> > > > > > > in the driver specific implementation (bigjoiner in i915) we wrongly count
-> > > > > > > the affected CRTCs based on the drm_crtc_mask and indicate the stolen CRTC as
-> > > > > > > an affected CRTC in atomic_check_only().
-> > > > > > > This triggers a warning since affected CRTCs doent match requested CRTC.
-> > > > > > >
-> > > > > > > To fix this in such bigjoiner configurations, we should only
-> > > > > > > increment affected crtcs if that CRTC is enabled in UAPI not
-> > > > > > > if it is just used internally in the driver to split the mode.
-> > > > > >
-> > > > > > Hi,
-> > > > > >
-> > > > > > I think that makes sense to me. Stealing CRTCs that are not currently
-> > > > > > used by the userspace (display server) should be ok, as long as that
-> > > > > > is completely invisible to userspace: meaning that it does not cause
-> > > > > > userspace to unexpectedly e.g. receive or miss per-crtc atomic
-> > > > > > completion events.
-> > > > >
-> > > > > Yes since we are only doing atomic_check_only() here, the stolen
-> > > >
-> > > > But the real not-test-only commit will follow if this test-only commit
-> > > > succeeds, and keeping the guarantees for the real commit are important.
-> > >
-> > > Hmm well after the actual real commit, since the second crtc is stolen
-> > > even though it is not being used for the display output, it is
-> > > used for joiner so the uapi.enable will be true after the real commit.
-> > >
-> > > so actually the assertion would fail in this case.
-> > >
-> > > @Ville @Danvet any suggestions here in that case?
-> 
-> That is very bad. We can't frob uapi state like that. I think that
-> calls for even more checks to make sure kms drivers who try to play
-> clever games don't get it wrong, so we probably need to check uapi
-> enable and active state in another mask before/after ->atomic_check
-> too. Or something like that.
-> 
-> > Hi,
-> >
-> > that is not what I was talking about, but sounds like you found a
-> > different problem. It seems like the problem you are talking about
-> > would be guaranteed to be hit if bigjoiner was used. Have you not
-> > tested this?
-> >
-> > However, I was talking about the real commit itself, not what happens
-> > on commits after it, see below.
-> >
-> > > > > crtc is completely invisible to the userspace and hence that is
-> > > > > indicated by uapi.enable which is not true for this stolen
-> > > > > crtc. However if allow modeset flag set, then it will do a full
-> > > > > modeset and indicate the uapi.enable for this stolen crtc as well
-> > > > > since that cannot be used for other modeset requested by userspace.
-> > > > >
-> > > > > >
-> > > > > > Can that also be asserted somehow, or does this already do that?
-> > > > >
-> > > > > Not clear what you want the assertion for? Could you elaborate
-> > > >
-> > > > As assertion that when the real atomic commit happens and then
-> > > > completion events are fired, they match exactly the affected crtcs mask.
-> >
-> > This is my concern and a question, although like I say below, only
-> > tangential to this patch.
-> >
-> > However, as this patch aims to allow bigjoiner usage, naturally the
-> > question will arise whether the completion events then match what
-> > userspace expects or not. Userspace does not expect completion events
-> > referring to the stolen CRTCs.
-> 
-> Yeah we also must make sure that we don't send out events for these
-> additional crtc in bigjoiner usage. Sounds like igt testing didn't
-> catch this, I think we need a lot more igts here to make sure all
-> these surprises don't happen.
-> 
-> Plus maybe triple-checking that drm_atomic_uapi.c makes sure we can't
-> send out events for stuff that userspace didn't ask for.
-> -Daniel
-> 
-> >
-> > > > I understand this may be off-topic for this particular patch, but since
-> > > > we are discussing the topic, such checks would be really nice. I'm
-> > > > curious if such checks already exist.
-> >
-> >
-> > Thanks,
-> > pq
-> >
-> > > > > > > ---
-> > > > > > >  drivers/gpu/drm/drm_atomic.c | 6 ++++--
-> > > > > > >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> > > > > > > index 5b4547e0f775..d7acd6bbd97e 100644
-> > > > > > > --- a/drivers/gpu/drm/drm_atomic.c
-> > > > > > > +++ b/drivers/gpu/drm/drm_atomic.c
-> > > > > > > @@ -1358,8 +1358,10 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
-> > > > > > >               }
-> > > > > > >       }
-> > > > > > >
-> > > > > > > -     for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
-> > > > > > > -             affected_crtc |= drm_crtc_mask(crtc);
-> > > > > > > +     for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-> > > > > > > +             if (new_crtc_state->enable)
-> > > > > > > +                     affected_crtc |= drm_crtc_mask(crtc);
-> > > > > > > +     }
-> > > > > > >
-> > > > > > >       /*
-> > > > > > >        * For commits that allow modesets drivers can add other CRTCs to the
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
-> 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
