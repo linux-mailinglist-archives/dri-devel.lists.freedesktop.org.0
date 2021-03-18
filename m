@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A067340868
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 16:06:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD11134086C
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 16:08:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3B5E6E853;
-	Thu, 18 Mar 2021 15:06:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E8706E908;
+	Thu, 18 Mar 2021 15:08:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 267D26E853
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 15:06:47 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 0288D64F1D
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 15:06:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 980B36E02E
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 15:08:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 7236364F10
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 15:08:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616080007;
- bh=o2D6ucW4enWUdKN3C0cGbzq/HwICT4SWFU5ZmPe/2dQ=;
+ s=k20201202; t=1616080085;
+ bh=BJQGXF2fLhzTV/pvERSkQ+J+633QvxuJV0qm+TeHfg0=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=fh27dUEb7HLNhBwh5yzK1JOtC6wGiWBzWjZ+d5/ChEqr5gswJqqdREL3ROrU0n+dL
- JyZn91bCmgUifZUXlbGFR8QIodM5kyV1d0kUdi7/J0XusNReAigTuauJPl5O5TmD66
- pSkGC8jn0r2kdkBqJrq3ytS1YSCQSSt6q5yv8BAVR7VjPELC3XgvMfikYoSP8rMTHd
- Wa0WK7SS+WXPmAvokRlmwyHNXirbC57gRzBTbsFQ3OYgZCLlMWt0REJe7Eubyq2SeE
- rYERXavZb1tVBvhC9FiJYuCxrGZmBMTAVbM++pfAqYSOJHcxQqe2/Nqg+iutehZVau
- bBrpZjUhfiQiw==
+ b=sP2voOUOK9kEioySgZ+d8FM3aAVKYA2xcEkPabmuFlS7Rvf0pyC1IaGxZTFN9mbFZ
+ XiMzT+8CC+Is87TPYXKD2e6csqqM/vhQq0xulBS16WICUrmQJqMY9tjSg2qQzVBv0T
+ opQRaJPuEMQf9EYSOIROP4F1NYwbxLjkurthM4+/KTDaJP2KkzJJAK2NzAehpovcT1
+ y2B5iJjzUZ5QLhGdI7iqeQOOIW3qAl9UcNHrONYDhgDE91pQmpTGMRDqGWJjI7H/BW
+ tmRei1qbGKqWhVZPoctVmIeT8iT0UuBWmSb9vBDDvxlCAOoHrIJpphCaNl1RH+qUGw
+ ufcv3eeqr8oAA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id EA22D653CC; Thu, 18 Mar 2021 15:06:46 +0000 (UTC)
+ id 6F58F653CC; Thu, 18 Mar 2021 15:08:05 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 212281] AMDGPU warning stack trace in dmesg
  (dcn20_validate_bandwidth_fp)
-Date: Thu, 18 Mar 2021 15:06:46 +0000
+Date: Thu, 18 Mar 2021 15:08:05 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,8 +45,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-212281-2300-HpRiEDKCMp@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-212281-2300-nqid3F84Ud@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-212281-2300@https.bugzilla.kernel.org/>
 References: <bug-212281-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,10 +71,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=212281
 
---- Comment #2 from Tomas Sandven (tomas@sandven.email) ---
-Created attachment 295919
-  --> https://bugzilla.kernel.org/attachment.cgi?id=295919&action=edit
-Full dmesg output
+--- Comment #3 from Tomas Sandven (tomas@sandven.email) ---
+(In reply to Alex Deucher from comment #1)
+> Please attach your full dmesg output and xorg log (if using X).
+
+I added full dmesg output. I have rebooted since the first error, so the two
+stack traces you see in the dmesg output now are unrelated to the issue I had
+the first time, but the look the same. I haven't noticed any negative
+consequences of the errors.
 
 -- 
 You may reply to this email to add a comment.
