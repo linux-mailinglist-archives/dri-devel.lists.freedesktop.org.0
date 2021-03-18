@@ -1,77 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB90340F00
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 21:25:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BECF2341009
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 22:47:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4294B6E972;
-	Thu, 18 Mar 2021 20:25:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 431376E196;
+	Thu, 18 Mar 2021 21:47:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
- [IPv6:2607:f8b0:4864:20::832])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 481EF6E971;
- Thu, 18 Mar 2021 20:25:35 +0000 (UTC)
-Received: by mail-qt1-x832.google.com with SMTP id y2so2697232qtw.13;
- Thu, 18 Mar 2021 13:25:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=4zDsIYOprog9B5y3rsUfED+L5wmiaQe7RHCQ6tBNZZ8=;
- b=l1jZXZhJnbHk/Wwj5LUfWeHHf0DsSlc2S/WOkB+XLmMY6hdLdL+m8NaTtl9g+dHJfk
- 75seqGteupipnSIxVNSsg2h50hXYGJujoE51lkYPIntTapcp66qruTYST8JXpjUBb7gB
- eh9c7CZ+QAWeFkJfvbofIxhOyhXOPXwIHtmcDOOaldFrvj/6nZcQ5l22keEMoLvtfWJn
- E+ZUr2nLZB0grnAHkstVJjaiUF/LsCcwMAiSYZB2lwYeLVib60DnEh0hGSKGIkkp+f0A
- mwxhZML61fx+/d+F1Rw8BeAcPXRE36sPfo1VoTVadvENNHVhZP2APiiAJmdMFZXz1fLD
- wmKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=4zDsIYOprog9B5y3rsUfED+L5wmiaQe7RHCQ6tBNZZ8=;
- b=OVltufNq4+iazBAN/nrGqyMZ7hSyR0FafSnks835FiywRrWV6BVrotYpvAS7pRVgcm
- JEDTEzdQWv7ugBHkmhxXH2mM5TU6EAK1SvmvHTx6anMHyYfMEbXLsKqRv3iqLqLY8JcV
- HjrvcA8CuDf4GZgr+sqO3JKBdTuX03x2g5LjTqkMyyONdjv/DhXQ4/X/Xu++n+eYcWJe
- 5Fvlbr3GalptNNiU1YIvxywdsE5zmmww2PCFANdwCh0XdCixRcSMPVYeiFya7iKWK1//
- 3HUwtcXMJ+c6piMY+wHJcgDE88KkDZ6jENDvLDA0dI87FP/GjzIYn2CZQdLbekH0Fnul
- SZ8g==
-X-Gm-Message-State: AOAM532jkGusIigGCW+i+vGbQcM1UwK1SDWJnglNaLJx1XKzxdFSMn3F
- Al6fcBDU8rHvHd8vlodMgs8=
-X-Google-Smtp-Source: ABdhPJy60341IL5RWjf5A6iwP0gHji6vmLyFby3B/GlwxwH3tTQoRECSPYLm0elA8Vvxk0A8+4rxUg==
-X-Received: by 2002:ac8:4288:: with SMTP id o8mr5398682qtl.28.1616099134481;
- Thu, 18 Mar 2021 13:25:34 -0700 (PDT)
-Received: from Gentoo ([37.19.198.63])
- by smtp.gmail.com with ESMTPSA id o23sm2225968qtm.31.2021.03.18.13.25.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Mar 2021 13:25:33 -0700 (PDT)
-Date: Fri, 19 Mar 2021 01:55:21 +0530
-From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Fix a typo
-Message-ID: <YFO3MYXwWbXwTgUh@Gentoo>
-Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
- Alex Deucher <alexdeucher@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Hawking Zhang <Hawking.Zhang@amd.com>,
- John Clements <John.Clements@amd.com>,
- "Chen, Guchun" <guchun.chen@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- Likun Gao <Likun.Gao@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Jiansong Chen <Jiansong.Chen@amd.com>,
- Huang Rui <ray.huang@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-References: <20210318113308.1345-1-unixbhaskar@gmail.com>
- <b09b524c-1f3d-6231-29b9-f0eac3e77293@infradead.org>
- <CADnq5_OsrHGxmXeuEiV06qas7jJ0pvExqdrw-PmqpKvWi=0jOg@mail.gmail.com>
+Received: from libero.it (smtp-17-i2.italiaonline.it [213.209.12.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40C806E196
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 21:47:12 +0000 (UTC)
+Received: from oxapps-33-150.iol.local ([10.101.8.196])
+ by smtp-17.iol.local with ESMTPA
+ id N0U1lu0o0tpGHN0U1lgazL; Thu, 18 Mar 2021 22:47:10 +0100
+x-libjamoibt: 1601
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2021;
+ t=1616104030; bh=zU1WLLpE0lA50jM3MsK5RrXJ+mqo3UY4TvgZN01Q8MQ=;
+ h=From;
+ b=OfGisVIgW3s9Cv541xGM3eph9PCdbmSzYs4cdtPtyWzWSQu2iXOS0/AjpzoFLVSBe
+ mgxDfETx2VO0IYW2dxPIklejH5TIIknc4PEAXwDJIw3wtLvSoLradMbUwAMqvgevOH
+ zhVCbkNOTUXSvQGM2YRWbIKzJgn8WkjYRTBpA4AkgxVw5KVfLkZOx3bChZqRASidk5
+ e9L6VoFVVRAGZES0bspb2a5wLi/MA88CEbtQtn2qBYsr1jNe9TQZsOKzHoRWyqL+To
+ Tsj3/TnExPjYlRpI0HsQWdbk/4QlzCPmRhhNqDB155pIL3f9yhRy4kG6M7xEq38BES
+ j5HIT85uqkNPQ==
+X-CNFS-Analysis: v=2.4 cv=Q7IXX66a c=1 sm=1 tr=0 ts=6053ca5e cx=a_exe
+ a=jCUSjkGoK4+H1w5URwD4kw==:117 a=UPWQtH3J-JgA:10 a=IkcTkHD0fZMA:10
+ a=_gZzKa99_6AA:10 a=VwQbUJbxAAAA:8 a=Cpx6WUeuaVtrzDQEF6EA:9 a=QEXdDO2ut3YA:10
+ a=AjGcO6oz07-iQ99wixmX:22
+Date: Thu, 18 Mar 2021 22:47:09 +0100 (CET)
+From: Dario Binacchi <dariobin@libero.it>
+To: Tomi Valkeinen <tomba@kernel.org>, linux-kernel@vger.kernel.org,
+ Jyri Sarha <jyri.sarha@iki.fi>
+Message-ID: <1180006566.16525.1616104029554@mail1.libero.it>
+In-Reply-To: <7df3a270-1cc4-7a71-5e55-49a0dfb2c21f@kernel.org>
+References: <20210314151342.23404-1-dariobin@libero.it>
+ <7df3a270-1cc4-7a71-5e55-49a0dfb2c21f@kernel.org>
+Subject: Re: [PATCH] drm/tilcdc: fix LCD pixel clock setting
 MIME-Version: 1.0
-In-Reply-To: <CADnq5_OsrHGxmXeuEiV06qas7jJ0pvExqdrw-PmqpKvWi=0jOg@mail.gmail.com>
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.3-Rev27
+X-Originating-IP: 87.20.116.197
+X-Originating-Client: open-xchange-appsuite
+x-libjamsun: jcRFwHSewQzI0vrj1avgPo+KJzlCx/Nw
+x-libjamv: bgul+MiGx2U=
+X-CMAE-Envelope: MS4xfChI96gLjikM0Juy1Jf+WHh/deHymc/eQCyjleA4QKoTlWfrxIg5QYkfsG+xs/bi0NW4e0tEab4TXaUPeNCJe7TQTrsSUR1BE3x56DkGcd1KeUSSt19y
+ d9OJ1Zd0x9Ygvp9JtVDs+wJHPVW+nZdsAQSfdHQFXReU53yh9FBXoT181m0lUcpiDR/C5yNcgPmiMrZdcUBohSNjNwmB9Cma2y1qOdQNHfcpXsVka4ym0Pm7
+ JCd2CBw2yPvbLeAMA03ZZDaRis5ZPNQm1/Pf7SygPiJ6M4SOlBLVVUoas4RIEoeP2agFJG56r54RNAuzDrtHtyOITET4+TvHydkoZlxX4MYdrrZqEOFco8uR
+ ekkIPbAw
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,112 +62,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tao Zhou <tao.zhou1@amd.com>, "Chen, Guchun" <guchun.chen@amd.com>,
- Dave Airlie <airlied@linux.ie>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Randy Dunlap <rdunlap@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Huang Rui <ray.huang@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Jiansong Chen <Jiansong.Chen@amd.com>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, Likun Gao <Likun.Gao@amd.com>,
- John Clements <John.Clements@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
-Content-Type: multipart/mixed; boundary="===============1320007242=="
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1320007242==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="+2goaO1049LHQE3k"
-Content-Disposition: inline
+> Il 17/03/2021 09:19 Tomi Valkeinen <tomba@kernel.org> ha scritto:
+> 
+>  
+> On 14/03/2021 17:13, Dario Binacchi wrote:
+> > As reported by TI spruh73x RM, the LCD pixel clock (LCD_PCLK) frequency
+> > is obtained by dividing LCD_CLK, the LCD controller reference clock,
+> > for CLKDIV:
+> > 
+> > LCD_PCLK = LCD_CLK / CLKDIV
+> > 
+> > where CLKDIV must be greater than 1.
+> > 
+> > Therefore LCD_CLK must be set to 'req_rate * CLKDIV' instead of req_rate
+> 
+> The above doesn't make sense, the code already sets LCD_CLK to 'req_rate 
+> * clkdiv', not req_rate.
+> 
+> > and the real LCD_CLK rate must be compared with 'req_rate * CLKDIV' and
+> > not with req_rate.
+> 
+> This is true, the code looks at the wrong value.
+> 
+> > Passing req_rate instead of 'req_rate * CLKDIV' to the tilcdc_pclk_diff
+> > routine caused it to fail even if LCD_CLK was properly set.
+> > 
+> > Signed-off-by: Dario Binacchi <dariobin@libero.it>
+> > 
+> > ---
+> > 
+> >   drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 9 +++++----
+> >   1 file changed, 5 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+> > index 30213708fc99..02f56c9a5da5 100644
+> > --- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+> > +++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+> > @@ -203,7 +203,7 @@ static void tilcdc_crtc_set_clk(struct drm_crtc *crtc)
+> >   	struct drm_device *dev = crtc->dev;
+> >   	struct tilcdc_drm_private *priv = dev->dev_private;
+> >   	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
+> > -	unsigned long clk_rate, real_rate, req_rate;
+> > +	unsigned long clk_rate, real_rate, req_rate, clk_div_rate;
+> >   	unsigned int clkdiv;
+> >   	int ret;
+> >   
+> > @@ -211,10 +211,11 @@ static void tilcdc_crtc_set_clk(struct drm_crtc *crtc)
+> >   
+> >   	/* mode.clock is in KHz, set_rate wants parameter in Hz */
+> >   	req_rate = crtc->mode.clock * 1000;
+> > -
+> > -	ret = clk_set_rate(priv->clk, req_rate * clkdiv);
+> > +	/* LCD clock divisor input rate */
+> > +	clk_div_rate = req_rate * clkdiv;
+> 
+> "clk_div_rate" sounds a bit odd to me. Why not lcd_fck_rate, as that's 
+> the name used later? Or lcd_clk_rate. Or maybe lcd_clk_req_rate...
 
+I prefer lcd_clk_rate.
 
---+2goaO1049LHQE3k
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
+How about adding an additional patch that changes the variable names to make 
+the code more readable?
 
-On 14:12 Thu 18 Mar 2021, Alex Deucher wrote:
->On Thu, Mar 18, 2021 at 2:08 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->> On 3/18/21 4:33 AM, Bhaskar Chowdhury wrote:
->> >
->> > s/traing/training/
->> >
->> > Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
->> > ---
->> >  drivers/gpu/drm/amd/amdgpu/psp_v11_0.c | 2 +-
->> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> >
->> > diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
->> > index c325d6f53a71..db18e4f6cf5f 100644
->> > --- a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
->> > +++ b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
->> > @@ -661,7 +661,7 @@ static int psp_v11_0_memory_training(struct psp_context *psp, uint32_t ops)
->> >
->> >       if (ops & PSP_MEM_TRAIN_SEND_LONG_MSG) {
->> >               /*
->> > -              * Long traing will encroach certain mount of bottom VRAM,
->> > +              * Long training will encroach certain mount of bottom VRAM,
->>
->>                                                        amount
->> I think.
->
->Yeah, I think it should read something like:
->
->Long training will encroach a certain amount on the bottom of VRAM;
->save the content from the bottom VRAM to system memory
->before training, and restore it after training to avoid
->VRAM corruption.
->
->Alex
->
->>
->> >                * saving the content of this bottom VRAM to system memory
->> >                * before training, and restoring it after training to avoid
->> >                * VRAM corruption.
+req_rate -> lcd_pclk_rate
+clk_rate -> real_lcd_clk_rate
 
-Thanks.
+And add a comment to the function which highlights the relationship 
+LCD_CLK = LCD_PCLK * CLDIV ?
 
->> > --
->> > 2.26.2
->> >
->>
->>
->> --
->> ~Randy
->>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
+> > +	ret = clk_set_rate(priv->clk, clk_div_rate);
+> >   	clk_rate = clk_get_rate(priv->clk);
+> > -	if (ret < 0 || tilcdc_pclk_diff(req_rate, clk_rate) > 5) {
+> > +	if (ret < 0 || tilcdc_pclk_diff(clk_div_rate, clk_rate) > 5) {
+> >   		/*
+> >   		 * If we fail to set the clock rate (some architectures don't
+> >   		 * use the common clock framework yet and may not implement
+> > 
+> 
+> I think this fix is fine, but looking at the current code, it's calling 
+> tilcdc_pclk_diff(), but doesn't actually provide pixel clocks to the 
+> function, but fclk.
 
---+2goaO1049LHQE3k
-Content-Type: application/pgp-signature; name="signature.asc"
+Yes, I agree.
 
------BEGIN PGP SIGNATURE-----
+Thanks and regards,
+Dario
 
-iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAmBTtzEACgkQsjqdtxFL
-KRWHLwf/VSZrbhSYrWqEci3El3RuohOKQEWAKRxH+FBbFypej1MzZn8MFVI0gjwm
-Iw/qmk2zZcGiSrJR1BXSOFA4audev1Iy0x5I91rju+AZASDVWNk2CZHOZOIuR9GL
-VC3MbDxIGZK/pcVAOOpqjXvvUZoToKQQvwcr2DzSpFnZ7rE3ULbrpopfWBfpS5rv
-Giu5Arlad9IVrqZ/Kp0Hksiv8xRUL3y/+WbSDa9vsyj/hKMm2HrqJvISxFN7UDnX
-sPd/5X+41RtOD2Q9PWY03gBfQshTXEkTZnNk5/bxoRecydv1XA1OXGMMTNdkKDzx
-kwE39qzDORe0xeFLJv+gBIiQW73cvw==
-=xiDw
------END PGP SIGNATURE-----
-
---+2goaO1049LHQE3k--
-
---===============1320007242==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> 
+>   Tomi
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1320007242==--
