@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E566D34041B
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 12:03:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BFD13404B1
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 12:35:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 690A06E8E2;
-	Thu, 18 Mar 2021 11:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DCF56E8E1;
+	Thu, 18 Mar 2021 11:35:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D38966E8DE
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 11:02:59 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id d20so1513786qkc.2
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 04:02:59 -0700 (PDT)
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com
+ [IPv6:2607:f8b0:4864:20::f29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC8D96E8E1;
+ Thu, 18 Mar 2021 11:35:23 +0000 (UTC)
+Received: by mail-qv1-xf29.google.com with SMTP id x16so2988591qvk.3;
+ Thu, 18 Mar 2021 04:35:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=jFROpSYMFSugf/JDJSkj70mXo6rlQvepZUxoikhqvwU=;
- b=SrRsdV2GlRLy1OIZxZ55PGFGPinWJS8RY3CsYUJWNkI9f9akNLQFISG4is4tiwOiYy
- PbV0axfTUM+H6QPcymufLrlWEGjRIT34SnvPNBnpVeRisBnaKVJsbw/jmtv4MokTDjto
- u0mKdPs8zfJHAuB25N4C5U6Tc4vg7QAJJZrdtambLN0VZEpLhZ4JJpkadukGKuXEmmZR
- 9En5GdChZ2P4AxCc0/1kK6eTgE3wkwOnVIsffA3P6QgkmRBljjgQAxEZJz59uFjnbXhy
- 3XB7l+I7Qw5ljV58BjWdhaWJQGVvXDf8TWGjTCtrCxrclFC7w1K5Ysk1uWjxhjNFGIba
- kNkA==
+ bh=KmBXAGCvFvpYqqcBHXg4z1zeVnk1DOtEJHhSo0JH5cU=;
+ b=LNtv+kAqajFLJPtzOg2+/5ZoQ0rrbBDaq+s7yaPrzGyWjgOq2BYKIfxPUM8uNa/aGh
+ oTFqfzaJrjSt6KoGATr76WYdgTpf4KXIle3EDGB+cVgN15YdjBVx4RrPeivFGQwjwyuz
+ vcqInqMRoD/bFZVBjdaXSozC9cvb/OQO1MGGsytyYluzbUIeT6zar7mS35x+6JpktkhW
+ N2N2cBuINhG/Hb7QHBTEcFOYa1W8JQS1/OJahHI4GRW31NtPt3BLnnqEi5wJTlYtWIBY
+ enoDlzAl2KkSe39Ebggifsn6VL+Q88yFmEk0dj2r0JBwaPH5g0okkqVLZzuY2T88saFf
+ iv0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=jFROpSYMFSugf/JDJSkj70mXo6rlQvepZUxoikhqvwU=;
- b=BZWMw3czzsDCiJ9yumnWbiJA+84WAX1D4DddGpYy1NmUeCZIPDvrfpPwJ4MjkdNq33
- DiSVDj4APUMBKCeLoiDPg8HtCWz3A3+qW1NhNks93Fq5D3fPNYQZs/lZaQfYbdDKsdRx
- g2ibfH5hxGyQgyap0nZRPno3sq6PkIijXfmMPqy8QHgO+3rg/lmaft6jxBXVJ9T68RJG
- Cj26c9NdBmo1fxo6jZH7FJ2ptIoopZjy4vzGwaqZV1ehfXpRuqMhfA1P8kV22drYag5Y
- hSqhaOzLhDyrQMOseINb5vSnFpyjiU797AHjIWcSat9VtTI7ZGQBhjla5XthDa88KiJs
- HQCw==
-X-Gm-Message-State: AOAM530a1S4tSaFC6aLh2Iv9D5qDGz1hyAOGPlz9a86MY3VlbexsyanR
- gH9iddT3H7PKRgD2kSGgiGQ=
-X-Google-Smtp-Source: ABdhPJwkDT7cMA31ljW5JM3vw1gfqLU0z9C/0DWpzWCJm9s9ksIWUez9Dg5OON90ZbpVrK8+ajYGSQ==
-X-Received: by 2002:a37:7985:: with SMTP id u127mr3644083qkc.333.1616065379130; 
- Thu, 18 Mar 2021 04:02:59 -0700 (PDT)
+ bh=KmBXAGCvFvpYqqcBHXg4z1zeVnk1DOtEJHhSo0JH5cU=;
+ b=F3uKf77V6qXWgu32PRfrjREyQUtpP748bDXImi+jsofpqNuLgUytm/MycqyFeZQZwx
+ S8vPVnWAkYHuGLzrVzwmYD7VsS9WJtfgReTK7281R/BgrQgIypeTKVxmQ1bZ4EabdCWg
+ mO3C8eSbJEORJTKXm6wqygeY42dkThRuQhsj3qZ/pRZeYrCOpcj8iyHZC4LQ9vf2f+hN
+ N9dfVrYDTgaOShM1jI9xkMRcGSQ34t2PhUCUwQSWgpdkj2DQq92r1C2sY6Gs+aCaMBA8
+ IBrrooKnoAiAkVMCcm3vRVgOVcaYYqlSPpC/wSlT5VJ18CwR7R5n23/eyWfclKq55Mcs
+ Mx0w==
+X-Gm-Message-State: AOAM530iM1BTgDIT4kr+aL5+g0KHYQutkmDfhjdR8xVREQ03X6YhEDR0
+ RT2D5WnZLmRO+cZELRvvD0A=
+X-Google-Smtp-Source: ABdhPJxs+awZjzg+I4yr1kGFNs6UNhuk8pcWqa820xZ2PBlfYTwlckQi5EFB9aagxi5sKj1rE0xDZQ==
+X-Received: by 2002:a0c:a954:: with SMTP id z20mr3813029qva.29.1616067323010; 
+ Thu, 18 Mar 2021 04:35:23 -0700 (PDT)
 Received: from localhost.localdomain ([156.146.54.246])
- by smtp.gmail.com with ESMTPSA id f2sm1407123qko.135.2021.03.18.04.02.53
+ by smtp.gmail.com with ESMTPSA id k24sm1222233qtu.35.2021.03.18.04.35.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Mar 2021 04:02:58 -0700 (PDT)
+ Thu, 18 Mar 2021 04:35:22 -0700 (PDT)
 From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To: narmstrong@baylibre.com, airlied@linux.ie, daniel@ffwll.ch,
- khilman@baylibre.com, jbrunet@baylibre.com,
- martin.blumenstingl@googlemail.com, dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch, Hawking.Zhang@amd.com, John.Clements@amd.com,
+ guchun.chen@amd.com, tao.zhou1@amd.com, Likun.Gao@amd.com,
+ Bhawanpreet.Lakha@amd.com, Jiansong.Chen@amd.com, ray.huang@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/meson: Fix few typo
-Date: Thu, 18 Mar 2021 16:30:46 +0530
-Message-Id: <20210318110046.14830-1-unixbhaskar@gmail.com>
+Subject: [PATCH] drm/amdgpu: Fix a typo
+Date: Thu, 18 Mar 2021 17:03:08 +0530
+Message-Id: <20210318113308.1345-1-unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,27 +76,26 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-s/initialy/initially/
-s/desined/designed/
+s/traing/training/
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- drivers/gpu/drm/meson/meson_venc.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v11_0.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/meson/meson_venc.c b/drivers/gpu/drm/meson/meson_venc.c
-index 5e2236ec189f..3c55ed003359 100644
---- a/drivers/gpu/drm/meson/meson_venc.c
-+++ b/drivers/gpu/drm/meson/meson_venc.c
-@@ -45,7 +45,7 @@
-  * The ENCI is designed for PAl or NTSC encoding and can go through the VDAC
-  * directly for CVBS encoding or through the ENCI_DVI encoder for HDMI.
-  * The ENCP is designed for Progressive encoding but can also generate
-- * 1080i interlaced pixels, and was initialy desined to encode pixels for
-+ * 1080i interlaced pixels, and was initially designed to encode pixels for
-  * VDAC to output RGB ou YUV analog outputs.
-  * It's output is only used through the ENCP_DVI encoder for HDMI.
-  * The ENCL LVDS encoder is not implemented.
+diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
+index c325d6f53a71..db18e4f6cf5f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
+@@ -661,7 +661,7 @@ static int psp_v11_0_memory_training(struct psp_context *psp, uint32_t ops)
+
+ 	if (ops & PSP_MEM_TRAIN_SEND_LONG_MSG) {
+ 		/*
+-		 * Long traing will encroach certain mount of bottom VRAM,
++		 * Long training will encroach certain mount of bottom VRAM,
+ 		 * saving the content of this bottom VRAM to system memory
+ 		 * before training, and restoring it after training to avoid
+ 		 * VRAM corruption.
 --
 2.26.2
 
