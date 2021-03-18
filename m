@@ -2,52 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07EB33FD93
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 04:12:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B22BF33FDA6
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 04:17:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64FDF6E088;
-	Thu, 18 Mar 2021 03:11:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9C046E40C;
+	Thu, 18 Mar 2021 03:16:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 736E46E087;
- Thu, 18 Mar 2021 03:11:57 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id x135so866281oia.9;
- Wed, 17 Mar 2021 20:11:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jug9lt2096iTFzdoAmqpuHgFfgrRXiyduMJw3GtK8p8=;
- b=DrhRzLOcGsAX3P72JbSKtzPAMjwFFO1Y4Ab6lZPUyB8sFejZRzxyi0tSYQdSz6J1RR
- svsVqtyj9GenOvMFGO8nzfd/2CbxFBP+GtKL6/N1CuFxzwjA1MvgquXf3/AENPcBVtBa
- 7DA43Fc5y0B2aVRIYCSpmUi11e+hwpAUpsy6XSJ0iMU1Q7wY/CBHS23D9BJsd6WeAItn
- QdG0ULYIQfEcCGzhzHHcxiX7s70ZR30dARQnEhYBYQa9ByHvWhQrR5VBBPGvCBqWA7Zd
- LHdrBsOh45ANhff14lf9TfeznHi0aRebEjfg6PLyx56t/XRT3foIb8aURhgIoq1ISI2x
- aVsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jug9lt2096iTFzdoAmqpuHgFfgrRXiyduMJw3GtK8p8=;
- b=aKjQ+xUxoXsD+I/nmsf9DQRezDyIcK4snDqFHHcs4NQ7fXkvLTqubviAwnU1C4Ur5Y
- NiXDIzIbkqpt+dls4nDMn2CP5VRjD/XXQax0Y0CQZJ22zuAm7T465e9kAcx0A3cbankk
- eksYYEXSGZ1+MRFnjobcC0p+XNPx7rHhgmZHjQT3m/WMjo5wjUPMP4RP5pV6PgBFTB5g
- VyGRnYj+rFMexyfiZrROEnd805sj7L9NHhvdUVp55otppZz098DID++kJdFjoF0bKxdU
- ffB+JoX426QWxWTY9vftMwcvRl5Gst7VAcQsb/SpoyarJuqLMaQDJk/1frJP3TJZrrpq
- LblA==
-X-Gm-Message-State: AOAM531iokGpKYQyJRnLqfVwPA9dmL5vr7BSQ+ntNpEPD25ivYTMp7Xh
- nI+/5kdTpHKOVMZ6SUx1xSy0i+xOzbaHfuh1mOA=
-X-Google-Smtp-Source: ABdhPJzHuFKutJ2cmVAWC7ZqCumYXV3yTyCSCiUT12R+iMCXFfOdIbucig+gbaD6BaFQuznCzIDYFyBfUs9ktO+F3h4=
-X-Received: by 2002:aca:4748:: with SMTP id u69mr1416178oia.5.1616037116859;
- Wed, 17 Mar 2021 20:11:56 -0700 (PDT)
+Received: from m12-17.163.com (m12-17.163.com [220.181.12.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DBE16E40C
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 03:16:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=W12mF
+ x5zwkYJm0lwqakEsOPM1rg3JP/KCo5hL6AZCko=; b=RDolLNaif5hswbP3WO+Tw
+ bKbWuMeUwBBJr2h10bnsTMbGLQF90xJPH2iTzhSxeSoPrgov9f6UVvP5oYGpzqHz
+ 0hSBwfaqgi2N5Mv6s6KqlMAex/zll4lHFlsd54QjBoQf4WElVyyYjP3wRDdnHDqQ
+ SSTM0z+vSYDHWXz/bYFZ+I=
+Received: from COOL-20200911ZP.ccdomain.com (unknown [218.94.48.178])
+ by smtp13 (Coremail) with SMTP id EcCowADX3JQXxlJg+FZgqg--.26427S2;
+ Thu, 18 Mar 2021 11:16:49 +0800 (CST)
+From: ChunyouTang <tangchunyou@163.com>
+To: gustavoars@kernel.org,
+	sam@ravnborg.org
+Subject: [PATCH v2] drivers/video/fbdev:modify 'if (addrp == NULL)' to 'if
+ (!addr)
+Date: Thu, 18 Mar 2021 11:16:36 +0800
+Message-Id: <20210318031636.552-1-tangchunyou@163.com>
+X-Mailer: git-send-email 2.30.0.windows.1
 MIME-Version: 1.0
-References: <1616035012-88614-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <1616035012-88614-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 17 Mar 2021 23:11:45 -0400
-Message-ID: <CADnq5_O+3EQHN8uw14HsPNm9rijveXd=W1Q+18sS_4cGNvA_3w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Remove unnecessary conversion to bool
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+X-CM-TRANSID: EcCowADX3JQXxlJg+FZgqg--.26427S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7uF1xZFyrWFy5ZryUZw4xJFb_yoW8tw1UpF
+ W5KFyFyF18Gws3WayxAFWvya42grn3tFW2yryxuw1a9a15Zr15X343G342gF9rArWrA343
+ A3WDK3W8Gw4UJFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jxPEfUUUUU=
+X-Originating-IP: [218.94.48.178]
+X-CM-SenderInfo: 5wdqwu5kxq50rx6rljoofrz/xtbBRQFZUVPAKkRtgwAAsf
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,58 +49,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: linux-fbdev@vger.kernel.org, tangchunyou@yulong.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 17, 2021 at 10:37 PM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
->
-> Fix the following coccicheck warnings:
->
-> ./drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dwb_cm.c:220:65-70:
-> WARNING: conversion to bool not needed here.
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+From: tangchunyou <tangchunyou@yulong.com>
 
-Applied.  Thanks.  In general, you can just roll up most these bool
-conversion patches into larger patches; no need to fix them all one at
-a time.
+modify 'if (addrp == NULL)' to 'if (!addr)
 
-Alex
+Signed-off-by: tangchunyou <tangchunyou@yulong.com>
+---
+ drivers/video/fbdev/offb.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-> ---
->  drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dwb_cm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dwb_cm.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dwb_cm.c
-> index 8593145..3fe9e41 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dwb_cm.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dwb_cm.c
-> @@ -217,7 +217,7 @@ static bool dwb3_program_ogam_lut(
->         else
->                 next_mode = LUT_RAM_A;
->
-> -       dwb3_configure_ogam_lut(dwbc30, next_mode == LUT_RAM_A ? true : false);
-> +       dwb3_configure_ogam_lut(dwbc30, next_mode == LUT_RAM_A);
->
->         if (next_mode == LUT_RAM_A)
->                 dwb3_program_ogam_luta_settings(dwbc30, params);
-> --
-> 1.8.3.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+diff --git a/drivers/video/fbdev/offb.c b/drivers/video/fbdev/offb.c
+index cd1042f..52d86e3 100644
+--- a/drivers/video/fbdev/offb.c
++++ b/drivers/video/fbdev/offb.c
+@@ -305,9 +305,9 @@ static void __iomem *offb_map_reg(struct device_node *np, int index,
+ 	unsigned int flags;
+ 
+ 	addrp = of_get_pci_address(np, index, &asize, &flags);
+-	if (addrp == NULL)
++	if (!addrp)
+ 		addrp = of_get_address(np, index, &asize, &flags);
+-	if (addrp == NULL)
++	if (!addrp)
+ 		return NULL;
+ 	if ((flags & (IORESOURCE_IO | IORESOURCE_MEM)) == 0)
+ 		return NULL;
+@@ -412,7 +412,7 @@ static void __init offb_init_fb(const char *name,
+ 
+ 	info = framebuffer_alloc(sizeof(u32) * 16, NULL);
+ 
+-	if (info == NULL) {
++	if (!info) {
+ 		release_mem_region(res_start, res_size);
+ 		return;
+ 	}
+@@ -555,25 +555,25 @@ static void __init offb_init_nodriver(struct device_node *dp, int no_real_node)
+ #endif
+ 
+ 	pp = of_get_property(dp, "linux,bootx-depth", &len);
+-	if (pp == NULL)
++	if (!pp)
+ 		pp = of_get_property(dp, "depth", &len);
+ 	if (pp && len == sizeof(u32))
+ 		depth = be32_to_cpup(pp);
+ 
+ 	pp = of_get_property(dp, "linux,bootx-width", &len);
+-	if (pp == NULL)
++	if (!pp)
+ 		pp = of_get_property(dp, "width", &len);
+ 	if (pp && len == sizeof(u32))
+ 		width = be32_to_cpup(pp);
+ 
+ 	pp = of_get_property(dp, "linux,bootx-height", &len);
+-	if (pp == NULL)
++	if (!pp)
+ 		pp = of_get_property(dp, "height", &len);
+ 	if (pp && len == sizeof(u32))
+ 		height = be32_to_cpup(pp);
+ 
+ 	pp = of_get_property(dp, "linux,bootx-linebytes", &len);
+-	if (pp == NULL)
++	if (!pp)
+ 		pp = of_get_property(dp, "linebytes", &len);
+ 	if (pp && len == sizeof(u32) && (*pp != 0xffffffffu))
+ 		pitch = be32_to_cpup(pp);
+@@ -593,7 +593,7 @@ static void __init offb_init_nodriver(struct device_node *dp, int no_real_node)
+ 	 * the "address" property. If none match, we pick the biggest
+ 	 */
+ 	up = of_get_property(dp, "linux,bootx-addr", &len);
+-	if (up == NULL)
++	if (!up)
+ 		up = of_get_property(dp, "address", &len);
+ 	if (up && len == sizeof(u32))
+ 		addr_prop = *up;
+-- 
+1.9.1
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
