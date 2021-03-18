@@ -1,33 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA4E2340413
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 12:00:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E566D34041B
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 12:03:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03E5F6E107;
-	Thu, 18 Mar 2021 11:00:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 690A06E8E2;
+	Thu, 18 Mar 2021 11:03:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0CCB6E107
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 11:00:45 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 25E55AC75;
- Thu, 18 Mar 2021 11:00:44 +0000 (UTC)
-Subject: Re: [PATCH v2 08/10] drm/simpledrm: Acquire clocks from DT device node
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20210318102921.21536-1-tzimmermann@suse.de>
- <20210318102921.21536-9-tzimmermann@suse.de>
- <CAMuHMdVa6hw89zr5nRFaKG0sZYLXdTOktGN7pU2LiAPPbsHEdw@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <eaa9a302-7c00-00d2-2308-86e885fc708e@suse.de>
-Date: Thu, 18 Mar 2021 12:00:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
+ [IPv6:2607:f8b0:4864:20::729])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D38966E8DE
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 11:02:59 +0000 (UTC)
+Received: by mail-qk1-x729.google.com with SMTP id d20so1513786qkc.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 04:02:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jFROpSYMFSugf/JDJSkj70mXo6rlQvepZUxoikhqvwU=;
+ b=SrRsdV2GlRLy1OIZxZ55PGFGPinWJS8RY3CsYUJWNkI9f9akNLQFISG4is4tiwOiYy
+ PbV0axfTUM+H6QPcymufLrlWEGjRIT34SnvPNBnpVeRisBnaKVJsbw/jmtv4MokTDjto
+ u0mKdPs8zfJHAuB25N4C5U6Tc4vg7QAJJZrdtambLN0VZEpLhZ4JJpkadukGKuXEmmZR
+ 9En5GdChZ2P4AxCc0/1kK6eTgE3wkwOnVIsffA3P6QgkmRBljjgQAxEZJz59uFjnbXhy
+ 3XB7l+I7Qw5ljV58BjWdhaWJQGVvXDf8TWGjTCtrCxrclFC7w1K5Ysk1uWjxhjNFGIba
+ kNkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jFROpSYMFSugf/JDJSkj70mXo6rlQvepZUxoikhqvwU=;
+ b=BZWMw3czzsDCiJ9yumnWbiJA+84WAX1D4DddGpYy1NmUeCZIPDvrfpPwJ4MjkdNq33
+ DiSVDj4APUMBKCeLoiDPg8HtCWz3A3+qW1NhNks93Fq5D3fPNYQZs/lZaQfYbdDKsdRx
+ g2ibfH5hxGyQgyap0nZRPno3sq6PkIijXfmMPqy8QHgO+3rg/lmaft6jxBXVJ9T68RJG
+ Cj26c9NdBmo1fxo6jZH7FJ2ptIoopZjy4vzGwaqZV1ehfXpRuqMhfA1P8kV22drYag5Y
+ hSqhaOzLhDyrQMOseINb5vSnFpyjiU797AHjIWcSat9VtTI7ZGQBhjla5XthDa88KiJs
+ HQCw==
+X-Gm-Message-State: AOAM530a1S4tSaFC6aLh2Iv9D5qDGz1hyAOGPlz9a86MY3VlbexsyanR
+ gH9iddT3H7PKRgD2kSGgiGQ=
+X-Google-Smtp-Source: ABdhPJwkDT7cMA31ljW5JM3vw1gfqLU0z9C/0DWpzWCJm9s9ksIWUez9Dg5OON90ZbpVrK8+ajYGSQ==
+X-Received: by 2002:a37:7985:: with SMTP id u127mr3644083qkc.333.1616065379130; 
+ Thu, 18 Mar 2021 04:02:59 -0700 (PDT)
+Received: from localhost.localdomain ([156.146.54.246])
+ by smtp.gmail.com with ESMTPSA id f2sm1407123qko.135.2021.03.18.04.02.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Mar 2021 04:02:58 -0700 (PDT)
+From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To: narmstrong@baylibre.com, airlied@linux.ie, daniel@ffwll.ch,
+ khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/meson: Fix few typo
+Date: Thu, 18 Mar 2021 16:30:46 +0530
+Message-Id: <20210318110046.14830-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdVa6hw89zr5nRFaKG0sZYLXdTOktGN7pU2LiAPPbsHEdw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,177 +68,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bluescreen_avenger@verizon.net,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Jonathan Corbet <corbet@lwn.net>,
- Emil Velikov <emil.l.velikov@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org, Hans de Goede <hdegoede@redhat.com>,
- Mark Brown <broonie@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============0756454579=="
+Cc: rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0756454579==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="okoC2EK4ELgp4i8OVC04b8mh8PM0RZNio"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---okoC2EK4ELgp4i8OVC04b8mh8PM0RZNio
-Content-Type: multipart/mixed; boundary="utyvLHxxSDV5Chs7hThFOl8N43JLq1tQV";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: bluescreen_avenger@verizon.net, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- virtualization@lists.linux-foundation.org,
- Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Sam Ravnborg <sam@ravnborg.org>
-Message-ID: <eaa9a302-7c00-00d2-2308-86e885fc708e@suse.de>
-Subject: Re: [PATCH v2 08/10] drm/simpledrm: Acquire clocks from DT device
- node
-References: <20210318102921.21536-1-tzimmermann@suse.de>
- <20210318102921.21536-9-tzimmermann@suse.de>
- <CAMuHMdVa6hw89zr5nRFaKG0sZYLXdTOktGN7pU2LiAPPbsHEdw@mail.gmail.com>
-In-Reply-To: <CAMuHMdVa6hw89zr5nRFaKG0sZYLXdTOktGN7pU2LiAPPbsHEdw@mail.gmail.com>
+s/initialy/initially/
+s/desined/designed/
 
---utyvLHxxSDV5Chs7hThFOl8N43JLq1tQV
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ drivers/gpu/drm/meson/meson_venc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi
-
-Am 18.03.21 um 11:39 schrieb Geert Uytterhoeven:
-> Hi Thomas,
->=20
-> On Thu, Mar 18, 2021 at 11:29 AM Thomas Zimmermann <tzimmermann@suse.de=
-> wrote:
->> Make sure required hardware clocks are enabled while the firmware
->> framebuffer is in use.
->>
->> The basic code has been taken from the simplefb driver and adapted
->> to DRM. Clocks are released automatically via devres helpers.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
->=20
-> Thanks for your patch!
->=20
->> --- a/drivers/gpu/drm/tiny/simpledrm.c
->> +++ b/drivers/gpu/drm/tiny/simpledrm.c
->=20
->> +static int simpledrm_device_init_clocks(struct simpledrm_device *sdev=
-)
->> +{
->> +       struct drm_device *dev =3D &sdev->dev;
->> +       struct platform_device *pdev =3D sdev->pdev;
->> +       struct device_node *of_node =3D pdev->dev.of_node;
->> +       struct clk *clock;
->> +       unsigned int i;
->> +       int ret;
->> +
->> +       if (dev_get_platdata(&pdev->dev) || !of_node)
->> +               return 0;
->> +
->> +       sdev->clk_count =3D of_clk_get_parent_count(of_node);
->> +       if (!sdev->clk_count)
->> +               return 0;
->> +
->> +       sdev->clks =3D drmm_kzalloc(dev, sdev->clk_count * sizeof(sdev=
-->clks[0]),
->> +                                 GFP_KERNEL);
->> +       if (!sdev->clks)
->> +               return -ENOMEM;
->> +
->> +       for (i =3D 0; i < sdev->clk_count; ++i) {
->> +               clock =3D of_clk_get(of_node, i);
->> +               if (IS_ERR(clock)) {
->> +                       ret =3D PTR_ERR(clock);
->> +                       if (ret =3D=3D -EPROBE_DEFER)
->> +                               goto err;
->> +                       drm_err(dev, "clock %u not found: %d\n", i, re=
-t);
->> +                       continue;
->> +               }
->> +               ret =3D clk_prepare_enable(clock);
->> +               if (ret) {
->> +                       drm_err(dev, "failed to enable clock %u: %d\n"=
-,
->> +                               i, ret);
->> +                       clk_put(clock);
->> +               }
->> +               sdev->clks[i] =3D clock;
->> +       }
->=20
-> of_clk_bulk_get_all() + clk_bulk_prepare_enable()?
->=20
-> There's also devm_clk_bulk_get_all(), but not for the OF variant.
-
-Right, you mentioned this on the original patch set. I tried to use the=20
-functions, but TBH I found them to obfuscate the overall logic of the=20
-function. So I went back to the original code. Hopefully this is not too =
-
-much of an issue.
-
-Best regards
-Thomas
-
->=20
-> Gr{oetje,eeting}s,
->=20
->                          Geert
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---utyvLHxxSDV5Chs7hThFOl8N43JLq1tQV--
-
---okoC2EK4ELgp4i8OVC04b8mh8PM0RZNio
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmBTMtoFAwAAAAAACgkQlh/E3EQov+AS
-rhAAh6JyaE+QDzVYCByXi61NkZYTH+D/XkDKloGEIHAYv+FRyu1KuU9IWxzC11A93wGV3Ox4UQiV
-MI0+SSA3V6eShQ7BlmtmAK6Rk0O3UviVP9h62C59Oe7M7lml6SiW5wHgW6T9H9sIEnQFJIXyfdmv
-V8QmpzQ3HgaPF5wsF1M5GOxLT4yDKLQSpZ244U6Q41AqHGCEaSgR+L2jzvd4zeimIPxDPSUpEobv
-uTJmQrrBui65FqMSI/+wVs7Tn5aBd2/Km4x4lSxilctNi6WoY7fG0VQsQfN4+hmQVOJid4eBgHbZ
-aLmeRuyNZ0tMT6c86ATm63Jd4ZTEYFbvSFxh4tz5cwrb0bWSsYxnNx5XFR11Rq67MHEqaH9ZXvz7
-zob8y+sP3aKyYVyHUgB5RCwcgEeLqJIls14gudafyKmbGr9SMArxrwszfH7JdjzbuGN6lbMTMNFq
-t8VvcIdl++wi3MFIEz9/FHmlbZ7Gvnx0buynPhx9xUav3CkIazq0pt9m99ZDJRQu+4/K0y+v/2CK
-lVZiI+TdzMxvHq7wqjZh3w51fa9Su8DkcxKQyp3yKVtE5sf6obtjBmU7ciPrBqfzHNKkhWZMn/3C
-thRlrYEN+igE+O0LXBFyIFk9WntRXWup78PdyjuedddAe7NdrJaTRqNnMZG7Azu9ZxpEgA6Sga9i
-nTI=
-=/ob6
------END PGP SIGNATURE-----
-
---okoC2EK4ELgp4i8OVC04b8mh8PM0RZNio--
-
---===============0756454579==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/meson/meson_venc.c b/drivers/gpu/drm/meson/meson_venc.c
+index 5e2236ec189f..3c55ed003359 100644
+--- a/drivers/gpu/drm/meson/meson_venc.c
++++ b/drivers/gpu/drm/meson/meson_venc.c
+@@ -45,7 +45,7 @@
+  * The ENCI is designed for PAl or NTSC encoding and can go through the VDAC
+  * directly for CVBS encoding or through the ENCI_DVI encoder for HDMI.
+  * The ENCP is designed for Progressive encoding but can also generate
+- * 1080i interlaced pixels, and was initialy desined to encode pixels for
++ * 1080i interlaced pixels, and was initially designed to encode pixels for
+  * VDAC to output RGB ou YUV analog outputs.
+  * It's output is only used through the ENCP_DVI encoder for HDMI.
+  * The ENCL LVDS encoder is not implemented.
+--
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0756454579==--
