@@ -1,61 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203593406A0
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 14:13:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 952A83406B2
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Mar 2021 14:18:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 212A46E0DA;
-	Thu, 18 Mar 2021 13:13:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 695996E8F9;
+	Thu, 18 Mar 2021 13:18:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27F1D6E0DA
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 13:13:42 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id v4so5479349wrp.13
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 06:13:42 -0700 (PDT)
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1CD6E907
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 13:18:37 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ o19-20020a9d22130000b02901bfa5b79e18so5159070ota.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Mar 2021 06:18:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=RN1aiZ6RJ/if7REZS1LAAvDyJQvNsdGdiQlrmvTsdiY=;
- b=Gtqp46MJtdQbCPssQstDYavp587uiEW1FtTLuj/3zlPOQKFucFQe3ICvyuc8A1SgYi
- 8ybcL91yErfPHoMkz9GhNJxRORLp8w4dojMcFTaK4iuDwy7zPnziv0uIvmvbTBhEHE5E
- FPGI7ZZ1ZMdtjOy11qFrP1UG3L+fLZwg4MlIM=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=v0u3U62VgqQ/5cx0dl1OlmbnmTob1+65hnEnMoAP8+g=;
+ b=Wq2xIKdqjdfzxw2Myb5taaYoDXG0Mt5eTvw70t+Qfukgix/l82cWO0JuAAM9pp9Lr8
+ iuztkE2RYqfAeHvp28wsWDJ+QoGaPWC+Rv09fwMM2iRu/K2UOyFvuXajEDVEVPCoATb4
+ oF5XWjbtWmNZTiF6bVmPZ4xhDEvuykvOW88w0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=RN1aiZ6RJ/if7REZS1LAAvDyJQvNsdGdiQlrmvTsdiY=;
- b=VlcLq+UTrwq3ZKyqAcC0E5eybBdGMAnOmiqaK5yJGk/Xfn8K8QGEsK7ZwbxuKgtYnt
- bu5DALbLqnZmdZ1D7uGrrHymU5kteOsTYlV86pAkygC1Ms9a4C35cKd+wmtiiYiFPTRU
- JRoscWx4TQ24YIaI/6I55kCKXch9A1bNQeSHE8hzQRgUfl6Rf//A28MnbKk6hKTkYyiv
- 4O1n8nTwUJ+Ober/XZmHrWX9fAbge0EAxU9893B9BHLgeAA+RAooAzQ6sse6BYFpa/ae
- S+9IbsGXDf9NJjx52ys+H2r2yi94Pyvcu6xEdQhpZFC0pKleUN2PpRF8WjWbSKL/C5Du
- Pj3w==
-X-Gm-Message-State: AOAM532FJM6rAIUC8bVsoHTTmewMaDo1KToo1KiHrTeMV5PE0woJSjLp
- y3SV+htkrdUXBVjNcs2h+Ew7rg==
-X-Google-Smtp-Source: ABdhPJwnpjCEuLxdvrIw6DknvjlSN00pW4J/MANn/U6OeBl/WUX9+H/I9ozPrZ+6BZZxsMp1rXTI4A==
-X-Received: by 2002:a5d:6810:: with SMTP id w16mr9727789wru.333.1616073220875; 
- Thu, 18 Mar 2021 06:13:40 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id n6sm2758102wmd.27.2021.03.18.06.13.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Mar 2021 06:13:40 -0700 (PDT)
-Date: Thu, 18 Mar 2021 14:13:38 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 1/3] dma-buf: add dma_fence_array_for_each (v2)
-Message-ID: <YFNSAqJ3BM41VCGR@phenom.ffwll.local>
-References: <20210316045322.2020294-1-jason@jlekstrand.net>
- <20210317221940.2146688-1-jason@jlekstrand.net>
- <20210317221940.2146688-2-jason@jlekstrand.net>
- <889da927-d7a1-bcf3-1887-542798863faf@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=v0u3U62VgqQ/5cx0dl1OlmbnmTob1+65hnEnMoAP8+g=;
+ b=g1fn/0szug65wp2sDwfkoP1ApxC56yzGNaICQpUpOXXfTDsOaO2hIgat4lIBAXYrAb
+ cDKMdkUV/XMlu9GUmEI/OeMGWqw1NLwqQ4Fj8+L/iEfUXOytvmuJ9m4rQ/XBtaDgRvQD
+ pupH1/dvREAqvOUHsTpQp+669tehNEo/RnJXpZCYaHAxEoZYw1Vnts3k5R2+V0X2Hbto
+ VBHR3SVoptFKLI/R2NWykTaRiIW9+q3SRe8lN6yMM8naZAL6LILugSbCOSZFZtlAG6EA
+ N9AM8tbuGEzECd5yCYZ0UF2q2T3aVqY8ZXD9tH5FJ14XDhUgOHKJpHdhSwFCnaKRu3qT
+ xjHg==
+X-Gm-Message-State: AOAM533AD/YOBI/vnISY4ZBinl8Oxuu8pB+gzV+g3IBxoYABGZDzA/WP
+ 9zAy9y/n42LAZMdA8ezjS0/sGTRf5wyCLS6I1cIhKg==
+X-Google-Smtp-Source: ABdhPJys7CWu1QW7sqaGp8DPpYtt4z4UFBXzAiTSc52E6cJ3FtAgdwRl3llcaxjGyQonUci42YLrVhEplIIDHitKc+k=
+X-Received: by 2002:a9d:63d6:: with SMTP id e22mr7303358otl.188.1616073516410; 
+ Thu, 18 Mar 2021 06:18:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <889da927-d7a1-bcf3-1887-542798863faf@gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20210303134319.3160762-1-lee.jones@linaro.org>
+ <16d4300e-bf29-1e85-317b-53d257890cb9@vmware.com> <20210308091932.GB4931@dell>
+ <YEobySvG0zPs9xhc@phenom.ffwll.local> <20210311135152.GT701493@dell>
+ <20210317081729.GH701493@dell>
+ <CAKMK7uEibsgXXTEM1d2CGSswp-koouPSouseP_rwLHTdpxfRpw@mail.gmail.com>
+In-Reply-To: <CAKMK7uEibsgXXTEM1d2CGSswp-koouPSouseP_rwLHTdpxfRpw@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 18 Mar 2021 14:18:25 +0100
+Message-ID: <CAKMK7uHkJGDL8k3FfAqAM78honZR0euMcacW8UpdPZfS1J-7cA@mail.gmail.com>
+Subject: Re: [RESEND 00/53] Rid GPU from W=1 warnings
+To: Lee Jones <lee.jones@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,131 +62,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Jason Ekstrand <jason@jlekstrand.net>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>,
+ Nouveau Dev <nouveau@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Qinglang Miao <miaoqinglang@huawei.com>, Anthony Koo <Anthony.Koo@amd.com>,
+ Jeremy Kolb <jkolb@brandeis.edu>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Rob Clark <rob.clark@linaro.org>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Ben Skeggs <bskeggs@redhat.com>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Dave Airlie <airlied@redhat.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Leo Li <sunpeng.li@amd.com>, Roland Scheidegger <sroland@vmware.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Sean Paul <sean@poorly.run>, Kuogee Hsieh <khsieh@codeaurora.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Colin Ian King <colin.king@canonical.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 18, 2021 at 10:38:11AM +0100, Christian K=F6nig wrote:
-> Am 17.03.21 um 23:19 schrieb Jason Ekstrand:
-> > From: Christian K=F6nig <ckoenig.leichtzumerken@gmail.com>
-> > =
+On Wed, Mar 17, 2021 at 9:32 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Wed, Mar 17, 2021 at 9:17 AM Lee Jones <lee.jones@linaro.org> wrote:
+> >
+> > On Thu, 11 Mar 2021, Lee Jones wrote:
+> >
+> > > On Thu, 11 Mar 2021, Daniel Vetter wrote:
+> > >
+> > > > On Mon, Mar 08, 2021 at 09:19:32AM +0000, Lee Jones wrote:
+> > > > > On Fri, 05 Mar 2021, Roland Scheidegger wrote:
+> > > > >
+> > > > > > The vmwgfx ones look all good to me, so for
+> > > > > > 23-53: Reviewed-by: Roland Scheidegger <sroland@vmware.com>
+> > > > > > That said, they were already signed off by Zack, so not sure what
+> > > > > > happened here.
+> > > > >
+> > > > > Yes, they were accepted at one point, then dropped without a reason.
+> > > > >
+> > > > > Since I rebased onto the latest -next, I had to pluck them back out of
+> > > > > a previous one.
+> > > >
+> > > > They should show up in linux-next again. We merge patches for next merge
+> > > > window even during the current merge window, but need to make sure they
+> > > > don't pollute linux-next. Occasionally the cut off is wrong so patches
+> > > > show up, and then get pulled again.
+> > > >
+> > > > Unfortunately especially the 5.12 merge cycle was very wobbly due to some
+> > > > confusion here. But your patches should all be in linux-next again (they
+> > > > are queued up for 5.13 in drm-misc-next, I checked that).
+> > > >
+> > > > Sorry for the confusion here.
+> > >
+> > > Oh, I see.  Well so long as they don't get dropped, I'll be happy.
+> > >
+> > > Thanks for the explanation Daniel
+> >
+> > After rebasing today, all of my GPU patches have remained.  Would
+> > someone be kind enough to check that everything is still in order
+> > please?
+>
+> It's still broken somehow. I've kiced Maxime and Maarten again,
+> they're also on this thread.
 
-> > Add a helper to iterate over all fences in a dma_fence_array object.
-> > =
-
-> > v2 (Jason Ekstrand)
-> >   - Return NULL from dma_fence_array_first if head =3D=3D NULL.  This m=
-atches
-> >     the iterator behavior of dma_fence_chain_for_each in that it iterat=
-es
-> >     zero times if head =3D=3D NULL.
-> >   - Return NULL from dma_fence_array_next if index > array->num_fences.
-> =
-
-> Is there any reason you send this patch alone out once more?
-> =
-
-> I don't see any changes compared to the last version.
-
-Last patch has changed. Also I think mail delivery is a bit wobbly right
-now.
+You're patches have made it into drm-next meanwhile, so they should
+show up in linux-next through that tree at least. Except if that one
+also has some trouble.
 -Daniel
-
-> =
-
-> Christian.
-> =
-
-> > =
-
-> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > ---
-> >   drivers/dma-buf/dma-fence-array.c | 27 +++++++++++++++++++++++++++
-> >   include/linux/dma-fence-array.h   | 17 +++++++++++++++++
-> >   2 files changed, 44 insertions(+)
-> > =
-
-> > diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fe=
-nce-array.c
-> > index d3fbd950be944..2ac1afc697d0f 100644
-> > --- a/drivers/dma-buf/dma-fence-array.c
-> > +++ b/drivers/dma-buf/dma-fence-array.c
-> > @@ -201,3 +201,30 @@ bool dma_fence_match_context(struct dma_fence *fen=
-ce, u64 context)
-> >   	return true;
-> >   }
-> >   EXPORT_SYMBOL(dma_fence_match_context);
-> > +
-> > +struct dma_fence *dma_fence_array_first(struct dma_fence *head)
-> > +{
-> > +	struct dma_fence_array *array;
-> > +
-> > +	if (!head)
-> > +		return NULL;
-> > +
-> > +	array =3D to_dma_fence_array(head);
-> > +	if (!array)
-> > +		return head;
-> > +
-> > +	return array->fences[0];
-> > +}
-> > +EXPORT_SYMBOL(dma_fence_array_first);
-> > +
-> > +struct dma_fence *dma_fence_array_next(struct dma_fence *head,
-> > +				       unsigned int index)
-> > +{
-> > +	struct dma_fence_array *array =3D to_dma_fence_array(head);
-> > +
-> > +	if (!array || index >=3D array->num_fences)
-> > +		return NULL;
-> > +
-> > +	return array->fences[index];
-> > +}
-> > +EXPORT_SYMBOL(dma_fence_array_next);
-> > diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-=
-array.h
-> > index 303dd712220fd..588ac8089dd61 100644
-> > --- a/include/linux/dma-fence-array.h
-> > +++ b/include/linux/dma-fence-array.h
-> > @@ -74,6 +74,19 @@ to_dma_fence_array(struct dma_fence *fence)
-> >   	return container_of(fence, struct dma_fence_array, base);
-> >   }
-> > +/**
-> > + * dma_fence_array_for_each - iterate over all fences in array
-> > + * @fence: current fence
-> > + * @index: index into the array
-> > + * @head: potential dma_fence_array object
-> > + *
-> > + * Test if @array is a dma_fence_array object and if yes iterate over =
-all fences
-> > + * in the array. If not just iterate over the fence in @array itself.
-> > + */
-> > +#define dma_fence_array_for_each(fence, index, head)			\
-> > +	for (index =3D 0, fence =3D dma_fence_array_first(head); fence;	\
-> > +	     ++(index), fence =3D dma_fence_array_next(head, index))
-> > +
-> >   struct dma_fence_array *dma_fence_array_create(int num_fences,
-> >   					       struct dma_fence **fences,
-> >   					       u64 context, unsigned seqno,
-> > @@ -81,4 +94,8 @@ struct dma_fence_array *dma_fence_array_create(int nu=
-m_fences,
-> >   bool dma_fence_match_context(struct dma_fence *fence, u64 context);
-> > +struct dma_fence *dma_fence_array_first(struct dma_fence *head);
-> > +struct dma_fence *dma_fence_array_next(struct dma_fence *head,
-> > +				       unsigned int index);
-> > +
-> >   #endif /* __LINUX_DMA_FENCE_ARRAY_H */
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
