@@ -2,91 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F2D3423C7
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 18:55:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2FB2342436
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 19:14:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFD146EA6A;
-	Fri, 19 Mar 2021 17:55:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E06F6EA6B;
+	Fri, 19 Mar 2021 18:14:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AA516EA66
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 17:55:22 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- f22-20020a7bc8d60000b029010c024a1407so7772421wml.2
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 10:55:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=H4E5zo6M+sGFb9jJfPuBMekAUt72xfRBAZEVdNXvosI=;
- b=HkWCKtqano6hr83mTvHPNb1mTJD7j++xG4i3V1pZc+fMnH//eWACXOeqWIMYDAyiqD
- CWBkqUiJ1zmtZ3OlxFIY9DcUS/euNcLz8nxn4AxgvZ1rE5qJAgMaRKnutzlS1iCHVLZf
- S1ATj65HkMPVN9VP3K+xuo111cO9NYWhg1scM=
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37AEF6EA68;
+ Fri, 19 Mar 2021 18:14:11 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ o19-20020a9d22130000b02901bfa5b79e18so9388749ota.0; 
+ Fri, 19 Mar 2021 11:14:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=t7kii8i5MvpTK371d7gij4/ROdmy9ZS9dtdrdIgpERw=;
+ b=tH30REVX7GFAAVKCT2DKJGA3jKve8kd/s5uEfAZozZFPLTDcg8nCiuJuMDhw8EylBz
+ QTY8aFlMFr1cjP4EJE5murjfj8zTcEzijciI7ZZOfHavd4iF1idyHTjhYqkksJHjf5R5
+ GnYxH2DWML8qBdOOsqgfLm0mfUNKxVwB5zVeyAOfX3FEOXCFxS7ewqF72Dn3IAix0eoT
+ w3ZbfvphE8BbUbB+lW4GrE+Wr/vrsx3RVr170DEcrK1VH9/yVs6SqPf9Ti/D3LnmOD6p
+ bDazwTrFeYkd0AHhkDx6BYOPq5QcLofhxVyMEPEYfwtTHJX5+De0oNUTWJ7LSTxFnss3
+ TmbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=H4E5zo6M+sGFb9jJfPuBMekAUt72xfRBAZEVdNXvosI=;
- b=VmOrE+F0bbGDTWL/PxHd8EIpfy2qKVxgMhc05Il447bjxVOBG26S47NxRvJyQCSk12
- kt4gX/E/c6HL144YASdPXEB5M2KGPG7Kuf8IZRLezN/fgvATnzYKIVoR7uc9lfEw5kBz
- SNv6C7EneLHoHrr83FFA7kjq5zPJ2eFnqdEJlPNCNp9j8DW8ABwKhLelOE0afItFH8JA
- szbEkJou+JZGqUt0S8Sf5LcVSdfIKpFA5N1Xiau5jZvKgGwZgtPTdYCw2tQaB0ElSfC5
- 66qCIVr15bSXlcNkK1qK4MzQ039w1Uk/b5RWF9P9fpIUqszUrugbDJtcHUGMCC5AiM/E
- eATQ==
-X-Gm-Message-State: AOAM532ReeVz+SENUQWBr5WGrTJlGMrtNwpKrCaPVHtXdzEz90V8Iqu0
- +I1kfTU7Qym/VSQCQH8lGqAP0g==
-X-Google-Smtp-Source: ABdhPJznH8/2o31By7revAgfT3dpRwhrdpC+rY/yFumwMUBtQGtz1iOu7IVxYDezg1HGlBR9UX23fg==
-X-Received: by 2002:a7b:c0c3:: with SMTP id s3mr4743813wmh.11.1616176521069;
- Fri, 19 Mar 2021 10:55:21 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s3sm7109143wmd.21.2021.03.19.10.55.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Mar 2021 10:55:20 -0700 (PDT)
-Date: Fri, 19 Mar 2021 18:55:18 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [RESEND 00/53] Rid GPU from W=1 warnings
-Message-ID: <YFTlhh1ZSFffO+Nr@phenom.ffwll.local>
-Mail-Followup-To: Lee Jones <lee.jones@linaro.org>,
- Roland Scheidegger <sroland@vmware.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Anthony Koo <Anthony.Koo@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Colin Ian King <colin.king@canonical.com>,
- Dave Airlie <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Harry Wentland <harry.wentland@amd.com>,
- Jeremy Kolb <jkolb@brandeis.edu>,
- Kuogee Hsieh <khsieh@codeaurora.org>, Leo Li <sunpeng.li@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Lyude Paul <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Nouveau Dev <nouveau@lists.freedesktop.org>,
- Qinglang Miao <miaoqinglang@huawei.com>,
- Rob Clark <rob.clark@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Zack Rusin <zackr@vmware.com>
-References: <20210303134319.3160762-1-lee.jones@linaro.org>
- <16d4300e-bf29-1e85-317b-53d257890cb9@vmware.com>
- <20210308091932.GB4931@dell> <YEobySvG0zPs9xhc@phenom.ffwll.local>
- <20210311135152.GT701493@dell> <20210317081729.GH701493@dell>
- <CAKMK7uEibsgXXTEM1d2CGSswp-koouPSouseP_rwLHTdpxfRpw@mail.gmail.com>
- <CAKMK7uHkJGDL8k3FfAqAM78honZR0euMcacW8UpdPZfS1J-7cA@mail.gmail.com>
- <20210319082407.GG2916463@dell>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=t7kii8i5MvpTK371d7gij4/ROdmy9ZS9dtdrdIgpERw=;
+ b=GbXzXZXjp+cTdBzIaeeeV/dTq5iSCnTkgvKR09b/lv+iLHs/0bWPCAnZuNW3Bxa0Ra
+ Anv81sjI/xatgpZHcW767RkFey/csZ+yB9s1GlQRzc1TakKLxZlTjAN7zJPQW9yXAOUW
+ 0pqnr+D87BIFS3yDBlXP+q+8kfItcJOiFS47nUJO7/xZwpp6lTsA7ZhpFPucm3eT39YK
+ LmXcb+vSYKnJfFjrQWUqnpehHXZGFv7ap57vgVtRj23M4AtO3YIYpbRPutm8CQPner6Z
+ O2T4ZtUgB6qseqRj5EL12QC8nfEFC/2FJLzW9+D145r47T3SioWwLGZup7zQizm1072/
+ ZIcA==
+X-Gm-Message-State: AOAM5320C+6SYwVNeKKnLBLyv4EBUtg2yPmC/qPhun9KE7r0w+XPiK+v
+ 7N22iKc6CelvCRoGj7yg7r2qJpnoRItxMR4KYPM=
+X-Google-Smtp-Source: ABdhPJyq79eRJv6Lt71XlLYgAXxA5utNtq+TeEHiEydT5TE6pXG6B9q90X21Evzyqb3ckNgB6X/lYjxskHZCoMTmuxk=
+X-Received: by 2002:a9d:d89:: with SMTP id 9mr2110488ots.23.1616177650625;
+ Fri, 19 Mar 2021 11:14:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210319082407.GG2916463@dell>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20210319082428.3294591-1-lee.jones@linaro.org>
+ <20210319082428.3294591-7-lee.jones@linaro.org>
+In-Reply-To: <20210319082428.3294591-7-lee.jones@linaro.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 19 Mar 2021 14:13:59 -0400
+Message-ID: <CADnq5_O7wFLzp7THHN15Diyw52XUN7w+HMks227LWcUvmXShcw@mail.gmail.com>
+Subject: Re: [PATCH 06/19] drm/amd/display/dc/calcs/dce_calcs: Move some large
+ variables from the stack to the heap
+To: Lee Jones <lee.jones@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,95 +64,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Nouveau Dev <nouveau@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Qinglang Miao <miaoqinglang@huawei.com>, Anthony Koo <Anthony.Koo@amd.com>,
- Jeremy Kolb <jkolb@brandeis.edu>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Rob Clark <rob.clark@linaro.org>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Ben Skeggs <bskeggs@redhat.com>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Dave Airlie <airlied@redhat.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Leo Li <sunpeng.li@amd.com>,
- Roland Scheidegger <sroland@vmware.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Sean Paul <sean@poorly.run>, Kuogee Hsieh <khsieh@codeaurora.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc: Leo Li <sunpeng.li@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Kazlauskas,
+ Nicholas" <nicholas.kazlauskas@amd.com>, David Airlie <airlied@linux.ie>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Alex Deucher <alexander.deucher@amd.com>,
- Colin Ian King <colin.king@canonical.com>,
- freedreno <freedreno@lists.freedesktop.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Colin Ian King <colin.king@canonical.com>, Harry Wentland <hwentlan@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 19, 2021 at 08:24:07AM +0000, Lee Jones wrote:
-> On Thu, 18 Mar 2021, Daniel Vetter wrote:
-> 
-> > On Wed, Mar 17, 2021 at 9:32 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Wed, Mar 17, 2021 at 9:17 AM Lee Jones <lee.jones@linaro.org> wrote:
-> > > >
-> > > > On Thu, 11 Mar 2021, Lee Jones wrote:
-> > > >
-> > > > > On Thu, 11 Mar 2021, Daniel Vetter wrote:
-> > > > >
-> > > > > > On Mon, Mar 08, 2021 at 09:19:32AM +0000, Lee Jones wrote:
-> > > > > > > On Fri, 05 Mar 2021, Roland Scheidegger wrote:
-> > > > > > >
-> > > > > > > > The vmwgfx ones look all good to me, so for
-> > > > > > > > 23-53: Reviewed-by: Roland Scheidegger <sroland@vmware.com>
-> > > > > > > > That said, they were already signed off by Zack, so not sure what
-> > > > > > > > happened here.
-> > > > > > >
-> > > > > > > Yes, they were accepted at one point, then dropped without a reason.
-> > > > > > >
-> > > > > > > Since I rebased onto the latest -next, I had to pluck them back out of
-> > > > > > > a previous one.
-> > > > > >
-> > > > > > They should show up in linux-next again. We merge patches for next merge
-> > > > > > window even during the current merge window, but need to make sure they
-> > > > > > don't pollute linux-next. Occasionally the cut off is wrong so patches
-> > > > > > show up, and then get pulled again.
-> > > > > >
-> > > > > > Unfortunately especially the 5.12 merge cycle was very wobbly due to some
-> > > > > > confusion here. But your patches should all be in linux-next again (they
-> > > > > > are queued up for 5.13 in drm-misc-next, I checked that).
-> > > > > >
-> > > > > > Sorry for the confusion here.
-> > > > >
-> > > > > Oh, I see.  Well so long as they don't get dropped, I'll be happy.
-> > > > >
-> > > > > Thanks for the explanation Daniel
-> > > >
-> > > > After rebasing today, all of my GPU patches have remained.  Would
-> > > > someone be kind enough to check that everything is still in order
-> > > > please?
-> > >
-> > > It's still broken somehow. I've kiced Maxime and Maarten again,
-> > > they're also on this thread.
-> > 
-> > You're patches have made it into drm-next meanwhile, so they should
-> > show up in linux-next through that tree at least. Except if that one
-> > also has some trouble.
-> 
-> Thanks for letting me know.
-> 
-> I see some patches made it back in, others didn't.
-> 
-> I'll resend the stragglers - bear with.
-
-The vmwgfx ones should all be back, the others I guess just werent ever
-applied. I'll vacuum them all up if you resend. Apologies for the wobbly
-ride.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+KyBIYXJyeSwgTmljawoKT24gRnJpLCBNYXIgMTksIDIwMjEgYXQgNDoyNCBBTSBMZWUgSm9uZXMg
+PGxlZS5qb25lc0BsaW5hcm8ub3JnPiB3cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0x
+IGtlcm5lbCBidWlsZCB3YXJuaW5nKHMpOgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+Ly4uL2Rpc3BsYXkvZGMvY2FsY3MvZGNlX2NhbGNzLmM6IEluIGZ1bmN0aW9uIOKAmGNhbGN1bGF0
+ZV9iYW5kd2lkdGjigJk6Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkv
+ZGMvY2FsY3MvZGNlX2NhbGNzLmM6MjAxNjoxOiB3YXJuaW5nOiB0aGUgZnJhbWUgc2l6ZSBvZiAx
+MjE2IGJ5dGVzIGlzIGxhcmdlciB0aGFuIDEwMjQgYnl0ZXMgWy1XZnJhbWUtbGFyZ2VyLXRoYW49
+XQo+Cj4gQ2M6IEhhcnJ5IFdlbnRsYW5kIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPgo+IENjOiBM
+ZW8gTGkgPHN1bnBlbmcubGlAYW1kLmNvbT4KPiBDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIu
+ZGV1Y2hlckBhbWQuY29tPgo+IENjOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5rb2Vu
+aWdAYW1kLmNvbT4KPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgo+IENjOiBE
+YW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cj4gQ2M6IENvbGluIElhbiBLaW5nIDxjb2xp
+bi5raW5nQGNhbm9uaWNhbC5jb20+Cj4gQ2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBTaWduZWQtb2ZmLWJ5OiBM
+ZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgo+IC0tLQo+ICAuLi4vZ3B1L2RybS9hbWQv
+ZGlzcGxheS9kYy9jYWxjcy9kY2VfY2FsY3MuYyAgfCAzMiArKysrKysrKysrKysrKysrLS0tCj4g
+IDEgZmlsZSBjaGFuZ2VkLCAyOCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQo+Cj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9jYWxjcy9kY2VfY2FsY3Mu
+YyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9jYWxjcy9kY2VfY2FsY3MuYwo+IGlu
+ZGV4IGU2MzNmOGE1MWVkYjYuLjlkOGYyNTA1YTYxYzIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2FtZC9kaXNwbGF5L2RjL2NhbGNzL2RjZV9jYWxjcy5jCj4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL2FtZC9kaXNwbGF5L2RjL2NhbGNzL2RjZV9jYWxjcy5jCj4gQEAgLTk4LDE2ICs5OCwx
+NiBAQCBzdGF0aWMgdm9pZCBjYWxjdWxhdGVfYmFuZHdpZHRoKAo+ICAgICAgICAgaW50MzJfdCBu
+dW1fY3Vyc29yX2xpbmVzOwo+Cj4gICAgICAgICBpbnQzMl90IGksIGosIGs7Cj4gLSAgICAgICBz
+dHJ1Y3QgYndfZml4ZWQgeWNsa1szXTsKPiAtICAgICAgIHN0cnVjdCBid19maXhlZCBzY2xrWzhd
+Owo+ICsgICAgICAgc3RydWN0IGJ3X2ZpeGVkICp5Y2xrOwo+ICsgICAgICAgc3RydWN0IGJ3X2Zp
+eGVkICpzY2xrOwo+ICAgICAgICAgYm9vbCBkMF91bmRlcmxheV9lbmFibGU7Cj4gICAgICAgICBi
+b29sIGQxX3VuZGVybGF5X2VuYWJsZTsKPiAgICAgICAgIGJvb2wgZmJjX2VuYWJsZWQ7Cj4gICAg
+ICAgICBib29sIGxwdF9lbmFibGVkOwo+ICAgICAgICAgZW51bSBid19kZWZpbmVzIHNjbGtfbWVz
+c2FnZTsKPiAgICAgICAgIGVudW0gYndfZGVmaW5lcyB5Y2xrX21lc3NhZ2U7Cj4gLSAgICAgICBl
+bnVtIGJ3X2RlZmluZXMgdGlsaW5nX21vZGVbbWF4aW11bV9udW1iZXJfb2Zfc3VyZmFjZXNdOwo+
+IC0gICAgICAgZW51bSBid19kZWZpbmVzIHN1cmZhY2VfdHlwZVttYXhpbXVtX251bWJlcl9vZl9z
+dXJmYWNlc107Cj4gKyAgICAgICBlbnVtIGJ3X2RlZmluZXMgKnRpbGluZ19tb2RlOwo+ICsgICAg
+ICAgZW51bSBid19kZWZpbmVzICpzdXJmYWNlX3R5cGU7Cj4gICAgICAgICBlbnVtIGJ3X2RlZmlu
+ZXMgdm9sdGFnZTsKPiAgICAgICAgIGVudW0gYndfZGVmaW5lcyBwaXBlX2NoZWNrOwo+ICAgICAg
+ICAgZW51bSBid19kZWZpbmVzIGhzcl9jaGVjazsKPiBAQCAtMTIyLDYgKzEyMiwyMiBAQCBzdGF0
+aWMgdm9pZCBjYWxjdWxhdGVfYmFuZHdpZHRoKAo+ICAgICAgICAgaW50MzJfdCBudW1iZXJfb2Zf
+ZGlzcGxheXNfZW5hYmxlZF93aXRoX21hcmdpbiA9IDA7Cj4gICAgICAgICBpbnQzMl90IG51bWJl
+cl9vZl9hbGlnbmVkX2Rpc3BsYXlzX3dpdGhfbm9fbWFyZ2luID0gMDsKPgo+ICsgICAgICAgeWNs
+ayA9IGtjYWxsb2MoMywgc2l6ZW9mKCp5Y2xrKSwgR0ZQX0tFUk5FTCk7Cj4gKyAgICAgICBpZiAo
+IXljbGspCj4gKyAgICAgICAgICAgICAgIHJldHVybjsKPiArCj4gKyAgICAgICBzY2xrID0ga2Nh
+bGxvYyg4LCBzaXplb2YoKnNjbGspLCBHRlBfS0VSTkVMKTsKPiArICAgICAgIGlmICghc2NsaykK
+PiArICAgICAgICAgICAgICAgZ290byBmcmVlX3ljbGs7Cj4gKwo+ICsgICAgICAgdGlsaW5nX21v
+ZGUgPSBrY2FsbG9jKG1heGltdW1fbnVtYmVyX29mX3N1cmZhY2VzLCBzaXplb2YoKnRpbGluZ19t
+b2RlKSwgR0ZQX0tFUk5FTCk7Cj4gKyAgICAgICBpZiAoIXRpbGluZ19tb2RlKQo+ICsgICAgICAg
+ICAgICAgICBnb3RvIGZyZWVfc2NsazsKPiArCj4gKyAgICAgICBzdXJmYWNlX3R5cGUgPSBrY2Fs
+bG9jKG1heGltdW1fbnVtYmVyX29mX3N1cmZhY2VzLCBzaXplb2YoKnN1cmZhY2VfdHlwZSksIEdG
+UF9LRVJORUwpOwo+ICsgICAgICAgaWYgKCFzdXJmYWNlX3R5cGUpCj4gKyAgICAgICAgICAgICAg
+IGdvdG8gZnJlZV90aWxpbmdfbW9kZTsKPiArCgoKSGFycnkgb3IgTmljayBjYW4gY29ycmVjdCBt
+ZSBpZiBJJ20gd3JvbmcsIGJ1dCBmb3IgdGhpcyBwYXRjaCBhbmQgdGhlCm5leHQgb25lLCBJIHRo
+aW5rIHRoaXMgY2FuIGJlIGNhbGxlZCBmcm9tIGFuIGF0b21pYyBjb250ZXh0LgoKQWxleAoKPiAg
+ICAgICAgIHljbGtbbG93XSA9IHZiaW9zLT5sb3dfeWNsazsKPiAgICAgICAgIHljbGtbbWlkXSA9
+IHZiaW9zLT5taWRfeWNsazsKPiAgICAgICAgIHljbGtbaGlnaF0gPSB2Ymlvcy0+aGlnaF95Y2xr
+Owo+IEBAIC0yMDEzLDYgKzIwMjksMTQgQEAgc3RhdGljIHZvaWQgY2FsY3VsYXRlX2JhbmR3aWR0
+aCgKPiAgICAgICAgICAgICAgICAgICAgICAgICB9Cj4gICAgICAgICAgICAgICAgIH0KPiAgICAg
+ICAgIH0KPiArCj4gKyAgICAgICBrZnJlZShzdXJmYWNlX3R5cGUpOwo+ICtmcmVlX3RpbGluZ19t
+b2RlOgo+ICsgICAgICAga2ZyZWUodGlsaW5nX21vZGUpOwo+ICtmcmVlX3ljbGs6Cj4gKyAgICAg
+ICBrZnJlZSh5Y2xrKTsKPiArZnJlZV9zY2xrOgo+ICsgICAgICAga2ZyZWUoc2Nsayk7Cj4gIH0K
+Pgo+ICAvKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKgo+IC0tCj4gMi4yNy4wCj4KPiBfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
