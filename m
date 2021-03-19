@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A656341760
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 09:25:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E4A341754
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 09:24:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE2D56E9B2;
-	Fri, 19 Mar 2021 08:24:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DD256E9A6;
+	Fri, 19 Mar 2021 08:24:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B6F56E9A8
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 08:24:45 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id u9so8276642ejj.7
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 01:24:45 -0700 (PDT)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54A546E9A2
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 08:24:46 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id u9so8276709ejj.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 01:24:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l3BFodeOPTMMoMJFhYQYaXV3COFge4hJ56ydgoQMcn0=;
- b=yDpwOUtr8Y8qaTzYWOy1tt72khTzKSstlpxPsggpndpTO0YpW29THZpXQ9yaQtYC79
- 68SiANuDXV2bSx2a9n5Y3wAC/eP0plAl1TGb6e+VnH1n4+0m5M9iXQI0YAoCJfyjI92r
- bJO4s7N++8FfpUyaw9clV/1j0pVHhkhv+aBOSJlq/c34rzYh33L12XhsLGnY+GSnpOSP
- clPV01gl/MoIDV/HszIHC/Uqp5oKYVVQgSfQ1CUHacjvw22R5vfaWmvOYp9Jg7ANcaMD
- SkYlMwCKcvaSKswcxaHWWBfBb47Q4a3HBm2iAsPljuDZ33X3VcDmgTCdML23L3pKNPM2
- Ed7g==
+ bh=1D64SVMvmhdwuXpC8yQyBurTfGArjqR5f88yUwkGnjo=;
+ b=ih+byn5SaHURLinLJy61nATTEUMe8vQzf+Wme4RNbiXwTCukEVwYWl9/LmLBd+gGPX
+ BPV3gUINlkQOzYVHWsKkwSkuApoP6THu29KcuCPwPcErnWEkw2tbwQhW2kb963whlRR3
+ /Glxz65+HP+jZ50lYrNkF54H+hWUEiiLgVmxiEu8qA7Oh/YrABFLd/en2VZNM7WD9mH4
+ 9noPJ30KTZDc9VlfmMCUVOp5v9grwMvx2bUOWxIWamPNPrPpKTD5ewqwy6Ch9HfJKX2J
+ ZKtBbTVhHqxvIq0+cdw2sxsXWFpMcOCcZ2tcQ/j7eh3sxRxS2nt0K08u7zm6X/vgyYpK
+ h9eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l3BFodeOPTMMoMJFhYQYaXV3COFge4hJ56ydgoQMcn0=;
- b=jtUY0sj8gTDcRYT5M/Jtcm2pBxSsQAZgTgyZ8/3toXwFSSH4iQHM7Dbvw5yaotWOd1
- D5rw42gQovlitfEKEiqbssaqUCKlfEyE4d0mlDXuibhJsJ1NgAfXmvVfBVh8amVDo5dl
- 4DWKcAxzfExPRWfEUnjbsT2pCDpYM9+JNeZn8nW9eKatl9W64q9cOLIPt04SX8pS2kVj
- wvOh623aFf9xXT9T8qLcRyqEiR2dZDouDORPXBJLVRZgUSg74OJiVk2JqGdEZMIOOhVg
- wjJK0djRtxAKSSiVPNH+FqI/QrK1nlIIwRtVAtmJakzPsohOrjFdHD/52o9wOu4fANBo
- lMrA==
-X-Gm-Message-State: AOAM532JTKKn58i4xmGAL3b1yk6UCfFk5DoJ4q+0Baf73VcXhoYXK8Jb
- INAwx7/2wuo3m4fgERBKsXPSrA==
-X-Google-Smtp-Source: ABdhPJxoo5i8vW6NNowcMoz9sB++W3ReJn5ajzefnBphKE7+Df6szDDubQQH7q/pELeFudxCf4ap9g==
-X-Received: by 2002:a17:906:b4c:: with SMTP id
- v12mr3007707ejg.330.1616142284127; 
+ bh=1D64SVMvmhdwuXpC8yQyBurTfGArjqR5f88yUwkGnjo=;
+ b=WuZhIvcDl1oQgxyPmMG+/r8mwImNnzsOMxlNdMGiuINu0qdF+6qu/UGvTVJEwRVt23
+ B1soNNpM1rti+icwMYKWYlx53ixJBrhnLc4/xDOPpwmQ6DM9R5S9o5VnWESS8YlpX2Gm
+ VZSSzst5wWRJfxSD7VSzjr4COTndG5k47uRzGz/1E3VPtrFGQToAbBP5C6f0pq3zzLI+
+ /u/8PeqmhW+kf1NOYppWxfD5kIii7FDfgGl4hHTj/0hVMc70HKGS3s+CebzuoZn3UxvK
+ gzZPlCKJ73YQtiGNsHWj+pMjGYRcHUGpfG+b1SSm4sqEk9zVAenTGBAw0s2vaK3PNKwg
+ LtYQ==
+X-Gm-Message-State: AOAM531JDBx4cqGFg7QWP4aRI/CN5sxSLmb5M7TnNVqihc8LJy+ArRQz
+ km5IQIRpvar4EkcbFD3wZe/7nSyq4SSq0A==
+X-Google-Smtp-Source: ABdhPJwBdmyDdjAgM3AbyrSm0+lZxfiSLPz6jfWiCHcbRtFoy2VbAFhzJc06XSjDVyDn/72ypUKr9Q==
+X-Received: by 2002:a17:907:9870:: with SMTP id
+ ko16mr2987441ejc.227.1616142284971; 
  Fri, 19 Mar 2021 01:24:44 -0700 (PDT)
 Received: from dell.default ([91.110.221.194])
- by smtp.gmail.com with ESMTPSA id b18sm3273727ejb.77.2021.03.19.01.24.43
+ by smtp.gmail.com with ESMTPSA id b18sm3273727ejb.77.2021.03.19.01.24.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Mar 2021 01:24:43 -0700 (PDT)
+ Fri, 19 Mar 2021 01:24:44 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 12/19] drm/nouveau/dispnv04/crtc: Demote non-conforming
- kernel-doc headers
-Date: Fri, 19 Mar 2021 08:24:21 +0000
-Message-Id: <20210319082428.3294591-13-lee.jones@linaro.org>
+Subject: [PATCH 13/19] drm/nouveau/dispnv50/disp: Remove unused variable 'ret'
+ from function returning void
+Date: Fri, 19 Mar 2021 08:24:22 +0000
+Message-Id: <20210319082428.3294591-14-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210319082428.3294591-1-lee.jones@linaro.org>
 References: <20210319082428.3294591-1-lee.jones@linaro.org>
@@ -71,58 +71,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes the following W=1 kernel build warning(s):
-
- drivers/gpu/drm/nouveau/dispnv04/crtc.c:462: warning: Function parameter or member 'crtc' not described in 'nv_crtc_mode_set_regs'
- drivers/gpu/drm/nouveau/dispnv04/crtc.c:462: warning: Function parameter or member 'mode' not described in 'nv_crtc_mode_set_regs'
- drivers/gpu/drm/nouveau/dispnv04/crtc.c:640: warning: Function parameter or member 'crtc' not described in 'nv_crtc_mode_set'
- drivers/gpu/drm/nouveau/dispnv04/crtc.c:640: warning: Function parameter or member 'mode' not described in 'nv_crtc_mode_set'
- drivers/gpu/drm/nouveau/dispnv04/crtc.c:640: warning: Function parameter or member 'adjusted_mode' not described in 'nv_crtc_mode_set'
- drivers/gpu/drm/nouveau/dispnv04/crtc.c:640: warning: Function parameter or member 'x' not described in 'nv_crtc_mode_set'
- drivers/gpu/drm/nouveau/dispnv04/crtc.c:640: warning: Function parameter or member 'y' not described in 'nv_crtc_mode_set'
- drivers/gpu/drm/nouveau/dispnv04/crtc.c:640: warning: Function parameter or member 'old_fb' not described in 'nv_crtc_mode_set'
-
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/gpu/drm/nouveau/dispnv04/crtc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-index f9e962fd94d0d..f9a276ea5a9e0 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-@@ -449,7 +449,7 @@ nv_crtc_mode_set_vga(struct drm_crtc *crtc, struct drm_display_mode *mode)
- 	regp->Attribute[NV_CIO_AR_CSEL_INDEX] = 0x00;
- }
- 
--/**
-+/*
-  * Sets up registers for the given mode/adjusted_mode pair.
-  *
-  * The clocks, CRTCs and outputs attached to this CRTC must be off.
-@@ -625,7 +625,7 @@ nv_crtc_swap_fbs(struct drm_crtc *crtc, struct drm_framebuffer *old_fb)
- 	return ret;
- }
- 
--/**
-+/*
-  * Sets up registers for the given mode/adjusted_mode pair.
-  *
-  * The clocks, CRTCs and outputs attached to this CRTC must be off.
--- 
-2.27.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
+cy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jOiBJbiBmdW5jdGlvbiDigJhudjUwX21z
+dG1fY2xlYW51cOKAmToKIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYzox
+MzU3OjY6IHdhcm5pbmc6IHZhcmlhYmxlIOKAmHJldOKAmSBzZXQgYnV0IG5vdCB1c2VkIFstV3Vu
+dXNlZC1idXQtc2V0LXZhcmlhYmxlXQoKQ2M6IEJlbiBTa2VnZ3MgPGJza2VnZ3NAcmVkaGF0LmNv
+bT4KQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KQ2M6IERhbmllbCBWZXR0ZXIg
+PGRhbmllbEBmZndsbC5jaD4KQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6
+IG5vdXZlYXVAbGlzdHMuZnJlZWRlc2t0b3Aub3JnClNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8
+bGVlLmpvbmVzQGxpbmFyby5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52
+NTAvZGlzcC5jIHwgNSArKy0tLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMyBk
+ZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1
+MC9kaXNwLmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwLmMKaW5kZXgg
+YzUxZWZjYTgyYWM3OC4uODI4ZjQ4ZDViZGQ0ZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L25vdXZlYXUvZGlzcG52NTAvZGlzcC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rp
+c3BudjUwL2Rpc3AuYwpAQCAtMTM4NiwxMiArMTM4NiwxMSBAQCBudjUwX21zdG1fY2xlYW51cChz
+dHJ1Y3QgbnY1MF9tc3RtICptc3RtKQogewogCXN0cnVjdCBub3V2ZWF1X2RybSAqZHJtID0gbm91
+dmVhdV9kcm0obXN0bS0+b3V0cC0+YmFzZS5iYXNlLmRldik7CiAJc3RydWN0IGRybV9lbmNvZGVy
+ICplbmNvZGVyOwotCWludCByZXQ7CiAKIAlOVl9BVE9NSUMoZHJtLCAiJXM6IG1zdG0gY2xlYW51
+cFxuIiwgbXN0bS0+b3V0cC0+YmFzZS5iYXNlLm5hbWUpOwotCXJldCA9IGRybV9kcF9jaGVja19h
+Y3Rfc3RhdHVzKCZtc3RtLT5tZ3IpOworCWRybV9kcF9jaGVja19hY3Rfc3RhdHVzKCZtc3RtLT5t
+Z3IpOwogCi0JcmV0ID0gZHJtX2RwX3VwZGF0ZV9wYXlsb2FkX3BhcnQyKCZtc3RtLT5tZ3IpOwor
+CWRybV9kcF91cGRhdGVfcGF5bG9hZF9wYXJ0MigmbXN0bS0+bWdyKTsKIAogCWRybV9mb3JfZWFj
+aF9lbmNvZGVyKGVuY29kZXIsIG1zdG0tPm91dHAtPmJhc2UuYmFzZS5kZXYpIHsKIAkJaWYgKGVu
+Y29kZXItPmVuY29kZXJfdHlwZSA9PSBEUk1fTU9ERV9FTkNPREVSX0RQTVNUKSB7Ci0tIAoyLjI3
+LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
