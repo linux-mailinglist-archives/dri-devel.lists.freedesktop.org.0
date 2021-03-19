@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B3F3427E5
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 22:36:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42AC3427F6
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 22:45:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D897B6EAD7;
-	Fri, 19 Mar 2021 21:36:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 268556EADB;
+	Fri, 19 Mar 2021 21:45:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 025376EAD7;
- Fri, 19 Mar 2021 21:36:06 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id f9so6279961oiw.5;
- Fri, 19 Mar 2021 14:36:06 -0700 (PDT)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CDF56EADA;
+ Fri, 19 Mar 2021 21:45:23 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id ce10so11949829ejb.6;
+ Fri, 19 Mar 2021 14:45:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gd8/LS9G/arRtGpvSNTnyt+X8KIH+uan5nzLifBdm54=;
- b=llXCL9/c8u+lPuPiYaXG3P6ezw9Xx6uGG7S+O4ZtL8gIcFQGCrOOCDj5RUpO/xuCpu
- iGrcysjj1ps8KVwpcku9vLv6dQTkLk4Lq9JxPxpuoTgrZRQW4X5dWeWipeEeP/DKVbEX
- H/VBrceoqc59JQnVhZvsJDFy0mYkdM7NMnP15TUNCvG6n1/jXBH0+nHxmmfbAzRjMUWc
- 5gEVpKEd1TvNT+ZCcXHntTIbMAgLinN2LslONFFh2aPaoR8f1fecoUJfZbiA3XU5HZpI
- n6/dx4JQoTEHug8AvQwiFCuhJBKLl/EHS2TlDa/Tghr0p1RC7OXMv6tPCPwC6m0DBgKg
- NIVQ==
+ :cc:content-transfer-encoding;
+ bh=CuQx6DG/+gB9RDAkj2qORdBhinYGYNz8kzP6+g92FCc=;
+ b=QbPlWO3dwc8Je0xOMoIX0xDCINLolQ85uksp4jGUEh28jVFX5JhTm1nf3SL1rYEoG4
+ E4JoE9hZCEy0DhnsAARnWtBkpcdFxGeGZa9+vLvz3In4LNEoRCJEnxUyeUtPp1z8El2j
+ 1XX8gwTmD+KVnJz8wRHGOmfd2cyoASGy3deoM9GJSOz/Zh9F/LCM2HfSYztI7JsIkLso
+ azr3oX1jXnxcTl7D/o9TPm+JzygeRVWd4tw8GjIrC5ApDBZJolLJB5pEeh6yuY9HsEIX
+ 3LMkFnoD8g1NcuW4HZhQLe5MK3ahvRenrgLz2uTHTEk703KMVVLYjFBKGBV3JQKCt6RW
+ EgXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gd8/LS9G/arRtGpvSNTnyt+X8KIH+uan5nzLifBdm54=;
- b=oHVauv0V0AkU39K6yr4qO/2DL9/AU1sIloB4kuMfQV4pRguOuorep54AsE09x0XVNG
- DIT1sbIttrqznrq1z8Vx+8pAaMcXy+B8LJ+P5h6GfWLdlEXQpWXvGJ4t4GY65QOLTN62
- +/6bsb2XRQ0MwBJ5YJUnxubZ/nvB7U8ph0wWhDQSwEIr6sY+XnDjrn4d8StxSJH70q0F
- PQIKI9HFNQQtRxcIupG0uZdKu4GYDm7v57Vp52JkaPZThPSwg4PXcc+aVoVzPGTxI3I+
- 24ZPPEFWzgX7uH/r8MCCEy1myEgsAL00Sk/fKJuDepgmvKHH/HjOdq2oQlvhZjGLT6R+
- iQcg==
-X-Gm-Message-State: AOAM533Ag8MaQ1HoNzwhJOjpYFe5AiIKluH02na22+o3578z/7e73D5p
- 1qKHPIureqzT6RfLxENzmUI5Q8S+PKCp8qs2CVc=
-X-Google-Smtp-Source: ABdhPJw1aufG+kZg8BweLNMDZwZcwQT/Rj4rIr1Z2VE+Qg+T+1hZHQroIxBcW2e/AAzj4sICZPIxY7Z57VTL1hL6er4=
-X-Received: by 2002:aca:af10:: with SMTP id y16mr2440946oie.120.1616189766078; 
- Fri, 19 Mar 2021 14:36:06 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CuQx6DG/+gB9RDAkj2qORdBhinYGYNz8kzP6+g92FCc=;
+ b=Dj63z565KnjAu9Y1shq2krbc2V7YnwReo+Fzxr3aehvDQFoF/9v6rjG8oU2XARCr+t
+ mLwaQ3288RR3/IHWT5AY4WNSV9d1dCGArRchwRdVPxH+EJbLadDk7DP6jYiAU0R+IZI4
+ HciNeDZLVh1cltyewRwbr6NI0QWmhPbsKmH2ljfdOASU/sz+J+mJIvgHKGwHH7yQqQIk
+ vrf/bdDV8QXgvO9RCMBvykVKBZAx+gVdq5SFeW0aIsA3Xm76Ud53CFYV/5jOjgY1nbsY
+ fWeXm0K38LJAXP6RauNmoBdynT3eZVlAL6CY6RtCqNhorHQhcWiHxFvK0stdqnbis6nd
+ NOvQ==
+X-Gm-Message-State: AOAM53074z3o+uKZPNBZT25Nb7MVlD/RsFlPz/H53N/KFyHt0ccySK/X
+ eOWRpBd5NOcLnaVNeiVgze1771stCmw9sIAHi35FmXcm
+X-Google-Smtp-Source: ABdhPJxp4ro7NIhFe0RnszJw7XASHeywZC3FpCvGzc7niAoRhj1uK5n3JDYsrmLQPqwjY4BnnuXH7fVHXhNlqQCBhA4=
+X-Received: by 2002:a17:906:71d3:: with SMTP id
+ i19mr6831875ejk.347.1616190322687; 
+ Fri, 19 Mar 2021 14:45:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210319164418.1.I5d51cc12776ee8993a1a54089b548952f75ada41@changeid>
- <CADnq5_OguuMsqT7MVC=ieNZm9mqyVUsGpQDHr59BWtBJJUvFoA@mail.gmail.com>
- <54fc883a-c149-3f43-fb79-3cbff13e7b6a@amd.com>
- <CAP8nV8rL6eYSDyQ1jyv267ER8_E+rMBQkza2ZYZvwvdE+=sd3Q@mail.gmail.com>
-In-Reply-To: <CAP8nV8rL6eYSDyQ1jyv267ER8_E+rMBQkza2ZYZvwvdE+=sd3Q@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 19 Mar 2021 17:35:55 -0400
-Message-ID: <CADnq5_O5AOK7B-3AM-qpPXcWD1LgdpnfLMd8NBds0Jfd_tZCBQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Set AMDGPU_DM_DEFAULT_MIN_BACKLIGHT to 0
-To: Evan Benn <evanbenn@gmail.com>
+References: <20210319210317.32369-1-mario.kleiner.de@gmail.com>
+ <20210319210317.32369-2-mario.kleiner.de@gmail.com>
+ <YFUUm0atqi3ox17k@intel.com>
+In-Reply-To: <YFUUm0atqi3ox17k@intel.com>
+From: Mario Kleiner <mario.kleiner.de@gmail.com>
+Date: Fri, 19 Mar 2021 22:45:10 +0100
+Message-ID: <CAEsyxyhxBVp0yFrRc9Zq9D0b62Tdf+-6oWc+Y6AwHTSFWX5g1w@mail.gmail.com>
+Subject: Re: [PATCH 1/5] drm/fourcc: Add 16 bpc fixed point framebuffer
+ formats.
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,116 +65,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, Eryk Brol <eryk.brol@amd.com>,
- David Airlie <airlied@linux.ie>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, Evan Benn <evanbenn@chromium.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Anand <amistry@chromium.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 19, 2021 at 5:31 PM Evan Benn <evanbenn@gmail.com> wrote:
->
-> On Sat, 20 Mar 2021 at 02:10, Harry Wentland <harry.wentland@amd.com> wrote:
-> > On 2021-03-19 10:22 a.m., Alex Deucher wrote:
-> > > On Fri, Mar 19, 2021 at 3:23 AM Evan Benn <evanbenn@chromium.org> wrote:
-> > >>
-> > >> AMDGPU_DM_DEFAULT_MIN_BACKLIGHT was set to the value of 12
-> > >> to ensure no display backlight will flicker at low user brightness
-> > >> settings. However this value is quite bright, so for devices that do not
-> > >> implement the ACPI ATIF
-> > >> ATIF_FUNCTION_QUERY_BRIGHTNESS_TRANSFER_CHARACTERISTICS
-> > >> functionality the user cannot set the brightness to a low level even if
-> > >> the display would support such a low PWM.
-> > >>
-> > >> This ATIF feature is not implemented on for example AMD grunt chromebooks.
-> > >>
-> > >> Signed-off-by: Evan Benn <evanbenn@chromium.org>
-> > >>
-> > >> ---
-> > >> I could not find a justification for the reason for the value. It has
-> > >> caused some noticable regression for users: https://bugzilla.kernel.org/show_bug.cgi?id=203439>>>
-> > >> Maybe this can be either user controlled or userspace configured, but
-> > >> preventing users from turning their backlight dim seems wrong.
-> > >
-> > > My understanding is that some panels flicker if you set the min to a
-> > > value too low.  This was a safe minimum if the platform didn't specify
-> > > it's own safe minimum.  I think we'd just be trading one bug for
-> > > another (flickering vs not dim enough).  Maybe a whitelist or
-> > > blacklist would be a better solution?
-> > >
-> >
-> > Yeah, this is a NACK from me as-is for the reasons Alex described.
->
-> Thanks Harry + Alex,
->
-> I agree this solution is not the best.
->
-> >
-> > I agree a whitelist approach might be best.
->
-> Do you have any idea what an allowlist could be keyed on?
-> Is the flickering you observed here a function of the panel or the gpu
-> or some other component?
-> Maybe we could move the minimum level into the logic for that hardware.
->
-
-Maybe the panel string from the EDID?  Either that or something from
-dmi data?  Harry would probably have a better idea.
-
-Alex
-
-> >
-> > Is this fix perhaps for OLED panels? If so we could use a different
-> > min-value for OLED panels that don't do PWM, but use 12 for everything else.
->
-> All the chromebooks I have worked with LCD + LED backlight have been
-> fine with a backlight set to 0.
-> We do have OLED panels too, but I'm not aware of what they do.
->
-> > Harry
-> >
-> > > Alex
-> > >
-> > >
-> > >>
-> > >> Also reviewed here: https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2748377>>>
-> > >>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
-> > >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> > >>
-> > >> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > >> index 573cf17262da..0129bd69b94e 100644
-> > >> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > >> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > >> @@ -3151,7 +3151,7 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
-> > >>          return 0;
-> > >>   }
-> > >>
-> > >> -#define AMDGPU_DM_DEFAULT_MIN_BACKLIGHT 12
-> > >> +#define AMDGPU_DM_DEFAULT_MIN_BACKLIGHT 0
-> > >>   #define AMDGPU_DM_DEFAULT_MAX_BACKLIGHT 255
-> > >>   #define AUX_BL_DEFAULT_TRANSITION_TIME_MS 50
-> > >>
-> > >> --
-> > >> 2.31.0.291.g576ba9dcdaf-goog
-> > >>
-> > >> _______________________________________________
-> > >> dri-devel mailing list
-> > >> dri-devel@lists.freedesktop.org
-> > >> https://lists.freedesktop.org/mailman/listinfo/dri-devel>> _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel>>
-> >
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBNYXIgMTksIDIwMjEgYXQgMTA6MTYgUE0gVmlsbGUgU3lyasOkbMOkCjx2aWxsZS5z
+eXJqYWxhQGxpbnV4LmludGVsLmNvbT4gd3JvdGU6Cj4KPiBPbiBGcmksIE1hciAxOSwgMjAyMSBh
+dCAxMDowMzoxM1BNICswMTAwLCBNYXJpbyBLbGVpbmVyIHdyb3RlOgo+ID4gVGhlc2UgYXJlIDE2
+IGJpdHMgcGVyIGNvbG9yIGNoYW5uZWwgdW5zaWduZWQgbm9ybWFsaXplZCBmb3JtYXRzLgo+ID4g
+VGhleSBhcmUgc3VwcG9ydGVkIGJ5IGF0IGxlYXN0IEFNRCBkaXNwbGF5IGh3LCBhbmQgc3VpdGFi
+bGUgZm9yCj4gPiBkaXJlY3Qgc2Nhbm91dCBvZiBWdWxrYW4gc3dhcGNoYWluIGltYWdlcyBpbiB0
+aGUgZm9ybWF0Cj4gPiBWS19GT1JNQVRfUjE2RzE2QjE2QTE2X1VOT1JNLgo+ID4KPiA+IFNpZ25l
+ZC1vZmYtYnk6IE1hcmlvIEtsZWluZXIgPG1hcmlvLmtsZWluZXIuZGVAZ21haWwuY29tPgo+ID4g
+LS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9mb3VyY2MuYyAgfCA0ICsrKysKPiA+ICBpbmNs
+dWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaCB8IDcgKysrKysrKwo+ID4gIDIgZmlsZXMgY2hhbmdl
+ZCwgMTEgaW5zZXJ0aW9ucygrKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX2ZvdXJjYy5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mb3VyY2MuYwo+ID4gaW5kZXggMDMy
+NjI0NzIwNTljLi5jZTEzZDJiZTVkN2IgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX2ZvdXJjYy5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZvdXJjYy5jCj4gPiBA
+QCAtMjAzLDYgKzIwMywxMCBAQCBjb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZvICpfX2RybV9m
+b3JtYXRfaW5mbyh1MzIgZm9ybWF0KQo+ID4gICAgICAgICAgICAgICB7IC5mb3JtYXQgPSBEUk1f
+Rk9STUFUX0FSR0IxNjE2MTYxNkYsICAgLmRlcHRoID0gMCwgIC5udW1fcGxhbmVzID0gMSwgLmNw
+cCA9IHsgOCwgMCwgMCB9LCAuaHN1YiA9IDEsIC52c3ViID0gMSwgLmhhc19hbHBoYSA9IHRydWUg
+fSwKPiA+ICAgICAgICAgICAgICAgeyAuZm9ybWF0ID0gRFJNX0ZPUk1BVF9BQkdSMTYxNjE2MTZG
+LCAgIC5kZXB0aCA9IDAsICAubnVtX3BsYW5lcyA9IDEsIC5jcHAgPSB7IDgsIDAsIDAgfSwgLmhz
+dWIgPSAxLCAudnN1YiA9IDEsIC5oYXNfYWxwaGEgPSB0cnVlIH0sCj4gPiAgICAgICAgICAgICAg
+IHsgLmZvcm1hdCA9IERSTV9GT1JNQVRfQVhCWEdYUlgxMDYxMDYxMDYxMDYsIC5kZXB0aCA9IDAs
+IC5udW1fcGxhbmVzID0gMSwgLmNwcCA9IHsgOCwgMCwgMCB9LCAuaHN1YiA9IDEsIC52c3ViID0g
+MSwgLmhhc19hbHBoYSA9IHRydWUgfSwKPiA+ICsgICAgICAgICAgICAgeyAuZm9ybWF0ID0gRFJN
+X0ZPUk1BVF9YUkdCMTYxNjE2MTYsICAgIC5kZXB0aCA9IDAsICAubnVtX3BsYW5lcyA9IDEsIC5j
+cHAgPSB7IDgsIDAsIDAgfSwgLmhzdWIgPSAxLCAudnN1YiA9IDEgfSwKPiA+ICsgICAgICAgICAg
+ICAgeyAuZm9ybWF0ID0gRFJNX0ZPUk1BVF9YQkdSMTYxNjE2MTYsICAgIC5kZXB0aCA9IDAsICAu
+bnVtX3BsYW5lcyA9IDEsIC5jcHAgPSB7IDgsIDAsIDAgfSwgLmhzdWIgPSAxLCAudnN1YiA9IDEg
+fSwKPiA+ICsgICAgICAgICAgICAgeyAuZm9ybWF0ID0gRFJNX0ZPUk1BVF9BUkdCMTYxNjE2MTYs
+ICAgIC5kZXB0aCA9IDAsICAubnVtX3BsYW5lcyA9IDEsIC5jcHAgPSB7IDgsIDAsIDAgfSwgLmhz
+dWIgPSAxLCAudnN1YiA9IDEsIC5oYXNfYWxwaGEgPSB0cnVlIH0sCj4gPiArICAgICAgICAgICAg
+IHsgLmZvcm1hdCA9IERSTV9GT1JNQVRfQUJHUjE2MTYxNjE2LCAgICAuZGVwdGggPSAwLCAgLm51
+bV9wbGFuZXMgPSAxLCAuY3BwID0geyA4LCAwLCAwIH0sIC5oc3ViID0gMSwgLnZzdWIgPSAxLCAu
+aGFzX2FscGhhID0gdHJ1ZSB9LAo+ID4gICAgICAgICAgICAgICB7IC5mb3JtYXQgPSBEUk1fRk9S
+TUFUX1JHQjg4OF9BOCwgICAgICAgLmRlcHRoID0gMzIsIC5udW1fcGxhbmVzID0gMiwgLmNwcCA9
+IHsgMywgMSwgMCB9LCAuaHN1YiA9IDEsIC52c3ViID0gMSwgLmhhc19hbHBoYSA9IHRydWUgfSwK
+PiA+ICAgICAgICAgICAgICAgeyAuZm9ybWF0ID0gRFJNX0ZPUk1BVF9CR1I4ODhfQTgsICAgICAg
+IC5kZXB0aCA9IDMyLCAubnVtX3BsYW5lcyA9IDIsIC5jcHAgPSB7IDMsIDEsIDAgfSwgLmhzdWIg
+PSAxLCAudnN1YiA9IDEsIC5oYXNfYWxwaGEgPSB0cnVlIH0sCj4gPiAgICAgICAgICAgICAgIHsg
+LmZvcm1hdCA9IERSTV9GT1JNQVRfWFJHQjg4ODhfQTgsICAgICAuZGVwdGggPSAzMiwgLm51bV9w
+bGFuZXMgPSAyLCAuY3BwID0geyA0LCAxLCAwIH0sIC5oc3ViID0gMSwgLnZzdWIgPSAxLCAuaGFz
+X2FscGhhID0gdHJ1ZSB9LAo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFwaS9kcm0vZHJtX2Zv
+dXJjYy5oIGIvaW5jbHVkZS91YXBpL2RybS9kcm1fZm91cmNjLmgKPiA+IGluZGV4IGY3NmRlNDlj
+NzY4Zi4uZjcxNTYzMjJhYmE1IDEwMDY0NAo+ID4gLS0tIGEvaW5jbHVkZS91YXBpL2RybS9kcm1f
+Zm91cmNjLmgKPiA+ICsrKyBiL2luY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oCj4gPiBAQCAt
+MTY4LDYgKzE2OCwxMyBAQCBleHRlcm4gIkMiIHsKPiA+ICAjZGVmaW5lIERSTV9GT1JNQVRfUkdC
+QTEwMTAxMDIgICAgICAgZm91cmNjX2NvZGUoJ1InLCAnQScsICczJywgJzAnKSAvKiBbMzE6MF0g
+UjpHOkI6QSAxMDoxMDoxMDoyIGxpdHRsZSBlbmRpYW4gKi8KPiA+ICAjZGVmaW5lIERSTV9GT1JN
+QVRfQkdSQTEwMTAxMDIgICAgICAgZm91cmNjX2NvZGUoJ0InLCAnQScsICczJywgJzAnKSAvKiBb
+MzE6MF0gQjpHOlI6QSAxMDoxMDoxMDoyIGxpdHRsZSBlbmRpYW4gKi8KPiA+Cj4gPiArLyogNjQg
+YnBwIFJHQiAqLwo+ID4gKyNkZWZpbmUgRFJNX0ZPUk1BVF9YUkdCMTYxNjE2MTYgICAgICBmb3Vy
+Y2NfY29kZSgnWCcsICdSJywgJzQnLCAnOCcpIC8qIFs2MzowXSB4OlI6RzpCIDE2OjE2OjE2OjE2
+IGxpdHRsZSBlbmRpYW4gKi8KPiA+ICsjZGVmaW5lIERSTV9GT1JNQVRfWEJHUjE2MTYxNjE2ICAg
+ICAgZm91cmNjX2NvZGUoJ1gnLCAnQicsICc0JywgJzgnKSAvKiBbNjM6MF0geDpCOkc6UiAxNjox
+NjoxNjoxNiBsaXR0bGUgZW5kaWFuICovCj4gPiArCj4gPiArI2RlZmluZSBEUk1fRk9STUFUX0FS
+R0IxNjE2MTYxNiAgICAgIGZvdXJjY19jb2RlKCdBJywgJ1InLCAnNCcsICc4JykgLyogWzYzOjBd
+IEE6UjpHOkIgMTY6MTY6MTY6MTYgbGl0dGxlIGVuZGlhbiAqLwo+ID4gKyNkZWZpbmUgRFJNX0ZP
+Uk1BVF9BQkdSMTYxNjE2MTYgICAgICBmb3VyY2NfY29kZSgnQScsICdCJywgJzQnLCAnOCcpIC8q
+IFs2MzowXSBBOkI6RzpSIDE2OjE2OjE2OjE2IGxpdHRsZSBlbmRpYW4gKi8KPgo+IFRoZXNlIGxv
+b2sgcmVhc29uYWJsZSBlbm91Z2ggdG8gbWUuIElJUkMgd2Ugc2hvdWxkIGJlIGFibGUgdG8gZXhw
+b3NlCj4gdGhlbSBvbiBzb21lIHJlY2VudCBJbnRlbCBodyBhcyB3ZWxsLgo+Cj4gUmV2aWV3ZWQt
+Ynk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Cj4KClRo
+YW5rcyBWaWxsZSEKCkluZGVlZCBpIGxvb2tlZCBvdmVyIHRoZSBJbnRlbCBQUk0ncywgYW5kIHdo
+aWxlIGZwMTYgc3VwcG9ydCBzZWVtcyB0bwpiZSByYXRoZXIgcmVjZW50IChHZW44PyBHZW45PyBH
+ZW4xMD8gQ2FuJ3QgcmVtZW1iZXIgYXRtLiksIGlpcmMsIEkKZm91bmQgcmVmZXJlbmNlcyB0byBy
+Z2IxNiBmaXhlZCBwb2ludCBiYWNrIHRvIGdlbjUgLyBJcm9ubGFrZS4gVGhhdAp3b3VsZCBiZSBw
+cmV0dHkgY29vbCEgVGhlIHByZWNpc2lvbiBsaW1pdCBmb3IgdGhlIGVuY29kZXJzIG9uIEludGVs
+IGlzCmFsc28gMTIgYnBjIGF0bS4sIHJpZ2h0PwoKLW1hcmlvCgo+IC0tCj4gVmlsbGUgU3lyasOk
+bMOkCj4gSW50ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+Cg==
