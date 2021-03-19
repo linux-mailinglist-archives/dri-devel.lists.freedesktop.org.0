@@ -2,45 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 675C63418CC
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 10:52:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D64341880
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 10:38:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D12C6E9C1;
-	Fri, 19 Mar 2021 09:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1D486E19C;
+	Fri, 19 Mar 2021 09:38:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1678 seconds by postgrey-1.36 at gabe;
- Fri, 19 Mar 2021 09:51:59 UTC
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 617DC6E9C1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 09:51:59 +0000 (UTC)
-Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
- by twspam01.aspeedtech.com with ESMTP id 12J9F7lk021227
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 17:15:07 +0800 (GMT-8)
- (envelope-from kuohsiang_chou@aspeedtech.com)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 12J9ErwR021038;
- Fri, 19 Mar 2021 17:14:53 +0800 (GMT-8)
- (envelope-from kuohsiang_chou@aspeedtech.com)
-Received: from localhost.localdomain.com (192.168.2.206) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 19 Mar 2021 17:23:47 +0800
-From: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
-To: <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH V3] drm/ast: Disable fast reset after DRAM initial
-Date: Fri, 19 Mar 2021 17:23:40 +0800
-Message-ID: <20210319092340.140267-1-kuohsiang_chou@aspeedtech.com>
-X-Mailer: git-send-email 2.18.4
-In-Reply-To: <HK2PR06MB330087DBCD724A93EBACC17C8CA10@HK2PR06MB3300.apcprd06.prod.outlook.com>
-References: <HK2PR06MB330087DBCD724A93EBACC17C8CA10@HK2PR06MB3300.apcprd06.prod.outlook.com>
+Received: from mx0a-0014ca01.pphosted.com (mx0b-0014ca01.pphosted.com
+ [208.86.201.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D63F6E19C
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 09:38:09 +0000 (UTC)
+Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
+ by mx0b-0014ca01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12J9JPtS002901; Fri, 19 Mar 2021 02:38:02 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=proofpoint;
+ bh=X9HC1yx1AbWNJUzgY/1t9JwsjmX+NEV5bnaibedYPzY=;
+ b=eZBoEVas8TyzU2AFJfrquf2hFRzyOX6h78Bk9XSJkYDt66eADm/6SumxAX+AR8FhtCUT
+ 3TI9MiI77PT5tUdpUHEuu0qkrEMcM3SGZPrgUqLjzL5ui9IWX3SzwVfjr0dCSJjCggrw
+ 9D2YYA++WZw+MwSoCpgLjD9TTN1GLcPiFWbepzS4Hdyc1Ezfg3v7uuCCeOpdLIlsQYcc
+ q9mRenwafvhw0GlHoI/hmXnCd2+/8uzSM/ncijg1hwP5ps2dvE1wR/cSViCOp+0ElV9b
+ POwqGK6RvRlC5IpR48ajgFWgv4wdf5v1XIPerfN2BbgV2Nnj5YlJzsJmAMHdR//yHpvF ew== 
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2176.outbound.protection.outlook.com [104.47.56.176])
+ by mx0b-0014ca01.pphosted.com with ESMTP id 37ccg12383-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Mar 2021 02:38:02 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SNw4F+8lyUZ6yC2rzed+eDfqucnZ/pIE8gaHtv2rVtQvTqEAypjWV0PFAcBnlcqvukc7chOwVFudoTyHGoqyp8WuY0YxG+TZf95KxpuZjeUswFtbejY81E3SbPxxhMnC6FMhvGZJ9ZOAmsBsN9pgh1WSINw0/4+ZSZyygfPjMFhlK7PnYSiidCuOMF7+RPcq97lyt94mnlUI1vsqG6FSvvNQc++ThWIyL9GFGaNfcSOU1NK3SF9qNuV8MxVU/a7aQlIUCpZUYj/5lrkKno3ssorDnRTTcGkgATFDo7kBGU5opXFL1vOUluGizLQUTUUlXVsZ8P12sww1eHnMQTLrBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X9HC1yx1AbWNJUzgY/1t9JwsjmX+NEV5bnaibedYPzY=;
+ b=g7uRwS9hLchS0UJJfhrEoSVX9EN6z6hEV9xLfz9whtdlHv50yGjTJVoFUb8grH8hMK/Ts8E+EcGssPETA20HLaU6gsLmo1uJFEpfLWrKD6azI5LuLym26BuzVLrhEJmaq4JvMU+AuVEH/2IpvykDZyFSR4HU9/17AZ7deS0LRq63MD0eGJPtYTxnCjhbW+WDv6YSUPUac+AKVF9u8HSG0VGxHw2h5JjJy/UODldw9QCW99N3Y90ixTHz3vYEWZNCMkXy4uG+ceq/O2mmcYA/rJIhVJ9zSMNclIojHQBDTEnLPHXJsfBzW3tYI/fyZSHl3Z5di/tjkL7SpJvbUfQlMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 158.140.1.147) smtp.rcpttodomain=linux.ie smtp.mailfrom=cadence.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X9HC1yx1AbWNJUzgY/1t9JwsjmX+NEV5bnaibedYPzY=;
+ b=2Jrh4SBX1jBAxrbP7gc0aViOwsvIN5Au4Pfsb1Jvk6MokR7AlZCQeno1w6JF70kSOFBzQMAz+1RRhdymV9nbdXp0ivBtwJe5U5vdXKLXAceWe7YzXTrYwg7ybpgS/aoLY7mXd9QEM1nBGJfZnsQlqZi8MpsHcvsqJnJnBlXyIrY=
+Received: from DM5PR13CA0064.namprd13.prod.outlook.com (2603:10b6:3:117::26)
+ by PH0PR07MB8558.namprd07.prod.outlook.com (2603:10b6:510:9f::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Fri, 19 Mar
+ 2021 09:37:58 +0000
+Received: from DM6NAM12FT043.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:3:117:cafe::19) by DM5PR13CA0064.outlook.office365.com
+ (2603:10b6:3:117::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.10 via Frontend
+ Transport; Fri, 19 Mar 2021 09:37:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 158.140.1.147)
+ smtp.mailfrom=cadence.com; linux.ie; dkim=none (message not signed)
+ header.d=none;linux.ie; dmarc=pass action=none header.from=cadence.com;
+Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
+ 158.140.1.147 as permitted sender) receiver=protection.outlook.com;
+ client-ip=158.140.1.147; helo=sjmaillnx1.cadence.com;
+Received: from sjmaillnx1.cadence.com (158.140.1.147) by
+ DM6NAM12FT043.mail.protection.outlook.com (10.13.179.162) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3955.9 via Frontend Transport; Fri, 19 Mar 2021 09:37:57 +0000
+Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
+ by sjmaillnx1.cadence.com (8.14.4/8.14.4) with ESMTP id
+ 12J9bp7x004354
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 19 Mar 2021 02:37:53 -0700
+X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
+Received: from maileu3.global.cadence.com (10.160.88.99) by
+ maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 19 Mar 2021 10:37:50 +0100
+Received: from vleu-orange.cadence.com (10.160.88.83) by
+ maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2 via Frontend Transport; Fri, 19 Mar 2021 10:37:50 +0100
+Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
+ by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 12J9boWB007023;
+ Fri, 19 Mar 2021 10:37:50 +0100
+Received: (from pthombar@localhost)
+ by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 12J9blek007000;
+ Fri, 19 Mar 2021 10:37:47 +0100
+From: Parshuram Thombare <pthombar@cadence.com>
+To: <robert.foss@linaro.org>, <robh+dt@kernel.org>,
+ <laurent.pinchart@ideasonboard.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH v5 0/2] enable HDCP in Cadence MHDP bridge driver
+Date: Fri, 19 Mar 2021 10:37:44 +0100
+Message-ID: <1616146664-6941-1-git-send-email-pthombar@cadence.com>
+X-Mailer: git-send-email 2.2.2
 MIME-Version: 1.0
-X-Originating-IP: [192.168.2.206]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 12J9ErwR021038
+X-OrganizationHeadersPreserved: maileu3.global.cadence.com
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f0cc9c54-7927-4e13-3283-08d8eabaadf7
+X-MS-TrafficTypeDiagnostic: PH0PR07MB8558:
+X-Microsoft-Antispam-PRVS: <PH0PR07MB855835702A05F377C0AA0278C1689@PH0PR07MB8558.namprd07.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WuG/vF68DU8/Zr7vw8fCo2hIjm7+8wPYIZn08dWsdCy/hGGlEVS3mJKUlTJ1HcKzzYFs05aqi15EKtBnow+H4ujmSTg4sgwnFY5Qgk5ok3fIPZdaCbjpYBP22jXocpJfXhvAvQGcgeT+QkepksFwYJqESbL5dihPH9d0XUEtCaFuigtUNzxKHRXN0O5GIYbstpGMXJFvlz9lL5i7TIwoZad7bUGdeyHGiskmJ5uFA3BKgdOmLlqxm28daOYJFFhtrxYCUl3BJP0GgCirRbgv4+QOEsKjpAahuqRM+zRAV8tlbq/fDZ7o0W+6LA5FgHsfulLza9HljvnmoQ1DXESuBttkltyQfk2u7Atj0J02Lu4XZ1jXQvm/OOmbCEDvWEfHNhZAtHFduUyglayYqmHPHTFVi2sGmO0GI3Bqo7R1ldOB4wcfxHaCrvErzCYy5Eyqu9/v+YqRIHy3SZrLA99L2rFQBw6i6kZaeI9Md+caWfcW1O8WIdQaQjjX8wbvfd2K6HfBFi8XxX/czwxGe28FdfCSXcHHZn4JZTrFMwK67ZP3zi/1K8WPCEKSi4CkOpYihA65q6lpY/049cbmcdKv4xFW7u4E/qMooW1DfGZ7QQ34rEPQY5zumiMLQN+NRt+3xKNpbs8KdoQ1ftErqnTDmFRx5udB0ru1OAeT+pz2amXXE/ZtxNlVTD9s7c3f8f//QbGHjMXVzYL8z9x0KcOFlQ==
+X-Forefront-Antispam-Report: CIP:158.140.1.147; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:sjmaillnx1.cadence.com; PTR:unknown.Cadence.COM; CAT:NONE;
+ SFS:(4636009)(39850400004)(396003)(346002)(136003)(376002)(36092001)(46966006)(36840700001)(70586007)(2906002)(36756003)(7416002)(70206006)(82740400003)(54906003)(8936002)(426003)(478600001)(8676002)(36860700001)(2616005)(316002)(4326008)(82310400003)(356005)(6666004)(26005)(5660300002)(186003)(336012)(47076005)(83380400001)(86362001)(7636003)(107886003)(36906005)(42186006)(110136005)(2101003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: cadence.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2021 09:37:57.5311 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0cc9c54-7927-4e13-3283-08d8eabaadf7
+X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9; Ip=[158.140.1.147];
+ Helo=[sjmaillnx1.cadence.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM12FT043.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR07MB8558
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-19_03:2021-03-17,
+ 2021-03-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check
+ score=0 mlxlogscore=878
+ mlxscore=0 spamscore=0 priorityscore=1501 adultscore=0 impostorscore=0
+ suspectscore=0 lowpriorityscore=0 clxscore=1015 bulkscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103190067
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,168 +137,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, tommy_huang@aspeedtech.com, jenmin_yuan@aspeedtech.com,
- airlied@redhat.com, arc_sung@aspeedtech.com
+Cc: devicetree@vger.kernel.org, narmstrong@baylibre.com,
+ Parshuram Thombare <pthombar@cadence.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kishon@ti.com, a.hajda@samsung.com,
+ sjakhade@cadence.com, nikhil.nd@ti.com, mparab@cadence.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Bug][AST2500]
+This patch series enables HDCP in Cadence MHDP DPI/DP bridge driver.
 
-V1:
-When AST2500 acts as stand-alone VGA so that DRAM and DVO initialization
-have to be achieved by VGA driver with P2A (PCI to AHB) enabling.
-However, HW suggests disable Fast reset mode after DRAM initializaton,
-because fast reset mode is mainly designed for ARM ICE debugger.
-Once Fast reset is checked as enabling, WDT (Watch Dog Timer) should be
-first enabled to avoid system deadlock before disable fast reset mode.
+Changes since v1:
+- Move sapb reg block right after apb reg block
+- Corresponding changes in binding and example
 
-V2:
-Use to_pci_dev() to get revision of PCI configuration.
+Changes since v2:
+- Revert reg resource sequence in binding and 
+  use resource mapping by name
+- Remove hdcp_config from binding and use
+  DRM HDCP Content Type property to select
+  HDCP version
 
-V3:
-If SCU00 is not unlocked, just enter its password again.
-It is unnecessary to clear AHB lock condition and restore WDT default
-setting again, before Fast-reset clearing.
+Changes since v3:
+- Fix kernel test robot warning
 
-Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
----
- drivers/gpu/drm/ast/ast_drv.h  |  1 +
- drivers/gpu/drm/ast/ast_main.c |  5 +++
- drivers/gpu/drm/ast/ast_post.c | 68 +++++++++++++++++++++-------------
- 3 files changed, 48 insertions(+), 26 deletions(-)
+Changes since v4:
+- Fix binding issue
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index da6dfb677540..a2cf5fef2399 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -320,6 +320,7 @@ bool ast_is_vga_enabled(struct drm_device *dev);
- void ast_post_gpu(struct drm_device *dev);
- u32 ast_mindwm(struct ast_private *ast, u32 r);
- void ast_moutdwm(struct ast_private *ast, u32 r, u32 v);
-+void ast_patch_ahb_2500(struct ast_private *ast);
- /* ast dp501 */
- void ast_set_dp501_video_output(struct drm_device *dev, u8 mode);
- bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index 3775fe26f792..0e4dfcc25623 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -69,6 +69,7 @@ static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
- {
- 	struct device_node *np = dev->pdev->dev.of_node;
- 	struct ast_private *ast = to_ast_private(dev);
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	uint32_t data, jregd0, jregd1;
+Parshuram Thombare (2):
+  dt-bindings: drm/bridge: MHDP8546 bridge binding changes for HDCP
+  drm: bridge: cdns-mhdp8546: Enable HDCP
 
- 	/* Defaults */
-@@ -96,6 +97,10 @@ static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
- 	jregd0 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
- 	jregd1 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff);
- 	if (!(jregd0 & 0x80) || !(jregd1 & 0x10)) {
-+		/* Patch AST2500 */
-+		if (((pdev->revision & 0xF0) == 0x40) && ((jregd0 & 0xC0) == 0))
-+			ast_patch_ahb_2500(ast);
-+
- 		/* Double check it's actually working */
- 		data = ast_read32(ast, 0xf004);
- 		if (data != 0xFFFFFFFF) {
-diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
-index 8902c2f84bf9..4f194c5fd2c2 100644
---- a/drivers/gpu/drm/ast/ast_post.c
-+++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -2026,6 +2026,30 @@ static bool ast_dram_init_2500(struct ast_private *ast)
- 	return true;
- }
+ .../display/bridge/cdns,mhdp8546.yaml         |  34 +-
+ drivers/gpu/drm/bridge/cadence/Makefile       |   2 +-
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 113 +++-
+ .../drm/bridge/cadence/cdns-mhdp8546-core.h   |  21 +
+ .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   | 570 ++++++++++++++++++
+ .../drm/bridge/cadence/cdns-mhdp8546-hdcp.h   |  92 +++
+ 6 files changed, 806 insertions(+), 26 deletions(-)
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.h
 
-+void ast_patch_ahb_2500(struct ast_private *ast)
-+{
-+	u32	data;
-+
-+	/* Clear bus lock condition */
-+	ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
-+	ast_moutdwm(ast, 0x1e600084, 0x00010000);
-+	ast_moutdwm(ast, 0x1e600088, 0x00000000);
-+	ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
-+	data = ast_mindwm(ast, 0x1e6e2070);
-+	if (data & 0x08000000) {					/* check fast reset */
-+
-+		ast_moutdwm(ast, 0x1E785004, 0x00000010);
-+		ast_moutdwm(ast, 0x1E785008, 0x00004755);
-+		ast_moutdwm(ast, 0x1E78500c, 0x00000033);
-+		udelay(1000);
-+	}
-+	do {
-+		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
-+		data = ast_mindwm(ast, 0x1e6e2000);
-+	}	while (data != 1);
-+	ast_moutdwm(ast, 0x1e6e207c, 0x08000000);	/* clear fast reset */
-+}
-+
- void ast_post_chip_2500(struct drm_device *dev)
- {
- 	struct ast_private *ast = to_ast_private(dev);
-@@ -2033,39 +2057,31 @@ void ast_post_chip_2500(struct drm_device *dev)
- 	u8 reg;
-
- 	reg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
--	if ((reg & 0x80) == 0) {/* vga only */
-+	if ((reg & 0xC0) == 0) {/* vga only */
- 		/* Clear bus lock condition */
--		ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
--		ast_moutdwm(ast, 0x1e600084, 0x00010000);
--		ast_moutdwm(ast, 0x1e600088, 0x00000000);
--		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
--		ast_write32(ast, 0xf004, 0x1e6e0000);
--		ast_write32(ast, 0xf000, 0x1);
--		ast_write32(ast, 0x12000, 0x1688a8a8);
--		while (ast_read32(ast, 0x12000) != 0x1)
--			;
--
--		ast_write32(ast, 0x10000, 0xfc600309);
--		while (ast_read32(ast, 0x10000) != 0x1)
--			;
-+		ast_patch_ahb_2500(ast);
-+
-+		/* Disable watchdog */
-+		ast_moutdwm(ast, 0x1E78502C, 0x00000000);
-+		ast_moutdwm(ast, 0x1E78504C, 0x00000000);
-+		/* Reset USB port */
-+		ast_moutdwm(ast, 0x1E6E2090, 0x20000000);
-+		ast_moutdwm(ast, 0x1E6E2094, 0x00004000);
-+		if (ast_mindwm(ast, 0x1E6E2070) & 0x00800000) {
-+			ast_moutdwm(ast, 0x1E6E207C, 0x00800000);
-+			mdelay(100);
-+			ast_moutdwm(ast, 0x1E6E2070, 0x00800000);
-+		}
-+		/* Modify eSPI reset pin */
-+		temp = ast_mindwm(ast, 0x1E6E2070);
-+		if (temp & 0x02000000)
-+			ast_moutdwm(ast, 0x1E6E207C, 0x00004000);
-
- 		/* Slow down CPU/AHB CLK in VGA only mode */
- 		temp = ast_read32(ast, 0x12008);
- 		temp |= 0x73;
- 		ast_write32(ast, 0x12008, temp);
-
--		/* Reset USB port to patch USB unknown device issue */
--		ast_moutdwm(ast, 0x1e6e2090, 0x20000000);
--		temp  = ast_mindwm(ast, 0x1e6e2094);
--		temp |= 0x00004000;
--		ast_moutdwm(ast, 0x1e6e2094, temp);
--		temp  = ast_mindwm(ast, 0x1e6e2070);
--		if (temp & 0x00800000) {
--			ast_moutdwm(ast, 0x1e6e207c, 0x00800000);
--			mdelay(100);
--			ast_moutdwm(ast, 0x1e6e2070, 0x00800000);
--		}
--
- 		if (!ast_dram_init_2500(ast))
- 			drm_err(dev, "DRAM init failed !\n");
-
---
-2.18.4
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
