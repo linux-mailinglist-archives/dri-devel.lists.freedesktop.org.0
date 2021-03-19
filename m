@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF4034175F
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 09:25:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5301034175C
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 09:25:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37F3F6E9BB;
-	Fri, 19 Mar 2021 08:24:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53BCA6E9A8;
+	Fri, 19 Mar 2021 08:24:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA2156E9A2
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 08:24:48 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id u9so8276886ejj.7
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 01:24:48 -0700 (PDT)
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FCE46E9A7
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 08:24:50 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id l18so1538639edc.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 01:24:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WQfVByDMubjxteIKJEZ6P0NR+Mqv9ZNp4le53NfYrp8=;
- b=J7cBZga0HMi5iG0MBUZwq+qeZQWVYjaTEHrLyI9EUXYAQUPVTL0uLJnF3hBzdX6FIZ
- zVDwtYg3IT40ZqvObqkEA8SNak/MrlukLTeG32vP1M96twbR8MtsqufK1UIcwXfHjPnf
- 2K2NJB8UHPugVxfg2oMC8GzczIRdANNmDdg2XqMK818eM2//X328KiyDO7xyh9o5sT97
- AVlqyCAsqbSQExSIbVOBgEbA2EI0WzjnzOjiCajnhzQV+qLA9KIaQ4PwZMgJ2JIrY1fl
- E9nJBb0VkUxHN0WG8ArEkjbhDPTOX5KTCOPJKYwk5PgIhndI2lYcOv2kun1XLWJgjxjS
- bn5A==
+ bh=QN4aBNwxKOCABxwfpyuG0Xk/7oUm3WT2PgkGnXFzadY=;
+ b=xWnz3znjFX0tNlW97leA+LZR30kAS4pJ8PYHiwxM/+iY/SDaIbTj6tWToOXKAZNWUw
+ 3Fc8+e74T6Vu46ecZ3bBMYpLvi60D6XBeSEfImpnAHgWEoyGx2x7vu9tVcgEsKTnkJB3
+ Z0uLIUTCwAaSFxopOOrNDj4nSHqdQ/XfofC89C+sKyV97q9eUBvjxq5/89nvlo2QB9rq
+ 9aNacsmrTFvmNCUC456ULATHyldGtn4gY9hqJeg2Rb9UUy2m6ovSXOV9dOycIsIfINVD
+ Ka6tGO2ZRhIOVH1CpnUY+l/ra1+5xL3x4JO8o0swlS0Jn9HnkFWNtCQxWTBAWVH5rlbE
+ +UMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WQfVByDMubjxteIKJEZ6P0NR+Mqv9ZNp4le53NfYrp8=;
- b=Me2eoNrZRgLU8pYh3DueckTXoslk5YgUbPgOAj+Dxfk9oTu8ekcH9o75E5hZVocAUe
- 9lMfV5rxD9IpbpLHE+sEq+NFULp2++smTfFvpBCmJColAhCUt/D0D4g0wJCTpIMihfw/
- NlhmHsWJLtD51DGDZsxsgyxRl1MiNkcCNvnUp8UiHmC1UMpG5DCn/rbp7ZQECdbfq2MT
- /HIMgmyJTesWF7OSR2zkaa8NvJkgWGYXtn8vW8p9a6LzvKNIW0/Yn8PcXSqTt6CXnu9H
- LHXmn+hElFYoI8VreI+72oWegs9QqvK0juInMLYFeMFUSlJHutjEW1XEpAWVsVeNGBEg
- usPw==
-X-Gm-Message-State: AOAM530JoOPaXHn9E1NH0NGjdN8mDZv49uF/j81y/Ska2kq63O9mWOBl
- PSy6YUsMS7KUcyxxtIQkslu/KQ==
-X-Google-Smtp-Source: ABdhPJx6jKnRq5nqPpVdA7aCaWOhgT0WB+9GfElNE7osCoFYtIg0/X6xNmLS5P73xbTCg6pNXGlfOA==
-X-Received: by 2002:a17:906:f88a:: with SMTP id
- lg10mr3078558ejb.39.1616142287621; 
- Fri, 19 Mar 2021 01:24:47 -0700 (PDT)
+ bh=QN4aBNwxKOCABxwfpyuG0Xk/7oUm3WT2PgkGnXFzadY=;
+ b=AvWzpNoAIP4Or7NZj/MX6qSTnj/OY7CJ85zHvq8xXANYV/KqMdFiwxQdQ9Wj3LGqGr
+ nsX2NZvioWOLb9sLzrhJKTY1+cgbi+hwbXIB8gX0b+SblBWvE/0W0gzSjM7J0MX2JQ4y
+ tnLuaskAOf4vOVNzsPo0g4H6E+So/H42bbAtbeJ67l8jGUea7+fmNGEHLYgen3G7VsHK
+ I/7jy5rpdIFNflu0v5s+EHUAGfvFcJge2CJKFtJ0xmlt3T4jmBM6Sw9lcB3k7zXfpTt5
+ CX7GrERDz/ms5u2u91Y9iVGo1jZkkn8RoxgrIRE0Nub3zg+ZxkIAQtPB3guIvWj+7jEW
+ yRiw==
+X-Gm-Message-State: AOAM530A+c/zAwKFhkuNc7wFNiQM2CGTHLwxiwUcR3GRz0xPnNY0yswx
+ 1xopIelDKqCBBvezhEErqVfIuA==
+X-Google-Smtp-Source: ABdhPJwscQWu+LWU/WdUY0149XPKN1oU1qX01NKk8VcKSVszs01UoBJnFfmsmVlA0SKHNDd4ocW6yQ==
+X-Received: by 2002:a05:6402:3486:: with SMTP id
+ v6mr8079033edc.109.1616142288680; 
+ Fri, 19 Mar 2021 01:24:48 -0700 (PDT)
 Received: from dell.default ([91.110.221.194])
- by smtp.gmail.com with ESMTPSA id b18sm3273727ejb.77.2021.03.19.01.24.46
+ by smtp.gmail.com with ESMTPSA id b18sm3273727ejb.77.2021.03.19.01.24.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Mar 2021 01:24:47 -0700 (PDT)
+ Fri, 19 Mar 2021 01:24:48 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 16/19] drm/nouveau/dispnv50/disp: Include header containing
- our prototypes
-Date: Fri, 19 Mar 2021 08:24:25 +0000
-Message-Id: <20210319082428.3294591-17-lee.jones@linaro.org>
+Subject: [PATCH 17/19] drm/nouveau/nouveau_ioc32: File headers are not good
+ candidates for kernel-doc
+Date: Fri, 19 Mar 2021 08:24:26 +0000
+Message-Id: <20210319082428.3294591-18-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210319082428.3294591-1-lee.jones@linaro.org>
 References: <20210319082428.3294591-1-lee.jones@linaro.org>
@@ -71,29 +71,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
-cy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jOjI1OTk6MTogd2FybmluZzogbm8gcHJl
-dmlvdXMgcHJvdG90eXBlIGZvciDigJhudjUwX2Rpc3BsYXlfY3JlYXRl4oCZIFstV21pc3Npbmct
-cHJvdG90eXBlc10KCkNjOiBCZW4gU2tlZ2dzIDxic2tlZ2dzQHJlZGhhdC5jb20+CkNjOiBEYXZp
-ZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
-bGwuY2g+CkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBub3V2ZWF1QGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0Bs
-aW5hcm8ub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYyB8
-IDIgKysKIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwLmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91
-dmVhdS9kaXNwbnY1MC9kaXNwLmMKaW5kZXggODI4ZjQ4ZDViZGQ0ZS4uY2QxNjQzMTQyMjE5OCAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jCisrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYwpAQCAtNjgsNiArNjgsOCBA
-QAogCiAjaW5jbHVkZSA8c3ViZGV2L2Jpb3MvZHAuaD4KIAorI2luY2x1ZGUgIm52NTBfZGlzcGxh
-eS5oIgorCiAvKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqCiAgKiBFVk8gY2hhbm5lbAogICoqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqLwotLSAKMi4yNy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/gpu/drm/nouveau/nouveau_ioc32.c:2: warning: Cannot understand  * file mga_ioc32.c
+
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/gpu/drm/nouveau/nouveau_ioc32.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_ioc32.c b/drivers/gpu/drm/nouveau/nouveau_ioc32.c
+index adf01ca9e035d..8ddf9b2325a42 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_ioc32.c
++++ b/drivers/gpu/drm/nouveau/nouveau_ioc32.c
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * \file mga_ioc32.c
+  *
+  * 32-bit ioctl compatibility routines for the MGA DRM.
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
