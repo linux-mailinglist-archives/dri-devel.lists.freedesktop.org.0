@@ -2,107 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE8834143C
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 05:31:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 549BD34143D
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 05:33:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43ACE6E97F;
-	Fri, 19 Mar 2021 04:31:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB8F06E981;
+	Fri, 19 Mar 2021 04:33:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2058.outbound.protection.outlook.com [40.107.244.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F81E6E97F
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 04:31:37 +0000 (UTC)
+ (mail-mw2nam12on2075.outbound.protection.outlook.com [40.107.244.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F218C6E981
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 04:33:36 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jB+zOtbxIi3LTDje9Cbmjt6yEvpSGfdp7NIRufxgJngIStkpg6QdjI9AwlO0qbZw/Zzf/gW6XrtJN+i1N/+pmAJwMgmI3nSveY0tCr3LqlByvCui3A/ePRhdTEloZsWejhtER3nA8+BMcRk8WgCS7V/UjWhpji9FfzmNY4fPjjJ6Fb4MpOsx1dvGiQEfNuxzRTZhl3m8EsaOt3NjV7iAGAzu/1xoNrwtZUfrnAakech3UPpSwTL4dMxpZtAWB2zpaKQ6K4GFGtcv9ypWUP563dtjq3QgeennXOsE2kd23cHT6oEKoolNwlaA0jBcr3HIflx2zPtBLEWtL0vdG2NR+w==
+ b=dIB5RwDNVX+n1zGGt/AM2yLwrmogaDeqb4CLcdCIP2MkXSEG7za6xuB+9mDHx3liSPw/dSc9cKm8RKc5onCFvOInL/mCdlAmx/lnSFQ23Gf3Axj1+lseZtAtcBUqwrGBPoyWI/SbR9MtpHiCtNxQGWydgbpgHcXyyeyk05J0ZaoU0Ds5eMHvGYbO9ggIMyCbCFWs0SqxMTO/7z0T6XGKo4cVSj1o+n2clU3+g1Hg71+QaZFwXb0j7lJKRYaglk2IkkQT2pS8I9Y0AWLJ9euGVUwJWoCelelLfZ03RnM/eRt+6WRXPeqxZ88F/BnrGF0A9/e4EBCNwgfVG7JSyZ0bJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N8NTB4VyL2f7TP8SMgPUBwTYP7FC9rlYacYHrLmS4co=;
- b=lu/J3TdcOTDpe50Vvt0fsP3J00SwKs8T2TrH0lXZHIfwgWeejGaAnJEOtxwkZWMufeurxNYzAvyknZoPap1qaV86bZbIdDi/EqK4MA4UmPY+NcrfPanIPuPIWZGgzK10tOfYcOeeGw2cQ4FIcsBM9jnSaINc5Y8EBk+OUNiKh37Zc94HglZvldjYExs9EOKONvVF13Ldxtp0zJbixwsChE+/LFb1YVcBVXzMwEwWmE5eu0JUwWyZBlR2LJTd5JK9vfLp1qG0eKl+zgayFdIRrsU/ubetTOi1af/tyCOh3A0J0hwfYe3qLX/XY3WrJBTM8BFGyJvMO+UW+IxDv5xV8g==
+ bh=A69F2N5YydrZ4FUiWBr7x2yoYlKWklsoW5L//XHtHe4=;
+ b=S6GQ2BaGwFM8vuZ49GkYb+Cv9/jHpCxALywEDXr7ZOpFfJb4lnwRjm2xIuXIvcV1h/Vz+9A0KeJh5VWECORSb2yW3MztUG5q6QVp40FIwkXNobBNIYHlOqkwA25M8MbXT3tHbtviAh7Yy/axuJ4suvssO2hoWwdjsIl4iYix/NC2BIN63Q/FvuhAvSQNNqUDhtb1vk1QFSxpiuvDFvuc96Tgt+BD5X7OUJewn0+mx+i9ZChh2fWrIRhmf1FCCVBqn06/BYH1J2cnD/n2nhqOCQZrC1k2SxiG6OB7OZI6bdXL2YUnRAbXKrSKZjW1qXBezwZpgb5dC5ZoKdiO3EEGwA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N8NTB4VyL2f7TP8SMgPUBwTYP7FC9rlYacYHrLmS4co=;
- b=zhZE1PcQKdz9c7zHN4rqebka428T5Xkj2oe1gX3oqlvUHurUG1keUekmlqFmUqy0tVGp05tUeJ/gzjf5Qj6mDK3D7oHztwjjyyo6NpDz766wZmcjwxnmv0hdPQkhpz0E/aTQGfDfHSm3aLvOfzQx6KCKKM0XX5cipg8iF4hHHHE=
+ bh=A69F2N5YydrZ4FUiWBr7x2yoYlKWklsoW5L//XHtHe4=;
+ b=wM5h1/xWdk1Sc/H4af1xpsgu/D3g9gOr3HbCUMJ/pVlZyUAtsdyFPKXvy0PLbEY57Z2xdWUMn+4VQmndEEWaOgpJw9ygyRAuVY6Y9/P/yhjL1a+T6zJZsrjgbuP/VjVoSdfGG3/RapX/ZGP6h55VDww+Ve5AgOHWbJ7FbRsXYSE=
 Authentication-Results: gmail.com; dkim=none (message not signed)
  header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
 Received: from MWHPR12MB1248.namprd12.prod.outlook.com (2603:10b6:300:12::21)
  by MW2PR12MB2521.namprd12.prod.outlook.com (2603:10b6:907:8::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Fri, 19 Mar
- 2021 04:31:35 +0000
+ 2021 04:33:35 +0000
 Received: from MWHPR12MB1248.namprd12.prod.outlook.com
  ([fe80::5094:3a69:806f:8a28]) by MWHPR12MB1248.namprd12.prod.outlook.com
  ([fe80::5094:3a69:806f:8a28%5]) with mapi id 15.20.3955.018; Fri, 19 Mar 2021
- 04:31:35 +0000
-Date: Fri, 19 Mar 2021 12:30:32 +0800
+ 04:33:35 +0000
+Date: Fri, 19 Mar 2021 12:32:32 +0800
 From: Huang Rui <ray.huang@amd.com>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 2/3] drm/ttm: remove swap LRU v3
-Message-ID: <20210319043032.GB3262181@hr-amd>
+Subject: Re: [PATCH 3/3] drm/ttm: switch to per device LRU lock
+Message-ID: <20210319043232.GC3262181@hr-amd>
 References: <20210318124719.13656-1-christian.koenig@amd.com>
- <20210318124719.13656-2-christian.koenig@amd.com>
+ <20210318124719.13656-3-christian.koenig@amd.com>
 Content-Disposition: inline
-In-Reply-To: <20210318124719.13656-2-christian.koenig@amd.com>
+In-Reply-To: <20210318124719.13656-3-christian.koenig@amd.com>
 X-Originating-IP: [58.247.170.245]
-X-ClientProxiedBy: HK2PR02CA0209.apcprd02.prod.outlook.com
- (2603:1096:201:20::21) To MWHPR12MB1248.namprd12.prod.outlook.com
+X-ClientProxiedBy: HKAPR03CA0020.apcprd03.prod.outlook.com
+ (2603:1096:203:c9::7) To MWHPR12MB1248.namprd12.prod.outlook.com
  (2603:10b6:300:12::21)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from hr-amd (58.247.170.245) by
- HK2PR02CA0209.apcprd02.prod.outlook.com (2603:1096:201:20::21) with Microsoft
+ HKAPR03CA0020.apcprd03.prod.outlook.com (2603:1096:203:c9::7) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.18 via Frontend Transport; Fri, 19 Mar 2021 04:31:33 +0000
+ 15.20.3977.9 via Frontend Transport; Fri, 19 Mar 2021 04:33:33 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 631a9873-33a0-46a5-09ca-08d8ea8fe0ed
+X-MS-Office365-Filtering-Correlation-Id: 90727dad-93c2-444f-f0d6-08d8ea902862
 X-MS-TrafficTypeDiagnostic: MW2PR12MB2521:
-X-Microsoft-Antispam-PRVS: <MW2PR12MB2521E3BE8FCB2EA9CB0DF3D9EC689@MW2PR12MB2521.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-Microsoft-Antispam-PRVS: <MW2PR12MB2521F47C4F81280CD0AC05EFEC689@MW2PR12MB2521.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lK75ESiCwfR1OuAXNgBD7MQ2P57fQqhyoUWRS5EcbhHaC53mh8yC/Fa7enQwE3kymOmc021NLl9efuyuL3IWuKvwaz18g/W8VaVEVCDDzosa+8KP8gscH5KOTb1iVT3D7KMzYFaFQsEI55jHXT7evpvwndx0JF+8YAo446fpjby3VCaBXJQwOTpK0VfBFb+pVludSjYLS8YiayqPnEnUNES8jzHuSjsWLeooKTMetsmERdySNBlz3Ci2Bj+IIlbxT+Z7pCT1YSHsCSMoNIqFCSL1BFLcSielpUYLfgf8LUWNfFdk9q4Y4aYk4tpLxOh5OBMIRUHH7JBQ9vAmQhY94EtFNLo89Bp3RjIc6g2ju5qjCZDKFccgtEpQXGjBTwVqr6ywv74dURgxcT1KJyV3PJwIPxja1uLUhUOeKAVck/67jLfESSUqsEqXJq+er8zfxst9NttoyHQSx0XRbCbb2Hvp7eytme4zo3k/4RSvA89fQF1fLknXnQczI7fkfmeAx04sYlHDjXv4ywkJFAK+/8Zwk10aZ5/DOKmeStvyNlwfuosN30DPn+n/8e6pURboldHa2ZgL7nP5AHJ0xck7YRfpBzTwkwztdN0BfdVFGOrLbZ3dPQouELGLfDYmjeB7RkbukQEuna/d/8csDmH8gknrwjluF3wnnW1mTZvAr/Y=
+X-Microsoft-Antispam-Message-Info: X1RyPrbLyzLHthjo2SE8Y8SYkgyPMuNndd17gJFgdWiwRgk63mMZ6RNyNmoVzYv0+4U3r8b14FSz9OXgb3hvOCRCrhJ5ExAzOLZlkF0TrS7VX2MTBoM4fYIx3tb2PDjXgQEIUf9fOExnBaE/Q6vevnljs33181bEZR/h5K9GgL2EQyTHg3wKyaLzEtRTXr8OISQOjZX4+jYOaTqEMQWLz/IF65wBWYLaX6sSgkGIXLgj1yWQgbUbbC60aOqPgEdzs5SieX2EiYZ4cBFUi0YcNGFLR26g0fZyPF59RqiubMKMLb1yyFLYQMTNVoN8uMlZCD2JHECNTb1+AC1KsDMLyZ07nLSsHsO370EVjStWTJEmuTS2BqVN63tl2X6HWLdfPR2LXHUmp8XXYdTCzlVbh1bsdW28GwkQDTyqTeRFpY8CHXfjVxc3kopAPb7nZo+T1+pfC1GDdPi21we4d3foO9d8ap5k4Hw+6XcZXtRU8F0ZqczOf7Cx2g1Cf6pgzxKVLeuvkWz0Si+e7Qb6zzWBc9pXRJESDM7gZp5BnWOAyJWWXFCshZlSBY3OC2piXFtd5EAiaD0/gh1QuSk05tp9ZQ3jzepQP+oWPcBSIWhVga/L88G8umuOpVlQBvVQiQOsuler7GNuwfsTKKDyDYBCMsAmb8D1a6PMNUzPu0sGkMU=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MWHPR12MB1248.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(136003)(39860400002)(396003)(366004)(5660300002)(8936002)(66574015)(86362001)(52116002)(26005)(186003)(6916009)(956004)(8676002)(66476007)(38100700001)(2906002)(55016002)(33716001)(478600001)(66556008)(54906003)(66946007)(1076003)(83380400001)(9686003)(16526019)(6496006)(33656002)(4326008)(316002);
+ SFS:(4636009)(346002)(376002)(136003)(39860400002)(396003)(366004)(5660300002)(8936002)(66574015)(86362001)(52116002)(26005)(186003)(6916009)(956004)(8676002)(66476007)(30864003)(38100700001)(2906002)(55016002)(33716001)(478600001)(66556008)(54906003)(66946007)(1076003)(83380400001)(9686003)(16526019)(6496006)(33656002)(4326008)(316002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?iso-8859-1?Q?WN7vpYf4xbTwrHa1knDTjAUViJT9BUgd4UPUgd3wHIa06GCG0nrpnLK2hl?=
- =?iso-8859-1?Q?7O/gq4nQnZ/kwlGdWMilcIuurbdU6TvL7Er2Jeeb3yb3FlRIx/PWHAmSO6?=
- =?iso-8859-1?Q?EAUcFBc0+JrO4p8tnL0nXshQoECALHZqrrvVwFep51A5BSR8n62u51fkpv?=
- =?iso-8859-1?Q?JqINDTZoO28Cc88k0ZTTlBKJ4TJSBjEZ7BGJV9pPOxySpYpykWDgEYHnEg?=
- =?iso-8859-1?Q?+gZvjm3BJcxwLWkUX3P6u3IGnTTUvsamprJu3kK9emJqpHjje+7w4C72+P?=
- =?iso-8859-1?Q?mY8aF6OoT6hjByapii1BokHRWrTo+8sMUdCwEpZrLocUJ5LZG0E143LG22?=
- =?iso-8859-1?Q?f6bGAVP7Hfz/sPyEoRn5zfrvj0UOHoMRuSWsbDXdSvuDSoN5Q8sglBa5N/?=
- =?iso-8859-1?Q?6zzbUbeXGKGjFebYMxiol/6zMoKTAgdjDF5w+s1P4pvyq+M0XP5W/q2gFo?=
- =?iso-8859-1?Q?Whmn1nhlZ/YeO4+XDlGwD9SAOwJ3eJ1UkKyqsgyJ/aHju4bN8f7x8sV3qD?=
- =?iso-8859-1?Q?4O+zlccV7JD4Z4dU8Djw28z0aC1l7BuMckLNSpLTNHSc57Cuf+Wdyfgzqp?=
- =?iso-8859-1?Q?usT2POpkAv3VbZZovmsVsNeJceUxvkA8hyX4jhWo3rAako5yYSGytR46EV?=
- =?iso-8859-1?Q?Iokz7/2nL14Tgs4OuVv2a9Jsps0wWihKpN/FEYieHx2cIX09VhU/UpEzhR?=
- =?iso-8859-1?Q?1Qorg7WwUk5LtFaIgTkJnPWBo8v+bMOIetmjb0y+lRZBrJqTfu7btPuAVH?=
- =?iso-8859-1?Q?N5Tmmqr58RKyEcjQyotiygpvJl6uVrkCOZR+n6iqSTg2m9Nv+7d3gUSJbD?=
- =?iso-8859-1?Q?1yfY44EGIpt5B9b6oWqQPeYSwCnruPt6ba4J6DCL2jqCyyAXBEo2spFQTg?=
- =?iso-8859-1?Q?ABlfkmHZKXfaeDWYx5mS/Dky95g6owsqXD/B0ctis7LQWyVfsolBOtKGmD?=
- =?iso-8859-1?Q?v+dOMoaKt+RgeMTtFAfPoeBblhDIB977TF+HlFLCg6c787QEX3l9vs4+eL?=
- =?iso-8859-1?Q?Myo49B7MZUlbqAe5kRUMGuXWsNT5Qj4EzYh89Z9deCMzd4blxG9ALxA1m+?=
- =?iso-8859-1?Q?0TwZOvznj3F9R4vMX/5zpNroHSE1Zl/tzTfcqhfLmHK2Ap8TPTmhW1RJza?=
- =?iso-8859-1?Q?Iw5l1s/NCSamx+Bv7JpWbjZ5a+uqG5nNGkK276HAAifxou7xNCkkWUF7ke?=
- =?iso-8859-1?Q?eEZU2HNtonEKaauHNfSLyffs8c/RkALaydVdxlLPnPR/NVvVx6bikj/LxA?=
- =?iso-8859-1?Q?jss+9cT9X3cQe8WkvEpMWjPdFhrMq5nwf0Ugp23q5VPHYHhHi+iwiPFzy3?=
- =?iso-8859-1?Q?2SlQLA4ybLcJOM8rqCmAB+s3Ad2qNrigge9LJxZ2wdQ6yBOJU7EswxOrhF?=
- =?iso-8859-1?Q?WjAO7Bm2fF?=
+X-MS-Exchange-AntiSpam-MessageData: =?iso-8859-1?Q?7lfJoxbV7nmxbHvlU5xh/70P5KZWDf8UlShpmMEqu14uilvYFb60DzooPt?=
+ =?iso-8859-1?Q?qfh+sYnEW2PyBBPgvsHxLHkU2HiaeQpR4YZk0z97d1YvWSz6u43dndMzuy?=
+ =?iso-8859-1?Q?kkMeBVywkiwvIA8Tyl7obmd6FbOE6qZ4+zLtLjBIpUacLZ1x71VlkJu+nZ?=
+ =?iso-8859-1?Q?dFje1hh5a871ZLHo4em5PMxEx3UIZa00RBzMjMqmb45P0vM4pPmZuvdy55?=
+ =?iso-8859-1?Q?5YNfT3tmVCImz2afAUIfwQn1imFHncXtSkkG1c4w0BScCyuyMUT0m+O/U3?=
+ =?iso-8859-1?Q?XhCVx5lSSpyDgUzFs7qnF70RuwQHV+F//Xh3sndFJTJlrNj02fv+vcyLMf?=
+ =?iso-8859-1?Q?9keyJDBlpVHREUeoYcqPS//5piBgfBJB9CQAEkIXusZ2QlR0EtoPbLdJB0?=
+ =?iso-8859-1?Q?ws3xDgYgRdSa5F67O8sO3AYmcGKks3joj5Z9G06vKd9yxaTzSq5rWrMOIt?=
+ =?iso-8859-1?Q?3kTIGIxUxTkfb+JMdY/qyopN39gevN81mkQZdpDa5ZmiYG3s+ElSF6fDQw?=
+ =?iso-8859-1?Q?zwdwg7xWKGghWkFDxhSkQVM6Q9ouzmM1JfJGXRqeueIGUWAd2Kk4ywSqKs?=
+ =?iso-8859-1?Q?VVZPYXSGXcpnlj+kb483QoCYRFWo8QEofJZn8mB0hI5pL1lz5DV+xYcPcc?=
+ =?iso-8859-1?Q?gowSlBptn/tuaffIdiCPO1wl7EQ5CrcseguQoC0LGn3gSFBVW42YfTOoO/?=
+ =?iso-8859-1?Q?JQZ9NlcrijJEl2MkdUZEYhLhDxtHbRvszw4zxK89wuXMLLWVuJb8FYHrQc?=
+ =?iso-8859-1?Q?jG0Fd6Nd3TbM4e2YHo3+n/j0WG6J7nkDWqiPT6eWaKuG0wH4dGdgEf1urS?=
+ =?iso-8859-1?Q?b9QxcsqJIyq3RtMptZ53BLQ0vVSPXp+1u4/AgMJ53DlGSmmu6ILVvHlhBR?=
+ =?iso-8859-1?Q?Hca7yO/yQsY8O4jETTdMPVZZrjI+isvMTcRH77E7d8D+Zk7bDIfeta9Xap?=
+ =?iso-8859-1?Q?HeObrdrOdMMEau3ff8fTFMCMpG4lmMff2jFV5dcwV0nvD1Pevj9P3qe+5G?=
+ =?iso-8859-1?Q?WhWj8/AFL9WpRH5zHgTBkqnQPDpfOcqST8e1pPVeWo6r/eGAXOkQGf2aAL?=
+ =?iso-8859-1?Q?Hz/ZaFKCOIapyCzKr2Py23W4RxIUcI+rGDAQGHQDymnAILncijsJnXUmZR?=
+ =?iso-8859-1?Q?VagKSkzMSvFIQvamBGUNMcxXnsbcH8g1+M4psH5jYmQxhX8RUmTNyQjVVb?=
+ =?iso-8859-1?Q?eS42ZkhBLPWkpe7Tf7ys8BUSj5LtTL692wN1rfzYXql+2S46qPTtFStf/V?=
+ =?iso-8859-1?Q?9DWhX5y6JZI47ekC+EOeIVwORAiQoYX6xlgrNkh2Bdvu+Fy7Hf0JXoimed?=
+ =?iso-8859-1?Q?RjIlWipRr8KZQkP9NB8PWDCUF9y5cnIw4ej1Y8w+Yi9CYzVaW7aYfeVwK1?=
+ =?iso-8859-1?Q?m2n+cZKhoz?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 631a9873-33a0-46a5-09ca-08d8ea8fe0ed
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90727dad-93c2-444f-f0d6-08d8ea902862
 X-MS-Exchange-CrossTenant-AuthSource: MWHPR12MB1248.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2021 04:31:35.2307 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2021 04:33:35.0946 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mY77NEfYawNyutd6RV+RKsU+wUjQL08K3NWmu0HHcj9WLTL5+fyxFFy+6vylt4PrIRRi53FKMUIk9Y7qqUi8hg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: MWd32wLgxvBFend+Fwf0i/Q/eWT+F3xi8jiNoJGh5zkIhBJli/W/fMZlKT2idMvh6tsR0xkhxzGcph8ejeqjOg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2521
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -123,293 +123,538 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 18, 2021 at 08:47:18PM +0800, Christian K=F6nig wrote:
-> Instead evict round robin from each devices SYSTEM and TT domain.
-> =
-
-> v2: reorder num_pages access reported by Dan's script
-> v3: fix rebase fallout, num_pages should be 32bit
+On Thu, Mar 18, 2021 at 08:47:19PM +0800, Christian K=F6nig wrote:
+> Instead of having a global lock.
 > =
 
 > Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-
-Reviewed-by: Huang Rui <ray.huang@amd.com>
-
 > ---
->  drivers/gpu/drm/ttm/ttm_bo.c        | 29 --------------
->  drivers/gpu/drm/ttm/ttm_bo_util.c   |  1 -
->  drivers/gpu/drm/ttm/ttm_device.c    | 60 +++++++++++++++++++++--------
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c |  2 +-
->  include/drm/ttm/ttm_bo_api.h        |  1 -
->  include/drm/ttm/ttm_bo_driver.h     |  1 -
->  include/drm/ttm/ttm_device.h        |  7 +---
->  7 files changed, 48 insertions(+), 53 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c |  8 ++---
+>  drivers/gpu/drm/qxl/qxl_release.c      |  5 +--
+>  drivers/gpu/drm/ttm/ttm_bo.c           | 49 ++++++++++++--------------
+>  drivers/gpu/drm/ttm/ttm_device.c       | 12 +++----
+>  drivers/gpu/drm/ttm/ttm_execbuf_util.c |  8 ++---
+>  drivers/gpu/drm/ttm/ttm_resource.c     |  9 +++--
+>  include/drm/ttm/ttm_bo_driver.h        |  4 +--
+>  include/drm/ttm/ttm_device.h           |  4 +--
+>  8 files changed, 43 insertions(+), 56 deletions(-)
 > =
 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd=
+/amdgpu/amdgpu_vm.c
+> index 9d19078246c8..ae18c0e32347 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> @@ -638,15 +638,15 @@ void amdgpu_vm_move_to_lru_tail(struct amdgpu_devic=
+e *adev,
+>  	struct amdgpu_vm_bo_base *bo_base;
+>  =
+
+>  	if (vm->bulk_moveable) {
+> -		spin_lock(&ttm_glob.lru_lock);
+> +		spin_lock(&adev->mman.bdev.lru_lock);
+
+Could you please explain why do you want to instead of the global lock?
+
+Thanks,
+Ray
+
+>  		ttm_bo_bulk_move_lru_tail(&vm->lru_bulk_move);
+> -		spin_unlock(&ttm_glob.lru_lock);
+> +		spin_unlock(&adev->mman.bdev.lru_lock);
+>  		return;
+>  	}
+>  =
+
+>  	memset(&vm->lru_bulk_move, 0, sizeof(vm->lru_bulk_move));
+>  =
+
+> -	spin_lock(&ttm_glob.lru_lock);
+> +	spin_lock(&adev->mman.bdev.lru_lock);
+>  	list_for_each_entry(bo_base, &vm->idle, vm_status) {
+>  		struct amdgpu_bo *bo =3D bo_base->bo;
+>  =
+
+> @@ -660,7 +660,7 @@ void amdgpu_vm_move_to_lru_tail(struct amdgpu_device =
+*adev,
+>  						&bo->shadow->tbo.mem,
+>  						&vm->lru_bulk_move);
+>  	}
+> -	spin_unlock(&ttm_glob.lru_lock);
+> +	spin_unlock(&adev->mman.bdev.lru_lock);
+>  =
+
+>  	vm->bulk_moveable =3D true;
+>  }
+> diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_=
+release.c
+> index f5845c96d414..b19f2f00b215 100644
+> --- a/drivers/gpu/drm/qxl/qxl_release.c
+> +++ b/drivers/gpu/drm/qxl/qxl_release.c
+> @@ -426,16 +426,13 @@ void qxl_release_fence_buffer_objects(struct qxl_re=
+lease *release)
+>  		       release->id | 0xf0000000, release->base.seqno);
+>  	trace_dma_fence_emit(&release->base);
+>  =
+
+> -	spin_lock(&ttm_glob.lru_lock);
+> -
+>  	list_for_each_entry(entry, &release->bos, head) {
+>  		bo =3D entry->bo;
+>  =
+
+>  		dma_resv_add_shared_fence(bo->base.resv, &release->base);
+> -		ttm_bo_move_to_lru_tail(bo, &bo->mem, NULL);
+> +		ttm_bo_move_to_lru_tail_unlocked(bo);
+>  		dma_resv_unlock(bo->base.resv);
+>  	}
+> -	spin_unlock(&ttm_glob.lru_lock);
+>  	ww_acquire_fini(&release->ticket);
+>  }
+>  =
+
 > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index 66e00b404ec3..3673157527ff 100644
+> index 3673157527ff..2d2ac532987e 100644
 > --- a/drivers/gpu/drm/ttm/ttm_bo.c
 > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -73,7 +73,6 @@ static void ttm_bo_del_from_lru(struct ttm_buffer_objec=
-t *bo)
->  {
->  	struct ttm_device *bdev =3D bo->bdev;
+> @@ -243,9 +243,9 @@ static int ttm_bo_individualize_resv(struct ttm_buffe=
+r_object *bo)
+>  		 * reference it any more. The only tricky case is the trylock on
+>  		 * the resv object while holding the lru_lock.
+>  		 */
+> -		spin_lock(&ttm_glob.lru_lock);
+> +		spin_lock(&bo->bdev->lru_lock);
+>  		bo->base.resv =3D &bo->base._resv;
+> -		spin_unlock(&ttm_glob.lru_lock);
+> +		spin_unlock(&bo->bdev->lru_lock);
+>  	}
 >  =
 
-> -	list_del_init(&bo->swap);
->  	list_del_init(&bo->lru);
+>  	return r;
+> @@ -304,7 +304,7 @@ static int ttm_bo_cleanup_refs(struct ttm_buffer_obje=
+ct *bo,
 >  =
 
->  	if (bdev->funcs->del_from_lru_notify)
-> @@ -105,16 +104,6 @@ void ttm_bo_move_to_lru_tail(struct ttm_buffer_objec=
-t *bo,
+>  		if (unlock_resv)
+>  			dma_resv_unlock(bo->base.resv);
+> -		spin_unlock(&ttm_glob.lru_lock);
+> +		spin_unlock(&bo->bdev->lru_lock);
 >  =
 
->  	man =3D ttm_manager_type(bdev, mem->mem_type);
->  	list_move_tail(&bo->lru, &man->lru[bo->priority]);
-> -	if (man->use_tt && bo->ttm &&
-> -	    !(bo->ttm->page_flags & (TTM_PAGE_FLAG_SG |
-> -				     TTM_PAGE_FLAG_SWAPPED))) {
-> -		struct list_head *swap;
-> -
-> -		swap =3D &ttm_glob.swap_lru[bo->priority];
-> -		list_move_tail(&bo->swap, swap);
-> -	} else {
-> -		list_del_init(&bo->swap);
-> -	}
+>  		lret =3D dma_resv_wait_timeout_rcu(resv, true, interruptible,
+>  						 30 * HZ);
+> @@ -314,7 +314,7 @@ static int ttm_bo_cleanup_refs(struct ttm_buffer_obje=
+ct *bo,
+>  		else if (lret =3D=3D 0)
+>  			return -EBUSY;
 >  =
 
->  	if (bdev->funcs->del_from_lru_notify)
->  		bdev->funcs->del_from_lru_notify(bo);
-> @@ -129,9 +118,6 @@ void ttm_bo_move_to_lru_tail(struct ttm_buffer_object=
- *bo,
->  			ttm_bo_bulk_move_set_pos(&bulk->vram[bo->priority], bo);
->  			break;
+> -		spin_lock(&ttm_glob.lru_lock);
+> +		spin_lock(&bo->bdev->lru_lock);
+>  		if (unlock_resv && !dma_resv_trylock(bo->base.resv)) {
+>  			/*
+>  			 * We raced, and lost, someone else holds the reservation now,
+> @@ -324,7 +324,7 @@ static int ttm_bo_cleanup_refs(struct ttm_buffer_obje=
+ct *bo,
+>  			 * delayed destruction would succeed, so just return success
+>  			 * here.
+>  			 */
+> -			spin_unlock(&ttm_glob.lru_lock);
+> +			spin_unlock(&bo->bdev->lru_lock);
+>  			return 0;
 >  		}
-> -		if (bo->ttm && !(bo->ttm->page_flags &
-> -				 (TTM_PAGE_FLAG_SG | TTM_PAGE_FLAG_SWAPPED)))
-> -			ttm_bo_bulk_move_set_pos(&bulk->swap[bo->priority], bo);
->  	}
->  }
->  EXPORT_SYMBOL(ttm_bo_move_to_lru_tail);
-> @@ -169,20 +155,6 @@ void ttm_bo_bulk_move_lru_tail(struct ttm_lru_bulk_m=
-ove *bulk)
->  		list_bulk_move_tail(&man->lru[i], &pos->first->lru,
->  				    &pos->last->lru);
->  	}
-> -
-> -	for (i =3D 0; i < TTM_MAX_BO_PRIORITY; ++i) {
-> -		struct ttm_lru_bulk_move_pos *pos =3D &bulk->swap[i];
-> -		struct list_head *lru;
-> -
-> -		if (!pos->first)
-> -			continue;
-> -
-> -		dma_resv_assert_held(pos->first->base.resv);
-> -		dma_resv_assert_held(pos->last->base.resv);
-> -
-> -		lru =3D &ttm_glob.swap_lru[i];
-> -		list_bulk_move_tail(lru, &pos->first->swap, &pos->last->swap);
-> -	}
->  }
->  EXPORT_SYMBOL(ttm_bo_bulk_move_lru_tail);
->  =
-
-> @@ -1065,7 +1037,6 @@ int ttm_bo_init_reserved(struct ttm_device *bdev,
->  	kref_init(&bo->kref);
->  	INIT_LIST_HEAD(&bo->lru);
->  	INIT_LIST_HEAD(&bo->ddestroy);
-> -	INIT_LIST_HEAD(&bo->swap);
->  	bo->bdev =3D bdev;
->  	bo->type =3D type;
->  	bo->mem.mem_type =3D TTM_PL_SYSTEM;
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_=
-bo_util.c
-> index 031e5819fec4..a2a17c84ceb3 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> @@ -303,7 +303,6 @@ static int ttm_buffer_object_transfer(struct ttm_buff=
-er_object *bo,
->  	atomic_inc(&ttm_glob.bo_count);
->  	INIT_LIST_HEAD(&fbo->base.ddestroy);
->  	INIT_LIST_HEAD(&fbo->base.lru);
-> -	INIT_LIST_HEAD(&fbo->base.swap);
->  	fbo->base.moving =3D NULL;
->  	drm_vma_node_reset(&fbo->base.base.vma_node);
->  =
-
-> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_d=
-evice.c
-> index b1424189fdfb..2096a0fd9c35 100644
-> --- a/drivers/gpu/drm/ttm/ttm_device.c
-> +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> @@ -67,7 +67,6 @@ static int ttm_global_init(void)
->  	unsigned long num_pages;
->  	struct sysinfo si;
->  	int ret =3D 0;
-> -	unsigned i;
->  =
-
->  	mutex_lock(&ttm_global_mutex);
->  	if (++ttm_glob_use_count > 1)
-> @@ -90,8 +89,6 @@ static int ttm_global_init(void)
->  		goto out;
+>  		ret =3D 0;
+> @@ -333,13 +333,13 @@ static int ttm_bo_cleanup_refs(struct ttm_buffer_ob=
+ject *bo,
+>  	if (ret || unlikely(list_empty(&bo->ddestroy))) {
+>  		if (unlock_resv)
+>  			dma_resv_unlock(bo->base.resv);
+> -		spin_unlock(&ttm_glob.lru_lock);
+> +		spin_unlock(&bo->bdev->lru_lock);
+>  		return ret;
 >  	}
 >  =
 
-> -	for (i =3D 0; i < TTM_MAX_BO_PRIORITY; ++i)
-> -		INIT_LIST_HEAD(&glob->swap_lru[i]);
->  	INIT_LIST_HEAD(&glob->device_list);
->  	atomic_set(&glob->bo_count, 0);
+>  	ttm_bo_del_from_lru(bo);
+>  	list_del_init(&bo->ddestroy);
+> -	spin_unlock(&ttm_glob.lru_lock);
+> +	spin_unlock(&bo->bdev->lru_lock);
+>  	ttm_bo_cleanup_memtype_use(bo);
 >  =
 
-> @@ -109,27 +106,60 @@ static int ttm_global_init(void)
->  int ttm_global_swapout(struct ttm_operation_ctx *ctx, gfp_t gfp_flags)
+>  	if (unlock_resv)
+> @@ -356,13 +356,12 @@ static int ttm_bo_cleanup_refs(struct ttm_buffer_ob=
+ject *bo,
+>   */
+>  bool ttm_bo_delayed_delete(struct ttm_device *bdev, bool remove_all)
 >  {
->  	struct ttm_global *glob =3D &ttm_glob;
-> +	struct ttm_device *bdev;
-> +	int ret =3D -EBUSY;
-> +
-> +	mutex_lock(&ttm_global_mutex);
-> +	list_for_each_entry(bdev, &glob->device_list, device_list) {
-> +		ret =3D ttm_device_swapout(bdev, ctx, gfp_flags);
-> +		if (ret > 0) {
-> +			list_move_tail(&bdev->device_list, &glob->device_list);
-> +			break;
-> +		}
-> +	}
-> +	mutex_unlock(&ttm_global_mutex);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(ttm_global_swapout);
-> +
-> +long ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ct=
-x *ctx,
-> +			gfp_t gfp_flags)
-> +{
-> +	struct ttm_global *glob =3D &ttm_glob;
-> +	struct ttm_resource_manager *man;
->  	struct ttm_buffer_object *bo;
-> -	unsigned i;
-> +	unsigned i, j;
+> -	struct ttm_global *glob =3D &ttm_glob;
+>  	struct list_head removed;
+>  	bool empty;
+>  =
+
+>  	INIT_LIST_HEAD(&removed);
+>  =
+
+> -	spin_lock(&glob->lru_lock);
+> +	spin_lock(&bdev->lru_lock);
+>  	while (!list_empty(&bdev->ddestroy)) {
+>  		struct ttm_buffer_object *bo;
+>  =
+
+> @@ -373,24 +372,24 @@ bool ttm_bo_delayed_delete(struct ttm_device *bdev,=
+ bool remove_all)
+>  			continue;
+>  =
+
+>  		if (remove_all || bo->base.resv !=3D &bo->base._resv) {
+> -			spin_unlock(&glob->lru_lock);
+> +			spin_unlock(&bdev->lru_lock);
+>  			dma_resv_lock(bo->base.resv, NULL);
+>  =
+
+> -			spin_lock(&glob->lru_lock);
+> +			spin_lock(&bdev->lru_lock);
+>  			ttm_bo_cleanup_refs(bo, false, !remove_all, true);
+>  =
+
+>  		} else if (dma_resv_trylock(bo->base.resv)) {
+>  			ttm_bo_cleanup_refs(bo, false, !remove_all, true);
+>  		} else {
+> -			spin_unlock(&glob->lru_lock);
+> +			spin_unlock(&bdev->lru_lock);
+>  		}
+>  =
+
+>  		ttm_bo_put(bo);
+> -		spin_lock(&glob->lru_lock);
+> +		spin_lock(&bdev->lru_lock);
+>  	}
+>  	list_splice_tail(&removed, &bdev->ddestroy);
+>  	empty =3D list_empty(&bdev->ddestroy);
+> -	spin_unlock(&glob->lru_lock);
+> +	spin_unlock(&bdev->lru_lock);
+>  =
+
+>  	return empty;
+>  }
+> @@ -425,7 +424,7 @@ static void ttm_bo_release(struct kref *kref)
+>  		ttm_bo_flush_all_fences(bo);
+>  		bo->deleted =3D true;
+>  =
+
+> -		spin_lock(&ttm_glob.lru_lock);
+> +		spin_lock(&bo->bdev->lru_lock);
+>  =
+
+>  		/*
+>  		 * Make pinned bos immediately available to
+> @@ -442,17 +441,17 @@ static void ttm_bo_release(struct kref *kref)
+>  =
+
+>  		kref_init(&bo->kref);
+>  		list_add_tail(&bo->ddestroy, &bdev->ddestroy);
+> -		spin_unlock(&ttm_glob.lru_lock);
+> +		spin_unlock(&bo->bdev->lru_lock);
+>  =
+
+>  		schedule_delayed_work(&bdev->wq,
+>  				      ((HZ / 100) < 1) ? 1 : HZ / 100);
+>  		return;
+>  	}
+>  =
+
+> -	spin_lock(&ttm_glob.lru_lock);
+> +	spin_lock(&bo->bdev->lru_lock);
+>  	ttm_bo_del_from_lru(bo);
+>  	list_del(&bo->ddestroy);
+> -	spin_unlock(&ttm_glob.lru_lock);
+> +	spin_unlock(&bo->bdev->lru_lock);
+>  =
+
+>  	ttm_bo_cleanup_memtype_use(bo);
+>  	dma_resv_unlock(bo->base.resv);
+> @@ -626,7 +625,7 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
+>  	unsigned i;
 >  	int ret;
 >  =
 
->  	spin_lock(&glob->lru_lock);
-> -	for (i =3D 0; i < TTM_MAX_BO_PRIORITY; ++i) {
-> -		list_for_each_entry(bo, &glob->swap_lru[i], swap) {
-> -			uint32_t num_pages =3D bo->ttm->num_pages;
-> -
-> -			ret =3D ttm_bo_swapout(bo, ctx, gfp_flags);
-> -			/* ttm_bo_swapout has dropped the lru_lock */
-> -			if (!ret)
-> -				return num_pages;
-> -			if (ret !=3D -EBUSY)
-> -				return ret;
-> +	for (i =3D TTM_PL_SYSTEM; i < TTM_NUM_MEM_TYPES; ++i) {
-> +		man =3D ttm_manager_type(bdev, i);
-> +		if (!man || !man->use_tt)
-> +			continue;
-> +
-> +		for (j =3D 0; j < TTM_MAX_BO_PRIORITY; ++j) {
-> +			list_for_each_entry(bo, &man->lru[j], lru) {
-> +				uint32_t num_pages;
-> +
-> +				if (!bo->ttm ||
-> +				    bo->ttm->page_flags & TTM_PAGE_FLAG_SG ||
-> +				    bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)
-> +					continue;
-> +
-> +				num_pages =3D bo->ttm->num_pages;
-> +				ret =3D ttm_bo_swapout(bo, ctx, gfp_flags);
-> +				/* ttm_bo_swapout has dropped the lru_lock */
-> +				if (!ret)
-> +					return num_pages;
-> +				if (ret !=3D -EBUSY)
-> +					return ret;
-> +			}
->  		}
+> -	spin_lock(&ttm_glob.lru_lock);
+> +	spin_lock(&bo->bdev->lru_lock);
+>  	for (i =3D 0; i < TTM_MAX_BO_PRIORITY; ++i) {
+>  		list_for_each_entry(bo, &man->lru[i], lru) {
+>  			bool busy;
+> @@ -663,7 +662,7 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
+>  	if (!bo) {
+>  		if (busy_bo && !ttm_bo_get_unless_zero(busy_bo))
+>  			busy_bo =3D NULL;
+> -		spin_unlock(&ttm_glob.lru_lock);
+> +		spin_unlock(&bo->bdev->lru_lock);
+>  		ret =3D ttm_mem_evict_wait_busy(busy_bo, ctx, ticket);
+>  		if (busy_bo)
+>  			ttm_bo_put(busy_bo);
+> @@ -677,7 +676,7 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
+>  		return ret;
 >  	}
->  	spin_unlock(&glob->lru_lock);
+>  =
+
+> -	spin_unlock(&ttm_glob.lru_lock);
+> +	spin_unlock(&bo->bdev->lru_lock);
+>  =
+
+>  	ret =3D ttm_bo_evict(bo, ctx);
+>  	if (locked)
+> @@ -777,10 +776,9 @@ static int ttm_bo_mem_placement(struct ttm_buffer_ob=
+ject *bo,
+>  	mem->mem_type =3D place->mem_type;
+>  	mem->placement =3D place->flags;
+>  =
+
+> -	spin_lock(&ttm_glob.lru_lock);
+> +	spin_lock(&bo->bdev->lru_lock);
+>  	ttm_bo_move_to_lru_tail(bo, mem, NULL);
+> -	spin_unlock(&ttm_glob.lru_lock);
+> -
+> +	spin_unlock(&bo->bdev->lru_lock);
 >  	return 0;
 >  }
-> -EXPORT_SYMBOL(ttm_global_swapout);
-> +EXPORT_SYMBOL(ttm_device_swapout);
 >  =
 
->  static void ttm_init_sysman(struct ttm_device *bdev)
+> @@ -1167,7 +1165,6 @@ EXPORT_SYMBOL(ttm_bo_wait);
+>  int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ct=
+x *ctx,
+>  		   gfp_t gfp_flags)
 >  {
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx=
-/vmwgfx_drv.c
-> index b991422e156c..4e41d8221f06 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -1371,7 +1371,7 @@ static int vmw_pm_freeze(struct device *kdev)
->  	vmw_execbuf_release_pinned_bo(dev_priv);
->  	vmw_resource_evict_all(dev_priv);
->  	vmw_release_device_early(dev_priv);
-> -	while (ttm_global_swapout(&ctx, GFP_KERNEL) > 0);
-> +	while (ttm_device_swapout(&dev_priv->bdev, &ctx, GFP_KERNEL) > 0);
->  	if (dev_priv->enable_fb)
->  		vmw_fifo_resource_dec(dev_priv);
->  	if (atomic_read(&dev_priv->num_fifo_resources) !=3D 0) {
-> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-> index 5044ac330858..3587f660e8f4 100644
-> --- a/include/drm/ttm/ttm_bo_api.h
-> +++ b/include/drm/ttm/ttm_bo_api.h
-> @@ -144,7 +144,6 @@ struct ttm_buffer_object {
+> -	struct ttm_global *glob =3D &ttm_glob;
+>  	bool locked;
+>  	int ret;
 >  =
 
->  	struct list_head lru;
->  	struct list_head ddestroy;
-> -	struct list_head swap;
+> @@ -1188,7 +1185,7 @@ int ttm_bo_swapout(struct ttm_buffer_object *bo, st=
+ruct ttm_operation_ctx *ctx,
 >  =
 
->  	/**
->  	 * Members protected by a bo reservation.
+>  	ttm_bo_del_from_lru(bo);
+>  	/* TODO: Cleanup the locking */
+> -	spin_unlock(&glob->lru_lock);
+> +	spin_unlock(&bo->bdev->lru_lock);
+>  =
+
+>  	/*
+>  	 * Move to system cached
+> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_d=
+evice.c
+> index 2096a0fd9c35..85f6975d9872 100644
+> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> @@ -81,7 +81,6 @@ static int ttm_global_init(void)
+>  	ttm_pool_mgr_init(num_pages * 50 / 100);
+>  	ttm_tt_mgr_init();
+>  =
+
+> -	spin_lock_init(&glob->lru_lock);
+>  	glob->dummy_read_page =3D alloc_page(__GFP_ZERO | GFP_DMA32);
+>  =
+
+>  	if (unlikely(glob->dummy_read_page =3D=3D NULL)) {
+> @@ -125,13 +124,12 @@ EXPORT_SYMBOL(ttm_global_swapout);
+>  long ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ct=
+x *ctx,
+>  			gfp_t gfp_flags)
+>  {
+> -	struct ttm_global *glob =3D &ttm_glob;
+>  	struct ttm_resource_manager *man;
+>  	struct ttm_buffer_object *bo;
+>  	unsigned i, j;
+>  	int ret;
+>  =
+
+> -	spin_lock(&glob->lru_lock);
+> +	spin_lock(&bdev->lru_lock);
+>  	for (i =3D TTM_PL_SYSTEM; i < TTM_NUM_MEM_TYPES; ++i) {
+>  		man =3D ttm_manager_type(bdev, i);
+>  		if (!man || !man->use_tt)
+> @@ -156,7 +154,7 @@ long ttm_device_swapout(struct ttm_device *bdev, stru=
+ct ttm_operation_ctx *ctx,
+>  			}
+>  		}
+>  	}
+> -	spin_unlock(&glob->lru_lock);
+> +	spin_unlock(&bdev->lru_lock);
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL(ttm_device_swapout);
+> @@ -223,6 +221,7 @@ int ttm_device_init(struct ttm_device *bdev, struct t=
+tm_device_funcs *funcs,
+>  =
+
+>  	bdev->vma_manager =3D vma_manager;
+>  	INIT_DELAYED_WORK(&bdev->wq, ttm_device_delayed_workqueue);
+> +	spin_lock_init(&bdev->lru_lock);
+>  	INIT_LIST_HEAD(&bdev->ddestroy);
+>  	bdev->dev_mapping =3D mapping;
+>  	mutex_lock(&ttm_global_mutex);
+> @@ -235,7 +234,6 @@ EXPORT_SYMBOL(ttm_device_init);
+>  =
+
+>  void ttm_device_fini(struct ttm_device *bdev)
+>  {
+> -	struct ttm_global *glob =3D &ttm_glob;
+>  	struct ttm_resource_manager *man;
+>  	unsigned i;
+>  =
+
+> @@ -252,11 +250,11 @@ void ttm_device_fini(struct ttm_device *bdev)
+>  	if (ttm_bo_delayed_delete(bdev, true))
+>  		pr_debug("Delayed destroy list was clean\n");
+>  =
+
+> -	spin_lock(&glob->lru_lock);
+> +	spin_lock(&bdev->lru_lock);
+>  	for (i =3D 0; i < TTM_MAX_BO_PRIORITY; ++i)
+>  		if (list_empty(&man->lru[0]))
+>  			pr_debug("Swap list %d was clean\n", i);
+> -	spin_unlock(&glob->lru_lock);
+> +	spin_unlock(&bdev->lru_lock);
+>  =
+
+>  	ttm_pool_fini(&bdev->pool);
+>  	ttm_global_release();
+> diff --git a/drivers/gpu/drm/ttm/ttm_execbuf_util.c b/drivers/gpu/drm/ttm=
+/ttm_execbuf_util.c
+> index 690ab97d52b7..071c48d672c6 100644
+> --- a/drivers/gpu/drm/ttm/ttm_execbuf_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_execbuf_util.c
+> @@ -51,14 +51,12 @@ void ttm_eu_backoff_reservation(struct ww_acquire_ctx=
+ *ticket,
+>  	if (list_empty(list))
+>  		return;
+>  =
+
+> -	spin_lock(&ttm_glob.lru_lock);
+>  	list_for_each_entry(entry, list, head) {
+>  		struct ttm_buffer_object *bo =3D entry->bo;
+>  =
+
+> -		ttm_bo_move_to_lru_tail(bo, &bo->mem, NULL);
+> +		ttm_bo_move_to_lru_tail_unlocked(bo);
+>  		dma_resv_unlock(bo->base.resv);
+>  	}
+> -	spin_unlock(&ttm_glob.lru_lock);
+>  =
+
+>  	if (ticket)
+>  		ww_acquire_fini(ticket);
+> @@ -154,7 +152,6 @@ void ttm_eu_fence_buffer_objects(struct ww_acquire_ct=
+x *ticket,
+>  	if (list_empty(list))
+>  		return;
+>  =
+
+> -	spin_lock(&ttm_glob.lru_lock);
+>  	list_for_each_entry(entry, list, head) {
+>  		struct ttm_buffer_object *bo =3D entry->bo;
+>  =
+
+> @@ -162,10 +159,9 @@ void ttm_eu_fence_buffer_objects(struct ww_acquire_c=
+tx *ticket,
+>  			dma_resv_add_shared_fence(bo->base.resv, fence);
+>  		else
+>  			dma_resv_add_excl_fence(bo->base.resv, fence);
+> -		ttm_bo_move_to_lru_tail(bo, &bo->mem, NULL);
+> +		ttm_bo_move_to_lru_tail_unlocked(bo);
+>  		dma_resv_unlock(bo->base.resv);
+>  	}
+> -	spin_unlock(&ttm_glob.lru_lock);
+>  	if (ticket)
+>  		ww_acquire_fini(ticket);
+>  }
+> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm=
+_resource.c
+> index ed1672a9f332..04f2eef653ab 100644
+> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> @@ -91,7 +91,6 @@ int ttm_resource_manager_evict_all(struct ttm_device *b=
+dev,
+>  		.no_wait_gpu =3D false,
+>  		.force_alloc =3D true
+>  	};
+> -	struct ttm_global *glob =3D &ttm_glob;
+>  	struct dma_fence *fence;
+>  	int ret;
+>  	unsigned i;
+> @@ -100,18 +99,18 @@ int ttm_resource_manager_evict_all(struct ttm_device=
+ *bdev,
+>  	 * Can't use standard list traversal since we're unlocking.
+>  	 */
+>  =
+
+> -	spin_lock(&glob->lru_lock);
+> +	spin_lock(&bdev->lru_lock);
+>  	for (i =3D 0; i < TTM_MAX_BO_PRIORITY; ++i) {
+>  		while (!list_empty(&man->lru[i])) {
+> -			spin_unlock(&glob->lru_lock);
+> +			spin_unlock(&bdev->lru_lock);
+>  			ret =3D ttm_mem_evict_first(bdev, man, NULL, &ctx,
+>  						  NULL);
+>  			if (ret)
+>  				return ret;
+> -			spin_lock(&glob->lru_lock);
+> +			spin_lock(&bdev->lru_lock);
+>  		}
+>  	}
+> -	spin_unlock(&glob->lru_lock);
+> +	spin_unlock(&bdev->lru_lock);
+>  =
+
+>  	spin_lock(&man->move_lock);
+>  	fence =3D dma_fence_get(man->move);
 > diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_dri=
 ver.h
-> index 8959c0075cfd..d007feef7676 100644
+> index d007feef7676..dbccac957f8f 100644
 > --- a/include/drm/ttm/ttm_bo_driver.h
 > +++ b/include/drm/ttm/ttm_bo_driver.h
-> @@ -69,7 +69,6 @@ struct ttm_lru_bulk_move_pos {
->  struct ttm_lru_bulk_move {
->  	struct ttm_lru_bulk_move_pos tt[TTM_MAX_BO_PRIORITY];
->  	struct ttm_lru_bulk_move_pos vram[TTM_MAX_BO_PRIORITY];
-> -	struct ttm_lru_bulk_move_pos swap[TTM_MAX_BO_PRIORITY];
->  };
+> @@ -180,9 +180,9 @@ static inline int ttm_bo_reserve_slowpath(struct ttm_=
+buffer_object *bo,
+>  static inline void
+>  ttm_bo_move_to_lru_tail_unlocked(struct ttm_buffer_object *bo)
+>  {
+> -	spin_lock(&ttm_glob.lru_lock);
+> +	spin_lock(&bo->bdev->lru_lock);
+>  	ttm_bo_move_to_lru_tail(bo, &bo->mem, NULL);
+> -	spin_unlock(&ttm_glob.lru_lock);
+> +	spin_unlock(&bo->bdev->lru_lock);
+>  }
 >  =
 
->  /*
+>  static inline void ttm_bo_assign_mem(struct ttm_buffer_object *bo,
 > diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
-> index 6a0b267d4fe6..cda6efb4c34b 100644
+> index cda6efb4c34b..bae56d29e8ff 100644
 > --- a/include/drm/ttm/ttm_device.h
 > +++ b/include/drm/ttm/ttm_device.h
-> @@ -63,11 +63,6 @@ extern struct ttm_global {
+> @@ -56,7 +56,6 @@ extern struct ttm_global {
 >  	 */
->  	struct list_head device_list;
 >  =
 
-> -	/**
-> -	 * Protected by the lru_lock.
-> -	 */
-> -	struct list_head swap_lru[TTM_MAX_BO_PRIORITY];
-> -
+>  	struct page *dummy_read_page;
+> -	spinlock_t lru_lock;
+>  =
+
 >  	/**
->  	 * Internal protection.
+>  	 * Protected by ttm_global_mutex.
+> @@ -277,8 +276,9 @@ struct ttm_device {
+>  	struct ttm_pool pool;
+>  =
+
+>  	/*
+> -	 * Protected by the global:lru lock.
+> +	 * Protection for the per manager LRU and ddestroy lists.
 >  	 */
-> @@ -298,6 +293,8 @@ struct ttm_device {
->  };
+> +	spinlock_t lru_lock;
+>  	struct list_head ddestroy;
 >  =
 
->  long ttm_global_swapout(struct ttm_operation_ctx *ctx, gfp_t gfp_flags);
-> +long ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ct=
-x *ctx,
-> +		       gfp_t gfp_flags);
->  =
-
->  static inline struct ttm_resource_manager *
->  ttm_manager_type(struct ttm_device *bdev, int mem_type)
+>  	/*
 > -- =
 
 > 2.25.1
