@@ -1,57 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3703420A4
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 16:13:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B315C3420F5
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 16:29:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51F7E6EA42;
-	Fri, 19 Mar 2021 15:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A01D26EA45;
+	Fri, 19 Mar 2021 15:29:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D1D96EA2C;
- Fri, 19 Mar 2021 15:13:34 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id x28so10531688lfu.6;
- Fri, 19 Mar 2021 08:13:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ayTZjFxRhnC8VGTqHsHaHigGOs8/jskQ5TUarpfnr58=;
- b=HqB+ZHZwCbGOtObgPGMI3s8QN70KKaFwnotbPiKFqdwgugyXo8Odhnnc6qKk9kChbD
- w9lXWIo7ASUpeobdz+HDIJ2PdFmYAVCG8VFrlJGq3X012qiXzu+acWEI4sqLDBtHpyrm
- CbjymU9vs8WGSkfLB+1PKXdcE0HeJaR0dWz3tQavRNyZuxrcBH0H+2CoR9wxA7zQV7cH
- qraZKRBjeSgPwBF+DGvh2DLbNMVIkd7dpqAVXvw+ugLo1ga44CrpYOCl0+E1dMsDluH5
- pZS4r+mJBDmGQgdSxeK2b1axCfOc+EH1+7f7ynyVoPmcMaVljiS2F2xJHwxB5AsYJE5X
- Jv8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ayTZjFxRhnC8VGTqHsHaHigGOs8/jskQ5TUarpfnr58=;
- b=hhmlE44MrRNJqCQ1ITXBgwi2XhDDyA8kOLjPOqWF4PRZZ5yACCuy1QOh3snYsp294o
- s1F9WyPbFu6ZRWuYDJH1H8JIy/7V8V7aeu7EwDL/fbkP7ptqw6quYZ6Z2M6Mzs4Bsa2o
- 6lF+UeVpxTufmM+nSdu70bZLjrnniehlYW5jTsJZOyEbfxfYwmpLEJx7N7FzL2jemcCH
- 4afFd4QQxGAeXYH9pvK1Ri3j6eKI+YSWidolsHGrwS4WnJOB+6ymyiAP7tyovDqVuHle
- 7ThqITCXlFSmldOnplfEdL9N/nHsU5upO4wa1SzyZW1Zr5pBZhxouDHctwqtuQ7/rYnD
- EwsA==
-X-Gm-Message-State: AOAM530fek0bjaCGpXYJ5b6XWpj2mz4Jz1ZK1FaLYLtlvblm0Z8kYOmn
- KwABiDmuHNrYFpWMVYAo3J2xV9P/IOpZAu/ndu8=
-X-Google-Smtp-Source: ABdhPJwNGBC6FdrWz1YtnwSBdmcRHIEvYv1CuN2qrAxfSf7ep3pfkDcpcXIc+9Bu7hMtEsRrnZxSCYGTFWHSGzy0nL8=
-X-Received: by 2002:a05:6512:1031:: with SMTP id
- r17mr1058146lfr.583.1616166812521; 
- Fri, 19 Mar 2021 08:13:32 -0700 (PDT)
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A83B6EA45
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 15:29:29 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 2AA89580EEC;
+ Fri, 19 Mar 2021 11:29:26 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Fri, 19 Mar 2021 11:29:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm2; bh=2cNzd7YoIDhfwDHpW/c7bvKkcP
+ BXtKeoOZey4iUpgOc=; b=unszStEGqYwJb0kOWnvChjr5fiHAzWD9LHgWEUPouf
+ HDZZWpRVM36PU6Et6pWdNa5DLMLNGV3ymgYVyu+X9hoeAgaIzDju7EUA+WXHJuAp
+ tRldwEswZq/+IpLo5iXX3yBH9VDXQS6DZgYOQvRGS3c2cIVnKwQ5xFS1wzd2QWRY
+ tiP2cKwJYLcrsC2Fv467X3Ze1ckWK0TscIr1/KJsDOPZSp2gMvynLN0atXyADZxM
+ 7BwkrlDCi+TiyJXv23ICgJAsgE3slBjXWGYHKWirWsDoPXF8l9IQbYK2cGiAYIND
+ xZA1quQQ4mpOENBHpiyyXmE/TAHX9uAjOdcCD2E5S3Sw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=2cNzd7YoIDhfwDHpW
+ /c7bvKkcPBXtKeoOZey4iUpgOc=; b=R4pEoOEKhclUi1szkvr//3tRAFNM//7/J
+ DV3Uea7NP8VGpcd8TtVJZ7XomC3jEqOnxZwsUjL6ovvws6xGt216JurYlD5LAvVc
+ lBEPEEwlBoE8TV1gjk5l2+u0kT6Lqp5mc5Y2rljMSyT5oUa9UrSFZ5GTbcj59/KD
+ B6YKnA99VoCjLTxpeL48z6aSzvPf8HRZxdrdRB+XW4V31M7MHrJJ5a3p+IVVHLmF
+ s5n8MAf3X2pP1kyxkSvWldp8AQIhS9yLRDzySPMSPM0RGxkrcC3Hl24k6URov6k6
+ 2qKAsaLYpMKPBZEQwqrSjLqileWyhwmu4KryqejaWDIHVmlRtyajg==
+X-ME-Sender: <xms:UsNUYLpkYcrjPA8UOwliuidVbIxOVI2zGSNifWU5oGFo4bFSr71Kjg>
+ <xme:UsNUYFobZRslWP_ZnbaXHwIS9saTfQvJlEee5eIRGuHNR6pycPbfirp7D6iQxYy6M
+ s4RSA2xiO3e_Aq3wGY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefkedgjeejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepjeffheduvddvvdelhfegleelfffgieejvdehgfeijedtieeuteejteefueekjeeg
+ necukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+ hrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:UsNUYIPZ97pMwBwD6qO-zzwjyaCo_HFU2F6PcwEmzM5YOkTxZInf5w>
+ <xmx:UsNUYO66mqzTBvoH3lo6rMSSOq-V9l3qNhX45g-gywdkQAxybn5xZQ>
+ <xmx:UsNUYK4vf3VhThFikPblVjNl5RRcYQdhKBawnCeKav2wH5u_MJYrww>
+ <xmx:VsNUYCh6jKLUzbdddc-53UcCBXNDF938UH65urMM6kwlvJ6oVb_owA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id A9C4F24005B;
+ Fri, 19 Mar 2021 11:29:22 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH] drm/rockchip: Remove unused variable
+Date: Fri, 19 Mar 2021 16:29:20 +0100
+Message-Id: <20210319152920.262035-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210301214152.1805737-1-dmitry.baryshkov@linaro.org>
- <CAOMZO5Br85sf+ndiOWzeG7DgpqVHpXtnNGZLsVMOpBC5eVE2Aw@mail.gmail.com>
- <CAF6AEGtYJegOPt4dju5wyzp+WEhXdKyeUbkoO-oDzSC2aR_9ZQ@mail.gmail.com>
-In-Reply-To: <CAF6AEGtYJegOPt4dju5wyzp+WEhXdKyeUbkoO-oDzSC2aR_9ZQ@mail.gmail.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Fri, 19 Mar 2021 12:13:20 -0300
-Message-ID: <CAOMZO5Bd68TtZ=-X_Gg7n9W4BsdAhbQAO2JhjMQvwtjdoWsn2A@mail.gmail.com>
-Subject: Re: [PATCH] gpu/drm/msm: fix shutdown hook in case GPU components
- failed to bind
-To: Rob Clark <robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,33 +78,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, Jonathan Marek <jonathan@marek.ca>,
- Stephen Boyd <sboyd@kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Sandy Huang <hjc@rock-chips.com>,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+Commit 977697e20b3d ("drm/atomic: Pass the full state to planes atomic
+disable and update") added the old_state variable instead of what used
+to be a parameter, but it also removed the sole user of that variable in
+the vop_plane_atomic_update function leading to an usused variable.
+Remove it.
 
-On Fri, Mar 19, 2021 at 11:44 AM Rob Clark <robdclark@gmail.com> wrote:
+Fixes: 977697e20b3d ("drm/atomic: Pass the full state to planes atomic disable and update")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-> I think that might not help if something fails to probe due to (for
-> example) a missing dependency, so !priv->kms is probably a better
-> check to cover both cases.  But the 2nd patch makes a good point, that
-> the suspend/resume path probably needs the same treatment
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index 81c70d7a0471..64469439ddf2 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -879,8 +879,6 @@ static void vop_plane_atomic_disable(struct drm_plane *plane,
+ static void vop_plane_atomic_update(struct drm_plane *plane,
+ 		struct drm_atomic_state *state)
+ {
+-	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
+-									   plane);
+ 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+ 									   plane);
+ 	struct drm_crtc *crtc = new_state->crtc;
+-- 
+2.30.2
 
-Thanks for the feedback.
-I will follow the same approach for fixing the suspend/resume path then.
-
-Let me test it and then I will re-submit Dmitry's patch and the one
-for suspend/resume as part of a patch series.
-
-Thanks
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
