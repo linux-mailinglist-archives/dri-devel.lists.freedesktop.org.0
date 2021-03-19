@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA72341FF4
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 15:45:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDAE3341FEE
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 15:44:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5BE46EA2D;
-	Fri, 19 Mar 2021 14:45:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC2E26EA32;
+	Fri, 19 Mar 2021 14:44:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13D756EA33
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 14:45:57 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id f17so3062112plr.0
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 07:45:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 561E96EA33;
+ Fri, 19 Mar 2021 14:44:49 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id t9so9357135wrn.11;
+ Fri, 19 Mar 2021 07:44:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TDOGGWm21psnrXGlHEe6HvlgMdBE2hycDbnwOwrR0qU=;
- b=UlA8BUn9E5sUqHuUQiDVI3TjSNEzIgglN6StA4KCyVdX76E7TgzijdMXlwYNtcOU0U
- oK0YUt9NaUKh9OYWeJPjOkj4C5gutCsoHgMAvOd4Co8G5QdGHna9dHm7ddeuPGYGq/UU
- Si3mf/vcqt4SyjTxw+ErupnhAHbv7gJlYCmf1cF8qg82nbjZAt3Z/IIoFUghJvvgtcHU
- +FleiDUKLNV1+6e/kdi2/1LZ5WlwKchV5dNwMhB4LJ5WQEEREoixVpYSoLkG/fUbcn/z
- iqEMWMaGTVyjVI457AtXUukS3iu0mLK0n5p3e4aIfbfoRaFuJj8XAwJkM4jRv0vRhq69
- yzqg==
+ :cc; bh=aoA5tf0GuXXI+tYehfknPh/CinyOHHXvGycSwmOWV6U=;
+ b=SE6jiw6/KOeKjqbFrwXeOcbFgAIAeL20+UhrXgkSZwYcieoXo7X/q//43L48nDoQln
+ j48/V+x0E4hLlO8V7ZS/YCtmvsh60EVI7AEek6nK6Ffyz0GkFeSF+ER+0zZy06/vAF8e
+ d853rMAvzi5sp61lUG6vGFhPR5iuRooCya6LuVpEKjuhZ1YHzkQnsyxmyicQxoLj0ort
+ PdOAiXlaOBlK4buQrtQtf38QTE+BFdLXcnKgQaZqJGBdeqD8UegJvj/F7sDRTWHysuoV
+ X+sUCJw7YjF9xAyqN0sych61qoaTfwhtuF9AAAJ4QYdJse8MsTI19CBrxvtsQ/dn1J3N
+ u2dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=TDOGGWm21psnrXGlHEe6HvlgMdBE2hycDbnwOwrR0qU=;
- b=Ao43Hwf4MCeLuu+zh5Ibq3TMEhWvVyciXv8s2DNUT9qbt97Y2ccRibT7O/nSFPYf0o
- jcrGFlFilTop7Q8cBnz7mld1GXtMyFIi25/4hdrj8PxOXiMfI9CImHoPNYHD3UxUX8hm
- VNhWCeSilrwm5c4UIPaLNSm6wrYB919dYXMXr0Oq7pl+nfR5WyRvubfYD01xWoO4pnqf
- 24tLiCY49Y9Sx8cuq3lpz8CjZlc8eI7dWQF+eE6ufNwqDvGLEHTmlg/uqd1TGVajkvc/
- w1KrCLFaMdVR7QgSe1zlImZYf7JbHw5RdQ9/jrK/opPZVF7Zj7WpUQwY8dfOMLIHS6iG
- p1Jw==
-X-Gm-Message-State: AOAM532T+I0gTF1oody9GXZQgTt8uXdQn8k5Zw7RF30SF+W0FbzgIui7
- fnVerjImWw/RUuB3PgSDdP9Ehk+cRk4z3e8Xh9iueWY8GCRVhQoj
-X-Google-Smtp-Source: ABdhPJxweZfNiCPg9C7NrDu3mAB+yl61lfkYpCt6KNMgXUL5b8ziQQV9oK2kr7DsR12MgPe9uLa2ifDL7vrvhQ8WUh4=
-X-Received: by 2002:a17:902:e752:b029:e6:822c:355c with SMTP id
- p18-20020a170902e752b02900e6822c355cmr14735796plf.69.1616165156604; Fri, 19
- Mar 2021 07:45:56 -0700 (PDT)
+ bh=aoA5tf0GuXXI+tYehfknPh/CinyOHHXvGycSwmOWV6U=;
+ b=EpmNXVnsZpCFYhXPagC/uLpPoyOH5QHSVkjiGPWLhO/nosyW+nRolgvtXCXH0te385
+ oQ05wDrKkPP6tYtQsNi7XBVnJWck51t96+YBrCFVRHJ8MhuMK4BHtE0RgBkoU929Qk3G
+ wsLKtYHd4VZCTGimYH2k8MfwxGSh3ZPxuOpO8xWGaSSkqZ3EKsO0naNiIzHumqmafgHI
+ Pddrtwcc/MaiiF6J0OoWoznb0+UOu/WyMobf9MUnvWFm4e2AsuDb6BDZW4p7qkOA5gO4
+ 7BaNtur5mkKf45Dm4tWjESrgai7QTeaRDkLoc/vxz/X8BJwXbDMsZ3CRJP+o3+dgiagH
+ XojQ==
+X-Gm-Message-State: AOAM530QrXtsbzts8F8/NebHJFEY+f/mLSLcXwrkQbLA9fDdRLxngUiH
+ XSzt5t7m+XVvSA5L4UjSemjVWg8aZ2SbEApsftw=
+X-Google-Smtp-Source: ABdhPJwF/ZP1XE3jOliuzyxtyE+s2gp3DriuVOeO6ryYMPBGwclLGu7uPtr4UPvtTrHfi2aafpOocaR4c9e3ATavNEo=
+X-Received: by 2002:adf:f587:: with SMTP id f7mr4928235wro.147.1616165087988; 
+ Fri, 19 Mar 2021 07:44:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210219215326.2227596-1-lyude@redhat.com>
- <20210219215326.2227596-14-lyude@redhat.com>
-In-Reply-To: <20210219215326.2227596-14-lyude@redhat.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Fri, 19 Mar 2021 15:45:45 +0100
-Message-ID: <CAG3jFyuJ=_Ab_LXNANs7VQAkgB16KC47zmibK1fXUKGvrGNUEw@mail.gmail.com>
-Subject: Re: [PATCH 13/30] drm/bridge/analogix/dp_core: Unregister DP AUX
- channel on error in analogix_dp_probe()
-To: Lyude Paul <lyude@redhat.com>
+References: <20210301214152.1805737-1-dmitry.baryshkov@linaro.org>
+ <CAOMZO5Br85sf+ndiOWzeG7DgpqVHpXtnNGZLsVMOpBC5eVE2Aw@mail.gmail.com>
+In-Reply-To: <CAOMZO5Br85sf+ndiOWzeG7DgpqVHpXtnNGZLsVMOpBC5eVE2Aw@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 19 Mar 2021 07:47:59 -0700
+Message-ID: <CAF6AEGtYJegOPt4dju5wyzp+WEhXdKyeUbkoO-oDzSC2aR_9ZQ@mail.gmail.com>
+Subject: Re: [PATCH] gpu/drm/msm: fix shutdown hook in case GPU components
+ failed to bind
+To: Fabio Estevam <festevam@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,54 +62,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Joe Perches <joe@perches.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Jonas Karlman <jonas@kwiboo.se>, open list <linux-kernel@vger.kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andy Yan <andy.yan@rock-chips.com>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, Jonathan Marek <jonathan@marek.ca>,
+ Stephen Boyd <sboyd@kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Lyude,
+On Fri, Mar 19, 2021 at 5:09 AM Fabio Estevam <festevam@gmail.com> wrote:
+>
+> Hi Dmitry,
+>
+> On Mon, Mar 1, 2021 at 6:41 PM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+>
+> > diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
+> > index 6a326761dc4a..2fd0cf6421ad 100644
+> > --- a/drivers/gpu/drm/msm/msm_atomic.c
+> > +++ b/drivers/gpu/drm/msm/msm_atomic.c
+> > @@ -207,7 +207,12 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+> >         struct msm_kms *kms = priv->kms;
+> >         struct drm_crtc *async_crtc = NULL;
+> >         unsigned crtc_mask = get_crtc_mask(state);
+> > -       bool async = kms->funcs->vsync_time &&
+> > +       bool async;
+> > +
+> > +       if (!kms)
+> > +               return;
+> > +
+> > +       async = kms->funcs->vsync_time &&
+> >                         can_do_async(state, &async_crtc);
+>
+> I also see the same issue on a i.MX53:
+> https://lists.freedesktop.org/archives/freedreno/2021-January/009369.html
+>
+> Then I got a different suggestion from Rob. Please check:
+>
+> https://www.spinics.net/lists/dri-devel/msg286648.html
+> and
+> https://www.spinics.net/lists/dri-devel/msg286649.html
+>
+> Does this series fix the issue in your platform too?
 
-Thanks for the patch, it looks good to me.
+I think that might not help if something fails to probe due to (for
+example) a missing dependency, so !priv->kms is probably a better
+check to cover both cases.  But the 2nd patch makes a good point, that
+the suspend/resume path probably needs the same treatment
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-
-On Fri, 19 Feb 2021 at 22:58, Lyude Paul <lyude@redhat.com> wrote:
->
-> Just another drive-by fix I noticed while going through the tree to cleanup
-> DP aux adapter registration - make sure we unregister the DP AUX dev if
-> analogix_dp_probe() fails.
->
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
->  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> index aa1bb86293fd..f115233b1cb9 100644
-> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> @@ -1782,6 +1782,7 @@ int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev)
->
->  err_disable_pm_runtime:
->         pm_runtime_disable(dp->dev);
-> +       drm_dp_aux_unregister(&dp->aux);
->
->         return ret;
->  }
-> --
-> 2.29.2
->
+BR,
+-R
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
