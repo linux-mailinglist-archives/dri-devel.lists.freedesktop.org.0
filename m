@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23EE3418DC
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 10:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEBFD3418E2
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 10:55:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBE096E9C8;
-	Fri, 19 Mar 2021 09:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB91F6E9C7;
+	Fri, 19 Mar 2021 09:55:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70C376E9C8
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 09:55:25 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0065D6E9C7
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 09:55:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616147724;
+ s=mimecast20190719; t=1616147735;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3Bs/uc42CyNw28LGCDWnaaSfmqCsvJEY+pIrcxWbjT4=;
- b=TbkkQFhLjR0TbYhI/nsiF9hQF0oSKFr1ZsAmiUnETBvTlpcHLoxK1R8COXVn4j81+sOYVG
- U9p1gzZ2LwkBly1RYx4Q/ihsHB5cQnA7u1qc/J/aPT2kzNU9ibHCK+TGcLgwAPLZwpMLee
- SxiRNwhq5YFhBZo6UbTloJmjaBkE3xQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-6JOHDbgdNNappxjBd769vw-1; Fri, 19 Mar 2021 05:55:21 -0400
-X-MC-Unique: 6JOHDbgdNNappxjBd769vw-1
-Received: by mail-wr1-f72.google.com with SMTP id v13so21584648wrs.21
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 02:55:20 -0700 (PDT)
+ bh=uJ5ef4kdkKqYO2ysDRmL0Xx+1wY0nM5hZWCNcGD9eXA=;
+ b=IjQdcrnScqKzhzsgRN8R0wwMt+A5veC97F8u//3Jr9Tqe/lNdhlV3eC47CuWyHyOAixI8Q
+ ZJafitpTBiDSugbLfO+bxNcuONNOVuxv3y/lMaytq88DWqdFWjHOoW95Zs40Dvjl8guobM
+ 47fNUaVmB3cBqQyRqOgEPy3WitfHyA4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14-R_dNfvTvNPWBsmEmuy8ANw-1; Fri, 19 Mar 2021 05:55:32 -0400
+X-MC-Unique: R_dNfvTvNPWBsmEmuy8ANw-1
+Received: by mail-wr1-f71.google.com with SMTP id 75so21397632wrl.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 02:55:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=3Bs/uc42CyNw28LGCDWnaaSfmqCsvJEY+pIrcxWbjT4=;
- b=Xl+XgCwTcimq6aCgqpshWzgAU1lzVploqAiUlBBskArdydcG7VrYkrHIqHn6ieU2vr
- xSaP6uvhDNoEtJZbWFazeEdQSl8yUSbIX3ZWkexdSTp2oIHEPEX6+mK8Gp/h20gnBpY8
- pVZ4XzGr77yxejKPMtU7ZS6QuV4kxprDtIyK4se1mdxWPN1igjvpnnTgZHGLFV9d5I3U
- PmRZjS0fHaEyXYERZYoaS9p82z1yUXBU71jhamiswVCc3ny+8W3FafyMcyCzWmAHZivS
- G6gQRu/rcS1Y44ACwC9WGPE+hXxE6j7YONrbNzjEfdkvI7P/XX2q8UZffwC/yVWTFx0J
- 2FmA==
-X-Gm-Message-State: AOAM533Dq2K9uYI4uDK+TmupLcCnC37Yti+gNWhmPAJehUK1wFYeT2s/
- LQv8E2tdqtJUObpu/AiJp+6R0/r0z5PV56hHYWggBQtzGM409+/ZBAA1pPrT+gQhz9rbg1N38nh
- SBZp3qGtUjjT0CwMrkM/cy4xeRYYrNw4J7g6A26SXWGtH
-X-Received: by 2002:a1c:ddc6:: with SMTP id u189mr2996529wmg.171.1616147719838; 
- Fri, 19 Mar 2021 02:55:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw2w6RvVCfzpx4+7sRy74TxWSXSVvH+JqsUT+aEy6DCSrzWG7WAtBYMLzlvmCuYIkNsjk82Q1/s3kjxTw2KrEw=
-X-Received: by 2002:a1c:ddc6:: with SMTP id u189mr2996519wmg.171.1616147719709; 
- Fri, 19 Mar 2021 02:55:19 -0700 (PDT)
+ bh=uJ5ef4kdkKqYO2ysDRmL0Xx+1wY0nM5hZWCNcGD9eXA=;
+ b=H6zAEvLQCWqjWkKx/iTbaLwzvtFX+rSgleb2Cc8XyJADdljNrsS7lXknfT1cBw4+Ka
+ NuD0K0atngkGOMh/s1kVYoHR0BdzTOiIzs9A/T+HoAFoT/LPYlx3GCk2XJ0h8M/TUERd
+ RUXOuWANBE5VGgTNGfdfFGM2Nhb2rAFklrLzzkLkbaUhNX52LHneBIdnYZtt+eTrLDAI
+ YZ1gJ4tyZj56mL4WStc+ljVHbACCb/EuCSNLw/O4cjnG/9I1oLzQzIpedYWfyAXSLrYh
+ CjjFW4EIRlQn6aw7Nw7vAncfs8MnZjIKK3zvsUfO6ViiKzQahjEz1Gz8Kr/y5KISLL7y
+ lbeA==
+X-Gm-Message-State: AOAM530tRN7su8oNtQto/UQUtu8Ae0+dXXBcKzFqnnVBXoCGYm3PnJS/
+ XBWFsNh2m1sVPRsA9sGP/UnqKOhjZfp0aYNrYsKVhhgHcWCwJTTr0t0Xc8rdNRUdqpvbrS6W+8+
+ b9iQD638nsN2En8ufBGKxNJOB0PQF06BoDLI5Ci2rvshS
+X-Received: by 2002:a05:6000:1107:: with SMTP id
+ z7mr3485713wrw.415.1616147731755; 
+ Fri, 19 Mar 2021 02:55:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzeKPGrxBdpMmRWCOYaxf2YjC/UlnsVRPHxzh1erEAYqUTci6IHJuCkogRSQOq5aAaeWZ1tnsOMjF8dIXRf1qk=
+X-Received: by 2002:a05:6000:1107:: with SMTP id
+ z7mr3485702wrw.415.1616147731642; 
+ Fri, 19 Mar 2021 02:55:31 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210319082428.3294591-1-lee.jones@linaro.org>
- <20210319082428.3294591-6-lee.jones@linaro.org>
-In-Reply-To: <20210319082428.3294591-6-lee.jones@linaro.org>
+ <20210319082428.3294591-10-lee.jones@linaro.org>
+In-Reply-To: <20210319082428.3294591-10-lee.jones@linaro.org>
 From: Karol Herbst <kherbst@redhat.com>
-Date: Fri, 19 Mar 2021 10:55:09 +0100
-Message-ID: <CACO55ttxZ9NdeMsBy8fDSFnv5VwJ4tP1y3zJUjmNybBgAtcOpg@mail.gmail.com>
-Subject: Re: [PATCH 05/19] drm/nouveau/nvkm/subdev/volt/gk20a: Demote
- non-conformant kernel-doc headers
+Date: Fri, 19 Mar 2021 10:55:21 +0100
+Message-ID: <CACO55ts6Hmh07fib-QBB8nVxrVcfK-s2b-5MBaemxWJMJ=oyAw@mail.gmail.com>
+Subject: Re: [PATCH 09/19] drm/nouveau/nvkm/engine/gr/gf100: Demote
+ non-conformant kernel-doc header
 To: Lee Jones <lee.jones@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
@@ -81,18 +83,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 19, 2021 at 9:24 AM Lee Jones <lee.jones@linaro.org> wrote:
+On Fri, Mar 19, 2021 at 9:25 AM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=1 kernel build warning(s):
 >
->  drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:53: warning: Function parameter or member 'speedo' not described in 'gk20a_volt_get_cvb_voltage'
->  drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:53: warning: Function parameter or member 's_scale' not described in 'gk20a_volt_get_cvb_voltage'
->  drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:53: warning: Function parameter or member 'coef' not described in 'gk20a_volt_get_cvb_voltage'
->  drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:69: warning: Function parameter or member 'speedo' not described in 'gk20a_volt_get_cvb_t_voltage'
->  drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:69: warning: Function parameter or member 'temp' not described in 'gk20a_volt_get_cvb_t_voltage'
->  drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:69: warning: Function parameter or member 's_scale' not described in 'gk20a_volt_get_cvb_t_voltage'
->  drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:69: warning: Function parameter or member 't_scale' not described in 'gk20a_volt_get_cvb_t_voltage'
->  drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:69: warning: Function parameter or member 'coef' not described in 'gk20a_volt_get_cvb_t_voltage'
+>  drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c:992: warning: Function parameter or member 'gr' not described in 'gf100_gr_wait_idle'
 >
 > Cc: Ben Skeggs <bskeggs@redhat.com>
 > Cc: David Airlie <airlied@linux.ie>
@@ -101,31 +96,22 @@ On Fri, Mar 19, 2021 at 9:24 AM Lee Jones <lee.jones@linaro.org> wrote:
 > Cc: nouveau@lists.freedesktop.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c b/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c
-> index 8c2faa9645111..ccac88da88648 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c
-> @@ -45,7 +45,7 @@ static const struct cvb_coef gk20a_cvb_coef[] = {
->         /* 852 */ { 1608418, -21643, -269,     0,    763,  -48},
->  };
->
-> -/**
-> +/*
->   * cvb_mv = ((c2 * speedo / s_scale + c1) * speedo / s_scale + c0)
->   */
->  static inline int
-> @@ -58,7 +58,7 @@ gk20a_volt_get_cvb_voltage(int speedo, int s_scale, const struct cvb_coef *coef)
->         return mv;
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+> index 397ff4fe9df89..69e6008f99196 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+> @@ -982,7 +982,7 @@ gf100_gr_zbc_init(struct gf100_gr *gr)
+>         }
 >  }
 >
 > -/**
 > +/*
->   * cvb_t_mv =
->   * ((c2 * speedo / s_scale + c1) * speedo / s_scale + c0) +
->   * ((c3 * speedo / s_scale + c4 + c5 * T / t_scale) * T / t_scale)
+>   * Wait until GR goes idle. GR is considered idle if it is disabled by the
+>   * MC (0x200) register, or GR is not busy and a context switch is not in
+>   * progress.
 > --
 > 2.27.0
 >
