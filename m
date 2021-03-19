@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D629341B81
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 12:30:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA74341B8F
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 12:35:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E9E76E9EA;
-	Fri, 19 Mar 2021 11:30:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B7C76E9EC;
+	Fri, 19 Mar 2021 11:35:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC4106E9EB
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 11:30:30 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id h3so5673749pfr.12
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 04:30:30 -0700 (PDT)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B805A6E9EB
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 11:35:35 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ x7-20020a17090a2b07b02900c0ea793940so6588770pjc.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 04:35:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mBRi75+4ZXFYImT5TGU9kGKxGRhGqVxM6M+tAV+mb/E=;
- b=UazQNSNh6OqCQMM7wl92C43GmrPxGV3RZTO1y89v5bBE501r/9WKGlixY+7tAGZMeL
- v1rihy7KJQrRr70kCLg1utX4ZLw15BnWYkmDtcze4PGsl5h7zGOhqRfvfnX7iZri2IeK
- m/E/gTkDMa8E8Jsmtqf12BlJY9luyi+9POcFQErCOwISZg9gXbdzRWg7CGnS6s0afTFs
- WUKpqnWVcxnm86q8NVsJV6ijswLLKfpq6/o5BLRXQ00OZJLwvJ3rYSR5fYBo/vmkhNxx
- ns5vkqPFqwJyGnanDCUOVTbGsq9M6ylYB7FQINiZPwOtBnWlRFqlE2Adv0FI5b9jdTDc
- ejeQ==
+ :cc; bh=oKHyKM5HpgM64/v1vzFdLp1d/ZtBozUZ21Nb1Kh1LfE=;
+ b=oA4VSa+nu/9W7HEreKS2m+YjOanl3TPCruPFBgMTvzGK1JsQbrp7ZQne4hciU+1JpL
+ tC2hWULRXHHPm4YwQNXxvUbUHsNu+x7lQ8tKHvDxk7FyQH65oZsd+VfiJrYfgCeNw0x0
+ 2EN2PSSWRcAdVl/GZMvNDl5QVcWps3mc2u+aTI6dsRha6h0AuWq8HTAlXVRbHO39y8q4
+ WZkfB+U/TXLwbSlwImsWvK008U6xWpuA1uj8mdfmuDOUeq0ILBuWvf9PQZDnWX1pHpET
+ Cgam/1cfnlVfvmOO9ujm+CmSjw2dgkAUvDDxyLpJFCwN1ntNUPTBIZ28vTqcL+GsxyRT
+ dvOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mBRi75+4ZXFYImT5TGU9kGKxGRhGqVxM6M+tAV+mb/E=;
- b=IB52/zki2JSJweJUU5ZXBHPig9AYaHWQ4JsjdyoeLZarJgBEtHbPPdPINmKaMLoALm
- ffx1XeAAZ8uZ0yc1RCsR4hIfVd3reYMCu9ps+y0ihda5jSEW+QC7INq8S5sL1uOeSFkr
- CL77umJMsatPXiA1xvIFxxw0mZigxIwgwan4xmsN7L8Bw7Ns5xY0lLuZC0LHoLfY1/6o
- mgThL8lGoTJSj+CfXus7++nzoNlAPRXQNBg+7hgTNFE+dC8yOEnrs//P6WWjKrjDZ2Y7
- juDolcgDWwCYP6rKqVt2eZ2QfZuDL2p5oeKHgkkOf9yk6LWY3/sIPL35nN4o0/Lsqz/Y
- h/+g==
-X-Gm-Message-State: AOAM530V0KbndkQnVIKoekAvZw3P9P/sWMIq9OiGHU6GWRAjD8Qa+B/L
- ulTNk8ZifeYl9qEnzyxCQAN6eYXzOLSZgM4wXEEz/w==
-X-Google-Smtp-Source: ABdhPJyueJqbCvxvjsAE48+4+uzNTfZK3apwOOTQ5ZGtvQfah7LFUXUY4ry2appxkZ5SC84t3BxNou620Ggqog2+hro=
-X-Received: by 2002:a05:6a00:b54:b029:207:2a04:7b05 with SMTP id
- p20-20020a056a000b54b02902072a047b05mr8786871pfo.12.1616153430352; Fri, 19
- Mar 2021 04:30:30 -0700 (PDT)
+ bh=oKHyKM5HpgM64/v1vzFdLp1d/ZtBozUZ21Nb1Kh1LfE=;
+ b=fpa9GDfnlntd9kprkuaGZDzUWXxwY6q7AHflXY1L9QbN6pzE7BOLFcbCY/F8JxXnOm
+ hQ69ox9CHdl5Qbbxur6oGJMaBKmEvTacx4lBN2jFOvGMTHid6cdOOnh+cvcbHtMG1tU1
+ i+/EDI/9KNOeq3za4/PL9ghG/s+RxOAwtSjy46I0esCDqDhvIh8P0sBUpAa5xtNgis2H
+ 9cJxKbcy0DFoSHa3hWo+S5QXi2vzDs1PQBK7eOLvQFvDOy5XyRZtWw6+BFVxKVMczx0z
+ csQs5E/+TvNizU8DBkc1x/MKLe7GBNPs8omt6lPw7TnbAaoB0NHy6FJLdwA7L6dUzy+3
+ HJbQ==
+X-Gm-Message-State: AOAM531bbMjzXXM/XjC0P7KhbJcv5HXRgaDUYjMez74BZQ665PaM6wZ2
+ +HuGUetVZkDsXNXu4Q/nBvsKJyEnc2OycQP75BSInQ==
+X-Google-Smtp-Source: ABdhPJyYOsIuX8edCxIL4tkKbNSgbtWLcodZmdaiaQmxoRZST0LiH2O2E/Mhxco68rpGovr0mKxDhbougBexQ4y0Q9k=
+X-Received: by 2002:a17:902:e752:b029:e6:822c:355c with SMTP id
+ p18-20020a170902e752b02900e6822c355cmr14084469plf.69.1616153735064; Fri, 19
+ Mar 2021 04:35:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210219215326.2227596-1-lyude@redhat.com>
- <20210219215326.2227596-19-lyude@redhat.com>
-In-Reply-To: <20210219215326.2227596-19-lyude@redhat.com>
+ <20210219215326.2227596-28-lyude@redhat.com>
+In-Reply-To: <20210219215326.2227596-28-lyude@redhat.com>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Fri, 19 Mar 2021 12:30:19 +0100
-Message-ID: <CAG3jFyv2F7ri4wQcwipoLT6nr-K_SWpLcAFi_B0Lo_O+KaWo2w@mail.gmail.com>
-Subject: Re: [PATCH 18/30] drm/print: Fixup DRM_DEBUG_KMS_RATELIMITED()
+Date: Fri, 19 Mar 2021 12:35:24 +0100
+Message-ID: <CAG3jFyuvnDQXXJKaY7zqi01_BG7pvFj0_9DJ2eAr2C=FvUtL1A@mail.gmail.com>
+Subject: Re: [PATCH 27/30] drm/dp_mst: Pass drm_dp_mst_topology_mgr to
+ drm_dp_get_vc_payload_bw()
 To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,10 +65,13 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Anshuman Gupta <anshuman.gupta@intel.com>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
  David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
- amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+ Lucas De Marchi <lucas.demarchi@intel.com>, amd-gfx@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Lee Shawn C <shawn.c.lee@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -74,80 +79,92 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hey Lyude,
 
-Thanks for the patch,
+Thanks for the patch.
 
-On Fri, 19 Feb 2021 at 22:59, Lyude Paul <lyude@redhat.com> wrote:
+On Fri, 19 Feb 2021 at 23:03, Lyude Paul <lyude@redhat.com> wrote:
 >
-> Since we're about to move drm_dp_helper.c over to drm_dbg_*(), we'll want
-> to make sure that we can also add ratelimited versions of these macros in
-> order to retain some of the previous debugging output behavior we had.
->
-> However, as I was preparing to do this I noticed that the current
-> rate limited macros we have are kind of bogus. It looks like when I wrote
-> these, I didn't notice that we'd always be calling __ratelimit() even if
-> the debugging message we'd be printing would normally be filtered out due
-> to the relevant DRM debugging category being disabled.
->
-> So, let's fix this by making sure to check drm_debug_enabled() in our
-> ratelimited macros before calling __ratelimit(), and start using
-> drm_dev_printk() in order to print debugging messages since that will save
-> us from doing a redundant drm_debug_enabled() check. And while we're at it,
-> let's move the code for this into another macro that we can reuse for
-> defining new ratelimited DRM debug macros more easily.
+> Since this is one of the few functions in drm_dp_mst_topology.c that
+> doesn't have any way of getting access to a drm_device, let's pass the
+> drm_dp_mst_topology_mgr down to this function so that it can use
+> drm_dbg_kms().
 >
 > Signed-off-by: Lyude Paul <lyude@redhat.com>
 > ---
->  include/drm/drm_print.h | 20 ++++++++++++--------
->  1 file changed, 12 insertions(+), 8 deletions(-)
+>  drivers/gpu/drm/drm_dp_mst_topology.c       | 7 +++++--
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c | 3 ++-
+>  include/drm/drm_dp_mst_helper.h             | 3 ++-
+>  3 files changed, 9 insertions(+), 4 deletions(-)
 >
-> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-> index f32d179e139d..3a0c3fe4d292 100644
-> --- a/include/drm/drm_print.h
-> +++ b/include/drm/drm_print.h
-> @@ -524,16 +524,20 @@ void __drm_err(const char *format, ...);
->  #define DRM_DEBUG_DP(fmt, ...)                                         \
->         __drm_dbg(DRM_UT_DP, fmt, ## __VA_ARGS__)
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index cf4f2f85711e..fb66df39e0bb 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -3631,6 +3631,7 @@ static int drm_dp_send_up_ack_reply(struct drm_dp_mst_topology_mgr *mgr,
 >
-> -
-> -#define DRM_DEBUG_KMS_RATELIMITED(fmt, ...)                            \
-> -({                                                                     \
-> -       static DEFINE_RATELIMIT_STATE(_rs,                              \
-> -                                     DEFAULT_RATELIMIT_INTERVAL,       \
-> -                                     DEFAULT_RATELIMIT_BURST);         \
-> -       if (__ratelimit(&_rs))                                          \
-> -               drm_dev_dbg(NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__);      \
-> +#define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)                                    \
-> +({                                                                                               \
-> +       static DEFINE_RATELIMIT_STATE(rs_, DEFAULT_RATELIMIT_INTERVAL, DEFAULT_RATELIMIT_BURST); \
-> +       const struct drm_device *drm_ = (drm);                                                   \
-> +                                                                                                 \
-> +       if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_))                         \
-> +               drm_dev_printk(drm_ ? drm_->dev : NULL, KERN_DEBUG, fmt, ## __VA_ARGS__);        \
->  })
-
-checkpatch --strict is unhappy about the tabs/spaces in this patch
-
-
-ERROR: code indent should use tabs where possible
-#48: FILE: include/drm/drm_print.h:531:
-+
-                           \$
-
-WARNING: please, no spaces at the start of a line
-#48: FILE: include/drm/drm_print.h:531:
-+
-                           \$
-
-
->
-> +#define drm_dbg_kms_ratelimited(drm, fmt, ...) \
-> +       __DRM_DEFINE_DBG_RATELIMITED(KMS, drm, fmt, ## __VA_ARGS__)
-> +
-> +#define DRM_DEBUG_KMS_RATELIMITED(fmt, ...) drm_dbg_kms_ratelimited(NULL, fmt, ## __VA_ARGS__)
-> +
->  /*
->   * struct drm_device based WARNs
+>  /**
+>   * drm_dp_get_vc_payload_bw - get the VC payload BW for an MST link
+> + * @mgr: The &drm_dp_mst_topology_mgr to use
+>   * @link_rate: link rate in 10kbits/s units
+>   * @link_lane_count: lane count
 >   *
+> @@ -3639,7 +3640,8 @@ static int drm_dp_send_up_ack_reply(struct drm_dp_mst_topology_mgr *mgr,
+>   * convert the number of PBNs required for a given stream to the number of
+>   * timeslots this stream requires in each MTP.
+>   */
+> -int drm_dp_get_vc_payload_bw(int link_rate, int link_lane_count)
+> +int drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
+> +                            int link_rate, int link_lane_count)
+>  {
+>         if (link_rate == 0 || link_lane_count == 0)
+>                 DRM_DEBUG_KMS("invalid link rate/lane count: (%d / %d)\n",
+> @@ -3704,7 +3706,8 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool ms
+>                         goto out_unlock;
+>                 }
+>
+> -               mgr->pbn_div = drm_dp_get_vc_payload_bw(drm_dp_bw_code_to_link_rate(mgr->dpcd[1]),
+> +               mgr->pbn_div = drm_dp_get_vc_payload_bw(mgr,
+> +                                                       drm_dp_bw_code_to_link_rate(mgr->dpcd[1]),
+>                                                         mgr->dpcd[2] & DP_MAX_LANE_COUNT_MASK);
+>                 if (mgr->pbn_div == 0) {
+>                         ret = -EINVAL;
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> index 8e316146b6d1..60ca0fa32d15 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -70,7 +70,8 @@ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
+>                 slots = drm_dp_atomic_find_vcpi_slots(state, &intel_dp->mst_mgr,
+>                                                       connector->port,
+>                                                       crtc_state->pbn,
+> -                                                     drm_dp_get_vc_payload_bw(crtc_state->port_clock,
+> +                                                     drm_dp_get_vc_payload_bw(&intel_dp->mst_mgr,
+> +                                                                              crtc_state->port_clock,
+>                                                                                crtc_state->lane_count));
+
+checkpatch --strict is unhappy about this chunk
+
+WARNING: line length of 102 exceeds 100 columns
+#61: FILE: drivers/gpu/drm/i915/display/intel_dp_mst.c:73:
++                                           crtc_state->port_clock,
+
+Maybe the results of drm_dp_get_vc_payload_bw() can be but in a
+temporary variable.
+
+>                 if (slots == -EDEADLK)
+>                         return slots;
+> diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
+> index bd1c39907b92..20dc705642bd 100644
+> --- a/include/drm/drm_dp_mst_helper.h
+> +++ b/include/drm/drm_dp_mst_helper.h
+> @@ -783,7 +783,8 @@ drm_dp_mst_detect_port(struct drm_connector *connector,
+>
+>  struct edid *drm_dp_mst_get_edid(struct drm_connector *connector, struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port);
+>
+> -int drm_dp_get_vc_payload_bw(int link_rate, int link_lane_count);
+> +int drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
+> +                            int link_rate, int link_lane_count);
+>
+>  int drm_dp_calc_pbn_mode(int clock, int bpp, bool dsc);
+>
 > --
 > 2.29.2
 >
