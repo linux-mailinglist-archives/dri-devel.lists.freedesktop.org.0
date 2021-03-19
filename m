@@ -1,70 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10928341895
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 10:41:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E1D3418AD
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 10:45:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81E5B6E33F;
-	Fri, 19 Mar 2021 09:41:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE706E9BF;
+	Fri, 19 Mar 2021 09:45:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EA8D6E33F
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 09:41:19 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- y124-20020a1c32820000b029010c93864955so6944012wmy.5
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 02:41:19 -0700 (PDT)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A5D66E9BF
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 09:45:01 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id z2so8427152wrl.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 02:45:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:organization:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=dE/FMXXwTOcZLfKWiTm5qvJwQlSCibf7/ZnsQ3VuA+I=;
- b=cUvirTqY+bHdROH4xdfpGMrp7CwT1frnVIdSmYUtaWWWWj954Z8j45z71527sO+KrZ
- 5WQkEOopheMKChAfrdE9h32SdNhfHFZO0zKs7NPsr2x5b5XK3DrR2cl0OZjZkpcwRPCD
- uyUg6tjYCdewlJ2318NC43fksCK75iQU6y4nAXvkOYfja309Ndyn/kcx+rSunDpADNqj
- 7xGGjSPrCOPoP26K9qEQsLNvHBw5r4DrHb1BWvR97GcN4NcnYd3Zs5FrtkbZG8d9W1Nn
- R6AJBNeFdMZFJle8Ob1eyXT4ONSp1qP/ZoB9f8urGPwzK+mHzxAUFh4idR4bZzsc2sq8
- 3sjQ==
+ bh=7xA9jaLU9Hl7W/xOhqOO8+Qa+G/0S2lX+mubfTHzlQw=;
+ b=dhKvPIrmJH4OIa3k2RSaNrNYI+lonJrCW74vwxYlGEhmAtwglM/39kN7teRcwrEh5e
+ RMWHIJU6Oli0crfPtx7p2SMj4C6cyQ0zXme/xp+/IAoZyuvz01e8f0JdRYYTcOonC1qN
+ ykMzvFFn58atqAqqFw9RAON5PTDKPeurszUc06CElgboWYF6tMOyo/uXVEesQtbc/ruc
+ ol4Ff+ai+OX6BLZxn8laYk6uP8DJMjGLuXHqF0B73bf0yQQQaIxQdzQjPRbhTHqtQdqG
+ C1eE09wkXmVuIxYPM31TPIWSMyEWuPoCgKCAPjPdNTedsL1m4eO+JrOVqTu9gwj/X3o5
+ YiMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:organization
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=dE/FMXXwTOcZLfKWiTm5qvJwQlSCibf7/ZnsQ3VuA+I=;
- b=PD2RyT/VaY3Y0lk1s3hxtsKKJBtJMzq5YwwnbH6IeXO7dWJiz+jBJxQfMaYNykWopu
- mDJ1gWY6AcsrpZsXSB7L+9yVGlaOo8JEYvvEraK0BldL9Aez45RCXnxmV2lTqFiMQH4t
- MzLH1IMh9N2jSqE5pfB0QqDcGqZ+bFDTt7xr352XypDHHR7hAAl4/KUj1Rk/laZ/+/eC
- qJMMYCm8nUnzIdSB2MKTp2Ey/Pj/TMHVttf2TvuYV6j5dPJUt5tZj0Pb3AHTuoV0WkDK
- cVKXL0Fg4vswIDWvCvYSj36QgaUmENtm2H1LBvRUm0PH+nfpniYPJxPJPLuZnz6nmhFC
- fCzw==
-X-Gm-Message-State: AOAM533Yz+t4a5547IvmHlFftC8Xi/AlcDmLcb84d9NOYBuEotN6d3qb
- laE3ikBJ0abHIu+xluZPfzVhyA==
-X-Google-Smtp-Source: ABdhPJyhmKqPRcT1Q2L0MAxywvHaux8gt0MC/4MXTIbjMyfjntyMA+cOtPLJ+giH8rEkY7Tb8COX6Q==
-X-Received: by 2002:a1c:4e12:: with SMTP id g18mr2803941wmh.56.1616146877840; 
- Fri, 19 Mar 2021 02:41:17 -0700 (PDT)
+ bh=7xA9jaLU9Hl7W/xOhqOO8+Qa+G/0S2lX+mubfTHzlQw=;
+ b=JluHQcu9our3qDqtrqatex9z6juhnL0R3NhaIBKHzMuuhs/mDjOQFBm0Hy3Wj1T1pJ
+ kh3J09UXrKQ+8wCOvMjvk5ah1dmqbwUO7VP1LpgzE1FA4JP2TF5q2LDiGhVnwTvBbSk6
+ LdknBhi8uke0L2Z/PsozA7OPBuCiAtTyGGx8RLL4w7BBEPKeFRgrly1bcONsBumh4g6t
+ ZNzXWqEWTNcZmCNHlAVIt1/WVngDrdekb/1KmnEqckUO9kWHJVYoPISPZ6vClupUaU9D
+ RJpbiOC1Bqx/jlRrGVg2Kp+4cH0OmGYes4NN+7xzCSTQ/HBG7KOiqnIl+owL7B7qp0h9
+ 3ayQ==
+X-Gm-Message-State: AOAM5334WGW8miu4MiZoiu/WjjGlGR3exCMs70+y+Or48yskA0Bz9B0N
+ WI7HeH5PWk6EEifhKqk9PgUf4jBhShRy6h10
+X-Google-Smtp-Source: ABdhPJwb5PjyRRgZpq6eA2shGJPS1aMcCsJlMkXaGceBPF/XtFPh1KHUyPSV/hD4aBq78JgCn2I7zA==
+X-Received: by 2002:adf:ea8b:: with SMTP id s11mr3640168wrm.413.1616147099606; 
+ Fri, 19 Mar 2021 02:44:59 -0700 (PDT)
 Received: from ?IPv6:2a01:e0a:90c:e290:62a:14da:7a4b:4aee?
  ([2a01:e0a:90c:e290:62a:14da:7a4b:4aee])
- by smtp.gmail.com with ESMTPSA id m17sm7082516wrx.92.2021.03.19.02.41.16
+ by smtp.gmail.com with ESMTPSA id 9sm5491611wmf.13.2021.03.19.02.44.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Mar 2021 02:41:17 -0700 (PDT)
-Subject: Re: [PATCH] drm/meson: Fix few typo
-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>, airlied@linux.ie,
- daniel@ffwll.ch, khilman@baylibre.com, jbrunet@baylibre.com,
- martin.blumenstingl@googlemail.com, dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20210318110046.14830-1-unixbhaskar@gmail.com>
+ Fri, 19 Mar 2021 02:44:59 -0700 (PDT)
+Subject: Re: [PATCH 02/18] drm/bridge: Add HDMI output fmt helper
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@siol.net>,
+ Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>
+References: <20210317154352.732095-1-maxime@cerno.tech>
+ <20210317154352.732095-3-maxime@cerno.tech>
+ <38906681-737b-462a-d10d-7fb9def141d2@baylibre.com>
+ <3312709.MrizLCItEp@kista>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Organization: Baylibre
-Message-ID: <fd1f66c1-b1ca-bfd2-8a04-64a9b7af4e3c@baylibre.com>
-Date: Fri, 19 Mar 2021 10:41:15 +0100
+Message-ID: <18084f61-1cc6-2b88-f551-25fbccdc100b@baylibre.com>
+Date: Fri, 19 Mar 2021 10:44:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210318110046.14830-1-unixbhaskar@gmail.com>
+In-Reply-To: <3312709.MrizLCItEp@kista>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,44 +81,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rdunlap@infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/03/2021 12:00, Bhaskar Chowdhury wrote:
-> 
-> s/initialy/initially/
-> s/desined/designed/
-> 
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-> ---
->  drivers/gpu/drm/meson/meson_venc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/meson/meson_venc.c b/drivers/gpu/drm/meson/meson_venc.c
-> index 5e2236ec189f..3c55ed003359 100644
-> --- a/drivers/gpu/drm/meson/meson_venc.c
-> +++ b/drivers/gpu/drm/meson/meson_venc.c
-> @@ -45,7 +45,7 @@
->   * The ENCI is designed for PAl or NTSC encoding and can go through the VDAC
->   * directly for CVBS encoding or through the ENCI_DVI encoder for HDMI.
->   * The ENCP is designed for Progressive encoding but can also generate
-> - * 1080i interlaced pixels, and was initialy desined to encode pixels for
-> + * 1080i interlaced pixels, and was initially designed to encode pixels for
->   * VDAC to output RGB ou YUV analog outputs.
->   * It's output is only used through the ENCP_DVI encoder for HDMI.
->   * The ENCL LVDS encoder is not implemented.
-> --
-> 2.26.2
-> 
-
-Thanks,
-Applied to drm-misc-next
-
-Neil
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMTgvMDMvMjAyMSAxOTozMSwgSmVybmVqIMWga3JhYmVjIHdyb3RlOgo+IERuZSBzcmVkYSwg
+MTcuIG1hcmVjIDIwMjEgb2IgMTc6MDg6MDcgQ0VUIGplIE5laWwgQXJtc3Ryb25nIG5hcGlzYWwo
+YSk6Cj4+IE9uIDE3LzAzLzIwMjEgMTY6NDMsIE1heGltZSBSaXBhcmQgd3JvdGU6Cj4+PiBUaGUg
+YXRvbWljX2dldF9vdXRwdXRfYnVzX2ZtdHMgYnJpZGdlIGNhbGxiYWNrIGlzIHRoZXJlIHRvIGxp
+c3QgdGhlCj4+PiBhdmFpbGFibGUgZm9ybWF0cyBmb3Igb3V0cHV0IGJ5IGRlY3JlYXNpbmcgb3Jk
+ZXIgb2YgcHJlZmVyZW5jZS4KPj4+Cj4+PiBPbiBIRE1JIGNvbnRyb2xsZXJzLCB3ZSBoYXZlIGEg
+ZmFpcmx5IHN0YXRpYyBsaXN0IHRoYXQgd2lsbCBkZXBlbmQgb24KPj4+IHdoYXQgdGhlIEhETUkg
+c2luayBpcyBjYXBhYmxlIG9mIGFuZCB0aGUgQlBDIG91ciBjb250cm9sbGVyIGNhbiBvdXRwdXQu
+Cj4+Pgo+Pj4gVGhlIGR3LWhkbWkgZHJpdmVyIGFscmVhZHkgaGFzIHRoYXQgY29kZSBkb25lIGlu
+IGEgZmFpcmx5IGdlbmVyaWMKPj4+IG1hbm5lciwgc28gbGV0J3MgdHVybiB0aGF0IGNvZGUgaW50
+byBhbiBoZWxwZXIgZm9yIGFsbCB0aGUgSERNSQo+Pj4gY29udHJvbGxlcnMgdG8gcmV1c2UuCj4+
+Cj4+IFRoaXMgY29kZSB3YXMgYmFzZWQgb24gdGhlIGNhcGFiaWxpdGllcyBvZiB0aGUgRFctSERN
+SSBJUCwgY29weWluZyBpdCBhcy1pcwo+PiBkb2Vzbid0IG1ha2UgbXVjaCBzZW5zZSwgd2Ugc2hv
+dWxkIGJlIGFibGUgdG8gZmlsdGVyIG91dCBmb3JtYXRzIHRoZSBIRE1JIElQCj4+IGRvZXNuJ3Qg
+c3VwcG9ydC4KPiAKPiBIRE1JIHN0YW5kYXJkIGhhcyBwcmV0dHkgc3RyaWN0IHJlcXVpcmVtZW50
+cyB3aGljaCBmb3JtYXRzIHNob3VsZCBiZSAKPiBzdXBwb3J0ZWQsIHNvIGNvcmVzIHNob3VsZCBo
+YXZlIHZlcnkgc2ltaWxhciBjYXBhYmlsaXRpZXMuCgpZZXMgZm9yIG91dHB1dCBmb3JtYXRzICh3
+ZSBzdGlsbCBtYXkgbmVlZCB0byBmaWx0ZXIgb3V0IDQyMCwgNDIyIGZvciBleGFtcGxlKSwKCk5v
+IGZvciBpbnB1dCBmb3JtYXRzLCBzaW5jZSBpdCBkZXBlbmRzIGVudGlyZWx5IG9uIHRoZSBjYXBh
+YmlsaXR5IG9mIHRoZSB0cmFuc2NlaXZlcgppbiB0ZXJtcyBvZiBmb3JtYXQgY29udmVyc2lvbi4K
+Ck5laWwKCj4gCj4gQmVzdCByZWdhcmRzLAo+IEplcm5lago+IAo+IAoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
