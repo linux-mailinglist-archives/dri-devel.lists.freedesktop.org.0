@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 786853415E0
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 07:35:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 745A83415E5
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 07:35:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9D166E98A;
-	Fri, 19 Mar 2021 06:34:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BB146E98D;
+	Fri, 19 Mar 2021 06:35:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr770139.outbound.protection.outlook.com [40.107.77.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 440076E98A
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 06:34:58 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2125.outbound.protection.outlook.com [40.107.223.125])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCE9F6E98D
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 06:35:34 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FEf1vZy7Ph1uCzeLjwKruAGq9VxQ7BkdsWDhQmcJMucPkm4vsaL5lsMGCBd0gGmVW19IMN7a7Ex1j089l8wddtdco4kUJx+jtmPy4NdLa1GlCDLXEdq/9rDkPrlHv4qaZkr0n7RwivaWBaEXJkSSVbjKoQbi6WKB2tX+z4Y50T8PZlyjJ6TEsF+km/rjdKWqYv+fBVZLOaDBXtrHHQp+EI25Ncy24uorTxIa/Dci/8cNgJP32eJtBifIY5BO9SgPkmVwSLtMBMMaKgphMqLRoJ5yOKNcMWiWLa0spsMMth8UxYee01yV3rMgGLvEzMXlCl2mc+D4O5mXHbyLCAFfIQ==
+ b=Sl1QTSb0p1LCNGbWwKLMr/NEzL7MyryDxai1h9MX3q1n/gwLW1bAn34XdWYa2qkGh2J+dI1A6W4zYZc0pYrQWJYVPsMUgnbNe/mitFWHxPIM4isCTavbrHm1bfG9qgW5ixkFH/sb4iUGXF9eJlQi9zvgpv5oKeZ7mHIshb2w64Sw2guXN9K712OLbqx2EHVl52W8KLN0sRZG+m+2rdHDH9acPnzkuxJfAAwx78TGtpUBx9MQZoLb1rQIeBNRVgUFG996/6AqzOiTTmOfZOjv0rWBzgsSJPBxuJ7P9M5CKvMbELE83RLzWJXeqWDWp2XzQI1cPwx/cubYKkGODpTfmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P1smR79/aiqFbDD1hyCRpF/2/2ROkMUPZtiItnoZ9Zo=;
- b=NCtZEE/vhKsxa5W+6Cuh8Y7bPRaNZLruBWr2QUXdD9HpdmfcudFFa+CleQ8p3dv1DKEzF/UZvhFscSNdFUqqxvFoWXJtp3CSelfPtSkkjKDVb2k+U1fhVHYh2XuMtAHgKMSqoeGUNuV66K0enckin0FJ/yWhsN1NzvA8ZRpcZU5u2XEdIBQHAnyZmvXvXGhOxBJGfeKICXFjBS7IiiIVw9nYtELlVWoLfT8mqg24n8/GIjbcBOUh12b3ZsMBRS27839VYtOHwnx6PYCjYMKqnpaX3W04sg84PgotQp0SgHivfmVdl3BlbG/vmcRXLgcnZJe0pX8MjImOgcZCRSXapA==
+ bh=3rTj3tCzTo6hp/x7AHElA4CIZCIWHmK1qYTbg45gts4=;
+ b=g86EzgPesp5PLtLNzemS96NSKKSrzAurqMkxOh/XDEpCI8WiIcFxhAM3dfSJCgds0OcfAwH6YZvFLvE3sGJzsHeFyUDfUwEU8Yikd5SPjUg2rsKSsqCuNUa/a+vxJMJNnHq43ELKdUY5Z9l+T6unrTSiTMimJpqxRTN1yRPdtSy+Y4q5bDoBdLQn1VPbuFurSdMyz9r7UdjpO0bkNetoyWeVXFv/cl39LE+FDyKL6XwA4YWD2Dk/L+KSXFRmkMnvP/jZH6C3Q3YygU8iFiiV4N3AJyqaSxUczETWaLZPSphjXR6yQGlbYvARcGarof663BWud2JXJT9Qa49MwmWUew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
  header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P1smR79/aiqFbDD1hyCRpF/2/2ROkMUPZtiItnoZ9Zo=;
- b=Ets0lJBQRFlDRnvL1GpeIVt9luB8Z1y7Sqm3P3BuxP34680YsnZXAVJ9yXMkR4qgZdlUwpueB3Mhl6CqUwCA1YYHPb9ysCsvbqmOGVxHfQCVfJFOXYchcfd6BOAq4fb55HCwOd4hWOKbcup7hB0txDEg/Pqjqk57ne2NTIRGFPY=
+ bh=3rTj3tCzTo6hp/x7AHElA4CIZCIWHmK1qYTbg45gts4=;
+ b=q+Rdd6kRNU6VYmGGCLfUP4THb+kyff04HvFRv7DuSpTM62NgAgfRYkzuHRfnGWSwgRsIlxchpFNMuYKZsAXM0l1X4QHxjKg31g7UYGVT2SRJ8Iq4TuExUif/6DZRS9toFIfz+7WNIuHjeKgokK71s4kzRcFVesDwWOlHJBNusZY=
 Authentication-Results: driverdev.osuosl.org; dkim=none (message not signed)
  header.d=none;driverdev.osuosl.org; dmarc=none action=none
  header.from=analogixsemi.com;
@@ -35,75 +35,75 @@ Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
  by BYAPR04MB4581.namprd04.prod.outlook.com (2603:10b6:a03:15::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Fri, 19 Mar
- 2021 06:34:56 +0000
+ 2021 06:35:32 +0000
 Received: from BY5PR04MB6739.namprd04.prod.outlook.com
  ([fe80::6481:f617:8105:491f]) by BY5PR04MB6739.namprd04.prod.outlook.com
  ([fe80::6481:f617:8105:491f%2]) with mapi id 15.20.3955.018; Fri, 19 Mar 2021
- 06:34:56 +0000
-Date: Fri, 19 Mar 2021 14:34:50 +0800
+ 06:35:31 +0000
+Date: Fri, 19 Mar 2021 14:35:26 +0800
 From: Xin Ji <xji@analogixsemi.com>
 To: Robert Foss <robert.foss@linaro.org>,
  Nicolas Boichat <drinkcat@google.com>, Andrzej Hajda <a.hajda@samsung.com>
-Subject: [PATCH v6 4/5] drm/bridge: anx7625: add HDCP support
-Message-ID: <189a637c87827f78c433a053e3c2129ebec73188.1616135353.git.xji@analogixsemi.com>
+Subject: [PATCH v6 5/5] drm/bridge: anx7625: add HDMI audio function
+Message-ID: <f5d689c6ad6fd585292550950e9c69c31e551e61.1616135353.git.xji@analogixsemi.com>
 References: <cover.1616135353.git.xji@analogixsemi.com>
 Content-Disposition: inline
 In-Reply-To: <cover.1616135353.git.xji@analogixsemi.com>
 X-Originating-IP: [60.251.58.79]
-X-ClientProxiedBy: HKAPR04CA0002.apcprd04.prod.outlook.com
- (2603:1096:203:d0::12) To BY5PR04MB6739.namprd04.prod.outlook.com
+X-ClientProxiedBy: HK2PR02CA0173.apcprd02.prod.outlook.com
+ (2603:1096:201:1f::33) To BY5PR04MB6739.namprd04.prod.outlook.com
  (2603:10b6:a03:229::8)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from anxtwsw-Precision-3640-Tower (60.251.58.79) by
- HKAPR04CA0002.apcprd04.prod.outlook.com (2603:1096:203:d0::12) with Microsoft
+ HK2PR02CA0173.apcprd02.prod.outlook.com (2603:1096:201:1f::33) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.18 via Frontend Transport; Fri, 19 Mar 2021 06:34:55 +0000
+ 15.20.3955.18 via Frontend Transport; Fri, 19 Mar 2021 06:35:31 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ba911ab3-9177-47d2-4611-08d8eaa11c1a
+X-MS-Office365-Filtering-Correlation-Id: fee40ef2-8fd3-41af-0b63-08d8eaa1319c
 X-MS-TrafficTypeDiagnostic: BYAPR04MB4581:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR04MB4581339098DC6D58B050FBE4C7689@BYAPR04MB4581.namprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+X-Microsoft-Antispam-PRVS: <BYAPR04MB4581D116FAFC5680E0081B85C7689@BYAPR04MB4581.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:76;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: j4SB2tc5Zb/C5OO26ssdgs+07TMZfBEOxVVHZSr6d1/HGc0Q0tt3FetRoTS3Pyrux8rUTz9rOzU+hrMdtiwkgKlgmM7oPEPcCjUPo2X7sPvNLI6oOb53Gm63pQ0u8/1h60EswF0XMbMmy6pR0ceZRDWJwSoziIJJjKCtvs+VW6IhC+KbOjRKZRjP2yjFhkTUG5DnILADv7PF2E/mGah+uNW6OHUIudZuG1WXH9l/LdSI9e14JsP8022XAzYcp6p1MaFCQQGkexwfSXn5T2HMDJ28MKTqgj8KchlfpPX3wfioItst3Gcjzse95eA+a2odxxhAmqjtXNA/yBNNnGyjRdALoXEEqQh/VVwo+K90C5v8K1xEq89Cku504O+jN8QFiWIrmmRc25QF1q6HB/RpcPNQbf6LvbWrRcnnlVK8EhAp+kjLjc60cNodP5x7ZRiyy5S3F3RZh/oYwsjz04k8RLKCc4G/RE/xATlE+NP+rChg/Gx28U0HFVV/ZdEJBfbUeDAaKh2W9rjZE4fPBLOzcm4pn+6Gl5DTbbeSqyvYtpVOp6nSOxn8H7gE329G9KiBMrTVH07+q2bAGjqtszoKzprtfdm0sWs6LpO3mj7zsgbSa8e7tqnAKZ3ZruvdScoOFk8/c0eo+b8WFx8KT/h+bg==
+X-Microsoft-Antispam-Message-Info: 8QqD5AjtJ4mJu2jq1zGYdWw2pGTmb6ml2LiXdwqyZe4YvHpcZvrlnh9szZ+zE3hKUIiOVsWWuiScncIJPvQmMlG+PCdgI8cJGkIbi+6wvhy6SRu5tDgCZRbdVrzOsRzF/dCBPjPHZw2sfkpyplreQ0hYWc4alxytE5S2PYtyR8ZvbVgtXlHHXiFEdnUDzlDTxnE8RBAB4bJkaOQCduKikrideg4Otde66cVTg+mQ52vOGIADJYHA9r6QujtzgtIYD/lhtSGtJbBKcHkhDhCNU/sF6cxwXkWGfH8nl5T1+nQbPdYptllK0FoIFCzIAdMY0H/Qeab/WUuAjxhLRvTMQij4dYbuxD0acw0LbdmsCsl/7PDEwes7MI3eHd1Jk2OPX3+aBZVPLl0nSoVq409RyFuIWFqQR19vjQVR15BXDZXBxYQwSxn1/58tQNUZat5nGgoKt3TonojxTkai6MEJATTE0dCM+EjGzCa0oCoDM7+Q7mc5W4uQjNBHFp0/xMMnbkugRY5FJ7t69cXfGSQdrg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(366004)(346002)(376002)(39840400004)(136003)(396003)(26005)(54906003)(7416002)(186003)(36756003)(2616005)(6486002)(86362001)(6496006)(956004)(38100700001)(16526019)(2906002)(52116002)(8676002)(5660300002)(4326008)(110136005)(66476007)(316002)(478600001)(55236004)(66946007)(6666004)(83380400001)(66556008)(8936002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?QYTiVfFdxA8q77HCZy7bAJjtjBLHQD0mfyqWz0xXbHJDFTDua5C63na6IjDA?=
- =?us-ascii?Q?/18dbWHM1A1QxyCzHuJCsLfB2ZadSHJItobiNX+KElCNw3XEI5CVPIhESlLi?=
- =?us-ascii?Q?Mz5w+JLT/ObqAhnGONSneanY0zNvSvvAnsS0q7/nKY9MUqwFxYo8kXoU/Jju?=
- =?us-ascii?Q?4qkQ8nYlJ8opB9CUvdUPcFMQwGdzNxNCW/+lobL1hH1nvieqHStnIEAxsWOS?=
- =?us-ascii?Q?/kbBDTWFHwvSefJUhowiyO0k7gu4Ojyetzq0LCuqNRrSji+LFuHrW8B7Lk3Z?=
- =?us-ascii?Q?9Z2+526lfJHLApu3/6t0oTqj4/Ywdqhwd69QlHC67LuX5g7MrtInY9QaYQ0f?=
- =?us-ascii?Q?OVu30br0v5uyqsHXOEsIxQDgEecspxawAZGbyCxVmuaJa4n+KR0hidCdoUKd?=
- =?us-ascii?Q?IMaS3yt9JBxZ/8Nar3jyf8tZh26unTmYMf8Xyr9SiXx5WV7YqQ44hP+gtIYf?=
- =?us-ascii?Q?XPxkegdgPsxU0vzazuKlk5pTD+cE5fdnBlQrfT+JEGzCOcrKQXoc9iN5nEFx?=
- =?us-ascii?Q?qXgQg2DYmMsQRtyCgu8mqfSNGkp4J70cjYvO8Zba+VJZmPaFXW++yayudRMZ?=
- =?us-ascii?Q?ynEHm8OAxRtYFJJOGAlle9IZoexm78a05LMdz3Lq4wpF+7CcRF2JKAVDnmUb?=
- =?us-ascii?Q?g4+lqa3KS/GCWtlDwUHD1pg8gJzBP/z/FJfGdKgwrT/H/6SPqNheA8UmvvGS?=
- =?us-ascii?Q?gE3IYBH27VlkC/EdMB9EOGpv7jMlU6hQozHkiIbrWiuvoNUSoa7VQ7zlohNf?=
- =?us-ascii?Q?wMQ2wKHVrTzO1BeX1xOUEb4BAeX84KRdpqJ9NznCxQXPKFnv3xhMYcwHV9e3?=
- =?us-ascii?Q?eAOwXou9yJ1YEmFTahIC+obMVxYU+z/DdGWqrSkA6HsCMoQsJHMupsu7Toou?=
- =?us-ascii?Q?nsJT8+7waWptfhHszvgllLtJsx5+ulu4e3KsFA2xQK420zBQTsD8SDDswZoY?=
- =?us-ascii?Q?JUrKfcWbPKot7QWJUYBZ/EUoQr6G8f34WQqhwf6Nb6r2P726aPwMeRJRiGBj?=
- =?us-ascii?Q?j3dsX317bPm2oXibGXkuCNfuexv4FWVbfTEYlThaO658KlL0nfJhlQfWowLy?=
- =?us-ascii?Q?RaswFGhQHuWxElUEy1KCwo//qBuqAoitHhHiX/jJOQyz+wHy+CT/NNz/ld3O?=
- =?us-ascii?Q?7ftTz+DyGfdEqthcFH18fVd9lMR6Mib+s41b5QxgcliELYeVmMmxu4EEOVs2?=
- =?us-ascii?Q?Lov2dzXfxBwCLk8gLdkgntb4YFpo1k+VVqKQtXLxDDCHJ2ov6N0AeMKkC4Gn?=
- =?us-ascii?Q?wI7dlB2Cig1yfBXn/x0tUe/2qNyC8SBRshXMn2KpiIKCXI8GmMwWAiSzXpOj?=
- =?us-ascii?Q?ZmB+HkEQYuuvHEwQ759ULs8M?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?hH+6aU8OD3fHdNdzeixBhXPk1mMGZR1WJD9Ev5cJVvSWYrXyPrkRdgb6KUBc?=
+ =?us-ascii?Q?eU46qBCdoj2A3d3nMs2MGyaYIh1N+YtmzGiJR4zyCPrwmkJMO88x45tcxaak?=
+ =?us-ascii?Q?ALXFl+VlVL6l3Tu75Bt7C7us2kA6Pyym5ak1gM/uOTqaDSY+sybVb4FNdLvH?=
+ =?us-ascii?Q?+lmtrgeqk2VeSBQYN2fa/4wUkM8AxhdvB1T1qsUiASLYZuQ3H//uCuI11P0G?=
+ =?us-ascii?Q?glIw1Bq5vU22SM+UuMtiu3jld5U+t6XeGmUy5AJonOcuQnClbTOKb9ox+o0M?=
+ =?us-ascii?Q?ano4FgtSdsgLz3nibp1YUF/4UIujX4Hpzu2PMi0+UdKqYbDES3Mu2N00GdGO?=
+ =?us-ascii?Q?sFnBq2vSz5bKsd5Rh8sCsSdNufENCDg+vP7bKiwpGwI1GLs1dYt1vIXxSLKp?=
+ =?us-ascii?Q?6PhMgh1/mdW/fa1Ef1ejj+e9lgBiuT9mAH2bmQ3H2i3i+nE8vetQ6StQc/Pe?=
+ =?us-ascii?Q?P0Lu+VgvScoHX4jBvwUXW8eR+B7eX/cAsi7Qa1kCBZtDOePenG0hy6p9wLGg?=
+ =?us-ascii?Q?mXV9FBjmfkNrCO45m1SqYNzox1BoDKTBvu0aniQzPku44UFfPZzLMawdlo3Z?=
+ =?us-ascii?Q?h9FXLId7C+e1eq6+dIlQ1cg+uDYC6OHti5qoXvnwjoXi5vIHN7XN+rAR0UQe?=
+ =?us-ascii?Q?U9BlfbtkfEWzjNylfi6Vfz3E0gLrN+OKMujsRqmpiNnBY7SUgAgTlBVLlQbp?=
+ =?us-ascii?Q?M9/wXNzfPxzmMT3FFBSO5JumHKChhjdgJra+snDMbso85Ys151Pio63FeTwq?=
+ =?us-ascii?Q?M8e4ZgxOV5TqyTKvMD8RiByNNLp2ShAkOO3iTlBxp91KxjKmp6JtfRRr/aL8?=
+ =?us-ascii?Q?H4luMNDBJkmv97o6+jHtO727ylphxVe+qH1bhFFdPhXPvAT60eMlfwLzKxqq?=
+ =?us-ascii?Q?a+Zhq3UQCwCMF4EKogZsQvXt2oDZIp7e8SoUeI55yX3C7n0c5GaJOLMuqFmO?=
+ =?us-ascii?Q?uO5xcRoaqMx8s+1+YBS4vEeSAgzVp5kQ+IplNe+CXoVmFpl4A5pTbwl2Tnff?=
+ =?us-ascii?Q?vUL8ze8QoedTks71AMCPv9uF9uDhMTELZ8OK3HMtz6bvOb1jFKRT+LFtw4Ko?=
+ =?us-ascii?Q?SjhGHYmYH7/xWOJRufHFjghqDyvl68XdLQJ/ktoiaoflVkLswNAPN5MZqFcu?=
+ =?us-ascii?Q?98NtpLLg/Z8TWs1J+qpurSTuhwPJ2kXxQJS9/FDubj2Xudo9mEgzKkVHCklF?=
+ =?us-ascii?Q?iIG25U+4TiXZzzi/0oV9P6mi5OI/sVFDxmZHWgT69Zq9sQ7SJZh0fRv4nPtH?=
+ =?us-ascii?Q?34EFxSOB7zpzRP4HI6Z+h644oF2UDeMcWbw3QkYyYwWrdUCz8TgAfOVVAuyA?=
+ =?us-ascii?Q?WBZFitKpnSyjIHrFeLecbDOZ?=
 X-OriginatorOrg: analogixsemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba911ab3-9177-47d2-4611-08d8eaa11c1a
+X-MS-Exchange-CrossTenant-Network-Message-Id: fee40ef2-8fd3-41af-0b63-08d8eaa1319c
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2021 06:34:55.8428 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2021 06:35:31.7801 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gB10pd+nyzD/wcLQ0fa5/LKGNSURAhN/yhM82kDiMZw/dyISP1cDL66jz7GYL9wKcphhcqwg42ltNAb52NdDLA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: krid4z5mi4QyJtx7AHd6s1NuOEtHA7mwGhE8rhgvkGjd21vOu8ma0In7q5qRbStBB8xGkCrOjfBjqODOgLAUDQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4581
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -133,230 +133,326 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add HDCP feature, enable HDCP function through chip internal key
-and downstream's capability.
+Add audio HDMI codec function support, enable it through device true flag
+"analogix,audio-enable".
 
+Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Xin Ji <xji@analogixsemi.com>
 ---
- drivers/gpu/drm/bridge/analogix/anx7625.c | 147 ++++++++++++++++++++++
- drivers/gpu/drm/bridge/analogix/anx7625.h |  36 ++++++
- 2 files changed, 183 insertions(+)
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 227 ++++++++++++++++++++++
+ drivers/gpu/drm/bridge/analogix/anx7625.h |   5 +
+ 2 files changed, 232 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 8c514b46d361..b424a570effa 100644
+index b424a570effa..02bb169d9c57 100644
 --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
 +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -633,6 +633,150 @@ static int anx7625_dpi_config(struct anx7625_data *ctx)
- 	return ret;
+@@ -30,6 +30,8 @@
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+ 
++#include <sound/hdmi-codec.h>
++
+ #include <video/display_timing.h>
+ 
+ #include "anx7625.h"
+@@ -150,6 +152,20 @@ static int anx7625_write_and(struct anx7625_data *ctx,
+ 	return anx7625_reg_write(ctx, client, offset, (val & (mask)));
  }
  
-+static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
-+				 u8 addrh, u8 addrm, u8 addrl,
-+				 u8 len, u8 *buf)
++static int anx7625_write_and_or(struct anx7625_data *ctx,
++				struct i2c_client *client,
++				u8 offset, u8 and_mask, u8 or_mask)
 +{
-+	struct device *dev = &ctx->client->dev;
-+	int ret;
-+	u8 cmd;
++	int val;
 +
-+	if (len > MAX_DPCD_BUFFER_SIZE) {
-+		DRM_DEV_ERROR(dev, "exceed aux buffer len.\n");
-+		return -E2BIG;
-+	}
++	val = anx7625_reg_read(ctx, client, offset);
++	if (val < 0)
++		return val;
 +
-+	cmd = ((len - 1) << 4) | 0x09;
-+
-+	/* Set command and length */
-+	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-+				AP_AUX_COMMAND, cmd);
-+
-+	/* Set aux access address */
-+	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-+				 AP_AUX_ADDR_7_0, addrl);
-+	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-+				 AP_AUX_ADDR_15_8, addrm);
-+	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-+				 AP_AUX_ADDR_19_16, addrh);
-+
-+	/* Enable aux access */
-+	ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
-+				AP_AUX_CTRL_STATUS, AP_AUX_CTRL_OP_EN);
-+
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(dev, "cannot access aux related register.\n");
-+		return -EIO;
-+	}
-+
-+	usleep_range(2000, 2100);
-+
-+	ret = wait_aux_op_finish(ctx);
-+	if (ret) {
-+		DRM_DEV_ERROR(dev, "aux IO error: wait aux op finish.\n");
-+		return ret;
-+	}
-+
-+	ret = anx7625_reg_block_read(ctx, ctx->i2c.rx_p0_client,
-+				     AP_AUX_BUFF_START, len, buf);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(dev, "read dpcd register failed\n");
-+		return -EIO;
-+	}
-+
-+	return 0;
++	return anx7625_reg_write(ctx, client,
++				 offset, (val & and_mask) | (or_mask));
 +}
 +
-+static int anx7625_read_flash_status(struct anx7625_data *ctx)
-+{
-+	return anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, R_RAM_CTRL);
-+}
-+
-+static int anx7625_hdcp_key_probe(struct anx7625_data *ctx)
-+{
-+	int ret, val;
-+	struct device *dev = &ctx->client->dev;
-+	u8 ident[32];
-+
-+	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-+				FLASH_ADDR_HIGH, 0x91);
-+	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-+				 FLASH_ADDR_LOW, 0xA0);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(dev, "IO error : set key flash address.\n");
-+		return ret;
-+	}
-+
-+	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-+				FLASH_LEN_HIGH, (FLASH_BUF_LEN - 1) >> 8);
-+	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-+				 FLASH_LEN_LOW, (FLASH_BUF_LEN - 1) & 0xFF);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(dev, "IO error : set key flash len.\n");
-+		return ret;
-+	}
-+
-+	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-+				R_FLASH_RW_CTRL, FLASH_READ);
-+	ret |= readx_poll_timeout(anx7625_read_flash_status,
-+				  ctx, val,
-+				  ((val & FLASH_DONE) || (val < 0)),
-+				  2000,
-+				  2000 * 150);
-+	if (ret) {
-+		DRM_DEV_ERROR(dev, "flash read access fail!\n");
-+		return -EIO;
-+	}
-+
-+	ret = anx7625_reg_block_read(ctx, ctx->i2c.rx_p0_client,
-+				     FLASH_BUF_BASE_ADDR,
-+				     FLASH_BUF_LEN, ident);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(dev, "read flash data fail!\n");
-+		return -EIO;
-+	}
-+
-+	if (ident[29] == 0xFF && ident[30] == 0xFF && ident[31] == 0xFF)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int anx7625_hdcp_setting(struct anx7625_data *ctx)
-+{
-+	u8 bcap;
-+	int ret;
-+	struct device *dev = &ctx->client->dev;
-+
-+	ret = anx7625_hdcp_key_probe(ctx);
-+	if (ret) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "disable HDCP by config\n");
-+		return anx7625_write_and(ctx, ctx->i2c.rx_p1_client,
-+					 0xee, 0x9f);
-+	}
-+
-+	anx7625_aux_dpcd_read(ctx, 0x06, 0x80, 0x28, 1, &bcap);
-+	if (!(bcap & 0x01)) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "bcap(0x%x) not support HDCP 1.4.\n",
-+				     bcap);
-+		return anx7625_write_and(ctx, ctx->i2c.rx_p1_client,
-+					 0xee, 0x9f);
-+	}
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "enable HDCP 1.4\n");
-+
-+	ret = anx7625_write_or(ctx, ctx->i2c.rx_p1_client, 0xee, 0x20);
-+
-+	/* Try auth flag */
-+	ret |= anx7625_write_or(ctx, ctx->i2c.rx_p1_client, 0xec, 0x10);
-+	/* Interrupt for DRM */
-+	ret |= anx7625_write_or(ctx, ctx->i2c.rx_p1_client, 0xff, 0x01);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(dev, "fail to enable HDCP\n");
-+
-+	return ret;
-+}
-+
- static void anx7625_dp_start(struct anx7625_data *ctx)
+ static int anx7625_config_bit_matrix(struct anx7625_data *ctx)
  {
- 	int ret;
-@@ -643,6 +787,9 @@ static void anx7625_dp_start(struct anx7625_data *ctx)
- 		return;
- 	}
- 
-+	/* HDCP config */
-+	anx7625_hdcp_setting(ctx);
-+
- 	if (ctx->pdata.is_dpi)
- 		ret = anx7625_dpi_config(ctx);
+ 	int i, ret;
+@@ -1498,6 +1514,9 @@ static int anx7625_parse_dt(struct device *dev,
  	else
+ 		DRM_DEV_DEBUG_DRIVER(dev, "found MIPI DSI host node.\n");
+ 
++	if (of_property_read_bool(np, "analogix,audio-enable"))
++		pdata->audio_en = 1;
++
+ 	ret = drm_of_find_panel_or_bridge(np, 1, 0, &panel, NULL);
+ 	if (ret < 0) {
+ 		if (ret == -ENODEV)
+@@ -1568,6 +1587,208 @@ static enum drm_connector_status anx7625_sink_detect(struct anx7625_data *ctx)
+ 				     connector_status_disconnected;
+ }
+ 
++static int anx7625_audio_hw_params(struct device *dev, void *data,
++				   struct hdmi_codec_daifmt *fmt,
++				   struct hdmi_codec_params *params)
++{
++	struct anx7625_data *ctx = dev_get_drvdata(dev);
++	int wl, ch, rate;
++	int ret = 0;
++
++	if (fmt->fmt != HDMI_DSP_A) {
++		DRM_DEV_ERROR(dev, "only supports DSP_A\n");
++		return -EINVAL;
++	}
++
++	DRM_DEV_DEBUG_DRIVER(dev, "setting %d Hz, %d bit, %d channels\n",
++			     params->sample_rate, params->sample_width,
++			     params->cea.channels);
++
++	ret |= anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
++				    AUDIO_CHANNEL_STATUS_6,
++				    ~I2S_SLAVE_MODE,
++				    TDM_SLAVE_MODE);
++
++	/* Word length */
++	switch (params->sample_width) {
++	case 16:
++		wl = AUDIO_W_LEN_16_20MAX;
++		break;
++	case 18:
++		wl = AUDIO_W_LEN_18_20MAX;
++		break;
++	case 20:
++		wl = AUDIO_W_LEN_20_20MAX;
++		break;
++	case 24:
++		wl = AUDIO_W_LEN_24_24MAX;
++		break;
++	default:
++		DRM_DEV_DEBUG_DRIVER(dev, "wordlength: %d bit not support",
++				     params->sample_width);
++		return -EINVAL;
++	}
++	ret |= anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
++				    AUDIO_CHANNEL_STATUS_5,
++				    0xf0, wl);
++
++	/* Channel num */
++	switch (params->cea.channels) {
++	case 2:
++		ch = I2S_CH_2;
++		break;
++	case 4:
++		ch = TDM_CH_4;
++		break;
++	case 6:
++		ch = TDM_CH_6;
++		break;
++	case 8:
++		ch = TDM_CH_8;
++		break;
++	default:
++		DRM_DEV_DEBUG_DRIVER(dev, "channel number: %d not support",
++				     params->cea.channels);
++		return -EINVAL;
++	}
++	ret |= anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
++			       AUDIO_CHANNEL_STATUS_6, 0x1f, ch << 5);
++	if (ch > I2S_CH_2)
++		ret |= anx7625_write_or(ctx, ctx->i2c.tx_p2_client,
++				AUDIO_CHANNEL_STATUS_6, AUDIO_LAYOUT);
++	else
++		ret |= anx7625_write_and(ctx, ctx->i2c.tx_p2_client,
++				AUDIO_CHANNEL_STATUS_6, ~AUDIO_LAYOUT);
++
++	/* FS */
++	switch (params->sample_rate) {
++	case 32000:
++		rate = AUDIO_FS_32K;
++		break;
++	case 44100:
++		rate = AUDIO_FS_441K;
++		break;
++	case 48000:
++		rate = AUDIO_FS_48K;
++		break;
++	case 88200:
++		rate = AUDIO_FS_882K;
++		break;
++	case 96000:
++		rate = AUDIO_FS_96K;
++		break;
++	case 176400:
++		rate = AUDIO_FS_1764K;
++		break;
++	case 192000:
++		rate = AUDIO_FS_192K;
++		break;
++	default:
++		DRM_DEV_DEBUG_DRIVER(dev, "sample rate: %d not support",
++				     params->sample_rate);
++		return -EINVAL;
++	}
++	ret |= anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
++				    AUDIO_CHANNEL_STATUS_4,
++				    0xf0, rate);
++	ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
++				AP_AV_STATUS, AP_AUDIO_CHG);
++	if (ret < 0) {
++		DRM_DEV_ERROR(dev, "IO error : config audio.\n");
++		return -EIO;
++	}
++
++	return 0;
++}
++
++static void anx7625_audio_shutdown(struct device *dev, void *data)
++{
++	DRM_DEV_DEBUG_DRIVER(dev, "stop audio\n");
++}
++
++static int anx7625_hdmi_i2s_get_dai_id(struct snd_soc_component *component,
++				       struct device_node *endpoint)
++{
++	struct of_endpoint of_ep;
++	int ret;
++
++	ret = of_graph_parse_endpoint(endpoint, &of_ep);
++	if (ret < 0)
++		return ret;
++
++	/*
++	 * HDMI sound should be located at external DPI port
++	 * Didn't have good way to check where is internal(DSI)
++	 * or external(DPI) bridge
++	 */
++	return 0;
++}
++
++static void
++anx7625_audio_update_connector_status(struct anx7625_data *ctx,
++				      enum drm_connector_status status)
++{
++	if (ctx->plugged_cb && ctx->codec_dev) {
++		ctx->plugged_cb(ctx->codec_dev,
++				status == connector_status_connected);
++	}
++}
++
++static int anx7625_audio_hook_plugged_cb(struct device *dev, void *data,
++					 hdmi_codec_plugged_cb fn,
++					 struct device *codec_dev)
++{
++	struct anx7625_data *ctx = data;
++
++	ctx->plugged_cb = fn;
++	ctx->codec_dev = codec_dev;
++	anx7625_audio_update_connector_status(ctx, anx7625_sink_detect(ctx));
++
++	return 0;
++}
++
++static const struct hdmi_codec_ops anx7625_codec_ops = {
++	.hw_params	= anx7625_audio_hw_params,
++	.audio_shutdown = anx7625_audio_shutdown,
++	.get_dai_id	= anx7625_hdmi_i2s_get_dai_id,
++	.hook_plugged_cb = anx7625_audio_hook_plugged_cb,
++};
++
++static void anx7625_unregister_audio(struct anx7625_data *ctx)
++{
++	struct device *dev = &ctx->client->dev;
++
++	if (ctx->audio_pdev) {
++		platform_device_unregister(ctx->audio_pdev);
++		ctx->audio_pdev = NULL;
++	}
++
++	DRM_DEV_DEBUG_DRIVER(dev, "unbound to %s", HDMI_CODEC_DRV_NAME);
++}
++
++static int anx7625_register_audio(struct device *dev, struct anx7625_data *ctx)
++{
++	struct hdmi_codec_pdata codec_data = {
++		.ops = &anx7625_codec_ops,
++		.max_i2s_channels = 8,
++		.i2s = 1,
++		.data = ctx,
++	};
++
++	ctx->audio_pdev = platform_device_register_data(dev,
++							HDMI_CODEC_DRV_NAME,
++							PLATFORM_DEVID_AUTO,
++							&codec_data,
++							sizeof(codec_data));
++
++	if (IS_ERR(ctx->audio_pdev))
++		return IS_ERR(ctx->audio_pdev);
++
++	DRM_DEV_DEBUG_DRIVER(dev, "bound to %s", HDMI_CODEC_DRV_NAME);
++
++	return 0;
++}
++
+ static int anx7625_attach_dsi(struct anx7625_data *ctx)
+ {
+ 	struct mipi_dsi_device *dsi;
+@@ -2064,6 +2285,9 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 				    DRM_MODE_CONNECTOR_DisplayPort;
+ 	drm_bridge_add(&platform->bridge);
+ 
++	if (platform->pdata.audio_en)
++		anx7625_register_audio(dev, platform);
++
+ 	DRM_DEV_DEBUG_DRIVER(dev, "probe done\n");
+ 
+ 	return 0;
+@@ -2089,6 +2313,9 @@ static int anx7625_i2c_remove(struct i2c_client *client)
+ 
+ 	anx7625_unregister_i2c_dummy_clients(platform);
+ 
++	if (platform->pdata.audio_en)
++		anx7625_unregister_audio(platform);
++
+ 	kfree(platform);
+ 	return 0;
+ }
 diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-index beee95da2155..c6f93e4df0ed 100644
+index c6f93e4df0ed..d6be2a83fad9 100644
 --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
 +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-@@ -154,9 +154,45 @@
+@@ -111,6 +111,7 @@
+ #define AUDIO_CHANNEL_STATUS_6 0xd5
+ #define TDM_SLAVE_MODE 0x10
+ #define I2S_SLAVE_MODE 0x08
++#define AUDIO_LAYOUT   0x01
  
- #define  I2C_ADDR_7E_FLASH_CONTROLLER  0x7E
+ #define AUDIO_CONTROL_REGISTER 0xe6
+ #define TDM_TIMING_MODE 0x08
+@@ -400,6 +401,7 @@ struct anx7625_platform_data {
+ 	int intp_irq;
+ 	int is_dpi;
+ 	int mipi_lanes;
++	int audio_en;
+ 	int dp_lane0_swing_reg_cnt;
+ 	int lane0_reg_data[DP_TX_SWING_REG_CNT];
+ 	int dp_lane1_swing_reg_cnt;
+@@ -420,6 +422,7 @@ struct anx7625_i2c_client {
  
-+#define FLASH_SRAM_SEL          0x00
-+#define SRAM_ADDR_HIGH          0x01
-+#define SRAM_ADDR_LOW           0x02
-+#define SRAM_LEN_HIGH           0x03
-+#define SRAM_LEN_LOW            0x04
- #define FLASH_LOAD_STA          0x05
- #define FLASH_LOAD_STA_CHK	BIT(7)
- 
-+#define R_RAM_CTRL              0x05
-+/* bit positions */
-+#define FLASH_DONE              BIT(7)
-+#define BOOT_LOAD_DONE          BIT(6)
-+#define CRC_OK                  BIT(5)
-+#define LOAD_DONE               BIT(4)
-+#define O_RW_DONE               BIT(3)
-+#define FUSE_BUSY               BIT(2)
-+#define DECRYPT_EN              BIT(1)
-+#define LOAD_START              BIT(0)
-+
-+#define FLASH_ADDR_HIGH         0x0F
-+#define FLASH_ADDR_LOW          0x10
-+#define FLASH_LEN_HIGH          0x31
-+#define FLASH_LEN_LOW           0x32
-+
-+#define R_FLASH_RW_CTRL         0x33
-+/* bit positions */
-+#define READ_DELAY_SELECT       BIT(7)
-+#define GENERAL_INSTRUCTION_EN  BIT(6)
-+#define FLASH_ERASE_EN          BIT(5)
-+#define RDID_READ_EN            BIT(4)
-+#define REMS_READ_EN            BIT(3)
-+#define WRITE_STATUS_EN         BIT(2)
-+#define FLASH_READ              BIT(1)
-+#define FLASH_WRITE             BIT(0)
-+
-+#define FLASH_BUF_BASE_ADDR     0x60
-+#define FLASH_BUF_LEN           0x20
-+#define FLASH_KEY_OFFSET        0x8000
-+
- #define  XTAL_FRQ_SEL    0x3F
- /* bit field positions */
- #define  XTAL_FRQ_SEL_POS    5
+ struct anx7625_data {
+ 	struct anx7625_platform_data pdata;
++	struct platform_device *audio_pdev;
+ 	atomic_t power_status;
+ 	int hpd_status;
+ 	int hpd_high_cnt;
+@@ -429,6 +432,8 @@ struct anx7625_data {
+ 	struct anx7625_i2c_client i2c;
+ 	struct i2c_client *last_client;
+ 	struct s_edid_data slimport_edid_p;
++	struct device *codec_dev;
++	hdmi_codec_plugged_cb plugged_cb;
+ 	struct work_struct work;
+ 	struct workqueue_struct *workqueue;
+ 	char edid_block;
 -- 
 2.25.1
 
