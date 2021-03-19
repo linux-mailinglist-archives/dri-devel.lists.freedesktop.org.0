@@ -1,55 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51160341F3D
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 15:22:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B15D4341F51
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 15:27:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86D256EA0F;
-	Fri, 19 Mar 2021 14:22:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E0606EA19;
+	Fri, 19 Mar 2021 14:27:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E18DA6EA0F;
- Fri, 19 Mar 2021 14:22:23 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id
- h6-20020a0568300346b02901b71a850ab4so8678317ote.6; 
- Fri, 19 Mar 2021 07:22:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8356A6EA20
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 14:27:26 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ x7-20020a17090a2b07b02900c0ea793940so6817505pjc.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 07:27:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=H+QTRu6EnHIJRSAxr0xqfxOd0QJj6B0MWLRcdPTUx6E=;
- b=QG1GJGF09eRn2BJfugyVxbdtWB3kouSc28Ve52z65D2tx7ZZUD23R8f8ty6P8w4Jdu
- bmIWlZYjsZg1VFL2IRknwtEbZIJNJIXG7bn+1d1EgM8d0yA9JML5LxOaH6bFGIAzbeum
- HPKyoPLxbF2Rn69l5wDiL0GSFof3fOcjPNCCT9inw0JuJU9dDBybwr2r2F8KvbB0uVPB
- TruKdtbUgTGS8ItSjHQlj/jwaGap03lCPx4S7uk6Qo4qdtQh8wuhORDslhcRytR46Gbv
- fEO0BSJQFB41G0D1lwL21P9TIm8UWdR4tHnfvnEp9ITLXPCD6VwAf0hq1me2dwns5iHy
- kejg==
+ :cc; bh=c7mV4Rbx11jSwGIO7RFWexEM9wuc954Tc7xoZGSC8RY=;
+ b=GLXyAn0MdFT42J6cb6YnfW63npT81/n7lhBa96/JtS7CxrjrH72B6rJtFaiqBzHLrA
+ mTY3t6/8/oM5MxseEQRivmzslOGqSbjil+9paVlcpPb/o1mPG5c4EbQAun0rLLKbshdE
+ HkXG7+PmRkqhA2NmGafsaYCjf5SYcu10XCFH8aDuYUbs7vv/CZv9ePX1VyOwWLjuba24
+ sSyJ3g/wXIECiOK+bH4Ih8BIxlgkkhYn9ivIbEd2929m/OFYb/Z0XHf7gAMtdOPlU+lx
+ VHucChxDfHeZCh5Wt0c5DLVlHmNJIwEg3VCmmYzXscKFmj5eJ71iM/WbtM1xz4oQApfz
+ Orgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=H+QTRu6EnHIJRSAxr0xqfxOd0QJj6B0MWLRcdPTUx6E=;
- b=agSatfIGhrSeAGd+ySR06pIp2+AbixOyN0zaWk7ZI2caxSmcDZTnmVVl0FDUjSz/0e
- sD+f73GmXHxIoaWY5Qsja+C4nR6fZkxVRfuUTh2ijz1Y3350i3r/i6ASquCgLddyRUyH
- TjW8s4krBYUnjjVCWGl7dY8su47rKnxugbzU+6MiUH2EPA906Dh6e1aDeVaWEnK6FdHn
- mV3hzIoLUetEZlVtdGUb4J9SIcrOh4fiH+GOaUSn++Dj3PQ53q3cXBmpEJD9yKmWn3Nw
- Gy6hj6WgFYpCyBo0wqeARZcJ9bIX4mSxr1Gp//PmQUwBWizd44uBZsq6o0ZXT6HG7Jgt
- fCDg==
-X-Gm-Message-State: AOAM530xXGFuW10Ozly8QsWG5K+QnzLDPmBebDJc4ii8yXiX4jgdWJUi
- kMjCjqpDD9wBh0ewAXsASbJjeFEuUcgJ7kD6/9Y=
-X-Google-Smtp-Source: ABdhPJxEwCWLzjFqAl2UnlrCHKPEGOjU2eg3HPVKAh9/P4eC++ZobzBV++X87wSuhhZv/hfDB3hKOLAzVdyEkhvo7Wk=
-X-Received: by 2002:a05:6830:408f:: with SMTP id
- x15mr1432261ott.132.1616163743185; 
- Fri, 19 Mar 2021 07:22:23 -0700 (PDT)
+ bh=c7mV4Rbx11jSwGIO7RFWexEM9wuc954Tc7xoZGSC8RY=;
+ b=W/kjhsI7rVRg5meGNu4R/nvsP745zdOouQjV2xbZCPZGKIRz8AsB5XMOqEjqb7VR9K
+ IWzIeot8ovy87EgOzyxivX0SKDAkBYuzDYMkjuHXSSYJNMPGj7P9Ox5u5rLRjZk/UuUl
+ C8hrAIjUnJRRLLwEe1l6yMmrp3ffpcV4N+9Tfv7TgJG9CY7ziO7u1d3kPIfWypcXptFD
+ YbEUmWLCF0o8uqX9excVBN0+AB1v62FS+BdYgjghsrtZFu6tN3JEqW9tMEF2QIh+hzcO
+ U8a1ZPc0Fb5SLnB7xkjhGSJe5xpP9Q+XC6KBwHuZGepuQ6o9H8svOAb+Oqw8QRQ/yrQh
+ XpNA==
+X-Gm-Message-State: AOAM533LeScOhQYkzvZhSOOqQksMOXoE+yulkUcIFPY8VF8XU+wPxtWW
+ oqobjQWmliB+aC+UWUNSQnH1Y1f7R/PQSF+7KamSgg==
+X-Google-Smtp-Source: ABdhPJwnvR9UG2Yo3M+kYPqi3jAuQjulo9vJWylVtTTAmghGEpuzrJcoACdzlFVSdwttecpo72YGBTDHorwXzt+5IKQ=
+X-Received: by 2002:a17:902:f68a:b029:e5:b17f:9154 with SMTP id
+ l10-20020a170902f68ab02900e5b17f9154mr14411080plg.28.1616164046035; Fri, 19
+ Mar 2021 07:27:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210319164418.1.I5d51cc12776ee8993a1a54089b548952f75ada41@changeid>
-In-Reply-To: <20210319164418.1.I5d51cc12776ee8993a1a54089b548952f75ada41@changeid>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 19 Mar 2021 10:22:12 -0400
-Message-ID: <CADnq5_OguuMsqT7MVC=ieNZm9mqyVUsGpQDHr59BWtBJJUvFoA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Set AMDGPU_DM_DEFAULT_MIN_BACKLIGHT to 0
-To: Evan Benn <evanbenn@chromium.org>
+References: <20210219215326.2227596-1-lyude@redhat.com>
+ <20210219215326.2227596-5-lyude@redhat.com>
+In-Reply-To: <20210219215326.2227596-5-lyude@redhat.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Fri, 19 Mar 2021 15:27:15 +0100
+Message-ID: <CAG3jFyuR6yH9bWzbmcZVRoyRUvu0qvEirVtxtcUmVEyVpeW_JQ@mail.gmail.com>
+Subject: Re: [PATCH 04/30] drm/bridge/tc358767: Don't register DP AUX channel
+ until bridge is attached
+To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,78 +64,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, Eryk Brol <eryk.brol@amd.com>,
- David Airlie <airlied@linux.ie>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Anand <amistry@chromium.org>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>, open list <linux-kernel@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, amd-gfx@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 19, 2021 at 3:23 AM Evan Benn <evanbenn@chromium.org> wrote:
+Hey Lyude,
+
+This patch looks good to me.
+
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
+
+On Fri, 19 Feb 2021 at 22:56, Lyude Paul <lyude@redhat.com> wrote:
 >
-> AMDGPU_DM_DEFAULT_MIN_BACKLIGHT was set to the value of 12
-> to ensure no display backlight will flicker at low user brightness
-> settings. However this value is quite bright, so for devices that do not
-> implement the ACPI ATIF
-> ATIF_FUNCTION_QUERY_BRIGHTNESS_TRANSFER_CHARACTERISTICS
-> functionality the user cannot set the brightness to a low level even if
-> the display would support such a low PWM.
+> Since this is a bridge, we don't start out with a respective DRM device.
+> Likewise this means we don't have a connector, which also means that we
+> should be following drm_dp_aux_register()'s documentation advice and not
+> call drm_dp_aux_register() until we have a matching connector. Instead,
+> call drm_dp_aux_init() in tc_probe() and wait until tc_bridge_attach() to
+> register our AUX channel. We also add tc_bridge_detach() to handle
+> unregistering the AUX adapter once the bridge has been disconnected.
 >
-> This ATIF feature is not implemented on for example AMD grunt chromebooks.
->
-> Signed-off-by: Evan Benn <evanbenn@chromium.org>
->
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
 > ---
-> I could not find a justification for the reason for the value. It has
-> caused some noticable regression for users: https://bugzilla.kernel.org/show_bug.cgi?id=203439
+>  drivers/gpu/drm/bridge/tc358767.c | 20 +++++++++++++++-----
+>  1 file changed, 15 insertions(+), 5 deletions(-)
 >
-> Maybe this can be either user controlled or userspace configured, but
-> preventing users from turning their backlight dim seems wrong.
-
-My understanding is that some panels flicker if you set the min to a
-value too low.  This was a safe minimum if the platform didn't specify
-it's own safe minimum.  I think we'd just be trading one bug for
-another (flickering vs not dim enough).  Maybe a whitelist or
-blacklist would be a better solution?
-
-Alex
-
-
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> index 34a3e4e9f717..da89922721ed 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -1414,11 +1414,15 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+>         if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
+>                 return 0;
 >
-> Also reviewed here: https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2748377
+> +       ret = drm_dp_aux_register(&tc->aux);
+> +       if (ret < 0)
+> +               return ret;
+> +
+>         /* Create DP/eDP connector */
+>         drm_connector_helper_add(&tc->connector, &tc_connector_helper_funcs);
+>         ret = drm_connector_init(drm, &tc->connector, &tc_connector_funcs, tc->bridge.type);
+>         if (ret)
+> -               return ret;
+> +               goto aux_unregister;
 >
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>         /* Don't poll if don't have HPD connected */
+>         if (tc->hpd_pin >= 0) {
+> @@ -1438,10 +1442,19 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+>         drm_connector_attach_encoder(&tc->connector, tc->bridge.encoder);
 >
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 573cf17262da..0129bd69b94e 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -3151,7 +3151,7 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
 >         return 0;
+> +aux_unregister:
+> +       drm_dp_aux_unregister(&tc->aux);
+> +       return ret;
+> +}
+> +
+> +static void tc_bridge_detach(struct drm_bridge *bridge)
+> +{
+> +       drm_dp_aux_unregister(&bridge_to_tc(bridge)->aux);
 >  }
 >
-> -#define AMDGPU_DM_DEFAULT_MIN_BACKLIGHT 12
-> +#define AMDGPU_DM_DEFAULT_MIN_BACKLIGHT 0
->  #define AMDGPU_DM_DEFAULT_MAX_BACKLIGHT 255
->  #define AUX_BL_DEFAULT_TRANSITION_TIME_MS 50
+>  static const struct drm_bridge_funcs tc_bridge_funcs = {
+>         .attach = tc_bridge_attach,
+> +       .detach = tc_bridge_detach,
+>         .mode_valid = tc_mode_valid,
+>         .mode_set = tc_bridge_mode_set,
+>         .enable = tc_bridge_enable,
+> @@ -1680,9 +1693,7 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+>         tc->aux.name = "TC358767 AUX i2c adapter";
+>         tc->aux.dev = tc->dev;
+>         tc->aux.transfer = tc_aux_transfer;
+> -       ret = drm_dp_aux_register(&tc->aux);
+> -       if (ret)
+> -               return ret;
+> +       drm_dp_aux_init(&tc->aux);
 >
+>         tc->bridge.funcs = &tc_bridge_funcs;
+>         if (tc->hpd_pin >= 0)
+> @@ -1702,7 +1713,6 @@ static int tc_remove(struct i2c_client *client)
+>         struct tc_data *tc = i2c_get_clientdata(client);
+>
+>         drm_bridge_remove(&tc->bridge);
+> -       drm_dp_aux_unregister(&tc->aux);
+>
+>         return 0;
+>  }
 > --
-> 2.31.0.291.g576ba9dcdaf-goog
+> 2.29.2
 >
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
