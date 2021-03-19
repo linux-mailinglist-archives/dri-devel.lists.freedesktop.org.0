@@ -2,70 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 265333419A5
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 11:13:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D629341B81
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 12:30:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CC576E9DF;
-	Fri, 19 Mar 2021 10:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E9E76E9EA;
+	Fri, 19 Mar 2021 11:30:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56D116E9CC
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 10:13:12 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id A7ED2580987;
- Fri, 19 Mar 2021 06:13:11 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Fri, 19 Mar 2021 06:13:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=HglB5UH3B0OAE7O13cdbTL4IU7f
- 4hkPDeGRcwCtZZgk=; b=eQpQc237+OQXGXL4tVU/8QrcNmgi8JGPSixrr4fToov
- MWagydn0hE875bjTPUFTAhr5P9ZlzGq64yTlcHssQp7F7+Cm4v7YZ/SuxJuNxOmw
- 49Lu9BtDtQRdZPwgLTH0OiKBWWiJHVr/Ru28ued8flE+mYMlx6JkY8A+VieZ2bMC
- ev/emNeLepkTUomKfIrQza7Pox/eE7jY70Xij04IRzbIhKqwBggRVnE1S4UFqS5g
- rFQP/0nI0hHvO3WeJWtSuUbg03QIV8qvxgcBjtc4Qjh8T46Iq728dWDHcWOu70qH
- aAVGv0WhQc8EfW/M/qJE/owgeHkhfWBcss2MGJzyMDA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=HglB5U
- H3B0OAE7O13cdbTL4IU7f4hkPDeGRcwCtZZgk=; b=kHAO7Q5bxuMRclQCcXvWnR
- 1/bhi3NIhSubcpMchfexS1COaxK38G6d/URSjHXcFJFC/AjAc5icPJsBtVBGgQud
- 8aSZySufWePVFSHRo3YXIYkfxTwc08n8lj1WgNnce1P6AZc5nq9yYVMMmWW+Sys8
- nLHTuJJ1SlNfUO3J7XO+bZ+AJVkhLCDKWfU4nn8SXwqjalgtnWppSXLyDGw6VoIb
- dkr9rYUENxDUZX+n0SuLY6jw5qwGQEfeWBFlgTl3Ne8gIH7+q8GR/lciVsx3f2d6
- KQlbSPeoHHrE0gqn5Pxsyg/GFoznI4dT7qyntgWziSmtSGnhII+rfRSz7ysKlKgA
- ==
-X-ME-Sender: <xms:NXlUYFcshNQtOn1AlJXdZk5Eq2arFLn397WLxmYnMofg6jtY-UnEjA>
- <xme:NXlUYDMnR9aCjBQnI1fNwSeglaSSiymDHNiPf3XEOefrdrKVpF4rngrmZ1Xp4ip-e
- g0VnD6nYqZkcg_yxcM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefkedgudefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepuedtgfejueduheevgfevvdettdduleffgfffkeeltdffkeegudekjeeuveei
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:NXlUYOja533pFqgwWeTXQ37roEJ7kSfClg9DvC2VIqnbPQMfmbxGDA>
- <xmx:NXlUYO8QKC2s5at00_37Lhb2VzelSIQTLliOnaC38AdQHB82kk3xOQ>
- <xmx:NXlUYBu03VMsZFZRStB45-DP2k-kd-b0CfrPvDJikSwi9rRXLWWB_Q>
- <xmx:N3lUYKEgWYMQcUZNmS3Robe1j4XzMSzjKR_x8IzN_6Ru5ijcomojUg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 3E64E240068;
- Fri, 19 Mar 2021 06:13:09 -0400 (EDT)
-Date: Fri, 19 Mar 2021 11:13:07 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>
-Subject: Re: [PATCH 00/18] drm/vc4: hdmi: Add Support for the YUV output
-Message-ID: <20210319101307.lznvguod2zvpxqp4@gilmour>
-References: <20210317154352.732095-1-maxime@cerno.tech>
- <4209616.oJxVDHRhuA@kista>
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC4106E9EB
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 11:30:30 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id h3so5673749pfr.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 04:30:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mBRi75+4ZXFYImT5TGU9kGKxGRhGqVxM6M+tAV+mb/E=;
+ b=UazQNSNh6OqCQMM7wl92C43GmrPxGV3RZTO1y89v5bBE501r/9WKGlixY+7tAGZMeL
+ v1rihy7KJQrRr70kCLg1utX4ZLw15BnWYkmDtcze4PGsl5h7zGOhqRfvfnX7iZri2IeK
+ m/E/gTkDMa8E8Jsmtqf12BlJY9luyi+9POcFQErCOwISZg9gXbdzRWg7CGnS6s0afTFs
+ WUKpqnWVcxnm86q8NVsJV6ijswLLKfpq6/o5BLRXQ00OZJLwvJ3rYSR5fYBo/vmkhNxx
+ ns5vkqPFqwJyGnanDCUOVTbGsq9M6ylYB7FQINiZPwOtBnWlRFqlE2Adv0FI5b9jdTDc
+ ejeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mBRi75+4ZXFYImT5TGU9kGKxGRhGqVxM6M+tAV+mb/E=;
+ b=IB52/zki2JSJweJUU5ZXBHPig9AYaHWQ4JsjdyoeLZarJgBEtHbPPdPINmKaMLoALm
+ ffx1XeAAZ8uZ0yc1RCsR4hIfVd3reYMCu9ps+y0ihda5jSEW+QC7INq8S5sL1uOeSFkr
+ CL77umJMsatPXiA1xvIFxxw0mZigxIwgwan4xmsN7L8Bw7Ns5xY0lLuZC0LHoLfY1/6o
+ mgThL8lGoTJSj+CfXus7++nzoNlAPRXQNBg+7hgTNFE+dC8yOEnrs//P6WWjKrjDZ2Y7
+ juDolcgDWwCYP6rKqVt2eZ2QfZuDL2p5oeKHgkkOf9yk6LWY3/sIPL35nN4o0/Lsqz/Y
+ h/+g==
+X-Gm-Message-State: AOAM530V0KbndkQnVIKoekAvZw3P9P/sWMIq9OiGHU6GWRAjD8Qa+B/L
+ ulTNk8ZifeYl9qEnzyxCQAN6eYXzOLSZgM4wXEEz/w==
+X-Google-Smtp-Source: ABdhPJyueJqbCvxvjsAE48+4+uzNTfZK3apwOOTQ5ZGtvQfah7LFUXUY4ry2appxkZ5SC84t3BxNou620Ggqog2+hro=
+X-Received: by 2002:a05:6a00:b54:b029:207:2a04:7b05 with SMTP id
+ p20-20020a056a000b54b02902072a047b05mr8786871pfo.12.1616153430352; Fri, 19
+ Mar 2021 04:30:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <4209616.oJxVDHRhuA@kista>
+References: <20210219215326.2227596-1-lyude@redhat.com>
+ <20210219215326.2227596-19-lyude@redhat.com>
+In-Reply-To: <20210219215326.2227596-19-lyude@redhat.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Fri, 19 Mar 2021 12:30:19 +0100
+Message-ID: <CAG3jFyv2F7ri4wQcwipoLT6nr-K_SWpLcAFi_B0Lo_O+KaWo2w@mail.gmail.com>
+Subject: Re: [PATCH 18/30] drm/print: Fixup DRM_DEBUG_KMS_RATELIMITED()
+To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,103 +62,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, bcm-kernel-feedback-list@broadcom.com,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-rpi-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0934091401=="
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hey Lyude,
 
---===============0934091401==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ao5xhbjudcipmpt2"
-Content-Disposition: inline
+Thanks for the patch,
+
+On Fri, 19 Feb 2021 at 22:59, Lyude Paul <lyude@redhat.com> wrote:
+>
+> Since we're about to move drm_dp_helper.c over to drm_dbg_*(), we'll want
+> to make sure that we can also add ratelimited versions of these macros in
+> order to retain some of the previous debugging output behavior we had.
+>
+> However, as I was preparing to do this I noticed that the current
+> rate limited macros we have are kind of bogus. It looks like when I wrote
+> these, I didn't notice that we'd always be calling __ratelimit() even if
+> the debugging message we'd be printing would normally be filtered out due
+> to the relevant DRM debugging category being disabled.
+>
+> So, let's fix this by making sure to check drm_debug_enabled() in our
+> ratelimited macros before calling __ratelimit(), and start using
+> drm_dev_printk() in order to print debugging messages since that will save
+> us from doing a redundant drm_debug_enabled() check. And while we're at it,
+> let's move the code for this into another macro that we can reuse for
+> defining new ratelimited DRM debug macros more easily.
+>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+>  include/drm/drm_print.h | 20 ++++++++++++--------
+>  1 file changed, 12 insertions(+), 8 deletions(-)
+>
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index f32d179e139d..3a0c3fe4d292 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -524,16 +524,20 @@ void __drm_err(const char *format, ...);
+>  #define DRM_DEBUG_DP(fmt, ...)                                         \
+>         __drm_dbg(DRM_UT_DP, fmt, ## __VA_ARGS__)
+>
+> -
+> -#define DRM_DEBUG_KMS_RATELIMITED(fmt, ...)                            \
+> -({                                                                     \
+> -       static DEFINE_RATELIMIT_STATE(_rs,                              \
+> -                                     DEFAULT_RATELIMIT_INTERVAL,       \
+> -                                     DEFAULT_RATELIMIT_BURST);         \
+> -       if (__ratelimit(&_rs))                                          \
+> -               drm_dev_dbg(NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__);      \
+> +#define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)                                    \
+> +({                                                                                               \
+> +       static DEFINE_RATELIMIT_STATE(rs_, DEFAULT_RATELIMIT_INTERVAL, DEFAULT_RATELIMIT_BURST); \
+> +       const struct drm_device *drm_ = (drm);                                                   \
+> +                                                                                                 \
+> +       if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_))                         \
+> +               drm_dev_printk(drm_ ? drm_->dev : NULL, KERN_DEBUG, fmt, ## __VA_ARGS__);        \
+>  })
+
+checkpatch --strict is unhappy about the tabs/spaces in this patch
 
 
---ao5xhbjudcipmpt2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ERROR: code indent should use tabs where possible
+#48: FILE: include/drm/drm_print.h:531:
++
+                           \$
 
-Hi Jernej,
+WARNING: please, no spaces at the start of a line
+#48: FILE: include/drm/drm_print.h:531:
++
+                           \$
 
-On Thu, Mar 18, 2021 at 07:16:33PM +0100, Jernej =C5=A0krabec wrote:
-> Dne sreda, 17. marec 2021 ob 16:43:34 CET je Maxime Ripard napisal(a):
-> > Hi,
-> >=20
-> > Here's an attempt at support the HDMI YUV output on the BCM2711 SoC fou=
-nd on
-> > the RaspberryPi4.
-> >=20
-> > I took the same approach than what dw-hdmi did already, turning a bunch=
- of
-> > functions found in that driver into helpers since they were fairly gene=
-ric.
-> >=20
-> > However, it feels a bit clunky overall and there's a few rough edges th=
-at
-> > should be addressed in a generic manner:
-> >=20
-> >   - while the format negociation makes sense for a bridge, it feels a b=
-it
-> >     over-engineered for a simple encoder where that setting could be a=
-=20
-> simple
-> >     switch (and possibly a property?)
->=20
-> Property could work, but possible values should be then limited to cross=
-=20
-> section of HW and connected display capabilities.
 
-That's a good point. I'm not sure if the userspace should expect the
-list of values of an enum to change under its feet
-
-> > - more importantly, whether we're choosing an YUV output or not is
-> >   completely hidden away from the userspace even though it might
-> >   have some effect on > the visual quality output (thinking about
-> >   YUV420 and YUV422 here mostly).
->=20
-> IMO driver should select highest achievable quality. So in case of
-> YUV420 and YUV422, later should be selected. This should be the case
-> even if the property is implemented.
-
-Well, it depends on the hardware capability. On RPi4 in some situations
-(high bpc count), we can't output anything else than YUV422. I'd expect
-to have some way for the userspace to know at least. And then, for
-subsampling formats it's fairly easy to tell which is the highest
-achievable quality, but it would be pretty hard for YUV444 vs RGB?
-
-Maxime
-
---ao5xhbjudcipmpt2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYFR5MwAKCRDj7w1vZxhR
-xcMNAQCry5Q3KdEz/DDFtEpwSGKaSFJGfcmbbivR9csW/2+HWQD+L+muppVW5HVy
-qOq9oel4AllWDHlt3Xx4n/AKi7bj2QM=
-=m3Sx
------END PGP SIGNATURE-----
-
---ao5xhbjudcipmpt2--
-
---===============0934091401==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>
+> +#define drm_dbg_kms_ratelimited(drm, fmt, ...) \
+> +       __DRM_DEFINE_DBG_RATELIMITED(KMS, drm, fmt, ## __VA_ARGS__)
+> +
+> +#define DRM_DEBUG_KMS_RATELIMITED(fmt, ...) drm_dbg_kms_ratelimited(NULL, fmt, ## __VA_ARGS__)
+> +
+>  /*
+>   * struct drm_device based WARNs
+>   *
+> --
+> 2.29.2
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0934091401==--
