@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 748DE341FC1
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 15:39:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F769341FE6
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 15:43:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D7796EA2A;
-	Fri, 19 Mar 2021 14:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AEAD6EA2E;
+	Fri, 19 Mar 2021 14:43:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E15AA6EA2D
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 14:39:16 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id m7so3811015pgj.8
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 07:39:16 -0700 (PDT)
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97DB36EA31
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 14:43:55 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ nh23-20020a17090b3657b02900c0d5e235a8so4993158pjb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 07:43:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xqUIitizMTnYW6S9ohgcqJQ/J1W0YdhVn6Dv9vqrskk=;
- b=SZEnYT7h6DCwyjpq+7bIJP9gm9gyX8+UPSBYtn1U4Ml2edHlstmfKmS7tzo1gVFGGy
- tVIK6T1X69l6L0KBTvH6T3V5b5QYtMRA6hH6ki9WecNYdezFAA/+l/jNwMgt2t8BAm1A
- pZKpWz++WWGHtOWWkc8XVl3IBMjaPYJWv0Yhsv7reWTonWSlm2/UdZDUfrckcQa/as6m
- qHE51eDJJ8+t2beaAm/D3r6+sexCG2oHXenD7PZaSgcpSC8f2FMAnOlMq1hSpJuRGyXy
- j90nuX8PJ8m/ToLUQ/FBWBrpuEQ2rQ+ACJDGKNtaP/hRO3U9rokQks1V74Uy0a8qSQzF
- YPeg==
+ :cc; bh=86LC+1JkNbbYNnfKum5G/BlJ9HpQquJ6GZDdITyjMEY=;
+ b=ESqHg/Y6nunNSt2A+n9NWRNhz9fMlfBI4MSa8ZUCLsFHV6hBHTbyKTb5LvtUBy3sDl
+ tZ3TZCOfAxuslM6hVBzvZBG+WDWr6+KKfr45IXsC++3CgBLssBEmOYJPoltIUCj5Ab5r
+ Ps5BzO93U4v5ATBIff4UXI55yoi3tueb3M2Mxsxr8AalFKT0qmZjt0ytDLMrSuh+Xjv2
+ nn1qSIhjlu63a0/GM1HyDQ0gsQjhbyl0d2JTYfEuiD0xDFDASfbE81sV/e6NUMEG69T/
+ p4rrhKaWnvLHgogq2P8lT5x0kwhxjSmRELfZbJfWCaMnzgbK6aqmocai87gZbkTlRmnh
+ tqaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xqUIitizMTnYW6S9ohgcqJQ/J1W0YdhVn6Dv9vqrskk=;
- b=HKMhXpCF2R1mNeOXFbtDw88fXcgCagIbc8HuOUc14A1SH08BNgPpyRqoiOJfwWAEyC
- G3SmWwjrEHuMlDsoBkynWVQ97Pe1A1fZ7HyX7So8PNsh5UbkbMRPue1M9+Vl3PQOYTIO
- VwZfoSRdtlp/tWvq12B5fXa26xKRSqyL70Jhy/dMeZhRpqdePefVHHlvnX8G33sWr52e
- C98zhA3XRAC88Aai12mlMOFyE1spW4FCoCQ+UBqyKkx4Y8wyx8yckcddovIOoNClPLGN
- DhChVHR+CaHOapsjSrLW7LkJHPQzWjr5Z7X7jWN/doparTPSUn7hv96qpRjgFq3IBGED
- 4cMw==
-X-Gm-Message-State: AOAM530IKd+NiTl/Mzzig9L0ww/Zz5eSJg70W0qBOsFtHv3AQYh1l3RF
- WlJm8loYyqJGgTIgm5RDiDPVlEmzdM+mJBNmruuesA==
-X-Google-Smtp-Source: ABdhPJxyzaVRIHKqWtfgcw3n5NOIEIk5UCwoTeZ+Esn+3nxwGg5PiW1JJdRjbupSYVJzlFjyNK41/72RfVqZUtibaz8=
-X-Received: by 2002:a62:80cf:0:b029:1f3:1959:2e42 with SMTP id
- j198-20020a6280cf0000b02901f319592e42mr9452067pfd.39.1616164756499; Fri, 19
- Mar 2021 07:39:16 -0700 (PDT)
+ bh=86LC+1JkNbbYNnfKum5G/BlJ9HpQquJ6GZDdITyjMEY=;
+ b=TLLyXRI4TH0jLx4jj7eXM6joGodp5Ni9/LbYTvt+lfSUIm9uZ+AaOISDSPyDrnVLkp
+ F3JADYveeZ7MEELoIUE3Rssm1a43X54p01vPJjW3zkEGJtwCByYCa1gqNxd09OlxGrm+
+ mtBBHBwrMlXi0VIHOy2zvlJ6Hl+7Lm0QE4FomLN9P9ML9/CBdEzkoGrdFR/pIfchmazQ
+ 9Av5H7xKDvE2b5lURVcdI+vcsNgN4ID9IA6XN9BK6AzzpBhnZBFTaveobOIyDq3oV/7A
+ Y0POlgKwVTtVcoZhLZ6krDeo/rkNG/DumvApgyLloMU59RSbJeEqQz0A6VGvJls6HYiQ
+ zpMg==
+X-Gm-Message-State: AOAM532vtqwoTc9OJqjoU1Yqoz1RiAeu4yHjIJXWAXrckgpZo1lHSM2c
+ TclRCivK3oWRZPi8ofK6HhXp8Ak0YvjG/8H8S9yBnQ==
+X-Google-Smtp-Source: ABdhPJxMIHdTlGCXNCULSxlRJJagvj2AatBYPGQF37Ua2ikdmUUVJ4WnoNWSgNo0fgfSZ+4tH2iCCodydlKkCHKtvhM=
+X-Received: by 2002:a17:90a:be07:: with SMTP id
+ a7mr10386254pjs.75.1616165035134; 
+ Fri, 19 Mar 2021 07:43:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210219215326.2227596-1-lyude@redhat.com>
- <20210219215326.2227596-11-lyude@redhat.com>
-In-Reply-To: <20210219215326.2227596-11-lyude@redhat.com>
+ <20210219215326.2227596-12-lyude@redhat.com>
+In-Reply-To: <20210219215326.2227596-12-lyude@redhat.com>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Fri, 19 Mar 2021 15:39:05 +0100
-Message-ID: <CAG3jFyvL99-b_F2e=A2SsfkiOV5Un3GZUeOfV_Uxb4YxiSf6UA@mail.gmail.com>
-Subject: Re: [PATCH 10/30] drm/bridge/analogix/anx6345: Add missing
- drm_dp_aux_unregister() call
+Date: Fri, 19 Mar 2021 15:43:44 +0100
+Message-ID: <CAG3jFyvMb+ENOnM4Ug8Vkfk1uGThQj=+M96mf3ef0e9jzapoCw@mail.gmail.com>
+Subject: Re: [PATCH 11/30] drm/bridge/analogix/anx6345: Don't link encoder
+ until after connector registration
 To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,11 +69,12 @@ Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
  Andrzej Hajda <a.hajda@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Sam Ravnborg <sam@ravnborg.org>, amd-gfx@lists.freedesktop.org,
- Vasily Khoruzhick <anarsoul@gmail.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Icenowy Zheng <icenowy@aosc.io>, Jonas Karlman <jonas@kwiboo.se>,
- intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Icenowy Zheng <icenowy@aosc.io>,
+ Jonas Karlman <jonas@kwiboo.se>, intel-gfx@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Jernej Skrabec <jernej.skrabec@siol.net>,
- open list <linux-kernel@vger.kernel.org>, Torsten Duwe <duwe@lst.de>,
+ open list <linux-kernel@vger.kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Torsten Duwe <duwe@lst.de>,
  Thomas Zimmermann <tzimmermann@suse.de>, Joe Perches <joe@perches.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -87,38 +89,45 @@ Reviewed-by: Robert Foss <robert.foss@linaro.org>
 
 On Fri, 19 Feb 2021 at 22:58, Lyude Paul <lyude@redhat.com> wrote:
 >
-> Another driver I found that seems to forget to unregister it's DP AUX
-> device. Let's fix this by adding anx6345_bridge_detach().
+> Another case of linking an encoder to a connector after the connector's
+> been registered. The proper place to do this is before connector
+> registration, so let's fix that.
 >
 > Signed-off-by: Lyude Paul <lyude@redhat.com>
 > ---
->  drivers/gpu/drm/bridge/analogix/analogix-anx6345.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/gpu/drm/bridge/analogix/analogix-anx6345.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-> index d9164fab044d..8e016ba7c54a 100644
+> index 8e016ba7c54a..6258f16da0e8 100644
 > --- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
 > +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-> @@ -574,6 +574,11 @@ static int anx6345_bridge_attach(struct drm_bridge *bridge,
+> @@ -556,12 +556,6 @@ static int anx6345_bridge_attach(struct drm_bridge *bridge,
+>         drm_connector_helper_add(&anx6345->connector,
+>                                  &anx6345_connector_helper_funcs);
+>
+> -       err = drm_connector_register(&anx6345->connector);
+> -       if (err) {
+> -               DRM_ERROR("Failed to register connector: %d\n", err);
+> -               return err;
+> -       }
+> -
+>         anx6345->connector.polled = DRM_CONNECTOR_POLL_HPD;
+>
+>         err = drm_connector_attach_encoder(&anx6345->connector,
+> @@ -571,6 +565,12 @@ static int anx6345_bridge_attach(struct drm_bridge *bridge,
+>                 return err;
+>         }
+>
+> +       err = drm_connector_register(&anx6345->connector);
+> +       if (err) {
+> +               DRM_ERROR("Failed to register connector: %d\n", err);
+> +               return err;
+> +       }
+> +
 >         return 0;
 >  }
 >
-> +static void anx6345_bridge_detach(struct drm_bridge *bridge)
-> +{
-> +       drm_dp_aux_unregister(&bridge_to_anx6345(bridge)->aux);
-> +}
-> +
->  static enum drm_mode_status
->  anx6345_bridge_mode_valid(struct drm_bridge *bridge,
->                           const struct drm_display_info *info,
-> @@ -624,6 +629,7 @@ static void anx6345_bridge_enable(struct drm_bridge *bridge)
->
->  static const struct drm_bridge_funcs anx6345_bridge_funcs = {
->         .attach = anx6345_bridge_attach,
-> +       .detach = anx6345_bridge_detach,
->         .mode_valid = anx6345_bridge_mode_valid,
->         .disable = anx6345_bridge_disable,
->         .enable = anx6345_bridge_enable,
 > --
 > 2.29.2
 >
