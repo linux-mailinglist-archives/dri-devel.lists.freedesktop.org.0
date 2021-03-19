@@ -1,48 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F07341D84
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 13:57:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4EDD341DF4
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 14:17:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1012F6E0D6;
-	Fri, 19 Mar 2021 12:57:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED2E6E039;
+	Fri, 19 Mar 2021 13:17:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A1C46E0D6
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 12:57:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:Message-ID:References:
- In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=fs1BI/kDPxpUnN2YfyefcBRApTniZpGXEnNk5mbyRPI=; b=bR+IhlEU7m0zTEXNyKdnBRdnDp
- S64rpmFI69yooWeChT4QtgiW4qBjIjtAhJgC5GwNUjZgirSY5GWnG2wQ0bEvPqrshK9Ka8goBhikf
- pStXD170FQK8lPXtrd4L4hUiwVQ4ZsRv/6PcQupUqGh36AXLBcOlIwqdeTGGbZHa0bY2aKH0TI1ct
- btzOi4uajTKn/ZL14tzZjvqr+cJsMF0ZOj07/RZDrYukbnfeqDAczU4mm+SoRTNwvydtPE6SZMaHI
- SMpuXwo4P4WzzO8raSsiCegtwS4nXkKQgm9QaIiRSJ9J/ah/L4jqoy2ajOw9HRJ2nwlBQIc8RTbl6
- 3PC69Row==;
-Received: from webng-gw.kapsi.fi ([91.232.154.200] helo=roundcube.kapsi.fi)
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <jyri.sarha@iki.fi>)
- id 1lNEh4-0004zv-6k; Fri, 19 Mar 2021 14:57:34 +0200
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A5A16E039
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 13:17:15 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id g20so5445557wmk.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 06:17:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XizLt9y8QuBfn2G+PzFtXWPzUzKqS1ZiChsPNFkRApk=;
+ b=YB8qKNA6B4cZmWQT/WAKLTHxYtmHqt634FbsdwDgpZyqri/cQY/UZiEtTe+CTnrgqz
+ te/BzCXJ4TW3lVvuKSgVivT6uO/fKHWK3VzhCS2PNGusetGs9m9eXhDfTCFuSs9R6DDn
+ IBZPYiH51alhl6BTqBRPWcgNepruiU6s8G/aOH+KSFwPhAAjmYbZTS1mDjCUmfa/0N0+
+ xn6umPZTXeIhcKJ351TYxy944cjBAgiY+dviOqR8Qy4PtJwiBDnyVOs5/YX3vz7ER4Dz
+ FbvTMtDkuoSWfiduRJRB+vn2TMVhuzNOe2wFujXj3R766+x6rhW3pmBfAJGMsj99LoyD
+ qN8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XizLt9y8QuBfn2G+PzFtXWPzUzKqS1ZiChsPNFkRApk=;
+ b=kkOG4uWIu0czF99f8cAfXE73aECNzkDxCaAdpKFaNiaDOB+20/Bmeg5ATQP8mCf61q
+ x0NTzBe5Sigfo+uLgFtEQBMmcM4v+IayCYj/3Gu+KcNScI/SgYtmRbsLKRIEV3BDWg97
+ /TVR/kByaZ6ZE4M8neON7zZcRTO/hyQAfO82p5TpzB2e7IMwvp3QgRb4Rqo8xCQQCk4a
+ 7oj4qEgbGwI7LuzFjlIM6UT4rirPD1b5zMOajVWSWXAAn3ciyRiP5ld7Qdx4obyT3bgf
+ 3Qvhrg5Qh/SoV0nO/T5viu1B8avB3G3NSw+B3pa+K0u2hZdRy2AkC+DZ11mdMBEGiJI9
+ TUGA==
+X-Gm-Message-State: AOAM531Ty4oWS/h4BUX72iklXyo19343MtRM62zDy4YxiJcNJw6v/e3f
+ 4FNiStzZVfvU9+cWdGtOy1s=
+X-Google-Smtp-Source: ABdhPJwBF7w8X7bdxys0Tqi+8wIl/IGC/1bwGuOFfayyc+m7sznQJqmPUnyRyNE7wEQei1ajbTLj5Q==
+X-Received: by 2002:a1c:5416:: with SMTP id i22mr3715894wmb.146.1616159833941; 
+ Fri, 19 Mar 2021 06:17:13 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id f4sm6627946wrz.4.2021.03.19.06.17.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Mar 2021 06:17:12 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH] drm/tegra: sor: Grab runtime PM reference across reset
+Date: Fri, 19 Mar 2021 14:17:22 +0100
+Message-Id: <20210319131722.1425804-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Date: Fri, 19 Mar 2021 14:57:31 +0200
-From: Jyri Sarha <jyri.sarha@iki.fi>
-To: Dario Binacchi <dariobin@libero.it>
-Subject: Re: [PATCH] drm/tilcdc: fix LCD pixel clock setting
-In-Reply-To: <1180006566.16525.1616104029554@mail1.libero.it>
-References: <20210314151342.23404-1-dariobin@libero.it>
- <7df3a270-1cc4-7a71-5e55-49a0dfb2c21f@kernel.org>
- <1180006566.16525.1616104029554@mail1.libero.it>
-User-Agent: Roundcube Webmail/1.4.11
-Message-ID: <8adc90ef6ec8cb1ec3b8fdbdad0233cf@iki.fi>
-X-Sender: jyri.sarha@iki.fi
-X-SA-Exim-Connect-IP: 91.232.154.200
-X-SA-Exim-Mail-From: jyri.sarha@iki.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,119 +64,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Tomi Valkeinen <tomba@kernel.org>
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jonathan Hunter <jonathanh@nvidia.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-03-18 23:47, Dario Binacchi wrote:
->> Il 17/03/2021 09:19 Tomi Valkeinen <tomba@kernel.org> ha scritto:
->> 
->> 
->> On 14/03/2021 17:13, Dario Binacchi wrote:
->> > As reported by TI spruh73x RM, the LCD pixel clock (LCD_PCLK) frequency
->> > is obtained by dividing LCD_CLK, the LCD controller reference clock,
->> > for CLKDIV:
->> >
->> > LCD_PCLK = LCD_CLK / CLKDIV
->> >
->> > where CLKDIV must be greater than 1.
->> >
->> > Therefore LCD_CLK must be set to 'req_rate * CLKDIV' instead of req_rate
->> 
->> The above doesn't make sense, the code already sets LCD_CLK to 
->> 'req_rate
->> * clkdiv', not req_rate.
->> 
->> > and the real LCD_CLK rate must be compared with 'req_rate * CLKDIV' and
->> > not with req_rate.
->> 
->> This is true, the code looks at the wrong value.
->> 
->> > Passing req_rate instead of 'req_rate * CLKDIV' to the tilcdc_pclk_diff
->> > routine caused it to fail even if LCD_CLK was properly set.
->> >
->> > Signed-off-by: Dario Binacchi <dariobin@libero.it>
->> >
->> > ---
->> >
->> >   drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 9 +++++----
->> >   1 file changed, 5 insertions(+), 4 deletions(-)
->> >
->> > diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
->> > index 30213708fc99..02f56c9a5da5 100644
->> > --- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
->> > +++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
->> > @@ -203,7 +203,7 @@ static void tilcdc_crtc_set_clk(struct drm_crtc *crtc)
->> >   	struct drm_device *dev = crtc->dev;
->> >   	struct tilcdc_drm_private *priv = dev->dev_private;
->> >   	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
->> > -	unsigned long clk_rate, real_rate, req_rate;
->> > +	unsigned long clk_rate, real_rate, req_rate, clk_div_rate;
->> >   	unsigned int clkdiv;
->> >   	int ret;
->> >
->> > @@ -211,10 +211,11 @@ static void tilcdc_crtc_set_clk(struct drm_crtc *crtc)
->> >
->> >   	/* mode.clock is in KHz, set_rate wants parameter in Hz */
->> >   	req_rate = crtc->mode.clock * 1000;
->> > -
->> > -	ret = clk_set_rate(priv->clk, req_rate * clkdiv);
->> > +	/* LCD clock divisor input rate */
->> > +	clk_div_rate = req_rate * clkdiv;
->> 
->> "clk_div_rate" sounds a bit odd to me. Why not lcd_fck_rate, as that's
->> the name used later? Or lcd_clk_rate. Or maybe lcd_clk_req_rate...
-> 
-> I prefer lcd_clk_rate.
-> 
-> How about adding an additional patch that changes the variable names to 
-> make
-> the code more readable?
-> 
-> req_rate -> lcd_pclk_rate
-> clk_rate -> real_lcd_clk_rate
-> 
-> And add a comment to the function which highlights the relationship
-> LCD_CLK = LCD_PCLK * CLDIV ?
-> 
+From: Thierry Reding <treding@nvidia.com>
 
-What about renaming current req_rate to pclk_rate (for pixel clock 
-rate), and calling pclk_rate * clkdiv = req_rate, as that is the rate we 
-need to request from the input clock? Adding lcd to local variable names 
-here is quite redundant after all. In any case req_rate is bit 
-misleading name here and probably part of the reason why the bug exists 
-in the first place.
+The SOR resets are exclusively shared with the SOR power domain. This
+means that exclusive access can only be granted temporarily and in order
+for that to work, a rigorous sequence must be observed. To ensure that a
+single consumer gets exclusive access to a reset, each consumer must
+implement a rigorous protocol using the reset_control_acquire() and
+reset_control_release() functions.
 
-Best regards,
-Jyri
+However, these functions alone don't provide any guarantees at the
+system level. Drivers need to ensure that the only a single consumer has
+access to the reset at the same time. In order for the SOR to be able to
+exclusively access its reset, it must therefore ensure that the SOR
+power domain is not powered off by holding on to a runtime PM reference
+to that power domain across the reset assert/deassert operation.
 
+This used to work fine by accident, but was revealed when recently more
+devices started to rely on the SOR power domain.
 
+Fixes: 11c632e1cfd3 ("drm/tegra: sor: Implement acquire/release for reset")
+Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/gpu/drm/tegra/sor.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
->> 
->> > +	ret = clk_set_rate(priv->clk, clk_div_rate);
->> >   	clk_rate = clk_get_rate(priv->clk);
->> > -	if (ret < 0 || tilcdc_pclk_diff(req_rate, clk_rate) > 5) {
->> > +	if (ret < 0 || tilcdc_pclk_diff(clk_div_rate, clk_rate) > 5) {
->> >   		/*
->> >   		 * If we fail to set the clock rate (some architectures don't
->> >   		 * use the common clock framework yet and may not implement
->> >
->> 
->> I think this fix is fine, but looking at the current code, it's 
->> calling
->> tilcdc_pclk_diff(), but doesn't actually provide pixel clocks to the
->> function, but fclk.
-> 
-> Yes, I agree.
-> 
-> Thanks and regards,
-> Dario
-> 
->> 
->>   Tomi
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index f02a035dda45..7b88261f57bb 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -3115,6 +3115,12 @@ static int tegra_sor_init(struct host1x_client *client)
+ 	 * kernel is possible.
+ 	 */
+ 	if (sor->rst) {
++		err = pm_runtime_resume_and_get(sor->dev);
++		if (err < 0) {
++			dev_err(sor->dev, "failed to get runtime PM: %d\n", err);
++			return err;
++		}
++
+ 		err = reset_control_acquire(sor->rst);
+ 		if (err < 0) {
+ 			dev_err(sor->dev, "failed to acquire SOR reset: %d\n",
+@@ -3148,6 +3154,7 @@ static int tegra_sor_init(struct host1x_client *client)
+ 		}
+ 
+ 		reset_control_release(sor->rst);
++		pm_runtime_put(sor->dev);
+ 	}
+ 
+ 	err = clk_prepare_enable(sor->clk_safe);
+-- 
+2.30.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
