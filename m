@@ -2,46 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33BFA34247D
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 19:20:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8CAA342490
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 19:24:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C278A6EA71;
-	Fri, 19 Mar 2021 18:20:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AEF36EA73;
+	Fri, 19 Mar 2021 18:24:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0904C6EA71
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 18:20:22 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4F2ByP3TQ7z1rtMh;
- Fri, 19 Mar 2021 19:20:12 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4F2ByN586Rz1sP6p;
- Fri, 19 Mar 2021 19:20:12 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id TMdUfsHndRVw; Fri, 19 Mar 2021 19:20:10 +0100 (CET)
-X-Auth-Info: SaOtkMc7BPfDgl4Y2KG9Y4TLUg7pQytUgrDs+35gkbs=
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Fri, 19 Mar 2021 19:20:10 +0100 (CET)
-Subject: Re: [PATCH V2] drm/bridge: lvds-codec: Add support for pixel data
- sampling edge select
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-References: <20201224061832.92010-1-marex@denx.de>
- <82442a19-f4ea-ec33-abec-1c067ebab828@denx.de>
-Message-ID: <cd74b695-a7f3-1be3-1f3b-23594136b33a@denx.de>
-Date: Fri, 19 Mar 2021 19:20:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8351F6EA73;
+ Fri, 19 Mar 2021 18:24:44 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id i81so4259492oif.6;
+ Fri, 19 Mar 2021 11:24:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Bcw5RupkibLZJIssKn/HrlopTaukHSpPItO2c/relWo=;
+ b=M5wR/G3qdMGXM1MTTQEYVBpbX/44DhQ8WqR9oyZnPq2hpZTLv5ck7LHOPlz606CBUz
+ 05cqgkjfsJbtSePcgIJrYxiMseKby3aCvtulqImT0z2R90H+qJuv3CrkyCoLRxm0KmUL
+ a3nmM7WbRGJ6A3acz0ivDfLz70gLWw2rW3TYNyxhRxFIGlMEQ2TVzkM5Gm2i9NH+gTw8
+ Kz8e1djtvNBR4R/0L0+vp3OAYmRGCeDXRj/YjD+fwR6oZzfIJG1meAveXX3DFbMx49Dd
+ BHGKJQCOlT8jM612M2zF361mTp90QBDxl30k0ludFlJxqiQCmmf6JQN6iMobmJC5S1vJ
+ tvkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Bcw5RupkibLZJIssKn/HrlopTaukHSpPItO2c/relWo=;
+ b=ACBtVc83xeY3uD1ismud5n4qHylvAF2Vaoe4HkL1uQXuZ9R7+a1oqK61uUlGjBVRpD
+ QDS1FzOBei+UijYhXGyZp7+Iy/gcVGdYuA30nkt1qnIgU3En5ghWSNFpi95CqCKmZv7a
+ jp2dXuBHBUVFXxkyz9LIrXbazjBkaLd2eh4977mA8UGWQKCGwmk2W1tTR9H/AV2frTx+
+ sqgIxyIYBg/k8oqp3Gfeb0rZOLImC/tId74qHWuFlP3MquqZon5dFIfILHq3U+IID4mn
+ /eYOsl/BYgUftII9XbprmBMLKK7+cNG3spZL6igtXxhsQKLWrUrivjQiIUgsS7wsFC6Y
+ gZ8w==
+X-Gm-Message-State: AOAM5330d350s0Kt8ag5//ucJ3/ek16seXTRKpbvafWmeQjkOGBggMsy
+ wleN7txD3/hRa0pjjxtO6Gt6Rrqexx5509xH1iw=
+X-Google-Smtp-Source: ABdhPJyy3N3qJKjKFgm4fgpqhvgVBz1b2x8B62Ny15EF/rJe5Bi8kqn8rSYh9pFR/NsmTVn/+rOwdGxKBmga09GtVOU=
+X-Received: by 2002:aca:af10:: with SMTP id y16mr1950101oie.120.1616178283865; 
+ Fri, 19 Mar 2021 11:24:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <82442a19-f4ea-ec33-abec-1c067ebab828@denx.de>
-Content-Language: en-US
+References: <20210319082428.3294591-1-lee.jones@linaro.org>
+ <20210319082428.3294591-9-lee.jones@linaro.org>
+In-Reply-To: <20210319082428.3294591-9-lee.jones@linaro.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 19 Mar 2021 14:24:33 -0400
+Message-ID: <CADnq5_OuAC99FOz3x3QtdEF+rGpbsoGH11VA_BvoDFQnz_FrGA@mail.gmail.com>
+Subject: Re: [PATCH 08/19] drm/amd/display/dc/dce80/dce80_resource: Make local
+ functions static
+To: Lee Jones <lee.jones@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,31 +63,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Torgue <alexandre.torgue@st.com>,
- Antonio Borneo <antonio.borneo@st.com>, Vincent Abriou <vincent.abriou@st.com>,
- Philippe Cornu <philippe.cornu@st.com>, Yannick Fertre <yannick.fertre@st.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Biju Das <biju.das.jz@bp.renesas.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- Benjamin Gaignard <benjamin.gaignard@st.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Leo Li <sunpeng.li@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Anthony Koo <Anthony.Koo@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/24/21 6:04 PM, Marek Vasut wrote:
-> On 12/24/20 7:18 AM, Marek Vasut wrote:
->> The OnSemi FIN3385 Parallel-to-LVDS encoder has a dedicated input line to
->> select input pixel data sampling edge. Add DT property "pixelclk-active",
->> same as the one used by display timings, and configure bus flags based on
->> this DT property.
-> 
-> Bump ?
-
-Any news on this patch ?
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBNYXIgMTksIDIwMjEgYXQgNDoyNCBBTSBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
+cm8ub3JnPiB3cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3
+YXJuaW5nKHMpOgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvZGMv
+ZGNlODAvZGNlODBfcmVzb3VyY2UuYzo1Mjc6MTc6IHdhcm5pbmc6IG5vIHByZXZpb3VzIHByb3Rv
+dHlwZSBmb3Ig4oCYZGNlODBfYXV4X2VuZ2luZV9jcmVhdGXigJkgWy1XbWlzc2luZy1wcm90b3R5
+cGVzXQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9kaXNwbGF5L2RjL2RjZTgwL2Rj
+ZTgwX3Jlc291cmNlLmM6NTY1OjIwOiB3YXJuaW5nOiBubyBwcmV2aW91cyBwcm90b3R5cGUgZm9y
+IOKAmGRjZTgwX2kyY19od19jcmVhdGXigJkgWy1XbWlzc2luZy1wcm90b3R5cGVzXQo+ICBkcml2
+ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9kaXNwbGF5L2RjL2RjZTgwL2RjZTgwX3Jlc291cmNl
+LmM6NTgxOjIwOiB3YXJuaW5nOiBubyBwcmV2aW91cyBwcm90b3R5cGUgZm9yIOKAmGRjZTgwX2ky
+Y19zd19jcmVhdGXigJkgWy1XbWlzc2luZy1wcm90b3R5cGVzXQo+ICBkcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS8uLi9kaXNwbGF5L2RjL2RjZTgwL2RjZTgwX3Jlc291cmNlLmM6NzE1OjIyOiB3
+YXJuaW5nOiBubyBwcmV2aW91cyBwcm90b3R5cGUgZm9yIOKAmGRjZTgwX2xpbmtfZW5jb2Rlcl9j
+cmVhdGXigJkgWy1XbWlzc2luZy1wcm90b3R5cGVzXQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
+ZGdwdS8uLi9kaXNwbGF5L2RjL2RjZTgwL2RjZTgwX3Jlc291cmNlLmM6NzU0OjIyOiB3YXJuaW5n
+OiBubyBwcmV2aW91cyBwcm90b3R5cGUgZm9yIOKAmGRjZTgwX2Nsb2NrX3NvdXJjZV9jcmVhdGXi
+gJkgWy1XbWlzc2luZy1wcm90b3R5cGVzXQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8u
+Li9kaXNwbGF5L2RjL2RjZTgwL2RjZTgwX3Jlc291cmNlLmM6Nzc4OjY6IHdhcm5pbmc6IG5vIHBy
+ZXZpb3VzIHByb3RvdHlwZSBmb3Ig4oCYZGNlODBfY2xvY2tfc291cmNlX2Rlc3Ryb3nigJkgWy1X
+bWlzc2luZy1wcm90b3R5cGVzXQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9kaXNw
+bGF5L2RjL2RjZTgwL2RjZTgwX3Jlc291cmNlLmM6ODY4OjY6IHdhcm5pbmc6IG5vIHByZXZpb3Vz
+IHByb3RvdHlwZSBmb3Ig4oCYZGNlODBfdmFsaWRhdGVfYmFuZHdpZHRo4oCZIFstV21pc3Npbmct
+cHJvdG90eXBlc10KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vZGlzcGxheS9kYy9k
+Y2U4MC9kY2U4MF9yZXNvdXJjZS5jOjkxMzoxNjogd2FybmluZzogbm8gcHJldmlvdXMgcHJvdG90
+eXBlIGZvciDigJhkY2U4MF92YWxpZGF0ZV9nbG9iYWzigJkgWy1XbWlzc2luZy1wcm90b3R5cGVz
+XQo+Cj4gQ2M6IEhhcnJ5IFdlbnRsYW5kIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPgo+IENjOiBM
+ZW8gTGkgPHN1bnBlbmcubGlAYW1kLmNvbT4KPiBDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIu
+ZGV1Y2hlckBhbWQuY29tPgo+IENjOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5rb2Vu
+aWdAYW1kLmNvbT4KPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgo+IENjOiBE
+YW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cj4gQ2M6IEFudGhvbnkgS29vIDxBbnRob255
+Lktvb0BhbWQuY29tPgo+IENjOiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IENjOiBk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gU2lnbmVkLW9mZi1ieTogTGVlIEpvbmVz
+IDxsZWUuam9uZXNAbGluYXJvLm9yZz4KCkFwcGxpZWQuICBUaGFua3MhCgpBbGV4CgoKPiAtLS0K
+PiAgLi4uL2RybS9hbWQvZGlzcGxheS9kYy9kY2U4MC9kY2U4MF9yZXNvdXJjZS5jICAgIHwgMTYg
+KysrKysrKystLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA4IGRl
+bGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9k
+Yy9kY2U4MC9kY2U4MF9yZXNvdXJjZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2Rj
+L2RjZTgwL2RjZTgwX3Jlc291cmNlLmMKPiBpbmRleCA2MTI0NTBmOTkyNzgyLi43MjVkOTJlNDBj
+ZDMwIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY2U4MC9k
+Y2U4MF9yZXNvdXJjZS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Rj
+ZTgwL2RjZTgwX3Jlc291cmNlLmMKPiBAQCAtNTI2LDcgKzUyNiw3IEBAIHN0YXRpYyBzdHJ1Y3Qg
+b3V0cHV0X3BpeGVsX3Byb2Nlc3NvciAqZGNlODBfb3BwX2NyZWF0ZSgKPiAgICAgICAgIHJldHVy
+biAmb3BwLT5iYXNlOwo+ICB9Cj4KPiAtc3RydWN0IGRjZV9hdXggKmRjZTgwX2F1eF9lbmdpbmVf
+Y3JlYXRlKAo+ICtzdGF0aWMgc3RydWN0IGRjZV9hdXggKmRjZTgwX2F1eF9lbmdpbmVfY3JlYXRl
+KAo+ICAgICAgICAgc3RydWN0IGRjX2NvbnRleHQgKmN0eCwKPiAgICAgICAgIHVpbnQzMl90IGlu
+c3QpCj4gIHsKPiBAQCAtNTY0LDcgKzU2NCw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZGNlX2ky
+Y19tYXNrIGkyY19tYXNrcyA9IHsKPiAgICAgICAgICAgICAgICAgSTJDX0NPTU1PTl9NQVNLX1NI
+X0xJU1RfRENFX0NPTU1PTl9CQVNFKF9NQVNLKQo+ICB9Owo+Cj4gLXN0cnVjdCBkY2VfaTJjX2h3
+ICpkY2U4MF9pMmNfaHdfY3JlYXRlKAo+ICtzdGF0aWMgc3RydWN0IGRjZV9pMmNfaHcgKmRjZTgw
+X2kyY19od19jcmVhdGUoCj4gICAgICAgICBzdHJ1Y3QgZGNfY29udGV4dCAqY3R4LAo+ICAgICAg
+ICAgdWludDMyX3QgaW5zdCkKPiAgewo+IEBAIC01ODAsNyArNTgwLDcgQEAgc3RydWN0IGRjZV9p
+MmNfaHcgKmRjZTgwX2kyY19od19jcmVhdGUoCj4gICAgICAgICByZXR1cm4gZGNlX2kyY19odzsK
+PiAgfQo+Cj4gLXN0cnVjdCBkY2VfaTJjX3N3ICpkY2U4MF9pMmNfc3dfY3JlYXRlKAo+ICtzdGF0
+aWMgc3RydWN0IGRjZV9pMmNfc3cgKmRjZTgwX2kyY19zd19jcmVhdGUoCj4gICAgICAgICBzdHJ1
+Y3QgZGNfY29udGV4dCAqY3R4KQo+ICB7Cj4gICAgICAgICBzdHJ1Y3QgZGNlX2kyY19zdyAqZGNl
+X2kyY19zdyA9Cj4gQEAgLTcxNCw3ICs3MTQsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGVuY29k
+ZXJfZmVhdHVyZV9zdXBwb3J0IGxpbmtfZW5jX2ZlYXR1cmUgPSB7Cj4gICAgICAgICAgICAgICAg
+IC5mbGFncy5iaXRzLklTX1RQUzNfQ0FQQUJMRSA9IHRydWUKPiAgfTsKPgo+IC1zdHJ1Y3QgbGlu
+a19lbmNvZGVyICpkY2U4MF9saW5rX2VuY29kZXJfY3JlYXRlKAo+ICtzdGF0aWMgc3RydWN0IGxp
+bmtfZW5jb2RlciAqZGNlODBfbGlua19lbmNvZGVyX2NyZWF0ZSgKPiAgICAgICAgIGNvbnN0IHN0
+cnVjdCBlbmNvZGVyX2luaXRfZGF0YSAqZW5jX2luaXRfZGF0YSkKPiAgewo+ICAgICAgICAgc3Ry
+dWN0IGRjZTExMF9saW5rX2VuY29kZXIgKmVuYzExMCA9Cj4gQEAgLTc1Myw3ICs3NTMsNyBAQCBz
+dGF0aWMgc3RydWN0IHBhbmVsX2NudGwgKmRjZTgwX3BhbmVsX2NudGxfY3JlYXRlKGNvbnN0IHN0
+cnVjdCBwYW5lbF9jbnRsX2luaXRfZAo+ICAgICAgICAgcmV0dXJuICZwYW5lbF9jbnRsLT5iYXNl
+Owo+ICB9Cj4KPiAtc3RydWN0IGNsb2NrX3NvdXJjZSAqZGNlODBfY2xvY2tfc291cmNlX2NyZWF0
+ZSgKPiArc3RhdGljIHN0cnVjdCBjbG9ja19zb3VyY2UgKmRjZTgwX2Nsb2NrX3NvdXJjZV9jcmVh
+dGUoCj4gICAgICAgICBzdHJ1Y3QgZGNfY29udGV4dCAqY3R4LAo+ICAgICAgICAgc3RydWN0IGRj
+X2Jpb3MgKmJpb3MsCj4gICAgICAgICBlbnVtIGNsb2NrX3NvdXJjZV9pZCBpZCwKPiBAQCAtNzc3
+LDcgKzc3Nyw3IEBAIHN0cnVjdCBjbG9ja19zb3VyY2UgKmRjZTgwX2Nsb2NrX3NvdXJjZV9jcmVh
+dGUoCj4gICAgICAgICByZXR1cm4gTlVMTDsKPiAgfQo+Cj4gLXZvaWQgZGNlODBfY2xvY2tfc291
+cmNlX2Rlc3Ryb3koc3RydWN0IGNsb2NrX3NvdXJjZSAqKmNsa19zcmMpCj4gK3N0YXRpYyB2b2lk
+IGRjZTgwX2Nsb2NrX3NvdXJjZV9kZXN0cm95KHN0cnVjdCBjbG9ja19zb3VyY2UgKipjbGtfc3Jj
+KQo+ICB7Cj4gICAgICAgICBrZnJlZShUT19EQ0UxMTBfQ0xLX1NSQygqY2xrX3NyYykpOwo+ICAg
+ICAgICAgKmNsa19zcmMgPSBOVUxMOwo+IEBAIC04NjcsNyArODY3LDcgQEAgc3RhdGljIHZvaWQg
+ZGNlODBfcmVzb3VyY2VfZGVzdHJ1Y3Qoc3RydWN0IGRjZTExMF9yZXNvdXJjZV9wb29sICpwb29s
+KQo+ICAgICAgICAgfQo+ICB9Cj4KPiAtYm9vbCBkY2U4MF92YWxpZGF0ZV9iYW5kd2lkdGgoCj4g
+K3N0YXRpYyBib29sIGRjZTgwX3ZhbGlkYXRlX2JhbmR3aWR0aCgKPiAgICAgICAgIHN0cnVjdCBk
+YyAqZGMsCj4gICAgICAgICBzdHJ1Y3QgZGNfc3RhdGUgKmNvbnRleHQsCj4gICAgICAgICBib29s
+IGZhc3RfdmFsaWRhdGUpCj4gQEAgLTkxMiw3ICs5MTIsNyBAQCBzdGF0aWMgYm9vbCBkY2U4MF92
+YWxpZGF0ZV9zdXJmYWNlX3NldHMoCj4gICAgICAgICByZXR1cm4gdHJ1ZTsKPiAgfQo+Cj4gLWVu
+dW0gZGNfc3RhdHVzIGRjZTgwX3ZhbGlkYXRlX2dsb2JhbCgKPiArc3RhdGljIGVudW0gZGNfc3Rh
+dHVzIGRjZTgwX3ZhbGlkYXRlX2dsb2JhbCgKPiAgICAgICAgICAgICAgICAgc3RydWN0IGRjICpk
+YywKPiAgICAgICAgICAgICAgICAgc3RydWN0IGRjX3N0YXRlICpjb250ZXh0KQo+ICB7Cj4gLS0K
+PiAyLjI3LjAKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
