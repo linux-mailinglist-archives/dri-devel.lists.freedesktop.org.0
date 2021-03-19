@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CED2342757
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 22:03:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 955F934275B
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 22:03:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81F4A89B78;
-	Fri, 19 Mar 2021 21:03:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FDAF6EAB9;
+	Fri, 19 Mar 2021 21:03:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF3889B78;
- Fri, 19 Mar 2021 21:03:35 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id l4so11823707ejc.10;
- Fri, 19 Mar 2021 14:03:35 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 785D06EAB8;
+ Fri, 19 Mar 2021 21:03:40 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id y6so12355533eds.1;
+ Fri, 19 Mar 2021 14:03:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zlZF2a+fSW0KxWl4QOMMY/0R4B6yXz0wvGh3Vy6UHSQ=;
- b=sSLmKYfeQSxkwBhq+YSWorc7aDTJrRJ9m/XxPKLHQArAwfiLEZS7beColtXV6V/i62
- XDMYVRIGiPFJ2HD1Qi3duFIVmt99xhcq1Lh2Q3XfjNxpF1u4l0YTdlEmbmZljn1KgjsT
- cb8++61ripEQUZT5Zeg+gqupaw85Gkyu/jhDF7JnjL/Q0qGvL9QqJo+XyF8mOJkCcVbA
- Fgz8jILNT+7tcS3uqAidGJJ+xGa2gSVteaGF7eyZsEo9SPmwvwUAmznoE2ZOlsqrIrFG
- k4EeTLnukHnOcOFmoogtwUf/75YipUqvNJqD/qlcKoCYmCEtKyjRK00RSBkPXZ2R2vxV
- zdbQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=nM3vji+QulE5H2REqcmP5JukPTRDvwgC2zD3TX/FrjQ=;
+ b=lUKDjb4oKIO6XHrpN9cD+BUbi0o6FaSXv54pmKUwR1OLNwJ4EpedrHKDnuzP/kSJQB
+ wJsJ96TYiZUqWgjP5BMASRQwtYUGLvgyLoA6VnRA0znTKge1C+J6P2w9hY2KE52bt+4O
+ lh+Xzq02ILKbET2VTMbpI9rIGA7ij7EszAuNgTjRdXAvq/o7Hpmo2zVVoZFvmjdacIZN
+ NWwlm7bDxNdrBuyfZrGush45BBaPpINCa9rpaSTJ3hFY8qP1yyCaSdRbMNEuD/uzdwMJ
+ 9leb1sVGsvV6cyVqKn0JLRBxVYGFaqF0jj8R1vRdWPh9kSBh1zAW6cUQdnArqRQGP3cb
+ ijmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zlZF2a+fSW0KxWl4QOMMY/0R4B6yXz0wvGh3Vy6UHSQ=;
- b=Ey2fI4kV3/HL4j1cAXj3VhDel1+vIF432NXLucGziweLUW7ip7YS+flfWlpMsHSi7z
- whJf4ivRQ7xhP7eVZlQEvAf7Yps8yXXzpnQPXrvY7yb0upLqMwHaOoozc3dyAuPpKmWA
- 52Xf4cPhcO7PsWUtTFpDIqhilInjLQrMXpnLCeOXDy+aeZRJC2CLvdQGa9x8zqhy24NV
- KfnsjM+N6nB/R+4T/QRSBo9aE9EvLuCC8wrepRvlI/SAX6PUU9dgwfyElNRUQYZuy7Rx
- ulU/2i55JnTI6dT7uD0uUkXVgHLPpCWN/azRu/XO3LWPIZZadRRHyNl6n9lOSIgvw3uH
- oDRg==
-X-Gm-Message-State: AOAM532g8+/XPeq+5827CyWObpu6C4IQvCcihgdgcmk4hKyqlmrqz+cs
- Ez1ndLjLGGfP4ydim+14mc8USycGjoo=
-X-Google-Smtp-Source: ABdhPJwgFhvFHZIzGFwjRQOQWAzzdVYby3izFwHFF1KcHrri5xrjIWOBJw97UDte59dCP204FiXaYg==
-X-Received: by 2002:a17:906:801:: with SMTP id
- e1mr6379070ejd.465.1616187814004; 
- Fri, 19 Mar 2021 14:03:34 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=nM3vji+QulE5H2REqcmP5JukPTRDvwgC2zD3TX/FrjQ=;
+ b=UoKxWLk4p/X6faP1qoWzAFHXPjDUQBmUHzInSNzXUFbmnq4z1nIXbVkKMYRP1+3Ay+
+ tXYPfuYoV2jMoFFudMOaO5a0jdqPqWn/PKJSU3/sz5tJTX+JTH1s60BUQZkH+0xqMznD
+ 8gYudaGYRjxAcrEqz5MHXiGZWUXYt8tqLIMuGJSTgyFGBq/2iCrDGHBcCPwkHV5mmNsy
+ XPmoUuWqVXn72b1Iy2NzZQnPoquntiuBLnUEP0TMTP8+p6yBY5DIQz5k3IulNJMs8wuJ
+ 9LpxXq1yaTo824Ir85M3NRJc+Fp0/TgnYbUbtQJfrZclfJqJAab4vyJCTwmTd9AGaWmM
+ plbQ==
+X-Gm-Message-State: AOAM5324ggPIQcQsqosoCfwM2946bs+S3Ybg8RCF0nwKr4cHClZpIPvB
+ xdfp0rLol9NjQ9Ur7oQUprXQ0aB9D9k=
+X-Google-Smtp-Source: ABdhPJyTtb1X5/asVdHp4pWzEKJKhs04ytNaWNswTxxftmnLr17g2w0g6vkYOyl/+/shmA6ugUsAGw==
+X-Received: by 2002:aa7:c9d1:: with SMTP id i17mr11605870edt.46.1616187818989; 
+ Fri, 19 Mar 2021 14:03:38 -0700 (PDT)
 Received: from twisty.localdomain
  (dynamic-2a01-0c23-7833-6000-6cbb-50d4-b91e-5b37.c23.pool.telefonica.de.
  [2a01:c23:7833:6000:6cbb:50d4:b91e:5b37])
- by smtp.gmail.com with ESMTPSA id jj15sm4353122ejc.99.2021.03.19.14.03.33
+ by smtp.gmail.com with ESMTPSA id jj15sm4353122ejc.99.2021.03.19.14.03.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Mar 2021 14:03:33 -0700 (PDT)
+ Fri, 19 Mar 2021 14:03:38 -0700 (PDT)
 From: Mario Kleiner <mario.kleiner.de@gmail.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: 16 bpc fixed point (RGBA16) framebuffer support for core and AMD.
-Date: Fri, 19 Mar 2021 22:03:12 +0100
-Message-Id: <20210319210317.32369-1-mario.kleiner.de@gmail.com>
+Subject: [PATCH 1/5] drm/fourcc: Add 16 bpc fixed point framebuffer formats.
+Date: Fri, 19 Mar 2021 22:03:13 +0100
+Message-Id: <20210319210317.32369-2-mario.kleiner.de@gmail.com>
 X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20210319210317.32369-1-mario.kleiner.de@gmail.com>
+References: <20210319210317.32369-1-mario.kleiner.de@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,75 +75,52 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+These are 16 bits per color channel unsigned normalized formats.
+They are supported by at least AMD display hw, and suitable for
+direct scanout of Vulkan swapchain images in the format
+VK_FORMAT_R16G16B16A16_UNORM.
 
-this patch series adds the fourcc's for 16 bit fixed point unorm
-framebuffers to the core, and then an implementation for AMD gpu's
-with DisplayCore.
+Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+---
+ drivers/gpu/drm/drm_fourcc.c  | 4 ++++
+ include/uapi/drm/drm_fourcc.h | 7 +++++++
+ 2 files changed, 11 insertions(+)
 
-This is intended to allow for pageflipping to, and direct scanout of,
-Vulkan swapchain images in the format VK_FORMAT_R16G16B16A16_UNORM.
-I have patched AMD's GPUOpen amdvlk OSS driver to enable this format
-for swapchains, mapping to DRM_FORMAT_XBGR16161616:
-Link: https://github.com/kleinerm/pal/commit/a25d4802074b13a8d5f7edc96ae45469ecbac3c4
-
-My main motivation for this is squeezing every bit of precision
-out of the hardware for scientific and medical research applications,
-where fp16 in the unorm range is limited to ~11 bpc effective linear
-precision in the upper half [0.5;1.0] of the unorm range, although
-the hardware could do at least 12 bpc.
-
-It has been successfully tested on AMD RavenRidge (DCN-1), and with
-Polaris11 (DCE-11.2). Up to two displays were active on RavenRidge
-(DP 2560x1440@144Hz + HDMI 2560x1440@120Hz), the maximum supported
-on my hw, both running at 10 bpc DP output depth.
-
-Up to three displays were active on the Polaris (DP 2560x1440@144Hz +
-2560x1440@100Hz USB-C DP-altMode-to-HDMI converter + eDP 2880x1800@60Hz
-Apple Retina panel), all running at 10 bpc output depth.
-
-No malfunctions, visual artifacts or other oddities were observed
-(apart from an adventureous mess of cables and adapters on my desk),
-suggesting it works.
-
-I used my automatic photometer measurement procedure to verify the
-effective output precision of 10 bpc DP native signal + spatial
-dithering in the gpu as enabled by the amdgpu driver. Results show
-the expected 12 bpc precision i hoped for -- the current upper limit
-for AMD display hw afaik.
-
-So it seems to work in the way i hoped :).
-
-Some open questions wrt. AMD DC, to be addressed in this patch series, or follow up
-patches if neccessary:
-
-- For the atomic check for plane scaling, the current patch will
-apply the same hw limits as for other rgb fixed point fb's, e.g.,
-for 8 bpc rgb8. Is this correct? Or would we need to use the fp16
-limits, because this is also a 64 bpp format? Or something new
-entirely?
-
-- I haven't added the new fourcc to the DCC tables yet. Should i?
-
-- I had to change an assert for DCE to allow 36bpp linebuffers (patch 4/5).
-It looks to me as if that assert was inconsistent with other places
-in the driver where COLOR_DEPTH121212 is supported, and looking at
-the code, the change seems harmless. At least on DCE-11.2 the change
-didn't cause any noticeable (by myself) or measurable (by my equipment)
-problems on any of the 3 connected displays.
-
-- Related to that change, while i needed to increase lb pixelsize to 36bpp
-to get > 10 bpc effective precision on DCN, i didn't need to do that
-on DCE. Also no change of lb pixelsize was needed on either DCN or DCe
-to get > 10 bpc precision for fp16 framebuffers, so something seems to
-behave differently for floating point 16 vs. fixed point 16. This all
-seems to suggest one could leave lb pixelsize at the old 30 bpp value
-on at least DCE-11.2 and still get the > 10 bpc precision if one wanted
-to avoid the changes of patch 4/5.
-
-Thanks,
--mario
-
+diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+index 03262472059c..ce13d2be5d7b 100644
+--- a/drivers/gpu/drm/drm_fourcc.c
++++ b/drivers/gpu/drm/drm_fourcc.c
+@@ -203,6 +203,10 @@ const struct drm_format_info *__drm_format_info(u32 format)
+ 		{ .format = DRM_FORMAT_ARGB16161616F,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+ 		{ .format = DRM_FORMAT_ABGR16161616F,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+ 		{ .format = DRM_FORMAT_AXBXGXRX106106106106, .depth = 0, .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
++		{ .format = DRM_FORMAT_XRGB16161616,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1 },
++		{ .format = DRM_FORMAT_XBGR16161616,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1 },
++		{ .format = DRM_FORMAT_ARGB16161616,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
++		{ .format = DRM_FORMAT_ABGR16161616,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+ 		{ .format = DRM_FORMAT_RGB888_A8,	.depth = 32, .num_planes = 2, .cpp = { 3, 1, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+ 		{ .format = DRM_FORMAT_BGR888_A8,	.depth = 32, .num_planes = 2, .cpp = { 3, 1, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+ 		{ .format = DRM_FORMAT_XRGB8888_A8,	.depth = 32, .num_planes = 2, .cpp = { 4, 1, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index f76de49c768f..f7156322aba5 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -168,6 +168,13 @@ extern "C" {
+ #define DRM_FORMAT_RGBA1010102	fourcc_code('R', 'A', '3', '0') /* [31:0] R:G:B:A 10:10:10:2 little endian */
+ #define DRM_FORMAT_BGRA1010102	fourcc_code('B', 'A', '3', '0') /* [31:0] B:G:R:A 10:10:10:2 little endian */
+ 
++/* 64 bpp RGB */
++#define DRM_FORMAT_XRGB16161616	fourcc_code('X', 'R', '4', '8') /* [63:0] x:R:G:B 16:16:16:16 little endian */
++#define DRM_FORMAT_XBGR16161616	fourcc_code('X', 'B', '4', '8') /* [63:0] x:B:G:R 16:16:16:16 little endian */
++
++#define DRM_FORMAT_ARGB16161616	fourcc_code('A', 'R', '4', '8') /* [63:0] A:R:G:B 16:16:16:16 little endian */
++#define DRM_FORMAT_ABGR16161616	fourcc_code('A', 'B', '4', '8') /* [63:0] A:B:G:R 16:16:16:16 little endian */
++
+ /*
+  * Floating point 64bpp RGB
+  * IEEE 754-2008 binary16 half-precision float
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
