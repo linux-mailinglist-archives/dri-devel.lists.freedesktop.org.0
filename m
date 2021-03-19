@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA793418F1
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 10:57:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B839E3418F6
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 10:57:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ACF76E9DE;
-	Fri, 19 Mar 2021 09:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFF456E9E1;
+	Fri, 19 Mar 2021 09:57:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B031E6E9D6
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 09:57:33 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C340A6E9DD
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 09:57:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616147852;
+ s=mimecast20190719; t=1616147864;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=TgleNGeQ16aMvI/a7tBquUukHlqXq2WMoe5SiiWgH/M=;
- b=dCqs5xiko5GeOtL1eEcJeQdy9wmewVswqrZ+T7ZyWq/JZUWdYVOuMFUE8hj5/98br5nDGv
- yZE7lnTCSbURh7xf/3hk4ZqjXfLqAPqjiKrlEoo7n+vfHprVrGbIsbsM+hSKo0AanztGJ/
- 2V6ix7X4SwkAWa8z0FK1J0XphjnyyBc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-bEVcFz1AOYWOH5RG8BM4sA-1; Fri, 19 Mar 2021 05:57:31 -0400
-X-MC-Unique: bEVcFz1AOYWOH5RG8BM4sA-1
-Received: by mail-wr1-f71.google.com with SMTP id t14so4192437wrx.12
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 02:57:31 -0700 (PDT)
+ bh=UsREr7KDpE+wzs5UrnU5bq27soizKgijk7jOaTMCif8=;
+ b=V6Iqbxz2n64U1zJiA+9pWxx/O9XKThGpYU1nL0vMh0o73DI3C6KVY7Yq3J+riehiyRew1j
+ RPaKb+nKRWE5kV/lJDhbEHuKLbmBmcXU/t4380hYiv9z39PiQxQgrEzOlr8FZsdnPpM066
+ tsQSUnKMrVhrqa2iv3o/NTLL1oYX+pw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-116-6DDHsqNvPA68aWaIW49LLQ-1; Fri, 19 Mar 2021 05:57:42 -0400
+X-MC-Unique: 6DDHsqNvPA68aWaIW49LLQ-1
+Received: by mail-wr1-f70.google.com with SMTP id 9so5991479wrb.16
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 02:57:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=TgleNGeQ16aMvI/a7tBquUukHlqXq2WMoe5SiiWgH/M=;
- b=cIqUflwXYAtcpfQYIUhuKIOgxeuSl/3I1a8Gyv0L/Ua5yKS1+SN64A4EHnu73QA/6T
- AE4l+0l1GCyBLZE19NFJfGAwI6QCZKq+WINjHHydWJtVY3ph4tiyRF8+rQfU420JF0AV
- yrzl49nsRvrhoql8idPQhdNS4FsgzvS50ULNfzBfD/Pzu8wXAZrFZduaOJS9cMnSAJmD
- IUfW7wIVzmmVBHIWqYVxbfkSdy08mdxVFVmsnA1f8EmpwkatRfTxaOjOlV2FkM4XZWXt
- j5bqSJQus81F/dykaqeQKj0Ttm4g/CqGdaKM2fVhG+dXrWt7xIcx1bianKNbAT3esekO
- +sdg==
-X-Gm-Message-State: AOAM5328bZkB5jT8fQjwVZmF+sA+bAn785uqym4Di/vTU/VYaG4GCyrB
- XG6oQ5vH+75lbpdrbPREOBqaJ1aLkb8bqTz8e18h7m3AphUrvOSnvcpn2JbYhXC54veUwTgl0q3
- YL4+iiIGeFbgnTe8hzRsnXJA+QC+Zyl0XBcopEoSkHv0A
-X-Received: by 2002:a5d:6c67:: with SMTP id r7mr3595022wrz.373.1616147850301; 
- Fri, 19 Mar 2021 02:57:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyodC37R41eda3GZ5ZIkrkElEd2nIrO+/K3P2l9TcTShBgK7E6mIX6v+y8SYjujCKVkuwpVpy49XjH2/oX0tZQ=
-X-Received: by 2002:a5d:6c67:: with SMTP id r7mr3595013wrz.373.1616147850147; 
- Fri, 19 Mar 2021 02:57:30 -0700 (PDT)
+ bh=UsREr7KDpE+wzs5UrnU5bq27soizKgijk7jOaTMCif8=;
+ b=NVUkTCua73RwYqGrBBPi3lvMJ2k/CpVwxlEbhx3HaaPeSze8AlCpNR+aO3odYoUGzA
+ Mz+4sgt3jmn3S/0hcz8gMwvIcbDtkXAQmL6y5nWV1YZwkcNHwXAs5MugJ9hVC7LfZKBK
+ ZhsVBGPbOePNOtnmdtvKexaLQsIZ9F4foGitIachNvwhYQdnn1KCoMFTUdeqnYZkSzY9
+ E8qRJIxhBphOF3eXz5zunugD7PyngNDbUCEkqR9D3v7Io5zYt1a69j4fy6Ryw6q/IegJ
+ CzxfAB+D2UnAuzO8tD9CzMxkbCgl1wraSamy4+e2f0tkREEGLKou+MGBhInMDqJfmD+0
+ oe9g==
+X-Gm-Message-State: AOAM533UFYjlxnK7VloLW+yhbai0wiPP3gowcnR01RbhY1LhUvnjGq58
+ 3opOJf1ksvlWAQl4NC3D2S/DylOq/2+f9mMCvqyONvoVVrRuK2sWHjgzqQ5vlZyk+omnitGjiFq
+ hivkkG2Y+2fA2tk/rgUjxbcgocq8qwv90GrPPeiO2Azj+
+X-Received: by 2002:a1c:ddc6:: with SMTP id u189mr3005063wmg.171.1616147861265; 
+ Fri, 19 Mar 2021 02:57:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwsfPewyX1Blixhz1/TwL1Ho9nuqLqhf9NMZtw3nWuN8DcHlGRHQ08GhxRWzE7D+tyku9OEoToJb5cXiQ8FNE8=
+X-Received: by 2002:a1c:ddc6:: with SMTP id u189mr3005053wmg.171.1616147861146; 
+ Fri, 19 Mar 2021 02:57:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210319082428.3294591-1-lee.jones@linaro.org>
- <20210319082428.3294591-18-lee.jones@linaro.org>
-In-Reply-To: <20210319082428.3294591-18-lee.jones@linaro.org>
+ <20210319082428.3294591-13-lee.jones@linaro.org>
+In-Reply-To: <20210319082428.3294591-13-lee.jones@linaro.org>
 From: Karol Herbst <kherbst@redhat.com>
-Date: Fri, 19 Mar 2021 10:57:19 +0100
-Message-ID: <CACO55tvmj1-_ZcmLyN0tUdrH1QzN2c23-a+bDBXCKEOEsiak9g@mail.gmail.com>
-Subject: Re: [PATCH 17/19] drm/nouveau/nouveau_ioc32: File headers are not
- good candidates for kernel-doc
+Date: Fri, 19 Mar 2021 10:57:30 +0100
+Message-ID: <CACO55tvitU6wHR1DVNAx1rGVEYRCs_PKQpdgrARPTMZgg3K_Tg@mail.gmail.com>
+Subject: Re: [PATCH 12/19] drm/nouveau/dispnv04/crtc: Demote non-conforming
+ kernel-doc headers
 To: Lee Jones <lee.jones@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
@@ -85,7 +85,14 @@ On Fri, Mar 19, 2021 at 9:25 AM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=1 kernel build warning(s):
 >
->  drivers/gpu/drm/nouveau/nouveau_ioc32.c:2: warning: Cannot understand  * file mga_ioc32.c
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c:462: warning: Function parameter or member 'crtc' not described in 'nv_crtc_mode_set_regs'
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c:462: warning: Function parameter or member 'mode' not described in 'nv_crtc_mode_set_regs'
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c:640: warning: Function parameter or member 'crtc' not described in 'nv_crtc_mode_set'
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c:640: warning: Function parameter or member 'mode' not described in 'nv_crtc_mode_set'
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c:640: warning: Function parameter or member 'adjusted_mode' not described in 'nv_crtc_mode_set'
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c:640: warning: Function parameter or member 'x' not described in 'nv_crtc_mode_set'
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c:640: warning: Function parameter or member 'y' not described in 'nv_crtc_mode_set'
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c:640: warning: Function parameter or member 'old_fb' not described in 'nv_crtc_mode_set'
 >
 > Cc: Ben Skeggs <bskeggs@redhat.com>
 > Cc: David Airlie <airlied@linux.ie>
@@ -94,19 +101,31 @@ On Fri, Mar 19, 2021 at 9:25 AM Lee Jones <lee.jones@linaro.org> wrote:
 > Cc: nouveau@lists.freedesktop.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/gpu/drm/nouveau/nouveau_ioc32.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_ioc32.c b/drivers/gpu/drm/nouveau/nouveau_ioc32.c
-> index adf01ca9e035d..8ddf9b2325a42 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_ioc32.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_ioc32.c
-> @@ -1,4 +1,4 @@
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+> index f9e962fd94d0d..f9a276ea5a9e0 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+> @@ -449,7 +449,7 @@ nv_crtc_mode_set_vga(struct drm_crtc *crtc, struct drm_display_mode *mode)
+>         regp->Attribute[NV_CIO_AR_CSEL_INDEX] = 0x00;
+>  }
+>
 > -/**
 > +/*
->   * \file mga_ioc32.c
+>   * Sets up registers for the given mode/adjusted_mode pair.
 >   *
->   * 32-bit ioctl compatibility routines for the MGA DRM.
+>   * The clocks, CRTCs and outputs attached to this CRTC must be off.
+> @@ -625,7 +625,7 @@ nv_crtc_swap_fbs(struct drm_crtc *crtc, struct drm_framebuffer *old_fb)
+>         return ret;
+>  }
+>
+> -/**
+> +/*
+>   * Sets up registers for the given mode/adjusted_mode pair.
+>   *
+>   * The clocks, CRTCs and outputs attached to this CRTC must be off.
 > --
 > 2.27.0
 >
