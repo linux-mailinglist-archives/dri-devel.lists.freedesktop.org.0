@@ -1,82 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B6C342127
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 16:45:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A34342149
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 16:53:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA5A06EA44;
-	Fri, 19 Mar 2021 15:45:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF16D6EA3F;
+	Fri, 19 Mar 2021 15:53:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA7196E0E4
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 15:45:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616168736;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5LK0n/jg/OwPro8VFqa34gdHN9jLmsy9oeDxC6+deOw=;
- b=haTRpCucqxSZ+fVdMlD0tDYPFnHaLosNxoCZdTp8ttxxc09cWun0p4yayWN4/Zg3n9hDbM
- WlsN5pWw6/atnHMxGUj1AB0LmhUXAdfqrkCXUAu2gx+OqUBw1mQtm/v8ejw7DHiAw/X/Eu
- Seynyp529Uz58xiFVsbl1DP+gy9FwNY=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-XTPid1tLPsOKVok1P9FeNw-1; Fri, 19 Mar 2021 11:45:35 -0400
-X-MC-Unique: XTPid1tLPsOKVok1P9FeNw-1
-Received: by mail-ej1-f70.google.com with SMTP id e7so10512799ejx.5
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 08:45:34 -0700 (PDT)
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
+ [IPv6:2607:f8b0:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24BB76EA3F
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 15:53:44 +0000 (UTC)
+Received: by mail-pg1-x535.google.com with SMTP id u19so3963749pgh.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 08:53:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=p9e3JvlVImVqovnPE5o8T2aAk9m+EOrR0HqRpW5NiBo=;
+ b=vb+NnwFLp3brgZEgYGmuei6Z77uEhzOwdKxFI+PxtoSMuUA/vDs2i7dluCb9hOjL4h
+ 0v3wSe/bOKViqmXVjcUEa2swJl0MdWk5DSbq0BThoQBCZFVQk6Fc3ysvij/IXZO7/8Xh
+ XyqMqzXdAz9Luuzov63lSHAiV5E+R+kScBU43CCh6ASys7aDZYSTtZhFej/wZWB/0v/I
+ zvbJsOnZNwWkHffOX4TM8JhKC0T5LxGSc+wT+p5V4/ugsHzYy87E1DMOJer+/5t69bvb
+ fPNHN48IU4hnBzjx9uf0hUDorQPe5ZE+8M7S4Vo/bx7YtksKQ2j9MhP7u2C9PEaJMlXE
+ 5/5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5LK0n/jg/OwPro8VFqa34gdHN9jLmsy9oeDxC6+deOw=;
- b=k47CpbcE+VvcptXur6QHe1c907gefRrRJZfjiHS5bVqSjxv5cZsm/Nq0aXfm3v7/Mw
- B3rscDQCLrRIRfNXZwR99zJuLh2t7Ch0335fF3w70KnXp+JM3Hzvk2B+BhetAGaQoxoK
- AAC+txVnbdaHqpNeykikhZpXKHWeMnfdasAGi1kTrfSJnuYUvQLL9Fo31cjpml31yY/l
- WW9vEtFu6jBWl6EcVoUEYU6/uX/9sYgOTDhl0x2j6eOVweJYfHMahg2CMl9Oqi8AEu4e
- TUe4lBpG1saabJqbzulTmPMa1JNAMeoBDuXhM1bJNdQK7ogwolZMCi3/9mfm96yu7EZe
- WEwQ==
-X-Gm-Message-State: AOAM531u8GyzrQrWDd2n5NT4Z5NEvxBb+jICNJobNBvOHeOmL+wzELlD
- Aa8L8P5RFf8K2UXkX3b5fSkMDtWGaiYzzbYx35s6t9CK1ZTbvCFRIBSdK4mFfLP3AYIysodLbiD
- Qt0NSTvlfQ7A40pX8T7Fa4kL9W4hfsRe0KPsyM96hPLowTMW9kPdYG/mzVvJCEQO2teU2AqSY9g
- 7V5WW7
-X-Received: by 2002:a17:906:dbd0:: with SMTP id
- yc16mr5121248ejb.71.1616168733550; 
- Fri, 19 Mar 2021 08:45:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw6FBmTDA5Jn6DpRh+OCexUQqHVf1umdhwQmaJLzB1rlUzanz9bkJXJLuLjFXTjfMz6EBB6uQ==
-X-Received: by 2002:a17:906:dbd0:: with SMTP id
- yc16mr5121222ejb.71.1616168733341; 
- Fri, 19 Mar 2021 08:45:33 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
- by smtp.gmail.com with ESMTPSA id r19sm3793916ejr.55.2021.03.19.08.45.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Mar 2021 08:45:32 -0700 (PDT)
-Subject: Re: [PATCH] drm/i915/display/vlv_dsi: Do no shut down displays on
- reboot if a DSI panel is used
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20210301154347.50052-1-hdegoede@redhat.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <8d882647-bab3-dfc3-70ad-4f1910dcb5af@redhat.com>
-Date: Fri, 19 Mar 2021 16:45:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p9e3JvlVImVqovnPE5o8T2aAk9m+EOrR0HqRpW5NiBo=;
+ b=ihe8hF1+1bOTi10aGM6rnOcIDfpIXL6ZnZJ4FSmwXlfNDDyAfbAJPe5336RpUlPE+r
+ 5T5ODp+aFtCIFBD+IoRA0JU19zLTUUmDGljMAMdX2BSR6KQNMO9aFX47yNsuYIgFv2fg
+ mVvIL5VK4Jv+MAsGkulXhd0Qv7a17XzLPB2L3g6nNb+oSqV8h1GC2xmnXj3qyAC3syup
+ WZbMp3yiMYgplCt64McVnihh7nhAwfxw8MOCICksgW485GUoz0Csg523UYYoajhD9yrX
+ 6ijDapUfP/JsxSwTubbx+VeHxGXzNzzGqfXp9gUL6njZ32Qm3n4TbwnRmHRMROY71dKL
+ LSgw==
+X-Gm-Message-State: AOAM5336qaLA7glBMTT/OTKuEbb9VUbnjQ1ZF2FZipoRIoubA93HckW2
+ Ap8UCFwYHgi47dbUiIVcIilfC/So9SQlZDhtP/jy9A==
+X-Google-Smtp-Source: ABdhPJzXZOjanMlGVi/fCuO0+YZk/KVHvw5XGQK/9qGjL7GsnwaNBiM1MEUhdEiOxgZeMQhrIwA8irhlhzKXdOaxFYw=
+X-Received: by 2002:a05:6a00:b54:b029:207:2a04:7b05 with SMTP id
+ p20-20020a056a000b54b02902072a047b05mr9864816pfo.12.1616169223661; Fri, 19
+ Mar 2021 08:53:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210301154347.50052-1-hdegoede@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+References: <20210312085203.13556-1-jee.heng.sia@intel.com>
+In-Reply-To: <20210312085203.13556-1-jee.heng.sia@intel.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Fri, 19 Mar 2021 16:53:32 +0100
+Message-ID: <CAG3jFyuvTadeP-CLZ77k32vQvYVjrEakcXXr5U22Zgom=H34kg@mail.gmail.com>
+Subject: Re: [PATCH] drm: bridge: adv7511: Support I2S IEC958 encoded PCM
+ format
+To: Sia Jee Heng <jee.heng.sia@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,104 +62,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org
+Cc: Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
+ pierre-louis.bossart@linux.intel.com,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hey Sia,
 
-On 3/1/21 4:43 PM, Hans de Goede wrote:
-> After the recently added commit fe0f1e3bfdfe ("drm/i915: Shut down
-> displays gracefully on reboot"), the DSI panel on a Cherry Trail based
-> Predia Basic tablet would no longer properly light up after reboot.
-> 
-> The backlight still turns back on after reboot, but the LCD shows an
-> all black display. The display is also all black during the time that
-> EFI / the GOP is managing it, so e.g. the grub menu also is not visible.
-> 
-> In this scenario the panel is initialized so that it appears to be working
-> and the fastboot code skips doing a modeset. Forcing a modeset by doing a
-> chvt to a text-console over ssh followed by echo-ing 1 and then 0 to
-> /sys/class/graphics/fb0/blank causes the panel to work again.
-> 
-> Add a QUIRK_SKIP_SHUTDOWN quirk which turns i915_driver_shutdown() into
-> a no-op when set; and set this on vlv/chv devices when a DSI panel is
-> detected, to work around this.
-> 
-> Admittedly this is a bit of a big hammer, but these platforms have been
-> around for quite some time now and they have always worked fine without
-> the new behavior to shutdown everything on shutdown/reboot. This approach
-> simply disables the recently introduced new shutdown behavior in this
-> specific case where it is known to cause problems. Which is a nice and
-> simple way to deal with this.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Thanks for the patch, it looks good to me.
 
-Ping? Since sending this patch I've been seeing the issue addressed by
-this on variour other CHT based devices too.
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
 
-So we have various devices suffering from a black screen after reboot
-now. This is pretty serious usability regression.
-
-As such it would be good to get this reviewed, or another fix proposed.
-
-Regards,
-
-Hans
-
-
-
+On Fri, 12 Mar 2021 at 10:09, Sia Jee Heng <jee.heng.sia@intel.com> wrote:
+>
+> Support IEC958 encoded PCM format for ADV7511 so that ADV7511 HDMI
+> audio driver can accept the IEC958 data from the I2S input.
+>
+> Signed-off-by: Sia Jee Heng <jee.heng.sia@intel.com>
 > ---
->  drivers/gpu/drm/i915/display/vlv_dsi.c | 3 +++
->  drivers/gpu/drm/i915/i915_drv.c        | 3 +++
->  drivers/gpu/drm/i915/i915_drv.h        | 1 +
->  3 files changed, 7 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
-> index f94025ec603a..792ef868b6af 100644
-> --- a/drivers/gpu/drm/i915/display/vlv_dsi.c
-> +++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
-> @@ -1949,6 +1949,9 @@ void vlv_dsi_init(struct drm_i915_private *dev_priv)
->  
->  	vlv_dsi_add_properties(intel_connector);
->  
-> +	/* Some BIOS-es fail to re-init the DSI panel on reboot if we turn it off */
-> +	dev_priv->quirks |= QUIRK_SKIP_SHUTDOWN;
-> +
->  	return;
->  
->  err_cleanup_connector:
-> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-> index 8e9cb44e66e5..92f2af55af6d 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.c
-> +++ b/drivers/gpu/drm/i915/i915_drv.c
-> @@ -1048,6 +1048,9 @@ static void intel_shutdown_encoders(struct drm_i915_private *dev_priv)
->  
->  void i915_driver_shutdown(struct drm_i915_private *i915)
->  {
-> +	if (i915->quirks & QUIRK_SKIP_SHUTDOWN)
-> +		return;
-> +
->  	disable_rpm_wakeref_asserts(&i915->runtime_pm);
->  
->  	i915_gem_suspend(i915);
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 26d69d06aa6d..272cd7cb22d4 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -517,6 +517,7 @@ struct i915_psr {
->  #define QUIRK_PIN_SWIZZLED_PAGES (1<<5)
->  #define QUIRK_INCREASE_T12_DELAY (1<<6)
->  #define QUIRK_INCREASE_DDI_DISABLED_TIME (1<<7)
-> +#define QUIRK_SKIP_SHUTDOWN (1<<8)
->  
->  struct intel_fbdev;
->  struct intel_fbc_work;
-> 
-
+>  drivers/gpu/drm/bridge/adv7511/adv7511.h       | 1 +
+>  drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 6 ++++++
+>  2 files changed, 7 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> index a9bb734366ae..05e3abb5a0c9 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> @@ -191,6 +191,7 @@
+>  #define ADV7511_I2S_FORMAT_I2S                 0
+>  #define ADV7511_I2S_FORMAT_RIGHT_J             1
+>  #define ADV7511_I2S_FORMAT_LEFT_J              2
+> +#define ADV7511_I2S_IEC958_DIRECT              3
+>
+>  #define ADV7511_PACKET(p, x)       ((p) * 0x20 + (x))
+>  #define ADV7511_PACKET_SDP(x)      ADV7511_PACKET(0, x)
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+> index 45838bd08d37..61f4a38e7d2b 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+> @@ -101,6 +101,10 @@ static int adv7511_hdmi_hw_params(struct device *dev, void *data,
+>         case 20:
+>                 len = ADV7511_I2S_SAMPLE_LEN_20;
+>                 break;
+> +       case 32:
+> +               if (fmt->bit_fmt != SNDRV_PCM_FORMAT_IEC958_SUBFRAME_LE)
+> +                       return -EINVAL;
+> +               fallthrough;
+>         case 24:
+>                 len = ADV7511_I2S_SAMPLE_LEN_24;
+>                 break;
+> @@ -112,6 +116,8 @@ static int adv7511_hdmi_hw_params(struct device *dev, void *data,
+>         case HDMI_I2S:
+>                 audio_source = ADV7511_AUDIO_SOURCE_I2S;
+>                 i2s_format = ADV7511_I2S_FORMAT_I2S;
+> +               if (fmt->bit_fmt == SNDRV_PCM_FORMAT_IEC958_SUBFRAME_LE)
+> +                       i2s_format = ADV7511_I2S_IEC958_DIRECT;
+>                 break;
+>         case HDMI_RIGHT_J:
+>                 audio_source = ADV7511_AUDIO_SOURCE_I2S;
+>
+> base-commit: de066e116306baf3a6a62691ac63cfc0b1dabddb
+> --
+> 2.18.0
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
