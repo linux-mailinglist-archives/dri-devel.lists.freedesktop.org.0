@@ -1,54 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C036B341F57
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 15:28:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8207341F88
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Mar 2021 15:35:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF3166EA1A;
-	Fri, 19 Mar 2021 14:28:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98E916EA29;
+	Fri, 19 Mar 2021 14:35:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B78B6EA1A
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 14:28:26 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id b184so6015790pfa.11
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 07:28:26 -0700 (PDT)
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FD686EA29
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 14:35:53 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ q6-20020a17090a4306b02900c42a012202so4947246pjg.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Mar 2021 07:35:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wB7XW1expiEEiA0z4q1J+zFtd6n/h701jYh9DH52x/g=;
- b=rfMY38MqhnK5WXT7hN0NFVNWJw09ySqEl6rahFHBok2eKiGSQ2SNtxC0jMRggFiFlp
- YNwZt7MGTpigDLIAQKlPZmqoBKtAhhEZfliE5yoKKwNqonCgvMFh7k/B/fMmSMvqGIKr
- 5o8ELS87A24SQYN48yn1Kk4x38DeIrzUpQ1vxEuFDiJufMUpYAWSvdq2f2AhwA7AksfV
- bzKZSInC5qkZPpyyM0fxBaDgRizOcLYb/NaHoS9F2+0iegoTshz2yU6lxf5+VEoO5kuz
- hLBfKtTo5O9LWVFySPV8SYcnOJrIxqA1hBYp3/kGnJNXZaR/mMgvqz0ywTpGOA39Y6hJ
- Z+Hg==
+ :cc; bh=0R7vCUqOiWqusGQdLDA2yAGdzDAYsdMM6CojvsuIllk=;
+ b=dYE81wS7DSKdB7GyR7+XAISp1t5pL/zSDfGVzIkbDNtoK9UFhOBsBQloCz5aWC1JAw
+ lb3M2Iovl8eVPmG9iOIr/YUjCSJAhPTN/g+p6UMu6/Y1VjFTY32AXsOmDiENYV+o4uYU
+ 2E6IrTuBArSyTrhCPYpg4mJiuwrSs7OAHvKo0A4CJV1bCBDO7aWZsxn8OtdcMNW1ZA7u
+ S+elXIqViLr/nD7rTq4htiUkJ5lo2uGNeF21pedQKl0u5C8M9VsU/JvlO1Bjey6pA7C4
+ ANLJaApZfubVYKU033BWxll74mz1LZeSHXGAp7PYpcEbxUnJW9WBOVD/HMYy5a3wMAlo
+ KCQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=wB7XW1expiEEiA0z4q1J+zFtd6n/h701jYh9DH52x/g=;
- b=cwEd2HbthaZBvdE+MqBwGLqgCgckZNxKnGNU6PhTEOsspvQj1pAMqz0T/mZkuZ2nBk
- +9YOYNIYk6tupjTpnaKACRHEl5NIHG7Dm3jWPpj+c3uKxX139imJfqda5ZazUnpgl/Sz
- PdXRqpQFoe9NCMyR+v4EbhPUzWSFXUqh/vNJCNmlybNsd/6H+vqeMCRgDhYNu4v8kE0b
- 24Nsy0YFKqEYIzDd25pJ+3vcnXtiRWG1fDW4uMJgRV5Hk78mUTQWjcBzqMij0KmYthZN
- GsqRa6nzJ/h4EH6A1xn1P9h14Db0/22WBQExXLecoYWoK+3Yxq0s6ecnnrBx+nMuatLt
- R51Q==
-X-Gm-Message-State: AOAM5313Wk8OuQMn7JlLsJ8iVuu1Ocun6SNluPRD+R/zDAsLZiyTMk4T
- lIFREifbuCAdcq2j3lL06z6hDVeuJjhhA1Hkw0L+qA==
-X-Google-Smtp-Source: ABdhPJyE0Wk9tAliN/2sKNin+z7nx+NeyBf7s/4rymph1mvk13Artsko/VpzzorcMg+3DPqfuz4cf4SD2HeAcfTrsYc=
-X-Received: by 2002:a63:2321:: with SMTP id j33mr11536620pgj.120.1616164106191; 
- Fri, 19 Mar 2021 07:28:26 -0700 (PDT)
+ bh=0R7vCUqOiWqusGQdLDA2yAGdzDAYsdMM6CojvsuIllk=;
+ b=YLbSHi7jmxSbVA+FhwBVaPPJRHTvt0MRT3GOP6NrlyACYJ8quvrFIZCL0Dt+11YZYa
+ ZQVuXGRzZ21PBryMZsbB0xdA2eR9+rvYmql0B6jHOYzRO+DD1twYQCvf/AlO9k3/rElJ
+ 8P6S6vSfKkwn3HftimPtPVPZ8GZQgMWlwH1d7Xoutnm1ptHvxjTkJYw0XVVJOn7x4dhd
+ lHmRWX+I6C74pxZSuZs/cPllj+CApju6c1xAIzzrXm/jmib+yp/CmLyCszkcEwA19mEL
+ FOUoIeb7ZdvzkstbAz5ZaAgzNDJfe959P++7Y2Gar4BGPmwDXm0gNE7VdyVfVXxYVcEx
+ ycnQ==
+X-Gm-Message-State: AOAM531Y0vIFlCdoVxdP3AfQ8cg1+v7zV2oABmut6xNnQZRkj1TpoD2Z
+ 6507918nAuR45mGvLRbpfkKZr3FIx7/ZQMLhBHbHOg==
+X-Google-Smtp-Source: ABdhPJx6mz7QtxY42zHzQ4OwZrXSYkhmbs+ESa/8sPIZwAXqhmt9XhBi9MDQuYZrkn0CZzsEUeDWOtF7VrY+uzB9bCI=
+X-Received: by 2002:a17:90a:4a8f:: with SMTP id
+ f15mr10307132pjh.19.1616164552793; 
+ Fri, 19 Mar 2021 07:35:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210219215326.2227596-1-lyude@redhat.com>
- <20210219215326.2227596-8-lyude@redhat.com>
-In-Reply-To: <20210219215326.2227596-8-lyude@redhat.com>
+ <20210219215326.2227596-9-lyude@redhat.com>
+In-Reply-To: <20210219215326.2227596-9-lyude@redhat.com>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Fri, 19 Mar 2021 15:28:15 +0100
-Message-ID: <CAG3jFyt10Z_MVvvXyBfYFrN7_FQCOUywfLNXZbei2c=1DxvqhA@mail.gmail.com>
-Subject: Re: [PATCH 07/30] drm/bridge/analogix/anx78xx: Add missing
- drm_dp_aux_unregister() call
+Date: Fri, 19 Mar 2021 15:35:41 +0100
+Message-ID: <CAG3jFyto=4U7wqtw92Escsu9cXGV=xD8SUKm_UUm7bRmYPUYxA@mail.gmail.com>
+Subject: Re: [PATCH 08/30] drm/bridge/analogix/anx78xx: Setup encoder before
+ registering connector
 To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,39 +87,46 @@ Reviewed-by: Robert Foss <robert.foss@linaro.org>
 
 On Fri, 19 Feb 2021 at 22:56, Lyude Paul <lyude@redhat.com> wrote:
 >
-> Surprisingly, this bridge actually registers it's AUX adapter at the
-> correct time already. Nice job! However, it does forget to actually
-> unregister the AUX adapter, so let's add a bridge function to handle that.
+> Since encoder mappings for connectors are exposed to userspace, we should
+> be attaching the encoder before exposing the connector to userspace. Just a
+> drive-by fix for an issue I noticed while fixing up usages of
+> drm_dp_aux_init()/drm_dp_aux_register() across the tree.
 >
 > Signed-off-by: Lyude Paul <lyude@redhat.com>
 > ---
->  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-> index 81debd02c169..ec4607dc01eb 100644
+> index ec4607dc01eb..338dd8531d4b 100644
 > --- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
 > +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-> @@ -942,6 +942,11 @@ static int anx78xx_bridge_attach(struct drm_bridge *bridge,
+> @@ -924,12 +924,6 @@ static int anx78xx_bridge_attach(struct drm_bridge *bridge,
+>         drm_connector_helper_add(&anx78xx->connector,
+>                                  &anx78xx_connector_helper_funcs);
+>
+> -       err = drm_connector_register(&anx78xx->connector);
+> -       if (err) {
+> -               DRM_ERROR("Failed to register connector: %d\n", err);
+> -               return err;
+> -       }
+> -
+>         anx78xx->connector.polled = DRM_CONNECTOR_POLL_HPD;
+>
+>         err = drm_connector_attach_encoder(&anx78xx->connector,
+> @@ -939,6 +933,12 @@ static int anx78xx_bridge_attach(struct drm_bridge *bridge,
+>                 return err;
+>         }
+>
+> +       err = drm_connector_register(&anx78xx->connector);
+> +       if (err) {
+> +               DRM_ERROR("Failed to register connector: %d\n", err);
+> +               return err;
+> +       }
+> +
 >         return 0;
 >  }
 >
-> +static void anx78xx_bridge_detach(struct drm_bridge *bridge)
-> +{
-> +       drm_dp_aux_unregister(&bridge_to_anx78xx(bridge)->aux);
-> +}
-> +
->  static enum drm_mode_status
->  anx78xx_bridge_mode_valid(struct drm_bridge *bridge,
->                           const struct drm_display_info *info,
-> @@ -1013,6 +1018,7 @@ static void anx78xx_bridge_enable(struct drm_bridge *bridge)
->
->  static const struct drm_bridge_funcs anx78xx_bridge_funcs = {
->         .attach = anx78xx_bridge_attach,
-> +       .detach = anx78xx_bridge_detach,
->         .mode_valid = anx78xx_bridge_mode_valid,
->         .disable = anx78xx_bridge_disable,
->         .mode_set = anx78xx_bridge_mode_set,
 > --
 > 2.29.2
 >
