@@ -1,56 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6949E342D00
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Mar 2021 14:17:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54DFF342D04
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Mar 2021 14:28:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2C2E6EB61;
-	Sat, 20 Mar 2021 13:17:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80A6B6EB14;
+	Sat, 20 Mar 2021 13:28:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
- [IPv6:2607:f8b0:4864:20::c33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E58F089CE0
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Mar 2021 13:17:20 +0000 (UTC)
-Received: by mail-oo1-xc33.google.com with SMTP id
- q127-20020a4a33850000b02901b646aa81b1so2998709ooq.8
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Mar 2021 06:17:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=qv0EDDbj7lpcSDY3FNFkE109kQuEOLvPj/Lst8u9fuo=;
- b=UNAv4K6f4PEPk5BqHSb99CZD6tdYpvg4Fi2ztbmeO4KJymXaw6/Hp0aMk77sS0t36T
- +SsQTrWKnGRibJnWvRoPdLh7LE0khGAeCQwPLQks4TcFrvyPXlZZbmxOATNwnUeWdf9G
- z47FcRNJmAriESzcZFSdPoygZiyPJ6V4oYyOc=
+Received: from mail-ed1-x549.google.com (mail-ed1-x549.google.com
+ [IPv6:2a00:1450:4864:20::549])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DACB46EB14
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Mar 2021 13:28:46 +0000 (UTC)
+Received: by mail-ed1-x549.google.com with SMTP id q12so9064390edv.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Mar 2021 06:28:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=BBm8e3ljXuTB2RwWH86mMYMB3mSh/3i2elGx86nbt2k=;
+ b=MvAnzc4LPFs0OPxKBAzRip81IjdvkOQq5oCx+Db7pRo/laL2njO2DR8M29LndXu/Ge
+ QigKDtEnw2zlFQQJP9ZXbYZ8AeBvKm0WZB4spAk6kkJaVxuHCDavXwgSjgi36GHTeWSf
+ Y2Nb4Krx7dXb3pWTVR4po3SRdHLNanY3GxrxDG9J7nInBnVMrUoPOui8nP3JSRDqMwud
+ P2xvicA4GwseQB2c9W4L+nTW4Xo0cG+0WxnbntuDUSvgsY/6aA6IjAUXNUVZq08B9OLw
+ YCXiZ+Tuaz8h2XBUklamg7YL2yOszHtvHe+ArcV2vcuUuWcbz3+v6Hv1mJt22A32H9Xn
+ f+1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qv0EDDbj7lpcSDY3FNFkE109kQuEOLvPj/Lst8u9fuo=;
- b=Ja1FtZm7xV23rHm2pmmZ7CKtBfY62Kbip1UlHZW0dzZsFAg+oI5Of2PH7CtOKzKZWE
- mn3saqPfosfabo9H2m04ivI90CBejMWCR5sG2zetp+qzEQ2tiRInDWEChNZlUVQMkQRJ
- CKkSAGzZn8gQmASfOm907RUCrJ4zgXXhs19D6z3XyvWAgB5lAVoPo9szqgGuqRU33Ouk
- CBnu4zKtCT9XPhEypIMpkI8e2i2h40oUaSbEKO8kxF1a5C3P5B1BL1szq1X98KYJ4we2
- 4/coG2OikntsTZOdOK14OGNQnTr2XGC/bDpLp5pIUlv01rbZJxNPbyd2UhaTvp1V0lck
- EeCQ==
-X-Gm-Message-State: AOAM533bArMsRoxMHvFUMl8cNCx3qBls0Z1Q45P/WKNXmFpqBrVN35Z5
- A6Mo87D14skgg8laPrFNbXjdgX3hyjoL8xaP9eLWHg==
-X-Google-Smtp-Source: ABdhPJzWsutvgD06DyXWeHkYPsgzHUnu1aC6Y7to4/gsZft+AYsHKUdz1QXK4gSA3IDNWdH+qYKDxx7oWN8nk5gXaQc=
-X-Received: by 2002:a4a:424c:: with SMTP id i12mr5217554ooj.85.1616246240030; 
- Sat, 20 Mar 2021 06:17:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210319140857.2262-1-christian.koenig@amd.com>
- <YFTk1GSaUDI3wcWt@phenom.ffwll.local>
- <2831bfcc-140e-dade-1f50-a6431e495e9d@gmail.com>
- <YFT2LSR97rkkPyEP@phenom.ffwll.local>
- <1ae415c4-8e49-5183-b44d-bc92088657d5@gmail.com>
-In-Reply-To: <1ae415c4-8e49-5183-b44d-bc92088657d5@gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Sat, 20 Mar 2021 14:17:08 +0100
-Message-ID: <CAKMK7uEDhuvSwJj5CX8vHgLb+5zm=rdJPmXwb-VQWdrW6GwQZw@mail.gmail.com>
-Subject: Re: [PATCH] drm/ttm: stop warning on TT shrinker failure
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=BBm8e3ljXuTB2RwWH86mMYMB3mSh/3i2elGx86nbt2k=;
+ b=Jjr0XBf1zdi7LzoYoBKw9Ta0o0Vxa/b4dtw2vHhO4ZHkSMiaNhNUyjCnlZudsVy4Fk
+ VOk5Oz+R6ayDW/HYyrWrmLgbe1KdTkC4QnyalKIgCmB5TaCi8KTLQx1TESdQecUkZhaw
+ FsWT68WYgM0HmVHY8OiMRGHG3oE8R61d+wupOKOJDDhpoXbrakHVk2ogUauxZjJ/UWv4
+ jMbS8AKg6hCubmpBZ7KVd557Gtyx4PEb799iDjm4WzNB2lIm++W7Ne9k+Ez4anqotVtn
+ hRguylf6HZizpMw4QWBU0/hwcJDly4OAUNKc6jPv/UtmA5p7ZhR4l6YTWw90+ZR8DTRV
+ KdXQ==
+X-Gm-Message-State: AOAM5313TR1NaNG0Ans2T9uVzj7Fe09+7cEFUE7n7ZjxuWOLXBbYyFzu
+ 7e9J10zp3GC4/AVVOgfafy4BGb0ia6TF
+X-Google-Smtp-Source: ABdhPJwPlInIesVyLJR/yWRN+uRqKL/K5/VS1q+KO2JbycUaR96xSyYa3dYnZk6gJduKpoluxtwJqqPtpmo3
+X-Received: from dvyukov-desk.muc.corp.google.com
+ ([2a00:79e0:15:13:84f2:bf18:7ada:738e])
+ (user=dvyukov job=sendgmr) by 2002:a50:bb47:: with SMTP id
+ y65mr15819702ede.305.1616246925213; Sat, 20 Mar 2021 06:28:45 -0700 (PDT)
+Date: Sat, 20 Mar 2021 14:28:40 +0100
+Message-Id: <20210320132840.1315853-1-dvyukov@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
+Subject: [PATCH] drm/vkms: fix misuse of WARN_ON
+From: Dmitry Vyukov <dvyukov@google.com>
+To: daniel@ffwll.ch, airlied@linux.ie, hamohammed.sa@gmail.com, 
+ melissa.srw@gmail.com, rodrigosiqueiramelo@gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,99 +61,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Liu <Leo.Liu@amd.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: syzbot+4fc21a003c8332eb0bdd@syzkaller.appspotmail.com,
+ dri-devel@lists.freedesktop.org, Dmitry Vyukov <dvyukov@google.com>,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU2F0LCBNYXIgMjAsIDIwMjEgYXQgMTA6MDQgQU0gQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5p
-Zy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gQW0gMTkuMDMuMjEgdW0gMjA6
-MDYgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+ID4gT24gRnJpLCBNYXIgMTksIDIwMjEgYXQgMDc6
-NTM6NDhQTSArMDEwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+PiBBbSAxOS4wMy4yMSB1
-bSAxODo1MiBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gPj4+IE9uIEZyaSwgTWFyIDE5LCAyMDIx
-IGF0IDAzOjA4OjU3UE0gKzAxMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gPj4+PiBEb24n
-dCBwcmludCBhIHdhcm5pbmcgd2hlbiB3ZSBmYWlsIHRvIGFsbG9jYXRlIGEgcGFnZSBmb3Igc3dh
-cHBpbmcgdGhpbmdzIG91dC4KPiA+Pj4+Cj4gPj4+PiBBbHNvIHJlbHkgb24gbWVtYWxsb2Nfbm9m
-c19zYXZlL21lbWFsbG9jX25vZnNfcmVzdG9yZSBpbnN0ZWFkIG9mIEdGUF9OT0ZTLgo+ID4+PiBV
-aCB0aGlzIHBhcnQgZG9lc24ndCBtYWtlIHNlbnNlLiBFc3BlY2lhbGx5IHNpbmNlIHlvdSBvbmx5
-IGRvIGl0IGZvciB0aGUKPiA+Pj4gZGVidWdmcyBmaWxlLCBub3QgaW4gZ2VuZXJhbC4gV2hpY2gg
-bWVhbnMgeW91J3ZlIGp1c3QgY29tcGxldGVseSBicm9rZW4KPiA+Pj4gdGhlIHNocmlua2VyLgo+
-ID4+IEFyZSB5b3Ugc3VyZT8gTXkgaW1wcmVzc2lvbiBpcyB0aGF0IEdGUF9OT0ZTIHNob3VsZCBu
-b3cgd29yayBtdWNoIG1vcmUgb3V0Cj4gPj4gb2YgdGhlIGJveCB3aXRoIHRoZSBtZW1hbGxvY19u
-b2ZzX3NhdmUoKS9tZW1hbGxvY19ub2ZzX3Jlc3RvcmUoKS4KPiA+IFllYWgsIGlmIHlvdSdkIHB1
-dCBpdCBpbiB0aGUgcmlnaHQgcGxhY2UgOi0pCj4gPgo+ID4gQnV0IGFsc28gLW1tIGZvbGtzIGFy
-ZSB2ZXJ5IGNsZWFyIHRoYXQgbWVtYWxsb2Nfbm8qKCkgZmFtaWx5IGlzIGZvciBkaXJlCj4gPiBz
-aXR1YXRpb24gd2hlcmUgdGhlcmUncyByZWFsbHkgbm8gb3RoZXIgd2F5IG91dC4gRm9yIGFueXRo
-aW5nIHdoZXJlIHlvdQo+ID4ga25vdyB3aGF0IHlvdSdyZSBkb2luZywgeW91IHJlYWxseSBzaG91
-bGQgdXNlIGV4cGxpY2l0IGdmcCBmbGFncy4KPgo+IE15IGltcHJlc3Npb24gaXMganVzdCB0aGUg
-b3RoZXIgd2F5IGFyb3VuZC4gWW91IHNob3VsZCB0cnkgdG8gYXZvaWQgdGhlCj4gTk9GUy9OT0lP
-IGZsYWdzIGFuZCB1c2UgdGhlIG1lbWFsbG9jX25vKiBhcHByb2FjaCBpbnN0ZWFkLgoKV2hlcmUg
-ZGlkIHlvdSBnZXQgdGhhdCBpZGVhPyBUaGUga2VybmVsIGlzIGZ1bGwgb2YgZXhwbGljaXQgZ2Zw
-X3QgZmxhZwpwYXNzaW5nIHRvIG1ha2UgdGhpcyBhcyBleHBsaWNpdCBhcyBwb3NzaWJsZS4gVGhl
-IG1lbWFsbG9jX25vKiBzdHVmZgppcyBqdXN0IGZvciB3aGVuIHlvdSBnbyB0aHJvdWdoIGVudGly
-ZSBzdWJzeXN0ZW1zIGFuZCByZWFsbHkgY2FuJ3QKd2lyZSBpdCB0aHJvdWdoLiBJIGNhbid0IGZp
-bmQgdGhlIGRpc2N1c3Npb24gYW55bW9yZSwgYnV0IHRoYXQgd2FzIHRoZQphZHZpY2UgSSBnb3Qg
-ZnJvbSBtbS9mcyBwZW9wbGUuCgpPbmUgcmVhc29uIGlzIHRoYXQgZ2VuZXJhbGx5IGEgc21hbGwg
-R0ZQX0tFUk5FTCBhbGxvY2F0aW9uIG5ldmVyCmZhaWxzLiBCdXQgaXQgYWJzb2x1dGVseSBjYW4g
-ZmFpbCBpZiBpdCdzIGluIGEgbWVtYWxsb2Nfbm8qIHNlY3Rpb24sCmFuZCB0aGVzZSBraW5kIG9m
-IG5vbi1vYnZpb3VzIG5vbi1sb2NhbCBlZmZlY3RzIGFyZSBhIHJlYWwgcGFpbiBpbgp0ZXN0aW5n
-IGFuZCByZXZpZXcuIEhlbmNlIGV4cGxpY2l0IGdmcF9mbGFnIHBhc3NpbmcgYXMgbXVjaCBhcwpw
-b3NzaWJsZS4KCj4gPj4+IElmIHRoaXMgaXMganVzdCB0byBwYXBlciBvdmVyIHRoZSBzZXFfcHJp
-bnRmIGRvaW5nIHRoZSB3cm9uZyBhbGxvY2F0aW9ucywKPiA+Pj4gdGhlbiBqdXN0IG1vdmUgdGhh
-dCBvdXQgZnJvbSB1bmRlciB0aGUgZnNfcmVjbGFpbV9hY3F1aXJlL3JlbGVhc2UgcGFydC4KPiA+
-PiBObywgdGhhdCB3YXNuJ3QgdGhlIHByb2JsZW0uCj4gPj4KPiA+PiBXZSBoYXZlIGp1c3Qgc2Vl
-biB0byBtYW55IGZhaWx1cmVzIHRvIGFsbG9jYXRlIHBhZ2VzIGZvciBzd2Fwb3V0IGFuZCBJIHRo
-aW5rCj4gPj4gdGhhdCB3b3VsZCBpbXByb3ZlIHRoaXMgYmVjYXVzZSBpbiBhIGxvdCBvZiBjYXNl
-cyB3ZSBjYW4gdGhlbiBpbW1lZGlhdGVseQo+ID4+IHN3YXAgdGhpbmdzIG91dCBpbnN0ZWFkIG9m
-IGhhdmluZyB0byByZWx5IG9uIHVwcGVyIGxheWVycy4KPiA+IFllYWgsIHlvdSBicm9rZSBpdC4g
-Tm93IHRoZSByZWFsIHNocmlua2VyIGlzIHJ1bm5pbmcgd2l0aCBHRlBfS0VSTkVMLAo+ID4gYmVj
-YXVzZSB5b3VyIG1lbWFsbG9jX25vIGlzIG9ubHkgYXJvdW5kIHRoZSBkZWJ1Z2ZzIGZ1bmN0aW9u
-LiBBbmQgb2ZjIGl0J3MKPiA+IG11Y2ggZWFzaWVyIHRvIGFsbG9jYXRlIHdpdGggR0ZQX0tFUk5F
-TCwgcmlnaHQgdW50aWwgeW91IGRlYWRsb2NrIDotKQo+Cj4gVGhlIHByb2JsZW0gaGVyZSBpcyB0
-aGF0IGZvciBleGFtcGxlIGtzd2FwZCBjYWxscyB0aGUgc2hyaW5rZXIgd2l0aG91dAo+IGhvbGRp
-bmcgYSBGUyBsb2NrIGFzIGZhciBhcyBJIGNhbiBzZWUuCj4KPiBBbmQgaXQgaXMgcmF0aGVyIHNh
-ZCB0aGF0IHdlIGNhbid0IG9wdGltaXplIHRoaXMgY2FzZSBkaXJlY3RseS4KCkknbSBzdGlsbCBu
-b3QgY2xlYXIgd2hhdCB5b3Ugd2FudCB0byBvcHRpbWl6ZT8gWW91IGNhbiBjaGVjayBmb3IgImlz
-CnRoaXMga3N3YXBkIiBpbiBwZiBmbGFncywgYnV0IHRoYXQgc291bmRzIHZlcnkgaGFpcnkgYW5k
-IGZyYWdpbGUuCi1EYW5pZWwKCj4gQW55d2F5IHlvdSBhcmUgcmlnaHQgaWYgc29tZSBjYWxsZXIg
-ZG9lc24ndCB1c2UgdGhlIG1lbWFsbG9jX25vKigpCj4gYXBwcm9hY2ggd2UgYXJlIGJ1c3RlZC4K
-Pgo+IEdvaW5nIHRvIGNoYW5nZSB0aGUgcGF0Y2ggdG8gb25seSBub3Qgd2FybiBmb3IgdGhlIG1v
-bWVudC4KPgo+IFJlZ2FyZHMsCj4gQ2hyaXN0aWFuLgo+Cj4gPgo+ID4gU2hyaW5raW5nIGlzIGhh
-cmQsIHRoZXJlJ3Mgbm8gZWFzeSB3YXkgb3V0IGhlcmUuCj4gPgo+ID4gQ2hlZXJzLCBEYW5pZWwK
-PiA+Cj4gPj4gUmVnYXJkcywKPiA+PiBDaHJpc3RpYW4uCj4gPj4KPiA+Pgo+ID4+PiBfX0dGUF9O
-T1dBUk4gc2hvdWxkIGJlIHRoZXJlIGluZGVlZCBJIHRoaW5rLgo+ID4+PiAtRGFuaWVsCj4gPj4+
-Cj4gPj4+PiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmln
-QGFtZC5jb20+Cj4gPj4+PiAtLS0KPiA+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0
-LmMgfCA1ICsrKystCj4gPj4+PiAgICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAx
-IGRlbGV0aW9uKC0pCj4gPj4+Pgo+ID4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90
-dG0vdHRtX3R0LmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jCj4gPj4+PiBpbmRleCAy
-ZjA4MzNjOThkMmMuLjg2ZmEzZTgyZGFjYyAxMDA2NDQKPiA+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS90dG0vdHRtX3R0LmMKPiA+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0
-LmMKPiA+Pj4+IEBAIC0zNjksNyArMzY5LDcgQEAgc3RhdGljIHVuc2lnbmVkIGxvbmcgdHRtX3R0
-X3Nocmlua2VyX3NjYW4oc3RydWN0IHNocmlua2VyICpzaHJpbmssCj4gPj4+PiAgICAgICAgICAg
-IH07Cj4gPj4+PiAgICAgICAgICAgIGludCByZXQ7Cj4gPj4+PiAtICByZXQgPSB0dG1fYm9fc3dh
-cG91dCgmY3R4LCBHRlBfTk9GUyk7Cj4gPj4+PiArICByZXQgPSB0dG1fYm9fc3dhcG91dCgmY3R4
-LCBHRlBfS0VSTkVMIHwgX19HRlBfTk9XQVJOKTsKPiA+Pj4+ICAgICAgICAgICAgcmV0dXJuIHJl
-dCA8IDAgPyBTSFJJTktfRU1QVFkgOiByZXQ7Cj4gPj4+PiAgICB9Cj4gPj4+PiBAQCAtMzg5LDEw
-ICszODksMTMgQEAgc3RhdGljIHVuc2lnbmVkIGxvbmcgdHRtX3R0X3Nocmlua2VyX2NvdW50KHN0
-cnVjdCBzaHJpbmtlciAqc2hyaW5rLAo+ID4+Pj4gICAgc3RhdGljIGludCB0dG1fdHRfZGVidWdm
-c19zaHJpbmtfc2hvdyhzdHJ1Y3Qgc2VxX2ZpbGUgKm0sIHZvaWQgKmRhdGEpCj4gPj4+PiAgICB7
-Cj4gPj4+PiAgICAgICAgICAgIHN0cnVjdCBzaHJpbmtfY29udHJvbCBzYyA9IHsgLmdmcF9tYXNr
-ID0gR0ZQX0tFUk5FTCB9Owo+ID4+Pj4gKyAgdW5zaWduZWQgaW50IGZsYWdzOwo+ID4+Pj4gICAg
-ICAgICAgICBmc19yZWNsYWltX2FjcXVpcmUoR0ZQX0tFUk5FTCk7Cj4gPj4+PiArICBmbGFncyA9
-IG1lbWFsbG9jX25vZnNfc2F2ZSgpOwo+ID4+Pj4gICAgICAgICAgICBzZXFfcHJpbnRmKG0sICIl
-bHUvJWx1XG4iLCB0dG1fdHRfc2hyaW5rZXJfY291bnQoJm1tX3Nocmlua2VyLCAmc2MpLAo+ID4+
-Pj4gICAgICAgICAgICAgICAgICAgICAgIHR0bV90dF9zaHJpbmtlcl9zY2FuKCZtbV9zaHJpbmtl
-ciwgJnNjKSk7Cj4gPj4+PiArICBtZW1hbGxvY19ub2ZzX3Jlc3RvcmUoZmxhZ3MpOwo+ID4+Pj4g
-ICAgICAgICAgICBmc19yZWNsYWltX3JlbGVhc2UoR0ZQX0tFUk5FTCk7Cj4gPj4+PiAgICAgICAg
-ICAgIHJldHVybiAwOwo+ID4+Pj4gLS0KPiA+Pj4+IDIuMjUuMQo+ID4+Pj4KPiA+Pj4+IF9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPj4+PiBkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0Cj4gPj4+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4g
-Pj4+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBv
-cmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+vkms_vblank_simulate() uses WARN_ON for timing-dependent condition
+(timer overrun). This is a mis-use of WARN_ON, WARN_ON must be used
+to denote kernel bugs. Use pr_warn() instead.
+
+Signed-off-by: Dmitry Vyukov <dvyukov@google.com>
+Reported-by: syzbot+4fc21a003c8332eb0bdd@syzkaller.appspotmail.com
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Cc: Melissa Wen <melissa.srw@gmail.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@linux.ie>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Change-Id: I7f01c288092bc7e472ec63af198f93ce3d8c49f7
+---
+ drivers/gpu/drm/vkms/vkms_crtc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+index 0443b7deeaef6..758d8a98d96b3 100644
+--- a/drivers/gpu/drm/vkms/vkms_crtc.c
++++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+@@ -18,7 +18,8 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+ 
+ 	ret_overrun = hrtimer_forward_now(&output->vblank_hrtimer,
+ 					  output->period_ns);
+-	WARN_ON(ret_overrun != 1);
++	if (ret_overrun != 1)
++		pr_warn("%s: vblank timer overrun\n", __func__);
+ 
+ 	spin_lock(&output->lock);
+ 	ret = drm_crtc_handle_vblank(crtc);
+
+base-commit: e94c55b8e0a0bbe9a026250cf31e2fa45957d776
+-- 
+2.31.0.291.g576ba9dcdaf-goog
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
