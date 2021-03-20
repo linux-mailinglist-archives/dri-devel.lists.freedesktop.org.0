@@ -1,59 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456DB342C9A
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Mar 2021 12:56:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6949E342D00
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Mar 2021 14:17:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A20816EB5E;
-	Sat, 20 Mar 2021 11:56:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2C2E6EB61;
+	Sat, 20 Mar 2021 13:17:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com
- [IPv6:2607:f8b0:4864:20::835])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9C396EB5C;
- Sat, 20 Mar 2021 11:56:28 +0000 (UTC)
-Received: by mail-qt1-x835.google.com with SMTP id c6so8885089qtc.1;
- Sat, 20 Mar 2021 04:56:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vlRIPZDWLtVzMPV1+DyrJiYllc0VltZdGCVn3dbwgEc=;
- b=fG+qh6vMzL1J8aL/4mB9WmrYBcnYkaKchaQUAfW/JFdI5+RT6y2+6FIAoQ6CwgJrl4
- 7w10dXOS7FpLloB2paud6HvB14283R5Ju7I7Fabf/xVlnRXG0AwxgI9kAU8+XlK9DhHl
- /nTZ1lJ3RWaSOCeEsJHCRYG23kKO38aeY3rw1+bj51haBCHQYR4Km0tnwDuuDXo4m8Cj
- e/NZNmxzThZALcGExHLclMvI5xomjUQnuu32mU0xJ1Y881nh75qUXohfI5kAci39tF31
- uOak3a41d15SsJGZF5GOW2BDrSH+jO27bj+0yR4kPMv292WD7ulV3OjHCyKkYdotTooO
- FjMQ==
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
+ [IPv6:2607:f8b0:4864:20::c33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E58F089CE0
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Mar 2021 13:17:20 +0000 (UTC)
+Received: by mail-oo1-xc33.google.com with SMTP id
+ q127-20020a4a33850000b02901b646aa81b1so2998709ooq.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Mar 2021 06:17:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=qv0EDDbj7lpcSDY3FNFkE109kQuEOLvPj/Lst8u9fuo=;
+ b=UNAv4K6f4PEPk5BqHSb99CZD6tdYpvg4Fi2ztbmeO4KJymXaw6/Hp0aMk77sS0t36T
+ +SsQTrWKnGRibJnWvRoPdLh7LE0khGAeCQwPLQks4TcFrvyPXlZZbmxOATNwnUeWdf9G
+ z47FcRNJmAriESzcZFSdPoygZiyPJ6V4oYyOc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vlRIPZDWLtVzMPV1+DyrJiYllc0VltZdGCVn3dbwgEc=;
- b=UNPvGtc7+rbLXYQniLY3BUSfNiKqmlJAlgYKXRHswpdEyBHIZFjnNvv4O0LzMMmOg0
- hDivxNgKAHTkgxugWW14DU3s35YMT02H9NXbRF5VI/TZ1Lp/zWkCFZSUC74rA9vo/7hY
- iMkiPg5aQB+iFbS03zRSNohz02APP+0RT8LCYs5wq12saKFiylJb98M08z6fg7Ii9PcC
- j+5W3udn3vBtEBEij0IGBOy6YIQV09/ycAH70qtNZJN8aln1fjjoCQHufdniqFQpzbPI
- x+61Y/V4wuNDOT9m7oeFg08UZc6jvi9Tl9vgiMnrypIt3/vpqK5kDk7DCCme5KLmMVk3
- xGYQ==
-X-Gm-Message-State: AOAM530f0w+2EhRGWD6sW6sSl0GntIEDiS/oNzTXeVEiv/jHx6YSrzLq
- RprJ9lij0qpQBarawyvN7rM=
-X-Google-Smtp-Source: ABdhPJwD09mVKagZvZacKaoFdMcNiv74c0BScJ8M2admK6YvtkFIoIjF4787ni2LDwQjwsMTSTdPDQ==
-X-Received: by 2002:aed:3023:: with SMTP id 32mr2580664qte.173.1616241387864; 
- Sat, 20 Mar 2021 04:56:27 -0700 (PDT)
-Received: from localhost.localdomain ([2804:431:d77f:dedf:c165:89a3:1374:f96a])
- by smtp.gmail.com with ESMTPSA id j30sm5720233qtv.90.2021.03.20.04.56.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 Mar 2021 04:56:27 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: robdclark@gmail.com
-Subject: [PATCH v2 2/2] drm/msm: Fix suspend/resume on i.MX5
-Date: Sat, 20 Mar 2021 08:56:03 -0300
-Message-Id: <20210320115603.183083-2-festevam@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210320115603.183083-1-festevam@gmail.com>
-References: <20210320115603.183083-1-festevam@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=qv0EDDbj7lpcSDY3FNFkE109kQuEOLvPj/Lst8u9fuo=;
+ b=Ja1FtZm7xV23rHm2pmmZ7CKtBfY62Kbip1UlHZW0dzZsFAg+oI5Of2PH7CtOKzKZWE
+ mn3saqPfosfabo9H2m04ivI90CBejMWCR5sG2zetp+qzEQ2tiRInDWEChNZlUVQMkQRJ
+ CKkSAGzZn8gQmASfOm907RUCrJ4zgXXhs19D6z3XyvWAgB5lAVoPo9szqgGuqRU33Ouk
+ CBnu4zKtCT9XPhEypIMpkI8e2i2h40oUaSbEKO8kxF1a5C3P5B1BL1szq1X98KYJ4we2
+ 4/coG2OikntsTZOdOK14OGNQnTr2XGC/bDpLp5pIUlv01rbZJxNPbyd2UhaTvp1V0lck
+ EeCQ==
+X-Gm-Message-State: AOAM533bArMsRoxMHvFUMl8cNCx3qBls0Z1Q45P/WKNXmFpqBrVN35Z5
+ A6Mo87D14skgg8laPrFNbXjdgX3hyjoL8xaP9eLWHg==
+X-Google-Smtp-Source: ABdhPJzWsutvgD06DyXWeHkYPsgzHUnu1aC6Y7to4/gsZft+AYsHKUdz1QXK4gSA3IDNWdH+qYKDxx7oWN8nk5gXaQc=
+X-Received: by 2002:a4a:424c:: with SMTP id i12mr5217554ooj.85.1616246240030; 
+ Sat, 20 Mar 2021 06:17:20 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210319140857.2262-1-christian.koenig@amd.com>
+ <YFTk1GSaUDI3wcWt@phenom.ffwll.local>
+ <2831bfcc-140e-dade-1f50-a6431e495e9d@gmail.com>
+ <YFT2LSR97rkkPyEP@phenom.ffwll.local>
+ <1ae415c4-8e49-5183-b44d-bc92088657d5@gmail.com>
+In-Reply-To: <1ae415c4-8e49-5183-b44d-bc92088657d5@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Sat, 20 Mar 2021 14:17:08 +0100
+Message-ID: <CAKMK7uEDhuvSwJj5CX8vHgLb+5zm=rdJPmXwb-VQWdrW6GwQZw@mail.gmail.com>
+Subject: Re: [PATCH] drm/ttm: stop warning on TT shrinker failure
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,85 +63,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org,
- sean@poorly.run, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Leo Liu <Leo.Liu@amd.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When putting iMX5 into suspend, the following flow is
-observed:
-
-[   70.023427] [<c07755f0>] (msm_atomic_commit_tail) from [<c06e7218>]
-(commit_tail+0x9c/0x18c)
-[   70.031890] [<c06e7218>] (commit_tail) from [<c0e2920c>]
-(drm_atomic_helper_commit+0x1a0/0x1d4)
-[   70.040627] [<c0e2920c>] (drm_atomic_helper_commit) from
-[<c06e74d4>] (drm_atomic_helper_disable_all+0x1c4/0x1d4)
-[   70.050913] [<c06e74d4>] (drm_atomic_helper_disable_all) from
-[<c0e2943c>] (drm_atomic_helper_suspend+0xb8/0x170)
-[   70.061198] [<c0e2943c>] (drm_atomic_helper_suspend) from
-[<c06e84bc>] (drm_mode_config_helper_suspend+0x24/0x58)
-
-In the i.MX5 case, priv->kms is not populated (as i.MX5 does not use any
-of the Qualcomm display controllers), causing a NULL pointer
-dereference in msm_atomic_commit_tail():
-
-[   24.268964] 8<--- cut here ---
-[   24.274602] Unable to handle kernel NULL pointer dereference at
-virtual address 00000000
-[   24.283434] pgd = (ptrval)
-[   24.286387] [00000000] *pgd=ca212831
-[   24.290788] Internal error: Oops: 17 [#1] SMP ARM
-[   24.295609] Modules linked in:
-[   24.298777] CPU: 0 PID: 197 Comm: init Not tainted 5.11.0-rc2-next-20210111 #333
-[   24.306276] Hardware name: Freescale i.MX53 (Device Tree Support)
-[   24.312442] PC is at msm_atomic_commit_tail+0x54/0xb9c
-[   24.317743] LR is at commit_tail+0xa4/0x1b0
-
-Fix the problem by calling drm_mode_config_helper_suspend/resume()
-only when priv->kms is available.
-
-Fixes: ca8199f13498 ("drm/msm/dpu: ensure device suspend happens during PM sleep")
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
-Changes since v1:
-- None, only added freedreno@lists.freedesktop.org on Cc
-
- drivers/gpu/drm/msm/msm_drv.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index fd2ac54caf9f..a5c6b8c23336 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -1072,6 +1072,10 @@ static int __maybe_unused msm_pm_resume(struct device *dev)
- static int __maybe_unused msm_pm_prepare(struct device *dev)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
-+	struct msm_drm_private *priv = ddev ? ddev->dev_private : NULL;
-+
-+	if (!priv || !priv->kms)
-+		return 0;
- 
- 	return drm_mode_config_helper_suspend(ddev);
- }
-@@ -1079,6 +1083,10 @@ static int __maybe_unused msm_pm_prepare(struct device *dev)
- static void __maybe_unused msm_pm_complete(struct device *dev)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
-+	struct msm_drm_private *priv = ddev ? ddev->dev_private : NULL;
-+
-+	if (!priv || !priv->kms)
-+		return;
- 
- 	drm_mode_config_helper_resume(ddev);
- }
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU2F0LCBNYXIgMjAsIDIwMjEgYXQgMTA6MDQgQU0gQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5p
+Zy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gQW0gMTkuMDMuMjEgdW0gMjA6
+MDYgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+ID4gT24gRnJpLCBNYXIgMTksIDIwMjEgYXQgMDc6
+NTM6NDhQTSArMDEwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+PiBBbSAxOS4wMy4yMSB1
+bSAxODo1MiBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gPj4+IE9uIEZyaSwgTWFyIDE5LCAyMDIx
+IGF0IDAzOjA4OjU3UE0gKzAxMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gPj4+PiBEb24n
+dCBwcmludCBhIHdhcm5pbmcgd2hlbiB3ZSBmYWlsIHRvIGFsbG9jYXRlIGEgcGFnZSBmb3Igc3dh
+cHBpbmcgdGhpbmdzIG91dC4KPiA+Pj4+Cj4gPj4+PiBBbHNvIHJlbHkgb24gbWVtYWxsb2Nfbm9m
+c19zYXZlL21lbWFsbG9jX25vZnNfcmVzdG9yZSBpbnN0ZWFkIG9mIEdGUF9OT0ZTLgo+ID4+PiBV
+aCB0aGlzIHBhcnQgZG9lc24ndCBtYWtlIHNlbnNlLiBFc3BlY2lhbGx5IHNpbmNlIHlvdSBvbmx5
+IGRvIGl0IGZvciB0aGUKPiA+Pj4gZGVidWdmcyBmaWxlLCBub3QgaW4gZ2VuZXJhbC4gV2hpY2gg
+bWVhbnMgeW91J3ZlIGp1c3QgY29tcGxldGVseSBicm9rZW4KPiA+Pj4gdGhlIHNocmlua2VyLgo+
+ID4+IEFyZSB5b3Ugc3VyZT8gTXkgaW1wcmVzc2lvbiBpcyB0aGF0IEdGUF9OT0ZTIHNob3VsZCBu
+b3cgd29yayBtdWNoIG1vcmUgb3V0Cj4gPj4gb2YgdGhlIGJveCB3aXRoIHRoZSBtZW1hbGxvY19u
+b2ZzX3NhdmUoKS9tZW1hbGxvY19ub2ZzX3Jlc3RvcmUoKS4KPiA+IFllYWgsIGlmIHlvdSdkIHB1
+dCBpdCBpbiB0aGUgcmlnaHQgcGxhY2UgOi0pCj4gPgo+ID4gQnV0IGFsc28gLW1tIGZvbGtzIGFy
+ZSB2ZXJ5IGNsZWFyIHRoYXQgbWVtYWxsb2Nfbm8qKCkgZmFtaWx5IGlzIGZvciBkaXJlCj4gPiBz
+aXR1YXRpb24gd2hlcmUgdGhlcmUncyByZWFsbHkgbm8gb3RoZXIgd2F5IG91dC4gRm9yIGFueXRo
+aW5nIHdoZXJlIHlvdQo+ID4ga25vdyB3aGF0IHlvdSdyZSBkb2luZywgeW91IHJlYWxseSBzaG91
+bGQgdXNlIGV4cGxpY2l0IGdmcCBmbGFncy4KPgo+IE15IGltcHJlc3Npb24gaXMganVzdCB0aGUg
+b3RoZXIgd2F5IGFyb3VuZC4gWW91IHNob3VsZCB0cnkgdG8gYXZvaWQgdGhlCj4gTk9GUy9OT0lP
+IGZsYWdzIGFuZCB1c2UgdGhlIG1lbWFsbG9jX25vKiBhcHByb2FjaCBpbnN0ZWFkLgoKV2hlcmUg
+ZGlkIHlvdSBnZXQgdGhhdCBpZGVhPyBUaGUga2VybmVsIGlzIGZ1bGwgb2YgZXhwbGljaXQgZ2Zw
+X3QgZmxhZwpwYXNzaW5nIHRvIG1ha2UgdGhpcyBhcyBleHBsaWNpdCBhcyBwb3NzaWJsZS4gVGhl
+IG1lbWFsbG9jX25vKiBzdHVmZgppcyBqdXN0IGZvciB3aGVuIHlvdSBnbyB0aHJvdWdoIGVudGly
+ZSBzdWJzeXN0ZW1zIGFuZCByZWFsbHkgY2FuJ3QKd2lyZSBpdCB0aHJvdWdoLiBJIGNhbid0IGZp
+bmQgdGhlIGRpc2N1c3Npb24gYW55bW9yZSwgYnV0IHRoYXQgd2FzIHRoZQphZHZpY2UgSSBnb3Qg
+ZnJvbSBtbS9mcyBwZW9wbGUuCgpPbmUgcmVhc29uIGlzIHRoYXQgZ2VuZXJhbGx5IGEgc21hbGwg
+R0ZQX0tFUk5FTCBhbGxvY2F0aW9uIG5ldmVyCmZhaWxzLiBCdXQgaXQgYWJzb2x1dGVseSBjYW4g
+ZmFpbCBpZiBpdCdzIGluIGEgbWVtYWxsb2Nfbm8qIHNlY3Rpb24sCmFuZCB0aGVzZSBraW5kIG9m
+IG5vbi1vYnZpb3VzIG5vbi1sb2NhbCBlZmZlY3RzIGFyZSBhIHJlYWwgcGFpbiBpbgp0ZXN0aW5n
+IGFuZCByZXZpZXcuIEhlbmNlIGV4cGxpY2l0IGdmcF9mbGFnIHBhc3NpbmcgYXMgbXVjaCBhcwpw
+b3NzaWJsZS4KCj4gPj4+IElmIHRoaXMgaXMganVzdCB0byBwYXBlciBvdmVyIHRoZSBzZXFfcHJp
+bnRmIGRvaW5nIHRoZSB3cm9uZyBhbGxvY2F0aW9ucywKPiA+Pj4gdGhlbiBqdXN0IG1vdmUgdGhh
+dCBvdXQgZnJvbSB1bmRlciB0aGUgZnNfcmVjbGFpbV9hY3F1aXJlL3JlbGVhc2UgcGFydC4KPiA+
+PiBObywgdGhhdCB3YXNuJ3QgdGhlIHByb2JsZW0uCj4gPj4KPiA+PiBXZSBoYXZlIGp1c3Qgc2Vl
+biB0byBtYW55IGZhaWx1cmVzIHRvIGFsbG9jYXRlIHBhZ2VzIGZvciBzd2Fwb3V0IGFuZCBJIHRo
+aW5rCj4gPj4gdGhhdCB3b3VsZCBpbXByb3ZlIHRoaXMgYmVjYXVzZSBpbiBhIGxvdCBvZiBjYXNl
+cyB3ZSBjYW4gdGhlbiBpbW1lZGlhdGVseQo+ID4+IHN3YXAgdGhpbmdzIG91dCBpbnN0ZWFkIG9m
+IGhhdmluZyB0byByZWx5IG9uIHVwcGVyIGxheWVycy4KPiA+IFllYWgsIHlvdSBicm9rZSBpdC4g
+Tm93IHRoZSByZWFsIHNocmlua2VyIGlzIHJ1bm5pbmcgd2l0aCBHRlBfS0VSTkVMLAo+ID4gYmVj
+YXVzZSB5b3VyIG1lbWFsbG9jX25vIGlzIG9ubHkgYXJvdW5kIHRoZSBkZWJ1Z2ZzIGZ1bmN0aW9u
+LiBBbmQgb2ZjIGl0J3MKPiA+IG11Y2ggZWFzaWVyIHRvIGFsbG9jYXRlIHdpdGggR0ZQX0tFUk5F
+TCwgcmlnaHQgdW50aWwgeW91IGRlYWRsb2NrIDotKQo+Cj4gVGhlIHByb2JsZW0gaGVyZSBpcyB0
+aGF0IGZvciBleGFtcGxlIGtzd2FwZCBjYWxscyB0aGUgc2hyaW5rZXIgd2l0aG91dAo+IGhvbGRp
+bmcgYSBGUyBsb2NrIGFzIGZhciBhcyBJIGNhbiBzZWUuCj4KPiBBbmQgaXQgaXMgcmF0aGVyIHNh
+ZCB0aGF0IHdlIGNhbid0IG9wdGltaXplIHRoaXMgY2FzZSBkaXJlY3RseS4KCkknbSBzdGlsbCBu
+b3QgY2xlYXIgd2hhdCB5b3Ugd2FudCB0byBvcHRpbWl6ZT8gWW91IGNhbiBjaGVjayBmb3IgImlz
+CnRoaXMga3N3YXBkIiBpbiBwZiBmbGFncywgYnV0IHRoYXQgc291bmRzIHZlcnkgaGFpcnkgYW5k
+IGZyYWdpbGUuCi1EYW5pZWwKCj4gQW55d2F5IHlvdSBhcmUgcmlnaHQgaWYgc29tZSBjYWxsZXIg
+ZG9lc24ndCB1c2UgdGhlIG1lbWFsbG9jX25vKigpCj4gYXBwcm9hY2ggd2UgYXJlIGJ1c3RlZC4K
+Pgo+IEdvaW5nIHRvIGNoYW5nZSB0aGUgcGF0Y2ggdG8gb25seSBub3Qgd2FybiBmb3IgdGhlIG1v
+bWVudC4KPgo+IFJlZ2FyZHMsCj4gQ2hyaXN0aWFuLgo+Cj4gPgo+ID4gU2hyaW5raW5nIGlzIGhh
+cmQsIHRoZXJlJ3Mgbm8gZWFzeSB3YXkgb3V0IGhlcmUuCj4gPgo+ID4gQ2hlZXJzLCBEYW5pZWwK
+PiA+Cj4gPj4gUmVnYXJkcywKPiA+PiBDaHJpc3RpYW4uCj4gPj4KPiA+Pgo+ID4+PiBfX0dGUF9O
+T1dBUk4gc2hvdWxkIGJlIHRoZXJlIGluZGVlZCBJIHRoaW5rLgo+ID4+PiAtRGFuaWVsCj4gPj4+
+Cj4gPj4+PiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmln
+QGFtZC5jb20+Cj4gPj4+PiAtLS0KPiA+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0
+LmMgfCA1ICsrKystCj4gPj4+PiAgICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAx
+IGRlbGV0aW9uKC0pCj4gPj4+Pgo+ID4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90
+dG0vdHRtX3R0LmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jCj4gPj4+PiBpbmRleCAy
+ZjA4MzNjOThkMmMuLjg2ZmEzZTgyZGFjYyAxMDA2NDQKPiA+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS90dG0vdHRtX3R0LmMKPiA+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0
+LmMKPiA+Pj4+IEBAIC0zNjksNyArMzY5LDcgQEAgc3RhdGljIHVuc2lnbmVkIGxvbmcgdHRtX3R0
+X3Nocmlua2VyX3NjYW4oc3RydWN0IHNocmlua2VyICpzaHJpbmssCj4gPj4+PiAgICAgICAgICAg
+IH07Cj4gPj4+PiAgICAgICAgICAgIGludCByZXQ7Cj4gPj4+PiAtICByZXQgPSB0dG1fYm9fc3dh
+cG91dCgmY3R4LCBHRlBfTk9GUyk7Cj4gPj4+PiArICByZXQgPSB0dG1fYm9fc3dhcG91dCgmY3R4
+LCBHRlBfS0VSTkVMIHwgX19HRlBfTk9XQVJOKTsKPiA+Pj4+ICAgICAgICAgICAgcmV0dXJuIHJl
+dCA8IDAgPyBTSFJJTktfRU1QVFkgOiByZXQ7Cj4gPj4+PiAgICB9Cj4gPj4+PiBAQCAtMzg5LDEw
+ICszODksMTMgQEAgc3RhdGljIHVuc2lnbmVkIGxvbmcgdHRtX3R0X3Nocmlua2VyX2NvdW50KHN0
+cnVjdCBzaHJpbmtlciAqc2hyaW5rLAo+ID4+Pj4gICAgc3RhdGljIGludCB0dG1fdHRfZGVidWdm
+c19zaHJpbmtfc2hvdyhzdHJ1Y3Qgc2VxX2ZpbGUgKm0sIHZvaWQgKmRhdGEpCj4gPj4+PiAgICB7
+Cj4gPj4+PiAgICAgICAgICAgIHN0cnVjdCBzaHJpbmtfY29udHJvbCBzYyA9IHsgLmdmcF9tYXNr
+ID0gR0ZQX0tFUk5FTCB9Owo+ID4+Pj4gKyAgdW5zaWduZWQgaW50IGZsYWdzOwo+ID4+Pj4gICAg
+ICAgICAgICBmc19yZWNsYWltX2FjcXVpcmUoR0ZQX0tFUk5FTCk7Cj4gPj4+PiArICBmbGFncyA9
+IG1lbWFsbG9jX25vZnNfc2F2ZSgpOwo+ID4+Pj4gICAgICAgICAgICBzZXFfcHJpbnRmKG0sICIl
+bHUvJWx1XG4iLCB0dG1fdHRfc2hyaW5rZXJfY291bnQoJm1tX3Nocmlua2VyLCAmc2MpLAo+ID4+
+Pj4gICAgICAgICAgICAgICAgICAgICAgIHR0bV90dF9zaHJpbmtlcl9zY2FuKCZtbV9zaHJpbmtl
+ciwgJnNjKSk7Cj4gPj4+PiArICBtZW1hbGxvY19ub2ZzX3Jlc3RvcmUoZmxhZ3MpOwo+ID4+Pj4g
+ICAgICAgICAgICBmc19yZWNsYWltX3JlbGVhc2UoR0ZQX0tFUk5FTCk7Cj4gPj4+PiAgICAgICAg
+ICAgIHJldHVybiAwOwo+ID4+Pj4gLS0KPiA+Pj4+IDIuMjUuMQo+ID4+Pj4KPiA+Pj4+IF9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPj4+PiBkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0Cj4gPj4+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4g
+Pj4+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBv
+cmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
