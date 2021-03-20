@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B438342EBF
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Mar 2021 19:14:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB5A342EDF
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Mar 2021 19:21:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 745856EB7A;
-	Sat, 20 Mar 2021 18:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67B806E053;
+	Sat, 20 Mar 2021 18:21:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DBE76EB7A
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Mar 2021 18:14:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 3C7E261944
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Mar 2021 18:14:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C80936E053
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Mar 2021 18:21:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 887F16186A
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Mar 2021 18:21:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616264074;
- bh=r9/Jxq64rRNdjROcswJNSKQAI0UGpj8IcaV/FGfwlmQ=;
+ s=k20201202; t=1616264464;
+ bh=r6AGJAhjarnSNokKVgzDWEYjlgbfGbZG1axB1ACLvvg=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=kqHRQ/NHWELCaswFHHEHMSiZy5x5r0oq02iriXMeo/+yAp7daC1e0u8ZtbxK0jZzf
- pWWWu3fS5ftZzkoaZJPyzNOe/Qk603y8532WzKAbeX1p2NXd98hmR4kXCKSycaOQrv
- tZ7ab3JErhP/vjFKk8V6aQk7ujQ7JZh34yT8Na4tJxfpqc8aYOj+DJ9PCuGau6arr6
- G2VNbAHr7Qea5/vOe4/La+d2z70xmkR1rX6Z+dFphRUG0k3acx0hN9HWk36VkvD/fB
- 5DrRblHvRb+ois58oEJIwqDP4QuhsZs8okUVwd/AAVcoAmpoDJOzFaxIn2wVn1AvMi
- gCMJqDaLpEbHQ==
+ b=epfkOCk+fxsWG4m88A+IHNai8pkBLcBpwms4EYHUP/XTepJcbO4dUCAkDk8eh15X9
+ ipe1CyVOZO2jNK3lzkkoP2VP9XuHd08JwNnO4/R5DwDzYnH1Z/FVDiS7UoIUiyWBKo
+ ae4AvwlEz+6i7PxRNM/h+FHVdNrGmK55ADYLsJGgtoskD/DzrVToLzwxMBswUFBAoO
+ mJh4+Umvsu35Umys65wb72L4RVIC80XqEVeccVe5KFF7i4mf/064WpEGt3IDdPED0D
+ URX8D7VXT9FOiXi/FlSwOGNUgiyRBV51ASBwYHrGhVUkuMbwmF2TOAkSuovacbGdzv
+ n30DeQCcMzV+w==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 398E262A60; Sat, 20 Mar 2021 18:14:34 +0000 (UTC)
+ id 717F062A3C; Sat, 20 Mar 2021 18:21:04 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 212369] AMDGPU: GPU hangs with '*ERROR* Couldn't update BO_VA
  (-12)' on MIPS64
-Date: Sat, 20 Mar 2021 18:14:34 +0000
+Date: Sat, 20 Mar 2021 18:21:04 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,8 +45,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_regression
-Message-ID: <bug-212369-2300-UIYYjFp4j9@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-212369-2300-yluptZHXBW@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-212369-2300@https.bugzilla.kernel.org/>
 References: <bug-212369-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,11 +71,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=212369
 
-Xi Ruoyao (xry111@mengyan1223.wang) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Regression|No                          |Yes
+--- Comment #1 from Xi Ruoyao (xry111@mengyan1223.wang) ---
+Created attachment 295963
+  --> https://bugzilla.kernel.org/attachment.cgi?id=295963&action=edit
+kernel config
 
 -- 
 You may reply to this email to add a comment.
