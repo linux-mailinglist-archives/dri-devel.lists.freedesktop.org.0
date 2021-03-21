@@ -2,61 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4EE343223
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Mar 2021 12:43:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32BFE343231
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Mar 2021 13:01:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D18976E1CD;
-	Sun, 21 Mar 2021 11:43:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 447E26E1CF;
+	Sun, 21 Mar 2021 12:01:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4A2B6E1CF
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Mar 2021 11:43:49 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id o126so7390093lfa.0
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Mar 2021 04:43:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=DZAOWxxQmGAQuM4XepxTafRxS1Q61Cev/HyKLtTHaVA=;
- b=w2mzVHFsGABvESXvpg62uBCxQAmrg578CvIcCYxmH4LrQtSeP3aBLEoV6Db2VU6JnB
- MHJ+QMjK4sELQNu7le+Ci9m41YnS5OPPA79tnsOpbDMdPkT4iWtELnh++YaIqno+9yDh
- isigyg+dqtQQ4FkyWb5cit/ZgrvRHf2EHSJsGRgKb6j10O+dWEBIjpUseXjON+YjKRai
- C52PRcjb6oiCl1BBlVh2VSK5bUqyt8z+VTRrksEjrkhlplomczGbgjU4v7TzCH9gIlFT
- IwrHjGJnv/XEnf6+a5a+WhmB5NfFjvtf7Of5zfZlQKSjZOl9Ly1XySkDQ0NyNaGvfo21
- cjQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=DZAOWxxQmGAQuM4XepxTafRxS1Q61Cev/HyKLtTHaVA=;
- b=Z0Howd2oevYjNPh85Ibbu7W4muGYsoRWleWGWhtXBZN6ncyszEfN5tiQLGyCpeTQnP
- z6knb/LI6ebvj5li0bUWtV3SUjN3djJO0b2rGlGhndr81ah5mb0TySuk66/56erWPCN7
- Ov4t7+FLdCYpYFNJKGsfH8onB3pKKuB4uSsKyPu1XepIgvi3zuNjq+WDe5mLgBDcFyib
- aVsEAhul58hVt+uueI7iLsT3kmNi6Viq43EiGUSUVaSC2H10xsBHjSJMrUHl+Gu9H/K8
- w3DCHhOzB+P5D/Sg1RnB4+jCxVEevbEeFbS0WTDaMh8EApkdHSKOjhSTT5Mp/KyL39/4
- tSsQ==
-X-Gm-Message-State: AOAM53113234BcW5TwmMpdm/1JRI6Y/pEqp247ag2cED1tkNrpyP4Yej
- E1tFNXCRMf1vuhi0rvuuJVZbFA==
-X-Google-Smtp-Source: ABdhPJxUxJy6LTVbeIScMxn4yaCtVOuNxGvSUtM55uvryyCVgTyNR14MMom62Zkl1vlwXwgt6Wwb6g==
-X-Received: by 2002:a19:ed03:: with SMTP id y3mr5864228lfy.377.1616327028248; 
- Sun, 21 Mar 2021 04:43:48 -0700 (PDT)
-Received: from localhost.localdomain
- (c-d7cb225c.014-348-6c756e10.bbcust.telenor.se. [92.34.203.215])
- by smtp.gmail.com with ESMTPSA id 197sm1484419ljf.70.2021.03.21.04.43.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Mar 2021 04:43:47 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] backlight: ktd253: Support KTD259
-Date: Sun, 21 Mar 2021 12:43:41 +0100
-Message-Id: <20210321114341.944696-2-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210321114341.944696-1-linus.walleij@linaro.org>
-References: <20210321114341.944696-1-linus.walleij@linaro.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C66856E1CF
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Mar 2021 12:01:19 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AB9806EF;
+ Sun, 21 Mar 2021 13:01:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1616328077;
+ bh=uQPPcJrUWiDnFYI/0TmpYQ30SpOmt42O1YYziYPGS5I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gXy+qJIBEtJKf3TNhvRwWvjBf46zHFbguuExd643koDTmpiopv294YiW5mk4n+n0R
+ hGUrXQ09cfzImL7ZuQnb6jFBPaounN73se/jZJN70ifDG7asFCSZiep8DlTo42X0GS
+ CPQPnohxNwgt5R4lNrvOiVU3+k1MBJEPzTnq5A8g=
+Date: Sun, 21 Mar 2021 14:00:38 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Xin Ji <xji@analogixsemi.com>
+Subject: Re: [PATCH v6 1/5] dt-bindings:drm/bridge:anx7625:add vendor define
+ flags
+Message-ID: <YFc1ZlmSiNJOAoOl@pendragon.ideasonboard.com>
+References: <cover.1616135353.git.xji@analogixsemi.com>
+ <4b09b40ce53c5b5fe7d2ba65a3c7a1b23f6eec04.1616135353.git.xji@analogixsemi.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <4b09b40ce53c5b5fe7d2ba65a3c7a1b23f6eec04.1616135353.git.xji@analogixsemi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,34 +47,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Nicolas Boichat <drinkcat@google.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>,
+ Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
+ Mark Brown <broonie@kernel.org>, Zhen Li <zhenli@analogixsemi.com>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Bernie Liang <bliang@analogixsemi.com>,
+ Sheng Pan <span@analogixsemi.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The KTD259 works just like KTD253 so add this compatible
-to the driver.
+Hi Xin,
 
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/video/backlight/ktd253-backlight.c | 1 +
- 1 file changed, 1 insertion(+)
+Thank you for the patch.
 
-diff --git a/drivers/video/backlight/ktd253-backlight.c b/drivers/video/backlight/ktd253-backlight.c
-index d7b287cffd5c..a7df5bcca9da 100644
---- a/drivers/video/backlight/ktd253-backlight.c
-+++ b/drivers/video/backlight/ktd253-backlight.c
-@@ -173,6 +173,7 @@ static int ktd253_backlight_probe(struct platform_device *pdev)
- 
- static const struct of_device_id ktd253_backlight_of_match[] = {
- 	{ .compatible = "kinetic,ktd253" },
-+	{ .compatible = "kinetic,ktd259" },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, ktd253_backlight_of_match);
+On Fri, Mar 19, 2021 at 02:32:39PM +0800, Xin Ji wrote:
+> Add 'bus-type' and 'data-lanes' define for port0. Define DP tx lane0,
+> lane1 swing register array define, and audio enable flag.
+> 
+> Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> ---
+>  .../display/bridge/analogix,anx7625.yaml      | 58 ++++++++++++++++++-
+>  1 file changed, 57 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> index c789784efe30..3f54d5876982 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> @@ -34,6 +34,26 @@ properties:
+>      description: used for reset chip control, RESET_N pin B7.
+>      maxItems: 1
+>  
+> +  analogix,lane0-swing:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 20
+> +    description:
+> +      an array of swing register setting for DP tx lane0 PHY, please don't
+> +      add this property, or contact vendor.
+
+DT properties need to be documented. Contacting the vendor doesn't count
+as documentation I'm afraid.
+
+> +
+> +  analogix,lane1-swing:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 20
+> +    description:
+> +      an array of swing register setting for DP tx lane1 PHY, please don't
+> +      add this property, or contact vendor.
+> +
+> +  analogix,audio-enable:
+> +    type: boolean
+> +    description: let the driver enable audio HDMI codec function or not.
+> +
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+>  
+> @@ -41,13 +61,43 @@ properties:
+>        port@0:
+>          $ref: /schemas/graph.yaml#/properties/port
+>          description:
+> -          Video port for MIPI DSI input.
+> +          MIPI DSI/DPI input.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            type: object
+> +            additionalProperties: false
+> +
+> +            properties:
+> +              remote-endpoint: true
+> +              bus-type: true
+> +              data-lanes: true
+> +
+> +            required:
+> +              - remote-endpoint
+> +
+> +        required:
+> +          - endpoint
+> +
+>  
+>        port@1:
+>          $ref: /schemas/graph.yaml#/properties/port
+>          description:
+>            Video port for panel or connector.
+>  
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            type: object
+> +            additionalProperties: false
+> +
+> +            properties:
+> +              remote-endpoint: true
+> +
+> +            required:
+> +              - remote-endpoint
+> +
+>      required:
+>        - port@0
+>        - port@1
+> @@ -73,6 +123,10 @@ examples:
+>              enable-gpios = <&pio 45 GPIO_ACTIVE_HIGH>;
+>              reset-gpios = <&pio 73 GPIO_ACTIVE_HIGH>;
+>  
+> +            analogix,audio-enable;
+> +            analogix,lane0-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
+> +            analogix,lane1-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
+> +
+>              ports {
+>                  #address-cells = <1>;
+>                  #size-cells = <0>;
+> @@ -81,6 +135,8 @@ examples:
+>                      reg = <0>;
+>                      anx7625_in: endpoint {
+>                          remote-endpoint = <&mipi_dsi>;
+> +                        bus-type = <5>;
+> +                        data-lanes = <0 1 2 3>;
+>                      };
+>                  };
+>  
+
 -- 
-2.29.2
+Regards,
 
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
