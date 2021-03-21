@@ -2,53 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB0CE34341E
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Mar 2021 19:46:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F123A343437
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Mar 2021 19:58:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69B7C89FED;
-	Sun, 21 Mar 2021 18:46:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53F436E061;
+	Sun, 21 Mar 2021 18:58:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFF6C89FEC
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Mar 2021 18:46:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 470BD40762;
- Sun, 21 Mar 2021 19:46:12 +0100 (CET)
-Authentication-Results: pio-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="QgstfKZg";
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Zz_OBa3Q9uRF; Sun, 21 Mar 2021 19:46:10 +0100 (CET)
-Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id C1E1F40391;
- Sun, 21 Mar 2021 19:46:09 +0100 (CET)
-Received: from localhost.localdomain (2.70.38.73.mobile.tre.se [2.70.38.73])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 08C20361E92;
- Sun, 21 Mar 2021 19:46:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1616352369; bh=ZnblYh+CL4ivnDI/E6ELj+Eqjfd3BvnVp2d0Kcr13LY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QgstfKZge72BS3EhP/IMO2NO6UDPjjWw3EOjZQCCAMAZbOhSTAWCUxhA0NuKRdbAb
- O17orFTuvm1/2qUmi4x93pHCMDBI9J8h4+MyhcJS2AMr2K+PHTWIkcqJyU4cmkLUCi
- R2rjarNFky6QOoSe+ndSkv2nZu4fJR5yy1qRp8gY=
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m=20=28Intel=29?=
- <thomas_os@shipmail.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 2/2] mm,drm/ttm: Use VM_PFNMAP for TTM vmas
-Date: Sun, 21 Mar 2021 19:45:29 +0100
-Message-Id: <20210321184529.59006-3-thomas_os@shipmail.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210321184529.59006-1-thomas_os@shipmail.org>
-References: <20210321184529.59006-1-thomas_os@shipmail.org>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD9CB6E061
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Mar 2021 18:58:18 +0000 (UTC)
+Received: from p508fc3a3.dip0.t-ipconnect.de ([80.143.195.163]
+ helo=phil.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1lO3HC-0006z5-By; Sun, 21 Mar 2021 19:58:14 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Sandy Huang <hjc@rock-chips.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Jonathan McDowell <noodles@earth.li>
+Subject: Re: [PATCH] drm/rockchip: Cope with endpoints that haven't been
+ registered yet
+Date: Sun, 21 Mar 2021 19:58:13 +0100
+Message-ID: <3104631.44csPzL39Z@phil>
+In-Reply-To: <20210316182753.GA25685@earth.li>
+References: <20210316182753.GA25685@earth.li>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,98 +41,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m=20=28Intel=29?= <thomas_os@shipmail.org>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Christian Koenig <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VG8gYmxvY2sgZmFzdCBndXAgd2UgbmVlZCB0byBtYWtlIHN1cmUgVFRNIHB0ZXMgYXJlIGFsd2F5
-cyBzcGVjaWFsLgpXaXRoIE1JWEVETUFQIHdlLCBvbiBhcmNoaXRlY3R1cmVzIHRoYXQgZG9uJ3Qg
-c3VwcG9ydCBwdGVfc3BlY2lhbCwKaW5zZXJ0IG5vcm1hbCBwdGVzLCBidXQgT1RPSCBvbiB0aG9z
-ZSBhcmNoaXRlY3R1cmVzLCBmYXN0IGlzIG5vdApzdXBwb3J0ZWQuCkF0IHRoZSBzYW1lIHRpbWUs
-IHRoZSBmdW5jdGlvbiBkb2N1bWVudGF0aW9uIHRvIHZtX25vcm1hbF9wYWdlKCkgc3VnZ2VzdHMK
-dGhhdCBwdGVzIHBvaW50aW5nIHRvIHN5c3RlbSBtZW1vcnkgcGFnZXMgb2YgTUlYRURNQVAgdm1h
-cyBhcmUgYWx3YXlzCm5vcm1hbCwgYnV0IHRoYXQgZG9lc24ndCBzZWVtIGNvbnNpc3RlbnQgd2l0
-aCB3aGF0J3MgaW1wbGVtZW50ZWQgaW4Kdm1mX2luc2VydF9taXhlZCgpLiBJJ20gdGh1cyBub3Qg
-ZW50aXJlbHkgc3VyZSB0aGlzIHBhdGNoIGlzIGFjdHVhbGx5Cm5lZWRlZC4KCkJ1dCB0byBtYWtl
-IHN1cmUgYW5kIHRvIGF2b2lkIGFsc28gbm9ybWFsIChub24tZmFzdCkgZ3VwLCBtYWtlIGFsbApU
-VE0gdm1hcyBQRk5NQVAuIFdpdGggUEZOTUFQIHdlIGNhbid0IGFsbG93IENPVyBtYXBwaW5ncwph
-bnltb3JlIHNvIG1ha2UgaXNfY293X21hcHBpbmcoKSBhdmFpbGFibGUgYW5kIHVzZSBpdCB0byBy
-ZWplY3QKQ09XIG1hcHBpZ3MgYXQgbW1hcCB0aW1lLgoKVGhlcmUgd2FzIHByZXZpb3VzbHkgYSBj
-b21tZW50IGluIHRoZSBjb2RlIHRoYXQgV0MgbWFwcGluZ3MgdG9nZXRoZXIKd2l0aCB4ODYgUEFU
-ICsgUEZOTUFQIHdhcyBiYWQgZm9yIHBlcmZvcm1hbmNlLiBIb3dldmVyIGZyb20gbG9va2luZyBh
-dAp2bWZfaW5zZXJ0X21peGVkKCkgaXQgbG9va3MgbGlrZSBpbiB0aGUgY3VycmVudCBjb2RlIFBG
-Tk1BUCBhbmQgTUlYRURNQVAKYXJlIGhhbmRsZWQgdGhlIHNhbWUgZm9yIGFyY2hpdGVjdHVyZXMg
-dGhhdCBzdXBwb3J0IHB0ZV9zcGVjaWFsLiBUaGlzCm1lYW5zIHRoZXJlIHNob3VsZCBub3QgYmUg
-YSBwZXJmb3JtYW5jZSBkaWZmZXJlbmNlIGFueW1vcmUsIGJ1dCB0aGlzCm5lZWRzIHRvIGJlIHZl
-cmlmaWVkLgoKQ2M6IENocmlzdGlhbiBLb2VuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4K
-Q2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRh
-bmllbEBmZndsbC5jaD4KQ2M6IEFuZHJldyBNb3J0b24gPGFrcG1AbGludXgtZm91bmRhdGlvbi5v
-cmc+CkNjOiBKYXNvbiBHdW50aG9ycGUgPGpnZ0BudmlkaWEuY29tPgpDYzogbGludXgtbW1Aa3Zh
-Y2sub3JnCkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBsaW51eC1rZXJu
-ZWxAdmdlci5rZXJuZWwub3JnClNpZ25lZC1vZmYtYnk6IFRob21hcyBIZWxsc3Ryw7ZtIChJbnRl
-bCkgPHRob21hc19vc0BzaGlwbWFpbC5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3R0bS90dG1f
-Ym9fdm0uYyB8IDIyICsrKysrKysrLS0tLS0tLS0tLS0tLS0KIGluY2x1ZGUvbGludXgvbW0uaCAg
-ICAgICAgICAgICAgfCAgNSArKysrKwogbW0vaW50ZXJuYWwuaCAgICAgICAgICAgICAgICAgICB8
-ICA1IC0tLS0tCiAzIGZpbGVzIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyksIDE5IGRlbGV0aW9u
-cygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192bS5jCmluZGV4IDFjMzQ5ODM0ODBlNS4uNzA4YzZmYjli
-ZTgxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192bS5jCisrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMKQEAgLTM3MiwxMiArMzcyLDcgQEAgdm1fZmF1
-bHRfdCB0dG1fYm9fdm1fZmF1bHRfcmVzZXJ2ZWQoc3RydWN0IHZtX2ZhdWx0ICp2bWYsCiAJCSAq
-IGF0IGFyYml0cmFyeSB0aW1lcyB3aGlsZSB0aGUgZGF0YSBpcyBtbWFwJ2VkLgogCQkgKiBTZWUg
-dm1mX2luc2VydF9taXhlZF9wcm90KCkgZm9yIGEgZGlzY3Vzc2lvbi4KIAkJICovCi0JCWlmICh2
-bWEtPnZtX2ZsYWdzICYgVk1fTUlYRURNQVApCi0JCQlyZXQgPSB2bWZfaW5zZXJ0X21peGVkX3By
-b3Qodm1hLCBhZGRyZXNzLAotCQkJCQkJICAgIF9fcGZuX3RvX3Bmbl90KHBmbiwgUEZOX0RFViks
-Ci0JCQkJCQkgICAgcHJvdCk7Ci0JCWVsc2UKLQkJCXJldCA9IHZtZl9pbnNlcnRfcGZuX3Byb3Qo
-dm1hLCBhZGRyZXNzLCBwZm4sIHByb3QpOworCQlyZXQgPSB2bWZfaW5zZXJ0X3Bmbl9wcm90KHZt
-YSwgYWRkcmVzcywgcGZuLCBwcm90KTsKIAogCQkvKiBOZXZlciBlcnJvciBvbiBwcmVmYXVsdGVk
-IFBURXMgKi8KIAkJaWYgKHVubGlrZWx5KChyZXQgJiBWTV9GQVVMVF9FUlJPUikpKSB7CkBAIC01
-NTUsMTggKzU1MCwxNCBAQCBzdGF0aWMgdm9pZCB0dG1fYm9fbW1hcF92bWFfc2V0dXAoc3RydWN0
-IHR0bV9idWZmZXJfb2JqZWN0ICpibywgc3RydWN0IHZtX2FyZWFfcwogCSAqIE5vdGU6IFdlJ3Jl
-IHRyYW5zZmVycmluZyB0aGUgYm8gcmVmZXJlbmNlIHRvCiAJICogdm1hLT52bV9wcml2YXRlX2Rh
-dGEgaGVyZS4KIAkgKi8KLQogCXZtYS0+dm1fcHJpdmF0ZV9kYXRhID0gYm87CiAKIAkvKgotCSAq
-IFdlJ2QgbGlrZSB0byB1c2UgVk1fUEZOTUFQIG9uIHNoYXJlZCBtYXBwaW5ncywgd2hlcmUKLQkg
-KiAodm1hLT52bV9mbGFncyAmIFZNX1NIQVJFRCkgIT0gMCwgZm9yIHBlcmZvcm1hbmNlIHJlYXNv
-bnMsCi0JICogYnV0IGZvciBzb21lIHJlYXNvbiBWTV9QRk5NQVAgKyB4ODYgUEFUICsgd3JpdGUt
-Y29tYmluZSBpcyB2ZXJ5Ci0JICogYmFkIGZvciBwZXJmb3JtYW5jZS4gVW50aWwgdGhhdCBoYXMg
-YmVlbiBzb3J0ZWQgb3V0LCB1c2UKLQkgKiBWTV9NSVhFRE1BUCBvbiBhbGwgbWFwcGluZ3MuIFNl
-ZSBmcmVlZGVza3RvcC5vcmcgYnVnICM3NTcxOQorCSAqIFBGTk1BUCBmb3JjZXMgdXMgdG8gYmxv
-Y2sgQ09XIG1hcHBpbmdzIGluIG1tYXAoKSwKKwkgKiBhbmQgd2l0aCBNSVhFRE1BUCB3ZSB3b3Vs
-ZCBpbmNvcnJlY3RseSBhbGxvdyBmYXN0IGd1cAorCSAqIG9uIFRUTSBtZW1vcnkgb24gYXJjaGl0
-ZWN0dXJlcyB0aGF0IGRvbid0IGhhdmUgcHRlX3NwZWNpYWwuCiAJICovCi0Jdm1hLT52bV9mbGFn
-cyB8PSBWTV9NSVhFRE1BUDsKLQl2bWEtPnZtX2ZsYWdzIHw9IFZNX0lPIHwgVk1fRE9OVEVYUEFO
-RCB8IFZNX0RPTlREVU1QOworCXZtYS0+dm1fZmxhZ3MgfD0gVk1fUEZOTUFQIHwgVk1fSU8gfCBW
-TV9ET05URVhQQU5EIHwgVk1fRE9OVERVTVA7CiB9CiAKIGludCB0dG1fYm9fbW1hcChzdHJ1Y3Qg
-ZmlsZSAqZmlscCwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsCkBAIC01NzksNiArNTcwLDkg
-QEAgaW50IHR0bV9ib19tbWFwKHN0cnVjdCBmaWxlICpmaWxwLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1
-Y3QgKnZtYSwKIAlpZiAodW5saWtlbHkodm1hLT52bV9wZ29mZiA8IERSTV9GSUxFX1BBR0VfT0ZG
-U0VUX1NUQVJUKSkKIAkJcmV0dXJuIC1FSU5WQUw7CiAKKwlpZiAodW5saWtlbHkoaXNfY293X21h
-cHBpbmcodm1hLT52bV9mbGFncykpKQorCQlyZXR1cm4gLUVJTlZBTDsKKwogCWJvID0gdHRtX2Jv
-X3ZtX2xvb2t1cChiZGV2LCB2bWEtPnZtX3Bnb2ZmLCB2bWFfcGFnZXModm1hKSk7CiAJaWYgKHVu
-bGlrZWx5KCFibykpCiAJCXJldHVybiAtRUlOVkFMOwpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51
-eC9tbS5oIGIvaW5jbHVkZS9saW51eC9tbS5oCmluZGV4IDc3ZTY0ZTNlYWM4MC4uYzZlYmY3Zjlk
-ZGJiIDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L21tLmgKKysrIGIvaW5jbHVkZS9saW51eC9t
-bS5oCkBAIC02ODYsNiArNjg2LDExIEBAIHN0YXRpYyBpbmxpbmUgYm9vbCB2bWFfaXNfYWNjZXNz
-aWJsZShzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSkKIAlyZXR1cm4gdm1hLT52bV9mbGFncyAm
-IFZNX0FDQ0VTU19GTEFHUzsKIH0KIAorc3RhdGljIGlubGluZSBib29sIGlzX2Nvd19tYXBwaW5n
-KHZtX2ZsYWdzX3QgZmxhZ3MpCit7CisJcmV0dXJuIChmbGFncyAmIChWTV9TSEFSRUQgfCBWTV9N
-QVlXUklURSkpID09IFZNX01BWVdSSVRFOworfQorCiAjaWZkZWYgQ09ORklHX1NITUVNCiAvKgog
-ICogVGhlIHZtYV9pc19zaG1lbSBpcyBub3QgaW5saW5lIGJlY2F1c2UgaXQgaXMgdXNlZCBvbmx5
-IGJ5IHNsb3cKZGlmZiAtLWdpdCBhL21tL2ludGVybmFsLmggYi9tbS9pbnRlcm5hbC5oCmluZGV4
-IDk5MDI2NDhmMjIwNi4uMTQzMmZlZWM2MmRmIDEwMDY0NAotLS0gYS9tbS9pbnRlcm5hbC5oCisr
-KyBiL21tL2ludGVybmFsLmgKQEAgLTI5NiwxMSArMjk2LDYgQEAgc3RhdGljIGlubGluZSB1bnNp
-Z25lZCBpbnQgYnVkZHlfb3JkZXIoc3RydWN0IHBhZ2UgKnBhZ2UpCiAgKi8KICNkZWZpbmUgYnVk
-ZHlfb3JkZXJfdW5zYWZlKHBhZ2UpCVJFQURfT05DRShwYWdlX3ByaXZhdGUocGFnZSkpCiAKLXN0
-YXRpYyBpbmxpbmUgYm9vbCBpc19jb3dfbWFwcGluZyh2bV9mbGFnc190IGZsYWdzKQotewotCXJl
-dHVybiAoZmxhZ3MgJiAoVk1fU0hBUkVEIHwgVk1fTUFZV1JJVEUpKSA9PSBWTV9NQVlXUklURTsK
-LX0KLQogLyoKICAqIFRoZXNlIHRocmVlIGhlbHBlcnMgY2xhc3NpZmllcyBWTUFzIGZvciB2aXJ0
-dWFsIG1lbW9yeSBhY2NvdW50aW5nLgogICovCi0tIAoyLjMwLjIKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Jonathan,
+
+Am Dienstag, 16. M=E4rz 2021, 19:27:53 CET schrieb Jonathan McDowell:
+> The Rockchip RGB CRTC output driver attempts to avoid probing Rockchip
+> subdrivers to see if they're a connected panel or bridge. However part
+> of its checks assumes that if no OF platform device is found then it
+> can't be a valid bridge or panel. This causes issues with I2C controlled
+> bridges that have not yet been registered to the point they can be
+> found.
+> =
+
+> Change this to return EPROBE_DEFER instead of ENODEV and don't ignore
+> such devices. The subsequent call to drm_of_find_panel_or_bridge() will
+> return EPROBE_DEFER as well if there's actually a valid device we should
+> wait for.
+> =
+
+> Signed-off-by: Jonathan McDowell <noodles@earth.li>
+> ---
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 8 ++++++--
+>  drivers/gpu/drm/rockchip/rockchip_rgb.c     | 7 ++++---
+>  2 files changed, 10 insertions(+), 5 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/dr=
+m/rockchip/rockchip_drm_drv.c
+> index 212bd87c0c4a..b0d63a566501 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> @@ -270,11 +270,15 @@ int rockchip_drm_endpoint_is_subdriver(struct devic=
+e_node *ep)
+>  	if (!node)
+>  		return -ENODEV;
+>  =
+
+> -	/* status disabled will prevent creation of platform-devices */
+> +	/*
+> +	 * status disabled will prevent creation of platform-devices,
+> +	 * but equally we can't rely on the driver having been registered
+> +	 * yet (e.g. I2C bridges).
+> +	 */
+>  	pdev =3D of_find_device_by_node(node);
+>  	of_node_put(node);
+>  	if (!pdev)
+> -		return -ENODEV;
+> +		return -EPROBE_DEFER;
+
+In general, how does that relate to i2c-bridge-drivers, as
+of_find_device_by_node supposedly only acts on platform-devices?
+
+Also if that points to a disabled bridge (hdmi, etc) that would likely make
+it probe-defer indefinitly, as that device will never become available?
+
+Maybe we could do something like of_device_is_available() which checks
+the status property of the node. So something like:
+
+  	pdev =3D of_find_device_by_node(node);
+  	if (!pdev) {
+		bool avail =3D of_device_is_available(node);
+
+		of_node_put(node);
+
+		/* if disabled
+		if (!avail)
+			return -ENODEV;
+		else
+			return -EPROBE_DEFER;
+	}
+  	of_node_put(node);
+
+Though I still do not understand how that should actually pick up on
+i2c devices at all.
+
+
+Heiko
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
