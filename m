@@ -1,57 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54880343014
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Mar 2021 23:40:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D7D3431AA
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Mar 2021 09:32:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EE006E0E9;
-	Sat, 20 Mar 2021 22:40:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DCCD89F5B;
+	Sun, 21 Mar 2021 08:32:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FE766E0E9
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Mar 2021 22:40:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Sender:Content-Type:MIME-Version:
- References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=Rm++ZBko8PgNveQjUBSGv2T36CmW0HBM9zUDPgiM88k=; b=OvtQDmFO075pBMaaJc1gH0d1nG
- bi3OGn+vOfJ2fqNpQ/0UjXL2O8pU/euvCWnF7KuPG1o+49ACsj93zIYFaY6pIMhRXg6ThwI1GoSUD
- KVzNWBGyp7L2X+P3AbxkmhmlaJfN30sNEqpZjc8+9XFUvxvWXsXBWFB0gmyQMaE0gJ6OP1tW8lWmk
- Icxp/IkF+kPagH6HnbJCMauQfZbhf7UZ2+LSQ7bbNG0v7o4apDBWHOEAM5Z5sidUma8+k6/skBtAb
- PMjx08zkV7JesAJZyVUI59b7aIjf+hWwmFrPapcnNSyIT0Kr9EFSZC2a01anMG3XRCTu9DeNz08CT
- d1sLH78A==;
-Received: from rdunlap (helo=localhost)
- by bombadil.infradead.org with local-esmtp (Exim 4.94 #2 (Red Hat Linux))
- id 1lNkGO-0024fS-Qa; Sat, 20 Mar 2021 22:40:09 +0000
-Date: Sat, 20 Mar 2021 15:40:08 -0700 (PDT)
-From: Randy Dunlap <rdunlap@bombadil.infradead.org>
-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Fix a typo
-In-Reply-To: <20210320211617.30746-1-unixbhaskar@gmail.com>
-Message-ID: <17a49e9b-6ba6-9cca-d835-9199d92e4870@bombadil.infradead.org>
-References: <20210320211617.30746-1-unixbhaskar@gmail.com>
-MIME-Version: 1.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210320_154008_883671_BAC758F3 
-X-CRM114-Status: GOOD (  14.90  )
-X-Spam-Score: -0.0 (/)
-X-Spam-Report: Spam detection software,
- running on the system "bombadil.infradead.org", 
- has NOT identified this incoming email as spam.  The original
- message has been attached to this so you can view it or label
- similar future email.  If you have any questions, see
- the administrator of that system for details.
- Content preview:  On Sun, 21 Mar 2021,
- Bhaskar Chowdhury wrote: > > s/particuar/particular/
- > > Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com> Acked-by: Randy
- Dunlap <rdunlap@infradead.org> 
- Content analysis details:   (-0.0 points, 5.0 required)
- pts rule name              description
- ---- ---------------------- --------------------------------------------------
- -0.0 NO_RELAYS              Informational: message was not relayed via SMTP
+Received: from libero.it (smtp-17.italiaonline.it [213.209.10.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28BCD89F5B
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Mar 2021 08:32:22 +0000 (UTC)
+Received: from passgat-Modern-14-A10M.homenet.telecomitalia.it
+ ([87.20.116.197]) by smtp-17.iol.local with ESMTPA
+ id NtVMlAZljtpGHNtVSlqmNB; Sun, 21 Mar 2021 09:32:19 +0100
+x-libjamoibt: 1601
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2021;
+ t=1616315539; bh=m7+hpBIhTRQffrauWC/6lWcMM7xEkn2kEXsVUG+UrKw=;
+ h=From;
+ b=JB16+7MQLmoHWT0UdN8XCTMkUhB2OY0sPrcjqV5eycvy2HqrBJmTOuxaozN6hP8Ja
+ tZvxutQj96NtbcId+RS4d6SdzncCPQ7CoPm4Ixm/6dNH8jU/J+LG0D3h9zXFGax1Rf
+ gIx4zej60rT4D1nhXc7vv1ezv1ifYj+wQLmAJ4+DtoreFvkFH4g9CK2yYV5ni7dMYF
+ f12oNffCYMhvXBn7HuFKMT7UpWzNEZ/iDUqGwYLcJhWystHMIPT/kvsWX+ztBc9gwZ
+ Ruc6JqeZeTIlte8W1bQUbDVonuNcinW2R52YPkrw6TAFJEHcYguER4voLSj+B71ktj
+ VcIW2huQiwe1Q==
+X-CNFS-Analysis: v=2.4 cv=Q7IXX66a c=1 sm=1 tr=0 ts=60570493 cx=a_exe
+ a=AVqmXbCQpuNSdJmApS5GbQ==:117 a=AVqmXbCQpuNSdJmApS5GbQ==:17
+ a=avqEcO1kaKR2PiVpUlAA:9
+From: Dario Binacchi <dariobin@libero.it>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/3] drm/tilcdc: fix LCD pixel clock setting
+Date: Sun, 21 Mar 2021 09:31:50 +0100
+Message-Id: <20210321083153.2810-1-dariobin@libero.it>
+X-Mailer: git-send-email 2.17.1
+X-CMAE-Envelope: MS4xfIj4rJm5dms7RpqtK7r6MP7nj4gPez2Gizo+mtaRkNUvghzf3fBHnqPciI+V+HCV4M6uLW010j0FjnoCKzzdw4mIurEqqRYwa2mFEFqK2G9iD5ji90Ha
+ EmxnWwkWR/NPa7mEArjJD39xlosjKRS1JOU8Bq+0yQ3fYCslMdjFjBY5foQNt/wZuExKN5JpBhcyKmD5NMkSeNyH04wlSlw7bq4w1KE5TyFkHhyqBAKaKuNQ
+ fWoJ3r0et9fuD2xIENl7hCn+Vj/OpS9JIW4SiRULuSPYtEBZN6R6YqfKodrtEvQcMvEo2LN39eG4hCe8QwGw6GHb1IpZU4XslyHEe3NZ5ti/p7YYxOw4WLoV
+ 2nhvACNbpeC3yv2M77XxEGG+9BsG2rohmaNVaUpkTWnXn6tl8ZmOMI8R9ggi26u2fFTlFYtb
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,46 +50,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, sroland@vmware.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-graphics-maintainer@vmware.com
+Cc: Tomi Valkeinen <tomba@kernel.org>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Jyri Sarha <jyri.sarha@iki.fi>,
+ Dario Binacchi <dariobin@libero.it>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-On Sun, 21 Mar 2021, Bhaskar Chowdhury wrote:
-
->
-> s/particuar/particular/
->
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+The series was born from a patch to fix the LCD pixel clock setting.
+Two additional patches have been added to this. One renames a misleading
+variable name that was probably the cause of the bug and the other fixes
+a warning message.
 
 
-> ---
-> drivers/gpu/drm/vmwgfx/vmwgfx_so.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_so.c b/drivers/gpu/drm/vmwgfx/vmwgfx_so.c
-> index 7369dd86d3a9..6cd38e407145 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_so.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_so.c
-> @@ -33,7 +33,7 @@
->  * The currently only reason we need to keep track of views is that if we
->  * destroy a hardware surface, all views pointing to it must also be destroyed,
->  * otherwise the device will error.
-> - * So in particuar if a surface is evicted, we must destroy all views pointing
-> + * So in particular if a surface is evicted, we must destroy all views pointing
->  * to it, and all context bindings of that view. Similarly we must restore
->  * the view bindings, views and surfaces pointed to by the views when a
->  * context is referenced in the command stream.
-> --
-> 2.26.2
->
->
+Changes in v2:
+- The patch has been added in version 2.
+- Rename clk_div_rate to real_pclk_rate.
+- Provide pixel clock rate to tilcdc_pclk_diff().
+- The patch has been added in version 2.
+
+Dario Binacchi (3):
+  drm/tilcdc: rename req_rate to pclk_rate
+  drm/tilcdc: fix LCD pixel clock setting
+  drm/tilcdc: fix pixel clock setting warning message
+
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
