@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E38343406
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Mar 2021 19:19:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B45634341C
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Mar 2021 19:46:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45E386E222;
-	Sun, 21 Mar 2021 18:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E00689FEC;
+	Sun, 21 Mar 2021 18:46:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 444B86E222
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Mar 2021 18:19:18 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id C4EDA6191C
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Mar 2021 18:19:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616350757;
- bh=FE1lachLF35TajehZFSYfxAkhZjbaWQHyKQ4/BL7p6M=;
- h=From:To:Subject:Date:From;
- b=h8/Feh5XLVchVbdTl8aAx13MMBNni6u+TGql3/sQVzw5zQH6/fezoNjgpRqS8d22E
- odWDez8vKvkNKkGikHB9i6+kInoNOlAH8GeMdtYiTD144oIl80AsH1U5I0br0/Xxl0
- p+br7AluVsjawgsiRvWhPfJA/bTOLF40GaYUkks1Oews6A1rlFs5eIP8sajYXk7WgG
- y80RiNILcQA6fnQ78PqCzrPzkGHopj4VIBwWL1+vk765p+ynygvAKQtC4Qim247Hdm
- M3kVaJESni/MEC9DpvS1TktrKxleSON/hbfn7yMLspoHA0w1tBaenkezpOPdTFdazl
- jm0K+e3fCzChw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id BA5E06146B; Sun, 21 Mar 2021 18:19:17 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
+ [213.80.101.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FD6A89FED
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Mar 2021 18:46:13 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id AA3483F63C;
+ Sun, 21 Mar 2021 19:46:10 +0100 (CET)
+Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=RmWTAfau; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
+ autolearn=ham autolearn_force=no
+Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id iRxq6b07VQNg; Sun, 21 Mar 2021 19:46:09 +0100 (CET)
+Received: by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 535103FEC9;
+ Sun, 21 Mar 2021 19:46:08 +0100 (CET)
+Received: from localhost.localdomain (2.70.38.73.mobile.tre.se [2.70.38.73])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 60178361E58;
+ Sun, 21 Mar 2021 19:46:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1616352368; bh=tpeEGuLEfQbIt3oYJJ199Odz5KIao0YiVWQXjQK8Lz8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=RmWTAfauY4F3Mp79+y8c8xmdXcwmIyMEawbzs1nWiS50q/d34+9fMyikQDrWwmL7r
+ JQewrmix+tKc9qc01LwSAIazwqYJGlwnJ4hOQ5q5C7AkB9dAJN3Tm4HQ9qyX1TQ6rI
+ +SrDCDkneIo5NT8q+PUBouUIxexKDxTFW7yihLuE=
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m=20=28Intel=29?=
+ <thomas_os@shipmail.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212373] New: Dual monitors does not sleep when inactive
-Date: Sun, 21 Mar 2021 18:19:17 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: edouard@the-redunicorn.fr
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-212373-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Subject: [RFC PATCH 0/2] mm,drm/ttm: Always block GUP to TTM pages
+Date: Sun, 21 Mar 2021 19:45:27 +0100
+Message-Id: <20210321184529.59006-1-thomas_os@shipmail.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,66 +63,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m=20=28Intel=29?= <thomas_os@shipmail.org>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=212373
-
-            Bug ID: 212373
-           Summary: Dual monitors does not sleep when inactive
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.8.0-45
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: edouard@the-redunicorn.fr
-        Regression: No
-
-Hi,
-
-Recently I noticed an issue with my dual monitors configuration. I used to have
-my monitors sleeping after 5 minutes of inactivity, as setup in gnome control
-center. 
-When I changed them, the behavior was not that described anymore. It is not
-related to the monitors as far as this sleeping feature works with an other OS.
-The difference between the new ones and the old ones *may* be the DPMS feature.
-
-The new behavior observed is: 
-- after X minutes of inactivity, monitors go black 
-- instead of having a "no signal" popup, monitors re-up after few seconds 
-- after X minutes again of inactivity, monitors go black again 
-- etc
-I get the same by typing xset dpms force off.
-When I try this with only one monitor connected, it goes to sleep as expected.
-
-The fact is, after seeking for hours in forums, I found that :
-https://askubuntu.com/questions/1047182/dual-monitors-on-18-04-with-radeon-rx-580-gpu.
-And for an unknown reason, despite the fact the issue described there does not
-seem to be related to mine, disabling the DC layer of amdgpu works! In other
-words, after X minutes of inactivity both monitors go to sleep as expected.
-
-I hope this is not to confusing.. it is quite hard to describe as a non-english
-native person.
-
-Cheers.
-
-PS: my 'uname -a' returns Linux XXXX 5.8.0-45-generic #51~20.04.1-Ubuntu SMP
-Tue Feb 23 13:46:31 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
-
--- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Z2V0X3VzZXJfcGFnZXMoKSB0byBUVE0gcGFnZXMgaXMgdXdhbnRlZCBzaW5jZSBUVE0gYXNzdW1l
+cyBpdCBvd25zCnRoZSBwYWdlcyBleGNsdXNpdmVseSBhbmQgLyBvciBzZXRzIHVwIHBhZ2UtdGFi
+bGUgbWFwcGluZ3MgdG8gaW8gbWVtb3J5LgoKVGhlIGZpcnN0IHBhdGNoIG1ha2Ugc3VyZXMgd2Ug
+c3RvcCBmYXN0IGd1cCB0byBodWdlIFRUTSBwYWdlcyB1c2luZwphIHRyaWNrIHdpdGggcG1kX2Rl
+dm1hcCgpIGFuZCBwdWRfZGV2bWFwKCkgd2l0aG91dCBhIGJhY2tpbmcKZGV2X3BhZ2VtYXAuCgpU
+aGUgc2Vjb25kIHBhdGNoIG1ha2VzIHN1cmUgd2UgYmxvY2sgbm9ybWFsIGd1cCBieSBzZXR0aW5n
+IFZNX1BGTk1BUAoKQ2M6IENocmlzdGlhbiBLb2VuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNv
+bT4KQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KQ2M6IERhbmllbCBWZXR0ZXIg
+PGRhbmllbEBmZndsbC5jaD4KQ2M6IEFuZHJldyBNb3J0b24gPGFrcG1AbGludXgtZm91bmRhdGlv
+bi5vcmc+CkNjOiBKYXNvbiBHdW50aG9ycGUgPGpnZ0BudmlkaWEuY29tPgpDYzogbGludXgtbW1A
+a3ZhY2sub3JnCkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBsaW51eC1r
+ZXJuZWxAdmdlci5rZXJuZWwub3JnClNpZ25lZC1vZmYtYnk6IFRob21hcyBIZWxsc3Ryw7ZtIChJ
+bnRlbCkgPHRob21hc19vc0BzaGlwbWFpbC5vcmc+Cl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAo=
