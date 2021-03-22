@@ -1,48 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9385E3451E7
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 22:40:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7485F345200
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 22:48:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53BFD6E5C0;
-	Mon, 22 Mar 2021 21:40:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD5A26E5D2;
+	Mon, 22 Mar 2021 21:47:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82C4E6E5C0;
- Mon, 22 Mar 2021 21:40:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3FC4B619AC;
- Mon, 22 Mar 2021 21:40:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616449204;
- bh=ZjEe7Re0RKu002ndI22T8BlfDJ+aY+HHY+t9XvQS7Q8=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=bJZCpZ5EEGZerp3UrSyvokIM6nH3GPNLIsyJMJB5nyc4Sgnjtzn+OMtjUL2ZBSie+
- Fi83eey5HsMSKc/9qaD2RuZEeUeUwoE2M6qwk7wrSCjkj4ws8OGv18z8EyYcukmWHT
- jM35+ir6/srZfSH78DCRwpRXtTCanNR0ouNRk+r0zZqC9uicwbh5Vl6qVN2J0nC7fg
- yAR8A/u0nDcj41ohiNdL688eDQ2opEHdctaDOmgytVvpFgfvzBz92vFYBp5Nn21+zL
- vtNIUbcaOAFjelvCYqZ6uXvufN0DecSq4tETddYi+zxgAsQXGrS7YO4xRruhTqWyYj
- CraMDT8xmXxbw==
-Received: by mail-ot1-f41.google.com with SMTP id
- m21-20020a9d7ad50000b02901b83efc84a0so17457943otn.10; 
- Mon, 22 Mar 2021 14:40:04 -0700 (PDT)
-X-Gm-Message-State: AOAM532zauOn330rmstyJjRZDC6Zd1vYFft3xcNa3Uvo+gJF5uzye6PK
- a/uNspz6WkrmVDBGTvYxO/V/rEaSsBY1IsQgMR0=
-X-Google-Smtp-Source: ABdhPJzNzw6/c6SVRTMWeDvzQfOYlqmnHJ7XZUtZKGXGAyd4E2bODGHMqyepsXMnLh1hlMatZvPmNE5xJdhqw6/8ZCE=
-X-Received: by 2002:a9d:316:: with SMTP id 22mr1561463otv.210.1616449203436;
- Mon, 22 Mar 2021 14:40:03 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16FE66E5C5;
+ Mon, 22 Mar 2021 21:47:58 +0000 (UTC)
+IronPort-SDR: gNLy2OR0jfRqH89oPqz37pLv6lp1gyWBU+4xXPckZQvftRQTwJ7cR6MSs0r3jTWgRyJ0xxWypy
+ k/tPDipP2+sQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="169685853"
+X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; d="scan'208";a="169685853"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2021 14:47:57 -0700
+IronPort-SDR: 8sdzsjxt01fD4ce3aD5dANoMhnFI75F3I5cumEYgBAHTYyaqIYNNSez8bhJ9ORz/VaK6us3Tkx
+ iTpV7eJiINVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; d="scan'208";a="407995682"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga008.fm.intel.com with SMTP; 22 Mar 2021 14:47:54 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 22 Mar 2021 23:47:54 +0200
+Date: Mon, 22 Mar 2021 23:47:54 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/display/vlv_dsi: Do no shut down
+ displays on reboot if a DSI panel is used
+Message-ID: <YFkQigJmpLRJWxzb@intel.com>
+References: <20210301154347.50052-1-hdegoede@redhat.com>
+ <8d882647-bab3-dfc3-70ad-4f1910dcb5af@redhat.com>
+ <YFkDYzN0NJ3Co8bT@intel.com> <YFkFH2uAR+6mNONZ@intel.com>
+ <c1beb028-9f9d-ad3e-9a06-2685ca36a8d4@redhat.com>
 MIME-Version: 1.0
-References: <20210322160253.4032422-1-arnd@kernel.org>
- <20210322160253.4032422-3-arnd@kernel.org>
- <20210322202958.GA1955909@gmail.com>
-In-Reply-To: <20210322202958.GA1955909@gmail.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Mon, 22 Mar 2021 22:39:47 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a10d8hgBiO5W=34oLqw8m22=Xi4C=MxVSY_fGnXZUJ3iA@mail.gmail.com>
-Message-ID: <CAK8P3a10d8hgBiO5W=34oLqw8m22=Xi4C=MxVSY_fGnXZUJ3iA@mail.gmail.com>
-Subject: Re: [PATCH 02/11] x86: tboot: avoid Wstringop-overread-warning
-To: Ingo Molnar <mingo@kernel.org>
+Content-Disposition: inline
+In-Reply-To: <c1beb028-9f9d-ad3e-9a06-2685ca36a8d4@redhat.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,52 +53,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
- linux-scsi <linux-scsi@vger.kernel.org>,
- the arch/x86 maintainers <x86@kernel.org>,
- James Smart <james.smart@broadcom.com>, tboot-devel@lists.sourceforge.net,
- Ingo Molnar <mingo@redhat.com>, Kalle Valo <kvalo@codeaurora.org>,
- ath11k@lists.infradead.org, Serge Hallyn <serge@hallyn.com>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, Ning Sun <ning.sun@intel.com>,
- Anders Larsen <al@alarsen.net>, Borislav Petkov <bp@alien8.de>,
- Cgroups <cgroups@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Martin Sebor <msebor@gcc.gnu.org>, Networking <netdev@vger.kernel.org>,
- linux-wireless <linux-wireless@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- LSM List <linux-security-module@vger.kernel.org>, Tejun Heo <tj@kernel.org>,
- Simon Kelley <simon@thekelleys.org.uk>,
- Andrew Morton <akpm@linux-foundation.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Lu Baolu <baolu.lu@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 22, 2021 at 9:29 PM Ingo Molnar <mingo@kernel.org> wrote:
-> * Arnd Bergmann <arnd@kernel.org> wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
+On Mon, Mar 22, 2021 at 10:28:06PM +0100, Hans de Goede wrote:
+> Hi,
+> =
 
-> This is indeed rather ugly - and the other patch that removes a debug
-> check seems counterproductive as well.
->
-> Do we know how many genuine bugs -Wstringop-overread-warning has
-> caught or is about to catch?
->
-> I.e. the real workaround might be to turn off the -Wstringop-overread-warning,
-> until GCC-11 gets fixed?
+> On 3/22/21 9:59 PM, Ville Syrj=E4l=E4 wrote:
+> > On Mon, Mar 22, 2021 at 04:51:47PM -0400, Rodrigo Vivi wrote:
+> >> On Fri, Mar 19, 2021 at 04:45:32PM +0100, Hans de Goede wrote:
+> >>> Hi,
+> >>>
+> >>> On 3/1/21 4:43 PM, Hans de Goede wrote:
+> >>>> After the recently added commit fe0f1e3bfdfe ("drm/i915: Shut down
+> >>>> displays gracefully on reboot"), the DSI panel on a Cherry Trail bas=
+ed
+> >>>> Predia Basic tablet would no longer properly light up after reboot.
+> >>>>
+> >>>> The backlight still turns back on after reboot, but the LCD shows an
+> >>>> all black display. The display is also all black during the time that
+> >>>> EFI / the GOP is managing it, so e.g. the grub menu also is not visi=
+ble.
+> >>>>
+> >>>> In this scenario the panel is initialized so that it appears to be w=
+orking
+> >>>> and the fastboot code skips doing a modeset. Forcing a modeset by do=
+ing a
+> >>>> chvt to a text-console over ssh followed by echo-ing 1 and then 0 to
+> >>>> /sys/class/graphics/fb0/blank causes the panel to work again.
+> >>>>
+> >>>> Add a QUIRK_SKIP_SHUTDOWN quirk which turns i915_driver_shutdown() i=
+nto
+> >>>> a no-op when set; and set this on vlv/chv devices when a DSI panel is
+> >>>> detected, to work around this.
+> >>>>
+> >>>> Admittedly this is a bit of a big hammer, but these platforms have b=
+een
+> >>>> around for quite some time now and they have always worked fine with=
+out
+> >>>> the new behavior to shutdown everything on shutdown/reboot. This app=
+roach
+> >>>> simply disables the recently introduced new shutdown behavior in this
+> >>>> specific case where it is known to cause problems. Which is a nice a=
+nd
+> >>>> simple way to deal with this.
+> >>>>
+> >>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >>>
+> >>> Ping? Since sending this patch I've been seeing the issue addressed by
+> >>> this on variour other CHT based devices too.
+> >>>
+> >>> So we have various devices suffering from a black screen after reboot
+> >>> now. This is pretty serious usability regression.
+> >>>
+> >>> As such it would be good to get this reviewed, or another fix propose=
+d.
+> >>
+> >> For the quirks we try to limit them to very specific vendor and model =
+ids,
+> >> so I wonder if it would be possible to get this information in here in=
+stead
+> >> to all the vlv with dsi...
+> >>
+> >> Or avoid the quirk "infra" and skip to all vlv with active dsi?!
+> >>
+> >> Jani?
+> >> Ville?
+> > =
 
-See the [PATCH 0/11] message. The last two patches in the series are for
-code that I suspect may be broken, the others are basically all false positives.
+> > We need to figure out why the panel doesn't start up again.
+> =
 
-As gcc-11 is not released yet, I don't think we have to apply any of the
-patches or disable the warning at the moment, but I posted all the patches
-to get a better understanding on which of them should be addressed in
-the kernel vs gcc.
+> Note it is the GOP which fails to light it up again. I think we turn some=
+thing
+> off, which after a power-on-reset is on, so the GOP expects it to be on.
 
-       Arnd
+Hmm. Do any of the reboot=3Dwarm|cold|whatever knobs make a difference?
+Are there any fast vs. slow boot settings in the BIOS setup?
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
