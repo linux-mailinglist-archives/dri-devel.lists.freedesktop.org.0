@@ -2,53 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E1A343CAA
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 10:24:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B717343CC1
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 10:27:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40D2F89CC1;
-	Mon, 22 Mar 2021 09:24:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CE0C89906;
+	Mon, 22 Mar 2021 09:27:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com
- [IPv6:2607:f8b0:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F33289CC1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 09:24:28 +0000 (UTC)
-Received: by mail-il1-x12a.google.com with SMTP id l5so14172848ilv.9
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 02:24:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vQdQkAy4QTPcaslkVCb6TSJTc6s74LSUzgNupdQjH2U=;
- b=I56LF9shF8V/CEc2wcHkm0GgrHPfIyH7VmZMb0yI4yyz8G+LuFXI2KM1Q+s6LgucRV
- sJ8sg4N6DtfI6sJskPmr1QEshiU01fJuCjYv3kaaQQHrx1TRFQiSOmTeQ4JeuyZeBP4L
- +IotIS2oc9eNHA72kjc8Sx1FoMKzY3J7RNv/a58oTCjF5XbQyx0aSNX9oOEBP0A6huD3
- h2F7NHVWH3H50dZMvwdybP1nNeL8LJTwrQ/F7F9hD3Pw1/Ep7oDXKanZmWwvjh86DJ0D
- Ka012SZYTWZYM6QgNL5O0zfFd678SOE+4hSkobO3LnbZ1jC72C1LB+dS/YPqpIcjNp6N
- EyTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vQdQkAy4QTPcaslkVCb6TSJTc6s74LSUzgNupdQjH2U=;
- b=FBNGgzMnYfk8thmiN4iU7q/B8UuSBOavCFIpe7ELvNXVxBhuf9VaxV/vHv+JCVIdS3
- mo7Y8T0CTusRQ48+fdF/6DESVU8SYf0GzyKluFOwfrHQpzHDM68PfpnTUG1e9GQONPpr
- h4dEiTH+kHO2HfV4HaJXdcJKYPJwXuNgYI38BWAGX7OpbTB7vSX1DVNap+0x/4TJEX31
- l7YkK09GNId04U+VMciPSGOcRaeqWdZjD1B2TStJkKd4U9jdSCM7IX35DHMEgli9ODCN
- Ce53QVkclF/2tQaX+Ni+Cn9lT55GxfPNHVM8Cm+GHbGDsCZ/CZTlBOZUeZGjGSTIaw88
- T5dA==
-X-Gm-Message-State: AOAM532msHh1L6WNkT+Bw8ycno/hzT4j7SnZomZv4/8mf7fXt92ildDU
- ZIEy/tASJa+K3WjLMkr0NzBe41zERFCWQFp7AVs=
-X-Google-Smtp-Source: ABdhPJxia+sd/epiEbZVMRemaDAqz+tMIhv55qjy7i/BNQ/vUhT3vI66Df9rkTwhZNVJPilf9EJUTrwgzW+eZOyUxDc=
-X-Received: by 2002:a05:6e02:170c:: with SMTP id
- u12mr10843037ill.100.1616405068056; 
- Mon, 22 Mar 2021 02:24:28 -0700 (PDT)
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com
+ (mail-eopbgr690060.outbound.protection.outlook.com [40.107.69.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9322889906;
+ Mon, 22 Mar 2021 09:27:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JSxLdpusDg4c+eQ8ShMx8ygkenaDl0jfVzx6S2uVIuBR2uxLrLGsW1DSXOK6JYB1lhH+nQe4zvhrNhl9GC9GEYF5d0lLyKR1mwl4RRck7x3VeC6NiieR4w5yCLXQ1Bmj9dR8WGUxCfeg9bPZ6eDz2Ggq2VYmGYaCcsbdrlF80GyMtMV9k0ORqaDUlbWX5CP2aINBbm0Eh/xEG4ZeHyY6cAIBswNUVtwcZpOa6HHZVOGWXXZoMA4FToYm6GnnG1Eqw+x6eOwad6Qm6KopLxLz+57/5ZHi7KcKzF2QpqhxJ7ADxUved96zcE9AFbZtGGh70xWOqTuvrYsUxXF/2NwxYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RQstACXxhRbgfGic/9H1wBzJo+J7NBQEs2uehIvi1pg=;
+ b=ZQQpxSkApnIrlsWxLnvNdCEmo3ZaAJqlNiJxSOLvspGcNNOR5ZxHxXKy5qCEafPr3XobXhnsYXcAeVqtQ0pfoYr0VJiI4jW8V3lcgHb60kRR7fUgLLtQBnsdRq2zwix41w7bqnSx24WsC60l9864vu1gganLCshRRvguBGxYmO5Voar/Hdol2DaFR1AQP0nKXb/kknBaG5a/GcpC81bJZ5SX8hEKbp2Ky5tWcCFFqyPhJJ6+ZUdehMx72AP+dMttdNJpcL8dndHyWZ7+zzCmzzSYjcqVl824y22DISFeR/kkEnhDn93Tc9LVcHgT9iW5/6KMBOoYMEM69YnGxIeomw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=lists.freedesktop.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RQstACXxhRbgfGic/9H1wBzJo+J7NBQEs2uehIvi1pg=;
+ b=bINofUd9HjDpToHTpe34LlTWicLpbpI+MsNlI+wczeiIRXb1gwWmTh5bE/FDQWzXEBQAW0fNMIiSw4egcGmINMrYZLXLcmlgy4VB94Nx8Cd6wuNBNijTaoJum1e3f8XlqTa5G032U/CVr4MVizArimVobzUse6rWJ8J0XETfp8xdHCQSIxYMZM7COWkp+Q82E2xlzd4Vt3KinSHBhJ2PzMBYE5mJFJbBQDamfcXiA5/736bqXVY8Ylu9LKqnYNRR8UYy3m1+wZmcjwilje8rREiLw3OhITYylcgprCvVeM6Nr38HQU0wzG92Sjq2gN1Y7jTlquGJZ481aEsbt0GmbQ==
+Received: from BN0PR03CA0013.namprd03.prod.outlook.com (2603:10b6:408:e6::18)
+ by DM4PR12MB5200.namprd12.prod.outlook.com (2603:10b6:5:397::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Mon, 22 Mar
+ 2021 09:27:39 +0000
+Received: from BN8NAM11FT061.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e6:cafe::9f) by BN0PR03CA0013.outlook.office365.com
+ (2603:10b6:408:e6::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend
+ Transport; Mon, 22 Mar 2021 09:27:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; lists.freedesktop.org; dkim=none (message not
+ signed) header.d=none;lists.freedesktop.org; dmarc=pass action=none
+ header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ BN8NAM11FT061.mail.protection.outlook.com (10.13.177.144) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.3955.18 via Frontend Transport; Mon, 22 Mar 2021 09:27:38 +0000
+Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 22 Mar
+ 2021 09:27:35 +0000
+From: Alistair Popple <apopple@nvidia.com>
+To: Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH v6 8/8] nouveau/svm: Implement atomic SVM access
+Date: Mon, 22 Mar 2021 20:27:33 +1100
+Message-ID: <6407817.nLXe9rGL3b@nvdebian>
+In-Reply-To: <20210315075113.GD4136862@infradead.org>
+References: <20210312083851.15981-1-apopple@nvidia.com>
+ <20210312083851.15981-9-apopple@nvidia.com>
+ <20210315075113.GD4136862@infradead.org>
 MIME-Version: 1.0
-References: <20210315123811.159205-1-festevam@gmail.com>
-In-Reply-To: <20210315123811.159205-1-festevam@gmail.com>
-From: Ying Liu <gnuiyl@gmail.com>
-Date: Mon, 22 Mar 2021 17:24:17 +0800
-Message-ID: <CAOcKUNUVcZH5fN98n45kLCP=P4pRMq5oGuB4y2GDZbn6FkmJwA@mail.gmail.com>
-Subject: Re: [PATCH] drm/imx/dcss: Use device_get_match_data()
-To: Fabio Estevam <festevam@gmail.com>
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f89110f9-433d-47b9-ec2e-08d8ed14bc77
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5200:
+X-Microsoft-Antispam-PRVS: <DM4PR12MB5200B43C5D71E47629643337DF659@DM4PR12MB5200.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EYPmVZ8NVK1ujJIBvTl2wbBciwt6o3DmYWe5L3KyicneaumPZl4L1G2My+o+V+YDu/L+2wM2MDiMeXI8EKEUjDookQmr1g/656hqJd6c+xmtO7alvUQXhUVjAWf1lESpq63ncp16mgVeM2GKA5z/QaorVaaeYamoZ2TqpGaon7NJ8klCWuTpjKtRmSEPEZvZ2muPvag/bkoZ4Az9tn02yH2As9CChxRLSBWV5hHPSkH5Xr/eMGbRrhQQHg23KIhKTPHV9QwwHODMXvsSroc44vK0UbhA7MZLjXEI6N3oSrO2UmDhf40cCtlqwswbH9Tzwu2qtJF96bKdlblozePIGoimXSz57Vb9uOs6NcoQDRcZeVOy4lluEkJA4bSn67OMimudrv9LlXB+t/JDwDfxk8k7gImu7O0ua9pjg9CYNAxHeLWpAp1RdaT2eQ9ckwEXS1H/pwMzL5sjEYrW7bzjUTHxlZjphVTRXwqj2/wTamEk7K30vB9lpb8rUCT1aoaebr7N5B+uoqIT1dpYDd/yKz/aTiOVBmmKDFhJxmZX/CfcOWVh6el+OPugBh7gWsmPjIOZfl5kXIV8EWdUXoW4WA0hPO1nw33d9ZfzI1p6XoqJ5zBJe+g5NxC5qIjhjCRfIrH+eWPBx4A2Wn4LwJ555BRDyF3mTg9vUyFWinFKH9mceJXAhCLgTn21YkVHAKnr+qPJQ2j/JJ49F4ClzeAesA==
+X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(346002)(136003)(376002)(46966006)(36840700001)(4326008)(9576002)(16526019)(36906005)(2906002)(186003)(336012)(316002)(8676002)(86362001)(8936002)(47076005)(70206006)(26005)(426003)(7416002)(5660300002)(82310400003)(70586007)(54906003)(82740400003)(36860700001)(478600001)(33716001)(356005)(7636003)(83380400001)(6916009)(9686003)(39026012)(21314003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 09:27:38.8350 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f89110f9-433d-47b9-ec2e-08d8ed14bc77
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT061.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5200
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,66 +101,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: laurentiu.palcu@oss.nxp.com,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kvm-ppc@vger.kernel.org, linux-mm@kvack.org,
+ jglisse@redhat.com, bskeggs@redhat.com, jgg@nvidia.com, jhubbard@nvidia.com,
+ akpm@linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fabio,
+On Monday, 15 March 2021 6:51:13 PM AEDT Christoph Hellwig wrote:
+> > -	/*XXX: atomic? */
+> > -	return (fa->access == 0 || fa->access == 3) -
+> > -	       (fb->access == 0 || fb->access == 3);
+> > +	/* Atomic access (2) has highest priority */
+> > +	return (-1*(fa->access == 2) + (fa->access == 0 || fa->access == 3)) -
+> > +	       (-1*(fb->access == 2) + (fb->access == 0 || fb->access == 3));
+> 
+> This looks really unreabable.  If the magic values 0, 2 and 3 had names
+> it might become a little more understadable, then factor the duplicated
+> calculation of the priority value into a helper and we'll have code that
+> mere humans can understand..
 
-On Mon, Mar 15, 2021 at 8:38 PM Fabio Estevam <festevam@gmail.com> wrote:
->
-> The retrieval of driver data can be a bit simplified by using
-> device_get_match_data(), so switch to it.
->
-> Signed-off-by: Fabio Estevam <festevam@gmail.com>
-> ---
->  drivers/gpu/drm/imx/dcss/dcss-dev.c | 9 +--------
->  1 file changed, 1 insertion(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/imx/dcss/dcss-dev.c b/drivers/gpu/drm/imx/dcss/dcss-dev.c
-> index c849533ca83e..de0f02de94c4 100644
-> --- a/drivers/gpu/drm/imx/dcss/dcss-dev.c
-> +++ b/drivers/gpu/drm/imx/dcss/dcss-dev.c
-> @@ -168,13 +168,6 @@ struct dcss_dev *dcss_dev_create(struct device *dev, bool hdmi_output)
->         int ret;
->         struct resource *res;
->         struct dcss_dev *dcss;
-> -       const struct dcss_type_data *devtype;
-> -
-> -       devtype = of_device_get_match_data(dev);
+Fair enough, will add some definitions for the magic values.
 
-It looks like this is the only user of linux/of_device.h in this file?
-If so, remove linux/of_device.h and include linux/platform_device.h?
+> > +		mutex_lock(&svmm->mutex);
+> > +		if (mmu_interval_read_retry(&notifier->notifier,
+> > +					    notifier_seq)) {
+> > +			mutex_unlock(&svmm->mutex);
+> > +			continue;
+> > +		}
+> > +		break;
+> > +	}
+> 
+> This looks good, why not:
+> 
+> 		mutex_lock(&svmm->mutex);
+> 		if (!mmu_interval_read_retry(&notifier->notifier,
+> 					     notifier_seq))
+> 			break;
+> 		mutex_unlock(&svmm->mutex);
+> 	}
 
-Regards,
-Liu Ying
+I had copied that from nouveau_range_fault() but this suggestion is better. 
+Will update, thanks for looking.
 
-> -       if (!devtype) {
-> -               dev_err(dev, "no device match found\n");
-> -               return ERR_PTR(-ENODEV);
-> -       }
->
->         res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->         if (!res) {
-> @@ -187,7 +180,7 @@ struct dcss_dev *dcss_dev_create(struct device *dev, bool hdmi_output)
->                 return ERR_PTR(-ENOMEM);
->
->         dcss->dev = dev;
-> -       dcss->devtype = devtype;
-> +       dcss->devtype = device_get_match_data(dev);
->         dcss->hdmi_output = hdmi_output;
->
->         ret = dcss_clks_init(dcss);
-> --
-> 2.17.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
