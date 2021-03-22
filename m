@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B9A4343EEA
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 12:07:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 426FB343EE7
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 12:07:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72B5B8991A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3973189870;
 	Mon, 22 Mar 2021 11:07:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM12-BN8-obe.outbound.protection.outlook.com
  (mail-bn8nam12on2073.outbound.protection.outlook.com [40.107.237.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE7B89870;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ADCD89913;
  Mon, 22 Mar 2021 11:07:33 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HbNkbjDRCTQFIzE4sc4hCXqdRI3lfN2MfZIek2G1avSKM/TSjyvSG8Y1WCn2o2t+OLtDH/XzpuN/KURe/Do6dMqieLqFVCf7hAwu8LB3qK08YbeCuqtFwHLvL8TSgpd3CXRyCO8ZEsFNBjHMEcCixQPL+m/NlCHn80zz3fnqAmwGC4FCyyKRk2LEDVWGKb+EoOU3KmvKrU0xCUyYs3qP6SC8jReSdXHLoooOsYSvG/w7ZE4qUwbK+G1ToMn8z/Hs0trM/NOfgdrIQOLHfHsY+VsPOdl+LUsu7u0ITc6590W6pwJLqbsnBJfm0SGm7F368WnnCe3U7G9jMCoafzYE5A==
+ b=gsRu0+h+wXnjJdDUTdCp2A5hfE6IpHL6NxIo7BRr+dxRQuOALIe1kO9+R9/IAqmnZzzUGGg6B25oJ6Mvx13o2FkaaYc5BI6nkQqiQoFd09lHKHXcUmstVAfYDqeR6koIZZBE9DJQ/2aaj+NKui13oFkdZFKSCr4q2E5l18v6YdrTTT4kgZPrWbfSKJZrUGRZG/GFRrbrck/ZXNZ7BTl9gi+RPTvH6Xbqj+jiDq5kwh/FyRCRHgNjwHZYsgXbAYusPdJT6MGHM4qHyAVEFohI90U45Z4Bbou15xZFczhuCx6QPfqm50E2PW+NpfIyXk5Opu+lDseiT3lhhYD0BNYBNA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vm1GA0FNpFU1GC81c8sb1sFeboU+10w+ZPEJ/lowcRs=;
- b=CZA+wgOU5iElB6okJx/cr/XyzFjhLRsDtccYgrqyEu955PekJ2l4czqc0pne+pZHX2BAAS78s67tccSXqngDMhU4l1mtX+SLzsmF4DlCBZBkvnbi8F9fZYDlc/QK1gZSv2+Wahe0HizOueqZ6Dz4Z8rgGeIaC9KCnzWHn1f6dfWSJo0oWh3/aTmkXANGnQHGmKnMm3/j/V5qxgOmIkd8Y9S5LB6fwPGGSPxOodtnr9+YAfJ4O3p+wrE25PGHJpHeKAO4R89C/YelCt/+5pjLjO/ZUvWACgvUch7BIw2BFit5U5G2zbe29vVnH3SUij+hRX8MeQomIoGwmoiiil1+ag==
+ bh=cEkGnQ/dUrzy0vrtXpEDUBVM61SU5hsYR5KSzxWkbKY=;
+ b=OJFK3ch27+0VJsyId9tnsGslE0FzkAD/Dwxg5qxReoLOfQflWp+hvp+Q0o3lJieuTvHj5HOo3KRGBFxiBRzDYm55w/bumUD42vsY9+Gy/L4hv+d9OqmvITgAjtz8/tQth2p65KGdedWdgTSMzao8S4pR1pJBF7U28H+Sb21vwevqHEjFC03nogvPcv2Lm5zLWeaVgF12SURrqFXshXg/mvmPWPI2EqNCabh1RzBhdloRizEdqSjjbENdhTyNRjE7SYNNzcZRkB/RExEbC4f3DuaKKJ1AEpHXfQxviajZsjtGc56rJeHLnUvp9J8xpWKZDj1JTteCDFGgwLlmueC3GQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vm1GA0FNpFU1GC81c8sb1sFeboU+10w+ZPEJ/lowcRs=;
- b=Y5JxPTkl8eTRB5za9ke8vk4nh6luOCdHZHc1Bt/5Ybq2Y6xewI/Kw+uWTPupZG0vs483vB49Qs5qKJqCf7u+xtrBtBrkkRvwAS54zKwCiSE9FVzgWMEoTfVfH9SOfg9ErQoC5DTTpE3lWV/42qG35IurtP0NRTbS4na+mYcsz3Y=
+ bh=cEkGnQ/dUrzy0vrtXpEDUBVM61SU5hsYR5KSzxWkbKY=;
+ b=XUbHDExY91XHM2QnZ3+0n3eh3VrSPmgRCK71LEV/YDC2W1QMnh37GezSK+45V/p+RLvZLIyJdq0lEM6a+0PJmDWEA+Vw0clFwhfjUZUiu3U5fi9IY7vdBzlcq3jZej3y/Ku2gJ1A2PnJ5cm/Vwdw61/AOlpJZtGrrdBfpqAutIE=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -34,18 +34,20 @@ Received: from BL0PR12MB4948.namprd12.prod.outlook.com (2603:10b6:208:1cc::20)
  by MN2PR12MB3935.namprd12.prod.outlook.com (2603:10b6:208:168::31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Mon, 22 Mar
- 2021 11:07:29 +0000
+ 2021 11:07:30 +0000
 Received: from BL0PR12MB4948.namprd12.prod.outlook.com
  ([fe80::70f5:99ed:65a1:c033]) by BL0PR12MB4948.namprd12.prod.outlook.com
  ([fe80::70f5:99ed:65a1:c033%5]) with mapi id 15.20.3933.036; Mon, 22 Mar 2021
- 11:07:29 +0000
+ 11:07:30 +0000
 From: Felix Kuehling <Felix.Kuehling@amd.com>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 00/44] Add HMM-based SVM memory manager to KFD v2
-Date: Mon, 22 Mar 2021 06:58:16 -0400
-Message-Id: <20210322105900.14068-1-Felix.Kuehling@amd.com>
+Subject: [PATCH 01/44] drm/amdgpu: replace per_device_list by array
+Date: Mon, 22 Mar 2021 06:58:17 -0400
+Message-Id: <20210322105900.14068-2-Felix.Kuehling@amd.com>
 X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20210322105900.14068-1-Felix.Kuehling@amd.com>
+References: <20210322105900.14068-1-Felix.Kuehling@amd.com>
 X-Originating-IP: [165.204.55.251]
 X-ClientProxiedBy: YTOPR0101CA0008.CANPRD01.PROD.OUTLOOK.COM
  (2603:10b6:b00:15::21) To BL0PR12MB4948.namprd12.prod.outlook.com
@@ -59,49 +61,50 @@ Received: from Harpoon.amd.com (165.204.55.251) by
  Transport; Mon, 22 Mar 2021 11:07:29 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: e98f68a7-f6bd-480c-74b5-08d8ed22aee1
+X-MS-Office365-Filtering-Correlation-Id: 95de28c3-4a07-4714-d26d-08d8ed22af31
 X-MS-TrafficTypeDiagnostic: MN2PR12MB3935:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3935499A0735F3877711DF1192659@MN2PR12MB3935.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB39351A16D6FBB202CF56069F92659@MN2PR12MB3935.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:546;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: giypqP/4aog+eW8TRYj7U+5r8AaU9kDpBp5juzCRVEYk4zmzwpJYm+gZClJB092YYZMSMAWl8xFPDum00H2iB3JbmnjBEBJzhU2VG9YOAwnwcF1oU5359DcL334qVmjNoBv81plf183NsG2MBMcWpexUXFZP20ktyqIRuNq5WC4hqjT0R7w+zdT6TggJaiXe7QBmBvu1n1wtO8ABXKcgGuCtMHN8GMV9N2Z//6OWMsaJLw+2xgxqqm9upRxIG7O3/S9omsUDtWiXX3626ioioNS7hE10+xCbkvtUBHd7tjKNJzBIGX6dRwSVn6aSa1z0/tRilRCjZJOi4SV78rBoe2InyaM7PtX9OeJWIZ2JgcROGg38cFNPeNcHAnOOL2xZGR6QyKoYj4F1x+Uyl1kIdY9TKU6vSdKn4yF53W0oRWv3kXW3Pa3xkJT0jAeUt5txGur7BU00gcL7drevkD0Lnsn/kjLaIcxfoVhCBZHtHnfkF8GoXcoesgdkV1LrpgAIAylig1B0Kbcnu4Powt2lOx5Q1GeDqGR5EnIhBdKnTo5Y4A9zM4M9ud+1eYPdmCmvj7K8Mq8P6fHO/vqS6FSPoAUW9WvkTGolSh9XDOjdEI16LMi5qMgyaFufhzCmzh94sN3M+/mJZv6ubPKGsjJKVNzdCLUQ8Ht3VwDs/0FocSulZlhardAYQztROO5A45cGx0nXAJHKYCU8wSMvILNVCsZxyLNLDnTuGTBe5jFAq4c=
+X-Microsoft-Antispam-Message-Info: H43X1hMiwhmk87vY0tUR933LZFJcKDZXxeyhp+CefHFsFfPj90NFkd+eBOn6DZJ10Wi1Wz9TrlKjF/S/mZU6nwVubyswZ0+D50kksmiZ52u2jLF4bKOfBGmbChKicFuNyLE/hSXme/3+I+LcXO8l/nTWfNXu91BcKhM+kCq/f0BfucaYk9Zvmv2Kp+4+Ii+WQ3GSRllFY4zdAZF+g7gEU2jfSZiVV9BJwmX8l2jQHGS4yuxrL+IfwHD2MRKo4ANf4jufoP/S08nnVI7UIBRZCHTc371D9BGO6aZNVEd9uTlaV7KdCckNK00QO9L5pD8B9swqyaL2wj4TMp/4sCO+RKGw+HL9gZOyqrPlwFgaskw5zujpipp4b47kCxjpYdX8GmlmHv4r1BfqZYWdbXP98zACl6vMIBe0qZDVfhH5UNEpjjypUfX92JsKeorVsVfXAypdFeKraxkxRPR3px7C3UEdimbwcGrJv9iUCz1nM6WVkKsfVpZnR+iOq5BVmtFEZyPoxOKaKAWHyZtyLOwLPa7Lsi+qXC0+AIoZkAEw7GakWZpnlG80KztwrbND/wv96Ied82/gB0CACr0k+oRjbxW8nwT2PLyf7pzon3IsllQEENo/bvZMvfjkQrxuqAgEFti8NkbvpNEid9RWYy+tx/disImgvj7ra61kHQ6lFrk=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(136003)(366004)(396003)(346002)(376002)(5660300002)(966005)(8936002)(450100002)(6486002)(478600001)(83380400001)(1076003)(86362001)(8676002)(956004)(2906002)(36756003)(7696005)(26005)(16526019)(52116002)(186003)(316002)(66946007)(66556008)(6666004)(66476007)(2616005)(38100700001);
+ SFS:(4636009)(39860400002)(136003)(366004)(396003)(346002)(376002)(5660300002)(30864003)(8936002)(450100002)(6486002)(478600001)(4326008)(83380400001)(1076003)(86362001)(8676002)(956004)(2906002)(36756003)(7696005)(26005)(16526019)(52116002)(186003)(316002)(66946007)(66556008)(6666004)(66476007)(2616005)(38100700001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?B1NI1Ls9/w30qehkEQgGGFrGWi5NBs0VTha12NVZY8zuZ71wyhwUr+q13Kvr?=
- =?us-ascii?Q?ApbdzRAlDI7IT/RVw049e2j9TDBTROD4eMC7ie6tWeql0WW5q0apKuFQiT2J?=
- =?us-ascii?Q?4om5rT0u+EATK8/6PmCBkPWLa+xY/tRreHkITsXJs1lGL/buCrQrK35dLBpz?=
- =?us-ascii?Q?0cBouMF3KbYp7Qohv7wUgxJ2x8v7KYUt2Ln7DnQNEbSTfQ8n1FKb5h7+UtiS?=
- =?us-ascii?Q?ClkxwNuAcztoJfNael/V6jh/WEUAav4B+VqSJy+BiyM6VTuupRpNUOosH0u4?=
- =?us-ascii?Q?uqY533BgEb82WvOBzElWpt1lomHfWOzYX+fbMzKJa5lXg4diW/N72x3WZVNs?=
- =?us-ascii?Q?YOTNBe6I2kC/9LYQzmrGL5Rs3glblo4K3PZqWMc5y5l8W7PZm7Yi6eZXrEkZ?=
- =?us-ascii?Q?tcHejVwpPkuYAdPtUt8D3IcNbTd95YZO2rU/ZCiTY5gg19fsvFhoScWXJgAR?=
- =?us-ascii?Q?93D3JHJJj1cC0gIEm9YjZ+LbWqLfhpN9UUQPT3eXwkrdmPQRREHHT/zbX2lq?=
- =?us-ascii?Q?p2JA0yE6BpMepUfqCXpZKOBn6PHHNz/Cj8nWxusfI1+RIUACZVvIyRpPkL3b?=
- =?us-ascii?Q?xW7j+X4Phh7i6SUX6K3i6Leh7H3AlCcDZOcpgeaj1qeAUVZi6UCTIFl9PU7N?=
- =?us-ascii?Q?yx4wwDaElWBe6XD4605ChITMhY2W1TiCN56QR93Mk8niYO6x0WYZC6KvcEmo?=
- =?us-ascii?Q?pp3noaaJIexvuFf2Tkm/QYkRs+AqgrAEM6CObT6HJjcRjkwDgI/Iwqtytfo4?=
- =?us-ascii?Q?qGo6MGpOeMeGJbW0q+ZPG0v8c0u0d7VHHPW6dS70/nMIaPbZxO6VAMiH0Hrm?=
- =?us-ascii?Q?iXKlh2NK0XDjUHsQZMUn6ikfBZQBBdKrHI2zdNXN6RWRuJBZ9LpAPcTjrxaR?=
- =?us-ascii?Q?tyYgwR5oGT0eAsgZe9QN5lRf6xFCdB0B2dMmzsSW1yMKBmhh1XqfI+kIbaxd?=
- =?us-ascii?Q?e9DlhnkGRQ4f+2Uroag6gz5vFc8dzQ9Rxa+alZxDCpGDp1hv0vrHu10issfn?=
- =?us-ascii?Q?NZtOmBhba+7EuMj0ZhhfToNQ7bg0KVayzqsEvXTV+lv7pt7a5X1YXnEBY9Ot?=
- =?us-ascii?Q?1Q+nAQ5I/cNNB79AxeDwKDaSiC93WwN/IKTYbLzd4d8/e5wqfxf5/97pBOsU?=
- =?us-ascii?Q?Mr7xJNlo+L3KmHXt1SlWUK6LNzPbt71rccD2QDqllqH2ss9hssc/egJo5Z+T?=
- =?us-ascii?Q?RN12Rea7kaBk3ZjnnEi5X7m3wMiNCj+Qa54PHyntNuw7dPRgoyvwdFXSBH6g?=
- =?us-ascii?Q?se+gCw00lS0/RGT7wj7jFe6PVaArtYGgwKasR50padn1Xrj7ECJ9wQdO8JGz?=
- =?us-ascii?Q?zVirlDjyM6sNOThir+hKB+a+?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?O9EDsRKtRNloU2lEcyo18QbpdJJLp1yyL8Qm6ufJuz3Cf89xyXwYniMt6BFP?=
+ =?us-ascii?Q?EhrxgCpQYxd1Lwi4q2SzjHg6LftRxfOtbDrPrAdsBQ2Qok/aSnDz55BD25dp?=
+ =?us-ascii?Q?fwF02FYut5HrlRiXpvMk8LZ0jZNaZlMTGcgbRrwASh3QHsRxoz9ij3HushFz?=
+ =?us-ascii?Q?poPmDD8eHEdwZwSBnZLG1tyWmDdjFafewVyD7ugXU/30Vcyi0NO6gblxFGqN?=
+ =?us-ascii?Q?6ZSMPLi73C3/JNcyR67vCmptryP6MNtPHZwiC/sXkDEF2B0Zfr8x8lzTxpQq?=
+ =?us-ascii?Q?3U7ntjm8qk/i3nkLBd9FeZtE8lQR78/6iYYND3aQAXkvH6AwYEVD4926rnVC?=
+ =?us-ascii?Q?U92BeZd1ewKx223V4yOPVOiXLehU2jyia2M3Cn2qUGd0VKx6Q+2+QJ3EbJ/U?=
+ =?us-ascii?Q?W+AZ3g2X7h9ccL7Ifm2BAS+0UM1oMYid4UB7ObRctXhloGioTmcdihkvUat9?=
+ =?us-ascii?Q?UTgA7AbB3d44jA6CfsuKsqkvhBuI+AoKKa1yaPmjFVPJNBgBxPONKUJOEUwS?=
+ =?us-ascii?Q?HIr0Lmd+P7H43lqfnwepoNeks6W711Pj8BXAimZvSSFnZWXMnPMjvXaaDx7Z?=
+ =?us-ascii?Q?N554vAM5Q9JFGn3KPxjiMheQfPToS5/EQ6z2MzOEvBpX2hS+xHCxnYuyNcgQ?=
+ =?us-ascii?Q?d+3Gnr5c8ND8ikTEunL2W5vrYToFfgBIeJc5+CJiD4VUyPT+OAhIuaNxfIfH?=
+ =?us-ascii?Q?DYt9Qt3e2MOdip2QgukrH2X2+hanQwVnmyozleN4HG5lY2oaLQ81p+SAUoWx?=
+ =?us-ascii?Q?CsNSEa/BsCj3Vc05pwUaewzta9bUvvtOoSbmI4zkyI5vF3MA3ySuoxpK7TLA?=
+ =?us-ascii?Q?/9Hio+ShtePoOnWLs8c9nmI9N7o82SSLaNUSTLy/D/Kyx0FJt8xit68qHctE?=
+ =?us-ascii?Q?WVOqkkouzQL53frtPbhPLK8aP2RfjJIP7SE2eM0iB25NN/Y8x7DJFGheTLwe?=
+ =?us-ascii?Q?glBXX2NfJCwEQ5tP2RmvJDPf2QRT6mgk/el98fi4vH1s8/NkQ9h2r8kYTO/h?=
+ =?us-ascii?Q?BJBaQTH1aeKBU6KZqUW1mIHSmqmAOCOWMv4H7qB0DMYA2y2sA5u0sGi8S//S?=
+ =?us-ascii?Q?w3pKXshyWPGikmY08uElM6EigK35d+QiqLTe0VEp4H+aV4OxWi11AS9SZ+/5?=
+ =?us-ascii?Q?oaQIzmRnoOcUE28KdTsOHYqmOuNxHlAYMjjUFG/Nf0KYXxy4xDru9GfZzEPO?=
+ =?us-ascii?Q?LEXwkW4yIbNk4n7yestNpUFu/ciJZaXtXyEijRikjstxs7V55lLJ0hl/D4Cw?=
+ =?us-ascii?Q?j0TQrn3QGIKFkGskemL/uu4NdSo3CfMv3y4GgiaAREX1eKq0nLLmrI6njKmK?=
+ =?us-ascii?Q?rk6haHU+JHdGwII1iWRmcsO9?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e98f68a7-f6bd-480c-74b5-08d8ed22aee1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95de28c3-4a07-4714-d26d-08d8ed22af31
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 11:07:29.3867 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 11:07:29.9383 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JM0Q+vEz9GZEbeQoRyLsVgesNkwr6NR0QjgnTVH9YcK5bT0ynIEUFRiv7e9WMJ3sW/gS7jWVa414XxxBC3LpDg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: vPz58wn6B4wLuq7VNePcZrsh04H+4jNrKleb1ed3ZZEljK5AHz1M4Xya/kMA40ttqrsVgPiqIkdcTgeyQfcI8w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3935
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -115,117 +118,583 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Alex Sierra <alex.sierra@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the last patch series I sent on Jan 6 a lot has changed. Patches 1-33
-are the cleaned up, rebased on amd-staging-drm-next 5.11 version from about
-a week ago. The remaining 11 patches are current work-in-progress with
-further cleanup and fixes.
+From: Alex Sierra <alex.sierra@amd.com>
 
-MMU notifiers and CPU page faults now can split ranges and update our range
-data structures without taking heavy locks by doing some of the critical
-work in a deferred work handler. This includes updating MMU notifiers and
-the SVM range interval tree. In the mean time, new ranges can live as
-children of their parent ranges until the deferred work handler consolidates
-them in the main interval tree.
+Remove per_device_list from kfd_process and replace it with a
+kfd_process_device pointers array of MAX_GPU_INSTANCES size. This helps
+to manage the kfd_process_devices binded to a specific kfd_process.
+Also, functions used by kfd_chardev to iterate over the list were
+removed, since they are not valid anymore. Instead, it was replaced by a
+local loop iterating the array.
 
-We also added proper DMA mapping of system memory pages.
+Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      | 116 ++++++++----------
+ drivers/gpu/drm/amd/amdkfd/kfd_iommu.c        |   8 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |  20 +--
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c      | 108 ++++++++--------
+ .../amd/amdkfd/kfd_process_queue_manager.c    |   6 +-
+ 5 files changed, 111 insertions(+), 147 deletions(-)
 
-Current work in progress is cleaning up all the locking, simplifying our
-code and data structures and resolving a few known bugs.
-
-This series and the corresponding ROCm Thunk and KFDTest changes are also
-available on gitub:
-  https://github.com/RadeonOpenCompute/ROCK-Kernel-Driver/tree/fxkamd/hmm-wip
-  https://github.com/RadeonOpenCompute/ROCT-Thunk-Interface/tree/fxkamd/hmm-wip
-
-An updated Thunk
-
-Alex Sierra (10):
-  drm/amdgpu: replace per_device_list by array
-  drm/amdkfd: helper to convert gpu id and idx
-  drm/amdkfd: add xnack enabled flag to kfd_process
-  drm/amdkfd: add ioctl to configure and query xnack retries
-  drm/amdgpu: enable 48-bit IH timestamp counter
-  drm/amdkfd: SVM API call to restore page tables
-  drm/amdkfd: add svm_bo reference for eviction fence
-  drm/amdgpu: add param bit flag to create SVM BOs
-  drm/amdgpu: svm bo enable_signal call condition
-  drm/amdgpu: add svm_bo eviction to enable_signal cb
-
-Felix Kuehling (22):
-  drm/amdkfd: map svm range to GPUs
-  drm/amdkfd: svm range eviction and restore
-  drm/amdkfd: validate vram svm range from TTM
-  drm/amdkfd: HMM migrate ram to vram
-  drm/amdkfd: HMM migrate vram to ram
-  drm/amdkfd: invalidate tables on page retry fault
-  drm/amdkfd: page table restore through svm API
-  drm/amdkfd: add svm_bo eviction mechanism support
-  drm/amdkfd: refine migration policy with xnack on
-  drm/amdkfd: add svm range validate timestamp
-  drm/amdkfd: multiple gpu migrate vram to vram
-  drm/amdkfd: Fix dma unmapping
-  drm/amdkfd: Call mutex_destroy
-  drm/amdkfd: Fix spurious restore failures
-  drm/amdkfd: Fix svm_bo_list locking in eviction worker
-  drm/amdkfd: Simplify split_by_granularity
-  drm/amdkfd: Point out several race conditions
-  drm/amdkfd: Return pdd from kfd_process_device_from_gduid
-  drm/amdkfd: Remove broken deferred mapping
-  drm/amdkfd: Allow invalid pages in migration.src
-  drm/amdkfd: Correct locking during migration and mapping
-  drm/amdkfd: Nested locking and invalidation of child ranges
-
-Philip Yang (12):
-  drm/amdkfd: add svm ioctl API
-  drm/amdkfd: register svm range
-  drm/amdkfd: add svm ioctl GET_ATTR op
-  drm/amdgpu: add common HMM get pages function
-  drm/amdkfd: validate svm range system memory
-  drm/amdkfd: deregister svm range
-  drm/amdgpu: export vm update mapping interface
-  drm/amdkfd: register HMM device private zone
-  drm/amdkfd: support xgmi same hive mapping
-  drm/amdkfd: copy memory through gart table
-  drm/amdgpu: reserve fence slot to update page table
-  drm/amdkfd: Add SVM API support capability bits
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |    4 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |    4 +-
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  |   16 +-
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |   13 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c        |   83 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_mn.h        |    7 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.h    |    4 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   90 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |   48 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |   11 +
- drivers/gpu/drm/amd/amdgpu/vega10_ih.c        |    1 +
- drivers/gpu/drm/amd/amdkfd/Kconfig            |    1 +
- drivers/gpu/drm/amd/amdkfd/Makefile           |    4 +-
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      |  173 +-
- drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c  |    4 +
- drivers/gpu/drm/amd/amdkfd/kfd_iommu.c        |    8 +-
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c      |  922 ++++++
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.h      |   59 +
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |   54 +-
- drivers/gpu/drm/amd/amdkfd/kfd_process.c      |  191 +-
- .../amd/amdkfd/kfd_process_queue_manager.c    |    6 +-
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c          | 2865 +++++++++++++++++
- drivers/gpu/drm/amd/amdkfd/kfd_svm.h          |  175 +
- drivers/gpu/drm/amd/amdkfd/kfd_topology.c     |    6 +
- drivers/gpu/drm/amd/amdkfd/kfd_topology.h     |   10 +-
- include/uapi/linux/kfd_ioctl.h                |  171 +-
- 26 files changed, 4681 insertions(+), 249 deletions(-)
- create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
- create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_migrate.h
- create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_svm.c
- create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_svm.h
-
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+index 6802c616e10e..43de260b2230 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+@@ -870,52 +870,47 @@ static int kfd_ioctl_get_process_apertures(struct file *filp,
+ {
+ 	struct kfd_ioctl_get_process_apertures_args *args = data;
+ 	struct kfd_process_device_apertures *pAperture;
+-	struct kfd_process_device *pdd;
++	int i;
+ 
+ 	dev_dbg(kfd_device, "get apertures for PASID 0x%x", p->pasid);
+ 
+ 	args->num_of_nodes = 0;
+ 
+ 	mutex_lock(&p->mutex);
++	/* Run over all pdd of the process */
++	for (i = 0; i < p->n_pdds; i++) {
++		struct kfd_process_device *pdd = p->pdds[i];
++
++		pAperture =
++			&args->process_apertures[args->num_of_nodes];
++		pAperture->gpu_id = pdd->dev->id;
++		pAperture->lds_base = pdd->lds_base;
++		pAperture->lds_limit = pdd->lds_limit;
++		pAperture->gpuvm_base = pdd->gpuvm_base;
++		pAperture->gpuvm_limit = pdd->gpuvm_limit;
++		pAperture->scratch_base = pdd->scratch_base;
++		pAperture->scratch_limit = pdd->scratch_limit;
+ 
+-	/*if the process-device list isn't empty*/
+-	if (kfd_has_process_device_data(p)) {
+-		/* Run over all pdd of the process */
+-		pdd = kfd_get_first_process_device_data(p);
+-		do {
+-			pAperture =
+-				&args->process_apertures[args->num_of_nodes];
+-			pAperture->gpu_id = pdd->dev->id;
+-			pAperture->lds_base = pdd->lds_base;
+-			pAperture->lds_limit = pdd->lds_limit;
+-			pAperture->gpuvm_base = pdd->gpuvm_base;
+-			pAperture->gpuvm_limit = pdd->gpuvm_limit;
+-			pAperture->scratch_base = pdd->scratch_base;
+-			pAperture->scratch_limit = pdd->scratch_limit;
+-
+-			dev_dbg(kfd_device,
+-				"node id %u\n", args->num_of_nodes);
+-			dev_dbg(kfd_device,
+-				"gpu id %u\n", pdd->dev->id);
+-			dev_dbg(kfd_device,
+-				"lds_base %llX\n", pdd->lds_base);
+-			dev_dbg(kfd_device,
+-				"lds_limit %llX\n", pdd->lds_limit);
+-			dev_dbg(kfd_device,
+-				"gpuvm_base %llX\n", pdd->gpuvm_base);
+-			dev_dbg(kfd_device,
+-				"gpuvm_limit %llX\n", pdd->gpuvm_limit);
+-			dev_dbg(kfd_device,
+-				"scratch_base %llX\n", pdd->scratch_base);
+-			dev_dbg(kfd_device,
+-				"scratch_limit %llX\n", pdd->scratch_limit);
+-
+-			args->num_of_nodes++;
+-
+-			pdd = kfd_get_next_process_device_data(p, pdd);
+-		} while (pdd && (args->num_of_nodes < NUM_OF_SUPPORTED_GPUS));
+-	}
++		dev_dbg(kfd_device,
++			"node id %u\n", args->num_of_nodes);
++		dev_dbg(kfd_device,
++			"gpu id %u\n", pdd->dev->id);
++		dev_dbg(kfd_device,
++			"lds_base %llX\n", pdd->lds_base);
++		dev_dbg(kfd_device,
++			"lds_limit %llX\n", pdd->lds_limit);
++		dev_dbg(kfd_device,
++			"gpuvm_base %llX\n", pdd->gpuvm_base);
++		dev_dbg(kfd_device,
++			"gpuvm_limit %llX\n", pdd->gpuvm_limit);
++		dev_dbg(kfd_device,
++			"scratch_base %llX\n", pdd->scratch_base);
++		dev_dbg(kfd_device,
++			"scratch_limit %llX\n", pdd->scratch_limit);
+ 
++		if (++args->num_of_nodes >= NUM_OF_SUPPORTED_GPUS)
++			break;
++	}
+ 	mutex_unlock(&p->mutex);
+ 
+ 	return 0;
+@@ -926,9 +921,8 @@ static int kfd_ioctl_get_process_apertures_new(struct file *filp,
+ {
+ 	struct kfd_ioctl_get_process_apertures_new_args *args = data;
+ 	struct kfd_process_device_apertures *pa;
+-	struct kfd_process_device *pdd;
+-	uint32_t nodes = 0;
+ 	int ret;
++	int i;
+ 
+ 	dev_dbg(kfd_device, "get apertures for PASID 0x%x", p->pasid);
+ 
+@@ -937,17 +931,7 @@ static int kfd_ioctl_get_process_apertures_new(struct file *filp,
+ 		 * sufficient memory
+ 		 */
+ 		mutex_lock(&p->mutex);
+-
+-		if (!kfd_has_process_device_data(p))
+-			goto out_unlock;
+-
+-		/* Run over all pdd of the process */
+-		pdd = kfd_get_first_process_device_data(p);
+-		do {
+-			args->num_of_nodes++;
+-			pdd = kfd_get_next_process_device_data(p, pdd);
+-		} while (pdd);
+-
++		args->num_of_nodes = p->n_pdds;
+ 		goto out_unlock;
+ 	}
+ 
+@@ -962,22 +946,23 @@ static int kfd_ioctl_get_process_apertures_new(struct file *filp,
+ 
+ 	mutex_lock(&p->mutex);
+ 
+-	if (!kfd_has_process_device_data(p)) {
++	if (!p->n_pdds) {
+ 		args->num_of_nodes = 0;
+ 		kfree(pa);
+ 		goto out_unlock;
+ 	}
+ 
+ 	/* Run over all pdd of the process */
+-	pdd = kfd_get_first_process_device_data(p);
+-	do {
+-		pa[nodes].gpu_id = pdd->dev->id;
+-		pa[nodes].lds_base = pdd->lds_base;
+-		pa[nodes].lds_limit = pdd->lds_limit;
+-		pa[nodes].gpuvm_base = pdd->gpuvm_base;
+-		pa[nodes].gpuvm_limit = pdd->gpuvm_limit;
+-		pa[nodes].scratch_base = pdd->scratch_base;
+-		pa[nodes].scratch_limit = pdd->scratch_limit;
++	for (i = 0; i < min(p->n_pdds, args->num_of_nodes); i++) {
++		struct kfd_process_device *pdd = p->pdds[i];
++
++		pa[i].gpu_id = pdd->dev->id;
++		pa[i].lds_base = pdd->lds_base;
++		pa[i].lds_limit = pdd->lds_limit;
++		pa[i].gpuvm_base = pdd->gpuvm_base;
++		pa[i].gpuvm_limit = pdd->gpuvm_limit;
++		pa[i].scratch_base = pdd->scratch_base;
++		pa[i].scratch_limit = pdd->scratch_limit;
+ 
+ 		dev_dbg(kfd_device,
+ 			"gpu id %u\n", pdd->dev->id);
+@@ -993,17 +978,14 @@ static int kfd_ioctl_get_process_apertures_new(struct file *filp,
+ 			"scratch_base %llX\n", pdd->scratch_base);
+ 		dev_dbg(kfd_device,
+ 			"scratch_limit %llX\n", pdd->scratch_limit);
+-		nodes++;
+-
+-		pdd = kfd_get_next_process_device_data(p, pdd);
+-	} while (pdd && (nodes < args->num_of_nodes));
++	}
+ 	mutex_unlock(&p->mutex);
+ 
+-	args->num_of_nodes = nodes;
++	args->num_of_nodes = i;
+ 	ret = copy_to_user(
+ 			(void __user *)args->kfd_process_device_apertures_ptr,
+ 			pa,
+-			(nodes * sizeof(struct kfd_process_device_apertures)));
++			(i * sizeof(struct kfd_process_device_apertures)));
+ 	kfree(pa);
+ 	return ret ? -EFAULT : 0;
+ 
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_iommu.c b/drivers/gpu/drm/amd/amdkfd/kfd_iommu.c
+index 9318936aa805..5a1f2433632b 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_iommu.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_iommu.c
+@@ -135,11 +135,11 @@ int kfd_iommu_bind_process_to_device(struct kfd_process_device *pdd)
+  */
+ void kfd_iommu_unbind_process(struct kfd_process *p)
+ {
+-	struct kfd_process_device *pdd;
++	int i;
+ 
+-	list_for_each_entry(pdd, &p->per_device_data, per_device_list)
+-		if (pdd->bound == PDD_BOUND)
+-			amd_iommu_unbind_pasid(pdd->dev->pdev, p->pasid);
++	for (i = 0; i < p->n_pdds; i++)
++		if (p->pdds[i]->bound == PDD_BOUND)
++			amd_iommu_unbind_pasid(p->pdds[i]->dev->pdev, p->pasid);
+ }
+ 
+ /* Callback for process shutdown invoked by the IOMMU driver */
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+index d8c8b5ff449a..33e56db14327 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+@@ -45,6 +45,7 @@
+ #include <linux/swap.h>
+ 
+ #include "amd_shared.h"
++#include "amdgpu.h"
+ 
+ #define KFD_MAX_RING_ENTRY_SIZE	8
+ 
+@@ -649,12 +650,6 @@ enum kfd_pdd_bound {
+ 
+ /* Data that is per-process-per device. */
+ struct kfd_process_device {
+-	/*
+-	 * List of all per-device data for a process.
+-	 * Starts from kfd_process.per_device_data.
+-	 */
+-	struct list_head per_device_list;
+-
+ 	/* The device that owns this data. */
+ 	struct kfd_dev *dev;
+ 
+@@ -771,10 +766,11 @@ struct kfd_process {
+ 	u32 pasid;
+ 
+ 	/*
+-	 * List of kfd_process_device structures,
++	 * Array of kfd_process_device pointers,
+ 	 * one for each device the process is using.
+ 	 */
+-	struct list_head per_device_data;
++	struct kfd_process_device *pdds[MAX_GPU_INSTANCE];
++	uint32_t n_pdds;
+ 
+ 	struct process_queue_manager pqm;
+ 
+@@ -872,14 +868,6 @@ void *kfd_process_device_translate_handle(struct kfd_process_device *p,
+ void kfd_process_device_remove_obj_handle(struct kfd_process_device *pdd,
+ 					int handle);
+ 
+-/* Process device data iterator */
+-struct kfd_process_device *kfd_get_first_process_device_data(
+-							struct kfd_process *p);
+-struct kfd_process_device *kfd_get_next_process_device_data(
+-						struct kfd_process *p,
+-						struct kfd_process_device *pdd);
+-bool kfd_has_process_device_data(struct kfd_process *p);
+-
+ /* PASIDs */
+ int kfd_pasid_init(void);
+ void kfd_pasid_exit(void);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+index f5237997fa18..d4241d29ea94 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+@@ -505,7 +505,7 @@ static int kfd_sysfs_create_file(struct kfd_process *p, struct attribute *attr,
+ static int kfd_procfs_add_sysfs_stats(struct kfd_process *p)
+ {
+ 	int ret = 0;
+-	struct kfd_process_device *pdd;
++	int i;
+ 	char stats_dir_filename[MAX_SYSFS_FILENAME_LEN];
+ 
+ 	if (!p)
+@@ -520,7 +520,8 @@ static int kfd_procfs_add_sysfs_stats(struct kfd_process *p)
+ 	 * - proc/<pid>/stats_<gpuid>/evicted_ms
+ 	 * - proc/<pid>/stats_<gpuid>/cu_occupancy
+ 	 */
+-	list_for_each_entry(pdd, &p->per_device_data, per_device_list) {
++	for (i = 0; i < p->n_pdds; i++) {
++		struct kfd_process_device *pdd = p->pdds[i];
+ 		struct kobject *kobj_stats;
+ 
+ 		snprintf(stats_dir_filename, MAX_SYSFS_FILENAME_LEN,
+@@ -571,7 +572,7 @@ static int kfd_procfs_add_sysfs_stats(struct kfd_process *p)
+ static int kfd_procfs_add_sysfs_files(struct kfd_process *p)
+ {
+ 	int ret = 0;
+-	struct kfd_process_device *pdd;
++	int i;
+ 
+ 	if (!p)
+ 		return -EINVAL;
+@@ -584,7 +585,9 @@ static int kfd_procfs_add_sysfs_files(struct kfd_process *p)
+ 	 * - proc/<pid>/vram_<gpuid>
+ 	 * - proc/<pid>/sdma_<gpuid>
+ 	 */
+-	list_for_each_entry(pdd, &p->per_device_data, per_device_list) {
++	for (i = 0; i < p->n_pdds; i++) {
++		struct kfd_process_device *pdd = p->pdds[i];
++
+ 		snprintf(pdd->vram_filename, MAX_SYSFS_FILENAME_LEN, "vram_%u",
+ 			 pdd->dev->id);
+ 		ret = kfd_sysfs_create_file(p, &pdd->attr_vram, pdd->vram_filename);
+@@ -881,21 +884,23 @@ void kfd_unref_process(struct kfd_process *p)
+ 	kref_put(&p->ref, kfd_process_ref_release);
+ }
+ 
++
+ static void kfd_process_device_free_bos(struct kfd_process_device *pdd)
+ {
+ 	struct kfd_process *p = pdd->process;
+ 	void *mem;
+ 	int id;
++	int i;
+ 
+ 	/*
+ 	 * Remove all handles from idr and release appropriate
+ 	 * local memory object
+ 	 */
+ 	idr_for_each_entry(&pdd->alloc_idr, mem, id) {
+-		struct kfd_process_device *peer_pdd;
+ 
+-		list_for_each_entry(peer_pdd, &p->per_device_data,
+-				    per_device_list) {
++		for (i = 0; i < p->n_pdds; i++) {
++			struct kfd_process_device *peer_pdd = p->pdds[i];
++
+ 			if (!peer_pdd->vm)
+ 				continue;
+ 			amdgpu_amdkfd_gpuvm_unmap_memory_from_gpu(
+@@ -909,18 +914,19 @@ static void kfd_process_device_free_bos(struct kfd_process_device *pdd)
+ 
+ static void kfd_process_free_outstanding_kfd_bos(struct kfd_process *p)
+ {
+-	struct kfd_process_device *pdd;
++	int i;
+ 
+-	list_for_each_entry(pdd, &p->per_device_data, per_device_list)
+-		kfd_process_device_free_bos(pdd);
++	for (i = 0; i < p->n_pdds; i++)
++		kfd_process_device_free_bos(p->pdds[i]);
+ }
+ 
+ static void kfd_process_destroy_pdds(struct kfd_process *p)
+ {
+-	struct kfd_process_device *pdd, *temp;
++	int i;
++
++	for (i = 0; i < p->n_pdds; i++) {
++		struct kfd_process_device *pdd = p->pdds[i];
+ 
+-	list_for_each_entry_safe(pdd, temp, &p->per_device_data,
+-				 per_device_list) {
+ 		pr_debug("Releasing pdd (topology id %d) for process (pasid 0x%x)\n",
+ 				pdd->dev->id, p->pasid);
+ 
+@@ -933,8 +939,6 @@ static void kfd_process_destroy_pdds(struct kfd_process *p)
+ 			amdgpu_amdkfd_gpuvm_destroy_process_vm(
+ 				pdd->dev->kgd, pdd->vm);
+ 
+-		list_del(&pdd->per_device_list);
+-
+ 		if (pdd->qpd.cwsr_kaddr && !pdd->qpd.cwsr_base)
+ 			free_pages((unsigned long)pdd->qpd.cwsr_kaddr,
+ 				get_order(KFD_CWSR_TBA_TMA_SIZE));
+@@ -955,7 +959,9 @@ static void kfd_process_destroy_pdds(struct kfd_process *p)
+ 		}
+ 
+ 		kfree(pdd);
++		p->pdds[i] = NULL;
+ 	}
++	p->n_pdds = 0;
+ }
+ 
+ /* No process locking is needed in this function, because the process
+@@ -967,7 +973,7 @@ static void kfd_process_wq_release(struct work_struct *work)
+ {
+ 	struct kfd_process *p = container_of(work, struct kfd_process,
+ 					     release_work);
+-	struct kfd_process_device *pdd;
++	int i;
+ 
+ 	/* Remove the procfs files */
+ 	if (p->kobj) {
+@@ -976,7 +982,9 @@ static void kfd_process_wq_release(struct work_struct *work)
+ 		kobject_put(p->kobj_queues);
+ 		p->kobj_queues = NULL;
+ 
+-		list_for_each_entry(pdd, &p->per_device_data, per_device_list) {
++		for (i = 0; i < p->n_pdds; i++) {
++			struct kfd_process_device *pdd = p->pdds[i];
++
+ 			sysfs_remove_file(p->kobj, &pdd->attr_vram);
+ 			sysfs_remove_file(p->kobj, &pdd->attr_sdma);
+ 			sysfs_remove_file(p->kobj, &pdd->attr_evict);
+@@ -1036,7 +1044,7 @@ static void kfd_process_notifier_release(struct mmu_notifier *mn,
+ 					struct mm_struct *mm)
+ {
+ 	struct kfd_process *p;
+-	struct kfd_process_device *pdd = NULL;
++	int i;
+ 
+ 	/*
+ 	 * The kfd_process structure can not be free because the
+@@ -1060,8 +1068,8 @@ static void kfd_process_notifier_release(struct mmu_notifier *mn,
+ 	 * pdd is in debug mode, we should first force unregistration,
+ 	 * then we will be able to destroy the queues
+ 	 */
+-	list_for_each_entry(pdd, &p->per_device_data, per_device_list) {
+-		struct kfd_dev *dev = pdd->dev;
++	for (i = 0; i < p->n_pdds; i++) {
++		struct kfd_dev *dev = p->pdds[i]->dev;
+ 
+ 		mutex_lock(kfd_get_dbgmgr_mutex());
+ 		if (dev && dev->dbgmgr && dev->dbgmgr->pasid == p->pasid) {
+@@ -1098,11 +1106,11 @@ static const struct mmu_notifier_ops kfd_process_mmu_notifier_ops = {
+ static int kfd_process_init_cwsr_apu(struct kfd_process *p, struct file *filep)
+ {
+ 	unsigned long  offset;
+-	struct kfd_process_device *pdd;
++	int i;
+ 
+-	list_for_each_entry(pdd, &p->per_device_data, per_device_list) {
+-		struct kfd_dev *dev = pdd->dev;
+-		struct qcm_process_device *qpd = &pdd->qpd;
++	for (i = 0; i < p->n_pdds; i++) {
++		struct kfd_dev *dev = p->pdds[i]->dev;
++		struct qcm_process_device *qpd = &p->pdds[i]->qpd;
+ 
+ 		if (!dev->cwsr_enabled || qpd->cwsr_kaddr || qpd->cwsr_base)
+ 			continue;
+@@ -1199,7 +1207,7 @@ static struct kfd_process *create_process(const struct task_struct *thread)
+ 	mutex_init(&process->mutex);
+ 	process->mm = thread->mm;
+ 	process->lead_thread = thread->group_leader;
+-	INIT_LIST_HEAD(&process->per_device_data);
++	process->n_pdds = 0;
+ 	INIT_DELAYED_WORK(&process->eviction_work, evict_process_worker);
+ 	INIT_DELAYED_WORK(&process->restore_work, restore_process_worker);
+ 	process->last_restore_timestamp = get_jiffies_64();
+@@ -1290,11 +1298,11 @@ static int init_doorbell_bitmap(struct qcm_process_device *qpd,
+ struct kfd_process_device *kfd_get_process_device_data(struct kfd_dev *dev,
+ 							struct kfd_process *p)
+ {
+-	struct kfd_process_device *pdd = NULL;
++	int i;
+ 
+-	list_for_each_entry(pdd, &p->per_device_data, per_device_list)
+-		if (pdd->dev == dev)
+-			return pdd;
++	for (i = 0; i < p->n_pdds; i++)
++		if (p->pdds[i]->dev == dev)
++			return p->pdds[i];
+ 
+ 	return NULL;
+ }
+@@ -1304,6 +1312,8 @@ struct kfd_process_device *kfd_create_process_device_data(struct kfd_dev *dev,
+ {
+ 	struct kfd_process_device *pdd = NULL;
+ 
++	if (WARN_ON_ONCE(p->n_pdds >= MAX_GPU_INSTANCE))
++		return NULL;
+ 	pdd = kzalloc(sizeof(*pdd), GFP_KERNEL);
+ 	if (!pdd)
+ 		return NULL;
+@@ -1332,7 +1342,7 @@ struct kfd_process_device *kfd_create_process_device_data(struct kfd_dev *dev,
+ 	pdd->vram_usage = 0;
+ 	pdd->sdma_past_activity_counter = 0;
+ 	atomic64_set(&pdd->evict_duration_counter, 0);
+-	list_add(&pdd->per_device_list, &p->per_device_data);
++	p->pdds[p->n_pdds++] = pdd;
+ 
+ 	/* Init idr used for memory handle translation */
+ 	idr_init(&pdd->alloc_idr);
+@@ -1464,28 +1474,6 @@ struct kfd_process_device *kfd_bind_process_to_device(struct kfd_dev *dev,
+ 	return ERR_PTR(err);
+ }
+ 
+-struct kfd_process_device *kfd_get_first_process_device_data(
+-						struct kfd_process *p)
+-{
+-	return list_first_entry(&p->per_device_data,
+-				struct kfd_process_device,
+-				per_device_list);
+-}
+-
+-struct kfd_process_device *kfd_get_next_process_device_data(
+-						struct kfd_process *p,
+-						struct kfd_process_device *pdd)
+-{
+-	if (list_is_last(&pdd->per_device_list, &p->per_device_data))
+-		return NULL;
+-	return list_next_entry(pdd, per_device_list);
+-}
+-
+-bool kfd_has_process_device_data(struct kfd_process *p)
+-{
+-	return !(list_empty(&p->per_device_data));
+-}
+-
+ /* Create specific handle mapped to mem from process local memory idr
+  * Assumes that the process lock is held.
+  */
+@@ -1561,11 +1549,13 @@ struct kfd_process *kfd_lookup_process_by_mm(const struct mm_struct *mm)
+  */
+ int kfd_process_evict_queues(struct kfd_process *p)
+ {
+-	struct kfd_process_device *pdd;
+ 	int r = 0;
++	int i;
+ 	unsigned int n_evicted = 0;
+ 
+-	list_for_each_entry(pdd, &p->per_device_data, per_device_list) {
++	for (i = 0; i < p->n_pdds; i++) {
++		struct kfd_process_device *pdd = p->pdds[i];
++
+ 		r = pdd->dev->dqm->ops.evict_process_queues(pdd->dev->dqm,
+ 							    &pdd->qpd);
+ 		if (r) {
+@@ -1581,7 +1571,9 @@ int kfd_process_evict_queues(struct kfd_process *p)
+ 	/* To keep state consistent, roll back partial eviction by
+ 	 * restoring queues
+ 	 */
+-	list_for_each_entry(pdd, &p->per_device_data, per_device_list) {
++	for (i = 0; i < p->n_pdds; i++) {
++		struct kfd_process_device *pdd = p->pdds[i];
++
+ 		if (n_evicted == 0)
+ 			break;
+ 		if (pdd->dev->dqm->ops.restore_process_queues(pdd->dev->dqm,
+@@ -1597,10 +1589,12 @@ int kfd_process_evict_queues(struct kfd_process *p)
+ /* kfd_process_restore_queues - Restore all user queues of a process */
+ int kfd_process_restore_queues(struct kfd_process *p)
+ {
+-	struct kfd_process_device *pdd;
+ 	int r, ret = 0;
++	int i;
++
++	for (i = 0; i < p->n_pdds; i++) {
++		struct kfd_process_device *pdd = p->pdds[i];
+ 
+-	list_for_each_entry(pdd, &p->per_device_data, per_device_list) {
+ 		r = pdd->dev->dqm->ops.restore_process_queues(pdd->dev->dqm,
+ 							      &pdd->qpd);
+ 		if (r) {
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+index eb1635ac8988..95a6c36cea4c 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+@@ -126,10 +126,10 @@ int pqm_set_gws(struct process_queue_manager *pqm, unsigned int qid,
+ 
+ void kfd_process_dequeue_from_all_devices(struct kfd_process *p)
+ {
+-	struct kfd_process_device *pdd;
++	int i;
+ 
+-	list_for_each_entry(pdd, &p->per_device_data, per_device_list)
+-		kfd_process_dequeue_from_device(pdd);
++	for (i = 0; i < p->n_pdds; i++)
++		kfd_process_dequeue_from_device(p->pdds[i]);
+ }
+ 
+ int pqm_init(struct process_queue_manager *pqm, struct kfd_process *p)
 -- 
 2.31.0
 
