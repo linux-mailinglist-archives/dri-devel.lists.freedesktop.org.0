@@ -2,98 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD89344915
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 16:19:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA86D34493A
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 16:28:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A0086E4CD;
-	Mon, 22 Mar 2021 15:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F9306E4E6;
+	Mon, 22 Mar 2021 15:28:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2082.outbound.protection.outlook.com [40.107.244.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6E236E4CD
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 15:19:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TJEqfb6rZ+0LcTuWZR9W8B9oyJJRUmBodDkJcY7WbLsq5beAj7gwyiyJ+ljV2BzhccAXx2V6V3xlwYFKXS3euoYJK8jc9hw6WNr6jS2BsJsIYfIRuEI6TSoDvNG64hhKxIb1XAslr7S7ITTTV+0lYb1AZNwMceoTN1r246t7d+H2Qdhx+FOHxjMs7AoPp+ejFI8NyR1CmSDobsv9KHonSGfQ4nLljvOVRpvWCRjIeuimuOrb7ih3Ckxn1+MP9Lu1Rj2uWmKmsZmzlMob6tcsMBClccRL/mT73zrcH8qxbSaSxlM6TUg//kqy2cHBS0ychfEs87tYEuK8pPB5ZPyk5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W0EYigv1SpaheMzV7P/hjAhH42S1fyROgLk4fTlfH/4=;
- b=dTt4AfFKWJnmg33FveRORT7iWOXCA5e9/ywdo24r2unow8LdFxHhXEasBPgQxh7UGy2y47b2hz3onyRXXvB/W1nZRnyf4oOZV2RJopS8z7pTqKg6XLh6qSO45biXfrO7NfWESLA76Hf+a92+kkJ37iBEo7OmGvMdJ3Ay/BKagKW3LdS7TyOjTBeVqghtcUhYQyAY54XWig/XzDDZHHlLtpoe0b83ZnYq9u8ykEc5NtqZIZhhW0tIzGJWxMwj1LC7wGjuCOjlVvFz8W3hDkuqF48yH1osr9CsgQtm1SpzqneNEd+nRa6BfayjkFrM9MJ2M3hLEg9sgxd1ZAIdLxANuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=linux.ie smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W0EYigv1SpaheMzV7P/hjAhH42S1fyROgLk4fTlfH/4=;
- b=JYrSGClYUJZbEywKUiagFS0xNtadv+da2i/ithvRyd1h0dMngcdJD9G20L33j5pUP5WfdPa0WTNXSZ8Y7VNIxVhgenSg5tcAfdA0aUhsO3xQavOqZutNgfcf1Nss8mlARzck0SN+ZLipaApzIHLiB50xEfuUwr7AtzzyCPEijho+EYfoBCcHtnvcBccjCDxACsR9Wp9jQ9vlkDTLPepKiLAjaLq8IJk6Xsc4yrrrWYPtc+N3Slfkl/bHCP7L5wQmOEpJxOlsZrQHo//VRxjy9UWVgCW2WntttD+AOHrJWQtbylZ15f0RHEzFeLHvmmYtvSp23ThMQuHpawaQbRJ9Jg==
-Received: from MWHPR17CA0077.namprd17.prod.outlook.com (2603:10b6:300:c2::15)
- by BY5PR12MB4308.namprd12.prod.outlook.com (2603:10b6:a03:20a::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Mon, 22 Mar
- 2021 15:19:18 +0000
-Received: from CO1NAM11FT068.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:c2:cafe::10) by MWHPR17CA0077.outlook.office365.com
- (2603:10b6:300:c2::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend
- Transport; Mon, 22 Mar 2021 15:19:17 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; linux.ie; dkim=none (message not signed)
- header.d=none;linux.ie; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT068.mail.protection.outlook.com (10.13.175.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3955.18 via Frontend Transport; Mon, 22 Mar 2021 15:19:17 +0000
-Received: from [10.21.26.179] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 22 Mar
- 2021 15:19:15 +0000
-Subject: Re: [PATCH v5 01/21] gpu: host1x: Use different lock classes for each
- client
-To: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
- <thierry.reding@gmail.com>
-References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <20210111130019.3515669-2-mperttunen@nvidia.com>
- <YFitsk3I2l7IBnLR@orome.fritz.box>
- <6615105f-ccf1-7833-512c-090817c47952@gmail.com>
-From: Mikko Perttunen <mperttunen@nvidia.com>
-Message-ID: <645366c2-c500-efcc-f44c-b933f6f470c4@nvidia.com>
-Date: Mon, 22 Mar 2021 17:19:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 805226E12D;
+ Mon, 22 Mar 2021 15:28:01 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9FD021042;
+ Mon, 22 Mar 2021 08:28:00 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DBBC93F719;
+ Mon, 22 Mar 2021 08:27:58 -0700 (PDT)
+Subject: Re: [PATCH v3] drm/scheduler re-insert Bailing job to avoid memleak
+To: "Zhang, Jack (Jian)" <Jack.Zhang1@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>,
+ "Liu, Monk" <Monk.Liu@amd.com>, "Deng, Emily" <Emily.Deng@amd.com>,
+ Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>
+References: <20210315052036.1113638-1-Jack.Zhang1@amd.com>
+ <DM5PR1201MB020453AA9A2A5C5173AF4D84BB6C9@DM5PR1201MB0204.namprd12.prod.outlook.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <bd11b7f4-41a8-fd29-bc94-656c7c83c552@arm.com>
+Date: Mon, 22 Mar 2021 15:29:00 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <6615105f-ccf1-7833-512c-090817c47952@gmail.com>
-Content-Language: en-US
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0bf196cb-a8c7-4ee2-f55c-08d8ed45dc56
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4308:
-X-Microsoft-Antispam-PRVS: <BY5PR12MB430818D0A406FC7C88F21B28B2659@BY5PR12MB4308.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ELQc6FeDMWRQJETzkPZNZuPsv2eIxhaG56M3O+xqvxkbUX2blfFKSA9vSJTM9heln/ivCU70cooF5lxsyaXR1RqoTb2j7NUfatU1vzRhT56KxeYuqhLdMN48uBdzleyVgisNd0c9nXLThHmbNj2B/FLVMnGLx1NcGsTypvDVIHfl+qOc3jS04HFOanl2TQQokX+sCbigYouUFYhu8rszoCFW8vxkxsx9xEVR/M6jZMA/7dCoJhAN/1Jbs91lcVvaVvwqxwLqmYd5Ud+9N9jbh2j1ePSrN/qrRpUYAbUCVySC1gCfvavohuzvWmLfZdOC+Yi6/dNJOxreF7D9/UkQ2ENJ8/SX4sggQXWfT77Dgua+VLjsaRkwv+SJA7tg5cplNOWFc4YWzi0LdeP2pDKUC+CUxG/5v9GPGV/JoP+OsBBdY3Gj26NTekcvN+wr4eBQpyLpOI2a/2SfpQRAreTFNVvseXuRy6w5M8aPrBOpYUXaa60T1QQYQ+tcbudrN9ntwaGbIr+AE6IlpycK/2SxaR1gzrmlTlFINyD9v3O+uh4ySytHY6qiG8xYjDB1TCPhNrFCjIQq8yfqd/+93SSPZNWN5xC11X7IaZtPFrfV75ggwXVWXlRS+YFmgXqvXMj/UFJgQOaxqsWU5ogGguQA/CAzxVpGzUJ2r9Y9ISgq2hps8AKA1y6a9o5HM3HcHljCt3adnmHLPC4C3ZfLL8vPVbbylNYniH1G/AIvD5oPRiU=
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(376002)(396003)(39860400002)(136003)(346002)(36840700001)(46966006)(70586007)(2616005)(316002)(110136005)(7636003)(4326008)(8676002)(83380400001)(54906003)(16576012)(478600001)(31686004)(70206006)(36756003)(107886003)(8936002)(31696002)(6666004)(186003)(426003)(82740400003)(16526019)(356005)(2906002)(26005)(36860700001)(5660300002)(47076005)(336012)(36906005)(82310400003)(86362001)(32563001)(43740500002)(357404004);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 15:19:17.7138 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0bf196cb-a8c7-4ee2-f55c-08d8ed45dc56
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT068.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4308
+In-Reply-To: <DM5PR1201MB020453AA9A2A5C5173AF4D84BB6C9@DM5PR1201MB0204.namprd12.prod.outlook.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,112 +48,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
- talho@nvidia.com, bhuntsman@nvidia.com, linux-tegra@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjIuMy4yMDIxIDE2LjQ4LCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gMjIuMDMuMjAyMSAx
-Nzo0NiwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPj4gT24gTW9uLCBKYW4gMTEsIDIwMjEg
-YXQgMDI6NTk6NTlQTSArMDIwMCwgTWlra28gUGVydHR1bmVuIHdyb3RlOgo+Pj4gVG8gYXZvaWQg
-ZmFsc2UgbG9ja2RlcCB3YXJuaW5ncywgZ2l2ZSBlYWNoIGNsaWVudCBsb2NrIGEgZGlmZmVyZW50
-Cj4+PiBsb2NrIGNsYXNzLCBwYXNzZWQgZnJvbSB0aGUgaW5pdGlhbGl6YXRpb24gc2l0ZSBieSBt
-YWNyby4KPj4+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBNaWtrbyBQZXJ0dHVuZW4gPG1wZXJ0dHVuZW5A
-bnZpZGlhLmNvbT4KPj4+IC0tLQo+Pj4gICBkcml2ZXJzL2dwdS9ob3N0MXgvYnVzLmMgfCA3ICsr
-KystLS0KPj4+ICAgaW5jbHVkZS9saW51eC9ob3N0MXguaCAgIHwgOSArKysrKysrKy0KPj4+ICAg
-MiBmaWxlcyBjaGFuZ2VkLCAxMiBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQo+Pj4KPj4+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9ob3N0MXgvYnVzLmMgYi9kcml2ZXJzL2dwdS9ob3N0
-MXgvYnVzLmMKPj4+IGluZGV4IDM0N2ZiOTYyYjZjOS4uOGZjNzllOWNiNjUyIDEwMDY0NAo+Pj4g
-LS0tIGEvZHJpdmVycy9ncHUvaG9zdDF4L2J1cy5jCj4+PiArKysgYi9kcml2ZXJzL2dwdS9ob3N0
-MXgvYnVzLmMKPj4+IEBAIC03MTUsMTMgKzcxNSwxNCBAQCBFWFBPUlRfU1lNQk9MKGhvc3QxeF9k
-cml2ZXJfdW5yZWdpc3Rlcik7Cj4+PiAgICAqIGRldmljZSBhbmQgY2FsbCBob3N0MXhfZGV2aWNl
-X2luaXQoKSwgd2hpY2ggd2lsbCBpbiB0dXJuIGNhbGwgZWFjaCBjbGllbnQncwo+Pj4gICAgKiAm
-aG9zdDF4X2NsaWVudF9vcHMuaW5pdCBpbXBsZW1lbnRhdGlvbi4KPj4+ICAgICovCj4+PiAtaW50
-IGhvc3QxeF9jbGllbnRfcmVnaXN0ZXIoc3RydWN0IGhvc3QxeF9jbGllbnQgKmNsaWVudCkKPj4+
-ICtpbnQgX19ob3N0MXhfY2xpZW50X3JlZ2lzdGVyKHN0cnVjdCBob3N0MXhfY2xpZW50ICpjbGll
-bnQsCj4+PiArCQkJICAgc3RydWN0IGxvY2tfY2xhc3Nfa2V5ICprZXkpCj4+Cj4+IEkndmUgc2Vl
-biB0aGUga2J1aWxkIHJvYm90IHdhcm4gYWJvdXQgdGhpcyBiZWNhdXNlIHRoZSBrZXJuZWxkb2Mg
-aXMgbm93Cj4+IG91dCBvZiBkYXRlLgo+Pgo+Pj4gICB7Cj4+PiAgIAlzdHJ1Y3QgaG9zdDF4ICpo
-b3N0MXg7Cj4+PiAgIAlpbnQgZXJyOwo+Pj4gICAKPj4+ICAgCUlOSVRfTElTVF9IRUFEKCZjbGll
-bnQtPmxpc3QpOwo+Pj4gLQltdXRleF9pbml0KCZjbGllbnQtPmxvY2spOwo+Pj4gKwlfX211dGV4
-X2luaXQoJmNsaWVudC0+bG9jaywgImhvc3QxeCBjbGllbnQgbG9jayIsIGtleSk7Cj4+Cj4+IFNo
-b3VsZCB3ZSBtYXliZSBhdHRlbXB0IHRvIG1ha2UgdGhpcyB1bmlxdWU/IENvdWxkIHdlIHVzZSBz
-b21ldGhpbmcgbGlrZQo+PiBkZXZfbmFtZShjbGllbnQtPmRldikgZm9yIHRoaXM/Cj4gCj4gSSdt
-IGN1cmlvdXMgd2hvIHRoZSBsb2NrZGVwIHdhcm5pbmcgY291bGQgYmUgdHJpZ2dlcmVkIGF0IGFs
-bCwgSSBkb24ndAo+IHJlY2FsbCBldmVyIHNlZWluZyBpdC4gTWlra28sIGNvdWxkIHlvdSBwbGVh
-c2UgY2xhcmlmeSBob3cgdG8gcmVwcm9kdWNlCj4gdGhlIHdhcm5pbmc/Cj4gCgpUaGlzIGlzIHBy
-ZXR0eSBkaWZmaWN1bHQgdG8gcmVhZCBidXQgSSBndWVzcyBpdCdzIHNvbWUgaW50ZXJhY3Rpb24g
-CnJlbGF0ZWQgdG8gdGhlIGRlbGF5ZWQgaW5pdGlhbGl6YXRpb24gb2YgaG9zdDF4IGNsaWVudHM/
-IEluIGFueSBjYXNlLCBJIApjb25zaXN0ZW50bHkgZ2V0IGl0IGF0IGJvb3QgKHRob3VnaCBpdCBt
-YXkgYmUgdHJpZ2dlcmVkIGJ5IHZpYyBwcm9iZSAKaW5zdGVhZCBvZiBudmRlYykuCgpJJ2xsIGZp
-eCB0aGUga2J1aWxkIHJvYm90IHdhcm5pbmdzIGFuZCBzZWUgaWYgSSBjYW4gYWRkIGEgCmNsaWVu
-dC1zcGVjaWZpYyBsb2NrIG5hbWUgZm9yIHY2LgoKTWlra28KClsgICAzOC4xMjgyNTddIFdBUk5J
-Tkc6IHBvc3NpYmxlIHJlY3Vyc2l2ZSBsb2NraW5nIGRldGVjdGVkClsgICAzOC4xMzM1NjddIDUu
-MTEuMC1yYzItbmV4dC0yMDIxMDEwOCsgIzEwMiBUYWludGVkOiBHIFMKWyAgIDM4LjE0MDA4OV0g
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KWyAgIDM4LjE0NTM5
-NV0gc3lzdGVtZC11ZGV2ZC8yMzkgaXMgdHJ5aW5nIHRvIGFjcXVpcmUgbG9jazoKWyAgIDM4LjE1
-MDcwM10gZmZmZjAwMDA5OTdhYTIxOCAoJmNsaWVudC0+bG9jayl7Ky4rLn0tezM6M30sIGF0OiAK
-aG9zdDF4X2NsaWVudF9yZXN1bWUrMHgzMC8weDEwMCBbaG9zdDF4XQpbICAgMzguMTYwMTQyXQpb
-ICAgMzguMTYwMTQyXSBidXQgdGFzayBpcyBhbHJlYWR5IGhvbGRpbmcgbG9jazoKWyAgIDM4LjE2
-NTk2OF0gZmZmZjAwMDA4MGMzYjE0OCAoJmNsaWVudC0+bG9jayl7Ky4rLn0tezM6M30sIGF0OiAK
-aG9zdDF4X2NsaWVudF9yZXN1bWUrMHgzMC8weDEwMCBbaG9zdDF4XQpbICAgMzguMTc1Mzk4XQpb
-ICAgMzguMTc1Mzk4XSBvdGhlciBpbmZvIHRoYXQgbWlnaHQgaGVscCB1cyBkZWJ1ZyB0aGlzOgpb
-ICAgMzguMTgxOTE4XSAgUG9zc2libGUgdW5zYWZlIGxvY2tpbmcgc2NlbmFyaW86ClsgICAzOC4x
-ODE5MThdClsgICAzOC4xODc4MzBdICAgICAgICBDUFUwClsgICAzOC4xOTAyNzVdICAgICAgICAt
-LS0tClsgICAzOC4xOTI3MTldICAgbG9jaygmY2xpZW50LT5sb2NrKTsKWyAgIDM4LjE5NjEyOV0g
-ICBsb2NrKCZjbGllbnQtPmxvY2spOwpbICAgMzguMTk5NTM3XQpbICAgMzguMTk5NTM3XSAgKioq
-IERFQURMT0NLICoqKgpbICAgMzguMTk5NTM3XQpbICAgMzguMjA1NDQ5XSAgTWF5IGJlIGR1ZSB0
-byBtaXNzaW5nIGxvY2sgbmVzdGluZyBub3RhdGlvbgpbICAgMzguMjA1NDQ5XQpbICAgMzguMjEy
-MjI4XSA2IGxvY2tzIGhlbGQgYnkgc3lzdGVtZC11ZGV2ZC8yMzk6ClsgICAzOC4yMTY2NjldICAj
-MDogZmZmZjAwMDA5MjYxYzE4OCAoJmRldi0+bXV0ZXgpey4uLi59LXszOjN9LCBhdDogCmRldmlj
-ZV9kcml2ZXJfYXR0YWNoKzB4NjAvMHgxMzAKWyAgIDM4LjIyNTQ4N10gICMxOiBmZmZmODAwMDA5
-YTE3MTY4IChkZXZpY2VzX2xvY2speysuKy59LXszOjN9LCBhdDogCmhvc3QxeF9jbGllbnRfcmVn
-aXN0ZXIrMHg3Yy8weDIyMCBbaG9zdDF4XQpbICAgMzguMjM1NDQxXSAgIzI6IGZmZmYwMDAwODNm
-OTRiYjggKCZob3N0LT5kZXZpY2VzX2xvY2speysuKy59LXszOjN9LCAKYXQ6IGhvc3QxeF9jbGll
-bnRfcmVnaXN0ZXIrMHhhYy8weDIyMCBbaG9zdDF4XQpbICAgMzguMjQ1OTk2XSAgIzM6IGZmZmYw
-MDAwYTIyNjcxOTAgKCZkZXYtPm11dGV4KXsuLi4ufS17MzozfSwgYXQ6IApfX2RldmljZV9hdHRh
-Y2grMHg4Yy8weDIzMApbICAgMzguMjU0MzcyXSAgIzQ6IGZmZmYwMDAwOTJjODgwZjAgKCZ3Z3Jw
-LT5sb2NrKXsrLisufS17MzozfSwgYXQ6IAp0ZWdyYV9kaXNwbGF5X2h1Yl9wcmVwYXJlKzB4ZDgv
-MHgxNzAgW3RlZ3JhX2RybV0KWyAgIDM4LjI2NDc4OF0gICM1OiBmZmZmMDAwMDgwYzNiMTQ4ICgm
-Y2xpZW50LT5sb2NrKXsrLisufS17MzozfSwgYXQ6IApob3N0MXhfY2xpZW50X3Jlc3VtZSsweDMw
-LzB4MTAwIFtob3N0MXhdClsgICAzOC4yNzQ2NThdClsgICAzOC4yNzQ2NThdIHN0YWNrIGJhY2t0
-cmFjZToKWyAgIDM4LjI3OTAxMl0gQ1BVOiAwIFBJRDogMjM5IENvbW06IHN5c3RlbWQtdWRldmQg
-VGFpbnRlZDogRyBTIAogICAgICAgNS4xMS4wLXJjMi1uZXh0LTIwMjEwMTA4KyAjMTAyClsgICAz
-OC4yODg2NjBdIEhhcmR3YXJlIG5hbWU6IE5WSURJQSBKZXRzb24gVFgyIERldmVsb3BlciBLaXQg
-KERUKQpbICAgMzguMjk0NTc3XSBDYWxsIHRyYWNlOgpbICAgMzguMjk3MDIyXSAgZHVtcF9iYWNr
-dHJhY2UrMHgwLzB4MmMwClsgICAzOC4zMDA2OTVdICBzaG93X3N0YWNrKzB4MTgvMHg2YwpbICAg
-MzguMzA0MDEzXSAgZHVtcF9zdGFjaysweDEyMC8weDE5YwpbICAgMzguMzA3NTA3XSAgX19sb2Nr
-X2FjcXVpcmUrMHgxNzFjLzB4MmMzNApbICAgMzguMzExNTIxXSAgbG9ja19hY3F1aXJlLnBhcnQu
-MCsweDIzMC8weDQ5MApbICAgMzguMzE1NzkzXSAgbG9ja19hY3F1aXJlKzB4NzAvMHg5MApbICAg
-MzguMzE5Mjg1XSAgX19tdXRleF9sb2NrKzB4MTFjLzB4NmQwClsgICAzOC4zMjI5NTJdICBtdXRl
-eF9sb2NrX25lc3RlZCsweDU4LzB4OTAKWyAgIDM4LjMyNjg3N10gIGhvc3QxeF9jbGllbnRfcmVz
-dW1lKzB4MzAvMHgxMDAgW2hvc3QxeF0KWyAgIDM4LjMzMjA0N10gIGhvc3QxeF9jbGllbnRfcmVz
-dW1lKzB4NDQvMHgxMDAgW2hvc3QxeF0KWyAgIDM4LjMzNzIwMF0gIHRlZ3JhX2Rpc3BsYXlfaHVi
-X3ByZXBhcmUrMHhmOC8weDE3MCBbdGVncmFfZHJtXQpbICAgMzguMzQzMDg0XSAgaG9zdDF4X2Ry
-bV9wcm9iZSsweDFmYy8weDRmMCBbdGVncmFfZHJtXQpbICAgMzguMzQ4MjU2XSAgaG9zdDF4X2Rl
-dmljZV9wcm9iZSsweDNjLzB4NTAgW2hvc3QxeF0KWyAgIDM4LjM1MzI0MF0gIHJlYWxseV9wcm9i
-ZSsweDE0OC8weDZmMApbICAgMzguMzU2OTA2XSAgZHJpdmVyX3Byb2JlX2RldmljZSsweDc4LzB4
-ZTQKWyAgIDM4LjM2MTAwNV0gIF9fZGV2aWNlX2F0dGFjaF9kcml2ZXIrMHgxMGMvMHgxNzAKWyAg
-IDM4LjM2NTUzNl0gIGJ1c19mb3JfZWFjaF9kcnYrMHhmMC8weDE2MApbICAgMzguMzY5NDYxXSAg
-X19kZXZpY2VfYXR0YWNoKzB4MTY4LzB4MjMwClsgICAzOC4zNzMzODVdICBkZXZpY2VfaW5pdGlh
-bF9wcm9iZSsweDE0LzB4MjAKWyAgIDM4LjM3NzU3MV0gIGJ1c19wcm9iZV9kZXZpY2UrMHhlYy8w
-eDEwMApbICAgMzguMzgxNDk0XSAgZGV2aWNlX2FkZCsweDU4MC8weGJjYwpbICAgMzguMzg0OTg1
-XSAgaG9zdDF4X3N1YmRldl9yZWdpc3RlcisweDE3OC8weDFjYyBbaG9zdDF4XQpbICAgMzguMzkw
-Mzk3XSAgaG9zdDF4X2NsaWVudF9yZWdpc3RlcisweDEzOC8weDIyMCBbaG9zdDF4XQpbICAgMzgu
-Mzk1ODA4XSAgbnZkZWNfcHJvYmUrMHgyNDAvMHgzZWMgW3RlZ3JhX2RybV0KWyAgIDM4LjQwMDU0
-OV0gIHBsYXRmb3JtX3Byb2JlKzB4OGMvMHgxMTAKWyAgIDM4LjQwNDMwMl0gIHJlYWxseV9wcm9i
-ZSsweDE0OC8weDZmMApbICAgMzguNDA3OTY2XSAgZHJpdmVyX3Byb2JlX2RldmljZSsweDc4LzB4
-ZTQKWyAgIDM4LjQxMjA2NV0gIGRldmljZV9kcml2ZXJfYXR0YWNoKzB4MTIwLzB4MTMwClsgICAz
-OC40MTY0MjNdICBfX2RyaXZlcl9hdHRhY2grMHhiNC8weDE5MApbICAgMzguNDIwMjYxXSAgYnVz
-X2Zvcl9lYWNoX2RldisweGU4LzB4MTYwClsgICAzOC40MjQxODVdICBkcml2ZXJfYXR0YWNoKzB4
-MzQvMHg0NApbICAgMzguNDI3NzYxXSAgYnVzX2FkZF9kcml2ZXIrMHgxYTQvMHgyYjAKWyAgIDM4
-LjQzMTU5OF0gIGRyaXZlcl9yZWdpc3RlcisweGUwLzB4MjEwClsgICAzOC40MzU0MzddICBfX3Bs
-YXRmb3JtX3JlZ2lzdGVyX2RyaXZlcnMrMHg2Yy8weDEwNApbICAgMzguNDQwMzE4XSAgaG9zdDF4
-X2RybV9pbml0KzB4NTQvMHgxMDAwIFt0ZWdyYV9kcm1dClsgICAzOC40NDU0MDVdICBkb19vbmVf
-aW5pdGNhbGwrMHhlYy8weDVlMApbICAgMzguNDQ5MjQ0XSAgZG9faW5pdF9tb2R1bGUrMHhlMC8w
-eDM4NApbICAgMzguNDUzMDAwXSAgbG9hZF9tb2R1bGUrMHgzMmQ4LzB4M2M2MApfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On 15/03/2021 05:23, Zhang, Jack (Jian) wrote:
+> [AMD Public Use]
+> 
+> Hi, Rob/Tomeu/Steven,
+> 
+> Would you please help to review this patch for panfrost driver?
+> 
+> Thanks,
+> Jack Zhang
+> 
+> -----Original Message-----
+> From: Jack Zhang <Jack.Zhang1@amd.com>
+> Sent: Monday, March 15, 2021 1:21 PM
+> To: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; Koenig, Christian <Christian.Koenig@amd.com>; Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>; Liu, Monk <Monk.Liu@amd.com>; Deng, Emily <Emily.Deng@amd.com>
+> Cc: Zhang, Jack (Jian) <Jack.Zhang1@amd.com>
+> Subject: [PATCH v3] drm/scheduler re-insert Bailing job to avoid memleak
+> 
+> re-insert Bailing jobs to avoid memory leak.
+> 
+> V2: move re-insert step to drm/scheduler logic
+> V3: add panfrost's return value for bailing jobs
+> in case it hits the memleak issue.
+
+This commit message could do with some work - it's really hard to 
+decipher what the actual problem you're solving is.
+
+> 
+> Signed-off-by: Jack Zhang <Jack.Zhang1@amd.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 +++-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c    | 8 ++++++--
+>   drivers/gpu/drm/panfrost/panfrost_job.c    | 4 ++--
+>   drivers/gpu/drm/scheduler/sched_main.c     | 8 +++++++-
+>   include/drm/gpu_scheduler.h                | 1 +
+>   5 files changed, 19 insertions(+), 6 deletions(-)
+> 
+[...]
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 6003cfeb1322..e2cb4f32dae1 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -444,7 +444,7 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
+>   	 * spurious. Bail out.
+>   	 */
+>   	if (dma_fence_is_signaled(job->done_fence))
+> -		return DRM_GPU_SCHED_STAT_NOMINAL;
+> +		return DRM_GPU_SCHED_STAT_BAILING;
+>   
+>   	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
+>   		js,
+> @@ -456,7 +456,7 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
+>   
+>   	/* Scheduler is already stopped, nothing to do. */
+>   	if (!panfrost_scheduler_stop(&pfdev->js->queue[js], sched_job))
+> -		return DRM_GPU_SCHED_STAT_NOMINAL;
+> +		return DRM_GPU_SCHED_STAT_BAILING;
+>   
+>   	/* Schedule a reset if there's no reset in progress. */
+>   	if (!atomic_xchg(&pfdev->reset.pending, 1))
+
+This looks correct to me - in these two cases drm_sched_stop() is not 
+called on the sched_job, so it looks like currently the job will be leaked.
+
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 92d8de24d0a1..a44f621fb5c4 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -314,6 +314,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
+>   {
+>   	struct drm_gpu_scheduler *sched;
+>   	struct drm_sched_job *job;
+> +	int ret;
+>   
+>   	sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
+>   
+> @@ -331,8 +332,13 @@ static void drm_sched_job_timedout(struct work_struct *work)
+>   		list_del_init(&job->list);
+>   		spin_unlock(&sched->job_list_lock);
+>   
+> -		job->sched->ops->timedout_job(job);
+> +		ret = job->sched->ops->timedout_job(job);
+>   
+> +		if (ret == DRM_GPU_SCHED_STAT_BAILING) {
+> +			spin_lock(&sched->job_list_lock);
+> +			list_add(&job->node, &sched->ring_mirror_list);
+> +			spin_unlock(&sched->job_list_lock);
+> +		}
+
+I think we could really do with a comment somewhere explaining what 
+"bailing" means in this context. For the Panfrost case we have two cases:
+
+  * The GPU job actually finished while the timeout code was running 
+(done_fence is signalled).
+
+  * The GPU is already in the process of being reset (Panfrost has 
+multiple queues, so mostly like a bad job in another queue).
+
+I'm also not convinced that (for Panfrost) it makes sense to be adding 
+the jobs back to the list. For the first case above clearly the job 
+could just be freed (it's complete). The second case is more interesting 
+and Panfrost currently doesn't handle this well. In theory the driver 
+could try to rescue the job ('soft stop' in Mali language) so that it 
+could be resubmitted. Panfrost doesn't currently support that, so 
+attempting to resubmit the job is almost certainly going to fail.
+
+It's on my TODO list to look at improving Panfrost in this regard, but 
+sadly still quite far down.
+
+Steve
+
+>   		/*
+>   		 * Guilty job did complete and hence needs to be manually removed
+>   		 * See drm_sched_stop doc.
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 4ea8606d91fe..8093ac2427ef 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -210,6 +210,7 @@ enum drm_gpu_sched_stat {
+>   	DRM_GPU_SCHED_STAT_NONE, /* Reserve 0 */
+>   	DRM_GPU_SCHED_STAT_NOMINAL,
+>   	DRM_GPU_SCHED_STAT_ENODEV,
+> +	DRM_GPU_SCHED_STAT_BAILING,
+>   };
+>   
+>   /**
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
