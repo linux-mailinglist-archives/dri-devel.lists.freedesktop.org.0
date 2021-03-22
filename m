@@ -1,45 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E9633451CF
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 22:33:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9385E3451E7
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 22:40:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 142D389C69;
-	Mon, 22 Mar 2021 21:33:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53BFD6E5C0;
+	Mon, 22 Mar 2021 21:40:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from libero.it (smtp-17.italiaonline.it [213.209.10.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1F2D89C69
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 21:33:50 +0000 (UTC)
-Received: from passgat-Modern-14-A10M.homenet.telecomitalia.it
- ([87.20.116.197]) by smtp-17.iol.local with ESMTPA
- id OSB9lKwj3tpGHOSBIlyOiw; Mon, 22 Mar 2021 22:33:49 +0100
-x-libjamoibt: 1601
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2021;
- t=1616448829; bh=WJGuGkzei1qnQ9F2BQzc6/TuQAnEMYCJ7ZCc+MNegg4=;
- h=From;
- b=TkkegkwfnTs2feRN2ISozdzpcLnTS6P8KEDs/XK0bfNpJ7BtoGA5taY6RAYuZgtCX
- URaas7A/vIdWdJnDZT9O3kmU5a+t3fE3TruSTpVPRx3okZ3vE0UZ/Hlh0mC50DQwM5
- cH+nMA67314nVf9fZoZ7D7DJ7ki1WRligdbMwjb9buPDFzoSMbygZSUA+abQWkPQ6c
- 087a2k7frcj20qnreJtO1W9uwDkzSOH+rtOuBF8dtREH44xxQBp1NleEEMPiOko1cr
- XX5nVrpyJyZZkbBiTvQ6fw7nBLl0fJsAT7GHOIJWK2ZNxy88EzxSgMYTTe7ubPXzA4
- gVk0VTwwyeXZQ==
-X-CNFS-Analysis: v=2.4 cv=Q7IXX66a c=1 sm=1 tr=0 ts=60590d3d cx=a_exe
- a=AVqmXbCQpuNSdJmApS5GbQ==:117 a=AVqmXbCQpuNSdJmApS5GbQ==:17
- a=1RDr0-BV0bhq8KCB1kIA:9
-From: Dario Binacchi <dariobin@libero.it>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/3] drm/tilcdc: fix pixel clock setting warning message
-Date: Mon, 22 Mar 2021 22:33:37 +0100
-Message-Id: <20210322213337.26667-4-dariobin@libero.it>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210322213337.26667-1-dariobin@libero.it>
-References: <20210322213337.26667-1-dariobin@libero.it>
-X-CMAE-Envelope: MS4xfD+W9cIU8kLoffCHlI5vlPRI6Ep8bkY7qzqNV0S0VeXqRMuyH77z0c2lABF7urCSlO4+eDWz4FmhasgWjTJbzi2OZnir0WR6u8eRV2P4ylOw0FjBHO2/
- Z/34T1XRXVDK9qcTGBYLBXpa3tXWEm2AE1QVMLuugrZxtjsCof+EMC+GdKfqUrNdFUOqTkRIBv4bqML7fJGAmKH1j1/4dfjnhZ1y8k9oZMoXqE8/NKA0MdtZ
- zDR1JWClLB+3SNj0QAgqECOyrHSmMTuvC5v1UbamaMtiNjJvasR5BHn2NKOekYXk8VP9MBzjRz5zK+5vuZr18vriHpH6FxR1H959dX9+/aFFgFZ4SlFRdkP7
- NWdQ8659CHH+E6hRR+2P9uAVGU93dVfWI2b/EWeLxVtSKwXHnS766ktHDu9B/vQzyvfHdmMR
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82C4E6E5C0;
+ Mon, 22 Mar 2021 21:40:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3FC4B619AC;
+ Mon, 22 Mar 2021 21:40:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1616449204;
+ bh=ZjEe7Re0RKu002ndI22T8BlfDJ+aY+HHY+t9XvQS7Q8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=bJZCpZ5EEGZerp3UrSyvokIM6nH3GPNLIsyJMJB5nyc4Sgnjtzn+OMtjUL2ZBSie+
+ Fi83eey5HsMSKc/9qaD2RuZEeUeUwoE2M6qwk7wrSCjkj4ws8OGv18z8EyYcukmWHT
+ jM35+ir6/srZfSH78DCRwpRXtTCanNR0ouNRk+r0zZqC9uicwbh5Vl6qVN2J0nC7fg
+ yAR8A/u0nDcj41ohiNdL688eDQ2opEHdctaDOmgytVvpFgfvzBz92vFYBp5Nn21+zL
+ vtNIUbcaOAFjelvCYqZ6uXvufN0DecSq4tETddYi+zxgAsQXGrS7YO4xRruhTqWyYj
+ CraMDT8xmXxbw==
+Received: by mail-ot1-f41.google.com with SMTP id
+ m21-20020a9d7ad50000b02901b83efc84a0so17457943otn.10; 
+ Mon, 22 Mar 2021 14:40:04 -0700 (PDT)
+X-Gm-Message-State: AOAM532zauOn330rmstyJjRZDC6Zd1vYFft3xcNa3Uvo+gJF5uzye6PK
+ a/uNspz6WkrmVDBGTvYxO/V/rEaSsBY1IsQgMR0=
+X-Google-Smtp-Source: ABdhPJzNzw6/c6SVRTMWeDvzQfOYlqmnHJ7XZUtZKGXGAyd4E2bODGHMqyepsXMnLh1hlMatZvPmNE5xJdhqw6/8ZCE=
+X-Received: by 2002:a9d:316:: with SMTP id 22mr1561463otv.210.1616449203436;
+ Mon, 22 Mar 2021 14:40:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210322160253.4032422-1-arnd@kernel.org>
+ <20210322160253.4032422-3-arnd@kernel.org>
+ <20210322202958.GA1955909@gmail.com>
+In-Reply-To: <20210322202958.GA1955909@gmail.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Mon, 22 Mar 2021 22:39:47 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a10d8hgBiO5W=34oLqw8m22=Xi4C=MxVSY_fGnXZUJ3iA@mail.gmail.com>
+Message-ID: <CAK8P3a10d8hgBiO5W=34oLqw8m22=Xi4C=MxVSY_fGnXZUJ3iA@mail.gmail.com>
+Subject: Re: [PATCH 02/11] x86: tboot: avoid Wstringop-overread-warning
+To: Ingo Molnar <mingo@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,67 +55,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomba@kernel.org>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Jyri Sarha <jyri.sarha@iki.fi>,
- Dario Binacchi <dariobin@libero.it>
-MIME-Version: 1.0
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
+ linux-scsi <linux-scsi@vger.kernel.org>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ James Smart <james.smart@broadcom.com>, tboot-devel@lists.sourceforge.net,
+ Ingo Molnar <mingo@redhat.com>, Kalle Valo <kvalo@codeaurora.org>,
+ ath11k@lists.infradead.org, Serge Hallyn <serge@hallyn.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, Ning Sun <ning.sun@intel.com>,
+ Anders Larsen <al@alarsen.net>, Borislav Petkov <bp@alien8.de>,
+ Cgroups <cgroups@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Martin Sebor <msebor@gcc.gnu.org>, Networking <netdev@vger.kernel.org>,
+ linux-wireless <linux-wireless@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ LSM List <linux-security-module@vger.kernel.org>, Tejun Heo <tj@kernel.org>,
+ Simon Kelley <simon@thekelleys.org.uk>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The warning message did not printed the LCD pixel clock rate but the LCD
-clock divisor input rate. As a consequence, the required and real pixel
-clock rates are now passed to the tilcdc_pclk_diff().
+On Mon, Mar 22, 2021 at 9:29 PM Ingo Molnar <mingo@kernel.org> wrote:
+> * Arnd Bergmann <arnd@kernel.org> wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Dario Binacchi <dariobin@libero.it>
+> This is indeed rather ugly - and the other patch that removes a debug
+> check seems counterproductive as well.
+>
+> Do we know how many genuine bugs -Wstringop-overread-warning has
+> caught or is about to catch?
+>
+> I.e. the real workaround might be to turn off the -Wstringop-overread-warning,
+> until GCC-11 gets fixed?
 
----
+See the [PATCH 0/11] message. The last two patches in the series are for
+code that I suspect may be broken, the others are basically all false positives.
 
-Changes in v3:
-- Replace calculated with requested in the warning message.
-- Swap the positions of the real_pclk_rate, and pclk_rate parameters
-  in the warning message.
+As gcc-11 is not released yet, I don't think we have to apply any of the
+patches or disable the warning at the moment, but I posted all the patches
+to get a better understanding on which of them should be addressed in
+the kernel vs gcc.
 
-Changes in v2:
-- The patch has been added in version 2.
-
- drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-index ac6228cb04d9..381a706ab7c2 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-@@ -203,7 +203,7 @@ static void tilcdc_crtc_set_clk(struct drm_crtc *crtc)
- 	struct drm_device *dev = crtc->dev;
- 	struct tilcdc_drm_private *priv = dev->dev_private;
- 	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
--	unsigned long clk_rate, real_rate, real_pclk_rate, pclk_rate;
-+	unsigned long clk_rate, real_pclk_rate, pclk_rate;
- 	unsigned int clkdiv;
- 	int ret;
- 
-@@ -239,12 +239,12 @@ static void tilcdc_crtc_set_clk(struct drm_crtc *crtc)
- 		 * 5% is an arbitrary value - LCDs are usually quite tolerant
- 		 * about pixel clock rates.
- 		 */
--		real_rate = clkdiv * pclk_rate;
-+		real_pclk_rate = clk_rate / clkdiv;
- 
--		if (tilcdc_pclk_diff(clk_rate, real_rate) > 5) {
-+		if (tilcdc_pclk_diff(pclk_rate, real_pclk_rate) > 5) {
- 			dev_warn(dev->dev,
--				 "effective pixel clock rate (%luHz) differs from the calculated rate (%luHz)\n",
--				 clk_rate, real_rate);
-+				 "effective pixel clock rate (%luHz) differs from the requested rate (%luHz)\n",
-+				 real_pclk_rate, pclk_rate);
- 		}
- 	}
- 
--- 
-2.17.1
-
+       Arnd
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
