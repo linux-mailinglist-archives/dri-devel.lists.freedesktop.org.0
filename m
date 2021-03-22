@@ -2,55 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE99B343C21
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 09:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E3A343C7B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 10:17:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B24889CFA;
-	Mon, 22 Mar 2021 08:54:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21F8089DB5;
+	Mon, 22 Mar 2021 09:17:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com
- [IPv6:2607:f8b0:4864:20::a2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFDBE89CFA;
- Mon, 22 Mar 2021 08:54:41 +0000 (UTC)
-Received: by mail-vk1-xa2a.google.com with SMTP id f11so3599754vkl.9;
- Mon, 22 Mar 2021 01:54:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=VOcZJkNZ8NCA/PnW+vfnFCQHFn7zKVKMkSSKxNtxtjg=;
- b=gLWna3OMTzAZBTh+IwGcg8KKsDrKoNxnvhtEbCXJo0A4HkavOQg7tMnk3ajXVM4UKX
- xewQ0hbw0ZknxuUm1emRZSrtFPSHOq+Fh8Pldv8KeL1F8g5DgeNt7lXQpYH8N3sudkwd
- osCghNZRenRAN7j7I67/ama6eFLyEKVY3snLpyDijS1FUvMZU43+BKVRpKOCdLptGE+7
- 43BqkbyD1wyfQM2SIRICrIyi+VXC/a6vSTbCAWedP2wdtbwsBrqwM7+4+XHADzAiObyx
- RS8JdSCvLWlQrdR3QflWoRLOryk5JjTEejOH66yernNhPJTBv2j2//qK+RpfMXKASAa0
- Is7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=VOcZJkNZ8NCA/PnW+vfnFCQHFn7zKVKMkSSKxNtxtjg=;
- b=lmFPBZOEpiAp6w6YoZeadMqY9ZudV2L8mUXKeIlQ0jsisukq2+llPSMNK02Qp8sEuJ
- /YkQE5KgXHX/hDLwK9tNzSL9bekOsOGxIxSe7CWQriydEyqMStIZvddc2cMY4kyRPP1J
- vIjzzBysnE5/t0vsnjYjwvDlK+LSHJ78+SCphjr6cwHU+FELrWnrl1ir/1Ovbt6iI++J
- vgSELsquTPWDvFppYstoBDgtN+dZ/N+nKj9lPrhG+haAxm9EJp65vavqbjXTWwCIla2f
- WiatbQ2jghoryokoGiAeWgQ2jjpKOjIXhuSDDfmNBHnXSpoMeEkAHhkbDIXQXSbliZBE
- yqWg==
-X-Gm-Message-State: AOAM531O4uUaaNdFVWHeGIpjS9oEKu3fIHLzgahS0A0kdjP9mr1bKhxp
- cEDRiIdyAI1qZF5r3ey/jvv94ANrc1APcPQwNXTRyaxo
-X-Google-Smtp-Source: ABdhPJxJaA8S3pSaIpr9SAk9H2qRTwAhPRzmwhjUkUATKK7H02rvcvNignImU7TU+noBDPoxXBlgTcZOmuD9n/3VCKs=
-X-Received: by 2002:a1f:dd44:: with SMTP id u65mr7561760vkg.12.1616403280826; 
- Mon, 22 Mar 2021 01:54:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210319190607.2903545-1-l.stach@pengutronix.de>
- <CAH9NwWdOSiWTNpyzxXHasjcNrhOtK3Su66kaQsGA_kz7AUp53A@mail.gmail.com>
- <CAKMK7uH-X6KzxfrMLgzhhYdoceLgygtKvzZWbFt+ZztY_BCC5A@mail.gmail.com>
-In-Reply-To: <CAKMK7uH-X6KzxfrMLgzhhYdoceLgygtKvzZWbFt+ZztY_BCC5A@mail.gmail.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 22 Mar 2021 09:54:29 +0100
-Message-ID: <CAH9NwWeYO_WsYTtsri6E5dRfWYhD0FrUohK99jx_gZHVHJRukA@mail.gmail.com>
-Subject: Re: [PATCH] drm/fourcc: add Vivante TS modifiers
-To: Daniel Vetter <daniel@ffwll.ch>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75BCC89A0F;
+ Mon, 22 Mar 2021 09:17:48 +0000 (UTC)
+Received: from ironmsg07-lv.qualcomm.com (HELO ironmsg07-lv.qulacomm.com)
+ ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 22 Mar 2021 02:17:48 -0700
+X-QCInternal: smtphost
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by ironmsg07-lv.qulacomm.com with ESMTP/TLS/AES256-SHA;
+ 22 Mar 2021 02:17:46 -0700
+X-QCInternal: smtphost
+Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 22 Mar 2021 14:47:14 +0530
+Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
+ id 831DB4315; Mon, 22 Mar 2021 02:17:13 -0700 (PDT)
+From: Kalyan Thota <kalyan_t@codeaurora.org>
+To: y@qualcomm.com, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: [v1] drm/msm/disp/dpu1: icc path needs to be set before dpu runtime
+ resume
+Date: Mon, 22 Mar 2021 02:17:12 -0700
+Message-Id: <1616404632-13693-1-git-send-email-kalyan_t@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <y>
+References: <y>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,33 +47,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI mailing list <dri-devel@lists.freedesktop.org>,
- patchwork-lst@pengutronix.de,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- Sascha Hauer <kernel@pengutronix.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: mkrishn@codeaurora.org, hywu@google.com, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, mka@google.com, midean@google.com,
+ Kalyan Thota <kalyan_t@codeaurora.org>, Kalyan Thota <kalyant@codeaurora.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gU2EuLCAyMC4gTcOkcnogMjAyMSB1bSAyMDoxMSBVaHIgc2NocmllYiBEYW5pZWwgVmV0dGVy
-IDxkYW5pZWxAZmZ3bGwuY2g+Ogo+Cj4gT24gU2F0LCBNYXIgMjAsIDIwMjEgYXQgMTA6MjggQU0g
-Q2hyaXN0aWFuIEdtZWluZXIKPiA8Y2hyaXN0aWFuLmdtZWluZXJAZ21haWwuY29tPiB3cm90ZToK
-PiA+Cj4gPiBIaSBMdWNhcwo+ID4KPiA+IEFtIEZyLiwgMTkuIE3DpHJ6IDIwMjEgdW0gMjA6MDYg
-VWhyIHNjaHJpZWIgTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+Ogo+ID4gPgo+
-ID4gPiBWaXZhbnRlIFRTICh0aWxlLXN0YXR1cykgYnVmZmVyIG1vZGlmaWVycy4gVGhleSBjYW4g
-YmUgY29tYmluZWQgd2l0aCBhbGwgb2YKPiA+ID4gdGhlIFZpdmFudGUgY29sb3IgYnVmZmVyIHRp
-bGluZyBtb2RpZmllcnMsIHNvIHRoZXkgYXJlIGtpbmQgb2YgYSBtb2RpZmllcgo+ID4gPiBtb2Rp
-Zmllci4gSWYgYSBUUyBtb2RpZmllciBpcyBwcmVzZW50IHdlIGhhdmUgYSBhZGRpdGlvbmFsIHBs
-YW5lIGZvciB0aGUKPiA+ID4gVFMgYnVmZmVyIGFuZCB0aGUgbW9kaWZpZXIgZGVmaW5lcyB0aGUg
-bGF5b3V0IG9mIHRoaXMgVFMgYnVmZmVyLgo+ID4gPgo+ID4KPiA+IEkgYW0gdW5zdXJlIHdoeSB5
-b3Ugd2FudCB0byBoYXZlIHRoZSBUUyBtb2RpZmllcnMgaW4gZHJtX2ZvdXJjYy5oLiBDYW4KPiA+
-IHlvdSBzaGFyZSBzb21lIGluc2lnaHQgb24gdGhpcz8KPgo+IEl0J3MgdGhlIG9mZmljaWFsIHJl
-Z2lzdHJ5IGZvciBkcm1fZm91cmNjIGNvZGVzIGFuZCBkcm0gbW9kaWZpZXJzLgo+IFdoZXRoZXIg
-dGhlIGtlcm5lbCBldmVyIHVzZXMgaXQgb3Igbm90IGRvZXNuJ3QgbWF0dGVyLgoKRmFpciBwb2lu
-dC4uIGJ1dCBJIGRvIG5vdCBzZWUgYW55IHVzYWdlIG9mIHRoZXNlIFRTIG1vZGlmaWVycyBpbiBt
-ZXNhCi0gdGhhdCdzIHdoeSBJIGFtIGFza2luZy4KCi0tIApncmVldHMKLS0KQ2hyaXN0aWFuIEdt
-ZWluZXIsIE1TYwoKaHR0cHM6Ly9jaHJpc3RpYW4tZ21laW5lci5pbmZvL3ByaXZhY3lwb2xpY3kK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+From: Kalyan Thota <kalyant@codeaurora.org>
+
+DPU runtime resume will request for a min vote on the AXI bus as
+it is a necessary step before turning ON the AXI clock.
+
+The change does below
+1) Move the icc path set before requesting runtime get_sync.
+2) remove the dependency of hw catalog for min ib vote
+as it is initialized at a later point.
+
+Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index ed636f1..cab387f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -44,6 +44,8 @@
+ #define DPU_DEBUGFS_DIR "msm_dpu"
+ #define DPU_DEBUGFS_HWMASKNAME "hw_log_mask"
+ 
++#define MIN_IB_BW	400000000ULL /* Min ib vote 400MB */
++
+ static int dpu_kms_hw_init(struct msm_kms *kms);
+ static void _dpu_kms_mmu_destroy(struct dpu_kms *dpu_kms);
+ 
+@@ -932,6 +934,9 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+ 		DPU_DEBUG("REG_DMA is not defined");
+ 	}
+ 
++	if (of_device_is_compatible(dev->dev->of_node, "qcom,sc7180-mdss"))
++		dpu_kms_parse_data_bus_icc_path(dpu_kms);
++
+ 	pm_runtime_get_sync(&dpu_kms->pdev->dev);
+ 
+ 	dpu_kms->core_rev = readl_relaxed(dpu_kms->mmio + 0x0);
+@@ -1037,9 +1042,6 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+ 
+ 	dpu_vbif_init_memtypes(dpu_kms);
+ 
+-	if (of_device_is_compatible(dev->dev->of_node, "qcom,sc7180-mdss"))
+-		dpu_kms_parse_data_bus_icc_path(dpu_kms);
+-
+ 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
+ 
+ 	return 0;
+@@ -1196,10 +1198,10 @@ static int __maybe_unused dpu_runtime_resume(struct device *dev)
+ 
+ 	ddev = dpu_kms->dev;
+ 
++	WARN_ON(!(dpu_kms->num_paths));
+ 	/* Min vote of BW is required before turning on AXI clk */
+ 	for (i = 0; i < dpu_kms->num_paths; i++)
+-		icc_set_bw(dpu_kms->path[i], 0,
+-			dpu_kms->catalog->perf.min_dram_ib);
++		icc_set_bw(dpu_kms->path[i], 0, Bps_to_icc(MIN_IB_BW));
+ 
+ 	rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, true);
+ 	if (rc) {
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
