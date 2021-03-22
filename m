@@ -1,58 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8654A344A1B
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 17:01:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F270344A27
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 17:03:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83F0A6E4F9;
-	Mon, 22 Mar 2021 16:01:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8920489C5E;
+	Mon, 22 Mar 2021 16:03:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96DDB6E503
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 16:01:49 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id a7so22151410ejs.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 09:01:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4okk4MmpHakXvgepDctT+DEH5N6/lcep70YDmAG4FHo=;
- b=uPyGwICWeEa1F9KeyRcWTtNqFei9/HbJ4Bxnoodslrx30NcHBnarNMgN6ayCpsr4N0
- Vi8ujf2mSi+LZHcfb4AJkQ3Gwfqn/Hsc5sV5Th94b4uQSOP+iHf64N2gXnBMMMV/40B5
- +ez0yVNkWDtwKyloxsM/dX5qQdaklAQynuoo4okxHGqc3l8TMThcT9NFl7ZBnkZh9sbL
- oXVKm5CtyWo+nkEONLUOGbK/LWP2HafPnVsnYtmQUwcibRyRg1aTBg4s4/NpELDPtcdy
- lIyeD2JZJC2gvLHIHpFuj55FpGw0VcnxfzuhoGEf5PiQYIWcsQ48Lt6qEO1dBjTrdCrH
- RVXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4okk4MmpHakXvgepDctT+DEH5N6/lcep70YDmAG4FHo=;
- b=pUGu17WLjq0PnjNaetSwloWhQWenpOwbiG1Yez+OlIdtowun9Z4AUTJBTtRpR/qiWX
- t5dBFFk+WX1w7m9m/jsaLd3sVadLukSIMK2StsWWJsdb+VrrhIMAVy+DRE+jIsa6kMb5
- o5ccyCYSIMUvYEkcXXXM2NFKVhjqJlSNvlRiYEFr9Tmq89Fy9WJMF3utfx8aHm4uuyMC
- l/Otjz5/Yb5zFe4yjAYUVeHnP15IrAk/ob3t+AdXC6GqW9DHg00wvuHYHns81vb7Yvuc
- ojfXJzIBjTSNGZm8aZ9wl69RjFHsZ50x9YJ20bwTBWUM9fh3Ffz4wqOKgvb8tTA21ccC
- dnEg==
-X-Gm-Message-State: AOAM530re8ao9atM2EiadbB0X9VhFFaRsWYGlM5HSGrGhTPgVPv6cQtN
- HK852Xhom0FXD/CQY+HUEQWHFnfvQzK5V15HLc4I8XTi6ok=
-X-Google-Smtp-Source: ABdhPJybFzFBbRqqqO3S3xhEFcGmzRx4itDgYMBFT3SIeLHFu5BiOySf5Q3lGa5WjysIwHrw6N0sCh3PQXuTpDGMGk4=
-X-Received: by 2002:a17:906:b288:: with SMTP id
- q8mr505834ejz.210.1616428908297; 
- Mon, 22 Mar 2021 09:01:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210319223856.2983244-1-jason@jlekstrand.net>
- <20210319223856.2983244-2-jason@jlekstrand.net>
- <CAOFGe94ggJUBH_+bbxAVLUge8NZQYHK55ZzjnQ2erXhh+r8c=A@mail.gmail.com>
- <87wntz5rdg.fsf@intel.com>
-In-Reply-To: <87wntz5rdg.fsf@intel.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Mon, 22 Mar 2021 11:01:37 -0500
-Message-ID: <CAOFGe97UDA9n6LCGXEZi-2B6ZTNeOG+D7sEX1kwEF5L2kUsWcw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/4] drm/i915: Drop I915_CONTEXT_PARAM_RINGSIZE
-To: Jani Nikula <jani.nikula@linux.intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D48A89C33;
+ Mon, 22 Mar 2021 16:03:00 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5B49F619A1;
+ Mon, 22 Mar 2021 16:02:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1616428980;
+ bh=443r2a53XZrLPy3VFDNzKFCONnuuJaVZhGXWFTRxMGo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Wm1CETPpBfKZZ3lkNCemLWeIZGtbFVmw4nKK+xzlHh6SjshNPJfKJvKmWNXvf1K/F
+ 5o2Ww58tt6oERHDBipAS4BwOz2CJOvMh/uBNklODZ0dsfVzZt5cj7OrnLB7U+iYnI+
+ V9LYQbKfb8Z/fsl+P+r2cUIk2R08rZtGx280ke6EJyn8vt+7YkwV0naEM1o/sQwiUN
+ Si9atqBgkFPNOL0NiRMLIEOjWWQ3UF2GIm92tB+iawDYiaDCLVZNub5gpWn3V4pP25
+ Ov3hZNHbzywOnT474a9kxX7y+Z8vSF7APRLbZu9IopXbelGoOeiLfQvjhYZz099ogD
+ 8vEYHTLGBXuSg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	Martin Sebor <msebor@gcc.gnu.org>
+Subject: [PATCH 00/11] treewide: address gcc-11 -Wstringop-overread warnings
+Date: Mon, 22 Mar 2021 17:02:38 +0100
+Message-Id: <20210322160253.4032422-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,42 +44,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org, linux-scsi@vger.kernel.org, x86@kernel.org,
+ James Smart <james.smart@broadcom.com>, tboot-devel@lists.sourceforge.net,
+ Kalle Valo <kvalo@codeaurora.org>, ath11k@lists.infradead.org,
+ Serge Hallyn <serge@hallyn.com>, Arnd Bergmann <arnd@arndb.de>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, Ning Sun <ning.sun@intel.com>,
+ Anders Larsen <al@alarsen.net>, cgroups@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-security-module@vger.kernel.org,
+ Tejun Heo <tj@kernel.org>, Simon Kelley <simon@thekelleys.org.uk>,
+ intel-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 22, 2021 at 7:01 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
->
-> On Sat, 20 Mar 2021, Jason Ekstrand <jason@jlekstrand.net> wrote:
-> >     This reverts commit 88be76cdafc7e60e2e4ed883bfe7e8dd7f35fa3a.  This API
->
-> Small nit, I think it would be useful to reference commits with the
-> citation style:
->
-> 88be76cdafc7 ("drm/i915: Allow userspace to specify ringsize on construction")
+From: Arnd Bergmann <arnd@arndb.de>
 
-Done.
+The coming gcc release introduces a new warning for string operations
+reading beyond the end of a fixed-length object. After testing
+randconfig kernels for a while, think I have patches for any such
+warnings that came up on x86, arm and arm64.
 
->
-> I use this monster in my .gitconfig:
->
-> [alias]
->         cite = "!f() { git log -1 '--pretty=format:%H (\"%s\")%n' $1 | sed -e 's/\\([0-f]\\{12\\}\\)[0-f]*/\\1/'; }; f"
+Most of these warnings are false-positive ones, either gcc warning
+about something that is entirely correct, or about something that
+looks suspicious but turns out to be correct after all.
 
-Thanks for the tip!
+The two patches for the i915 driver look like something that might
+be actual bugs, but I am not sure about those either.
 
-> With that, 'git cite <committish>' will give you the nice reference with
-> 12 chars of sha1 regardless of core.abbrev config.
->
->
-> BR,
-> Jani.
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+We probably want some combination of workaround like the ones I
+post here and changes to gcc to have fewer false positives in the
+release. I'm posting the entire set of workaround that give me
+a cleanly building kernel for reference here.
+
+        Arnd
+
+Arnd Bergmann (11):
+  x86: compressed: avoid gcc-11 -Wstringop-overread warning
+  x86: tboot: avoid Wstringop-overread-warning
+  security: commoncap: fix -Wstringop-overread warning
+  ath11: Wstringop-overread warning
+  qnx: avoid -Wstringop-overread warning
+  cgroup: fix -Wzero-length-bounds warnings
+  ARM: sharpsl_param: work around -Wstringop-overread warning
+  atmel: avoid gcc -Wstringop-overflow warning
+  scsi: lpfc: fix gcc -Wstringop-overread warning
+  drm/i915: avoid stringop-overread warning on pri_latency
+  [RFC] drm/i915/dp: fix array overflow warning
+
+ arch/arm/common/sharpsl_param.c         |  4 ++-
+ arch/x86/boot/compressed/misc.c         |  2 --
+ arch/x86/kernel/tboot.c                 | 44 +++++++++++++++----------
+ drivers/gpu/drm/i915/display/intel_dp.c |  2 +-
+ drivers/gpu/drm/i915/i915_drv.h         |  6 ++--
+ drivers/net/wireless/ath/ath11k/mac.c   |  2 +-
+ drivers/net/wireless/atmel/atmel.c      | 25 ++++++++------
+ drivers/scsi/lpfc/lpfc_attr.c           |  6 ++--
+ fs/qnx4/dir.c                           | 11 +++----
+ kernel/cgroup/cgroup.c                  | 15 +++++++--
+ security/commoncap.c                    |  2 +-
+ 11 files changed, 69 insertions(+), 50 deletions(-)
+
+Cc: x86@kernel.org
+Cc: Ning Sun <ning.sun@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Kalle Valo <kvalo@codeaurora.org>
+Cc: Simon Kelley <simon@thekelleys.org.uk>
+Cc: James Smart <james.smart@broadcom.com>
+Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
+Cc: Anders Larsen <al@alarsen.net>
+Cc: Tejun Heo <tj@kernel.org>
+Cc: Serge Hallyn <serge@hallyn.com>
+Cc: Imre Deak <imre.deak@intel.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: tboot-devel@lists.sourceforge.net
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: ath11k@lists.infradead.org
+Cc: linux-wireless@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org
+Cc: cgroups@vger.kernel.org
+Cc: linux-security-module@vger.kernel.org
+
+
+-- 
+2.29.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
