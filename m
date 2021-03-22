@@ -2,76 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988F23446BA
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 15:08:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 666143446C7
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 15:09:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0C0B6E4C1;
-	Mon, 22 Mar 2021 14:08:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 535EE6E4B1;
+	Mon, 22 Mar 2021 14:09:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C17C16E4C1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 14:08:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616422107;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FVgT8cREJNNCZgsvwdo4IVCZkhVlPEV4H/HRfF+vQHs=;
- b=CHZliN66hPXgCQNWamKXsT2D0mInGwS8uG4hgCmsTfQi5FLDKkc6QSeA1HeoyfwVbZsGef
- lty5iL/GSY3FJOovgyCFuyKJi3E9xoKDQ+Pchl8Z0C0wm3gw3MyXZ9g6umWnZ1RG9mNorM
- 7MhIcuURK9RTjjX61xkl+oWWx/zWMik=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-135-9l-cANgpP92BJa2btkBNFA-1; Mon, 22 Mar 2021 10:08:26 -0400
-X-MC-Unique: 9l-cANgpP92BJa2btkBNFA-1
-Received: by mail-qt1-f198.google.com with SMTP id b18so17996299qte.21
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 07:08:26 -0700 (PDT)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 444AE6E4B1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 14:09:49 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id b9so17049896wrt.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 07:09:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=1+7gGTOg0eRQSXxaHSmxD50U7ShUgZIdex74yaasWuI=;
+ b=UL/OLiUnbO/Li1PYFmozXZL1iz1v1ksWxlfrTH6JfKXCSKb1x2ulrxvj3qYFj11aw1
+ qik2ZSWp4CLpetZeMnh7mlItddubOavPs+j/8JVflKYuivfiPnic3ycvj8V49HJ9KstB
+ +XfbH1IeuJlGl9GClbHnWbtlCmeEmPPUulMdU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=FVgT8cREJNNCZgsvwdo4IVCZkhVlPEV4H/HRfF+vQHs=;
- b=SkMD1MCNPdSkQB5VyHS2A3bWC9Mh85+IYTISw8iChsf5EjsxnTBJ0+brYVuyPECBVp
- VW/wL0BeASwTVieqSOg0tyPJjQIkX0AXzBvAWX1zMs7ykgKTU3yHYwc6CBu/qWJrA6aC
- fGAC7pbsnURXu0fg/P3ZK/FhINUVjNr6KGEyXxjrI+QqD0qyip8q5QvRUddIld6TR6fE
- Lr3ViNnlZSUO2+yzGvmwlC7CW14rU1jT+pYqtocFAZXDUL8HUrgSWLkDiygpMkWOOFMS
- VCavppVOaU7tbzJLayFBiWOXKYEde0nXUe1X7sQIzpUYsMJufVcXD4EoKpS3SDy0tNo8
- lA2g==
-X-Gm-Message-State: AOAM533pPougTPW6SrPyLuAlOrY5Rvc+jv8aaSQxs1AiWD2OxIziLMTX
- puZXovo11D8uugCBHDUwoVJyLZP18+OV96sPpd0JIu7wU1vGC2UIUCIgi387pwVcoD4e/AgOVx9
- v59Rl0ur5sakjf5+vtexeA1tY77xo
-X-Received: by 2002:a37:a74e:: with SMTP id q75mr170966qke.165.1616422105589; 
- Mon, 22 Mar 2021 07:08:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzrUVuJJE09nrcOBM4NdtiV05nyirk+Tg8pFgeTN9VypOp5y986vzL315hHiWdFn7UBNMA7CQ==
-X-Received: by 2002:a37:a74e:: with SMTP id q75mr170943qke.165.1616422105378; 
- Mon, 22 Mar 2021 07:08:25 -0700 (PDT)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
- [75.142.250.213])
- by smtp.gmail.com with ESMTPSA id z8sm9014413qtn.12.2021.03.22.07.08.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Mar 2021 07:08:25 -0700 (PDT)
-Subject: Re: [PATCH] amdgpu: avoid incorrect %hu format string
-To: Arnd Bergmann <arnd@kernel.org>, Alex Deucher
- <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20210322115458.3961825-1-arnd@kernel.org>
-From: Tom Rix <trix@redhat.com>
-Message-ID: <eefe9a55-4212-4d51-6add-9eb9ead0b5ed@redhat.com>
-Date: Mon, 22 Mar 2021 07:08:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1+7gGTOg0eRQSXxaHSmxD50U7ShUgZIdex74yaasWuI=;
+ b=Op2pbaoOQmeBKWwQlQPOUqUNj3H8ISKfbl+AnikrH6Wmjcftk44xKskRhBW03KfOZe
+ A+BaZN4wW3cCtKo1f0dLDtXxMOIMJVSt4jihJ9kEb4hSRoSTLYwvId8EkgswSqmRE39k
+ LSaN9Zum+Ffntbwi/8G1dbG5RENag3CgHoQDuGwDALkcX+2GiDBdwPy11o+Ddcup4U2Z
+ uM5LLe9CFXih60Snag/mKecqCA7sfuKGli+KJBMx8d5J0BeaLrVmgBBas6Wn+393NJQV
+ B/3vAZqFtMvvcUcCWSTDidj9C/ESKqba/5oeDtg04yn8bhShJggYwYeRoI5RWJ90eS1g
+ ZvsQ==
+X-Gm-Message-State: AOAM5310WjCWPAaKMyO52Mnyv3TgBPk3e3wYSa99voYDVIYnfyImsaxX
+ 16AqPLl1oUT2l56WeZxNaMQBVkKHCha+iu0S
+X-Google-Smtp-Source: ABdhPJxw8DjCdcqsVNGQLS2lata99dL3dyTcNXwWNbRUBL3I0jobChXGMEzKwoJpOyMCv2XdABHRlw==
+X-Received: by 2002:a1c:9d51:: with SMTP id g78mr58153wme.5.1616422187900;
+ Mon, 22 Mar 2021 07:09:47 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v13sm22756133wrt.45.2021.03.22.07.09.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Mar 2021 07:09:46 -0700 (PDT)
+Date: Mon, 22 Mar 2021 15:09:45 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 3/4] drm/i915: Drop the CONTEXT_CLONE API
+Message-ID: <YFilKSbKYd+0HbCn@phenom.ffwll.local>
+References: <20210319223856.2983244-1-jason@jlekstrand.net>
+ <20210319223856.2983244-4-jason@jlekstrand.net>
+ <7918db68-835c-b416-6187-1e62892ce5ed@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210322115458.3961825-1-arnd@kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <7918db68-835c-b416-6187-1e62892ce5ed@linux.intel.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,72 +66,336 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sonny Jiang <sonny.jiang@amd.com>, Arnd Bergmann <arnd@arndb.de>,
- dri-devel@lists.freedesktop.org, xinhui pan <xinhui.pan@amd.com>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
- clang-built-linux@googlegroups.com, Chen Li <chenli@uniontech.com>,
- Lee Jones <lee.jones@linaro.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jason Ekstrand <jason@jlekstrand.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Mar 22, 2021 at 11:22:01AM +0000, Tvrtko Ursulin wrote:
+> 
+> On 19/03/2021 22:38, Jason Ekstrand wrote:
+> > This API allows one context to grab bits out of another context upon
+> > creation.  It can be used as a short-cut for setparam(getparam()) for
+> > things like I915_CONTEXT_PARAM_VM.  However, it's never been used by any
+> > real userspace.  It's used by a few IGT tests and that's it.  Since it
+> > doesn't add any real value (most of the stuff you can CLONE you can copy
+> > in other ways), drop it.
+> 
+> No complaints to remove if it ended up unused outside IGT. Latter is a _big_
+> problem though, since it is much more that a few IGT tests. So I really
+> think there really needs to be an evaluation and a plan for that (we don't
+> want to lose 50% of the coverage over night).
+> 
+> > There is one thing that this API allows you to clone which you cannot
+> > clone via getparam/setparam: timelines.  However, timelines are an
+> > implementation detail of i915 and not really something that needs to be
+> 
+> Not really true timelines are i915 implementation detail. They are in fact a
+> dma-fence context:seqno concept, nothing more that than. I think you are
+> probably confusing struct intel_timeline with the timeline wording in the
+> uapi. Former is i915 implementation detail, but context:seqno are truly
+> userspace timelines.
 
-On 3/22/21 4:54 AM, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> clang points out that the %hu format string does not match the type
-> of the variables here:
->
-> drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c:263:7: warning: format specifies type 'unsigned short' but the argument has type 'unsigned int' [-Wformat]
->                                   version_major, version_minor);
->                                   ^~~~~~~~~~~~~
-> include/drm/drm_print.h:498:19: note: expanded from macro 'DRM_ERROR'
->         __drm_err(fmt, ##__VA_ARGS__)
->                   ~~~    ^~~~~~~~~~~
->
-> Change it to a regular %u, the same way a previous patch did for
-> another instance of the same warning.
+I think you're both saying the same thing and talking a bit past each
+another.
 
-It would be good to explicitly call out the change.
+Yes the timeline is just a string of dma_fence, that's correct. Now
+usually if you submit batches with execbuf, we have 3 ways to synchronize
+concurrent submission: implicit sync, sync_file and drm_syncob. They all
+map to different needs in different protocols/render apis.
 
-ex/ do you mean mine ?
+Now in one additional case the kernel makes sure that batchbuffers are
+ordered, and that's when you submit them to the same hw ctx. Because
+there's only 1 hw context and you really can't have batchbuffers run on
+that single hw context out of order. That's what the timeline object we
+talk about here is. But that largely is an internal implementation detail,
+which happens to also use most/all the same infrastructure as the
+dma_fence uapi pieces above.
 
-0b437e64e0af ("drm/amdgpu: remove h from printk format specifier")
+Now the internal implementation detail leaking here is that we exposed
+this to userspace, without there being any need for this. What Jason
+implements with syncobj in the next patch is essentially what userspace
+should have been using for cross-engine sync. media userspace doesn't care
+about interop with winsys/client apis, so they equally could have used
+implicit sync or sync_file here (which I think is the solution now for the
+new uapi prepped internally), since they all are about equally powerful
+for stringing batchbuffers together.
 
-This was for a different reason.
+So I do think the assessment is accurate, albeit a bit on the terse side.
+Maybe we could quote just the entire thing here in the commit message.
+-Danile
 
-imo, you do not need to include what another patch did.
+> 
+> But again, no objection to removing unused uapi in principle. Narrative has
+> to be accurate and test coverage not lost though.
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+> > exposed to userspace.  Also, sharing timelines between contexts isn't
+> > obviously useful and supporting it has the potential to complicate i915
+> > internally.  It also doesn't add any functionality that the client can't
+> > get in other ways.  If a client really wants a shared timeline, they can
+> > use a syncobj and set it as an in and out fence on every submit.
+> > 
+> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gem/i915_gem_context.c | 199 +-------------------
+> >   include/uapi/drm/i915_drm.h                 |  16 +-
+> >   2 files changed, 6 insertions(+), 209 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > index d28ac79de7573..f88bac19333ec 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > @@ -1983,207 +1983,14 @@ static int create_setparam(struct i915_user_extension __user *ext, void *data)
+> >   	return ctx_setparam(arg->fpriv, arg->ctx, &local.param);
+> >   }
+> > -static int clone_engines(struct i915_gem_context *dst,
+> > -			 struct i915_gem_context *src)
+> > +static int invalid_ext(struct i915_user_extension __user *ext, void *data)
+> >   {
+> > -	struct i915_gem_engines *clone, *e;
+> > -	bool user_engines;
+> > -	unsigned long n;
+> > -
+> > -	e = __context_engines_await(src, &user_engines);
+> > -	if (!e)
+> > -		return -ENOENT;
+> > -
+> > -	clone = alloc_engines(e->num_engines);
+> > -	if (!clone)
+> > -		goto err_unlock;
+> > -
+> > -	for (n = 0; n < e->num_engines; n++) {
+> > -		struct intel_engine_cs *engine;
+> > -
+> > -		if (!e->engines[n]) {
+> > -			clone->engines[n] = NULL;
+> > -			continue;
+> > -		}
+> > -		engine = e->engines[n]->engine;
+> > -
+> > -		/*
+> > -		 * Virtual engines are singletons; they can only exist
+> > -		 * inside a single context, because they embed their
+> > -		 * HW context... As each virtual context implies a single
+> > -		 * timeline (each engine can only dequeue a single request
+> > -		 * at any time), it would be surprising for two contexts
+> > -		 * to use the same engine. So let's create a copy of
+> > -		 * the virtual engine instead.
+> > -		 */
+> > -		if (intel_engine_is_virtual(engine))
+> > -			clone->engines[n] =
+> > -				intel_execlists_clone_virtual(engine);
+> > -		else
+> > -			clone->engines[n] = intel_context_create(engine);
+> > -		if (IS_ERR_OR_NULL(clone->engines[n])) {
+> > -			__free_engines(clone, n);
+> > -			goto err_unlock;
+> > -		}
+> > -
+> > -		intel_context_set_gem(clone->engines[n], dst);
+> > -	}
+> > -	clone->num_engines = n;
+> > -	i915_sw_fence_complete(&e->fence);
+> > -
+> > -	/* Serialised by constructor */
+> > -	engines_idle_release(dst, rcu_replace_pointer(dst->engines, clone, 1));
+> > -	if (user_engines)
+> > -		i915_gem_context_set_user_engines(dst);
+> > -	else
+> > -		i915_gem_context_clear_user_engines(dst);
+> > -	return 0;
+> > -
+> > -err_unlock:
+> > -	i915_sw_fence_complete(&e->fence);
+> > -	return -ENOMEM;
+> > -}
+> > -
+> > -static int clone_flags(struct i915_gem_context *dst,
+> > -		       struct i915_gem_context *src)
+> > -{
+> > -	dst->user_flags = src->user_flags;
+> > -	return 0;
+> > -}
+> > -
+> > -static int clone_schedattr(struct i915_gem_context *dst,
+> > -			   struct i915_gem_context *src)
+> > -{
+> > -	dst->sched = src->sched;
+> > -	return 0;
+> > -}
+> > -
+> > -static int clone_sseu(struct i915_gem_context *dst,
+> > -		      struct i915_gem_context *src)
+> > -{
+> > -	struct i915_gem_engines *e = i915_gem_context_lock_engines(src);
+> > -	struct i915_gem_engines *clone;
+> > -	unsigned long n;
+> > -	int err;
+> > -
+> > -	/* no locking required; sole access under constructor*/
+> > -	clone = __context_engines_static(dst);
+> > -	if (e->num_engines != clone->num_engines) {
+> > -		err = -EINVAL;
+> > -		goto unlock;
+> > -	}
+> > -
+> > -	for (n = 0; n < e->num_engines; n++) {
+> > -		struct intel_context *ce = e->engines[n];
+> > -
+> > -		if (clone->engines[n]->engine->class != ce->engine->class) {
+> > -			/* Must have compatible engine maps! */
+> > -			err = -EINVAL;
+> > -			goto unlock;
+> > -		}
+> > -
+> > -		/* serialises with set_sseu */
+> > -		err = intel_context_lock_pinned(ce);
+> > -		if (err)
+> > -			goto unlock;
+> > -
+> > -		clone->engines[n]->sseu = ce->sseu;
+> > -		intel_context_unlock_pinned(ce);
+> > -	}
+> > -
+> > -	err = 0;
+> > -unlock:
+> > -	i915_gem_context_unlock_engines(src);
+> > -	return err;
+> > -}
+> > -
+> > -static int clone_timeline(struct i915_gem_context *dst,
+> > -			  struct i915_gem_context *src)
+> > -{
+> > -	if (src->timeline)
+> > -		__assign_timeline(dst, src->timeline);
+> > -
+> > -	return 0;
+> > -}
+> > -
+> > -static int clone_vm(struct i915_gem_context *dst,
+> > -		    struct i915_gem_context *src)
+> > -{
+> > -	struct i915_address_space *vm;
+> > -	int err = 0;
+> > -
+> > -	if (!rcu_access_pointer(src->vm))
+> > -		return 0;
+> > -
+> > -	rcu_read_lock();
+> > -	vm = context_get_vm_rcu(src);
+> > -	rcu_read_unlock();
+> > -
+> > -	if (!mutex_lock_interruptible(&dst->mutex)) {
+> > -		__assign_ppgtt(dst, vm);
+> > -		mutex_unlock(&dst->mutex);
+> > -	} else {
+> > -		err = -EINTR;
+> > -	}
+> > -
+> > -	i915_vm_put(vm);
+> > -	return err;
+> > -}
+> > -
+> > -static int create_clone(struct i915_user_extension __user *ext, void *data)
+> > -{
+> > -	static int (* const fn[])(struct i915_gem_context *dst,
+> > -				  struct i915_gem_context *src) = {
+> > -#define MAP(x, y) [ilog2(I915_CONTEXT_CLONE_##x)] = y
+> > -		MAP(ENGINES, clone_engines),
+> > -		MAP(FLAGS, clone_flags),
+> > -		MAP(SCHEDATTR, clone_schedattr),
+> > -		MAP(SSEU, clone_sseu),
+> > -		MAP(TIMELINE, clone_timeline),
+> > -		MAP(VM, clone_vm),
+> > -#undef MAP
+> > -	};
+> > -	struct drm_i915_gem_context_create_ext_clone local;
+> > -	const struct create_ext *arg = data;
+> > -	struct i915_gem_context *dst = arg->ctx;
+> > -	struct i915_gem_context *src;
+> > -	int err, bit;
+> > -
+> > -	if (copy_from_user(&local, ext, sizeof(local)))
+> > -		return -EFAULT;
+> > -
+> > -	BUILD_BUG_ON(GENMASK(BITS_PER_TYPE(local.flags) - 1, ARRAY_SIZE(fn)) !=
+> > -		     I915_CONTEXT_CLONE_UNKNOWN);
+> > -
+> > -	if (local.flags & I915_CONTEXT_CLONE_UNKNOWN)
+> > -		return -EINVAL;
+> > -
+> > -	if (local.rsvd)
+> > -		return -EINVAL;
+> > -
+> > -	rcu_read_lock();
+> > -	src = __i915_gem_context_lookup_rcu(arg->fpriv, local.clone_id);
+> > -	rcu_read_unlock();
+> > -	if (!src)
+> > -		return -ENOENT;
+> > -
+> > -	GEM_BUG_ON(src == dst);
+> > -
+> > -	for (bit = 0; bit < ARRAY_SIZE(fn); bit++) {
+> > -		if (!(local.flags & BIT(bit)))
+> > -			continue;
+> > -
+> > -		err = fn[bit](dst, src);
+> > -		if (err)
+> > -			return err;
+> > -	}
+> > -
+> > -	return 0;
+> > +	return -EINVAL;
+> >   }
+> >   static const i915_user_extension_fn create_extensions[] = {
+> >   	[I915_CONTEXT_CREATE_EXT_SETPARAM] = create_setparam,
+> > -	[I915_CONTEXT_CREATE_EXT_CLONE] = create_clone,
+> > +	[I915_CONTEXT_CREATE_EXT_CLONE] = invalid_ext,
+> >   };
+> >   static bool client_is_banned(struct drm_i915_file_private *file_priv)
+> > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> > index 4c4b9254def1b..33ef78cb1deb7 100644
+> > --- a/include/uapi/drm/i915_drm.h
+> > +++ b/include/uapi/drm/i915_drm.h
+> > @@ -1841,20 +1841,10 @@ struct drm_i915_gem_context_create_ext_setparam {
+> >   	struct drm_i915_gem_context_param param;
+> >   };
+> > -struct drm_i915_gem_context_create_ext_clone {
+> > +/* This API has been removed.  On the off chance someone somewhere has
+> > + * attempted to use it, never re-use this extension number.
+> > + */
+> >   #define I915_CONTEXT_CREATE_EXT_CLONE 1
+> > -	struct i915_user_extension base;
+> > -	__u32 clone_id;
+> > -	__u32 flags;
+> > -#define I915_CONTEXT_CLONE_ENGINES	(1u << 0)
+> > -#define I915_CONTEXT_CLONE_FLAGS	(1u << 1)
+> > -#define I915_CONTEXT_CLONE_SCHEDATTR	(1u << 2)
+> > -#define I915_CONTEXT_CLONE_SSEU		(1u << 3)
+> > -#define I915_CONTEXT_CLONE_TIMELINE	(1u << 4)
+> > -#define I915_CONTEXT_CLONE_VM		(1u << 5)
+> > -#define I915_CONTEXT_CLONE_UNKNOWN -(I915_CONTEXT_CLONE_VM << 1)
+> > -	__u64 rsvd;
+> > -};
+> >   struct drm_i915_gem_context_destroy {
+> >   	__u32 ctx_id;
+> > 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-so you could also just remove this bit from the commit log.
-
-
-The change itself looks good.
-
-Reviewed-by: Tom Rix <trix@redhat.com>
-
->
-> Fixes: 0b437e64e0af ("drm/amdgpu: remove h from printk format specifier")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> index e2ed4689118a..c6dbc0801604 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> @@ -259,7 +259,7 @@ int amdgpu_uvd_sw_init(struct amdgpu_device *adev)
->  		if ((adev->asic_type == CHIP_POLARIS10 ||
->  		     adev->asic_type == CHIP_POLARIS11) &&
->  		    (adev->uvd.fw_version < FW_1_66_16))
-> -			DRM_ERROR("POLARIS10/11 UVD firmware version %hu.%hu is too old.\n",
-> +			DRM_ERROR("POLARIS10/11 UVD firmware version %u.%u is too old.\n",
->  				  version_major, version_minor);
->  	} else {
->  		unsigned int enc_major, enc_minor, dec_minor;
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
