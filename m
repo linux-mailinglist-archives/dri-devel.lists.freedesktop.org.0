@@ -1,66 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8756B3435EB
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 01:17:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D36343629
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 02:15:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10D1C89C1E;
-	Mon, 22 Mar 2021 00:17:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3CE989E3B;
+	Mon, 22 Mar 2021 01:15:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F28389C1E
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 00:17:40 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id h10so17220850edt.13
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Mar 2021 17:17:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+N+7Ciagtr7IVQ3/iKqMDQJKQGscQk5dJiTJvc9J1ss=;
- b=jkBHW1BMRAO6K3maQ3h1tVFQgiw6CLJZPA5j8Q4u76B3HMv5+7WZ2nNwKXU+PAZjt5
- kcGclsq27PoO6vbUWl3FHeoOQ+F6s59d2XjscUcoG0ESfD1UuwNXJIen95x9jomdgYJW
- sdFeJ67GaHo8AJhCF1P5E6wZqmq0eF+c2t2zw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+N+7Ciagtr7IVQ3/iKqMDQJKQGscQk5dJiTJvc9J1ss=;
- b=f8rx8V0MEDgpYugYo5f1PSk7KIhQ4zY3qa0oFlspYCCuaHw6v7M1K7khibIA3MnLJP
- eZlP0Tkh3oHiaUjSseJJcxnuXCQyZttnzGr1+ihq28NxoDLK8fCc8jwTpCuxxh7M2qm+
- dqDzNtTw2pk/OASDnwz72q3j5Ylp0UVfHU9WEMu89ldKTFx61GnH1cb30QerZxeGt7fE
- dXlweC8a6AWOPDv5IRb40sWvWLQpONftZG7Uzz3b4VcySy0UJnaZ465uveLYdhu3kLJH
- AQbjfSJKa/VZFXczp3dY8mwUmJb6uGC5CSUMTE7aeegKZq52STsk+BAnRrGhlGC+ucsG
- 1UyQ==
-X-Gm-Message-State: AOAM532+xhtF2YAV/Uf6yl6wOBEAhoqjewKy1Xf8eJzZF9Y+V18n01Hj
- NcI40q8nqgm9p4DQDZui7uCOHLke/F752g==
-X-Google-Smtp-Source: ABdhPJwqErDkxrWdqVlW1B27BATSNYwTSS4B0Dsx4lAcCrccQG34ysEhayKaFqtz92+F7HIdL/RKDw==
-X-Received: by 2002:aa7:c916:: with SMTP id b22mr23291041edt.299.1616372258658; 
- Sun, 21 Mar 2021 17:17:38 -0700 (PDT)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com.
- [209.85.208.45])
- by smtp.gmail.com with ESMTPSA id hy25sm8266692ejc.119.2021.03.21.17.17.38
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 Mar 2021 17:17:38 -0700 (PDT)
-Received: by mail-ed1-f45.google.com with SMTP id h10so17220825edt.13
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Mar 2021 17:17:38 -0700 (PDT)
-X-Received: by 2002:a05:6512:3ba3:: with SMTP id
- g35mr7156536lfv.606.1616371949650; 
- Sun, 21 Mar 2021 17:12:29 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C08A89E3B
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 01:15:40 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 49BE18CE;
+ Mon, 22 Mar 2021 02:15:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1616375735;
+ bh=KqVbEF9AD6kMpQifhh6kf/1cwqDqoKzIUBhKoP8TY90=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=g/psRgqSKbNFWSod0RZYQdQFr0hvQzTIXjRz9k6bZA2/e+6Fsx3x2HkPlAtTIodKp
+ U/xjr88pfNhHBsJoEyizy26hwHlj88DEJVe7pMOhJFmOoWiY8ZX9ajzJ8hOCBIripe
+ 67gdwhhMzNDp2Pw9TD9yfHYLF63S4VZuy09tdnUo=
+Date: Mon, 22 Mar 2021 03:14:55 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH V2] drm/bridge: lvds-codec: Add support for pixel data
+ sampling edge select
+Message-ID: <YFfvjyllBa/tqTqI@pendragon.ideasonboard.com>
+References: <20201224061832.92010-1-marex@denx.de>
 MIME-Version: 1.0
-References: <20210319164418.1.I5d51cc12776ee8993a1a54089b548952f75ada41@changeid>
- <CADnq5_OguuMsqT7MVC=ieNZm9mqyVUsGpQDHr59BWtBJJUvFoA@mail.gmail.com>
- <54fc883a-c149-3f43-fb79-3cbff13e7b6a@amd.com>
- <CAP8nV8rL6eYSDyQ1jyv267ER8_E+rMBQkza2ZYZvwvdE+=sd3Q@mail.gmail.com>
- <CADnq5_O5AOK7B-3AM-qpPXcWD1LgdpnfLMd8NBds0Jfd_tZCBQ@mail.gmail.com>
-In-Reply-To: <CADnq5_O5AOK7B-3AM-qpPXcWD1LgdpnfLMd8NBds0Jfd_tZCBQ@mail.gmail.com>
-From: Evan Benn <evanbenn@chromium.org>
-Date: Mon, 22 Mar 2021 11:12:03 +1100
-X-Gmail-Original-Message-ID: <CAKz_xw0vKSojPqh7QsJPY5eQBLcnteFmL1AJimJTXJmzmQd9kA@mail.gmail.com>
-Message-ID: <CAKz_xw0vKSojPqh7QsJPY5eQBLcnteFmL1AJimJTXJmzmQd9kA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Set AMDGPU_DM_DEFAULT_MIN_BACKLIGHT to 0
-To: Alex Deucher <alexdeucher@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20201224061832.92010-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,123 +46,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, Eryk Brol <eryk.brol@amd.com>,
- David Airlie <airlied@linux.ie>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Evan Benn <evanbenn@gmail.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Anand <amistry@chromium.org>
+Cc: Alexandre Torgue <alexandre.torgue@st.com>,
+ Antonio Borneo <antonio.borneo@st.com>, Vincent Abriou <vincent.abriou@st.com>,
+ Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
+ Yannick Fertre <yannick.fertre@st.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ Benjamin Gaignard <benjamin.gaignard@st.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 20, 2021 at 8:36 AM Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> On Fri, Mar 19, 2021 at 5:31 PM Evan Benn <evanbenn@gmail.com> wrote:
-> >
-> > On Sat, 20 Mar 2021 at 02:10, Harry Wentland <harry.wentland@amd.com> wrote:
-> > > On 2021-03-19 10:22 a.m., Alex Deucher wrote:
-> > > > On Fri, Mar 19, 2021 at 3:23 AM Evan Benn <evanbenn@chromium.org> wrote:
-> > > >>
-> > > >> AMDGPU_DM_DEFAULT_MIN_BACKLIGHT was set to the value of 12
-> > > >> to ensure no display backlight will flicker at low user brightness
-> > > >> settings. However this value is quite bright, so for devices that do not
-> > > >> implement the ACPI ATIF
-> > > >> ATIF_FUNCTION_QUERY_BRIGHTNESS_TRANSFER_CHARACTERISTICS
-> > > >> functionality the user cannot set the brightness to a low level even if
-> > > >> the display would support such a low PWM.
-> > > >>
-> > > >> This ATIF feature is not implemented on for example AMD grunt chromebooks.
-> > > >>
-> > > >> Signed-off-by: Evan Benn <evanbenn@chromium.org>
-> > > >>
-> > > >> ---
-> > > >> I could not find a justification for the reason for the value. It has
-> > > >> caused some noticable regression for users: https://bugzilla.kernel.org/show_bug.cgi?id=203439>>>
-> > > >> Maybe this can be either user controlled or userspace configured, but
-> > > >> preventing users from turning their backlight dim seems wrong.
-> > > >
-> > > > My understanding is that some panels flicker if you set the min to a
-> > > > value too low.  This was a safe minimum if the platform didn't specify
-> > > > it's own safe minimum.  I think we'd just be trading one bug for
-> > > > another (flickering vs not dim enough).  Maybe a whitelist or
-> > > > blacklist would be a better solution?
-> > > >
-> > >
-> > > Yeah, this is a NACK from me as-is for the reasons Alex described.
-> >
-> > Thanks Harry + Alex,
-> >
-> > I agree this solution is not the best.
-> >
-> > >
-> > > I agree a whitelist approach might be best.
-> >
-> > Do you have any idea what an allowlist could be keyed on?
-> > Is the flickering you observed here a function of the panel or the gpu
-> > or some other component?
-> > Maybe we could move the minimum level into the logic for that hardware.
-> >
->
-> Maybe the panel string from the EDID?  Either that or something from
-> dmi data?  Harry would probably have a better idea.
+Hi Marek,
 
-One problem with keying from panel EDID is that for example the grunt chromebook
-platform has more than 100 different panels already shipped. Add to that that
-repair centers or people repairing their own device will use 'compatible'
-panels. I'm sure the AMD windows laptops have even more variety!
+All my apologies for the awfully delayed review, and thank you for
+pinging me.
 
->
-> Alex
->
-> > >
-> > > Is this fix perhaps for OLED panels? If so we could use a different
-> > > min-value for OLED panels that don't do PWM, but use 12 for everything else.
-> >
-> > All the chromebooks I have worked with LCD + LED backlight have been
-> > fine with a backlight set to 0.
-> > We do have OLED panels too, but I'm not aware of what they do.
-> >
-> > > Harry
-> > >
-> > > > Alex
-> > > >
-> > > >
-> > > >>
-> > > >> Also reviewed here: https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2748377>>>
-> > > >>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
-> > > >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >>
-> > > >> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > >> index 573cf17262da..0129bd69b94e 100644
-> > > >> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > >> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > >> @@ -3151,7 +3151,7 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
-> > > >>          return 0;
-> > > >>   }
-> > > >>
-> > > >> -#define AMDGPU_DM_DEFAULT_MIN_BACKLIGHT 12
-> > > >> +#define AMDGPU_DM_DEFAULT_MIN_BACKLIGHT 0
-> > > >>   #define AMDGPU_DM_DEFAULT_MAX_BACKLIGHT 255
-> > > >>   #define AUX_BL_DEFAULT_TRANSITION_TIME_MS 50
-> > > >>
-> > > >> --
-> > > >> 2.31.0.291.g576ba9dcdaf-goog
-> > > >>
-> > > >> _______________________________________________
-> > > >> dri-devel mailing list
-> > > >> dri-devel@lists.freedesktop.org
-> > > >> https://lists.freedesktop.org/mailman/listinfo/dri-devel>> _______________________________________________
-> > > > dri-devel mailing list
-> > > > dri-devel@lists.freedesktop.org
-> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel>>
-> > >
+On Thu, Dec 24, 2020 at 07:18:32AM +0100, Marek Vasut wrote:
+> The OnSemi FIN3385 Parallel-to-LVDS encoder has a dedicated input line to
+> select input pixel data sampling edge. Add DT property "pixelclk-active",
+> same as the one used by display timings, and configure bus flags based on
+> this DT property.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Alexandre Torgue <alexandre.torgue@st.com>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Antonio Borneo <antonio.borneo@st.com>
+> Cc: Benjamin Gaignard <benjamin.gaignard@st.com>
+> Cc: Biju Das <biju.das.jz@bp.renesas.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> Cc: Philippe Cornu <philippe.cornu@st.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Vincent Abriou <vincent.abriou@st.com>
+> Cc: Yannick Fertre <yannick.fertre@st.com>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-stm32@st-md-mailman.stormreply.com
+> To: dri-devel@lists.freedesktop.org
+> ---
+> V2: - Limit the pixelclk-active to encoders only
+>     - Update DT binding document
+> ---
+>  .../bindings/display/bridge/lvds-codec.yaml   |  7 +++
+>  drivers/gpu/drm/bridge/lvds-codec.c           | 52 +++++++++++++------
+>  2 files changed, 44 insertions(+), 15 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> index e5e3c72630cf..399a6528780a 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> @@ -74,6 +74,13 @@ properties:
+>  
+>      additionalProperties: false
+>  
+> +  pixelclk-active:
+> +    description: |
+> +      Data sampling on rising or falling edge.
+> +      Use 0 to sample pixel data on rising edge and
+> +      Use 1 to sample pixel data on falling edge and
+> +    enum: [0, 1]
+
+The idea is good, but instead of adding a custom property, how about
+reusing the pclk-sample property defined in
+../../media/video-interfaces.yaml ?
+
+The property is only valid for encoders, so I would at least mention
+that in the description, or, better, handle this based on the compatible
+string to allow validation.
+
+> +
+>    powerdown-gpios:
+>      description:
+>        The GPIO used to control the power down line of this device.
+> diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
+> index dcf579a4cf83..cab81ccd895d 100644
+> --- a/drivers/gpu/drm/bridge/lvds-codec.c
+> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
+> @@ -15,13 +15,18 @@
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_panel.h>
+>  
+> +struct lvds_codec_data {
+> +	u32 connector_type;
+> +	bool is_encoder;
+> +};
+> +
+>  struct lvds_codec {
+>  	struct device *dev;
+>  	struct drm_bridge bridge;
+>  	struct drm_bridge *panel_bridge;
+> +	struct drm_bridge_timings timings;
+>  	struct regulator *vcc;
+>  	struct gpio_desc *powerdown_gpio;
+> -	u32 connector_type;
+>  };
+>  
+>  static inline struct lvds_codec *to_lvds_codec(struct drm_bridge *bridge)
+> @@ -76,17 +81,20 @@ static const struct drm_bridge_funcs funcs = {
+>  
+>  static int lvds_codec_probe(struct platform_device *pdev)
+>  {
+> +	const struct lvds_codec_data *data;
+>  	struct device *dev = &pdev->dev;
+>  	struct device_node *panel_node;
+>  	struct drm_panel *panel;
+>  	struct lvds_codec *lvds_codec;
+> +	u32 val;
+>  
+>  	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
+>  	if (!lvds_codec)
+>  		return -ENOMEM;
+>  
+> +	data = of_device_get_match_data(dev);
+> +
+>  	lvds_codec->dev = &pdev->dev;
+> -	lvds_codec->connector_type = (uintptr_t)of_device_get_match_data(dev);
+>  
+>  	lvds_codec->vcc = devm_regulator_get(lvds_codec->dev, "power");
+>  	if (IS_ERR(lvds_codec->vcc))
+> @@ -115,10 +123,22 @@ static int lvds_codec_probe(struct platform_device *pdev)
+>  
+>  	lvds_codec->panel_bridge =
+>  		devm_drm_panel_bridge_add_typed(dev, panel,
+> -						lvds_codec->connector_type);
+> +						data->connector_type);
+>  	if (IS_ERR(lvds_codec->panel_bridge))
+>  		return PTR_ERR(lvds_codec->panel_bridge);
+>  
+> +	/*
+> +	 * Encoder might sample data on different clock edge than the display,
+> +	 * for example OnSemi FIN3385 has a dedicated strapping pin to select
+> +	 * the sampling edge.
+> +	 */
+> +	if (data->is_encoder &&
+> +	    !of_property_read_u32(dev->of_node, "pixelclk-active", &val)) {
+> +		lvds_codec->timings.input_bus_flags = val ?
+> +			DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE :
+> +			DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE;
+> +	}
+> +
+>  	/*
+>  	 * The panel_bridge bridge is attached to the panel's of_node,
+>  	 * but we need a bridge attached to our of_node for our user
+> @@ -126,6 +146,7 @@ static int lvds_codec_probe(struct platform_device *pdev)
+>  	 */
+>  	lvds_codec->bridge.of_node = dev->of_node;
+>  	lvds_codec->bridge.funcs = &funcs;
+> +	lvds_codec->bridge.timings = &lvds_codec->timings;
+>  	drm_bridge_add(&lvds_codec->bridge);
+>  
+>  	platform_set_drvdata(pdev, lvds_codec);
+> @@ -142,19 +163,20 @@ static int lvds_codec_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> +static const struct lvds_codec_data decoder_data = {
+> +	.connector_type = DRM_MODE_CONNECTOR_DPI,
+> +	.is_encoder = false,
+
+The two fields are a bit redundant, as the decoder is always
+LVDS-to-DPI, and the encoder DPI-to-LVDS. I don't mind too much, but
+maybe we could drop the connector_type field, and derive the connector
+type from is_encoder ?
+
+One may then say that we could drop the lvds_codec_data structure as it
+contains a single field, but I foresee a need to have device-specific
+timings at some point, so I think it's a good addition.
+
+The patch otherwise looks good.
+
+> +};
+> +
+> +static const struct lvds_codec_data encoder_data = {
+> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> +	.is_encoder = true,
+> +};
+> +
+>  static const struct of_device_id lvds_codec_match[] = {
+> -	{
+> -		.compatible = "lvds-decoder",
+> -		.data = (void *)DRM_MODE_CONNECTOR_DPI,
+> -	},
+> -	{
+> -		.compatible = "lvds-encoder",
+> -		.data = (void *)DRM_MODE_CONNECTOR_LVDS,
+> -	},
+> -	{
+> -		.compatible = "thine,thc63lvdm83d",
+> -		.data = (void *)DRM_MODE_CONNECTOR_LVDS,
+> -	},
+> +	{ .compatible = "lvds-decoder", .data = &decoder_data, },
+> +	{ .compatible = "lvds-encoder", .data = &encoder_data, },
+> +	{ .compatible = "thine,thc63lvdm83d", .data = &encoder_data, },
+>  	{},
+>  };
+>  MODULE_DEVICE_TABLE(of, lvds_codec_match);
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
