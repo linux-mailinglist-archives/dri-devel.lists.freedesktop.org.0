@@ -1,55 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CD7B344657
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 14:59:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF8834465D
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 14:59:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A79676E48E;
-	Mon, 22 Mar 2021 13:59:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB5186E499;
+	Mon, 22 Mar 2021 13:59:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
- [IPv6:2607:f8b0:4864:20::c32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2B0B6E48E;
- Mon, 22 Mar 2021 13:58:59 +0000 (UTC)
-Received: by mail-oo1-xc32.google.com with SMTP id
- w1-20020a4adec10000b02901bc77feac3eso4126587oou.3; 
- Mon, 22 Mar 2021 06:58:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ycw4kh6uo5mWPlwHrkQbviI/KYMjUPq3rp+uHfdtBN8=;
- b=WaafIrkRt7VtbLiAqIvMQ7prtR+nbO+j3A/PsAroCb42gPmrFUj0dDALDmw1qiVf4r
- QZ0NZtKuEHyYU8j4D1oQ4EyDnGSwIY8B6E+FcEACoxi3oYTFnf4gJm+60NHNXcdz8Tuw
- TGXNA/HE78qtHiS4kXBXalgoxVHD73NaxNxsyfE5QjBGsuJB9E7o1txUYPYC/dCwb2ln
- FWnHO0cqAzYkjWL7dKD1/snl7HuhXmqqMgnocwz3B0zQ7qy3I8ABnUUb1VB4bfWLsScH
- e2AowhcZLFchuJ6vl7u6FXEF1vmvTHQ09AdIrv5S5VgJUU1OYCOnXbWgjZA/8pZAH2g+
- BREw==
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 980776E499
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 13:59:27 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id v11so16950228wro.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 06:59:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=aKdbo+Uu7/ENUhR68YhWcl8X+eXVBT0c9mOmmwkHCnM=;
+ b=Gj1KfSTiuddoeJH/lBxsJ9EQ+hE8vdALwwP0jUHXIqZijfU4GRCWVEKf5dBdMI35bm
+ nivCJhhOxw/eaDu8UI+2szAEnV7uUla9f8wOW74JT7ZqK3cuLcRPwfvklX+AKZp++XAp
+ wPnWch7Uk2Ve+Gfh9gfzGt7MSCaex2xttVyss=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ycw4kh6uo5mWPlwHrkQbviI/KYMjUPq3rp+uHfdtBN8=;
- b=pRucNlD/cEzb0T2dH9I0va2nRLqBTnA+Zu7ljP7O55o/Lbu/8RhDGAs0zKus0w/1dh
- Cm5hVFmB8rImsKROHYV/NxIWEgfePpgyhCmoFCmOnltbcvp13pN1U4ryMYKaQMBJHbXi
- CJXA3pe3S4VYqbcDw7/FXNLkCLyjVNd/gtgaRjVEk2/Gg/cRFqIeDN5/MVBj9Cp3l2gs
- EPdIMNHh7qWzqs7eQixekR+JgvxmlBkDONwAzVTc+VawwCzEvoAGaX83OedxeAgVlV6L
- o+HdmGnXzzFQsxOfsbgHkgns1lWQU9hmghl388h7HHX4zutt/6EeIvUxjrrTbWPxu1Fz
- w0rg==
-X-Gm-Message-State: AOAM531AwBOkSsbGcOXJK00/8bkmk7f5txN9GSAZNu2+PegFluMTLOJg
- wy1PY8p/NS1rWe8kstzee4kH+cR8ATvtQ1ehdiA=
-X-Google-Smtp-Source: ABdhPJxDOzZh9ZxCV6hb/mMM8UpqW475cGLkyoKO6WoioK+ZUYE8oTQejvUEuqG3V1Cq8b3Lbb3PcktRVUC+7Y8yAPo=
-X-Received: by 2002:a4a:8845:: with SMTP id e5mr11120361ooi.90.1616421539106; 
- Mon, 22 Mar 2021 06:58:59 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=aKdbo+Uu7/ENUhR68YhWcl8X+eXVBT0c9mOmmwkHCnM=;
+ b=cIvsTSCsVisX2K3+PfC7Nd49bj35X9tzL9b8kqowVaxTimL5VRJDiWrrrWS+mG3Q7C
+ h9e6lf77Tb3U8pPpBU+S3J8KdgbYCNQpx7EjX9kZs/faT7qQDcqJhbjiUi55tvE2JHdf
+ azR/axOv3ixx4ST3GJYbF0vghwfypk5Hu6ckGyncuM4hnDVMFlGLIhHnNSqVSUu5+Fdo
+ Uhvpf5prfZzc1RhqhNP2f07vWZys4S/cNH2Eqnm1u1yDLMneXs2PFjRO3Yweb5gH15li
+ siQdmrIWZFoFE1nQujem18cpL28Ng0unB1HANUELgieqcEqFwWjKiEVus/IhRpQxaTIg
+ 5TAQ==
+X-Gm-Message-State: AOAM532jJgM1F01+GaY6FGVYFHA1JWZ1WS72LLv++BNKLA2UhvY5OjTU
+ bJuvMvW4gnH+n8Qp3+YpGIjXtQ==
+X-Google-Smtp-Source: ABdhPJxBJbd4aMVAfgIyjvZ1Cg0G2JhoHy5EF4aIr3EEDV5lFFXSjfEDIl29cpNrk8EoT35qvP8akw==
+X-Received: by 2002:adf:e441:: with SMTP id t1mr18441558wrm.21.1616421566393; 
+ Mon, 22 Mar 2021 06:59:26 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v13sm22720694wrt.45.2021.03.22.06.59.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Mar 2021 06:59:25 -0700 (PDT)
+Date: Mon, 22 Mar 2021 14:59:24 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH 2/2] vgaarb: avoid -Wempty-body warnings
+Message-ID: <YFiivD6B5SZLZl7Z@phenom.ffwll.local>
+Mail-Followup-To: Arnd Bergmann <arnd@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, linux-fbdev@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Yue Zou <zouyue3@huawei.com>,
+ linux-kernel@vger.kernel.org
+References: <20210322105307.1291840-1-arnd@kernel.org>
+ <20210322105307.1291840-2-arnd@kernel.org>
 MIME-Version: 1.0
-References: <20210318202414.10547-1-unixbhaskar@gmail.com>
- <3cc678f2-36d1-1af1-5759-37aea82f41ea@bombadil.infradead.org>
-In-Reply-To: <3cc678f2-36d1-1af1-5759-37aea82f41ea@bombadil.infradead.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 22 Mar 2021 09:58:48 -0400
-Message-ID: <CADnq5_Muaa7MLsiUL+pyV16_HuhKJg=jwS8FwCSvgWgGH11LvQ@mail.gmail.com>
-Subject: Re: [PATCH V2] drm/amdgpu: Fix a typo
-To: Randy Dunlap <rdunlap@bombadil.infradead.org>
+Content-Disposition: inline
+In-Reply-To: <20210322105307.1291840-2-arnd@kernel.org>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,81 +74,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>, "Chen,
- Guchun" <guchun.chen@amd.com>, Dave Airlie <airlied@linux.ie>,
- John Clements <John.Clements@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Huang Rui <ray.huang@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Jiansong Chen <Jiansong.Chen@amd.com>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, Likun Gao <Likun.Gao@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ David Airlie <airlied@linux.ie>, Yue Zou <zouyue3@huawei.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 20, 2021 at 3:52 AM Randy Dunlap
-<rdunlap@bombadil.infradead.org> wrote:
->
->
->
-> On Fri, 19 Mar 2021, Bhaskar Chowdhury wrote:
->
-> > s/traing/training/
-> >
-> > ...Plus the entire sentence construction for better readability.
-> >
-> > Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-> > ---
-> > Changes from V1:
-> >  Alex and Randy's suggestions incorporated.
-> >
-> > drivers/gpu/drm/amd/amdgpu/psp_v11_0.c | 8 ++++----
-> > 1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
-> > index c325d6f53a71..bf3857867f51 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
-> > @@ -661,10 +661,10 @@ static int psp_v11_0_memory_training(struct psp_context *psp, uint32_t ops)
-> >
-> >       if (ops & PSP_MEM_TRAIN_SEND_LONG_MSG) {
-> >               /*
-> > -              * Long traing will encroach certain mount of bottom VRAM,
-> > -              * saving the content of this bottom VRAM to system memory
-> > -              * before training, and restoring it after training to avoid
-> > -              * VRAM corruption.
-> > +              * Long training will encroach a certain amount on the bottom of VRAM;
-> > +                 * save the content from the bottom VRAM to system memory
-> > +                 * before training, and restore it after training to avoid
-> > +                 * VRAM corruption.
->
-> These 3 new lines are indented with spaces instead of tabs. Oops.  :(
->
-> (I may be too late with this comment -- sorry about that.)
+On Mon, Mar 22, 2021 at 11:53:00AM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Building with W=1 shows a few warnings for an empty macro:
+> 
+> drivers/gpu/drm/qxl/qxl_drv.c: In function 'qxl_pci_probe':
+> drivers/gpu/drm/qxl/qxl_drv.c:131:50: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
+>   131 |                 vga_put(pdev, VGA_RSRC_LEGACY_IO);
+>       |                                                  ^
+> drivers/gpu/drm/qxl/qxl_drv.c: In function 'qxl_pci_remove':
+> drivers/gpu/drm/qxl/qxl_drv.c:159:50: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
+>   159 |                 vga_put(pdev, VGA_RSRC_LEGACY_IO);
+> 
+> Change this to an inline function to make it more robust and avoid
+> the warning.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-I fixed that up when I applied it.
+Both applied to drm-misc-next for 5.13, thanks for your patches.
+-Daniel
 
-Thanks,
+> ---
+>  include/linux/vgaarb.h | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/vgaarb.h b/include/linux/vgaarb.h
+> index fc6dfeba04a5..dc6ddce92066 100644
+> --- a/include/linux/vgaarb.h
+> +++ b/include/linux/vgaarb.h
+> @@ -112,7 +112,9 @@ static inline int vga_get_uninterruptible(struct pci_dev *pdev,
+>  #if defined(CONFIG_VGA_ARB)
+>  extern void vga_put(struct pci_dev *pdev, unsigned int rsrc);
+>  #else
+> -#define vga_put(pdev, rsrc)
+> +static inline void vga_put(struct pci_dev *pdev, unsigned int rsrc)
+> +{
+> +}
+>  #endif
+>  
+>  
+> -- 
+> 2.29.2
+> 
 
-Alex
-
-
->
-> >                */
-> >               sz = GDDR6_MEM_TRAINING_ENCROACHED_SIZE;
-> >
-> > --
-> > 2.26.2
-> >
-> >
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
