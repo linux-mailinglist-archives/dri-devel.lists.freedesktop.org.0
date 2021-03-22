@@ -1,35 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0503D343E6F
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 11:53:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C74343E70
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 11:53:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E9D589E9E;
-	Mon, 22 Mar 2021 10:53:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0675389EAE;
+	Mon, 22 Mar 2021 10:53:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20B3D89E9E
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 10:53:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4B10661983;
- Mon, 22 Mar 2021 10:53:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB9FC89EAC
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 10:53:20 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B135861585;
+ Mon, 22 Mar 2021 10:53:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616410391;
- bh=4U0eak1ORtelSunJ9eE7hPB3yqAxnqQRBSFUlGf+63c=;
- h=From:To:Cc:Subject:Date:From;
- b=RgVbcb5GDL09XMuNQ6ApRvSec2jt7qHQUtsB2qr0geekYNbvLm3amzMeHiPM946Uf
- Cx+8jLIVhr+YZxrmgmMTIGIK6bysN08+ys+ORnyf3sDus3Iyd2ziWZKI/bhctiXAfs
- Q/MXso1NWbkvBHfvVVZPv5XDYGuGq/aWV0534Qe4ljZHiFeYnyYz3fV/4vuI6FDzfS
- 7n4r6bbscyZZk8UJSFtvJPIlNUkx+Eglq3PM5ikRJEi/VzThTl1lTNdiriwlZ5tTj4
- QZ2ZrJLUtkAYEvlxqhW2ssKRjo+eNWLSXpyZCuAu6X+CTxJzGI9JQ0jfNtmxL6/Blo
- TiIiMRucxsIew==
+ s=k20201202; t=1616410400;
+ bh=dgFzVnRh0FbIORkPoqNN87sf585VX/uTn2y5kQW8Hro=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=jCiV//so53WUOq7dRrF8KK3IJ4Lpd9GKJ8HbUGEsYSesGyXSRjqhwVzVCwranxQ7r
+ VM9b4tNbRwXFCRHmZUQEqcQL6vVhOXjXDcbO5T1LrcYp8AMH+FuQXQbjX+o2ZspSy2
+ qxmOK1A1aJhvQt8H70vzrL7bM/yAVUyB4hRuABBIukZkAnPZnV2FcfzMr5yodk9iZP
+ y7fQywTeomlVUGK8LIiT9C8/cqI9CnpaRhCkvqLpQhZpYZW+ljo1sP8OmIgXtteBfD
+ sSt5McPUvfdHshGgD6WIf+DWHyOMTCFGSt6CyRdDyaW5Y2eiS9jn5+5T0nBNTPiP0z
+ DqrnwpU7et9Eg==
 From: Arnd Bergmann <arnd@kernel.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] fbdev: omapfb: avoid -Wempty-body warning
-Date: Mon, 22 Mar 2021 11:52:59 +0100
-Message-Id: <20210322105307.1291840-1-arnd@kernel.org>
+To: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 2/2] vgaarb: avoid -Wempty-body warnings
+Date: Mon, 22 Mar 2021 11:53:00 +0100
+Message-Id: <20210322105307.1291840-2-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210322105307.1291840-1-arnd@kernel.org>
+References: <20210322105307.1291840-1-arnd@kernel.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,7 +49,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
+Cc: linux-fbdev@vger.kernel.org, Yue Zou <zouyue3@huawei.com>,
  linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -52,37 +58,39 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Building with 'make W=1' shows a few harmless warnings:
+Building with W=1 shows a few warnings for an empty macro:
 
-drivers/video/fbdev/omap2/omapfb/omapfb-main.c: In function 'omapfb_calc_addr':
-drivers/video/fbdev/omap2/omapfb/omapfb-main.c:823:56: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
-  823 |                     var->xoffset, var->yoffset, offset);
-      |                                                        ^
-drivers/video/fbdev/omap2/omapfb/omapfb-ioctl.c: In function 'omapfb_ioctl':
-drivers/video/fbdev/omap2/omapfb/omapfb-ioctl.c:911:45: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
-  911 |                 DBG("ioctl failed: %d\n", r);
+drivers/gpu/drm/qxl/qxl_drv.c: In function 'qxl_pci_probe':
+drivers/gpu/drm/qxl/qxl_drv.c:131:50: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
+  131 |                 vga_put(pdev, VGA_RSRC_LEGACY_IO);
+      |                                                  ^
+drivers/gpu/drm/qxl/qxl_drv.c: In function 'qxl_pci_remove':
+drivers/gpu/drm/qxl/qxl_drv.c:159:50: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
+  159 |                 vga_put(pdev, VGA_RSRC_LEGACY_IO);
 
-Avoid these by using no_printk(), which adds format string checking as
-well.
+Change this to an inline function to make it more robust and avoid
+the warning.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/video/fbdev/omap2/omapfb/omapfb.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/vgaarb.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/omapfb.h b/drivers/video/fbdev/omap2/omapfb/omapfb.h
-index d27abccb37bc..1c1b5201c8b6 100644
---- a/drivers/video/fbdev/omap2/omapfb/omapfb.h
-+++ b/drivers/video/fbdev/omap2/omapfb/omapfb.h
-@@ -29,7 +29,7 @@ extern bool omapfb_debug;
- 			printk(KERN_DEBUG "OMAPFB: " format, ## __VA_ARGS__); \
- 	} while (0)
+diff --git a/include/linux/vgaarb.h b/include/linux/vgaarb.h
+index fc6dfeba04a5..dc6ddce92066 100644
+--- a/include/linux/vgaarb.h
++++ b/include/linux/vgaarb.h
+@@ -112,7 +112,9 @@ static inline int vga_get_uninterruptible(struct pci_dev *pdev,
+ #if defined(CONFIG_VGA_ARB)
+ extern void vga_put(struct pci_dev *pdev, unsigned int rsrc);
  #else
--#define DBG(format, ...)
-+#define DBG(format, ...) no_printk(format, ## __VA_ARGS__)
+-#define vga_put(pdev, rsrc)
++static inline void vga_put(struct pci_dev *pdev, unsigned int rsrc)
++{
++}
  #endif
  
- #define FB2OFB(fb_info) ((struct omapfb_info *)(fb_info->par))
+ 
 -- 
 2.29.2
 
