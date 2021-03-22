@@ -1,59 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96BD6344843
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 15:55:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC64344853
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 15:57:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 097456E10C;
-	Mon, 22 Mar 2021 14:55:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94F3F89A9B;
+	Mon, 22 Mar 2021 14:57:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C471D6E03A;
- Mon, 22 Mar 2021 14:55:09 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id
- l23-20020a05683004b7b02901b529d1a2fdso16189763otd.8; 
- Mon, 22 Mar 2021 07:55:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
+ [IPv6:2607:f8b0:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF38A89ABA
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 14:57:38 +0000 (UTC)
+Received: by mail-oi1-x234.google.com with SMTP id k25so13305826oic.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 07:57:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0qBjLygVAvz9+XKIT1YGfokASw756A87roBJgGUybMM=;
- b=K8O25M4uTGxZtlZLrQZNlL/571NxJ72JgK1LEAuBTksMszrHRz2PRcAspRJcz3FyAK
- OvjpalC1siQhgK9TczF8STTyOS2MG20Ni2rXwDHqo0/pufx8cy7infpEc7lXAkxlJLJL
- qQkGS3NpsLYPaOaHTg0HRqGj+27VW8JqFRisQ8M8D1tdjKB/zz9KCxaLIaeqOqv7tXYr
- xvg75GIFeyItShoMNCkR3EjUdOlZHw/z7FPrumGQ37rsgGtfOJuphcqWTA119lCZnDEy
- AuEbtUuKvdPbUed+Jnu2lJIzbS7EFJoPxszFiUzWZ3N0Q/MUVsBkQP434S7aWGKPk0fi
- mSvQ==
+ :cc; bh=Uc9jOiPjsv2+bqSBL/UB3Xjl7J144/LUH8xpcAEOibs=;
+ b=heBUEZfZZoOyR8MmdjLoK2JXO5B8gUdUnRo9DFCHvQaG0yeJrvNT7gmzeWxebdrhX6
+ /oNr1+Lh2To4dm5rEdbLYFaGTzTyXxJFjL4eOZ05qMJkg773Uhhq+PbOVAqwwMyGuBNs
+ tp88AtEUqDJzgRQ6DqRTCuI9lizs3rfru43v8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=0qBjLygVAvz9+XKIT1YGfokASw756A87roBJgGUybMM=;
- b=Do5XPrzIA4MCK1gRv8/dW41RdKjY6+gZAwjNpPizznTklUMlkZehVIzES03Ei3oddm
- 94lemiSJfF86TEULvBCPfYcXxrQ86d8i+Te6ylP+wmX9PQMaG24pj68yIjGA42byBzje
- Vg+t5DxZoGdd1VdIXdtW6zp+/Unxrb38OCKUbKoFuX5G01wM/8W8aa6mppCRxJKBjM+1
- +SDz4VrhpFdc5Rspws1JPSTHI5y6ysKxVbbKhZfJZA1I0ul04171AM7RITthhL6a/V27
- cLowjT5ogQJlRWx9k7Rfs3E86M3NFBP2EbzT6OaZsS2qEFknnGY4uk9/mV3xcB8FsrOF
- 1vnw==
-X-Gm-Message-State: AOAM5313J9H5egBGw93thZ/mwFrwPrxSLBzVeJK3U5S+mfF0TAnEW+YB
- GfUVZi68q+AJnEdG25ihKl6jGRbJw4smvMOES6A=
-X-Google-Smtp-Source: ABdhPJwN/gDeUFxciOwounpLBH2xj+Is9zb5fflIlc0ouOQlzGqPpNNyIU+u+gz187m7LwtwdO9ZUsrjRWfnZUvuNPc=
-X-Received: by 2002:a9d:d89:: with SMTP id 9mr281612ots.23.1616424909027; Mon,
- 22 Mar 2021 07:55:09 -0700 (PDT)
+ bh=Uc9jOiPjsv2+bqSBL/UB3Xjl7J144/LUH8xpcAEOibs=;
+ b=dK1ATBO2M9ADdLJh3eM2fJQeGuT6yFS6jy2IGRNUiMYs5njABF3LGSbAN4GQrCXBD3
+ DE5fAEv47NErDMeaUQWHSDdJ2XI5XfaJB5VLnZtrvdAKbTa1oGPdSDlpe6r2F7G6M5LL
+ OX+yiHv3W2YozZMxyotvX2GahqgLnWarYKcgMbPN7vIpITisp/HqYdz9yJK/IboZj5UJ
+ hllHTmXfR7cZi7Dj58RmJdnwFbIYJExrRK3d8JKt1wMQ7oBooad3o7vFz/oSo++66WF/
+ mRsKkS+fdTE7pXIExcWbTohHcBIDyWvPtYkVtIDa+Gws1r+p6Zmxem+GdTTVJERxg4+s
+ M2Tw==
+X-Gm-Message-State: AOAM531Zqfk+ZbAwUX/nz9RuLLFuevTeyQVlSj+LDCz5nxiyth9gPrZX
+ FmGIKfN1O9kyfVlL9bjARUUXkbMRjrr71+vOn2p5OhcNapnqDA==
+X-Google-Smtp-Source: ABdhPJyjDGAwVZ/0yIPR+9WUk5MNvew5cQ3cyVvemLg/Ph4RrJziV/YSRltWbRbxxhRMcdpLbJFkFncHdIE4zeDnA1M=
+X-Received: by 2002:aca:b646:: with SMTP id g67mr103771oif.14.1616425057978;
+ Mon, 22 Mar 2021 07:57:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210319164418.1.I5d51cc12776ee8993a1a54089b548952f75ada41@changeid>
- <CADnq5_OguuMsqT7MVC=ieNZm9mqyVUsGpQDHr59BWtBJJUvFoA@mail.gmail.com>
- <54fc883a-c149-3f43-fb79-3cbff13e7b6a@amd.com>
- <CAP8nV8rL6eYSDyQ1jyv267ER8_E+rMBQkza2ZYZvwvdE+=sd3Q@mail.gmail.com>
- <CADnq5_O5AOK7B-3AM-qpPXcWD1LgdpnfLMd8NBds0Jfd_tZCBQ@mail.gmail.com>
- <CAKz_xw0vKSojPqh7QsJPY5eQBLcnteFmL1AJimJTXJmzmQd9kA@mail.gmail.com>
-In-Reply-To: <CAKz_xw0vKSojPqh7QsJPY5eQBLcnteFmL1AJimJTXJmzmQd9kA@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 22 Mar 2021 10:54:57 -0400
-Message-ID: <CADnq5_OarNHRwWe2FZyXA-5fxVpOEW2JxJUUD=n9LAXG7TgQGA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Set AMDGPU_DM_DEFAULT_MIN_BACKLIGHT to 0
-To: Evan Benn <evanbenn@chromium.org>
+References: <20210319223856.2983244-1-jason@jlekstrand.net>
+ <20210319223856.2983244-4-jason@jlekstrand.net>
+ <7918db68-835c-b416-6187-1e62892ce5ed@linux.intel.com>
+ <YFilKSbKYd+0HbCn@phenom.ffwll.local>
+ <d83162e2-4b9e-c7e9-5324-6612bb9561d6@linux.intel.com>
+In-Reply-To: <d83162e2-4b9e-c7e9-5324-6612bb9561d6@linux.intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 22 Mar 2021 15:57:27 +0100
+Message-ID: <CAKMK7uG0GLPu+auqDgMgD7ugvWo3E7W7DL6eALKxmp6hk-aZiA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 3/4] drm/i915: Drop the CONTEXT_CLONE API
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,133 +61,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, Eryk Brol <eryk.brol@amd.com>,
- David Airlie <airlied@linux.ie>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Evan Benn <evanbenn@gmail.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Anand <amistry@chromium.org>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 21, 2021 at 8:12 PM Evan Benn <evanbenn@chromium.org> wrote:
+On Mon, Mar 22, 2021 at 3:33 PM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
 >
-> On Sat, Mar 20, 2021 at 8:36 AM Alex Deucher <alexdeucher@gmail.com> wrote:
-> >
-> > On Fri, Mar 19, 2021 at 5:31 PM Evan Benn <evanbenn@gmail.com> wrote:
-> > >
-> > > On Sat, 20 Mar 2021 at 02:10, Harry Wentland <harry.wentland@amd.com> wrote:
-> > > > On 2021-03-19 10:22 a.m., Alex Deucher wrote:
-> > > > > On Fri, Mar 19, 2021 at 3:23 AM Evan Benn <evanbenn@chromium.org> wrote:
-> > > > >>
-> > > > >> AMDGPU_DM_DEFAULT_MIN_BACKLIGHT was set to the value of 12
-> > > > >> to ensure no display backlight will flicker at low user brightness
-> > > > >> settings. However this value is quite bright, so for devices that do not
-> > > > >> implement the ACPI ATIF
-> > > > >> ATIF_FUNCTION_QUERY_BRIGHTNESS_TRANSFER_CHARACTERISTICS
-> > > > >> functionality the user cannot set the brightness to a low level even if
-> > > > >> the display would support such a low PWM.
-> > > > >>
-> > > > >> This ATIF feature is not implemented on for example AMD grunt chromebooks.
-> > > > >>
-> > > > >> Signed-off-by: Evan Benn <evanbenn@chromium.org>
-> > > > >>
-> > > > >> ---
-> > > > >> I could not find a justification for the reason for the value. It has
-> > > > >> caused some noticable regression for users: https://bugzilla.kernel.org/show_bug.cgi?id=203439>>>
-> > > > >> Maybe this can be either user controlled or userspace configured, but
-> > > > >> preventing users from turning their backlight dim seems wrong.
-> > > > >
-> > > > > My understanding is that some panels flicker if you set the min to a
-> > > > > value too low.  This was a safe minimum if the platform didn't specify
-> > > > > it's own safe minimum.  I think we'd just be trading one bug for
-> > > > > another (flickering vs not dim enough).  Maybe a whitelist or
-> > > > > blacklist would be a better solution?
-> > > > >
-> > > >
-> > > > Yeah, this is a NACK from me as-is for the reasons Alex described.
-> > >
-> > > Thanks Harry + Alex,
-> > >
-> > > I agree this solution is not the best.
-> > >
-> > > >
-> > > > I agree a whitelist approach might be best.
-> > >
-> > > Do you have any idea what an allowlist could be keyed on?
-> > > Is the flickering you observed here a function of the panel or the gpu
-> > > or some other component?
-> > > Maybe we could move the minimum level into the logic for that hardware.
-> > >
-> >
-> > Maybe the panel string from the EDID?  Either that or something from
-> > dmi data?  Harry would probably have a better idea.
 >
-> One problem with keying from panel EDID is that for example the grunt chromebook
-> platform has more than 100 different panels already shipped. Add to that that
-> repair centers or people repairing their own device will use 'compatible'
-> panels. I'm sure the AMD windows laptops have even more variety!
+> On 22/03/2021 14:09, Daniel Vetter wrote:
+> > On Mon, Mar 22, 2021 at 11:22:01AM +0000, Tvrtko Ursulin wrote:
+> >>
+> >> On 19/03/2021 22:38, Jason Ekstrand wrote:
+> >>> This API allows one context to grab bits out of another context upon
+> >>> creation.  It can be used as a short-cut for setparam(getparam()) for
+> >>> things like I915_CONTEXT_PARAM_VM.  However, it's never been used by any
+> >>> real userspace.  It's used by a few IGT tests and that's it.  Since it
+> >>> doesn't add any real value (most of the stuff you can CLONE you can copy
+> >>> in other ways), drop it.
+> >>
+> >> No complaints to remove if it ended up unused outside IGT. Latter is a _big_
+> >> problem though, since it is much more that a few IGT tests. So I really
+> >> think there really needs to be an evaluation and a plan for that (we don't
+> >> want to lose 50% of the coverage over night).
+> >>
+> >>> There is one thing that this API allows you to clone which you cannot
+> >>> clone via getparam/setparam: timelines.  However, timelines are an
+> >>> implementation detail of i915 and not really something that needs to be
+> >>
+> >> Not really true timelines are i915 implementation detail. They are in fact a
+> >> dma-fence context:seqno concept, nothing more that than. I think you are
+> >> probably confusing struct intel_timeline with the timeline wording in the
+> >> uapi. Former is i915 implementation detail, but context:seqno are truly
+> >> userspace timelines.
+> >
+> > I think you're both saying the same thing and talking a bit past each
+> > another.
+> >
+> > Yes the timeline is just a string of dma_fence, that's correct. Now
+> > usually if you submit batches with execbuf, we have 3 ways to synchronize
+> > concurrent submission: implicit sync, sync_file and drm_syncob. They all
+> > map to different needs in different protocols/render apis.
+> >
+> > Now in one additional case the kernel makes sure that batchbuffers are
+> > ordered, and that's when you submit them to the same hw ctx. Because
+> > there's only 1 hw context and you really can't have batchbuffers run on
+> > that single hw context out of order. That's what the timeline object we
+> > talk about here is. But that largely is an internal implementation detail,
+> > which happens to also use most/all the same infrastructure as the
+> > dma_fence uapi pieces above.
+> >
+> > Now the internal implementation detail leaking here is that we exposed
+> > this to userspace, without there being any need for this. What Jason
+> > implements with syncobj in the next patch is essentially what userspace
+> > should have been using for cross-engine sync. media userspace doesn't care
+> > about interop with winsys/client apis, so they equally could have used
+> > implicit sync or sync_file here (which I think is the solution now for the
+> > new uapi prepped internally), since they all are about equally powerful
+> > for stringing batchbuffers together.
 >
+> Are you saying we exposed a single timeline of execution per hw context
+> via the single timeline flag?!
 
-Do all of those "compatible" panels work with the min backlight level
-of 0?  If so, maybe something platform specific like a DMI string
-would make more sense.
+Nope.
 
-Alex
+> Timelines of execution were always exposed. Any "engine" (ring
+> previously) in I915_EXEC_RING_MASK was a single timeline of execution.
+> It is completely the same with engine map engines, which are also
+> different indices into I915_EXEC_RING_MASK space.
+>
+> Userspace was aware of these timelines forever as well. Media was
+> creating multiple contexts to have multiple timelines (so parallelism).
+> Everyone knew that engine-hopping submissions needs to be either
+> implicitly or explicitly synchronised, etc.
 
+Yup, I think we're saying the same thing here.
 
-> >
-> > Alex
-> >
-> > > >
-> > > > Is this fix perhaps for OLED panels? If so we could use a different
-> > > > min-value for OLED panels that don't do PWM, but use 12 for everything else.
-> > >
-> > > All the chromebooks I have worked with LCD + LED backlight have been
-> > > fine with a backlight set to 0.
-> > > We do have OLED panels too, but I'm not aware of what they do.
-> > >
-> > > > Harry
-> > > >
-> > > > > Alex
-> > > > >
-> > > > >
-> > > > >>
-> > > > >> Also reviewed here: https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2748377>>>
-> > > > >>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
-> > > > >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >>
-> > > > >> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > > >> index 573cf17262da..0129bd69b94e 100644
-> > > > >> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > > >> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > > >> @@ -3151,7 +3151,7 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
-> > > > >>          return 0;
-> > > > >>   }
-> > > > >>
-> > > > >> -#define AMDGPU_DM_DEFAULT_MIN_BACKLIGHT 12
-> > > > >> +#define AMDGPU_DM_DEFAULT_MIN_BACKLIGHT 0
-> > > > >>   #define AMDGPU_DM_DEFAULT_MAX_BACKLIGHT 255
-> > > > >>   #define AUX_BL_DEFAULT_TRANSITION_TIME_MS 50
-> > > > >>
-> > > > >> --
-> > > > >> 2.31.0.291.g576ba9dcdaf-goog
-> > > > >>
-> > > > >> _______________________________________________
-> > > > >> dri-devel mailing list
-> > > > >> dri-devel@lists.freedesktop.org
-> > > > >> https://lists.freedesktop.org/mailman/listinfo/dri-devel>> _______________________________________________
-> > > > > dri-devel mailing list
-> > > > > dri-devel@lists.freedesktop.org
-> > > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel>>
-> > > >
+> So I really don't see that we have leaked timelines as a concept *now*.
+> What the patch has exposed to userspace is a new way to sync between
+> timelines and nothing more.
+
+We've leaked it as something you can now share across hw context.
+Which is possible because of how it's internally implemented (I think
+load balancer relies on that), but not really a synchronization
+primitive we want to export as such to userspace. We have other
+interfaces and concepts for that.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
