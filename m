@@ -1,41 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15539344947
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 16:34:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 284A5344633
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 14:51:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45DC66E145;
-	Mon, 22 Mar 2021 15:33:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AACC6E491;
+	Mon, 22 Mar 2021 13:51:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 462 seconds by postgrey-1.36 at gabe;
- Mon, 22 Mar 2021 12:45:28 UTC
-Received: from mail-m17637.qiye.163.com (mail-m17637.qiye.163.com
- [59.111.176.37])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C8A06E0D9;
- Mon, 22 Mar 2021 12:45:28 +0000 (UTC)
-Received: from wanjb-virtual-machine.localdomain (unknown [36.152.145.182])
- by mail-m17637.qiye.163.com (Hmail) with ESMTPA id E7F81980912;
- Mon, 22 Mar 2021 20:45:25 +0800 (CST)
-From: Wan Jiabing <wanjiabing@vivo.com>
-To: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Lyude Paul <lyude@redhat.com>,
- Wan Jiabing <wanjiabing@vivo.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drivers: gpu: priv.h is included twice
-Date: Mon, 22 Mar 2021 20:45:10 +0800
-Message-Id: <20210322124513.130470-1-wanjiabing@vivo.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 329556E491;
+ Mon, 22 Mar 2021 13:50:59 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 57F90619A3;
+ Mon, 22 Mar 2021 13:50:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1616421058;
+ bh=YA9YxD1Hu+DERDZ6cRSWdcGKGXcYVO3XLjCTjk6a89c=;
+ h=Date:From:To:Cc:Subject:From;
+ b=M4CHKLXyIARQtuW0IHzOkTDnqSQjfjn6Zt5hkAnIQ2Monol6/1f4qAbjvZQnQNSI4
+ PRcVXi/vGJHG9kujjdUlGwmtX8sbmqkDQT0+4Tw1Ox2gTKiM4SiMZABZLJTxpf1Es0
+ gV2V/BTEQWIB6kXzKnW3rgwwNal+yqcOCUSkEOiyfTa7xBSbRVu7c9ycTVsh/VUcS4
+ 5F562g4ZIA6aClkEnxF2Nv2jXlr/t5+bR5BmsKoWw+45JshZ/4f1+B6KlRT/P7OBCP
+ jctyHT6dR6P5Q+jm0P4Eewm+7aN86ETIod/MOFuAABy3gocbOXdZN89D3EjzEilcCl
+ 1kzdMHSpYnh6g==
+Date: Mon, 22 Mar 2021 07:50:50 -0500
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Lee Jones <lee.jones@linaro.org>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH][next] drm/amd/display: Fix sizeof arguments in bw_calcs_init()
+Message-ID: <20210322125050.GA236782@embeddedor>
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZHkJDGElOQktNGkxMVkpNSk1PSkxKSU1JQ0xVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
- FZT0tIVUpKS0hKTFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MSI6Nzo4AT8LKUIOTjoMTS8o
- HBwwCgpVSlVKTUpNT0pMSklNTUpCVTMWGhIXVQwaFRESGhkSFRw7DRINFFUYFBZFWVdZEgtZQVlI
- TVVKTklVSk9OVUpDSVlXWQgBWUFKTEtPNwY+
-X-HM-Tid: 0a7859f7f730d992kuwse7f81980912
-X-Mailman-Approved-At: Mon, 22 Mar 2021 15:33:56 +0000
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,35 +46,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kael_w@yeah.net
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-priv.h has been included at line 22, so remove
-the duplicate include at line 24.
+The wrong sizeof values are currently being used as arguments to
+kzalloc().
 
-Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+Fix this by using the right arguments *dceip and *vbios,
+correspondingly.
+
+Addresses-Coverity-ID: 1502901 ("Wrong sizeof argument")
+Fixes: fca1e079055e ("drm/amd/display/dc/calcs/dce_calcs: Remove some large variables from the stack")
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nvkm/engine/nvenc/base.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/nvenc/base.c b/drivers/gpu/drm/nouveau/nvkm/engine/nvenc/base.c
-index c39e797dc7c9..09524168431c 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/nvenc/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/nvenc/base.c
-@@ -20,8 +20,6 @@
-  * OTHER DEALINGS IN THE SOFTWARE.
-  */
- #include "priv.h"
--
--#include "priv.h"
- #include <core/firmware.h>
+diff --git a/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c b/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
+index 556ecfabc8d2..1244fcb0f446 100644
+--- a/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
++++ b/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
+@@ -2051,11 +2051,11 @@ void bw_calcs_init(struct bw_calcs_dceip *bw_dceip,
  
- static void *
+ 	enum bw_calcs_version version = bw_calcs_version_from_asic_id(asic_id);
+ 
+-	dceip = kzalloc(sizeof(dceip), GFP_KERNEL);
++	dceip = kzalloc(sizeof(*dceip), GFP_KERNEL);
+ 	if (!dceip)
+ 		return;
+ 
+-	vbios = kzalloc(sizeof(vbios), GFP_KERNEL);
++	vbios = kzalloc(sizeof(*vbios), GFP_KERNEL);
+ 	if (!vbios) {
+ 		kfree(dceip);
+ 		return;
 -- 
-2.25.1
+2.27.0
 
 _______________________________________________
 dri-devel mailing list
