@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB81343F3A
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 12:09:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2DA343F3C
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 12:09:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D0356E41D;
-	Mon, 22 Mar 2021 11:08:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F7766E11F;
+	Mon, 22 Mar 2021 11:08:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2058.outbound.protection.outlook.com [40.107.243.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FF506E3FC;
- Mon, 22 Mar 2021 11:08:27 +0000 (UTC)
+ (mail-dm6nam12on2045.outbound.protection.outlook.com [40.107.243.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2AA36E185;
+ Mon, 22 Mar 2021 11:08:26 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AzavCaa7lVsFPeJv4NhQN+vBbUHV9hnTUe1OLq2VrCK99rZkXEg97Jf+IPcirR9ZhVZlTr5pcRsVKaN5tnMnksHPGwcOZkehJSMv/2mS9YDjYEyxCRUPcVtO/ixqa+KrSrTCoudLNJN5JyQaXn5AhY0ebEZcZleMTBmpb/t2aJMjZl5j+Uf60f7+XbDUSAcJVUSce13mkilgZSpS1bdZeNeybVIfxv7ywd59hN75DJEqTbeAGFYVdrKwe0HpgTD3WJonRxdl7ZfigrYgva0fQcCSBNDXLHTbLgHdB9S7EcjYlcVqwGaUQojsG8Oc31BGd1PZnXv1tH2NESVIc4ht3Q==
+ b=KQV4PpCK55auiYme0lHr2SvaKnBs9Tw/MP3VXMVy3Q2b9VMQQgc4AhErXj2sElz077+AE6mlq7nj7qfXz7Td6erf4ynQRb3GRuJEkMoqbDAvC/y2gVgHIJEUiBRUdtTjDeEqBNl2KIi/YBY9SJxTZVy1LITHj7DS02mtCZTJrroeJy3fuxQU8pYUcEJE4OgE7lAh0RwoTZLOnrliY30Ote5tgD+gLrSYnHPJkuPX9VXlNEjMGeRWkvC0j8D4d44PrmI4DihdHx3CqeVRABqdjlYj6LrEVN3XX3FHrDehfxfN/rnzL2ffu3JqwOkHB3UfDd9Kb/3fayTW+21mCB1ICw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DZCt1lqVtIYxz+pdsCdtNIA6HPeG7QA6q+VZqw/gBFc=;
- b=jY9f4VQ6po48Zp8PPH8b2fO6gnGajiGHINzAIjC3neUOMwHdqNWDtlWIF/c//gCCgE7H3S95sH2QIw6zFrEvCTj9qJUHxa0YH9t0KLCdqEYrhJYU4gVF40TFHNUdGo4B3+eEPsDnNh1EWjmLhWchLtJyVVhUxT1H3C40a21ZtVlA5V5V6opqHyOHO9+XFmZFKH7dYaQ6LlC0WxLXE+xC94Vdg/+6EPEPNe3YUgJaHCSqWNh0qNz5/8+y0BEGmUNucFOc1Eq3c1NPphmWdaGhIejvrMcxP49z+ruh2u0+xKMd93OrniU6WXVPD6/F2eHWgvpzFrBMvLncTBdmzaGV+g==
+ bh=bN4tz8cNX6WVe/mLrmsJdfxYKxUfO/5nj+k1b953QSI=;
+ b=nlxPGEuKTF6S15wTRZSinrwgrY6wMWFIcbAvc+fZvh6J+aeohdOX28fbOnmmOy85UyP5cxvoD3Pr+fCVsNFMhePNH4IbDwKJRNK61xRuHcNnQkKELTD3shEjB7rwfBYygEd73us+Y1Arr4ti+Vi5iNA3+rvlTwLgJ9eaE1soR3+Jzfh3TqflVu+q+rmlVbLdMlchRwFSKxAg5MsMrLriMVQ6bcoP2DXjxqWci6oznJBmai576goktkYENOCS9rU6oht3hGtgbwUgK7AgJNluvgUIPGB0MKiSauqO5iopdiqzH0SpQdPOH1YjsnDsMEruiae1hlYqX4NNDenVfE6/6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DZCt1lqVtIYxz+pdsCdtNIA6HPeG7QA6q+VZqw/gBFc=;
- b=cgxrZxtBNALkOsUtp4kP9/8RnjuPtK6+n31QeSiLtQkH1p1uIcHMcwKaTsSZAYvSfz7X5lhlZu1uaq38/gF9tf7SeB+J4H9BzlWhzmICJVzkBM3vZXX2GtP/3JvoPhHxG0vaF1pG1yX+H690mqGghpAaFwiYOlrldbl04+H11HQ=
+ bh=bN4tz8cNX6WVe/mLrmsJdfxYKxUfO/5nj+k1b953QSI=;
+ b=QjKbHZTo+lIFdQnk5DRZRsKutmunGR+/wDUMcPQsQpvdjWyaf1Wm7p4dlJqDeomeIma8P6gmMV5ShfHtGzWSARMoOabZFSeGsIulNzSvn28gMKHsTDzioo2OAfwiGzVpAVSO1Hl0R/CKrJWOd6Yg7qU+pLNr8xFTppyVJ2DSUlw=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -42,9 +42,9 @@ Received: from BL0PR12MB4948.namprd12.prod.outlook.com
 From: Felix Kuehling <Felix.Kuehling@amd.com>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 38/44] drm/amdkfd: Simplify split_by_granularity
-Date: Mon, 22 Mar 2021 06:58:54 -0400
-Message-Id: <20210322105900.14068-39-Felix.Kuehling@amd.com>
+Subject: [PATCH 39/44] drm/amdkfd: Point out several race conditions
+Date: Mon, 22 Mar 2021 06:58:55 -0400
+Message-Id: <20210322105900.14068-40-Felix.Kuehling@amd.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210322105900.14068-1-Felix.Kuehling@amd.com>
 References: <20210322105900.14068-1-Felix.Kuehling@amd.com>
@@ -61,49 +61,49 @@ Received: from Harpoon.amd.com (165.204.55.251) by
  Transport; Mon, 22 Mar 2021 11:07:49 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: d5fd3120-15f2-475f-86ff-08d8ed22bb0b
+X-MS-Office365-Filtering-Correlation-Id: 4159afca-a365-4632-8646-08d8ed22bb4e
 X-MS-TrafficTypeDiagnostic: MN2PR12MB4255:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4255FD382F5B104F399E1D9792659@MN2PR12MB4255.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:660;
+X-Microsoft-Antispam-PRVS: <MN2PR12MB425533C9E251CE6AB11C350692659@MN2PR12MB4255.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tpHmFvlIMmfw7B6TAJdEj/ijK290viHNEk28YmrTHHQt0/FvgG8WfSgs1m78pKFp5924z7VI94ifba1p0zVW0VKvPl7VJyjBl1i715y2h7azsNoamhrbkODIvEhql0QKNHCeOTwSfHv3E5dcs/QIOl8Utz1xGh9Fwut/FGcDHcV4bF/zJJfaXNt2BpxRojN0nzK6MPQhiJtVtOu1HJyoEXKZzFEKJdZo3x2pGBwhUkDoHFdfdyVcjniPF7IuGYwsbIxtLUXKDzbXcOfBk/E2l2Va3poyF94J+IUs1SUfwX7+/3hF34UgBIjjUqdDnydKD7h67QNdcE+Wd4lEsaZsWe1C5aO09CHquhV1OFawJG2wIaJyyVeWTCHz2BSf8MVTxxwz9kCK70ngatTSe1qifkxORmulLUfH/fJYa8mXitLSz/GAvhan6E0sF1T8lGK+JPhX9KiIovCiCBMJYOuvtJMyXpBbisHWlK42OZPGfaBAxplzXBwEB1hHDbdTHFkZRw2kNsEJdY/ODrrF60nu7iE3vVOfxLmDOT4mGshwkLi4KTw4FQcvxIiAEIX4R4evl5cQXMpZQ3vvLgXmzKL2IgP2GF0FE7mxfA5qbEifKtnZNkFGq7lOuMq0rMPJ5GxA8NtrI/PKZlfv3deSSyK9MDpGqrbeFb7Sd7/1yK0FWWs=
+X-Microsoft-Antispam-Message-Info: F66uq32gxrIznDpLIhxIr/+A7VXZzo4OLlhCnr4VLmmXL4zTVA9CWkG6YnRBMI46c8gX+TAXsjOHdZoiIMdJ5tMPmXFGrpEzGaoHU3YaseeSGYkeZgdVCyIRzCGpnLoIzxSz0qwC3UnOH1azLFaivnNAr+I9elc/D+APo2exy47AhW5G/leuBpa/5c2J9NMU/OlSphLNaTNQWOSDIMfvOm6lddvtLyiUVzVY9i6wA2rqTFe13cCl/lGAGPoZc+xJ9vdY4whEP0SPO3qMyAh7UkSwrvvWq5ImRCATMG0oYrn3rv505Xe8GFuuAo4kY+pg/Jpk9C+P5CmmHbsCGySuXS8+vRuBXR8CKlxZSuEYzaYFFSrv6iEzdSzUhw4uymDBAm37Zy1Ij2hvG6iG/h4Bsv4IkOUmr/OMgBF7+wMOiU0Mq0MfPQakPQhO2qZjUtoFWwRN7MvtfwA9x1HxTGcLE6NP8lw/g7veusgSLMfXxhd2Xl7tt+f3tB2fyvNn4om78LgNYg0IAyumhvXArqTWwYo8pASE7kKr/SgQyxf4lmq64Hll7ZLfU/3cruz6L2bKwctVoornym6vmZy1Poa68Niht2XKrBGGDzucEekF0Mo99GeeQmK1k7xn3GnQhLGnlYHFeQWqS3nZmMVQANtpdLoZVWqORm5C+/nKJBe5X7w=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(396003)(136003)(366004)(39860400002)(376002)(346002)(450100002)(1076003)(36756003)(38100700001)(6666004)(66946007)(83380400001)(66556008)(66476007)(5660300002)(16526019)(186003)(8676002)(26005)(7696005)(52116002)(86362001)(478600001)(8936002)(2616005)(956004)(6486002)(2906002)(316002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?3ruPRgm2t+2trutAnowqxUk9TfNhv1cVDk7KCWrXQivENxAkQuzxQgv+CZ0F?=
- =?us-ascii?Q?RN9oADCmsY2ewgfqsV2XVI+IowIx/QDn0YTepkbRihXk7z5xLIh+eEjkDG2v?=
- =?us-ascii?Q?6bngVE/cBIaDJad2UwkCPgFXISbr9NiJbohvW9E8dROi5Gb0s0C2CXzpWwFU?=
- =?us-ascii?Q?NI7uLZWIg0LSTw2GI1mhs3jC+Wc7qCirAz/6jGNKuQ8hQea5jAUXGIjOzxdf?=
- =?us-ascii?Q?ro6VWUbUxqwTtdD99jh3BqoClhlRm75ompIg0SUauuFC4GGXMx5xoIRyV647?=
- =?us-ascii?Q?M+EV9lLdzEysMcUVazHuAvYVRdk8rjXIdxgPR8yLQ/xyojuf6YwIWkWUZRUq?=
- =?us-ascii?Q?v447Q48PejvUy03QGlRiG8UDxA2G0kp002Qx4XuT8b72IHEDYq10TBqlFcfM?=
- =?us-ascii?Q?QkpGl0P23Cd6oZ4Wn+X/opK9Cm0N754ILq0rgY0dU/rfiaziE9EEvLEa2Lwo?=
- =?us-ascii?Q?v7PVhdVtbg59svEoYNYhlkl5aPYqDhbKEtPNVkTDiLx80YDmsyq/bjv6vAf3?=
- =?us-ascii?Q?eYdMSCo6dCmN8rxGkMW3sNjE2Ol/nRKyJ6QQJfAR2BoMUmF/1n6RNpsT/bL0?=
- =?us-ascii?Q?AF7eLEzxdeXheLJXnF6qI8RrUTY3qEkuxjtygBYQVBnxks4azeByoU18mYR8?=
- =?us-ascii?Q?74sSS8lAkVYdTo+4ZZZXPeRnClR3dEiW3s80OveNFq+5VIKFI0i9cp7rXC9m?=
- =?us-ascii?Q?Sak1tWjY2wdmDE8ZjS3wS/DCztMSycfbDqG2XnqXiJ4NZqFSBJJ5cnUDsAlH?=
- =?us-ascii?Q?taeW9JYcn83QwW7ak3wDbnqp3vEVAy/9OAf2Qkr1c9w7wHPvf5Sa4LO9OtN/?=
- =?us-ascii?Q?yMuonwDmOJL6sgoWzXv8oUzKg1GMVwrWp1S40LD+R1MsX3Gw+33OJQknDas2?=
- =?us-ascii?Q?NyBAxCCK9teNxePvcQpWVDm+HaemR8dmNuwT5aIcJ1TKQbz80AmIzzLcm4hY?=
- =?us-ascii?Q?0DT6k034ZgbxI/HrWm/tpGTusagMaWfzvbbZ7Yi1QX27VtKNH/8hNu64sjqU?=
- =?us-ascii?Q?POS6+zHtXXdd8a+RCxGpES6jvMOXIVtYexvwTsgMkiceYTxIsXc9UW6jndha?=
- =?us-ascii?Q?DMy5aAZlI5ZjZsUqv1WAkzCAeaByvp1Cmc2u3DOHwE9RGedj7PtrC8dG1fJq?=
- =?us-ascii?Q?O88VnGFl73IZT6JhOMMsOOozF8NOf94fqO9/2nYPeBHRlodBt5qDCDqa6Kh+?=
- =?us-ascii?Q?rlk2s3SBmNPyj+KGZS16y8V6+qAay3kui4FkNF0H0lw/14KYYw2OKUo9d4Tg?=
- =?us-ascii?Q?B6U5TlGGK6ta4Do/LyHHXLyKdO7F90tnDyKuHLKjwV2T8w7QGqOMQNvu+vnU?=
- =?us-ascii?Q?/OSMJmjmCjA6wPM3ihqfrIyX?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?2fUaomc/1LeDdQo3dwCOTq1cXQ9OCJ5qv3XVLD5vcPrFSjRfURweagMdgcTk?=
+ =?us-ascii?Q?ProOhg+M+dAgwaXY6IyMCOZaaCjlp6QwuGVbXAAOD8GNyHeq8fvt6PrTg43a?=
+ =?us-ascii?Q?2163GeSrw2SKTRSMMcvi9yVeJGxtDJsl+fnCfZGDqROTJRxcinWFpdj72rYf?=
+ =?us-ascii?Q?WdoLRVMv9Ut68BTvcQ+/d8U+eon5e9T6hplH3hM0g76GCg7nAeqb00BvdjJz?=
+ =?us-ascii?Q?jov7FHliM7Sk49fiWSNzKOIuOgtM6S6FwmGKzOM7S/xpDpgefsMVGenwMyaw?=
+ =?us-ascii?Q?+JJW6wEMI3DYo91FTUlArW9nL0EZNiSfvarBwDrecIAmCd5qFbz/LTWxcccr?=
+ =?us-ascii?Q?pPELKkXExyEfkhMoztpLrukN1FJFcIVO2Lu+FRSdR0vtL8DZqJEbq6pnJGWf?=
+ =?us-ascii?Q?vsu84yTeJAmwvDbLqs9gsagO89rmJZlUyaUdyg7tzAJrrE4PfI4vQxW79Q1l?=
+ =?us-ascii?Q?8mg+i7cTrCS/Yg8HCTCEbOepWepmyGZIpeuEHMqM3BImvvkJYBU2DQy1ixrs?=
+ =?us-ascii?Q?+xqj8GLMNLkBRlFmnKro4kH/4UxwxZt9Rrya3Id4P2yPXz599B647qJwBuIC?=
+ =?us-ascii?Q?MhY3GoNO5F7K/2LTURCoFxaplSRGL8LYjXeJt79lwz+xL7VH9EkWMW+80H/r?=
+ =?us-ascii?Q?J+HUETB3wK5i/YjxsjQaGzebUQeeqvWpS9mT6nrjizdAwFKX4azV+RtGexWN?=
+ =?us-ascii?Q?07M0M9c2OXjN/Zb7MfFire7ZsR+xL1cbI44trCKsh7mIV4/JjW02KhRVdn3Z?=
+ =?us-ascii?Q?cw6Fe05v/AUX1Zy/32dOmzqYsMMJ7LMFLlgU0MOTkn/CQfbuScIXoA7nCVQX?=
+ =?us-ascii?Q?loTHswIfGZpEHtuJhCJy7q2C2VFR+7dBhRIIOwBp9bT+sEzsCZCGLRu6XAjn?=
+ =?us-ascii?Q?4ro9eS9aJV+UZFxxM1uwsOmjd8rHNv0aklHkTenH+/eeBUZ7etZS7477pbpq?=
+ =?us-ascii?Q?dx9fouDT7g5QxaRmxAs+Q4r6hL9JlSr/ND5B2DLZj1J+xdZYv21nhU74agio?=
+ =?us-ascii?Q?vP8vDo4YqUltRz8x1qjtHF1qB1szD2ohP1W4IUpGasQ70VczgF3QlWgquSsq?=
+ =?us-ascii?Q?L5jDzLvkgwr4eEFZvz2jdUwFZ5WKf9pdlIGGLkmok/EU3s0uagLPY9wqmSLo?=
+ =?us-ascii?Q?UOWjeaEcqZgPSbeqi9K2gsXWR3wkwmiFs63mbMnauslmUHfdoLC51h17KpX3?=
+ =?us-ascii?Q?/XeGV6WVHs19TdYWaKmMI0a8tTnRaZ7n1HWNNRpRwDIefgEmZo1pDrx9kl7s?=
+ =?us-ascii?Q?3PEZVUA1A63DPKdiNjaWKTzoKPD0YlHclz+SUwUOoRenC8XNA2f18vXkNwtR?=
+ =?us-ascii?Q?/LrgmDWaCnZRO66pPwp71+x8?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5fd3120-15f2-475f-86ff-08d8ed22bb0b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4159afca-a365-4632-8646-08d8ed22bb4e
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 11:07:49.7094 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 11:07:50.1595 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gVcwO2ZilYPjbR4ZJiD4xGWEOCGDv1uEDJDO8JVSRFOsIjFnP2jOp4rmPyrkF6mzZfW7IUK8xudAx565Hu+Kpw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: GCX5lr1QlcgCzWzBmxWw+2P8J81n1UWmA5+1M8g2vZ5pN0obng4fShfWMZSE8WKYEOHGmYGnpVaNcmfQjlimHQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4255
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -122,215 +122,85 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-svm_range_split_by_granularity always added the parent range and only
-the parent range to the update list for the caller to add it to the
-deferred work list. So just do that in the caller unconditionally and
-eliminate the update_list parameter.
+There are several race conditions with XNACK enabled. For now just some
+FIXME comments with ideas how to fix it.
 
-Split the range so that the original prange is always the one that
-will be migrated. That way we can eliminate the pmigrate parameter
-and simplify the code further.
-
-Update the outdated documentation.
-
-Change-Id: Ifdc8d29b2abda67478e0d41daf5b46b861802ae7
+Change-Id: If0abab6dcb8f4e95c9d8820f6c569263eda29a89
 Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 29 ++++------
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c     | 73 ++++++------------------
- drivers/gpu/drm/amd/amdkfd/kfd_svm.h     |  4 +-
- 3 files changed, 30 insertions(+), 76 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  5 +++++
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c     | 21 ++++++++++++++++++++-
+ 2 files changed, 25 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-index da2ff655812e..5c8b32873086 100644
+index 5c8b32873086..101d1f71db84 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-@@ -780,12 +780,10 @@ svm_migrate_to_vram(struct svm_range *prange, uint32_t best_loc,
- static vm_fault_t svm_migrate_to_ram(struct vm_fault *vmf)
- {
- 	unsigned long addr = vmf->address;
--	struct list_head update_list;
--	struct svm_range *pmigrate;
- 	struct vm_area_struct *vma;
-+	enum svm_work_list_ops op;
- 	struct svm_range *parent;
- 	struct svm_range *prange;
--	struct svm_range *next;
- 	struct kfd_process *p;
- 	struct mm_struct *mm;
- 	int r = 0;
-@@ -816,31 +814,24 @@ static vm_fault_t svm_migrate_to_ram(struct vm_fault *vmf)
- 		goto out_unlock_prange;
+@@ -539,6 +539,11 @@ svm_migrate_copy_to_ram(struct amdgpu_device *adev, struct svm_range *prange,
+ 	src = (uint64_t *)(scratch + npages);
+ 	dst = scratch;
  
- 	svm_range_lock(parent);
--	r = svm_range_split_by_granularity(p, mm, addr, parent, prange,
--					   &pmigrate, &update_list);
-+	r = svm_range_split_by_granularity(p, mm, addr, parent, prange);
- 	svm_range_unlock(parent);
- 	if (r) {
- 		pr_debug("failed %d to split range by granularity\n", r);
- 		goto out_unlock_prange;
- 	}
- 
--	r = svm_migrate_vram_to_ram(pmigrate, mm);
-+	r = svm_migrate_vram_to_ram(prange, mm);
- 	if (r)
- 		pr_debug("failed %d migrate 0x%p [0x%lx 0x%lx] to ram\n", r,
--			 pmigrate, pmigrate->start, pmigrate->last);
--
--	list_for_each_entry_safe(prange, next, &update_list, update_list) {
--		enum svm_work_list_ops op;
--
--		/* xnack on, update mapping on GPUs with ACCESS_IN_PLACE */
--		if (p->xnack_enabled && prange == pmigrate)
--			op = SVM_OP_UPDATE_RANGE_NOTIFIER_AND_MAP;
--		else
--			op = SVM_OP_UPDATE_RANGE_NOTIFIER;
-+			 prange, prange->start, prange->last);
- 
--		svm_range_add_list_work(&p->svms, prange, mm, op);
--		list_del_init(&prange->update_list);
--	}
-+	/* xnack on, update mapping on GPUs with ACCESS_IN_PLACE */
-+	if (p->xnack_enabled && parent == prange)
-+		op = SVM_OP_UPDATE_RANGE_NOTIFIER_AND_MAP;
-+	else
-+		op = SVM_OP_UPDATE_RANGE_NOTIFIER;
-+	svm_range_add_list_work(&p->svms, parent, mm, op);
- 	schedule_deferred_list_work(&p->svms);
- 
- out_unlock_prange:
++	/* FIXME: Is it legal to hold on to this page array? We don't have
++	 * proper references to the pages and we may not have an MMU notifier
++	 * set up for the range at this point that could invalidate it (if
++	 * it's a child range).
++	 */
+ 	prange->pages_addr = kvmalloc_array(npages, sizeof(*prange->pages_addr),
+ 					    GFP_KERNEL | __GFP_ZERO);
+ 	if (!prange->pages_addr) {
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-index 3a7030d9f331..fbcb1491e987 100644
+index fbcb1491e987..c48fe2f276b9 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-@@ -1005,16 +1005,14 @@ void svm_range_add_child(struct svm_range *prange, struct mm_struct *mm,
-  *
-  * @p: the process with svms list
-  * @mm: mm structure
-+ * @addr: the vm fault address in pages, to split the prange
-  * @parent: parent range if prange is from child list
-  * @prange: prange to split
-- * @addr: the vm fault address in pages, to split the prange
-- * @pmigrate: output, the range to be migrated to ram
-- * @update_list: output, the ranges to update notifier
-  *
-- * Collects small ranges that make up one migration granule and splits the first
-- * and the last range at the granularity boundary
-+ * Trims @prange to be a single aligned block of prange->granularity if
-+ * possible. The head and tail are added to the child_list in @parent.
-  *
-- * Context: caller hold svms lock
-+ * Context: caller must hold mmap_read_lock and prange->lock
-  *
-  * Return:
-  * 0 - OK, otherwise error code
-@@ -1022,75 +1020,42 @@ void svm_range_add_child(struct svm_range *prange, struct mm_struct *mm,
- int
- svm_range_split_by_granularity(struct kfd_process *p, struct mm_struct *mm,
- 			       unsigned long addr, struct svm_range *parent,
--			       struct svm_range *prange,
--			       struct svm_range **pmigrate,
--			       struct list_head *update_list)
-+			       struct svm_range *prange)
- {
--	struct svm_range *tail;
--	struct svm_range *new;
--	unsigned long start;
--	unsigned long last;
--	unsigned long size;
--	int r = 0;
-+	struct svm_range *head, *tail;
-+	unsigned long start, last, size;
-+	int r;
- 
- 	/* Align splited range start and size to granularity size, then a single
- 	 * PTE will be used for whole range, this reduces the number of PTE
- 	 * updated and the L1 TLB space used for translation.
- 	 */
--	size = 1ULL << prange->granularity;
-+	size = 1UL << prange->granularity;
- 	start = ALIGN_DOWN(addr, size);
- 	last = ALIGN(addr + 1, size) - 1;
--	INIT_LIST_HEAD(update_list);
--	INIT_LIST_HEAD(&parent->update_list);
- 
- 	pr_debug("svms 0x%p split [0x%lx 0x%lx] to [0x%lx 0x%lx] size 0x%lx\n",
- 		 prange->svms, prange->start, prange->last, start, last, size);
- 
- 	if (start > prange->start) {
--		r = svm_range_split(prange, prange->start, start - 1, &new);
-+		r = svm_range_split(prange, start, prange->last, &head);
+@@ -1727,7 +1727,7 @@ svm_range_handle_list_op(struct svm_range_list *svms, struct svm_range *prange)
+ 		pr_debug("update and map 0x%p prange 0x%p [0x%lx 0x%lx]\n",
+ 			 svms, prange, prange->start, prange->last);
+ 		svm_range_update_notifier_and_interval_tree(mm, prange);
+-
++		/* FIXME: need to validate somewhere */
+ 		r = svm_range_map_to_gpus(prange, true);
  		if (r)
- 			return r;
--
--		svm_range_add_child(parent, mm, new, SVM_OP_ADD_RANGE);
--
--		if (parent == prange) {
--			pr_debug("add to update list prange 0x%p [0x%lx 0x%lx]\n",
--				 parent, parent->start, parent->last);
--			list_add(&parent->update_list, update_list);
--		}
--	} else {
--		new = prange;
--	}
--
--	if (last >= new->last) {
--		pr_debug("entire prange 0x%p [0x%lx 0x%lx] on prange %s list\n",
--			 new, new->start, new->last,
--			 (parent == prange) ? "" : "child");
--		goto out_update;
-+		svm_range_add_child(parent, mm, head, SVM_OP_ADD_RANGE);
- 	}
+ 			pr_debug("failed %d map 0x%p [0x%lx 0x%lx]\n",
+@@ -1744,6 +1744,7 @@ svm_range_handle_list_op(struct svm_range_list *svms, struct svm_range *prange)
+ 			 prange, prange->start, prange->last);
+ 		svm_range_add_to_svms(prange);
+ 		svm_range_add_notifier_locked(mm, prange);
++		/* FIXME: need to validate somewhere */
+ 		r = svm_range_map_to_gpus(prange, true);
+ 		if (r)
+ 			pr_debug("failed %d map 0x%p [0x%lx 0x%lx]\n",
+@@ -2068,6 +2069,14 @@ svm_range_best_restore_location(struct svm_range *prange,
+ 	return -1;
+ }
  
--	pr_debug("split remaining last 0x%lx [0x%lx 0x%lx] from prange %s\n",
--		last, new->start, new->last, (parent == new) ? "" : "child");
--	r = svm_range_split(new, new->start, last, &tail);
--	if (r)
--		return r;
--	svm_range_add_child(parent, mm, tail, SVM_OP_ADD_RANGE);
--
--out_update:
--	/* If parent is not on update list, add it to put into deferred work */
--	if (list_empty(&parent->update_list)) {
--		pr_debug("add to update list parange 0x%p [0x%lx 0x%lx]\n",
--			 prange, parent->start, parent->last);
--		list_add(&parent->update_list, update_list);
-+	if (last < prange->last) {
-+		r = svm_range_split(prange, prange->start, last, &tail);
-+		if (r)
-+			return r;
-+		svm_range_add_child(parent, mm, tail, SVM_OP_ADD_RANGE);
- 	}
++/* FIXME: This function can race with MMU notifiers. MMU notifiers can
++ * invalidate the page addresses concurrently, so we may end up mapping
++ * invalid addresses here. We cannot hold the prange->lock (held in MMU
++ * notifier) while updating page tables because of lock dependencies,
++ * as SDMA page table updates need reservation locks. Only unmapping
++ * works without reservations. May need to hold the mmap_write_lock to
++ * prevent concurrent MMU notifiers.
++ */
+ int
+ svm_range_restore_pages(struct amdgpu_device *adev, unsigned int pasid,
+ 			uint64_t addr)
+@@ -2592,6 +2601,16 @@ svm_range_set_attr(struct kfd_process *p, uint64_t start, uint64_t size,
+ 			continue;
+ 		}
  
--	*pmigrate = new;
--
- 	/* xnack on, update mapping on GPUs with ACCESS_IN_PLACE */
--	if (p->xnack_enabled && (*pmigrate)->work_item.op == SVM_OP_ADD_RANGE) {
--		(*pmigrate)->work_item.op = SVM_OP_ADD_RANGE_AND_MAP;
-+	if (p->xnack_enabled && prange->work_item.op == SVM_OP_ADD_RANGE) {
-+		prange->work_item.op = SVM_OP_ADD_RANGE_AND_MAP;
- 		pr_debug("change prange 0x%p [0x%lx 0x%lx] op %d\n",
--			 *pmigrate, (*pmigrate)->start, (*pmigrate)->last,
-+			 prange, prange->start, prange->last,
- 			 SVM_OP_ADD_RANGE_AND_MAP);
- 	}
- 	return 0;
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.h b/drivers/gpu/drm/amd/amdkfd/kfd_svm.h
-index b2ab920ab884..7fce3fccfe58 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.h
-@@ -162,9 +162,7 @@ int svm_range_vram_node_new(struct amdgpu_device *adev,
- void svm_range_vram_node_free(struct svm_range *prange);
- int svm_range_split_by_granularity(struct kfd_process *p, struct mm_struct *mm,
- 			       unsigned long addr, struct svm_range *parent,
--			       struct svm_range *prange,
--			       struct svm_range **pmigrate,
--			       struct list_head *deferred_update_list);
-+			       struct svm_range *prange);
- int svm_range_restore_pages(struct amdgpu_device *adev,
- 			    unsigned int pasid, uint64_t addr);
- int svm_range_schedule_evict_svm_bo(struct amdgpu_amdkfd_fence *fence);
++		/* FIXME: With xnack on, this can race with MMU notifiers.
++		 * They may invalidate page addresses before we map them.
++		 * Then we end up mapping invalid addresses in the GPU page
++		 * table. May need to find a way to still hold the mmap write
++		 * for map_to_gpus but drop it for validate to allow
++		 * concurrent evictions. This will lead to some retry logic
++		 * and the need to protect the update list differently.
++		 * Maybe factor migration and validation into a common helper
++		 * function shared with the GPU page fault handler.
++		 */
+ 		r = svm_range_validate(mm, prange);
+ 		if (r) {
+ 			pr_debug("failed %d to validate svm range\n", r);
 -- 
 2.31.0
 
