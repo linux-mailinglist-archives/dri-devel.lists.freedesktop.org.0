@@ -1,48 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE83F344A6D
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 17:06:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD64344A06
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 17:00:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC4A16E504;
-	Mon, 22 Mar 2021 16:06:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B1526E4F4;
+	Mon, 22 Mar 2021 16:00:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19E3E6E4CF;
- Mon, 22 Mar 2021 15:57:13 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1616428630; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=943PxvuOVOvD4aIfz0aSIuAtEWSyDAhWQvjOcjR1pNk=;
- b=f4jLbnwVuMbmtzmw+emafC69VpgVedDhr7rg/0AcvaGfGvZxlJ5TVBfmDTPoRzGusXur9I
- gKwxgrQWmVdOwmX5J6jTC+zFtPRSmvMlUNAAYZPbdl5TygS/pi9TDn6CSi9HZMAqcs2crF
- Y5UBe3gudtxixSh7p+0W/adWm1rfAO8=
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A97A5ACA8;
- Mon, 22 Mar 2021 15:57:10 +0000 (UTC)
-Date: Mon, 22 Mar 2021 16:57:05 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH] drm/ttm: stop warning on TT shrinker failure
-Message-ID: <YFi+UROYbQERYEEr@dhcp22.suse.cz>
-References: <20210319140857.2262-1-christian.koenig@amd.com>
- <YFTk1GSaUDI3wcWt@phenom.ffwll.local>
- <2831bfcc-140e-dade-1f50-a6431e495e9d@gmail.com>
- <YFT2LSR97rkkPyEP@phenom.ffwll.local>
- <1ae415c4-8e49-5183-b44d-bc92088657d5@gmail.com>
- <CAKMK7uEDhuvSwJj5CX8vHgLb+5zm=rdJPmXwb-VQWdrW6GwQZw@mail.gmail.com>
- <e6e9df3e-cd2b-d80f-205d-6ca1865819b2@gmail.com>
- <YFigZ5+H95c/GI/S@phenom.ffwll.local>
- <20210322140548.GN1719932@casper.infradead.org>
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F3EF6E4F4
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 16:00:19 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id w3so22147074ejc.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 09:00:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=p7bfP/Jv9m+CuKopP6dZiGBXARW+4AF1swxGm5PUXzk=;
+ b=hriz/G0V7ghY9dIFj/41Pg2k6G+p5tBKc9w87L7+sd7+sT7DKQsT6JDv3x4F5pFw0Q
+ EN4j/WJc1qA3qvz891P1PN5vqDMl1NZQUp90QknkUj66nSc/382PSqhRAv2VTbg9Ywwl
+ BZtjHLeZ/Za9XUfypY1y89JEOJWkxxa1PBu0B1th0U3sLWLIap1WTDLtv0G0tn9BPOoH
+ UNzC4ptkCKOh9WXUMzcJnS8Jbk8+0/ayiojy2fH5BWm0eQtB+UST3Wwd3sB07+k5dmTY
+ v18umsmJ69A2lcojdOf+mAmpjWiv1e/8XxSTcEJ0ZXIiAF7BypgNtr9nvaq6CLSiW9Tb
+ YecA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p7bfP/Jv9m+CuKopP6dZiGBXARW+4AF1swxGm5PUXzk=;
+ b=mUYBiMpmTlJgz92a0uatKwswG52+cobnYIdCRdKvZEyeoXUEVT1KV82fR4X9Qa/MPV
+ DAi2quOYT7j8qEsQJt+s1ZM0NqQx4/nUgK1N72d5b7Z6nXVtrEK+DBZgFNcw8J/rzcKm
+ hk3+RXyH7RDeqrxaKiaW3u/B0vDiLbz/VOsCBCdbIxqrPfHTYNZtL98/te3/SBe0v5WF
+ cDEJfllOplUjbkH+WRU6EW1nvp/l6VyNrn3DniTEzcQmCg3Xpfgc08d/pq/Bgm2M/HQO
+ +/yglJL6ZgBNr/51Wbn7j3J6wko3m4gX7gEhgqKB+n6DaHnZEx6FveEhgYtlU+n5NjYz
+ NdlQ==
+X-Gm-Message-State: AOAM53276/NTK9fKt1pr4df9avX1G1QAI4auXFkd3sPFPsuoAL6ivlc9
+ EZZEhmMWIhxOI5+YUUOx4dpu+doEBwjmRIKeKtCl6Q==
+X-Google-Smtp-Source: ABdhPJxOhe6OnCFs++7sRVt0TsMFCWX8uJAGqUXVk54Cl0rBF+Fhwwc4VLQaPMogTyJcpimM2YVLX80CXV9/fo2p0LY=
+X-Received: by 2002:a17:906:f2d2:: with SMTP id
+ gz18mr480359ejb.454.1616428813734; 
+ Mon, 22 Mar 2021 09:00:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210322140548.GN1719932@casper.infradead.org>
-X-Mailman-Approved-At: Mon, 22 Mar 2021 16:06:00 +0000
+References: <20210319223856.2983244-1-jason@jlekstrand.net>
+ <20210319223856.2983244-2-jason@jlekstrand.net>
+ <CAOFGe94ggJUBH_+bbxAVLUge8NZQYHK55ZzjnQ2erXhh+r8c=A@mail.gmail.com>
+ <CAM0jSHPZCAJwaNHWPpKW1xhbm4Y8rBuQeWf+=egmY7VTKXaLwg@mail.gmail.com>
+In-Reply-To: <CAM0jSHPZCAJwaNHWPpKW1xhbm4Y8rBuQeWf+=egmY7VTKXaLwg@mail.gmail.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Mon, 22 Mar 2021 11:00:02 -0500
+Message-ID: <CAOFGe95m-wS4yo25cC_zFvxkYnY4AE-o-gadmtuMixy5HP3M+A@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 1/4] drm/i915: Drop I915_CONTEXT_PARAM_RINGSIZE
+To: Matthew Auld <matthew.william.auld@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,102 +65,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Linux MM <linux-mm@kvack.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Dave Chinner <dchinner@redhat.com>, Leo Liu <Leo.Liu@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon 22-03-21 14:05:48, Matthew Wilcox wrote:
-> On Mon, Mar 22, 2021 at 02:49:27PM +0100, Daniel Vetter wrote:
-> > On Sun, Mar 21, 2021 at 03:18:28PM +0100, Christian K=F6nig wrote:
-> > > Am 20.03.21 um 14:17 schrieb Daniel Vetter:
-> > > > On Sat, Mar 20, 2021 at 10:04 AM Christian K=F6nig
-> > > > <ckoenig.leichtzumerken@gmail.com> wrote:
-> > > > > Am 19.03.21 um 20:06 schrieb Daniel Vetter:
-> > > > > > On Fri, Mar 19, 2021 at 07:53:48PM +0100, Christian K=F6nig wro=
-te:
-> > > > > > > Am 19.03.21 um 18:52 schrieb Daniel Vetter:
-> > > > > > > > On Fri, Mar 19, 2021 at 03:08:57PM +0100, Christian K=F6nig=
- wrote:
-> > > > > > > > > Don't print a warning when we fail to allocate a page for=
- swapping things out.
-> > > > > > > > > =
+On Mon, Mar 22, 2021 at 5:52 AM Matthew Auld
+<matthew.william.auld@gmail.com> wrote:
+>
+> On Sat, 20 Mar 2021 at 14:48, Jason Ekstrand <jason@jlekstrand.net> wrote:
+> >
+> > On Fri, Mar 19, 2021 at 5:39 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
+> > >
+> > > This reverts commit 88be76cdafc7e60e2e4ed883bfe7e8dd7f35fa3a.  This API
+> > > has never been used by any real userspace.
+> >
+> > After further digging, there is a compute-runtime PR for this.  I
+> > still think we should drop it and I've updated the commit message
+> > locally with the following rationale:
+> >
+> >     This reverts commit 88be76cdafc7e60e2e4ed883bfe7e8dd7f35fa3a.  This API
+> >     was originally added for OpenCL but the compute-runtime PR has sat open
+> >     for a year without action so we can still pull it out if we want.  I
+> >     argue we should drop it for three reasons:
+> >
+> >      1. If the compute-runtime PR has sat open for a year, this clearly
+> >         isn't that important.
+> >
+> >      2. It's a very leaky API.  Ring size is an implementation detail of the
+> >         current execlist scheduler and really only makes sense there.  It
+> >         can't apply to the older ring-buffer scheduler on pre-execlist
+> >         hardware because that's shared across all contexts and it won't
+> >         apply to the GuC scheduler that's in the pipeline.
+>
+> Just a drive-by-comment. I thought the lrc model was shared between
+> execlists and the GuC, so in both cases we get something like a ring
+> per engine per context which the driver can emit commands into. Why
+> doesn't ring size still apply with the GuC scheduler?
 
-> > > > > > > > > Also rely on memalloc_nofs_save/memalloc_nofs_restore ins=
-tead of GFP_NOFS.
-> > > > > > > > Uh this part doesn't make sense. Especially since you only =
-do it for the
-> > > > > > > > debugfs file, not in general. Which means you've just compl=
-etely broken
-> > > > > > > > the shrinker.
-> > > > > > > Are you sure? My impression is that GFP_NOFS should now work =
-much more out
-> > > > > > > of the box with the memalloc_nofs_save()/memalloc_nofs_restor=
-e().
-> > > > > > Yeah, if you'd put it in the right place :-)
-> > > > > > =
+Even if they both have a ring in some sense, the number of bytes which
+correspond to a single request is going to be different and that
+difference isn't visible to userspace so bytes is the wrong unit.
 
-> > > > > > But also -mm folks are very clear that memalloc_no*() family is=
- for dire
-> > > > > > situation where there's really no other way out. For anything w=
-here you
-> > > > > > know what you're doing, you really should use explicit gfp flag=
-s.
-> > > > > My impression is just the other way around. You should try to avo=
-id the
-> > > > > NOFS/NOIO flags and use the memalloc_no* approach instead.
-> > > > Where did you get that idea?
-> > > =
-
-> > > Well from the kernel comment on GFP_NOFS:
-> > > =
-
-> > > =A0* %GFP_NOFS will use direct reclaim but will not use any filesystem
-> > > interfaces.
-> > > =A0* Please try to avoid using this flag directly and instead use
-> > > =A0* memalloc_nofs_{save,restore} to mark the whole scope which
-> > > cannot/shouldn't
-> > > =A0* recurse into the FS layer with a short explanation why. All allo=
-cation
-> > > =A0* requests will inherit GFP_NOFS implicitly.
-> > =
-
-> > Huh that's interesting, since iirc Willy or Dave told me the opposite, =
-and
-> > the memalloc_no* stuff is for e.g. nfs calling into network layer (needs
-> > GFP_NOFS) or swap on top of a filesystems (even needs GFP_NOIO I think).
-> > =
-
-> > Adding them, maybe I got confused.
-> =
-
-> My impression is that the scoped API is preferred these days.
-> =
-
-> https://www.kernel.org/doc/html/latest/core-api/gfp_mask-from-fs-io.html
-> =
-
-> I'd probably need to spend a few months learning the DRM subsystem to
-> have a more detailed opinion on whether passing GFP flags around explicit=
-ly
-> or using the scope API is the better approach for your situation.
-
-yes, in an ideal world we would have a clearly defined scope of the
-reclaim recursion wrt FS/IO associated with it. I've got back to
-https://lore.kernel.org/amd-gfx/20210319140857.2262-1-christian.koenig@amd.=
-com/
-and there are two things standing out. Why does ttm_tt_debugfs_shrink_show
-really require NOFS semantic? And why does it play with
-fs_reclaim_acquire?
-
--- =
-
-Michal Hocko
-SUSE Labs
+--Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
