@@ -2,54 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A5E344B3B
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 17:27:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46026344E4D
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 19:20:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7EFD6E519;
-	Mon, 22 Mar 2021 16:26:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2C6B6E045;
+	Mon, 22 Mar 2021 18:19:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD11B6E519
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 16:26:56 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- f73-20020a9d03cf0000b02901b4d889bce0so16503494otf.12
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 09:26:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Tqh9FeOHVd4poYote/ngr+Xzz2Rj23UjzEqrB7uTeRo=;
- b=cpNXOIFlnTrxbTTxFrPv67IFYXotVX6OHbtc9plOtfWvrdMYilu1fSscnSkOvm6A9A
- tb5N3Y4KyIybiyqrF12g2WuE8up3mebJLU084AiAw1XTnKOwJUW4/2TBvdRrSsSuQr8B
- DBVKj27tC8kRrjrGRqEbux3pa6HSRv0qvxcAI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Tqh9FeOHVd4poYote/ngr+Xzz2Rj23UjzEqrB7uTeRo=;
- b=a4rAmx+IKa5WEwqVu8jlKeEy+vs4dEP95YBcJNwaQkGsBzRJeehxi5gsWT5RWIk/iX
- tujmfBCcG4k55UBQltG3X92yvS+bS//oHtAPDWGccBHSraLlJtTzJZllmWSMMRH0qWXW
- N7cniGzkAIBuYKEiz3Avxb3yojaDBzYTchbxJJRku9uDayRmAePlpiYGSb5lGfWrdRbo
- XKauxare4YaDpzPuiQL8JMgKZGk+4wUWjEsGsS3NzMc4Mhtnj4Z0GPexuMFihBO1REGy
- +wU/LBFzmcO2dKTKTsjEOCtfu1q4TldT8C6WLwoqiPMQfVjx4r/stkWHKpZKUSS7cNbj
- aoAw==
-X-Gm-Message-State: AOAM532O/mRe9uauXCAoaaBYddn53FZwOvKycN5zHgQ2ggQqZ/9xqbVq
- mOH2s3JN64iur+19MHbMNN9iUjKJIF+i6Jo59rYg3vpUoKaiStSX
-X-Google-Smtp-Source: ABdhPJzmE4tgEpb/ip2Lx5v3nt77TXD1Cj/CIGBi50PjCLpf9bgUX0JMxFbk82TA8RxbH5/WpyAySxb33kK3SGv1lFs=
-X-Received: by 2002:a9d:7b4e:: with SMTP id f14mr588783oto.281.1616430416150; 
- Mon, 22 Mar 2021 09:26:56 -0700 (PDT)
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24D6A6E4F8;
+ Mon, 22 Mar 2021 16:31:54 +0000 (UTC)
+Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160]
+ helo=wittgenstein) by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <christian.brauner@ubuntu.com>)
+ id 1lONSm-0008Gw-T8; Mon, 22 Mar 2021 16:31:33 +0000
+Date: Mon, 22 Mar 2021 17:31:31 +0100
+From: Christian Brauner <christian.brauner@ubuntu.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH 03/11] security: commoncap: fix -Wstringop-overread warning
+Message-ID: <20210322163131.yaovowes2raydgyg@wittgenstein>
+References: <20210322160253.4032422-1-arnd@kernel.org>
+ <20210322160253.4032422-4-arnd@kernel.org>
 MIME-Version: 1.0
-References: <20210319223856.2983244-1-jason@jlekstrand.net>
- <20210319223856.2983244-2-jason@jlekstrand.net>
- <CAOFGe94ggJUBH_+bbxAVLUge8NZQYHK55ZzjnQ2erXhh+r8c=A@mail.gmail.com>
- <87wntz5rdg.fsf@intel.com>
- <CAOFGe97UDA9n6LCGXEZi-2B6ZTNeOG+D7sEX1kwEF5L2kUsWcw@mail.gmail.com>
-In-Reply-To: <CAOFGe97UDA9n6LCGXEZi-2B6ZTNeOG+D7sEX1kwEF5L2kUsWcw@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 22 Mar 2021 17:26:44 +0100
-Message-ID: <CAKMK7uH1o316GKH9234AZUE9Oo3STE7zt1aHY2uqZE9PYy6zzQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/4] drm/i915: Drop I915_CONTEXT_PARAM_RINGSIZE
-To: Jason Ekstrand <jason@jlekstrand.net>
+Content-Disposition: inline
+In-Reply-To: <20210322160253.4032422-4-arnd@kernel.org>
+X-Mailman-Approved-At: Mon, 22 Mar 2021 18:19:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,65 +41,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org, James Morris <jmorris@namei.org>,
+ linux-scsi@vger.kernel.org, x86@kernel.org,
+ James Smart <james.smart@broadcom.com>, tboot-devel@lists.sourceforge.net,
+ Kalle Valo <kvalo@codeaurora.org>, ath11k@lists.infradead.org,
+ Serge Hallyn <serge@hallyn.com>, Miklos Szeredi <mszeredi@redhat.com>,
+ Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, Ning Sun <ning.sun@intel.com>,
+ Anders Larsen <al@alarsen.net>, cgroups@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Martin Sebor <msebor@gcc.gnu.org>,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+ "Eric W. Biederman" <ebiederm@xmission.com>, Tejun Heo <tj@kernel.org>,
+ Simon Kelley <simon@thekelleys.org.uk>, intel-gfx@lists.freedesktop.org,
+ Tycho Andersen <tycho@tycho.pizza>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 22, 2021 at 5:01 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
->
-> On Mon, Mar 22, 2021 at 7:01 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> >
-> > On Sat, 20 Mar 2021, Jason Ekstrand <jason@jlekstrand.net> wrote:
-> > >     This reverts commit 88be76cdafc7e60e2e4ed883bfe7e8dd7f35fa3a.  This API
-> >
-> > Small nit, I think it would be useful to reference commits with the
-> > citation style:
-> >
-> > 88be76cdafc7 ("drm/i915: Allow userspace to specify ringsize on construction")
->
-> Done.
->
-> >
-> > I use this monster in my .gitconfig:
-> >
-> > [alias]
-> >         cite = "!f() { git log -1 '--pretty=format:%H (\"%s\")%n' $1 | sed -e 's/\\([0-f]\\{12\\}\\)[0-f]*/\\1/'; }; f"
->
-> Thanks for the tip!
-
-dim script from maintainer-tools has a bunch of these helpers
-(andother one is dim fixes for generating Cc: lists) which should work
-even without commit rights and all that set up:
-
-https://gitlab.freedesktop.org/drm/maintainer-tools/-/blob/master/dim
-
-Cheers, Daniel
-
->
-> > With that, 'git cite <committish>' will give you the nice reference with
-> > 12 chars of sha1 regardless of core.abbrev config.
-> >
-> >
-> > BR,
-> > Jani.
-> >
-> > --
-> > Jani Nikula, Intel Open Source Graphics Center
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBNYXIgMjIsIDIwMjEgYXQgMDU6MDI6NDFQTSArMDEwMCwgQXJuZCBCZXJnbWFubiB3
+cm90ZToKPiBGcm9tOiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgo+IAo+IGdjYy0xMSBp
+bnRyb2RjZXMgYSBoYXJtbGVzcyB3YXJuaW5nIGZvciBjYXBfaW5vZGVfZ2V0c2VjdXJpdHk6Cj4g
+Cj4gc2VjdXJpdHkvY29tbW9uY2FwLmM6IEluIGZ1bmN0aW9uIOKAmGNhcF9pbm9kZV9nZXRzZWN1
+cml0eeKAmToKPiBzZWN1cml0eS9jb21tb25jYXAuYzo0NDA6MzM6IGVycm9yOiDigJhtZW1jcHni
+gJkgcmVhZGluZyAxNiBieXRlcyBmcm9tIGEgcmVnaW9uIG9mIHNpemUgMCBbLVdlcnJvcj1zdHJp
+bmdvcC1vdmVycmVhZF0KPiAgIDQ0MCB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+bWVtY3B5KCZuc2NhcC0+ZGF0YSwgJmNhcC0+ZGF0YSwgc2l6ZW9mKF9fbGUzMikgKiAyICogVkZT
+X0NBUF9VMzIpOwo+ICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn4KPiAKPiBUaGUgcHJvYmxlbSBoZXJlIGlzIHRoYXQgdG1wYnVmIGlzIGluaXRpYWxpemVk
+IHRvIE5VTEwsIHNvIGdjYyBhc3N1bWVzCj4gaXQgaXMgbm90IGFjY2Vzc2libGUgdW5sZXNzIGl0
+IGdldHMgc2V0IGJ5IHZmc19nZXR4YXR0cl9hbGxvYygpLiAgVGhpcyBpcwo+IGEgbGVnaXRpbWF0
+ZSB3YXJuaW5nIGFzIGZhciBhcyBJIGNhbiB0ZWxsLCBidXQgdGhlIGNvZGUgaXMgY29ycmVjdCBz
+aW5jZQo+IGl0IGNvcnJlY3RseSBoYW5kbGVzIHRoZSBlcnJvciB3aGVuIHRoYXQgZnVuY3Rpb24g
+ZmFpbHMuCj4gCj4gQWRkIGEgc2VwYXJhdGUgTlVMTCBjaGVjayB0byB0ZWxsIGdjYyBhYm91dCBp
+dCBhcyB3ZWxsLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIu
+ZGU+Cj4gLS0tCgpTZWVtcyByZWFzb25hYmxlLApBY2tlZC1ieTogQ2hyaXN0aWFuIEJyYXVuZXIg
+PGNocmlzdGlhbi5icmF1bmVyQHVidW50dS5jb20+Cl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAo=
