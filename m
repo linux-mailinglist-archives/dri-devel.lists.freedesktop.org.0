@@ -1,34 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46026344E4D
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 19:20:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C86344B78
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 17:35:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2C6B6E045;
-	Mon, 22 Mar 2021 18:19:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F38FB6E514;
+	Mon, 22 Mar 2021 16:35:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24D6A6E4F8;
- Mon, 22 Mar 2021 16:31:54 +0000 (UTC)
-Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160]
- helo=wittgenstein) by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <christian.brauner@ubuntu.com>)
- id 1lONSm-0008Gw-T8; Mon, 22 Mar 2021 16:31:33 +0000
-Date: Mon, 22 Mar 2021 17:31:31 +0100
-From: Christian Brauner <christian.brauner@ubuntu.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH 03/11] security: commoncap: fix -Wstringop-overread warning
-Message-ID: <20210322163131.yaovowes2raydgyg@wittgenstein>
-References: <20210322160253.4032422-1-arnd@kernel.org>
- <20210322160253.4032422-4-arnd@kernel.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A30956E514
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 16:35:41 +0000 (UTC)
+Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net
+ [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 904E1AD6;
+ Mon, 22 Mar 2021 17:35:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1616430939;
+ bh=8x6jVZUTB5hPvbUyMB446A1rKjbZZwJeBzpTgWHhG/E=;
+ h=From:To:Cc:Subject:Date:From;
+ b=sBvW+ZMV+zmycfi6uC2Gpv10wwYB9gxMxds6F3jUgWCuWBo5JDTUxb+OumcfnDsZZ
+ aQSd2gNE+bmf5ZLRw9W7Lf1QBaoy3HrG6KsvFHm8pkCJ/FXIE8Y6DC+sjDzMozsuJT
+ 15ieDQX4mS/hSQIPvmpGTA3mOgTXY3G7sYtMeZ7A=
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v5 00/10] drm: rcar-du: Rework CRTC and groups for atomic
+ commits
+Date: Mon, 22 Mar 2021 16:35:25 +0000
+Message-Id: <20210322163535.1090570-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210322160253.4032422-4-arnd@kernel.org>
-X-Mailman-Approved-At: Mon, 22 Mar 2021 18:19:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,44 +46,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, James Morris <jmorris@namei.org>,
- linux-scsi@vger.kernel.org, x86@kernel.org,
- James Smart <james.smart@broadcom.com>, tboot-devel@lists.sourceforge.net,
- Kalle Valo <kvalo@codeaurora.org>, ath11k@lists.infradead.org,
- Serge Hallyn <serge@hallyn.com>, Miklos Szeredi <mszeredi@redhat.com>,
- Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, Ning Sun <ning.sun@intel.com>,
- Anders Larsen <al@alarsen.net>, cgroups@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Martin Sebor <msebor@gcc.gnu.org>,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
- "Eric W. Biederman" <ebiederm@xmission.com>, Tejun Heo <tj@kernel.org>,
- Simon Kelley <simon@thekelleys.org.uk>, intel-gfx@lists.freedesktop.org,
- Tycho Andersen <tycho@tycho.pizza>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBNYXIgMjIsIDIwMjEgYXQgMDU6MDI6NDFQTSArMDEwMCwgQXJuZCBCZXJnbWFubiB3
-cm90ZToKPiBGcm9tOiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgo+IAo+IGdjYy0xMSBp
-bnRyb2RjZXMgYSBoYXJtbGVzcyB3YXJuaW5nIGZvciBjYXBfaW5vZGVfZ2V0c2VjdXJpdHk6Cj4g
-Cj4gc2VjdXJpdHkvY29tbW9uY2FwLmM6IEluIGZ1bmN0aW9uIOKAmGNhcF9pbm9kZV9nZXRzZWN1
-cml0eeKAmToKPiBzZWN1cml0eS9jb21tb25jYXAuYzo0NDA6MzM6IGVycm9yOiDigJhtZW1jcHni
-gJkgcmVhZGluZyAxNiBieXRlcyBmcm9tIGEgcmVnaW9uIG9mIHNpemUgMCBbLVdlcnJvcj1zdHJp
-bmdvcC1vdmVycmVhZF0KPiAgIDQ0MCB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-bWVtY3B5KCZuc2NhcC0+ZGF0YSwgJmNhcC0+ZGF0YSwgc2l6ZW9mKF9fbGUzMikgKiAyICogVkZT
-X0NBUF9VMzIpOwo+ICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn4KPiAKPiBUaGUgcHJvYmxlbSBoZXJlIGlzIHRoYXQgdG1wYnVmIGlzIGluaXRpYWxpemVk
-IHRvIE5VTEwsIHNvIGdjYyBhc3N1bWVzCj4gaXQgaXMgbm90IGFjY2Vzc2libGUgdW5sZXNzIGl0
-IGdldHMgc2V0IGJ5IHZmc19nZXR4YXR0cl9hbGxvYygpLiAgVGhpcyBpcwo+IGEgbGVnaXRpbWF0
-ZSB3YXJuaW5nIGFzIGZhciBhcyBJIGNhbiB0ZWxsLCBidXQgdGhlIGNvZGUgaXMgY29ycmVjdCBz
-aW5jZQo+IGl0IGNvcnJlY3RseSBoYW5kbGVzIHRoZSBlcnJvciB3aGVuIHRoYXQgZnVuY3Rpb24g
-ZmFpbHMuCj4gCj4gQWRkIGEgc2VwYXJhdGUgTlVMTCBjaGVjayB0byB0ZWxsIGdjYyBhYm91dCBp
-dCBhcyB3ZWxsLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIu
-ZGU+Cj4gLS0tCgpTZWVtcyByZWFzb25hYmxlLApBY2tlZC1ieTogQ2hyaXN0aWFuIEJyYXVuZXIg
-PGNocmlzdGlhbi5icmF1bmVyQHVidW50dS5jb20+Cl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+This patch series refactors atomic commit tail handling in the R-Car DU
+driver to simplify the code flow, and open the door to further
+optimisations. This iteration rebases the previous work and fixes a bug
+reported by the build bots.
+
+The R-Car DU is a bit of a strange beast, with support for up to four
+CRTCs that share resources in groups of two CRTCs. Depending on the
+generation, planes can be shared (on Gen 1 and Gen 2), and output
+routing configuration is also handled at the group level to some extent.
+Furthermore, many configuration parameters, especially those related to
+routing or clock handling, require the whole group to be restarted to
+take effect, even when the parameter itself affects a single CRTC only.
+
+This hardware architecture is difficult to handle properly on the
+software side, and has resulted in group usage being reference-counted
+while CRTC usage only tracks the enabled state. Calls are then
+unbalanced and difficult to trace, especially for the configuration of
+output routing, and implementation of new shared resources is hindered.
+This patch series aims at solving this problem.
+
+The series starts with 4 patches that touch the API between the DU and
+VSP drivers. It became apparent that we need to split the configuration
+of the VSP to allow fine grain control of setting the mode configuration
+and enabling/disabling of the pipeline. To support the cross-component
+API, the new interface is added in patch 01/10, including an
+implementation of vsp1_du_setup_lif() to support the transition. Patch
+02/10 prepares for the new call flow that will call the atomic flush
+handler before enabling the pipeline. The DRM usage is adapted in patch
+03/10, before the call is removed entirely in patch 04/10.
+
+The next two patches convert CRTC clock handling and initial setup,
+potentially called from both the CRTC .atomic_begin() and
+.atomic_enable() operations, to a simpler code flow controlled by the
+commit tail handler. Patch 05/10 takes the CRTCs out of standby and put
+them back in standby respectively at the beginning and end of the commit
+tail handler, based on the CRTC atomic state instead of state
+information stored in the custom rcar_du_crtc structure. Patch 06/10
+then performs a similar change for the CRTC mode setting configuration.
+
+Finally, the last four patches introduce a DRM private object for the
+CRTC groups, along with an associated state. Patch 07/10 adds a helper
+macro to easily iterate over CRTC groups, and patch 08/10 adds the group
+private objects and empty states. Patches 09/10 and 10/10 respectively
+move the group setup and routing configuration under control of the
+commit tail handler, simplifying the configuration and moving state
+information from driver structures to state structures.
+
+More refactoring is expected, with plane assignment being moved to group
+states, and group restart being optimised to avoid flickering. Better
+configuration of pixel clocks could also be implemented on top of this
+series.
+
+The whole series has been tested on Salvator-XS with the DU test suite
+(http://git.ideasonboard.com/renesas/kms-tests.git).  No failure or
+change in behaviour has been noticed.
+
+Kieran Bingham (8):
+  media: vsp1: drm: Split vsp1_du_setup_lif()
+  drm: rcar-du: Convert to the new VSP atomic API
+  media: vsp1: drm: Remove vsp1_du_setup_lif()
+  drm: rcar-du: Handle CRTC standby from commit tail handler
+  drm: rcar-du: Handle CRTC configuration from commit tail handler
+  drm: rcar-du: Provide for_each_group helper
+  drm: rcar-du: Create a group state object
+  drm: rcar-du: Perform group setup from the atomic tail handler
+
+Laurent Pinchart (2):
+  media: vsp1: drm: Don't configure hardware when the pipeline is
+    disabled
+  drm: rcar-du: Centralise routing configuration in commit tail handler
+
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c  | 160 ++++++----
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h  |   9 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h   |   6 +-
+ drivers/gpu/drm/rcar-du/rcar_du_group.c | 390 +++++++++++++++++++-----
+ drivers/gpu/drm/rcar-du/rcar_du_group.h |  44 ++-
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c   |  63 ++--
+ drivers/gpu/drm/rcar-du/rcar_du_plane.c |  10 +-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c   |  20 +-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.h   |   3 +
+ drivers/media/platform/vsp1/vsp1_drm.c  | 188 ++++++++----
+ drivers/media/platform/vsp1/vsp1_drm.h  |   2 +
+ include/media/vsp1.h                    |  25 +-
+ 12 files changed, 644 insertions(+), 276 deletions(-)
+
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
