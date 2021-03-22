@@ -2,59 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD603450BF
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 21:30:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1574834512B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 21:51:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78B8A6E067;
-	Mon, 22 Mar 2021 20:30:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2715C6E5B4;
+	Mon, 22 Mar 2021 20:51:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 420106E067;
- Mon, 22 Mar 2021 20:30:03 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id z1so21001089edb.8;
- Mon, 22 Mar 2021 13:30:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=7QH2qH8OXw7astC9J+hBZNIvd5jFa6HOZzbSlRf+8Ek=;
- b=T8MfESZQxe3NObZ/7MqvvJi28NxxdFf3ab07gERPhzLT804c2DkkhJkBMdizuiX7N5
- CHF46uFWWZ0cEHLJOYnXTiyTVv5tLvjO1lmS5Ohg2XPP88nZmWW9F5ARG6cD601rZ5/K
- zoiBTqPm5H0nLHbAPcra7yZ3RbLdPm8oZKbWma9nQPHRlRk5CMs6B2AjWWGtpKPrvkGd
- rL5fFWVmWmq+K/IWUKd2YrrT8XNdUQvFpqJ+tfEUQNjkhvUoBFoAG9jEiozLdABWs7F1
- P6ZC1gmMny9VZsWnwgXXF/Dsydybb92YeAKNqz04oOvYAWJ3XKyrs6O1pidMSVkxvnmE
- iM1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=7QH2qH8OXw7astC9J+hBZNIvd5jFa6HOZzbSlRf+8Ek=;
- b=I+PCkleJXH8mTX5Eej7abXCF5KCZ0jOaJBmUOQSDkjOmTaezV1Mt+C6mbV+QXvrKTd
- ecjqE/IvqN9So9i4mhwFahijHQ/6yczx37KEZUDIzUrhbLf4SkerEkkcW+oRvFMv/MTG
- djyF58W1+b3cPg7zp1xYIuPuzCuQcCGDdKsfjwdQ4tiVKVzB9RtPVgOJFN7sM7DLmOOk
- cH77dNlKZNbrGoK9NHA+3EF3BhCH1QqhLTWO94Z5huh6+EgeN5/5W3djfyzN2q9wdnOe
- uGEOfklEE60id9yjpfRbFnDaOJbojVG1e1HbN9f8ZktwzVVwuJVhJE6cuJfDkLCYTB7Z
- msGQ==
-X-Gm-Message-State: AOAM533hwA5rtUMBHNc/NcsOYsfA8DFiRpZKKeIcyrmKaQUdUOJjWKbF
- PodevsYFiuKra05gxHniXjU=
-X-Google-Smtp-Source: ABdhPJwU1mWLXQUCBk/cr2I4/KV5sNA0QBX6NdJBSPel6aICLgwoK3n4c4u3DzEAz75RN+WAzRwu0Q==
-X-Received: by 2002:aa7:c447:: with SMTP id n7mr1365222edr.171.1616445001869; 
- Mon, 22 Mar 2021 13:30:01 -0700 (PDT)
-Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
- by smtp.gmail.com with ESMTPSA id x1sm10321496eji.8.2021.03.22.13.30.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 13:30:01 -0700 (PDT)
-Date: Mon, 22 Mar 2021 21:29:58 +0100
-From: Ingo Molnar <mingo@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH 02/11] x86: tboot: avoid Wstringop-overread-warning
-Message-ID: <20210322202958.GA1955909@gmail.com>
-References: <20210322160253.4032422-1-arnd@kernel.org>
- <20210322160253.4032422-3-arnd@kernel.org>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F1486E5B4;
+ Mon, 22 Mar 2021 20:51:51 +0000 (UTC)
+IronPort-SDR: fKGwnLKcLq3xwrzMUhk1hJCGmeLKbkrF42PvoFJduIzH/LzUJaH0we2BfNu1MqETHvO3VMODKg
+ 5JGkX7hmYiSA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="190373947"
+X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; d="scan'208";a="190373947"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2021 13:51:50 -0700
+IronPort-SDR: 9rD+cPZNNn/jiw3DxHGciMk7J0kZvRlVXCTtRJlRI5EQ2r2fXy7DCWHdpYPL2zNta549kgMuJa
+ XhEPTZYcFuuA==
+X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; d="scan'208";a="390619153"
+Received: from hhchau-mobl1.amr.corp.intel.com (HELO intel.com)
+ ([10.212.137.90])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2021 13:51:49 -0700
+Date: Mon, 22 Mar 2021 16:51:47 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/display/vlv_dsi: Do no shut down
+ displays on reboot if a DSI panel is used
+Message-ID: <YFkDYzN0NJ3Co8bT@intel.com>
+References: <20210301154347.50052-1-hdegoede@redhat.com>
+ <8d882647-bab3-dfc3-70ad-4f1910dcb5af@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210322160253.4032422-3-arnd@kernel.org>
+In-Reply-To: <8d882647-bab3-dfc3-70ad-4f1910dcb5af@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,127 +49,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
- Will Deacon <will@kernel.org>, linux-scsi@vger.kernel.org, x86@kernel.org,
- James Smart <james.smart@broadcom.com>, tboot-devel@lists.sourceforge.net,
- Ingo Molnar <mingo@redhat.com>, Kalle Valo <kvalo@codeaurora.org>,
- ath11k@lists.infradead.org, Serge Hallyn <serge@hallyn.com>,
- Arnd Bergmann <arnd@arndb.de>, "James E.J. Bottomley" <jejb@linux.ibm.com>,
- Ning Sun <ning.sun@intel.com>, Anders Larsen <al@alarsen.net>,
- Borislav Petkov <bp@alien8.de>, cgroups@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Martin Sebor <msebor@gcc.gnu.org>, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-security-module@vger.kernel.org, Tejun Heo <tj@kernel.org>,
- Simon Kelley <simon@thekelleys.org.uk>,
- Andrew Morton <akpm@linux-foundation.org>, intel-gfx@lists.freedesktop.org,
- Lu Baolu <baolu.lu@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org,
+ intel-gfx <intel-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-* Arnd Bergmann <arnd@kernel.org> wrote:
-
-> From: Arnd Bergmann <arnd@arndb.de>
+On Fri, Mar 19, 2021 at 04:45:32PM +0100, Hans de Goede wrote:
+> Hi,
 > 
-> gcc-11 warns about using string operations on pointers that are
-> defined at compile time as offsets from a NULL pointer. Unfortunately
-> that also happens on the result of fix_to_virt(), which is a
-> compile-time constant for a constantn input:
+> On 3/1/21 4:43 PM, Hans de Goede wrote:
+> > After the recently added commit fe0f1e3bfdfe ("drm/i915: Shut down
+> > displays gracefully on reboot"), the DSI panel on a Cherry Trail based
+> > Predia Basic tablet would no longer properly light up after reboot.
+> > 
+> > The backlight still turns back on after reboot, but the LCD shows an
+> > all black display. The display is also all black during the time that
+> > EFI / the GOP is managing it, so e.g. the grub menu also is not visible.
+> > 
+> > In this scenario the panel is initialized so that it appears to be working
+> > and the fastboot code skips doing a modeset. Forcing a modeset by doing a
+> > chvt to a text-console over ssh followed by echo-ing 1 and then 0 to
+> > /sys/class/graphics/fb0/blank causes the panel to work again.
+> > 
+> > Add a QUIRK_SKIP_SHUTDOWN quirk which turns i915_driver_shutdown() into
+> > a no-op when set; and set this on vlv/chv devices when a DSI panel is
+> > detected, to work around this.
+> > 
+> > Admittedly this is a bit of a big hammer, but these platforms have been
+> > around for quite some time now and they have always worked fine without
+> > the new behavior to shutdown everything on shutdown/reboot. This approach
+> > simply disables the recently introduced new shutdown behavior in this
+> > specific case where it is known to cause problems. Which is a nice and
+> > simple way to deal with this.
+> > 
+> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > 
-> arch/x86/kernel/tboot.c: In function 'tboot_probe':
-> arch/x86/kernel/tboot.c:70:13: error: '__builtin_memcmp_eq' specified bound 16 exceeds source size 0 [-Werror=stringop-overread]
->    70 |         if (memcmp(&tboot_uuid, &tboot->uuid, sizeof(tboot->uuid))) {
->       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> Ping? Since sending this patch I've been seeing the issue addressed by
+> this on variour other CHT based devices too.
 > 
-> I hope this can get addressed in gcc-11 before the release.
+> So we have various devices suffering from a black screen after reboot
+> now. This is pretty serious usability regression.
 > 
-> As a workaround, split up the tboot_probe() function in two halves
-> to separate the pointer generation from the usage. This is a bit
-> ugly, and hopefully gcc understands that the code is actually correct
-> before it learns to peek into the noinline function.
+> As such it would be good to get this reviewed, or another fix proposed.
+
+For the quirks we try to limit them to very specific vendor and model ids,
+so I wonder if it would be possible to get this information in here instead
+to all the vlv with dsi...
+
+Or avoid the quirk "infra" and skip to all vlv with active dsi?!
+
+Jani?
+Ville?
+
 > 
-> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99578
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  arch/x86/kernel/tboot.c | 44 ++++++++++++++++++++++++-----------------
->  1 file changed, 26 insertions(+), 18 deletions(-)
+> Regards,
 > 
-> diff --git a/arch/x86/kernel/tboot.c b/arch/x86/kernel/tboot.c
-> index 4c09ba110204..f9af561c3cd4 100644
-> --- a/arch/x86/kernel/tboot.c
-> +++ b/arch/x86/kernel/tboot.c
-> @@ -49,6 +49,30 @@ bool tboot_enabled(void)
->  	return tboot != NULL;
->  }
->  
-> +/* noinline to prevent gcc from warning about dereferencing constant fixaddr */
-> +static noinline __init bool check_tboot_version(void)
-> +{
-> +	if (memcmp(&tboot_uuid, &tboot->uuid, sizeof(tboot->uuid))) {
-> +		pr_warn("tboot at 0x%llx is invalid\n", boot_params.tboot_addr);
-> +		return false;
-> +	}
-> +
-> +	if (tboot->version < 5) {
-> +		pr_warn("tboot version is invalid: %u\n", tboot->version);
-> +		return false;
-> +	}
-> +
-> +	pr_info("found shared page at phys addr 0x%llx:\n",
-> +		boot_params.tboot_addr);
-> +	pr_debug("version: %d\n", tboot->version);
-> +	pr_debug("log_addr: 0x%08x\n", tboot->log_addr);
-> +	pr_debug("shutdown_entry: 0x%x\n", tboot->shutdown_entry);
-> +	pr_debug("tboot_base: 0x%08x\n", tboot->tboot_base);
-> +	pr_debug("tboot_size: 0x%x\n", tboot->tboot_size);
-> +
-> +	return true;
-> +}
-> +
->  void __init tboot_probe(void)
->  {
->  	/* Look for valid page-aligned address for shared page. */
-> @@ -66,25 +90,9 @@ void __init tboot_probe(void)
->  
->  	/* Map and check for tboot UUID. */
->  	set_fixmap(FIX_TBOOT_BASE, boot_params.tboot_addr);
-> -	tboot = (struct tboot *)fix_to_virt(FIX_TBOOT_BASE);
-> -	if (memcmp(&tboot_uuid, &tboot->uuid, sizeof(tboot->uuid))) {
-> -		pr_warn("tboot at 0x%llx is invalid\n", boot_params.tboot_addr);
-> +	tboot = (void *)fix_to_virt(FIX_TBOOT_BASE);
-> +	if (!check_tboot_version())
->  		tboot = NULL;
-> -		return;
-> -	}
-> -	if (tboot->version < 5) {
-> -		pr_warn("tboot version is invalid: %u\n", tboot->version);
-> -		tboot = NULL;
-> -		return;
-> -	}
-> -
-> -	pr_info("found shared page at phys addr 0x%llx:\n",
-> -		boot_params.tboot_addr);
-> -	pr_debug("version: %d\n", tboot->version);
-> -	pr_debug("log_addr: 0x%08x\n", tboot->log_addr);
-> -	pr_debug("shutdown_entry: 0x%x\n", tboot->shutdown_entry);
-> -	pr_debug("tboot_base: 0x%08x\n", tboot->tboot_base);
-> -	pr_debug("tboot_size: 0x%x\n", tboot->tboot_size);
-
-This is indeed rather ugly - and the other patch that removes a debug 
-check seems counterproductive as well.
-
-Do we know how many genuine bugs -Wstringop-overread-warning has 
-caught or is about to catch?
-
-I.e. the real workaround might be to turn off the -Wstringop-overread-warning,
-until GCC-11 gets fixed?
-
-Thanks,
-
-	Ingo
+> Hans
+> 
+> 
+> 
+> > ---
+> >  drivers/gpu/drm/i915/display/vlv_dsi.c | 3 +++
+> >  drivers/gpu/drm/i915/i915_drv.c        | 3 +++
+> >  drivers/gpu/drm/i915/i915_drv.h        | 1 +
+> >  3 files changed, 7 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
+> > index f94025ec603a..792ef868b6af 100644
+> > --- a/drivers/gpu/drm/i915/display/vlv_dsi.c
+> > +++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
+> > @@ -1949,6 +1949,9 @@ void vlv_dsi_init(struct drm_i915_private *dev_priv)
+> >  
+> >  	vlv_dsi_add_properties(intel_connector);
+> >  
+> > +	/* Some BIOS-es fail to re-init the DSI panel on reboot if we turn it off */
+> > +	dev_priv->quirks |= QUIRK_SKIP_SHUTDOWN;
+> > +
+> >  	return;
+> >  
+> >  err_cleanup_connector:
+> > diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+> > index 8e9cb44e66e5..92f2af55af6d 100644
+> > --- a/drivers/gpu/drm/i915/i915_drv.c
+> > +++ b/drivers/gpu/drm/i915/i915_drv.c
+> > @@ -1048,6 +1048,9 @@ static void intel_shutdown_encoders(struct drm_i915_private *dev_priv)
+> >  
+> >  void i915_driver_shutdown(struct drm_i915_private *i915)
+> >  {
+> > +	if (i915->quirks & QUIRK_SKIP_SHUTDOWN)
+> > +		return;
+> > +
+> >  	disable_rpm_wakeref_asserts(&i915->runtime_pm);
+> >  
+> >  	i915_gem_suspend(i915);
+> > diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> > index 26d69d06aa6d..272cd7cb22d4 100644
+> > --- a/drivers/gpu/drm/i915/i915_drv.h
+> > +++ b/drivers/gpu/drm/i915/i915_drv.h
+> > @@ -517,6 +517,7 @@ struct i915_psr {
+> >  #define QUIRK_PIN_SWIZZLED_PAGES (1<<5)
+> >  #define QUIRK_INCREASE_T12_DELAY (1<<6)
+> >  #define QUIRK_INCREASE_DDI_DISABLED_TIME (1<<7)
+> > +#define QUIRK_SKIP_SHUTDOWN (1<<8)
+> >  
+> >  struct intel_fbdev;
+> >  struct intel_fbc_work;
+> > 
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
