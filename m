@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D70D34466E
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 15:02:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEAAE34466F
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 15:02:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 191FF89D84;
-	Mon, 22 Mar 2021 14:02:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F26189DBD;
+	Mon, 22 Mar 2021 14:02:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DE8189D4D
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 14:02:20 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- a22-20020a17090aa516b02900c1215e9b33so10587060pjq.5
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 07:02:20 -0700 (PDT)
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C107889DBD
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 14:02:26 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id v2so8676285pgk.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 07:02:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yFiw4jYyVPgKKK9i77Vkg4hTSWnNarff0aeFjf5I2bg=;
- b=FQnXW17jLClsIa0WCco6PtxWqpR+hJ1FFaXzWbR1wwd4gF7f3cF/WbmZhsxFSrKU1+
- 7QBqOl6PswpPSu8qPTP5iZoTftcoScwprRC3ZdX1tbFgEC2FBx/lsPVpaEBs2egfV7Zp
- ZHj/sXaZVDEdjK8MZ6AjnDI9lsrKqWaEVZfXE=
+ bh=tNbrx86DmSZYrQGPtYW/NrYWvp0JiJ6t7g8UyTa2yps=;
+ b=Idm1TRUwyS7zoyZ0x5Jvarukc5YvesuKKpp07dpHvp2f6ETWIWw1+hJgNs8cqOkYVN
+ MTQHCYi83l/IIH2ga0WYbDvz+orKOal6INF2WsCpg1YiA9/HixP5tg2gWFUPQuoqEfwG
+ 14G5gC0WAkIz7nZeQsvBsWWUpzlDe54IsKw40=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yFiw4jYyVPgKKK9i77Vkg4hTSWnNarff0aeFjf5I2bg=;
- b=DO2stjToUxZWQ4Qi8T3cK3/fAF9z+q5f9USqh6slU0XPRmOUICMgl8/9ZXBVCNBXZ0
- rrRMcCwOL25h8EFxuaBCwao2NPS2KNnPwbUBGF5hrx5laNN4SpmPfhFSMCT0+KEmoFnp
- d3kwcDi7dMT4J5WVLVZjTIJjETs27D5J/yHHAVLJGrkwktM0wJGwlS2pHldn1lFguS1F
- J753aThmb2P24Hjc5FRbPzcjUWKRtB14sP2N5EZwAe2CrpOL2fd62Mtu/qQI7rQNHJ8f
- V+jlQ1K9aeDVbXb57//pnnIBPoEM0OEKsgFy4I204upCigUkosFJQI56MF8Tg5ioSuNC
- iBwg==
-X-Gm-Message-State: AOAM531HfEHztyUjCLPcMwkw7y47MhzIpDwmrmEAf7GDSiomjPVnciCl
- 69EAiradLMxyVf+H2pd896j6HHsQ7dJ0v99C
-X-Google-Smtp-Source: ABdhPJzE58DFBYBPm4FTbLkJ3y9/1Rr71/9oMKSOYfRiW0F09qVn4uXTqXnLF4g7p2OToVoay3/tiA==
-X-Received: by 2002:a17:90b:4a4c:: with SMTP id
- lb12mr13550185pjb.133.1616421740641; 
- Mon, 22 Mar 2021 07:02:20 -0700 (PDT)
+ bh=tNbrx86DmSZYrQGPtYW/NrYWvp0JiJ6t7g8UyTa2yps=;
+ b=m1JbNQXS+qzp41HPj784IKQwsjU4Ph754c56R+lRVfxATHVpt2DeW49ssgxAbn7log
+ ky5zKF9rsS0IyglHHfPwopr4Sscu7o+Y/+bw6aFbAtgG7FdTV0c/6lljrgqlbJMVuELE
+ wvK5ewTJfhtsLX59egEbw3Z7xcI63AnKReetno6IDHCkZ6RQRtIY3aeLEdsoAUt4gMtr
+ xB2hGAGgH39Ns1QshnGKalUtlRMgirgrP2OhMtsBAM5KDVE8k5vkK/2tqyGc1eHkVZG5
+ HYq3dJYXWpIkVkhms2JnqZ8BCCL0kmGSAegFl9OzvTP1fHel8cD6CNqb8g9RZPCecngx
+ a18g==
+X-Gm-Message-State: AOAM531h3+9CQJ9orE6gXTJ6X9onBWzXerpQ0NOl9xa972Q1bq9OrtJ1
+ 3ZoClDQS5Z/D8vsVrgPlH+0U4Q==
+X-Google-Smtp-Source: ABdhPJymBCVrrkdCj22Ow4zPjS5VbcwN1e3vMrGoJ7v1KJtcbO5PMqdgf77gob6DFaR3v/wQx6YRaw==
+X-Received: by 2002:a63:5044:: with SMTP id q4mr22407823pgl.178.1616421746216; 
+ Mon, 22 Mar 2021 07:02:26 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c00a:a884:15c1:9a30:414f:d84b])
- by smtp.gmail.com with ESMTPSA id gg22sm14112997pjb.20.2021.03.22.07.02.15
+ by smtp.gmail.com with ESMTPSA id gg22sm14112997pjb.20.2021.03.22.07.02.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 07:02:20 -0700 (PDT)
+ Mon, 22 Mar 2021 07:02:25 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej.skrabec@siol.net>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v4 1/4] drm: sun4i: dsi: Use drm_of_find_panel_or_bridge
-Date: Mon, 22 Mar 2021 19:31:49 +0530
-Message-Id: <20210322140152.101709-2-jagan@amarulasolutions.com>
+Subject: [PATCH v4 2/4] drm: sun4i: dsi: Add bridge support
+Date: Mon, 22 Mar 2021 19:31:50 +0530
+Message-Id: <20210322140152.101709-3-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210322140152.101709-1-jagan@amarulasolutions.com>
 References: <20210322140152.101709-1-jagan@amarulasolutions.com>
@@ -77,51 +75,149 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace of_drm_find_panel with drm_of_find_panel_or_bridge
-for finding panel, this indeed help to find the bridge if
-bridge support added.
+Some display panels would come up with a non-DSI output which
+can have an option to connect DSI interface by means of bridge
+converter.
 
-Added NULL in bridge argument, same will replace with bridge
-parameter once bridge supported.
+This DSI to non-DSI bridge converter would require a bridge
+driver that would communicate the DSI controller for bridge
+functionalities.
 
+So, add support for bridge functionalities in Allwinner DSI
+controller.
+
+Cc: Samuel Holland <samuel@sholland.org>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
-Changes for v4, v3:
-- none
+Note: 
+Samuel Holland, The existing kms hotplug dropped in order to 
+attach the bridge properly. 
 
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+However, I did try several ways to support hotplug with the 
+bridge but it's resulting in a deadlock where bind never attach 
+bridge until bridge pointer found and bridge pointer cannot 
+found until bind finishes. Any inputs on this would be appreciated.
+
+Changes for v4:
+- none
+Changes for v3:
+- updated with new API's 
+
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 34 +++++++++++++++++---------
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h |  2 +-
+ 2 files changed, 23 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-index 4f5efcace68e..2e9e7b2d4145 100644
+index 2e9e7b2d4145..39321299dc27 100644
 --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
 +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -21,6 +21,7 @@
+@@ -773,6 +773,9 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
+ 	if (dsi->panel)
+ 		drm_panel_prepare(dsi->panel);
  
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_of.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
-@@ -963,10 +964,14 @@ static int sun6i_dsi_attach(struct mipi_dsi_host *host,
++	if (dsi->panel_bridge)
++		dsi->panel_bridge->funcs->pre_enable(dsi->panel_bridge);
++
+ 	/*
+ 	 * FIXME: This should be moved after the switch to HS mode.
+ 	 *
+@@ -788,6 +791,9 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
+ 	if (dsi->panel)
+ 		drm_panel_enable(dsi->panel);
+ 
++	if (dsi->panel_bridge)
++		dsi->panel_bridge->funcs->enable(dsi->panel_bridge);
++
+ 	sun6i_dsi_start(dsi, DSI_START_HSC);
+ 
+ 	udelay(1000);
+@@ -804,6 +810,9 @@ static void sun6i_dsi_encoder_disable(struct drm_encoder *encoder)
+ 	if (dsi->panel) {
+ 		drm_panel_disable(dsi->panel);
+ 		drm_panel_unprepare(dsi->panel);
++	} else if (dsi->panel_bridge) {
++		dsi->panel_bridge->funcs->disable(dsi->panel_bridge);
++		dsi->panel_bridge->funcs->post_disable(dsi->panel_bridge);
+ 	}
+ 
+ 	phy_power_off(dsi->dphy);
+@@ -964,23 +973,17 @@ static int sun6i_dsi_attach(struct mipi_dsi_host *host,
  			    struct mipi_dsi_device *device)
  {
  	struct sun6i_dsi *dsi = host_to_sun6i_dsi(host);
--	struct drm_panel *panel = of_drm_find_panel(device->dev.of_node);
-+	struct drm_panel *panel;
-+	int ret;
-+
-+	ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 0, 0,
-+					  &panel, NULL);
-+	if (ret)
-+		return ret;
+-	struct drm_panel *panel;
+ 	int ret;
  
--	if (IS_ERR(panel))
--		return PTR_ERR(panel);
- 	if (!dsi->drm || !dsi->drm->registered)
- 		return -EPROBE_DEFER;
+ 	ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 0, 0,
+-					  &panel, NULL);
++					  &dsi->panel, &dsi->panel_bridge);
+ 	if (ret)
+ 		return ret;
  
+-	if (!dsi->drm || !dsi->drm->registered)
+-		return -EPROBE_DEFER;
+-
+-	dsi->panel = panel;
+ 	dsi->device = device;
+ 
+-	drm_kms_helper_hotplug_event(dsi->drm);
+-
+-	dev_info(host->dev, "Attached device %s\n", device->name);
++	dev_info(host->dev, "Attached %s %s\n",
++		 device->name, dsi->panel ? "panel" : "bridge");
+ 
+ 	return 0;
+ }
+@@ -991,9 +994,10 @@ static int sun6i_dsi_detach(struct mipi_dsi_host *host,
+ 	struct sun6i_dsi *dsi = host_to_sun6i_dsi(host);
+ 
+ 	dsi->panel = NULL;
++	dsi->panel_bridge = NULL;
+ 	dsi->device = NULL;
+ 
+-	drm_kms_helper_hotplug_event(dsi->drm);
++	drm_of_panel_bridge_remove(dsi->dev->of_node, 0, 0);
+ 
+ 	return 0;
+ }
+@@ -1082,7 +1086,13 @@ static int sun6i_dsi_bind(struct device *dev, struct device *master,
+ 
+ 	drm_connector_attach_encoder(&dsi->connector, &dsi->encoder);
+ 
+-	dsi->drm = drm;
++	if (dsi->panel_bridge) {
++		ret = drm_bridge_attach(&dsi->encoder, dsi->panel_bridge, NULL, 0);
++		if (ret) {
++			dev_err(dsi->dev, "Couldn't attach drm bridge\n");
++			goto err_cleanup_connector;
++		}
++	}
+ 
+ 	return 0;
+ 
+@@ -1096,7 +1106,7 @@ static void sun6i_dsi_unbind(struct device *dev, struct device *master,
+ {
+ 	struct sun6i_dsi *dsi = dev_get_drvdata(dev);
+ 
+-	dsi->drm = NULL;
++	drm_encoder_cleanup(&dsi->encoder);
+ }
+ 
+ static const struct component_ops sun6i_dsi_ops = {
+diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
+index c863900ae3b4..370ecb356a63 100644
+--- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
++++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
+@@ -29,8 +29,8 @@ struct sun6i_dsi {
+ 
+ 	struct device		*dev;
+ 	struct mipi_dsi_device	*device;
+-	struct drm_device	*drm;
+ 	struct drm_panel	*panel;
++	struct drm_bridge	*panel_bridge;
+ };
+ 
+ static inline struct sun6i_dsi *host_to_sun6i_dsi(struct mipi_dsi_host *host)
 -- 
 2.25.1
 
