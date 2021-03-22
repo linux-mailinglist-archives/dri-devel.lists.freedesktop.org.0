@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ABCE3436FB
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 04:02:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94AFE343702
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 04:02:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA7B89C54;
-	Mon, 22 Mar 2021 03:02:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A184689DC2;
+	Mon, 22 Mar 2021 03:02:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EECB89939
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 03:02:21 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24FCE89C54
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 03:02:22 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09B2F1025;
- Mon, 22 Mar 2021 04:02:18 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BCE841051;
+ Mon, 22 Mar 2021 04:02:19 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1616382139;
- bh=v1B2NZGFeIQk1d26ZpRXPBNZXiCp5x5dLUlFUdNh+Sg=;
+ s=mail; t=1616382140;
+ bh=AntMdEuGmCvfBkkYwY3YUXXAUYVPF7aSkZv8tlndc7I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=p3uvGWxbTBq+a4MSM4v80LTMRjop17rOyjAtNRCykg5sBWCZd9xWFuxHLDdBWnjcH
- WX1zR6tMFWDRIAfEBU4moxH8Aw4Jv/DxMQznWXotvKloTd6OKEK3/RwYeF/EWDt6re
- t8ntu7bjKnQabNk20i70aSLpfLPxGAQvzxvDYEwA=
+ b=suo+qtdmSGccEVvLMmiZ5ZutTCoY+bcubrtTmc3fk8jwjMvMt6Qzq/kWgEi5BwmHl
+ sgExFXefwKa0/iKlqlXDIO1qkuW3JddLLrqYErtU9xlEnmp5nbGwpi1ftwQPrtFvH2
+ dC/n7dz//SwhdDsocejPdfJsBHkLxc8dl1psXTBw=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 04/11] drm/bridge: ti-sn65dsi86: Use bitmask to store
- valid rates
-Date: Mon, 22 Mar 2021 05:01:21 +0200
-Message-Id: <20210322030128.2283-5-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [RFC PATCH 05/11] drm/bridge: ti-sn65dsi86: Wrap panel with
+ panel-bridge
+Date: Mon, 22 Mar 2021 05:01:22 +0200
+Message-Id: <20210322030128.2283-6-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.28.1
 In-Reply-To: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -54,94 +54,116 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The valid rates are stored in an array of 8 booleans. Replace it with a
-bitmask to save space.
+To simplify interfacing with the panel, wrap it in a panel-bridge and
+let the DRM bridge helpers handle chaining of operations.
+
+This also prepares for support of DRM_BRIDGE_ATTACH_NO_CONNECTOR, which
+requires all components in the display pipeline to be represented by
+bridges.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 30 +++++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index c45420a50e73..1d1be791d5ba 100644
+index 1d1be791d5ba..c21a7f7d452b 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -557,9 +557,9 @@ static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn_bridge *pdata)
- 	return i;
- }
- 
--static void ti_sn_bridge_read_valid_rates(struct ti_sn_bridge *pdata,
--					  bool rate_valid[])
-+static unsigned int ti_sn_bridge_read_valid_rates(struct ti_sn_bridge *pdata)
- {
-+	unsigned int valid_rates = 0;
- 	unsigned int rate_per_200khz;
- 	unsigned int rate_mhz;
- 	u8 dpcd_val;
-@@ -599,13 +599,13 @@ static void ti_sn_bridge_read_valid_rates(struct ti_sn_bridge *pdata,
- 			     j < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut);
- 			     j++) {
- 				if (ti_sn_bridge_dp_rate_lut[j] == rate_mhz)
--					rate_valid[j] = true;
-+					valid_rates |= BIT(j);
- 			}
+@@ -124,6 +124,7 @@
+  * @edid:         Detected EDID of eDP panel.
+  * @refclk:       Our reference clock.
+  * @panel:        Our panel.
++ * @next_bridge:  The next bridge.
+  * @enable_gpio:  The GPIO we toggle to enable the bridge.
+  * @supplies:     Data for bulk enabling/disabling our regulators.
+  * @dp_lanes:     Count of dp_lanes we're using.
+@@ -152,6 +153,7 @@ struct ti_sn_bridge {
+ 	struct mipi_dsi_device		*dsi;
+ 	struct clk			*refclk;
+ 	struct drm_panel		*panel;
++	struct drm_bridge		*next_bridge;
+ 	struct gpio_desc		*enable_gpio;
+ 	struct regulator_bulk_data	supplies[SN_REGULATOR_SUPPLY_NUM];
+ 	int				dp_lanes;
+@@ -287,7 +289,7 @@ static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
  		}
- 
- 		for (i = 0; i < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut); i++) {
--			if (rate_valid[i])
--				return;
-+			if (valid_rates & BIT(i))
-+				return valid_rates;
- 		}
- 		DRM_DEV_ERROR(pdata->dev,
- 			      "No matching eDP rates in table; falling back\n");
-@@ -627,15 +627,17 @@ static void ti_sn_bridge_read_valid_rates(struct ti_sn_bridge *pdata,
- 			      (int)dpcd_val);
- 		fallthrough;
- 	case DP_LINK_BW_5_4:
--		rate_valid[7] = 1;
-+		valid_rates |= BIT(7);
- 		fallthrough;
- 	case DP_LINK_BW_2_7:
--		rate_valid[4] = 1;
-+		valid_rates |= BIT(4);
- 		fallthrough;
- 	case DP_LINK_BW_1_62:
--		rate_valid[1] = 1;
-+		valid_rates |= BIT(1);
- 		break;
  	}
-+
-+	return valid_rates;
+ 
+-	return drm_panel_get_modes(pdata->panel, connector);
++	return drm_bridge_get_modes(pdata->next_bridge, connector);
  }
  
- static void ti_sn_bridge_set_video_timings(struct ti_sn_bridge *pdata)
-@@ -753,8 +755,8 @@ static int ti_sn_link_training(struct ti_sn_bridge *pdata, int dp_rate_idx,
- static void ti_sn_bridge_enable(struct drm_bridge *bridge)
+ static enum drm_mode_status
+@@ -418,8 +420,18 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+ 	}
+ 	pdata->dsi = dsi;
+ 
++	/* Attach the next bridge */
++	ret = drm_bridge_attach(bridge->encoder, pdata->next_bridge,
++				&pdata->bridge, flags);
++	if (ret < 0) {
++		DRM_ERROR("failed to attach next bridge\n");
++		goto err_dsi_detach;
++	}
++
+ 	return 0;
+ 
++err_dsi_detach:
++	mipi_dsi_detach(dsi);
+ err_dsi_attach:
+ 	mipi_dsi_device_unregister(dsi);
+ err_dsi_host:
+@@ -431,16 +443,12 @@ static void ti_sn_bridge_disable(struct drm_bridge *bridge)
  {
  	struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
--	bool rate_valid[ARRAY_SIZE(ti_sn_bridge_dp_rate_lut)] = { };
- 	const char *last_err_str = "No supported DP rate";
-+	unsigned int valid_rates;
- 	int dp_rate_idx;
- 	unsigned int val;
- 	int ret = -EINVAL;
-@@ -793,13 +795,13 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
- 	regmap_update_bits(pdata->regmap, SN_SSC_CONFIG_REG, DP_NUM_LANES_MASK,
- 			   val);
  
--	ti_sn_bridge_read_valid_rates(pdata, rate_valid);
-+	valid_rates = ti_sn_bridge_read_valid_rates(pdata);
+-	drm_panel_disable(pdata->panel);
+-
+ 	/* disable video stream */
+ 	regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, VSTREAM_ENABLE, 0);
+ 	/* semi auto link training mode OFF */
+ 	regmap_write(pdata->regmap, SN_ML_TX_MODE_REG, 0);
+ 	/* disable DP PLL */
+ 	regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 0);
+-
+-	drm_panel_unprepare(pdata->panel);
+ }
  
- 	/* Train until we run out of rates */
- 	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata);
- 	     dp_rate_idx < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut);
- 	     dp_rate_idx++) {
--		if (!rate_valid[dp_rate_idx])
-+		if (!(valid_rates & BIT(dp_rate_idx)))
- 			continue;
+ static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn_bridge *pdata)
+@@ -819,8 +827,6 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
+ 	/* enable video stream */
+ 	regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, VSTREAM_ENABLE,
+ 			   VSTREAM_ENABLE);
+-
+-	drm_panel_enable(pdata->panel);
+ }
  
- 		ret = ti_sn_link_training(pdata, dp_rate_idx, &last_err_str);
+ static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
+@@ -850,8 +856,6 @@ static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
+ 	 */
+ 	regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
+ 			   HPD_DISABLE);
+-
+-	drm_panel_prepare(pdata->panel);
+ }
+ 
+ static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
+@@ -1245,6 +1249,14 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
+ 		return ret;
+ 	}
+ 
++	pdata->next_bridge = devm_drm_panel_bridge_add(pdata->dev,
++						       pdata->panel);
++	if (IS_ERR(pdata->next_bridge)) {
++		DRM_ERROR("failed to create panel bridge\n");
++		ret = PTR_ERR(pdata->next_bridge);
++		return ret;
++	}
++
+ 	dev_set_drvdata(&client->dev, pdata);
+ 
+ 	pdata->enable_gpio = devm_gpiod_get_optional(pdata->dev, "enable",
 -- 
 Regards,
 
