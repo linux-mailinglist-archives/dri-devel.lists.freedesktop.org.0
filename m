@@ -1,67 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732C93447BD
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 15:48:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96BD6344843
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 15:55:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D40536E4CA;
-	Mon, 22 Mar 2021 14:48:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 097456E10C;
+	Mon, 22 Mar 2021 14:55:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA3D56E4B7
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 14:48:48 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id x28so21714252lfu.6
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 07:48:48 -0700 (PDT)
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
+ [IPv6:2607:f8b0:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C471D6E03A;
+ Mon, 22 Mar 2021 14:55:09 +0000 (UTC)
+Received: by mail-ot1-x333.google.com with SMTP id
+ l23-20020a05683004b7b02901b529d1a2fdso16189763otd.8; 
+ Mon, 22 Mar 2021 07:55:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/fZAw+4NiDFcgCHrlrGbQDPrYTTv6kbwUEtQSv61zqs=;
- b=uWXu5sM6j9p6UAdXDmXHXNods3NAIXQo6QRBvok8FlIH2o0IlS5LnfqMrHqe7Q2BmI
- fAIBh1+Na57dou/HqlvXReLw19EPtpVqzNPBfSdT8+Gu/dc1FgUMkMlTiQhTH9h3PRCm
- ptbTZ9kf/ocg3YA2aLgmQiu60FBdaeDoIBB+naU/WNrcLxv3c7Y8FOAc17MsYq4yrLmM
- D3fApXpJkI1MaHaosCT9+/1nx6ySJZ6n8l6FWnWjoxC/o96vUP8qk0IhqZ9glMzXlYo6
- OtiRr4DGpUq2wGeVO8r7mEoIBO5JENPaqZ30ujvMd+DqouZV9+iYH6gTbH7DUpFgoP3g
- a9sw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0qBjLygVAvz9+XKIT1YGfokASw756A87roBJgGUybMM=;
+ b=K8O25M4uTGxZtlZLrQZNlL/571NxJ72JgK1LEAuBTksMszrHRz2PRcAspRJcz3FyAK
+ OvjpalC1siQhgK9TczF8STTyOS2MG20Ni2rXwDHqo0/pufx8cy7infpEc7lXAkxlJLJL
+ qQkGS3NpsLYPaOaHTg0HRqGj+27VW8JqFRisQ8M8D1tdjKB/zz9KCxaLIaeqOqv7tXYr
+ xvg75GIFeyItShoMNCkR3EjUdOlZHw/z7FPrumGQ37rsgGtfOJuphcqWTA119lCZnDEy
+ AuEbtUuKvdPbUed+Jnu2lJIzbS7EFJoPxszFiUzWZ3N0Q/MUVsBkQP434S7aWGKPk0fi
+ mSvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/fZAw+4NiDFcgCHrlrGbQDPrYTTv6kbwUEtQSv61zqs=;
- b=A/eJFgrOzkgxrlhlRY6PkYA/Mj5Q6vbATmHC5P7Vn9W7uJ8pbRitFOYhaI8ulH7i8t
- SQhfh3hXPgKpO8kZST53WPPJSPxyOY6MPHpAjzQYHwX42Zly25l9OVTAgWpgOCuNPtpI
- iCE/lcHkMTdqkV1IPFUd60S8iM84xDr80v62mH4GEuIte+qW39JbKVFfrxbQjYP6Qa86
- ePiwKxSurqz/YArtLeCd19fYSImY2AXsCuy8ibR+VsVMrNLtwMBX8mWudyxPPQS5I/FH
- oeJCV80os2I0SPioOfuxKvw1ONXXUyuzm+lBaCKc4zhZC/w/fBZJa3HvDIaUf6YNmNY1
- Hr2A==
-X-Gm-Message-State: AOAM530RVvxObPIEzgi+Xfs2nb6s7fEhEarXhIZVuIJMPXsCxd26cHxl
- dpUHvWIJ4APi0oFEvejCHY62Bnfok4A=
-X-Google-Smtp-Source: ABdhPJysSCaiPo03sO9bykrRBdDLruy+482nEDsgN0vR2QWZdV2ZWoP7ivyB6E2B88FT/fhsUx1Jaw==
-X-Received: by 2002:ac2:4e82:: with SMTP id o2mr9206984lfr.489.1616424527005; 
- Mon, 22 Mar 2021 07:48:47 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-193-47.dynamic.spd-mgts.ru.
- [109.252.193.47])
- by smtp.googlemail.com with ESMTPSA id x7sm1955517ljc.118.2021.03.22.07.48.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Mar 2021 07:48:46 -0700 (PDT)
-Subject: Re: [PATCH v5 01/21] gpu: host1x: Use different lock classes for each
- client
-To: Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>
-References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <20210111130019.3515669-2-mperttunen@nvidia.com>
- <YFitsk3I2l7IBnLR@orome.fritz.box>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <6615105f-ccf1-7833-512c-090817c47952@gmail.com>
-Date: Mon, 22 Mar 2021 17:48:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0qBjLygVAvz9+XKIT1YGfokASw756A87roBJgGUybMM=;
+ b=Do5XPrzIA4MCK1gRv8/dW41RdKjY6+gZAwjNpPizznTklUMlkZehVIzES03Ei3oddm
+ 94lemiSJfF86TEULvBCPfYcXxrQ86d8i+Te6ylP+wmX9PQMaG24pj68yIjGA42byBzje
+ Vg+t5DxZoGdd1VdIXdtW6zp+/Unxrb38OCKUbKoFuX5G01wM/8W8aa6mppCRxJKBjM+1
+ +SDz4VrhpFdc5Rspws1JPSTHI5y6ysKxVbbKhZfJZA1I0ul04171AM7RITthhL6a/V27
+ cLowjT5ogQJlRWx9k7Rfs3E86M3NFBP2EbzT6OaZsS2qEFknnGY4uk9/mV3xcB8FsrOF
+ 1vnw==
+X-Gm-Message-State: AOAM5313J9H5egBGw93thZ/mwFrwPrxSLBzVeJK3U5S+mfF0TAnEW+YB
+ GfUVZi68q+AJnEdG25ihKl6jGRbJw4smvMOES6A=
+X-Google-Smtp-Source: ABdhPJwN/gDeUFxciOwounpLBH2xj+Is9zb5fflIlc0ouOQlzGqPpNNyIU+u+gz187m7LwtwdO9ZUsrjRWfnZUvuNPc=
+X-Received: by 2002:a9d:d89:: with SMTP id 9mr281612ots.23.1616424909027; Mon,
+ 22 Mar 2021 07:55:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YFitsk3I2l7IBnLR@orome.fritz.box>
-Content-Language: en-US
+References: <20210319164418.1.I5d51cc12776ee8993a1a54089b548952f75ada41@changeid>
+ <CADnq5_OguuMsqT7MVC=ieNZm9mqyVUsGpQDHr59BWtBJJUvFoA@mail.gmail.com>
+ <54fc883a-c149-3f43-fb79-3cbff13e7b6a@amd.com>
+ <CAP8nV8rL6eYSDyQ1jyv267ER8_E+rMBQkza2ZYZvwvdE+=sd3Q@mail.gmail.com>
+ <CADnq5_O5AOK7B-3AM-qpPXcWD1LgdpnfLMd8NBds0Jfd_tZCBQ@mail.gmail.com>
+ <CAKz_xw0vKSojPqh7QsJPY5eQBLcnteFmL1AJimJTXJmzmQd9kA@mail.gmail.com>
+In-Reply-To: <CAKz_xw0vKSojPqh7QsJPY5eQBLcnteFmL1AJimJTXJmzmQd9kA@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 22 Mar 2021 10:54:57 -0400
+Message-ID: <CADnq5_OarNHRwWe2FZyXA-5fxVpOEW2JxJUUD=n9LAXG7TgQGA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Set AMDGPU_DM_DEFAULT_MIN_BACKLIGHT to 0
+To: Evan Benn <evanbenn@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,40 +66,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
- talho@nvidia.com, bhuntsman@nvidia.com, linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Stylon Wang <stylon.wang@amd.com>, Eryk Brol <eryk.brol@amd.com>,
+ David Airlie <airlied@linux.ie>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Evan Benn <evanbenn@gmail.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Anand <amistry@chromium.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjIuMDMuMjAyMSAxNzo0NiwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBPbiBNb24sIEph
-biAxMSwgMjAyMSBhdCAwMjo1OTo1OVBNICswMjAwLCBNaWtrbyBQZXJ0dHVuZW4gd3JvdGU6Cj4+
-IFRvIGF2b2lkIGZhbHNlIGxvY2tkZXAgd2FybmluZ3MsIGdpdmUgZWFjaCBjbGllbnQgbG9jayBh
-IGRpZmZlcmVudAo+PiBsb2NrIGNsYXNzLCBwYXNzZWQgZnJvbSB0aGUgaW5pdGlhbGl6YXRpb24g
-c2l0ZSBieSBtYWNyby4KPj4KPj4gU2lnbmVkLW9mZi1ieTogTWlra28gUGVydHR1bmVuIDxtcGVy
-dHR1bmVuQG52aWRpYS5jb20+Cj4+IC0tLQo+PiAgZHJpdmVycy9ncHUvaG9zdDF4L2J1cy5jIHwg
-NyArKysrLS0tCj4+ICBpbmNsdWRlL2xpbnV4L2hvc3QxeC5oICAgfCA5ICsrKysrKysrLQo+PiAg
-MiBmaWxlcyBjaGFuZ2VkLCAxMiBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQo+Pgo+PiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvaG9zdDF4L2J1cy5jIGIvZHJpdmVycy9ncHUvaG9zdDF4
-L2J1cy5jCj4+IGluZGV4IDM0N2ZiOTYyYjZjOS4uOGZjNzllOWNiNjUyIDEwMDY0NAo+PiAtLS0g
-YS9kcml2ZXJzL2dwdS9ob3N0MXgvYnVzLmMKPj4gKysrIGIvZHJpdmVycy9ncHUvaG9zdDF4L2J1
-cy5jCj4+IEBAIC03MTUsMTMgKzcxNSwxNCBAQCBFWFBPUlRfU1lNQk9MKGhvc3QxeF9kcml2ZXJf
-dW5yZWdpc3Rlcik7Cj4+ICAgKiBkZXZpY2UgYW5kIGNhbGwgaG9zdDF4X2RldmljZV9pbml0KCks
-IHdoaWNoIHdpbGwgaW4gdHVybiBjYWxsIGVhY2ggY2xpZW50J3MKPj4gICAqICZob3N0MXhfY2xp
-ZW50X29wcy5pbml0IGltcGxlbWVudGF0aW9uLgo+PiAgICovCj4+IC1pbnQgaG9zdDF4X2NsaWVu
-dF9yZWdpc3RlcihzdHJ1Y3QgaG9zdDF4X2NsaWVudCAqY2xpZW50KQo+PiAraW50IF9faG9zdDF4
-X2NsaWVudF9yZWdpc3RlcihzdHJ1Y3QgaG9zdDF4X2NsaWVudCAqY2xpZW50LAo+PiArCQkJICAg
-c3RydWN0IGxvY2tfY2xhc3Nfa2V5ICprZXkpCj4gCj4gSSd2ZSBzZWVuIHRoZSBrYnVpbGQgcm9i
-b3Qgd2FybiBhYm91dCB0aGlzIGJlY2F1c2UgdGhlIGtlcm5lbGRvYyBpcyBub3cKPiBvdXQgb2Yg
-ZGF0ZS4KPiAKPj4gIHsKPj4gIAlzdHJ1Y3QgaG9zdDF4ICpob3N0MXg7Cj4+ICAJaW50IGVycjsK
-Pj4gIAo+PiAgCUlOSVRfTElTVF9IRUFEKCZjbGllbnQtPmxpc3QpOwo+PiAtCW11dGV4X2luaXQo
-JmNsaWVudC0+bG9jayk7Cj4+ICsJX19tdXRleF9pbml0KCZjbGllbnQtPmxvY2ssICJob3N0MXgg
-Y2xpZW50IGxvY2siLCBrZXkpOwo+IAo+IFNob3VsZCB3ZSBtYXliZSBhdHRlbXB0IHRvIG1ha2Ug
-dGhpcyB1bmlxdWU/IENvdWxkIHdlIHVzZSBzb21ldGhpbmcgbGlrZQo+IGRldl9uYW1lKGNsaWVu
-dC0+ZGV2KSBmb3IgdGhpcz8KCkknbSBjdXJpb3VzIHdobyB0aGUgbG9ja2RlcCB3YXJuaW5nIGNv
-dWxkIGJlIHRyaWdnZXJlZCBhdCBhbGwsIEkgZG9uJ3QKcmVjYWxsIGV2ZXIgc2VlaW5nIGl0LiBN
-aWtrbywgY291bGQgeW91IHBsZWFzZSBjbGFyaWZ5IGhvdyB0byByZXByb2R1Y2UKdGhlIHdhcm5p
-bmc/Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Sun, Mar 21, 2021 at 8:12 PM Evan Benn <evanbenn@chromium.org> wrote:
+>
+> On Sat, Mar 20, 2021 at 8:36 AM Alex Deucher <alexdeucher@gmail.com> wrote:
+> >
+> > On Fri, Mar 19, 2021 at 5:31 PM Evan Benn <evanbenn@gmail.com> wrote:
+> > >
+> > > On Sat, 20 Mar 2021 at 02:10, Harry Wentland <harry.wentland@amd.com> wrote:
+> > > > On 2021-03-19 10:22 a.m., Alex Deucher wrote:
+> > > > > On Fri, Mar 19, 2021 at 3:23 AM Evan Benn <evanbenn@chromium.org> wrote:
+> > > > >>
+> > > > >> AMDGPU_DM_DEFAULT_MIN_BACKLIGHT was set to the value of 12
+> > > > >> to ensure no display backlight will flicker at low user brightness
+> > > > >> settings. However this value is quite bright, so for devices that do not
+> > > > >> implement the ACPI ATIF
+> > > > >> ATIF_FUNCTION_QUERY_BRIGHTNESS_TRANSFER_CHARACTERISTICS
+> > > > >> functionality the user cannot set the brightness to a low level even if
+> > > > >> the display would support such a low PWM.
+> > > > >>
+> > > > >> This ATIF feature is not implemented on for example AMD grunt chromebooks.
+> > > > >>
+> > > > >> Signed-off-by: Evan Benn <evanbenn@chromium.org>
+> > > > >>
+> > > > >> ---
+> > > > >> I could not find a justification for the reason for the value. It has
+> > > > >> caused some noticable regression for users: https://bugzilla.kernel.org/show_bug.cgi?id=203439>>>
+> > > > >> Maybe this can be either user controlled or userspace configured, but
+> > > > >> preventing users from turning their backlight dim seems wrong.
+> > > > >
+> > > > > My understanding is that some panels flicker if you set the min to a
+> > > > > value too low.  This was a safe minimum if the platform didn't specify
+> > > > > it's own safe minimum.  I think we'd just be trading one bug for
+> > > > > another (flickering vs not dim enough).  Maybe a whitelist or
+> > > > > blacklist would be a better solution?
+> > > > >
+> > > >
+> > > > Yeah, this is a NACK from me as-is for the reasons Alex described.
+> > >
+> > > Thanks Harry + Alex,
+> > >
+> > > I agree this solution is not the best.
+> > >
+> > > >
+> > > > I agree a whitelist approach might be best.
+> > >
+> > > Do you have any idea what an allowlist could be keyed on?
+> > > Is the flickering you observed here a function of the panel or the gpu
+> > > or some other component?
+> > > Maybe we could move the minimum level into the logic for that hardware.
+> > >
+> >
+> > Maybe the panel string from the EDID?  Either that or something from
+> > dmi data?  Harry would probably have a better idea.
+>
+> One problem with keying from panel EDID is that for example the grunt chromebook
+> platform has more than 100 different panels already shipped. Add to that that
+> repair centers or people repairing their own device will use 'compatible'
+> panels. I'm sure the AMD windows laptops have even more variety!
+>
+
+Do all of those "compatible" panels work with the min backlight level
+of 0?  If so, maybe something platform specific like a DMI string
+would make more sense.
+
+Alex
+
+
+> >
+> > Alex
+> >
+> > > >
+> > > > Is this fix perhaps for OLED panels? If so we could use a different
+> > > > min-value for OLED panels that don't do PWM, but use 12 for everything else.
+> > >
+> > > All the chromebooks I have worked with LCD + LED backlight have been
+> > > fine with a backlight set to 0.
+> > > We do have OLED panels too, but I'm not aware of what they do.
+> > >
+> > > > Harry
+> > > >
+> > > > > Alex
+> > > > >
+> > > > >
+> > > > >>
+> > > > >> Also reviewed here: https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2748377>>>
+> > > > >>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
+> > > > >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >>
+> > > > >> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > > > >> index 573cf17262da..0129bd69b94e 100644
+> > > > >> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > > > >> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > > > >> @@ -3151,7 +3151,7 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
+> > > > >>          return 0;
+> > > > >>   }
+> > > > >>
+> > > > >> -#define AMDGPU_DM_DEFAULT_MIN_BACKLIGHT 12
+> > > > >> +#define AMDGPU_DM_DEFAULT_MIN_BACKLIGHT 0
+> > > > >>   #define AMDGPU_DM_DEFAULT_MAX_BACKLIGHT 255
+> > > > >>   #define AUX_BL_DEFAULT_TRANSITION_TIME_MS 50
+> > > > >>
+> > > > >> --
+> > > > >> 2.31.0.291.g576ba9dcdaf-goog
+> > > > >>
+> > > > >> _______________________________________________
+> > > > >> dri-devel mailing list
+> > > > >> dri-devel@lists.freedesktop.org
+> > > > >> https://lists.freedesktop.org/mailman/listinfo/dri-devel>> _______________________________________________
+> > > > > dri-devel mailing list
+> > > > > dri-devel@lists.freedesktop.org
+> > > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel>>
+> > > >
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
