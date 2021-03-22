@@ -1,44 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B84344FF5
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 20:36:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD603450BF
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 21:30:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACEF06E5A3;
-	Mon, 22 Mar 2021 19:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78B8A6E067;
+	Mon, 22 Mar 2021 20:30:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org
- [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCFAC6E5A3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 19:36:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
- Reply-To:Cc:Content-ID:Content-Description;
- bh=IX+l4b0PycGUaEzwE8452F1AGQg/n7mMU9I92wynpJY=; b=j2h2a9InCwhOa6GtayYJOF0BXP
- 3enh0qjN4qsbQbGLRcr8WQL1AHTa6oHpFGf0oOraiZ7IYpj6zs+m2JcdBx/ezEyUklCQtbqAIEv4/
- Lzmzv/CMMK0SwvUmXgFWLK/03mlSMAQo80xKPqCdhnmd0Vw+xsqdOUPaik0+7Y0TKTqe1mIDSEBJP
- 5fhknSorsrR7K/Y9nT6pcmYUh8G3kHVY3SSFewIAEigyR+URYnZXbDa+mqiMNlAydnrbgAuvJ3/b5
- NMr/oKFgRRS7ic+ouUP+tGgt481gOPfdGAIZI/mCrEQF5uswlvCrwBBmszh4d3ci6AowbfCA3FUNA
- JlMN0lpg==;
-Received: from [2601:1c0:6280:3f0::3ba4]
- by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lOQLW-00CROz-2X; Mon, 22 Mar 2021 19:36:14 +0000
-Subject: Re: [PATCH] video: mmp: Few typo fixes
-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20210322130210.3641181-1-unixbhaskar@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <30241dd5-dfd5-ec67-569b-1552bef58e95@infradead.org>
-Date: Mon, 22 Mar 2021 12:36:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 420106E067;
+ Mon, 22 Mar 2021 20:30:03 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id z1so21001089edb.8;
+ Mon, 22 Mar 2021 13:30:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=7QH2qH8OXw7astC9J+hBZNIvd5jFa6HOZzbSlRf+8Ek=;
+ b=T8MfESZQxe3NObZ/7MqvvJi28NxxdFf3ab07gERPhzLT804c2DkkhJkBMdizuiX7N5
+ CHF46uFWWZ0cEHLJOYnXTiyTVv5tLvjO1lmS5Ohg2XPP88nZmWW9F5ARG6cD601rZ5/K
+ zoiBTqPm5H0nLHbAPcra7yZ3RbLdPm8oZKbWma9nQPHRlRk5CMs6B2AjWWGtpKPrvkGd
+ rL5fFWVmWmq+K/IWUKd2YrrT8XNdUQvFpqJ+tfEUQNjkhvUoBFoAG9jEiozLdABWs7F1
+ P6ZC1gmMny9VZsWnwgXXF/Dsydybb92YeAKNqz04oOvYAWJ3XKyrs6O1pidMSVkxvnmE
+ iM1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=7QH2qH8OXw7astC9J+hBZNIvd5jFa6HOZzbSlRf+8Ek=;
+ b=I+PCkleJXH8mTX5Eej7abXCF5KCZ0jOaJBmUOQSDkjOmTaezV1Mt+C6mbV+QXvrKTd
+ ecjqE/IvqN9So9i4mhwFahijHQ/6yczx37KEZUDIzUrhbLf4SkerEkkcW+oRvFMv/MTG
+ djyF58W1+b3cPg7zp1xYIuPuzCuQcCGDdKsfjwdQ4tiVKVzB9RtPVgOJFN7sM7DLmOOk
+ cH77dNlKZNbrGoK9NHA+3EF3BhCH1QqhLTWO94Z5huh6+EgeN5/5W3djfyzN2q9wdnOe
+ uGEOfklEE60id9yjpfRbFnDaOJbojVG1e1HbN9f8ZktwzVVwuJVhJE6cuJfDkLCYTB7Z
+ msGQ==
+X-Gm-Message-State: AOAM533hwA5rtUMBHNc/NcsOYsfA8DFiRpZKKeIcyrmKaQUdUOJjWKbF
+ PodevsYFiuKra05gxHniXjU=
+X-Google-Smtp-Source: ABdhPJwU1mWLXQUCBk/cr2I4/KV5sNA0QBX6NdJBSPel6aICLgwoK3n4c4u3DzEAz75RN+WAzRwu0Q==
+X-Received: by 2002:aa7:c447:: with SMTP id n7mr1365222edr.171.1616445001869; 
+ Mon, 22 Mar 2021 13:30:01 -0700 (PDT)
+Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
+ by smtp.gmail.com with ESMTPSA id x1sm10321496eji.8.2021.03.22.13.30.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Mar 2021 13:30:01 -0700 (PDT)
+Date: Mon, 22 Mar 2021 21:29:58 +0100
+From: Ingo Molnar <mingo@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH 02/11] x86: tboot: avoid Wstringop-overread-warning
+Message-ID: <20210322202958.GA1955909@gmail.com>
+References: <20210322160253.4032422-1-arnd@kernel.org>
+ <20210322160253.4032422-3-arnd@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20210322130210.3641181-1-unixbhaskar@gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210322160253.4032422-3-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,62 +67,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Will Deacon <will@kernel.org>, linux-scsi@vger.kernel.org, x86@kernel.org,
+ James Smart <james.smart@broadcom.com>, tboot-devel@lists.sourceforge.net,
+ Ingo Molnar <mingo@redhat.com>, Kalle Valo <kvalo@codeaurora.org>,
+ ath11k@lists.infradead.org, Serge Hallyn <serge@hallyn.com>,
+ Arnd Bergmann <arnd@arndb.de>, "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ Ning Sun <ning.sun@intel.com>, Anders Larsen <al@alarsen.net>,
+ Borislav Petkov <bp@alien8.de>, cgroups@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Martin Sebor <msebor@gcc.gnu.org>, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-security-module@vger.kernel.org, Tejun Heo <tj@kernel.org>,
+ Simon Kelley <simon@thekelleys.org.uk>,
+ Andrew Morton <akpm@linux-foundation.org>, intel-gfx@lists.freedesktop.org,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/22/21 6:02 AM, Bhaskar Chowdhury wrote:
-> 
-> s/configed/configured/
-> s/registed/registered/
-> s/defintions/definitions/
-> 
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+* Arnd Bergmann <arnd@kernel.org> wrote:
 
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> gcc-11 warns about using string operations on pointers that are
+> defined at compile time as offsets from a NULL pointer. Unfortunately
+> that also happens on the result of fix_to_virt(), which is a
+> compile-time constant for a constantn input:
+> 
+> arch/x86/kernel/tboot.c: In function 'tboot_probe':
+> arch/x86/kernel/tboot.c:70:13: error: '__builtin_memcmp_eq' specified bound 16 exceeds source size 0 [-Werror=stringop-overread]
+>    70 |         if (memcmp(&tboot_uuid, &tboot->uuid, sizeof(tboot->uuid))) {
+>       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> I hope this can get addressed in gcc-11 before the release.
+> 
+> As a workaround, split up the tboot_probe() function in two halves
+> to separate the pointer generation from the usage. This is a bit
+> ugly, and hopefully gcc understands that the code is actually correct
+> before it learns to peek into the noinline function.
+> 
+> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99578
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  include/video/mmp_disp.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  arch/x86/kernel/tboot.c | 44 ++++++++++++++++++++++++-----------------
+>  1 file changed, 26 insertions(+), 18 deletions(-)
 > 
-> diff --git a/include/video/mmp_disp.h b/include/video/mmp_disp.h
-> index 77252cb46361..ea8b4331b7a1 100644
-> --- a/include/video/mmp_disp.h
-> +++ b/include/video/mmp_disp.h
-> @@ -172,7 +172,7 @@ struct mmp_panel {
->  	/* use node to register to list */
->  	struct list_head node;
->  	const char *name;
-> -	/* path name used to connect to proper path configed */
-> +	/* path name used to connect to proper path configured */
->  	const char *plat_path_name;
->  	struct device *dev;
->  	int panel_type;
-> @@ -291,7 +291,7 @@ static inline int mmp_overlay_set_addr(struct mmp_overlay *overlay,
->   * it defined a common interface that plat driver need to implement
->   */
->  struct mmp_path_info {
-> -	/* driver data, set when registed*/
-> +	/* driver data, set when registered*/
->  	const char *name;
->  	struct device *dev;
->  	int id;
-> @@ -309,7 +309,7 @@ extern void mmp_unregister_path(struct mmp_path *path);
->  extern void mmp_register_panel(struct mmp_panel *panel);
->  extern void mmp_unregister_panel(struct mmp_panel *panel);
-> 
-> -/* defintions for platform data */
-> +/* definitions for platform data */
->  /* interface for buffer driver */
->  struct mmp_buffer_driver_mach_info {
->  	const char	*name;
-> --
+> diff --git a/arch/x86/kernel/tboot.c b/arch/x86/kernel/tboot.c
+> index 4c09ba110204..f9af561c3cd4 100644
+> --- a/arch/x86/kernel/tboot.c
+> +++ b/arch/x86/kernel/tboot.c
+> @@ -49,6 +49,30 @@ bool tboot_enabled(void)
+>  	return tboot != NULL;
+>  }
+>  
+> +/* noinline to prevent gcc from warning about dereferencing constant fixaddr */
+> +static noinline __init bool check_tboot_version(void)
+> +{
+> +	if (memcmp(&tboot_uuid, &tboot->uuid, sizeof(tboot->uuid))) {
+> +		pr_warn("tboot at 0x%llx is invalid\n", boot_params.tboot_addr);
+> +		return false;
+> +	}
+> +
+> +	if (tboot->version < 5) {
+> +		pr_warn("tboot version is invalid: %u\n", tboot->version);
+> +		return false;
+> +	}
+> +
+> +	pr_info("found shared page at phys addr 0x%llx:\n",
+> +		boot_params.tboot_addr);
+> +	pr_debug("version: %d\n", tboot->version);
+> +	pr_debug("log_addr: 0x%08x\n", tboot->log_addr);
+> +	pr_debug("shutdown_entry: 0x%x\n", tboot->shutdown_entry);
+> +	pr_debug("tboot_base: 0x%08x\n", tboot->tboot_base);
+> +	pr_debug("tboot_size: 0x%x\n", tboot->tboot_size);
+> +
+> +	return true;
+> +}
+> +
+>  void __init tboot_probe(void)
+>  {
+>  	/* Look for valid page-aligned address for shared page. */
+> @@ -66,25 +90,9 @@ void __init tboot_probe(void)
+>  
+>  	/* Map and check for tboot UUID. */
+>  	set_fixmap(FIX_TBOOT_BASE, boot_params.tboot_addr);
+> -	tboot = (struct tboot *)fix_to_virt(FIX_TBOOT_BASE);
+> -	if (memcmp(&tboot_uuid, &tboot->uuid, sizeof(tboot->uuid))) {
+> -		pr_warn("tboot at 0x%llx is invalid\n", boot_params.tboot_addr);
+> +	tboot = (void *)fix_to_virt(FIX_TBOOT_BASE);
+> +	if (!check_tboot_version())
+>  		tboot = NULL;
+> -		return;
+> -	}
+> -	if (tboot->version < 5) {
+> -		pr_warn("tboot version is invalid: %u\n", tboot->version);
+> -		tboot = NULL;
+> -		return;
+> -	}
+> -
+> -	pr_info("found shared page at phys addr 0x%llx:\n",
+> -		boot_params.tboot_addr);
+> -	pr_debug("version: %d\n", tboot->version);
+> -	pr_debug("log_addr: 0x%08x\n", tboot->log_addr);
+> -	pr_debug("shutdown_entry: 0x%x\n", tboot->shutdown_entry);
+> -	pr_debug("tboot_base: 0x%08x\n", tboot->tboot_base);
+> -	pr_debug("tboot_size: 0x%x\n", tboot->tboot_size);
 
+This is indeed rather ugly - and the other patch that removes a debug 
+check seems counterproductive as well.
 
--- 
-~Randy
+Do we know how many genuine bugs -Wstringop-overread-warning has 
+caught or is about to catch?
 
+I.e. the real workaround might be to turn off the -Wstringop-overread-warning,
+until GCC-11 gets fixed?
+
+Thanks,
+
+	Ingo
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
