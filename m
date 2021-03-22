@@ -2,45 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6714E344952
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 16:34:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65417344071
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 13:06:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A15E16E4D7;
-	Mon, 22 Mar 2021 15:34:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02D3E6E454;
+	Mon, 22 Mar 2021 12:06:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 478 seconds by postgrey-1.36 at gabe;
- Mon, 22 Mar 2021 12:11:08 UTC
-Received: from mail-m17637.qiye.163.com (mail-m17637.qiye.163.com
- [59.111.176.37])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6E7A6E457;
- Mon, 22 Mar 2021 12:11:08 +0000 (UTC)
-Received: from wanjb-virtual-machine.localdomain (unknown [36.152.145.182])
- by mail-m17637.qiye.163.com (Hmail) with ESMTPA id E0C4C98079B;
- Mon, 22 Mar 2021 20:03:06 +0800 (CST)
-From: Wan Jiabing <wanjiabing@vivo.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Hawking Zhang <Hawking.Zhang@amd.com>, Evan Quan <evan.quan@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Dennis Li <Dennis.Li@amd.com>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Jonathan Kim <jonathan.kim@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drivers: gpu: Remove duplicate include of amdgpu_hdp.h
-Date: Mon, 22 Mar 2021 20:02:25 +0800
-Message-Id: <20210322120227.60953-1-wanjiabing@vivo.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
+ [IPv6:2607:f8b0:4864:20::736])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF6776E453;
+ Mon, 22 Mar 2021 12:06:20 +0000 (UTC)
+Received: by mail-qk1-x736.google.com with SMTP id x14so10173839qki.10;
+ Mon, 22 Mar 2021 05:06:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cBJ4mk8tWYLUMjPIwRJW0iTCZ8TzYegwS1Rmxpud8ns=;
+ b=fneby5oySa+iQmMjwqvA/8Zy9ZdeQ95LMmiY9BaZXP+rHq+ZK2whvceaK3VdZspvpZ
+ p5L6NwemEzA9YnhA6Y52/Po8XM8PzIoUvlahUeqdTMvZk2olmFrbjKflx++dgyP1j2Jn
+ S4NwW5eO2JTkGGttDQ9+wvg5INZDLWGWHUkWasQfuKSEy19Tu3QqAvlNcb45pG2XhYo5
+ 9RZVHoAfHTeDy4Fm+5+IVFDA5e6Z+R7las8y6t6IE2EXZGMz+NWFIPclRqaDZZnSjVZb
+ 579RDTKS0sFOpf2RUFtf60Cyq5uQUuYCUPAy1RlIXMv5bmQ60tpqA9Vr149Y4n5YQrDd
+ YWCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cBJ4mk8tWYLUMjPIwRJW0iTCZ8TzYegwS1Rmxpud8ns=;
+ b=EZTV20Oyt+Np7+9ERkH0sXMGToD02vvwU8AxGvtjPNYhOSw0oM0mAWQR8yqVa/AQSn
+ QwgIX4Ieh/ygVpwZXn0yMIgZG03Haqjs5DJv0Gd09ynnEv22qOR1ibXVYnVlddBtfyqu
+ zsRkbPtJMMfOXZsz71OMroageUMJkjRz9Y6iWADjaAteOU9qthiPPN+qIq4yUuCuyhUU
+ wtw7lvJbTAc4WVWMj0nBz5egZGpguGhcq/SAJADWQnffCq9tFm/WdqWVSaEZY9FBmKx/
+ +mD/jtfjg/jgveXlG8UL02JonQgSBGgBdvBBzxpELs2eizsnYaC+EOEToT+vdmzx+r5v
+ JkEg==
+X-Gm-Message-State: AOAM533FfWVZ60woSbire8ATt8aZVcwksQsSVQCiyPkOh5GXrbKYW5gs
+ Rv4oY2pA6DUXh8HsukwM7FU=
+X-Google-Smtp-Source: ABdhPJwhR3Rxo+499Fg5WOTkk0H6k+NnyfKQY5fnQs+6kyOvMH1K1ZTw9vhEl5ZylwjFkA+h6BGXDg==
+X-Received: by 2002:a37:a211:: with SMTP id l17mr10673818qke.195.1616414780127; 
+ Mon, 22 Mar 2021 05:06:20 -0700 (PDT)
+Received: from localhost.localdomain ([143.244.44.200])
+ by smtp.gmail.com with ESMTPSA id n140sm10677702qka.124.2021.03.22.05.06.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Mar 2021 05:06:19 -0700 (PDT)
+From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
+ viresh.kumar@linaro.org, dsterba@suse.com, eric@anholt.net,
+ rnayak@codeaurora.org, unixbhaskar@gmail.com, huawei@kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/msm/dpu: Fix a typo
+Date: Mon, 22 Mar 2021 17:36:01 +0530
+Message-Id: <20210322120601.2086438-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZQ0hMQktKSR5IQkwZVkpNSk1PSk9OQ0xJQkhVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
- FZT0tIVUpKS0hKTFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Ngw6Pjo6Iz8NPUI9MA9LSjwR
- I0kKCy1VSlVKTUpNT0pPTkNMTU5NVTMWGhIXVQwaFRESGhkSFRw7DRINFFUYFBZFWVdZEgtZQVlI
- TVVKTklVSk9OVUpDSVlXWQgBWUFJSUJMNwY+
-X-HM-Tid: 0a7859d13945d992kuwse0c4c98079b
-X-Mailman-Approved-At: Mon, 22 Mar 2021 15:33:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,34 +68,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kael_w@yeah.net, Wan Jiabing <wanjiabing@vivo.com>
+Cc: rdunlap@infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-amdgpu_hdp.h has been included at line 91, so remove
-the duplicate include.
 
-Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+s/poiner/pointer/
+
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 49267eb64302..68836c22ef25 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -107,7 +107,6 @@
- #include "amdgpu_gfxhub.h"
- #include "amdgpu_df.h"
- #include "amdgpu_smuio.h"
--#include "amdgpu_hdp.h"
- 
- #define MAX_GPU_INSTANCE		16
- 
--- 
-2.25.1
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+index d6717d6672f7..a448eb039334 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+@@ -258,7 +258,7 @@ void dpu_kms_encoder_enable(struct drm_encoder *encoder);
+
+ /**
+  * dpu_kms_get_clk_rate() - get the clock rate
+- * @dpu_kms:  poiner to dpu_kms structure
++ * @dpu_kms:  pointer to dpu_kms structure
+  * @clock_name: clock name to get the rate
+  *
+  * Return: current clock rate
+--
+2.31.0
 
 _______________________________________________
 dri-devel mailing list
