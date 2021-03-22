@@ -1,55 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58BAD343E6E
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 11:52:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0503D343E6F
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Mar 2021 11:53:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77CE18997C;
-	Mon, 22 Mar 2021 10:52:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E9D589E9E;
+	Mon, 22 Mar 2021 10:53:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
- [IPv6:2607:f8b0:4864:20::834])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE19B8997C;
- Mon, 22 Mar 2021 10:52:45 +0000 (UTC)
-Received: by mail-qt1-x834.google.com with SMTP id r14so11896173qtt.7;
- Mon, 22 Mar 2021 03:52:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WJX7JaYFq4GAMYqJbvtx/XER33QOle3RHNn2d1pX0ts=;
- b=cuBpipzJKTWI1UoftSn58ZUn2sM+Qjcu80NaLIq78WUDZLTrkTGeEIvr05tWplBK/C
- pIxH5zqZMel/vmt+IInn35fsp4WYoNq9oYvUm8qNT8YVV1TQwkNlp+SNhAzW/6lu1w+G
- vpPwKNahrsALLxF7TX/aMRBiOmvmAVzWHl8enxjrxGfEpBkqvqfOjYJUS92FTeKx0U6N
- gSnJp/dDheVf0HTUi8OWMgodUIjpP8D5TcIflyEBjNgRMey1YygEDPsYN6Ry/e0NqkPK
- OYP7zWbBwE4ehRpcxEJhtVSxN1kuUCNc+vq/s0VCWmiaLGipIS5AG7vi7mlCvVfzcpZz
- 90xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WJX7JaYFq4GAMYqJbvtx/XER33QOle3RHNn2d1pX0ts=;
- b=DispOna0rYWrQauyLw2HekQDA0zCRTmS798j0puiN3dVYdr2ouLMgOiNy/6uQL2HUc
- brd5mZImlpQK+QfLTkmilU4+BQR0pRK2THwhMnxVB9eSatbYbRQaMkUhkZCC+5w9Rfzr
- dTBUATGfsMLmc4wZkC9SYEHgBSwA5ewGiUO9v2LUbNqIVVi+76oek5wTPZDCYmrw921S
- 16q7e7LQcYVDV/owf5cX2F3t/PtRJEcYV76AP87UgnxO0slCMj3fvFNRCuIwd9FX9biE
- mFqEuhvCHVZ8UcW8R8F7m+Ww6HnL7Ka7VbYPuQz+Xc4YB9ECakvYni5Q7aOCOW3et4sf
- 3ahA==
-X-Gm-Message-State: AOAM530GSEREVHFY4Xhq55LW9iKbP+QmXjHXoGQlOnwFdWoW++b4ghyS
- zLylH91KBhYTlURUFaaUUZcOL5ygAETxRW2kUdyfYTDBlUI=
-X-Google-Smtp-Source: ABdhPJzEnFDFVJPaZdyrsL0Jax7/4Pqn9U5B9LRleGY0C6itv9RCY59NWab8obTzvhv8T8tHLFj6iMBrLZpZpFQvwPM=
-X-Received: by 2002:ac8:4d97:: with SMTP id a23mr8808429qtw.265.1616410365095; 
- Mon, 22 Mar 2021 03:52:45 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20B3D89E9E
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Mar 2021 10:53:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4B10661983;
+ Mon, 22 Mar 2021 10:53:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1616410391;
+ bh=4U0eak1ORtelSunJ9eE7hPB3yqAxnqQRBSFUlGf+63c=;
+ h=From:To:Cc:Subject:Date:From;
+ b=RgVbcb5GDL09XMuNQ6ApRvSec2jt7qHQUtsB2qr0geekYNbvLm3amzMeHiPM946Uf
+ Cx+8jLIVhr+YZxrmgmMTIGIK6bysN08+ys+ORnyf3sDus3Iyd2ziWZKI/bhctiXAfs
+ Q/MXso1NWbkvBHfvVVZPv5XDYGuGq/aWV0534Qe4ljZHiFeYnyYz3fV/4vuI6FDzfS
+ 7n4r6bbscyZZk8UJSFtvJPIlNUkx+Eglq3PM5ikRJEi/VzThTl1lTNdiriwlZ5tTj4
+ QZ2ZrJLUtkAYEvlxqhW2ssKRjo+eNWLSXpyZCuAu6X+CTxJzGI9JQ0jfNtmxL6/Blo
+ TiIiMRucxsIew==
+From: Arnd Bergmann <arnd@kernel.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] fbdev: omapfb: avoid -Wempty-body warning
+Date: Mon, 22 Mar 2021 11:52:59 +0100
+Message-Id: <20210322105307.1291840-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20210319223856.2983244-1-jason@jlekstrand.net>
- <20210319223856.2983244-2-jason@jlekstrand.net>
- <CAOFGe94ggJUBH_+bbxAVLUge8NZQYHK55ZzjnQ2erXhh+r8c=A@mail.gmail.com>
-In-Reply-To: <CAOFGe94ggJUBH_+bbxAVLUge8NZQYHK55ZzjnQ2erXhh+r8c=A@mail.gmail.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Mon, 22 Mar 2021 10:52:18 +0000
-Message-ID: <CAM0jSHPZCAJwaNHWPpKW1xhbm4Y8rBuQeWf+=egmY7VTKXaLwg@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/4] drm/i915: Drop I915_CONTEXT_PARAM_RINGSIZE
-To: Jason Ekstrand <jason@jlekstrand.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,42 +43,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 20 Mar 2021 at 14:48, Jason Ekstrand <jason@jlekstrand.net> wrote:
->
-> On Fri, Mar 19, 2021 at 5:39 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
-> >
-> > This reverts commit 88be76cdafc7e60e2e4ed883bfe7e8dd7f35fa3a.  This API
-> > has never been used by any real userspace.
->
-> After further digging, there is a compute-runtime PR for this.  I
-> still think we should drop it and I've updated the commit message
-> locally with the following rationale:
->
->     This reverts commit 88be76cdafc7e60e2e4ed883bfe7e8dd7f35fa3a.  This API
->     was originally added for OpenCL but the compute-runtime PR has sat open
->     for a year without action so we can still pull it out if we want.  I
->     argue we should drop it for three reasons:
->
->      1. If the compute-runtime PR has sat open for a year, this clearly
->         isn't that important.
->
->      2. It's a very leaky API.  Ring size is an implementation detail of the
->         current execlist scheduler and really only makes sense there.  It
->         can't apply to the older ring-buffer scheduler on pre-execlist
->         hardware because that's shared across all contexts and it won't
->         apply to the GuC scheduler that's in the pipeline.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Just a drive-by-comment. I thought the lrc model was shared between
-execlists and the GuC, so in both cases we get something like a ring
-per engine per context which the driver can emit commands into. Why
-doesn't ring size still apply with the GuC scheduler?
+Building with 'make W=1' shows a few harmless warnings:
+
+drivers/video/fbdev/omap2/omapfb/omapfb-main.c: In function 'omapfb_calc_addr':
+drivers/video/fbdev/omap2/omapfb/omapfb-main.c:823:56: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
+  823 |                     var->xoffset, var->yoffset, offset);
+      |                                                        ^
+drivers/video/fbdev/omap2/omapfb/omapfb-ioctl.c: In function 'omapfb_ioctl':
+drivers/video/fbdev/omap2/omapfb/omapfb-ioctl.c:911:45: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
+  911 |                 DBG("ioctl failed: %d\n", r);
+
+Avoid these by using no_printk(), which adds format string checking as
+well.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/video/fbdev/omap2/omapfb/omapfb.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/video/fbdev/omap2/omapfb/omapfb.h b/drivers/video/fbdev/omap2/omapfb/omapfb.h
+index d27abccb37bc..1c1b5201c8b6 100644
+--- a/drivers/video/fbdev/omap2/omapfb/omapfb.h
++++ b/drivers/video/fbdev/omap2/omapfb/omapfb.h
+@@ -29,7 +29,7 @@ extern bool omapfb_debug;
+ 			printk(KERN_DEBUG "OMAPFB: " format, ## __VA_ARGS__); \
+ 	} while (0)
+ #else
+-#define DBG(format, ...)
++#define DBG(format, ...) no_printk(format, ## __VA_ARGS__)
+ #endif
+ 
+ #define FB2OFB(fb_info) ((struct omapfb_info *)(fb_info->par))
+-- 
+2.29.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
