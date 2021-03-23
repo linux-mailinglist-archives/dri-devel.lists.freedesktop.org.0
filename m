@@ -2,61 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F9134589A
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 08:25:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A083458C3
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 08:34:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B08636E84C;
-	Tue, 23 Mar 2021 07:25:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDECE88E4D;
+	Tue, 23 Mar 2021 07:34:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 293366E84C
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 07:25:43 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- j6-20020a17090adc86b02900cbfe6f2c96so9748971pjv.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 00:25:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=UKDB4tP1o/qAJ5iZQYJec7JsyNelKTQdItmX1ycjyQk=;
- b=ZETG82JILVxDJCi3qiI1q0/LQNcWe9kN64W1uB852/RlDMI5Yh6PhOnBgKohVs1Xhq
- b2j43WJ1y0Gj/KQt3KYF3WXHWu9xefZzPtfdm40QocAiaK4lE24hDSjYV219L8YJWjol
- dupj1bUlLOxCnPRBRReCjJHZS8pgOjJ51nnXI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=UKDB4tP1o/qAJ5iZQYJec7JsyNelKTQdItmX1ycjyQk=;
- b=liuzgWDn/4eEo6HGgtJ9jWWL4uz4xEUsifBvlijUx4/4abSKOu/Q4oRPk2DMY2cU3t
- 1ghon6+CWUF35Cjt0ILFZhuk9/1MI2nxHPb5xINidhwxdiaakt83cZXj6Jw8XUsEYJHi
- 3orfHLRPogMzROQq9QJHsQfrBHRzs5wxLxff9e6Ka633HGyU59qeM0H/SdoTjFlOsZ7J
- 9/6Bb6FnTCbEdBOH1zn3PuI+sJdCLJ+Hxk/Dk7UuGgUaZowiABmYM746wfFIuIUo5G69
- 2SpYkBj+/+fq0PbeJxMbg5lRMQTeAffVZEJOGGIf7tR98ZoIGVbOZEIr1CoHLA4oRNHj
- D+DA==
-X-Gm-Message-State: AOAM533w+SFXJJiIAKiG619roilfEos9K9xdsoNVfoSgJ2UxmF7tSBqI
- gQyVaJOzhzdoTba3PbafHK/k0g==
-X-Google-Smtp-Source: ABdhPJyPgeACfzPrxFvaTFzN2uVCCvcZfR0JEVYNsM780SwaiY1fnBGhInJl6nD7HjGAyflWidV26A==
-X-Received: by 2002:a17:90a:c902:: with SMTP id
- v2mr3287152pjt.144.1616484342636; 
- Tue, 23 Mar 2021 00:25:42 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:201:e90d:d453:87ae:2e10])
- by smtp.gmail.com with ESMTPSA id z1sm15806362pfn.127.2021.03.23.00.25.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 00:25:41 -0700 (PDT)
+Received: from ustc.edu.cn (email6.ustc.edu.cn [IPv6:2001:da8:d800::8])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6A12D88E4D
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 07:33:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mail.ustc.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+ Message-Id:MIME-Version:Content-Transfer-Encoding; bh=bhswRq59Lz
+ Qz4IxCsSIGEpezgpMNfSZEGd8ZjnkD4Ks=; b=vn2fP1t8k7f5tsYZTq/9CGjnha
+ H7GDHwYOenEl1ReUy1MUsIZccTcGlESML7iAAygUivjRz7acdXlmtqtxOVCcIu0U
+ OMZ6GKwYMIvgbEVM/pbNaBVG4fAZ9DjPgrMfxAylJQdFLWeCfWXqRhJyK3lq3toF
+ /UYd/ikvHwcLmmdVk=
+Received: from ubuntu.localdomain (unknown [202.38.69.14])
+ by newmailweb.ustc.edu.cn (Coremail) with SMTP id LkAmygC3v0vhmVlgw3seAA--.4S4;
+ Tue, 23 Mar 2021 15:33:53 +0800 (CST)
+From: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
+To: kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+ wei.liu@kernel.org
+Subject: [PATCH] video/fbdev: Fix a double free in hvfb_probe
+Date: Tue, 23 Mar 2021 00:33:50 -0700
+Message-Id: <20210323073350.17697-1-lyl2019@mail.ustc.edu.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <YFkvl9tzP5Nj54C4@pendragon.ideasonboard.com>
-References: <20201030011738.2028313-1-swboyd@chromium.org>
- <20201101173741.GA1293305@ravnborg.org>
- <160436612483.884498.883110130131457033@swboyd.mtv.corp.google.com>
- <YFkvl9tzP5Nj54C4@pendragon.ideasonboard.com>
-Subject: Re: [PATCH v2 0/4] drm/bridge: ti-sn65dsi86: Support EDID reading
-From: Stephen Boyd <swboyd@chromium.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date: Tue, 23 Mar 2021 00:25:40 -0700
-Message-ID: <161648434035.3012082.16414745959476755420@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+X-CM-TRANSID: LkAmygC3v0vhmVlgw3seAA--.4S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7ArW5WFWfJryrAw17WF47CFg_yoW8JFWUpF
+ 4kJFyqyrWrtr1j93ykAr4vyFyF9F4fKr9xWr12ya4Fka43J3y8Wr13AFW2krZ5ArW5Gw13
+ ZF1Yy345Ga45CaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+ F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
+ 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I
+ 648v4I1lc2xSY4AK67AK6r4xMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
+ 4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
+ 67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
+ x0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY
+ 6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa
+ 73UjIFyTuYvjfUYhL8DUUUU
+X-CM-SenderInfo: ho1ojiyrz6zt1loo32lwfovvfxof0/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,90 +60,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Sean Paul <seanpaul@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-hyperv@vger.kernel.org, Lv Yunlong <lyl2019@mail.ustc.edu.cn>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Laurent Pinchart (2021-03-22 17:00:23)
-> Hi Stephen,
-> 
-> On Mon, Nov 02, 2020 at 05:15:24PM -0800, Stephen Boyd wrote:
-> > Quoting Sam Ravnborg (2020-11-01 09:37:41)
-> > > Hi Stephen.
-> > > 
-> > > On Thu, Oct 29, 2020 at 06:17:34PM -0700, Stephen Boyd wrote:
-> > > > This patch series cleans up the DDC code a little bit so that
-> > > > it is more efficient time wise and supports grabbing the EDID
-> > > > of the eDP panel over the aux channel. I timed this on a board
-> > > > I have on my desk and it takes about 20ms to grab the EDID out
-> > > > of the panel and make sure it is valid.
-> > > > 
-> > > > The first two patches seem less controversial so I stuck them at
-> > > > the beginning. The third patch does the EDID reading and caches
-> > > > it so we don't have to keep grabbing it over and over again. And
-> > > > finally the last patch updates the reply field so that short
-> > > > reads and nacks over the channel are reflected properly instead of
-> > > > treating them as some sort of error that can't be discerned.
-> > > > 
-> > > > Stephen Boyd (4):
-> > > >   drm/bridge: ti-sn65dsi86: Combine register accesses in
-> > > >     ti_sn_aux_transfer()
-> > > >   drm/bridge: ti-sn65dsi86: Make polling a busy loop
-> > > >   drm/bridge: ti-sn65dsi86: Read EDID blob over DDC
-> > > >   drm/bridge: ti-sn65dsi86: Update reply on aux failures
-> > > 
-> > > Series looks good. You can add my a-b on the full series.
-> > > Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> > > 
-> > > I can apply after Douglas have had a look at the patches he did not r-b
-> > > yet.
-> > > 
-> > > Any chance we can convince you to prepare this bridge driver for use in
-> > > a chained bridge setup where the connector is created by the display
-> > > driver and uses drm_bridge_funcs?
-> > > 
-> > > First step wuld be to introduce the use of a panel_bridge.
-> > > Then add get_edid to drm_bridge_funcs and maybe more helpers.
-> > > 
-> > > Then natural final step would be to move connector creation to the
-> > > display driver - see how other uses drm_bridge_connector_init() to do so
-> > > - it is relatively simple.
-> > > 
-> > > Should be doable - and reach out if you need some help.
-> > 
-> > I started to look at this and got stuck at ti_sn_bridge_get_bpp(). Where
-> > can I get the details of the bpc for the downstream bridge or panel? Is
-> > there some function that can tell this bridge what the bpc is for the
-> > attached connector?
-> 
-> I've posted a patch series to convert to DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> yesterday (and have CC'ed you), but I've overlooked this particular
-> problem :-S
+In function hvfb_probe in hyperv_fb.c, it calls hvfb_getmem(hdev, info)
+and return err when info->apertures is freed.
 
-!
+In the error1 label of hvfb_probe, info->apertures will be freed twice
+by framebuffer_release(info).
 
-> 
-> You can't get the connector in the .enable() operation, but you can get
-> it in .atomic_enable(), with
-> drm_atomic_get_new_connector_for_encoder(). This being said, it's
-> probably not the right option.
-> 
-> What matters here isn't the bpc for the connector, but the format
-> expected by the next bridge in the chain. drm_bridge_funcs has two
-> operations, .atomic_get_output_bus_fmts() and
-> .atomic_get_input_bus_fmts(), to negotiate that format along a chain of
-> bridges. The panel bridge driver (drivers/gpu/drm/bridge/panel.c)
-> doesn't implement those operations, and neither does
-> display-connector.c, so that may be what we should start with.
+My patch sets info->apertures to NULL after it was freed to avoid
+double free.
 
-Ok, makes sense. I'd gladly test things out if you come up with some
-solution here.
+Signed-off-by: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
+---
+ drivers/video/fbdev/hyperv_fb.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
+index c8b0ae676809..2fc9b507e73a 100644
+--- a/drivers/video/fbdev/hyperv_fb.c
++++ b/drivers/video/fbdev/hyperv_fb.c
+@@ -1032,6 +1032,7 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
+ 		if (!pdev) {
+ 			pr_err("Unable to find PCI Hyper-V video\n");
+ 			kfree(info->apertures);
++			info->apertures = NULL;
+ 			return -ENODEV;
+ 		}
+ 
+@@ -1130,6 +1131,7 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
+ 		pci_dev_put(pdev);
+ 	}
+ 	kfree(info->apertures);
++	info->apertures = NULL;
+ 
+ 	return 0;
+ 
+@@ -1142,6 +1144,7 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
+ 	if (!gen2vm)
+ 		pci_dev_put(pdev);
+ 	kfree(info->apertures);
++	info->apertures = NULL;
+ 
+ 	return -ENOMEM;
+ }
+-- 
+2.25.1
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
