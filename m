@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F9D3459FD
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 09:45:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27569345A00
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 09:45:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA60D6E0C8;
-	Tue, 23 Mar 2021 08:45:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58E2C6E863;
+	Tue, 23 Mar 2021 08:45:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66D026E0CE
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 08:45:00 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- j20-20020a05600c1914b029010f31e15a7fso4491053wmq.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 01:45:00 -0700 (PDT)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B008F6E84D
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 08:45:03 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id x13so19847793wrs.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 01:45:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7ctMAs2ck6qhQkBco0XwNML8tiYEOiG6Y+b8Y6p/AsQ=;
- b=k0G0WK9sV8PLOfVaSjiR0KLC4w9QmPmfQ3RJzQ2g06W4sdwvTypK/1z4zA7S2u0AoV
- gdcqFGbhtUl2HlbxOinofPHYfvT7CyqAlaYJx+7ZfURF67a9wvVwMruu2Acxo/0KEqlS
- g4zfVCe4Hy4hIaQ6ZTs/qUKfuxbWdP1dDCbFc=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=EVmj/JgXHiOknipjFzQEKiQ+vNpvGhie2Jf7GtdWuRA=;
+ b=RHmqlDskazU4hnG1lgqVnlGvOcZOMpDn/IKsdvG6La5G1DZXFzNVKfzyYy1rOq7wxg
+ +tUYom2c/yVs3rHXoT/1jDGPI680NetGWbkcpgC7cYy2UBZa76jAjQhHtSYPaW5G1UsS
+ +l6QIecnq12Irl/uvoVRFvJuOs2Ug/UTk6R28=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7ctMAs2ck6qhQkBco0XwNML8tiYEOiG6Y+b8Y6p/AsQ=;
- b=fM1pQVrdQ5Y9liBUslpxz6UJpeGQahklqX/knJXYGRG3h75ex3868Q8KNbIm6BG1qO
- 2sCTON261SqNdeKoZsNTg3JIkZBNn20SIBFhM53iWRI0SreeWcw6inux8Eu/U6AHrc8p
- VqLjhv6uGydWa4ytvwCcH/sEp6jexNy56LUPkQiwuuSiIcYQzAeb3VOxXupg4Lyj43g1
- /p8fmEY/dFpJNQQ+ZYuDj5gv50BaE5YlM4HTMq1szGMvRp9cV8xWl/sEBO9p3F4N+JA5
- HsJJVNfbK/Mi9WCUeMW+rPwgfKdsfX0KxYqnsxwzi90JHyAaOu5CoZ1ViBWoGQSNDZOp
- 0U7Q==
-X-Gm-Message-State: AOAM5303MLQrfHzjhRBX2USMFweOW56cGLORiiAvF58oPE7IvqWXmOE+
- 1JY4OgHAGBuPOMlvQ7EG42u2ee5oVmKwTXvT
-X-Google-Smtp-Source: ABdhPJwQshgo2y6o1jYvCLDYmYmjLnx3OE40p+nYnx2V6Uu+7yXfI8YgW1III2M9Z2QzEPMN2R6+0g==
-X-Received: by 2002:a7b:c92d:: with SMTP id h13mr2244841wml.147.1616489099002; 
- Tue, 23 Mar 2021 01:44:59 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=EVmj/JgXHiOknipjFzQEKiQ+vNpvGhie2Jf7GtdWuRA=;
+ b=DatX9AYcMENEolnp5271/APbsTXIEWA+Ws8l8v05gbeHv1Jp+NcuYp+F4eTXEjDjWR
+ eYoWg+kfocHRHEayXW9vKZmfPhHwnTnPHtp+eEgnHtnh4ysQBg9guYhf6NAhm9pmkby2
+ 4ZbeDroRLmniqWVxrpu+k7L/SJcOonJ6IP3Hd1G4pDG78+wFCWpR58OfRDBZnU2j6+TU
+ EWh1Ko2S9FRaGkM6qnxp5+D1fkUfGkbrDG8a8J7D8c7RZkyaTh+SeE1D4HPBsuu1OepB
+ B0GhGlALqq1+GvPULCIN9fRNDnIp1gLA9F6rvcckdsj/PgAI2AMvwPT1TK1S607POFQt
+ Mohw==
+X-Gm-Message-State: AOAM533AVvlyZTASyFBu8N+hRy6u73ifIek18X5ie47bIuyZApOvdnqr
+ CqnHXawTYFksA7WFTakLddRu+sgq5TsYD9A+
+X-Google-Smtp-Source: ABdhPJzaRTtncl3Um+eFvF0cNs1yuH1tPrvlYSdvrYKJptlvFpjSEOk9fZQm+CwM8xOIJ4BqcJmJAg==
+X-Received: by 2002:a5d:4b06:: with SMTP id v6mr2827113wrq.41.1616489101966;
+ Tue, 23 Mar 2021 01:45:01 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g202sm1772835wme.20.2021.03.23.01.44.58
+ by smtp.gmail.com with ESMTPSA id g202sm1772835wme.20.2021.03.23.01.44.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 01:44:58 -0700 (PDT)
+ Tue, 23 Mar 2021 01:44:59 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH 1/2] drm/i915: add gem/gt TODO
-Date: Tue, 23 Mar 2021 09:44:52 +0100
-Message-Id: <20210323084453.366863-1-daniel.vetter@ffwll.ch>
+Subject: [PATCH 2/2] drm/doc: Add RFC section
+Date: Tue, 23 Mar 2021 09:44:53 +0100
+Message-Id: <20210323084453.366863-2-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20210323084453.366863-1-daniel.vetter@ffwll.ch>
+References: <20210323084453.366863-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,22 +72,8 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We've discussed a bit how to get the gem/gt team better integrated
-and collaborate more with the wider community and agreed to the
-following:
-
-- all gem/gt patches are reviewed on dri-devel for now. That's
-  overkill, but in the past there was definitely too little of that.
-
-- i915-gem folks are encouraged to cross review core patches from
-  other teams
-
-- big features (especially uapi changes) need to be discussed in an
-  rfc patch that documents the interface and big picture design,
-  before we get lost in the details of the code
-
-- Also a rough TODO (can be refined as we go ofc) to get gem/gt back
-  on track, like we've e.g. done with DAL/DC to get that in shape.
+Motivated by the pre-review process for i915 gem/gt features, but
+probably useful in general for complex stuff.
 
 Cc: Jani Nikula <jani.nikula@linux.intel.com>
 Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
@@ -95,52 +82,45 @@ Cc: Jason Ekstrand <jason@jlekstrand.net>
 Cc: Dave Airlie <airlied@redhat.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 ---
- drivers/gpu/drm/i915/TODO.txt | 36 +++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
- create mode 100644 drivers/gpu/drm/i915/TODO.txt
+ Documentation/gpu/index.rst |  1 +
+ Documentation/gpu/rfc.rst   | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+)
+ create mode 100644 Documentation/gpu/rfc.rst
 
-diff --git a/drivers/gpu/drm/i915/TODO.txt b/drivers/gpu/drm/i915/TODO.txt
+diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
+index c9a51e3bfb5a..df58cb826d68 100644
+--- a/Documentation/gpu/index.rst
++++ b/Documentation/gpu/index.rst
+@@ -16,6 +16,7 @@ Linux GPU Driver Developer's Guide
+    vga-switcheroo
+    vgaarbiter
+    todo
++   rfc
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/gpu/rfc.rst b/Documentation/gpu/rfc.rst
 new file mode 100644
-index 000000000000..d2e5bbb6339d
+index 000000000000..9d0ff2921af8
 --- /dev/null
-+++ b/drivers/gpu/drm/i915/TODO.txt
-@@ -0,0 +1,36 @@
-+gem/gt TODO items
-+-----------------
++++ b/Documentation/gpu/rfc.rst
+@@ -0,0 +1,16 @@
++===============
++GPU RFC Section
++===============
 +
-+- For discrete memory manager, merge enough dg1 to be able to refactor it to
-+  TTM. Then land pci ids (just in case that turns up an uapi problem). TTM has
-+  improved a lot the past 2 years, there's no reason anymore not to use it.
++For complex work, especially new uapi, it is often good to nail the high level
++design issues before getting lost in the code details. This section is meant to
++host such documentation:
 +
-+- Come up with a plan what to do with drm/scheduler and how to get there.
++* Each RFC should be a section in this file, explaining the goal and main design
++  considerations.
 +
-+- There's a lot of complexity added past few years to make relocations faster.
-+  That doesn't make sense given hw and gpu apis moved away from this model years
-+  ago:
-+  1. Land a modern pre-bound uapi like VM_BIND
-+  2. Any complexity added in this area past few years which can't be justified
-+  with VM_BIND using userspace should be removed. Looking at amdgpu dma_resv on
-+  the bo and vm, plus some lru locks is all that needed. No complex rcu,
-+  refcounts, caching, ... on everything.
-+  This is the matching task on the vm side compared to ttm/dma_resv on the
-+  backing storage side.
++* For uapi structures add a file to this directory with and then pull the
++  kerneldoc in like with real uapi headers.
 +
-+- i915_sw_fence seems to be the main structure for the i915-gem dma_fence model.
-+  How-to-dma_fence is core and drivers really shouldn't build their own world
-+  here, treating everything else as a fixed platform. i915_sw_fence concepts
-+  should be moved to dma_fence, drm/scheduler or atomic commit helpers. Or
-+  removed if dri-devel consensus is that it's not a good idea. Once that's done
-+  maybe even remove it if there's nothing left.
-+
-+Smaller things:
-+- i915_utils.h needs to be moved to the right places.
-+
-+- dma_fence_work should be in drivers/dma-buf
-+
-+- i915_mm.c should be moved to the right places. Some of the helpers also look a
-+  bit fishy:
-+
-+  https://lore.kernel.org/linux-mm/20210301083320.943079-1-hch@lst.de/
++* Once the code has landed move all the documentation to the right places in
++  the main core, helper or driver sections.
 -- 
 2.31.0
 
