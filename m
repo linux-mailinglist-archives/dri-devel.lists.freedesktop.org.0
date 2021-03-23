@@ -1,56 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B38B346729
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 19:07:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3940346756
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 19:14:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D74FF89CF9;
-	Tue, 23 Mar 2021 18:07:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1E546E90F;
+	Tue, 23 Mar 2021 18:14:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C6BE6E921
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 18:07:23 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id a8so17957237oic.11
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 11:07:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=e3B+59LKFePNVjHdMLcwFqvVHM4VPFbGxXZU5IK7OQ8=;
- b=HVeVJBNYKC3tUFHU285N0IEjcrD5Njwr4l7AGXN/aNo0r5qppErYPJMdF4L7qR4K6b
- a/6HaqnSUoGGgkDcvR0rfkIe6hf5UH6eGdYtyYvVkQu/Otum1VIJGCWPhBQ2ujjRvfLj
- 997yu1ragdfdEYBcEIVVuTzPwlRAwEG8DmftRaBI0gAKQ9/sC+KjmhqBUjTvjw7FM2b1
- LYTLAgi8la/A3Wnl9dnnLFeV7TWiegbzTXUm9hjhCfDyWbOlhG27OljhFXfY6rviiE6O
- 50J6mycfV8t/JukN7DLMW2CJDgqie7Lo3NrmSaxiGrPpOQQWrW92KxY5FsIcRMmAwcjj
- Bihw==
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 194086E90F
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 18:14:31 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id e18so21782009wrt.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 11:14:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GbZwWLO0faxizLlS0pXkd1V339UXzvG9Fjo6U6vn6Os=;
+ b=Sfk5P279OI/pPHXLqgtMXrT6powvmwN6JmE5PSEApOadabisNP5IVlZQcJgBSv+dwI
+ TmgCkpJVV75udTNNRZjCOy9dl6wbnw6anXomtpxTFKzLORtpMvZvFoFMn5G5VtWi8IQV
+ /t9bI8KPuSC/gw3OjINDpaxlkBKYf4iPld24xMeL6wzqN65y98IEHvFofmqDeOq443eT
+ XDWg71n8tQnSlnSLumMWASQzFLCi4XrOcufaushgFYAjsHsaBzv32o8MufCOupoBzAmc
+ MnkMfYtHE2V3JlAVPrmnXcSi1oer0NOZxdmS3VkIPDJ1Q3pCwSGmPNGT99VlpTbsQCxR
+ 3J2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=e3B+59LKFePNVjHdMLcwFqvVHM4VPFbGxXZU5IK7OQ8=;
- b=mLuvJmAqvAuLM7Vt+uJ+9UhObQVtaz6G8DAA8OTNQUIRTS3DDPuEiETrxVcni94Zsf
- OlocPfyTVaBtFm+aisf+tBClylxj9swvzXwJrKuE5qTbG7amCcyakNEVpRddx/A8Q43+
- fdJGSQKyIaCs7MfBv5AAU5cQI2n1nkJSJmitSknN5/hEIvqw7rwFENpvGdvJgol1pbLt
- Q0fltMWOC11aM7uya8u3fQRTPA53uaJl28ohtFysflF5utcFOCRdlecuq9/4qJHDhL06
- rC9iSFNFYv26sGqlVp+R+Xs9XsqDkh7ap/pZCwJZG00bdMiP1v1F/3dsPFQSJIPAMhVO
- MjDw==
-X-Gm-Message-State: AOAM531CapSxwSJSTRH23kyPh1i+3tJ/9NO/8djn1CJWyJdrJ3xqoNHy
- 0VAyMDIbKAzqDw9DR53k11+VA++nNhskf1btpaPflA==
-X-Google-Smtp-Source: ABdhPJwzYKARMuXCB+e8ID2we7xc2Ro/TWKW1n8HjNlMHoy4QXSd+/6Di3TErIG0ErdYG9ghh/Tx2vGVVYLHCZhVKHg=
-X-Received: by 2002:aca:4d55:: with SMTP id a82mr4192505oib.23.1616522842373; 
- Tue, 23 Mar 2021 11:07:22 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GbZwWLO0faxizLlS0pXkd1V339UXzvG9Fjo6U6vn6Os=;
+ b=sUnJETvo8s+GmkFdf7jcGnZO1y1A16PfodGiv70kvs3yiB5pVpHvaH48wbY2zBFTqT
+ l9tle6VNqoAZFCXOgV4+bwfwAkGa92SiwJ0aGluL/8mO3BNcMypG8ZSEi/z+iJTylNoA
+ 937zjjVu5j67rYMq/jSG+KNB7W9s0LeyxhHJZQg507xngYZKuSpJyd5/nVD7+j0ZMQXy
+ MTF9yP0UKYiNAnyduwOQ29uTc9chM0I+ixUpE6EjDgVI17HY/QoYs9J7myeDP0mpeE82
+ Yg9v5zGOz9AvsNWNea1lV7M54sE3lls2O3E9rOVGSzyKGgKpSrAILcT7W22ClCD9bxUY
+ pUKw==
+X-Gm-Message-State: AOAM53002ggZBXREOSn5s8Cql7gP+3Gc3EadTMDENh5g3v6tQq/1WMaW
+ GL+YHy+FbXJ20k+9f+ocWTM=
+X-Google-Smtp-Source: ABdhPJy8YxTzXv70Rx/RXpuiBZyu4/JukCqPPoa/KiVMfInWD559h7X/+rMUmDf2A1kViF0dxaVpxQ==
+X-Received: by 2002:a5d:640b:: with SMTP id z11mr5162914wru.327.1616523269575; 
+ Tue, 23 Mar 2021 11:14:29 -0700 (PDT)
+Received: from adgra-XPS-15-9570.home
+ (2a01cb0008bd2700f54ecdc9d152bb4f.ipv6.abo.wanadoo.fr.
+ [2a01:cb00:8bd:2700:f54e:cdc9:d152:bb4f])
+ by smtp.gmail.com with ESMTPSA id 21sm3484734wme.6.2021.03.23.11.14.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Mar 2021 11:14:29 -0700 (PDT)
+From: Adrien Grassein <adrien.grassein@gmail.com>
+To: 
+Subject: [PATCH v8 0/2] Add support of Lontium lt8912 MIPI to HDMI bridge
+Date: Tue, 23 Mar 2021 19:14:21 +0100
+Message-Id: <20210323181423.657926-1-adrien.grassein@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210323084453.366863-1-daniel.vetter@ffwll.ch>
- <874kh25gaw.fsf@intel.com> <YFnXszc5lZ/omk2V@phenom.ffwll.local>
- <YFngbxt0KbZPXKll@intel.com> <YFnqmRkNdpljN30g@phenom.ffwll.local>
-In-Reply-To: <YFnqmRkNdpljN30g@phenom.ffwll.local>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Tue, 23 Mar 2021 13:07:11 -0500
-Message-ID: <CAOFGe95_rEvLP9dhBwrwr=31jPmAsmTNTauRfiFQxbx+QHiPFw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/i915: add gem/gt TODO
-To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,161 +66,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@redhat.com>
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net,
+ narmstrong@baylibre.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ jonas@kwiboo.se, linux-kernel@vger.kernel.org, robert.foss@linaro.org,
+ a.hajda@samsung.com, robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com,
+ Adrien Grassein <adrien.grassein@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 23, 2021 at 8:18 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Tue, Mar 23, 2021 at 08:34:55AM -0400, Rodrigo Vivi wrote:
-> > On Tue, Mar 23, 2021 at 12:57:39PM +0100, Daniel Vetter wrote:
-> > > On Tue, Mar 23, 2021 at 12:13:11PM +0200, Jani Nikula wrote:
-> > > > On Tue, 23 Mar 2021, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > > > We've discussed a bit how to get the gem/gt team better integrated
-> > > > > and collaborate more with the wider community and agreed to the
-> > > > > following:
-> > > > >
-> > > > > - all gem/gt patches are reviewed on dri-devel for now. That's
-> > > > >   overkill, but in the past there was definitely too little of that.
-> > > > >
-> > > > > - i915-gem folks are encouraged to cross review core patches from
-> > > > >   other teams
-> > > > >
-> > > > > - big features (especially uapi changes) need to be discussed in an
-> > > > >   rfc patch that documents the interface and big picture design,
-> > > > >   before we get lost in the details of the code
-> > > > >
-> > > > > - Also a rough TODO (can be refined as we go ofc) to get gem/gt back
-> > > > >   on track, like we've e.g. done with DAL/DC to get that in shape.
-> > > >
-> > > > I personally think there should be a lower bar for discussing and
-> > > > editing the TODO items than via patches on the mailing list. Granted,
-> > > > the TODO file enforces the discussion happens at a large enough
-> > > > audience, but for at least some of the items I'd suggest filing gitlab
-> > > > issues [1], with todo label, and tracking there.
-> >
-> > I also don't like the todo list in files and I agree that gitlab issues
-> > section should be better...
-> >
-> > > In general yes, and I'd go even further: it's up to each team/contributor
-> > > how they track review feedback and further work, whether that's gitlab or
-> > > some notes or just in their heads.
-> > >
-> > > This is a different situation here, and the "changes require big audience"
-> > > is a feature, not a bug. But it is a very exceptional situation, I think
-> > > this is only the 2nd time we're using a formal TODO for a gpu driver. If
-> > > we ignore gma500 in staging, which for me only showed that the separate
-> > > staging tree doesn't work so well for complex drivers like we have.
-> >
-> > ... but I understand the motivation, so
-> >
-> > Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> >
-> > However... what about:
-> >
-> > 1. moving the smaller items to gitlab at least?
-> > 2. having both, all the entries in the todo file have gitlab issue
-> > associated and the number-id is also here in the todo file?
->
-> Yeah that sounds reasonable. tbh we haven't started any of the
-> intel-internal planning on most of these (ttm and scheduler are started),
-> so none of these tracking things exist yet at all ...
+Hi,
+this patch set adds the support of the Lontium lt8912 MIPI to HDMI
+bridge in the kernel.
 
-I'm a fan of this.  GitLab issues provide a good place to organize the
-chatter on any particular ToDo item.  I'd also rather see people
-chattering about this stuff on public GitLab than JIRA, when possible.
-The last patch in the series closing out a ToDo can be a patch to this
-file to remove the bullet point.
+It's only support the video part, not the audio part yet
+since I don't have the datasheet of this component.
+I get the current i2c configuration from Digi and
+Boundary drivers.
+Developed using the DB_DSIHD board from BoundaryDevices.
 
---Jason
+Update in v2
+  - Use standard data-lanes instead of a custom prop;
+  - Use hdmi-connector node.
 
-> -Daniel
->
-> >
-> > > -Daniel
-> > >
-> > > >
-> > > > BR,
-> > > > Jani.
-> > > >
-> > > >
-> > > > [1] https://gitlab.freedesktop.org/drm/intel/-/issues
-> > > >
-> > > >
-> > > >
-> > > > >
-> > > > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > > > > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > > > > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > > > > Cc: Jason Ekstrand <jason@jlekstrand.net>
-> > > > > Cc: Dave Airlie <airlied@redhat.com>
-> > > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/i915/TODO.txt | 36 +++++++++++++++++++++++++++++++++++
-> > > > >  1 file changed, 36 insertions(+)
-> > > > >  create mode 100644 drivers/gpu/drm/i915/TODO.txt
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/i915/TODO.txt b/drivers/gpu/drm/i915/TODO.txt
-> > > > > new file mode 100644
-> > > > > index 000000000000..d2e5bbb6339d
-> > > > > --- /dev/null
-> > > > > +++ b/drivers/gpu/drm/i915/TODO.txt
-> > > > > @@ -0,0 +1,36 @@
-> > > > > +gem/gt TODO items
-> > > > > +-----------------
-> > > > > +
-> > > > > +- For discrete memory manager, merge enough dg1 to be able to refactor it to
-> > > > > +  TTM. Then land pci ids (just in case that turns up an uapi problem). TTM has
-> > > > > +  improved a lot the past 2 years, there's no reason anymore not to use it.
-> > > > > +
-> > > > > +- Come up with a plan what to do with drm/scheduler and how to get there.
-> > > > > +
-> > > > > +- There's a lot of complexity added past few years to make relocations faster.
-> > > > > +  That doesn't make sense given hw and gpu apis moved away from this model years
-> > > > > +  ago:
-> > > > > +  1. Land a modern pre-bound uapi like VM_BIND
-> > > > > +  2. Any complexity added in this area past few years which can't be justified
-> > > > > +  with VM_BIND using userspace should be removed. Looking at amdgpu dma_resv on
-> > > > > +  the bo and vm, plus some lru locks is all that needed. No complex rcu,
-> > > > > +  refcounts, caching, ... on everything.
-> > > > > +  This is the matching task on the vm side compared to ttm/dma_resv on the
-> > > > > +  backing storage side.
-> > > > > +
-> > > > > +- i915_sw_fence seems to be the main structure for the i915-gem dma_fence model.
-> > > > > +  How-to-dma_fence is core and drivers really shouldn't build their own world
-> > > > > +  here, treating everything else as a fixed platform. i915_sw_fence concepts
-> > > > > +  should be moved to dma_fence, drm/scheduler or atomic commit helpers. Or
-> > > > > +  removed if dri-devel consensus is that it's not a good idea. Once that's done
-> > > > > +  maybe even remove it if there's nothing left.
-> > > > > +
-> > > > > +Smaller things:
-> > > > > +- i915_utils.h needs to be moved to the right places.
-> > > > > +
-> > > > > +- dma_fence_work should be in drivers/dma-buf
-> > > > > +
-> > > > > +- i915_mm.c should be moved to the right places. Some of the helpers also look a
-> > > > > +  bit fishy:
-> > > > > +
-> > > > > +  https://lore.kernel.org/linux-mm/20210301083320.943079-1-hch@lst.de/
-> > > >
-> > > > --
-> > > > Jani Nikula, Intel Open Source Graphics Center
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+Update in v3
+  - Fix indentation;
+  - Implement missing bridge functions;
+  - Add some comments.
+
+Update in v4
+  - Fix bridge ops;
+  - Fix i2c error detection.
+
+Update in v5
+  - Fix lt8912 name (lt8912b instead of lt8912);
+  - Implement HPD via a workaround. In fact I don't have the datasheet
+    of this component yet so I can't say if the configuration of the
+registers is correct or if I have an HW issue on my board. So, I choose
+to implement a fake version of HPD using a workqueue and polling the
+status regularly.
+
+Update in v6
+  - Fix a warning found by "kernel test robot"
+
+Update in v7
+  - Fix HPD logic (via an HW emulation);
+  - HPD from chip is still not working.
+
+Update in v8
+  - Remove HPD logic (will be added later when HW bug qill be fixed).
+
+Thanks,
+
+Adrien Grassein (2):
+  dt-bindings: display: bridge: Add documentation for LT8912B
+  drm/bridge: Introduce LT8912B DSI to HDMI bridge
+
+ .../display/bridge/lontium,lt8912b.yaml       | 102 +++
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/bridge/Kconfig                |  14 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ drivers/gpu/drm/bridge/lontium-lt8912b.c      | 765 ++++++++++++++++++
+ 5 files changed, 888 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
+ create mode 100644 drivers/gpu/drm/bridge/lontium-lt8912b.c
+
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
