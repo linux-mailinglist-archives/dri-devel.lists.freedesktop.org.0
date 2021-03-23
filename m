@@ -1,41 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1C3346B60
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 22:51:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3E18346D25
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 23:33:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADEBE6E174;
-	Tue, 23 Mar 2021 21:51:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 678796E1A4;
+	Tue, 23 Mar 2021 22:33:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C75B6E174
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 21:51:40 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B248CB1D;
- Tue, 23 Mar 2021 22:51:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1616536297;
- bh=DhPUhvIplQwn5uEXEluALoP9uxyM3s9ihKpOZ/rIOFQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=smznc+OwvmR1QkvFJPEVk7pjpscfZ+D7+lwFRzUq4+jkmFLPO37RzDv9z+qMGTvrK
- N5SXUusqHAr82QnQC1vsUOEFB8WwJlgMJ04LF1kv2OHhacCMZbqidbfJNCwFHzuk5s
- cmz2ck/JEQT0EJf+yURHgfreMkGaFtklNLWQOmec=
-Date: Tue, 23 Mar 2021 23:50:55 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [RFC PATCH 05/11] drm/bridge: ti-sn65dsi86: Wrap panel with
- panel-bridge
-Message-ID: <YFpiv5hVgrsptWXG@pendragon.ideasonboard.com>
-References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210322030128.2283-6-laurent.pinchart+renesas@ideasonboard.com>
- <161648364484.3012082.8827104507556270267@swboyd.mtv.corp.google.com>
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com
+ [209.85.166.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2493D6E1A4
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 22:33:34 +0000 (UTC)
+Received: by mail-il1-f182.google.com with SMTP id c17so19666886ilj.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 15:33:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=GhZf/2qAH49jtPj0KjvHuxl514fTGF2Hh0sAaac8WcE=;
+ b=doI0QVYX5Ipw6XudAT8BriUMpmXFkJHPdNjWHYLSHZuGxch40gtzRg0+za8WwDtabF
+ JUPVVdvErV4cpm6mRBArOFF7+888Bw6v9Nl5PqES+LRN7Yz98YKJ/+lfXKfR5VwlpCv4
+ jikfl6it2rcfNKWDHxct8tcwiHth/vWuj3sMvf7a4DtMwnsFM0H8QDcil7mfQNcI6lLR
+ +az19EKpd5Bh0Ur+x+8clwYfVANvlbEUXr7T4FIuvLF+yn+aqxna9oaQWRHmxZkeUoGu
+ 2ZlfgR7JgmuNeLLTOnZh2McXC2rDhWUG660zseF662gV7Kz+jLBVQpJZn4gBK9ze6/ce
+ gbAw==
+X-Gm-Message-State: AOAM533khkKSQ9ohW89DAMvGQdsMuSbcEpDL/FyKYNMpSlqgZ/HlDsD1
+ /snuNkp4MH0YBsfI3jidzg==
+X-Google-Smtp-Source: ABdhPJyVZfRKp/SOD+KhYi2Vs4tfmHLlCtfIT4JSPJohRlIUVQpOmdAhgbsj0jDsSZgjmkB2COXUSQ==
+X-Received: by 2002:a92:d80f:: with SMTP id y15mr358713ilm.96.1616538813476;
+ Tue, 23 Mar 2021 15:33:33 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.253])
+ by smtp.gmail.com with ESMTPSA id i3sm105260ilu.67.2021.03.23.15.33.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Mar 2021 15:33:32 -0700 (PDT)
+Received: (nullmailer pid 1467787 invoked by uid 1000);
+ Tue, 23 Mar 2021 22:33:29 -0000
+Date: Tue, 23 Mar 2021 16:33:29 -0600
+From: Rob Herring <robh@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH v6 07/14] dt-bindings: mfd: Add i.MX8qm/qxp Control and
+ Status Registers module binding
+Message-ID: <20210323223329.GA1467753@robh.at.kernel.org>
+References: <1615952569-4711-1-git-send-email-victor.liu@nxp.com>
+ <1615952569-4711-8-git-send-email-victor.liu@nxp.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <161648364484.3012082.8827104507556270267@swboyd.mtv.corp.google.com>
+In-Reply-To: <1615952569-4711-8-git-send-email-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,71 +60,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, airlied@linux.ie,
+ lee.jones@linaro.org, dri-devel@lists.freedesktop.org, narmstrong@baylibre.com,
+ linux-kernel@vger.kernel.org, robert.foss@linaro.org, kishon@ti.com,
+ a.hajda@samsung.com, vkoul@kernel.org, robh+dt@kernel.org, linux-imx@nxp.com,
+ kernel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen,
-
-On Tue, Mar 23, 2021 at 12:14:04AM -0700, Stephen Boyd wrote:
-> Quoting Laurent Pinchart (2021-03-21 20:01:22)
-> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > index 1d1be791d5ba..c21a7f7d452b 100644
-> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > @@ -418,8 +420,18 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
-> >         }
-> >         pdata->dsi = dsi;
-> >  
-> > +       /* Attach the next bridge */
-> > +       ret = drm_bridge_attach(bridge->encoder, pdata->next_bridge,
-> > +                               &pdata->bridge, flags);
-> > +       if (ret < 0) {
-> > +               DRM_ERROR("failed to attach next bridge\n");
+On Wed, 17 Mar 2021 11:42:42 +0800, Liu Ying wrote:
+> This patch adds bindings for i.MX8qm/qxp Control and Status Registers module.
 > 
-> Can this be pushed into drm_bridge_attach() instead of in each caller?
-
-Good idea.
-
-> > +               goto err_dsi_detach;
-> > +       }
-> > +
-> >         return 0;
-> >  
-> > +err_dsi_detach:
-> > +       mipi_dsi_detach(dsi);
-> >  err_dsi_attach:
-> >         mipi_dsi_device_unregister(dsi);
-> >  err_dsi_host:
-> >  static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
-> > @@ -1245,6 +1249,14 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
-> >                 return ret;
-> >         }
-> >  
-> > +       pdata->next_bridge = devm_drm_panel_bridge_add(pdata->dev,
-> > +                                                      pdata->panel);
-> > +       if (IS_ERR(pdata->next_bridge)) {
-> > +               DRM_ERROR("failed to create panel bridge\n");
-> > +               ret = PTR_ERR(pdata->next_bridge);
-> > +               return ret;
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> v5->v6:
+> * Drop 'select' schema. (Rob)
 > 
-> Just return PTR_ERR(pdata->next_bridge)?
+> v4->v5:
+> * Newly introduced in v5. (Rob)
+> 
+>  .../devicetree/bindings/mfd/fsl,imx8qxp-csr.yaml   | 192 +++++++++++++++++++++
+>  1 file changed, 192 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/fsl,imx8qxp-csr.yaml
+> 
 
-Indeed. Bad copy and paste.
-
-> > +       }
-> > +
-> >         dev_set_drvdata(&client->dev, pdata);
-
--- 
-Regards,
-
-Laurent Pinchart
+Reviewed-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
