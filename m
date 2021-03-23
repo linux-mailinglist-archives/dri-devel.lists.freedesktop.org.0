@@ -2,63 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72698346ACD
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 22:09:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F36346B43
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 22:42:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CDD16E892;
-	Tue, 23 Mar 2021 21:09:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 584096E17A;
+	Tue, 23 Mar 2021 21:42:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
- [IPv6:2607:f8b0:4864:20::733])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8079A6E892
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 21:09:08 +0000 (UTC)
-Received: by mail-qk1-x733.google.com with SMTP id q3so15954939qkq.12
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 14:09:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=R6mQdnEARm1sAkmYShTds7N7GTJB2n9WdYHs9Cf06Co=;
- b=V09PADpD5GGpnsg3INGoRaC/YKlb5As6pETN2ZCkLcLvYIdd8Uu9K8EmBsCXOm+Qej
- dAn3LAAbQNMUJPy4ANT2eGCP1vhRPyaSYFe3t9DRGOWa//7T7sFla9VvZMpqgZWkQ80p
- RT8M2rEUL2nPLlafNVFpmiPFSPf8x9JHHFC+Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=R6mQdnEARm1sAkmYShTds7N7GTJB2n9WdYHs9Cf06Co=;
- b=BMJVlWCN9UxhG9oeCGKAoR4HwzvN+KEJQ/RpJ698bla1gRIhXNgpqDnruTjhZzRjIJ
- uXAtVZM3cbNeFTyYaHB8LcYyAf8J5apEmKzmkkyVMlSUGVnyydUSJ9X2xmTKbj2kdVK/
- lnFq3GscO6HLigCLQhVs/7YYKVH6Z1AxRcbBOaDMVKGvbWvPxB9DXcV8ra2nlN28hm33
- mO8jQxDZo/YQPR3pRwIEd5R/nNpaUMdwdJEnVmj+DVjDMGVu3I2lqjI6AvNvkoOT3A6B
- rlngRIQ1Py0Ft1DVhPrM1a9UDvD1R59XR6Tm53FZ28pnpEEvoxLBMXNVpJYWoAgJJpfY
- Izag==
-X-Gm-Message-State: AOAM5309JwDE9XkyPBN2SnqNA22cttOk8VT2L0AysLSLZNqPaD6O+re9
- TAMpUUqEjHGQKwP1LIKzmWL9yINzF3mc/Q==
-X-Google-Smtp-Source: ABdhPJy4JNp9+kx6gOK3JW8z78FgJbXuTq5tKLnPonUDI/+3+1KSAWpWPIqCUskeLwoOKMm9fEEpBQ==
-X-Received: by 2002:a05:620a:12d1:: with SMTP id
- e17mr7404014qkl.203.1616533747257; 
- Tue, 23 Mar 2021 14:09:07 -0700 (PDT)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com.
- [209.85.219.176])
- by smtp.gmail.com with ESMTPSA id a2sm68595qtj.76.2021.03.23.14.09.06
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Mar 2021 14:09:06 -0700 (PDT)
-Received: by mail-yb1-f176.google.com with SMTP id a143so11837540ybg.7
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 14:09:06 -0700 (PDT)
-X-Received: by 2002:a25:69c1:: with SMTP id e184mr207933ybc.345.1616533746366; 
- Tue, 23 Mar 2021 14:09:06 -0700 (PDT)
-MIME-Version: 1.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF4F96E17A
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 21:42:02 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD9D8F9B;
+ Tue, 23 Mar 2021 22:41:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1616535719;
+ bh=w+w/Q8v+CNjN7zshlBlBpf1HsmNIwQA6auSIh8VzGc0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qaf01RgHITDnfQwv6+rljPk8akSaBqRl5f4U4erq0MLqjxJNBd36pin08MURIwlcE
+ BhQXppYRkbwR/gEhF1OAX32rP/XwV/UMAOW31xgX493T2frwiUPSCmxs4PncgHT7SK
+ 53gNRB6tY4BKHU6z5isVuUmmsTtOmyF0jkvCvoGs=
+Date: Tue, 23 Mar 2021 23:41:16 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Doug Anderson <dianders@chromium.org>
+Subject: Re: [RFC PATCH 03/11] drm/bridge: ti-sn65dsi86: Unregister AUX
+ adapter in remove()
+Message-ID: <YFpgfBW+U5R6urk0@pendragon.ideasonboard.com>
 References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210322030128.2283-5-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20210322030128.2283-5-laurent.pinchart+renesas@ideasonboard.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 23 Mar 2021 14:08:55 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UDd9LC-sMEk0hn10roeM+Cz6VNekcZomkQXLhfw0-4wA@mail.gmail.com>
-Message-ID: <CAD=FV=UDd9LC-sMEk0hn10roeM+Cz6VNekcZomkQXLhfw0-4wA@mail.gmail.com>
-Subject: Re: [RFC PATCH 04/11] drm/bridge: ti-sn65dsi86: Use bitmask to store
- valid rates
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+ <20210322030128.2283-4-laurent.pinchart+renesas@ideasonboard.com>
+ <CAD=FV=W-+aS25wtnSmF8tWSDHTdNCjbFj0x02-1iqZ2p5qYzyA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=W-+aS25wtnSmF8tWSDHTdNCjbFj0x02-1iqZ2p5qYzyA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,147 +58,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Doug,
 
-On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart
-<laurent.pinchart+renesas@ideasonboard.com> wrote:
->
-> The valid rates are stored in an array of 8 booleans. Replace it with a
-> bitmask to save space.
+On Tue, Mar 23, 2021 at 02:08:42PM -0700, Doug Anderson wrote:
+> On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart wrote:
+> >
+> > The AUX adapter registered in probe() need to be unregistered in
+> > remove(). Do so.
+> >
+> > Fixes: b814ec6d4535 ("drm/bridge: ti-sn65dsi86: Implement AUX channel")
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > index da78a12e58b5..c45420a50e73 100644
+> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > @@ -1307,6 +1307,9 @@ static int ti_sn_bridge_remove(struct i2c_client *client)
+> >                 return -EINVAL;
+> >
+> >         kfree(pdata->edid);
+> > +
+> > +       drm_dp_aux_unregister(&pdata->aux);
+> > +
+> >         ti_sn_debugfs_remove(pdata);
+> >
+> >         of_node_put(pdata->host_node);
+> 
+> Good catch. One question, though. I know DRM sometimes has different
+> conventions than the rest of the kernel, but I always look for the
+> "remove" to be backwards of probe. That means that your code (and
+> probably most of the remove function) should come _after_ the
+> drm_bridge_remove(), right?  ...since drm_bridge_add() was the last
+> thing in probe then drm_bridge_remove() should be the first thing in
+> remove?
 
-I'm curious: do you have evidence that this does anything useful? I
-guess you're expecting it to save .text space, right? Stack usage and
-execution time differences should be irrelevant--it's not in a
-critical section and the difference should be tiny anyway. As far as
-.text segment goes, it's not obvious to me that the compiler will use
-fewer instructions to manipulate bits compared to booleans.
+I agree in theory, yes. However, in practice, if you remove a bridge
+that is currently in use, all hell will break lose. And if the bridge
+isn't being used, it makes no difference. Still, it's worth changing the
+order of operations to move drm_bridge_remove() first, as it won't hurt
+in any case and is logically better. It's not an issue introduced by
+this series though, so how how about it on top, or in parallel ? You can
+even submit a patch if you want :-)
 
-Doing a super simple "ls -ah" on vmlinux (unstripped):
+-- 
+Regards,
 
-Before: 224820232 bytes
-After: 224820376 bytes
-
-...so your change made it _bigger_.   OK, so running "strip
---strip-debug" on those:
-
-Before: 26599464 bytes
-After: 26599464 bytes
-
-...so exactly the same. I tried finding some evidence using "readelf -ah":
-
-Before:
-  [ 2] .text             PROGBITS         ffffffc010010000  00020000
-       0000000000b03508  0000000000000000 WAX       0     0     65536
-  [ 3] .rodata           PROGBITS         ffffffc010b20000  00b30000
-       00000000002e84b3  0000000000000000 WAMS       0     0     4096
-
-After:
-  [ 2] .text             PROGBITS         ffffffc010010000  00020000
-       0000000000b03508  0000000000000000 WAX       0     0     65536
-  [ 3] .rodata           PROGBITS         ffffffc010b20000  00b30000
-       00000000002e84b3  0000000000000000 WAMS       0     0     4096
-
-Maybe you have some evidence showing an improvement? Ah, OK. I
-disassembled ti_sn_bridge_enable() and your patch saves 12 bytes, but
-I guess maybe alignment washes it out in reality...
-
-
-In terms of readability / conventions, I personally find this change a
-bit of a wash. I mean, I guess I originally implemented it as an array
-and I thought that was the most readable, but I like bitfields fine
-too. If everyone loves it then I won't object, but to me it feels like
-touching lines of code for something that's personal preference. ;-)
-
-
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 24 +++++++++++++-----------
->  1 file changed, 13 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index c45420a50e73..1d1be791d5ba 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -557,9 +557,9 @@ static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn_bridge *pdata)
->         return i;
->  }
->
-> -static void ti_sn_bridge_read_valid_rates(struct ti_sn_bridge *pdata,
-> -                                         bool rate_valid[])
-> +static unsigned int ti_sn_bridge_read_valid_rates(struct ti_sn_bridge *pdata)
->  {
-> +       unsigned int valid_rates = 0;
->         unsigned int rate_per_200khz;
->         unsigned int rate_mhz;
->         u8 dpcd_val;
-> @@ -599,13 +599,13 @@ static void ti_sn_bridge_read_valid_rates(struct ti_sn_bridge *pdata,
->                              j < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut);
->                              j++) {
->                                 if (ti_sn_bridge_dp_rate_lut[j] == rate_mhz)
-> -                                       rate_valid[j] = true;
-> +                                       valid_rates |= BIT(j);
->                         }
->                 }
->
->                 for (i = 0; i < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut); i++) {
-> -                       if (rate_valid[i])
-> -                               return;
-> +                       if (valid_rates & BIT(i))
-> +                               return valid_rates;
->                 }
->                 DRM_DEV_ERROR(pdata->dev,
->                               "No matching eDP rates in table; falling back\n");
-> @@ -627,15 +627,17 @@ static void ti_sn_bridge_read_valid_rates(struct ti_sn_bridge *pdata,
->                               (int)dpcd_val);
->                 fallthrough;
->         case DP_LINK_BW_5_4:
-> -               rate_valid[7] = 1;
-> +               valid_rates |= BIT(7);
->                 fallthrough;
->         case DP_LINK_BW_2_7:
-> -               rate_valid[4] = 1;
-> +               valid_rates |= BIT(4);
->                 fallthrough;
->         case DP_LINK_BW_1_62:
-> -               rate_valid[1] = 1;
-> +               valid_rates |= BIT(1);
->                 break;
->         }
-> +
-> +       return valid_rates;
->  }
->
->  static void ti_sn_bridge_set_video_timings(struct ti_sn_bridge *pdata)
-> @@ -753,8 +755,8 @@ static int ti_sn_link_training(struct ti_sn_bridge *pdata, int dp_rate_idx,
->  static void ti_sn_bridge_enable(struct drm_bridge *bridge)
->  {
->         struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
-> -       bool rate_valid[ARRAY_SIZE(ti_sn_bridge_dp_rate_lut)] = { };
->         const char *last_err_str = "No supported DP rate";
-> +       unsigned int valid_rates;
->         int dp_rate_idx;
->         unsigned int val;
->         int ret = -EINVAL;
-> @@ -793,13 +795,13 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
->         regmap_update_bits(pdata->regmap, SN_SSC_CONFIG_REG, DP_NUM_LANES_MASK,
->                            val);
->
-> -       ti_sn_bridge_read_valid_rates(pdata, rate_valid);
-> +       valid_rates = ti_sn_bridge_read_valid_rates(pdata);
->
->         /* Train until we run out of rates */
->         for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata);
->              dp_rate_idx < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut);
->              dp_rate_idx++) {
-> -               if (!rate_valid[dp_rate_idx])
-> +               if (!(valid_rates & BIT(dp_rate_idx)))
->                         continue;
->
->                 ret = ti_sn_link_training(pdata, dp_rate_idx, &last_err_str);
-
-In any case, since it does save 12 bytes:
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
