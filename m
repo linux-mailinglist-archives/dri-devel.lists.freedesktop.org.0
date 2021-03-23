@@ -1,61 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63AC4346758
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 19:14:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F379B346773
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 19:21:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81B3E6E926;
-	Tue, 23 Mar 2021 18:14:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85BB06E941;
+	Tue, 23 Mar 2021 18:21:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 686CE6E924
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 18:14:32 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id g25so11622803wmh.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 11:14:32 -0700 (PDT)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7FFC6E941
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 18:21:46 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id r12so28691068ejr.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 11:21:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JPcyIGSEdbqvhZDx7YBWJe/k1VJXRXUVAikFeBP5+3s=;
- b=ZcgO+aTN6TSxiduhOJxNIspKiGU3VDyzyrKExbjM0QI72rDjcwCDwK9rjLzKBfTJ7Y
- G0RUFrDCKlKq0PlJ3GqZTliSo5j+d8DQ0UB/nijXQOSxKyb/xhSUlOiO+NCpT9O/fH/0
- U64O6Sng8xn2e/047UAoEdEiheq8thaeJR0JLoU3+9NXuCDFCKiTxwR45kdQGPQn/Bje
- 8kSnfF0t6ecxIU8b9XgEEAUhkVZrulm5Ush59ooWsDRaZh2Y6XZ2TQUhjP8Siehcbk6b
- 2PbRHyMV1RiElRTJ0TEyVnE7Ce7qpLzIWPU0UdcBDPVxTChsceIeYm4Hz7kVcKn3HzYW
- 7PFw==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=8rKTrvPrWUe8LXJ4SCmd9G3+IJGFtRH5zECn5Wek8XU=;
+ b=EDFj9LyflOSOkBeci+mhSkxFF21IG5JpUq73PlC/dNGeBn5eJbC5PAfqJ7UvCbeQ2a
+ keGbb/IWBddeJjOaPsFaw4LHAV8c6G5C69a08THjPqkCslQpNH/v1KbDCz/Cg1Sx24bL
+ SYbZDVC3PVwcps8Da7bgm8eFYq2/h+2th4MO/7rvdywQKsRSsCe5zAc3QXCxmcN0gmWm
+ ufhvGDj+CNYOo2OSe2COz6QknRdF4lT9UKI2dDtQ1kEW/yO9N6N4mORR7J9TZaZG105g
+ 4K3jAhN9fX2QNazWotUiEa+/A5IP08GbPBs0N7T+09IlsSZ7gLaGDStAimJUSOH56znd
+ tt0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=JPcyIGSEdbqvhZDx7YBWJe/k1VJXRXUVAikFeBP5+3s=;
- b=V3nK4FNEXrOOxXP+FRNTXjY91Qd0xJfBNRUm/EmudI/dhmMTi3gcXJesML02sTBNH9
- DF8Y2Oa1ymx/w2Hj+/CONzAuZyKf+SSiO+PpaBvT2yR+CgjWcFIjNpjeARwhE9m2n/py
- qxi+JBtMrv8yJYDi8Ck7ToQVAQvcRMw+m2nGsznzapUCsdkfux06ecRmKyijbxqBxovf
- 0BL8rrjSJWLaP6/smQKVOcRNij5fGmtWNbV+i53YTNs1lG0BgMPUGLxp7x/dIIIFXd9Z
- hZsGgW62OJeBYNdhnAbpSEta/Fv03j0dWCqv/ucLyIDpAEEochfgfXBd0GL3EQTy8ffK
- lc5A==
-X-Gm-Message-State: AOAM533/L3FxsDIGRdrBgMpDEyJsY12PtZFnnnofa/S4W6g6eXPYJB3/
- cbCRqkxuG8xtqR2WRrU53rI=
-X-Google-Smtp-Source: ABdhPJy7nR2iCUggEthgIHsyHIKS6BPK7jjOVEcx4IzXa81x6zJG68tUQlo2hEKWpNEorqrbxnJKmg==
-X-Received: by 2002:a7b:c316:: with SMTP id k22mr4497394wmj.176.1616523270997; 
- Tue, 23 Mar 2021 11:14:30 -0700 (PDT)
-Received: from adgra-XPS-15-9570.home
- (2a01cb0008bd2700f54ecdc9d152bb4f.ipv6.abo.wanadoo.fr.
- [2a01:cb00:8bd:2700:f54e:cdc9:d152:bb4f])
- by smtp.gmail.com with ESMTPSA id 21sm3484734wme.6.2021.03.23.11.14.30
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=8rKTrvPrWUe8LXJ4SCmd9G3+IJGFtRH5zECn5Wek8XU=;
+ b=BoVu4RQiquKKbhO5ym2JRmu8R22BR6loNnqkO+JN15gFyElvp3r4QcLob3vbrKiXmo
+ N/GgUhrwsmg1J6dp8uSPnw6SXw8taPFboNfDYOPB0jtrzcZpHXKQJAcoG6Vd6kCBTFdo
+ S1mq7MSQpSc8hWAhUQuX45xSXiBTzPRsghN8Si/4knefmocYEpiqvo8sSz5H5/GOCceq
+ yb0fmMuVGcO7k23SdattVvJQPCDvyMu5MvI6FK8prQvqviWMmxs8QOPUXtwUTe4MwZYL
+ egMy8vcxtvLMlYTAF4orRsW3mF5YnE++l6luk5JKiH6bC+8S8jt+Qv9BrKuR7uYq8IxZ
+ /Zkw==
+X-Gm-Message-State: AOAM530H5QgbU06RehbRdDgrL63801646mOHq+3kgMyJDk6Iz5deFdW7
+ QPHdH0MDvelzhnOMfenbKA8=
+X-Google-Smtp-Source: ABdhPJz2pxx36cOVGzdCWwH9REXN1Bd/3nPg8BCtqP9MKaIaUOXMesyAcb2CiZdtuRNipSWqjZuuXg==
+X-Received: by 2002:a17:906:814b:: with SMTP id
+ z11mr6150484ejw.290.1616523705556; 
+ Tue, 23 Mar 2021 11:21:45 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id gj26sm11431324ejb.67.2021.03.23.11.21.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 11:14:30 -0700 (PDT)
-From: Adrien Grassein <adrien.grassein@gmail.com>
-To: 
-Subject: [PATCH v8 2/2] drm/bridge: Introduce LT8912B DSI to HDMI bridge
-Date: Tue, 23 Mar 2021 19:14:23 +0100
-Message-Id: <20210323181423.657926-3-adrien.grassein@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210323181423.657926-1-adrien.grassein@gmail.com>
-References: <20210323181423.657926-1-adrien.grassein@gmail.com>
+ Tue, 23 Mar 2021 11:21:37 -0700 (PDT)
+Date: Tue, 23 Mar 2021 19:21:58 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v5 00/21] Host1x sync point UAPI should not be used for
+ tracking DRM jobs
+Message-ID: <YFoxxiMGFcSg3kk+@orome.fritz.box>
+References: <20210111130019.3515669-1-mperttunen@nvidia.com>
+ <da085c38-4ac1-19dd-7706-caf323c969d2@gmail.com>
+ <2f999b6d-d781-503a-78f4-d444bce72c58@kapsi.fi>
+ <2ee12338-bd5a-4b99-f86d-13da0d2a899b@gmail.com>
+ <8504c239-d5df-3033-934c-7b3fab52e387@kapsi.fi>
+ <YBLtPv/1mGXwtibX@ulmo>
+ <1ff922b2-161d-c8b9-7b08-4454ff7329f8@gmail.com>
+ <25248139-5487-a15b-8965-1a29a71eacd7@kapsi.fi>
+ <6211ee04-ebd6-74d3-cb5b-955b17acff5b@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <6211ee04-ebd6-74d3-cb5b-955b17acff5b@gmail.com>
+User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,853 +76,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net,
- kernel test robot <lkp@intel.com>, narmstrong@baylibre.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, jonas@kwiboo.se, linux-kernel@vger.kernel.org,
- robert.foss@linaro.org, a.hajda@samsung.com, robh+dt@kernel.org,
- Laurent.pinchart@ideasonboard.com, Adrien Grassein <adrien.grassein@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mikko Perttunen <cyndis@kapsi.fi>, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, jonathanh@nvidia.com, talho@nvidia.com,
+ bhuntsman@nvidia.com, linux-tegra@vger.kernel.org,
+ Mikko Perttunen <mperttunen@nvidia.com>
+Content-Type: multipart/mixed; boundary="===============0237451012=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Lontium LT8912B is a DSI to HDMI bridge.
 
-Signed-off-by: Adrien Grassein <adrien.grassein@gmail.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
----
- MAINTAINERS                              |   1 +
- drivers/gpu/drm/bridge/Kconfig           |  14 +
- drivers/gpu/drm/bridge/Makefile          |   1 +
- drivers/gpu/drm/bridge/lontium-lt8912b.c | 765 +++++++++++++++++++++++
- 4 files changed, 781 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/lontium-lt8912b.c
+--===============0237451012==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="bT23De0RLxIkDAxt"
+Content-Disposition: inline
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d9a125e5d295..6af083797947 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10530,6 +10530,7 @@ LONTIUM LT8912B MIPI TO HDMI BRIDGE
- M:	Adrien Grassein <adrien.grassein@gmail.com>
- S:	Maintained
- F:	Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
-+F:	drivers/gpu/drm/bridge/lontium-lt8912b.c
- 
- LSILOGIC MPT FUSION DRIVERS (FC/SAS/SPI)
- M:	Sathya Prakash <sathya.prakash@broadcom.com>
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index e4110d6ca7b3..f2c5ec75d2f5 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -48,6 +48,20 @@ config DRM_DISPLAY_CONNECTOR
- 	  on ARM-based platforms. Saying Y here when this driver is not needed
- 	  will not cause any issue.
- 
-+config DRM_LONTIUM_LT8912B
-+	tristate "Lontium LT8912B DSI/HDMI bridge"
-+	depends on OF
-+	select DRM_PANEL_BRIDGE
-+	select DRM_KMS_HELPER
-+	select REGMAP_I2C
-+	help
-+	  Driver for Lontium LT8912B DSI to HDMI bridge
-+	  chip driver.
-+	  Please say Y if you have such hardware.
-+
-+	  Say M here if you want to support this hardware as a module.
-+	  The module will be named "lontium-lt8912b".
-+
- config DRM_LONTIUM_LT9611
- 	tristate "Lontium LT9611 DSI/HDMI bridge"
- 	select SND_SOC_HDMI_CODEC if SND_SOC
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index 86e7acc76f8d..756ce401aad3 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -2,6 +2,7 @@
- obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
- obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
- obj-$(CONFIG_DRM_DISPLAY_CONNECTOR) += display-connector.o
-+obj-$(CONFIG_DRM_LONTIUM_LT8912B) += lontium-lt8912b.o
- obj-$(CONFIG_DRM_LONTIUM_LT9611) += lontium-lt9611.o
- obj-$(CONFIG_DRM_LONTIUM_LT9611UXC) += lontium-lt9611uxc.o
- obj-$(CONFIG_DRM_LVDS_CODEC) += lvds-codec.o
-diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-new file mode 100644
-index 000000000000..fd0ec1c84368
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-@@ -0,0 +1,765 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2018, The Linux Foundation. All rights reserved.
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/delay.h>
-+#include <linux/i2c.h>
-+#include <linux/gpio.h>
-+#include <linux/of_gpio.h>
-+#include <linux/regmap.h>
-+
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_of.h>
-+
-+#include <video/videomode.h>
-+
-+#define I2C_MAIN 0
-+#define I2C_ADDR_MAIN 0x48
-+
-+#define I2C_CEC_DSI 1
-+#define I2C_ADDR_CEC_DSI 0x49
-+
-+#define I2C_MAX_IDX 2
-+
-+struct lt8912 {
-+	struct device *dev;
-+	struct drm_bridge bridge;
-+	struct drm_connector connector;
-+
-+	struct i2c_client *i2c_client[I2C_MAX_IDX];
-+	struct regmap *regmap[I2C_MAX_IDX];
-+
-+	struct device_node *host_node;
-+	struct drm_bridge *hdmi_port;
-+
-+	struct mipi_dsi_device *dsi;
-+
-+	struct gpio_desc *gp_reset;
-+
-+	struct videomode mode;
-+
-+	u8 data_lanes;
-+	bool is_power_on;
-+	bool is_attached;
-+};
-+
-+static int lt8912_write_init_config(struct lt8912 *lt)
-+{
-+	const struct reg_sequence seq[] = {
-+		/* Digital clock en*/
-+		{0x08, 0xff},
-+		{0x09, 0xff},
-+		{0x0a, 0xff},
-+		{0x0b, 0x7c},
-+		{0x0c, 0xff},
-+		{0x42, 0x04},
-+
-+		/*Tx Analog*/
-+		{0x31, 0xb1},
-+		{0x32, 0xb1},
-+		{0x33, 0x0e},
-+		{0x37, 0x00},
-+		{0x38, 0x22},
-+		{0x60, 0x82},
-+
-+		/*Cbus Analog*/
-+		{0x39, 0x45},
-+		{0x3a, 0x00},
-+		{0x3b, 0x00},
-+
-+		/*HDMI Pll Analog*/
-+		{0x44, 0x31},
-+		{0x55, 0x44},
-+		{0x57, 0x01},
-+		{0x5a, 0x02},
-+
-+		/*MIPI Analog*/
-+		{0x3e, 0xd6},
-+		{0x3f, 0xd4},
-+		{0x41, 0x3c},
-+		{0xB2, 0x00},
-+	};
-+
-+	return regmap_multi_reg_write(lt->regmap[I2C_MAIN], seq, ARRAY_SIZE(seq));
-+}
-+
-+static int lt8912_write_mipi_basic_config(struct lt8912 *lt)
-+{
-+	const struct reg_sequence seq[] = {
-+		{0x12, 0x04},
-+		{0x14, 0x00},
-+		{0x15, 0x00},
-+		{0x1a, 0x03},
-+		{0x1b, 0x03},
-+	};
-+
-+	return regmap_multi_reg_write(lt->regmap[I2C_CEC_DSI], seq, ARRAY_SIZE(seq));
-+};
-+
-+static int lt8912_write_dds_config(struct lt8912 *lt)
-+{
-+	const struct reg_sequence seq[] = {
-+		{0x4e, 0xff},
-+		{0x4f, 0x56},
-+		{0x50, 0x69},
-+		{0x51, 0x80},
-+		{0x1f, 0x5e},
-+		{0x20, 0x01},
-+		{0x21, 0x2c},
-+		{0x22, 0x01},
-+		{0x23, 0xfa},
-+		{0x24, 0x00},
-+		{0x25, 0xc8},
-+		{0x26, 0x00},
-+		{0x27, 0x5e},
-+		{0x28, 0x01},
-+		{0x29, 0x2c},
-+		{0x2a, 0x01},
-+		{0x2b, 0xfa},
-+		{0x2c, 0x00},
-+		{0x2d, 0xc8},
-+		{0x2e, 0x00},
-+		{0x42, 0x64},
-+		{0x43, 0x00},
-+		{0x44, 0x04},
-+		{0x45, 0x00},
-+		{0x46, 0x59},
-+		{0x47, 0x00},
-+		{0x48, 0xf2},
-+		{0x49, 0x06},
-+		{0x4a, 0x00},
-+		{0x4b, 0x72},
-+		{0x4c, 0x45},
-+		{0x4d, 0x00},
-+		{0x52, 0x08},
-+		{0x53, 0x00},
-+		{0x54, 0xb2},
-+		{0x55, 0x00},
-+		{0x56, 0xe4},
-+		{0x57, 0x0d},
-+		{0x58, 0x00},
-+		{0x59, 0xe4},
-+		{0x5a, 0x8a},
-+		{0x5b, 0x00},
-+		{0x5c, 0x34},
-+		{0x1e, 0x4f},
-+		{0x51, 0x00},
-+	};
-+
-+	return regmap_multi_reg_write(lt->regmap[I2C_CEC_DSI], seq, ARRAY_SIZE(seq));
-+}
-+
-+static int lt8912_write_rxlogicres_config(struct lt8912 *lt)
-+{
-+	int ret;
-+
-+	ret = regmap_write(lt->regmap[I2C_MAIN], 0x03, 0x7f);
-+	usleep_range(10000, 20000);
-+	ret |= regmap_write(lt->regmap[I2C_MAIN], 0x03, 0xff);
-+
-+	return ret;
-+};
-+
-+static int lt8912_write_lvds_config(struct lt8912 *lt)
-+{
-+	const struct reg_sequence seq[] = {
-+		{0x44, 0x30},
-+		{0x51, 0x05},
-+		{0x50, 0x24},
-+		{0x51, 0x2d},
-+		{0x52, 0x04},
-+		{0x69, 0x0e},
-+		{0x69, 0x8e},
-+		{0x6a, 0x00},
-+		{0x6c, 0xb8},
-+		{0x6b, 0x51},
-+		{0x04, 0xfb},
-+		{0x04, 0xff},
-+		{0x7f, 0x00},
-+		{0xa8, 0x13},
-+		{0x02, 0xf7},
-+		{0x02, 0xff},
-+		{0x03, 0xcf},
-+		{0x03, 0xff},
-+	};
-+
-+	return regmap_multi_reg_write(lt->regmap[I2C_CEC_DSI], seq, ARRAY_SIZE(seq));
-+};
-+
-+static inline struct lt8912 *bridge_to_lt8912(struct drm_bridge *b)
-+{
-+	return container_of(b, struct lt8912, bridge);
-+}
-+
-+static inline struct lt8912 *connector_to_lt8912(struct drm_connector *c)
-+{
-+	return container_of(c, struct lt8912, connector);
-+}
-+
-+static const struct regmap_config lt8912_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = 0xff,
-+};
-+
-+static int lt8912_init_i2c(struct lt8912 *lt, struct i2c_client *client)
-+{
-+	unsigned int i;
-+	/*
-+	 * At this time we only initialize 2 chips, but the lt8912 provides
-+	 * a third interface for the audio over HDMI configuration.
-+	 */
-+	struct i2c_board_info info[] = {
-+		{ I2C_BOARD_INFO("lt8912p0", I2C_ADDR_MAIN), },
-+		{ I2C_BOARD_INFO("lt8912p1", I2C_ADDR_CEC_DSI), },
-+	};
-+
-+	if (!lt)
-+		return -ENODEV;
-+
-+	for (i = 0; i < ARRAY_SIZE(info); i++) {
-+		if (i > 0) {
-+			lt->i2c_client[i] = i2c_new_dummy_device(client->adapter,
-+								 info[i].addr);
-+			if (IS_ERR(lt->i2c_client[i]))
-+				return PTR_ERR(lt->i2c_client[i]);
-+		}
-+
-+		lt->regmap[i] = devm_regmap_init_i2c(lt->i2c_client[i],
-+						     &lt8912_regmap_config);
-+		if (IS_ERR(lt->regmap[i]))
-+			return PTR_ERR(lt->regmap[i]);
-+	}
-+	return 0;
-+}
-+
-+static int lt8912_free_i2c(struct lt8912 *lt)
-+{
-+	unsigned int i;
-+
-+	for (i = 1; i < I2C_MAX_IDX; i++)
-+		i2c_unregister_device(lt->i2c_client[i]);
-+
-+	return 0;
-+}
-+
-+static int lt8912_hard_power_on(struct lt8912 *lt)
-+{
-+	gpiod_set_value_cansleep(lt->gp_reset, 0);
-+	msleep(20);
-+
-+	return 0;
-+}
-+
-+static void lt8912_hard_power_off(struct lt8912 *lt)
-+{
-+	gpiod_set_value_cansleep(lt->gp_reset, 1);
-+	msleep(20);
-+	lt->is_power_on = false;
-+}
-+
-+static int lt8912_video_setup(struct lt8912 *lt)
-+{
-+	u32 hactive, h_total, hpw, hfp, hbp;
-+	u32 vactive, v_total, vpw, vfp, vbp;
-+	u8 settle = 0x08;
-+	int ret;
-+
-+	if (!lt)
-+		return -EINVAL;
-+
-+	hactive = lt->mode.hactive;
-+	hfp = lt->mode.hfront_porch;
-+	hpw = lt->mode.hsync_len;
-+	hbp = lt->mode.hback_porch;
-+	h_total = hactive + hfp + hpw + hbp;
-+
-+	vactive = lt->mode.vactive;
-+	vfp = lt->mode.vfront_porch;
-+	vpw = lt->mode.vsync_len;
-+	vbp = lt->mode.vback_porch;
-+	v_total = vactive + vfp + vpw + vbp;
-+
-+	if (vactive <= 600)
-+		settle = 0x04;
-+	else if (vactive == 1080)
-+		settle = 0x0a;
-+
-+	ret = regmap_write(lt->regmap[I2C_CEC_DSI], 0x10, 0x01);
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x11, settle);
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x18, hpw);
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x19, vpw);
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x1c, hactive & 0xff);
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x1d, hactive >> 8);
-+
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x2f, 0x0c);
-+
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x34, h_total & 0xff);
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x35, h_total >> 8);
-+
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x36, v_total & 0xff);
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x37, v_total >> 8);
-+
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x38, vbp & 0xff);
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x39, vbp >> 8);
-+
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x3a, vfp & 0xff);
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x3b, vfp >> 8);
-+
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x3c, hbp & 0xff);
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x3d, hbp >> 8);
-+
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x3e, hfp & 0xff);
-+	ret |= regmap_write(lt->regmap[I2C_CEC_DSI], 0x3f, hfp >> 8);
-+
-+	return ret;
-+}
-+
-+static int lt8912_soft_power_on(struct lt8912 *lt)
-+{
-+	if (!lt->is_power_on) {
-+		u32 lanes = lt->data_lanes;
-+
-+		lt8912_write_init_config(lt);
-+		regmap_write(lt->regmap[I2C_CEC_DSI], 0x13, lanes & 3);
-+
-+		lt8912_write_mipi_basic_config(lt);
-+
-+		lt->is_power_on = true;
-+	}
-+
-+	return 0;
-+}
-+
-+static int lt8912_video_on(struct lt8912 *lt)
-+{
-+	int ret;
-+
-+	ret = lt8912_video_setup(lt);
-+	if (ret < 0)
-+		goto end;
-+
-+	ret = lt8912_write_dds_config(lt);
-+	if (ret < 0)
-+		goto end;
-+
-+	ret = lt8912_write_rxlogicres_config(lt);
-+	if (ret < 0)
-+		goto end;
-+
-+	ret = lt8912_write_lvds_config(lt);
-+	if (ret < 0)
-+		goto end;
-+
-+end:
-+	return ret;
-+}
-+
-+static enum drm_connector_status lt8912_check_cable_status(struct lt8912 *lt)
-+{
-+	int ret;
-+	unsigned int reg_val;
-+
-+	ret = regmap_read(lt->regmap[I2C_MAIN], 0xC1, &reg_val);
-+	if (ret)
-+		return connector_status_unknown;
-+
-+	if (reg_val & BIT(7))
-+		return connector_status_connected;
-+
-+	return connector_status_disconnected;
-+}
-+
-+static enum drm_connector_status
-+lt8912_connector_detect(struct drm_connector *connector, bool force)
-+{
-+	struct lt8912 *lt = connector_to_lt8912(connector);
-+
-+	if (lt->hdmi_port->ops & DRM_BRIDGE_OP_DETECT)
-+		return drm_bridge_detect(lt->hdmi_port);
-+
-+	return lt8912_check_cable_status(lt);
-+}
-+
-+static const struct drm_connector_funcs lt8912_connector_funcs = {
-+	.detect = lt8912_connector_detect,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.destroy = drm_connector_cleanup,
-+	.reset = drm_atomic_helper_connector_reset,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
-+
-+static enum drm_mode_status
-+lt8912_connector_mode_valid(struct drm_connector *connector,
-+			    struct drm_display_mode *mode)
-+{
-+	if (mode->clock > 150000)
-+		return MODE_CLOCK_HIGH;
-+
-+	if (mode->hdisplay > 1920)
-+		return MODE_BAD_HVALUE;
-+
-+	if (mode->vdisplay > 1080)
-+		return MODE_BAD_VVALUE;
-+
-+	return MODE_OK;
-+}
-+
-+static int lt8912_connector_get_modes(struct drm_connector *connector)
-+{
-+	struct edid *edid;
-+	int ret = -1;
-+	int num = 0;
-+	struct lt8912 *lt = connector_to_lt8912(connector);
-+	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-+
-+	edid = drm_bridge_get_edid(lt->hdmi_port, connector);
-+	if (edid) {
-+		drm_connector_update_edid_property(connector, edid);
-+		num = drm_add_edid_modes(connector, edid);
-+	} else
-+		return ret;
-+
-+	ret = drm_display_info_set_bus_formats(&connector->display_info,
-+					       &bus_format, 1);
-+	if (ret)
-+		num = ret;
-+
-+	kfree(edid);
-+	return num;
-+}
-+
-+static const struct drm_connector_helper_funcs lt8912_connector_helper_funcs = {
-+	.get_modes = lt8912_connector_get_modes,
-+	.mode_valid = lt8912_connector_mode_valid,
-+};
-+
-+static void lt8912_bridge_mode_set(struct drm_bridge *bridge,
-+				   const struct drm_display_mode *mode,
-+				   const struct drm_display_mode *adj)
-+{
-+	struct lt8912 *lt = bridge_to_lt8912(bridge);
-+
-+	drm_display_mode_to_videomode(adj, &lt->mode);
-+}
-+
-+static void lt8912_bridge_enable(struct drm_bridge *bridge)
-+{
-+	struct lt8912 *lt = bridge_to_lt8912(bridge);
-+
-+	lt8912_video_on(lt);
-+}
-+
-+static int lt8912_attach_dsi(struct lt8912 *lt)
-+{
-+	struct device *dev = lt->dev;
-+	struct mipi_dsi_host *host;
-+	struct mipi_dsi_device *dsi;
-+	int ret = -1;
-+	const struct mipi_dsi_device_info info = { .type = "lt8912",
-+						   .channel = 0,
-+						   .node = NULL,
-+						 };
-+
-+	host = of_find_mipi_dsi_host_by_node(lt->host_node);
-+	if (!host) {
-+		dev_err(dev, "failed to find dsi host\n");
-+		return -EPROBE_DEFER;
-+	}
-+
-+	dsi = mipi_dsi_device_register_full(host, &info);
-+	if (IS_ERR(dsi)) {
-+		ret = PTR_ERR(dsi);
-+		dev_err(dev, "failed to create dsi device (%d)\n", ret);
-+		goto err_dsi_device;
-+	}
-+
-+	lt->dsi = dsi;
-+
-+	dsi->lanes = lt->data_lanes;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
-+			  MIPI_DSI_MODE_VIDEO_BURST |
-+			  MIPI_DSI_MODE_LPM |
-+			  MIPI_DSI_MODE_EOT_PACKET;
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to attach dsi to host\n");
-+		goto err_dsi_attach;
-+	}
-+
-+	return 0;
-+
-+err_dsi_attach:
-+	mipi_dsi_device_unregister(dsi);
-+err_dsi_device:
-+	return ret;
-+}
-+
-+static void lt8912_detach_dsi(struct lt8912 *lt)
-+{
-+	mipi_dsi_detach(lt->dsi);
-+	mipi_dsi_device_unregister(lt->dsi);
-+}
-+
-+static int lt8912_bridge_connector_init(struct drm_bridge *bridge)
-+{
-+	int ret;
-+	struct lt8912 *lt = bridge_to_lt8912(bridge);
-+	struct drm_connector *connector = &lt->connector;
-+
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT |
-+			    DRM_CONNECTOR_POLL_DISCONNECT;
-+
-+	ret = drm_connector_init(bridge->dev, connector,
-+				 &lt8912_connector_funcs,
-+				 lt->hdmi_port->type);
-+	if (ret)
-+		goto exit;
-+
-+	drm_connector_helper_add(connector, &lt8912_connector_helper_funcs);
-+
-+	connector->dpms = DRM_MODE_DPMS_OFF;
-+	drm_connector_attach_encoder(connector, bridge->encoder);
-+
-+exit:
-+	return ret;
-+}
-+
-+static int lt8912_bridge_attach(struct drm_bridge *bridge,
-+				enum drm_bridge_attach_flags flags)
-+{
-+	struct lt8912 *lt = bridge_to_lt8912(bridge);
-+	int ret;
-+
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-+		ret = lt8912_bridge_connector_init(bridge);
-+		if (ret) {
-+			dev_err(lt->dev, "Failed to init bridge ! (%d)\n", ret);
-+			return ret;
-+		}
-+	}
-+
-+	ret = lt8912_hard_power_on(lt);
-+	if (ret)
-+		return ret;
-+
-+	ret = lt8912_soft_power_on(lt);
-+	if (ret)
-+		goto error;
-+
-+	ret = lt8912_attach_dsi(lt);
-+	if (ret)
-+		goto error;
-+
-+	lt->is_attached = true;
-+
-+	return 0;
-+
-+error:
-+	lt8912_hard_power_off(lt);
-+	return ret;
-+}
-+
-+static void lt8912_bridge_detach(struct drm_bridge *bridge)
-+{
-+	struct lt8912 *lt = bridge_to_lt8912(bridge);
-+
-+	if (lt->is_attached) {
-+		lt8912_detach_dsi(lt);
-+		lt8912_hard_power_off(lt);
-+		drm_connector_unregister(&lt->connector);
-+		drm_connector_cleanup(&lt->connector);
-+	}
-+
-+}
-+
-+static enum drm_connector_status
-+lt8912_bridge_detect(struct drm_bridge *bridge)
-+{
-+	struct lt8912 *lt = bridge_to_lt8912(bridge);
-+
-+	if (lt->hdmi_port->ops & DRM_BRIDGE_OP_DETECT)
-+		return drm_bridge_detect(lt->hdmi_port);
-+
-+	return lt8912_check_cable_status(lt);
-+}
-+
-+static struct edid *lt8912_bridge_get_edid(struct drm_bridge *bridge,
-+					    struct drm_connector *connector)
-+{
-+	struct lt8912 *lt = bridge_to_lt8912(bridge);
-+
-+	/*
-+	 * edid must be read through the ddc bus but it must be
-+	 * given to the hdmi connector node.
-+	 */
-+	if (lt->hdmi_port->ops & DRM_BRIDGE_OP_EDID)
-+		return drm_bridge_get_edid(lt->hdmi_port, connector);
-+
-+	dev_warn(lt->dev, "The connected bridge does not supports DRM_BRIDGE_OP_EDID\n");
-+	return NULL;
-+}
-+
-+static const struct drm_bridge_funcs lt8912_bridge_funcs = {
-+	.attach = lt8912_bridge_attach,
-+	.detach = lt8912_bridge_detach,
-+	.mode_set = lt8912_bridge_mode_set,
-+	.enable = lt8912_bridge_enable,
-+	.detect = lt8912_bridge_detect,
-+	.get_edid = lt8912_bridge_get_edid,
-+};
-+
-+static int lt8912_parse_dt(struct lt8912 *lt)
-+{
-+	struct gpio_desc *gp_reset;
-+	struct device *dev = lt->dev;
-+	int ret = 0;
-+	struct device_node *port_node;
-+	struct device_node *endpoint;
-+
-+	gp_reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(gp_reset)) {
-+		ret = PTR_ERR(gp_reset);
-+		if (ret != -EPROBE_DEFER)
-+			dev_err(dev, "Failed to get reset gpio: %d\n", ret);
-+		return ret;
-+	}
-+	lt->gp_reset = gp_reset;
-+
-+	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
-+	if (IS_ERR(endpoint)) {
-+		ret = PTR_ERR(endpoint);
-+		goto end;
-+	}
-+
-+	lt->data_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-+	of_node_put(endpoint);
-+
-+	lt->host_node = of_graph_get_remote_node(dev->of_node, 0, -1);
-+	if (!lt->host_node) {
-+		dev_err(lt->dev, "%s: Failed to get remote port\n", __func__);
-+		ret = -ENODEV;
-+		goto end;
-+	}
-+
-+	port_node = of_graph_get_remote_node(dev->of_node, 1, -1);
-+	if (!port_node) {
-+		dev_err(lt->dev, "%s: Failed to get connector port\n", __func__);
-+		ret = -ENODEV;
-+		goto err_free_host_node;
-+	}
-+
-+	lt->hdmi_port = of_drm_find_bridge(port_node);
-+	if (IS_ERR(lt->hdmi_port)) {
-+		dev_err(lt->dev, "%s: Failed to get hdmi port\n", __func__);
-+		ret = PTR_ERR(lt->hdmi_port);
-+		of_node_put(lt->host_node);
-+		goto end;
-+	}
-+
-+	if (!of_device_is_compatible(port_node, "hdmi-connector")) {
-+		dev_err(lt->dev, "%s: Failed to get hdmi port\n", __func__);
-+		ret = -EINVAL;
-+	}
-+
-+	of_node_put(port_node);
-+
-+end:
-+	return ret;
-+
-+err_free_host_node:
-+	of_node_put(lt->host_node);
-+	return ret;
-+}
-+
-+static int lt8912_put_dt(struct lt8912 *lt)
-+{
-+	of_node_put(lt->host_node);
-+	return 0;
-+}
-+
-+static int lt8912_probe(struct i2c_client *client,
-+	 const struct i2c_device_id *id)
-+{
-+	static struct lt8912 *lt;
-+	int ret = 0;
-+	struct device *dev = &client->dev;
-+
-+	lt = devm_kzalloc(dev, sizeof(struct lt8912), GFP_KERNEL);
-+	if (!lt)
-+		return -ENOMEM;
-+
-+	lt->dev = dev;
-+	lt->i2c_client[0] = client;
-+
-+	ret = lt8912_parse_dt(lt);
-+	if (ret)
-+		goto err_dt_parse;
-+
-+	ret = lt8912_init_i2c(lt, client);
-+	if (ret)
-+		goto err_i2c;
-+
-+	i2c_set_clientdata(client, lt);
-+
-+	lt->bridge.funcs = &lt8912_bridge_funcs;
-+	lt->bridge.of_node = dev->of_node;
-+	lt->bridge.ops = (DRM_BRIDGE_OP_EDID |
-+			  DRM_BRIDGE_OP_DETECT);
-+
-+	drm_bridge_add(&lt->bridge);
-+
-+	return 0;
-+
-+err_i2c:
-+	lt8912_put_dt(lt);
-+err_dt_parse:
-+	return ret;
-+}
-+
-+static int lt8912_remove(struct i2c_client *client)
-+{
-+	struct lt8912 *lt = i2c_get_clientdata(client);
-+
-+	lt8912_bridge_detach(&lt->bridge);
-+	drm_bridge_remove(&lt->bridge);
-+	lt8912_free_i2c(lt);
-+	lt8912_put_dt(lt);
-+	return 0;
-+}
-+
-+static const struct of_device_id lt8912_dt_match[] = {
-+	{.compatible = "lontium,lt8912b"},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, lt8912_dt_match);
-+
-+static const struct i2c_device_id lt8912_id[] = {
-+	{"lt8912", 0},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(i2c, lt8912_id);
-+
-+static struct i2c_driver lt8912_i2c_driver = {
-+	.driver = {
-+		.name = "lt8912",
-+		.of_match_table = lt8912_dt_match,
-+		.owner = THIS_MODULE,
-+	},
-+	.probe = lt8912_probe,
-+	.remove = lt8912_remove,
-+	.id_table = lt8912_id,
-+};
-+module_i2c_driver(lt8912_i2c_driver);
-+
-+MODULE_AUTHOR("Adrien Grassein <adrien.grassein@gmail.com>");
-+MODULE_DESCRIPTION("lt8912 drm driver");
-+MODULE_LICENSE("GPL v2");
--- 
-2.25.1
+
+--bT23De0RLxIkDAxt
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, Feb 27, 2021 at 02:19:39PM +0300, Dmitry Osipenko wrote:
+> 03.02.2021 14:18, Mikko Perttunen =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> ...
+> >> I'll need more time to think about it.
+> >>
+> >=20
+> > How about something like this:
+> >=20
+> > Turn the syncpt_incr field back into an array of structs like
+> >=20
+> > #define DRM_TEGRA_SUBMIT_SYNCPT_INCR_REPLACE_SYNCOBJ=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 (1<<0)
+> > #define DRM_TEGRA_SUBMIT_SYNCPT_INCR_PATCH_DYNAMIC_SYNCPT=C2=A0=C2=A0=
+=C2=A0 (1<<1)
+> >=20
+> > struct drm_tegra_submit_syncpt_incr {
+> > =C2=A0=C2=A0=C2=A0=C2=A0/* can be left as zero if using dynamic syncpt =
+*/
+> > =C2=A0=C2=A0=C2=A0=C2=A0__u32 syncpt_id;
+> > =C2=A0=C2=A0=C2=A0=C2=A0__u32 flags;
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0struct {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __u32 syncobj;
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __u32 value;
+> > =C2=A0=C2=A0=C2=A0=C2=A0} fence;
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0/* patch word as such:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * *word =3D *word | (s=
+yncpt_id << shift)
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> > =C2=A0=C2=A0=C2=A0=C2=A0struct {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __u32 gather_offset_words;
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __u32 shift;
+> > =C2=A0=C2=A0=C2=A0=C2=A0} patch;
+> > };
+> >=20
+> > So this will work similarly to the buffer reloc system; the kernel
+> > driver will allocate a job syncpoint and patch in the syncpoint ID if
+> > requested, and allows outputting syncobjs for each increment.
+>=20
+> I haven't got any great ideas so far, but it feels that will be easier
+> and cleaner if we could have separate job paths (and job IOCTLS) based
+> on hardware generation since the workloads a too different. The needs of
+> a newer h/w are too obscure for me and absence of userspace code,
+> firmware sources and full h/w documentation do not help.
+>=20
+> There still should be quite a lot to share, but things like
+> mapping-to-channel and VM sync points are too far away from older h/w,
+> IMO. This means that code path before drm-sched and path for job-timeout
+> handling should be separate.
+>=20
+> Maybe later on it will become cleaner that we actually could unify it
+> all nicely, but for now it doesn't look like a good idea to me.
+
+Sorry for jumping in rather randomly here and elsewhere, but it's been a
+long time since the discussion and I just want to share my thoughts on a
+couple of topics in order to hopefully help move this forward somehow.
+
+For UAPI, "unifying it later" doesn't really work. So I think the only
+realistic option is to make a best attempt at getting the UABI right so
+that it works for all existing use-cases and ideally perhaps even as of
+yet unknown use-cases in the future. As with all APIs this means that
+there's going to be a need to abstract away some of the hardware details
+so that we don't have to deal with too many low-level details in
+userspace, because otherwise the UAPI is just going to be a useless
+mess.
+
+I think a proposal such as the above to allow both implicit and explicit
+syncpoints makes sense. For what it's worth, it's fairly similar to what
+we had come up with last time we tried destaging the ABI, although back
+at the time I'm not sure we had even considered explicit syncpoint usage
+yet. I think where reasonably possible this kind of optional behaviour
+is acceptable, but I don't think having two completely separate paths is
+going to help in any way. If anything it's just going to make it more
+difficult to maintain the code and get it to a usable state in the first
+place.
+
+Like I said elsewhere, the programming model for host1x hasn't changed
+since Tegra20. It's rather evolved and gained a couple more features,
+but that doesn't change anything about how userspace uses it.
+
+Thierry
+
+--bT23De0RLxIkDAxt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmBaMcQACgkQ3SOs138+
+s6FXMg/+OoxiDkzLNCWvfj4075ct69q562Xn3EfEzFu+x7RvJm0G0c+A0nPLk9xc
+nQAxU8k8lxVTffvTtdHcdSROD2hX3gzB/o/IQay0bxH1CF2XaPqTWVzabCEO7xV8
+5FLFhVz1Xlntk0WVHJmgX0zsdSxvZt8oxlpOiXTYCQzE8MWGnB5Nmt9lOAZn93WU
+immLob8p5ku3121pMBufZ5oGcrTDYsR+zzjqntzug9jI0Jw0SAPZbnvQko2ZcH3f
+Yfzo/5+RnI84lqy8zfrxRbLt92WJ1kAvkI4OT35GES421P3gp/B/0zSEaxMNNVUM
+Ilx1JIRYn8rNaCX+Gg/DWGzHTq3Sj5AeoSPdmDb8HCWUcDlRIOKrWHtj/zK8Sh5X
+eQZXBa7QrliiQA8SvjNkmuPjB72vLuevEbkLvlYiE6DzBmza6a5iqFoQdoDhKmjJ
+U24CJlQF4ANDA9elkUuFZrUqw2crHSdAsL67jXDXiXGmICNaywzwd3xmEFQiFFsI
+9N2UxY88J0uMWxFCq1tUkorcBKGb20X58sY9WPcV5vTUQxnT1ek1QvQHMlbkzaZw
+X8bzwk6EA7Bxp9e8tGXnI3pzZjVo6IoB9MWrI6RSrQGv7noODRGkxC33LT6xVXOb
+ye0aypnBMjflChz30IFpj7Z4DnA30f4YSwF9aOii4seP3xo2Ww0=
+=5OHQ
+-----END PGP SIGNATURE-----
+
+--bT23De0RLxIkDAxt--
+
+--===============0237451012==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0237451012==--
