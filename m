@@ -1,42 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BEA3460FE
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 15:07:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4958346102
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 15:07:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA2D6E8C3;
-	Tue, 23 Mar 2021 14:07:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 226436E8C2;
+	Tue, 23 Mar 2021 14:07:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 367BE6E8A0;
- Tue, 23 Mar 2021 14:07:16 +0000 (UTC)
-IronPort-SDR: hp+iLZf4Jb1pGIs0Yo9ZSr5FeIF3euV+XYdvE5nZMxNty3TnTkt/yJS2JVq5/zL/WJGlBwOXgO
- osND/Gd6lfzw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="187164567"
-X-IronPort-AV: E=Sophos;i="5.81,271,1610438400"; d="scan'208";a="187164567"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2021 07:07:15 -0700
-IronPort-SDR: OgCpjYysMewcIG7T/5T0gGkytTxkwKdQzZxfWA+o+XkeIOGiAR9CjOmP4KM7hy9ER20JHM2jeu
- T502Uf/10h2w==
-X-IronPort-AV: E=Sophos;i="5.81,271,1610438400"; d="scan'208";a="414998948"
-Received: from wjlloyd-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.53.124])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2021 07:06:08 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: lyude@redhat.com, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915/dpcd_bl: Don't try vesa interface unless
- specified by VBT
-In-Reply-To: <dfec442a4888c8387a6002b0424415ee5d8be343.camel@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210318170204.513000-1-lyude@redhat.com>
- <dfec442a4888c8387a6002b0424415ee5d8be343.camel@redhat.com>
-Date: Tue, 23 Mar 2021 16:06:05 +0200
-Message-ID: <87k0py3qya.fsf@intel.com>
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A3D76E8C8
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 14:07:53 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ mz6-20020a17090b3786b02900c16cb41d63so10179206pjb.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 07:07:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=y5suZ7MtFQiO2esuDP6fUstvejIt/3DWj5wCdeiJAXE=;
+ b=PTwjgnJk3BXf+py1vygtF934nMvUyIv/iPhrAV9dGFGXoB+KFQnFjHl7pPFUQ1At2S
+ tqMmns1H1w2/bo7YGJGnkJ2Jjd3wxf/L2HoBEl/W2PDepsVQDIASeRrAJCjcUr8aQyY7
+ rM0CnlpBNqKAjmwB6oam79Pv3i3kkup0JrYRPVTwIJ7/0XiaUvqJb/Q3IeCk5tTCENG7
+ EMo/s0PXZDYqFI+4evzTrh+QcH8uG+7abEDt3+lc6+0j5nOUNrLlH3Hc5BoCSn/R8271
+ 96ZHWU7GGGOL7v9eSUZHLVQ46yUEiQuuvCUIVMAY3+WY7vY4prHie7t+Xc/ibHLgqhVX
+ /WCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=y5suZ7MtFQiO2esuDP6fUstvejIt/3DWj5wCdeiJAXE=;
+ b=YLNp748AfGFglYP1dRSABXR5feucrnah6jePdEZPCKEeD1aQpN93r6bGlDSI0Yv3wU
+ aHmiCPxbq9QTxPW/97auC/Kh3ojW3yJb3Ei/HvZCWcOYAHzPGjS8FNUHK8D8IPWEjY9h
+ Pbj58/edttqigXr4VSy/aqqdjfyFc4oSrjE52sybMhqarbh2GK3loy/HsxYUeGdGm8kl
+ +2GQFEjf4UwCaGKZ53Uw/oqdYjOEwW8KRMGc4C+LgrTtTRNCglr3QDBD12dcpQbvyDCb
+ zRN5k9goAIJCnnXOTULlR1H7bXvt0bi7ukszaTYLinQXnSpQXFmaJqndMk8/zgWoOmU7
+ DfkQ==
+X-Gm-Message-State: AOAM532K/pS/ZafCj7jn7WYC7aPH9IdzBJ4iCK/gWwLxFbL1TM38ROqt
+ iUSC9p67vFNigMwGM0k1Ufg/3WrIXZh3eNoWvV6HHA==
+X-Google-Smtp-Source: ABdhPJxuC7iyBO75to72eg1dtT8fn/Wy5EQ8iTyPWPxiku7f7zskF65BXpl8o6+s0GrDzoATrmKJZI7XvGTjvMqa9g4=
+X-Received: by 2002:a17:90a:516:: with SMTP id
+ h22mr4483088pjh.222.1616508473133; 
+ Tue, 23 Mar 2021 07:07:53 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210308120555.252524-1-adrien.grassein@gmail.com>
+ <20210308120555.252524-3-adrien.grassein@gmail.com>
+ <CAG3jFytoE9hWvq2e2Caqn4qP_RuEOnm4r9VQ85ffbAcguSLf+w@mail.gmail.com>
+ <CABkfQAGvPy3DzXQnDJqm1q_rOLWR7BQTXb8z05iML3s3Mc8LJw@mail.gmail.com>
+ <CAG3jFytmJSjvWp0Bu7MaJ7EVuJov8gbs6cguatoOtTJpXTGVLA@mail.gmail.com>
+ <CABkfQAGcSsQ74FtvAK4_awHRXswgBrThKww_xhpmTzordZ5X8w@mail.gmail.com>
+In-Reply-To: <CABkfQAGcSsQ74FtvAK4_awHRXswgBrThKww_xhpmTzordZ5X8w@mail.gmail.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 23 Mar 2021 15:07:42 +0100
+Message-ID: <CAG3jFyvQt=Bv2_Hi8UdOhgznp1gVZwAw8gZv6FnLwHJV4WD6Kw@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] drm/bridge: Introduce LT8912B DSI to HDMI bridge
+To: Adrien Grassein <adrien.grassein@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,77 +67,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Aaron Ma <aaron.ma@canonical.com>, Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ kernel test robot <lkp@intel.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAxOCBNYXIgMjAyMSwgTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4gd3JvdGU6
-Cj4gQWN0dWFsbHktTkFLIHRoaXMuIEkganVzdCByZWFsaXplZCBJJ3ZlIGJlZW4gbWlzcmVhZGlu
-ZyB0aGUgYnVnIGFuZCB0aGF0IHRoaXMKPiBkb2Vzbid0IGFjdHVhbGx5IHNlZW0gdG8gYmUgZml4
-ZWQuIFdpbGwgcmVzZW5kIG9uY2UgSSBmaWd1cmUgb3V0IHdoYXQncyBnb2luZyBvbgoKV2VsbCwg
-SSB0aGluayB0aGVyZSBhcmUgYWN0dWFsbHkgbXVsdGlwbGUgaXNzdWVzIG9uIG11bHRpcGxlCm1h
-Y2hpbmVzLiBUaGlzIGZpeGVzIHRoZSBpc3N1ZSBvbiBUaGlua1BhZCBYMSBUaXRhbml1bSBHZW4x
-IFsxXS4KCkkgc3VzcGVjdCByZXZlcnRpbmcgOThlNDk3ZTIwM2E1ICgiZHJtL2k5MTUvZHBjZF9i
-bDogdW5jaGVjayBQV01fUElOX0NBUAp3aGVuIGRldGVjdCBlRFAgYmFja2xpZ2h0IGNhcGFiaWxp
-dGllcyIpIHdvdWxkIHRvby4gQnV0IHRoZW4gdGhhdCB3b3VsZApicmVhayAqb3RoZXIqIG1hY2hp
-bmVzIHRoYXQgY2xhaW0gc3VwcG9ydCBmb3IgKmJvdGgqIGVEUCBQV00gcGluIGFuZApEUENEIGJh
-Y2tsaWdodCBjb250cm9sLCBJIHRoaW5rLgoKSSB0aGluayB0aGVyZSBhcmUgaXNzdWVzIHdpdGgg
-aG93IHdlIHRyeSBzZXR1cCBEUENEIGJhY2tsaWdodCBpZiB0aGUgR09QCmhhcyBzZXQgdXAgUFdN
-IGJhY2tsaWdodC4gRm9yIGV4YW1wbGUsIHdlIGRvbid0IHNldCB0aGUgYmFja2xpZ2h0CmNvbnRy
-b2wgbW9kZSBjb3JyZWN0bHkgdW50aWwgdGhlIG5leHQgZGlzYWJsZS9lbmFibGUgc2VxdWVuY2Uu
-IEhvd2V2ZXIsCkkgdHJpZWQgdG8gZml4IHRoaXMsIGFuZCBJIHRoaW5rIEkgd2FzIGRvaW5nIGFs
-bCB0aGUgcmlnaHQgdGhpbmdzLCBhbmQKRFBDRCByZWFkcyBzZWVtZWQgdG8gY29uZmlybSB0aGlz
-LCB5ZXQgSSB3YXMgbm90IGFibGUgdG8gY29udHJvbApicmlnaHRuZXNzIHVzaW5nIERQQ0QuIEkg
-ZG9uJ3Qga25vdyB3aGF0IGdpdmVzLCBidXQgSSBkbyBrbm93IGVEUCBQV00KcGluIGNvbnRyb2wg
-d29ya3MuCgoKQlIsCkphbmkuCgoKWzFdIGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9k
-cm0vaW50ZWwvLS9pc3N1ZXMvMzE1OAoKCj4KPiBPbiBUaHUsIDIwMjEtMDMtMTggYXQgMTM6MDIg
-LTA0MDAsIEx5dWRlIFBhdWwgd3JvdGU6Cj4+IExvb2tzIGxpa2UgdGhhdCB0aGVyZSBhY3R1YWxs
-eSBhcmUgYW5vdGhlciBzdWJzZXQgb2YgbGFwdG9wcyBvbiB0aGUgbWFya2V0Cj4+IHRoYXQgZG9u
-J3Qgc3VwcG9ydCB0aGUgSW50ZWwgSERSIGJhY2tsaWdodCBpbnRlcmZhY2UsIGJ1dCBkbyBhZHZl
-cnRpc2UKPj4gc3VwcG9ydCBmb3IgdGhlIFZFU0EgRFBDRCBiYWNrbGlnaHQgaW50ZXJmYWNlIGRl
-c3BpdGUgdGhlIGZhY3QgaXQgZG9lc24ndAo+PiBzZWVtIHRvIHdvcmsuCj4+IAo+PiBOb3RlIHRo
-b3VnaCBJJ20gbm90IGVudGlyZWx5IGNsZWFyIG9uIHRoaXMgLSBvbiBvbmUgb2YgdGhlIG1hY2hp
-bmVzIHdoZXJlCj4+IHRoaXMgaXNzdWUgd2FzIG9ic2VydmVkLCBJIGFsc28gbm90aWNlZCB0aGF0
-IHdlIGFwcGVhcmVkIHRvIGJlIHJlamVjdGluZwo+PiB0aGUgVkJUIGRlZmluZWQgYmFja2xpZ2h0
-IGZyZXF1ZW5jeSBpbgo+PiBpbnRlbF9kcF9hdXhfdmVzYV9jYWxjX21heF9iYWNrbGlnaHQoKS4g
-SXQncyBub3RlZCBpbiB0aGlzIGZ1bmN0aW9uIHRoYXQ6Cj4+IAo+PiAvKiBVc2UgaGlnaGVzdCBw
-b3NzaWJsZSB2YWx1ZSBvZiBQbiBmb3IgbW9yZSBncmFudWxhcml0eSBvZiBicmlnaHRuZXNzCj4+
-IMKgKiBhZGp1c3RtZW50IHdoaWxlIHNhdGlmeWluZyB0aGUgY29uZGl0aW9ucyBiZWxvdy4KPj4g
-wqAqIC4uLgo+PiDCoCogLSBGeFAgaXMgd2l0aGluIDI1JSBvZiBkZXNpcmVkIHZhbHVlLgo+PiDC
-oCrCoMKgIE5vdGU6IDI1JSBpcyBhcmJpdHJhcnkgdmFsdWUgYW5kIG1heSBuZWVkIHNvbWUgdHdl
-YWsuCj4+IMKgKi8KPj4gCj4+IFNvIGl0J3MgcG9zc2libGUgdGhhdCB0aGlzIHZhbHVlIG1pZ2h0
-IGp1c3QgbmVlZCB0byBiZSB0d2Vha2VkLCBidXQgZm9yIG5vdwo+PiBsZXQncyBqdXN0IGRpc2Fi
-bGUgdGhlIFZFU0EgYmFja2xpZ2h0IGludGVyZmFjZSB1bmxlc3MgaXQncyBzcGVjaWZpZWQgaW4K
-Pj4gdGhlIFZCVCBqdXN0IHRvIGJlIHNhZmUuIFdlIG1pZ2h0IGJlIGFibGUgdG8gdHJ5IGVuYWJs
-aW5nIHRoaXMgYWdhaW4gYnkKPj4gZGVmYXVsdCBpbiB0aGUgZnV0dXJlLgo+PiAKPj4gRml4ZXM6
-IDIyMjc4MTZlNjQ3YSAoImRybS9pOTE1L2RwOiBBbGxvdyBmb3JjaW5nIHNwZWNpZmljIGludGVy
-ZmFjZXMgdGhyb3VnaAo+PiBlbmFibGVfZHBjZF9iYWNrbGlnaHQiKQo+PiBDYzogSmFuaSBOaWt1
-bGEgPGphbmkubmlrdWxhQGludGVsLmNvbT4KPj4gQ2M6IFJvZHJpZ28gVml2aSA8cm9kcmlnby52
-aXZpQGludGVsLmNvbT4KPj4gQnVnemlsbGE6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9y
-Zy9kcm0vaW50ZWwvLS9pc3N1ZXMvMzE2OQo+PiBTaWduZWQtb2ZmLWJ5OiBMeXVkZSBQYXVsIDxs
-eXVkZUByZWRoYXQuY29tPgo+PiAtLS0KPj4gwqBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5
-L2ludGVsX2RwX2F1eF9iYWNrbGlnaHQuYyB8IDEgLQo+PiDCoDEgZmlsZSBjaGFuZ2VkLCAxIGRl
-bGV0aW9uKC0pCj4+IAo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
-eS9pbnRlbF9kcF9hdXhfYmFja2xpZ2h0LmMKPj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNw
-bGF5L2ludGVsX2RwX2F1eF9iYWNrbGlnaHQuYwo+PiBpbmRleCA2NTE4ODQzOTAxMzcuLjRmODMz
-N2M3ZmQyZSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
-bF9kcF9hdXhfYmFja2xpZ2h0LmMKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
-eS9pbnRlbF9kcF9hdXhfYmFja2xpZ2h0LmMKPj4gQEAgLTY0Niw3ICs2NDYsNiBAQCBpbnQgaW50
-ZWxfZHBfYXV4X2luaXRfYmFja2xpZ2h0X2Z1bmNzKHN0cnVjdAo+PiBpbnRlbF9jb25uZWN0b3Ig
-KmNvbm5lY3RvcikKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgYnJlYWs7Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgY2FzZSBJTlRF
-TF9CQUNLTElHSFRfRElTUExBWV9EREk6Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoHRyeV9pbnRlbF9pbnRlcmZhY2UgPSB0cnVlOwo+PiAtwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHRyeV92ZXNhX2ludGVyZmFj
-ZSA9IHRydWU7Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoGJyZWFrOwo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRlZmF1bHQ6Cj4+
-IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiAt
-RU5PREVWOwoKLS0gCkphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50
-ZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+> > > >
+> > > > > +static enum drm_connector_status lt8912_check_cable_status(struct lt8912 *lt)
+> > > > > +{
+> > > > > +       int ret;
+> > > > > +       unsigned int reg_val;
+> > > > > +
+> > > > > +       ret = regmap_read(lt->regmap[I2C_MAIN], 0xC1, &reg_val);
+> > > > > +       if (ret)
+> > > > > +               return connector_status_unknown;
+> > > > > +
+> > > > > +       if (reg_val & BIT(7))
+> > > > > +               return connector_status_connected;
+> > > >
+> > > > Register 0xc0 & BIT(7) - HPD signal after debounce
+> > > > Register 0xc0 & BIT(6) - HPD signal for TX HPD pad
+> > >
+> > > So, if I understand well, I need to write 0xc0 & BIT(6) with 1 to
+> > > enable the HPD pin.
+> >
+> > Ah, sorry about being a bit terse.
+> >
+> > Both bit 6 & 7 are read only, and are probably best read after an IRQ.
+>
+> In my case, IRQ is not triggered at all.
+
+Are you saying that pin 63 never is high, or that an irq/isr routine
+isn't getting executed?
+
+> When reading the value of the HPD pin, I always get 1 (and no
+> transition occurs when plugging / unplugging a cable).
+> The HPD IRQ is done on the HDMI connector driver [5].
+> I think a register configuration should be done to enable the IRQ pin
+> or maybe there is a nug in electronics.
+
+After looking at the documentation a bit more, I think we can ignore
+pin63 and instead have a look at pin14. It is the HDMI TX HPD Control
+pin. It has a 100k pull-down, so it should be active high.
+
+I also found some different I2C addresses than what you've used, I
+assume the device is available on both addresses.
+
+Chip control registers, address:0x90
+CEC control registers, address 0x92
+
+> The HPD pin is linked to a 2.2k pullup resistor (maybe it's wrong)
+
+The datasheet isn't entirely clear about if pin14 has an internal 100k
+pull-down, or if they recommend adding a 100k pull-down.
+
+But this does seem like an issue.
+
+>
+> >
+> > > >
+> > > > > +
+> > > > > +static int lt8912_probe(struct i2c_client *client,
+> > > > > +        const struct i2c_device_id *id)
+> > > > > +{
+> > > > > +       static struct lt8912 *lt;
+> > > > > +       int ret = 0;
+> > > > > +       struct device *dev = &client->dev;
+> > > > > +
+> > > > > +       lt = devm_kzalloc(dev, sizeof(struct lt8912), GFP_KERNEL);
+> > > > > +       if (!lt)
+> > > > > +               return -ENOMEM;
+> > > > > +
+> > > > > +       lt->dev = dev;
+> > > > > +       lt->i2c_client[0] = client;
+> > > > > +       lt->cable_status = connector_status_unknown;
+> > > > > +       lt->workq = create_workqueue("lt8912_workq");
+> > > >
+> > > > Looking at [1] and maybe even better [2], I think this polling
+> > > > approach is the wrong way to go. And with access to documentation, I
+> > > > think we should be able to sort this out.
+> > >
+> > > I neither like the polling approach too. I did it to go on this issue.
+> > > I will totally remove it once the HPD issue will be resolved.
+> > > >
+> > > > Using the irq driver approach requires the interrupt pin to be
+> > > > configured. Pin 63 of the lt8912b is the IRQ output pin.
+> > > >
+> > > > In order to trigger interrupts based on it, the dt-binding would need
+> > > > to be updated[3][4] as well as whichever DTS you're using.
+> > > >
+> > >
+> > > The IRQ part is working well in my DTB. It test it by adding some
+> > > electronics to emulate the HPD pin on the GPIO expander where the HPD
+> > > pin is linked.
+> >
+> > Looking at the dt-binding patch, it does not seem to list any
+> > interrupts. So that should be added. I think the irq support from [3]
+> > & [4] can be pretty much copied.
+> >
+> > Then we can come back and replace the polling code with the IRQ driven
+> > code from [2].
+>
+> My board uses a "max7323" GPIO expander and the HPD pin is linked to it.
+> I test this GPIO expander by soldering a pull up resistor and an
+> interrupt on it and an interrupt was correctly triggered in both
+> max7323 driver and hdmi-connector;
+> So I guess that my DTB configuration is correct.
+> I made my DBT configuration available:
+>   - hdmi-connector node: [6]
+>   - lt8912b node: |7]
+>   - max7323 node: [8].
+
+Looking at [7] I think that you would want to add something like:
+
+hdmi-bridge@48 {
+        interrupts-extended = <&max7323 $LT8912B_PIN_14 IRQ_TYPE_EDGE_RISING>;
+}
+
+And of course add the corresponding parts from [2] and [3].
+
+>
+>
+> >
+> > >
+> > > >
+> > > > [1] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/bridge/analogix/anx7625.c#L1751
+> > > >
+> > > > [2] https://github.com/torvalds/linux/blob/v5.11/drivers/gpu/drm/bridge/lontium-lt9611.c#L1160
+> > > >
+> > > > [3] https://github.com/torvalds/linux/blob/v5.11/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml#L27
+> > > >
+> > > > [4] https://github.com/torvalds/linux/blob/v5.11/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml#L144
+>
+> [5] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/bridge/display-connector.c#L199
+> [6] https://github.com/grassead/linux-next/blob/master/arch/arm64/boot/dts/freescale/imx8mq-nitrogen.dts#L37
+> [7] https://github.com/grassead/linux-next/blob/master/arch/arm64/boot/dts/freescale/imx8mq-nitrogen.dts#L249
+> [8] https://github.com/grassead/linux-next/blob/master/arch/arm64/boot/dts/freescale/imx8mq-nitrogen.dts#L291
+>
+>
+> Thanks,
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
