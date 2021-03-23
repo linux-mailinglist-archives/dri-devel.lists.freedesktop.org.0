@@ -1,59 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26325345C75
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 12:09:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9AA345C77
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 12:09:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A61A6E10D;
-	Tue, 23 Mar 2021 11:09:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 776AF6E89F;
+	Tue, 23 Mar 2021 11:09:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6962E6E89F
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 11:09:10 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id b7so26406493ejv.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 04:09:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=AthyaDoKKyndv1i/NrrVvhda/enAojvpcI/TJWbKNcA=;
- b=etmj2WE+fgF26Q9xj7+WcJJ4AUtOO+QeRW4yJa6Ql/93WqgpmEPIbFGVYFFGTsmWdm
- lYTMlfMW07XG0VLQ1bXGjLDPOjzJ9vRG0OAPjkUa4TyEicf6SFi3vnwcOXuJyCpDGLIG
- o9coLj5JTM9969JZFuB/RgnVF+8bj5mRs3KT+pkHzekDypJMzXS3qnJpEJlApU5NZQVt
- qAzcWoaI/DDnNWp6syRUNbcURE6x34Ypa/nhpU6NRTFtVwDkKWcSyrTDEge1iQVmaCz3
- qc1Vi8XmEacN814I39MoB7hqUcsueuBrf3xI187jDvWIxiB4rH+aEBHcWRFgjCu330zh
- BMkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=AthyaDoKKyndv1i/NrrVvhda/enAojvpcI/TJWbKNcA=;
- b=LItWI38tKZllJBOIEsYiAqMhgkhriX8ngX/oWv1gAENewIZFtFMxOStybgpIbdLOM8
- taGpZXGZhq9Z1KMvB5arUTOxHBVXru8W1RgECYlr5gseLlPchkEw1nII0rt2P1KG7Kb3
- qPZqzh04aJx00eHFcyJvaqOYrOC6AXCCJ+MOO2zZu9ZUO3x8WA267RyhYFhMBsoQ2ivX
- 9/2BuSyWJrKfXRFdd8O+ggm9gNKHORwm9nwe+WDBJz6+Sdidbd/+NHshebw794kF3so5
- /t8rOshn5juqhsWzY+aFMz391sE+MqgDNEu6xk2/EGukz45AO0YLNUtopQSz0FR83Ox7
- +5+Q==
-X-Gm-Message-State: AOAM532eTv8HQYGSKpzvZV/3w5uzFV8XWntBUmmQrOs4xwgdE+tInONP
- u/vjB4yA/QdFJgoX9vF/NL2coAUqRCmXGMtfII8=
-X-Google-Smtp-Source: ABdhPJxwDdq5iXqaWZVGQZFfxnXDVq736giW9rFR/kJcpR1leX3ubItOP8NW/oOY9lhJQBIFuejzXYH9oM6obw9FMyA=
-X-Received: by 2002:a17:906:3ac3:: with SMTP id
- z3mr4498479ejd.106.1616497749061; 
- Tue, 23 Mar 2021 04:09:09 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FFB26E89F;
+ Tue, 23 Mar 2021 11:09:50 +0000 (UTC)
+IronPort-SDR: XApr62ObQ7gRbyhGJm7kN2T3r94pnGP6xb12Zs385wDzwqLzA1ML9N75El9NcA2r7UKAfKLKz3
+ hLvKxAQe1KNg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="190549917"
+X-IronPort-AV: E=Sophos;i="5.81,271,1610438400"; d="scan'208";a="190549917"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2021 04:09:48 -0700
+IronPort-SDR: ZNLv9SJ8Akn3QVY9+Ll9xbEGZTKOQLMMdhIHLXiqMfrsBCYRLFxneb/Lq23gJqYSTaQxjruYUc
+ LJFYEQ94txwg==
+X-IronPort-AV: E=Sophos;i="5.81,271,1610438400"; d="scan'208";a="452099584"
+Received: from fbogue-mobl1.ger.corp.intel.com (HELO [10.213.247.160])
+ ([10.213.247.160])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2021 04:09:47 -0700
+Subject: Re: [Intel-gfx] [PATCH v3 4/6] drm/i915: Request watchdog
+ infrastructure
+To: Matthew Auld <matthew.william.auld@gmail.com>
+References: <20210318170419.2107512-5-tvrtko.ursulin@linux.intel.com>
+ <20210322132937.2165901-1-tvrtko.ursulin@linux.intel.com>
+ <CAM0jSHM=o3pdsuSTd2hFh6mRqCiJVPhXgjRMLLGT=N8Q+SAWwQ@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <a5feaa5f-3086-952d-8edf-c66c18ce95b7@linux.intel.com>
+Date: Tue, 23 Mar 2021 11:09:42 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210308120555.252524-1-adrien.grassein@gmail.com>
- <20210308120555.252524-3-adrien.grassein@gmail.com>
- <CAG3jFytoE9hWvq2e2Caqn4qP_RuEOnm4r9VQ85ffbAcguSLf+w@mail.gmail.com>
- <CABkfQAGvPy3DzXQnDJqm1q_rOLWR7BQTXb8z05iML3s3Mc8LJw@mail.gmail.com>
- <CAG3jFytmJSjvWp0Bu7MaJ7EVuJov8gbs6cguatoOtTJpXTGVLA@mail.gmail.com>
-In-Reply-To: <CAG3jFytmJSjvWp0Bu7MaJ7EVuJov8gbs6cguatoOtTJpXTGVLA@mail.gmail.com>
-From: Adrien Grassein <adrien.grassein@gmail.com>
-Date: Tue, 23 Mar 2021 12:08:58 +0100
-Message-ID: <CABkfQAGcSsQ74FtvAK4_awHRXswgBrThKww_xhpmTzordZ5X8w@mail.gmail.com>
-Subject: Re: [PATCH v7 2/2] drm/bridge: Introduce LT8912B DSI to HDMI bridge
-To: Robert Foss <robert.foss@linaro.org>
+In-Reply-To: <CAM0jSHM=o3pdsuSTd2hFh6mRqCiJVPhXgjRMLLGT=N8Q+SAWwQ@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,101 +53,267 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- kernel test robot <lkp@intel.com>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TGUgbWFyLiAyMyBtYXJzIDIwMjEgw6AgMTE6NDIsIFJvYmVydCBGb3NzIDxyb2JlcnQuZm9zc0Bs
-aW5hcm8ub3JnPiBhIMOpY3JpdCA6Cj4KPiBPbiBUdWUsIDIzIE1hciAyMDIxIGF0IDExOjAxLCBB
-ZHJpZW4gR3Jhc3NlaW4gPGFkcmllbi5ncmFzc2VpbkBnbWFpbC5jb20+IHdyb3RlOgo+ID4KPiA+
-IEhleSBSb2JlcnQsCj4gPgo+ID4gVGhhbmtzIGZvciB0aGUgdXBkYXRlLgo+ID4KPiA+IExlIG1h
-ci4gMjMgbWFycyAyMDIxIMOgIDEwOjEwLCBSb2JlcnQgRm9zcyA8cm9iZXJ0LmZvc3NAbGluYXJv
-Lm9yZz4gYSDDqWNyaXQgOgo+ID4gPgo+ID4gPiBIZXkgQWRyaWVuLAo+ID4gPgo+ID4gPiBTb3Jy
-eSBhYm91dCB0aGUgc2xvdyByZXBseSwgYnV0IEkganVzdCByZWNlaXZlZCB0aGUgZG9jdW1lbnRh
-dGlvbiBmcm9tCj4gPiA+IHRoZSB2ZW5kb3IuIFNvIGxldCdzIGRpZyBpbiB0byB0aGUgSFBEIGlz
-c3VlLgo+ID4KPiA+IE5vIHByb2JsZW0gOikKPiA+ID4KPiA+ID4gPiArc3RhdGljIGVudW0gZHJt
-X2Nvbm5lY3Rvcl9zdGF0dXMgbHQ4OTEyX2NoZWNrX2NhYmxlX3N0YXR1cyhzdHJ1Y3QgbHQ4OTEy
-ICpsdCkKPiA+ID4gPiArewo+ID4gPiA+ICsgICAgICAgaW50IHJldDsKPiA+ID4gPiArICAgICAg
-IHVuc2lnbmVkIGludCByZWdfdmFsOwo+ID4gPiA+ICsKPiA+ID4gPiArICAgICAgIHJldCA9IHJl
-Z21hcF9yZWFkKGx0LT5yZWdtYXBbSTJDX01BSU5dLCAweEMxLCAmcmVnX3ZhbCk7Cj4gPiA+ID4g
-KyAgICAgICBpZiAocmV0KQo+ID4gPiA+ICsgICAgICAgICAgICAgICByZXR1cm4gY29ubmVjdG9y
-X3N0YXR1c191bmtub3duOwo+ID4gPiA+ICsKPiA+ID4gPiArICAgICAgIGlmIChyZWdfdmFsICYg
-QklUKDcpKQo+ID4gPiA+ICsgICAgICAgICAgICAgICByZXR1cm4gY29ubmVjdG9yX3N0YXR1c19j
-b25uZWN0ZWQ7Cj4gPiA+Cj4gPiA+IFJlZ2lzdGVyIDB4YzAgJiBCSVQoNykgLSBIUEQgc2lnbmFs
-IGFmdGVyIGRlYm91bmNlCj4gPiA+IFJlZ2lzdGVyIDB4YzAgJiBCSVQoNikgLSBIUEQgc2lnbmFs
-IGZvciBUWCBIUEQgcGFkCj4gPgo+ID4gU28sIGlmIEkgdW5kZXJzdGFuZCB3ZWxsLCBJIG5lZWQg
-dG8gd3JpdGUgMHhjMCAmIEJJVCg2KSB3aXRoIDEgdG8KPiA+IGVuYWJsZSB0aGUgSFBEIHBpbi4K
-Pgo+IEFoLCBzb3JyeSBhYm91dCBiZWluZyBhIGJpdCB0ZXJzZS4KPgo+IEJvdGggYml0IDYgJiA3
-IGFyZSByZWFkIG9ubHksIGFuZCBhcmUgcHJvYmFibHkgYmVzdCByZWFkIGFmdGVyIGFuIElSUS4K
-CkluIG15IGNhc2UsIElSUSBpcyBub3QgdHJpZ2dlcmVkIGF0IGFsbC4KV2hlbiByZWFkaW5nIHRo
-ZSB2YWx1ZSBvZiB0aGUgSFBEIHBpbiwgSSBhbHdheXMgZ2V0IDEgKGFuZCBubwp0cmFuc2l0aW9u
-IG9jY3VycyB3aGVuIHBsdWdnaW5nIC8gdW5wbHVnZ2luZyBhIGNhYmxlKS4KVGhlIEhQRCBJUlEg
-aXMgZG9uZSBvbiB0aGUgSERNSSBjb25uZWN0b3IgZHJpdmVyIFs1XS4KSSB0aGluayBhIHJlZ2lz
-dGVyIGNvbmZpZ3VyYXRpb24gc2hvdWxkIGJlIGRvbmUgdG8gZW5hYmxlIHRoZSBJUlEgcGluCm9y
-IG1heWJlIHRoZXJlIGlzIGEgbnVnIGluIGVsZWN0cm9uaWNzLgpUaGUgSFBEIHBpbiBpcyBsaW5r
-ZWQgdG8gYSAyLjJrIHB1bGx1cCByZXNpc3RvciAobWF5YmUgaXQncyB3cm9uZykKCj4KPiA+ID4K
-PiA+ID4gPiArCj4gPiA+ID4gK3N0YXRpYyBpbnQgbHQ4OTEyX3Byb2JlKHN0cnVjdCBpMmNfY2xp
-ZW50ICpjbGllbnQsCj4gPiA+ID4gKyAgICAgICAgY29uc3Qgc3RydWN0IGkyY19kZXZpY2VfaWQg
-KmlkKQo+ID4gPiA+ICt7Cj4gPiA+ID4gKyAgICAgICBzdGF0aWMgc3RydWN0IGx0ODkxMiAqbHQ7
-Cj4gPiA+ID4gKyAgICAgICBpbnQgcmV0ID0gMDsKPiA+ID4gPiArICAgICAgIHN0cnVjdCBkZXZp
-Y2UgKmRldiA9ICZjbGllbnQtPmRldjsKPiA+ID4gPiArCj4gPiA+ID4gKyAgICAgICBsdCA9IGRl
-dm1fa3phbGxvYyhkZXYsIHNpemVvZihzdHJ1Y3QgbHQ4OTEyKSwgR0ZQX0tFUk5FTCk7Cj4gPiA+
-ID4gKyAgICAgICBpZiAoIWx0KQo+ID4gPiA+ICsgICAgICAgICAgICAgICByZXR1cm4gLUVOT01F
-TTsKPiA+ID4gPiArCj4gPiA+ID4gKyAgICAgICBsdC0+ZGV2ID0gZGV2Owo+ID4gPiA+ICsgICAg
-ICAgbHQtPmkyY19jbGllbnRbMF0gPSBjbGllbnQ7Cj4gPiA+ID4gKyAgICAgICBsdC0+Y2FibGVf
-c3RhdHVzID0gY29ubmVjdG9yX3N0YXR1c191bmtub3duOwo+ID4gPiA+ICsgICAgICAgbHQtPndv
-cmtxID0gY3JlYXRlX3dvcmtxdWV1ZSgibHQ4OTEyX3dvcmtxIik7Cj4gPiA+Cj4gPiA+IExvb2tp
-bmcgYXQgWzFdIGFuZCBtYXliZSBldmVuIGJldHRlciBbMl0sIEkgdGhpbmsgdGhpcyBwb2xsaW5n
-Cj4gPiA+IGFwcHJvYWNoIGlzIHRoZSB3cm9uZyB3YXkgdG8gZ28uIEFuZCB3aXRoIGFjY2VzcyB0
-byBkb2N1bWVudGF0aW9uLCBJCj4gPiA+IHRoaW5rIHdlIHNob3VsZCBiZSBhYmxlIHRvIHNvcnQg
-dGhpcyBvdXQuCj4gPgo+ID4gSSBuZWl0aGVyIGxpa2UgdGhlIHBvbGxpbmcgYXBwcm9hY2ggdG9v
-LiBJIGRpZCBpdCB0byBnbyBvbiB0aGlzIGlzc3VlLgo+ID4gSSB3aWxsIHRvdGFsbHkgcmVtb3Zl
-IGl0IG9uY2UgdGhlIEhQRCBpc3N1ZSB3aWxsIGJlIHJlc29sdmVkLgo+ID4gPgo+ID4gPiBVc2lu
-ZyB0aGUgaXJxIGRyaXZlciBhcHByb2FjaCByZXF1aXJlcyB0aGUgaW50ZXJydXB0IHBpbiB0byBi
-ZQo+ID4gPiBjb25maWd1cmVkLiBQaW4gNjMgb2YgdGhlIGx0ODkxMmIgaXMgdGhlIElSUSBvdXRw
-dXQgcGluLgo+ID4gPgo+ID4gPiBJbiBvcmRlciB0byB0cmlnZ2VyIGludGVycnVwdHMgYmFzZWQg
-b24gaXQsIHRoZSBkdC1iaW5kaW5nIHdvdWxkIG5lZWQKPiA+ID4gdG8gYmUgdXBkYXRlZFszXVs0
-XSBhcyB3ZWxsIGFzIHdoaWNoZXZlciBEVFMgeW91J3JlIHVzaW5nLgo+ID4gPgo+ID4KPiA+IFRo
-ZSBJUlEgcGFydCBpcyB3b3JraW5nIHdlbGwgaW4gbXkgRFRCLiBJdCB0ZXN0IGl0IGJ5IGFkZGlu
-ZyBzb21lCj4gPiBlbGVjdHJvbmljcyB0byBlbXVsYXRlIHRoZSBIUEQgcGluIG9uIHRoZSBHUElP
-IGV4cGFuZGVyIHdoZXJlIHRoZSBIUEQKPiA+IHBpbiBpcyBsaW5rZWQuCj4KPiBMb29raW5nIGF0
-IHRoZSBkdC1iaW5kaW5nIHBhdGNoLCBpdCBkb2VzIG5vdCBzZWVtIHRvIGxpc3QgYW55Cj4gaW50
-ZXJydXB0cy4gU28gdGhhdCBzaG91bGQgYmUgYWRkZWQuIEkgdGhpbmsgdGhlIGlycSBzdXBwb3J0
-IGZyb20gWzNdCj4gJiBbNF0gY2FuIGJlIHByZXR0eSBtdWNoIGNvcGllZC4KPgo+IFRoZW4gd2Ug
-Y2FuIGNvbWUgYmFjayBhbmQgcmVwbGFjZSB0aGUgcG9sbGluZyBjb2RlIHdpdGggdGhlIElSUSBk
-cml2ZW4KPiBjb2RlIGZyb20gWzJdLgoKTXkgYm9hcmQgdXNlcyBhICJtYXg3MzIzIiBHUElPIGV4
-cGFuZGVyIGFuZCB0aGUgSFBEIHBpbiBpcyBsaW5rZWQgdG8gaXQuCkkgdGVzdCB0aGlzIEdQSU8g
-ZXhwYW5kZXIgYnkgc29sZGVyaW5nIGEgcHVsbCB1cCByZXNpc3RvciBhbmQgYW4KaW50ZXJydXB0
-IG9uIGl0IGFuZCBhbiBpbnRlcnJ1cHQgd2FzIGNvcnJlY3RseSB0cmlnZ2VyZWQgaW4gYm90aApt
-YXg3MzIzIGRyaXZlciBhbmQgaGRtaS1jb25uZWN0b3I7ClNvIEkgZ3Vlc3MgdGhhdCBteSBEVEIg
-Y29uZmlndXJhdGlvbiBpcyBjb3JyZWN0LgpJIG1hZGUgbXkgREJUIGNvbmZpZ3VyYXRpb24gYXZh
-aWxhYmxlOgogIC0gaGRtaS1jb25uZWN0b3Igbm9kZTogWzZdCiAgLSBsdDg5MTJiIG5vZGU6IHw3
-XQogIC0gbWF4NzMyMyBub2RlOiBbOF0uCgoKPgo+ID4KPiA+ID4KPiA+ID4gWzFdIGh0dHBzOi8v
-Z2l0aHViLmNvbS90b3J2YWxkcy9saW51eC9ibG9iL21hc3Rlci9kcml2ZXJzL2dwdS9kcm0vYnJp
-ZGdlL2FuYWxvZ2l4L2FueDc2MjUuYyNMMTc1MQo+ID4gPgo+ID4gPiBbMl0gaHR0cHM6Ly9naXRo
-dWIuY29tL3RvcnZhbGRzL2xpbnV4L2Jsb2IvdjUuMTEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9s
-b250aXVtLWx0OTYxMS5jI0wxMTYwCj4gPiA+Cj4gPiA+IFszXSBodHRwczovL2dpdGh1Yi5jb20v
-dG9ydmFsZHMvbGludXgvYmxvYi92NS4xMS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvZGlzcGxheS9icmlkZ2UvbG9udGl1bSxsdDk2MTEueWFtbCNMMjcKPiA+ID4KPiA+ID4gWzRd
-IGh0dHBzOi8vZ2l0aHViLmNvbS90b3J2YWxkcy9saW51eC9ibG9iL3Y1LjExL0RvY3VtZW50YXRp
-b24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9sb250aXVtLGx0OTYxMS55YW1s
-I0wxNDQKCls1XSBodHRwczovL2dpdGh1Yi5jb20vdG9ydmFsZHMvbGludXgvYmxvYi9tYXN0ZXIv
-ZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9kaXNwbGF5LWNvbm5lY3Rvci5jI0wxOTkKWzZdIGh0dHBz
-Oi8vZ2l0aHViLmNvbS9ncmFzc2VhZC9saW51eC1uZXh0L2Jsb2IvbWFzdGVyL2FyY2gvYXJtNjQv
-Ym9vdC9kdHMvZnJlZXNjYWxlL2lteDhtcS1uaXRyb2dlbi5kdHMjTDM3Cls3XSBodHRwczovL2dp
-dGh1Yi5jb20vZ3Jhc3NlYWQvbGludXgtbmV4dC9ibG9iL21hc3Rlci9hcmNoL2FybTY0L2Jvb3Qv
-ZHRzL2ZyZWVzY2FsZS9pbXg4bXEtbml0cm9nZW4uZHRzI0wyNDkKWzhdIGh0dHBzOi8vZ2l0aHVi
-LmNvbS9ncmFzc2VhZC9saW51eC1uZXh0L2Jsb2IvbWFzdGVyL2FyY2gvYXJtNjQvYm9vdC9kdHMv
-ZnJlZXNjYWxlL2lteDhtcS1uaXRyb2dlbi5kdHMjTDI5MQoKClRoYW5rcywKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+
+On 23/03/2021 10:54, Matthew Auld wrote:
+> On Mon, 22 Mar 2021 at 13:29, Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+>>
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Prepares the plumbing for setting request/fence expiration time. All code
+>> is put in place but is never activeted due yet missing ability to actually
+> 
+>                   activated
+> 
+>> configure the timer.
+>>
+>> Outline of the basic operation:
+>>
+>> A timer is started when request is ready for execution. If the request
+>> completes (retires) before the timer fires, timer is cancelled and nothing
+>> further happens.
+>>
+>> If the timer fires request is added to a lockless list and worker queued.
+>> Purpose of this is twofold: a) It allows request cancellation from a more
+>> friendly context and b) coalesces multiple expirations into a single event
+>> of consuming the list.
+>>
+>> Worker locklessly consumes the list of expired requests and cancels them
+>> all using previous added i915_request_cancel().
+>>
+>> Associated timeout value is stored in rq->context.watchdog.timeout_us.
+>>
+>> v2:
+>>   * Log expiration.
+>>
+>> v3:
+>>   * Include more information about user timeline in the log message.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> ---
+>>   drivers/gpu/drm/i915/gt/intel_context_types.h |  4 ++
+>>   .../drm/i915/gt/intel_execlists_submission.h  |  2 +
+>>   drivers/gpu/drm/i915/gt/intel_gt.c            |  3 +
+>>   drivers/gpu/drm/i915/gt/intel_gt.h            |  2 +
+>>   drivers/gpu/drm/i915/gt/intel_gt_requests.c   | 28 ++++++++++
+>>   drivers/gpu/drm/i915/gt/intel_gt_types.h      |  7 +++
+>>   drivers/gpu/drm/i915/i915_request.c           | 56 +++++++++++++++++++
+>>   drivers/gpu/drm/i915/i915_request.h           |  8 +++
+>>   8 files changed, 110 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>> index 0ea18c9e2aca..65a5730a4f5b 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>> @@ -99,6 +99,10 @@ struct intel_context {
+>>   #define CONTEXT_FORCE_SINGLE_SUBMISSION        7
+>>   #define CONTEXT_NOPREEMPT              8
+>>
+>> +       struct {
+>> +               u64 timeout_us;
+>> +       } watchdog;
+>> +
+>>          u32 *lrc_reg_state;
+>>          union {
+>>                  struct {
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.h b/drivers/gpu/drm/i915/gt/intel_execlists_submission.h
+>> index f7bd3fccfee8..4ca9b475e252 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.h
+>> @@ -6,6 +6,7 @@
+>>   #ifndef __INTEL_EXECLISTS_SUBMISSION_H__
+>>   #define __INTEL_EXECLISTS_SUBMISSION_H__
+>>
+>> +#include <linux/llist.h>
+>>   #include <linux/types.h>
+>>
+>>   struct drm_printer;
+>> @@ -13,6 +14,7 @@ struct drm_printer;
+>>   struct i915_request;
+>>   struct intel_context;
+>>   struct intel_engine_cs;
+>> +struct intel_gt;
+>>
+>>   enum {
+>>          INTEL_CONTEXT_SCHEDULE_IN = 0,
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+>> index ca76f93bc03d..8d77dcbad059 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+>> @@ -31,6 +31,9 @@ void intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915)
+>>          INIT_LIST_HEAD(&gt->closed_vma);
+>>          spin_lock_init(&gt->closed_lock);
+>>
+>> +       init_llist_head(&gt->watchdog.list);
+>> +       INIT_WORK(&gt->watchdog.work, intel_gt_watchdog_work);
+>> +
+>>          intel_gt_init_buffer_pool(gt);
+>>          intel_gt_init_reset(gt);
+>>          intel_gt_init_requests(gt);
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
+>> index a17bd8b3195f..7ec395cace69 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gt.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
+>> @@ -78,4 +78,6 @@ static inline bool intel_gt_is_wedged(const struct intel_gt *gt)
+>>   void intel_gt_info_print(const struct intel_gt_info *info,
+>>                           struct drm_printer *p);
+>>
+>> +void intel_gt_watchdog_work(struct work_struct *work);
+>> +
+>>   #endif /* __INTEL_GT_H__ */
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+>> index 36ec97f79174..fbfd19b2e5f2 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+>> @@ -8,6 +8,7 @@
+>>   #include "i915_drv.h" /* for_each_engine() */
+>>   #include "i915_request.h"
+>>   #include "intel_engine_heartbeat.h"
+>> +#include "intel_execlists_submission.h"
+>>   #include "intel_gt.h"
+>>   #include "intel_gt_pm.h"
+>>   #include "intel_gt_requests.h"
+>> @@ -242,4 +243,31 @@ void intel_gt_fini_requests(struct intel_gt *gt)
+>>   {
+>>          /* Wait until the work is marked as finished before unloading! */
+>>          cancel_delayed_work_sync(&gt->requests.retire_work);
+>> +
+>> +       flush_work(&gt->watchdog.work);
+>> +}
+>> +
+>> +void intel_gt_watchdog_work(struct work_struct *work)
+>> +{
+>> +       struct intel_gt *gt =
+>> +               container_of(work, typeof(*gt), watchdog.work);
+>> +       struct i915_request *rq, *rn;
+>> +       struct llist_node *first;
+>> +
+>> +       first = llist_del_all(&gt->watchdog.list);
+>> +       if (!first)
+>> +               return;
+>> +
+>> +       llist_for_each_entry_safe(rq, rn, first, watchdog.link) {
+>> +               if (!i915_request_completed(rq)) {
+>> +                       struct dma_fence *f = &rq->fence;
+>> +
+>> +                       pr_notice("Fence expiration time out i915-%s:%s:%llx!\n",
+>> +                                 f->ops->get_driver_name(f),
+>> +                                 f->ops->get_timeline_name(f),
+>> +                                 f->seqno);
+>> +                       i915_request_cancel(rq, -EINTR);
+>> +               }
+>> +               i915_request_put(rq);
+>> +       }
+>>   }
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>> index 626af37c7790..d70ebcc6f19f 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>> @@ -8,10 +8,12 @@
+>>
+>>   #include <linux/ktime.h>
+>>   #include <linux/list.h>
+>> +#include <linux/llist.h>
+>>   #include <linux/mutex.h>
+>>   #include <linux/notifier.h>
+>>   #include <linux/spinlock.h>
+>>   #include <linux/types.h>
+>> +#include <linux/workqueue.h>
+>>
+>>   #include "uc/intel_uc.h"
+>>
+>> @@ -62,6 +64,11 @@ struct intel_gt {
+>>                  struct delayed_work retire_work;
+>>          } requests;
+>>
+>> +       struct {
+>> +               struct llist_head list;
+>> +               struct work_struct work;
+>> +       } watchdog;
+>> +
+>>          struct intel_wakeref wakeref;
+>>          atomic_t user_wakeref;
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+>> index b4511ac05e9a..9dd5e588b0a4 100644
+>> --- a/drivers/gpu/drm/i915/i915_request.c
+>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>> @@ -277,6 +277,57 @@ static void remove_from_engine(struct i915_request *rq)
+>>          __notify_execute_cb_imm(rq);
+>>   }
+>>
+>> +static void __rq_init_watchdog(struct i915_request *rq)
+>> +{
+>> +       rq->watchdog.timer.function = NULL;
+>> +}
+>> +
+>> +static enum hrtimer_restart __rq_watchdog_expired(struct hrtimer *hrtimer)
+>> +{
+>> +       struct i915_request *rq =
+>> +               container_of(hrtimer, struct i915_request, watchdog.timer);
+>> +       struct intel_gt *gt = rq->engine->gt;
+>> +
+>> +       if (!i915_request_completed(rq)) {
+>> +               if (llist_add(&rq->watchdog.link, &gt->watchdog.list))
+>> +                       schedule_work(&gt->watchdog.work);
+>> +       } else {
+>> +               i915_request_put(rq);
+>> +       }
+>> +
+>> +       return HRTIMER_NORESTART;
+>> +}
+>> +
+>> +static void __rq_arm_watchdog(struct i915_request *rq)
+>> +{
+>> +       struct i915_request_watchdog *wdg = &rq->watchdog;
+>> +       struct intel_context *ce = rq->context;
+>> +
+>> +       if (!ce->watchdog.timeout_us)
+>> +               return;
+>> +
+>> +       hrtimer_init(&wdg->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+>> +       wdg->timer.function = __rq_watchdog_expired;
+>> +       hrtimer_start_range_ns(&wdg->timer,
+>> +                              ns_to_ktime(ce->watchdog.timeout_us *
+>> +                                          NSEC_PER_USEC),
+>> +                               /*
+>> +                                * FIXME check if it gives the "not sooner"
+>> +                                * guarantee or slack is both ways
+>> +                                */
+> 
+> It looks like the slack/fuzziness just delays the timer, in case it
+> can coalesce multiple timer events. So shouldn't be sooner I think?
+
+I couldn't quickly figure it out when I looked at the implementation so 
+I left this comment. But it was only relevant at a time I thought we 
+would be exposing context param to allow userspace control. With the 
+only user being default expiry which is not sensitive to precision or 
+accuracy, I simply need to remove this comment.
+
+> 
+>> +                               NSEC_PER_MSEC,
+> 
+> Formatting.
+
+Which part? I think indentation/alignment is correct.
+
+> 
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> 
+
+Thanks,
+
+Tvrtko
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
