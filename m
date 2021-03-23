@@ -2,69 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78413345A86
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 10:14:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4991345A89
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 10:14:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 819E96E874;
-	Tue, 23 Mar 2021 09:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F111C6E872;
+	Tue, 23 Mar 2021 09:14:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
- [IPv6:2607:f8b0:4864:20::72b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF316E874;
- Tue, 23 Mar 2021 09:14:16 +0000 (UTC)
-Received: by mail-qk1-x72b.google.com with SMTP id c3so13587153qkc.5;
- Tue, 23 Mar 2021 02:14:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=yKamrg4WQ+8FkyynMWBliZ0t9JpsQat8oBO83DGW1QQ=;
- b=k15rQQYFTnRWn6UkVkfxPOjIFEe2JNn89l2ipW6jz1vPKm1gH0MDxAUp4C/nuJc1y4
- tyWhu1SvPXNHdMdMTukSPNrOhQKZLkseHbidtLwUqnjxDLieaj4iqexwesLvbPbESDvW
- RTZKBQxIzZIshmKqsw1t6BRCDjc5kANvrRX13FX5eBNZ2i12u50LKPa5T5bkyFzW5sLm
- xedVrbyWvwC5dZCk5pX7XdIo6ZX+r77F/cC496THBXcN7oFR5axZ512/ZgthJs9kPXen
- 5cgakFG+Qjhs7hCKhgL8jgfEwcudMRLtMFFsTSukOpbNlSdq4kBNMeIG/oooMhGt9dgC
- 14Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=yKamrg4WQ+8FkyynMWBliZ0t9JpsQat8oBO83DGW1QQ=;
- b=h9NL4wbV/2J5QvI33eoppQhHlT0ccc2CTHuwTaXaLf5GaAc7oKUoBEwvhMQ4cdxL/k
- IpSjnpiUNZVagPUyUlqx9UimlMpldJLbxKpins2yv87bq1NcyHpDuu4xuMfhy0J0Gr0T
- vJ33vve9sjsRZ9l6fCRyY0BIS3A8y4wk3A2/sexfKQGPOyPk5IhZZviCKjZ4IyVQ3jIa
- AsLTgD2f0RtsSDp5jQnyM+gQI8Bl3ziWOfKdbgEHGBiC8jTO6tM/IYImDLhQBZ2FlQ8n
- Xc0KGyd+Cuot+R03ai6BlwP6lupxJ23dowolK+RCUzIVUSJqWtmgHr6q0sUFREvp82bd
- T96A==
-X-Gm-Message-State: AOAM5339GdtvxOMfdggP+yaC7L+QQG/CtGOCyYCKfksjcj6pIO1xoGLt
- NGyjqfcsCD9WFIEKJMAwxbo=
-X-Google-Smtp-Source: ABdhPJyh+0q5eJDWd+9DOmDi7kVHzpO0V0QZjUYLIszZuhys5Tq3g2ATH+OsE+oQNX+ksfTyjUENvw==
-X-Received: by 2002:a37:a643:: with SMTP id p64mr4178667qke.276.1616490855481; 
- Tue, 23 Mar 2021 02:14:15 -0700 (PDT)
-Received: from ArchLinux ([143.244.44.229])
- by smtp.gmail.com with ESMTPSA id z5sm12793861qkz.2.2021.03.23.02.14.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 02:14:13 -0700 (PDT)
-Date: Tue, 23 Mar 2021 14:43:58 +0530
-From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH] drm/i915: A typo fix
-Message-ID: <YFmxVmcW/hIzsP4o@ArchLinux>
-Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- airlied@linux.ie, daniel@ffwll.ch, imre.deak@intel.com,
- ville.syrjala@linux.intel.com, lucas.demarchi@intel.com,
- matthew.d.roper@intel.com,
- tejaskumarx.surendrakumar.upadhyay@intel.com,
- aditya.swarup@intel.com, anusha.srivatsa@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, rdunlap@infradead.org
-References: <20210323011607.182803-1-unixbhaskar@gmail.com>
- <87blba5jzo.fsf@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCEBD6E872;
+ Tue, 23 Mar 2021 09:14:39 +0000 (UTC)
+IronPort-SDR: kaTY3rdh+pjwin2aM5MKHlWsZXEZ/LzcFA/iWwd5ovlnhI3RNO4eB0XqhVWfrt6/Hbz7dRQYZh
+ KwDzDfcWkrQg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="189839860"
+X-IronPort-AV: E=Sophos;i="5.81,271,1610438400"; d="scan'208";a="189839860"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2021 02:14:38 -0700
+IronPort-SDR: TkUj2t2CFhXf3Hv0bP8L3QO4EVBp5qXSVG8R2mSOpXjlRr3VZn7lHRgzttRlQ28yN4HA+OfLPy
+ lKQxduzFR5OQ==
+X-IronPort-AV: E=Sophos;i="5.81,271,1610438400"; d="scan'208";a="452067679"
+Received: from fbogue-mobl1.ger.corp.intel.com (HELO [10.213.247.160])
+ ([10.213.247.160])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2021 02:14:37 -0700
+Subject: Re: [Intel-gfx] [PATCH 3/4] drm/i915: Drop the CONTEXT_CLONE API
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210319223856.2983244-1-jason@jlekstrand.net>
+ <20210319223856.2983244-4-jason@jlekstrand.net>
+ <7918db68-835c-b416-6187-1e62892ce5ed@linux.intel.com>
+ <YFilKSbKYd+0HbCn@phenom.ffwll.local>
+ <d83162e2-4b9e-c7e9-5324-6612bb9561d6@linux.intel.com>
+ <CAKMK7uG0GLPu+auqDgMgD7ugvWo3E7W7DL6eALKxmp6hk-aZiA@mail.gmail.com>
+ <fb406aca-1211-e1e5-b6a0-830c26d327ae@linux.intel.com>
+ <CAKMK7uEf5p+UJNtr0sBRRjegn=88Pr=BCYhGpTy_J1hpRspk7Q@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <c2cab688-5e54-078b-7eed-7437ec2377e0@linux.intel.com>
+Date: Tue, 23 Mar 2021 09:14:36 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <87blba5jzo.fsf@intel.com>
+In-Reply-To: <CAKMK7uEf5p+UJNtr0sBRRjegn=88Pr=BCYhGpTy_J1hpRspk7Q@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,88 +57,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: anusha.srivatsa@intel.com, intel-gfx@lists.freedesktop.org,
- airlied@linux.ie, lucas.demarchi@intel.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rdunlap@infradead.org, rodrigo.vivi@intel.com,
- tejaskumarx.surendrakumar.upadhyay@intel.com, aditya.swarup@intel.com
-Content-Type: multipart/mixed; boundary="===============1141662566=="
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1141662566==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ssc5NCDR3r865LSQ"
-Content-Disposition: inline
-
-
---ssc5NCDR3r865LSQ
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-
-On 10:53 Tue 23 Mar 2021, Jani Nikula wrote:
->On Tue, 23 Mar 2021, Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
->> s/nothign/nothing/
+On 22/03/2021 16:43, Daniel Vetter wrote:
+> On Mon, Mar 22, 2021 at 4:31 PM Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
 >>
->> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
->
->You've sent the same patch before? I've already pushed it.
->
-Apologies and thanks.
-
->BR,
->Jani.
->
->> ---
->>  drivers/gpu/drm/i915/display/intel_dpll_mgr.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
 >>
->> diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
->> index f6ad257a260e..14d784a6fae5 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
->> +++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
->> @@ -4185,7 +4185,7 @@ static void icl_pll_disable(struct drm_i915_private *dev_priv,
->>  	/*
->>  	 * DVFS pre sequence would be here, but in our driver the cdclk code
->>  	 * paths should already be setting the appropriate voltage, hence we do
->> -	 * nothign here.
->> +	 * nothing here.
->>  	 */
+>> On 22/03/2021 14:57, Daniel Vetter wrote:
+>>> On Mon, Mar 22, 2021 at 3:33 PM Tvrtko Ursulin
+>>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>>
+>>>>
+>>>> On 22/03/2021 14:09, Daniel Vetter wrote:
+>>>>> On Mon, Mar 22, 2021 at 11:22:01AM +0000, Tvrtko Ursulin wrote:
+>>>>>>
+>>>>>> On 19/03/2021 22:38, Jason Ekstrand wrote:
+>>>>>>> This API allows one context to grab bits out of another context upon
+>>>>>>> creation.  It can be used as a short-cut for setparam(getparam()) for
+>>>>>>> things like I915_CONTEXT_PARAM_VM.  However, it's never been used by any
+>>>>>>> real userspace.  It's used by a few IGT tests and that's it.  Since it
+>>>>>>> doesn't add any real value (most of the stuff you can CLONE you can copy
+>>>>>>> in other ways), drop it.
+>>>>>>
+>>>>>> No complaints to remove if it ended up unused outside IGT. Latter is a _big_
+>>>>>> problem though, since it is much more that a few IGT tests. So I really
+>>>>>> think there really needs to be an evaluation and a plan for that (we don't
+>>>>>> want to lose 50% of the coverage over night).
+>>>>>>
+>>>>>>> There is one thing that this API allows you to clone which you cannot
+>>>>>>> clone via getparam/setparam: timelines.  However, timelines are an
+>>>>>>> implementation detail of i915 and not really something that needs to be
+>>>>>>
+>>>>>> Not really true timelines are i915 implementation detail. They are in fact a
+>>>>>> dma-fence context:seqno concept, nothing more that than. I think you are
+>>>>>> probably confusing struct intel_timeline with the timeline wording in the
+>>>>>> uapi. Former is i915 implementation detail, but context:seqno are truly
+>>>>>> userspace timelines.
+>>>>>
+>>>>> I think you're both saying the same thing and talking a bit past each
+>>>>> another.
+>>>>>
+>>>>> Yes the timeline is just a string of dma_fence, that's correct. Now
+>>>>> usually if you submit batches with execbuf, we have 3 ways to synchronize
+>>>>> concurrent submission: implicit sync, sync_file and drm_syncob. They all
+>>>>> map to different needs in different protocols/render apis.
+>>>>>
+>>>>> Now in one additional case the kernel makes sure that batchbuffers are
+>>>>> ordered, and that's when you submit them to the same hw ctx. Because
+>>>>> there's only 1 hw context and you really can't have batchbuffers run on
+>>>>> that single hw context out of order. That's what the timeline object we
+>>>>> talk about here is. But that largely is an internal implementation detail,
+>>>>> which happens to also use most/all the same infrastructure as the
+>>>>> dma_fence uapi pieces above.
+>>>>>
+>>>>> Now the internal implementation detail leaking here is that we exposed
+>>>>> this to userspace, without there being any need for this. What Jason
+>>>>> implements with syncobj in the next patch is essentially what userspace
+>>>>> should have been using for cross-engine sync. media userspace doesn't care
+>>>>> about interop with winsys/client apis, so they equally could have used
+>>>>> implicit sync or sync_file here (which I think is the solution now for the
+>>>>> new uapi prepped internally), since they all are about equally powerful
+>>>>> for stringing batchbuffers together.
+>>>>
+>>>> Are you saying we exposed a single timeline of execution per hw context
+>>>> via the single timeline flag?!
+>>>
+>>> Nope.
+>>>
+>>>> Timelines of execution were always exposed. Any "engine" (ring
+>>>> previously) in I915_EXEC_RING_MASK was a single timeline of execution.
+>>>> It is completely the same with engine map engines, which are also
+>>>> different indices into I915_EXEC_RING_MASK space.
+>>>>
+>>>> Userspace was aware of these timelines forever as well. Media was
+>>>> creating multiple contexts to have multiple timelines (so parallelism).
+>>>> Everyone knew that engine-hopping submissions needs to be either
+>>>> implicitly or explicitly synchronised, etc.
+>>>
+>>> Yup, I think we're saying the same thing here.
+>>>
+>>>> So I really don't see that we have leaked timelines as a concept *now*.
+>>>> What the patch has exposed to userspace is a new way to sync between
+>>>> timelines and nothing more.
+>>>
+>>> We've leaked it as something you can now share across hw context.
 >>
->>  	val = intel_de_read(dev_priv, enable_reg);
->> --
->> 2.31.0
+>> Okay so we agree on most things but apparently have different
+>> definitions of what it means to leak internal implementation details.
 >>
->
->--
->Jani Nikula, Intel Open Source Graphics Center
+>> While at the same time proof that we haven't leaked the internal
+>> implementation details is that Jason was able to implement the single
+>> timeline flag with a drm syncobj at the execbuf top level. (Well mostly,
+>> ignoring the probably inconsequential difference of one vs multiple
+>> fence contexts.)
+> 
+> It's not a matching implementation. It's only good enough for what
+> media needs, and essentially what media should have done to begin
+> with.
+> 
+> There's substantially different behaviour between SINGLE_TIMELINE and
+> what Jason has done here when you race concurrent execbuf calls:
+> Former guarantees total ordering, the latter doesn't even try. They
+> are not the same thing, but luckily userspace doesn't care about that
+> difference.
 
---ssc5NCDR3r865LSQ
-Content-Type: application/pgp-signature; name="signature.asc"
+Sounds like a very important difference to stress in the commit message.
 
------BEGIN PGP SIGNATURE-----
+Secondly, I am unclear whether we have agreement on whether the single 
+timeline flag is leaking implementation details of the execlists 
+scheduler to userspace or not?
 
-iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAmBZsVYACgkQsjqdtxFL
-KRUJpggAiFamaV0R4z6RkkkOUE2bYAPm7eweNYgy2jWuLdI61fbw7FH7AmbBWH+a
-kNgXlnPT6uSmy2jiu9uO3GVguYcxe25APtYd3VVNyRfiCONj1KvD1RNHFR3dG8aY
-cai0XiI0dFA283DCP0LRMdTzHPIPwEfXW47CVbk5tfMINQV70VZKjDPnAxsoa5ch
-gvHo8wo/ZQAb9K+2VeaoTaf2CF6hjf7U/UCV8WI9acO4+AJ6kM79ZchZlLT75q/w
-5gtSUMK704FFFnYWNbsoMJiKXUHqs+2NuqQpTuyU/Z64pwppKJTTDvbJV3RJkYM3
-0Vjb8Zewp05xO/bBwkAzecMr5u8JLw==
-=WIVI
------END PGP SIGNATURE-----
+Regards,
 
---ssc5NCDR3r865LSQ--
+Tvrtko
 
---===============1141662566==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> 
+> Aside, just to make sure this wont get lost: I do agree that we should
+> only allow this up to maybe ADL, and reject it on anything new (maybe
+> including dg1 while we're at it, since the pci ids for that aren't
+> even close to upstream yet).
+> -Daniel
+> 
+>>> Which is possible because of how it's internally implemented (I think
+>>> load balancer relies on that), but not really a synchronization
+>>
+>> Virtual engine is a single timeline by definition and it is still that
+>> regardless of the implementation details (execlists or GuC, in both
+>> cases it is a single hardware context and a single timeline).
+>>
+>>> primitive we want to export as such to userspace. We have other
+>>> interfaces and concepts for that.
+>>
+>> Yes, that is the only point to argue IMO. We can say it wasn't needed
+>> and should have been avoided, but I still maintain we can't really say
+>> we leaked anything backend specific to userspace via it.
+>>
+>> Regards,
+>>
+>> Tvrtko
+> 
+> 
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1141662566==--
