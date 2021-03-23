@@ -1,23 +1,22 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83157346413
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 16:59:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5283E34641D
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 16:59:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD7C6EC2A;
-	Tue, 23 Mar 2021 15:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF1536EC3F;
+	Tue, 23 Mar 2021 15:58:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mblankhorst.nl (mblankhorst.nl [141.105.120.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 255E96EC20
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 15:57:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D42EE6EC08
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 15:57:43 +0000 (UTC)
 From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v9 64/70] drm/i915: Add missing -EDEADLK path in execbuffer
- ggtt pinning.
-Date: Tue, 23 Mar 2021 16:50:53 +0100
-Message-Id: <20210323155059.628690-65-maarten.lankhorst@linux.intel.com>
+Subject: [PATCH v9 65/70] drm/i915: Fix pin_map in scheduler selftests
+Date: Tue, 23 Mar 2021 16:50:54 +0100
+Message-Id: <20210323155059.628690-66-maarten.lankhorst@linux.intel.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210323155059.628690-1-maarten.lankhorst@linux.intel.com>
 References: <20210323155059.628690-1-maarten.lankhorst@linux.intel.com>
@@ -40,30 +39,24 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In reloc_iomap we swallow the -EDEADLK error, but this needs to
-be returned for -EDEADLK handling. Add the missing check to
-make bsw pass again.
-
-Testcase: gem_exec_fence.basic-await
-
 Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/i915/selftests/i915_scheduler.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 37fecd295eb6..f85ca10bf7f3 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -1216,6 +1216,8 @@ static void *reloc_iomap(struct drm_i915_gem_object *obj,
- 							  PIN_MAPPABLE |
- 							  PIN_NONBLOCK /* NOWARN */ |
- 							  PIN_NOEVICT);
-+		if (vma == ERR_PTR(-EDEADLK))
-+			return vma;
- 		if (IS_ERR(vma)) {
- 			memset(&cache->node, 0, sizeof(cache->node));
- 			mutex_lock(&ggtt->vm.mutex);
+diff --git a/drivers/gpu/drm/i915/selftests/i915_scheduler.c b/drivers/gpu/drm/i915/selftests/i915_scheduler.c
+index f54bdbeaa48b..4c306e40c416 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_scheduler.c
++++ b/drivers/gpu/drm/i915/selftests/i915_scheduler.c
+@@ -645,7 +645,7 @@ static int __igt_schedule_cycle(struct drm_i915_private *i915,
+ 	if (IS_ERR(obj))
+ 		return PTR_ERR(obj);
+ 
+-	time = i915_gem_object_pin_map(obj, I915_MAP_WC);
++	time = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WC);
+ 	if (IS_ERR(time)) {
+ 		err = PTR_ERR(time);
+ 		goto out_obj;
 -- 
 2.31.0
 
