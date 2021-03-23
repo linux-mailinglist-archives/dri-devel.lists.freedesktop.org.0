@@ -1,54 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24824345A72
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 10:10:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78413345A86
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 10:14:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5412B6E86D;
-	Tue, 23 Mar 2021 09:10:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 819E96E874;
+	Tue, 23 Mar 2021 09:14:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E4C56E86D
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 09:10:55 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id v3so11041623pgq.2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 02:10:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WbW5E3Qe4WZYEnKi/sCmjQ1D+Tk7jZ1l2FTPgjhfZMQ=;
- b=yo8DL/aCSBDBcC0tqsQubEuqRWy6eLT5ir9zRrGsKjmyULNbNnccMqMnD7jmadxDw3
- BGBok2NgqzzaR3uNkDmIajtKjfw1xjOqIJ/YLBW7GZNZbbv5CvEI9cgeue+5MtK4BpKN
- S1arzGTW1r4QJhbOQlc9o3b2oa2Lw+Ahw1ZqH5D2F0AMxncx0PgX2TScKhHBj8o47wKQ
- dADPkn6khGV+qRPCxXNv3qWXWtC0UTJPjxleX2xzunTLpcwnYPyR7WxEqEmzwO/kCH97
- BvOa35YvQG7GVC9RhR+xBt2MsYZYMEWcBUIATnocN31bsvzJxFJWzKx+r42IA62GTkkc
- BzvA==
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
+ [IPv6:2607:f8b0:4864:20::72b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF316E874;
+ Tue, 23 Mar 2021 09:14:16 +0000 (UTC)
+Received: by mail-qk1-x72b.google.com with SMTP id c3so13587153qkc.5;
+ Tue, 23 Mar 2021 02:14:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=yKamrg4WQ+8FkyynMWBliZ0t9JpsQat8oBO83DGW1QQ=;
+ b=k15rQQYFTnRWn6UkVkfxPOjIFEe2JNn89l2ipW6jz1vPKm1gH0MDxAUp4C/nuJc1y4
+ tyWhu1SvPXNHdMdMTukSPNrOhQKZLkseHbidtLwUqnjxDLieaj4iqexwesLvbPbESDvW
+ RTZKBQxIzZIshmKqsw1t6BRCDjc5kANvrRX13FX5eBNZ2i12u50LKPa5T5bkyFzW5sLm
+ xedVrbyWvwC5dZCk5pX7XdIo6ZX+r77F/cC496THBXcN7oFR5axZ512/ZgthJs9kPXen
+ 5cgakFG+Qjhs7hCKhgL8jgfEwcudMRLtMFFsTSukOpbNlSdq4kBNMeIG/oooMhGt9dgC
+ 14Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WbW5E3Qe4WZYEnKi/sCmjQ1D+Tk7jZ1l2FTPgjhfZMQ=;
- b=B7mEIcug3FTQbLGQI6WjtpyxaZlei7dr/IVuVM8YgjVOUCL3eGlQDOw//vwAHoKkiH
- n8lRDRTAeOlPHK796mVKjVjJkB8B6ogj+IV3DcrMfuldlpmJDtMD2XmC8SNCMm5HqUD7
- N2Vj5I+96fx6maNM99WaHV+/H3Nf7TR+2fV/yMZS7Y9gRp8KOrgJoELoj0k5hlhnC85Q
- CkJMMe3bcyxZp4ieYZIa+9/LyqB4P2sGn4UReYDJvE6dzoqWugbK5g+aoCRKV9WCpClU
- 4YnWNoYbjR/V7wWmI2cvy4VzxrAVOie84EaZxb32LFeBjqxQpbJNHGEYu1175uE2vT2R
- fq2g==
-X-Gm-Message-State: AOAM530pIvRn7Ihf7RFKFZCn36aqlPpLjZ1jbvybNpoxDQYK/cGP4N0+
- e9JtMlAYa8Vl+OFrSUBDHmM+G/VodQlsRv9YP5/Fjw==
-X-Google-Smtp-Source: ABdhPJxIS20E4tfWyNlD9+niQr2Ru+nuZgsxwL8HvALaLQyatNmIeXyoZrtnqaDhRUCxdvIm1IRm+HpRgaUET82BHa4=
-X-Received: by 2002:a63:ee4b:: with SMTP id n11mr3235216pgk.265.1616490654726; 
- Tue, 23 Mar 2021 02:10:54 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=yKamrg4WQ+8FkyynMWBliZ0t9JpsQat8oBO83DGW1QQ=;
+ b=h9NL4wbV/2J5QvI33eoppQhHlT0ccc2CTHuwTaXaLf5GaAc7oKUoBEwvhMQ4cdxL/k
+ IpSjnpiUNZVagPUyUlqx9UimlMpldJLbxKpins2yv87bq1NcyHpDuu4xuMfhy0J0Gr0T
+ vJ33vve9sjsRZ9l6fCRyY0BIS3A8y4wk3A2/sexfKQGPOyPk5IhZZviCKjZ4IyVQ3jIa
+ AsLTgD2f0RtsSDp5jQnyM+gQI8Bl3ziWOfKdbgEHGBiC8jTO6tM/IYImDLhQBZ2FlQ8n
+ Xc0KGyd+Cuot+R03ai6BlwP6lupxJ23dowolK+RCUzIVUSJqWtmgHr6q0sUFREvp82bd
+ T96A==
+X-Gm-Message-State: AOAM5339GdtvxOMfdggP+yaC7L+QQG/CtGOCyYCKfksjcj6pIO1xoGLt
+ NGyjqfcsCD9WFIEKJMAwxbo=
+X-Google-Smtp-Source: ABdhPJyh+0q5eJDWd+9DOmDi7kVHzpO0V0QZjUYLIszZuhys5Tq3g2ATH+OsE+oQNX+ksfTyjUENvw==
+X-Received: by 2002:a37:a643:: with SMTP id p64mr4178667qke.276.1616490855481; 
+ Tue, 23 Mar 2021 02:14:15 -0700 (PDT)
+Received: from ArchLinux ([143.244.44.229])
+ by smtp.gmail.com with ESMTPSA id z5sm12793861qkz.2.2021.03.23.02.14.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Mar 2021 02:14:13 -0700 (PDT)
+Date: Tue, 23 Mar 2021 14:43:58 +0530
+From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH] drm/i915: A typo fix
+Message-ID: <YFmxVmcW/hIzsP4o@ArchLinux>
+Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ airlied@linux.ie, daniel@ffwll.ch, imre.deak@intel.com,
+ ville.syrjala@linux.intel.com, lucas.demarchi@intel.com,
+ matthew.d.roper@intel.com,
+ tejaskumarx.surendrakumar.upadhyay@intel.com,
+ aditya.swarup@intel.com, anusha.srivatsa@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rdunlap@infradead.org
+References: <20210323011607.182803-1-unixbhaskar@gmail.com>
+ <87blba5jzo.fsf@intel.com>
 MIME-Version: 1.0
-References: <20210308120555.252524-1-adrien.grassein@gmail.com>
- <20210308120555.252524-3-adrien.grassein@gmail.com>
-In-Reply-To: <20210308120555.252524-3-adrien.grassein@gmail.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 23 Mar 2021 10:10:43 +0100
-Message-ID: <CAG3jFytoE9hWvq2e2Caqn4qP_RuEOnm4r9VQ85ffbAcguSLf+w@mail.gmail.com>
-Subject: Re: [PATCH v7 2/2] drm/bridge: Introduce LT8912B DSI to HDMI bridge
-To: Adrien Grassein <adrien.grassein@gmail.com>
+In-Reply-To: <87blba5jzo.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,75 +77,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- kernel test robot <lkp@intel.com>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: anusha.srivatsa@intel.com, intel-gfx@lists.freedesktop.org,
+ airlied@linux.ie, lucas.demarchi@intel.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, rdunlap@infradead.org, rodrigo.vivi@intel.com,
+ tejaskumarx.surendrakumar.upadhyay@intel.com, aditya.swarup@intel.com
+Content-Type: multipart/mixed; boundary="===============1141662566=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Adrien,
 
-Sorry about the slow reply, but I just received the documentation from
-the vendor. So let's dig in to the HPD issue.
-
-> +static enum drm_connector_status lt8912_check_cable_status(struct lt8912 *lt)
-> +{
-> +       int ret;
-> +       unsigned int reg_val;
-> +
-> +       ret = regmap_read(lt->regmap[I2C_MAIN], 0xC1, &reg_val);
-> +       if (ret)
-> +               return connector_status_unknown;
-> +
-> +       if (reg_val & BIT(7))
-> +               return connector_status_connected;
-
-Register 0xc0 & BIT(7) - HPD signal after debounce
-Register 0xc0 & BIT(6) - HPD signal for TX HPD pad
-
-> +
-> +static int lt8912_probe(struct i2c_client *client,
-> +        const struct i2c_device_id *id)
-> +{
-> +       static struct lt8912 *lt;
-> +       int ret = 0;
-> +       struct device *dev = &client->dev;
-> +
-> +       lt = devm_kzalloc(dev, sizeof(struct lt8912), GFP_KERNEL);
-> +       if (!lt)
-> +               return -ENOMEM;
-> +
-> +       lt->dev = dev;
-> +       lt->i2c_client[0] = client;
-> +       lt->cable_status = connector_status_unknown;
-> +       lt->workq = create_workqueue("lt8912_workq");
-
-Looking at [1] and maybe even better [2], I think this polling
-approach is the wrong way to go. And with access to documentation, I
-think we should be able to sort this out.
-
-Using the irq driver approach requires the interrupt pin to be
-configured. Pin 63 of the lt8912b is the IRQ output pin.
-
-In order to trigger interrupts based on it, the dt-binding would need
-to be updated[3][4] as well as whichever DTS you're using.
+--===============1141662566==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ssc5NCDR3r865LSQ"
+Content-Disposition: inline
 
 
-[1] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/bridge/analogix/anx7625.c#L1751
+--ssc5NCDR3r865LSQ
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
 
-[2] https://github.com/torvalds/linux/blob/v5.11/drivers/gpu/drm/bridge/lontium-lt9611.c#L1160
+On 10:53 Tue 23 Mar 2021, Jani Nikula wrote:
+>On Tue, 23 Mar 2021, Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
+>> s/nothign/nothing/
+>>
+>> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+>
+>You've sent the same patch before? I've already pushed it.
+>
+Apologies and thanks.
 
-[3] https://github.com/torvalds/linux/blob/v5.11/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml#L27
+>BR,
+>Jani.
+>
+>> ---
+>>  drivers/gpu/drm/i915/display/intel_dpll_mgr.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+>> index f6ad257a260e..14d784a6fae5 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+>> @@ -4185,7 +4185,7 @@ static void icl_pll_disable(struct drm_i915_private *dev_priv,
+>>  	/*
+>>  	 * DVFS pre sequence would be here, but in our driver the cdclk code
+>>  	 * paths should already be setting the appropriate voltage, hence we do
+>> -	 * nothign here.
+>> +	 * nothing here.
+>>  	 */
+>>
+>>  	val = intel_de_read(dev_priv, enable_reg);
+>> --
+>> 2.31.0
+>>
+>
+>--
+>Jani Nikula, Intel Open Source Graphics Center
 
-[4] https://github.com/torvalds/linux/blob/v5.11/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml#L144
+--ssc5NCDR3r865LSQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAmBZsVYACgkQsjqdtxFL
+KRUJpggAiFamaV0R4z6RkkkOUE2bYAPm7eweNYgy2jWuLdI61fbw7FH7AmbBWH+a
+kNgXlnPT6uSmy2jiu9uO3GVguYcxe25APtYd3VVNyRfiCONj1KvD1RNHFR3dG8aY
+cai0XiI0dFA283DCP0LRMdTzHPIPwEfXW47CVbk5tfMINQV70VZKjDPnAxsoa5ch
+gvHo8wo/ZQAb9K+2VeaoTaf2CF6hjf7U/UCV8WI9acO4+AJ6kM79ZchZlLT75q/w
+5gtSUMK704FFFnYWNbsoMJiKXUHqs+2NuqQpTuyU/Z64pwppKJTTDvbJV3RJkYM3
+0Vjb8Zewp05xO/bBwkAzecMr5u8JLw==
+=WIVI
+-----END PGP SIGNATURE-----
+
+--ssc5NCDR3r865LSQ--
+
+--===============1141662566==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1141662566==--
