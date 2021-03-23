@@ -2,50 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2DCF345C93
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 12:15:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34E6A345CAA
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 12:21:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA0786E8B4;
-	Tue, 23 Mar 2021 11:15:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FC706E8BA;
+	Tue, 23 Mar 2021 11:21:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49E646E8B4
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 11:15:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=SESQw2FFXcXHdvW5M5RIfPi+u8HcduNXgvEnwd2qp48=; b=cemSi1F2QHaTXkqPP6Ixx+tv5n
- Qr4jtssLZ2eQ5AAPo7CI71kkObe7Iri9G9BageYIrg3qhbmzzt8AeHuZfGhNnIOZksanje+9cIJvp
- myHLN4KCogWblEyaNJABXR1DWuKtPq59rFwCZiQHXM6TZPYesGBF+pTMtANicfRch8OxIVyZqNZzy
- ZRdQzdjw2ZqI9lGVlCk6V8DpsUjSSic+5fTlLTUQQ4R/08S+FbaXGKrQ22tsekH5VIHONLT0VTR22
- myz1OzGAvuM8o3lwf1f3etgWJutJ/Bva2/ZK6Ho/5+Xun3lHd2t9Z27LUjN3fG4O2Nu2ZuuE1UGHf
- +WrpkdEg==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1lOf0n-0007zj-Ib; Tue, 23 Mar 2021 13:15:49 +0200
-Subject: Re: [PATCH v5 08/21] gpu: host1x: Implement /dev/host1x device node
-To: Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69B4B6E8BA
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 11:21:13 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id j3so22953343edp.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 04:21:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=HrWzdh2jiJTDkJYKElndrRaLdCJHi5wmstMVELw6yos=;
+ b=dyLakeaojRHfMluKOxgOqpcJvBo/nK3lhE4WzLDspahcCIWTSREJPieoRD0qYx0mAB
+ Z7QKSMr5OAFNs4ouYYEfzKM6LHjAA4D/bGf8EPCHst6Tdbf24YNC2Lp9kswQfIr7GYe3
+ Xtt5vc3jo0GoUSzHABzxi7XT0If4KAbOBax8Ax/5R3KvTRxte34c26PRqo0DKmKvOhgM
+ eIC/XmQaQAPkrFXnklkRTPqRk4W6N2ZtQVkXoUJYNsjdOt1bmk5Yo7ZvqPoTbCL50TXS
+ QAdxr0JhD6eAGFo7jDeoiuSyo4BCetOJ6XeFAPlzRgFGKHdcGabKtn0cX2vMTIthpuKt
+ EiSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=HrWzdh2jiJTDkJYKElndrRaLdCJHi5wmstMVELw6yos=;
+ b=LKlLSMx3+BsDEIjomCbY6Xwl/mQzdZuXzEubTRLUkhKIfmF/eGcyZv59rEe4q2Fm8w
+ 9GUBhvrTwx/EXG8hEBIQMwqwMAzmKd9H8WIFCtslvwS5VWvo1gcYy6IPA6cgUz+8Cjzh
+ 7vrdfTSIRHHGzSrIQz7pglzsoDKuIHJffw7cDsSPrjGgDG34r83b18H4TxD4lHhjam8r
+ G14g9lpS5sukpkhG3cF8Z1z1fksSJ2WQlIvLkAgs6v5M46xpVdJALcZz5nJ20xMBa8vG
+ v29/UyrQvou8FyYaSXPQfY7W4fSUuH2OqmnLkg2Zg1vmaABWuMtKHBm5wf0ZtE3CukJI
+ CBKQ==
+X-Gm-Message-State: AOAM531HvpC/+Ahh9JWJlZrR1+XIwq54h2Ph20gvB1MHA4uyQYPAim+a
+ irVPeoTdq3vg3DuCKi4vrDs=
+X-Google-Smtp-Source: ABdhPJwhAm3tTxF7gP5tkWCtxvhCBP36KBSwfyrjCJTFPDNcJJ46jb3BaPU0srokGiY7lrGYldp25Q==
+X-Received: by 2002:a50:bb47:: with SMTP id y65mr4138981ede.305.1616498472009; 
+ Tue, 23 Mar 2021 04:21:12 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id g11sm12757962edt.35.2021.03.23.04.21.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Mar 2021 04:21:10 -0700 (PDT)
+Date: Tue, 23 Mar 2021 12:21:31 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Mikko Perttunen <cyndis@kapsi.fi>
+Subject: Re: [PATCH v5 06/21] gpu: host1x: Cleanup and refcounting for
+ syncpoints
+Message-ID: <YFnPO+aMw+QpkycT@orome.fritz.box>
 References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <20210111130019.3515669-9-mperttunen@nvidia.com>
- <YFnKz9eCndMnOB61@orome.fritz.box>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <5633656a-b93a-fb5e-a5cb-6ff2f7d2ddfb@kapsi.fi>
-Date: Tue, 23 Mar 2021 13:15:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ <20210111130019.3515669-7-mperttunen@nvidia.com>
+ <YFnEpcHRDqhQPPom@orome.fritz.box>
+ <6e4340b2-bde0-6811-866c-048997d434fe@kapsi.fi>
 MIME-Version: 1.0
-In-Reply-To: <YFnKz9eCndMnOB61@orome.fritz.box>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+In-Reply-To: <6e4340b2-bde0-6811-866c-048997d434fe@kapsi.fi>
+User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,277 +72,207 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
  talho@nvidia.com, bhuntsman@nvidia.com, linux-tegra@vger.kernel.org,
- digetx@gmail.com
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+ digetx@gmail.com, Mikko Perttunen <mperttunen@nvidia.com>
+Content-Type: multipart/mixed; boundary="===============0951661169=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/23/21 1:02 PM, Thierry Reding wrote:
-> On Mon, Jan 11, 2021 at 03:00:06PM +0200, Mikko Perttunen wrote:
->> Add the /dev/host1x device node, implementing the following
->> functionality:
->>
->> - Reading syncpoint values
->> - Allocating syncpoints (providing syncpoint FDs)
->> - Incrementing syncpoints (based on syncpoint FD)
->>
->> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
->> ---
->> v4:
->> * Put UAPI under CONFIG_DRM_TEGRA_STAGING
->> v3:
->> * Pass process name as syncpoint name when allocating
->>    syncpoint.
->> ---
->>   drivers/gpu/host1x/Makefile |   1 +
->>   drivers/gpu/host1x/dev.c    |   9 ++
->>   drivers/gpu/host1x/dev.h    |   3 +
->>   drivers/gpu/host1x/uapi.c   | 282 ++++++++++++++++++++++++++++++++++++
->>   drivers/gpu/host1x/uapi.h   |  22 +++
->>   include/linux/host1x.h      |   2 +
->>   6 files changed, 319 insertions(+)
->>   create mode 100644 drivers/gpu/host1x/uapi.c
->>   create mode 100644 drivers/gpu/host1x/uapi.h
->>
->> diff --git a/drivers/gpu/host1x/Makefile b/drivers/gpu/host1x/Makefile
->> index 096017b8789d..882f928d75e1 100644
->> --- a/drivers/gpu/host1x/Makefile
->> +++ b/drivers/gpu/host1x/Makefile
->> @@ -9,6 +9,7 @@ host1x-y = \
->>   	job.o \
->>   	debug.o \
->>   	mipi.o \
->> +	uapi.o \
->>   	hw/host1x01.o \
->>   	hw/host1x02.o \
->>   	hw/host1x04.o \
->> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
->> index d0ebb70e2fdd..641317d23828 100644
->> --- a/drivers/gpu/host1x/dev.c
->> +++ b/drivers/gpu/host1x/dev.c
->> @@ -461,6 +461,12 @@ static int host1x_probe(struct platform_device *pdev)
->>   		goto deinit_syncpt;
->>   	}
->>   
->> +	err = host1x_uapi_init(&host->uapi, host);
-> 
-> It's a bit pointless to pass &host->uapi and host to the function since
-> you can access the former through the latter.
 
-Yeah. I originally did it to separate the uapi module from the rest of 
-the code interface-wise as much as possible, but I don't think I have 
-done that consistently so it just looks weird.
+--===============0951661169==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="mcsWyr2YFL9WCSPD"
+Content-Disposition: inline
 
-> 
->> +	if (err) {
->> +		dev_err(&pdev->dev, "failed to initialize uapi\n");
-> 
-> s/uapi/UAPI/, and perhaps include the error code to give a better hint
-> as to why things failed.
 
-Sure (if this code is kept.)
+--mcsWyr2YFL9WCSPD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
->> +		goto deinit_intr;
->> +	}
->> +
->>   	host1x_debug_init(host);
->>   
->>   	if (host->info->has_hypervisor)
->> @@ -480,6 +486,8 @@ static int host1x_probe(struct platform_device *pdev)
->>   	host1x_unregister(host);
->>   deinit_debugfs:
->>   	host1x_debug_deinit(host);
->> +	host1x_uapi_deinit(&host->uapi);
->> +deinit_intr:
->>   	host1x_intr_deinit(host);
->>   deinit_syncpt:
->>   	host1x_syncpt_deinit(host);
->> @@ -501,6 +509,7 @@ static int host1x_remove(struct platform_device *pdev)
->>   
->>   	host1x_unregister(host);
->>   	host1x_debug_deinit(host);
->> +	host1x_uapi_deinit(&host->uapi);
->>   	host1x_intr_deinit(host);
->>   	host1x_syncpt_deinit(host);
->>   	reset_control_assert(host->rst);
->> diff --git a/drivers/gpu/host1x/dev.h b/drivers/gpu/host1x/dev.h
->> index 63010ae37a97..7b8b7e20e32b 100644
->> --- a/drivers/gpu/host1x/dev.h
->> +++ b/drivers/gpu/host1x/dev.h
->> @@ -17,6 +17,7 @@
->>   #include "intr.h"
->>   #include "job.h"
->>   #include "syncpt.h"
->> +#include "uapi.h"
->>   
->>   struct host1x_syncpt;
->>   struct host1x_syncpt_base;
->> @@ -143,6 +144,8 @@ struct host1x {
->>   	struct list_head list;
->>   
->>   	struct device_dma_parameters dma_parms;
->> +
->> +	struct host1x_uapi uapi;
->>   };
->>   
->>   void host1x_hypervisor_writel(struct host1x *host1x, u32 r, u32 v);
->> diff --git a/drivers/gpu/host1x/uapi.c b/drivers/gpu/host1x/uapi.c
->> new file mode 100644
->> index 000000000000..27b8761c3f35
->> --- /dev/null
->> +++ b/drivers/gpu/host1x/uapi.c
->> @@ -0,0 +1,282 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * /dev/host1x syncpoint interface
->> + *
->> + * Copyright (c) 2020, NVIDIA Corporation.
->> + */
->> +
->> +#include <linux/anon_inodes.h>
->> +#include <linux/cdev.h>
->> +#include <linux/file.h>
->> +#include <linux/fs.h>
->> +#include <linux/host1x.h>
->> +#include <linux/nospec.h>
->> +
->> +#include "dev.h"
->> +#include "syncpt.h"
->> +#include "uapi.h"
->> +
->> +#include <uapi/linux/host1x.h>
->> +
->> +static int syncpt_file_release(struct inode *inode, struct file *file)
->> +{
->> +	struct host1x_syncpt *sp = file->private_data;
->> +
->> +	host1x_syncpt_put(sp);
->> +
->> +	return 0;
->> +}
->> +
->> +static int syncpt_file_ioctl_info(struct host1x_syncpt *sp, void __user *data)
->> +{
->> +	struct host1x_syncpoint_info args;
->> +	unsigned long copy_err;
->> +
->> +	copy_err = copy_from_user(&args, data, sizeof(args));
->> +	if (copy_err)
->> +		return -EFAULT;
->> +
->> +	if (args.reserved[0] || args.reserved[1] || args.reserved[2])
->> +		return -EINVAL;
-> 
-> Yes! \o/
-> 
->> +
->> +	args.id = sp->id;
->> +
->> +	copy_err = copy_to_user(data, &args, sizeof(args));
->> +	if (copy_err)
->> +		return -EFAULT;
->> +
->> +	return 0;
->> +}
->> +
->> +static int syncpt_file_ioctl_incr(struct host1x_syncpt *sp, void __user *data)
->> +{
->> +	struct host1x_syncpoint_increment args;
->> +	unsigned long copy_err;
->> +	u32 i;
->> +
->> +	copy_err = copy_from_user(&args, data, sizeof(args));
->> +	if (copy_err)
->> +		return -EFAULT;
->> +
->> +	for (i = 0; i < args.count; i++) {
->> +		host1x_syncpt_incr(sp);
->> +		if (signal_pending(current))
->> +			return -EINTR;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static long syncpt_file_ioctl(struct file *file, unsigned int cmd,
->> +			      unsigned long arg)
->> +{
->> +	void __user *data = (void __user *)arg;
->> +	long err;
->> +
->> +	switch (cmd) {
->> +	case HOST1X_IOCTL_SYNCPOINT_INFO:
->> +		err = syncpt_file_ioctl_info(file->private_data, data);
->> +		break;
->> +
->> +	case HOST1X_IOCTL_SYNCPOINT_INCREMENT:
->> +		err = syncpt_file_ioctl_incr(file->private_data, data);
->> +		break;
->> +
->> +	default:
->> +		err = -ENOTTY;
->> +	}
->> +
->> +	return err;
->> +}
-> 
-> I wonder if it's worth adding some more logic to this demuxing. I'm
-> thinking along the lines of what the DRM IOCTL demuxer does, which
-> ultimately allows the IOCTLs to be extended. It does this by doing a
-> bit of sanitizing and removing the parameter size field from the cmd
-> argument so that the same IOCTL may handle different parameter sizes.
+On Tue, Mar 23, 2021 at 12:44:28PM +0200, Mikko Perttunen wrote:
+> On 3/23/21 12:36 PM, Thierry Reding wrote:
+> > On Mon, Jan 11, 2021 at 03:00:04PM +0200, Mikko Perttunen wrote:
+> > > Add reference counting for allocated syncpoints to allow keeping
+> > > them allocated while jobs are referencing them. Additionally,
+> > > clean up various places using syncpoint IDs to use host1x_syncpt
+> > > pointers instead.
+> > >=20
+> > > Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+> > > ---
+> > > v5:
+> > > - Remove host1x_syncpt_put in submit code, as job_put already
+> > >    puts the syncpoint.
+> > > - Changes due to rebase in VI driver.
+> > > v4:
+> > > - Update from _free to _put in VI driver as well
+> > > ---
+> > >   drivers/gpu/drm/tegra/dc.c             |  4 +-
+> > >   drivers/gpu/drm/tegra/drm.c            | 14 ++---
+> > >   drivers/gpu/drm/tegra/gr2d.c           |  4 +-
+> > >   drivers/gpu/drm/tegra/gr3d.c           |  4 +-
+> > >   drivers/gpu/drm/tegra/vic.c            |  4 +-
+> > >   drivers/gpu/host1x/cdma.c              | 11 ++--
+> > >   drivers/gpu/host1x/dev.h               |  7 ++-
+> > >   drivers/gpu/host1x/hw/cdma_hw.c        |  2 +-
+> > >   drivers/gpu/host1x/hw/channel_hw.c     | 10 ++--
+> > >   drivers/gpu/host1x/hw/debug_hw.c       |  2 +-
+> > >   drivers/gpu/host1x/job.c               |  5 +-
+> > >   drivers/gpu/host1x/syncpt.c            | 75 +++++++++++++++++++----=
+---
+> > >   drivers/gpu/host1x/syncpt.h            |  3 ++
+> > >   drivers/staging/media/tegra-video/vi.c |  4 +-
+> > >   include/linux/host1x.h                 |  8 +--
+> > >   15 files changed, 98 insertions(+), 59 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> > > index 85dd7131553a..033032dfc4b9 100644
+> > > --- a/drivers/gpu/drm/tegra/dc.c
+> > > +++ b/drivers/gpu/drm/tegra/dc.c
+> > > @@ -2129,7 +2129,7 @@ static int tegra_dc_init(struct host1x_client *=
+client)
+> > >   		drm_plane_cleanup(primary);
+> > >   	host1x_client_iommu_detach(client);
+> > > -	host1x_syncpt_free(dc->syncpt);
+> > > +	host1x_syncpt_put(dc->syncpt);
+> > >   	return err;
+> > >   }
+> > > @@ -2154,7 +2154,7 @@ static int tegra_dc_exit(struct host1x_client *=
+client)
+> > >   	}
+> > >   	host1x_client_iommu_detach(client);
+> > > -	host1x_syncpt_free(dc->syncpt);
+> > > +	host1x_syncpt_put(dc->syncpt);
+> > >   	return 0;
+> > >   }
+> > > diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+> > > index e45c8414e2a3..5a6037eff37f 100644
+> > > --- a/drivers/gpu/drm/tegra/drm.c
+> > > +++ b/drivers/gpu/drm/tegra/drm.c
+> > > @@ -171,7 +171,7 @@ int tegra_drm_submit(struct tegra_drm_context *co=
+ntext,
+> > >   	struct drm_tegra_syncpt syncpt;
+> > >   	struct host1x *host1x =3D dev_get_drvdata(drm->dev->parent);
+> > >   	struct drm_gem_object **refs;
+> > > -	struct host1x_syncpt *sp;
+> > > +	struct host1x_syncpt *sp =3D NULL;
+> > >   	struct host1x_job *job;
+> > >   	unsigned int num_refs;
+> > >   	int err;
+> > > @@ -298,8 +298,8 @@ int tegra_drm_submit(struct tegra_drm_context *co=
+ntext,
+> > >   		goto fail;
+> > >   	}
+> > > -	/* check whether syncpoint ID is valid */
+> > > -	sp =3D host1x_syncpt_get(host1x, syncpt.id);
+> > > +	/* Syncpoint ref will be dropped on job release. */
+> > > +	sp =3D host1x_syncpt_get_by_id(host1x, syncpt.id);
+> >=20
+> > It's a bit odd to replace the comment like that. Perhaps instead of
+> > replacing it, just extend it with the note about the lifetime?
+>=20
+> I replaced it because in the past the check was there really to just check
+> if the ID is valid (the pointer was thrown away) -- now we actually pass =
+the
+> pointer into the job structure, so it serves a more general "get the
+> syncpoint" purpose which is clear based on the name of the function. The =
+new
+> comment is then a new comment to clarify the lifetime of the reference.
 
-Yep, seems like a good idea (if we keep this).
+Alright, makes sense.
 
-> 
->> +static const struct file_operations syncpt_file_fops = {
->> +	.owner = THIS_MODULE,
->> +	.release = syncpt_file_release,
->> +	.unlocked_ioctl = syncpt_file_ioctl,
->> +	.compat_ioctl = syncpt_file_ioctl,
->> +};
->> +
->> +struct host1x_syncpt *host1x_syncpt_fd_get(int fd)
->> +{
->> +	struct host1x_syncpt *sp;
->> +	struct file *file = fget(fd);
->> +
->> +	if (!file)
->> +		return ERR_PTR(-EINVAL);
->> +
->> +	if (file->f_op != &syncpt_file_fops) {
->> +		fput(file);
->> +		return ERR_PTR(-EINVAL);
->> +	}
->> +
->> +	sp = file->private_data;
->> +
->> +	host1x_syncpt_get(sp);
->> +
->> +	fput(file);
->> +
->> +	return sp;
->> +}
->> +EXPORT_SYMBOL(host1x_syncpt_fd_get);
->> +
->> +static int dev_file_open(struct inode *inode, struct file *file)
-> 
-> Maybe use the more specific host1x_ as prefix instead of the generic
-> dev_? That might make things like stack traces more readable.
+> >=20
+> > >   	if (!sp) {
+> > >   		err =3D -ENOENT;
+> > >   		goto fail;
+> > > @@ -308,7 +308,7 @@ int tegra_drm_submit(struct tegra_drm_context *co=
+ntext,
+> > >   	job->is_addr_reg =3D context->client->ops->is_addr_reg;
+> > >   	job->is_valid_class =3D context->client->ops->is_valid_class;
+> > >   	job->syncpt_incrs =3D syncpt.incrs;
+> > > -	job->syncpt_id =3D syncpt.id;
+> > > +	job->syncpt =3D sp;
+> > >   	job->timeout =3D 10000;
+> > >   	if (args->timeout && args->timeout < 10000)
+> > > @@ -380,7 +380,7 @@ static int tegra_syncpt_read(struct drm_device *d=
+rm, void *data,
+> > >   	struct drm_tegra_syncpt_read *args =3D data;
+> > >   	struct host1x_syncpt *sp;
+> > > -	sp =3D host1x_syncpt_get(host, args->id);
+> > > +	sp =3D host1x_syncpt_get_by_id_noref(host, args->id);
+> >=20
+> > Why don't we need a reference here? It's perhaps unlikely, because this
+> > function is short-lived, but the otherwise last reference to this could
+> > go away at any point after this line and cause sp to become invalid.
+> >=20
+> > In general it's very rare to not have to keep a reference to a reference
+> > counted object.
+>=20
+> Having a reference to a syncpoint indicates ownership of the syncpoint.
+> Since here we are just reading it, we don't want ownership. (The non _nor=
+ef
+> functions will fail if the syncpoint is not currently allocated, which wo=
+uld
+> break this interface.) The host1x_syncpt structure itself always exists e=
+ven
+> if the refcount drops to zero.
 
-Yep.
+Ah... you're right. host1x_syncpt_put() on the last reference doesn't
+actually cause the backing memory to be freed. That's a bit counter-
+intuitive, but I don't see why that can't work.
 
-> 
-> Otherwise looks good.
-> 
-> Thierry
-> 
+> > >   	if (!sp)
+> > >   		return -EINVAL;
+> > > @@ -395,7 +395,7 @@ static int tegra_syncpt_incr(struct drm_device *d=
+rm, void *data,
+> > >   	struct drm_tegra_syncpt_incr *args =3D data;
+> > >   	struct host1x_syncpt *sp;
+> > > -	sp =3D host1x_syncpt_get(host1x, args->id);
+> > > +	sp =3D host1x_syncpt_get_by_id_noref(host1x, args->id);
+> >=20
+> > Same here. Or am I missing some other way by which it is ensured that
+> > the reference stays around?
+>=20
+> As above, though here we actually mutate the syncpoint even though we don=
+'t
+> have a reference and as such ownership. But that's just a quirk of this o=
+ld
+> interface allowing incrementing of syncpoints you don't own.
 
-thanks,
-Mikko
+Yeah, doesn't actually make anything worse.
+
+Thierry
+
+--mcsWyr2YFL9WCSPD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmBZzzsACgkQ3SOs138+
+s6FKpg//eYzrfaluXgCFsFF+i4YQlBuR94IZBF82TqWU6rsTS5k5qtrT5LicjTHA
+rQTQpcBJXqkz//6QYNBYk26lUAAIHThPYqipMHY15DRwRH8YzTxu3ZdB+DKB/eKw
+iXTqX2Gk96sc7d5fV32QBUSllyhqE5oXEVKV80F0CQRBLGDaLDWEkIglwXOTo7fd
+AnU3agAi5V90nby9oNWH64nHka1CYcMSpRAbEqcvqY+YAVNt5XF05K8DsBHoSn/w
+yRWFgQEyuOOYfpXKMvOx5UZlOTRy8tQqaf+daHcyIvJhXAhnd1ELrKyYZEvFFFK0
+/LLGg77hqoLzff/qWlhedIfF+LzEHLPY6m+7ptNjuvoxtAfXRbz0sIWBY5pbklr6
+qT9DjfV5T8Kx3j6Z16jz4L0c1uOgxeQulEZ44D1wR2EZ3TFpCxt6E4umHkjP11vr
+ZVgWVllHxa/e7zAI7+LvIJzo4N5XurjD8IjvFEA78XtumiL49oT8xJbzHP4XcEIj
+QTMabxPtDVlJaubspCVaWzJFksaXwC5I4HWcv+W6h+1YSx18yh8j3SsrMGfDxuqt
+FVeaI3fFfQXtnnm8pzzRht0mu/bdrjNABdrqimLjLwXW3vflyyvd9SIhl6OftwaM
+7UHBoVgQ64EamHPRATPnhqtiaYdF5g8ZOXn306JnZvn9nEZMupY=
+=BPLi
+-----END PGP SIGNATURE-----
+
+--mcsWyr2YFL9WCSPD--
+
+--===============0951661169==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0951661169==--
