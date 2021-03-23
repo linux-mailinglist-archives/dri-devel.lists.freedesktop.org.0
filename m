@@ -1,62 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4FB83452D7
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 00:13:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C85345386
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 01:01:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F1CF6E041;
-	Mon, 22 Mar 2021 23:13:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DF2489D89;
+	Tue, 23 Mar 2021 00:01:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 188176E041;
- Mon, 22 Mar 2021 23:13:37 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id j7so18892148wrd.1;
- Mon, 22 Mar 2021 16:13:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=tYvb3I5DkX3N6jN+5U7mg9SkFokyTC7DYO1POXsmyXA=;
- b=JAukgRqBFlBqYxoTg07QIe3L0u4Zd4pnU8/KawSiQ9CobCuM3gzIOiljfx6LuzgDWA
- UowTprAJ6pvQSXvs4KSQRoxyhk97bRV/HvA6p2Z7/U2jyU55VRoMchp/WW94qOWwfctx
- xjztqDCBK6KyOMwxPOwi4e26tFik5N8gD8ME46WI4P9N9+IGYjmYXftjUoCOmT9YRUhI
- oxS7NQe6LKxh0Fe3YkrHljuKHXVZGAd59GORjepGb1sCy/oTzRkzKEYxW8PIJ/sFr1d6
- zI5HyhOjX7JC0HU1eEG4mNxiJ04gBc9w35eUnfsZO8LW67/ihxMVwREYJPst2Xb0XGu3
- JGJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=tYvb3I5DkX3N6jN+5U7mg9SkFokyTC7DYO1POXsmyXA=;
- b=OU6TZF9wGheM9uKqNOEjofi9WOvrxDNd8jCWfpV1TTBJuDpHAOiWoz/suHoA4fIaKx
- l5sQJ/Z5rGcJyvBehQGg8V91XfIzFqfyeZxmeh10cxtNGjwTtRyW28EoutjASpV4+kN6
- n2uNK1byTAlooAdxvmwFs7LnyrnqzqrsndQitTEyBLuZ/ZZ2OVpTYx/Y6iUkZoOitz60
- +2SKQ1YGLViXdFWAknuIAvxQksoqvTvTfYEnuV7kNbQI+j7lckFdJXdYZ2yPdEfq1zBS
- 40d+YhaEezheoaKVfr4gzevjmkkgyWlhXMxdqAKZ4NaEERk8u/8cUbZpUmgaRsOjcqB4
- uSKw==
-X-Gm-Message-State: AOAM530jVA8veKt6fLGuMUCFhwEPyFMEyK4yJfb7Fd8C6eKpFSnWazBv
- DhiNNkeW9MjPTnHDIKnKCKo=
-X-Google-Smtp-Source: ABdhPJwD5sKWkDZI+WUiEv9LaU8t0tl7e3Sco91hCCQ6VjFxt+KbUyFjpi5+6SIPcvWKZoMwC1DUgg==
-X-Received: by 2002:adf:b642:: with SMTP id i2mr867183wre.8.1616454815721;
- Mon, 22 Mar 2021 16:13:35 -0700 (PDT)
-Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
- by smtp.gmail.com with ESMTPSA id w6sm20916828wrl.49.2021.03.22.16.13.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 16:13:35 -0700 (PDT)
-Date: Tue, 23 Mar 2021 00:13:32 +0100
-From: Ingo Molnar <mingo@kernel.org>
-To: Martin Sebor <msebor@gmail.com>
-Subject: Re: [PATCH 02/11] x86: tboot: avoid Wstringop-overread-warning
-Message-ID: <20210322231332.GA1984184@gmail.com>
-References: <20210322160253.4032422-1-arnd@kernel.org>
- <20210322160253.4032422-3-arnd@kernel.org>
- <20210322202958.GA1955909@gmail.com>
- <b944a853-0e4b-b767-0175-cc2c1edba759@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81F7989D89
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 00:01:07 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E9D4A52;
+ Tue, 23 Mar 2021 01:01:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1616457665;
+ bh=1WW6qwvVbYFjhgbp6peXSl7i0rOj0DjQbdTkGNk0wLA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=e0PgscoQxX7AP56OjLdJAIgeK60VwZSRdJPpvuOO9i8cZuz5E54BGmqYVnhU/XNMr
+ 4t5hc3mu/wuhHPqn1yncJUUnq1+tFGygD6pYMAVIt6POXSym7hREqkL7tLRmYtJvwL
+ exR9BU4NtvLv4Hb66LGE+SNmC6HoedzOEws5ElqI=
+Date: Tue, 23 Mar 2021 02:00:23 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v2 0/4] drm/bridge: ti-sn65dsi86: Support EDID reading
+Message-ID: <YFkvl9tzP5Nj54C4@pendragon.ideasonboard.com>
+References: <20201030011738.2028313-1-swboyd@chromium.org>
+ <20201101173741.GA1293305@ravnborg.org>
+ <160436612483.884498.883110130131457033@swboyd.mtv.corp.google.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <b944a853-0e4b-b767-0175-cc2c1edba759@gmail.com>
+In-Reply-To: <160436612483.884498.883110130131457033@swboyd.mtv.corp.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,79 +47,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
- Will Deacon <will@kernel.org>, linux-scsi@vger.kernel.org, x86@kernel.org,
- James Smart <james.smart@broadcom.com>, tboot-devel@lists.sourceforge.net,
- Ingo Molnar <mingo@redhat.com>, Kalle Valo <kvalo@codeaurora.org>,
- intel-gfx@lists.freedesktop.org, Serge Hallyn <serge@hallyn.com>,
- Arnd Bergmann <arnd@arndb.de>, "James E.J. Bottomley" <jejb@linux.ibm.com>,
- Ning Sun <ning.sun@intel.com>, Anders Larsen <al@alarsen.net>,
- Borislav Petkov <bp@alien8.de>, cgroups@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Arnd Bergmann <arnd@kernel.org>, Martin Sebor <msebor@gcc.gnu.org>,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, ath11k@lists.infradead.org,
- linux-security-module@vger.kernel.org, Tejun Heo <tj@kernel.org>,
- Simon Kelley <simon@thekelleys.org.uk>,
- Andrew Morton <akpm@linux-foundation.org>, Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Sean Paul <seanpaul@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Stephen,
 
-* Martin Sebor <msebor@gmail.com> wrote:
-
-> > I.e. the real workaround might be to turn off the -Wstringop-overread-warning,
-> > until GCC-11 gets fixed?
+On Mon, Nov 02, 2020 at 05:15:24PM -0800, Stephen Boyd wrote:
+> Quoting Sam Ravnborg (2020-11-01 09:37:41)
+> > Hi Stephen.
+> > 
+> > On Thu, Oct 29, 2020 at 06:17:34PM -0700, Stephen Boyd wrote:
+> > > This patch series cleans up the DDC code a little bit so that
+> > > it is more efficient time wise and supports grabbing the EDID
+> > > of the eDP panel over the aux channel. I timed this on a board
+> > > I have on my desk and it takes about 20ms to grab the EDID out
+> > > of the panel and make sure it is valid.
+> > > 
+> > > The first two patches seem less controversial so I stuck them at
+> > > the beginning. The third patch does the EDID reading and caches
+> > > it so we don't have to keep grabbing it over and over again. And
+> > > finally the last patch updates the reply field so that short
+> > > reads and nacks over the channel are reflected properly instead of
+> > > treating them as some sort of error that can't be discerned.
+> > > 
+> > > Stephen Boyd (4):
+> > >   drm/bridge: ti-sn65dsi86: Combine register accesses in
+> > >     ti_sn_aux_transfer()
+> > >   drm/bridge: ti-sn65dsi86: Make polling a busy loop
+> > >   drm/bridge: ti-sn65dsi86: Read EDID blob over DDC
+> > >   drm/bridge: ti-sn65dsi86: Update reply on aux failures
+> > 
+> > Series looks good. You can add my a-b on the full series.
+> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> > 
+> > I can apply after Douglas have had a look at the patches he did not r-b
+> > yet.
+> > 
+> > Any chance we can convince you to prepare this bridge driver for use in
+> > a chained bridge setup where the connector is created by the display
+> > driver and uses drm_bridge_funcs?
+> > 
+> > First step wuld be to introduce the use of a panel_bridge.
+> > Then add get_edid to drm_bridge_funcs and maybe more helpers.
+> > 
+> > Then natural final step would be to move connector creation to the
+> > display driver - see how other uses drm_bridge_connector_init() to do so
+> > - it is relatively simple.
+> > 
+> > Should be doable - and reach out if you need some help.
 > 
-> In GCC 10 -Wstringop-overread is a subset of -Wstringop-overflow.
-> GCC 11 breaks it out as a separate warning to make it easier to
-> control.  Both warnings have caught some real bugs but they both
-> have a nonzero rate of false positives.  Other than bug reports
-> we don't have enough data to say what their S/N ratio might be
-> but my sense is that it's fairly high in general.
-> 
->   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=wstringop-overread
->   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=wstringop-overflow
-> 
-> In GCC 11, all access warnings expect objects to be either declared
-> or allocated.  Pointers with constant values are taken to point to
-> nothing valid (as Arnd mentioned above, this is to detect invalid
-> accesses to members of structs at address zero).
-> 
-> One possible solution to the known address problem is to extend GCC
-> attributes address and io that pin an object to a hardwired address
-> to all targets (at the moment they're supported on just one or two
-> targets).  I'm not sure this can still happen before GCC 11 releases
-> sometime in April or May.
-> 
-> Until then, another workaround is to convert the fixed address to
-> a volatile pointer before using it for the access, along the lines
-> below.  It should have only a negligible effect on efficiency.
+> I started to look at this and got stuck at ti_sn_bridge_get_bpp(). Where
+> can I get the details of the bpc for the downstream bridge or panel? Is
+> there some function that can tell this bridge what the bpc is for the
+> attached connector?
 
-Thank you for the detailed answer!
+I've posted a patch series to convert to DRM_BRIDGE_ATTACH_NO_CONNECTOR
+yesterday (and have CC'ed you), but I've overlooked this particular
+problem :-S
 
-I think I'll go with Arnd's original patch - which makes the code a 
-slightly bit cleaner by separating out the check_tboot_version() check 
-into a standalone function.
+You can't get the connector in the .enable() operation, but you can get
+it in .atomic_enable(), with
+drm_atomic_get_new_connector_for_encoder(). This being said, it's
+probably not the right option.
 
-The only ugly aspect is the global nature of the 'tboot' pointer - but 
-that's a self-inflicted wound.
+What matters here isn't the bpc for the connector, but the format
+expected by the next bridge in the chain. drm_bridge_funcs has two
+operations, .atomic_get_output_bus_fmts() and
+.atomic_get_input_bus_fmts(), to negotiate that format along a chain of
+bridges. The panel bridge driver (drivers/gpu/drm/bridge/panel.c)
+doesn't implement those operations, and neither does
+display-connector.c, so that may be what we should start with.
 
-I'd also guess that the S/N ratio somewhat unfairly penalizes this 
-warning right now, because the kernel had a decade of growing real 
-fixes via other efforts such as static and dynamic instrumentation as 
-well.
+> I see that td_mode_valid() in
+> drivers/gpu/drm/bridge/tc358775.c stores away the bpc from the incoming
+> drm_display_info pointer but I'm not sure that is correct because can't
+> that be called for various and not necessarily the one we're using?
 
-So the probability of false positive remaining is in fact higher, and 
-going forward we should see a better S/N ratio of this warning. Most 
-of which will never be seen by upstream maintainers, as the mishaps 
-will stay at the individual developer level. :-)
+You're right, .mode_valid() shouldn't do that.
 
-Thanks,
+-- 
+Regards,
 
-	Ingo
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
