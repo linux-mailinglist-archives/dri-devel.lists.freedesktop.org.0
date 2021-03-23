@@ -2,60 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A33346130
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 15:16:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2FCE34614D
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 15:19:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23FB46E8ED;
-	Tue, 23 Mar 2021 14:16:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4E56E0EA;
+	Tue, 23 Mar 2021 14:19:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7D066E8ED
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 14:16:22 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id hq27so27365619ejc.9
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 07:16:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=MlOooBXSewsLualNMgvU6D6sRFXHNUQ608epm4QPvWs=;
- b=K6BNGvZE4HLcVpDQArNpA/XFtjuJcUNCbBXwd5VC/WYL8x1S6irIL+c6wRlJzU6vl4
- nxHShgvd5SESFS+yvIZR5iGl8D5qzSHsyf9Q0lfypAQhTYo8UR35gu6tuotjRLHyvVtl
- VdhidD4P+skXtaVujXXEMg1GjBvVnsK/cCYhfA8kZ6q6d7ZBuWn5h57ZfqZJ9ct6mPyr
- 513IKg5Yp9Q/GaFyflvxz5zuFY4KI9/ajF0XLuiRe6wj09+3GSAzj41RMOUFwU301OJx
- R4BxhDhguT/ew75EwTIVu8Ou5N4JxzQo6y4/4j/CFtuJqctB+5NmvV8wB2ed+Ye8JyMh
- 0IZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=MlOooBXSewsLualNMgvU6D6sRFXHNUQ608epm4QPvWs=;
- b=PTbIWPnhf7hHfNzav1kVHPdMllYSWpStpARCn52fpssz5TO+2SXF5g3FeKcS66FOzD
- /0Cvfu9BXLIrWXEQS9ToWBkiZfaDn567Xovwjo3LDsmC2hKjeSgy3DZYvd4ADL8hGEAy
- GHg6h4Yfcf5/hEBdBYhB0cBI00JRxeHIWjiPRa4hjImoNmKQC2C+bUDANMbTPmhMfjOu
- PlvAHilrCvExrD38RVlMorVuJBM8Ba32CU4u2NjRrH9DVW2RXO3a9q+Tc7YUWqMJ6UPD
- pIrtv1WuZtvpx1Hcjgz5pHNokPCTa1ApzR/oK380MbUmp0Udef802Reh9fQLzJlBf7O6
- adVg==
-X-Gm-Message-State: AOAM532KnLmuiFEOn4A9wIa5rdnIKg/dcSvBNT1wimEvE9YvpkynsLMs
- lvQoiwg7yLv8N9E9c6ftJyIFc58dnCFvaUVIK5M=
-X-Google-Smtp-Source: ABdhPJwj/plMO91rQ93L+RbYk+zwPDyZuqAWjLpcugqv3a8iDsleVbcDFezMkCTAwZZ2q4REVXVVyQK8ZLqJtOp5GhA=
-X-Received: by 2002:a17:907:7785:: with SMTP id
- ky5mr4965121ejc.133.1616508981333; 
- Tue, 23 Mar 2021 07:16:21 -0700 (PDT)
+Received: from smtprelay.hostedemail.com (smtprelay0115.hostedemail.com
+ [216.40.44.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F6636E0EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 14:19:09 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay06.hostedemail.com (Postfix) with ESMTP id 5CD28180931AA;
+ Tue, 23 Mar 2021 14:19:04 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:355:379:599:800:960:982:988:989:1260:1261:1277:1311:1313:1314:1345:1359:1431:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2553:2559:2562:2828:2901:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3870:3871:3872:3874:4321:5007:6119:6742:7576:7652:7903:10004:10400:10848:11026:11232:11473:11657:11658:11914:12043:12048:12295:12296:12297:12438:12679:12740:12895:13069:13311:13357:13439:13894:14181:14659:14721:21080:21451:21627:21660:21966:30054:30070:30090:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:2, LUA_SUMMARY:none
+X-HE-Tag: glove95_5b1863d27772
+X-Filterd-Recvd-Size: 2732
+Received: from [192.168.1.159] (unknown [47.151.137.21])
+ (Authenticated sender: joe@perches.com)
+ by omf04.hostedemail.com (Postfix) with ESMTPA;
+ Tue, 23 Mar 2021 14:19:01 +0000 (UTC)
+Message-ID: <7ef41d771af88f84b650ff83771cd59eb745634f.camel@perches.com>
+Subject: Re: [PATCH] drm/imx: fix out of bounds array access warning
+From: Joe Perches <joe@perches.com>
+To: Arnd Bergmann <arnd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Shawn
+ Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>
+Date: Tue, 23 Mar 2021 07:19:00 -0700
+In-Reply-To: <20210323130550.2289487-1-arnd@kernel.org>
+References: <20210323130550.2289487-1-arnd@kernel.org>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20210308120555.252524-1-adrien.grassein@gmail.com>
- <20210308120555.252524-3-adrien.grassein@gmail.com>
- <CAG3jFytoE9hWvq2e2Caqn4qP_RuEOnm4r9VQ85ffbAcguSLf+w@mail.gmail.com>
- <CABkfQAGvPy3DzXQnDJqm1q_rOLWR7BQTXb8z05iML3s3Mc8LJw@mail.gmail.com>
- <CAG3jFytmJSjvWp0Bu7MaJ7EVuJov8gbs6cguatoOtTJpXTGVLA@mail.gmail.com>
- <CABkfQAGcSsQ74FtvAK4_awHRXswgBrThKww_xhpmTzordZ5X8w@mail.gmail.com>
- <CAG3jFyvQt=Bv2_Hi8UdOhgznp1gVZwAw8gZv6FnLwHJV4WD6Kw@mail.gmail.com>
-In-Reply-To: <CAG3jFyvQt=Bv2_Hi8UdOhgznp1gVZwAw8gZv6FnLwHJV4WD6Kw@mail.gmail.com>
-From: Adrien Grassein <adrien.grassein@gmail.com>
-Date: Tue, 23 Mar 2021 15:16:10 +0100
-Message-ID: <CABkfQAGS24AM90veQhGA+=V4S50y7JwzqLMspMaEFptcYpmdMQ@mail.gmail.com>
-Subject: Re: [PATCH v7 2/2] drm/bridge: Introduce LT8912B DSI to HDMI bridge
-To: Robert Foss <robert.foss@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,124 +52,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- kernel test robot <lkp@intel.com>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Liu Ying <victor.liu@nxp.com>, Marco Felsch <m.felsch@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TGUgbWFyLiAyMyBtYXJzIDIwMjEgw6AgMTU6MDcsIFJvYmVydCBGb3NzIDxyb2JlcnQuZm9zc0Bs
-aW5hcm8ub3JnPiBhIMOpY3JpdCA6Cj4KPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ICtzdGF0aWMgZW51
-bSBkcm1fY29ubmVjdG9yX3N0YXR1cyBsdDg5MTJfY2hlY2tfY2FibGVfc3RhdHVzKHN0cnVjdCBs
-dDg5MTIgKmx0KQo+ID4gPiA+ID4gPiArewo+ID4gPiA+ID4gPiArICAgICAgIGludCByZXQ7Cj4g
-PiA+ID4gPiA+ICsgICAgICAgdW5zaWduZWQgaW50IHJlZ192YWw7Cj4gPiA+ID4gPiA+ICsKPiA+
-ID4gPiA+ID4gKyAgICAgICByZXQgPSByZWdtYXBfcmVhZChsdC0+cmVnbWFwW0kyQ19NQUlOXSwg
-MHhDMSwgJnJlZ192YWwpOwo+ID4gPiA+ID4gPiArICAgICAgIGlmIChyZXQpCj4gPiA+ID4gPiA+
-ICsgICAgICAgICAgICAgICByZXR1cm4gY29ubmVjdG9yX3N0YXR1c191bmtub3duOwo+ID4gPiA+
-ID4gPiArCj4gPiA+ID4gPiA+ICsgICAgICAgaWYgKHJlZ192YWwgJiBCSVQoNykpCj4gPiA+ID4g
-PiA+ICsgICAgICAgICAgICAgICByZXR1cm4gY29ubmVjdG9yX3N0YXR1c19jb25uZWN0ZWQ7Cj4g
-PiA+ID4gPgo+ID4gPiA+ID4gUmVnaXN0ZXIgMHhjMCAmIEJJVCg3KSAtIEhQRCBzaWduYWwgYWZ0
-ZXIgZGVib3VuY2UKPiA+ID4gPiA+IFJlZ2lzdGVyIDB4YzAgJiBCSVQoNikgLSBIUEQgc2lnbmFs
-IGZvciBUWCBIUEQgcGFkCj4gPiA+ID4KPiA+ID4gPiBTbywgaWYgSSB1bmRlcnN0YW5kIHdlbGws
-IEkgbmVlZCB0byB3cml0ZSAweGMwICYgQklUKDYpIHdpdGggMSB0bwo+ID4gPiA+IGVuYWJsZSB0
-aGUgSFBEIHBpbi4KPiA+ID4KPiA+ID4gQWgsIHNvcnJ5IGFib3V0IGJlaW5nIGEgYml0IHRlcnNl
-Lgo+ID4gPgo+ID4gPiBCb3RoIGJpdCA2ICYgNyBhcmUgcmVhZCBvbmx5LCBhbmQgYXJlIHByb2Jh
-Ymx5IGJlc3QgcmVhZCBhZnRlciBhbiBJUlEuCj4gPgo+ID4gSW4gbXkgY2FzZSwgSVJRIGlzIG5v
-dCB0cmlnZ2VyZWQgYXQgYWxsLgo+Cj4gQXJlIHlvdSBzYXlpbmcgdGhhdCBwaW4gNjMgbmV2ZXIg
-aXMgaGlnaCwgb3IgdGhhdCBhbiBpcnEvaXNyIHJvdXRpbmUKPiBpc24ndCBnZXR0aW5nIGV4ZWN1
-dGVkPwo+Cj4gPiBXaGVuIHJlYWRpbmcgdGhlIHZhbHVlIG9mIHRoZSBIUEQgcGluLCBJIGFsd2F5
-cyBnZXQgMSAoYW5kIG5vCj4gPiB0cmFuc2l0aW9uIG9jY3VycyB3aGVuIHBsdWdnaW5nIC8gdW5w
-bHVnZ2luZyBhIGNhYmxlKS4KPiA+IFRoZSBIUEQgSVJRIGlzIGRvbmUgb24gdGhlIEhETUkgY29u
-bmVjdG9yIGRyaXZlciBbNV0uCj4gPiBJIHRoaW5rIGEgcmVnaXN0ZXIgY29uZmlndXJhdGlvbiBz
-aG91bGQgYmUgZG9uZSB0byBlbmFibGUgdGhlIElSUSBwaW4KPiA+IG9yIG1heWJlIHRoZXJlIGlz
-IGEgbnVnIGluIGVsZWN0cm9uaWNzLgo+Cj4gQWZ0ZXIgbG9va2luZyBhdCB0aGUgZG9jdW1lbnRh
-dGlvbiBhIGJpdCBtb3JlLCBJIHRoaW5rIHdlIGNhbiBpZ25vcmUKPiBwaW42MyBhbmQgaW5zdGVh
-ZCBoYXZlIGEgbG9vayBhdCBwaW4xNC4gSXQgaXMgdGhlIEhETUkgVFggSFBEIENvbnRyb2wKPiBw
-aW4uIEl0IGhhcyBhIDEwMGsgcHVsbC1kb3duLCBzbyBpdCBzaG91bGQgYmUgYWN0aXZlIGhpZ2gu
-CgpwaW42MyBpcyBhbHdheXMgYWN0aXZlIGhpZ2guCnBpbjE0IGlzIGNvbm5lY3RlZCB0byB0aGUg
-SERNSSBsb2dpYyAocGluIDE5IG9mIHRoZSBIRE1JIGNvbm5lY3RvcikKd2l0aCBhIDEwMGsgcHVs
-bC1kb3duLgoKPgo+IEkgYWxzbyBmb3VuZCBzb21lIGRpZmZlcmVudCBJMkMgYWRkcmVzc2VzIHRo
-YW4gd2hhdCB5b3UndmUgdXNlZCwgSQo+IGFzc3VtZSB0aGUgZGV2aWNlIGlzIGF2YWlsYWJsZSBv
-biBib3RoIGFkZHJlc3Nlcy4KPgo+IENoaXAgY29udHJvbCByZWdpc3RlcnMsIGFkZHJlc3M6MHg5
-MAo+IENFQyBjb250cm9sIHJlZ2lzdGVycywgYWRkcmVzcyAweDkyCj4KU3RyYW5nZSwgY29uZmln
-dXJhdGlvbiBzZWVtcyB0byBiZSB3b3JraW5nIHdlbGwgd2l0aCB0aGUgYWRkcmVzcyB1c2VkCmlu
-IG15IGRyaXZlci4KCj4gPiBUaGUgSFBEIHBpbiBpcyBsaW5rZWQgdG8gYSAyLjJrIHB1bGx1cCBy
-ZXNpc3RvciAobWF5YmUgaXQncyB3cm9uZykKPgo+IFRoZSBkYXRhc2hlZXQgaXNuJ3QgZW50aXJl
-bHkgY2xlYXIgYWJvdXQgaWYgcGluMTQgaGFzIGFuIGludGVybmFsIDEwMGsKPiBwdWxsLWRvd24s
-IG9yIGlmIHRoZXkgcmVjb21tZW5kIGFkZGluZyBhIDEwMGsgcHVsbC1kb3duLgo+Cj4gQnV0IHRo
-aXMgZG9lcyBzZWVtIGxpa2UgYW4gaXNzdWUuCgpwaW4xNCBjYW4ndCBiZSB1c2VkIGRpcmVjdGx5
-LiBJIGd1ZXNzIGl0J3MgdXNlZCBieSB0aGUgaW50ZXJuYWwgbG9naWMKb2YgdGhlIGNoaXAgdG8g
-Z2VuZXJhdGUgdGhlIEhQRCAocGluNjMpIHNpZ25hbC4KPgo+ID4KPiA+ID4KPiA+ID4gPiA+Cj4g
-PiA+ID4gPiA+ICsKPiA+ID4gPiA+ID4gK3N0YXRpYyBpbnQgbHQ4OTEyX3Byb2JlKHN0cnVjdCBp
-MmNfY2xpZW50ICpjbGllbnQsCj4gPiA+ID4gPiA+ICsgICAgICAgIGNvbnN0IHN0cnVjdCBpMmNf
-ZGV2aWNlX2lkICppZCkKPiA+ID4gPiA+ID4gK3sKPiA+ID4gPiA+ID4gKyAgICAgICBzdGF0aWMg
-c3RydWN0IGx0ODkxMiAqbHQ7Cj4gPiA+ID4gPiA+ICsgICAgICAgaW50IHJldCA9IDA7Cj4gPiA+
-ID4gPiA+ICsgICAgICAgc3RydWN0IGRldmljZSAqZGV2ID0gJmNsaWVudC0+ZGV2Owo+ID4gPiA+
-ID4gPiArCj4gPiA+ID4gPiA+ICsgICAgICAgbHQgPSBkZXZtX2t6YWxsb2MoZGV2LCBzaXplb2Yo
-c3RydWN0IGx0ODkxMiksIEdGUF9LRVJORUwpOwo+ID4gPiA+ID4gPiArICAgICAgIGlmICghbHQp
-Cj4gPiA+ID4gPiA+ICsgICAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsKPiA+ID4gPiA+ID4g
-Kwo+ID4gPiA+ID4gPiArICAgICAgIGx0LT5kZXYgPSBkZXY7Cj4gPiA+ID4gPiA+ICsgICAgICAg
-bHQtPmkyY19jbGllbnRbMF0gPSBjbGllbnQ7Cj4gPiA+ID4gPiA+ICsgICAgICAgbHQtPmNhYmxl
-X3N0YXR1cyA9IGNvbm5lY3Rvcl9zdGF0dXNfdW5rbm93bjsKPiA+ID4gPiA+ID4gKyAgICAgICBs
-dC0+d29ya3EgPSBjcmVhdGVfd29ya3F1ZXVlKCJsdDg5MTJfd29ya3EiKTsKPiA+ID4gPiA+Cj4g
-PiA+ID4gPiBMb29raW5nIGF0IFsxXSBhbmQgbWF5YmUgZXZlbiBiZXR0ZXIgWzJdLCBJIHRoaW5r
-IHRoaXMgcG9sbGluZwo+ID4gPiA+ID4gYXBwcm9hY2ggaXMgdGhlIHdyb25nIHdheSB0byBnby4g
-QW5kIHdpdGggYWNjZXNzIHRvIGRvY3VtZW50YXRpb24sIEkKPiA+ID4gPiA+IHRoaW5rIHdlIHNo
-b3VsZCBiZSBhYmxlIHRvIHNvcnQgdGhpcyBvdXQuCj4gPiA+ID4KPiA+ID4gPiBJIG5laXRoZXIg
-bGlrZSB0aGUgcG9sbGluZyBhcHByb2FjaCB0b28uIEkgZGlkIGl0IHRvIGdvIG9uIHRoaXMgaXNz
-dWUuCj4gPiA+ID4gSSB3aWxsIHRvdGFsbHkgcmVtb3ZlIGl0IG9uY2UgdGhlIEhQRCBpc3N1ZSB3
-aWxsIGJlIHJlc29sdmVkLgo+ID4gPiA+ID4KPiA+ID4gPiA+IFVzaW5nIHRoZSBpcnEgZHJpdmVy
-IGFwcHJvYWNoIHJlcXVpcmVzIHRoZSBpbnRlcnJ1cHQgcGluIHRvIGJlCj4gPiA+ID4gPiBjb25m
-aWd1cmVkLiBQaW4gNjMgb2YgdGhlIGx0ODkxMmIgaXMgdGhlIElSUSBvdXRwdXQgcGluLgo+ID4g
-PiA+ID4KPiA+ID4gPiA+IEluIG9yZGVyIHRvIHRyaWdnZXIgaW50ZXJydXB0cyBiYXNlZCBvbiBp
-dCwgdGhlIGR0LWJpbmRpbmcgd291bGQgbmVlZAo+ID4gPiA+ID4gdG8gYmUgdXBkYXRlZFszXVs0
-XSBhcyB3ZWxsIGFzIHdoaWNoZXZlciBEVFMgeW91J3JlIHVzaW5nLgo+ID4gPiA+ID4KPiA+ID4g
-Pgo+ID4gPiA+IFRoZSBJUlEgcGFydCBpcyB3b3JraW5nIHdlbGwgaW4gbXkgRFRCLiBJdCB0ZXN0
-IGl0IGJ5IGFkZGluZyBzb21lCj4gPiA+ID4gZWxlY3Ryb25pY3MgdG8gZW11bGF0ZSB0aGUgSFBE
-IHBpbiBvbiB0aGUgR1BJTyBleHBhbmRlciB3aGVyZSB0aGUgSFBECj4gPiA+ID4gcGluIGlzIGxp
-bmtlZC4KPiA+ID4KPiA+ID4gTG9va2luZyBhdCB0aGUgZHQtYmluZGluZyBwYXRjaCwgaXQgZG9l
-cyBub3Qgc2VlbSB0byBsaXN0IGFueQo+ID4gPiBpbnRlcnJ1cHRzLiBTbyB0aGF0IHNob3VsZCBi
-ZSBhZGRlZC4gSSB0aGluayB0aGUgaXJxIHN1cHBvcnQgZnJvbSBbM10KPiA+ID4gJiBbNF0gY2Fu
-IGJlIHByZXR0eSBtdWNoIGNvcGllZC4KPiA+ID4KPiA+ID4gVGhlbiB3ZSBjYW4gY29tZSBiYWNr
-IGFuZCByZXBsYWNlIHRoZSBwb2xsaW5nIGNvZGUgd2l0aCB0aGUgSVJRIGRyaXZlbgo+ID4gPiBj
-b2RlIGZyb20gWzJdLgo+ID4KPiA+IE15IGJvYXJkIHVzZXMgYSAibWF4NzMyMyIgR1BJTyBleHBh
-bmRlciBhbmQgdGhlIEhQRCBwaW4gaXMgbGlua2VkIHRvIGl0Lgo+ID4gSSB0ZXN0IHRoaXMgR1BJ
-TyBleHBhbmRlciBieSBzb2xkZXJpbmcgYSBwdWxsIHVwIHJlc2lzdG9yIGFuZCBhbgo+ID4gaW50
-ZXJydXB0IG9uIGl0IGFuZCBhbiBpbnRlcnJ1cHQgd2FzIGNvcnJlY3RseSB0cmlnZ2VyZWQgaW4g
-Ym90aAo+ID4gbWF4NzMyMyBkcml2ZXIgYW5kIGhkbWktY29ubmVjdG9yOwo+ID4gU28gSSBndWVz
-cyB0aGF0IG15IERUQiBjb25maWd1cmF0aW9uIGlzIGNvcnJlY3QuCj4gPiBJIG1hZGUgbXkgREJU
-IGNvbmZpZ3VyYXRpb24gYXZhaWxhYmxlOgo+ID4gICAtIGhkbWktY29ubmVjdG9yIG5vZGU6IFs2
-XQo+ID4gICAtIGx0ODkxMmIgbm9kZTogfDddCj4gPiAgIC0gbWF4NzMyMyBub2RlOiBbOF0uCj4K
-PiBMb29raW5nIGF0IFs3XSBJIHRoaW5rIHRoYXQgeW91IHdvdWxkIHdhbnQgdG8gYWRkIHNvbWV0
-aGluZyBsaWtlOgo+Cj4gaGRtaS1icmlkZ2VANDggewo+ICAgICAgICAgaW50ZXJydXB0cy1leHRl
-bmRlZCA9IDwmbWF4NzMyMyAkTFQ4OTEyQl9QSU5fMTQgSVJRX1RZUEVfRURHRV9SSVNJTkc+Owo+
-IH0KPgo+IEFuZCBvZiBjb3Vyc2UgYWRkIHRoZSBjb3JyZXNwb25kaW5nIHBhcnRzIGZyb20gWzJd
-IGFuZCBbM10uCj4KPiA+Cj4gPgo+ID4gPgo+ID4gPiA+Cj4gPiA+ID4gPgo+ID4gPiA+ID4gWzFd
-IGh0dHBzOi8vZ2l0aHViLmNvbS90b3J2YWxkcy9saW51eC9ibG9iL21hc3Rlci9kcml2ZXJzL2dw
-dS9kcm0vYnJpZGdlL2FuYWxvZ2l4L2FueDc2MjUuYyNMMTc1MQo+ID4gPiA+ID4KPiA+ID4gPiA+
-IFsyXSBodHRwczovL2dpdGh1Yi5jb20vdG9ydmFsZHMvbGludXgvYmxvYi92NS4xMS9kcml2ZXJz
-L2dwdS9kcm0vYnJpZGdlL2xvbnRpdW0tbHQ5NjExLmMjTDExNjAKPiA+ID4gPiA+Cj4gPiA+ID4g
-PiBbM10gaHR0cHM6Ly9naXRodWIuY29tL3RvcnZhbGRzL2xpbnV4L2Jsb2IvdjUuMTEvRG9jdW1l
-bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2xvbnRpdW0sbHQ5NjEx
-LnlhbWwjTDI3Cj4gPiA+ID4gPgo+ID4gPiA+ID4gWzRdIGh0dHBzOi8vZ2l0aHViLmNvbS90b3J2
-YWxkcy9saW51eC9ibG9iL3Y1LjExL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9k
-aXNwbGF5L2JyaWRnZS9sb250aXVtLGx0OTYxMS55YW1sI0wxNDQKPiA+Cj4gPiBbNV0gaHR0cHM6
-Ly9naXRodWIuY29tL3RvcnZhbGRzL2xpbnV4L2Jsb2IvbWFzdGVyL2RyaXZlcnMvZ3B1L2RybS9i
-cmlkZ2UvZGlzcGxheS1jb25uZWN0b3IuYyNMMTk5Cj4gPiBbNl0gaHR0cHM6Ly9naXRodWIuY29t
-L2dyYXNzZWFkL2xpbnV4LW5leHQvYmxvYi9tYXN0ZXIvYXJjaC9hcm02NC9ib290L2R0cy9mcmVl
-c2NhbGUvaW14OG1xLW5pdHJvZ2VuLmR0cyNMMzcKPiA+IFs3XSBodHRwczovL2dpdGh1Yi5jb20v
-Z3Jhc3NlYWQvbGludXgtbmV4dC9ibG9iL21hc3Rlci9hcmNoL2FybTY0L2Jvb3QvZHRzL2ZyZWVz
-Y2FsZS9pbXg4bXEtbml0cm9nZW4uZHRzI0wyNDkKPiA+IFs4XSBodHRwczovL2dpdGh1Yi5jb20v
-Z3Jhc3NlYWQvbGludXgtbmV4dC9ibG9iL21hc3Rlci9hcmNoL2FybTY0L2Jvb3QvZHRzL2ZyZWVz
-Y2FsZS9pbXg4bXEtbml0cm9nZW4uZHRzI0wyOTEKPiA+Cj4gPgo+ID4gVGhhbmtzLAoKTWF5YmUg
-dGhlIGNvbmNsdXNpb24gaXMgdGhhdCB3ZSBjYW5ub3QgaGF2ZSB0aGUgSFBEIHdvcmtpbmcuCgpU
-aGFua3MsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, 2021-03-23 at 14:05 +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> =
+
+> When CONFIG_OF is disabled, building with 'make W=3D1' produces warnings
+> about out of bounds array access:
+> =
+
+> drivers/gpu/drm/imx/imx-ldb.c: In function 'imx_ldb_set_clock.constprop':
+> drivers/gpu/drm/imx/imx-ldb.c:186:8: error: array subscript -22 is below =
+array bounds of 'struct clk *[4]' [-Werror=3Darray-bounds]
+> =
+
+> Add an error check before the index is used, which helps with the
+> warning, as well as any possible other error condition that may be
+> triggered at runtime.
+[]
+> diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
+[]
+> @@ -197,6 +197,12 @@ static void imx_ldb_encoder_enable(struct drm_encode=
+r *encoder)
+> =A0	int dual =3D ldb->ldb_ctrl & LDB_SPLIT_MODE_EN;
+> =A0	int mux =3D drm_of_encoder_active_port_id(imx_ldb_ch->child, encoder);
+> =
+
+> +	if (mux < 0) {
+> +		dev_warn(ldb->dev,
+> +			 "%s: invalid mux\n", __func__);
+
+trivia:
+
+Any real reason to make this 2 lines?  It fits nicely in 80 chars.  Maybe:
+
+		dev_warn(ldb->dev, "%s: invalid mux: %d\n", __func__, mux);
+
+or maybe:
+
+		dev_warn(ldb->dev, "%s: invalid mux: %pe\n",
+			 __func__, ERR_PTR(mux));
+
+> @@ -255,6 +261,12 @@ imx_ldb_encoder_atomic_mode_set(struct drm_encoder *=
+encoder,
+[]
+> +	if (mux < 0) {
+> +		dev_warn(ldb->dev,
+> +			 "%s: invalid mux\n", __func__);
+
+etc...
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
