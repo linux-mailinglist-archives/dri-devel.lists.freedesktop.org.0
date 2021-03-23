@@ -2,111 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFF663455C7
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 03:56:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 238C23455E3
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 04:02:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5176B6E03B;
-	Tue, 23 Mar 2021 02:56:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE3889E15;
+	Tue, 23 Mar 2021 03:02:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2045.outbound.protection.outlook.com [40.107.94.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D21C6E03B
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 02:56:08 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2053.outbound.protection.outlook.com [40.107.20.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04C5389E15
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 03:02:36 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Oh+F54Lf4zYfRXGBscKkVE85XV8nUZBb3AdM830lGFBiQybRPBf2XTPXr1szz2B4Wz1U/XlTT/CHgYz1J52IezSLA+Dd0JpdDkqCzCnn1l0gkCxRgOpEaJNF1nUj7gFdX6C93sRTo90B0KxekvKtSu+bNpMmTAIlD7Qtahd+fLDbgZcxkocpQnZNZWQFN4APjWj6xsZl9GZuTo3dk/ZCnRCmDRP2iFgJqLNXqR37QqFfVm6sq+y+/v5dRnr04x5VXhBmidv381S9Beg/Il7vU3TtDskvsho6yLNDd+hYJCZdP2YSKuKWKu/ZFlPw5WgFnwP6x0xNxHMjEP1FB97oxQ==
+ b=lLRlzsE7dUwlxJ2QuidfvoEBmYywFnUIV1bZBwaWzX6E4+nFiW6fk0kh078PQxjO09gh/sTsxpbLojweicMW8dA/24I3y36k+EZ/GOm/NivEepEbu2x2VJ5wOsR8fyfqOw9M6RKOlVT8TG0c1e6/pptJaD+ZoOCjwUe5ox00e8mwBOk5hPOIEmpYODRKq1VOd3Q92bIgqU+HOXkn4g0haLyuURlCtX1EFhxXn9gaPG0du2a2J277Je/QDqTHAnhb0M8mxhLwb83RsZKWitfwzmmDxpZy8vTR5uiyQqsDjrL14E5EyO9yyo5PEnz5VG0QaAJMU0GDfOFWzvvyUmilpw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uz4gPygJjBszY1pwW6Ip+u9XdI0w/fmAOLl67Aygzqo=;
- b=bJW15t3q8+gLx6n3GuZZY0WIIMwMu88b1ldmpzjcSNcg/1zcmNu2fYxLUZTCMTuu3gUCSxxkEc8ec9Kc8D/thEBAik4kur9J5Qu52wmQmvTB0D7zXIAl1yIIap8xP1yQEfb+Z3R2BhBObapTcLeuIjculIqlVuc/f+/j5DO/4R+j2u8BL/XPlol7odLZa4UJdzEstSwF+BDGFejSNFeom4QORuU5lBQtDttleiwy5/WgIeMxD0IliIMByLzCtSciy7olI/JWpeiKD+6VZO08oprJPc8uFgs4Tan5OoK+dZ1BFx5mSjDaQct1yljirbDC0+96GVtIDhmtjHlXe2pIpw==
+ bh=Z9XlmLfUBh87tqel0re3ZB52OZdV7LyuXZay4cpBTrc=;
+ b=VCsQDPL4diVVABTwiHAnGtW6beVGMGI0Mu1T9Zs0jcEd4KMeM1/hn9a8OKeM0TYDe9Wrd5pZ1redMuI0xVYdlQyKFmPn9NCtZy8TnL1oITTNdqO3V82gOWAy7kVQK2EXJolxj86/N1MvrrQCdy4Hl8jKTKB5t/TxGDCtkq5bkyQCWzU7n/fZsgM1v6CpKYyKp4gS4u9YFmOrvb1suu3IZveSTtLEaNRWbe9VkZIVouVRKXLToRtsVUFOSEtO6srfR5JKGPSbwc/Kw3x4ccFUnACc6NT6bU0Dn6Tt7jehY37lcS4GDQN0z5/pwuVdi6ywwu/QEYf82w5WcUgjXU0eUg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uz4gPygJjBszY1pwW6Ip+u9XdI0w/fmAOLl67Aygzqo=;
- b=UckuP0j+ihvwk0a4ieg/1HJmuYIbKSmlxOwTWMuRSZCAXDiFBcF9EvPNdvzwQLwtqOnC4P8aI2p1Os+aikmugk+azCFFp243BrMDcYzVDlBOZ5DEBGgAgc5ZaYlJOvUGc5OvmZ7g8IQG3yUWGMBhxlBIaEGDhNc5yXCONfc7Kjs=
-Authentication-Results: xilinx.com; dkim=none (message not signed)
- header.d=none;xilinx.com; dmarc=none action=none header.from=windriver.com;
-Received: from CY4PR11MB0071.namprd11.prod.outlook.com (2603:10b6:910:7a::30)
- by CY4PR1101MB2103.namprd11.prod.outlook.com (2603:10b6:910:17::17)
+ bh=Z9XlmLfUBh87tqel0re3ZB52OZdV7LyuXZay4cpBTrc=;
+ b=SodqM990vgSzlmFZyprkjxiSmveIzZYKAs4b2jCI3ixkLjNzqu9Bd7k12vc5shSx8T4jUDZFEx8LW1BGOODsyZylZ7K8PwAqwLBg1raECzd05Eax/Am27YgLMbt24Y95prWozGhfh56BllviZqX+lRRb9zbxePd1a7ySIKfoKfU=
+Authentication-Results: toradex.com; dkim=none (message not signed)
+ header.d=none;toradex.com; dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
+ by VE1PR04MB6560.eurprd04.prod.outlook.com (2603:10a6:803:122::25)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.24; Tue, 23 Mar
- 2021 02:56:04 +0000
-Received: from CY4PR11MB0071.namprd11.prod.outlook.com
- ([fe80::d4fe:8135:d8fa:81c0]) by CY4PR11MB0071.namprd11.prod.outlook.com
- ([fe80::d4fe:8135:d8fa:81c0%5]) with mapi id 15.20.3955.025; Tue, 23 Mar 2021
- 02:56:04 +0000
-From: quanyang.wang@windriver.com
-To: Hyun Kwon <hyun.kwon@xilinx.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Michal Simek <michal.simek@xilinx.com>
-Subject: [V2][PATCH] drm: xlnx: zynqmp: release reset to DP controller before
- accessing DP registers
-Date: Tue, 23 Mar 2021 10:55:01 +0800
-Message-Id: <20210323025501.1568039-1-quanyang.wang@windriver.com>
-X-Mailer: git-send-email 2.25.1
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: SJ0PR03CA0265.namprd03.prod.outlook.com
- (2603:10b6:a03:3a0::30) To CY4PR11MB0071.namprd11.prod.outlook.com
- (2603:10b6:910:7a::30)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Tue, 23 Mar
+ 2021 03:02:34 +0000
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::3ce1:4759:5c33:514c]) by VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::3ce1:4759:5c33:514c%5]) with mapi id 15.20.3955.027; Tue, 23 Mar 2021
+ 03:02:34 +0000
+Message-ID: <5fea4551daac3698df791c12e48d88338efaa2b3.camel@nxp.com>
+Subject: Re: [PATCH v6 01/14] media: uapi: Add some RGB bus formats for
+ i.MX8qm/qxp pixel combiner
+From: Liu Ying <victor.liu@nxp.com>
+To: Marcel Ziswiler <marcel.ziswiler@toradex.com>, 
+ "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>
+Date: Tue, 23 Mar 2021 11:00:56 +0800
+In-Reply-To: <62306ab21ec234317ca4b8c2f06fc9cd4be0ead4.camel@toradex.com>
+References: <1615952569-4711-1-git-send-email-victor.liu@nxp.com>
+ <1615952569-4711-2-git-send-email-victor.liu@nxp.com>
+ <62306ab21ec234317ca4b8c2f06fc9cd4be0ead4.camel@toradex.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
+X-Originating-IP: [119.31.174.66]
+X-ClientProxiedBy: HK2PR02CA0213.apcprd02.prod.outlook.com
+ (2603:1096:201:20::25) To VI1PR04MB3983.eurprd04.prod.outlook.com
+ (2603:10a6:803:4c::16)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-qwang2-d1.wrs.com (60.247.85.82) by
- SJ0PR03CA0265.namprd03.prod.outlook.com (2603:10b6:a03:3a0::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend
- Transport; Tue, 23 Mar 2021 02:56:01 +0000
+Received: from blueberry (119.31.174.66) by
+ HK2PR02CA0213.apcprd02.prod.outlook.com (2603:1096:201:20::25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3955.18 via Frontend Transport; Tue, 23 Mar 2021 03:02:27 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: acaf1ad5-7e42-4cfb-b160-08d8eda732b6
-X-MS-TrafficTypeDiagnostic: CY4PR1101MB2103:
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 5ceee79b-f502-4742-b440-08d8eda81af6
+X-MS-TrafficTypeDiagnostic: VE1PR04MB6560:
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CY4PR1101MB210311F17B9BB06A20F44533F0649@CY4PR1101MB2103.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Microsoft-Antispam-PRVS: <VE1PR04MB6560A2EA82F056A70F210DE798649@VE1PR04MB6560.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: r+Jtt1PWTVdqztFAmGHfFa5MGzBjrOgAlg7q9WKssMoIE1bJUFGJ5QlHDjSPu5vd3raDeqzQoxfyuHxM93jloi3sXWXT+draha0HuFFiltR0vmroj3GVteTg4j19nZVPCA6EiDV1QQ1WdoCyO/B9XadwlAHHqyf/KUcqvdBaHXBPw4ys8yYkua4q576/YTAQV+5TindKgPClMHnSwpGrswVT/E4a3u9eN3pvllbqubKGX6R2CYALqGArLEb4woG3jcEHS8gZDSvdT5io/nq65sw4oR2Z/ehyM4LMaztZV3qxy41Lrl0fYNE7ySP97BfMZxf9BT74VsCyyj7Gfyt6jhYt9jZ2IqrzWqjxk61gl5qqfOY+FPsIZLjKFACO5kmhWwyKrpONKptbZ4K36YUnlqPHaGMNvqiwGYSe1GD0i2eLbqoLA0cjnZFSw0gyO7ngLnd/ywJVYYlMT1yHX210Jw55JuTxf5obZs0KjEmlZyUBALhKEJikBLsUAa+7M+VxtgLuX54QvngGRyNT+4rEUsHQOsob8cZy2TvoeS1w9xFeJaZq4xCrVDAX/eI10bfPUEcTvKQNgNZjcMnYXLEBXK+9NRBPdXCS38KVqETIhzWN7U1/Z21JZB0idqjeKZ06+TF/ZLqxsKbPVqbLzc9N4BtLQW9s6sIk944wVm64xno=
+X-Microsoft-Antispam-Message-Info: aL0RgfhtJQuWr6CVqWstxtzKM2s8IrXf6QCtERiLR/QKQo7LCodpfkyCYTZWsEJiSErPP1nZ95wrwWwXU39MCVrVCFIZmWBASamfNO+o/+SgUUmpyusH3O3MNRKz9KzBFl8N19pwm8OwPAAFUKrHXryrirb63ZiLfhLimptH7X51UW/NAznxkLR9BcC86Ttbbnbac+jPYpC1PrW/NNRi0AtFrnHNezSkRbk19C2P1JcUY5z2yzJ+lA+MYXhzQCy3xXstOzEcixRT2jMKiW0gYqWQUd3g5f5VYxdYACTW/Fw7ZX+F/nblqCMKX5g9P3rtcdWgpQLOwo9yiNJlMN6kfrGJjc1cfL4PAYRNl9j0nwo/nKfCn6ogA7BRh0SeZnE5W0UVjCDK03HZ0C63YqtK7ThsCIyaWB3Fy5Oyjk+1exC+ZmbbO63pMpYojHnYZA4WoBUrqP2O/hU+DRwyDRvDVcom4mHenl9SUwOPB/LMbN7LjXWplSL/H57/5mWiFFbDC0bdEm1jY0vW591pKiuqhu14vjBxKaBwQV3lukx7kWjWCKGYmG5KeRWGLB/u56AcN7hIcp9XCbX1kIrIhcuOgZWT8INwrOzV/EL9swPx+6D+9abCbHizop/lysHmTzYkcPmPSMUNRM8T19n+f/zV/Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR11MB0071.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(376002)(39850400004)(396003)(346002)(2906002)(186003)(8676002)(66476007)(66946007)(16526019)(4326008)(316002)(26005)(110136005)(6506007)(36756003)(8936002)(52116002)(66556008)(478600001)(107886003)(83380400001)(6486002)(6636002)(9686003)(6512007)(86362001)(1076003)(38100700001)(2616005)(5660300002)(956004);
+ IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(136003)(346002)(376002)(39860400002)(2906002)(6666004)(52116002)(478600001)(2616005)(6496006)(110136005)(36756003)(54906003)(316002)(956004)(38100700001)(5660300002)(6486002)(66556008)(83380400001)(8936002)(4326008)(66476007)(86362001)(66946007)(8676002)(7416002)(26005)(186003)(16526019);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?zlA9HrZ+TYnm4E6Q8uVtlqTWxkULVu5sy0Wu2Fbmi9h48293DRhzOz4ZnQVM?=
- =?us-ascii?Q?YqLV+WQ3p1f1zszbSBNpITNneV+0vbqxsVfzbKdZ6MM7DwjfrHcmDWJUiFjy?=
- =?us-ascii?Q?5o3O3K3/JfT06YSsVwgb2TgIfgyQxhzxTxfgOxJKBCLYu+wSBWFb2lKQ2kSu?=
- =?us-ascii?Q?xQ56CnoStCHyBBm2gl26MpMGhdoP18O/7sbs2FBjSyCn+Ph0w1JOPsw4ZKda?=
- =?us-ascii?Q?lsRZXcoQt1H4+evCThuXPk8rR/+sg40bpDwMYz5NZntB8Rgh783L0I8uTFIL?=
- =?us-ascii?Q?gET87FCTjKYSi4YDW6iQ8dXXqrce864eTpezbml6FTODZiIneNpgj/kD5bCw?=
- =?us-ascii?Q?HkNBq31Rw2HmvLoDZZhq4VrAYen3VkgVf+A7bNOgoTkcR81RgdKGlllbpWEw?=
- =?us-ascii?Q?I70eZHTKKcyGNHycs2kuVl5w4MYbsT6b+HnYMLKFEANtqhglQM8ysgt8AuGe?=
- =?us-ascii?Q?78ZRYnm03Xl8V6r9QIF/dCIagMLp5AlUuaXWf+zs558oytGiRLjY+BTEI1Mz?=
- =?us-ascii?Q?9Ef8uFrfSUv2JFJ0vHfRA8CBpzQ96NmsqPrpY5cvaGC+txnjUwR+QfLZhSuF?=
- =?us-ascii?Q?BfU2n150qJtkgroVDpAX8Gx2zvuY5/TfJMLFuwLBtXSrqtwztQfjHoCMjkR+?=
- =?us-ascii?Q?0082mHedahkkkImOiB5wq2Nadg5Ktb006V+M4YSNQvOHGSU0TtNGDddziYer?=
- =?us-ascii?Q?QS6OvI2B4sBMswyuREEEQLrfVV+Yd5KPpdC2GwQPe65gaywaoUhHRUtKKfnc?=
- =?us-ascii?Q?goCBf7UAIfEXcQtHKLxSJM87+OGsuXVI9tKTxdGBFfHxLzHzRgaN1QK73RmQ?=
- =?us-ascii?Q?ZC4AAOnmQ3qMETSDuF7lsS/ficF3ROJquN0LYelWfvoRHb/Ab+qe2g+1Zzd4?=
- =?us-ascii?Q?dNjM44KaPjvijPokRD9XacsW4pK2EfeZd8zh7Btm7TU8/WtryAbvQX9mSZya?=
- =?us-ascii?Q?wrax7930jPArjnGG3Bdfe5IyKj6+/FDZqlBYwjABasSwyeewYVPyejXgNpBA?=
- =?us-ascii?Q?EQs/EZU7i/KQZ7G8c9McTl7Kq6QQTaZzvA5geBIaEIUZA4BzrZrj8LLjwdm2?=
- =?us-ascii?Q?jg5U22TKtbBuWRop4q5zNVCaBbO/uhIFO2+7Q3IUYeid22eBIXYgiYLjsxq+?=
- =?us-ascii?Q?WY1xdWtyd3OrU+O/DqWM/difG7ry5PlYUlkHfKb+MoaWOBqWJXlI7OPn4x5q?=
- =?us-ascii?Q?hRgJZ0iilzQnu2z3E9nqKWZ4quERbyq02VMVgZP2Tx6edETGJjr/XmX3NRbd?=
- =?us-ascii?Q?s3gNvzH3ZQl9l1CEDmZfvhJNrHAt2v4l131pK8XiM0SYrjGh0gUHckf0SF6v?=
- =?us-ascii?Q?qAnWGw1b99ZS8mzSKNt0AIKj?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: acaf1ad5-7e42-4cfb-b160-08d8eda732b6
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB0071.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?N3UrOU5QTW9CZFZxZ1oxaUxuS3g1SklIV2U3VEp2UUZlOVpIT1pWMlpIUlI5?=
+ =?utf-8?B?dWVheWlOOW8vSlZqZjBmZ0RWeHE2MXRJdmYxczVQdnBmblhBNmxlTTBvMVp1?=
+ =?utf-8?B?SUdCKzVVTDF0Tlp1UWo1Mzg0OEJRSEFnblNmYzB4NVVNYWdLSXlpOFhWdnFM?=
+ =?utf-8?B?MU5GKzM3c3N3SDgwZkNZdElnOWdTclYvRVhXRFIwWG50TTFxT1RZT3VHTWZE?=
+ =?utf-8?B?Q2djUWgrd2xrZHJ5L0g0Q2xrUHBMYktrOEcyQ0M4bEZBNWxMK0dKcUlXTW90?=
+ =?utf-8?B?YkxnTkVjd1hQbGtLVEQ1eW8vL002azZQTE5OZ1htSVZNbTlQampkdFJuVWxX?=
+ =?utf-8?B?bVVlZG56VUtQYWM2ZzlRSWxTWG9rM21SUUFPbyswRU5VYUZtK09oUktZZHYz?=
+ =?utf-8?B?UEN6cEdsa3JhVExVK0hzQ0NBV000NG1weERPaFlOYVBianhDaGhFU3VXYXd1?=
+ =?utf-8?B?V29jRklyVEozWWpBdXJyM3VoOUExQkMzVE1USG5lMDJJbzYrQlphdXhIMjFu?=
+ =?utf-8?B?cUFEQnB4WmF1T3dQcTd5dXhTclpoZWF6ZmhpbHZWYWIvRG5tOHR5ZVRZZDND?=
+ =?utf-8?B?TElYVjUwR1Z2OWJIdnBrM3NHN3BtQUorVVdzT3JILzBJNzF6bDRJUC9kU0hR?=
+ =?utf-8?B?OEdiYkVZTFdLYXVlNkZPazdvWTVkRXpWOEJDMk9XRGlCbkNSb0xaQU1CZkxy?=
+ =?utf-8?B?aU1EQ2RmVVEwTTZudk9TQ2l6SUsvRnUzTDJmRXdndUFNc3JHYlNSRnB5WDJ4?=
+ =?utf-8?B?Q0tWY0lyMTFNZjZZc2V0QmZlT3RKV05Pcnp0ejU3ZWpERWcvMjFlQUFBVk4y?=
+ =?utf-8?B?SmlkK1liOEdOd2IrdHl3aXNrcDZCYU4zanJhc2JhcE4zOEt3VWQrS3ZFTjdG?=
+ =?utf-8?B?bVNlZ3htQzM5aE9zc0lIRW5Fc3pLZ1BXcVhoOHhsZkNaVzhiUkxMNEhtYWYx?=
+ =?utf-8?B?cjJ0M0VpTVBGZE5hdGZwQWZXdlNoam8rbllXaC9IVjdaRHFPNEZZQllGU3dK?=
+ =?utf-8?B?aEZBRC9zQkFyclI3SHdvRkxmTDBRSDA2QWdNTVl2OVZNQWpmWXIyemFtR0F6?=
+ =?utf-8?B?S3BvZlVmZ1V4WGM3eHlIenhiWkFqM2NHNzhIZ0RpZmtLTzI0S3Y3YllLcHZs?=
+ =?utf-8?B?RG5CRFVmMTdnblBWeTZUNDh5OVJrV2VTV0V0b3dLREtrMHcwVWhrL21kUzVu?=
+ =?utf-8?B?ck1mQ2JoMk1TU1YzOEVueEZKalJEdG1ISUFaTjdDcXJQbWhOS1FHOWMyei9v?=
+ =?utf-8?B?VVk1Y2FNMUhjRFlnV2pPOHhWVUNCNUcyRkplS09LS3pyZVltd1B6TlU0YUVD?=
+ =?utf-8?B?TTlBczBHVmlyeWNRSTNIYjQ4a0gzaC9iZiszMjZhdmpXYVJrL2ZNY0U4WVd2?=
+ =?utf-8?B?czZRTHlUc2txT1M0cmNpRkFrQ1ZMYjlMNmdaZjNRcGQrbVl4d1JWVi9nRzhQ?=
+ =?utf-8?B?YUhtQnpVcjU0Wno2QlFoaW55cXpIMkU1RmpkeUt4YUplbTNvMGxFS05vVjlD?=
+ =?utf-8?B?R2FrZUxlNzQ1MWl5d1c0MjJ5QVBqRG9YeHVDeXlIb0pFN1dsMjBQZU8xS1d4?=
+ =?utf-8?B?OC9CcDFUNlZ1L2xrQzhEbTdzMkpNcGtvZjF5UTJvcjVqT2NNYks4azNTQllO?=
+ =?utf-8?B?RWRSOFFlV1VmRm8weUcvcnVGclhvQkZOWWVNVzN5MTYrRDkwalBjWjBaaVBJ?=
+ =?utf-8?B?TEs0S3pQQm9IcUEvc2tyWW9OOTZ6YlZJeWRCem1mMXJ6aVcwTUdXdkttbGEy?=
+ =?utf-8?Q?6cSwDGupycId/DMu9aFBb79M3tFgFcQRIQmN+2F?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ceee79b-f502-4742-b440-08d8eda81af6
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 02:56:04.6815 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 03:02:34.1915 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bTnerT0NYYhs61r4xdWmuP1Wum2YfQoXu4tw489LTyd+TSzP+ehO9DYZya6wi6SZMWZgjAE+wKSTObZxe4p1A6mp7xgYca7WwrLLpbLo2sM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1101MB2103
+X-MS-Exchange-CrossTenant-UserPrincipalName: bsQ6lRIq8rizn0icWPz6fp58jfjqajUdYXfvAegdZvw0vYOE1jaIFSarLIR6JyEamrjpIHqjZ5cnCb/g9hXzmw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6560
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,131 +132,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Quanyang Wang <quanyang.wang@windriver.com>,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "robert.foss@linaro.org" <robert.foss@linaro.org>,
+ "kishon@ti.com" <kishon@ti.com>, "a.hajda@samsung.com" <a.hajda@samsung.com>,
+ "vkoul@kernel.org" <vkoul@kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "lee.jones@linaro.org" <lee.jones@linaro.org>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "linux-imx@nxp.com" <linux-imx@nxp.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Quanyang Wang <quanyang.wang@windriver.com>
+Hi Marcel,
 
-When insmod zynqmp-dpsub.ko after rmmod it, system will hang with the
-error log as below:
+On Tue, 2021-03-23 at 00:23 +0000, Marcel Ziswiler wrote:
+> On Wed, 2021-03-17 at 11:42 +0800, Liu Ying wrote:
+> > This patch adds RGB666_1X30_CPADLO, RGB888_1X30_CPADLO, RGB666_1X36_CPADLO
+> > and RGB888_1X36_CPADLO bus formats used by i.MX8qm/qxp pixel combiner.
+> > The RGB pixels with padding low per component are transmitted on a 30-bit
+> > input bus(10-bit per component) from a display controller or a 36-bit
+> > output bus(12-bit per component) to a pixel link.
+> > 
+> > Reviewed-by: Robert Foss <robert.foss-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart-ryLnwIuWjnjg/C1BVhZhaw@public.gmane.org>
+> > Signed-off-by: Liu Ying <victor.liu-3arQi8VN3Tc@public.gmane.org>
+> > ---
+> > v5->v6:
+> > * Add Laurent's R-b tag.
+> > 
+> > v4->v5:
+> > * Add Robert's R-b tag.
+> > 
+> > v3->v4:
+> > * No change.
+> > 
+> > v2->v3:
+> > * No change.
+> > 
+> > v1->v2:
+> > * No change.
+> > 
+> >  include/uapi/linux/media-bus-format.h | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+> > index 0dfc11e..ec3323d 100644
+> > --- a/include/uapi/linux/media-bus-format.h
+> > +++ b/include/uapi/linux/media-bus-format.h
+> > @@ -34,7 +34,7 @@
+> >  
+> >  #define MEDIA_BUS_FMT_FIXED                    0x0001
+> >  
+> > -/* RGB - next is       0x101e */
+> > +/* RGB - next is       0x1022 */
+> >  #define MEDIA_BUS_FMT_RGB444_1X12              0x1016
+> >  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE      0x1001
+> >  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE      0x1002
+> > @@ -59,9 +59,13 @@
+> >  #define MEDIA_BUS_FMT_RGB888_3X8_DELTA         0x101d
+> >  #define MEDIA_BUS_FMT_RGB888_1X7X4_SPWG                0x1011
+> >  #define MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA       0x1012
+> > +#define MEDIA_BUS_FMT_RGB666_1X30_CPADLO       0x101e
+> > +#define MEDIA_BUS_FMT_RGB888_1X30_CPADLO       0x101f
+> >  #define MEDIA_BUS_FMT_ARGB8888_1X32            0x100d
+> >  #define MEDIA_BUS_FMT_RGB888_1X32_PADHI                0x100f
+> >  #define MEDIA_BUS_FMT_RGB101010_1X30           0x1018
+> > +#define MEDIA_BUS_FMT_RGB666_1X36_CPADLO       0x1020
+> > +#define MEDIA_BUS_FMT_RGB888_1X36_CPADLO       0x1021
+> >  #define MEDIA_BUS_FMT_RGB121212_1X36           0x1019
+> >  #define MEDIA_BUS_FMT_RGB161616_1X48           0x101a
+> 
+> I haven't figured out what exactly the idea of this strange ordering of things is about? Could you enlighten
+> me?
 
-root@xilinx-zynqmp:~# insmod zynqmp-dpsub.ko
-[   88.391289] [drm] Initialized zynqmp-dpsub 1.0.0 20130509 for fd4a0000.display on minor 0
-[   88.529906] Console: switching to colour frame buffer device 128x48
-[   88.549402] zynqmp-dpsub fd4a0000.display: [drm] fb0: zynqmp-dpsubdrm frame buffer device
-[   88.571624] zynqmp-dpsub fd4a0000.display: ZynqMP DisplayPort Subsystem driver probed
-root@xilinx-zynqmp:~# rmmod zynqmp_dpsub
-[   94.023404] Console: switching to colour dummy device 80x25
-root@xilinx-zynqmp:~# insmod zynqmp-dpsub.ko
-	<hang here>
+The existing comment in this header file mentions 'The bus formats are
+grouped by type, bus_width, bits per component, samples per pixel and
+order of subsamples. Numerical values are sorted using
+generic numerical sort order (8 thus comes before 10).'
 
-This is because that in zynqmp_dp_probe it tries to access some DP
-registers while the DP controller is still in the reset state. When
-running "rmmod zynqmp_dpsub", zynqmp_dp_reset(dp, true) in
-zynqmp_dp_phy_exit is called to force the DP controller into the reset
-state. Then insmod will call zynqmp_dp_probe to program the DP registers,
-but at this moment the DP controller hasn't been brought out of the reset
-state yet since the function zynqmp_dp_reset(dp, false) is called later and
-this will result the system hang.
+So, the way I read the ordering is that fomarts are first grouped as
+'type', like 'RGB', 'YUV'  and 'Bayer', then sorted by 'bus_width',
+like '2x8', '1x30' and '1x36', then sorted by 'bits per component',
+like 'RGB666', 'RGB888' and 'RGB121212'.
 
-Releasing the reset to DP controller before any read/write operation to it
-will fix this issue. And for symmetry, move zynqmp_dp_reset() call from
-zynqmp_dp_phy_exit() to zynqmp_dp_remove().
+It looks like 'samples per pixel' and 'order of subsamples' are 'YUV'
+type relevant.
 
-Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
----
+HTH,
+Liu Ying 
 
-V2:
-According to Laurent's comments:
-- add zynqmp_dp_reset(dp, true) in error path in zynqmp_dp_probe
-- move the zynqmp_dp_reset() call from zynqmp_dp_phy_exit() to zynqmp_dp_remove() 
-
----
- drivers/gpu/drm/xlnx/zynqmp_dp.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index 99158ee67d02..337adf0769ad 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -402,10 +402,6 @@ static int zynqmp_dp_phy_init(struct zynqmp_dp *dp)
- 		}
- 	}
- 
--	ret = zynqmp_dp_reset(dp, false);
--	if (ret < 0)
--		return ret;
--
- 	zynqmp_dp_clr(dp, ZYNQMP_DP_PHY_RESET, ZYNQMP_DP_PHY_RESET_ALL_RESET);
- 
- 	/*
-@@ -441,8 +437,6 @@ static void zynqmp_dp_phy_exit(struct zynqmp_dp *dp)
- 				ret);
- 	}
- 
--	zynqmp_dp_reset(dp, true);
--
- 	for (i = 0; i < dp->num_lanes; i++) {
- 		ret = phy_exit(dp->phy[i]);
- 		if (ret)
-@@ -1682,9 +1676,13 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
- 		return PTR_ERR(dp->reset);
- 	}
- 
-+	ret = zynqmp_dp_reset(dp, false);
-+	if (ret < 0)
-+		return ret;
-+
- 	ret = zynqmp_dp_phy_probe(dp);
- 	if (ret)
--		return ret;
-+		goto err_reset;
- 
- 	/* Initialize the hardware. */
- 	zynqmp_dp_write(dp, ZYNQMP_DP_TX_PHY_POWER_DOWN,
-@@ -1696,7 +1694,7 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
- 
- 	ret = zynqmp_dp_phy_init(dp);
- 	if (ret)
--		return ret;
-+		goto err_reset;
- 
- 	zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 1);
- 
-@@ -1708,15 +1706,18 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
- 					zynqmp_dp_irq_handler, IRQF_ONESHOT,
- 					dev_name(dp->dev), dp);
- 	if (ret < 0)
--		goto error;
-+		goto err_phy_exit;
- 
- 	dev_dbg(dp->dev, "ZynqMP DisplayPort Tx probed with %u lanes\n",
- 		dp->num_lanes);
- 
- 	return 0;
- 
--error:
-+err_phy_exit:
- 	zynqmp_dp_phy_exit(dp);
-+err_reset:
-+	zynqmp_dp_reset(dp, true);
-+
- 	return ret;
- }
- 
-@@ -1734,4 +1735,5 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
- 	zynqmp_dp_write(dp, ZYNQMP_DP_INT_DS, 0xffffffff);
- 
- 	zynqmp_dp_phy_exit(dp);
-+	zynqmp_dp_reset(dp, true);
- }
--- 
-2.25.1
 
 _______________________________________________
 dri-devel mailing list
