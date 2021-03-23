@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAAA2345F71
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 14:18:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67C48345F8F
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 14:23:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A27276E8F8;
-	Tue, 23 Mar 2021 13:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2FFC6E8A3;
+	Tue, 23 Mar 2021 13:23:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE79F6E8F8
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 13:18:20 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id c8so7831247wrq.11
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 06:18:20 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 177E26E8A3
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 13:23:39 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id b9so20761072wrt.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 06:23:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=d31tAy4LHdJGKZG/7KvKbLGdDszUDjOkGzIleuY1jbg=;
- b=Zh0tcVj/dUje61OND1Rzx+r4Tie3fG7fisa+9jojAjwYkap3v71R41rdfWtgaQoRha
- gkY1mE29YYvdHoAIc7KEdBIsYSAAdCsP/SdzUgc7iG8GkXIWGI6tmsQ0Un1btwG/Jodg
- ufV45Fi1jnB5wi4Xrp02/knSb7BBnYhP5Ocqc=
+ bh=5LNwVGo2JfdYYDu+UqyLlQQXc0p8gS/kb24bTlSb2vQ=;
+ b=BerUZMuvqFDev6lmR1p2JDW+6R3cYG6TJ7zt3tIDLAHGQxljea3e4255NBPil9eUzW
+ /dI3wm7dMo9yFbM4Eq/gRb/UFPW2jr5KWJ8f8Ao/9Sir1AnEH5KNDRoRIyNHKF4RKmar
+ OUdAdDwUGEBc4Tjw4Lr6x5G/uO9OvzDJdsb4U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=d31tAy4LHdJGKZG/7KvKbLGdDszUDjOkGzIleuY1jbg=;
- b=CDNXJBPm/1pU/Y8YprEsNbkfcOJkxBdYAuzZKoEEZmCBYSupuPXao90PBS+KS5VDJj
- 9q8FvtFK5OwgrNPAJLt3oxnWr6U6jt6vp78YCKAp1irsI/2jniUZ+wcFXvMXBRWLuT3a
- z0IieAuk/Sz9k9EmfGcjaeW2tjr7ljwEyQN2292j17tDHharUaL8KMAnlSa6lrzN0JOv
- cyMqvLMaCBRHwek4Mzl1YngLeSazk026NNRiC9VI6pWkfPaW9zIL7HySjm5Z6O7tHDJE
- Bd2klzNsP57tpegAiHicGKqZo9sjXL4K8fmAgrOlDmmihb/oEIcOR0xDHmTfxD905kOl
- bzhA==
-X-Gm-Message-State: AOAM532X6O0118ySN7+B5w1yk3wsGbwsI42z53iI8ZWpulm5ld5pY0Xb
- Xh4fmWIUgpEK+84tN95FeFluUw==
-X-Google-Smtp-Source: ABdhPJwRgxcq3jhl8GRG8kQOZaKFgxSWV4EsDlE71AJ/RWJXWJqmAJyXZbCReernz99gTv8tjL3IMg==
-X-Received: by 2002:adf:e482:: with SMTP id i2mr3948008wrm.392.1616505499625; 
- Tue, 23 Mar 2021 06:18:19 -0700 (PDT)
+ bh=5LNwVGo2JfdYYDu+UqyLlQQXc0p8gS/kb24bTlSb2vQ=;
+ b=RTgUSEtMUwICV5RXQ1CBIlhOANonQQHShubldDRZ9CquosgK06FVNjS2CUDIpIulaR
+ IYR5qsaCSJIJu6hSlxKUTvG4UbvsPbQ+Bq+Wckjo42W9aoMDAAs1r2eYMA8mYZFlMHsf
+ G2PnAUfMoV58ZxnmO08fDU3ngshKpc9ST3VyjVOXcP+Y7Ks91oQG/zmnYtx009pTvsvV
+ 1AKDeZ0FVHpP7hN9wqdV3DI+Uo0gQX4Gevx/0gkoXVp1i1FN8JW+IrqQFE/Z7tnhIGmq
+ sBP7n3v9oY2AhKlNWx0qibjGToWDWVfVJVOkl1Vl1RiW3a8qjoWbJOZ9dfZtJchK6M0W
+ SN4g==
+X-Gm-Message-State: AOAM532k1/qPe3paqGhT6Q6npEQYufc74QqyfHsr/LHlk9Fk+fdVQr31
+ C6mpVcItBSchXLV6LC0ztJbV2w==
+X-Google-Smtp-Source: ABdhPJxjHNDP5XhmFtnF+V6LCIydneunJQp24NbMr8l654Ml7pWwf5MZK0HIAI+0kdgDipMsOjwjNg==
+X-Received: by 2002:a5d:50c7:: with SMTP id f7mr4126933wrt.18.1616505817776;
+ Tue, 23 Mar 2021 06:23:37 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m5sm3201702wrq.15.2021.03.23.06.18.18
+ by smtp.gmail.com with ESMTPSA id q17sm23141151wrv.25.2021.03.23.06.23.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 06:18:18 -0700 (PDT)
-Date: Tue, 23 Mar 2021 14:18:17 +0100
+ Tue, 23 Mar 2021 06:23:36 -0700 (PDT)
+Date: Tue, 23 Mar 2021 14:23:34 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 1/2] drm/i915: add gem/gt TODO
-Message-ID: <YFnqmRkNdpljN30g@phenom.ffwll.local>
-References: <20210323084453.366863-1-daniel.vetter@ffwll.ch>
- <874kh25gaw.fsf@intel.com> <YFnXszc5lZ/omk2V@phenom.ffwll.local>
- <YFngbxt0KbZPXKll@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 3/4] drm/i915: Drop the CONTEXT_CLONE API
+Message-ID: <YFnr1iNxXnNCyhgf@phenom.ffwll.local>
+References: <20210319223856.2983244-1-jason@jlekstrand.net>
+ <20210319223856.2983244-4-jason@jlekstrand.net>
+ <7918db68-835c-b416-6187-1e62892ce5ed@linux.intel.com>
+ <YFilKSbKYd+0HbCn@phenom.ffwll.local>
+ <d83162e2-4b9e-c7e9-5324-6612bb9561d6@linux.intel.com>
+ <CAKMK7uG0GLPu+auqDgMgD7ugvWo3E7W7DL6eALKxmp6hk-aZiA@mail.gmail.com>
+ <fb406aca-1211-e1e5-b6a0-830c26d327ae@linux.intel.com>
+ <CAKMK7uEf5p+UJNtr0sBRRjegn=88Pr=BCYhGpTy_J1hpRspk7Q@mail.gmail.com>
+ <c2cab688-5e54-078b-7eed-7437ec2377e0@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YFngbxt0KbZPXKll@intel.com>
+In-Reply-To: <c2cab688-5e54-078b-7eed-7437ec2377e0@linux.intel.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,145 +72,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie <airlied@redhat.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 23, 2021 at 08:34:55AM -0400, Rodrigo Vivi wrote:
-> On Tue, Mar 23, 2021 at 12:57:39PM +0100, Daniel Vetter wrote:
-> > On Tue, Mar 23, 2021 at 12:13:11PM +0200, Jani Nikula wrote:
-> > > On Tue, 23 Mar 2021, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > > We've discussed a bit how to get the gem/gt team better integrated
-> > > > and collaborate more with the wider community and agreed to the
-> > > > following:
-> > > >
-> > > > - all gem/gt patches are reviewed on dri-devel for now. That's
-> > > >   overkill, but in the past there was definitely too little of that.
-> > > >
-> > > > - i915-gem folks are encouraged to cross review core patches from
-> > > >   other teams
-> > > >
-> > > > - big features (especially uapi changes) need to be discussed in an
-> > > >   rfc patch that documents the interface and big picture design,
-> > > >   before we get lost in the details of the code
-> > > >
-> > > > - Also a rough TODO (can be refined as we go ofc) to get gem/gt back
-> > > >   on track, like we've e.g. done with DAL/DC to get that in shape.
+On Tue, Mar 23, 2021 at 09:14:36AM +0000, Tvrtko Ursulin wrote:
+> 
+> On 22/03/2021 16:43, Daniel Vetter wrote:
+> > On Mon, Mar 22, 2021 at 4:31 PM Tvrtko Ursulin
+> > <tvrtko.ursulin@linux.intel.com> wrote:
 > > > 
-> > > I personally think there should be a lower bar for discussing and
-> > > editing the TODO items than via patches on the mailing list. Granted,
-> > > the TODO file enforces the discussion happens at a large enough
-> > > audience, but for at least some of the items I'd suggest filing gitlab
-> > > issues [1], with todo label, and tracking there.
-> 
-> I also don't like the todo list in files and I agree that gitlab issues
-> section should be better...
-> 
-> > In general yes, and I'd go even further: it's up to each team/contributor
-> > how they track review feedback and further work, whether that's gitlab or
-> > some notes or just in their heads.
+> > > 
+> > > On 22/03/2021 14:57, Daniel Vetter wrote:
+> > > > On Mon, Mar 22, 2021 at 3:33 PM Tvrtko Ursulin
+> > > > <tvrtko.ursulin@linux.intel.com> wrote:
+> > > > > 
+> > > > > 
+> > > > > On 22/03/2021 14:09, Daniel Vetter wrote:
+> > > > > > On Mon, Mar 22, 2021 at 11:22:01AM +0000, Tvrtko Ursulin wrote:
+> > > > > > > 
+> > > > > > > On 19/03/2021 22:38, Jason Ekstrand wrote:
+> > > > > > > > This API allows one context to grab bits out of another context upon
+> > > > > > > > creation.  It can be used as a short-cut for setparam(getparam()) for
+> > > > > > > > things like I915_CONTEXT_PARAM_VM.  However, it's never been used by any
+> > > > > > > > real userspace.  It's used by a few IGT tests and that's it.  Since it
+> > > > > > > > doesn't add any real value (most of the stuff you can CLONE you can copy
+> > > > > > > > in other ways), drop it.
+> > > > > > > 
+> > > > > > > No complaints to remove if it ended up unused outside IGT. Latter is a _big_
+> > > > > > > problem though, since it is much more that a few IGT tests. So I really
+> > > > > > > think there really needs to be an evaluation and a plan for that (we don't
+> > > > > > > want to lose 50% of the coverage over night).
+> > > > > > > 
+> > > > > > > > There is one thing that this API allows you to clone which you cannot
+> > > > > > > > clone via getparam/setparam: timelines.  However, timelines are an
+> > > > > > > > implementation detail of i915 and not really something that needs to be
+> > > > > > > 
+> > > > > > > Not really true timelines are i915 implementation detail. They are in fact a
+> > > > > > > dma-fence context:seqno concept, nothing more that than. I think you are
+> > > > > > > probably confusing struct intel_timeline with the timeline wording in the
+> > > > > > > uapi. Former is i915 implementation detail, but context:seqno are truly
+> > > > > > > userspace timelines.
+> > > > > > 
+> > > > > > I think you're both saying the same thing and talking a bit past each
+> > > > > > another.
+> > > > > > 
+> > > > > > Yes the timeline is just a string of dma_fence, that's correct. Now
+> > > > > > usually if you submit batches with execbuf, we have 3 ways to synchronize
+> > > > > > concurrent submission: implicit sync, sync_file and drm_syncob. They all
+> > > > > > map to different needs in different protocols/render apis.
+> > > > > > 
+> > > > > > Now in one additional case the kernel makes sure that batchbuffers are
+> > > > > > ordered, and that's when you submit them to the same hw ctx. Because
+> > > > > > there's only 1 hw context and you really can't have batchbuffers run on
+> > > > > > that single hw context out of order. That's what the timeline object we
+> > > > > > talk about here is. But that largely is an internal implementation detail,
+> > > > > > which happens to also use most/all the same infrastructure as the
+> > > > > > dma_fence uapi pieces above.
+> > > > > > 
+> > > > > > Now the internal implementation detail leaking here is that we exposed
+> > > > > > this to userspace, without there being any need for this. What Jason
+> > > > > > implements with syncobj in the next patch is essentially what userspace
+> > > > > > should have been using for cross-engine sync. media userspace doesn't care
+> > > > > > about interop with winsys/client apis, so they equally could have used
+> > > > > > implicit sync or sync_file here (which I think is the solution now for the
+> > > > > > new uapi prepped internally), since they all are about equally powerful
+> > > > > > for stringing batchbuffers together.
+> > > > > 
+> > > > > Are you saying we exposed a single timeline of execution per hw context
+> > > > > via the single timeline flag?!
+> > > > 
+> > > > Nope.
+> > > > 
+> > > > > Timelines of execution were always exposed. Any "engine" (ring
+> > > > > previously) in I915_EXEC_RING_MASK was a single timeline of execution.
+> > > > > It is completely the same with engine map engines, which are also
+> > > > > different indices into I915_EXEC_RING_MASK space.
+> > > > > 
+> > > > > Userspace was aware of these timelines forever as well. Media was
+> > > > > creating multiple contexts to have multiple timelines (so parallelism).
+> > > > > Everyone knew that engine-hopping submissions needs to be either
+> > > > > implicitly or explicitly synchronised, etc.
+> > > > 
+> > > > Yup, I think we're saying the same thing here.
+> > > > 
+> > > > > So I really don't see that we have leaked timelines as a concept *now*.
+> > > > > What the patch has exposed to userspace is a new way to sync between
+> > > > > timelines and nothing more.
+> > > > 
+> > > > We've leaked it as something you can now share across hw context.
+> > > 
+> > > Okay so we agree on most things but apparently have different
+> > > definitions of what it means to leak internal implementation details.
+> > > 
+> > > While at the same time proof that we haven't leaked the internal
+> > > implementation details is that Jason was able to implement the single
+> > > timeline flag with a drm syncobj at the execbuf top level. (Well mostly,
+> > > ignoring the probably inconsequential difference of one vs multiple
+> > > fence contexts.)
 > > 
-> > This is a different situation here, and the "changes require big audience"
-> > is a feature, not a bug. But it is a very exceptional situation, I think
-> > this is only the 2nd time we're using a formal TODO for a gpu driver. If
-> > we ignore gma500 in staging, which for me only showed that the separate
-> > staging tree doesn't work so well for complex drivers like we have.
+> > It's not a matching implementation. It's only good enough for what
+> > media needs, and essentially what media should have done to begin
+> > with.
+> > 
+> > There's substantially different behaviour between SINGLE_TIMELINE and
+> > what Jason has done here when you race concurrent execbuf calls:
+> > Former guarantees total ordering, the latter doesn't even try. They
+> > are not the same thing, but luckily userspace doesn't care about that
+> > difference.
 > 
-> ... but I understand the motivation, so
+> Sounds like a very important difference to stress in the commit message.
 > 
-> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> 
-> However... what about:
-> 
-> 1. moving the smaller items to gitlab at least?
-> 2. having both, all the entries in the todo file have gitlab issue
-> associated and the number-id is also here in the todo file?
+> Secondly, I am unclear whether we have agreement on whether the single
+> timeline flag is leaking implementation details of the execlists scheduler
+> to userspace or not?
 
-Yeah that sounds reasonable. tbh we haven't started any of the
-intel-internal planning on most of these (ttm and scheduler are started),
-so none of these tracking things exist yet at all ...
+I do think Jason&me agree on that it does leak an internal concept to
+userspace that we shouldn't leak.
+
+I'm honestly not entirely understanding your argument for why
+single_timeline isn't an internal concept somehow, and how exposing it to
+userspace doesn't leak that concept to userspace. Whether internally that
+concept is now perfectly represented by just struct intel_timeline, or
+maybe more the seqno/hswp, or more diffused through the code doesn't
+really change that we have an internal concept that we're now exposing for
+sharing in ways that wasn't possible before.
 -Daniel
 
+> Regards,
 > 
+> Tvrtko
+> 
+> > 
+> > Aside, just to make sure this wont get lost: I do agree that we should
+> > only allow this up to maybe ADL, and reject it on anything new (maybe
+> > including dg1 while we're at it, since the pci ids for that aren't
+> > even close to upstream yet).
 > > -Daniel
 > > 
+> > > > Which is possible because of how it's internally implemented (I think
+> > > > load balancer relies on that), but not really a synchronization
 > > > 
-> > > BR,
-> > > Jani.
+> > > Virtual engine is a single timeline by definition and it is still that
+> > > regardless of the implementation details (execlists or GuC, in both
+> > > cases it is a single hardware context and a single timeline).
 > > > 
+> > > > primitive we want to export as such to userspace. We have other
+> > > > interfaces and concepts for that.
 > > > 
-> > > [1] https://gitlab.freedesktop.org/drm/intel/-/issues
+> > > Yes, that is the only point to argue IMO. We can say it wasn't needed
+> > > and should have been avoided, but I still maintain we can't really say
+> > > we leaked anything backend specific to userspace via it.
 > > > 
+> > > Regards,
 > > > 
-> > > 
-> > > >
-> > > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > > > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > > > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > > > Cc: Jason Ekstrand <jason@jlekstrand.net>
-> > > > Cc: Dave Airlie <airlied@redhat.com>
-> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > > ---
-> > > >  drivers/gpu/drm/i915/TODO.txt | 36 +++++++++++++++++++++++++++++++++++
-> > > >  1 file changed, 36 insertions(+)
-> > > >  create mode 100644 drivers/gpu/drm/i915/TODO.txt
-> > > >
-> > > > diff --git a/drivers/gpu/drm/i915/TODO.txt b/drivers/gpu/drm/i915/TODO.txt
-> > > > new file mode 100644
-> > > > index 000000000000..d2e5bbb6339d
-> > > > --- /dev/null
-> > > > +++ b/drivers/gpu/drm/i915/TODO.txt
-> > > > @@ -0,0 +1,36 @@
-> > > > +gem/gt TODO items
-> > > > +-----------------
-> > > > +
-> > > > +- For discrete memory manager, merge enough dg1 to be able to refactor it to
-> > > > +  TTM. Then land pci ids (just in case that turns up an uapi problem). TTM has
-> > > > +  improved a lot the past 2 years, there's no reason anymore not to use it.
-> > > > +
-> > > > +- Come up with a plan what to do with drm/scheduler and how to get there.
-> > > > +
-> > > > +- There's a lot of complexity added past few years to make relocations faster.
-> > > > +  That doesn't make sense given hw and gpu apis moved away from this model years
-> > > > +  ago:
-> > > > +  1. Land a modern pre-bound uapi like VM_BIND
-> > > > +  2. Any complexity added in this area past few years which can't be justified
-> > > > +  with VM_BIND using userspace should be removed. Looking at amdgpu dma_resv on
-> > > > +  the bo and vm, plus some lru locks is all that needed. No complex rcu,
-> > > > +  refcounts, caching, ... on everything.
-> > > > +  This is the matching task on the vm side compared to ttm/dma_resv on the
-> > > > +  backing storage side.
-> > > > +
-> > > > +- i915_sw_fence seems to be the main structure for the i915-gem dma_fence model.
-> > > > +  How-to-dma_fence is core and drivers really shouldn't build their own world
-> > > > +  here, treating everything else as a fixed platform. i915_sw_fence concepts
-> > > > +  should be moved to dma_fence, drm/scheduler or atomic commit helpers. Or
-> > > > +  removed if dri-devel consensus is that it's not a good idea. Once that's done
-> > > > +  maybe even remove it if there's nothing left.
-> > > > +
-> > > > +Smaller things:
-> > > > +- i915_utils.h needs to be moved to the right places.
-> > > > +
-> > > > +- dma_fence_work should be in drivers/dma-buf
-> > > > +
-> > > > +- i915_mm.c should be moved to the right places. Some of the helpers also look a
-> > > > +  bit fishy:
-> > > > +
-> > > > +  https://lore.kernel.org/linux-mm/20210301083320.943079-1-hch@lst.de/
-> > > 
-> > > -- 
-> > > Jani Nikula, Intel Open Source Graphics Center
+> > > Tvrtko
 > > 
-> > -- 
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+> > 
+> > 
 
 -- 
 Daniel Vetter
