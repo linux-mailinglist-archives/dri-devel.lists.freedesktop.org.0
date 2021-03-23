@@ -2,44 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B99CB345B4D
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 10:48:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB20F345B8D
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 11:01:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B6D96E0DD;
-	Tue, 23 Mar 2021 09:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA8146E887;
+	Tue, 23 Mar 2021 10:01:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E06136E0DB;
- Tue, 23 Mar 2021 09:48:24 +0000 (UTC)
-IronPort-SDR: q2IahNmw84CzsHJIz+ndh1U08MFDz6AQ9DCOqvxRf+7hMp8o3vsFMzZkGupq9SBYVPvtHQXoEw
- BnkO1LncDwvA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="188127758"
-X-IronPort-AV: E=Sophos;i="5.81,271,1610438400"; d="scan'208";a="188127758"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2021 02:48:24 -0700
-IronPort-SDR: vmoHpaZrdGh97n1ivmxXbMxWwe1TAvGQ0h+qTr5Zi/f8t2BwhEGLN1vw6PJdpKhkO3lPHjqeTc
- /4H0vWUHyUSA==
-X-IronPort-AV: E=Sophos;i="5.81,271,1610438400"; d="scan'208";a="452077134"
-Received: from fbogue-mobl1.ger.corp.intel.com (HELO [10.213.247.160])
- ([10.213.247.160])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2021 02:48:20 -0700
-Subject: Re: [Intel-gfx] [PATCH 1/6] drm/i915: Individual request cancellation
-To: Matthew Auld <matthew.william.auld@gmail.com>
-References: <20210318170419.2107512-1-tvrtko.ursulin@linux.intel.com>
- <20210318170419.2107512-2-tvrtko.ursulin@linux.intel.com>
- <CAM0jSHNLVqvtMPs+vdiDVpiZwotruqxyCLzBjbZSoVHaCDd3rg@mail.gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <fdfde4a0-b748-bcd9-e427-080eeaef3bec@linux.intel.com>
-Date: Tue, 23 Mar 2021 09:48:18 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A81B6E887
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 10:01:24 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id u21so8101641ejo.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 03:01:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nj4YcCb7xjYVbxlcwxxDQrqQ71mTXMPHZgfWFiKufYI=;
+ b=Vwnf9gIIyfDs4RawhTaywxnMirJTfyjnqOrLX2NEQ3rhT8n/yMvtszcac60vbIREjo
+ poQKz2Y604m2WZTdvoRefkvHJ9O9DZ9kE2CFeeBKpVDVEsZePKSyoSWvJr6d04m3wgDJ
+ 8JIcCxyYxl7mC0dfGVm7jUsibRu0Rgo4Q2JWBLgglZisNRE1IuUoaHSIHrCgaOw5JakA
+ K51rnUknIWtg7Ej5zEMMNboAB9llNqHQ15QMokSpR7X2Qyds8+j5GR7dtOnFnYxBI7JI
+ 8BunhCHS571+8CkvdDjlRl10vsT7TGYENTq0E1m3T6fkW66BMO5W5n9tqQsLr8GSf2fU
+ 3AMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nj4YcCb7xjYVbxlcwxxDQrqQ71mTXMPHZgfWFiKufYI=;
+ b=LpQbBiDgZQQeSr0u+MldL5RB/b4FQz7V/guU6nqJ/+Ay1Bemwd0pZIiEeezxDUi9S8
+ OH9AjW0Qg0t5kpplBf8GN+LtFE4zawcguLl+CDbifPuNI7R43m1fpBh31DZRtJsNw07Y
+ DKcX1SzfYfrWcr9zZcSbBd0oT0BgLB1qgJQXNsBr7DrveZL/OnVM1c3XBYmR+89KFF5L
+ wTUad6OQ+jSYA6Rv95n5oavtOzpEv7o26SXKFeyz8mjMSprh5mt4HYRqpYUAV/M+6OyR
+ 4//zNMcnQkwGHcZ67gnQzKCmV+k5zvK7GJBKpUpxZMSoabRFWJ6uiuc6FRdgrP/ct5iE
+ FMbw==
+X-Gm-Message-State: AOAM533Yb5JJGLTKN+2lpUQcR5PSrBHbVOEU59rxEttdK34aDeamsqO/
+ pEJ8B9hoNzagz/GZmKRcE+4Eaqe/4ocnmObErcA=
+X-Google-Smtp-Source: ABdhPJx0yvU4tb0BcWmW3MEpF/P3YjS9itwZH71QHOPG67k7RMfo5h3+ymT/wvQgYmGv6Vmbu15NqNphFtzHRPrl3kU=
+X-Received: by 2002:a17:906:a8a:: with SMTP id
+ y10mr4250922ejf.288.1616493683238; 
+ Tue, 23 Mar 2021 03:01:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAM0jSHNLVqvtMPs+vdiDVpiZwotruqxyCLzBjbZSoVHaCDd3rg@mail.gmail.com>
-Content-Language: en-US
+References: <20210308120555.252524-1-adrien.grassein@gmail.com>
+ <20210308120555.252524-3-adrien.grassein@gmail.com>
+ <CAG3jFytoE9hWvq2e2Caqn4qP_RuEOnm4r9VQ85ffbAcguSLf+w@mail.gmail.com>
+In-Reply-To: <CAG3jFytoE9hWvq2e2Caqn4qP_RuEOnm4r9VQ85ffbAcguSLf+w@mail.gmail.com>
+From: Adrien Grassein <adrien.grassein@gmail.com>
+Date: Tue, 23 Mar 2021 11:01:12 +0100
+Message-ID: <CABkfQAGvPy3DzXQnDJqm1q_rOLWR7BQTXb8z05iML3s3Mc8LJw@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] drm/bridge: Introduce LT8912B DSI to HDMI bridge
+To: Robert Foss <robert.foss@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,164 +64,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ kernel test robot <lkp@intel.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 22/03/2021 15:38, Matthew Auld wrote:
-> On Thu, 18 Mar 2021 at 17:04, Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
->>
->> From: Chris Wilson <chris@chris-wilson.co.uk>
->>
->> Currently, we cancel outstanding requests within a context when the
->> context is closed. We may also want to cancel individual requests using
->> the same graceful preemption mechanism.
->>
->> v2 (Tvrtko):
->>   * Cancel waiters carefully considering no timeline lock and RCU.
->>   * Fixed selftests.
->>
->> v3 (Tvrtko):
->>   * Remove error propagation to waiters for now.
->>
->> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> ---
->>   .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |   1 +
->>   .../drm/i915/gt/intel_execlists_submission.c  |   9 +-
->>   drivers/gpu/drm/i915/i915_request.c           |  52 ++++-
->>   drivers/gpu/drm/i915/i915_request.h           |   4 +-
->>   drivers/gpu/drm/i915/selftests/i915_request.c | 201 ++++++++++++++++++
->>   5 files changed, 261 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
->> index 0b062fad1837..e2fb3ae2aaf3 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
->> @@ -314,6 +314,7 @@ int intel_engine_pulse(struct intel_engine_cs *engine)
->>                  mutex_unlock(&ce->timeline->mutex);
->>          }
->>
->> +       intel_engine_flush_scheduler(engine);
->>          intel_engine_pm_put(engine);
->>          return err;
->>   }
->> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> index 85ff5fe861b4..4c2acb5a6c0a 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> @@ -421,6 +421,11 @@ static void reset_active(struct i915_request *rq,
->>          ce->lrc.lrca = lrc_update_regs(ce, engine, head);
->>   }
->>
->> +static bool bad_request(const struct i915_request *rq)
->> +{
->> +       return rq->fence.error && i915_request_started(rq);
->> +}
->> +
->>   static struct intel_engine_cs *
->>   __execlists_schedule_in(struct i915_request *rq)
->>   {
->> @@ -433,7 +438,7 @@ __execlists_schedule_in(struct i915_request *rq)
->>                       !intel_engine_has_heartbeat(engine)))
->>                  intel_context_set_banned(ce);
->>
->> -       if (unlikely(intel_context_is_banned(ce)))
->> +       if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
->>                  reset_active(rq, engine);
->>
->>          if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
->> @@ -1112,7 +1117,7 @@ static unsigned long active_preempt_timeout(struct intel_engine_cs *engine,
->>                  return 0;
->>
->>          /* Force a fast reset for terminated contexts (ignoring sysfs!) */
->> -       if (unlikely(intel_context_is_banned(rq->context)))
->> +       if (unlikely(intel_context_is_banned(rq->context) || bad_request(rq)))
->>                  return 1;
->>
->>          return READ_ONCE(engine->props.preempt_timeout_ms);
->> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
->> index e7b4c4bc41a6..b4511ac05e9a 100644
->> --- a/drivers/gpu/drm/i915/i915_request.c
->> +++ b/drivers/gpu/drm/i915/i915_request.c
->> @@ -33,7 +33,10 @@
->>   #include "gem/i915_gem_context.h"
->>   #include "gt/intel_breadcrumbs.h"
->>   #include "gt/intel_context.h"
->> +#include "gt/intel_engine.h"
->> +#include "gt/intel_engine_heartbeat.h"
->>   #include "gt/intel_gpu_commands.h"
->> +#include "gt/intel_reset.h"
->>   #include "gt/intel_ring.h"
->>   #include "gt/intel_rps.h"
->>
->> @@ -429,20 +432,22 @@ void __i915_request_skip(struct i915_request *rq)
->>          rq->infix = rq->postfix;
->>   }
->>
->> -void i915_request_set_error_once(struct i915_request *rq, int error)
->> +bool i915_request_set_error_once(struct i915_request *rq, int error)
->>   {
->>          int old;
->>
->>          GEM_BUG_ON(!IS_ERR_VALUE((long)error));
->>
->>          if (i915_request_signaled(rq))
->> -               return;
->> +               return false;
->>
->>          old = READ_ONCE(rq->fence.error);
->>          do {
->>                  if (fatal_error(old))
->> -                       return;
->> +                       return false;
->>          } while (!try_cmpxchg(&rq->fence.error, &old, error));
->> +
->> +       return true;
->>   }
->>
->>   struct i915_request *i915_request_mark_eio(struct i915_request *rq)
->> @@ -609,6 +614,47 @@ void i915_request_unsubmit(struct i915_request *request)
->>          spin_unlock_irqrestore(&se->lock, flags);
->>   }
->>
->> +static struct intel_engine_cs *active_engine(struct i915_request *rq)
->> +{
->> +       struct intel_engine_cs *engine, *locked;
->> +
->> +       locked = READ_ONCE(rq->engine);
->> +       spin_lock_irq(&locked->sched.lock);
->> +       while (unlikely(locked != (engine = READ_ONCE(rq->engine)))) {
->> +               spin_unlock(&locked->sched.lock);
->> +               locked = engine;
->> +               spin_lock(&locked->sched.lock);
->> +       }
->> +
->> +       engine = NULL;
->> +       if (i915_request_is_active(rq) && !__i915_request_is_complete(rq))
->> +               engine = locked;
->> +
->> +       spin_unlock_irq(&locked->sched.lock);
->> +
->> +       return engine;
-> 
-> Bad idea to reuse __active_engine() somehow?
-
-I can try and see how it ends up looking.
-
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-> 
-
-Thanks,
-
-Tvrtko
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGV5IFJvYmVydCwKClRoYW5rcyBmb3IgdGhlIHVwZGF0ZS4KCkxlIG1hci4gMjMgbWFycyAyMDIx
+IMOgIDEwOjEwLCBSb2JlcnQgRm9zcyA8cm9iZXJ0LmZvc3NAbGluYXJvLm9yZz4gYSDDqWNyaXQg
+Ogo+Cj4gSGV5IEFkcmllbiwKPgo+IFNvcnJ5IGFib3V0IHRoZSBzbG93IHJlcGx5LCBidXQgSSBq
+dXN0IHJlY2VpdmVkIHRoZSBkb2N1bWVudGF0aW9uIGZyb20KPiB0aGUgdmVuZG9yLiBTbyBsZXQn
+cyBkaWcgaW4gdG8gdGhlIEhQRCBpc3N1ZS4KCk5vIHByb2JsZW0gOikKPgo+ID4gK3N0YXRpYyBl
+bnVtIGRybV9jb25uZWN0b3Jfc3RhdHVzIGx0ODkxMl9jaGVja19jYWJsZV9zdGF0dXMoc3RydWN0
+IGx0ODkxMiAqbHQpCj4gPiArewo+ID4gKyAgICAgICBpbnQgcmV0Owo+ID4gKyAgICAgICB1bnNp
+Z25lZCBpbnQgcmVnX3ZhbDsKPiA+ICsKPiA+ICsgICAgICAgcmV0ID0gcmVnbWFwX3JlYWQobHQt
+PnJlZ21hcFtJMkNfTUFJTl0sIDB4QzEsICZyZWdfdmFsKTsKPiA+ICsgICAgICAgaWYgKHJldCkK
+PiA+ICsgICAgICAgICAgICAgICByZXR1cm4gY29ubmVjdG9yX3N0YXR1c191bmtub3duOwo+ID4g
+Kwo+ID4gKyAgICAgICBpZiAocmVnX3ZhbCAmIEJJVCg3KSkKPiA+ICsgICAgICAgICAgICAgICBy
+ZXR1cm4gY29ubmVjdG9yX3N0YXR1c19jb25uZWN0ZWQ7Cj4KPiBSZWdpc3RlciAweGMwICYgQklU
+KDcpIC0gSFBEIHNpZ25hbCBhZnRlciBkZWJvdW5jZQo+IFJlZ2lzdGVyIDB4YzAgJiBCSVQoNikg
+LSBIUEQgc2lnbmFsIGZvciBUWCBIUEQgcGFkCgpTbywgaWYgSSB1bmRlcnN0YW5kIHdlbGwsIEkg
+bmVlZCB0byB3cml0ZSAweGMwICYgQklUKDYpIHdpdGggMSB0bwplbmFibGUgdGhlIEhQRCBwaW4u
+Cj4KPiA+ICsKPiA+ICtzdGF0aWMgaW50IGx0ODkxMl9wcm9iZShzdHJ1Y3QgaTJjX2NsaWVudCAq
+Y2xpZW50LAo+ID4gKyAgICAgICAgY29uc3Qgc3RydWN0IGkyY19kZXZpY2VfaWQgKmlkKQo+ID4g
+K3sKPiA+ICsgICAgICAgc3RhdGljIHN0cnVjdCBsdDg5MTIgKmx0Owo+ID4gKyAgICAgICBpbnQg
+cmV0ID0gMDsKPiA+ICsgICAgICAgc3RydWN0IGRldmljZSAqZGV2ID0gJmNsaWVudC0+ZGV2Owo+
+ID4gKwo+ID4gKyAgICAgICBsdCA9IGRldm1fa3phbGxvYyhkZXYsIHNpemVvZihzdHJ1Y3QgbHQ4
+OTEyKSwgR0ZQX0tFUk5FTCk7Cj4gPiArICAgICAgIGlmICghbHQpCj4gPiArICAgICAgICAgICAg
+ICAgcmV0dXJuIC1FTk9NRU07Cj4gPiArCj4gPiArICAgICAgIGx0LT5kZXYgPSBkZXY7Cj4gPiAr
+ICAgICAgIGx0LT5pMmNfY2xpZW50WzBdID0gY2xpZW50Owo+ID4gKyAgICAgICBsdC0+Y2FibGVf
+c3RhdHVzID0gY29ubmVjdG9yX3N0YXR1c191bmtub3duOwo+ID4gKyAgICAgICBsdC0+d29ya3Eg
+PSBjcmVhdGVfd29ya3F1ZXVlKCJsdDg5MTJfd29ya3EiKTsKPgo+IExvb2tpbmcgYXQgWzFdIGFu
+ZCBtYXliZSBldmVuIGJldHRlciBbMl0sIEkgdGhpbmsgdGhpcyBwb2xsaW5nCj4gYXBwcm9hY2gg
+aXMgdGhlIHdyb25nIHdheSB0byBnby4gQW5kIHdpdGggYWNjZXNzIHRvIGRvY3VtZW50YXRpb24s
+IEkKPiB0aGluayB3ZSBzaG91bGQgYmUgYWJsZSB0byBzb3J0IHRoaXMgb3V0LgoKSSBuZWl0aGVy
+IGxpa2UgdGhlIHBvbGxpbmcgYXBwcm9hY2ggdG9vLiBJIGRpZCBpdCB0byBnbyBvbiB0aGlzIGlz
+c3VlLgpJIHdpbGwgdG90YWxseSByZW1vdmUgaXQgb25jZSB0aGUgSFBEIGlzc3VlIHdpbGwgYmUg
+cmVzb2x2ZWQuCj4KPiBVc2luZyB0aGUgaXJxIGRyaXZlciBhcHByb2FjaCByZXF1aXJlcyB0aGUg
+aW50ZXJydXB0IHBpbiB0byBiZQo+IGNvbmZpZ3VyZWQuIFBpbiA2MyBvZiB0aGUgbHQ4OTEyYiBp
+cyB0aGUgSVJRIG91dHB1dCBwaW4uCj4KPiBJbiBvcmRlciB0byB0cmlnZ2VyIGludGVycnVwdHMg
+YmFzZWQgb24gaXQsIHRoZSBkdC1iaW5kaW5nIHdvdWxkIG5lZWQKPiB0byBiZSB1cGRhdGVkWzNd
+WzRdIGFzIHdlbGwgYXMgd2hpY2hldmVyIERUUyB5b3UncmUgdXNpbmcuCj4KClRoZSBJUlEgcGFy
+dCBpcyB3b3JraW5nIHdlbGwgaW4gbXkgRFRCLiBJdCB0ZXN0IGl0IGJ5IGFkZGluZyBzb21lCmVs
+ZWN0cm9uaWNzIHRvIGVtdWxhdGUgdGhlIEhQRCBwaW4gb24gdGhlIEdQSU8gZXhwYW5kZXIgd2hl
+cmUgdGhlIEhQRApwaW4gaXMgbGlua2VkLgoKPgo+IFsxXSBodHRwczovL2dpdGh1Yi5jb20vdG9y
+dmFsZHMvbGludXgvYmxvYi9tYXN0ZXIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9h
+bng3NjI1LmMjTDE3NTEKPgo+IFsyXSBodHRwczovL2dpdGh1Yi5jb20vdG9ydmFsZHMvbGludXgv
+YmxvYi92NS4xMS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2xvbnRpdW0tbHQ5NjExLmMjTDExNjAK
+Pgo+IFszXSBodHRwczovL2dpdGh1Yi5jb20vdG9ydmFsZHMvbGludXgvYmxvYi92NS4xMS9Eb2N1
+bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvbG9udGl1bSxsdDk2
+MTEueWFtbCNMMjcKPgo+IFs0XSBodHRwczovL2dpdGh1Yi5jb20vdG9ydmFsZHMvbGludXgvYmxv
+Yi92NS4xMS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2Uv
+bG9udGl1bSxsdDk2MTEueWFtbCNMMTQ0CgpUaGFua3MgYSBsb3QsCkFkcmllbgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
