@@ -2,112 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1726F3466D9
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 18:55:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F953466E1
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 18:55:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 037836E156;
-	Tue, 23 Mar 2021 17:55:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EB2D6EC65;
+	Tue, 23 Mar 2021 17:55:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com
- (mail-eopbgr690086.outbound.protection.outlook.com [40.107.69.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EE9F6E156;
- Tue, 23 Mar 2021 17:55:39 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2044.outbound.protection.outlook.com [40.107.237.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F1316EC63;
+ Tue, 23 Mar 2021 17:55:46 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EYQ1mPqLFlrTkVj8ZRY9XQSaTy9N7e7JxCgD2MPoPCf0Tsz2B/s3OdtSq/AxNInyBSIpG8aml8v07phN/QZR6Q1NHvV2bXJcNf7ugL/6vCh5VZBqLFum5G5XqW70bREFVzdiP/WNVvfdjB+E6Uc7FqxJDLufiJQuOlDBsqaXWd5vgT1b2az06WqX6S0qdcSncZ/R8ac7am9piuXBav23mHZ7occqFm49XgKjnu/on9s3gMD+dkPxMNxZcXJm1Qf1gU9pRq7FAbC6uv5yt6FbWdxkXsIzDbs9IqhbLSgV9R0mh+Os7bdbal96futNck88v4bXZ1UJtul3BQonF/qhXg==
+ b=mfayhXybrh2c62i+06dTnC200wpcy7/xoHItak3FQ/dmKMC1uACW1mPpPT1mMoQLKZ/c3MQ2SqzF154GNW7gqb6Ie4fC2dzcIhqWzcOEk22EQw6rGIlIRGf26C4mLNdc273zxUZI9pDHGaHnfHWcQrt5X29P5tZYVMcUdSqmQKJjlFzeG5Z6O85GVfsd8MQYfhh0qXokGlISL9JmBDtrCAH1pNR3WshLeHJ3WCBzN5wzPdl3ciK6fXfIjvoPpnCfq/qGnItc7CdjstQF+02Vbu7v47jFiaeZZgYRDLqzzOfD1cia0vhDSynKwHBblEObJdlFjTv/ZKtVg9SKKOvQSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+klokg7Imk3XVXvuh32b4sPj9twC4TOfOsVtA4fhaso=;
- b=AUofxYDWO4KRtepAy1NWAPLdYlWg5StCrGYose5Q/3ccWijtPv2hClSNBPD3GKpTuFsazCEp10pBEVP79Vq0LTArkW7HI2Gcuhp6oUP/xERMcpmDK5RJSpStmcG8DUMhDlswlNKN4h4bWiKJmod/zh+gLt5FCaSMLBuEqArBk5deThN1Z9vMne2qxmdB9Mu1oNJ9arFvylf8fRI9AxK1DeESWn+DippQIvGgA/wkufB2uV21GfGkM9uVZF+NHmAf3Pd8+MXKS1zPVV+BMYLOoexU4L/OrEKg7nEzGVJDxbd87b2NuzliLhJfAU3GAP6M3RWOPh1UTVe+GCIqbBHYOw==
+ bh=Ps70pD2M8y/jzVH2RadgWVUs+U7+B7YumeT5Y0MXiC8=;
+ b=iFADIqQ01PHQTsHy5PFQobysXQWQ/XUX+jbAgkZl0qqQlLEgVzSdc+1cxJY4gdb7nJtFuK+3WKiL5BRIi6fZbqGKa7WsCfSUdzhiGGO9QY7rc4SszC/v7tXZ3LoCqeEwBMGyD4kyc2fsf5QJJ7tPUYC8pCjdJzsl6940B7CyrVmF40Gmit5w9QFofeywj4hShLBmgY4ZJ/JuT2T1qKk+/lG9HX5jsJaM/4LsVo0qbITXW82EjsEqBz7+gVLMizc2OY09lWk1rrlKEL+4+y2Rc+f/QBskVoH5QJqNb035g5tqi4jOIZFtleskbm+h/zdEiGEYOpg/d3NPinOHyvcC3w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+klokg7Imk3XVXvuh32b4sPj9twC4TOfOsVtA4fhaso=;
- b=lV8W9sBmwFMKFd9C8km/tf+dd3dkkfmSK/8luNuuR0/qKTjRW/Euzo5yb2rohy3T0TPE8dwdy9/i+eKyo8JL2qEl1M2rmZ1Ej0LYcBt0R1z9Xmpr2vG+uFMVZ9K8puxt5eMHDwxHocGHA+4JcTepnZbiOkfWESXL7WO2op0t790kBv28o9wp4qDJlasmv5r31fx4WQL6CwbD5IIPqjzFVFnnFE7rqL1qtl8+H3o+LPxsYsgLKzwZagb4gs7anJ5Q72EbWfsIrd3tjL14qLP/l9WWlOgqHxxywtq4X+8xME82vx/2HiA8SmiLubk5mqFbCdWfDZq3J6p2Mht7GSdlHw==
+ bh=Ps70pD2M8y/jzVH2RadgWVUs+U7+B7YumeT5Y0MXiC8=;
+ b=rTpUiNZTkJZIxkMftWmr5I6n1xtr2IrpGo077ZkJOc20TI+FLi1bJ9iNjwFxOkPNCcmpgXj5dDumpxvw6flKNJsjSq3IUTaCjmszw208xGoeOGIsQFJWpE/ssEys/RohkhEnrpYjZuv4GAF/ZOMsO5tbAXTnNSAhdyc1tiDMAIkTrXIfVGJR1JEeqGLO02dEp75m41H0If+QojxFI2CMHtMWMcTMy/rrlqRkOA4kVo3XFH6fSWpgw9f8oxjwhsQC4nl7sAjDXKeZ0oWisQIYyp+44M/5orRwuySHEW0048W4mJkWOmj/2RoKY2SqVKw2AoKRxNtXpL11tAxJ5chPzQ==
 Authentication-Results: linux.ie; dkim=none (message not signed)
  header.d=none;linux.ie; dmarc=none action=none header.from=nvidia.com;
 Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB3932.namprd12.prod.outlook.com (2603:10b6:5:1c1::24) with
+ by DM6PR12MB4943.namprd12.prod.outlook.com (2603:10b6:5:1bc::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.23; Tue, 23 Mar
- 2021 17:55:38 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Tue, 23 Mar
+ 2021 17:55:44 +0000
 Received: from DM6PR12MB3834.namprd12.prod.outlook.com
  ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
  ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3955.027; Tue, 23 Mar 2021
- 17:55:38 +0000
+ 17:55:44 +0000
 From: Jason Gunthorpe <jgg@nvidia.com>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH 15/18] vfio/gvt: Make DRM_I915_GVT depend on VFIO_MDEV
-Date: Tue, 23 Mar 2021 14:55:32 -0300
-Message-Id: <15-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
+Subject: [PATCH 16/18] vfio/gvt: Use mdev_get_type_group_id()
+Date: Tue, 23 Mar 2021 14:55:33 -0300
+Message-Id: <16-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
 In-Reply-To: <0-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
 References: 
 X-Originating-IP: [206.223.160.26]
-X-ClientProxiedBy: BL0PR0102CA0020.prod.exchangelabs.com
- (2603:10b6:207:18::33) To DM6PR12MB3834.namprd12.prod.outlook.com
+X-ClientProxiedBy: BLAPR03CA0006.namprd03.prod.outlook.com
+ (2603:10b6:208:32b::11) To DM6PR12MB3834.namprd12.prod.outlook.com
  (2603:10b6:5:14a::12)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from mlx.ziepe.ca (206.223.160.26) by
- BL0PR0102CA0020.prod.exchangelabs.com (2603:10b6:207:18::33) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.18 via Frontend Transport; Tue, 23 Mar 2021 17:55:37 +0000
+ BLAPR03CA0006.namprd03.prod.outlook.com (2603:10b6:208:32b::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.24 via Frontend
+ Transport; Tue, 23 Mar 2021 17:55:41 +0000
 Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1lOlFf-001chL-PQ; Tue, 23 Mar 2021 14:55:35 -0300
+ <jgg@nvidia.com>)	id 1lOlFf-001chP-RF; Tue, 23 Mar 2021 14:55:35 -0300
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d10d278a-c7b3-4d5d-234c-08d8ee24dd6b
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3932:
+X-MS-Office365-Filtering-Correlation-Id: bace1b77-7578-4bb7-d13f-08d8ee24dfeb
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4943:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB39321E7648C67A5A3C98B49CC2649@DM6PR12MB3932.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Microsoft-Antispam-PRVS: <DM6PR12MB494305A307D7237B9E8DBEE8C2649@DM6PR12MB4943.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2rKx5FVN+RTeEQe4nzIMw8PXPBgw+AN3QGcuhVIfKNmlVNI4aQ7YFY0rWIWGrf/+RgYF4zfPcEoQCCG0kFviOQ5yp5xX/aiyj4SOuvfrSAIJwe1ikSke1/7R/ms5y6vYMTEeyxkS+pDTFJMofsuYc6fJziKrgYnU5Bt9elsGXD/pVoa+ct9Lai6O6JdyeB3m+xzPdlZ8lB/s6YYrxAjyDByXetoXFX7TsXugdr2Q92Cbi/Vn6VR8ie4rX+q0wVd4m4b0Vo8j2vhi72QjXmTQIH0WGSdBahR5+BaVtSCGpajzeF0jjVS70kxAg1SettsyqU+miqeEMPIcEtoCCmzSevl+CrUYOqc/mRdhYy62Tb6NMasdzYDtU1HTP+oqQCmvDO4coYxWSwsB+8e7emK4w/iI7EeYzwrYgD+t/DQAEh+5jNrT9sySW64YMaQCNMj2NZ1moW2A4u2clhwHVWV6sYuqRWZrqZ1fW5qZh0WPoXgAjEQwTwlLzA1O/vfDz8sORMIwH1M6w2kiy/8JoNbUWmDx3mEVLcNXKE61QOue+40vbAPwiAAQvV5a6RlEDYDEU4swWXM1szQQjhr5QRpIwa0JkanICOSGEEKiJtSULCJI5YIzlAfMkwy3due9PRW4LjkC00hl5IIvuTYocS+beUkpObp2a8i7/XNL6xr//xg=
+X-Microsoft-Antispam-Message-Info: Bi2dw13AUhgxLZdin76QjASeA56tOW+ydbfkGkDlqScBtfQRB9LXjTp5Ez/drE8309u9eQbMP1QOdAKAtOAPamj+/a8k6mZjXomOMj7WyKnj7suyFpigVoBRJ1w2eL+Irp2paJi/59HmPNdvMTbYPk4BjDgGVNI5lZGbszs2YXxSiLp4OQKgS4DwHUZIL8L9WPK9Fgb420noVkmiENMRvOJ4eDsCCY4OtQVGBvfUbBGW+oE9H/LXRWY4tImJlrsIROrWtVlGgIWl0BBWoN6uvWgihwtnnkPu2COrHN7gK8CkeyV8Ia4BH1sCMs+X/FR/ldpA2DBrZWqfkG+wDXzTDt/Ikhf8d2b/PXddV4CoHFV1qeSc0iDCsUcKZGMNo6HFwrvRzhqGUVtajZT5NkQeeUf5Pr+VV/fia6JWdcLiiTRNN56cSKgIPN5AjqLnkUCcNzD0WyuHCmDew2ODG2OuKyulLNBtBJH/a3UOzRonoOruJ/3I3A/9pzCwrSm9EGOgjpYQnk+xZJylMDnqLRH/QNj1EXwzFodeXgRSRo6eK58H0BheaNhPsg+J4VujLR8zfquD0UeiLkNNopwm9XN6f9bx1SBB5bigRuYXLWpl0qFj60nSOkNRYG9XVHyEw+aFD0wMw3Srt3al4Budb14mR4jiYQWWlVf0vCp95qNPHeE=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR12MB3834.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(136003)(366004)(39840400004)(396003)(346002)(2616005)(6666004)(9786002)(478600001)(66556008)(86362001)(8936002)(107886003)(66946007)(83380400001)(9746002)(66476007)(26005)(5660300002)(54906003)(8676002)(316002)(2906002)(4326008)(186003)(38100700001)(426003)(7416002)(36756003)(110136005);
+ SFS:(4636009)(396003)(39860400002)(136003)(376002)(366004)(346002)(66476007)(186003)(107886003)(8936002)(110136005)(36756003)(426003)(86362001)(54906003)(83380400001)(2616005)(38100700001)(921005)(7416002)(66946007)(5660300002)(478600001)(9746002)(66556008)(8676002)(4326008)(2906002)(26005)(316002)(9786002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?eZuh0pQbnzBiSLyr+WeZBrMTGS2/4W7M2XHFlF/mjxVj3R7FONI+wAwcvlrv?=
- =?us-ascii?Q?WU7lsXTX40w3Hitn0EY1ikvNv7AjciLNwuzJfR1caZxYEWxh8aJRY4jCJzcG?=
- =?us-ascii?Q?KgSXwGpAkGggF1eHKIrnbc6r0wMmkhJWPh1iU2IGMb2YeobVr0m8r+qEekPS?=
- =?us-ascii?Q?NwidbSVlFGFNiLV1xgIOk6k647lyBkT+DqVs6jW78oclS3g0IsPgrSRz7pQE?=
- =?us-ascii?Q?Uh4LrVP3QfDNPW2pfqZrkYpQOaZgiopcilSX9hVUkDjey660DOiJm8U2js0e?=
- =?us-ascii?Q?3mDEDzXgEtrmQ2N74VT03zwF6Gfwp1u/pwLuBCol8x9Ht/UelGN/CwHd+9EI?=
- =?us-ascii?Q?Rq3xIYCl6Yqyf+Nr4kdxBsfYfZvHC1VC7+HwAwVxrQG9gxMIyzAr2vIJaiSx?=
- =?us-ascii?Q?4+dEpXqvjTe2gMhGhtY3SxuOnM9C5bUJv2axCGfAGg5+vK/bXdiwv8TS4ROA?=
- =?us-ascii?Q?ZvKHWp3ZP5XtOl0npy0yoqQKZUux86BcKuQhodNo9+RSFY9BC34upEm/WU67?=
- =?us-ascii?Q?KXPTOXWN9TfdEKktt7UVH0NYgfaQJ/SY7k329gEaaMT99RpncWIbSH3w++LH?=
- =?us-ascii?Q?gAW/vDRivNIvYFj8dC6sj7bGWTIC6aKDD6VqPRMPrHml0+eZzZ/7K7o67f24?=
- =?us-ascii?Q?OjD1Lk58QSYiguzA73ddzpzLNkEUQvqWguEEomNllUUVQgvpTz6XUA/FRhJZ?=
- =?us-ascii?Q?fxTPfuWkAJpSzywSNLYwWDARA+w5QOAoKM2sLseCInjs6mJw3IyctIKP6rTC?=
- =?us-ascii?Q?3WPA2Le5Jt9KhW/s3QHKXuAM7hlbeDVCAEMALwblJ6vEiaknj5PDQpKZsfpQ?=
- =?us-ascii?Q?KXktBORpNctvm8RvSeMygMcdSp2XjKAunQQ3Tm0spbIDHe87Jiw+bQ1XeEKG?=
- =?us-ascii?Q?+qeyWBeYZ8yesOax7a8sLp2g8wZB7kx9NyIZPL+4oQdo4awQKYDDLWe6E4oB?=
- =?us-ascii?Q?gJjGzxiOHwvLxtAxLwygZ6ofr+fHFYTwn9PnZeLoMcOdJFrW7YN0Sudm25FN?=
- =?us-ascii?Q?b0rC32Zzd7y5hGUgvIZhsfe9EK/3Yq092nPUnJCET3q3IlrkWNsVG6HeXZuZ?=
- =?us-ascii?Q?ZjKyd84CbVP6IeEV6jhuM9sfcajwmFjnt4vDYPin4OhHAhapPeQFlBgRqxci?=
- =?us-ascii?Q?wzy68G5aYlD6BFX2V2uXH39HAUUPLYJBRMHTBJ3p32GI4Rp/TBEc1i08TVmF?=
- =?us-ascii?Q?mUhf/TrshWbw+8g9ywwiGZPTSV6J/HqhRHIaGKF8bXWqa88oTAGMb1ZFQrD+?=
- =?us-ascii?Q?6Y0U/GAZAk28a6bdDmifkirDBgZtpPRTAhhAYuhfn6AG0iDfluJiaesNAIW+?=
- =?us-ascii?Q?4zJY400+IitO3DwA8DNyqjXQ?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?x17/0stSSz04nYOwVaaF/qBr2WEIwKkov/enjzciI6xatoL/Gfa/H7RcKmxD?=
+ =?us-ascii?Q?+Xy8vjMYIW/uJEjj9UIbHsMpirGHw0w/T3kC1Rk1sK61vV1xkGNrTtlmEGgl?=
+ =?us-ascii?Q?l8UGcOH9w7we2NN0I+xTCL0QUpDuyEZWcfHzx0qibXJnT20APFvG9s7dhJX7?=
+ =?us-ascii?Q?TpGoxYGyn31az4iSxHRKHOpfOlpZWvTJEhEdnnclXYgCpMyIiIm61YuVAxTi?=
+ =?us-ascii?Q?c1vNyYxMdGgZTJ5KwP8hNGnOxmZG3VuJGyPEPwsxxvCfktY3AMwSOg4N9Qs1?=
+ =?us-ascii?Q?4qoG9Fo09QmBXI6a4pZYFLFeJWYlq7JsgOh714cAOMPQziYPnqmOfOITm4Hp?=
+ =?us-ascii?Q?e6PcoDLpROz6aQKZyaThw/zFohUXY9wI36+VF5/k9iemCOObEAno8hocvANU?=
+ =?us-ascii?Q?3mzFFii6K4BaNp1OSMxre6VCFon8NAY+DDKCL8n5biBNcJfSInncGg/wzyqp?=
+ =?us-ascii?Q?b8n10mpDHuN4WAz+x/zBdFhlBULvERh5oL2ZLpQxf4RFrNMl9/TK+mG2ab4p?=
+ =?us-ascii?Q?+KryWNuGKlWFYWFk5wHEVfn2ZJ48GCHYKjYjvUXFMwWxsqaiQDxlMTswEKdN?=
+ =?us-ascii?Q?s/djWnXwwUxr8bEqH8FzDtEwrtp5ZHPchT+569Yn8tZoyvpXekVJvCUhOgXf?=
+ =?us-ascii?Q?5joDoqp1EB8LyFtr7sx8B0kQbwKGkmkcYXlha2gJFR4W6JQ/OJ0Cx71D3MjB?=
+ =?us-ascii?Q?Le5431xCx+razdC94KxBMKCR46RnQTzwh50USw3STHFYUNygn729IIzqSWkn?=
+ =?us-ascii?Q?cSfT7NEHa/2km3ogN28fhDmE6WJR605c1QB+YYtJrhPdVLxdOeVd8z28kiPD?=
+ =?us-ascii?Q?jAoL2VQLHHA+8CzIIsajfPNQPUVuSiIqwXzJ7Lc+1BiJ+d565TQKMyji3i8G?=
+ =?us-ascii?Q?bKvzcEq5KMFktVdL5jb9wKjfdv0Q/Qm05FC2l5tarfS4Lq8o467XgP6paM5m?=
+ =?us-ascii?Q?sDPziTiisi4rE0obq6iG7Teqku0QEw0Gq4ERqgzIQHe5yTddFbLoJrreSEGm?=
+ =?us-ascii?Q?NW5Pv57ncgC8E38XWCAcJ4lQzHiCj/nQdQYZ5kmZ6mxBUJGgOeuL9brWT4Md?=
+ =?us-ascii?Q?9X8YesPlQ5pjZ6jeUDTWVCVTZ+hbUIt+P8GtkeSucFBmEDq27BaPZNJytUdi?=
+ =?us-ascii?Q?KHms/tYVWJTb3UN67LHljRaykL8GJf5E52AvfrytRwVnVMtojr47kpsBCEJA?=
+ =?us-ascii?Q?+JF27lfbO3W3bdrcgIbML2wP2Eb6crNuFLN3JVP2VWdvcJkNOdbDZbDD8er7?=
+ =?us-ascii?Q?UUpJj77/2wiSdCqQIEvvrSzT7JaZb+/x47HRNnQ6LquI9/8Jlnpxo644jc1z?=
+ =?us-ascii?Q?9HPTENm4RrRXS9bqDC6ewwkj?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d10d278a-c7b3-4d5d-234c-08d8ee24dd6b
+X-MS-Exchange-CrossTenant-Network-Message-Id: bace1b77-7578-4bb7-d13f-08d8ee24dfeb
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 17:55:37.5823 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 17:55:41.8740 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xyMuXhwaeclOHzJqbIyRnyP1r4k5w1NH2+cvIrmxIicXSp7s8Nrux0sX+npp/F1X
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3932
+X-MS-Exchange-CrossTenant-UserPrincipalName: yqGUEX+1RZlBx+zD/sAS/XkSaJl+4/LUi7/zWbxra81iwaHlEbqlfVnj7XQFql4r
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4943
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,38 +131,99 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-At some point there may have been some reason for this weird split in this
-driver, but today only the VFIO side is actually implemented.
-
-However, it got messed up at some point and mdev code was put in gvt.c and
-is pretending to be "generic" by masquerading as some generic attribute list:
-
-   static MDEV_TYPE_ATTR_RO(description);
-
-But MDEV_TYPE attributes are only usable with mdev_device, nothing else.
-
-Ideally all of this would be moved to kvmgt.c, but it is entangled with
-the rest of the "generic" code in an odd way. Thus put in a kconfig
-dependency so we don't get randconfig failures when the next patch creates
-a link time dependency related to the use of MDEV_TYPE.
+intel_gvt_init_vgpu_type_groups() makes gvt->types 1:1 with the
+supported_type_groups array, so the type_group_id is also the index into
+gvt->types. Use it directly and remove the string matching.
 
 Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/gpu/drm/i915/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/i915/gvt/gvt.c   | 24 +++++++-----------------
+ drivers/gpu/drm/i915/gvt/gvt.h   |  4 ++--
+ drivers/gpu/drm/i915/gvt/kvmgt.c |  5 ++---
+ 3 files changed, 11 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-index 1e1cb245fca778..483e9ff8ca1d23 100644
---- a/drivers/gpu/drm/i915/Kconfig
-+++ b/drivers/gpu/drm/i915/Kconfig
-@@ -101,6 +101,7 @@ config DRM_I915_GVT
- 	bool "Enable Intel GVT-g graphics virtualization host support"
- 	depends on DRM_I915
- 	depends on 64BIT
-+	depends on VFIO_MDEV
- 	default n
- 	help
- 	  Choose this option if you want to enable Intel GVT-g graphics
+diff --git a/drivers/gpu/drm/i915/gvt/gvt.c b/drivers/gpu/drm/i915/gvt/gvt.c
+index d1d8ee4a5f16a3..4b47a18e9dfa0f 100644
+--- a/drivers/gpu/drm/i915/gvt/gvt.c
++++ b/drivers/gpu/drm/i915/gvt/gvt.c
+@@ -46,22 +46,12 @@ static const char * const supported_hypervisors[] = {
+ 	[INTEL_GVT_HYPERVISOR_KVM] = "KVM",
+ };
+ 
+-static struct intel_vgpu_type *intel_gvt_find_vgpu_type(struct intel_gvt *gvt,
+-		const char *name)
++static struct intel_vgpu_type *
++intel_gvt_find_vgpu_type(struct intel_gvt *gvt, unsigned int type_group_id)
+ {
+-	const char *driver_name =
+-		dev_driver_string(&gvt->gt->i915->drm.pdev->dev);
+-	int i;
+-
+-	name += strlen(driver_name) + 1;
+-	for (i = 0; i < gvt->num_types; i++) {
+-		struct intel_vgpu_type *t = &gvt->types[i];
+-
+-		if (!strncmp(t->name, name, sizeof(t->name)))
+-			return t;
+-	}
+-
+-	return NULL;
++	if (WARN_ON(type_group_id >= gvt->num_types))
++		return NULL;
++	return &gvt->types[type_group_id];
+ }
+ 
+ static ssize_t available_instances_show(struct kobject *kobj,
+@@ -71,7 +61,7 @@ static ssize_t available_instances_show(struct kobject *kobj,
+ 	unsigned int num = 0;
+ 	void *gvt = kdev_to_i915(dev)->gvt;
+ 
+-	type = intel_gvt_find_vgpu_type(gvt, kobject_name(kobj));
++	type = intel_gvt_find_vgpu_type(gvt, mtype_get_type_group_id(kobj));
+ 	if (!type)
+ 		num = 0;
+ 	else
+@@ -92,7 +82,7 @@ static ssize_t description_show(struct kobject *kobj, struct device *dev,
+ 	struct intel_vgpu_type *type;
+ 	void *gvt = kdev_to_i915(dev)->gvt;
+ 
+-	type = intel_gvt_find_vgpu_type(gvt, kobject_name(kobj));
++	type = intel_gvt_find_vgpu_type(gvt, mtype_get_type_group_id(kobj));
+ 	if (!type)
+ 		return 0;
+ 
+diff --git a/drivers/gpu/drm/i915/gvt/gvt.h b/drivers/gpu/drm/i915/gvt/gvt.h
+index 03c993d68f105a..0cf480f42850d2 100644
+--- a/drivers/gpu/drm/i915/gvt/gvt.h
++++ b/drivers/gpu/drm/i915/gvt/gvt.h
+@@ -569,8 +569,8 @@ struct intel_gvt_ops {
+ 	void (*vgpu_reset)(struct intel_vgpu *);
+ 	void (*vgpu_activate)(struct intel_vgpu *);
+ 	void (*vgpu_deactivate)(struct intel_vgpu *);
+-	struct intel_vgpu_type *(*gvt_find_vgpu_type)(struct intel_gvt *gvt,
+-			const char *name);
++	struct intel_vgpu_type *(*gvt_find_vgpu_type)(
++		struct intel_gvt *gvt, unsigned int type_group_id);
+ 	bool (*get_gvt_attrs)(struct attribute_group ***intel_vgpu_type_groups);
+ 	int (*vgpu_query_plane)(struct intel_vgpu *vgpu, void *);
+ 	int (*vgpu_get_dmabuf)(struct intel_vgpu *vgpu, unsigned int);
+diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
+index b4348256ae9591..16e1e4a38aa1f6 100644
+--- a/drivers/gpu/drm/i915/gvt/kvmgt.c
++++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+@@ -700,10 +700,9 @@ static int intel_vgpu_create(struct kobject *kobj, struct mdev_device *mdev)
+ 	pdev = mdev_parent_dev(mdev);
+ 	gvt = kdev_to_i915(pdev)->gvt;
+ 
+-	type = intel_gvt_ops->gvt_find_vgpu_type(gvt, kobject_name(kobj));
++	type = intel_gvt_ops->gvt_find_vgpu_type(gvt,
++						 mdev_get_type_group_id(mdev));
+ 	if (!type) {
+-		gvt_vgpu_err("failed to find type %s to create\n",
+-						kobject_name(kobj));
+ 		ret = -EINVAL;
+ 		goto out;
+ 	}
 -- 
 2.31.0
 
