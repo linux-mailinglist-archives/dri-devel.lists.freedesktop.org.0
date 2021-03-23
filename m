@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09EFE345D6E
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 12:55:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD137345D7F
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 12:57:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01BA16E06D;
-	Tue, 23 Mar 2021 11:55:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19D9C6E8B9;
+	Tue, 23 Mar 2021 11:57:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FC576E06D
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 11:55:16 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id e7so23039821edu.10
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 04:55:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20E7A6E8B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 11:57:43 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ t5-20020a1c77050000b029010e62cea9deso10685776wmi.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 04:57:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=OmjKsrSUkMAiio37jMcTJDOa+opJ8luWoB+3g0zIs3w=;
- b=umVjL9x25EitIe3xbYipYvezjGixLcmj+s9CW6Se/Nw65qisVuUgPKPFZr+LnSVrta
- FqcB1CGmOYFe0BCTtOc6/R3jm8rjKGzXAvDvhZsWl8Tn0ctbA1hHyDPns2gaa9OmV6+9
- JWK+sp47Z9c4VoD9BivDlscB2FOQa8kTNYE6a090ob2xtpwOn36nTkaJAnWoxUSIf9Bd
- Z/QswUYtMMXwyQpcEcIswUULmOol3weoStQTbMDctafy2gD0wz8s0omas8j259kzzH7m
- s98dMjsg7JP33ZiRNJ/HWuSP2JD9cJb1ynAdysUnTdoJm3lVfMGYx1f9B/aPBt77gjqQ
- mbhg==
+ :content-disposition:in-reply-to;
+ bh=+/Sa345XQZrB8tyuYft3i43yj++X0Ke+PIKGdo4OLy4=;
+ b=djkI6CazaztpbFqo5ege8YQTwWTX6JxTIyRWhF97B2DYNPnnPXrixd0xRoEC5oRDqe
+ b1CVxXAjlEoTbjm2GwyHTBk3oAZti0jWacIgwP6XOATcbTGFP5jYRc4vQ7wNHu2kFb4E
+ nGG2XoQtBrsvhflnBGUcgbxTFOx3AqC8dt6Yo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=OmjKsrSUkMAiio37jMcTJDOa+opJ8luWoB+3g0zIs3w=;
- b=KtmVgIgnVhORRlOcj+TIkq2e6sl/kabSKoEW01tOnxM01Z88I0KfEkrT7656XhihtD
- MNBKx15+7huA/xlPAexVg724CsEBO7GXvXqtH53d/4tGMgC3PbpnasObTgYQLoxa7bcy
- EjmYis1X3Dz7m4HLvXstzqGaf+ElJ5mlFZLfp41tIc0vLsCEEjIJ1T6rMKcLPUfhXH2L
- OlZfjUBD0aYFNaEs19KEnTP3NV+0476VkgHHjZJF6/c+o0PMH51XO22DSaQFYR3bkMI1
- s1bHH+2tobHEvdENxt6cmbnWnNdO3aHWRtWKnr020ZQqnvwBF2klzGYWEi8bn5jZpzCX
- c4kg==
-X-Gm-Message-State: AOAM531azO38IhYFqDLbjwApKwWFmXnG6h0/sfuaQTibQZ0e6fROYozr
- GkLK7xEKCl6ZNXbk3+IUEPQ=
-X-Google-Smtp-Source: ABdhPJwnsgSQN3rBdLXYKbcSOYEsQm4CP13DQ5DyHUfr2wfO0XZomdBxo15acguqtJyoO14+tWjkuA==
-X-Received: by 2002:a05:6402:13ca:: with SMTP id
- a10mr4195810edx.320.1616500515229; 
- Tue, 23 Mar 2021 04:55:15 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id x21sm12695275eds.53.2021.03.23.04.55.13
+ :mime-version:content-disposition:in-reply-to;
+ bh=+/Sa345XQZrB8tyuYft3i43yj++X0Ke+PIKGdo4OLy4=;
+ b=SEDE4levop6yP+b/kOff5JpYfqwAHXd0xRSayqUOHrVjT8bYnuWlNQmbHq1FYrCvne
+ WPN+cLvRamwa9HJI1EtS2S65YLEgqyp+EEL3OmSvNvVwhkpZb9RCUPIMRUk7FmU1JSk5
+ SMmZqdL6pLQIOjTl1iwFcXadZRda51x6VgTU+FRDePP2cgK6o87Ki4l3yEAwFMbW041L
+ 6MNTs0CXilXeb4vhZcZ6b6g7QGpqAeZ/A+O4xVGG7wYtyg3DfvbC1qppJo1GJ4/JHZCd
+ OwriJh37ZW0/XXN6jgjWTq0yZt8nxFfAAEYnDJXSJfjckYn/tOxktWvQ2ob0JqkrAJbS
+ SHoA==
+X-Gm-Message-State: AOAM532Lza8FoflHBBMAaD803f3u8qzs+/NuHCB3KUVwvmkZ1Sbfc9D3
+ cqWkxd9uj5aDMYPh5CqrzRlcgQ==
+X-Google-Smtp-Source: ABdhPJyzJGYzXBL4MFFx/PMXtTLlBacDRX6mUE1yNEkmnwHWY0mRlYfEBERv/08L1lnDh8Gc/QkBzg==
+X-Received: by 2002:a1c:f20f:: with SMTP id s15mr3078024wmc.61.1616500661872; 
+ Tue, 23 Mar 2021 04:57:41 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id w6sm22717625wrl.49.2021.03.23.04.57.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 04:55:14 -0700 (PDT)
-Date: Tue, 23 Mar 2021 12:55:34 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Subject: Re: [PATCH v5 11/21] gpu: host1x: Add job release callback
-Message-ID: <YFnXNs5vFb+tiwzh@orome.fritz.box>
-References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <20210111130019.3515669-12-mperttunen@nvidia.com>
+ Tue, 23 Mar 2021 04:57:41 -0700 (PDT)
+Date: Tue, 23 Mar 2021 12:57:39 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 1/2] drm/i915: add gem/gt TODO
+Message-ID: <YFnXszc5lZ/omk2V@phenom.ffwll.local>
+References: <20210323084453.366863-1-daniel.vetter@ffwll.ch>
+ <874kh25gaw.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210111130019.3515669-12-mperttunen@nvidia.com>
-User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
+Content-Disposition: inline
+In-Reply-To: <874kh25gaw.fsf@intel.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,100 +66,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
- talho@nvidia.com, bhuntsman@nvidia.com, linux-tegra@vger.kernel.org,
- digetx@gmail.com
-Content-Type: multipart/mixed; boundary="===============1227655437=="
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dave Airlie <airlied@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Mar 23, 2021 at 12:13:11PM +0200, Jani Nikula wrote:
+> On Tue, 23 Mar 2021, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > We've discussed a bit how to get the gem/gt team better integrated
+> > and collaborate more with the wider community and agreed to the
+> > following:
+> >
+> > - all gem/gt patches are reviewed on dri-devel for now. That's
+> >   overkill, but in the past there was definitely too little of that.
+> >
+> > - i915-gem folks are encouraged to cross review core patches from
+> >   other teams
+> >
+> > - big features (especially uapi changes) need to be discussed in an
+> >   rfc patch that documents the interface and big picture design,
+> >   before we get lost in the details of the code
+> >
+> > - Also a rough TODO (can be refined as we go ofc) to get gem/gt back
+> >   on track, like we've e.g. done with DAL/DC to get that in shape.
+> 
+> I personally think there should be a lower bar for discussing and
+> editing the TODO items than via patches on the mailing list. Granted,
+> the TODO file enforces the discussion happens at a large enough
+> audience, but for at least some of the items I'd suggest filing gitlab
+> issues [1], with todo label, and tracking there.
 
---===============1227655437==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="FjkUz4QETBgSyCZ4"
-Content-Disposition: inline
+In general yes, and I'd go even further: it's up to each team/contributor
+how they track review feedback and further work, whether that's gitlab or
+some notes or just in their heads.
 
+This is a different situation here, and the "changes require big audience"
+is a feature, not a bug. But it is a very exceptional situation, I think
+this is only the 2nd time we're using a formal TODO for a gpu driver. If
+we ignore gma500 in staging, which for me only showed that the separate
+staging tree doesn't work so well for complex drivers like we have.
+-Daniel
 
---FjkUz4QETBgSyCZ4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> 
+> BR,
+> Jani.
+> 
+> 
+> [1] https://gitlab.freedesktop.org/drm/intel/-/issues
+> 
+> 
+> 
+> >
+> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > Cc: Jason Ekstrand <jason@jlekstrand.net>
+> > Cc: Dave Airlie <airlied@redhat.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/TODO.txt | 36 +++++++++++++++++++++++++++++++++++
+> >  1 file changed, 36 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/i915/TODO.txt
+> >
+> > diff --git a/drivers/gpu/drm/i915/TODO.txt b/drivers/gpu/drm/i915/TODO.txt
+> > new file mode 100644
+> > index 000000000000..d2e5bbb6339d
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/i915/TODO.txt
+> > @@ -0,0 +1,36 @@
+> > +gem/gt TODO items
+> > +-----------------
+> > +
+> > +- For discrete memory manager, merge enough dg1 to be able to refactor it to
+> > +  TTM. Then land pci ids (just in case that turns up an uapi problem). TTM has
+> > +  improved a lot the past 2 years, there's no reason anymore not to use it.
+> > +
+> > +- Come up with a plan what to do with drm/scheduler and how to get there.
+> > +
+> > +- There's a lot of complexity added past few years to make relocations faster.
+> > +  That doesn't make sense given hw and gpu apis moved away from this model years
+> > +  ago:
+> > +  1. Land a modern pre-bound uapi like VM_BIND
+> > +  2. Any complexity added in this area past few years which can't be justified
+> > +  with VM_BIND using userspace should be removed. Looking at amdgpu dma_resv on
+> > +  the bo and vm, plus some lru locks is all that needed. No complex rcu,
+> > +  refcounts, caching, ... on everything.
+> > +  This is the matching task on the vm side compared to ttm/dma_resv on the
+> > +  backing storage side.
+> > +
+> > +- i915_sw_fence seems to be the main structure for the i915-gem dma_fence model.
+> > +  How-to-dma_fence is core and drivers really shouldn't build their own world
+> > +  here, treating everything else as a fixed platform. i915_sw_fence concepts
+> > +  should be moved to dma_fence, drm/scheduler or atomic commit helpers. Or
+> > +  removed if dri-devel consensus is that it's not a good idea. Once that's done
+> > +  maybe even remove it if there's nothing left.
+> > +
+> > +Smaller things:
+> > +- i915_utils.h needs to be moved to the right places.
+> > +
+> > +- dma_fence_work should be in drivers/dma-buf
+> > +
+> > +- i915_mm.c should be moved to the right places. Some of the helpers also look a
+> > +  bit fishy:
+> > +
+> > +  https://lore.kernel.org/linux-mm/20210301083320.943079-1-hch@lst.de/
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
 
-On Mon, Jan 11, 2021 at 03:00:09PM +0200, Mikko Perttunen wrote:
-> Add a callback field to the job structure, to be called just before
-> the job is to be freed. This allows the job's submitter to clean
-> up any of its own state, like decrement runtime PM refcounts.
->=20
-> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-> ---
->  drivers/gpu/host1x/job.c | 3 +++
->  include/linux/host1x.h   | 4 ++++
->  2 files changed, 7 insertions(+)
->=20
-> diff --git a/drivers/gpu/host1x/job.c b/drivers/gpu/host1x/job.c
-> index 8f59b34672c2..09097e19c0d0 100644
-> --- a/drivers/gpu/host1x/job.c
-> +++ b/drivers/gpu/host1x/job.c
-> @@ -79,6 +79,9 @@ static void job_free(struct kref *ref)
->  {
->  	struct host1x_job *job =3D container_of(ref, struct host1x_job, ref);
-> =20
-> +	if (job->release)
-> +		job->release(job);
-> +
->  	if (job->waiter)
->  		host1x_intr_put_ref(job->syncpt->host, job->syncpt->id,
->  				    job->waiter, false);
-> diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-> index 81ca70066c76..d48cab563d5c 100644
-> --- a/include/linux/host1x.h
-> +++ b/include/linux/host1x.h
-> @@ -265,6 +265,10 @@ struct host1x_job {
-> =20
->  	/* Fast-forward syncpoint increments on job timeout */
->  	bool syncpt_recovery;
-> +
-> +	/* Callback called when job is freed */
-> +	void (*release)(struct host1x_job *job);
-> +	void *user_data;
-
-It's not clean to me what the user_data is used for. It's not used in
-this patch at all, but perhaps it'll become relevant later on. I guess
-I'll see.
-
-Thierry
-
---FjkUz4QETBgSyCZ4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmBZ1zQACgkQ3SOs138+
-s6EmMQ/9FEDZm2BCmhv9tgumtdiYseMe1QXqFBsAMXgo6rpsxNvYK5JW+5MxfxP/
-viwM32tLpdSYhlheymRFAdMt59xsOewsL9Aa+uKPIFkrl1OdTwUatj4a8XAI7dKB
-HU5pe5Rw/eTqOjzw1QDKKfPznW9xq5sHZ0i52AoPI9k0nDZpTen3RqYXijMl+Al6
-joWUF0NOcYQH+yEOrem1fFBr8UhdcIyTpFwAlyvKr16l4ZQO00Ph+W/0Q8zis58v
-cvH1d+MP3Kk7IrC1T9Wg/zQKC5lOhTAEd7dIeiezVpTAzSqvQ3vk6VEGDXwFKHCa
-zl+p+VbLh3qr+Dp5nP7h15+kqOZWnz7VevV/wSDKHyveDpouLxThoX58vSD96JCe
-RbVwTgjkAFzBVFkHTijeTG+MItbUcNl5PDz4scYI8Wl/NKfFBCiqi0jLJNTOeH7f
-3qoKctVHJUenre8zrZyXYsTgtk5TF65vq/+e4RPE1A145qej9AwVk0UbRBMDxEIj
-TlQckBUQw+4LTtBZkU73EeiRqy+jtL3pePWwkI2zPpNDo23C/4g8AFjJo9UouhcI
-09kNmxwI0/c1hX/QeTNAOjCzNNrheAOoqupsp2jErLA/HAFy9OmXyVprl2ny0jDP
-qY2/NDFRWvrKqcsrC2g4gDUZwWCjTBdhfVdPZXdML52OHnzQzHE=
-=//9i
------END PGP SIGNATURE-----
-
---FjkUz4QETBgSyCZ4--
-
---===============1227655437==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1227655437==--
