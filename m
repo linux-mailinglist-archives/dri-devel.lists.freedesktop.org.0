@@ -2,53 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D473460D9
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 15:02:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFA73460EB
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 15:04:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F39089E7B;
-	Tue, 23 Mar 2021 14:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFFEC6E877;
+	Tue, 23 Mar 2021 14:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8CC189E7B
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 14:02:24 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id b14so13530177lfv.8
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 07:02:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ku+levvVxBeqKSuHI7QAU6DJ1TT9V2yW8FV3fTDnwwo=;
- b=Y4sDWZnWLFkjeVLPKdcxZ9yafDLWRrvFZTzPiEKg8gxPfH70ZCk6lCglyy8tJqxPpm
- AU4lNcx4+faeYBwKzIlFF4T6qnIGRbykR42u3VFqxtPO6JWxnNVvInx9PdC3LF06Ts+6
- DKLmuVRW3PKiaxdZjTm3r+/OS+peiAm9T0HuWfdibI8MUHClff3qHkYl3gLpx35sgFUV
- AugfY7kpJMUBLhaJrR0nfZ24txNcRqwFz2+Tu948DmtkSPGT3zsHP0iaQlibIA+4VTm7
- VMWQTj+XtpOKOy7fsBkZYAsUp9saldvz1XzJaer6qj266b4DYlaqDf0unUa+0cftwsFy
- wCJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ku+levvVxBeqKSuHI7QAU6DJ1TT9V2yW8FV3fTDnwwo=;
- b=i2V4oIOUbbatbFbcH6bqsix7iKZhIKiCnedFG4gJr2dzq9v+GXWGvgiQrWsLxSyDas
- vncnc4VLRLmQhC6CEuOWsv4WJhigN02DxBA4xmMU6g84bwcypT8QrV9XMlI6YR6on6/X
- 3gfkyIOSwKiFp0yHk3pmBGFDDbVFskd6Gs0lEuQsiJiZWT3AN1fLXE42TXo9ciIWVT/d
- qzLi5Z+hW5N6k9TtqYt/ZGmdDvPqI0uGrmenqTuCxN0Ub7MfWEqpcBqjTBf9YHAI2Y2J
- aR3BIVrIRfVGOO4Jl+ss/EDx35Sx3xX0Yg8FPE8d3yLTjIdrn1zCSeueYr3zYVGXacqz
- PkGA==
-X-Gm-Message-State: AOAM530Buh0Hzq/tUeKGjRPszt2+o1UCbTBTvM9oG5aOZERQ+5PePBwR
- br+sYGI7IHKbF+woQs74r6dmYte7ciV2h6y02W0=
-X-Google-Smtp-Source: ABdhPJysRw/CzY1wTwDNpPh0ik6UsRhl1MsyNfGxru2rIW2RG1tLkFLSGaeMeUgUm0BNDEhNCX9AVH9Ht53tDcclgd8=
-X-Received: by 2002:a05:6512:3996:: with SMTP id
- j22mr2564356lfu.443.1616508143271; 
- Tue, 23 Mar 2021 07:02:23 -0700 (PDT)
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam07on2081.outbound.protection.outlook.com [40.107.95.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDCED6E877
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 14:04:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ln8kfYcJZirCJ566+MggnTr7bHfiPzZcoxp1sx3Zt+XIWqPMD4Ak6lluzMAYRLvUd7YqtE0v3c2eIScHCPzWD4BFmi+bUypmMhIcoGGQIMlCzphPukUyBwz/WKFgNDfOBkVHZIJnLSZY+OV+V+UIhgRdSvM03A58Pj1bXtQq7Sp+t3c8zz+GEa5zdUqqnTnYMjP84eeZGuEWjk4wD8HOu8x5KP8SQniit/pquw4UZYcJLvH/tAZdVYNMkK4wOyeOIVRCK8ukaw8VnnfBemT9KTif1vUglTn+Gvp2IGyLerXBswJVGztJeuz/0tSXYZ+teRD1v0RazGK8j/KjggoicQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UGCG43YNx69JLlREY99WqR/4vGsO5IOMNRm+anqv7Ws=;
+ b=X7UC/X4MJ7M+vc1G5uEn2yBfi15OnTT4OZIXz81vIb2muqj43IsJASB9C2oxj2gqYrDQ9oo4JHQk86v/ZoUu38gwd3fPrtl5qIljoGLyg4fBpSbI+w1vVFDJ5ZQEj7OlfAodgifC6QKr6zetuIi9vyr/3FmePjNaV6mrOspPPnZfF6wo485RcmMC6YXW7I78BONUYdxdzqaXVv3dDWdV8Wo/rJB9UivrJ88ZqIPxtTRbMStMo4JS/g1ZSv77Xd+lqaIjGhBHsIjeiEJni30k4tvZh7x3KF0yHlc0miEuntuhVseA9o1tnaJG3RpYB/Emy/m4RhP1WYcdDQj7bc8FEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UGCG43YNx69JLlREY99WqR/4vGsO5IOMNRm+anqv7Ws=;
+ b=UectqyK9PoPA2F8jIJzSgg/tK+ZUpRpFHheJe1yDhv+qVZzIdIU26RRj8KcmmTBUkaCNSAgnNeMxm6UG3sBHlKQkNXuJI+WKKpv+H/AP6tqc5DhTtECxyHcQqBO8X7paGgLiGYDkhUCw8BZUw3LDMzoGRqtss2l6Gg5n0XOCNP57huc2X+OmVlt99ns72cpOymDrTFSYi1q2MWbzdrnePmCs0dgbyXEbuIvp03wjZWxThxePadkx/ImoYjURMHIPzNORjKnEu5i/vgkPCMZqBzTbDG4AF1VdJ9EsRLdfeUIxNkRxaDgE8LXJYLt+HQrDWWm9zyR/i4yNTbvpR/CYaw==
+Authentication-Results: shipmail.org; dkim=none (message not signed)
+ header.d=none;shipmail.org; dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB3835.namprd12.prod.outlook.com (2603:10b6:5:1c7::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Tue, 23 Mar
+ 2021 14:04:48 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3955.027; Tue, 23 Mar 2021
+ 14:04:48 +0000
+Date: Tue, 23 Mar 2021 11:04:45 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Thomas =?utf-8?B?SGVsbHN0csO2bSAoSW50ZWwp?= <thomas_os@shipmail.org>,
+ dri-devel@lists.freedesktop.org,
+ Christian Koenig <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 2/2] mm,drm/ttm: Use VM_PFNMAP for TTM vmas
+Message-ID: <20210323140445.GF2356281@nvidia.com>
+References: <20210321184529.59006-1-thomas_os@shipmail.org>
+ <20210321184529.59006-3-thomas_os@shipmail.org>
+ <YFnVTIGKBFnlsGxF@phenom.ffwll.local>
+Content-Disposition: inline
+In-Reply-To: <YFnVTIGKBFnlsGxF@phenom.ffwll.local>
+X-Originating-IP: [206.223.160.26]
+X-ClientProxiedBy: BYAPR01CA0014.prod.exchangelabs.com (2603:10b6:a02:80::27)
+ To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
-References: <20210323130550.2289487-1-arnd@kernel.org>
-In-Reply-To: <20210323130550.2289487-1-arnd@kernel.org>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Tue, 23 Mar 2021 11:02:12 -0300
-Message-ID: <CAOMZO5AUJ=OjBwB=GA4Y0dy+oheHyzK3eVq+YCgT4HKEaQJhNw@mail.gmail.com>
-Subject: Re: [PATCH] drm/imx: fix out of bounds array access warning
-To: Arnd Bergmann <arnd@kernel.org>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (206.223.160.26) by
+ BYAPR01CA0014.prod.exchangelabs.com (2603:10b6:a02:80::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3977.24 via Frontend Transport; Tue, 23 Mar 2021 14:04:48 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1lOheH-001WqG-GR; Tue, 23 Mar 2021 11:04:45 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a7040697-d243-4faf-ec83-08d8ee049eca
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3835:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3835EF0491C5AF4ABEA929F1C2649@DM6PR12MB3835.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EgsPM3I2B/VHra/mzSLUs5jjbKFwbeC+02b+xfRO4krLuQPqXBb+JM0Zv5NieUH3y/0F5AJ/AoNkzVieKakhxhYDBhmDS1RjVO0vyC+N43Jy2Z9Yuhly3JuKXbonHiVzWKtfQIpzGHVO7Ifxu6VTXsRdIWmVNcvpom03XdKdVAwK9hWnoGksYb9V9etcwBXZD2X2BKjYdaWBiZw/ZDZyGBi/PcwT2c8ndS5GQxMj+yn895y4IZyEpEgURLyNzEMvr4dlDUrNdkhZWburIZdvEaFuuz1Uw/AUPiARO8zlSW2qNPPNosV/RwtqMVilWKVvNIThTNPV9xi6vvyCudiLdnJZqq8JWgX7kmCfqZEFMxDrX4TcT2j7KnFnZkNZxi28rmib3X/DmnlC2WW/l8NmKRzYWWcFKXfZCbYIa+23se9dfii7obNEJE0ZFy8akffyDnPGoN7fDAc4Mi+P1WpEdXGvwc+ly2kCjiSuuWTJplGClG3LyWsVPb3jOIE7X+TW6M8VLLUMM90D0KJN3wC5kox9rY8jSL9zs1SurDN7YQc4mnhEpkP3AxfYp8Ev5Cg9mCOs/g8PZMa2cMLajTOKzcKF+PflWrcenWGY7mj4/wsSvJSwL3nWwXJomUS3WkCE+03mlWl1WCh+K7jsEi1V4B3ujDcqLhcFOKxcsVls/H8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3834.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(39860400002)(136003)(376002)(396003)(346002)(8676002)(8936002)(66946007)(66476007)(5660300002)(83380400001)(66556008)(86362001)(36756003)(1076003)(478600001)(38100700001)(316002)(4744005)(110136005)(2906002)(33656002)(2616005)(426003)(186003)(26005)(9786002)(9746002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?QGXeXfzP+pakNxGktm8/n3cbpHnGDyHJ/RhiPmaP8xh4K2tNaw9K9AXvRnNk?=
+ =?us-ascii?Q?I63usaiEbjmSPu8FUpRYG5fB0KXHi4jpthKocZ1c+3NzFFvFDRzjZAvNK2M8?=
+ =?us-ascii?Q?Vms77AZlCHTvD89JJhlp4LJEE5v27I7c37n+dSkfo3IO8zJGLUgT2gzJD3Jm?=
+ =?us-ascii?Q?XC/dLmkWRPOOkgS3ucSARQIN3unbGu1KSe2Q4bkqQUJ+gw9qCX3V4xw4+c9G?=
+ =?us-ascii?Q?rhmRx3FZ2J0my5gi4uuNDjAyx0WCNC1AnE1KlDcMgEHCo423hkyLTxxm/vvu?=
+ =?us-ascii?Q?QHhZ67WJ8q0FxStT8UhdifUDYVDn2DhrBsUsCCK+sSVVQiEjgkbW0Imqulp1?=
+ =?us-ascii?Q?sjTKdzfvZq6tQWxWKcEKzo7cHmTenz41whppopihu1p8ANnhS8/Sr31bpdP0?=
+ =?us-ascii?Q?iH8XS6mDkMTMYGRMhUWkkwfi3uMXr84cU8z3JcNb/Hyx+W9XjTKRwafyLSWq?=
+ =?us-ascii?Q?QlW1p8QI6eXBT2y6nVP7tVUcIhJJ9DcuO9Zzy7gsOP7KQ5eAPQ0sX/jHSuel?=
+ =?us-ascii?Q?LsaPuUZrW+fcPxlENxAPDqS8NSg5MzGlhVb44WIEvXzyeuzdnzSyhQjcyfDA?=
+ =?us-ascii?Q?l7jKhuOGGVsJTnCCCWvhFbzkAqTTkXDafk9i/jZxMTNOiz8uNgrGwsd+beFK?=
+ =?us-ascii?Q?TulDPF8eA8K7NwKzvvYkdwImcT2y+rrS/pLvwczZ0t73/k/OTHyH1ExlgfiH?=
+ =?us-ascii?Q?pCbaLYICm5RxJwOkD9vkq86S8poSmENMtKdHlaocOAHuv0AzCjrch9gP2979?=
+ =?us-ascii?Q?C7YqxNc2MVVAVqC00W6tOPVSKIN7xvOt30RN/iycWnYY4A6i6Wg2VKUtCTFy?=
+ =?us-ascii?Q?JqXp6LJwZskBGll1CLDWXMuRlMEDVRFK4Qp977CgrU9r9aUOAoXVLkgKZxK5?=
+ =?us-ascii?Q?fH5oN9HVNNPMwkl8jyyNMloMXxr0nV6IEA/OUvtvZTuziNdj/6RKQVyx0uz9?=
+ =?us-ascii?Q?9u2CgUPvWakqVI0b49CbJ3iHQCd0LPDTf/3AUYQVb14FZXmYMlWk437o59Al?=
+ =?us-ascii?Q?K+wWGrJqg9JGThZ+SXnI15TOlzBG7inGAq7RdHqRN2IltQUW9Ml4NV730O7v?=
+ =?us-ascii?Q?kEQzj/RVKeO42NqaNgc8a5HSJ7uVxj3t3zN3dd8r9788vPMQTKGEvqCf33+b?=
+ =?us-ascii?Q?k0hM0pB6upSmcAembKoFYMJt1psQkK9OSURjWc/oE6FMHJ+tOfbYnr3ERErG?=
+ =?us-ascii?Q?4XL3QpmSIgY5jLC1hqdB0zd0qCwbs0g+36GeF811v5oWaZjZ5jOoeicoiOyp?=
+ =?us-ascii?Q?EA/8B7L6tHFBVa8Z3UPkxWSELslq8+r03RAPg7XLHIS35Br2KIZ09c6gLYTp?=
+ =?us-ascii?Q?Tf8W9ElcwcsLLfvInoNgVk79?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7040697-d243-4faf-ec83-08d8ee049eca
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 14:04:48.6372 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Hndx7bJ3AVR2hQsWqYJRpjb+4OQYXdSZDaznu9hbXlJrVLshRRm7j35GaxlSFcjH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3835
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,48 +123,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sascha Hauer <s.hauer@pengutronix.de>,
- Marco Felsch <m.felsch@pengutronix.de>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, Liu Ying <victor.liu@nxp.com>,
- NXP Linux Team <linux-imx@nxp.com>, Joe Perches <joe@perches.com>,
- Shawn Guo <shawnguo@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arnd,
+On Tue, Mar 23, 2021 at 12:47:24PM +0100, Daniel Vetter wrote:
 
-On Tue, Mar 23, 2021 at 10:05 AM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> When CONFIG_OF is disabled, building with 'make W=1' produces warnings
-> about out of bounds array access:
->
-> drivers/gpu/drm/imx/imx-ldb.c: In function 'imx_ldb_set_clock.constprop':
-> drivers/gpu/drm/imx/imx-ldb.c:186:8: error: array subscript -22 is below array bounds of 'struct clk *[4]' [-Werror=array-bounds]
+> > +static inline bool is_cow_mapping(vm_flags_t flags)
+> 
+> Bit a bikeshed, but I wonder whether the public interface shouldn't be
+> vma_is_cow_mapping. Or whether this shouldn't be rejected somewhere else,
+> since at least in drivers/gpu we have tons of cases that don't check for
+> this and get it all kinds of wrong I think.
+> 
+> remap_pfn_range handles this for many cases, but by far not for all.
+> 
+> Anyway patch itself lgtm:
+> 
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-What about making the driver depend on OF instead (like it is done in
-DRM_IMX_HDMI) ?
+I would like it if io_remap_pfn_range() did not allow shared mappings
+at all.
 
---- a/drivers/gpu/drm/imx/Kconfig
-+++ b/drivers/gpu/drm/imx/Kconfig
-@@ -27,7 +27,7 @@ config DRM_IMX_TVE
+IIRC it doesn't work anyway, the kernel can't reliably copy from IO
+pages eg the "_copy_from_user_inatomic()" under cow_user_page() will
+not work on s390 that requires all IO memory be accessed with special
+instructions.
 
- config DRM_IMX_LDB
-        tristate "Support for LVDS displays"
--       depends on DRM_IMX && MFD_SYSCON
-+       depends on DRM_IMX && MFD_SYSCON && OF
-        depends on COMMON_CLK
-        select DRM_PANEL
-        help
+Unfortunately I have no idea what the long ago special case of
+allowing COW'd IO mappings is. :\
+
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
