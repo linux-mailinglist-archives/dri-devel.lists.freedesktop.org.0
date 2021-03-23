@@ -2,50 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224F9345C85
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 12:12:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFCE6345C8D
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 12:15:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D9F06E8A6;
-	Tue, 23 Mar 2021 11:12:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11F0E6E8AF;
+	Tue, 23 Mar 2021 11:15:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 466406E8A6
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 11:12:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=B2+tMgcaoCFSudX+eohcG6088BO8V2Amh1pwW137QDw=; b=KFMsoS5YdWAA3aBpXQQH7n6tEm
- EUDCX81a9P/mIemOcZbdYow6blrof5BXF2CnVrE+VIY+D9qIvbSYvHmUyGvZqS4RYjDyUXSK9VOUM
- U9vVql9buvIzihZJvQ1yOKQuaKGS5O6GRNiYJRpfNNRoj/XO9DXmN+tI4ccpM1At6oeZBgRegZcDW
- B56/s5d5u4GztA/4Qv4JQA7MNlNPcrAUru+OOQSxKoM7T7/xBSpW/xlkkqXe3WqjfQkbWq5EUbV4q
- R/6vsXyQx6XOW31cdycaV1fo0wNgGHtnLg75LCQMri5j6AVHJWvhjP7pOOY0soF3Wv1hrv1RCgIUP
- EjBQxgvQ==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1lOexg-0006oZ-Uf; Tue, 23 Mar 2021 13:12:36 +0200
-Subject: Re: [PATCH v5 07/21] gpu: host1x: Introduce UAPI header
-To: Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCBA66E8AF
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 11:15:20 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id bx7so22955120edb.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 04:15:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=NPevtMq3DHV/D2UgNLk5GneTnkOuOy7HBTWldd55wzQ=;
+ b=eUv77P5hxEW9j41DDsWupyx+73x8mIJsh3Tk6tqvMHQuzjy2Lm1dt7kGsDdAB78y/+
+ oUNPfa1lyESp4nfOJASf2rnKTcSNx6rjZ6vYV8YCAXoTInpVL2AqktiR1OqkU0IIekCR
+ UGo9otiu0s+WhETLnP6F+9Lvza8wTFw1+JO73xb0xVBnmbgFpVQZYVTGwVTpr6BjLuxN
+ QK79xTcs+XoaycdBYHMioklp3HXtgHCeTR4yDbD1tRhifCpnRrWG1cFAeNCsploasFik
+ REEkzLWMLozcyiRYdr16s7v2rulvCzASo+RPHtWzmDYtdFr8D6DPBdEXhG4hF0kbpab3
+ qo1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=NPevtMq3DHV/D2UgNLk5GneTnkOuOy7HBTWldd55wzQ=;
+ b=fnvrqZ9l7O+jbvpL7Gw6rcPGb3zMlqLgevm7m1FyGd/ffVDF0mOcglZYz7NPY4AB+c
+ yAuL8jx248qw764jBFfdxDpzOu3UgNrjlEWtUg92hkYwxnOpYQkVrQ//DtIC51DIZG5k
+ 3cSLV+mlcDPDsA2M8qB5fvb2GHRFibBssUCxLaxLKnwz9BkxsbDk3C4u9qealuogUnGw
+ pDu0iKxi0LoyMBdJnqjGsVf0FITaqvR1o44hOds291QaQ4FHyOsugbWAByUy2fA40tl3
+ impQBOIaNY5rnSAr4KQ3Yxe35Z7PaZGqqEGYX2wV7W/vsxu2cTEyecBlQnl7FcrtNjxH
+ vpjA==
+X-Gm-Message-State: AOAM532O5ta75A8CFE1extuz1lHsVt5AjRDrYhrkkKXGapyGV3JATKYk
+ AhXAdNUFggPU2C0MMdW0b14/R2akJmw=
+X-Google-Smtp-Source: ABdhPJzhRa7xuApXuKvMIGvAHlXnEQMLHICPitoiUg0fKix/8Vn6qmguDImNPQwitJ4um+LFz6JGog==
+X-Received: by 2002:aa7:c450:: with SMTP id n16mr3985625edr.16.1616498119379; 
+ Tue, 23 Mar 2021 04:15:19 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id gr16sm11187845ejb.44.2021.03.23.04.15.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Mar 2021 04:15:17 -0700 (PDT)
+Date: Tue, 23 Mar 2021 12:15:37 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Mikko Perttunen <mperttunen@nvidia.com>
+Subject: Re: [PATCH v5 09/21] gpu: host1x: DMA fences and userspace fence
+ creation
+Message-ID: <YFnN2eIEa59AegPo@orome.fritz.box>
 References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <20210111130019.3515669-8-mperttunen@nvidia.com>
- <YFnIef+dDuqLv5Ek@orome.fritz.box>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <47840607-8e7c-cc02-bf9b-e001c91f7354@kapsi.fi>
-Date: Tue, 23 Mar 2021 13:12:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ <20210111130019.3515669-10-mperttunen@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <YFnIef+dDuqLv5Ek@orome.fritz.box>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+In-Reply-To: <20210111130019.3515669-10-mperttunen@nvidia.com>
+User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,233 +71,315 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
  talho@nvidia.com, bhuntsman@nvidia.com, linux-tegra@vger.kernel.org,
  digetx@gmail.com
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============1967380390=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/23/21 12:52 PM, Thierry Reding wrote:
-> On Mon, Jan 11, 2021 at 03:00:05PM +0200, Mikko Perttunen wrote:
->> Add the userspace interface header, specifying interfaces
->> for allocating and accessing syncpoints from userspace,
->> and for creating sync_file based fences based on syncpoint
->> thresholds.
->>
->> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
->> ---
->>   include/uapi/linux/host1x.h | 134 ++++++++++++++++++++++++++++++++++++
->>   1 file changed, 134 insertions(+)
->>   create mode 100644 include/uapi/linux/host1x.h
-> 
-> What's the number of these syncpoints that we expect userspace to
-> create? There's a limited amount of open file descriptors available by
-> default, so this needs to be kept reasonably low.
-> 
->> diff --git a/include/uapi/linux/host1x.h b/include/uapi/linux/host1x.h
->> new file mode 100644
->> index 000000000000..9c8fb9425cb2
->> --- /dev/null
->> +++ b/include/uapi/linux/host1x.h
->> @@ -0,0 +1,134 @@
->> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
->> +/* Copyright (c) 2020 NVIDIA Corporation */
->> +
->> +#ifndef _UAPI__LINUX_HOST1X_H
->> +#define _UAPI__LINUX_HOST1X_H
->> +
->> +#include <linux/ioctl.h>
->> +#include <linux/types.h>
->> +
->> +#if defined(__cplusplus)
->> +extern "C" {
->> +#endif
->> +
->> +struct host1x_allocate_syncpoint {
->> +	/**
->> +	 * @fd: [out]
->> +	 *
->> +	 * New file descriptor representing the allocated syncpoint.
->> +	 */
->> +	__s32 fd;
->> +
->> +	__u32 reserved[3];
->> +};
->> +
->> +struct host1x_syncpoint_info {
->> +	/**
->> +	 * @id: [out]
->> +	 *
->> +	 * System-global ID of the syncpoint.
->> +	 */
->> +	__u32 id;
->> +
->> +	__u32 reserved[3];
->> +};
-> 
-> Given that this has only out parameters, I expect this will be called on
-> the FD returned by HOST1X_IOCTL_ALLOCATE_SYNCPOINT? It might be worth
-> pointing that out explicitly in a comment.
-> 
 
-Correct.
+--===============1967380390==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="UkHz975LzvF9XEUl"
+Content-Disposition: inline
 
->> +
->> +struct host1x_syncpoint_increment {
->> +	/**
->> +	 * @count: [in]
->> +	 *
->> +	 * Number of times to increment the syncpoint. The syncpoint can
->> +	 * be observed at in-between values, but each increment is atomic.
->> +	 */
->> +	__u32 count;
->> +};
-> 
-> This seems like it would have to be called on the FD as well...
 
-Yep.
+--UkHz975LzvF9XEUl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
->> +
->> +struct host1x_read_syncpoint {
->> +	/**
->> +	 * @id: [in]
->> +	 *
->> +	 * ID of the syncpoint to read.
->> +	 */
->> +	__u32 id;
->> +
->> +	/**
->> +	 * @value: [out]
->> +	 *
->> +	 * Current value of the syncpoint.
->> +	 */
->> +	__u32 value;
->> +};
-> 
-> ... but then, all of a sudden you seem to switch things around and allow
-> reading the value of an arbitrary syncpoint specified by ID.
-> 
-> Now, I suspect that's because reading the syncpoint is harmless and does
-> not allow abuse, whereas incrementing could be abused if allowed on an
-> arbitrary syncpoint ID. But I think it's worth spelling all that out in
-> some documentation to make this clear from a security point of view and
-> from a usability point of view for people trying to figure out how to
-> use these interfaces.
+On Mon, Jan 11, 2021 at 03:00:07PM +0200, Mikko Perttunen wrote:
+> Add an implementation of dma_fences based on syncpoints. Syncpoint
+> interrupts are used to signal fences. Additionally, after
+> software signaling has been enabled, a 30 second timeout is started.
+> If the syncpoint threshold is not reached within this period,
+> the fence is signalled with an -ETIMEDOUT error code. This is to
+> allow fences that would never reach their syncpoint threshold to
+> be cleaned up.
+>=20
+> Additionally, add a new /dev/host1x IOCTL for creating sync_file
+> file descriptors backed by syncpoint fences.
+>=20
+> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+> ---
+> v5:
+> * Update for change in put_ref prototype.
+> v4:
+> * Fix _signal prototype and include it to avoid warning
+> * Remove use of unused local in error path
+> v3:
+> * Move declaration of host1x_fence_extract to public header
+> ---
+>  drivers/gpu/host1x/Makefile |   1 +
+>  drivers/gpu/host1x/fence.c  | 208 ++++++++++++++++++++++++++++++++++++
+>  drivers/gpu/host1x/fence.h  |  13 +++
+>  drivers/gpu/host1x/intr.c   |   9 ++
+>  drivers/gpu/host1x/intr.h   |   2 +
+>  drivers/gpu/host1x/uapi.c   | 103 ++++++++++++++++++
+>  include/linux/host1x.h      |   4 +
+>  7 files changed, 340 insertions(+)
+>  create mode 100644 drivers/gpu/host1x/fence.c
+>  create mode 100644 drivers/gpu/host1x/fence.h
+>=20
+> diff --git a/drivers/gpu/host1x/Makefile b/drivers/gpu/host1x/Makefile
+> index 882f928d75e1..a48af2cefae1 100644
+> --- a/drivers/gpu/host1x/Makefile
+> +++ b/drivers/gpu/host1x/Makefile
+> @@ -10,6 +10,7 @@ host1x-y =3D \
+>  	debug.o \
+>  	mipi.o \
+>  	uapi.o \
+> +	fence.o \
+>  	hw/host1x01.o \
+>  	hw/host1x02.o \
+>  	hw/host1x04.o \
+> diff --git a/drivers/gpu/host1x/fence.c b/drivers/gpu/host1x/fence.c
+> new file mode 100644
+> index 000000000000..e96ad93ff656
+> --- /dev/null
+> +++ b/drivers/gpu/host1x/fence.c
+> @@ -0,0 +1,208 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Syncpoint dma_fence implementation
+> + *
+> + * Copyright (c) 2020, NVIDIA Corporation.
+> + */
+> +
+> +#include <linux/dma-fence.h>
+> +#include <linux/file.h>
+> +#include <linux/fs.h>
+> +#include <linux/slab.h>
+> +#include <linux/sync_file.h>
+> +
+> +#include "fence.h"
+> +#include "intr.h"
+> +#include "syncpt.h"
+> +
+> +DEFINE_SPINLOCK(lock);
+> +
+> +struct host1x_syncpt_fence {
+> +	struct dma_fence base;
+> +
+> +	atomic_t signaling;
+> +
+> +	struct host1x_syncpt *sp;
+> +	u32 threshold;
+> +
+> +	struct host1x_waitlist *waiter;
+> +	void *waiter_ref;
+> +
+> +	struct delayed_work timeout_work;
+> +};
+> +
+> +static const char *syncpt_fence_get_driver_name(struct dma_fence *f)
+> +{
+> +	return "host1x";
+> +}
+> +
+> +static const char *syncpt_fence_get_timeline_name(struct dma_fence *f)
+> +{
+> +	return "syncpoint";
+> +}
+> +
+> +static bool syncpt_fence_enable_signaling(struct dma_fence *f)
+> +{
+> +	struct host1x_syncpt_fence *sf =3D
+> +		container_of(f, struct host1x_syncpt_fence, base);
 
-Yeah. The model is that reading any syncpoint is OK but writing is not. 
-I think these things were mentioned in the original proposal text but I 
-did not carry them over to the comments. Will fix (however see below)
+Maybe add a casting helper to make this less annoying.
 
-> 
->> +
->> +struct host1x_create_fence {
->> +	/**
->> +	 * @id: [in]
->> +	 *
->> +	 * ID of the syncpoint to create a fence for.
->> +	 */
->> +	__u32 id;
->> +
->> +	/**
->> +	 * @threshold: [in]
->> +	 *
->> +	 * When the syncpoint reaches this value, the fence will be signaled.
->> +	 * The syncpoint is considered to have reached the threshold when the
->> +	 * following condition is true:
->> +	 *
->> +	 * 	((value - threshold) & 0x80000000U) == 0U
->> +	 *
->> +	 */
->> +	__u32 threshold;
->> +
->> +	/**
->> +	 * @fence_fd: [out]
->> +	 *
->> +	 * New sync_file file descriptor containing the created fence.
->> +	 */
->> +	__s32 fence_fd;
->> +
->> +	__u32 reserved[1];
->> +};
-> 
-> Again this takes an arbitrary syncpoint ID as input, so I expect that
-> the corresponding IOCTL will have to be called on the host1x device
-> node? Again, I think it would be good to either point that out for each
-> structure or IOCTL, or alternatively maybe reorder these such that this
-> becomes clearer.
-> 
->> +
->> +struct host1x_fence_extract_fence {
->> +	__u32 id;
->> +	__u32 threshold;
->> +};
->> +
->> +struct host1x_fence_extract {
->> +	/**
->> +	 * @fence_fd: [in]
->> +	 *
->> +	 * sync_file file descriptor
->> +	 */
->> +	__s32 fence_fd;
->> +
->> +	/**
->> +	 * @num_fences: [in,out]
->> +	 *
->> +	 * In: size of the `fences_ptr` array counted in elements.
->> +	 * Out: required size of the `fences_ptr` array counted in elements.
->> +	 */
->> +	__u32 num_fences;
->> +
->> +	/**
->> +	 * @fences_ptr: [in]
->> +	 *
->> +	 * Pointer to array of `struct host1x_fence_extract_fence`.
->> +	 */
->> +	__u64 fences_ptr;
->> +
->> +	__u32 reserved[2];
->> +};
-> 
-> For the others it's pretty clear to me what the purpose is, but I'm at a
-> complete loss with this one. What's the use-case for this?
+> +const struct dma_fence_ops syncpt_fence_ops =3D {
 
-This is needed to process incoming prefences for userspace-programmed 
-engines -- mainly, the GPU with usermode submit enabled.
+I'd prefer this to use the host1x_syncpt_ prefix for better scoping.
 
-To align with other upstream code, I've been thinking of removing this 
-whole UAPI; moving the syncpoint allocation part to the DRM UAPI, and 
-dropping the sync_file stuff altogether (if we have support for job 
-submission outputting syncobjs, those could still be converted into 
-sync_files). This doesn't support usecases like GPU usermode submit, so 
-for downstream we'll have to add it back in, though. Would like to hear 
-your opinion on it as well.
+> +	.get_driver_name =3D syncpt_fence_get_driver_name,
+> +	.get_timeline_name =3D syncpt_fence_get_timeline_name,
+> +	.enable_signaling =3D syncpt_fence_enable_signaling,
+> +	.release =3D syncpt_fence_release,
 
-Mikko
+Maybe also do that for these, while at it.
 
-> 
-> In general I think it'd make sense to add a bit more documentation about
-> how all these IOCTLs are meant to be used to give people a better
-> understanding of why these are needed.
-> 
-> Thierry
-> 
->> +
->> +#define HOST1X_IOCTL_ALLOCATE_SYNCPOINT  _IOWR('X', 0x00, struct host1x_allocate_syncpoint)
->> +#define HOST1X_IOCTL_READ_SYNCPOINT      _IOR ('X', 0x01, struct host1x_read_syncpoint)
->> +#define HOST1X_IOCTL_CREATE_FENCE        _IOWR('X', 0x02, struct host1x_create_fence)
->> +#define HOST1X_IOCTL_SYNCPOINT_INFO      _IOWR('X', 0x03, struct host1x_syncpoint_info)
->> +#define HOST1X_IOCTL_SYNCPOINT_INCREMENT _IOWR('X', 0x04, struct host1x_syncpoint_increment)
->> +#define HOST1X_IOCTL_FENCE_EXTRACT       _IOWR('X', 0x05, struct host1x_fence_extract)
->> +
->> +#if defined(__cplusplus)
->> +}
->> +#endif
->> +
->> +#endif
->> -- 
->> 2.30.0
->>
+> +static int dev_file_ioctl_create_fence(struct host1x *host1x, void __use=
+r *data)
+> +{
+> +	struct host1x_create_fence args;
+> +	unsigned long copy_err;
+
+Any reason why this needs to have that cumbersome copy_ prefix? There's
+no other "err" variables, so why not just use the shorter "err" for
+this?
+
+> +	int fd;
+> +
+> +	copy_err =3D copy_from_user(&args, data, sizeof(args));
+> +	if (copy_err)
+> +		return -EFAULT;
+> +
+> +	if (args.reserved[0])
+> +		return -EINVAL;
+> +
+> +	if (args.id >=3D host1x_syncpt_nb_pts(host1x))
+> +		return -EINVAL;
+> +
+> +	args.id =3D array_index_nospec(args.id, host1x_syncpt_nb_pts(host1x));
+> +
+> +	fd =3D host1x_fence_create_fd(&host1x->syncpt[args.id], args.threshold);
+> +	if (fd < 0)
+> +		return fd;
+> +
+> +	args.fence_fd =3D fd;
+> +
+> +	copy_err =3D copy_to_user(data, &args, sizeof(args));
+> +	if (copy_err)
+> +		return -EFAULT;
+> +
+> +	return 0;
+> +}
+> +
+> +static int dev_file_ioctl_fence_extract(struct host1x *host1x, void __us=
+er *data)
+> +{
+> +	struct host1x_fence_extract_fence __user *fences_user_ptr;
+> +	struct dma_fence *fence, **fences;
+> +	struct host1x_fence_extract args;
+> +	struct dma_fence_array *array;
+> +	unsigned int num_fences, i;
+> +	unsigned long copy_err;
+
+Can't do the same here, but perhaps just do what other copy_from_user()
+callsites do and just use it directly in the conditional so you don't
+even need to store the return value since you're not reusing it anyway.
+
+In fact you could do the same thing above and just get rid of that
+variable and render the code more idiomatic.
+
+> +	int err;
+> +
+> +	copy_err =3D copy_from_user(&args, data, sizeof(args));
+> +	if (copy_err)
+> +		return -EFAULT;
+> +
+> +	fences_user_ptr =3D u64_to_user_ptr(args.fences_ptr);
+> +
+> +	if (args.reserved[0] || args.reserved[1])
+> +		return -EINVAL;
+> +
+> +	fence =3D sync_file_get_fence(args.fence_fd);
+> +	if (!fence)
+> +		return -EINVAL;
+> +
+> +	array =3D to_dma_fence_array(fence);
+> +	if (array) {
+> +		fences =3D array->fences;
+> +		num_fences =3D array->num_fences;
+> +	} else {
+> +		fences =3D &fence;
+> +		num_fences =3D 1;
+> +	}
+> +
+> +	for (i =3D 0; i < min(num_fences, args.num_fences); i++) {
+> +		struct host1x_fence_extract_fence f;
+> +
+> +		err =3D host1x_fence_extract(fences[i], &f.id, &f.threshold);
+> +		if (err)
+> +			goto put_fence;
+> +
+> +		copy_err =3D copy_to_user(fences_user_ptr + i, &f, sizeof(f));
+> +		if (copy_err) {
+> +			err =3D -EFAULT;
+> +			goto put_fence;
+> +		}
+> +	}
+> +
+> +	args.num_fences =3D i+1;
+
+checkpatch will probably complain about this not having spaces around
+that '+'.
+
+> +
+> +	copy_err =3D copy_to_user(data, &args, sizeof(args));
+> +	if (copy_err) {
+> +		err =3D -EFAULT;
+> +		goto put_fence;
+> +	}
+> +
+> +	return 0;
+> +
+> +put_fence:
+> +	dma_fence_put(fence);
+> +
+> +	return err;
+> +}
+> +
+>  static long dev_file_ioctl(struct file *file, unsigned int cmd,
+>  			   unsigned long arg)
+>  {
+> @@ -210,6 +305,14 @@ static long dev_file_ioctl(struct file *file, unsign=
+ed int cmd,
+>  		err =3D dev_file_ioctl_alloc_syncpoint(file->private_data, data);
+>  		break;
+> =20
+> +	case HOST1X_IOCTL_CREATE_FENCE:
+> +		err =3D dev_file_ioctl_create_fence(file->private_data, data);
+> +		break;
+> +
+> +	case HOST1X_IOCTL_FENCE_EXTRACT:
+> +		err =3D dev_file_ioctl_fence_extract(file->private_data, data);
+> +		break;
+> +
+>  	default:
+>  		err =3D -ENOTTY;
+>  	}
+> diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+> index b3178ae51cae..080f9d3d29eb 100644
+> --- a/include/linux/host1x.h
+> +++ b/include/linux/host1x.h
+> @@ -165,6 +165,10 @@ u32 host1x_syncpt_base_id(struct host1x_syncpt_base =
+*base);
+> =20
+>  struct host1x_syncpt *host1x_syncpt_fd_get(int fd);
+> =20
+> +struct dma_fence *host1x_fence_create(struct host1x_syncpt *sp, u32 thre=
+shold);
+> +int host1x_fence_create_fd(struct host1x_syncpt *sp, u32 threshold);
+> +int host1x_fence_extract(struct dma_fence *fence, u32 *id, u32 *threshol=
+d);
+
+Do we need these outside of the IOCTL implementations?
+
+Thierry
+
+--UkHz975LzvF9XEUl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmBZzdYACgkQ3SOs138+
+s6HpJRAApyg1qzhgRD7OV6hUR9fgDDOZ98EHF8xY8350I97NNTQl6FU8cQFdz1gu
+0MDZ32yraMS3pLE+bAlipVQSJJ7ExcRd7pQgs++bDt6DnfvwLSmNxfAJ9LeW5XIH
+Xu0xs3WdHJDk0MaCMoahvK1CukV5ab+mGpiqie5/ZmHpDbTiV/TproOdWqYJ2bHK
+OEwg3ewJldLPYQC2Omo+Rj7d604VhhQfMNhwbjRxw0joKQvKs0eNJvffNgpBnTnn
+dpbMuVNjwtYdBPW3hQaa0jVIWZTeW/JUTR6XxVHjDeBL/4N3bSq9hRQU4gFXCc9J
+vZjq5643biz57HavoZHJgVxyZQremDxBISoL+da1vkbJaeTfqkqQC7AkWcLaqytx
+ekah0JFecactVhh1rrAPRulNU2GiZioz85FprrQNs7+DBBPY+xQIfQ8+FNTzQTHs
+5JxNd5PsQgZFOZYrdvTYuxkJzKmCJFlsSBoTrwdfpogkkFXMe3b8GuSyhS0OuJay
+pvv+IPEgu31FNxZUdLo0MYBZ/UA3ksnmvo0DpgPczoOmduUtjP7PkD30/nw5Vpau
+JQh9Cce4sGfBUgNvdfv64mnby8q83W9m/fjIqfgPCU5yR3WM4KpqnJin6MdG27YM
+eQJMFUO1aPdmpAtovoE1EztrQ/cZE+7OS/R1E388MvD9mFQnsVI=
+=7WQ/
+-----END PGP SIGNATURE-----
+
+--UkHz975LzvF9XEUl--
+
+--===============1967380390==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1967380390==--
