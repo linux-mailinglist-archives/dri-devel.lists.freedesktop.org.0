@@ -1,23 +1,22 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51502346418
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 16:59:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A10B73463EB
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 16:58:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45A0D6EC2F;
-	Tue, 23 Mar 2021 15:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BDB76E916;
+	Tue, 23 Mar 2021 15:57:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mblankhorst.nl (mblankhorst.nl
- [IPv6:2a02:2308::216:3eff:fe92:dfa3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C665D6EAAE
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 15:57:44 +0000 (UTC)
+Received: from mblankhorst.nl (mblankhorst.nl [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABDBC6EBFB
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 15:57:43 +0000 (UTC)
 From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v9 68/70] drm/i915: Pass ww ctx to pin_map
-Date: Tue, 23 Mar 2021 16:50:57 +0100
-Message-Id: <20210323155059.628690-69-maarten.lankhorst@linux.intel.com>
+Subject: [PATCH v9 69/70] drm/i915: Pass ww ctx to i915_gem_object_pin_pages
+Date: Tue, 23 Mar 2021 16:50:58 +0100
+Message-Id: <20210323155059.628690-70-maarten.lankhorst@linux.intel.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210323155059.628690-1-maarten.lankhorst@linux.intel.com>
 References: <20210323155059.628690-1-maarten.lankhorst@linux.intel.com>
@@ -40,508 +39,445 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This will allow us to explicitly pass the ww to pin_pages,
-when it starts taking it.
-
-This allows us to finally kill off the explicit passing of ww
-by retrieving it from the obj.
+This is the final part of passing ww ctx to the get_pages() callbacks.
+Now we no longer have to implicitly get ww ctx by using get_ww_ctx.
 
 Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 ---
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  7 ++++---
- drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_object.h    |  1 +
- .../gpu/drm/i915/gem/i915_gem_object_blt.c    |  4 ++--
- drivers/gpu/drm/i915/gem/i915_gem_pages.c     | 21 +++++++++++++++----
- .../drm/i915/gem/selftests/i915_gem_context.c |  8 ++++---
- .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  2 +-
- drivers/gpu/drm/i915/gt/gen7_renderclear.c    |  2 +-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
- drivers/gpu/drm/i915/gt/intel_engine_pm.c     |  2 +-
- drivers/gpu/drm/i915/gt/intel_lrc.c           |  4 ++--
- drivers/gpu/drm/i915/gt/intel_renderstate.c   |  2 +-
- drivers/gpu/drm/i915/gt/intel_ring.c          |  2 +-
- .../gpu/drm/i915/gt/intel_ring_submission.c   |  2 +-
- drivers/gpu/drm/i915/gt/intel_timeline.c      |  7 ++++---
- drivers/gpu/drm/i915/gt/intel_timeline.h      |  3 ++-
- drivers/gpu/drm/i915/gt/intel_workarounds.c   |  2 +-
- drivers/gpu/drm/i915/gt/mock_engine.c         |  2 +-
- drivers/gpu/drm/i915/gt/selftest_lrc.c        |  2 +-
- drivers/gpu/drm/i915/gt/selftest_rps.c        | 10 ++++-----
- .../gpu/drm/i915/gt/selftest_workarounds.c    |  6 +++---
- drivers/gpu/drm/i915/gvt/cmd_parser.c         |  4 ++--
- drivers/gpu/drm/i915/i915_perf.c              |  4 ++--
- drivers/gpu/drm/i915/selftests/igt_spinner.c  |  2 +-
- 24 files changed, 60 insertions(+), 43 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display.c  |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_clflush.c   |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  4 +--
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c    | 35 +++++++++++++------
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      | 19 ++++++----
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    | 11 +++---
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     | 14 ++++----
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |  4 +--
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  4 +--
+ drivers/gpu/drm/i915/i915_gem.c               |  6 ++--
+ drivers/gpu/drm/i915/i915_vma.c               |  7 ++--
+ 13 files changed, 70 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index dcfcae9c841b..73dd2a7673f5 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -1340,7 +1340,7 @@ static int __reloc_gpu_alloc(struct i915_execbuffer *eb,
- 	if (err)
- 		goto err_pool;
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 56b63731af60..31f9685557f7 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -1155,7 +1155,7 @@ intel_pin_and_fence_fb_obj(struct drm_framebuffer *fb,
+ 	if (!ret && phys_cursor)
+ 		ret = i915_gem_object_attach_phys(obj, alignment);
+ 	if (!ret)
+-		ret = i915_gem_object_pin_pages(obj);
++		ret = i915_gem_object_pin_pages(obj, &ww);
+ 	if (ret)
+ 		goto err;
  
--	cmd = i915_gem_object_pin_map(pool->obj, pool->type);
-+	cmd = i915_gem_object_pin_map(pool->obj, &eb->ww, pool->type);
- 	if (IS_ERR(cmd)) {
- 		err = PTR_ERR(cmd);
- 		goto err_pool;
-@@ -2489,7 +2489,8 @@ static int eb_parse_pipeline(struct i915_execbuffer *eb,
- 			goto err_shadow;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_clflush.c b/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
+index e4c24558eaa8..109f5c8b802a 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
+@@ -55,7 +55,7 @@ static struct clflush *clflush_work_create(struct drm_i915_gem_object *obj)
+ 	if (!clflush)
+ 		return NULL;
+ 
+-	if (__i915_gem_object_get_pages(obj) < 0) {
++	if (__i915_gem_object_get_pages(obj, NULL) < 0) {
+ 		kfree(clflush);
+ 		return NULL;
+ 	}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+index 1b3998c066a7..35ac62d4dea2 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+@@ -130,7 +130,7 @@ static int i915_gem_begin_cpu_access(struct dma_buf *dma_buf, enum dma_data_dire
+ retry:
+ 	err = i915_gem_object_lock(obj, &ww);
+ 	if (!err)
+-		err = i915_gem_object_pin_pages(obj);
++		err = i915_gem_object_pin_pages(obj, &ww);
+ 	if (!err) {
+ 		i915_gem_object_set_to_cpu_domain(obj, write);
+ 		i915_gem_object_unpin_pages(obj);
+@@ -154,7 +154,7 @@ static int i915_gem_end_cpu_access(struct dma_buf *dma_buf, enum dma_data_direct
+ retry:
+ 	err = i915_gem_object_lock(obj, &ww);
+ 	if (!err)
+-		err = i915_gem_object_pin_pages(obj);
++		err = i915_gem_object_pin_pages(obj, &ww);
+ 	if (!err) {
+ 		i915_gem_object_set_to_gtt_domain(obj, false);
+ 		i915_gem_object_unpin_pages(obj);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+index a5b3a21faf9c..27dde2b9597e 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+@@ -430,6 +430,7 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+ 	struct drm_i915_gem_object *obj;
+ 	u32 read_domains = args->read_domains;
+ 	u32 write_domain = args->write_domain;
++	struct i915_gem_ww_ctx ww;
+ 	int err;
+ 
+ 	/* Only handle setting domains to types used by the CPU. */
+@@ -456,7 +457,15 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+ 		 * userptr validity
+ 		 */
+ 		err = i915_gem_object_userptr_validate(obj);
+-		goto out_wait;
++		if (err)
++			goto out;
++
++		err = i915_gem_object_wait(obj,
++					  I915_WAIT_INTERRUPTIBLE |
++					  I915_WAIT_PRIORITY |
++					  (write_domain ? I915_WAIT_ALL : 0),
++					  MAX_SCHEDULE_TIMEOUT);
++		goto out;
  	}
  
--	pw->shadow_map = i915_gem_object_pin_map(shadow->obj, I915_MAP_WB);
-+	pw->shadow_map = i915_gem_object_pin_map(shadow->obj, &eb->ww,
-+						 I915_MAP_WB);
- 	if (IS_ERR(pw->shadow_map)) {
- 		err = PTR_ERR(pw->shadow_map);
- 		goto err_trampoline;
-@@ -2500,7 +2501,7 @@ static int eb_parse_pipeline(struct i915_execbuffer *eb,
- 
- 	pw->batch_map = ERR_PTR(-ENODEV);
- 	if (needs_clflush && i915_has_memcpy_from_wc())
--		pw->batch_map = i915_gem_object_pin_map(batch, I915_MAP_WC);
-+		pw->batch_map = i915_gem_object_pin_map(batch, &eb->ww, I915_MAP_WC);
- 
- 	if (IS_ERR(pw->batch_map)) {
- 		err = i915_gem_object_pin_pages(batch);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index 2561a2f1e54f..edac8ee3be9a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -439,7 +439,7 @@ vm_access(struct vm_area_struct *area, unsigned long addr,
+ 	/*
+@@ -470,9 +479,11 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
  		goto out;
+ 	}
  
- 	/* As this is primarily for debugging, let's focus on simplicity */
--	vaddr = i915_gem_object_pin_map(obj, I915_MAP_FORCE_WC);
-+	vaddr = i915_gem_object_pin_map(obj, &ww, I915_MAP_FORCE_WC);
- 	if (IS_ERR(vaddr)) {
- 		err = PTR_ERR(vaddr);
- 		goto out;
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 1a8ec4035112..9bd9b47dcc8d 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -450,6 +450,7 @@ void i915_gem_object_writeback(struct drm_i915_gem_object *obj);
-  * ERR_PTR() on error.
-  */
- void *__must_check i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
-+					   struct i915_gem_ww_ctx *ww,
- 					   enum i915_map_type type);
- 
- void *__must_check i915_gem_object_pin_map_unlocked(struct drm_i915_gem_object *obj,
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_blt.c b/drivers/gpu/drm/i915/gem/i915_gem_object_blt.c
-index df8e8c18c6c9..fae18622d2da 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_blt.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_blt.c
-@@ -58,7 +58,7 @@ struct i915_vma *intel_emit_vma_fill_blt(struct intel_context *ce,
- 	/* we pinned the pool, mark it as such */
- 	intel_gt_buffer_pool_mark_used(pool);
- 
--	cmd = i915_gem_object_pin_map(pool->obj, pool->type);
-+	cmd = i915_gem_object_pin_map(pool->obj, ww, pool->type);
- 	if (IS_ERR(cmd)) {
- 		err = PTR_ERR(cmd);
- 		goto out_unpin;
-@@ -283,7 +283,7 @@ struct i915_vma *intel_emit_vma_copy_blt(struct intel_context *ce,
- 	/* we pinned the pool, mark it as such */
- 	intel_gt_buffer_pool_mark_used(pool);
- 
--	cmd = i915_gem_object_pin_map(pool->obj, pool->type);
-+	cmd = i915_gem_object_pin_map(pool->obj, ww, pool->type);
- 	if (IS_ERR(cmd)) {
- 		err = PTR_ERR(cmd);
- 		goto out_unpin;
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-index 58e222030e10..232832398457 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-@@ -341,6 +341,7 @@ static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj,
- 
- /* get, pin, and map the pages of the object into kernel space */
- void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
-+			      struct i915_gem_ww_ctx *ww,
- 			      enum i915_map_type type)
- {
- 	enum i915_map_type has_type;
-@@ -408,13 +409,25 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
- void *i915_gem_object_pin_map_unlocked(struct drm_i915_gem_object *obj,
- 				       enum i915_map_type type)
- {
-+	struct i915_gem_ww_ctx ww;
- 	void *ret;
-+	int err;
- 
--	i915_gem_object_lock(obj, NULL);
--	ret = i915_gem_object_pin_map(obj, type);
--	i915_gem_object_unlock(obj);
+-	err = i915_gem_object_lock_interruptible(obj, NULL);
 +	i915_gem_ww_ctx_init(&ww, true);
 +retry:
-+	err = i915_gem_object_lock(obj, &ww);
-+	if (!err)
-+		ret = i915_gem_object_pin_map(obj, &ww, type);
-+	if (IS_ERR(ret))
-+		err = PTR_ERR(ret);
++	err = i915_gem_object_lock_interruptible(obj, &ww);
+ 	if (err)
+-		goto out;
++		goto out_ww;
+ 
+ 	/*
+ 	 * Flush and acquire obj->pages so that we are coherent through
+@@ -483,9 +494,9 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+ 	 * continue to assume that the obj remained out of the CPU cached
+ 	 * domain.
+ 	 */
+-	err = i915_gem_object_pin_pages(obj);
++	err = i915_gem_object_pin_pages(obj, &ww);
+ 	if (err)
+-		goto out_unlock;
++		goto out_ww;
+ 
+ 	/*
+ 	 * Already in the desired write domain? Nothing for us to do!
+@@ -510,9 +521,6 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+ out_unpin:
+ 	i915_gem_object_unpin_pages(obj);
+ 
+-out_unlock:
+-	i915_gem_object_unlock(obj);
+-out_wait:
+ 	if (!err) {
+ 		err = i915_gem_object_wait(obj,
+ 					  I915_WAIT_INTERRUPTIBLE |
+@@ -523,6 +531,13 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+ 			i915_gem_object_invalidate_frontbuffer(obj, ORIGIN_CPU);
+ 	}
+ 
++out_ww:
 +	if (err == -EDEADLK) {
 +		err = i915_gem_ww_ctx_backoff(&ww);
 +		if (!err)
 +			goto retry;
 +	}
 +	i915_gem_ww_ctx_fini(&ww);
- 
--	return ret;
-+	return err ? ERR_PTR(err) : ret;
- }
- 
- void __i915_gem_object_flush_map(struct drm_i915_gem_object *obj,
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-index af5f29a8a7f2..74c53b5ae96e 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-@@ -893,13 +893,15 @@ static int igt_shared_ctx_exec(void *arg)
+ out:
+ 	i915_gem_object_put(obj);
  	return err;
+@@ -545,7 +560,7 @@ int i915_gem_object_prepare_read(struct drm_i915_gem_object *obj,
+ 
+ 	assert_object_held(obj);
+ 
+-	ret = i915_gem_object_pin_pages(obj);
++	ret = i915_gem_object_pin_pages(obj, ww);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -590,7 +605,7 @@ int i915_gem_object_prepare_write(struct drm_i915_gem_object *obj,
+ 
+ 	assert_object_held(obj);
+ 
+-	ret = i915_gem_object_pin_pages(obj);
++	ret = i915_gem_object_pin_pages(obj, ww);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 73dd2a7673f5..b3678c0f218b 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -2504,7 +2504,7 @@ static int eb_parse_pipeline(struct i915_execbuffer *eb,
+ 		pw->batch_map = i915_gem_object_pin_map(batch, &eb->ww, I915_MAP_WC);
+ 
+ 	if (IS_ERR(pw->batch_map)) {
+-		err = i915_gem_object_pin_pages(batch);
++		err = i915_gem_object_pin_pages(batch, &eb->ww);
+ 		if (err)
+ 			goto err_unmap_shadow;
+ 		pw->batch_map = NULL;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+index edac8ee3be9a..8690bf434407 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+@@ -239,6 +239,7 @@ static vm_fault_t vm_fault_cpu(struct vm_fault *vmf)
+ 	struct i915_mmap_offset *mmo = area->vm_private_data;
+ 	struct drm_i915_gem_object *obj = mmo->obj;
+ 	resource_size_t iomap;
++	struct i915_gem_ww_ctx ww;
+ 	int err;
+ 
+ 	/* Sanity check that we allow writing into this object */
+@@ -246,10 +247,11 @@ static vm_fault_t vm_fault_cpu(struct vm_fault *vmf)
+ 		     area->vm_flags & VM_WRITE))
+ 		return VM_FAULT_SIGBUS;
+ 
+-	if (i915_gem_object_lock_interruptible(obj, NULL))
+-		return VM_FAULT_NOPAGE;
+-
+-	err = i915_gem_object_pin_pages(obj);
++	i915_gem_ww_ctx_init(&ww, true);
++retry:
++	err = i915_gem_object_lock(obj, &ww);
++	if (!err)
++		err = i915_gem_object_pin_pages(obj, &ww);
+ 	if (err)
+ 		goto out;
+ 
+@@ -272,7 +274,12 @@ static vm_fault_t vm_fault_cpu(struct vm_fault *vmf)
+ 	i915_gem_object_unpin_pages(obj);
+ 
+ out:
+-	i915_gem_object_unlock(obj);
++	if (err == -EDEADLK) {
++		err = i915_gem_ww_ctx_backoff(&ww);
++		if (!err)
++			goto retry;
++	}
++	i915_gem_ww_ctx_fini(&ww);
+ 	return i915_error_to_vmf_fault(err);
  }
  
--static int rpcs_query_batch(struct drm_i915_gem_object *rpcs, struct i915_vma *vma)
-+static int rpcs_query_batch(struct drm_i915_gem_object *rpcs,
-+			    struct i915_gem_ww_ctx *ww,
-+			    struct i915_vma *vma)
- {
- 	u32 *cmd;
- 
- 	GEM_BUG_ON(INTEL_GEN(vma->vm->i915) < 8);
- 
--	cmd = i915_gem_object_pin_map(rpcs, I915_MAP_WB);
-+	cmd = i915_gem_object_pin_map(rpcs, ww, I915_MAP_WB);
- 	if (IS_ERR(cmd))
- 		return PTR_ERR(cmd);
- 
-@@ -963,7 +965,7 @@ emit_rpcs_query(struct drm_i915_gem_object *obj,
- 	if (err)
- 		goto err_vma;
- 
--	err = rpcs_query_batch(rpcs, vma);
-+	err = rpcs_query_batch(rpcs, &ww, vma);
- 	if (err)
- 		goto err_batch;
- 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-index dd74bc09ec88..3edf5a1cc0c0 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-@@ -120,7 +120,7 @@ static int igt_dmabuf_import(void *arg)
+@@ -313,7 +320,7 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
+ 		goto err_rpm;
  	}
  
- 	if (0) { /* Can not yet map dmabuf */
--		obj_map = i915_gem_object_pin_map(obj, I915_MAP_WB);
-+		obj_map = i915_gem_object_pin_map(obj, NULL, I915_MAP_WB);
- 		if (IS_ERR(obj_map)) {
- 			err = PTR_ERR(obj_map);
- 			pr_err("i915_gem_object_pin_map failed with err=%d\n", err);
-diff --git a/drivers/gpu/drm/i915/gt/gen7_renderclear.c b/drivers/gpu/drm/i915/gt/gen7_renderclear.c
-index de575fdb033f..c0b0044cb52a 100644
---- a/drivers/gpu/drm/i915/gt/gen7_renderclear.c
-+++ b/drivers/gpu/drm/i915/gt/gen7_renderclear.c
-@@ -436,7 +436,7 @@ int gen7_setup_clear_gpr_bb(struct intel_engine_cs * const engine,
- 
- 	GEM_BUG_ON(vma->obj->base.size < bv.size);
- 
--	batch = i915_gem_object_pin_map(vma->obj, I915_MAP_WC);
-+	batch = i915_gem_object_pin_map(vma->obj, NULL, I915_MAP_WC);
- 	if (IS_ERR(batch))
- 		return PTR_ERR(batch);
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 859c79b0d6ee..b2a62bcd9cc3 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -666,7 +666,7 @@ static int init_status_page(struct intel_engine_cs *engine)
+-	ret = i915_gem_object_pin_pages(obj);
++	ret = i915_gem_object_pin_pages(obj, &ww);
  	if (ret)
- 		goto err;
+ 		goto err_rpm;
  
--	vaddr = i915_gem_object_pin_map(obj, I915_MAP_WB);
-+	vaddr = i915_gem_object_pin_map(obj, &ww, I915_MAP_WB);
- 	if (IS_ERR(vaddr)) {
- 		ret = PTR_ERR(vaddr);
- 		goto err_unpin;
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-index bddc5c98fb04..c042755c4ca2 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-@@ -30,7 +30,7 @@ static void dbg_poison_ce(struct intel_context *ce)
- 		if (!i915_gem_object_trylock(obj))
- 			return;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index 9bd9b47dcc8d..64819b4e592a 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -378,18 +378,21 @@ void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
+ 				 struct sg_table *pages,
+ 				 unsigned int sg_page_sizes);
  
--		map = i915_gem_object_pin_map(obj, type);
-+		map = i915_gem_object_pin_map(obj, NULL, type);
- 		if (!IS_ERR(map)) {
- 			memset(map, CONTEXT_REDZONE, obj->base.size);
- 			i915_gem_object_flush_map(obj);
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index a2b916d27a39..63e544ce4396 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -902,7 +902,7 @@ lrc_pre_pin(struct intel_context *ce,
- 	GEM_BUG_ON(!ce->state);
- 	GEM_BUG_ON(!i915_vma_is_pinned(ce->state));
+-int ____i915_gem_object_get_pages(struct drm_i915_gem_object *obj);
+-int __i915_gem_object_get_pages(struct drm_i915_gem_object *obj);
++int ____i915_gem_object_get_pages(struct drm_i915_gem_object *obj,
++				  struct i915_gem_ww_ctx *ww);
++int __i915_gem_object_get_pages(struct drm_i915_gem_object *obj,
++				struct i915_gem_ww_ctx *ww);
  
--	*vaddr = i915_gem_object_pin_map(ce->state->obj,
-+	*vaddr = i915_gem_object_pin_map(ce->state->obj, ww,
- 					 i915_coherent_map_type(ce->engine->i915) |
- 					 I915_MAP_OVERRIDE);
- 
-@@ -1512,7 +1512,7 @@ void lrc_init_wa_ctx(struct intel_engine_cs *engine)
- 	if (err)
- 		goto err;
- 
--	batch = i915_gem_object_pin_map(wa_ctx->vma->obj, I915_MAP_WB);
-+	batch = i915_gem_object_pin_map(wa_ctx->vma->obj, &ww, I915_MAP_WB);
- 	if (IS_ERR(batch)) {
- 		err = PTR_ERR(batch);
- 		goto err_unpin;
-diff --git a/drivers/gpu/drm/i915/gt/intel_renderstate.c b/drivers/gpu/drm/i915/gt/intel_renderstate.c
-index b03e197b1d99..69d4856a2b11 100644
---- a/drivers/gpu/drm/i915/gt/intel_renderstate.c
-+++ b/drivers/gpu/drm/i915/gt/intel_renderstate.c
-@@ -53,7 +53,7 @@ static int render_state_setup(struct intel_renderstate *so,
- 	int ret = -EINVAL;
- 	u32 *d;
- 
--	d = i915_gem_object_pin_map(so->vma->obj, I915_MAP_WB);
-+	d = i915_gem_object_pin_map(so->vma->obj, &so->ww, I915_MAP_WB);
- 	if (IS_ERR(d))
- 		return PTR_ERR(d);
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_ring.c b/drivers/gpu/drm/i915/gt/intel_ring.c
-index aee0a77c77e0..7a768ab76765 100644
---- a/drivers/gpu/drm/i915/gt/intel_ring.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ring.c
-@@ -54,7 +54,7 @@ int intel_ring_pin(struct intel_ring *ring, struct i915_gem_ww_ctx *ww)
- 	if (i915_vma_is_map_and_fenceable(vma))
- 		addr = (void __force *)i915_vma_pin_iomap(vma);
- 	else
--		addr = i915_gem_object_pin_map(vma->obj,
-+		addr = i915_gem_object_pin_map(vma->obj, ww,
- 					       i915_coherent_map_type(vma->vm->i915));
- 	if (IS_ERR(addr)) {
- 		ret = PTR_ERR(addr);
-diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-index f8ad891ad635..d23e02a35269 100644
---- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-@@ -442,7 +442,7 @@ static int ring_context_init_default_state(struct intel_context *ce,
- 	struct drm_i915_gem_object *obj = ce->state->obj;
- 	void *vaddr;
- 
--	vaddr = i915_gem_object_pin_map(obj, I915_MAP_WB);
-+	vaddr = i915_gem_object_pin_map(obj, ww, I915_MAP_WB);
- 	if (IS_ERR(vaddr))
- 		return PTR_ERR(vaddr);
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.c b/drivers/gpu/drm/i915/gt/intel_timeline.c
-index f19cf6d2fa85..a9a1960f7f36 100644
---- a/drivers/gpu/drm/i915/gt/intel_timeline.c
-+++ b/drivers/gpu/drm/i915/gt/intel_timeline.c
-@@ -53,13 +53,14 @@ static int __timeline_active(struct i915_active *active)
- }
- 
- I915_SELFTEST_EXPORT int
--intel_timeline_pin_map(struct intel_timeline *timeline)
-+intel_timeline_pin_map(struct intel_timeline *timeline,
-+		       struct i915_gem_ww_ctx *ww)
+ static inline int __must_check
+-i915_gem_object_pin_pages(struct drm_i915_gem_object *obj)
++i915_gem_object_pin_pages(struct drm_i915_gem_object *obj,
++			  struct i915_gem_ww_ctx *ww)
  {
- 	struct drm_i915_gem_object *obj = timeline->hwsp_ggtt->obj;
- 	u32 ofs = offset_in_page(timeline->hwsp_offset);
- 	void *vaddr;
+ 	assert_object_held(obj);
  
--	vaddr = i915_gem_object_pin_map(obj, I915_MAP_WB);
-+	vaddr = i915_gem_object_pin_map(obj, ww, I915_MAP_WB);
- 	if (IS_ERR(vaddr))
- 		return PTR_ERR(vaddr);
- 
-@@ -184,7 +185,7 @@ int intel_timeline_pin(struct intel_timeline *tl, struct i915_gem_ww_ctx *ww)
+ 	if (atomic_inc_not_zero(&obj->mm.pages_pin_count))
  		return 0;
  
- 	if (!tl->hwsp_map) {
--		err = intel_timeline_pin_map(tl);
-+		err = intel_timeline_pin_map(tl, ww);
- 		if (err)
- 			return err;
- 	}
-diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.h b/drivers/gpu/drm/i915/gt/intel_timeline.h
-index 57308c4d664a..dad5a60e556b 100644
---- a/drivers/gpu/drm/i915/gt/intel_timeline.h
-+++ b/drivers/gpu/drm/i915/gt/intel_timeline.h
-@@ -98,6 +98,7 @@ intel_timeline_is_last(const struct intel_timeline *tl,
- 	return list_is_last_rcu(&rq->link, &tl->requests);
+-	return __i915_gem_object_get_pages(obj);
++	return __i915_gem_object_get_pages(obj, ww);
  }
  
--I915_SELFTEST_DECLARE(int intel_timeline_pin_map(struct intel_timeline *tl));
-+I915_SELFTEST_DECLARE(int intel_timeline_pin_map(struct intel_timeline *tl,
-+						 struct i915_gem_ww_ctx *ww));
+ int i915_gem_object_pin_pages_unlocked(struct drm_i915_gem_object *obj);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+index 232832398457..94cc33ea483d 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+@@ -87,7 +87,8 @@ void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
+ 	}
+ }
  
- #endif
-diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index bb2357119792..72c6da608cd2 100644
---- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -2241,7 +2241,7 @@ static int engine_wa_list_verify(struct intel_context *ce,
- 		goto err_rq;
+-int ____i915_gem_object_get_pages(struct drm_i915_gem_object *obj)
++int ____i915_gem_object_get_pages(struct drm_i915_gem_object *obj,
++				  struct i915_gem_ww_ctx *ww)
+ {
+ 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+ 	int err;
+@@ -100,7 +101,7 @@ int ____i915_gem_object_get_pages(struct drm_i915_gem_object *obj)
+ 		return -EFAULT;
  	}
  
--	results = i915_gem_object_pin_map(vma->obj, I915_MAP_WB);
-+	results = i915_gem_object_pin_map(vma->obj, NULL, I915_MAP_WB);
- 	if (IS_ERR(results)) {
- 		err = PTR_ERR(results);
- 		goto err_rq;
-diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
-index 42fd86658ee7..193b355e45d6 100644
---- a/drivers/gpu/drm/i915/gt/mock_engine.c
-+++ b/drivers/gpu/drm/i915/gt/mock_engine.c
-@@ -20,7 +20,7 @@ static int mock_timeline_pin(struct intel_timeline *tl)
- 	if (WARN_ON(!i915_gem_object_trylock(tl->hwsp_ggtt->obj)))
+-	err = obj->ops->get_pages(obj, NULL);
++	err = obj->ops->get_pages(obj, ww);
+ 	GEM_BUG_ON(!err && !i915_gem_object_has_pages(obj));
+ 
+ 	return err;
+@@ -113,7 +114,8 @@ int ____i915_gem_object_get_pages(struct drm_i915_gem_object *obj)
+  * either as a result of memory pressure (reaping pages under the shrinker)
+  * or as the object is itself released.
+  */
+-int __i915_gem_object_get_pages(struct drm_i915_gem_object *obj)
++int __i915_gem_object_get_pages(struct drm_i915_gem_object *obj,
++				struct i915_gem_ww_ctx *ww)
+ {
+ 	int err;
+ 
+@@ -124,7 +126,7 @@ int __i915_gem_object_get_pages(struct drm_i915_gem_object *obj)
+ 	if (unlikely(!i915_gem_object_has_pages(obj))) {
+ 		GEM_BUG_ON(i915_gem_object_has_pinned_pages(obj));
+ 
+-		err = ____i915_gem_object_get_pages(obj);
++		err = ____i915_gem_object_get_pages(obj, ww);
+ 		if (err)
+ 			return err;
+ 
+@@ -144,7 +146,7 @@ int i915_gem_object_pin_pages_unlocked(struct drm_i915_gem_object *obj)
+ retry:
+ 	err = i915_gem_object_lock(obj, &ww);
+ 	if (!err)
+-		err = i915_gem_object_pin_pages(obj);
++		err = i915_gem_object_pin_pages(obj, &ww);
+ 
+ 	if (err == -EDEADLK) {
+ 		err = i915_gem_ww_ctx_backoff(&ww);
+@@ -362,7 +364,7 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
+ 		if (unlikely(!i915_gem_object_has_pages(obj))) {
+ 			GEM_BUG_ON(i915_gem_object_has_pinned_pages(obj));
+ 
+-			err = ____i915_gem_object_get_pages(obj);
++			err = ____i915_gem_object_get_pages(obj, ww);
+ 			if (err)
+ 				return ERR_PTR(err);
+ 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+index 5b732b0fe5ce..48b2258091c3 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+@@ -641,7 +641,7 @@ static int __i915_gem_object_create_stolen(struct intel_memory_region *mem,
+ 	if (WARN_ON(!i915_gem_object_trylock(obj)))
  		return -EBUSY;
  
--	err = intel_timeline_pin_map(tl);
-+	err = intel_timeline_pin_map(tl, NULL);
- 	i915_gem_object_unlock(tl->hwsp_ggtt->obj);
+-	err = i915_gem_object_pin_pages(obj);
++	err = i915_gem_object_pin_pages(obj, NULL);
+ 	if (!err)
+ 		i915_gem_object_init_memory_region(obj, mem);
+ 	i915_gem_object_unlock(obj);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+index 693d0dbe9ed2..71c928c789b3 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+@@ -261,7 +261,7 @@ static int i915_gem_object_userptr_unbind(struct drm_i915_gem_object *obj, bool
+ 		i915_gem_userptr_put_pages(obj, pages);
+ 
+ 	if (get_pages)
+-		err = ____i915_gem_object_get_pages(obj);
++		err = ____i915_gem_object_get_pages(obj, NULL);
+ 
+ 	return err;
+ }
+@@ -390,7 +390,7 @@ int i915_gem_object_userptr_validate(struct drm_i915_gem_object *obj)
+ 		 * it doesn't matter if we collide with the mmu notifier,
+ 		 * and -EAGAIN handling is not required.
+ 		 */
+-		err = i915_gem_object_pin_pages(obj);
++		err = i915_gem_object_pin_pages(obj, NULL);
+ 		if (!err)
+ 			i915_gem_object_unpin_pages(obj);
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+index 994e4ea28903..38c1ba203071 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+@@ -30,7 +30,7 @@ int pin_pt_dma(struct i915_address_space *vm, struct drm_i915_gem_object *obj)
+ 	int err;
+ 
+ 	i915_gem_object_lock(obj, NULL);
+-	err = i915_gem_object_pin_pages(obj);
++	err = i915_gem_object_pin_pages(obj, NULL);
+ 	i915_gem_object_unlock(obj);
  	if (err)
  		return err;
-diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-index 5726943d7ff0..60deea51ecc9 100644
---- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-@@ -425,7 +425,7 @@ static int __live_lrc_state(struct intel_engine_cs *engine,
- 		goto err_rq;
- 	}
+@@ -43,7 +43,7 @@ int pin_pt_dma_locked(struct i915_address_space *vm, struct drm_i915_gem_object
+ {
+ 	int err;
  
--	cs = i915_gem_object_pin_map(scratch->obj, I915_MAP_WB);
-+	cs = i915_gem_object_pin_map(scratch->obj, NULL, I915_MAP_WB);
- 	if (IS_ERR(cs)) {
- 		err = PTR_ERR(cs);
- 		goto err_rq;
-diff --git a/drivers/gpu/drm/i915/gt/selftest_rps.c b/drivers/gpu/drm/i915/gt/selftest_rps.c
-index 967641fee42a..53f6d2e02506 100644
---- a/drivers/gpu/drm/i915/gt/selftest_rps.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_rps.c
-@@ -83,17 +83,17 @@ create_spin_counter(struct intel_engine_cs *engine,
- 
- 	err = i915_vma_pin(vma, 0, 0, PIN_USER);
+-	err = i915_gem_object_pin_pages(obj);
++	err = i915_gem_object_pin_pages(obj, NULL);
  	if (err)
--		goto err_unlock;
--
--	i915_vma_lock(vma);
-+		goto err_put;
+ 		return err;
  
--	base = i915_gem_object_pin_map(obj, I915_MAP_WC);
-+	base = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WC);
- 	if (IS_ERR(base)) {
- 		err = PTR_ERR(base);
- 		goto err_unpin;
- 	}
- 	cs = base;
- 
-+	i915_vma_lock(vma);
-+
- 	*cs++ = MI_LOAD_REGISTER_IMM(__NGPR__ * 2);
- 	for (i = 0; i < __NGPR__; i++) {
- 		*cs++ = i915_mmio_reg_offset(CS_GPR(i));
-@@ -137,8 +137,6 @@ create_spin_counter(struct intel_engine_cs *engine,
- 
- err_unpin:
- 	i915_vma_unpin(vma);
--err_unlock:
--	i915_vma_unlock(vma);
- err_put:
- 	i915_gem_object_put(obj);
- 	return ERR_PTR(err);
-diff --git a/drivers/gpu/drm/i915/gt/selftest_workarounds.c b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
-index a508614b2fd5..5e74e65550e8 100644
---- a/drivers/gpu/drm/i915/gt/selftest_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
-@@ -179,7 +179,7 @@ static int check_whitelist(struct intel_context *ce)
- 		return PTR_ERR(result);
- 
- 	i915_gem_object_lock(result->obj, NULL);
--	vaddr = i915_gem_object_pin_map(result->obj, I915_MAP_WB);
-+	vaddr = i915_gem_object_pin_map(result->obj, NULL, I915_MAP_WB);
- 	if (IS_ERR(vaddr)) {
- 		err = PTR_ERR(vaddr);
- 		goto out_put;
-@@ -516,13 +516,13 @@ static int check_dirty_whitelist(struct intel_context *ce)
- 		if (err)
- 			goto out;
- 
--		cs = i915_gem_object_pin_map(batch->obj, I915_MAP_WC);
-+		cs = i915_gem_object_pin_map(batch->obj, &ww, I915_MAP_WC);
- 		if (IS_ERR(cs)) {
- 			err = PTR_ERR(cs);
- 			goto out_ctx;
- 		}
- 
--		results = i915_gem_object_pin_map(scratch->obj, I915_MAP_WB);
-+		results = i915_gem_object_pin_map(scratch->obj, &ww, I915_MAP_WB);
- 		if (IS_ERR(results)) {
- 			err = PTR_ERR(results);
- 			goto out_unmap_batch;
-diff --git a/drivers/gpu/drm/i915/gvt/cmd_parser.c b/drivers/gpu/drm/i915/gvt/cmd_parser.c
-index ec6ea11d747f..d50396d51f9f 100644
---- a/drivers/gpu/drm/i915/gvt/cmd_parser.c
-+++ b/drivers/gpu/drm/i915/gvt/cmd_parser.c
-@@ -1933,7 +1933,7 @@ static int perform_bb_shadow(struct parser_exec_state *s)
- 		goto err_free_bb;
- 	}
- 
--	bb->va = i915_gem_object_pin_map(bb->obj, I915_MAP_WB);
-+	bb->va = i915_gem_object_pin_map_unlocked(bb->obj, I915_MAP_WB);
- 	if (IS_ERR(bb->va)) {
- 		ret = PTR_ERR(bb->va);
- 		goto err_free_obj;
-@@ -3006,7 +3006,7 @@ static int shadow_indirect_ctx(struct intel_shadow_wa_ctx *wa_ctx)
- 		return PTR_ERR(obj);
- 
- 	/* get the va of the shadow batch buffer */
--	map = i915_gem_object_pin_map(obj, I915_MAP_WB);
-+	map = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
- 	if (IS_ERR(map)) {
- 		gvt_vgpu_err("failed to vmap shadow indirect ctx\n");
- 		ret = PTR_ERR(map);
-diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-index 66f1f25119b5..4d95948de28d 100644
---- a/drivers/gpu/drm/i915/i915_perf.c
-+++ b/drivers/gpu/drm/i915/i915_perf.c
-@@ -1662,7 +1662,7 @@ static int alloc_noa_wait(struct i915_perf_stream *stream)
- 		goto out_ww;
- 	}
- 
--	batch = cs = i915_gem_object_pin_map(bo, I915_MAP_WB);
-+	batch = cs = i915_gem_object_pin_map(bo, &ww, I915_MAP_WB);
- 	if (IS_ERR(batch)) {
- 		ret = PTR_ERR(batch);
- 		goto err_unpin;
-@@ -1875,7 +1875,7 @@ alloc_oa_config_buffer(struct i915_perf_stream *stream,
- 	if (err)
- 		goto out_ww;
- 
--	cs = i915_gem_object_pin_map(obj, I915_MAP_WB);
-+	cs = i915_gem_object_pin_map(obj, &ww, I915_MAP_WB);
- 	if (IS_ERR(cs)) {
- 		err = PTR_ERR(cs);
- 		goto out_ww;
-diff --git a/drivers/gpu/drm/i915/selftests/igt_spinner.c b/drivers/gpu/drm/i915/selftests/igt_spinner.c
-index 243cb4b9a2ee..ccddbfcf09f1 100644
---- a/drivers/gpu/drm/i915/selftests/igt_spinner.c
-+++ b/drivers/gpu/drm/i915/selftests/igt_spinner.c
-@@ -54,7 +54,7 @@ static void *igt_spinner_pin_obj(struct intel_context *ce,
+diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+index 960e94997c9b..d23a417295f8 100644
+--- a/drivers/gpu/drm/i915/i915_gem.c
++++ b/drivers/gpu/drm/i915/i915_gem.c
+@@ -212,7 +212,7 @@ i915_gem_shmem_pread(struct drm_i915_gem_object *obj,
  	if (ret)
- 		return ERR_PTR(ret);
+ 		return ret;
  
--	vaddr = i915_gem_object_pin_map(obj, mode);
-+	vaddr = i915_gem_object_pin_map(obj, ww, mode);
+-	ret = i915_gem_object_pin_pages(obj);
++	ret = i915_gem_object_pin_pages(obj, NULL);
+ 	if (ret)
+ 		goto err_unlock;
  
- 	if (!ww)
- 		i915_gem_object_unlock(obj);
+@@ -311,7 +311,7 @@ static struct i915_vma *i915_gem_gtt_prepare(struct drm_i915_gem_object *obj,
+ 		vma = NULL;
+ 	}
+ 
+-	ret = i915_gem_object_pin_pages(obj);
++	ret = i915_gem_object_pin_pages(obj, &ww);
+ 	if (ret) {
+ 		if (drm_mm_node_allocated(node)) {
+ 			ggtt->vm.clear_range(&ggtt->vm, node->start, node->size);
+@@ -640,7 +640,7 @@ i915_gem_shmem_pwrite(struct drm_i915_gem_object *obj,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = i915_gem_object_pin_pages(obj);
++	ret = i915_gem_object_pin_pages(obj, NULL);
+ 	if (ret)
+ 		goto err_unlock;
+ 
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index c5b9f30ac0a3..03291c032814 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -785,7 +785,8 @@ static bool try_qad_pin(struct i915_vma *vma, unsigned int flags)
+ 	return pinned;
+ }
+ 
+-static int vma_get_pages(struct i915_vma *vma)
++static int vma_get_pages(struct i915_vma *vma,
++			 struct i915_gem_ww_ctx *ww)
+ {
+ 	int err = 0;
+ 
+@@ -798,7 +799,7 @@ static int vma_get_pages(struct i915_vma *vma)
+ 
+ 	if (!atomic_read(&vma->pages_count)) {
+ 		if (vma->obj) {
+-			err = i915_gem_object_pin_pages(vma->obj);
++			err = i915_gem_object_pin_pages(vma->obj, ww);
+ 			if (err)
+ 				goto unlock;
+ 		}
+@@ -876,7 +877,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+ 	if (try_qad_pin(vma, flags & I915_VMA_BIND_MASK))
+ 		return 0;
+ 
+-	err = vma_get_pages(vma);
++	err = vma_get_pages(vma, ww);
+ 	if (err)
+ 		return err;
+ 
 -- 
 2.31.0
 
