@@ -1,71 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3BDE346670
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 18:32:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C97346696
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 18:45:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DCAB6E90D;
-	Tue, 23 Mar 2021 17:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D19936E9ED;
+	Tue, 23 Mar 2021 17:45:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F10826E90D
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 17:32:53 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id o10so27852209lfb.9
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 10:32:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=fQt6xCmMqTbZa/RTqpTUck38Lk7jAmjj8bDIroCl9cY=;
- b=iKDKEABbhNUa0T1Pv7XQXNOm5HZy9Pwyhj5F3vHzHGTzl75hhZL8Df/7H1qyg3jaeB
- 6LxKIXxa4+CKk4uVIObaNimrGISoiG8KAWOMmmoWROirht+FHkRbpmOs4mGn1GV4h5t2
- 4v6HW0dCzJfL6PFe1amo1oul7Z9q+s++KyaEmuoiXBzbZEmSKk6mHlLzXqDDEj65p2Ae
- sZIshdo5hj+B6kV30U1e0JO2MYFQrdda0jiuZvnAuX45jA5GTBYu12K7t3CbxCh8w7pR
- UzxyCqRtrwo4EIJJP2Lg/zU9sc3PpHWBmTEQwlxajt4KZ5uhP3Bt0Ypxme+C4HEJmE7+
- yf5Q==
+Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
+ [IPv6:2607:f8b0:4864:20::c2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EEB76E956
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 17:45:07 +0000 (UTC)
+Received: by mail-oo1-xc2c.google.com with SMTP id
+ n6-20020a4ac7060000b02901b50acc169fso5130599ooq.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 10:45:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ja/mzZiq7FyOdyN51ZgQd/VeHc/VrY+Y0ZlNdn6Dyas=;
+ b=DbeAasi4R/2HTlZRRsnlDYvlHZgSzPCh1+oyOxVlu9S+gGXB4DW99e/9F5P+ZrhvO6
+ 0MPYdXpYdKPLcngj+7JBaQrVHEn5JjH7duM3dD87J1vme+dtTC6WqzFvk/0GKEoV8ckr
+ bYFSa4nMWQJc9Zhum9Vdr0LPsc9HLjNpdZGuOmzN1SqBQYVFJKM/iGBkFMtNpR8HAt91
+ 4dr8khX2YFsPN2VEc+rF/M4vOY7b2l4jvdQqpu4Zbww9/O9/5Hbvb4PO4XrgV7P/y8Pt
+ ih4ttje+n7z9lP1wJO8bDtipE7sVVesISmt1T9lPFt+opp+HNVkmVSDX+Z7aq7JX4B5w
+ AYjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fQt6xCmMqTbZa/RTqpTUck38Lk7jAmjj8bDIroCl9cY=;
- b=ROD3zwgZWrHVUcRXMlrfgu40TWmF6RgBuOsnEINhWnflFgfF7jkHv9vOFHAvW1KFjp
- rgMeGPGXEoCAOUN/ZEx9xs9HEEr/2IKvofSefbl6rq+/YaUWdpjIvIKNd/ygcJd/vo9l
- +L4FFHlOCA/CIPuf7/QP4MGUYytRnsGRuz6CgIvZc+fS2xzNWI671YDihFqmkt4SYL7w
- bMfjqOkp87krlcpn0FfMpitPvEPM43gqdbJQ2EVfL/UJg3WzLP6agOZBec5P80kh8wh4
- Xi0PFGizOzDIH3tVvTl+2EPSxV8S1s83huabkSyn3vZIqHhFPKyOJy5CTiACEVcC1LqW
- x3kg==
-X-Gm-Message-State: AOAM532IoOmtN+gnEF5qucC87w8gaGCZY9T5ZR8jfIZMqrpsyJ91M7A6
- OZ9LTOY98y25e3LbFikw7n5pIQX8pGU=
-X-Google-Smtp-Source: ABdhPJwH6K3S4OE4JZag5tWk0lBSLFj34jgsxu40rASVwxlzsESceA1Rbwo6zW8Vb+GfbzbbZn9DQQ==
-X-Received: by 2002:a19:ee13:: with SMTP id g19mr3168533lfb.657.1616520771923; 
- Tue, 23 Mar 2021 10:32:51 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-193-60.dynamic.spd-mgts.ru.
- [109.252.193.60])
- by smtp.googlemail.com with ESMTPSA id f23sm1914441lfc.283.2021.03.23.10.32.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Mar 2021 10:32:51 -0700 (PDT)
-Subject: Re: [PATCH v5 15/21] drm/tegra: Add new UAPI to header
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <20210111130019.3515669-16-mperttunen@nvidia.com>
- <a0fdac0d-88cf-6eda-6611-fca951253060@gmail.com>
- <cc746d91-e6b2-53d8-17ff-59cbc8bb522f@kapsi.fi>
- <a51f7552-cec6-efe1-25dd-76422ef7a3e4@gmail.com>
- <d76c465a-7f07-88c4-0dc3-4be3cb212fcf@kapsi.fi>
- <YFnfYsfYaKfSGhon@orome.fritz.box>
- <0cc2ec5c-f8aa-ed45-92b6-32f9eadbdc5a@gmail.com>
- <YFoa57HBFpDu119Y@orome.fritz.box>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <c0c21556-1f98-4137-b9a0-568ef3a8c8ac@gmail.com>
-Date: Tue, 23 Mar 2021 20:32:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ja/mzZiq7FyOdyN51ZgQd/VeHc/VrY+Y0ZlNdn6Dyas=;
+ b=Ir2OKAAFt29neVU2MFq+1cC5Rt6hQiWGlHZLq8E9BcRlycaCnIguX8QLkG7ocYRLNg
+ Cx2Px/+Rtbgbe0XCasT6hAzU77ONrTk/bCX6bBEYDIx+9ubGDV7vzNCbck1lXq0a888I
+ /stEcD9/nah0pkpw7FmeKR1a6ierTPc7VmfPopT8bBhXrJRrEU34utnCGgMNGg5sd4kD
+ 9eqVrZG1++5KqBDKkwcLf2+VklEFCYipSKwpBdAgVqbV+P+z1/mauR36+Hf7V6IedSb9
+ lJhlwlx07yVZnJM82rFbSYElIewqJ6FJkM99B0JUOvtDDWlhXdP2CeM3RdQqsGSJsTCn
+ Fyhg==
+X-Gm-Message-State: AOAM533PiYKyRbRFEhTBVZ0T1nF3kDgcW8AS/CAecsF7FUrizVitndRK
+ h91+hl2lYeyhZfGloDhT4i5tpepI8qiL7v/SryaaDLDsMJO4GA==
+X-Google-Smtp-Source: ABdhPJyjHA4iFeqAy6fUESp1Ry6/2rgFuNAu5VcX4yurvkUzDtK+CAIJ0TmS265dTLW/4lAo5ceVjBm361BQajmoWzo=
+X-Received: by 2002:a05:6820:38f:: with SMTP id
+ r15mr4786280ooj.62.1616521506198; 
+ Tue, 23 Mar 2021 10:45:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YFoa57HBFpDu119Y@orome.fritz.box>
-Content-Language: en-US
+References: <20210319223856.2983244-1-jason@jlekstrand.net>
+ <20210319223856.2983244-5-jason@jlekstrand.net>
+ <b462561b-6340-fdf3-6b1a-e0370bfe090c@linux.intel.com>
+ <CAOFGe97y67n4EPb6745QsJdz=ERMn3K-gsLR8Qjmemp92nwMoQ@mail.gmail.com>
+ <963d089f-a08a-c3e7-4497-6f7d27b18520@linux.intel.com>
+In-Reply-To: <963d089f-a08a-c3e7-4497-6f7d27b18520@linux.intel.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Tue, 23 Mar 2021 12:44:52 -0500
+Message-ID: <CAOFGe96dUYqXc5F+t8gMQ=xNfdo32q=78wwUoYWFruUqXvyz-g@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 4/4] drm/i915: Implement SINGLE_TIMELINE with
+ a syncobj
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,87 +68,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikko Perttunen <cyndis@kapsi.fi>, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, jonathanh@nvidia.com, talho@nvidia.com,
- bhuntsman@nvidia.com, linux-tegra@vger.kernel.org,
- Mikko Perttunen <mperttunen@nvidia.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjMuMDMuMjAyMSAxOTo0NCwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBPbiBUdWUsIE1h
-ciAyMywgMjAyMSBhdCAwNTowMDozMFBNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+
-IDIzLjAzLjIwMjEgMTU6MzAsIFRoaWVycnkgUmVkaW5nINC/0LjRiNC10YI6Cj4+PiBPbiBUaHUs
-IEphbiAxNCwgMjAyMSBhdCAxMjozNDoyMlBNICswMjAwLCBNaWtrbyBQZXJ0dHVuZW4gd3JvdGU6
-Cj4+Pj4gT24gMS8xNC8yMSAxMDozNiBBTSwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+Pj4+PiAx
-My4wMS4yMDIxIDIxOjU2LCBNaWtrbyBQZXJ0dHVuZW4g0L/QuNGI0LXRgjoKPj4+Pj4+IE9uIDEv
-MTMvMjEgODoxNCBQTSwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+Pj4+Pj4+IDExLjAxLjIwMjEg
-MTY6MDAsIE1pa2tvIFBlcnR0dW5lbiDQv9C40YjQtdGCOgo+Pj4+Pj4+PiArc3RydWN0IGRybV90
-ZWdyYV9zdWJtaXRfYnVmIHsKPj4+Pj4+Pj4gK8KgwqDCoCAvKioKPj4+Pj4+Pj4gK8KgwqDCoMKg
-ICogQG1hcHBpbmdfaWQ6IFtpbl0KPj4+Pj4+Pj4gK8KgwqDCoMKgICoKPj4+Pj4+Pj4gK8KgwqDC
-oMKgICogSWRlbnRpZmllciBvZiB0aGUgbWFwcGluZyB0byB1c2UgaW4gdGhlIHN1Ym1pc3Npb24u
-Cj4+Pj4+Pj4+ICvCoMKgwqDCoCAqLwo+Pj4+Pj4+PiArwqDCoMKgIF9fdTMyIG1hcHBpbmdfaWQ7
-Cj4+Pj4+Pj4KPj4+Pj4+PiBJJ20gbm93IGluIHByb2Nlc3Mgb2YgdHJ5aW5nIG91dCB0aGUgVUFQ
-SSB1c2luZyBncmF0ZSBkcml2ZXJzIGFuZCB0aGlzCj4+Pj4+Pj4gYmVjb21lcyB0aGUgZmlyc3Qg
-b2JzdGFjbGUuCj4+Pj4+Pj4KPj4+Pj4+PiBMb29rcyBsaWtlIHRoaXMgaXMgbm90IGdvaW5nIHRv
-IHdvcmsgd2VsbCBmb3Igb2xkZXIgVGVncmEgU29DcywgaW4KPj4+Pj4+PiBwYXJ0aWN1bGFyIGZv
-ciBUMjAsIHdoaWNoIGhhcyBhIHNtYWxsIEdBUlQuCj4+Pj4+Pj4KPj4+Pj4+PiBHaXZlbiB0aGF0
-IHRoZSB1c2VmdWxuZXNzIG9mIHRoZSBwYXJ0aWFsIG1hcHBpbmcgZmVhdHVyZSBpcyB2ZXJ5Cj4+
-Pj4+Pj4gcXVlc3Rpb25hYmxlIHVudGlsIGl0IHdpbGwgYmUgcHJvdmVuIHdpdGggYSByZWFsIHVz
-ZXJzcGFjZSwgd2Ugc2hvdWxkCj4+Pj4+Pj4gc3RhcnQgd2l0aCBhIGR5bmFtaWMgbWFwcGluZ3Mg
-dGhhdCBhcmUgZG9uZSBhdCBhIHRpbWUgb2Ygam9iIHN1Ym1pc3Npb24uCj4+Pj4+Pj4KPj4+Pj4+
-PiBEUk0gYWxyZWFkeSBzaG91bGQgaGF2ZSBldmVyeXRoaW5nIG5lY2Vzc2FyeSBmb3IgY3JlYXRp
-bmcgYW5kIG1hbmFnaW5nCj4+Pj4+Pj4gY2FjaGVzIG9mIG1hcHBpbmdzLCBncmF0ZSBrZXJuZWwg
-ZHJpdmVyIGhhcyBiZWVuIHVzaW5nIGRybV9tbV9zY2FuIGZvciBhCj4+Pj4+Pj4gbG9uZyB0aW1l
-IG5vdyBmb3IgdGhhdC4KPj4+Pj4+Pgo+Pj4+Pj4+IEl0IHNob3VsZCBiZSBmaW5lIHRvIHN1cHBv
-cnQgdGhlIHN0YXRpYyBtYXBwaW5nIGZlYXR1cmUsIGJ1dCBpdCBzaG91bGQKPj4+Pj4+PiBiZSBk
-b25lIHNlcGFyYXRlbHkgd2l0aCB0aGUgZHJtX21tIGludGVncmF0aW9uLCBJTU8uCj4+Pj4+Pj4K
-Pj4+Pj4+PiBXaGF0IGRvIHRoaW5rPwo+Pj4+Pj4+Cj4+Pj4+Pgo+Pj4+Pj4gQ2FuIHlvdSBlbGFi
-b3JhdGUgb24gdGhlIHJlcXVpcmVtZW50cyB0byBiZSBhYmxlIHRvIHVzZSBHQVJUPyBBcmUgdGhl
-cmUKPj4+Pj4+IGFueSBvdGhlciByZWFzb25zIHRoaXMgd291bGQgbm90IHdvcmsgb24gb2xkZXIg
-Y2hpcHM/Cj4+Pj4+Cj4+Pj4+IFdlIGhhdmUgYWxsIERSTSBkZXZpY2VzIGluIGEgc2luZ2xlIGFk
-ZHJlc3Mgc3BhY2Ugb24gVDMwKywgaGVuY2UgaGF2aW5nCj4+Pj4+IGR1cGxpY2F0ZWQgbWFwcGlu
-Z3MgZm9yIGVhY2ggZGV2aWNlIHNob3VsZCBiZSBhIGJpdCB3YXN0ZWZ1bC4KPj4+Pgo+Pj4+IEkg
-Z3Vlc3MgdGhpcyBzaG91bGQgYmUgcHJldHR5IGVhc3kgdG8gY2hhbmdlIHRvIG9ubHkga2VlcCBv
-bmUgbWFwcGluZyBwZXIKPj4+PiBHRU0gb2JqZWN0Lgo+Pj4KPj4+IFRoZSBpbXBvcnRhbnQgcG9p
-bnQgaGVyZSBpcyB0aGUgc2VtYW50aWNzOiB0aGlzIElPQ1RMIGVzdGFibGlzaGVzIGEKPj4+IG1h
-cHBpbmcgZm9yIGEgZ2l2ZW4gR0VNIG9iamVjdCBvbiBhIGdpdmVuIGNoYW5uZWwuIElmIHRoZSB1
-bmRlcmx5aW5nCj4+PiBpbXBsZW1lbnRhdGlvbiBpcyBzdWNoIHRoYXQgdGhlIG1hcHBpbmcgZG9l
-c24ndCBmaXQgaW50byB0aGUgR0FSVCwgdGhlbgo+Pj4gdGhhdCdzIGFuIGltcGxlbWVudGF0aW9u
-IGRldGFpbCB0aGF0IHRoZSBkcml2ZXIgbmVlZHMgdG8gdGFrZSBjYXJlIG9mLgo+Pj4gU2ltaWxh
-cmx5LCBpZiBtdWx0aXBsZSBkZXZpY2VzIHNoYXJlIGEgc2luZ2xlIGFkZHJlc3Mgc3BhY2UsIHRo
-YXQncwo+Pj4gc29tZXRoaW5nIHRoZSBkcml2ZXIgYWxyZWFkeSBrbm93cyBhbmQgY2FuIHRha2Ug
-YWR2YW50YWdlIG9mIGJ5IHNpbXBseQo+Pj4gcmV1c2luZyBhbiBleGlzdGluZyBtYXBwaW5nIGlm
-IG9uZSBhbHJlYWR5IGV4aXN0cy4gSW4gYm90aCBjYXNlcyB0aGUKPj4+IHNlbWFudGljcyB3b3Vs
-ZCBiZSBjb3JyZWN0bHkgaW1wbGVtZW50ZWQgYW5kIHRoYXQncyByZWFsbHkgYWxsIHRoYXQKPj4+
-IG1hdHRlcnMuCj4+Pgo+Pj4gT3ZlcmFsbCB0aGlzIGludGVyZmFjZSBzZWVtcyBzb3VuZCBmcm9t
-IGEgaGlnaC1sZXZlbCBwb2ludCBvZiB2aWV3IGFuZAo+Pj4gYWxsb3dzIHRoZXNlIG1hcHBpbmdz
-IHRvIGJlIHByb3Blcmx5IGNyZWF0ZWQgZXZlbiBmb3IgdGhlIGNhc2VzIHdlIGhhdmUKPj4+IHdo
-ZXJlIGVhY2ggY2hhbm5lbCBtYXkgaGF2ZSBhIHNlcGFyYXRlIGFkZHJlc3Mgc3BhY2UuIEl0IG1h
-eSBub3QgYmUgdGhlCj4+PiBvcHRpbWFsIGludGVyZmFjZSBmb3IgYWxsIHVzZS1jYXNlcyBvciBh
-bnkgb25lIGluZGl2aWR1YWwgY2FzZSwgYnV0IHRoZQo+Pj4gdmVyeSBuYXR1cmUgb2YgdGhlc2Ug
-aW50ZXJmYWNlcyBpcyB0byBhYnN0cmFjdCBhd2F5IGNlcnRhaW4gZGlmZmVyZW5jZXMKPj4+IGlu
-IG9yZGVyIHRvIHByb3ZpZGUgYSB1bmlmaWVkIGludGVyZmFjZSB0byBhIGNvbW1vbiBwcm9ncmFt
-bWluZyBtb2RlbC4KPj4+IFNvIHRoZXJlIHdpbGwgYWx3YXlzIGJlIGNlcnRhaW4gdHJhZGVvZmZz
-Lgo+Pgo+PiBGb3Igbm93IHRoaXMgSU9DVEwgaXNuJ3QgdXNlZnVsIGZyb20gYSB1c2Vyc3BhY2Ug
-cGVyc3BlY3RpdmUgb2Ygb2xkZXIKPj4gU29DcyBhbmQgSSdsbCBuZWVkIHRvIGFkZCBhIGxvdCBv
-ZiBjb2RlIHRoYXQgd29uJ3QgZG8gYW55dGhpbmcgdXNlZnVsCj4+IGp1c3QgdG8gY29uZm9ybSB0
-byB0aGUgc3BlY2lmaWMgbmVlZHMgb2YgdGhlIG5ld2VyIFNvQ3MuIFRyeWluZyB0byB1bmlmeQo+
-PiBldmVyeXRoaW5nIGludG8gYSBzaW5nbGUgQVBJIGRvZXNuJ3Qgc291bmQgbGlrZSBhIGdvb2Qg
-aWRlYSBhdCB0aGlzCj4+IHBvaW50IGFuZCBJIGFscmVhZHkgc3VnZ2VzdGVkIHRvIE1pa2tvIHRv
-IHRyeSBvdXQgdmFyaWFudCB3aXRoIGEKPj4gc2VwYXJhdGVkIHBlci1Tb0MgY29kZSBwYXRocyBp
-biB0aGUgbmV4dCB2ZXJzaW9uLCB0aGVuIHRoZSBtYXBwaW5ncwo+PiBjb3VsZCBiZSBoYW5kbGVk
-IHNlcGFyYXRlbHkgYnkgdGhlIFQxODYrIHBhdGhzLgo+IAo+IEknbSBub3Qgc3VyZSBJIHVuZGVy
-c3RhbmQgd2hhdCB5b3UncmUgc2F5aW5nLiBPYnZpb3VzbHkgdGhlIHVuZGVybHlpbmcKPiBpbXBs
-ZW1lbnRhdGlvbiBvZiB0aGlzIG1pZ2h0IGhhdmUgdG8gZGlmZmVyIGRlcGVuZGluZyBvbiBTb0Mg
-Z2VuZXJhdGlvbi4KPiBCdXQgaXQgc291bmRzIGxpa2UgeW91J3JlIHN1Z2dlc3RpbmcgaGF2aW5n
-IGRpZmZlcmVudCBVQVBJcyBkZXBlbmRpbmcgb24KPiBTb0MgZ2VuZXJhdGlvbi4KCkkgc3VnZ2Vz
-dGVkIHRoYXQgdGhpcyBJT0NUTCBzaG91bGRuJ3QgYmUgbWFuZGF0b3J5IGZvciBvbGRlciBTb0Nz
-LCB3aGljaAp3ZSBzaG91bGQgdG8gaGF2ZSBhbnl3YXlzIGZvciBwcmVzZXJ2aW5nIHRoZSBvbGRl
-ciBVQVBJLiBZZXMsIHRoaXMgbWFrZXMKVUFQSSBkaWZmZXJlbnQgYW5kIEkgd2FudCB0byBzZWUg
-aG93IGl0IHdpbGwgbG9vayBsaWtlIGluIHRoZSBuZXh0CnZlcnNpb24gc2luY2UgdGhlIGN1cnJl
-bnQgdmFyaWFudCB3YXMgc3ViLW9wdGltYWwuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, Mar 23, 2021 at 4:35 AM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+>
+>
+> On 22/03/2021 16:10, Jason Ekstrand wrote:
+> > On Mon, Mar 22, 2021 at 7:28 AM Tvrtko Ursulin
+>
+> [snip]
+>
+> >>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> >>> index 96403130a373d..2c56796f6a71b 100644
+> >>> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> >>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> >>> @@ -3295,6 +3295,15 @@ i915_gem_do_execbuffer(struct drm_device *dev,
+> >>>                goto err_vma;
+> >>>        }
+> >>>
+> >>> +     if (eb.gem_context->syncobj) {
+> >>> +             struct dma_fence *fence;
+> >>> +
+> >>> +             fence = drm_syncobj_fence_get(eb.gem_context->syncobj);
+> >>
+> >> Who drops this reference?
+> >
+> > i915_request_await_dma_fence() below consumes a reference.
+>
+> Not sure, please check on difference wrt input fence handling.
+
+Gah.  You were right.  It takes a reference if it needs one.  I
+thought I was being symmetric with the other syncobj usage but it was
+well hidden inside our confusing tear-down paths.
+
+> >>> +             err = i915_request_await_dma_fence(eb.request, fence);
+> >>> +             if (err)
+> >>> +                     goto err_ext;
+> >>> +     }
+> >>> +
+> >>>        if (in_fence) {
+> >>>                if (args->flags & I915_EXEC_FENCE_SUBMIT)
+> >>>                        err = i915_request_await_execution(eb.request,
+> >>> @@ -3351,6 +3360,12 @@ i915_gem_do_execbuffer(struct drm_device *dev,
+> >>>                        fput(out_fence->file);
+> >>>                }
+> >>>        }
+> >>> +
+> >>> +     if (eb.gem_context->syncobj) {
+
+At Daniel's request, I've wrapped these in unlikely()
+
+> >>> +             drm_syncobj_replace_fence(eb.gem_context->syncobj,
+> >>> +                                       &eb.request->fence);
+> >>> +     }
+> >>> +
+> >>>        i915_request_put(eb.request);
+> >>>
+> >>>    err_vma:
+> >>>
+> >>
+> >> So essentially moving the synchronisation to top level which is extra
+> >> work, but given limited and questionable usage of the uapi may be
+> >> acceptable. Need full picture on motivation to understand.
+> >
+> > For one thing, the GuC scheduler doesn't natively have a concept of
+> > "timelines" which can be shared like this.  To work with the GuC
+>
+> Confused - neither does execlists. It is handled in common layer in
+> i915. GuC scheduler has the same concept of one hw context is one
+> timeline because that is the hw concept and not backend specific.
+>
+> > scheduler as currently proposed in DII, they've asked the media driver
+> > to stop using this flag in favor of passing a sync file from batch to
+> > batch.  If we want to slide GuC scheduling in smoothly, we've got to
+> > keep it working.  This means either making timelines a concept there
+> > or doing an emulation like this.
+>
+> Hm not aware and don't see that GuC backend can't or doesn't implement
+> this. Perhaps this would be best discussed once GuC patches are posted.
+>
+> >> Semantics are also not 1:1 since dma fence context will be different.
+> >
+> > Could you elaborate?
+>
+> Exported dma fence context as an "timeline" id will be single with the
+> current patch and multiple contexts with this implementation.
+>
+> Daniel also raised another difference caused by lack of serialisation
+> due multiple tl->mutex here.
+>
+> I don't think this is important, it was never part of a contract what
+> happens with racing execbufs, but it is definitely required covering
+> both topics in the commit message.
+
+I've updated the commit message as follows:
+
+    drm/i915: Implement SINGLE_TIMELINE with a syncobj (v2)
+
+    This API is entirely unnecessary and I'd love to get rid of it.  If
+    userspace wants a single timeline across multiple contexts, they can
+    either use implicit synchronization or a syncobj, both of which existed
+    at the time this feature landed.  The justification given at the time
+    was that it would help GL drivers which are inherently single-timeline.
+    However, neither of our GL drivers actually wanted the feature.  i965
+    was already in maintenance mode at the time and iris uses syncobj for
+    everything.
+
+    Unfortunately, as much as I'd love to get rid of it, it is used by the
+    media driver so we can't do that.  We can, however, do the next-best
+    thing which is to embed a syncobj in the context and do exactly what
+    we'd expect from userspace internally.  This isn't an entirely identical
+    implementation because it's no longer atomic if userspace races with
+    itself by calling execbuffer2 twice simultaneously from different
+    threads.  It won't crash in that case; it just doesn't guarantee any
+    ordering between those two submits.
+
+    Moving SINGLE_TIMELINE to a syncobj emulation has a couple of technical
+    advantages beyond mere annoyance.  One is that intel_timeline is no
+    longer an api-visible object and can remain entirely an implementation
+    detail.  This may be advantageous as we make scheduler changes going
+    forward.  Second is that, together with deleting the CLONE_CONTEXT API,
+    we should now have a 1:1 mapping between intel_context and
+    intel_timeline which may help us reduce locking.
+
+I hope that clears up some of the confusion and is less bothersome.
+
+--Jason
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
