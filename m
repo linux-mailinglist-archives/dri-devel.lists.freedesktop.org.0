@@ -2,55 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 713843464CD
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 17:18:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D92603464F6
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 17:23:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C24126E9E5;
-	Tue, 23 Mar 2021 16:18:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E9476E8AB;
+	Tue, 23 Mar 2021 16:23:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
- [IPv6:2607:f8b0:4864:20::833])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22B7A6E91F;
- Tue, 23 Mar 2021 16:18:53 +0000 (UTC)
-Received: by mail-qt1-x833.google.com with SMTP id g24so15303181qts.6;
- Tue, 23 Mar 2021 09:18:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=N+m7f9IJTzNudEsMpBHUTqlfm59dpIkcchh4/DhT4qE=;
- b=IPEmE2AtyGbrYl5Ent44jiqg7nnoaLOtpEEdoD74nQvE0DoomKWardbZd1CQA8QkRj
- iTIOx6JcJ29PP313ht5L0VcFS/kjHn4PYIf4YmIZ3z0jM0sFGn6XBFJMbG1E0EDaD/Gi
- mRGaVv10TsJitdMGSy2xGotRmLJP72j9uhFi21yZmleGLnWNopNsS2TVgQs9o+NgnKys
- 1QJTJp98aQODmETuHEExoZiek+ym0RTpAJJdF4V4Deng3aOPJ2CMK429gySZzOw8f7Zk
- u0awsyfrZ/SqFf6TXH0wGHKyqCuxa8+m38yhlOkEL22rbYBW93rEwqENqZc+roCdn/bN
- Dv/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=N+m7f9IJTzNudEsMpBHUTqlfm59dpIkcchh4/DhT4qE=;
- b=l8Ib5/yWnMgd5rcwlXhz4bnVfAIv+NvMhtPdaZlQmMNxcLT+nrAiNYRaLp6OdjbBy5
- uFJy7kZOh/NxyNjAlJXqoYfqmdN+wTolns5stl8ZkZfCemEXlMW4gn+SFCAFM+Vo0CV/
- 2mdUHM+71UupiwoArit1r1eXoV1WJMUBVxDEl4oY+3RjFyT5PHQ3A3djgwn/0ktFuD22
- UmU+pOcVqmxWf6PQQ6DwIUqUnRqjEpkbB0eVt+XZVXH9YH76wQFojruqjBXVgjHf+Mjk
- p0DjoLevDT9zV/Q/2kC/wC7V1u3avM7u7Ejapv5qHdlA7gyXp8aOLwFgmtoL+eLEAXl1
- aemg==
-X-Gm-Message-State: AOAM530DJJwJOYFRv15NxOKARvRF2KOXV3QBxkn3XSQYPZSknBhFPPY7
- h5zGFY31kOGfKB33PrWe2d8oIfeNcT5tAA1mWjM=
-X-Google-Smtp-Source: ABdhPJwzSJ+mHlg50NbWJZcVzlNfXKxSGAI3CEfrWNXW20Tin3EfAOrv+27ZAYpaKOb1yfJ2vX1OaPPKse+NJ5jxn6U=
-X-Received: by 2002:ac8:43c2:: with SMTP id w2mr5089711qtn.95.1616516332324;
- Tue, 23 Mar 2021 09:18:52 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ECAE6E8AB;
+ Tue, 23 Mar 2021 16:23:10 +0000 (UTC)
+IronPort-SDR: pu/ywYs6YEDIrklqTFjn9XnBvUQ7qUFFqtKnFQ0htLJsV+0DIbc2XVrW6LitGZLWBNzKTJPnAv
+ iXUl/K47T7jw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9932"; a="177635555"
+X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; d="scan'208";a="177635555"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2021 09:23:09 -0700
+IronPort-SDR: 6/n9l/RINO6/uqVZ9yF0X72YUs0lzoxK1ovM0q0Iyw6NAdwaSnlGQ5vk/B44kME0O1ZCty/VjJ
+ L86mihVbCufg==
+X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; d="scan'208";a="408396988"
+Received: from fbogue-mobl1.ger.corp.intel.com (HELO [10.213.247.160])
+ ([10.213.247.160])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2021 09:23:07 -0700
+Subject: Re: [Intel-gfx] [PATCH 3/4] drm/i915: Drop the CONTEXT_CLONE API
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210319223856.2983244-1-jason@jlekstrand.net>
+ <20210319223856.2983244-4-jason@jlekstrand.net>
+ <7918db68-835c-b416-6187-1e62892ce5ed@linux.intel.com>
+ <YFilKSbKYd+0HbCn@phenom.ffwll.local>
+ <d83162e2-4b9e-c7e9-5324-6612bb9561d6@linux.intel.com>
+ <CAKMK7uG0GLPu+auqDgMgD7ugvWo3E7W7DL6eALKxmp6hk-aZiA@mail.gmail.com>
+ <fb406aca-1211-e1e5-b6a0-830c26d327ae@linux.intel.com>
+ <CAKMK7uEf5p+UJNtr0sBRRjegn=88Pr=BCYhGpTy_J1hpRspk7Q@mail.gmail.com>
+ <c2cab688-5e54-078b-7eed-7437ec2377e0@linux.intel.com>
+ <YFnr1iNxXnNCyhgf@phenom.ffwll.local>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <97366f4f-f2e3-8e5c-0250-83e3cdd108e2@linux.intel.com>
+Date: Tue, 23 Mar 2021 16:23:03 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210323155059.628690-1-maarten.lankhorst@linux.intel.com>
- <20210323155059.628690-33-maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20210323155059.628690-33-maarten.lankhorst@linux.intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Tue, 23 Mar 2021 16:18:25 +0000
-Message-ID: <CAM0jSHM+kzJx3ELVPeZXFMYYZ+0qASfczXOLVZ79zx2Tq28oxw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v9 32/70] drm/i915: Prepare for obj->mm.lock
- removal, v2.
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <YFnr1iNxXnNCyhgf@phenom.ffwll.local>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,114 +59,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMyBNYXIgMjAyMSBhdCAxNTo1MiwgTWFhcnRlbiBMYW5raG9yc3QKPG1hYXJ0ZW4u
-bGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4gd3JvdGU6Cj4KPiBGcm9tOiBUaG9tYXMgSGVsbHN0
-csO2bSA8dGhvbWFzLmhlbGxzdHJvbUBpbnRlbC5jb20+Cj4KPiBTdG9sZW4gb2JqZWN0cyBuZWVk
-IHRvIGxvY2ssIGFuZCB3ZSBtYXkgY2FsbCBwdXRfcGFnZXMgd2hlbgo+IHJlZmNvdW50IGRyb3Bz
-IHRvIDAsIGVuc3VyZSBhbGwgY2FsbHMgYXJlIGhhbmRsZWQgY29ycmVjdGx5Lgo+Cj4gQ2hhbmdl
-cyBzaW5jZSB2MToKPiAtIFJlYmFzZSBvbiB0b3Agb2YgdXBzdHJlYW0gY2hhbmdlcy4KPgo+IElk
-ZWEtZnJvbTogVGhvbWFzIEhlbGxzdHLDtm0gPHRob21hcy5oZWxsc3Ryb21AaW50ZWwuY29tPgo+
-IFNpZ25lZC1vZmYtYnk6IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51
-eC5pbnRlbC5jb20+Cj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIEhlbGxzdHLDtm0gPHRob21hcy5o
-ZWxsc3Ryb21AbGludXguaW50ZWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9n
-ZW0vaTkxNV9nZW1fb2JqZWN0LmggfCAxNCArKysrKysrKysrKysrKwo+ICBkcml2ZXJzL2dwdS9k
-cm0vaTkxNS9nZW0vaTkxNV9nZW1fcGFnZXMuYyAgfCAxNCArKysrKysrKysrKystLQo+ICBkcml2
-ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fc3RvbGVuLmMgfCAxMiArKysrKysrLS0tLS0K
-PiAgMyBmaWxlcyBjaGFuZ2VkLCAzMyBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQo+Cj4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9vYmplY3QuaCBi
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9vYmplY3QuaAo+IGluZGV4IDk4M2Yy
-ZDRiMmE4NS4uNzRkZTE5NWI1N2RlIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
-L2dlbS9pOTE1X2dlbV9vYmplY3QuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9p
-OTE1X2dlbV9vYmplY3QuaAo+IEBAIC0xNDQsNiArMTQ0LDIwIEBAIGk5MTVfZ2VtX29iamVjdF9w
-dXQoc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iaikKPgo+ICAjZGVmaW5lIGFzc2VydF9v
-YmplY3RfaGVsZChvYmopIGRtYV9yZXN2X2Fzc2VydF9oZWxkKChvYmopLT5iYXNlLnJlc3YpCj4K
-PiArLyoKPiArICogSWYgbW9yZSB0aGFuIG9uZSBwb3RlbnRpYWwgc2ltdWx0YW5lb3VzIGxvY2tl
-ciwgYXNzZXJ0IGhlbGQuCj4gKyAqLwo+ICtzdGF0aWMgaW5saW5lIHZvaWQgYXNzZXJ0X29iamVj
-dF9oZWxkX3NoYXJlZChzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqKQo+ICt7Cj4gKyAg
-ICAgICAvKgo+ICsgICAgICAgICogTm90ZSBtbSBsaXN0IGxvb2t1cCBpcyBwcm90ZWN0ZWQgYnkK
-CldoYXQgaXMgbWVhbnQgd2l0aCBtbSBsaXN0IGhlcmU/IE1heWJlIGp1c3QgYSBzdGFsZSBjb21t
-ZW50PwoKPiArICAgICAgICAqIGtyZWZfZ2V0X3VubGVzc196ZXJvKCkuCj4gKyAgICAgICAgKi8K
-PiArICAgICAgIGlmIChJU19FTkFCTEVEKENPTkZJR19MT0NLREVQKSAmJgo+ICsgICAgICAgICAg
-IGtyZWZfcmVhZCgmb2JqLT5iYXNlLnJlZmNvdW50KSA+IDApCj4gKyAgICAgICAgICAgICAgIGxv
-Y2tkZXBfYXNzZXJ0X2hlbGQoJm9iai0+bW0ubG9jayk7Cj4gK30KPiArCj4gIHN0YXRpYyBpbmxp
-bmUgaW50IF9faTkxNV9nZW1fb2JqZWN0X2xvY2soc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3Qg
-Km9iaiwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBp
-OTE1X2dlbV93d19jdHggKnd3LAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgYm9vbCBpbnRyKQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0v
-aTkxNV9nZW1fcGFnZXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9wYWdl
-cy5jCj4gaW5kZXggYTI0NjE3YWYzYzkzLi4yZDAwNjVmYTZlODAgMTAwNjQ0Cj4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3BhZ2VzLmMKPiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fcGFnZXMuYwo+IEBAIC0xOSw3ICsxOSw3IEBAIHZvaWQg
-X19pOTE1X2dlbV9vYmplY3Rfc2V0X3BhZ2VzKHN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICpv
-YmosCj4gICAgICAgICBib29sIHNocmlua2FibGU7Cj4gICAgICAgICBpbnQgaTsKPgo+IC0gICAg
-ICAgbG9ja2RlcF9hc3NlcnRfaGVsZCgmb2JqLT5tbS5sb2NrKTsKPiArICAgICAgIGFzc2VydF9v
-YmplY3RfaGVsZF9zaGFyZWQob2JqKTsKPgo+ICAgICAgICAgaWYgKGk5MTVfZ2VtX29iamVjdF9p
-c192b2xhdGlsZShvYmopKQo+ICAgICAgICAgICAgICAgICBvYmotPm1tLm1hZHYgPSBJOTE1X01B
-RFZfRE9OVE5FRUQ7Cj4gQEAgLTcwLDYgKzcwLDcgQEAgdm9pZCBfX2k5MTVfZ2VtX29iamVjdF9z
-ZXRfcGFnZXMoc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iaiwKPiAgICAgICAgICAgICAg
-ICAgc3RydWN0IGxpc3RfaGVhZCAqbGlzdDsKPiAgICAgICAgICAgICAgICAgdW5zaWduZWQgbG9u
-ZyBmbGFnczsKPgo+ICsgICAgICAgICAgICAgICBsb2NrZGVwX2Fzc2VydF9oZWxkKCZvYmotPm1t
-LmxvY2spOwo+ICAgICAgICAgICAgICAgICBzcGluX2xvY2tfaXJxc2F2ZSgmaTkxNS0+bW0ub2Jq
-X2xvY2ssIGZsYWdzKTsKPgo+ICAgICAgICAgICAgICAgICBpOTE1LT5tbS5zaHJpbmtfY291bnQr
-KzsKPiBAQCAtOTEsNiArOTIsOCBAQCBpbnQgX19fX2k5MTVfZ2VtX29iamVjdF9nZXRfcGFnZXMo
-c3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iaikKPiAgICAgICAgIHN0cnVjdCBkcm1faTkx
-NV9wcml2YXRlICppOTE1ID0gdG9faTkxNShvYmotPmJhc2UuZGV2KTsKPiAgICAgICAgIGludCBl
-cnI7Cj4KPiArICAgICAgIGFzc2VydF9vYmplY3RfaGVsZF9zaGFyZWQob2JqKTsKPiArCj4gICAg
-ICAgICBpZiAodW5saWtlbHkob2JqLT5tbS5tYWR2ICE9IEk5MTVfTUFEVl9XSUxMTkVFRCkpIHsK
-PiAgICAgICAgICAgICAgICAgZHJtX2RiZygmaTkxNS0+ZHJtLAo+ICAgICAgICAgICAgICAgICAg
-ICAgICAgICJBdHRlbXB0aW5nIHRvIG9idGFpbiBhIHB1cmdlYWJsZSBvYmplY3RcbiIpOwo+IEBA
-IC0xMTgsNiArMTIxLDggQEAgaW50IF9faTkxNV9nZW1fb2JqZWN0X2dldF9wYWdlcyhzdHJ1Y3Qg
-ZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqKQo+ICAgICAgICAgaWYgKGVycikKPiAgICAgICAgICAg
-ICAgICAgcmV0dXJuIGVycjsKPgo+ICsgICAgICAgYXNzZXJ0X29iamVjdF9oZWxkX3NoYXJlZChv
-YmopOwo+ICsKPiAgICAgICAgIGlmICh1bmxpa2VseSghaTkxNV9nZW1fb2JqZWN0X2hhc19wYWdl
-cyhvYmopKSkgewo+ICAgICAgICAgICAgICAgICBHRU1fQlVHX09OKGk5MTVfZ2VtX29iamVjdF9o
-YXNfcGlubmVkX3BhZ2VzKG9iaikpOwo+Cj4gQEAgLTE0NSw3ICsxNTAsNyBAQCB2b2lkIGk5MTVf
-Z2VtX29iamVjdF90cnVuY2F0ZShzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqKQo+ICAv
-KiBUcnkgdG8gZGlzY2FyZCB1bndhbnRlZCBwYWdlcyAqLwo+ICB2b2lkIGk5MTVfZ2VtX29iamVj
-dF93cml0ZWJhY2soc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iaikKPiAgewo+IC0gICAg
-ICAgbG9ja2RlcF9hc3NlcnRfaGVsZCgmb2JqLT5tbS5sb2NrKTsKPiArICAgICAgIGFzc2VydF9v
-YmplY3RfaGVsZF9zaGFyZWQob2JqKTsKPiAgICAgICAgIEdFTV9CVUdfT04oaTkxNV9nZW1fb2Jq
-ZWN0X2hhc19wYWdlcyhvYmopKTsKPgo+ICAgICAgICAgaWYgKG9iai0+b3BzLT53cml0ZWJhY2sp
-Cj4gQEAgLTE3Niw2ICsxODEsOCBAQCBfX2k5MTVfZ2VtX29iamVjdF91bnNldF9wYWdlcyhzdHJ1
-Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqKQo+ICB7Cj4gICAgICAgICBzdHJ1Y3Qgc2dfdGFi
-bGUgKnBhZ2VzOwo+Cj4gKyAgICAgICBhc3NlcnRfb2JqZWN0X2hlbGRfc2hhcmVkKG9iaik7Cj4g
-Kwo+ICAgICAgICAgcGFnZXMgPSBmZXRjaF9hbmRfemVybygmb2JqLT5tbS5wYWdlcyk7Cj4gICAg
-ICAgICBpZiAoSVNfRVJSX09SX05VTEwocGFnZXMpKQo+ICAgICAgICAgICAgICAgICByZXR1cm4g
-cGFnZXM7Cj4gQEAgLTIwMyw2ICsyMTAsOSBAQCBpbnQgX19pOTE1X2dlbV9vYmplY3RfcHV0X3Bh
-Z2VzX2xvY2tlZChzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqKQo+ICAgICAgICAgaWYg
-KGk5MTVfZ2VtX29iamVjdF9oYXNfcGlubmVkX3BhZ2VzKG9iaikpCj4gICAgICAgICAgICAgICAg
-IHJldHVybiAtRUJVU1k7Cj4KPiArICAgICAgIC8qIE1heSBiZSBjYWxsZWQgYnkgc2hyaW5rZXIg
-ZnJvbSB3aXRoaW4gZ2V0X3BhZ2VzKCkgKG9uIGFub3RoZXIgYm8pICovCj4gKyAgICAgICBhc3Nl
-cnRfb2JqZWN0X2hlbGRfc2hhcmVkKG9iaik7Cj4gKwo+ICAgICAgICAgaTkxNV9nZW1fb2JqZWN0
-X3JlbGVhc2VfbW1hcF9vZmZzZXQob2JqKTsKPgo+ICAgICAgICAgLyoKPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3N0b2xlbi5jIGIvZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3N0b2xlbi5jCj4gaW5kZXggN2NkYjMyZDg4MWQ5Li5iMDU5
-N2RlMjA2ZGUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2Vt
-X3N0b2xlbi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3N0b2xl
-bi5jCj4gQEAgLTYzNywxMyArNjM3LDE1IEBAIHN0YXRpYyBpbnQgX19pOTE1X2dlbV9vYmplY3Rf
-Y3JlYXRlX3N0b2xlbihzdHJ1Y3QgaW50ZWxfbWVtb3J5X3JlZ2lvbiAqbWVtLAo+ICAgICAgICAg
-Y2FjaGVfbGV2ZWwgPSBIQVNfTExDKG1lbS0+aTkxNSkgPyBJOTE1X0NBQ0hFX0xMQyA6IEk5MTVf
-Q0FDSEVfTk9ORTsKPiAgICAgICAgIGk5MTVfZ2VtX29iamVjdF9zZXRfY2FjaGVfY29oZXJlbmN5
-KG9iaiwgY2FjaGVfbGV2ZWwpOwo+Cj4gLSAgICAgICBlcnIgPSBpOTE1X2dlbV9vYmplY3RfcGlu
-X3BhZ2VzKG9iaik7Cj4gLSAgICAgICBpZiAoZXJyKQo+IC0gICAgICAgICAgICAgICByZXR1cm4g
-ZXJyOwo+ICsgICAgICAgaWYgKFdBUk5fT04oIWk5MTVfZ2VtX29iamVjdF90cnlsb2NrKG9iaikp
-KQo+ICsgICAgICAgICAgICAgICByZXR1cm4gLUVCVVNZOwo+Cj4gLSAgICAgICBpOTE1X2dlbV9v
-YmplY3RfaW5pdF9tZW1vcnlfcmVnaW9uKG9iaiwgbWVtKTsKPiArICAgICAgIGVyciA9IGk5MTVf
-Z2VtX29iamVjdF9waW5fcGFnZXMob2JqKTsKPiArICAgICAgIGlmICghZXJyKQo+ICsgICAgICAg
-ICAgICAgICBpOTE1X2dlbV9vYmplY3RfaW5pdF9tZW1vcnlfcmVnaW9uKG9iaiwgbWVtKTsKClBy
-b2JhYmx5IG1vcmUgY29uc2lzdGVudCB0byBjYWxsIGluaXRfbWVtb3J5X3JlZ2lvbigpIGJlZm9y
-ZSBjYWxsaW5nCnBpbl9wYWdlcygpLCBidXQgSSBndWVzcyBpdCB3YXMgYWxyZWFkeSBsaWtlIHRo
-YXQsIHBsdXMgaXQgZG9lc24ndApzZWVtIHRvIG1hdHRlciBmb3Igc3RvbGVuIG1lbW9yeS4KClJl
-dmlld2VkLWJ5OiBNYXR0aGV3IEF1bGQgPG1hdHRoZXcuYXVsZEBpbnRlbC5jb20+Cl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+
+On 23/03/2021 13:23, Daniel Vetter wrote:
+> On Tue, Mar 23, 2021 at 09:14:36AM +0000, Tvrtko Ursulin wrote:
+>>
+>> On 22/03/2021 16:43, Daniel Vetter wrote:
+>>> On Mon, Mar 22, 2021 at 4:31 PM Tvrtko Ursulin
+>>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>>
+>>>>
+>>>> On 22/03/2021 14:57, Daniel Vetter wrote:
+>>>>> On Mon, Mar 22, 2021 at 3:33 PM Tvrtko Ursulin
+>>>>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 22/03/2021 14:09, Daniel Vetter wrote:
+>>>>>>> On Mon, Mar 22, 2021 at 11:22:01AM +0000, Tvrtko Ursulin wrote:
+>>>>>>>>
+>>>>>>>> On 19/03/2021 22:38, Jason Ekstrand wrote:
+>>>>>>>>> This API allows one context to grab bits out of another context upon
+>>>>>>>>> creation.  It can be used as a short-cut for setparam(getparam()) for
+>>>>>>>>> things like I915_CONTEXT_PARAM_VM.  However, it's never been used by any
+>>>>>>>>> real userspace.  It's used by a few IGT tests and that's it.  Since it
+>>>>>>>>> doesn't add any real value (most of the stuff you can CLONE you can copy
+>>>>>>>>> in other ways), drop it.
+>>>>>>>>
+>>>>>>>> No complaints to remove if it ended up unused outside IGT. Latter is a _big_
+>>>>>>>> problem though, since it is much more that a few IGT tests. So I really
+>>>>>>>> think there really needs to be an evaluation and a plan for that (we don't
+>>>>>>>> want to lose 50% of the coverage over night).
+>>>>>>>>
+>>>>>>>>> There is one thing that this API allows you to clone which you cannot
+>>>>>>>>> clone via getparam/setparam: timelines.  However, timelines are an
+>>>>>>>>> implementation detail of i915 and not really something that needs to be
+>>>>>>>>
+>>>>>>>> Not really true timelines are i915 implementation detail. They are in fact a
+>>>>>>>> dma-fence context:seqno concept, nothing more that than. I think you are
+>>>>>>>> probably confusing struct intel_timeline with the timeline wording in the
+>>>>>>>> uapi. Former is i915 implementation detail, but context:seqno are truly
+>>>>>>>> userspace timelines.
+>>>>>>>
+>>>>>>> I think you're both saying the same thing and talking a bit past each
+>>>>>>> another.
+>>>>>>>
+>>>>>>> Yes the timeline is just a string of dma_fence, that's correct. Now
+>>>>>>> usually if you submit batches with execbuf, we have 3 ways to synchronize
+>>>>>>> concurrent submission: implicit sync, sync_file and drm_syncob. They all
+>>>>>>> map to different needs in different protocols/render apis.
+>>>>>>>
+>>>>>>> Now in one additional case the kernel makes sure that batchbuffers are
+>>>>>>> ordered, and that's when you submit them to the same hw ctx. Because
+>>>>>>> there's only 1 hw context and you really can't have batchbuffers run on
+>>>>>>> that single hw context out of order. That's what the timeline object we
+>>>>>>> talk about here is. But that largely is an internal implementation detail,
+>>>>>>> which happens to also use most/all the same infrastructure as the
+>>>>>>> dma_fence uapi pieces above.
+>>>>>>>
+>>>>>>> Now the internal implementation detail leaking here is that we exposed
+>>>>>>> this to userspace, without there being any need for this. What Jason
+>>>>>>> implements with syncobj in the next patch is essentially what userspace
+>>>>>>> should have been using for cross-engine sync. media userspace doesn't care
+>>>>>>> about interop with winsys/client apis, so they equally could have used
+>>>>>>> implicit sync or sync_file here (which I think is the solution now for the
+>>>>>>> new uapi prepped internally), since they all are about equally powerful
+>>>>>>> for stringing batchbuffers together.
+>>>>>>
+>>>>>> Are you saying we exposed a single timeline of execution per hw context
+>>>>>> via the single timeline flag?!
+>>>>>
+>>>>> Nope.
+>>>>>
+>>>>>> Timelines of execution were always exposed. Any "engine" (ring
+>>>>>> previously) in I915_EXEC_RING_MASK was a single timeline of execution.
+>>>>>> It is completely the same with engine map engines, which are also
+>>>>>> different indices into I915_EXEC_RING_MASK space.
+>>>>>>
+>>>>>> Userspace was aware of these timelines forever as well. Media was
+>>>>>> creating multiple contexts to have multiple timelines (so parallelism).
+>>>>>> Everyone knew that engine-hopping submissions needs to be either
+>>>>>> implicitly or explicitly synchronised, etc.
+>>>>>
+>>>>> Yup, I think we're saying the same thing here.
+>>>>>
+>>>>>> So I really don't see that we have leaked timelines as a concept *now*.
+>>>>>> What the patch has exposed to userspace is a new way to sync between
+>>>>>> timelines and nothing more.
+>>>>>
+>>>>> We've leaked it as something you can now share across hw context.
+>>>>
+>>>> Okay so we agree on most things but apparently have different
+>>>> definitions of what it means to leak internal implementation details.
+>>>>
+>>>> While at the same time proof that we haven't leaked the internal
+>>>> implementation details is that Jason was able to implement the single
+>>>> timeline flag with a drm syncobj at the execbuf top level. (Well mostly,
+>>>> ignoring the probably inconsequential difference of one vs multiple
+>>>> fence contexts.)
+>>>
+>>> It's not a matching implementation. It's only good enough for what
+>>> media needs, and essentially what media should have done to begin
+>>> with.
+>>>
+>>> There's substantially different behaviour between SINGLE_TIMELINE and
+>>> what Jason has done here when you race concurrent execbuf calls:
+>>> Former guarantees total ordering, the latter doesn't even try. They
+>>> are not the same thing, but luckily userspace doesn't care about that
+>>> difference.
+>>
+>> Sounds like a very important difference to stress in the commit message.
+>>
+>> Secondly, I am unclear whether we have agreement on whether the single
+>> timeline flag is leaking implementation details of the execlists scheduler
+>> to userspace or not?
+> 
+> I do think Jason&me agree on that it does leak an internal concept to
+> userspace that we shouldn't leak.
+> 
+> I'm honestly not entirely understanding your argument for why
+> single_timeline isn't an internal concept somehow, and how exposing it to
+> userspace doesn't leak that concept to userspace. Whether internally that
+> concept is now perfectly represented by just struct intel_timeline, or
+> maybe more the seqno/hswp, or more diffused through the code doesn't
+> really change that we have an internal concept that we're now exposing for
+> sharing in ways that wasn't possible before.
+
+Don't know, obviously we think with very different paradigms.
+
+GEM context always had as many timelines as there are engines in it's 
+map so multiple timelines is the default mode everyone is aware of.
+
+Single timeline flag added a new mode where instead of multiple 
+timelines single GEM context becomes a single timeline.
+
+The fact that userspace can achieve the single timeline execution on its 
+own should be an argument enough that it is not a new concept that got 
+leaked out. Definitely not any backend specific implementation details. 
+It simply added a new feature which may or may not have been needed.
+
+Regards,
+
+Tvrtko
+
+P.S.
+Or rename the flag in your mind to "I915_GEM_CONTEXT_SERIAL_EXECUTION" 
+or something and see if that still leaks the timeline or some 
+implementation details.
+
+P.P.S Keep in mind I am arguing on wording in single timeline flag 
+removal. Removal of timeline cloning is not controversial.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
