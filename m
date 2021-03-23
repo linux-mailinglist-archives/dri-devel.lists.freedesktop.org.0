@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6805A3463A6
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 16:54:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F9D3463A7
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 16:54:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70FFC6EAA8;
-	Tue, 23 Mar 2021 15:54:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9BCD6EB9C;
+	Tue, 23 Mar 2021 15:54:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
  [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA08D6EAA8
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 15:54:27 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id u9so27928703ejj.7
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 08:54:27 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA276EB9C
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 15:54:30 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id ce10so27917961ejb.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 08:54:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vLQx1Cfo6NMYGKyAzHlak3XDgfOSp0H1hbHr7UYGQH4=;
- b=N+mYceP9vCGRhM3PjsaOHNXvBi4uz1WxWLKOx9peAA38HYDQCVPyXnUTnSzQpB9J4i
- sk1f2x99Ya8yeXD9FTzn++cxVuAQpeFrWB7NqSIWOxldeIvjG/8/zPUhEz53OaD91unu
- dQOppyZBIqOr7f1AaXLtpYJNfL9X8asUyS4AHwiuvwM0juPwM1pIHmJ7kmoCVWrD0ru0
- oIKwoEnTWD5ByP1znDZNW+BgSnhVArsad8nCTeTqjbZSKFYvJ+H6BlJxDS+Lbd+rSUM3
- DhFbGaMJtMTngvicjq7fomk+KI601UwkvFV5CSKro21VFh9dW6tZ9eogiK3G1gEfYSRc
- mRYg==
+ bh=fz0pj9ppHMWd8qVO1GW/JKUv14EpoMWJ6NeYk++JZEA=;
+ b=FNJVsHPBJpHg9N+6WL9bsnAxgfRAwzvvyV8W6upUxk4EibvlS2qEta0TI6K9dnTBsk
+ WprbN53jE5BFzLmE27On/7yDMYd50an73oPrjXXUGlvfp9/MOkuNzLCfsuoqRceh3/N9
+ EKQWOsGh5wjkJHLsf6VBuDi4Wy0Ro1ZbNovLb4e/HkM9uDec9P8eLUI1FYgWpPzHwEQD
+ /NbFXR6yGFtYs/7Sn1gBCyGP0znXModNAJA6gbvL7fMnOlkJsy7EEVkEGObolcQbcQd3
+ wkAXV66WnJWvIWd1jlTSlLNv8rLTo9KSqNon76XIEN9/5h3AZ8AsaDq7T2yDyAiEl/8V
+ N7Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vLQx1Cfo6NMYGKyAzHlak3XDgfOSp0H1hbHr7UYGQH4=;
- b=YDlRYei0J1gqJY+3QAH4bOiFMH5Q6jbizBcWPMzqBt7vR8dBawGP9vUlFYprKow/N6
- XO8c7uwtfms0RYFa2FyyWGzS9RkbIB/sl1vr6J5tFBOLwYk+zGyQP7fu33/nsPZbuqBd
- EnvrV9u/JU14+PXyXlKxrYzbTk8duwM3YCEz2A1dGY9+qBqtz8/h7mmQ9VaeJdujH5e9
- IY8NnXmliHWcOTsfZMcMApDLLFsX3l6DMkeS6BvORnFoQi9TVb40Hd9TzaNMJMgCNCW4
- ZKJ6F1t/CWHWoHJ98/Mrfn2k3D7EQ4k/N9biZ4QxdViLtfgm90tdNF5UOKyzAw7/G6JE
- TQwA==
-X-Gm-Message-State: AOAM531LKneRoP8Um0XvvgjNeTMiVl5ya9a5uZ3/OHe3XaOPID+8HQxU
- ielyW44HYJymtmy9+H+RN7QOoybzSew=
-X-Google-Smtp-Source: ABdhPJyKfTt7s+hXj2wrI20wtzxyHA+LfKXIU00VLlyyCJrWQFHBCQThqvsryE6tm85XtLfRjUF3NQ==
-X-Received: by 2002:a17:906:340d:: with SMTP id
- c13mr5692563ejb.29.1616514866665; 
- Tue, 23 Mar 2021 08:54:26 -0700 (PDT)
+ bh=fz0pj9ppHMWd8qVO1GW/JKUv14EpoMWJ6NeYk++JZEA=;
+ b=Qg5rmKC3ahSn2sRxNDIX7Xx4FUFf9lOR3aw2Xc253uUrxlslv5v2EWu4VmdlyIkNkB
+ T8C71CHjB9/32OA/IIemyy97e3/4me6EIZDoXhCqcRZ2Rhw6eN12SoapvDjWJFURMAOh
+ f636dYkyMiF6RLaq82QMY1QGKGTJxgaFRnixQFoIcN08ggJnhji9T1F1aNkk9u5s97Bz
+ 4jwxafBss/4ipZqoLTOHn+AFRDLWEas4E5VsUZnWIxMxHRAzAiV2i9eVlW8Li61fpfRT
+ 0pFMPloWfnQa7fIKYMMCtjtj5qEQZbm7RZXbFsQrc3c2FtpG4wa9cSGZl4ZaZRjOI2m3
+ PRvQ==
+X-Gm-Message-State: AOAM530JW6vrtyl/t04nGYFCHkZo1JHtDp0fShKEnbcelQGhnXP0o2GD
+ iiFV+vjF9khdFAwWBAFZU0M=
+X-Google-Smtp-Source: ABdhPJwmgm9LvISuNY9MMJA04AO7jA2DJ5Luc8Ef1wNCoOxHm9cUdrksw6lemE+3pPWbBitTNmK8iw==
+X-Received: by 2002:a17:906:f56:: with SMTP id
+ h22mr5654838ejj.494.1616514869097; 
+ Tue, 23 Mar 2021 08:54:29 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id u13sm11560812ejn.59.2021.03.23.08.54.25
+ by smtp.gmail.com with ESMTPSA id n26sm13024993eds.22.2021.03.23.08.54.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 08:54:25 -0700 (PDT)
+ Tue, 23 Mar 2021 08:54:28 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH 2/9] drm/tegra: dc: Inherit DMA mask
-Date: Tue, 23 Mar 2021 16:54:30 +0100
-Message-Id: <20210323155437.513497-3-thierry.reding@gmail.com>
+Subject: [PATCH 3/9] drm/tegra: dc: Parameterize maximum resolution
+Date: Tue, 23 Mar 2021 16:54:31 +0100
+Message-Id: <20210323155437.513497-4-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210323155437.513497-1-thierry.reding@gmail.com>
 References: <20210323155437.513497-1-thierry.reding@gmail.com>
@@ -77,62 +77,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-Inherit the DMA mask from host1x (on Tegra210 and earlier) or the
-display hub (on Tegra186 and later). This is necessary in order to
-properly map buffers without SMMU support and use the maximum IOVA
-space available with SMMU support.
+Tegra186 and later support a higher maximum resolution than earlier
+chips, so make sure to reflect that in the mode configuration.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/dc.c  | 7 +++++++
- drivers/gpu/drm/tegra/hub.c | 7 +++++++
- 2 files changed, 14 insertions(+)
+ drivers/gpu/drm/tegra/dc.c  |  6 ++++++
+ drivers/gpu/drm/tegra/drm.c | 13 ++++++++++---
+ drivers/gpu/drm/tegra/drm.h |  1 +
+ 3 files changed, 17 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 2585ba70b706..5737a0c4dc9f 100644
+index 5737a0c4dc9f..1886ef1fcda7 100644
 --- a/drivers/gpu/drm/tegra/dc.c
 +++ b/drivers/gpu/drm/tegra/dc.c
-@@ -2538,9 +2538,16 @@ static int tegra_dc_couple(struct tegra_dc *dc)
+@@ -2117,6 +2117,12 @@ static int tegra_dc_init(struct host1x_client *client)
+ 	if (dc->soc->pitch_align > tegra->pitch_align)
+ 		tegra->pitch_align = dc->soc->pitch_align;
  
- static int tegra_dc_probe(struct platform_device *pdev)
- {
-+	u64 dma_mask = dma_get_mask(pdev->dev.parent);
- 	struct tegra_dc *dc;
- 	int err;
- 
-+	err = dma_coerce_mask_and_coherent(&pdev->dev, dma_mask);
-+	if (err < 0) {
-+		dev_err(&pdev->dev, "failed to set DMA mask: %d\n", err);
-+		return err;
-+	}
++	/* track maximum resolution */
++	if (dc->soc->has_nvdisplay)
++		drm->mode_config.max_width = drm->mode_config.max_height = 16384;
++	else
++		drm->mode_config.max_width = drm->mode_config.max_height = 4096;
 +
- 	dc = devm_kzalloc(&pdev->dev, sizeof(*dc), GFP_KERNEL);
- 	if (!dc)
- 		return -ENOMEM;
-diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
-index 8e6d329d062b..617240032c37 100644
---- a/drivers/gpu/drm/tegra/hub.c
-+++ b/drivers/gpu/drm/tegra/hub.c
-@@ -848,12 +848,19 @@ static const struct host1x_client_ops tegra_display_hub_ops = {
+ 	err = tegra_dc_rgb_init(drm, dc);
+ 	if (err < 0 && err != -ENODEV) {
+ 		dev_err(dc->dev, "failed to initialize RGB output: %d\n", err);
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index 6015913fef83..bbc504763bd4 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -1144,9 +1144,8 @@ static int host1x_drm_probe(struct host1x_device *dev)
  
- static int tegra_display_hub_probe(struct platform_device *pdev)
- {
-+	u64 dma_mask = dma_get_mask(pdev->dev.parent);
- 	struct device_node *child = NULL;
+ 	drm->mode_config.min_width = 0;
+ 	drm->mode_config.min_height = 0;
+-
+-	drm->mode_config.max_width = 4096;
+-	drm->mode_config.max_height = 4096;
++	drm->mode_config.max_width = 0;
++	drm->mode_config.max_height = 0;
+ 
+ 	drm->mode_config.allow_fb_modifiers = true;
+ 
+@@ -1165,6 +1164,14 @@ static int host1x_drm_probe(struct host1x_device *dev)
+ 	if (err < 0)
+ 		goto fbdev;
+ 
++	/*
++	 * Now that all display controller have been initialized, the maximum
++	 * supported resolution is known and the bitmask for horizontal and
++	 * vertical bitfields can be computed.
++	 */
++	tegra->hmask = drm->mode_config.max_width - 1;
++	tegra->vmask = drm->mode_config.max_height - 1;
++
+ 	if (tegra->use_explicit_iommu) {
+ 		u64 carveout_start, carveout_end, gem_start, gem_end;
+ 		u64 dma_mask = dma_get_mask(&dev->dev);
+diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
+index 1af57c2016eb..34fbcd6abf2f 100644
+--- a/drivers/gpu/drm/tegra/drm.h
++++ b/drivers/gpu/drm/tegra/drm.h
+@@ -54,6 +54,7 @@ struct tegra_drm {
+ 	struct tegra_fbdev *fbdev;
+ #endif
+ 
++	unsigned int hmask, vmask;
+ 	unsigned int pitch_align;
+ 
  	struct tegra_display_hub *hub;
- 	struct clk *clk;
- 	unsigned int i;
- 	int err;
- 
-+	err = dma_coerce_mask_and_coherent(&pdev->dev, dma_mask);
-+	if (err < 0) {
-+		dev_err(&pdev->dev, "failed to set DMA mask: %d\n", err);
-+		return err;
-+	}
-+
- 	hub = devm_kzalloc(&pdev->dev, sizeof(*hub), GFP_KERNEL);
- 	if (!hub)
- 		return -ENOMEM;
 -- 
 2.30.2
 
