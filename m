@@ -2,51 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252F334612B
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 15:16:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A33346130
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 15:16:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BA376E8BE;
-	Tue, 23 Mar 2021 14:16:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23FB46E8ED;
+	Tue, 23 Mar 2021 14:16:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 756AC6E8BE
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 14:16:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=YB0TWDLPYVEfjCZHSpM9+30NS8HHF0fF1mXgtu7Kgxc=; b=hFAOAGjxCzX0l37Ixu8+lKqhJ1
- 2V2Gk9Pyobh1b5Jkn7Pq2OMD5CV7cvIMSXRtixDR7sIngt1ojckqp/w5PYW15kNND2gEltBtsmSd4
- po827Mjxd56TGGkNKECGY6aTNshnKQ4CnxokJyBTE6WOoUBgqr63KcbemeaV0OIWFbNvwekHb+cTO
- eN2reTbeGKwhbSMiGgaGd7Yzj3i1c9bd9iO3r8qnFPAYmGIdBFCgYY25ruz0Ikb1Us5/s4lUxTAhG
- iDNrzgWY4LKI4GiUk/Hf78cbTF0PdZ0RVWx/kWY3W+weX01ybjc1GfIBc3NpMIVAj8bWJQvEvxHy/
- Z7ppa2RA==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1lOhpB-0003V0-Os; Tue, 23 Mar 2021 16:16:01 +0200
-Subject: Re: [PATCH v5 20/21] drm/tegra: Implement job submission part of new
- UAPI
-To: Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>
-References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <20210111130019.3515669-21-mperttunen@nvidia.com>
- <YFnvQYvT7E/kCAuj@orome.fritz.box>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <49820423-e3aa-6c99-b92f-3d3ece739ed7@kapsi.fi>
-Date: Tue, 23 Mar 2021 16:16:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7D066E8ED
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 14:16:22 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id hq27so27365619ejc.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 07:16:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=MlOooBXSewsLualNMgvU6D6sRFXHNUQ608epm4QPvWs=;
+ b=K6BNGvZE4HLcVpDQArNpA/XFtjuJcUNCbBXwd5VC/WYL8x1S6irIL+c6wRlJzU6vl4
+ nxHShgvd5SESFS+yvIZR5iGl8D5qzSHsyf9Q0lfypAQhTYo8UR35gu6tuotjRLHyvVtl
+ VdhidD4P+skXtaVujXXEMg1GjBvVnsK/cCYhfA8kZ6q6d7ZBuWn5h57ZfqZJ9ct6mPyr
+ 513IKg5Yp9Q/GaFyflvxz5zuFY4KI9/ajF0XLuiRe6wj09+3GSAzj41RMOUFwU301OJx
+ R4BxhDhguT/ew75EwTIVu8Ou5N4JxzQo6y4/4j/CFtuJqctB+5NmvV8wB2ed+Ye8JyMh
+ 0IZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=MlOooBXSewsLualNMgvU6D6sRFXHNUQ608epm4QPvWs=;
+ b=PTbIWPnhf7hHfNzav1kVHPdMllYSWpStpARCn52fpssz5TO+2SXF5g3FeKcS66FOzD
+ /0Cvfu9BXLIrWXEQS9ToWBkiZfaDn567Xovwjo3LDsmC2hKjeSgy3DZYvd4ADL8hGEAy
+ GHg6h4Yfcf5/hEBdBYhB0cBI00JRxeHIWjiPRa4hjImoNmKQC2C+bUDANMbTPmhMfjOu
+ PlvAHilrCvExrD38RVlMorVuJBM8Ba32CU4u2NjRrH9DVW2RXO3a9q+Tc7YUWqMJ6UPD
+ pIrtv1WuZtvpx1Hcjgz5pHNokPCTa1ApzR/oK380MbUmp0Udef802Reh9fQLzJlBf7O6
+ adVg==
+X-Gm-Message-State: AOAM532KnLmuiFEOn4A9wIa5rdnIKg/dcSvBNT1wimEvE9YvpkynsLMs
+ lvQoiwg7yLv8N9E9c6ftJyIFc58dnCFvaUVIK5M=
+X-Google-Smtp-Source: ABdhPJwj/plMO91rQ93L+RbYk+zwPDyZuqAWjLpcugqv3a8iDsleVbcDFezMkCTAwZZ2q4REVXVVyQK8ZLqJtOp5GhA=
+X-Received: by 2002:a17:907:7785:: with SMTP id
+ ky5mr4965121ejc.133.1616508981333; 
+ Tue, 23 Mar 2021 07:16:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YFnvQYvT7E/kCAuj@orome.fritz.box>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+References: <20210308120555.252524-1-adrien.grassein@gmail.com>
+ <20210308120555.252524-3-adrien.grassein@gmail.com>
+ <CAG3jFytoE9hWvq2e2Caqn4qP_RuEOnm4r9VQ85ffbAcguSLf+w@mail.gmail.com>
+ <CABkfQAGvPy3DzXQnDJqm1q_rOLWR7BQTXb8z05iML3s3Mc8LJw@mail.gmail.com>
+ <CAG3jFytmJSjvWp0Bu7MaJ7EVuJov8gbs6cguatoOtTJpXTGVLA@mail.gmail.com>
+ <CABkfQAGcSsQ74FtvAK4_awHRXswgBrThKww_xhpmTzordZ5X8w@mail.gmail.com>
+ <CAG3jFyvQt=Bv2_Hi8UdOhgznp1gVZwAw8gZv6FnLwHJV4WD6Kw@mail.gmail.com>
+In-Reply-To: <CAG3jFyvQt=Bv2_Hi8UdOhgznp1gVZwAw8gZv6FnLwHJV4WD6Kw@mail.gmail.com>
+From: Adrien Grassein <adrien.grassein@gmail.com>
+Date: Tue, 23 Mar 2021 15:16:10 +0100
+Message-ID: <CABkfQAGS24AM90veQhGA+=V4S50y7JwzqLMspMaEFptcYpmdMQ@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] drm/bridge: Introduce LT8912B DSI to HDMI bridge
+To: Robert Foss <robert.foss@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,378 +68,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
- talho@nvidia.com, bhuntsman@nvidia.com, linux-tegra@vger.kernel.org,
- digetx@gmail.com
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ kernel test robot <lkp@intel.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/23/21 3:38 PM, Thierry Reding wrote:
-> On Mon, Jan 11, 2021 at 03:00:18PM +0200, Mikko Perttunen wrote:
->> Implement the job submission IOCTL with a minimum feature set.
->>
->> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
->> ---
->> v5:
->> * Add 16K size limit to copies from userspace.
->> * Guard RELOC_BLOCKLINEAR flag handling to only exist in ARM64
->>    to prevent oversized shift on 32-bit platforms.
->> v4:
->> * Remove all features that are not strictly necessary.
->> * Split into two patches.
->> v3:
->> * Remove WRITE_RELOC. Relocations are now patched implicitly
->>    when patching is needed.
->> * Directly call PM runtime APIs on devices instead of using
->>    power_on/power_off callbacks.
->> * Remove incorrect mutex unlock in tegra_drm_ioctl_channel_open
->> * Use XA_FLAGS_ALLOC1 instead of XA_FLAGS_ALLOC
->> * Accommodate for removal of timeout field and inlining of
->>    syncpt_incrs array.
->> * Copy entire user arrays at a time instead of going through
->>    elements one-by-one.
->> * Implement waiting of DMA reservations.
->> * Split out gather_bo implementation into a separate file.
->> * Fix length parameter passed to sg_init_one in gather_bo
->> * Cosmetic cleanup.
->> ---
->>   drivers/gpu/drm/tegra/Makefile         |   2 +
->>   drivers/gpu/drm/tegra/drm.c            |   2 +
->>   drivers/gpu/drm/tegra/uapi/gather_bo.c |  86 +++++
->>   drivers/gpu/drm/tegra/uapi/gather_bo.h |  22 ++
->>   drivers/gpu/drm/tegra/uapi/submit.c    | 428 +++++++++++++++++++++++++
->>   drivers/gpu/drm/tegra/uapi/submit.h    |  17 +
->>   6 files changed, 557 insertions(+)
->>   create mode 100644 drivers/gpu/drm/tegra/uapi/gather_bo.c
->>   create mode 100644 drivers/gpu/drm/tegra/uapi/gather_bo.h
->>   create mode 100644 drivers/gpu/drm/tegra/uapi/submit.c
->>   create mode 100644 drivers/gpu/drm/tegra/uapi/submit.h
->>
->> diff --git a/drivers/gpu/drm/tegra/Makefile b/drivers/gpu/drm/tegra/Makefile
->> index 0abdb21b38b9..059322e88943 100644
->> --- a/drivers/gpu/drm/tegra/Makefile
->> +++ b/drivers/gpu/drm/tegra/Makefile
->> @@ -4,6 +4,8 @@ ccflags-$(CONFIG_DRM_TEGRA_DEBUG) += -DDEBUG
->>   tegra-drm-y := \
->>   	drm.o \
->>   	uapi/uapi.o \
->> +	uapi/submit.o \
->> +	uapi/gather_bo.o \
->>   	gem.o \
->>   	fb.o \
->>   	dp.o \
->> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
->> index 6a51035ce33f..60eab403ae9b 100644
->> --- a/drivers/gpu/drm/tegra/drm.c
->> +++ b/drivers/gpu/drm/tegra/drm.c
->> @@ -737,6 +737,8 @@ static const struct drm_ioctl_desc tegra_drm_ioctls[] = {
->>   			  DRM_RENDER_ALLOW),
->>   	DRM_IOCTL_DEF_DRV(TEGRA_CHANNEL_UNMAP, tegra_drm_ioctl_channel_unmap,
->>   			  DRM_RENDER_ALLOW),
->> +	DRM_IOCTL_DEF_DRV(TEGRA_CHANNEL_SUBMIT, tegra_drm_ioctl_channel_submit,
->> +			  DRM_RENDER_ALLOW),
->>   	DRM_IOCTL_DEF_DRV(TEGRA_GEM_CREATE, tegra_drm_ioctl_gem_create,
->>   			  DRM_RENDER_ALLOW),
->>   	DRM_IOCTL_DEF_DRV(TEGRA_GEM_MMAP, tegra_drm_ioctl_gem_mmap,
->> diff --git a/drivers/gpu/drm/tegra/uapi/gather_bo.c b/drivers/gpu/drm/tegra/uapi/gather_bo.c
->> new file mode 100644
->> index 000000000000..b487a0d44648
->> --- /dev/null
->> +++ b/drivers/gpu/drm/tegra/uapi/gather_bo.c
->> @@ -0,0 +1,86 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/* Copyright (c) 2020 NVIDIA Corporation */
->> +
->> +#include <linux/scatterlist.h>
->> +#include <linux/slab.h>
->> +
->> +#include "gather_bo.h"
->> +
->> +static struct host1x_bo *gather_bo_get(struct host1x_bo *host_bo)
->> +{
->> +	struct gather_bo *bo = container_of(host_bo, struct gather_bo, base);
->> +
->> +	kref_get(&bo->ref);
->> +
->> +	return host_bo;
->> +}
->> +
->> +static void gather_bo_release(struct kref *ref)
->> +{
->> +	struct gather_bo *bo = container_of(ref, struct gather_bo, ref);
->> +
->> +	kfree(bo->gather_data);
->> +	kfree(bo);
->> +}
->> +
->> +void gather_bo_put(struct host1x_bo *host_bo)
->> +{
->> +	struct gather_bo *bo = container_of(host_bo, struct gather_bo, base);
->> +
->> +	kref_put(&bo->ref, gather_bo_release);
->> +}
->> +
->> +static struct sg_table *
->> +gather_bo_pin(struct device *dev, struct host1x_bo *host_bo, dma_addr_t *phys)
->> +{
->> +	struct gather_bo *bo = container_of(host_bo, struct gather_bo, base);
->> +	struct sg_table *sgt;
->> +	int err;
->> +
->> +	if (phys) {
->> +		*phys = virt_to_phys(bo->gather_data);
->> +		return NULL;
->> +	}
->> +
->> +	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
->> +	if (!sgt)
->> +		return ERR_PTR(-ENOMEM);
->> +
->> +	err = sg_alloc_table(sgt, 1, GFP_KERNEL);
->> +	if (err) {
->> +		kfree(sgt);
->> +		return ERR_PTR(err);
->> +	}
->> +
->> +	sg_init_one(sgt->sgl, bo->gather_data, bo->gather_data_words*4);
->> +
->> +	return sgt;
->> +}
->> +
->> +static void gather_bo_unpin(struct device *dev, struct sg_table *sgt)
->> +{
->> +	if (sgt) {
->> +		sg_free_table(sgt);
->> +		kfree(sgt);
->> +	}
->> +}
->> +
->> +static void *gather_bo_mmap(struct host1x_bo *host_bo)
->> +{
->> +	struct gather_bo *bo = container_of(host_bo, struct gather_bo, base);
->> +
->> +	return bo->gather_data;
->> +}
->> +
->> +static void gather_bo_munmap(struct host1x_bo *host_bo, void *addr)
->> +{
->> +}
->> +
->> +const struct host1x_bo_ops gather_bo_ops = {
->> +	.get = gather_bo_get,
->> +	.put = gather_bo_put,
->> +	.pin = gather_bo_pin,
->> +	.unpin = gather_bo_unpin,
->> +	.mmap = gather_bo_mmap,
->> +	.munmap = gather_bo_munmap,
->> +};
->> diff --git a/drivers/gpu/drm/tegra/uapi/gather_bo.h b/drivers/gpu/drm/tegra/uapi/gather_bo.h
->> new file mode 100644
->> index 000000000000..6b4c9d83ac91
->> --- /dev/null
->> +++ b/drivers/gpu/drm/tegra/uapi/gather_bo.h
->> @@ -0,0 +1,22 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/* Copyright (c) 2020 NVIDIA Corporation */
->> +
->> +#ifndef _TEGRA_DRM_SUBMIT_GATHER_BO_H
->> +#define _TEGRA_DRM_SUBMIT_GATHER_BO_H
->> +
->> +#include <linux/host1x.h>
->> +#include <linux/kref.h>
->> +
->> +struct gather_bo {
->> +	struct host1x_bo base;
->> +
->> +	struct kref ref;
->> +
->> +	u32 *gather_data;
->> +	size_t gather_data_words;
->> +};
->> +
->> +extern const struct host1x_bo_ops gather_bo_ops;
->> +void gather_bo_put(struct host1x_bo *host_bo);
->> +
->> +#endif
->> diff --git a/drivers/gpu/drm/tegra/uapi/submit.c b/drivers/gpu/drm/tegra/uapi/submit.c
->> new file mode 100644
->> index 000000000000..398be3065e21
->> --- /dev/null
->> +++ b/drivers/gpu/drm/tegra/uapi/submit.c
->> @@ -0,0 +1,428 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/* Copyright (c) 2020 NVIDIA Corporation */
->> +
->> +#include <linux/dma-fence-array.h>
->> +#include <linux/file.h>
->> +#include <linux/host1x.h>
->> +#include <linux/iommu.h>
->> +#include <linux/kref.h>
->> +#include <linux/list.h>
->> +#include <linux/nospec.h>
->> +#include <linux/pm_runtime.h>
->> +#include <linux/sync_file.h>
->> +
->> +#include <drm/drm_drv.h>
->> +#include <drm/drm_file.h>
->> +
->> +#include "../uapi.h"
->> +#include "../drm.h"
->> +#include "../gem.h"
->> +
->> +#include "gather_bo.h"
->> +#include "submit.h"
->> +
->> +static struct tegra_drm_mapping *
->> +tegra_drm_mapping_get(struct tegra_drm_channel_ctx *ctx, u32 id)
->> +{
->> +	struct tegra_drm_mapping *mapping;
->> +
->> +	xa_lock(&ctx->mappings);
->> +	mapping = xa_load(&ctx->mappings, id);
->> +	if (mapping)
->> +		kref_get(&mapping->ref);
->> +	xa_unlock(&ctx->mappings);
->> +
->> +	return mapping;
->> +}
->> +
->> +static void *alloc_copy_user_array(void __user *from, size_t count, size_t size)
->> +{
->> +	unsigned long copy_err;
->> +	size_t copy_len;
->> +	void *data;
->> +
->> +	if (check_mul_overflow(count, size, &copy_len))
->> +		return ERR_PTR(-EINVAL);
->> +
->> +	if (copy_len > 0x4000)
->> +		return ERR_PTR(-E2BIG);
->> +
->> +	data = kvmalloc(copy_len, GFP_KERNEL);
->> +	if (!data)
->> +		return ERR_PTR(-ENOMEM);
->> +
->> +	copy_err = copy_from_user(data, from, copy_len);
->> +	if (copy_err) {
->> +		kvfree(data);
->> +		return ERR_PTR(-EFAULT);
->> +	}
->> +
->> +	return data;
->> +}
->> +
->> +static int submit_copy_gather_data(struct drm_device *drm,
->> +				   struct gather_bo **pbo,
->> +				   struct drm_tegra_channel_submit *args)
->> +{
->> +	unsigned long copy_err;
->> +	struct gather_bo *bo;
->> +	size_t copy_len;
->> +
->> +	if (args->gather_data_words == 0) {
->> +		drm_info(drm, "gather_data_words can't be 0");
->> +		return -EINVAL;
->> +	}
->> +
->> +	if (check_mul_overflow((size_t)args->gather_data_words, (size_t)4, &copy_len))
->> +		return -EINVAL;
->> +
->> +	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
->> +	if (!bo)
->> +		return -ENOMEM;
->> +
->> +	kref_init(&bo->ref);
->> +	host1x_bo_init(&bo->base, &gather_bo_ops);
->> +
->> +	bo->gather_data = kmalloc(copy_len, GFP_KERNEL | __GFP_NOWARN);
->> +	if (!bo->gather_data) {
->> +		kfree(bo);
->> +		return -ENOMEM;
->> +	}
->> +
->> +	copy_err = copy_from_user(bo->gather_data,
->> +				  u64_to_user_ptr(args->gather_data_ptr),
->> +				  copy_len);
->> +	if (copy_err) {
->> +		kfree(bo->gather_data);
->> +		kfree(bo);
->> +		return -EFAULT;
->> +	}
->> +
->> +	bo->gather_data_words = args->gather_data_words;
->> +
->> +	*pbo = bo;
->> +
->> +	return 0;
->> +}
->> +
->> +static int submit_write_reloc(struct gather_bo *bo,
->> +			      struct drm_tegra_submit_buf *buf,
->> +			      struct tegra_drm_mapping *mapping)
->> +{
->> +	/* TODO check that target_offset is within bounds */
->> +	dma_addr_t iova = mapping->iova + buf->reloc.target_offset;
->> +	u32 written_ptr = (u32)(iova >> buf->reloc.shift);
->> +
->> +#ifdef CONFIG_ARM64
->> +	if (buf->flags & DRM_TEGRA_SUBMIT_BUF_RELOC_BLOCKLINEAR)
->> +		written_ptr |= BIT(39);
->> +#endif
-> 
-> Sorry, but this still isn't correct. written_ptr is still only 32-bits
-> wide, so your BIT(39) is going to get discarded even on 64-bit ARM. The
-> idiomatic way to do this is to make written_ptr dma_addr_t and use a
-> CONFIG_ARCH_DMA_ADDR_T_64BIT guard. >
-> But even with that this looks wrong because you're OR'ing this in after
-> shifting by buf->reloc.shift. Doesn't that OR it in at the wrong offset?
-> Should you perhaps be doing this instead:
-> 
-> 	#ifdef CONFIG_ARCH_DMA_ADDR_T_64BIT
-> 		if (buf->flags & DRM_TEGRA_SUBMIT_BUF_RELOC_BLOCKLINEAR)
-> 			iova |= BIT(39);
-> 	#endif
-> 
-> 	written_ptr = (u32)(iova >> buf->reloc_shift);
-> 
-> ?
-
-Yes, you are of course right.. will fix this. That might explain some of 
-the VIC test failures I've seen.
-
-> 
-> Also, on a side-note: BLOCKLINEAR really isn't the right term here. I
-> recently dealt with this for display (though I haven't sent out that
-> patch yet) and this is actually a bit that selects which sector layout
-> swizzling is being applied. That's independent of block linear format
-> and I think you can have different sector layouts irrespective of the
-> block linear format (though I don't think that's usually done).
-> 
-> That said, I wonder if a better interface here would be to reuse format
-> modifiers here. That would allow us to more fully describe the format of
-> a surface in case we ever need it, and it already includes the sector
-> layout information as well.
-
-I think having just a flag that enables or disables the swizzling is 
-better -- that way it is the responsibility of the userspace, which is 
-where all the engine knowledge is as well, to know for each buffer 
-whether it wants swizzling or not. Now, in practice at the moment the 
-kernel can just lookup the format and set the bit based on that, but 
-e.g. if there was an engine that could do the swizzling natively, and we 
-had the format modifier here, we'd need to have the knowledge in the 
-kernel to decide for each chip/engine whether to apply the bit.
-
-For display it is a bit different since the knowledge is already in the 
-kernel.
-
-Mikko
-
-> 
-> Thierry
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TGUgbWFyLiAyMyBtYXJzIDIwMjEgw6AgMTU6MDcsIFJvYmVydCBGb3NzIDxyb2JlcnQuZm9zc0Bs
+aW5hcm8ub3JnPiBhIMOpY3JpdCA6Cj4KPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ICtzdGF0aWMgZW51
+bSBkcm1fY29ubmVjdG9yX3N0YXR1cyBsdDg5MTJfY2hlY2tfY2FibGVfc3RhdHVzKHN0cnVjdCBs
+dDg5MTIgKmx0KQo+ID4gPiA+ID4gPiArewo+ID4gPiA+ID4gPiArICAgICAgIGludCByZXQ7Cj4g
+PiA+ID4gPiA+ICsgICAgICAgdW5zaWduZWQgaW50IHJlZ192YWw7Cj4gPiA+ID4gPiA+ICsKPiA+
+ID4gPiA+ID4gKyAgICAgICByZXQgPSByZWdtYXBfcmVhZChsdC0+cmVnbWFwW0kyQ19NQUlOXSwg
+MHhDMSwgJnJlZ192YWwpOwo+ID4gPiA+ID4gPiArICAgICAgIGlmIChyZXQpCj4gPiA+ID4gPiA+
+ICsgICAgICAgICAgICAgICByZXR1cm4gY29ubmVjdG9yX3N0YXR1c191bmtub3duOwo+ID4gPiA+
+ID4gPiArCj4gPiA+ID4gPiA+ICsgICAgICAgaWYgKHJlZ192YWwgJiBCSVQoNykpCj4gPiA+ID4g
+PiA+ICsgICAgICAgICAgICAgICByZXR1cm4gY29ubmVjdG9yX3N0YXR1c19jb25uZWN0ZWQ7Cj4g
+PiA+ID4gPgo+ID4gPiA+ID4gUmVnaXN0ZXIgMHhjMCAmIEJJVCg3KSAtIEhQRCBzaWduYWwgYWZ0
+ZXIgZGVib3VuY2UKPiA+ID4gPiA+IFJlZ2lzdGVyIDB4YzAgJiBCSVQoNikgLSBIUEQgc2lnbmFs
+IGZvciBUWCBIUEQgcGFkCj4gPiA+ID4KPiA+ID4gPiBTbywgaWYgSSB1bmRlcnN0YW5kIHdlbGws
+IEkgbmVlZCB0byB3cml0ZSAweGMwICYgQklUKDYpIHdpdGggMSB0bwo+ID4gPiA+IGVuYWJsZSB0
+aGUgSFBEIHBpbi4KPiA+ID4KPiA+ID4gQWgsIHNvcnJ5IGFib3V0IGJlaW5nIGEgYml0IHRlcnNl
+Lgo+ID4gPgo+ID4gPiBCb3RoIGJpdCA2ICYgNyBhcmUgcmVhZCBvbmx5LCBhbmQgYXJlIHByb2Jh
+Ymx5IGJlc3QgcmVhZCBhZnRlciBhbiBJUlEuCj4gPgo+ID4gSW4gbXkgY2FzZSwgSVJRIGlzIG5v
+dCB0cmlnZ2VyZWQgYXQgYWxsLgo+Cj4gQXJlIHlvdSBzYXlpbmcgdGhhdCBwaW4gNjMgbmV2ZXIg
+aXMgaGlnaCwgb3IgdGhhdCBhbiBpcnEvaXNyIHJvdXRpbmUKPiBpc24ndCBnZXR0aW5nIGV4ZWN1
+dGVkPwo+Cj4gPiBXaGVuIHJlYWRpbmcgdGhlIHZhbHVlIG9mIHRoZSBIUEQgcGluLCBJIGFsd2F5
+cyBnZXQgMSAoYW5kIG5vCj4gPiB0cmFuc2l0aW9uIG9jY3VycyB3aGVuIHBsdWdnaW5nIC8gdW5w
+bHVnZ2luZyBhIGNhYmxlKS4KPiA+IFRoZSBIUEQgSVJRIGlzIGRvbmUgb24gdGhlIEhETUkgY29u
+bmVjdG9yIGRyaXZlciBbNV0uCj4gPiBJIHRoaW5rIGEgcmVnaXN0ZXIgY29uZmlndXJhdGlvbiBz
+aG91bGQgYmUgZG9uZSB0byBlbmFibGUgdGhlIElSUSBwaW4KPiA+IG9yIG1heWJlIHRoZXJlIGlz
+IGEgbnVnIGluIGVsZWN0cm9uaWNzLgo+Cj4gQWZ0ZXIgbG9va2luZyBhdCB0aGUgZG9jdW1lbnRh
+dGlvbiBhIGJpdCBtb3JlLCBJIHRoaW5rIHdlIGNhbiBpZ25vcmUKPiBwaW42MyBhbmQgaW5zdGVh
+ZCBoYXZlIGEgbG9vayBhdCBwaW4xNC4gSXQgaXMgdGhlIEhETUkgVFggSFBEIENvbnRyb2wKPiBw
+aW4uIEl0IGhhcyBhIDEwMGsgcHVsbC1kb3duLCBzbyBpdCBzaG91bGQgYmUgYWN0aXZlIGhpZ2gu
+CgpwaW42MyBpcyBhbHdheXMgYWN0aXZlIGhpZ2guCnBpbjE0IGlzIGNvbm5lY3RlZCB0byB0aGUg
+SERNSSBsb2dpYyAocGluIDE5IG9mIHRoZSBIRE1JIGNvbm5lY3RvcikKd2l0aCBhIDEwMGsgcHVs
+bC1kb3duLgoKPgo+IEkgYWxzbyBmb3VuZCBzb21lIGRpZmZlcmVudCBJMkMgYWRkcmVzc2VzIHRo
+YW4gd2hhdCB5b3UndmUgdXNlZCwgSQo+IGFzc3VtZSB0aGUgZGV2aWNlIGlzIGF2YWlsYWJsZSBv
+biBib3RoIGFkZHJlc3Nlcy4KPgo+IENoaXAgY29udHJvbCByZWdpc3RlcnMsIGFkZHJlc3M6MHg5
+MAo+IENFQyBjb250cm9sIHJlZ2lzdGVycywgYWRkcmVzcyAweDkyCj4KU3RyYW5nZSwgY29uZmln
+dXJhdGlvbiBzZWVtcyB0byBiZSB3b3JraW5nIHdlbGwgd2l0aCB0aGUgYWRkcmVzcyB1c2VkCmlu
+IG15IGRyaXZlci4KCj4gPiBUaGUgSFBEIHBpbiBpcyBsaW5rZWQgdG8gYSAyLjJrIHB1bGx1cCBy
+ZXNpc3RvciAobWF5YmUgaXQncyB3cm9uZykKPgo+IFRoZSBkYXRhc2hlZXQgaXNuJ3QgZW50aXJl
+bHkgY2xlYXIgYWJvdXQgaWYgcGluMTQgaGFzIGFuIGludGVybmFsIDEwMGsKPiBwdWxsLWRvd24s
+IG9yIGlmIHRoZXkgcmVjb21tZW5kIGFkZGluZyBhIDEwMGsgcHVsbC1kb3duLgo+Cj4gQnV0IHRo
+aXMgZG9lcyBzZWVtIGxpa2UgYW4gaXNzdWUuCgpwaW4xNCBjYW4ndCBiZSB1c2VkIGRpcmVjdGx5
+LiBJIGd1ZXNzIGl0J3MgdXNlZCBieSB0aGUgaW50ZXJuYWwgbG9naWMKb2YgdGhlIGNoaXAgdG8g
+Z2VuZXJhdGUgdGhlIEhQRCAocGluNjMpIHNpZ25hbC4KPgo+ID4KPiA+ID4KPiA+ID4gPiA+Cj4g
+PiA+ID4gPiA+ICsKPiA+ID4gPiA+ID4gK3N0YXRpYyBpbnQgbHQ4OTEyX3Byb2JlKHN0cnVjdCBp
+MmNfY2xpZW50ICpjbGllbnQsCj4gPiA+ID4gPiA+ICsgICAgICAgIGNvbnN0IHN0cnVjdCBpMmNf
+ZGV2aWNlX2lkICppZCkKPiA+ID4gPiA+ID4gK3sKPiA+ID4gPiA+ID4gKyAgICAgICBzdGF0aWMg
+c3RydWN0IGx0ODkxMiAqbHQ7Cj4gPiA+ID4gPiA+ICsgICAgICAgaW50IHJldCA9IDA7Cj4gPiA+
+ID4gPiA+ICsgICAgICAgc3RydWN0IGRldmljZSAqZGV2ID0gJmNsaWVudC0+ZGV2Owo+ID4gPiA+
+ID4gPiArCj4gPiA+ID4gPiA+ICsgICAgICAgbHQgPSBkZXZtX2t6YWxsb2MoZGV2LCBzaXplb2Yo
+c3RydWN0IGx0ODkxMiksIEdGUF9LRVJORUwpOwo+ID4gPiA+ID4gPiArICAgICAgIGlmICghbHQp
+Cj4gPiA+ID4gPiA+ICsgICAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsKPiA+ID4gPiA+ID4g
+Kwo+ID4gPiA+ID4gPiArICAgICAgIGx0LT5kZXYgPSBkZXY7Cj4gPiA+ID4gPiA+ICsgICAgICAg
+bHQtPmkyY19jbGllbnRbMF0gPSBjbGllbnQ7Cj4gPiA+ID4gPiA+ICsgICAgICAgbHQtPmNhYmxl
+X3N0YXR1cyA9IGNvbm5lY3Rvcl9zdGF0dXNfdW5rbm93bjsKPiA+ID4gPiA+ID4gKyAgICAgICBs
+dC0+d29ya3EgPSBjcmVhdGVfd29ya3F1ZXVlKCJsdDg5MTJfd29ya3EiKTsKPiA+ID4gPiA+Cj4g
+PiA+ID4gPiBMb29raW5nIGF0IFsxXSBhbmQgbWF5YmUgZXZlbiBiZXR0ZXIgWzJdLCBJIHRoaW5r
+IHRoaXMgcG9sbGluZwo+ID4gPiA+ID4gYXBwcm9hY2ggaXMgdGhlIHdyb25nIHdheSB0byBnby4g
+QW5kIHdpdGggYWNjZXNzIHRvIGRvY3VtZW50YXRpb24sIEkKPiA+ID4gPiA+IHRoaW5rIHdlIHNo
+b3VsZCBiZSBhYmxlIHRvIHNvcnQgdGhpcyBvdXQuCj4gPiA+ID4KPiA+ID4gPiBJIG5laXRoZXIg
+bGlrZSB0aGUgcG9sbGluZyBhcHByb2FjaCB0b28uIEkgZGlkIGl0IHRvIGdvIG9uIHRoaXMgaXNz
+dWUuCj4gPiA+ID4gSSB3aWxsIHRvdGFsbHkgcmVtb3ZlIGl0IG9uY2UgdGhlIEhQRCBpc3N1ZSB3
+aWxsIGJlIHJlc29sdmVkLgo+ID4gPiA+ID4KPiA+ID4gPiA+IFVzaW5nIHRoZSBpcnEgZHJpdmVy
+IGFwcHJvYWNoIHJlcXVpcmVzIHRoZSBpbnRlcnJ1cHQgcGluIHRvIGJlCj4gPiA+ID4gPiBjb25m
+aWd1cmVkLiBQaW4gNjMgb2YgdGhlIGx0ODkxMmIgaXMgdGhlIElSUSBvdXRwdXQgcGluLgo+ID4g
+PiA+ID4KPiA+ID4gPiA+IEluIG9yZGVyIHRvIHRyaWdnZXIgaW50ZXJydXB0cyBiYXNlZCBvbiBp
+dCwgdGhlIGR0LWJpbmRpbmcgd291bGQgbmVlZAo+ID4gPiA+ID4gdG8gYmUgdXBkYXRlZFszXVs0
+XSBhcyB3ZWxsIGFzIHdoaWNoZXZlciBEVFMgeW91J3JlIHVzaW5nLgo+ID4gPiA+ID4KPiA+ID4g
+Pgo+ID4gPiA+IFRoZSBJUlEgcGFydCBpcyB3b3JraW5nIHdlbGwgaW4gbXkgRFRCLiBJdCB0ZXN0
+IGl0IGJ5IGFkZGluZyBzb21lCj4gPiA+ID4gZWxlY3Ryb25pY3MgdG8gZW11bGF0ZSB0aGUgSFBE
+IHBpbiBvbiB0aGUgR1BJTyBleHBhbmRlciB3aGVyZSB0aGUgSFBECj4gPiA+ID4gcGluIGlzIGxp
+bmtlZC4KPiA+ID4KPiA+ID4gTG9va2luZyBhdCB0aGUgZHQtYmluZGluZyBwYXRjaCwgaXQgZG9l
+cyBub3Qgc2VlbSB0byBsaXN0IGFueQo+ID4gPiBpbnRlcnJ1cHRzLiBTbyB0aGF0IHNob3VsZCBi
+ZSBhZGRlZC4gSSB0aGluayB0aGUgaXJxIHN1cHBvcnQgZnJvbSBbM10KPiA+ID4gJiBbNF0gY2Fu
+IGJlIHByZXR0eSBtdWNoIGNvcGllZC4KPiA+ID4KPiA+ID4gVGhlbiB3ZSBjYW4gY29tZSBiYWNr
+IGFuZCByZXBsYWNlIHRoZSBwb2xsaW5nIGNvZGUgd2l0aCB0aGUgSVJRIGRyaXZlbgo+ID4gPiBj
+b2RlIGZyb20gWzJdLgo+ID4KPiA+IE15IGJvYXJkIHVzZXMgYSAibWF4NzMyMyIgR1BJTyBleHBh
+bmRlciBhbmQgdGhlIEhQRCBwaW4gaXMgbGlua2VkIHRvIGl0Lgo+ID4gSSB0ZXN0IHRoaXMgR1BJ
+TyBleHBhbmRlciBieSBzb2xkZXJpbmcgYSBwdWxsIHVwIHJlc2lzdG9yIGFuZCBhbgo+ID4gaW50
+ZXJydXB0IG9uIGl0IGFuZCBhbiBpbnRlcnJ1cHQgd2FzIGNvcnJlY3RseSB0cmlnZ2VyZWQgaW4g
+Ym90aAo+ID4gbWF4NzMyMyBkcml2ZXIgYW5kIGhkbWktY29ubmVjdG9yOwo+ID4gU28gSSBndWVz
+cyB0aGF0IG15IERUQiBjb25maWd1cmF0aW9uIGlzIGNvcnJlY3QuCj4gPiBJIG1hZGUgbXkgREJU
+IGNvbmZpZ3VyYXRpb24gYXZhaWxhYmxlOgo+ID4gICAtIGhkbWktY29ubmVjdG9yIG5vZGU6IFs2
+XQo+ID4gICAtIGx0ODkxMmIgbm9kZTogfDddCj4gPiAgIC0gbWF4NzMyMyBub2RlOiBbOF0uCj4K
+PiBMb29raW5nIGF0IFs3XSBJIHRoaW5rIHRoYXQgeW91IHdvdWxkIHdhbnQgdG8gYWRkIHNvbWV0
+aGluZyBsaWtlOgo+Cj4gaGRtaS1icmlkZ2VANDggewo+ICAgICAgICAgaW50ZXJydXB0cy1leHRl
+bmRlZCA9IDwmbWF4NzMyMyAkTFQ4OTEyQl9QSU5fMTQgSVJRX1RZUEVfRURHRV9SSVNJTkc+Owo+
+IH0KPgo+IEFuZCBvZiBjb3Vyc2UgYWRkIHRoZSBjb3JyZXNwb25kaW5nIHBhcnRzIGZyb20gWzJd
+IGFuZCBbM10uCj4KPiA+Cj4gPgo+ID4gPgo+ID4gPiA+Cj4gPiA+ID4gPgo+ID4gPiA+ID4gWzFd
+IGh0dHBzOi8vZ2l0aHViLmNvbS90b3J2YWxkcy9saW51eC9ibG9iL21hc3Rlci9kcml2ZXJzL2dw
+dS9kcm0vYnJpZGdlL2FuYWxvZ2l4L2FueDc2MjUuYyNMMTc1MQo+ID4gPiA+ID4KPiA+ID4gPiA+
+IFsyXSBodHRwczovL2dpdGh1Yi5jb20vdG9ydmFsZHMvbGludXgvYmxvYi92NS4xMS9kcml2ZXJz
+L2dwdS9kcm0vYnJpZGdlL2xvbnRpdW0tbHQ5NjExLmMjTDExNjAKPiA+ID4gPiA+Cj4gPiA+ID4g
+PiBbM10gaHR0cHM6Ly9naXRodWIuY29tL3RvcnZhbGRzL2xpbnV4L2Jsb2IvdjUuMTEvRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2xvbnRpdW0sbHQ5NjEx
+LnlhbWwjTDI3Cj4gPiA+ID4gPgo+ID4gPiA+ID4gWzRdIGh0dHBzOi8vZ2l0aHViLmNvbS90b3J2
+YWxkcy9saW51eC9ibG9iL3Y1LjExL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9k
+aXNwbGF5L2JyaWRnZS9sb250aXVtLGx0OTYxMS55YW1sI0wxNDQKPiA+Cj4gPiBbNV0gaHR0cHM6
+Ly9naXRodWIuY29tL3RvcnZhbGRzL2xpbnV4L2Jsb2IvbWFzdGVyL2RyaXZlcnMvZ3B1L2RybS9i
+cmlkZ2UvZGlzcGxheS1jb25uZWN0b3IuYyNMMTk5Cj4gPiBbNl0gaHR0cHM6Ly9naXRodWIuY29t
+L2dyYXNzZWFkL2xpbnV4LW5leHQvYmxvYi9tYXN0ZXIvYXJjaC9hcm02NC9ib290L2R0cy9mcmVl
+c2NhbGUvaW14OG1xLW5pdHJvZ2VuLmR0cyNMMzcKPiA+IFs3XSBodHRwczovL2dpdGh1Yi5jb20v
+Z3Jhc3NlYWQvbGludXgtbmV4dC9ibG9iL21hc3Rlci9hcmNoL2FybTY0L2Jvb3QvZHRzL2ZyZWVz
+Y2FsZS9pbXg4bXEtbml0cm9nZW4uZHRzI0wyNDkKPiA+IFs4XSBodHRwczovL2dpdGh1Yi5jb20v
+Z3Jhc3NlYWQvbGludXgtbmV4dC9ibG9iL21hc3Rlci9hcmNoL2FybTY0L2Jvb3QvZHRzL2ZyZWVz
+Y2FsZS9pbXg4bXEtbml0cm9nZW4uZHRzI0wyOTEKPiA+Cj4gPgo+ID4gVGhhbmtzLAoKTWF5YmUg
+dGhlIGNvbmNsdXNpb24gaXMgdGhhdCB3ZSBjYW5ub3QgaGF2ZSB0aGUgSFBEIHdvcmtpbmcuCgpU
+aGFua3MsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
