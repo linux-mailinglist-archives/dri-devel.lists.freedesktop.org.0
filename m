@@ -2,47 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D29345D9A
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 13:06:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B36345D9B
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 13:06:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A0BA6E8CF;
-	Tue, 23 Mar 2021 12:06:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FA1A6E8D6;
+	Tue, 23 Mar 2021 12:06:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A26AC6E8CF;
- Tue, 23 Mar 2021 12:06:00 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1616501159; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ubkNv0IBq9hFDX1nFQfvcQDGdBJM58OvXcv+fHHXwRE=;
- b=Q0cBfWAKpz0mIo+FE3mbbdmuM+ij28enHdJQhee5v9eHvN6yRojHDoNMMQsc2l4gP6DCSY
- X0Edvz00l2QWoysRCcVX7Y/aPFsq5YyNfjbvgpb3bNq/VJqCMOZaNjxj9raYIOAwTRC2RY
- z1O+TdpGTCboqRQOWIx9Ip3UdoKhalo=
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3C003AD6D;
- Tue, 23 Mar 2021 12:05:59 +0000 (UTC)
-Date: Tue, 23 Mar 2021 13:05:58 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH] drm/ttm: stop warning on TT shrinker failure
-Message-ID: <YFnZpjym0vfOU+Nr@dhcp22.suse.cz>
-References: <e6e9df3e-cd2b-d80f-205d-6ca1865819b2@gmail.com>
- <YFigZ5+H95c/GI/S@phenom.ffwll.local>
- <20210322140548.GN1719932@casper.infradead.org>
- <YFi+UROYbQERYEEr@dhcp22.suse.cz>
- <CAKMK7uGM6EJvzktrANyeeemRPoW7O0ka-ZyKi==wL1zt3yM=5w@mail.gmail.com>
- <c78457bb-d93a-ff84-1cce-0fb3fa9f0cec@gmail.com>
- <YFma+ZxncvfBd++o@dhcp22.suse.cz>
- <YFnQ1Lk6BTo8L7pr@phenom.ffwll.local>
- <YFnVMRNmWG+qv+4i@dhcp22.suse.cz>
- <d1d7170b-7566-32c3-9883-49e5573e7339@gmail.com>
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 692156E8D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 12:06:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:Message-ID:References:
+ In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=kTDRd9zfjfWlZO3tHtMdx+hS2YN0gHdMTk7iiOS/mIg=; b=sQ8zIji8VssD74x9oEgyE8zgxC
+ ZEDjCKo4eORExUTikYJiHBnU+oSV/3qmeGbhdvimvM8UTQm5BdwjODDLO1qiNdI0VEqW59yCqjOnB
+ ysW1nF0KimyjzMyDKoX5s4DwTYy/cOknsjqODA+NY+oJ7eDxh4NmAPDL+Z0sn21GViQ40x4uSklAh
+ U1+873PocB64BfgpAM3HIpXOAdWn6sZ+8Yv86yRk1tKuqdcZ+B0uMhI891+wKDMtcofI0u8EHwut0
+ QRrsYuUDRApvW+uNwgKfx+5tIcpFB1cjOW3W+RUbAu/UprlScKghT4KBsvw8iPMBw/+jLylD1I6Sb
+ Zs2lh/sw==;
+Received: from webng-gw.kapsi.fi ([91.232.154.200] helo=roundcube.kapsi.fi)
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <jyri.sarha@iki.fi>)
+ id 1lOfnO-0007tU-DR; Tue, 23 Mar 2021 14:06:02 +0200
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <d1d7170b-7566-32c3-9883-49e5573e7339@gmail.com>
+Date: Tue, 23 Mar 2021 14:05:59 +0200
+From: Jyri Sarha <jyri.sarha@iki.fi>
+To: Dario Binacchi <dariobin@libero.it>
+Subject: Re: [PATCH v3 0/3] drm/tilcdc: fix LCD pixel clock setting
+In-Reply-To: <20210322213337.26667-1-dariobin@libero.it>
+References: <20210322213337.26667-1-dariobin@libero.it>
+User-Agent: Roundcube Webmail/1.4.11
+Message-ID: <ea8c24d101444baf61cdaae62a320d9e@iki.fi>
+X-Sender: jyri.sarha@iki.fi
+X-SA-Exim-Connect-IP: 91.232.154.200
+X-SA-Exim-Mail-From: jyri.sarha@iki.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,64 +53,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Wilcox <willy@infradead.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Linux MM <linux-mm@kvack.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Dave Chinner <dchinner@redhat.com>, Leo Liu <Leo.Liu@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, Tomi Valkeinen <tomba@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue 23-03-21 12:51:13, Christian K=F6nig wrote:
-> =
+Thanks,
 
-> =
+Reviewed-by: Jyri Sarha <jyri.sarha@iki.fi>
+for the series.
 
-> Am 23.03.21 um 12:46 schrieb Michal Hocko:
-> > On Tue 23-03-21 12:28:20, Daniel Vetter wrote:
-> > > On Tue, Mar 23, 2021 at 08:38:33AM +0100, Michal Hocko wrote:
-> > [...]
-> > > > > > fs_reclaim_acquire is there to make sure lockdep understands th=
-at this
-> > > > > > is a shrinker and that it checks all the dependencies for us li=
-ke if
-> > > > > > we'd be in real reclaim. There is some drop caches interfaces i=
-n proc
-> > > > > > iirc, but those drop everything, and they don't have the fs_rec=
-laim
-> > > > > > annotations to teach lockdep about what we're doing.
-> > > > ... I really do not follow this. You shouldn't really care whether =
-this
-> > > > is a reclaim interface or not. Or maybe I just do not understand th=
-is...
-> > > We're heavily relying on lockdep and fs_reclaim to make sure we get i=
-t all
-> > > right. So any drop caches interface that isn't wrapped in fs_reclaim
-> > > context is kinda useless for testing. Plus ideally we want to only hi=
-t our
-> > > own paths, and not trash every other cache in the system. Speed matte=
-rs in
-> > > CI.
-> > But what is special about this path to hack around and make it pretend
-> > it is part of the fs reclaim path?
-> =
+I'll merge these later today.
 
-> That's just to teach lockdep that there is a dependency.
-> =
+Best regards,
+Jyri
 
-> In other words we pretend in the debugfs file that it is part of the fs
-> reclaim path to check for the case when it really becomes part of the fs
-> reclaim path.
-
-OK, our emails crossed and I can see your response only after replying
-to your other email. OK, this makes more sense now. But as pointed in
-other email this will likely not do what you think. Let's continue
-discussing in the other subthread to reduce the further confusion.
--- =
-
-Michal Hocko
-SUSE Labs
+On 2021-03-22 23:33, Dario Binacchi wrote:
+> The series was born from a patch to fix the LCD pixel clock setting.
+> Two additional patches have been added to this. One renames a 
+> misleading
+> variable name that was probably the cause of the bug and the other 
+> fixes
+> a warning message.
+> 
+> 
+> Changes in v3:
+> - Replace calculated with requested in the warning message.
+> - Swap the positions of the real_pclk_rate, and pclk_rate parameters
+>   in the warning message.
+> 
+> Changes in v2:
+> - The patch has been added in version 2.
+> - Rename clk_div_rate to real_pclk_rate.
+> - Provide pixel clock rate to tilcdc_pclk_diff().
+> - The patch has been added in version 2.
+> 
+> Dario Binacchi (3):
+>   drm/tilcdc: rename req_rate to pclk_rate
+>   drm/tilcdc: fix LCD pixel clock setting
+>   drm/tilcdc: fix pixel clock setting warning message
+> 
+>  drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
