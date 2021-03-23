@@ -2,56 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C4C345D24
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 12:40:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E051D345D2F
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 12:43:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D7FA6E8C1;
-	Tue, 23 Mar 2021 11:40:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FAAE6E897;
+	Tue, 23 Mar 2021 11:43:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com
- [IPv6:2607:f8b0:4864:20::82b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BD986E8C1;
- Tue, 23 Mar 2021 11:40:47 +0000 (UTC)
-Received: by mail-qt1-x82b.google.com with SMTP id g24so14600826qts.6;
- Tue, 23 Mar 2021 04:40:47 -0700 (PDT)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A29F6E897
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 11:43:02 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id u21so8582082ejo.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 04:43:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hjoUEjiPs4obZpnFDYX88/a+N8y4v+2RtSYCal3LPRs=;
- b=dCRh/OLWY5x/I7JLl2BAmB/SCbMtTKYgdZYw37L7aF7ChaagGNYmv8NMMI30I0ucO8
- 9qJZgGyrT6J6Ou7oq/GfzIcSE65NOXLyou9yySzuR2DwBZLkrhuizXcBa8ZpogOgQKc/
- 3/eU7KzT/rk+r10ScsuXbB/KyI3UI/Org6S0I2csFoYdTtTYrIn+ZE/Raix32fR9tbGY
- VZd/LXP3zAUpTdrOpU5o+dZt5+yiuOHZyYrKxCtpBbGRgMFGXgf2hhttkgGRLMeiZlSe
- 30aJ75KdL4xmTQbymiFdIodhGvjYaEmIsfhrqLmDikst/uQh/gB+ibCwCVHQYV5Ids2C
- kGgA==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=VaxC2sCz35SELYarA1nVbhlcYnmw1I0wgdU0rKr1+Bo=;
+ b=SZFCvTjocNToYKrMlzves30KQn/4ugHEhypte9Wgnpc6Mz4M5KGTAgqXZQ5IopHSu5
+ 1X53U4E1w5+v579M4QVD6+pjhRINaY7y4CZ0kABEUFMIpXd+P/HP0WL6I3wFtQVRldXB
+ X8zrp1cFaivGxRMP97zDorEi6B79B+ezgmH15bTn8XqgsUIVE9hEW3UWxcHEpFC9caVH
+ AnWbst59tYUVWgxzyUGDT+tUYSYiZOWOWPgD9+h0AAKBDTml3qi2kzZhRKonM7A3iKFe
+ +vdlDqPUYxGOmlixkidL8aNWixVeyecJsUynf9ALcp4WJzw2fPJpoEn4LJG9uGr7cPor
+ 0FgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hjoUEjiPs4obZpnFDYX88/a+N8y4v+2RtSYCal3LPRs=;
- b=qH41HAIdeR7pwxzUOmwr/6Q0HoeWUH+r/q0qOx7ZL7W96fm38AzvVrXr/sxUeCdwIC
- u0IqPjWLfSymvRJQ36G1mCyM872qFhzdtFAYGiNrqNvrF4XK+VCiCYUOhS9uNU1SWVUq
- 3GGQ2mh41ozHuK39o1xi55dqCtlxVqUoff8D9bRsoDC3qpvmFM9c/t6t47tfR3QEU8Ob
- FSSwxz40l3L1xhiEXOsR0bXSpEBzEJpkZGbzr+p/8yhmTHti2mgzwhz+buyicIBD98yG
- wIG2sBKPVxpvvsW42IifHjBhIOluv74/s1JBp1zC3yfnSBKcrLvDhZRI53JKyRR13hAJ
- ZoDg==
-X-Gm-Message-State: AOAM530iLj1+miSV9dlUcTDkTOBP8NItLkoWt4noC+HFhYaSw68Mi9lI
- i8DbozhkH88OgjJKYWzq08jPIh13GGDIMDI4VJU=
-X-Google-Smtp-Source: ABdhPJyVvpEd6NHLzPTLCVl4KHDldTvOTeMGAGZRFZI/+GyB8FuE4v/E62vnthLfgwLS9lW/BET+4rjra1Q7TLmr3nc=
-X-Received: by 2002:ac8:5510:: with SMTP id j16mr3817886qtq.339.1616499646089; 
- Tue, 23 Mar 2021 04:40:46 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=VaxC2sCz35SELYarA1nVbhlcYnmw1I0wgdU0rKr1+Bo=;
+ b=XyKl2C+Qph1XIXs6NyRD1nKSQTwyCvcwcXygiApOq33ulOekDhcp8qvqSN+X4sBlp2
+ fDKpM2mXY4TZbSUV18EhzYPxqGU075CvlfO3ShZpBNZIEUGkrCH/w6NVQsRu/M+sdhAw
+ ILebetDdU36sJ8qK9FrW/9p6OB+sdiXXzvYuJv2W+jjg2ToSdfR9Gn5v20X8i1vT8JR3
+ dGccwnPgTFAAlwe0Uy+TR78CSCYyEpma1R5JafNJTkZVLivnXZ2ruVDmSZUbxRm8uH0x
+ wD99Lq1XK9R1MTYxl/dKFc8cmg8VJCDY/WEjdANNCxGH9JsMtLDFwG0j8W0NKB8PporD
+ tYTQ==
+X-Gm-Message-State: AOAM532nj8MQ2mHQjFm9m31UKFhDwSjWK4a/53t0W3aOqWbWr4zJlnVh
+ lsPUj9GIu3GVzLXyuhjIftc=
+X-Google-Smtp-Source: ABdhPJxYie+1JqR5XcEK9u9R0ru43ikw86kGloCOE3hKdl6HvWD/1yB2QptgTwB1DLNpxZcVtKWelw==
+X-Received: by 2002:a17:906:151a:: with SMTP id
+ b26mr4526305ejd.492.1616499780582; 
+ Tue, 23 Mar 2021 04:43:00 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id u15sm12959386eds.6.2021.03.23.04.42.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Mar 2021 04:42:55 -0700 (PDT)
+Date: Tue, 23 Mar 2021 12:43:15 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Mikko Perttunen <cyndis@kapsi.fi>
+Subject: Re: [PATCH v5 07/21] gpu: host1x: Introduce UAPI header
+Message-ID: <YFnUU0gZE0zVMevp@orome.fritz.box>
+References: <20210111130019.3515669-1-mperttunen@nvidia.com>
+ <20210111130019.3515669-8-mperttunen@nvidia.com>
+ <YFnIef+dDuqLv5Ek@orome.fritz.box>
+ <47840607-8e7c-cc02-bf9b-e001c91f7354@kapsi.fi>
 MIME-Version: 1.0
-References: <20210318170419.2107512-5-tvrtko.ursulin@linux.intel.com>
- <20210322132937.2165901-1-tvrtko.ursulin@linux.intel.com>
- <CAM0jSHM=o3pdsuSTd2hFh6mRqCiJVPhXgjRMLLGT=N8Q+SAWwQ@mail.gmail.com>
- <a5feaa5f-3086-952d-8edf-c66c18ce95b7@linux.intel.com>
-In-Reply-To: <a5feaa5f-3086-952d-8edf-c66c18ce95b7@linux.intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Tue, 23 Mar 2021 11:40:19 +0000
-Message-ID: <CAM0jSHNYR+j9SmQ68QkWk92XWv89o4O1GA00L0dMdSTBoK0Rcw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v3 4/6] drm/i915: Request watchdog
- infrastructure
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+In-Reply-To: <47840607-8e7c-cc02-bf9b-e001c91f7354@kapsi.fi>
+User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,290 +70,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
+ talho@nvidia.com, bhuntsman@nvidia.com, linux-tegra@vger.kernel.org,
+ digetx@gmail.com, Mikko Perttunen <mperttunen@nvidia.com>
+Content-Type: multipart/mixed; boundary="===============1119001023=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 Mar 2021 at 11:09, Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 23/03/2021 10:54, Matthew Auld wrote:
-> > On Mon, 22 Mar 2021 at 13:29, Tvrtko Ursulin
-> > <tvrtko.ursulin@linux.intel.com> wrote:
-> >>
-> >> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> >>
-> >> Prepares the plumbing for setting request/fence expiration time. All code
-> >> is put in place but is never activeted due yet missing ability to actually
-> >
-> >                   activated
-> >
-> >> configure the timer.
-> >>
-> >> Outline of the basic operation:
-> >>
-> >> A timer is started when request is ready for execution. If the request
-> >> completes (retires) before the timer fires, timer is cancelled and nothing
-> >> further happens.
-> >>
-> >> If the timer fires request is added to a lockless list and worker queued.
-> >> Purpose of this is twofold: a) It allows request cancellation from a more
-> >> friendly context and b) coalesces multiple expirations into a single event
-> >> of consuming the list.
-> >>
-> >> Worker locklessly consumes the list of expired requests and cancels them
-> >> all using previous added i915_request_cancel().
-> >>
-> >> Associated timeout value is stored in rq->context.watchdog.timeout_us.
-> >>
-> >> v2:
-> >>   * Log expiration.
-> >>
-> >> v3:
-> >>   * Include more information about user timeline in the log message.
-> >>
-> >> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> >> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >> ---
-> >>   drivers/gpu/drm/i915/gt/intel_context_types.h |  4 ++
-> >>   .../drm/i915/gt/intel_execlists_submission.h  |  2 +
-> >>   drivers/gpu/drm/i915/gt/intel_gt.c            |  3 +
-> >>   drivers/gpu/drm/i915/gt/intel_gt.h            |  2 +
-> >>   drivers/gpu/drm/i915/gt/intel_gt_requests.c   | 28 ++++++++++
-> >>   drivers/gpu/drm/i915/gt/intel_gt_types.h      |  7 +++
-> >>   drivers/gpu/drm/i915/i915_request.c           | 56 +++++++++++++++++++
-> >>   drivers/gpu/drm/i915/i915_request.h           |  8 +++
-> >>   8 files changed, 110 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> >> index 0ea18c9e2aca..65a5730a4f5b 100644
-> >> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-> >> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> >> @@ -99,6 +99,10 @@ struct intel_context {
-> >>   #define CONTEXT_FORCE_SINGLE_SUBMISSION        7
-> >>   #define CONTEXT_NOPREEMPT              8
-> >>
-> >> +       struct {
-> >> +               u64 timeout_us;
-> >> +       } watchdog;
-> >> +
-> >>          u32 *lrc_reg_state;
-> >>          union {
-> >>                  struct {
-> >> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.h b/drivers/gpu/drm/i915/gt/intel_execlists_submission.h
-> >> index f7bd3fccfee8..4ca9b475e252 100644
-> >> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.h
-> >> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.h
-> >> @@ -6,6 +6,7 @@
-> >>   #ifndef __INTEL_EXECLISTS_SUBMISSION_H__
-> >>   #define __INTEL_EXECLISTS_SUBMISSION_H__
-> >>
-> >> +#include <linux/llist.h>
-> >>   #include <linux/types.h>
-> >>
-> >>   struct drm_printer;
-> >> @@ -13,6 +14,7 @@ struct drm_printer;
-> >>   struct i915_request;
-> >>   struct intel_context;
-> >>   struct intel_engine_cs;
-> >> +struct intel_gt;
-> >>
-> >>   enum {
-> >>          INTEL_CONTEXT_SCHEDULE_IN = 0,
-> >> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> >> index ca76f93bc03d..8d77dcbad059 100644
-> >> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> >> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> >> @@ -31,6 +31,9 @@ void intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915)
-> >>          INIT_LIST_HEAD(&gt->closed_vma);
-> >>          spin_lock_init(&gt->closed_lock);
-> >>
-> >> +       init_llist_head(&gt->watchdog.list);
-> >> +       INIT_WORK(&gt->watchdog.work, intel_gt_watchdog_work);
-> >> +
-> >>          intel_gt_init_buffer_pool(gt);
-> >>          intel_gt_init_reset(gt);
-> >>          intel_gt_init_requests(gt);
-> >> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
-> >> index a17bd8b3195f..7ec395cace69 100644
-> >> --- a/drivers/gpu/drm/i915/gt/intel_gt.h
-> >> +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
-> >> @@ -78,4 +78,6 @@ static inline bool intel_gt_is_wedged(const struct intel_gt *gt)
-> >>   void intel_gt_info_print(const struct intel_gt_info *info,
-> >>                           struct drm_printer *p);
-> >>
-> >> +void intel_gt_watchdog_work(struct work_struct *work);
-> >> +
-> >>   #endif /* __INTEL_GT_H__ */
-> >> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> >> index 36ec97f79174..fbfd19b2e5f2 100644
-> >> --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> >> +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> >> @@ -8,6 +8,7 @@
-> >>   #include "i915_drv.h" /* for_each_engine() */
-> >>   #include "i915_request.h"
-> >>   #include "intel_engine_heartbeat.h"
-> >> +#include "intel_execlists_submission.h"
-> >>   #include "intel_gt.h"
-> >>   #include "intel_gt_pm.h"
-> >>   #include "intel_gt_requests.h"
-> >> @@ -242,4 +243,31 @@ void intel_gt_fini_requests(struct intel_gt *gt)
-> >>   {
-> >>          /* Wait until the work is marked as finished before unloading! */
-> >>          cancel_delayed_work_sync(&gt->requests.retire_work);
-> >> +
-> >> +       flush_work(&gt->watchdog.work);
-> >> +}
-> >> +
-> >> +void intel_gt_watchdog_work(struct work_struct *work)
-> >> +{
-> >> +       struct intel_gt *gt =
-> >> +               container_of(work, typeof(*gt), watchdog.work);
-> >> +       struct i915_request *rq, *rn;
-> >> +       struct llist_node *first;
-> >> +
-> >> +       first = llist_del_all(&gt->watchdog.list);
-> >> +       if (!first)
-> >> +               return;
-> >> +
-> >> +       llist_for_each_entry_safe(rq, rn, first, watchdog.link) {
-> >> +               if (!i915_request_completed(rq)) {
-> >> +                       struct dma_fence *f = &rq->fence;
-> >> +
-> >> +                       pr_notice("Fence expiration time out i915-%s:%s:%llx!\n",
-> >> +                                 f->ops->get_driver_name(f),
-> >> +                                 f->ops->get_timeline_name(f),
-> >> +                                 f->seqno);
-> >> +                       i915_request_cancel(rq, -EINTR);
-> >> +               }
-> >> +               i915_request_put(rq);
-> >> +       }
-> >>   }
-> >> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> >> index 626af37c7790..d70ebcc6f19f 100644
-> >> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> >> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> >> @@ -8,10 +8,12 @@
-> >>
-> >>   #include <linux/ktime.h>
-> >>   #include <linux/list.h>
-> >> +#include <linux/llist.h>
-> >>   #include <linux/mutex.h>
-> >>   #include <linux/notifier.h>
-> >>   #include <linux/spinlock.h>
-> >>   #include <linux/types.h>
-> >> +#include <linux/workqueue.h>
-> >>
-> >>   #include "uc/intel_uc.h"
-> >>
-> >> @@ -62,6 +64,11 @@ struct intel_gt {
-> >>                  struct delayed_work retire_work;
-> >>          } requests;
-> >>
-> >> +       struct {
-> >> +               struct llist_head list;
-> >> +               struct work_struct work;
-> >> +       } watchdog;
-> >> +
-> >>          struct intel_wakeref wakeref;
-> >>          atomic_t user_wakeref;
-> >>
-> >> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> >> index b4511ac05e9a..9dd5e588b0a4 100644
-> >> --- a/drivers/gpu/drm/i915/i915_request.c
-> >> +++ b/drivers/gpu/drm/i915/i915_request.c
-> >> @@ -277,6 +277,57 @@ static void remove_from_engine(struct i915_request *rq)
-> >>          __notify_execute_cb_imm(rq);
-> >>   }
-> >>
-> >> +static void __rq_init_watchdog(struct i915_request *rq)
-> >> +{
-> >> +       rq->watchdog.timer.function = NULL;
-> >> +}
-> >> +
-> >> +static enum hrtimer_restart __rq_watchdog_expired(struct hrtimer *hrtimer)
-> >> +{
-> >> +       struct i915_request *rq =
-> >> +               container_of(hrtimer, struct i915_request, watchdog.timer);
-> >> +       struct intel_gt *gt = rq->engine->gt;
-> >> +
-> >> +       if (!i915_request_completed(rq)) {
-> >> +               if (llist_add(&rq->watchdog.link, &gt->watchdog.list))
-> >> +                       schedule_work(&gt->watchdog.work);
-> >> +       } else {
-> >> +               i915_request_put(rq);
-> >> +       }
-> >> +
-> >> +       return HRTIMER_NORESTART;
-> >> +}
-> >> +
-> >> +static void __rq_arm_watchdog(struct i915_request *rq)
-> >> +{
-> >> +       struct i915_request_watchdog *wdg = &rq->watchdog;
-> >> +       struct intel_context *ce = rq->context;
-> >> +
-> >> +       if (!ce->watchdog.timeout_us)
-> >> +               return;
-> >> +
-> >> +       hrtimer_init(&wdg->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-> >> +       wdg->timer.function = __rq_watchdog_expired;
-> >> +       hrtimer_start_range_ns(&wdg->timer,
-> >> +                              ns_to_ktime(ce->watchdog.timeout_us *
-> >> +                                          NSEC_PER_USEC),
-> >> +                               /*
-> >> +                                * FIXME check if it gives the "not sooner"
-> >> +                                * guarantee or slack is both ways
-> >> +                                */
-> >
-> > It looks like the slack/fuzziness just delays the timer, in case it
-> > can coalesce multiple timer events. So shouldn't be sooner I think?
->
-> I couldn't quickly figure it out when I looked at the implementation so
-> I left this comment. But it was only relevant at a time I thought we
-> would be exposing context param to allow userspace control. With the
-> only user being default expiry which is not sensitive to precision or
-> accuracy, I simply need to remove this comment.
->
-> >
-> >> +                               NSEC_PER_MSEC,
-> >
-> > Formatting.
->
-> Which part? I think indentation/alignment is correct.
 
-@@ -311,11 +311,11 @@ static void __rq_arm_watchdog(struct i915_request *rq)
-        hrtimer_start_range_ns(&wdg->timer,
-                               ns_to_ktime(ce->watchdog.timeout_us *
-                                           NSEC_PER_USEC),
--                               /*
--                                * FIXME check if it gives the "not sooner"
--                                * guarantee or slack is both ways
--                                */
--                               NSEC_PER_MSEC,
-+                              /*
-+                               * FIXME check if it gives the "not sooner"
-+                               * guarantee or slack is both ways
-+                               */
-+                              NSEC_PER_MSEC,
-                               HRTIMER_MODE_REL);
-        i915_request_get(rq);
- }
+--===============1119001023==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="mQZPLCGLWiRYvdYR"
+Content-Disposition: inline
 
 
->
-> >
-> > Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-> >
->
-> Thanks,
->
-> Tvrtko
+--mQZPLCGLWiRYvdYR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Mar 23, 2021 at 01:12:36PM +0200, Mikko Perttunen wrote:
+> On 3/23/21 12:52 PM, Thierry Reding wrote:
+> > On Mon, Jan 11, 2021 at 03:00:05PM +0200, Mikko Perttunen wrote:
+[...]
+> > > +struct host1x_fence_extract_fence {
+> > > +	__u32 id;
+> > > +	__u32 threshold;
+> > > +};
+> > > +
+> > > +struct host1x_fence_extract {
+> > > +	/**
+> > > +	 * @fence_fd: [in]
+> > > +	 *
+> > > +	 * sync_file file descriptor
+> > > +	 */
+> > > +	__s32 fence_fd;
+> > > +
+> > > +	/**
+> > > +	 * @num_fences: [in,out]
+> > > +	 *
+> > > +	 * In: size of the `fences_ptr` array counted in elements.
+> > > +	 * Out: required size of the `fences_ptr` array counted in elements.
+> > > +	 */
+> > > +	__u32 num_fences;
+> > > +
+> > > +	/**
+> > > +	 * @fences_ptr: [in]
+> > > +	 *
+> > > +	 * Pointer to array of `struct host1x_fence_extract_fence`.
+> > > +	 */
+> > > +	__u64 fences_ptr;
+> > > +
+> > > +	__u32 reserved[2];
+> > > +};
+> >=20
+> > For the others it's pretty clear to me what the purpose is, but I'm at a
+> > complete loss with this one. What's the use-case for this?
+>=20
+> This is needed to process incoming prefences for userspace-programmed
+> engines -- mainly, the GPU with usermode submit enabled.
+
+I'm not sure what GPU usermode submit is. The name would imply that it's
+somehow a mechanism to submit work to the GPU without getting the kernel
+involved at all. That's something we'd have to clarify with the Nouveau
+team to see if it's something they'd consider implementing, or implement
+it ourselves.
+
+Currently there's no interoperation at the syncpoint level between
+Nouveau and Tegra DRM, so Nouveau on Tegra doesn't use any syncpoints at
+all and hence there's currently no use at all for this kind of API.
+
+> To align with other upstream code, I've been thinking of removing this wh=
+ole
+> UAPI; moving the syncpoint allocation part to the DRM UAPI, and dropping =
+the
+> sync_file stuff altogether (if we have support for job submission outputt=
+ing
+> syncobjs, those could still be converted into sync_files). This doesn't
+> support usecases like GPU usermode submit, so for downstream we'll have to
+> add it back in, though. Would like to hear your opinion on it as well.
+
+That certainly sounds like a much easier sell because we have use-cases
+for all of that. Along with your patches for NVDEC, the existing
+userspace for VIC and your work-in-progress NVDEC userspace, this should
+cover all the requirements.
+
+Long story short, I think we have some ground to cover before we can
+start thinking about how to do GPU usermode submits in an upstream
+stack. As such we have no clear idea of what this is going to look like
+in the end, or if it's going to be supported at all, so I think it'd be
+best to move forward with your alternate proposal and move the syncpoint
+functionality into Tegra DRM so that it can be used for VIC, NVDEC and
+potentially other engines. If we ever get to the point of having to
+support GPU usermode submit, we can take another look at how best to
+support it.
+
+Thierry
+
+--mQZPLCGLWiRYvdYR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmBZ1FEACgkQ3SOs138+
+s6FF9w/7BCBU2eODWHNrSVuxMU5iRLCDhOz+GSdLuhUD/oBZyRQksOk9+RFNEdJw
+mHcPLcIjgcJfsgOTwYNneLCLCCoeuMd7S4U16lzNFojXYjmPw6kPTG2oRX/TzDrJ
+3mrA2F1hmjlgCLbeq+hEffaCgo731OM/hzBE+EAPjTv9ch77zjUehw0BV6iQ8tGy
+fbnDVmQsQeBPVdnZkx0s+wSM839+B2qPNAtjb8kV5DF2+tbb1DXhtNKzanABlX6f
+AFlasqj8EdcNjPvC2j/W0g7BMh8haIUCzeSShdXCOGiEHg2V36eKfkuc+UOv7JgQ
+zknqZOkGKcxYzaGQA7w60DYlSjke8HPKDid2XGU2+O+Yh7rKR2sb6fFpWi/qh7VC
+eRZK4p8iToVAweGrZj2xSuOjQZ7kFAsYDROEHhaOygafQRl8z7nJ2H8c9fGKLRHH
+m7+gvPngNCn4hl0dFz5/AQW+tMPAB8wfHsb1fbTeFmf8VpluoEK+lTuW9WIvXeN2
+NAn0EZFrW8ZizedktTlT/EbshsiwACjic/m+6XQgVsH/f+C5EvLjuXgDwegCZucH
+t7rQSYnXt9jyhA2JdE3kjskJAoriDJ3EcByfnmQiez30/Q/U7DJ3IgxKKrgmulE/
+MiYe482KjgT5aX5V+2ueV/qhPk04DPWfCKogfit8/Tt80xx5uh0=
+=+6T0
+-----END PGP SIGNATURE-----
+
+--mQZPLCGLWiRYvdYR--
+
+--===============1119001023==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1119001023==--
