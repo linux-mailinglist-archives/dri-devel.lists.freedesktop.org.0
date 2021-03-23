@@ -1,42 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F00345BBB
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 11:13:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8128D345BC1
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 11:15:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E32C66E0D1;
-	Tue, 23 Mar 2021 10:13:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EA5E6E891;
+	Tue, 23 Mar 2021 10:15:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1792D6E0D1;
- Tue, 23 Mar 2021 10:13:27 +0000 (UTC)
-IronPort-SDR: wxatpHcl5lPVQs6FOjElyAwcnYynn4rkm9vYbMCuNZ6jEBxbohuTQbDfSUYh/ko6wASnBvaKKX
- XK9Bmf338fBg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="187130333"
-X-IronPort-AV: E=Sophos;i="5.81,271,1610438400"; d="scan'208";a="187130333"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2021 03:13:22 -0700
-IronPort-SDR: b0d+r6O/4DJ/yDbi3Yqo+mOTVjT+xUw0DEzn2aGjHuStMlF9xwfzjcCr3lJESaPLZ4WT5RtgAO
- GwvESc5BywPA==
-X-IronPort-AV: E=Sophos;i="5.81,271,1610438400"; d="scan'208";a="414918003"
-Received: from wjlloyd-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.53.124])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2021 03:13:14 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH 1/2] drm/i915: add gem/gt TODO
-In-Reply-To: <20210323084453.366863-1-daniel.vetter@ffwll.ch>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210323084453.366863-1-daniel.vetter@ffwll.ch>
-Date: Tue, 23 Mar 2021 12:13:11 +0200
-Message-ID: <874kh25gaw.fsf@intel.com>
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 398426E891
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 10:15:48 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id ce10so26129849ejb.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 03:15:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=48I/harJp5SFYdAiSNnqfmCnBx2x54xF8HcFi5UZqSQ=;
+ b=Xp8XHXX92pCDKw9t5n/6fSaijVRae//MN7Cq6RI6dD6ySoylR/J9A1PFjydvsNMUgG
+ ISOLGDvgE58o62xzFqiniirsEo5E05bMdnJPZRe9rJsHd8v4TBnol0uHGAxD7XlFnSta
+ YxUSQw1+KsbWE1K6oBfV+FpZgbmgpFBeSVQiKgIssilo0LEE5xn2UoSnMuR92+a7I5+D
+ sCldPb4YxulmStm98Wvkh8x+JRMGd/J58IxSIbrULVPS4OsYOM3C9QTQFcixp9IymbFQ
+ 9VaeDLIQWso9zoXvFmFCQiXV7eI0RAWYAdh3dKL5AxO+DK2bgyEnezCQcnlE7v0TbXlZ
+ gntA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=48I/harJp5SFYdAiSNnqfmCnBx2x54xF8HcFi5UZqSQ=;
+ b=rm9M99oEi+ANZq0Llp6gh8dqAcONohz0EcbFTzXXkc7GcAaMzXr8fXcRsz/dSSucqK
+ EU7sLAZVRyDP5niVPj3yt5M0oHaUWodnfYgB4MIZUx3/MLUvqFvnTfVF3Whdg4sETLlX
+ KP3q5L67d4nEhjZ6yyd9WJXqiJxIu32a6sJFzp2qvbFWLKBUvzmdvNl+pjrfeS2qzptD
+ ZYQLIneg3FcKL45D5SQZUklQ76VfQo1czk4e7a6OLyyrIn2deiOozszGcg88j89QOgr8
+ w0abShHllPLSdWhKN//CwKFG8Ie2Ffq7nud6/SrjjKZ8MYRPfszGwpuNbtGQ2ZRyyegc
+ WctQ==
+X-Gm-Message-State: AOAM531+9NLxJQeeXW3PMvCU1U5TazFy9V/r2GAfrFNgv9q3nZOQs12Y
+ BLbzdEnxqDGFBl22fpe9tww=
+X-Google-Smtp-Source: ABdhPJxDshgt293Mdas5gHS0qduPU8gItw9V1lC4YsedMrSMiuFVvvZX3Kp0vuEmKw9cfm1lw14F+w==
+X-Received: by 2002:a17:906:b20b:: with SMTP id
+ p11mr4269498ejz.0.1616494546922; 
+ Tue, 23 Mar 2021 03:15:46 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id mc10sm10753699ejb.56.2021.03.23.03.15.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Mar 2021 03:15:43 -0700 (PDT)
+Date: Tue, 23 Mar 2021 11:16:03 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Mikko Perttunen <mperttunen@nvidia.com>
+Subject: Re: [PATCH v5 03/21] gpu: host1x: Show number of pending waiters in
+ debugfs
+Message-ID: <YFm/431gaaP6wY1A@orome.fritz.box>
+References: <20210111130019.3515669-1-mperttunen@nvidia.com>
+ <20210111130019.3515669-4-mperttunen@nvidia.com>
 MIME-Version: 1.0
+In-Reply-To: <20210111130019.3515669-4-mperttunen@nvidia.com>
+User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,104 +69,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Ekstrand <jason@jlekstrand.net>,
- Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
+ talho@nvidia.com, bhuntsman@nvidia.com, linux-tegra@vger.kernel.org,
+ digetx@gmail.com
+Content-Type: multipart/mixed; boundary="===============2112283226=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 Mar 2021, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> We've discussed a bit how to get the gem/gt team better integrated
-> and collaborate more with the wider community and agreed to the
-> following:
->
-> - all gem/gt patches are reviewed on dri-devel for now. That's
->   overkill, but in the past there was definitely too little of that.
->
-> - i915-gem folks are encouraged to cross review core patches from
->   other teams
->
-> - big features (especially uapi changes) need to be discussed in an
->   rfc patch that documents the interface and big picture design,
->   before we get lost in the details of the code
->
-> - Also a rough TODO (can be refined as we go ofc) to get gem/gt back
->   on track, like we've e.g. done with DAL/DC to get that in shape.
 
-I personally think there should be a lower bar for discussing and
-editing the TODO items than via patches on the mailing list. Granted,
-the TODO file enforces the discussion happens at a large enough
-audience, but for at least some of the items I'd suggest filing gitlab
-issues [1], with todo label, and tracking there.
-
-BR,
-Jani.
+--===============2112283226==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3GrZ7xf99FimbSD3"
+Content-Disposition: inline
 
 
-[1] https://gitlab.freedesktop.org/drm/intel/-/issues
+--3GrZ7xf99FimbSD3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-
-
->
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+On Mon, Jan 11, 2021 at 03:00:01PM +0200, Mikko Perttunen wrote:
+> Show the number of pending waiters in the debugfs status file.
+> This is useful for testing to verify that waiters do not leak
+> or accumulate incorrectly.
+>=20
+> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 > ---
->  drivers/gpu/drm/i915/TODO.txt | 36 +++++++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
->  create mode 100644 drivers/gpu/drm/i915/TODO.txt
->
-> diff --git a/drivers/gpu/drm/i915/TODO.txt b/drivers/gpu/drm/i915/TODO.txt
-> new file mode 100644
-> index 000000000000..d2e5bbb6339d
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/TODO.txt
-> @@ -0,0 +1,36 @@
-> +gem/gt TODO items
-> +-----------------
-> +
-> +- For discrete memory manager, merge enough dg1 to be able to refactor it to
-> +  TTM. Then land pci ids (just in case that turns up an uapi problem). TTM has
-> +  improved a lot the past 2 years, there's no reason anymore not to use it.
-> +
-> +- Come up with a plan what to do with drm/scheduler and how to get there.
-> +
-> +- There's a lot of complexity added past few years to make relocations faster.
-> +  That doesn't make sense given hw and gpu apis moved away from this model years
-> +  ago:
-> +  1. Land a modern pre-bound uapi like VM_BIND
-> +  2. Any complexity added in this area past few years which can't be justified
-> +  with VM_BIND using userspace should be removed. Looking at amdgpu dma_resv on
-> +  the bo and vm, plus some lru locks is all that needed. No complex rcu,
-> +  refcounts, caching, ... on everything.
-> +  This is the matching task on the vm side compared to ttm/dma_resv on the
-> +  backing storage side.
-> +
-> +- i915_sw_fence seems to be the main structure for the i915-gem dma_fence model.
-> +  How-to-dma_fence is core and drivers really shouldn't build their own world
-> +  here, treating everything else as a fixed platform. i915_sw_fence concepts
-> +  should be moved to dma_fence, drm/scheduler or atomic commit helpers. Or
-> +  removed if dri-devel consensus is that it's not a good idea. Once that's done
-> +  maybe even remove it if there's nothing left.
-> +
-> +Smaller things:
-> +- i915_utils.h needs to be moved to the right places.
-> +
-> +- dma_fence_work should be in drivers/dma-buf
-> +
-> +- i915_mm.c should be moved to the right places. Some of the helpers also look a
-> +  bit fishy:
-> +
-> +  https://lore.kernel.org/linux-mm/20210301083320.943079-1-hch@lst.de/
+>  drivers/gpu/host1x/debug.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/gpu/host1x/debug.c b/drivers/gpu/host1x/debug.c
+> index 1b4997bda1c7..8a14880c61bb 100644
+> --- a/drivers/gpu/host1x/debug.c
+> +++ b/drivers/gpu/host1x/debug.c
+> @@ -69,6 +69,7 @@ static int show_channel(struct host1x_channel *ch, void=
+ *data, bool show_fifo)
+> =20
+>  static void show_syncpts(struct host1x *m, struct output *o)
+>  {
+> +	struct list_head *pos;
+>  	unsigned int i;
+> =20
+>  	host1x_debug_output(o, "---- syncpts ----\n");
+> @@ -76,12 +77,19 @@ static void show_syncpts(struct host1x *m, struct out=
+put *o)
+>  	for (i =3D 0; i < host1x_syncpt_nb_pts(m); i++) {
+>  		u32 max =3D host1x_syncpt_read_max(m->syncpt + i);
+>  		u32 min =3D host1x_syncpt_load(m->syncpt + i);
+> +		unsigned int waiters =3D 0;
+> =20
+> -		if (!min && !max)
+> +		spin_lock(&m->syncpt[i].intr.lock);
+> +		list_for_each(pos, &m->syncpt[i].intr.wait_head)
+> +			waiters++;
+> +		spin_unlock(&m->syncpt[i].intr.lock);
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Would it make sense to keep a running count so that we don't have to
+compute it here?
+
+> +
+> +		if (!min && !max && !waiters)
+>  			continue;
+> =20
+> -		host1x_debug_output(o, "id %u (%s) min %d max %d\n",
+> -				    i, m->syncpt[i].name, min, max);
+> +		host1x_debug_output(o,
+> +				    "id %u (%s) min %d max %d (%d waiters)\n",
+> +				    i, m->syncpt[i].name, min, max, waiters);
+
+Or alternatively, would it be useful to collect a bit more information
+about waiters so that when they leak we get a better understanding of
+which ones leak?
+
+It doesn't look like we currently have much information in struct
+host1x_waitlist to identify waiters, but perhaps that can be extended?
+
+Thierry
+
+--3GrZ7xf99FimbSD3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmBZv+MACgkQ3SOs138+
+s6GqGxAAh277Z6AEC7xUplc3xUrllXuDHyD0gRhY/YSYl1g6QJzHsnMzwQY9KvXz
+E0pObUamO4SuwBCrrCDP7znkKW/OLxgklqVbSfE78Y2iVbBFcBbKBo+W2jqRgFZ+
+A+VkUToq3cAldjvrGk/Z1AlaQRQdoNo2lrt40pf5S7xxP8ksbX9uD/1k5cn00JZc
+9/wUW33ovWxnWuKGnvmS4duyiyJzwXsfgasoYav3UOIdhEKWkhK4yoS4uaX7IVdo
+uR1yerVbNoNOdSd6XzGxCDIKsNIjfS8z9srMuRBqAgGE/gTQoKGCxkMwdz5nqz1r
+fN705ppNh5gb6dhshUEQORyk0KGXfhb5ASRW8cLtPqWokKrUHrEnAZJVO0Uf2BF3
+ZaDSmbM1o+aZPQV+J4FR0+ga3B/uCQOZ7+3ObjpIwZQ+kmWOvaGsVgDRrfSerfjY
+9E8X17L81BiTiuZbqAI4bEhnsQJ3ao3dMrjSOdy+4y+HXkhvgKkP5kZKO6e1eW54
+6JHa91XlNvuh12bTL9C1KRu1hkLFKLqkd6MSoi18Uy4KZTguwrzlfo0IRt2Fzrkx
+2JYppUkWxLU/clwS7DthW6Hgydhn0dDZnPcN4z8Mus9L2jIdIoU9ukvvPqOs1/lf
+i1mskeED1F1yTu/K5OoJgLlvanxQXLVQh0i9YUiCTEcEdUbZE4Y=
+=+0Pr
+-----END PGP SIGNATURE-----
+
+--3GrZ7xf99FimbSD3--
+
+--===============2112283226==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2112283226==--
