@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8382A345F91
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 14:25:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20E1B345FCC
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 14:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55CEF6E8D9;
-	Tue, 23 Mar 2021 13:25:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3F976E0CE;
+	Tue, 23 Mar 2021 13:37:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 238876E8D9
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 13:25:03 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id h10so23392434edt.13
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 06:25:03 -0700 (PDT)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C08866E134
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 13:37:52 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id b7so27163287ejv.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 06:37:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=xdW9egEC7LbaP2FIn5wWhdUohTLcgspuFAwQh5P5LSo=;
- b=IoEHteIqnR3M6qgnIkbEDo8x5lrP3vuko9bmh9Pfnpr9wsxW2vLBrGW7NUPTTO067O
- O4cnNhWVx7oTT3DXHibAxwedZFAExjnQestCxNNefAzMocTLptC21RVpaBazaQ0CaeC8
- rpuVhMqA7sNujVOOPKPbfGvdPPOw9MBbLcjsfxMnrC9VXE2nyMrQRrs7GXybforFmOSp
- nufLk7/z7jPe2owtPpK7SGcrAuhQp+LLAa32olHWT8JTmhQHcwSJcRJC56SVR8v/DaIB
- zoM0153Lp+erzFL0210Wrcfk9vprIN9fY4pNcbN5J3PpP420iNZfElSdhNVviWVPJsSn
- qWbg==
+ bh=p9bSVVzekojjatQS+g6a7TVAbjRfZNZ7xJRUuEXyXVw=;
+ b=BoL5KlbmUWAirwSWbevPqJkqoeNmFpdaxciOeTrIKpyzW+EkDW/Ni2jaQ+dHlFetYk
+ PqTMOG2qzlStwY2BjzyPv0LgKlWwHswYqBAsgf4nbRTrJ9FwZNU/alqR7MBJxSEYc7Sz
+ AWUWtV0JQ/LWNbpatho62529Ln17QZqqNa8susD3Aj3yv8kkJhrwRPFgr1MwolPh1uOU
+ 0UxAyS8c+ii9O6Rz15vqL9mSX5bPCiNI9A7zC9gPelwa09pDEXtzyJ3FLsJjlLCNX61O
+ EF39IN3ugPdoLCrlRvIWIL4zS9tfB39ozJhg8PTcU0SGhMnSTR/C8GB9TutZR9iPJM5K
+ WjSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=xdW9egEC7LbaP2FIn5wWhdUohTLcgspuFAwQh5P5LSo=;
- b=Fn+R7UKk1KRxGFX6jmNv8yjTacfc9EWuXCoY0L22qWvG4DQ9KkwfJ/NtVDPvKWeVz6
- MjcLkvAx6BuXZCxUJJpaowIVmMzXcKlhg/++WpnbSSPbefpAZOgRo2Svaa3i5fGtLujR
- m+ZfB474J066tv8VKRT5fgTeKu5jlRarWQegO19L7HTcoOYg4hck8IIW7gAo+IxLvKsw
- bO2D/ZhcMxO5Iq1MEU/YInKnUj4wbonztuQaoCMI1QrZ9XKLpesN18uKiQPhyDf1bOZU
- auvYHkfnH9Gyvu4wGvMB1jYja8i5VeU+LmMIo4EzNJCUxrYCgpKHzJgpjPBKthA3p1TP
- P6ug==
-X-Gm-Message-State: AOAM531CoaoqzHYkrNjeEpbmKk3zCwLGkoPM1IIls62a1ceX7PAC75se
- ysyEmhx/puq7CIBABf1thok=
-X-Google-Smtp-Source: ABdhPJxBbhJMRspn1TgRIGNASEJzstZ8YQfkVEsU7RzCVJ86NB9c7credNcUb0s43PWEg6aEzhZXjQ==
-X-Received: by 2002:a05:6402:447:: with SMTP id
- p7mr4586230edw.89.1616505901630; 
- Tue, 23 Mar 2021 06:25:01 -0700 (PDT)
+ bh=p9bSVVzekojjatQS+g6a7TVAbjRfZNZ7xJRUuEXyXVw=;
+ b=SL8hLQRc3mxXAobpnWn/TNhPY2QixkjrUh2tat0gr3pBlkDiUeHAZ7ElexRxKijsY7
+ ehntXbM8aZsN8MGFHcElbiBMud3HNcwrzDOadrJxplVwHZIlYsPb/97EsFnIz2yuMBJj
+ c4SPonZrskRMrJsRRCauzlUrgg+078wR6sHj1dr/NdceO0YWNywNh1ayM5ob/iAVpS2H
+ TY5sWxf5b4qaksKXMEAbhhjRw6f/nhwVluS+gOKny8Ezx2MJsV/CNBz+OJo6LKfwnxYE
+ YgO0vQmMepH1hHFzDmzU3eEep8qf/2A62qKmWCRNOzpuawLNbZqbZKbokVDUib0qBQBD
+ KFlw==
+X-Gm-Message-State: AOAM5316xMhTmTtkTeqMoPAK6InllMZIvaxu+6dt0WQiZEQIZTrAAuZG
+ LUPzUlEXss5XE/vNXQe0wMw=
+X-Google-Smtp-Source: ABdhPJx8nNVxKkN4pX6KACd4NZ87KR+0WS9u+TnbEk9KXlcvcEq9XNN1KWLYAttJwyGtVyTOUqhMWg==
+X-Received: by 2002:a17:906:f1c8:: with SMTP id
+ gx8mr5074346ejb.385.1616506671460; 
+ Tue, 23 Mar 2021 06:37:51 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id r17sm11368990ejz.109.2021.03.23.06.24.59
+ by smtp.gmail.com with ESMTPSA id f19sm13065818edu.12.2021.03.23.06.37.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 06:24:59 -0700 (PDT)
-Date: Tue, 23 Mar 2021 14:25:20 +0100
+ Tue, 23 Mar 2021 06:37:49 -0700 (PDT)
+Date: Tue, 23 Mar 2021 14:38:09 +0100
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Mikko Perttunen <mperttunen@nvidia.com>
-Subject: Re: [PATCH v5 19/21] drm/tegra: Implement new UAPI
-Message-ID: <YFnsQNiLg/5I/qKA@orome.fritz.box>
+Subject: Re: [PATCH v5 20/21] drm/tegra: Implement job submission part of new
+ UAPI
+Message-ID: <YFnvQYvT7E/kCAuj@orome.fritz.box>
 References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <20210111130019.3515669-20-mperttunen@nvidia.com>
+ <20210111130019.3515669-21-mperttunen@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20210111130019.3515669-20-mperttunen@nvidia.com>
+In-Reply-To: <20210111130019.3515669-21-mperttunen@nvidia.com>
 User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,745 +72,397 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
  talho@nvidia.com, bhuntsman@nvidia.com, linux-tegra@vger.kernel.org,
  digetx@gmail.com
-Content-Type: multipart/mixed; boundary="===============2023680235=="
+Content-Type: multipart/mixed; boundary="===============1272077015=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2023680235==
+--===============1272077015==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="QGN6VcZMooIqRWXI"
+	protocol="application/pgp-signature"; boundary="jc4GjS8xwUd/3Cp7"
 Content-Disposition: inline
 
 
---QGN6VcZMooIqRWXI
+--jc4GjS8xwUd/3Cp7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 11, 2021 at 03:00:17PM +0200, Mikko Perttunen wrote:
-> Implement the non-submission parts of the new UAPI, including
-> channel management and memory mapping. The UAPI is under the
-> CONFIG_DRM_TEGRA_STAGING config flag for now.
+On Mon, Jan 11, 2021 at 03:00:18PM +0200, Mikko Perttunen wrote:
+> Implement the job submission IOCTL with a minimum feature set.
 >=20
 > Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 > ---
 > v5:
-> * Set iova_end in both mapping paths
+> * Add 16K size limit to copies from userspace.
+> * Guard RELOC_BLOCKLINEAR flag handling to only exist in ARM64
+>   to prevent oversized shift on 32-bit platforms.
 > v4:
-> * New patch, split out from combined UAPI + submit patch.
+> * Remove all features that are not strictly necessary.
+> * Split into two patches.
+> v3:
+> * Remove WRITE_RELOC. Relocations are now patched implicitly
+>   when patching is needed.
+> * Directly call PM runtime APIs on devices instead of using
+>   power_on/power_off callbacks.
+> * Remove incorrect mutex unlock in tegra_drm_ioctl_channel_open
+> * Use XA_FLAGS_ALLOC1 instead of XA_FLAGS_ALLOC
+> * Accommodate for removal of timeout field and inlining of
+>   syncpt_incrs array.
+> * Copy entire user arrays at a time instead of going through
+>   elements one-by-one.
+> * Implement waiting of DMA reservations.
+> * Split out gather_bo implementation into a separate file.
+> * Fix length parameter passed to sg_init_one in gather_bo
+> * Cosmetic cleanup.
 > ---
->  drivers/gpu/drm/tegra/Makefile    |   1 +
->  drivers/gpu/drm/tegra/drm.c       |  41 ++--
->  drivers/gpu/drm/tegra/drm.h       |   5 +
->  drivers/gpu/drm/tegra/uapi.h      |  63 ++++++
->  drivers/gpu/drm/tegra/uapi/uapi.c | 307 ++++++++++++++++++++++++++++++
-
-I'd prefer if we kept the directory structure flat. There's something
-like 19 pairs of files in the top-level directory, which is reasonably
-manageable. Also, it looks like there's going to be a couple more files
-in this new subdirectory. I'd prefer if that was all merged into the
-single uapi.c source file to keep things simpler. These are all really
-small files, so there's no need to aggressively split things up. Helps
-with compilation time, too.
-
-FWIW, I would've been fine with stashing all of this into drm.c as well
-since the rest of the UAPI is in that already. The churn in this patch
-is reasonably small, but it would've been even less if this was just all
-in drm.c.
-
->  5 files changed, 401 insertions(+), 16 deletions(-)
->  create mode 100644 drivers/gpu/drm/tegra/uapi.h
->  create mode 100644 drivers/gpu/drm/tegra/uapi/uapi.c
+>  drivers/gpu/drm/tegra/Makefile         |   2 +
+>  drivers/gpu/drm/tegra/drm.c            |   2 +
+>  drivers/gpu/drm/tegra/uapi/gather_bo.c |  86 +++++
+>  drivers/gpu/drm/tegra/uapi/gather_bo.h |  22 ++
+>  drivers/gpu/drm/tegra/uapi/submit.c    | 428 +++++++++++++++++++++++++
+>  drivers/gpu/drm/tegra/uapi/submit.h    |  17 +
+>  6 files changed, 557 insertions(+)
+>  create mode 100644 drivers/gpu/drm/tegra/uapi/gather_bo.c
+>  create mode 100644 drivers/gpu/drm/tegra/uapi/gather_bo.h
+>  create mode 100644 drivers/gpu/drm/tegra/uapi/submit.c
+>  create mode 100644 drivers/gpu/drm/tegra/uapi/submit.h
 >=20
 > diff --git a/drivers/gpu/drm/tegra/Makefile b/drivers/gpu/drm/tegra/Makef=
 ile
-> index d6cf202414f0..0abdb21b38b9 100644
+> index 0abdb21b38b9..059322e88943 100644
 > --- a/drivers/gpu/drm/tegra/Makefile
 > +++ b/drivers/gpu/drm/tegra/Makefile
-> @@ -3,6 +3,7 @@ ccflags-$(CONFIG_DRM_TEGRA_DEBUG) +=3D -DDEBUG
-> =20
+> @@ -4,6 +4,8 @@ ccflags-$(CONFIG_DRM_TEGRA_DEBUG) +=3D -DDEBUG
 >  tegra-drm-y :=3D \
 >  	drm.o \
-> +	uapi/uapi.o \
+>  	uapi/uapi.o \
+> +	uapi/submit.o \
+> +	uapi/gather_bo.o \
 >  	gem.o \
 >  	fb.o \
 >  	dp.o \
 > diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-> index afd3f143c5e0..6a51035ce33f 100644
+> index 6a51035ce33f..60eab403ae9b 100644
 > --- a/drivers/gpu/drm/tegra/drm.c
 > +++ b/drivers/gpu/drm/tegra/drm.c
-> @@ -20,6 +20,7 @@
->  #include <drm/drm_prime.h>
->  #include <drm/drm_vblank.h>
-> =20
-> +#include "uapi.h"
->  #include "drm.h"
->  #include "gem.h"
-> =20
-> @@ -33,11 +34,6 @@
->  #define CARVEOUT_SZ SZ_64M
->  #define CDMA_GATHER_FETCHES_MAX_NB 16383
-> =20
-> -struct tegra_drm_file {
-> -	struct idr contexts;
-> -	struct mutex lock;
-> -};
-> -
->  static int tegra_atomic_check(struct drm_device *drm,
->  			      struct drm_atomic_state *state)
->  {
-> @@ -90,7 +86,8 @@ static int tegra_drm_open(struct drm_device *drm, struc=
-t drm_file *filp)
->  	if (!fpriv)
->  		return -ENOMEM;
-> =20
-> -	idr_init_base(&fpriv->contexts, 1);
-> +	idr_init_base(&fpriv->legacy_contexts, 1);
-> +	xa_init_flags(&fpriv->contexts, XA_FLAGS_ALLOC1);
->  	mutex_init(&fpriv->lock);
->  	filp->driver_priv =3D fpriv;
-> =20
-> @@ -429,7 +426,7 @@ static int tegra_client_open(struct tegra_drm_file *f=
-priv,
->  	if (err < 0)
->  		return err;
-> =20
-> -	err =3D idr_alloc(&fpriv->contexts, context, 1, 0, GFP_KERNEL);
-> +	err =3D idr_alloc(&fpriv->legacy_contexts, context, 1, 0, GFP_KERNEL);
->  	if (err < 0) {
->  		client->ops->close_channel(context);
->  		return err;
-> @@ -484,13 +481,13 @@ static int tegra_close_channel(struct drm_device *d=
-rm, void *data,
-> =20
->  	mutex_lock(&fpriv->lock);
-> =20
-> -	context =3D idr_find(&fpriv->contexts, args->context);
-> +	context =3D idr_find(&fpriv->legacy_contexts, args->context);
->  	if (!context) {
->  		err =3D -EINVAL;
->  		goto unlock;
->  	}
-> =20
-> -	idr_remove(&fpriv->contexts, context->id);
-> +	idr_remove(&fpriv->legacy_contexts, context->id);
->  	tegra_drm_context_free(context);
-> =20
->  unlock:
-> @@ -509,7 +506,7 @@ static int tegra_get_syncpt(struct drm_device *drm, v=
-oid *data,
-> =20
->  	mutex_lock(&fpriv->lock);
-> =20
-> -	context =3D idr_find(&fpriv->contexts, args->context);
-> +	context =3D idr_find(&fpriv->legacy_contexts, args->context);
->  	if (!context) {
->  		err =3D -ENODEV;
->  		goto unlock;
-> @@ -538,7 +535,7 @@ static int tegra_submit(struct drm_device *drm, void =
-*data,
-> =20
->  	mutex_lock(&fpriv->lock);
-> =20
-> -	context =3D idr_find(&fpriv->contexts, args->context);
-> +	context =3D idr_find(&fpriv->legacy_contexts, args->context);
->  	if (!context) {
->  		err =3D -ENODEV;
->  		goto unlock;
-> @@ -563,7 +560,7 @@ static int tegra_get_syncpt_base(struct drm_device *d=
-rm, void *data,
-> =20
->  	mutex_lock(&fpriv->lock);
-> =20
-> -	context =3D idr_find(&fpriv->contexts, args->context);
-> +	context =3D idr_find(&fpriv->legacy_contexts, args->context);
->  	if (!context) {
->  		err =3D -ENODEV;
->  		goto unlock;
-> @@ -732,10 +729,21 @@ static int tegra_gem_get_flags(struct drm_device *d=
-rm, void *data,
-> =20
->  static const struct drm_ioctl_desc tegra_drm_ioctls[] =3D {
->  #ifdef CONFIG_DRM_TEGRA_STAGING
-> -	DRM_IOCTL_DEF_DRV(TEGRA_GEM_CREATE, tegra_gem_create,
-> +	DRM_IOCTL_DEF_DRV(TEGRA_CHANNEL_OPEN, tegra_drm_ioctl_channel_open,
-> +			  DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(TEGRA_CHANNEL_CLOSE, tegra_drm_ioctl_channel_close,
-> +			  DRM_RENDER_ALLOW),
-
-I'd prefer to keep call these TEGRA_OPEN_CHANNEL and TEGRA_CLOSE_CHANNEL
-because I find that easier to think of. My reasoning goes: the TEGRA_
-prefix means we're operating at a global context and then we perform the
-OPEN_CHANNEL and CLOSE_CHANNEL operations. Whereas by the same reasoning
-TEGRA_CHANNEL_OPEN and TEGRA_CHANNEL_CLOSE suggest we're operating at
-the channel context and perform OPEN and CLOSE operations. For close you
-could make the argument that it makes sense, but you can't open a
-channel that you don't have yet.
-
-And if that doesn't convince you, I think appending _LEGACY here like we
-do for CREATE and MMAP would be more consistent. Who's going to remember
-which one is new: TEGRA_CHANNEL_OPEN or TEGRA_OPEN_CHANNEL?
-
-> +	DRM_IOCTL_DEF_DRV(TEGRA_CHANNEL_MAP, tegra_drm_ioctl_channel_map,
+> @@ -737,6 +737,8 @@ static const struct drm_ioctl_desc tegra_drm_ioctls[]=
+ =3D {
 >  			  DRM_RENDER_ALLOW),
-> -	DRM_IOCTL_DEF_DRV(TEGRA_GEM_MMAP, tegra_gem_mmap,
-> +	DRM_IOCTL_DEF_DRV(TEGRA_CHANNEL_UNMAP, tegra_drm_ioctl_channel_unmap,
+>  	DRM_IOCTL_DEF_DRV(TEGRA_CHANNEL_UNMAP, tegra_drm_ioctl_channel_unmap,
 >  			  DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(TEGRA_GEM_CREATE, tegra_drm_ioctl_gem_create,
+> +	DRM_IOCTL_DEF_DRV(TEGRA_CHANNEL_SUBMIT, tegra_drm_ioctl_channel_submit,
 > +			  DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(TEGRA_GEM_MMAP, tegra_drm_ioctl_gem_mmap,
-> +			  DRM_RENDER_ALLOW),
-> +
-> +	DRM_IOCTL_DEF_DRV(TEGRA_GEM_CREATE_LEGACY, tegra_gem_create, DRM_RENDER=
-_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(TEGRA_GEM_MMAP_LEGACY, tegra_gem_mmap, DRM_RENDER_ALL=
-OW),
->  	DRM_IOCTL_DEF_DRV(TEGRA_SYNCPT_READ, tegra_syncpt_read,
+>  	DRM_IOCTL_DEF_DRV(TEGRA_GEM_CREATE, tegra_drm_ioctl_gem_create,
 >  			  DRM_RENDER_ALLOW),
->  	DRM_IOCTL_DEF_DRV(TEGRA_SYNCPT_INCR, tegra_syncpt_incr,
-> @@ -789,10 +797,11 @@ static void tegra_drm_postclose(struct drm_device *=
-drm, struct drm_file *file)
->  	struct tegra_drm_file *fpriv =3D file->driver_priv;
-> =20
->  	mutex_lock(&fpriv->lock);
-> -	idr_for_each(&fpriv->contexts, tegra_drm_context_cleanup, NULL);
-> +	idr_for_each(&fpriv->legacy_contexts, tegra_drm_context_cleanup, NULL);
-> +	tegra_drm_uapi_close_file(fpriv);
->  	mutex_unlock(&fpriv->lock);
-> =20
-> -	idr_destroy(&fpriv->contexts);
-> +	idr_destroy(&fpriv->legacy_contexts);
->  	mutex_destroy(&fpriv->lock);
->  	kfree(fpriv);
->  }
-> diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
-> index 0f38f159aa8e..1af57c2016eb 100644
-> --- a/drivers/gpu/drm/tegra/drm.h
-> +++ b/drivers/gpu/drm/tegra/drm.h
-> @@ -59,6 +59,11 @@ struct tegra_drm {
->  	struct tegra_display_hub *hub;
->  };
-> =20
-> +static inline struct host1x *tegra_drm_to_host1x(struct tegra_drm *tegra)
-> +{
-> +	return dev_get_drvdata(tegra->drm->dev->parent);
-> +}
-> +
->  struct tegra_drm_client;
-> =20
->  struct tegra_drm_context {
-> diff --git a/drivers/gpu/drm/tegra/uapi.h b/drivers/gpu/drm/tegra/uapi.h
+>  	DRM_IOCTL_DEF_DRV(TEGRA_GEM_MMAP, tegra_drm_ioctl_gem_mmap,
+> diff --git a/drivers/gpu/drm/tegra/uapi/gather_bo.c b/drivers/gpu/drm/teg=
+ra/uapi/gather_bo.c
 > new file mode 100644
-> index 000000000000..5c422607e8fa
+> index 000000000000..b487a0d44648
 > --- /dev/null
-> +++ b/drivers/gpu/drm/tegra/uapi.h
-> @@ -0,0 +1,63 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/* Copyright (c) 2020 NVIDIA Corporation */
-> +
-> +#ifndef _TEGRA_DRM_UAPI_H
-> +#define _TEGRA_DRM_UAPI_H
-> +
-> +#include <linux/dma-mapping.h>
-> +#include <linux/idr.h>
-> +#include <linux/kref.h>
-> +#include <linux/xarray.h>
-> +
-> +#include <drm/drm.h>
-> +
-> +struct drm_file;
-> +struct drm_device;
-> +
-> +struct tegra_drm_file {
-> +	/* Legacy UAPI state */
-> +	struct idr legacy_contexts;
-> +	struct mutex lock;
-> +
-> +	/* New UAPI state */
-> +	struct xarray contexts;
-> +};
-> +
-> +struct tegra_drm_channel_ctx {
-> +	struct tegra_drm_client *client;
-> +	struct host1x_channel *channel;
-> +	struct xarray mappings;
-> +};
-
-This is mostly the same as tegra_drm_context, so can't we just merge the
-two? There's going to be slight overlap, but overall things are going to
-be less confusing to follow.
-
-Even more so because I think we should consider phasing out the old UAPI
-eventually and then we can just remove the unneeded fields from this.
-
-> +
-> +struct tegra_drm_mapping {
-> +	struct kref ref;
-> +
-> +	struct device *dev;
-> +	struct host1x_bo *bo;
-> +	struct sg_table *sgt;
-> +	enum dma_data_direction direction;
-> +	dma_addr_t iova;
-> +	dma_addr_t iova_end;
-
-iova_end seems to never be used. Do we need it?
-
-> +};
-> +
-> +int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data,
-> +				 struct drm_file *file);
-> +int tegra_drm_ioctl_channel_close(struct drm_device *drm, void *data,
-> +				  struct drm_file *file);
-> +int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data,
-> +				struct drm_file *file);
-> +int tegra_drm_ioctl_channel_unmap(struct drm_device *drm, void *data,
-> +				struct drm_file *file);
-> +int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
-> +				   struct drm_file *file);
-> +int tegra_drm_ioctl_gem_create(struct drm_device *drm, void *data,
-> +				struct drm_file *file);
-> +int tegra_drm_ioctl_gem_mmap(struct drm_device *drm, void *data,
-> +				struct drm_file *file);
-> +
-> +void tegra_drm_uapi_close_file(struct tegra_drm_file *file);
-> +void tegra_drm_mapping_put(struct tegra_drm_mapping *mapping);
-> +struct tegra_drm_channel_ctx *
-> +tegra_drm_channel_ctx_lock(struct tegra_drm_file *file, u32 id);
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/tegra/uapi/uapi.c b/drivers/gpu/drm/tegra/ua=
-pi/uapi.c
-> new file mode 100644
-> index 000000000000..d503b5e817c4
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tegra/uapi/uapi.c
-> @@ -0,0 +1,307 @@
+> +++ b/drivers/gpu/drm/tegra/uapi/gather_bo.c
+> @@ -0,0 +1,86 @@
 > +// SPDX-License-Identifier: GPL-2.0-only
 > +/* Copyright (c) 2020 NVIDIA Corporation */
 > +
+> +#include <linux/scatterlist.h>
+> +#include <linux/slab.h>
+> +
+> +#include "gather_bo.h"
+> +
+> +static struct host1x_bo *gather_bo_get(struct host1x_bo *host_bo)
+> +{
+> +	struct gather_bo *bo =3D container_of(host_bo, struct gather_bo, base);
+> +
+> +	kref_get(&bo->ref);
+> +
+> +	return host_bo;
+> +}
+> +
+> +static void gather_bo_release(struct kref *ref)
+> +{
+> +	struct gather_bo *bo =3D container_of(ref, struct gather_bo, ref);
+> +
+> +	kfree(bo->gather_data);
+> +	kfree(bo);
+> +}
+> +
+> +void gather_bo_put(struct host1x_bo *host_bo)
+> +{
+> +	struct gather_bo *bo =3D container_of(host_bo, struct gather_bo, base);
+> +
+> +	kref_put(&bo->ref, gather_bo_release);
+> +}
+> +
+> +static struct sg_table *
+> +gather_bo_pin(struct device *dev, struct host1x_bo *host_bo, dma_addr_t =
+*phys)
+> +{
+> +	struct gather_bo *bo =3D container_of(host_bo, struct gather_bo, base);
+> +	struct sg_table *sgt;
+> +	int err;
+> +
+> +	if (phys) {
+> +		*phys =3D virt_to_phys(bo->gather_data);
+> +		return NULL;
+> +	}
+> +
+> +	sgt =3D kzalloc(sizeof(*sgt), GFP_KERNEL);
+> +	if (!sgt)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	err =3D sg_alloc_table(sgt, 1, GFP_KERNEL);
+> +	if (err) {
+> +		kfree(sgt);
+> +		return ERR_PTR(err);
+> +	}
+> +
+> +	sg_init_one(sgt->sgl, bo->gather_data, bo->gather_data_words*4);
+> +
+> +	return sgt;
+> +}
+> +
+> +static void gather_bo_unpin(struct device *dev, struct sg_table *sgt)
+> +{
+> +	if (sgt) {
+> +		sg_free_table(sgt);
+> +		kfree(sgt);
+> +	}
+> +}
+> +
+> +static void *gather_bo_mmap(struct host1x_bo *host_bo)
+> +{
+> +	struct gather_bo *bo =3D container_of(host_bo, struct gather_bo, base);
+> +
+> +	return bo->gather_data;
+> +}
+> +
+> +static void gather_bo_munmap(struct host1x_bo *host_bo, void *addr)
+> +{
+> +}
+> +
+> +const struct host1x_bo_ops gather_bo_ops =3D {
+> +	.get =3D gather_bo_get,
+> +	.put =3D gather_bo_put,
+> +	.pin =3D gather_bo_pin,
+> +	.unpin =3D gather_bo_unpin,
+> +	.mmap =3D gather_bo_mmap,
+> +	.munmap =3D gather_bo_munmap,
+> +};
+> diff --git a/drivers/gpu/drm/tegra/uapi/gather_bo.h b/drivers/gpu/drm/teg=
+ra/uapi/gather_bo.h
+> new file mode 100644
+> index 000000000000..6b4c9d83ac91
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tegra/uapi/gather_bo.h
+> @@ -0,0 +1,22 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/* Copyright (c) 2020 NVIDIA Corporation */
+> +
+> +#ifndef _TEGRA_DRM_SUBMIT_GATHER_BO_H
+> +#define _TEGRA_DRM_SUBMIT_GATHER_BO_H
+> +
+> +#include <linux/host1x.h>
+> +#include <linux/kref.h>
+> +
+> +struct gather_bo {
+> +	struct host1x_bo base;
+> +
+> +	struct kref ref;
+> +
+> +	u32 *gather_data;
+> +	size_t gather_data_words;
+> +};
+> +
+> +extern const struct host1x_bo_ops gather_bo_ops;
+> +void gather_bo_put(struct host1x_bo *host_bo);
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/tegra/uapi/submit.c b/drivers/gpu/drm/tegra/=
+uapi/submit.c
+> new file mode 100644
+> index 000000000000..398be3065e21
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tegra/uapi/submit.c
+> @@ -0,0 +1,428 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* Copyright (c) 2020 NVIDIA Corporation */
+> +
+> +#include <linux/dma-fence-array.h>
+> +#include <linux/file.h>
 > +#include <linux/host1x.h>
 > +#include <linux/iommu.h>
+> +#include <linux/kref.h>
 > +#include <linux/list.h>
+> +#include <linux/nospec.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/sync_file.h>
 > +
 > +#include <drm/drm_drv.h>
 > +#include <drm/drm_file.h>
 > +
 > +#include "../uapi.h"
 > +#include "../drm.h"
+> +#include "../gem.h"
 > +
-> +struct tegra_drm_channel_ctx *
-> +tegra_drm_channel_ctx_lock(struct tegra_drm_file *file, u32 id)
+> +#include "gather_bo.h"
+> +#include "submit.h"
+> +
+> +static struct tegra_drm_mapping *
+> +tegra_drm_mapping_get(struct tegra_drm_channel_ctx *ctx, u32 id)
 > +{
-> +	struct tegra_drm_channel_ctx *ctx;
-> +
-> +	mutex_lock(&file->lock);
-> +	ctx =3D xa_load(&file->contexts, id);
-> +	if (!ctx)
-> +		mutex_unlock(&file->lock);
-> +
-> +	return ctx;
-> +}
-
-This interface seems slightly odd. Looking at how this is used I see how
-doing it this way saves a couple of lines. However, it also make this
-difficult to understand, so I wonder if it wouldn't be better to just
-open-code this in the three callsites to make the code flow a bit more
-idiomatic.
-
-> +
-> +static void tegra_drm_mapping_release(struct kref *ref)
-> +{
-> +	struct tegra_drm_mapping *mapping =3D
-> +		container_of(ref, struct tegra_drm_mapping, ref);
-> +
-> +	if (mapping->sgt)
-> +		dma_unmap_sgtable(mapping->dev, mapping->sgt,
-> +				  mapping->direction, DMA_ATTR_SKIP_CPU_SYNC);
-> +
-> +	host1x_bo_unpin(mapping->dev, mapping->bo, mapping->sgt);
-> +	host1x_bo_put(mapping->bo);
-> +
-> +	kfree(mapping);
-> +}
-> +
-> +void tegra_drm_mapping_put(struct tegra_drm_mapping *mapping)
-> +{
-> +	kref_put(&mapping->ref, tegra_drm_mapping_release);
-> +}
-> +
-> +static void tegra_drm_channel_ctx_close(struct tegra_drm_channel_ctx *ct=
-x)
-
-Yeah, the more often I read it, the more I'm in favour of just
-collapsing tegra_drm_channel_ctx into tegra_drm_channel if for nothing
-else but to get rid of that annoying _ctx suffix that's there for no
-other reason than to differentiate it from "legacy" contexts.
-
-> +{
-> +	unsigned long mapping_id;
-
-It's clear from the context that this is a mapping ID, so I think you
-can just leave out the "mapping_" prefix to save a bit on screen space.
-
 > +	struct tegra_drm_mapping *mapping;
 > +
-> +	xa_for_each(&ctx->mappings, mapping_id, mapping)
-> +		tegra_drm_mapping_put(mapping);
+> +	xa_lock(&ctx->mappings);
+> +	mapping =3D xa_load(&ctx->mappings, id);
+> +	if (mapping)
+> +		kref_get(&mapping->ref);
+> +	xa_unlock(&ctx->mappings);
 > +
-> +	xa_destroy(&ctx->mappings);
-> +
-> +	host1x_channel_put(ctx->channel);
-> +
-> +	kfree(ctx);
+> +	return mapping;
 > +}
 > +
-> +int close_channel_ctx(int id, void *p, void *data)
+> +static void *alloc_copy_user_array(void __user *from, size_t count, size=
+_t size)
 > +{
-> +	struct tegra_drm_channel_ctx *ctx =3D p;
+> +	unsigned long copy_err;
+> +	size_t copy_len;
+> +	void *data;
 > +
-> +	tegra_drm_channel_ctx_close(ctx);
+> +	if (check_mul_overflow(count, size, &copy_len))
+> +		return ERR_PTR(-EINVAL);
 > +
-> +	return 0;
-> +}
-
-The signature looked strange, so I went looking for where this is called
-=66rom and turns out I can't find any place where this is used. Do we need
-it?
-
+> +	if (copy_len > 0x4000)
+> +		return ERR_PTR(-E2BIG);
 > +
-> +void tegra_drm_uapi_close_file(struct tegra_drm_file *file)
-> +{
-> +	unsigned long ctx_id;
-
-Just like for mappings above, I think it's fine to leave out the ctx_
-prefix here.
-
-> +	struct tegra_drm_channel_ctx *ctx;
+> +	data =3D kvmalloc(copy_len, GFP_KERNEL);
+> +	if (!data)
+> +		return ERR_PTR(-ENOMEM);
 > +
-> +	xa_for_each(&file->contexts, ctx_id, ctx)
-> +		tegra_drm_channel_ctx_close(ctx);
+> +	copy_err =3D copy_from_user(data, from, copy_len);
+> +	if (copy_err) {
+> +		kvfree(data);
+> +		return ERR_PTR(-EFAULT);
+> +	}
 > +
-> +	xa_destroy(&file->contexts);
+> +	return data;
 > +}
 > +
-> +int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data,
-> +				 struct drm_file *file)
+> +static int submit_copy_gather_data(struct drm_device *drm,
+> +				   struct gather_bo **pbo,
+> +				   struct drm_tegra_channel_submit *args)
 > +{
-> +	struct tegra_drm_file *fpriv =3D file->driver_priv;
-> +	struct tegra_drm *tegra =3D drm->dev_private;
-> +	struct drm_tegra_channel_open *args =3D data;
-> +	struct tegra_drm_client *client =3D NULL;
-> +	struct tegra_drm_channel_ctx *ctx;
-> +	int err;
+> +	unsigned long copy_err;
+> +	struct gather_bo *bo;
+> +	size_t copy_len;
 > +
-> +	if (args->flags)
+> +	if (args->gather_data_words =3D=3D 0) {
+> +		drm_info(drm, "gather_data_words can't be 0");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (check_mul_overflow((size_t)args->gather_data_words, (size_t)4, &cop=
+y_len))
 > +		return -EINVAL;
 > +
-> +	ctx =3D kzalloc(sizeof(*ctx), GFP_KERNEL);
-> +	if (!ctx)
+> +	bo =3D kzalloc(sizeof(*bo), GFP_KERNEL);
+> +	if (!bo)
 > +		return -ENOMEM;
 > +
-> +	err =3D -ENODEV;
-> +	list_for_each_entry(client, &tegra->clients, list) {
-> +		if (client->base.class =3D=3D args->host1x_class) {
-> +			err =3D 0;
-> +			break;
-> +		}
-> +	}
-> +	if (err)
-> +		goto free_ctx;
-
-This type of construct looks weird. I found that a good way around this
-is to split this off into a separate function that does the lookup and
-just returns NULL when it doesn't find one, which is very elegant:
-
-	struct tegra_drm_client *tegra_drm_find_client(struct tegra_drm *tegra, u3=
-2 class)
-	{
-		struct tegra_drm_client *client;
-
-		list_for_each_entry(client, &tegra->clients, list)
-			if (client->base.class =3D=3D class)
-				return client;
-
-		return NULL;
-	}
-
-and then all of a sudden, the very cumbersome construct above becomes
-this pretty piece of code:
-
-	client =3D tegra_drm_find_client(tegra, args->host1x_class);
-	if (!client) {
-		err =3D -ENODEV;
-		goto free_ctx;
-	}
-
-No need for initializing client to NULL or preventatively setting err =3D
--ENODEV or anything.
-
+> +	kref_init(&bo->ref);
+> +	host1x_bo_init(&bo->base, &gather_bo_ops);
 > +
-> +	if (client->shared_channel) {
-> +		ctx->channel =3D host1x_channel_get(client->shared_channel);
-> +	} else {
-> +		ctx->channel =3D host1x_channel_request(&client->base);
-> +		if (!ctx->channel) {
-> +			err =3D -EBUSY;
-
-I -EBUSY really appropriate here? Can host1x_channel_request() fail for
-other reasons?
-
-> +			goto free_ctx;
-> +		}
+> +	bo->gather_data =3D kmalloc(copy_len, GFP_KERNEL | __GFP_NOWARN);
+> +	if (!bo->gather_data) {
+> +		kfree(bo);
+> +		return -ENOMEM;
 > +	}
 > +
-> +	err =3D xa_alloc(&fpriv->contexts, &args->channel_ctx, ctx,
-> +		       XA_LIMIT(1, U32_MAX), GFP_KERNEL);
-> +	if (err < 0)
-> +		goto put_channel;
+> +	copy_err =3D copy_from_user(bo->gather_data,
+> +				  u64_to_user_ptr(args->gather_data_ptr),
+> +				  copy_len);
+> +	if (copy_err) {
+> +		kfree(bo->gather_data);
+> +		kfree(bo);
+> +		return -EFAULT;
+> +	}
 > +
-> +	ctx->client =3D client;
-> +	xa_init_flags(&ctx->mappings, XA_FLAGS_ALLOC1);
+> +	bo->gather_data_words =3D args->gather_data_words;
 > +
-> +	args->hardware_version =3D client->version;
-> +
-> +	return 0;
-> +
-> +put_channel:
-> +	host1x_channel_put(ctx->channel);
-> +free_ctx:
-> +	kfree(ctx);
-> +
-> +	return err;
-> +}
-> +
-> +int tegra_drm_ioctl_channel_close(struct drm_device *drm, void *data,
-> +				  struct drm_file *file)
-> +{
-> +	struct tegra_drm_file *fpriv =3D file->driver_priv;
-> +	struct drm_tegra_channel_close *args =3D data;
-> +	struct tegra_drm_channel_ctx *ctx;
-> +
-> +	ctx =3D tegra_drm_channel_ctx_lock(fpriv, args->channel_ctx);
-> +	if (!ctx)
-> +		return -EINVAL;
-> +
-> +	xa_erase(&fpriv->contexts, args->channel_ctx);
-> +
-> +	mutex_unlock(&fpriv->lock);
-> +
-> +	tegra_drm_channel_ctx_close(ctx);
+> +	*pbo =3D bo;
 > +
 > +	return 0;
 > +}
 > +
-> +int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data,
-> +				struct drm_file *file)
+> +static int submit_write_reloc(struct gather_bo *bo,
+> +			      struct drm_tegra_submit_buf *buf,
+> +			      struct tegra_drm_mapping *mapping)
 > +{
-> +	struct tegra_drm_file *fpriv =3D file->driver_priv;
-> +	struct drm_tegra_channel_map *args =3D data;
-> +	struct tegra_drm_channel_ctx *ctx;
-> +	struct tegra_drm_mapping *mapping;
-> +	struct drm_gem_object *gem;
-> +	u32 mapping_id;
-> +	int err =3D 0;
+> +	/* TODO check that target_offset is within bounds */
+> +	dma_addr_t iova =3D mapping->iova + buf->reloc.target_offset;
+> +	u32 written_ptr =3D (u32)(iova >> buf->reloc.shift);
 > +
-> +	if (args->flags & ~DRM_TEGRA_CHANNEL_MAP_READWRITE)
-> +		return -EINVAL;
-> +
-> +	ctx =3D tegra_drm_channel_ctx_lock(fpriv, args->channel_ctx);
-> +	if (!ctx)
-> +		return -EINVAL;
-> +
-> +	mapping =3D kzalloc(sizeof(*mapping), GFP_KERNEL);
-> +	if (!mapping) {
-> +		err =3D -ENOMEM;
-> +		goto unlock;
-> +	}
-> +
-> +	kref_init(&mapping->ref);
-> +
-> +	gem =3D drm_gem_object_lookup(file, args->handle);
-> +	if (!gem) {
-> +		err =3D -EINVAL;
-> +		goto unlock;
-> +	}
-> +
-> +	mapping->dev =3D ctx->client->base.dev;
-> +	mapping->bo =3D &container_of(gem, struct tegra_bo, gem)->base;
+> +#ifdef CONFIG_ARM64
+> +	if (buf->flags & DRM_TEGRA_SUBMIT_BUF_RELOC_BLOCKLINEAR)
+> +		written_ptr |=3D BIT(39);
+> +#endif
 
-We already have host1x_bo_lookup() in drm.c that you can use to avoid
-this strange cast.
+Sorry, but this still isn't correct. written_ptr is still only 32-bits
+wide, so your BIT(39) is going to get discarded even on 64-bit ARM. The
+idiomatic way to do this is to make written_ptr dma_addr_t and use a
+CONFIG_ARCH_DMA_ADDR_T_64BIT guard.
 
-> +
-> +	if (!iommu_get_domain_for_dev(mapping->dev) ||
-> +	    ctx->client->base.group) {
+But even with that this looks wrong because you're OR'ing this in after
+shifting by buf->reloc.shift. Doesn't that OR it in at the wrong offset?
+Should you perhaps be doing this instead:
 
-This expression is now used in at least two places, so I wonder if we
-should have a helper for it along with some documentation about why this
-is the right thing to do. I have a local patch that adds a comment to
-the other instance of this because I had forgotten why this was correct,
-so I can pick that up and refactor later on.
+	#ifdef CONFIG_ARCH_DMA_ADDR_T_64BIT
+		if (buf->flags & DRM_TEGRA_SUBMIT_BUF_RELOC_BLOCKLINEAR)
+			iova |=3D BIT(39);
+	#endif
 
-> +		host1x_bo_pin(mapping->dev, mapping->bo,
-> +			      &mapping->iova);
-> +	} else {
-> +		mapping->direction =3D DMA_TO_DEVICE;
-> +		if (args->flags & DRM_TEGRA_CHANNEL_MAP_READWRITE)
-> +			mapping->direction =3D DMA_BIDIRECTIONAL;
-> +
-> +		mapping->sgt =3D
-> +			host1x_bo_pin(mapping->dev, mapping->bo, NULL);
-> +		if (IS_ERR(mapping->sgt)) {
-> +			err =3D PTR_ERR(mapping->sgt);
-> +			goto put_gem;
-> +		}
-> +
-> +		err =3D dma_map_sgtable(mapping->dev, mapping->sgt,
-> +				      mapping->direction,
-> +				      DMA_ATTR_SKIP_CPU_SYNC);
-> +		if (err)
-> +			goto unpin;
-> +
-> +		/* TODO only map the requested part */
-> +		mapping->iova =3D sg_dma_address(mapping->sgt->sgl);
+	written_ptr =3D (u32)(iova >> buf->reloc_shift);
 
-That comment seems misplaced here since the mapping already happens
-above. Also, wouldn't the same TODO apply to the host1x_bo_pin() path in
-the if block? Maybe the TODO should be at the top of the function?
+?
 
-Alternatively, if this isn't implemented in this patch anyway, maybe
-just drop the comment altogether. In order to implement this, wouldn't
-the UAPI have to change as well? In that case it might be better to add
-the TODO somewhere in the UAPI header, or in a separate TODO file in the
-driver's directory.
+Also, on a side-note: BLOCKLINEAR really isn't the right term here. I
+recently dealt with this for display (though I haven't sent out that
+patch yet) and this is actually a bit that selects which sector layout
+swizzling is being applied. That's independent of block linear format
+and I think you can have different sector layouts irrespective of the
+block linear format (though I don't think that's usually done).
 
-> +	}
-> +
-> +	mapping->iova_end =3D mapping->iova + gem->size;
-> +
-> +	mutex_unlock(&fpriv->lock);
-> +
-> +	err =3D xa_alloc(&ctx->mappings, &mapping_id, mapping,
-> +		       XA_LIMIT(1, U32_MAX), GFP_KERNEL);
-> +	if (err < 0)
-> +		goto unmap;
-> +
-> +	args->mapping_id =3D mapping_id;
-> +
-> +	return 0;
-> +
-> +unmap:
-> +	if (mapping->sgt) {
-> +		dma_unmap_sgtable(mapping->dev, mapping->sgt,
-> +				  mapping->direction, DMA_ATTR_SKIP_CPU_SYNC);
-> +	}
-> +unpin:
-> +	host1x_bo_unpin(mapping->dev, mapping->bo, mapping->sgt);
-> +put_gem:
-> +	drm_gem_object_put(gem);
-> +	kfree(mapping);
-> +unlock:
-> +	mutex_unlock(&fpriv->lock);
-> +	return err;
-> +}
-> +
-> +int tegra_drm_ioctl_channel_unmap(struct drm_device *drm, void *data,
-> +				  struct drm_file *file)
-> +{
-> +	struct tegra_drm_file *fpriv =3D file->driver_priv;
-> +	struct drm_tegra_channel_unmap *args =3D data;
-> +	struct tegra_drm_channel_ctx *ctx;
-> +	struct tegra_drm_mapping *mapping;
-> +
-> +	ctx =3D tegra_drm_channel_ctx_lock(fpriv, args->channel_ctx);
-> +	if (!ctx)
-> +		return -EINVAL;
-> +
-> +	mapping =3D xa_erase(&ctx->mappings, args->mapping_id);
-> +
-> +	mutex_unlock(&fpriv->lock);
-> +
-> +	if (mapping) {
-> +		tegra_drm_mapping_put(mapping);
-> +		return 0;
-> +	} else {
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +int tegra_drm_ioctl_gem_create(struct drm_device *drm, void *data,
-> +			       struct drm_file *file)
-> +{
-> +	struct drm_tegra_gem_create *args =3D data;
-> +	struct tegra_bo *bo;
-> +
-> +	if (args->flags)
-> +		return -EINVAL;
-
-I'm not sure it's worth doing this, especially because this is now a new
-IOCTL that's actually a subset of the original. I think we should just
-keep the original and if we want to deprecate the flags, or replace them
-with new ones, let's just try and phase out the deprecated ones.
+That said, I wonder if a better interface here would be to reuse format
+modifiers here. That would allow us to more fully describe the format of
+a surface in case we ever need it, and it already includes the sector
+layout information as well.
 
 Thierry
 
-> +
-> +	bo =3D tegra_bo_create_with_handle(file, drm, args->size, args->flags,
-> +					 &args->handle);
-> +	if (IS_ERR(bo))
-> +		return PTR_ERR(bo);
-> +
-> +	return 0;
-> +}
-> +
-> +int tegra_drm_ioctl_gem_mmap(struct drm_device *drm, void *data,
-> +			     struct drm_file *file)
-> +{
-> +	struct drm_tegra_gem_mmap *args =3D data;
-> +	struct drm_gem_object *gem;
-> +	struct tegra_bo *bo;
-> +
-> +	gem =3D drm_gem_object_lookup(file, args->handle);
-> +	if (!gem)
-> +		return -EINVAL;
-> +
-> +	bo =3D to_tegra_bo(gem);
-> +
-> +	args->offset =3D drm_vma_node_offset_addr(&bo->gem.vma_node);
-> +
-> +	drm_gem_object_put(gem);
-> +
-> +	return 0;
-> +}
-> --=20
-> 2.30.0
->=20
-
---QGN6VcZMooIqRWXI
+--jc4GjS8xwUd/3Cp7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmBZ7D0ACgkQ3SOs138+
-s6GRtQ/9EUcCkAabf/JIMmrBQ4GVI4y/rPAvf0s+aIzS1fNM6ipscnANrsYXbfkz
-+3wdKHXPxMJVcje5AH2S1gKZfYOD6cm53OrkY0k094VIpYKsMREYoXo48C3Ws7ny
-8+4hOe2CqSY6loSx5eD1O1agHLJ9opba/ZbOppsr2BIHIU7K/pvIoM9YFHPiMcdE
-uvCaCxvkpkduQtaKUJEZdGFpHNMj4PLinCe1Dbd+CIugncv6hXs+hlJ3tOe4dafR
-+jM3exGOQua+Q7bBmTKzFIWXnSuv9sOab6MOpT6cVrvBd5jQ6/9hKW72B3b6C/Ij
-haZ/8rzyrDCQIBmXM7qq/Yl147DExmBKrATTwQfb9vWqRQwBC8Ybbox1r9oHSdWd
-T0XjAy2QfVCZMneTuadL+vIEnNg35IoT4M/DiRTICDxsl69LEjzSUbSvYi79F3DH
-5Nu78bXi+YqL8ufijmmTrFCTnLlque4gqiXczg2OCRAnVF5zzqiOR54cwfn8+QMT
-kqZ68+TOEMUC544sC3RNTkjclIrgF3/slE/2ypClMIUDE85V43T57Su4lpikMM2k
-apc9i3Z0auRvbGSjLlGQ+PKjMzj8P4RGiaP1Z2fHZ22mX76oHC4wNIxI5KGjgPzK
-Sil+UUJGDpzuBR2kzAlMfxnxecEhAUt8of9X8wijZMMp/VPI6YA=
-=Ue8R
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmBZ7z8ACgkQ3SOs138+
+s6F9AA//ZfIRC8cao4sgMiQwX+4X4FgrysoBHa7rAaQiFxK4nuJnqnp82hxadUEQ
+UZoVMrAnCAvi5598IkITUa1qfQNVGi/7KiIatqbcO+C7Dws/cHEG4lVbxx4F4PxJ
+LkkjvWVNN4MEy1pjc1dwUjuS2FuM564JA8DszcMKTB2M2yNmTEaz8dRXJNDY1apc
+mz7XB++L2uCa6jtkP/ePnuG0vGXd+KP+H7BSHBs1oNCbEizXGcEQ1QCHWByOGvv9
+n3/jqeaDl1un0ieD8F9Xl+8m+GTwvrdbDgwPWTJD4pFFmlaDMMcwhvcXm7fF/7ds
+04TJHmEN9r2zXv7nGpBwHHrXvJptleAYhplbM7TR7KGwwj4IaJQ7qn5x0ASoI8Vx
+FD7vxSjwnPDf0XhG0aRSuYVBSk/2U8uG3Qk25t886dw5C8V/M7lrJrp2yiIJsJoK
+DBEkuLt2XQzqFsPINnI426pbtcMDI7++uk79KT2oHTAU8L+Mnx1UWh42e3vkNFhn
+eeHkb1Q8NWiPX45yDmNLawy1HMVkqplJ32NDLbbVHP/f1XuZruvGt1Da6s9aLTXz
+Mnyl3OyZxIBklDkp9/Ix15QEmN5FL5lPWNxDqwk81XHnbmip4ZMYHSoBh1IrMISn
+ebgZn5QW7AGajmUXBzTks5XYDS/eTLdKsFMKYz50JT18Uh+TaAI=
+=ITMn
 -----END PGP SIGNATURE-----
 
---QGN6VcZMooIqRWXI--
+--jc4GjS8xwUd/3Cp7--
 
---===============2023680235==
+--===============1272077015==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -820,4 +473,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============2023680235==--
+--===============1272077015==--
