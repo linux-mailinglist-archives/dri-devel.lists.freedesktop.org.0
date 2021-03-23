@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B63B345852
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 08:10:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62B98345857
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 08:10:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FC4F6E558;
-	Tue, 23 Mar 2021 07:10:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7956A6E835;
+	Tue, 23 Mar 2021 07:10:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE096E558
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 07:10:18 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id t18so9665489pjs.3
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 00:10:18 -0700 (PDT)
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3736C6E835
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 07:10:54 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id l1so10747440pgb.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 00:10:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:content-transfer-encoding:in-reply-to:references
  :subject:from:cc:to:date:message-id:user-agent;
- bh=ZvTzLCdLPjV6sP5Di5nlO5mOmXJgD3ejWOZlWZGKiiI=;
- b=IcyvPv1ZgDHA6AxCZDxgZAJx5zoNZy6JEWhnk25DaBcPaqvZn5es1U1kKssqQ2LjYA
- LEOVWt1VA6F4TLHYUpn02wUHrmhXQBM/IB9lKGzE2BVymNQUz1GaCeNlkWK0V8NIT1Yb
- UvSiEBCeeKkUow96bjK6I03aZ7+SuP+rSld2k=
+ bh=OTthsKtOcH7+5b1h2hSE3Hi7N35EUQSGFHNAvucSefQ=;
+ b=SPdx1dfspvXVtTtUqDNDHDlEX4O1qt3rDkuETcTLYLQ5JNiwXWZn2GucU4/qLxRkmm
+ 6g9+Tavvr1cf8DbBl23KTXBCtlMfALBHdWhIzm+SeerNv8SlchacLT5BFRXF0zTzBl7V
+ OzckXfhz8mAaa8t9gXp+EHmmMG3P9eHJk0Xao=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:content-transfer-encoding
  :in-reply-to:references:subject:from:cc:to:date:message-id
  :user-agent;
- bh=ZvTzLCdLPjV6sP5Di5nlO5mOmXJgD3ejWOZlWZGKiiI=;
- b=KzryJkfDRE1fmQuB/OkWfZqDF3OKcinx8ctBQOU4iMYz+NWniLGBBzmquRVLlFjzFA
- p2IUG0TAtfCdWYLgC+ONtO6Mmfeh48p0ALKk8bHR/E1DgPOv45udiq/kaM5nKvsX8Y+x
- giMz85NAoJxxEVUVeMoadPTyXlCgFtl3f4AJJ2fzUsbQQweMJZIFzw0hN0DvjwPOTVSC
- 1tqLdCdoOB2dNZkqH4lQRURdyAmq6A0TlG7yKHzuV2hqd8LnV/ypSfResS86QzlM4s7M
- gFBSJ/t+xsiqThoK0Yi7mncWeGyzIsqUvHfoPysqYf1RIWRYJZZDLEvJaxGFbYQBL95Y
- loeA==
-X-Gm-Message-State: AOAM5322kEKAqSWuHiKl+riT5DOy+zA/dyNyZjl5cB/GXKzloK4GfT9a
- tFQ0/igcZRpRLZEPr42CIAGGqQ==
-X-Google-Smtp-Source: ABdhPJy5OaFHCieFuxyB1zp72GYOQUuVp2Xx8UJd3BAyrzhCoOgzRAT7gO6bO0J/EJhLyJfp7Jul7A==
-X-Received: by 2002:a17:90a:458b:: with SMTP id
- v11mr3032512pjg.189.1616483418081; 
- Tue, 23 Mar 2021 00:10:18 -0700 (PDT)
+ bh=OTthsKtOcH7+5b1h2hSE3Hi7N35EUQSGFHNAvucSefQ=;
+ b=Ellvv+kzp/9RJcbymX0b6L2JFZjiHVFSwIQX5OK2FvUQUYSjne4gwpEFvUFLHg0ji/
+ iPzm1FEmClpWoEOeKm8RsdwjmCMnjqCkEYtQL1bdEFvs9SoAPysXjG9Q1YrYwyMWQndA
+ e0QMbJHiJFUImh1rKvZIVLrxUojTyidP0FD8SLTT3IBsuG2KugNIGIxf0z/DFqL1obL/
+ S88LdMW/le1ULCVJuPWV8qKqPEcwYsIENbZAok1DLRL1hJ23JVGtYILbjXniRYWag/P2
+ Vbi2KgILI0hlGigyxM++oigBleuve26RLTlD0YIl9FvPZSeLDuGoKTXdl8xmyYbOWNPq
+ 92ZQ==
+X-Gm-Message-State: AOAM531YuHCTBDEW88j2dZyxm5p5iYbJCzLLAUCSafTULmP9t0b5CQ8I
+ PgdnxhDg48R+ozQ3DMIY18EspA==
+X-Google-Smtp-Source: ABdhPJwyiEPAoqpnxs0oSYEStjvutu2YYkkVVstSNl3urHgQUzsIobHrocGv/nTEeRXxtXndcn6Rvw==
+X-Received: by 2002:aa7:8a58:0:b029:1fb:8ab:866e with SMTP id
+ n24-20020aa78a580000b02901fb08ab866emr3797125pfa.0.1616483453880; 
+ Tue, 23 Mar 2021 00:10:53 -0700 (PDT)
 Received: from chromium.org ([2620:15c:202:201:e90d:d453:87ae:2e10])
- by smtp.gmail.com with ESMTPSA id t18sm16901438pfq.147.2021.03.23.00.10.17
+ by smtp.gmail.com with ESMTPSA id s28sm16161503pfd.155.2021.03.23.00.10.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 00:10:17 -0700 (PDT)
+ Tue, 23 Mar 2021 00:10:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210322030128.2283-3-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20210322030128.2283-4-laurent.pinchart+renesas@ideasonboard.com>
 References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210322030128.2283-3-laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [RFC PATCH 02/11] drm/bridge: ti-sn65dsi86: Make enable GPIO
- optional
+ <20210322030128.2283-4-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [RFC PATCH 03/11] drm/bridge: ti-sn65dsi86: Unregister AUX
+ adapter in remove()
 From: Stephen Boyd <swboyd@chromium.org>
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org
-Date: Tue, 23 Mar 2021 00:10:16 -0700
-Message-ID: <161648341624.3012082.18051339783564610283@swboyd.mtv.corp.google.com>
+Date: Tue, 23 Mar 2021 00:10:52 -0700
+Message-ID: <161648345208.3012082.937476389048930443@swboyd.mtv.corp.google.com>
 User-Agent: alot/0.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,10 +77,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Laurent Pinchart (2021-03-21 20:01:19)
-> The enable signal may not be controllable by the kernel. Make it
-> optional.
+Quoting Laurent Pinchart (2021-03-21 20:01:20)
+> The AUX adapter registered in probe() need to be unregistered in
+> remove(). Do so.
 > 
+> Fixes: b814ec6d4535 ("drm/bridge: ti-sn65dsi86: Implement AUX channel")
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
 
