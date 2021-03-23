@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDBC6345865
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 08:15:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F3D345867
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 08:15:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B63066E839;
-	Tue, 23 Mar 2021 07:15:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07F916E83B;
+	Tue, 23 Mar 2021 07:15:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE0C6E839
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 07:15:04 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- nh23-20020a17090b3657b02900c0d5e235a8so9750086pjb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 00:15:04 -0700 (PDT)
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E72E46E83B
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 07:15:49 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id u19so10770208pgh.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 00:15:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:content-transfer-encoding:in-reply-to:references
  :subject:from:cc:to:date:message-id:user-agent;
- bh=GJS1m/A5U7XP3iq7fk/jli3OnxTi83Ud02GBGt0St/E=;
- b=gN4FlASgyHU1Ntq97QVzk1lwyTj8YdNDsq0dstEZspabzUqyRTJPNdlzIisGI3Av0U
- DtOOjUhj24mUb3X3RnS1vIVNQX5tt0weZLKlsvIgkZTyK/3fjgtn91QwH77+/UzP4Kh8
- j99GwAHxL2onNsoEOX8KVyyzA7gF+qAAzKetk=
+ bh=n9dAeyLNAQM1DR9JWXFsA91zKjf2FCCWvKSDEYq/hpQ=;
+ b=n7UoauAu4Xeijdwod1hTKv/5+txQuO2VfiD6VWCwqva0bQfiwVCCr09WOlyL6Cr4LT
+ 1miVQyUcI7BmWnD+d6lVVHuNRSfc/PJybw+ulJKbhUrSbhc8jhy4rUXhG6AOsKxZbWco
+ 3G/u377DrsG/giFZW58YEprUCgKJAakBLVRWg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:content-transfer-encoding
  :in-reply-to:references:subject:from:cc:to:date:message-id
  :user-agent;
- bh=GJS1m/A5U7XP3iq7fk/jli3OnxTi83Ud02GBGt0St/E=;
- b=k01k0954MrTaMGNmsYGxtMuRckPKjc3eURs0NXMoGzUahK5mPiIAejJywvSoMn4OE1
- CGMlVEHhCAdyy2ys5OZIVqNhXgW712lwRkOqA8eaBgTp8NNmfLDXumiDKcELC1KYdA5T
- x97TIradeB+fNjnGAiqR56ZoS5ctTCSjj+UnvxfOosNJEHPUOlD4gBiLu3AJcB0wF9Cf
- 9xDnR3Oy9MrSsneZjW3pZrQrMIJ97K/qu/6v10mRgWtkFmAzjKwNl2A7JdWSjTubjFtA
- E6Ap3gCD2FF8GFAtiO15fk2s0lHM2f5IAQ/ZRXcalh2hQanrN6HXvi9QhDHyGyZAH8dt
- /Huw==
-X-Gm-Message-State: AOAM533wPAQudrAjmCXM5E7kcOK+tpBmeEKf+eczTrLNhWY+DUlr0CYb
- snbgznyzqqssvX1RWoA26jZe7VjbgyK79Q==
-X-Google-Smtp-Source: ABdhPJwgBMmh6QYlC8BOIZ7xAIR0GbJMf6zQhL9CLxvBvrByacMvfxg6HXogSxCLXVaksAE0T75Idw==
-X-Received: by 2002:a17:90a:a4cb:: with SMTP id
- l11mr3094986pjw.144.1616483703916; 
- Tue, 23 Mar 2021 00:15:03 -0700 (PDT)
+ bh=n9dAeyLNAQM1DR9JWXFsA91zKjf2FCCWvKSDEYq/hpQ=;
+ b=HJunkW5vQGGlenAVbaVud/7dfrVnt4OMKHwlM57XWHwenXq5CUWRQJ7MqeHQFy2kF/
+ 1RfrkctG3effSb4hSPy3Pyl8UmThTEHhzSdNWVwRspToHus8FiO1od2/J86505O39jC6
+ iJEavz7zU+69eq7zlARjPY3sFJfQ+/58d1y75djLcmpE2mIRb6bJFwxYTM4Ll0/Se8W4
+ 55MdDw92YSn3GE2G71yLaLipEfIDoMBzBuaayzeua4JU3xl9a4vtGwEVRHnnnQuQTLKj
+ t53SAkqo//034ZQJHrMB9nEuQUrVmbgPqvfR8Z7O2d/jxSXFhTgsIHIefqu5MuH9WVlQ
+ dAfA==
+X-Gm-Message-State: AOAM532EnWSI9JCLjV2oX9TiKamjWalCcZ1+lzheRl04F+2pH6s5x7bT
+ EAe9wNxkzCsk2FHPB7l91xIJlA==
+X-Google-Smtp-Source: ABdhPJw3UbUwdf5rwIwYgdLSC8XaOPuDB+nRfEXKFoM4C1O6RrUcDUCjSVnALslLFnlI7M02ZP+xVg==
+X-Received: by 2002:a63:5fc6:: with SMTP id t189mr2819490pgb.17.1616483749658; 
+ Tue, 23 Mar 2021 00:15:49 -0700 (PDT)
 Received: from chromium.org ([2620:15c:202:201:e90d:d453:87ae:2e10])
- by smtp.gmail.com with ESMTPSA id f2sm1524324pju.46.2021.03.23.00.15.03
+ by smtp.gmail.com with ESMTPSA id r23sm1495676pje.38.2021.03.23.00.15.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 00:15:03 -0700 (PDT)
+ Tue, 23 Mar 2021 00:15:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210322030128.2283-8-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20210322030128.2283-9-laurent.pinchart+renesas@ideasonboard.com>
 References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210322030128.2283-8-laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [RFC PATCH 07/11] drm/bridge: ti-sn65dsi86: Split connector
- creation to a function
+ <20210322030128.2283-9-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [RFC PATCH 08/11] drm/bridge: ti-sn65dsi86: Implement bridge
+ connector operations
 From: Stephen Boyd <swboyd@chromium.org>
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org
-Date: Tue, 23 Mar 2021 00:15:02 -0700
-Message-ID: <161648370205.3012082.3202368984408404985@swboyd.mtv.corp.google.com>
+Date: Tue, 23 Mar 2021 00:15:47 -0700
+Message-ID: <161648374789.3012082.2966786788232174257@swboyd.mtv.corp.google.com>
 User-Agent: alot/0.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,11 +76,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Laurent Pinchart (2021-03-21 20:01:24)
-> To prepare for making connector creation option, move connector creation
-> out of ti_sn_bridge_attach to a separate function.
-> 
-> No functional change intended.
+Quoting Laurent Pinchart (2021-03-21 20:01:25)
+> Implement the bridge connector-related .get_edid() operation, and report
+> the related bridge capabilities and type. The .get_edid() operation is
+> implemented with the same backend as the EDID retrieval from the
+> connector .get_modes() operation.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
