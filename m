@@ -2,41 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D42346955
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 20:53:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EAB4346962
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Mar 2021 20:57:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 479106E90C;
-	Tue, 23 Mar 2021 19:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B98B6E106;
+	Tue, 23 Mar 2021 19:57:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1A0F6E90C
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 19:53:10 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 95AE0B1D;
- Tue, 23 Mar 2021 20:53:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1616529188;
- bh=YwlqFRn0M9BFPQVdD6FUntyPjZt77vZr8VZHyyOCrsg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=F8BEzzazZmkIYLZPdUQuuBsmom2pF1ocb+rZbxV6fjucBH78VhbZCMrAKhvwr64Dp
- aD9JWfQ1AznsC2BpTV6k8e0WARjOD8qf2BGqoqnOHjOGLtQ7K8B1rTuCGK190nlwyy
- CgSNrLJSa0vzzkV25c/eJakIocK8GOoHRqypogOU=
-Date: Tue, 23 Mar 2021 21:52:26 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v3 3/4] drm/bridge: ti-sn65dsi86: Read EDID blob over DDC
-Message-ID: <YFpG+hK7W+4bpp0A@pendragon.ideasonboard.com>
-References: <20201102181144.3469197-1-swboyd@chromium.org>
- <20201102181144.3469197-4-swboyd@chromium.org>
- <YFKc23MwUQAosCs8@pendragon.ideasonboard.com>
- <161646947526.2972785.6883720652669260316@swboyd.mtv.corp.google.com>
- <CAD=FV=U+-spmAxFeDNxhCuB6O=gUvO_==ozg-OGn=2vkUWgL4Q@mail.gmail.com>
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3739E6E106
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 19:57:43 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id b4so4538046lfi.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Mar 2021 12:57:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=tLOU7baKB0TYVPxYLVj2OaWVh+GaLnQyuWYWA6+PT4w=;
+ b=H/78cF+CHO2lJGWLn0yukJwkg57ETsgxkCbMSy+SkH20iIfme6uC8yMEJoIsMnE9Ke
+ WaBriPpJtgsI6hY2EOx2oYab4i/XJs/W9XHYYteIoUOfTTXgGeKwRCu0cnfTvfUj70aK
+ 8gRCdMrNt8p48t6MGkWmGrDDJ508tKtlkT71IPE7F7dMGb/6nG+UiDS6vby1GR5/TcPf
+ iF1crsKz+E5FqoJxXjO6njfi7ugZSSvxpZkrpQclnPekzCWNVCw//hGU+8CAUTHf6e1o
+ gMsaJp9yosmhuKSbaDldAjHCOtO5MpB6KyV4I3pHhetpCkebaxSu8stmmXbAn25iesvw
+ BAeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tLOU7baKB0TYVPxYLVj2OaWVh+GaLnQyuWYWA6+PT4w=;
+ b=IhXhialFdkDeSyHDZx05M6efjTRREL3Zu+u9GxmD+I/03RwMcg8Jt35mBEsBZWdJ7V
+ Lpr7SZC/Zh45bzStU3lv3GhqQhyXj0MB6XFbVGhq66F//paj1eAbxLnbS9D/RwDlx01d
+ SyE8N2/hHZb1JE6U2stKSFvZJxVaAahFXZUKfYo6R+VHlHK43kcIOhXzsiSBsyBzr3a2
+ 9XbRpt3bmOZB5yP+IMCFkujEfJyFDGG7MFbN6Y5TbVyWWK5SddSRioZivGlLR3Q2njZt
+ 3/8IlMI7qOKcVa8UZ8SYcNj+B4W17AYzxdLhfjqzbO5BLOljVZtCiJlLrBuhzfxXcjWr
+ 3jFg==
+X-Gm-Message-State: AOAM533bNFhVuc7qcBPSnvkjDBOVGvvwFUY2G8L8kH7APsMhPFh0d5SV
+ CfeUWLYvR+66oZuACChzR6KDtG28ios=
+X-Google-Smtp-Source: ABdhPJxH0FUacW/96OqiDqn48v6VceKlvxQOtMlHHK0hOO8Bim7HYtdO8CuIxwiZ1QKO5ZdqDeY8pw==
+X-Received: by 2002:ac2:5973:: with SMTP id h19mr3359749lfp.120.1616529461559; 
+ Tue, 23 Mar 2021 12:57:41 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-193-60.dynamic.spd-mgts.ru.
+ [109.252.193.60])
+ by smtp.googlemail.com with ESMTPSA id k5sm3555ljb.78.2021.03.23.12.57.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Mar 2021 12:57:41 -0700 (PDT)
+Subject: Re: [PATCH v5 00/21] Host1x sync point UAPI should not be used for
+ tracking DRM jobs
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20210111130019.3515669-1-mperttunen@nvidia.com>
+ <da085c38-4ac1-19dd-7706-caf323c969d2@gmail.com>
+ <2f999b6d-d781-503a-78f4-d444bce72c58@kapsi.fi>
+ <2ee12338-bd5a-4b99-f86d-13da0d2a899b@gmail.com>
+ <8504c239-d5df-3033-934c-7b3fab52e387@kapsi.fi> <YBLtPv/1mGXwtibX@ulmo>
+ <1ff922b2-161d-c8b9-7b08-4454ff7329f8@gmail.com>
+ <25248139-5487-a15b-8965-1a29a71eacd7@kapsi.fi>
+ <6211ee04-ebd6-74d3-cb5b-955b17acff5b@gmail.com>
+ <YFoxxiMGFcSg3kk+@orome.fritz.box>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <8ff1a2f1-92bb-861a-31fd-f3af983baff0@gmail.com>
+Date: Tue, 23 Mar 2021 22:57:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=U+-spmAxFeDNxhCuB6O=gUvO_==ozg-OGn=2vkUWgL4Q@mail.gmail.com>
+In-Reply-To: <YFoxxiMGFcSg3kk+@orome.fritz.box>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,66 +79,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Sean Paul <seanpaul@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mikko Perttunen <cyndis@kapsi.fi>, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, jonathanh@nvidia.com, talho@nvidia.com,
+ bhuntsman@nvidia.com, linux-tegra@vger.kernel.org,
+ Mikko Perttunen <mperttunen@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
-
-On Tue, Mar 23, 2021 at 12:07:27PM -0700, Doug Anderson wrote:
-> On Mon, Mar 22, 2021 at 8:17 PM Stephen Boyd <swboyd@chromium.org> wrote:
-> >
-> > Quoting Laurent Pinchart (2021-03-17 17:20:43)
-> > > Hi Stephen,
-> > >
-> > > Reviving a bit of an old thread, for a question.
-> > >
-> > > On Mon, Nov 02, 2020 at 10:11:43AM -0800, Stephen Boyd wrote:
-> > > > @@ -265,6 +267,23 @@ connector_to_ti_sn_bridge(struct drm_connector *connector)
-> > > >  static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
-> > > >  {
-> > > >       struct ti_sn_bridge *pdata = connector_to_ti_sn_bridge(connector);
-> > > > +     struct edid *edid = pdata->edid;
-> > > > +     int num, ret;
-> > > > +
-> > > > +     if (!edid) {
-> > > > +             pm_runtime_get_sync(pdata->dev);
-> > > > +             edid = pdata->edid = drm_get_edid(connector, &pdata->aux.ddc);
-> > > > +             pm_runtime_put(pdata->dev);
-> > >
-> > > Is there any specific reason to use the indirect access method, compared
-> > > to the direct method that translates access to an I2C ancillary address
-> > > to an I2C-over-AUX transaction (see page 20 of SLLSEH2B) ? The direct
-> > > method seems it would be more efficient.
-> >
-> > No I don't think it matters. I was just using the existing support code
-> > that Sean wrote instead of digging into the details. Maybe Sean ran into
-> > something earlier and abandoned that approach?
-> 
-> From reading the docs, it sounds as if there _could_ be a reason to
-> use the indirect method. Specifically if the i2c host that the bridge
-> is on doesn't support clock stretching then the direct method wouldn't
-> work according to the docs. Is that something that we'd have to
-> reasonably worry about?
-
-I'm not sure. I'm going through BSP code that uses the direct method,
-and I was wondering if it was just an implementation detail. Once I get
-the display working on this board, I'll try to find time to compare the
-two methods, to see if there's a significatant performance improvement
-from the direct method. If there isn't, I won't bother.
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MjMuMDMuMjAyMSAyMToyMSwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBPbiBTYXQsIEZl
+YiAyNywgMjAyMSBhdCAwMjoxOTozOVBNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+
+IDAzLjAyLjIwMjEgMTQ6MTgsIE1pa2tvIFBlcnR0dW5lbiDQv9C40YjQtdGCOgo+PiAuLi4KPj4+
+PiBJJ2xsIG5lZWQgbW9yZSB0aW1lIHRvIHRoaW5rIGFib3V0IGl0Lgo+Pj4+Cj4+Pgo+Pj4gSG93
+IGFib3V0IHNvbWV0aGluZyBsaWtlIHRoaXM6Cj4+Pgo+Pj4gVHVybiB0aGUgc3luY3B0X2luY3Ig
+ZmllbGQgYmFjayBpbnRvIGFuIGFycmF5IG9mIHN0cnVjdHMgbGlrZQo+Pj4KPj4+ICNkZWZpbmUg
+RFJNX1RFR1JBX1NVQk1JVF9TWU5DUFRfSU5DUl9SRVBMQUNFX1NZTkNPQkrCoMKgwqDCoMKgwqDC
+oCAoMTw8MCkKPj4+ICNkZWZpbmUgRFJNX1RFR1JBX1NVQk1JVF9TWU5DUFRfSU5DUl9QQVRDSF9E
+WU5BTUlDX1NZTkNQVMKgwqDCoCAoMTw8MSkKPj4+Cj4+PiBzdHJ1Y3QgZHJtX3RlZ3JhX3N1Ym1p
+dF9zeW5jcHRfaW5jciB7Cj4+PiDCoMKgwqDCoC8qIGNhbiBiZSBsZWZ0IGFzIHplcm8gaWYgdXNp
+bmcgZHluYW1pYyBzeW5jcHQgKi8KPj4+IMKgwqDCoMKgX191MzIgc3luY3B0X2lkOwo+Pj4gwqDC
+oMKgwqBfX3UzMiBmbGFnczsKPj4+Cj4+PiDCoMKgwqDCoHN0cnVjdCB7Cj4+PiDCoMKgwqDCoMKg
+wqDCoCBfX3UzMiBzeW5jb2JqOwo+Pj4gwqDCoMKgwqDCoMKgwqAgX191MzIgdmFsdWU7Cj4+PiDC
+oMKgwqDCoH0gZmVuY2U7Cj4+Pgo+Pj4gwqDCoMKgwqAvKiBwYXRjaCB3b3JkIGFzIHN1Y2g6Cj4+
+PiDCoMKgwqDCoMKgwqDCoMKgICogKndvcmQgPSAqd29yZCB8IChzeW5jcHRfaWQgPDwgc2hpZnQp
+Cj4+PiDCoMKgwqDCoMKgwqDCoMKgICovCj4+PiDCoMKgwqDCoHN0cnVjdCB7Cj4+PiDCoMKgwqDC
+oMKgwqDCoCBfX3UzMiBnYXRoZXJfb2Zmc2V0X3dvcmRzOwo+Pj4gwqDCoMKgwqDCoMKgwqAgX191
+MzIgc2hpZnQ7Cj4+PiDCoMKgwqDCoH0gcGF0Y2g7Cj4+PiB9Owo+Pj4KPj4+IFNvIHRoaXMgd2ls
+bCB3b3JrIHNpbWlsYXJseSB0byB0aGUgYnVmZmVyIHJlbG9jIHN5c3RlbTsgdGhlIGtlcm5lbAo+
+Pj4gZHJpdmVyIHdpbGwgYWxsb2NhdGUgYSBqb2Igc3luY3BvaW50IGFuZCBwYXRjaCBpbiB0aGUg
+c3luY3BvaW50IElEIGlmCj4+PiByZXF1ZXN0ZWQsIGFuZCBhbGxvd3Mgb3V0cHV0dGluZyBzeW5j
+b2JqcyBmb3IgZWFjaCBpbmNyZW1lbnQuCj4+Cj4+IEkgaGF2ZW4ndCBnb3QgYW55IGdyZWF0IGlk
+ZWFzIHNvIGZhciwgYnV0IGl0IGZlZWxzIHRoYXQgd2lsbCBiZSBlYXNpZXIKPj4gYW5kIGNsZWFu
+ZXIgaWYgd2UgY291bGQgaGF2ZSBzZXBhcmF0ZSBqb2IgcGF0aHMgKGFuZCBqb2IgSU9DVExTKSBi
+YXNlZAo+PiBvbiBoYXJkd2FyZSBnZW5lcmF0aW9uIHNpbmNlIHRoZSB3b3JrbG9hZHMgYSB0b28g
+ZGlmZmVyZW50LiBUaGUgbmVlZHMgb2YKPj4gYSBuZXdlciBoL3cgYXJlIHRvbyBvYnNjdXJlIGZv
+ciBtZSBhbmQgYWJzZW5jZSBvZiB1c2Vyc3BhY2UgY29kZSwKPj4gZmlybXdhcmUgc291cmNlcyBh
+bmQgZnVsbCBoL3cgZG9jdW1lbnRhdGlvbiBkbyBub3QgaGVscC4KPj4KPj4gVGhlcmUgc3RpbGwg
+c2hvdWxkIGJlIHF1aXRlIGEgbG90IHRvIHNoYXJlLCBidXQgdGhpbmdzIGxpa2UKPj4gbWFwcGlu
+Zy10by1jaGFubmVsIGFuZCBWTSBzeW5jIHBvaW50cyBhcmUgdG9vIGZhciBhd2F5IGZyb20gb2xk
+ZXIgaC93LAo+PiBJTU8uIFRoaXMgbWVhbnMgdGhhdCBjb2RlIHBhdGggYmVmb3JlIGRybS1zY2hl
+ZCBhbmQgcGF0aCBmb3Igam9iLXRpbWVvdXQKPj4gaGFuZGxpbmcgc2hvdWxkIGJlIHNlcGFyYXRl
+Lgo+Pgo+PiBNYXliZSBsYXRlciBvbiBpdCB3aWxsIGJlY29tZSBjbGVhbmVyIHRoYXQgd2UgYWN0
+dWFsbHkgY291bGQgdW5pZnkgaXQKPj4gYWxsIG5pY2VseSwgYnV0IGZvciBub3cgaXQgZG9lc24n
+dCBsb29rIGxpa2UgYSBnb29kIGlkZWEgdG8gbWUuCj4gCj4gU29ycnkgZm9yIGp1bXBpbmcgaW4g
+cmF0aGVyIHJhbmRvbWx5IGhlcmUgYW5kIGVsc2V3aGVyZSwgYnV0IGl0J3MgYmVlbiBhCj4gbG9u
+ZyB0aW1lIHNpbmNlIHRoZSBkaXNjdXNzaW9uIGFuZCBJIGp1c3Qgd2FudCB0byBzaGFyZSBteSB0
+aG91Z2h0cyBvbiBhCj4gY291cGxlIG9mIHRvcGljcyBpbiBvcmRlciB0byBob3BlZnVsbHkgaGVs
+cCBtb3ZlIHRoaXMgZm9yd2FyZCBzb21laG93Lgo+IAo+IEZvciBVQVBJLCAidW5pZnlpbmcgaXQg
+bGF0ZXIiIGRvZXNuJ3QgcmVhbGx5IHdvcmsuCgpPZiBjb3Vyc2UgSSBtZWFudCBhICJsYXRlciB2
+ZXJzaW9uIG9mIHRoaXMgc2VyaWVzIiA6KSBTb3JyeSBmb3Igbm90Cm1ha2luZyBpdCBjbGVhci4K
+Cj4gU28gSSB0aGluayB0aGUgb25seQo+IHJlYWxpc3RpYyBvcHRpb24gaXMgdG8gbWFrZSBhIGJl
+c3QgYXR0ZW1wdCBhdCBnZXR0aW5nIHRoZSBVQUJJIHJpZ2h0IHNvCj4gdGhhdCBpdCB3b3JrcyBm
+b3IgYWxsIGV4aXN0aW5nIHVzZS1jYXNlcyBhbmQgaWRlYWxseSBwZXJoYXBzIGV2ZW4gYXMgb2YK
+PiB5ZXQgdW5rbm93biB1c2UtY2FzZXMgaW4gdGhlIGZ1dHVyZS4gQXMgd2l0aCBhbGwgQVBJcyB0
+aGlzIG1lYW5zIHRoYXQKPiB0aGVyZSdzIGdvaW5nIHRvIGJlIGEgbmVlZCB0byBhYnN0cmFjdCBh
+d2F5IHNvbWUgb2YgdGhlIGhhcmR3YXJlIGRldGFpbHMKPiBzbyB0aGF0IHdlIGRvbid0IGhhdmUg
+dG8gZGVhbCB3aXRoIHRvbyBtYW55IGxvdy1sZXZlbCBkZXRhaWxzIGluCj4gdXNlcnNwYWNlLCBi
+ZWNhdXNlIG90aGVyd2lzZSB0aGUgVUFQSSBpcyBqdXN0IGdvaW5nIHRvIGJlIGEgdXNlbGVzcwo+
+IG1lc3MuCj4gCj4gSSB0aGluayBhIHByb3Bvc2FsIHN1Y2ggYXMgdGhlIGFib3ZlIHRvIGFsbG93
+IGJvdGggaW1wbGljaXQgYW5kIGV4cGxpY2l0Cj4gc3luY3BvaW50cyBtYWtlcyBzZW5zZS4gRm9y
+IHdoYXQgaXQncyB3b3J0aCwgaXQncyBmYWlybHkgc2ltaWxhciB0byB3aGF0Cj4gd2UgaGFkIGNv
+bWUgdXAgd2l0aCBsYXN0IHRpbWUgd2UgdHJpZWQgZGVzdGFnaW5nIHRoZSBBQkksIGFsdGhvdWdo
+IGJhY2sKPiBhdCB0aGUgdGltZSBJJ20gbm90IHN1cmUgd2UgaGFkIGV2ZW4gY29uc2lkZXJlZCBl
+eHBsaWNpdCBzeW5jcG9pbnQgdXNhZ2UKPiB5ZXQuIEkgdGhpbmsgd2hlcmUgcmVhc29uYWJseSBw
+b3NzaWJsZSB0aGlzIGtpbmQgb2Ygb3B0aW9uYWwgYmVoYXZpb3VyCj4gaXMgYWNjZXB0YWJsZSwg
+YnV0IEkgZG9uJ3QgdGhpbmsgaGF2aW5nIHR3byBjb21wbGV0ZWx5IHNlcGFyYXRlIHBhdGhzIGlz
+Cj4gZ29pbmcgdG8gaGVscCBpbiBhbnkgd2F5LiBJZiBhbnl0aGluZyBpdCdzIGp1c3QgZ29pbmcg
+dG8gbWFrZSBpdCBtb3JlCj4gZGlmZmljdWx0IHRvIG1haW50YWluIHRoZSBjb2RlIGFuZCBnZXQg
+aXQgdG8gYSB1c2FibGUgc3RhdGUgaW4gdGhlIGZpcnN0Cj4gcGxhY2UuCj4gCj4gTGlrZSBJIHNh
+aWQgZWxzZXdoZXJlLCB0aGUgcHJvZ3JhbW1pbmcgbW9kZWwgZm9yIGhvc3QxeCBoYXNuJ3QgY2hh
+bmdlZAo+IHNpbmNlIFRlZ3JhMjAuIEl0J3MgcmF0aGVyIGV2b2x2ZWQgYW5kIGdhaW5lZCBhIGNv
+dXBsZSBtb3JlIGZlYXR1cmVzLAo+IGJ1dCB0aGF0IGRvZXNuJ3QgY2hhbmdlIGFueXRoaW5nIGFi
+b3V0IGhvdyB1c2Vyc3BhY2UgdXNlcyBpdC4KCk5vdCBoYXZpbmcgYSBjb21wbGV0ZSBjb250cm9s
+IG92ZXIgc3luYyBwb2ludHMgc3RhdGUgaXMgYSByYWRpY2FsCmNoYW5nZSwgSU1PLiBJIHByZWZl
+ciBub3QgdG8gdXNlIHRoaXMgbGVnYWN5IGFuZCBlcnJvci1wcm9uZSB3YXkgb2Ygc3luYwpwb2lu
+dHMgaGFuZGxpbmcgYXQgbGVhc3QgZm9yIG9sZGVyIGgvdyB3aGVyZSBpdCdzIHBvc3NpYmxlIHRv
+IGRvLiBUaGlzCmlzIHdoYXQgZG93bnN0cmVhbSBkcml2ZXIgZGlkIDEwIHllYXJzIGFnbyBhbmQg
+d2hhdCBpdCBzdGlsbCBjb250aW51ZXMKdG8gZG8uIEkgd2FzIHZlcnkgaGFwcHkgdG8gbW92ZSBh
+d2F5IGZyb20gdGhpcyB1bm5lY2Vzc2FyeSBjb21wbGljYXRpb24KaW4gdGhlIGV4cGVyaW1lbnRh
+bCBncmF0ZS1rZXJuZWwgZHJpdmVyIGFuZCBJIHRoaW5rIHRoaXMgd2lsbCBiZSBncmVhdAp0byBk
+byBpbiB0aGUgbWFpbmxpbmUgYXMgd2VsbC4KClRoZSBuZWVkIHRvIG1hcCBidWZmZXJzIGV4cGxp
+Y2l0bHkgaXMgYWxzbyBhIGJpZyBkaWZmZXJlbmNlLiBUaGUgbmVlZCB0bwptYXAgQk8gZm9yIGVh
+Y2ggY2hhbm5lbCBpcyBhIHF1aXRlIGJpZyBvdmVyLWNvbXBsaWNhdGlvbiBhcyB3ZSBhbHJlYWR5
+CmZvdW5kIG91dCBpbiB0aGUgY3VycmVudCB2ZXJzaW9uIG9mIFVBUEkuCgpBbHJpZ2h0LCBwZXJo
+YXBzIHRoZSBtYXBwaW5nIGNvdWxkIGltcHJvdmVkIGZvciBvbGRlciB1c2Vyc3BhY2UgaWYgd2UK
+d2lsbCBtb3ZlIGF3YXkgZnJvbSBhIHBlci1jaGFubmVsIGNvbnRleHRzIHRvIGEgc2luZ2xlIERS
+TSBjb250ZXh0IGxpa2UKSSBhbHJlYWR5IHdhcyBzdWdnZXN0aW5nIHRvIE1pa2tvIGJlZm9yZS4g
+SS5lLiBpbnN0ZWFkIG9mIG1hcHBpbmcgQk8gInRvCmEgY2hhbm5lbCIsIHdlIHdpbGwgbmVlZCB0
+byBtYXAgQk8gInRvIGgvdyBjbGllbnRzIiB3aXRoaW4gdGhlIERSTQpjb250ZXh0LiBUaGlzIHNo
+b3VsZCBhbGxvdyBvbGRlciB1c2Vyc3BhY2UgdG8gY3JlYXRlIGEgc2luZ2xlIG1hcHBpbmcKZm9y
+IGFsbCBjaGFubmVscy9jbGllbnRzIHVzaW5nIGEgc2luZ2xlIElPQ1RMIGFuZCB0aGVuIHRvIGhh
+dmUgYSBzaW5nbGUKIm1hcHBpbmcgaGFuZGxlIiB0byBjYXJlIGFib3V0LiBPYmplY3Rpb25zPwpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
