@@ -1,58 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CEE9347BF2
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:19:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88FC2347BF7
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:19:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0212F6EA1C;
-	Wed, 24 Mar 2021 15:19:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFEF36EC69;
+	Wed, 24 Mar 2021 15:19:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B765D6EA1E
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:19:07 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id i26so16650742lfl.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:19:07 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 381896EA1F
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:19:09 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id o126so23037427lfa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:19:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tk201XK0GsgCw2z2W2qK3LFMVQT+0BnMz/tqU+2avqI=;
- b=u9N/Sj5afQG8CJSXVMiyXWwyTqjsexPwrnBD7G3Y+pkl4ZCYhlNcg7DXojl0swbOnK
- IBgyjzy7J9RGN7OKBGx0D0zELukt+Q94oTCjeMOpAqj07ZUUXeCuZf1hA49OswEgZEOH
- oqv7N+MjOdkpfwaxSVPJae3QQYseoUFj51PTv2Kl21GGE6sMxSP7BWDwN6OTHyIWUJrj
- 7mgE8hD96osLkTOqmdZfwdsAAmsem56lV3pwPN+FRU4I28CRExn8LVOe/5SBdyCvyyae
- M/x2xwEVJFcjw6YlUPGCcEAMphxtFg1Ujz7zKMUBK/nwlABeYi5bZCv0aA3Iv5BwGlIY
- A2Rg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=7jEz8oihVJdadZw/hP+a4+zFOQ5LD0ulQWufz9UuUgQ=;
+ b=umv8kGD2XAiabDM1eKGbsE+1QjsA7nf8WlZCAwm+jjA8SUY+de6PtmpOmplebBTrmK
+ uR5yYJUbpQ1NTFSaeMDWa/4ENqtACs0W9iENlaa9EEJDeO/J/5WFR5f4qD50e3Ln/pEz
+ AgXWxhqAONka76khzwgmVMTJbI5WoApWNS6PQyAfMlmXVRdP8M8Lku1pG6nGCKJRPWmE
+ gPROGTT7Ka3bm0rbgD9ChWkbcHRQ+qIAdlvSqH8U1y92LguFTTBBtjlfvF98AxiO2uPk
+ EaJVxwRRnkzO9RPmc++A4GExaAc9TSm4G7bP1OR/ZOEGgEFXlKzhXvsz/Kky3p2cWzOA
+ QjLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tk201XK0GsgCw2z2W2qK3LFMVQT+0BnMz/tqU+2avqI=;
- b=hYCYHNxc8tj6IUDUnVEr/zgvJCiKrmT9MSeotzeckk3X88xhhF8LAB98GMoRP5pUpD
- 7YodghHC/PQb6EUd1M+qcK4FgCIersNgf2hoYxwf86tKOKo/BN6hnPzhT9jm5haHWFwr
- xwv4nVJSK7im7Jdft7VpBguCwVMLQoempVWnDBBcX8F5VB410aY3LRdE18CQSDIAn4z9
- FoDev/cNEIjs2lwnp43XHF6ErRz4oBQQXsrmKteuAKkBvcSqff8E0/UyKLyRFGFw7g55
- Jwh3LyxEzb0telD7ksHhParoa8bHbFv+HEb84BDir82WWeLE57IL3ae2oEl9O4+MDDeW
- 7HYg==
-X-Gm-Message-State: AOAM5305GnVnj7vmNgAp66oJ8nwyzE4xAFYZr1NkAJu+okX/rKuQ6U06
- 9ZCs4F2QT6bfDv8+zfenNiFkEQ==
-X-Google-Smtp-Source: ABdhPJzubbcVNRPYMGpCD+9JZnn8dZ+ory2gYhWQAdH1sr669SIMX31yypo+z5GBv3rmF8Oj+5eOhg==
-X-Received: by 2002:ac2:4e8c:: with SMTP id o12mr2300931lfr.400.1616599146090; 
- Wed, 24 Mar 2021 08:19:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=7jEz8oihVJdadZw/hP+a4+zFOQ5LD0ulQWufz9UuUgQ=;
+ b=iOJsOnl8CB/PRcLOxvXf1i+W3RqgnrdSRzJVZv6Yceb1myrnjS5pQ7zYtkZQycmS3L
+ rUd6p5nZZpDd27h3VwHoca7tLfXvAUBxH+lnONS0FlvCew7/o1zg0MN8MqtvMF1VzsUQ
+ vHt0hTiOcmOW1FsMUtyRXjMjaJosfsl8i4DLofF5mcymWBnGWp/mdfa78eD2QRhsIIj9
+ 1C92IDPShPPIjGlTSCrXeLOAZvs2esEQ5yX2pNp/Q3s70HH5/8ikuGAK/i8FBrhVR1yN
+ 9r47gds3F66cm79w0WcwAY4AYb518Kj2XK0IyRqu0x+WNjX2NMlOXZinR3vJa2yt0wKs
+ 0yLQ==
+X-Gm-Message-State: AOAM53165/s99UJIsMG3U75GFeK1kfcTZZgVujeF5pQv/3ghCrXDIkV9
+ 4+jaDd5Vc4zWK2zO971STadeEw==
+X-Google-Smtp-Source: ABdhPJy7YbYhyQfY6Cp4XY8fXFlojsORYmI6nyAshZg9X85m7MoLRkEgws7Y3BDMUI+f1+SyfSzBXA==
+X-Received: by 2002:a05:6512:1192:: with SMTP id
+ g18mr2136641lfr.408.1616599147684; 
+ Wed, 24 Mar 2021 08:19:07 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id d22sm255199lfm.267.2021.03.24.08.19.04
+ by smtp.gmail.com with ESMTPSA id d22sm255199lfm.267.2021.03.24.08.19.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 08:19:05 -0700 (PDT)
+ Wed, 24 Mar 2021 08:19:06 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Jonathan Marek <jonathan@marek.ca>,
  Michael Turquette <mturquette@baylibre.com>
-Subject: [PATCH v2 00/28] drm/msm/dsi: refactor MSM DSI PHY/PLL drivers
-Date: Wed, 24 Mar 2021 18:18:18 +0300
-Message-Id: <20210324151846.2774204-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 01/28] clk: fixed: add devm helper for
+ clk_hw_register_fixed_factor()
+Date: Wed, 24 Mar 2021 18:18:19 +0300
+Message-Id: <20210324151846.2774204-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210324151846.2774204-1-dmitry.baryshkov@linaro.org>
+References: <20210324151846.2774204-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,118 +71,134 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org, linux-clk@vger.kernel.org
+ Daniel Palmer <daniel@0x0f.com>, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
+ linux-clk@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Restructure MSM DSI PHY drivers. What started as an attempt to grok the
-overcomplicated PHY drivers, has lead up to the idea of merging PHY and
-PLL code, reducing abstractions, code duplication, dropping dead code,
-etc.
+From: Daniel Palmer <daniel@0x0f.com>
 
-The patches were mainly tested on RB5 (sm8250, 7nm) and DB410c (apq8016,
-28nm-lp) and lightly tested on RB3 (sdm845, 10nm).
+Add a devm helper for clk_hw_register_fixed_factor() so that drivers that internally
+register fixed factor clocks for things like dividers don't need to manually unregister
+them on remove or if probe fails.
 
-External dependency for sm8250: https://lore.kernel.org/linux-arm-msm/20210317144039.556409-10-dmitry.baryshkov@linaro.org/
+Signed-off-by: Daniel Palmer <daniel@0x0f.com>
+Link: https://lore.kernel.org/r/20210211052206.2955988-4-daniel@0x0f.com
+Signed-off-by: Stephen Boyd <sboyd@kernel.org>
+---
+ drivers/clk/clk-fixed-factor.c | 39 ++++++++++++++++++++++++++++------
+ include/linux/clk-provider.h   |  4 +++-
+ 2 files changed, 36 insertions(+), 7 deletions(-)
 
-The patch 'clk: fixed: add devm helper for clk_hw_register_fixed_factor()'
-is already a part of mainline as of 5.12-rc1, but is included here for
-completeness to fix compilation issues (as msm-next is based on 5.11-rc5).
-
-Changes since v1:
- - Rebase on top of msm/msm-next
- - Reorder patches to follow logical sequence
- - Add sc7180 clocks assignment
- - Drop sm8250 clocks assignment, as respective file is not updated in
-   msm/msm-next
-
-Changes since RFC:
- - Reorder patches to move global clock patches in the beginning and
-   dtsi patches where they are required.
- - remove msm_dsi_phy_set_src_pll() and guess src_pll_id using PHY usecase.
-
-The following changes since commit 627dc55c273dab308303a5217bd3e767d7083ddb:
-
-  drm/msm/disp/dpu1: icc path needs to be set before dpu runtime resume (2021-03-22 18:52:34 -0700)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/dmitry.baryshkov/kernel.git dsi-phy-2
-
-for you to fetch changes up to 0fec912264e9ee8f0ebbad12e2711843d7d9e0ac:
-
-  drm/msm/dsi: stop passing src_pll_id to the phy_enable call (2021-03-24 18:14:39 +0300)
-
-----------------------------------------------------------------
-Daniel Palmer (1):
-      clk: fixed: add devm helper for clk_hw_register_fixed_factor()
-
-Dmitry Baryshkov (27):
-      clk: mux: provide devm_clk_hw_register_mux()
-      clk: divider: add devm_clk_hw_register_divider
-      drm/msm/dsi: replace PHY's init callback with configurable data
-      drm/msm/dsi: fuse dsi_pll_* code into dsi_phy_* code
-      drm/msm/dsi: drop multiple pll enable_seq support
-      drm/msm/dsi: move all PLL callbacks into PHY config struct
-      drm/msm/dsi: drop global msm_dsi_phy_type enumaration
-      drm/msm/dsi: move min/max PLL rate to phy config
-      drm/msm/dsi: remove msm_dsi_pll_set_usecase
-      drm/msm/dsi: stop setting clock parents manually
-      arm64: dts: qcom: sdm845: assign DSI clock source parents
-      arm64: dts: qcom: sc7180: assign DSI clock source parents
-      drm/msm/dsi: push provided clocks handling into a generic code
-      drm/msm/dsi: use devm_clk_*register to registe DSI PHY clocks
-      drm/msm/dsi: use devm_of_clk_add_hw_provider
-      drm/msm/dsi: make save/restore_state phy-level functions
-      drm/msm/dsi: drop vco_delay setting from 7nm, 10nm, 14nm drivers
-      drm/msm/dpu: simplify vco_delay handling in dsi_phy_28nm driver
-      drm/msi/dsi: inline msm_dsi_pll_helper_clk_prepare/unprepare
-      drm/msm/dsi: make save_state/restore_state callbacks accept msm_dsi_phy
-      drm/msm/dsi: drop msm_dsi_pll abstracton
-      drm/msm/dsi: drop PLL accessor functions
-      drm/msm/dsi: move ioremaps to dsi_phy_driver_probe
-      drm/msm/dsi: remove duplicate fields from dsi_pll_Nnm instances
-      drm/msm/dsi: remove temp data from global pll structure
-      drm/msm/dsi: inline msm_dsi_phy_set_src_pll
-      drm/msm/dsi: stop passing src_pll_id to the phy_enable call
-
- arch/arm64/boot/dts/qcom/sc7180.dtsi            |    3 +
- arch/arm64/boot/dts/qcom/sdm845.dtsi            |    6 +
- drivers/clk/clk-fixed-factor.c                  |   39 +-
- drivers/clk/clk-mux.c                           |   35 +
- drivers/gpu/drm/msm/Kconfig                     |    8 -
- drivers/gpu/drm/msm/Makefile                    |    9 -
- drivers/gpu/drm/msm/dsi/dsi.h                   |   58 +-
- drivers/gpu/drm/msm/dsi/dsi_host.c              |   51 --
- drivers/gpu/drm/msm/dsi/dsi_manager.c           |   29 +-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c           |  150 ++--
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.h           |   41 +-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c      |  745 ++++++++++++++-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c      |  939 ++++++++++++++++++-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c      |   16 +-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c      |  654 +++++++++++++-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c |  479 +++++++++-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c       |  772 +++++++++++++++-
- drivers/gpu/drm/msm/dsi/pll/dsi_pll.c           |  184 ----
- drivers/gpu/drm/msm/dsi/pll/dsi_pll.h           |  132 ---
- drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c      |  881 ------------------
- drivers/gpu/drm/msm/dsi/pll/dsi_pll_14nm.c      | 1096 -----------------------
- drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm.c      |  643 -------------
- drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm_8960.c |  526 -----------
- drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c       |  913 -------------------
- include/linux/clk-provider.h                    |   34 +-
- 25 files changed, 3722 insertions(+), 4721 deletions(-)
- delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll.c
- delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll.h
- delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
- delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_14nm.c
- delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm.c
- delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm_8960.c
- delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
-
+diff --git a/drivers/clk/clk-fixed-factor.c b/drivers/clk/clk-fixed-factor.c
+index 910e6e74ae90..4f7bf3929d6d 100644
+--- a/drivers/clk/clk-fixed-factor.c
++++ b/drivers/clk/clk-fixed-factor.c
+@@ -64,10 +64,16 @@ const struct clk_ops clk_fixed_factor_ops = {
+ };
+ EXPORT_SYMBOL_GPL(clk_fixed_factor_ops);
+ 
++static void devm_clk_hw_register_fixed_factor_release(struct device *dev, void *res)
++{
++	clk_hw_unregister_fixed_factor(&((struct clk_fixed_factor *)res)->hw);
++}
++
+ static struct clk_hw *
+ __clk_hw_register_fixed_factor(struct device *dev, struct device_node *np,
+ 		const char *name, const char *parent_name, int index,
+-		unsigned long flags, unsigned int mult, unsigned int div)
++		unsigned long flags, unsigned int mult, unsigned int div,
++		bool devm)
+ {
+ 	struct clk_fixed_factor *fix;
+ 	struct clk_init_data init = { };
+@@ -75,7 +81,15 @@ __clk_hw_register_fixed_factor(struct device *dev, struct device_node *np,
+ 	struct clk_hw *hw;
+ 	int ret;
+ 
+-	fix = kmalloc(sizeof(*fix), GFP_KERNEL);
++	/* You can't use devm without a dev */
++	if (devm && !dev)
++		return ERR_PTR(-EINVAL);
++
++	if (devm)
++		fix = devres_alloc(devm_clk_hw_register_fixed_factor_release,
++				sizeof(*fix), GFP_KERNEL);
++	else
++		fix = kmalloc(sizeof(*fix), GFP_KERNEL);
+ 	if (!fix)
+ 		return ERR_PTR(-ENOMEM);
+ 
+@@ -99,9 +113,13 @@ __clk_hw_register_fixed_factor(struct device *dev, struct device_node *np,
+ 	else
+ 		ret = of_clk_hw_register(np, hw);
+ 	if (ret) {
+-		kfree(fix);
++		if (devm)
++			devres_free(fix);
++		else
++			kfree(fix);
+ 		hw = ERR_PTR(ret);
+-	}
++	} else if (devm)
++		devres_add(dev, fix);
+ 
+ 	return hw;
+ }
+@@ -111,7 +129,7 @@ struct clk_hw *clk_hw_register_fixed_factor(struct device *dev,
+ 		unsigned int mult, unsigned int div)
+ {
+ 	return __clk_hw_register_fixed_factor(dev, NULL, name, parent_name, -1,
+-					      flags, mult, div);
++					      flags, mult, div, false);
+ }
+ EXPORT_SYMBOL_GPL(clk_hw_register_fixed_factor);
+ 
+@@ -153,6 +171,15 @@ void clk_hw_unregister_fixed_factor(struct clk_hw *hw)
+ }
+ EXPORT_SYMBOL_GPL(clk_hw_unregister_fixed_factor);
+ 
++struct clk_hw *devm_clk_hw_register_fixed_factor(struct device *dev,
++		const char *name, const char *parent_name, unsigned long flags,
++		unsigned int mult, unsigned int div)
++{
++	return __clk_hw_register_fixed_factor(dev, NULL, name, parent_name, -1,
++			flags, mult, div, true);
++}
++EXPORT_SYMBOL_GPL(devm_clk_hw_register_fixed_factor);
++
+ #ifdef CONFIG_OF
+ static const struct of_device_id set_rate_parent_matches[] = {
+ 	{ .compatible = "allwinner,sun4i-a10-pll3-2x-clk" },
+@@ -185,7 +212,7 @@ static struct clk_hw *_of_fixed_factor_clk_setup(struct device_node *node)
+ 		flags |= CLK_SET_RATE_PARENT;
+ 
+ 	hw = __clk_hw_register_fixed_factor(NULL, node, clk_name, NULL, 0,
+-					    flags, mult, div);
++					    flags, mult, div, false);
+ 	if (IS_ERR(hw)) {
+ 		/*
+ 		 * Clear OF_POPULATED flag so that clock registration can be
+diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
+index e4316890661a..58f6fe866ae9 100644
+--- a/include/linux/clk-provider.h
++++ b/include/linux/clk-provider.h
+@@ -941,7 +941,9 @@ struct clk_hw *clk_hw_register_fixed_factor(struct device *dev,
+ 		const char *name, const char *parent_name, unsigned long flags,
+ 		unsigned int mult, unsigned int div);
+ void clk_hw_unregister_fixed_factor(struct clk_hw *hw);
+-
++struct clk_hw *devm_clk_hw_register_fixed_factor(struct device *dev,
++		const char *name, const char *parent_name, unsigned long flags,
++		unsigned int mult, unsigned int div);
+ /**
+  * struct clk_fractional_divider - adjustable fractional divider clock
+  *
+-- 
+2.30.2
 
 _______________________________________________
 dri-devel mailing list
