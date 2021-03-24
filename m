@@ -2,58 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F165347F06
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 18:14:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBD7347F13
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 18:15:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D353F6EC98;
-	Wed, 24 Mar 2021 17:14:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F0F46ECAF;
+	Wed, 24 Mar 2021 17:15:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2366B6EC98
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 17:14:08 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id c8so12322787wrq.11
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 10:14:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=XkocXCL7QPBswRAkkibCzvQhEtkd5Tq9s+ul+FYND84=;
- b=Wp+jcfx20MhEJn3kmh7DUSV/kgkRF0MjEMWhC948VQJoWEaij2Xcxxw3WsnTJu8TT3
- bvFSPuPo8ewakBvSHSxFpWuZv4lA2t0+B6trgtlBTsBfqB/ipD/+5BvYCdjGT2a1EaX6
- VpTjlQrsh7w4WGPOvZl4E1xX8kTXD7NjJncek=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=XkocXCL7QPBswRAkkibCzvQhEtkd5Tq9s+ul+FYND84=;
- b=mqjGC1x2S3vNvrNl8pTwBtEpgq2mDYvOLztf5YfJFgScPo0GIqsduCLMiS8+7+ZhV/
- H/BedBvdODigYJi0RHuSzGHDWixhSUfouWUEJVHQ6EDV9fGHkJqYmsEMU0R48HoteecN
- cyNgC7PKWIw4GCOyEIO6kpdWh/RIoONEHjhzS3bn1ZfkYQD7Uqo+xJwsTpfrPrlQl+M0
- o7Nc2fekFEEpgw186X2aZHK/uP6MCsMebywwEPVZgHBNZCpll2n4lT+OIMFT7zOM0IyL
- nMWTsol4tcKpH1hPXy/Zu2FMcnIktk36NDxfY+YgMXWYrtFan1ZZByjdleSl8hamEa6+
- kcfg==
-X-Gm-Message-State: AOAM532SXZ9hz7u2Juph+FwMBw+JexQ/D71XcbuS6AgnzmjM5W8RRDkE
- lrwKwZwArnh90luVfEyBcJpdLw==
-X-Google-Smtp-Source: ABdhPJzmnAetJMaG5iPsgO1zf8wilfjeS8udq/5tvPoV0OF/yIsiIEKu738aGPV8dhuf/i3+JyynKw==
-X-Received: by 2002:a5d:6048:: with SMTP id j8mr4783834wrt.115.1616606046872; 
- Wed, 24 Mar 2021 10:14:06 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id x6sm3346370wmj.32.2021.03.24.10.14.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 10:14:06 -0700 (PDT)
-Date: Wed, 24 Mar 2021 18:14:04 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v9 65/70] drm/i915: Fix pin_map in scheduler
- selftests
-Message-ID: <YFtzXG813YBTCCeK@phenom.ffwll.local>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70F736ECAF;
+ Wed, 24 Mar 2021 17:15:48 +0000 (UTC)
+IronPort-SDR: MIqkBXbZwIIdcdlOowSPROxYjWzKGZ0338AuHbfDs3yqv5jwQQZyyQLVHZqCghLxmE2fubd/W8
+ H3P4Az++Lolw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="190171790"
+X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; d="scan'208";a="190171790"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2021 10:15:39 -0700
+IronPort-SDR: JyMYzMGxr45YEnkjY8D+JDSdmAAmg1MSMtQTDvwcAGgUQpjzPCgtrL6fhvn3clxp8ws+cfqoBt
+ 5UOfKbaEFi1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; d="scan'208";a="391375598"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga002.jf.intel.com with SMTP; 24 Mar 2021 10:15:37 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 24 Mar 2021 19:15:36 +0200
+Date: Wed, 24 Mar 2021 19:15:36 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH v9 63/70] drm/i915: Move gt_revoke() slightly
+Message-ID: <YFtzuLjmMAU030wn@intel.com>
 References: <20210323155059.628690-1-maarten.lankhorst@linux.intel.com>
- <20210323155059.628690-66-maarten.lankhorst@linux.intel.com>
+ <20210323155059.628690-64-maarten.lankhorst@linux.intel.com>
+ <YFtwHG3ZbjzhuzOZ@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210323155059.628690-66-maarten.lankhorst@linux.intel.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <YFtwHG3ZbjzhuzOZ@phenom.ffwll.local>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,47 +51,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 23, 2021 at 04:50:54PM +0100, Maarten Lankhorst wrote:
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+On Wed, Mar 24, 2021 at 06:00:12PM +0100, Daniel Vetter wrote:
+> On Tue, Mar 23, 2021 at 04:50:52PM +0100, Maarten Lankhorst wrote:
+> > We get a lockdep splat when the reset mutex is held, because it can be
+> > taken from fence_wait. This conflicts with the mmu notifier we have,
+> > because we recurse between reset mutex and mmap lock -> mmu notifier.
+> > =
 
-Fixes a commit I'll drop anyway, so didn't bother with this one.
--Daniel
+> > Remove this recursion by calling revoke_mmaps before taking the lock.
+> > =
 
-> ---
->  drivers/gpu/drm/i915/selftests/i915_scheduler.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_scheduler.c b/drivers/gpu/drm/i915/selftests/i915_scheduler.c
-> index f54bdbeaa48b..4c306e40c416 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_scheduler.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_scheduler.c
-> @@ -645,7 +645,7 @@ static int __igt_schedule_cycle(struct drm_i915_private *i915,
->  	if (IS_ERR(obj))
->  		return PTR_ERR(obj);
->  
-> -	time = i915_gem_object_pin_map(obj, I915_MAP_WC);
-> +	time = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WC);
->  	if (IS_ERR(time)) {
->  		err = PTR_ERR(time);
->  		goto out_obj;
-> -- 
-> 2.31.0
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> > The reset code still needs fixing, as taking mmap locks during reset
+> > is not allowed.
+> > =
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> > Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Reviewed-by: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/gt/intel_reset.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i9=
+15/gt/intel_reset.c
+> > index 990cb4adbb9a..447f589750c2 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_reset.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+> > @@ -970,8 +970,6 @@ static int do_reset(struct intel_gt *gt, intel_engi=
+ne_mask_t stalled_mask)
+> >  {
+> >  	int err, i;
+> >  =
+
+> > -	gt_revoke(gt);
+> > -
+> >  	err =3D __intel_gt_reset(gt, ALL_ENGINES);
+> >  	for (i =3D 0; err && i < RESET_MAX_RETRIES; i++) {
+> >  		msleep(10 * (i + 1));
+> > @@ -1026,6 +1024,9 @@ void intel_gt_reset(struct intel_gt *gt,
+> >  =
+
+> >  	might_sleep();
+> >  	GEM_BUG_ON(!test_bit(I915_RESET_BACKOFF, &gt->reset.flags));
+> > +
+> =
+
+> I've added a FIXME comment here just so we don't totally forget. This will
+> also blow up again when we wrap the entire reset path into a dma_fence
+> critical section annotation (at least going forward, we can't do that on
+> hw that needs display reset with the current code unfortunately).
+> =
+
+> But I did look at the code which originally added this in
+> =
+
+> commit 2caffbf1176256cc4f8d4e5c3c524fc689cb9876
+> Author: Chris Wilson <chris@chris-wilson.co.uk>
+> Date:   Fri Feb 8 15:37:03 2019 +0000
+> =
+
+>     drm/i915: Revoke mmaps and prevent access to fence registers across r=
+eset
+> =
+
+> and noped right out.
+> =
+
+> I think this complexity needs to go entirely, and instead we just protect
+> the fence register state to make sure that after reset they are all good
+> again:
+> - add a new mutex for low level fence register state
+> - hold that mutex around fence register writes (really just the low level
+>   fence writes)
+> - hold it in the reset path when we restore fence registers
+> =
+
+> This means that a global reset also thrashes mmaps, but it's a global
+> reset we're talking about here, everything is thrash anyway. Plus/minus
+> fenced gtt mmaps really doesn't change the tally.
+
+My recollection is that GPU reset doesn't actually clobber the fence =
+
+registers. Though not 100% sure I can trust my brain on this. Also
+dunno if it actually matter here or not, but figured I'd point it out.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
