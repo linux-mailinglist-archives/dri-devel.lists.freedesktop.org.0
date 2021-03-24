@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744F3347A5B
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 15:12:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D3B9347A64
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 15:14:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DB2B6E039;
-	Wed, 24 Mar 2021 14:12:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C6D36EB8D;
+	Wed, 24 Mar 2021 14:14:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD16D6E039
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 14:12:25 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- t5-20020a1c77050000b029010e62cea9deso1299866wmi.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 07:12:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=TjDv7GVPX5g8pabX4QhVksC4wCTYctieyy1B2V9ZfTw=;
- b=JmsoA+aoAoJQnm0Tm7cEtW4jJnvWpcyU6upNGXLjA9VTkrr/g/QI1xEMgTiPgxYIXR
- MJ4PHH8ZOazk9vzw0b+sT1Wwra26IqFLB8bk4cBDI4RmeJ0XoyVg2IefA2JIHvHH7zGG
- lm8v1MyrkQZHggfpEkQu4CWPXYsoXgsaCdy5w=
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF9136EB8D
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 14:14:39 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id l4so33114521ejc.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 07:14:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rasmusvillemoes.dk; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FCHZXs+Na6H0beDmf/OCng/T5K6DKQZL7k9xPgulymE=;
+ b=CSmURK4SwSnVaLiGIPpo0hW0XaafR3WnY0Kktfn6Q8w2WAkQ2pI/vtZsaqDMr+Rrqm
+ 3j9+izYQ4UqWXHMKZToSCUpFRjOnIXY8UJy2FWXpJpqMTZ1LwLqfqxHXjI3T7WuIhnJ3
+ rDX0OvQ/BcN4cPnIJD1S57p05tgOJZ1lraw5U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=TjDv7GVPX5g8pabX4QhVksC4wCTYctieyy1B2V9ZfTw=;
- b=EHUl5Ym9YQ/RQrqFAhk3CHo3V+7hvjXu1/Fv/qhpGSapnhvQ/L0hdJVwf7cc3UIAUN
- ktLaRV3vuKCWUWqxFZYXd2hu5CN4wllFRecLQ2oX7Kn93O7pNYc1uR+9oXr8xGv36Cq8
- i4tT4ATi9naA9IIuRvjPpS0C4cw1NIByW7HUiXIuZ7sW1IbmG9DdA1zrp7inGKoUp9sn
- Swev6YMvA67Zbsz13M+oubUUjY/htJK/iLfzxRPdVA1UDmnk9l4PWdVeTdP3kVcLON89
- 45DjViXqSbQ48djzapgA8QSrl6697850mdxsg08B4ToOKHeiyBePgol5JMvuy0S1Fb0Y
- mQmQ==
-X-Gm-Message-State: AOAM530Caqtcv2nEk34F1RDDhnBweJjgVRajbPpBs0j7NGVZ+CNhkwrl
- mTlbhEmAPPJ3AhBYPdYdhsUesA==
-X-Google-Smtp-Source: ABdhPJxu/haxnWy5b1QuVRUrIyRfSlMI0NkulEVC30meavipE111hapmfvdpm02L9Nbp1Q8MMi3wOg==
-X-Received: by 2002:a7b:c096:: with SMTP id r22mr3191921wmh.102.1616595144387; 
- Wed, 24 Mar 2021 07:12:24 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u3sm3317218wrt.82.2021.03.24.07.12.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 07:12:23 -0700 (PDT)
-Date: Wed, 24 Mar 2021 15:12:22 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v9 28/70] drm/i915: Take obj lock around
- set_domain ioctl
-Message-ID: <YFtIxuO62yGw61DK@phenom.ffwll.local>
-References: <20210323155059.628690-1-maarten.lankhorst@linux.intel.com>
- <20210323155059.628690-29-maarten.lankhorst@linux.intel.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FCHZXs+Na6H0beDmf/OCng/T5K6DKQZL7k9xPgulymE=;
+ b=TceopF+pitCF36Gs5IZzZ0QLaXWKaKoUYCpyJeQxKqg73biag8A8578kNPElPKtsCr
+ CcEKQZhoGTPqVl8fkfb4zV7VIt/ZlIYt/AqCMyvO9WbExf2bbjlx/726HdeCdTuN4qrp
+ h3Ke9BGI9ILvMqb7MUiFYRGmcv17Y3JG0O4J0/DYFeVhn0szSA/ThoO8/tkjcr38sE3p
+ zP9cvNFASDT54Sl3Jjyrv5SDDX9d+Ju3yo7NwWKDfQJPI22FSwC8bvkazOMyfqXCr5ql
+ wqFxt4Seo2WCHF1WF5ckHgSvRr96O6i9O/bJvCSkQ4AxEamjDE7Ae/OVO9foefrYOekR
+ dLDQ==
+X-Gm-Message-State: AOAM532tZKpa9LyP6cQVQvZnB4kK6QEcYodTL7MzAtxZDzGb2l37zYyD
+ lJSx71HzHlvFrRcSDv7qgQt1ig==
+X-Google-Smtp-Source: ABdhPJww1pdM64UL62x05vVdAART6xCBNzDfZeqUIHi/5inBRmV8dfVIuzHdABjEJtiJD1nhk3/fww==
+X-Received: by 2002:a17:906:8447:: with SMTP id
+ e7mr3979848ejy.523.1616595278353; 
+ Wed, 24 Mar 2021 07:14:38 -0700 (PDT)
+Received: from [192.168.1.149] ([80.208.71.248])
+ by smtp.gmail.com with ESMTPSA id c10sm1179885edt.64.2021.03.24.07.14.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Mar 2021 07:14:37 -0700 (PDT)
+Subject: Re: [PATCH] amdgpu: fix gcc -Wrestrict warning
+To: Arnd Bergmann <arnd@kernel.org>
+References: <20210323130430.2250052-1-arnd@kernel.org>
+ <f8cd5d0b-0c50-a2e9-a5a1-a2358419dd44@rasmusvillemoes.dk>
+ <CAK8P3a17=PdOqKrvemuP1OCzoxRZ0HLBje-tV4Ssc=kZeVbQRw@mail.gmail.com>
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <4e63dbbc-0aa3-2950-dda1-1e6aa19d7d5d@rasmusvillemoes.dk>
+Date: Wed, 24 Mar 2021 15:14:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210323155059.628690-29-maarten.lankhorst@linux.intel.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <CAK8P3a17=PdOqKrvemuP1OCzoxRZ0HLBje-tV4Ssc=kZeVbQRw@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,146 +70,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jinzhou Su <Jinzhou.Su@amd.com>, David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Huang Rui <ray.huang@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 23, 2021 at 04:50:17PM +0100, Maarten Lankhorst wrote:
-> We need to lock the object to move it to the correct domain,
-> add the missing lock.
-> =
+On 24/03/2021 14.33, Arnd Bergmann wrote:
+> On Tue, Mar 23, 2021 at 4:57 PM Rasmus Villemoes
+> <linux@rasmusvillemoes.dk> wrote:
+>> On 23/03/2021 14.04, Arnd Bergmann wrote:
+>>>                       if (securedisplay_cmd->status == TA_SECUREDISPLAY_STATUS__SUCCESS) {
+>>> +                             int pos = 0;
+>>>                               memset(i2c_output,  0, sizeof(i2c_output));
+>>>                               for (i = 0; i < TA_SECUREDISPLAY_I2C_BUFFER_SIZE; i++)
+>>> -                                     sprintf(i2c_output, "%s 0x%X", i2c_output,
+>>> +                                     pos += sprintf(i2c_output + pos, " 0x%X",
+>>>                                               securedisplay_cmd->securedisplay_out_message.send_roi_crc.i2c_buf[i]);
+>>>                               dev_info(adev->dev, "SECUREDISPLAY: I2C buffer out put is :%s\n", i2c_output);
+>>
+>> Eh, why not get rid of the 256 byte stack allocation and just replace
+>> all of this by
+>>
+>>   dev_info(adev->dev, ""SECUREDISPLAY: I2C buffer out put is: %*ph\n",
+>> TA_SECUREDISPLAY_I2C_BUFFER_SIZE,
+>> securedisplay_cmd->securedisplay_out_message.send_roi_crc.i2c_buf);
+>>
+>> That's much less code (both in #LOC and .text), and avoids adding yet
+>> another place that will be audited over and over for "hm, yeah, that
+>> sprintf() is actually not gonna overflow".
+>>
+>> Yeah, it'll lose the 0x prefixes for each byte and use lowercase hex chars.
+> 
+> Ah, I didn't know the kernel's sprintf could do that, that's really nice.
 
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Reviewed-by: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
+If you're bored, you can "git grep -E -C4 '%[0.]2[xX]'" and find places
+that are inside a small loop, many can trivially be converted to %ph,
+though often with some small change in formatting. If you're lucky, you
+even get to fix real bugs when people pass a "char" to %02x and "know"
+that that will produce precisely two bytes of output, so they've sized
+their stack buffer accordingly - boom when "char" happens to be signed
+and one of the bytes have a value beyond ascii and %02x produces 0xffffffXX.
 
-This conflicted real bad with the in-flight -gt-next stuff that wasn't
-reset yet, so I picked up the old version here:
+%ph has a hard-coded upper bound of 64 bytes, I think that's silly
+because people instead do these inefficient and very verbose loops
+instead, wasting stack, .text and runtime.
 
-https://lore.kernel.org/intel-gfx/20210128162612.927917-29-maarten.lankhors=
-t@linux.intel.com/
-
-That one looks a lot more reasonable.
--Daniel
-
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_domain.c | 41 ++++++++++------------
->  1 file changed, 19 insertions(+), 22 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm=
-/i915/gem/i915_gem_domain.c
-> index 41dae0d83dbb..e3537922183b 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-> @@ -456,13 +456,7 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, vo=
-id *data,
->  		 * userptr validity
->  		 */
->  		err =3D i915_gem_object_userptr_validate(obj);
-> -		if (!err)
-> -			err =3D i915_gem_object_wait(obj,
-> -						   I915_WAIT_INTERRUPTIBLE |
-> -						   I915_WAIT_PRIORITY |
-> -						   (write_domain ? I915_WAIT_ALL : 0),
-> -						   MAX_SCHEDULE_TIMEOUT);
-> -		goto out;
-> +		goto out_wait;
->  	}
->  =
-
->  	/*
-> @@ -476,6 +470,10 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, vo=
-id *data,
->  		goto out;
->  	}
->  =
-
-> +	err =3D i915_gem_object_lock_interruptible(obj, NULL);
-> +	if (err)
-> +		goto out;
-> +
->  	/*
->  	 * Flush and acquire obj->pages so that we are coherent through
->  	 * direct access in memory with previous cached writes through
-> @@ -487,7 +485,7 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, voi=
-d *data,
->  	 */
->  	err =3D i915_gem_object_pin_pages(obj);
->  	if (err)
-> -		goto out;
-> +		goto out_unlock;
->  =
-
->  	/*
->  	 * Already in the desired write domain? Nothing for us to do!
-> @@ -500,10 +498,6 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, vo=
-id *data,
->  	 * without having to further check the requested write_domain.
->  	 */
->  	if (READ_ONCE(obj->write_domain) =3D=3D read_domains)
-> -		goto out_wait;
-> -
-> -	err =3D i915_gem_object_lock_interruptible(obj, NULL);
-> -	if (err)
->  		goto out_unpin;
->  =
-
->  	if (read_domains & I915_GEM_DOMAIN_WC)
-> @@ -513,19 +507,22 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, v=
-oid *data,
->  	else
->  		i915_gem_object_set_to_cpu_domain(obj, write_domain);
->  =
-
-> -	i915_gem_object_unlock(obj);
-> +out_unpin:
-> +	i915_gem_object_unpin_pages(obj);
->  =
-
-> +out_unlock:
-> +	i915_gem_object_unlock(obj);
->  out_wait:
-> -	err =3D i915_gem_object_wait(obj,
-> -				   I915_WAIT_INTERRUPTIBLE |
-> -				   I915_WAIT_PRIORITY |
-> -				   (write_domain ? I915_WAIT_ALL : 0),
-> -				   MAX_SCHEDULE_TIMEOUT);
-> -	if (write_domain)
-> -		i915_gem_object_invalidate_frontbuffer(obj, ORIGIN_CPU);
-> +	if (!err) {
-> +		err =3D i915_gem_object_wait(obj,
-> +					  I915_WAIT_INTERRUPTIBLE |
-> +					  I915_WAIT_PRIORITY |
-> +					  (write_domain ? I915_WAIT_ALL : 0),
-> +					  MAX_SCHEDULE_TIMEOUT);
-> +		if (write_domain)
-> +			i915_gem_object_invalidate_frontbuffer(obj, ORIGIN_CPU);
-> +	}
->  =
-
-> -out_unpin:
-> -	i915_gem_object_unpin_pages(obj);
->  out:
->  	i915_gem_object_put(obj);
->  	return err;
-> -- =
-
-> 2.31.0
-> =
-
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Rasmus
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
