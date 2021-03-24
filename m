@@ -2,44 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3CC3474FB
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 10:47:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F316F347503
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 10:49:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F38716E9A2;
-	Wed, 24 Mar 2021 09:47:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BAC16E99B;
+	Wed, 24 Mar 2021 09:49:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 496816E9A2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 09:47:41 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93237580;
- Wed, 24 Mar 2021 10:47:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1616579259;
- bh=wLh0dNKS1ILGqvP0VCIsZ7hKHEUOMfmlKCOjleuCMJA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=wI7Y8X7TfRF1ZoB2T+gB0A5vcHHx3ExQ3OdhFn4VonJLepPeDGTMYp3MQkh12V/fR
- TZHCrSe41+85nN7Aro28V9201ZVRw5E/M+M1doPI5IkjIvPnOLilpcHAgcQzEJOOgi
- GKMyKE6oIaZMY88TwlJKZjIYk9YgaxXCYMJtW9r4=
-Date: Wed, 24 Mar 2021 11:46:57 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2 1/3] drm: bridge/panel: Cleanup connector on bridge
- detach
-Message-ID: <YFsKkf7ioL57TiAl@pendragon.ideasonboard.com>
-References: <20210120123535.40226-1-paul@crapouillou.net>
- <20210120123535.40226-2-paul@crapouillou.net>
- <CAKMK7uGGDe8bZpeTnyCkF7g_2gC1nixOzWe4FWYXPRWi-q5y7A@mail.gmail.com>
- <4YQ8NQ.HNQ7IMBKVEBV2@crapouillou.net>
- <CAKMK7uFHYPvJm46f-LXBO=nERGBBO3i_=YXZyAUi0ZXJFLmXVw@mail.gmail.com>
- <YFqgyTNt42vBe+w+@pendragon.ideasonboard.com>
- <YFsI6OA+jmyiPyv6@phenom.ffwll.local>
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FE506E99B
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 09:49:23 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id w3so31777513ejc.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 02:49:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=q2TNkdIQ/zqP4vTBESLhTRQ8ElDlSEpihHNWHVVdOWw=;
+ b=S7+rpvwNmh3R0GucjXGfeKomhZ1GYmSIiZRFBQZs+DNgNJlAQYPIEbkKvfxfE7jqgJ
+ Xp5ioShGHBPMpZz2X1rnpZdsQEU4OyXOOH9TerN/74vfVbeTt6VxpfxlJnR4b+dNky51
+ O5YVnDX4eu+q9Ul9Q7CK5XSLe281AwPBrNHFQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=q2TNkdIQ/zqP4vTBESLhTRQ8ElDlSEpihHNWHVVdOWw=;
+ b=MpIqBrcgckXc4+QCmLONw/LXn0J4TFwkoWeb/XsljaV4UiEyrD/GjuKrgr00HYzsW6
+ shsol5QojaKwN6rQ02ADxhNrxWTVUs7mp7gcVseKRVAQANui8uyx+fenhjf3sFPQDQKC
+ 2U3z/lynQqKO3/GMgiyBNokOKBOoGYcmCoB7rHa10F8vHXN/Zwjk6AiUXbsymLQiRRpu
+ HbtPJtBZgu7P7E5dzmGfWiumdJs9lcrIz+mjWhKsVj8l5hlJwPKbX7q+pKAwQf7KmbHE
+ h9kwCnzwwSdnQsNCd4KR4aYCKaELVsGGgT/lN8fVDW1L6ntckngS7tqVgdQL6y1ExHHS
+ hx9g==
+X-Gm-Message-State: AOAM532mE2ZbxPKQ8BAc6dOrIh1g0F1DC+g4em4AH+Eytv/rSQjx3k5L
+ BOs9kCFWOvKYALAwR9AUQmfwW56/ziCDT4jb980t0g==
+X-Google-Smtp-Source: ABdhPJxT/mrB/QVLHNjBduRmjrJ94vDchGyD6p3if3yVTDDUhEZVii5KLyc4Gnw0eC6LPMdYKW6Vv8fzGXaNaflz2qw=
+X-Received: by 2002:a17:907:104f:: with SMTP id
+ oy15mr2758052ejb.252.1616579362156; 
+ Wed, 24 Mar 2021 02:49:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YFsI6OA+jmyiPyv6@phenom.ffwll.local>
+References: <20210322140152.101709-1-jagan@amarulasolutions.com>
+ <20210322140152.101709-2-jagan@amarulasolutions.com>
+ <YFpxYpA+EIZm7sOf@pendragon.ideasonboard.com>
+ <f47bc0ad-dbd6-05b5-aaec-2e3256e3715a@sholland.org>
+ <CAMty3ZDOVeMeYTsuF8n4EQTG6eEbj6e33TuTPrFiMWG4RhRdSw@mail.gmail.com>
+ <YFsIkGH2cRgWk8z9@pendragon.ideasonboard.com>
+In-Reply-To: <YFsIkGH2cRgWk8z9@pendragon.ideasonboard.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Wed, 24 Mar 2021 15:19:10 +0530
+Message-ID: <CAMty3ZBGnz_a4_HO_TZ-zPNJwHMcVJyrBi3kZX2=a6G47Ze-yw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] drm: sun4i: dsi: Use drm_of_find_panel_or_bridge
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,105 +64,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
- od@zcrc.me, stable <stable@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Samuel Holland <samuel@sholland.org>,
+ linux-sunxi <linux-sunxi@googlegroups.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@csie.org>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBNYXIgMjQsIDIwMjEgYXQgMTA6Mzk6NTJBTSArMDEwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBPbiBXZWQsIE1hciAyNCwgMjAyMSBhdCAwNDoxNTozN0FNICswMjAwLCBMYXVyZW50
-IFBpbmNoYXJ0IHdyb3RlOgo+ID4gT24gV2VkLCBKYW4gMjAsIDIwMjEgYXQgMDY6Mzg6MDNQTSAr
-MDEwMCwgRGFuaWVsIFZldHRlciB3cm90ZToKPiA+ID4gT24gV2VkLCBKYW4gMjAsIDIwMjEgYXQg
-NjoxMiBQTSBQYXVsIENlcmN1ZWlsIHdyb3RlOgo+ID4gPiA+IExlIG1lci4gMjAgamFudi4gMjAy
-MSDDoCAxNzowMywgRGFuaWVsIFZldHRlciBhIMOpY3JpdCA6Cj4gPiA+ID4gPiBPbiBXZWQsIEph
-biAyMCwgMjAyMSBhdCAxOjM1IFBNIFBhdWwgQ2VyY3VlaWwgd3JvdGU6Cj4gPiA+ID4gPj4KPiA+
-ID4gPiA+PiAgSWYgd2UgZG9uJ3QgY2FsbCBkcm1fY29ubmVjdG9yX2NsZWFudXAoKSBtYW51YWxs
-eSBpbgo+ID4gPiA+ID4+ICBwYW5lbF9icmlkZ2VfZGV0YWNoKCksIHRoZSBjb25uZWN0b3Igd2ls
-bCBiZSBjbGVhbmVkIHVwIHdpdGggdGhlIG90aGVyCj4gPiA+ID4gPj4gIERSTSBvYmplY3RzIGlu
-IHRoZSBjYWxsIHRvIGRybV9tb2RlX2NvbmZpZ19jbGVhbnVwKCkuIEhvd2V2ZXIsIHNpbmNlIG91
-cgo+ID4gPiA+ID4+ICBkcm1fY29ubmVjdG9yIGlzIGRldm0tYWxsb2NhdGVkLCBieSB0aGUgdGlt
-ZSBkcm1fbW9kZV9jb25maWdfY2xlYW51cCgpCj4gPiA+ID4gPj4gIHdpbGwgYmUgY2FsbGVkLCBv
-dXIgY29ubmVjdG9yIHdpbGwgYmUgbG9uZyBnb25lLiBUaGVyZWZvcmUsIHRoZQo+ID4gPiA+ID4+
-ICBjb25uZWN0b3IgbXVzdCBiZSBjbGVhbmVkIHVwIHdoZW4gdGhlIGJyaWRnZSBpcyBkZXRhY2hl
-ZCB0byBhdm9pZAo+ID4gPiA+ID4+ICB1c2UtYWZ0ZXItZnJlZSBjb25kaXRpb25zLgo+ID4gPiA+
-ID4KPiA+ID4gPiA+IEZvciAtZml4ZXMgdGhpcyBzb3VuZHMgb2ssIGJ1dCBmb3IgLW5leHQgSSB0
-aGluayBzd2l0Y2hpbmcgdG8gZHJtbV8KPiA+ID4gPiA+IHdvdWxkIGJlIG11Y2ggYmV0dGVyLgo+
-ID4gPiA+Cj4gPiA+ID4gVGhlIEFQSSB3b3VsZCBuZWVkIHRvIGNoYW5nZSB0byBoYXZlIGFjY2Vz
-cyB0byB0aGUgZHJtX2RldmljZSBzdHJ1Y3QsCj4gPiA+ID4gdGhvdWdoLiBUaGF0IHdvdWxkIGJl
-IHF1aXRlIGEgYmlnIHBhdGNoLCB0aGVyZSBhcmUgYSBmZXcgZG96ZW5zIHNvdXJjZQo+ID4gPiA+
-IGZpbGVzIHRoYXQgdXNlIHRoaXMgQVBJIGFscmVhZHkuCj4gPiA+IAo+ID4gPiBIbSByaWdodCBw
-dXJlIGRybW1fIGRvZXNuJ3Qgd29yayBmb3IgcGFuZWwgb3IgYnJpZGdlIHNpbmNlIGl0J3MKPiA+
-ID4gdXN1YWxseSBhIHNlcGFyYXRlIGRyaXZlci4gQnV0IGRldm1fIGFsc28gZG9lc24ndCB3b3Jr
-LiBJIHRoaW5rIHdoYXQKPiA+ID4gd2UgbmVlZCBoZXJlIGlzIHR3by1zdGFnZTogZmlyc3Qga21h
-bGxvYyB0aGUgcGFuZWwgKG9yIGJyaWRnZSwgaXQncwo+ID4gPiByZWFsbHkgdGhlIHNhbWUpIGlu
-IHRoZSBwYW5lbC9icmlkZ2UgZHJpdmVyIGxvYWQuIFRoZW4gd2hlbiB3ZSBiaW5kIGl0Cj4gPiA+
-IHRvIHRoZSBkcm1fZGV2aWNlIHdlIGNhbiB0aWUgaXQgaW50byB0aGUgbWFuYWdlZCByZXNvdXJj
-ZXMgd2l0aAo+ID4gPiBkcm1tX2FkZF9hY3Rpb25fb3JfcmVzZXQuIFBhc3NpbmcgdGhlIGRybV9k
-ZXZpY2UgdG8gdGhlIHBvaW50IHdoZXJlIHdlCj4gPiA+IGFsbG9jYXRlIHRoZSBwYW5lbC9icmlk
-Z2UgZG9lc24ndCB3b3JrIGZvciB0aGVzZS4KPiA+ID4gCj4gPiA+IEkgdGhpbmsgbWluaW1hbGx5
-IHdlIG5lZWQgYSBGSVhNRSBoZXJlIGFuZCBhY2sgZnJvbSBMYXVyZW50IG9uIGhvdwo+ID4gPiB0
-aGlzIHNob3VsZCBiZSBzb2x2ZWQgYXQgbGVhc3QsIHNpbmNlIHBhbmVsIGJyaWRnZSBpcyB1c2Vk
-IHJhdGhlcgo+ID4gPiB3aWRlbHkuCj4gPiAKPiA+IEJyaWRnZSByZW1vdmFsIGlzIGNvbXBsZXRl
-bHkgYnJva2VuLiBJZiB5b3UgdW5iaW5kIGEgYnJpZGdlIGRyaXZlciBmcm9tCj4gPiB0aGUgZGV2
-aWNlLCB0aGUgYnJpZGdlIHdpbGwgYmUgdW5yZWdpc3RlcmVkIGFuZCByZXNvdXJjZXMgZnJlZWQs
-IHdpdGhvdXQKPiA+IHRoZSBkaXNwbGF5IGRyaXZlciBrbm93aW5nIGFib3V0IHRoaXMuIFRoZSBs
-aWZldGltZSBvZiB0aGUgZHJtX2JyaWRnZQo+ID4gc3RydWN0dXJlIGl0c2VsZiBpc24ndCB0aGUg
-b25seSBpc3N1ZSB0byBiZSBhZGRyZXNzZWQgaGVyZSwgaXQncyBicm9hZGVyCj4gPiB0aGFuIHRo
-YXQsIGFuZCBuZWVkcyB0byBjb25zaWRlciB0aGF0IHRoZSBkaXNwbGF5IGRyaXZlciBjb3VsZCBi
-ZQo+ID4gY2FsbGluZyB0aGUgYnJpZGdlIG9wZXJhdGlvbnMgY29uY3VycmVudGx5IHRvIHRoZSBy
-ZW1vdmFsLgo+IAo+IFNvIGZvciB0aGUgInVubG9hZGluZyBicmlkZ2Ugc2hvdWxkIGZpcnN0IHVu
-bG9hZCBkaXNwbGF5IiBwcm9ibGVtIHRoYXQgd2FzCj4gc3VwcG9zZWQgdG8gZ2V0IGZpeGVkIHdp
-dGggZGV2aWNlIGxpbmtzLiBUaGVyZSB3YXMgYXQgbGVhc3QgYSBwYXRjaCBmb3IKPiB0aGF0LCBh
-bmQgSSBSYWZlbCBmcm9tIHBtIHNpZGUgZGlkIGFsbCB0aGUgY29yZSBjaGFuZ2VzIHRvIG1ha2Ug
-aXQgd29yay4KPiBCdXQgaXQgZGlkbid0IGxhbmQgSSB0aGluaywgc28gdGhpbmdzIGtlZXAgb24g
-c3Vja2luZy4KPiAKPiBPZmMgdGhlIGxpZmV0aW1lIG9mIHRoZSBicmlkZ2Ugc3RydWN0dXJlIGlz
-IHRoZW4gYW4gYWRkaXRpb25hbCBwcm9ibGVtIG9uCj4gdG9wIGhlcmUuCgpUaGVyZSdzIGEgc2V0
-IG9mIGludGVyZXN0aW5nIHByb2JsZW1zLiBJIGRvbid0IHRoaW5rIGl0J3MgaW1wb3NzaWJsZSwK
-YnV0IGl0IHdpbGwgcmVxdWlyZSBzb21lb25lIHdpdGggYSBnb29kIHVuZGVyc3RhbmRpbmcgb2Yg
-dGhlIHByb2JsZW0gKGFzCnRoYXQgcGVyc29uIHdvdWxkIHJlYWxseSBuZWVkIHRvIHNlZSB0aGUg
-YmlnIHBpY3R1cmUsIGFuZCB0YWtlIGFsbCB1c2UKY2FzZXMgaW50byBhY2NvdW50KSwgYW5kIGEg
-bGFyZ2UgYW1vdW50IG9mIHRpbWUgYW5kIG1vdGl2YXRpb24uCgo+ID4gV2UgbmVlZCBhIHZvbHVu
-dGVlciB3aXRoIGVub3VnaCBtb3RpdmF0aW9uIHRvIHNvbHZlIHRoaXMgc3Vic3lzdGVtLXdpZGUK
-PiA+IDotKSBJbiB0aGUgbWVhbnRpbWUsIHdoYXRldmVyIHNob3J0Y3V0IGFkZHJlc3NlcyBpbW1l
-ZGlhdGUgaXNzdWVzIGlzCj4gPiBwcm9iYWJseSBmaW5lLCBhcyB5YWstc2hhdmluZyBpbiB0aGlz
-IGFyZWEgd291bGQgZGVmaW5pdGVseSBub3QgYmUKPiA+IHJlYXNvbmFibGUuCj4gCj4gSSBndWVz
-cyBkcm0vYnJpZGdlIGtlZXBzIG9uIGRpc2FwcG9pbnRpbmcgOi0vCgpJIHVzdWFsbHkgYmxhbWUg
-dGhlIHg4NiBmb2xrcyBmb3Igbm90IGNhcmluZyBlbm91Z2ggYWJvdXQgYnJpZGdlcwppbml0aWFs
-bHksIHJlc3VsdGluZyBpbiBpdCBiZWluZyBhIHNlY29uZCBjbGFzcyBjaXRpemVuIDstKQoKPiA+
-ID4gPiA+PiB2MjogQ2xlYW51cCBjb25uZWN0b3Igb25seSBpZiBpdCB3YXMgY3JlYXRlZAo+ID4g
-PiA+ID4+Cj4gPiA+ID4gPj4gRml4ZXM6IDEzZGZjMDU0MGE1NyAoImRybS9icmlkZ2U6IFJlZmFj
-dG9yIG91dCB0aGUgcGFuZWwgd3JhcHBlciBmcm9tIHRoZSBsdmRzLWVuY29kZXIgYnJpZGdlLiIp
-Cj4gPiA+ID4gPj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIDQuMTIrCj4gPiA+ID4g
-Pj4gQ2M6IEFuZHJ6ZWogSGFqZGEgPGEuaGFqZGFAc2Ftc3VuZy5jb20+Cj4gPiA+ID4gPj4gQ2M6
-IE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4KPiA+ID4gPiA+PiBDYzog
-TGF1cmVudCBQaW5jaGFydCA8TGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgo+ID4g
-PiA+ID4+IENjOiBKb25hcyBLYXJsbWFuIDxqb25hc0Brd2lib28uc2U+Cj4gPiA+ID4gPj4gQ2M6
-IEplcm5laiBTa3JhYmVjIDxqZXJuZWouc2tyYWJlY0BzaW9sLm5ldD4KPiA+ID4gPiA+PiBTaWdu
-ZWQtb2ZmLWJ5OiBQYXVsIENlcmN1ZWlsIDxwYXVsQGNyYXBvdWlsbG91Lm5ldD4KPiA+ID4gPiA+
-PiAtLS0KPiA+ID4gPiA+PiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9wYW5lbC5jIHwgNiArKysr
-KysKPiA+ID4gPiA+PiAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKQo+ID4gPiA+ID4+
-Cj4gPiA+ID4gPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvcGFuZWwuYyBi
-L2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvcGFuZWwuYwo+ID4gPiA+ID4+IGluZGV4IDBkZGMzNzU1
-MTE5NC4uZGY4NmIwZWUwNTQ5IDEwMDY0NAo+ID4gPiA+ID4+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9icmlkZ2UvcGFuZWwuYwo+ID4gPiA+ID4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
-cGFuZWwuYwo+ID4gPiA+ID4+IEBAIC04Nyw2ICs4NywxMiBAQCBzdGF0aWMgaW50IHBhbmVsX2Jy
-aWRnZV9hdHRhY2goc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSwKPiA+ID4gPiA+Pgo+ID4gPiA+
-ID4+ICBzdGF0aWMgdm9pZCBwYW5lbF9icmlkZ2VfZGV0YWNoKHN0cnVjdCBkcm1fYnJpZGdlICpi
-cmlkZ2UpCj4gPiA+ID4gPj4gIHsKPiA+ID4gPiA+PiArCXN0cnVjdCBwYW5lbF9icmlkZ2UgKnBh
-bmVsX2JyaWRnZSA9IGRybV9icmlkZ2VfdG9fcGFuZWxfYnJpZGdlKGJyaWRnZSk7Cj4gPiA+ID4g
-Pj4gKwlzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yID0gJnBhbmVsX2JyaWRnZS0+Y29u
-bmVjdG9yOwo+ID4gPiA+ID4+ICsKPiA+ID4gPiA+PiArCS8qIENsZWFudXAgdGhlIGNvbm5lY3Rv
-ciBpZiB3ZSBrbm93IGl0IHdhcyBpbml0aWFsaXplZCAqLwo+ID4gPiA+ID4+ICsJaWYgKCEhcGFu
-ZWxfYnJpZGdlLT5jb25uZWN0b3IuZGV2KQo+ID4gPiA+ID4+ICsJCWRybV9jb25uZWN0b3JfY2xl
-YW51cChjb25uZWN0b3IpOwo+ID4gPiA+ID4+ICB9Cj4gPiA+ID4gPj4KPiA+ID4gPiA+PiAgc3Rh
-dGljIHZvaWQgcGFuZWxfYnJpZGdlX3ByZV9lbmFibGUoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRn
-ZSkKCi0tIApSZWdhcmRzLAoKTGF1cmVudCBQaW5jaGFydApfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Laurent,
+
+On Wed, Mar 24, 2021 at 3:09 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Jagan,
+>
+> On Wed, Mar 24, 2021 at 02:44:57PM +0530, Jagan Teki wrote:
+> > On Wed, Mar 24, 2021 at 8:18 AM Samuel Holland wrote:
+> > > On 3/23/21 5:53 PM, Laurent Pinchart wrote:
+> > > > On Mon, Mar 22, 2021 at 07:31:49PM +0530, Jagan Teki wrote:
+> > > >> Replace of_drm_find_panel with drm_of_find_panel_or_bridge
+> > > >> for finding panel, this indeed help to find the bridge if
+> > > >> bridge support added.
+> > > >>
+> > > >> Added NULL in bridge argument, same will replace with bridge
+> > > >> parameter once bridge supported.
+> > > >>
+> > > >> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > > >
+> > > > Looks good, there should be no functional change.
+> > >
+> > > Actually this breaks all existing users of this driver, see below.
+> > >
+> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > >
+> > > >> ---
+> > > >> Changes for v4, v3:
+> > > >> - none
+> > > >>
+> > > >>  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 11 ++++++++---
+> > > >>  1 file changed, 8 insertions(+), 3 deletions(-)
+> > > >>
+> > > >> diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> > > >> index 4f5efcace68e..2e9e7b2d4145 100644
+> > > >> --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> > > >> +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> > > >> @@ -21,6 +21,7 @@
+> > > >>
+> > > >>  #include <drm/drm_atomic_helper.h>
+> > > >>  #include <drm/drm_mipi_dsi.h>
+> > > >> +#include <drm/drm_of.h>
+> > > >>  #include <drm/drm_panel.h>
+> > > >>  #include <drm/drm_print.h>
+> > > >>  #include <drm/drm_probe_helper.h>
+> > > >> @@ -963,10 +964,14 @@ static int sun6i_dsi_attach(struct mipi_dsi_host *host,
+> > > >>                          struct mipi_dsi_device *device)
+> > > >>  {
+> > > >>      struct sun6i_dsi *dsi = host_to_sun6i_dsi(host);
+> > > >> -    struct drm_panel *panel = of_drm_find_panel(device->dev.of_node);
+> > >
+> > > This is using the OF node of the DSI device, which is a direct child of
+> > > the DSI host's OF node. There is no OF graph involved.
+> > >
+> > > >> +    struct drm_panel *panel;
+> > > >> +    int ret;
+> > > >> +
+> > > >> +    ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 0, 0,
+> > > >> +                                      &panel, NULL);
+> > >
+> > > However, this function expects to find the panel using OF graph. This
+> > > does not work with existing device trees (PinePhone, PineTab) which do
+> > > not use OF graph to connect the panel. And it cannot work, because the
+> > > DSI host's binding specifies a single port: the input port from the
+> > > display engine.
+> >
+> > Thanks for noticing this. I did understand your point and yes, I did
+> > mention the updated pipeline in previous versions and forgot to add it
+> > to this series.
+> >
+> > Here is the updated pipeline to make it work:
+> >
+> > https://patchwork.kernel.org/project/dri-devel/patch/20190524104252.20236-1-jagan@amarulasolutions.com/
+> >
+> > Let me know your comments on this, so I will add a patch for the
+> > above-affected DTS files.
+>
+> DT is an ABI, we need to ensure backward compatibility. Changes in
+> kernel drivers can't break devices that have an old DT.
+
+Thanks for your point.
+
+So, we need to choose APIs that would compatible with the old DT and
+new DT changes. Am I correct?
+
+Jagan.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
