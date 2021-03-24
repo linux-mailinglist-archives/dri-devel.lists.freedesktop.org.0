@@ -2,64 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F253E348554
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 00:31:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA6EE34855A
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 00:33:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01ACA6EAC4;
-	Wed, 24 Mar 2021 23:31:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AC7F6EACB;
+	Wed, 24 Mar 2021 23:33:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
- [IPv6:2607:f8b0:4864:20::f2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06C936EAC4;
- Wed, 24 Mar 2021 23:31:22 +0000 (UTC)
-Received: by mail-qv1-xf2d.google.com with SMTP id x27so295745qvd.2;
- Wed, 24 Mar 2021 16:31:21 -0700 (PDT)
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09B7A6EAC8;
+ Wed, 24 Mar 2021 23:33:50 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id o66so349582ybg.10;
+ Wed, 24 Mar 2021 16:33:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=YSCdZnAnf0ga32BuYYnsOy/pD1p+dNeLd3FA9IA50S8=;
- b=s21EGvmoC9jB2QEZbmz7XuA4MS3b53OLBfvUIfnvnVbm06x6yp7oPUmw8mCHvR8PGM
- n5pAtQgQCe9Cb9KO4+tFLeUa2BrXNqVoAdML5aqpXMkno6GLzzo1AAPgQQd1l2R4YFwq
- iCcqbeUOk3Wt8adngRu44s1X9HNLswz9R/35DNKg3Z/dAp0JBouiPwPIAcJRF8dTIHG9
- wAqLokddi94263eXM1EHxbR4Qrs0ahzqjKYuFEIQeszBz+pbq7HmNu9hqFJZvwyX7dUK
- 47He/EPX5Q7ICZaXovrzfY1Z1m2lHkH4PNsI9M1PewU5Mh20G1HJtbZle6ypow3oReHZ
- i2oA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mS6K4y5Gdwm273OjX7Mj3NnKkqV9h0GOYxPLfw0a8kE=;
+ b=TbBBCMKGGrU1SLAS0jXw2dUt2IsKi4yR/C/6kDgvmt3Zrd/Iy3pI9RU8qXxdO9gUne
+ 9KFbKOHNGpE4ITCowW1oyy+m+lpITlKOlZdjbnWqBwieqWuExsFJuvsueD1b7ESR05MJ
+ 9Y1u1rPJVUfGFvdLZirXVQTxpO9TSbMapoFxyysFh9SOW11pe1X+NTUC6Yazhwqi52j1
+ s7K7qZeIF3uiE4De/8ZydW5pOinjvRKlmJCgU6grEWlPW7X82bOjp8oRmUp/ApdRu1Jj
+ 7dOeYZzNgoM2pnsIsYaDF0hTqeNrGMRXnvA4fvygFZxOV0K3KX+0x2ze1TKeySBky6M/
+ 3T5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=YSCdZnAnf0ga32BuYYnsOy/pD1p+dNeLd3FA9IA50S8=;
- b=a9wAPaZ2G32ybAuhzuVT8wmFvq9bY/ahJlQt2sU5/yU+D7L7zvLbYHZlI3NNz+2lhb
- sVJnXN38m0cQ4ty7kTlidJGjXFyKLjKhHcfVbtFnOaUPbLu2A9syHzLTU1ts/NIz1sso
- zNQdktEyZQUPsL+o0wpwn76EhJYitSvsfvn96wGHQ4UR2sxu5neinTm7DQrueIg5rzAN
- kwbZMfRI6V6gb0eXRzyJGTNKVRLR0310Rs/cMjNFXtSp4YgjYZpJ21Gxl11YChpdyXEK
- tNSA+PB0OWfhEE48FO/s2fsDLLyXY6fo79bG/o7bGWA54tTRR7zysSL2zsuwRdfY/D5E
- KP2g==
-X-Gm-Message-State: AOAM533+QNVgrGtd10DNvTlv11yEa4QWeRjPHLiu6YiPxkgepXoR3z0w
- GumTbhbLYi3KjDoqtQ/aeeU4zNFyoeaJX/ED
-X-Google-Smtp-Source: ABdhPJxxNWYsBQWHoQoJbW0BfWK5AgOTPsyBBpekOMIYVvAC9SkadGXlMFyzyH07BwdVGHXRxq7qzA==
-X-Received: by 2002:ad4:538a:: with SMTP id i10mr5616702qvv.9.1616628681226;
- Wed, 24 Mar 2021 16:31:21 -0700 (PDT)
-Received: from Slackware ([156.146.55.193])
- by smtp.gmail.com with ESMTPSA id j3sm3029485qki.84.2021.03.24.16.31.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 16:31:20 -0700 (PDT)
-Date: Thu, 25 Mar 2021 05:00:39 +0530
-From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] drm/radeon/r600_cs: Couple of typo fixes
-Message-ID: <YFvLn0E+9AaqLY0e@Slackware>
-Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20210324135026.3540-1-unixbhaskar@gmail.com>
- <e3c60b65-7df2-18d8-4275-3588f6777810@infradead.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mS6K4y5Gdwm273OjX7Mj3NnKkqV9h0GOYxPLfw0a8kE=;
+ b=jSN339P2FTBj2z9FckqwUN9q3rTuRwr9dqMoINqUVRyrjI3T8wACW6+5zSiPhMevms
+ XNI3+/vuipZf8OHMxb19/yNvC89bO34SPlLAeqQ45E405WBzfxS3nRp4LbwrDeHcqVdA
+ SAO5V+C6mbnu5OOLeccSxK9V3A7bqmDlS7ri1dpzoLPi98rKvyjgLQRifl4/B1SQGy3S
+ JNM5i81NAqRmHRpnb+8mPr5+JaHJ448xf3wVMbsnVDS3ld5kg1vqJ1Q5pPjXgmyj35YZ
+ BIZ+49p/XGEQOxeO/xd9wzUMqylQayf2pp2cM8NIZEfLEwts0kUNi19qYhIYIxb/Po47
+ Kd1A==
+X-Gm-Message-State: AOAM531YcQlK9p04AgfpY8RMpQc8kdAZGa15z/5ydGMVvvaK3pA8D842
+ cdukKkdWL5vqbrFMYxvys2xuiPQ/Jki+1jESmlM=
+X-Google-Smtp-Source: ABdhPJyPreiShhfrSTu/mc2aeIAHsRz/4bu0nXdtJz4x0g8v6RWB8S6GmasK38ftTfLNqR/9w0YsOjOWd4ey1SbNiqo=
+X-Received: by 2002:a25:6003:: with SMTP id u3mr8647385ybb.96.1616628829328;
+ Wed, 24 Mar 2021 16:33:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e3c60b65-7df2-18d8-4275-3588f6777810@infradead.org>
+References: <20210307174853.28273-1-imirkin@alum.mit.edu>
+In-Reply-To: <20210307174853.28273-1-imirkin@alum.mit.edu>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Thu, 25 Mar 2021 09:33:38 +1000
+Message-ID: <CACAvsv5MEeCwc2Cvx8uwMLRu9o-EvNP9ERc44BGB9cPOB5caLQ@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH] drm/nouveau/kms/nv04: use vzalloc for
+ nv04_display
+To: Ilia Mirkin <imirkin@alum.mit.edu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,96 +61,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com, christian.koenig@amd.com
-Content-Type: multipart/mixed; boundary="===============1123445245=="
+Cc: ML nouveau <nouveau@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Ben Skeggs <bskeggs@redhat.com>, "Nathan E . Egge" <unlord@xiph.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1123445245==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="J1WGx4DKWNUgtW3S"
-Content-Disposition: inline
-
-
---J1WGx4DKWNUgtW3S
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-
-On 14:48 Wed 24 Mar 2021, Randy Dunlap wrote:
->On 3/24/21 6:50 AM, Bhaskar Chowdhury wrote:
->>
->> s/miror/mirror/
->> s/needind/needing/
->>
->> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
->> ---
->>  drivers/gpu/drm/radeon/r600_cs.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/radeon/r600_cs.c b/drivers/gpu/drm/radeon/r600_cs.c
->> index 34b7c6f16479..aded1f2264e0 100644
->> --- a/drivers/gpu/drm/radeon/r600_cs.c
->> +++ b/drivers/gpu/drm/radeon/r600_cs.c
->> @@ -38,7 +38,7 @@ extern void r600_cs_legacy_get_tiling_conf(struct drm_device *dev, u32 *npipes,
->>
->>
->>  struct r600_cs_track {
->> -	/* configuration we miror so that we use same code btw kms/ums */
->> +	/* configuration we mirror so that we use same code btw kms/ums */
->>  	u32			group_size;
->>  	u32			nbanks;
->>  	u32			npipes;
->> @@ -963,7 +963,7 @@ static int r600_cs_parse_packet0(struct radeon_cs_parser *p,
->>   *
->>   * This function will test against r600_reg_safe_bm and return 0
->>   * if register is safe. If register is not flag as safe this function
->> - * will test it against a list of register needind special handling.
->> + * will test it against a list of register needing special handling.
->>   */
->>  static int r600_cs_check_reg(struct radeon_cs_parser *p, u32 reg, u32 idx)
->>  {
->> --
+On Mon, 8 Mar 2021 at 03:49, Ilia Mirkin <imirkin@alum.mit.edu> wrote:
 >
->Those 2 LGTM, but please fix this while you are touching this file:
+> The struct is giant, and triggers an order-7 allocation (512K). There is
+> no reason for this to be kmalloc-type memory, so switch to vmalloc. This
+> should help loading nouveau on low-memory and/or long-running systems.
 >
->drivers/gpu/drm/radeon/r600_cs.c:2339: informations  ==> information
+> Reported-by: Nathan E. Egge <unlord@xiph.org>
+> Signed-off-by: Ilia Mirkin <imirkin@alum.mit.edu>
+> Cc: stable@vger.kernel.org
+Thanks!
+
+> ---
+>  drivers/gpu/drm/nouveau/dispnv04/disp.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-Thanks, I have sent a V2 with the change...
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/disp.c b/drivers/gpu/drm/nouveau/dispnv04/disp.c
+> index 7739f46470d3..99fee4d8cd31 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/disp.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/disp.c
+> @@ -205,7 +205,7 @@ nv04_display_destroy(struct drm_device *dev)
+>         nvif_notify_dtor(&disp->flip);
 >
->thanks.
->--
->~Randy
+>         nouveau_display(dev)->priv = NULL;
+> -       kfree(disp);
+> +       vfree(disp);
 >
-
---J1WGx4DKWNUgtW3S
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAmBby58ACgkQsjqdtxFL
-KRWHugf7Btc2yHBbdx+D93X99eYg3LEnK8BjD+AmODMCnOCo7INrTWk+9gnuQbq4
-CFxbsI49SUHXNQqyYOIhGT5c/m7f5vRyAiWSqXKKxSSMn5KvJtJq0jPnbH6H/whf
-Ld+QEMOOON8vJkTBPgv0zZC3d2Hz0iEaNjvNu1x/WoFJgdvzIpR8bp5pEKS2tGMb
-bbuRWfFmF0LA5um9umXbYmaqJ9iZPMHyBK7yjuGxmd/DMQzwZJ8zn+IibkWqFrmM
-M4qb5kUnn9NJs/ZEMcegj4aXQCF0Bou++2oXBrwa9yQ4skk9956v0sRoC/1bwLej
-uth0YgoW21hM6Qm3BIZRBFegXI2GLg==
-=lalJ
------END PGP SIGNATURE-----
-
---J1WGx4DKWNUgtW3S--
-
---===============1123445245==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>         nvif_object_unmap(&drm->client.device.object);
+>  }
+> @@ -223,7 +223,7 @@ nv04_display_create(struct drm_device *dev)
+>         struct nv04_display *disp;
+>         int i, ret;
+>
+> -       disp = kzalloc(sizeof(*disp), GFP_KERNEL);
+> +       disp = vzalloc(sizeof(*disp));
+>         if (!disp)
+>                 return -ENOMEM;
+>
+> --
+> 2.26.2
+>
+> _______________________________________________
+> Nouveau mailing list
+> Nouveau@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/nouveau
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1123445245==--
