@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A519347B65
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:01:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A15D347B67
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:01:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 656F66EC6D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E23486EC6C;
 	Wed, 24 Mar 2021 15:01:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E0BB6EC66
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:00:58 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id u4so30588179ljo.6
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:00:58 -0700 (PDT)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA6C26EC6E
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:00:59 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id b14so19185385lfv.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:00:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=26IOf6ZGfzqvI713tnEwpFJ5rZXSRn45wHEBAEtfFJw=;
- b=bEU4tJj2hUeNmYMj40zFcr+OdrAN7FwpKiGZp8uV1d3eqdI4CntrRVHwQf32ki++uf
- 4KGsaLSW6+6+xNVGRwm8y3ECdHik1YaU37DghmO5i4oSvIfaf+aiqUBTi2Ll7e1l/xra
- 6Z9W1yKnjAkjNltc4/bA0s/gyf87F+3jOcPtXVZrFaUj9gxmlS1gr8zmZ126sh5lE+hK
- 1zjCrRw9MOge75GOILWftmoYoHvukqP58/tX8of1h5dQlOQXam5hdFyIVP5+HIPoSw91
- btZ7qwFsAIg9IG98eF8p0Gs4NSLaffwyUNiLCmgZ7rEsFUQ+vbC5vymkbEr0a5hWLmQk
- a+MA==
+ bh=K+oEmbTI+ZjniTkaGXPzbMX+/sehusvnH9bTTAOnwik=;
+ b=h3TsOptXkBV6pylgZf1iYu94H3nrLg1EwnaNNEn9LlAolu9IzdqonaCKrZyL11Gn4N
+ oHvLrS4PHorXoD4nkVdZhJGWSVAOnFT/SLBFpdjUxWz6DSgsj9QXiByoje7C/1ulCkUM
+ lN4o0qCZyrEky1Qfe/p+65IVZV79m5NOv25qPIdsJzXejeSQeX8YlHK8D+WaL6VykIeC
+ PLSlhFrBN6nbEgbCFF8RrG93yw8wg53Y6UZqhD8T3qdJX99/HfHp68gtARw9ce3+mgxZ
+ 4SixgYMilY+/VyQ/Eod/obkuI5dMCvhOyonvrfnvgFHve1ZgttAdeykzA/S4bajScUK2
+ N6Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=26IOf6ZGfzqvI713tnEwpFJ5rZXSRn45wHEBAEtfFJw=;
- b=fJxIb34tuR9pr5bQau2iSX20UJ6bpXFZAzn5AQZQF3DGJsi+FfqJ2+84LKGCKIL7hW
- qiyWu/qI5+6Aq4ZcXXZwX+qgSUsb636I1HUmXUmz/eU/MkaCYg/be5ANk/s//oZ8UUAg
- 2zIC6PiWwt0FXYxleAoQW6HbMoOwdTQl8+olAwweU2Y3Rtua5a/9ywTAFJaFnuAPNhNe
- IROxj/KHT6if/jc1oNkc+GVJPXar4k8U/SA3b6gc/0OXxMnQP/XSE9jhetczg1iN1z/R
- wqRR0oNek3h1X+y6p6o8QptAcHqmIe6UWq3PlbCLNZzEEXBSXbVC5Niv6tBnm0yht8IK
- l7dg==
-X-Gm-Message-State: AOAM530U5+yKH6Ik/twu9VFEw+janMIWEASZH6ws+8seIL1DPLxPS86K
- owSDuKkknZ+/N7ztWsDEFY1Oqw==
-X-Google-Smtp-Source: ABdhPJw1DTyDNc5Uk4UUuw0ofKPSgYgDUc7v5H+MYCxYXtkoEhw/ZjgfqGG/gGQ+T7XJAEdae5ylTg==
-X-Received: by 2002:a2e:95d6:: with SMTP id y22mr2334376ljh.361.1616598053703; 
- Wed, 24 Mar 2021 08:00:53 -0700 (PDT)
+ bh=K+oEmbTI+ZjniTkaGXPzbMX+/sehusvnH9bTTAOnwik=;
+ b=UGzSQ7G8e9WfQrp/SPpq4CntBpgz2CEyN1faSYZdQEZpraDF8GS6FHwjsk8iAVVOcH
+ mCWYXCZU0P6MWLoZgFhWuD+prMr6KW4OLU2WpFHM4Jd4lt6SL3VMhIX8LuXrStJWIVIr
+ Htm4uTY9M4+Rmw79pMC5PueEJOk6cv02rvrgAWN22qmDEdvM4rTbRym9IvTZCw+655FQ
+ UczulD+PU+qGLeOfghDqOoPz3LeI5N6tBNfiv7/mTZRkrjbVH5IqGek41hi8p16u7QjA
+ DlRhemgpZuDfZOnRg5GPRNatoCdTbqhSXm+skdyGRjbsYW2NXkqta44xK/ufCq0Dc1tP
+ 94bw==
+X-Gm-Message-State: AOAM5334y7EK8VwfdSJCbiOpQL2MXi17K55YOXwa64XkZmF+oEq8iHBy
+ /tR8XlEK4paO12LSKhsDytSN3A==
+X-Google-Smtp-Source: ABdhPJyHdvvAdtwxnzTedyfBeteO6j/xvWanyBm7xmdbrtMm3eiFqf7AGt26qzEdoqSXtqCjQLSkng==
+X-Received: by 2002:a19:b81:: with SMTP id 123mr2193932lfl.553.1616598055149; 
+ Wed, 24 Mar 2021 08:00:55 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id p5sm252463lfe.154.2021.03.24.08.00.52
+ by smtp.gmail.com with ESMTPSA id p5sm252463lfe.154.2021.03.24.08.00.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 08:00:53 -0700 (PDT)
+ Wed, 24 Mar 2021 08:00:54 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Jonathan Marek <jonathan@marek.ca>
-Subject: [PATCH 19/21] drm/msm/dpu: call hw_vbif ops directly
-Date: Wed, 24 Mar 2021 18:00:22 +0300
-Message-Id: <20210324150024.2768215-20-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 20/21] drm/msm/dpu: fix smart dma support
+Date: Wed, 24 Mar 2021 18:00:23 +0300
+Message-Id: <20210324150024.2768215-21-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210324150024.2768215-1-dmitry.baryshkov@linaro.org>
 References: <20210324150024.2768215-1-dmitry.baryshkov@linaro.org>
@@ -75,414 +75,134 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace dpu_hw_vbif callbacks with direct functions calls.
+Downstream driver uses dpu->caps->smart_dma_rev to update
+sspp->cap->features with the bit corresponding to the supported SmartDMA
+version. Upstream driver does not do this, resulting in SSPP subdriver
+not enbaling setup_multirect callback. Make SSPP subdriver check global
+smart_dma_rev to decide if setup_multirect should be enabled.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c |  30 +---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h | 159 ++++++++++----------
- drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c    |  39 ++---
- 3 files changed, 100 insertions(+), 128 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  8 ++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 16 ++++++++++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c    |  9 +++++----
+ 3 files changed, 21 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c
-index 377d5e8ae615..d7d2e7edc0e3 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c
-@@ -32,7 +32,7 @@
- #define VBIF_XINL_QOS_RP_REMAP_000	0x0550
- #define VBIF_XINL_QOS_LVL_REMAP_000(v)	(v < DPU_HW_VER_400 ? 0x570 : 0x0590)
- 
--static void dpu_hw_clear_errors(struct dpu_hw_vbif *vbif,
-+void dpu_hw_vbif_clear_errors(struct dpu_hw_vbif *vbif,
- 		u32 *pnd_errors, u32 *src_errors)
- {
- 	struct dpu_hw_blk_reg_map *c;
-@@ -52,7 +52,7 @@ static void dpu_hw_clear_errors(struct dpu_hw_vbif *vbif,
- 	DPU_REG_WRITE(c, VBIF_XIN_CLR_ERR, pnd | src);
- }
- 
--static void dpu_hw_set_mem_type(struct dpu_hw_vbif *vbif,
-+void dpu_hw_vbif_set_mem_type(struct dpu_hw_vbif *vbif,
- 		u32 xin_id, u32 value)
- {
- 	struct dpu_hw_blk_reg_map *c;
-@@ -82,7 +82,7 @@ static void dpu_hw_set_mem_type(struct dpu_hw_vbif *vbif,
- 	DPU_REG_WRITE(c, reg_off, reg_val);
- }
- 
--static void dpu_hw_set_limit_conf(struct dpu_hw_vbif *vbif,
-+void dpu_hw_vbif_set_limit_conf(struct dpu_hw_vbif *vbif,
- 		u32 xin_id, bool rd, u32 limit)
- {
- 	struct dpu_hw_blk_reg_map *c = &vbif->hw;
-@@ -103,7 +103,7 @@ static void dpu_hw_set_limit_conf(struct dpu_hw_vbif *vbif,
- 	DPU_REG_WRITE(c, reg_off, reg_val);
- }
- 
--static u32 dpu_hw_get_limit_conf(struct dpu_hw_vbif *vbif,
-+u32 dpu_hw_vbif_get_limit_conf(struct dpu_hw_vbif *vbif,
- 		u32 xin_id, bool rd)
- {
- 	struct dpu_hw_blk_reg_map *c = &vbif->hw;
-@@ -125,7 +125,7 @@ static u32 dpu_hw_get_limit_conf(struct dpu_hw_vbif *vbif,
- 	return limit;
- }
- 
--static void dpu_hw_set_halt_ctrl(struct dpu_hw_vbif *vbif,
-+void dpu_hw_vbif_set_halt_ctrl(struct dpu_hw_vbif *vbif,
- 		u32 xin_id, bool enable)
- {
- 	struct dpu_hw_blk_reg_map *c = &vbif->hw;
-@@ -141,7 +141,7 @@ static void dpu_hw_set_halt_ctrl(struct dpu_hw_vbif *vbif,
- 	DPU_REG_WRITE(c, VBIF_XIN_HALT_CTRL0, reg_val);
- }
- 
--static bool dpu_hw_get_halt_ctrl(struct dpu_hw_vbif *vbif,
-+bool dpu_hw_vbif_get_halt_ctrl(struct dpu_hw_vbif *vbif,
- 		u32 xin_id)
- {
- 	struct dpu_hw_blk_reg_map *c = &vbif->hw;
-@@ -152,7 +152,7 @@ static bool dpu_hw_get_halt_ctrl(struct dpu_hw_vbif *vbif,
- 	return (reg_val & BIT(xin_id)) ? true : false;
- }
- 
--static void dpu_hw_set_qos_remap(struct dpu_hw_vbif *vbif,
-+void dpu_hw_vbif_set_qos_remap(struct dpu_hw_vbif *vbif,
- 		u32 xin_id, u32 level, u32 remap_level)
- {
- 	struct dpu_hw_blk_reg_map *c;
-@@ -182,7 +182,7 @@ static void dpu_hw_set_qos_remap(struct dpu_hw_vbif *vbif,
- 	DPU_REG_WRITE(c, reg_lvl + reg_high, reg_val_lvl);
- }
- 
--static void dpu_hw_set_write_gather_en(struct dpu_hw_vbif *vbif, u32 xin_id)
-+void dpu_hw_vbif_set_write_gather_en(struct dpu_hw_vbif *vbif, u32 xin_id)
- {
- 	struct dpu_hw_blk_reg_map *c;
- 	u32 reg_val;
-@@ -197,19 +197,6 @@ static void dpu_hw_set_write_gather_en(struct dpu_hw_vbif *vbif, u32 xin_id)
- 	DPU_REG_WRITE(c, VBIF_WRITE_GATHER_EN, reg_val);
- }
- 
--static void _setup_vbif_ops(struct dpu_hw_vbif_ops *ops,
--		unsigned long cap)
--{
--	ops->set_limit_conf = dpu_hw_set_limit_conf;
--	ops->get_limit_conf = dpu_hw_get_limit_conf;
--	ops->set_halt_ctrl = dpu_hw_set_halt_ctrl;
--	ops->get_halt_ctrl = dpu_hw_get_halt_ctrl;
--	ops->set_qos_remap = dpu_hw_set_qos_remap;
--	ops->set_mem_type = dpu_hw_set_mem_type;
--	ops->clear_errors = dpu_hw_clear_errors;
--	ops->set_write_gather_en = dpu_hw_set_write_gather_en;
--}
--
- static const struct dpu_vbif_cfg *_top_offset(enum dpu_vbif vbif,
- 		const struct dpu_mdss_cfg *m,
- 		void __iomem *addr,
-@@ -253,7 +240,6 @@ struct dpu_hw_vbif *dpu_hw_vbif_init(enum dpu_vbif idx,
- 	 */
- 	c->idx = idx;
- 	c->cap = cfg;
--	_setup_vbif_ops(&c->ops, c->cap->features);
- 
- 	/* no need to register sub-range in dpu dbg, dump entire vbif io base */
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h
-index 6417aa28d32c..7a81f0729d9b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h
-@@ -11,87 +11,85 @@
- 
- struct dpu_hw_vbif;
- 
--/**
-- * struct dpu_hw_vbif_ops : Interface to the VBIF hardware driver functions
-+/*
-  *  Assumption is these functions will be called after clocks are enabled
-  */
--struct dpu_hw_vbif_ops {
--	/**
--	 * set_limit_conf - set transaction limit config
--	 * @vbif: vbif context driver
--	 * @xin_id: client interface identifier
--	 * @rd: true for read limit; false for write limit
--	 * @limit: outstanding transaction limit
--	 */
--	void (*set_limit_conf)(struct dpu_hw_vbif *vbif,
--			u32 xin_id, bool rd, u32 limit);
--
--	/**
--	 * get_limit_conf - get transaction limit config
--	 * @vbif: vbif context driver
--	 * @xin_id: client interface identifier
--	 * @rd: true for read limit; false for write limit
--	 * @return: outstanding transaction limit
--	 */
--	u32 (*get_limit_conf)(struct dpu_hw_vbif *vbif,
--			u32 xin_id, bool rd);
--
--	/**
--	 * set_halt_ctrl - set halt control
--	 * @vbif: vbif context driver
--	 * @xin_id: client interface identifier
--	 * @enable: halt control enable
--	 */
--	void (*set_halt_ctrl)(struct dpu_hw_vbif *vbif,
--			u32 xin_id, bool enable);
--
--	/**
--	 * get_halt_ctrl - get halt control
--	 * @vbif: vbif context driver
--	 * @xin_id: client interface identifier
--	 * @return: halt control enable
--	 */
--	bool (*get_halt_ctrl)(struct dpu_hw_vbif *vbif,
--			u32 xin_id);
--
--	/**
--	 * set_qos_remap - set QoS priority remap
--	 * @vbif: vbif context driver
--	 * @xin_id: client interface identifier
--	 * @level: priority level
--	 * @remap_level: remapped level
--	 */
--	void (*set_qos_remap)(struct dpu_hw_vbif *vbif,
--			u32 xin_id, u32 level, u32 remap_level);
--
--	/**
--	 * set_mem_type - set memory type
--	 * @vbif: vbif context driver
--	 * @xin_id: client interface identifier
--	 * @value: memory type value
--	 */
--	void (*set_mem_type)(struct dpu_hw_vbif *vbif,
--			u32 xin_id, u32 value);
--
--	/**
--	 * clear_errors - clear any vbif errors
--	 *	This function clears any detected pending/source errors
--	 *	on the VBIF interface, and optionally returns the detected
--	 *	error mask(s).
--	 * @vbif: vbif context driver
--	 * @pnd_errors: pointer to pending error reporting variable
--	 * @src_errors: pointer to source error reporting variable
--	 */
--	void (*clear_errors)(struct dpu_hw_vbif *vbif,
--		u32 *pnd_errors, u32 *src_errors);
--
--	/**
--	 * set_write_gather_en - set write_gather enable
--	 * @vbif: vbif context driver
--	 * @xin_id: client interface identifier
--	 */
--	void (*set_write_gather_en)(struct dpu_hw_vbif *vbif, u32 xin_id);
--};
-+
-+/**
-+ * dpu_hw_vbif_set_limit_conf - set transaction limit config
-+ * @vbif: vbif context driver
-+ * @xin_id: client interface identifier
-+ * @rd: true for read limit; false for write limit
-+ * @limit: outstanding transaction limit
-+ */
-+void dpu_hw_vbif_set_limit_conf(struct dpu_hw_vbif *vbif,
-+		u32 xin_id, bool rd, u32 limit);
-+
-+/**
-+ * dpu_hw_vbif_get_limit_conf - get transaction limit config
-+ * @vbif: vbif context driver
-+ * @xin_id: client interface identifier
-+ * @rd: true for read limit; false for write limit
-+ * @return: outstanding transaction limit
-+ */
-+u32 dpu_hw_vbif_get_limit_conf(struct dpu_hw_vbif *vbif,
-+		u32 xin_id, bool rd);
-+
-+/**
-+ * dpu_hw_vbif_set_halt_ctrl - set halt control
-+ * @vbif: vbif context driver
-+ * @xin_id: client interface identifier
-+ * @enable: halt control enable
-+ */
-+void dpu_hw_vbif_set_halt_ctrl(struct dpu_hw_vbif *vbif,
-+		u32 xin_id, bool enable);
-+
-+/**
-+ * dpu_hw_vbif_get_halt_ctrl - get halt control
-+ * @vbif: vbif context driver
-+ * @xin_id: client interface identifier
-+ * @return: halt control enable
-+ */
-+bool dpu_hw_vbif_get_halt_ctrl(struct dpu_hw_vbif *vbif,
-+		u32 xin_id);
-+
-+/**
-+ * dpu_hw_vbif_set_qos_remap - set QoS priority remap
-+ * @vbif: vbif context driver
-+ * @xin_id: client interface identifier
-+ * @level: priority level
-+ * @remap_level: remapped level
-+ */
-+void dpu_hw_vbif_set_qos_remap(struct dpu_hw_vbif *vbif,
-+		u32 xin_id, u32 level, u32 remap_level);
-+
-+/**
-+ * dpu_hw_vbif_set_mem_type - set memory type
-+ * @vbif: vbif context driver
-+ * @xin_id: client interface identifier
-+ * @value: memory type value
-+ */
-+void dpu_hw_vbif_set_mem_type(struct dpu_hw_vbif *vbif,
-+		u32 xin_id, u32 value);
-+
-+/**
-+ * dpu_hw_vbif_clear_errors - clear any vbif errors
-+ *	This function clears any detected pending/source errors
-+ *	on the VBIF interface, and optionally returns the detected
-+ *	error mask(s).
-+ * @vbif: vbif context driver
-+ * @pnd_errors: pointer to pending error reporting variable
-+ * @src_errors: pointer to source error reporting variable
-+ */
-+void dpu_hw_vbif_clear_errors(struct dpu_hw_vbif *vbif,
-+	u32 *pnd_errors, u32 *src_errors);
-+
-+/**
-+ * dpu_hw_vbif_set_write_gather_en - set write_gather enable
-+ * @vbif: vbif context driver
-+ * @xin_id: client interface identifier
-+ */
-+void dpu_hw_vbif_set_write_gather_en(struct dpu_hw_vbif *vbif, u32 xin_id);
- 
- struct dpu_hw_vbif {
- 	/* base */
-@@ -100,9 +98,6 @@ struct dpu_hw_vbif {
- 	/* vbif */
- 	enum dpu_vbif idx;
- 	const struct dpu_vbif_cfg *cap;
--
--	/* ops */
--	struct dpu_hw_vbif_ops ops;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index f21f630af476..5552f45f818c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -145,7 +145,7 @@ static const struct dpu_caps sdm845_dpu_caps = {
+ 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.qseed_type = DPU_SSPP_SCALER_QSEED3,
+-	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2,
++	.smart_dma_rev = DPU_SMART_DMA_V2,
+ 	.ubwc_version = DPU_HW_UBWC_VER_20,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+@@ -161,7 +161,7 @@ static const struct dpu_caps sc7180_dpu_caps = {
+ 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0x9,
+ 	.qseed_type = DPU_SSPP_SCALER_QSEED4,
+-	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2,
++	.smart_dma_rev = DPU_SMART_DMA_V2,
+ 	.ubwc_version = DPU_HW_UBWC_VER_20,
+ 	.has_dim_layer = true,
+ 	.has_idle_pc = true,
+@@ -173,7 +173,7 @@ static const struct dpu_caps sm8150_dpu_caps = {
+ 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.qseed_type = DPU_SSPP_SCALER_QSEED3,
+-	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
++	.smart_dma_rev = DPU_SMART_DMA_V2, /* TODO: v2.5 */
+ 	.ubwc_version = DPU_HW_UBWC_VER_30,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+@@ -189,7 +189,7 @@ static const struct dpu_caps sm8250_dpu_caps = {
+ 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+ 	.qseed_type = DPU_SSPP_SCALER_QSEED3LITE,
+-	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
++	.smart_dma_rev = DPU_SMART_DMA_V2, /* TODO: v2.5 */
+ 	.ubwc_version = DPU_HW_UBWC_VER_40,
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 08864f0addc4..1202a82918eb 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -70,6 +70,18 @@ enum {
+ 	DPU_HW_UBWC_VER_40 = 0x400,
  };
  
++/**
++ * SmartDMA support
++ * @DPU_SMART_DMA_UNSUPPORTED,   SmartDMA not support
++ * @DPU_SMART_DMA_V1,   SmartDMA 1.0 support
++ * @DPU_SMART_DMA_V2,   SmartDMA 2.0 support
++ */
++enum {
++	DPU_SMART_DMA_UNSUPPORTED,
++	DPU_SMART_DMA_V1,
++	DPU_SMART_DMA_V2,
++};
++
  /**
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-index c9351c69834a..776da9e834a0 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-@@ -23,18 +23,18 @@ static int _dpu_vbif_wait_for_xin_halt(struct dpu_hw_vbif *vbif, u32 xin_id)
- 	bool status;
- 	int rc;
+  * MDP TOP BLOCK features
+  * @DPU_MDP_PANIC_PER_PIPE Panic configuration needs to be be done per pipe
+@@ -104,8 +116,6 @@ enum {
+  * @DPU_SSPP_QOS,            SSPP support QoS control, danger/safe/creq
+  * @DPU_SSPP_QOS_8LVL,       SSPP support 8-level QoS control
+  * @DPU_SSPP_EXCL_RECT,      SSPP supports exclusion rect
+- * @DPU_SSPP_SMART_DMA_V1,   SmartDMA 1.0 support
+- * @DPU_SSPP_SMART_DMA_V2,   SmartDMA 2.0 support
+  * @DPU_SSPP_TS_PREFILL      Supports prefill with traffic shaper
+  * @DPU_SSPP_TS_PREFILL_REC1 Supports prefill with traffic shaper multirec
+  * @DPU_SSPP_CDP             Supports client driven prefetch
+@@ -124,8 +134,6 @@ enum {
+ 	DPU_SSPP_QOS,
+ 	DPU_SSPP_QOS_8LVL,
+ 	DPU_SSPP_EXCL_RECT,
+-	DPU_SSPP_SMART_DMA_V1,
+-	DPU_SSPP_SMART_DMA_V2,
+ 	DPU_SSPP_TS_PREFILL,
+ 	DPU_SSPP_TS_PREFILL_REC1,
+ 	DPU_SSPP_CDP,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+index 8734a47040aa..4165ff2d7a3c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+@@ -647,7 +647,8 @@ static void dpu_hw_sspp_setup_cdp(struct dpu_hw_pipe *ctx,
+ }
  
--	if (!vbif || !vbif->cap || !vbif->ops.get_halt_ctrl) {
-+	if (!vbif || !vbif->cap) {
- 		DPU_ERROR("invalid arguments vbif %d\n", vbif != NULL);
- 		return -EINVAL;
- 	}
+ static void _setup_layer_ops(struct dpu_hw_pipe *c,
+-		unsigned long features)
++		unsigned long features,
++		int smart_dma_rev)
+ {
+ 	if (test_bit(DPU_SSPP_SRC, &features)) {
+ 		c->ops.setup_format = dpu_hw_sspp_setup_format;
+@@ -668,8 +669,8 @@ static void _setup_layer_ops(struct dpu_hw_pipe *c,
+ 		test_bit(DPU_SSPP_CSC_10BIT, &features))
+ 		c->ops.setup_csc = dpu_hw_sspp_setup_csc;
  
- 	timeout = ktime_add_us(ktime_get(), vbif->cap->xin_halt_timeout);
- 	for (;;) {
--		status = vbif->ops.get_halt_ctrl(vbif, xin_id);
-+		status = dpu_hw_vbif_get_halt_ctrl(vbif, xin_id);
- 		if (status)
- 			break;
- 		if (ktime_compare_safe(ktime_get(), timeout) > 0) {
--			status = vbif->ops.get_halt_ctrl(vbif, xin_id);
-+			status = dpu_hw_vbif_get_halt_ctrl(vbif, xin_id);
- 			break;
- 		}
- 		usleep_range(501, 1000);
-@@ -125,8 +125,8 @@ static u32 _dpu_vbif_get_ot_limit(struct dpu_hw_vbif *vbif,
- 	/* Modify the limits if the target and the use case requires it */
- 	_dpu_vbif_apply_dynamic_ot_limit(vbif, &ot_lim, params);
+-	if (test_bit(DPU_SSPP_SMART_DMA_V1, &c->cap->features) ||
+-		test_bit(DPU_SSPP_SMART_DMA_V2, &c->cap->features))
++	if (smart_dma_rev == DPU_SMART_DMA_V1 ||
++	    smart_dma_rev == DPU_SMART_DMA_V2)
+ 		c->ops.setup_multirect = dpu_hw_sspp_setup_multirect;
  
--	if (vbif && vbif->ops.get_limit_conf) {
--		val = vbif->ops.get_limit_conf(vbif,
-+	if (vbif) {
-+		val = dpu_hw_vbif_get_limit_conf(vbif,
- 				params->xin_id, params->rd);
- 		if (val == ot_lim)
- 			ot_lim = 0;
-@@ -168,13 +168,9 @@ void dpu_vbif_set_ot_limit(struct dpu_kms *dpu_kms,
- 		return;
- 	}
+ 	if (test_bit(DPU_SSPP_SCALER_QSEED3, &features) ||
+@@ -731,7 +732,7 @@ struct dpu_hw_pipe *dpu_hw_sspp_init(enum dpu_sspp idx,
+ 	hw_pipe->mdp = &catalog->mdp[0];
+ 	hw_pipe->idx = idx;
+ 	hw_pipe->cap = cfg;
+-	_setup_layer_ops(hw_pipe, hw_pipe->cap->features);
++	_setup_layer_ops(hw_pipe, hw_pipe->cap->features, catalog->caps->smart_dma_rev);
  
--	if (!vbif->ops.set_limit_conf ||
--	    !vbif->ops.set_halt_ctrl)
--		return;
--
- 	/* set write_gather_en for all write clients */
--	if (vbif->ops.set_write_gather_en && !params->rd)
--		vbif->ops.set_write_gather_en(vbif, params->xin_id);
-+	if (!params->rd)
-+		dpu_hw_vbif_set_write_gather_en(vbif, params->xin_id);
+ 	dpu_hw_blk_init(&hw_pipe->base, DPU_HW_BLK_SSPP, idx);
  
- 	ot_lim = _dpu_vbif_get_ot_limit(vbif, params) & 0xFF;
- 
-@@ -186,15 +182,15 @@ void dpu_vbif_set_ot_limit(struct dpu_kms *dpu_kms,
- 
- 	forced_on = dpu_hw_setup_clk_force_ctrl(mdp, params->clk_ctrl, true);
- 
--	vbif->ops.set_limit_conf(vbif, params->xin_id, params->rd, ot_lim);
-+	dpu_hw_vbif_set_limit_conf(vbif, params->xin_id, params->rd, ot_lim);
- 
--	vbif->ops.set_halt_ctrl(vbif, params->xin_id, true);
-+	dpu_hw_vbif_set_halt_ctrl(vbif, params->xin_id, true);
- 
- 	ret = _dpu_vbif_wait_for_xin_halt(vbif, params->xin_id);
- 	if (ret)
- 		trace_dpu_vbif_wait_xin_halt_fail(vbif->idx, params->xin_id);
- 
--	vbif->ops.set_halt_ctrl(vbif, params->xin_id, false);
-+	dpu_hw_vbif_set_halt_ctrl(vbif, params->xin_id, false);
- 
- 	if (forced_on)
- 		dpu_hw_setup_clk_force_ctrl(mdp, params->clk_ctrl, false);
-@@ -228,11 +224,6 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
- 		return;
- 	}
- 
--	if (!vbif->ops.set_qos_remap) {
--		DPU_DEBUG("qos remap not supported\n");
--		return;
--	}
--
- 	qos_tbl = params->is_rt ? &vbif->cap->qos_rt_tbl :
- 			&vbif->cap->qos_nrt_tbl;
- 
-@@ -247,7 +238,7 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
- 		DPU_DEBUG("vbif:%d xin:%d lvl:%d/%d\n",
- 				params->vbif_idx, params->xin_id, i,
- 				qos_tbl->priority_lvl[i]);
--		vbif->ops.set_qos_remap(vbif, params->xin_id, i,
-+		dpu_hw_vbif_set_qos_remap(vbif, params->xin_id, i,
- 				qos_tbl->priority_lvl[i]);
- 	}
- 
-@@ -262,8 +253,8 @@ void dpu_vbif_clear_errors(struct dpu_kms *dpu_kms)
- 
- 	for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
- 		vbif = dpu_kms->hw_vbif[i];
--		if (vbif && vbif->ops.clear_errors) {
--			vbif->ops.clear_errors(vbif, &pnd, &src);
-+		if (vbif) {
-+			dpu_hw_vbif_clear_errors(vbif, &pnd, &src);
- 			if (pnd || src) {
- 				DRM_DEBUG_KMS("VBIF %d: pnd 0x%X, src 0x%X\n",
- 					      vbif->idx - VBIF_0, pnd, src);
-@@ -279,9 +270,9 @@ void dpu_vbif_init_memtypes(struct dpu_kms *dpu_kms)
- 
- 	for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
- 		vbif = dpu_kms->hw_vbif[i];
--		if (vbif && vbif->cap && vbif->ops.set_mem_type) {
-+		if (vbif && vbif->cap) {
- 			for (j = 0; j < vbif->cap->memtype_count; j++)
--				vbif->ops.set_mem_type(
-+				dpu_hw_vbif_set_mem_type(
- 						vbif, j, vbif->cap->memtype[j]);
- 		}
- 	}
 -- 
 2.30.2
 
