@@ -2,59 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E95A347D98
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 17:22:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C88347DC1
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 17:34:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E44106EC8F;
-	Wed, 24 Mar 2021 16:21:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5C0A6E064;
+	Wed, 24 Mar 2021 16:34:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1237A6EC8D
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 16:21:59 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id x16so25046854wrn.4
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 09:21:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Irtn7evbQAapmOFyknHAFV3hTOtBL608XyKKcU/zj18=;
- b=BB7l6hN5FF6TXFIwI4yYt7n0pQkDgC3f5H/uYXX5sk1RUgepzYeSH0HNB9F1kuZnhM
- THSuP2zAHBFIpq5OqBgmLCvhZz2BwzETW7VHMEQaseOOWgBiftcK1KPgMPmvvKR37Lvn
- K9im6B4sbSQ8jDe96KfxornY7v4ginmvIh5+c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Irtn7evbQAapmOFyknHAFV3hTOtBL608XyKKcU/zj18=;
- b=lQwp4dS1ZD/LDgL0lVTzuGWmAt0+/qNFwem2dTl310dOscxGp5yj+JfqgsVV7pUSyO
- QotWdYzI4CrmLrYSe2b3CXQLyg1Fx2nE5yk/Xmx3XgIQxxQXsUVZnHeLlcxfMIsIY25K
- oWS4meB/me3KQlA7U9b69JlgqMtYG+0QT6uCV/GzRIBzNHKv9u1FEoGSz+Ee8K8cEV6l
- bq76q47K3lJBnl8JkGIkVW40a5lak886F6m+EG53hHDz7uj2NK5zcfZkFcIh04NQnJlt
- QtWF5KyS5Sd/4CZPSqso0FJ694YMmaqcWjbg3viqFUAv5zUvGFWzlrtn+maS/rZGkGsj
- ciDQ==
-X-Gm-Message-State: AOAM533n8phSQ1GsUp861aKd8k+D9OAB7RB96n4wVrqflfKwOQx2MWlJ
- Weiu0mO56QgdSQBA5g+Kco+51jYFoB7mm6O3
-X-Google-Smtp-Source: ABdhPJy2piEVnXLnDB6ik0UTudpuslnTxC7b+FIik03v2qb+dHqQc2JMVgJPH+oq0qoMzxQFZpZbnA==
-X-Received: by 2002:a5d:6b89:: with SMTP id n9mr3832499wrx.236.1616602917810; 
- Wed, 24 Mar 2021 09:21:57 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i26sm3110360wmb.18.2021.03.24.09.21.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 09:21:57 -0700 (PDT)
-Date: Wed, 24 Mar 2021 17:21:55 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v9 34/70] drm/i915: Add ww locking around
- vm_access()
-Message-ID: <YFtnIxJ66LZ9cisQ@phenom.ffwll.local>
-References: <20210323155059.628690-1-maarten.lankhorst@linux.intel.com>
- <20210323155059.628690-35-maarten.lankhorst@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6B8B6E064
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 16:34:50 +0000 (UTC)
+IronPort-SDR: 6nMUWOrD4yeuONIKMiIXRnhBvuQ2GcANiwgdwP6KX3PbYmyagYrpVAaQyURJXMZGc5EbApGmSN
+ NaGwtEk3Zdrg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="187435862"
+X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; d="scan'208";a="187435862"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2021 09:34:50 -0700
+IronPort-SDR: hmlq8zLVGICPNpeB1jDVtpG1EZ2tnCRw4LoZCYenj/b+xFJJK9SDcAjVOOUoUZtMUoAeEBGOYz
+ yg+AmcLa7XOA==
+X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; d="scan'208";a="443030705"
+Received: from chihjung-mobl.amr.corp.intel.com (HELO [10.213.191.210])
+ ([10.213.191.210])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2021 09:34:49 -0700
+Subject: Re: [RFC PATCH 1/2] mm,drm/ttm: Block fast GUP to TTM huge pages
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ "Williams, Dan J" <dan.j.williams@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "jgg@nvidia.com" <jgg@nvidia.com>, "airlied@linux.ie" <airlied@linux.ie>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+References: <20210321184529.59006-1-thomas_os@shipmail.org>
+ <20210321184529.59006-2-thomas_os@shipmail.org>
+ <ec99146c7abc35d16b245816aba3e9d14862e624.camel@intel.com>
+ <c2239da2-c514-2c88-c671-918909cdba6b@shipmail.org>
+ <YFsNRIUYrwVQanVF@phenom.ffwll.local>
+ <a1fa7fa2-914b-366d-9902-e5b784e8428c@shipmail.org>
+From: Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
+ oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
+ 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
+ ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
+ VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
+ iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
+ c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
+ pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
+ ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
+ QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzShEYXZpZCBDaHJp
+ c3RvcGhlciBIYW5zZW4gPGRhdmVAc3I3MS5uZXQ+wsF7BBMBAgAlAhsDBgsJCAcDAgYVCAIJ
+ CgsEFgIDAQIeAQIXgAUCTo3k0QIZAQAKCRBoNZUwcMmSsMO2D/421Xg8pimb9mPzM5N7khT0
+ 2MCnaGssU1T59YPE25kYdx2HntwdO0JA27Wn9xx5zYijOe6B21ufrvsyv42auCO85+oFJWfE
+ K2R/IpLle09GDx5tcEmMAHX6KSxpHmGuJmUPibHVbfep2aCh9lKaDqQR07gXXWK5/yU1Dx0r
+ VVFRaHTasp9fZ9AmY4K9/BSA3VkQ8v3OrxNty3OdsrmTTzO91YszpdbjjEFZK53zXy6tUD2d
+ e1i0kBBS6NLAAsqEtneplz88T/v7MpLmpY30N9gQU3QyRC50jJ7LU9RazMjUQY1WohVsR56d
+ ORqFxS8ChhyJs7BI34vQusYHDTp6PnZHUppb9WIzjeWlC7Jc8lSBDlEWodmqQQgp5+6AfhTD
+ kDv1a+W5+ncq+Uo63WHRiCPuyt4di4/0zo28RVcjtzlGBZtmz2EIC3vUfmoZbO/Gn6EKbYAn
+ rzz3iU/JWV8DwQ+sZSGu0HmvYMt6t5SmqWQo/hyHtA7uF5Wxtu1lCgolSQw4t49ZuOyOnQi5
+ f8R3nE7lpVCSF1TT+h8kMvFPv3VG7KunyjHr3sEptYxQs4VRxqeirSuyBv1TyxT+LdTm6j4a
+ mulOWf+YtFRAgIYyyN5YOepDEBv4LUM8Tz98lZiNMlFyRMNrsLV6Pv6SxhrMxbT6TNVS5D+6
+ UorTLotDZKp5+M7BTQRUY85qARAAsgMW71BIXRgxjYNCYQ3Xs8k3TfAvQRbHccky50h99TUY
+ sqdULbsb3KhmY29raw1bgmyM0a4DGS1YKN7qazCDsdQlxIJp9t2YYdBKXVRzPCCsfWe1dK/q
+ 66UVhRPP8EGZ4CmFYuPTxqGY+dGRInxCeap/xzbKdvmPm01Iw3YFjAE4PQ4hTMr/H76KoDbD
+ cq62U50oKC83ca/PRRh2QqEqACvIH4BR7jueAZSPEDnzwxvVgzyeuhwqHY05QRK/wsKuhq7s
+ UuYtmN92Fasbxbw2tbVLZfoidklikvZAmotg0dwcFTjSRGEg0Gr3p/xBzJWNavFZZ95Rj7Et
+ db0lCt0HDSY5q4GMR+SrFbH+jzUY/ZqfGdZCBqo0cdPPp58krVgtIGR+ja2Mkva6ah94/oQN
+ lnCOw3udS+Eb/aRcM6detZr7XOngvxsWolBrhwTQFT9D2NH6ryAuvKd6yyAFt3/e7r+HHtkU
+ kOy27D7IpjngqP+b4EumELI/NxPgIqT69PQmo9IZaI/oRaKorYnDaZrMXViqDrFdD37XELwQ
+ gmLoSm2VfbOYY7fap/AhPOgOYOSqg3/Nxcapv71yoBzRRxOc4FxmZ65mn+q3rEM27yRztBW9
+ AnCKIc66T2i92HqXCw6AgoBJRjBkI3QnEkPgohQkZdAb8o9WGVKpfmZKbYBo4pEAEQEAAcLB
+ XwQYAQIACQUCVGPOagIbDAAKCRBoNZUwcMmSsJeCEACCh7P/aaOLKWQxcnw47p4phIVR6pVL
+ e4IEdR7Jf7ZL00s3vKSNT+nRqdl1ugJx9Ymsp8kXKMk9GSfmZpuMQB9c6io1qZc6nW/3TtvK
+ pNGz7KPPtaDzvKA4S5tfrWPnDr7n15AU5vsIZvgMjU42gkbemkjJwP0B1RkifIK60yQqAAlT
+ YZ14P0dIPdIPIlfEPiAWcg5BtLQU4Wg3cNQdpWrCJ1E3m/RIlXy/2Y3YOVVohfSy+4kvvYU3
+ lXUdPb04UPw4VWwjcVZPg7cgR7Izion61bGHqVqURgSALt2yvHl7cr68NYoFkzbNsGsye9ft
+ M9ozM23JSgMkRylPSXTeh5JIK9pz2+etco3AfLCKtaRVysjvpysukmWMTrx8QnI5Nn5MOlJj
+ 1Ov4/50JY9pXzgIDVSrgy6LYSMc4vKZ3QfCY7ipLRORyalFDF3j5AGCMRENJjHPD6O7bl3Xo
+ 4DzMID+8eucbXxKiNEbs21IqBZbbKdY1GkcEGTE7AnkA3Y6YB7I/j9mQ3hCgm5muJuhM/2Fr
+ OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
+ ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
+ z5cecg==
+Message-ID: <75423f64-adef-a2c4-8e7d-2cb814127b18@intel.com>
+Date: Wed, 24 Mar 2021 09:34:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210323155059.628690-35-maarten.lankhorst@linux.intel.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <a1fa7fa2-914b-366d-9902-e5b784e8428c@shipmail.org>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,110 +104,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 23, 2021 at 04:50:23PM +0100, Maarten Lankhorst wrote:
-> i915_gem_object_pin_map potentially needs a ww context, so ensure we
-> have one we can revoke.
-> =
-
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Reviewed-by: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
-
-We shouldn't hand-roll our own vm_access callback, generic_access_phys
-should be used here instead.
-
-I've applied this, but can you pls do a follow up patch here?
-
-Thanks, Daniel
-
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_mman.c | 24 ++++++++++++++++++++++--
->  1 file changed, 22 insertions(+), 2 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i=
-915/gem/i915_gem_mman.c
-> index 163208a6260d..2561a2f1e54f 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> @@ -421,7 +421,9 @@ vm_access(struct vm_area_struct *area, unsigned long =
-addr,
->  {
->  	struct i915_mmap_offset *mmo =3D area->vm_private_data;
->  	struct drm_i915_gem_object *obj =3D mmo->obj;
-> +	struct i915_gem_ww_ctx ww;
->  	void *vaddr;
-> +	int err =3D 0;
->  =
-
->  	if (i915_gem_object_is_readonly(obj) && write)
->  		return -EACCES;
-> @@ -430,10 +432,18 @@ vm_access(struct vm_area_struct *area, unsigned lon=
-g addr,
->  	if (addr >=3D obj->base.size)
->  		return -EINVAL;
->  =
-
-> +	i915_gem_ww_ctx_init(&ww, true);
-> +retry:
-> +	err =3D i915_gem_object_lock(obj, &ww);
-> +	if (err)
-> +		goto out;
-> +
->  	/* As this is primarily for debugging, let's focus on simplicity */
->  	vaddr =3D i915_gem_object_pin_map(obj, I915_MAP_FORCE_WC);
-> -	if (IS_ERR(vaddr))
-> -		return PTR_ERR(vaddr);
-> +	if (IS_ERR(vaddr)) {
-> +		err =3D PTR_ERR(vaddr);
-> +		goto out;
-> +	}
->  =
-
->  	if (write) {
->  		memcpy(vaddr + addr, buf, len);
-> @@ -443,6 +453,16 @@ vm_access(struct vm_area_struct *area, unsigned long=
- addr,
->  	}
->  =
-
->  	i915_gem_object_unpin_map(obj);
-> +out:
-> +	if (err =3D=3D -EDEADLK) {
-> +		err =3D i915_gem_ww_ctx_backoff(&ww);
-> +		if (!err)
-> +			goto retry;
-> +	}
-> +	i915_gem_ww_ctx_fini(&ww);
-> +
-> +	if (err)
-> +		return err;
->  =
-
->  	return len;
->  }
-> -- =
-
-> 2.31.0
-> =
-
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMy8yNC8yMSAzOjA1IEFNLCBUaG9tYXMgSGVsbHN0csO2bSAoSW50ZWwpIHdyb3RlOgo+IFll
+cywgSSBhZ3JlZS4gU2VlbXMgbGlrZSB0aGUgc3BlY2lhbCAoU1cxKSBpcyBhdmFpbGFibGUgYWxz
+byBmb3IgaHVnZQo+IHBhZ2UgdGFibGUgZW50cmllcyBvbiB4ODYgQUZBSUNULCBhbHRob3VnaCBq
+dXN0IG5vdCBpbXBsZW1lbnRlZC4KPiBPdGhlcndpc2UgdGhlIFNXIGJpdHMgYXBwZWFyIGNvbXBs
+ZXRlbHkgdXNlZCB1cC4KCkFsdGhvdWdoIHRoZSBfUEFHRV9CSVRfU09GVFcqIGJpdHMgYXJlIHVz
+ZWQgdXAsIHRoZXJlJ3MgcGxlbnR5IG9mIHJvb20KaW4gdGhlIGhhcmR3YXJlIFBURXMuICBCaXRz
+IDUyLT41OCBhcmUgc29mdHdhcmUtYXZhaWxhYmxlLCBhbmQgd2UncmUKb25seSB1c2luZyA1OCBh
+dCB0aGUgbW9tZW50LgoKV2UgYWxzbyBoYXZlIG5vdCBiZWVuIGNhcmVmdWwgYXQgKmFsbCogYWJv
+dXQgaG93IF9QQUdFX0JJVF9TT0ZUVyogYXJlCnVzZWQuICBJdCdzIHF1aXRlIHBvc3NpYmxlIHdl
+IGNhbiBlbmNvZGUgYW5vdGhlciB1c2UgZXZlbiBpbiB0aGUKZXhpc3RpbmcgYml0cy4KClBlcnNv
+bmFsbHksIEknZCBqdXN0IHRyeToKCiNkZWZpbmUgX1BBR0VfQklUX1NPRlRXNSAgICAgICAgNTcg
+ICAgICAvKiBhdmFpbGFibGUgZm9yIHByb2dyYW1tZXIgKi8KCgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
