@@ -1,47 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF74A3473FB
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 09:54:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8412C34745C
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 10:18:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09D496E40A;
-	Wed, 24 Mar 2021 08:54:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DFB96E995;
+	Wed, 24 Mar 2021 09:18:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com
- [209.85.221.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 090F66E40A
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:54:53 +0000 (UTC)
-Received: by mail-vk1-f177.google.com with SMTP id f11so5257698vkl.9
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 01:54:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xRxwIC3bM0aWnGeWfgHlFRedOLEA/dGDm4UbRmEj3Vw=;
- b=FxxA5/eYLrr1H2pnS6N+5Nx1J+TksoR86pXKF4xMfZXsMBdSy/WSzhhtgt13godeFq
- OyALu5LkTJn6MAYg4Edjzw+OrV3a4i3hYqLLvyqJq8pNEjtakf+v/1YXqD/EXaQXKgEs
- QWr3xSWu7ev4bBs7XnTfh+Q1YC3gfMezVlP7U6SdXEDvH9gQqH4fDDfNVL5De64S/nMR
- Z1mTOvNmaMTLl7bAuriIMQXailtd9RlQS+dXy14yl5vGKpMRYarf5BDLFEFMKaerh/jZ
- +/hj9P4NcHW1D5uueXWWPnBDgXKz3qPo1YcpIDbzj0Q8VNSnYtuAi3rcLJr5r9euzfea
- gmTA==
-X-Gm-Message-State: AOAM533GlJaf6t6zJGsRxaWoECR+42oD/8aA5VbqxrZVcrhKC3tYRpyZ
- bwUKkFQ7VIMwpDRdZOufFWswsUFvt8b7/WEsTwo=
-X-Google-Smtp-Source: ABdhPJzMDF6Nt1AF/bI08S3WTSedZ75tpHSB9bs9VB4XV/vIslxfCLJOjjnhguNbqq5W3XrjdDnyZdfuy6oLhuNoxdM=
-X-Received: by 2002:a1f:2502:: with SMTP id l2mr1032890vkl.5.1616576092193;
- Wed, 24 Mar 2021 01:54:52 -0700 (PDT)
+X-Greylist: delayed 305 seconds by postgrey-1.36 at gabe;
+ Wed, 24 Mar 2021 09:18:11 UTC
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11CC36E96F
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 09:18:10 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-70-F_iQyAaGNv6_r3BEezM2zQ-1; Wed, 24 Mar 2021 09:11:56 +0000
+X-MC-Unique: F_iQyAaGNv6_r3BEezM2zQ-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Wed, 24 Mar 2021 09:11:55 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.012; Wed, 24 Mar 2021 09:11:55 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Martin Sebor' <msebor@gmail.com>, Ingo Molnar <mingo@kernel.org>, "Arnd
+ Bergmann" <arnd@kernel.org>
+Subject: RE: [PATCH 02/11] x86: tboot: avoid Wstringop-overread-warning
+Thread-Topic: [PATCH 02/11] x86: tboot: avoid Wstringop-overread-warning
+Thread-Index: AQHXH2fn7jNrPkUb50e9k3rL2a+D9qqS2/oQ
+Date: Wed, 24 Mar 2021 09:11:55 +0000
+Message-ID: <0aa198a1dd904231bcc29454bf19a812@AcuMS.aculab.com>
+References: <20210322160253.4032422-1-arnd@kernel.org>
+ <20210322160253.4032422-3-arnd@kernel.org>
+ <20210322202958.GA1955909@gmail.com>
+ <b944a853-0e4b-b767-0175-cc2c1edba759@gmail.com>
+In-Reply-To: <b944a853-0e4b-b767-0175-cc2c1edba759@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-References: <20210228124106.135812-1-konrad.dybcio@somainline.org>
- <20210228124106.135812-2-konrad.dybcio@somainline.org>
- <20210322161810.biagj2qro66rv4gt@maple.lan>
- <20210323083935.GF2916463@dell>
-In-Reply-To: <20210323083935.GF2916463@dell>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 24 Mar 2021 09:54:40 +0100
-Message-ID: <CAMuHMdUamD4rAY1Sn-3Fb9Xf1B9g0FY0Pob8rAFsFR0ZcNZ0rw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] video: backlight: qcom-wled: Add PMI8994 compatible
-To: Lee Jones <lee.jones@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,55 +61,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Kiran Gunda <kgunda@codeaurora.org>, Jingoo Han <jingoohan1@gmail.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, Andy Gross <agross@kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, martin.botka@somainline.org,
- ~postmarketos/upstreaming@lists.sr.ht, Pavel Machek <pavel@ucw.cz>,
- angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
- phone-devel@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-leds <linux-leds@vger.kernel.org>, Dan Murphy <dmurphy@ti.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "x86@kernel.org" <x86@kernel.org>, James Smart <james.smart@broadcom.com>,
+ "tboot-devel@lists.sourceforge.net" <tboot-devel@lists.sourceforge.net>,
+ Ingo Molnar <mingo@redhat.com>, Kalle Valo <kvalo@codeaurora.org>,
+ "ath11k@lists.infradead.org" <ath11k@lists.infradead.org>,
+ Serge Hallyn <serge@hallyn.com>, Arnd Bergmann <arnd@arndb.de>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, Ning Sun <ning.sun@intel.com>,
+ Anders Larsen <al@alarsen.net>, Borislav Petkov <bp@alien8.de>,
+ "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Martin
+ Sebor <msebor@gcc.gnu.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-security-module@vger.kernel.org"
+ <linux-security-module@vger.kernel.org>, Tejun Heo <tj@kernel.org>,
+ Simon Kelley <simon@thekelleys.org.uk>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lee,
+From: Martin Sebor
+> Sent: 22 March 2021 22:08
+...
+> In GCC 11, all access warnings expect objects to be either declared
+> or allocated.  Pointers with constant values are taken to point to
+> nothing valid (as Arnd mentioned above, this is to detect invalid
+> accesses to members of structs at address zero).
+> 
+> One possible solution to the known address problem is to extend GCC
+> attributes address and io that pin an object to a hardwired address
+> to all targets (at the moment they're supported on just one or two
+> targets).  I'm not sure this can still happen before GCC 11 releases
+> sometime in April or May.
 
-On Tue, Mar 23, 2021 at 9:40 AM Lee Jones <lee.jones@linaro.org> wrote:
-> On Mon, 22 Mar 2021, Daniel Thompson wrote:
-> > On Sun, Feb 28, 2021 at 01:41:05PM +0100, Konrad Dybcio wrote:
-> > > Add a compatible for PMI8994 WLED. It uses the V4 of WLED IP.
-> > >
-> > > Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-> >
-> > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
->
-> Why are you Reviewing/Acking a patch that was applied on the 10th?
+A different solution is to define a normal C external data item
+and then assign a fixed address with an asm statement or in
+the linker script.
 
-Only 12 days later?!?
+	David
 
-It's not uncommon to receive acks for patches after they have been
-applied upstream. But it is if the patch was applied 10 years and 9
-months ago!
-https://lore.kernel.org/linux-m68k/F5513AE92A5A1047AC2F91AEBB9202680288CBBA3983@E2K7-MS2.ds.strath.ac.uk/
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
