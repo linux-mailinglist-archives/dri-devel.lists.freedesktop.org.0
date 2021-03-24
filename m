@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 425B13471A3
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 07:33:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8ADF3471EE
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 07:57:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE96B6EAE3;
-	Wed, 24 Mar 2021 06:33:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCEA46E98E;
+	Wed, 24 Mar 2021 06:57:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
- [IPv6:2607:f8b0:4864:20::735])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B91246E982;
- Wed, 24 Mar 2021 06:33:05 +0000 (UTC)
-Received: by mail-qk1-x735.google.com with SMTP id q26so11778501qkm.6;
- Tue, 23 Mar 2021 23:33:05 -0700 (PDT)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1E776E98C;
+ Wed, 24 Mar 2021 06:57:37 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id z1so26395825edb.8;
+ Tue, 23 Mar 2021 23:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dr9jAGq3XCBEKD5miWJ7SRdpms+r36rKblFylD5bbSw=;
- b=ClS1JKychuCuV/wp29mYuMdQFoLOQLOg0eNzug/TKd2GoX03p4+ECOjY9ZY7nfGcOx
- VySjJZTRNRQ9cGbkbbpcTeoux0t/bZsXFCwh+e+i1ALIX6sdjCcl1huIG9Nlug3swKvf
- 9FjkUtvrYmjNur04CPZEv/GSE/UlxaID8d4SkGvbWWQWwiYMtYPaoonOrZd7yVighdKT
- DyZhOEJoe0KV4Z1MuVCbdq+xC0swo7HaJLC5Roh2qPqqZ4GWzs13RCFbW6Ugno2mD+8l
- xMltepqDnpU8BXgOJiEaSeJOCjz+cvSIky6uTHI0iHm7YRXv1l8Xsaqlzs/NiI/X4Xze
- Q8Lg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jUHLlaX1OMcEX+7hwUCV5OUoSacAoX8aUCeag2OeSgo=;
+ b=XValwacryJ+5F8crFJE04X+dDf+TEhG+XkKzZb9hA3pejgNU/CdpbM5b0hIEi5JpRc
+ Eymaj682oQlzpXrRG8NVN8IBO7hvQ/HLm38BUGQgzkXxYZWTyuZqSxrGqj8AwV8EK/Yf
+ T9tOROEs2NuHGnYS3su/woSzNfslQ0v+TNRTarWXAQwfX7YEBHBfTlvc06VB5gPh/AJU
+ Bm6sMVva72TVNr5QFK0cLd0F4VLIK4hdVPbFoNWoRFSQzNE2M3SV2x24KUPLEGb9+z7Q
+ F0cJQW5rWIN1Ig+mq75+zYqb8rjlTYfFo7FMW69xzXTDio/0BDOMcmyV4iO63s2DTB/c
+ xdTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dr9jAGq3XCBEKD5miWJ7SRdpms+r36rKblFylD5bbSw=;
- b=REl3yVcMC0MLcb7qg0nFPCkCibvmD4eqtglLyL9WTQGeIjtcytgbqyhkIPUKzCcW5D
- PHZqo88RQlwmSpzFmMlnZBwD1ejU4emXDOYyHkcXldapXGTQHxrzjDuQKMQYPJiSnnqW
- lev05+t++z43f9RRQBawdRXPEvl854/y8bjXND3gtZ2/pj8DX/uMD4PENDDLiqXCFJZa
- f43mMVBXn8JdmIa8DfT1o8gfonQg4XdgYuIwrxntorYAq7EkGfrDfxRoU5c7lHo9aEZJ
- jXOrxZCfRT0IUHrp6Eaiu0BY1OLXwDuMyb8ftjxWqxdDIoZAwK3mRuKAGsd9uJ6eKyOJ
- eV6g==
-X-Gm-Message-State: AOAM53129BSir5wTfwFiWW7KDznlzfvp6VHPdodseL5+zB4uIbc9Z17Z
- s3UEdDQU84MrLDFuYKBUmCU=
-X-Google-Smtp-Source: ABdhPJx08Wqua/7QV4jRNH4tZmpPSNaQ9479WSYnC6bWd0xFFtPFlVDf0DpJTfL7sX3Rh/ECQz9uWw==
-X-Received: by 2002:a05:620a:118f:: with SMTP id
- b15mr1628415qkk.5.1616567584114; 
- Tue, 23 Mar 2021 23:33:04 -0700 (PDT)
-Received: from Slackware.localdomain ([156.146.37.194])
- by smtp.gmail.com with ESMTPSA id k4sm1080755qke.13.2021.03.23.23.32.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 23:33:03 -0700 (PDT)
-From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To: bskeggs@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
- unixbhaskar@gmail.com, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/nouveau/bios/init: A typo fix
-Date: Wed, 24 Mar 2021 12:04:40 +0530
-Message-Id: <20210324063440.14969-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.30.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jUHLlaX1OMcEX+7hwUCV5OUoSacAoX8aUCeag2OeSgo=;
+ b=jT46Y+nJOu054RynkweZNkCNm7VZ2RLCgnp7x+rINWOoB+EMSt3CBGLerC3vv48nEp
+ 1q8z2LkAp+vwI4Ddjzn+ODCk03vlik/cHyMlSH6ipGx+R1JLu+IOBhKW150dSUq7aFTl
+ icQBCGPWr+M/+Ufe+dIp4UfUxszFsYMkHAOd/Ki8iDnLCozEjeG8Y+sVaShAUfT9cPez
+ 1fpES3Dn/nBVUx3PcWdcZxhQ24eDrkotxrZhcPtayKxoGL29eBwovZ5Nc6ZpH2Fg5QdO
+ kYWS212ManSg9b9YR2ZdyFfLE8oHgTcTgqdCDRwIQnwGSJFLxZhBSB9cVgseSh9lbUOL
+ 6Chg==
+X-Gm-Message-State: AOAM531U/DloIi+zlaS7AnBI6mBwovtbuZUvvv/2ID4nN2bK5RvJBo9Q
+ nG/HBTnfQBMDjwndRaOe3b41jSTOTUPPiBnalqf2XsuX
+X-Google-Smtp-Source: ABdhPJyvW+V3BAMCMz8MYvdbOzYdQOS9CrKYneQ80P8dAGB9eTqpeLSprtLBpDt4Kt9YX2Y1fRNHWstfdZLKZAxQBlY=
+X-Received: by 2002:a17:906:ad96:: with SMTP id
+ la22mr2060614ejb.237.1616567697813; 
+ Tue, 23 Mar 2021 23:34:57 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210323084453.366863-1-daniel.vetter@ffwll.ch>
+ <YFnqYj3geFFLFJac@phenom.ffwll.local>
+In-Reply-To: <YFnqYj3geFFLFJac@phenom.ffwll.local>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 24 Mar 2021 16:34:46 +1000
+Message-ID: <CAPM=9tyi3g_8hMPkGK+fSoMPxR-w6EzCh9iJpy4m1gCFb2z5Hg@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915: add gem/gt TODO
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,36 +62,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rdunlap@infradead.org
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 23 Mar 2021 at 23:17, Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Tue, Mar 23, 2021 at 09:44:52AM +0100, Daniel Vetter wrote:
+> > We've discussed a bit how to get the gem/gt team better integrated
+> > and collaborate more with the wider community and agreed to the
+> > following:
+> >
+> > - all gem/gt patches are reviewed on dri-devel for now. That's
+> >   overkill, but in the past there was definitely too little of that.
+> >
+> > - i915-gem folks are encouraged to cross review core patches from
+> >   other teams
+> >
+> > - big features (especially uapi changes) need to be discussed in an
+> >   rfc patch that documents the interface and big picture design,
+> >   before we get lost in the details of the code
+> >
+> > - Also a rough TODO (can be refined as we go ofc) to get gem/gt back
+> >   on track, like we've e.g. done with DAL/DC to get that in shape.
 
-s/conditon/condition/
+I think we mentioned in the past about having better annotations for
+dma_fence critical sections,
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Otherwise I think this is a great list to get us out of the woods and
+seeing how to move forward again.
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c
-index 9de74f41dcd2..142079403864 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c
-@@ -401,7 +401,7 @@ init_table_(struct nvbios_init *init, u16 offset, const char *name)
- #define init_macro_table(b) init_table_((b), 0x04, "macro table")
- #define init_condition_table(b) init_table_((b), 0x06, "condition table")
- #define init_io_condition_table(b) init_table_((b), 0x08, "io condition table")
--#define init_io_flag_condition_table(b) init_table_((b), 0x0a, "io flag conditon table")
-+#define init_io_flag_condition_table(b) init_table_((b), 0x0a, "io flag condition table")
- #define init_function_table(b) init_table_((b), 0x0c, "function table")
- #define init_xlat_table(b) init_table_((b), 0x10, "xlat table");
-
---
-2.30.1
-
+Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
