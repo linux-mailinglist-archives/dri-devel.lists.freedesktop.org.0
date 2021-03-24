@@ -2,65 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547FE3470A1
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 06:06:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2266A3471F8
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 08:02:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C85516E977;
-	Wed, 24 Mar 2021 05:05:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C6B389DA8;
+	Wed, 24 Mar 2021 07:02:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD71D6E977;
- Wed, 24 Mar 2021 05:05:55 +0000 (UTC)
-IronPort-SDR: MMRG45ndqmJOJw7oy5ileoYyxJ0DDtAcz8oBvgEj0HUaOdWyCC+yf3sF8DCQ6RYkdlqYwiyDnP
- 2oKGmgvaSntQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9932"; a="190661284"
-X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; d="scan'208";a="190661284"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2021 22:05:54 -0700
-IronPort-SDR: D6vxC8LksDtr/uoRLoPB6Lniz3JlLh1GgoRa6OYsjDIUdnWAbRNtkiCWNkrft8BFr3kichTBAP
- wrfRkkdPrmcw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; d="scan'208";a="413646740"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga007.jf.intel.com with ESMTP; 23 Mar 2021 22:05:54 -0700
-Received: from bgsmsx606.gar.corp.intel.com (10.67.234.8) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 23 Mar 2021 22:05:53 -0700
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- BGSMSX606.gar.corp.intel.com (10.67.234.8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Wed, 24 Mar 2021 10:35:51 +0530
-Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
- BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.2106.013;
- Wed, 24 Mar 2021 10:35:51 +0530
-From: "Gupta, Anshuman" <anshuman.gupta@intel.com>
-To: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Lankhorst, Maarten" <maarten.lankhorst@intel.com>
-Subject: RE: [Intel-gfx] [PATCH 2/2] drm/hdcp: DP HDCP2.2 errata
- LC_Send_L_Prime=16
-Thread-Topic: [Intel-gfx] [PATCH 2/2] drm/hdcp: DP HDCP2.2 errata
- LC_Send_L_Prime=16
-Thread-Index: AQHW9IfjBXWnDhrQZUauSlTBOSfEnqqSi9CAgABgphA=
-Date: Wed, 24 Mar 2021 05:05:51 +0000
-Message-ID: <b1346613979849539857eb2814daecc9@intel.com>
-References: <20210127082437.31339-1-anshuman.gupta@intel.com>
- <20210127082437.31339-3-anshuman.gupta@intel.com>
- <f5ac828c-3297-1984-d85f-10545ffa3338@intel.com>
-In-Reply-To: <f5ac828c-3297-1984-d85f-10545ffa3338@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.223.10.1]
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89FE589CAD;
+ Wed, 24 Mar 2021 07:02:22 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id ce10so31087087ejb.6;
+ Wed, 24 Mar 2021 00:02:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4nP2sjxdIv+V7zOJ0GdZvSOpswpNmLx11k7HJ+bvJxk=;
+ b=QvAU79pCBO+OQDfpn+xUY5yx++V0Ks5VP6K/O86bTfVDItoT42/06NiMeWV9tiei8W
+ PVNx7w4yCT+TJKfioJxmgiMuUGKAp+jRwRBB9NRDpQsGvkdXeOYK09ZXqmp97mWdBv4W
+ ZcICkmEpCRWPipZmcULSjDrmSAjPJWWa4Cq5/YTru2MWC1bVvfVaGeHNGwDyOxg/x6+8
+ 03RqjoglLfGjh1a3lVfLBNz/cqGrriQbcYYqApkc+zeav6Fr+jpm78Nr4lmWjHg0jRWA
+ npRrPT2N9JMPRK18nv71TSlII4zkq5c+CJSheXTRM4w2EHKmWLzUXvkmzhfA4ZQ0DTdb
+ 806Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4nP2sjxdIv+V7zOJ0GdZvSOpswpNmLx11k7HJ+bvJxk=;
+ b=FsNQw3v+lceccHDa5DvCO/uDUmGhIG5orKNLaaPd8PrKQlTw2nGq69Mbf+jp+H1lTU
+ tAIRzJx1E+6v3lpqmKECTJKRiBKXpV7c3BYlR5jUP1yUEvuJaQIVKQEvo7pWMoWjDtmZ
+ 38VsXOf9at5mMqmsFJSaQ50wYB8MYiHCcSe392yudHGHHTmmXCKxZdvFQHLbPfKe721L
+ XFhaV5DYL30eFEJg1dwGeY8Qb4x/dmVBPePQ6zf/ZfyqezZ7FU1hieWB93ceuyNT4xN7
+ RG5jAUBX/95+aU8p3mu7QtPuyyZgDYjFCh84tdX3blonFGLjjvD46i1203FJLGWqNgum
+ C8kw==
+X-Gm-Message-State: AOAM530H4LyV440ZMyjhKcsn/76H/VSiBd48L/vYCnNbmBnnmrOvKLFg
+ SeusTq1ZB2Sp8dB0S6sluaj1vo7C+AWbdUQBjklsDYxg
+X-Google-Smtp-Source: ABdhPJwokLWdP5xYMSVLfBYxXbdntNqp0f6PT11epkzPIodULwpC23bGh6gmTKucCmzNm6zNQb3CupEPlTmURqzn/no=
+X-Received: by 2002:aa7:c88e:: with SMTP id p14mr1662803eds.119.1616567579852; 
+ Tue, 23 Mar 2021 23:32:59 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210323084453.366863-1-daniel.vetter@ffwll.ch>
+ <20210323084453.366863-2-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210323084453.366863-2-daniel.vetter@ffwll.ch>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 24 Mar 2021 16:32:48 +1000
+Message-ID: <CAPM=9tyQ5=GWWPKzEYke4ARk0dNGqnZnpZAydXiM0nn0A8JxTQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 2/2] drm/doc: Add RFC section
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,56 +61,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>, Sean Paul <sean@poorly.run>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 23 Mar 2021 at 18:45, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+> Motivated by the pre-review process for i915 gem/gt features, but
+> probably useful in general for complex stuff.
+>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 
+Let's give it a try, I do like the future ideas of doing things with
+gitlab issues as well.
 
-> -----Original Message-----
-> From: Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>
-> Sent: Wednesday, March 24, 2021 10:16 AM
-> To: Gupta, Anshuman <anshuman.gupta@intel.com>; intel-
-> gfx@lists.freedesktop.org
-> Subject: Re: [Intel-gfx] [PATCH 2/2] drm/hdcp: DP HDCP2.2 errata
-> LC_Send_L_Prime=16
-> 
-> Change is as per the errata. LGTM.
-> 
-> Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Hi  Maarten ,
-Could you please provide your Ack to merge it via drm-intel-next,  since it is a small change.
-Thanks,
-Anshuman Gupta.
-> 
-> On 1/27/2021 1:54 PM, Anshuman Gupta wrote:
-> > Fix LC_Send_L_Prime message timeout to 16 as documented in DP HDCP 2.2
-> > errata page 3.
-> >
-> > https://www.digital-cp.com/sites/default/files/HDCP%202_2_DisplayPort_
-> > Errata_v3_0.pdf
-> >
-> > Cc: Ramalingam C <ramalingam.c@intel.com>
-> > Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
-> > ---
-> >   include/drm/drm_hdcp.h | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/include/drm/drm_hdcp.h b/include/drm/drm_hdcp.h index
-> > 2b165a0f434f..0b1111e3228e 100644
-> > --- a/include/drm/drm_hdcp.h
-> > +++ b/include/drm/drm_hdcp.h
-> > @@ -231,7 +231,7 @@ struct hdcp2_rep_stream_ready {
-> >   #define HDCP_2_2_PAIRING_TIMEOUT_MS		200
-> >   #define HDCP_2_2_DP_PAIRING_READ_TIMEOUT_MS	5
-> >   #define	HDCP_2_2_HDMI_LPRIME_TIMEOUT_MS		20
-> > -#define HDCP_2_2_DP_LPRIME_TIMEOUT_MS		7
-> > +#define HDCP_2_2_DP_LPRIME_TIMEOUT_MS		16
-> >   #define HDCP_2_2_RECVID_LIST_TIMEOUT_MS		3000
-> >   #define HDCP_2_2_STREAM_READY_TIMEOUT_MS	100
-> >
+Acked-by: Dave Airlie <airlied@redhat.com>
+> ---
+>  Documentation/gpu/index.rst |  1 +
+>  Documentation/gpu/rfc.rst   | 16 ++++++++++++++++
+>  2 files changed, 17 insertions(+)
+>  create mode 100644 Documentation/gpu/rfc.rst
+>
+> diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
+> index c9a51e3bfb5a..df58cb826d68 100644
+> --- a/Documentation/gpu/index.rst
+> +++ b/Documentation/gpu/index.rst
+> @@ -16,6 +16,7 @@ Linux GPU Driver Developer's Guide
+>     vga-switcheroo
+>     vgaarbiter
+>     todo
+> +   rfc
+>
+>  .. only::  subproject and html
+>
+> diff --git a/Documentation/gpu/rfc.rst b/Documentation/gpu/rfc.rst
+> new file mode 100644
+> index 000000000000..9d0ff2921af8
+> --- /dev/null
+> +++ b/Documentation/gpu/rfc.rst
+> @@ -0,0 +1,16 @@
+> +===============
+> +GPU RFC Section
+> +===============
+> +
+> +For complex work, especially new uapi, it is often good to nail the high level
+> +design issues before getting lost in the code details. This section is meant to
+> +host such documentation:
+> +
+> +* Each RFC should be a section in this file, explaining the goal and main design
+> +  considerations.
+> +
+> +* For uapi structures add a file to this directory with and then pull the
+> +  kerneldoc in like with real uapi headers.
+> +
+> +* Once the code has landed move all the documentation to the right places in
+> +  the main core, helper or driver sections.
+> --
+> 2.31.0
+>
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
