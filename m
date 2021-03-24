@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B9693484C7
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 23:44:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 373B83484C8
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 23:45:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45DB16EA9D;
-	Wed, 24 Mar 2021 22:44:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F1146EA9F;
+	Wed, 24 Mar 2021 22:45:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
- [IPv6:2607:f8b0:4864:20::f35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6B6D6EA9D
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 22:44:52 +0000 (UTC)
-Received: by mail-qv1-xf35.google.com with SMTP id q9so229874qvm.6
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:44:52 -0700 (PDT)
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com
+ [IPv6:2607:f8b0:4864:20::830])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 943946EA9F
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 22:45:03 +0000 (UTC)
+Received: by mail-qt1-x830.google.com with SMTP id j7so344184qtx.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:45:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/iyW6kwjqi6FG66ikBN1bNiA6NtYOMym2acDaBscWVA=;
- b=fBlP6kmzrfU3NAufyoAyG4cACwfZnJQ4BYRgdN0kxccpCHnDPb8RAmlw7DXSg7HANx
- 3iWcU420zI3miyS8v2if3Cd/0w+ItcKRB7FwcKiDnF6rweijaHFGVbRA5qxoS/iP0Uax
- d4ZBAaaX60UYNq/27clkv6hvgjYwXiUh8vUrs=
+ :cc; bh=8ZwT8HkDsYvi3JzaJTZKAAxslt8vR/nI4jrcLGJopjQ=;
+ b=QngrCIgC/wKLQ7c3KG9w7IKpUZodjWSZvldFViMa0lUYVj6zczuz1FnHD+n6fO983q
+ za80kVYR9hB3pNX/JWzDVC5zoPAWX8UrqzoBtM9n0FEo2QjBwA8naoXc/zhMq74yHUl2
+ xjoMVwQIUQazyfWzNKlRyUrx+BbQz3ulLaUj4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/iyW6kwjqi6FG66ikBN1bNiA6NtYOMym2acDaBscWVA=;
- b=gFEYbApVFfwMZgkfe4+1k6O1pT/8zVl6ap2HduE6Pnx+UEEzL7Jrdx0AvdZfi/VYL6
- QhoTLdW0+IFFLzs+TqhCrvur/RrdUwA94GN3oeV5bEk9om2I59h6v0ltoqPJYMPZyiwC
- ZsdR5MwkU4AldCRwWlqgRRErvGNfAOI6n2N1H9c3XUYBrkFV36wy+ni2rQzRj7VoQ9N7
- MpeCABl+g/jkXKiYHwHtbYhyJ+tDN0ISIjlLNTsddIhgAbTOqH69/pwshbebQxGx2S/4
- HUVzxdgnwf2gxVtCuzO0Q2/TFUn8sQYYh6yyzBHIJ5kqMhDJzpeY2bOpx3Rce6EzzxbJ
- sdng==
-X-Gm-Message-State: AOAM53007O6G7bZl144uzyl1zBCubdId9wIUcFgW1AE7uskHKjmtMtsd
- 8cfycTKPqZY+WoMwom5E2MsbhuB4glnKtA==
-X-Google-Smtp-Source: ABdhPJyXOa46DlhNFPJTxmY6h6+vcTEjCx+AEt2lVE5loixh96ne7m9gsAVcocPV5CCRsw1rk/YtyA==
-X-Received: by 2002:ad4:59c6:: with SMTP id el6mr5195395qvb.15.1616625891732; 
- Wed, 24 Mar 2021 15:44:51 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
- [209.85.219.182])
- by smtp.gmail.com with ESMTPSA id j12sm2402620qtn.36.2021.03.24.15.44.51
+ bh=8ZwT8HkDsYvi3JzaJTZKAAxslt8vR/nI4jrcLGJopjQ=;
+ b=cJ+E8ZBw7ytcpEvLmW2Ncin2ivWdFFWBWgKu0SnD8VN7wjRXvKBW45VcMF2EvlVF4T
+ 2CkqsndUEOunI4X/zoWHRpLq5A6aOT/bZITSGe5ASQnyFivNbXExmAF+tdwtcTtBhny+
+ C5ygo7c12Ibl6FpMlFsf4/QuDVBYriEnu0XaVvzoHXrDj3vSUCK9vidsgYlXoplxzK2L
+ rescRl0o9258KvG1unXL7g3pb5RISBo3A+CkdU2FB5n64pXiJdhpRlTxWJgiXGj5VspD
+ gcQzAm0Oa824BObXMyXOWcTM+fkTPgcTvRkE/xaOX43zBGZF2lZhV4sknNdVVaZimmvN
+ ZWWQ==
+X-Gm-Message-State: AOAM532zQgxhCcKsrqQQ2VLLWxqRCJb3d0g6ict46XvqE+8bE0F75nFl
+ XPPmMWP+K0dl/+U7vJo8wMAnoThawL/jrg==
+X-Google-Smtp-Source: ABdhPJwybAYURXm5JUv0VVywHovKuKczN9HcA1pEoAxklGIm6Sfox02jqgvvQklfLuHG3ZobTcEIcA==
+X-Received: by 2002:ac8:5e0a:: with SMTP id h10mr3952125qtx.71.1616625902625; 
+ Wed, 24 Mar 2021 15:45:02 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com.
+ [209.85.219.181])
+ by smtp.gmail.com with ESMTPSA id z24sm2822630qkz.65.2021.03.24.15.45.02
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Mar 2021 15:44:51 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id m132so299767ybf.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:44:51 -0700 (PDT)
-X-Received: by 2002:a5b:54a:: with SMTP id r10mr7016215ybp.476.1616625890751; 
- Wed, 24 Mar 2021 15:44:50 -0700 (PDT)
+ Wed, 24 Mar 2021 15:45:02 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id m132so300178ybf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:45:02 -0700 (PDT)
+X-Received: by 2002:a25:69c1:: with SMTP id e184mr8194218ybc.345.1616625901780; 
+ Wed, 24 Mar 2021 15:45:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210322030128.2283-6-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20210322030128.2283-6-laurent.pinchart+renesas@ideasonboard.com>
+ <20210322030128.2283-7-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20210322030128.2283-7-laurent.pinchart+renesas@ideasonboard.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 24 Mar 2021 15:44:39 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VFwphwow7W_v7XHn+1dQHq0zwT-TyJyp9BaFgcs_t9VQ@mail.gmail.com>
-Message-ID: <CAD=FV=VFwphwow7W_v7XHn+1dQHq0zwT-TyJyp9BaFgcs_t9VQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 05/11] drm/bridge: ti-sn65dsi86: Wrap panel with
- panel-bridge
+Date: Wed, 24 Mar 2021 15:44:50 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XLkfSZ=sR4y3PbY4PJdita6GERzoh--j8mrjXKRCW22g@mail.gmail.com>
+Message-ID: <CAD=FV=XLkfSZ=sR4y3PbY4PJdita6GERzoh--j8mrjXKRCW22g@mail.gmail.com>
+Subject: Re: [RFC PATCH 06/11] drm/bridge: ti-sn65dsi86: Group code in sections
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,58 +84,20 @@ Hi,
 On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart
 <laurent.pinchart+renesas@ideasonboard.com> wrote:
 >
-> To simplify interfacing with the panel, wrap it in a panel-bridge and
-> let the DRM bridge helpers handle chaining of operations.
+> Reorganize the functions in sections, related to connector operations,
+> bridge operations, AUX adapter, GPIO controller and probe & remove.
 >
-> This also prepares for support of DRM_BRIDGE_ATTACH_NO_CONNECTOR, which
-> requires all components in the display pipeline to be represented by
-> bridges.
+> This prepares for proper support of DRM_BRIDGE_ATTACH_NO_CONNECTOR that
+> will add more functions, to ensure that the code will stay readable.
+>
+> No functional change intended.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 30 +++++++++++++++++++--------
->  1 file changed, 21 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 1d1be791d5ba..c21a7f7d452b 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -124,6 +124,7 @@
->   * @edid:         Detected EDID of eDP panel.
->   * @refclk:       Our reference clock.
->   * @panel:        Our panel.
-> + * @next_bridge:  The next bridge.
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 75 +++++++++++++++++----------
+>  1 file changed, 47 insertions(+), 28 deletions(-)
 
-To make it easier for folks who don't work with DRM all day, could you
-somehow clarify which direction "next" is talking about. AKA the next
-"outward" (towards the sink) or the next "inward" (toward the source)?
-
-
->   * @enable_gpio:  The GPIO we toggle to enable the bridge.
->   * @supplies:     Data for bulk enabling/disabling our regulators.
->   * @dp_lanes:     Count of dp_lanes we're using.
-> @@ -152,6 +153,7 @@ struct ti_sn_bridge {
->         struct mipi_dsi_device          *dsi;
->         struct clk                      *refclk;
->         struct drm_panel                *panel;
-> +       struct drm_bridge               *next_bridge;
-
-There's no reason to store the "panel" pointer anymore, right? It can
-just be a local variable in probe?
-
-
-> @@ -850,8 +856,6 @@ static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
->          */
->         regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
->                            HPD_DISABLE);
-> -
-> -       drm_panel_prepare(pdata->panel);
-
-Ugh, I guess conflicts with my EDID patch [1] which assumes that this
-function will directly turn the panel on. I'll see if I can find some
-solution...
-
-[1] https://lore.kernel.org/r/20210304155144.3.I60a7fb23ce4589006bc95c64ab8d15c74b876e68@changeid/
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
