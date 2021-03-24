@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80CC7347457
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 10:17:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF73347455
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 10:17:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 008C46E994;
-	Wed, 24 Mar 2021 09:17:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A5876E992;
+	Wed, 24 Mar 2021 09:17:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B7516E994;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02C9F6E992;
  Wed, 24 Mar 2021 09:17:14 +0000 (UTC)
 Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4F52cb5wnqzPlhs;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4F52cb6QQZzPljX;
  Wed, 24 Mar 2021 17:14:39 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
  DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 24 Mar 2021 17:17:07 +0800
+ 14.3.498.0; Wed, 24 Mar 2021 17:17:08 +0800
 From: Tian Tao <tiantao6@hisilicon.com>
 To: <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH drm/amdgpu 1/2] drm/amdgpu: Convert sysfs sprintf/snprintf
+Subject: [PATCH drm/amdgpu 2/2] drm/amd/pm: Convert sysfs sprintf/snprintf
  family to sysfs_emit
-Date: Wed, 24 Mar 2021 17:17:40 +0800
-Message-ID: <1616577461-18556-2-git-send-email-tiantao6@hisilicon.com>
+Date: Wed, 24 Mar 2021 17:17:41 +0800
+Message-ID: <1616577461-18556-3-git-send-email-tiantao6@hisilicon.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1616577461-18556-1-git-send-email-tiantao6@hisilicon.com>
 References: <1616577461-18556-1-git-send-email-tiantao6@hisilicon.com>
@@ -49,282 +49,361 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fix the following coccicheck warning:
-drivers/gpu//drm/amd/amdgpu/amdgpu_ras.c:434:9-17: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:1940:8-16: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/amdgpu_xgmi.c:220:8-16: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:1978:8-16: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/amdgpu_xgmi.c:249:8-16: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:2022:8-16: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/df_v3_6.c:208:8-16: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:294:8-16: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/amdgpu_psp.c:2973:8-16: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:154:8-16: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/amdgpu_vram_mgr.c:75:8-16: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:496:8-16: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/amdgpu_vram_mgr.c:112:8-16: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:512:9-17: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/amdgpu_vram_mgr.c:58:8-16: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:1740:8-16: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/amdgpu_vram_mgr.c:93:8-16: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:1667:8-16: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/amdgpu_vram_mgr.c:125:9-17: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:2074:8-16: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/amdgpu_gtt_mgr.c:52:8-16: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:2047:9-17: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/amdgpu_gtt_mgr.c:71:8-16: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:2768:8-16: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/amdgpu_device.c:140:8-16: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:2738:8-16: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/amdgpu_device.c:164:8-16: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:2442:8-16: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/amdgpu_device.c:186:8-16: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:3246:8-16: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/amdgpu_device.c:208:8-16: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:3253:8-16: WARNING:
 use scnprintf or sprintf
-drivers/gpu//drm/amd/amdgpu/amdgpu_atombios.c:1916:8-16: WARNING:
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:2458:8-16: WARNING:
+use scnprintf or sprintf
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:3047:8-16: WARNING:
+use scnprintf or sprintf
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:3133:8-16: WARNING:
+use scnprintf or sprintf
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:3209:8-16: WARNING:
+use scnprintf or sprintf
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:3216:8-16: WARNING:
+use scnprintf or sprintf
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:2410:8-16: WARNING:
+use scnprintf or sprintf
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:2496:8-16: WARNING:
+use scnprintf or sprintf
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:2470:8-16: WARNING:
+use scnprintf or sprintf
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:2426:8-16: WARNING:
+use scnprintf or sprintf
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:2965:8-16: WARNING:
+use scnprintf or sprintf
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:2972:8-16: WARNING:
+use scnprintf or sprintf
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:3006:8-16: WARNING:
+use scnprintf or sprintf
+drivers/gpu/drm/amd/pm/amdgpu_pm.c:3013:8-16: WARNING:
 use scnprintf or sprintf
 
 Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   |  8 +++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  |  6 ++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c      |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c      |  8 +++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 32 +++++++++++++---------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c     |  4 ++--
- drivers/gpu/drm/amd/amdgpu/df_v3_6.c         |  2 +-
- 8 files changed, 29 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c | 88 +++++++++++++++++++-------------------
+ 1 file changed, 44 insertions(+), 44 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-index 86add0f..5b04bfcb 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-@@ -1947,7 +1947,7 @@ static ssize_t amdgpu_atombios_get_vbios_version(struct device *dev,
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 	struct atom_context *ctx = adev->mode_info.atom_context;
+diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+index 5fa65f1..0ee3e55 100644
+--- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
++++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+@@ -151,9 +151,9 @@ static ssize_t amdgpu_get_power_dpm_state(struct device *dev,
+ 	pm_runtime_mark_last_busy(ddev->dev);
+ 	pm_runtime_put_autosuspend(ddev->dev);
  
--	return snprintf(buf, PAGE_SIZE, "%s\n", ctx->vbios_version);
-+	return sysfs_emit(buf, "%s\n", ctx->vbios_version);
+-	return snprintf(buf, PAGE_SIZE, "%s\n",
+-			(pm == POWER_STATE_TYPE_BATTERY) ? "battery" :
+-			(pm == POWER_STATE_TYPE_BALANCED) ? "balanced" : "performance");
++	return sysfs_emit(buf, "%s\n",
++			  (pm == POWER_STATE_TYPE_BATTERY) ? "battery" :
++			  (pm == POWER_STATE_TYPE_BALANCED) ? "balanced" : "performance");
  }
  
- static DEVICE_ATTR(vbios_version, 0444, amdgpu_atombios_get_vbios_version,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 6447cd6..33b6e46 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -136,7 +136,7 @@ static ssize_t amdgpu_device_get_pcie_replay_count(struct device *dev,
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 	uint64_t cnt = amdgpu_asic_get_pcie_replay_count(adev);
+ static ssize_t amdgpu_set_power_dpm_state(struct device *dev,
+@@ -291,16 +291,16 @@ static ssize_t amdgpu_get_power_dpm_force_performance_level(struct device *dev,
+ 	pm_runtime_mark_last_busy(ddev->dev);
+ 	pm_runtime_put_autosuspend(ddev->dev);
  
--	return snprintf(buf, PAGE_SIZE, "%llu\n", cnt);
-+	return sysfs_emit(buf, "%llu\n", cnt);
+-	return snprintf(buf, PAGE_SIZE, "%s\n",
+-			(level == AMD_DPM_FORCED_LEVEL_AUTO) ? "auto" :
+-			(level == AMD_DPM_FORCED_LEVEL_LOW) ? "low" :
+-			(level == AMD_DPM_FORCED_LEVEL_HIGH) ? "high" :
+-			(level == AMD_DPM_FORCED_LEVEL_MANUAL) ? "manual" :
+-			(level == AMD_DPM_FORCED_LEVEL_PROFILE_STANDARD) ? "profile_standard" :
+-			(level == AMD_DPM_FORCED_LEVEL_PROFILE_MIN_SCLK) ? "profile_min_sclk" :
+-			(level == AMD_DPM_FORCED_LEVEL_PROFILE_MIN_MCLK) ? "profile_min_mclk" :
+-			(level == AMD_DPM_FORCED_LEVEL_PROFILE_PEAK) ? "profile_peak" :
+-			"unknown");
++	return sysfs_emit(buf, "%s\n",
++			  (level == AMD_DPM_FORCED_LEVEL_AUTO) ? "auto" :
++			  (level == AMD_DPM_FORCED_LEVEL_LOW) ? "low" :
++			  (level == AMD_DPM_FORCED_LEVEL_HIGH) ? "high" :
++			  (level == AMD_DPM_FORCED_LEVEL_MANUAL) ? "manual" :
++			  (level == AMD_DPM_FORCED_LEVEL_PROFILE_STANDARD) ? "profile_standard" :
++			  (level == AMD_DPM_FORCED_LEVEL_PROFILE_MIN_SCLK) ? "profile_min_sclk" :
++			  (level == AMD_DPM_FORCED_LEVEL_PROFILE_MIN_MCLK) ? "profile_min_mclk" :
++			  (level == AMD_DPM_FORCED_LEVEL_PROFILE_PEAK) ? "profile_peak" :
++			  "unknown");
  }
  
- static DEVICE_ATTR(pcie_replay_count, S_IRUGO,
-@@ -160,7 +160,7 @@ static ssize_t amdgpu_device_get_product_name(struct device *dev,
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
+ static ssize_t amdgpu_set_power_dpm_force_performance_level(struct device *dev,
+@@ -493,7 +493,7 @@ static ssize_t amdgpu_get_pp_cur_state(struct device *dev,
+ 	if (i == data.nums)
+ 		i = -EINVAL;
  
--	return snprintf(buf, PAGE_SIZE, "%s\n", adev->product_name);
-+	return sysfs_emit(buf, "%s\n", adev->product_name);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", i);
++	return sysfs_emit(buf, "%d\n", i);
  }
  
- static DEVICE_ATTR(product_name, S_IRUGO,
-@@ -182,7 +182,7 @@ static ssize_t amdgpu_device_get_product_number(struct device *dev,
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 
--	return snprintf(buf, PAGE_SIZE, "%s\n", adev->product_number);
-+	return sysfs_emit(buf, "%s\n", adev->product_number);
+ static ssize_t amdgpu_get_pp_force_state(struct device *dev,
+@@ -509,7 +509,7 @@ static ssize_t amdgpu_get_pp_force_state(struct device *dev,
+ 	if (adev->pp_force_state_enabled)
+ 		return amdgpu_get_pp_cur_state(dev, attr, buf);
+ 	else
+-		return snprintf(buf, PAGE_SIZE, "\n");
++		return sysfs_emit(buf, "\n");
  }
  
- static DEVICE_ATTR(product_number, S_IRUGO,
-@@ -204,7 +204,7 @@ static ssize_t amdgpu_device_get_serial_number(struct device *dev,
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
+ static ssize_t amdgpu_set_pp_force_state(struct device *dev,
+@@ -1664,7 +1664,7 @@ static ssize_t amdgpu_get_pp_sclk_od(struct device *dev,
+ 	pm_runtime_mark_last_busy(ddev->dev);
+ 	pm_runtime_put_autosuspend(ddev->dev);
  
--	return snprintf(buf, PAGE_SIZE, "%s\n", adev->serial);
-+	return sysfs_emit(buf, "%s\n", adev->serial);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", value);
++	return sysfs_emit(buf, "%d\n", value);
  }
  
- static DEVICE_ATTR(serial_number, S_IRUGO,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index 8980329..540c010 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -49,8 +49,7 @@ static ssize_t amdgpu_mem_info_gtt_total_show(struct device *dev,
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
+ static ssize_t amdgpu_set_pp_sclk_od(struct device *dev,
+@@ -1737,7 +1737,7 @@ static ssize_t amdgpu_get_pp_mclk_od(struct device *dev,
+ 	pm_runtime_mark_last_busy(ddev->dev);
+ 	pm_runtime_put_autosuspend(ddev->dev);
  
--	return snprintf(buf, PAGE_SIZE, "%llu\n",
--			man->size * PAGE_SIZE);
-+	return sysfs_emit(buf, "%llu\n", man->size * PAGE_SIZE);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", value);
++	return sysfs_emit(buf, "%d\n", value);
+ }
+ 
+ static ssize_t amdgpu_set_pp_mclk_od(struct device *dev,
+@@ -1937,7 +1937,7 @@ static ssize_t amdgpu_get_gpu_busy_percent(struct device *dev,
+ 	if (r)
+ 		return r;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", value);
++	return sysfs_emit(buf, "%d\n", value);
  }
  
  /**
-@@ -68,8 +67,7 @@ static ssize_t amdgpu_mem_info_gtt_used_show(struct device *dev,
+@@ -1975,7 +1975,7 @@ static ssize_t amdgpu_get_mem_busy_percent(struct device *dev,
+ 	if (r)
+ 		return r;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", value);
++	return sysfs_emit(buf, "%d\n", value);
+ }
+ 
+ /**
+@@ -2019,8 +2019,8 @@ static ssize_t amdgpu_get_pcie_bw(struct device *dev,
+ 	pm_runtime_mark_last_busy(ddev->dev);
+ 	pm_runtime_put_autosuspend(ddev->dev);
+ 
+-	return snprintf(buf, PAGE_SIZE,	"%llu %llu %i\n",
+-			count0, count1, pcie_get_mps(adev->pdev));
++	return sysfs_emit(buf, "%llu %llu %i\n",
++			  count0, count1, pcie_get_mps(adev->pdev));
+ }
+ 
+ /**
+@@ -2044,7 +2044,7 @@ static ssize_t amdgpu_get_unique_id(struct device *dev,
+ 		return -EPERM;
+ 
+ 	if (adev->unique_id)
+-		return snprintf(buf, PAGE_SIZE, "%016llx\n", adev->unique_id);
++		return sysfs_emit(buf, "%016llx\n", adev->unique_id);
+ 
+ 	return 0;
+ }
+@@ -2071,10 +2071,10 @@ static ssize_t amdgpu_get_thermal_throttling_logging(struct device *dev,
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
  	struct amdgpu_device *adev = drm_to_adev(ddev);
- 	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
  
--	return snprintf(buf, PAGE_SIZE, "%llu\n",
--			amdgpu_gtt_mgr_usage(man));
-+	return sysfs_emit(buf, "%llu\n", amdgpu_gtt_mgr_usage(man));
+-	return snprintf(buf, PAGE_SIZE, "%s: thermal throttling logging %s, with interval %d seconds\n",
+-			adev_to_drm(adev)->unique,
+-			atomic_read(&adev->throttling_logging_enabled) ? "enabled" : "disabled",
+-			adev->throttling_logging_rs.interval / HZ + 1);
++	return sysfs_emit(buf, "%s: thermal throttling logging %s, with interval %d seconds\n",
++			  adev_to_drm(adev)->unique,
++			  atomic_read(&adev->throttling_logging_enabled) ? "enabled" : "disabled",
++			  adev->throttling_logging_rs.interval / HZ + 1);
  }
  
- static DEVICE_ATTR(mem_info_gtt_total, S_IRUGO,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-index 839917e..65b1df3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-@@ -2916,7 +2916,7 @@ static ssize_t psp_usbc_pd_fw_sysfs_read(struct device *dev,
- 		return ret;
- 	}
+ static ssize_t amdgpu_set_thermal_throttling_logging(struct device *dev,
+@@ -2407,7 +2407,7 @@ static ssize_t amdgpu_hwmon_show_temp(struct device *dev,
+ 	if (r)
+ 		return r;
  
--	return snprintf(buf, PAGE_SIZE, "%x\n", fw_ver);
-+	return sysfs_emit(buf, "%x\n", fw_ver);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", temp);
++	return sysfs_emit(buf, "%d\n", temp);
  }
  
- static ssize_t psp_usbc_pd_fw_sysfs_write(struct device *dev,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-index 1fb2a91..b319b05 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-@@ -431,15 +431,13 @@ static ssize_t amdgpu_ras_sysfs_read(struct device *dev,
- 	};
+ static ssize_t amdgpu_hwmon_show_temp_thresh(struct device *dev,
+@@ -2423,7 +2423,7 @@ static ssize_t amdgpu_hwmon_show_temp_thresh(struct device *dev,
+ 	else
+ 		temp = adev->pm.dpm.thermal.max_temp;
  
- 	if (!amdgpu_ras_get_error_query_ready(obj->adev))
--		return snprintf(buf, PAGE_SIZE,
--				"Query currently inaccessible\n");
-+		return sysfs_emit(buf, "Query currently inaccessible\n");
+-	return snprintf(buf, PAGE_SIZE, "%d\n", temp);
++	return sysfs_emit(buf, "%d\n", temp);
+ }
  
- 	if (amdgpu_ras_error_query(obj->adev, &info))
+ static ssize_t amdgpu_hwmon_show_hotspot_temp_thresh(struct device *dev,
+@@ -2439,7 +2439,7 @@ static ssize_t amdgpu_hwmon_show_hotspot_temp_thresh(struct device *dev,
+ 	else
+ 		temp = adev->pm.dpm.thermal.max_hotspot_crit_temp;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", temp);
++	return sysfs_emit(buf, "%d\n", temp);
+ }
+ 
+ static ssize_t amdgpu_hwmon_show_mem_temp_thresh(struct device *dev,
+@@ -2455,7 +2455,7 @@ static ssize_t amdgpu_hwmon_show_mem_temp_thresh(struct device *dev,
+ 	else
+ 		temp = adev->pm.dpm.thermal.max_mem_crit_temp;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", temp);
++	return sysfs_emit(buf, "%d\n", temp);
+ }
+ 
+ static ssize_t amdgpu_hwmon_show_temp_label(struct device *dev,
+@@ -2467,7 +2467,7 @@ static ssize_t amdgpu_hwmon_show_temp_label(struct device *dev,
+ 	if (channel >= PP_TEMP_MAX)
  		return -EINVAL;
  
--	return snprintf(buf, PAGE_SIZE, "%s: %lu\n%s: %lu\n",
--			"ue", info.ue_count,
--			"ce", info.ce_count);
-+	return sysfs_emit(buf, "%s: %lu\n%s: %lu\n", "ue", info.ue_count,
-+			  "ce", info.ce_count);
+-	return snprintf(buf, PAGE_SIZE, "%s\n", temp_label[channel].label);
++	return sysfs_emit(buf, "%s\n", temp_label[channel].label);
  }
  
- /* obj begin */
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-index c89b66b..ba3b297 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-@@ -52,7 +52,7 @@ static ssize_t amdgpu_mem_info_vram_total_show(struct device *dev,
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 
--	return snprintf(buf, PAGE_SIZE, "%llu\n", adev->gmc.real_vram_size);
-+	return sysfs_emit(buf, "%llu\n", adev->gmc.real_vram_size);
- }
- 
- /**
-@@ -69,7 +69,7 @@ static ssize_t amdgpu_mem_info_vis_vram_total_show(struct device *dev,
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 
--	return snprintf(buf, PAGE_SIZE, "%llu\n", adev->gmc.visible_vram_size);
-+	return sysfs_emit(buf, "%llu\n", adev->gmc.visible_vram_size);
- }
- 
- /**
-@@ -87,8 +87,7 @@ static ssize_t amdgpu_mem_info_vram_used_show(struct device *dev,
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
- 
--	return snprintf(buf, PAGE_SIZE, "%llu\n",
--			amdgpu_vram_mgr_usage(man));
-+	return sysfs_emit(buf, "%llu\n", amdgpu_vram_mgr_usage(man));
- }
- 
- /**
-@@ -106,8 +105,7 @@ static ssize_t amdgpu_mem_info_vis_vram_used_show(struct device *dev,
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
- 
--	return snprintf(buf, PAGE_SIZE, "%llu\n",
--			amdgpu_vram_mgr_vis_usage(man));
-+	return sysfs_emit(buf, "%llu\n", amdgpu_vram_mgr_vis_usage(man));
- }
- 
- static ssize_t amdgpu_mem_info_vram_vendor(struct device *dev,
-@@ -119,27 +117,27 @@ static ssize_t amdgpu_mem_info_vram_vendor(struct device *dev,
- 
- 	switch (adev->gmc.vram_vendor) {
- 	case SAMSUNG:
--		return snprintf(buf, PAGE_SIZE, "samsung\n");
-+		return sysfs_emit(buf, "samsung\n");
- 	case INFINEON:
--		return snprintf(buf, PAGE_SIZE, "infineon\n");
-+		return sysfs_emit(buf, "infineon\n");
- 	case ELPIDA:
--		return snprintf(buf, PAGE_SIZE, "elpida\n");
-+		return sysfs_emit(buf, "elpida\n");
- 	case ETRON:
--		return snprintf(buf, PAGE_SIZE, "etron\n");
-+		return sysfs_emit(buf, "etron\n");
- 	case NANYA:
--		return snprintf(buf, PAGE_SIZE, "nanya\n");
-+		return sysfs_emit(buf, "nanya\n");
- 	case HYNIX:
--		return snprintf(buf, PAGE_SIZE, "hynix\n");
-+		return sysfs_emit(buf, "hynix\n");
- 	case MOSEL:
--		return snprintf(buf, PAGE_SIZE, "mosel\n");
-+		return sysfs_emit(buf, "mosel\n");
- 	case WINBOND:
--		return snprintf(buf, PAGE_SIZE, "winbond\n");
-+		return sysfs_emit(buf, "winbond\n");
- 	case ESMT:
--		return snprintf(buf, PAGE_SIZE, "esmt\n");
-+		return sysfs_emit(buf, "esmt\n");
- 	case MICRON:
--		return snprintf(buf, PAGE_SIZE, "micron\n");
-+		return sysfs_emit(buf, "micron\n");
- 	default:
--		return snprintf(buf, PAGE_SIZE, "unknown\n");
-+		return sysfs_emit(buf, "unknown\n");
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-index 659b385..3d77fb2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-@@ -217,7 +217,7 @@ static ssize_t amdgpu_xgmi_show_device_id(struct device *dev,
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 
--	return snprintf(buf, PAGE_SIZE, "%llu\n", adev->gmc.xgmi.node_id);
-+	return sysfs_emit(buf, "%llu\n", adev->gmc.xgmi.node_id);
- 
- }
- 
-@@ -246,7 +246,7 @@ static ssize_t amdgpu_xgmi_show_error(struct device *dev,
- 
- 	adev->df.funcs->set_fica(adev, ficaa_pie_status_in, 0, 0);
- 
--	return snprintf(buf, PAGE_SIZE, "%u\n", error_count);
-+	return sysfs_emit(buf, "%u\n", error_count);
- }
- 
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/df_v3_6.c b/drivers/gpu/drm/amd/amdgpu/df_v3_6.c
-index 6b4b30a..40ef57b 100644
---- a/drivers/gpu/drm/amd/amdgpu/df_v3_6.c
-+++ b/drivers/gpu/drm/amd/amdgpu/df_v3_6.c
-@@ -205,7 +205,7 @@ static ssize_t df_v3_6_get_df_cntr_avail(struct device *dev,
- 			count++;
+ static ssize_t amdgpu_hwmon_show_temp_emergency(struct device *dev,
+@@ -2493,7 +2493,7 @@ static ssize_t amdgpu_hwmon_show_temp_emergency(struct device *dev,
+ 		break;
  	}
  
--	return snprintf(buf, PAGE_SIZE,	"%i\n", count);
-+	return sysfs_emit(buf, "%i\n", count);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", temp);
++	return sysfs_emit(buf, "%d\n", temp);
  }
  
- /* device attr for available perfmon counters */
+ static ssize_t amdgpu_hwmon_get_pwm1_enable(struct device *dev,
+@@ -2735,7 +2735,7 @@ static ssize_t amdgpu_hwmon_get_fan1_min(struct device *dev,
+ 	if (r)
+ 		return r;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", min_rpm);
++	return sysfs_emit(buf, "%d\n", min_rpm);
+ }
+ 
+ static ssize_t amdgpu_hwmon_get_fan1_max(struct device *dev,
+@@ -2765,7 +2765,7 @@ static ssize_t amdgpu_hwmon_get_fan1_max(struct device *dev,
+ 	if (r)
+ 		return r;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", max_rpm);
++	return sysfs_emit(buf, "%d\n", max_rpm);
+ }
+ 
+ static ssize_t amdgpu_hwmon_get_fan1_target(struct device *dev,
+@@ -2962,14 +2962,14 @@ static ssize_t amdgpu_hwmon_show_vddgfx(struct device *dev,
+ 	if (r)
+ 		return r;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", vddgfx);
++	return sysfs_emit(buf, "%d\n", vddgfx);
+ }
+ 
+ static ssize_t amdgpu_hwmon_show_vddgfx_label(struct device *dev,
+ 					      struct device_attribute *attr,
+ 					      char *buf)
+ {
+-	return snprintf(buf, PAGE_SIZE, "vddgfx\n");
++	return sysfs_emit(buf, "vddgfx\n");
+ }
+ 
+ static ssize_t amdgpu_hwmon_show_vddnb(struct device *dev,
+@@ -3003,14 +3003,14 @@ static ssize_t amdgpu_hwmon_show_vddnb(struct device *dev,
+ 	if (r)
+ 		return r;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", vddnb);
++	return sysfs_emit(buf, "%d\n", vddnb);
+ }
+ 
+ static ssize_t amdgpu_hwmon_show_vddnb_label(struct device *dev,
+ 					      struct device_attribute *attr,
+ 					      char *buf)
+ {
+-	return snprintf(buf, PAGE_SIZE, "vddnb\n");
++	return sysfs_emit(buf, "vddnb\n");
+ }
+ 
+ static ssize_t amdgpu_hwmon_show_power_avg(struct device *dev,
+@@ -3044,7 +3044,7 @@ static ssize_t amdgpu_hwmon_show_power_avg(struct device *dev,
+ 	/* convert to microwatts */
+ 	uw = (query >> 8) * 1000000 + (query & 0xff) * 1000;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%u\n", uw);
++	return sysfs_emit(buf, "%u\n", uw);
+ }
+ 
+ static ssize_t amdgpu_hwmon_show_power_cap_min(struct device *dev,
+@@ -3130,7 +3130,7 @@ static ssize_t amdgpu_hwmon_show_power_label(struct device *dev,
+ {
+ 	int limit_type = to_sensor_dev_attr(attr)->index;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%s\n",
++	return sysfs_emit(buf, "%s\n",
+ 		limit_type == SMU_FAST_PPT_LIMIT ? "fastPPT" : "slowPPT");
+ }
+ 
+@@ -3206,14 +3206,14 @@ static ssize_t amdgpu_hwmon_show_sclk(struct device *dev,
+ 	if (r)
+ 		return r;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%u\n", sclk * 10 * 1000);
++	return sysfs_emit(buf, "%u\n", sclk * 10 * 1000);
+ }
+ 
+ static ssize_t amdgpu_hwmon_show_sclk_label(struct device *dev,
+ 					    struct device_attribute *attr,
+ 					    char *buf)
+ {
+-	return snprintf(buf, PAGE_SIZE, "sclk\n");
++	return sysfs_emit(buf, "sclk\n");
+ }
+ 
+ static ssize_t amdgpu_hwmon_show_mclk(struct device *dev,
+@@ -3243,14 +3243,14 @@ static ssize_t amdgpu_hwmon_show_mclk(struct device *dev,
+ 	if (r)
+ 		return r;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%u\n", mclk * 10 * 1000);
++	return sysfs_emit(buf, "%u\n", mclk * 10 * 1000);
+ }
+ 
+ static ssize_t amdgpu_hwmon_show_mclk_label(struct device *dev,
+ 					    struct device_attribute *attr,
+ 					    char *buf)
+ {
+-	return snprintf(buf, PAGE_SIZE, "mclk\n");
++	return sysfs_emit(buf, "mclk\n");
+ }
+ 
+ /**
 -- 
 2.7.4
 
