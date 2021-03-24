@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F316F347503
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 10:49:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7B7347514
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 10:52:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BAC16E99B;
-	Wed, 24 Mar 2021 09:49:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B7146E9A3;
+	Wed, 24 Mar 2021 09:52:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FE506E99B
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 09:49:23 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id w3so31777513ejc.4
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 02:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=q2TNkdIQ/zqP4vTBESLhTRQ8ElDlSEpihHNWHVVdOWw=;
- b=S7+rpvwNmh3R0GucjXGfeKomhZ1GYmSIiZRFBQZs+DNgNJlAQYPIEbkKvfxfE7jqgJ
- Xp5ioShGHBPMpZz2X1rnpZdsQEU4OyXOOH9TerN/74vfVbeTt6VxpfxlJnR4b+dNky51
- O5YVnDX4eu+q9Ul9Q7CK5XSLe281AwPBrNHFQ=
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 742BB6E99C
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 09:52:25 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id x16so23744506wrn.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 02:52:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=DBOHSi2VMYTutK6jNTTPIkHyC/vLUDsjbdO31pklHJE=;
+ b=XVCDvbrbxjdmdIaWxhN7T2SJzEa1SGtD6dcOk8dRGGdeCs0JBR+ZBM8rKv08uPIhVC
+ UQAnukriHFb8RfFXRVfnt+50/k6Elo+XIqSJFUh9KkKAZTgrROLDrfWuZyftKPYnCxXD
+ 6F9XXQL6EqQffZQqNk81Sy/bmEazn5iyYbd8I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=q2TNkdIQ/zqP4vTBESLhTRQ8ElDlSEpihHNWHVVdOWw=;
- b=MpIqBrcgckXc4+QCmLONw/LXn0J4TFwkoWeb/XsljaV4UiEyrD/GjuKrgr00HYzsW6
- shsol5QojaKwN6rQ02ADxhNrxWTVUs7mp7gcVseKRVAQANui8uyx+fenhjf3sFPQDQKC
- 2U3z/lynQqKO3/GMgiyBNokOKBOoGYcmCoB7rHa10F8vHXN/Zwjk6AiUXbsymLQiRRpu
- HbtPJtBZgu7P7E5dzmGfWiumdJs9lcrIz+mjWhKsVj8l5hlJwPKbX7q+pKAwQf7KmbHE
- h9kwCnzwwSdnQsNCd4KR4aYCKaELVsGGgT/lN8fVDW1L6ntckngS7tqVgdQL6y1ExHHS
- hx9g==
-X-Gm-Message-State: AOAM532mE2ZbxPKQ8BAc6dOrIh1g0F1DC+g4em4AH+Eytv/rSQjx3k5L
- BOs9kCFWOvKYALAwR9AUQmfwW56/ziCDT4jb980t0g==
-X-Google-Smtp-Source: ABdhPJxT/mrB/QVLHNjBduRmjrJ94vDchGyD6p3if3yVTDDUhEZVii5KLyc4Gnw0eC6LPMdYKW6Vv8fzGXaNaflz2qw=
-X-Received: by 2002:a17:907:104f:: with SMTP id
- oy15mr2758052ejb.252.1616579362156; 
- Wed, 24 Mar 2021 02:49:22 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=DBOHSi2VMYTutK6jNTTPIkHyC/vLUDsjbdO31pklHJE=;
+ b=UBcwK5Ey1xPke9wYNDBQVpwRlQ8jaTSoTAGyr93v+XgzlP/rani1+qrWxuaRgKo3/t
+ 7T2p98msQAiM9ObaQsjiucsPj9gkgc1FVsQHcxNc4RrIT/CIJjQWM6NxxCSifyc1pVzc
+ 7P/sSeyQ+Q+krQ4mCca/dhiGTCs4egLhvkLqOujTdUDc+9ApmG9UfXdFxXn+y+EI/Tnw
+ Bg/7JLlzFz3S2LFX37ZLGYcy0bC4350TYQL7jR3Q7VvdR7wNe2nB0jWwbKJTz2jqa6Ho
+ WWEOqxRMuzWoiTMKFHlE6rVAy1j3bnCTcj1guhD+Hg1j/5KiLExZUNjvQqDY0ejcQKye
+ bhqg==
+X-Gm-Message-State: AOAM531rGouZEe/2W1Mzq+61NNEo364TZz015+9LiaMi1Qiz7kiEE1lp
+ jxza40+KwZIfwHo0eApYePUebg==
+X-Google-Smtp-Source: ABdhPJzO8TXQ5xRzjUX/VHaKS+sgnDVE8AFsTop7c2UARPoA70dwimmTuUW32uIDBjZwE0LMBJ4YAg==
+X-Received: by 2002:a5d:65cd:: with SMTP id e13mr2619508wrw.334.1616579544057; 
+ Wed, 24 Mar 2021 02:52:24 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id t8sm2598456wrr.10.2021.03.24.02.52.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Mar 2021 02:52:23 -0700 (PDT)
+Date: Wed, 24 Mar 2021 10:52:21 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Implement SINGLE_TIMELINE with a
+ syncobj (v2)
+Message-ID: <YFsL1ZQ3pkOHXZ9B@phenom.ffwll.local>
+References: <20210319223856.2983244-5-jason@jlekstrand.net>
+ <20210323175149.3390801-1-jason@jlekstrand.net>
+ <6fa4f29f-a98e-b22b-ae0c-7df7e1bf71a7@linux.intel.com>
 MIME-Version: 1.0
-References: <20210322140152.101709-1-jagan@amarulasolutions.com>
- <20210322140152.101709-2-jagan@amarulasolutions.com>
- <YFpxYpA+EIZm7sOf@pendragon.ideasonboard.com>
- <f47bc0ad-dbd6-05b5-aaec-2e3256e3715a@sholland.org>
- <CAMty3ZDOVeMeYTsuF8n4EQTG6eEbj6e33TuTPrFiMWG4RhRdSw@mail.gmail.com>
- <YFsIkGH2cRgWk8z9@pendragon.ideasonboard.com>
-In-Reply-To: <YFsIkGH2cRgWk8z9@pendragon.ideasonboard.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 24 Mar 2021 15:19:10 +0530
-Message-ID: <CAMty3ZBGnz_a4_HO_TZ-zPNJwHMcVJyrBi3kZX2=a6G47Ze-yw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] drm: sun4i: dsi: Use drm_of_find_panel_or_bridge
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Disposition: inline
+In-Reply-To: <6fa4f29f-a98e-b22b-ae0c-7df7e1bf71a7@linux.intel.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,104 +67,240 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Samuel Holland <samuel@sholland.org>,
- linux-sunxi <linux-sunxi@googlegroups.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@csie.org>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jason Ekstrand <jason@jlekstrand.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+On Wed, Mar 24, 2021 at 09:28:58AM +0000, Tvrtko Ursulin wrote:
+> 
+> On 23/03/2021 17:51, Jason Ekstrand wrote:
+> > This API is entirely unnecessary and I'd love to get rid of it.  If
+> > userspace wants a single timeline across multiple contexts, they can
+> > either use implicit synchronization or a syncobj, both of which existed
+> > at the time this feature landed.  The justification given at the time
+> > was that it would help GL drivers which are inherently single-timeline.
+> > However, neither of our GL drivers actually wanted the feature.  i965
+> > was already in maintenance mode at the time and iris uses syncobj for
+> > everything.
+> > 
+> > Unfortunately, as much as I'd love to get rid of it, it is used by the
+> > media driver so we can't do that.  We can, however, do the next-best
+> > thing which is to embed a syncobj in the context and do exactly what
+> > we'd expect from userspace internally.  This isn't an entirely identical
+> > implementation because it's no longer atomic if userspace races with
+> > itself by calling execbuffer2 twice simultaneously from different
+> > threads.  It won't crash in that case; it just doesn't guarantee any
+> > ordering between those two submits.
+> > 
+> > Moving SINGLE_TIMELINE to a syncobj emulation has a couple of technical
+> > advantages beyond mere annoyance.  One is that intel_timeline is no
+> > longer an api-visible object and can remain entirely an implementation
+> > detail.  This may be advantageous as we make scheduler changes going
+> > forward.  Second is that, together with deleting the CLONE_CONTEXT API,
+> > we should now have a 1:1 mapping between intel_context and
+> > intel_timeline which may help us reduce locking.
+> 
+> Much, much better commit message although I still fail to understand where
+> do you see implementation details leaking out. So for me this is still
+> something I'd like to get to the bottom of.
+> 
+> I would also mention the difference regarding fence context change.
+> 
+> And in general I would maintain this patch as part of a series which ends up
+> demonstrating the "mays" and "shoulds".
 
-On Wed, Mar 24, 2021 at 3:09 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Jagan,
->
-> On Wed, Mar 24, 2021 at 02:44:57PM +0530, Jagan Teki wrote:
-> > On Wed, Mar 24, 2021 at 8:18 AM Samuel Holland wrote:
-> > > On 3/23/21 5:53 PM, Laurent Pinchart wrote:
-> > > > On Mon, Mar 22, 2021 at 07:31:49PM +0530, Jagan Teki wrote:
-> > > >> Replace of_drm_find_panel with drm_of_find_panel_or_bridge
-> > > >> for finding panel, this indeed help to find the bridge if
-> > > >> bridge support added.
-> > > >>
-> > > >> Added NULL in bridge argument, same will replace with bridge
-> > > >> parameter once bridge supported.
-> > > >>
-> > > >> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > > >
-> > > > Looks good, there should be no functional change.
-> > >
-> > > Actually this breaks all existing users of this driver, see below.
-> > >
-> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > >
-> > > >> ---
-> > > >> Changes for v4, v3:
-> > > >> - none
-> > > >>
-> > > >>  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 11 ++++++++---
-> > > >>  1 file changed, 8 insertions(+), 3 deletions(-)
-> > > >>
-> > > >> diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> > > >> index 4f5efcace68e..2e9e7b2d4145 100644
-> > > >> --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> > > >> +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> > > >> @@ -21,6 +21,7 @@
-> > > >>
-> > > >>  #include <drm/drm_atomic_helper.h>
-> > > >>  #include <drm/drm_mipi_dsi.h>
-> > > >> +#include <drm/drm_of.h>
-> > > >>  #include <drm/drm_panel.h>
-> > > >>  #include <drm/drm_print.h>
-> > > >>  #include <drm/drm_probe_helper.h>
-> > > >> @@ -963,10 +964,14 @@ static int sun6i_dsi_attach(struct mipi_dsi_host *host,
-> > > >>                          struct mipi_dsi_device *device)
-> > > >>  {
-> > > >>      struct sun6i_dsi *dsi = host_to_sun6i_dsi(host);
-> > > >> -    struct drm_panel *panel = of_drm_find_panel(device->dev.of_node);
-> > >
-> > > This is using the OF node of the DSI device, which is a direct child of
-> > > the DSI host's OF node. There is no OF graph involved.
-> > >
-> > > >> +    struct drm_panel *panel;
-> > > >> +    int ret;
-> > > >> +
-> > > >> +    ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 0, 0,
-> > > >> +                                      &panel, NULL);
-> > >
-> > > However, this function expects to find the panel using OF graph. This
-> > > does not work with existing device trees (PinePhone, PineTab) which do
-> > > not use OF graph to connect the panel. And it cannot work, because the
-> > > DSI host's binding specifies a single port: the input port from the
-> > > display engine.
-> >
-> > Thanks for noticing this. I did understand your point and yes, I did
-> > mention the updated pipeline in previous versions and forgot to add it
-> > to this series.
-> >
-> > Here is the updated pipeline to make it work:
-> >
-> > https://patchwork.kernel.org/project/dri-devel/patch/20190524104252.20236-1-jagan@amarulasolutions.com/
-> >
-> > Let me know your comments on this, so I will add a patch for the
-> > above-affected DTS files.
->
-> DT is an ABI, we need to ensure backward compatibility. Changes in
-> kernel drivers can't break devices that have an old DT.
+I disagree. The past few years we've merged way too much patches and
+features without carefully answering the high level questions of
+- do we really need to solve this problem
+- and if so, are we really solving this problem in the right place
 
-Thanks for your point.
+Now we're quite in a hole, and we're not going to get out of this hole if
+we keep applying the same standards that got us here. Anything that does
+not clearly and without reservation the above two questions with "yes"
+needs to be removed or walled off, just so we can eventually see which
+complexity we really need, and what is actually superflous.
 
-So, we need to choose APIs that would compatible with the old DT and
-new DT changes. Am I correct?
+Especially when the kernel patch is this simple.
+-Daniel
 
-Jagan.
+> 
+> > 
+> > v2 (Jason Ekstrand):
+> >   - Update the comment on i915_gem_context::syncobj to mention that it's
+> >     an emulation and the possible race if userspace calls execbuffer2
+> >     twice on the same context concurrently.
+> >   - Wrap the checks for eb.gem_context->syncobj in unlikely()
+> >   - Drop the dma_fence reference
+> >   - Improved commit message
+> > 
+> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gem/i915_gem_context.c   | 47 ++++---------------
+> >   .../gpu/drm/i915/gem/i915_gem_context_types.h | 14 +++++-
+> >   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 16 +++++++
+> >   3 files changed, 39 insertions(+), 38 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > index f88bac19333ec..e094f4a1ca4cd 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > @@ -67,6 +67,8 @@
+> >   #include <linux/log2.h>
+> >   #include <linux/nospec.h>
+> > +#include <drm/drm_syncobj.h>
+> > +
+> >   #include "gt/gen6_ppgtt.h"
+> >   #include "gt/intel_context.h"
+> >   #include "gt/intel_engine_heartbeat.h"
+> > @@ -224,10 +226,6 @@ static void intel_context_set_gem(struct intel_context *ce,
+> >   		ce->vm = vm;
+> >   	}
+> > -	GEM_BUG_ON(ce->timeline);
+> > -	if (ctx->timeline)
+> > -		ce->timeline = intel_timeline_get(ctx->timeline);
+> > -
+> >   	if (ctx->sched.priority >= I915_PRIORITY_NORMAL &&
+> >   	    intel_engine_has_timeslices(ce->engine))
+> >   		__set_bit(CONTEXT_USE_SEMAPHORES, &ce->flags);
+> > @@ -344,8 +342,8 @@ void i915_gem_context_release(struct kref *ref)
+> >   	mutex_destroy(&ctx->engines_mutex);
+> >   	mutex_destroy(&ctx->lut_mutex);
+> > -	if (ctx->timeline)
+> > -		intel_timeline_put(ctx->timeline);
+> > +	if (ctx->syncobj)
+> > +		drm_syncobj_put(ctx->syncobj);
+> >   	put_pid(ctx->pid);
+> >   	mutex_destroy(&ctx->mutex);
+> > @@ -790,33 +788,11 @@ static void __assign_ppgtt(struct i915_gem_context *ctx,
+> >   		i915_vm_close(vm);
+> >   }
+> > -static void __set_timeline(struct intel_timeline **dst,
+> > -			   struct intel_timeline *src)
+> > -{
+> > -	struct intel_timeline *old = *dst;
+> > -
+> > -	*dst = src ? intel_timeline_get(src) : NULL;
+> > -
+> > -	if (old)
+> > -		intel_timeline_put(old);
+> > -}
+> > -
+> > -static void __apply_timeline(struct intel_context *ce, void *timeline)
+> > -{
+> > -	__set_timeline(&ce->timeline, timeline);
+> > -}
+> > -
+> > -static void __assign_timeline(struct i915_gem_context *ctx,
+> > -			      struct intel_timeline *timeline)
+> > -{
+> > -	__set_timeline(&ctx->timeline, timeline);
+> > -	context_apply_all(ctx, __apply_timeline, timeline);
+> > -}
+> > -
+> >   static struct i915_gem_context *
+> >   i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
+> >   {
+> >   	struct i915_gem_context *ctx;
+> > +	int ret;
+> >   	if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE &&
+> >   	    !HAS_EXECLISTS(i915))
+> > @@ -845,16 +821,13 @@ i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
+> >   	}
+> >   	if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE) {
+> > -		struct intel_timeline *timeline;
+> > -
+> > -		timeline = intel_timeline_create(&i915->gt);
+> > -		if (IS_ERR(timeline)) {
+> > +		ret = drm_syncobj_create(&ctx->syncobj,
+> > +					 DRM_SYNCOBJ_CREATE_SIGNALED,
+> > +					 NULL);
+> > +		if (ret) {
+> >   			context_close(ctx);
+> > -			return ERR_CAST(timeline);
+> > +			return ERR_PTR(ret);
+> >   		}
+> > -
+> > -		__assign_timeline(ctx, timeline);
+> > -		intel_timeline_put(timeline);
+> >   	}
+> >   	trace_i915_context_create(ctx);
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > index 676592e27e7d2..df76767f0c41b 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > @@ -83,7 +83,19 @@ struct i915_gem_context {
+> >   	struct i915_gem_engines __rcu *engines;
+> >   	struct mutex engines_mutex; /* guards writes to engines */
+> > -	struct intel_timeline *timeline;
+> > +	/**
+> > +	 * @syncobj: Shared timeline syncobj
+> > +	 *
+> > +	 * When the SHARED_TIMELINE flag is set on context creation, we
+> > +	 * emulate a single timeline across all engines using this syncobj.
+> > +	 * For every execbuffer2 call, this syncobj is used as both an in-
+> > +	 * and out-fence.  Unlike the real intel_timeline, this doesn't
+> > +	 * provide perfect atomic in-order guarantees if the client races
+> > +	 * with itself by calling execbuffer2 twice concurrently.  However,
+> > +	 * if userspace races with itself, that's not likely to yield well-
+> > +	 * defined results anyway so we choose to not care.
+> > +	 */
+> > +	struct drm_syncobj *syncobj;
+> >   	/**
+> >   	 * @vm: unique address space (GTT)
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> > index 96403130a373d..2e9748c1edddf 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> > @@ -3295,6 +3295,16 @@ i915_gem_do_execbuffer(struct drm_device *dev,
+> >   		goto err_vma;
+> >   	}
+> > +	if (unlikely(eb.gem_context->syncobj)) {
+> > +		struct dma_fence *fence;
+> > +
+> > +		fence = drm_syncobj_fence_get(eb.gem_context->syncobj);
+> > +		err = i915_request_await_dma_fence(eb.request, fence);
+> > +		if (err)
+> > +			goto err_ext;
+> > +		dma_fence_put(fence);
+> 
+> I think put goes before the error bail.
+> 
+> > +	}
+> > +
+> >   	if (in_fence) {
+> >   		if (args->flags & I915_EXEC_FENCE_SUBMIT)
+> >   			err = i915_request_await_execution(eb.request,
+> > @@ -3351,6 +3361,12 @@ i915_gem_do_execbuffer(struct drm_device *dev,
+> >   			fput(out_fence->file);
+> >   		}
+> >   	}
+> > +
+> > +	if (unlikely(eb.gem_context->syncobj)) {
+> > +		drm_syncobj_replace_fence(eb.gem_context->syncobj,
+> > +					  &eb.request->fence);
+> > +	}
+> > +
+> >   	i915_request_put(eb.request);
+> >   err_vma:
+> > 
+> 
+> Regards,
+> 
+> Tvrtko
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
