@@ -1,55 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8ADF3471EE
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 07:57:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 181EF3471D2
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 07:47:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCEA46E98E;
-	Wed, 24 Mar 2021 06:57:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C28596EB2F;
+	Wed, 24 Mar 2021 06:47:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1E776E98C;
- Wed, 24 Mar 2021 06:57:37 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id z1so26395825edb.8;
- Tue, 23 Mar 2021 23:57:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jUHLlaX1OMcEX+7hwUCV5OUoSacAoX8aUCeag2OeSgo=;
- b=XValwacryJ+5F8crFJE04X+dDf+TEhG+XkKzZb9hA3pejgNU/CdpbM5b0hIEi5JpRc
- Eymaj682oQlzpXrRG8NVN8IBO7hvQ/HLm38BUGQgzkXxYZWTyuZqSxrGqj8AwV8EK/Yf
- T9tOROEs2NuHGnYS3su/woSzNfslQ0v+TNRTarWXAQwfX7YEBHBfTlvc06VB5gPh/AJU
- Bm6sMVva72TVNr5QFK0cLd0F4VLIK4hdVPbFoNWoRFSQzNE2M3SV2x24KUPLEGb9+z7Q
- F0cJQW5rWIN1Ig+mq75+zYqb8rjlTYfFo7FMW69xzXTDio/0BDOMcmyV4iO63s2DTB/c
- xdTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jUHLlaX1OMcEX+7hwUCV5OUoSacAoX8aUCeag2OeSgo=;
- b=jT46Y+nJOu054RynkweZNkCNm7VZ2RLCgnp7x+rINWOoB+EMSt3CBGLerC3vv48nEp
- 1q8z2LkAp+vwI4Ddjzn+ODCk03vlik/cHyMlSH6ipGx+R1JLu+IOBhKW150dSUq7aFTl
- icQBCGPWr+M/+Ufe+dIp4UfUxszFsYMkHAOd/Ki8iDnLCozEjeG8Y+sVaShAUfT9cPez
- 1fpES3Dn/nBVUx3PcWdcZxhQ24eDrkotxrZhcPtayKxoGL29eBwovZ5Nc6ZpH2Fg5QdO
- kYWS212ManSg9b9YR2ZdyFfLE8oHgTcTgqdCDRwIQnwGSJFLxZhBSB9cVgseSh9lbUOL
- 6Chg==
-X-Gm-Message-State: AOAM531U/DloIi+zlaS7AnBI6mBwovtbuZUvvv/2ID4nN2bK5RvJBo9Q
- nG/HBTnfQBMDjwndRaOe3b41jSTOTUPPiBnalqf2XsuX
-X-Google-Smtp-Source: ABdhPJyvW+V3BAMCMz8MYvdbOzYdQOS9CrKYneQ80P8dAGB9eTqpeLSprtLBpDt4Kt9YX2Y1fRNHWstfdZLKZAxQBlY=
-X-Received: by 2002:a17:906:ad96:: with SMTP id
- la22mr2060614ejb.237.1616567697813; 
- Tue, 23 Mar 2021 23:34:57 -0700 (PDT)
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF8CC6EB2F;
+ Wed, 24 Mar 2021 06:47:29 +0000 (UTC)
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4F4zJP6lFWz92Mr;
+ Wed, 24 Mar 2021 14:45:25 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.498.0; Wed, 24 Mar 2021 14:47:20 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH] drm/radeon/radeon_pm: Convert sysfs sprintf/snprintf family
+ to sysfs_emit
+Date: Wed, 24 Mar 2021 14:47:55 +0800
+Message-ID: <1616568475-24509-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20210323084453.366863-1-daniel.vetter@ffwll.ch>
- <YFnqYj3geFFLFJac@phenom.ffwll.local>
-In-Reply-To: <YFnqYj3geFFLFJac@phenom.ffwll.local>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 24 Mar 2021 16:34:46 +1000
-Message-ID: <CAPM=9tyi3g_8hMPkGK+fSoMPxR-w6EzCh9iJpy4m1gCFb2z5Hg@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915: add gem/gt TODO
-To: Daniel Vetter <daniel@ffwll.ch>
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,43 +40,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 Mar 2021 at 23:17, Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Tue, Mar 23, 2021 at 09:44:52AM +0100, Daniel Vetter wrote:
-> > We've discussed a bit how to get the gem/gt team better integrated
-> > and collaborate more with the wider community and agreed to the
-> > following:
-> >
-> > - all gem/gt patches are reviewed on dri-devel for now. That's
-> >   overkill, but in the past there was definitely too little of that.
-> >
-> > - i915-gem folks are encouraged to cross review core patches from
-> >   other teams
-> >
-> > - big features (especially uapi changes) need to be discussed in an
-> >   rfc patch that documents the interface and big picture design,
-> >   before we get lost in the details of the code
-> >
-> > - Also a rough TODO (can be refined as we go ofc) to get gem/gt back
-> >   on track, like we've e.g. done with DAL/DC to get that in shape.
+Fix the following coccicheck warning:
+drivers/gpu//drm/radeon/radeon_pm.c:521:9-17: WARNING: use scnprintf or
+sprintf
+drivers/gpu//drm/radeon/radeon_pm.c:475:8-16: WARNING: use scnprintf or
+sprintf
+drivers/gpu//drm/radeon/radeon_pm.c:418:8-16: WARNING: use scnprintf or
+sprintf
+drivers/gpu//drm/radeon/radeon_pm.c:363:8-16: WARNING: use scnprintf or
+sprintf
+drivers/gpu//drm/radeon/radeon_pm.c:734:8-16: WARNING: use scnprintf or
+sprintf
+drivers/gpu//drm/radeon/radeon_pm.c:688:8-16: WARNING: use scnprintf or
+sprintf
+drivers/gpu//drm/radeon/radeon_pm.c:704:8-16: WARNING: use scnprintf or
+sprintf
+drivers/gpu//drm/radeon/radeon_pm.c:755:8-16: WARNING: use scnprintf or
+sprintf
 
-I think we mentioned in the past about having better annotations for
-dma_fence critical sections,
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+---
+ drivers/gpu/drm/radeon/radeon_pm.c | 36 +++++++++++++++++-------------------
+ 1 file changed, 17 insertions(+), 19 deletions(-)
 
-Otherwise I think this is a great list to get us out of the woods and
-seeing how to move forward again.
+diff --git a/drivers/gpu/drm/radeon/radeon_pm.c b/drivers/gpu/drm/radeon/radeon_pm.c
+index 1995dad..dd56fcd 100644
+--- a/drivers/gpu/drm/radeon/radeon_pm.c
++++ b/drivers/gpu/drm/radeon/radeon_pm.c
+@@ -361,11 +361,10 @@ static ssize_t radeon_get_pm_profile(struct device *dev,
+ 	struct radeon_device *rdev = ddev->dev_private;
+ 	int cp = rdev->pm.profile;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%s\n",
+-			(cp == PM_PROFILE_AUTO) ? "auto" :
+-			(cp == PM_PROFILE_LOW) ? "low" :
+-			(cp == PM_PROFILE_MID) ? "mid" :
+-			(cp == PM_PROFILE_HIGH) ? "high" : "default");
++	return sysfs_emit(buf, "%s\n", (cp == PM_PROFILE_AUTO) ? "auto" :
++			  (cp == PM_PROFILE_LOW) ? "low" :
++			  (cp == PM_PROFILE_MID) ? "mid" :
++			  (cp == PM_PROFILE_HIGH) ? "high" : "default");
+ }
+ 
+ static ssize_t radeon_set_pm_profile(struct device *dev,
+@@ -416,9 +415,8 @@ static ssize_t radeon_get_pm_method(struct device *dev,
+ 	struct radeon_device *rdev = ddev->dev_private;
+ 	int pm = rdev->pm.pm_method;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%s\n",
+-			(pm == PM_METHOD_DYNPM) ? "dynpm" :
+-			(pm == PM_METHOD_PROFILE) ? "profile" : "dpm");
++	return sysfs_emit(buf, "%s\n", (pm == PM_METHOD_DYNPM) ? "dynpm" :
++			  (pm == PM_METHOD_PROFILE) ? "profile" : "dpm");
+ }
+ 
+ static ssize_t radeon_set_pm_method(struct device *dev,
+@@ -473,9 +471,9 @@ static ssize_t radeon_get_dpm_state(struct device *dev,
+ 	struct radeon_device *rdev = ddev->dev_private;
+ 	enum radeon_pm_state_type pm = rdev->pm.dpm.user_state;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%s\n",
+-			(pm == POWER_STATE_TYPE_BATTERY) ? "battery" :
+-			(pm == POWER_STATE_TYPE_BALANCED) ? "balanced" : "performance");
++	return sysfs_emit(buf, "%s\n",
++			  (pm == POWER_STATE_TYPE_BATTERY) ? "battery" :
++			  (pm == POWER_STATE_TYPE_BALANCED) ? "balanced" : "performance");
+ }
+ 
+ static ssize_t radeon_set_dpm_state(struct device *dev,
+@@ -519,11 +517,11 @@ static ssize_t radeon_get_dpm_forced_performance_level(struct device *dev,
+ 
+ 	if  ((rdev->flags & RADEON_IS_PX) &&
+ 	     (ddev->switch_power_state != DRM_SWITCH_POWER_ON))
+-		return snprintf(buf, PAGE_SIZE, "off\n");
++		return sysfs_emit(buf, "off\n");
+ 
+-	return snprintf(buf, PAGE_SIZE, "%s\n",
+-			(level == RADEON_DPM_FORCED_LEVEL_AUTO) ? "auto" :
+-			(level == RADEON_DPM_FORCED_LEVEL_LOW) ? "low" : "high");
++	return sysfs_emit(buf, "%s\n",
++			  (level == RADEON_DPM_FORCED_LEVEL_AUTO) ? "auto" :
++			  (level == RADEON_DPM_FORCED_LEVEL_LOW) ? "low" : "high");
+ }
+ 
+ static ssize_t radeon_set_dpm_forced_performance_level(struct device *dev,
+@@ -686,7 +684,7 @@ static ssize_t radeon_hwmon_show_temp(struct device *dev,
+ 	else
+ 		temp = 0;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", temp);
++	return sysfs_emit(buf, "%d\n", temp);
+ }
+ 
+ static ssize_t radeon_hwmon_show_temp_thresh(struct device *dev,
+@@ -702,7 +700,7 @@ static ssize_t radeon_hwmon_show_temp_thresh(struct device *dev,
+ 	else
+ 		temp = rdev->pm.dpm.thermal.max_temp;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", temp);
++	return sysfs_emit(buf, "%d\n", temp);
+ }
+ 
+ static SENSOR_DEVICE_ATTR(temp1_input, S_IRUGO, radeon_hwmon_show_temp, NULL, 0);
+@@ -732,7 +730,7 @@ static ssize_t radeon_hwmon_show_sclk(struct device *dev,
+ 	   for hwmon */
+ 	sclk *= 10000;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%u\n", sclk);
++	return sysfs_emit(buf, "%u\n", sclk);
+ }
+ 
+ static SENSOR_DEVICE_ATTR(freq1_input, S_IRUGO, radeon_hwmon_show_sclk, NULL,
+@@ -753,7 +751,7 @@ static ssize_t radeon_hwmon_show_vddc(struct device *dev,
+ 	if (rdev->asic->dpm.get_current_vddc)
+ 		vddc = rdev->asic->dpm.get_current_vddc(rdev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%u\n", vddc);
++	return sysfs_emit(buf, "%u\n", vddc);
+ }
+ 
+ static SENSOR_DEVICE_ATTR(in0_input, S_IRUGO, radeon_hwmon_show_vddc, NULL,
+-- 
+2.7.4
 
-Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
