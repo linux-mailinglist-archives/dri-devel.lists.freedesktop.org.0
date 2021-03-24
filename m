@@ -1,72 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3553482C6
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 21:22:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E71463482D1
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 21:23:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 442A96EA88;
-	Wed, 24 Mar 2021 20:22:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E07066EA8A;
+	Wed, 24 Mar 2021 20:23:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
- [213.80.101.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D09C6EA88
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 20:22:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id EC54F401A9;
- Wed, 24 Mar 2021 21:22:21 +0100 (CET)
-Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=mUke6Mhz; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Uwy-0R5DIGEx; Wed, 24 Mar 2021 21:22:21 +0100 (CET)
-Received: by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 4B8D8401B9;
- Wed, 24 Mar 2021 21:22:18 +0100 (CET)
-Received: from [10.249.254.166] (unknown [192.198.151.44])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 0695836062E;
- Wed, 24 Mar 2021 21:22:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1616617338; bh=mjVvc9eC6YajJlFKKvLl6cV8/6/08eBr/yysRCc8+Ew=;
- h=Subject:To:References:From:Date:In-Reply-To:From;
- b=mUke6Mhz/EjBhy6BxSLI+hGZTe4KitrU8n1Pxt95MkZiPi5Xaj0ccLhSugRHrlkid
- c5l5Met3bKk5lcIOYNIsJ8e6VhhsCuXzyomxA7AgZvKPQ+HCRzrg7wutbtNWqVL7jI
- 7SeKGdvhdhVdi7t/HTqMy1m6XG491Oz5w46LWXqQ=
-Subject: Re: [RFC PATCH 1/2] mm,drm/ttm: Block fast GUP to TTM huge pages
-To: Dave Hansen <dave.hansen@intel.com>,
- "Williams, Dan J" <dan.j.williams@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "jgg@nvidia.com" <jgg@nvidia.com>, "airlied@linux.ie" <airlied@linux.ie>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-References: <20210321184529.59006-1-thomas_os@shipmail.org>
- <20210321184529.59006-2-thomas_os@shipmail.org>
- <ec99146c7abc35d16b245816aba3e9d14862e624.camel@intel.com>
- <c2239da2-c514-2c88-c671-918909cdba6b@shipmail.org>
- <YFsNRIUYrwVQanVF@phenom.ffwll.local>
- <a1fa7fa2-914b-366d-9902-e5b784e8428c@shipmail.org>
- <75423f64-adef-a2c4-8e7d-2cb814127b18@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <e5199438-9a0d-2801-f9f6-ceb13d7a9c61@shipmail.org>
-Date: Wed, 24 Mar 2021 21:22:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75C2C6EA51;
+ Wed, 24 Mar 2021 20:23:31 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id
+ 91-20020a9d08640000b0290237d9c40382so2975970oty.12; 
+ Wed, 24 Mar 2021 13:23:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RaZcdCZN7zqROxLNVq3rIO4aLNeOhcX7PBDOpMGUlmE=;
+ b=BLsFl3OGLlqkaruz8cUyse209AF9YbDNLtc55K3B+sxHKeTcwbOFutQmJqro4VvRVO
+ uYhQDOO1pe7kBibHLnBX9h79tklWvJjBPuoHLPzCvH8Lb1Fl/tfKYI8L5cHtjcrF38wL
+ Zs2Ij4K5nbUnLAjQ4iAuyoUuoq1iGRvPbwmTdoie3Y0a1ohlGXc8UcuHJtGIYuJvPLSC
+ juQ9Vku+d3YDXU46S7hCUus3baWTYZbbHztqmiCKAH3WB032mG0GIVqCV1ounqIRX6KN
+ TzKexoujbodaP6TTwfk+0KBqzipZbVV4rlueCxOFRCatqIQ54ohgC9uUW5AFDxosDNeE
+ nvXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RaZcdCZN7zqROxLNVq3rIO4aLNeOhcX7PBDOpMGUlmE=;
+ b=ZeBJGUWci5mfM4x+g+ScDEiIc1ZRKdnf4ybgOpKk/YPx0MfO6wCGTEumNlZhu31uw3
+ IEK5jSSl1Uc4X2yulGQpWNGNFLnn5qVhJpw/f+bBHlvpC00fgPCLK5SDXXYWLasn8Y06
+ DlEyOn+JS5KlfhiYeMBNgSX2a3EA/WwFkF3oCg1fWbGbaCxx71Rqn0UBkPZEct754keZ
+ QN5nS2P+D4zJ0rBYt1VaIT/ozg/nJpitSzPRYRe//b3l316ejIzXnrhaRl3kiYIrNR4x
+ vbtxK3rGXL/G7nsdLsNcEdVC9BbSZOlWyrIiGEpe6zpOF2g52WdRGl5Ke8AP86R3Wxr7
+ vHEQ==
+X-Gm-Message-State: AOAM533oVC6U+4fYTLwLDK/jApz7B+ls6OU/BZNlyRMF+imuW8GaYvr1
+ kbPO8cYkWR43JerK3Xl6hAWR7aPNgsd8ukCeAvs=
+X-Google-Smtp-Source: ABdhPJzUUgR8Spu+CHOcOHs6UfaP8AfSy/e+bFFUzRutJXGFbySDVYUK6VJWWeGUFsfIWGvyxai0yy7WHzDYfd5XC0g=
+X-Received: by 2002:a05:6830:408f:: with SMTP id
+ x15mr4767542ott.132.1616617410803; 
+ Wed, 24 Mar 2021 13:23:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <75423f64-adef-a2c4-8e7d-2cb814127b18@intel.com>
-Content-Language: en-US
+References: <20210317151348.11331-1-wse@tuxedocomputers.com>
+In-Reply-To: <20210317151348.11331-1-wse@tuxedocomputers.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 24 Mar 2021 16:23:19 -0400
+Message-ID: <CADnq5_OpJ-2jR4D8xwH93PZKoMWXx8C2yGTkqt7KRrVgph-KvA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Try YCbCr420 color when YCbCr444 fails
+To: Werner Sembach <wse@tuxedocomputers.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,27 +62,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, "for 3.8" <stable@vger.kernel.org>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDMvMjQvMjEgNTozNCBQTSwgRGF2ZSBIYW5zZW4gd3JvdGU6Cj4gT24gMy8yNC8yMSAzOjA1
-IEFNLCBUaG9tYXMgSGVsbHN0csO2bSAoSW50ZWwpIHdyb3RlOgo+PiBZZXMsIEkgYWdyZWUuIFNl
-ZW1zIGxpa2UgdGhlIHNwZWNpYWwgKFNXMSkgaXMgYXZhaWxhYmxlIGFsc28gZm9yIGh1Z2UKPj4g
-cGFnZSB0YWJsZSBlbnRyaWVzIG9uIHg4NiBBRkFJQ1QsIGFsdGhvdWdoIGp1c3Qgbm90IGltcGxl
-bWVudGVkLgo+PiBPdGhlcndpc2UgdGhlIFNXIGJpdHMgYXBwZWFyIGNvbXBsZXRlbHkgdXNlZCB1
-cC4KPiBBbHRob3VnaCB0aGUgX1BBR0VfQklUX1NPRlRXKiBiaXRzIGFyZSB1c2VkIHVwLCB0aGVy
-ZSdzIHBsZW50eSBvZiByb29tCj4gaW4gdGhlIGhhcmR3YXJlIFBURXMuICBCaXRzIDUyLT41OCBh
-cmUgc29mdHdhcmUtYXZhaWxhYmxlLCBhbmQgd2UncmUKPiBvbmx5IHVzaW5nIDU4IGF0IHRoZSBt
-b21lbnQuCj4KPiBXZSBhbHNvIGhhdmUgbm90IGJlZW4gY2FyZWZ1bCBhdCAqYWxsKiBhYm91dCBo
-b3cgX1BBR0VfQklUX1NPRlRXKiBhcmUKPiB1c2VkLiAgSXQncyBxdWl0ZSBwb3NzaWJsZSB3ZSBj
-YW4gZW5jb2RlIGFub3RoZXIgdXNlIGV2ZW4gaW4gdGhlCj4gZXhpc3RpbmcgYml0cy4KPgo+IFBl
-cnNvbmFsbHksIEknZCBqdXN0IHRyeToKPgo+ICNkZWZpbmUgX1BBR0VfQklUX1NPRlRXNSAgICAg
-ICAgNTcgICAgICAvKiBhdmFpbGFibGUgZm9yIHByb2dyYW1tZXIgKi8KPgpPSywgSSdsbCBmb2xs
-b3cgeW91ciBhZHZpc2UgaGVyZS4gRldJVyBJIGdyZXBwZWQgZm9yIFNXMSBhbmQgaXQgc2VlbXMg
-CnVzZWQgaW4gYSBzZWxmdGVzdCwgYnV0IG9ubHkgZm9yIFBURXMgQUZBSUNULgoKT2gsIGFuZCB3
-ZSBkb24ndCBjYXJlIGFib3V0IDMyLWJpdCBtdWNoIGFueW1vcmU/CgovVGhvbWFzCgoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Wed, Mar 17, 2021 at 11:25 AM Werner Sembach <wse@tuxedocomputers.com> wrote:
+>
+> When encoder validation of a display mode fails, retry with less bandwidth
+> heavy YCbCr420 color mode, if available. This enables some HDMI 1.4 setups
+> to support 4k60Hz output, which previously failed silently.
+>
+> On some setups, while the monitor and the gpu support display modes with
+> pixel clocks of up to 600MHz, the link encoder might not. This prevents
+> YCbCr444 and RGB encoding for 4k60Hz, but YCbCr420 encoding might still be
+> possible. However, which color mode is used is decided before the link
+> encoder capabilities are checked. This patch fixes the problem by retrying
+> to find a display mode with YCbCr420 enforced and using it, if it is
+> valid.
+>
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> Cc: <stable@vger.kernel.org>
+
+
+This seems reasonable to me.  Harry, Leo, Any objections?
+
+Alex
+
+> ---
+>
+> From c9398160caf4ff20e63b8ba3a4366d6ef95c4ac3 Mon Sep 17 00:00:00 2001
+> From: Werner Sembach <wse@tuxedocomputers.com>
+> Date: Wed, 17 Mar 2021 12:52:22 +0100
+> Subject: [PATCH] Retry forcing YCbCr420 color on failed encoder validation
+>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 961abf1cf040..2d16389b5f1e 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -5727,6 +5727,15 @@ create_validate_stream_for_sink(struct amdgpu_dm_connector *aconnector,
+>
+>         } while (stream == NULL && requested_bpc >= 6);
+>
+> +       if (dc_result == DC_FAIL_ENC_VALIDATE && !aconnector->force_yuv420_output) {
+> +               DRM_DEBUG_KMS("Retry forcing YCbCr420 encoding\n");
+> +
+> +               aconnector->force_yuv420_output = true;
+> +               stream = create_validate_stream_for_sink(aconnector, drm_mode,
+> +                                               dm_state, old_stream);
+> +               aconnector->force_yuv420_output = false;
+> +       }
+> +
+>         return stream;
+>  }
+>
+> --
+> 2.25.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
