@@ -1,76 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36835347AB2
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 15:31:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D75C347ABA
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 15:32:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A9D96EA08;
-	Wed, 24 Mar 2021 14:31:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B2956EBC4;
+	Wed, 24 Mar 2021 14:32:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 631086EBB7
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 14:31:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616596269;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+jtHaYpG/XZInPp8hHHKOOdzU2YSMvIuIW7BEJkipo8=;
- b=KqHRh/Wf0nk6pudXDypiBEZdt2ZySsNSFvB0+AwMW8iM9l8er6jJchvGa+bZCd0Y4XgpGB
- YOgogUzZbiMSn1adlCNR5db37w7xTrG+n7Dan2O8Y3fIKmyi8mh+o+hy1BEkak80RzOvXO
- CPKR/pfnFsYMdXU0gbmkwypkjF3r3PU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-udFRR28pMCGtie3v1BDmxA-1; Wed, 24 Mar 2021 10:31:07 -0400
-X-MC-Unique: udFRR28pMCGtie3v1BDmxA-1
-Received: by mail-wr1-f69.google.com with SMTP id h21so1143986wrc.19
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 07:31:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+jtHaYpG/XZInPp8hHHKOOdzU2YSMvIuIW7BEJkipo8=;
- b=rYL8XcL5ULLQWle3NdP4Byqs+/Jp15BjPuiQoeNoktIz/owGXhtz6JRIKRgUktUctc
- feAVjE56LE9W7KKBwRuMQRDIstza03neD1uk0Z/ZlhU86iF3+KcbI9sc5i+2PYkEgZ7h
- aM6fDr1FaISrJQ3YrBfcx49Yt11oRlzGIdVKzsUKDTeL62yVkXrUhpcKMF0MixJjdonX
- tY5fONVzyJW/D7d32U4TkvzIZS7NIGGdKlYIO/1wOgVAD/fwlqVh8NWn+a8z6tK8TC8s
- EH0bGFCLvkhsd2Ko1u5VNYqY0b4VkzEh+urSB+pB2Ax6tir6oU+qNwII8u52+S2p2YkC
- c/cw==
-X-Gm-Message-State: AOAM532GQOS4gcwDTRdOZgHDhaTAEFXe8WTwtXr+dH/QEjq90ytpX87M
- H+g2FNqAOfuoEYZrrek4cpflSoF2CUSAyo4q08HPuU0lbK6MQI6/cZ35y6YOT86yYbfOBjKfVY/
- xuHwmhz1hDJswR/cO+3qsmGwhsRrF
-X-Received: by 2002:a5d:68cd:: with SMTP id p13mr3977880wrw.247.1616596266460; 
- Wed, 24 Mar 2021 07:31:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxIf+VryoTPSfwti+YSTkQ2E1C0/b6Xuw3ivYfNPK4a9PF7c1OO41KjvaTv9A51GLRMrRGgKA==
-X-Received: by 2002:a5d:68cd:: with SMTP id p13mr3977856wrw.247.1616596266249; 
- Wed, 24 Mar 2021 07:31:06 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u8sm3366640wrr.42.2021.03.24.07.31.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Mar 2021 07:31:05 -0700 (PDT)
-Subject: Re: [PATCH 3/3] mm: unexport follow_pfn
-To: Jason Gunthorpe <jgg@nvidia.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20210316153303.3216674-1-daniel.vetter@ffwll.ch>
- <20210316153303.3216674-4-daniel.vetter@ffwll.ch>
- <20210324125211.GA2356281@nvidia.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b1a46866-cbc7-4e7f-0e17-79fee57b32a0@redhat.com>
-Date: Wed, 24 Mar 2021 15:31:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from smtprelay.hostedemail.com (smtprelay0210.hostedemail.com
+ [216.40.44.210])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4E636EA05
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 14:32:03 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay06.hostedemail.com (Postfix) with ESMTP id 32F09182244EB;
+ Wed, 24 Mar 2021 14:32:01 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:355:379:599:800:960:973:988:989:1260:1261:1277:1311:1313:1314:1345:1359:1431:1437:1515:1516:1518:1534:1543:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2828:3138:3139:3140:3141:3142:3354:3622:3865:3867:3868:3870:3871:3872:3874:4321:4605:5007:6119:6120:7576:7652:7901:7903:8603:10004:10400:11026:11232:11473:11657:11658:11783:11914:12043:12048:12297:12438:12555:12683:12740:12895:13439:13894:14181:14659:14721:21080:21433:21451:21627:21660:21972:21990:30046:30054:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:2, LUA_SUMMARY:none
+X-HE-Tag: hill42_1e033b52777b
+X-Filterd-Recvd-Size: 4973
+Received: from [192.168.1.159] (unknown [47.151.137.21])
+ (Authenticated sender: joe@perches.com)
+ by omf11.hostedemail.com (Postfix) with ESMTPA;
+ Wed, 24 Mar 2021 14:31:59 +0000 (UTC)
+Message-ID: <382fd12d804ac8e2693f92cf649c4f038f9c022e.camel@perches.com>
+Subject: Re: [PATCH] amdgpu: fix gcc -Wrestrict warning
+From: Joe Perches <joe@perches.com>
+To: Arnd Bergmann <arnd@kernel.org>, Alex Deucher
+ <alexander.deucher@amd.com>,  Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>
+Date: Wed, 24 Mar 2021 07:31:58 -0700
+In-Reply-To: <20210323130430.2250052-1-arnd@kernel.org>
+References: <20210323130430.2250052-1-arnd@kernel.org>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-In-Reply-To: <20210324125211.GA2356281@nvidia.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,28 +53,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org,
- Alex Williamson <alex.williamson@redhat.com>, kvm@vger.kernel.org,
- Jann Horn <jannh@google.com>, Cornelia Huck <cohuck@redhat.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, linux-mm@kvack.org,
- 3pvd@google.com, Peter Xu <peterx@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Jinzhou Su <Jinzhou.Su@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Huang Rui <ray.huang@amd.com>, amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/03/21 13:52, Jason Gunthorpe wrote:
-> I think this is the right thing to do.
-> 
-> Alex is working on fixing VFIO and while kvm is still racy using
-> follow pte, I think they are working on it too?
+On Tue, 2021-03-23 at 14:04 +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> =
 
-Yeah, or at least we have a plan.
+> gcc warns about an sprintf() that uses the same buffer as source
+> and destination, which is undefined behavior in C99:
+> =
 
-Paolo
+> drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c: In function 'amdgpu_se=
+curedisplay_debugfs_write':
+> drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c:141:6: error: 'sprintf'=
+ argument 3 overlaps destination object 'i2c_output' [-Werror=3Drestrict]
+> =A0=A0141 |      sprintf(i2c_output, "%s 0x%X", i2c_output,
+> =A0=A0=A0=A0=A0=A0|      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> =A0=A0142 |       securedisplay_cmd->securedisplay_out_message.send_roi_c=
+rc.i2c_buf[i]);
+> =A0=A0=A0=A0=A0=A0|       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c:97:7: note: destination=
+ object referenced by 'restrict'-qualified argument 1 was declared here
+> =A0=A0=A097 |  char i2c_output[256];
+> =A0=A0=A0=A0=A0=A0|       ^~~~~~~~~~
+> =
+
+> Rewrite it to remember the current offset into the buffer instead.
+> =
+
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> =A0drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c | 3 ++-
+> =A01 file changed, 2 insertions(+), 1 deletion(-)
+> =
+
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c b/drivers/=
+gpu/drm/amd/amdgpu/amdgpu_securedisplay.c
+> index 834440ab9ff7..69d7f6bff5d4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c
+> @@ -136,9 +136,10 @@ static ssize_t amdgpu_securedisplay_debugfs_write(st=
+ruct file *f, const char __u
+> =A0		ret =3D psp_securedisplay_invoke(psp, TA_SECUREDISPLAY_COMMAND__SEND=
+_ROI_CRC);
+> =A0		if (!ret) {
+> =A0			if (securedisplay_cmd->status =3D=3D TA_SECUREDISPLAY_STATUS__SUCCE=
+SS) {
+> +				int pos =3D 0;
+> =A0				memset(i2c_output,  0, sizeof(i2c_output));
+> =A0				for (i =3D 0; i < TA_SECUREDISPLAY_I2C_BUFFER_SIZE; i++)
+> -					sprintf(i2c_output, "%s 0x%X", i2c_output,
+> +					pos +=3D sprintf(i2c_output + pos, " 0x%X",
+> =A0						securedisplay_cmd->securedisplay_out_message.send_roi_crc.i2c_bu=
+f[i]);
+> =A0				dev_info(adev->dev, "SECUREDISPLAY: I2C buffer out put is :%s\n", =
+i2c_output);
+
+Perhaps use a hex output like:
+
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c b/drivers/gp=
+u/drm/amd/amdgpu/amdgpu_securedisplay.c
+index 9cf856c94f94..25bb34c72d20 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c
+@@ -97,13 +97,12 @@ static ssize_t amdgpu_securedisplay_debugfs_write(struc=
+t file *f, const char __u
+ 	uint32_t op;
+ 	int i;
+ 	char str[64];
+-	char i2c_output[256];
+ 	int ret;
+ =
+
+ 	if (*pos || size > sizeof(str) - 1)
+ 		return -EINVAL;
+ =
+
+-	memset(str,  0, sizeof(str));
++	memset(str, 0, sizeof(str));
+ 	ret =3D copy_from_user(str, buf, size);
+ 	if (ret)
+ 		return -EFAULT;
+@@ -139,11 +138,9 @@ static ssize_t amdgpu_securedisplay_debugfs_write(stru=
+ct file *f, const char __u
+ 		ret =3D psp_securedisplay_invoke(psp, TA_SECUREDISPLAY_COMMAND__SEND_ROI=
+_CRC);
+ 		if (!ret) {
+ 			if (securedisplay_cmd->status =3D=3D TA_SECUREDISPLAY_STATUS__SUCCESS) {
+-				memset(i2c_output,  0, sizeof(i2c_output));
+-				for (i =3D 0; i < TA_SECUREDISPLAY_I2C_BUFFER_SIZE; i++)
+-					sprintf(i2c_output, "%s 0x%X", i2c_output,
+-						securedisplay_cmd->securedisplay_out_message.send_roi_crc.i2c_buf[i]=
+);
+-				dev_info(adev->dev, "SECUREDISPLAY: I2C buffer out put is :%s\n", i2c_=
+output);
++				dev_info(adev->dev, "SECUREDISPLAY: I2C buffer output is: %*ph\n",
++					 (int)TA_SECUREDISPLAY_I2C_BUFFER_SIZE,
++					 securedisplay_cmd->securedisplay_out_message.send_roi_crc.i2c_buf);
+ 			} else {
+ 				psp_securedisplay_parse_resp_status(psp, securedisplay_cmd->status);
+ 			}
+
 
 _______________________________________________
 dri-devel mailing list
