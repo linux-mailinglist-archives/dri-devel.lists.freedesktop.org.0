@@ -2,45 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF03347C9D
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:31:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E38347CB1
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:32:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFC0E6EC7F;
-	Wed, 24 Mar 2021 15:31:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAA826EA1B;
+	Wed, 24 Mar 2021 15:32:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8654C6EA40;
- Wed, 24 Mar 2021 15:30:59 +0000 (UTC)
-IronPort-SDR: K/5nYLTiPqCVGoJKY4JeMc6cTm/NbLw/PRdqC3NpX3KmhSVtWdB6c2i5WIjywi4oAjM7ZrvJvk
- +Hkwb4BsCZ0Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="275847573"
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; d="scan'208";a="275847573"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2021 08:30:38 -0700
-IronPort-SDR: /4dqq/0JWisBWvhTbTEBIBwFyl3ZwxDSlbNQvn9KHdRvSPPQs9Sb14vUi+jgB7se4K1pbShwF/
- LGKAbJDldGYw==
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; d="scan'208";a="415534424"
-Received: from hcarliss-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.54.166])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2021 08:30:27 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Arnd Bergmann <arnd@kernel.org>, linux-kernel@vger.kernel.org,
- Martin Sebor <msebor@gcc.gnu.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 10/11] drm/i915: avoid stringop-overread warning on
- pri_latency
-In-Reply-To: <20210322160253.4032422-11-arnd@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210322160253.4032422-1-arnd@kernel.org>
- <20210322160253.4032422-11-arnd@kernel.org>
-Date: Wed, 24 Mar 2021 17:30:24 +0200
-Message-ID: <874kh04lin.fsf@intel.com>
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A646A6EA29
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:32:54 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id f26so30756597ljp.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:32:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=izPOmieh1WevNujIwbAbL3OCIGkPjE9MVyJVOgBEtC0=;
+ b=GXPU6UVxcNBB1W5pdqZxUcCvkqUaXc1PQ1SD7DVlwqDi1RCCzHdvPP+enpOlhWdyaG
+ BiBzy+GFpja1pfdj9b5Fq4/6Ecf+dH5X7+osSKghK3uaFt29fJlL7ixqJUSh07K9dcOb
+ 3y8x5qPfLq5K+fnrdAWTqA3VtH7Apqrxu7OKc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=izPOmieh1WevNujIwbAbL3OCIGkPjE9MVyJVOgBEtC0=;
+ b=dv9dy6G44qEPKkg9Yy81s5O+xtE2mVYjX6PB2E0XbjGVQlDWQl8YaCCJRP9OsPycGc
+ 468FkMqB5ccIhnRQGVj38nSuKxgAkJ61PXq19d1kIUTVlLQtk72vS07bqljo81vSat++
+ 5crSclyuy/kNp1vWCtBmWvwvUrsmVBLb0xxoshqyqD3zTfkh4J4zKDaCiTG8hhsJQTXf
+ WQZS2TphJyQKnUAbyE+SqfvX2JSkOXPQiPr4yNepH+l1U8NAFDDMsJK3eAioHGLSz87D
+ qNWEJzaZ7Zr8q6HnV3HHc7xfV/BZWCwUprvvN30+V+0rubMz7/T7RAuq4ER05owoo9c5
+ 6vgw==
+X-Gm-Message-State: AOAM5306asNgr/1qdDlbdDJt+IJykKTnBE+zIpX/uWirCnTl2BYCOoTH
+ 5ac/3COxC8+2oHvwORalWgB2DBwfxWVLXEJlN7M2Pg==
+X-Google-Smtp-Source: ABdhPJzZGpJaY54yuPyrvOaJAifQDTulUlejaz+CQ+C1jq4wkC7RDiMZzbxvKHmkxqci78nRS1gxWK0y89++eh7Vv8Y=
+X-Received: by 2002:a2e:810c:: with SMTP id d12mr2545673ljg.49.1616599973170; 
+ Wed, 24 Mar 2021 08:32:53 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210310161444.1015500-1-markyacoub@chromium.org>
+ <CADnq5_P9aYcedOP2qduSz7VN1fCSnmQEtPa+FdjYu9Co7TwPog@mail.gmail.com>
+ <CAC0gqY7Y2WxtAZ3GnWmASPYq7ahYTfmPhOHAAX5UjMNS9k098w@mail.gmail.com>
+ <b4070483-5aa5-c712-6435-dcb4a206ca76@daenzer.net>
+ <CAP+8YyExtmmZbFfAO_YR=XWHE+HbH6m7JqyJV4LB_hbGwsihBA@mail.gmail.com>
+ <CAPj87rP+WkUPbS3yyGGfy0SRm_hsnCCUav99Dg2Q+tXCiJ5D+A@mail.gmail.com>
+ <CAJUqKUqQ0yrxpr+QVRXYXMk1hBRNByD0TP6mM0oLY54jDZimbw@mail.gmail.com>
+ <CAPj87rMGcha9jGe3rRH8OvMxYSo42z1d0ZCxhRUxz+aAXMow2A@mail.gmail.com>
+In-Reply-To: <CAPj87rMGcha9jGe3rRH8OvMxYSo42z1d0ZCxhRUxz+aAXMow2A@mail.gmail.com>
+From: Mark Yacoub <markyacoub@chromium.org>
+Date: Wed, 24 Mar 2021 11:32:42 -0400
+Message-ID: <CAJUqKUrWsXdipa2FRMBFEWR0MfoWZ2O6BCXGnZs6CgKP559sBw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Ensure that the modifier requested is
+ supported by plane.
+To: Daniel Stone <daniel@fooishbar.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,69 +65,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- linux-scsi@vger.kernel.org, x86@kernel.org,
- James Smart <james.smart@broadcom.com>, tboot-devel@lists.sourceforge.net,
- Kalle Valo <kvalo@codeaurora.org>, ath11k@lists.infradead.org,
- Serge Hallyn <serge@hallyn.com>, Arnd Bergmann <arnd@arndb.de>, "James
- E.J. Bottomley" <jejb@linux.ibm.com>, Ning Sun <ning.sun@intel.com>,
- Anders Larsen <al@alarsen.net>,
- =?utf-8?Q?Jos=C3=A9?= Roberto de Souza <jose.souza@intel.com>,
- cgroups@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Aditya Swarup <aditya.swarup@intel.com>, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-security-module@vger.kernel.org,
- Tejun Heo <tj@kernel.org>, Simon Kelley <simon@thekelleys.org.uk>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, Mark Yacoub <markyacoub@google.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyMiBNYXIgMjAyMSwgQXJuZCBCZXJnbWFubiA8YXJuZEBrZXJuZWwub3JnPiB3cm90
-ZToKPiBGcm9tOiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgo+Cj4gZ2NjLTExIHdhcm5z
-IGFib3V0IHdoYXQgYXBwZWFycyB0byBiZSBhbiBvdXQtb2YtcmFuZ2UgYXJyYXkgYWNjZXNzOgo+
-Cj4gSW4gZnVuY3Rpb24g4oCYc25iX3dtX2xhdGVuY3lfcXVpcmvigJksCj4gICAgIGlubGluZWQg
-ZnJvbSDigJhpbGtfc2V0dXBfd21fbGF0ZW5jeeKAmSBhdCBkcml2ZXJzL2dwdS9kcm0vaTkxNS9p
-bnRlbF9wbS5jOjMxMDg6MzoKPiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9wbS5jOjMwNTc6
-OTogZXJyb3I6IOKAmGludGVsX3ByaW50X3dtX2xhdGVuY3nigJkgcmVhZGluZyAxNiBieXRlcyBm
-cm9tIGEgcmVnaW9uIG9mIHNpemUgMTAgWy1XZXJyb3I9c3RyaW5nb3Atb3ZlcnJlYWRdCj4gIDMw
-NTcgfCAgICAgICAgIGludGVsX3ByaW50X3dtX2xhdGVuY3koZGV2X3ByaXYsICJQcmltYXJ5Iiwg
-ZGV2X3ByaXYtPndtLnByaV9sYXRlbmN5KTsKPiAgICAgICB8ICAgICAgICAgXn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-Cj4gZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfcG0uYzogSW4gZnVuY3Rpb24g4oCYaWxrX3Nl
-dHVwX3dtX2xhdGVuY3nigJk6Cj4gZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfcG0uYzozMDU3
-Ojk6IG5vdGU6IHJlZmVyZW5jaW5nIGFyZ3VtZW50IDMgb2YgdHlwZSDigJhjb25zdCB1MTYgKuKA
-mSB7YWthIOKAmGNvbnN0IHNob3J0IHVuc2lnbmVkIGludCAq4oCZfQo+IGRyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2ludGVsX3BtLmM6Mjk5NDoxMzogbm90ZTogaW4gYSBjYWxsIHRvIGZ1bmN0aW9uIOKA
-mGludGVsX3ByaW50X3dtX2xhdGVuY3nigJkKPiAgMjk5NCB8IHN0YXRpYyB2b2lkIGludGVsX3By
-aW50X3dtX2xhdGVuY3koc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2LAo+ICAgICAg
-IHwgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fgo+Cj4gTXkgZ3Vlc3MgaXMgdGhh
-dCB0aGlzIGNvZGUgaXMgYWN0dWFsbHkgc2FmZSBiZWNhdXNlIHRoZSBzaXplIG9mIHRoZQo+IGFy
-cmF5IGRlcGVuZHMgb24gdGhlIGhhcmR3YXJlIGdlbmVyYXRpb24sIGFuZCB0aGUgZnVuY3Rpb24g
-Y2hlY2tzIGZvcgo+IHRoYXQsIGJ1dCBhdCB0aGUgc2FtZSB0aW1lIEkgd291bGQgbm90IGV4cGVj
-dCB0aGUgY29tcGlsZXIgdG8gd29yayBpdAo+IG91dCBjb3JyZWN0bHksIGFuZCB0aGUgY29kZSBz
-ZWVtcyBhIGxpdHRsZSBmcmFnaWxlIHdpdGggcmVnYXJkcyB0bwo+IGZ1dHVyZSBjaGFuZ2VzLiBT
-aW1wbHkgaW5jcmVhc2luZyB0aGUgc2l6ZSBvZiB0aGUgYXJyYXkgc2hvdWxkIGhlbHAuCgpBZ3Jl
-ZWQsIEkgZG9uJ3QgdGhpbmsgdGhlcmUncyBhbiBpc3N1ZSwgYnV0IHRoZSBjb2RlIGNvdWxkIHVz
-ZSBhIGJ1bmNoCm9mIGltcHJvdmVtZW50cy4KCkxpa2UsIHdlIGhhdmUgaW50ZWxfcHJpbnRfd21f
-bGF0ZW5jeSgpIGZvciBkZWJ1ZyBsb2dnaW5nIGFuZAp3bV9sYXRlbmN5X3Nob3coKSBmb3IgZGVi
-dWdmcywgYW5kIHRoZXJlJ3MgYSBidW5jaCBvZiBkdXBsaWNhdGlvbiBhbmQKdWdoLgoKQnV0IHRo
-aXMgc2VlbXMgbGlrZSB0aGUgZWFzaWVzdCBmaXggZm9yIHRoZSB3YXJuaW5nLgoKUmV2aWV3ZWQt
-Ynk6IEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+CgoKPiBTaWduZWQtb2ZmLWJ5
-OiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0v
-aTkxNS9pOTE1X2Rydi5oIHwgNiArKystLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9u
-cygrKSwgMyBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkx
-NS9pOTE1X2Rydi5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9kcnYuaAo+IGluZGV4IDI2
-ZDY5ZDA2YWE2ZC4uMzU2NzYwMmUwYTM1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2k5MTVfZHJ2LmgKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2Rydi5oCj4g
-QEAgLTEwOTUsMTEgKzEwOTUsMTEgQEAgc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgewo+ICAJCSAq
-IGluIDAuNXVzIHVuaXRzIGZvciBXTTErLgo+ICAJCSAqLwo+ICAJCS8qIHByaW1hcnkgKi8KPiAt
-CQl1MTYgcHJpX2xhdGVuY3lbNV07Cj4gKwkJdTE2IHByaV9sYXRlbmN5WzhdOwo+ICAJCS8qIHNw
-cml0ZSAqLwo+IC0JCXUxNiBzcHJfbGF0ZW5jeVs1XTsKPiArCQl1MTYgc3ByX2xhdGVuY3lbOF07
-Cj4gIAkJLyogY3Vyc29yICovCj4gLQkJdTE2IGN1cl9sYXRlbmN5WzVdOwo+ICsJCXUxNiBjdXJf
-bGF0ZW5jeVs4XTsKPiAgCQkvKgo+ICAJCSAqIFJhdyB3YXRlcm1hcmsgbWVtb3J5IGxhdGVuY3kg
-dmFsdWVzCj4gIAkJICogZm9yIFNLTCBmb3IgYWxsIDggbGV2ZWxzCgotLSAKSmFuaSBOaWt1bGEs
-IEludGVsIE9wZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Wed, Mar 24, 2021 at 11:25 AM Daniel Stone <daniel@fooishbar.org> wrote:
+>
+> Hi Mark,
+>
+> On Wed, 24 Mar 2021 at 14:58, Mark Yacoub <markyacoub@chromium.org> wrote:
+>>
+>> So you mean it would make more sense to be more explicit in handling
+>> DRM_FORMAT_MOD_INVALID as an incoming modifier (which will, just like
+>> DRM_FORMAT_MOD_LINEAR, will return true in
+>> dm_plane_format_mod_supported)?
+>
+>
+> That's correct. Not passing any modifiers is the same as explicitly passing INVALID, both of which mean 'the driver will figure it out somehow'; that driver-specific determination is not the same as explicit LINEAR.
+>
+> (I cannot regret enough that INVALID is not 0.)
+I feel you. When I tested it on a board that doesn't support
+modifiers, the modifier value was Zero. when I checked it, it was
+basically LINEAR.
+I'll amend my changes to explicitly handle INVALID.
+>
+> Cheers,
+> Daniel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
