@@ -1,59 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740883477E7
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 13:10:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E16833477F4
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 13:13:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B84F6E96A;
-	Wed, 24 Mar 2021 12:10:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 999616E9E8;
+	Wed, 24 Mar 2021 12:13:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 548EB6E96A
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 12:10:42 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id z2so24218640wrl.5
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 05:10:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=E1r72OauA/gIlBZG4tpWGGoc73ZgVn8gVGRpZUotXuw=;
- b=rCK5pLhwzKoFjQw8S59dsGIMkFF95NbFNom0to3arSujGa6IUXzB493PEmjkS1aLDI
- J3U38UqhsOX4pjHxdVE8T8OjLZde3Mgplmt2zX+g7DXeKd23qcaXyBkYEDYVIhIamMAS
- nmcEjhWGrtqB8Gy7SRkhqpN/EKBPWtQbsjMZ+GxxGV3qUAipcMoz5C/0PVltHhx4pa3d
- TJQmWb0AN9xigzsrReG5aXCNWxvm7ncreuZYQXtCsb4C2M1xAlE9vJ0qI3VIA2HYSmwn
- 3hE+dyCvIQY49+aaBJylMbeSSEYlmgR34FEicMrzSLWxTz2khsO3/9E4AHQf0cftYQc6
- fKuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=E1r72OauA/gIlBZG4tpWGGoc73ZgVn8gVGRpZUotXuw=;
- b=pjOXGreTz920IjMLHpBMIVFtfEkUXQDenkqn1Q2wY13QCFmPtx2n/EJ8g4ac+YPklR
- +QfMcOz0RtVA4ocAVGv1LwuB7c3cyKPEtUE+jvcfbJlw++VmcwQY/Kt1Ie+48lUVx9js
- FkFZEckMKCj2E2oewVY8UyXjEUBdk6Y5EwSQz5K+K1WQpi1AqCWrRE5ZmaqaXJK9A4Is
- DSsXehdOt1Dgx11YRePW8shLdDEdG/AZML+hiBknc32vHmh0Qa+nAqGhMHjGUIjzYXOK
- r1qv4An+HA2yrUiiq/ems7X2App3Nj4FnIFZ5NxG76lacWoU8RjDAYobwgS99Wius1Hx
- EjbA==
-X-Gm-Message-State: AOAM531Cf4GHK6VNzSPQS0UsGNFTafE20Kf0YyXvQSCaoB/gqLXkIQHR
- s9H1GtYioflAUBW5OfG63aeFXYvCKt38jErVGujNfA==
-X-Google-Smtp-Source: ABdhPJzBQsDAv6Xrhm0OaPaUIM0Wxc4Y6jBcCrV3NcGzD2Y5CwNPU7cPSK8lPuAC3mBM5g1xg5XezhvVhnxc64DiIIg=
-X-Received: by 2002:a5d:6c67:: with SMTP id r7mr3129138wrz.373.1616587840870; 
- Wed, 24 Mar 2021 05:10:40 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76FDD6E9E8;
+ Wed, 24 Mar 2021 12:13:46 +0000 (UTC)
+IronPort-SDR: aAHBAFxmcvCoRXOlkplTMKEF4CWWY6an4AAHbXGyZuNxX57wnxmlMTt0QBKSZbmpTSimctWDSi
+ Ksk3rcRStR6g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9932"; a="188386143"
+X-IronPort-AV: E=Sophos;i="5.81,274,1610438400"; d="scan'208";a="188386143"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2021 05:13:45 -0700
+IronPort-SDR: 72s3DQ8MQE9deQacsmB9gKTu5jdw66Ndt1OjbUa2OiwRmDQjgMkNmvgxuD5Gvpkodbwx8D2MTN
+ ONAb1ob2uc8w==
+X-IronPort-AV: E=Sophos;i="5.81,274,1610438400"; d="scan'208";a="391277107"
+Received: from adizdarx-mobl1.ger.corp.intel.com (HELO localhost.localdomain)
+ ([10.213.248.133])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2021 05:13:44 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Subject: [PATCH v4 0/7] Default request/fence expiry + watchdog
+Date: Wed, 24 Mar 2021 12:13:28 +0000
+Message-Id: <20210324121335.2307063-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20210310161444.1015500-1-markyacoub@chromium.org>
- <CADnq5_P9aYcedOP2qduSz7VN1fCSnmQEtPa+FdjYu9Co7TwPog@mail.gmail.com>
- <CAC0gqY7Y2WxtAZ3GnWmASPYq7ahYTfmPhOHAAX5UjMNS9k098w@mail.gmail.com>
- <b4070483-5aa5-c712-6435-dcb4a206ca76@daenzer.net>
- <CAP+8YyExtmmZbFfAO_YR=XWHE+HbH6m7JqyJV4LB_hbGwsihBA@mail.gmail.com>
-In-Reply-To: <CAP+8YyExtmmZbFfAO_YR=XWHE+HbH6m7JqyJV4LB_hbGwsihBA@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 24 Mar 2021 12:10:15 +0000
-Message-ID: <CAPj87rP+WkUPbS3yyGGfy0SRm_hsnCCUav99Dg2Q+tXCiJ5D+A@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Ensure that the modifier requested is
- supported by plane.
-To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,95 +45,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Yacoub <markyacoub@chromium.org>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, Mark Yacoub <markyacoub@google.com>
-Content-Type: multipart/mixed; boundary="===============2009224534=="
+Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2009224534==
-Content-Type: multipart/alternative; boundary="00000000000000f5aa05be473062"
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
---00000000000000f5aa05be473062
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+"Watchdog" aka "restoring hangcheck" aka default request/fence expiry - second
+post of a somewhat controversial feature, now upgraded to patch status.
 
-On Wed, 24 Mar 2021 at 10:53, Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-wrote:
+I quote the "watchdog" becuase in classical sense watchdog would allow userspace
+to ping it and so remain alive.
 
-> On Wed, Mar 24, 2021 at 11:13 AM Michel D=C3=A4nzer <michel@daenzer.net> =
-wrote:
->
->> No modifier support does not imply linear. It's generally signalled via
->> DRM_FORMAT_MOD_INVALID, which roughly means "tiling is determined by dri=
-ver
->> specific mechanisms".
->>
->
-> Doesn't quite work that way in the kernel sadly. If you don't set
-> DRM_MODE_FB_MODIFIERS then the modifier fields have to be 0 (which happen=
-s
-> to alias DRM_FORMAT_MOD_LINEAR and then now deprecated
-> DRM_FORMAT_MOD_NONE). This is verified in shared drm code.
->
-> (and all userspace code I've seen simply doesn't set DRM_MODE_FB_MODIFIER=
-S
-> if the incoming modifier is DRM_FORMAT_MOD_INVALID)
->
+I quote "restoring hangcheck" because this series, contrary to the old
+hangcheck, is not looking at whether the workload is making any progress from
+the kernel side either. (Although disclaimer my memory may be leaky - Daniel
+suspects old hangcheck had some stricter, more indiscriminatory, angles to it.
+But apart from being prone to both false negatives and false positives I can't
+remember that myself.)
 
-Yes, but even though the field is zero, the lack of the flag means it must
-be treated as INVALID. If the kernel is not doing this, the kernel is
-objectively wrong. (And I know it doesn't do this in most cases, because
-otherwise I wouldn't be able to use this GNOME session on an Intel laptop,
-where modifiers are blacklisted.)
+Short version - ask is to fail any user submissions after a set time period. In
+this RFC that time is twelve seconds.
 
-Cheers,
-Daniel
+Time counts from the moment user submission is "runnable" (implicit and explicit
+dependencies have been cleared) and keeps counting regardless of the GPU
+contetion caused by other users of the system.
 
---00000000000000f5aa05be473062
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+So semantics are really a bit weak, but again, I understand this is really
+really wanted by the DRM core even if I am not convinced it is a good idea.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><span style=3D"">On Wed, 24 Mar 2021 at 1=
-0:53, Bas Nieuwenhuizen &lt;<a href=3D"mailto:bas@basnieuwenhuizen.nl">bas@=
-basnieuwenhuizen.nl</a>&gt; wrote:</span><br></div><div class=3D"gmail_quot=
-e"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div =
-dir=3D"ltr"><span style=3D"">On Wed, Mar 24, 2021 at 11:13 AM Michel D=C3=
-=A4nzer &lt;</span><a href=3D"mailto:michel@daenzer.net" target=3D"_blank" =
-style=3D"">michel@daenzer.net</a><span style=3D"">&gt; wrote:</span><br></d=
-iv><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">No modifier support does not imply linear. It&#39;s generally signalle=
-d via DRM_FORMAT_MOD_INVALID, which roughly means &quot;tiling is determine=
-d by driver specific mechanisms&quot;.<br></blockquote><div><br></div><div>=
-Doesn&#39;t quite work that way in the kernel sadly. If you don&#39;t set D=
-RM_MODE_FB_MODIFIERS then the modifier fields have to be 0 (which happens t=
-o alias DRM_FORMAT_MOD_LINEAR and then now deprecated DRM_FORMAT_MOD_NONE).=
- This is verified in shared drm code.</div><div><br></div><div>(and all use=
-rspace code I&#39;ve seen simply doesn&#39;t set DRM_MODE_FB_MODIFIERS if t=
-he incoming modifier is DRM_FORMAT_MOD_INVALID)</div></div></div></blockquo=
-te><div><br></div><div>Yes, but even though the field is zero, the lack of =
-the flag means it must be treated as INVALID. If the kernel is not doing th=
-is, the kernel is objectively wrong. (And I know it doesn&#39;t do this in =
-most cases, because otherwise I wouldn&#39;t be able to use this GNOME sess=
-ion on an Intel laptop, where modifiers are blacklisted.)</div><div><br></d=
-iv><div>Cheers,</div><div>Daniel=C2=A0</div></div></div>
+There are some dangers with doing this - text borrowed from a patch in the
+series:
 
---00000000000000f5aa05be473062--
+  This can have an effect that workloads which used to work fine will
+  suddenly start failing. Even workloads comprised of short batches but in
+  long dependency chains can be terminated.
 
---===============2009224534==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+  And becuase of lack of agreement on usefulness and safety of fence error
+  propagation this partial execution can be invisible to userspace even if
+  it is "listening" to returned fence status.
+
+  Another interaction is with hangcheck where care needs to be taken timeout
+  is not set lower or close to three times the heartbeat interval. Otherwise
+  a hang in any application can cause complete termination of all
+  submissions from unrelated clients. Any users modifying the per engine
+  heartbeat intervals therefore need to be aware of this potential denial of
+  service to avoid inadvertently enabling it.
+
+  Given all this I am personally not convinced the scheme is a good idea.
+  Intuitively it feels object importers would be better positioned to
+  enforce the time they are willing to wait for something to complete.
+
+v2:
+ * Dropped context param.
+ * Improved commit messages and Kconfig text.
+
+v3:
+ * Log timeouts.
+ * Bump timeout to 20s to see if it helps Tigerlake.
+ * Fix sentinel assert.
+
+v4:
+ * A round of review feedback applied.
+
+Chris Wilson (1):
+  drm/i915: Individual request cancellation
+
+Tvrtko Ursulin (6):
+  drm/i915: Extract active lookup engine to a helper
+  drm/i915: Restrict sentinel requests further
+  drm/i915: Handle async cancellation in sentinel assert
+  drm/i915: Request watchdog infrastructure
+  drm/i915: Fail too long user submissions by default
+  drm/i915: Allow configuring default request expiry via modparam
+
+ drivers/gpu/drm/i915/Kconfig.profile          |  14 ++
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  73 ++++---
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |   4 +
+ drivers/gpu/drm/i915/gt/intel_context_param.h |  11 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h |   4 +
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |   1 +
+ .../drm/i915/gt/intel_execlists_submission.c  |  23 +-
+ .../drm/i915/gt/intel_execlists_submission.h  |   2 +
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   3 +
+ drivers/gpu/drm/i915/gt/intel_gt.h            |   2 +
+ drivers/gpu/drm/i915/gt/intel_gt_requests.c   |  28 +++
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   7 +
+ drivers/gpu/drm/i915/i915_params.c            |   5 +
+ drivers/gpu/drm/i915/i915_params.h            |   1 +
+ drivers/gpu/drm/i915/i915_request.c           | 129 ++++++++++-
+ drivers/gpu/drm/i915/i915_request.h           |  16 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c | 201 ++++++++++++++++++
+ 17 files changed, 479 insertions(+), 45 deletions(-)
+
+-- 
+2.27.0
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2009224534==--
