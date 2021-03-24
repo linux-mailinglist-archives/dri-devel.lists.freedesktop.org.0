@@ -2,56 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 655A9347BBA
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:09:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7ED3479B0
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 14:33:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6B586EA13;
-	Wed, 24 Mar 2021 15:09:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85B816EB33;
+	Wed, 24 Mar 2021 13:33:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 354 seconds by postgrey-1.36 at gabe;
- Wed, 24 Mar 2021 13:27:50 UTC
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 858F76E9FA
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 13:27:50 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4F585r6cDpz1qtfD;
- Wed, 24 Mar 2021 14:21:52 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4F585r4y3wz1qsk8;
- Wed, 24 Mar 2021 14:21:52 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id Ec622X1yBJ6V; Wed, 24 Mar 2021 14:21:50 +0100 (CET)
-X-Auth-Info: Wy0aHOg7MRsGS0dgJhi4wXhn+NlMDJsLXSIT1LPaZwE=
-Received: from [10.88.0.186]
- (dslb-084-056-254-233.084.056.pools.vodafone-ip.de [84.56.254.233])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Wed, 24 Mar 2021 14:21:50 +0100 (CET)
-Subject: Re: [PATCH v3 2/2] drm: bridge: Add TI SN65DSI83/84/85 DSI to LVDS
- bridge
-To: Jagan Teki <jagan@amarulasolutions.com>, Rob Herring
- <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Sam Ravnborg <sam@ravnborg.org>
-References: <20210214174453.104616-1-jagan@amarulasolutions.com>
- <20210214174453.104616-2-jagan@amarulasolutions.com>
-From: Claudius Heine <ch@denx.de>
-Organization: Denx Software Engineering
-Message-ID: <8cac7848-3a8e-c597-1efc-c67fb6daba25@denx.de>
-Date: Wed, 24 Mar 2021 14:21:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 187F96EB33;
+ Wed, 24 Mar 2021 13:33:51 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 85A3061A01;
+ Wed, 24 Mar 2021 13:33:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1616592827;
+ bh=o9N4i7+3noUv0B6lJUnCsQ1a7vxB7qpfn9sOMth9bJM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=QjzaBxVXzft4VWeTPw8A5sVm1pW/PtZkCRT8tUJv5DiUqJTMiIZH24/SYzSgH+49I
+ RYAMumLPIjY2zQ+ESslZf5u4gCmhk50vC4lo5vjoExtxSBzYt+ta2WDiqNjxlQ3BxU
+ zsi/Ue6pet0QxobkUplg9lKCmOPEa7MH4MpV2DHIi/iGErPQhP2mVhjGpVvGP4B51l
+ 9jiC88NSVAfsOFAw0UaFTU8JCAJhowbU5k+U8P/B4mXUV7d3vQ1u8NerwFk6IpZNoa
+ sVLamh7L/6a5kgo7M0OaGFn2/lE5nnE3GCfPZ+8e7lQXaZsipwyLi/xKA7w3fRIhlA
+ zHvtDWKLyjdKQ==
+Received: by mail-oi1-f182.google.com with SMTP id f9so20785767oiw.5;
+ Wed, 24 Mar 2021 06:33:47 -0700 (PDT)
+X-Gm-Message-State: AOAM533l+h4KMKKBSMuNiKJzDEaE37Sm73YVZ5a+709t7HH5NQQNwfKE
+ 15/f9sopNJKhn/ryhK4+d1jVcZyEffP1au5hzgE=
+X-Google-Smtp-Source: ABdhPJwLGMq5E9ddat76/h5D6iTzp4r4i2DAaKNqQgKerm3fo6JXWGsSPV4CM9kNFzrRvvQsedNSTb89dqaNsM7Iy0c=
+X-Received: by 2002:a05:6808:313:: with SMTP id
+ i19mr2358206oie.67.1616592826738; 
+ Wed, 24 Mar 2021 06:33:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210214174453.104616-2-jagan@amarulasolutions.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Wed, 24 Mar 2021 15:09:44 +0000
+References: <20210323130430.2250052-1-arnd@kernel.org>
+ <f8cd5d0b-0c50-a2e9-a5a1-a2358419dd44@rasmusvillemoes.dk>
+In-Reply-To: <f8cd5d0b-0c50-a2e9-a5a1-a2358419dd44@rasmusvillemoes.dk>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Wed, 24 Mar 2021 14:33:30 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a17=PdOqKrvemuP1OCzoxRZ0HLBje-tV4Ssc=kZeVbQRw@mail.gmail.com>
+Message-ID: <CAK8P3a17=PdOqKrvemuP1OCzoxRZ0HLBje-tV4Ssc=kZeVbQRw@mail.gmail.com>
+Subject: Re: [PATCH] amdgpu: fix gcc -Wrestrict warning
+To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,47 +54,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- linux-amarula@amarulasolutions.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Jinzhou Su <Jinzhou.Su@amd.com>, David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Huang Rui <ray.huang@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan,
+On Tue, Mar 23, 2021 at 4:57 PM Rasmus Villemoes
+<linux@rasmusvillemoes.dk> wrote:
+> On 23/03/2021 14.04, Arnd Bergmann wrote:
+> >                       if (securedisplay_cmd->status == TA_SECUREDISPLAY_STATUS__SUCCESS) {
+> > +                             int pos = 0;
+> >                               memset(i2c_output,  0, sizeof(i2c_output));
+> >                               for (i = 0; i < TA_SECUREDISPLAY_I2C_BUFFER_SIZE; i++)
+> > -                                     sprintf(i2c_output, "%s 0x%X", i2c_output,
+> > +                                     pos += sprintf(i2c_output + pos, " 0x%X",
+> >                                               securedisplay_cmd->securedisplay_out_message.send_roi_crc.i2c_buf[i]);
+> >                               dev_info(adev->dev, "SECUREDISPLAY: I2C buffer out put is :%s\n", i2c_output);
+>
+> Eh, why not get rid of the 256 byte stack allocation and just replace
+> all of this by
+>
+>   dev_info(adev->dev, ""SECUREDISPLAY: I2C buffer out put is: %*ph\n",
+> TA_SECUREDISPLAY_I2C_BUFFER_SIZE,
+> securedisplay_cmd->securedisplay_out_message.send_roi_crc.i2c_buf);
+>
+> That's much less code (both in #LOC and .text), and avoids adding yet
+> another place that will be audited over and over for "hm, yeah, that
+> sprintf() is actually not gonna overflow".
+>
+> Yeah, it'll lose the 0x prefixes for each byte and use lowercase hex chars.
 
-On 2021-02-14 18:44, Jagan Teki wrote:
-[...]
-> +static void sn65dsi_enable(struct drm_bridge *bridge)
-> +{
-> +	struct sn65dsi *sn = bridge_to_sn65dsi(bridge);
-> +	struct drm_display_mode *mode = bridge_to_mode(bridge);
-> +	int bpp = mipi_dsi_pixel_format_to_bpp(sn->dsi->format);
-> +	unsigned int lanes = sn->dsi->lanes;
-> +	unsigned int pixel_clk = mode->clock * 1000;
-> +	unsigned int dsi_clk = pixel_clk * bpp / (lanes * 2);
-> +	unsigned int val;
-> +
-> +	/* reset SOFT_RESET bit */
-> +	regmap_write(sn->regmap, SN65DSI_SOFT_RESET, 0x0);
-> +
-> +	msleep(10);
-> +
-> +	/* reset PLL_EN bit */
-> +	regmap_write(sn->regmap, SN65DSI_CLK_PLL, 0x0);
-> +
-> +	msleep(10);
-> +
-> +	/* setup lvds clock */
-> +	val = sn65dsi_get_clk_range(0, 5, pixel_clk, 25000000, 25000000);
-> +	if (val < 0) {
+Ah, I didn't know the kernel's sprintf could do that, that's really nice.
 
-val is unsigned int, so it can never be negative so this condition is 
-always false. Same error further down in that function as well.
+I'll send a follow-up patch, as Alex has already applied the first one.
 
-regards,
-Claudius
+Alex, feel free to merge the two into one, or just keep as they are.
+
+      Arnd
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
