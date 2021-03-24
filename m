@@ -1,61 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF3AA347B81
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:01:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C266347B8C
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:03:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE3446EA26;
-	Wed, 24 Mar 2021 15:01:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 501D76EA2D;
+	Wed, 24 Mar 2021 15:03:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 730866EA26
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:01:44 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- u5-20020a7bcb050000b029010e9316b9d5so1370444wmj.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:01:44 -0700 (PDT)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 621376EA2D
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:03:29 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id o16so24806664wrn.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:03:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=ozgkKBnPgzZpMk+NLeLUK1O40arp+27rcVK+9sn9QdA=;
- b=fiEGmxzf0LgQzbZ7ctEFtBWRfddGh8OwrG4zWflAAR8mQvp9lbzFx32LV+Sy72W7Va
- fEdb8Zp6dxLbmpSFZjVBdsC/+bARDUzDDeUf+JUHbh6UAzxXuZjg6jW3NN1ALniHlwab
- 4MS9ARKRL56YiZF8gFM7tB1aKgfEj1nb6tvnsH3Pur56raH1upW2rJiJbEJMwNXTlzQz
- 5pusPf7dGUdkxzlmVpgFG0sP73hNEc3XeFEpdZaQw2/UbirWUKYwbDKebXmBJLybiCpj
- QccRGnM0iQZnMc8Pt/uE2/QP0OfaSVJ/4JhyuZLAVLE3cXpX7BHcG9D4O9pO60bKp4l7
- d9wg==
+ bh=IDKzYBeJOgv9qLIaDrU+wAUvzFLKQpmDTW9lmztzjik=;
+ b=qClg+6lv2EifrUhyMpMrWcEh7b5b10HjoP0gn40W0tF3cnL2OhY8m2StXmHUr8X6gN
+ SmNJKkfO8XW7pKikYoygLsKy747CBnigccicR7ahxjl1Y7oLy1XTNhsaIIfEC8xLxe8L
+ 9zr82go09EO0EhlJmltmkbCWogdcYtVrc+ixB7NKxFQC8jobAapc+pT7kaVtkDJaEG9L
+ a23A36uIoxxMeTkE4Iw0P5vUoxRveZvn6crJS9LRbjN1LHolSqoXymehdiMuq3SG5KRc
+ LQGc/l/B6BMT+74r76o+oS23ueZdNyWqkItvjBZXMOgaU2gfr2jdaCRalh0eosb9xW0n
+ TlOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ozgkKBnPgzZpMk+NLeLUK1O40arp+27rcVK+9sn9QdA=;
- b=gj8KSaZ0+/LbsmGJA8TX/rlC4g0+7nwQc0oIp5hYy1sf5G+2YumKcbyl4cTVq65TyG
- dCdYs/rJtrHrFjsqXZkHXGwGLKDKLnHyM2ri8968D1eWY/1eTXBZqwT/GzwAzQ6J0kUv
- sMr0dV9I3+mGYG3W7UKqemO5SHl2aYMxtRzAp1P42vuzCL9TrNJ+nPEqTMnC4v8+n30Y
- OE6ljBDrtmYH5Va9/ObqR5Iyh/AekQGJJezs2LfwVcMPI+qgCRTMD2KePPb5Nz8G3XIe
- jFSu6rYC8XZrN/XdyeT8RUD+H+MwJsUDsBkhL9D2rGZve8rzzMA8bOSvr51QtRCZkGU4
- negw==
-X-Gm-Message-State: AOAM530yEIukeL+4pIEHpi+XXi/RHoJfnM5bIvf+8WGNP250IqP35uqv
- oU0zpKlLBbwciKhu/K2I4Wg=
-X-Google-Smtp-Source: ABdhPJyJA74grQrQ0FO01q13W5xCGT/jw7NZtR7jNbmWETb5SOep8SrxZZQq7PenS9a946ramfGyOw==
-X-Received: by 2002:a1c:771a:: with SMTP id t26mr3405731wmi.60.1616598102853; 
- Wed, 24 Mar 2021 08:01:42 -0700 (PDT)
+ bh=IDKzYBeJOgv9qLIaDrU+wAUvzFLKQpmDTW9lmztzjik=;
+ b=tEfKCcT/cCB3O5i+OO6dKyiHMPVsSouK85uiZ07N//T9XsxYldvud4wYdXx4frNnMo
+ Z/iOCclR8mu8njzvgd9uA5jpyjl1MPQoS8/K8z6GsFgJ1zoupQBwBj1g91CrZxKF05MG
+ HCmJTfGgAMkP/kxKNA1KovU81xfZZr+gtyBHgAmtk3cmk8qFSwdYkguSqKxp2HIkeiXV
+ V9mTSFaW7zvo7hDHUrFUp9/c1HNqfnscX1LAPShq7r/1HSDkLxvidRDzhKIroMZtCzeq
+ BHRG6ex+W0C/+aP4d6A7dTonyvBGI8HJzKVg0Fnkd5C9+UPqCLYbx0gcug/pJ7JqPC6X
+ 0n3g==
+X-Gm-Message-State: AOAM5315wovRx6vUdkpWC6sBF7RvoskHNpljkWrrfCsfLCFpPyuWwg58
+ Gl4VJrlU8h7ls/mqsExmoa2jmqTYivs=
+X-Google-Smtp-Source: ABdhPJy1XfnIikyWvdAUdSZ4707VIXXXwM3BsUNQ1QkJ7/ooNMEZK0Wv0k6GfkpbcZM77haS03EqEg==
+X-Received: by 2002:adf:f307:: with SMTP id i7mr4004127wro.142.1616598208116; 
+ Wed, 24 Mar 2021 08:03:28 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id 1sm6851218wmj.0.2021.03.24.08.01.41
+ by smtp.gmail.com with ESMTPSA id j123sm2850867wmb.1.2021.03.24.08.03.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 08:01:41 -0700 (PDT)
-Date: Wed, 24 Mar 2021 16:02:02 +0100
+ Wed, 24 Mar 2021 08:03:25 -0700 (PDT)
+Date: Wed, 24 Mar 2021 16:03:46 +0100
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH 6/9] drm/tegra: gem: Add a clarifying comment
-Message-ID: <YFtUalHlk9YiH03n@orome.fritz.box>
+Subject: Re: [PATCH 4/9] drm/tegra: dc: Implement hardware cursor on Tegra186
+ and later
+Message-ID: <YFtU0rw+BaF6dHKy@orome.fritz.box>
 References: <20210323155437.513497-1-thierry.reding@gmail.com>
- <20210323155437.513497-7-thierry.reding@gmail.com>
- <21d2e691-6404-503b-422a-be97a7b9d1b4@gmail.com>
+ <20210323155437.513497-5-thierry.reding@gmail.com>
+ <454aea05-ee94-5789-2cab-513342cf7614@gmail.com>
+ <YFoyc5mdYe/5/Cjn@orome.fritz.box>
+ <487b94d0-a52b-824b-c29d-f88b4605b117@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <21d2e691-6404-503b-422a-be97a7b9d1b4@gmail.com>
+In-Reply-To: <487b94d0-a52b-824b-c29d-f88b4605b117@gmail.com>
 User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,110 +71,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikko Perttunen <cyndis@kapsi.fi>, David Airlie <airlied@linux.ie>,
- James Jones <jajones@nvidia.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1566344914=="
+Cc: David Airlie <airlied@linux.ie>, linux-tegra@vger.kernel.org,
+ James Jones <jajones@nvidia.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1206069215=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1566344914==
+--===============1206069215==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="MOE9NLKQk3uuQJql"
+	protocol="application/pgp-signature"; boundary="8a7+mhvPDJypAwVi"
 Content-Disposition: inline
 
 
---MOE9NLKQk3uuQJql
+--8a7+mhvPDJypAwVi
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 24, 2021 at 05:41:08PM +0300, Dmitry Osipenko wrote:
-> 23.03.2021 18:54, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > From: Thierry Reding <treding@nvidia.com>
+On Tue, Mar 23, 2021 at 10:05:23PM +0300, Dmitry Osipenko wrote:
+> 23.03.2021 21:24, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Tue, Mar 23, 2021 at 08:57:42PM +0300, Dmitry Osipenko wrote:
+> >> 23.03.2021 18:54, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>> @@ -920,15 +934,42 @@ static void tegra_cursor_atomic_update(struct d=
+rm_plane *plane,
+> >>>  	value =3D tegra_dc_readl(dc, DC_DISP_BLEND_CURSOR_CONTROL);
+> >>>  	value &=3D ~CURSOR_DST_BLEND_MASK;
+> >>>  	value &=3D ~CURSOR_SRC_BLEND_MASK;
+> >>> -	value |=3D CURSOR_MODE_NORMAL;
+> >>> +
+> >>> +	if (dc->soc->has_nvdisplay)
+> >>> +		value &=3D ~CURSOR_COMPOSITION_MODE_XOR;
+> >>> +	else
+> >>> +		value |=3D CURSOR_MODE_NORMAL;
+> >>> +
+> >>>  	value |=3D CURSOR_DST_BLEND_NEG_K1_TIMES_SRC;
+> >>>  	value |=3D CURSOR_SRC_BLEND_K1_TIMES_SRC;
+> >>>  	value |=3D CURSOR_ALPHA;
+> >>>  	tegra_dc_writel(dc, value, DC_DISP_BLEND_CURSOR_CONTROL);
+> >>> =20
+> >>> +	/* nvdisplay relies on software for clipping */
+> >>> +	if (dc->soc->has_nvdisplay) {
+> >>
+> >> But coordinates already should be clipped by
+> >> drm_atomic_helper_check_plane_state().
 > >=20
-> > Clarify when a fixed IOV address can be used and when a buffer has to
-> > be mapped before the IOVA can be used.
-> >=20
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> >  drivers/gpu/drm/tegra/plane.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/tegra/plane.c b/drivers/gpu/drm/tegra/plan=
-e.c
-> > index 19e8847a164b..793da5d675d2 100644
-> > --- a/drivers/gpu/drm/tegra/plane.c
-> > +++ b/drivers/gpu/drm/tegra/plane.c
-> > @@ -119,6 +119,14 @@ static int tegra_dc_pin(struct tegra_dc *dc, struc=
-t tegra_plane_state *state)
-> >  		dma_addr_t phys_addr, *phys;
-> >  		struct sg_table *sgt;
-> > =20
-> > +		/*
-> > +		 * If we're not attached to a domain, we already stored the
-> > +		 * physical address when the buffer was allocated. If we're
-> > +		 * part of a group that's shared between all display
-> > +		 * controllers, we've also already mapped the framebuffer
-> > +		 * through the SMMU. In both cases we can short-circuit the
-> > +		 * code below and retrieve the stored IOV address.
-> > +		 */
-> >  		if (!domain || dc->client.group)
-> >  			phys =3D &phys_addr;
-> >  		else
-> >=20
+> > Yes, and the driver goes on to use the clipped coordinates later on in
+> > this function.
 >=20
-> This comment is correct, but the logic feels a bit lame because it
-> should be wasteful to re-map DMA on each FB flip. Personally I don't
-> care much about this since older Tegras use pinned buffers by default,
-> but this shouldn't be good for T124+ users.
+> I see now what it does, looks okay.
+>=20
+> Minor nit: the i/j aren't very expressive names, something like sx/sy
+> sw/sh should be a bit more appropriate naming.
+>=20
+> You could also make use of drm_rect_width/height helpers.
+>=20
+> But this doesn't deserve a v2 if there is nothing more important to impro=
+ve.
 
-I'm not terribly thrilled by this either, but it's the only way to do
-this when using the DMA API because we don't know at allocation time (or
-import time for that matter) which of the (up to) 4 display controllers
-a framebuffer will be shown on. tegra_dc_pin() is the earliest where
-this is known and worst case that's called once per flip.
+As I was browsing through the drm_rect helpers, I also came across
+drm_rect_fp_to_int(), which helps simplify this further. As a result I
+was able to just get rid of most of these temporary variables in favor
+of just the integer version of drm_rect.
 
-When the IOMMU API is used explicitly, we always map framebuffers into
-the IOMMU domain shared by all display controllers at allocation or
-import time and then we don't need to pin at flip time anymore.
-
-I do have a work-in-progress patch somewhere that creates a mapping
-cache to mitigate this problem to some degree. I need to dig that up and
-do a few measurements because I vaguely recall this speeding up flips by
-quite a bit (well, except for the very first mapping, obviously).
-
-> Perhaps dumb buffers should be pinned to display by default and then we
-> should extend the Tegra UAPI to support BO mapping to display client(?).
-
-That would kind of defeat the purpose of a generic KMS UAPI.
+Thanks for the hint.
 
 Thierry
 
---MOE9NLKQk3uuQJql
+--8a7+mhvPDJypAwVi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmBbVGcACgkQ3SOs138+
-s6ESdQ/+NdmpXXTy+kfj08xBu0B2l8gbhdG6adBF4aOVFuPB0EwEKyxLuu53/X71
-m/BY61DL8narC8NACDbRv0vkkabv4yWj/GApc2dI6oTHwpyHhmHwGm+n7WLAXSUj
-RftK+EU1GoXDqzWwJJEv/2S0AZvUjQxnpCHNDU/lzyfeHejerSNL8GqtvYirzdjg
-7L+MlVTs8QTVGJRrbs97AVI5WaLRmvzSVId6gwUJZlOAg9mFGDzbhac1SyUj2csi
-F1l7yp9fNWOGaOwhCubULd2+9aXBOkkoLrH6IIa1BPNWF0l6yLMqMqdWQr/dadZU
-T/tCW/9Il+ieIIPmNJiIwGxSuu73zjxiS1HSST71a8uoR4jX4xtB0nVbLPt+MCCH
-oGUozUEGJPHdOFpca3+AulagTnwy/U2Ghi+/Ixz5MiTaDSL9JqgvsnrAWS52wTRj
-Ex5Z6yAMc3yGvuuMYFZ77zPvBN1lcCCosiH9rX7Yj8LSJGfZgtz525XdZZ0KiWwX
-VV3TenZomI1nZcM6Dd9mCKPmno/TFQfabqV6qEcMFJOV54sHSsK8W/tpUIonOqc0
-8xfo4CP8skJWN7nc/BNvLAPn9uJ68FnEyvoz5MqpwRCn4CHJDw1LMYOj6kWX0Cip
-SD93wAN286Mttms5gGXjiX64drX7TVlWtqxuwoCQoyBcdi1bwfQ=
-=5Bcx
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmBbVNIACgkQ3SOs138+
+s6FWtxAAt8h4TuclxE5yAV+CJVMHbWT9PtMeF3agHADYed6OqrdYK1Rgp9Q28k5J
+o92AH9QOjf3RsMVKJ+fcJQTrRA6vVjVqWNKw9T/ACa/kutuGZmDJLKPa6yOsnFo8
+vOTnH0YsZRubq51XD90v0CTR1Dvo3reo5Kl7351IxPLZvU29YsXzmoC0zQeon2+9
+NLnPaB8Ejy+ostty55IZoaVEfiotZ/nSv58iAVjCetSlH4HAEgFl/ZA19am4HVWb
+nDCiBoaDrOjlJpIIlo+R1YsEygBgh8BG4KEDkJYeaXV3UMa5vDSDan8T9wGZ2zMj
+xUEOox9hmf0sGIEcoFJlY2z+iqGCmzD1xKoxRUDWSST7fSOAqhY35fgKy1kiAAfL
+Ua/DCOLjCanErEhofZWBSk5n8cHPaKEezONi2QowGnp3nQ4nuET71VdN7az42gVv
+4PrHFsEk3vNAHLO6qALqKQ4OtfGv9nacBNBvy6ftOODmjfdwGWl9TjMIa+SrV5md
+yAILgy2yJd4052E9UZMd0jvFGwbMWlTAik0QIuYqPcvS/pcn5KjVieSMSLAm17By
+1tVx+HaEq3dObN6DnMHYtvvwMIgKBTz5LMderTsKx6gwacCFbJJQAUB6GDG0LXN3
+tt7EdlPkWgvwbHzpcJJgPKUy7CXcRpPYntxtSfxFSJIecNCsqKg=
+=EM7w
 -----END PGP SIGNATURE-----
 
---MOE9NLKQk3uuQJql--
+--8a7+mhvPDJypAwVi--
 
---===============1566344914==
+--===============1206069215==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -183,4 +172,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1566344914==--
+--===============1206069215==--
