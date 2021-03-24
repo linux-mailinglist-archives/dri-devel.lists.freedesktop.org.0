@@ -1,43 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17995346F51
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 03:16:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19DBF346F57
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 03:17:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 763056E1F3;
-	Wed, 24 Mar 2021 02:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AAC66E21D;
+	Wed, 24 Mar 2021 02:17:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E1D06E1F3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 02:16:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE1DB6E21D
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 02:17:26 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id F0F66580;
- Wed, 24 Mar 2021 03:16:19 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5A638580;
+ Wed, 24 Mar 2021 03:17:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1616552180;
- bh=Hd2VQ7lNiXk1pCzm4rwJktq9yUyVzN3a+2R3kbZYRI4=;
+ s=mail; t=1616552245;
+ bh=qmQLAPlk4G6/WYtsOH5D1LVgkD6Jy8yQNYSAiaOxFOM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TwwJ++fjgwH1f3m9Ood0w875sJxr2Ygyh71hLll6lgl6XYPexKlYtdRyOGL4cwN8Y
- AeZDpVKCxu5fqelUp956kcsSHHjOIq8HAu5FdFLuHZ4EIPYs5dZiUQN6wsRuuCJzpf
- YoZvgSpcoymCuK+wjeJK8byQ7QU1hm2d1xvhr9U0=
-Date: Wed, 24 Mar 2021 04:15:37 +0200
+ b=hjiGesnakNcI11YiR1n37fS+ZicFYib3eqRR5Y7wvWep3+rnjl0gVNb9/y/w0mWFK
+ cn3qV2pdgV9GiX9wF7zX9O3cV9Ut8MMpyy+iHoUY2x6iU9bHMmtUbnMuyfXjmbOBIh
+ C8mLVldMPkFMu9fJNqiEmRkziuUZO/F5ClsnnvgA=
+Date: Wed, 24 Mar 2021 04:16:43 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2 1/3] drm: bridge/panel: Cleanup connector on bridge
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v3 1/4] drm: bridge/panel: Cleanup connector on bridge
  detach
-Message-ID: <YFqgyTNt42vBe+w+@pendragon.ideasonboard.com>
-References: <20210120123535.40226-1-paul@crapouillou.net>
- <20210120123535.40226-2-paul@crapouillou.net>
- <CAKMK7uGGDe8bZpeTnyCkF7g_2gC1nixOzWe4FWYXPRWi-q5y7A@mail.gmail.com>
- <4YQ8NQ.HNQ7IMBKVEBV2@crapouillou.net>
- <CAKMK7uFHYPvJm46f-LXBO=nERGBBO3i_=YXZyAUi0ZXJFLmXVw@mail.gmail.com>
+Message-ID: <YFqhC6e/Gb2JrKyC@pendragon.ideasonboard.com>
+References: <20210124085552.29146-1-paul@crapouillou.net>
+ <20210124085552.29146-2-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uFHYPvJm46f-LXBO=nERGBBO3i_=YXZyAUi0ZXJFLmXVw@mail.gmail.com>
+In-Reply-To: <20210124085552.29146-2-paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,81 +49,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
  David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
- od@zcrc.me, stable <stable@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>, od@zcrc.me,
+ stable@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBKYW4gMjAsIDIwMjEgYXQgMDY6Mzg6MDNQTSArMDEwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBPbiBXZWQsIEphbiAyMCwgMjAyMSBhdCA2OjEyIFBNIFBhdWwgQ2VyY3VlaWwgd3Jv
-dGU6Cj4gPiBMZSBtZXIuIDIwIGphbnYuIDIwMjEgw6AgMTc6MDMsIERhbmllbCBWZXR0ZXIgYSDD
-qWNyaXQgOgo+ID4gPiBPbiBXZWQsIEphbiAyMCwgMjAyMSBhdCAxOjM1IFBNIFBhdWwgQ2VyY3Vl
-aWwgd3JvdGU6Cj4gPiA+Pgo+ID4gPj4gIElmIHdlIGRvbid0IGNhbGwgZHJtX2Nvbm5lY3Rvcl9j
-bGVhbnVwKCkgbWFudWFsbHkgaW4KPiA+ID4+ICBwYW5lbF9icmlkZ2VfZGV0YWNoKCksIHRoZSBj
-b25uZWN0b3Igd2lsbCBiZSBjbGVhbmVkIHVwIHdpdGggdGhlIG90aGVyCj4gPiA+PiAgRFJNIG9i
-amVjdHMgaW4gdGhlIGNhbGwgdG8gZHJtX21vZGVfY29uZmlnX2NsZWFudXAoKS4gSG93ZXZlciwg
-c2luY2Ugb3VyCj4gPiA+PiAgZHJtX2Nvbm5lY3RvciBpcyBkZXZtLWFsbG9jYXRlZCwgYnkgdGhl
-IHRpbWUgZHJtX21vZGVfY29uZmlnX2NsZWFudXAoKQo+ID4gPj4gIHdpbGwgYmUgY2FsbGVkLCBv
-dXIgY29ubmVjdG9yIHdpbGwgYmUgbG9uZyBnb25lLiBUaGVyZWZvcmUsIHRoZQo+ID4gPj4gIGNv
-bm5lY3RvciBtdXN0IGJlIGNsZWFuZWQgdXAgd2hlbiB0aGUgYnJpZGdlIGlzIGRldGFjaGVkIHRv
-IGF2b2lkCj4gPiA+PiAgdXNlLWFmdGVyLWZyZWUgY29uZGl0aW9ucy4KPiA+ID4KPiA+ID4gRm9y
-IC1maXhlcyB0aGlzIHNvdW5kcyBvaywgYnV0IGZvciAtbmV4dCBJIHRoaW5rIHN3aXRjaGluZyB0
-byBkcm1tXwo+ID4gPiB3b3VsZCBiZSBtdWNoIGJldHRlci4KPiA+Cj4gPiBUaGUgQVBJIHdvdWxk
-IG5lZWQgdG8gY2hhbmdlIHRvIGhhdmUgYWNjZXNzIHRvIHRoZSBkcm1fZGV2aWNlIHN0cnVjdCwK
-PiA+IHRob3VnaC4gVGhhdCB3b3VsZCBiZSBxdWl0ZSBhIGJpZyBwYXRjaCwgdGhlcmUgYXJlIGEg
-ZmV3IGRvemVucyBzb3VyY2UKPiA+IGZpbGVzIHRoYXQgdXNlIHRoaXMgQVBJIGFscmVhZHkuCj4g
-Cj4gSG0gcmlnaHQgcHVyZSBkcm1tXyBkb2Vzbid0IHdvcmsgZm9yIHBhbmVsIG9yIGJyaWRnZSBz
-aW5jZSBpdCdzCj4gdXN1YWxseSBhIHNlcGFyYXRlIGRyaXZlci4gQnV0IGRldm1fIGFsc28gZG9l
-c24ndCB3b3JrLiBJIHRoaW5rIHdoYXQKPiB3ZSBuZWVkIGhlcmUgaXMgdHdvLXN0YWdlOiBmaXJz
-dCBrbWFsbG9jIHRoZSBwYW5lbCAob3IgYnJpZGdlLCBpdCdzCj4gcmVhbGx5IHRoZSBzYW1lKSBp
-biB0aGUgcGFuZWwvYnJpZGdlIGRyaXZlciBsb2FkLiBUaGVuIHdoZW4gd2UgYmluZCBpdAo+IHRv
-IHRoZSBkcm1fZGV2aWNlIHdlIGNhbiB0aWUgaXQgaW50byB0aGUgbWFuYWdlZCByZXNvdXJjZXMg
-d2l0aAo+IGRybW1fYWRkX2FjdGlvbl9vcl9yZXNldC4gUGFzc2luZyB0aGUgZHJtX2RldmljZSB0
-byB0aGUgcG9pbnQgd2hlcmUgd2UKPiBhbGxvY2F0ZSB0aGUgcGFuZWwvYnJpZGdlIGRvZXNuJ3Qg
-d29yayBmb3IgdGhlc2UuCj4gCj4gSSB0aGluayBtaW5pbWFsbHkgd2UgbmVlZCBhIEZJWE1FIGhl
-cmUgYW5kIGFjayBmcm9tIExhdXJlbnQgb24gaG93Cj4gdGhpcyBzaG91bGQgYmUgc29sdmVkIGF0
-IGxlYXN0LCBzaW5jZSBwYW5lbCBicmlkZ2UgaXMgdXNlZCByYXRoZXIKPiB3aWRlbHkuCgpCcmlk
-Z2UgcmVtb3ZhbCBpcyBjb21wbGV0ZWx5IGJyb2tlbi4gSWYgeW91IHVuYmluZCBhIGJyaWRnZSBk
-cml2ZXIgZnJvbQp0aGUgZGV2aWNlLCB0aGUgYnJpZGdlIHdpbGwgYmUgdW5yZWdpc3RlcmVkIGFu
-ZCByZXNvdXJjZXMgZnJlZWQsIHdpdGhvdXQKdGhlIGRpc3BsYXkgZHJpdmVyIGtub3dpbmcgYWJv
-dXQgdGhpcy4gVGhlIGxpZmV0aW1lIG9mIHRoZSBkcm1fYnJpZGdlCnN0cnVjdHVyZSBpdHNlbGYg
-aXNuJ3QgdGhlIG9ubHkgaXNzdWUgdG8gYmUgYWRkcmVzc2VkIGhlcmUsIGl0J3MgYnJvYWRlcgp0
-aGFuIHRoYXQsIGFuZCBuZWVkcyB0byBjb25zaWRlciB0aGF0IHRoZSBkaXNwbGF5IGRyaXZlciBj
-b3VsZCBiZQpjYWxsaW5nIHRoZSBicmlkZ2Ugb3BlcmF0aW9ucyBjb25jdXJyZW50bHkgdG8gdGhl
-IHJlbW92YWwuCgpXZSBuZWVkIGEgdm9sdW50ZWVyIHdpdGggZW5vdWdoIG1vdGl2YXRpb24gdG8g
-c29sdmUgdGhpcyBzdWJzeXN0ZW0td2lkZQo6LSkgSW4gdGhlIG1lYW50aW1lLCB3aGF0ZXZlciBz
-aG9ydGN1dCBhZGRyZXNzZXMgaW1tZWRpYXRlIGlzc3VlcyBpcwpwcm9iYWJseSBmaW5lLCBhcyB5
-YWstc2hhdmluZyBpbiB0aGlzIGFyZWEgd291bGQgZGVmaW5pdGVseSBub3QgYmUKcmVhc29uYWJs
-ZS4KCj4gPiA+PiB2MjogQ2xlYW51cCBjb25uZWN0b3Igb25seSBpZiBpdCB3YXMgY3JlYXRlZAo+
-ID4gPj4KPiA+ID4+IEZpeGVzOiAxM2RmYzA1NDBhNTcgKCJkcm0vYnJpZGdlOiBSZWZhY3RvciBv
-dXQgdGhlIHBhbmVsIHdyYXBwZXIgZnJvbSB0aGUgbHZkcy1lbmNvZGVyIGJyaWRnZS4iKQo+ID4g
-Pj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIDQuMTIrCj4gPiA+PiBDYzogQW5kcnpl
-aiBIYWpkYSA8YS5oYWpkYUBzYW1zdW5nLmNvbT4KPiA+ID4+IENjOiBOZWlsIEFybXN0cm9uZyA8
-bmFybXN0cm9uZ0BiYXlsaWJyZS5jb20+Cj4gPiA+PiBDYzogTGF1cmVudCBQaW5jaGFydCA8TGF1
-cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgo+ID4gPj4gQ2M6IEpvbmFzIEthcmxtYW4g
-PGpvbmFzQGt3aWJvby5zZT4KPiA+ID4+IENjOiBKZXJuZWogU2tyYWJlYyA8amVybmVqLnNrcmFi
-ZWNAc2lvbC5uZXQ+Cj4gPiA+PiBTaWduZWQtb2ZmLWJ5OiBQYXVsIENlcmN1ZWlsIDxwYXVsQGNy
-YXBvdWlsbG91Lm5ldD4KPiA+ID4+IC0tLQo+ID4gPj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
-cGFuZWwuYyB8IDYgKysrKysrCj4gPiA+PiAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygr
-KQo+ID4gPj4KPiA+ID4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3BhbmVs
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3BhbmVsLmMKPiA+ID4+IGluZGV4IDBkZGMzNzU1
-MTE5NC4uZGY4NmIwZWUwNTQ5IDEwMDY0NAo+ID4gPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Jy
-aWRnZS9wYW5lbC5jCj4gPiA+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3BhbmVsLmMK
-PiA+ID4+IEBAIC04Nyw2ICs4NywxMiBAQCBzdGF0aWMgaW50IHBhbmVsX2JyaWRnZV9hdHRhY2go
-c3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSwKPiA+ID4+Cj4gPiA+PiAgc3RhdGljIHZvaWQgcGFu
-ZWxfYnJpZGdlX2RldGFjaChzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQo+ID4gPj4gIHsKPiA+
-ID4+ICsJc3RydWN0IHBhbmVsX2JyaWRnZSAqcGFuZWxfYnJpZGdlID0gZHJtX2JyaWRnZV90b19w
-YW5lbF9icmlkZ2UoYnJpZGdlKTsKPiA+ID4+ICsJc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5l
-Y3RvciA9ICZwYW5lbF9icmlkZ2UtPmNvbm5lY3RvcjsKPiA+ID4+ICsKPiA+ID4+ICsJLyogQ2xl
-YW51cCB0aGUgY29ubmVjdG9yIGlmIHdlIGtub3cgaXQgd2FzIGluaXRpYWxpemVkICovCj4gPiA+
-PiArCWlmICghIXBhbmVsX2JyaWRnZS0+Y29ubmVjdG9yLmRldikKPiA+ID4+ICsJCWRybV9jb25u
-ZWN0b3JfY2xlYW51cChjb25uZWN0b3IpOwo+ID4gPj4gIH0KPiA+ID4+Cj4gPiA+PiAgc3RhdGlj
-IHZvaWQgcGFuZWxfYnJpZGdlX3ByZV9lbmFibGUoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSkK
-Ci0tIApSZWdhcmRzLAoKTGF1cmVudCBQaW5jaGFydApfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Paul,
+
+Thank you for the patch.
+
+On Sun, Jan 24, 2021 at 08:55:49AM +0000, Paul Cercueil wrote:
+> If we don't call drm_connector_cleanup() manually in
+> panel_bridge_detach(), the connector will be cleaned up with the other
+> DRM objects in the call to drm_mode_config_cleanup(). However, since our
+> drm_connector is devm-allocated, by the time drm_mode_config_cleanup()
+> will be called, our connector will be long gone. Therefore, the
+> connector must be cleaned up when the bridge is detached to avoid
+> use-after-free conditions.
+> 
+> v2: Cleanup connector only if it was created
+> 
+> v3: Add FIXME
+> 
+> Fixes: 13dfc0540a57 ("drm/bridge: Refactor out the panel wrapper from the lvds-encoder bridge.")
+> Cc: <stable@vger.kernel.org> # 4.12+
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>  drivers/gpu/drm/bridge/panel.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+> index 0ddc37551194..5959e8183cd0 100644
+> --- a/drivers/gpu/drm/bridge/panel.c
+> +++ b/drivers/gpu/drm/bridge/panel.c
+> @@ -87,6 +87,18 @@ static int panel_bridge_attach(struct drm_bridge *bridge,
+>  
+>  static void panel_bridge_detach(struct drm_bridge *bridge)
+>  {
+> +	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
+> +	struct drm_connector *connector = &panel_bridge->connector;
+> +
+> +	/*
+> +	 * Cleanup the connector if we know it was initialized.
+> +	 *
+> +	 * FIXME: This wouldn't be needed if the panel_bridge structure was
+> +	 * allocated with drmm_kzalloc(). This might be tricky since the
+> +	 * drm_device pointer can only be retrieved when the bridge is attached.
+> +	 */
+> +	if (!!panel_bridge->connector.dev)
+
+How about simply
+
+	if (connector->dev)
+
+? With this change,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +		drm_connector_cleanup(connector);
+>  }
+>  
+>  static void panel_bridge_pre_enable(struct drm_bridge *bridge)
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
