@@ -1,48 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A539347ADE
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 15:37:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC74347AF0
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 15:41:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDEFF6EA0E;
-	Wed, 24 Mar 2021 14:37:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A1286EA0F;
+	Wed, 24 Mar 2021 14:41:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33D9F6EA0E;
- Wed, 24 Mar 2021 14:37:19 +0000 (UTC)
-IronPort-SDR: rrz0eSjykUBm8lU5u1rGd466fmhE5YASFKiwrgLnVmrTuD/n+0SHudN52Foe6nDdhkcIm1DcRX
- vyuczifN9Aog==
-X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="188414255"
-X-IronPort-AV: E=Sophos;i="5.81,274,1610438400"; d="scan'208";a="188414255"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2021 07:37:18 -0700
-IronPort-SDR: q2dIgfJkIaJDycQPdKI/Vmr10WEOUDn8hG92lNmPYw32zKYHOUyPCnbTOLVK3T0gxqGJj1MxqN
- 1NOg0jaZ4d+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,274,1610438400"; d="scan'208";a="415514592"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga008.jf.intel.com with SMTP; 24 Mar 2021 07:37:15 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 24 Mar 2021 16:37:14 +0200
-Date: Wed, 24 Mar 2021 16:37:14 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [Intel-gfx] [PATCH resend 2/2] drm/i915/display: Make
- vlv_find_free_pps() skip pipes which are in use for non DP purposes
-Message-ID: <YFtOmoklro5vnQsH@intel.com>
-References: <20210302120040.94435-1-hdegoede@redhat.com>
- <20210302120040.94435-3-hdegoede@redhat.com>
- <YD5Q8mA6y4/qcelo@intel.com>
- <d620fd9d-1685-3b2a-7c3b-a5d5fa6daddc@redhat.com>
- <YFtGjHEdkMfR3bLr@intel.com>
- <7d9bb155-5e07-161d-c699-581d89b9fb39@redhat.com>
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18B5A6EA0F
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 14:41:12 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id g8so25222806lfv.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 07:41:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qYlws7H6Jxfn/y4LVXeYz0t3nAbGfGiXv+hhlwSEdmM=;
+ b=XsWZxAgOc3IKw5oLV+VZfY4JXCt3mKEVAxc/A7MMF5Cd1DYpDYyvm6y6bdBvYeA4jK
+ TIhxFmxKQf9iEoKwHPQnjZyRKwOnFmKOgZN25tpOdAy+pq53KhGR6/L/4kY91Rj0N7wz
+ 1GJHE7y2iJ67eG3CwRm3lWyO82Fsxt0XG0PyZMSGN1SH7WmC+6RSi31Of8tk/yjq2dDT
+ Fy+IIiiWHIC4sM0AUXR9eaZJhSBbgrYOqc35jNiuxfMgLI7R88gRJ1EzIv1luZQ7pRT/
+ p9hQfUKKT6dw8vMbOexkD3l2d4kyOkc8aX7Cc/d+terIIOggUlBX0It7HThwdrLAf1cs
+ fB4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qYlws7H6Jxfn/y4LVXeYz0t3nAbGfGiXv+hhlwSEdmM=;
+ b=NFmzxhEonna/aaE/vqrijEYtRYUl1qNokoWUZqS+kmGHYInvDOWx94KOT0LWceezA9
+ NfI471zEBnQSoEaxxIPCwXjF3O1XtpGcMwgwSoTbJR/vF5Zygu8kWlta04fodj8pA32X
+ h/QcWlLak6WQ3ysJeCHnBEwVBI5hZMli55Pu5jePIrE3fFVJRNYyDfbm2Z8DuoMwozaZ
+ ELZDZfsMJp9ErDZT9vPIglzlxnn5G8tiCvmNGq33uJU1Qg8L7plhJy5DVkbWMg3sBpbG
+ 0I8sY5xRyTytsCH29oOujq/zAEBXLiHFxeANiUHYuYM0HNSj4u8dVwvhVv5fx7fO6bUM
+ a1AA==
+X-Gm-Message-State: AOAM530alGuhXHvzRu+C7xyQZ+z4g1bxLv8I9LjweV/lO/4qrrC85c0T
+ 1lhKDyG3iZyvxu/EEQrgVsE=
+X-Google-Smtp-Source: ABdhPJx4UTSUgLO2cfpzNf2uVmX5cnFnbZ3G5cLjKVxLPhGHmHxi/QQCPnuocUeefxyCeV1Zz2uL8g==
+X-Received: by 2002:ac2:4298:: with SMTP id m24mr2230404lfh.429.1616596870491; 
+ Wed, 24 Mar 2021 07:41:10 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-193-60.dynamic.spd-mgts.ru.
+ [109.252.193.60])
+ by smtp.googlemail.com with ESMTPSA id l21sm249737lfc.91.2021.03.24.07.41.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Mar 2021 07:41:09 -0700 (PDT)
+Subject: Re: [PATCH 6/9] drm/tegra: gem: Add a clarifying comment
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <cyndis@kapsi.fi>
+References: <20210323155437.513497-1-thierry.reding@gmail.com>
+ <20210323155437.513497-7-thierry.reding@gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <21d2e691-6404-503b-422a-be97a7b9d1b4@gmail.com>
+Date: Wed, 24 Mar 2021 17:41:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <7d9bb155-5e07-161d-c699-581d89b9fb39@redhat.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <20210323155437.513497-7-thierry.reding@gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,167 +72,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+Cc: David Airlie <airlied@linux.ie>, linux-tegra@vger.kernel.org,
+ James Jones <jajones@nvidia.com>, Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 24, 2021 at 03:10:59PM +0100, Hans de Goede wrote:
-> Hi,
-> =
-
-> On 3/24/21 3:02 PM, Ville Syrj=E4l=E4 wrote:
-> > On Tue, Mar 23, 2021 at 11:39:09AM +0100, Hans de Goede wrote:
-> >> Hi,
-> >>
-> >> On 3/2/21 3:51 PM, Ville Syrj=E4l=E4 wrote:
-> >>> On Tue, Mar 02, 2021 at 01:00:40PM +0100, Hans de Goede wrote:
-> >>>> As explained by a long comment block, on VLV intel_setup_outputs()
-> >>>> sometimes thinks there might be an eDP panel connected while there i=
-s none.
-> >>>> In this case intel_setup_outputs() will call intel_dp_init() to chec=
-k.
-> >>>>
-> >>>> In this scenario vlv_find_free_pps() ends up selecting pipe A for th=
-e pps,
-> >>>> even though this might be in use for non DP purposes. When this is t=
-he case
-> >>>> then the assert_pipe() in vlv_force_pll_on() will fail when called f=
-rom
-> >>>> vlv_power_sequencer_kick().
-> >>>
-> >>> The idea is that you *can* select a PPS from a pipe used for a non-DP
-> >>> port since those don't care about the PPS stuff. So this doesn't seem
-> >>> correct.
-> >>
-> >> They may not care about the PPS stuff, but as the WARN / backtrace
-> >> shows if the DPLL_VCO_ENABLE bit is not already set for the pipe, while
-> >> the pipe is "otherwise" in use then vlv_force_pll_on() becomes unhappy
-> >> triggering the WARN.DPLL_VCO_ENABLE bit is not
-> >>
-> >>> a) I would like to see the VBT for this machine
-> >>
-> >> https://fedorapeople.org/~jwrdegoede/voyo-winpad-a15-vbt
-> >>
-> >>> b) I wonder if the DSI PLL is sufficient for getting the PPS going?
-> >>
-> >> I have no idea, I just noticed the WARN / backtrace and this seemed
-> >> like a reasonably way to deal with it. With that said I'm fine with fi=
-xing
-> >> this a different way.
-> >>
-> >>> c) If we do need the normal DPLL is there any harm to DSI in enabling=
- it?
-> >>
-> >> I would assume this increases power-consumption and DSI panels are alm=
-ost
-> >> always used in battery powered devices.
-> > =
-
-> > This is just used while probing the panel, so power consumption is
-> > not a concern.
-> =
-
-> Sorry I misinterpreted what you wrote, I interpreted it as have the DSI
-> code enable it to avoid this problem. I see now that that is now what
-> you meant.
-> =
-
-> >> Also this would impact all BYT/CHT devices, possible triggering unwant=
-ed
-> >> side-effects. Where as the proposed fix below is much more narrowly ta=
-rgeted
-> >> at the problem. It might not be the most pretty fix but AFAICT it has =
-a low
-> >> risk of causing regressions.
-> > =
-
-> > It rather significantly changes the logic of the workaround, potentially
-> > causing us to not find a free PPS at all. Eg. if you were to boot with
-> > a VLV with pipe A -> eDP B + eDP C inactive + pipe B -> VGA then your
-> > change would cause us to not find the free pipe B PPS for probing eDP C,
-> > and in the end we'd get a WARN and fall back to pipe A PPS which would
-> > clobber the actually in use pipe A PPS.
-> =
-
-> I would welcome, and will happily test, another fix for this. ATM we
-> have a WARN triggering on actual hardware (and not just in a hypothetical
-> example) and I would like to see that WARN fixed. If you can come up with
-> a better fix I would be happy to test.
-
-Well, I think there are a couple things we want to experiment wiht:
-
-a) Just skip the asserts and see if enabling the DPLL/poking the PPS
-   perturbs the DSI output in any way.
-
---- a/drivers/gpu/drm/i915/display/intel_dpll.c
-+++ b/drivers/gpu/drm/i915/display/intel_dpll.c
-@@ -1467,7 +1467,7 @@ void vlv_enable_pll(struct intel_crtc *crtc,
- 	struct drm_i915_private *dev_priv =3D to_i915(crtc->base.dev);
- 	enum pipe pipe =3D crtc->pipe;
- =
-
--	assert_pipe_disabled(dev_priv, pipe_config->cpu_transcoder);
-+	//assert_pipe_disabled(dev_priv, pipe_config->cpu_transcoder);
- =
-
- 	/* PLL is protected by panel, make sure we can write it */
- 	assert_panel_unlocked(dev_priv, pipe);
-@@ -1800,7 +1800,7 @@ void vlv_disable_pll(struct drm_i915_private *dev_pri=
-v, enum pipe pipe)
- 	u32 val;
- =
-
- 	/* Make sure the pipe isn't still relying on us */
--	assert_pipe_disabled(dev_priv, (enum transcoder)pipe);
-+	//assert_pipe_disabled(dev_priv, (enum transcoder)pipe);
- =
-
- 	val =3D DPLL_INTEGRATED_REF_CLK_VLV |
- 		DPLL_REF_CLK_ENABLE_VLV | DPLL_VGA_MODE_DIS;
---- a/drivers/gpu/drm/i915/display/intel_pps.c
-+++ b/drivers/gpu/drm/i915/display/intel_pps.c
-@@ -110,6 +110,8 @@ vlv_power_sequencer_kick(struct intel_dp *intel_dp)
- 	intel_de_write(dev_priv, intel_dp->output_reg, DP & ~DP_PORT_EN);
- 	intel_de_posting_read(dev_priv, intel_dp->output_reg);
- =
-
-+	msleep(1000); // just to make sure we keep angering DSI for a bit longer
-+
- 	if (!pll_enabled) {
- 		vlv_force_pll_off(dev_priv, pipe);
- =
-
-
-b) Don't enable the DPLL at all and see if the DSI PLL is capable of
-   clocking the PPS. My gut feeling says this will not work and we
-   should see the PPS state machine not make progress, but not sure.
-
---- a/drivers/gpu/drm/i915/display/intel_pps.c
-+++ b/drivers/gpu/drm/i915/display/intel_pps.c
-@@ -77,7 +77,7 @@ vlv_power_sequencer_kick(struct intel_dp *intel_dp)
- 	else
- 		DP |=3D DP_PIPE_SEL(pipe);
- =
-
--	pll_enabled =3D intel_de_read(dev_priv, DPLL(pipe)) & DPLL_VCO_ENABLE;
-+	pll_enabled =3D true;//intel_de_read(dev_priv, DPLL(pipe)) & DPLL_VCO_ENA=
-BLE;
- =
-
- 	/*
- 	 * The DPLL for the pipe must be enabled for this to work.
-
-I do have DSI VLV machine at the office, so I can also try to poke it a
-bit next time I'm at the office.
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MjMuMDMuMjAyMSAxODo1NCwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBGcm9tOiBUaGll
+cnJ5IFJlZGluZyA8dHJlZGluZ0BudmlkaWEuY29tPgo+IAo+IENsYXJpZnkgd2hlbiBhIGZpeGVk
+IElPViBhZGRyZXNzIGNhbiBiZSB1c2VkIGFuZCB3aGVuIGEgYnVmZmVyIGhhcyB0bwo+IGJlIG1h
+cHBlZCBiZWZvcmUgdGhlIElPVkEgY2FuIGJlIHVzZWQuCj4gCj4gU2lnbmVkLW9mZi1ieTogVGhp
+ZXJyeSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJt
+L3RlZ3JhL3BsYW5lLmMgfCA4ICsrKysrKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlv
+bnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL3BsYW5lLmMgYi9k
+cml2ZXJzL2dwdS9kcm0vdGVncmEvcGxhbmUuYwo+IGluZGV4IDE5ZTg4NDdhMTY0Yi4uNzkzZGE1
+ZDY3NWQyIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9wbGFuZS5jCj4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL3BsYW5lLmMKPiBAQCAtMTE5LDYgKzExOSwxNCBAQCBz
+dGF0aWMgaW50IHRlZ3JhX2RjX3BpbihzdHJ1Y3QgdGVncmFfZGMgKmRjLCBzdHJ1Y3QgdGVncmFf
+cGxhbmVfc3RhdGUgKnN0YXRlKQo+ICAJCWRtYV9hZGRyX3QgcGh5c19hZGRyLCAqcGh5czsKPiAg
+CQlzdHJ1Y3Qgc2dfdGFibGUgKnNndDsKPiAgCj4gKwkJLyoKPiArCQkgKiBJZiB3ZSdyZSBub3Qg
+YXR0YWNoZWQgdG8gYSBkb21haW4sIHdlIGFscmVhZHkgc3RvcmVkIHRoZQo+ICsJCSAqIHBoeXNp
+Y2FsIGFkZHJlc3Mgd2hlbiB0aGUgYnVmZmVyIHdhcyBhbGxvY2F0ZWQuIElmIHdlJ3JlCj4gKwkJ
+ICogcGFydCBvZiBhIGdyb3VwIHRoYXQncyBzaGFyZWQgYmV0d2VlbiBhbGwgZGlzcGxheQo+ICsJ
+CSAqIGNvbnRyb2xsZXJzLCB3ZSd2ZSBhbHNvIGFscmVhZHkgbWFwcGVkIHRoZSBmcmFtZWJ1ZmZl
+cgo+ICsJCSAqIHRocm91Z2ggdGhlIFNNTVUuIEluIGJvdGggY2FzZXMgd2UgY2FuIHNob3J0LWNp
+cmN1aXQgdGhlCj4gKwkJICogY29kZSBiZWxvdyBhbmQgcmV0cmlldmUgdGhlIHN0b3JlZCBJT1Yg
+YWRkcmVzcy4KPiArCQkgKi8KPiAgCQlpZiAoIWRvbWFpbiB8fCBkYy0+Y2xpZW50Lmdyb3VwKQo+
+ICAJCQlwaHlzID0gJnBoeXNfYWRkcjsKPiAgCQllbHNlCj4gCgpUaGlzIGNvbW1lbnQgaXMgY29y
+cmVjdCwgYnV0IHRoZSBsb2dpYyBmZWVscyBhIGJpdCBsYW1lIGJlY2F1c2UgaXQKc2hvdWxkIGJl
+IHdhc3RlZnVsIHRvIHJlLW1hcCBETUEgb24gZWFjaCBGQiBmbGlwLiBQZXJzb25hbGx5IEkgZG9u
+J3QKY2FyZSBtdWNoIGFib3V0IHRoaXMgc2luY2Ugb2xkZXIgVGVncmFzIHVzZSBwaW5uZWQgYnVm
+ZmVycyBieSBkZWZhdWx0LApidXQgdGhpcyBzaG91bGRuJ3QgYmUgZ29vZCBmb3IgVDEyNCsgdXNl
+cnMuCgpQZXJoYXBzIGR1bWIgYnVmZmVycyBzaG91bGQgYmUgcGlubmVkIHRvIGRpc3BsYXkgYnkg
+ZGVmYXVsdCBhbmQgdGhlbiB3ZQpzaG91bGQgZXh0ZW5kIHRoZSBUZWdyYSBVQVBJIHRvIHN1cHBv
+cnQgQk8gbWFwcGluZyB0byBkaXNwbGF5IGNsaWVudCg/KS4KX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
