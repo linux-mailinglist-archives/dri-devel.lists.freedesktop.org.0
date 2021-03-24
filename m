@@ -2,61 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263C9347C88
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:25:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76420347C8E
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:26:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 643486EA34;
-	Wed, 24 Mar 2021 15:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54A626EC73;
+	Wed, 24 Mar 2021 15:26:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30E906EA34
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:25:30 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id p19so13130832wmq.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:25:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
+ [IPv6:2607:f8b0:4864:20::734])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8254C6EC54;
+ Wed, 24 Mar 2021 15:26:22 +0000 (UTC)
+Received: by mail-qk1-x734.google.com with SMTP id c4so18382015qkg.3;
+ Wed, 24 Mar 2021 08:26:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=38XNAPAOtkSkDub8Za/ZC9xfQoP9/8c9e+Q5QlscP/8=;
- b=KvE2KNqC2oVZztYTGjx3aQERdJ08vE8iyMLxhQxCv02mEEStzFkAiHxyUI4g+adCCh
- omb6hePHhsBnLbuqkFXMzYyxEsw3xn/t/nnR10mUiMotu4jxBsMXMIgR0I94/2SU8nXH
- s6WzYLqmic/ecuOV0nuSM7zjiuBWaaSoDqn6Yj9gxTpzn+705xd18WZsokk6zfiq9k0M
- koh9hDbU8UoP6TSe/fKceFlKIw+Y3dUvVdTV9w4mz9tJ2jFZCjawzNsbVx8NaeWfw/0g
- MtC/j6HFi8rlwwNenw7CLaCB1TJcPskV1VN8G9snomnpGcH3RnH7GEuwGqI0DShjg4Fc
- 0AUA==
+ :cc; bh=akWd9UecgJJi22GJMZCCcEB+66p22ov4QxG8/eVZ8SM=;
+ b=rHX9x7EGHw6JuVtwxTRJKtf4p2fde38CJnxK9oy1GqBjDA7t2dEMMxP2Q/OwwvXVOC
+ YOVh63RlM/gwV+9YvKIkSrknRM5HMgWgpY8lPP2qa1+cT7X+Tz8Qfi9y5gRNyNK4XrFr
+ FJjkhg8Stn+MJ0EXxg0x3LRVaidJnf57eYkjC1mfulGqtL2oTmDsZYoiGYUHKru+zfQI
+ yQk7hS4Va8fNTZL1umXaodyGFOG/WQTT4qjQJRs+c3rauu0QWPFk8PJl1DFYJ3aH6O4w
+ rgAxtIIfWnGfYqIgqLombndI/6CMtRfgvS3ZtwJF58K3qeBmHvCK6cbqdX5294tfdRrg
+ siNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=38XNAPAOtkSkDub8Za/ZC9xfQoP9/8c9e+Q5QlscP/8=;
- b=nqnHm+RZCljAPdwByaMV3KgSmBgHupKdm/3h0dOuueMo3uuLRZh+fQZfTgMSXCINAO
- E+i4JLjINBlQ5xpAzN6eq3zI78/yprjs0Fig2Ml5wuJjyHQ4VeX56TOXgkIjw7wEcGdr
- 5cG+GwRn+ognsv6omRU0dUODIfFUxKerZCqJSE5vQ6amA5lW0sPaL67cUh1ZLYAoQgM8
- VRP58vxxV3U3C7+G2dpwvRP6+Ao7ak04dUNFhJdFTKXgZt1wJMiiPvDSl/M3+jjitfhh
- j+lbh1xM7p7ruEZUxGHVf47U6M28oo0CG1ql6bs6PCxXGTKlVI3DpX/y0YO5indl+YT+
- +3pA==
-X-Gm-Message-State: AOAM530uzhnCRKqw5xmv8uBxDHRgvjvpCl0NufiaA7tCb4Ho9s6f4RQI
- 61qBaM5uVqC+Zog4e77CmG14OhF1CY7azYb9RR2H3g==
-X-Google-Smtp-Source: ABdhPJzoolMahZmBdLfU/dhyVUVupB+MiFH3y+ebygFNeE31+7fpUNu7+kLQSo6yEf8vtfNKqu9LHExiEP9ZZfjNjJk=
-X-Received: by 2002:a05:600c:2946:: with SMTP id
- n6mr3469952wmd.52.1616599528721; 
- Wed, 24 Mar 2021 08:25:28 -0700 (PDT)
+ bh=akWd9UecgJJi22GJMZCCcEB+66p22ov4QxG8/eVZ8SM=;
+ b=kvVY3o1f8VYxbjeQ81Ps6XWRkF6V9MtOSjDhBOsXp5UVQ5pqB8c5FwD6pI9XCFE4PB
+ 1SBgMJUJIsGtIAJn6J4irbw5kkDrwbYPgfRGTIKimOE3ud3wgnyLReeSTzJpE933oup+
+ Ug5VnGGQxtE5LTpOrGNj94LIjW3YB3ZRzHCfuC+Vg3lNI5i4h59avKFtDUhnyTxFoa3V
+ RhQL5QWS3b6nz40FyqU+QUtNcOGtZVyJIcJqQLwspQISV8dzmTdxKA9gxwcirlmkb6dl
+ CTQAqw28/jNc1Y8RJgeNfSuOSqiIdW9mnNeRi7xnNIO+rzq0I4vpw4RMykUJI2I/bagL
+ 5VIw==
+X-Gm-Message-State: AOAM533+KlFI8T2d4VV2KQQfd045UjIFS66J+V0F+ApxYjApxPcVVVRi
+ q/5+7uGjd3LGfXLHHRLS+vDz0OsXMSuqaxiDwKPDeE1+YOU=
+X-Google-Smtp-Source: ABdhPJwhQb9/V0McGNIh1doqZ0fHxay1NCot0OrSqPNK9Lc2dFDYfdz1E4tNVsD4jxQYG+z4CpAxk94C9UR1g5KWxA0=
+X-Received: by 2002:a05:620a:13ec:: with SMTP id
+ h12mr3490069qkl.460.1616599581743; 
+ Wed, 24 Mar 2021 08:26:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210310161444.1015500-1-markyacoub@chromium.org>
- <CADnq5_P9aYcedOP2qduSz7VN1fCSnmQEtPa+FdjYu9Co7TwPog@mail.gmail.com>
- <CAC0gqY7Y2WxtAZ3GnWmASPYq7ahYTfmPhOHAAX5UjMNS9k098w@mail.gmail.com>
- <b4070483-5aa5-c712-6435-dcb4a206ca76@daenzer.net>
- <CAP+8YyExtmmZbFfAO_YR=XWHE+HbH6m7JqyJV4LB_hbGwsihBA@mail.gmail.com>
- <CAPj87rP+WkUPbS3yyGGfy0SRm_hsnCCUav99Dg2Q+tXCiJ5D+A@mail.gmail.com>
- <CAJUqKUqQ0yrxpr+QVRXYXMk1hBRNByD0TP6mM0oLY54jDZimbw@mail.gmail.com>
-In-Reply-To: <CAJUqKUqQ0yrxpr+QVRXYXMk1hBRNByD0TP6mM0oLY54jDZimbw@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 24 Mar 2021 15:25:03 +0000
-Message-ID: <CAPj87rMGcha9jGe3rRH8OvMxYSo42z1d0ZCxhRUxz+aAXMow2A@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Ensure that the modifier requested is
- supported by plane.
-To: Mark Yacoub <markyacoub@chromium.org>
+References: <20210324121335.2307063-1-tvrtko.ursulin@linux.intel.com>
+ <20210324121335.2307063-4-tvrtko.ursulin@linux.intel.com>
+In-Reply-To: <20210324121335.2307063-4-tvrtko.ursulin@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Wed, 24 Mar 2021 15:25:55 +0000
+Message-ID: <CAM0jSHO7QRw2XeBKA-fASnC--k80WZFB40Bv4KWXvX6JRypPXQ@mail.gmail.com>
+Subject: Re: [PATCH 3/7] drm/i915: Restrict sentinel requests further
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,69 +62,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, Mark Yacoub <markyacoub@google.com>
-Content-Type: multipart/mixed; boundary="===============0033662269=="
+Cc: Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0033662269==
-Content-Type: multipart/alternative; boundary="000000000000a7684705be49e8d9"
-
---000000000000a7684705be49e8d9
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Mark,
-
-On Wed, 24 Mar 2021 at 14:58, Mark Yacoub <markyacoub@chromium.org> wrote:
-
-> So you mean it would make more sense to be more explicit in handling
-> DRM_FORMAT_MOD_INVALID as an incoming modifier (which will, just like
-> DRM_FORMAT_MOD_LINEAR, will return true in
-> dm_plane_format_mod_supported)?
+On Wed, 24 Mar 2021 at 12:14, Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
 >
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>
+> Disallow sentinel requests follow previous sentinels to make request
+> cancellation work better when faced with a chain of requests which have
+> all been marked as in error.
+>
+> Because in cases where we end up with a stream of cancelled requests we
+> want to turn of request coalescing so they each will get individually
 
-That's correct. Not passing any modifiers is the same as explicitly passing
-INVALID, both of which mean 'the driver will figure it out somehow'; that
-driver-specific determination is not the same as explicit LINEAR.
+turn off
 
-(I cannot regret enough that INVALID is not 0.)
-
-Cheers,
-Daniel
-
---000000000000a7684705be49e8d9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Mark,</div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Wed, 24 Mar 2021 at 14:58, Mark Yacoub &lt=
-;<a href=3D"mailto:markyacoub@chromium.org">markyacoub@chromium.org</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">So you m=
-ean it would make more sense to be more explicit in handling<br>
-DRM_FORMAT_MOD_INVALID as an incoming modifier (which will, just like<br>
-DRM_FORMAT_MOD_LINEAR, will return true in<br>
-dm_plane_format_mod_supported)?<br></blockquote><div><br></div><div>That&#3=
-9;s correct. Not passing any modifiers is the same as explicitly passing IN=
-VALID, both of which mean &#39;the driver will figure it out somehow&#39;; =
-that driver-specific determination is not the same as explicit LINEAR.</div=
-><div><br></div><div>(I cannot regret enough that INVALID is not 0.)</div><=
-div><br></div><div>Cheers,</div><div>Daniel</div></div></div>
-
---000000000000a7684705be49e8d9--
-
---===============0033662269==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> skipped by the execlists_schedule_in (which is called per ELSP port, not
+> per request).
+>
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0033662269==--
