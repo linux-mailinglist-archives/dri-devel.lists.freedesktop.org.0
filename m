@@ -1,79 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9BF4347203
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 08:06:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F985346FB3
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 03:52:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67DB289E1B;
-	Wed, 24 Mar 2021 07:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FFAB88249;
+	Wed, 24 Mar 2021 02:52:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06E7D6E2C0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 02:49:00 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 19B4C15C4;
- Tue, 23 Mar 2021 22:48:57 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Tue, 23 Mar 2021 22:48:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
- to:cc:references:from:subject:message-id:date:mime-version
- :in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=S
- 9hVFXlHxFynIOxrNrduoTNoyxZE1kHVtXmwywd0EOI=; b=YZflfkGOYNjYarMU4
- y+I3z1HYVbAPNVsrpmn1tlLj+rNQBYt3TZJpMFQ4jD01E0y4aYB1QpZQJMSKeSlO
- GCmU5gQ4N89X/ZZ/ovNeLAlxRoTa1/0K6FG1PhB+1FR+WIF7/DYdIRp5xXz1S55l
- gYOutV5tYzUecDCfkMFoid3XKLhMYz3n7jfApGV/fPaD3rIOCODOgXEKIcvWS6hk
- yqHM/LRZb1ssrAajEvvTXE/h+c6vAi+eK8ixg+uihsGE07Cr8geX5tXNh/WOh6OK
- lbHVQePdBSibzrIUhF0GnO+ulRUlZI4zFkfyhlBp2E5Cxe57QGrkpLPIQjta/y80
- VuA/w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=S9hVFXlHxFynIOxrNrduoTNoyxZE1kHVtXmwywd0E
- OI=; b=N0ILWQj+oOVBkHETy0CDV/HFnn81ylEhsA5Jb/1XqMlcKjUUBdybTkNq2
- T7t+YKib2XYRigswWzmnoxsZKjJyPWdzvu9QjbP9WoP6aTVe5yN6pD/nfG5XUPId
- tMXOrqK0XPJn2DMxHSi+kgVHfJIAikn4NQdR1cmrzEAvbCveoh05VL1WLSRt23C7
- 5Jh7l5OW8coe2sXARkg1n0xj9F2f5LPQ2sI6ZzSssI+GYfyCwmjE194d7A/mKcK7
- aKWZAF5FW7+tzv1WHHRi746mDQwJ4Ayr9bGziBWek2Su70e8INsIxFe5CV5Fqilu
- xIPoGbIn+Tt/5ccrT0MMx1+Ujp2eg==
-X-ME-Sender: <xms:lqhaYGM8Plc9p5POMUi41FWfUW2XcWk10-QVyYeB0gptzOa2QqwldQ>
- <xme:lqhaYE_E-tyo9a0uubro-MZc0TRmDTbHM5R7o9BBQY-3fNk4_gh25xeZ4o5A27QrB
- SJzkkStqt0IKAk7PA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudegjedgheduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepvfhfhffukffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
- vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
- ftrfgrthhtvghrnhepvddttdejieduudfgffevteekffegffeguddtgfefkeduvedukeff
- hedtfeevuedvnecukfhppeejtddrudefhedrudegkedrudehudenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
- nhgurdhorhhg
-X-ME-Proxy: <xmx:lqhaYNTnWNVVznNNa40VTPKEZbBLa52HWaU_Riqtq2XJbnAACHc-WQ>
- <xmx:lqhaYGuZdosSi3-hmGnAtvmEI-7HAglUvDtrCQI0U1hikhjMlRUueA>
- <xmx:lqhaYOc4PWSTUrzH3-gKp_MwNzhMoR2a4Q-933NakVU_EFj6mb-2bg>
- <xmx:mKhaYEsAapfB8RbPhUabbpBXT4PCwlwubnwwpJ9oVUcAUVhqnIiqKw>
-Received: from [70.135.148.151]
- (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
- by mail.messagingengine.com (Postfix) with ESMTPA id 36C7824033F;
- Tue, 23 Mar 2021 22:48:54 -0400 (EDT)
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jagan Teki <jagan@amarulasolutions.com>
-References: <20210322140152.101709-1-jagan@amarulasolutions.com>
- <20210322140152.101709-2-jagan@amarulasolutions.com>
- <YFpxYpA+EIZm7sOf@pendragon.ideasonboard.com>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH v4 1/4] drm: sun4i: dsi: Use drm_of_find_panel_or_bridge
-Message-ID: <f47bc0ad-dbd6-05b5-aaec-2e3256e3715a@sholland.org>
-Date: Tue, 23 Mar 2021 21:48:53 -0500
-User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+Received: from EUR02-VE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr20075.outbound.protection.outlook.com [40.107.2.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 284EA88249
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 02:52:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JYJg2dsiQXRwaQTqW0qiY69SWZqbZNUrNn9WDSJvYqgnQqpnqFxiPzOtQ72v1/srEjjmgUktLtIUSY1NwJuYxBHHQMMfrHbOpHsJyqOcsKiPLu9jEIU+3vD1joE63SeoBCabh2Yq2Kyoe55UGH6tJaX+3rlWoTSj5Q4KdAd8ybUtlsk4M7b7VGWKQOb8u6EUYOFN4nHMFdkpGO1T1vdgr9PBarXq2J0kN71gEIe9QOg/CbguY4Ue8ja/yJmPvSJGgzt0LoJXVO7Z/P7r/oVWp1c+5u1NxQLzlK/qQw4HihLWrdANbG4+quk9i4Cgytfv9iuNB+oS0VlqKajIeQopuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z3msbDLVig5TDeBeIUNlcBBjUdrbeWlg7fEQYMYDJ1I=;
+ b=Um+qRwimqH6a1NaMIlPKjorM1izrvyhZETZJTcvfMQ0d6X81FPH3uRJHnXv+iUhzYm33eCjRrBryqRaGyQS4c3hsgwzGf1PtWZgrKKzsj9euXAt5z13tOWbQF2FoT6d20pdJNwOGx6BAB/DUqBNojQn0QOsbHXlr4NNLedmrl+oWT3AOdOyep2yFw7Lf2og8Lk6vAX3mPxrlr/2DaDazmELMgkr1R0n4b7N2TZm/cEBRsK0T3CJIojvzFUydzfkQMkEzzVllPr3j+sUxCmvG1VkBulJemG9shCDPNlYbsmVe0mRkFrbbfHjpK/MmXu5aCJzxBfOWa6M3CWW/yRbrew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z3msbDLVig5TDeBeIUNlcBBjUdrbeWlg7fEQYMYDJ1I=;
+ b=pIXX6pSWmwy3RHevD3MJHWN41xRWyg7pHYFb28r8nLOaMKSQ8ROlNfcItWk0b5eMYYr7oDxKBdUWgTADyTZlvZZJGUr/G4UE6KLqlg3tn/lhwzo7kAH5C6O+iqrbSGgJUcdSx1tnkAw5Oebb4RG9ad11hsoeFxHtgZj4XH9omGU=
+Authentication-Results: perches.com; dkim=none (message not signed)
+ header.d=none;perches.com; dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
+ by VI1PR04MB5181.eurprd04.prod.outlook.com (2603:10a6:803:62::25)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Wed, 24 Mar
+ 2021 02:52:23 +0000
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::3ce1:4759:5c33:514c]) by VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::3ce1:4759:5c33:514c%5]) with mapi id 15.20.3955.027; Wed, 24 Mar 2021
+ 02:52:23 +0000
+Message-ID: <957096a844761fe3069eff983ff308ae65e8d47c.camel@nxp.com>
+Subject: Re: [PATCH] drm/imx: fix out of bounds array access warning
+From: Liu Ying <victor.liu@nxp.com>
+To: Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>,  Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>
+Date: Wed, 24 Mar 2021 10:50:49 +0800
+In-Reply-To: <7ef41d771af88f84b650ff83771cd59eb745634f.camel@perches.com>
+References: <20210323130550.2289487-1-arnd@kernel.org>
+ <7ef41d771af88f84b650ff83771cd59eb745634f.camel@perches.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
+X-Originating-IP: [119.31.174.66]
+X-ClientProxiedBy: HKAPR03CA0023.apcprd03.prod.outlook.com
+ (2603:1096:203:c9::10) To VI1PR04MB3983.eurprd04.prod.outlook.com
+ (2603:10a6:803:4c::16)
 MIME-Version: 1.0
-In-Reply-To: <YFpxYpA+EIZm7sOf@pendragon.ideasonboard.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Wed, 24 Mar 2021 07:06:07 +0000
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from blueberry (119.31.174.66) by
+ HKAPR03CA0023.apcprd03.prod.outlook.com (2603:1096:203:c9::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3977.10 via Frontend Transport; Wed, 24 Mar 2021 02:52:18 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: e146848d-253f-42e4-dc76-08d8ee6fd9b8
+X-MS-TrafficTypeDiagnostic: VI1PR04MB5181:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR04MB51817CA05D2D37DE08D9494798639@VI1PR04MB5181.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:338;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 53wuYKoV9lhPKt/p1fU6COmcCv+1yJip1L24nsjd4PgJMtZe5eFZgXQK7h2+C3+IIw5SZp5MbXWFCxg+53dPF20F9smHeTlxL20Jpt9+/OunynhwZHakkRUZm0/cLmccu/dC1Q/mnES+cpZ3z2uSdc58WdNVSD6WaP6THFjop4eqCmZ4+m+D3QeizZozHcdGoHMVC/N+IOCRtwalqCD6NSMzU5Rh37PlMeAtWs8gwhrxMxjWkD2wBq5QEyQYCNaKf/rOxkQdH9Adqu4GjfGcGrs5QTLZN/RfhQo+/9jm8gwhy65p4MIU8dlTgtESNNVkvw0/wTd/SJuOKP1lqrBqCgyEWyK4joCGvW4hi4dooZKBVhtnXxAamBGfVl4Sy/mzK7+RSK+l2ebl9mWtulryk4qx5AKkM/Fl/RBLHT/C1BE6E2VLdKSOgy6/lgQdj+ULc5SZCM3HX44u3j4DiB5gLCd6dgrBsTTG/YBJW2MSNAk8yLJCgxbRzwqZ6T0df7C2RXgIMWqu7tls3YE0MLokwiVTVwgaJq5U0lqbTlabqlYR6aSkKRHvQKRPpROJIvxgPYITGU7WHRkPZS79ezFt1CqxQs8auu5Ve4RmuGBZ6mpavCFw7lC7H4OC1cSTRwx/EdtRfawECTTrDcCaqitHGg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(5660300002)(4326008)(2616005)(36756003)(186003)(498600001)(6486002)(54906003)(110136005)(66556008)(16526019)(66476007)(956004)(66946007)(26005)(7416002)(6496006)(38100700001)(83380400001)(2906002)(52116002)(8936002)(8676002)(86362001)(6666004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?SXVlUHFvbldBMGt6b2FZbGYwZkw4V0JHTWQrdHRQc0pvTTNJeDNCRllLMjdO?=
+ =?utf-8?B?cm9BRUo4VytXbTg1M1ViREUrM0hBSCtlSXloYkFPWWxFOGs0RmtoTHpRbG5I?=
+ =?utf-8?B?WHNSbzF2am9KVkJyeGIzZ0dpNHRKNW1PeGpUb3hWVVBGNVNXN0t4aExTOC9u?=
+ =?utf-8?B?TnhwRHU3UmFnWE9ma0JlNmFxS3d0Qy9IeEVtVDRYaHM0VEZtTCthdk5WejZD?=
+ =?utf-8?B?YzZ0azkyYU5GRVRIWFZGWjVmU3A5Qys2UEgxaUwzb01OQm5Qa3ppeWR6L1Nk?=
+ =?utf-8?B?RldDbXVhbm1TR0tIaU9uOUFSN0dFMU95a1N1OXFVNGdwOTNkUG5LNlp6dDZw?=
+ =?utf-8?B?K09XZTc4VnNzWHllQlBnZHBxclYvajBjOUxJcmNaRFRWbVlPSlhsTDVYNUgr?=
+ =?utf-8?B?bW9NMDFwbVNwMGRYVStzYWpIZnlEVzltSnY1YTlMaFpISTBIR3Q5OTNyWEVt?=
+ =?utf-8?B?R01SelFoa1IxV3ptV256NkRUYVlySTZUZWhrSkNsMHlQYi9BYWJmZHBEclBO?=
+ =?utf-8?B?QTc1aVAxN2h1V0xJSVhleUNEK2cya0JhUXFEMjVOc21ISEVGSlRNWm9lcEd6?=
+ =?utf-8?B?NXEvL0xDVGUzcGJsTnRkaEVPRjFtY3hLU0RLRHpjWFpxbzB1cEgzNVFwOVdQ?=
+ =?utf-8?B?dHZFMnVJeWk1MSszUER5M0R6K0FlcUVGSEdraGFpWWxaNXhHakQzUWFMV3I4?=
+ =?utf-8?B?ZW16eGwrWWxmYStLSndUNjVFTDd2bjVaZlNGN0xMUm9sTWc4TXVNSTVIQ3Jz?=
+ =?utf-8?B?SEtpalRESFRQZ0hhWFNoTGxma0d2dlo2YjRjQTdLVUUydkwrdWtUZE5BRVY4?=
+ =?utf-8?B?eVpWM3NxaFpGd3lxYitmZlJINkhsckN5M2pMazVuczNIcE9peExKbXI1QS9D?=
+ =?utf-8?B?Ukx6cStISVRJT09ta2Fxc2NCRitxbVRrU2VNWG5XVGVsSFBRY3VEN2oxcDBT?=
+ =?utf-8?B?T0pMd0RIMHYxbVJkamJMRzc1MEk3R1NxYTZXVkZ5Y0xXbTdvenZpTkRoZ2cz?=
+ =?utf-8?B?RmNDTGo2SStHL0pvWFBSY202RmFFZmJlSjMwSDhwUk5YenlKSzU2R09wMlhZ?=
+ =?utf-8?B?QTBFZ3l6YUVhSTJnRmgzUElkUzFwNlZ3NmphbmEySlg4dUUvNXFHZ1Fmcnpm?=
+ =?utf-8?B?QUdyNmVwV0hDQjhTa2N4ZmRVNHZQN0xVbFpuN21iZWJacWVaNks4U1cxYzZU?=
+ =?utf-8?B?MWNGNmltcWdjS2VCS0syRlZ6MmhlWmJld0ZiU2hCVWFpbzVJRlpoREJOSFd0?=
+ =?utf-8?B?RC9BY3cxaVg4K25aYzV2SEVzdElUTkV4SlhDSTVSNFZmeUhEWDRDczVSaFNU?=
+ =?utf-8?B?UXVjdkZIVkR6Y2N1SXg3UFJVbzJxSENsRE5xOWZiZk43VGFHNWlkQ1JQN2N4?=
+ =?utf-8?B?NFJiVktoS215bFByRkpYcm03cXpGZWRDV1habjZRZU1VWnJvUzNNZENIaTBU?=
+ =?utf-8?B?dGlxdDBEWGwvMEpwVzJQYjBYQVY3UkUxekZzYlhWSjBvNHZhVUVjOEdRcTMr?=
+ =?utf-8?B?ejNxTlV0cUs4OFFrTmw0cUhIcXlhTThkd0N5cjVPVEZYMWFXK0RMazM2R3Jp?=
+ =?utf-8?B?YmlWVktRempkNXBaYTRnN1NVUHI5a3g1S2hmR21UU3liWWw2SE0vcXc1U2VT?=
+ =?utf-8?B?UHoxNm5rZWhNeWxYRkFPTVNNZjhIUWtjd3MzSExVN1lFbEh5d3ZZclBsSEo3?=
+ =?utf-8?B?eVpXZWlEaGwzNHB0a0lMRGxmZW03K2FZeFc4MU42WTJKdHlPQ3M4RjY4QkZW?=
+ =?utf-8?Q?fVk99KIb6wcSq9kzL98ESJ10hczn8vRpQ8oFIQy?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e146848d-253f-42e4-dc76-08d8ee6fd9b8
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2021 02:52:23.8724 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CbboxsKkfgFLG/GXPnqls64rbOgDTEY37qWYCx/oJM8YUHPPYsbsFBbiUflXnC+bi6ttlAjvp8/IsuBfHWGfIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5181
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,87 +126,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, linux-sunxi@googlegroups.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Chen-Yu Tsai <wens@csie.org>, linux-amarula@amarulasolutions.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Marco Felsch <m.felsch@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/23/21 5:53 PM, Laurent Pinchart wrote:
-> Hi Jagan,
+On Tue, 2021-03-23 at 07:19 -0700, Joe Perches wrote:
+> On Tue, 2021-03-23 at 14:05 +0100, Arnd Bergmann wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> > 
+> > When CONFIG_OF is disabled, building with 'make W=1' produces warnings
+> > about out of bounds array access:
+> > 
+> > drivers/gpu/drm/imx/imx-ldb.c: In function 'imx_ldb_set_clock.constprop':
+> > drivers/gpu/drm/imx/imx-ldb.c:186:8: error: array subscript -22 is below array bounds of 'struct clk *[4]' [-Werror=array-bounds]
+> > 
+> > Add an error check before the index is used, which helps with the
+> > warning, as well as any possible other error condition that may be
+> > triggered at runtime.
+> []
+> > diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
+> []
+> > @@ -197,6 +197,12 @@ static void imx_ldb_encoder_enable(struct drm_encoder *encoder)
+> >  	int dual = ldb->ldb_ctrl & LDB_SPLIT_MODE_EN;
+> >  	int mux = drm_of_encoder_active_port_id(imx_ldb_ch->child, encoder);
+> > 
+> > +	if (mux < 0) {
+> > +		dev_warn(ldb->dev,
+> > +			 "%s: invalid mux\n", __func__);
 > 
-> Thank you for the patch.
+> trivia:
 > 
-> On Mon, Mar 22, 2021 at 07:31:49PM +0530, Jagan Teki wrote:
->> Replace of_drm_find_panel with drm_of_find_panel_or_bridge
->> for finding panel, this indeed help to find the bridge if
->> bridge support added.
->>
->> Added NULL in bridge argument, same will replace with bridge
->> parameter once bridge supported.
->>
->> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> Any real reason to make this 2 lines?  It fits nicely in 80 chars.  Maybe:
 > 
-> Looks good, there should be no functional change.
-
-Actually this breaks all existing users of this driver, see below.
-
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 		dev_warn(ldb->dev, "%s: invalid mux: %d\n", __func__, mux);
 > 
->> ---
->> Changes for v4, v3:
->> - none
->>
->>  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 11 ++++++++---
->>  1 file changed, 8 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
->> index 4f5efcace68e..2e9e7b2d4145 100644
->> --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
->> +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
->> @@ -21,6 +21,7 @@
->>  
->>  #include <drm/drm_atomic_helper.h>
->>  #include <drm/drm_mipi_dsi.h>
->> +#include <drm/drm_of.h>
->>  #include <drm/drm_panel.h>
->>  #include <drm/drm_print.h>
->>  #include <drm/drm_probe_helper.h>
->> @@ -963,10 +964,14 @@ static int sun6i_dsi_attach(struct mipi_dsi_host *host,
->>  			    struct mipi_dsi_device *device)
->>  {
->>  	struct sun6i_dsi *dsi = host_to_sun6i_dsi(host);
->> -	struct drm_panel *panel = of_drm_find_panel(device->dev.of_node);
+> or maybe:
+> 
+> 		dev_warn(ldb->dev, "%s: invalid mux: %pe\n",
+> 			 __func__, ERR_PTR(mux));
 
-This is using the OF node of the DSI device, which is a direct child of
-the DSI host's OF node. There is no OF graph involved.
++1
 
->> +	struct drm_panel *panel;
->> +	int ret;
->> +
->> +	ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 0, 0,
->> +					  &panel, NULL);
-
-However, this function expects to find the panel using OF graph. This
-does not work with existing device trees (PinePhone, PineTab) which do
-not use OF graph to connect the panel. And it cannot work, because the
-DSI host's binding specifies a single port: the input port from the
-display engine.
+The second one looks better as it's more informative.
 
 Regards,
-Samuel
+Liu Ying
 
->> +	if (ret)
->> +		return ret;
->>  
->> -	if (IS_ERR(panel))
->> -		return PTR_ERR(panel);
->>  	if (!dsi->drm || !dsi->drm->registered)
->>  		return -EPROBE_DEFER;
->>  
+> 
+> > @@ -255,6 +261,12 @@ imx_ldb_encoder_atomic_mode_set(struct drm_encoder *encoder,
+> []
+> > +	if (mux < 0) {
+> > +		dev_warn(ldb->dev,
+> > +			 "%s: invalid mux\n", __func__);
+> 
+> etc...
+> 
 > 
 
 _______________________________________________
