@@ -2,51 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E4EA3481D6
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 20:24:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C0C3481DD
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 20:29:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E37126EA6F;
-	Wed, 24 Mar 2021 19:24:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DFD76EA80;
+	Wed, 24 Mar 2021 19:29:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0201.hostedemail.com
- [216.40.44.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B61876EA6F
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 19:24:15 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay06.hostedemail.com (Postfix) with ESMTP id BB3571801AC84;
- Wed, 24 Mar 2021 19:24:14 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:152:355:379:421:599:800:960:973:988:989:1260:1261:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1542:1593:1594:1605:1711:1730:1747:1777:1792:1801:2198:2199:2393:2553:2559:2562:2689:2731:3138:3139:3140:3141:3142:3622:3865:3866:3867:3868:3870:3871:3872:3873:3874:4321:4605:5007:6119:6120:6691:6742:7652:7903:10004:10400:10848:11026:11232:11233:11473:11657:11658:11783:11914:12043:12048:12296:12297:12438:12740:12895:13894:14181:14659:14721:21080:21433:21451:21627:21740:21990:30012:30054:30060:30070:30090:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:2, LUA_SUMMARY:none
-X-HE-Tag: fish34_600c2bf2777d
-X-Filterd-Recvd-Size: 4692
-Received: from [192.168.1.159] (unknown [47.151.137.21])
- (Authenticated sender: joe@perches.com)
- by omf02.hostedemail.com (Postfix) with ESMTPA;
- Wed, 24 Mar 2021 19:24:11 +0000 (UTC)
-Message-ID: <d184069de43135a9c9e5f031447faf98ab3f437d.camel@perches.com>
-Subject: Re: [RFC patch] vsprintf: Allow %pe to print non PTR_ERR %pe uses
- as decimal
-From: Joe Perches <joe@perches.com>
-To: Rasmus Villemoes <linux@rasmusvillemoes.dk>, Arnd Bergmann
- <arnd@kernel.org>,  Petr Mladek <pmladek@suse.com>, Steven Rostedt
- <rostedt@goodmis.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>
-Date: Wed, 24 Mar 2021 12:24:10 -0700
-In-Reply-To: <9feab1e8-4dee-6b79-03f7-7b9f0cb24f6e@rasmusvillemoes.dk>
-References: <20210324121832.3714570-1-arnd@kernel.org>
- <e1310273dcc577f3a772380ada7b6cc1906d680b.camel@perches.com>
- <CAK8P3a0JyoAtTYTi+M_mJ3_KtUJ6NeJB=FNWhzezqcXMac++mQ@mail.gmail.com>
- <810d36184b9fa2880d3ba7738a8f182e27f5107b.camel@perches.com>
- <3252fd83141aa9e0e6001acee1dd98e87c676b9a.camel@perches.com>
- <9feab1e8-4dee-6b79-03f7-7b9f0cb24f6e@rasmusvillemoes.dk>
-User-Agent: Evolution 3.38.1-1 
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CDBF6EA7F
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 19:29:26 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ a132-20020a1c668a0000b029010f141fe7c2so1870733wmc.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 12:29:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=GnJ8nkSwkXHwiL432McDivoNP7hmDTX0LH/iM/iaIQ8=;
+ b=S+3wdak6TotUcrkgQqyFDXj+9nPgZne1rkRg7a4Y9dkvnhxVgrdlBXAdSdfnkwAE3P
+ ng9kXbEJdxnHupb9a02wytdZH1AkF1q64RtpVrSOKH8dsgwI0c21aE2FqPng6rPgCLWL
+ fbu7wugZm+R4YW0Is9LHyRkgvbWEY3fwwkfdA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=GnJ8nkSwkXHwiL432McDivoNP7hmDTX0LH/iM/iaIQ8=;
+ b=iVM7QHKCguiqnaNh1BQ+gzHXyhkWOcC1WswGXlIPcQJkNGzXrsFCnJZyv0WYVpOUsW
+ BwqiiiwmmxH01YHeh/kiAt14OtoGBJdhGwJuyUPW/K5lUrIimh1RH/AE+1fgGMpgBvx8
+ H2oKhncvjsv+1I6jbOYAUmvG9RN3ys0gb3FtDa8nMIMvuDtJn7yiqEvMaqYqdlH9iccQ
+ CoHsmCgFyDObVvg7cMr5a4Ri0ikWUS2yffPKZ5hdZt9QWsYrvRVOHeTOeHPLJgiys8Xp
+ 4LgtTFGno9M98yNn/s505vSCfcPyQjDlNxK18sqaiKsHOBpqut8NJTX8Fsw3X5ufyIqQ
+ 5xYA==
+X-Gm-Message-State: AOAM530XLw8xiPRT1DUhmvQIDV64i+XH1QeQpxRUivdXlKzkcRPG778K
+ zPXZ7qZlbSNjmGDkm57hrkTcdg==
+X-Google-Smtp-Source: ABdhPJy0q9VbtM5J5QIc8n4RplJqQPYP9aivogC44QvHxiE+3iZJSLO9qVBhcd2y10Q3oYgyNqtRdg==
+X-Received: by 2002:a05:600c:4f94:: with SMTP id
+ n20mr4393432wmq.18.1616614165048; 
+ Wed, 24 Mar 2021 12:29:25 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id b17sm4414260wrt.17.2021.03.24.12.29.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Mar 2021 12:29:24 -0700 (PDT)
+Date: Wed, 24 Mar 2021 20:29:22 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH] drm/ttm: switch back to static allocation limits for now
+Message-ID: <YFuTEl/R73Fvet/y@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, 
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Liang.Liang@amd.com, thomas_os@shipmail.org
+References: <20210324134845.2338-1-christian.koenig@amd.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210324134845.2338-1-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,69 +71,302 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
- Marco Felsch <m.felsch@pengutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Liu Ying <victor.liu@nxp.com>, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-mm@kvack.org, thomas_os@shipmail.org, Liang.Liang@amd.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIxLTAzLTI0IGF0IDE4OjMzICswMTAwLCBSYXNtdXMgVmlsbGVtb2VzIHdyb3Rl
-Ogo+IE9uIDI0LzAzLzIwMjEgMTguMjAsIEpvZSBQZXJjaGVzIHdyb3RlOgo+ID4gT24gV2VkLCAy
-MDIxLTAzLTI0IGF0IDA5OjUyIC0wNzAwLCBKb2UgUGVyY2hlcyB3cm90ZToKPiA+ID4gT24gV2Vk
-LCAyMDIxLTAzLTI0IGF0IDE3OjQyICswMTAwLCBBcm5kIEJlcmdtYW5uIHdyb3RlOgo+ID4gPiA+
-IE9uIFdlZCwgTWFyIDI0LCAyMDIxIGF0IDM6MjAgUE0gSm9lIFBlcmNoZXMgPGpvZUBwZXJjaGVz
-LmNvbT4gd3JvdGU6Cj4gPiA+IFtdCj4gPiA+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vaW14L2lteC1sZGIuYyBiL2RyaXZlcnMvZ3B1L2RybS9pbXgvaW14LWxkYi5jCj4gPiA+
-ID4gPiBbXQo+ID4gPiA+ID4gPiBAQCAtMTk3LDYgKzE5NywxMiBAQCBzdGF0aWMgdm9pZCBpbXhf
-bGRiX2VuY29kZXJfZW5hYmxlKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlcikKPiA+ID4gPiA+
-ID4gwqDCoMKgwqDCoMKgaW50IGR1YWwgPSBsZGItPmxkYl9jdHJsICYgTERCX1NQTElUX01PREVf
-RU47Cj4gPiA+ID4gPiA+IMKgwqDCoMKgwqDCoGludCBtdXggPSBkcm1fb2ZfZW5jb2Rlcl9hY3Rp
-dmVfcG9ydF9pZChpbXhfbGRiX2NoLT5jaGlsZCwgZW5jb2Rlcik7Cj4gPiA+ID4gPiA+IAo+ID4g
-PiA+ID4gPiArICAgICBpZiAobXV4IDwgMCB8fCBtdXggPj0gQVJSQVlfU0laRShsZGItPmNsa19z
-ZWwpKSB7Cj4gPiA+ID4gPiA+ICsgICAgICAgICAgICAgZGV2X3dhcm4obGRiLT5kZXYsICIlczog
-aW52YWxpZCBtdXggJWRcbiIsCj4gPiA+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgX19m
-dW5jX18sIEVSUl9QVFIobXV4KSk7Cj4gPiA+ID4gPiAKPiA+ID4gPiA+IFRoaXMgZG9lcyBub3Qg
-Y29tcGlsZSB3aXRob3V0IHdhcm5pbmdzLgo+ID4gPiA+ID4gCj4gPiA+ID4gPiBkcml2ZXJzL2dw
-dS9kcm0vaW14L2lteC1sZGIuYzogSW4gZnVuY3Rpb24g4oCYaW14X2xkYl9lbmNvZGVyX2VuYWJs
-ZeKAmToKPiA+ID4gPiA+IGRyaXZlcnMvZ3B1L2RybS9pbXgvaW14LWxkYi5jOjIwMToyMjogd2Fy
-bmluZzogZm9ybWF0IOKAmCVk4oCZIGV4cGVjdHMgYXJndW1lbnQgb2YgdHlwZSDigJhpbnTigJks
-IGJ1dCBhcmd1bWVudCA0IGhhcyB0eXBlIOKAmHZvaWQgKuKAmSBbLVdmb3JtYXQ9XQo+ID4gPiA+
-ID4gwqDCoDIwMSB8ICAgZGV2X3dhcm4obGRiLT5kZXYsICIlczogaW52YWxpZCBtdXggJWRcbiIs
-Cj4gPiA+ID4gPiDCoMKgwqDCoMKgwqB8ICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn4KPiA+ID4gPiA+IAo+ID4gPiA+ID4gSWYgeW91IHdhbnQgdG8gdXNlIEVSUl9Q
-VFIsIHRoZSAlZCBzaG91bGQgYmUgJXBlIGFzIEVSUl9QVFIKPiA+ID4gPiA+IGlzIGNvbnZlcnRp
-bmcgYW4gaW50IGEgdm9pZCAqIHRvIGRlY29kZSB0aGUgZXJyb3IgdHlwZSBhbmQKPiA+ID4gPiA+
-IGVtaXQgaXQgYXMgYSBzdHJpbmcuCj4gPiA+ID4gCj4gPiA+ID4gU29ycnkgYWJvdXQgdGhhdC4K
-PiA+ID4gPiAKPiA+ID4gPiBJIGRlY2lkZWQgYWdhaW5zdCB1c2luZyBFUlJfUFRSKCkgaW4gb3Jk
-ZXIgdG8gYWxzbyBjaGVjayBmb3IKPiA+ID4gPiBwb3NpdGl2ZSBhcnJheSBvdmVyZmxvdywgYnV0
-IHRoZSB2ZXJzaW9uIEkgdGVzdGVkIHdhcyBkaWZmZXJlbnQgZnJvbQo+ID4gPiA+IHRoZSB2ZXJz
-aW9uIEkgc2VudC4KPiA+ID4gPiAKPiA+ID4gPiB2MyBjb21pbmcuCj4gPiA+IAo+ID4gPiBUaGFu
-a3MuICBObyB3b3JyaWVzLgo+ID4gPiAKPiA+ID4gVXAgdG8geW91LCB2c3ByaW50ZiB3b3VsZCBl
-bWl0IHRoZSBwb3NpdGl2ZSBtdXggYXMgYSBmdW5reSBoYXNoZWQKPiA+ID4gaGV4IHZhbHVlIGJ5
-IGRlZmF1bHQgaWYgeW91IHVzZSBFUlJfUFRSIHdpdGggbXV4ID4gQVJSQVlfU0laRSBzbwo+ID4g
-PiBwZXJoYXBzICVkIHdpdGhvdXQgdGhlIEVSUl9QVFIgdXNlIG1ha2VzIHRoZSBtb3N0IHNlbnNl
-Lgo+ID4gPiAKPiAKPiA+IAo+ID4gTWF5YmUgaXQncyBiZXR0ZXIgdG8gb3V0cHV0IG5vbiBQVFJf
-RVJSICVwZSB1c2VzIGFzIGRlY2ltYWwgc28gdGhpcwo+ID4gc29ydCBvZiBjb2RlIHdvdWxkIHdv
-cmsuCj4gCj4gTm8sIGJlY2F1c2UgdGhhdCB3b3VsZCBsZWFrIHRoZSBwb2ludGVyIHZhbHVlIHdo
-ZW4gc29tZWJvZHkgaGFzCj4gYWNjaWRlbnRhbGx5IHBhc3NlZCBhIHJlYWwga2VybmVsIHBvaW50
-ZXIgdG8gJXBlLgoKSSB0aGluayBpdCdzIG5vdCByZWFsbHkgYW4gaXNzdWUuCgpfQWxsXyBjb2Rl
-IHRoYXQgdXNlcyAlcDxmb28+IGV4dGVuc2lvbnMgbmVlZCBpbnNwZWN0aW9uIGFueXdheS4KCkl0
-J3MgYWxyZWFkeSBwb3NzaWJsZSB0byBpbnRlbnRpb25hbGx5ICdsZWFrJyB0aGUgcHRyIHZhbHVl
-CmJ5IHVzaW5nICVwZSwgLXB0ciBzbyBJIHRoaW5rIHRoYXQncyBub3QgcmVhbGx5IGFuIGlzc3Vl
-LgoKPiAKPiBJZiB0aGUgY29kZSB3YW50cyBhIGN1dGUgLUVGT08gc3RyaW5nIGV4cGxhaW5pbmcg
-d2hhdCdzIHdyb25nLCB3aGF0Cj4gYWJvdXQgIiVwZSIsIEVSUl9QVFIobXV4IDwgMCA6IG11eCA6
-IC1FUkFOR0UpPyBPciB0d28gc2VwYXJhdGUgZXJyb3IKPiBtZXNzYWdlcwo+IAo+IGlmIChtdXgg
-PCAwKQo+IMKgwqAuLi4KPiBlbHNlIGlmIChtdXggPj0gQVJSQVlfU0laRSgpKQo+IMKgwqAuLi4K
-Ck11bHRpcGxlIHRlc3RzLCBtb3JlIHVubmVjZXNzYXJ5IGNvZGUsIG11bHRpcGxlIGZvcm1hdCBz
-dHJpbmdzLCBldGMuLi4KCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+On Wed, Mar 24, 2021 at 02:48:45PM +0100, Christian K=F6nig wrote:
+> The shrinker based approach still has some flaws. Especially that we need
+> temporary pages to free up the pages allocated to the driver is problemat=
+ic
+> in a shrinker.
+> =
+
+> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+> ---
+>  drivers/gpu/drm/ttm/ttm_device.c |  14 ++--
+>  drivers/gpu/drm/ttm/ttm_tt.c     | 112 ++++++++++++-------------------
+>  include/drm/ttm/ttm_tt.h         |   3 +-
+>  3 files changed, 53 insertions(+), 76 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_d=
+evice.c
+> index 95e1b7b1f2e6..388da2a7f0bb 100644
+> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> @@ -53,7 +53,6 @@ static void ttm_global_release(void)
+>  		goto out;
+>  =
+
+>  	ttm_pool_mgr_fini();
+> -	ttm_tt_mgr_fini();
+>  =
+
+>  	__free_page(glob->dummy_read_page);
+>  	memset(glob, 0, sizeof(*glob));
+> @@ -64,7 +63,7 @@ static void ttm_global_release(void)
+>  static int ttm_global_init(void)
+>  {
+>  	struct ttm_global *glob =3D &ttm_glob;
+> -	unsigned long num_pages;
+> +	unsigned long num_pages, num_dma32;
+>  	struct sysinfo si;
+>  	int ret =3D 0;
+>  	unsigned i;
+> @@ -79,8 +78,15 @@ static int ttm_global_init(void)
+>  	 * system memory.
+>  	 */
+>  	num_pages =3D ((u64)si.totalram * si.mem_unit) >> PAGE_SHIFT;
+> -	ttm_pool_mgr_init(num_pages * 50 / 100);
+> -	ttm_tt_mgr_init();
+> +	num_pages /=3D 2;
+> +
+> +	/* But for DMA32 we limit ourself to only use 2GiB maximum. */
+> +	num_dma32 =3D (u64)(si.totalram - si.totalhigh) * si.mem_unit
+> +		>> PAGE_SHIFT;
+> +	num_dma32 =3D min(num_dma32, 2UL << (30 - PAGE_SHIFT));
+> +
+> +	ttm_pool_mgr_init(num_pages);
+> +	ttm_tt_mgr_init(num_pages, num_dma32);
+>  =
+
+>  	spin_lock_init(&glob->lru_lock);
+>  	glob->dummy_read_page =3D alloc_page(__GFP_ZERO | GFP_DMA32);
+> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+> index 2f0833c98d2c..5d8820725b75 100644
+> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> @@ -40,8 +40,18 @@
+>  =
+
+>  #include "ttm_module.h"
+>  =
+
+> -static struct shrinker mm_shrinker;
+> -static atomic_long_t swapable_pages;
+> +static unsigned long ttm_pages_limit;
+> +
+> +MODULE_PARM_DESC(pages_limit, "Limit for the allocated pages");
+> +module_param_named(pages_limit, ttm_pages_limit, ulong, 0644);
+> +
+> +static unsigned long ttm_dma32_pages_limit;
+> +
+> +MODULE_PARM_DESC(dma32_pages_limit, "Limit for the allocated DMA32 pages=
+");
+> +module_param_named(dma32_pages_limit, ttm_dma32_pages_limit, ulong, 0644=
+);
+> +
+> +static atomic_long_t ttm_pages_allocated;
+> +static atomic_long_t ttm_dma32_pages_allocated;
+
+Making this configurable looks an awful lot like "job done, move on". Just
+the revert to hardcoded 50% (or I guess just revert the shrinker patch at
+that point) for -fixes is imo better.
+
+Then I guess retry again for 5.14 or so.
+-Daniel
+
+>  =
+
+>  /*
+>   * Allocates a ttm structure for the given BO.
+> @@ -294,8 +304,6 @@ static void ttm_tt_add_mapping(struct ttm_device *bde=
+v, struct ttm_tt *ttm)
+>  =
+
+>  	for (i =3D 0; i < ttm->num_pages; ++i)
+>  		ttm->pages[i]->mapping =3D bdev->dev_mapping;
+> -
+> -	atomic_long_add(ttm->num_pages, &swapable_pages);
+>  }
+>  =
+
+>  int ttm_tt_populate(struct ttm_device *bdev,
+> @@ -309,12 +317,25 @@ int ttm_tt_populate(struct ttm_device *bdev,
+>  	if (ttm_tt_is_populated(ttm))
+>  		return 0;
+>  =
+
+> +	atomic_long_add(ttm->num_pages, &ttm_pages_allocated);
+> +	if (bdev->pool.use_dma32)
+> +		atomic_long_add(ttm->num_pages, &ttm_dma32_pages_allocated);
+> +
+> +	while (atomic_long_read(&ttm_pages_allocated) > ttm_pages_limit ||
+> +	       atomic_long_read(&ttm_dma32_pages_allocated) >
+> +	       ttm_dma32_pages_limit) {
+> +
+> +		ret =3D ttm_bo_swapout(ctx, GFP_KERNEL);
+> +		if (ret)
+> +			goto error;
+> +	}
+> +
+>  	if (bdev->funcs->ttm_tt_populate)
+>  		ret =3D bdev->funcs->ttm_tt_populate(bdev, ttm, ctx);
+>  	else
+>  		ret =3D ttm_pool_alloc(&bdev->pool, ttm, ctx);
+>  	if (ret)
+> -		return ret;
+> +		goto error;
+>  =
+
+>  	ttm_tt_add_mapping(bdev, ttm);
+>  	ttm->page_flags |=3D TTM_PAGE_FLAG_PRIV_POPULATED;
+> @@ -327,6 +348,12 @@ int ttm_tt_populate(struct ttm_device *bdev,
+>  	}
+>  =
+
+>  	return 0;
+> +
+> +error:
+> +	atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
+> +	if (bdev->pool.use_dma32)
+> +		atomic_long_sub(ttm->num_pages, &ttm_dma32_pages_allocated);
+> +	return ret;
+>  }
+>  EXPORT_SYMBOL(ttm_tt_populate);
+>  =
+
+> @@ -342,12 +369,9 @@ static void ttm_tt_clear_mapping(struct ttm_tt *ttm)
+>  		(*page)->mapping =3D NULL;
+>  		(*page++)->index =3D 0;
+>  	}
+> -
+> -	atomic_long_sub(ttm->num_pages, &swapable_pages);
+>  }
+>  =
+
+> -void ttm_tt_unpopulate(struct ttm_device *bdev,
+> -		       struct ttm_tt *ttm)
+> +void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
+>  {
+>  	if (!ttm_tt_is_populated(ttm))
+>  		return;
+> @@ -357,76 +381,24 @@ void ttm_tt_unpopulate(struct ttm_device *bdev,
+>  		bdev->funcs->ttm_tt_unpopulate(bdev, ttm);
+>  	else
+>  		ttm_pool_free(&bdev->pool, ttm);
+> -	ttm->page_flags &=3D ~TTM_PAGE_FLAG_PRIV_POPULATED;
+> -}
+> -
+> -/* As long as pages are available make sure to release at least one */
+> -static unsigned long ttm_tt_shrinker_scan(struct shrinker *shrink,
+> -					  struct shrink_control *sc)
+> -{
+> -	struct ttm_operation_ctx ctx =3D {
+> -		.no_wait_gpu =3D false
+> -	};
+> -	int ret;
+> -
+> -	ret =3D ttm_bo_swapout(&ctx, GFP_NOFS);
+> -	return ret < 0 ? SHRINK_EMPTY : ret;
+> -}
+> -
+> -/* Return the number of pages available or SHRINK_EMPTY if we have none =
+*/
+> -static unsigned long ttm_tt_shrinker_count(struct shrinker *shrink,
+> -					   struct shrink_control *sc)
+> -{
+> -	unsigned long num_pages;
+> -
+> -	num_pages =3D atomic_long_read(&swapable_pages);
+> -	return num_pages ? num_pages : SHRINK_EMPTY;
+> -}
+>  =
+
+> -#ifdef CONFIG_DEBUG_FS
+> +	atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
+> +	if (bdev->pool.use_dma32)
+> +		atomic_long_sub(ttm->num_pages, &ttm_dma32_pages_allocated);
+>  =
+
+> -/* Test the shrinker functions and dump the result */
+> -static int ttm_tt_debugfs_shrink_show(struct seq_file *m, void *data)
+> -{
+> -	struct shrink_control sc =3D { .gfp_mask =3D GFP_KERNEL };
+> -
+> -	fs_reclaim_acquire(GFP_KERNEL);
+> -	seq_printf(m, "%lu/%lu\n", ttm_tt_shrinker_count(&mm_shrinker, &sc),
+> -		   ttm_tt_shrinker_scan(&mm_shrinker, &sc));
+> -	fs_reclaim_release(GFP_KERNEL);
+> -
+> -	return 0;
+> +	ttm->page_flags &=3D ~TTM_PAGE_FLAG_PRIV_POPULATED;
+>  }
+> -DEFINE_SHOW_ATTRIBUTE(ttm_tt_debugfs_shrink);
+> -
+> -#endif
+> -
+> -
+>  =
+
+>  /**
+>   * ttm_tt_mgr_init - register with the MM shrinker
+>   *
+>   * Register with the MM shrinker for swapping out BOs.
+>   */
+> -int ttm_tt_mgr_init(void)
+> +void ttm_tt_mgr_init(unsigned long num_pages, unsigned long num_dma32_pa=
+ges)
+>  {
+> -#ifdef CONFIG_DEBUG_FS
+> -	debugfs_create_file("tt_shrink", 0400, ttm_debugfs_root, NULL,
+> -			    &ttm_tt_debugfs_shrink_fops);
+> -#endif
+> -
+> -	mm_shrinker.count_objects =3D ttm_tt_shrinker_count;
+> -	mm_shrinker.scan_objects =3D ttm_tt_shrinker_scan;
+> -	mm_shrinker.seeks =3D 1;
+> -	return register_shrinker(&mm_shrinker);
+> -}
+> +	if (!ttm_pages_limit)
+> +		ttm_pages_limit =3D num_pages;
+>  =
+
+> -/**
+> - * ttm_tt_mgr_fini - unregister our MM shrinker
+> - *
+> - * Unregisters the MM shrinker.
+> - */
+> -void ttm_tt_mgr_fini(void)
+> -{
+> -	unregister_shrinker(&mm_shrinker);
+> +	if (!ttm_dma32_pages_limit)
+> +		ttm_dma32_pages_limit =3D num_dma32_pages;
+>  }
+> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+> index 069f8130241a..134d09ef7766 100644
+> --- a/include/drm/ttm/ttm_tt.h
+> +++ b/include/drm/ttm/ttm_tt.h
+> @@ -157,8 +157,7 @@ int ttm_tt_populate(struct ttm_device *bdev, struct t=
+tm_tt *ttm, struct ttm_oper
+>   */
+>  void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm);
+>  =
+
+> -int ttm_tt_mgr_init(void);
+> -void ttm_tt_mgr_fini(void);
+> +void ttm_tt_mgr_init(unsigned long num_pages, unsigned long num_dma32_pa=
+ges);
+>  =
+
+>  #if IS_ENABLED(CONFIG_AGP)
+>  #include <linux/agp_backend.h>
+> -- =
+
+> 2.25.1
+> =
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
