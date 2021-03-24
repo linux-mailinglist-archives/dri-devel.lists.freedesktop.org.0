@@ -1,64 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8FD5347447
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 10:14:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF21C34744E
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 10:15:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F9326E974;
-	Wed, 24 Mar 2021 09:14:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F04B36E989;
+	Wed, 24 Mar 2021 09:15:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C4F66E974
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 09:14:36 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id b9so23647184wrt.8
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 02:14:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=4rN1YksKNQ6jMnv83wrys0vsQCA6pM1XeLstkQR9zSk=;
- b=aaEalBsXBstsM7Ugh18M+hl8k/wTbYlQwQ6ihztFCEL9SFffFl/IlB3eU6LSKJs1k4
- GjK340N7lCr3K0iNQ2HLCSKfu9qwSSS5Mp8zQ/OAzufhpBV6bxJQJuLmIMW602QW0Z0i
- CTqj7hTA4262C48pcQPTWxgvKGSQ1LQgks/73S/V10RAeBK5hHJhx7ZbxahrIHGsK5bU
- crb2aPqZrt9ArMgFvNEf6/iL2Ia25u/EldQEsOKbOrKgyMUfulRjc6gCETsPm62Fki99
- ayEXOIgKaYa4YohjIIoMQ+HavVGjkXvTiQCd0/ZohrHC0rsOqSu+B+oZ12+Csh5u+2CE
- xVgg==
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E51D16E989
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 09:15:09 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id z1so26804487edb.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 02:15:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zsFZ3U+MTNyWBA6xTX8iF9xhpZHq3owuoQogBCZG32k=;
+ b=SFaIWTPXjQmFIZdTzls7n3rZGu4qFTSI7ywPxkxDafUt+AG1O9zJ6P1P/a/TiI2mWP
+ JyFpey4vtoBKpJMOf9daf8sVPp1ktAftF5yUmUQoRacS6+vGRKilP4xu9aRHgZ14jCE2
+ voQErrwf259SU9J9GSKws7cwMszh3ta43hPQs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=4rN1YksKNQ6jMnv83wrys0vsQCA6pM1XeLstkQR9zSk=;
- b=TzxUHZuY5w/6Z9QIVbc9M+jMNMu8eVyp8mxfjGNZOzM8U6rmKtgjc02q/kjkx9RFXb
- HHsU+lheu+TsbRVkUlsKTPPWGVxyQmdRqoANK2Qry4W6XjkLhlBrEX7X1M0J0066C00t
- VXoXuOG5jvn4XDtKctBEU8nClLpPkuZ5JoX6ptZFwbrwD202eu9+JircWVX+IyBOlmb3
- /NuzI3j6iVERF0A0ocFoeKLw4+BoLJsFu1EM804g6rGxVLjbrN6UT/NUfz4dvlxqLCH7
- MKSqizGmy6uRif7dxtCXcBHuut+OUiUhlnEXmLXj6pJfLwibN97BXXu98UzxKwf2clS+
- AAhQ==
-X-Gm-Message-State: AOAM531aqPTo0wMOQN7rKfcIFGc8q5YcVxWk6TwwdSRRSrdvWsjHH7zF
- R9ijnhqtxEl2gIq1nJ6pEpilbw==
-X-Google-Smtp-Source: ABdhPJwiwVGAQSOrEM4tqzstTbRBmqfvaxH3KFKNSYNSQI1y++GJvlZicb7puOlrOD6JdzLf3utu9Q==
-X-Received: by 2002:adf:e8c9:: with SMTP id k9mr2327816wrn.315.1616577275230; 
- Wed, 24 Mar 2021 02:14:35 -0700 (PDT)
-Received: from dell ([91.110.221.180])
- by smtp.gmail.com with ESMTPSA id n1sm2536565wro.36.2021.03.24.02.14.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 02:14:34 -0700 (PDT)
-Date: Wed, 24 Mar 2021 09:14:32 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 2/2] video: backlight: qcom-wled: Add PMI8994 compatible
-Message-ID: <20210324091432.GC2916463@dell>
-References: <20210228124106.135812-1-konrad.dybcio@somainline.org>
- <20210228124106.135812-2-konrad.dybcio@somainline.org>
- <20210322161810.biagj2qro66rv4gt@maple.lan>
- <20210323083935.GF2916463@dell>
- <CAMuHMdUamD4rAY1Sn-3Fb9Xf1B9g0FY0Pob8rAFsFR0ZcNZ0rw@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zsFZ3U+MTNyWBA6xTX8iF9xhpZHq3owuoQogBCZG32k=;
+ b=qmjo/2aG9EjyFRt5BX7aXU8erWjWcGbvAZsyQsINq+JM6UUqogeGZLYABYUiEK+vin
+ yrPwtJWNtYcuDMRJszw02iQ7RNkdk4jmqzIH3+p3le39dfa7R63RcBhAxxWutpUjnzx7
+ 8mpAWJ7idlgEqCaOStfTSnivSna+3i90roArOlpASSDNfOb4V7JOu5y1hsoGLdv2Vzz8
+ qKbMdYFXrgXZiIyDiOTD793aFxy928r5bjcoAvhQmGoDqKBFNbaSsHI3cx+Di/A0t97G
+ C35k21hZ6r132Kkq0gOE1RKbphu84xXaKE1zhlfWHrxLkg4O/Z3+YOCKxguDpC4NsgGp
+ GU9g==
+X-Gm-Message-State: AOAM530iCo92NzLSip429jXy5/HFhWeI/BXnPyeNgKWh0O5KDNk3LpS0
+ MbqJ3YwRnyW73syibnR9iQl1pBIeGsG99mhp7m5S0A==
+X-Google-Smtp-Source: ABdhPJzmOXx9kgtZw4VSF8lAJqdI06RPrtHvtgVdVzxXyy5P7sR9NmJCv5xvsQKHo/odSeVeUt60nl7GZ+W71/v/OPI=
+X-Received: by 2002:a05:6402:4244:: with SMTP id
+ g4mr2349372edb.204.1616577308579; 
+ Wed, 24 Mar 2021 02:15:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUamD4rAY1Sn-3Fb9Xf1B9g0FY0Pob8rAFsFR0ZcNZ0rw@mail.gmail.com>
+References: <20210322140152.101709-1-jagan@amarulasolutions.com>
+ <20210322140152.101709-2-jagan@amarulasolutions.com>
+ <YFpxYpA+EIZm7sOf@pendragon.ideasonboard.com>
+ <f47bc0ad-dbd6-05b5-aaec-2e3256e3715a@sholland.org>
+In-Reply-To: <f47bc0ad-dbd6-05b5-aaec-2e3256e3715a@sholland.org>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Wed, 24 Mar 2021 14:44:57 +0530
+Message-ID: <CAMty3ZDOVeMeYTsuF8n4EQTG6eEbj6e33TuTPrFiMWG4RhRdSw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] drm: sun4i: dsi: Use drm_of_find_panel_or_bridge
+To: Samuel Holland <samuel@sholland.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,43 +62,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Kiran Gunda <kgunda@codeaurora.org>, Jingoo Han <jingoohan1@gmail.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, Andy Gross <agross@kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, martin.botka@somainline.org,
- ~postmarketos/upstreaming@lists.sr.ht, Pavel Machek <pavel@ucw.cz>,
- angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
- phone-devel@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-leds <linux-leds@vger.kernel.org>, Dan Murphy <dmurphy@ti.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ linux-sunxi <linux-sunxi@googlegroups.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@csie.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyNCBNYXIgMjAyMSwgR2VlcnQgVXl0dGVyaG9ldmVuIHdyb3RlOgoKPiBIaSBMZWUs
-Cj4gCj4gT24gVHVlLCBNYXIgMjMsIDIwMjEgYXQgOTo0MCBBTSBMZWUgSm9uZXMgPGxlZS5qb25l
-c0BsaW5hcm8ub3JnPiB3cm90ZToKPiA+IE9uIE1vbiwgMjIgTWFyIDIwMjEsIERhbmllbCBUaG9t
-cHNvbiB3cm90ZToKPiA+ID4gT24gU3VuLCBGZWIgMjgsIDIwMjEgYXQgMDE6NDE6MDVQTSArMDEw
-MCwgS29ucmFkIER5YmNpbyB3cm90ZToKPiA+ID4gPiBBZGQgYSBjb21wYXRpYmxlIGZvciBQTUk4
-OTk0IFdMRUQuIEl0IHVzZXMgdGhlIFY0IG9mIFdMRUQgSVAuCj4gPiA+ID4KPiA+ID4gPiBTaWdu
-ZWQtb2ZmLWJ5OiBLb25yYWQgRHliY2lvIDxrb25yYWQuZHliY2lvQHNvbWFpbmxpbmUub3JnPgo+
-ID4gPgo+ID4gPiBSZXZpZXdlZC1ieTogRGFuaWVsIFRob21wc29uIDxkYW5pZWwudGhvbXBzb25A
-bGluYXJvLm9yZz4KPiA+Cj4gPiBXaHkgYXJlIHlvdSBSZXZpZXdpbmcvQWNraW5nIGEgcGF0Y2gg
-dGhhdCB3YXMgYXBwbGllZCBvbiB0aGUgMTB0aD8KPiAKPiBPbmx5IDEyIGRheXMgbGF0ZXI/IT8K
-PiAKPiBJdCdzIG5vdCB1bmNvbW1vbiB0byByZWNlaXZlIGFja3MgZm9yIHBhdGNoZXMgYWZ0ZXIg
-dGhleSBoYXZlIGJlZW4KPiBhcHBsaWVkIHVwc3RyZWFtLiBCdXQgaXQgaXMgaWYgdGhlIHBhdGNo
-IHdhcyBhcHBsaWVkIDEwIHllYXJzIGFuZCA5Cj4gbW9udGhzIGFnbyEKPiBodHRwczovL2xvcmUu
-a2VybmVsLm9yZy9saW51eC1tNjhrL0Y1NTEzQUU5MkE1QTEwNDdBQzJGOTFBRUJCOTIwMjY4MDI4
-OENCQkEzOTgzQEUySzctTVMyLmRzLnN0cmF0aC5hYy51ay8KClRoYXQgdHJ1bHkgaXMgbmV4dCBs
-ZXZlbCEgOikKCi0tIApMZWUgSm9uZXMgW+adjueQvOaWr10KU2VuaW9yIFRlY2huaWNhbCBMZWFk
-IC0gRGV2ZWxvcGVyIFNlcnZpY2VzCkxpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJl
-IGZvciBBcm0gU29DcwpGb2xsb3cgTGluYXJvOiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, Mar 24, 2021 at 8:18 AM Samuel Holland <samuel@sholland.org> wrote:
+>
+> On 3/23/21 5:53 PM, Laurent Pinchart wrote:
+> > Hi Jagan,
+> >
+> > Thank you for the patch.
+> >
+> > On Mon, Mar 22, 2021 at 07:31:49PM +0530, Jagan Teki wrote:
+> >> Replace of_drm_find_panel with drm_of_find_panel_or_bridge
+> >> for finding panel, this indeed help to find the bridge if
+> >> bridge support added.
+> >>
+> >> Added NULL in bridge argument, same will replace with bridge
+> >> parameter once bridge supported.
+> >>
+> >> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> >
+> > Looks good, there should be no functional change.
+>
+> Actually this breaks all existing users of this driver, see below.
+>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >
+> >> ---
+> >> Changes for v4, v3:
+> >> - none
+> >>
+> >>  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 11 ++++++++---
+> >>  1 file changed, 8 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> >> index 4f5efcace68e..2e9e7b2d4145 100644
+> >> --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> >> +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> >> @@ -21,6 +21,7 @@
+> >>
+> >>  #include <drm/drm_atomic_helper.h>
+> >>  #include <drm/drm_mipi_dsi.h>
+> >> +#include <drm/drm_of.h>
+> >>  #include <drm/drm_panel.h>
+> >>  #include <drm/drm_print.h>
+> >>  #include <drm/drm_probe_helper.h>
+> >> @@ -963,10 +964,14 @@ static int sun6i_dsi_attach(struct mipi_dsi_host *host,
+> >>                          struct mipi_dsi_device *device)
+> >>  {
+> >>      struct sun6i_dsi *dsi = host_to_sun6i_dsi(host);
+> >> -    struct drm_panel *panel = of_drm_find_panel(device->dev.of_node);
+>
+> This is using the OF node of the DSI device, which is a direct child of
+> the DSI host's OF node. There is no OF graph involved.
+>
+> >> +    struct drm_panel *panel;
+> >> +    int ret;
+> >> +
+> >> +    ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 0, 0,
+> >> +                                      &panel, NULL);
+>
+> However, this function expects to find the panel using OF graph. This
+> does not work with existing device trees (PinePhone, PineTab) which do
+> not use OF graph to connect the panel. And it cannot work, because the
+> DSI host's binding specifies a single port: the input port from the
+> display engine.
+
+Thanks for noticing this. I did understand your point and yes, I did
+mention the updated pipeline in previous versions and forgot to add it
+to this series.
+
+Here is the updated pipeline to make it work:
+
+https://patchwork.kernel.org/project/dri-devel/patch/20190524104252.20236-1-jagan@amarulasolutions.com/
+
+Let me know your comments on this, so I will add a patch for the
+above-affected DTS files.
+
+Jagan.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
