@@ -1,76 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5733481CA
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 20:21:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E4EA3481D6
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 20:24:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 289656EA73;
-	Wed, 24 Mar 2021 19:21:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E37126EA6F;
+	Wed, 24 Mar 2021 19:24:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 145CE6EA73
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 19:21:01 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id x7so3129744wrw.10
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 12:21:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=tyRazDGir5x3TAuTtidSefO0V++5Y3T6e12HWHHxi8o=;
- b=ixY6eN/EJw9qDTzwkGIO/z4YdG6nIFOcJDyZPNJhy7h2OqrGebjpnGa71AjAUaw9Ti
- xQcFJfz2I5MkpZNdVDBc8/U/vkkvbwlvdoVz5I8Dkg1NsiDHG3Ba0efClwh8fjerERNL
- 7Lg5lNbYmje5jKDhRmubW6Z/iISr8C+a6nZ6w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=tyRazDGir5x3TAuTtidSefO0V++5Y3T6e12HWHHxi8o=;
- b=iJyvQCeqYFZTE7PslGr8lxSaBJqoK17wRWkt3ft3tAdXBucZGNo5BfTWa8WX3mUiIr
- kEQE76lc7kaopja8aP6kmBuTM2YT5q85+frod5bIpYPc0YOqsfPP427X/cu03SCpVlSQ
- 2hj+PoDCmFVqQ9lVYwr/VMwC0cMDRPEsuy2sGIfWc9PM5K1phTJ2G45LjVQQyIjVvtRp
- qAZ0eJ78+8sDvWYaCMQrq1lpzOTCvqYZ/CvISHHgY/i7hxN1lOIjVn6hD+dDPr30Ja5V
- qUX6HKKlCgak+dqqRKBzAuTWGbUdwokAvdmrcm93hsZrRiMUWSgyj57gkjcJdMS9UoWB
- C3Uw==
-X-Gm-Message-State: AOAM532l3cykMZUMXln5XxnaoMSphPildbqpYGn7ef1s7iBgQmVmnk95
- O1wpZBdWrf1NvkXbcYNHsO+2h8epdNPmn5cT
-X-Google-Smtp-Source: ABdhPJxjXE/HNfEm4Qs9it8hgxmYAi7iB2AHMj8ATHq4jb2vtkgCIH7680kqcrvTjxyhE1o0GL1+IQ==
-X-Received: by 2002:adf:a59a:: with SMTP id g26mr5080022wrc.271.1616613659702; 
- Wed, 24 Mar 2021 12:20:59 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y205sm4094896wmc.18.2021.03.24.12.20.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 12:20:58 -0700 (PDT)
-Date: Wed, 24 Mar 2021 20:20:57 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] drm/ttm: stop warning on TT shrinker failure
-Message-ID: <YFuRGdLPF8FX0Be1@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, 
- Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
- Michal Hocko <mhocko@suse.com>,
- Matthew Wilcox <willy@infradead.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux MM <linux-mm@kvack.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Dave Chinner <dchinner@redhat.com>, Leo Liu <Leo.Liu@amd.com>
-References: <20808d08-b66c-13c3-f672-ebce216b2fa2@gmail.com>
- <YFnwBTF0YntCXFeG@dhcp22.suse.cz>
- <e5659cd0-61b2-82bd-64c3-76bd631b4522@amd.com>
- <YFoFdOtYDAezpSLv@dhcp22.suse.cz>
- <03889c00-bb5d-ef20-12c6-7e77df073dd9@amd.com>
- <762c4597-e9bd-6d8d-51b5-16b04f913eb8@shipmail.org>
- <YFsotY3HXmLNGF7p@phenom.ffwll.local>
- <488c8996-1dd2-4928-a98a-4e72f3e0af64@amd.com>
- <YFsqN7068vUL8rAM@phenom.ffwll.local>
- <31a52f86-e4af-f1d3-90b2-6eff8ec5f300@amd.com>
+Received: from smtprelay.hostedemail.com (smtprelay0201.hostedemail.com
+ [216.40.44.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B61876EA6F
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 19:24:15 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay06.hostedemail.com (Postfix) with ESMTP id BB3571801AC84;
+ Wed, 24 Mar 2021 19:24:14 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:152:355:379:421:599:800:960:973:988:989:1260:1261:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1542:1593:1594:1605:1711:1730:1747:1777:1792:1801:2198:2199:2393:2553:2559:2562:2689:2731:3138:3139:3140:3141:3142:3622:3865:3866:3867:3868:3870:3871:3872:3873:3874:4321:4605:5007:6119:6120:6691:6742:7652:7903:10004:10400:10848:11026:11232:11233:11473:11657:11658:11783:11914:12043:12048:12296:12297:12438:12740:12895:13894:14181:14659:14721:21080:21433:21451:21627:21740:21990:30012:30054:30060:30070:30090:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:2, LUA_SUMMARY:none
+X-HE-Tag: fish34_600c2bf2777d
+X-Filterd-Recvd-Size: 4692
+Received: from [192.168.1.159] (unknown [47.151.137.21])
+ (Authenticated sender: joe@perches.com)
+ by omf02.hostedemail.com (Postfix) with ESMTPA;
+ Wed, 24 Mar 2021 19:24:11 +0000 (UTC)
+Message-ID: <d184069de43135a9c9e5f031447faf98ab3f437d.camel@perches.com>
+Subject: Re: [RFC patch] vsprintf: Allow %pe to print non PTR_ERR %pe uses
+ as decimal
+From: Joe Perches <joe@perches.com>
+To: Rasmus Villemoes <linux@rasmusvillemoes.dk>, Arnd Bergmann
+ <arnd@kernel.org>,  Petr Mladek <pmladek@suse.com>, Steven Rostedt
+ <rostedt@goodmis.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>
+Date: Wed, 24 Mar 2021 12:24:10 -0700
+In-Reply-To: <9feab1e8-4dee-6b79-03f7-7b9f0cb24f6e@rasmusvillemoes.dk>
+References: <20210324121832.3714570-1-arnd@kernel.org>
+ <e1310273dcc577f3a772380ada7b6cc1906d680b.camel@perches.com>
+ <CAK8P3a0JyoAtTYTi+M_mJ3_KtUJ6NeJB=FNWhzezqcXMac++mQ@mail.gmail.com>
+ <810d36184b9fa2880d3ba7738a8f182e27f5107b.camel@perches.com>
+ <3252fd83141aa9e0e6001acee1dd98e87c676b9a.camel@perches.com>
+ <9feab1e8-4dee-6b79-03f7-7b9f0cb24f6e@rasmusvillemoes.dk>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <31a52f86-e4af-f1d3-90b2-6eff8ec5f300@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,152 +59,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Matthew Wilcox <willy@infradead.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Linux MM <linux-mm@kvack.org>,
+Cc: David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Marco Felsch <m.felsch@pengutronix.de>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Dave Chinner <dchinner@redhat.com>, Leo Liu <Leo.Liu@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Liu Ying <victor.liu@nxp.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 24, 2021 at 01:07:44PM +0100, Christian K=F6nig wrote:
-> =
-
-> =
-
-> Am 24.03.21 um 13:01 schrieb Daniel Vetter:
-> > On Wed, Mar 24, 2021 at 01:00:28PM +0100, Christian K=F6nig wrote:
-> > > Am 24.03.21 um 12:55 schrieb Daniel Vetter:
-> > > > On Wed, Mar 24, 2021 at 11:19:13AM +0100, Thomas Hellstr=F6m (Intel=
-) wrote:
-> > > > > On 3/23/21 4:45 PM, Christian K=F6nig wrote:
-> > > > > > Am 23.03.21 um 16:13 schrieb Michal Hocko:
-> > > > > > > On Tue 23-03-21 14:56:54, Christian K=F6nig wrote:
-> > > > > > > > Am 23.03.21 um 14:41 schrieb Michal Hocko:
-> > > > > > > [...]
-> > > > > > > > > Anyway, I am wondering whether the overall approach is
-> > > > > > > > > sound. Why don't
-> > > > > > > > > you simply use shmem as your backing storage from the
-> > > > > > > > > beginning and pin
-> > > > > > > > > those pages if they are used by the device?
-> > > > > > > > Yeah, that is exactly what the Intel guys are doing for the=
-ir
-> > > > > > > > integrated
-> > > > > > > > GPUs :)
-> > > > > > > > =
-
-> > > > > > > > Problem is for TTM I need to be able to handle dGPUs and th=
-ose have all
-> > > > > > > > kinds of funny allocation restrictions. In other words I ne=
-ed to
-> > > > > > > > guarantee
-> > > > > > > > that the allocated memory is coherent accessible to the GPU
-> > > > > > > > without using
-> > > > > > > > SWIOTLB.
-> > > > > > > > =
-
-> > > > > > > > The simple case is that the device can only do DMA32, but y=
-ou also got
-> > > > > > > > device which can only do 40bits or 48bits.
-> > > > > > > > =
-
-> > > > > > > > On top of that you also got AGP, CMA and stuff like CPU cac=
-he behavior
-> > > > > > > > changes (write back vs. write through, vs. uncached).
-> > > > > > > OK, so the underlying problem seems to be that gfp mask (thus
-> > > > > > > mapping_gfp_mask) cannot really reflect your requirements, ri=
-ght?=A0 Would
-> > > > > > > it help if shmem would allow to provide an allocation callbac=
-k to
-> > > > > > > override alloc_page_vma which is used currently? I am pretty =
-sure there
-> > > > > > > will be more to handle but going through shmem for the whole =
-life time
-> > > > > > > is just so much easier to reason about than some tricks to ab=
-use shmem
-> > > > > > > just for the swapout path.
-> > > > > > Well it's a start, but the pages can have special CPU cache set=
-tings. So
-> > > > > > direct IO from/to them usually doesn't work as expected.
-> > > > > > =
-
-> > > > > > Additional to that for AGP and CMA I need to make sure that I g=
-ive those
-> > > > > > pages back to the relevant subsystems instead of just dropping =
-the page
-> > > > > > reference.
-> > > > > > =
-
-> > > > > > So I would need to block for the swapio to be completed.
-> > > > > > =
-
-> > > > > > Anyway I probably need to revert those patches for now since th=
-is isn't
-> > > > > > working as we hoped it would.
-> > > > > > =
-
-> > > > > > Thanks for the explanation how stuff works here.
-> > > > > Another alternative here that I've tried before without being suc=
-cessful
-> > > > > would perhaps be to drop shmem completely and, if it's a normal p=
-age (no dma
-> > > > > or funny caching attributes) just use add_to_swap_cache()? If it'=
-s something
-> > > > > else, try alloc a page with relevant gfp attributes, copy and
-> > > > > add_to_swap_cache()? Or perhaps that doesn't work well from a shr=
-inker
-> > > > > either?
-> > > > So before we toss everything and go an a great rewrite-the-world to=
-ur,
-> > > > what if we just try to split up big objects. So for objects which a=
-re
-> > > > bigger than e.g. 10mb
-> > > > =
-
-> > > > - move them to a special "under eviction" list
-> > > > - keep a note how far we evicted thus far
-> > > > - interleave allocating shmem pages, copying data and releasing the=
- ttm
-> > > >     backing store on a chunk basis (maybe 10mb or whatever, tuning =
-tbh)
-> > > > =
-
-> > > > If that's not enough, occasionally break out of the shrinker entire=
-ly so
-> > > > other parts of reclaim can reclaim the shmem stuff. But just releas=
-ing our
-> > > > own pages as we go should help a lot I think.
-> > > Yeah, the later is exactly what I was currently prototyping.
-> > > =
-
-> > > I just didn't used a limit but rather a only partially evicted BOs li=
-st
-> > > which is used when we fail to allocate a page.
-> > > =
-
-> > > For the 5.12 cycle I think we should just go back to a hard 50% limit=
- for
-> > > now and then resurrect this when we have solved the issues.
-> > Can we do the 50% limit without tossing out all the code we've done thus
-> > far? Just so this doesn't get too disruptive.
-> =
-
-> Yeah, I just need to get back to v1 of this patch. Before you convinced me
-> that the shrinker is the better approach .)
-
-I don't think there's anything else than the shrinker if you want
-dynamically sized memory usage. Or pinning it all. Implementing our own
-kswapd and not tying into direct reclaim does not sound like a good idea
-to me.
--Daniel
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCAyMDIxLTAzLTI0IGF0IDE4OjMzICswMTAwLCBSYXNtdXMgVmlsbGVtb2VzIHdyb3Rl
+Ogo+IE9uIDI0LzAzLzIwMjEgMTguMjAsIEpvZSBQZXJjaGVzIHdyb3RlOgo+ID4gT24gV2VkLCAy
+MDIxLTAzLTI0IGF0IDA5OjUyIC0wNzAwLCBKb2UgUGVyY2hlcyB3cm90ZToKPiA+ID4gT24gV2Vk
+LCAyMDIxLTAzLTI0IGF0IDE3OjQyICswMTAwLCBBcm5kIEJlcmdtYW5uIHdyb3RlOgo+ID4gPiA+
+IE9uIFdlZCwgTWFyIDI0LCAyMDIxIGF0IDM6MjAgUE0gSm9lIFBlcmNoZXMgPGpvZUBwZXJjaGVz
+LmNvbT4gd3JvdGU6Cj4gPiA+IFtdCj4gPiA+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vaW14L2lteC1sZGIuYyBiL2RyaXZlcnMvZ3B1L2RybS9pbXgvaW14LWxkYi5jCj4gPiA+
+ID4gPiBbXQo+ID4gPiA+ID4gPiBAQCAtMTk3LDYgKzE5NywxMiBAQCBzdGF0aWMgdm9pZCBpbXhf
+bGRiX2VuY29kZXJfZW5hYmxlKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlcikKPiA+ID4gPiA+
+ID4gwqDCoMKgwqDCoMKgaW50IGR1YWwgPSBsZGItPmxkYl9jdHJsICYgTERCX1NQTElUX01PREVf
+RU47Cj4gPiA+ID4gPiA+IMKgwqDCoMKgwqDCoGludCBtdXggPSBkcm1fb2ZfZW5jb2Rlcl9hY3Rp
+dmVfcG9ydF9pZChpbXhfbGRiX2NoLT5jaGlsZCwgZW5jb2Rlcik7Cj4gPiA+ID4gPiA+IAo+ID4g
+PiA+ID4gPiArICAgICBpZiAobXV4IDwgMCB8fCBtdXggPj0gQVJSQVlfU0laRShsZGItPmNsa19z
+ZWwpKSB7Cj4gPiA+ID4gPiA+ICsgICAgICAgICAgICAgZGV2X3dhcm4obGRiLT5kZXYsICIlczog
+aW52YWxpZCBtdXggJWRcbiIsCj4gPiA+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgX19m
+dW5jX18sIEVSUl9QVFIobXV4KSk7Cj4gPiA+ID4gPiAKPiA+ID4gPiA+IFRoaXMgZG9lcyBub3Qg
+Y29tcGlsZSB3aXRob3V0IHdhcm5pbmdzLgo+ID4gPiA+ID4gCj4gPiA+ID4gPiBkcml2ZXJzL2dw
+dS9kcm0vaW14L2lteC1sZGIuYzogSW4gZnVuY3Rpb24g4oCYaW14X2xkYl9lbmNvZGVyX2VuYWJs
+ZeKAmToKPiA+ID4gPiA+IGRyaXZlcnMvZ3B1L2RybS9pbXgvaW14LWxkYi5jOjIwMToyMjogd2Fy
+bmluZzogZm9ybWF0IOKAmCVk4oCZIGV4cGVjdHMgYXJndW1lbnQgb2YgdHlwZSDigJhpbnTigJks
+IGJ1dCBhcmd1bWVudCA0IGhhcyB0eXBlIOKAmHZvaWQgKuKAmSBbLVdmb3JtYXQ9XQo+ID4gPiA+
+ID4gwqDCoDIwMSB8ICAgZGV2X3dhcm4obGRiLT5kZXYsICIlczogaW52YWxpZCBtdXggJWRcbiIs
+Cj4gPiA+ID4gPiDCoMKgwqDCoMKgwqB8ICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn4KPiA+ID4gPiA+IAo+ID4gPiA+ID4gSWYgeW91IHdhbnQgdG8gdXNlIEVSUl9Q
+VFIsIHRoZSAlZCBzaG91bGQgYmUgJXBlIGFzIEVSUl9QVFIKPiA+ID4gPiA+IGlzIGNvbnZlcnRp
+bmcgYW4gaW50IGEgdm9pZCAqIHRvIGRlY29kZSB0aGUgZXJyb3IgdHlwZSBhbmQKPiA+ID4gPiA+
+IGVtaXQgaXQgYXMgYSBzdHJpbmcuCj4gPiA+ID4gCj4gPiA+ID4gU29ycnkgYWJvdXQgdGhhdC4K
+PiA+ID4gPiAKPiA+ID4gPiBJIGRlY2lkZWQgYWdhaW5zdCB1c2luZyBFUlJfUFRSKCkgaW4gb3Jk
+ZXIgdG8gYWxzbyBjaGVjayBmb3IKPiA+ID4gPiBwb3NpdGl2ZSBhcnJheSBvdmVyZmxvdywgYnV0
+IHRoZSB2ZXJzaW9uIEkgdGVzdGVkIHdhcyBkaWZmZXJlbnQgZnJvbQo+ID4gPiA+IHRoZSB2ZXJz
+aW9uIEkgc2VudC4KPiA+ID4gPiAKPiA+ID4gPiB2MyBjb21pbmcuCj4gPiA+IAo+ID4gPiBUaGFu
+a3MuICBObyB3b3JyaWVzLgo+ID4gPiAKPiA+ID4gVXAgdG8geW91LCB2c3ByaW50ZiB3b3VsZCBl
+bWl0IHRoZSBwb3NpdGl2ZSBtdXggYXMgYSBmdW5reSBoYXNoZWQKPiA+ID4gaGV4IHZhbHVlIGJ5
+IGRlZmF1bHQgaWYgeW91IHVzZSBFUlJfUFRSIHdpdGggbXV4ID4gQVJSQVlfU0laRSBzbwo+ID4g
+PiBwZXJoYXBzICVkIHdpdGhvdXQgdGhlIEVSUl9QVFIgdXNlIG1ha2VzIHRoZSBtb3N0IHNlbnNl
+Lgo+ID4gPiAKPiAKPiA+IAo+ID4gTWF5YmUgaXQncyBiZXR0ZXIgdG8gb3V0cHV0IG5vbiBQVFJf
+RVJSICVwZSB1c2VzIGFzIGRlY2ltYWwgc28gdGhpcwo+ID4gc29ydCBvZiBjb2RlIHdvdWxkIHdv
+cmsuCj4gCj4gTm8sIGJlY2F1c2UgdGhhdCB3b3VsZCBsZWFrIHRoZSBwb2ludGVyIHZhbHVlIHdo
+ZW4gc29tZWJvZHkgaGFzCj4gYWNjaWRlbnRhbGx5IHBhc3NlZCBhIHJlYWwga2VybmVsIHBvaW50
+ZXIgdG8gJXBlLgoKSSB0aGluayBpdCdzIG5vdCByZWFsbHkgYW4gaXNzdWUuCgpfQWxsXyBjb2Rl
+IHRoYXQgdXNlcyAlcDxmb28+IGV4dGVuc2lvbnMgbmVlZCBpbnNwZWN0aW9uIGFueXdheS4KCkl0
+J3MgYWxyZWFkeSBwb3NzaWJsZSB0byBpbnRlbnRpb25hbGx5ICdsZWFrJyB0aGUgcHRyIHZhbHVl
+CmJ5IHVzaW5nICVwZSwgLXB0ciBzbyBJIHRoaW5rIHRoYXQncyBub3QgcmVhbGx5IGFuIGlzc3Vl
+LgoKPiAKPiBJZiB0aGUgY29kZSB3YW50cyBhIGN1dGUgLUVGT08gc3RyaW5nIGV4cGxhaW5pbmcg
+d2hhdCdzIHdyb25nLCB3aGF0Cj4gYWJvdXQgIiVwZSIsIEVSUl9QVFIobXV4IDwgMCA6IG11eCA6
+IC1FUkFOR0UpPyBPciB0d28gc2VwYXJhdGUgZXJyb3IKPiBtZXNzYWdlcwo+IAo+IGlmIChtdXgg
+PCAwKQo+IMKgwqAuLi4KPiBlbHNlIGlmIChtdXggPj0gQVJSQVlfU0laRSgpKQo+IMKgwqAuLi4K
+Ck11bHRpcGxlIHRlc3RzLCBtb3JlIHVubmVjZXNzYXJ5IGNvZGUsIG11bHRpcGxlIGZvcm1hdCBz
+dHJpbmdzLCBldGMuLi4KCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
