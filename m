@@ -1,60 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531F8347583
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 11:11:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A63034759A
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 11:13:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1CB76E9A8;
-	Wed, 24 Mar 2021 10:11:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B93F6E9AA;
+	Wed, 24 Mar 2021 10:13:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C705A6E9A8
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 10:11:16 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id j18so23812886wra.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 03:11:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=9UWhVxrBDTnf1xWRIlnCIU7DzbRlOGLlbilwpjER61c=;
- b=VSqZLrICyosXKp5sUstEztTk32gH1nX5XRFI5Z9t59H7lbVAW5bGV/I5Cn02sz4Aov
- 3P8hSNCvn68lcTV5fvsVtoxd7GGRoAp3lI70BDQF1apcgawAgOp/EqEDudlf/tQCSebb
- l7WBMXoWMQaojJCsfQu2yyJz/vtZvGq0Vsz4k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9UWhVxrBDTnf1xWRIlnCIU7DzbRlOGLlbilwpjER61c=;
- b=EE9yYRZgU+NeH+pBj//CvEtWPbZh3W6WV2AIjHAzK1QONFAbDpxEl4mO69lTeILkL3
- dZB5e1k1rs1KeSW1oIsiCHjHxXT78nncLUWh5hEfQpcPqS3McafdaEAWvm3P6t7e+TkG
- v+OPzAUpuzrtSkszBrQmhkFdhveEJiXjsQxuoxoIejfptNJaOOWAi+owz6BH4cqKOzeV
- YpRm4dAAAOIfpJb58rah8k0Z5RVhhmRGNuWg++gjPYSbhWRcwiC3fiNcrgDgghPlzUBj
- K7girKoOGDSbYk3KZWhDJ+MWa+/0ewkB4SW6hY7b0QVLSwaZdL5zuPxP/ZzdgDIrEaiz
- eNwQ==
-X-Gm-Message-State: AOAM531T3i9xsKpuDNNnx6AqAHUOOoM4h0wQ+gaVjBFb8B8xd5JsdBtx
- je5YJ1yMNbbGQhqUr4emoF/SsNhHU4inBRjJ
-X-Google-Smtp-Source: ABdhPJwPTTY6aqSs9EBBiEMgx4oBoJ4yQYjrD4RUSSGriSp0zi9LpQiGoLwdNtYYDjW8DeIXE/2j1A==
-X-Received: by 2002:adf:ecc8:: with SMTP id s8mr2579659wro.11.1616580675424;
- Wed, 24 Mar 2021 03:11:15 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i3sm2416100wra.66.2021.03.24.03.11.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 03:11:14 -0700 (PDT)
-Date: Wed, 24 Mar 2021 11:11:13 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v9 68/70] drm/i915: Pass ww ctx to pin_map
-Message-ID: <YFsQQfwwyZhq5BBF@phenom.ffwll.local>
-References: <20210323155059.628690-1-maarten.lankhorst@linux.intel.com>
- <20210323155059.628690-69-maarten.lankhorst@linux.intel.com>
- <CAM0jSHPL44qRd7dybPmmEz-8pr8xS0d9VXhRYm8iNj3YyX7h-A@mail.gmail.com>
- <79e6f35b-0df6-0f45-e349-8f49529f7382@linux.intel.com>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9BA746E9A7;
+ Wed, 24 Mar 2021 10:13:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 97BB92A6045;
+ Wed, 24 Mar 2021 11:13:50 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id XFM4zYS7LqyR; Wed, 24 Mar 2021 11:13:50 +0100 (CET)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id 2EEB92A6016;
+ Wed, 24 Mar 2021 11:13:50 +0100 (CET)
+Received: from [::1] by thor with esmtp (Exim 4.94)
+ (envelope-from <michel@daenzer.net>)
+ id 1lP0WL-000jKo-2t; Wed, 24 Mar 2021 11:13:49 +0100
+To: Mark Yacoub <markyacoub@google.com>, Alex Deucher <alexdeucher@gmail.com>
+References: <20210310161444.1015500-1-markyacoub@chromium.org>
+ <CADnq5_P9aYcedOP2qduSz7VN1fCSnmQEtPa+FdjYu9Co7TwPog@mail.gmail.com>
+ <CAC0gqY7Y2WxtAZ3GnWmASPYq7ahYTfmPhOHAAX5UjMNS9k098w@mail.gmail.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [PATCH] drm/amdgpu: Ensure that the modifier requested is
+ supported by plane.
+Message-ID: <b4070483-5aa5-c712-6435-dcb4a206ca76@daenzer.net>
+Date: Wed, 24 Mar 2021 11:13:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <79e6f35b-0df6-0f45-e349-8f49529f7382@linux.intel.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <CAC0gqY7Y2WxtAZ3GnWmASPYq7ahYTfmPhOHAAX5UjMNS9k098w@mail.gmail.com>
+Content-Language: en-CA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,177 +52,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.william.auld@gmail.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Mark Yacoub <markyacoub@chromium.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 24, 2021 at 10:31:26AM +0100, Maarten Lankhorst wrote:
-> Op 23-03-2021 om 18:30 schreef Matthew Auld:
-> > On Tue, 23 Mar 2021 at 15:51, Maarten Lankhorst
-> > <maarten.lankhorst@linux.intel.com> wrote:
-> >> This will allow us to explicitly pass the ww to pin_pages,
-> >> when it starts taking it.
-> >>
-> >> This allows us to finally kill off the explicit passing of ww
-> >> by retrieving it from the obj.
-> >>
-> >> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> >> ---
-> >>  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  7 ++++---
-> >>  drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  2 +-
-> >>  drivers/gpu/drm/i915/gem/i915_gem_object.h    |  1 +
-> >>  .../gpu/drm/i915/gem/i915_gem_object_blt.c    |  4 ++--
-> >>  drivers/gpu/drm/i915/gem/i915_gem_pages.c     | 21 +++++++++++++++----
-> >>  .../drm/i915/gem/selftests/i915_gem_context.c |  8 ++++---
-> >>  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  2 +-
-> >>  drivers/gpu/drm/i915/gt/gen7_renderclear.c    |  2 +-
-> >>  drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
-> >>  drivers/gpu/drm/i915/gt/intel_engine_pm.c     |  2 +-
-> >>  drivers/gpu/drm/i915/gt/intel_lrc.c           |  4 ++--
-> >>  drivers/gpu/drm/i915/gt/intel_renderstate.c   |  2 +-
-> >>  drivers/gpu/drm/i915/gt/intel_ring.c          |  2 +-
-> >>  .../gpu/drm/i915/gt/intel_ring_submission.c   |  2 +-
-> >>  drivers/gpu/drm/i915/gt/intel_timeline.c      |  7 ++++---
-> >>  drivers/gpu/drm/i915/gt/intel_timeline.h      |  3 ++-
-> >>  drivers/gpu/drm/i915/gt/intel_workarounds.c   |  2 +-
-> >>  drivers/gpu/drm/i915/gt/mock_engine.c         |  2 +-
-> >>  drivers/gpu/drm/i915/gt/selftest_lrc.c        |  2 +-
-> >>  drivers/gpu/drm/i915/gt/selftest_rps.c        | 10 ++++-----
-> >>  .../gpu/drm/i915/gt/selftest_workarounds.c    |  6 +++---
-> >>  drivers/gpu/drm/i915/gvt/cmd_parser.c         |  4 ++--
-> >>  drivers/gpu/drm/i915/i915_perf.c              |  4 ++--
-> >>  drivers/gpu/drm/i915/selftests/igt_spinner.c  |  2 +-
-> >>  24 files changed, 60 insertions(+), 43 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> >> index dcfcae9c841b..73dd2a7673f5 100644
-> >> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> >> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> >> @@ -1340,7 +1340,7 @@ static int __reloc_gpu_alloc(struct i915_execbuffer *eb,
-> >>         if (err)
-> >>                 goto err_pool;
-> >>
-> >> -       cmd = i915_gem_object_pin_map(pool->obj, pool->type);
-> >> +       cmd = i915_gem_object_pin_map(pool->obj, &eb->ww, pool->type);
-> >>         if (IS_ERR(cmd)) {
-> >>                 err = PTR_ERR(cmd);
-> >>                 goto err_pool;
-> >> @@ -2489,7 +2489,8 @@ static int eb_parse_pipeline(struct i915_execbuffer *eb,
-> >>                         goto err_shadow;
-> >>         }
-> >>
-> >> -       pw->shadow_map = i915_gem_object_pin_map(shadow->obj, I915_MAP_WB);
-> >> +       pw->shadow_map = i915_gem_object_pin_map(shadow->obj, &eb->ww,
-> >> +                                                I915_MAP_WB);
-> >>         if (IS_ERR(pw->shadow_map)) {
-> >>                 err = PTR_ERR(pw->shadow_map);
-> >>                 goto err_trampoline;
-> >> @@ -2500,7 +2501,7 @@ static int eb_parse_pipeline(struct i915_execbuffer *eb,
-> >>
-> >>         pw->batch_map = ERR_PTR(-ENODEV);
-> >>         if (needs_clflush && i915_has_memcpy_from_wc())
-> >> -               pw->batch_map = i915_gem_object_pin_map(batch, I915_MAP_WC);
-> >> +               pw->batch_map = i915_gem_object_pin_map(batch, &eb->ww, I915_MAP_WC);
-> >>
-> >>         if (IS_ERR(pw->batch_map)) {
-> >>                 err = i915_gem_object_pin_pages(batch);
-> >> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> >> index 2561a2f1e54f..edac8ee3be9a 100644
-> >> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> >> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> >> @@ -439,7 +439,7 @@ vm_access(struct vm_area_struct *area, unsigned long addr,
-> >>                 goto out;
-> >>
-> >>         /* As this is primarily for debugging, let's focus on simplicity */
-> >> -       vaddr = i915_gem_object_pin_map(obj, I915_MAP_FORCE_WC);
-> >> +       vaddr = i915_gem_object_pin_map(obj, &ww, I915_MAP_FORCE_WC);
-> >>         if (IS_ERR(vaddr)) {
-> >>                 err = PTR_ERR(vaddr);
-> >>                 goto out;
-> >> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> >> index 1a8ec4035112..9bd9b47dcc8d 100644
-> >> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> >> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> >> @@ -450,6 +450,7 @@ void i915_gem_object_writeback(struct drm_i915_gem_object *obj);
-> >>   * ERR_PTR() on error.
-> >>   */
-> >>  void *__must_check i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
-> >> +                                          struct i915_gem_ww_ctx *ww,
-> >>                                            enum i915_map_type type);
-> >>
-> >>  void *__must_check i915_gem_object_pin_map_unlocked(struct drm_i915_gem_object *obj,
-> >> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_blt.c b/drivers/gpu/drm/i915/gem/i915_gem_object_blt.c
-> >> index df8e8c18c6c9..fae18622d2da 100644
-> >> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_blt.c
-> >> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_blt.c
-> >> @@ -58,7 +58,7 @@ struct i915_vma *intel_emit_vma_fill_blt(struct intel_context *ce,
-> >>         /* we pinned the pool, mark it as such */
-> >>         intel_gt_buffer_pool_mark_used(pool);
-> >>
-> >> -       cmd = i915_gem_object_pin_map(pool->obj, pool->type);
-> >> +       cmd = i915_gem_object_pin_map(pool->obj, ww, pool->type);
-> >>         if (IS_ERR(cmd)) {
-> >>                 err = PTR_ERR(cmd);
-> >>                 goto out_unpin;
-> >> @@ -283,7 +283,7 @@ struct i915_vma *intel_emit_vma_copy_blt(struct intel_context *ce,
-> >>         /* we pinned the pool, mark it as such */
-> >>         intel_gt_buffer_pool_mark_used(pool);
-> >>
-> >> -       cmd = i915_gem_object_pin_map(pool->obj, pool->type);
-> >> +       cmd = i915_gem_object_pin_map(pool->obj, ww, pool->type);
-> >>         if (IS_ERR(cmd)) {
-> >>                 err = PTR_ERR(cmd);
-> >>                 goto out_unpin;
-> >> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> >> index 58e222030e10..232832398457 100644
-> >> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> >> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> >> @@ -341,6 +341,7 @@ static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj,
-> >>
-> >>  /* get, pin, and map the pages of the object into kernel space */
-> >>  void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
-> >> +                             struct i915_gem_ww_ctx *ww,
-> >>                               enum i915_map_type type)
-> >>  {
-> >>         enum i915_map_type has_type;
-> >> @@ -408,13 +409,25 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
-> >>  void *i915_gem_object_pin_map_unlocked(struct drm_i915_gem_object *obj,
-> >>                                        enum i915_map_type type)
-> >>  {
-> >> +       struct i915_gem_ww_ctx ww;
-> >>         void *ret;
-> >> +       int err;
-> >>
-> >> -       i915_gem_object_lock(obj, NULL);
-> >> -       ret = i915_gem_object_pin_map(obj, type);
-> >> -       i915_gem_object_unlock(obj);
-> >> +       i915_gem_ww_ctx_init(&ww, true);
-> >> +retry:
-> >> +       err = i915_gem_object_lock(obj, &ww);
-> >> +       if (!err)
-> >> +               ret = i915_gem_object_pin_map(obj, &ww, type);
-> >> +       if (IS_ERR(ret))
-> > This looks a little dodgy, since ret might not be initialized here,
-> > say if we encounter an error when grabbing the lock?
-> >
-> > Also maybe s/ret/ptr/? Seeing ret makes me think it's a plain integer.
-> 
-> Ack, good catch!
-> 
-> Will send a new version to fix it.
-
-Can you pls just update this patch with in-reply-to? I'm starting to
-apply.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjAyMS0wMy0yMyA0OjMyIHAubS4sIE1hcmsgWWFjb3ViIHdyb3RlOgo+IE9uIFR1ZSwgTWFy
+IDIzLCAyMDIxIGF0IDExOjAyIEFNIEFsZXggRGV1Y2hlciA8YWxleGRldWNoZXJAZ21haWwuY29t
+PiB3cm90ZToKPj4KPj4gT24gV2VkLCBNYXIgMTAsIDIwMjEgYXQgMTE6MTUgQU0gTWFyayBZYWNv
+dWIgPG1hcmt5YWNvdWJAY2hyb21pdW0ub3JnPiB3cm90ZToKPj4+Cj4+PiBGcm9tOiBNYXJrIFlh
+Y291YiA8bWFya3lhY291YkBnb29nbGUuY29tPgo+Pj4KPj4+IE9uIGluaXRpYWxpemluZyB0aGUg
+ZnJhbWVidWZmZXIsIGNhbGwgZHJtX2FueV9wbGFuZV9oYXNfZm9ybWF0IHRvIGRvIGEKPj4+IGNo
+ZWNrIGlmIHRoZSBtb2RpZmllciBpcyBzdXBwb3J0ZWQuIGRybV9hbnlfcGxhbmVfaGFzX2Zvcm1h
+dCBjYWxscwo+Pj4gZG1fcGxhbmVfZm9ybWF0X21vZF9zdXBwb3J0ZWQgd2hpY2ggaXMgZXh0ZW5k
+ZWQgdG8gdmFsaWRhdGUgdGhhdCB0aGUKPj4+IG1vZGlmaWVyIGlzIG9uIHRoZSBsaXN0IG9mIHRo
+ZSBwbGFuZSdzIHN1cHBvcnRlZCBtb2RpZmllcnMuCj4+Pgo+Pj4gVGhlIGJ1ZyB3YXMgY2F1Z2h0
+IHVzaW5nIGlndC1ncHUtdG9vbHMgdGVzdDoga21zX2FkZGZiX2Jhc2ljLmFkZGZiMjUtYmFkLW1v
+ZGlmaWVyCj4+Pgo+Pj4gVGVzdGVkIG9uIENocm9tZU9TIFpvcmsgYnkgdHVybmluZyBvbiB0aGUg
+ZGlzcGxheSwgcnVubmluZyBhbiBvdmVybGF5Cj4+PiB0ZXN0LCBhbmQgcnVubmluZyBhIFlUIHZp
+ZGVvLgo+Pj4KPj4+IENjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+
+Cj4+PiBDYzogQmFzIE5pZXV3ZW5odWl6ZW4gPGJhc0BiYXNuaWV1d2VuaHVpemVuLm5sPgo+Pj4g
+U2lnbmVkLW9mZi1ieTogZGVmYXVsdCBhdmF0YXJNYXJrIFlhY291YiA8bWFya3lhY291YkBjaHJv
+bWl1bS5vcmc+Cj4+Cj4+IEknbSBub3QgYW4gZXhwZXJ0IHdpdGggbW9kaWZpZXJzIHlldC4gIFdp
+bGwgdGhpcyBicmVhayBjaGlwcyB3aGljaAo+PiBkb24ndCBjdXJyZW50bHkgc3VwcG9ydCBtb2Rp
+ZmllcnM/Cj4gTm8gaXQgc2hvdWxkbid0LiBXaGVuIHlvdSBkb24ndCBzdXBwb3J0IG1vZGlmaWVy
+cyB5ZXQsIHlvdXIgd2lsbAo+IGRlZmF1bHQgdG8gTGluZWFyIE1vZGlmaWVyIChEUk1fRk9STUFU
+X01PRF9MSU5FQVIpLAo+IFsuLi5dCk5vIG1vZGlmaWVyIHN1cHBvcnQgZG9lcyBub3QgaW1wbHkg
+bGluZWFyLiBJdCdzIGdlbmVyYWxseSBzaWduYWxsZWQgdmlhIERSTV9GT1JNQVRfTU9EX0lOVkFM
+SUQsIHdoaWNoIHJvdWdobHkgbWVhbnMgInRpbGluZyBpcyBkZXRlcm1pbmVkIGJ5IGRyaXZlciBz
+cGVjaWZpYyBtZWNoYW5pc21zIi4KCgotLSAKRWFydGhsaW5nIE1pY2hlbCBEw6RuemVyICAgICAg
+ICAgICAgICAgfCAgICAgICAgICAgICAgIGh0dHBzOi8vcmVkaGF0LmNvbQpMaWJyZSBzb2Z0d2Fy
+ZSBlbnRodXNpYXN0ICAgICAgICAgICAgIHwgICAgICAgICAgICAgTWVzYSBhbmQgWCBkZXZlbG9w
+ZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
