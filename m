@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28FB7347BD9
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:14:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CEE9347BF2
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:19:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3BC56EA30;
-	Wed, 24 Mar 2021 15:14:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0212F6EA1C;
+	Wed, 24 Mar 2021 15:19:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D4AE6EA32
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:14:39 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id p19so13110890wmq.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:14:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=vjgABm8xHVXIhTgFNyGGl8fWrWAzbbNLflcWKceQnNA=;
- b=ccgkR98ZWcERYLV/CzKzwcs2nvnlp8jwnRIBMEHVYaiEx7btvyBNNCl2umNmTD1UHQ
- JWgc/bErkLKOwPFvbGSzZ1dJdEkqGtltI08GzIM1cd3zUnoc5A1j9rH5TATCOfcUI+H/
- IeY3xS0PK9z4C6ucUOlDXE4t4sxDRmZGTJuPNk4lWXQzraG50chCiguSYX70q+RadCjr
- wJnu1y2Xx4MVz1e+AJr7UJidUTrakZIMDtTf2VyzcjAnLFESp7iR+8gPpWmOhIeDur+V
- cq2H/K8RJTd1V9MkHxLMXE+VdE1+wxyrzcNxS1GkjOXWbXPh7pk/GbPHbi3B1SNGks56
- Ga1Q==
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B765D6EA1E
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:19:07 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id i26so16650742lfl.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:19:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tk201XK0GsgCw2z2W2qK3LFMVQT+0BnMz/tqU+2avqI=;
+ b=u9N/Sj5afQG8CJSXVMiyXWwyTqjsexPwrnBD7G3Y+pkl4ZCYhlNcg7DXojl0swbOnK
+ IBgyjzy7J9RGN7OKBGx0D0zELukt+Q94oTCjeMOpAqj07ZUUXeCuZf1hA49OswEgZEOH
+ oqv7N+MjOdkpfwaxSVPJae3QQYseoUFj51PTv2Kl21GGE6sMxSP7BWDwN6OTHyIWUJrj
+ 7mgE8hD96osLkTOqmdZfwdsAAmsem56lV3pwPN+FRU4I28CRExn8LVOe/5SBdyCvyyae
+ M/x2xwEVJFcjw6YlUPGCcEAMphxtFg1Ujz7zKMUBK/nwlABeYi5bZCv0aA3Iv5BwGlIY
+ A2Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=vjgABm8xHVXIhTgFNyGGl8fWrWAzbbNLflcWKceQnNA=;
- b=DbZE+VyxOqO67vOz8ksBiOhAEPNLgTVAU//hF5gtXlZ2zgCdpSbA3GZXy/PV9eEzJB
- NzvIcAT8k9i+s+hhiNBv0uIQHvibULhFvHLXvL6DbXgakbBfn6kbAGXXcf8Rj18o4D+6
- 9QyBU/D1Q67xGeRNvre6k8DnBPnuE9yaBthWOrAYB8xgZhSrSzH4tFegX0/4E/DKuBgo
- tV3vY7ipgKXWX2iom1C7i/VJGHz/9CQ6Rsq9KDWgr1YTTqFoLkG5D9bqWguVJIZ0Aiud
- sYgPDL2jHT9QqHMKiifVspldZ0avkJNx0k+0A3Z8wJURgl5pwS2Lbcz/vK1mh9eTk8nO
- pXVQ==
-X-Gm-Message-State: AOAM532un4Nw6h+iFYWLiPLY9NbRkGsNgGNWjhRyFrBFI68ft5lOILq8
- or2SduG/pbfP7yzg9UjNfHg=
-X-Google-Smtp-Source: ABdhPJyOvj1GeY/MtJ72u5NFtRr76OvRZgU6wn3YvkmCUvRWkKpYuEWGPhaiiuhVtZEXft9guX4iMQ==
-X-Received: by 2002:a1c:1f94:: with SMTP id f142mr3460945wmf.180.1616598878302; 
- Wed, 24 Mar 2021 08:14:38 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id f126sm2840936wmf.17.2021.03.24.08.14.36
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tk201XK0GsgCw2z2W2qK3LFMVQT+0BnMz/tqU+2avqI=;
+ b=hYCYHNxc8tj6IUDUnVEr/zgvJCiKrmT9MSeotzeckk3X88xhhF8LAB98GMoRP5pUpD
+ 7YodghHC/PQb6EUd1M+qcK4FgCIersNgf2hoYxwf86tKOKo/BN6hnPzhT9jm5haHWFwr
+ xwv4nVJSK7im7Jdft7VpBguCwVMLQoempVWnDBBcX8F5VB410aY3LRdE18CQSDIAn4z9
+ FoDev/cNEIjs2lwnp43XHF6ErRz4oBQQXsrmKteuAKkBvcSqff8E0/UyKLyRFGFw7g55
+ Jwh3LyxEzb0telD7ksHhParoa8bHbFv+HEb84BDir82WWeLE57IL3ae2oEl9O4+MDDeW
+ 7HYg==
+X-Gm-Message-State: AOAM5305GnVnj7vmNgAp66oJ8nwyzE4xAFYZr1NkAJu+okX/rKuQ6U06
+ 9ZCs4F2QT6bfDv8+zfenNiFkEQ==
+X-Google-Smtp-Source: ABdhPJzubbcVNRPYMGpCD+9JZnn8dZ+ory2gYhWQAdH1sr669SIMX31yypo+z5GBv3rmF8Oj+5eOhg==
+X-Received: by 2002:ac2:4e8c:: with SMTP id o12mr2300931lfr.400.1616599146090; 
+ Wed, 24 Mar 2021 08:19:06 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id d22sm255199lfm.267.2021.03.24.08.19.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 08:14:37 -0700 (PDT)
-Date: Wed, 24 Mar 2021 16:14:57 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v1] drm/tegra: dc: Don't set PLL clock to 0Hz
-Message-ID: <YFtXcTyLrBJShWac@orome.fritz.box>
-References: <20210302131506.11790-1-digetx@gmail.com>
+ Wed, 24 Mar 2021 08:19:05 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Jonathan Marek <jonathan@marek.ca>,
+ Michael Turquette <mturquette@baylibre.com>
+Subject: [PATCH v2 00/28] drm/msm/dsi: refactor MSM DSI PHY/PLL drivers
+Date: Wed, 24 Mar 2021 18:18:18 +0300
+Message-Id: <20210324151846.2774204-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210302131506.11790-1-digetx@gmail.com>
-User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,83 +66,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Svyatoslav Ryhel <clamor95@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- David Heidelberg <david@ixit.cz>, linux-tegra@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1564704476=="
+Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ freedreno@lists.freedesktop.org, linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Restructure MSM DSI PHY drivers. What started as an attempt to grok the
+overcomplicated PHY drivers, has lead up to the idea of merging PHY and
+PLL code, reducing abstractions, code duplication, dropping dead code,
+etc.
 
---===============1564704476==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="7irehgoz3UdKwUP2"
-Content-Disposition: inline
+The patches were mainly tested on RB5 (sm8250, 7nm) and DB410c (apq8016,
+28nm-lp) and lightly tested on RB3 (sdm845, 10nm).
 
+External dependency for sm8250: https://lore.kernel.org/linux-arm-msm/20210317144039.556409-10-dmitry.baryshkov@linaro.org/
 
---7irehgoz3UdKwUP2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The patch 'clk: fixed: add devm helper for clk_hw_register_fixed_factor()'
+is already a part of mainline as of 5.12-rc1, but is included here for
+completeness to fix compilation issues (as msm-next is based on 5.11-rc5).
 
-On Tue, Mar 02, 2021 at 04:15:06PM +0300, Dmitry Osipenko wrote:
-> RGB output doesn't allow to change parent clock rate of the display and
-> PCLK rate is set to 0Hz in this case. The tegra_dc_commit_state() shall
-> not set the display clock to 0Hz since this change propagates to the
-> parent clock. The DISP clock is defined as a NODIV clock by the tegra-clk
-> driver and all NODIV clocks use the CLK_SET_RATE_PARENT flag.
->=20
-> This bug stayed unnoticed because by default PLLP is used as the parent
-> clock for the display controller and PLLP silently skips the erroneous 0Hz
-> rate changes because it always has active child clocks that don't permit
-> rate changes. The PLLP isn't acceptable for some devices that we want to
-> upstream (like Samsung Galaxy Tab and ASUS TF700T) due to a display panel
-> clock rate requirements that can't be fulfilled by using PLLP and then the
-> bug pops up in this case since parent clock is set to 0Hz, killing the
-> display output.
->=20
-> Don't touch DC clock if pclk=3D0 in order to fix the problem.
->=20
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/gpu/drm/tegra/dc.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+Changes since v1:
+ - Rebase on top of msm/msm-next
+ - Reorder patches to follow logical sequence
+ - Add sc7180 clocks assignment
+ - Drop sm8250 clocks assignment, as respective file is not updated in
+   msm/msm-next
 
-Applied, thanks.
+Changes since RFC:
+ - Reorder patches to move global clock patches in the beginning and
+   dtsi patches where they are required.
+ - remove msm_dsi_phy_set_src_pll() and guess src_pll_id using PHY usecase.
 
-Thierry
+The following changes since commit 627dc55c273dab308303a5217bd3e767d7083ddb:
 
---7irehgoz3UdKwUP2
-Content-Type: application/pgp-signature; name="signature.asc"
+  drm/msm/disp/dpu1: icc path needs to be set before dpu runtime resume (2021-03-22 18:52:34 -0700)
 
------BEGIN PGP SIGNATURE-----
+are available in the Git repository at:
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmBbV3EACgkQ3SOs138+
-s6E1XRAAp4wJgbqgYTYH9FLgeuJ25xmXJbnsEMINM4Cro0mcWnXPCUpZ1TKcCiCa
-pxwtGihRgbOU8u1beBuSxK+U6VAmI2Tf/hMUPd0lsr+iyoBK4dF/WnDbswvsyD+h
-cA+3B7C8hrAjPEDRvCoJy2AOuqAIaDt76H/NmYcIHXTE3vkqrqyGs27XVos4YJF6
-MEuU7BMcnWQsnHmbx9Y0E6gb5mEvAy8uKSeMEOqYb2b0uMdOuN+VYkCH2IlK/tR9
-GPOnbaexCpgr1KlaRQ9KQN9agtyVvq+7tZevHVblh9/VOz4IaEWcC8rMM2nNc46O
-qibUiITW2qjn2hQdIxezlBVP5TvQdkk1ofNkGGpHi/bnUV8Agn8ptJn09RIExv9f
-eQFXbYYRpdSNj+CaXH5OoJA8mlIHKOlyDXdI+xPdn81npecwPMfjfUqcxuaLNPTY
-ySvb0qGJAM+6OVLJarR+3VN9jlJe0aNP7zrTS3LI7vxhMNq2tsUb7NrHA6fRFpBz
-atgr7fvabtizdkxoMq/ln1LLnGRclB1MtOoIAzetNhuRCGv2YU1MOqr2L0XDLVk8
-8cUXSH+YKRs86SYhGYji1K9g2AwWBDUGSv2hYDpYWMyDlcqcs5tGpoWTalPa7yr5
-Nv3ayMVv3kjpHpKU2UywwBXAlEzn7/YdYzdrokRLXFf8i7F/29I=
-=xaGH
------END PGP SIGNATURE-----
+  https://git.linaro.org/people/dmitry.baryshkov/kernel.git dsi-phy-2
 
---7irehgoz3UdKwUP2--
+for you to fetch changes up to 0fec912264e9ee8f0ebbad12e2711843d7d9e0ac:
 
---===============1564704476==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+  drm/msm/dsi: stop passing src_pll_id to the phy_enable call (2021-03-24 18:14:39 +0300)
+
+----------------------------------------------------------------
+Daniel Palmer (1):
+      clk: fixed: add devm helper for clk_hw_register_fixed_factor()
+
+Dmitry Baryshkov (27):
+      clk: mux: provide devm_clk_hw_register_mux()
+      clk: divider: add devm_clk_hw_register_divider
+      drm/msm/dsi: replace PHY's init callback with configurable data
+      drm/msm/dsi: fuse dsi_pll_* code into dsi_phy_* code
+      drm/msm/dsi: drop multiple pll enable_seq support
+      drm/msm/dsi: move all PLL callbacks into PHY config struct
+      drm/msm/dsi: drop global msm_dsi_phy_type enumaration
+      drm/msm/dsi: move min/max PLL rate to phy config
+      drm/msm/dsi: remove msm_dsi_pll_set_usecase
+      drm/msm/dsi: stop setting clock parents manually
+      arm64: dts: qcom: sdm845: assign DSI clock source parents
+      arm64: dts: qcom: sc7180: assign DSI clock source parents
+      drm/msm/dsi: push provided clocks handling into a generic code
+      drm/msm/dsi: use devm_clk_*register to registe DSI PHY clocks
+      drm/msm/dsi: use devm_of_clk_add_hw_provider
+      drm/msm/dsi: make save/restore_state phy-level functions
+      drm/msm/dsi: drop vco_delay setting from 7nm, 10nm, 14nm drivers
+      drm/msm/dpu: simplify vco_delay handling in dsi_phy_28nm driver
+      drm/msi/dsi: inline msm_dsi_pll_helper_clk_prepare/unprepare
+      drm/msm/dsi: make save_state/restore_state callbacks accept msm_dsi_phy
+      drm/msm/dsi: drop msm_dsi_pll abstracton
+      drm/msm/dsi: drop PLL accessor functions
+      drm/msm/dsi: move ioremaps to dsi_phy_driver_probe
+      drm/msm/dsi: remove duplicate fields from dsi_pll_Nnm instances
+      drm/msm/dsi: remove temp data from global pll structure
+      drm/msm/dsi: inline msm_dsi_phy_set_src_pll
+      drm/msm/dsi: stop passing src_pll_id to the phy_enable call
+
+ arch/arm64/boot/dts/qcom/sc7180.dtsi            |    3 +
+ arch/arm64/boot/dts/qcom/sdm845.dtsi            |    6 +
+ drivers/clk/clk-fixed-factor.c                  |   39 +-
+ drivers/clk/clk-mux.c                           |   35 +
+ drivers/gpu/drm/msm/Kconfig                     |    8 -
+ drivers/gpu/drm/msm/Makefile                    |    9 -
+ drivers/gpu/drm/msm/dsi/dsi.h                   |   58 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c              |   51 --
+ drivers/gpu/drm/msm/dsi/dsi_manager.c           |   29 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c           |  150 ++--
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h           |   41 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c      |  745 ++++++++++++++-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c      |  939 ++++++++++++++++++-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c      |   16 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c      |  654 +++++++++++++-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c |  479 +++++++++-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c       |  772 +++++++++++++++-
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll.c           |  184 ----
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll.h           |  132 ---
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c      |  881 ------------------
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll_14nm.c      | 1096 -----------------------
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm.c      |  643 -------------
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm_8960.c |  526 -----------
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c       |  913 -------------------
+ include/linux/clk-provider.h                    |   34 +-
+ 25 files changed, 3722 insertions(+), 4721 deletions(-)
+ delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll.c
+ delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll.h
+ delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
+ delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_14nm.c
+ delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm.c
+ delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_28nm_8960.c
+ delete mode 100644 drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
+
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1564704476==--
