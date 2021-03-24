@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E19F3484D8
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 23:46:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A85653484DD
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 23:47:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6810A6EAA7;
-	Wed, 24 Mar 2021 22:46:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0EE06EAB1;
+	Wed, 24 Mar 2021 22:47:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
- [IPv6:2607:f8b0:4864:20::82d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36CF36EAA7
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 22:46:41 +0000 (UTC)
-Received: by mail-qt1-x82d.google.com with SMTP id s2so321290qtx.10
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:46:41 -0700 (PDT)
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
+ [IPv6:2607:f8b0:4864:20::834])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BF516EAB0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 22:47:21 +0000 (UTC)
+Received: by mail-qt1-x834.google.com with SMTP id m7so313484qtq.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:47:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vXm7c9BC1Iwf8wNKP3RctSCWQluCcE+3yvxP3P18/PY=;
- b=RbXEwuTTAG125sZM23dAkqMoDE3mi7AnoEM7poj8yZ0c6k5NAh5uG/ls/WKDasGUj1
- yP2r7KdX4A/0gsgF3nauoJ3xx6gIC/JfbNP+zEvGK3RgakiCjORs1gsieksWb//wXpLM
- n7UuTcsvKuDXTfm7kJMLYq/BdgjFxUApBbQJo=
+ :cc; bh=8WdGt1t0T8Zm9fu1FD2a5P7lZ9YFS8pFD0IMcWsA6ng=;
+ b=isY5DCYNbVu/s92nJ7NtbWIJq7KSn6z6GsqA2Ent70ODNyDKcZnsLCDoP2EfDmu1I8
+ 54glC6krK7SW1xwp8+qtFmk6JVhQdttu313b024myEqYQQcvEqqFb3jTp99VLBH/cCH3
+ Ys10NMAQBTlxHhfx9gQKrs8jVWOhxHmrVDw5I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=vXm7c9BC1Iwf8wNKP3RctSCWQluCcE+3yvxP3P18/PY=;
- b=fxwWVhsLDnfZzYHQyZ7a5g+tAXTbY22ZNyW9XfkVhCCNHrQd1jE1nTIoIToxPEUQw9
- 5EHEyeIDknVji7A8EPw5MVJkWBoYmB2+KKmUBtQQAo7n2VufSG0Z5x/gG7ttNPISMiuj
- X+Fai4FQQ4pr/TLHWfNuxeJf6UDCG+5SC1H0JiE2vUF6kJ3Tp7bv1dAKHfRYSPxptuxL
- VvotTEEpvHBwmN/HjJrEwRSllSSQCifslrs0qEP07smbZg2/pnaJVUfcDP6IBzPwEuxe
- UOmhbau9BxnrYrec0+/JWHfFGN4mSnRu8HRUSEBwkNiw6wqyzCbLTrc+MXoQz0htdeGf
- m9jA==
-X-Gm-Message-State: AOAM531AjLjrpBho9XKS0Sp2HAHDssK78rezF/Vxlzfb1i+N1W0sgskN
- 8FmK01g2G3uJuVPE9IpZA2zMY61VSVKcCQ==
-X-Google-Smtp-Source: ABdhPJw/HiJuJAgmtkcNSzDVFcoi/ubl3shaAuDPTPAjthbzHlRWiJ9XD04GsdpLtQh9fV1MCyNfjQ==
-X-Received: by 2002:ac8:702:: with SMTP id g2mr5234740qth.215.1616626000186;
- Wed, 24 Mar 2021 15:46:40 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
- [209.85.219.180])
- by smtp.gmail.com with ESMTPSA id s6sm2827156qke.44.2021.03.24.15.46.39
+ bh=8WdGt1t0T8Zm9fu1FD2a5P7lZ9YFS8pFD0IMcWsA6ng=;
+ b=hYA3QRQRK6d1iNxR2FqX13L+Ui7Cw1x01XpyYtotyd+lKx5lPl9OeVrUCKqd6MfPHP
+ 41akdbnisv8NOq6tGuRT1LpQNL3CfLcm0R3urEaMWgA5JMGPnd1T8iL1iNvEJhKPTLe5
+ 0F3pFTub3RXaW69b6phbm7II45Dv4l8Vm2CJ11TFg0AFak03uNyrqI4UGmZOLw3x9/4q
+ x3VJ4ds6XygVCwt4THlOC6DUGSCSpIPAA/V65+/1CGwJZ4tPMFwNfbseqTqaswwh6eYX
+ l8vdVdxR/zlv0iSNleLs1WRckzdSPD3M3pkZQapKft2fU6HH14yg79Aa2tJ6s9v/yD3F
+ oTsg==
+X-Gm-Message-State: AOAM533ZACXhhl+9i39nBOdhizvGX7dX8AWFYT4IOXPMeg04cn5ZIUks
+ et38lLuEZrPf3+SlVAW+gnizWGdRLAf1bw==
+X-Google-Smtp-Source: ABdhPJxqVemgTyEepHdJnfJLS2Iiprtr8fzgd+QM8jf/IgHagB1bT6w2BiTQXChRy+6ZDFyVcmN/XA==
+X-Received: by 2002:aed:2bc1:: with SMTP id e59mr5164364qtd.16.1616626039907; 
+ Wed, 24 Mar 2021 15:47:19 -0700 (PDT)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
+ [209.85.219.171])
+ by smtp.gmail.com with ESMTPSA id z11sm2888749qkg.52.2021.03.24.15.47.19
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Mar 2021 15:46:39 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id m132so303586ybf.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:46:39 -0700 (PDT)
-X-Received: by 2002:a25:2f4b:: with SMTP id v72mr7835505ybv.79.1616625999188; 
- Wed, 24 Mar 2021 15:46:39 -0700 (PDT)
+ Wed, 24 Mar 2021 15:47:19 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id i9so291346ybp.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:47:19 -0700 (PDT)
+X-Received: by 2002:a25:ab54:: with SMTP id u78mr8254860ybi.276.1616626038338; 
+ Wed, 24 Mar 2021 15:47:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210322030128.2283-9-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20210322030128.2283-9-laurent.pinchart+renesas@ideasonboard.com>
+ <20210322030128.2283-11-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20210322030128.2283-11-laurent.pinchart+renesas@ideasonboard.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 24 Mar 2021 15:46:28 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UPqg0CnA1ZFR70Ym+m6ROemdFbYwk_=C3+SemP1X9hYw@mail.gmail.com>
-Message-ID: <CAD=FV=UPqg0CnA1ZFR70Ym+m6ROemdFbYwk_=C3+SemP1X9hYw@mail.gmail.com>
-Subject: Re: [RFC PATCH 08/11] drm/bridge: ti-sn65dsi86: Implement bridge
- connector operations
+Date: Wed, 24 Mar 2021 15:47:07 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Wwayx1Y-xv=RPuJbG+Q1wHrUWgh4P7wuzy_bAL=_FN0g@mail.gmail.com>
+Message-ID: <CAD=FV=Wwayx1Y-xv=RPuJbG+Q1wHrUWgh4P7wuzy_bAL=_FN0g@mail.gmail.com>
+Subject: Re: [RFC PATCH 10/11] drm/bridge: ti-sn65dsi86: Support DisplayPort
+ (non-eDP) mode
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,108 +85,103 @@ Hi,
 On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart
 <laurent.pinchart+renesas@ideasonboard.com> wrote:
 >
-> Implement the bridge connector-related .get_edid() operation, and report
-> the related bridge capabilities and type. The .get_edid() operation is
-> implemented with the same backend as the EDID retrieval from the
-> connector .get_modes() operation.
+> Despite the SN65DSI86 being an eDP bridge, on some systems its output is
+> routed to a DisplayPort connector. Enable DisplayPort mode when the next
+> component in the display pipeline is not a panel, and disable eDP
+> features in that case.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 30 ++++++++++++++++++++++-----
->  1 file changed, 25 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 32 ++++++++++++++++++++-------
+>  1 file changed, 24 insertions(+), 8 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index dc300fab4319..6f6e075544e8 100644
+> index e2527d597ccb..f792227142a7 100644
 > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -261,6 +261,18 @@ static void ti_sn_debugfs_remove(struct ti_sn_bridge *pdata)
->         pdata->debugfs = NULL;
->  }
+> @@ -55,6 +55,7 @@
+>  #define SN_LN_ASSIGN_REG                       0x59
+>  #define  LN_ASSIGN_WIDTH                       2
+>  #define SN_ENH_FRAME_REG                       0x5A
+> +#define  ASSR_CONTROL                          BIT(0)
+>  #define  VSTREAM_ENABLE                                BIT(3)
+>  #define  LN_POLRS_OFFSET                       4
+>  #define  LN_POLRS_MASK                         0xf0
+> @@ -86,6 +87,8 @@
+>  #define SN_DATARATE_CONFIG_REG                 0x94
+>  #define  DP_DATARATE_MASK                      GENMASK(7, 5)
+>  #define  DP_DATARATE(x)                                ((x) << 5)
+> +#define SN_TRAINING_SETTING_REG                        0x95
+> +#define  SCRAMBLE_DISABLE                      BIT(4)
+>  #define SN_ML_TX_MODE_REG                      0x96
+>  #define  ML_TX_MAIN_LINK_OFF                   0
+>  #define  ML_TX_NORMAL_MODE                     BIT(0)
+> @@ -723,6 +726,11 @@ static int ti_sn_link_training(struct ti_sn_bridge *pdata, int dp_rate_idx,
+>         regmap_update_bits(pdata->regmap, SN_DATARATE_CONFIG_REG,
+>                            DP_DATARATE_MASK, DP_DATARATE(dp_rate_idx));
 >
-> +static struct edid *__ti_sn_bridge_get_edid(struct ti_sn_bridge *pdata,
-> +                                           struct drm_connector *connector)
-> +{
-> +       struct edid *edid;
+> +       /* For DisplayPort, use the standard DP scrambler seed. */
+> +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
+> +               regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG,
+> +                                  ASSR_CONTROL, 0);
+
+I don't actually know anything about DP scrambler seeds. However:
+
+1. From reading the docs, this field seems to be documented to be
+"read only" unless:
+
+1a) The "TEST2" pin is pulled high when you power on the bridge.
+1b) You set "ASSR_OVERRIDE" (page select to page 7, write to register
+0x16, page select back to page 0).
+
+I don't know if TEST2 is being pulled high in your hardware, but at
+least I can see that 1b) isn't done. So I'm guessing that this line is
+a no-op? If I had to guess from all the hoops they're making you jump
+through there's some sort of errata around standard scrambling on this
+bridge chip. Are you sure it works OK?
+
+
+2. The docs I see claim that this field is 2 bits big. It seems like
+it would be nice to honor. Yeah, it's silly because 0x11 and 0x10 are
+"reserved" so it's really more like a 1-bit field, but still seems
+like it would be better to set both bits, or at least add a comment
+explaining why you're not matching the datasheet.
+
+
+3. Your patch doesn't seem to touch the bit of code in
+ti_sn_bridge_enable() that says this:
+
+/**
+ * The SN65DSI86 only supports ASSR Display Authentication method and
+ * this method is enabled by default. An eDP panel must support this
+ * authentication method. We need to enable this method in the eDP panel
+ * at DisplayPort address 0x0010A prior to link training.
+ */
+drm_dp_dpcd_writeb(&pdata->aux, DP_EDP_CONFIGURATION_SET,
+   DP_ALTERNATE_SCRAMBLER_RESET_ENABLE);
+
+Won't that be a problem?
+
+
 > +
-> +       pm_runtime_get_sync(pdata->dev);
-> +       edid = drm_get_edid(connector, &pdata->aux.ddc);
-> +       pm_runtime_put(pdata->dev);
-
-As mentioned in my patch [1], the above is a bit iffy for eDP.
-Specifically just doing a pm_runtime_get_sync() isn't enough to
-actually be able to read the EDID. We also need to do any panel power
-sequencing and potentially set the "ignore HPD" bit in the bridge to
-actually read the EDID.
-
-I'll try to find some time to make this better--let's see if I get
-distracted before I manage it.
-
-
-> +
-> +       return edid;
-> +}
-> +
->  /* -----------------------------------------------------------------------------
->   * DRM Connector Operations
->   */
-> @@ -277,11 +289,8 @@ static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
->         struct edid *edid = pdata->edid;
->         int num, ret;
+>         /* enable DP PLL */
+>         regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 1);
 >
-> -       if (!edid) {
-> -               pm_runtime_get_sync(pdata->dev);
-> -               edid = pdata->edid = drm_get_edid(connector, &pdata->aux.ddc);
-> -               pm_runtime_put(pdata->dev);
-> -       }
-> +       if (!edid)
-> +               edid = pdata->edid = __ti_sn_bridge_get_edid(pdata, connector);
-
-It feels weird to me that we are now exposing the get_edid() function
-directly but we still need to implement get_modes(). I guess this is
-because we might need to fallback to the hardcoded modes? ...but that
-seems like it would be a common pattern for eDP bridges...
-
-
->         if (edid && drm_edid_is_valid(edid)) {
->                 ret = drm_connector_update_edid_property(connector, edid);
-> @@ -871,12 +880,21 @@ static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
->         pm_runtime_put_sync(pdata->dev);
->  }
+> @@ -734,6 +742,11 @@ static int ti_sn_link_training(struct ti_sn_bridge *pdata, int dp_rate_idx,
+>                 goto exit;
+>         }
 >
-> +static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
-> +                                         struct drm_connector *connector)
-> +{
-> +       struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
-> +
-> +       return __ti_sn_bridge_get_edid(pdata, connector);
-> +}
-> +
->  static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
->         .attach = ti_sn_bridge_attach,
->         .pre_enable = ti_sn_bridge_pre_enable,
->         .enable = ti_sn_bridge_enable,
->         .disable = ti_sn_bridge_disable,
->         .post_disable = ti_sn_bridge_post_disable,
-> +       .get_edid = ti_sn_bridge_get_edid,
->  };
->
->  /* -----------------------------------------------------------------------------
-> @@ -1335,6 +1353,8 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
->
->         pdata->bridge.funcs = &ti_sn_bridge_funcs;
->         pdata->bridge.of_node = client->dev.of_node;
-> +       pdata->bridge.ops = DRM_BRIDGE_OP_EDID;
-> +       pdata->bridge.type = DRM_MODE_CONNECTOR_eDP;
+> +       /* For DisplayPort, disable scrambling mode. */
+> +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
+> +               regmap_update_bits(pdata->regmap, SN_TRAINING_SETTING_REG,
+> +                                  SCRAMBLE_DISABLE, SCRAMBLE_DISABLE);
 
-Even with the few comments above, I think this is still fine to move
-us in the right direction. Unless I manage to fix up the EDID reading
-(in which case your patch would conflict and would need to be
-tweaked), then:
+I'm assuming that this is the important part of your patch? Would be
+sorta nice to include the "why" in your comment. Why do you want to
+disable scrambling mode for DP but not for eDP? Maybe you care about
+compatibility but not EMI if you're hooking up to random DP things?
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-
-[1] https://lore.kernel.org/r/20210304155144.3.I60a7fb23ce4589006bc95c64ab8d15c74b876e68@changeid/
+-Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
