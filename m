@@ -1,28 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6B534814B
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 20:12:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A3F3481BC
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 20:17:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96BDA6EA6D;
-	Wed, 24 Mar 2021 19:12:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C1456EA66;
+	Wed, 24 Mar 2021 19:17:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6A726EA7F
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 19:12:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dafna) with ESMTPSA id 3DFCE1F45E02
-From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/mediatek: Don't support hdmi connector creation
-Date: Wed, 24 Mar 2021 20:12:41 +0100
-Message-Id: <20210324191241.22622-3-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210324191241.22622-1-dafna.hirschfeld@collabora.com>
-References: <20210324191241.22622-1-dafna.hirschfeld@collabora.com>
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EEC96EA66
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 19:17:14 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id b9so25601723wrt.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 12:17:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ks7ShY2KdqBCOa2qudGrTxafbstGO1KxoD94z5nmwd4=;
+ b=bjZoBOViVyL1mHLmUFR7BSZIMAluKI/kXY5E2/ztjZRSCxzbzqraymTeP/LQuXxMd6
+ 5YPx58H1VAuhSW12/DzOC9BHGHgBV1J/hhCob2AhjQhBoGcMDaLPjYwGaOGrtjITgpiU
+ twnR7Di8AA6EdQ4WpfeSjtyjUfsAP9baelo+A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=ks7ShY2KdqBCOa2qudGrTxafbstGO1KxoD94z5nmwd4=;
+ b=sPxspTeNLt/KaBCAHYiUG3sZapa8mWESMaIJ3BKn9j69gDh2uZzcLk4vgROCn4mrqS
+ R+2pz9kZPyuDJJrzBjVxtZJb/loA1TAImMMeQdH5R89yYca444E8tBOT/rH62E1idU/5
+ vUX0ZinenqLYLGM277LMm+tH67WmjtdWNOOCVCJUJtEuoPb/UdHKV9Ph/K32bnZd7/Xa
+ rhnv5HauESKSplmbTxaN7XlGcOyGLEWSY4xG38Jph9tmXfqvgbW3p8CIorzTdgjcLFHC
+ Oz9rdEVaMfeKD7FswfUMYgi0HMul7OdKm/n997ijY5z6qi3Ti+r8SG3Ooxk/n0BDruPy
+ iJmw==
+X-Gm-Message-State: AOAM5320GxCTrrYFXXK38fRCxC0wExsjzAqF4GFqfxC894WIGE1rsqch
+ qkU5xmAuaR/P8mna3b83lfhDJg==
+X-Google-Smtp-Source: ABdhPJz0jKYo0H/XBwWmbtO5rMA4MuyiBVo+Vi9lmrQcQ8si+ZT3Tkgf1DTxMp2/fnyfyvXSPQ76vg==
+X-Received: by 2002:a5d:6312:: with SMTP id i18mr5156957wru.149.1616613433126; 
+ Wed, 24 Mar 2021 12:17:13 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f2sm3344574wmp.20.2021.03.24.12.17.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Mar 2021 12:17:12 -0700 (PDT)
+Date: Wed, 24 Mar 2021 20:17:10 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH 3/3] mm: unexport follow_pfn
+Message-ID: <YFuQNj10P+uUHD4G@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+ linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+ 3pvd@google.com, Jann Horn <jannh@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
+References: <20210316153303.3216674-1-daniel.vetter@ffwll.ch>
+ <20210316153303.3216674-4-daniel.vetter@ffwll.ch>
+ <20210324125211.GA2356281@nvidia.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210324125211.GA2356281@nvidia.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -35,252 +77,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, dafna.hirschfeld@collabora.com, airlied@linux.ie,
- dafna3@gmail.com, laurent.pinchart@ideasonboard.com,
- enric.balletbo@collabora.com, kernel@collabora.com
-MIME-Version: 1.0
+Cc: linux-samsung-soc@vger.kernel.org,
+ Alex Williamson <alex.williamson@redhat.com>, kvm@vger.kernel.org,
+ Jann Horn <jannh@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Cornelia Huck <cohuck@redhat.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, linux-mm@kvack.org,
+ 3pvd@google.com, Peter Xu <peterx@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-commit f01195148967 ("drm/mediatek: mtk_dpi: Create connector for bridges")
-broke the display support for elm device since mtk_dpi calls
-drm_bridge_attach with the flag DRM_BRIDGE_ATTACH_NO_CONNECTOR
-while mtk_hdmi does not yet support this flag.
+On Wed, Mar 24, 2021 at 09:52:11AM -0300, Jason Gunthorpe wrote:
+> On Tue, Mar 16, 2021 at 04:33:03PM +0100, Daniel Vetter wrote:
+> > Both kvm (in bd2fae8da794 ("KVM: do not assume PTE is writable after
+> > follow_pfn")) and vfio (in 07956b6269d3 ("vfio/type1: Use
+> > follow_pte()")) have lost their callsites of follow_pfn(). All the
+> > other ones have been switched over to unsafe_follow_pfn because they
+> > cannot be fixed without breaking userspace api.
+> > 
+> > Argueably the vfio code is still racy, but that's kinda a bigger
+> > picture. But since it does leak the pte beyond where it drops the pt
+> > lock, without anything else like an mmu notifier guaranteeing
+> > coherence, the problem is at least clearly visible in the vfio code.
+> > So good enough with me.
+> > 
+> > I've decided to keep the explanation that after dropping the pt lock
+> > you must have an mmu notifier if you keep using the pte somehow by
+> > adjusting it and moving it into the kerneldoc for the new follow_pte()
+> > function.
+> > 
+> > Cc: 3pvd@google.com
+> > Cc: Jann Horn <jannh@google.com>
+> > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > Cc: Jason Gunthorpe <jgg@nvidia.com>
+> > Cc: Cornelia Huck <cohuck@redhat.com>
+> > Cc: Peter Xu <peterx@redhat.com>
+> > Cc: Alex Williamson <alex.williamson@redhat.com>
+> > Cc: linux-mm@kvack.org
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > Cc: linux-samsung-soc@vger.kernel.org
+> > Cc: linux-media@vger.kernel.org
+> > Cc: kvm@vger.kernel.org
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > ---
+> >  include/linux/mm.h |  2 --
+> >  mm/memory.c        | 26 +++++---------------------
+> >  mm/nommu.c         | 13 +------------
+> >  3 files changed, 6 insertions(+), 35 deletions(-)
+> 
+> I think this is the right thing to do.
 
-Fix this by accepting DRM_BRIDGE_ATTACH_NO_CONNECTOR in bridge attachment.
-Implement the drm_bridge_funcs .detect() and .get_edid() operations, and
-call drm_bridge_hpd_notify() to report HPD. This provides the
-necessary API to support disabling connector creation.
+Was just about to smash this into the topic branch for testing in
+linux-next. Feel like an ack on the series, or at least the two mm
+patches?
+-Daniel
 
-This patch is inspired by a similar patch for bridge/synopsys/dw-hdmi.c:
-commit ec971aaa6775 ("drm: bridge: dw-hdmi: Make connector creation optional")
-But with the difference that in mtk-hdmi only the option of not creating
-a connector is supported.
+> 
+> Alex is working on fixing VFIO and while kvm is still racy using
+> follow pte, I think they are working on it too?
+> 
+> Jason
 
-Fixes: f01195148967 ("drm/mediatek: mtk_dpi: Create connector for bridges")
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 130 ++++++++++------------------
- 1 file changed, 44 insertions(+), 86 deletions(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 9f415c508b33..9da5dfb7c7fb 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -153,7 +153,6 @@ struct mtk_hdmi_conf {
- struct mtk_hdmi {
- 	struct drm_bridge bridge;
- 	struct drm_bridge *next_bridge;
--	struct drm_connector conn;
- 	struct drm_connector *curr_conn;
- 	struct device *dev;
- 	const struct mtk_hdmi_conf *conf;
-@@ -187,11 +186,6 @@ static inline struct mtk_hdmi *hdmi_ctx_from_bridge(struct drm_bridge *b)
- 	return container_of(b, struct mtk_hdmi, bridge);
- }
- 
--static inline struct mtk_hdmi *hdmi_ctx_from_conn(struct drm_connector *c)
--{
--	return container_of(c, struct mtk_hdmi, conn);
--}
--
- static u32 mtk_hdmi_read(struct mtk_hdmi *hdmi, u32 offset)
- {
- 	return readl(hdmi->regs + offset);
-@@ -1202,48 +1196,30 @@ mtk_hdmi_update_plugged_status(struct mtk_hdmi *hdmi)
- 	       connector_status_connected : connector_status_disconnected;
- }
- 
--static enum drm_connector_status hdmi_conn_detect(struct drm_connector *conn,
--						  bool force)
--{
--	struct mtk_hdmi *hdmi = hdmi_ctx_from_conn(conn);
--	return mtk_hdmi_update_plugged_status(hdmi);
--}
--
--static void hdmi_conn_destroy(struct drm_connector *conn)
-+static struct edid *mtk_hdmi_get_edid(struct mtk_hdmi *hdmi,
-+				      struct drm_connector *connector)
- {
--	struct mtk_hdmi *hdmi = hdmi_ctx_from_conn(conn);
--
--	mtk_cec_set_hpd_event(hdmi->cec_dev, NULL, NULL);
--
--	drm_connector_cleanup(conn);
--}
--
--static int mtk_hdmi_conn_get_modes(struct drm_connector *conn)
--{
--	struct mtk_hdmi *hdmi = hdmi_ctx_from_conn(conn);
- 	struct edid *edid;
--	int ret;
- 
- 	if (!hdmi->ddc_adpt)
--		return -ENODEV;
--
--	edid = drm_get_edid(conn, hdmi->ddc_adpt);
-+		return NULL;
-+	edid = drm_get_edid(connector, hdmi->ddc_adpt);
- 	if (!edid)
--		return -ENODEV;
--
-+		return NULL;
- 	hdmi->dvi_mode = !drm_detect_monitor_audio(edid);
-+	return edid;
-+}
- 
--	drm_connector_update_edid_property(conn, edid);
--
--	ret = drm_add_edid_modes(conn, edid);
--	kfree(edid);
--	return ret;
-+static enum drm_connector_status mtk_hdmi_detect(struct mtk_hdmi *hdmi)
-+{
-+	return mtk_hdmi_update_plugged_status(hdmi);
- }
- 
--static int mtk_hdmi_conn_mode_valid(struct drm_connector *conn,
--				    struct drm_display_mode *mode)
-+static int mtk_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
-+				      const struct drm_display_info *info,
-+				      const struct drm_display_mode *mode)
- {
--	struct mtk_hdmi *hdmi = hdmi_ctx_from_conn(conn);
-+	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
- 	struct drm_bridge *next_bridge;
- 
- 	dev_dbg(hdmi->dev, "xres=%d, yres=%d, refresh=%d, intl=%d clock=%d\n",
-@@ -1268,74 +1244,50 @@ static int mtk_hdmi_conn_mode_valid(struct drm_connector *conn,
- 	return drm_mode_validate_size(mode, 0x1fff, 0x1fff);
- }
- 
--static struct drm_encoder *mtk_hdmi_conn_best_enc(struct drm_connector *conn)
--{
--	struct mtk_hdmi *hdmi = hdmi_ctx_from_conn(conn);
--
--	return hdmi->bridge.encoder;
--}
--
--static const struct drm_connector_funcs mtk_hdmi_connector_funcs = {
--	.detect = hdmi_conn_detect,
--	.fill_modes = drm_helper_probe_single_connector_modes,
--	.destroy = hdmi_conn_destroy,
--	.reset = drm_atomic_helper_connector_reset,
--	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
--};
--
--static const struct drm_connector_helper_funcs
--		mtk_hdmi_connector_helper_funcs = {
--	.get_modes = mtk_hdmi_conn_get_modes,
--	.mode_valid = mtk_hdmi_conn_mode_valid,
--	.best_encoder = mtk_hdmi_conn_best_enc,
--};
--
- static void mtk_hdmi_hpd_event(bool hpd, struct device *dev)
- {
- 	struct mtk_hdmi *hdmi = dev_get_drvdata(dev);
- 
--	if (hdmi && hdmi->bridge.encoder && hdmi->bridge.encoder->dev)
-+	if (hdmi && hdmi->bridge.encoder && hdmi->bridge.encoder->dev) {
-+		static enum drm_connector_status status;
-+
-+		status = mtk_hdmi_detect(hdmi);
- 		drm_helper_hpd_irq_event(hdmi->bridge.encoder->dev);
-+		drm_bridge_hpd_notify(&hdmi->bridge, status);
-+	}
- }
- 
- /*
-  * Bridge callbacks
-  */
- 
-+static enum drm_connector_status mtk_hdmi_bridge_detect(struct drm_bridge *bridge)
-+{
-+	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
-+
-+	return mtk_hdmi_detect(hdmi);
-+}
-+
-+static struct edid *mtk_hdmi_bridge_get_edid(struct drm_bridge *bridge,
-+					     struct drm_connector *connector)
-+{
-+	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
-+
-+	return mtk_hdmi_get_edid(hdmi, connector);
-+}
-+
- static int mtk_hdmi_bridge_attach(struct drm_bridge *bridge,
- 				  enum drm_bridge_attach_flags flags)
- {
- 	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
- 	int ret;
- 
--	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
--		DRM_ERROR("Fix bridge driver to make connector optional!");
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-+		DRM_ERROR("%s: The flag DRM_BRIDGE_ATTACH_NO_CONNECTOR must be supplied\n",
-+			  __func__);
- 		return -EINVAL;
- 	}
- 
--	ret = drm_connector_init_with_ddc(bridge->encoder->dev, &hdmi->conn,
--					  &mtk_hdmi_connector_funcs,
--					  DRM_MODE_CONNECTOR_HDMIA,
--					  hdmi->ddc_adpt);
--	if (ret) {
--		dev_err(hdmi->dev, "Failed to initialize connector: %d\n", ret);
--		return ret;
--	}
--	drm_connector_helper_add(&hdmi->conn, &mtk_hdmi_connector_helper_funcs);
--
--	hdmi->conn.polled = DRM_CONNECTOR_POLL_HPD;
--	hdmi->conn.interlace_allowed = true;
--	hdmi->conn.doublescan_allowed = false;
--
--	ret = drm_connector_attach_encoder(&hdmi->conn,
--						bridge->encoder);
--	if (ret) {
--		dev_err(hdmi->dev,
--			"Failed to attach connector to encoder: %d\n", ret);
--		return ret;
--	}
--
- 	if (hdmi->next_bridge) {
- 		ret = drm_bridge_attach(bridge->encoder, hdmi->next_bridge,
- 					bridge, flags);
-@@ -1452,6 +1404,7 @@ static void mtk_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
- }
- 
- static const struct drm_bridge_funcs mtk_hdmi_bridge_funcs = {
-+	.mode_valid = mtk_hdmi_bridge_mode_valid,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
-@@ -1462,6 +1415,8 @@ static const struct drm_bridge_funcs mtk_hdmi_bridge_funcs = {
- 	.mode_set = mtk_hdmi_bridge_mode_set,
- 	.atomic_pre_enable = mtk_hdmi_bridge_atomic_pre_enable,
- 	.atomic_enable = mtk_hdmi_bridge_atomic_enable,
-+	.detect = mtk_hdmi_bridge_detect,
-+	.get_edid = mtk_hdmi_bridge_get_edid,
- };
- 
- static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
-@@ -1772,6 +1727,9 @@ static int mtk_drm_hdmi_probe(struct platform_device *pdev)
- 
- 	hdmi->bridge.funcs = &mtk_hdmi_bridge_funcs;
- 	hdmi->bridge.of_node = pdev->dev.of_node;
-+	hdmi->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
-+			   | DRM_BRIDGE_OP_HPD;
-+	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 	drm_bridge_add(&hdmi->bridge);
- 
- 	ret = mtk_hdmi_clk_enable_audio(hdmi);
 -- 
-2.17.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
