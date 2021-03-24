@@ -1,40 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F8D3346F8E
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 03:32:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9BF4347203
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 08:06:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4885C6E28B;
-	Wed, 24 Mar 2021 02:32:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67DB289E1B;
+	Wed, 24 Mar 2021 07:06:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC57C6E28B
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 02:32:52 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 507D8580;
- Wed, 24 Mar 2021 03:32:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1616553171;
- bh=SPT6PlC2qxMevfzY2I/dHdE0/CO5UmBJp6xZzw8hxQw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OYOlaFZOtr5vJuMlYTG/Ji3sqhclbrRzX8VDYSZuW4NB8bsNPWn3nq2G+Crd1aZd/
- bcznrGviJr0/F3309SLpJK9LfpqrpHo/z60Sn7RjHEyLq53XZbwQujdV9ZalUXcTgd
- VKBIXk07KAXxn2aYQ3Ka/3hEE33Uhj0aqnp44zs4=
-Date: Wed, 24 Mar 2021 04:32:09 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v3 0/4] Fixes to bridge/panel and ingenic-drm
-Message-ID: <YFqkqQnTNvb0/Ng3@pendragon.ideasonboard.com>
-References: <20210124085552.29146-1-paul@crapouillou.net>
- <DUC1PQ.KO33KJE3BP5L@crapouillou.net>
- <09JFQQ.5A8HP2TTVT5Z1@crapouillou.net>
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06E7D6E2C0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 02:49:00 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 19B4C15C4;
+ Tue, 23 Mar 2021 22:48:57 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Tue, 23 Mar 2021 22:48:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+ to:cc:references:from:subject:message-id:date:mime-version
+ :in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=S
+ 9hVFXlHxFynIOxrNrduoTNoyxZE1kHVtXmwywd0EOI=; b=YZflfkGOYNjYarMU4
+ y+I3z1HYVbAPNVsrpmn1tlLj+rNQBYt3TZJpMFQ4jD01E0y4aYB1QpZQJMSKeSlO
+ GCmU5gQ4N89X/ZZ/ovNeLAlxRoTa1/0K6FG1PhB+1FR+WIF7/DYdIRp5xXz1S55l
+ gYOutV5tYzUecDCfkMFoid3XKLhMYz3n7jfApGV/fPaD3rIOCODOgXEKIcvWS6hk
+ yqHM/LRZb1ssrAajEvvTXE/h+c6vAi+eK8ixg+uihsGE07Cr8geX5tXNh/WOh6OK
+ lbHVQePdBSibzrIUhF0GnO+ulRUlZI4zFkfyhlBp2E5Cxe57QGrkpLPIQjta/y80
+ VuA/w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=S9hVFXlHxFynIOxrNrduoTNoyxZE1kHVtXmwywd0E
+ OI=; b=N0ILWQj+oOVBkHETy0CDV/HFnn81ylEhsA5Jb/1XqMlcKjUUBdybTkNq2
+ T7t+YKib2XYRigswWzmnoxsZKjJyPWdzvu9QjbP9WoP6aTVe5yN6pD/nfG5XUPId
+ tMXOrqK0XPJn2DMxHSi+kgVHfJIAikn4NQdR1cmrzEAvbCveoh05VL1WLSRt23C7
+ 5Jh7l5OW8coe2sXARkg1n0xj9F2f5LPQ2sI6ZzSssI+GYfyCwmjE194d7A/mKcK7
+ aKWZAF5FW7+tzv1WHHRi746mDQwJ4Ayr9bGziBWek2Su70e8INsIxFe5CV5Fqilu
+ xIPoGbIn+Tt/5ccrT0MMx1+Ujp2eg==
+X-ME-Sender: <xms:lqhaYGM8Plc9p5POMUi41FWfUW2XcWk10-QVyYeB0gptzOa2QqwldQ>
+ <xme:lqhaYE_E-tyo9a0uubro-MZc0TRmDTbHM5R7o9BBQY-3fNk4_gh25xeZ4o5A27QrB
+ SJzkkStqt0IKAk7PA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudegjedgheduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepvfhfhffukffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
+ vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+ ftrfgrthhtvghrnhepvddttdejieduudfgffevteekffegffeguddtgfefkeduvedukeff
+ hedtfeevuedvnecukfhppeejtddrudefhedrudegkedrudehudenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
+ nhgurdhorhhg
+X-ME-Proxy: <xmx:lqhaYNTnWNVVznNNa40VTPKEZbBLa52HWaU_Riqtq2XJbnAACHc-WQ>
+ <xmx:lqhaYGuZdosSi3-hmGnAtvmEI-7HAglUvDtrCQI0U1hikhjMlRUueA>
+ <xmx:lqhaYOc4PWSTUrzH3-gKp_MwNzhMoR2a4Q-933NakVU_EFj6mb-2bg>
+ <xmx:mKhaYEsAapfB8RbPhUabbpBXT4PCwlwubnwwpJ9oVUcAUVhqnIiqKw>
+Received: from [70.135.148.151]
+ (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 36C7824033F;
+ Tue, 23 Mar 2021 22:48:54 -0400 (EDT)
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
+References: <20210322140152.101709-1-jagan@amarulasolutions.com>
+ <20210322140152.101709-2-jagan@amarulasolutions.com>
+ <YFpxYpA+EIZm7sOf@pendragon.ideasonboard.com>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v4 1/4] drm: sun4i: dsi: Use drm_of_find_panel_or_bridge
+Message-ID: <f47bc0ad-dbd6-05b5-aaec-2e3256e3715a@sholland.org>
+Date: Tue, 23 Mar 2021 21:48:53 -0500
+User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <09JFQQ.5A8HP2TTVT5Z1@crapouillou.net>
+In-Reply-To: <YFpxYpA+EIZm7sOf@pendragon.ideasonboard.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Wed, 24 Mar 2021 07:06:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,44 +86,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org, od@zcrc.me,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, linux-sunxi@googlegroups.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Chen-Yu Tsai <wens@csie.org>, linux-amarula@amarulasolutions.com,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBNYXIgMjMsIDIwMjEgYXQgMDQ6MDM6MDBQTSArMDAwMCwgUGF1bCBDZXJjdWVpbCB3
-cm90ZToKPiBMZSBtZXIuIDI0IGbDqXZyLiAyMDIxIMOgIDEzOjQ0LCBQYXVsIENlcmN1ZWlsIGEg
-w6ljcml0IDoKPiA+IEhpLAo+ID4gCj4gPiBTb21lIGZlZWRiYWNrIGZvciBwYXRjaGVzIDEtMz8g
-TGF1cmVudD8KPiAKPiAxLW1vbnRoIGFubml2ZXJzYXJ5IHBpbmcgOikKCkhhYWFwcHkgYmlydGgt
-ZGF5IHRvb29vIHlvdXV1dXV1dSA6LSkKClBhdGNoZXMgcmV2aWV3ZWQuCgo+ID4gTGUgZGltLiAy
-NCBqYW52LiAyMDIxIMOgIDg6NTUsIFBhdWwgQ2VyY3VlaWwgYSAgw6ljcml0IDoKPiA+PiBIaSwK
-PiA+PiAKPiA+PiBIZXJlIGFyZSB0aHJlZSBpbmRlcGVuZGVudCBmaXhlcy4gVGhlIGZpcnN0IG9u
-ZSBhZGRyZXNzZXMgYQo+ID4+IHVzZS1hZnRlci1mcmVlIGluIGJyaWRnZS9wYW5lbC5jOyB0aGUg
-c2Vjb25kIG9uZSBhZGRyZXNzZXMgYQo+ID4+IHVzZS1hZnRlci1mcmVlIGluIHRoZSBpbmdlbmlj
-LWRybSBkcml2ZXI7IGZpbmFsbHksIHRoZSB0aGlyZCBvbmUgbWFrZXMKPiA+PiB0aGUgaW5nZW5p
-Yy1kcm0gZHJpdmVyIHdvcmsgYWdhaW4gb24gb2xkZXIgSW5nZW5pYyBTb0NzLgo+ID4+IAo+ID4+
-IENoYW5nZXMgZnJvbSB2MjoKPiA+PiAtIHBhdGNoIFsxLzRdIGFkZGVkIGEgRklYTUUuCj4gPj4g
-LSBwYXRjaCBbMi80XSBpcyBuZXcuIEl0IGludHJvZHVjZXMgYSBkcm1tX3BsYWluX3NpbXBsZV9l
-bmNvZGVyX2FsbG9jKCkKPiA+PiAgIG1hY3JvIHRoYXQgd2lsbCBiZSB1c2VkIGluIHBhdGNoIFsz
-LzRdLgo+ID4+IC0gcGF0Y2ggWzMvNF0gdXNlcyB0aGUgbWFjcm8gaW50cm9kdWNlZCBpbiBwYXRj
-aCBbMi80XS4KPiA+PiAtIHBhdGNoIFs0LzRdIGlzIHVubW9kaWZpZWQuCj4gPj4gCj4gPj4gTm90
-ZSB0byBsaW51eC1zdGFibGUgZ3V5czogcGF0Y2ggW3YyIDIvM10gd2lsbCBvbmx5IGFwcGx5IG9u
-IHRoZSBjdXJyZW50Cj4gPj4gZHJtLW1pc2MtbmV4dCBicmFuY2gsIHRvIGZpeCBpdCBmb3IgdjUu
-MTEgYW5kIG9sZGVyIGtlcm5lbHMsIHVzZSB0aGUgVjEKPiA+PiBvZiB0aGF0IHBhdGNoLgo+ID4+
-IAo+ID4+IENoZWVycywKPiA+PiAtUGF1bAo+ID4+IAo+ID4+IFBhdWwgQ2VyY3VlaWwgKDQpOgo+
-ID4+ICAgZHJtOiBicmlkZ2UvcGFuZWw6IENsZWFudXAgY29ubmVjdG9yIG9uIGJyaWRnZSBkZXRh
-Y2gKPiA+PiAgIGRybS9zaW1wbGVfa21zX2hlbHBlcjogQWRkIG1hY3JvIGRybW1fcGxhaW5fc2lt
-cGxlX2VuY29kZXJfYWxsb2MoKQo+ID4+ICAgZHJtL2luZ2VuaWM6IFJlZ2lzdGVyIGRldm0gYWN0
-aW9uIHRvIGNsZWFudXAgZW5jb2RlcnMKPiA+PiAgIGRybS9pbmdlbmljOiBGaXggbm9uLU9TRCBt
-b2RlCj4gPj4gCj4gPj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvcGFuZWwuYyAgICAgICAgICAg
-IHwgMTIgKysrKysrKysrKysKPiA+PiAgZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1k
-cm0tZHJ2LmMgfCAyNiArKysrKysrKysrKy0tLS0tLS0tLS0tLQo+ID4+ICBpbmNsdWRlL2RybS9k
-cm1fc2ltcGxlX2ttc19oZWxwZXIuaCAgICAgICB8IDE3ICsrKysrKysrKysrKysrKwo+ID4+ICAz
-IGZpbGVzIGNoYW5nZWQsIDQyIGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQo+ID4+IAoK
-LS0gClJlZ2FyZHMsCgpMYXVyZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 3/23/21 5:53 PM, Laurent Pinchart wrote:
+> Hi Jagan,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Mar 22, 2021 at 07:31:49PM +0530, Jagan Teki wrote:
+>> Replace of_drm_find_panel with drm_of_find_panel_or_bridge
+>> for finding panel, this indeed help to find the bridge if
+>> bridge support added.
+>>
+>> Added NULL in bridge argument, same will replace with bridge
+>> parameter once bridge supported.
+>>
+>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> 
+> Looks good, there should be no functional change.
+
+Actually this breaks all existing users of this driver, see below.
+
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+>> ---
+>> Changes for v4, v3:
+>> - none
+>>
+>>  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 11 ++++++++---
+>>  1 file changed, 8 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+>> index 4f5efcace68e..2e9e7b2d4145 100644
+>> --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+>> +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+>> @@ -21,6 +21,7 @@
+>>  
+>>  #include <drm/drm_atomic_helper.h>
+>>  #include <drm/drm_mipi_dsi.h>
+>> +#include <drm/drm_of.h>
+>>  #include <drm/drm_panel.h>
+>>  #include <drm/drm_print.h>
+>>  #include <drm/drm_probe_helper.h>
+>> @@ -963,10 +964,14 @@ static int sun6i_dsi_attach(struct mipi_dsi_host *host,
+>>  			    struct mipi_dsi_device *device)
+>>  {
+>>  	struct sun6i_dsi *dsi = host_to_sun6i_dsi(host);
+>> -	struct drm_panel *panel = of_drm_find_panel(device->dev.of_node);
+
+This is using the OF node of the DSI device, which is a direct child of
+the DSI host's OF node. There is no OF graph involved.
+
+>> +	struct drm_panel *panel;
+>> +	int ret;
+>> +
+>> +	ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 0, 0,
+>> +					  &panel, NULL);
+
+However, this function expects to find the panel using OF graph. This
+does not work with existing device trees (PinePhone, PineTab) which do
+not use OF graph to connect the panel. And it cannot work, because the
+DSI host's binding specifies a single port: the input port from the
+display engine.
+
+Regards,
+Samuel
+
+>> +	if (ret)
+>> +		return ret;
+>>  
+>> -	if (IS_ERR(panel))
+>> -		return PTR_ERR(panel);
+>>  	if (!dsi->drm || !dsi->drm->registered)
+>>  		return -EPROBE_DEFER;
+>>  
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
