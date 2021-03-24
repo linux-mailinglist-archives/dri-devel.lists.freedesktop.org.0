@@ -2,47 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 106DB347DEC
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 17:42:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E78347E26
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 17:48:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C16B6ECA3;
-	Wed, 24 Mar 2021 16:42:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 561796EA3C;
+	Wed, 24 Mar 2021 16:47:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 316BC6ECA9
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 16:42:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6CE5761A12
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 16:42:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06D7A6EA3C
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 16:47:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 05AC361A06;
+ Wed, 24 Mar 2021 16:47:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616604170;
- bh=FpJ4ufMl3GoETEBMXPsfhMl5UzmY31frNljvtIkqZOE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Ip//tYNx0qxfnmr4eR3JAA2+Itc24es7mwJQjJL07abkvmQYpDXcO9J8WWxO268/I
- JFbBlzhLB4pjKpi3ajTdodXBCgK5RLYj6OXrTWOad//1IpkDWh8PA/DxmErNyoY6fi
- YSJc3LSD6udZE6sznr4+WullETs4zWCfSXkXwGFSkD4OUDddqbDe9Tu0zPZvKfF+g8
- J0gqhFSdJKUkkjV+UomcUJZTk8aF2So2W8338Pv32ORTAfG7CDwqERgQBkBNR7aapi
- eEZic2+cqlNuQNCc/cdhH59T6vYOv+iIzvLiP3V0CcGnlnZo+VcgAdOZFFs6mYNqF6
- tUS+8klPf5qIg==
-Received: by mail-oi1-f181.google.com with SMTP id d12so21457431oiw.12
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 09:42:50 -0700 (PDT)
-X-Gm-Message-State: AOAM532QuBTShaRX4Sut/uzb4EDpOf1RrOdLQp3W6Wtv+NjPozoQ0Eqh
- 7k0L3DQxC43YmUa+x5L9wqw9iQUJc+xRiUUZlSE=
-X-Google-Smtp-Source: ABdhPJzT1TALAguRWsDlD8O6reb7Z/5YQKB/EH/94NPd80Aw6gOETK/aeiwvnSRsg6ZUwyQE7bBChezT8Gvob1FyBik=
-X-Received: by 2002:a05:6808:3d9:: with SMTP id
- o25mr3096654oie.4.1616604169767; 
- Wed, 24 Mar 2021 09:42:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210324121832.3714570-1-arnd@kernel.org>
- <e1310273dcc577f3a772380ada7b6cc1906d680b.camel@perches.com>
-In-Reply-To: <e1310273dcc577f3a772380ada7b6cc1906d680b.camel@perches.com>
+ s=k20201202; t=1616604475;
+ bh=p+1TIRUmePIQc6WtQPg9mzBzgEJQ9OP7+R0w8iP3j40=;
+ h=From:To:Cc:Subject:Date:From;
+ b=QkfJpyXzcvwWQuYP12k3YP8sS65dUJpTatoatVEjc43JkFpqNlUPVsjzAWuKoY5I1
+ UxhZ0t3EY/Rbro2FE9s1zYHRnW2j85Sosjb7WwGb1Y4aVor5j1JFsaMEHE8WC/PCxX
+ vBW+zFJd++kSDgxH9mTh4ye9GM4THg70dyEfo5M9GOc6Gd87o9aKYwuS6GnQAY1iIn
+ DP6X5xi4D+OBiWLQqIl2IrgMn/7I08Rqw7kVDZc+lg+wgvVTuHDtX8Xdy6+DdBWbzp
+ tqM2UL+3JcpY0uU8VW5gbLn62vAqS61OF7kSTn1CLGc3KeyrFQCFLQDVVLKU7HvgOF
+ DC+FNlt5ne5og==
 From: Arnd Bergmann <arnd@kernel.org>
-Date: Wed, 24 Mar 2021 17:42:34 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a0JyoAtTYTi+M_mJ3_KtUJ6NeJB=FNWhzezqcXMac++mQ@mail.gmail.com>
-Message-ID: <CAK8P3a0JyoAtTYTi+M_mJ3_KtUJ6NeJB=FNWhzezqcXMac++mQ@mail.gmail.com>
-Subject: Re: [PATCH] [v2] drm/imx: imx-ldb: fix out of bounds array access
- warning
-To: Joe Perches <joe@perches.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] [v3] drm/imx: imx-ldb: fix out of bounds array access warning
+Date: Wed, 24 Mar 2021 17:47:41 +0100
+Message-Id: <20210324164750.3833773-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,60 +44,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
- Marco Felsch <m.felsch@pengutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Liu Ying <victor.liu@nxp.com>, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Arnd Bergmann <arnd@arndb.de>, Liu Ying <victor.liu@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Marco Felsch <m.felsch@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Joe Perches <joe@perches.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBNYXIgMjQsIDIwMjEgYXQgMzoyMCBQTSBKb2UgUGVyY2hlcyA8am9lQHBlcmNoZXMu
-Y29tPiB3cm90ZToKPgo+IE9uIFdlZCwgMjAyMS0wMy0yNCBhdCAxMzoxNyArMDEwMCwgQXJuZCBC
-ZXJnbWFubiB3cm90ZToKPiA+IEZyb206IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+Cj4g
-Pgo+ID4gV2hlbiBDT05GSUdfT0YgaXMgZGlzYWJsZWQsIGJ1aWxkaW5nIHdpdGggJ21ha2UgVz0x
-JyBwcm9kdWNlcyB3YXJuaW5ncwo+ID4gYWJvdXQgb3V0IG9mIGJvdW5kcyBhcnJheSBhY2Nlc3M6
-Cj4gPgo+ID4gZHJpdmVycy9ncHUvZHJtL2lteC9pbXgtbGRiLmM6IEluIGZ1bmN0aW9uICdpbXhf
-bGRiX3NldF9jbG9jay5jb25zdHByb3AnOgo+ID4gZHJpdmVycy9ncHUvZHJtL2lteC9pbXgtbGRi
-LmM6MTg2Ojg6IGVycm9yOiBhcnJheSBzdWJzY3JpcHQgLTIyIGlzIGJlbG93IGFycmF5IGJvdW5k
-cyBvZiAnc3RydWN0IGNsayAqWzRdJyBbLVdlcnJvcj1hcnJheS1ib3VuZHNdCj4gPgo+ID4gQWRk
-IGFuIGVycm9yIGNoZWNrIGJlZm9yZSB0aGUgaW5kZXggaXMgdXNlZCwgd2hpY2ggaGVscHMgd2l0
-aCB0aGUKPiA+IHdhcm5pbmcsIGFzIHdlbGwgYXMgYW55IHBvc3NpYmxlIG90aGVyIGVycm9yIGNv
-bmRpdGlvbiB0aGF0IG1heSBiZQo+ID4gdHJpZ2dlcmVkIGF0IHJ1bnRpbWUuCj4gPgo+ID4gVGhl
-IHdhcm5pbmcgY291bGQgYmUgZml4ZWQgYnkgYWRkaW5nIGEgS2NvbmZpZyBkZXBlZGVuY3kgb24g
-Q09ORklHX09GLAo+ID4gYnV0IExpdSBZaW5nIHBvaW50cyBvdXQgdGhhdCB0aGUgZHJpdmVyIG1h
-eSBoaXQgdGhlIG91dC1vZi1ib3VuZHMKPiA+IHByb2JsZW0gYXQgcnVudGltZSBhbnl3YXkuCj4g
-Pgo+ID4gU2lnbmVkLW9mZi1ieTogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4KPiA+IC0t
-LQo+ID4gdjI6IGZpeCBzdWJqZWN0IGxpbmUKPiA+ICAgICBleHBhbmQgcGF0Y2ggZGVzY3JpcHRp
-b24KPiA+ICAgICBwcmludCBtdXggbnVtYmVyCj4gPiAgICAgY2hlY2sgdXBwZXIgYm91bmQgYXMg
-d2VsbAo+IFtdCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2lteC9pbXgtbGRiLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vaW14L2lteC1sZGIuYwo+IFtdCj4gPiBAQCAtMTk3LDYgKzE5Nywx
-MiBAQCBzdGF0aWMgdm9pZCBpbXhfbGRiX2VuY29kZXJfZW5hYmxlKHN0cnVjdCBkcm1fZW5jb2Rl
-ciAqZW5jb2RlcikKPiA+ICAgICAgIGludCBkdWFsID0gbGRiLT5sZGJfY3RybCAmIExEQl9TUExJ
-VF9NT0RFX0VOOwo+ID4gICAgICAgaW50IG11eCA9IGRybV9vZl9lbmNvZGVyX2FjdGl2ZV9wb3J0
-X2lkKGlteF9sZGJfY2gtPmNoaWxkLCBlbmNvZGVyKTsKPiA+Cj4gPiArICAgICBpZiAobXV4IDwg
-MCB8fCBtdXggPj0gQVJSQVlfU0laRShsZGItPmNsa19zZWwpKSB7Cj4gPiArICAgICAgICAgICAg
-IGRldl93YXJuKGxkYi0+ZGV2LCAiJXM6IGludmFsaWQgbXV4ICVkXG4iLAo+ID4gKyAgICAgICAg
-ICAgICAgICAgICAgICBfX2Z1bmNfXywgRVJSX1BUUihtdXgpKTsKPgo+IFRoaXMgZG9lcyBub3Qg
-Y29tcGlsZSB3aXRob3V0IHdhcm5pbmdzLgo+Cj4gZHJpdmVycy9ncHUvZHJtL2lteC9pbXgtbGRi
-LmM6IEluIGZ1bmN0aW9uIOKAmGlteF9sZGJfZW5jb2Rlcl9lbmFibGXigJk6Cj4gZHJpdmVycy9n
-cHUvZHJtL2lteC9pbXgtbGRiLmM6MjAxOjIyOiB3YXJuaW5nOiBmb3JtYXQg4oCYJWTigJkgZXhw
-ZWN0cyBhcmd1bWVudCBvZiB0eXBlIOKAmGludOKAmSwgYnV0IGFyZ3VtZW50IDQgaGFzIHR5cGUg
-4oCYdm9pZCAq4oCZIFstV2Zvcm1hdD1dCj4gICAyMDEgfCAgIGRldl93YXJuKGxkYi0+ZGV2LCAi
-JXM6IGludmFsaWQgbXV4ICVkXG4iLAo+ICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgXn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fgo+Cj4gSWYgeW91IHdhbnQgdG8gdXNlIEVSUl9QVFIsIHRoZSAl
-ZCBzaG91bGQgYmUgJXBlIGFzIEVSUl9QVFIKPiBpcyBjb252ZXJ0aW5nIGFuIGludCBhIHZvaWQg
-KiB0byBkZWNvZGUgdGhlIGVycm9yIHR5cGUgYW5kCj4gZW1pdCBpdCBhcyBhIHN0cmluZy4KClNv
-cnJ5IGFib3V0IHRoYXQuCgpJIGRlY2lkZWQgYWdhaW5zdCB1c2luZyBFUlJfUFRSKCkgaW4gb3Jk
-ZXIgdG8gYWxzbyBjaGVjayBmb3IKcG9zaXRpdmUgYXJyYXkgb3ZlcmZsb3csIGJ1dCB0aGUgdmVy
-c2lvbiBJIHRlc3RlZCB3YXMgZGlmZmVyZW50IGZyb20KdGhlIHZlcnNpb24gSSBzZW50LgoKdjMg
-Y29taW5nLgoKICAgICAgICAgQXJuZApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+From: Arnd Bergmann <arnd@arndb.de>
+
+When CONFIG_OF is disabled, building with 'make W=1' produces warnings
+about out of bounds array access:
+
+drivers/gpu/drm/imx/imx-ldb.c: In function 'imx_ldb_set_clock.constprop':
+drivers/gpu/drm/imx/imx-ldb.c:186:8: error: array subscript -22 is below array bounds of 'struct clk *[4]' [-Werror=array-bounds]
+
+Add an error check before the index is used, which helps with the
+warning, as well as any possible other error condition that may be
+triggered at runtime.
+
+The warning could be fixed by adding a Kconfig depedency on CONFIG_OF,
+but Liu Ying points out that the driver may hit the out-of-bounds
+problem at runtime anyway.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+v3: fix build regression from v2
+v2: fix subject line
+    expand patch description
+    print mux number
+    check upper bound as well
+---
+ drivers/gpu/drm/imx/imx-ldb.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
+index dbfe39e2f7f6..565482e2b816 100644
+--- a/drivers/gpu/drm/imx/imx-ldb.c
++++ b/drivers/gpu/drm/imx/imx-ldb.c
+@@ -197,6 +197,11 @@ static void imx_ldb_encoder_enable(struct drm_encoder *encoder)
+ 	int dual = ldb->ldb_ctrl & LDB_SPLIT_MODE_EN;
+ 	int mux = drm_of_encoder_active_port_id(imx_ldb_ch->child, encoder);
+ 
++	if (mux < 0 || mux >= ARRAY_SIZE(ldb->clk_sel)) {
++		dev_warn(ldb->dev, "%s: invalid mux %d\n", __func__, mux);
++		return;
++	}
++
+ 	drm_panel_prepare(imx_ldb_ch->panel);
+ 
+ 	if (dual) {
+@@ -255,6 +260,11 @@ imx_ldb_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 	int mux = drm_of_encoder_active_port_id(imx_ldb_ch->child, encoder);
+ 	u32 bus_format = imx_ldb_ch->bus_format;
+ 
++	if (mux < 0 || mux >= ARRAY_SIZE(ldb->clk_sel)) {
++		dev_warn(ldb->dev, "%s: invalid mux %d\n", __func__, mux);
++		return;
++	}
++
+ 	if (mode->clock > 170000) {
+ 		dev_warn(ldb->dev,
+ 			 "%s: mode exceeds 170 MHz pixel clock\n", __func__);
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
