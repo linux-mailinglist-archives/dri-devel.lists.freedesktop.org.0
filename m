@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB2F347B6C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:01:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF52347B6D
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:01:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2B5D6EBB7;
-	Wed, 24 Mar 2021 15:01:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1C9F6EC66;
+	Wed, 24 Mar 2021 15:01:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A44646EC5C
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:00:51 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id n138so32439066lfa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:00:51 -0700 (PDT)
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04B816EC66
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:00:54 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id y1so30575217ljm.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YpnhVRI0osV9SLwEgj/UyBszU1XPTdC6tTCpmF9tbKM=;
- b=HWlQvpGixVBxwkNt6pBtJ6mbUfh/YAbJ+MzBAhMWUEo4o5lZ2Jhdd7qr+HDOHmI1kP
- 2kJ7wiYRuMLi7k3vDyEnXWLc/OMCcs/hFR+bgSlOB+xeVFCHwtoVwh4ykYilPbVN9vrf
- NwuVMJW9V5V5jpActQ1Z5xibhrMwzLttFhSvcTOZ6Ynfi28aonouzOIouYQah/NkVI5U
- rvILbN3kME8QtPyzhr1U+wIffn9U8Bo2iMR9qpZSoI78tQyaLDmq4FLmoA84Hkr8a3tP
- 7gOxdPlfxdCKHqSJfbtz0nNJ09XW+8BkYd+wpWhnnPTUCKghRzYKpLxuOnpP/TRGCPtb
- +Ncg==
+ bh=3IDca3nqOqXSyUNz10xakktCdMK2whJw+bAaBI3H+b0=;
+ b=MBs5F0ZbZrDWAAbHQiQ9WCJfaZ3l97BCQV4VBlnjuBW4EIG5Pg0IxMftbqbzDEsvpn
+ 25U9gSUbKZC8BGhefMevlllp5cgJOXe4dORWNCZ4S68/b6bKywcRKT41TNBCcgHI0UAi
+ kpQnopwW76o+pgNWSflc3KWEAsDx3bQh3j48LmnggsOJxT/YlgIVdj8ud/nCDVky8tOM
+ 7h7PnL4RboOy7vJAi4HZgjENCRfMqlh6PyDRWJ6E0FUAekkV239TX8ntNJWN3CMbHBer
+ 6NvYspaK6tCDjT3Gj6eyQ4rqWJO8v8u3Qlgf2mgfxQXAvoYXuhsl2ALSzTxvhYhWp8J9
+ 0vrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YpnhVRI0osV9SLwEgj/UyBszU1XPTdC6tTCpmF9tbKM=;
- b=s1xddNNGIfX6K7dJEN4xZR7N4AVPqzCStTfKf86kpGueWVcYZ5i36e7i5ikhLRGZGX
- zsHP9Fbx+0bhe44e0v1e1Kygj8GzaBCgUW/IFjHshhgFQQjvUsJ1QXbYEY35KeZhxRDL
- 58AlLsuhBIcnAV1p7zC7aVrf34WwukGmHzikXJHhwGyLZz09/0bJagE8/AJFGHebDJ0S
- 66zEwHk/j0yCT/bCRUD+qFOaHZZbQlWY8hutr7nSLZI+NEPwsByvtOvUTNP8KTDQxjNK
- DQut9pJ1Yb6foFoDlunDIvQqsRJbpTz2cyvhKvgtd4wcqH9/3XZTsN2gZFCdGAjkczsK
- dhlA==
-X-Gm-Message-State: AOAM531TqZSs0JGKV1Cr3YCAO+33ZEDEPmIThIYbRWsLUuosXRyhR5eZ
- LD59Ylx9CYGQCrYIu67GWtBEQA==
-X-Google-Smtp-Source: ABdhPJx6b9nV38fgFZ/MVlcIKezTQfHW7bspK2gQBlEaUOryVyY07nU+8l2KDSeyGBrV2YdDvfM05Q==
-X-Received: by 2002:ac2:491d:: with SMTP id n29mr2232810lfi.541.1616598049666; 
- Wed, 24 Mar 2021 08:00:49 -0700 (PDT)
+ bh=3IDca3nqOqXSyUNz10xakktCdMK2whJw+bAaBI3H+b0=;
+ b=PM9SM43I/Qh2E54+sW9csjiUpuDBw/6MqsGqCDXiiCOkrqMQyE01SFxBqaQxP33EV2
+ V5ppNTJiKOJhxOj1cp/xX09JHJ5pKMIwDT/FK+KVNR9xKjCIwXsEhgnAMyHUQuSI/xGd
+ +dH9qBQEKnM0zF6gc3QLImJgZ9MUtP5ErzVkFfyhjcMjOqJE1VXKGGs7qb1FoW17k46Z
+ s9KiI0Cr8AjecIe6DM4henOm6HDY0lClKTg9dGlv/h2uuhDnBq1DrFInF2QixZF6OEZ6
+ h1hmGvNkU5q1XEs6XZch76cmJ7Ks3BD//YZVzfu6XCogHIHTaps2OWYV2n88GwlFkwqB
+ tvGg==
+X-Gm-Message-State: AOAM533csoBCv1NZtDs6eC7MAlGki5ReBqK27YuK/8vAqO3UuaE+Wodb
+ CbslorCyvfz0d8ChroPYg5CLxOPQ8F0Nfg==
+X-Google-Smtp-Source: ABdhPJzhMaESB3CKC/dNPBIX68KWCfG+OpkVcyB9YQpzh7jm+fvmmgQTJuz9m2beGBFl1uD9AWs+6w==
+X-Received: by 2002:a2e:a545:: with SMTP id e5mr2485167ljn.134.1616598051136; 
+ Wed, 24 Mar 2021 08:00:51 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id p5sm252463lfe.154.2021.03.24.08.00.48
+ by smtp.gmail.com with ESMTPSA id p5sm252463lfe.154.2021.03.24.08.00.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 08:00:49 -0700 (PDT)
+ Wed, 24 Mar 2021 08:00:50 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Jonathan Marek <jonathan@marek.ca>
-Subject: [PATCH 16/21] drm/msm/dpu: call hw_intf ops directly
-Date: Wed, 24 Mar 2021 18:00:19 +0300
-Message-Id: <20210324150024.2768215-17-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 17/21] drm/msm/dpu: call hw_top ops directly
+Date: Wed, 24 Mar 2021 18:00:20 +0300
+Message-Id: <20210324150024.2768215-18-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210324150024.2768215-1-dmitry.baryshkov@linaro.org>
 References: <20210324150024.2768215-1-dmitry.baryshkov@linaro.org>
@@ -75,284 +75,386 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace dpu_hw_intf callbacks with direct functions calls.
+Replace dpu_hw_top callbacks with direct functions calls.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 28 +++--------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   | 28 ++++-------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h   | 49 +++++++++----------
- 3 files changed, 38 insertions(+), 67 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  17 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c  |  27 +----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h  | 123 +++++++++-----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |   6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c    |  15 ++-
+ 5 files changed, 79 insertions(+), 109 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index 868bb2f06125..e7a30246eb00 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -202,9 +202,6 @@ static void programmable_fetch_config(struct dpu_encoder_phys *phys_enc,
- 	u32 vfp_fetch_start_vsync_counter = 0;
- 	unsigned long lock_flags;
- 
--	if (WARN_ON_ONCE(!phys_enc->hw_intf->ops.setup_prg_fetch))
--		return;
--
- 	vfp_fetch_lines = programmable_fetch_get_num_lines(phys_enc, timing);
- 	if (vfp_fetch_lines) {
- 		vert_total = get_vertical_total(timing);
-@@ -220,7 +217,7 @@ static void programmable_fetch_config(struct dpu_encoder_phys *phys_enc,
- 		vfp_fetch_lines, vfp_fetch_start_vsync_counter);
- 
- 	spin_lock_irqsave(phys_enc->enc_spinlock, lock_flags);
--	phys_enc->hw_intf->ops.setup_prg_fetch(phys_enc->hw_intf, &f);
-+	dpu_hw_intf_setup_prg_fetch(phys_enc->hw_intf, &f);
- 	spin_unlock_irqrestore(phys_enc->enc_spinlock, lock_flags);
- }
- 
-@@ -253,10 +250,6 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
- 	}
- 
- 	mode = phys_enc->cached_mode;
--	if (!phys_enc->hw_intf->ops.setup_timing_gen) {
--		DPU_ERROR("timing engine setup is not supported\n");
--		return;
--	}
- 
- 	DPU_DEBUG_VIDENC(phys_enc, "enabling mode:\n");
- 	drm_mode_debug_printmodeline(&mode);
-@@ -287,13 +280,12 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
- 		intf_cfg.merge_3d = phys_enc->hw_pp->merge_3d->idx;
- 
- 	spin_lock_irqsave(phys_enc->enc_spinlock, lock_flags);
--	phys_enc->hw_intf->ops.setup_timing_gen(phys_enc->hw_intf,
-+	dpu_hw_intf_setup_timing_engine(phys_enc->hw_intf,
- 			&timing_params, fmt);
- 	phys_enc->hw_ctl->ops.setup_intf_cfg(phys_enc->hw_ctl, &intf_cfg);
- 
- 	/* setup which pp blk will connect to this intf */
--	if (phys_enc->hw_intf->ops.bind_pingpong_blk)
--		phys_enc->hw_intf->ops.bind_pingpong_blk(
-+	dpu_hw_intf_bind_pingpong_blk(
- 				phys_enc->hw_intf,
- 				true,
- 				phys_enc->hw_pp->idx);
-@@ -440,9 +432,6 @@ static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
- 
- 	DPU_DEBUG_VIDENC(phys_enc, "\n");
- 
--	if (WARN_ON(!phys_enc->hw_intf->ops.enable_timing))
--		return;
--
- 	dpu_encoder_helper_split_config(phys_enc, phys_enc->hw_intf->idx);
- 
- 	dpu_encoder_phys_vid_setup_timing_engine(phys_enc);
-@@ -560,16 +549,13 @@ static void dpu_encoder_phys_vid_disable(struct dpu_encoder_phys *phys_enc)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 72a3cd08295e..d8574b2e3abc 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -505,8 +505,7 @@ void dpu_encoder_helper_split_config(
+ 	 * update.
+ 	 */
+ 	if (phys_enc->split_role == ENC_ROLE_SOLO) {
+-		if (hw_mdptop->ops.setup_split_pipe)
+-			hw_mdptop->ops.setup_split_pipe(hw_mdptop, &cfg);
++		dpu_hw_setup_split_pipe(hw_mdptop, &cfg);
  		return;
  	}
  
--	if (WARN_ON(!phys_enc->hw_intf->ops.enable_timing))
--		return;
--
- 	if (phys_enc->enable_state == DPU_ENC_DISABLED) {
- 		DPU_ERROR("already disabled\n");
+@@ -521,8 +520,7 @@ void dpu_encoder_helper_split_config(
+ 	if (phys_enc->split_role == ENC_ROLE_MASTER) {
+ 		DPU_DEBUG_ENC(dpu_enc, "enable %d\n", cfg.en);
+ 
+-		if (hw_mdptop->ops.setup_split_pipe)
+-			hw_mdptop->ops.setup_split_pipe(hw_mdptop, &cfg);
++		dpu_hw_setup_split_pipe(hw_mdptop, &cfg);
+ 	}
+ }
+ 
+@@ -674,8 +672,7 @@ static void _dpu_encoder_update_vsync_source(struct dpu_encoder_virt *dpu_enc,
  		return;
  	}
  
- 	spin_lock_irqsave(phys_enc->enc_spinlock, lock_flags);
--	phys_enc->hw_intf->ops.enable_timing(phys_enc->hw_intf, 0);
-+	dpu_hw_intf_enable_timing_engine(phys_enc->hw_intf, 0);
- 	if (dpu_encoder_phys_vid_is_master(phys_enc))
- 		dpu_encoder_phys_inc_pending(phys_enc);
- 	spin_unlock_irqrestore(phys_enc->enc_spinlock, lock_flags);
-@@ -608,7 +594,7 @@ static void dpu_encoder_phys_vid_handle_post_kickoff(
- 		trace_dpu_enc_phys_vid_post_kickoff(DRMID(phys_enc->parent),
- 				    phys_enc->hw_intf->idx - INTF_0);
- 		spin_lock_irqsave(phys_enc->enc_spinlock, lock_flags);
--		phys_enc->hw_intf->ops.enable_timing(phys_enc->hw_intf, 1);
-+		dpu_hw_intf_enable_timing_engine(phys_enc->hw_intf, 1);
- 		spin_unlock_irqrestore(phys_enc->enc_spinlock, lock_flags);
- 		phys_enc->enable_state = DPU_ENC_ENABLED;
- 	}
-@@ -642,10 +628,10 @@ static int dpu_encoder_phys_vid_get_line_count(
- 	if (!dpu_encoder_phys_vid_is_master(phys_enc))
- 		return -EINVAL;
+-	if (hw_mdptop->ops.setup_vsync_source &&
+-			disp_info->capabilities & MSM_DISPLAY_CAP_CMD_MODE) {
++	if (disp_info->capabilities & MSM_DISPLAY_CAP_CMD_MODE) {
+ 		for (i = 0; i < dpu_enc->num_phys_encs; i++)
+ 			vsync_cfg.ppnumber[i] = dpu_enc->hw_pp[i]->idx;
  
--	if (!phys_enc->hw_intf || !phys_enc->hw_intf->ops.get_line_count)
-+	if (!phys_enc->hw_intf)
- 		return -EINVAL;
+@@ -685,7 +682,7 @@ static void _dpu_encoder_update_vsync_source(struct dpu_encoder_virt *dpu_enc,
+ 		else
+ 			vsync_cfg.vsync_source = DPU_VSYNC0_SOURCE_GPIO;
  
--	return phys_enc->hw_intf->ops.get_line_count(phys_enc->hw_intf);
-+	return dpu_hw_intf_get_line_count(phys_enc->hw_intf);
- }
- 
- static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops *ops)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-index 8df75936d906..3988700dcc85 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-@@ -80,7 +80,7 @@ static const struct dpu_intf_cfg *_intf_offset(enum dpu_intf intf,
- 	return ERR_PTR(-EINVAL);
- }
- 
--static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
-+void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
- 		const struct intf_timing_params *p,
- 		const struct dpu_format *fmt)
- {
-@@ -197,7 +197,7 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
- 	DPU_REG_WRITE(c, INTF_PANEL_FORMAT, panel_format);
- }
- 
--static void dpu_hw_intf_enable_timing_engine(
-+void dpu_hw_intf_enable_timing_engine(
- 		struct dpu_hw_intf *intf,
- 		u8 enable)
- {
-@@ -206,7 +206,7 @@ static void dpu_hw_intf_enable_timing_engine(
- 	DPU_REG_WRITE(c, INTF_TIMING_ENGINE_EN, enable != 0);
- }
- 
--static void dpu_hw_intf_setup_prg_fetch(
-+void dpu_hw_intf_setup_prg_fetch(
- 		struct dpu_hw_intf *intf,
- 		const struct intf_prog_fetch *fetch)
- {
-@@ -230,7 +230,7 @@ static void dpu_hw_intf_setup_prg_fetch(
- 	DPU_REG_WRITE(c, INTF_CONFIG, fetch_enable);
- }
- 
--static void dpu_hw_intf_bind_pingpong_blk(
-+void dpu_hw_intf_bind_pingpong_blk(
- 		struct dpu_hw_intf *intf,
- 		bool enable,
- 		const enum dpu_pingpong pp)
-@@ -238,6 +238,9 @@ static void dpu_hw_intf_bind_pingpong_blk(
- 	struct dpu_hw_blk_reg_map *c = &intf->hw;
- 	u32 mux_cfg;
- 
-+	if (!test_bit(DPU_INTF_INPUT_CTRL, &intf->cap->features))
-+		return;
-+
- 	mux_cfg = DPU_REG_READ(c, INTF_MUX);
- 	mux_cfg &= ~0xf;
- 
-@@ -249,7 +252,7 @@ static void dpu_hw_intf_bind_pingpong_blk(
- 	DPU_REG_WRITE(c, INTF_MUX, mux_cfg);
- }
- 
--static void dpu_hw_intf_get_status(
-+void dpu_hw_intf_get_status(
- 		struct dpu_hw_intf *intf,
- 		struct intf_status *s)
- {
-@@ -265,7 +268,7 @@ static void dpu_hw_intf_get_status(
+-		hw_mdptop->ops.setup_vsync_source(hw_mdptop, &vsync_cfg);
++		dpu_hw_setup_vsync_source(hw_mdptop, &vsync_cfg);
  	}
  }
  
--static u32 dpu_hw_intf_get_line_count(struct dpu_hw_intf *intf)
-+u32 dpu_hw_intf_get_line_count(struct dpu_hw_intf *intf)
+@@ -1095,10 +1092,8 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
+ 
+ 
+ 	if (dpu_enc->disp_info.intf_type == DRM_MODE_CONNECTOR_DisplayPort &&
+-		dpu_enc->cur_master->hw_mdptop &&
+-		dpu_enc->cur_master->hw_mdptop->ops.intf_audio_select)
+-		dpu_enc->cur_master->hw_mdptop->ops.intf_audio_select(
+-			dpu_enc->cur_master->hw_mdptop);
++		dpu_enc->cur_master->hw_mdptop)
++		dpu_hw_intf_audio_select(dpu_enc->cur_master->hw_mdptop);
+ 
+ 	_dpu_encoder_update_vsync_source(dpu_enc, &dpu_enc->disp_info);
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+index dae77d9c2c74..4c213adedcc4 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+@@ -50,7 +50,7 @@
+ 
+ #define DCE_SEL                           0x450
+ 
+-static void dpu_hw_setup_split_pipe(struct dpu_hw_mdp *mdp,
++void dpu_hw_setup_split_pipe(struct dpu_hw_mdp *mdp,
+ 		struct split_pipe_cfg *cfg)
+ {
+ 	struct dpu_hw_blk_reg_map *c;
+@@ -88,7 +88,7 @@ static void dpu_hw_setup_split_pipe(struct dpu_hw_mdp *mdp,
+ 	DPU_REG_WRITE(c, SPLIT_DISPLAY_EN, cfg->en & 0x1);
+ }
+ 
+-static bool dpu_hw_setup_clk_force_ctrl(struct dpu_hw_mdp *mdp,
++bool dpu_hw_setup_clk_force_ctrl(struct dpu_hw_mdp *mdp,
+ 		enum dpu_clk_ctrl_type clk_ctrl, bool enable)
+ {
+ 	struct dpu_hw_blk_reg_map *c;
+@@ -122,7 +122,7 @@ static bool dpu_hw_setup_clk_force_ctrl(struct dpu_hw_mdp *mdp,
+ }
+ 
+ 
+-static void dpu_hw_get_danger_status(struct dpu_hw_mdp *mdp,
++void dpu_hw_get_danger_status(struct dpu_hw_mdp *mdp,
+ 		struct dpu_danger_safe_status *status)
+ {
+ 	struct dpu_hw_blk_reg_map *c;
+@@ -151,7 +151,7 @@ static void dpu_hw_get_danger_status(struct dpu_hw_mdp *mdp,
+ 	status->sspp[SSPP_CURSOR1] = (value >> 26) & 0x3;
+ }
+ 
+-static void dpu_hw_setup_vsync_source(struct dpu_hw_mdp *mdp,
++void dpu_hw_setup_vsync_source(struct dpu_hw_mdp *mdp,
+ 		struct dpu_vsync_source_cfg *cfg)
+ {
+ 	struct dpu_hw_blk_reg_map *c;
+@@ -219,7 +219,7 @@ static void dpu_hw_setup_vsync_source(struct dpu_hw_mdp *mdp,
+ 	}
+ }
+ 
+-static void dpu_hw_get_safe_status(struct dpu_hw_mdp *mdp,
++void dpu_hw_get_safe_status(struct dpu_hw_mdp *mdp,
+ 		struct dpu_danger_safe_status *status)
+ {
+ 	struct dpu_hw_blk_reg_map *c;
+@@ -248,7 +248,7 @@ static void dpu_hw_get_safe_status(struct dpu_hw_mdp *mdp,
+ 	status->sspp[SSPP_CURSOR1] = (value >> 26) & 0x1;
+ }
+ 
+-static void dpu_hw_intf_audio_select(struct dpu_hw_mdp *mdp)
++void dpu_hw_intf_audio_select(struct dpu_hw_mdp *mdp)
  {
  	struct dpu_hw_blk_reg_map *c;
  
-@@ -277,18 +280,6 @@ static u32 dpu_hw_intf_get_line_count(struct dpu_hw_intf *intf)
- 	return DPU_REG_READ(c, INTF_LINE_COUNT);
+@@ -260,17 +260,6 @@ static void dpu_hw_intf_audio_select(struct dpu_hw_mdp *mdp)
+ 	DPU_REG_WRITE(c, HDMI_DP_CORE_SELECT, 0x1);
  }
  
--static void _setup_intf_ops(struct dpu_hw_intf_ops *ops,
+-static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
 -		unsigned long cap)
 -{
--	ops->setup_timing_gen = dpu_hw_intf_setup_timing_engine;
--	ops->setup_prg_fetch  = dpu_hw_intf_setup_prg_fetch;
--	ops->get_status = dpu_hw_intf_get_status;
--	ops->enable_timing = dpu_hw_intf_enable_timing_engine;
--	ops->get_line_count = dpu_hw_intf_get_line_count;
--	if (cap & BIT(DPU_INTF_INPUT_CTRL))
--		ops->bind_pingpong_blk = dpu_hw_intf_bind_pingpong_blk;
+-	ops->setup_split_pipe = dpu_hw_setup_split_pipe;
+-	ops->setup_clk_force_ctrl = dpu_hw_setup_clk_force_ctrl;
+-	ops->get_danger_status = dpu_hw_get_danger_status;
+-	ops->setup_vsync_source = dpu_hw_setup_vsync_source;
+-	ops->get_safe_status = dpu_hw_get_safe_status;
+-	ops->intf_audio_select = dpu_hw_intf_audio_select;
 -}
 -
- struct dpu_hw_intf *dpu_hw_intf_init(enum dpu_intf idx,
+ static const struct dpu_mdp_cfg *_top_offset(enum dpu_mdp mdp,
+ 		const struct dpu_mdss_cfg *m,
  		void __iomem *addr,
- 		const struct dpu_mdss_cfg *m)
-@@ -313,7 +304,6 @@ struct dpu_hw_intf *dpu_hw_intf_init(enum dpu_intf idx,
- 	c->idx = idx;
- 	c->cap = cfg;
- 	c->mdss = m;
--	_setup_intf_ops(&c->ops, c->cap->features);
+@@ -315,12 +304,8 @@ struct dpu_hw_mdp *dpu_hw_mdptop_init(enum dpu_mdp idx,
+ 		return ERR_PTR(-EINVAL);
+ 	}
  
- 	dpu_hw_blk_init(&c->base, DPU_HW_BLK_INTF, idx);
+-	/*
+-	 * Assign ops
+-	 */
+ 	mdp->idx = idx;
+ 	mdp->caps = cfg;
+-	_setup_mdp_ops(&mdp->ops, mdp->caps->features);
  
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-index 0ead64d3f63d..8661571fec67 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-@@ -44,37 +44,35 @@ struct intf_status {
- 	u32 line_count;		/* current line count including blanking */
+ 	dpu_hw_blk_init(&mdp->base, DPU_HW_BLK_TOP, idx);
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+index 8018fff5667a..6745711bf129 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+@@ -68,70 +68,66 @@ struct dpu_vsync_source_cfg {
+ 	u32 vsync_source;
  };
  
 -/**
-- * struct dpu_hw_intf_ops : Interface to the interface Hw driver functions
+- * struct dpu_hw_mdp_ops - interface to the MDP TOP Hw driver functions
 +/*
-  *  Assumption is these functions will be called after clocks are enabled
-- * @ setup_timing_gen : programs the timing engine
-- * @ setup_prog_fetch : enables/disables the programmable fetch logic
-- * @ enable_timing: enable/disable timing engine
-- * @ get_status: returns if timing engine is enabled or not
-- * @ get_line_count: reads current vertical line counter
-- * @bind_pingpong_blk: enable/disable the connection with pingpong which will
-- *                     feed pixels to this interface
+  * Assumption is these functions will be called after clocks are enabled.
+- * @setup_split_pipe : Programs the pipe control registers
+- * @setup_pp_split : Programs the pp split control registers
+- * @setup_traffic_shaper : programs traffic shaper control
   */
--struct dpu_hw_intf_ops {
--	void (*setup_timing_gen)(struct dpu_hw_intf *intf,
--			const struct intf_timing_params *p,
--			const struct dpu_format *fmt);
- 
--	void (*setup_prg_fetch)(struct dpu_hw_intf *intf,
--			const struct intf_prog_fetch *fetch);
-+/* dpu_hw_intf_setup_timing_engine: programs the timing engine */
-+void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *intf,
-+		const struct intf_timing_params *p,
-+		const struct dpu_format *fmt);
- 
--	void (*enable_timing)(struct dpu_hw_intf *intf,
--			u8 enable);
-+/* dpu_hw_intf_setup_prg_fetch : enables/disables the programmable fetch logic */
-+void dpu_hw_intf_setup_prg_fetch(struct dpu_hw_intf *intf,
-+		const struct intf_prog_fetch *fetch);
- 
--	void (*get_status)(struct dpu_hw_intf *intf,
--			struct intf_status *status);
-+/* dpu_hw_intf_enable_timing_engine: enable/disable timing engine */
-+void dpu_hw_intf_enable_timing_engine(struct dpu_hw_intf *intf,
-+		u8 enable);
- 
--	u32 (*get_line_count)(struct dpu_hw_intf *intf);
-+/* dpu_hw_intf_get_status: returns if timing engine is enabled or not */
-+void dpu_hw_intf_get_status(struct dpu_hw_intf *intf,
-+		struct intf_status *status);
- 
--	void (*bind_pingpong_blk)(struct dpu_hw_intf *intf,
--			bool enable,
--			const enum dpu_pingpong pp);
+-struct dpu_hw_mdp_ops {
+-	/** setup_split_pipe() : Regsiters are not double buffered, thisk
+-	 * function should be called before timing control enable
+-	 * @mdp  : mdp top context driver
+-	 * @cfg  : upper and lower part of pipe configuration
+-	 */
+-	void (*setup_split_pipe)(struct dpu_hw_mdp *mdp,
+-			struct split_pipe_cfg *p);
+-
+-	/**
+-	 * setup_traffic_shaper() : Setup traffic shaper control
+-	 * @mdp  : mdp top context driver
+-	 * @cfg  : traffic shaper configuration
+-	 */
+-	void (*setup_traffic_shaper)(struct dpu_hw_mdp *mdp,
+-			struct traffic_shaper_cfg *cfg);
+-
+-	/**
+-	 * setup_clk_force_ctrl - set clock force control
+-	 * @mdp: mdp top context driver
+-	 * @clk_ctrl: clock to be controlled
+-	 * @enable: force on enable
+-	 * @return: if the clock is forced-on by this function
+-	 */
+-	bool (*setup_clk_force_ctrl)(struct dpu_hw_mdp *mdp,
+-			enum dpu_clk_ctrl_type clk_ctrl, bool enable);
+-
+-	/**
+-	 * get_danger_status - get danger status
+-	 * @mdp: mdp top context driver
+-	 * @status: Pointer to danger safe status
+-	 */
+-	void (*get_danger_status)(struct dpu_hw_mdp *mdp,
+-			struct dpu_danger_safe_status *status);
+-
+-	/**
+-	 * setup_vsync_source - setup vsync source configuration details
+-	 * @mdp: mdp top context driver
+-	 * @cfg: vsync source selection configuration
+-	 */
+-	void (*setup_vsync_source)(struct dpu_hw_mdp *mdp,
+-				struct dpu_vsync_source_cfg *cfg);
+-
+-	/**
+-	 * get_safe_status - get safe status
+-	 * @mdp: mdp top context driver
+-	 * @status: Pointer to danger safe status
+-	 */
+-	void (*get_safe_status)(struct dpu_hw_mdp *mdp,
+-			struct dpu_danger_safe_status *status);
+-
+-	/**
+-	 * intf_audio_select - select the external interface for audio
+-	 * @mdp: mdp top context driver
+-	 */
+-	void (*intf_audio_select)(struct dpu_hw_mdp *mdp);
 -};
-+/* dpu_hw_intf_get_line_count: reads current vertical line counter */
-+u32 dpu_hw_intf_get_line_count(struct dpu_hw_intf *intf);
 +
-+/* dpu_hw_intf_bind_pingpong_blk: enable/disable the connection with pingpong
-+ * which will feed pixels to this interface */
-+void dpu_hw_intf_bind_pingpong_blk(struct dpu_hw_intf *intf,
-+		bool enable,
-+		const enum dpu_pingpong pp);
++/**
++ * dpu_hw_setup_split_pipe() : Regsiters are not double buffered, thisk
++ * function should be called before timing control enable
++ * @mdp  : mdp top context driver
++ * @cfg  : upper and lower part of pipe configuration
++ */
++void dpu_hw_setup_split_pipe(struct dpu_hw_mdp *mdp,
++		struct split_pipe_cfg *p);
++
++/**
++ * dpu_hw_setup_traffic_shaper() : Setup traffic shaper control
++ * @mdp  : mdp top context driver
++ * @cfg  : traffic shaper configuration
++ */
++void dpu_hw_setup_traffic_shaper(struct dpu_hw_mdp *mdp,
++		struct traffic_shaper_cfg *cfg);
++
++/**
++ * dpu_hw_setup_clk_force_ctrl - set clock force control
++ * @mdp: mdp top context driver
++ * @clk_ctrl: clock to be controlled
++ * @enable: force on enable
++ * @return: if the clock is forced-on by this function
++ */
++bool dpu_hw_setup_clk_force_ctrl(struct dpu_hw_mdp *mdp,
++		enum dpu_clk_ctrl_type clk_ctrl, bool enable);
++
++/**
++ * dpu_hw_get_danger_status - get danger status
++ * @mdp: mdp top context driver
++ * @status: Pointer to danger safe status
++ */
++void dpu_hw_get_danger_status(struct dpu_hw_mdp *mdp,
++		struct dpu_danger_safe_status *status);
++
++/**
++ * dpu_hw_setup_vsync_source - setup vsync source configuration details
++ * @mdp: mdp top context driver
++ * @cfg: vsync source selection configuration
++ */
++void dpu_hw_setup_vsync_source(struct dpu_hw_mdp *mdp,
++			struct dpu_vsync_source_cfg *cfg);
++
++/**
++ * dpu_hw_get_safe_status - get safe status
++ * @mdp: mdp top context driver
++ * @status: Pointer to danger safe status
++ */
++void dpu_hw_get_safe_status(struct dpu_hw_mdp *mdp,
++		struct dpu_danger_safe_status *status);
++
++/**
++ * dpu_hw_intf_audio_select - select the external interface for audio
++ * @mdp: mdp top context driver
++ */
++void dpu_hw_intf_audio_select(struct dpu_hw_mdp *mdp);
  
- struct dpu_hw_intf {
+ struct dpu_hw_mdp {
  	struct dpu_hw_blk base;
-@@ -84,9 +82,6 @@ struct dpu_hw_intf {
- 	enum dpu_intf idx;
- 	const struct dpu_intf_cfg *cap;
- 	const struct dpu_mdss_cfg *mdss;
+@@ -140,9 +136,6 @@ struct dpu_hw_mdp {
+ 	/* top */
+ 	enum dpu_mdp idx;
+ 	const struct dpu_mdp_cfg *caps;
 -
 -	/* ops */
--	struct dpu_hw_intf_ops ops;
+-	struct dpu_hw_mdp_ops ops;
  };
  
  /**
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 8e00214426bc..28a52ebe1195 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -67,13 +67,11 @@ static int _dpu_danger_signal_status(struct seq_file *s,
+ 	pm_runtime_get_sync(&kms->pdev->dev);
+ 	if (danger_status) {
+ 		seq_puts(s, "\nDanger signal status:\n");
+-		if (kms->hw_mdp->ops.get_danger_status)
+-			kms->hw_mdp->ops.get_danger_status(kms->hw_mdp,
++		dpu_hw_get_danger_status(kms->hw_mdp,
+ 					&status);
+ 	} else {
+ 		seq_puts(s, "\nSafe signal status:\n");
+-		if (kms->hw_mdp->ops.get_danger_status)
+-			kms->hw_mdp->ops.get_danger_status(kms->hw_mdp,
++		dpu_hw_get_danger_status(kms->hw_mdp,
+ 					&status);
+ 	}
+ 	pm_runtime_put_sync(&kms->pdev->dev);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
+index 7e08f40e7e6f..c9351c69834a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
+@@ -168,9 +168,8 @@ void dpu_vbif_set_ot_limit(struct dpu_kms *dpu_kms,
+ 		return;
+ 	}
+ 
+-	if (!mdp->ops.setup_clk_force_ctrl ||
+-			!vbif->ops.set_limit_conf ||
+-			!vbif->ops.set_halt_ctrl)
++	if (!vbif->ops.set_limit_conf ||
++	    !vbif->ops.set_halt_ctrl)
+ 		return;
+ 
+ 	/* set write_gather_en for all write clients */
+@@ -185,7 +184,7 @@ void dpu_vbif_set_ot_limit(struct dpu_kms *dpu_kms,
+ 	trace_dpu_perf_set_ot(params->num, params->xin_id, ot_lim,
+ 		params->vbif_idx);
+ 
+-	forced_on = mdp->ops.setup_clk_force_ctrl(mdp, params->clk_ctrl, true);
++	forced_on = dpu_hw_setup_clk_force_ctrl(mdp, params->clk_ctrl, true);
+ 
+ 	vbif->ops.set_limit_conf(vbif, params->xin_id, params->rd, ot_lim);
+ 
+@@ -198,7 +197,7 @@ void dpu_vbif_set_ot_limit(struct dpu_kms *dpu_kms,
+ 	vbif->ops.set_halt_ctrl(vbif, params->xin_id, false);
+ 
+ 	if (forced_on)
+-		mdp->ops.setup_clk_force_ctrl(mdp, params->clk_ctrl, false);
++		dpu_hw_setup_clk_force_ctrl(mdp, params->clk_ctrl, false);
+ }
+ 
+ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
+@@ -229,7 +228,7 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
+ 		return;
+ 	}
+ 
+-	if (!vbif->ops.set_qos_remap || !mdp->ops.setup_clk_force_ctrl) {
++	if (!vbif->ops.set_qos_remap) {
+ 		DPU_DEBUG("qos remap not supported\n");
+ 		return;
+ 	}
+@@ -242,7 +241,7 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
+ 		return;
+ 	}
+ 
+-	forced_on = mdp->ops.setup_clk_force_ctrl(mdp, params->clk_ctrl, true);
++	forced_on = dpu_hw_setup_clk_force_ctrl(mdp, params->clk_ctrl, true);
+ 
+ 	for (i = 0; i < qos_tbl->npriority_lvl; i++) {
+ 		DPU_DEBUG("vbif:%d xin:%d lvl:%d/%d\n",
+@@ -253,7 +252,7 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
+ 	}
+ 
+ 	if (forced_on)
+-		mdp->ops.setup_clk_force_ctrl(mdp, params->clk_ctrl, false);
++		dpu_hw_setup_clk_force_ctrl(mdp, params->clk_ctrl, false);
+ }
+ 
+ void dpu_vbif_clear_errors(struct dpu_kms *dpu_kms)
 -- 
 2.30.2
 
