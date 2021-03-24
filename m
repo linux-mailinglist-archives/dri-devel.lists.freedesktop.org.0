@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F028347412
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 10:00:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF74A3473FB
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 09:54:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B7A56E101;
-	Wed, 24 Mar 2021 09:00:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09D496E40A;
+	Wed, 24 Mar 2021 08:54:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 428 seconds by postgrey-1.36 at gabe;
- Wed, 24 Mar 2021 09:00:48 UTC
-Received: from lb1-smtp-cloud8.xs4all.net (lb1-smtp-cloud8.xs4all.net
- [194.109.24.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 947EE6E101
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 09:00:48 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
- by smtp-cloud8.xs4all.net with ESMTPA
- id OzGelwIG0CAEGOzGhlZ4uS; Wed, 24 Mar 2021 09:53:38 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
- t=1616576018; bh=yUW/RaeQJPREro1UhJl7zUUe5GW6I7n4sN+UfTklbiA=;
- h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
- Subject;
- b=t7mS48/If8c2VqZG3sdGugENOzCZVV+x8kySCc6gu5VNEdk5xlh8cmhWSmOTfneSU
- jbxRogAbefyflOyiDQzASJ4/OnMikr/OiCdZXx+agTzbJODGLO9qjHEMOgvr8N9wkO
- 5sLzz5+vl1XL+Yh6oaNihRRvlaSVZoMgvsSHrGQbuwDnOEZK7rXmM3gXU46RpMB8/J
- 2n4TuVYPULIaT9hR0Seb8iDtHYcETlB9LRkBhw9qT1kJIJOlOHAbm0LBGYxjIaZVwN
- zM9EnAcOEBa9GckvpLZbS28C48gf1Vph0kTP/9RQpCImedfVsMeozHpIiiMgJPFTh9
- BGYmj/0mKMXWg==
-To: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] drm/bridge: adv7511: fix support for large EDIDs
-Message-ID: <904185be-19ea-a321-a227-d4e659fe1b68@xs4all.nl>
-Date: Wed, 24 Mar 2021 09:53:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com
+ [209.85.221.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 090F66E40A
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:54:53 +0000 (UTC)
+Received: by mail-vk1-f177.google.com with SMTP id f11so5257698vkl.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 01:54:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xRxwIC3bM0aWnGeWfgHlFRedOLEA/dGDm4UbRmEj3Vw=;
+ b=FxxA5/eYLrr1H2pnS6N+5Nx1J+TksoR86pXKF4xMfZXsMBdSy/WSzhhtgt13godeFq
+ OyALu5LkTJn6MAYg4Edjzw+OrV3a4i3hYqLLvyqJq8pNEjtakf+v/1YXqD/EXaQXKgEs
+ QWr3xSWu7ev4bBs7XnTfh+Q1YC3gfMezVlP7U6SdXEDvH9gQqH4fDDfNVL5De64S/nMR
+ Z1mTOvNmaMTLl7bAuriIMQXailtd9RlQS+dXy14yl5vGKpMRYarf5BDLFEFMKaerh/jZ
+ +/hj9P4NcHW1D5uueXWWPnBDgXKz3qPo1YcpIDbzj0Q8VNSnYtuAi3rcLJr5r9euzfea
+ gmTA==
+X-Gm-Message-State: AOAM533GlJaf6t6zJGsRxaWoECR+42oD/8aA5VbqxrZVcrhKC3tYRpyZ
+ bwUKkFQ7VIMwpDRdZOufFWswsUFvt8b7/WEsTwo=
+X-Google-Smtp-Source: ABdhPJzMDF6Nt1AF/bI08S3WTSedZ75tpHSB9bs9VB4XV/vIslxfCLJOjjnhguNbqq5W3XrjdDnyZdfuy6oLhuNoxdM=
+X-Received: by 2002:a1f:2502:: with SMTP id l2mr1032890vkl.5.1616576092193;
+ Wed, 24 Mar 2021 01:54:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-US
-X-CMAE-Envelope: MS4xfNrjgwN9wqpC/KjMFiHEs1iNMh4C3iRxaZNAhNJJGzyKMVaiJjuAzQsRH2IcUY8myNGkUwwSf4ycnPWcKTzdq8rT+VqdjWa3i2Yci2OzPUbVcdjHf2i+
- BSMUhjnjgUr6GL5+faqXubZJjxHPBbaw5ZJIMXnAWm8cbBqxjoxhwKIqbajScraLFAQBGW+Qi5FZyrLZWNKpsClQcGHGGB0yrgxiflAECegagcW6zOsOdrT/
- j7nZehzZfeBL4bM97wwZ85uf0lPM0tPnA2We7yvmOtLZ/y/X1zkQyHRi07Bk5FUcYMqKGWqt0XESUiuxEupYMqz2PefBTZy7pCKwWPtaWUimF/RO8mMrJf+K
- jCypa6QQjyh4SX1yCMSWxzq2dthHuA==
+References: <20210228124106.135812-1-konrad.dybcio@somainline.org>
+ <20210228124106.135812-2-konrad.dybcio@somainline.org>
+ <20210322161810.biagj2qro66rv4gt@maple.lan>
+ <20210323083935.GF2916463@dell>
+In-Reply-To: <20210323083935.GF2916463@dell>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 24 Mar 2021 09:54:40 +0100
+Message-ID: <CAMuHMdUamD4rAY1Sn-3Fb9Xf1B9g0FY0Pob8rAFsFR0ZcNZ0rw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] video: backlight: qcom-wled: Add PMI8994 compatible
+To: Lee Jones <lee.jones@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,116 +54,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
- Archit Taneja <architt@codeaurora.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Kiran Gunda <kgunda@codeaurora.org>, Jingoo Han <jingoohan1@gmail.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, Andy Gross <agross@kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, martin.botka@somainline.org,
+ ~postmarketos/upstreaming@lists.sr.ht, Pavel Machek <pavel@ucw.cz>,
+ angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
+ phone-devel@vger.kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-leds <linux-leds@vger.kernel.org>, Dan Murphy <dmurphy@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While testing support for large (> 256 bytes) EDIDs on the Renesas
-Koelsch board I noticed that the adv7511 bridge driver only read the
-first two blocks.
+Hi Lee,
 
-The media V4L2 version for the adv7511 (drivers/media/i2c/adv7511-v4l2.c)
-handled this correctly.
+On Tue, Mar 23, 2021 at 9:40 AM Lee Jones <lee.jones@linaro.org> wrote:
+> On Mon, 22 Mar 2021, Daniel Thompson wrote:
+> > On Sun, Feb 28, 2021 at 01:41:05PM +0100, Konrad Dybcio wrote:
+> > > Add a compatible for PMI8994 WLED. It uses the V4 of WLED IP.
+> > >
+> > > Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+> >
+> > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+>
+> Why are you Reviewing/Acking a patch that was applied on the 10th?
 
-Besides a simple bug when setting the segment register (it was set to the
-block number instead of block / 2), the logic of the code was also weird.
-In particular reading the DDC_STATUS is odd: this is unrelated to EDID
-reading.
+Only 12 days later?!?
 
-The reworked code just waits for any EDID segment reads to finish (this
-does nothing if the a segment is already read), checks if the desired
-segment matches the read segment, and if not, then it requests the new
-segment and waits again for the EDID segment to be read.
+It's not uncommon to receive acks for patches after they have been
+applied upstream. But it is if the patch was applied 10 years and 9
+months ago!
+https://lore.kernel.org/linux-m68k/F5513AE92A5A1047AC2F91AEBB9202680288CBBA3983@E2K7-MS2.ds.strath.ac.uk/
 
-Finally it checks if the currently buffered EDID segment contains the
-desired EDID block, and if not it will update the EDID buffer from
-the adv7511.
+Gr{oetje,eeting}s,
 
-Tested with my Koelsch board and with EDIDs of 1, 2, 3 and 4 blocks.
+                        Geert
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-Testing on the Renesas board also requires these two adv7604 patches
-if you want to test with an HDMI cable between the HDMI input and output:
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-https://patchwork.linuxtv.org/project/linux-media/patch/00882808-472a-d429-c565-a701da579ead@xs4all.nl/
-https://patchwork.linuxtv.org/project/linux-media/patch/c7093e76-ffb4-b19c-f576-b264f935a3ce@xs4all.nl/
----
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 76555ae64e9c..9e8db1c60167 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -328,6 +328,7 @@ static void adv7511_set_link_config(struct adv7511 *adv7511,
- static void __adv7511_power_on(struct adv7511 *adv7511)
- {
- 	adv7511->current_edid_segment = -1;
-+	adv7511->edid_read = false;
-
- 	regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER,
- 			   ADV7511_POWER_POWER_DOWN, 0);
-@@ -529,29 +530,35 @@ static int adv7511_get_edid_block(void *data, u8 *buf, unsigned int block,
- 	struct adv7511 *adv7511 = data;
- 	struct i2c_msg xfer[2];
- 	uint8_t offset;
-+	unsigned int cur_segment;
- 	unsigned int i;
- 	int ret;
-
- 	if (len > 128)
- 		return -EINVAL;
-
--	if (adv7511->current_edid_segment != block / 2) {
--		unsigned int status;
-+	/* wait for any EDID segment reads to finish */
-+	adv7511_wait_for_edid(adv7511, 200);
-
--		ret = regmap_read(adv7511->regmap, ADV7511_REG_DDC_STATUS,
--				  &status);
-+	ret = regmap_read(adv7511->regmap, ADV7511_REG_EDID_SEGMENT, &cur_segment);
-+	if (ret < 0)
-+		return ret;
-+
-+	/*
-+	 * If the current read segment does not match what we need, then
-+	 * write the new segment and wait for it to be read.
-+	 */
-+	if (cur_segment != block / 2) {
-+		adv7511->edid_read = false;
-+		cur_segment = block / 2;
-+		regmap_write(adv7511->regmap, ADV7511_REG_EDID_SEGMENT,
-+			     cur_segment);
-+		ret = adv7511_wait_for_edid(adv7511, 200);
- 		if (ret < 0)
- 			return ret;
-+	}
-
--		if (status != 2) {
--			adv7511->edid_read = false;
--			regmap_write(adv7511->regmap, ADV7511_REG_EDID_SEGMENT,
--				     block);
--			ret = adv7511_wait_for_edid(adv7511, 200);
--			if (ret < 0)
--				return ret;
--		}
--
-+	if (adv7511->current_edid_segment != cur_segment) {
- 		/* Break this apart, hopefully more I2C controllers will
- 		 * support 64 byte transfers than 256 byte transfers
- 		 */
-@@ -579,7 +586,7 @@ static int adv7511_get_edid_block(void *data, u8 *buf, unsigned int block,
- 			offset += 64;
- 		}
-
--		adv7511->current_edid_segment = block / 2;
-+		adv7511->current_edid_segment = cur_segment;
- 	}
-
- 	if (block % 2 == 0)
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
