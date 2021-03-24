@@ -1,59 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A5F348447
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 23:00:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1975734846E
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 23:18:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 715476EA97;
-	Wed, 24 Mar 2021 22:00:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45D326EA9A;
+	Wed, 24 Mar 2021 22:18:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7048D6EA95
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 22:00:16 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id p19so101821wmq.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:00:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=3StMOwc0jJRs3gCodn1X+cgKnhL/pkdpaA+0ab7e1tM=;
- b=SOF65gx4e2PFWffP9jHgPOyi9O2EFiDlVH+BiWAWi2DtafM+8kEcjw4w0wPjv315yE
- eExNg6thcBR691XfqwMxcXpm7EsZiMA0SacoU1msAhvpCUUazu5z7IocvCBDNIbZQto1
- E9GWCOSwczpuSVlMIY/LPCnqZzt0jMcdvweJBinHp8tCeU7MXyc77b7MnjKLdahuito6
- zM3szUGXjq6UN+QZZhQwPjqnVdaJliMxXUFRijLzI3PWK3KAlEn86Qjr8W3BMFokPrMj
- fGfp38/GJlHlqnKKPA3d2Y7oK9RxjKHMMChSihJbnVSV7Ncw4ZZ4kJW7cTR9OMMKW1dR
- pnxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3StMOwc0jJRs3gCodn1X+cgKnhL/pkdpaA+0ab7e1tM=;
- b=eyn48tIiWT5iTKaZc1VfCk08+jMYmHpsGghgYfmcUk+lHEN6CZkJFcbTCU71kETt0C
- xTdYXU2tusNczFzXqfwGsh/FCEEHs5I0hkH7eU+L8BA9lrVY19BBHV6ArOvXh+bRlvd9
- 8Y7aqIn5ES4+HakGgWRrJgt9PtrEGiKhat/88e+QLlTBKt14o5sPGBvzdB+tKJVOnteh
- f1g6o1+oqhcF8JZyHJTlvSQxuFLbvPPOBomEGtHEtYbPclkRpyrWTFcfPr+kmzSve4qP
- yHcoUP4d4mT2SK3C5om7LeEx3/Kk2TsNjUILnnDoVYsdV5LI/qTGodifoLsVMoY7kMt/
- oNPw==
-X-Gm-Message-State: AOAM530mvmVVGZWvBVDPMwMevfLyjWRvlY5Hrmwmz7Rpv2ei/TxarAsK
- MFvQ5/IpB5U1fVmuD4d3+xw=
-X-Google-Smtp-Source: ABdhPJwUmmIf8dqawk0il4BbMj532OMCkepT+IGFZqNoY5CGbH60hAceO/Q49Khdn5D0063YoEC9IQ==
-X-Received: by 2002:a7b:cbc4:: with SMTP id n4mr5021146wmi.153.1616623215161; 
- Wed, 24 Mar 2021 15:00:15 -0700 (PDT)
-Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
- by smtp.gmail.com with ESMTPSA id v18sm4965760wru.85.2021.03.24.15.00.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 15:00:14 -0700 (PDT)
-Date: Wed, 24 Mar 2021 19:00:08 -0300
-From: Melissa Wen <melissa.srw@gmail.com>
-To: Dmitry Vyukov <dvyukov@google.com>
-Subject: Re: [PATCH] drm/vkms: fix misuse of WARN_ON
-Message-ID: <20210324220008.nqwwwfugyfngbn3x@smtp.gmail.com>
-References: <20210320132840.1315853-1-dvyukov@google.com>
+Received: from smtprelay.hostedemail.com (smtprelay0199.hostedemail.com
+ [216.40.44.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 612C46EA9A
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 22:18:42 +0000 (UTC)
+Received: from omf13.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+ by smtprelay06.hostedemail.com (Postfix) with ESMTP id 6A9901822451D;
+ Wed, 24 Mar 2021 22:18:41 +0000 (UTC)
+Received: from [192.168.1.159] (unknown [47.151.137.21])
+ (Authenticated sender: joe@perches.com)
+ by omf13.hostedemail.com (Postfix) with ESMTPA id D56711124F6;
+ Wed, 24 Mar 2021 22:18:36 +0000 (UTC)
+Message-ID: <9d320cd403921f4b36b726b71a51572463599cf5.camel@perches.com>
+Subject: Re: [RFC patch] vsprintf: Allow %pe to print non PTR_ERR %pe uses
+ as decimal
+From: Joe Perches <joe@perches.com>
+To: Rasmus Villemoes <linux@rasmusvillemoes.dk>, Arnd Bergmann
+ <arnd@kernel.org>,  Petr Mladek <pmladek@suse.com>, Steven Rostedt
+ <rostedt@goodmis.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>
+Date: Wed, 24 Mar 2021 15:18:35 -0700
+In-Reply-To: <3d66137e-7842-2764-456f-7cc9e54a6d2e@rasmusvillemoes.dk>
+References: <20210324121832.3714570-1-arnd@kernel.org>
+ <e1310273dcc577f3a772380ada7b6cc1906d680b.camel@perches.com>
+ <CAK8P3a0JyoAtTYTi+M_mJ3_KtUJ6NeJB=FNWhzezqcXMac++mQ@mail.gmail.com>
+ <810d36184b9fa2880d3ba7738a8f182e27f5107b.camel@perches.com>
+ <3252fd83141aa9e0e6001acee1dd98e87c676b9a.camel@perches.com>
+ <9feab1e8-4dee-6b79-03f7-7b9f0cb24f6e@rasmusvillemoes.dk>
+ <d184069de43135a9c9e5f031447faf98ab3f437d.camel@perches.com>
+ <3d66137e-7842-2764-456f-7cc9e54a6d2e@rasmusvillemoes.dk>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210320132840.1315853-1-dvyukov@google.com>
+X-Rspamd-Queue-Id: D56711124F6
+X-Spam-Status: No, score=0.10
+X-Stat-Signature: jght7a4w3aihr8qtzepipotqu39yx7bw
+X-Rspamd-Server: rspamout01
+X-HE-Tag: 1616624316-471145
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,63 +57,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
- syzbot+4fc21a003c8332eb0bdd@syzkaller.appspotmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Marco Felsch <m.felsch@pengutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Liu Ying <victor.liu@nxp.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/20, Dmitry Vyukov wrote:
-> vkms_vblank_simulate() uses WARN_ON for timing-dependent condition
-> (timer overrun). This is a mis-use of WARN_ON, WARN_ON must be used
-> to denote kernel bugs. Use pr_warn() instead.
+On Wed, 2021-03-24 at 22:27 +0100, Rasmus Villemoes wrote:
+> On 24/03/2021 20.24, Joe Perches wrote:
+> > On Wed, 2021-03-24 at 18:33 +0100, Rasmus Villemoes wrote:
+> > > On 24/03/2021 18.20, Joe Perches wrote:
+> > > 
+> > > > 
+> > > > Maybe it's better to output non PTR_ERR %pe uses as decimal so this
+> > > > sort of code would work.
+> > > 
+> > > No, because that would leak the pointer value when somebody has
+> > > accidentally passed a real kernel pointer to %pe.
+> > 
+> > I think it's not really an issue.
+> > 
+> > _All_ code that uses %p<foo> extensions need inspection anyway.
 > 
-> Signed-off-by: Dmitry Vyukov <dvyukov@google.com>
-> Reported-by: syzbot+4fc21a003c8332eb0bdd@syzkaller.appspotmail.com
-> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> Cc: Melissa Wen <melissa.srw@gmail.com>
-> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Change-Id: I7f01c288092bc7e472ec63af198f93ce3d8c49f7
-> ---
->  drivers/gpu/drm/vkms/vkms_crtc.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> There are now a bunch of sanity checks in place that catch e.g. an
+> ERR_PTR passed to an extension that would derefence the pointer;
+> enforcing that only ERR_PTRs are passed to %pe (or falling back to %p)
+> is another of those safeguards.
 > 
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-> index 0443b7deeaef6..758d8a98d96b3 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -18,7 +18,8 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
->  
->  	ret_overrun = hrtimer_forward_now(&output->vblank_hrtimer,
->  					  output->period_ns);
-> -	WARN_ON(ret_overrun != 1);
-> +	if (ret_overrun != 1)
-> +		pr_warn("%s: vblank timer overrun\n", __func__);
-
-Hi Dmitry,
-
-Thanks for your patch.
-
-Looks good to me.
-The Change-Id tag just seems a little noisy to me, but can be
-fixed while applying.
-
-Acked-by: Melissa Wen <melissa.srw@gmail.com>
-
->  
->  	spin_lock(&output->lock);
->  	ret = drm_crtc_handle_vblank(crtc);
+> > It's already possible to intentionally 'leak' the ptr value
+> > by using %pe, -ptr so I think that's not really an issue.
+> > 
 > 
-> base-commit: e94c55b8e0a0bbe9a026250cf31e2fa45957d776
-> -- 
-> 2.31.0.291.g576ba9dcdaf-goog
-> 
+> Huh, what? I assume -ptr is shorthand for (void*)-(unsigned long)ptr.
+> How would that leak the value if ptr is an ordinary kernel pointer?
+> That's not an ERR_PTR unless (unsigned long)ptr is < 4095 or so.
+
+You are confusing ERR_PTR with IS_ERR
+
+ERR_PTR is just
+
+include/linux/err.h:static inline void * __must_check ERR_PTR(long error)
+include/linux/err.h-{
+include/linux/err.h-    return (void *) error;
+include/linux/err.h-}f 
+
+> If you want to print the pointer value just do %px. No need for silly
+> games.
+
+There's no silly game here.  %pe would either print a string or a value.
+It already does that in 2 cases.
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
