@@ -1,46 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DC8347E39
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 17:52:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 612B3347E5F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 18:00:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C37156EC96;
-	Wed, 24 Mar 2021 16:52:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5E226ECA9;
+	Wed, 24 Mar 2021 17:00:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0240.hostedemail.com
- [216.40.44.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB3FB6EC96
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 16:52:15 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay01.hostedemail.com (Postfix) with ESMTP id D6710100E7B48;
- Wed, 24 Mar 2021 16:52:14 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:152:355:379:421:599:800:960:973:988:989:1260:1261:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:1801:2198:2199:2393:2553:2559:2562:2689:2731:3138:3139:3140:3141:3142:3353:3622:3865:3866:3867:3868:3870:3871:3872:3873:3874:4321:4362:4605:5007:6742:7652:7903:10004:10400:10848:11026:11232:11233:11473:11657:11658:11783:11914:12043:12296:12297:12438:12740:12895:13019:13069:13311:13357:13894:14181:14659:14721:21080:21433:21451:21627:21660:21990:30054:30060:30070:30090:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:1, LUA_SUMMARY:none
-X-HE-Tag: mask89_440a42d2777c
-X-Filterd-Recvd-Size: 3126
-Received: from [192.168.1.159] (unknown [47.151.137.21])
- (Authenticated sender: joe@perches.com)
- by omf07.hostedemail.com (Postfix) with ESMTPA;
- Wed, 24 Mar 2021 16:52:12 +0000 (UTC)
-Message-ID: <810d36184b9fa2880d3ba7738a8f182e27f5107b.camel@perches.com>
-Subject: Re: [PATCH] [v2] drm/imx: imx-ldb: fix out of bounds array access
- warning
-From: Joe Perches <joe@perches.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Date: Wed, 24 Mar 2021 09:52:11 -0700
-In-Reply-To: <CAK8P3a0JyoAtTYTi+M_mJ3_KtUJ6NeJB=FNWhzezqcXMac++mQ@mail.gmail.com>
-References: <20210324121832.3714570-1-arnd@kernel.org>
- <e1310273dcc577f3a772380ada7b6cc1906d680b.camel@perches.com>
- <CAK8P3a0JyoAtTYTi+M_mJ3_KtUJ6NeJB=FNWhzezqcXMac++mQ@mail.gmail.com>
-User-Agent: Evolution 3.38.1-1 
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B9866ECA5
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 17:00:16 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id v4so25179305wrp.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 10:00:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=nADrMUnSoa9xTz+FEYa/sGpUbXGvFmSaxGSUTCH5jzA=;
+ b=DNiBsNVSkFJ3wxkMM2uXMIY6J7uhHNt/a7EtaQGlv/ipAScRDHGnMT1+C52gNnq3BY
+ 2kATaDvkAAOaiIpdDM9sj+CDTGGjpoD+kCi7fnipc0N99ZO2gVCjGXBecSRnfLGbDmbU
+ LnOKtBJPe4/dnlJR+ZLz8t6q6boznF1ecEGBQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=nADrMUnSoa9xTz+FEYa/sGpUbXGvFmSaxGSUTCH5jzA=;
+ b=f4cVBAfhLX1ZLJnW0zbnAX36TyvCJ61b2Gp2xe8LsDyYuL/+QJL5ezC5kp4rOdZ4O/
+ SY+Hh7xyG45iK3+xgBcHoLDsAI6B2sxzRwfylQgr5H1983qkxae2o0+g1Ahl8V+f84Ed
+ aRcTWR/WQtrqsoWHyCnhmtUM6mrCNXBnNPv0YvPn1ruTRT3S385sePm/CD8Emo5VS595
+ M70PyuEg0Su+JHZBIiPR6Slm9goFGMRM3y+2EMlYzX3lknQ3ENmkrDtLOg7piPls7zUz
+ CHulSbiMN5NeU/8ynDr60Mf0SqtTrzHhV5M5BM56NhYsSvhUbrAg7tDAz6e/C+IB2pRT
+ eyJw==
+X-Gm-Message-State: AOAM531+/kp6J/UExvJlJDEIaQfRIwtiKz3mgKPnAbeEW37zZOJNkZXn
+ nh9oGqws9uhmN/SFjf0z8B0ddKhimA2wMO7r
+X-Google-Smtp-Source: ABdhPJwWzpN/kZp0MO2qp8YZecWC/xN/8LYEvYL1MZawfcYVzFDlI01jUai0g6ECP6ig7H7qjmlwXg==
+X-Received: by 2002:a5d:4fca:: with SMTP id h10mr4765653wrw.70.1616605214868; 
+ Wed, 24 Mar 2021 10:00:14 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id o7sm4059143wrs.16.2021.03.24.10.00.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Mar 2021 10:00:14 -0700 (PDT)
+Date: Wed, 24 Mar 2021 18:00:12 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v9 63/70] drm/i915: Move gt_revoke() slightly
+Message-ID: <YFtwHG3ZbjzhuzOZ@phenom.ffwll.local>
+References: <20210323155059.628690-1-maarten.lankhorst@linux.intel.com>
+ <20210323155059.628690-64-maarten.lankhorst@linux.intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210323155059.628690-64-maarten.lankhorst@linux.intel.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,49 +66,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
- Marco Felsch <m.felsch@pengutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Liu Ying <victor.liu@nxp.com>, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIxLTAzLTI0IGF0IDE3OjQyICswMTAwLCBBcm5kIEJlcmdtYW5uIHdyb3RlOgo+
-IE9uIFdlZCwgTWFyIDI0LCAyMDIxIGF0IDM6MjAgUE0gSm9lIFBlcmNoZXMgPGpvZUBwZXJjaGVz
-LmNvbT4gd3JvdGU6CltdCj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaW14L2lt
-eC1sZGIuYyBiL2RyaXZlcnMvZ3B1L2RybS9pbXgvaW14LWxkYi5jCj4gPiBbXQo+ID4gPiBAQCAt
-MTk3LDYgKzE5NywxMiBAQCBzdGF0aWMgdm9pZCBpbXhfbGRiX2VuY29kZXJfZW5hYmxlKHN0cnVj
-dCBkcm1fZW5jb2RlciAqZW5jb2RlcikKPiA+ID4gwqDCoMKgwqDCoMKgaW50IGR1YWwgPSBsZGIt
-PmxkYl9jdHJsICYgTERCX1NQTElUX01PREVfRU47Cj4gPiA+IMKgwqDCoMKgwqDCoGludCBtdXgg
-PSBkcm1fb2ZfZW5jb2Rlcl9hY3RpdmVfcG9ydF9pZChpbXhfbGRiX2NoLT5jaGlsZCwgZW5jb2Rl
-cik7Cj4gPiA+IAo+ID4gPiArICAgICBpZiAobXV4IDwgMCB8fCBtdXggPj0gQVJSQVlfU0laRShs
-ZGItPmNsa19zZWwpKSB7Cj4gPiA+ICsgICAgICAgICAgICAgZGV2X3dhcm4obGRiLT5kZXYsICIl
-czogaW52YWxpZCBtdXggJWRcbiIsCj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgX19mdW5j
-X18sIEVSUl9QVFIobXV4KSk7Cj4gPiAKPiA+IFRoaXMgZG9lcyBub3QgY29tcGlsZSB3aXRob3V0
-IHdhcm5pbmdzLgo+ID4gCj4gPiBkcml2ZXJzL2dwdS9kcm0vaW14L2lteC1sZGIuYzogSW4gZnVu
-Y3Rpb24g4oCYaW14X2xkYl9lbmNvZGVyX2VuYWJsZeKAmToKPiA+IGRyaXZlcnMvZ3B1L2RybS9p
-bXgvaW14LWxkYi5jOjIwMToyMjogd2FybmluZzogZm9ybWF0IOKAmCVk4oCZIGV4cGVjdHMgYXJn
-dW1lbnQgb2YgdHlwZSDigJhpbnTigJksIGJ1dCBhcmd1bWVudCA0IGhhcyB0eXBlIOKAmHZvaWQg
-KuKAmSBbLVdmb3JtYXQ9XQo+ID4gwqDCoDIwMSB8ICAgZGV2X3dhcm4obGRiLT5kZXYsICIlczog
-aW52YWxpZCBtdXggJWRcbiIsCj4gPiDCoMKgwqDCoMKgwqB8ICAgICAgICAgICAgICAgICAgICAg
-IF5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KPiA+IAo+ID4gSWYgeW91IHdhbnQgdG8gdXNlIEVSUl9Q
-VFIsIHRoZSAlZCBzaG91bGQgYmUgJXBlIGFzIEVSUl9QVFIKPiA+IGlzIGNvbnZlcnRpbmcgYW4g
-aW50IGEgdm9pZCAqIHRvIGRlY29kZSB0aGUgZXJyb3IgdHlwZSBhbmQKPiA+IGVtaXQgaXQgYXMg
-YSBzdHJpbmcuCj4gCj4gU29ycnkgYWJvdXQgdGhhdC4KPiAKPiBJIGRlY2lkZWQgYWdhaW5zdCB1
-c2luZyBFUlJfUFRSKCkgaW4gb3JkZXIgdG8gYWxzbyBjaGVjayBmb3IKPiBwb3NpdGl2ZSBhcnJh
-eSBvdmVyZmxvdywgYnV0IHRoZSB2ZXJzaW9uIEkgdGVzdGVkIHdhcyBkaWZmZXJlbnQgZnJvbQo+
-IHRoZSB2ZXJzaW9uIEkgc2VudC4KPiAKPiB2MyBjb21pbmcuCgpUaGFua3MuICBObyB3b3JyaWVz
-LgoKVXAgdG8geW91LCB2c3ByaW50ZiB3b3VsZCBlbWl0IHRoZSBwb3NpdGl2ZSBtdXggYXMgYSBm
-dW5reSBoYXNoZWQKaGV4IHZhbHVlIGJ5IGRlZmF1bHQgaWYgeW91IHVzZSBFUlJfUFRSIHdpdGgg
-bXV4ID4gQVJSQVlfU0laRSBzbwpwZXJoYXBzICVkIHdpdGhvdXQgdGhlIEVSUl9QVFIgdXNlIG1h
-a2VzIHRoZSBtb3N0IHNlbnNlLgoKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+On Tue, Mar 23, 2021 at 04:50:52PM +0100, Maarten Lankhorst wrote:
+> We get a lockdep splat when the reset mutex is held, because it can be
+> taken from fence_wait. This conflicts with the mmu notifier we have,
+> because we recurse between reset mutex and mmap lock -> mmu notifier.
+> =
+
+> Remove this recursion by calling revoke_mmaps before taking the lock.
+> =
+
+> The reset code still needs fixing, as taking mmap locks during reset
+> is not allowed.
+> =
+
+> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Reviewed-by: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_reset.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915=
+/gt/intel_reset.c
+> index 990cb4adbb9a..447f589750c2 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+> @@ -970,8 +970,6 @@ static int do_reset(struct intel_gt *gt, intel_engine=
+_mask_t stalled_mask)
+>  {
+>  	int err, i;
+>  =
+
+> -	gt_revoke(gt);
+> -
+>  	err =3D __intel_gt_reset(gt, ALL_ENGINES);
+>  	for (i =3D 0; err && i < RESET_MAX_RETRIES; i++) {
+>  		msleep(10 * (i + 1));
+> @@ -1026,6 +1024,9 @@ void intel_gt_reset(struct intel_gt *gt,
+>  =
+
+>  	might_sleep();
+>  	GEM_BUG_ON(!test_bit(I915_RESET_BACKOFF, &gt->reset.flags));
+> +
+
+I've added a FIXME comment here just so we don't totally forget. This will
+also blow up again when we wrap the entire reset path into a dma_fence
+critical section annotation (at least going forward, we can't do that on
+hw that needs display reset with the current code unfortunately).
+
+But I did look at the code which originally added this in
+
+commit 2caffbf1176256cc4f8d4e5c3c524fc689cb9876
+Author: Chris Wilson <chris@chris-wilson.co.uk>
+Date:   Fri Feb 8 15:37:03 2019 +0000
+
+    drm/i915: Revoke mmaps and prevent access to fence registers across res=
+et
+
+and noped right out.
+
+I think this complexity needs to go entirely, and instead we just protect
+the fence register state to make sure that after reset they are all good
+again:
+- add a new mutex for low level fence register state
+- hold that mutex around fence register writes (really just the low level
+  fence writes)
+- hold it in the reset path when we restore fence registers
+
+This means that a global reset also thrashes mmaps, but it's a global
+reset we're talking about here, everything is thrash anyway. Plus/minus
+fenced gtt mmaps really doesn't change the tally.
+
+The real solution is per-engine reset here, and making sure that works as
+well as absolutely possible.
+
+Maarten, can you pls take care of this in a follow-up? We have to do this
+anyway when we roll out more dma_fence annotations.
+
+Thanks, Daniel
+
+> +	gt_revoke(gt);
+> +
+>  	mutex_lock(&gt->reset.mutex);
+>  =
+
+>  	/* Clear any previous failed attempts at recovery. Time to try again. */
+> -- =
+
+> 2.31.0
+> =
+
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
