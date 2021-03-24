@@ -1,60 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7AC7347B68
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:01:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3AA347B81
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Mar 2021 16:01:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF3666EB8C;
-	Wed, 24 Mar 2021 15:01:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE3446EA26;
+	Wed, 24 Mar 2021 15:01:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29F246EC82
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:01:04 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id g8so25322533lfv.12
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:01:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AET1QWQCuGDwvguQyzk6xCA72n9Vcrqjv6IU3ip+Y3E=;
- b=gPqmJSWZ0695O/tVTGFbsaPlONQ8hS2be7mGgtrqHUEKwDsGIYR72EiezurjB5tt/h
- RL3lTPw5peMqUEWhbYpgs0kng1T+WS+IQ9IaptY0CrpWm27lrhIDK6BC/+NkJDjbHRVS
- RxYsiQBsknToVG+spJAOj5s8yrVBKKT1PISnJcEbkNwyrcT5PBSKyl8GslP6OcUZzeQy
- H6+KP0JNCIcSFzLf59HSTkV1BTYWN3Bv59LUigQ7/IM2bkRanttEKPmxJ8uV/3NkIc0y
- sQ8PaKiQyE8yOddcNYhV7hxR6yzh2CzxKCsyUMDH90HDjLnQq6setE3xjg1b8CeT1VSl
- LTmQ==
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 730866EA26
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 15:01:44 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ u5-20020a7bcb050000b029010e9316b9d5so1370444wmj.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Mar 2021 08:01:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ozgkKBnPgzZpMk+NLeLUK1O40arp+27rcVK+9sn9QdA=;
+ b=fiEGmxzf0LgQzbZ7ctEFtBWRfddGh8OwrG4zWflAAR8mQvp9lbzFx32LV+Sy72W7Va
+ fEdb8Zp6dxLbmpSFZjVBdsC/+bARDUzDDeUf+JUHbh6UAzxXuZjg6jW3NN1ALniHlwab
+ 4MS9ARKRL56YiZF8gFM7tB1aKgfEj1nb6tvnsH3Pur56raH1upW2rJiJbEJMwNXTlzQz
+ 5pusPf7dGUdkxzlmVpgFG0sP73hNEc3XeFEpdZaQw2/UbirWUKYwbDKebXmBJLybiCpj
+ QccRGnM0iQZnMc8Pt/uE2/QP0OfaSVJ/4JhyuZLAVLE3cXpX7BHcG9D4O9pO60bKp4l7
+ d9wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AET1QWQCuGDwvguQyzk6xCA72n9Vcrqjv6IU3ip+Y3E=;
- b=Wx7MSzq6bdYd6SJRkdlL7QeM9vXWF3CE2+0CJ/zHTxwhHg8rTUChkX5gOaWr+FZhyo
- NKgpLdYmwU/yAH1K7+dnU6ZR9rDnvTuhGYbWxaCRJDDctUcpSRFs9J3lm4BC9/eljwqK
- W9DBA1qFuCXgx0T7l46rli4U3Ic5py4X6pCeeyRlFyzXAJ2S/sr6ALhuoc53SUyX5Qkq
- Xa5zAKlL/2vzzrzwJokUm2iymY6b8IAdq2jVv7HDQw9mm8/N1uNKMlcydZy8eeADyM3O
- Ub4y52Uq117RDMf+GuzGSlwqJg6YysrSUGl6pVd3k+jahVhgDD3Y1+B8Xao09LigUdBG
- 0oqw==
-X-Gm-Message-State: AOAM530Jko06SpXXUUNcBolpqrelw9g28q/b9+YdyOSr4C8aJc8phycP
- Oqb/I9+i9PbJhM4vNCvn5lk2mg==
-X-Google-Smtp-Source: ABdhPJwy3TuCN5KIkqI6hd0f+p6WRaqdqjWO8JOAo7ZD4wxVSO4J/VqRHx/CBR7QVo6+/mniT6wH/Q==
-X-Received: by 2002:a19:946:: with SMTP id 67mr2408949lfj.74.1616598057304;
- Wed, 24 Mar 2021 08:00:57 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id p5sm252463lfe.154.2021.03.24.08.00.55
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ozgkKBnPgzZpMk+NLeLUK1O40arp+27rcVK+9sn9QdA=;
+ b=gj8KSaZ0+/LbsmGJA8TX/rlC4g0+7nwQc0oIp5hYy1sf5G+2YumKcbyl4cTVq65TyG
+ dCdYs/rJtrHrFjsqXZkHXGwGLKDKLnHyM2ri8968D1eWY/1eTXBZqwT/GzwAzQ6J0kUv
+ sMr0dV9I3+mGYG3W7UKqemO5SHl2aYMxtRzAp1P42vuzCL9TrNJ+nPEqTMnC4v8+n30Y
+ OE6ljBDrtmYH5Va9/ObqR5Iyh/AekQGJJezs2LfwVcMPI+qgCRTMD2KePPb5Nz8G3XIe
+ jFSu6rYC8XZrN/XdyeT8RUD+H+MwJsUDsBkhL9D2rGZve8rzzMA8bOSvr51QtRCZkGU4
+ negw==
+X-Gm-Message-State: AOAM530yEIukeL+4pIEHpi+XXi/RHoJfnM5bIvf+8WGNP250IqP35uqv
+ oU0zpKlLBbwciKhu/K2I4Wg=
+X-Google-Smtp-Source: ABdhPJyJA74grQrQ0FO01q13W5xCGT/jw7NZtR7jNbmWETb5SOep8SrxZZQq7PenS9a946ramfGyOw==
+X-Received: by 2002:a1c:771a:: with SMTP id t26mr3405731wmi.60.1616598102853; 
+ Wed, 24 Mar 2021 08:01:42 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id 1sm6851218wmj.0.2021.03.24.08.01.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 08:00:55 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Jonathan Marek <jonathan@marek.ca>
-Subject: [PATCH 21/21] drm/msm/dpu: call hw_intr ops directly
-Date: Wed, 24 Mar 2021 18:00:24 +0300
-Message-Id: <20210324150024.2768215-22-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210324150024.2768215-1-dmitry.baryshkov@linaro.org>
-References: <20210324150024.2768215-1-dmitry.baryshkov@linaro.org>
+ Wed, 24 Mar 2021 08:01:41 -0700 (PDT)
+Date: Wed, 24 Mar 2021 16:02:02 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH 6/9] drm/tegra: gem: Add a clarifying comment
+Message-ID: <YFtUalHlk9YiH03n@orome.fritz.box>
+References: <20210323155437.513497-1-thierry.reding@gmail.com>
+ <20210323155437.513497-7-thierry.reding@gmail.com>
+ <21d2e691-6404-503b-422a-be97a7b9d1b4@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <21d2e691-6404-503b-422a-be97a7b9d1b4@gmail.com>
+User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,461 +69,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mikko Perttunen <cyndis@kapsi.fi>, David Airlie <airlied@linux.ie>,
+ James Jones <jajones@nvidia.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1566344914=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace dpu_hw_intr callbacks with direct functions calls.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c  |  27 ++-
- .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c |  36 ++--
- .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h | 180 +++++++++---------
- 3 files changed, 111 insertions(+), 132 deletions(-)
+--===============1566344914==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="MOE9NLKQk3uuQJql"
+Content-Disposition: inline
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
-index 84ea09d9692f..57c5485c0213 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
-@@ -47,7 +47,7 @@ static void dpu_core_irq_callback_handler(void *arg, int irq_idx)
- 	 * NOTE: dpu_core_irq_callback_handler is protected by top-level
- 	 *       spinlock, so it is safe to clear any interrupt status here.
- 	 */
--	dpu_kms->hw_intr->ops.clear_intr_status_nolock(
-+	dpu_hw_intr_clear_intr_status_nolock(
- 			dpu_kms->hw_intr,
- 			irq_idx);
- }
-@@ -55,10 +55,10 @@ static void dpu_core_irq_callback_handler(void *arg, int irq_idx)
- int dpu_core_irq_idx_lookup(struct dpu_kms *dpu_kms,
- 		enum dpu_intr_type intr_type, u32 instance_idx)
- {
--	if (!dpu_kms->hw_intr || !dpu_kms->hw_intr->ops.irq_idx_lookup)
-+	if (!dpu_kms->hw_intr)
- 		return -EINVAL;
- 
--	return dpu_kms->hw_intr->ops.irq_idx_lookup(intr_type,
-+	return dpu_hw_intr_irq_idx_lookup(intr_type,
- 			instance_idx);
- }
- 
-@@ -89,7 +89,7 @@ static int _dpu_core_irq_enable(struct dpu_kms *dpu_kms, int irq_idx)
- 	trace_dpu_core_irq_enable_idx(irq_idx, enable_count);
- 
- 	if (atomic_inc_return(&dpu_kms->irq_obj.enable_counts[irq_idx]) == 1) {
--		ret = dpu_kms->hw_intr->ops.enable_irq(
-+		ret = dpu_hw_intr_enable_irq(
- 				dpu_kms->hw_intr,
- 				irq_idx);
- 		if (ret)
-@@ -152,7 +152,7 @@ static int _dpu_core_irq_disable(struct dpu_kms *dpu_kms, int irq_idx)
- 	trace_dpu_core_irq_disable_idx(irq_idx, enable_count);
- 
- 	if (atomic_dec_return(&dpu_kms->irq_obj.enable_counts[irq_idx]) == 0) {
--		ret = dpu_kms->hw_intr->ops.disable_irq(
-+		ret = dpu_hw_intr_disable_irq(
- 				dpu_kms->hw_intr,
- 				irq_idx);
- 		if (ret)
-@@ -185,8 +185,7 @@ int dpu_core_irq_disable(struct dpu_kms *dpu_kms, int *irq_idxs, u32 irq_count)
- 
- u32 dpu_core_irq_read(struct dpu_kms *dpu_kms, int irq_idx, bool clear)
- {
--	if (!dpu_kms->hw_intr ||
--			!dpu_kms->hw_intr->ops.get_interrupt_status)
-+	if (!dpu_kms->hw_intr)
- 		return 0;
- 
- 	if (irq_idx < 0) {
-@@ -195,7 +194,7 @@ u32 dpu_core_irq_read(struct dpu_kms *dpu_kms, int irq_idx, bool clear)
- 		return 0;
- 	}
- 
--	return dpu_kms->hw_intr->ops.get_interrupt_status(dpu_kms->hw_intr,
-+	return dpu_hw_intr_get_interrupt_status(dpu_kms->hw_intr,
- 			irq_idx, clear);
- }
- 
-@@ -273,18 +272,18 @@ int dpu_core_irq_unregister_callback(struct dpu_kms *dpu_kms, int irq_idx,
- 
- static void dpu_clear_all_irqs(struct dpu_kms *dpu_kms)
- {
--	if (!dpu_kms->hw_intr || !dpu_kms->hw_intr->ops.clear_all_irqs)
-+	if (!dpu_kms->hw_intr)
- 		return;
- 
--	dpu_kms->hw_intr->ops.clear_all_irqs(dpu_kms->hw_intr);
-+	dpu_hw_intr_clear_all_irqs(dpu_kms->hw_intr);
- }
- 
- static void dpu_disable_all_irqs(struct dpu_kms *dpu_kms)
- {
--	if (!dpu_kms->hw_intr || !dpu_kms->hw_intr->ops.disable_all_irqs)
-+	if (!dpu_kms->hw_intr)
- 		return;
- 
--	dpu_kms->hw_intr->ops.disable_all_irqs(dpu_kms->hw_intr);
-+	dpu_hw_intr_disable_all_irqs(dpu_kms->hw_intr);
- }
- 
- #ifdef CONFIG_DEBUG_FS
-@@ -383,7 +382,7 @@ irqreturn_t dpu_core_irq(struct dpu_kms *dpu_kms)
- 	 * Individual interrupt status bit will only get stored if it
- 	 * is enabled.
- 	 */
--	dpu_kms->hw_intr->ops.get_interrupt_statuses(dpu_kms->hw_intr);
-+	dpu_hw_intr_get_interrupt_statuses(dpu_kms->hw_intr);
- 
- 	/*
- 	 * Dispatch to HW driver to handle interrupt lookup that is being
-@@ -393,7 +392,7 @@ irqreturn_t dpu_core_irq(struct dpu_kms *dpu_kms)
- 	 * callback, and do the interrupt status clearing once the registered
- 	 * callback is finished.
- 	 */
--	dpu_kms->hw_intr->ops.dispatch_irqs(
-+	dpu_hw_intr_dispatch_irqs(
- 			dpu_kms->hw_intr,
- 			dpu_core_irq_callback_handler,
- 			dpu_kms);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-index 5c521de71567..a2db9807b41d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-@@ -755,7 +755,7 @@ static const struct dpu_irq_type dpu_irq_map[] = {
- 	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
- };
- 
--static int dpu_hw_intr_irqidx_lookup(enum dpu_intr_type intr_type,
-+int dpu_hw_intr_irq_idx_lookup(enum dpu_intr_type intr_type,
- 		u32 instance_idx)
- {
- 	int i;
-@@ -771,7 +771,7 @@ static int dpu_hw_intr_irqidx_lookup(enum dpu_intr_type intr_type,
- 	return -EINVAL;
- }
- 
--static void dpu_hw_intr_dispatch_irq(struct dpu_hw_intr *intr,
-+void dpu_hw_intr_dispatch_irqs(struct dpu_hw_intr *intr,
- 		void (*cbfunc)(void *, int),
- 		void *arg)
- {
-@@ -825,7 +825,7 @@ static void dpu_hw_intr_dispatch_irq(struct dpu_hw_intr *intr,
- 				if (cbfunc)
- 					cbfunc(arg, irq_idx);
- 				else
--					intr->ops.clear_intr_status_nolock(
-+					dpu_hw_intr_clear_intr_status_nolock(
- 							intr, irq_idx);
- 
- 				/*
-@@ -839,7 +839,7 @@ static void dpu_hw_intr_dispatch_irq(struct dpu_hw_intr *intr,
- 	spin_unlock_irqrestore(&intr->irq_lock, irq_flags);
- }
- 
--static int dpu_hw_intr_enable_irq(struct dpu_hw_intr *intr, int irq_idx)
-+int dpu_hw_intr_enable_irq(struct dpu_hw_intr *intr, int irq_idx)
- {
- 	int reg_idx;
- 	unsigned long irq_flags;
-@@ -886,7 +886,7 @@ static int dpu_hw_intr_enable_irq(struct dpu_hw_intr *intr, int irq_idx)
- 	return 0;
- }
- 
--static int dpu_hw_intr_disable_irq_nolock(struct dpu_hw_intr *intr, int irq_idx)
-+int dpu_hw_intr_disable_irq_nolock(struct dpu_hw_intr *intr, int irq_idx)
- {
- 	int reg_idx;
- 	const struct dpu_intr_reg *reg;
-@@ -930,7 +930,7 @@ static int dpu_hw_intr_disable_irq_nolock(struct dpu_hw_intr *intr, int irq_idx)
- 	return 0;
- }
- 
--static int dpu_hw_intr_disable_irq(struct dpu_hw_intr *intr, int irq_idx)
-+int dpu_hw_intr_disable_irq(struct dpu_hw_intr *intr, int irq_idx)
- {
- 	unsigned long irq_flags;
- 
-@@ -949,7 +949,7 @@ static int dpu_hw_intr_disable_irq(struct dpu_hw_intr *intr, int irq_idx)
- 	return 0;
- }
- 
--static int dpu_hw_intr_clear_irqs(struct dpu_hw_intr *intr)
-+int dpu_hw_intr_clear_all_irqs(struct dpu_hw_intr *intr)
- {
- 	int i;
- 
-@@ -968,7 +968,7 @@ static int dpu_hw_intr_clear_irqs(struct dpu_hw_intr *intr)
- 	return 0;
- }
- 
--static int dpu_hw_intr_disable_irqs(struct dpu_hw_intr *intr)
-+int dpu_hw_intr_disable_all_irqs(struct dpu_hw_intr *intr)
- {
- 	int i;
- 
-@@ -987,7 +987,7 @@ static int dpu_hw_intr_disable_irqs(struct dpu_hw_intr *intr)
- 	return 0;
- }
- 
--static void dpu_hw_intr_get_interrupt_statuses(struct dpu_hw_intr *intr)
-+void dpu_hw_intr_get_interrupt_statuses(struct dpu_hw_intr *intr)
- {
- 	int i;
- 	u32 enable_mask;
-@@ -1023,7 +1023,7 @@ static void dpu_hw_intr_get_interrupt_statuses(struct dpu_hw_intr *intr)
- 	spin_unlock_irqrestore(&intr->irq_lock, irq_flags);
- }
- 
--static void dpu_hw_intr_clear_intr_status_nolock(struct dpu_hw_intr *intr,
-+void dpu_hw_intr_clear_intr_status_nolock(struct dpu_hw_intr *intr,
- 		int irq_idx)
- {
- 	int reg_idx;
-@@ -1039,7 +1039,7 @@ static void dpu_hw_intr_clear_intr_status_nolock(struct dpu_hw_intr *intr,
- 	wmb();
- }
- 
--static u32 dpu_hw_intr_get_interrupt_status(struct dpu_hw_intr *intr,
-+u32 dpu_hw_intr_get_interrupt_status(struct dpu_hw_intr *intr,
- 		int irq_idx, bool clear)
- {
- 	int reg_idx;
-@@ -1072,19 +1072,6 @@ static u32 dpu_hw_intr_get_interrupt_status(struct dpu_hw_intr *intr,
- 	return intr_status;
- }
- 
--static void __setup_intr_ops(struct dpu_hw_intr_ops *ops)
--{
--	ops->irq_idx_lookup = dpu_hw_intr_irqidx_lookup;
--	ops->enable_irq = dpu_hw_intr_enable_irq;
--	ops->disable_irq = dpu_hw_intr_disable_irq;
--	ops->dispatch_irqs = dpu_hw_intr_dispatch_irq;
--	ops->clear_all_irqs = dpu_hw_intr_clear_irqs;
--	ops->disable_all_irqs = dpu_hw_intr_disable_irqs;
--	ops->get_interrupt_statuses = dpu_hw_intr_get_interrupt_statuses;
--	ops->clear_intr_status_nolock = dpu_hw_intr_clear_intr_status_nolock;
--	ops->get_interrupt_status = dpu_hw_intr_get_interrupt_status;
--}
--
- static void __intr_offset(struct dpu_mdss_cfg *m,
- 		void __iomem *addr, struct dpu_hw_blk_reg_map *hw)
- {
-@@ -1106,7 +1093,6 @@ struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
- 		return ERR_PTR(-ENOMEM);
- 
- 	__intr_offset(m, addr, &intr->hw);
--	__setup_intr_ops(&intr->ops);
- 
- 	intr->irq_idx_tbl_size = ARRAY_SIZE(dpu_irq_map);
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-index fc9c98617281..17b0f7a862a5 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-@@ -77,99 +77,94 @@ enum dpu_intr_type {
- struct dpu_hw_intr;
- 
- /**
-- * Interrupt operations.
-+ * dpu_hw_intr_irq_idx_lookup - Lookup IRQ index on the HW interrupt type
-+ *                 Used for all irq related ops
-+ * @intr_type:		Interrupt type defined in dpu_intr_type
-+ * @instance_idx:	HW interrupt block instance
-+ * @return:		irq_idx or -EINVAL for lookup fail
-  */
--struct dpu_hw_intr_ops {
--	/**
--	 * irq_idx_lookup - Lookup IRQ index on the HW interrupt type
--	 *                 Used for all irq related ops
--	 * @intr_type:		Interrupt type defined in dpu_intr_type
--	 * @instance_idx:	HW interrupt block instance
--	 * @return:		irq_idx or -EINVAL for lookup fail
--	 */
--	int (*irq_idx_lookup)(
--			enum dpu_intr_type intr_type,
--			u32 instance_idx);
--
--	/**
--	 * enable_irq - Enable IRQ based on lookup IRQ index
--	 * @intr:	HW interrupt handle
--	 * @irq_idx:	Lookup irq index return from irq_idx_lookup
--	 * @return:	0 for success, otherwise failure
--	 */
--	int (*enable_irq)(
--			struct dpu_hw_intr *intr,
--			int irq_idx);
--
--	/**
--	 * disable_irq - Disable IRQ based on lookup IRQ index
--	 * @intr:	HW interrupt handle
--	 * @irq_idx:	Lookup irq index return from irq_idx_lookup
--	 * @return:	0 for success, otherwise failure
--	 */
--	int (*disable_irq)(
--			struct dpu_hw_intr *intr,
--			int irq_idx);
--
--	/**
--	 * clear_all_irqs - Clears all the interrupts (i.e. acknowledges
--	 *                  any asserted IRQs). Useful during reset.
--	 * @intr:	HW interrupt handle
--	 * @return:	0 for success, otherwise failure
--	 */
--	int (*clear_all_irqs)(
--			struct dpu_hw_intr *intr);
--
--	/**
--	 * disable_all_irqs - Disables all the interrupts. Useful during reset.
--	 * @intr:	HW interrupt handle
--	 * @return:	0 for success, otherwise failure
--	 */
--	int (*disable_all_irqs)(
--			struct dpu_hw_intr *intr);
--
--	/**
--	 * dispatch_irqs - IRQ dispatcher will call the given callback
--	 *                 function when a matching interrupt status bit is
--	 *                 found in the irq mapping table.
--	 * @intr:	HW interrupt handle
--	 * @cbfunc:	Callback function pointer
--	 * @arg:	Argument to pass back during callback
--	 */
--	void (*dispatch_irqs)(
--			struct dpu_hw_intr *intr,
--			void (*cbfunc)(void *arg, int irq_idx),
--			void *arg);
--
--	/**
--	 * get_interrupt_statuses - Gets and store value from all interrupt
--	 *                          status registers that are currently fired.
--	 * @intr:	HW interrupt handle
--	 */
--	void (*get_interrupt_statuses)(
--			struct dpu_hw_intr *intr);
--
--	/**
--	 * clear_intr_status_nolock() - clears the HW interrupts without lock
--	 * @intr:	HW interrupt handle
--	 * @irq_idx:	Lookup irq index return from irq_idx_lookup
--	 */
--	void (*clear_intr_status_nolock)(
--			struct dpu_hw_intr *intr,
--			int irq_idx);
--
--	/**
--	 * get_interrupt_status - Gets HW interrupt status, and clear if set,
--	 *                        based on given lookup IRQ index.
--	 * @intr:	HW interrupt handle
--	 * @irq_idx:	Lookup irq index return from irq_idx_lookup
--	 * @clear:	True to clear irq after read
--	 */
--	u32 (*get_interrupt_status)(
--			struct dpu_hw_intr *intr,
--			int irq_idx,
--			bool clear);
--};
-+int dpu_hw_intr_irq_idx_lookup(
-+		enum dpu_intr_type intr_type,
-+		u32 instance_idx);
-+
-+/**
-+ * dpu_hw_intr_enable_irq - Enable IRQ based on lookup IRQ index
-+ * @intr:	HW interrupt handle
-+ * @irq_idx:	Lookup irq index return from irq_idx_lookup
-+ * @return:	0 for success, otherwise failure
-+ */
-+int dpu_hw_intr_enable_irq(
-+		struct dpu_hw_intr *intr,
-+		int irq_idx);
-+
-+/**
-+ * dpu_hw_intr_disable_irq - Disable IRQ based on lookup IRQ index
-+ * @intr:	HW interrupt handle
-+ * @irq_idx:	Lookup irq index return from irq_idx_lookup
-+ * @return:	0 for success, otherwise failure
-+ */
-+int dpu_hw_intr_disable_irq(
-+		struct dpu_hw_intr *intr,
-+		int irq_idx);
-+
-+/**
-+ * dpu_hw_intr_clear_all_irqs - Clears all the interrupts (i.e. acknowledges
-+ *                  any asserted IRQs). Useful during reset.
-+ * @intr:	HW interrupt handle
-+ * @return:	0 for success, otherwise failure
-+ */
-+int dpu_hw_intr_clear_all_irqs(
-+		struct dpu_hw_intr *intr);
-+
-+/**
-+ * dpu_hw_intr_disable_all_irqs - Disables all the interrupts. Useful during reset.
-+ * @intr:	HW interrupt handle
-+ * @return:	0 for success, otherwise failure
-+ */
-+int dpu_hw_intr_disable_all_irqs(
-+		struct dpu_hw_intr *intr);
-+
-+/**
-+ * dpu_hw_intr_dispatch_irqs - IRQ dispatcher will call the given callback
-+ *                 function when a matching interrupt status bit is
-+ *                 found in the irq mapping table.
-+ * @intr:	HW interrupt handle
-+ * @cbfunc:	Callback function pointer
-+ * @arg:	Argument to pass back during callback
-+ */
-+void dpu_hw_intr_dispatch_irqs(
-+		struct dpu_hw_intr *intr,
-+		void dpu_hw_intr_cbfunc(void *arg, int irq_idx),
-+		void *arg);
-+
-+/**
-+ * dpu_hw_intr_get_interrupt_statuses - Gets and store value from all interrupt
-+ *                          status registers that are currently fired.
-+ * @intr:	HW interrupt handle
-+ */
-+void dpu_hw_intr_get_interrupt_statuses(
-+		struct dpu_hw_intr *intr);
-+
-+/**
-+ * dpu_hw_intr_clear_intr_status_nolock() - clears the HW interrupts without lock
-+ * @intr:	HW interrupt handle
-+ * @irq_idx:	Lookup irq index return from irq_idx_lookup
-+ */
-+void dpu_hw_intr_clear_intr_status_nolock(
-+		struct dpu_hw_intr *intr,
-+		int irq_idx);
-+
-+/**
-+ * dpu_hw_intr_get_interrupt_status - Gets HW interrupt status, and clear if set,
-+ *                        based on given lookup IRQ index.
-+ * @intr:	HW interrupt handle
-+ * @irq_idx:	Lookup irq index return from irq_idx_lookup
-+ * @clear:	True to clear irq after read
-+ */
-+u32 dpu_hw_intr_get_interrupt_status(
-+		struct dpu_hw_intr *intr,
-+		int irq_idx,
-+		bool clear);
- 
- /**
-  * struct dpu_hw_intr: hw interrupts handling data structure
-@@ -182,7 +177,6 @@ struct dpu_hw_intr_ops {
-  */
- struct dpu_hw_intr {
- 	struct dpu_hw_blk_reg_map hw;
--	struct dpu_hw_intr_ops ops;
- 	u32 *cache_irq_mask;
- 	u32 *save_irq_status;
- 	u32 irq_idx_tbl_size;
--- 
-2.30.2
+
+--MOE9NLKQk3uuQJql
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Mar 24, 2021 at 05:41:08PM +0300, Dmitry Osipenko wrote:
+> 23.03.2021 18:54, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > From: Thierry Reding <treding@nvidia.com>
+> >=20
+> > Clarify when a fixed IOV address can be used and when a buffer has to
+> > be mapped before the IOVA can be used.
+> >=20
+> > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > ---
+> >  drivers/gpu/drm/tegra/plane.c | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/tegra/plane.c b/drivers/gpu/drm/tegra/plan=
+e.c
+> > index 19e8847a164b..793da5d675d2 100644
+> > --- a/drivers/gpu/drm/tegra/plane.c
+> > +++ b/drivers/gpu/drm/tegra/plane.c
+> > @@ -119,6 +119,14 @@ static int tegra_dc_pin(struct tegra_dc *dc, struc=
+t tegra_plane_state *state)
+> >  		dma_addr_t phys_addr, *phys;
+> >  		struct sg_table *sgt;
+> > =20
+> > +		/*
+> > +		 * If we're not attached to a domain, we already stored the
+> > +		 * physical address when the buffer was allocated. If we're
+> > +		 * part of a group that's shared between all display
+> > +		 * controllers, we've also already mapped the framebuffer
+> > +		 * through the SMMU. In both cases we can short-circuit the
+> > +		 * code below and retrieve the stored IOV address.
+> > +		 */
+> >  		if (!domain || dc->client.group)
+> >  			phys =3D &phys_addr;
+> >  		else
+> >=20
+>=20
+> This comment is correct, but the logic feels a bit lame because it
+> should be wasteful to re-map DMA on each FB flip. Personally I don't
+> care much about this since older Tegras use pinned buffers by default,
+> but this shouldn't be good for T124+ users.
+
+I'm not terribly thrilled by this either, but it's the only way to do
+this when using the DMA API because we don't know at allocation time (or
+import time for that matter) which of the (up to) 4 display controllers
+a framebuffer will be shown on. tegra_dc_pin() is the earliest where
+this is known and worst case that's called once per flip.
+
+When the IOMMU API is used explicitly, we always map framebuffers into
+the IOMMU domain shared by all display controllers at allocation or
+import time and then we don't need to pin at flip time anymore.
+
+I do have a work-in-progress patch somewhere that creates a mapping
+cache to mitigate this problem to some degree. I need to dig that up and
+do a few measurements because I vaguely recall this speeding up flips by
+quite a bit (well, except for the very first mapping, obviously).
+
+> Perhaps dumb buffers should be pinned to display by default and then we
+> should extend the Tegra UAPI to support BO mapping to display client(?).
+
+That would kind of defeat the purpose of a generic KMS UAPI.
+
+Thierry
+
+--MOE9NLKQk3uuQJql
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmBbVGcACgkQ3SOs138+
+s6ESdQ/+NdmpXXTy+kfj08xBu0B2l8gbhdG6adBF4aOVFuPB0EwEKyxLuu53/X71
+m/BY61DL8narC8NACDbRv0vkkabv4yWj/GApc2dI6oTHwpyHhmHwGm+n7WLAXSUj
+RftK+EU1GoXDqzWwJJEv/2S0AZvUjQxnpCHNDU/lzyfeHejerSNL8GqtvYirzdjg
+7L+MlVTs8QTVGJRrbs97AVI5WaLRmvzSVId6gwUJZlOAg9mFGDzbhac1SyUj2csi
+F1l7yp9fNWOGaOwhCubULd2+9aXBOkkoLrH6IIa1BPNWF0l6yLMqMqdWQr/dadZU
+T/tCW/9Il+ieIIPmNJiIwGxSuu73zjxiS1HSST71a8uoR4jX4xtB0nVbLPt+MCCH
+oGUozUEGJPHdOFpca3+AulagTnwy/U2Ghi+/Ixz5MiTaDSL9JqgvsnrAWS52wTRj
+Ex5Z6yAMc3yGvuuMYFZ77zPvBN1lcCCosiH9rX7Yj8LSJGfZgtz525XdZZ0KiWwX
+VV3TenZomI1nZcM6Dd9mCKPmno/TFQfabqV6qEcMFJOV54sHSsK8W/tpUIonOqc0
+8xfo4CP8skJWN7nc/BNvLAPn9uJ68FnEyvoz5MqpwRCn4CHJDw1LMYOj6kWX0Cip
+SD93wAN286Mttms5gGXjiX64drX7TVlWtqxuwoCQoyBcdi1bwfQ=
+=5Bcx
+-----END PGP SIGNATURE-----
+
+--MOE9NLKQk3uuQJql--
+
+--===============1566344914==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1566344914==--
