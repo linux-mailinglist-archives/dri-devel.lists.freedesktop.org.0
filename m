@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292AA3493AC
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 15:08:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 436993493B4
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 15:09:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 400F66ED7D;
-	Thu, 25 Mar 2021 14:08:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 802116ED7E;
+	Thu, 25 Mar 2021 14:09:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD9EF6ED7D
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 14:08:52 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 8222061A1D
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 14:08:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3204A6ED7E
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 14:09:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id ED9E061A23
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 14:09:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616681332;
- bh=zJ3iClIYuoqoMOUGPo2pbnIPnhazkzFI6nuSliwkmw4=;
+ s=k20201202; t=1616681390;
+ bh=Sg/UKZe2+GTzbiduQrJxVqnnYtdg/UDTW6Xm1fY7YJM=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=iKi53jHLyY0sJUJV4NyweVs4KOmuhTSu/bn9k9YnFQHPIO9uhQ0/a/JNHRs4fydDf
- n2gz6VeCb+ATN4Uly05Wy4xIcSAeqHTC5jw+1yKo143Tk9aMc5rKCGsoJ/191PvO/H
- +puukeRwtatOcI7ZgVUNRQ4k227affOyg/N+Lpb2WkzujGWolFltRFl7VPL3qf2MEP
- ISRfZHNzj2DcRo6LcUO1+3BNMLZx1ORhlyQrc9wVdo3uyk93z6fbbYprmU9JSsNKC7
- 6oiFeq9UWJVuAbcEaKzHkPrQgRxU4QOG54zu3p4vpWLUCtjzFgSKyKddkmz/H1tGU6
- pXEBznYglw+bg==
+ b=j4yhVg7Ghl0NT2r/G2U1W2NsfvylGfTCuBJII5/InSZ2pcemk+eBRrI2KL/FhcT1y
+ apWbDjCaMZgRiPHC+9PnJFtJifnRwvDq/j0Af1NwkQrQm/TwfbWBhGnOU1NB2cqYNw
+ zR/1lEWbnGo1IO7ersCGrpyZdLcHxEZ2R8v+0xft7zM7Q469q1EkKow5Ipy61oxCze
+ Xy5IY8pXGPG9d6WVdvBWGEMZ8xzAhFeYWbGpWL6/USxjuD2Og0XAv71yMdnQXzZ+x3
+ u/zG8lQ2UQenaSEFwdNoi+a/8YZFr3hgxS6pVApDusePzHX9550sV60yF+rOnkdDiU
+ 3Tv15RPIffyLA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 7744A62AC6; Thu, 25 Mar 2021 14:08:52 +0000 (UTC)
+ id E976E62AC4; Thu, 25 Mar 2021 14:09:49 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212425] Kernel warning at drivers/gpu/drm/ttm/ttm_bo.c:517
-Date: Thu, 25 Mar 2021 14:08:52 +0000
+Subject: [Bug 212427] [AMDGPU] Multiple ttm_bo_release warnings
+Date: Thu, 25 Mar 2021 14:09:49 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,9 +45,9 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-212425-2300-8O4UCkTBw2@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212425-2300@https.bugzilla.kernel.org/>
-References: <bug-212425-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-212427-2300-fz6OY8WCN3@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212427-2300@https.bugzilla.kernel.org/>
+References: <bug-212427-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -68,8 +68,8 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMTI0MjUKCi0tLSBD
-b21tZW50ICM0IGZyb20gQWxleCBEZXVjaGVyIChhbGV4ZGV1Y2hlckBnbWFpbC5jb20pIC0tLQpS
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMTI0MjcKCi0tLSBD
+b21tZW50ICMzIGZyb20gQWxleCBEZXVjaGVyIChhbGV4ZGV1Y2hlckBnbWFpbC5jb20pIC0tLQpS
 ZXZlcnRlZCBpbiBzdGFibGU6Cgpjb21taXQgYmVjNzcxYjVlMDkwMWY0YjBiYzg2MWJjYjU4MDU2
 ZGU1MTUxYWUzYQpBdXRob3I6IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRh
 dGlvbi5vcmc+CkRhdGU6ICAgVGh1IE1hciAyNSAwOTo1Mjo0MCAyMDIxICswMTAwCgogICAgUmV2
