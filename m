@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA2034974B
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 17:49:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 405DE349775
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 17:59:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2936D6EB83;
-	Thu, 25 Mar 2021 16:49:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66D876EB6B;
+	Thu, 25 Mar 2021 16:58:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9455A6EB83
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 16:49:49 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id gb6so1315904pjb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 09:49:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 241816EB6B;
+ Thu, 25 Mar 2021 16:58:56 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ t23-20020a0568301e37b02901b65ab30024so2604015otr.4; 
+ Thu, 25 Mar 2021 09:58:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KaZNs/slFbXR+His3djbKPWrwZ4lvzuSmzWHKektuFM=;
- b=Vlr0woIKSnzYqOorKJVFFq+dl4PWdwBStgUJVK/JTCgUghS+QDp1JjuyjXUdzyhPQO
- sYgRWBVWGjHTDHgijhGcL8U51jUGgF04DOENDTJBSpZ+Y3AIjkixor/uLErRjaiGvKhQ
- QTN8H3gF0kdJjdW8/k1+tcrRV4sUdJhuBROtS0jST6XkauacxKx/L5blCWUyweWotaa7
- ucRuxOhGc6gyqusUXi1Jl3pBUk4gfJGoNM1YlQ3lbUyewRyX61OEq8uJb19CjNELD34L
- GEV22TMIh2sxveAwHdjWicFS24NNMLKI1GBXPLEF5AvC6Q0nwVfmqtq2AQyoJXpC59rm
- b9gA==
+ :cc; bh=t/O8m8IOxntS1mga4RbDV2Gzqftugt1u1+gs5VyZdC4=;
+ b=a78uJ8XUGc4mp4RwZAcUS04PRHfHNn/08Xu8uIrKZnd65Va4oDoP2ujHDOdPitOWzE
+ BtOh4Scmu8ttlkmvkIDz1fzxnU+IJAV+eAwOl8+eMX1tnQFdz3N9EpRtgYCy81fbGLtj
+ ZahiqequFsDEemqzPchIwSjgr3CrOzczBAj+QZxlIi0MaP/m1rDinrxYlif95w+ZU+Ol
+ cUYMFdGragNZ5SO4SxhVnT1r9sJwBadqEW7fmHew58n0RWFIdAlZfeGcpn3fcfD7H94L
+ R75aWC8NCkh2TIKwAW67K6/Cp7FW1Qz7sXpFfJvnHtbb1Ef6zSl396ixJuSdrEo4Jze4
+ IfdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KaZNs/slFbXR+His3djbKPWrwZ4lvzuSmzWHKektuFM=;
- b=sczSDCbqLsNj3Wo1d9b9tk93lsQircv3+mieTFQXwFR1nbPe6uzM6pq2UMrlCdjbSO
- zCWTtfG7NU0ZwrqyWJmXTAaBCBrXVt2B0yqJXQmHPnr/kLc0dCBq7EO3QkkhATXbwEWH
- fR16dk1me/B7zUCKiOf4j8PeXh46j/G4gTdHmgoalB2lKZ+VKDbixPaMSDLMsQaNGu/X
- tuawpWJ5Q4/FEVxLlTI8PCUtSbKAYqhxbEBTbIPIrqHVkY2lpFmBxYP5GMXExNVhVjR1
- xDANLj5n4AdrFqA9cdQBlmmMwSeCGCaxqHRvekwkvcnp4s6cPZPLstOTP3V53qUCr9Kk
- Afcg==
-X-Gm-Message-State: AOAM532TLrawYVU0JkpxszQB7OEr9jD4EhATkQnUOwrjrgxYE60g3jP0
- FNjR/g0D3Hx1oC0dwlN8Gi+FSNYxnyvFFoLr93Ryrs/w/8CSBQNz
-X-Google-Smtp-Source: ABdhPJx7d0yaG5nL06/Z/qmgArm+E/1zz6/PdivRj7LNIGAYNsSqEjhkh4JiFkM9WhYO6fEUA/XeRv0i5aSyAMHJZZM=
-X-Received: by 2002:a17:90a:4a8f:: with SMTP id
- f15mr9930336pjh.19.1616690989004; 
- Thu, 25 Mar 2021 09:49:49 -0700 (PDT)
+ bh=t/O8m8IOxntS1mga4RbDV2Gzqftugt1u1+gs5VyZdC4=;
+ b=r/EeVU5v8zvFZRwnuA9O4zJhd+UCq8OAOz7WpdsCKP6Mbl8uAC6EzlztfZLDP+TZaJ
+ HMd4yEuXsHjw+k0RcaYRNykqXbGV7lJUoMg9Ciz0cSVQcdIWXgTF4J+1Y8EX7VzRQ2fh
+ Z8t+968u6dIIOeKIc5f3wLemQZz1I18PfEJdVY1j0fTD1b7uSE75b9QrQ56MGZvX+0kD
+ 6Kw094wJ9Q3JKz+8kWZXLYFUKmlXwUa/ja1VdCOsmPNmn06Eb906o3QTz2z73jQUziFP
+ d+2Z5LxUPdX9MPUlVGg1dLLdWYJ7fCTi56HSxld8Wg4scBv5XaKRJTkyLd5sFqlS4/VH
+ nxrA==
+X-Gm-Message-State: AOAM531Sv7mM3bW2A06W3WzDwhGoYCYqe0um7kjtx+wMGF8JZQx0BuF2
+ wTOCtgt+l03v5aDVixiyzxlP4un+/vL5fkXU6oQ=
+X-Google-Smtp-Source: ABdhPJw14TYBs7o1WtDY0VivKSYj0WmYdQT29x4nDgfsxDbXb/GVfMOnZv+4HX7Xdujmn+3OwMzliGPUeXRFOx7Lzhk=
+X-Received: by 2002:a9d:d89:: with SMTP id 9mr8504280ots.23.1616691535380;
+ Thu, 25 Mar 2021 09:58:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210322103328.66442-1-jagan@amarulasolutions.com>
-In-Reply-To: <20210322103328.66442-1-jagan@amarulasolutions.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 25 Mar 2021 17:49:38 +0100
-Message-ID: <CAG3jFyt1pztRM=pHmE3VWK0aXKivQJ=7qz8QsryhEtL35LVXKg@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] dt-bindings: display: bridge: Add Chipone ICN6211
- bindings
-To: Jagan Teki <jagan@amarulasolutions.com>
+References: <20210324201624.712307-1-markyacoub@chromium.org>
+In-Reply-To: <20210324201624.712307-1-markyacoub@chromium.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 25 Mar 2021 12:58:44 -0400
+Message-ID: <CADnq5_Nn7v7BB0XY1iiEHwQu+noNSOqpBGEjwu6K=YaKdrPDdA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amdgpu: Ensure that the modifier requested is
+ supported by plane.
+To: Mark Yacoub <markyacoub@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,177 +62,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, linux-amarula@amarulasolutions.com,
- Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Mark Yacoub <markyacoub@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pushed to drm-misc-next
+On Wed, Mar 24, 2021 at 4:16 PM Mark Yacoub <markyacoub@chromium.org> wrote:
+>
+> From: Mark Yacoub <markyacoub@google.com>
+>
+> On initializing the framebuffer, call drm_any_plane_has_format to do a
+> check if the modifier is supported. drm_any_plane_has_format calls
+> dm_plane_format_mod_supported which is extended to validate that the
+> modifier is on the list of the plane's supported modifiers.
+>
+> The bug was caught using igt-gpu-tools test: kms_addfb_basic.addfb25-bad-modifier
+>
+> Tested on ChromeOS Zork by turning on the display, running an overlay
+> test, and running a YT video.
+>
+> === Changes from v1 ===
+> Explicitly handle DRM_FORMAT_MOD_INVALID modifier.
+>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> Signed-off-by: default avatarMark Yacoub <markyacoub@chromium.org>
 
-https://cgit.freedesktop.org/drm/drm-misc/commit/?id=a42e37db23b88120aea9fa31f9c0952accb39296
+Applied.  Thanks!
 
-On Mon, 22 Mar 2021 at 11:33, Jagan Teki <jagan@amarulasolutions.com> wrote:
->
-> ICN6211 is MIPI-DSI to RGB Converter bridge from Chipone.
->
-> It has a flexible configuration of MIPI DSI signal input and
-> produces RGB565, RGB666, RGB888 output format.
->
-> Add dt-bingings for it.
->
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> Reviewed-by: Robert Foss <robert.foss@linaro.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+Alex
+
 > ---
-> Changes for v5:
-> - rebase drm-misc-next
-> - collect Rob, Robert review tags
-> Changes for v4:
-> - fixed Laurent comments
-> - added regulators
-> - replace reset with EN
-> - fixed warnings pointed by Robert
-> Changes for v3:
-> - updated to new dt-bindings style
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c    | 13 +++++++++++++
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 18 +++++++++++++++---
+>  2 files changed, 28 insertions(+), 3 deletions(-)
 >
->  .../display/bridge/chipone,icn6211.yaml       | 99 +++++++++++++++++++
->  MAINTAINERS                                   |  5 +
->  2 files changed, 104 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> index afa5f8ad0f563..a947b5aa420d2 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> @@ -908,6 +908,19 @@ int amdgpu_display_gem_fb_verify_and_init(
+>                                          &amdgpu_fb_funcs);
+>         if (ret)
+>                 goto err;
+> +       /* Verify that the modifier is supported. */
+> +       if (!drm_any_plane_has_format(dev, mode_cmd->pixel_format,
+> +                                     mode_cmd->modifier[0])) {
+> +               struct drm_format_name_buf format_name;
+> +               drm_dbg_kms(dev,
+> +                           "unsupported pixel format %s / modifier 0x%llx\n",
+> +                           drm_get_format_name(mode_cmd->pixel_format,
+> +                                               &format_name),
+> +                           mode_cmd->modifier[0]);
+> +
+> +               ret = -EINVAL;
+> +               goto err;
+> +       }
 >
-> diff --git a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
-> new file mode 100644
-> index 000000000000..62c3bd4cb28d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
-> @@ -0,0 +1,99 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/chipone,icn6211.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Chipone ICN6211 MIPI-DSI to RGB Converter bridge
-> +
-> +maintainers:
-> +  - Jagan Teki <jagan@amarulasolutions.com>
-> +
-> +description: |
-> +  ICN6211 is MIPI-DSI to RGB Converter bridge from chipone.
-> +
-> +  It has a flexible configuration of MIPI DSI signal input and
-> +  produce RGB565, RGB666, RGB888 output format.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - chipone,icn6211
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: virtual channel number of a DSI peripheral
-> +
-> +  enable-gpios:
-> +    description: Bridge EN pin, chip is reset when EN is low.
-> +
-> +  vdd1-supply:
-> +    description: A 1.8V/2.5V/3.3V supply that power the MIPI RX.
-> +
-> +  vdd2-supply:
-> +    description: A 1.8V/2.5V/3.3V supply that power the PLL.
-> +
-> +  vdd3-supply:
-> +    description: A 1.8V/2.5V/3.3V supply that power the RGB output.
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Video port for MIPI DSI input
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Video port for MIPI DPI output (panel or connector).
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - enable-gpios
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    dsi {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      bridge@0 {
-> +        compatible = "chipone,icn6211";
-> +        reg = <0>;
-> +        enable-gpios = <&r_pio 0 5 GPIO_ACTIVE_HIGH>; /* LCD-RST: PL5 */
-> +
-> +        ports {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          port@0 {
-> +            reg = <0>;
-> +
-> +            bridge_in_dsi: endpoint {
-> +              remote-endpoint = <&dsi_out_bridge>;
-> +            };
-> +          };
-> +
-> +          port@1 {
-> +            reg = <1>;
-> +
-> +            bridge_out_panel: endpoint {
-> +              remote-endpoint = <&panel_out_bridge>;
-> +            };
-> +          };
-> +        };
-> +      };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 4b705ba51c54..b9d11101d060 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5568,6 +5568,11 @@ S:       Maintained
->  F:     Documentation/devicetree/bindings/display/panel/boe,himax8279d.yaml
->  F:     drivers/gpu/drm/panel/panel-boe-himax8279d.c
+>         ret = amdgpu_display_framebuffer_init(dev, rfb, mode_cmd, obj);
+>         if (ret)
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 961abf1cf040c..6fc746996c24f 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -3939,6 +3939,7 @@ static bool dm_plane_format_mod_supported(struct drm_plane *plane,
+>  {
+>         struct amdgpu_device *adev = drm_to_adev(plane->dev);
+>         const struct drm_format_info *info = drm_format_info(format);
+> +       int i;
 >
-> +DRM DRIVER FOR CHIPONE ICN6211 MIPI-DSI to RGB CONVERTER BRIDGE
-> +M:     Jagan Teki <jagan@amarulasolutions.com>
-> +S:     Maintained
-> +F:     Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+>         enum dm_micro_swizzle microtile = modifier_gfx9_swizzle_mode(modifier) & 3;
+>
+> @@ -3946,11 +3947,22 @@ static bool dm_plane_format_mod_supported(struct drm_plane *plane,
+>                 return false;
+>
+>         /*
+> -        * We always have to allow this modifier, because core DRM still
+> -        * checks LINEAR support if userspace does not provide modifers.
+> +        * We always have to allow these modifiers:
+> +        * 1. Core DRM checks for LINEAR support if userspace does not provide modifiers.
+> +        * 2. Not passing any modifiers is the same as explicitly passing INVALID.
+>          */
+> -       if (modifier == DRM_FORMAT_MOD_LINEAR)
+> +       if (modifier == DRM_FORMAT_MOD_LINEAR ||
+> +           modifier == DRM_FORMAT_MOD_INVALID) {
+>                 return true;
+> +       }
 > +
->  DRM DRIVER FOR FARADAY TVE200 TV ENCODER
->  M:     Linus Walleij <linus.walleij@linaro.org>
->  S:     Maintained
+> +       /* Check that the modifier is on the list of the plane's supported modifiers. */
+> +       for (i = 0; i < plane->modifier_count; i++) {
+> +               if (modifier == plane->modifiers[i])
+> +                       break;
+> +       }
+> +       if (i == plane->modifier_count)
+> +               return false;
+>
+>         /*
+>          * The arbitrary tiling support for multiplane formats has not been hooked
 > --
-> 2.25.1
+> 2.31.0.291.g576ba9dcdaf-goog
 >
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
