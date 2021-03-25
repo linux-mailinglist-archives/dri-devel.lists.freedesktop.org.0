@@ -2,56 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D61A4349132
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 12:48:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED338349138
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 12:53:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 201776ED0E;
-	Thu, 25 Mar 2021 11:48:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D1CB6ED09;
+	Thu, 25 Mar 2021 11:53:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BC246ED10
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 11:48:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616672915;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dqqAoAaF7t4uki/qmDOLK+maxgb2dagmvhik6yTw1EA=;
- b=e2j3WTr4tvspx5PNQYLnlXOUANpAZSTM33genQxiuYtIT3ABh2tvEg5Qw4ci+Nvol/z/CF
- rWbajsNJm71zBZz3SiseyfJWalM+9NKBfspf9m7RBae80TDP2bS+imqwVA7PmEElRf5I4m
- WYVpigGcQ2FMvqcGOyH9fi/qf+nBU6Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-zobh-ZT1MAy4Jxsb7yqUBw-1; Thu, 25 Mar 2021 07:48:31 -0400
-X-MC-Unique: zobh-ZT1MAy4Jxsb7yqUBw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5BBD87A83A;
- Thu, 25 Mar 2021 11:48:29 +0000 (UTC)
-Received: from x1.localdomain (ovpn-112-48.ams2.redhat.com [10.36.112.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 33C9C5D9D0;
- Thu, 25 Mar 2021 11:48:28 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH 2/2] drm/i915/display/vlv_dsi: Move panel_pwr_cycle_delay to
- next panel-on
-Date: Thu, 25 Mar 2021 12:48:23 +0100
-Message-Id: <20210325114823.44922-2-hdegoede@redhat.com>
-In-Reply-To: <20210325114823.44922-1-hdegoede@redhat.com>
-References: <20210325114823.44922-1-hdegoede@redhat.com>
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D89A66ED09
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 11:53:09 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id u5so2407399ejn.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 04:53:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=7IX0Yj+2rzcGHUgvCwC2c2cC5OMxI6X15YXcc54logI=;
+ b=zHhcw7nEqVJiTQkwx3rCXmlmMc0/D5PfMnSKmc3D+M0LqhDIscP0PyGHsb5Iaf6lv8
+ 9PJKmoDgfn4hLxx0htyUzC7iJRRu4fu9Nb34GVZQGx11O+rzp43ksDLbeTcO9M/PSA2F
+ exfdtja33aEyRO69jWSY3GQpze1R2a/J3PVNWvKcCdav5WCEEV1etJpZmeLv//WIpqa5
+ LsRABSL4QM9arPY2gXL+x4s/C4Td6TlS8wyNVYy84C0IwrprLXG/zmS+cPeGn/DtrDrt
+ it/vKOISKMm1ulA6FOpu7JDj01uvHS9IFA4xgC0boXm5c7NdeYZN6TVKE3LBeHM1c4YI
+ zRTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=7IX0Yj+2rzcGHUgvCwC2c2cC5OMxI6X15YXcc54logI=;
+ b=ZsiJ2FRNovKugeZIYPNHzhnc8+lOjAIXdfxUjzBL8X3bNmyHk2ZoCGMYrIC5lsA/ns
+ YXlVI/PJA/Zzo+7sNApxBZ0JEEkGDpE5X69YQdI/vlrI2VctDgu39+4thK1jUsEJjM8J
+ rG36DAJTL17dSRCuiY0fQkMpTrmO7dL5PiYSBAu1AwuqxbFPBwNqDYT8PKyqbvJiTgy1
+ /Hwxf8md+T1Riu9y0N6u7cWKZVRkhi9p66IvNywB6KEPhi54hE6IIucYp89ChcKEbGK6
+ 5UOsjnLSMYo+HP39gjhpB1loYgnwTFpJ19vCskwQGcs0PcxnD3x/qs3oM8Mhp5Y7Dvyj
+ wY8A==
+X-Gm-Message-State: AOAM530OsuBUn/vCwVYnSKbvUIrYY9XKGNP7nvWlrHLSgXZ8ra8Ttc5J
+ Gdg47XMDRf0Ka53pCSXy5VQlVg==
+X-Google-Smtp-Source: ABdhPJyspSSPpTxSzJuwpyY/ctL3hpSi6cFfjwWP1EVsbtnOjbctgms5VfyobMFw2T2raqYzgGZlQQ==
+X-Received: by 2002:a17:907:761c:: with SMTP id
+ jx28mr9064503ejc.417.1616673188374; 
+ Thu, 25 Mar 2021 04:53:08 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id be27sm2598456edb.47.2021.03.25.04.53.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Mar 2021 04:53:07 -0700 (PDT)
+Date: Thu, 25 Mar 2021 11:53:06 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: cy_huang <u0084500@gmail.com>
+Subject: Re: [PATCH v5 5/6] backlight: rt4831: Adds support for Richtek
+ RT4831 backlight
+Message-ID: <20210325115306.a462t6wwf5bm26zw@maple.lan>
+References: <1608217244-314-1-git-send-email-u0084500@gmail.com>
+ <1608217244-314-5-git-send-email-u0084500@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <1608217244-314-5-git-send-email-u0084500@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,70 +70,253 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
+ lgirdwood@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, ChiYuan Huang <cy_huang@richtek.com>,
+ broonie@kernel.org, lee.jones@linaro.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SW5zdGVhZCBvZiBzbGVlcGluZyBwYW5lbF9wd3JfY3ljbGVfZGVsYXkgbXMgd2hlbiB0dXJuaW5n
-IHRoZSBwYW5lbCBvZmYsCnJlY29yZCB0aGUgdGltZSBpdCBpcyB0dXJuZWQgb2ZmIGFuZCBpZiBu
-ZWNlc3Nhcnkgd2FpdCBhbnkgKHJlbWFpbmluZykKdGltZSB3aGVuIHRoZSBwYW5lbCBpcyB0dXJu
-ZWQgb24gYWdhaW4uCgpBbHNvIHNsZWVwIHRoZSByZW1haW5pbmcgdGltZSBvbiBzaHV0ZG93biwg
-YmVjYXVzZSBvbiByZWJvb3QgdGhlCkdPUCB3aWxsIGltbWVkaWF0ZWx5IHR1cm4gb24gdGhlIHBh
-bmVsIGFnYWluLgoKQ2M6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRl
-bC5jb20+ClNpZ25lZC1vZmYtYnk6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+
-Ci0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kc2kuaCB8ICAxICsKIGRy
-aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvdmx2X2RzaS5jICAgfCAyNSArKysrKysrKysrKysr
-KysrKystLS0tLS0KIDIgZmlsZXMgY2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlv
-bnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rz
-aS5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kc2kuaAppbmRleCA2MjVm
-MmYxYWUwNjEuLjUwZDZkYTBiMjQxOSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUv
-ZGlzcGxheS9pbnRlbF9kc2kuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
-dGVsX2RzaS5oCkBAIC0xMjQsNiArMTI0LDcgQEAgc3RydWN0IGludGVsX2RzaSB7CiAJdTE2IHBh
-bmVsX29uX2RlbGF5OwogCXUxNiBwYW5lbF9vZmZfZGVsYXk7CiAJdTE2IHBhbmVsX3B3cl9jeWNs
-ZV9kZWxheTsKKwlrdGltZV90IHBhbmVsX3Bvd2VyX29mZl90aW1lOwogfTsKIAogc3RydWN0IGlu
-dGVsX2RzaV9ob3N0IHsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
-dmx2X2RzaS5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS92bHZfZHNpLmMKaW5kZXgg
-MzhkNWExZjNkZWQ1Li4zZWRlNTVjYjNmNDMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2Rpc3BsYXkvdmx2X2RzaS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
-dmx2X2RzaS5jCkBAIC03MTcsNiArNzE3LDE5IEBAIHN0YXRpYyB2b2lkIGludGVsX2RzaV9wb3J0
-X2Rpc2FibGUoc3RydWN0IGludGVsX2VuY29kZXIgKmVuY29kZXIpCiAJfQogfQogCitzdGF0aWMg
-dm9pZCBpbnRlbF9kc2lfd2FpdF9wYW5lbF9wb3dlcl9jeWNsZShzdHJ1Y3QgaW50ZWxfZHNpICpp
-bnRlbF9kc2kpCit7CisJa3RpbWVfdCBwYW5lbF9wb3dlcl9vbl90aW1lOworCXM2NCBwYW5lbF9w
-b3dlcl9vZmZfZHVyYXRpb247CisKKwlwYW5lbF9wb3dlcl9vbl90aW1lID0ga3RpbWVfZ2V0X2Jv
-b3R0aW1lKCk7CisJcGFuZWxfcG93ZXJfb2ZmX2R1cmF0aW9uID0ga3RpbWVfbXNfZGVsdGEocGFu
-ZWxfcG93ZXJfb25fdGltZSwKKwkJCQkJCSAgaW50ZWxfZHNpLT5wYW5lbF9wb3dlcl9vZmZfdGlt
-ZSk7CisKKwlpZiAocGFuZWxfcG93ZXJfb2ZmX2R1cmF0aW9uIDwgKHM2NClpbnRlbF9kc2ktPnBh
-bmVsX3B3cl9jeWNsZV9kZWxheSkKKwkJbXNsZWVwKGludGVsX2RzaS0+cGFuZWxfcHdyX2N5Y2xl
-X2RlbGF5IC0gcGFuZWxfcG93ZXJfb2ZmX2R1cmF0aW9uKTsKK30KKwogc3RhdGljIHZvaWQgaW50
-ZWxfZHNpX3ByZXBhcmUoc3RydWN0IGludGVsX2VuY29kZXIgKmludGVsX2VuY29kZXIsCiAJCQkg
-ICAgICBjb25zdCBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqcGlwZV9jb25maWcpOwogc3RhdGlj
-IHZvaWQgaW50ZWxfZHNpX3VucHJlcGFyZShzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2Rlcik7
-CkBAIC03NzgsNiArNzkxLDggQEAgc3RhdGljIHZvaWQgaW50ZWxfZHNpX3ByZV9lbmFibGUoc3Ry
-dWN0IGludGVsX2F0b21pY19zdGF0ZSAqc3RhdGUsCiAKIAlkcm1fZGJnX2ttcygmZGV2X3ByaXYt
-PmRybSwgIlxuIik7CiAKKwlpbnRlbF9kc2lfd2FpdF9wYW5lbF9wb3dlcl9jeWNsZShpbnRlbF9k
-c2kpOworCiAJaW50ZWxfc2V0X2NwdV9maWZvX3VuZGVycnVuX3JlcG9ydGluZyhkZXZfcHJpdiwg
-cGlwZSwgdHJ1ZSk7CiAKIAkvKgpAQCAtOTkyLDE4ICsxMDA3LDE0IEBAIHN0YXRpYyB2b2lkIGlu
-dGVsX2RzaV9wb3N0X2Rpc2FibGUoc3RydWN0IGludGVsX2F0b21pY19zdGF0ZSAqc3RhdGUsCiAJ
-aW50ZWxfZHNpX21zbGVlcChpbnRlbF9kc2ksIGludGVsX2RzaS0+cGFuZWxfb2ZmX2RlbGF5KTsK
-IAlpbnRlbF9kc2lfdmJ0X2V4ZWNfc2VxdWVuY2UoaW50ZWxfZHNpLCBNSVBJX1NFUV9QT1dFUl9P
-RkYpOwogCi0JLyoKLQkgKiBGSVhNRSBBcyB3ZSBkbyB3aXRoIGVEUCwganVzdCBtYWtlIGEgbm90
-ZSBvZiB0aGUgdGltZSBoZXJlCi0JICogYW5kIHBlcmZvcm0gdGhlIHdhaXQgYmVmb3JlIHRoZSBu
-ZXh0IHBhbmVsIHBvd2VyIG9uLgotCSAqLwotCW1zbGVlcChpbnRlbF9kc2ktPnBhbmVsX3B3cl9j
-eWNsZV9kZWxheSk7CisJaW50ZWxfZHNpLT5wYW5lbF9wb3dlcl9vZmZfdGltZSA9IGt0aW1lX2dl
-dF9ib290dGltZSgpOwogfQogCiBzdGF0aWMgdm9pZCBpbnRlbF9kc2lfc2h1dGRvd24oc3RydWN0
-IGludGVsX2VuY29kZXIgKmVuY29kZXIpCiB7CiAJc3RydWN0IGludGVsX2RzaSAqaW50ZWxfZHNp
-ID0gZW5jX3RvX2ludGVsX2RzaShlbmNvZGVyKTsKIAotCW1zbGVlcChpbnRlbF9kc2ktPnBhbmVs
-X3B3cl9jeWNsZV9kZWxheSk7CisJaW50ZWxfZHNpX3dhaXRfcGFuZWxfcG93ZXJfY3ljbGUoaW50
-ZWxfZHNpKTsKIH0KIAogc3RhdGljIGJvb2wgaW50ZWxfZHNpX2dldF9od19zdGF0ZShzdHJ1Y3Qg
-aW50ZWxfZW5jb2RlciAqZW5jb2RlciwKQEAgLTE4ODQsNiArMTg5NSw4IEBAIHZvaWQgdmx2X2Rz
-aV9pbml0KHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdikKIAllbHNlCiAJCWludGVs
-X2VuY29kZXItPnBpcGVfbWFzayA9IEJJVChQSVBFX0IpOwogCisJaW50ZWxfZHNpLT5wYW5lbF9w
-b3dlcl9vZmZfdGltZSA9IGt0aW1lX2dldF9ib290dGltZSgpOworCiAJaWYgKGRldl9wcml2LT52
-YnQuZHNpLmNvbmZpZy0+ZHVhbF9saW5rKQogCQlpbnRlbF9kc2ktPnBvcnRzID0gQklUKFBPUlRf
-QSkgfCBCSVQoUE9SVF9DKTsKIAllbHNlCi0tIAoyLjMwLjIKCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Thu, Dec 17, 2020 at 11:00:43PM +0800, cy_huang wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> Adds support for Richtek RT4831 backlight.
+> 
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+
+Looks ok but there are a few minor niggles.
+> ---
+>  drivers/video/backlight/Kconfig            |   8 ++
+>  drivers/video/backlight/Makefile           |   1 +
+>  drivers/video/backlight/rt4831-backlight.c | 219 +++++++++++++++++++++++++++++
+>  3 files changed, 228 insertions(+)
+>  create mode 100644 drivers/video/backlight/rt4831-backlight.c
+> 
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index d83c87b..666bdb0 100644
+> --- a/drivers/video/backlight/Kconfig
+> +++ b/drivers/video/backlight/Kconfig
+> @@ -289,6 +289,14 @@ config BACKLIGHT_QCOM_WLED
+>  	  If you have the Qualcomm PMIC, say Y to enable a driver for the
+>  	  WLED block. Currently it supports PM8941 and PMI8998.
+>  
+> +config BACKLIGHT_RT4831
+> +	tristate "Richtek RT4831 Backlight Driver"
+> +	depends on MFD_RT4831
+> +	help
+> +	  This enables support for Richtek RT4831 Backlight driver.
+> +	  It's commont used to drive the display WLED. There're four channels
+                    ^^^
+
+> diff --git a/drivers/video/backlight/rt4831-backlight.c b/drivers/video/backlight/rt4831-backlight.c
+> new file mode 100644
+> index 00000000..816c4d6
+> --- /dev/null
+> +++ b/drivers/video/backlight/rt4831-backlight.c
+> @@ -0,0 +1,219 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include <dt-bindings/leds/rt4831-backlight.h>
+> +#include <linux/backlight.h>
+> +#include <linux/bitops.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/property.h>
+> +#include <linux/regmap.h>
+> +
+> +#define RT4831_REG_BLCFG	0x02
+> +#define RT4831_REG_BLDIML	0x04
+> +#define RT4831_REG_ENABLE	0x08
+> +
+> +#define BL_MAX_BRIGHTNESS	2048
+
+Would be better with a prefix.
+> +
+> +#define RT4831_BLOVP_MASK	GENMASK(7, 5)
+> +#define RT4831_BLOVP_SHIFT	5
+> +#define RT4831_BLPWMEN_MASK	BIT(0)
+> +#define RT4831_BLEN_MASK	BIT(4)
+> +#define RT4831_BLCH_MASK	GENMASK(3, 0)
+> +#define RT4831_BLDIML_MASK	GENMASK(2, 0)
+> +#define RT4831_BLDIMH_MASK	GENMASK(10, 3)
+> +#define RT4831_BLDIMH_SHIFT	3
+> +
+> +struct rt4831_priv {
+> +	struct regmap *regmap;
+> +	struct mutex lock;
+
+Locks aren't very common in backlight drivers. Why isn't the ops_lock
+sufficient?
+
+
+> +	struct backlight_device *bl;
+> +};
+> +
+> +static int rt4831_bl_update_status(struct backlight_device *bl_dev)
+> +{
+> +	struct rt4831_priv *priv = bl_get_data(bl_dev);
+> +	int brightness = backlight_get_brightness(bl_dev);
+> +	unsigned int enable = brightness ? RT4831_BLEN_MASK : 0;
+> +	u8 v[2];
+> +	int ret;
+> +
+> +	mutex_lock(&priv->lock);
+> +
+> +	if (brightness) {
+> +		v[0] = (brightness - 1) & RT4831_BLDIML_MASK;
+> +		v[1] = ((brightness - 1) & RT4831_BLDIMH_MASK) >> RT4831_BLDIMH_SHIFT;
+> +
+> +		ret = regmap_raw_write(priv->regmap, RT4831_REG_BLDIML, v, sizeof(v));
+> +		if (ret)
+> +			goto unlock;
+> +	}
+> +
+> +	ret = regmap_update_bits(priv->regmap, RT4831_REG_ENABLE, RT4831_BLEN_MASK, enable);
+> +
+> +unlock:
+> +	mutex_unlock(&priv->lock);
+> +	return ret;
+> +}
+> +
+> +static int rt4831_bl_get_brightness(struct backlight_device *bl_dev)
+> +{
+> +	struct rt4831_priv *priv = bl_get_data(bl_dev);
+> +	unsigned int val;
+> +	u8 v[2];
+> +	int ret;
+> +
+> +	mutex_lock(&priv->lock);
+> +
+> +	ret = regmap_read(priv->regmap, RT4831_REG_ENABLE, &val);
+> +	if (ret)
+> +		return ret;
+
+Deadlock.
+
+
+> +
+> +	if (!(val & RT4831_BLEN_MASK)) {
+> +		ret = 0;
+> +		goto unlock;
+> +	}
+> +
+> +	ret = regmap_raw_read(priv->regmap, RT4831_REG_BLDIML, v, sizeof(v));
+> +	if (ret)
+> +		goto unlock;
+> +
+> +	ret = (v[1] << RT4831_BLDIMH_SHIFT) + (v[0] & RT4831_BLDIML_MASK) + 1;
+> +
+> +unlock:
+> +	mutex_unlock(&priv->lock);
+> +	return ret;
+> +}
+> +
+> +static const struct backlight_ops rt4831_bl_ops = {
+> +	.options = BL_CORE_SUSPENDRESUME,
+> +	.update_status = rt4831_bl_update_status,
+> +	.get_brightness = rt4831_bl_get_brightness,
+> +};
+> +
+> +static int rt4831_init_device_properties(struct rt4831_priv *priv, struct device *dev,
+
+This is not the idiomatic name usually used for this type of function.
+In fact since this driver purely uses device properties then this code
+could just be merged into the probe function.
+
+
+> +					  struct backlight_properties *bl_props)
+> +{
+> +	u8 propval;
+> +	u32 brightness;
+> +	unsigned int val = 0;
+> +	int ret;
+> +
+> +	/* common properties */
+> +	ret = device_property_read_u32(dev, "max-brightness", &brightness);
+> +	if (ret) {
+> +		dev_warn(dev, "max-brightness DT property missing, use HW max as default\n");
+
+Does there need to be a warning on this?
+
+It's code pattern is common but the DT docs have formalized a lot
+recently. The DT docs in patch 1 say these are optional... so
+why does it justify a warning of they are omitted? There is nothing
+wrong! Is it better to specify the defaults in the bindings and
+then the kernel can say nothing when the defaults are adopted.
+
+
+> +		brightness = BL_MAX_BRIGHTNESS;
+> +	}
+> +
+> +	bl_props->max_brightness = min_t(u32, brightness, BL_MAX_BRIGHTNESS);
+> +
+> +	ret = device_property_read_u32(dev, "default-brightness", &brightness);
+> +	if (ret) {
+> +		dev_warn(dev, "default-brightness DT property missing, use max limit as default\n");
+
+Ditto.
+
+
+> +		brightness = bl_props->max_brightness;
+> +	}
+> +
+> +	bl_props->brightness = min_t(u32, brightness, bl_props->max_brightness);
+> +
+> +	/* vendor properties */
+> +	if (device_property_read_bool(dev, "richtek,pwm-enable"))
+> +		val = RT4831_BLPWMEN_MASK;
+> +
+> +	ret = regmap_update_bits(priv->regmap, RT4831_REG_BLCFG, RT4831_BLPWMEN_MASK, val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = device_property_read_u8(dev, "richtek,bled-ovp-sel", &propval);
+> +	if (ret) {
+> +		dev_warn(dev, "richtek,bled-ovp-sel DT property missing,
+> use default 21V\n");o
+
+Ditto.
+
+> +		propval = RT4831_BLOVPLVL_21V;
+> +	}
+> +
+> +	propval = min_t(u8, propval, RT4831_BLOVPLVL_29V);
+> +	ret = regmap_update_bits(priv->regmap, RT4831_REG_BLCFG, RT4831_BLOVP_MASK,
+> +				 propval << RT4831_BLOVP_SHIFT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = device_property_read_u8(dev, "richtek,channel-use", &propval);
+> +	if (ret) {
+> +		dev_err(dev, "richtek,channel-use DT property missing\n");
+> +		return ret;
+> +	}
+> +
+> +	if (!(propval & RT4831_BLCH_MASK)) {
+> +		dev_err(dev, "No channel specified\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	return regmap_update_bits(priv->regmap, RT4831_REG_ENABLE, RT4831_BLCH_MASK, propval);
+> +}
+> +
+> +static int rt4831_bl_probe(struct platform_device *pdev)
+> +{
+> +	struct rt4831_priv *priv;
+> +	struct backlight_properties bl_props = { .type = BACKLIGHT_RAW, };
+
+In new drivers please make sure to correctly set props.scale so that the
+backlight slider can be mapped correctly (see
+Documentation/ABI/testing/sysfs-class-backlight for description of the
+options).
+ 
+ 
+Daniel.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
