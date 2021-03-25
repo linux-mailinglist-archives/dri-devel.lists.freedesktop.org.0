@@ -2,93 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47A43498F2
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 19:06:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB8A2349940
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 19:13:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 011756EDF4;
-	Thu, 25 Mar 2021 18:06:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53AB46EDF7;
+	Thu, 25 Mar 2021 18:13:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr770040.outbound.protection.outlook.com [40.107.77.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E202B6EDF5;
- Thu, 25 Mar 2021 18:06:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZAEhuzmL59S7R8Hc1vvwuKZiRyjVFXdcGiMmAAOPIlr5TtFBb6L2jH2heP7l6WZh/VRN0dSg9SZmbI4o2g4WwZWCce4O71eLZxF97yfK6tiVSLzNBjSHTDmKoG1itEy+esDBDVOMFQ6n2VtIYjFxYq5KKz9XvkEVg6p92peZIcXqyAGsUZFoAp6oE1wA+1GzifNe2hk1v1WiNKB0Rm7pttcblDNpODDWXb0f0TyLxOEYVItPHsnkgVUGfYyUkEhJLDnlNoGjIcWV6JSt0g/ErWRKyVMcDubJiikLG0LsqDFOA80JoMTt007gHF8yrlvN3i43ntJHMw+7kl/oqZI6pw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ujX256lOXoEPl7R8M9SjWf3s4cgCtGDzz3RGs9pzCGk=;
- b=XO11CelicL3XNPuQyzaKzbNR3oc68MT2IbQj2RPbNR6AH3RUDByxUl7KBoAB6Ixa+EBIUeYji6TYiPMA5MHef4wTGZDj52wjJmYabLOLmbl0Y0Wqt1X1nQU9W5cyQ5UnW3YsJ5xgLwzwZaMBVVqv36cxo6NWZXcOOmQFdvUnmIlZhI60MRTLif0rwWPH9KyzBPTURzWxhFfFZgNkaI5NaJyV7aJtFBMiB1T8DmorAyhoAOJaXU/PPJOWL4DU8RC5aS+bXlezkbFolUK5CXeLpVfRrYJXT0ZVPmskr6Z6R93xRfphU9Jb8uyO5b1D9WHa1nHIvkv+WNE6DIedBhDCUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=amd.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ujX256lOXoEPl7R8M9SjWf3s4cgCtGDzz3RGs9pzCGk=;
- b=BUY5ehnsjSH8aQPeXeidtt+MpgLdbLQg2JDGRppQxabBgVAoFgDf995E2Y19V//Am/OLa4xlaRVTFe9ixqCgiUycyQukt8MBT6pd/HfkYFhcoxVJJr+D3ijVQR12IhXeog0vsO3uarqyIOrooJ+QIL6WHbVQQamUldh8HNm0wx8=
-Received: from MW3PR06CA0016.namprd06.prod.outlook.com (2603:10b6:303:2a::21)
- by BN8PR12MB3410.namprd12.prod.outlook.com (2603:10b6:408:45::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.25; Thu, 25 Mar
- 2021 18:06:34 +0000
-Received: from CO1NAM11FT043.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:2a:cafe::83) by MW3PR06CA0016.outlook.office365.com
- (2603:10b6:303:2a::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
- Transport; Thu, 25 Mar 2021 18:06:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CO1NAM11FT043.mail.protection.outlook.com (10.13.174.193) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3955.18 via Frontend Transport; Thu, 25 Mar 2021 18:06:33 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 25 Mar
- 2021 13:06:32 -0500
-Received: from localhost.localdomain (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2106.2 via Frontend
- Transport; Thu, 25 Mar 2021 13:06:32 -0500
-From: Eryk Brol <eryk.brol@amd.com>
-To: <lyude@redhat.com>, <manasi.d.navare@intel.com>, <daniel@ffwll.ch>,
- <harry.wentland@amd.com>, <rodrigo.siqueira@amd.com>,
- <nicholas.kazlauskas@amd.com>, <jerry.zuo@amd.com>, <wayne.lin@amd.com>,
- <eryk.brol@amd.com>
-Subject: [PATCH v2] drm/mst: Enhance MST topology logging
-Date: Thu, 25 Mar 2021 14:06:14 -0400
-Message-ID: <20210325180614.37060-1-eryk.brol@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 266AB6EDF7
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 18:13:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 1B9DE3F58A;
+ Thu, 25 Mar 2021 19:13:39 +0100 (CET)
+Authentication-Results: pio-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="bOXPgDuL";
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 36X5fsGQR3cs; Thu, 25 Mar 2021 19:13:38 +0100 (CET)
+Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id D7A783F377;
+ Thu, 25 Mar 2021 19:13:36 +0100 (CET)
+Received: from [10.249.254.165] (unknown [192.198.151.44])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 880B636059E;
+ Thu, 25 Mar 2021 19:13:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1616696016; bh=ccthR8+3Hk5Ox8PeQv8Va4F118+/tBSCEPzJg3VAxZs=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=bOXPgDuLyt0NMxRDWcFUkrudDGfPZJamxR9X+vliH4e3m8vKYTc82qLVR8olQEqM8
+ hcUxNVANfDq+5Nctk1NCiDllhxuzOm4XGIHFqcLQXqRHDFnlY2Vx6P+zBjxrbpuxD8
+ EqoNkJCXBXHo0CgJvGJiCHN4wBh83heMYUFA76xg=
+Subject: Re: [RFC PATCH 1/2] mm,drm/ttm: Block fast GUP to TTM huge pages
+To: Jason Gunthorpe <jgg@nvidia.com>
+References: <20210321184529.59006-1-thomas_os@shipmail.org>
+ <20210321184529.59006-2-thomas_os@shipmail.org>
+ <ec99146c7abc35d16b245816aba3e9d14862e624.camel@intel.com>
+ <c2239da2-c514-2c88-c671-918909cdba6b@shipmail.org>
+ <YFsNRIUYrwVQanVF@phenom.ffwll.local>
+ <a1fa7fa2-914b-366d-9902-e5b784e8428c@shipmail.org>
+ <75423f64-adef-a2c4-8e7d-2cb814127b18@intel.com>
+ <e5199438-9a0d-2801-f9f6-ceb13d7a9c61@shipmail.org>
+ <6b0de827-738d-b3c5-fc79-8ca9047bad35@intel.com>
+ <9f789d64-940f-c728-8d5e-aab74d562fb6@shipmail.org>
+ <20210325175504.GH2356281@nvidia.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <1ed48d99-1cd9-d87b-41dd-4169afc77f70@shipmail.org>
+Date: Thu, 25 Mar 2021 19:13:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7aa20bf4-13ce-432d-98f9-08d8efb8b9af
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3410:
-X-Microsoft-Antispam-PRVS: <BN8PR12MB3410D56636A6959B35243289E5629@BN8PR12MB3410.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:561;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sNm6QwLMetARR79f01JpuuCRlK7VCXUCrhB0J35RI6xbrNuSbcc51OZEFNbB711Ojg6XA+DmHQSxv82fGz8One//syZhGEK57OLg1yKcBWfwV02qZtM0wkxUII/DLE+ixkhEpHYbqVAj2yRh6UxeZ7e9+VrZKy5SdkmPqPWW7CPwAKgjFUVyApLNv3LRGRgVb8fqQUlp4cW85Xc9hd+q3pEAOBryeTBDSmIkOWnVdvs7/G7JLk+cXIN37hLp3+m/md85Ge3cbM/AJnkfT/1Xjzo+u5UztQOcgSPWI6n3LQahkeqAsoVs4/nLbGlHM2fqqC5gUuoiVc2h7xK5AnDeF6DckNh9LXw//Cc0OTpf1cc4R1yC0ZuctAnrq2v1Pkv3F/MBgP0jupO6ZxAWZSKrXZeTr21b5KhiKqVAK6SKQhRtGcYPDKvRx3P5oEMrCScPEN0rGRecu+Ny3cWYBxOnSxCslHdPvMu1P6RhdtkH5BrznLXkZ5LGuDTUNwvFDgqJicDoXnfYWz1QHi4i/HulDknn7vhrLKRK4tzjoZFnzUuks4WgzeBKibR4ffvGNbvhDh6CLPuvNSTd8+1aJyAWO7KJ3lSlOvtTFGrxTQmEsfBM4y1QQJLkpkCCoGbkgWQuTyX8tDxlQFH1VfN6MzXv9IAiSQvEgtrJkHptikJNVjefmsJVBvraB6zwv7/4+BFU
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(136003)(346002)(39860400002)(376002)(396003)(46966006)(36840700001)(2616005)(26005)(4326008)(36756003)(54906003)(8676002)(110136005)(5660300002)(478600001)(186003)(316002)(8936002)(82740400003)(86362001)(83380400001)(426003)(81166007)(2906002)(6666004)(70206006)(47076005)(82310400003)(70586007)(44832011)(356005)(336012)(1076003)(36860700001)(7049001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2021 18:06:33.9649 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7aa20bf4-13ce-432d-98f9-08d8efb8b9af
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT043.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3410
+In-Reply-To: <20210325175504.GH2356281@nvidia.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,142 +73,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Dave Hansen <dave.hansen@intel.com>, "Williams,
+ Dan J" <dan.j.williams@intel.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[why]
-MST topology print was missing fec logging and pdt printed
-as an int wasn't clear. vcpi and payload info was printed as an
-arbitrary series of ints which requires user to know the ordering
-of the prints, making the logs difficult to use.
-
-[how]
--add fec logging
--add pdt parsing into strings
--format vcpi and payload info into tables with headings
--clean up topology prints
-
----
-
-v2: Addressed Lyude's comments
--made helper function return const
--fixed indentation and spacing issues
-
-Signed-off-by: Eryk Brol <eryk.brol@amd.com>
----
- drivers/gpu/drm/drm_dp_mst_topology.c | 59 ++++++++++++++++++++++-----
- 1 file changed, 48 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 932c4641ec3e..de5124ce42cb 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -4720,6 +4720,28 @@ static void drm_dp_mst_kick_tx(struct drm_dp_mst_topology_mgr *mgr)
- 	queue_work(system_long_wq, &mgr->tx_work);
- }
- 
-+/*
-+ * Helper function for parsing DP device types into convenient strings
-+ * for use with dp_mst_topology
-+ */
-+static const char *pdt_to_string(u8 pdt)
-+{
-+	switch (pdt) {
-+	case DP_PEER_DEVICE_NONE:
-+		return "NONE";
-+	case DP_PEER_DEVICE_SOURCE_OR_SST:
-+		return "SOURCE OR SST";
-+	case DP_PEER_DEVICE_MST_BRANCHING:
-+		return "MST BRANCHING";
-+	case DP_PEER_DEVICE_SST_SINK:
-+		return "SST SINK";
-+	case DP_PEER_DEVICE_DP_LEGACY_CONV:
-+		return "DP LEGACY CONV";
-+	default:
-+		return "ERR";
-+	}
-+}
-+
- static void drm_dp_mst_dump_mstb(struct seq_file *m,
- 				 struct drm_dp_mst_branch *mstb)
- {
-@@ -4732,9 +4754,20 @@ static void drm_dp_mst_dump_mstb(struct seq_file *m,
- 		prefix[i] = '\t';
- 	prefix[i] = '\0';
- 
--	seq_printf(m, "%smst: %p, %d\n", prefix, mstb, mstb->num_ports);
-+	seq_printf(m, "%smstb - [%p]: num_ports: %d\n", prefix, mstb, mstb->num_ports);
- 	list_for_each_entry(port, &mstb->ports, next) {
--		seq_printf(m, "%sport: %d: input: %d: pdt: %d, ddps: %d ldps: %d, sdp: %d/%d, %p, conn: %p\n", prefix, port->port_num, port->input, port->pdt, port->ddps, port->ldps, port->num_sdp_streams, port->num_sdp_stream_sinks, port, port->connector);
-+		seq_printf(m, "%sport %d - [%p] (%s - %s): ddps: %d, ldps: %d, sdp: %d/%d, fec: %s, conn: %p\n", 
-+			   prefix,
-+			   port->port_num,
-+			   port,
-+			   port->input ? "input" : "output",
-+			   pdt_to_string(port->pdt),
-+			   port->ddps,
-+			   port->ldps,
-+			   port->num_sdp_streams,
-+			   port->num_sdp_stream_sinks,
-+			   port->fec_capable ? "true" : "false",
-+			   port->connector);
- 		if (port->mstb)
- 			drm_dp_mst_dump_mstb(m, port->mstb);
- 	}
-@@ -4787,33 +4820,37 @@ void drm_dp_mst_dump_topology(struct seq_file *m,
- 	mutex_unlock(&mgr->lock);
- 
- 	mutex_lock(&mgr->payload_lock);
--	seq_printf(m, "vcpi: %lx %lx %d\n", mgr->payload_mask, mgr->vcpi_mask,
--		mgr->max_payloads);
-+	seq_printf(m, "\n*** VCPI Info ***\n");
-+	seq_printf(m, "payload_mask: %lx, vcpi_mask: %lx, max_payloads: %d\n", mgr->payload_mask, mgr->vcpi_mask, mgr->max_payloads);
- 
-+	seq_printf(m, "\n|   idx   |  port # |  vcp_id | # slots |     sink name     |\n");
- 	for (i = 0; i < mgr->max_payloads; i++) {
- 		if (mgr->proposed_vcpis[i]) {
- 			char name[14];
- 
- 			port = container_of(mgr->proposed_vcpis[i], struct drm_dp_mst_port, vcpi);
- 			fetch_monitor_name(mgr, port, name, sizeof(name));
--			seq_printf(m, "vcpi %d: %d %d %d sink name: %s\n", i,
--				   port->port_num, port->vcpi.vcpi,
-+			seq_printf(m, "%10d%10d%10d%10d%20s\n",
-+				   i,
-+				   port->port_num,
-+				   port->vcpi.vcpi,
- 				   port->vcpi.num_slots,
--				   (*name != 0) ? name :  "Unknown");
-+				   (*name != 0) ? name : "Unknown");
- 		} else
--			seq_printf(m, "vcpi %d:unused\n", i);
-+			seq_printf(m, "%6d - Unused\n", i);
- 	}
-+	seq_printf(m, "\n*** Payload Info ***\n");
-+	seq_printf(m, "|   idx   |  state  |  start slot  | # slots |\n");
- 	for (i = 0; i < mgr->max_payloads; i++) {
--		seq_printf(m, "payload %d: %d, %d, %d\n",
-+		seq_printf(m, "%10d%10d%15d%10d\n",
- 			   i,
- 			   mgr->payloads[i].payload_state,
- 			   mgr->payloads[i].start_slot,
- 			   mgr->payloads[i].num_slots);
--
--
- 	}
- 	mutex_unlock(&mgr->payload_lock);
- 
-+	seq_printf(m, "\n*** DPCD Info ***\n");
- 	mutex_lock(&mgr->lock);
- 	if (mgr->mst_primary) {
- 		u8 buf[DP_PAYLOAD_TABLE_SIZE];
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Ck9uIDMvMjUvMjEgNjo1NSBQTSwgSmFzb24gR3VudGhvcnBlIHdyb3RlOgo+IE9uIFRodSwgTWFy
+IDI1LCAyMDIxIGF0IDA2OjUxOjI2UE0gKzAxMDAsIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkg
+d3JvdGU6Cj4+IE9uIDMvMjQvMjEgOToyNSBQTSwgRGF2ZSBIYW5zZW4gd3JvdGU6Cj4+PiBPbiAz
+LzI0LzIxIDE6MjIgUE0sIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkgd3JvdGU6Cj4+Pj4+IFdl
+IGFsc28gaGF2ZSBub3QgYmVlbiBjYXJlZnVsIGF0ICphbGwqIGFib3V0IGhvdyBfUEFHRV9CSVRf
+U09GVFcqIGFyZQo+Pj4+PiB1c2VkLsKgIEl0J3MgcXVpdGUgcG9zc2libGUgd2UgY2FuIGVuY29k
+ZSBhbm90aGVyIHVzZSBldmVuIGluIHRoZQo+Pj4+PiBleGlzdGluZyBiaXRzLgo+Pj4+Pgo+Pj4+
+PiBQZXJzb25hbGx5LCBJJ2QganVzdCB0cnk6Cj4+Pj4+Cj4+Pj4+ICNkZWZpbmUgX1BBR0VfQklU
+X1NPRlRXNcKgwqDCoMKgwqDCoMKgIDU3wqDCoMKgwqDCoCAvKiBhdmFpbGFibGUgZm9yIHByb2dy
+YW1tZXIgKi8KPj4+Pj4KPj4+PiBPSywgSSdsbCBmb2xsb3cgeW91ciBhZHZpc2UgaGVyZS4gRldJ
+VyBJIGdyZXBwZWQgZm9yIFNXMSBhbmQgaXQgc2VlbXMKPj4+PiB1c2VkIGluIGEgc2VsZnRlc3Qs
+IGJ1dCBvbmx5IGZvciBQVEVzIEFGQUlDVC4KPj4+Pgo+Pj4+IE9oLCBhbmQgd2UgZG9uJ3QgY2Fy
+ZSBhYm91dCAzMi1iaXQgbXVjaCBhbnltb3JlPwo+Pj4gT24geDg2LCB3ZSBoYXZlIDY0LWJpdCBQ
+VEVzIHdoZW4gcnVubmluZyAzMi1iaXQga2VybmVscyBpZiBQQUUgaXMKPj4+IGVuYWJsZWQuICBJ
+T1csIHdlIGNhbiBoYW5kbGUgdGhlIG1ham9yaXR5IG9mIDMyLWJpdCBDUFVzIG91dCB0aGVyZS4K
+Pj4+Cj4+PiBCdXQsIHllYWgsIHdlIGRvbid0IGNhcmUgYWJvdXQgMzItYml0LiA6KQo+PiBIbW0s
+Cj4+Cj4+IEFjdHVhbGx5IGl0IG1ha2VzIHNvbWUgc2Vuc2UgdG8gdXNlIFNXMSwgdG8gbWFrZSBp
+dCBlbmQgdXAgaW4gdGhlIHNhbWUgZHdvcmQKPj4gYXMgdGhlIFBTRSBiaXQsIGFzIGZyb20gd2hh
+dCBJIGNhbiB0ZWxsLCByZWFkaW5nIG9mIGEgNjQtYml0IHBtZF90IG9uIDMyLWJpdAo+PiBQQUUg
+aXMgbm90IGF0b21pYywgc28gaW4gdGhlb3J5IGEgaHVnZSBwbWQgY291bGQgYmUgbW9kaWZpZWQg
+d2hpbGUgcmVhZGluZwo+PiB0aGUgcG1kX3QgbWFraW5nIHRoZSBkd29yZHMgaW5jb25zaXN0ZW50
+Li4uLiBIb3cgZG9lcyB0aGF0IHdvcmsgd2l0aCBmYXN0Cj4+IGd1cCBhbnl3YXk/Cj4gSXQgbG9v
+cHMgdG8gZ2V0IGFuIGF0b21pYyA2NCBiaXQgdmFsdWUgaWYgdGhlIGFyY2ggY2FuJ3QgcHJvdmlk
+ZSBhbgo+IGF0b21pYyA2NCBiaXQgbG9hZAoKSG1tLCBvaywgSSBzZWUgYSBSRUFEX09OQ0UoKSBp
+biBndXBfcG1kX3JhbmdlKCksIGFuZCB0aGVuIHRoZSByZXN1bHRpbmcgCnBtZCBpcyBkZXJlZmVy
+ZW5jZWQgZWl0aGVyIGluIHRyeV9ncmFiX2NvbXBvdW5kX2hlYWQoKSBvciAKX19ndXBfZGV2aWNl
+X2h1Z2UoKSwgYmVmb3JlIHRoZSBwbWQgaXMgY29tcGFyZWQgdG8gdGhlIHZhbHVlIHRoZSBwb2lu
+dGVyIAppcyBjdXJyZW50bHkgcG9pbnRpbmcgdG8uIENvdWxkbid0IHRob3NlIGRlcmVmZXJlbmNl
+cyBiZSBvbiBpbnZhbGlkIApwb2ludGVycz8KCi9UaG9tYXMKCj4KPiBKYXNvbgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
