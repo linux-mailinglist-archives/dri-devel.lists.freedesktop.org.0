@@ -2,61 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2BE349C2E
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 23:21:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23829349C3E
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 23:30:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EDFB6EE59;
-	Thu, 25 Mar 2021 22:21:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8FF66EE5B;
+	Thu, 25 Mar 2021 22:30:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B0DF6EE58
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 22:21:39 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id y32so2083683pga.11
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 15:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Ye9zP+9J8d/hTkgyYlaBFZOd/c/Bs5psguXLONXinxI=;
- b=IlxDoQhMQZhQW/cpdgrjsVCvXS+T579WEHSDPRJuHuXbt0X39huHczMWfbviicJqZr
- 1lkIzrqsePgdWpx8gb37AQlISCFQ2VBAXGNANJRKp9C1fbGaIxzgP14jWyCuUnK/ggBJ
- MwEKsyCvS80SaCrsNuN0irsuDRzuUbsL+H6i3svdAa0/77JW6956+vMU+eI9cLDeN+gF
- bwfozq9AKAfuVAnUo01BgBcNJmfFCZ2/pyVHZg+hkgGUejXN/0BxXdeFxYbT2V2+K7uw
- sFBFoZySXMYqQfH/t18ibHnbxSrAspvvzDbzIshlMXuyRJqyQ1nCBqKdCg5Y6YEdkqEw
- U6mg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF0C26E0E7
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 22:30:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616711427;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vz9NyzDOrKu4TkpeOBZ8oedQNWuIVzf7kNFtSvoiYII=;
+ b=XMQSuHOU5jh2OS9kfslcFWoLQB7UT8Q6KwFI0N0TAc/7QbRofjovmHryhJaLLYP5uBKQFM
+ njqnpzeldaxHXDbo7vr+onZNvu/gaWLmiUgYMAALGvmwg9rkhuWtjcz28la/YQBD3uXZLD
+ TWUPOy1RAepTur24rEpCGqEvduIXnJk=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-555-g9RpVC2jOPKtGnWzxN9kPw-1; Thu, 25 Mar 2021 18:30:25 -0400
+X-MC-Unique: g9RpVC2jOPKtGnWzxN9kPw-1
+Received: by mail-qk1-f200.google.com with SMTP id u5so4921946qkj.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 15:30:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Ye9zP+9J8d/hTkgyYlaBFZOd/c/Bs5psguXLONXinxI=;
- b=Ia9RcPQDZNRZD40ogDkW1NXUYf10XsROY3RvItKBIyTbN4oZcfehAPKUP/3iqFqJnu
- djWaOb0LxyFXGX8ZmH9tR//Wov5uxrmXSTTnWIMryncwqUwJSEfUSvxiEiBzI8AlLisY
- 39jZJLzEsOgj5RepkaDJjg6Lgs/ua8VAzpgLtUPMk3rBqkm4f0lRm1asxDgb5EqPCifY
- W44nLWKNbUJDt+agOevLEUQS48lHZaVL5hFWzXtMmrZonew7cA8wXr5iyFHCMKD3CKmD
- r5+2Urs9wTRCbYFDyMaO3luDlFw0F7TrmwYdm1C4i9YhIfsmt5GVDGzGWURgwx27lgK0
- 9mMQ==
-X-Gm-Message-State: AOAM531Xwq9ljWj2fFZeZGUCZ2opJX3Ej5Feh861bzyQdp3JIRxZuPFC
- c7NwrW2CrZ4KCYbuMtzmdKSSYhogsHh/gA==
-X-Google-Smtp-Source: ABdhPJzljXQ7J8a+LBl7X2bvCxyJjXtV+tT0SQjuCsqcnZRImSDxmKbTtS432yyu75tzwerDCCNYOA==
-X-Received: by 2002:a17:902:a404:b029:e6:23d:44ac with SMTP id
- p4-20020a170902a404b02900e6023d44acmr11878508plq.50.1616710898533; 
- Thu, 25 Mar 2021 15:21:38 -0700 (PDT)
-Received: from omlet.com ([134.134.139.83])
- by smtp.gmail.com with ESMTPSA id d21sm2819744pgj.62.2021.03.25.15.21.37
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=vz9NyzDOrKu4TkpeOBZ8oedQNWuIVzf7kNFtSvoiYII=;
+ b=XIVmY6YD5DXxhA8D623SspCTWpfegf5Y5CQO5JJ7VQgF5LxtTlRA3r91wUPFO7HfgQ
+ mh7RyJdhhuMB5kLEssDCGXj2Gbh+Yb2H3vqmCtZomBDAh/p+/DiE4sN/qqZDgND6BW/N
+ 5VPkkdic2FOr9HSRt2RM1bFmiOGwCl/OzQNILbxIVae1KgHRNcR3ZxsaFv+lC8vJoLGi
+ 5AlhUgygMiF0YLBxESCJYfLNAuTp7g2M2shYnbxsCmFwjinU4gFSwO46JI1C8ao09o7F
+ HvJLo9x5PYy05DmBofW28xAKESiy3+SyTcq+CExzYezmGrWY5rAuuTy3SLNHLtOnerlk
+ GG+Q==
+X-Gm-Message-State: AOAM530zTXvEYqf9SlYgKzoGgO7LNVQBBxQO2UOHOu9TLGboomvI8lsV
+ HtaRKxarvIJvEoeiYgrgSX0M541k1y92Tsx7g+i7BwEZwNAfZ5iabEfBukLHfG3dNo+Uzdr7joC
+ cMXPKdmBMzpwZw3SsGdYeuD3DIa7f
+X-Received: by 2002:a0c:cb0c:: with SMTP id o12mr10642231qvk.54.1616711425041; 
+ Thu, 25 Mar 2021 15:30:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyNpFzngbKnwACv0JF8v3Ome0RTzi9KkSSK+7eA7v9d/ne8ucgwe5xkW4EBCvPOYa/LWwL7iA==
+X-Received: by 2002:a0c:cb0c:: with SMTP id o12mr10642212qvk.54.1616711424860; 
+ Thu, 25 Mar 2021 15:30:24 -0700 (PDT)
+Received: from Whitewolf.lyude.net
+ (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id p186sm5270189qka.66.2021.03.25.15.30.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 15:21:38 -0700 (PDT)
-From: Jason Ekstrand <jason@jlekstrand.net>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/i915: Implement SINGLE_TIMELINE with a syncobj (v3)
-Date: Thu, 25 Mar 2021 17:21:32 -0500
-Message-Id: <20210325222132.3774499-1-jason@jlekstrand.net>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210323175149.3390801-1-jason@jlekstrand.net>
-References: <20210323175149.3390801-1-jason@jlekstrand.net>
+ Thu, 25 Mar 2021 15:30:24 -0700 (PDT)
+Message-ID: <c9148c206727761644c31844f929d52ca19d00ee.camel@redhat.com>
+Subject: Re: [PATCH v2] drm/mst: Enhance MST topology logging
+From: Lyude Paul <lyude@redhat.com>
+To: Eryk Brol <eryk.brol@amd.com>, manasi.d.navare@intel.com,
+ daniel@ffwll.ch,  harry.wentland@amd.com, rodrigo.siqueira@amd.com,
+ nicholas.kazlauskas@amd.com,  jerry.zuo@amd.com, wayne.lin@amd.com
+Date: Thu, 25 Mar 2021 18:30:23 -0400
+In-Reply-To: <20210325180614.37060-1-eryk.brol@amd.com>
+References: <20210325180614.37060-1-eryk.brol@amd.com>
+Organization: Red Hat
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,214 +83,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: lyude@redhat.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This API is entirely unnecessary and I'd love to get rid of it.  If
-userspace wants a single timeline across multiple contexts, they can
-either use implicit synchronization or a syncobj, both of which existed
-at the time this feature landed.  The justification given at the time
-was that it would help GL drivers which are inherently single-timeline.
-However, neither of our GL drivers actually wanted the feature.  i965
-was already in maintenance mode at the time and iris uses syncobj for
-everything.
-
-Unfortunately, as much as I'd love to get rid of it, it is used by the
-media driver so we can't do that.  We can, however, do the next-best
-thing which is to embed a syncobj in the context and do exactly what
-we'd expect from userspace internally.  This isn't an entirely identical
-implementation because it's no longer atomic if userspace races with
-itself by calling execbuffer2 twice simultaneously from different
-threads.  It won't crash in that case; it just doesn't guarantee any
-ordering between those two submits.
-
-Moving SINGLE_TIMELINE to a syncobj emulation has a couple of technical
-advantages beyond mere annoyance.  One is that intel_timeline is no
-longer an api-visible object and can remain entirely an implementation
-detail.  This may be advantageous as we make scheduler changes going
-forward.  Second is that, together with deleting the CLONE_CONTEXT API,
-we should now have a 1:1 mapping between intel_context and
-intel_timeline which may help us reduce locking.
-
-v2 (Jason Ekstrand):
- - Update the comment on i915_gem_context::syncobj to mention that it's
-   an emulation and the possible race if userspace calls execbuffer2
-   twice on the same context concurrently.
- - Wrap the checks for eb.gem_context->syncobj in unlikely()
- - Drop the dma_fence reference
- - Improved commit message
-
-v3 (Jason Ekstrand):
- - Move the dma_fence_put() to before the error exit
-
-Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_context.c   | 47 ++++---------------
- .../gpu/drm/i915/gem/i915_gem_context_types.h | 14 +++++-
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 16 +++++++
- 3 files changed, 39 insertions(+), 38 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index ea449be2672c2..87d1715e354fe 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -67,6 +67,8 @@
- #include <linux/log2.h>
- #include <linux/nospec.h>
- 
-+#include <drm/drm_syncobj.h>
-+
- #include "gt/gen6_ppgtt.h"
- #include "gt/intel_context.h"
- #include "gt/intel_engine_heartbeat.h"
-@@ -225,10 +227,6 @@ static void intel_context_set_gem(struct intel_context *ce,
- 		ce->vm = vm;
- 	}
- 
--	GEM_BUG_ON(ce->timeline);
--	if (ctx->timeline)
--		ce->timeline = intel_timeline_get(ctx->timeline);
--
- 	if (ctx->sched.priority >= I915_PRIORITY_NORMAL &&
- 	    intel_engine_has_timeslices(ce->engine))
- 		__set_bit(CONTEXT_USE_SEMAPHORES, &ce->flags);
-@@ -365,8 +363,8 @@ void i915_gem_context_release(struct kref *ref)
- 	if (ctx->client)
- 		i915_drm_client_put(ctx->client);
- 
--	if (ctx->timeline)
--		intel_timeline_put(ctx->timeline);
-+	if (ctx->syncobj)
-+		drm_syncobj_put(ctx->syncobj);
- 
- 	mutex_destroy(&ctx->engines_mutex);
- 	mutex_destroy(&ctx->lut_mutex);
-@@ -820,33 +818,11 @@ static void __assign_ppgtt(struct i915_gem_context *ctx,
- 		i915_vm_close(vm);
- }
- 
--static void __set_timeline(struct intel_timeline **dst,
--			   struct intel_timeline *src)
--{
--	struct intel_timeline *old = *dst;
--
--	*dst = src ? intel_timeline_get(src) : NULL;
--
--	if (old)
--		intel_timeline_put(old);
--}
--
--static void __apply_timeline(struct intel_context *ce, void *timeline)
--{
--	__set_timeline(&ce->timeline, timeline);
--}
--
--static void __assign_timeline(struct i915_gem_context *ctx,
--			      struct intel_timeline *timeline)
--{
--	__set_timeline(&ctx->timeline, timeline);
--	context_apply_all(ctx, __apply_timeline, timeline);
--}
--
- static struct i915_gem_context *
- i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
- {
- 	struct i915_gem_context *ctx;
-+	int ret;
- 
- 	if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE &&
- 	    !HAS_EXECLISTS(i915))
-@@ -875,16 +851,13 @@ i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
- 	}
- 
- 	if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE) {
--		struct intel_timeline *timeline;
--
--		timeline = intel_timeline_create(&i915->gt);
--		if (IS_ERR(timeline)) {
-+		ret = drm_syncobj_create(&ctx->syncobj,
-+					 DRM_SYNCOBJ_CREATE_SIGNALED,
-+					 NULL);
-+		if (ret) {
- 			context_close(ctx);
--			return ERR_CAST(timeline);
-+			return ERR_PTR(ret);
- 		}
--
--		__assign_timeline(ctx, timeline);
--		intel_timeline_put(timeline);
- 	}
- 
- 	trace_i915_context_create(ctx);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-index 886515b8e7a7b..e38574525b0f2 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-@@ -83,7 +83,19 @@ struct i915_gem_context {
- 	struct i915_gem_engines __rcu *engines;
- 	struct mutex engines_mutex; /* guards writes to engines */
- 
--	struct intel_timeline *timeline;
-+	/**
-+	 * @syncobj: Shared timeline syncobj
-+	 *
-+	 * When the SHARED_TIMELINE flag is set on context creation, we
-+	 * emulate a single timeline across all engines using this syncobj.
-+	 * For every execbuffer2 call, this syncobj is used as both an in-
-+	 * and out-fence.  Unlike the real intel_timeline, this doesn't
-+	 * provide perfect atomic in-order guarantees if the client races
-+	 * with itself by calling execbuffer2 twice concurrently.  However,
-+	 * if userspace races with itself, that's not likely to yield well-
-+	 * defined results anyway so we choose to not care.
-+	 */
-+	struct drm_syncobj *syncobj;
- 
- 	/**
- 	 * @vm: unique address space (GTT)
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 339af3aa5174e..6ff046dd19bd0 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -3288,6 +3288,16 @@ i915_gem_do_execbuffer(struct drm_device *dev,
- 		goto err_vma;
- 	}
- 
-+	if (unlikely(eb.gem_context->syncobj)) {
-+		struct dma_fence *fence;
-+
-+		fence = drm_syncobj_fence_get(eb.gem_context->syncobj);
-+		err = i915_request_await_dma_fence(eb.request, fence);
-+		dma_fence_put(fence);
-+		if (err)
-+			goto err_ext;
-+	}
-+
- 	if (in_fence) {
- 		if (args->flags & I915_EXEC_FENCE_SUBMIT)
- 			err = i915_request_await_execution(eb.request,
-@@ -3344,6 +3354,12 @@ i915_gem_do_execbuffer(struct drm_device *dev,
- 			fput(out_fence->file);
- 		}
- 	}
-+
-+	if (unlikely(eb.gem_context->syncobj)) {
-+		drm_syncobj_replace_fence(eb.gem_context->syncobj,
-+					  &eb.request->fence);
-+	}
-+
- 	i915_request_put(eb.request);
- 
- err_vma:
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+UmV2aWV3ZWQtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+CgpMZXQgbWUga25vdyBp
+ZiB5b3UgbmVlZCBtZSB0byBwdXNoIHRoaXMgdG8gZHJtLW1pc2MtbmV4dCBmb3IgeW91CgpPbiBU
+aHUsIDIwMjEtMDMtMjUgYXQgMTQ6MDYgLTA0MDAsIEVyeWsgQnJvbCB3cm90ZToKPiBbd2h5XQo+
+IE1TVCB0b3BvbG9neSBwcmludCB3YXMgbWlzc2luZyBmZWMgbG9nZ2luZyBhbmQgcGR0IHByaW50
+ZWQKPiBhcyBhbiBpbnQgd2Fzbid0IGNsZWFyLiB2Y3BpIGFuZCBwYXlsb2FkIGluZm8gd2FzIHBy
+aW50ZWQgYXMgYW4KPiBhcmJpdHJhcnkgc2VyaWVzIG9mIGludHMgd2hpY2ggcmVxdWlyZXMgdXNl
+ciB0byBrbm93IHRoZSBvcmRlcmluZwo+IG9mIHRoZSBwcmludHMsIG1ha2luZyB0aGUgbG9ncyBk
+aWZmaWN1bHQgdG8gdXNlLgo+IAo+IFtob3ddCj4gLWFkZCBmZWMgbG9nZ2luZwo+IC1hZGQgcGR0
+IHBhcnNpbmcgaW50byBzdHJpbmdzCj4gLWZvcm1hdCB2Y3BpIGFuZCBwYXlsb2FkIGluZm8gaW50
+byB0YWJsZXMgd2l0aCBoZWFkaW5ncwo+IC1jbGVhbiB1cCB0b3BvbG9neSBwcmludHMKPiAKPiAt
+LS0KPiAKPiB2MjogQWRkcmVzc2VkIEx5dWRlJ3MgY29tbWVudHMKPiAtbWFkZSBoZWxwZXIgZnVu
+Y3Rpb24gcmV0dXJuIGNvbnN0Cj4gLWZpeGVkIGluZGVudGF0aW9uIGFuZCBzcGFjaW5nIGlzc3Vl
+cwo+IAo+IFNpZ25lZC1vZmYtYnk6IEVyeWsgQnJvbCA8ZXJ5ay5icm9sQGFtZC5jb20+Cj4gLS0t
+Cj4gwqBkcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jIHwgNTkgKysrKysrKysr
+KysrKysrKysrKysrKy0tLS0tCj4gwqAxIGZpbGUgY2hhbmdlZCwgNDggaW5zZXJ0aW9ucygrKSwg
+MTEgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBf
+bXN0X3RvcG9sb2d5LmMKPiBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMK
+PiBpbmRleCA5MzJjNDY0MWVjM2UuLmRlNTEyNGNlNDJjYiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ry
+bV9kcF9tc3RfdG9wb2xvZ3kuYwo+IEBAIC00NzIwLDYgKzQ3MjAsMjggQEAgc3RhdGljIHZvaWQg
+ZHJtX2RwX21zdF9raWNrX3R4KHN0cnVjdAo+IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3Ip
+Cj4gwqDCoMKgwqDCoMKgwqDCoHF1ZXVlX3dvcmsoc3lzdGVtX2xvbmdfd3EsICZtZ3ItPnR4X3dv
+cmspOwo+IMKgfQo+IMKgCj4gKy8qCj4gKyAqIEhlbHBlciBmdW5jdGlvbiBmb3IgcGFyc2luZyBE
+UCBkZXZpY2UgdHlwZXMgaW50byBjb252ZW5pZW50IHN0cmluZ3MKPiArICogZm9yIHVzZSB3aXRo
+IGRwX21zdF90b3BvbG9neQo+ICsgKi8KPiArc3RhdGljIGNvbnN0IGNoYXIgKnBkdF90b19zdHJp
+bmcodTggcGR0KQo+ICt7Cj4gK8KgwqDCoMKgwqDCoMKgc3dpdGNoIChwZHQpIHsKPiArwqDCoMKg
+wqDCoMKgwqBjYXNlIERQX1BFRVJfREVWSUNFX05PTkU6Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoHJldHVybiAiTk9ORSI7Cj4gK8KgwqDCoMKgwqDCoMKgY2FzZSBEUF9QRUVSX0RF
+VklDRV9TT1VSQ0VfT1JfU1NUOgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1
+cm4gIlNPVVJDRSBPUiBTU1QiOwo+ICvCoMKgwqDCoMKgwqDCoGNhc2UgRFBfUEVFUl9ERVZJQ0Vf
+TVNUX0JSQU5DSElORzoKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuICJN
+U1QgQlJBTkNISU5HIjsKPiArwqDCoMKgwqDCoMKgwqBjYXNlIERQX1BFRVJfREVWSUNFX1NTVF9T
+SU5LOgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gIlNTVCBTSU5LIjsK
+PiArwqDCoMKgwqDCoMKgwqBjYXNlIERQX1BFRVJfREVWSUNFX0RQX0xFR0FDWV9DT05WOgo+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gIkRQIExFR0FDWSBDT05WIjsKPiAr
+wqDCoMKgwqDCoMKgwqBkZWZhdWx0Ogo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBy
+ZXR1cm4gIkVSUiI7Cj4gK8KgwqDCoMKgwqDCoMKgfQo+ICt9Cj4gKwo+IMKgc3RhdGljIHZvaWQg
+ZHJtX2RwX21zdF9kdW1wX21zdGIoc3RydWN0IHNlcV9maWxlICptLAo+IMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0
+IGRybV9kcF9tc3RfYnJhbmNoICptc3RiKQo+IMKgewo+IEBAIC00NzMyLDkgKzQ3NTQsMjAgQEAg
+c3RhdGljIHZvaWQgZHJtX2RwX21zdF9kdW1wX21zdGIoc3RydWN0IHNlcV9maWxlICptLAo+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcHJlZml4W2ldID0gJ1x0JzsKPiDCoMKgwqDC
+oMKgwqDCoMKgcHJlZml4W2ldID0gJ1wwJzsKPiDCoAo+IC3CoMKgwqDCoMKgwqDCoHNlcV9wcmlu
+dGYobSwgIiVzbXN0OiAlcCwgJWRcbiIsIHByZWZpeCwgbXN0YiwgbXN0Yi0+bnVtX3BvcnRzKTsK
+PiArwqDCoMKgwqDCoMKgwqBzZXFfcHJpbnRmKG0sICIlc21zdGIgLSBbJXBdOiBudW1fcG9ydHM6
+ICVkXG4iLCBwcmVmaXgsIG1zdGIsIG1zdGItCj4gPm51bV9wb3J0cyk7Cj4gwqDCoMKgwqDCoMKg
+wqDCoGxpc3RfZm9yX2VhY2hfZW50cnkocG9ydCwgJm1zdGItPnBvcnRzLCBuZXh0KSB7Cj4gLcKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHNlcV9wcmludGYobSwgIiVzcG9ydDogJWQ6IGlu
+cHV0OiAlZDogcGR0OiAlZCwgZGRwczogJWQgbGRwczoKPiAlZCwgc2RwOiAlZC8lZCwgJXAsIGNv
+bm46ICVwXG4iLCBwcmVmaXgsIHBvcnQtPnBvcnRfbnVtLCBwb3J0LT5pbnB1dCwgcG9ydC0KPiA+
+cGR0LCBwb3J0LT5kZHBzLCBwb3J0LT5sZHBzLCBwb3J0LT5udW1fc2RwX3N0cmVhbXMsIHBvcnQt
+Cj4gPm51bV9zZHBfc3RyZWFtX3NpbmtzLCBwb3J0LCBwb3J0LT5jb25uZWN0b3IpOwo+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzZXFfcHJpbnRmKG0sICIlc3BvcnQgJWQgLSBbJXBd
+ICglcyAtICVzKTogZGRwczogJWQsIGxkcHM6ICVkLAo+IHNkcDogJWQvJWQsIGZlYzogJXMsIGNv
+bm46ICVwXG4iLCAKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgcHJlZml4LAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBwb3J0LT5wb3J0X251bSwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcG9ydCwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcG9ydC0+aW5wdXQgPyAiaW5wdXQiIDogIm91
+dHB1dCIsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIHBkdF90b19zdHJpbmcocG9ydC0+cGR0KSwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcG9ydC0+ZGRwcywKPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcG9ydC0+bGRwcywKPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcG9ydC0+bnVtX3Nk
+cF9zdHJlYW1zLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBwb3J0LT5udW1fc2RwX3N0cmVhbV9zaW5rcywKPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcG9ydC0+ZmVjX2NhcGFibGUgPyAidHJ1
+ZSIgOiAiZmFsc2UiLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBwb3J0LT5jb25uZWN0b3IpOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgaWYgKHBvcnQtPm1zdGIpCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgZHJtX2RwX21zdF9kdW1wX21zdGIobSwgcG9ydC0+bXN0Yik7Cj4gwqDC
+oMKgwqDCoMKgwqDCoH0KPiBAQCAtNDc4NywzMyArNDgyMCwzNyBAQCB2b2lkIGRybV9kcF9tc3Rf
+ZHVtcF90b3BvbG9neShzdHJ1Y3Qgc2VxX2ZpbGUgKm0sCj4gwqDCoMKgwqDCoMKgwqDCoG11dGV4
+X3VubG9jaygmbWdyLT5sb2NrKTsKPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqBtdXRleF9sb2NrKCZt
+Z3ItPnBheWxvYWRfbG9jayk7Cj4gLcKgwqDCoMKgwqDCoMKgc2VxX3ByaW50ZihtLCAidmNwaTog
+JWx4ICVseCAlZFxuIiwgbWdyLT5wYXlsb2FkX21hc2ssIG1nci0+dmNwaV9tYXNrLAo+IC3CoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBtZ3ItPm1heF9wYXlsb2Fkcyk7Cj4gK8KgwqDCoMKg
+wqDCoMKgc2VxX3ByaW50ZihtLCAiXG4qKiogVkNQSSBJbmZvICoqKlxuIik7Cj4gK8KgwqDCoMKg
+wqDCoMKgc2VxX3ByaW50ZihtLCAicGF5bG9hZF9tYXNrOiAlbHgsIHZjcGlfbWFzazogJWx4LCBt
+YXhfcGF5bG9hZHM6ICVkXG4iLAo+IG1nci0+cGF5bG9hZF9tYXNrLCBtZ3ItPnZjcGlfbWFzaywg
+bWdyLT5tYXhfcGF5bG9hZHMpOwo+IMKgCj4gK8KgwqDCoMKgwqDCoMKgc2VxX3ByaW50ZihtLCAi
+XG58wqDCoCBpZHjCoMKgIHzCoCBwb3J0ICMgfMKgIHZjcF9pZCB8ICMgc2xvdHMgfMKgwqDCoMKg
+IHNpbmsKPiBuYW1lwqDCoMKgwqAgfFxuIik7Cj4gwqDCoMKgwqDCoMKgwqDCoGZvciAoaSA9IDA7
+IGkgPCBtZ3ItPm1heF9wYXlsb2FkczsgaSsrKSB7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqBpZiAobWdyLT5wcm9wb3NlZF92Y3Bpc1tpXSkgewo+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNoYXIgbmFtZVsxNF07Cj4gwqAKPiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwb3J0ID0gY29udGFp
+bmVyX29mKG1nci0+cHJvcG9zZWRfdmNwaXNbaV0sIHN0cnVjdAo+IGRybV9kcF9tc3RfcG9ydCwg
+dmNwaSk7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+ZmV0Y2hfbW9uaXRvcl9uYW1lKG1nciwgcG9ydCwgbmFtZSwgc2l6ZW9mKG5hbWUpKTsKPiAtwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHNlcV9wcmludGYobSwg
+InZjcGkgJWQ6ICVkICVkICVkIHNpbmsgbmFtZTogJXNcbiIsIGksCj4gLcKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwb3J0
+LT5wb3J0X251bSwgcG9ydC0+dmNwaS52Y3BpLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgc2VxX3ByaW50ZihtLCAiJTEwZCUxMGQlMTBkJTEwZCUyMHNc
+biIsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBpLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcG9ydC0+cG9ydF9udW0sCj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBwb3J0LT52Y3BpLnZjcGksCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcG9ydC0+dmNwaS5udW1fc2xvdHMs
+Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCAoKm5hbWUgIT0gMCkgPyBuYW1lIDrCoCAiVW5rbm93biIpOwo+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgKCpuYW1lICE9IDApID8gbmFtZSA6ICJVbmtub3duIik7Cj4gwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqB9IGVsc2UKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoHNlcV9wcmludGYobSwgInZjcGkgJWQ6dW51c2VkXG4iLCBpKTsKPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHNlcV9wcmludGYo
+bSwgIiU2ZCAtIFVudXNlZFxuIiwgaSk7Cj4gwqDCoMKgwqDCoMKgwqDCoH0KPiArwqDCoMKgwqDC
+oMKgwqBzZXFfcHJpbnRmKG0sICJcbioqKiBQYXlsb2FkIEluZm8gKioqXG4iKTsKPiArwqDCoMKg
+wqDCoMKgwqBzZXFfcHJpbnRmKG0sICJ8wqDCoCBpZHjCoMKgIHzCoCBzdGF0ZcKgIHzCoCBzdGFy
+dCBzbG90wqAgfCAjIHNsb3RzIHxcbiIpOwo+IMKgwqDCoMKgwqDCoMKgwqBmb3IgKGkgPSAwOyBp
+IDwgbWdyLT5tYXhfcGF5bG9hZHM7IGkrKykgewo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqBzZXFfcHJpbnRmKG0sICJwYXlsb2FkICVkOiAlZCwgJWQsICVkXG4iLAo+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzZXFfcHJpbnRmKG0sICIlMTBkJTEwZCUxNWQlMTBkXG4i
+LAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+aSwKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IG1nci0+cGF5bG9hZHNbaV0ucGF5bG9hZF9zdGF0ZSwKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG1nci0+cGF5bG9hZHNbaV0uc3RhcnRfc2xv
+dCwKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IG1nci0+cGF5bG9hZHNbaV0ubnVtX3Nsb3RzKTsKPiAtCj4gLQo+IMKgwqDCoMKgwqDCoMKgwqB9
+Cj4gwqDCoMKgwqDCoMKgwqDCoG11dGV4X3VubG9jaygmbWdyLT5wYXlsb2FkX2xvY2spOwo+IMKg
+Cj4gK8KgwqDCoMKgwqDCoMKgc2VxX3ByaW50ZihtLCAiXG4qKiogRFBDRCBJbmZvICoqKlxuIik7
+Cj4gwqDCoMKgwqDCoMKgwqDCoG11dGV4X2xvY2soJm1nci0+bG9jayk7Cj4gwqDCoMKgwqDCoMKg
+wqDCoGlmIChtZ3ItPm1zdF9wcmltYXJ5KSB7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqB1OCBidWZbRFBfUEFZTE9BRF9UQUJMRV9TSVpFXTsKCi0tIApTaW5jZXJlbHksCiAgIEx5
+dWRlIFBhdWwgKHNoZS9oZXIpCiAgIFNvZnR3YXJlIEVuZ2luZWVyIGF0IFJlZCBIYXQKICAgCk5v
+dGU6IEkgZGVhbCB3aXRoIGEgbG90IG9mIGVtYWlscyBhbmQgaGF2ZSBhIGxvdCBvZiBidWdzIG9u
+IG15IHBsYXRlLiBJZiB5b3UndmUKYXNrZWQgbWUgYSBxdWVzdGlvbiwgYXJlIHdhaXRpbmcgZm9y
+IGEgcmV2aWV3L21lcmdlIG9uIGEgcGF0Y2gsIGV0Yy4gYW5kIEkKaGF2ZW4ndCByZXNwb25kZWQg
+aW4gYSB3aGlsZSwgcGxlYXNlIGZlZWwgZnJlZSB0byBzZW5kIG1lIGFub3RoZXIgZW1haWwgdG8g
+Y2hlY2sKb24gbXkgc3RhdHVzLiBJIGRvbid0IGJpdGUhCgpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
