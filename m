@@ -1,32 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36C3F34904B
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 12:34:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 287533490FA
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 12:43:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B2376ED07;
-	Thu, 25 Mar 2021 11:34:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31F3F6EB59;
+	Thu, 25 Mar 2021 11:43:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19A9C6ED07
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 11:34:21 +0000 (UTC)
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4F5jdL5BxNzkfcT;
- Thu, 25 Mar 2021 19:32:38 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 25 Mar 2021 19:34:15 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH] drm/tegra: Remove useless error message
-Date: Thu, 25 Mar 2021 19:34:49 +0800
-Message-ID: <1616672089-32934-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 224866EB59;
+ Thu, 25 Mar 2021 11:43:49 +0000 (UTC)
+IronPort-SDR: f9bhK24MhbIIyrL7NdMyCwjgCFVAVxhV6jz5tGbEBVz08vroyr31wfySiXn4AVSyA/7VzAt0Yh
+ N7oF3Qx9zWSw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="178026875"
+X-IronPort-AV: E=Sophos;i="5.81,277,1610438400"; d="scan'208";a="178026875"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2021 04:43:48 -0700
+IronPort-SDR: c1OqmUg9f/MaiybHPiDXQl0yHXMoE4GARgzZLpUDJNBntTSTw2LCmNS/6+D76ARavyktntLIRs
+ 9aqkcxLV6b5w==
+X-IronPort-AV: E=Sophos;i="5.81,277,1610438400"; d="scan'208";a="409334700"
+Received: from rabl-mobl2.ger.corp.intel.com (HELO [10.252.39.171])
+ ([10.252.39.171])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2021 04:43:44 -0700
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <72d4c9ce-6709-4e0f-a715-79fdcebb48e7@linux.intel.com>
+Date: Thu, 25 Mar 2021 12:43:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,64 +47,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following coccicheck report:
+drm-misc-fixes-2021-03-25:
+drm-misc-fixes for v5.12:
+- Use FOLL_FORCE and FOLL_LONGTERM in etnaviv
+The following changes since commit 6909115442759efef3d4bc5d9c54d7943f1afc14:
 
-drivers/gpu/drm/tegra/dpaux.c:471:2-9:
-line 471 is redundant because platform_get_irq() already prints an error
-drivers/gpu/drm/tegra/sor.c:3793:2-9:
-line 3793 is redundant because platform_get_irq() already prints an error
+  drm/omap: dsi: fix unsigned expression compared with zero (2021-03-17 13:59:23 +0200)
 
-Remove dev_err() messages after platform_get_irq() failures.
+are available in the Git repository at:
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-Signed-off-by: Zihao Tang <tangzihao1@hisilicon.com>
-Signed-off-by: Jay Fang <f.fangjian@huawei.com>
----
- drivers/gpu/drm/tegra/dpaux.c | 4 +---
- drivers/gpu/drm/tegra/sor.c   | 4 +---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-03-25
 
-diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
-index 105fb9c..044e5ee 100644
---- a/drivers/gpu/drm/tegra/dpaux.c
-+++ b/drivers/gpu/drm/tegra/dpaux.c
-@@ -467,10 +467,8 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
- 		return PTR_ERR(dpaux->regs);
- 
- 	dpaux->irq = platform_get_irq(pdev, 0);
--	if (dpaux->irq < 0) {
--		dev_err(&pdev->dev, "failed to get IRQ\n");
-+	if (dpaux->irq < 0)
- 		return -ENXIO;
--	}
- 
- 	if (!pdev->dev.pm_domain) {
- 		dpaux->rst = devm_reset_control_get(&pdev->dev, "dpaux");
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index f02a035..01b9e1d 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -3789,10 +3789,8 @@ static int tegra_sor_probe(struct platform_device *pdev)
- 	}
- 
- 	err = platform_get_irq(pdev, 0);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to get IRQ: %d\n", err);
-+	if (err < 0)
- 		goto remove;
--	}
- 
- 	sor->irq = err;
- 
--- 
-2.7.4
+for you to fetch changes up to 50891bead80bc79871528c2962d65c781c02330b:
 
+  drm/etnaviv: User FOLL_LONGTERM in userptr (2021-03-19 20:15:48 +0100)
+
+----------------------------------------------------------------
+drm-misc-fixes for v5.12:
+- Use FOLL_FORCE and FOLL_LONGTERM in etnaviv
+
+----------------------------------------------------------------
+Daniel Vetter (2):
+      drm/etnaviv: Use FOLL_FORCE for userptr
+      drm/etnaviv: User FOLL_LONGTERM in userptr
+
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
