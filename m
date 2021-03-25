@@ -2,54 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CC734995E
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 19:20:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5029349971
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 19:24:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E0D36EDDF;
-	Thu, 25 Mar 2021 18:20:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 781E06EE0B;
+	Thu, 25 Mar 2021 18:24:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
- [IPv6:2607:f8b0:4864:20::d2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EE636EDDF
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 18:20:00 +0000 (UTC)
-Received: by mail-io1-xd2e.google.com with SMTP id n198so2878625iod.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 11:20:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jztuZCsJ3dGtTwFcpg97sv7/WRCiv8qcjsd5QekOjAg=;
- b=bAa0pT0QLb7YWNM3N9UgKIMJ+0OpK6WlT+U4ZwR7hFjYH2O30GMT9mfyrs7cRerdO7
- BKT8BRqIBE169yPmDvXZ3oIZzftEUAfyQmTg7b2L0HCSK93/kPSUw+M4u+lYqAfkOLIx
- UCCMdTYFsBejhcueDUbVXgOmzRdMXcv7dR5PI/k9qBNKfkbI0TPwAGHvzpeMzKhbdRTB
- rSv2ouFwnhDIBpDFzK3Was9cdvjltQ8dfXtHHfEBMriOEDTlC6adbdFOOBGXHAuWfFG+
- /jEhDn8foPwDM72l3vl52rXynQLARQM6k0mRB/X7bTPcXLD819BfAawF28eSK0kGKwQO
- ACzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jztuZCsJ3dGtTwFcpg97sv7/WRCiv8qcjsd5QekOjAg=;
- b=iUYKR8Ly6SS1zHhFjceh07Vu/VD1T2/dpbtkNC1in2UR8249dGVSF0nRPxudjoEd7G
- Zf+IvH/H67OBmDcS3yySXY5eg6wc69sK/yMboxFOQ2OTyi2my/Pa9Lj7i0l87sZtC4Rk
- H4JpnlNJTeSrsGfFhTGdeWktCOgWk1xHDed34Ac+12fFAMjq12vH6bHZKTxCWLK2DI6D
- 2kkOsedJFo/GR49MF+jp7fM1DaDUEPjePpZwHcrjxU9E3JJ6cixXWhLrYoklhxDFoW+J
- KA2dwEsh3K0dHq0KXF5Ut+IgaoZR4ZskLdI8x8y8Vq1IyfWQ/7FRO+lMS0yxQ2E8kaLW
- Vg9g==
-X-Gm-Message-State: AOAM533tP1zYndYDXelPMXurGsysY5mTB1S9EuNR9llZ33xw1Vz2DHSf
- dL0t3xjcx4Zh3V+WokEi6y7nOfpXyYpMg2RxlKd5KA==
-X-Google-Smtp-Source: ABdhPJzeHTjo12dsPjm8wvAgYcR7pyTo3HM6vo89+UsNYre8lKCzHJknkINEDtGgzipfVOOZZT4EQ1IZCaAFCOMFLkk=
-X-Received: by 2002:a05:6638:1390:: with SMTP id
- w16mr8681618jad.83.1616696399826; 
- Thu, 25 Mar 2021 11:19:59 -0700 (PDT)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2080.outbound.protection.outlook.com [40.107.243.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B7A36EE1F
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 18:24:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ScNHyoBsZoTNWfhjtb0YmD8QeeTtJZcnmtUuzyj1agyp/Jboonu62fE9UobVKdpRPQppmdoSnz4yB/xdJFR9Ak5mXqSzKLyrJxE2N42egGJD9L4kSAEOalWHTGIRzIF5AwdOLQwImllyhChAaJaaDuqPPw17KrVZj4FhB/3HOLNo6oyRZO9LegRU5aipMHh3ee5aAQ35op9R67eqUOmw0uFpSKL5aBaY2kc8SBbjkckDYrEOAT/+E177AOWqq6tHXTqXk3R44gq3kRZRRQpgo4gIdRW0X/7yk1ClOT9Eksjf3c0WgMM+vWUHDj05wqTNFCwvVBtav98jD2ngd2SR0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3SqROZLZCOOjBoKMVH+WjvAQ7Q0h2QgpzUijtUHTYMM=;
+ b=S2g9JQnQgNbTIsEzJvNp/QPlDuKZcJhENHrGys/mM4F50v2Hp++XRdgiAjcm8qNKAxN5lpu4zA3tb31FxpslObFRnjXUDAqXnqOfvBARwkqJL08Dazvo/K48p1ytEN2tHy7KqL7CfmhSmTWgvOiLuMQpwt2jHy6V2MFeah6onuQBhRTE92fdR1Qgdx7TrPPUBvPeQdseyh0fd9jD73Xh0TrmyS9bta0uvX049ctjjUy01kBJMrJC2bkjjhvGAgs55htKF/9kdS51jXDxjVrArvdik0sV9ZZqXvbzEsbYbKm6tw85CGikPHs9bKVH2yet/KWyDCUwjSpoUkwCS93z2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3SqROZLZCOOjBoKMVH+WjvAQ7Q0h2QgpzUijtUHTYMM=;
+ b=F0l8XvZAJJO8/y5M1bbNLbZUZEl1mas9T/K689DSfyxzW1Gsu7ugw7BrgaEDKqVUtc+JENbf/MiRhxpuiqdEGfIJ8zhhPIWnluElM1FILtqNFX7ZWhbHlnwQdD8l0X696Cf1DDh6ARgPx+LAh3MI1aCwDo1s4FLMbZKOxYC9/34KmYsW4fyB9GQN5V2ITEYpCi6Er9wjxwSDBh6FXECYxzhbcZ8F9cD7mbpIKLMTXyr4mu6lkevGtiTkt48qpPYXnLWfezZaHWZ0kGUS6/ntnrMVJAkAQyscwNOkj7fzEu1hoh9+KesN/1kmsCZZ9XkBMlVpRAmM2e3sYhwdN4upVQ==
+Authentication-Results: shipmail.org; dkim=none (message not signed)
+ header.d=none;shipmail.org; dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB3514.namprd12.prod.outlook.com (2603:10b6:5:183::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.24; Thu, 25 Mar
+ 2021 18:24:44 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3977.029; Thu, 25 Mar 2021
+ 18:24:44 +0000
+Date: Thu, 25 Mar 2021 15:24:42 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Thomas =?utf-8?B?SGVsbHN0csO2bSAoSW50ZWwp?= <thomas_os@shipmail.org>
+Subject: Re: [RFC PATCH 1/2] mm,drm/ttm: Block fast GUP to TTM huge pages
+Message-ID: <20210325182442.GI2356281@nvidia.com>
+References: <ec99146c7abc35d16b245816aba3e9d14862e624.camel@intel.com>
+ <c2239da2-c514-2c88-c671-918909cdba6b@shipmail.org>
+ <YFsNRIUYrwVQanVF@phenom.ffwll.local>
+ <a1fa7fa2-914b-366d-9902-e5b784e8428c@shipmail.org>
+ <75423f64-adef-a2c4-8e7d-2cb814127b18@intel.com>
+ <e5199438-9a0d-2801-f9f6-ceb13d7a9c61@shipmail.org>
+ <6b0de827-738d-b3c5-fc79-8ca9047bad35@intel.com>
+ <9f789d64-940f-c728-8d5e-aab74d562fb6@shipmail.org>
+ <20210325175504.GH2356281@nvidia.com>
+ <1ed48d99-1cd9-d87b-41dd-4169afc77f70@shipmail.org>
+Content-Disposition: inline
+In-Reply-To: <1ed48d99-1cd9-d87b-41dd-4169afc77f70@shipmail.org>
+X-Originating-IP: [206.223.160.26]
+X-ClientProxiedBy: CH2PR04CA0003.namprd04.prod.outlook.com
+ (2603:10b6:610:52::13) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
-References: <cover.1616135353.git.xji@analogixsemi.com>
- <189a637c87827f78c433a053e3c2129ebec73188.1616135353.git.xji@analogixsemi.com>
-In-Reply-To: <189a637c87827f78c433a053e3c2129ebec73188.1616135353.git.xji@analogixsemi.com>
-From: Sean Paul <sean@poorly.run>
-Date: Thu, 25 Mar 2021 14:19:23 -0400
-Message-ID: <CAMavQKLN04F2rzu7J121N4GvQKh7kq9yXGk+fBSUjsC2nbiSiA@mail.gmail.com>
-Subject: Re: [PATCH v6 4/5] drm/bridge: anx7625: add HDCP support
-To: Xin Ji <xji@analogixsemi.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (206.223.160.26) by
+ CH2PR04CA0003.namprd04.prod.outlook.com (2603:10b6:610:52::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3977.24 via Frontend Transport; Thu, 25 Mar 2021 18:24:44 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1lPUew-002xTZ-P1; Thu, 25 Mar 2021 15:24:42 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 87b372a8-7844-4409-9ba6-08d8efbb4359
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3514:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB351415345898F8D07145D8BEC2629@DM6PR12MB3514.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GYdPxnX5s3a9G9N7ZgYZQH+Ez32r3RXm8u9k1vyQe1rmCkkZL2F0RKub8tApqXFuHWkw6h+Pgdx0Mz7139Qz45LiHlpEwbd3Xp8KHT3CQUyl5JXwRs7pnVRm9mxkdc2X2/fZcLYcvxGdvXvsZ85SGrM5MHp310rXxtzO0w02HNbY99Cg56Tfe++CIwZZCZZLSbraHwidtF+RaKRrJ5C5O8Jy4VfC6w401dqtFnl8tW5bYrv/bhFZkmde1z9vgzYQqyRwNImE/NmdJ1ulg+cAlo9wKqm/mWFgUe6szIBoDqUG5EQvHe6yXP6G65zN25KBKShK3ww5yKUtVsT3GqkF2XGnxrrdcVKUxZCQkGo/AtoAYAUA61ePwmC0/G/VRpJ+DqBULf+6MycJMyjOLvVoa0VCMno8yjSj94zkx6Vze5zh/up+LWF1LwgN+ilyRVVHyxP5FcbRkrgVyv7vRjNE49n5qwZdVzPgKr6HallaJondo/qkAA5gk8HT1zUgxVxdB1Iat7Kle4blCr1mBrqiHnFtLqVqbm4GJHDVhnh43U5vQdMKtTa8w7XQP+57rHho6KVv1U8F53ZO/nbvjp3xAwFmGzTsFQqvbmL3qdwQn/iq0y4Fh4A/KLzMR078Ud74fzchiopCa/1XgB5+ib0kqteSWMiNNsYE1xjWk2d9plmCi4HVNB9Ok58mIumKNOzm
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3834.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(39860400002)(346002)(396003)(136003)(66946007)(8676002)(86362001)(36756003)(66556008)(66476007)(2906002)(33656002)(4326008)(54906003)(478600001)(316002)(8936002)(426003)(2616005)(9786002)(9746002)(83380400001)(186003)(1076003)(53546011)(5660300002)(38100700001)(6916009)(26005)(14583001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?b0c0djdQSS9QZXRuVnM2ODlySEExYlU0L2VpQ3VGbi91RjZOZWVHYm4xR1hS?=
+ =?utf-8?B?SHVCc29hN0ZBMnIrUXI4YlM3REJXT0JHSmdsTlhLNnNmUlYrQWdGVlRpbHg1?=
+ =?utf-8?B?WE9zUkt6ZmkwWGcxWjZ0VUZoekhick94RHd6WWwyOFVOc0pnd2UrNm1TM3pi?=
+ =?utf-8?B?RVpvQXVNVmJ2bGZVdi9NdFc2NzJGWFV4RCtpYmF1NUoyNk9hRS9abFVjd0J1?=
+ =?utf-8?B?bG5IOW91ZllMdDZBTUFjRkhhcG9ycmludDJodkJ6eEx0NTV3TUtFM2JVMFpn?=
+ =?utf-8?B?dXZEMytRYUUxdDM0S3YwSFpOZ1hCQU4vY3R3b2d2Zy9kWURtN2VIMThnNmNv?=
+ =?utf-8?B?SkE3OTNyeW11VWpIbFJKZkdVNExrYlRhWEpuT0dpTXFMSlZiVHh5UnF6aGc1?=
+ =?utf-8?B?OEZNU3hqVENwekdFSmZKUDNOMk01eTAxS2daejl1UDZMTVlseGd0YVNMamhU?=
+ =?utf-8?B?NW9nbk10Qng4ZlFpQklSSTNjOWhwL1U5ZFlpSVFHZDF0S3c0NjRjOVRqSVo3?=
+ =?utf-8?B?N3gyanlRUTEzVXR1L1FpbjRpUGhkUkl3b0tOSG4reU9yS1R6blVXcnpRTnZu?=
+ =?utf-8?B?bjJueWhqMFVaeGFHTXR6WWFMbXlUOWVHT1JPRUJUcC9GcDR2WlMzL3ZOS3Q1?=
+ =?utf-8?B?cDFVM2dtdXVJZ1VCRmQ0aTRuWU5uZzkraUp3TE5wQS9DdTRKcHRkd3IrRk9j?=
+ =?utf-8?B?ODgxUHo5Nm9KSHdFRGpFbEFDRFJXcDVSWmg4cGdmaXg0eDRxckNjY25waHNo?=
+ =?utf-8?B?dXF4MTJBTmtxbnFJa1hCMHhVRzFkL1diYmoweVhObkxqNVFXNnNkS3V2N1F6?=
+ =?utf-8?B?YzFWT2ZER2h5L1lXUENHVkxnTWFrRGtscnY0Y05iNEdZTU9MNDdYQUNYb2NS?=
+ =?utf-8?B?aU5RNXVjN3cvb3pSY2UzRWdVVGxFTk13b1BFY0ZqcEZBbWRwOXYxMTRLQUlH?=
+ =?utf-8?B?bVBvQVdWOENDeTBXeEc2cU4rRHRSeGhabGdwTThyQXRaNkxrOWdtdEFJOHB6?=
+ =?utf-8?B?OEtCa0hiUVNLZWFTQnMzY1M0eE1JcW5QWnFMN3A2eE0zS0xiU0ZpS3FsY1ds?=
+ =?utf-8?B?aU95ZEZGd1dwdEliL0NJQ091UTY3bTNUY3FadXBVUE5vSmZ1SEloMDY5b3Uw?=
+ =?utf-8?B?cExCSlFBcGxoU3docVNndk5BSUlqM0xYdFY2WFkzNEJxN1dzTlNRWk9tTm5K?=
+ =?utf-8?B?elpkbk12Z0dJbGFsdEFXRnZZd2xka3d5WEpIZ0NaVDN5NHhzdEdkeGJ0NG9h?=
+ =?utf-8?B?UHNXeFUxRWhKWVIwREV1RDhQM2d4NU8rMnJXUkVsVk5NblZDQmd1bDF0TW1a?=
+ =?utf-8?B?bmRHaWw4VnhZZEk1Y3BMUzZXZ3IxNVp6cUtJMXEvNEg5VWNRQWJnemxMSldG?=
+ =?utf-8?B?dUlGQlJPRGJNck9qenh5QUFTV290bk9hVFBQY1ptODB2eE5aVENUZHViUy8y?=
+ =?utf-8?B?VGgyamlzNnpzZnBsUHRqZmduNWJUQUVSTlBGeVQxbi9LOVU5UHk5Y1RrMlFp?=
+ =?utf-8?B?VEtCTjlEQURaRTZOb1lsYjRHaS9UdC9FQ25OY2RVL21ZOGh6WTR1bjE3c1d2?=
+ =?utf-8?B?RG1zcmpEcC9taEhTTXV4RlVvbUI5bGhqNUpPRG1qcmthQXdZWXdCcDZodDYy?=
+ =?utf-8?B?Wmt1ZUg0OXRkdEsyM3NVbVhhM3UrYkVxYVV5cFNZRlZXV3dYclFEWHZPd1dS?=
+ =?utf-8?B?eE1GMVRQNnJYU3hvNFhtUXluQ0VFcHJ2SUtXMFpZZnJQV0Q4QVBLcHJUTVRk?=
+ =?utf-8?Q?yEr38YIpfxn4fmwtZNdR2GXWg4j+cE1NgRUbxM/?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87b372a8-7844-4409-9ba6-08d8efbb4359
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2021 18:24:44.4232 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oJ0SUKQ0zxs5emj9lVs3SfnFZaxGIeYa+ZNOPWJi015r2d9/D5XOgAlS6HGw9L5l
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3514
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,264 +132,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Sam Ravnborg <sam@ravnborg.org>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Zhen Li <zhenli@analogixsemi.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>, Vasily Khoruzhick <anarsoul@gmail.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, Torsten Duwe <duwe@lst.de>,
- Sheng Pan <span@analogixsemi.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Bernie Liang <bliang@analogixsemi.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Dave Hansen <dave.hansen@intel.com>, "Williams,
+ Dan J" <dan.j.williams@intel.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 19, 2021 at 2:35 AM Xin Ji <xji@analogixsemi.com> wrote:
->
-> Add HDCP feature, enable HDCP function through chip internal key
-> and downstream's capability.
->
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 147 ++++++++++++++++++++++
->  drivers/gpu/drm/bridge/analogix/anx7625.h |  36 ++++++
->  2 files changed, 183 insertions(+)
->
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 8c514b46d361..b424a570effa 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -633,6 +633,150 @@ static int anx7625_dpi_config(struct anx7625_data *ctx)
->         return ret;
->  }
->
-> +static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
-> +                                u8 addrh, u8 addrm, u8 addrl,
-> +                                u8 len, u8 *buf)
-> +{
-> +       struct device *dev = &ctx->client->dev;
-> +       int ret;
-> +       u8 cmd;
-> +
-> +       if (len > MAX_DPCD_BUFFER_SIZE) {
-> +               DRM_DEV_ERROR(dev, "exceed aux buffer len.\n");
-> +               return -E2BIG;
-> +       }
-> +
-> +       cmd = ((len - 1) << 4) | 0x09;
-> +
-> +       /* Set command and length */
-> +       ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +                               AP_AUX_COMMAND, cmd);
-> +
-> +       /* Set aux access address */
-> +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +                                AP_AUX_ADDR_7_0, addrl);
-> +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +                                AP_AUX_ADDR_15_8, addrm);
-> +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +                                AP_AUX_ADDR_19_16, addrh);
-> +
-> +       /* Enable aux access */
-> +       ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
-> +                               AP_AUX_CTRL_STATUS, AP_AUX_CTRL_OP_EN);
-> +
-> +       if (ret < 0) {
-> +               DRM_DEV_ERROR(dev, "cannot access aux related register.\n");
-> +               return -EIO;
-> +       }
-> +
-> +       usleep_range(2000, 2100);
-> +
-> +       ret = wait_aux_op_finish(ctx);
-> +       if (ret) {
-> +               DRM_DEV_ERROR(dev, "aux IO error: wait aux op finish.\n");
-> +               return ret;
-> +       }
-> +
-> +       ret = anx7625_reg_block_read(ctx, ctx->i2c.rx_p0_client,
-> +                                    AP_AUX_BUFF_START, len, buf);
-> +       if (ret < 0) {
-> +               DRM_DEV_ERROR(dev, "read dpcd register failed\n");
-> +               return -EIO;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int anx7625_read_flash_status(struct anx7625_data *ctx)
-> +{
-> +       return anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, R_RAM_CTRL);
-> +}
-> +
-> +static int anx7625_hdcp_key_probe(struct anx7625_data *ctx)
-> +{
-> +       int ret, val;
-> +       struct device *dev = &ctx->client->dev;
-> +       u8 ident[32];
-> +
-> +       ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +                               FLASH_ADDR_HIGH, 0x91);
-> +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +                                FLASH_ADDR_LOW, 0xA0);
-> +       if (ret < 0) {
-> +               DRM_DEV_ERROR(dev, "IO error : set key flash address.\n");
-> +               return ret;
-> +       }
-> +
-> +       ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +                               FLASH_LEN_HIGH, (FLASH_BUF_LEN - 1) >> 8);
-> +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +                                FLASH_LEN_LOW, (FLASH_BUF_LEN - 1) & 0xFF);
-> +       if (ret < 0) {
-> +               DRM_DEV_ERROR(dev, "IO error : set key flash len.\n");
-> +               return ret;
-> +       }
-> +
-> +       ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +                               R_FLASH_RW_CTRL, FLASH_READ);
-> +       ret |= readx_poll_timeout(anx7625_read_flash_status,
-> +                                 ctx, val,
-> +                                 ((val & FLASH_DONE) || (val < 0)),
-> +                                 2000,
-> +                                 2000 * 150);
-> +       if (ret) {
-> +               DRM_DEV_ERROR(dev, "flash read access fail!\n");
-> +               return -EIO;
-> +       }
-> +
-> +       ret = anx7625_reg_block_read(ctx, ctx->i2c.rx_p0_client,
-> +                                    FLASH_BUF_BASE_ADDR,
-> +                                    FLASH_BUF_LEN, ident);
-> +       if (ret < 0) {
-> +               DRM_DEV_ERROR(dev, "read flash data fail!\n");
-> +               return -EIO;
-> +       }
-> +
-> +       if (ident[29] == 0xFF && ident[30] == 0xFF && ident[31] == 0xFF)
-> +               return -EINVAL;
-> +
-> +       return 0;
-> +}
-> +
-> +static int anx7625_hdcp_setting(struct anx7625_data *ctx)
-> +{
-> +       u8 bcap;
-> +       int ret;
-> +       struct device *dev = &ctx->client->dev;
-> +
-> +       ret = anx7625_hdcp_key_probe(ctx);
-> +       if (ret) {
-> +               DRM_DEV_DEBUG_DRIVER(dev, "disable HDCP by config\n");
-> +               return anx7625_write_and(ctx, ctx->i2c.rx_p1_client,
-> +                                        0xee, 0x9f);
-> +       }
-> +
-> +       anx7625_aux_dpcd_read(ctx, 0x06, 0x80, 0x28, 1, &bcap);
-> +       if (!(bcap & 0x01)) {
-> +               DRM_DEV_DEBUG_DRIVER(dev, "bcap(0x%x) not support HDCP 1.4.\n",
-> +                                    bcap);
-> +               return anx7625_write_and(ctx, ctx->i2c.rx_p1_client,
-> +                                        0xee, 0x9f);
-> +       }
-> +
-> +       DRM_DEV_DEBUG_DRIVER(dev, "enable HDCP 1.4\n");
-> +
-> +       ret = anx7625_write_or(ctx, ctx->i2c.rx_p1_client, 0xee, 0x20);
-> +
-> +       /* Try auth flag */
-> +       ret |= anx7625_write_or(ctx, ctx->i2c.rx_p1_client, 0xec, 0x10);
-> +       /* Interrupt for DRM */
-> +       ret |= anx7625_write_or(ctx, ctx->i2c.rx_p1_client, 0xff, 0x01);
-> +       if (ret < 0)
-> +               DRM_DEV_ERROR(dev, "fail to enable HDCP\n");
-> +
-> +       return ret;
-> +}
-> +
->  static void anx7625_dp_start(struct anx7625_data *ctx)
->  {
->         int ret;
-> @@ -643,6 +787,9 @@ static void anx7625_dp_start(struct anx7625_data *ctx)
->                 return;
->         }
->
-> +       /* HDCP config */
-> +       anx7625_hdcp_setting(ctx);
-
-You should really use the "Content Protection" property to
-enable/disable HDCP instead of force-enabling it at all times.
-
-Sean
-
-> +
->         if (ctx->pdata.is_dpi)
->                 ret = anx7625_dpi_config(ctx);
->         else
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-> index beee95da2155..c6f93e4df0ed 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-> @@ -154,9 +154,45 @@
->
->  #define  I2C_ADDR_7E_FLASH_CONTROLLER  0x7E
->
-> +#define FLASH_SRAM_SEL          0x00
-> +#define SRAM_ADDR_HIGH          0x01
-> +#define SRAM_ADDR_LOW           0x02
-> +#define SRAM_LEN_HIGH           0x03
-> +#define SRAM_LEN_LOW            0x04
->  #define FLASH_LOAD_STA          0x05
->  #define FLASH_LOAD_STA_CHK     BIT(7)
->
-> +#define R_RAM_CTRL              0x05
-> +/* bit positions */
-> +#define FLASH_DONE              BIT(7)
-> +#define BOOT_LOAD_DONE          BIT(6)
-> +#define CRC_OK                  BIT(5)
-> +#define LOAD_DONE               BIT(4)
-> +#define O_RW_DONE               BIT(3)
-> +#define FUSE_BUSY               BIT(2)
-> +#define DECRYPT_EN              BIT(1)
-> +#define LOAD_START              BIT(0)
-> +
-> +#define FLASH_ADDR_HIGH         0x0F
-> +#define FLASH_ADDR_LOW          0x10
-> +#define FLASH_LEN_HIGH          0x31
-> +#define FLASH_LEN_LOW           0x32
-> +
-> +#define R_FLASH_RW_CTRL         0x33
-> +/* bit positions */
-> +#define READ_DELAY_SELECT       BIT(7)
-> +#define GENERAL_INSTRUCTION_EN  BIT(6)
-> +#define FLASH_ERASE_EN          BIT(5)
-> +#define RDID_READ_EN            BIT(4)
-> +#define REMS_READ_EN            BIT(3)
-> +#define WRITE_STATUS_EN         BIT(2)
-> +#define FLASH_READ              BIT(1)
-> +#define FLASH_WRITE             BIT(0)
-> +
-> +#define FLASH_BUF_BASE_ADDR     0x60
-> +#define FLASH_BUF_LEN           0x20
-> +#define FLASH_KEY_OFFSET        0x8000
-> +
->  #define  XTAL_FRQ_SEL    0x3F
->  /* bit field positions */
->  #define  XTAL_FRQ_SEL_POS    5
-> --
-> 2.25.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBNYXIgMjUsIDIwMjEgYXQgMDc6MTM6MzNQTSArMDEwMCwgVGhvbWFzIEhlbGxzdHLD
+tm0gKEludGVsKSB3cm90ZToKPiAKPiBPbiAzLzI1LzIxIDY6NTUgUE0sIEphc29uIEd1bnRob3Jw
+ZSB3cm90ZToKPiA+IE9uIFRodSwgTWFyIDI1LCAyMDIxIGF0IDA2OjUxOjI2UE0gKzAxMDAsIFRo
+b21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkgd3JvdGU6Cj4gPiA+IE9uIDMvMjQvMjEgOToyNSBQTSwg
+RGF2ZSBIYW5zZW4gd3JvdGU6Cj4gPiA+ID4gT24gMy8yNC8yMSAxOjIyIFBNLCBUaG9tYXMgSGVs
+bHN0csO2bSAoSW50ZWwpIHdyb3RlOgo+ID4gPiA+ID4gPiBXZSBhbHNvIGhhdmUgbm90IGJlZW4g
+Y2FyZWZ1bCBhdCAqYWxsKiBhYm91dCBob3cgX1BBR0VfQklUX1NPRlRXKiBhcmUKPiA+ID4gPiA+
+ID4gdXNlZC7CoCBJdCdzIHF1aXRlIHBvc3NpYmxlIHdlIGNhbiBlbmNvZGUgYW5vdGhlciB1c2Ug
+ZXZlbiBpbiB0aGUKPiA+ID4gPiA+ID4gZXhpc3RpbmcgYml0cy4KPiA+ID4gPiA+ID4gCj4gPiA+
+ID4gPiA+IFBlcnNvbmFsbHksIEknZCBqdXN0IHRyeToKPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+
+ICNkZWZpbmUgX1BBR0VfQklUX1NPRlRXNcKgwqDCoMKgwqDCoMKgIDU3wqDCoMKgwqDCoCAvKiBh
+dmFpbGFibGUgZm9yIHByb2dyYW1tZXIgKi8KPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiBPSywgSSds
+bCBmb2xsb3cgeW91ciBhZHZpc2UgaGVyZS4gRldJVyBJIGdyZXBwZWQgZm9yIFNXMSBhbmQgaXQg
+c2VlbXMKPiA+ID4gPiA+IHVzZWQgaW4gYSBzZWxmdGVzdCwgYnV0IG9ubHkgZm9yIFBURXMgQUZB
+SUNULgo+ID4gPiA+ID4gCj4gPiA+ID4gPiBPaCwgYW5kIHdlIGRvbid0IGNhcmUgYWJvdXQgMzIt
+Yml0IG11Y2ggYW55bW9yZT8KPiA+ID4gPiBPbiB4ODYsIHdlIGhhdmUgNjQtYml0IFBURXMgd2hl
+biBydW5uaW5nIDMyLWJpdCBrZXJuZWxzIGlmIFBBRSBpcwo+ID4gPiA+IGVuYWJsZWQuICBJT1cs
+IHdlIGNhbiBoYW5kbGUgdGhlIG1ham9yaXR5IG9mIDMyLWJpdCBDUFVzIG91dCB0aGVyZS4KPiA+
+ID4gPiAKPiA+ID4gPiBCdXQsIHllYWgsIHdlIGRvbid0IGNhcmUgYWJvdXQgMzItYml0LiA6KQo+
+ID4gPiBIbW0sCj4gPiA+IAo+ID4gPiBBY3R1YWxseSBpdCBtYWtlcyBzb21lIHNlbnNlIHRvIHVz
+ZSBTVzEsIHRvIG1ha2UgaXQgZW5kIHVwIGluIHRoZSBzYW1lIGR3b3JkCj4gPiA+IGFzIHRoZSBQ
+U0UgYml0LCBhcyBmcm9tIHdoYXQgSSBjYW4gdGVsbCwgcmVhZGluZyBvZiBhIDY0LWJpdCBwbWRf
+dCBvbiAzMi1iaXQKPiA+ID4gUEFFIGlzIG5vdCBhdG9taWMsIHNvIGluIHRoZW9yeSBhIGh1Z2Ug
+cG1kIGNvdWxkIGJlIG1vZGlmaWVkIHdoaWxlIHJlYWRpbmcKPiA+ID4gdGhlIHBtZF90IG1ha2lu
+ZyB0aGUgZHdvcmRzIGluY29uc2lzdGVudC4uLi4gSG93IGRvZXMgdGhhdCB3b3JrIHdpdGggZmFz
+dAo+ID4gPiBndXAgYW55d2F5Pwo+ID4gSXQgbG9vcHMgdG8gZ2V0IGFuIGF0b21pYyA2NCBiaXQg
+dmFsdWUgaWYgdGhlIGFyY2ggY2FuJ3QgcHJvdmlkZSBhbgo+ID4gYXRvbWljIDY0IGJpdCBsb2Fk
+Cj4gCj4gSG1tLCBvaywgSSBzZWUgYSBSRUFEX09OQ0UoKSBpbiBndXBfcG1kX3JhbmdlKCksIGFu
+ZCB0aGVuIHRoZSByZXN1bHRpbmcgcG1kCj4gaXMgZGVyZWZlcmVuY2VkIGVpdGhlciBpbiB0cnlf
+Z3JhYl9jb21wb3VuZF9oZWFkKCkgb3IgX19ndXBfZGV2aWNlX2h1Z2UoKSwKPiBiZWZvcmUgdGhl
+IHBtZCBpcyBjb21wYXJlZCB0byB0aGUgdmFsdWUgdGhlIHBvaW50ZXIgaXMgY3VycmVudGx5IHBv
+aW50aW5nCj4gdG8uIENvdWxkbid0IHRob3NlIGRlcmVmZXJlbmNlcyBiZSBvbiBpbnZhbGlkIHBv
+aW50ZXJzPwoKVWhoaGhoLi4gVGhhdCBkb2VzIGxvb2sgcXVlc3Rpb25hYmxlLCB5ZXMuIFVubGVz
+cyB0aGVyZSBpcyBzb21lIHRyaWNreQpyZWFzb24gd2h5IGEgNjQgYml0IHBtZCBlbnRyeSBvbiBh
+IDMyIGJpdCBhcmNoIGVpdGhlciBjYW4ndCBleGlzdCBvcgpoYXMgYSBzdGFibGUgdXBwZXIgMzIg
+Yml0cy4uCgpUaGUgcHRlIGRvZXMgaXQgd2l0aCBwdGVwX2dldF9sb2NrbGVzcygpLCB3ZSBwcm9i
+YWJseSBuZWVkIHRoZSBzYW1lCmZvciB0aGUgb3RoZXIgbGV2ZWxzIHRvbyBpbnN0ZWFkIG9mIG9w
+ZW4gY29kaW5nIGEgUkVBRF9PTkNFPwoKSmFzb24KX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
