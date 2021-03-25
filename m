@@ -1,132 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C19348CCD
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 10:28:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A88F5348CF4
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 10:31:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 457906ECE6;
-	Thu, 25 Mar 2021 09:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C23476ECF5;
+	Thu, 25 Mar 2021 09:31:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0039f301.pphosted.com (mx0b-0039f301.pphosted.com
- [148.163.137.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CB496ECDF
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 09:28:39 +0000 (UTC)
-Received: from pps.filterd (m0174680.ppops.net [127.0.0.1])
- by mx0b-0039f301.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12P9NQEx018346; Thu, 25 Mar 2021 09:28:35 GMT
-Received: from eur01-he1-obe.outbound.protection.outlook.com
- (mail-he1eur01lp2055.outbound.protection.outlook.com [104.47.0.55])
- by mx0b-0039f301.pphosted.com with ESMTP id 37gquh00e9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Mar 2021 09:28:35 +0000
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-eopbgr80057.outbound.protection.outlook.com [40.107.8.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D8646ECF5
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 09:31:44 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UaRcxmFgj/cXrRnW8/NXrsWF+Zv5JBwy/LwCT4HMwdDsuHVmI7/E+oYpQVTnfwzRuVgpLuxwzZZc0B5vCQtLozXN38/AVvqcmBGbd7ezFcTo7zCLI085D3zS4FKTbUrytN023L1zSTrg/r14a05EtwGxEEXF+7mUbLeeBOdFA5rwFSCTPqCjWQFokc7EPN591pUbcwVDGOMrHrHqI8syBTsoR8asR0dK9lHgbHHzRWXmmjnz+Kq3Lqbu/5nPwfXQOPPnx0ah+Raa96M9KF2QeHxvKZU5hKf7CUeL79OjECOu6eiZKNqNPPyZk7XvOVqCDoDG+Fia665Us3lsaiUfNQ==
+ b=AzP7DcUqhapY+ceuO+I0euMSf2fuwXk913rdonQSK6t7cSb+cEHHyB5JMXuoZLtEj56H7sSftP76PcYo9qS8Whptab7sg+KB9RFrCC15zJdN6EieYbh28WOV+VBNYw8i2JUNKTR7/tdmeheFBGcJHo7zPA3arCZWA6OXy2BQV43eyv5EPK+Jn063NgYcOjGq6qYXZdHPeKhDLi7XDFm9gq8bQ6YdjLuOVT1J8eE++3nEjt40eVEPMfRoj4LS0am74zklp4v9X3ka5S8gtptm4uRAHB7fEId18LEM0sSWdE7MdIEjBFtSJ9enopzT0EnUGHXkfCBqnC5l6wSN9vqiQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IYoz0eaZeMRr/a30xcAnxfAG7E9hg9U1TCQQ+Vp8ZLs=;
- b=TCvgBRD21o1awWFfbRbcR34YRiOf451OQe04B5rlRKwUUvFutka6IHBXqIHXayuFCUqGR6LWjQk0k/d7tBnRLivFm4jiRr+ePeZ3Gyczve5BkbES4ZSp2FlTQFWZXP82nw6L2xWt6ph65zdGZnV1Hj/fRF3UNR8T1RvgjPN1Pz7b3VGF0ZwVvudPWqizCurZvMYE7AnJU/jDTXHO0SULAIZtAJL4tE7if3Ip5390WqED4GifjWD2oxTI7BiDU1sZF3KoO6Ehx+bpqma6YFtsbN4SJHMbKbYHgHwCQ98VudLL2P+re+AZeM8VjF+Xwve7o3rwhPzsxYVHXa2I6voy3A==
+ bh=bdXsgBhk45np1qvfJTeTsRxNR5p6YyBFQrVEJTeuVx8=;
+ b=MIHTIuwqbUE+F2imyC2LsfgDuB/WRXZV7b3kb8ZgEVAi2Ii5GEWxj1kMV/8lPPIwehh4q7zi6Y7iqWATJzw8U+iI4288yxIPseHulZHTCTMjjo80oDgNZ5cV6LubQEgIoy5pr+cqp4Pqm25AdgtzKlbqYwzvRdWE/R2IJ+K/4+cyxgQqxiYa5q3TpKNHm/Xof/gCWCe8/Q3mhHzEVeOG1puiErqTkhaAtNBv2czI//HuT30hjhTxvaoZ/lRu5KRlziFV8up8GUZXpVqkzL2gTVHF2QldysyrGLMvtiYa4vIAtwN4nqb224OmVMWMVttxJqa/RfmRRuXZp8g9/0HsUA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=epam.com; dmarc=pass action=none header.from=epam.com;
- dkim=pass header.d=epam.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=epam.com; s=selector1; 
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IYoz0eaZeMRr/a30xcAnxfAG7E9hg9U1TCQQ+Vp8ZLs=;
- b=IbBwQ578eIEfvNcFNsG14wrg+NQrXh4lcGKmjuhGJNHKzyA+Bybe76Qo+BotO6R07FBKMO/s9pTuaV329lQPknf3Os0/J3S50/GgcOzcrf/p2FOGRj7pA57KEM2z5kTC+9uutt5EJ2v8O4YhnMU67Na7XuZr4DD6tnNUcKYx57ztXzO8ZRG2k6gpSDFl3RLqDJORdyducO/wSDKTS7hZdzKZuPLfJV/14maPM2AuAaesgh0LMf6w0ijaQG7EH7G6Lx4502qM4KRcHA9J/m13DyqB5rYes/AcHeiWaUvh4b//DDABL+G0+wGuobniG0JIRQNjQXyhXRzy8BlaeLVTxA==
-Received: from AM0PR03MB6324.eurprd03.prod.outlook.com (2603:10a6:20b:153::17)
- by AM0PR03MB6242.eurprd03.prod.outlook.com (2603:10a6:20b:15c::21)
+ bh=bdXsgBhk45np1qvfJTeTsRxNR5p6YyBFQrVEJTeuVx8=;
+ b=o4FrWNGaaA5oiTWjV9LkH9XPh62maRq34ExgWJJLFyGnNbbdcU94RycT+2Z+f9act6/TpkJH7EZCnqUqydWAJj5LKtsiXa204fUN+jKyNVWBB0BpUtg+RMIBX/EQj2fOnY00MaAREJbQk3Mx8gmuxMigqIRS3U3NaUFKy30HGc8=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
+ by VI1PR0401MB2320.eurprd04.prod.outlook.com (2603:10a6:800:29::19)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.26; Thu, 25 Mar
- 2021 09:28:30 +0000
-Received: from AM0PR03MB6324.eurprd03.prod.outlook.com
- ([fe80::3541:4069:60ca:de3d]) by AM0PR03MB6324.eurprd03.prod.outlook.com
- ([fe80::3541:4069:60ca:de3d%7]) with mapi id 15.20.3977.025; Thu, 25 Mar 2021
- 09:28:30 +0000
-From: Oleksandr Andrushchenko <Oleksandr_Andrushchenko@epam.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drivers: gpu: drm: xen_drm_front_drm_info is declared
- twice
-Thread-Topic: [PATCH] drivers: gpu: drm: xen_drm_front_drm_info is declared
- twice
-Thread-Index: AQHXIT8BvTrvCJoLoEahz8MTVepQQaqURIKAgAAoGoCAAANUgA==
-Date: Thu, 25 Mar 2021 09:28:29 +0000
-Message-ID: <4f1747c4-6578-4962-f51d-6d3827d0034d@epam.com>
-References: <20210325061901.851273-1-wanjiabing@vivo.com>
- <e45d6b24-5e74-17f6-eb18-c6e51fed923a@epam.com>
- <CAKMK7uEpNexmDYar36ZEX0hbHoxH3Y+_D42NqjRwAqxpiCXHRA@mail.gmail.com>
-In-Reply-To: <CAKMK7uEpNexmDYar36ZEX0hbHoxH3Y+_D42NqjRwAqxpiCXHRA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=epam.com;
-x-originating-ip: [185.199.97.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b2863edb-7a33-45ec-e46a-08d8ef705a31
-x-ms-traffictypediagnostic: AM0PR03MB6242:
-x-microsoft-antispam-prvs: <AM0PR03MB6242E1236847121F3466646CE7629@AM0PR03MB6242.eurprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: MRU+qsgURxdNHl1ibgUaqwdbS1DLJ6axIEaqTlgpBt7Q7fNRUUfitz4MIlLXLd7UL9Iu4+UIitrbV6Y+LVbRzAvMFvv0ekplVxeunDnMQst6MJYZXh347UBwmVQbnWpR6epsEQpEmjZ5rkz9NjoZn+UpGGu5VhjHdEaEUjS1Rxngfzi0aprklW2eCzs0LQyL408icMni9WukImqm6KMJgmsbXnQvlGGJXoW3GZ0Yl6ROnkhhiALskkMyviPNWI6i8u59fJF9B9arHT+ewA5Pv5hSX5S8CfZtZU//iV1A2zrWsw/zps5P3Fvn+KdJzVR7Xf9pKoiVQ/OqsdVn5VBTNsDe38CiPS+TRfDP/p6Ouzq+bIK1caHC8qo07aBdqFOvSu46WiLwCDx7pvoWSrUFELegtpW3eJK8YGjtkSbL4a9WI0xv5NxK710obgw0dUW5P1E+Kn1U7uqvhym5EBlVEK8q11WmlGz5cs9lnHKMxgOA34Pj8tPGA7MddMg89l1GgWyLyFLORW5NFH08FzDhcBjQchi1wZIf80CkrrTPTFkaGDSykWoFlqxvyVeYgAtrfmyPdp0ZwqsqZAVaWkcS4uouvL5Zfn91uKq5PBsnCbIy5kRkamjXYZ82uYIhB73Q8cEb2v2y1rSM5arjDDBoT02FHS94tNgq8EZ6F4fY9tic3c4eQxgLLJh8XHyyWMdC+Adst6+72CNEDI4aTLXu7wmrLnyZXiMG78n9ObPXURo=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR03MB6324.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(136003)(39860400002)(366004)(396003)(2616005)(6486002)(966005)(8676002)(316002)(6506007)(8936002)(4326008)(31686004)(36756003)(71200400001)(478600001)(53546011)(38100700001)(64756008)(83380400001)(66476007)(66446008)(66556008)(31696002)(76116006)(66946007)(5660300002)(6512007)(26005)(7416002)(110136005)(186003)(86362001)(2906002)(54906003)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?YXJWb2JsanFHMUMyelJ6OWJaVm5UTy90VUpVU0Q4N0hJb1JBL0tDeTBYZW5Y?=
- =?utf-8?B?NDl2VW1iMG9xMEdzV0JKRUszWG1jSjc4ck0yTmdRVlhJY2w4N2svMjJMeDRy?=
- =?utf-8?B?R2V0QjR4QXB0b00ybUFTczZURWpGRG5aOEtMb09YY0xoSzVhN2Vpd0JiU3hr?=
- =?utf-8?B?a3hEQWRwbzl2ZGltaS9MSGhvWFNsei9YMFNoME0yVnFxYWF3K2hkTU5saGx1?=
- =?utf-8?B?bDBycUlmSDdYQVBpUDd6dU14MWlacjdQcmplWGQyd3pOSHlXU251QVMyTnF0?=
- =?utf-8?B?T09Ha0FwUmpXTkd6Vmlmb0QvNDQwcU80anBIVkRrNDdodU1CUUQ1RTcrOFJ3?=
- =?utf-8?B?SVVVUUwyNlExYW50ak9QZFRFa0Y5OUYxR2o5azJVbmRGYnp5b0s2TkZUNkFI?=
- =?utf-8?B?a1o2ZWNxWDVNcjJIcGxEU2ZHdWUrc0UxbHBIeEtoUXJpQlhib2hwRWwyWXZS?=
- =?utf-8?B?d0VGdnNhWWhHb3NIVHk3Y2d1MEt2NkZlYVNGVXV1dXlDN2NxVUc1dCtXTExB?=
- =?utf-8?B?OExPMHl0eGkrSE5NWENWMWVUdnJuUVk0aGVFL0hoa0d0cHhtOGJzalEvK2xw?=
- =?utf-8?B?ZEovSSs2STdjNmgvV3FSeVVIazhSVWdHWVN3UDlwaTdFVHdjTFJ0R0h5aGxE?=
- =?utf-8?B?a2VFSFRPaFI2OFBnV21pL3hCV1hDRW80emtFc2JuNHhLc2pJNG9MZUdJMjFX?=
- =?utf-8?B?blppOUJqWkJUQml5Zk0yeVo3THh6VTlIck1sZWVMWWZGUVdDZXhmZmtjcTVo?=
- =?utf-8?B?d0pZbVEzeFYvbFVHcmxqbUY4UzJSVkQrcDhlTktqOHAvUWNWQzZUWTZDV09U?=
- =?utf-8?B?dm5FVFlCdmdLaENQcjhsNDYvM3Jwb0JQcjk2eHpFRWZQV1pHUVY2NlNscXVX?=
- =?utf-8?B?Z0pkc3BRQXBZU1UvRlFWQ3BsbFlPWnhHRStlOWJxMFhpUTBYZnkzYzBVWDdu?=
- =?utf-8?B?WHVxTDU4THNjYVZIWEtVcUhiZStiWHN2bW94YUpGclBPcUh3bVRMVWphdkl3?=
- =?utf-8?B?WWR6aG5yZE1ZekRRbGZOSUpJajlrV2MxUUtwUFVXREtNK1FmZXdDNUJ4czdJ?=
- =?utf-8?B?Wk9BN0o5VzRLa1NlOFJOVFRhN0V4TVpub2ZrZnVraWhLRCtqc20wdnBHbndW?=
- =?utf-8?B?bnQ0a3ZFRlhsSEJncHEwZlExOFBuRk9jSDFoTi9XUlRwWHplMUEvS3RFTWtT?=
- =?utf-8?B?aXpPSXVvQ0tkSXFnb1V5Y0p4ZmptQkVvZE1xRld5VW9FWkxadDBnL0kxQmtY?=
- =?utf-8?B?b3NlN2NzVEFIS0hjQ1R4eU5OVTZUNEY4MS96bjlYQzRWQVZCdm1KTy9yeUQ2?=
- =?utf-8?B?L2JNWGp6elBpSitoRDZzZkpaZkJkUHpNTzNYWVd3b1c1dWtjNWErc0VKRGlr?=
- =?utf-8?B?MFhtekZNb2ZFWGlpV2lObjJNa2szL1ZCY2l0RnlOd2w1U0c3WUwwTy9YMWx6?=
- =?utf-8?B?eDFjNHMrUDlPSXpwQjB1SFpOSU1CQzFYL1NBWmg4Y0JvVmkrVGZsNUdrR1lt?=
- =?utf-8?B?amd4c2hFc29uQ1F5TituUEZ0L2NjYXM2cHNtWVY3RjUzTzVUZzRXRzhWdWR6?=
- =?utf-8?B?MHVYMTdCYW1TZDhFTDZaWEtHR2syUHNOTkhyQ2tJanFNSmNzY0xZT1kwd2p2?=
- =?utf-8?B?WjFROFRzOUNDY1dlaXhZelA2cCtya01jUnVHMlQrUTZyNEw5VmZJUzlxMXdt?=
- =?utf-8?B?dFhBSmx5di9xbmVtVndaaGFTa1E3T05FNG56bXMrZzR6Q1BsUmdNY3hhM1BP?=
- =?utf-8?Q?1Mht6ITVpj5kPEjWZYUvkUANjhE/NtsAUeUunhr?=
-x-ms-exchange-transport-forked: True
-Content-ID: <2FDE5AD638AED24DB25128A5783265F1@eurprd03.prod.outlook.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.23; Thu, 25 Mar
+ 2021 09:31:38 +0000
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::3ce1:4759:5c33:514c]) by VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::3ce1:4759:5c33:514c%5]) with mapi id 15.20.3977.026; Thu, 25 Mar 2021
+ 09:31:38 +0000
+Message-ID: <483c17cc86c32caaf90e3ab7bbf8b8c0731c5519.camel@nxp.com>
+Subject: Re: [PATCH v4 2/5] phy: Add LVDS configuration options
+From: Liu Ying <victor.liu@nxp.com>
+To: Vinod Koul <vkoul@kernel.org>
+Date: Thu, 25 Mar 2021 17:30:00 +0800
+In-Reply-To: <YFw7udw4G9WrWlAd@vkoul-mobl.Dlink>
+References: <1615175541-29009-1-git-send-email-victor.liu@nxp.com>
+ <1615175541-29009-3-git-send-email-victor.liu@nxp.com>
+ <YFHYeZ/ZVqNiG/yo@vkoul-mobl.Dlink>
+ <6c52ebc6a027cbe309ed2c8848f2ae8cfa6e15f4.camel@nxp.com>
+ <YFw7udw4G9WrWlAd@vkoul-mobl.Dlink>
+User-Agent: Evolution 3.36.4-0ubuntu1 
+X-Originating-IP: [119.31.174.66]
+X-ClientProxiedBy: HK2PR06CA0012.apcprd06.prod.outlook.com
+ (2603:1096:202:2e::24) To VI1PR04MB3983.eurprd04.prod.outlook.com
+ (2603:10a6:803:4c::16)
 MIME-Version: 1.0
-X-OriginatorOrg: epam.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from blueberry (119.31.174.66) by
+ HK2PR06CA0012.apcprd06.prod.outlook.com (2603:1096:202:2e::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3977.24 via Frontend Transport; Thu, 25 Mar 2021 09:31:31 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: da89ecc4-3f07-4f82-f34f-08d8ef70c9c6
+X-MS-TrafficTypeDiagnostic: VI1PR0401MB2320:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR0401MB2320735AE7BB6B2E2CF2241898629@VI1PR0401MB2320.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cJuPbs117SmHsnlBpdBG23Df0w1wVLr43T1bNcL+x5IKYu33j70vqOEJVpqBt3tNoYMwDoW8bGIeg3YeWHeENKGg9Ezl3uikUQQ97XBNDVK7mORQrtuoXZ4qnwGtMabVhRDfEe6X2z6QQJSZA2Dvlr6wh/ub0lNM2DIWCFIicKN1l4lUg2yVmhGRcVVd5a7lu3XuuS1JcHzPJltXEftq3RHazbfYweW968hKqyNvANnA65tURrIS+ANz4BMuGbiP6CBdnIAZvZyhHniPqaHzUC/+5NukmeHEL7fCIYYMlENkkZ722Oj5yB0wC7iGNuiwfeEvgIsoh9FurrAZfncxZIsE6BC2xVEdk45noQtIWqWkY+S2FBa77C11FBNQHZ2gnBZ0JFZtUU5w+remqx+4Bw2Y9PpuIiLv6H904dhewsicDu5XbIGPHkWzrQzGV3kjkFPcJ/tMAaz2sB7FF9DiZis09utm/gppVU3rWlXTQppQilUwjhdwxWE8lzpU0sIDiJ7dCHVMnLZV0+7x701T6s8E5VIon5DAc9kMhZ5DK+tCuK5TqQmyZyYL+sa0bWwpjALrSKsLw4o3oFcIK8pMZaR7id1Lmb/PwiYmgkcaw4+rcL7osezsWAquMJsaOUTlePkZGg7j+ZDG0cyZ51vDkgLG4GikMnYqKAuUS3h6gi7+qLTxRZf6DjFNQHi2fpDrxRGgEV0tW655u4gxo9k/kN8oy0E+JjkHkcd43YyU7D0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39860400002)(376002)(366004)(396003)(346002)(8676002)(66946007)(26005)(478600001)(66556008)(45080400002)(5660300002)(2906002)(86362001)(53546011)(316002)(4326008)(6486002)(966005)(38100700001)(8936002)(66476007)(7416002)(6496006)(956004)(16526019)(36756003)(186003)(6916009)(83380400001)(6666004)(2616005)(52116002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cGE3MFhWM0FQQnVYSG5OcnNtNDI2ZGpSQ2orMzhXeS9yeUgyd2R1aksvckxD?=
+ =?utf-8?B?T3JUWFN6YVVGNC92TkE0Q1hrWk8yN3V4Mm5TY1M4R2ErNC9ueTgrWjQvSkc2?=
+ =?utf-8?B?NU5RVlY2QXFJSWF4aFBWTXdaL2N1T3NKWXVVUVJVR1lIZkJMQWoxbkxGSURS?=
+ =?utf-8?B?Zzd1NTBlNU1YUlpDWU5mNlBWWlJxa0paWW9BUE9vVjl4OFlJKzRHY2hjU3F6?=
+ =?utf-8?B?amNPdk5ZRWlFZkZES09SWFZvZzFHdG5QODkxMlAxS29LMVFyeFRPbkdtQ3Ns?=
+ =?utf-8?B?ZG5uUHoyYlB5TzdhdmQ5ZW9pbGRwQ1hBdEJUUUUrUk1NV3pVLzFjcFVsTm5R?=
+ =?utf-8?B?Yi9UOTh2Y2RpTGVDWXQrMUlTWng0SFl1WXRaajhSVFltT05BSzNiZDllb3pS?=
+ =?utf-8?B?cEYwS2Z2bHk0MDFlT1ZSNmhqd2RlbG9ZRnlraWFWOHRVOUhJQW9NbDVwM0Ji?=
+ =?utf-8?B?YmpQZWRYSklZMmZWelFlUG5rcVdrWTltS1pSTGIxVkhOOTBQUFRjTkp3d1ov?=
+ =?utf-8?B?MnY1dnErWlI4VDhMSjlKMEc4YTQ5V01Nd0R5Q0JEZWFNOHBrOWh6L0pTSGZp?=
+ =?utf-8?B?cUgwejNsWk8zTENrWkhVMEJVVTRXZkVhenA1WUFZVDBxSHZkU08vZ2NDcDVq?=
+ =?utf-8?B?dW9jRzVvSFZHZ0Q1anRnVHBydEswK2pKdkVpV1ZuYUFhTGhyRmgzTEVKTzBl?=
+ =?utf-8?B?ak1raWhwVkp0T2VlKzdabWpqSWFSQlpyZEplY3piaFJraWNOK2UycGgvcy80?=
+ =?utf-8?B?N3J3R0RWc1BOaVJISUFaVE9YK0xjbHFTTHpJV3ZDMEFZWWxIWTBkMFVWeGdF?=
+ =?utf-8?B?VEZhUGd4VEJnNkNTaVF3TUd5QlNlejVlckVWVlJmeDd4cXUxOUtkYlRFcHF6?=
+ =?utf-8?B?SmVXOUYyT0g0QmRCUGZJSGVWcjVsTFpqQlpRWWpPNHZVMWI4TTlWb1RFZ29p?=
+ =?utf-8?B?Tm03QmlCdFlDN1orTVprVkJOQVN6SWNRL0JBSDBPMWROUEN1ejNVRW9jL1pZ?=
+ =?utf-8?B?TlpTMlgxdStDOEpsRklWUkIzUDV1bFU0Y3d2OFNiT0RHM3ZYNUVQODhkWUoy?=
+ =?utf-8?B?N0UwWWMyUVFvL2VMdjdnNFFiMGZQVktzTFZqc0JmdlBQd2V4eEtXa29Xak5F?=
+ =?utf-8?B?b1RQNzFxYzRjeEhnV21YZEF1bFFUVmZKck5WdWRTZk5ITldkYnhVZmYvUkZs?=
+ =?utf-8?B?UEtWZVh4SjBIclRkVUFBWFNBNEtmRkYwbjVIbDZ4RFl1NWxrb2FTTFNCYWJt?=
+ =?utf-8?B?VDh0RGtzbDA5ZEc4TG1JNzh3M2pJeWdHOVBPY3hWU3l0ZUlYMjF6MGV4OWtq?=
+ =?utf-8?B?MjJtK1ZwTlNsTUZUK3JyeFArbXJucFd2WkNJRkx6aTJlcDlKclhkdlNiMEYv?=
+ =?utf-8?B?YUdrODZkL3UxU3l0QllwZ0lnUVRzNVd6T3JTWWp5cFNrNHpBMXE4Q0RDRGRB?=
+ =?utf-8?B?RHU4c0RFbkxlZ2pXeEhicnFiUG9LeE9ESldmOW83ZTU3WjFoVHJqdHVxaE1K?=
+ =?utf-8?B?MHhSVXlZNkNweVhRWXFqbGQ5N0JTL3RCUXZKVDJnSnJZTjgxOFdSci9Pbkl3?=
+ =?utf-8?B?VVRLdWVFdlBMd25xZzg1c3RCUkZkanFOMkp0SVQ4RjFNTHMydDhCSkE0T1Zo?=
+ =?utf-8?B?Tk1QZjFYRGc4b0RsTk9OQUF6QjhNditGMkF4WUxmQkQrcjVISUd1VnYvdFBY?=
+ =?utf-8?B?V1cwTnNqNms3dElNSnM3RUJ2WFE0V2w2aldWU05TZ2U3aGNLNXp6TUZtTkJH?=
+ =?utf-8?Q?Sj+LwZlyJd3HvevwKyAJbRoaAfgdOXi1lejj4zo?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: da89ecc4-3f07-4f82-f34f-08d8ef70c9c6
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR03MB6324.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2863edb-7a33-45ec-e46a-08d8ef705a31
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Mar 2021 09:28:30.0305 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b41b72d0-4e9f-4c26-8a69-f949f367c91d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tCK8YxA7kzzlFmCmaMkm/kubi0FqItAPaE7cy+NzP4Id8thpLKXYIBRm+xHvRQgbowxGQrAJ3e6ebAsUeOwLbL+skdAvJRStxyo5YQyUKCh2ek335yrNkK2UfVL0+Yoh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR03MB6242
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- clxscore=1011 priorityscore=1501 malwarescore=0 suspectscore=0
- phishscore=0 mlxscore=0 spamscore=0 mlxlogscore=986 lowpriorityscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103250071
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2021 09:31:37.8886 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: e4t9biptsFoe9UDcf3BKQWYmD1Gul/Jj8SFTlKkiVYQeQ5EUyVnhj/xu6E/WqrgMyQaekFI8adnRsqEC7ynu4A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0401MB2320
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,66 +126,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wan Jiabing <wanjiabing@vivo.com>, David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- "kael_w@yeah.net" <kael_w@yeah.net>
+Cc: narmstrong@baylibre.com, airlied@linux.ie, agx@sigxcpu.org,
+ dri-devel@lists.freedesktop.org, a.hajda@samsung.com,
+ Laurent.pinchart@ideasonboard.com, martin.kepplinger@puri.sm,
+ Kishon Vijay Abraham I <kishon@ti.com>, linux-imx@nxp.com,
+ robert.chiras@nxp.com, devicetree@vger.kernel.org, jonas@kwiboo.se,
+ s.hauer@pengutronix.de, robh+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org, jernej.skrabec@siol.net,
+ linux-kernel@vger.kernel.org, robert.foss@linaro.org, kernel@pengutronix.de,
+ shawnguo@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Daniel!
+Hi Vinod,
 
-On 3/25/21 11:16 AM, Daniel Vetter wrote:
-> On Thu, Mar 25, 2021 at 7:53 AM Oleksandr Andrushchenko
-> <Oleksandr_Andrushchenko@epam.com> wrote:
->> Hi,
->>
->> On 3/25/21 8:19 AM, Wan Jiabing wrote:
->>> struct xen_drm_front_drm_info has been declared.
->>> Remove the duplicate.
->>>
->>> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
->> Thank you for the patch,
->>
->> Reviewed-by: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
->>
->> Will apply to drm-misc-next-fixes
-> drm-misc-next-fixes is the wrong tree, bugfixes outside of the merge
-> window belong into drm-misc-fixes. Please consult
->
-> https://urldefense.com/v3/__https://drm.pages.freedesktop.org/maintainer-tools/committer-drm-misc.html*where-do-i-apply-my-patch__;Iw!!GF_29dbcQIUBPA!nfKNXrB-yHqaxeH6nC3mEw28HFFI1p5fc5CZKEFeoQPWXEhZCpvMqvW8EtFfTqtHPiNgpY4S-g$ [drm[.]pages[.]freedesktop[.]org]
->
-> We need to hard-reset drm-misc-next-fixes back, please re-apply the
-> patches (both of them) to drm-misc-fixes. Also adding drm-misc
-> maintainers.
-Sorry for screwing things up, will re-apply both patches to drm-misc-fixes
-> -Daniel
->
->> Thank you,
->>
->> Oleksandr
->>
->>> ---
->>>    drivers/gpu/drm/xen/xen_drm_front_conn.h | 1 -
->>>    1 file changed, 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/xen/xen_drm_front_conn.h b/drivers/gpu/drm/xen/xen_drm_front_conn.h
->>> index 3adacba9a23b..e5f4314899ee 100644
->>> --- a/drivers/gpu/drm/xen/xen_drm_front_conn.h
->>> +++ b/drivers/gpu/drm/xen/xen_drm_front_conn.h
->>> @@ -16,7 +16,6 @@
->>>    struct drm_connector;
->>>    struct xen_drm_front_drm_info;
->>>
->>> -struct xen_drm_front_drm_info;
->>>
->>>    int xen_drm_front_conn_init(struct xen_drm_front_drm_info *drm_info,
->>>                            struct drm_connector *connector);
->
->
+On Thu, 2021-03-25 at 12:58 +0530, Vinod Koul wrote:
+> On 18-03-21, 10:22, Liu Ying wrote:
+> 
+> > > Can we have these in kernel-doc style please, similar to style in linux/phy/phy.h
+> > 
+> > I take this way of in-line member documentation comment for the below 3
+> > reasons:
+> > 
+> > 1) Members of struct phy_configure_opts_mipi_dphy and
+> > struct phy_configure_opts_dp use the same way of comment.
+> > The structures are defined in linux/phy/phy-mipi-dphy.h and
+> > linux/phy/phy-dp.h respectively.
+> > Aligning to them makes a bit sense, IMHO.
+> > 
+> > 2) In-line member documentation comments[1] are mentioned in kernel-doc 
+> > guide. It says 'The structure members may also be documented in-line
+> > within the definition.'.
+> > 
+> > 3) Even the 'configure' and 'validate' members of struct phy_ops use
+> > the same way of comment.  struct phy_ops is defined in linux/phy/phy.h.
+> > 
+> > [1] 
+> > https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.kernel.org%2Fdoc%2Fhtml%2Flatest%2Fdoc-guide%2Fkernel-doc.html%23in-line-member-documentation-comments&amp;data=04%7C01%7Cvictor.liu%40nxp.com%7C5f33165920d0484dec4d08d8ef5faabe%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637522541498852343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=l25%2FXc0Xu2aH%2Fi7cSUqTsKae9L6BTddbhbV3vVRyON0%3D&amp;reserved=0
+> 
+> It 'may be' but I would like all headers of a subsystem to display one
+> style. As I said linux/phy/phy.h use a style which we should use
+> everywhere.
+
+I've sent v5 out with this comment addressed.
+
+Thanks,
+Liu Ying
+
+> 
+> Thanks
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
