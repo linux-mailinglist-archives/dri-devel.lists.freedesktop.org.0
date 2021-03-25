@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34E24349987
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 19:32:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1048434999A
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 19:42:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 341DD6E08E;
-	Thu, 25 Mar 2021 18:32:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A92AA6E053;
+	Thu, 25 Mar 2021 18:42:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6DAA6E0F6
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 18:32:50 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id x13so3278784wrs.9
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 11:32:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LA7Hb8nPRjo7MYxOvggtNYhoehPphvQZUls236H6p9c=;
- b=lCy9FmR+0+E3y+itb1T4Bo+0O8CW7BnVc3yt+JaKtf8cFujFCJqgo1ANCYhYtVT/05
- qhSlJzsHZTidpxjZQL5tusQja6HKdQZPTRdv0fwTO9IeKJAWZjIXKibDlI8Sfv2q7iu4
- snCqTnc+qnFRuXmBXFce458ASq1UO+gJu26y7aK70lEbSruHYo0b9OnFLS6EtZpkGiIh
- BLt4hgtGpDHd5uvl+93JKtYldTtvu1PNdWzOiakWqb3es406VE+tIfs192wwGTegIO+j
- 06CuchkPjC5xYKMaK+ATS+bK/Zj9Ud5wxuH+TJuTzA/TVjkrhGa21SDd6uhWwKOdxLg3
- fuOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LA7Hb8nPRjo7MYxOvggtNYhoehPphvQZUls236H6p9c=;
- b=oZo1nW+2geWRSlbQMVzjH4Qkq+V1HtL1GP5mxREMY9pRCXCODjk06S1WgAy+Rf1ltV
- VeMe+guaWUU9TBVqLUIHn6glcBBt0kxUQkHTSosm6eG3Jkncsp79Yshts0TODaadURf8
- ieFjECjCBNahGVxoFAGHnXbxp5fXtmLkzXqAm5+61epx1+icLhg9ErhWN2fP8NtjcyMB
- aIDCitDzHH76gDHYCNDIV3TDzSSwxJx4Waq3Q7sy1/3ExS8A6ToHiIlgiBGpCKrkl1D4
- PMwDFvBaICkP6WrjKLgktkAosHVBn9LQtW4InxPKF9m6+4BUGmYlRUKS+U5ZxQqD5mDM
- JtSA==
-X-Gm-Message-State: AOAM530tVIcM+v1HvnJ6H/2xtJD+7mwWFKzbJPSdHvB126DPV/n5OM9l
- HfC/uAyJb6nVotPIhx8i0s3CVJf7Of8Vp5YKXki27B/4
-X-Google-Smtp-Source: ABdhPJw8OYe773Nkq+0DjeWV379bHZDJxMSPFrpC6YuZ89wJDHFYqZIA3HVZf4IwcOhpP8Wwv4S7L55AGflHGCw5C+M=
-X-Received: by 2002:adf:f587:: with SMTP id f7mr10487770wro.147.1616697169273; 
- Thu, 25 Mar 2021 11:32:49 -0700 (PDT)
+Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
+ [213.80.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FC3F6E053
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 18:42:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 435E03F3B2;
+ Thu, 25 Mar 2021 19:42:19 +0100 (CET)
+Authentication-Results: ste-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=Wj1JOJcd; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id MF524rY7BNQG; Thu, 25 Mar 2021 19:42:18 +0100 (CET)
+Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 4DA9D3F27F;
+ Thu, 25 Mar 2021 19:42:17 +0100 (CET)
+Received: from [10.249.254.165] (unknown [192.198.151.44])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id E75B436059E;
+ Thu, 25 Mar 2021 19:42:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1616697736; bh=8GFYWnQPYCiN2M+PBNjHsNO3soivwm3ln02svNRajX8=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=Wj1JOJcdbTP/JTvFBvpvJy9mle9Q6w++mH7KUmgFoeLdDz0gEgltJCQEOYtHkHlQw
+ oGzJznK3W4yJK20Ft0Qqqa2v52HBleZr7q2Ikla8PDvw9pgO/my42DJuvmzxnOVfLq
+ iz7nc9TafMwV7HJONjvuCiUULNZFa0+d3ethgJo8=
+Subject: Re: [RFC PATCH 1/2] mm,drm/ttm: Block fast GUP to TTM huge pages
+To: Jason Gunthorpe <jgg@nvidia.com>
+References: <ec99146c7abc35d16b245816aba3e9d14862e624.camel@intel.com>
+ <c2239da2-c514-2c88-c671-918909cdba6b@shipmail.org>
+ <YFsNRIUYrwVQanVF@phenom.ffwll.local>
+ <a1fa7fa2-914b-366d-9902-e5b784e8428c@shipmail.org>
+ <75423f64-adef-a2c4-8e7d-2cb814127b18@intel.com>
+ <e5199438-9a0d-2801-f9f6-ceb13d7a9c61@shipmail.org>
+ <6b0de827-738d-b3c5-fc79-8ca9047bad35@intel.com>
+ <9f789d64-940f-c728-8d5e-aab74d562fb6@shipmail.org>
+ <20210325175504.GH2356281@nvidia.com>
+ <1ed48d99-1cd9-d87b-41dd-4169afc77f70@shipmail.org>
+ <20210325182442.GI2356281@nvidia.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <6c952be3-8be8-c4c9-a1f9-ddec027645bf@shipmail.org>
+Date: Thu, 25 Mar 2021 19:42:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <cover.1610372717.git.saiprakash.ranjan@codeaurora.org>
- <3f589e7de3f9fa93e84c83420c5270c546a0c368.1610372717.git.saiprakash.ranjan@codeaurora.org>
- <20210129090516.GB3998@willie-the-truck>
- <5d23fce629323bcda71594010824aad0@codeaurora.org>
- <20210201111556.GA7172@willie-the-truck>
- <CAF6AEGsARmkAFsjaQLfa2miMgeijo183MWDKGtW_ti-UCpzBqA@mail.gmail.com>
- <20210201182016.GA21629@jcrouse1-lnx.qualcomm.com>
- <7e9aade14d0b7f69285852ade4a5a9f4@codeaurora.org>
- <20210203214612.GB19847@willie-the-truck>
- <CAF6AEGvjzkRqr8-z56tJdMs-LsoLMr1m5cVAq_++xCdHjTPKrQ@mail.gmail.com>
- <CAF6AEGveB=t0gQ0-WZn_qy=scYR60DEcum53saovg5h31ZMHog@mail.gmail.com>
- <CAF6AEGuc5i9hMtfU3HSpLVWi_e=emJTPLqntzJfAH69dO_gagA@mail.gmail.com>
- <d44fc38c038be1165aa8f4212bd9c91f@codeaurora.org>
-In-Reply-To: <d44fc38c038be1165aa8f4212bd9c91f@codeaurora.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 25 Mar 2021 11:36:02 -0700
-Message-ID: <CAF6AEGvKwtDu3zRMdoBHWCUaKXBFYL-Xw8HZ+kHdPJMhbw9bOQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] iommu/io-pgtable-arm: Add IOMMU_LLC page protection
- flag
-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+In-Reply-To: <20210325182442.GI2356281@nvidia.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,70 +74,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>, Will Deacon <will@kernel.org>,
- Joerg Roedel <joro@8bytes.org>, Akhil P Oommen <akhilpo@codeaurora.org>,
- =?UTF-8?Q?=3Ciommu=40lists=2Elinux=2Dfoundation=2Eorg=3E=2C_=3Clinux=2Darm=2Dkernel=40lists=2E?=
- =?UTF-8?Q?infradead=2Eorg=3E=2C_Linux_Kernel_Mailing_List_=3Clinux=2Dkernel=40vger?=
- =?UTF-8?Q?=2Ekernel=2Eorg=3E=2C_linux=2Darm=2Dmsm_=3Clinux=2Darm=2Dmsm=40vger=2Ekernel=2Eorg=3E=2C?=
- =?UTF-8?Q?_freedreno_=3Cfreedreno=40lists=2Efreedesktop=2Eorg=3E=2C_Kristian_H_Kri?=
- =?UTF-8?Q?stensen_=3Choegsberg=40google=2Ecom=3E=2C_Sean_Paul_=3Csean=40poorly=2Erun=3E=2C?=
- =?UTF-8?Q?_David_Airlie_=3Cairlied=40linux=2Eie=3E=2C_Daniel_Vetter_=3Cdaniel=40ffwl?=
- =?UTF-8?Q?l=2Ech=3E=2C_dri=2Ddevel?= <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Robin Murphy <robin.murphy@arm.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Dave Hansen <dave.hansen@intel.com>, "Williams,
+ Dan J" <dan.j.williams@intel.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 17, 2021 at 2:33 AM Sai Prakash Ranjan
-<saiprakash.ranjan@codeaurora.org> wrote:
->
-> Hi Rob,
->
-> On 2021-03-16 22:46, Rob Clark wrote:
->
-> <snip>...
->
-> >> > >
-> >> > > When the GPU has a buffer mapped with IOMMU_LLC, is the buffer also mapped
-> >> > > into the CPU and with what attributes? Rob said "writecombine for
-> >> > > everything" -- does that mean ioremap_wc() / MEMREMAP_WC?
-> >> >
-> >> > Currently userspace asks for everything WC, so pgprot_writecombine()
-> >> >
-> >> > The kernel doesn't enforce this, but so far provides no UAPI to do
-> >> > anything useful with non-coherent cached mappings (although there is
-> >> > interest to support this)
-> >> >
-> >>
-> >> btw, I'm looking at a benchmark (gl_driver2_off) where (after some
-> >> other in-flight optimizations land) we end up bottlenecked on writing
-> >> to WC cmdstream buffers.  I assume in the current state, WC goes all
-> >> the way to main memory rather than just to system cache?
-> >>
-> >
-> > oh, I guess this (mentioned earlier in thread) is what I really want
-> > for this benchmark:
-> >
-> > https://android-review.googlesource.com/c/kernel/common/+/1549097/3
-> >
->
-> You can also check if the system cache lines are allocated for GPU
-> or not with patch in https://crrev.com/c/2766723
->
-> With the above patch applied,
-> cat /sys/kernel/debug/llcc_stats/llcc_scid_status
->
-> The SCIDs for GPU are listed in include/linux/soc/qcom/llcc-qcom.h
->
-
-Actually for the benchmark I was referring to, it is the *CPU*
-bottlenecked on writes to writecombine mappings.. so I think what I
-want is for CPU mappings to be able to use systemcache..
-
-BR,
--R
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Ck9uIDMvMjUvMjEgNzoyNCBQTSwgSmFzb24gR3VudGhvcnBlIHdyb3RlOgo+IE9uIFRodSwgTWFy
+IDI1LCAyMDIxIGF0IDA3OjEzOjMzUE0gKzAxMDAsIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkg
+d3JvdGU6Cj4+IE9uIDMvMjUvMjEgNjo1NSBQTSwgSmFzb24gR3VudGhvcnBlIHdyb3RlOgo+Pj4g
+T24gVGh1LCBNYXIgMjUsIDIwMjEgYXQgMDY6NTE6MjZQTSArMDEwMCwgVGhvbWFzIEhlbGxzdHLD
+tm0gKEludGVsKSB3cm90ZToKPj4+PiBPbiAzLzI0LzIxIDk6MjUgUE0sIERhdmUgSGFuc2VuIHdy
+b3RlOgo+Pj4+PiBPbiAzLzI0LzIxIDE6MjIgUE0sIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkg
+d3JvdGU6Cj4+Pj4+Pj4gV2UgYWxzbyBoYXZlIG5vdCBiZWVuIGNhcmVmdWwgYXQgKmFsbCogYWJv
+dXQgaG93IF9QQUdFX0JJVF9TT0ZUVyogYXJlCj4+Pj4+Pj4gdXNlZC7CoCBJdCdzIHF1aXRlIHBv
+c3NpYmxlIHdlIGNhbiBlbmNvZGUgYW5vdGhlciB1c2UgZXZlbiBpbiB0aGUKPj4+Pj4+PiBleGlz
+dGluZyBiaXRzLgo+Pj4+Pj4+Cj4+Pj4+Pj4gUGVyc29uYWxseSwgSSdkIGp1c3QgdHJ5Ogo+Pj4+
+Pj4+Cj4+Pj4+Pj4gI2RlZmluZSBfUEFHRV9CSVRfU09GVFc1wqDCoMKgwqDCoMKgwqAgNTfCoMKg
+wqDCoMKgIC8qIGF2YWlsYWJsZSBmb3IgcHJvZ3JhbW1lciAqLwo+Pj4+Pj4+Cj4+Pj4+PiBPSywg
+SSdsbCBmb2xsb3cgeW91ciBhZHZpc2UgaGVyZS4gRldJVyBJIGdyZXBwZWQgZm9yIFNXMSBhbmQg
+aXQgc2VlbXMKPj4+Pj4+IHVzZWQgaW4gYSBzZWxmdGVzdCwgYnV0IG9ubHkgZm9yIFBURXMgQUZB
+SUNULgo+Pj4+Pj4KPj4+Pj4+IE9oLCBhbmQgd2UgZG9uJ3QgY2FyZSBhYm91dCAzMi1iaXQgbXVj
+aCBhbnltb3JlPwo+Pj4+PiBPbiB4ODYsIHdlIGhhdmUgNjQtYml0IFBURXMgd2hlbiBydW5uaW5n
+IDMyLWJpdCBrZXJuZWxzIGlmIFBBRSBpcwo+Pj4+PiBlbmFibGVkLiAgSU9XLCB3ZSBjYW4gaGFu
+ZGxlIHRoZSBtYWpvcml0eSBvZiAzMi1iaXQgQ1BVcyBvdXQgdGhlcmUuCj4+Pj4+Cj4+Pj4+IEJ1
+dCwgeWVhaCwgd2UgZG9uJ3QgY2FyZSBhYm91dCAzMi1iaXQuIDopCj4+Pj4gSG1tLAo+Pj4+Cj4+
+Pj4gQWN0dWFsbHkgaXQgbWFrZXMgc29tZSBzZW5zZSB0byB1c2UgU1cxLCB0byBtYWtlIGl0IGVu
+ZCB1cCBpbiB0aGUgc2FtZSBkd29yZAo+Pj4+IGFzIHRoZSBQU0UgYml0LCBhcyBmcm9tIHdoYXQg
+SSBjYW4gdGVsbCwgcmVhZGluZyBvZiBhIDY0LWJpdCBwbWRfdCBvbiAzMi1iaXQKPj4+PiBQQUUg
+aXMgbm90IGF0b21pYywgc28gaW4gdGhlb3J5IGEgaHVnZSBwbWQgY291bGQgYmUgbW9kaWZpZWQg
+d2hpbGUgcmVhZGluZwo+Pj4+IHRoZSBwbWRfdCBtYWtpbmcgdGhlIGR3b3JkcyBpbmNvbnNpc3Rl
+bnQuLi4uIEhvdyBkb2VzIHRoYXQgd29yayB3aXRoIGZhc3QKPj4+PiBndXAgYW55d2F5Pwo+Pj4g
+SXQgbG9vcHMgdG8gZ2V0IGFuIGF0b21pYyA2NCBiaXQgdmFsdWUgaWYgdGhlIGFyY2ggY2FuJ3Qg
+cHJvdmlkZSBhbgo+Pj4gYXRvbWljIDY0IGJpdCBsb2FkCj4+IEhtbSwgb2ssIEkgc2VlIGEgUkVB
+RF9PTkNFKCkgaW4gZ3VwX3BtZF9yYW5nZSgpLCBhbmQgdGhlbiB0aGUgcmVzdWx0aW5nIHBtZAo+
+PiBpcyBkZXJlZmVyZW5jZWQgZWl0aGVyIGluIHRyeV9ncmFiX2NvbXBvdW5kX2hlYWQoKSBvciBf
+X2d1cF9kZXZpY2VfaHVnZSgpLAo+PiBiZWZvcmUgdGhlIHBtZCBpcyBjb21wYXJlZCB0byB0aGUg
+dmFsdWUgdGhlIHBvaW50ZXIgaXMgY3VycmVudGx5IHBvaW50aW5nCj4+IHRvLiBDb3VsZG4ndCB0
+aG9zZSBkZXJlZmVyZW5jZXMgYmUgb24gaW52YWxpZCBwb2ludGVycz8KPiBVaGhoaGguLiBUaGF0
+IGRvZXMgbG9vayBxdWVzdGlvbmFibGUsIHllcy4gVW5sZXNzIHRoZXJlIGlzIHNvbWUgdHJpY2t5
+Cj4gcmVhc29uIHdoeSBhIDY0IGJpdCBwbWQgZW50cnkgb24gYSAzMiBiaXQgYXJjaCBlaXRoZXIg
+Y2FuJ3QgZXhpc3Qgb3IKPiBoYXMgYSBzdGFibGUgdXBwZXIgMzIgYml0cy4uCj4KPiBUaGUgcHRl
+IGRvZXMgaXQgd2l0aCBwdGVwX2dldF9sb2NrbGVzcygpLCB3ZSBwcm9iYWJseSBuZWVkIHRoZSBz
+YW1lCj4gZm9yIHRoZSBvdGhlciBsZXZlbHMgdG9vIGluc3RlYWQgb2Ygb3BlbiBjb2RpbmcgYSBS
+RUFEX09OQ0U/Cj4KPiBKYXNvbgoKWWVzLCB1bmxlc3MgdGhhdCBjb21tZW50IGJlZm9yZSBsb2Nh
+bF9pcnFfZGlzYWJsZSgpIG1lYW5zIHNvbWUgbWFnaWMgaXMgCmRvbmUgdG8gcHJldmVudCBiYWQg
+dGhpbmdzIGhhcHBlbmluZywgYnV0IEkgZ3Vlc3MgaWYgaXQncyBuZWVkZWQgZm9yIApwdGVzLCBp
+dCdzIHByb2JhYmx5IG5lZWRlZCBmb3IgcG1kcyBhbmQgcHVkcyBhcyB3ZWxsLgoKL1Rob21hcwoK
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
