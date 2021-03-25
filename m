@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3416B349787
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 18:03:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BCF34978C
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 18:06:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F29036EDCE;
-	Thu, 25 Mar 2021 17:03:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 741D76EDD2;
+	Thu, 25 Mar 2021 17:06:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
- [IPv6:2607:f8b0:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51ABF6EDCE;
- Thu, 25 Mar 2021 17:03:13 +0000 (UTC)
-Received: by mail-oi1-x236.google.com with SMTP id z15so2809825oic.8;
- Thu, 25 Mar 2021 10:03:13 -0700 (PDT)
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC4B26EDD4;
+ Thu, 25 Mar 2021 17:06:05 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ 68-20020a9d0f4a0000b02901b663e6258dso2582478ott.13; 
+ Thu, 25 Mar 2021 10:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=p1eSPaGkT8mMzGL4Eii7JRZXpzn1DMC+r2lt62VUMVI=;
- b=C/yvC2HHB58h+xMR3r/t/JzTfz0iS7SOPbN2jl/kwQKTd30FhC5PQrZ6zh+/7EoXW3
- Z+CsjvNmb77jjH06qyYKl8UUUEN3cvbjcrNjE+6CGH7IySK1guH68owWGGWEHD1dVi8T
- WEGCyj3O7xOGY5lijaBVDWTzVItitzDVj/80ZIF6wgvgMM+OCQ3PbxZTnidlNEmdS81F
- Ph5D5DrsRpirin1lHmFbsAUzmtWvddvvyyyntNBXgNSYoE5sIgQ1hUGAJBYdFIdc7zmY
- TvHjDQ7O76HCXSjy7n6vlH7Eb9eauCkIXgRBKkz14KLogSO27f4XGXIQ4kQiTE+ZddcR
- E8+Q==
+ :cc; bh=D16eJpL2LBfvUluRDyQanrYn6zGJzEDrICLJY2kdlso=;
+ b=iw2G2H+WeNBPxEENOOKPB27xAEjmjh9mMuUFxVajLyKr1eyLosWSRPePwkJ/qqX2R9
+ 5nDrGFGz7kFgIm2/13rmt7ERstPe45FfJlPqlkUtODUR4W84JFGuusC3hJJhzVhP3Kgc
+ gX89KJcPVfBi1Ruj4HbUka0DyIwUamhydiYx/dZwO/WME4ChNWswMoLDciJzUf75Qh1n
+ U0msB4n3dwa4da7UpC8tcPMAQO68ae2Hb4Z2xNu2LA1h257fSFE49q5Ep+MfsnSqes5J
+ ynMNIdnCRqqcVmUjuG+6gcg/n5ffLgp5qhrBSlqCVhSueqSYDAQKpOas5XCxS/eIYMf/
+ fCwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=p1eSPaGkT8mMzGL4Eii7JRZXpzn1DMC+r2lt62VUMVI=;
- b=tsxCq+Kq4WR87vDzcpoBi39vEx49et3kzqh+3AF9gy0mpfJHKsqu3lcDdZ0BsDTzqp
- xD6nMOTZjfafAtdUM2pNe3XokgabtxmWz3Dz2gn9S0CkyQGbrGGG1No1KKNftuHGnkxU
- 63RZD4wugplOndKqyljtUV4pGz+IfGXlIsYYYkSVccdRxgqA9LXkc1A2bq5cjFMzVfMH
- DilvbExnFyDDV5SdfNzcIFRnoU0DGMoMnJ2onsItFAXZ9hc2u+4NFBCJ2qpFanHcIhCU
- kElVPFW6O1DU54zwXmfToB7PEtwl4ch/k6RPI04ZJp+IV9RmrBrwGhOQi5D6XKPtvkiC
- D04w==
-X-Gm-Message-State: AOAM530tzUnRYZRkfOB2i02YiOyK76f/JL/jVrtWX2zE9/gMMM4qFO3U
- ZddgGGMRMPOgFI1X0RnSDOKhYtV/NAYqbWumqkU=
-X-Google-Smtp-Source: ABdhPJwnXNdbMharWucRKvy6KUhwqLkgtKI6BC83ZIHeaf6aXXOyWm6u3Opwz0LNzF1Wy1DkGec3BpPhUwHWjzM1rt4=
-X-Received: by 2002:a05:6808:68a:: with SMTP id
- k10mr4703408oig.120.1616691792329; 
- Thu, 25 Mar 2021 10:03:12 -0700 (PDT)
+ bh=D16eJpL2LBfvUluRDyQanrYn6zGJzEDrICLJY2kdlso=;
+ b=pa/11EV43IUv9b4iRwzVjE9wncFc6REzXDaGmO1ZY6kBXkrPQhERnnkJFRS8EFW1OV
+ Kx1bdxClQNSR7PvCZTz+SXyEHi+YTrscuL7OXI9kz3VnKhkYALn1hFFtcaV5FGOqf1dn
+ 4mp3n0HYgbSOh1xF8sHdo1bIGg2LCIv7ii8doHggRp97Jkt5667UUJK9bRCZH66l83gl
+ WqCmErIuuSL5Wog1EpqXZ0WvBDpExoyBf/aVqiM8a1pWn7csWpnlWXCJlmewZc4aVlZF
+ uWx8zj7TvUlM5NmBMKh32oyMh9AlK/R1OODDycqDoOIrIAoRF7G8+n675Oo9OoKV1+xV
+ K6tA==
+X-Gm-Message-State: AOAM530Jgmg2P53T/DX1Xf6OtJryc6pBtHPaRC0EhnghLeI8bepq3mti
+ nS1+Q7W2hrKIhL7AFW6+7kJg/mLd+WArbayq47k=
+X-Google-Smtp-Source: ABdhPJzAWneBbYU6R/ab20sYf4XZP026hRojikNlEl4W6aOy2RMf65QCKjIjgB4U8kMahef4OpWc9VqEf85xFqCTyYg=
+X-Received: by 2002:a05:6830:408f:: with SMTP id
+ x15mr8716732ott.132.1616691965092; 
+ Thu, 25 Mar 2021 10:06:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210324232941.21439-1-unixbhaskar@gmail.com>
- <65cf3c2d-483f-432e-1d51-ca811e13f12f@infradead.org>
-In-Reply-To: <65cf3c2d-483f-432e-1d51-ca811e13f12f@infradead.org>
+References: <20210325085324.30224-1-unixbhaskar@gmail.com>
+ <8109ef99-1ea7-a11a-bbe3-1fac9851834d@amd.com>
+In-Reply-To: <8109ef99-1ea7-a11a-bbe3-1fac9851834d@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 25 Mar 2021 13:03:01 -0400
-Message-ID: <CADnq5_Nwwg2wEUO-Y8q96i_Xj0fHUGYguytesFq3Fooqqk4mUA@mail.gmail.com>
-Subject: Re: [PATCH V2] drm/radeon/r600_cs: Few typo fixes
-To: Randy Dunlap <rdunlap@infradead.org>
+Date: Thu, 25 Mar 2021 13:05:54 -0400
+Message-ID: <CADnq5_MY0FxW=s_7KywgXdeCKH_GAxLe8vhvQhFd5XDUTj2ZwA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/amdgpu/gfx_v7_0: Trivial typo fixes
+To: Nirmoy <nirmodas@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,11 +64,17 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>, Dave Airlie <airlied@linux.ie>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Huang Rui <ray.huang@amd.com>,
  LKML <linux-kernel@vger.kernel.org>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Nirmoy Das <nirmoy.das@amd.com>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+ Alexander" <alexander.deucher@amd.com>, "Kuehling,
+ Felix" <Felix.Kuehling@amd.com>, Lee Jones <lee.jones@linaro.org>,
+ Christian Koenig <christian.koenig@amd.com>, "Tuikov,
+ Luben" <luben.tuikov@amd.com>, linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -77,68 +84,137 @@ Applied.  Thanks!
 
 Alex
 
-On Wed, Mar 24, 2021 at 7:46 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+On Thu, Mar 25, 2021 at 5:26 AM Nirmoy <nirmodas@amd.com> wrote:
 >
-> On 3/24/21 4:29 PM, Bhaskar Chowdhury wrote:
-> > s/miror/mirror/
-> > s/needind/needing/
-> > s/informations/information/
+>
+> Reviewed-by: Nirmoy Das<nirmoy.das@amd.com>
+>
+> On 3/25/21 9:53 AM, Bhaskar Chowdhury wrote:
+> > s/acccess/access/
+> > s/inferface/interface/
+> > s/sequnce/sequence/  .....two different places.
+> > s/retrive/retrieve/
+> > s/sheduling/scheduling/
+> > s/independant/independent/
+> > s/wether/whether/ ......two different places.
+> > s/emmit/emit/
+> > s/synce/sync/
+> >
 > >
 > > Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
->
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
->
-> Thanks.
->
 > > ---
-> >  Changes from V1:
-> >  Randy's finding incorporated ,i.e in one place,informations->information
-> >   Adjusted the subject line accordingly
+> >   drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c | 22 +++++++++++-----------
+> >   1 file changed, 11 insertions(+), 11 deletions(-)
 > >
-> >  drivers/gpu/drm/radeon/r600_cs.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
+> > index a368724c3dfc..4502b95ddf6b 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
+> > @@ -1877,7 +1877,7 @@ static void gfx_v7_0_init_compute_vmid(struct amdgpu_device *adev)
+> >       mutex_unlock(&adev->srbm_mutex);
 > >
-> > diff --git a/drivers/gpu/drm/radeon/r600_cs.c b/drivers/gpu/drm/radeon/r600_cs.c
-> > index 34b7c6f16479..8be4799a98ef 100644
-> > --- a/drivers/gpu/drm/radeon/r600_cs.c
-> > +++ b/drivers/gpu/drm/radeon/r600_cs.c
-> > @@ -38,7 +38,7 @@ extern void r600_cs_legacy_get_tiling_conf(struct drm_device *dev, u32 *npipes,
+> >       /* Initialize all compute VMIDs to have no GDS, GWS, or OA
+> > -        acccess. These should be enabled by FW for target VMIDs. */
+> > +        access. These should be enabled by FW for target VMIDs. */
+> >       for (i = adev->vm_manager.first_kfd_vmid; i < AMDGPU_NUM_VMID; i++) {
+> >               WREG32(amdgpu_gds_reg_offset[i].mem_base, 0);
+> >               WREG32(amdgpu_gds_reg_offset[i].mem_size, 0);
+> > @@ -2058,7 +2058,7 @@ static void gfx_v7_0_constants_init(struct amdgpu_device *adev)
+> >    * @adev: amdgpu_device pointer
+> >    *
+> >    * Set up the number and offset of the CP scratch registers.
+> > - * NOTE: use of CP scratch registers is a legacy inferface and
+> > + * NOTE: use of CP scratch registers is a legacy interface and
+> >    * is not used by default on newer asics (r6xx+).  On newer asics,
+> >    * memory buffers are used for fences rather than scratch regs.
+> >    */
+> > @@ -2172,7 +2172,7 @@ static void gfx_v7_0_ring_emit_vgt_flush(struct amdgpu_ring *ring)
+> >    * @seq: sequence number
+> >    * @flags: fence related flags
+> >    *
+> > - * Emits a fence sequnce number on the gfx ring and flushes
+> > + * Emits a fence sequence number on the gfx ring and flushes
+> >    * GPU caches.
+> >    */
+> >   static void gfx_v7_0_ring_emit_fence_gfx(struct amdgpu_ring *ring, u64 addr,
+> > @@ -2215,7 +2215,7 @@ static void gfx_v7_0_ring_emit_fence_gfx(struct amdgpu_ring *ring, u64 addr,
+> >    * @seq: sequence number
+> >    * @flags: fence related flags
+> >    *
+> > - * Emits a fence sequnce number on the compute ring and flushes
+> > + * Emits a fence sequence number on the compute ring and flushes
+> >    * GPU caches.
+> >    */
+> >   static void gfx_v7_0_ring_emit_fence_compute(struct amdgpu_ring *ring,
+> > @@ -2245,14 +2245,14 @@ static void gfx_v7_0_ring_emit_fence_compute(struct amdgpu_ring *ring,
+> >    * gfx_v7_0_ring_emit_ib - emit an IB (Indirect Buffer) on the ring
+> >    *
+> >    * @ring: amdgpu_ring structure holding ring information
+> > - * @job: job to retrive vmid from
+> > + * @job: job to retrieve vmid from
+> >    * @ib: amdgpu indirect buffer object
+> >    * @flags: options (AMDGPU_HAVE_CTX_SWITCH)
+> >    *
+> >    * Emits an DE (drawing engine) or CE (constant engine) IB
+> >    * on the gfx ring.  IBs are usually generated by userspace
+> >    * acceleration drivers and submitted to the kernel for
+> > - * sheduling on the ring.  This function schedules the IB
+> > + * scheduling on the ring.  This function schedules the IB
+> >    * on the gfx ring for execution by the GPU.
+> >    */
+> >   static void gfx_v7_0_ring_emit_ib_gfx(struct amdgpu_ring *ring,
+> > @@ -2402,7 +2402,7 @@ static int gfx_v7_0_ring_test_ib(struct amdgpu_ring *ring, long timeout)
 > >
+> >   /*
+> >    * CP.
+> > - * On CIK, gfx and compute now have independant command processors.
+> > + * On CIK, gfx and compute now have independent command processors.
+> >    *
+> >    * GFX
+> >    * Gfx consists of a single ring and can process both gfx jobs and
+> > @@ -2630,7 +2630,7 @@ static int gfx_v7_0_cp_gfx_resume(struct amdgpu_device *adev)
+> >       ring->wptr = 0;
+> >       WREG32(mmCP_RB0_WPTR, lower_32_bits(ring->wptr));
 > >
-> >  struct r600_cs_track {
-> > -     /* configuration we miror so that we use same code btw kms/ums */
-> > +     /* configuration we mirror so that we use same code btw kms/ums */
-> >       u32                     group_size;
-> >       u32                     nbanks;
-> >       u32                     npipes;
-> > @@ -963,7 +963,7 @@ static int r600_cs_parse_packet0(struct radeon_cs_parser *p,
-> >   *
-> >   * This function will test against r600_reg_safe_bm and return 0
-> >   * if register is safe. If register is not flag as safe this function
-> > - * will test it against a list of register needind special handling.
-> > + * will test it against a list of register needing special handling.
-> >   */
-> >  static int r600_cs_check_reg(struct radeon_cs_parser *p, u32 reg, u32 idx)
-> >  {
-> > @@ -2336,7 +2336,7 @@ int r600_cs_parse(struct radeon_cs_parser *p)
-> >  /**
-> >   * r600_dma_cs_next_reloc() - parse next reloc
-> >   * @p:               parser structure holding parsing context.
-> > - * @cs_reloc:                reloc informations
-> > + * @cs_reloc:                reloc information
-> >   *
-> >   * Return the next reloc, do bo validation and compute
-> >   * GPU offset using the provided start.
+> > -     /* set the wb address wether it's enabled or not */
+> > +     /* set the wb address whether it's enabled or not */
+> >       rptr_addr = adev->wb.gpu_addr + (ring->rptr_offs * 4);
+> >       WREG32(mmCP_RB0_RPTR_ADDR, lower_32_bits(rptr_addr));
+> >       WREG32(mmCP_RB0_RPTR_ADDR_HI, upper_32_bits(rptr_addr) & 0xFF);
+> > @@ -2985,7 +2985,7 @@ static void gfx_v7_0_mqd_init(struct amdgpu_device *adev,
+> >       mqd->cp_hqd_pq_wptr_poll_addr_lo = wb_gpu_addr & 0xfffffffc;
+> >       mqd->cp_hqd_pq_wptr_poll_addr_hi = upper_32_bits(wb_gpu_addr) & 0xffff;
+> >
+> > -     /* set the wb address wether it's enabled or not */
+> > +     /* set the wb address whether it's enabled or not */
+> >       wb_gpu_addr = adev->wb.gpu_addr + (ring->rptr_offs * 4);
+> >       mqd->cp_hqd_pq_rptr_report_addr_lo = wb_gpu_addr & 0xfffffffc;
+> >       mqd->cp_hqd_pq_rptr_report_addr_hi =
+> > @@ -3198,7 +3198,7 @@ static int gfx_v7_0_cp_resume(struct amdgpu_device *adev)
+> >   /**
+> >    * gfx_v7_0_ring_emit_vm_flush - cik vm flush using the CP
+> >    *
+> > - * @ring: the ring to emmit the commands to
+> > + * @ring: the ring to emit the commands to
+> >    *
+> >    * Sync the command pipeline with the PFP. E.g. wait for everything
+> >    * to be completed.
+> > @@ -3220,7 +3220,7 @@ static void gfx_v7_0_ring_emit_pipeline_sync(struct amdgpu_ring *ring)
+> >       amdgpu_ring_write(ring, 4); /* poll interval */
+> >
+> >       if (usepfp) {
+> > -             /* synce CE with ME to prevent CE fetch CEIB before context switch done */
+> > +             /* sync CE with ME to prevent CE fetch CEIB before context switch done */
+> >               amdgpu_ring_write(ring, PACKET3(PACKET3_SWITCH_BUFFER, 0));
+> >               amdgpu_ring_write(ring, 0);
+> >               amdgpu_ring_write(ring, PACKET3(PACKET3_SWITCH_BUFFER, 0));
 > > --
->
->
-> --
-> ~Randy
->
+> > 2.30.1
+> >
 > _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
