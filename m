@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 405DE349775
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 17:59:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB6F349782
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 18:01:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66D876EB6B;
-	Thu, 25 Mar 2021 16:58:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD0A6EDCA;
+	Thu, 25 Mar 2021 17:01:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 241816EB6B;
- Thu, 25 Mar 2021 16:58:56 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id
- t23-20020a0568301e37b02901b65ab30024so2604015otr.4; 
- Thu, 25 Mar 2021 09:58:56 -0700 (PDT)
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D6756EDC1;
+ Thu, 25 Mar 2021 17:01:40 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ g8-20020a9d6c480000b02901b65ca2432cso2616390otq.3; 
+ Thu, 25 Mar 2021 10:01:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=t/O8m8IOxntS1mga4RbDV2Gzqftugt1u1+gs5VyZdC4=;
- b=a78uJ8XUGc4mp4RwZAcUS04PRHfHNn/08Xu8uIrKZnd65Va4oDoP2ujHDOdPitOWzE
- BtOh4Scmu8ttlkmvkIDz1fzxnU+IJAV+eAwOl8+eMX1tnQFdz3N9EpRtgYCy81fbGLtj
- ZahiqequFsDEemqzPchIwSjgr3CrOzczBAj+QZxlIi0MaP/m1rDinrxYlif95w+ZU+Ol
- cUYMFdGragNZ5SO4SxhVnT1r9sJwBadqEW7fmHew58n0RWFIdAlZfeGcpn3fcfD7H94L
- R75aWC8NCkh2TIKwAW67K6/Cp7FW1Qz7sXpFfJvnHtbb1Ef6zSl396ixJuSdrEo4Jze4
- IfdA==
+ :cc; bh=wJ8zHlM8qfvcT77mCcQxpLWUbrfiiGwRTV3uVZ1+Q5c=;
+ b=Z7ULpDZtsbxI2ysuOWL2BF/qgIuGGJ+WWpS77Yfmszj+y7UWsA5mzt6wkwVjuRyiwx
+ lPNGLipNXE1/IdWMLjPAZ22YRwdK2vI6qIS8gkg7O1WP+JOTAtAjv0qhHIaCRuXVndnq
+ a9mTfNi9zCMTDD19JiFhe98YcHPqN/DdaVI/ViUr5dbtar8mI4ZCkxMiTMIPTY38lcDV
+ 9evC0uMLO8R4K1Yil7GtxCtS1gP5+rnSd1Diwl6ouDgIaESOCN6Z08Py3z4sDIpEJNaH
+ WaSHIzn8Upm5EhBBO8HLTQl4necgCbD/oHbrkXivtUWzQsMEdWM1BcgT3sAl1RlvtZHc
+ H4Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=t/O8m8IOxntS1mga4RbDV2Gzqftugt1u1+gs5VyZdC4=;
- b=r/EeVU5v8zvFZRwnuA9O4zJhd+UCq8OAOz7WpdsCKP6Mbl8uAC6EzlztfZLDP+TZaJ
- HMd4yEuXsHjw+k0RcaYRNykqXbGV7lJUoMg9Ciz0cSVQcdIWXgTF4J+1Y8EX7VzRQ2fh
- Z8t+968u6dIIOeKIc5f3wLemQZz1I18PfEJdVY1j0fTD1b7uSE75b9QrQ56MGZvX+0kD
- 6Kw094wJ9Q3JKz+8kWZXLYFUKmlXwUa/ja1VdCOsmPNmn06Eb906o3QTz2z73jQUziFP
- d+2Z5LxUPdX9MPUlVGg1dLLdWYJ7fCTi56HSxld8Wg4scBv5XaKRJTkyLd5sFqlS4/VH
- nxrA==
-X-Gm-Message-State: AOAM531Sv7mM3bW2A06W3WzDwhGoYCYqe0um7kjtx+wMGF8JZQx0BuF2
- wTOCtgt+l03v5aDVixiyzxlP4un+/vL5fkXU6oQ=
-X-Google-Smtp-Source: ABdhPJw14TYBs7o1WtDY0VivKSYj0WmYdQT29x4nDgfsxDbXb/GVfMOnZv+4HX7Xdujmn+3OwMzliGPUeXRFOx7Lzhk=
-X-Received: by 2002:a9d:d89:: with SMTP id 9mr8504280ots.23.1616691535380;
- Thu, 25 Mar 2021 09:58:55 -0700 (PDT)
+ bh=wJ8zHlM8qfvcT77mCcQxpLWUbrfiiGwRTV3uVZ1+Q5c=;
+ b=ZTqdSW2JcLxiZEsYp0xjBpCsaw03BaWzzNL4QuhMltZHMRFV9jvjf9e8Rrb6ploWVD
+ PPTaP3nThYA0CC3glt98DVmXhNalK2IkeyeYr75gR7pdG/1Pd3x/88UzzBeEO6BuALQv
+ DKXkm44mNNd0i9VW6zvYlhOhQtkAaTv3vA2Y/08qKjeUmbH3rVhs3u6uPijadUL84bN7
+ MXYUF8ApaNAP82i0jJVjoxxMaMZv6ZVMSp+4dTdWXK9yXFFNICQaYayiLHRDV2mFI38N
+ Rv1tllCGgOr2ei3Vcpqg1h4lcyG5SibTEYjXF+MreJZObQzuXLdtPvGDyCjSUQsZB2pb
+ 4SlQ==
+X-Gm-Message-State: AOAM530yEBto6DQ09MhjTHqxKEYb2r/V0X3Og5v7vfnOxLdTIFIIQzhv
+ qIw7b/MXcFd0g7RGLkdu8OlR+8jYXLyTXNVEnos=
+X-Google-Smtp-Source: ABdhPJzaNvM9VQW41z7AkU7Mo0seISiGbYGwZorNkvm1iNHJHID2QGt+wE7Y+5+rr4rmF7L6MmZS8L8aWH9xC8klIEU=
+X-Received: by 2002:a05:6830:408f:: with SMTP id
+ x15mr8697018ott.132.1616691699957; 
+ Thu, 25 Mar 2021 10:01:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210324201624.712307-1-markyacoub@chromium.org>
-In-Reply-To: <20210324201624.712307-1-markyacoub@chromium.org>
+References: <20210324133705.2664873-1-arnd@kernel.org>
+In-Reply-To: <20210324133705.2664873-1-arnd@kernel.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 25 Mar 2021 12:58:44 -0400
-Message-ID: <CADnq5_Nn7v7BB0XY1iiEHwQu+noNSOqpBGEjwu6K=YaKdrPDdA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/amdgpu: Ensure that the modifier requested is
- supported by plane.
-To: Mark Yacoub <markyacoub@chromium.org>
+Date: Thu, 25 Mar 2021 13:01:29 -0400
+Message-ID: <CADnq5_Mtr4EaR_pXETdWiwNtutXweDMeB_2V=2mgqimt=OJt+w@mail.gmail.com>
+Subject: Re: [PATCH] amdgpu: securedisplay: simplify i2c hexdump output
+To: Arnd Bergmann <arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,115 +62,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+Cc: Jinzhou Su <Jinzhou.Su@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+ David Airlie <airlied@linux.ie>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ LKML <linux-kernel@vger.kernel.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Mark Yacoub <markyacoub@google.com>
+ Huang Rui <ray.huang@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 24, 2021 at 4:16 PM Mark Yacoub <markyacoub@chromium.org> wrote:
->
-> From: Mark Yacoub <markyacoub@google.com>
->
-> On initializing the framebuffer, call drm_any_plane_has_format to do a
-> check if the modifier is supported. drm_any_plane_has_format calls
-> dm_plane_format_mod_supported which is extended to validate that the
-> modifier is on the list of the plane's supported modifiers.
->
-> The bug was caught using igt-gpu-tools test: kms_addfb_basic.addfb25-bad-modifier
->
-> Tested on ChromeOS Zork by turning on the display, running an overlay
-> test, and running a YT video.
->
-> === Changes from v1 ===
-> Explicitly handle DRM_FORMAT_MOD_INVALID modifier.
->
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> Signed-off-by: default avatarMark Yacoub <markyacoub@chromium.org>
-
 Applied.  Thanks!
 
 Alex
 
+On Wed, Mar 24, 2021 at 9:37 AM Arnd Bergmann <arnd@kernel.org> wrote:
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> A previous fix I did left a rather complicated loop in
+> amdgpu_securedisplay_debugfs_write() for what could be expressed in a
+> simple sprintf, as Rasmus pointed out.
+>
+> This drops the leading 0x for each byte, but is otherwise
+> much nicer.
+>
+> Suggested-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c    | 13 +++++++++++++
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 18 +++++++++++++++---
->  2 files changed, 28 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c | 11 +++--------
+>  1 file changed, 3 insertions(+), 8 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> index afa5f8ad0f563..a947b5aa420d2 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> @@ -908,6 +908,19 @@ int amdgpu_display_gem_fb_verify_and_init(
->                                          &amdgpu_fb_funcs);
->         if (ret)
->                 goto err;
-> +       /* Verify that the modifier is supported. */
-> +       if (!drm_any_plane_has_format(dev, mode_cmd->pixel_format,
-> +                                     mode_cmd->modifier[0])) {
-> +               struct drm_format_name_buf format_name;
-> +               drm_dbg_kms(dev,
-> +                           "unsupported pixel format %s / modifier 0x%llx\n",
-> +                           drm_get_format_name(mode_cmd->pixel_format,
-> +                                               &format_name),
-> +                           mode_cmd->modifier[0]);
-> +
-> +               ret = -EINVAL;
-> +               goto err;
-> +       }
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c
+> index 69d7f6bff5d4..fc3ddd7aa6f0 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c
+> @@ -92,9 +92,7 @@ static ssize_t amdgpu_securedisplay_debugfs_write(struct file *f, const char __u
+>         struct drm_device *dev = adev_to_drm(adev);
+>         uint32_t phy_id;
+>         uint32_t op;
+> -       int i;
+>         char str[64];
+> -       char i2c_output[256];
+>         int ret;
 >
->         ret = amdgpu_display_framebuffer_init(dev, rfb, mode_cmd, obj);
->         if (ret)
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 961abf1cf040c..6fc746996c24f 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -3939,6 +3939,7 @@ static bool dm_plane_format_mod_supported(struct drm_plane *plane,
->  {
->         struct amdgpu_device *adev = drm_to_adev(plane->dev);
->         const struct drm_format_info *info = drm_format_info(format);
-> +       int i;
->
->         enum dm_micro_swizzle microtile = modifier_gfx9_swizzle_mode(modifier) & 3;
->
-> @@ -3946,11 +3947,22 @@ static bool dm_plane_format_mod_supported(struct drm_plane *plane,
->                 return false;
->
->         /*
-> -        * We always have to allow this modifier, because core DRM still
-> -        * checks LINEAR support if userspace does not provide modifers.
-> +        * We always have to allow these modifiers:
-> +        * 1. Core DRM checks for LINEAR support if userspace does not provide modifiers.
-> +        * 2. Not passing any modifiers is the same as explicitly passing INVALID.
->          */
-> -       if (modifier == DRM_FORMAT_MOD_LINEAR)
-> +       if (modifier == DRM_FORMAT_MOD_LINEAR ||
-> +           modifier == DRM_FORMAT_MOD_INVALID) {
->                 return true;
-> +       }
-> +
-> +       /* Check that the modifier is on the list of the plane's supported modifiers. */
-> +       for (i = 0; i < plane->modifier_count; i++) {
-> +               if (modifier == plane->modifiers[i])
-> +                       break;
-> +       }
-> +       if (i == plane->modifier_count)
-> +               return false;
->
->         /*
->          * The arbitrary tiling support for multiplane formats has not been hooked
+>         if (*pos || size > sizeof(str) - 1)
+> @@ -136,12 +134,9 @@ static ssize_t amdgpu_securedisplay_debugfs_write(struct file *f, const char __u
+>                 ret = psp_securedisplay_invoke(psp, TA_SECUREDISPLAY_COMMAND__SEND_ROI_CRC);
+>                 if (!ret) {
+>                         if (securedisplay_cmd->status == TA_SECUREDISPLAY_STATUS__SUCCESS) {
+> -                               int pos = 0;
+> -                               memset(i2c_output,  0, sizeof(i2c_output));
+> -                               for (i = 0; i < TA_SECUREDISPLAY_I2C_BUFFER_SIZE; i++)
+> -                                       pos += sprintf(i2c_output + pos, " 0x%X",
+> -                                               securedisplay_cmd->securedisplay_out_message.send_roi_crc.i2c_buf[i]);
+> -                               dev_info(adev->dev, "SECUREDISPLAY: I2C buffer out put is :%s\n", i2c_output);
+> +                               dev_info(adev->dev, "SECUREDISPLAY: I2C buffer out put is: %*ph\n",
+> +                                        TA_SECUREDISPLAY_I2C_BUFFER_SIZE,
+> +                                        securedisplay_cmd->securedisplay_out_message.send_roi_crc.i2c_buf);
+>                         } else {
+>                                 psp_securedisplay_parse_resp_status(psp, securedisplay_cmd->status);
+>                         }
 > --
-> 2.31.0.291.g576ba9dcdaf-goog
+> 2.29.2
 >
 > _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
