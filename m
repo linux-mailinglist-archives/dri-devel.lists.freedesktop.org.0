@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB6F349782
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 18:01:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3416B349787
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 18:03:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD0A6EDCA;
-	Thu, 25 Mar 2021 17:01:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F29036EDCE;
+	Thu, 25 Mar 2021 17:03:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D6756EDC1;
- Thu, 25 Mar 2021 17:01:40 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- g8-20020a9d6c480000b02901b65ca2432cso2616390otq.3; 
- Thu, 25 Mar 2021 10:01:40 -0700 (PDT)
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51ABF6EDCE;
+ Thu, 25 Mar 2021 17:03:13 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id z15so2809825oic.8;
+ Thu, 25 Mar 2021 10:03:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wJ8zHlM8qfvcT77mCcQxpLWUbrfiiGwRTV3uVZ1+Q5c=;
- b=Z7ULpDZtsbxI2ysuOWL2BF/qgIuGGJ+WWpS77Yfmszj+y7UWsA5mzt6wkwVjuRyiwx
- lPNGLipNXE1/IdWMLjPAZ22YRwdK2vI6qIS8gkg7O1WP+JOTAtAjv0qhHIaCRuXVndnq
- a9mTfNi9zCMTDD19JiFhe98YcHPqN/DdaVI/ViUr5dbtar8mI4ZCkxMiTMIPTY38lcDV
- 9evC0uMLO8R4K1Yil7GtxCtS1gP5+rnSd1Diwl6ouDgIaESOCN6Z08Py3z4sDIpEJNaH
- WaSHIzn8Upm5EhBBO8HLTQl4necgCbD/oHbrkXivtUWzQsMEdWM1BcgT3sAl1RlvtZHc
- H4Pg==
+ :cc; bh=p1eSPaGkT8mMzGL4Eii7JRZXpzn1DMC+r2lt62VUMVI=;
+ b=C/yvC2HHB58h+xMR3r/t/JzTfz0iS7SOPbN2jl/kwQKTd30FhC5PQrZ6zh+/7EoXW3
+ Z+CsjvNmb77jjH06qyYKl8UUUEN3cvbjcrNjE+6CGH7IySK1guH68owWGGWEHD1dVi8T
+ WEGCyj3O7xOGY5lijaBVDWTzVItitzDVj/80ZIF6wgvgMM+OCQ3PbxZTnidlNEmdS81F
+ Ph5D5DrsRpirin1lHmFbsAUzmtWvddvvyyyntNBXgNSYoE5sIgQ1hUGAJBYdFIdc7zmY
+ TvHjDQ7O76HCXSjy7n6vlH7Eb9eauCkIXgRBKkz14KLogSO27f4XGXIQ4kQiTE+ZddcR
+ E8+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=wJ8zHlM8qfvcT77mCcQxpLWUbrfiiGwRTV3uVZ1+Q5c=;
- b=ZTqdSW2JcLxiZEsYp0xjBpCsaw03BaWzzNL4QuhMltZHMRFV9jvjf9e8Rrb6ploWVD
- PPTaP3nThYA0CC3glt98DVmXhNalK2IkeyeYr75gR7pdG/1Pd3x/88UzzBeEO6BuALQv
- DKXkm44mNNd0i9VW6zvYlhOhQtkAaTv3vA2Y/08qKjeUmbH3rVhs3u6uPijadUL84bN7
- MXYUF8ApaNAP82i0jJVjoxxMaMZv6ZVMSp+4dTdWXK9yXFFNICQaYayiLHRDV2mFI38N
- Rv1tllCGgOr2ei3Vcpqg1h4lcyG5SibTEYjXF+MreJZObQzuXLdtPvGDyCjSUQsZB2pb
- 4SlQ==
-X-Gm-Message-State: AOAM530yEBto6DQ09MhjTHqxKEYb2r/V0X3Og5v7vfnOxLdTIFIIQzhv
- qIw7b/MXcFd0g7RGLkdu8OlR+8jYXLyTXNVEnos=
-X-Google-Smtp-Source: ABdhPJzaNvM9VQW41z7AkU7Mo0seISiGbYGwZorNkvm1iNHJHID2QGt+wE7Y+5+rr4rmF7L6MmZS8L8aWH9xC8klIEU=
-X-Received: by 2002:a05:6830:408f:: with SMTP id
- x15mr8697018ott.132.1616691699957; 
- Thu, 25 Mar 2021 10:01:39 -0700 (PDT)
+ bh=p1eSPaGkT8mMzGL4Eii7JRZXpzn1DMC+r2lt62VUMVI=;
+ b=tsxCq+Kq4WR87vDzcpoBi39vEx49et3kzqh+3AF9gy0mpfJHKsqu3lcDdZ0BsDTzqp
+ xD6nMOTZjfafAtdUM2pNe3XokgabtxmWz3Dz2gn9S0CkyQGbrGGG1No1KKNftuHGnkxU
+ 63RZD4wugplOndKqyljtUV4pGz+IfGXlIsYYYkSVccdRxgqA9LXkc1A2bq5cjFMzVfMH
+ DilvbExnFyDDV5SdfNzcIFRnoU0DGMoMnJ2onsItFAXZ9hc2u+4NFBCJ2qpFanHcIhCU
+ kElVPFW6O1DU54zwXmfToB7PEtwl4ch/k6RPI04ZJp+IV9RmrBrwGhOQi5D6XKPtvkiC
+ D04w==
+X-Gm-Message-State: AOAM530tzUnRYZRkfOB2i02YiOyK76f/JL/jVrtWX2zE9/gMMM4qFO3U
+ ZddgGGMRMPOgFI1X0RnSDOKhYtV/NAYqbWumqkU=
+X-Google-Smtp-Source: ABdhPJwnXNdbMharWucRKvy6KUhwqLkgtKI6BC83ZIHeaf6aXXOyWm6u3Opwz0LNzF1Wy1DkGec3BpPhUwHWjzM1rt4=
+X-Received: by 2002:a05:6808:68a:: with SMTP id
+ k10mr4703408oig.120.1616691792329; 
+ Thu, 25 Mar 2021 10:03:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210324133705.2664873-1-arnd@kernel.org>
-In-Reply-To: <20210324133705.2664873-1-arnd@kernel.org>
+References: <20210324232941.21439-1-unixbhaskar@gmail.com>
+ <65cf3c2d-483f-432e-1d51-ca811e13f12f@infradead.org>
+In-Reply-To: <65cf3c2d-483f-432e-1d51-ca811e13f12f@infradead.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 25 Mar 2021 13:01:29 -0400
-Message-ID: <CADnq5_Mtr4EaR_pXETdWiwNtutXweDMeB_2V=2mgqimt=OJt+w@mail.gmail.com>
-Subject: Re: [PATCH] amdgpu: securedisplay: simplify i2c hexdump output
-To: Arnd Bergmann <arnd@kernel.org>
+Date: Thu, 25 Mar 2021 13:03:01 -0400
+Message-ID: <CADnq5_Nwwg2wEUO-Y8q96i_Xj0fHUGYguytesFq3Fooqqk4mUA@mail.gmail.com>
+Subject: Re: [PATCH V2] drm/radeon/r600_cs: Few typo fixes
+To: Randy Dunlap <rdunlap@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,13 +62,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jinzhou Su <Jinzhou.Su@amd.com>, Arnd Bergmann <arnd@arndb.de>,
- David Airlie <airlied@linux.ie>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>, Dave Airlie <airlied@linux.ie>,
  LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Huang Rui <ray.huang@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -78,60 +77,68 @@ Applied.  Thanks!
 
 Alex
 
-On Wed, Mar 24, 2021 at 9:37 AM Arnd Bergmann <arnd@kernel.org> wrote:
+On Wed, Mar 24, 2021 at 7:46 PM Randy Dunlap <rdunlap@infradead.org> wrote:
 >
-> From: Arnd Bergmann <arnd@arndb.de>
+> On 3/24/21 4:29 PM, Bhaskar Chowdhury wrote:
+> > s/miror/mirror/
+> > s/needind/needing/
+> > s/informations/information/
+> >
+> > Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 >
-> A previous fix I did left a rather complicated loop in
-> amdgpu_securedisplay_debugfs_write() for what could be expressed in a
-> simple sprintf, as Rasmus pointed out.
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
 >
-> This drops the leading 0x for each byte, but is otherwise
-> much nicer.
+> Thanks.
 >
-> Suggested-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c | 11 +++--------
->  1 file changed, 3 insertions(+), 8 deletions(-)
+> > ---
+> >  Changes from V1:
+> >  Randy's finding incorporated ,i.e in one place,informations->information
+> >   Adjusted the subject line accordingly
+> >
+> >  drivers/gpu/drm/radeon/r600_cs.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/radeon/r600_cs.c b/drivers/gpu/drm/radeon/r600_cs.c
+> > index 34b7c6f16479..8be4799a98ef 100644
+> > --- a/drivers/gpu/drm/radeon/r600_cs.c
+> > +++ b/drivers/gpu/drm/radeon/r600_cs.c
+> > @@ -38,7 +38,7 @@ extern void r600_cs_legacy_get_tiling_conf(struct drm_device *dev, u32 *npipes,
+> >
+> >
+> >  struct r600_cs_track {
+> > -     /* configuration we miror so that we use same code btw kms/ums */
+> > +     /* configuration we mirror so that we use same code btw kms/ums */
+> >       u32                     group_size;
+> >       u32                     nbanks;
+> >       u32                     npipes;
+> > @@ -963,7 +963,7 @@ static int r600_cs_parse_packet0(struct radeon_cs_parser *p,
+> >   *
+> >   * This function will test against r600_reg_safe_bm and return 0
+> >   * if register is safe. If register is not flag as safe this function
+> > - * will test it against a list of register needind special handling.
+> > + * will test it against a list of register needing special handling.
+> >   */
+> >  static int r600_cs_check_reg(struct radeon_cs_parser *p, u32 reg, u32 idx)
+> >  {
+> > @@ -2336,7 +2336,7 @@ int r600_cs_parse(struct radeon_cs_parser *p)
+> >  /**
+> >   * r600_dma_cs_next_reloc() - parse next reloc
+> >   * @p:               parser structure holding parsing context.
+> > - * @cs_reloc:                reloc informations
+> > + * @cs_reloc:                reloc information
+> >   *
+> >   * Return the next reloc, do bo validation and compute
+> >   * GPU offset using the provided start.
+> > --
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c
-> index 69d7f6bff5d4..fc3ddd7aa6f0 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c
-> @@ -92,9 +92,7 @@ static ssize_t amdgpu_securedisplay_debugfs_write(struct file *f, const char __u
->         struct drm_device *dev = adev_to_drm(adev);
->         uint32_t phy_id;
->         uint32_t op;
-> -       int i;
->         char str[64];
-> -       char i2c_output[256];
->         int ret;
 >
->         if (*pos || size > sizeof(str) - 1)
-> @@ -136,12 +134,9 @@ static ssize_t amdgpu_securedisplay_debugfs_write(struct file *f, const char __u
->                 ret = psp_securedisplay_invoke(psp, TA_SECUREDISPLAY_COMMAND__SEND_ROI_CRC);
->                 if (!ret) {
->                         if (securedisplay_cmd->status == TA_SECUREDISPLAY_STATUS__SUCCESS) {
-> -                               int pos = 0;
-> -                               memset(i2c_output,  0, sizeof(i2c_output));
-> -                               for (i = 0; i < TA_SECUREDISPLAY_I2C_BUFFER_SIZE; i++)
-> -                                       pos += sprintf(i2c_output + pos, " 0x%X",
-> -                                               securedisplay_cmd->securedisplay_out_message.send_roi_crc.i2c_buf[i]);
-> -                               dev_info(adev->dev, "SECUREDISPLAY: I2C buffer out put is :%s\n", i2c_output);
-> +                               dev_info(adev->dev, "SECUREDISPLAY: I2C buffer out put is: %*ph\n",
-> +                                        TA_SECUREDISPLAY_I2C_BUFFER_SIZE,
-> +                                        securedisplay_cmd->securedisplay_out_message.send_roi_crc.i2c_buf);
->                         } else {
->                                 psp_securedisplay_parse_resp_status(psp, securedisplay_cmd->status);
->                         }
 > --
-> 2.29.2
+> ~Randy
 >
 > _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
