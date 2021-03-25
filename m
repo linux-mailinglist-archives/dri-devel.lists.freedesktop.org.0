@@ -2,54 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4863349795
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 18:08:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6781A349815
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 18:33:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBFA56EB80;
-	Thu, 25 Mar 2021 17:08:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0564B6E02F;
+	Thu, 25 Mar 2021 17:33:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B2B46EB7F;
- Thu, 25 Mar 2021 17:08:21 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id m13so2794194oiw.13;
- Thu, 25 Mar 2021 10:08:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1PkoObgjDP1C1nJf3TQFBvDH6KCzgdXB9bud0P2XCd0=;
- b=ssVNbWY7QaP0IX3/njd3dS76K+/y6hzcso4UF4Fq0mrzK8WUfF5Ddw2Wfx8q2nIimR
- 01Ra6V0tUQhLWZlIYjNCoW7qVtfNQaEFazZY6ghESyOGIgIp2JjWATAgMXKMvRV0FgwB
- 2d2td2CN9LIpmdKYRUoRcbeRKFlxwhSJt90QoCUm00jpEoIAvV82Xznqz7rFbGgX/kgJ
- tPkFjVSvKPCGxAIk1Uchsresky+7M/9UYHu/GrSJ/k1OHBWdgprhW93GzLQIOT4zwEBy
- giTdviKYTvl5UX8NxuYws3Hnjktd1PiJpOOb5TiOx2iD3Ky3GV4k7jajhidS6OFCuNsx
- 1Nnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1PkoObgjDP1C1nJf3TQFBvDH6KCzgdXB9bud0P2XCd0=;
- b=NhkHcZVujX947NS8gsq2baijtQsQCChimsQY3deh7e46vO1DPNj3j49YT962cnzWqq
- mB/1GO51Vl83vFStRaN7f900Ry2YEy5Ht/Ja0ean2KFdtVAPNw033Y2J/0WW8dnyNvK5
- Fe/+f0i+mC/3AtuOdKQ1U3ohEorr0ZzdNEX6eYPiiBgAT4hAESDM+SZziRI4UoZI/Fdi
- 6xuHCKZ24HOE7hgGtWcYfVOeRaxkdeiNM1PuGS7UstFXApJSFLwSk80eV5HmbDITV3mk
- O/PPk8vztnVum6uFinQCXsyEa0CrtGfaYVOtt1G78T8EYFwF95ON606IYFY+kSXj8xFx
- ks5A==
-X-Gm-Message-State: AOAM5326xekUHSwWEeJVUClRvMjBiMORiZBkVh9PK6pcmCj5HybbAZ3j
- vxYlQ6vVL+LnaUCXLOpckcIwGPWNNE5vtVbbj70=
-X-Google-Smtp-Source: ABdhPJwN6SLyKxUYQXpoYiFP9yp1Ip5mQhoWAwFyE4e7a/0zLr1UczMSFR/yhlDae8rWuqlA2R2yl8Ee+E8EL6ooSt4=
-X-Received: by 2002:a05:6808:68a:: with SMTP id
- k10mr4720367oig.120.1616692100977; 
- Thu, 25 Mar 2021 10:08:20 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AF1F6E02F;
+ Thu, 25 Mar 2021 17:33:18 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0A18261A28;
+ Thu, 25 Mar 2021 17:33:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1616693597;
+ bh=qGpX3MaAi6iipXhij0xGuclaojia9d6LXGpZk4lS3FA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OpgdYXmTWs8MRabNzxRiFlKzCDpQS5h96vnrJxN9G4TZvg0WRGitBgXLTk+GnnXil
+ f8b5nAYnfp30PmCcOMovoLPgDhNtradrGc8Y6FhFhQ36jubqzqqO6zBwewg68FYuJf
+ Jv7k7kjnmjdLlFV3ePCk4UFG8Vd9Clf1rwUIugVfKpJsBtO7/w+BaxYqHIGJ7eDHwI
+ mCIthIJWR0FmNz1DYmj+Kqua1EmULEJwj1xk8HRopvlZ1bKjcDSPYNKMZbYPYp8xr5
+ TB9H5N62ZZMc3cBLXsUHr1mLRfZ6+pM2RtMNb99RhaB1IXnJpl6MiGYMIdbKb9KY+r
+ w0OsMID+O3r1w==
+Date: Thu, 25 Mar 2021 17:33:11 +0000
+From: Will Deacon <will@kernel.org>
+To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+Subject: Re: [PATCH 2/3] iommu/io-pgtable-arm: Add IOMMU_LLC page protection
+ flag
+Message-ID: <20210325173311.GA15504@willie-the-truck>
+References: <3f589e7de3f9fa93e84c83420c5270c546a0c368.1610372717.git.saiprakash.ranjan@codeaurora.org>
+ <20210129090516.GB3998@willie-the-truck>
+ <5d23fce629323bcda71594010824aad0@codeaurora.org>
+ <20210201111556.GA7172@willie-the-truck>
+ <CAF6AEGsARmkAFsjaQLfa2miMgeijo183MWDKGtW_ti-UCpzBqA@mail.gmail.com>
+ <20210201182016.GA21629@jcrouse1-lnx.qualcomm.com>
+ <7e9aade14d0b7f69285852ade4a5a9f4@codeaurora.org>
+ <20210203214612.GB19847@willie-the-truck>
+ <4988e2ef35f76a0c2f1fe3f66f023a3b@codeaurora.org>
+ <9362873a3bcf37cdd073a6128f29c683@codeaurora.org>
 MIME-Version: 1.0
-References: <20210322210612.1786322-1-unixbhaskar@gmail.com>
- <9696cd2a-bac2-15ba-c8e4-434df7b5cee0@infradead.org>
-In-Reply-To: <9696cd2a-bac2-15ba-c8e4-434df7b5cee0@infradead.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 25 Mar 2021 13:08:09 -0400
-Message-ID: <CADnq5_OP6rhH48wCWQVFrAC4iH0-v4ihREPMx8qOa=DkHKAehw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd: Fix a typo in two different sentences
-To: Randy Dunlap <rdunlap@infradead.org>
+Content-Disposition: inline
+In-Reply-To: <9362873a3bcf37cdd073a6128f29c683@codeaurora.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,61 +56,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>, Dave Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, "Quan, Evan" <evan.quan@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, "list@263.net:IOMMU DRIVERS ,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Kristian H Kristensen <hoegsberg@google.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Tue, Mar 09, 2021 at 12:10:44PM +0530, Sai Prakash Ranjan wrote:
+> On 2021-02-05 17:38, Sai Prakash Ranjan wrote:
+> > On 2021-02-04 03:16, Will Deacon wrote:
+> > > On Tue, Feb 02, 2021 at 11:56:27AM +0530, Sai Prakash Ranjan wrote:
+> > > > On 2021-02-01 23:50, Jordan Crouse wrote:
+> > > > > On Mon, Feb 01, 2021 at 08:20:44AM -0800, Rob Clark wrote:
+> > > > > > On Mon, Feb 1, 2021 at 3:16 AM Will Deacon <will@kernel.org> wrote:
+> > > > > > > On Fri, Jan 29, 2021 at 03:12:59PM +0530, Sai Prakash Ranjan wrote:
+> > > > > > > > On 2021-01-29 14:35, Will Deacon wrote:
+> > > > > > > > > On Mon, Jan 11, 2021 at 07:45:04PM +0530, Sai Prakash Ranjan wrote:
+> > > > > > > > > > +#define IOMMU_LLC        (1 << 6)
+> > > > > > > > >
+> > > > > > > > > On reflection, I'm a bit worried about exposing this because I think it
+> > > > > > > > > will
+> > > > > > > > > introduce a mismatched virtual alias with the CPU (we don't even have a
+> > > > > > > > > MAIR
+> > > > > > > > > set up for this memory type). Now, we also have that issue for the PTW,
+> > > > > > > > > but
+> > > > > > > > > since we always use cache maintenance (i.e. the streaming API) for
+> > > > > > > > > publishing the page-tables to a non-coheren walker, it works out.
+> > > > > > > > > However,
+> > > > > > > > > if somebody expects IOMMU_LLC to be coherent with a DMA API coherent
+> > > > > > > > > allocation, then they're potentially in for a nasty surprise due to the
+> > > > > > > > > mismatched outer-cacheability attributes.
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > > Can't we add the syscached memory type similar to what is done on android?
+> > > > > > >
+> > > > > > > Maybe. How does the GPU driver map these things on the CPU side?
+> > > > > >
+> > > > > > Currently we use writecombine mappings for everything, although there
+> > > > > > are some cases that we'd like to use cached (but have not merged
+> > > > > > patches that would give userspace a way to flush/invalidate)
+> > > > > >
+> > > > >
+> > > > > LLC/system cache doesn't have a relationship with the CPU cache.  Its
+> > > > > just a
+> > > > > little accelerator that sits on the connection from the GPU to DDR and
+> > > > > caches
+> > > > > accesses. The hint that Sai is suggesting is used to mark the buffers as
+> > > > > 'no-write-allocate' to prevent GPU write operations from being cached in
+> > > > > the LLC
+> > > > > which a) isn't interesting and b) takes up cache space for read
+> > > > > operations.
+> > > > >
+> > > > > Its easiest to think of the LLC as a bonus accelerator that has no cost
+> > > > > for
+> > > > > us to use outside of the unfortunate per buffer hint.
+> > > > >
+> > > > > We do have to worry about the CPU cache w.r.t I/O coherency (which is a
+> > > > > different hint) and in that case we have all of concerns that Will
+> > > > > identified.
+> > > > >
+> > > > 
+> > > > For mismatched outer cacheability attributes which Will
+> > > > mentioned, I was
+> > > > referring to [1] in android kernel.
+> > > 
+> > > I've lost track of the conversation here :/
+> > > 
+> > > When the GPU has a buffer mapped with IOMMU_LLC, is the buffer also
+> > > mapped
+> > > into the CPU and with what attributes? Rob said "writecombine for
+> > > everything" -- does that mean ioremap_wc() / MEMREMAP_WC?
+> > > 
+> > 
+> > Rob answered this.
+> > 
+> > > Finally, we need to be careful when we use the word "hint" as
+> > > "allocation
+> > > hint" has a specific meaning in the architecture, and if we only
+> > > mismatch on
+> > > those then we're actually ok. But I think IOMMU_LLC is more than
+> > > just a
+> > > hint, since it actually drives eviction policy (i.e. it enables
+> > > writeback).
+> > > 
+> > > Sorry for the pedantry, but I just want to make sure we're all talking
+> > > about the same things!
+> > > 
+> > 
+> > Sorry for the confusion which probably was caused by my mentioning of
+> > android, NWA(no write allocate) is an allocation hint which we can
+> > ignore
+> > for now as it is not introduced yet in upstream.
+> > 
+> 
+> Any chance of taking this forward? We do not want to miss out on small fps
+> gain when the product gets released.
 
-Alex
+Do we have a solution to the mismatched virtual alias?
 
-On Mon, Mar 22, 2021 at 6:45 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> On 3/22/21 2:06 PM, Bhaskar Chowdhury wrote:
-> >
-> > s/defintion/definition/ .....two different places.
-> >
-> > Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
->
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
->
-> > ---
-> >  drivers/gpu/drm/amd/include/atombios.h | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/include/atombios.h b/drivers/gpu/drm/amd/include/atombios.h
-> > index c1d7b1d0b952..47eb84598b96 100644
-> > --- a/drivers/gpu/drm/amd/include/atombios.h
-> > +++ b/drivers/gpu/drm/amd/include/atombios.h
-> > @@ -1987,9 +1987,9 @@ typedef struct _PIXEL_CLOCK_PARAMETERS_V6
-> >  #define PIXEL_CLOCK_V6_MISC_HDMI_BPP_MASK           0x0c
-> >  #define PIXEL_CLOCK_V6_MISC_HDMI_24BPP              0x00
-> >  #define PIXEL_CLOCK_V6_MISC_HDMI_36BPP              0x04
-> > -#define PIXEL_CLOCK_V6_MISC_HDMI_36BPP_V6           0x08    //for V6, the correct defintion for 36bpp should be 2 for 36bpp(2:1)
-> > +#define PIXEL_CLOCK_V6_MISC_HDMI_36BPP_V6           0x08    //for V6, the correct definition for 36bpp should be 2 for 36bpp(2:1)
-> >  #define PIXEL_CLOCK_V6_MISC_HDMI_30BPP              0x08
-> > -#define PIXEL_CLOCK_V6_MISC_HDMI_30BPP_V6           0x04    //for V6, the correct defintion for 30bpp should be 1 for 36bpp(5:4)
-> > +#define PIXEL_CLOCK_V6_MISC_HDMI_30BPP_V6           0x04    //for V6, the correct definition for 30bpp should be 1 for 36bpp(5:4)
-> >  #define PIXEL_CLOCK_V6_MISC_HDMI_48BPP              0x0c
-> >  #define PIXEL_CLOCK_V6_MISC_REF_DIV_SRC             0x10
-> >  #define PIXEL_CLOCK_V6_MISC_GEN_DPREFCLK            0x40
-> > --
->
->
-> --
-> ~Randy
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Will
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
