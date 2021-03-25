@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268353499E1
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 19:59:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 450033499DE
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 19:59:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E41F56EE1C;
-	Thu, 25 Mar 2021 18:59:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07C026EE13;
+	Thu, 25 Mar 2021 18:59:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aibo.runbox.com (aibo.runbox.com [91.220.196.211])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 060156EE1E;
- Thu, 25 Mar 2021 18:59:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC9106EE09;
+ Thu, 25 Mar 2021 18:59:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hiler.eu;
  s=selector2; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
  :Message-Id:Date:Subject:Cc:To:From;
- bh=XKEPUcginBRrGqcMEowuAtdUfBN+L4i35Fgl79e0nLU=; b=aYNySqrr+y/atiZsBDHUe4kwMV
- tA5hIM931b40gNYeF23tuaMI3oP0RUYLkMTsTV85jeXXNY2PhywGx+H+r4y3tyQ7+ryzYTmaTOTAU
- QgUNGNpo9kCUTTq597eXrQvXpXYglIGmP4hcPTGwqTiLY8x/QiadcDG6n5oCQuwm4cmlni2ukk1Mf
- ZbQpY4ahI3gD66Lg4V6Z0/pLNfDw4KZTnhGFt8lNa+eGJOz/N64IYzpGqvuBeSsPhaMFF9CBrEh1w
- Yg9EKBn9SfS+4sRVWZrHnvNwtC15lnhSzrs5kdmKxYAms2RltsHhIZJsLNxTv3tATD8VQaZFhpE8I
- FYZ39dLw==;
-Received: from [10.9.9.74] (helo=submission03.runbox)
- by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+ bh=lvDALWSEjbkoQcnRdzPBtcWeaRAlUJzh/ORCBw1xP/k=; b=5ZMMnas1OQdW9yaGaoV3YJ3IEZ
+ V3t3M7dcV+Fomli/KO7NgCJo1mfvhA1ugR8i5RKFYnBfCdvuCZLIHFnnhWAxXsrx3a1zkqvHdwOw0
+ dvr83L9KfxqX/sZPh82xcXr3oFyfFZ0np5jgXE9VpyG+yTXdjXG+CSKAZVh8oLUwXkZTfPLTkyYXm
+ KnbFHBr+C3IY13bnqWKlVLvCwC8Rla4/hnuYwgAG95Lb+IxfuASTItoXZ2Y2WwWAbMqi2hcCt2bTT
+ 0NCyvjj9ANpd0GkMgoAkLPaSP6cYu9fJuW2wcCXbD39bbX2pNeRVLBYwSe0wWoGlD/bdxzOpeDGUS
+ CmG5IQpA==;
+Received: from [10.9.9.73] (helo=submission02.runbox)
+ by mailtransmit03.runbox with esmtp (Exim 4.86_2)
  (envelope-from <arek@hiler.eu>)
- id 1lPVCm-0007Dp-As; Thu, 25 Mar 2021 19:59:40 +0100
-Received: by submission03.runbox with esmtpsa [Authenticated alias (933559)]
+ id 1lPVCk-0001zB-7V; Thu, 25 Mar 2021 19:59:38 +0100
+Received: by submission02.runbox with esmtpsa [Authenticated alias (933559)]
  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.90_1)
- id 1lPVCU-0001QH-U0; Thu, 25 Mar 2021 19:59:22 +0100
+ id 1lPVCV-0006Jk-Hl; Thu, 25 Mar 2021 19:59:23 +0100
 From: Arkadiusz Hiler <arek@hiler.eu>
 To: igt-dev@lists.freedesktop.org
-Subject: [PATCH i-g-t 2/5] tests: Build gem_concurrent_all with meson
-Date: Thu, 25 Mar 2021 20:59:12 +0200
-Message-Id: <20210325185915.51590-2-arek@hiler.eu>
+Subject: [PATCH i-g-t 3/5] tests: Remove ddx_intel_after_fbdev
+Date: Thu, 25 Mar 2021 20:59:13 +0200
+Message-Id: <20210325185915.51590-3-arek@hiler.eu>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210325185915.51590-1-arek@hiler.eu>
 References: <20210325185915.51590-1-arek@hiler.eu>
@@ -49,44 +49,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Petri Latvala <petri.latvala@intel.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-...and add it to test-list-full.txt just like we do when building with
-autotools.
+It's not a even a proper test.
 
+Suggested-by: Petri Latvala <petri.latvala@intel.com>
 Signed-off-by: Arkadiusz Hiler <arek@hiler.eu>
 ---
- tests/meson.build | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ tests/Makefile.sources      |  4 --
+ tests/ddx_intel_after_fbdev | 73 -------------------------------------
+ 2 files changed, 77 deletions(-)
+ delete mode 100755 tests/ddx_intel_after_fbdev
 
-diff --git a/tests/meson.build b/tests/meson.build
-index 54a1a3c7..8e3cd390 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -402,6 +402,19 @@ test_list_target = custom_target('testlist',
- 	      install : true,
- 	      install_dir : libexecdir)
+diff --git a/tests/Makefile.sources b/tests/Makefile.sources
+index 4f24fb3a..ffc7878a 100644
+--- a/tests/Makefile.sources
++++ b/tests/Makefile.sources
+@@ -550,10 +550,6 @@ kernel_tests_full = \
+ 	$(extra_kernel_tests) \
+ 	$(NULL)
  
-+test_executables += executable('gem_concurrent_all', 'i915/gem_concurrent_all.c',
-+	   dependencies : test_deps + [ libatomic ],
-+	   install_dir : libexecdir,
-+	   install_rpath : libexecdir_rpathdir,
-+	   install : true)
-+test_list += 'gem_concurrent_all'
-+
-+test_list_full_target = custom_target('testlist-full',
-+	      output : 'test-list-full.txt',
-+	      command : [ gen_testlist, '@OUTPUT@', test_list ],
-+	      install : true,
-+	      install_dir : libexecdir)
-+
- test_script = find_program('igt_command_line.sh')
- foreach prog : test_list
- 	test('testcase check ' + prog, test_script, args : prog)
+-scripts = \
+-	ddx_intel_after_fbdev \
+-	$(NULL)
+-
+ IMAGES = pass.png 1080p-left.png 1080p-right.png
+ 
+ testdisplay_SOURCES = \
+diff --git a/tests/ddx_intel_after_fbdev b/tests/ddx_intel_after_fbdev
+deleted file mode 100755
+index f068209d..00000000
+--- a/tests/ddx_intel_after_fbdev
++++ /dev/null
+@@ -1,73 +0,0 @@
+-#!/bin/bash
+-#
+-# Testcase: Load Intel DDX after fbdev was loaded
+-#
+-
+-whoami | grep -q root || {
+-	echo "ERROR: not running as root"
+-	exit 1
+-}
+-
+-# no other X session should be running
+-find /tmp/ -name .X*lock 2>/dev/null | grep -q X && {
+-	echo "ERROR: X session already running"
+-	exit 1
+-}
+-
+-TMPDIR=$(mktemp -d /tmp/igt.XXXX) || {
+-	echo "ERROR: Failed to create temp dir"
+-	exit 1
+-}
+-
+-cat > $TMPDIR/xorg.conf.fbdev << EOF
+-Section "Device"
+-	Driver		"fbdev"
+-	Identifier 	"Device[fbdev]"
+-EndSection
+-EOF
+-
+-cat > $TMPDIR/xorg.conf.intel << EOF
+-Section "Device"
+-	Driver		"intel"
+-	Identifier 	"Device[intel]"
+-EndSection
+-EOF
+-
+-# log before fbdev
+-dmesg -c > $TMPDIR/dmesg.1.before.fbdev
+-cp /var/log/Xorg.0.log $TMPDIR/Xorg.0.log.1.before.fbdev
+-
+-# run fbdev
+-xinit -- /usr/bin/X -config $TMPDIR/xorg.conf.fbdev & 
+-sleep 5
+-if [ -f `which intel_reg` ]; then
+-`which intel_reg` dump > $TMPDIR/intel_reg_dump.1.fbdev
+-fi
+-killall X
+-
+-# log after fbdev & before intel
+-dmesg -c > $TMPDIR/dmesg.2.after.fbdev.before.intel
+-cp /var/log/Xorg.0.log $TMPDIR/Xorg.0.log.2.after.fbdev.before.intel
+-
+-sleep 5
+-
+-# run intel
+-xinit -- /usr/bin/X -config $TMPDIR/xorg.conf.intel & 
+-sleep 5 
+-if [ -f `which intel_reg` ]; then
+-`which intel_reg` dump > $TMPDIR/intel_reg_dump.2.intel
+-fi
+-killall X
+-
+-# log after intel
+-dmesg -c > $TMPDIR/dmesg.3.after.intel
+-cp /var/log/Xorg.0.log $TMPDIR/Xorg.0.log.3.after.intel
+-
+-cp $0 $TMPDIR/
+-
+-tar czf $TMPDIR.tar.gz $TMPDIR/*
+-if [ -f $TMPDIR.tar.gz ]; then
+-	echo $TMPDIR.tar.gz contains this script, all configs and logs generated on this tests
+-fi
+-
+-exit 0
 -- 
 2.31.0
 
