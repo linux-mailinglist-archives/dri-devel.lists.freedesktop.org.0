@@ -1,63 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D166348C38
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 10:09:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A9E348CE6
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 10:30:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DCEE6ECD3;
-	Thu, 25 Mar 2021 09:09:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 576A16ECEB;
+	Thu, 25 Mar 2021 09:30:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 188D86ECD4
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 09:09:12 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id l123so1374907pfl.8
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 02:09:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=VWsn6esj8imf1uae7i0PYfEIqahCeH1CMSkS7p/mVYk=;
- b=HIBYhMJ3tP1aKPSwg0gUFOAmtXGabKSCvtt0vxq0cKr4wnvUWwGpH5l0/daMM0gb/q
- eIwN1cktfuMgY07XYtnR4aTFv6SgzyJlgqyBDscikKf+wOHVSMQVAuIXcbyikkFclA/K
- MuGM/06m6QL2fjldeVmJVaoJ/1ivyC1rsOIPx9oWGRx1XrxxHELz9ghFbUAAZcItYjAX
- 62xPTBRZVJzPGGYRrt1LTVxDKe/NVKOQ3EyxKwXzDRmp9/8Q35XveLxwWjLE3b4jWTiY
- TguamkqvVDR4TQ+2YgOyTpHcp1WGhmTN0kndzst7ijFQqpPPyH+K2OR8r/0QkVhkChQD
- PfFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=VWsn6esj8imf1uae7i0PYfEIqahCeH1CMSkS7p/mVYk=;
- b=XFsTeYwDiGkXvFvV3syPyGYmn5WvEVTjQwCuIgh7yw0GfrMvutx3yKy3/5g6IFCYGQ
- OFKNOnMXr2k6zT4fOIZeuMEoeHfxEuWDiRCPTJs5Ld35DBHMY1aOmEHsiCBkGSf+Sy2X
- 7hjSidIo58XWHSeKFyhL0E4sU868SAuKkx8AKPyEHixaxeU1OZzxGFZi24EQjtedqysY
- O/pE+M2Xaux7RmVC4aP8jaN4nO3SuL7yhc6St8prwM0IuLdic/XCoJzmSoELU+ygDTZs
- nWywZDyhqyihC871zdTmG/raAQHlE0VQRyeURJg/4DJKTthWqZY2kElbFtiaqPx8JoRD
- WbBQ==
-X-Gm-Message-State: AOAM5327EwNkKzbbxAEgpS/Qs1NsrQADm1GY/YHQOSonVF6HknNf8WDs
- EvUe24Qt7ixG8Xl3+8loWcz+Mw==
-X-Google-Smtp-Source: ABdhPJx75YaqoIXZKRzV6JNv+rXXkBOJ5fO88bVSyJdWvRiD9Mrig/3TUZdgxk+pZ1DK2jZHu6G8NA==
-X-Received: by 2002:a63:e44a:: with SMTP id i10mr6546829pgk.404.1616663351651; 
- Thu, 25 Mar 2021 02:09:11 -0700 (PDT)
-Received: from localhost ([122.172.6.13])
- by smtp.gmail.com with ESMTPSA id s184sm5341831pgb.63.2021.03.25.02.09.10
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 25 Mar 2021 02:09:10 -0700 (PDT)
-Date: Thu, 25 Mar 2021 14:39:09 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: Re: [PATCH v3 14/15] media: venus: Convert to use resource-managed
- OPP API
-Message-ID: <20210325090909.pyzyt3xds2ajvm7i@vireshk-i7>
-References: <20210314163408.22292-1-digetx@gmail.com>
- <20210314163408.22292-15-digetx@gmail.com>
- <b780c19f-7f5d-5453-dec1-062fa7c1dc07@linaro.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b780c19f-7f5d-5453-dec1-062fa7c1dc07@linaro.org>
-User-Agent: NeoMutt/20180716-391-311a52
+X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
+ Thu, 25 Mar 2021 09:17:55 UTC
+Received: from out28-149.mail.aliyun.com (out28-149.mail.aliyun.com
+ [115.124.28.149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CB786ECE6
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 09:17:54 +0000 (UTC)
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07634467|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.0188312-0.000749819-0.980419;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047190; MF=liu.xiang@zlingsmart.com; NM=1;
+ PH=DS; RN=9; RT=9; SR=0; TI=SMTPD_---.Jq15S-w_1616663568; 
+Received: from localhost(mailfrom:liu.xiang@zlingsmart.com
+ fp:SMTPD_---.Jq15S-w_1616663568)
+ by smtp.aliyun-inc.com(10.194.97.246);
+ Thu, 25 Mar 2021 17:12:48 +0800
+From: Liu Xiang <liu.xiang@zlingsmart.com>
+To: kraxel@redhat.com
+Subject: [PATCH] drm/virtio: check the return value of
+ virtio_gpu_alloc_cmd_resp()
+Date: Thu, 25 Mar 2021 17:12:44 +0800
+Message-Id: <20210325091244.25322-1-liu.xiang@zlingsmart.com>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Approved-At: Thu, 25 Mar 2021 09:30:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,54 +44,287 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Yangtao Li <tiny.windzz@gmail.com>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Dmitry Osipenko <digetx@gmail.com>, linux-spi@vger.kernel.org,
- Jiri Slaby <jirislaby@kernel.org>, linux-samsung-soc@vger.kernel.org,
- lima@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Viresh Kumar <vireshk@kernel.org>, Steven Price <steven.price@arm.com>,
- Andy Gross <agross@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- linux-serial@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, linux-tegra@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Sean Paul <sean@poorly.run>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mmc@vger.kernel.org,
- Adrian Hunter <adrian.hunter@intel.com>, linux-kernel@vger.kernel.org,
- Qiang Yu <yuq825@gmail.com>, freedreno@lists.freedesktop.org,
- Lukasz Luba <lukasz.luba@arm.com>
+Cc: airlied@linux.ie, liuxiang_1999@126.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Liu Xiang <liu.xiang@zlingsmart.com>, liuxiang1999@gmail.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25-03-21, 10:13, Stanimir Varbanov wrote:
-> Hi,
-> 
-> On 3/14/21 6:34 PM, Dmitry Osipenko wrote:
-> > From: Yangtao Li <tiny.windzz@gmail.com>
-> > 
-> > Use resource-managed OPP API to simplify code.
-> > 
-> > Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
-> > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> > ---
-> >  drivers/media/platform/qcom/venus/core.h      |  1 -
-> >  .../media/platform/qcom/venus/pm_helpers.c    | 35 +++++--------------
-> >  2 files changed, 8 insertions(+), 28 deletions(-)
-> 
-> 
-> I'll take this through media-tree once OPP API changes are merged.
+Now there is no check with the return value of virtio_gpu_alloc_cmd_resp().
+If it fails, the following operation will cause a fault.
 
-Okay, dropped from my tree.
+Signed-off-by: Liu Xiang <liu.xiang@zlingsmart.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_vq.c | 89 +++++++++++++++++++++++++++++
+ 1 file changed, 89 insertions(+)
 
-Thanks.
-
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index cf84d382d..2e59ad55f 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -507,6 +507,9 @@ void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 	vbuf->objs = objs;
+ 
+@@ -540,6 +543,9 @@ void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd_cb(vgdev, &vbuf, sizeof(*cmd_p),
+ 					virtio_gpu_cmd_unref_cb);
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_UNREF);
+@@ -560,6 +566,9 @@ void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_SET_SCANOUT);
+@@ -582,6 +591,9 @@ void virtio_gpu_cmd_resource_flush(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_FLUSH);
+@@ -612,6 +624,9 @@ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
+ 					    shmem->pages, DMA_TO_DEVICE);
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 	vbuf->objs = objs;
+ 
+@@ -637,6 +652,9 @@ virtio_gpu_cmd_resource_attach_backing(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING);
+@@ -778,6 +796,11 @@ int virtio_gpu_cmd_get_display_info(struct virtio_gpu_device *vgdev)
+ 		(vgdev, &virtio_gpu_cmd_get_display_info_cb, &vbuf,
+ 		 sizeof(*cmd_p), sizeof(struct virtio_gpu_resp_display_info),
+ 		 resp_buf);
++	if (IS_ERR(cmd_p)) {
++		kfree(resp_buf);
++		return PTR_ERR(cmd_p);
++	}
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	vgdev->display_info_pending = true;
+@@ -801,6 +824,11 @@ int virtio_gpu_cmd_get_capset_info(struct virtio_gpu_device *vgdev, int idx)
+ 		(vgdev, &virtio_gpu_cmd_get_capset_info_cb, &vbuf,
+ 		 sizeof(*cmd_p), sizeof(struct virtio_gpu_resp_capset_info),
+ 		 resp_buf);
++	if (IS_ERR(cmd_p)) {
++		kfree(resp_buf);
++		return PTR_ERR(cmd_p);
++	}
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_GET_CAPSET_INFO);
+@@ -876,6 +904,13 @@ int virtio_gpu_cmd_get_capset(struct virtio_gpu_device *vgdev,
+ 		(vgdev, &virtio_gpu_cmd_capset_cb, &vbuf, sizeof(*cmd_p),
+ 		 sizeof(struct virtio_gpu_resp_capset) + max_size,
+ 		 resp_buf);
++	if (IS_ERR(cmd_p)) {
++		kfree(resp_buf);
++		kfree(cache_ent->caps_cache);
++		kfree(cache_ent);
++		return PTR_ERR(cmd_p);
++	}
++
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_GET_CAPSET);
+ 	cmd_p->capset_id = cpu_to_le32(vgdev->capsets[idx].id);
+ 	cmd_p->capset_version = cpu_to_le32(version);
+@@ -905,6 +940,11 @@ int virtio_gpu_cmd_get_edids(struct virtio_gpu_device *vgdev)
+ 			(vgdev, &virtio_gpu_cmd_get_edid_cb, &vbuf,
+ 			 sizeof(*cmd_p), sizeof(struct virtio_gpu_resp_edid),
+ 			 resp_buf);
++		if (IS_ERR(cmd_p)) {
++			kfree(resp_buf);
++			return PTR_ERR(cmd_p);
++		}
++
+ 		cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_GET_EDID);
+ 		cmd_p->scanout = cpu_to_le32(scanout);
+ 		virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
+@@ -920,6 +960,9 @@ void virtio_gpu_cmd_context_create(struct virtio_gpu_device *vgdev, uint32_t id,
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_CTX_CREATE);
+@@ -937,6 +980,9 @@ void virtio_gpu_cmd_context_destroy(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_CTX_DESTROY);
+@@ -953,6 +999,9 @@ void virtio_gpu_cmd_context_attach_resource(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 	vbuf->objs = objs;
+ 
+@@ -971,6 +1020,9 @@ void virtio_gpu_cmd_context_detach_resource(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 	vbuf->objs = objs;
+ 
+@@ -991,6 +1043,9 @@ virtio_gpu_cmd_resource_create_3d(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 	vbuf->objs = objs;
+ 
+@@ -1034,6 +1089,9 @@ void virtio_gpu_cmd_transfer_to_host_3d(struct virtio_gpu_device *vgdev,
+ 	}
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	vbuf->objs = objs;
+@@ -1064,6 +1122,9 @@ void virtio_gpu_cmd_transfer_from_host_3d(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	vbuf->objs = objs;
+@@ -1090,6 +1151,9 @@ void virtio_gpu_cmd_submit(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	vbuf->data_buf = data;
+@@ -1120,6 +1184,8 @@ void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
+ 
+ 	output->cursor.pos.scanout_id = cpu_to_le32(output->index);
+ 	cur_p = virtio_gpu_alloc_cursor(vgdev, &vbuf);
++	if (IS_ERR(cur_p))
++		return;
+ 	memcpy(cur_p, &output->cursor, sizeof(output->cursor));
+ 	virtio_gpu_queue_cursor(vgdev, vbuf);
+ }
+@@ -1169,6 +1235,15 @@ virtio_gpu_cmd_resource_assign_uuid(struct virtio_gpu_device *vgdev,
+ 	cmd_p = virtio_gpu_alloc_cmd_resp
+ 		(vgdev, virtio_gpu_cmd_resource_uuid_cb, &vbuf, sizeof(*cmd_p),
+ 		 sizeof(struct virtio_gpu_resp_resource_uuid), resp_buf);
++	if (IS_ERR(cmd_p)) {
++		spin_lock(&vgdev->resource_export_lock);
++		bo->uuid_state = STATE_ERR;
++		spin_unlock(&vgdev->resource_export_lock);
++		virtio_gpu_array_put_free(objs);
++		kfree(resp_buf);
++		return PTR_ERR(cmd_p);
++	}
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID);
+@@ -1217,6 +1292,11 @@ int virtio_gpu_cmd_map(struct virtio_gpu_device *vgdev,
+ 	cmd_p = virtio_gpu_alloc_cmd_resp
+ 		(vgdev, virtio_gpu_cmd_resource_map_cb, &vbuf, sizeof(*cmd_p),
+ 		 sizeof(struct virtio_gpu_resp_map_info), resp_buf);
++	if (IS_ERR(cmd_p)) {
++		kfree(resp_buf);
++		return PTR_ERR(cmd_p);
++	}
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_MAP_BLOB);
+@@ -1235,6 +1315,9 @@ void virtio_gpu_cmd_unmap(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_UNMAP_BLOB);
+@@ -1254,6 +1337,9 @@ virtio_gpu_cmd_resource_create_blob(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB);
+@@ -1285,6 +1371,9 @@ void virtio_gpu_cmd_set_scanout_blob(struct virtio_gpu_device *vgdev,
+ 	uint32_t format = virtio_gpu_translate_format(fb->format->format);
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	if (IS_ERR(cmd_p))
++		return;
++
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+ 
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_SET_SCANOUT_BLOB);
 -- 
-viresh
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
