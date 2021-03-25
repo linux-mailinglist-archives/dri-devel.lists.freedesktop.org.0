@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F0C34952A
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 16:17:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E82A349566
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 16:27:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B699488007;
-	Thu, 25 Mar 2021 15:17:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D39376EDA8;
+	Thu, 25 Mar 2021 15:27:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7E7B6EDA8
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 15:17:48 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id l4so3494858ejc.10
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 08:17:48 -0700 (PDT)
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C2846EDA8
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 15:27:15 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id h13so2872562eds.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 08:27:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=vpYcFQ6E9P+EOfCRnAO43rA2HbrrpYIa/GxjJY98Vxo=;
- b=MrTPluyEGSYEqgqk2Gs79D5jOQ+5savHVVHpH8ZnYcrHVUPAQvUrFK/fQklPRGs0OC
- g0zuBlbnFkbpfDch8fXQDPIT7YoAPPF7y5dOmkmR0nbEPh5oTyv07qNVy8VshDme3qBx
- 6IyPo6l4ZEMc4UoQxBa0buFCIUrj+JsldkQRnYQNHz0yfM0/ZQFoCdygpM+7TPVWo8LI
- H/ASMW52liIIMAUXxuh+ldGnIeE7Hlw+m/QCcfBsFUkv5Esy3crsyc8PpbwbvRXse8Fb
- a0ua30y4pHMsmscQ296qkx+/qHQzHHprhKi0+pQWXgKWmjjrsS1iyeA1b/E3LG79sO3C
- 68yQ==
+ b=uY99fL8pPmLx4YU9ny/3aqhKhqXTM7Pd3PHjjfQ0bfqFn8FKOV18ejOkhw4eiUsgW5
+ azTFp0XxJbgs1oVaxhYaIeYgGKkF5Q7vgqu/a3LzbcNwDC7COvm1B4M392oHJDh2gkAY
+ RNlk1tpE85lagivoqwcU29GqKP5RWojlEDeYiwtil4vx5+C1SNmW6odIw3Da9OuqDglO
+ b+nMIVg+cK6v/G+EPtoUr7GfYP6TiEYtIyOxLwfxkokfT09CSOjE6bCjgQ/6+7tvJXUk
+ 8rBTvmrqVbYiJPkPSRJB3GWmuNNpKcKMMpQbrNuyH5BuGnt7WrW7gElXwYte4wyj7i4A
+ yh0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=vpYcFQ6E9P+EOfCRnAO43rA2HbrrpYIa/GxjJY98Vxo=;
- b=bae3SzBnrCezHEzxZqb8lJbfzXFLfamzbkNJIrl/Nay7lISGK80fArQ7RGVu4hJ+d9
- LtPxyDgvIdVvRz/UQHktCyD2lo125Ftnn3jRKsEI78scJUMc4wIlvZT/s5zoX4/s0lyW
- cvCjkj4ODGpsh0JfAnr6whfDkClMvBUTsLO9Jz1UVmtt0cjiChjjYBkGQJuedOv47ZtC
- JGG7MQIBAvDuFMrv+cxA7bNqp/w6f4RjbLKnJ3MJ0ZyGgmC2WGkZYxxPQyzvHtoGxjLV
- rf0ujCz30T87jrD0NQGb/fKNRzdTHWXqb6c2Ustk2nUOMa5nslUeezLF24/PFBTG6TeQ
- t5OQ==
-X-Gm-Message-State: AOAM531yQ0cjXGeoC3K95235mqyXd/ITA7cvn9tJJucM+JNq7Y8IpbCI
- qdFs0nULkrnFfVfmug1b+XnAt+YhhSw=
-X-Google-Smtp-Source: ABdhPJwJGACaifk/fCeV6TP8H4WI0c7isTXvPkA1FoNtwIwIm0GGqs2J0N0mYIBR9pJfMM1DDQogsA==
-X-Received: by 2002:a17:906:94ca:: with SMTP id
- d10mr9824006ejy.107.1616685467541; 
- Thu, 25 Mar 2021 08:17:47 -0700 (PDT)
+ b=TW5Kl4rbmS4w6rEYRgMcqtL+frteroZTJdDvKmUEKoj7rCZEHqYJwUm18wciYaih6/
+ Fg2f7YEm72YBflfqFfqsjEvIRJx4SUv0z4U+6KHLwF9gDcqeJ8JStW/bSmx5hvBk0JaJ
+ kUluEsRmeZckhQBXL2lPReKAOyQ2eCusMIL+u4TwCwdgemYPqHWBryfuyijc6t1SiZ13
+ 4Kh9zA3630b03PlqisdOO728/ERvz7dKuE3mc6BBcYf9HjEg/QxcKXMja2EPsMbmBAV9
+ 3qWKvoV/P4uJxKxHoS6v3UNCTVecUK1sOFrIejaZQZas/okpvQzd9Mf5jpA4vOpMqI27
+ VWkQ==
+X-Gm-Message-State: AOAM5336skU5XALPjHaqwbFOp3F3xAbsH/6adtkbMYZ9TJUnnCadJ5hu
+ 8MdHXoeN2oisf1cIIfRwCdEFvcN13zU=
+X-Google-Smtp-Source: ABdhPJwbhbda+lVrGe62XzzN3fg7o+wziG29R+NrN0n/jnmLs0sTCCUe5e9/ZS3sEm4IPWYGJn6bJw==
+X-Received: by 2002:a05:6402:5189:: with SMTP id
+ q9mr9656379edd.168.1616686033654; 
+ Thu, 25 Mar 2021 08:27:13 -0700 (PDT)
 Received: from abel.fritz.box ([2a02:908:1252:fb60:fe55:c06:5237:9a7b])
- by smtp.gmail.com with ESMTPSA id v8sm2849186edq.76.2021.03.25.08.17.46
+ by smtp.gmail.com with ESMTPSA id n26sm2847615eds.22.2021.03.25.08.27.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 08:17:46 -0700 (PDT)
+ Thu, 25 Mar 2021 08:27:13 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: colin.king@canonical.com,
 	dri-devel@lists.freedesktop.org
 Subject: [PATCH] drm/ttm: switch back to static allocation limits for now
-Date: Thu, 25 Mar 2021 16:17:46 +0100
-Message-Id: <20210325151746.24298-1-christian.koenig@amd.com>
+Date: Thu, 25 Mar 2021 16:27:12 +0100
+Message-Id: <20210325152712.82539-1-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
