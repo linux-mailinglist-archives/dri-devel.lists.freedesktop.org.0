@@ -1,62 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59CBB348D38
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 10:41:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01EAF348D51
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 10:47:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 606C96ECE8;
-	Thu, 25 Mar 2021 09:41:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85C2D6ECF9;
+	Thu, 25 Mar 2021 09:47:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
- [IPv6:2607:f8b0:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5280C6ECF3
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 09:41:55 +0000 (UTC)
-Received: by mail-oi1-x22a.google.com with SMTP id x2so1517052oiv.2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 02:41:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ytpgGJ+GtYvC05QBQ0nA79g5rjGcUQUWfto8MGT8T5A=;
- b=hW77Ci8f+U/tmbEmXL8ihJtLZwDMcW8v0ECQY1tqoOjKzhYO2e2BocQHeYO9UZXfKY
- 59sqIoLcgr+1t2YNCZ4buVs4UrMdexYoh/cHwYTwYDc7GjNlICuuoObPtE7fwovvCv2z
- 7VxapeeBtYVHShmbzgcHfuY1yDFFIL4nqKov0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ytpgGJ+GtYvC05QBQ0nA79g5rjGcUQUWfto8MGT8T5A=;
- b=tNUszskMeLUDbetMFDyPuASShGqi1cqReEg126HQixk3WSDFldkpVTbj7y4BVTk6BK
- NIBxIUW2L2h4Qhah/CEJOQgGJtj9iozuL4pQ/HJB7E+3AHwDVjgzL3Bkd8ai70YALAyO
- qw4+g9boPlh/619Zszln4Jr13tGOUMMAJeqYG1/HWHbfA/HJCev/4lwxtz98Ogth/rE9
- ab225gIby/Fvakj76I7Jg0mVJvWtr6Y0kbbVaAhbqvwlgAYfUhQaLphMBhJtRcYcMXzi
- lHldweYfoO6d487wmUVNoXXKop67ujZK8b6bMr5f9HEBps4HQSzHfRZWlAYRH9nNvx8F
- Xojw==
-X-Gm-Message-State: AOAM5323JNKy4s+lqCuyvHFnaiBe9jxeV9gTw2EQHqrrrHmEVvVyZAKf
- pW9Rd42MUo1piR4xx6ghPabCUqCpvBLXSpdd41q5nQ==
-X-Google-Smtp-Source: ABdhPJxxDxu5h9yCJVcP15IRalhi2k05sHNvrUu9jeEPSUjkUiUhVdJspa93B2N9/pa4ZgGWb1DRGRP5BClMeSyEVBk=
-X-Received: by 2002:aca:4188:: with SMTP id o130mr5362730oia.101.1616665314626; 
- Thu, 25 Mar 2021 02:41:54 -0700 (PDT)
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A55956ECF3;
+ Thu, 25 Mar 2021 09:47:25 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 163085809D5;
+ Thu, 25 Mar 2021 05:47:23 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Thu, 25 Mar 2021 05:47:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:mime-version:content-type; s=
+ fm2; bh=ZuXqaF05fc9j5zWBVeD86LX4OcaUJMbcMgKOHA/Zfjw=; b=FLWO4knb
+ /BadBHeRkmtUFOSe81qtmiRsMghSAFemKbjN8VWGey4jX24dh1bB/6MklBEzB2S8
+ yMq4cV1wnsll7yDkoW2kLalfZNUZhAoqotZ/i6YrTMgZ+6kzdIljMe/7H5LY1Eip
+ +QyofUA+TvIWvMtUM0nXOPZ0EZgUFIlHRrF9TG/vQKvNLVnH+ZAawLiVQ6LJP7BA
+ ICZp1csBcL8/fdPj4OqolPU+P/4APITCFQvXxTmk8p1bQ8nV1oX4bhTHatf0GXd4
+ IGPUpuhFKoF7FcauIVkk/xHhfWZFeMGJ93XBWKI0ejEWZ98kUAkrJX+4zoVALObe
+ hEHx5eA5VqOTQg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:message-id
+ :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm2; bh=ZuXqaF05fc9j5zWBVeD86LX4OcaUJ
+ MbcMgKOHA/Zfjw=; b=lyWC31xMOw0lJwuJReC0KUSXQm/8kd/m9KfcLosKWfdLW
+ mNp3QOTHZHwxGQT6fpgPASGOaXwNpBcHCdHnyoife0VMJXCjYrEZCWtdmtdQIEPE
+ 2xBq0VRUxxVDEMCUZH4TWafBfyALH1QCYvQDbpGcvpnRgVMJK7W3TMj7wxxnJw/c
+ AmvoyYxANP4epvTnF+ci4q1IfCJFnPWw/dJZkY1A/uTnfVxYedcQT1JBXN56yMt0
+ xK5BUlXNdsay4477qTi0foa83Krt0gT7FC0Pd7W4VKe5n/9+aP/vR6hdkDguCmwC
+ IQf4XfyfThGECEEOWZg7KBjSAmKD6ZQ7h/WwBO42Q==
+X-ME-Sender: <xms:KVxcYFU_uLtQ8US0NAVyvuMxX_loitLpvrIrifg65lztc7CgwtQv6A>
+ <xme:KVxcYFlxq9bKriUxgnq2hSAh-QxweDo0xd5K7Kn-vHintfAygsaAwcBnfO7jUatEt
+ 9x7jmEK6Z14N_1Foe0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudehtddgtdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfggtggusehgtderredttddunecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhephfehtefggeekteffueeileekfeegteetfffggfekleehkeffvedvgedtieetvddu
+ necuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecukfhppeeltddrkeelrd
+ eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
+ mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:KVxcYBaRQRLxXo2fRq0I1tc7jGyjIUl556eXz31VT7R48nLOAXdBUA>
+ <xmx:KVxcYIX2b8e9K6DQjvDgsPU-P6wEAMhfDDkmEYeqOAPOKLaTpx3_hA>
+ <xmx:KVxcYPk4B1d3WK7gucAqi4jkhAjzR3dZFmhLYDvAoHxRE2wtih5cAQ>
+ <xmx:K1xcYB7rbltezqcgeTDUMwpHramPXlOD-CAyMK5tnpyrbCZG9gQ0pg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 8F0FE1080057;
+ Thu, 25 Mar 2021 05:47:21 -0400 (EDT)
+Date: Thu, 25 Mar 2021 10:47:18 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next
+Message-ID: <20210325094718.anz5cg6r4xfab3r6@gilmour>
 MIME-Version: 1.0
-References: <YFsM23t2niJwhpM/@phenom.ffwll.local>
- <20210324122430.GW2356281@nvidia.com>
- <e12e2c49-afaf-dbac-b18c-272c93c83e06@shipmail.org>
- <20210324124127.GY2356281@nvidia.com>
- <6c9acb90-8e91-d8af-7abd-e762d9a901aa@shipmail.org>
- <20210324134833.GE2356281@nvidia.com>
- <0b984f96-00fb-5410-bb16-02e12b2cc024@shipmail.org>
- <20210324163812.GJ2356281@nvidia.com>
- <08f19e80-d6cb-8858-0c5d-67d2e2723f72@amd.com>
- <730eb2ff-ba98-2393-6d42-61735e3c6b83@shipmail.org>
- <20210324231419.GR2356281@nvidia.com>
- <d7aaf556-2f0c-f5b5-659f-f99496cede1e@amd.com>
-In-Reply-To: <d7aaf556-2f0c-f5b5-659f-f99496cede1e@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 25 Mar 2021 10:41:43 +0100
-Message-ID: <CAKMK7uHPwT2zuTywb7O2gVbPcb0wsh=VCWdQmgQd_NaJwTTpFA@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/2] mm,drm/ttm: Block fast GUP to TTM huge pages
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,130 +75,272 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Linux MM <linux-mm@kvack.org>,
- Jason Gunthorpe <jgg@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1304551602=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBNYXIgMjUsIDIwMjEgYXQgODo1MCBBTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
-YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMjUuMDMuMjEgdW0gMDA6MTQgc2Nocmll
-YiBKYXNvbiBHdW50aG9ycGU6Cj4gPiBPbiBXZWQsIE1hciAyNCwgMjAyMSBhdCAwOTowNzo1M1BN
-ICswMTAwLCBUaG9tYXMgSGVsbHN0csO2bSAoSW50ZWwpIHdyb3RlOgo+ID4+IE9uIDMvMjQvMjEg
-NzozMSBQTSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+Pj4KPiA+Pj4gQW0gMjQuMDMuMjEg
-dW0gMTc6Mzggc2NocmllYiBKYXNvbiBHdW50aG9ycGU6Cj4gPj4+PiBPbiBXZWQsIE1hciAyNCwg
-MjAyMSBhdCAwNDo1MDoxNFBNICswMTAwLCBUaG9tYXMgSGVsbHN0csO2bSAoSW50ZWwpCj4gPj4+
-PiB3cm90ZToKPiA+Pj4+PiBPbiAzLzI0LzIxIDI6NDggUE0sIEphc29uIEd1bnRob3JwZSB3cm90
-ZToKPiA+Pj4+Pj4gT24gV2VkLCBNYXIgMjQsIDIwMjEgYXQgMDI6MzU6MzhQTSArMDEwMCwgVGhv
-bWFzIEhlbGxzdHLDtm0KPiA+Pj4+Pj4gKEludGVsKSB3cm90ZToKPiA+Pj4+Pj4KPiA+Pj4+Pj4+
-PiBJbiBhbiBpZGVhbCB3b3JsZCB0aGUgY3JlYXRpb24vZGVzdHJ1Y3Rpb24gb2YgcGFnZQo+ID4+
-Pj4+Pj4+IHRhYmxlIGxldmVscyB3b3VsZAo+ID4+Pj4+Pj4+IGJ5IGR5bmFtaWMgYXQgdGhpcyBw
-b2ludCwgbGlrZSBUSFAuCj4gPj4+Pj4+PiBIbW0sIGJ1dCBJJ20gbm90IHN1cmUgd2hhdCBwcm9i
-bGVtIHdlJ3JlIHRyeWluZyB0byBzb2x2ZQo+ID4+Pj4+Pj4gYnkgY2hhbmdpbmcgdGhlCj4gPj4+
-Pj4+PiBpbnRlcmZhY2UgaW4gdGhpcyB3YXk/Cj4gPj4+Pj4+IFdlIGFyZSB0cnlpbmcgdG8gbWFr
-ZSBhIHNlbnNpYmxlIGRyaXZlciBBUEkgdG8gZGVhbCB3aXRoIGh1Z2UgcGFnZXMuCj4gPj4+Pj4+
-PiBDdXJyZW50bHkgaWYgdGhlIGNvcmUgdm0gcmVxdWVzdHMgYSBodWdlIHB1ZCwgd2UgZ2l2ZSBp
-dAo+ID4+Pj4+Pj4gb25lLCBhbmQgaWYgd2UKPiA+Pj4+Pj4+IGNhbid0IG9yIGRvbid0IHdhbnQg
-dG8gKGJlY2F1c2Ugb2YgZGlydHktdHJhY2tpbmcsIGZvcgo+ID4+Pj4+Pj4gZXhhbXBsZSwgd2hp
-Y2ggaXMKPiA+Pj4+Pj4+IGFsd2F5cyBkb25lIG9uIDRLIHBhZ2UtbGV2ZWwpIHdlIGp1c3QgcmV0
-dXJuCj4gPj4+Pj4+PiBWTV9GQVVMVF9GQUxMQkFDSywgYW5kIHRoZQo+ID4+Pj4+Pj4gZmF1bHQg
-aXMgcmV0cmllZCBhdCBhIGxvd2VyIGxldmVsLgo+ID4+Pj4+PiBXZWxsLCBteSB0aG91Z2h0IHdv
-dWxkIGJlIHRvIG1vdmUgdGhlIHB0ZSByZWxhdGVkIHN0dWZmIGludG8KPiA+Pj4+Pj4gdm1mX2lu
-c2VydF9yYW5nZSBpbnN0ZWFkIG9mIHJlY3Vyc2luZyBiYWNrIHZpYSBWTV9GQVVMVF9GQUxMQkFD
-Sy4KPiA+Pj4+Pj4KPiA+Pj4+Pj4gSSBkb24ndCBrbm93IGlmIHRoZSBsb2NraW5nIHdvcmtzIG91
-dCwgYnV0IGl0IGZlZWxzIGNsZWFuZXIgdGhhdCB0aGUKPiA+Pj4+Pj4gZHJpdmVyIHRlbGxzIHRo
-ZSB2bWYgaG93IGJpZyBhIHBhZ2UgaXQgY2FuIHN0dWZmIGluLCBub3QgdGhlIHZtCj4gPj4+Pj4+
-IHRlbGxpbmcgdGhlIGRyaXZlciB0byBzdHVmZiBpbiBhIGNlcnRhaW4gc2l6ZSBwYWdlIHdoaWNo
-IGl0IG1pZ2h0IG5vdAo+ID4+Pj4+PiB3YW50IHRvIGRvLgo+ID4+Pj4+Pgo+ID4+Pj4+PiBTb21l
-IGRldmljZXMgd2FudCB0byB3b3JrIG9uIGEgaW4tYmV0d2VlbiBwYWdlIHNpemUgbGlrZSA2NGsg
-c28gdGhleQo+ID4+Pj4+PiBjYW4ndCBmb3JtIDJNIHBhZ2VzIGJ1dCB0aGV5IGNhbiBzdHVmZiA2
-NGsgb2YgNEsgcGFnZXMgaW4gYSBiYXRjaCBvbgo+ID4+Pj4+PiBldmVyeSBmYXVsdC4KPiA+Pj4+
-PiBIbW0sIHllcywgYnV0IHdlIHdvdWxkIGluIHRoYXQgY2FzZSBiZSBsaW1pdGVkIGFueXdheSB0
-byBpbnNlcnQgcmFuZ2VzCj4gPj4+Pj4gc21hbGxlciB0aGFuIGFuZCBlcXVhbCB0byB0aGUgZmF1
-bHQgc2l6ZSB0byBhdm9pZCBleHRlbnNpdmUgYW5kCj4gPj4+Pj4gcG9zc2libHkKPiA+Pj4+PiB1
-bm5lY2Vzc2FyeSBjaGVja3MgZm9yIGNvbnRpZ291cyBtZW1vcnkuCj4gPj4+PiBXaHk/IFRoZSBp
-bnNlcnQgZnVuY3Rpb24gaXMgd2Fsa2luZyB0aGUgcGFnZSB0YWJsZXMsIGl0IGp1c3QgdXBkYXRl
-cwo+ID4+Pj4gdGhpbmdzIGFzIHRoZXkgYXJlLiBJdCBsZWFybnMgdGhlIGFycmFnZW1lbnQgZm9y
-IGZyZWUgd2hpbGUgZG9pbmcgdGhlCj4gPj4+PiB3YWxrLgo+ID4+Pj4KPiA+Pj4+IFRoZSBkZXZp
-Y2UgaGFzIHRvIGFsd2F5cyBwcm92aWRlIGNvbnNpc3RlbnQgZGF0YSwgaWYgaXQgb3ZlcmxhcHMg
-aW50bwo+ID4+Pj4gcGFnZXMgdGhhdCBhcmUgYWxyZWFkeSBwb3B1bGF0ZWQgdGhhdCBpcyBmaW5l
-IHNvIGxvbmcgYXMgaXQgaXNuJ3QKPiA+Pj4+IGNoYW5naW5nIHRoZWlyIGFkZHJlc3Nlcy4KPiA+
-Pj4+Cj4gPj4+Pj4gQW5kIHRoZW4gaWYgd2UgY2FuJ3Qgc3VwcG9ydCB0aGUgZnVsbCBmYXVsdCBz
-aXplLCB3ZSdkIG5lZWQgdG8KPiA+Pj4+PiBlaXRoZXIgcHJlc3VtZSBhIHNpemUgYW5kIGFsaWdu
-bWVudCBvZiB0aGUgbmV4dCBsZXZlbCBvciBzZWFyY2ggZm9yCj4gPj4+Pj4gY29udGlnb3VzIG1l
-bW9yeSBpbiBib3RoIGRpcmVjdGlvbnMgYXJvdW5kIHRoZSBmYXVsdCBhZGRyZXNzLAo+ID4+Pj4+
-IHBlcmhhcHMgdW5uZWNlc3NhcmlseSBhcyB3ZWxsLgo+ID4+Pj4gWW91IGRvbid0IHJlYWxseSBu
-ZWVkIHRvIGNhcmUgYWJvdXQgbGV2ZWxzLCB0aGUgZGV2aWNlIHNob3VsZCBiZQo+ID4+Pj4gZmF1
-bHRpbmcgaW4gdGhlIGxhcmdlc3QgbWVtb3J5IHJlZ2lvbnMgaXQgY2FuIHdpdGhpbiBpdHMgZWZm
-aWNpZW5jeS4KPiA+Pj4+Cj4gPj4+PiBJZiBpdCB3b3JrcyBvbiA0TSBwYWdlcyB0aGVuIGl0IHNo
-b3VsZCBiZSBmYXVsdGluZyA0TSBwYWdlcy4gVGhlIHBhZ2UKPiA+Pj4+IHNpemUgb2YgdGhlIHVu
-ZGVybHlpbmcgQ1BVIGRvZXNuJ3QgcmVhbGx5IG1hdHRlciBtdWNoIG90aGVyIHRoYW4gc29tZQo+
-ID4+Pj4gdHVuaW5nIHRvIGltcGFjdCBob3cgdGhlIGRldmljZSdzIGFsbG9jYXRvciB3b3Jrcy4K
-PiA+PiBZZXMsIGJ1dCB0aGVuIHdlJ2QgYmUgYWRkaW5nIGEgbG90IG9mIGNvbXBsZXhpdHkgaW50
-byB0aGlzIGZ1bmN0aW9uIHRoYXQgaXMKPiA+PiBhbHJlYWR5IHByb3ZpZGVkIGJ5IHRoZSBjdXJy
-ZW50IGludGVyZmFjZSBmb3IgREFYLCBmb3IgbGl0dGxlIG9yIG5vIGdhaW4sIGF0Cj4gPj4gbGVh
-c3QgaW4gdGhlIGRybS90dG0gc2V0dGluZy4gUGxlYXNlIHRoaW5rIG9mIHRoZSBmb2xsb3dpbmcg
-c2l0dWF0aW9uOiBZb3UKPiA+PiBnZXQgYSBmYXVsdCwgeW91IGRvIGFuIGV4dGVuc2l2ZSB0aW1l
-LWNvbnN1bWluZyBzY2FuIG9mIHlvdXIgVlJBTSBidWZmZXIKPiA+PiBvYmplY3QgaW50byB3aGlj
-aCB0aGUgZmF1bHQgZ29lcyBhbmQgZGV0ZXJtaW5lIHlvdSBjYW4gZmF1bHQgMUdCLiBOb3cgeW91
-Cj4gPj4gaGFuZCBpdCB0byB2bWZfaW5zZXJ0X3JhbmdlKCkgYW5kIGJlY2F1c2UgdGhlIHVzZXIt
-c3BhY2UgYWRkcmVzcyBpcwo+ID4+IG1pc2FsaWduZWQsIG9yIGFscmVhZHkgcGFydGx5IHBvcHVs
-YXRlZCBiZWNhdXNlIG9mIGEgcHJldmlvdXMgZXZpY3Rpb24sIHlvdQo+ID4+IGNhbiBvbmx5IGZh
-dWx0IHNpbmdsZSBwYWdlcywgYW5kIHlvdSBlbmQgdXAgZmF1bHRpbmcgYSBmdWxsIEdCIG9mIHNp
-bmdsZQo+ID4+IHBhZ2VzIHBlcmhhcHMgZm9yIGEgb25lLXRpbWUgc21hbGwgdXBkYXRlLgo+ID4g
-V2h5IHdvdWxkICJ5b3UgY2FuIG9ubHkgZmF1bHQgc2luZ2xlIHBhZ2VzIiBldmVyIGJlIHRydWU/
-IElmIHlvdSBoYXZlCj4gPiAxR0Igb2YgcGFnZXMgdGhlbiB0aGUgdm1mX2luc2VydF9yYW5nZSBz
-aG91bGQgYWxsb2NhdGUgZW5vdWdoIHBhZ2UKPiA+IHRhYmxlIGVudHJpZXMgdG8gY29uc3VtZSBp
-dCwgcmVnYXJkbGVzcyBvZiBhbGlnbm1lbnQuCj4KPiBDb21wbGV0ZWx5IGFncmVlIHdpdGggSmFz
-b24uIEZpbGxpbmcgaW4gdGhlIENQVSBwYWdlIHRhYmxlcyBpcwo+IHJlbGF0aXZlbHkgY2hlYXAg
-aWYgeW91IGZpbGwgaW4gYSBsYXJnZSBjb250aW51b3VzIHJhbmdlLgo+Cj4gSW4gb3RoZXIgd29y
-ZHMgZmlsbGluZyBpbiAxR2lCIG9mIGEgbGluZWFyIHJhbmdlIGlzICptdWNoKiBsZXNzIG92ZXJo
-ZWFkCj4gdGhhbiBmaWxsaW5nIGluIDE8PDE4IDRLaUIgZmF1bHRzLgo+Cj4gSSB3b3VsZCBzYXkg
-dGhhdCB0aGlzIGlzIGFsd2F5cyBwcmVmZXJhYmxlIGV2ZW4gaWYgdGhlIENQVSBvbmx5IHdhbnRz
-IHRvCj4gdXBkYXRlIGEgc2luZ2xlIGJ5dGUuCj4KPiA+IEFuZCB3aHkgc2hvdWxkbid0IERBWCBz
-d2l0Y2ggdG8gdGhpcyBraW5kIG9mIGludGVyZmFjZSBhbnlob3c/IEl0IGlzCj4gPiBiYXNpY2Fs
-bHkgZXhhY3RseSB0aGUgc2FtZSBwcm9ibGVtLiBUaGUgdW5kZXJseWluZyBmaWxlc3lzdGVtIGJs
-b2NrCj4gPiBzaXplIGlzICpub3QqIG5lY2Vzc2FyaWx5IGFsaWduZWQgdG8gdGhlIENQVSBwYWdl
-IHRhYmxlIHNpemVzIGFuZCBEQVgKPiA+IHdvdWxkIGJlbmVmaXQgZnJvbSBiZXR0ZXIgaGFuZGxp
-bmcgb2YgdGhpcyBtaXNtYXRjaC4KPiA+Cj4gPj4gT24gdG9wIG9mIHRoaXMsIHVubGVzcyB3ZSB3
-YW50IHRvIGRvIHRoZSB3YWxrIHRyeWluZyBpbmNyZWFzaW5nbHkgc21hbGxlcgo+ID4+IHNpemVz
-IG9mIHZtZl9pbnNlcnRfeHh4KCksIHdlJ2QgaGF2ZSB0byB1c2UgYXBwbHlfdG9fcGFnZV9yYW5n
-ZSgpIGFuZCB0ZWFjaAo+ID4+IGl0IGFib3V0IHRyYW5zaHVnZSBwYWdlIHRhYmxlIGVudHJpZXMs
-IGJlY2F1c2UgcGFnZXdhbGsuYyBjYW4ndCBiZSB1c2VkIChJdAo+ID4+IGNhbid0IHBvcHVsYXRl
-IHBhZ2UgdGFibGVzKS4gVGhhdCBhbHNvIG1lYW5zIGFwcGx5X3RvX3BhZ2VfcmFuZ2UoKSBuZWVk
-cyB0bwo+ID4+IGJlIGNvbXBsaWNhdGVkIHdpdGggcGFnZSB0YWJsZSBsb2NrcyBzaW5jZSB0cmFu
-c2h1Z2UgcGFnZXMgYXJlbid0IHN0YWJsZSBhbmQKPiA+PiBjYW4gYmUgemFwcGVkIGFuZCByZWZh
-dWx0ZWQgdW5kZXIgdXMgd2hpbGUgd2UgZG8gdGhlIHdhbGsuCj4gPiBJIGRpZG4ndCBzYXkgaXQg
-d291bGQgYmUgc2ltcGxlIDopIEJ1dCB3ZSBhbHNvIG5lZWQgdG8gc3RvcCBoYWNraW5nCj4gPiBh
-cm91bmQgdGhlIHNpZGVzIG9mIGFsbCB0aGlzIGh1Z2UgcGFnZSBzdHVmZiBhbmQgY29tZSB1cCB3
-aXRoIHNlbnNpYmxlCj4gPiBBUElzIHRoYXQgZHJpdmVycyBjYW4gYWN0dWFsbHkgaW1wbGVtZW50
-IGNvcnJlY3RseS4gRXhwb3NpbmcgZHJpdmVycwo+ID4gdG8gc3BlY2lmaWMga2luZHMgb2YgcGFn
-ZSBsZXZlbHMgcmVhbGx5IGZlZWxzIGxpa2UgdGhlIHdyb25nIGxldmVsIG9mCj4gPiBhYnN0cmFj
-dGlvbi4KPiA+Cj4gPiBPbmNlIHdlIHN0YXJ0IGRvaW5nIHRoaXMgd2Ugc2hvdWxkIGRvIGl0IGV2
-ZXJ5d2hlcmUsIHRoZSBpb19yZW1hcF9wZm4KPiA+IHN0dWZmIHNob3VsZCBiZSBhYmxlIHRvIGNy
-ZWF0ZSBodWdlIHNwZWNpYWwgSU8gcGFnZXMgYXMgd2VsbCwgZm9yCj4gPiBpbnN0YW5jZS4KPgo+
-IE9oLCB5ZXMgcGxlYXNlIQo+Cj4gV2UgZWFzaWx5IGhhdmUgMTZHaUIgb2YgVlJBTSB3aGljaCBp
-cyBsaW5lYXIgbWFwcGVkIGludG8gdGhlIGtlcm5lbAo+IHNwYWNlIGZvciBlYWNoIEdQVSBpbnN0
-YW5jZS4KPgo+IERvaW5nIHRoYXQgd2l0aCAxR2lCIG1hcHBpbmcgaW5zdGVhZCBvZiA0S2lCIHdv
-dWxkIGJlIHF1aXRlIGEgd2luLgoKaW9fcmVtYXBfcGZuIGlzIGZvciB1c2Vyc3BhY2UgbW1hcHMu
-IEtlcm5lbCBtYXBwaW5ncyBzaG91bGQgYmUgYXMgYmlnCmFzIHBvc3NpYmxlIGFscmVhZHkgSSB0
-aGluayBmb3IgZXZlcnl0aGluZy4KLURhbmllbAoKCj4gUmVnYXJkcywKPiBDaHJpc3RpYW4uCj4K
-PiA+Cj4gPj4gT24gdG9wIG9mIHRoaXMsIHRoZSB1c2VyLXNwYWNlIGFkZHJlc3MgYWxsb2NhdG9y
-IG5lZWRzIHRvIGtub3cgaG93IGxhcmdlIGdwdQo+ID4+IHBhZ2VzIGFyZSBhbGlnbmVkIGluIGJ1
-ZmZlciBvYmplY3RzIHRvIGhhdmUgYSByZWFzb25hYmxlIGNoYW5jZSBvZiBhbGlnbmluZwo+ID4+
-IHdpdGggQ1BVIGh1Z2UgcGFnZSBib3VuZGFyaWVzIHdoaWNoIGlzIGEgcmVxdWlyZW1lbnQgdG8g
-YmUgYWJsZSB0byBpbnNlcnQgYQo+ID4+IGh1Z2UgQ1BVIHBhZ2UgdGFibGUgZW50cnksIHNvIHRo
-ZSBkcml2ZXIgd291bGQgYmFzaWNhbGx5IG5lZWQgdGhlIGRybSBoZWxwZXIKPiA+PiB0aGF0IGNh
-biBkbyB0aGlzIGFsaWdubWVudCBhbnl3YXkuCj4gPiBEb24ndCB5b3UgaGF2ZSB0aGlzIHByb2Js
-ZW0gYW55aG93Pwo+ID4KPiA+IEphc29uCj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwKCgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5n
-aW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+
+--===============1304551602==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="5bxtamprq5fwubep"
+Content-Disposition: inline
+
+
+--5bxtamprq5fwubep
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Dave, Daniel,
+
+It's still a fairly quiet week, but here's this week's drm-misc-next PR
+
+maxime
+
+drm-misc-next-2021-03-25:
+drm-misc-next for 5.13:
+
+UAPI Changes:
+  - New USB connector type
+
+Cross-subsystem Changes:
+
+Core Changes:
+  - ttm: Introduce a per-device LRU lock, remove swap LRU
+
+Driver Changes:
+  - Introduction of USB Display driver
+  - an78xx: DP-Aux fixes
+  - an6345: DP-Aux fixes
+  - tilcdc: Pixel clocks fixes
+The following changes since commit 51c3b916a4d7e24b4918925965867fdd9bd8dd59:
+
+  Merge tag 'drm-misc-next-2021-03-03' of git://anongit.freedesktop.org/drm=
+/drm-misc into drm-next (2021-03-16 17:08:46 +1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-03-25
+
+for you to fetch changes up to a1f091f8ef2b680a5184db065527612247cb4cae:
+
+  drm/ttm: switch to per device LRU lock (2021-03-24 17:05:25 +0100)
+
+----------------------------------------------------------------
+drm-misc-next for 5.13:
+
+UAPI Changes:
+  - New USB connector type
+
+Cross-subsystem Changes:
+
+Core Changes:
+  - ttm: Introduce a per-device LRU lock, remove swap LRU
+
+Driver Changes:
+  - Introduction of USB Display driver
+  - an78xx: DP-Aux fixes
+  - an6345: DP-Aux fixes
+  - tilcdc: Pixel clocks fixes
+
+----------------------------------------------------------------
+Arnd Bergmann (2):
+      fbdev: omapfb: avoid -Wempty-body warning
+      vgaarb: avoid -Wempty-body warnings
+
+Bhaskar Chowdhury (2):
+      drm: Few typo fixes
+      drm/meson: Fix few typo
+
+Christian K=F6nig (7):
+      drm/sched: select new rq even if there is only one v3
+      drm/qxl: clean up qxl_bo_move_notify
+      drm/nouveau: clean up nouveau_bo_move_ntfy
+      drm/vmwgfx: clean up vmw_move_notify v2
+      drm/ttm: move swapout logic around v3
+      drm/ttm: remove swap LRU v3
+      drm/ttm: switch to per device LRU lock
+
+Daniel Vetter (1):
+      dma-fence: Document recoverable page fault implications
+
+Dario Binacchi (3):
+      drm/tilcdc: rename req_rate to pclk_rate
+      drm/tilcdc: fix LCD pixel clock setting
+      drm/tilcdc: fix pixel clock setting warning message
+
+Douglas Anderson (6):
+      drm/panel-simple: Undo enable if HPD never asserts
+      drm/panel-simple: Don't wait longer for HPD than hpd_absent_delay
+      drm/panel-simple: Retry if we timeout waiting for HPD
+      dt-bindings: dt-bindings: display: simple: Add N116BCA-EA1
+      drm/panel-simple: Add N116BCA-EA1
+      drm: panel: simple: Set enable delay for BOE NV110WTM-N61
+
+Jagan Teki (1):
+      drm/stm: ltdc: Use simple encoder
+
+Jianhui Zhao (1):
+      docs: gpu: fix typo
+
+Linus Walleij (1):
+      drm/mcde/panel: Inverse misunderstood flag
+
+Lyude Paul (9):
+      drm/bridge/tc358767: Don't register DP AUX channel until bridge is at=
+tached
+      drm/bridge/ti-sn65dsi86: (Un)register aux device on bridge attach/det=
+ach
+      drm/bridge/analogix/anx78xx: Add missing drm_dp_aux_unregister() call
+      drm/bridge/analogix/anx78xx: Setup encoder before registering connect=
+or
+      drm/bridge/analogix/anx78xx: Cleanup on error in anx78xx_bridge_attac=
+h()
+      drm/bridge/analogix/anx6345: Add missing drm_dp_aux_unregister() call
+      drm/bridge/analogix/anx6345: Don't link encoder until after connector=
+ registration
+      drm/bridge/analogix/anx6345: Cleanup on errors in anx6345_bridge_atta=
+ch()
+      drm/bridge/analogix/dp_core: Unregister DP AUX channel on error in an=
+alogix_dp_probe()
+
+Matthew Wilcox (Oracle) (1):
+      fb_defio: Remove custom address_space_operations
+
+Maxime Ripard (2):
+      Merge drm/drm-next into drm-misc-next
+      drm/rockchip: Remove unused variable
+
+Noralf Tr=F8nnes (3):
+      drm/uapi: Add USB connector type
+      drm/probe-helper: Check epoch counter in output_poll_execute()
+      drm: Add GUD USB Display driver
+
+Paul Cercueil (1):
+      drm/ingenic: Fix non-OSD mode
+
+Simon Ser (1):
+      drm/uapi: document kernel capabilities
+
+Tian Tao (2):
+      drm/vboxvideo: Use managed VRAM-helper initialization
+      drm/sysfs: Convert sysfs sprintf/snprintf family to sysfs_emit
+
+Yang Li (2):
+      drm/gma500: use NULL instead of using plain integer as pointer
+      drm/tilcdc: panel: fix platform_no_drv_owner.cocci warnings
+
+Yannick Fertre (1):
+      drm/stm: dsi: Avoid printing errors for -EPROBE_DEFER
+
+kernel test robot (2):
+      drm/gud: fix sizeof use
+      drm/gud: Remove unneeded semicolon
+
+xndcn (1):
+      drm/virtio: fix possible leak/unlock virtio_gpu_object_array
+
+ .../bindings/display/panel/panel-simple.yaml       |   2 +
+ Documentation/driver-api/dma-buf.rst               |  76 +++
+ Documentation/gpu/todo.rst                         |   2 +-
+ MAINTAINERS                                        |   8 +
+ drivers/gpu/drm/Kconfig                            |   2 +
+ drivers/gpu/drm/Makefile                           |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |   8 +-
+ drivers/gpu/drm/bridge/analogix/analogix-anx6345.c |  27 +-
+ drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c |  27 +-
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |   1 +
+ drivers/gpu/drm/bridge/tc358767.c                  |  20 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c              |  18 +-
+ drivers/gpu/drm/drm_connector.c                    |   1 +
+ drivers/gpu/drm/drm_probe_helper.c                 |   7 +-
+ drivers/gpu/drm/drm_property.c                     |   4 +-
+ drivers/gpu/drm/drm_sysfs.c                        |   9 +-
+ drivers/gpu/drm/gma500/psb_drv.c                   |   2 +-
+ drivers/gpu/drm/gud/Kconfig                        |  14 +
+ drivers/gpu/drm/gud/Makefile                       |   4 +
+ drivers/gpu/drm/gud/gud_connector.c                | 729 +++++++++++++++++=
+++++
+ drivers/gpu/drm/gud/gud_drv.c                      | 661 +++++++++++++++++=
+++
+ drivers/gpu/drm/gud/gud_internal.h                 | 154 +++++
+ drivers/gpu/drm/gud/gud_pipe.c                     | 552 ++++++++++++++++
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  11 +-
+ drivers/gpu/drm/mcde/mcde_dsi.c                    |   2 +-
+ drivers/gpu/drm/meson/meson_venc.c                 |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_bo.c               |  13 +-
+ drivers/gpu/drm/panel/panel-novatek-nt35510.c      |   3 +-
+ drivers/gpu/drm/panel/panel-samsung-s6d16d0.c      |   4 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c  |   1 -
+ drivers/gpu/drm/panel/panel-simple.c               |  85 ++-
+ drivers/gpu/drm/panel/panel-sony-acx424akp.c       |   3 +-
+ drivers/gpu/drm/qxl/qxl_release.c                  |   5 +-
+ drivers/gpu/drm/qxl/qxl_ttm.c                      |  16 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c        |   2 -
+ drivers/gpu/drm/scheduler/sched_entity.c           |   6 +-
+ drivers/gpu/drm/stm/dw_mipi_dsi-stm.c              |   9 +-
+ drivers/gpu/drm/stm/ltdc.c                         |  12 +-
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c               |  19 +-
+ drivers/gpu/drm/tilcdc/tilcdc_panel.c              |   1 -
+ drivers/gpu/drm/ttm/ttm_bo.c                       | 135 ++--
+ drivers/gpu/drm/ttm/ttm_bo_util.c                  |   1 -
+ drivers/gpu/drm/ttm/ttm_device.c                   |  71 +-
+ drivers/gpu/drm/ttm/ttm_execbuf_util.c             |   8 +-
+ drivers/gpu/drm/ttm/ttm_resource.c                 |   9 +-
+ drivers/gpu/drm/ttm/ttm_tt.c                       |   2 +-
+ drivers/gpu/drm/vboxvideo/vbox_ttm.c               |   7 +-
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c             |   2 +-
+ drivers/gpu/drm/virtio/virtgpu_object.c            |   1 +
+ drivers/gpu/drm/vmwgfx/ttm_memory.c                |   3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |   3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c           |   9 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c         |  27 +-
+ drivers/video/fbdev/core/fb_defio.c                |  35 -
+ drivers/video/fbdev/core/fbmem.c                   |   4 -
+ drivers/video/fbdev/omap2/omapfb/omapfb.h          |   2 +-
+ include/drm/gud.h                                  | 333 ++++++++++
+ include/drm/ttm/ttm_bo_api.h                       |   4 +-
+ include/drm/ttm/ttm_bo_driver.h                    |   5 +-
+ include/drm/ttm/ttm_device.h                       |  13 +-
+ include/linux/fb.h                                 |   3 -
+ include/linux/vgaarb.h                             |   4 +-
+ include/uapi/drm/drm.h                             | 125 +++-
+ include/uapi/drm/drm_mode.h                        |   1 +
+ 65 files changed, 3014 insertions(+), 318 deletions(-)
+ create mode 100644 drivers/gpu/drm/gud/Kconfig
+ create mode 100644 drivers/gpu/drm/gud/Makefile
+ create mode 100644 drivers/gpu/drm/gud/gud_connector.c
+ create mode 100644 drivers/gpu/drm/gud/gud_drv.c
+ create mode 100644 drivers/gpu/drm/gud/gud_internal.h
+ create mode 100644 drivers/gpu/drm/gud/gud_pipe.c
+ create mode 100644 include/drm/gud.h
+
+--5bxtamprq5fwubep
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYFxcJgAKCRDj7w1vZxhR
+xdeWAQD7ZLa1Y0wBK4R+TYWFzBocLNx/a7SDZnIl0fY2RVDD8gD8DETZ3p1CAQwt
+Y8eFhbTyn3VylnMunE1LXb6GcI703Q8=
+=Cumt
+-----END PGP SIGNATURE-----
+
+--5bxtamprq5fwubep--
+
+--===============1304551602==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1304551602==--
