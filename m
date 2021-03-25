@@ -2,48 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6781A349815
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 18:33:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 764D434989F
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Mar 2021 18:51:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0564B6E02F;
-	Thu, 25 Mar 2021 17:33:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C8B66EDE6;
+	Thu, 25 Mar 2021 17:51:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AF1F6E02F;
- Thu, 25 Mar 2021 17:33:18 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0A18261A28;
- Thu, 25 Mar 2021 17:33:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616693597;
- bh=qGpX3MaAi6iipXhij0xGuclaojia9d6LXGpZk4lS3FA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OpgdYXmTWs8MRabNzxRiFlKzCDpQS5h96vnrJxN9G4TZvg0WRGitBgXLTk+GnnXil
- f8b5nAYnfp30PmCcOMovoLPgDhNtradrGc8Y6FhFhQ36jubqzqqO6zBwewg68FYuJf
- Jv7k7kjnmjdLlFV3ePCk4UFG8Vd9Clf1rwUIugVfKpJsBtO7/w+BaxYqHIGJ7eDHwI
- mCIthIJWR0FmNz1DYmj+Kqua1EmULEJwj1xk8HRopvlZ1bKjcDSPYNKMZbYPYp8xr5
- TB9H5N62ZZMc3cBLXsUHr1mLRfZ6+pM2RtMNb99RhaB1IXnJpl6MiGYMIdbKb9KY+r
- w0OsMID+O3r1w==
-Date: Thu, 25 Mar 2021 17:33:11 +0000
-From: Will Deacon <will@kernel.org>
-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Subject: Re: [PATCH 2/3] iommu/io-pgtable-arm: Add IOMMU_LLC page protection
- flag
-Message-ID: <20210325173311.GA15504@willie-the-truck>
-References: <3f589e7de3f9fa93e84c83420c5270c546a0c368.1610372717.git.saiprakash.ranjan@codeaurora.org>
- <20210129090516.GB3998@willie-the-truck>
- <5d23fce629323bcda71594010824aad0@codeaurora.org>
- <20210201111556.GA7172@willie-the-truck>
- <CAF6AEGsARmkAFsjaQLfa2miMgeijo183MWDKGtW_ti-UCpzBqA@mail.gmail.com>
- <20210201182016.GA21629@jcrouse1-lnx.qualcomm.com>
- <7e9aade14d0b7f69285852ade4a5a9f4@codeaurora.org>
- <20210203214612.GB19847@willie-the-truck>
- <4988e2ef35f76a0c2f1fe3f66f023a3b@codeaurora.org>
- <9362873a3bcf37cdd073a6128f29c683@codeaurora.org>
+Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
+ [213.80.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C822F6EDE6
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 17:51:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id D83553F6BE;
+ Thu, 25 Mar 2021 18:51:32 +0100 (CET)
+Authentication-Results: ste-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=JBnbqbi6; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id kY9Ut-ckC-Gq; Thu, 25 Mar 2021 18:51:32 +0100 (CET)
+Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 4EE033F6BD;
+ Thu, 25 Mar 2021 18:51:30 +0100 (CET)
+Received: from [10.249.254.165] (unknown [192.198.151.44])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 0260136059E;
+ Thu, 25 Mar 2021 18:51:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1616694689; bh=yIsgeu3PLt8B2VGA2PrEalyxmaXCbDHFpjtAUnLL9Yw=;
+ h=Subject:To:References:From:Date:In-Reply-To:From;
+ b=JBnbqbi6vAuhfNq/HXjPBCfOFBgsOv10wheSeNLjPxUBRzniauAhbotYnLpZKS5of
+ VzDkBxo66te4Sj4rNot5UYM51RfgpdnJ2dg9WoEkck6bv5nBae6UuIPg0WTyScmDLV
+ TQpYoEl+eJeA1RqYhIszPNut6dMI2YjHDODfaDpY=
+Subject: Re: [RFC PATCH 1/2] mm,drm/ttm: Block fast GUP to TTM huge pages
+To: Dave Hansen <dave.hansen@intel.com>,
+ "Williams, Dan J" <dan.j.williams@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "jgg@nvidia.com" <jgg@nvidia.com>, "airlied@linux.ie" <airlied@linux.ie>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+References: <20210321184529.59006-1-thomas_os@shipmail.org>
+ <20210321184529.59006-2-thomas_os@shipmail.org>
+ <ec99146c7abc35d16b245816aba3e9d14862e624.camel@intel.com>
+ <c2239da2-c514-2c88-c671-918909cdba6b@shipmail.org>
+ <YFsNRIUYrwVQanVF@phenom.ffwll.local>
+ <a1fa7fa2-914b-366d-9902-e5b784e8428c@shipmail.org>
+ <75423f64-adef-a2c4-8e7d-2cb814127b18@intel.com>
+ <e5199438-9a0d-2801-f9f6-ceb13d7a9c61@shipmail.org>
+ <6b0de827-738d-b3c5-fc79-8ca9047bad35@intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <9f789d64-940f-c728-8d5e-aab74d562fb6@shipmail.org>
+Date: Thu, 25 Mar 2021 18:51:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <9362873a3bcf37cdd073a6128f29c683@codeaurora.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <6b0de827-738d-b3c5-fc79-8ca9047bad35@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,115 +79,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
- David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, "list@263.net:IOMMU DRIVERS ,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- Kristian H Kristensen <hoegsberg@google.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 09, 2021 at 12:10:44PM +0530, Sai Prakash Ranjan wrote:
-> On 2021-02-05 17:38, Sai Prakash Ranjan wrote:
-> > On 2021-02-04 03:16, Will Deacon wrote:
-> > > On Tue, Feb 02, 2021 at 11:56:27AM +0530, Sai Prakash Ranjan wrote:
-> > > > On 2021-02-01 23:50, Jordan Crouse wrote:
-> > > > > On Mon, Feb 01, 2021 at 08:20:44AM -0800, Rob Clark wrote:
-> > > > > > On Mon, Feb 1, 2021 at 3:16 AM Will Deacon <will@kernel.org> wrote:
-> > > > > > > On Fri, Jan 29, 2021 at 03:12:59PM +0530, Sai Prakash Ranjan wrote:
-> > > > > > > > On 2021-01-29 14:35, Will Deacon wrote:
-> > > > > > > > > On Mon, Jan 11, 2021 at 07:45:04PM +0530, Sai Prakash Ranjan wrote:
-> > > > > > > > > > +#define IOMMU_LLC        (1 << 6)
-> > > > > > > > >
-> > > > > > > > > On reflection, I'm a bit worried about exposing this because I think it
-> > > > > > > > > will
-> > > > > > > > > introduce a mismatched virtual alias with the CPU (we don't even have a
-> > > > > > > > > MAIR
-> > > > > > > > > set up for this memory type). Now, we also have that issue for the PTW,
-> > > > > > > > > but
-> > > > > > > > > since we always use cache maintenance (i.e. the streaming API) for
-> > > > > > > > > publishing the page-tables to a non-coheren walker, it works out.
-> > > > > > > > > However,
-> > > > > > > > > if somebody expects IOMMU_LLC to be coherent with a DMA API coherent
-> > > > > > > > > allocation, then they're potentially in for a nasty surprise due to the
-> > > > > > > > > mismatched outer-cacheability attributes.
-> > > > > > > > >
-> > > > > > > >
-> > > > > > > > Can't we add the syscached memory type similar to what is done on android?
-> > > > > > >
-> > > > > > > Maybe. How does the GPU driver map these things on the CPU side?
-> > > > > >
-> > > > > > Currently we use writecombine mappings for everything, although there
-> > > > > > are some cases that we'd like to use cached (but have not merged
-> > > > > > patches that would give userspace a way to flush/invalidate)
-> > > > > >
-> > > > >
-> > > > > LLC/system cache doesn't have a relationship with the CPU cache.  Its
-> > > > > just a
-> > > > > little accelerator that sits on the connection from the GPU to DDR and
-> > > > > caches
-> > > > > accesses. The hint that Sai is suggesting is used to mark the buffers as
-> > > > > 'no-write-allocate' to prevent GPU write operations from being cached in
-> > > > > the LLC
-> > > > > which a) isn't interesting and b) takes up cache space for read
-> > > > > operations.
-> > > > >
-> > > > > Its easiest to think of the LLC as a bonus accelerator that has no cost
-> > > > > for
-> > > > > us to use outside of the unfortunate per buffer hint.
-> > > > >
-> > > > > We do have to worry about the CPU cache w.r.t I/O coherency (which is a
-> > > > > different hint) and in that case we have all of concerns that Will
-> > > > > identified.
-> > > > >
-> > > > 
-> > > > For mismatched outer cacheability attributes which Will
-> > > > mentioned, I was
-> > > > referring to [1] in android kernel.
-> > > 
-> > > I've lost track of the conversation here :/
-> > > 
-> > > When the GPU has a buffer mapped with IOMMU_LLC, is the buffer also
-> > > mapped
-> > > into the CPU and with what attributes? Rob said "writecombine for
-> > > everything" -- does that mean ioremap_wc() / MEMREMAP_WC?
-> > > 
-> > 
-> > Rob answered this.
-> > 
-> > > Finally, we need to be careful when we use the word "hint" as
-> > > "allocation
-> > > hint" has a specific meaning in the architecture, and if we only
-> > > mismatch on
-> > > those then we're actually ok. But I think IOMMU_LLC is more than
-> > > just a
-> > > hint, since it actually drives eviction policy (i.e. it enables
-> > > writeback).
-> > > 
-> > > Sorry for the pedantry, but I just want to make sure we're all talking
-> > > about the same things!
-> > > 
-> > 
-> > Sorry for the confusion which probably was caused by my mentioning of
-> > android, NWA(no write allocate) is an allocation hint which we can
-> > ignore
-> > for now as it is not introduced yet in upstream.
-> > 
-> 
-> Any chance of taking this forward? We do not want to miss out on small fps
-> gain when the product gets released.
-
-Do we have a solution to the mismatched virtual alias?
-
-Will
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Ck9uIDMvMjQvMjEgOToyNSBQTSwgRGF2ZSBIYW5zZW4gd3JvdGU6Cj4gT24gMy8yNC8yMSAxOjIy
+IFBNLCBUaG9tYXMgSGVsbHN0csO2bSAoSW50ZWwpIHdyb3RlOgo+Pj4gV2UgYWxzbyBoYXZlIG5v
+dCBiZWVuIGNhcmVmdWwgYXQgKmFsbCogYWJvdXQgaG93IF9QQUdFX0JJVF9TT0ZUVyogYXJlCj4+
+PiB1c2VkLsKgIEl0J3MgcXVpdGUgcG9zc2libGUgd2UgY2FuIGVuY29kZSBhbm90aGVyIHVzZSBl
+dmVuIGluIHRoZQo+Pj4gZXhpc3RpbmcgYml0cy4KPj4+Cj4+PiBQZXJzb25hbGx5LCBJJ2QganVz
+dCB0cnk6Cj4+Pgo+Pj4gI2RlZmluZSBfUEFHRV9CSVRfU09GVFc1wqDCoMKgwqDCoMKgwqAgNTfC
+oMKgwqDCoMKgIC8qIGF2YWlsYWJsZSBmb3IgcHJvZ3JhbW1lciAqLwo+Pj4KPj4gT0ssIEknbGwg
+Zm9sbG93IHlvdXIgYWR2aXNlIGhlcmUuIEZXSVcgSSBncmVwcGVkIGZvciBTVzEgYW5kIGl0IHNl
+ZW1zCj4+IHVzZWQgaW4gYSBzZWxmdGVzdCwgYnV0IG9ubHkgZm9yIFBURXMgQUZBSUNULgo+Pgo+
+PiBPaCwgYW5kIHdlIGRvbid0IGNhcmUgYWJvdXQgMzItYml0IG11Y2ggYW55bW9yZT8KPiBPbiB4
+ODYsIHdlIGhhdmUgNjQtYml0IFBURXMgd2hlbiBydW5uaW5nIDMyLWJpdCBrZXJuZWxzIGlmIFBB
+RSBpcwo+IGVuYWJsZWQuICBJT1csIHdlIGNhbiBoYW5kbGUgdGhlIG1ham9yaXR5IG9mIDMyLWJp
+dCBDUFVzIG91dCB0aGVyZS4KPgo+IEJ1dCwgeWVhaCwgd2UgZG9uJ3QgY2FyZSBhYm91dCAzMi1i
+aXQuIDopCgpIbW0sCgpBY3R1YWxseSBpdCBtYWtlcyBzb21lIHNlbnNlIHRvIHVzZSBTVzEsIHRv
+IG1ha2UgaXQgZW5kIHVwIGluIHRoZSBzYW1lIApkd29yZCBhcyB0aGUgUFNFIGJpdCwgYXMgZnJv
+bSB3aGF0IEkgY2FuIHRlbGwsIHJlYWRpbmcgb2YgYSA2NC1iaXQgcG1kX3QgCm9uIDMyLWJpdCBQ
+QUUgaXMgbm90IGF0b21pYywgc28gaW4gdGhlb3J5IGEgaHVnZSBwbWQgY291bGQgYmUgbW9kaWZp
+ZWQgCndoaWxlIHJlYWRpbmcgdGhlIHBtZF90IG1ha2luZyB0aGUgZHdvcmRzIGluY29uc2lzdGVu
+dC4uLi4gSG93IGRvZXMgdGhhdCAKd29yayB3aXRoIGZhc3QgZ3VwIGFueXdheT8KCkluIGFueSBj
+YXNlLCB3aGF0IHdvdWxkIGJlIHRoZSBiZXN0IGNhdXNlIG9mIGFjdGlvbiBoZXJlPyBVc2UgU1cx
+IG9yIApkaXNhYmxlIGNvbXBsZXRlbHkgZm9yIDMyLWJpdD8KCi9UaG9tYXMKCgoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
