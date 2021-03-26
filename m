@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F1C34ADF8
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 18:53:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E5334AE05
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 18:54:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC7CF6F468;
-	Fri, 26 Mar 2021 17:53:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94F6E6F460;
+	Fri, 26 Mar 2021 17:54:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F9AE6F472
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 17:53:31 +0000 (UTC)
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DE326F460
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 17:54:42 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1616781212; h=Message-ID: References: In-Reply-To: Subject:
+ s=smtp; t=1616781287; h=Message-ID: References: In-Reply-To: Subject:
  Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=lGhgzLJkeLQaXouOCV6Xt98g41yrW6yL8pWHBwAKtew=;
- b=lILOd0dTG3Z6CoOp8Y7h9giUvTjDK+4TpUqDeeCFhjMF1qO6sn0jP978rC8iZCGJcXWrlEj0
- LBwwooKaqgxdqSIpYAjS/UShJIt6dsShj7GF89VQn7aRDQWukPagOhdH2x7S3VTW+aDh+n6O
- urGLJ6uRBI+AxU7em0y8/jxLHRQ=
-X-Mailgun-Sending-Ip: 69.72.43.7
+ MIME-Version: Sender; bh=lXTbs2aeFzgOimMDHvl+FVMRpCRAmEAhjA+xxAIZovM=;
+ b=wjl029jNncouv9J+PzI9qnilfQcr9DlT8dFtE9w1saOU1jxUXnPGh3XPICBTqlXWAL3xzW2L
+ tARvn0fsBMwSH3z0MzLfTReHqks9ICUfJkACabPJindvQcalMG/C+YfpQPZKeAQYJqzXLgbF
+ 2pO00izn+IDE3BrVwMZR7PrADcQ=
+X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 605e1f87a2ab6642dbb90bc0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 26 Mar 2021 17:53:11
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 605e1fd4853c0a2c4644a861 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 26 Mar 2021 17:54:28
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 65C73C4346B; Fri, 26 Mar 2021 17:53:11 +0000 (UTC)
+ id 2703AC433ED; Fri, 26 Mar 2021 17:54:27 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+ URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
  (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
  (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 21096C43461;
- Fri, 26 Mar 2021 17:53:09 +0000 (UTC)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 917D2C43466;
+ Fri, 26 Mar 2021 17:54:25 +0000 (UTC)
 MIME-Version: 1.0
-Date: Fri, 26 Mar 2021 10:53:09 -0700
+Date: Fri, 26 Mar 2021 10:54:25 -0700
 From: abhinavk@codeaurora.org
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [Freedreno] [PATCH v2 09/28] drm/msm/dsi: move min/max PLL rate
- to phy config
-In-Reply-To: <20210324151846.2774204-10-dmitry.baryshkov@linaro.org>
+Subject: Re: [Freedreno] [PATCH v2 10/28] drm/msm/dsi: remove
+ msm_dsi_pll_set_usecase
+In-Reply-To: <20210324151846.2774204-11-dmitry.baryshkov@linaro.org>
 References: <20210324151846.2774204-1-dmitry.baryshkov@linaro.org>
- <20210324151846.2774204-10-dmitry.baryshkov@linaro.org>
-Message-ID: <1bdfb597f07f0d4ebe670bc4ad863acd@codeaurora.org>
+ <20210324151846.2774204-11-dmitry.baryshkov@linaro.org>
+Message-ID: <9e94fbc46e367b61634a0917162ab928@codeaurora.org>
 X-Sender: abhinavk@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,250 +75,182 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 2021-03-24 08:18, Dmitry Baryshkov wrote:
+> msm_dsi_pll_set_usecase() function is not used outside of individual 
+> DSI
+> PHY drivers, so drop it in favour of calling the the respective
+> set_usecase functions directly.
+> 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
 > ---
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h           |  3 +++
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c      |  6 ++++--
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c      |  6 ++++--
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c      |  8 ++++++--
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c |  4 ++--
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c       | 12 ++++--------
->  drivers/gpu/drm/msm/dsi/phy/dsi_pll.c           |  8 ++++----
->  drivers/gpu/drm/msm/dsi/phy/dsi_pll.h           |  3 ---
->  8 files changed, 27 insertions(+), 23 deletions(-)
+>  drivers/gpu/drm/msm/dsi/dsi.h              | 7 -------
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h      | 2 --
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c | 4 +---
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c | 4 +---
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c  | 4 +---
+>  drivers/gpu/drm/msm/dsi/phy/dsi_pll.c      | 9 ---------
+>  6 files changed, 3 insertions(+), 27 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h 
+> b/drivers/gpu/drm/msm/dsi/dsi.h
+> index 98a4b296fa30..b310cf344ed4 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.h
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
+> @@ -100,8 +100,6 @@ int msm_dsi_pll_get_clk_provider(struct msm_dsi_pll 
+> *pll,
+>  	struct clk **byte_clk_provider, struct clk **pixel_clk_provider);
+>  void msm_dsi_pll_save_state(struct msm_dsi_pll *pll);
+>  int msm_dsi_pll_restore_state(struct msm_dsi_pll *pll);
+> -int msm_dsi_pll_set_usecase(struct msm_dsi_pll *pll,
+> -			    enum msm_dsi_phy_usecase uc);
+>  #else
+>  static inline void msm_dsi_pll_destroy(struct msm_dsi_pll *pll)
+>  {
+> @@ -118,11 +116,6 @@ static inline int
+> msm_dsi_pll_restore_state(struct msm_dsi_pll *pll)
+>  {
+>  	return 0;
+>  }
+> -static inline int msm_dsi_pll_set_usecase(struct msm_dsi_pll *pll,
+> -					  enum msm_dsi_phy_usecase uc)
+> -{
+> -	return -ENODEV;
+> -}
+>  #endif
+> 
+>  /* dsi host */
 > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
 > b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-> index 39abb86446f9..000e4207dabc 100644
+> index 000e4207dabc..f737bef74b91 100644
 > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
 > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-> @@ -38,6 +38,9 @@ struct msm_dsi_phy_cfg {
->  	struct msm_dsi_phy_ops ops;
->  	const struct msm_dsi_pll_ops pll_ops;
+> @@ -29,8 +29,6 @@ struct msm_dsi_pll_ops {
+>  	void (*destroy)(struct msm_dsi_pll *pll);
+>  	void (*save_state)(struct msm_dsi_pll *pll);
+>  	int (*restore_state)(struct msm_dsi_pll *pll);
+> -	int (*set_usecase)(struct msm_dsi_pll *pll,
+> -			   enum msm_dsi_phy_usecase uc);
+>  };
 > 
-> +	unsigned long	min_pll_rate;
-> +	unsigned long	max_pll_rate;
-> +
->  	/*
->  	 * Each cell {phy_id, pll_id} of the truth table indicates
->  	 * if the source PLL selection bit should be set for each PHY.
+>  struct msm_dsi_phy_cfg {
 > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
 > b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-> index dc8ccc994759..5f9d0cfc4e03 100644
+> index 5f9d0cfc4e03..7a98e420414f 100644
 > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
 > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-> @@ -864,8 +864,6 @@ static int dsi_pll_10nm_init(struct msm_dsi_phy 
-> *phy)
->  	spin_lock_init(&pll_10nm->postdiv_lock);
+> @@ -1049,7 +1049,7 @@ static int dsi_10nm_phy_enable(struct
+> msm_dsi_phy *phy, int src_pll_id,
+>  	/* Select full-rate mode */
+>  	dsi_phy_write(base + REG_DSI_10nm_PHY_CMN_CTRL_2, 0x40);
 > 
->  	pll = &pll_10nm->base;
-> -	pll->min_rate = 1000000000UL;
-> -	pll->max_rate = 3500000000UL;
->  	pll->cfg = phy->cfg;
-> 
->  	pll_10nm->vco_delay = 1;
-> @@ -1113,6 +1111,8 @@ const struct msm_dsi_phy_cfg dsi_phy_10nm_cfgs = 
+> -	ret = msm_dsi_pll_set_usecase(phy->pll, phy->usecase);
+> +	ret = dsi_pll_10nm_set_usecase(phy->pll, phy->usecase);
+>  	if (ret) {
+>  		DRM_DEV_ERROR(&phy->pdev->dev, "%s: set pll usecase failed, %d\n",
+>  			__func__, ret);
+> @@ -1109,7 +1109,6 @@ const struct msm_dsi_phy_cfg dsi_phy_10nm_cfgs = 
 > {
+>  		.destroy = dsi_pll_10nm_destroy,
+>  		.save_state = dsi_pll_10nm_save_state,
 >  		.restore_state = dsi_pll_10nm_restore_state,
->  		.set_usecase = dsi_pll_10nm_set_usecase,
+> -		.set_usecase = dsi_pll_10nm_set_usecase,
 >  	},
-> +	.min_pll_rate = 1000000000UL,
-> +	.max_pll_rate = 3500000000UL,
->  	.io_start = { 0xae94400, 0xae96400 },
->  	.num_dsi_phy = 2,
->  };
-> @@ -1138,6 +1138,8 @@ const struct msm_dsi_phy_cfg 
+>  	.min_pll_rate = 1000000000UL,
+>  	.max_pll_rate = 3500000000UL,
+> @@ -1136,7 +1135,6 @@ const struct msm_dsi_phy_cfg 
 > dsi_phy_10nm_8998_cfgs = {
+>  		.destroy = dsi_pll_10nm_destroy,
+>  		.save_state = dsi_pll_10nm_save_state,
 >  		.restore_state = dsi_pll_10nm_restore_state,
->  		.set_usecase = dsi_pll_10nm_set_usecase,
+> -		.set_usecase = dsi_pll_10nm_set_usecase,
 >  	},
-> +	.min_pll_rate = 1000000000UL,
-> +	.max_pll_rate = 3500000000UL,
->  	.io_start = { 0xc994400, 0xc996400 },
->  	.num_dsi_phy = 2,
->  	.quirks = DSI_PHY_10NM_QUIRK_OLD_TIMINGS,
+>  	.min_pll_rate = 1000000000UL,
+>  	.max_pll_rate = 3500000000UL,
 > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
 > b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-> index d78f846cf8e4..8e4528301e5d 100644
+> index 8e4528301e5d..bab86fa6dc4b 100644
 > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
 > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-> @@ -1078,8 +1078,6 @@ static int dsi_pll_14nm_init(struct msm_dsi_phy 
-> *phy)
->  	spin_lock_init(&pll_14nm->postdiv_lock);
+> @@ -1190,7 +1190,7 @@ static int dsi_14nm_phy_enable(struct
+> msm_dsi_phy *phy, int src_pll_id,
+>  				REG_DSI_14nm_PHY_CMN_GLBL_TEST_CTRL,
+>  				DSI_14nm_PHY_CMN_GLBL_TEST_CTRL_BITCLK_HS_SEL);
 > 
->  	pll = &pll_14nm->base;
-> -	pll->min_rate = VCO_MIN_RATE;
-> -	pll->max_rate = VCO_MAX_RATE;
->  	pll->cfg = phy->cfg;
-> 
->  	pll_14nm->vco_delay = 1;
-> @@ -1237,6 +1235,8 @@ const struct msm_dsi_phy_cfg dsi_phy_14nm_cfgs = 
+> -	ret = msm_dsi_pll_set_usecase(phy->pll, phy->usecase);
+> +	ret = dsi_pll_14nm_set_usecase(phy->pll, phy->usecase);
+>  	if (ret) {
+>  		DRM_DEV_ERROR(&phy->pdev->dev, "%s: set pll usecase failed, %d\n",
+>  			__func__, ret);
+> @@ -1231,7 +1231,6 @@ const struct msm_dsi_phy_cfg dsi_phy_14nm_cfgs = 
 > {
+>  		.destroy = dsi_pll_14nm_destroy,
+>  		.save_state = dsi_pll_14nm_save_state,
+>  		.restore_state = dsi_pll_14nm_restore_state,
+> -		.set_usecase = dsi_pll_14nm_set_usecase,
 >  		.disable_seq = dsi_pll_14nm_disable_seq,
 >  		.enable_seq = dsi_pll_14nm_enable_seq,
 >  	},
-> +	.min_pll_rate = VCO_MIN_RATE,
-> +	.max_pll_rate = VCO_MAX_RATE,
->  	.io_start = { 0x994400, 0x996400 },
->  	.num_dsi_phy = 2,
->  };
-> @@ -1264,6 +1264,8 @@ const struct msm_dsi_phy_cfg 
+> @@ -1260,7 +1259,6 @@ const struct msm_dsi_phy_cfg 
 > dsi_phy_14nm_660_cfgs = {
+>  		.destroy = dsi_pll_14nm_destroy,
+>  		.save_state = dsi_pll_14nm_save_state,
+>  		.restore_state = dsi_pll_14nm_restore_state,
+> -		.set_usecase = dsi_pll_14nm_set_usecase,
 >  		.disable_seq = dsi_pll_14nm_disable_seq,
 >  		.enable_seq = dsi_pll_14nm_enable_seq,
 >  	},
-> +	.min_pll_rate = VCO_MIN_RATE,
-> +	.max_pll_rate = VCO_MAX_RATE,
->  	.io_start = { 0xc994400, 0xc996000 },
->  	.num_dsi_phy = 2,
->  };
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-> index bb33261d606d..d267b25e5da0 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-> @@ -625,8 +625,6 @@ static int dsi_pll_28nm_init(struct msm_dsi_phy 
-> *phy)
->  	}
-> 
->  	pll = &pll_28nm->base;
-> -	pll->min_rate = VCO_MIN_RATE;
-> -	pll->max_rate = VCO_MAX_RATE;
->  	if (phy->cfg->quirks & DSI_PHY_28NM_QUIRK_PHY_LP)
->  		pll_28nm->vco_delay = 1000;
->  	else
-> @@ -811,6 +809,8 @@ const struct msm_dsi_phy_cfg dsi_phy_28nm_hpm_cfgs 
-> = {
->  		.disable_seq = dsi_pll_28nm_disable_seq,
->  		.enable_seq = dsi_pll_28nm_enable_seq_hpm,
->  	},
-> +	.min_pll_rate = VCO_MIN_RATE,
-> +	.max_pll_rate = VCO_MAX_RATE,
->  	.io_start = { 0xfd922b00, 0xfd923100 },
->  	.num_dsi_phy = 2,
->  };
-> @@ -837,6 +837,8 @@ const struct msm_dsi_phy_cfg 
-> dsi_phy_28nm_hpm_famb_cfgs = {
->  		.disable_seq = dsi_pll_28nm_disable_seq,
->  		.enable_seq = dsi_pll_28nm_enable_seq_hpm,
->  	},
-> +	.min_pll_rate = VCO_MIN_RATE,
-> +	.max_pll_rate = VCO_MAX_RATE,
->  	.io_start = { 0x1a94400, 0x1a96400 },
->  	.num_dsi_phy = 2,
->  };
-> @@ -863,6 +865,8 @@ const struct msm_dsi_phy_cfg dsi_phy_28nm_lp_cfgs = 
-> {
->  		.disable_seq = dsi_pll_28nm_disable_seq,
->  		.enable_seq = dsi_pll_28nm_enable_seq_lp,
->  	},
-> +	.min_pll_rate = VCO_MIN_RATE,
-> +	.max_pll_rate = VCO_MAX_RATE,
->  	.io_start = { 0x1a98500 },
->  	.num_dsi_phy = 1,
->  	.quirks = DSI_PHY_28NM_QUIRK_PHY_LP,
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-> index 79b0842a8dc4..31e7910c6050 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-> @@ -508,8 +508,6 @@ static int dsi_pll_28nm_8960_init(struct 
-> msm_dsi_phy *phy)
->  	}
-> 
->  	pll = &pll_28nm->base;
-> -	pll->min_rate = VCO_MIN_RATE;
-> -	pll->max_rate = VCO_MAX_RATE;
-> 
->  	pll->cfg = phy->cfg;
-> 
-> @@ -711,6 +709,8 @@ const struct msm_dsi_phy_cfg dsi_phy_28nm_8960_cfgs 
-> = {
->  		.disable_seq = dsi_pll_28nm_disable_seq,
->  		.enable_seq = dsi_pll_28nm_enable_seq,
->  	},
-> +	.min_pll_rate = VCO_MIN_RATE,
-> +	.max_pll_rate = VCO_MAX_RATE,
->  	.io_start = { 0x4700300, 0x5800300 },
->  	.num_dsi_phy = 2,
->  };
 > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
 > b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> index 44ae495e8fca..4831d6769da7 100644
+> index 4831d6769da7..5acdfe1f63be 100644
 > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
 > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> @@ -889,14 +889,6 @@ static int dsi_pll_7nm_init(struct msm_dsi_phy 
-> *phy)
->  	spin_lock_init(&pll_7nm->postdiv_lock);
+> @@ -1064,7 +1064,7 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy
+> *phy, int src_pll_id,
+>  	/* Select full-rate mode */
+>  	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_CTRL_2, 0x40);
 > 
->  	pll = &pll_7nm->base;
-> -	pll->min_rate = 1000000000UL;
-> -	pll->max_rate = 3500000000UL;
-> -	if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_1) {
-> -		pll->min_rate = 600000000UL;
-> -		pll->max_rate = (unsigned long)5000000000ULL;
-> -		/* workaround for max rate overflowing on 32-bit builds: */
-> -		pll->max_rate = max(pll->max_rate, 0xffffffffUL);
-> -	}
->  	pll->cfg = phy->cfg;
-> 
->  	pll_7nm->vco_delay = 1;
-> @@ -1152,6 +1144,8 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs = {
+> -	ret = msm_dsi_pll_set_usecase(phy->pll, phy->usecase);
+> +	ret = dsi_pll_7nm_set_usecase(phy->pll, phy->usecase);
+>  	if (ret) {
+>  		DRM_DEV_ERROR(&phy->pdev->dev, "%s: set pll usecase failed, %d\n",
+>  			__func__, ret);
+> @@ -1142,7 +1142,6 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs = {
+>  		.destroy = dsi_pll_7nm_destroy,
+>  		.save_state = dsi_pll_7nm_save_state,
 >  		.restore_state = dsi_pll_7nm_restore_state,
->  		.set_usecase = dsi_pll_7nm_set_usecase,
+> -		.set_usecase = dsi_pll_7nm_set_usecase,
 >  	},
-> +	.min_pll_rate = 600000000UL,
-> +	.max_pll_rate = (5000000000ULL < ULONG_MAX) ? 5000000000ULL : 
+>  	.min_pll_rate = 600000000UL,
+>  	.max_pll_rate = (5000000000ULL < ULONG_MAX) ? 5000000000ULL : 
 > ULONG_MAX,
->  	.io_start = { 0xae94400, 0xae96400 },
->  	.num_dsi_phy = 2,
->  	.quirks = DSI_PHY_7NM_QUIRK_V4_1,
-> @@ -1178,6 +1172,8 @@ const struct msm_dsi_phy_cfg 
+> @@ -1170,7 +1169,6 @@ const struct msm_dsi_phy_cfg 
 > dsi_phy_7nm_8150_cfgs = {
+>  		.destroy = dsi_pll_7nm_destroy,
+>  		.save_state = dsi_pll_7nm_save_state,
 >  		.restore_state = dsi_pll_7nm_restore_state,
->  		.set_usecase = dsi_pll_7nm_set_usecase,
+> -		.set_usecase = dsi_pll_7nm_set_usecase,
 >  	},
-> +	.min_pll_rate = 1000000000UL,
-> +	.max_pll_rate = 3500000000UL,
->  	.io_start = { 0xae94400, 0xae96400 },
->  	.num_dsi_phy = 2,
->  };
+>  	.min_pll_rate = 1000000000UL,
+>  	.max_pll_rate = 3500000000UL,
 > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c
 > b/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c
-> index c7ff0eba0e8b..e607adffe001 100644
+> index e607adffe001..98ee4560581a 100644
 > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c
 > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c
-> @@ -14,10 +14,10 @@ long msm_dsi_pll_helper_clk_round_rate(struct 
-> clk_hw *hw,
->  {
->  	struct msm_dsi_pll *pll = hw_clk_to_pll(hw);
+> @@ -113,12 +113,3 @@ int msm_dsi_pll_restore_state(struct msm_dsi_pll 
+> *pll)
 > 
-> -	if      (rate < pll->min_rate)
-> -		return  pll->min_rate;
-> -	else if (rate > pll->max_rate)
-> -		return  pll->max_rate;
-> +	if      (rate < pll->cfg->min_pll_rate)
-> +		return  pll->cfg->min_pll_rate;
-> +	else if (rate > pll->cfg->max_pll_rate)
-> +		return  pll->cfg->max_pll_rate;
->  	else
->  		return rate;
+>  	return 0;
 >  }
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_pll.h
-> b/drivers/gpu/drm/msm/dsi/phy/dsi_pll.h
-> index 4fa73fbcba52..8306911f8318 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_pll.h
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_pll.h
-> @@ -18,9 +18,6 @@ struct msm_dsi_pll {
->  	bool		pll_on;
->  	bool		state_saved;
-> 
-> -	unsigned long	min_rate;
-> -	unsigned long	max_rate;
 > -
->  	const struct msm_dsi_phy_cfg *cfg;
->  };
+> -int msm_dsi_pll_set_usecase(struct msm_dsi_pll *pll,
+> -			    enum msm_dsi_phy_usecase uc)
+> -{
+> -	if (pll->cfg->pll_ops.set_usecase)
+> -		return pll->cfg->pll_ops.set_usecase(pll, uc);
+> -
+> -	return 0;
+> -}
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
