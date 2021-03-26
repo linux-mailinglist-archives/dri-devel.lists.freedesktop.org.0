@@ -1,32 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C9634A5A6
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 11:32:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D5334A5AE
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 11:35:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F2786F3BE;
-	Fri, 26 Mar 2021 10:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37C466F3A2;
+	Fri, 26 Mar 2021 10:35:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1EC06F3B5
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 10:32:25 +0000 (UTC)
-Received: from guri.fritz.box (unknown
- [IPv6:2a02:810a:880:f54:c9ad:9cf9:303d:3688])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: dafna)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F411F1F46CDD;
- Fri, 26 Mar 2021 10:32:23 +0000 (GMT)
-From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/bridge: fix typo in Kconfig
-Date: Fri, 26 Mar 2021 11:32:16 +0100
-Message-Id: <20210326103216.7918-2-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 022786F3AD
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 10:35:48 +0000 (UTC)
+Date: Fri, 26 Mar 2021 10:35:33 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1616754946;
+ bh=zDa9RoiGoAZjzSC/JI97cgR1TPFxUcup2zzGsmMcNWI=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=tDFcBzFe/eV+bvYPSVRCRsq+TCQZ/foHLUO17yZ3Y9r3yZf/IHNhv1Q1VQxCYWWrf
+ bJR0rXvJyycZhi5cIphxmXC4mrphxuCNerVUR9UEk62hedLmteCrAyK60sv1AmrA5+
+ wElXdtmx/hWsGd+HkH+X+O14E1LdOPn3MVRCN6t5edk5+Z4ZbGnMPdJ/Jk4TSxx6iJ
+ 8+6fv51WxsU5E0432W3b8CXGzPkYEFC1cbPrEBefY9RXHwtjOli0GjFRzu1bKtPfGa
+ fa6C5q1aPVLKCq/EHwYpH2cYvlHMRp83Sxln/3QBnsiwM5zSHtemmLRA6UpUTm+FNB
+ Ux4HwTKDZoLvg==
+To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 1/2] drm: Fix 3 typos in the inline doc
+Message-ID: <BfA-piXji9BZRHnRUxveUb-SF8mAW5piyHW8fZT5o2xy0g-z21gO2Gyu2Iw5pUX7v2K1NpELuornJXEFtH8kBPhDfJFyWsyee4rol2suPZs=@emersion.fr>
 In-Reply-To: <20210326103216.7918-1-dafna.hirschfeld@collabora.com>
 References: <20210326103216.7918-1-dafna.hirschfeld@collabora.com>
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,41 +47,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dafna.hirschfeld@collabora.com, airlied@linux.ie, dafna3@gmail.com,
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: airlied@linux.ie, dafna3@gmail.com, dri-devel@lists.freedesktop.org,
  laurent.pinchart@ideasonboard.com, tzimmermann@suse.de,
  enric.balletbo@collabora.com, kernel@collabora.com
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-fix 's/controller/controllers/'
+Reviewed-by: Simon Ser <contact@emersion.fr>
 
-in the sentence:
-Most display controller handle display connectors...
-
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- drivers/gpu/drm/bridge/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index e4110d6ca7b3..cc55915dd0eb 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -42,7 +42,7 @@ config DRM_DISPLAY_CONNECTOR
- 	depends on OF
- 	help
- 	  Driver for display connectors with support for DDC and hot-plug
--	  detection. Most display controller handle display connectors
-+	  detection. Most display controllers handle display connectors
- 	  internally and don't need this driver, but the DRM subsystem is
- 	  moving towards separating connector handling from display controllers
- 	  on ARM-based platforms. Saying Y here when this driver is not needed
--- 
-2.17.1
-
+I'll push this shortly to drm-misc-next.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
