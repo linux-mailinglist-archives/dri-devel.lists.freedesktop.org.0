@@ -2,53 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28DF934AE3D
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 19:07:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7513434AE49
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 19:12:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD6C06F46D;
-	Fri, 26 Mar 2021 18:07:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 986FA6F466;
+	Fri, 26 Mar 2021 18:12:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
- [IPv6:2607:f8b0:4864:20::c34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DBD86F46C
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 18:07:28 +0000 (UTC)
-Received: by mail-oo1-xc34.google.com with SMTP id
- n6-20020a4ac7060000b02901b50acc169fso1483900ooq.12
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 11:07:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=tiQAc4cCzJmCKxH0htiFQ6KYEm0OD0QBbQNUKC4oYuY=;
- b=XXQCThM+4KWAJFkd5iK73xvdXvTuhmnPNR0TZrhhno7CxRlBPY05PMCy8yGgLFY5js
- QXSa9r7Nw8bSA/H5J2nPVajkH6psk3NYCoFaHOZjw44aRJQv1CFoCAGaimb0PFO31ijf
- lza1rJhULG3MUiBYy9qhKSS5lFovlQ4RSyQtA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tiQAc4cCzJmCKxH0htiFQ6KYEm0OD0QBbQNUKC4oYuY=;
- b=WkIVXg7cq5B2MZT0V65vQlDFWMFj+Qu0hnoa7e8yGYFk9YaSchxX5MmBCFeklfi6Xn
- 7NTOHfTq2sPaXqV/QQTeAlGbAqXRhTXwHqKYtq4CO0b4SzpBQ5/7CjAAOjnioYr5N5xo
- 96BCnT3lllbDH7XN+KHhLGBnv9Pmpz3limXb4hs+x4zwhfxZJxNahDz/Zh9XkEswGpM8
- bGMwqLKoCJEZId4F0uxHbuzRwOeOivvIcaSOel6AcX3zB8jCgHX7/l4nxDeCj9Vzi292
- +BWfsedm+ECK/RwgP1inSPNPTv49wbSA7zbFpgPqgPbYgAaDVwXRhzqY9V+FaOTke50Y
- zTvg==
-X-Gm-Message-State: AOAM532YIyew5t+4GfAAIDE0E1BJzQPkZjsgj8mkQp3newSeUOHmmtbp
- 4x+NwSQtkysW89lB4aLZRObLd60JI+aZEiDUO12WEw==
-X-Google-Smtp-Source: ABdhPJzk7+HqzwaQrD8ChP5vwj+cIRMVeiW6Gauwpz1ug8KlfsIoTlaFBVvhAMHWtJ1bJDZGh1yq1B/IKe9CgmuxtFw=
-X-Received: by 2002:a4a:d553:: with SMTP id q19mr12104935oos.28.1616782046403; 
- Fri, 26 Mar 2021 11:07:26 -0700 (PDT)
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com
+ (mail-eopbgr760081.outbound.protection.outlook.com [40.107.76.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 449226F466;
+ Fri, 26 Mar 2021 18:12:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KnkkTCnGqISofmUuLPHWjT1HuJunarrGXqMNPjvC07PbcMd/28STbBbEpPpre9erADLNcJo6/TeOnHgcwM283CLOioKjnowanjOOoN6TGjyg3hPQItgC5H42ZB7dpXhItYHn6xyu+ZkQLBo1o0B7VDn3k+9Cy7PWylgEMJP6Dw43PjdDz41/oqltKRyRMjVjhm1jIMYXPB8gyaOTo4SBVSbwuZnTOisyffjXc47UkCvIqi4AVY6rwRYOqyB3t2cSnWcP2QWkFMAUKBZFKN3vb72CDzk/rFWx9wDXzoT6xt6Zfr97gkPdApyZIMoXG6dW37FKCA6bteqXVJGpfCXySQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ht/BKdSLjiveRXBybAgpGUodqxIpmLslt0z/GcgtGi4=;
+ b=OkPYg9pO9ma1Wx2KxIWfsz9ItmnOaFWz4lI/3cv/cfvROhS3ipcv5+oK47QAhF3pgcZGrdSPNEbgrKIDMc0OMizCtSFhUsd6zB+mz6zZDfScez8lFSwQIiX7xSg+lWuszE+8xgrVHMPRG37fo2/ikN0ZAqaLTZcHHHeiqYYvVvPvQ+UN119EKyVQnGMGGyIyBXv8RzgvWEorxO0wJSX0uzSO/IolG1y4VkjkqzrzKqLeWwmQo8PtdkfXF9uOlmBHE3o9HnDo580iIJH3gkK+jfOC0MIBpYGOQpwBwMr/dN/72b13kGn/l1joh0tcKgxzX1cGBR3vG311QqlWcdFTQg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ht/BKdSLjiveRXBybAgpGUodqxIpmLslt0z/GcgtGi4=;
+ b=zFsQPEuJudxoytZpAetsuw1wJeQNwszXlgPPlzvfDoiUZ+DtAgRzwhKoVoaT8WeKQXuRITnbddT3H2+WBeFxSU0w5/5NGTS9ZSSngbbQgTppKGJ2gW0AH6YKHK1e21tjAphSgASk+X1oKA1IfGLF5+lJMeufBtPCQPlojpUSD9o=
+Received: from BN8PR12MB3092.namprd12.prod.outlook.com (2603:10b6:408:48::12)
+ by BN8PR12MB3092.namprd12.prod.outlook.com (2603:10b6:408:48::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Fri, 26 Mar
+ 2021 18:12:31 +0000
+Received: from BN8PR12MB3092.namprd12.prod.outlook.com
+ ([fe80::5168:9411:6f38:b2ea]) by BN8PR12MB3092.namprd12.prod.outlook.com
+ ([fe80::5168:9411:6f38:b2ea%6]) with mapi id 15.20.3955.031; Fri, 26 Mar 2021
+ 18:12:31 +0000
+From: "Brol, Eryk" <Eryk.Brol@amd.com>
+To: "manasi.d.navare@intel.com" <manasi.d.navare@intel.com>, "daniel@ffwll.ch"
+ <daniel@ffwll.ch>, "Wentland, Harry" <Harry.Wentland@amd.com>, "Siqueira, 
+ Rodrigo" <Rodrigo.Siqueira@amd.com>, "Kazlauskas, Nicholas"
+ <Nicholas.Kazlauskas@amd.com>, "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Lin, Wayne"
+ <Wayne.Lin@amd.com>, "lyude@redhat.com" <lyude@redhat.com>
+Subject: Re: [PATCH v2] drm/mst: Enhance MST topology logging
+Thread-Topic: [PATCH v2] drm/mst: Enhance MST topology logging
+Thread-Index: AQHXIaGZqkFFWQPVfEu/HhwY+pgTEKqVSaCAgAFJn2s=
+Date: Fri, 26 Mar 2021 18:12:31 +0000
+Message-ID: <BN8PR12MB3092499AAC8E26763D5175C3E5619@BN8PR12MB3092.namprd12.prod.outlook.com>
+References: <20210325180614.37060-1-eryk.brol@amd.com>,
+ <c9148c206727761644c31844f929d52ca19d00ee.camel@redhat.com>
+In-Reply-To: <c9148c206727761644c31844f929d52ca19d00ee.camel@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=True;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2021-03-26T18:12:30.613Z;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal
+ Distribution
+ Only; MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=0;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard; 
+authentication-results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [165.204.84.11]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: ae09e3d1-12ba-4015-a6c2-08d8f082b8fa
+x-ms-traffictypediagnostic: BN8PR12MB3092:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BN8PR12MB309205A56E600AD083F64C3CE5619@BN8PR12MB3092.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3631;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: os4xcfx3vDb9P1AXZiCXeGdRRubqXVxVMoY9FlnfwsHJre84jfhIIBTEQ1H6FlLfKtG9lg+lgKYTcptX22wF/sgKEXogbEbhXXurXdscYJaY1oZtmVQWI0ho5QvA5WbvenaAMlN6iE25C2kxo4c37meq/Wc/4HlTPtGu3GZguLKb6wcxW6VwPq1xG3py7Ijj22yiPKJN83xxrhKTyaLbWt7GB+6ANl+WoJwd+c9QVudKHoEKRltXDR7t4tRF4eK8mhLLRR5fjtBkHBUba7rUKzn46P2ZfexTVboec11YYssCg0qcN1A3fwCPiz1dOqY3Y9ApMgtu0MeWAcWHK/LbsUxFj9cZCKuGRSYekTOf+P5ocU1NyqxJ4xsnfLYxpLQaHois3XVtB+wBZWdtdn5raIu4k9Cpu4QcmC25zhf790dFv+GDUgvQ/DiJggwJVUfe2Qp428HDy+b0YWbYIcV/Lp11+zbHJjBgJhz+p4/x8J3eWMzVW+VKKOJ4MxiCr5PQ/4DhuS6CnuOwNHxQLUQoMX7q3Sm1E1frnr9N2k76BVfjvBTNccV1KLoDgCgOKj9ZinPirqsJwEtoSTxsGR3pxvsGltmYahtn/QqBC+Gl2ncrLe/vfkHjaAwwXUr8kzjYlIKG1dJxr9E9x8I7bkGIp/SZHu1f6uP688F2oolE2bOz9uItORa2IFFg3aDW/U1C
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3092.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(366004)(346002)(396003)(376002)(66946007)(64756008)(66556008)(66476007)(4326008)(76116006)(66446008)(33656002)(2906002)(7696005)(316002)(8676002)(26005)(921005)(110136005)(38100700001)(478600001)(54906003)(83380400001)(186003)(8936002)(55016002)(9686003)(71200400001)(86362001)(19627405001)(5660300002)(53546011)(52536014)(6506007);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?JtgMsen4VXEaCHr3+q3Bh/lPUhBFuS6c1fixaD5CRVXWMHFd+WxCne5z0We/?=
+ =?us-ascii?Q?z+XroKAIrZa6bn2QEuGTeGIDAYFOlSBJoul1FEjpHTuhIlDIoX5nTMjnXAbQ?=
+ =?us-ascii?Q?ave+BbZlLJw23++DjXW204W+13Ej4ixEyTujLY0Y1dJ5c7W1JA17WyfQbVGZ?=
+ =?us-ascii?Q?hqHsVG9YZGQGsfMy/QU1NV3dq/6T8mvUTswmYYBYiRzaQfU1qBpKPN2VxItt?=
+ =?us-ascii?Q?b0UQy1Dy8pJMAXi7SXUpECZ4zTfaC+/TwQUfLKLLhyUD8WS5jURA1uWfzCql?=
+ =?us-ascii?Q?1Gjtho2p5iHxd+zD6Yxsw2TQbyxgV/lISNFps8j2V5Rg7JdNotcSWcDK//G6?=
+ =?us-ascii?Q?w/znOe+lrdVPY9QLsskk85ODdsak43zN2IyB59wWJe8rkFRqSw/NzLI34JlK?=
+ =?us-ascii?Q?k2BXM4hk1Y7DwL4PZmQdke9TmB/T/kmK+JfTVxC1uFlSZm4KAc1EdLXg6fDa?=
+ =?us-ascii?Q?K6Z035jGZp5kzRjVpNtmS9BeArppllgFCUYDdqYmqA2QSg7oxpkMLs7thXPz?=
+ =?us-ascii?Q?PJYon8WdbbZ6bIcfJ7A1trtqgP1BFB8UBmK4NT9/D3K2NmIFw1+DHRmLxoNd?=
+ =?us-ascii?Q?IwTkNDkKG7Uvh6Ttp8Up8v8nBv7KFmlCLP8NbqotTvmtOb2XkhzplE3riusJ?=
+ =?us-ascii?Q?gxkIutbjODEWF2BHmIRvOHo4BAIXihilK/B0tbo4z3PUlMkoCqb/0dGDE/K4?=
+ =?us-ascii?Q?gF4hJ+TdPMncVIpJVYI/tJYPczpT1rzx0pfGdUkptHIPPhdFCwHZq+uvA7xI?=
+ =?us-ascii?Q?90XocvnfaxA3ItLbaQjPZqUE5OayE9lGknpT73jZDv2kCw9IVs5uVdoKx+1J?=
+ =?us-ascii?Q?2sspBc9VXa8jfgMyJZ/WLoTggaz/BM/9+0ZRKo7HjUxb1hNKVvKqXkPoRBA/?=
+ =?us-ascii?Q?JS95SikkMLJ3HvpUfkUyfIKhHlNnJkgQlcCDy7WdGau5u+HTqZy8YFNIf2tJ?=
+ =?us-ascii?Q?xM2fjPHlHl4oE9qCY1It0+U4sRn+iGSQVVgFkHujK0Vs0mjimo4jXxxZHlLg?=
+ =?us-ascii?Q?0yxWDufPLlTKQJyVSbUDOOKe6bXIBMeB0SE5nvM783CVKebuQAKFv0i48BlQ?=
+ =?us-ascii?Q?D3P1OzjSpvrcYwMSIamyWfOQj8itx/LhJ3sjNHuVGLXbScdNyflDw3vCFRGJ?=
+ =?us-ascii?Q?tfID1fuhtMxxXETqmBIyi1W17RL9nAtSM9r2tYVzzZEDCYC9NUTVbBWDw0wj?=
+ =?us-ascii?Q?c8ZppG9HvG1Zj9NnXLKTeCdBfo6enaMNjSCd7HoYLbULbiYhpKsYJwxB1oJP?=
+ =?us-ascii?Q?a5SYfo8AWk5BaI5oLI2LCiPf743OmvdXWEpQj+VDM+S8MBwqBapVDrbgHZLr?=
+ =?us-ascii?Q?e4o=3D?=
 MIME-Version: 1.0
-References: <20210218221531.3870-1-alexander.deucher@amd.com>
-In-Reply-To: <20210218221531.3870-1-alexander.deucher@amd.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 26 Mar 2021 19:07:12 +0100
-Message-ID: <CAKMK7uEWiGqt4=KpX2ov8OZ4SMD1mJMAQo7D6QezHwT0Nhdpgg@mail.gmail.com>
-Subject: Re: [pull] amdgpu, amdkfd, radeon drm-next-5.12
-To: Alex Deucher <alexdeucher@gmail.com>, Lyude <lyude@redhat.com>, 
- ingqing Zhuo <qingqing.zhuo@amd.com>, "Wentland,
- Harry" <harry.wentland@amd.com>
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3092.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae09e3d1-12ba-4015-a6c2-08d8f082b8fa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Mar 2021 18:12:31.0545 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: glMnehRrhhJJG/ifp+Qu4CZXCYsyu1jF1Jb8Smf9iP7ZPVUEQnK2JZH7E4uMnTmQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3092
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,222 +124,566 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0587246795=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBGZWIgMTgsIDIwMjEgYXQgMTE6MTUgUE0gQWxleCBEZXVjaGVyIDxhbGV4ZGV1Y2hl
-ckBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gSGkgRGF2ZSwgRGFuaWVsLAo+Cj4gRml4ZXMgZm9yIDUu
-MTIuCj4KPiBUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IDRjM2EzMjkyNzMwYzU2
-NTkxNDcyNzE3ZDhjNWMwZmFmNzRmNmM2YmI6Cj4KPiAgIGRybS9hbWQvZGlzcGxheTogZml4IHVu
-dXNlZCB2YXJpYWJsZSB3YXJuaW5nICgyMDIxLTAyLTA1IDA5OjQ5OjQ0ICsxMDAwKQo+Cj4gYXJl
-IGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6Cj4KPiAgIGh0dHBzOi8vZ2l0bGFi
-LmZyZWVkZXNrdG9wLm9yZy9hZ2Q1Zi9saW51eC5naXQgdGFncy9hbWQtZHJtLW5leHQtNS4xMi0y
-MDIxLTAyLTE4Cj4KPiBmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gNmU4MGZiOGFiMDRm
-NmM0ZjM3N2UyZmQ0MjJiZGQxODU1YmViNzM3MToKPgo+ICAgZHJtL2FtZGdwdTogU2V0IHJlZmVy
-ZW5jZSBjbG9jayB0byAxMDBNaHogb24gUmVub2lyICh2MikgKDIwMjEtMDItMTggMTY6NDM6MDkg
-LTA1MDApCgpQdWxsZWQgaW50byBkcm0tbmV4dCwgd2l0aCBzb21lIGNvbmZsaWN0cywgcGxlYXNl
-IGRvdWJsZS1jaGVjay4KCkkgYWxzbyBzcG90dGVkCgpjb21taXQgZWEzYjQyNDJiYzljYTE5Nzc2
-MjExOTM4MmIzN2UxMjU4MTViZDY3ZgpBdXRob3I6IFFpbmdxaW5nIFpodW8gPHFpbmdxaW5nLnpo
-dW9AYW1kLmNvbT4KRGF0ZTogICBUdWUgRmViIDkgMTY6MzY6NDEgMjAyMSAtMDUwMAoKICAgZHJt
-L2FtZC9kaXNwbGF5OiBGaXggc3lzdGVtIGhhbmcgYWZ0ZXIgbXVsdGlwbGUgaG90cGx1Z3MgKHYz
-KQoKSSB0aGluayBpdCB3b3VsZCBiZSBnb29kIGlmIHRoYXQgY291bGQgdXNlIHRoZSBkcm1fdmJs
-YW5rX3dvcmsgc3R1ZmYKZnJvbSBMeXVkZSBpbnN0ZWFkIG9mIGhhbmQtcm9sbGluZyB5b3VyIG93
-bi4KLURhbmllbAoKPgo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiBhbWQtZHJtLW5leHQtNS4xMi0yMDIxLTAyLTE4Ogo+
-Cj4gYW1kZ3B1Ogo+IC0gUHJlZmVyIEJoYXdhbidzIHVudXNlZCB2YXJpYWJsZSBmaXgKPiAtIEZp
-eGVzIGZvciBoaWdoIHByaW9yaXR5IHF1ZXVlcyBvbiBnZng4LDkKPiAtIHN3U01VIGZpeGVzIGZv
-ciBzaWVubmEgY2ljaGxpZAo+IC0gc3dTTVUgZml4ZXMgZm9yIHJlbm9pcgo+IC0gbW1odWIgY2xp
-ZW50IGlkIGZpeGVzIGZvciBhcmN0dXJ1cwo+IC0gU01VSU8gZml4ZXMgZm9yIG5hdmkgZmFtaWx5
-Cj4gLSBzd1NNVSBmaXhlcyBmb3IgdmFuZ29naAo+IC0gR1BVIHJlc2V0IGNsZWFudXAKPiAtIERp
-c3BsYXkgZml4ZXMKPiAtIEdGWCBoYXJ2ZXN0aW5nIGZpeCBmb3Igc2llbm5hIGNpY2hsaWQKPiAt
-IEZpeCByZWZlcmVuY2UgY2xvY2sgb24gUmVub2lyCj4gLSBNaXNjIGZpeGVzIGFuZCBjbGVhbnVw
-cwo+Cj4gYW1ka2ZkOgo+IC0gRml4IGZvciB1bmlxdWUgaWQgcXVlcnkKPiAtIEZpeCByZWN1cnNp
-dmUgbG9jayB3YXJuaW5ncwo+Cj4gcmFkZW9uOgo+IC0gUmVtb3ZlIGNvbmZ1c2luZyBWQ0UgbWVz
-c2FnZXMgb24gT2xhbmQKPgo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiBBbGV4IERldWNoZXIgKDE2KToKPiAgICAgICBS
-ZXZlcnQgImRybS9hbWQvZGlzcGxheTogZml4IHVudXNlZCB2YXJpYWJsZSB3YXJuaW5nIgo+ICAg
-ICAgIGRybS9hbWRncHUvc211MTI6IGZpeCBwb3dlciByZXBvcnRpbmcgb24gcmVub2lyCj4gICAg
-ICAgZHJtL2FtZGdwdS9nbWM5OiBmaXggbW1odWIgY2xpZW50IG1hcHBpbmcgZm9yIGFyY3R1cnVz
-Cj4gICAgICAgZHJtL2FtZGdwdS9zaTogbWlub3IgY2xlYW4gdXAgb2YgcmVzZXQgY29kZQo+ICAg
-ICAgIGRybS9hbWRncHUvY2lrOiBtaW5vciBjbGVhbiB1cCBvZiByZXNldCBjb2RlCj4gICAgICAg
-ZHJtL2FtZGdwdS92aTogbWlub3IgY2xlYW4gdXAgb2YgcmVzZXQgY29kZQo+ICAgICAgIGRybS9h
-bWRncHU6IGFkZCBnZW5lcmljIHBjaSByZXNldCBhcyBhbiBvcHRpb24KPiAgICAgICBkcm0vYW1k
-Z3B1L3NpOiBhZGQgUENJIHJlc2V0IHN1cHBvcnQKPiAgICAgICBkcm0vYW1kZ3B1L3NvYzE1OiBh
-ZGQgUENJIHJlc2V0IHN1cHBvcnQKPiAgICAgICBkcm0vYW1kZ3B1L252OiBhZGQgUENJIHJlc2V0
-IHN1cHBvcnQKPiAgICAgICBkcm0vYW1kZ3B1OiBkcm9wIGV4dHJhIGRybV9rbXNfaGVscGVyX3Bv
-bGxfZW5hYmxlL2Rpc2FibGUgY2FsbHMKPiAgICAgICBkcm0vYW1kZ3B1OiB1c2UgcnVucG0gZmxh
-ZyByYXRoZXIgdGhhbiBmYmNvbiBmb3Iga2ZkIHJ1bnRpbWUgc3VzcGVuZCAodjIpCj4gICAgICAg
-ZHJtL2FtZGdwdTogcmVzZXQgcnVucG0gZmxhZyBpZiBkZXZpY2Ugc3VzcGVuZCBmYWlscwo+ICAg
-ICAgIFJldmVydCAiZHJtL2FtZC9kaXNwbGF5OiBVcGRhdGUgTlYxeCBTUiBsYXRlbmN5IHZhbHVl
-cyIKPiAgICAgICBkcm0vcmFkZW9uOiBPTEFORCBib2FyZHMgZG9uJ3QgaGF2ZSBWQ0UKPiAgICAg
-ICBkcm0vYW1kZ3B1OiBTZXQgcmVmZXJlbmNlIGNsb2NrIHRvIDEwME1oeiBvbiBSZW5vaXIgKHYy
-KQo+Cj4gQW50aG9ueSBLb28gKDEpOgo+ICAgICAgIGRybS9hbWQvZGlzcGxheTogW0ZXIFByb21v
-dGlvbl0gUmVsZWFzZSAwLjAuNTEKPgo+IEFyaWMgQ3lyICgxKToKPiAgICAgICBkcm0vYW1kL2Rp
-c3BsYXk6IDMuMi4xMjIKPgo+IEJoYXdhbnByZWV0IExha2hhICgxKToKPiAgICAgICBkcm0vYW1k
-L2Rpc3BsYXk6IEZpeCB1bnVzZWQgdmFyaWFibGUgd2FybmluZwo+Cj4gRGFsZSBaaGFvICgxKToK
-PiAgICAgICBkcm0vYW1kL2Rpc3BsYXk6IGZpeCB0eXBlIG1pc21hdGNoIGVycm9yIGZvciByZXR1
-cm4gdmFyaWFibGUKPgo+IERlcmVrIExhaSAoMSk6Cj4gICAgICAgZHJtL2FtZC9kaXNwbGF5OiBB
-ZGQgRElHX0NMT0NLX1BBVFRFUk4gaW4gdGhlIHRyYW5zbWl0dGVyIGNvbnRyb2wKPgo+IEVyaWMg
-WWFuZyAoMSk6Cj4gICAgICAgZHJtL2FtZC9kaXNwbGF5OiBtb3ZlIGVkcCBzaW5rIHByZXNlbnQg
-ZGV0ZWN0aW9uIHRvIGh3IGluaXQKPgo+IEZhbmd6aGkgWnVvICgxKToKPiAgICAgICBkcm0vYW1k
-L2Rpc3BsYXk6IEFkZCByZXR1cm4gY29kZSBpbnN0ZWFkIG9mIGJvb2xlYW4gZm9yIGZ1dHVyZSB1
-c2UKPgo+IEZlbGl4IEt1ZWhsaW5nICgxKToKPiAgICAgICBkcm0vYW1ka2ZkOiBGaXggcmVjdXJz
-aXZlIGxvY2sgd2FybmluZ3MKPgo+IEd1c3Rhdm8gQS4gUi4gU2lsdmEgKDEpOgo+ICAgICAgIGRy
-bS9hbWQvZGlzcGxheTogRml4IHBvdGVudGlhbCBpbnRlZ2VyIG92ZXJmbG93Cj4KPiBKYW4gS29r
-ZW3DvGxsZXIgKDEpOgo+ICAgICAgIGRybS9hbWQvZGlzcGxheTogQWRkIEZQVSB3cmFwcGVycyB0
-byBkY24yMV92YWxpZGF0ZV9iYW5kd2lkdGgoKQo+Cj4gSmlhcGVuZyBDaG9uZyAoMik6Cj4gICAg
-ICAgZHJtL2FtZC9kaXNwbGF5OiBTaW1wbGlmeSBib29sIGNvbXBhcmlzb24KPiAgICAgICBkcm0v
-cmFkZW9uOiBTaW1wbGlmeSBib29sIGNvbXBhcmlzb24KPgo+IEppYXdlaSBHdSAoMSk6Cj4gICAg
-ICAgZHJtL2FtZGdwdTogZXh0ZW5kIE1BWF9LSVFfUkVHX1RSWSB0byAxMDAwCj4KPiBKdW4gTGVp
-ICgxKToKPiAgICAgICBkcm0vYW1kL2Rpc3BsYXk6IHJldmVydCBzdXBwb3J0IGZvciBESUQyLjAg
-ZHNjIHBhc3N0aHJvdWdoCj4KPiBLZW5uZXRoIEZlbmcgKDMpOgo+ICAgICAgIGRybS9hbWQvcG06
-IGVuYWJsZSBBQ0RDIGZlYXR1cmUKPiAgICAgICBkcm0vYW1kL3BtOiBlbmFibGUgRENTCj4gICAg
-ICAgZHJtL2FtZC9wbTogZW5hYmxlIExDTEsgRFMKPgo+IEtlbnQgUnVzc2VsbCAoMSk6Cj4gICAg
-ICAgZHJtL2FtZGtmZDogR2V0IHVuaXF1ZV9pZCBkeW5hbWljYWxseSB2Mgo+Cj4gS2V2aW4gV2Fu
-ZyAoMik6Cj4gICAgICAgZHJtL2FtZC9wbS9zd3NtdTogdW5pZnkgdGhlIGluaXQgc29mdCBncHUg
-bWV0cmljcyBmdW5jdGlvbgo+ICAgICAgIGRybS9hbWRncHU6IG9wdGltaXplIGxpc3Qgb3BlcmF0
-aW9uIGluIGFtZGdwdV94Z21pCj4KPiBMYW5nIFl1ICgxKToKPiAgICAgICBkcm0vYW1kL2Rpc3Bs
-YXk6IGZpeCA2NGJpdCBkaXZpc2lvbiBpc3N1ZSBvbiAzMmJpdCBPUwo+Cj4gTGlrdW4gR2FvICg1
-KToKPiAgICAgICBkcm0vYW1kZ3B1OiBzdXBwb3J0IEFTUE0gZm9yIHNvbWUgc3BlY2lmaWMgQVNJ
-Qwo+ICAgICAgIGRybS9hbWRncHU6IGFkZCBTTVVJTyAxMS4wLjYgcmVnaXN0ZXIgaGVhZGVycwo+
-ICAgICAgIGRybS9hbWRncHU6IGltcGxlbWVudCBzbXVpbyB2MTFfMF82IGNhbGxiYWNrcwo+ICAg
-ICAgIGRybS9hbWRncHU6IHN3aXRjaCB0byB1c2Ugc211aW8gY2FsbGJhY2tzIGZvciBOViBmYW1p
-bHkKPiAgICAgICBkcm0vYW1kZ3B1OiBzdXBwb3J0IHJvbSBjbG9ja2dhdGluZyByZWxhdGVkIGZ1
-bmN0aW9uIGZvciBOViBmYW1pbHkKPgo+IE1hcmVrIE9sxaHDoWsgKDEpOgo+ICAgICAgIGRybS9h
-bWRncHU6IGZpeCBDR1RTX1RDQ19ESVNBQkxFIHJlZ2lzdGVyIG9mZnNldCBvbiBnZngxMC4zCj4K
-PiBOaXJtb3kgRGFzICg2KToKPiAgICAgICBkcm0vYW1kZ3B1OiBjbGVhbnVwIHN0cnVjdCBhbWRn
-cHVfcmluZwo+ICAgICAgIGRybS9hbWRncHU6IGVuYWJsZSBvbmx5IG9uZSBoaWdoIHByaW8gY29t
-cHV0ZSBxdWV1ZQo+ICAgICAgIGRybS9hbWRncHU6IGFkZCB3YXZlIGxpbWl0IGZ1bmN0aW9uYWxp
-dHkgZm9yIGdmeDgsOQo+ICAgICAgIGRybS9hbWRncHU6IGVuYWJsZSBnZnggd2F2ZSBsaW1pdGlu
-ZyBmb3IgaGlnaCBwcmlvcml0eSBjb21wdXRlIGpvYnMKPiAgICAgICBkcm0vYW1kZ3B1OiBlbmFi
-bGUgd2F2ZSBsaW1pdCBvbiBub24gaGlnaCBwcmlvIGNzIHBpcGVzCj4gICAgICAgZHJtL2FtZGdw
-dS9kaXNwbGF5OiByZW1vdmUgaGRjcF9zcm0gc3lzZnMgb24gZGV2aWNlIHJlbW92YWwKPgo+IFFp
-bmdxaW5nIFpodW8gKDEpOgo+ICAgICAgIGRybS9hbWQvZGlzcGxheTogRFAgSERDUCBDb21wbGlh
-bmNlIDFBLTA4LzA5IHRlc3RzIGZhaWwKPgo+IFRhbyBaaG91ICgxKToKPiAgICAgICBkcm0vYW1k
-Z3B1OiBlbmFibGUgZ3B1IHJlY292ZXJ5IGZvciBkaW1ncmV5X2NhdmVmaXNoCj4KPiBUaWFuIFRh
-byAoMSk6Cj4gICAgICAgZHJtL2FtZGdwdTogZml4IHVubmVjZXNzYXJ5IE5VTEwgY2hlY2sgd2Fy
-bmluZ3MKPgo+IFdheW5lIExpbiAoMik6Cj4gICAgICAgZHJtL2FtZGdwdTogQWRkIG90ZyB2ZXJ0
-aWNhbCBJUlEgU291cmNlCj4gICAgICAgZHJtL2FtZC9kaXNwbGF5OiBBZGQgb3RnIHZlcnRpY2Fs
-IGludGVycnVwdDAgc3VwcG9ydCBpbiBEQ04xLjAKPgo+IFdlc2xleSBDaGFsbWVycyAoMSk6Cj4g
-ICAgICAgZHJtL2FtZC9kaXNwbGF5OiBESU8gU3VwcG9ydGVkIGZvciB2aXJ0dWFsIGRpc3BsYXlz
-Cj4KPiBXeWF0dCBXb29kICgxKToKPiAgICAgICBkcm0vYW1kL2Rpc3BsYXk6IEluaXRpYWxpemUg
-ZG11Yl9yYl9jbWQgdW5pb25zIHRvIDAKPgo+IFhpYW9qaWFuIER1ICgxKToKPiAgICAgICBkcm0v
-YW1kL3BtOiBtYWtlIHRoZSBlcnJvciBsb2cgbW9yZSBjbGVhciBmb3IgZmluZSBncmFpbiB0dW5p
-bmcgZnVuY3Rpb24KPgo+IFhpYW9tZW5nIEhvdSAoMyk6Cj4gICAgICAgZHJtL2FtZC9wbTogdXBk
-YXRlIHRoZSBzbXUgdjExLjUgc21jIGhlYWRlciBmb3IgdmFuZ29naAo+ICAgICAgIGRybS9hbWQv
-cG06IG1vZGlmeSB0aGUgcG93ZXIgbGltaXQgbGV2ZWwgcGFyYW1ldGVyIGZyb20gYm9vbCB0byBl
-bnVtIHR5cGUKPiAgICAgICBkcm0vYW1kL3BtOiBhZGQgc3VwcG9ydCBmb3IgaHdtb24gY29udHJv
-bCBvZiBzbG93IGFuZCBmYXN0IFBQVCBsaW1pdCBvbiB2YW5nb2doCj4KPiAgZHJpdmVycy9ncHUv
-ZHJtL2FtZC9hbWRncHUvTWFrZWZpbGUgICAgICAgICAgICAgICAgfCAgIDMgKy0KPiAgZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1LmggICAgICAgICAgICAgICAgfCAgIDcgKy0KPiAg
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2NzLmMgICAgICAgICAgICAgfCAgIDMg
-Ky0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jICAgICAgICAg
-fCAgMTkgKysrLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZHJ2LmMgICAg
-ICAgICAgICB8ICAxOCArKy0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9n
-ZnguYyAgICAgICAgICAgIHwgIDE1ICstLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
-bWRncHVfZ2Z4LmggICAgICAgICAgICB8ICAgMiArLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
-ZGdwdS9hbWRncHVfaWIuYyAgICAgICAgICAgICB8ICAgOSArKwo+ICBkcml2ZXJzL2dwdS9kcm0v
-YW1kL2FtZGdwdS9hbWRncHVfbmJpby5oICAgICAgICAgICB8ICAgMSArCj4gIGRyaXZlcnMvZ3B1
-L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yaW5nLmMgICAgICAgICAgIHwgICA4ICstCj4gIGRyaXZl
-cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yaW5nLmggICAgICAgICAgIHwgICA3ICstCj4g
-IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV94Z21pLmMgICAgICAgICAgIHwgIDEw
-ICstCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Npay5jICAgICAgICAgICAgICAgICAg
-IHwgIDMzICsrLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nZnhfdjEwXzAuYyAg
-ICAgICAgICAgICB8ICAyOCArKystLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nZnhf
-djhfMC5jICAgICAgICAgICAgICB8ICA3MiArKysrKysrKysrKystCj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9hbWQvYW1kZ3B1L2dmeF92OV8wLmMgICAgICAgICAgICAgIHwgIDcyICsrKysrKysrKysrLS0K
-PiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ21jX3Y5XzAuYyAgICAgICAgICAgICAgfCAg
-NjYgKysrKysrLS0tLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L25iaW9fdjJfMy5j
-ICAgICAgICAgICAgIHwgMTE0ICsrKysrKysrKysrKysrKysrKysrCj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9hbWQvYW1kZ3B1L252LmMgICAgICAgICAgICAgICAgICAgIHwgIDQ0ICsrKysrKy0tCj4gIGRy
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3NpLmMgICAgICAgICAgICAgICAgICAgIHwgIDQyICsr
-KystLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3NtdWlvX3YxMV8wXzYuYyAgICAg
-ICAgIHwgIDc3ICsrKysrKysrKysrKysKPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvc211
-aW9fdjExXzBfNi5oICAgICAgICAgfCAgMzAgKysrKysrCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L3NvYzE1LmMgICAgICAgICAgICAgICAgIHwgIDI2ICsrKy0tCj4gIGRyaXZlcnMvZ3B1
-L2RybS9hbWQvYW1kZ3B1L3ZpLmMgICAgICAgICAgICAgICAgICAgIHwgIDM2ICsrKy0tLS0KPiAg
-Li4uL2dwdS9kcm0vYW1kL2FtZGtmZC9rZmRfZGV2aWNlX3F1ZXVlX21hbmFnZXIuaCAgfCAgIDQg
-Ky0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3RvcG9sb2d5LmMgICAgICAgICAg
-fCAgIDYgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3RvcG9sb2d5LmggICAg
-ICAgICAgfCAgIDEgLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2Ft
-ZGdwdV9kbS5jICB8ICAgNiArLQo+ICAuLi4vZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0v
-YW1kZ3B1X2RtX2hkY3AuYyB8ICAgMyArLQo+ICAuLi4vZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRn
-cHVfZG0vYW1kZ3B1X2RtX2hkY3AuaCB8ICAgMiArLQo+ICAuLi4vZHJtL2FtZC9kaXNwbGF5L2Ft
-ZGdwdV9kbS9hbWRncHVfZG1faGVscGVycy5jICB8ICAgOCArLQo+ICAuLi4vZ3B1L2RybS9hbWQv
-ZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtX2lycS5jICB8ICAyMiArKysrCj4gIGRyaXZlcnMv
-Z3B1L2RybS9hbWQvZGlzcGxheS9kYy9jb3JlL2RjLmMgICAgICAgICAgIHwgIDQwICsrKy0tLS0K
-PiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2NvcmUvZGNfbGluay5jICAgICAgfCAg
-IDQgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjLmggICAgICAgICAgICAg
-ICAgfCAgIDIgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjX2RzYy5oICAg
-ICAgICAgICAgfCAgIDcgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjX2h3
-X3R5cGVzLmggICAgICAgfCAgIDEgLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMv
-ZGNfbGluay5oICAgICAgICAgICB8ICAgMiArCj4gIC4uLi9ncHUvZHJtL2FtZC9kaXNwbGF5L2Rj
-L2RjZS9kY2VfY2xvY2tfc291cmNlLmMgIHwgICAyICstCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQv
-ZGlzcGxheS9kYy9kY2UvZG11Yl9hYm0uYyAgICAgIHwgICAzICsKPiAgLi4uL2dwdS9kcm0vYW1k
-L2Rpc3BsYXkvZGMvZGNlL2RtdWJfaHdfbG9ja19tZ3IuYyAgfCAgIDMgKy0KPiAgZHJpdmVycy9n
-cHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjZS9kbXViX3Bzci5jICAgICAgfCAgIDYgKy0KPiAgLi4u
-L2Rpc3BsYXkvZGMvZGNuMTAvZGNuMTBfaHdfc2VxdWVuY2VyX2RlYnVnLmMgICAgfCAgIDIgKy0K
-PiAgLi4uL2RybS9hbWQvZGlzcGxheS9kYy9kY24xMC9kY24xMF9saW5rX2VuY29kZXIuYyAgfCAg
-MTUgKysrCj4gIC4uLi9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMTAvZGNuMTBfbGlua19lbmNvZGVy
-LmggIHwgIDExICsrCj4gIC4uLi9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMjAvZGNuMjBfbGlua19l
-bmNvZGVyLmMgIHwgICAyICstCj4gIC4uLi9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjIwL2Rj
-bjIwX3Jlc291cmNlLmMgIHwgIDExICstCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9k
-Yy9kY24yMS9kY24yMV9od3NlcS5jIHwgICA0ICstCj4gIC4uLi9ncHUvZHJtL2FtZC9kaXNwbGF5
-L2RjL2RjbjIxL2RjbjIxX3Jlc291cmNlLmMgIHwgIDIwICsrKy0KPiAgLi4uL2FtZC9kaXNwbGF5
-L2RjL2RtbC9kY24yMC9kaXNwbGF5X21vZGVfdmJhXzIwLmMgfCAgIDcgKy0KPiAgLi4uL2Rpc3Bs
-YXkvZGMvZG1sL2RjbjIwL2Rpc3BsYXlfbW9kZV92YmFfMjB2Mi5jICAgfCAgIDcgKy0KPiAgLi4u
-L2FtZC9kaXNwbGF5L2RjL2RtbC9kY24yMS9kaXNwbGF5X21vZGVfdmJhXzIxLmMgfCAgIDcgKy0K
-PiAgLi4uL2FtZC9kaXNwbGF5L2RjL2RtbC9kY24zMC9kaXNwbGF5X21vZGVfdmJhXzMwLmMgfCAg
-IDIgKy0KPiAgLi4uL2RybS9hbWQvZGlzcGxheS9kYy9kbWwvZGlzcGxheV9tb2RlX3N0cnVjdHMu
-aCAgfCAgIDEgKwo+ICAuLi4vZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kbWwvZGlzcGxheV9tb2Rl
-X3ZiYS5jICB8ICAgMiArCj4gIC4uLi9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RtbC9kaXNwbGF5
-X21vZGVfdmJhLmggIHwgICAxICsKPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Rz
-Yy9kY19kc2MuYyAgICAgICAgfCAgMjkgKystLS0KPiAgLi4uL2RybS9hbWQvZGlzcGxheS9kYy9p
-bmMvaHcvY2xrX21ncl9pbnRlcm5hbC5oICAgfCAgIDQgKy0KPiAgLi4uL2FtZC9kaXNwbGF5L2Rj
-L2lycS9kY24xMC9pcnFfc2VydmljZV9kY24xMC5jICAgfCAgMzEgKysrKysrCj4gIGRyaXZlcnMv
-Z3B1L2RybS9hbWQvZGlzcGxheS9kYy9pcnFfdHlwZXMuaCAgICAgICAgIHwgICAxICsKPiAgZHJp
-dmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RtdWIvaW5jL2RtdWJfY21kLmggICAgfCAgMjkgKysr
-Ky0KPiAgLi4uL2dwdS9kcm0vYW1kL2Rpc3BsYXkvbW9kdWxlcy9oZGNwL2hkY3BfcHNwLmMgICAg
-fCAgIDIgKwo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2luY2x1ZGUvYW1kX3NoYXJlZC5oICAgICAg
-ICAgICB8ICAgMSArCj4gIC4uLi9pbmNsdWRlL2FzaWNfcmVnL3NtdWlvL3NtdWlvXzExXzBfNl9v
-ZmZzZXQuaCAgIHwgIDM1ICsrKysrKwo+ICAuLi4vaW5jbHVkZS9hc2ljX3JlZy9zbXVpby9zbXVp
-b18xMV8wXzZfc2hfbWFzay5oICB8ICA0MSArKysrKysrCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQv
-cG0vYW1kZ3B1X3BtLmMgICAgICAgICAgICAgICAgIHwgIDQ5ICsrKysrKystLQo+ICBkcml2ZXJz
-L2dwdS9kcm0vYW1kL3BtL2luYy9hbWRncHVfc211LmggICAgICAgICAgICB8ICAyMSArKystCj4g
-IGRyaXZlcnMvZ3B1L2RybS9hbWQvcG0vaW5jL3NtdV90eXBlcy5oICAgICAgICAgICAgIHwgICA0
-ICsKPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9pbmMvc211X3YxMV8wLmggICAgICAgICAgICAg
-fCAgMTMgKystCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvcG0vaW5jL3NtdV92MTFfNV9wcHNtYy5o
-ICAgICAgIHwgICA2ICstCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvcG0vaW5jL3NtdV92MTJfMC5o
-ICAgICAgICAgICAgIHwgICAyIC0KPiAgLi4uL2dwdS9kcm0vYW1kL3BtL3Bvd2VycGxheS9od21n
-ci9zbXUxMF9od21nci5jICAgfCAgIDIgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9zd3Nt
-dS9hbWRncHVfc211LmMgICAgICAgICAgfCAgMzAgKysrKystCj4gIGRyaXZlcnMvZ3B1L2RybS9h
-bWQvcG0vc3dzbXUvc211MTEvYXJjdHVydXNfcHB0LmMgIHwgICA0ICstCj4gIGRyaXZlcnMvZ3B1
-L2RybS9hbWQvcG0vc3dzbXUvc211MTEvbmF2aTEwX3BwdC5jICAgIHwgICA0ICstCj4gIC4uLi9k
-cm0vYW1kL3BtL3N3c211L3NtdTExL3NpZW5uYV9jaWNobGlkX3BwdC5jICAgIHwgIDE1ICsrLQo+
-ICBkcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3N3c211L3NtdTExL3NtdV92MTFfMC5jICAgICB8ICAz
-MiArLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9zd3NtdS9zbXUxMS92YW5nb2doX3Bw
-dC5jICAgfCAxMjAgKysrKysrKysrKysrKysrKysrKystCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQv
-cG0vc3dzbXUvc211MTIvcmVub2lyX3BwdC5jICAgIHwgICA5ICstCj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9hbWQvcG0vc3dzbXUvc211MTIvc211X3YxMl8wLmMgICAgIHwgIDEyIC0tLQo+ICBkcml2ZXJz
-L2dwdS9kcm0vYW1kL3BtL3N3c211L3NtdV9jbW4uYyAgICAgICAgICAgICB8ICAyOCArKysrKwo+
-ICBkcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3N3c211L3NtdV9jbW4uaCAgICAgICAgICAgICB8ICAg
-MiArCj4gIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2FzaWMuYyAgICAgICAgICAgICAg
-IHwgICAzICsKPiAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdmNlLmMgICAgICAgICAg
-ICAgICAgfCAgIDEgLQo+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JzNjkwLmMgICAgICAgICAg
-ICAgICAgICAgICB8ICAgMiArLQo+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3ZjZV92MV8wLmMg
-ICAgICAgICAgICAgICAgICB8ICAgMSAtCj4gIDg2IGZpbGVzIGNoYW5nZWQsIDExNDcgaW5zZXJ0
-aW9ucygrKSwgMzQyIGRlbGV0aW9ucygtKQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9n
-cHUvZHJtL2FtZC9hbWRncHUvc211aW9fdjExXzBfNi5jCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBk
-cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9zbXVpb192MTFfMF82LmgKPiAgY3JlYXRlIG1vZGUg
-MTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9hbWQvaW5jbHVkZS9hc2ljX3JlZy9zbXVpby9zbXVpb18x
-MV8wXzZfb2Zmc2V0LmgKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9hbWQv
-aW5jbHVkZS9hc2ljX3JlZy9zbXVpby9zbXVpb18xMV8wXzZfc2hfbWFzay5oCgoKCi0tIApEYW5p
-ZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxv
-Zy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+--===============0587246795==
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_BN8PR12MB3092499AAC8E26763D5175C3E5619BN8PR12MB3092namp_"
+
+--_000_BN8PR12MB3092499AAC8E26763D5175C3E5619BN8PR12MB3092namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+[AMD Official Use Only - Internal Distribution Only]
+
+Hi Lyude,
+
+Yes, I would appreciate it if you could push this to drm-misc-next for me.
+Thank you for your comments and review!
+
+Best,
+Eryk
+________________________________
+From: Lyude Paul <lyude@redhat.com>
+Sent: Thursday, March 25, 2021 6:30 PM
+To: Brol, Eryk <Eryk.Brol@amd.com>; manasi.d.navare@intel.com <manasi.d.nav=
+are@intel.com>; daniel@ffwll.ch <daniel@ffwll.ch>; Wentland, Harry <Harry.W=
+entland@amd.com>; Siqueira, Rodrigo <Rodrigo.Siqueira@amd.com>; Kazlauskas,=
+ Nicholas <Nicholas.Kazlauskas@amd.com>; Zuo, Jerry <Jerry.Zuo@amd.com>; Li=
+n, Wayne <Wayne.Lin@amd.com>
+Cc: amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>; dri-deve=
+l@lists.freedesktop.org <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v2] drm/mst: Enhance MST topology logging
+
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+
+Let me know if you need me to push this to drm-misc-next for you
+
+On Thu, 2021-03-25 at 14:06 -0400, Eryk Brol wrote:
+> [why]
+> MST topology print was missing fec logging and pdt printed
+> as an int wasn't clear. vcpi and payload info was printed as an
+> arbitrary series of ints which requires user to know the ordering
+> of the prints, making the logs difficult to use.
+>
+> [how]
+> -add fec logging
+> -add pdt parsing into strings
+> -format vcpi and payload info into tables with headings
+> -clean up topology prints
+>
+> ---
+>
+> v2: Addressed Lyude's comments
+> -made helper function return const
+> -fixed indentation and spacing issues
+>
+> Signed-off-by: Eryk Brol <eryk.brol@amd.com>
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 59 ++++++++++++++++++++++-----
+>  1 file changed, 48 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
+> b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 932c4641ec3e..de5124ce42cb 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -4720,6 +4720,28 @@ static void drm_dp_mst_kick_tx(struct
+> drm_dp_mst_topology_mgr *mgr)
+>         queue_work(system_long_wq, &mgr->tx_work);
+>  }
+>
+> +/*
+> + * Helper function for parsing DP device types into convenient strings
+> + * for use with dp_mst_topology
+> + */
+> +static const char *pdt_to_string(u8 pdt)
+> +{
+> +       switch (pdt) {
+> +       case DP_PEER_DEVICE_NONE:
+> +               return "NONE";
+> +       case DP_PEER_DEVICE_SOURCE_OR_SST:
+> +               return "SOURCE OR SST";
+> +       case DP_PEER_DEVICE_MST_BRANCHING:
+> +               return "MST BRANCHING";
+> +       case DP_PEER_DEVICE_SST_SINK:
+> +               return "SST SINK";
+> +       case DP_PEER_DEVICE_DP_LEGACY_CONV:
+> +               return "DP LEGACY CONV";
+> +       default:
+> +               return "ERR";
+> +       }
+> +}
+> +
+>  static void drm_dp_mst_dump_mstb(struct seq_file *m,
+>                                  struct drm_dp_mst_branch *mstb)
+>  {
+> @@ -4732,9 +4754,20 @@ static void drm_dp_mst_dump_mstb(struct seq_file *=
+m,
+>                 prefix[i] =3D '\t';
+>         prefix[i] =3D '\0';
+>
+> -       seq_printf(m, "%smst: %p, %d\n", prefix, mstb, mstb->num_ports);
+> +       seq_printf(m, "%smstb - [%p]: num_ports: %d\n", prefix, mstb, mst=
+b-
+> >num_ports);
+>         list_for_each_entry(port, &mstb->ports, next) {
+> -               seq_printf(m, "%sport: %d: input: %d: pdt: %d, ddps: %d l=
+dps:
+> %d, sdp: %d/%d, %p, conn: %p\n", prefix, port->port_num, port->input, por=
+t-
+> >pdt, port->ddps, port->ldps, port->num_sdp_streams, port-
+> >num_sdp_stream_sinks, port, port->connector);
+> +               seq_printf(m, "%sport %d - [%p] (%s - %s): ddps: %d, ldps=
+: %d,
+> sdp: %d/%d, fec: %s, conn: %p\n",
+> +                          prefix,
+> +                          port->port_num,
+> +                          port,
+> +                          port->input ? "input" : "output",
+> +                          pdt_to_string(port->pdt),
+> +                          port->ddps,
+> +                          port->ldps,
+> +                          port->num_sdp_streams,
+> +                          port->num_sdp_stream_sinks,
+> +                          port->fec_capable ? "true" : "false",
+> +                          port->connector);
+>                 if (port->mstb)
+>                         drm_dp_mst_dump_mstb(m, port->mstb);
+>         }
+> @@ -4787,33 +4820,37 @@ void drm_dp_mst_dump_topology(struct seq_file *m,
+>         mutex_unlock(&mgr->lock);
+>
+>         mutex_lock(&mgr->payload_lock);
+> -       seq_printf(m, "vcpi: %lx %lx %d\n", mgr->payload_mask, mgr->vcpi_=
+mask,
+> -               mgr->max_payloads);
+> +       seq_printf(m, "\n*** VCPI Info ***\n");
+> +       seq_printf(m, "payload_mask: %lx, vcpi_mask: %lx, max_payloads: %=
+d\n",
+> mgr->payload_mask, mgr->vcpi_mask, mgr->max_payloads);
+>
+> +       seq_printf(m, "\n|   idx   |  port # |  vcp_id | # slots |     si=
+nk
+> name     |\n");
+>         for (i =3D 0; i < mgr->max_payloads; i++) {
+>                 if (mgr->proposed_vcpis[i]) {
+>                         char name[14];
+>
+>                         port =3D container_of(mgr->proposed_vcpis[i], str=
+uct
+> drm_dp_mst_port, vcpi);
+>                         fetch_monitor_name(mgr, port, name, sizeof(name))=
+;
+> -                       seq_printf(m, "vcpi %d: %d %d %d sink name: %s\n"=
+, i,
+> -                                  port->port_num, port->vcpi.vcpi,
+> +                       seq_printf(m, "%10d%10d%10d%10d%20s\n",
+> +                                  i,
+> +                                  port->port_num,
+> +                                  port->vcpi.vcpi,
+>                                    port->vcpi.num_slots,
+> -                                  (*name !=3D 0) ? name :  "Unknown");
+> +                                  (*name !=3D 0) ? name : "Unknown");
+>                 } else
+> -                       seq_printf(m, "vcpi %d:unused\n", i);
+> +                       seq_printf(m, "%6d - Unused\n", i);
+>         }
+> +       seq_printf(m, "\n*** Payload Info ***\n");
+> +       seq_printf(m, "|   idx   |  state  |  start slot  | # slots |\n")=
+;
+>         for (i =3D 0; i < mgr->max_payloads; i++) {
+> -               seq_printf(m, "payload %d: %d, %d, %d\n",
+> +               seq_printf(m, "%10d%10d%15d%10d\n",
+>                            i,
+>                            mgr->payloads[i].payload_state,
+>                            mgr->payloads[i].start_slot,
+>                            mgr->payloads[i].num_slots);
+> -
+> -
+>         }
+>         mutex_unlock(&mgr->payload_lock);
+>
+> +       seq_printf(m, "\n*** DPCD Info ***\n");
+>         mutex_lock(&mgr->lock);
+>         if (mgr->mst_primary) {
+>                 u8 buf[DP_PAYLOAD_TABLE_SIZE];
+
+--
+Sincerely,
+   Lyude Paul (she/her)
+   Software Engineer at Red Hat
+
+Note: I deal with a lot of emails and have a lot of bugs on my plate. If yo=
+u've
+asked me a question, are waiting for a review/merge on a patch, etc. and I
+haven't responded in a while, please feel free to send me another email to =
+check
+on my status. I don't bite!
+
+
+--_000_BN8PR12MB3092499AAC8E26763D5175C3E5619BN8PR12MB3092namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<p style=3D"font-family:Arial;font-size:11pt;color:#0078D7;margin:5pt;" ali=
+gn=3D"Left">
+[AMD Official Use Only - Internal Distribution Only]<br>
+</p>
+<br>
+<div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Hi Lyude,</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Yes, I would appreciate it if you could push this to drm-misc-next for me.<=
+/div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Thank you for your comments and review!</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Best,</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Eryk<br>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Lyude Paul &lt;lyude@=
+redhat.com&gt;<br>
+<b>Sent:</b> Thursday, March 25, 2021 6:30 PM<br>
+<b>To:</b> Brol, Eryk &lt;Eryk.Brol@amd.com&gt;; manasi.d.navare@intel.com =
+&lt;manasi.d.navare@intel.com&gt;; daniel@ffwll.ch &lt;daniel@ffwll.ch&gt;;=
+ Wentland, Harry &lt;Harry.Wentland@amd.com&gt;; Siqueira, Rodrigo &lt;Rodr=
+igo.Siqueira@amd.com&gt;; Kazlauskas, Nicholas &lt;Nicholas.Kazlauskas@amd.=
+com&gt;;
+ Zuo, Jerry &lt;Jerry.Zuo@amd.com&gt;; Lin, Wayne &lt;Wayne.Lin@amd.com&gt;=
+<br>
+<b>Cc:</b> amd-gfx@lists.freedesktop.org &lt;amd-gfx@lists.freedesktop.org&=
+gt;; dri-devel@lists.freedesktop.org &lt;dri-devel@lists.freedesktop.org&gt=
+;<br>
+<b>Subject:</b> Re: [PATCH v2] drm/mst: Enhance MST topology logging</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">Reviewed-by: Lyude Paul &lt;lyude@redhat.com&gt;<b=
+r>
+<br>
+Let me know if you need me to push this to drm-misc-next for you<br>
+<br>
+On Thu, 2021-03-25 at 14:06 -0400, Eryk Brol wrote:<br>
+&gt; [why]<br>
+&gt; MST topology print was missing fec logging and pdt printed<br>
+&gt; as an int wasn't clear. vcpi and payload info was printed as an<br>
+&gt; arbitrary series of ints which requires user to know the ordering<br>
+&gt; of the prints, making the logs difficult to use.<br>
+&gt; <br>
+&gt; [how]<br>
+&gt; -add fec logging<br>
+&gt; -add pdt parsing into strings<br>
+&gt; -format vcpi and payload info into tables with headings<br>
+&gt; -clean up topology prints<br>
+&gt; <br>
+&gt; ---<br>
+&gt; <br>
+&gt; v2: Addressed Lyude's comments<br>
+&gt; -made helper function return const<br>
+&gt; -fixed indentation and spacing issues<br>
+&gt; <br>
+&gt; Signed-off-by: Eryk Brol &lt;eryk.brol@amd.com&gt;<br>
+&gt; ---<br>
+&gt; &nbsp;drivers/gpu/drm/drm_dp_mst_topology.c | 59 +++++++++++++++++++++=
++-----<br>
+&gt; &nbsp;1 file changed, 48 insertions(+), 11 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c<br>
+&gt; b/drivers/gpu/drm/drm_dp_mst_topology.c<br>
+&gt; index 932c4641ec3e..de5124ce42cb 100644<br>
+&gt; --- a/drivers/gpu/drm/drm_dp_mst_topology.c<br>
+&gt; +++ b/drivers/gpu/drm/drm_dp_mst_topology.c<br>
+&gt; @@ -4720,6 +4720,28 @@ static void drm_dp_mst_kick_tx(struct<br>
+&gt; drm_dp_mst_topology_mgr *mgr)<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queue_work(system_long=
+_wq, &amp;mgr-&gt;tx_work);<br>
+&gt; &nbsp;}<br>
+&gt; &nbsp;<br>
+&gt; +/*<br>
+&gt; + * Helper function for parsing DP device types into convenient string=
+s<br>
+&gt; + * for use with dp_mst_topology<br>
+&gt; + */<br>
+&gt; +static const char *pdt_to_string(u8 pdt)<br>
+&gt; +{<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (pdt) {<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case DP_PEER_DEVICE_NONE:<b=
+r>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;return &quot;NONE&quot;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case DP_PEER_DEVICE_SOURCE_=
+OR_SST:<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;return &quot;SOURCE OR SST&quot;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case DP_PEER_DEVICE_MST_BRA=
+NCHING:<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;return &quot;MST BRANCHING&quot;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case DP_PEER_DEVICE_SST_SIN=
+K:<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;return &quot;SST SINK&quot;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case DP_PEER_DEVICE_DP_LEGA=
+CY_CONV:<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;return &quot;DP LEGACY CONV&quot;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;return &quot;ERR&quot;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; &nbsp;static void drm_dp_mst_dump_mstb(struct seq_file *m,<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct drm_dp_mst_branch *m=
+stb)<br>
+&gt; &nbsp;{<br>
+&gt; @@ -4732,9 +4754,20 @@ static void drm_dp_mst_dump_mstb(struct seq_fil=
+e *m,<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;prefix[i] =3D '\t';<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prefix[i] =3D '\0';<br=
+>
+&gt; &nbsp;<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_printf(m, &quot;%smst: =
+%p, %d\n&quot;, prefix, mstb, mstb-&gt;num_ports);<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_printf(m, &quot;%smstb =
+- [%p]: num_ports: %d\n&quot;, prefix, mstb, mstb-<br>
+&gt; &gt;num_ports);<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list_for_each_entry(po=
+rt, &amp;mstb-&gt;ports, next) {<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;seq_printf(m, &quot;%sport: %d: input: %d: pdt: %d, dd=
+ps: %d ldps:<br>
+&gt; %d, sdp: %d/%d, %p, conn: %p\n&quot;, prefix, port-&gt;port_num, port-=
+&gt;input, port-<br>
+&gt; &gt;pdt, port-&gt;ddps, port-&gt;ldps, port-&gt;num_sdp_streams, port-=
+<br>
+&gt; &gt;num_sdp_stream_sinks, port, port-&gt;connector);<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;seq_printf(m, &quot;%sport %d - [%p] (%s - %s): ddps: =
+%d, ldps: %d,<br>
+&gt; sdp: %d/%d, fec: %s, conn: %p\n&quot;, <br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; prefix,<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; port-&gt;port_num,<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; port,<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; port-&gt;input ? &quot;input&quot; : &quot;output&quot;,<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; pdt_to_string(port-&gt;pdt),<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; port-&gt;ddps,<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; port-&gt;ldps,<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; port-&gt;num_sdp_streams,<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; port-&gt;num_sdp_stream_sinks,<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; port-&gt;fec_capable ? &quot;true&quot; : &quot;false&quot;,<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; port-&gt;connector);<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;if (port-&gt;mstb)<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d=
+rm_dp_mst_dump_mstb(m, port-&gt;mstb);<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&gt; @@ -4787,33 +4820,37 @@ void drm_dp_mst_dump_topology(struct seq_file =
+*m,<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mutex_unlock(&amp;mgr-=
+&gt;lock);<br>
+&gt; &nbsp;<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mutex_lock(&amp;mgr-&g=
+t;payload_lock);<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_printf(m, &quot;vcpi: %=
+lx %lx %d\n&quot;, mgr-&gt;payload_mask, mgr-&gt;vcpi_mask,<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;mgr-&gt;max_payloads);<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_printf(m, &quot;\n*** V=
+CPI Info ***\n&quot;);<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_printf(m, &quot;payload=
+_mask: %lx, vcpi_mask: %lx, max_payloads: %d\n&quot;,<br>
+&gt; mgr-&gt;payload_mask, mgr-&gt;vcpi_mask, mgr-&gt;max_payloads);<br>
+&gt; &nbsp;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_printf(m, &quot;\n|&nbs=
+p;&nbsp; idx&nbsp;&nbsp; |&nbsp; port # |&nbsp; vcp_id | # slots |&nbsp;&nb=
+sp;&nbsp;&nbsp; sink<br>
+&gt; name&nbsp;&nbsp;&nbsp;&nbsp; |\n&quot;);<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (i =3D 0; i &lt; m=
+gr-&gt;max_payloads; i++) {<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;if (mgr-&gt;proposed_vcpis[i]) {<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c=
+har name[14];<br>
+&gt; &nbsp;<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p=
+ort =3D container_of(mgr-&gt;proposed_vcpis[i], struct<br>
+&gt; drm_dp_mst_port, vcpi);<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f=
+etch_monitor_name(mgr, port, name, sizeof(name));<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_pr=
+intf(m, &quot;vcpi %d: %d %d %d sink name: %s\n&quot;, i,<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; port-&gt;port_num, p=
+ort-&gt;vcpi.vcpi,<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_pr=
+intf(m, &quot;%10d%10d%10d%10d%20s\n&quot;,<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i,<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; port-&gt;port_num,<b=
+r>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; port-&gt;vcpi.vcpi,<=
+br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; port-&gt;vcpi.n=
+um_slots,<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (*name !=3D 0) ? nam=
+e :&nbsp; &quot;Unknown&quot;);<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (*name !=3D 0) ? nam=
+e : &quot;Unknown&quot;);<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;} else<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_pr=
+intf(m, &quot;vcpi %d:unused\n&quot;, i);<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_pr=
+intf(m, &quot;%6d - Unused\n&quot;, i);<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_printf(m, &quot;\n*** P=
+ayload Info ***\n&quot;);<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_printf(m, &quot;|&nbsp;=
+&nbsp; idx&nbsp;&nbsp; |&nbsp; state&nbsp; |&nbsp; start slot&nbsp; | # slo=
+ts |\n&quot;);<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (i =3D 0; i &lt; m=
+gr-&gt;max_payloads; i++) {<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;seq_printf(m, &quot;payload %d: %d, %d, %d\n&quot;,<br=
+>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;seq_printf(m, &quot;%10d%10d%15d%10d\n&quot;,<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; i,<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; mgr-&gt;payloads[i].payload_state,<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; mgr-&gt;payloads[i].start_slot,<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; mgr-&gt;payloads[i].num_slots);<br>
+&gt; -<br>
+&gt; -<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mutex_unlock(&amp;mgr-=
+&gt;payload_lock);<br>
+&gt; &nbsp;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_printf(m, &quot;\n*** D=
+PCD Info ***\n&quot;);<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mutex_lock(&amp;mgr-&g=
+t;lock);<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mgr-&gt;mst_primar=
+y) {<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;u8 buf[DP_PAYLOAD_TABLE_SIZE];<br>
+<br>
+-- <br>
+Sincerely,<br>
+&nbsp;&nbsp; Lyude Paul (she/her)<br>
+&nbsp;&nbsp; Software Engineer at Red Hat<br>
+&nbsp;&nbsp; <br>
+Note: I deal with a lot of emails and have a lot of bugs on my plate. If yo=
+u've<br>
+asked me a question, are waiting for a review/merge on a patch, etc. and I<=
+br>
+haven't responded in a while, please feel free to send me another email to =
+check<br>
+on my status. I don't bite!<br>
+<br>
+</div>
+</span></font></div>
+</div>
+</body>
+</html>
+
+--_000_BN8PR12MB3092499AAC8E26763D5175C3E5619BN8PR12MB3092namp_--
+
+--===============0587246795==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0587246795==--
