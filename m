@@ -2,44 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB18349E59
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 02:02:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38EC9349E68
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 02:07:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE09D6EE95;
-	Fri, 26 Mar 2021 01:02:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEEB6E11E;
+	Fri, 26 Mar 2021 01:07:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC6F86EE95
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 01:02:28 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4B196E11E
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 01:07:35 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBEC5443;
- Fri, 26 Mar 2021 02:02:26 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A104443;
+ Fri, 26 Mar 2021 02:07:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1616720547;
- bh=mSy6v/pmSuKkHHCJgekfe0uCrYrOMXd+/Xdd5V+A4GY=;
+ s=mail; t=1616720854;
+ bh=y74YFIeevRlwE5RBrGfsHg2CMgmPqzDERAKQwOXXbc0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RgevzU3x9LecEhwbZgL1gkb869v7LzAfTHSl8mrV+bAyqYjSisHMzcxzuxIaxqb1/
- 0aMwsNdvhCGYK+Ld0kgamhykI5f0V/In+C6SN+86EkmHpqyaY740mGPZy2R+8M7L/a
- B7lyOPnPZGfLWmVpg/n2bgFdcy//Iup11zwhf4Yc=
-Date: Fri, 26 Mar 2021 03:01:44 +0200
+ b=ZyDBfJBQsNXY9WijS1gOvie5Oh77sykQAXa+bjfobuMfwy7swT/SFr+vRoAhWqbeE
+ q3XKBxVndZctpeIM6HBbGsJ75q9w1KOTvWlCEYWQEK5fW/pltovSyq4v98NBPkegKa
+ fP6pJpg5I4VkfeNr3i3OeYLLGreDDIfoZkJrtPaU=
+Date: Fri, 26 Mar 2021 03:06:51 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [RFC PATCH 03/11] drm/bridge: ti-sn65dsi86: Unregister AUX
- adapter in remove()
-Message-ID: <YF0yeN2NFlD8MYJE@pendragon.ideasonboard.com>
+Subject: Re: [RFC PATCH 05/11] drm/bridge: ti-sn65dsi86: Wrap panel with
+ panel-bridge
+Message-ID: <YF0zq3fPbxqx++5Z@pendragon.ideasonboard.com>
 References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210322030128.2283-4-laurent.pinchart+renesas@ideasonboard.com>
- <CAD=FV=W-+aS25wtnSmF8tWSDHTdNCjbFj0x02-1iqZ2p5qYzyA@mail.gmail.com>
- <YFpgfBW+U5R6urk0@pendragon.ideasonboard.com>
- <CAD=FV=W76DXDsy_Ug5cQUVUfz18MzYp92hPKOiRm3Hf1jknPgQ@mail.gmail.com>
- <YFpznvA/m3KfEEqz@pendragon.ideasonboard.com>
- <CAD=FV=WoivERNCXtCa6UFix6e+K5JZpXca_ipnEwtA4rkSLgZA@mail.gmail.com>
+ <20210322030128.2283-6-laurent.pinchart+renesas@ideasonboard.com>
+ <CAD=FV=VFwphwow7W_v7XHn+1dQHq0zwT-TyJyp9BaFgcs_t9VQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAD=FV=WoivERNCXtCa6UFix6e+K5JZpXca_ipnEwtA4rkSLgZA@mail.gmail.com>
+In-Reply-To: <CAD=FV=VFwphwow7W_v7XHn+1dQHq0zwT-TyJyp9BaFgcs_t9VQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,79 +60,70 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Doug,
 
-On Thu, Mar 25, 2021 at 05:43:22PM -0700, Doug Anderson wrote:
-> On Tue, Mar 23, 2021 at 4:03 PM Laurent Pinchart wrote:
-> > On Tue, Mar 23, 2021 at 03:55:05PM -0700, Doug Anderson wrote:
-> > > On Tue, Mar 23, 2021 at 2:42 PM Laurent Pinchart wrote:
-> > > > On Tue, Mar 23, 2021 at 02:08:42PM -0700, Doug Anderson wrote:
-> > > > > On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart wrote:
-> > > > > >
-> > > > > > The AUX adapter registered in probe() need to be unregistered in
-> > > > > > remove(). Do so.
-> > > > > >
-> > > > > > Fixes: b814ec6d4535 ("drm/bridge: ti-sn65dsi86: Implement AUX channel")
-> > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > > > ---
-> > > > > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 3 +++
-> > > > > >  1 file changed, 3 insertions(+)
-> > > > > >
-> > > > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > > > index da78a12e58b5..c45420a50e73 100644
-> > > > > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > > > @@ -1307,6 +1307,9 @@ static int ti_sn_bridge_remove(struct i2c_client *client)
-> > > > > >                 return -EINVAL;
-> > > > > >
-> > > > > >         kfree(pdata->edid);
-> > > > > > +
-> > > > > > +       drm_dp_aux_unregister(&pdata->aux);
-> > > > > > +
-> > > > > >         ti_sn_debugfs_remove(pdata);
-> > > > > >
-> > > > > >         of_node_put(pdata->host_node);
-> > > > >
-> > > > > Good catch. One question, though. I know DRM sometimes has different
-> > > > > conventions than the rest of the kernel, but I always look for the
-> > > > > "remove" to be backwards of probe. That means that your code (and
-> > > > > probably most of the remove function) should come _after_ the
-> > > > > drm_bridge_remove(), right?  ...since drm_bridge_add() was the last
-> > > > > thing in probe then drm_bridge_remove() should be the first thing in
-> > > > > remove?
-> > > >
-> > > > I agree in theory, yes. However, in practice, if you remove a bridge
-> > > > that is currently in use, all hell will break lose. And if the bridge
-> > > > isn't being used, it makes no difference. Still, it's worth changing the
-> > > > order of operations to move drm_bridge_remove() first, as it won't hurt
-> > > > in any case and is logically better. It's not an issue introduced by
-> > > > this series though, so how how about it on top, or in parallel ?
-> > >
-> > > Sure, it can be a separate patch. I'd kinda prefer it be a patch
-> > > _before_ ${SUBJECT} patch, though. Specifically it's harder for me to
-> > > reason about whether your new function call is in the right place and
-> > > won't cause any problems with the order being all jumbled. If we fix
-> > > the order first then it's easy to reason about your patch.
-> > >
-> > > > You can
-> > > > even submit a patch if you want :-)
-> > >
-> > > Happy to post it up if it won't cause more confusion w/ you posting
-> > > your next version and trying to figure out what to base it on (since
-> > > it will definitely conflict with your series).
+On Wed, Mar 24, 2021 at 03:44:39PM -0700, Doug Anderson wrote:
+> On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart wrote:
 > >
-> > I'll need quite a bit of time before v2, as I'd like to test it, and
-> > that requires finishing support for the DSI bridge and the display
-> > controller :-) Please feel free to post a patch if you have time, I
-> > think it could get merged in drm-misc quite quickly.
+> > To simplify interfacing with the panel, wrap it in a panel-bridge and
+> > let the DRM bridge helpers handle chaining of operations.
+> >
+> > This also prepares for support of DRM_BRIDGE_ATTACH_NO_CONNECTOR, which
+> > requires all components in the display pipeline to be represented by
+> > bridges.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 30 +++++++++++++++++++--------
+> >  1 file changed, 21 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > index 1d1be791d5ba..c21a7f7d452b 100644
+> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > @@ -124,6 +124,7 @@
+> >   * @edid:         Detected EDID of eDP panel.
+> >   * @refclk:       Our reference clock.
+> >   * @panel:        Our panel.
+> > + * @next_bridge:  The next bridge.
 > 
-> I haven't forgotten about this and I've got it written, but I'm trying
-> to put it together with the work I'm doing to fix EDID reading and
-> that's still going to take me a while longer. I'm out tomorrow but
-> _hoping_ that I'll be able to at least get a new patch series (at
-> least RFC quality) next week...
+> To make it easier for folks who don't work with DRM all day, could you
+> somehow clarify which direction "next" is talking about. AKA the next
+> "outward" (towards the sink) or the next "inward" (toward the source)?
 
-No worries at all, it will take a few weeks at least before I get the
-display controller and DSI working on my board, so you're not blocking
-me :-)
+Sure, I'll expand the comment.
+
+> >   * @enable_gpio:  The GPIO we toggle to enable the bridge.
+> >   * @supplies:     Data for bulk enabling/disabling our regulators.
+> >   * @dp_lanes:     Count of dp_lanes we're using.
+> > @@ -152,6 +153,7 @@ struct ti_sn_bridge {
+> >         struct mipi_dsi_device          *dsi;
+> >         struct clk                      *refclk;
+> >         struct drm_panel                *panel;
+> > +       struct drm_bridge               *next_bridge;
+> 
+> There's no reason to store the "panel" pointer anymore, right? It can
+> just be a local variable in probe?
+
+Good point, I'll fix that.
+
+> > @@ -850,8 +856,6 @@ static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
+> >          */
+> >         regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
+> >                            HPD_DISABLE);
+> > -
+> > -       drm_panel_prepare(pdata->panel);
+> 
+> Ugh, I guess conflicts with my EDID patch [1] which assumes that this
+> function will directly turn the panel on. I'll see if I can find some
+> solution...
+> 
+> [1] https://lore.kernel.org/r/20210304155144.3.I60a7fb23ce4589006bc95c64ab8d15c74b876e68@changeid/
+
+Would using the drm_bridge_connector help ? It's a helper that creates a
+connector based on a chain of bridges. It implements the .get_modes()
+connector operation (see drm_bridge_connector_get_modes()), based on the
+.get_edid() operation provided by the bridges. As it has a full view of
+the chain, it could enable bridges prior to reading the EDID, and then
+power them off, including the panel-bridge.
 
 -- 
 Regards,
