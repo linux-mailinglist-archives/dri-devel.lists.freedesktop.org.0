@@ -1,35 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F7DA34A955
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 15:12:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F20DB34A95E
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 15:13:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 143186F3DA;
-	Fri, 26 Mar 2021 14:12:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5FED6F3EB;
+	Fri, 26 Mar 2021 14:13:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0C0B6F3DA
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 14:12:10 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3610061A02;
- Fri, 26 Mar 2021 14:12:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1616767929;
- bh=dNtp5Lk+sXW82yd48pelyEyjW5yjUsssA7DFylEmuLw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Fn7DSFHS3yMmhMAxVGz2owWcH9UTzABGUdycSuUGVI97ByV7+kVg/yckeuv35Lt7e
- cv+5S5tvgWEuIQoSnN4jeQZWN5WrNGv3dgPSbk0wG9HiB4yTZCb1cpTSWIPa9YP8q2
- sjMem1eA+dIs2chvYQ56Ej8OauQsXcmxKoNwZ3X4=
-Date: Fri, 26 Mar 2021 15:12:07 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Carlis <zhangxuezhi3@gmail.com>
-Subject: Re: [PATCH] staging: fbtft: change '16 bit' to '16-bit'
-Message-ID: <YF3rt28vKzt7CDIh@kroah.com>
-References: <1616767770-70063-1-git-send-email-zhangxuezhi3@gmail.com>
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 558506F3EF
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 14:13:47 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id z15so5819141oic.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 07:13:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=C9rvIar3XG3Cwro/2o/WuA1e6XVFuhifCTuMigmHCAM=;
+ b=XLR7muxMvapDl3GkTtIxvva7j0aMYUVtTRarXwH0csCuYCKTdmmhlPWN5mrWnK0qs8
+ zGbndCKb8OVZhZaKNeBBE5/jlqugcO3HpdINuGDkf+4Q66wf98lp81X23ureKThrBYe0
+ U4lYiqaD3MrQsvdTZWRDI9kHYWCzylvAuK7NA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=C9rvIar3XG3Cwro/2o/WuA1e6XVFuhifCTuMigmHCAM=;
+ b=IiqJHv8m/jR6aJM0iwtVHFuyKAQgyIfLKXBe3WyPdwDTNCqi76FVWrj9cQBSIWQHy+
+ 2nVc+ckNP5ibAvJ6pHVZFCHkSL0uhYjrwZDgY6liuRQqg8r0Jp70b/nuCrTq9NNU26Mf
+ a6uakXua/rSBm13xDiAOYmPs0KzwrmIrV/YPBCmDMkQLsat9sTcFDIxyavNBlZGKAAXV
+ M+rT5cslQ1i639RQQ0W62nxr6mILMC8jMWmjqI5uv3hem7iM9Xg9tku13QMvz71vVJal
+ gg5QGXJEkF2yhvWucbXu9piA64mohz/0SY2jtgqnQrn7b0T9CoN8eEO42WOFlC1vo3J/
+ gYiQ==
+X-Gm-Message-State: AOAM531JQYigCmG9P25qIXNXRgNG1PIFVca9FC1FBa10osATBAgZtIns
+ bKneeenXcSQBY8SK2WxO5rLcHbUAYEbSm3DbcURIlA==
+X-Google-Smtp-Source: ABdhPJxbqveX0o/R/vt/zoskbt7wYBXF30iz5dTxxFvXaxOn89gn0FNWbXoElEwLaeTx2wQlH7IzCyyMnljB667Af84=
+X-Received: by 2002:aca:170a:: with SMTP id j10mr9977535oii.128.1616768026242; 
+ Fri, 26 Mar 2021 07:13:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1616767770-70063-1-git-send-email-zhangxuezhi3@gmail.com>
+References: <YF24MHoOSjpKFEXA@phenom.ffwll.local> <874kgy2g9m.fsf@intel.com>
+In-Reply-To: <874kgy2g9m.fsf@intel.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 26 Mar 2021 15:13:35 +0100
+Message-ID: <CAKMK7uHG9XYbv5N2CnA6BbGOOFaR4mgpo7HvaTdUGLv5GJ_a5A@mail.gmail.com>
+Subject: Re: [PULL] topic/i915-gem-next
+To: Jani Nikula <jani.nikula@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,28 +57,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhangxuezhi1@yulong.com, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: "DRM maintainer tools announcements, discussion,
+ and development" <dim-tools@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 26, 2021 at 10:09:30PM +0800, Carlis wrote:
-> From: "carlis.zhang_cp" <zhangxuezhi1@yulong.com>
-> 
-> Change '16 bit' to '16-bit' for a same style.
+On Fri, Mar 26, 2021 at 2:31 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>
+> On Fri, 26 Mar 2021, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > The rough plan we discussed somewhat ad-hoc with Jani&Rodrigo (Joonas was
+> > out this week, but back next) is that they send out a pull with what's
+> > there right now. Then once both this branch here and the -gt-next pull are
+> > in drm-next they will backmerge, and the -gt-next tree is open for
+> > business again.
+>
+> I guess worth noting is that drm-intel-gt-next is now rebased on top of
+> current drm-next. Since the topic branch is part of drm-tip, I presume
+> the conflicts are manageable.
 
-Why?  This is up to the author.
-
-> 
-> Signed-off-by: carlis.zhang_cp <zhangxuezhi1@yulong.com>
-
-Please use a real name, not an email-alias as a name.
-
-thanks,
-
-greg k-h
+Ah yes the only conflict between i915-gem-next and drm-intel-gt-next
+is in a header where 2 function prototypes got changed next to each
+another. Otherwise I didn't hit anything, and CI seems to approve of
+both drm-tip and dign. So probably about as good as it will get with a
+big shuffle like this one here.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
