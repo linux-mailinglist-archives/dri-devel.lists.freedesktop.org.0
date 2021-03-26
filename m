@@ -1,63 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F7334A2AC
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 08:46:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B74349E31
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 01:43:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5A1E6F383;
-	Fri, 26 Mar 2021 07:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 319C56EE6B;
+	Fri, 26 Mar 2021 00:43:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FFC66EE6B
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 00:39:16 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id 75so5207161lfa.2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 17:39:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=9maGiU0Rk/y8xCfMYoV6Sxga4CbEZAuMCNYVkOzPI8U=;
- b=oyCPm0nRjXenyPEEXd7WPKax8iTQ4ZJkjusEfhKMnwgHWtkWSZ1L1Psuyvx03SUSQk
- /RgGlSnRELW+22OZEYsc8NMeuyqql10n/PxAcpoAZiwrl/9nLgjcGGnnmVCqug1ASEVn
- csGeWqz2GdbWdrVcX6JyhDuCzGpA29uU3yNpZIHLUxxY8Hm3e8HDvDZn7gYrKLo5xSnh
- Qg30oImfVdSxhupWzZlPtxPH+wLHMW7yGX8E3rkGsEk2P0HTIMcjNOkm7qXwFJPIYhu8
- Or6+V3dRcFq1Us7JZm2dYRadbGUKR43eat2+HovN9eUJPCl2tMN33h8z7grKv0cv7loM
- +Ckw==
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
+ [IPv6:2607:f8b0:4864:20::829])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 334C26EE6B
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 00:43:37 +0000 (UTC)
+Received: by mail-qt1-x829.google.com with SMTP id 1so2538752qtb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 17:43:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6l8qPlBwWGhFEr62tjoDbv6LpnDOpMR2bfxtHw91Jxs=;
+ b=ZkdIaBz9YBB7X2wWeZDzOdwadwUmFCH5Zo/DN26SAAz9fLSNhRvK7G6ENjEtbI+hLW
+ aH5yh0pa2ahVbOdqnqFh0kwTbUEXt0FwzOrI5aeGZWl252m2AxWpmGQNGKOSTpQ2ybNS
+ uoUXKTOHOsUmRVgciH7rLfSudEqhFJYvGHljU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=9maGiU0Rk/y8xCfMYoV6Sxga4CbEZAuMCNYVkOzPI8U=;
- b=uUheTsVYNpKm77YzTGV+17ON9apsxGbPpMwZSGwvQm8AKilmbcgi0ZrnI/0fALIBlm
- Hxo+HRQ5UDBFvydKFr7cIdsyyABvh9l7ht9p5QKXU1t2TOY4rJ1nHSoS8uo+Q3vK66Lv
- uQB/1HN2SkAnAz7/3vs44najMjUhhI8DP9OP+l+KJWu6nbi6XSKhi7CPbvcE3aM9ZEq1
- WNSjt5kYllkEfsZtN1kFSfvNDiMYGFFFrG1aN9b8m0ddsIrpS4P0AqELDEKC28V7+Bo8
- a79rA1Evulriwx5lBP3ZJNZOncFPefDuhiGUKjJjQhV1A9aUrBLxpuo9mGbKnHy8uPId
- u01g==
-X-Gm-Message-State: AOAM5313MNRtofsgmh6JvgWYWaZYv13v5TNJtU85azcj4PxdUor5Fa7K
- VaSkFFfnT2CfTVWB53Jovihcyw==
-X-Google-Smtp-Source: ABdhPJzGbo05As6/5IRCbLbQFLEfw8cSja8qkF5CNCUzmZzxGjCVUgDliBdD2tjZvGO17oy7dQydMA==
-X-Received: by 2002:a05:6512:308b:: with SMTP id
- z11mr6258172lfd.487.1616719154521; 
- Thu, 25 Mar 2021 17:39:14 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
- by smtp.gmail.com with ESMTPSA id z9sm720233lfa.80.2021.03.25.17.39.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 17:39:13 -0700 (PDT)
-Date: Fri, 26 Mar 2021 01:39:13 +0100
-From: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH] drm/bridge: adv7511: fix support for large EDIDs
-Message-ID: <YF0tMe30JkLE/E8I@oden.dyn.berto.se>
-References: <904185be-19ea-a321-a227-d4e659fe1b68@xs4all.nl>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6l8qPlBwWGhFEr62tjoDbv6LpnDOpMR2bfxtHw91Jxs=;
+ b=CPUcz+YQHYjUc5R2RXpx9WEMP8uF8a1gUY4QyUj1iuNeiMufBxXmdy+X5Epr7vAwvO
+ y6ZRzF3pzTeDTHx5bSpfbrfWeN8L13hmJji605Ho+DGbeT+8obwDfrOlejhiQHU8X34l
+ N5WMEW7aS7Qj2pnHHlATmQT8qGW7MNf4UgMw6zCVo1yosWGOiptiQnSG6Zz8YhaCVySC
+ 8K72zcFNwwrgNrEv8VUPXDRzjRAeOAEWqQB0yTzDwejUvSj9xSH6FzIXWtY7PUNVekEU
+ SFrP9n/oQAXop14ZNTxBTgBqyNnR8EeY+MdLnrsg3plGOdJaoSG9fHWmLEt7BwfvPKzh
+ B6nQ==
+X-Gm-Message-State: AOAM531yTD1FCWKKuSjj3lhmidFXuvZAOWDc8VHBXWRJW/uX3RRgQruz
+ lTaGud82ddrCAeXcp7/lBRCj/FGLPrSe8A==
+X-Google-Smtp-Source: ABdhPJyENQ9a+tO06KN2Mjb94uumj2QEJ7r71AyMcTTnHZMGLb6eowOjgUO7s2Oc6FIHnio2GakAlA==
+X-Received: by 2002:aed:2981:: with SMTP id o1mr10039523qtd.386.1616719416004; 
+ Thu, 25 Mar 2021 17:43:36 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
+ [209.85.219.170])
+ by smtp.gmail.com with ESMTPSA id j24sm5509146qka.67.2021.03.25.17.43.34
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Mar 2021 17:43:35 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id a143so4179498ybg.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 17:43:34 -0700 (PDT)
+X-Received: by 2002:a25:69c1:: with SMTP id
+ e184mr16137873ybc.345.1616719414494; 
+ Thu, 25 Mar 2021 17:43:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <904185be-19ea-a321-a227-d4e659fe1b68@xs4all.nl>
-X-Mailman-Approved-At: Fri, 26 Mar 2021 07:46:48 +0000
+References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210322030128.2283-4-laurent.pinchart+renesas@ideasonboard.com>
+ <CAD=FV=W-+aS25wtnSmF8tWSDHTdNCjbFj0x02-1iqZ2p5qYzyA@mail.gmail.com>
+ <YFpgfBW+U5R6urk0@pendragon.ideasonboard.com>
+ <CAD=FV=W76DXDsy_Ug5cQUVUfz18MzYp92hPKOiRm3Hf1jknPgQ@mail.gmail.com>
+ <YFpznvA/m3KfEEqz@pendragon.ideasonboard.com>
+In-Reply-To: <YFpznvA/m3KfEEqz@pendragon.ideasonboard.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 25 Mar 2021 17:43:22 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WoivERNCXtCa6UFix6e+K5JZpXca_ipnEwtA4rkSLgZA@mail.gmail.com>
+Message-ID: <CAD=FV=WoivERNCXtCa6UFix6e+K5JZpXca_ipnEwtA4rkSLgZA@mail.gmail.com>
+Subject: Re: [RFC PATCH 03/11] drm/bridge: ti-sn65dsi86: Unregister AUX
+ adapter in remove()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,150 +75,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Archit Taneja <architt@codeaurora.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, linux-renesas-soc@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hans,
+Hi,
 
-Thanks for your patch.
+On Tue, Mar 23, 2021 at 4:03 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Doug,
+>
+> On Tue, Mar 23, 2021 at 03:55:05PM -0700, Doug Anderson wrote:
+> > On Tue, Mar 23, 2021 at 2:42 PM Laurent Pinchart wrote:
+> > > On Tue, Mar 23, 2021 at 02:08:42PM -0700, Doug Anderson wrote:
+> > > > On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart wrote:
+> > > > >
+> > > > > The AUX adapter registered in probe() need to be unregistered in
+> > > > > remove(). Do so.
+> > > > >
+> > > > > Fixes: b814ec6d4535 ("drm/bridge: ti-sn65dsi86: Implement AUX channel")
+> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 3 +++
+> > > > >  1 file changed, 3 insertions(+)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > > > index da78a12e58b5..c45420a50e73 100644
+> > > > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > > > @@ -1307,6 +1307,9 @@ static int ti_sn_bridge_remove(struct i2c_client *client)
+> > > > >                 return -EINVAL;
+> > > > >
+> > > > >         kfree(pdata->edid);
+> > > > > +
+> > > > > +       drm_dp_aux_unregister(&pdata->aux);
+> > > > > +
+> > > > >         ti_sn_debugfs_remove(pdata);
+> > > > >
+> > > > >         of_node_put(pdata->host_node);
+> > > >
+> > > > Good catch. One question, though. I know DRM sometimes has different
+> > > > conventions than the rest of the kernel, but I always look for the
+> > > > "remove" to be backwards of probe. That means that your code (and
+> > > > probably most of the remove function) should come _after_ the
+> > > > drm_bridge_remove(), right?  ...since drm_bridge_add() was the last
+> > > > thing in probe then drm_bridge_remove() should be the first thing in
+> > > > remove?
+> > >
+> > > I agree in theory, yes. However, in practice, if you remove a bridge
+> > > that is currently in use, all hell will break lose. And if the bridge
+> > > isn't being used, it makes no difference. Still, it's worth changing the
+> > > order of operations to move drm_bridge_remove() first, as it won't hurt
+> > > in any case and is logically better. It's not an issue introduced by
+> > > this series though, so how how about it on top, or in parallel ?
+> >
+> > Sure, it can be a separate patch. I'd kinda prefer it be a patch
+> > _before_ ${SUBJECT} patch, though. Specifically it's harder for me to
+> > reason about whether your new function call is in the right place and
+> > won't cause any problems with the order being all jumbled. If we fix
+> > the order first then it's easy to reason about your patch.
+> >
+> > > You can
+> > > even submit a patch if you want :-)
+> >
+> > Happy to post it up if it won't cause more confusion w/ you posting
+> > your next version and trying to figure out what to base it on (since
+> > it will definitely conflict with your series).
+>
+> I'll need quite a bit of time before v2, as I'd like to test it, and
+> that requires finishing support for the DSI bridge and the display
+> controller :-) Please feel free to post a patch if you have time, I
+> think it could get merged in drm-misc quite quickly.
 
-On 2021-03-24 09:53:32 +0100, Hans Verkuil wrote:
-> While testing support for large (> 256 bytes) EDIDs on the Renesas
-> Koelsch board I noticed that the adv7511 bridge driver only read the
-> first two blocks.
-> =
+I haven't forgotten about this and I've got it written, but I'm trying
+to put it together with the work I'm doing to fix EDID reading and
+that's still going to take me a while longer. I'm out tomorrow but
+_hoping_ that I'll be able to at least get a new patch series (at
+least RFC quality) next week...
 
-> The media V4L2 version for the adv7511 (drivers/media/i2c/adv7511-v4l2.c)
-> handled this correctly.
-> =
-
-> Besides a simple bug when setting the segment register (it was set to the
-> block number instead of block / 2), the logic of the code was also weird.
-> In particular reading the DDC_STATUS is odd: this is unrelated to EDID
-> reading.
-> =
-
-> The reworked code just waits for any EDID segment reads to finish (this
-> does nothing if the a segment is already read), checks if the desired
-> segment matches the read segment, and if not, then it requests the new
-> segment and waits again for the EDID segment to be read.
-> =
-
-> Finally it checks if the currently buffered EDID segment contains the
-> desired EDID block, and if not it will update the EDID buffer from
-> the adv7511.
-> =
-
-> Tested with my Koelsch board and with EDIDs of 1, 2, 3 and 4 blocks.
-> =
-
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Tested-by: Niklas S=F6derlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
-> Testing on the Renesas board also requires these two adv7604 patches
-> if you want to test with an HDMI cable between the HDMI input and output:
-> =
-
-> https://patchwork.linuxtv.org/project/linux-media/patch/00882808-472a-d42=
-9-c565-a701da579ead@xs4all.nl/
-> https://patchwork.linuxtv.org/project/linux-media/patch/c7093e76-ffb4-b19=
-c-f576-b264f935a3ce@xs4all.nl/
-> ---
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/d=
-rm/bridge/adv7511/adv7511_drv.c
-> index 76555ae64e9c..9e8db1c60167 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -328,6 +328,7 @@ static void adv7511_set_link_config(struct adv7511 *a=
-dv7511,
->  static void __adv7511_power_on(struct adv7511 *adv7511)
->  {
->  	adv7511->current_edid_segment =3D -1;
-> +	adv7511->edid_read =3D false;
-> =
-
->  	regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER,
->  			   ADV7511_POWER_POWER_DOWN, 0);
-> @@ -529,29 +530,35 @@ static int adv7511_get_edid_block(void *data, u8 *b=
-uf, unsigned int block,
->  	struct adv7511 *adv7511 =3D data;
->  	struct i2c_msg xfer[2];
->  	uint8_t offset;
-> +	unsigned int cur_segment;
->  	unsigned int i;
->  	int ret;
-> =
-
->  	if (len > 128)
->  		return -EINVAL;
-> =
-
-> -	if (adv7511->current_edid_segment !=3D block / 2) {
-> -		unsigned int status;
-> +	/* wait for any EDID segment reads to finish */
-> +	adv7511_wait_for_edid(adv7511, 200);
-> =
-
-> -		ret =3D regmap_read(adv7511->regmap, ADV7511_REG_DDC_STATUS,
-> -				  &status);
-> +	ret =3D regmap_read(adv7511->regmap, ADV7511_REG_EDID_SEGMENT, &cur_seg=
-ment);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/*
-> +	 * If the current read segment does not match what we need, then
-> +	 * write the new segment and wait for it to be read.
-> +	 */
-> +	if (cur_segment !=3D block / 2) {
-> +		adv7511->edid_read =3D false;
-> +		cur_segment =3D block / 2;
-> +		regmap_write(adv7511->regmap, ADV7511_REG_EDID_SEGMENT,
-> +			     cur_segment);
-> +		ret =3D adv7511_wait_for_edid(adv7511, 200);
->  		if (ret < 0)
->  			return ret;
-> +	}
-> =
-
-> -		if (status !=3D 2) {
-> -			adv7511->edid_read =3D false;
-> -			regmap_write(adv7511->regmap, ADV7511_REG_EDID_SEGMENT,
-> -				     block);
-> -			ret =3D adv7511_wait_for_edid(adv7511, 200);
-> -			if (ret < 0)
-> -				return ret;
-> -		}
-> -
-> +	if (adv7511->current_edid_segment !=3D cur_segment) {
->  		/* Break this apart, hopefully more I2C controllers will
->  		 * support 64 byte transfers than 256 byte transfers
->  		 */
-> @@ -579,7 +586,7 @@ static int adv7511_get_edid_block(void *data, u8 *buf=
-, unsigned int block,
->  			offset +=3D 64;
->  		}
-> =
-
-> -		adv7511->current_edid_segment =3D block / 2;
-> +		adv7511->current_edid_segment =3D cur_segment;
->  	}
-> =
-
->  	if (block % 2 =3D=3D 0)
-
--- =
-
-Regards,
-Niklas S=F6derlund
+-Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
