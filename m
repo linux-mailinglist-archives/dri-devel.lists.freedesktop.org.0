@@ -1,65 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D40A334AC19
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 16:58:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6E5D34AC63
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 17:15:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C7166F407;
-	Fri, 26 Mar 2021 15:58:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B1836F425;
+	Fri, 26 Mar 2021 16:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 316676F40B
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 15:58:05 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id b4so8378049lfi.6
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 08:58:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=O05ga9tOD6BgXKp3d3sL9xSf2kzD9ZPV4valK6xNiK4=;
- b=QZF0Wv7XgTmkALDwdF0tQ64k+woPWyRgrZs0xAPu9OtrwL7IdWgoUabYy4u0SCj6iR
- n0o4jE29x6dEnpFmM7Gp6tUwBnLTGu/FQ7Afy3XLTcq+qM2rq7UMb+vUi2EJIVRqvBo2
- 4vqcQpF5Va8sevfb4wC5cC4ODUDBEfHDj1dsNPzWEEuHPp5pqEfpSFtyJ6zUM3YiFgd5
- sitA8kqKWZxeFs5bL/9ojzGmCaoyt/1O26/BkxSeFkelrg4r3udMdl06vhtXZ9tq4Ifq
- Z0zQ29wn08Sn4cBJz3OYDYfy5JDS3aA0HvItPCufX85KZ0QLPO8ojj9PsFN3Eu8U8Z10
- g8Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=O05ga9tOD6BgXKp3d3sL9xSf2kzD9ZPV4valK6xNiK4=;
- b=dIiBhuKJCEMpcC+k0jJpkjEUA0eGkR3cPtK72DClGIUZC6wiDYNxLhEz+JgQpipaE5
- Zmk4JU80GKje7s/le9Bkpd5JAt2Y2+qwmZDPTOJF12Q4fiykxl8slaQO7KPyRBcLmtF7
- zDHXqLGddWLEyh5AYqBLBz9dCkL8sH2JxdKczJ4JbBt3v72v6CwQCFjcithGHM/WEh0q
- G6q5YyHQEt5bxFlCY8Ddnlqjs9r5/FLYx8FigBGvfzKkfleZY7M+0RUu7l4xNzKkYVx9
- 3EIuQAL9Ru8DUKoEP8oOgMne3aAlRTdvuQlao2hXEd3spnnNCHfN4s2ChvzXrbn6zvkB
- Kmpw==
-X-Gm-Message-State: AOAM530F+YHd072glySHtoxtvykObT6XvJYEYxR7t5bXgcAodBLmw0GF
- FhW6XhNgCf1JOxta+mTCbcc=
-X-Google-Smtp-Source: ABdhPJz7JqMZwlnJeAH0GQmh/4SvMQauwkqqs7+RAtifTXlEn3jQ43Hax83jVlboRWR1lR/wFvD/fw==
-X-Received: by 2002:ac2:5444:: with SMTP id d4mr8833356lfn.126.1616774283572; 
- Fri, 26 Mar 2021 08:58:03 -0700 (PDT)
-Received: from ?IPv6:2a00:1370:814d:99a9:a10:76ff:fe69:21b6?
- ([2a00:1370:814d:99a9:a10:76ff:fe69:21b6])
- by smtp.googlemail.com with ESMTPSA id a8sm1214958ljk.83.2021.03.26.08.58.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Mar 2021 08:58:03 -0700 (PDT)
-Subject: Re: [PATCH v2 05/10] drm/tegra: dc: Implement hardware cursor on
- Tegra186 and later
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20210326145139.467072-1-thierry.reding@gmail.com>
- <20210326145139.467072-6-thierry.reding@gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <b8ba8f54-ad85-96d7-0997-4aed94bbb395@gmail.com>
-Date: Fri, 26 Mar 2021 18:58:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27F876F421;
+ Fri, 26 Mar 2021 16:15:27 +0000 (UTC)
+IronPort-SDR: FtwrJfPjRkG5nzK0TKtlDkj2yFadRbDTY3zAUG0XwSR6WhhXC1/q3Ou4h0w5IfbRyNGkAv36vz
+ E3AMePuHRtEA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9935"; a="187891477"
+X-IronPort-AV: E=Sophos;i="5.81,280,1610438400"; d="scan'208";a="187891477"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2021 09:15:26 -0700
+IronPort-SDR: CAgqW+zStyWs23Jeva8WM6R/LIlj4zzOsA2bOQ+f4y24ZPOKdv6uKnA9E36oupDSH6YqqtmU+S
+ Muyq55vko6xQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,280,1610438400"; d="scan'208";a="377290237"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga006.jf.intel.com with SMTP; 26 Mar 2021 09:15:23 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 26 Mar 2021 18:15:22 +0200
+Date: Fri, 26 Mar 2021 18:15:22 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "Navare, Manasi" <manasi.d.navare@intel.com>
+Subject: Re: [PATCH] drm/atomic: Add the crtc to affected crtc only if
+ uapi.enable = true
+Message-ID: <YF4ImoReniVIz+TT@intel.com>
+References: <20210309005252.GA27491@labuser-Z97X-UD5H>
+ <20210309111350.3be0543f@eldfell>
+ <CAKMK7uEak_2YNDZpyho5bBhhYCvoXh6MoPNL6FmV9sU8oELGPA@mail.gmail.com>
+ <20210318230126.GA1900@labuser-Z97X-UD5H>
+ <YFS7mINBWsHiYIKm@intel.com>
+ <20210319205413.GA6359@labuser-Z97X-UD5H>
+ <YFUTyb6ofKRI12hO@intel.com>
+ <20210319212624.GA6560@labuser-Z97X-UD5H>
+ <YFUXX/pDcBheiNWL@intel.com>
+ <20210325220127.GA28898@labuser-Z97X-UD5H>
 MIME-Version: 1.0
-In-Reply-To: <20210326145139.467072-6-thierry.reding@gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210325220127.GA28898@labuser-Z97X-UD5H>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,100 +59,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, James Jones <jajones@nvidia.com>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Stone <daniels@collabora.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjYuMDMuMjAyMSAxNzo1MSwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBGcm9tOiBUaGll
-cnJ5IFJlZGluZyA8dHJlZGluZ0BudmlkaWEuY29tPgo+IAo+IFRoZSBoYXJkd2FyZSBjdXJzb3Ig
-b24gVGVncmExODYgZGlmZmVycyBzbGlnaHRseSBmcm9tIHRoZSBpbXBsZW1lbnRhdGlvbgo+IG9u
-IG9sZGVyIFNvQyBnZW5lcmF0aW9ucy4gSW4gcGFydGljdWxhciB0aGUgbmV3IGltcGxlbWVudGF0
-aW9uIHJlbGllcyBvbgo+IHNvZnR3YXJlIGZvciBjbGlwcGluZyB0aGUgY3Vyc29yIGFnYWluc3Qg
-dGhlIHNjcmVlbi4gRm9ydHVuYXRlbHksIGF0b21pYwo+IEtNUyBhbHJlYWR5IGNvbXB1dGVzIGNs
-aXBwZWQgY29vcmRpbmF0ZXMgZm9yIChjdXJzb3IpIHBsYW5lcywgc28gdGhpcyBpcwo+IHRyaXZp
-YWwgdG8gaW1wbGVtZW50Lgo+IAo+IFRoZSBmb3JtYXQgc3VwcG9ydGVkIGJ5IHRoZSBoYXJkd2Fy
-ZSBjdXJzb3IgaXMgYWxzbyBzbGlnaHRseSBkaWZmZXJlbnQuCj4gCj4gdjI6IHVzZSBtb3JlIGRy
-bV9yZWN0IGhlbHBlcnMgKERtaXRyeSkKPiAKPiBTaWduZWQtb2ZmLWJ5OiBUaGllcnJ5IFJlZGlu
-ZyA8dHJlZGluZ0BudmlkaWEuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vdGVncmEvZGMu
-YyB8IDU5ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tCj4gIGRyaXZlcnMv
-Z3B1L2RybS90ZWdyYS9kYy5oIHwgIDUgKysrKwo+ICAyIGZpbGVzIGNoYW5nZWQsIDU2IGluc2Vy
-dGlvbnMoKyksIDggZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS90ZWdyYS9kYy5jIGIvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RjLmMKPiBpbmRleCAwNTQxZDdi
-NWM4NDEuLjc3NThkNjQ4MjJhZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEv
-ZGMuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9kYy5jCj4gQEAgLTgzMiwxMCArODMy
-LDE0IEBAIHN0YXRpYyBzdHJ1Y3QgZHJtX3BsYW5lICp0ZWdyYV9wcmltYXJ5X3BsYW5lX2NyZWF0
-ZShzdHJ1Y3QgZHJtX2RldmljZSAqZHJtLAo+ICAJcmV0dXJuICZwbGFuZS0+YmFzZTsKPiAgfQo+
-ICAKPiAtc3RhdGljIGNvbnN0IHUzMiB0ZWdyYV9jdXJzb3JfcGxhbmVfZm9ybWF0c1tdID0gewo+
-ICtzdGF0aWMgY29uc3QgdTMyIHRlZ3JhX2xlZ2FjeV9jdXJzb3JfcGxhbmVfZm9ybWF0c1tdID0g
-ewo+ICAJRFJNX0ZPUk1BVF9SR0JBODg4OCwKPiAgfTsKPiAgCj4gK3N0YXRpYyBjb25zdCB1MzIg
-dGVncmFfY3Vyc29yX3BsYW5lX2Zvcm1hdHNbXSA9IHsKPiArCURSTV9GT1JNQVRfQVJHQjg4ODgs
-Cj4gK307Cj4gKwo+ICBzdGF0aWMgaW50IHRlZ3JhX2N1cnNvcl9hdG9taWNfY2hlY2soc3RydWN0
-IGRybV9wbGFuZSAqcGxhbmUsCj4gIAkJCQkgICAgIHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpz
-dGF0ZSkKPiAgewo+IEBAIC04NzUsMTIgKzg3OSwyMiBAQCBzdGF0aWMgdm9pZCB0ZWdyYV9jdXJz
-b3JfYXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKPiAgCQkJCQkJCQkJICAg
-cGxhbmUpOwo+ICAJc3RydWN0IHRlZ3JhX3BsYW5lX3N0YXRlICp0ZWdyYV9wbGFuZV9zdGF0ZSA9
-IHRvX3RlZ3JhX3BsYW5lX3N0YXRlKG5ld19zdGF0ZSk7Cj4gIAlzdHJ1Y3QgdGVncmFfZGMgKmRj
-ID0gdG9fdGVncmFfZGMobmV3X3N0YXRlLT5jcnRjKTsKPiAtCXUzMiB2YWx1ZSA9IENVUlNPUl9D
-TElQX0RJU1BMQVk7Cj4gKwlzdHJ1Y3QgdGVncmFfZHJtICp0ZWdyYSA9IHBsYW5lLT5kZXYtPmRl
-dl9wcml2YXRlOwo+ICsJdTY0IGRtYV9tYXNrID0gKmRjLT5kZXYtPmRtYV9tYXNrOwo+ICsJdW5z
-aWduZWQgaW50IHgsIHk7Cj4gKwl1MzIgdmFsdWUgPSAwOwo+ICAKPiAgCS8qIHJpZW4gbmUgdmEg
-cGx1cyAqLwo+ICAJaWYgKCFuZXdfc3RhdGUtPmNydGMgfHwgIW5ld19zdGF0ZS0+ZmIpCj4gIAkJ
-cmV0dXJuOwo+ICAKPiArCS8qCj4gKwkgKiBMZWdhY3kgZGlzcGxheSBzdXBwb3J0cyBoYXJkd2Fy
-ZSBjbGlwcGluZyBvZiB0aGUgY3Vyc29yLCBidXQKPiArCSAqIG52ZGlzcGxheSByZWxpZXMgb24g
-c29mdHdhcmUgdG8gY2xpcCB0aGUgY3Vyc29yIHRvIHRoZSBzY3JlZW4uCj4gKwkgKi8KPiArCWlm
-ICghZGMtPnNvYy0+aGFzX252ZGlzcGxheSkKPiArCQl2YWx1ZSB8PSBDVVJTT1JfQ0xJUF9ESVNQ
-TEFZOwo+ICsKPiAgCXN3aXRjaCAobmV3X3N0YXRlLT5jcnRjX3cpIHsKPiAgCWNhc2UgMzI6Cj4g
-IAkJdmFsdWUgfD0gQ1VSU09SX1NJWkVfMzJ4MzI7Cj4gQEAgLTkwOCw3ICs5MjIsNyBAQCBzdGF0
-aWMgdm9pZCB0ZWdyYV9jdXJzb3JfYXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFu
-ZSwKPiAgCXRlZ3JhX2RjX3dyaXRlbChkYywgdmFsdWUsIERDX0RJU1BfQ1VSU09SX1NUQVJUX0FE
-RFIpOwo+ICAKPiAgI2lmZGVmIENPTkZJR19BUkNIX0RNQV9BRERSX1RfNjRCSVQKPiAtCXZhbHVl
-ID0gKHRlZ3JhX3BsYW5lX3N0YXRlLT5pb3ZhWzBdID4+IDMyKSAmIDB4MzsKPiArCXZhbHVlID0g
-KHRlZ3JhX3BsYW5lX3N0YXRlLT5pb3ZhWzBdID4+IDMyKSAmIChkbWFfbWFzayA+PiAzMik7Cj4g
-IAl0ZWdyYV9kY193cml0ZWwoZGMsIHZhbHVlLCBEQ19ESVNQX0NVUlNPUl9TVEFSVF9BRERSX0hJ
-KTsKPiAgI2VuZGlmCj4gIAo+IEBAIC05MjAsMTUgKzkzNCwzOSBAQCBzdGF0aWMgdm9pZCB0ZWdy
-YV9jdXJzb3JfYXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKPiAgCXZhbHVl
-ID0gdGVncmFfZGNfcmVhZGwoZGMsIERDX0RJU1BfQkxFTkRfQ1VSU09SX0NPTlRST0wpOwo+ICAJ
-dmFsdWUgJj0gfkNVUlNPUl9EU1RfQkxFTkRfTUFTSzsKPiAgCXZhbHVlICY9IH5DVVJTT1JfU1JD
-X0JMRU5EX01BU0s7Cj4gLQl2YWx1ZSB8PSBDVVJTT1JfTU9ERV9OT1JNQUw7Cj4gKwo+ICsJaWYg
-KGRjLT5zb2MtPmhhc19udmRpc3BsYXkpCj4gKwkJdmFsdWUgJj0gfkNVUlNPUl9DT01QT1NJVElP
-Tl9NT0RFX1hPUjsKPiArCWVsc2UKPiArCQl2YWx1ZSB8PSBDVVJTT1JfTU9ERV9OT1JNQUw7Cj4g
-Kwo+ICAJdmFsdWUgfD0gQ1VSU09SX0RTVF9CTEVORF9ORUdfSzFfVElNRVNfU1JDOwo+ICAJdmFs
-dWUgfD0gQ1VSU09SX1NSQ19CTEVORF9LMV9USU1FU19TUkM7Cj4gIAl2YWx1ZSB8PSBDVVJTT1Jf
-QUxQSEE7Cj4gIAl0ZWdyYV9kY193cml0ZWwoZGMsIHZhbHVlLCBEQ19ESVNQX0JMRU5EX0NVUlNP
-Ul9DT05UUk9MKTsKPiAgCj4gKwkvKiBudmRpc3BsYXkgcmVsaWVzIG9uIHNvZnR3YXJlIGZvciBj
-bGlwcGluZyAqLwo+ICsJaWYgKGRjLT5zb2MtPmhhc19udmRpc3BsYXkpIHsKPiArCQlzdHJ1Y3Qg
-ZHJtX3JlY3Qgc3JjOwo+ICsKPiArCQl4ID0gbmV3X3N0YXRlLT5kc3QueDE7Cj4gKwkJeSA9IG5l
-d19zdGF0ZS0+ZHN0LnkxOwo+ICsKPiArCQlkcm1fcmVjdF9mcF90b19pbnQoJnNyYywgJm5ld19z
-dGF0ZS0+c3JjKTsKPiArCj4gKwkJdmFsdWUgPSAoc3JjLnkxICYgdGVncmEtPnZtYXNrKSA8PCAx
-NiB8IChzcmMueDEgJiB0ZWdyYS0+aG1hc2spOwo+ICsJCXRlZ3JhX2RjX3dyaXRlbChkYywgdmFs
-dWUsIERDX0RJU1BfUENBTENfSEVBRF9TRVRfQ1JPUFBFRF9QT0lOVF9JTl9DVVJTT1IpOwo+ICsK
-PiArCQl2YWx1ZSA9IChkcm1fcmVjdF9oZWlnaHQoJnNyYykgJiB0ZWdyYS0+dm1hc2spIDw8IDE2
-IHwKPiArCQkJKGRybV9yZWN0X3dpZHRoKCZzcmMpICYgdGVncmEtPmhtYXNrKTsKPiArCQl0ZWdy
-YV9kY193cml0ZWwoZGMsIHZhbHVlLCBEQ19ESVNQX1BDQUxDX0hFQURfU0VUX0NST1BQRURfU0la
-RV9JTl9DVVJTT1IpOwo+ICsJfSBlbHNlIHsKPiArCQl4ID0gbmV3X3N0YXRlLT5jcnRjX3g7Cj4g
-KwkJeSA9IG5ld19zdGF0ZS0+Y3J0Y195Owo+ICsJfQo+ICsKPiAgCS8qIHBvc2l0aW9uIHRoZSBj
-dXJzb3IgKi8KPiAtCXZhbHVlID0gKG5ld19zdGF0ZS0+Y3J0Y195ICYgMHgzZmZmKSA8PCAxNiB8
-Cj4gLQkJKG5ld19zdGF0ZS0+Y3J0Y194ICYgMHgzZmZmKTsKPiArCXZhbHVlID0gKCh5ICYgdGVn
-cmEtPnZtYXNrKSA8PCAxNikgfCAoeCAmIHRlZ3JhLT5obWFzayk7Cj4gIAl0ZWdyYV9kY193cml0
-ZWwoZGMsIHZhbHVlLCBEQ19ESVNQX0NVUlNPUl9QT1NJVElPTik7Cj4gIH0KPiAgCj4gQEAgLTk4
-Miw4ICsxMDIwLDEzIEBAIHN0YXRpYyBzdHJ1Y3QgZHJtX3BsYW5lICp0ZWdyYV9kY19jdXJzb3Jf
-cGxhbmVfY3JlYXRlKHN0cnVjdCBkcm1fZGV2aWNlICpkcm0sCj4gIAlwbGFuZS0+aW5kZXggPSA2
-Owo+ICAJcGxhbmUtPmRjID0gZGM7Cj4gIAo+IC0JbnVtX2Zvcm1hdHMgPSBBUlJBWV9TSVpFKHRl
-Z3JhX2N1cnNvcl9wbGFuZV9mb3JtYXRzKTsKPiAtCWZvcm1hdHMgPSB0ZWdyYV9jdXJzb3JfcGxh
-bmVfZm9ybWF0czsKPiArCWlmICghZGMtPnNvYy0+aGFzX252ZGlzcGxheSkgewo+ICsJCW51bV9m
-b3JtYXRzID0gQVJSQVlfU0laRSh0ZWdyYV9sZWdhY3lfY3Vyc29yX3BsYW5lX2Zvcm1hdHMpOwo+
-ICsJCWZvcm1hdHMgPSB0ZWdyYV9sZWdhY3lfY3Vyc29yX3BsYW5lX2Zvcm1hdHM7Cj4gKwl9IGVs
-c2Ugewo+ICsJCW51bV9mb3JtYXRzID0gQVJSQVlfU0laRSh0ZWdyYV9jdXJzb3JfcGxhbmVfZm9y
-bWF0cyk7Cj4gKwkJZm9ybWF0cyA9IHRlZ3JhX2N1cnNvcl9wbGFuZV9mb3JtYXRzOwo+ICsJfQoK
-V2lsbCBiZSBuaWNlIHRvIGhhdmUgYWxsIHRlZ3JhX2xlZ2FjeV8gcmVuYW1lZCB0byB0aGUgY29y
-cmVzcG9uZGluZyBoL3cKdmVyc2lvbnMsIGxpa2UgdGVncmExMjRfOyBhbmQgbm90IHRvIHVzZSB0
-aGUgaW52ZXJ0ZWQgY2hlY2tzLCBsaWtlCiFkYy0+c29jLT5oYXNfbnZkaXNwbGF5LiBJIHRoaW5r
-IHRoaXMgd2lsbCBlYXNlIGZvbGxvd2luZyBvZiB0aGUgY29kZS4KQnV0IHRoaXMgc2hvdWxkIGJl
-IGRvbmUgc2VwYXJhdGVseS4KClJldmlld2VkLWJ5OiBEbWl0cnkgT3NpcGVua28gPGRpZ2V0eEBn
-bWFpbC5jb20+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Thu, Mar 25, 2021 at 03:01:29PM -0700, Navare, Manasi wrote:
+> On Fri, Mar 19, 2021 at 11:27:59PM +0200, Ville Syrj=E4l=E4 wrote:
+> > On Fri, Mar 19, 2021 at 02:26:24PM -0700, Navare, Manasi wrote:
+> > > On Fri, Mar 19, 2021 at 11:12:41PM +0200, Ville Syrj=E4l=E4 wrote:
+> > > > On Fri, Mar 19, 2021 at 01:54:13PM -0700, Navare, Manasi wrote:
+> > > > > On Fri, Mar 19, 2021 at 04:56:24PM +0200, Ville Syrj=E4l=E4 wrote:
+> > > > > > On Thu, Mar 18, 2021 at 04:01:26PM -0700, Navare, Manasi wrote:
+> > > > > > > So basically we see this warning only in case of bigjoiner wh=
+en
+> > > > > > > drm_atomic_check gets called without setting the state->allow=
+_modeset flag.
+> > > > > > =
+
+> > > > > > Considering the code is 'WARN(!state->allow_modeset, ...' that
+> > > > > > fact should be rather obvious.
+> > > > > > =
+
+> > > > > > > =
+
+> > > > > > > So do you think that in i915, in intel_atomic_check_bigjoiner=
+() we should only
+> > > > > > > steal the crtc when allow_modeset flag is set in state?
+> > > > > > =
+
+> > > > > > No. If you fully read drm_atomic_check_only() you will observe
+> > > > > > that it will reject any commit w/ allow_modeset=3D=3Dfalse whic=
+h =
+
+> > > > > > needs a modeset. And it does that before the WARN.
+> > > > > > =
+
+> > > > > > So you're barking up the wrong tree here. The problem I think
+> > > > > > is that you're just computing requested_crtcs wrong.
+> > > > > =
+
+> > > > > So here in this case, requested CRTC =3D 0x1 since it requests mo=
+deset on CRTC 0
+> > > > > Now in teh atomic check, it steals the slave CRTC 1 and hence aff=
+ected CRTC comes out
+> > > > > as 0x3 and hence the mismatch.
+> > > > =
+
+> > > > Hmm. How can it be 0x3 if we filtered out the uapi.enable=3D=3Dfals=
+e case?
+> > > > =
+
+> > > =
+
+> > > Yes if I add that condition like in this patch then it correctly calc=
+ulates
+> > > the affected crtc bitmask as only 0x1 since it doesnt include the sla=
+ve crtc.
+> > > So with this patch, requested crtc =3D 0x 1, affected crtc =3D 0x1
+> > > =
+
+> > > If this looks good then this fixes our bigjoiner warnings.
+> > > Does this patch look good to you as is then?
+> > =
+
+> > I think you still need to fix the requested_crtcs calculation.
+> =
+
+> We calculate requested crtc at the beginning :
+> for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
+>                 requested_crtc |=3D drm_crtc_mask(crtc);
+> =
+
+> Are you suggesting adding this to after:
+>  if (config->funcs->atomic_check) {
+>                 ret =3D config->funcs->atomic_check(state->dev, state);
+> =
+
+>                 if (ret) {
+>                         DRM_DEBUG_ATOMIC("atomic driver check for %p fail=
+ed: %d\n",
+>                                          state, ret);
+>                         return ret;
+>                 }
+> 		requested_crtc |=3D drm_crtc_mask(crtc);    // Here it will have reques=
+ted crtc =3D 0x11
+>         }
+> =
+
+> in this case here the state should already have master crtc 0 and slave c=
+rtc 1
+> and that requested crtc should already be 0x11
+> =
+
+> Then in that case we dont need any special check for calculating affected=
+ crtc, that also will be 0x11
+
+All I'm saying is that you're currently calculating requested_crtcs and
+affected_crtcs differently. So I'm not at all surprised that they might
+not match.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
