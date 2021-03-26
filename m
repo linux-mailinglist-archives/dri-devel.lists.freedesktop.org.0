@@ -1,52 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33FA34AF85
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 20:48:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E9C534AFCF
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 21:07:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1D276E063;
-	Fri, 26 Mar 2021 19:48:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F7D96E2A3;
+	Fri, 26 Mar 2021 20:07:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B676B6E063
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 19:48:28 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A83DE61A02
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 19:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616788107;
- bh=wxPwrL8Elyilt/be8avUhCyHnKSPWdv5vjts2YM7GNk=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=hxUv3wwbObI8kiZEEQZV18IkUZ78uC14N/u7raPhRVQu/Jg5dAuuQVvt7aGdizPMu
- YANg5luT1vEZH4/bbF5TI1C0At7XY/IM9KlTIGT1b8JCPtihfoX8tJlZL3OPPHkSr6
- +o96gpV54A3HXckbZ4y2bVhKASm9ZAxP3N6Rg+UUuH3yyydaW+NkUH+mRab2umSM5c
- tPM8bqGeklPDfYJn0E0IXVuAyrUnQGBD0WqbgS/soDjmC/GNVuR+WLv0AqQ4fxV1wY
- /kVBpv0i5qcIClgEQpd1cHNtZgJis+mKdIHoxh2MT+AwBiErwk+lh8PFaYuepkSJwu
- xv91nHcQDfnCg==
-Received: by mail-ed1-f41.google.com with SMTP id y6so7636757eds.1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 12:48:26 -0700 (PDT)
-X-Gm-Message-State: AOAM533EZcDFSJH2jw3jkTTfpLYsy/khczQNYQAegFRq2oo5YvjUrWEH
- iYtTeJ3exs6z/qeGg5zlqM2nNl5kXUBzpSFq6Q==
-X-Google-Smtp-Source: ABdhPJy7G4s2ud2zHYauRuSzY80o/0qOtPPIRaErAfbkRf+ylRkj+kKnhZfJ/AZpQBGAvYabfLNPy7gyORsBpyobNw0=
-X-Received: by 2002:a05:6402:2d0:: with SMTP id
- b16mr17353897edx.194.1616788104975; 
- Fri, 26 Mar 2021 12:48:24 -0700 (PDT)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2073.outbound.protection.outlook.com [40.107.93.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C6D86E2A3;
+ Fri, 26 Mar 2021 20:07:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cyx4yt9R12m6vHcfqqzZk4R+zXy/gV0QTzPWcnyED5o40Fa9wivVDy6STPHiWRq7eu0y1t/QJKNkxbpQ/2GZsXqWMuMASC7RuiqXXZa8w34oL8+rAlmREU4a/rciBAu5LhquH0Z/kO4CA4tLS6LcJCRy+pnQr7WQWeabinpQSkR/dJgBrULJYwuVIJ3fBAkq8fJV2rQTuqsu3un25i+kp7sPwK3l+q+gWm+cWz0cNeSUQrGH80zTLjDYcunlB4mYCXVo9tvoTzjbbFttOAuImqCO/DlBo9Wf8SECl47oTn/Uk50hF0ATUOAXkINUak8MkhJrHfMr0qXsPlmQObhfqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iHpzb/JgmQwcqvSwKc6nn/vpj7WZfjollLZXJfWhc8s=;
+ b=DhQhpkFw/HSPCEIliLcbG1JCymqTPkYQbxpuK/+FfpTS9zVKIk3f7LFmE0g6Es6uUbAPLebXEHyRxAaFkR+tf1m86FPsD95q5Qop4Zo9SOVtP1X7ZmE5fxUbUOJYBhB3M6XBJtsjo0inLXtbAfnmseBYFvenNCacNxKNAylrCLyJSLiu2ZLxEYg/CTWMv8MbCt5GO3WW4xszzomD+vjOu2JP/hsmLZvr+1VH5PBlk3kB6BY0edoxCCniAv43UjyDgk2Hyr3Ta+56p7euP88EozfT7sP3PeAj2Xy/4GLszdBneWtxUkJw29XahTVwp+CMpMlz7jTPVvyOLVPIb5YJcw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iHpzb/JgmQwcqvSwKc6nn/vpj7WZfjollLZXJfWhc8s=;
+ b=3G3xISnq0DxmiRalFrFCXSRR0SHXrYuRb+C3kRJ9DmYJF1VV0aPHFoYo24jHk3Qj0wiH55SpOyReIm67GnfOH2hUJV3D0EM1vnG2qMB6EeoWj/6O9ZJ0pdFkrvsXNKTFfE6XV3RcKNe6U5x+PjZZ/jUGn3BhCdLMzrX/3RcKaUU=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB4488.namprd12.prod.outlook.com (2603:10b6:208:24e::19)
+ by MN2PR12MB4437.namprd12.prod.outlook.com (2603:10b6:208:26f::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Fri, 26 Mar
+ 2021 20:07:36 +0000
+Received: from MN2PR12MB4488.namprd12.prod.outlook.com
+ ([fe80::3d98:cefb:476c:c36e]) by MN2PR12MB4488.namprd12.prod.outlook.com
+ ([fe80::3d98:cefb:476c:c36e%7]) with mapi id 15.20.3977.026; Fri, 26 Mar 2021
+ 20:07:36 +0000
+From: Alex Deucher <alexander.deucher@amd.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/amdgpu/display: fix merge breakage
+Date: Fri, 26 Mar 2021 16:07:19 -0400
+Message-Id: <20210326200719.1256182-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.30.2
+X-Originating-IP: [192.161.79.247]
+X-ClientProxiedBy: BL1PR13CA0343.namprd13.prod.outlook.com
+ (2603:10b6:208:2c6::18) To MN2PR12MB4488.namprd12.prod.outlook.com
+ (2603:10b6:208:24e::19)
 MIME-Version: 1.0
-References: <20210316140707.RFC.1.I3a21995726282f1e9fcb70da5eb96f19ed96634f@changeid>
- <YFKQaXOmOwYyeqvM@google.com>
- <CAF6AEGtu+GBwYfkH3x=UuPs5Ouj0TxqbVjpjFEtMKKWvd1-Gbg@mail.gmail.com>
- <YF3V8d4wB6i81fLN@orome.fritz.box>
- <CAF6AEGvS6Pnd-m-boqPEZdDY+VCkV5M8Ob9n6UiYWs_DxrPopQ@mail.gmail.com>
- <CAF6AEGvPN90RGP8hYXtAksJpGc4Sf5tRpNwNnV6=sxKei0Ms6A@mail.gmail.com>
-In-Reply-To: <CAF6AEGvPN90RGP8hYXtAksJpGc4Sf5tRpNwNnV6=sxKei0Ms6A@mail.gmail.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Fri, 26 Mar 2021 13:48:13 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKk+c83GMRzpc11Naj7QDYSfHdrg-8ZnxRBBM4phemQxg@mail.gmail.com>
-Message-ID: <CAL_JsqKk+c83GMRzpc11Naj7QDYSfHdrg-8ZnxRBBM4phemQxg@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] dt-bindings: display: simple: Add the panel on
- sc7180-trogdor-pompom
-To: Rob Clark <robdclark@gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (192.161.79.247) by
+ BL1PR13CA0343.namprd13.prod.outlook.com (2603:10b6:208:2c6::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.16 via Frontend
+ Transport; Fri, 26 Mar 2021 20:07:35 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: adb452db-5a80-419a-9f07-08d8f092cc72
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4437:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB443781BA69D35B2CA6036B1DF7619@MN2PR12MB4437.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:353;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qz0t/kjBQd46xaoFBfbWSAwZ+crNypB3avgLXm60+WZIuvxDW/FCQ6a54b9WOWIv5AOgeHgjx1JM74m3YXIWk3e4Q7BpqNcFyESUC0WQQszNwaFptiNCBz1z9wNUD0b4mLcvKQP85sjfIDPIULU8wQJmL6S9TletS8cIbwIu1zQtnE8tPCcsIAU+dnY+kttkY4nZdlll7fbCDuXGyiQ/cRWbXotHbeC04uc8qHnkKLI7pbHIrDv/Wy35db6uxwvVQleg4s223lyZ6Lyae3fco90Sy8v4Swh4ILYAVIvZdHAM6peC0j4WFUdPEgUzVrXxqnwx3Qo9ptX0IBPK+iJlsu4fE0I+o/Lf2rGHjEw2HhACywXA07HS9Mm4bt+EJuXURdXaCVbPJ91q2yjLzXyMrPQpi5BykWL/EZyamW+gvihJh0hLXmq26EtjUOd50qXQdt/bUDk3hFXNAH0+nHQuGRKyoeoI0PE7O6IwnnpS6hJiw5nlkmGPDtLTt0yhiv/WaXp5DS2vbdX9H8UGNNlMzXI2q8BUeFiNieyvtRbBDrLc9EcC5vnDuYuuGb+w/wa4Pe3VGR2VUej9sZqFCt7s/x7DUTi9UzW45xcTTWOmPr7jaZ1iGCwhmTPrqcowBjrfhd5O778TWT9ilVZKpuIEEiObVtCkw5PdTH1goLz4UyklJX81LvPyHVdtXzuZP2h6nwMI4t1vvQ3M4c//g+sWZiEm9pVLvACEus7/ZNzCzVM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4488.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(136003)(366004)(376002)(346002)(86362001)(16526019)(186003)(966005)(8936002)(4744005)(36756003)(6512007)(2906002)(38100700001)(2616005)(6506007)(8676002)(83380400001)(66476007)(69590400012)(66946007)(66556008)(6486002)(4326008)(6666004)(5660300002)(478600001)(1076003)(316002)(26005)(956004)(52116002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?c+Vqa+/eq4ZXQCrFQCMqu/z1dDWBk/HAsEmMxK19BSRFy/sq/G3ZoGb6a0Lu?=
+ =?us-ascii?Q?lntPtduf9VXJbCnlos/CrwiOjT6QhRkM9W2PbJEkA51MW6PpsP1GSwzzug/8?=
+ =?us-ascii?Q?3OUmONmGraLbsmvWr23RTrVGJbZrp8Omc/rG9uiqr7agCTYgHt0zmNuZ3XS/?=
+ =?us-ascii?Q?4j1RF4j5V3qpq5Xd7C7FSuKi67y7NUaNUPdtTxQuiXgmxwZ+rJjoIC+kT3Zb?=
+ =?us-ascii?Q?CNsCfNDuUR2V01b3x3UxSjq6kkCS1Ys2V4DJh/276F+fP8aWUBlhyQCdIOre?=
+ =?us-ascii?Q?3NRHJ0AesKIdPpvu0rzgzhjyKhpAZLrChJUbsSmJAEW2mte53XmDk4BJfOC7?=
+ =?us-ascii?Q?sq9rZFuI23GedsEMXHkAqvFDIu2FSjvgDXbC60vzPd4MLgDoNOB2NvkNhFXu?=
+ =?us-ascii?Q?Ljujd+RZaXcVar6roztwz20lUW+Fcw3uyiVeBS0Zht8JhyQQGovTtNljircE?=
+ =?us-ascii?Q?zh4YWeF6/xZX7BbBb2fye+hyNW4g/ibgenSSkytAx7yIaaBtkSqnt3gx2nhK?=
+ =?us-ascii?Q?gMyeUWn7zv9LQxvNWv5BQuhaYBwsJpfbD6ekki94CxXw7qObeBfo+tKGdq7y?=
+ =?us-ascii?Q?FkuP5BDJXLYt+NTJbC/hYsw9SR3v4JEyoHSA7kS0PkEAWTM+CEqbc2gX7zp3?=
+ =?us-ascii?Q?oL0xKm9+Wt+XGu5ntchlJyR/lP7dqubrJv47phuSSyyZ4pMvb8HIgYoFiwD+?=
+ =?us-ascii?Q?zqUJSxWkFDJV6jm3SrpAWpVFfirGwNGsLVP+tYMEPMgsoRNkrxWXGLCDiQGz?=
+ =?us-ascii?Q?RCeV2O7187Aal6FnhIQtepCgku/x2EhuB+y6UPu3w0Eo9YVP7AbcIwWg4VEF?=
+ =?us-ascii?Q?hOGt5FyFYPONzBfGEmt5VpqGxfQlRp7NyuYgFYrW3RBU1DoQk5tX0ivq3TRX?=
+ =?us-ascii?Q?/5S6GADpsrEmvJG7oJmkGMr0Xm6gURla20i/Uqnn2g8l4s8uT6yfc9aqqNmS?=
+ =?us-ascii?Q?x8Zz+1T04GsqMSkKkM7WP2cYd++txeuGlrJ/wInwypLzJAoH9ynwTPN9iir+?=
+ =?us-ascii?Q?wkT6aiFljwuTODGF8AuVxOX2fApEgCt2vGopJDCOJrbd74r6l6xAHGYzJhze?=
+ =?us-ascii?Q?VqWMwGyYbDjsJOPrUfsdXnWgAqbfUWoxkTLSbmMefC5fVOzuEciOd2a0fRfu?=
+ =?us-ascii?Q?IGHlpymymaHTsYL+XdxZAfWAG/f5bUzNkhUy9bW7LMJxTkEoUx53+6TX5o6d?=
+ =?us-ascii?Q?7ar9yMakw4KA2L8lHU8eZ8FKVJhz3nz6OaxzkvNpuZteDDhVznyM1yLffjhj?=
+ =?us-ascii?Q?ViL74JnrpA65qeJ4JdcEXpH8eJXgY0Genq2gbgofVPXRrJEFsFSQ5hNzttSU?=
+ =?us-ascii?Q?zq5cJiAsjcDWbTVELaNCXf/k?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: adb452db-5a80-419a-9f07-08d8f092cc72
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4488.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2021 20:07:36.0154 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p31CaKoy4wcawsaNXeizXH5voQ1gOIQwgbIirbfZ4KiviidZUwPtLqw9AAk341vxGvu1MWZRIQspFof2VDHmGg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4437
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,153 +116,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Nicolas Boichat <drinkcat@chromium.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Andy Gross <agross@kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- Matthias Kaehlcke <mka@chromium.org>, Steev Klimaszewski <steev@kali.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>, daniel.vetter@ffwll.ch
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 26, 2021 at 9:20 AM Rob Clark <robdclark@gmail.com> wrote:
->
-> On Fri, Mar 26, 2021 at 8:18 AM Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > On Fri, Mar 26, 2021 at 5:38 AM Thierry Reding <thierry.reding@gmail.com> wrote:
-> > >
-> > > On Wed, Mar 17, 2021 at 06:53:04PM -0700, Rob Clark wrote:
-> > > > On Wed, Mar 17, 2021 at 4:27 PM Matthias Kaehlcke <mka@chromium.org> wrote:
-> > > > >
-> > > > > On Tue, Mar 16, 2021 at 02:08:19PM -0700, Douglas Anderson wrote:
-> > > > > > The sc7180-trogdor-pompom board might be attached to any number of a
-> > > > > > pile of eDP panels. At the moment I'm told that the list might include:
-> > > > > > - KD KD116N21-30NV-A010
-> > > > > > - KD KD116N09-30NH-A016
-> > > > > > - Starry 2081116HHD028001-51D
-> > > > > > - Sharp LQ116M1JW10
-> > > > > >
-> > > > > > It should be noted that while the EDID programmed in the first 3
-> > > > > > panels indicates that they should run with exactly the same timing (to
-> > > > > > keep things simple), the 4th panel not only needs different timing but
-> > > > > > has a different resolution.
-> > > > > >
-> > > > > > As is true in general with eDP panels, we can figure out which panel
-> > > > > > we have and all the info needed to drive its pixel clock by reading
-> > > > > > the EDID. However, we can do this only after we've powered the panel
-> > > > > > on. Powering on the panels requires following the timing diagram in
-> > > > > > each panel's datasheet which specifies delays between certain
-> > > > > > actions. This means that, while we can be quite dynamic about handling
-> > > > > > things we can't just totally skip out on describing the panel like we
-> > > > > > could do if it was connected to an external-facing DP port.
-> > > > > >
-> > > > > > While the different panels have slightly different delays, it's
-> > > > > > possible to come up with a set of unified delays that will work on all
-> > > > > > the panels. From reading the datasheets:
-> > > > > > * KD KD116N21-30NV-A010 and KD KD116N09-30NH-A016
-> > > > > >   - HPD absent delay: 200 ms
-> > > > > >   - Unprepare delay: 150 ms (datasheet is confusing, might be 500 ms)
-> > > > > > * Starry 2081116HHD028001-51D
-> > > > > >   - HPD absent delay: 100 ms
-> > > > > >   - Enable delay: (link training done till enable BL): 200 ms
-> > > > > >   - Unprepare delay: 500 ms
-> > > > > > * Sharp LQ116M1JW10
-> > > > > >   - HPD absent delay: 200 ms
-> > > > > >   - Unprepare delay: 500 ms
-> > > > > >   - Prepare to enable delay (power on till backlight): 100 ms
-> > > > > >
-> > > > > > Unified:
-> > > > > > - HPD absent delay: 200 ms
-> > > > > > - Unprepare delay: 500 ms
-> > > > > > - Enable delay: 200 ms
-> > > > > >
-> > > > > > NOTE: in theory the only thing that we _really_ need unity on is the
-> > > > > > "HPD absent delay" since once the panel asserts HPD we can read the
-> > > > > > EDID and could make per-panel decisions if we wanted.
-> > > > > >
-> > > > > > Let's create a definition of "a panel that can be attached to pompom"
-> > > > > > as a panel that provides a valid EDID and can work with the standard
-> > > > > > pompom power sequencing. If more panels are later attached to pompom
-> > > > > > then it's fine as long as they work in a compatible way.
-> > > > > >
-> > > > > > One might ask why we can't just use a generic string here and provide
-> > > > > > the timings directly in the device tree file. As I understand it,
-> > > > > > trying to describe generic power sequencing in the device tree is
-> > > > > > frowned upon and the one instance (SD/MMC) is regarded as a mistake
-> > > > > > that shouldn't be repeated. Specifying a power sequence per board (or
-> > > > > > per board class) feels like a reasonable compromise. We're not trying
-> > > > > > to define fully generic power sequence bindings but we can also take
-> > > > > > advantage of the semi-probable properties of the attached device.
-> > > > > >
-> > > > > > NOTE: I believe that past instances of supporting this type of thing
-> > > > > > have used the "white lie" approach. One representative panel was
-> > > > > > listed in the device tree. The power sequencings of this
-> > > > > > representative panel were OK to use across all panels that might be
-> > > > > > attached and other differences were handled by EDID. This patch
-> > > > > > attempts to set a new precedent and avoid the need for the white lie.
-> > > > > >
-> > > > > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > > > > > ---
-> > > > >
-> > > > > Sounds reasonable to me if DT maintainers can live with this abstract
-> > > > > hardware definition. It's clearer than the 'white lie' approach.
-> > > >
-> > > > Yeah, it is a weird grey area between "discoverable" and "not
-> > > > discoverable".. but I favor DT reflecting reality as much as
-> > > > possible/feasible, so I think this is definity cleaner than "white
-> > > > lies"
-> > >
-> > > This is practically no different than the "white lie". I suppose you
-> > > could perhaps call it "more honest", if you want.
-> > >
-> > > The point remains that unless we describe exactly which panel we're
-> > > dealing with, we ultimately have no way of properly quirking anything if
-> > > we ever have to. Also, once we allow this kind of wildcard we can
-> > > suddenly get into a situation where people might want to reuse this on
-> > > something that's not at all a google-pompom board because the same
-> > > particular power sequence happens to work on on some other board.
-> > >
-> > > Similarly I can imagine a situation where we could now have the same
-> > > panel supported by multiple different wildcard compatible strings. How
-> > > is that supposed to be any cleaner than what we have now?
-> > >
-> > > And I still keep wondering why bootloaders can't be taught about these
-> > > kinds of things. We have in the past discussed various solutions where
-> > > the bootloader could detect the type of panel connected and set the
-> > > proper compatible string.
-> >
-> > The bootloader cannot detect the panel without powering up the panel,
-> > which it normally does not do if you are not in dev-mode (it would add
-> > a significant amount of time to bootup, which is why we can't do this)
->
-> what if we had a sort of multi-choice panel node:
->
->    panel: panel {
->      compatible = "panel,one-of";
->      compatible-one-of = "vendor1,panel-a", "vendor2,panel-b",
-> "vendor3,panel-c";
->   };
->
-> The kernel could construct power sequence timings that are the
-> superset of all the possible panels.  That seems about as explicit as
-> we could get in this sort of case.
+Looks like this got accidently dropped.
 
-If we were to go this route, I'm inclined to say just shove all the
-possible panel compatibles into 'compatible'. That kind of breaks the
-notion of most specific to least specific. OTOH, it is saying the set
-of panels are somehow 'compatible' with each other.
+Fixes: 2cbcb78c9ee5 ("Merge tag 'amd-drm-next-5.13-2021-03-23' of https://gitlab.freedesktop.org/agd5f/linux into drm-next")
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Cc: daniel.vetter@ffwll.ch
+---
+ drivers/gpu/drm/amd/display/dc/irq/dcn21/irq_service_dcn21.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-If there's not some level of compatibility between the panels, then
-it's still the bootloader's problem.
+diff --git a/drivers/gpu/drm/amd/display/dc/irq/dcn21/irq_service_dcn21.c b/drivers/gpu/drm/amd/display/dc/irq/dcn21/irq_service_dcn21.c
+index c44bb68fe2e6..1a5be2792055 100644
+--- a/drivers/gpu/drm/amd/display/dc/irq/dcn21/irq_service_dcn21.c
++++ b/drivers/gpu/drm/amd/display/dc/irq/dcn21/irq_service_dcn21.c
+@@ -187,6 +187,10 @@ static const struct irq_source_info_funcs vupdate_no_lock_irq_info_funcs = {
+ 	.ack = NULL
+ };
+ 
++static const struct irq_source_info_funcs dmub_trace_irq_info_funcs = {
++	.set = NULL,
++	.ack = NULL
++};
+ 
+ static const struct irq_source_info_funcs vline0_irq_info_funcs = {
+ 	.set = NULL,
+-- 
+2.30.2
 
-Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
