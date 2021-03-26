@@ -2,67 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B74349E31
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 01:43:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 262B2349E3F
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 01:54:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 319C56EE6B;
-	Fri, 26 Mar 2021 00:43:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8EDB6EE94;
+	Fri, 26 Mar 2021 00:54:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
- [IPv6:2607:f8b0:4864:20::829])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 334C26EE6B
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 00:43:37 +0000 (UTC)
-Received: by mail-qt1-x829.google.com with SMTP id 1so2538752qtb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 17:43:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6l8qPlBwWGhFEr62tjoDbv6LpnDOpMR2bfxtHw91Jxs=;
- b=ZkdIaBz9YBB7X2wWeZDzOdwadwUmFCH5Zo/DN26SAAz9fLSNhRvK7G6ENjEtbI+hLW
- aH5yh0pa2ahVbOdqnqFh0kwTbUEXt0FwzOrI5aeGZWl252m2AxWpmGQNGKOSTpQ2ybNS
- uoUXKTOHOsUmRVgciH7rLfSudEqhFJYvGHljU=
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15BE46EE94;
+ Fri, 26 Mar 2021 00:54:44 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id k128so2118645wmk.4;
+ Thu, 25 Mar 2021 17:54:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=YuBwH1yrwebF7YZ6NybwekcKLEftOt6WeljGm7H4DDg=;
+ b=JGegx6GQf4y5/ogeQ1Xy/BwSsztBssUrPHuyQ+aiS/vdP+FTBXcxY62BuhK6meFdy+
+ sDeVoSkiZ0k4a8xDCoVio7bemOrg7zF0ewEy4mZNwwLJpDl3n7TywbTpBvjwN74fmjKV
+ 7Nh4rAom4G0hwVZwOLnkSd9pIPNBWcfxSHow7lsjrC48zZfHNkVGsgVhBgiMYIJQUmbR
+ LIdbmzUkv9Cpsv3EM7GMApFZo+KZMQVM+C4+8drmsaD0tVB8pe13BmYjJQ6tnueAazKP
+ fdg4nOK5zPHwi9Qnyk/mONnaSfPVpkvT057/8y5iRJqrt31W3T1YUXgWl19NedjSKts0
+ bllw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6l8qPlBwWGhFEr62tjoDbv6LpnDOpMR2bfxtHw91Jxs=;
- b=CPUcz+YQHYjUc5R2RXpx9WEMP8uF8a1gUY4QyUj1iuNeiMufBxXmdy+X5Epr7vAwvO
- y6ZRzF3pzTeDTHx5bSpfbrfWeN8L13hmJji605Ho+DGbeT+8obwDfrOlejhiQHU8X34l
- N5WMEW7aS7Qj2pnHHlATmQT8qGW7MNf4UgMw6zCVo1yosWGOiptiQnSG6Zz8YhaCVySC
- 8K72zcFNwwrgNrEv8VUPXDRzjRAeOAEWqQB0yTzDwejUvSj9xSH6FzIXWtY7PUNVekEU
- SFrP9n/oQAXop14ZNTxBTgBqyNnR8EeY+MdLnrsg3plGOdJaoSG9fHWmLEt7BwfvPKzh
- B6nQ==
-X-Gm-Message-State: AOAM531yTD1FCWKKuSjj3lhmidFXuvZAOWDc8VHBXWRJW/uX3RRgQruz
- lTaGud82ddrCAeXcp7/lBRCj/FGLPrSe8A==
-X-Google-Smtp-Source: ABdhPJyENQ9a+tO06KN2Mjb94uumj2QEJ7r71AyMcTTnHZMGLb6eowOjgUO7s2Oc6FIHnio2GakAlA==
-X-Received: by 2002:aed:2981:: with SMTP id o1mr10039523qtd.386.1616719416004; 
- Thu, 25 Mar 2021 17:43:36 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
- [209.85.219.170])
- by smtp.gmail.com with ESMTPSA id j24sm5509146qka.67.2021.03.25.17.43.34
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Mar 2021 17:43:35 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id a143so4179498ybg.7
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Mar 2021 17:43:34 -0700 (PDT)
-X-Received: by 2002:a25:69c1:: with SMTP id
- e184mr16137873ybc.345.1616719414494; 
- Thu, 25 Mar 2021 17:43:34 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=YuBwH1yrwebF7YZ6NybwekcKLEftOt6WeljGm7H4DDg=;
+ b=J8Wn9qr1Iln/a79Gtpe7U5WzV0EHIHxhj4o2AuB/A42qNDMJbrCmSyhJWKpIGVEaAr
+ 8zXyZHAH9nCMFrHyJVVeX+g7IKbc3+bL/Yo3fSW/qUGZErcOs6777elkt48H6DGRbIHH
+ xy71GZdmm8bldr6TK24pnlZxcjqgZEp44tpcAleuu1WYku042P/aKND25ZRlcOF5NuA0
+ 4q+J4cEaRvipTFA9qIyRRApNX/nLALGG7Q7ECb4fS0BtCG9a4MQAqfC30x4tY0LozMF+
+ tNIR3H1SdKCLH6g1xhng+8dUV9hWXfodY3O4p5baOcpk0rPz/pitQrgZvlRUpM0Dr4d6
+ XlMQ==
+X-Gm-Message-State: AOAM530OSdLO9QjDoqQ0g7n1Sh+HWM4RJc0QDoljnDIwJGQCmdaGSI6z
+ U2dgQcAYP0xZB9MWBY2Y2NBuuCXHBHZePCNF9eWRFCUyuAc=
+X-Google-Smtp-Source: ABdhPJySjv2fOKFXb/unIYRFsUJMvBttGq7FJPdo71XAwOdq0KZm1mAm+csV/a/aLFrziqQozHhoMVGroVUZtwke9Mw=
+X-Received: by 2002:a1c:4b15:: with SMTP id y21mr10634934wma.94.1616720082628; 
+ Thu, 25 Mar 2021 17:54:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210322030128.2283-4-laurent.pinchart+renesas@ideasonboard.com>
- <CAD=FV=W-+aS25wtnSmF8tWSDHTdNCjbFj0x02-1iqZ2p5qYzyA@mail.gmail.com>
- <YFpgfBW+U5R6urk0@pendragon.ideasonboard.com>
- <CAD=FV=W76DXDsy_Ug5cQUVUfz18MzYp92hPKOiRm3Hf1jknPgQ@mail.gmail.com>
- <YFpznvA/m3KfEEqz@pendragon.ideasonboard.com>
-In-Reply-To: <YFpznvA/m3KfEEqz@pendragon.ideasonboard.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 25 Mar 2021 17:43:22 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WoivERNCXtCa6UFix6e+K5JZpXca_ipnEwtA4rkSLgZA@mail.gmail.com>
-Message-ID: <CAD=FV=WoivERNCXtCa6UFix6e+K5JZpXca_ipnEwtA4rkSLgZA@mail.gmail.com>
-Subject: Re: [RFC PATCH 03/11] drm/bridge: ti-sn65dsi86: Unregister AUX
- adapter in remove()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 25 Mar 2021 17:57:56 -0700
+Message-ID: <CAF6AEGvmiMKRms_NVavD=NA_jbuexZUcqqL35ke7umqpp-TxMw@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-fixes-2021-02-25 for v5.12-rc5
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,92 +57,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, linux-renesas-soc@vger.kernel.org,
- Andrzej Hajda <a.hajda@samsung.com>
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, jordan@cosmicpenguin.net,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Dave & Daniel,
 
-On Tue, Mar 23, 2021 at 4:03 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Doug,
->
-> On Tue, Mar 23, 2021 at 03:55:05PM -0700, Doug Anderson wrote:
-> > On Tue, Mar 23, 2021 at 2:42 PM Laurent Pinchart wrote:
-> > > On Tue, Mar 23, 2021 at 02:08:42PM -0700, Doug Anderson wrote:
-> > > > On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart wrote:
-> > > > >
-> > > > > The AUX adapter registered in probe() need to be unregistered in
-> > > > > remove(). Do so.
-> > > > >
-> > > > > Fixes: b814ec6d4535 ("drm/bridge: ti-sn65dsi86: Implement AUX channel")
-> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 3 +++
-> > > > >  1 file changed, 3 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > > index da78a12e58b5..c45420a50e73 100644
-> > > > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > > @@ -1307,6 +1307,9 @@ static int ti_sn_bridge_remove(struct i2c_client *client)
-> > > > >                 return -EINVAL;
-> > > > >
-> > > > >         kfree(pdata->edid);
-> > > > > +
-> > > > > +       drm_dp_aux_unregister(&pdata->aux);
-> > > > > +
-> > > > >         ti_sn_debugfs_remove(pdata);
-> > > > >
-> > > > >         of_node_put(pdata->host_node);
-> > > >
-> > > > Good catch. One question, though. I know DRM sometimes has different
-> > > > conventions than the rest of the kernel, but I always look for the
-> > > > "remove" to be backwards of probe. That means that your code (and
-> > > > probably most of the remove function) should come _after_ the
-> > > > drm_bridge_remove(), right?  ...since drm_bridge_add() was the last
-> > > > thing in probe then drm_bridge_remove() should be the first thing in
-> > > > remove?
-> > >
-> > > I agree in theory, yes. However, in practice, if you remove a bridge
-> > > that is currently in use, all hell will break lose. And if the bridge
-> > > isn't being used, it makes no difference. Still, it's worth changing the
-> > > order of operations to move drm_bridge_remove() first, as it won't hurt
-> > > in any case and is logically better. It's not an issue introduced by
-> > > this series though, so how how about it on top, or in parallel ?
-> >
-> > Sure, it can be a separate patch. I'd kinda prefer it be a patch
-> > _before_ ${SUBJECT} patch, though. Specifically it's harder for me to
-> > reason about whether your new function call is in the right place and
-> > won't cause any problems with the order being all jumbled. If we fix
-> > the order first then it's easy to reason about your patch.
-> >
-> > > You can
-> > > even submit a patch if you want :-)
-> >
-> > Happy to post it up if it won't cause more confusion w/ you posting
-> > your next version and trying to figure out what to base it on (since
-> > it will definitely conflict with your series).
->
-> I'll need quite a bit of time before v2, as I'd like to test it, and
-> that requires finishing support for the DSI bridge and the display
-> controller :-) Please feel free to post a patch if you have time, I
-> think it could get merged in drm-misc quite quickly.
+(resending one more time without git tag copy/paste fail)
 
-I haven't forgotten about this and I've got it written, but I'm trying
-to put it together with the work I'm doing to fix EDID reading and
-that's still going to take me a while longer. I'm out tomorrow but
-_hoping_ that I'll be able to at least get a new patch series (at
-least RFC quality) next week...
+A few fixes for v5.12
 
--Doug
+The following changes since commit 182b4a2d251305201b6f9cae29067f7112f05835:
+
+  drm/msm/dp: Add a missing semi-colon (2021-02-07 09:57:04 -0800)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/msm.git drm-msm-fixes-2021-02-25
+
+for you to fetch changes up to 627dc55c273dab308303a5217bd3e767d7083ddb:
+
+  drm/msm/disp/dpu1: icc path needs to be set before dpu runtime
+resume (2021-03-22 18:52:34 -0700)
+
+----------------------------------------------------------------
+Dmitry Baryshkov (4):
+      drm/msm/dsi: fix check-before-set in the 7nm dsi_pll code
+      drm/msm/dsi_pll_7nm: Solve TODO for multiplier frac_bits assignment
+      drm/msm/dsi_pll_7nm: Fix variable usage for pll_lockdet_rate
+      drm/msm: fix shutdown hook in case GPU components failed to bind
+
+Douglas Anderson (1):
+      drm/msm: Fix speed-bin support not to access outside valid memory
+
+Fabio Estevam (1):
+      drm/msm: Fix suspend/resume on i.MX5
+
+Jonathan Marek (1):
+      drm/msm: fix a6xx_gmu_clear_oob
+
+Jordan Crouse (1):
+      drm/msm: a6xx: Make sure the SQE microcode is safe
+
+Kalyan Thota (1):
+      drm/msm/disp/dpu1: icc path needs to be set before dpu runtime resume
+
+Konrad Dybcio (1):
+      drm/msm/adreno: a5xx_power: Don't apply A540 lm_setup to other GPUs
+
+Rob Clark (1):
+      drm/msm: Ratelimit invalid-fence message
+
+Stephen Boyd (2):
+      drm/msm/kms: Use nested locking for crtc lock instead of custom classes
+      drm/msm/dp: Restore aux retry tuning logic
+
+ drivers/gpu/drm/msm/adreno/a5xx_power.c   |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c     |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 108 ++++++++++++++++++++----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c   |  12 ++--
+ drivers/gpu/drm/msm/dp/dp_aux.c           |   7 ++
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll.c     |   2 +-
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll.h     |   6 +-
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c |  11 +--
+ drivers/gpu/drm/msm/msm_atomic.c          |   7 +-
+ drivers/gpu/drm/msm/msm_drv.c             |  12 ++++
+ drivers/gpu/drm/msm/msm_fence.c           |   2 +-
+ drivers/gpu/drm/msm/msm_kms.h             |   8 +--
+ 12 files changed, 119 insertions(+), 60 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
