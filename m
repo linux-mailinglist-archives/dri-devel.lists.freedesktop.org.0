@@ -1,56 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730FC34A814
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 14:28:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A38D334A81C
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 14:31:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ECC46F3D0;
-	Fri, 26 Mar 2021 13:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 039CF6F3D8;
+	Fri, 26 Mar 2021 13:31:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDED26F3D0
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 13:28:54 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 815DE61A10
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 13:28:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616765334;
- bh=idlY0OOC2G/7+K57qD2clITH3gJ6EM+B/3bSF2CSJ94=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=KCI06IvU9HqIAsF2VhSuekEMskGfeuN6r2rnMXZix2MN8A8nEWzuexmjRrYl1V5oI
- IOA3nOOEHLpHUThcLDXVOQy541r5TxarZhoAH+8ewIehXCkIWkpX00WjdVqRYP/oGa
- 4njDRGno+rRgh0+BqOA6Rbsz4ocAVuj34YyXhvtDfQFCDAffHkY5iJ8f/+JRgYwl6G
- LUWBkXemRK0MPRE295w4ckkoppCwirZG0LYgjCOqw2o4e+o8CXd7+c5PEjU/8j1rb/
- VGUPhX/X/C74t9d/DSkSGvrSCk7qTOu/ZlwWbNPLBv20dnFJfyyFhett+uYEWsfAux
- +3q+CbNdinalw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 7263662AB6; Fri, 26 Mar 2021 13:28:54 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212449] DDC requires amdgpu.dc=0, HDMI sound requires
- amdgpu.dc=1. Make them work together!
-Date: Fri, 26 Mar 2021 13:28:54 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-212449-2300-iGR1PlIsQ0@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212449-2300@https.bugzilla.kernel.org/>
-References: <bug-212449-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 214A56F3D8;
+ Fri, 26 Mar 2021 13:31:24 +0000 (UTC)
+IronPort-SDR: PtOjnimDqOWKNuKEDUkN7if51K9oPSaI4tDWL1pk4bolRUIptaHTnLxM9CmjenrfDkh1hgIIRW
+ YrswPcOXvvPQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9934"; a="170522032"
+X-IronPort-AV: E=Sophos;i="5.81,280,1610438400"; d="scan'208";a="170522032"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2021 06:31:23 -0700
+IronPort-SDR: T0OzkN48/3SWyo7z/SaHQVmt4RqLnbZ7h9rTCjSFVfSKIf1Imezn6FdLiegZ7somNvbdHSy2VI
+ n30EOOVG3oyA==
+X-IronPort-AV: E=Sophos;i="5.81,280,1610438400"; d="scan'208";a="416534742"
+Received: from mpaulits-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.55.191])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2021 06:31:19 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PULL] topic/i915-gem-next
+In-Reply-To: <YF24MHoOSjpKFEXA@phenom.ffwll.local>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <YF24MHoOSjpKFEXA@phenom.ffwll.local>
+Date: Fri, 26 Mar 2021 15:31:17 +0200
+Message-ID: <874kgy2g9m.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,28 +48,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=212449
+On Fri, 26 Mar 2021, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> The rough plan we discussed somewhat ad-hoc with Jani&Rodrigo (Joonas was
+> out this week, but back next) is that they send out a pull with what's
+> there right now. Then once both this branch here and the -gt-next pull are
+> in drm-next they will backmerge, and the -gt-next tree is open for
+> business again.
 
-Alex Deucher (alexdeucher@gmail.com) changed:
+I guess worth noting is that drm-intel-gt-next is now rebased on top of
+current drm-next. Since the topic branch is part of drm-tip, I presume
+the conflicts are manageable.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |alexdeucher@gmail.com
-
---- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
-When DC is enabled the i2c buses are also exposed.  Maybe you are just not
-using the right i2c bus?
+BR,
+Jani.
 
 -- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
