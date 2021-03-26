@@ -1,78 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63B8C34ACCE
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 17:48:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A0D34ACFD
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 18:00:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48C686F440;
-	Fri, 26 Mar 2021 16:48:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C04AB6F448;
+	Fri, 26 Mar 2021 17:00:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7C266F43E
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 16:48:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616777289;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BkdR1T1uPv8mnu8KNjLkLEgVWg/xAsY81p0HVWmIrkw=;
- b=fYB4mnvC6zsTIv5Y/U8XoI1mwE103CNGC99258YTfNvulJPoUdIM5UA3sn1otrlV5vHot+
- Zpc79sTQmcVuVJsb6iumJaSVP2tFKY8gG+9pG4Wk5sc5XiK8VHHipj0cMVNd7nfSqqXRiZ
- QUUIWm6EM+D6RlVrWP9eb60WnyfeJks=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-dRmBrx5DO1ujIOeTH4koKg-1; Fri, 26 Mar 2021 12:48:07 -0400
-X-MC-Unique: dRmBrx5DO1ujIOeTH4koKg-1
-Received: by mail-qt1-f199.google.com with SMTP id l11so5522780qtk.2
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 09:48:07 -0700 (PDT)
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B3F26F448
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 17:00:19 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ k14-20020a9d7dce0000b02901b866632f29so5859340otn.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 10:00:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=CCaRlm60DD1kgv4TpSY/S1ZCm/90uPl6VPbIULsGo/Q=;
+ b=Ph9WGOI6IFMt46qfPACyUI6rVzEWOqAiJsBIx6lTvH15NePGAC5IJDbGR557qcapfD
+ peacnYb/4uE88Zb6RCQylrHnQSlqI4RkIxP+EDEnzICST8hjm8LOQ7z4n9akr8O8JjlL
+ I+uHsD30PMZXRPkNqOeU9atnxuKLJj63w1mNvEoKLeXrTrEMn+201JCJr0NkU2y39j+3
+ Vo9MvE2vdYtsNXOMg+R3fE7CMU8IzU5kNqoQI3fHEhrCKXjTTh/wzBMpWW46Kfqb0aTQ
+ fIC7qlFVeQPhHsr+8x7C6h5yfMwfI534oLQD1GvgtnGqiY8GUzpBX+KgmYS+wPp9nXON
+ FOMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=BkdR1T1uPv8mnu8KNjLkLEgVWg/xAsY81p0HVWmIrkw=;
- b=rqch7vygRbyxldwruAsTBlfmDY+zs4RLUWajIggjPzbgu3E5COevjC+jS7f+ieVVTD
- yz+TZQwYPRv5cbfcYz+PznW4dMH1v0Epumgif8MGfr2C+e4HLJB8TABk3c8CgQQTn9ae
- I7AI/A4JHZ3bqt/o2NVaX+FGBw6BBxhVsYku0YSdJaY8EM74zJ+l9g7fosT+8MKVO4Ze
- W4kdIYTkem8DsiyTNHgAUPHtWLsKuiaHkf+B7BbXNc4s0l61lSL6CXE1rLTcpbVdLH4e
- FxgcSWB2BhFS44ne5M5RqUnF5QK2jk2p+mDQKoUDc5YTODHdekgJ6myMDlHo7vIlvdJ6
- msfw==
-X-Gm-Message-State: AOAM532uyRuVjrWw1lFdesI3sNw18Slr69tgTdMMtyEgM52SnacpkfOI
- Lv0Oty5vXTztcmpBwMfpMaE6UBshGuwOlhTAgngzFDZhnol1YelvqHfE3MxobgAolVKQXjWCalY
- E/efTLkJK1duqghMHAEdAf7S5+yX6
-X-Received: by 2002:a05:6214:d65:: with SMTP id
- 5mr14196038qvs.56.1616777287311; 
- Fri, 26 Mar 2021 09:48:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzAFRkWEj3XbJSSHVRt23xrjp3jS01t8oLYaQsh+Ee5DWbsUtdJIWCAKeqrdEktkWr0Gk8e8w==
-X-Received: by 2002:a05:6214:d65:: with SMTP id
- 5mr14196020qvs.56.1616777287031; 
- Fri, 26 Mar 2021 09:48:07 -0700 (PDT)
-Received: from Whitewolf.lyude.net
- (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id d2sm6985168qkk.42.2021.03.26.09.48.06
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=CCaRlm60DD1kgv4TpSY/S1ZCm/90uPl6VPbIULsGo/Q=;
+ b=Heqd2qlu48MyNCUlDAqL7B0zBBM9TBsyM+8Bm6XN557lCraWcX/eI48of/tBCU9NtM
+ Ed5YJxXi31UfzK/Piy0Fd9gRH6TNWTNXdvHevUKloubjltJ+Ytr7xsjznne3Rn6hrGi0
+ 8i8CHJG8KpllmMEs9Z5vNYTqE7jM76OGUfDbtbDSJK9POffuKuOiunH3mKVosq0klIG7
+ 7Bu7dHhVq4jP2TSiKXWdr3Zco1raEfx5NoCLHoVBSQ/kVAiooMCToDRUP7RF75KqtzRY
+ cY/85a/WFvy7k8BuINf8pEp6DhC9FVQQAF0c5CSbWYTIjamUtaz2TFPUcp0ji/i38+Zi
+ 0Iyg==
+X-Gm-Message-State: AOAM533xAhZFoleFabgUn2PFhN/qkGvyVLkHQikEHC8mEFTY+OXvoWko
+ buXZVbU+JgKBYrb7vPCJQtmhCg==
+X-Google-Smtp-Source: ABdhPJyd52yvBnKopMqwJXudg77BvNjPS7YnMNISPevFhSu6C7Esh7bNl/4ZziDgxSIyCj73omNQzw==
+X-Received: by 2002:a9d:7d13:: with SMTP id v19mr12989397otn.370.1616778018671; 
+ Fri, 26 Mar 2021 10:00:18 -0700 (PDT)
+Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id u1sm2173541otj.43.2021.03.26.10.00.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Mar 2021 09:48:06 -0700 (PDT)
-Message-ID: <c968b11cd2004a3e581a9d47d5ae665d2df2eabd.camel@redhat.com>
-Subject: Re: [PATCH] drm: Update MST First Link Slot Information Based on
- Encoding Format
-From: Lyude Paul <lyude@redhat.com>
-To: Fangzhi Zuo <Jerry.Zuo@amd.com>, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org
-Date: Fri, 26 Mar 2021 12:48:05 -0400
-In-Reply-To: <20210326031416.2166481-1-Jerry.Zuo@amd.com>
-References: <20210326031416.2166481-1-Jerry.Zuo@amd.com>
-Organization: Red Hat
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
+ Fri, 26 Mar 2021 10:00:18 -0700 (PDT)
+Date: Fri, 26 Mar 2021 12:00:16 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [RFC PATCH 1/3] dt-bindings: display: simple: Add the panel on
+ sc7180-trogdor-pompom
+Message-ID: <20210326170016.GB904837@yoga>
+References: <20210316140707.RFC.1.I3a21995726282f1e9fcb70da5eb96f19ed96634f@changeid>
+ <YFKQaXOmOwYyeqvM@google.com>
+ <CAF6AEGtu+GBwYfkH3x=UuPs5Ouj0TxqbVjpjFEtMKKWvd1-Gbg@mail.gmail.com>
+ <YF3V8d4wB6i81fLN@orome.fritz.box>
+ <CAF6AEGvS6Pnd-m-boqPEZdDY+VCkV5M8Ob9n6UiYWs_DxrPopQ@mail.gmail.com>
+ <CAF6AEGvPN90RGP8hYXtAksJpGc4Sf5tRpNwNnV6=sxKei0Ms6A@mail.gmail.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <CAF6AEGvPN90RGP8hYXtAksJpGc4Sf5tRpNwNnV6=sxKei0Ms6A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,178 +74,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: Rodrigo.Siqueira@amd.com, wayne.lin@amd.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Nicolas Boichat <drinkcat@chromium.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Andy Gross <agross@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Matthias Kaehlcke <mka@chromium.org>,
+ Steev Klimaszewski <steev@kali.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMDIxLTAzLTI1IGF0IDIzOjE0IC0wNDAwLCBGYW5nemhpIFp1byB3cm90ZToKPiA4
-Yi8xMGIgZW5jb2RpbmcgZm9ybWF0IHJlcXVpcmVzIHRvIHJlc2VydmUgdGhlIGZpcnN0IHNsb3Qg
-Zm9yCj4gcmVjb3JkaW5nIG1ldGFkYXRhLiBSZWFsIGRhdGEgdHJhbnNtaXNzaW9uIHN0YXJ0cyBm
-cm9tIHRoZSBzZWNvbmQgc2xvdCwKPiB3aXRoIGEgdG90YWwgb2YgYXZhaWxhYmxlIDYzIHNsb3Rz
-IGF2YWlsYWJsZS4KPiAKPiBJbiAxMjhiLzEzMmIgZW5jb2RpbmcgZm9ybWF0LCBtZXRhZGF0YSBp
-cyB0cmFuc21pdHRlZCBzZXBhcmF0ZWx5Cj4gaW4gTExDUCBwYWNrZXQgYmVmb3JlIE1UUC4gUmVh
-bCBkYXRhIHRyYW5zbWlzc2lvbiBzdGFydHMgZnJvbQo+IHRoZSBmaXJzdCBzbG90LCB3aXRoIGEg
-dG90YWwgb2YgNjQgc2xvdHMgYXZhaWxhYmxlLgo+IAo+IFVwZGF0ZSB0aGUgc2xvdCBpbmZvcm1h
-dGlvbiBhZnRlciBsaW5rIGRldGVjdC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBGYW5nemhpIFp1byA8
-SmVycnkuWnVvQGFtZC5jb20+Cj4gLS0tCj4gwqBkcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90
-b3BvbG9neS5jIHwgNDggKysrKysrKysrKysrKysrKysrKysrKy0tLS0tCj4gwqBpbmNsdWRlL2Ry
-bS9kcm1fZHBfbXN0X2hlbHBlci5owqDCoMKgwqDCoMKgIHzCoCA4ICsrKysrCj4gwqAyIGZpbGVz
-IGNoYW5nZWQsIDQ3IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMKPiBiL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMKPiBpbmRleCA0MmEwYzY4ODhjMzMuLjU3N2VkNDIy
-NDc3OCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5j
-Cj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+IEBAIC0zMzgy
-LDcgKzMzODIsNyBAQCBpbnQgZHJtX2RwX3VwZGF0ZV9wYXlsb2FkX3BhcnQxKHN0cnVjdAo+IGRy
-bV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IpCj4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1f
-ZHBfcGF5bG9hZCByZXFfcGF5bG9hZDsKPiDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGRybV9kcF9t
-c3RfcG9ydCAqcG9ydDsKPiDCoMKgwqDCoMKgwqDCoMKgaW50IGksIGo7Cj4gLcKgwqDCoMKgwqDC
-oMKgaW50IGN1cl9zbG90cyA9IDE7Cj4gK8KgwqDCoMKgwqDCoMKgaW50IGN1cl9zbG90cyA9IG1n
-ci0+Zmlyc3RfbGlua19zdGFydF9zbG90Owo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoG11dGV4X2xv
-Y2soJm1nci0+cGF5bG9hZF9sb2NrKTsKPiDCoMKgwqDCoMKgwqDCoMKgZm9yIChpID0gMDsgaSA8
-IG1nci0+bWF4X3BheWxvYWRzOyBpKyspIHsKPiBAQCAtNDMwMiw4ICs0MzAyLDEzIEBAIGludCBk
-cm1fZHBfZmluZF92Y3BpX3Nsb3RzKHN0cnVjdAo+IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyICpt
-Z3IsCj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgbnVtX3Nsb3RzID0gRElWX1JPVU5EX1VQKHBibiwg
-bWdyLT5wYm5fZGl2KTsKPiDCoAo+IC3CoMKgwqDCoMKgwqDCoC8qIG1heC4gdGltZSBzbG90cyAt
-IG9uZSBzbG90IGZvciBNVFAgaGVhZGVyICovCj4gLcKgwqDCoMKgwqDCoMKgaWYgKG51bV9zbG90
-cyA+IDYzKQo+ICvCoMKgwqDCoMKgwqDCoC8qKgo+ICvCoMKgwqDCoMKgwqDCoCAqIGZpcnN0X2xp
-bmtfdG90YWxfYXZhaWxfc2xvdHM6IG1heC4gdGltZSBzbG90cwo+ICvCoMKgwqDCoMKgwqDCoCAq
-IGZpcnN0IHNsb3QgcmVzZXJ2ZWQgZm9yIE1UUCBoZWFkZXIgaW4gOGIvMTBiLAo+ICvCoMKgwqDC
-oMKgwqDCoCAqIGJ1dCBub3QgcmVxdWlyZWQgZm9yIDEyOGIvMTMyYgo+ICvCoMKgwqDCoMKgwqDC
-oCAqLwo+ICsKPiArwqDCoMKgwqDCoMKgwqBpZiAobnVtX3Nsb3RzID4gbWdyLT5maXJzdF9saW5r
-X3RvdGFsX2F2YWlsX3Nsb3RzKQoKVGhpcyBpcyBkZXByZWNhdGVkIGNvZGUsIGFzIGluZGljYXRl
-ZCBpbiB0aGUgY29tbWVudHMgZm9yIHRoaXMgZnVuY3Rpb24uIFdlCnJlYWxseSBzaG91bGRuJ3Qg
-YmUgdXBkYXRpbmcgdGhpcyBpbWhvLgoKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oHJldHVybiAtRU5PU1BDOwo+IMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gbnVtX3Nsb3RzOwo+IMKg
-fQo+IEBAIC00MzE0LDggKzQzMTksMTIgQEAgc3RhdGljIGludCBkcm1fZHBfaW5pdF92Y3BpKHN0
-cnVjdAo+IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IsCj4gwqB7Cj4gwqDCoMKgwqDCoMKg
-wqDCoGludCByZXQ7Cj4gwqAKPiAtwqDCoMKgwqDCoMKgwqAvKiBtYXguIHRpbWUgc2xvdHMgLSBv
-bmUgc2xvdCBmb3IgTVRQIGhlYWRlciAqLwo+IC3CoMKgwqDCoMKgwqDCoGlmIChzbG90cyA+IDYz
-KQo+ICvCoMKgwqDCoMKgwqDCoC8qKgo+ICvCoMKgwqDCoMKgwqDCoCAqIGZpcnN0X2xpbmtfdG90
-YWxfYXZhaWxfc2xvdHM6IG1heC4gdGltZSBzbG90cwo+ICvCoMKgwqDCoMKgwqDCoCAqIGZpcnN0
-IHNsb3QgcmVzZXJ2ZWQgZm9yIE1UUCBoZWFkZXIgaW4gOGIvMTBiLAo+ICvCoMKgwqDCoMKgwqDC
-oCAqIGJ1dCBub3QgcmVxdWlyZWQgZm9yIDEyOGIvMTMyYgo+ICvCoMKgwqDCoMKgwqDCoCAqLwo+
-ICvCoMKgwqDCoMKgwqDCoGlmIChzbG90cyA+IG1nci0+Zmlyc3RfbGlua190b3RhbF9hdmFpbF9z
-bG90cykKCndoeSBhcmUgdGhlc2Uga2VybmVsIGRvY3M/IHB1dHRpbmcga2RvY3MgaW4gdGhlIG1p
-ZGRsZSBvZiBhIGZ1bmN0aW9uIGRvZXNuJ3QgZG8KYW55dGhpbmcKCj4gwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gLUVOT1NQQzsKPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqB2
-Y3BpLT5wYm4gPSBwYm47Cj4gQEAgLTQ0ODgsNiArNDQ5NywyNSBAQCBpbnQgZHJtX2RwX2F0b21p
-Y19yZWxlYXNlX3ZjcGlfc2xvdHMoc3RydWN0Cj4gZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUsCj4g
-wqB9Cj4gwqBFWFBPUlRfU1lNQk9MKGRybV9kcF9hdG9taWNfcmVsZWFzZV92Y3BpX3Nsb3RzKTsK
-PiDCoAo+ICsvKgo+ICsgKiBkcm1fZHBfbXN0X3VwZGF0ZV9maXJzdF9saW5rX3Nsb3RfaW5mbygp
-Cj4gKyAqwqAgdXBkYXRlIHRoZSBmaXJzdCBsaW5rJ3MgdG90YWwgYXZhaWxhYmxlIHNsb3RzIGFu
-ZCBzdGFydGluZyBzbG90Cj4gKyAqIEBtZ3I6IG1hbmFnZXIgdG8gc3RvcmUgdGhlIHNsb3QgaW5m
-by4KPiArICogQGVuY29kaW5nX2Zvcm1hdDogZGV0ZWN0ZWQgbGluayBlbmNvZGluZyBmb3JtYXQK
-ClRoZXNlIGtlcm5lbCBkb2NzIGFyZW4ndCBwcm9wZXJseSBmb3JtYXR0ZWQsIGZvbGxvdyB0aGUg
-ZXhhbXBsZXMgaW4gdGhlIHJlc3Qgb2YKdGhlIGZpbGU6CgovKioKICogZnVuY3Rpb24oKSAtIHN1
-bW1hcnkKICogQG1ncjogc29tZXRoaW5nIHNvbWV0aGluZwogKiDigKYKICovCgo+ICsgKi8KPiAr
-dm9pZCBkcm1fZHBfbXN0X3VwZGF0ZV9maXJzdF9saW5rX3Nsb3RfaW5mbygKPiArwqDCoMKgwqDC
-oMKgwqBzdHJ1Y3QgZHJtX2RwX21zdF90b3BvbG9neV9tZ3IgKm1nciwgdWludDhfdCBlbmNvZGlu
-Z19mb3JtYXQpCgpVc2UgdTgsIHRoZSBrZXJuZWwgZGlzY291cmFnZXMgdXNpbmcgdGhlIGxvbmdl
-ciB0eXBlbmFtZXMgb3V0c2lkZSBvZiB1YXBpCmhlYWRlcnMuIEFsc28gdGhpcyBpc24ndCBpbmRl
-bnRlZCBjb3JyZWN0bHkgLSB0aGUga2VybmVsIGRvZXNuJ3QgYnJlYWsgYXQgdGhlCnN0YXJ0aW5n
-IHBhcmVudGhlc2lzIGZvciBmdW5jdGlvbiBkZWZpbml0aW9ucy4gVGhpcyBzaG91bGQgYmUgc29t
-ZXRoaW5nIGxpa2UKCmRybV9kcF9tc3RfdXBkYXRlX2ZpcnN0X2xpbmtfc2xvdF9pbmZvKHN0cnVj
-dCBkcm1fZHBfbXN0X3RvcG9sb2d5X21nciAqbWdyLAogICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICB1OCBlbmNvZGluZ19mb3JtYXQpCgpBbHNvLCB3aGVyZSBpcyB0aGlzIGZ1
-bmN0aW9uIGFjdHVhbGx5IHVzZWQ/IElmIGFtZGdwdSBpcyBpbnRlbmRpbmcgdG8gdXNlIHRoaXMs
-Cml0IHJlYWxseSBzaG91bGQgYmUgaW4gdGhlIHNhbWUgc2VyaWVzIHRoYXQgdGhpcyBpcyBpbnRy
-b2R1Y2VkIGluIHNvIHRoYXQgd2UgY2FuCnRlbGwgaWYgdGhlc2UgaGVscGVycyBhcmUgd2hhdCB3
-ZSByZWFsbHkgd2FudCBoZXJlIG9yIG5vdAoKPiArewo+ICvCoMKgwqDCoMKgwqDCoGlmIChlbmNv
-ZGluZ19mb3JtYXQgPT0gRFBfQ0FQX0FOU0lfMTI4QjEzMkIpIHsKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgbWdyLT5maXJzdF9saW5rX3RvdGFsX2F2YWlsX3Nsb3RzID0gNjQ7Cj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoG1nci0+Zmlyc3RfbGlua19zdGFydF9zbG90
-ID0gMDsKPiArwqDCoMKgwqDCoMKgwqB9Cj4gK8KgwqDCoMKgwqDCoMKgRFJNX0RFQlVHX0tNUygi
-JXMgZW5jb2RpbmcgZm9ybWF0IG9uIDB4JXAgLT4gdG90YWwgJWQgc2xvdHMsIHN0YXJ0IGF0Cj4g
-c2xvdCAlZFxuIiwKPiArwqDCoMKgwqDCoMKgwqAoZW5jb2RpbmdfZm9ybWF0ID09IERQX0NBUF9B
-TlNJXzEyOEIxMzJCKSA/ICIxMjhiLzEzMmIiOiI4Yi8xMGIiLAo+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqBtZ3IsIG1nci0+Zmlyc3RfbGlua190b3RhbF9hdmFpbF9zbG90cywgbWdy
-LQo+ID5maXJzdF9saW5rX3N0YXJ0X3Nsb3QpOwoKdGhlIGluZGVudGluZyBoZXJlIGlzIGVudGly
-ZWx5IGJyb2tlbiAtIHBsZWFzZSBmb2xsb3cgdGhlIHNhbWUgc3R5bGUgYXMgdGhlIHJlc3QKb2Yg
-dGhlIGZpbGUuIExpbmUgY29udGludWF0aW9ucyBuZWVkIHRvIHN0YXJ0IGF0IHRoZSBiZWdpbm5p
-bmcgcGFyZW50aGVzaXMsIGJ1dAp0aGUgbGluZXMgYWZ0ZXIgRFJNX0RFQlVHX0tNUygpIGRvbid0
-IGhhdmUgYW55IGFkZGl0aW9uYWwgaW5kZW50aW5nIGhlcmUuCgo+ICt9Cj4gK0VYUE9SVF9TWU1C
-T0woZHJtX2RwX21zdF91cGRhdGVfZmlyc3RfbGlua19zbG90X2luZm8pOwo+ICsKPiDCoC8qKgo+
-IMKgICogZHJtX2RwX21zdF9hbGxvY2F0ZV92Y3BpKCkgLSBBbGxvY2F0ZSBhIHZpcnR1YWwgY2hh
-bm5lbAo+IMKgICogQG1ncjogbWFuYWdlciBmb3IgdGhpcyBwb3J0Cj4gQEAgLTQ1MTgsOCArNDU0
-Niw4IEBAIGJvb2wgZHJtX2RwX21zdF9hbGxvY2F0ZV92Y3BpKHN0cnVjdAo+IGRybV9kcF9tc3Rf
-dG9wb2xvZ3lfbWdyICptZ3IsCj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgcmV0ID0gZHJtX2RwX2lu
-aXRfdmNwaShtZ3IsICZwb3J0LT52Y3BpLCBwYm4sIHNsb3RzKTsKPiDCoMKgwqDCoMKgwqDCoMKg
-aWYgKHJldCkgewo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBEUk1fREVCVUdfS01T
-KCJmYWlsZWQgdG8gaW5pdCB2Y3BpIHNsb3RzPSVkIG1heD02MyByZXQ9JWRcbiIsCj4gLcKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIERJVl9S
-T1VORF9VUChwYm4sIG1nci0+cGJuX2RpdiksIHJldCk7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoERSTV9ERUJVR19LTVMoImZhaWxlZCB0byBpbml0IHZjcGkgc2xvdHM9JWQgbWF4
-PSVkIHJldD0lZFxuIiwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoERJVl9ST1VORF9VUChwYm4sIG1nci0+cGJuX2RpdiksIG1nci0KPiA+Zmlyc3RfbGlu
-a190b3RhbF9hdmFpbF9zbG90cywgcmV0KTsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoGRybV9kcF9tc3RfdG9wb2xvZ3lfcHV0X3BvcnQocG9ydCk7Cj4gwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqBnb3RvIG91dDsKPiDCoMKgwqDCoMKgwqDCoMKgfQo+IEBAIC01MTYy
-LDcgKzUxOTAsNyBAQCBkcm1fZHBfbXN0X2F0b21pY19jaGVja192Y3BpX2FsbG9jX2xpbWl0KHN0
-cnVjdAo+IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IsCj4gwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgc3RydWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lfc3RhdGUKPiAqbXN0X3N0YXRlKQo+IMKg
-ewo+IMKgwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgZHJtX2RwX3ZjcGlfYWxsb2NhdGlvbiAqdmNwaTsK
-PiAtwqDCoMKgwqDCoMKgwqBpbnQgYXZhaWxfc2xvdHMgPSA2MywgcGF5bG9hZF9jb3VudCA9IDA7
-Cj4gK8KgwqDCoMKgwqDCoMKgaW50IGF2YWlsX3Nsb3RzID0gbWdyLT5maXJzdF9saW5rX3RvdGFs
-X2F2YWlsX3Nsb3RzLCBwYXlsb2FkX2NvdW50ID0KPiAwOwo+IMKgCj4gwqDCoMKgwqDCoMKgwqDC
-oGxpc3RfZm9yX2VhY2hfZW50cnkodmNwaSwgJm1zdF9zdGF0ZS0+dmNwaXMsIG5leHQpIHsKPiDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8qIFJlbGVhc2luZyBWQ1BJIGlzIGFsd2F5
-cyBPSy1ldmVuIGlmIHRoZSBwb3J0IGlzIGdvbmUgKi8KPiBAQCAtNTE5MSw3ICs1MjE5LDcgQEAg
-ZHJtX2RwX21zdF9hdG9taWNfY2hlY2tfdmNwaV9hbGxvY19saW1pdChzdHJ1Y3QKPiBkcm1fZHBf
-bXN0X3RvcG9sb2d5X21nciAqbWdyLAo+IMKgwqDCoMKgwqDCoMKgwqB9Cj4gwqDCoMKgwqDCoMKg
-wqDCoERSTV9ERUJVR19BVE9NSUMoIltNU1QgTUdSOiVwXSBtc3Qgc3RhdGUgJXAgVkNQSSBhdmFp
-bD0lZCB1c2VkPSVkXG4iLAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBtZ3IsIG1zdF9zdGF0ZSwgYXZhaWxfc2xvdHMsCj4gLcKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgNjMgLSBhdmFpbF9zbG90cyk7Cj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbWdyLT5maXJzdF9s
-aW5rX3RvdGFsX2F2YWlsX3Nsb3RzIC0gYXZhaWxfc2xvdHMpOwo+IMKgCj4gwqDCoMKgwqDCoMKg
-wqDCoHJldHVybiAwOwo+IMKgfQo+IEBAIC01NDU1LDYgKzU0ODMsOCBAQCBpbnQgZHJtX2RwX21z
-dF90b3BvbG9neV9tZ3JfaW5pdChzdHJ1Y3QKPiBkcm1fZHBfbXN0X3RvcG9sb2d5X21nciAqbWdy
-LAo+IMKgwqDCoMKgwqDCoMKgwqBpZiAoIW1nci0+cHJvcG9zZWRfdmNwaXMpCj4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gLUVOT01FTTsKPiDCoMKgwqDCoMKgwqDCoMKg
-c2V0X2JpdCgwLCAmbWdyLT5wYXlsb2FkX21hc2spOwo+ICvCoMKgwqDCoMKgwqDCoG1nci0+Zmly
-c3RfbGlua190b3RhbF9hdmFpbF9zbG90cyA9IDYzOwo+ICvCoMKgwqDCoMKgwqDCoG1nci0+Zmly
-c3RfbGlua19zdGFydF9zbG90ID0gMTsKPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqBtc3Rfc3RhdGUg
-PSBremFsbG9jKHNpemVvZigqbXN0X3N0YXRlKSwgR0ZQX0tFUk5FTCk7Cj4gwqDCoMKgwqDCoMKg
-wqDCoGlmIChtc3Rfc3RhdGUgPT0gTlVMTCkKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJt
-X2RwX21zdF9oZWxwZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9kcF9tc3RfaGVscGVyLmgKPiBpbmRl
-eCBiZDFjMzk5MDdiOTIuLmY0MzEwYjM3MDVlNyAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS9k
-cm1fZHBfbXN0X2hlbHBlci5oCj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2RwX21zdF9oZWxwZXIu
-aAo+IEBAIC02NTMsNiArNjUzLDEzIEBAIHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9sb2d5X21nciB7
-Cj4gwqDCoMKgwqDCoMKgwqDCoCAqLwo+IMKgwqDCoMKgwqDCoMKgwqBpbnQgcGJuX2RpdjsKPiDC
-oAo+ICvCoMKgwqDCoMKgwqDCoC8qKgo+ICvCoMKgwqDCoMKgwqDCoCAqIEBmaXJzdF9saW5rX3Rv
-dGFsX2F2YWlsX3Nsb3RzOiBmcmlzdCBsaW5rIHRvdGFsIHNsb3RzIGF2YWlsYWJsZS4KPiArwqDC
-oMKgwqDCoMKgwqAgKiBAZmlyc3RfbGlua19zdGFydF9zbG90OiBzdGFydCBzbG90IGluZGV4IGZv
-ciByZWFsIGRhdGEKPiB0cmFuc21pc3Npb24uCj4gK8KgwqDCoMKgwqDCoMKgICovCgpUaGVzZSBr
-ZXJuZWwgZG9jcyBhcmUgYWxzbyBicm9rZW4sIHlvdSBjYW4ndCBkZWZpbmUgdHdvIHZhcmlhYmxl
-cyBpbiB0aGUgc2FtZQprZXJuZWwgZG9jIGNvbW1lbnQgaWYgaXQncyBlbWJlZGRlZCBpbiB0aGUg
-c3RydWN0LCB0aGVyZSBoYXMgdG8gYmUgb25lIGtlcm5lbApkb2MgY29tbWVudCBwZXItbWVtYmVy
-LiBBdHRlbXB0aW5nIHRvIGdlbmVyYXRlIGRvY3VtZW50YXRpb24gd2l0aCBtYWtlIGh0bWxkb2Nz
-CmV2ZW4gbWVudGlvbnMgdGhpczoKCi4vaW5jbHVkZS9kcm0vZHJtX2RwX21zdF9oZWxwZXIuaDo3
-NzA6IHdhcm5pbmc6IEZ1bmN0aW9uIHBhcmFtZXRlciBvciBtZW1iZXIKJ2ZpcnN0X2xpbmtfc3Rh
-cnRfc2xvdCcgbm90IGRlc2NyaWJlZCBpbiAnZHJtX2RwX21zdF90b3BvbG9neV9tZ3InCgo+ICvC
-oMKgwqDCoMKgwqDCoHU4IGZpcnN0X2xpbmtfdG90YWxfYXZhaWxfc2xvdHM7Cj4gK8KgwqDCoMKg
-wqDCoMKgdTggZmlyc3RfbGlua19zdGFydF9zbG90Owo+ICsKPiDCoMKgwqDCoMKgwqDCoMKgLyoq
-Cj4gwqDCoMKgwqDCoMKgwqDCoCAqIEBmdW5jczogQXRvbWljIGhlbHBlciBjYWxsYmFja3MKPiDC
-oMKgwqDCoMKgwqDCoMKgICovCj4gQEAgLTc5NSw2ICs4MDIsNyBAQCBpbnQgZHJtX2RwX21zdF9n
-ZXRfdmNwaV9zbG90cyhzdHJ1Y3QKPiBkcm1fZHBfbXN0X3RvcG9sb2d5X21nciAqbWdyLCBzdHJ1
-Y3QgZHJtX2RwCj4gwqAKPiDCoHZvaWQgZHJtX2RwX21zdF9yZXNldF92Y3BpX3Nsb3RzKHN0cnVj
-dCBkcm1fZHBfbXN0X3RvcG9sb2d5X21nciAqbWdyLCBzdHJ1Y3QKPiBkcm1fZHBfbXN0X3BvcnQg
-KnBvcnQpOwo+IMKgCj4gK3ZvaWQgZHJtX2RwX21zdF91cGRhdGVfZmlyc3RfbGlua19zbG90X2lu
-Zm8oc3RydWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyCj4gKm1nciwgdWludDhfdCBlbmNvZGlu
-Z19mb3JtYXQpOwo+IMKgCj4gwqB2b2lkIGRybV9kcF9tc3RfZGVhbGxvY2F0ZV92Y3BpKHN0cnVj
-dCBkcm1fZHBfbXN0X3RvcG9sb2d5X21nciAqbWdyLAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgZHJtX2RwX21z
-dF9wb3J0ICpwb3J0KTsKCi0tIApTaW5jZXJlbHksCiAgIEx5dWRlIFBhdWwgKHNoZS9oZXIpCiAg
-IFNvZnR3YXJlIEVuZ2luZWVyIGF0IFJlZCBIYXQKICAgCk5vdGU6IEkgZGVhbCB3aXRoIGEgbG90
-IG9mIGVtYWlscyBhbmQgaGF2ZSBhIGxvdCBvZiBidWdzIG9uIG15IHBsYXRlLiBJZiB5b3UndmUK
-YXNrZWQgbWUgYSBxdWVzdGlvbiwgYXJlIHdhaXRpbmcgZm9yIGEgcmV2aWV3L21lcmdlIG9uIGEg
-cGF0Y2gsIGV0Yy4gYW5kIEkKaGF2ZW4ndCByZXNwb25kZWQgaW4gYSB3aGlsZSwgcGxlYXNlIGZl
-ZWwgZnJlZSB0byBzZW5kIG1lIGFub3RoZXIgZW1haWwgdG8gY2hlY2sKb24gbXkgc3RhdHVzLiBJ
-IGRvbid0IGJpdGUhCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+On Fri 26 Mar 10:24 CDT 2021, Rob Clark wrote:
+
+> On Fri, Mar 26, 2021 at 8:18 AM Rob Clark <robdclark@gmail.com> wrote:
+> >
+> > On Fri, Mar 26, 2021 at 5:38 AM Thierry Reding <thierry.reding@gmail.com> wrote:
+> > >
+> > > On Wed, Mar 17, 2021 at 06:53:04PM -0700, Rob Clark wrote:
+> > > > On Wed, Mar 17, 2021 at 4:27 PM Matthias Kaehlcke <mka@chromium.org> wrote:
+> > > > >
+> > > > > On Tue, Mar 16, 2021 at 02:08:19PM -0700, Douglas Anderson wrote:
+> > > > > > The sc7180-trogdor-pompom board might be attached to any number of a
+> > > > > > pile of eDP panels. At the moment I'm told that the list might include:
+> > > > > > - KD KD116N21-30NV-A010
+> > > > > > - KD KD116N09-30NH-A016
+> > > > > > - Starry 2081116HHD028001-51D
+> > > > > > - Sharp LQ116M1JW10
+> > > > > >
+> > > > > > It should be noted that while the EDID programmed in the first 3
+> > > > > > panels indicates that they should run with exactly the same timing (to
+> > > > > > keep things simple), the 4th panel not only needs different timing but
+> > > > > > has a different resolution.
+> > > > > >
+> > > > > > As is true in general with eDP panels, we can figure out which panel
+> > > > > > we have and all the info needed to drive its pixel clock by reading
+> > > > > > the EDID. However, we can do this only after we've powered the panel
+> > > > > > on. Powering on the panels requires following the timing diagram in
+> > > > > > each panel's datasheet which specifies delays between certain
+> > > > > > actions. This means that, while we can be quite dynamic about handling
+> > > > > > things we can't just totally skip out on describing the panel like we
+> > > > > > could do if it was connected to an external-facing DP port.
+> > > > > >
+> > > > > > While the different panels have slightly different delays, it's
+> > > > > > possible to come up with a set of unified delays that will work on all
+> > > > > > the panels. From reading the datasheets:
+> > > > > > * KD KD116N21-30NV-A010 and KD KD116N09-30NH-A016
+> > > > > >   - HPD absent delay: 200 ms
+> > > > > >   - Unprepare delay: 150 ms (datasheet is confusing, might be 500 ms)
+> > > > > > * Starry 2081116HHD028001-51D
+> > > > > >   - HPD absent delay: 100 ms
+> > > > > >   - Enable delay: (link training done till enable BL): 200 ms
+> > > > > >   - Unprepare delay: 500 ms
+> > > > > > * Sharp LQ116M1JW10
+> > > > > >   - HPD absent delay: 200 ms
+> > > > > >   - Unprepare delay: 500 ms
+> > > > > >   - Prepare to enable delay (power on till backlight): 100 ms
+> > > > > >
+> > > > > > Unified:
+> > > > > > - HPD absent delay: 200 ms
+> > > > > > - Unprepare delay: 500 ms
+> > > > > > - Enable delay: 200 ms
+> > > > > >
+> > > > > > NOTE: in theory the only thing that we _really_ need unity on is the
+> > > > > > "HPD absent delay" since once the panel asserts HPD we can read the
+> > > > > > EDID and could make per-panel decisions if we wanted.
+> > > > > >
+> > > > > > Let's create a definition of "a panel that can be attached to pompom"
+> > > > > > as a panel that provides a valid EDID and can work with the standard
+> > > > > > pompom power sequencing. If more panels are later attached to pompom
+> > > > > > then it's fine as long as they work in a compatible way.
+> > > > > >
+> > > > > > One might ask why we can't just use a generic string here and provide
+> > > > > > the timings directly in the device tree file. As I understand it,
+> > > > > > trying to describe generic power sequencing in the device tree is
+> > > > > > frowned upon and the one instance (SD/MMC) is regarded as a mistake
+> > > > > > that shouldn't be repeated. Specifying a power sequence per board (or
+> > > > > > per board class) feels like a reasonable compromise. We're not trying
+> > > > > > to define fully generic power sequence bindings but we can also take
+> > > > > > advantage of the semi-probable properties of the attached device.
+> > > > > >
+> > > > > > NOTE: I believe that past instances of supporting this type of thing
+> > > > > > have used the "white lie" approach. One representative panel was
+> > > > > > listed in the device tree. The power sequencings of this
+> > > > > > representative panel were OK to use across all panels that might be
+> > > > > > attached and other differences were handled by EDID. This patch
+> > > > > > attempts to set a new precedent and avoid the need for the white lie.
+> > > > > >
+> > > > > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > > > > > ---
+> > > > >
+> > > > > Sounds reasonable to me if DT maintainers can live with this abstract
+> > > > > hardware definition. It's clearer than the 'white lie' approach.
+> > > >
+> > > > Yeah, it is a weird grey area between "discoverable" and "not
+> > > > discoverable".. but I favor DT reflecting reality as much as
+> > > > possible/feasible, so I think this is definity cleaner than "white
+> > > > lies"
+> > >
+> > > This is practically no different than the "white lie". I suppose you
+> > > could perhaps call it "more honest", if you want.
+> > >
+> > > The point remains that unless we describe exactly which panel we're
+> > > dealing with, we ultimately have no way of properly quirking anything if
+> > > we ever have to. Also, once we allow this kind of wildcard we can
+> > > suddenly get into a situation where people might want to reuse this on
+> > > something that's not at all a google-pompom board because the same
+> > > particular power sequence happens to work on on some other board.
+> > >
+> > > Similarly I can imagine a situation where we could now have the same
+> > > panel supported by multiple different wildcard compatible strings. How
+> > > is that supposed to be any cleaner than what we have now?
+> > >
+> > > And I still keep wondering why bootloaders can't be taught about these
+> > > kinds of things. We have in the past discussed various solutions where
+> > > the bootloader could detect the type of panel connected and set the
+> > > proper compatible string.
+> >
+> > The bootloader cannot detect the panel without powering up the panel,
+> > which it normally does not do if you are not in dev-mode (it would add
+> > a significant amount of time to bootup, which is why we can't do this)
+> 
+> what if we had a sort of multi-choice panel node:
+> 
+>    panel: panel {
+>      compatible = "panel,one-of";
+>      compatible-one-of = "vendor1,panel-a", "vendor2,panel-b",
+> "vendor3,panel-c";
+>   };
+> 
+> The kernel could construct power sequence timings that are the
+> superset of all the possible panels.  That seems about as explicit as
+> we could get in this sort of case.
+> 
+
+Being able to express a "panel selector" like this would certainly be
+helpful in a number of phones, where a set of gpios or adc values are
+read to determine which panel is actually mounted.
+
+This is easier to do in the bootloader than your case, but the
+bootloaders I've seen doing this have a tendency to come with a
+dependency on the DT structure - which wouldn't match the upstream
+approved DT bindings...
+
+Regards,
+Bjorn
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
