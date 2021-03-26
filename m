@@ -1,55 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918BA34A7EC
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 14:16:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0D6534A7F3
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 14:19:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF5096F3C6;
-	Fri, 26 Mar 2021 13:16:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D429F6F3CB;
+	Fri, 26 Mar 2021 13:19:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8C3B6F3C9
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 13:16:12 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id x13so5592695wrs.9
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 06:16:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition
- :content-transfer-encoding;
- bh=sJjzEKEFCSgNWQwDFxAKD0nT75YoJFoSXLvecMXitls=;
- b=N4rxw3RmdKBEM7LMYR7N+r3Z3e8xlrVOOhSIkxhb43AnzaC+gt92Rm7ILq5N9GIwFS
- Ipm26UDT2xLxyarlNS4G8AOYZGvQxwRZbIvEs82cEa/0slwunFUsAes0a6D5ZVJtwP82
- NWTH8QCLuxQdSVUsawJTbrW0FADITQ84M7NbU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:content-transfer-encoding;
- bh=sJjzEKEFCSgNWQwDFxAKD0nT75YoJFoSXLvecMXitls=;
- b=dbdqzdCDPb5YbYJXa8N5FgXBQsGR0FIbiIqMEq4YN3hu8lqjJtzOTkW0HGOmmg5nvx
- NaF7etlQb0Kw6SYr3cQFnjVMnl4PgUAh3dKY7K7rNoANhBlW98Fc9Sh5kQErHYzDWRlp
- TkZyHFNu3rBgtJL+rrJmJz8aeOleehdg9kyQ22DT3ZneZxRIETLTEaf7pFhl5i1Umof/
- B/pXQ5OLTdH6yF+SWmGHZxWAVxl+8sonLeLqOMrFYARJYCp3zcynP3GZPPhzgyCDaqSf
- aJMSEZyXpI0zN+ruzMH3yAwQB3N229kwXvY3NTbSLA0ahYGFOlZnbtM983vrGrzmLG7z
- vi2g==
-X-Gm-Message-State: AOAM532cff/0RJvnaXiprvJ3kXBBx+W7T4D3opIloC0rQDrRdkkkPAiv
- 8JDqY2EVNbB/ZEXTTHuPuJXhcQ==
-X-Google-Smtp-Source: ABdhPJzWPE3BRVUzGK/4EGtzt/8rCy4CCFMEBTl0a3FlQS9lbNzmytzvZfDmaST1oCp+3uuSSFX0dg==
-X-Received: by 2002:a5d:4203:: with SMTP id n3mr14353686wrq.116.1616764571320; 
- Fri, 26 Mar 2021 06:16:11 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i3sm12009685wra.66.2021.03.26.06.16.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Mar 2021 06:16:10 -0700 (PDT)
-Date: Fri, 26 Mar 2021 14:16:04 +0100
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] topic/i915-gem-next
-Message-ID: <YF24MHoOSjpKFEXA@phenom.ffwll.local>
+Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net
+ [194.109.24.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39F476F3CB
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 13:19:10 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+ by smtp-cloud9.xs4all.net with ESMTPA
+ id PmMgl50VX43ycPmMkl3lwX; Fri, 26 Mar 2021 14:19:06 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+ t=1616764746; bh=XFwB8lNGG/PoztTlQE2ZWLxvoRXPfG2lERyMv+lwx/U=;
+ h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+ Subject;
+ b=EUWbdRR0eJy/r7qVDU9G25N9F4mIUXgZByurMVOhHFuhGFV0CP3lzEI1Ytz6zv4n8
+ vTuHIqxb6E/8LNmLHcTGSLEGuvRsdYdj8d/+WgQnWhgrowbhdDnIh57A28ZGviI+1N
+ +0jtjt28UQyHPgsVT1tebB50NY+uZGQuwe85/zQi5ObNFR17/+Ts/5EqwLwMwPvKAM
+ PwUWiUQQWq7MVQ3WDWfo2wgxA/9pOEzITLn+PWlH0nOLcXfq4kuT8PymjT4HFrI57m
+ 8OaXPrz4uz5oKkn0c/dJy8rcxjaQul5o/mRQqsEwaYd/hG1V4hn85GE8WKf18j7v04
+ iOQMm3HULZ7rg==
+To: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCHv2] drm/bridge: adv7511: fix support for large EDIDs
+Message-ID: <eeefa323-1273-10f9-0e26-0efc41ab8763@xs4all.nl>
+Date: Fri, 26 Mar 2021 14:19:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Disposition: inline
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+Content-Language: en-US
+X-CMAE-Envelope: MS4xfHFTotcOZlQvI4R+7yJnKTXZFDSrFYvOWA2ESOG/SfcZoNotP72IBOXXe4ctUCvvyU92x7YObpsD8mOWKV4TxXXtdeuyEk517hu9AUm669pd+6a838oY
+ huLrUrHFg9DwDTrtHrwnemlAZt7l6//HrmjM6WHEpYuNZNuG/Elw/IvVbgmC7x+ImHz8ISo3lVAgtXlS9Fd8pK82wXlGfRivugC8ChoFU67dkZbodaDuxbcx
+ bx7pIpY42HfoTP2KGdp2LrXHzCssCum/KQ5h2sl07ujLMjUwOBEYB8TOg38A8MFcIFkEC8RkZCKna9AQI/19qAXLQ0jBw8n7lw/7U7QgchM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,301 +50,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
-
-topic/i915-gem-next-2021-03-26:
-special i915-gem-next pull as requested
-
-- Conversion to dma_resv_locking, obj->mm.lock is gone (Maarten, with
-  help from Thomas Hellstr=F6m)
-- watchdog (Tvrtko, one patch to cancel individual request from Chris)
-- legacy ioctl cleanup (Jason+Ashutosh)
-- i915-gem TODO and RFC process doc (me)
-- i915_ prefix for vma_lookup (Liam Howlett) just because I spotted it
-  and put it in here too
-
-After this it's back to normal drm-intel-gt-next pull request flow.
-
-The rough plan we discussed somewhat ad-hoc with Jani&Rodrigo (Joonas was
-out this week, but back next) is that they send out a pull with what's
-there right now. Then once both this branch here and the -gt-next pull are
-in drm-next they will backmerge, and the -gt-next tree is open for
-business again.
-
-Ofc new rules apply, anything that lands in there should be cc: dri-devel
-and reviewed there, but I think that's working fairly well already.
-
-Jani/Rodrigo/Joonas, can you pls send out internal mail once that's done
-since I'm on vacation next week?
-
-Also I want to thank Maarten for sticking around for well over a year with
-the dma_resv locking rework, it's a huge thing, tons of work, but finally
-we have it merged.
-
-Cheers, Daniel
-
-The following changes since commit 06debd6e1b28029e6e77c41e59a162868f377897:
-
-  Merge tag 'drm-intel-next-2021-03-16' of git://anongit.freedesktop.org/dr=
-m/drm-intel into drm-next (2021-03-18 08:06:34 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/topic/i915-gem-next-2021-03-26
-
-for you to fetch changes up to e1a5e6a8c48bf99ea374fb3e535661cfe226bca4:
-
-  drm/doc: Add RFC section (2021-03-26 09:24:39 +0100)
-
-----------------------------------------------------------------
-special i915-gem-next pull as requested
-
-- Conversion to dma_resv_locking, obj->mm.lock is gone (Maarten, with
-  help from Thomas Hellstr=F6m)
-- watchdog (Tvrtko, one patch to cancel individual request from Chris)
-- legacy ioctl cleanup (Jason+Ashutosh)
-- i915-gem TODO and RFC process doc (me)
-- i915_ prefix for vma_lookup (Liam Howlett) just because I spotted it
-  and put it in here too
-
-----------------------------------------------------------------
-Ashutosh Dixit (1):
-      drm/i915: Disable pread/pwrite ioctl's for future platforms (v3)
-
-Chris Wilson (1):
-      drm/i915: Individual request cancellation
-
-Daniel Vetter (2):
-      drm/i915: add gem/gt TODO
-      drm/doc: Add RFC section
-
-Jason Ekstrand (2):
-      drm/i915/gem: Drop legacy execbuffer support (v2)
-      drm/i915/gem: Drop relocation support on all new hardware (v6)
-
-Liam Howlett (1):
-      i915_vma: Rename vma_lookup to i915_vma_lookup
-
-Maarten Lankhorst (62):
-      drm/i915: Do not share hwsp across contexts any more, v8.
-      drm/i915: Pin timeline map after first timeline pin, v4.
-      drm/i915: Move cmd parser pinning to execbuffer
-      drm/i915: Add missing -EDEADLK handling to execbuf pinning, v2.
-      drm/i915: Ensure we hold the object mutex in pin correctly.
-      drm/i915: Add gem object locking to madvise.
-      drm/i915: Move HAS_STRUCT_PAGE to obj->flags
-      drm/i915: Rework struct phys attachment handling
-      drm/i915: Convert i915_gem_object_attach_phys() to ww locking, v2.
-      drm/i915: make lockdep slightly happier about execbuf.
-      drm/i915: Disable userptr pread/pwrite support.
-      drm/i915: No longer allow exporting userptr through dma-buf
-      drm/i915: Reject more ioctls for userptr, v2.
-      drm/i915: Reject UNSYNCHRONIZED for userptr, v2.
-      drm/i915: Make compilation of userptr code depend on MMU_NOTIFIER.
-      drm/i915: Fix userptr so we do not have to worry about obj->mm.lock, =
-v7.
-      drm/i915: Flatten obj->mm.lock
-      drm/i915: Populate logical context during first pin.
-      drm/i915: Make ring submission compatible with obj->mm.lock removal, =
-v2.
-      drm/i915: Handle ww locking in init_status_page
-      drm/i915: Rework clflush to work correctly without obj->mm.lock.
-      drm/i915: Pass ww ctx to intel_pin_to_display_plane
-      drm/i915: Add object locking to vm_fault_cpu
-      drm/i915: Move pinning to inside engine_wa_list_verify()
-      drm/i915: Take reservation lock around i915_vma_pin.
-      drm/i915: Make lrc_init_wa_ctx compatible with ww locking, v3.
-      drm/i915: Make __engine_unpark() compatible with ww locking.
-      drm/i915: Take obj lock around set_domain ioctl
-      drm/i915: Defer pin calls in buffer pool until first use by caller.
-      drm/i915: Fix pread/pwrite to work with new locking rules.
-      drm/i915: Fix workarounds selftest, part 1
-      drm/i915: Add igt_spinner_pin() to allow for ww locking around spinne=
-r.
-      drm/i915: Add ww locking around vm_access()
-      drm/i915: Increase ww locking for perf.
-      drm/i915: Lock ww in ucode objects correctly
-      drm/i915: Add ww locking to dma-buf ops, v2.
-      drm/i915: Add missing ww lock in intel_dsb_prepare.
-      drm/i915: Fix ww locking in shmem_create_from_object
-      drm/i915: Use a single page table lock for each gtt.
-      drm/i915/selftests: Prepare huge_pages testcases for obj->mm.lock rem=
-oval.
-      drm/i915/selftests: Prepare client blit for obj->mm.lock removal.
-      drm/i915/selftests: Prepare coherency tests for obj->mm.lock removal.
-      drm/i915/selftests: Prepare context tests for obj->mm.lock removal.
-      drm/i915/selftests: Prepare dma-buf tests for obj->mm.lock removal.
-      drm/i915/selftests: Prepare execbuf tests for obj->mm.lock removal.
-      drm/i915/selftests: Prepare mman testcases for obj->mm.lock removal.
-      drm/i915/selftests: Prepare object tests for obj->mm.lock removal.
-      drm/i915/selftests: Prepare object blit tests for obj->mm.lock remova=
-l.
-      drm/i915/selftests: Prepare igt_gem_utils for obj->mm.lock removal
-      drm/i915/selftests: Prepare context selftest for obj->mm.lock removal
-      drm/i915/selftests: Prepare hangcheck for obj->mm.lock removal
-      drm/i915/selftests: Prepare execlists and lrc selftests for obj->mm.l=
-ock removal
-      drm/i915/selftests: Prepare mocs tests for obj->mm.lock removal
-      drm/i915/selftests: Prepare ring submission for obj->mm.lock removal
-      drm/i915/selftests: Prepare timeline tests for obj->mm.lock removal
-      drm/i915/selftests: Prepare i915_request tests for obj->mm.lock remov=
-al
-      drm/i915/selftests: Prepare memory region tests for obj->mm.lock remo=
-val
-      drm/i915/selftests: Prepare cs engine tests for obj->mm.lock removal
-      drm/i915/selftests: Prepare gtt tests for obj->mm.lock removal
-      drm/i915: Finally remove obj->mm.lock.
-      drm/i915: Keep userpointer bindings if seqcount is unchanged, v2.
-      drm/i915: Move gt_revoke() slightly
-
-Thomas Hellstr=F6m (1):
-      drm/i915: Prepare for obj->mm.lock removal, v2.
-
-Tvrtko Ursulin (6):
-      drm/i915: Extract active lookup engine to a helper
-      drm/i915: Restrict sentinel requests further
-      drm/i915: Handle async cancellation in sentinel assert
-      drm/i915: Request watchdog infrastructure
-      drm/i915: Fail too long user submissions by default
-      drm/i915: Allow configuring default request expiry via modparam
-
- Documentation/gpu/index.rst                        |   1 +
- Documentation/gpu/rfc/index.rst                    |  17 +
- drivers/gpu/drm/i915/Kconfig.profile               |  14 +
- drivers/gpu/drm/i915/Makefile                      |   1 -
- drivers/gpu/drm/i915/TODO.txt                      |  41 +
- drivers/gpu/drm/i915/display/intel_display.c       |  71 +-
- drivers/gpu/drm/i915/display/intel_display.h       |   2 +-
- drivers/gpu/drm/i915/display/intel_dsb.c           |   2 +-
- drivers/gpu/drm/i915/display/intel_fbdev.c         |   2 +-
- drivers/gpu/drm/i915/display/intel_overlay.c       |  34 +-
- drivers/gpu/drm/i915/gem/i915_gem_clflush.c        |  15 +-
- drivers/gpu/drm/i915/gem/i915_gem_context.c        |  73 +-
- drivers/gpu/drm/i915/gem/i915_gem_context_types.h  |   4 +
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c         |  64 +-
- drivers/gpu/drm/i915/gem/i915_gem_domain.c         |  72 +-
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     | 335 +++++---
- drivers/gpu/drm/i915/gem/i915_gem_fence.c          |  95 ---
- drivers/gpu/drm/i915/gem/i915_gem_internal.c       |   6 +-
- drivers/gpu/drm/i915/gem/i915_gem_ioctls.h         |   2 -
- drivers/gpu/drm/i915/gem/i915_gem_lmem.c           |   4 +-
- drivers/gpu/drm/i915/gem/i915_gem_mman.c           |  35 +-
- drivers/gpu/drm/i915/gem/i915_gem_object.c         |  10 +-
- drivers/gpu/drm/i915/gem/i915_gem_object.h         |  96 ++-
- drivers/gpu/drm/i915/gem/i915_gem_object_blt.c     |   6 +
- drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |  23 +-
- drivers/gpu/drm/i915/gem/i915_gem_pages.c          | 109 ++-
- drivers/gpu/drm/i915/gem/i915_gem_phys.c           | 110 ++-
- drivers/gpu/drm/i915/gem/i915_gem_pm.c             |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_region.c         |   4 +-
- drivers/gpu/drm/i915/gem/i915_gem_region.h         |   3 +-
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c          |  39 +-
- drivers/gpu/drm/i915/gem/i915_gem_shrinker.c       |  39 +-
- drivers/gpu/drm/i915/gem/i915_gem_shrinker.h       |   4 +-
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c         |  14 +-
- drivers/gpu/drm/i915/gem/i915_gem_tiling.c         |   2 -
- drivers/gpu/drm/i915/gem/i915_gem_userptr.c        | 902 ++++++++---------=
-----
- .../gpu/drm/i915/gem/selftests/huge_gem_object.c   |   4 +-
- drivers/gpu/drm/i915/gem/selftests/huge_pages.c    |  38 +-
- .../drm/i915/gem/selftests/i915_gem_client_blt.c   |   8 +-
- .../drm/i915/gem/selftests/i915_gem_coherency.c    |  14 +-
- .../gpu/drm/i915/gem/selftests/i915_gem_context.c  |  10 +-
- .../gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c   |   2 +-
- .../drm/i915/gem/selftests/i915_gem_execbuffer.c   |   2 +-
- drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |  21 +-
- .../gpu/drm/i915/gem/selftests/i915_gem_object.c   |   2 +-
- .../drm/i915/gem/selftests/i915_gem_object_blt.c   |   6 +-
- drivers/gpu/drm/i915/gem/selftests/i915_gem_phys.c |  10 +-
- drivers/gpu/drm/i915/gem/selftests/igt_gem_utils.c |   2 +-
- drivers/gpu/drm/i915/gt/gen2_engine_cs.c           |   2 +-
- drivers/gpu/drm/i915/gt/gen6_engine_cs.c           |   8 +-
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c           |  13 +-
- drivers/gpu/drm/i915/gt/intel_context_param.h      |  11 +-
- drivers/gpu/drm/i915/gt/intel_context_types.h      |   4 +
- drivers/gpu/drm/i915/gt/intel_engine_cs.c          |  38 +-
- drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c   |   1 +
- drivers/gpu/drm/i915/gt/intel_engine_pm.c          |   4 +
- .../gpu/drm/i915/gt/intel_execlists_submission.c   |  49 +-
- .../gpu/drm/i915/gt/intel_execlists_submission.h   |   2 +
- drivers/gpu/drm/i915/gt/intel_ggtt.c               |  10 +-
- drivers/gpu/drm/i915/gt/intel_gt.c                 |   3 +
- drivers/gpu/drm/i915/gt/intel_gt.h                 |   2 +
- drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c     |  47 +-
- drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.h     |   5 +
- .../gpu/drm/i915/gt/intel_gt_buffer_pool_types.h   |   1 +
- drivers/gpu/drm/i915/gt/intel_gt_requests.c        |  28 +
- drivers/gpu/drm/i915/gt/intel_gt_types.h           |  11 +-
- drivers/gpu/drm/i915/gt/intel_gtt.c                |  52 +-
- drivers/gpu/drm/i915/gt/intel_gtt.h                |   8 +
- drivers/gpu/drm/i915/gt/intel_lrc.c                |  49 +-
- drivers/gpu/drm/i915/gt/intel_ppgtt.c              |   3 +-
- drivers/gpu/drm/i915/gt/intel_renderstate.c        |   2 +-
- drivers/gpu/drm/i915/gt/intel_reset.c              |   9 +-
- drivers/gpu/drm/i915/gt/intel_ring_submission.c    | 184 +++--
- drivers/gpu/drm/i915/gt/intel_timeline.c           | 426 +++-------
- drivers/gpu/drm/i915/gt/intel_timeline.h           |   2 +
- drivers/gpu/drm/i915/gt/intel_timeline_types.h     |  17 +-
- drivers/gpu/drm/i915/gt/intel_workarounds.c        |  10 +-
- drivers/gpu/drm/i915/gt/mock_engine.c              |  22 +-
- drivers/gpu/drm/i915/gt/selftest_context.c         |   4 +-
- drivers/gpu/drm/i915/gt/selftest_engine_cs.c       |   9 +-
- drivers/gpu/drm/i915/gt/selftest_execlists.c       |  23 +-
- drivers/gpu/drm/i915/gt/selftest_hangcheck.c       |   8 +-
- drivers/gpu/drm/i915/gt/selftest_lrc.c             |  18 +-
- drivers/gpu/drm/i915/gt/selftest_mocs.c            |   5 +-
- drivers/gpu/drm/i915/gt/selftest_ring_submission.c |   4 +-
- drivers/gpu/drm/i915/gt/selftest_timeline.c        | 177 ++--
- drivers/gpu/drm/i915/gt/selftest_workarounds.c     |  82 +-
- drivers/gpu/drm/i915/gt/shmem_utils.c              |   2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc.c             |   2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.c         |   4 +-
- drivers/gpu/drm/i915/gt/uc/intel_huc.c             |   2 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           |   2 +-
- drivers/gpu/drm/i915/gvt/dmabuf.c                  |   2 +-
- drivers/gpu/drm/i915/i915_active.c                 |  20 +-
- drivers/gpu/drm/i915/i915_cmd_parser.c             | 104 +--
- drivers/gpu/drm/i915/i915_debugfs.c                |   4 +-
- drivers/gpu/drm/i915/i915_drv.c                    |   2 +-
- drivers/gpu/drm/i915/i915_drv.h                    |  18 +-
- drivers/gpu/drm/i915/i915_gem.c                    | 258 +++---
- drivers/gpu/drm/i915/i915_gem_gtt.c                |   2 +-
- drivers/gpu/drm/i915/i915_memcpy.c                 |   2 +-
- drivers/gpu/drm/i915/i915_memcpy.h                 |   2 +-
- drivers/gpu/drm/i915/i915_params.c                 |   5 +
- drivers/gpu/drm/i915/i915_params.h                 |   1 +
- drivers/gpu/drm/i915/i915_perf.c                   |  56 +-
- drivers/gpu/drm/i915/i915_request.c                | 133 ++-
- drivers/gpu/drm/i915/i915_request.h                |  47 +-
- drivers/gpu/drm/i915/i915_selftest.h               |   2 +
- drivers/gpu/drm/i915/i915_vma.c                    |  30 +-
- drivers/gpu/drm/i915/i915_vma.h                    |  20 +-
- drivers/gpu/drm/i915/selftests/i915_gem_gtt.c      |  94 ++-
- drivers/gpu/drm/i915/selftests/i915_request.c      | 211 ++++-
- drivers/gpu/drm/i915/selftests/igt_spinner.c       | 136 ++--
- drivers/gpu/drm/i915/selftests/igt_spinner.h       |   5 +
- .../gpu/drm/i915/selftests/intel_memory_region.c   |  18 +-
- drivers/gpu/drm/i915/selftests/mock_region.c       |   4 +-
- include/uapi/drm/i915_drm.h                        |   1 +
- 117 files changed, 2749 insertions(+), 2165 deletions(-)
- create mode 100644 Documentation/gpu/rfc/index.rst
- create mode 100644 drivers/gpu/drm/i915/TODO.txt
- delete mode 100644 drivers/gpu/drm/i915/gem/i915_gem_fence.c
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+V2hpbGUgdGVzdGluZyBzdXBwb3J0IGZvciBsYXJnZSAoPiAyNTYgYnl0ZXMpIEVESURzIG9uIHRo
+ZSBSZW5lc2FzCktvZWxzY2ggYm9hcmQgSSBub3RpY2VkIHRoYXQgdGhlIGFkdjc1MTEgYnJpZGdl
+IGRyaXZlciBvbmx5IHJlYWQgdGhlCmZpcnN0IHR3byBibG9ja3MuCgpUaGUgbWVkaWEgVjRMMiB2
+ZXJzaW9uIGZvciB0aGUgYWR2NzUxMSAoZHJpdmVycy9tZWRpYS9pMmMvYWR2NzUxMS12NGwyLmMp
+CmhhbmRsZWQgdGhpcyBjb3JyZWN0bHkuCgpCZXNpZGVzIGEgc2ltcGxlIGJ1ZyB3aGVuIHNldHRp
+bmcgdGhlIHNlZ21lbnQgcmVnaXN0ZXIgKGl0IHdhcyBzZXQgdG8gdGhlCmJsb2NrIG51bWJlciBp
+bnN0ZWFkIG9mIGJsb2NrIC8gMiksIHRoZSBsb2dpYyBvZiB0aGUgY29kZSB3YXMgYWxzbyB3ZWly
+ZC4KSW4gcGFydGljdWxhciByZWFkaW5nIHRoZSBERENfU1RBVFVTIGlzIG9kZDogdGhpcyBpcyB1
+bnJlbGF0ZWQgdG8gRURJRApyZWFkaW5nLgoKVGhlIHJld29ya2VkIGNvZGUganVzdCB3YWl0cyBm
+b3IgYW55IEVESUQgc2VnbWVudCByZWFkcyB0byBmaW5pc2ggKHRoaXMKZG9lcyBub3RoaW5nIGlm
+IHRoZSBhIHNlZ21lbnQgaXMgYWxyZWFkeSByZWFkKSwgY2hlY2tzIGlmIHRoZSBkZXNpcmVkCnNl
+Z21lbnQgbWF0Y2hlcyB0aGUgcmVhZCBzZWdtZW50LCBhbmQgaWYgbm90LCB0aGVuIGl0IHJlcXVl
+c3RzIHRoZSBuZXcKc2VnbWVudCBhbmQgd2FpdHMgYWdhaW4gZm9yIHRoZSBFRElEIHNlZ21lbnQg
+dG8gYmUgcmVhZC4KCkZpbmFsbHkgaXQgY2hlY2tzIGlmIHRoZSBjdXJyZW50bHkgYnVmZmVyZWQg
+RURJRCBzZWdtZW50IGNvbnRhaW5zIHRoZQpkZXNpcmVkIEVESUQgYmxvY2ssIGFuZCBpZiBub3Qg
+aXQgd2lsbCB1cGRhdGUgdGhlIEVESUQgYnVmZmVyIGZyb20KdGhlIGFkdjc1MTEuCgpUZXN0ZWQg
+d2l0aCBteSBLb2Vsc2NoIGJvYXJkIGFuZCB3aXRoIEVESURzIG9mIDEsIDIsIDMgYW5kIDQgYmxv
+Y2tzLgoKU2lnbmVkLW9mZi1ieTogSGFucyBWZXJrdWlsIDxodmVya3VpbC1jaXNjb0B4czRhbGwu
+bmw+ClRlc3RlZC1ieTogTmlrbGFzIFPDtmRlcmx1bmQgPG5pa2xhcy5zb2Rlcmx1bmQrcmVuZXNh
+c0ByYWduYXRlY2guc2U+Ci0tLQpDaGFuZ2VzIHNpbmNlIHYyOiBtYWtlIGN1cnJlbnRfZWRpZF9z
+ZWdtZW50IGFuIGludCAoaXQncyBzZXQgdG8gLTEgYWZ0ZXIgYWxsKQphbmQgdXNlIHRoYXQgaW5z
+dGVhZCBvZiByZWFkaW5nIEFEVjc1MTFfUkVHX0VESURfU0VHTUVOVC4gQWxzbyBzcHJpbmtsZSBh
+CmZldyBjb21tZW50cyBpbiB0aGUgY29kZS4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fk
+djc1MTEvYWR2NzUxMS5oICAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1
+MTEvYWR2NzUxMV9kcnYuYyB8IDQwICsrKysrKysrKysrKystLS0tLS0tCiAyIGZpbGVzIGNoYW5n
+ZWQsIDI3IGluc2VydGlvbnMoKyksIDE1IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTExLmggYi9kcml2ZXJzL2dwdS9kcm0vYnJp
+ZGdlL2Fkdjc1MTEvYWR2NzUxMS5oCmluZGV4IGE5YmI3MzQzNjZhZS4uM2RkMjljNTc4ZmM5IDEw
+MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUxMS5oCisrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTExLmgKQEAgLTM0Miw3ICszNDIs
+NyBAQCBzdHJ1Y3QgYWR2NzUxMSB7CiAJdW5zaWduZWQgaW50IGZfYXVkaW87CiAJdW5zaWduZWQg
+aW50IGF1ZGlvX3NvdXJjZTsKCi0JdW5zaWduZWQgaW50IGN1cnJlbnRfZWRpZF9zZWdtZW50Owor
+CWludCBjdXJyZW50X2VkaWRfc2VnbWVudDsKIAl1aW50OF90IGVkaWRfYnVmWzI1Nl07CiAJYm9v
+bCBlZGlkX3JlYWQ7CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hZHY3NTEx
+L2Fkdjc1MTFfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUxMV9k
+cnYuYwppbmRleCA3NjU1NWFlNjRlOWMuLjQzZmVmZGQ4ZDkyYiAxMDA2NDQKLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MTFfZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MTFfZHJ2LmMKQEAgLTMyNyw3ICszMjcsMTIgQEAgc3Rh
+dGljIHZvaWQgYWR2NzUxMV9zZXRfbGlua19jb25maWcoc3RydWN0IGFkdjc1MTEgKmFkdjc1MTEs
+Cgogc3RhdGljIHZvaWQgX19hZHY3NTExX3Bvd2VyX29uKHN0cnVjdCBhZHY3NTExICphZHY3NTEx
+KQogeworCS8qCisJICogVGhlIGFkdjc1MTEgd2lsbCBzdGFydCByZWFkaW5nIHRoZSBmaXJzdCBF
+RElEIHNlZ21lbnQgYXMKKwkgKiBzb29uIGFzIGl0IGlzIHBvd2VyZWQgb24uCisJICovCiAJYWR2
+NzUxMS0+Y3VycmVudF9lZGlkX3NlZ21lbnQgPSAtMTsKKwlhZHY3NTExLT5lZGlkX3JlYWQgPSBm
+YWxzZTsKCiAJcmVnbWFwX3VwZGF0ZV9iaXRzKGFkdjc1MTEtPnJlZ21hcCwgQURWNzUxMV9SRUdf
+UE9XRVIsCiAJCQkgICBBRFY3NTExX1BPV0VSX1BPV0VSX0RPV04sIDApOwpAQCAtNTI2LDYgKzUz
+MSw3IEBAIHN0YXRpYyBpbnQgYWR2NzUxMV93YWl0X2Zvcl9lZGlkKHN0cnVjdCBhZHY3NTExICph
+ZHY3NTExLCBpbnQgdGltZW91dCkKIHN0YXRpYyBpbnQgYWR2NzUxMV9nZXRfZWRpZF9ibG9jayh2
+b2lkICpkYXRhLCB1OCAqYnVmLCB1bnNpZ25lZCBpbnQgYmxvY2ssCiAJCQkJICBzaXplX3QgbGVu
+KQogeworCXVuc2lnbmVkIGludCBuZWVkX3NlZ21lbnQgPSBibG9jayAvIDI7CiAJc3RydWN0IGFk
+djc1MTEgKmFkdjc1MTEgPSBkYXRhOwogCXN0cnVjdCBpMmNfbXNnIHhmZXJbMl07CiAJdWludDhf
+dCBvZmZzZXQ7CkBAIC01MzUsMjMgKzU0MSwyOSBAQCBzdGF0aWMgaW50IGFkdjc1MTFfZ2V0X2Vk
+aWRfYmxvY2sodm9pZCAqZGF0YSwgdTggKmJ1ZiwgdW5zaWduZWQgaW50IGJsb2NrLAogCWlmIChs
+ZW4gPiAxMjgpCiAJCXJldHVybiAtRUlOVkFMOwoKLQlpZiAoYWR2NzUxMS0+Y3VycmVudF9lZGlk
+X3NlZ21lbnQgIT0gYmxvY2sgLyAyKSB7Ci0JCXVuc2lnbmVkIGludCBzdGF0dXM7CisJLyogd2Fp
+dCBmb3IgYW55IG9uZ29pbmcgRURJRCBzZWdtZW50IHJlYWRzIHRvIGZpbmlzaCAqLworCWFkdjc1
+MTFfd2FpdF9mb3JfZWRpZChhZHY3NTExLCAyMDApOwoKLQkJcmV0ID0gcmVnbWFwX3JlYWQoYWR2
+NzUxMS0+cmVnbWFwLCBBRFY3NTExX1JFR19ERENfU1RBVFVTLAotCQkJCSAgJnN0YXR1cyk7CisJ
+LyoKKwkgKiBJZiB0aGUgY3VycmVudCByZWFkIHNlZ21lbnQgZG9lcyBub3QgbWF0Y2ggd2hhdCB3
+ZSBuZWVkLCB0aGVuCisJICogd3JpdGUgdGhlIG5ldyBzZWdtZW50IGFuZCB3YWl0IGZvciBpdCB0
+byBiZSByZWFkLgorCSAqCisJICogTm90ZSB0aGF0IGFmdGVyIHBvd2VyIG9uIHRoZSBhZHY3NTEx
+IHN0YXJ0cyByZWFkaW5nIHNlZ21lbnQgMAorCSAqIG9mIHRoZSBFRElEIGF1dG9tYXRpY2FsbHku
+IFNvIGlmIGN1cnJlbnRfZWRpZF9zZWdtZW50IDwgMCwgdGhlbgorCSAqIHdlIGRvIG5vdCBuZWVk
+IHRvIHdyaXRlIHRoZSBFRElEX1NFR01FTlQgcmVnaXN0ZXIgYWdhaW4sIHNpbmNlCisJICogaXQg
+aXMgYWxyZWFkeSByZWFkaW5nIHNlZ21lbnQgMC4KKwkgKi8KKwlpZiAoYWR2NzUxMS0+Y3VycmVu
+dF9lZGlkX3NlZ21lbnQgPj0gMCAmJgorCSAgICBhZHY3NTExLT5jdXJyZW50X2VkaWRfc2VnbWVu
+dCAhPSBuZWVkX3NlZ21lbnQpIHsKKwkJYWR2NzUxMS0+ZWRpZF9yZWFkID0gZmFsc2U7CisJCXJl
+Z21hcF93cml0ZShhZHY3NTExLT5yZWdtYXAsIEFEVjc1MTFfUkVHX0VESURfU0VHTUVOVCwKKwkJ
+CSAgICAgbmVlZF9zZWdtZW50KTsKKwkJcmV0ID0gYWR2NzUxMV93YWl0X2Zvcl9lZGlkKGFkdjc1
+MTEsIDIwMCk7CiAJCWlmIChyZXQgPCAwKQogCQkJcmV0dXJuIHJldDsKKwl9CgotCQlpZiAoc3Rh
+dHVzICE9IDIpIHsKLQkJCWFkdjc1MTEtPmVkaWRfcmVhZCA9IGZhbHNlOwotCQkJcmVnbWFwX3dy
+aXRlKGFkdjc1MTEtPnJlZ21hcCwgQURWNzUxMV9SRUdfRURJRF9TRUdNRU5ULAotCQkJCSAgICAg
+YmxvY2spOwotCQkJcmV0ID0gYWR2NzUxMV93YWl0X2Zvcl9lZGlkKGFkdjc1MTEsIDIwMCk7Ci0J
+CQlpZiAocmV0IDwgMCkKLQkJCQlyZXR1cm4gcmV0OwotCQl9Ci0KKwlpZiAoYWR2NzUxMS0+Y3Vy
+cmVudF9lZGlkX3NlZ21lbnQgIT0gbmVlZF9zZWdtZW50KSB7CiAJCS8qIEJyZWFrIHRoaXMgYXBh
+cnQsIGhvcGVmdWxseSBtb3JlIEkyQyBjb250cm9sbGVycyB3aWxsCiAJCSAqIHN1cHBvcnQgNjQg
+Ynl0ZSB0cmFuc2ZlcnMgdGhhbiAyNTYgYnl0ZSB0cmFuc2ZlcnMKIAkJICovCkBAIC01NzksNyAr
+NTkxLDcgQEAgc3RhdGljIGludCBhZHY3NTExX2dldF9lZGlkX2Jsb2NrKHZvaWQgKmRhdGEsIHU4
+ICpidWYsIHVuc2lnbmVkIGludCBibG9jaywKIAkJCW9mZnNldCArPSA2NDsKIAkJfQoKLQkJYWR2
+NzUxMS0+Y3VycmVudF9lZGlkX3NlZ21lbnQgPSBibG9jayAvIDI7CisJCWFkdjc1MTEtPmN1cnJl
+bnRfZWRpZF9zZWdtZW50ID0gbmVlZF9zZWdtZW50OwogCX0KCiAJaWYgKGJsb2NrICUgMiA9PSAw
+KQotLSAKMi4zMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
