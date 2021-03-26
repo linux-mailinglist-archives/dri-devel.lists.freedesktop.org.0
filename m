@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3B834A27B
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 08:24:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C8234A27C
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 08:24:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1CFF6EEB6;
-	Fri, 26 Mar 2021 07:24:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDE606EEB8;
+	Fri, 26 Mar 2021 07:24:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 196A66EEB6
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 07:24:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DF79461A45;
- Fri, 26 Mar 2021 07:24:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 458866EEB8
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 07:24:54 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3010461935;
+ Fri, 26 Mar 2021 07:24:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616743456;
- bh=lX/80uGLe0JABuz9/Sat3RiOhg6CKPQU9KB49SC6miw=;
+ s=k20201202; t=1616743494;
+ bh=tVARFWteZzvz4340tigTJdsmCz/hOh5guz5vK9EB7N8=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=d23ZYfGT5UX9TzKMtS6DUY2KYWYQAJMujFbiJ+qpW44CTZArzt0Qz5DcAYAIeWp08
- TqY98yTzlwp+zV4+jShzCmLFvPnGVHd/BUoL20dzgVBLucz/eV/soaxYDBXeUfhpCm
- vkOktUzatMBKtDtOu+zNse9tfjMGYiFKUDnRJPrnl98fSMbEYSfMnby3jtnU2/adho
- tdXpKxHQawaVpVNPYMo/Jaj417myX58FUCm+cg4qEgLn4FA2XVL07ziFGvwEDK9kij
- hKpJSI7+6V0VwWpdIH2M+ZouvR6+oq+xBr+0B7kWRPUx2G2oBO5SxodAtVAKu72XV+
- eP8XT8GSi3Q+Q==
-Subject: Re: [PATCH v2] drm/omap: dsi: Add missing IRQF_ONESHOT
-To: Sebastian Reichel <sebastian.reichel@collabora.com>,
- Yang Li <yang.lee@linux.alibaba.com>
-References: <1616492093-68237-1-git-send-email-yang.lee@linux.alibaba.com>
- <20210323111539.5wi3ldwfvxvzmio7@earth.universe>
+ b=OLF3MBwLj84Vusn4dUtIPFGvdkvSREo/iqg5H1tjH+U6U+5jfcILgmMyTtx2Vt0gg
+ HvOzHlOJjeedI31Nlt7UAbpeTSjZ3PQ7VsDWdUCHZ9ffxgM/CIonSjs1kAYwG5DLTU
+ 9+zw9fe74CorqDws7EcmQ6lldigXz8U81blDU4M8fvuDEZo5+271VwUDnUO2XvGghs
+ z2/JU1XYh4VEZMvyNRpnc7n+zqsfyk9Dc+3I5sPVBcjFFWewcYzNQFMoLRJrdvFCwL
+ lqYtJ6DoDMLiRZQEsH4jC7zBBswgcFXGsUijbOD/x6v7BedeUvuMhDkGf9mDjHSiup
+ w7GFnyWzxUJJw==
+Subject: Re: [PATCH] [v2] drivers: gpu: drm: Remove duplicate declaration
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Wan Jiabing <wanjiabing@vivo.com>
+References: <20210325111028.864628-1-wanjiabing@vivo.com>
+ <YFyKriqHBgtWiX2q@pendragon.ideasonboard.com>
 From: Tomi Valkeinen <tomba@kernel.org>
-Message-ID: <84621ac3-a4b6-cd95-1c7a-00cb971f23c7@kernel.org>
-Date: Fri, 26 Mar 2021 09:24:13 +0200
+Message-ID: <78a234fe-1149-24c4-8318-9c78c63fbbc7@kernel.org>
+Date: Fri, 26 Mar 2021 09:24:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210323111539.5wi3ldwfvxvzmio7@earth.universe>
+In-Reply-To: <YFyKriqHBgtWiX2q@pendragon.ideasonboard.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,33 +49,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jyri Sarha <jsarha@ti.com>, kael_w@yeah.net
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/03/2021 13:15, Sebastian Reichel wrote:
-> Hi,
+On 25/03/2021 15:05, Laurent Pinchart wrote:
+> Hi Wan,
 > 
-> On Tue, Mar 23, 2021 at 05:34:53PM +0800, Yang Li wrote:
->> fixed the following coccicheck:
->> ./drivers/gpu/drm/omapdrm/dss/dsi.c:4329:7-27: ERROR: Threaded IRQ with
->> no primary handler requested without IRQF_ONESHOT
+> Thank you for the patch.
+> 
+> On Thu, Mar 25, 2021 at 07:10:24PM +0800, Wan Jiabing wrote:
+>> struct dss_device has been declared. Remove the duplicate.
+>> And sort these forward declarations alphabetically.
 >>
->> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
->> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
->> ---
+>> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
 > 
-> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> Also maybe add this, so that it is properly backported. OTOH old code did
-> not have IRQF_ONESHOT either.
-> 
-> Fixes: 4c1b935fea54 ("drm/omap: dsi: move TE GPIO handling into core")
+> Tomi, I assume you'll handle this patch, please let me know if you don't
+> plan to do so.
 
-Thanks, I have applied this.
+Yep, picked this up. Thanks!
 
   Tomi
 _______________________________________________
