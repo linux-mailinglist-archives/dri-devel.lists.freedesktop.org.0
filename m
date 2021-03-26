@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 807B934AA72
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 15:51:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7152934AA73
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 15:51:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E8B26F414;
-	Fri, 26 Mar 2021 14:51:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 921FB6F409;
+	Fri, 26 Mar 2021 14:51:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63A086F405
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 14:51:28 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- a132-20020a1c668a0000b029010f141fe7c2so5088908wmc.0
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 07:51:28 -0700 (PDT)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47BA86F409
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 14:51:31 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id g25so3163875wmh.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 07:51:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dexBEjYiMkS4XXfyY7Y63BCfCtQuPvt6wAmmNMM9uiU=;
- b=sy0LpR6CO/+hGOGtblTJwkDRNfJ0OIYrkXpVb7gzm3NNWD+WbbNHcwjYquArjfkiLp
- 3pqD/CIluuv2EH803a7w+8Zpruec3tTOpAo2v9DrUADG0Q1vvvb6t5KkdWBVl4aszjOs
- 8WuiMFf8IJtBqfs2rjLhZBYeUQfTVeyUxvSLw2XQ/Q8x3QoT1c5Zb0O/zTD2e59YE3b8
- vRYwATWOzwE/06IhBA/Zbcvh1dmygCiWgw5r3tqYHhKd2DJ2O1zNkA77pygVOqb6CQMf
- Bbhaw4FCKRLPrklpt3UaeOBU5OtLlHNLwHuUVla0NBptfyCpPdwIetjAufT1nb2/0A4/
- wBHA==
+ bh=mYZHwCwRW4nMunvHncCTe6a/rr8wamJxRARNjK2ntJo=;
+ b=eyC59KwUVdj4wh2qXTUJoBU3hvwj73JNBUYOV5f2GE2l+3SN23gCe08mELuBhiLJE4
+ GqA9uoVijwFH+qNNoRxiPskJLyzAo1AWVatJSYz3HFw1P1itlX1KqK6Mvr2bLZmmvwLa
+ SfBrKW8/I+yNF5AJWvA+XiMvv99XG6PKOhGcKwCzaFf6nzgMo3/dXPOPCgpo6aKrNxmn
+ 61it3+EqyzN026gBOG1ad5cLyujK120R0ogms9o/4yN4nSwANOffc3vF8207ztuqExD+
+ LW/iGlNdHdzADGgbDDEzIsAvlEr4X9Owu0z91Q6tRk0I7utQt2aeJEb0MOvAZAnH6l5f
+ A7Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dexBEjYiMkS4XXfyY7Y63BCfCtQuPvt6wAmmNMM9uiU=;
- b=WG3/8x3lRRIWXKtM5gDEfCp95AGuge6R8rGnWFwcQ0Wg9nMifUX86GgyLWEUD/10Ph
- Vt1mVTLioFwRjIhRf0+HNFCCdDV6KITEmdfjuxJ2PHvVHSse7N8pvvfCpmZrBBrWhc9j
- FXdzU88k1K57DFdywTCv0XeDTTR0leLCM4DTcraTaUus+O6hWeGtU2/CZTQcDwGNSNbK
- hultooJj0g1qOEgK9/u9Xf8yXSzvVXZe3cZuEBGFVhlqnIl0o7gOCdtj+wjlvp3wT060
- 9I2fUN9YLlzB1W0qlCVo9s965/H6rAVjYO0tKAy9+JgSSF/cBYQe6N5L1LxGfmsN1oZ7
- QHbA==
-X-Gm-Message-State: AOAM531prLlkornQp8LKSKDKeGKysnrcqDdYD1TItXleuWVrQfYqebLw
- yOagjMTFzgZQebkRYkArnAk=
-X-Google-Smtp-Source: ABdhPJyAMzgOJyXp6zRFVElVkH/XLVwQcbL0T9qq9DXloPusNrJUNrrxtee7Loh7WIWQCUuT5ehcaQ==
-X-Received: by 2002:a7b:c083:: with SMTP id r3mr13414453wmh.177.1616770287127; 
- Fri, 26 Mar 2021 07:51:27 -0700 (PDT)
+ bh=mYZHwCwRW4nMunvHncCTe6a/rr8wamJxRARNjK2ntJo=;
+ b=Kx0nl9XTV/xiX+24Zh9QuGm8bKMWxqBXbKobJ8UccSf12BQX2ZaJCJlIA+m+4Q7gSx
+ s7cMuolhuvpEvLtf0xmkijhwgQD1MXSZeogZDJeUg5cEJA2IXVg7rAyFrXNprQ4k6+jE
+ 8Jzc5Wdy8DJiDKgLJK6mfxgRBT7TmRUNObYzmuzJtwfZWBzsX472lsTXli7pfJNrlKxL
+ 6NOyb0bfptV6LW8PvPJZ25ZhaYzz2ykTmdyyFJaLrswrejgD0804hLQ03X8+bdricgS0
+ q/0CNo1XttWXIH2zG7btddNyNXw3LBcFKhIz0GHjpDp/VdcZStybOk5X0jZXqHrwLJ0/
+ +8ww==
+X-Gm-Message-State: AOAM531ypP2ZeKncpy3x/F8896WdTnpR7qJ5uLi9q9j7y5xINCbyK7er
+ unntlumh0nwZO571r9qIE+o=
+X-Google-Smtp-Source: ABdhPJylGou6xdZQHDcpDelq2ymSU1tXgTq3g9SINF4tCi4n383YKtC9pWSPljq9f+EY+naLSxSDLg==
+X-Received: by 2002:a1c:ddc6:: with SMTP id
+ u189mr13752722wmg.171.1616770290034; 
+ Fri, 26 Mar 2021 07:51:30 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id r16sm8022566wrx.75.2021.03.26.07.51.26
+ by smtp.gmail.com with ESMTPSA id l8sm13147469wrx.83.2021.03.26.07.51.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Mar 2021 07:51:26 -0700 (PDT)
+ Fri, 26 Mar 2021 07:51:28 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v2 02/10] drm/arm: malidp: Use fourcc_mod_is_vendor() helper
-Date: Fri, 26 Mar 2021 15:51:31 +0100
-Message-Id: <20210326145139.467072-3-thierry.reding@gmail.com>
+Subject: [PATCH v2 03/10] drm/tegra: dc: Inherit DMA mask
+Date: Fri, 26 Mar 2021 15:51:32 +0100
+Message-Id: <20210326145139.467072-4-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210326145139.467072-1-thierry.reding@gmail.com>
 References: <20210326145139.467072-1-thierry.reding@gmail.com>
@@ -77,27 +77,62 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-Rather than open-coding the vendor extraction operation, use the newly
-introduced helper macro.
+Inherit the DMA mask from host1x (on Tegra210 and earlier) or the
+display hub (on Tegra186 and later). This is necessary in order to
+properly map buffers without SMMU support and use the maximum IOVA
+space available with SMMU support.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/arm/malidp_planes.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/tegra/dc.c  | 7 +++++++
+ drivers/gpu/drm/tegra/hub.c | 7 +++++++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
-index ddbba67f0283..cd218883cff8 100644
---- a/drivers/gpu/drm/arm/malidp_planes.c
-+++ b/drivers/gpu/drm/arm/malidp_planes.c
-@@ -165,7 +165,7 @@ bool malidp_format_mod_supported(struct drm_device *drm,
- 		return !malidp_hw_format_is_afbc_only(format);
- 	}
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 40bf8f33a2ae..935717e7410d 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -2538,9 +2538,16 @@ static int tegra_dc_couple(struct tegra_dc *dc)
  
--	if ((modifier >> 56) != DRM_FORMAT_MOD_VENDOR_ARM) {
-+	if (!fourcc_mod_is_vendor(modifier, ARM)) {
- 		DRM_ERROR("Unknown modifier (not Arm)\n");
- 		return false;
- 	}
+ static int tegra_dc_probe(struct platform_device *pdev)
+ {
++	u64 dma_mask = dma_get_mask(pdev->dev.parent);
+ 	struct tegra_dc *dc;
+ 	int err;
+ 
++	err = dma_coerce_mask_and_coherent(&pdev->dev, dma_mask);
++	if (err < 0) {
++		dev_err(&pdev->dev, "failed to set DMA mask: %d\n", err);
++		return err;
++	}
++
+ 	dc = devm_kzalloc(&pdev->dev, sizeof(*dc), GFP_KERNEL);
+ 	if (!dc)
+ 		return -ENOMEM;
+diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
+index 8e6d329d062b..617240032c37 100644
+--- a/drivers/gpu/drm/tegra/hub.c
++++ b/drivers/gpu/drm/tegra/hub.c
+@@ -848,12 +848,19 @@ static const struct host1x_client_ops tegra_display_hub_ops = {
+ 
+ static int tegra_display_hub_probe(struct platform_device *pdev)
+ {
++	u64 dma_mask = dma_get_mask(pdev->dev.parent);
+ 	struct device_node *child = NULL;
+ 	struct tegra_display_hub *hub;
+ 	struct clk *clk;
+ 	unsigned int i;
+ 	int err;
+ 
++	err = dma_coerce_mask_and_coherent(&pdev->dev, dma_mask);
++	if (err < 0) {
++		dev_err(&pdev->dev, "failed to set DMA mask: %d\n", err);
++		return err;
++	}
++
+ 	hub = devm_kzalloc(&pdev->dev, sizeof(*hub), GFP_KERNEL);
+ 	if (!hub)
+ 		return -ENOMEM;
 -- 
 2.30.2
 
