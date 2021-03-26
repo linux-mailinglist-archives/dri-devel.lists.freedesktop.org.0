@@ -2,92 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D4C34A025
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 04:14:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB4634A03F
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 04:29:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 720DC6E13C;
-	Fri, 26 Mar 2021 03:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DBAE6E138;
+	Fri, 26 Mar 2021 03:29:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2084.outbound.protection.outlook.com [40.107.237.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1BCD6E12A;
- Fri, 26 Mar 2021 03:14:37 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (mail-eopbgr60052.outbound.protection.outlook.com [40.107.6.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2475E6E138
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 03:29:13 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TiZS6rI/Y7uQP/63L0Xcp0OF/EqFYHlpMRhIIYn1Q2WTZirUBga5PYDBAGVaeex5zcBqDNm7lIfJbAj6uc8i62RdZjA6clHrS0s+ZQQfQgk5q4zftS7x3pkLBllpx1sTNM1Yg+y1SZks9BWzy0WAnk/7ymI6bwXRMF9KkDiEmoBNNQnsOnSFzEH4Hqgep9c3O2A+3sEPmk3f3OExTH4JLUbq90rknO4er+kfjiO2/gaNndz/RFH914wmhzDgY741A95wfAuYjrUxXYRCQXIYuRbZy8FZvNxKtbzuCl+cna118q/fLhc/A+uw6zNjVtq8r7Z9tEu+ASfTcNKiZsPbaA==
+ b=i73UFCtCLpOhsUKmD0L4qBvauYYHD3zwnlLwmHZ+FbFKxjc1bFudBMorIZHmkNjRfD6ePvH/EyzzeF6Tr1H1WUzpIhA9QSC6Fb6DFtt9ez5YLmp7y5BFwf3YtvkmgDtN533ncqMmcMRnZ/5MlMIeQD8lfkokXiWWcVaqhLjm/dQ55pwqGCvm4rzy1n76Dt+HLtuy1vXoJZuVKPtRkexcDhzQvstUqAIaHTSFgXX8xRus0Y6sMw9RwT4X2LX/lOqyY3YKYUDFpiQeLhlK4nDbOxqbcqQUICy5ema9Rj0trGBCk5ZaMpKK9xs3DxNPGrnHlcKCbICzDJskTc8u/KJvNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+T9vi23XccfZPsPJ0MYlgpRZc5mdGjy4aQFuAjZegKg=;
- b=BmrPZ9FYDIw08BjJaruARHOyw8wXeZcIYSY8bbKcgKdaxn9EOK+I1Lbr4t/IPAioEPC1ld6m4Ziw6K1Ji7aeIMdsqrZFLYPSsklEedRZl0IDMjknn3zIKgdDX4jpbqznaaSHh8U7OIiTOeMqwzE+wchyEQ/esz1YwqN8YpZfKmWNradSaCCdeJbO4bLr3SkwV3Gfp2JfKr0/eydRt+gaB9dRwu1Wy004Xc27cj//U3QX2rcuNhnQX4yR7Km0Jp5IsvVvYLqHwMjIp5xk/p1KF4ElOmwKO8Nf9zqSj/7XQTed2TMEE+m394GWhnBqk2wJHuAlduDIl4GgrAn3QuhStQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=none sp=none pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=cgLwNjEkmfckzBOH1yQKokZijhRjy4YJwh92zA2ihGE=;
+ b=Jnw7fho1WRHsVlAuwEyGqNWxPmkhwaOU46tUtuWKanM0LFdbTls+Svp5qecUENjmXNAcwfhYxPCsqkYCTSy/41NHCdvT0HgoTqEiRAa2dbyfHUoj1iJHCZHUF2zi+s7uYQxwAlP69tB+QsnXKbMDHr0raWxdt3ajYm2e4x0qazFVkrG8PP+B9T4x+pQcXOK9RQt3cnj3t0ZJQSpoZ6ES2L8vzR87N5f5wzXRztkVvDvhIEGntB+KwPpaECVniQXoK3hHBS/ZNmsHCrf+xLMD9ZwWrH8brUVjky/8oYvyPCAZNWF+Qa25K4UDw0vGLcZPmPfaY58OCpBoob4vyR/lbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+T9vi23XccfZPsPJ0MYlgpRZc5mdGjy4aQFuAjZegKg=;
- b=g0v1dTM17MH+Z6nj9TZEc7s1uVjvi5pIqLO8seRANDh7O1h7IcVKlQ4Jc/Cw3CGzGC/KOqT4dwl/pHxX7vNBeTGbD8XYu2Bn6Hah0IQ8N4f+D0YTHXQGcAUf1PXTffSjFnOsEZxDpnOwJPdp7KYc0uKX3PcVvRDEni8pDW0oLHU=
-Received: from DM6PR07CA0085.namprd07.prod.outlook.com (2603:10b6:5:337::18)
- by PH0PR12MB5499.namprd12.prod.outlook.com (2603:10b6:510:d5::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.25; Fri, 26 Mar
- 2021 03:14:34 +0000
-Received: from DM6NAM11FT021.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:337:cafe::9a) by DM6PR07CA0085.outlook.office365.com
- (2603:10b6:5:337::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.25 via Frontend
- Transport; Fri, 26 Mar 2021 03:14:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
- header.d=none;lists.freedesktop.org; dmarc=pass action=none
- header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DM6NAM11FT021.mail.protection.outlook.com (10.13.173.76) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3955.18 via Frontend Transport; Fri, 26 Mar 2021 03:14:34 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 25 Mar
- 2021 22:14:33 -0500
-Received: from jzuo-linux.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2106.2 via Frontend
- Transport; Thu, 25 Mar 2021 22:14:32 -0500
-From: Fangzhi Zuo <Jerry.Zuo@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH] drm: Update MST First Link Slot Information Based on Encoding
- Format
-Date: Thu, 25 Mar 2021 23:14:16 -0400
-Message-ID: <20210326031416.2166481-1-Jerry.Zuo@amd.com>
-X-Mailer: git-send-email 2.25.1
+ bh=cgLwNjEkmfckzBOH1yQKokZijhRjy4YJwh92zA2ihGE=;
+ b=G5crm0cAubEt+3AAMyEekNffK8S4NMd1ot8Q2uZTVPr6PHUhGH41t5rO8a1t/Eo/KnG3xEIwQkiuBM7EEfLeqGCSvKETLTT9B68o7EOv7uERrs2m8KC8KM7E6txp/LsL1EFuNcMoKg40lSQIlPe8+6swzg3V1ODga6lp0NMglV0=
+Authentication-Results: lists.infradead.org; dkim=none (message not signed)
+ header.d=none;lists.infradead.org; dmarc=none action=none
+ header.from=nxp.com;
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (10.171.182.16) by
+ VI1PR04MB5037.eurprd04.prod.outlook.com (20.177.49.219) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3955.18; Fri, 26 Mar 2021 03:29:08 +0000
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::3ce1:4759:5c33:514c]) by VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::3ce1:4759:5c33:514c%5]) with mapi id 15.20.3977.026; Fri, 26 Mar 2021
+ 03:29:08 +0000
+From: Liu Ying <victor.liu@nxp.com>
+To: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/imx: ipuv3-plane: Remove two unnecessary export symbols
+Date: Fri, 26 Mar 2021 11:15:09 +0800
+Message-Id: <1616728509-338-1-git-send-email-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Originating-IP: [119.31.174.66]
+X-ClientProxiedBy: HK2PR02CA0185.apcprd02.prod.outlook.com
+ (2603:1096:201:21::21) To VI1PR04MB3983.eurprd04.prod.outlook.com
+ (2603:10a6:803:4c::16)
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (119.31.174.66) by
+ HK2PR02CA0185.apcprd02.prod.outlook.com (2603:1096:201:21::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.20.3977.25 via Frontend Transport; Fri, 26 Mar 2021 03:29:04 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ee6711d4-ec0a-4acb-a953-08d8f00547c8
-X-MS-TrafficTypeDiagnostic: PH0PR12MB5499:
-X-Microsoft-Antispam-PRVS: <PH0PR12MB5499139F2582DB0C217B4DBAE5619@PH0PR12MB5499.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: fdda86ff-94c5-4673-8e2d-08d8f007509a
+X-MS-TrafficTypeDiagnostic: VI1PR04MB5037:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR04MB5037A33E908903594BA2ADCE98619@VI1PR04MB5037.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1002;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XPMmR5V/gDv2KXCIr2Cjw/5VlIUdx3P7y8qjBKzVkFk8Pdg1yM5OcyWo8aBcgf457FJ53fWNjW+xdXZbPIg7t4AKlNL8SwbLt6fx5MJDg5QvbsgMRPTqppya9XId5l8t6uRwbHszr6sn6OkpNNqG4iRjRULaiwj82D3G5lsDI/a50M25B3znb+97tQCsMwBG+DQz1lfZdPt8bBF8uH9Iy0KWsLLhbr9WjZtoxvAlB+sj0nMdGYSvKMoMFk9jyzE4fZt49s0ad2XLp6lrwf9aVDFqAXxZAkw+6+JN9JS/nG7j6FR0ivX8n3/+bIMXCdvuoaVZ8xNlvJqjTtp5+O84Pj/6zL9Qt4oEQIszitWmqHtGq4WIRT29wjb8vhu2mmbKp5m99sUcJTfcotqBqYKAxKQj0Xnb2z5Z/YJkAoLVHkU7ZetV71qwZjGdujQGjxXWO/L7tw/71zLfRhjN3xfFF+1EPn2Wx2UlE2Ji68liLenMlSVYSNL/Mz370OBI1ao7QTjkv47I5uv027IKu4mOaEhkIFLs1ZD43V4iPiMXdWayR8AdP+wkj84vdwmlT5E0Q8Xg85GJBp3K2U1MselQINeQllAeFNANDAyAaVi8UHYynI/ZUZu3W2joXFB4y04lBC6Bs7Qj3VihbBclk+6pXVMbgxGYg8VdqWKp9FJpMW3jhX0SNxZUllv44lGoFjKp
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(396003)(136003)(346002)(36840700001)(46966006)(82310400003)(86362001)(6666004)(316002)(8936002)(2906002)(54906003)(15650500001)(2616005)(5660300002)(70586007)(36860700001)(47076005)(36756003)(83380400001)(110136005)(8676002)(478600001)(7696005)(426003)(356005)(82740400003)(1076003)(4326008)(26005)(186003)(81166007)(336012)(70206006)(36900700001);
+X-Microsoft-Antispam-Message-Info: J/DFqdQdnEERiZvtvRjADPIcEqJnZfx4lDgkLhhelOfhHcCGe+zJarhHkiGx410fiP812PQPaG+MPcNod+CaaP33hQYmOQbRcWgER2JPLOeZj2p+/bp1Vv64eC6e1NZR6UxGrH+xHenwl19HrgpARRTQdmPdJV9WGYW/ono45hpKOi8L+onRe7F04ikuxdZyl99cabPotPLR65oEV3caxnffJ+DlfqKhvKa7DsaVWatlYcsSWZLm+CrhmUp6QHUc/vrUA8/25bmzh94dpYgKLvZ9UuBe0d9dpaHQD1Bh8b2Rr4SgSa3ByqtG5ak29fcp4L6UJSpJ/gyMw2fzmAvK08a68my/tlhUv+ytR/Ua63oMwMdh9upLI67gMOeUCAHO8pP8BlrLTF2d7jFsJ8DnDU10rRdZMRbw14C8CPNBPnPGkfsl0xXOQlk0/GGjOCzPxvp2ZShu3CZNqmceLpgxA3Ea6AOWSI3jegRCotpIcMaf1bJorXQshkUCVXAbaenjhUvqkvY2AL2zVHSp/Wb+ppQmbjxT1jlB0PsTQqk+FtS2TuMWRgsbmWoJNxGdxfoucg6y/UPo27fr67U+1URBJTUiIZ0NF3t/69GBH2HBjzTq3Zt16X7oDVDInvRPhOXFW4NNS8lZ1Om1kpM408dtu2dCFZaHanlss8bPwv42/g+PQW6Xyco+VJUqcL0eAbdJ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(136003)(39860400002)(396003)(346002)(66556008)(316002)(66946007)(4326008)(2616005)(6512007)(66476007)(5660300002)(83380400001)(8936002)(36756003)(26005)(86362001)(52116002)(16526019)(186003)(6506007)(2906002)(7416002)(8676002)(478600001)(6486002)(38100700001)(956004)(69590400012);
  DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2021 03:14:34.1701 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee6711d4-ec0a-4acb-a953-08d8f00547c8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT021.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5499
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?xLzTcBN8mPz5RA1ZAEbhf6QZttV3H7bPq4xz+nWGwp5PSPHq/xuJEFQEtODc?=
+ =?us-ascii?Q?UlCHtcKcF5IDkufWx3jAMUA+fuqDZSfQvw+EipTYX0mXAbHpEykgdEKlb2Si?=
+ =?us-ascii?Q?0fB295/j1hoRF+kD2z/dj67gOzUeONGezkLKlezhmFuE5wJ+prcbd2A/FerD?=
+ =?us-ascii?Q?NTQKtllsGsX2S4I0NTtcQDbSDmjVIclXBXuTa0LHJuWcY0OcovgxDLSpAlIN?=
+ =?us-ascii?Q?WlmlRqJdcLDVT3wXG59XOoZ5DJFeiyXuIafGWa+ICuEvLpxt0bUqiP43dyGq?=
+ =?us-ascii?Q?UrxCN1IDnw6Xdu148+2vw2z1U3rWMnR7pPGmgnwqCoOng4p/lC78jlFaUkpH?=
+ =?us-ascii?Q?wU3cSd5JN5vMqLPZ18kCHBbEd9xn8VhAqub08mmZoSgBjXMC3YdGRwZpUDga?=
+ =?us-ascii?Q?qjnX7MHkrUSqzFgX9bf5fLiQ+eQQ929WkFUhUE316LD/fyFPZQgCUPQFwxef?=
+ =?us-ascii?Q?7PWEhE4Zf5wq4PXIZnNMCpgrPBRJbpCa6c4OTKRynOdCsISIz0DZh/H8Ylfl?=
+ =?us-ascii?Q?GFjajp3kptMy0afUyyazsTYW+0DgawtozTo6+6/08MtaSpv3DTIT/OkBNEe1?=
+ =?us-ascii?Q?lvYGvSJCP98nlT8b4fvO4FPudLpGKtlJHroYU78ZMU3wsw9aoe34u6Z8BrXW?=
+ =?us-ascii?Q?+dk6G1+AvfZdNqbxn5T5V96ob8Umh+Ve1+gZVm0x5ki689CFh/tEdK5QhgMG?=
+ =?us-ascii?Q?30tj/Grfy9p/qjPp6ET4XqMG+ytweT4MJez9GGF8GFkQwpnm3jXV1qzy4szj?=
+ =?us-ascii?Q?fmc0xFWQpbjYf8rP4HN0UsuvsJUGuE7F04b506BKnSAz0aaaN9V/YZ7pqHSz?=
+ =?us-ascii?Q?XR6q7M5MJWvVfkcVdKQD+IC3QOBN07frYLdEeka8NCAhLeVZa+G5qnPdfdJe?=
+ =?us-ascii?Q?cJIn5CQgaobjtgFVberdmjwlKVhhiUIKbP5TXTszr5dtl9ReoOkoyTFmieqx?=
+ =?us-ascii?Q?49kvDCRBBUUu3IpKq+/WE6x+NyxcwFHhnVmOV1OvcRvFivHfGwNPKW+Eu2AB?=
+ =?us-ascii?Q?7lOZOtlcpPcEnE7EZHETwL9k4cE7m+YsZKt5OYFcd1uTcobvKoFc1RBq3MAZ?=
+ =?us-ascii?Q?B3hUXv23jul0ivAemCskVIXXE96EDOfjpDkacr7KzmqlLQlLlyQ5aEzYJcj7?=
+ =?us-ascii?Q?xpiBDYxypXRKX9WcUIK1ABS8TCT1WcARZiIcsJ/M6K+62DO7Y/M3zKsTLrjp?=
+ =?us-ascii?Q?GC/I/XZhmFkrv5Zo5PGfU+Qn1fo1aemYbvA0iwOBNRNBQPPYnDQfMyZ3ocD9?=
+ =?us-ascii?Q?qQmbH37ZCK6NhP3ExyGL2rgH6QpWu81DcXn2CYaksjWIg+q7Jmo45Rc709pn?=
+ =?us-ascii?Q?pBbjMtzZmsK6ccLtU9CXgaeu?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fdda86ff-94c5-4673-8e2d-08d8f007509a
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2021 03:29:08.4686 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hth3bt8fOW+Oz6p++AQtkS/iN6Xm36sZNcLDcmCul8tOx7akBT2c3oxaS4fX9zDLjofxekCqekrJnajZ9BpqRA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5037
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,165 +114,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rodrigo.Siqueira@amd.com, Fangzhi Zuo <Jerry.Zuo@amd.com>,
- wayne.lin@amd.com
+Cc: airlied@linux.ie, s.hauer@pengutronix.de, linux-imx@nxp.com,
+ kernel@pengutronix.de, shawnguo@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-8b/10b encoding format requires to reserve the first slot for
-recording metadata. Real data transmission starts from the second slot,
-with a total of available 63 slots available.
+The ipu_plane_disable_deferred() and ipu_planes_assign_pre() functions have
+not been used by any other modules but only imxdrm itself internally since
+imxdrm and imx-ipuv3-crtc were merged in one module. So, this patch removes
+export symbols for the two functions.
 
-In 128b/132b encoding format, metadata is transmitted separately
-in LLCP packet before MTP. Real data transmission starts from
-the first slot, with a total of 64 slots available.
-
-Update the slot information after link detect.
-
-Signed-off-by: Fangzhi Zuo <Jerry.Zuo@amd.com>
+Fixes: 3d1df96ad468 (drm/imx: merge imx-drm-core and ipuv3-crtc in one module)
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
- drivers/gpu/drm/drm_dp_mst_topology.c | 48 ++++++++++++++++++++++-----
- include/drm/drm_dp_mst_helper.h       |  8 +++++
- 2 files changed, 47 insertions(+), 9 deletions(-)
+v2:
+* Fix commit message typo - s/ipu_plane_assign_pre/ipu_planes_assign_pre/
 
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 42a0c6888c33..577ed4224778 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -3382,7 +3382,7 @@ int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr)
- 	struct drm_dp_payload req_payload;
- 	struct drm_dp_mst_port *port;
- 	int i, j;
--	int cur_slots = 1;
-+	int cur_slots = mgr->first_link_start_slot;
- 
- 	mutex_lock(&mgr->payload_lock);
- 	for (i = 0; i < mgr->max_payloads; i++) {
-@@ -4302,8 +4302,13 @@ int drm_dp_find_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr,
- 
- 	num_slots = DIV_ROUND_UP(pbn, mgr->pbn_div);
- 
--	/* max. time slots - one slot for MTP header */
--	if (num_slots > 63)
-+	/**
-+	 * first_link_total_avail_slots: max. time slots
-+	 * first slot reserved for MTP header in 8b/10b,
-+	 * but not required for 128b/132b
-+	 */
-+
-+	if (num_slots > mgr->first_link_total_avail_slots)
- 		return -ENOSPC;
- 	return num_slots;
- }
-@@ -4314,8 +4319,12 @@ static int drm_dp_init_vcpi(struct drm_dp_mst_topology_mgr *mgr,
- {
- 	int ret;
- 
--	/* max. time slots - one slot for MTP header */
--	if (slots > 63)
-+	/**
-+	 * first_link_total_avail_slots: max. time slots
-+	 * first slot reserved for MTP header in 8b/10b,
-+	 * but not required for 128b/132b
-+	 */
-+	if (slots > mgr->first_link_total_avail_slots)
- 		return -ENOSPC;
- 
- 	vcpi->pbn = pbn;
-@@ -4488,6 +4497,25 @@ int drm_dp_atomic_release_vcpi_slots(struct drm_atomic_state *state,
- }
- EXPORT_SYMBOL(drm_dp_atomic_release_vcpi_slots);
- 
-+/*
-+ * drm_dp_mst_update_first_link_slot_info()
-+ *  update the first link's total available slots and starting slot
-+ * @mgr: manager to store the slot info.
-+ * @encoding_format: detected link encoding format
-+ */
-+void drm_dp_mst_update_first_link_slot_info(
-+	struct drm_dp_mst_topology_mgr *mgr, uint8_t encoding_format)
-+{
-+	if (encoding_format == DP_CAP_ANSI_128B132B) {
-+		mgr->first_link_total_avail_slots = 64;
-+		mgr->first_link_start_slot = 0;
-+	}
-+	DRM_DEBUG_KMS("%s encoding format on 0x%p -> total %d slots, start at slot %d\n",
-+	(encoding_format == DP_CAP_ANSI_128B132B) ? "128b/132b":"8b/10b",
-+		mgr, mgr->first_link_total_avail_slots, mgr->first_link_start_slot);
-+}
-+EXPORT_SYMBOL(drm_dp_mst_update_first_link_slot_info);
-+
- /**
-  * drm_dp_mst_allocate_vcpi() - Allocate a virtual channel
-  * @mgr: manager for this port
-@@ -4518,8 +4546,8 @@ bool drm_dp_mst_allocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
- 
- 	ret = drm_dp_init_vcpi(mgr, &port->vcpi, pbn, slots);
- 	if (ret) {
--		DRM_DEBUG_KMS("failed to init vcpi slots=%d max=63 ret=%d\n",
--			      DIV_ROUND_UP(pbn, mgr->pbn_div), ret);
-+		DRM_DEBUG_KMS("failed to init vcpi slots=%d max=%d ret=%d\n",
-+			DIV_ROUND_UP(pbn, mgr->pbn_div), mgr->first_link_total_avail_slots, ret);
- 		drm_dp_mst_topology_put_port(port);
- 		goto out;
+ drivers/gpu/drm/imx/ipuv3-plane.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
+index fa50097..35681f9 100644
+--- a/drivers/gpu/drm/imx/ipuv3-plane.c
++++ b/drivers/gpu/drm/imx/ipuv3-plane.c
+@@ -264,7 +264,6 @@ void ipu_plane_disable_deferred(struct drm_plane *plane)
+ 		ipu_plane_disable(ipu_plane, false);
  	}
-@@ -5162,7 +5190,7 @@ drm_dp_mst_atomic_check_vcpi_alloc_limit(struct drm_dp_mst_topology_mgr *mgr,
- 					 struct drm_dp_mst_topology_state *mst_state)
- {
- 	struct drm_dp_vcpi_allocation *vcpi;
--	int avail_slots = 63, payload_count = 0;
-+	int avail_slots = mgr->first_link_total_avail_slots, payload_count = 0;
+ }
+-EXPORT_SYMBOL_GPL(ipu_plane_disable_deferred);
  
- 	list_for_each_entry(vcpi, &mst_state->vcpis, next) {
- 		/* Releasing VCPI is always OK-even if the port is gone */
-@@ -5191,7 +5219,7 @@ drm_dp_mst_atomic_check_vcpi_alloc_limit(struct drm_dp_mst_topology_mgr *mgr,
- 	}
- 	DRM_DEBUG_ATOMIC("[MST MGR:%p] mst state %p VCPI avail=%d used=%d\n",
- 			 mgr, mst_state, avail_slots,
--			 63 - avail_slots);
-+			 mgr->first_link_total_avail_slots - avail_slots);
+ static void ipu_plane_state_reset(struct drm_plane *plane)
+ {
+@@ -821,7 +820,6 @@ int ipu_planes_assign_pre(struct drm_device *dev,
  
  	return 0;
  }
-@@ -5455,6 +5483,8 @@ int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
- 	if (!mgr->proposed_vcpis)
- 		return -ENOMEM;
- 	set_bit(0, &mgr->payload_mask);
-+	mgr->first_link_total_avail_slots = 63;
-+	mgr->first_link_start_slot = 1;
+-EXPORT_SYMBOL_GPL(ipu_planes_assign_pre);
  
- 	mst_state = kzalloc(sizeof(*mst_state), GFP_KERNEL);
- 	if (mst_state == NULL)
-diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
-index bd1c39907b92..f4310b3705e7 100644
---- a/include/drm/drm_dp_mst_helper.h
-+++ b/include/drm/drm_dp_mst_helper.h
-@@ -653,6 +653,13 @@ struct drm_dp_mst_topology_mgr {
- 	 */
- 	int pbn_div;
- 
-+	/**
-+	 * @first_link_total_avail_slots: frist link total slots available.
-+	 * @first_link_start_slot: start slot index for real data transmission.
-+	 */
-+	u8 first_link_total_avail_slots;
-+	u8 first_link_start_slot;
-+
- 	/**
- 	 * @funcs: Atomic helper callbacks
- 	 */
-@@ -795,6 +802,7 @@ int drm_dp_mst_get_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp
- 
- void drm_dp_mst_reset_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port);
- 
-+void drm_dp_mst_update_first_link_slot_info(struct drm_dp_mst_topology_mgr *mgr, uint8_t encoding_format);
- 
- void drm_dp_mst_deallocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
- 				struct drm_dp_mst_port *port);
+ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
+ 				 int dma, int dp, unsigned int possible_crtcs,
 -- 
-2.25.1
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
