@@ -2,42 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6232D34A3A3
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 10:06:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92C434A3AF
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 10:08:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 178EF6F38A;
-	Fri, 26 Mar 2021 09:06:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0375D6F38F;
+	Fri, 26 Mar 2021 09:08:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 313BC6F381;
- Fri, 26 Mar 2021 09:06:51 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 74ACD1474;
- Fri, 26 Mar 2021 02:06:50 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 27FB63F718;
- Fri, 26 Mar 2021 02:06:49 -0700 (PDT)
-Subject: Re: [PATCH v3] drm/scheduler re-insert Bailing job to avoid memleak
-To: "Zhang, Jack (Jian)" <Jack.Zhang1@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>,
- "Liu, Monk" <Monk.Liu@amd.com>, "Deng, Emily" <Emily.Deng@amd.com>,
- Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>
-References: <20210315052036.1113638-1-Jack.Zhang1@amd.com>
- <DM5PR1201MB020453AA9A2A5C5173AF4D84BB6C9@DM5PR1201MB0204.namprd12.prod.outlook.com>
- <bd11b7f4-41a8-fd29-bc94-656c7c83c552@arm.com>
- <DM5PR1201MB02040F7DF455429AE6DB3328BB619@DM5PR1201MB0204.namprd12.prod.outlook.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <a4557f43-98ed-23b2-1ddc-29355679017d@arm.com>
-Date: Fri, 26 Mar 2021 09:07:53 +0000
+Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
+ [213.80.101.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 344EA6F38F
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 09:08:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 1DC413F710;
+ Fri, 26 Mar 2021 10:08:13 +0100 (CET)
+Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=XBiIKNzS; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id W3vNEgFD6zst; Fri, 26 Mar 2021 10:08:12 +0100 (CET)
+Received: by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id B94233F700;
+ Fri, 26 Mar 2021 10:08:09 +0100 (CET)
+Received: from [192.168.0.209] (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 73A8036038A;
+ Fri, 26 Mar 2021 10:08:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1616749689; bh=zuYrGAApGngho8MEJbXBz9G6vYyoZHyySgz3/3ORMQg=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=XBiIKNzShcuFNlOrfx5XWTTyCmrpSeuD7Tdp27rmjgCY4aXPbiI7T3sGtpi8R5XJY
+ ilZ3CxoRblu83kVm0bfs6NmsWN7lbKWbGqv28HLgxd5bBeaPEWrfoDKo8ZtHAR5mRb
+ cQ84orgrJJg7gUzVFywLdqxBS6OmKSUftw7e+UQ0=
+Subject: Re: [RFC PATCH 1/2] mm,drm/ttm: Block fast GUP to TTM huge pages
+To: Jason Gunthorpe <jgg@nvidia.com>
+References: <ec99146c7abc35d16b245816aba3e9d14862e624.camel@intel.com>
+ <c2239da2-c514-2c88-c671-918909cdba6b@shipmail.org>
+ <YFsNRIUYrwVQanVF@phenom.ffwll.local>
+ <a1fa7fa2-914b-366d-9902-e5b784e8428c@shipmail.org>
+ <75423f64-adef-a2c4-8e7d-2cb814127b18@intel.com>
+ <e5199438-9a0d-2801-f9f6-ceb13d7a9c61@shipmail.org>
+ <6b0de827-738d-b3c5-fc79-8ca9047bad35@intel.com>
+ <9f789d64-940f-c728-8d5e-aab74d562fb6@shipmail.org>
+ <20210325175504.GH2356281@nvidia.com>
+ <1ed48d99-1cd9-d87b-41dd-4169afc77f70@shipmail.org>
+ <20210325182442.GI2356281@nvidia.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <1eda588b-ae51-9b69-4bd4-da37b2aa1e4b@shipmail.org>
+Date: Fri, 26 Mar 2021 10:08:09 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <DM5PR1201MB02040F7DF455429AE6DB3328BB619@DM5PR1201MB0204.namprd12.prod.outlook.com>
-Content-Language: en-GB
+In-Reply-To: <20210325182442.GI2356281@nvidia.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,165 +76,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Dave Hansen <dave.hansen@intel.com>, "Williams,
+ Dan J" <dan.j.williams@intel.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/03/2021 02:04, Zhang, Jack (Jian) wrote:
-> [AMD Official Use Only - Internal Distribution Only]
-> 
-> Hi, Steve,
-> 
-> Thank you for your detailed comments.
-> 
-> But currently the patch is not finalized.
-> We found some potential race condition even with this patch. The solution is under discussion and hopefully we could find an ideal one.
-> After that, I will start to consider other drm-driver if it will influence other drivers(except for amdgpu).
-
-No problem. Please keep me CC'd, the suggestion of using reference 
-counts may be beneficial for Panfrost as we already build a reference 
-count on top of struct drm_sched_job. So there may be scope for cleaning 
-up Panfrost afterwards even if your work doesn't directly affect it.
-
-Thanks,
-
-Steve
-
-> Best,
-> Jack
-> 
-> -----Original Message-----
-> From: Steven Price <steven.price@arm.com>
-> Sent: Monday, March 22, 2021 11:29 PM
-> To: Zhang, Jack (Jian) <Jack.Zhang1@amd.com>; dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; Koenig, Christian <Christian.Koenig@amd.com>; Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>; Liu, Monk <Monk.Liu@amd.com>; Deng, Emily <Emily.Deng@amd.com>; Rob Herring <robh@kernel.org>; Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> Subject: Re: [PATCH v3] drm/scheduler re-insert Bailing job to avoid memleak
-> 
-> On 15/03/2021 05:23, Zhang, Jack (Jian) wrote:
->> [AMD Public Use]
->>
->> Hi, Rob/Tomeu/Steven,
->>
->> Would you please help to review this patch for panfrost driver?
->>
->> Thanks,
->> Jack Zhang
->>
->> -----Original Message-----
->> From: Jack Zhang <Jack.Zhang1@amd.com>
->> Sent: Monday, March 15, 2021 1:21 PM
->> To: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org;
->> Koenig, Christian <Christian.Koenig@amd.com>; Grodzovsky, Andrey
->> <Andrey.Grodzovsky@amd.com>; Liu, Monk <Monk.Liu@amd.com>; Deng, Emily
->> <Emily.Deng@amd.com>
->> Cc: Zhang, Jack (Jian) <Jack.Zhang1@amd.com>
->> Subject: [PATCH v3] drm/scheduler re-insert Bailing job to avoid
->> memleak
->>
->> re-insert Bailing jobs to avoid memory leak.
->>
->> V2: move re-insert step to drm/scheduler logic
->> V3: add panfrost's return value for bailing jobs in case it hits the
->> memleak issue.
-> 
-> This commit message could do with some work - it's really hard to decipher what the actual problem you're solving is.
-> 
->>
->> Signed-off-by: Jack Zhang <Jack.Zhang1@amd.com>
->> ---
->>    drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 +++-
->>    drivers/gpu/drm/amd/amdgpu/amdgpu_job.c    | 8 ++++++--
->>    drivers/gpu/drm/panfrost/panfrost_job.c    | 4 ++--
->>    drivers/gpu/drm/scheduler/sched_main.c     | 8 +++++++-
->>    include/drm/gpu_scheduler.h                | 1 +
->>    5 files changed, 19 insertions(+), 6 deletions(-)
->>
-> [...]
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c
->> b/drivers/gpu/drm/panfrost/panfrost_job.c
->> index 6003cfeb1322..e2cb4f32dae1 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
->> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
->> @@ -444,7 +444,7 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
->>     * spurious. Bail out.
->>     */
->>    if (dma_fence_is_signaled(job->done_fence))
->> -return DRM_GPU_SCHED_STAT_NOMINAL;
->> +return DRM_GPU_SCHED_STAT_BAILING;
->>
->>    dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
->>    js,
->> @@ -456,7 +456,7 @@ static enum drm_gpu_sched_stat
->> panfrost_job_timedout(struct drm_sched_job
->>
->>    /* Scheduler is already stopped, nothing to do. */
->>    if (!panfrost_scheduler_stop(&pfdev->js->queue[js], sched_job))
->> -return DRM_GPU_SCHED_STAT_NOMINAL;
->> +return DRM_GPU_SCHED_STAT_BAILING;
->>
->>    /* Schedule a reset if there's no reset in progress. */
->>    if (!atomic_xchg(&pfdev->reset.pending, 1))
-> 
-> This looks correct to me - in these two cases drm_sched_stop() is not called on the sched_job, so it looks like currently the job will be leaked.
-> 
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
->> b/drivers/gpu/drm/scheduler/sched_main.c
->> index 92d8de24d0a1..a44f621fb5c4 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -314,6 +314,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
->>    {
->>    struct drm_gpu_scheduler *sched;
->>    struct drm_sched_job *job;
->> +int ret;
->>
->>    sched = container_of(work, struct drm_gpu_scheduler,
->> work_tdr.work);
->>
->> @@ -331,8 +332,13 @@ static void drm_sched_job_timedout(struct work_struct *work)
->>    list_del_init(&job->list);
->>    spin_unlock(&sched->job_list_lock);
->>
->> -job->sched->ops->timedout_job(job);
->> +ret = job->sched->ops->timedout_job(job);
->>
->> +if (ret == DRM_GPU_SCHED_STAT_BAILING) {
->> +spin_lock(&sched->job_list_lock);
->> +list_add(&job->node, &sched->ring_mirror_list);
->> +spin_unlock(&sched->job_list_lock);
->> +}
-> 
-> I think we could really do with a comment somewhere explaining what "bailing" means in this context. For the Panfrost case we have two cases:
-> 
->    * The GPU job actually finished while the timeout code was running (done_fence is signalled).
-> 
->    * The GPU is already in the process of being reset (Panfrost has multiple queues, so mostly like a bad job in another queue).
-> 
-> I'm also not convinced that (for Panfrost) it makes sense to be adding the jobs back to the list. For the first case above clearly the job could just be freed (it's complete). The second case is more interesting and Panfrost currently doesn't handle this well. In theory the driver could try to rescue the job ('soft stop' in Mali language) so that it could be resubmitted. Panfrost doesn't currently support that, so attempting to resubmit the job is almost certainly going to fail.
-> 
-> It's on my TODO list to look at improving Panfrost in this regard, but sadly still quite far down.
-> 
-> Steve
-> 
->>    /*
->>     * Guilty job did complete and hence needs to be manually removed
->>     * See drm_sched_stop doc.
->> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->> index 4ea8606d91fe..8093ac2427ef 100644
->> --- a/include/drm/gpu_scheduler.h
->> +++ b/include/drm/gpu_scheduler.h
->> @@ -210,6 +210,7 @@ enum drm_gpu_sched_stat {
->>    DRM_GPU_SCHED_STAT_NONE, /* Reserve 0 */
->>    DRM_GPU_SCHED_STAT_NOMINAL,
->>    DRM_GPU_SCHED_STAT_ENODEV,
->> +DRM_GPU_SCHED_STAT_BAILING,
->>    };
->>
->>    /**
->>
-> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Ck9uIDMvMjUvMjEgNzoyNCBQTSwgSmFzb24gR3VudGhvcnBlIHdyb3RlOgo+IE9uIFRodSwgTWFy
+IDI1LCAyMDIxIGF0IDA3OjEzOjMzUE0gKzAxMDAsIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkg
+d3JvdGU6Cj4+IE9uIDMvMjUvMjEgNjo1NSBQTSwgSmFzb24gR3VudGhvcnBlIHdyb3RlOgo+Pj4g
+T24gVGh1LCBNYXIgMjUsIDIwMjEgYXQgMDY6NTE6MjZQTSArMDEwMCwgVGhvbWFzIEhlbGxzdHLD
+tm0gKEludGVsKSB3cm90ZToKPj4+PiBPbiAzLzI0LzIxIDk6MjUgUE0sIERhdmUgSGFuc2VuIHdy
+b3RlOgo+Pj4+PiBPbiAzLzI0LzIxIDE6MjIgUE0sIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkg
+d3JvdGU6Cj4+Pj4+Pj4gV2UgYWxzbyBoYXZlIG5vdCBiZWVuIGNhcmVmdWwgYXQgKmFsbCogYWJv
+dXQgaG93IF9QQUdFX0JJVF9TT0ZUVyogYXJlCj4+Pj4+Pj4gdXNlZC7CoCBJdCdzIHF1aXRlIHBv
+c3NpYmxlIHdlIGNhbiBlbmNvZGUgYW5vdGhlciB1c2UgZXZlbiBpbiB0aGUKPj4+Pj4+PiBleGlz
+dGluZyBiaXRzLgo+Pj4+Pj4+Cj4+Pj4+Pj4gUGVyc29uYWxseSwgSSdkIGp1c3QgdHJ5Ogo+Pj4+
+Pj4+Cj4+Pj4+Pj4gI2RlZmluZSBfUEFHRV9CSVRfU09GVFc1wqDCoMKgwqDCoMKgwqAgNTfCoMKg
+wqDCoMKgIC8qIGF2YWlsYWJsZSBmb3IgcHJvZ3JhbW1lciAqLwo+Pj4+Pj4+Cj4+Pj4+PiBPSywg
+SSdsbCBmb2xsb3cgeW91ciBhZHZpc2UgaGVyZS4gRldJVyBJIGdyZXBwZWQgZm9yIFNXMSBhbmQg
+aXQgc2VlbXMKPj4+Pj4+IHVzZWQgaW4gYSBzZWxmdGVzdCwgYnV0IG9ubHkgZm9yIFBURXMgQUZB
+SUNULgo+Pj4+Pj4KPj4+Pj4+IE9oLCBhbmQgd2UgZG9uJ3QgY2FyZSBhYm91dCAzMi1iaXQgbXVj
+aCBhbnltb3JlPwo+Pj4+PiBPbiB4ODYsIHdlIGhhdmUgNjQtYml0IFBURXMgd2hlbiBydW5uaW5n
+IDMyLWJpdCBrZXJuZWxzIGlmIFBBRSBpcwo+Pj4+PiBlbmFibGVkLiAgSU9XLCB3ZSBjYW4gaGFu
+ZGxlIHRoZSBtYWpvcml0eSBvZiAzMi1iaXQgQ1BVcyBvdXQgdGhlcmUuCj4+Pj4+Cj4+Pj4+IEJ1
+dCwgeWVhaCwgd2UgZG9uJ3QgY2FyZSBhYm91dCAzMi1iaXQuIDopCj4+Pj4gSG1tLAo+Pj4+Cj4+
+Pj4gQWN0dWFsbHkgaXQgbWFrZXMgc29tZSBzZW5zZSB0byB1c2UgU1cxLCB0byBtYWtlIGl0IGVu
+ZCB1cCBpbiB0aGUgc2FtZSBkd29yZAo+Pj4+IGFzIHRoZSBQU0UgYml0LCBhcyBmcm9tIHdoYXQg
+SSBjYW4gdGVsbCwgcmVhZGluZyBvZiBhIDY0LWJpdCBwbWRfdCBvbiAzMi1iaXQKPj4+PiBQQUUg
+aXMgbm90IGF0b21pYywgc28gaW4gdGhlb3J5IGEgaHVnZSBwbWQgY291bGQgYmUgbW9kaWZpZWQg
+d2hpbGUgcmVhZGluZwo+Pj4+IHRoZSBwbWRfdCBtYWtpbmcgdGhlIGR3b3JkcyBpbmNvbnNpc3Rl
+bnQuLi4uIEhvdyBkb2VzIHRoYXQgd29yayB3aXRoIGZhc3QKPj4+PiBndXAgYW55d2F5Pwo+Pj4g
+SXQgbG9vcHMgdG8gZ2V0IGFuIGF0b21pYyA2NCBiaXQgdmFsdWUgaWYgdGhlIGFyY2ggY2FuJ3Qg
+cHJvdmlkZSBhbgo+Pj4gYXRvbWljIDY0IGJpdCBsb2FkCj4+IEhtbSwgb2ssIEkgc2VlIGEgUkVB
+RF9PTkNFKCkgaW4gZ3VwX3BtZF9yYW5nZSgpLCBhbmQgdGhlbiB0aGUgcmVzdWx0aW5nIHBtZAo+
+PiBpcyBkZXJlZmVyZW5jZWQgZWl0aGVyIGluIHRyeV9ncmFiX2NvbXBvdW5kX2hlYWQoKSBvciBf
+X2d1cF9kZXZpY2VfaHVnZSgpLAo+PiBiZWZvcmUgdGhlIHBtZCBpcyBjb21wYXJlZCB0byB0aGUg
+dmFsdWUgdGhlIHBvaW50ZXIgaXMgY3VycmVudGx5IHBvaW50aW5nCj4+IHRvLiBDb3VsZG4ndCB0
+aG9zZSBkZXJlZmVyZW5jZXMgYmUgb24gaW52YWxpZCBwb2ludGVycz8KPiBVaGhoaGguLiBUaGF0
+IGRvZXMgbG9vayBxdWVzdGlvbmFibGUsIHllcy4gVW5sZXNzIHRoZXJlIGlzIHNvbWUgdHJpY2t5
+Cj4gcmVhc29uIHdoeSBhIDY0IGJpdCBwbWQgZW50cnkgb24gYSAzMiBiaXQgYXJjaCBlaXRoZXIg
+Y2FuJ3QgZXhpc3Qgb3IKPiBoYXMgYSBzdGFibGUgdXBwZXIgMzIgYml0cy4uCj4KPiBUaGUgcHRl
+IGRvZXMgaXQgd2l0aCBwdGVwX2dldF9sb2NrbGVzcygpLCB3ZSBwcm9iYWJseSBuZWVkIHRoZSBz
+YW1lCj4gZm9yIHRoZSBvdGhlciBsZXZlbHMgdG9vIGluc3RlYWQgb2Ygb3BlbiBjb2RpbmcgYSBS
+RUFEX09OQ0U/Cj4KPiBKYXNvbgoKVEJILCBwdGVwX2dldF9sb2NrbGVzcygpIGFsc28gbG9va3Mg
+YSBiaXQgZmlzaHkuIGl0IHNheXMKIml0IHdpbGwgbm90IHN3aXRjaCB0byBhIGNvbXBsZXRlbHkg
+ZGlmZmVyZW50IHByZXNlbnQgcGFnZSB3aXRob3V0IGEgVExCIApmbHVzaCBpbiBiZXR3ZWVuIi4K
+CldoYXQgaWYgdGhlIGZvbGxvd2luZyBoYXBwZW5zOgoKcHJvY2Vzc29yIDE6IFJlYWRzIGxvd2Vy
+IGR3b3JkIG9mIFBURS4KcHJvY2Vzc29yIDI6IFphcHMgUFRFLiBHZXRzIHN0dWNrIHdhaXRpbmcg
+dG8gZG8gVExCIGZsdXNoCnByb2Nlc3NvciAxOiBSZWFkcyB1cHBlciBkd29yZCBvZiBQVEUsIHdo
+aWNoIGlzIG5vdyB6ZXJvLgpwcm9jZXNzb3IgMzogSGl0cyBhIFRMQiBtaXNzLCByZWFkcyBhbiB1
+bnBvcHVsYXRlZCBQVEUgYW5kIGZhdWx0cyBpbiBhIApuZXcgUFRFIHZhbHVlIHdoaWNoIGhhcHBl
+bnMgdG8gYmUgdGhlIHNhbWUgYXMgdGhlIG9yaWdpbmFsIG9uZSBiZWZvcmUgCnRoZSB6YXAuCnBy
+b2Nlc3NvciAxOiBSZWFkcyB0aGUgbmV3bHkgZmF1bHRlZCBpbiBsb3dlciBkd29yZCwgY29tcGFy
+ZXMgdG8gdGhlIG9sZCAKb25lLCBnaXZlcyBhbiBPSyBhbmQgcmV0dXJucyBhIGJvZ3VzIFBURS4K
+Ci9UaG9tYXMKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
