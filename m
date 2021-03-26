@@ -1,43 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D6534A7F3
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 14:19:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 730FC34A814
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 14:28:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D429F6F3CB;
-	Fri, 26 Mar 2021 13:19:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ECC46F3D0;
+	Fri, 26 Mar 2021 13:28:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net
- [194.109.24.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39F476F3CB
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 13:19:10 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
- by smtp-cloud9.xs4all.net with ESMTPA
- id PmMgl50VX43ycPmMkl3lwX; Fri, 26 Mar 2021 14:19:06 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
- t=1616764746; bh=XFwB8lNGG/PoztTlQE2ZWLxvoRXPfG2lERyMv+lwx/U=;
- h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
- Subject;
- b=EUWbdRR0eJy/r7qVDU9G25N9F4mIUXgZByurMVOhHFuhGFV0CP3lzEI1Ytz6zv4n8
- vTuHIqxb6E/8LNmLHcTGSLEGuvRsdYdj8d/+WgQnWhgrowbhdDnIh57A28ZGviI+1N
- +0jtjt28UQyHPgsVT1tebB50NY+uZGQuwe85/zQi5ObNFR17/+Ts/5EqwLwMwPvKAM
- PwUWiUQQWq7MVQ3WDWfo2wgxA/9pOEzITLn+PWlH0nOLcXfq4kuT8PymjT4HFrI57m
- 8OaXPrz4uz5oKkn0c/dJy8rcxjaQul5o/mRQqsEwaYd/hG1V4hn85GE8WKf18j7v04
- iOQMm3HULZ7rg==
-To: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCHv2] drm/bridge: adv7511: fix support for large EDIDs
-Message-ID: <eeefa323-1273-10f9-0e26-0efc41ab8763@xs4all.nl>
-Date: Fri, 26 Mar 2021 14:19:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDED26F3D0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 13:28:54 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 815DE61A10
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 13:28:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1616765334;
+ bh=idlY0OOC2G/7+K57qD2clITH3gJ6EM+B/3bSF2CSJ94=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=KCI06IvU9HqIAsF2VhSuekEMskGfeuN6r2rnMXZix2MN8A8nEWzuexmjRrYl1V5oI
+ IOA3nOOEHLpHUThcLDXVOQy541r5TxarZhoAH+8ewIehXCkIWkpX00WjdVqRYP/oGa
+ 4njDRGno+rRgh0+BqOA6Rbsz4ocAVuj34YyXhvtDfQFCDAffHkY5iJ8f/+JRgYwl6G
+ LUWBkXemRK0MPRE295w4ckkoppCwirZG0LYgjCOqw2o4e+o8CXd7+c5PEjU/8j1rb/
+ VGUPhX/X/C74t9d/DSkSGvrSCk7qTOu/ZlwWbNPLBv20dnFJfyyFhett+uYEWsfAux
+ +3q+CbNdinalw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 7263662AB6; Fri, 26 Mar 2021 13:28:54 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212449] DDC requires amdgpu.dc=0, HDMI sound requires
+ amdgpu.dc=1. Make them work together!
+Date: Fri, 26 Mar 2021 13:28:54 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-212449-2300-iGR1PlIsQ0@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212449-2300@https.bugzilla.kernel.org/>
+References: <bug-212449-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Language: en-US
-X-CMAE-Envelope: MS4xfHFTotcOZlQvI4R+7yJnKTXZFDSrFYvOWA2ESOG/SfcZoNotP72IBOXXe4ctUCvvyU92x7YObpsD8mOWKV4TxXXtdeuyEk517hu9AUm669pd+6a838oY
- huLrUrHFg9DwDTrtHrwnemlAZt7l6//HrmjM6WHEpYuNZNuG/Elw/IvVbgmC7x+ImHz8ISo3lVAgtXlS9Fd8pK82wXlGfRivugC8ChoFU67dkZbodaDuxbcx
- bx7pIpY42HfoTP2KGdp2LrXHzCssCum/KQ5h2sl07ujLMjUwOBEYB8TOg38A8MFcIFkEC8RkZCKna9AQI/19qAXLQ0jBw8n7lw/7U7QgchM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,95 +64,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2hpbGUgdGVzdGluZyBzdXBwb3J0IGZvciBsYXJnZSAoPiAyNTYgYnl0ZXMpIEVESURzIG9uIHRo
-ZSBSZW5lc2FzCktvZWxzY2ggYm9hcmQgSSBub3RpY2VkIHRoYXQgdGhlIGFkdjc1MTEgYnJpZGdl
-IGRyaXZlciBvbmx5IHJlYWQgdGhlCmZpcnN0IHR3byBibG9ja3MuCgpUaGUgbWVkaWEgVjRMMiB2
-ZXJzaW9uIGZvciB0aGUgYWR2NzUxMSAoZHJpdmVycy9tZWRpYS9pMmMvYWR2NzUxMS12NGwyLmMp
-CmhhbmRsZWQgdGhpcyBjb3JyZWN0bHkuCgpCZXNpZGVzIGEgc2ltcGxlIGJ1ZyB3aGVuIHNldHRp
-bmcgdGhlIHNlZ21lbnQgcmVnaXN0ZXIgKGl0IHdhcyBzZXQgdG8gdGhlCmJsb2NrIG51bWJlciBp
-bnN0ZWFkIG9mIGJsb2NrIC8gMiksIHRoZSBsb2dpYyBvZiB0aGUgY29kZSB3YXMgYWxzbyB3ZWly
-ZC4KSW4gcGFydGljdWxhciByZWFkaW5nIHRoZSBERENfU1RBVFVTIGlzIG9kZDogdGhpcyBpcyB1
-bnJlbGF0ZWQgdG8gRURJRApyZWFkaW5nLgoKVGhlIHJld29ya2VkIGNvZGUganVzdCB3YWl0cyBm
-b3IgYW55IEVESUQgc2VnbWVudCByZWFkcyB0byBmaW5pc2ggKHRoaXMKZG9lcyBub3RoaW5nIGlm
-IHRoZSBhIHNlZ21lbnQgaXMgYWxyZWFkeSByZWFkKSwgY2hlY2tzIGlmIHRoZSBkZXNpcmVkCnNl
-Z21lbnQgbWF0Y2hlcyB0aGUgcmVhZCBzZWdtZW50LCBhbmQgaWYgbm90LCB0aGVuIGl0IHJlcXVl
-c3RzIHRoZSBuZXcKc2VnbWVudCBhbmQgd2FpdHMgYWdhaW4gZm9yIHRoZSBFRElEIHNlZ21lbnQg
-dG8gYmUgcmVhZC4KCkZpbmFsbHkgaXQgY2hlY2tzIGlmIHRoZSBjdXJyZW50bHkgYnVmZmVyZWQg
-RURJRCBzZWdtZW50IGNvbnRhaW5zIHRoZQpkZXNpcmVkIEVESUQgYmxvY2ssIGFuZCBpZiBub3Qg
-aXQgd2lsbCB1cGRhdGUgdGhlIEVESUQgYnVmZmVyIGZyb20KdGhlIGFkdjc1MTEuCgpUZXN0ZWQg
-d2l0aCBteSBLb2Vsc2NoIGJvYXJkIGFuZCB3aXRoIEVESURzIG9mIDEsIDIsIDMgYW5kIDQgYmxv
-Y2tzLgoKU2lnbmVkLW9mZi1ieTogSGFucyBWZXJrdWlsIDxodmVya3VpbC1jaXNjb0B4czRhbGwu
-bmw+ClRlc3RlZC1ieTogTmlrbGFzIFPDtmRlcmx1bmQgPG5pa2xhcy5zb2Rlcmx1bmQrcmVuZXNh
-c0ByYWduYXRlY2guc2U+Ci0tLQpDaGFuZ2VzIHNpbmNlIHYyOiBtYWtlIGN1cnJlbnRfZWRpZF9z
-ZWdtZW50IGFuIGludCAoaXQncyBzZXQgdG8gLTEgYWZ0ZXIgYWxsKQphbmQgdXNlIHRoYXQgaW5z
-dGVhZCBvZiByZWFkaW5nIEFEVjc1MTFfUkVHX0VESURfU0VHTUVOVC4gQWxzbyBzcHJpbmtsZSBh
-CmZldyBjb21tZW50cyBpbiB0aGUgY29kZS4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fk
-djc1MTEvYWR2NzUxMS5oICAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1
-MTEvYWR2NzUxMV9kcnYuYyB8IDQwICsrKysrKysrKysrKystLS0tLS0tCiAyIGZpbGVzIGNoYW5n
-ZWQsIDI3IGluc2VydGlvbnMoKyksIDE1IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTExLmggYi9kcml2ZXJzL2dwdS9kcm0vYnJp
-ZGdlL2Fkdjc1MTEvYWR2NzUxMS5oCmluZGV4IGE5YmI3MzQzNjZhZS4uM2RkMjljNTc4ZmM5IDEw
-MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUxMS5oCisrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTExLmgKQEAgLTM0Miw3ICszNDIs
-NyBAQCBzdHJ1Y3QgYWR2NzUxMSB7CiAJdW5zaWduZWQgaW50IGZfYXVkaW87CiAJdW5zaWduZWQg
-aW50IGF1ZGlvX3NvdXJjZTsKCi0JdW5zaWduZWQgaW50IGN1cnJlbnRfZWRpZF9zZWdtZW50Owor
-CWludCBjdXJyZW50X2VkaWRfc2VnbWVudDsKIAl1aW50OF90IGVkaWRfYnVmWzI1Nl07CiAJYm9v
-bCBlZGlkX3JlYWQ7CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hZHY3NTEx
-L2Fkdjc1MTFfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUxMV9k
-cnYuYwppbmRleCA3NjU1NWFlNjRlOWMuLjQzZmVmZGQ4ZDkyYiAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MTFfZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MTFfZHJ2LmMKQEAgLTMyNyw3ICszMjcsMTIgQEAgc3Rh
-dGljIHZvaWQgYWR2NzUxMV9zZXRfbGlua19jb25maWcoc3RydWN0IGFkdjc1MTEgKmFkdjc1MTEs
-Cgogc3RhdGljIHZvaWQgX19hZHY3NTExX3Bvd2VyX29uKHN0cnVjdCBhZHY3NTExICphZHY3NTEx
-KQogeworCS8qCisJICogVGhlIGFkdjc1MTEgd2lsbCBzdGFydCByZWFkaW5nIHRoZSBmaXJzdCBF
-RElEIHNlZ21lbnQgYXMKKwkgKiBzb29uIGFzIGl0IGlzIHBvd2VyZWQgb24uCisJICovCiAJYWR2
-NzUxMS0+Y3VycmVudF9lZGlkX3NlZ21lbnQgPSAtMTsKKwlhZHY3NTExLT5lZGlkX3JlYWQgPSBm
-YWxzZTsKCiAJcmVnbWFwX3VwZGF0ZV9iaXRzKGFkdjc1MTEtPnJlZ21hcCwgQURWNzUxMV9SRUdf
-UE9XRVIsCiAJCQkgICBBRFY3NTExX1BPV0VSX1BPV0VSX0RPV04sIDApOwpAQCAtNTI2LDYgKzUz
-MSw3IEBAIHN0YXRpYyBpbnQgYWR2NzUxMV93YWl0X2Zvcl9lZGlkKHN0cnVjdCBhZHY3NTExICph
-ZHY3NTExLCBpbnQgdGltZW91dCkKIHN0YXRpYyBpbnQgYWR2NzUxMV9nZXRfZWRpZF9ibG9jayh2
-b2lkICpkYXRhLCB1OCAqYnVmLCB1bnNpZ25lZCBpbnQgYmxvY2ssCiAJCQkJICBzaXplX3QgbGVu
-KQogeworCXVuc2lnbmVkIGludCBuZWVkX3NlZ21lbnQgPSBibG9jayAvIDI7CiAJc3RydWN0IGFk
-djc1MTEgKmFkdjc1MTEgPSBkYXRhOwogCXN0cnVjdCBpMmNfbXNnIHhmZXJbMl07CiAJdWludDhf
-dCBvZmZzZXQ7CkBAIC01MzUsMjMgKzU0MSwyOSBAQCBzdGF0aWMgaW50IGFkdjc1MTFfZ2V0X2Vk
-aWRfYmxvY2sodm9pZCAqZGF0YSwgdTggKmJ1ZiwgdW5zaWduZWQgaW50IGJsb2NrLAogCWlmIChs
-ZW4gPiAxMjgpCiAJCXJldHVybiAtRUlOVkFMOwoKLQlpZiAoYWR2NzUxMS0+Y3VycmVudF9lZGlk
-X3NlZ21lbnQgIT0gYmxvY2sgLyAyKSB7Ci0JCXVuc2lnbmVkIGludCBzdGF0dXM7CisJLyogd2Fp
-dCBmb3IgYW55IG9uZ29pbmcgRURJRCBzZWdtZW50IHJlYWRzIHRvIGZpbmlzaCAqLworCWFkdjc1
-MTFfd2FpdF9mb3JfZWRpZChhZHY3NTExLCAyMDApOwoKLQkJcmV0ID0gcmVnbWFwX3JlYWQoYWR2
-NzUxMS0+cmVnbWFwLCBBRFY3NTExX1JFR19ERENfU1RBVFVTLAotCQkJCSAgJnN0YXR1cyk7CisJ
-LyoKKwkgKiBJZiB0aGUgY3VycmVudCByZWFkIHNlZ21lbnQgZG9lcyBub3QgbWF0Y2ggd2hhdCB3
-ZSBuZWVkLCB0aGVuCisJICogd3JpdGUgdGhlIG5ldyBzZWdtZW50IGFuZCB3YWl0IGZvciBpdCB0
-byBiZSByZWFkLgorCSAqCisJICogTm90ZSB0aGF0IGFmdGVyIHBvd2VyIG9uIHRoZSBhZHY3NTEx
-IHN0YXJ0cyByZWFkaW5nIHNlZ21lbnQgMAorCSAqIG9mIHRoZSBFRElEIGF1dG9tYXRpY2FsbHku
-IFNvIGlmIGN1cnJlbnRfZWRpZF9zZWdtZW50IDwgMCwgdGhlbgorCSAqIHdlIGRvIG5vdCBuZWVk
-IHRvIHdyaXRlIHRoZSBFRElEX1NFR01FTlQgcmVnaXN0ZXIgYWdhaW4sIHNpbmNlCisJICogaXQg
-aXMgYWxyZWFkeSByZWFkaW5nIHNlZ21lbnQgMC4KKwkgKi8KKwlpZiAoYWR2NzUxMS0+Y3VycmVu
-dF9lZGlkX3NlZ21lbnQgPj0gMCAmJgorCSAgICBhZHY3NTExLT5jdXJyZW50X2VkaWRfc2VnbWVu
-dCAhPSBuZWVkX3NlZ21lbnQpIHsKKwkJYWR2NzUxMS0+ZWRpZF9yZWFkID0gZmFsc2U7CisJCXJl
-Z21hcF93cml0ZShhZHY3NTExLT5yZWdtYXAsIEFEVjc1MTFfUkVHX0VESURfU0VHTUVOVCwKKwkJ
-CSAgICAgbmVlZF9zZWdtZW50KTsKKwkJcmV0ID0gYWR2NzUxMV93YWl0X2Zvcl9lZGlkKGFkdjc1
-MTEsIDIwMCk7CiAJCWlmIChyZXQgPCAwKQogCQkJcmV0dXJuIHJldDsKKwl9CgotCQlpZiAoc3Rh
-dHVzICE9IDIpIHsKLQkJCWFkdjc1MTEtPmVkaWRfcmVhZCA9IGZhbHNlOwotCQkJcmVnbWFwX3dy
-aXRlKGFkdjc1MTEtPnJlZ21hcCwgQURWNzUxMV9SRUdfRURJRF9TRUdNRU5ULAotCQkJCSAgICAg
-YmxvY2spOwotCQkJcmV0ID0gYWR2NzUxMV93YWl0X2Zvcl9lZGlkKGFkdjc1MTEsIDIwMCk7Ci0J
-CQlpZiAocmV0IDwgMCkKLQkJCQlyZXR1cm4gcmV0OwotCQl9Ci0KKwlpZiAoYWR2NzUxMS0+Y3Vy
-cmVudF9lZGlkX3NlZ21lbnQgIT0gbmVlZF9zZWdtZW50KSB7CiAJCS8qIEJyZWFrIHRoaXMgYXBh
-cnQsIGhvcGVmdWxseSBtb3JlIEkyQyBjb250cm9sbGVycyB3aWxsCiAJCSAqIHN1cHBvcnQgNjQg
-Ynl0ZSB0cmFuc2ZlcnMgdGhhbiAyNTYgYnl0ZSB0cmFuc2ZlcnMKIAkJICovCkBAIC01NzksNyAr
-NTkxLDcgQEAgc3RhdGljIGludCBhZHY3NTExX2dldF9lZGlkX2Jsb2NrKHZvaWQgKmRhdGEsIHU4
-ICpidWYsIHVuc2lnbmVkIGludCBibG9jaywKIAkJCW9mZnNldCArPSA2NDsKIAkJfQoKLQkJYWR2
-NzUxMS0+Y3VycmVudF9lZGlkX3NlZ21lbnQgPSBibG9jayAvIDI7CisJCWFkdjc1MTEtPmN1cnJl
-bnRfZWRpZF9zZWdtZW50ID0gbmVlZF9zZWdtZW50OwogCX0KCiAJaWYgKGJsb2NrICUgMiA9PSAw
-KQotLSAKMi4zMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+https://bugzilla.kernel.org/show_bug.cgi?id=212449
+
+Alex Deucher (alexdeucher@gmail.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
+
+--- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
+When DC is enabled the i2c buses are also exposed.  Maybe you are just not
+using the right i2c bus?
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
