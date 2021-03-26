@@ -2,47 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718A6349EA3
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 02:25:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2DC2349ED0
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 02:40:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9E496EE9B;
-	Fri, 26 Mar 2021 01:25:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A821C6EE9D;
+	Fri, 26 Mar 2021 01:40:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m17637.qiye.163.com (mail-m17637.qiye.163.com
- [59.111.176.37])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0BE26EE9B;
- Fri, 26 Mar 2021 01:25:52 +0000 (UTC)
-Received: from wanjb-virtual-machine.localdomain (unknown [36.152.145.182])
- by mail-m17637.qiye.163.com (Hmail) with ESMTPA id 2696F98027A;
- Fri, 26 Mar 2021 09:25:49 +0800 (CST)
-From: Wan Jiabing <wanjiabing@vivo.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Wan Jiabing <wanjiabing@vivo.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Dave Airlie <airlied@redhat.com>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] [v2] drm/i915: Remove repeated declaration
-Date: Fri, 26 Mar 2021 09:25:17 +0800
-Message-Id: <20210326012527.875026-1-wanjiabing@vivo.com>
-X-Mailer: git-send-email 2.25.1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC1496EE9D
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 01:40:49 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67754D88;
+ Fri, 26 Mar 2021 02:40:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1616722847;
+ bh=h2FwEu3drCj/idGlDm1Qh/fxBEzSyoFGaJm6KvdDxQE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LvYrBilg3KRhou0l4UfF9AgnycCSaFGf82r2zP+fz/NcYbT2Fd0H0Kh+yXQk10ZCi
+ FQ1PSyE4rm09dF5NN314Zvmm6LCpUABd+1dUPa6PljY7Q1dmX3F5+mLdnFgvXDzBIR
+ DFZ8m+7yfX/htLr9y7D5R1VBTxtkXv5m4VXvHPx4=
+Date: Fri, 26 Mar 2021 03:40:04 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Doug Anderson <dianders@chromium.org>
+Subject: Re: [RFC PATCH 08/11] drm/bridge: ti-sn65dsi86: Implement bridge
+ connector operations
+Message-ID: <YF07dHgNlK1RqVUA@pendragon.ideasonboard.com>
+References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210322030128.2283-9-laurent.pinchart+renesas@ideasonboard.com>
+ <CAD=FV=UPqg0CnA1ZFR70Ym+m6ROemdFbYwk_=C3+SemP1X9hYw@mail.gmail.com>
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZSUpDSU8ZSRodSk5KVkpNSk1MSUpCT0JMTUxVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
- FZT0tIVUpKS0hKTFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PBg6PBw5Pj8TPD1RTw4eC0IU
- MjUwFBVVSlVKTUpNTElKQk5LTUxNVTMWGhIXVQwaFRESGhkSFRw7DRINFFUYFBZFWVdZEgtZQVlI
- TVVKTklVSk9OVUpDSVlXWQgBWUFIQkxJNwY+
-X-HM-Tid: 0a786c2333ead992kuws2696f98027a
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=UPqg0CnA1ZFR70Ym+m6ROemdFbYwk_=C3+SemP1X9hYw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,46 +48,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kael_w@yeah.net
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, linux-renesas-soc@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-c3RydWN0IGRybV9pOTE1X3ByaXZhdGUsIHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlIGFuZApzdHJ1
-Y3QgaW50ZWxfY3J0YyBpcyBkZWNsYXJlZCB0d2ljZS4KUmVtb3ZlIHRoZSBkdXBsaWNhdGUuCgpS
-ZXZpZXdlZC1ieTogSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSA8am9zZS5zb3V6YUBpbnRlbC5jb20+
-ClNpZ25lZC1vZmYtYnk6IFdhbiBKaWFiaW5nIDx3YW5qaWFiaW5nQHZpdm8uY29tPgotLS0KQ2hh
-bmdlbG9nOgp2MjoKLSBNb2RpZnkgc3ViamVjdCBsaW5lLgotIERlbGV0ZSB0cmFpbGluZyB3aGl0
-ZXNwYWNlIGluIGNvbW1pdCBsb2cuCi0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
-bnRlbF9jcnQuaCAgICAgfCAxIC0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxf
-ZGlzcGxheS5oIHwgMSAtCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3Zyci5o
-ICAgICB8IDEgLQogMyBmaWxlcyBjaGFuZ2VkLCAzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfY3J0LmggYi9kcml2ZXJzL2dwdS9k
-cm0vaTkxNS9kaXNwbGF5L2ludGVsX2NydC5oCmluZGV4IDFiM2ZiYTM1OWVmYy4uNmM1YzQ0NjAw
-Y2JkIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2NydC5o
-CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfY3J0LmgKQEAgLTExLDcg
-KzExLDYgQEAKIGVudW0gcGlwZTsKIHN0cnVjdCBkcm1fZW5jb2RlcjsKIHN0cnVjdCBkcm1faTkx
-NV9wcml2YXRlOwotc3RydWN0IGRybV9pOTE1X3ByaXZhdGU7CiAKIGJvb2wgaW50ZWxfY3J0X3Bv
-cnRfZW5hYmxlZChzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYsCiAJCQkgICAgaTkx
-NV9yZWdfdCBhZHBhX3JlZywgZW51bSBwaXBlICpwaXBlKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheS5oIGIvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5LmgKaW5kZXggNzZmOGE4MDViMGEzLi4yOWNiNmQ4NGVk
-NzAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxh
-eS5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheS5oCkBA
-IC00OCw3ICs0OCw2IEBAIHN0cnVjdCBpOTE1X2dndHRfdmlldzsKIHN0cnVjdCBpbnRlbF9hdG9t
-aWNfc3RhdGU7CiBzdHJ1Y3QgaW50ZWxfY3J0YzsKIHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlOwot
-c3RydWN0IGludGVsX2NydGNfc3RhdGU7CiBzdHJ1Y3QgaW50ZWxfZGlnaXRhbF9wb3J0Owogc3Ry
-dWN0IGludGVsX2RwOwogc3RydWN0IGludGVsX2VuY29kZXI7CmRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3Zyci5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUv
-ZGlzcGxheS9pbnRlbF92cnIuaAppbmRleCBmYWMwMWJmNGFiNTAuLjk2ZjljOWMyN2FiOSAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF92cnIuaAorKysgYi9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3Zyci5oCkBAIC0xNSw3ICsxNSw2IEBA
-IHN0cnVjdCBpbnRlbF9jcnRjOwogc3RydWN0IGludGVsX2NydGNfc3RhdGU7CiBzdHJ1Y3QgaW50
-ZWxfZHA7CiBzdHJ1Y3QgaW50ZWxfZW5jb2RlcjsKLXN0cnVjdCBpbnRlbF9jcnRjOwogCiBib29s
-IGludGVsX3Zycl9pc19jYXBhYmxlKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpOwog
-dm9pZCBpbnRlbF92cnJfY2hlY2tfbW9kZXNldChzdHJ1Y3QgaW50ZWxfYXRvbWljX3N0YXRlICpz
-dGF0ZSk7Ci0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+Hi Doug,
+
+On Wed, Mar 24, 2021 at 03:46:28PM -0700, Doug Anderson wrote:
+> On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart wrote:
+> >
+> > Implement the bridge connector-related .get_edid() operation, and report
+> > the related bridge capabilities and type. The .get_edid() operation is
+> > implemented with the same backend as the EDID retrieval from the
+> > connector .get_modes() operation.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 30 ++++++++++++++++++++++-----
+> >  1 file changed, 25 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > index dc300fab4319..6f6e075544e8 100644
+> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > @@ -261,6 +261,18 @@ static void ti_sn_debugfs_remove(struct ti_sn_bridge *pdata)
+> >         pdata->debugfs = NULL;
+> >  }
+> >
+> > +static struct edid *__ti_sn_bridge_get_edid(struct ti_sn_bridge *pdata,
+> > +                                           struct drm_connector *connector)
+> > +{
+> > +       struct edid *edid;
+> > +
+> > +       pm_runtime_get_sync(pdata->dev);
+> > +       edid = drm_get_edid(connector, &pdata->aux.ddc);
+> > +       pm_runtime_put(pdata->dev);
+> 
+> As mentioned in my patch [1], the above is a bit iffy for eDP.
+> Specifically just doing a pm_runtime_get_sync() isn't enough to
+> actually be able to read the EDID. We also need to do any panel power
+> sequencing and potentially set the "ignore HPD" bit in the bridge to
+> actually read the EDID.
+> 
+> I'll try to find some time to make this better--let's see if I get
+> distracted before I manage it.
+
+I've replied to your review of 05/11 with a possible solution. Fingers
+crossed :-)
+
+> > +
+> > +       return edid;
+> > +}
+> > +
+> >  /* -----------------------------------------------------------------------------
+> >   * DRM Connector Operations
+> >   */
+> > @@ -277,11 +289,8 @@ static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
+> >         struct edid *edid = pdata->edid;
+> >         int num, ret;
+> >
+> > -       if (!edid) {
+> > -               pm_runtime_get_sync(pdata->dev);
+> > -               edid = pdata->edid = drm_get_edid(connector, &pdata->aux.ddc);
+> > -               pm_runtime_put(pdata->dev);
+> > -       }
+> > +       if (!edid)
+> > +               edid = pdata->edid = __ti_sn_bridge_get_edid(pdata, connector);
+> 
+> It feels weird to me that we are now exposing the get_edid() function
+> directly but we still need to implement get_modes(). I guess this is
+> because we might need to fallback to the hardcoded modes? ...but that
+> seems like it would be a common pattern for eDP bridges...
+
+Bridges are moving from creating the connector internally to providing a
+set of bridge operations to support connector creation externally (by
+the drm_bridge_connector helper, or by display drivers directly if
+needed). During the transition, both need to be implemented, hence the
+bridge .get_edid() operation for the new model, and the connector
+.get_modes() operation for the old model.
+
+> >         if (edid && drm_edid_is_valid(edid)) {
+> >                 ret = drm_connector_update_edid_property(connector, edid);
+> > @@ -871,12 +880,21 @@ static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
+> >         pm_runtime_put_sync(pdata->dev);
+> >  }
+> >
+> > +static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
+> > +                                         struct drm_connector *connector)
+> > +{
+> > +       struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
+> > +
+> > +       return __ti_sn_bridge_get_edid(pdata, connector);
+> > +}
+> > +
+> >  static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
+> >         .attach = ti_sn_bridge_attach,
+> >         .pre_enable = ti_sn_bridge_pre_enable,
+> >         .enable = ti_sn_bridge_enable,
+> >         .disable = ti_sn_bridge_disable,
+> >         .post_disable = ti_sn_bridge_post_disable,
+> > +       .get_edid = ti_sn_bridge_get_edid,
+> >  };
+> >
+> >  /* -----------------------------------------------------------------------------
+> > @@ -1335,6 +1353,8 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
+> >
+> >         pdata->bridge.funcs = &ti_sn_bridge_funcs;
+> >         pdata->bridge.of_node = client->dev.of_node;
+> > +       pdata->bridge.ops = DRM_BRIDGE_OP_EDID;
+> > +       pdata->bridge.type = DRM_MODE_CONNECTOR_eDP;
+> 
+> Even with the few comments above, I think this is still fine to move
+> us in the right direction. Unless I manage to fix up the EDID reading
+> (in which case your patch would conflict and would need to be
+> tweaked), then:
+> 
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> 
+> 
+> [1] https://lore.kernel.org/r/20210304155144.3.I60a7fb23ce4589006bc95c64ab8d15c74b876e68@changeid/
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
