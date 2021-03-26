@@ -1,57 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9143634AE3A
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 19:05:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28DF934AE3D
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 19:07:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ADED6F46B;
-	Fri, 26 Mar 2021 18:05:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD6C06F46D;
+	Fri, 26 Mar 2021 18:07:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 140EC89E47
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 18:05:48 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1616781950; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=Gjm43SdfpwDXIBiOLyxle6Taf6ku7fuAYmnZAyJ0Cic=;
- b=QNYOCZBsZAv4P6N2xbcKLW2Aa3Nr02sDJgMZliIa9ltvCMCB3qPy9e5i/A56NOdREYCv1jfg
- eb82iVAEmA7pWCQ3wSrBRprZxgcytMInMawtAUhk3VS5x/zNj5/GOtJuATba/JA3ZFXRDQBm
- 71IWu36GKvDOJebdTnSxcY1R1JE=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 605e22780a4a07ffda2f2880 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 26 Mar 2021 18:05:44
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 16574C433ED; Fri, 26 Mar 2021 18:05:44 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id B1E64C433C6;
- Fri, 26 Mar 2021 18:05:41 +0000 (UTC)
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
+ [IPv6:2607:f8b0:4864:20::c34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DBD86F46C
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 18:07:28 +0000 (UTC)
+Received: by mail-oo1-xc34.google.com with SMTP id
+ n6-20020a4ac7060000b02901b50acc169fso1483900ooq.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 11:07:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=tiQAc4cCzJmCKxH0htiFQ6KYEm0OD0QBbQNUKC4oYuY=;
+ b=XXQCThM+4KWAJFkd5iK73xvdXvTuhmnPNR0TZrhhno7CxRlBPY05PMCy8yGgLFY5js
+ QXSa9r7Nw8bSA/H5J2nPVajkH6psk3NYCoFaHOZjw44aRJQv1CFoCAGaimb0PFO31ijf
+ lza1rJhULG3MUiBYy9qhKSS5lFovlQ4RSyQtA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tiQAc4cCzJmCKxH0htiFQ6KYEm0OD0QBbQNUKC4oYuY=;
+ b=WkIVXg7cq5B2MZT0V65vQlDFWMFj+Qu0hnoa7e8yGYFk9YaSchxX5MmBCFeklfi6Xn
+ 7NTOHfTq2sPaXqV/QQTeAlGbAqXRhTXwHqKYtq4CO0b4SzpBQ5/7CjAAOjnioYr5N5xo
+ 96BCnT3lllbDH7XN+KHhLGBnv9Pmpz3limXb4hs+x4zwhfxZJxNahDz/Zh9XkEswGpM8
+ bGMwqLKoCJEZId4F0uxHbuzRwOeOivvIcaSOel6AcX3zB8jCgHX7/l4nxDeCj9Vzi292
+ +BWfsedm+ECK/RwgP1inSPNPTv49wbSA7zbFpgPqgPbYgAaDVwXRhzqY9V+FaOTke50Y
+ zTvg==
+X-Gm-Message-State: AOAM532YIyew5t+4GfAAIDE0E1BJzQPkZjsgj8mkQp3newSeUOHmmtbp
+ 4x+NwSQtkysW89lB4aLZRObLd60JI+aZEiDUO12WEw==
+X-Google-Smtp-Source: ABdhPJzk7+HqzwaQrD8ChP5vwj+cIRMVeiW6Gauwpz1ug8KlfsIoTlaFBVvhAMHWtJ1bJDZGh1yq1B/IKe9CgmuxtFw=
+X-Received: by 2002:a4a:d553:: with SMTP id q19mr12104935oos.28.1616782046403; 
+ Fri, 26 Mar 2021 11:07:26 -0700 (PDT)
 MIME-Version: 1.0
-Date: Fri, 26 Mar 2021 11:05:41 -0700
-From: abhinavk@codeaurora.org
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [Freedreno] [PATCH v2 11/28] drm/msm/dsi: stop setting clock
- parents manually
-In-Reply-To: <20210324151846.2774204-12-dmitry.baryshkov@linaro.org>
-References: <20210324151846.2774204-1-dmitry.baryshkov@linaro.org>
- <20210324151846.2774204-12-dmitry.baryshkov@linaro.org>
-Message-ID: <70b511f16d9d3edfdcaa27d749933ca7@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <20210218221531.3870-1-alexander.deucher@amd.com>
+In-Reply-To: <20210218221531.3870-1-alexander.deucher@amd.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 26 Mar 2021 19:07:12 +0100
+Message-ID: <CAKMK7uEWiGqt4=KpX2ov8OZ4SMD1mJMAQo7D6QezHwT0Nhdpgg@mail.gmail.com>
+Subject: Re: [pull] amdgpu, amdkfd, radeon drm-next-5.12
+To: Alex Deucher <alexdeucher@gmail.com>, Lyude <lyude@redhat.com>, 
+ ingqing Zhuo <qingqing.zhuo@amd.com>, "Wentland,
+ Harry" <harry.wentland@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,478 +61,222 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
- Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
- linux-clk@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry
-
-On 2021-03-24 08:18, Dmitry Baryshkov wrote:
-> There is no reason to set clock parents manually, use device tree to
-> assign DSI/display clock parents to DSI PHY clocks. Dropping this 
-> manual
-> setup allows us to drop repeating code and to move registration of hw
-> clock providers to generic place.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-With this change, there is a change in behavior for dual DSI using 
-single PLL.
-So today, it looks like once we specify qcom,dual-dsi-mode; in the DT,
-this code was also setting the src pll of the other DSI to be DSI0.
-
-> -		src_pll = msm_dsi_phy_get_pll(clk_master_dsi->phy);
-> -		if (IS_ERR(src_pll))
-> -			return PTR_ERR(src_pll);
-> -		ret = msm_dsi_host_set_src_pll(msm_dsi->host, src_pll);
-> -		if (ret)
-> -			return ret;
-> -		ret = msm_dsi_host_set_src_pll(other_dsi->host, src_pll);
-
-With this change, we not only have to do mark qcom,dual-dsi-mode but 
-also change the
-parent in the DTSI like below:
-
-assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK_SRC>, <&dispcc 
-DISP_CC_MDSS_PCLK1_CLK_SRC>;
-assigned-clock-parents = <&dsi0_phy 0>, <&dsi0_phy 1>;
-
-So it seems like we need to do two things for dual DSI panels to work?
-Have you verified it like this on any of your boards?
-
-> ---
->  drivers/gpu/drm/msm/dsi/dsi.h                 |  9 ----
->  drivers/gpu/drm/msm/dsi/dsi_host.c            | 51 -------------------
->  drivers/gpu/drm/msm/dsi/dsi_manager.c         | 12 -----
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h         |  3 --
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c    | 19 -------
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c    | 17 -------
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c    | 18 -------
->  .../gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c   | 16 ------
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     | 19 -------
->  drivers/gpu/drm/msm/dsi/phy/dsi_pll.c         | 11 ----
->  10 files changed, 175 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h 
-> b/drivers/gpu/drm/msm/dsi/dsi.h
-> index b310cf344ed4..3614af64ff52 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.h
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
-> @@ -96,19 +96,12 @@ struct drm_encoder *msm_dsi_get_encoder(struct
-> msm_dsi *msm_dsi);
->  struct msm_dsi_pll;
->  #ifdef CONFIG_DRM_MSM_DSI_PLL
->  void msm_dsi_pll_destroy(struct msm_dsi_pll *pll);
-> -int msm_dsi_pll_get_clk_provider(struct msm_dsi_pll *pll,
-> -	struct clk **byte_clk_provider, struct clk **pixel_clk_provider);
->  void msm_dsi_pll_save_state(struct msm_dsi_pll *pll);
->  int msm_dsi_pll_restore_state(struct msm_dsi_pll *pll);
->  #else
->  static inline void msm_dsi_pll_destroy(struct msm_dsi_pll *pll)
->  {
->  }
-> -static inline int msm_dsi_pll_get_clk_provider(struct msm_dsi_pll 
-> *pll,
-> -	struct clk **byte_clk_provider, struct clk **pixel_clk_provider)
-> -{
-> -	return -ENODEV;
-> -}
->  static inline void msm_dsi_pll_save_state(struct msm_dsi_pll *pll)
->  {
->  }
-> @@ -143,8 +136,6 @@ unsigned long msm_dsi_host_get_mode_flags(struct
-> mipi_dsi_host *host);
->  struct drm_bridge *msm_dsi_host_get_bridge(struct mipi_dsi_host 
-> *host);
->  int msm_dsi_host_register(struct mipi_dsi_host *host, bool 
-> check_defer);
->  void msm_dsi_host_unregister(struct mipi_dsi_host *host);
-> -int msm_dsi_host_set_src_pll(struct mipi_dsi_host *host,
-> -			struct msm_dsi_pll *src_pll);
->  void msm_dsi_host_reset_phy(struct mipi_dsi_host *host);
->  void msm_dsi_host_get_phy_clk_req(struct mipi_dsi_host *host,
->  	struct msm_dsi_phy_clk_request *clk_req,
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index ab281cba0f08..bf3468ccc965 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -2225,57 +2225,6 @@ void msm_dsi_host_cmd_xfer_commit(struct
-> mipi_dsi_host *host, u32 dma_base,
->  	wmb();
->  }
-> 
-> -int msm_dsi_host_set_src_pll(struct mipi_dsi_host *host,
-> -	struct msm_dsi_pll *src_pll)
-> -{
-> -	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
-> -	struct clk *byte_clk_provider, *pixel_clk_provider;
-> -	int ret;
-> -
-> -	ret = msm_dsi_pll_get_clk_provider(src_pll,
-> -				&byte_clk_provider, &pixel_clk_provider);
-> -	if (ret) {
-> -		pr_info("%s: can't get provider from pll, don't set parent\n",
-> -			__func__);
-> -		return 0;
-> -	}
-> -
-> -	ret = clk_set_parent(msm_host->byte_clk_src, byte_clk_provider);
-> -	if (ret) {
-> -		pr_err("%s: can't set parent to byte_clk_src. ret=%d\n",
-> -			__func__, ret);
-> -		goto exit;
-> -	}
-> -
-> -	ret = clk_set_parent(msm_host->pixel_clk_src, pixel_clk_provider);
-> -	if (ret) {
-> -		pr_err("%s: can't set parent to pixel_clk_src. ret=%d\n",
-> -			__func__, ret);
-> -		goto exit;
-> -	}
-> -
-> -	if (msm_host->dsi_clk_src) {
-> -		ret = clk_set_parent(msm_host->dsi_clk_src, pixel_clk_provider);
-> -		if (ret) {
-> -			pr_err("%s: can't set parent to dsi_clk_src. ret=%d\n",
-> -				__func__, ret);
-> -			goto exit;
-> -		}
-> -	}
-> -
-> -	if (msm_host->esc_clk_src) {
-> -		ret = clk_set_parent(msm_host->esc_clk_src, byte_clk_provider);
-> -		if (ret) {
-> -			pr_err("%s: can't set parent to esc_clk_src. ret=%d\n",
-> -				__func__, ret);
-> -			goto exit;
-> -		}
-> -	}
-> -
-> -exit:
-> -	return ret;
-> -}
-> -
->  void msm_dsi_host_reset_phy(struct mipi_dsi_host *host)
->  {
->  	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> index 1d28dfba2c9b..6b65d86d116a 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> @@ -70,7 +70,6 @@ static int dsi_mgr_setup_components(int id)
->  	struct msm_dsi *other_dsi = dsi_mgr_get_other_dsi(id);
->  	struct msm_dsi *clk_master_dsi = dsi_mgr_get_dsi(DSI_CLOCK_MASTER);
->  	struct msm_dsi *clk_slave_dsi = dsi_mgr_get_dsi(DSI_CLOCK_SLAVE);
-> -	struct msm_dsi_pll *src_pll;
->  	int ret;
-> 
->  	if (!IS_DUAL_DSI()) {
-> @@ -79,10 +78,6 @@ static int dsi_mgr_setup_components(int id)
->  			return ret;
-> 
->  		msm_dsi_phy_set_usecase(msm_dsi->phy, MSM_DSI_PHY_STANDALONE);
-> -		src_pll = msm_dsi_phy_get_pll(msm_dsi->phy);
-> -		if (IS_ERR(src_pll))
-> -			return PTR_ERR(src_pll);
-> -		ret = msm_dsi_host_set_src_pll(msm_dsi->host, src_pll);
->  	} else if (!other_dsi) {
->  		ret = 0;
->  	} else {
-> @@ -109,13 +104,6 @@ static int dsi_mgr_setup_components(int id)
->  					MSM_DSI_PHY_MASTER);
->  		msm_dsi_phy_set_usecase(clk_slave_dsi->phy,
->  					MSM_DSI_PHY_SLAVE);
-> -		src_pll = msm_dsi_phy_get_pll(clk_master_dsi->phy);
-> -		if (IS_ERR(src_pll))
-> -			return PTR_ERR(src_pll);
-> -		ret = msm_dsi_host_set_src_pll(msm_dsi->host, src_pll);
-> -		if (ret)
-> -			return ret;
-> -		ret = msm_dsi_host_set_src_pll(other_dsi->host, src_pll);
->  	}
-> 
->  	return ret;
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-> index f737bef74b91..3e3ed884c3dc 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-> @@ -23,9 +23,6 @@ struct msm_dsi_phy_ops {
->  struct msm_dsi_pll_ops {
->  	int (*enable_seq)(struct msm_dsi_pll *pll);
->  	void (*disable_seq)(struct msm_dsi_pll *pll);
-> -	int (*get_provider)(struct msm_dsi_pll *pll,
-> -			struct clk **byte_clk_provider,
-> -			struct clk **pixel_clk_provider);
->  	void (*destroy)(struct msm_dsi_pll *pll);
->  	void (*save_state)(struct msm_dsi_pll *pll);
->  	int (*restore_state)(struct msm_dsi_pll *pll);
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-> index 7a98e420414f..319d7b26c784 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-> @@ -621,23 +621,6 @@ static int dsi_pll_10nm_set_usecase(struct
-> msm_dsi_pll *pll,
->  	return 0;
->  }
-> 
-> -static int dsi_pll_10nm_get_provider(struct msm_dsi_pll *pll,
-> -				     struct clk **byte_clk_provider,
-> -				     struct clk **pixel_clk_provider)
-> -{
-> -	struct dsi_pll_10nm *pll_10nm = to_pll_10nm(pll);
-> -	struct clk_hw_onecell_data *hw_data = pll_10nm->hw_data;
-> -
-> -	DBG("DSI PLL%d", pll_10nm->id);
-> -
-> -	if (byte_clk_provider)
-> -		*byte_clk_provider = hw_data->hws[DSI_BYTE_PLL_CLK]->clk;
-> -	if (pixel_clk_provider)
-> -		*pixel_clk_provider = hw_data->hws[DSI_PIXEL_PLL_CLK]->clk;
-> -
-> -	return 0;
-> -}
-> -
->  static void dsi_pll_10nm_destroy(struct msm_dsi_pll *pll)
->  {
->  	struct dsi_pll_10nm *pll_10nm = to_pll_10nm(pll);
-> @@ -1105,7 +1088,6 @@ const struct msm_dsi_phy_cfg dsi_phy_10nm_cfgs = 
-> {
->  		.pll_init = dsi_pll_10nm_init,
->  	},
->  	.pll_ops = {
-> -		.get_provider = dsi_pll_10nm_get_provider,
->  		.destroy = dsi_pll_10nm_destroy,
->  		.save_state = dsi_pll_10nm_save_state,
->  		.restore_state = dsi_pll_10nm_restore_state,
-> @@ -1131,7 +1113,6 @@ const struct msm_dsi_phy_cfg 
-> dsi_phy_10nm_8998_cfgs = {
->  		.pll_init = dsi_pll_10nm_init,
->  	},
->  	.pll_ops = {
-> -		.get_provider = dsi_pll_10nm_get_provider,
->  		.destroy = dsi_pll_10nm_destroy,
->  		.save_state = dsi_pll_10nm_save_state,
->  		.restore_state = dsi_pll_10nm_restore_state,
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-> index bab86fa6dc4b..6f3021f66ecc 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-> @@ -880,21 +880,6 @@ static int dsi_pll_14nm_set_usecase(struct
-> msm_dsi_pll *pll,
->  	return 0;
->  }
-> 
-> -static int dsi_pll_14nm_get_provider(struct msm_dsi_pll *pll,
-> -				     struct clk **byte_clk_provider,
-> -				     struct clk **pixel_clk_provider)
-> -{
-> -	struct dsi_pll_14nm *pll_14nm = to_pll_14nm(pll);
-> -	struct clk_hw_onecell_data *hw_data = pll_14nm->hw_data;
-> -
-> -	if (byte_clk_provider)
-> -		*byte_clk_provider = hw_data->hws[DSI_BYTE_PLL_CLK]->clk;
-> -	if (pixel_clk_provider)
-> -		*pixel_clk_provider = hw_data->hws[DSI_PIXEL_PLL_CLK]->clk;
-> -
-> -	return 0;
-> -}
-> -
->  static void dsi_pll_14nm_destroy(struct msm_dsi_pll *pll)
->  {
->  	struct dsi_pll_14nm *pll_14nm = to_pll_14nm(pll);
-> @@ -1227,7 +1212,6 @@ const struct msm_dsi_phy_cfg dsi_phy_14nm_cfgs = 
-> {
->  		.pll_init = dsi_pll_14nm_init,
->  	},
->  	.pll_ops = {
-> -		.get_provider = dsi_pll_14nm_get_provider,
->  		.destroy = dsi_pll_14nm_destroy,
->  		.save_state = dsi_pll_14nm_save_state,
->  		.restore_state = dsi_pll_14nm_restore_state,
-> @@ -1255,7 +1239,6 @@ const struct msm_dsi_phy_cfg 
-> dsi_phy_14nm_660_cfgs = {
->  		.pll_init = dsi_pll_14nm_init,
->  	},
->  	.pll_ops = {
-> -		.get_provider = dsi_pll_14nm_get_provider,
->  		.destroy = dsi_pll_14nm_destroy,
->  		.save_state = dsi_pll_14nm_save_state,
->  		.restore_state = dsi_pll_14nm_restore_state,
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-> index d267b25e5da0..83c73230266d 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-> @@ -495,21 +495,6 @@ static int dsi_pll_28nm_restore_state(struct
-> msm_dsi_pll *pll)
->  	return 0;
->  }
-> 
-> -static int dsi_pll_28nm_get_provider(struct msm_dsi_pll *pll,
-> -				struct clk **byte_clk_provider,
-> -				struct clk **pixel_clk_provider)
-> -{
-> -	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(pll);
-> -
-> -	if (byte_clk_provider)
-> -		*byte_clk_provider = pll_28nm->provided_clks[DSI_BYTE_PLL_CLK];
-> -	if (pixel_clk_provider)
-> -		*pixel_clk_provider =
-> -				pll_28nm->provided_clks[DSI_PIXEL_PLL_CLK];
-> -
-> -	return 0;
-> -}
-> -
->  static void dsi_pll_28nm_destroy(struct msm_dsi_pll *pll)
->  {
->  	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(pll);
-> @@ -802,7 +787,6 @@ const struct msm_dsi_phy_cfg dsi_phy_28nm_hpm_cfgs 
-> = {
->  		.pll_init = dsi_pll_28nm_init,
->  	},
->  	.pll_ops = {
-> -		.get_provider = dsi_pll_28nm_get_provider,
->  		.destroy = dsi_pll_28nm_destroy,
->  		.save_state = dsi_pll_28nm_save_state,
->  		.restore_state = dsi_pll_28nm_restore_state,
-> @@ -830,7 +814,6 @@ const struct msm_dsi_phy_cfg 
-> dsi_phy_28nm_hpm_famb_cfgs = {
->  		.pll_init = dsi_pll_28nm_init,
->  	},
->  	.pll_ops = {
-> -		.get_provider = dsi_pll_28nm_get_provider,
->  		.destroy = dsi_pll_28nm_destroy,
->  		.save_state = dsi_pll_28nm_save_state,
->  		.restore_state = dsi_pll_28nm_restore_state,
-> @@ -858,7 +841,6 @@ const struct msm_dsi_phy_cfg dsi_phy_28nm_lp_cfgs = 
-> {
->  		.pll_init = dsi_pll_28nm_init,
->  	},
->  	.pll_ops = {
-> -		.get_provider = dsi_pll_28nm_get_provider,
->  		.destroy = dsi_pll_28nm_destroy,
->  		.save_state = dsi_pll_28nm_save_state,
->  		.restore_state = dsi_pll_28nm_restore_state,
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-> index 31e7910c6050..0e26780e3eb4 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-> @@ -377,21 +377,6 @@ static int dsi_pll_28nm_restore_state(struct
-> msm_dsi_pll *pll)
->  	return 0;
->  }
-> 
-> -static int dsi_pll_28nm_get_provider(struct msm_dsi_pll *pll,
-> -				struct clk **byte_clk_provider,
-> -				struct clk **pixel_clk_provider)
-> -{
-> -	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(pll);
-> -
-> -	if (byte_clk_provider)
-> -		*byte_clk_provider = pll_28nm->provided_clks[DSI_BYTE_PLL_CLK];
-> -	if (pixel_clk_provider)
-> -		*pixel_clk_provider =
-> -				pll_28nm->provided_clks[DSI_PIXEL_PLL_CLK];
-> -
-> -	return 0;
-> -}
-> -
->  static void dsi_pll_28nm_destroy(struct msm_dsi_pll *pll)
->  {
->  	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(pll);
-> @@ -702,7 +687,6 @@ const struct msm_dsi_phy_cfg dsi_phy_28nm_8960_cfgs 
-> = {
->  		.pll_init = dsi_pll_28nm_8960_init,
->  	},
->  	.pll_ops = {
-> -		.get_provider = dsi_pll_28nm_get_provider,
->  		.destroy = dsi_pll_28nm_destroy,
->  		.save_state = dsi_pll_28nm_save_state,
->  		.restore_state = dsi_pll_28nm_restore_state,
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> index 5acdfe1f63be..7618f40ad45d 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> @@ -646,23 +646,6 @@ static int dsi_pll_7nm_set_usecase(struct 
-> msm_dsi_pll *pll,
->  	return 0;
->  }
-> 
-> -static int dsi_pll_7nm_get_provider(struct msm_dsi_pll *pll,
-> -				     struct clk **byte_clk_provider,
-> -				     struct clk **pixel_clk_provider)
-> -{
-> -	struct dsi_pll_7nm *pll_7nm = to_pll_7nm(pll);
-> -	struct clk_hw_onecell_data *hw_data = pll_7nm->hw_data;
-> -
-> -	DBG("DSI PLL%d", pll_7nm->id);
-> -
-> -	if (byte_clk_provider)
-> -		*byte_clk_provider = hw_data->hws[DSI_BYTE_PLL_CLK]->clk;
-> -	if (pixel_clk_provider)
-> -		*pixel_clk_provider = hw_data->hws[DSI_PIXEL_PLL_CLK]->clk;
-> -
-> -	return 0;
-> -}
-> -
->  static void dsi_pll_7nm_destroy(struct msm_dsi_pll *pll)
->  {
->  	struct dsi_pll_7nm *pll_7nm = to_pll_7nm(pll);
-> @@ -1138,7 +1121,6 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs = {
->  		.pll_init = dsi_pll_7nm_init,
->  	},
->  	.pll_ops = {
-> -		.get_provider = dsi_pll_7nm_get_provider,
->  		.destroy = dsi_pll_7nm_destroy,
->  		.save_state = dsi_pll_7nm_save_state,
->  		.restore_state = dsi_pll_7nm_restore_state,
-> @@ -1165,7 +1147,6 @@ const struct msm_dsi_phy_cfg 
-> dsi_phy_7nm_8150_cfgs = {
->  		.pll_init = dsi_pll_7nm_init,
->  	},
->  	.pll_ops = {
-> -		.get_provider = dsi_pll_7nm_get_provider,
->  		.destroy = dsi_pll_7nm_destroy,
->  		.save_state = dsi_pll_7nm_save_state,
->  		.restore_state = dsi_pll_7nm_restore_state,
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c
-> b/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c
-> index 98ee4560581a..5768e8d225fc 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_pll.c
-> @@ -74,17 +74,6 @@ void msm_dsi_pll_helper_unregister_clks(struct
-> platform_device *pdev,
->  /*
->   * DSI PLL API
->   */
-> -int msm_dsi_pll_get_clk_provider(struct msm_dsi_pll *pll,
-> -	struct clk **byte_clk_provider, struct clk **pixel_clk_provider)
-> -{
-> -	if (pll->cfg->pll_ops.get_provider)
-> -		return pll->cfg->pll_ops.get_provider(pll,
-> -					byte_clk_provider,
-> -					pixel_clk_provider);
-> -
-> -	return -EINVAL;
-> -}
-> -
->  void msm_dsi_pll_destroy(struct msm_dsi_pll *pll)
->  {
->  	if (pll->cfg->pll_ops.destroy)
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBGZWIgMTgsIDIwMjEgYXQgMTE6MTUgUE0gQWxleCBEZXVjaGVyIDxhbGV4ZGV1Y2hl
+ckBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gSGkgRGF2ZSwgRGFuaWVsLAo+Cj4gRml4ZXMgZm9yIDUu
+MTIuCj4KPiBUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IDRjM2EzMjkyNzMwYzU2
+NTkxNDcyNzE3ZDhjNWMwZmFmNzRmNmM2YmI6Cj4KPiAgIGRybS9hbWQvZGlzcGxheTogZml4IHVu
+dXNlZCB2YXJpYWJsZSB3YXJuaW5nICgyMDIxLTAyLTA1IDA5OjQ5OjQ0ICsxMDAwKQo+Cj4gYXJl
+IGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6Cj4KPiAgIGh0dHBzOi8vZ2l0bGFi
+LmZyZWVkZXNrdG9wLm9yZy9hZ2Q1Zi9saW51eC5naXQgdGFncy9hbWQtZHJtLW5leHQtNS4xMi0y
+MDIxLTAyLTE4Cj4KPiBmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gNmU4MGZiOGFiMDRm
+NmM0ZjM3N2UyZmQ0MjJiZGQxODU1YmViNzM3MToKPgo+ICAgZHJtL2FtZGdwdTogU2V0IHJlZmVy
+ZW5jZSBjbG9jayB0byAxMDBNaHogb24gUmVub2lyICh2MikgKDIwMjEtMDItMTggMTY6NDM6MDkg
+LTA1MDApCgpQdWxsZWQgaW50byBkcm0tbmV4dCwgd2l0aCBzb21lIGNvbmZsaWN0cywgcGxlYXNl
+IGRvdWJsZS1jaGVjay4KCkkgYWxzbyBzcG90dGVkCgpjb21taXQgZWEzYjQyNDJiYzljYTE5Nzc2
+MjExOTM4MmIzN2UxMjU4MTViZDY3ZgpBdXRob3I6IFFpbmdxaW5nIFpodW8gPHFpbmdxaW5nLnpo
+dW9AYW1kLmNvbT4KRGF0ZTogICBUdWUgRmViIDkgMTY6MzY6NDEgMjAyMSAtMDUwMAoKICAgZHJt
+L2FtZC9kaXNwbGF5OiBGaXggc3lzdGVtIGhhbmcgYWZ0ZXIgbXVsdGlwbGUgaG90cGx1Z3MgKHYz
+KQoKSSB0aGluayBpdCB3b3VsZCBiZSBnb29kIGlmIHRoYXQgY291bGQgdXNlIHRoZSBkcm1fdmJs
+YW5rX3dvcmsgc3R1ZmYKZnJvbSBMeXVkZSBpbnN0ZWFkIG9mIGhhbmQtcm9sbGluZyB5b3VyIG93
+bi4KLURhbmllbAoKPgo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiBhbWQtZHJtLW5leHQtNS4xMi0yMDIxLTAyLTE4Ogo+
+Cj4gYW1kZ3B1Ogo+IC0gUHJlZmVyIEJoYXdhbidzIHVudXNlZCB2YXJpYWJsZSBmaXgKPiAtIEZp
+eGVzIGZvciBoaWdoIHByaW9yaXR5IHF1ZXVlcyBvbiBnZng4LDkKPiAtIHN3U01VIGZpeGVzIGZv
+ciBzaWVubmEgY2ljaGxpZAo+IC0gc3dTTVUgZml4ZXMgZm9yIHJlbm9pcgo+IC0gbW1odWIgY2xp
+ZW50IGlkIGZpeGVzIGZvciBhcmN0dXJ1cwo+IC0gU01VSU8gZml4ZXMgZm9yIG5hdmkgZmFtaWx5
+Cj4gLSBzd1NNVSBmaXhlcyBmb3IgdmFuZ29naAo+IC0gR1BVIHJlc2V0IGNsZWFudXAKPiAtIERp
+c3BsYXkgZml4ZXMKPiAtIEdGWCBoYXJ2ZXN0aW5nIGZpeCBmb3Igc2llbm5hIGNpY2hsaWQKPiAt
+IEZpeCByZWZlcmVuY2UgY2xvY2sgb24gUmVub2lyCj4gLSBNaXNjIGZpeGVzIGFuZCBjbGVhbnVw
+cwo+Cj4gYW1ka2ZkOgo+IC0gRml4IGZvciB1bmlxdWUgaWQgcXVlcnkKPiAtIEZpeCByZWN1cnNp
+dmUgbG9jayB3YXJuaW5ncwo+Cj4gcmFkZW9uOgo+IC0gUmVtb3ZlIGNvbmZ1c2luZyBWQ0UgbWVz
+c2FnZXMgb24gT2xhbmQKPgo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiBBbGV4IERldWNoZXIgKDE2KToKPiAgICAgICBS
+ZXZlcnQgImRybS9hbWQvZGlzcGxheTogZml4IHVudXNlZCB2YXJpYWJsZSB3YXJuaW5nIgo+ICAg
+ICAgIGRybS9hbWRncHUvc211MTI6IGZpeCBwb3dlciByZXBvcnRpbmcgb24gcmVub2lyCj4gICAg
+ICAgZHJtL2FtZGdwdS9nbWM5OiBmaXggbW1odWIgY2xpZW50IG1hcHBpbmcgZm9yIGFyY3R1cnVz
+Cj4gICAgICAgZHJtL2FtZGdwdS9zaTogbWlub3IgY2xlYW4gdXAgb2YgcmVzZXQgY29kZQo+ICAg
+ICAgIGRybS9hbWRncHUvY2lrOiBtaW5vciBjbGVhbiB1cCBvZiByZXNldCBjb2RlCj4gICAgICAg
+ZHJtL2FtZGdwdS92aTogbWlub3IgY2xlYW4gdXAgb2YgcmVzZXQgY29kZQo+ICAgICAgIGRybS9h
+bWRncHU6IGFkZCBnZW5lcmljIHBjaSByZXNldCBhcyBhbiBvcHRpb24KPiAgICAgICBkcm0vYW1k
+Z3B1L3NpOiBhZGQgUENJIHJlc2V0IHN1cHBvcnQKPiAgICAgICBkcm0vYW1kZ3B1L3NvYzE1OiBh
+ZGQgUENJIHJlc2V0IHN1cHBvcnQKPiAgICAgICBkcm0vYW1kZ3B1L252OiBhZGQgUENJIHJlc2V0
+IHN1cHBvcnQKPiAgICAgICBkcm0vYW1kZ3B1OiBkcm9wIGV4dHJhIGRybV9rbXNfaGVscGVyX3Bv
+bGxfZW5hYmxlL2Rpc2FibGUgY2FsbHMKPiAgICAgICBkcm0vYW1kZ3B1OiB1c2UgcnVucG0gZmxh
+ZyByYXRoZXIgdGhhbiBmYmNvbiBmb3Iga2ZkIHJ1bnRpbWUgc3VzcGVuZCAodjIpCj4gICAgICAg
+ZHJtL2FtZGdwdTogcmVzZXQgcnVucG0gZmxhZyBpZiBkZXZpY2Ugc3VzcGVuZCBmYWlscwo+ICAg
+ICAgIFJldmVydCAiZHJtL2FtZC9kaXNwbGF5OiBVcGRhdGUgTlYxeCBTUiBsYXRlbmN5IHZhbHVl
+cyIKPiAgICAgICBkcm0vcmFkZW9uOiBPTEFORCBib2FyZHMgZG9uJ3QgaGF2ZSBWQ0UKPiAgICAg
+ICBkcm0vYW1kZ3B1OiBTZXQgcmVmZXJlbmNlIGNsb2NrIHRvIDEwME1oeiBvbiBSZW5vaXIgKHYy
+KQo+Cj4gQW50aG9ueSBLb28gKDEpOgo+ICAgICAgIGRybS9hbWQvZGlzcGxheTogW0ZXIFByb21v
+dGlvbl0gUmVsZWFzZSAwLjAuNTEKPgo+IEFyaWMgQ3lyICgxKToKPiAgICAgICBkcm0vYW1kL2Rp
+c3BsYXk6IDMuMi4xMjIKPgo+IEJoYXdhbnByZWV0IExha2hhICgxKToKPiAgICAgICBkcm0vYW1k
+L2Rpc3BsYXk6IEZpeCB1bnVzZWQgdmFyaWFibGUgd2FybmluZwo+Cj4gRGFsZSBaaGFvICgxKToK
+PiAgICAgICBkcm0vYW1kL2Rpc3BsYXk6IGZpeCB0eXBlIG1pc21hdGNoIGVycm9yIGZvciByZXR1
+cm4gdmFyaWFibGUKPgo+IERlcmVrIExhaSAoMSk6Cj4gICAgICAgZHJtL2FtZC9kaXNwbGF5OiBB
+ZGQgRElHX0NMT0NLX1BBVFRFUk4gaW4gdGhlIHRyYW5zbWl0dGVyIGNvbnRyb2wKPgo+IEVyaWMg
+WWFuZyAoMSk6Cj4gICAgICAgZHJtL2FtZC9kaXNwbGF5OiBtb3ZlIGVkcCBzaW5rIHByZXNlbnQg
+ZGV0ZWN0aW9uIHRvIGh3IGluaXQKPgo+IEZhbmd6aGkgWnVvICgxKToKPiAgICAgICBkcm0vYW1k
+L2Rpc3BsYXk6IEFkZCByZXR1cm4gY29kZSBpbnN0ZWFkIG9mIGJvb2xlYW4gZm9yIGZ1dHVyZSB1
+c2UKPgo+IEZlbGl4IEt1ZWhsaW5nICgxKToKPiAgICAgICBkcm0vYW1ka2ZkOiBGaXggcmVjdXJz
+aXZlIGxvY2sgd2FybmluZ3MKPgo+IEd1c3Rhdm8gQS4gUi4gU2lsdmEgKDEpOgo+ICAgICAgIGRy
+bS9hbWQvZGlzcGxheTogRml4IHBvdGVudGlhbCBpbnRlZ2VyIG92ZXJmbG93Cj4KPiBKYW4gS29r
+ZW3DvGxsZXIgKDEpOgo+ICAgICAgIGRybS9hbWQvZGlzcGxheTogQWRkIEZQVSB3cmFwcGVycyB0
+byBkY24yMV92YWxpZGF0ZV9iYW5kd2lkdGgoKQo+Cj4gSmlhcGVuZyBDaG9uZyAoMik6Cj4gICAg
+ICAgZHJtL2FtZC9kaXNwbGF5OiBTaW1wbGlmeSBib29sIGNvbXBhcmlzb24KPiAgICAgICBkcm0v
+cmFkZW9uOiBTaW1wbGlmeSBib29sIGNvbXBhcmlzb24KPgo+IEppYXdlaSBHdSAoMSk6Cj4gICAg
+ICAgZHJtL2FtZGdwdTogZXh0ZW5kIE1BWF9LSVFfUkVHX1RSWSB0byAxMDAwCj4KPiBKdW4gTGVp
+ICgxKToKPiAgICAgICBkcm0vYW1kL2Rpc3BsYXk6IHJldmVydCBzdXBwb3J0IGZvciBESUQyLjAg
+ZHNjIHBhc3N0aHJvdWdoCj4KPiBLZW5uZXRoIEZlbmcgKDMpOgo+ICAgICAgIGRybS9hbWQvcG06
+IGVuYWJsZSBBQ0RDIGZlYXR1cmUKPiAgICAgICBkcm0vYW1kL3BtOiBlbmFibGUgRENTCj4gICAg
+ICAgZHJtL2FtZC9wbTogZW5hYmxlIExDTEsgRFMKPgo+IEtlbnQgUnVzc2VsbCAoMSk6Cj4gICAg
+ICAgZHJtL2FtZGtmZDogR2V0IHVuaXF1ZV9pZCBkeW5hbWljYWxseSB2Mgo+Cj4gS2V2aW4gV2Fu
+ZyAoMik6Cj4gICAgICAgZHJtL2FtZC9wbS9zd3NtdTogdW5pZnkgdGhlIGluaXQgc29mdCBncHUg
+bWV0cmljcyBmdW5jdGlvbgo+ICAgICAgIGRybS9hbWRncHU6IG9wdGltaXplIGxpc3Qgb3BlcmF0
+aW9uIGluIGFtZGdwdV94Z21pCj4KPiBMYW5nIFl1ICgxKToKPiAgICAgICBkcm0vYW1kL2Rpc3Bs
+YXk6IGZpeCA2NGJpdCBkaXZpc2lvbiBpc3N1ZSBvbiAzMmJpdCBPUwo+Cj4gTGlrdW4gR2FvICg1
+KToKPiAgICAgICBkcm0vYW1kZ3B1OiBzdXBwb3J0IEFTUE0gZm9yIHNvbWUgc3BlY2lmaWMgQVNJ
+Qwo+ICAgICAgIGRybS9hbWRncHU6IGFkZCBTTVVJTyAxMS4wLjYgcmVnaXN0ZXIgaGVhZGVycwo+
+ICAgICAgIGRybS9hbWRncHU6IGltcGxlbWVudCBzbXVpbyB2MTFfMF82IGNhbGxiYWNrcwo+ICAg
+ICAgIGRybS9hbWRncHU6IHN3aXRjaCB0byB1c2Ugc211aW8gY2FsbGJhY2tzIGZvciBOViBmYW1p
+bHkKPiAgICAgICBkcm0vYW1kZ3B1OiBzdXBwb3J0IHJvbSBjbG9ja2dhdGluZyByZWxhdGVkIGZ1
+bmN0aW9uIGZvciBOViBmYW1pbHkKPgo+IE1hcmVrIE9sxaHDoWsgKDEpOgo+ICAgICAgIGRybS9h
+bWRncHU6IGZpeCBDR1RTX1RDQ19ESVNBQkxFIHJlZ2lzdGVyIG9mZnNldCBvbiBnZngxMC4zCj4K
+PiBOaXJtb3kgRGFzICg2KToKPiAgICAgICBkcm0vYW1kZ3B1OiBjbGVhbnVwIHN0cnVjdCBhbWRn
+cHVfcmluZwo+ICAgICAgIGRybS9hbWRncHU6IGVuYWJsZSBvbmx5IG9uZSBoaWdoIHByaW8gY29t
+cHV0ZSBxdWV1ZQo+ICAgICAgIGRybS9hbWRncHU6IGFkZCB3YXZlIGxpbWl0IGZ1bmN0aW9uYWxp
+dHkgZm9yIGdmeDgsOQo+ICAgICAgIGRybS9hbWRncHU6IGVuYWJsZSBnZnggd2F2ZSBsaW1pdGlu
+ZyBmb3IgaGlnaCBwcmlvcml0eSBjb21wdXRlIGpvYnMKPiAgICAgICBkcm0vYW1kZ3B1OiBlbmFi
+bGUgd2F2ZSBsaW1pdCBvbiBub24gaGlnaCBwcmlvIGNzIHBpcGVzCj4gICAgICAgZHJtL2FtZGdw
+dS9kaXNwbGF5OiByZW1vdmUgaGRjcF9zcm0gc3lzZnMgb24gZGV2aWNlIHJlbW92YWwKPgo+IFFp
+bmdxaW5nIFpodW8gKDEpOgo+ICAgICAgIGRybS9hbWQvZGlzcGxheTogRFAgSERDUCBDb21wbGlh
+bmNlIDFBLTA4LzA5IHRlc3RzIGZhaWwKPgo+IFRhbyBaaG91ICgxKToKPiAgICAgICBkcm0vYW1k
+Z3B1OiBlbmFibGUgZ3B1IHJlY292ZXJ5IGZvciBkaW1ncmV5X2NhdmVmaXNoCj4KPiBUaWFuIFRh
+byAoMSk6Cj4gICAgICAgZHJtL2FtZGdwdTogZml4IHVubmVjZXNzYXJ5IE5VTEwgY2hlY2sgd2Fy
+bmluZ3MKPgo+IFdheW5lIExpbiAoMik6Cj4gICAgICAgZHJtL2FtZGdwdTogQWRkIG90ZyB2ZXJ0
+aWNhbCBJUlEgU291cmNlCj4gICAgICAgZHJtL2FtZC9kaXNwbGF5OiBBZGQgb3RnIHZlcnRpY2Fs
+IGludGVycnVwdDAgc3VwcG9ydCBpbiBEQ04xLjAKPgo+IFdlc2xleSBDaGFsbWVycyAoMSk6Cj4g
+ICAgICAgZHJtL2FtZC9kaXNwbGF5OiBESU8gU3VwcG9ydGVkIGZvciB2aXJ0dWFsIGRpc3BsYXlz
+Cj4KPiBXeWF0dCBXb29kICgxKToKPiAgICAgICBkcm0vYW1kL2Rpc3BsYXk6IEluaXRpYWxpemUg
+ZG11Yl9yYl9jbWQgdW5pb25zIHRvIDAKPgo+IFhpYW9qaWFuIER1ICgxKToKPiAgICAgICBkcm0v
+YW1kL3BtOiBtYWtlIHRoZSBlcnJvciBsb2cgbW9yZSBjbGVhciBmb3IgZmluZSBncmFpbiB0dW5p
+bmcgZnVuY3Rpb24KPgo+IFhpYW9tZW5nIEhvdSAoMyk6Cj4gICAgICAgZHJtL2FtZC9wbTogdXBk
+YXRlIHRoZSBzbXUgdjExLjUgc21jIGhlYWRlciBmb3IgdmFuZ29naAo+ICAgICAgIGRybS9hbWQv
+cG06IG1vZGlmeSB0aGUgcG93ZXIgbGltaXQgbGV2ZWwgcGFyYW1ldGVyIGZyb20gYm9vbCB0byBl
+bnVtIHR5cGUKPiAgICAgICBkcm0vYW1kL3BtOiBhZGQgc3VwcG9ydCBmb3IgaHdtb24gY29udHJv
+bCBvZiBzbG93IGFuZCBmYXN0IFBQVCBsaW1pdCBvbiB2YW5nb2doCj4KPiAgZHJpdmVycy9ncHUv
+ZHJtL2FtZC9hbWRncHUvTWFrZWZpbGUgICAgICAgICAgICAgICAgfCAgIDMgKy0KPiAgZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1LmggICAgICAgICAgICAgICAgfCAgIDcgKy0KPiAg
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2NzLmMgICAgICAgICAgICAgfCAgIDMg
+Ky0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jICAgICAgICAg
+fCAgMTkgKysrLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZHJ2LmMgICAg
+ICAgICAgICB8ICAxOCArKy0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9n
+ZnguYyAgICAgICAgICAgIHwgIDE1ICstLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
+bWRncHVfZ2Z4LmggICAgICAgICAgICB8ICAgMiArLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
+ZGdwdS9hbWRncHVfaWIuYyAgICAgICAgICAgICB8ICAgOSArKwo+ICBkcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9hbWRncHVfbmJpby5oICAgICAgICAgICB8ICAgMSArCj4gIGRyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yaW5nLmMgICAgICAgICAgIHwgICA4ICstCj4gIGRyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yaW5nLmggICAgICAgICAgIHwgICA3ICstCj4g
+IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV94Z21pLmMgICAgICAgICAgIHwgIDEw
+ICstCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Npay5jICAgICAgICAgICAgICAgICAg
+IHwgIDMzICsrLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nZnhfdjEwXzAuYyAg
+ICAgICAgICAgICB8ICAyOCArKystLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nZnhf
+djhfMC5jICAgICAgICAgICAgICB8ICA3MiArKysrKysrKysrKystCj4gIGRyaXZlcnMvZ3B1L2Ry
+bS9hbWQvYW1kZ3B1L2dmeF92OV8wLmMgICAgICAgICAgICAgIHwgIDcyICsrKysrKysrKysrLS0K
+PiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ21jX3Y5XzAuYyAgICAgICAgICAgICAgfCAg
+NjYgKysrKysrLS0tLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L25iaW9fdjJfMy5j
+ICAgICAgICAgICAgIHwgMTE0ICsrKysrKysrKysrKysrKysrKysrCj4gIGRyaXZlcnMvZ3B1L2Ry
+bS9hbWQvYW1kZ3B1L252LmMgICAgICAgICAgICAgICAgICAgIHwgIDQ0ICsrKysrKy0tCj4gIGRy
+aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3NpLmMgICAgICAgICAgICAgICAgICAgIHwgIDQyICsr
+KystLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3NtdWlvX3YxMV8wXzYuYyAgICAg
+ICAgIHwgIDc3ICsrKysrKysrKysrKysKPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvc211
+aW9fdjExXzBfNi5oICAgICAgICAgfCAgMzAgKysrKysrCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1kZ3B1L3NvYzE1LmMgICAgICAgICAgICAgICAgIHwgIDI2ICsrKy0tCj4gIGRyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1kZ3B1L3ZpLmMgICAgICAgICAgICAgICAgICAgIHwgIDM2ICsrKy0tLS0KPiAg
+Li4uL2dwdS9kcm0vYW1kL2FtZGtmZC9rZmRfZGV2aWNlX3F1ZXVlX21hbmFnZXIuaCAgfCAgIDQg
+Ky0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3RvcG9sb2d5LmMgICAgICAgICAg
+fCAgIDYgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3RvcG9sb2d5LmggICAg
+ICAgICAgfCAgIDEgLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2Ft
+ZGdwdV9kbS5jICB8ICAgNiArLQo+ICAuLi4vZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0v
+YW1kZ3B1X2RtX2hkY3AuYyB8ICAgMyArLQo+ICAuLi4vZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRn
+cHVfZG0vYW1kZ3B1X2RtX2hkY3AuaCB8ICAgMiArLQo+ICAuLi4vZHJtL2FtZC9kaXNwbGF5L2Ft
+ZGdwdV9kbS9hbWRncHVfZG1faGVscGVycy5jICB8ICAgOCArLQo+ICAuLi4vZ3B1L2RybS9hbWQv
+ZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtX2lycS5jICB8ICAyMiArKysrCj4gIGRyaXZlcnMv
+Z3B1L2RybS9hbWQvZGlzcGxheS9kYy9jb3JlL2RjLmMgICAgICAgICAgIHwgIDQwICsrKy0tLS0K
+PiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2NvcmUvZGNfbGluay5jICAgICAgfCAg
+IDQgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjLmggICAgICAgICAgICAg
+ICAgfCAgIDIgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjX2RzYy5oICAg
+ICAgICAgICAgfCAgIDcgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjX2h3
+X3R5cGVzLmggICAgICAgfCAgIDEgLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMv
+ZGNfbGluay5oICAgICAgICAgICB8ICAgMiArCj4gIC4uLi9ncHUvZHJtL2FtZC9kaXNwbGF5L2Rj
+L2RjZS9kY2VfY2xvY2tfc291cmNlLmMgIHwgICAyICstCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQv
+ZGlzcGxheS9kYy9kY2UvZG11Yl9hYm0uYyAgICAgIHwgICAzICsKPiAgLi4uL2dwdS9kcm0vYW1k
+L2Rpc3BsYXkvZGMvZGNlL2RtdWJfaHdfbG9ja19tZ3IuYyAgfCAgIDMgKy0KPiAgZHJpdmVycy9n
+cHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjZS9kbXViX3Bzci5jICAgICAgfCAgIDYgKy0KPiAgLi4u
+L2Rpc3BsYXkvZGMvZGNuMTAvZGNuMTBfaHdfc2VxdWVuY2VyX2RlYnVnLmMgICAgfCAgIDIgKy0K
+PiAgLi4uL2RybS9hbWQvZGlzcGxheS9kYy9kY24xMC9kY24xMF9saW5rX2VuY29kZXIuYyAgfCAg
+MTUgKysrCj4gIC4uLi9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMTAvZGNuMTBfbGlua19lbmNvZGVy
+LmggIHwgIDExICsrCj4gIC4uLi9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMjAvZGNuMjBfbGlua19l
+bmNvZGVyLmMgIHwgICAyICstCj4gIC4uLi9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjIwL2Rj
+bjIwX3Jlc291cmNlLmMgIHwgIDExICstCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9k
+Yy9kY24yMS9kY24yMV9od3NlcS5jIHwgICA0ICstCj4gIC4uLi9ncHUvZHJtL2FtZC9kaXNwbGF5
+L2RjL2RjbjIxL2RjbjIxX3Jlc291cmNlLmMgIHwgIDIwICsrKy0KPiAgLi4uL2FtZC9kaXNwbGF5
+L2RjL2RtbC9kY24yMC9kaXNwbGF5X21vZGVfdmJhXzIwLmMgfCAgIDcgKy0KPiAgLi4uL2Rpc3Bs
+YXkvZGMvZG1sL2RjbjIwL2Rpc3BsYXlfbW9kZV92YmFfMjB2Mi5jICAgfCAgIDcgKy0KPiAgLi4u
+L2FtZC9kaXNwbGF5L2RjL2RtbC9kY24yMS9kaXNwbGF5X21vZGVfdmJhXzIxLmMgfCAgIDcgKy0K
+PiAgLi4uL2FtZC9kaXNwbGF5L2RjL2RtbC9kY24zMC9kaXNwbGF5X21vZGVfdmJhXzMwLmMgfCAg
+IDIgKy0KPiAgLi4uL2RybS9hbWQvZGlzcGxheS9kYy9kbWwvZGlzcGxheV9tb2RlX3N0cnVjdHMu
+aCAgfCAgIDEgKwo+ICAuLi4vZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kbWwvZGlzcGxheV9tb2Rl
+X3ZiYS5jICB8ICAgMiArCj4gIC4uLi9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RtbC9kaXNwbGF5
+X21vZGVfdmJhLmggIHwgICAxICsKPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Rz
+Yy9kY19kc2MuYyAgICAgICAgfCAgMjkgKystLS0KPiAgLi4uL2RybS9hbWQvZGlzcGxheS9kYy9p
+bmMvaHcvY2xrX21ncl9pbnRlcm5hbC5oICAgfCAgIDQgKy0KPiAgLi4uL2FtZC9kaXNwbGF5L2Rj
+L2lycS9kY24xMC9pcnFfc2VydmljZV9kY24xMC5jICAgfCAgMzEgKysrKysrCj4gIGRyaXZlcnMv
+Z3B1L2RybS9hbWQvZGlzcGxheS9kYy9pcnFfdHlwZXMuaCAgICAgICAgIHwgICAxICsKPiAgZHJp
+dmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RtdWIvaW5jL2RtdWJfY21kLmggICAgfCAgMjkgKysr
+Ky0KPiAgLi4uL2dwdS9kcm0vYW1kL2Rpc3BsYXkvbW9kdWxlcy9oZGNwL2hkY3BfcHNwLmMgICAg
+fCAgIDIgKwo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2luY2x1ZGUvYW1kX3NoYXJlZC5oICAgICAg
+ICAgICB8ICAgMSArCj4gIC4uLi9pbmNsdWRlL2FzaWNfcmVnL3NtdWlvL3NtdWlvXzExXzBfNl9v
+ZmZzZXQuaCAgIHwgIDM1ICsrKysrKwo+ICAuLi4vaW5jbHVkZS9hc2ljX3JlZy9zbXVpby9zbXVp
+b18xMV8wXzZfc2hfbWFzay5oICB8ICA0MSArKysrKysrCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQv
+cG0vYW1kZ3B1X3BtLmMgICAgICAgICAgICAgICAgIHwgIDQ5ICsrKysrKystLQo+ICBkcml2ZXJz
+L2dwdS9kcm0vYW1kL3BtL2luYy9hbWRncHVfc211LmggICAgICAgICAgICB8ICAyMSArKystCj4g
+IGRyaXZlcnMvZ3B1L2RybS9hbWQvcG0vaW5jL3NtdV90eXBlcy5oICAgICAgICAgICAgIHwgICA0
+ICsKPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9pbmMvc211X3YxMV8wLmggICAgICAgICAgICAg
+fCAgMTMgKystCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvcG0vaW5jL3NtdV92MTFfNV9wcHNtYy5o
+ICAgICAgIHwgICA2ICstCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvcG0vaW5jL3NtdV92MTJfMC5o
+ICAgICAgICAgICAgIHwgICAyIC0KPiAgLi4uL2dwdS9kcm0vYW1kL3BtL3Bvd2VycGxheS9od21n
+ci9zbXUxMF9od21nci5jICAgfCAgIDIgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9zd3Nt
+dS9hbWRncHVfc211LmMgICAgICAgICAgfCAgMzAgKysrKystCj4gIGRyaXZlcnMvZ3B1L2RybS9h
+bWQvcG0vc3dzbXUvc211MTEvYXJjdHVydXNfcHB0LmMgIHwgICA0ICstCj4gIGRyaXZlcnMvZ3B1
+L2RybS9hbWQvcG0vc3dzbXUvc211MTEvbmF2aTEwX3BwdC5jICAgIHwgICA0ICstCj4gIC4uLi9k
+cm0vYW1kL3BtL3N3c211L3NtdTExL3NpZW5uYV9jaWNobGlkX3BwdC5jICAgIHwgIDE1ICsrLQo+
+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3N3c211L3NtdTExL3NtdV92MTFfMC5jICAgICB8ICAz
+MiArLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9zd3NtdS9zbXUxMS92YW5nb2doX3Bw
+dC5jICAgfCAxMjAgKysrKysrKysrKysrKysrKysrKystCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQv
+cG0vc3dzbXUvc211MTIvcmVub2lyX3BwdC5jICAgIHwgICA5ICstCj4gIGRyaXZlcnMvZ3B1L2Ry
+bS9hbWQvcG0vc3dzbXUvc211MTIvc211X3YxMl8wLmMgICAgIHwgIDEyIC0tLQo+ICBkcml2ZXJz
+L2dwdS9kcm0vYW1kL3BtL3N3c211L3NtdV9jbW4uYyAgICAgICAgICAgICB8ICAyOCArKysrKwo+
+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3N3c211L3NtdV9jbW4uaCAgICAgICAgICAgICB8ICAg
+MiArCj4gIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2FzaWMuYyAgICAgICAgICAgICAg
+IHwgICAzICsKPiAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdmNlLmMgICAgICAgICAg
+ICAgICAgfCAgIDEgLQo+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JzNjkwLmMgICAgICAgICAg
+ICAgICAgICAgICB8ICAgMiArLQo+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3ZjZV92MV8wLmMg
+ICAgICAgICAgICAgICAgICB8ICAgMSAtCj4gIDg2IGZpbGVzIGNoYW5nZWQsIDExNDcgaW5zZXJ0
+aW9ucygrKSwgMzQyIGRlbGV0aW9ucygtKQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9n
+cHUvZHJtL2FtZC9hbWRncHUvc211aW9fdjExXzBfNi5jCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBk
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9zbXVpb192MTFfMF82LmgKPiAgY3JlYXRlIG1vZGUg
+MTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9hbWQvaW5jbHVkZS9hc2ljX3JlZy9zbXVpby9zbXVpb18x
+MV8wXzZfb2Zmc2V0LmgKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9hbWQv
+aW5jbHVkZS9hc2ljX3JlZy9zbXVpby9zbXVpb18xMV8wXzZfc2hfbWFzay5oCgoKCi0tIApEYW5p
+ZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxv
+Zy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
