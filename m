@@ -2,71 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2F034A9E6
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 15:37:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A7D34AA53
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 15:42:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6A9B6E213;
-	Fri, 26 Mar 2021 14:37:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1AC46E210;
+	Fri, 26 Mar 2021 14:42:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE2BE6E210
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 14:37:22 +0000 (UTC)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id 50E805C0709;
- Fri, 26 Mar 2021 10:37:19 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Fri, 26 Mar 2021 10:37:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=BKbkEFN8uWf6/5XzOIUJ/zSrTAR
- 0hmJdAto/Rq8x6Gc=; b=IIxLG9ba7mVnfP9WpjehPAWNJ7jIpXBMf2x9MrjuMd3
- 6+oc2Ncn3dOkKsh3U3XxQiq7ef/sXJusncocRVpyEr4N8CcXVny5k5XldEjYBoaf
- nkoyYCQ15gr/4CT7EH42CPjk73leZlFc+M5h2MdmjI8I9bC8R3rqjWmD8D9jqVrk
- fBXg4NBnX2w9FhhJcZj2QyAv0Jz07zHJdKBNUxwVUzy09S1hSUL3aRYDaZf6QGj+
- wR02tVA+qmbXjbeJdJ0BaL4WpGp8seMaCooT/mIzk4XDo0FM04ss03Wf+xIUCGTr
- sz7IPnIhm/wqXCbjzVOT1G++oE8yUrZPuyU/BOFQuvQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=BKbkEF
- N8uWf6/5XzOIUJ/zSrTAR0hmJdAto/Rq8x6Gc=; b=LcZklxOYE+10C+292gYbfy
- h3P/1JPkrEVp3O2J0Z7odMNLDX1Tx5rSy4oBOCbTpPCT1vrwWEwm6Fk2nzuckRqK
- Jd4+8noDZlWaJ6MdicQwWnj+O0KdekFB4Ssg8wI30s6pfKcabrJnxYHTJtt03QIq
- GpeM34aepqHqCYIpVdpcpO5lIWeZF6AvzuIOfXlBUyshuXwgjVCsYMX0bNaWVxDR
- /HhNurIFiQUngZV1zDZ/jYQdlPEDx19/ir+NoBy5jsXLEbQO7Gvs8+0QXdMdmsCa
- MrEbu27+/BMXTbo/WzB3xmWC3HRwWUCYreJQUMmfi7TtffReGScNQrT1xtM/J1mA
- ==
-X-ME-Sender: <xms:nfFdYBz01OflNeRefy3fRVVpPTbRLDKpo2_eVqA6HyMc-zDxJ3iNYQ>
- <xme:nfFdYCiZpvY5uH19s8sX0OP6XfVyhbK-6UjC1nGZ-3wY8S74-7vkf5Kt01f-mVztl
- -DfKzPGvnaAhANkVlY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudehvddgieekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:nfFdYArhCOEnmKb8twNSWWwKgo5Nz59VkK6iFLiZQqn9aKtQ3KgSJg>
- <xmx:nfFdYBdfZ7vD0K0VHBpnlXelJv4-LpvCpnbpxJqcKoi8-D921qqGFQ>
- <xmx:nfFdYDfzzRc0bBm6ZaGHIvwq-cfbh4mn9xS11H-b2hXyV8HGv8wVqA>
- <xmx:n_FdYCEym37a9T4dokuplcSSUaDXxuDseimCNWMTIZMsoM0maW5kqQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id A5AE41080054;
- Fri, 26 Mar 2021 10:37:17 -0400 (EDT)
-Date: Fri, 26 Mar 2021 15:37:15 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH v5 09/10] drm: rcar-du: Perform group setup from the
- atomic tail handler
-Message-ID: <20210326143715.tpk4o62xgjvigefe@gilmour>
-References: <20210322163535.1090570-1-kieran.bingham+renesas@ideasonboard.com>
- <20210322163535.1090570-10-kieran.bingham+renesas@ideasonboard.com>
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9306F6E210
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 14:42:37 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ j6-20020a17090adc86b02900cbfe6f2c96so2572777pjv.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 07:42:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UFMq5oGqK9i1mDSf60y5PEUGhIBG7pRAYbpbnOiZny8=;
+ b=mv55z1PJnHOdzF+Razme2uGyDMAKDIds0+fVKvLTeYihRej0U/HhvFheWkOyEW46lQ
+ p/FQv3oZw1iOT9kemojIsWacZNZM17IMOOcrZ3aFKcJp3iVbq2Wwrc+JCTbiHP4wDWRV
+ ZJPXUndXDpIXRtpiBWQA23dRkPpyuvglb4olx7fs9YxqFcesoMgnuuQErBef1NUHs4Qn
+ G8A6rKGU3jYTlRnixV+NF8HtQ9Fbn4S6sAR1dr5IM8VP1KiE+1tlI7yEprtg+Td0Btl9
+ imuDP3zGuOHhDcJZ7p8rd1pMVs6DbhrNskSr51H5jc7MUT3OBWhNulA2m4f9fiZUXUkR
+ 6RXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UFMq5oGqK9i1mDSf60y5PEUGhIBG7pRAYbpbnOiZny8=;
+ b=NKKeM42LS5WRPQhlRCo0NuLOPk3sVV2k8zA9v8Kqr6ZX1XLAccJXXd1xcQSEZ/EZTT
+ xxquKDzKogLPa4R6vGb4rm8ZbNIlSM+KzfBAQIEqeZc8IIj0bMIcZoIFGIikH2KvuVi/
+ SKeB6P12DDbxAvDU/d7DOZeClejUflK5BhcANKe19+ztS8YNBk1qfoxpdImaKokfswSL
+ 4iq8h8/yUhrPPSwsvtletc2jiMeoMqvguqb6lLc5eFWjInEk8Sdva1f6OOldTQHkF8rV
+ OjPQcqWxmTEiFaLI0nnUJFSH8UOYPCmhLR4pxzJd93gf+nxSvF2JKa2/38CecJi9Zcd+
+ sK2Q==
+X-Gm-Message-State: AOAM5319MuHjXYPoNsjcY7fTFEoTZft/51AmP1qmadInD15q7vFO0o9B
+ VcKt/uJmkC6tq8NgaqdSYrgcl/qSJcQ4mF3vKh17DQ==
+X-Google-Smtp-Source: ABdhPJx47matal3VQ/+kh7d6hGrS8XwLC35YL0FwaAQVm4zRCOmCmdKu76eThs8vq4vrD+9j40M7EHNSMF06k5yz6gY=
+X-Received: by 2002:a17:902:e752:b029:e6:822c:355c with SMTP id
+ p18-20020a170902e752b02900e6822c355cmr15437871plf.69.1616769757181; Fri, 26
+ Mar 2021 07:42:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210322163535.1090570-10-kieran.bingham+renesas@ideasonboard.com>
+References: <20210326121955.1266230-1-adrien.grassein@gmail.com>
+In-Reply-To: <20210326121955.1266230-1-adrien.grassein@gmail.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Fri, 26 Mar 2021 15:42:26 +0100
+Message-ID: <CAG3jFyv1kvr1rGok5WB4HL5yRH0f26ZrrmQzSv6uC9kQqSxF3Q@mail.gmail.com>
+Subject: Re: [PATCH v9 0/2] Add support of Lontium lt8912 MIPI to HDMI bridge
+To: Adrien Grassein <adrien.grassein@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,93 +62,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Ulrich Hecht <uli+renesas@fpond.eu>, linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1369846972=="
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Pushed: https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3aa6031deefa9a2c056af2182af02d3dc5df1067
 
---===============1369846972==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="nydjxzy5xve57wtg"
-Content-Disposition: inline
-
-
---nydjxzy5xve57wtg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Kieran,
-
-On Mon, Mar 22, 2021 at 04:35:34PM +0000, Kieran Bingham wrote:
-> Create rcar_du_group_atomic_check() and rcar_du_group_atomic_setup()
-> functions to track and apply group state through the DRM atomic state.
-> The use_count field is moved from the rcar_du_group structure to an
-> enabled field in the rcar_du_group_state structure.
->=20
-> This allows separating group setup from the configuration of the CRTCs
-> that are part of the group, simplifying the CRTC code and improving
-> overall readability. The existing rcar_du_group_{get,put}() functions
-> are now redundant and removed.
->=20
-> The groups share clocking with the CRTCs within the group, and so are
-> accessible only when one of its CRTCs has been powered through
-> rcar_du_crtc_atomic_exit_standby().
->=20
-> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
-
-It's a bit weird to have both your and Laurent's SoB without a
-Co-Developped-By or an authorship from him.
-
-However, using a drm_private_obj shared between CRTC has a gotcha: you
-don't have any ordering guarantee between commits if they affect
-different CRTCs (and they are non-blocking).
-
-Let's assume we have two subsequent commits, commit1 and commit2, both
-non-blocking, and affecting different CRTC, plane and connectors. In
-this case, commit1 old private state will be commit0 new private state,
-and commit 2 old private state will be commit1 new private state.
-
-If commit2 is executed before commit1, then it will free its old state
-when done with it (so commit1 new private state), and will thus result
-in an use-after-free when commit1 is ran.
-
-In order to fix this, you should store (and get a reference to) the
-drm_crtc_commit in your private state in atomic_commit_setup, and call
-drm_crtc_commit_wait on that commit as the first part of your
-commit_tail to serialize those commits.
-
-Maxime
-
---nydjxzy5xve57wtg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYF3xmwAKCRDj7w1vZxhR
-xbtPAP9DE5c1AG+thwHS9ps9NCp44Y6DX7aLK8RJvtyi+VoF+gD/Rqulso4AYAuU
-N+k101boqfKcYPmLsilSOvdfMdLeFwo=
-=DUQq
------END PGP SIGNATURE-----
-
---nydjxzy5xve57wtg--
-
---===============1369846972==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+On Fri, 26 Mar 2021 at 13:20, Adrien Grassein <adrien.grassein@gmail.com> wrote:
+>
+> Hi,
+> this patch set adds the support of the Lontium lt8912 MIPI to HDMI
+> bridge in the kernel.
+>
+> It's only support the video part, not the audio part yet
+> since I don't have the datasheet of this component.
+> I get the current i2c configuration from Digi and
+> Boundary drivers.
+> Developed using the DB_DSIHD board from BoundaryDevices.
+>
+> Update in v2
+>   - Use standard data-lanes instead of a custom prop;
+>   - Use hdmi-connector node.
+>
+> Update in v3
+>   - Fix indentation;
+>   - Implement missing bridge functions;
+>   - Add some comments.
+>
+> Update in v4
+>   - Fix bridge ops;
+>   - Fix i2c error detection.
+>
+> Update in v5
+>   - Fix lt8912 name (lt8912b instead of lt8912);
+>   - Implement HPD via a workaround. In fact I don't have the datasheet
+>     of this component yet so I can't say if the configuration of the
+> registers is correct or if I have an HW issue on my board. So, I choose
+> to implement a fake version of HPD using a workqueue and polling the
+> status regularly.
+>
+> Update in v6
+>   - Fix a warning found by "kernel test robot"
+>
+> Update in v7
+>   - Fix HPD logic (via an HW emulation);
+>   - HPD from chip is still not working.
+>
+> Update in v8
+>   - Remove HPD logic (will be added later when HW bug qill be fixed).
+>
+> Update in v9
+>   - Fix errors found in scripts/checkpatch.pl --strict
+>
+> Thanks,
+>
+> Adrien Grassein (2):
+>   dt-bindings: display: bridge: Add documentation for LT8912B
+>   drm/bridge: Introduce LT8912B DSI to HDMI bridge
+>
+>  .../display/bridge/lontium,lt8912b.yaml       | 102 +++
+>  MAINTAINERS                                   |   6 +
+>  drivers/gpu/drm/bridge/Kconfig                |  14 +
+>  drivers/gpu/drm/bridge/Makefile               |   1 +
+>  drivers/gpu/drm/bridge/lontium-lt8912b.c      | 765 ++++++++++++++++++
+>  5 files changed, 888 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
+>  create mode 100644 drivers/gpu/drm/bridge/lontium-lt8912b.c
+>
+> --
+> 2.25.1
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1369846972==--
