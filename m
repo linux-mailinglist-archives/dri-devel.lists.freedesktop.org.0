@@ -1,62 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA9B34A992
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 15:22:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A7334A9C9
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Mar 2021 15:34:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7233C6E1E9;
-	Fri, 26 Mar 2021 14:22:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F9C46F3E3;
+	Fri, 26 Mar 2021 14:34:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2B5C6E1E9
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 14:22:21 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id j9so4097024wrx.12
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 07:22:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=jPrss6MgeIvEfu+cUNSjrJCOpcljezeh6+dDf7NPDa0=;
- b=NjVCbBdVhpCtF7cQoLz45keDeqicZaSTkXDP951der0x2QQYIp9fHHev6kcunhfpz6
- bUdkTdaiPd2oW5CwM83DHOv6FmDQCUbkZxXVzeOz3Qrd/FjNADrDk6oRM7POjoYXOPTT
- x7PNhS1oVP1P3xCW6vYeVjOCO7CA7bbiNY9Ik38D3mcwW9SCYHoqci7628F8tm57vSmm
- VO+NUhBWAh9mib0vaqb2FCXCjHfWhxHX0b8FhNx8eIMBdoF78kQ7/f3pD2QO8ovWqMwx
- uAAUplq3CihgzTk3bAjsK6w9XUzDrtieZd7xiYqxupACowD34HMzX3HWc0fo9RnjanJc
- elYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=jPrss6MgeIvEfu+cUNSjrJCOpcljezeh6+dDf7NPDa0=;
- b=mWYhmNPFtOhSCp++xvaB/24ROZD5wulqWTOO3WfY3/hOg6N2QCPlmauWkoecO5psyq
- EHjcQQ20U1jhPlg72u/gSgmu/soB11Du6jDciS6nqMg48diwQt4xMuQVH+qyOkNf3Dp+
- QgBhG9DN22A30rrBq3LDcpc5zIZzQsZUg5Wun0VblX3jOcVYmMoDCL/uVxbwkMSKY2Tm
- dXxuwGn8A1+i4B6QEMglhUGvnw3ugglyRPOHbmzTExTkZZufOBzK1Hue+AuElO+kXqpF
- FYG87GWKa5omAHehz3XVn93EHdVWTlgVrRvw/PkpVw2r0k1maAaqyyUqIGEYkFT46/ym
- ZbgQ==
-X-Gm-Message-State: AOAM532FlAfD+LxclaWEd8mD75qRGxMFVRF1nomaSaNML2ZOJkGmPYA3
- 21/8GMiQwUpcCGAGrtBpblz4eQ==
-X-Google-Smtp-Source: ABdhPJwZ8BOpa2TGeYwtefzDJ+tZQkFdJIoEeZ72w1wchMYOQ50a7VJGaZoN4pp7Dmug5Uv1b+VT2A==
-X-Received: by 2002:adf:d207:: with SMTP id j7mr14783922wrh.150.1616768540289; 
- Fri, 26 Mar 2021 07:22:20 -0700 (PDT)
-Received: from dell ([91.110.221.194])
- by smtp.gmail.com with ESMTPSA id f16sm12744884wrt.21.2021.03.26.07.22.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Mar 2021 07:22:19 -0700 (PDT)
-Date: Fri, 26 Mar 2021 14:22:17 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH 00/25] Rid W=1 warnings from HID
-Message-ID: <20210326142217.GA2916463@dell>
-References: <20210324173404.66340-1-lee.jones@linaro.org>
- <20210326114202.3862b8c5@jic23-huawei>
- <20210326142041.GZ2916463@dell>
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 124C26F3E3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Mar 2021 14:34:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=WYurMalcA80LHwmSwZD2JyGRThXW9kCy4921GdZjeFE=; b=CIheYyOlSfdn6BVvz6PA/JS9Vc
+ vgWfelLZGDIiA+NmGZZWivfcDJBWGyI/mYaI+e9kz+Kqd+O3fWqzggKcNiTOk00PwPqP+ctE0nJNh
+ zpyPwxfm5Xo3O6kyenZxOdQTHyzatxpNq+b4kObUUsnoq1HikbGmRqKJ+lykqpSwlc9ukJj9ZM50N
+ nZQwNkgv/XgGIxqXMNtw/LxPnGwAbgL71MU0dgXjfwLA0NaBT2Rawg6pIsbSpk/0DAIwt0AzbmRqa
+ RP7LiCEm1KgGRixDQvN4NRFO1lzSrkcJ9x5pSo6PRDlvbPTJpGzs8exrBvWEut7LCqpmz3V5re07t
+ LYcCztfg==;
+Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
+ helo=[192.168.1.10])
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
+ id 1lPnXS-0004mf-DM; Fri, 26 Mar 2021 16:34:14 +0200
+Subject: Re: [PATCH v5 03/21] gpu: host1x: Show number of pending waiters in
+ debugfs
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>
+References: <20210111130019.3515669-1-mperttunen@nvidia.com>
+ <20210111130019.3515669-4-mperttunen@nvidia.com>
+ <YFm/431gaaP6wY1A@orome.fritz.box>
+From: Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <1010683e-56c9-4b06-1540-d8c60a632c70@kapsi.fi>
+Date: Fri, 26 Mar 2021 16:34:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210326142041.GZ2916463@dell>
+In-Reply-To: <YFm/431gaaP6wY1A@orome.fritz.box>
+Content-Language: en-US
+X-SA-Exim-Connect-IP: 84.249.134.236
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,52 +59,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- Zhang Lixu <lixu.zhang@intel.com>, linux-iio@vger.kernel.org,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Kai-Heng Feng <kai.heng.feng@canonical.com>,
- Anssi Hannula <anssi.hannula@gmail.com>,
- Kim Kuparinen <kimi.h.kuparinen@gmail.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Dario Pagani <dario.pagani.146+linuxk@gmail.com>,
- linux-stm32@st-md-mailman.stormreply.com, Henrik Rydberg <rydberg@bitmath.org>,
- Lopez Casado <nlopezcasad@logitech.com>,
- Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
- Masaki Ota <masaki.ota@jp.alps.com>,
- Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
- Vojtech Pavlik <vojtech@suse.cz>, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
- message to <vojtech@ucw.cz>, Jiri Kosina <jikos@kernel.org>, "L. Vinyard,
- Jr" <rvinyard@cs.nmsu.edu>, linaro-mm-sig@lists.linaro.org,
- Michael Haboustak <mike-@cinci.rr.com>, linux-arm-kernel@lists.infradead.org,
- Daniel Drubin <daniel.drubin@intel.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
+ talho@nvidia.com, bhuntsman@nvidia.com, linux-tegra@vger.kernel.org,
+ digetx@gmail.com
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyNiBNYXIgMjAyMSwgTGVlIEpvbmVzIHdyb3RlOgoKPiBPbiBGcmksIDI2IE1hciAy
-MDIxLCBKb25hdGhhbiBDYW1lcm9uIHdyb3RlOgo+IAo+ID4gT24gV2VkLCAyNCBNYXIgMjAyMSAx
-NzozMzozOSArMDAwMAo+ID4gTGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4gd3JvdGU6
-Cj4gPiAKPiA+ID4gVGhpcyBzZXQgaXMgcGFydCBvZiBhIGxhcmdlciBlZmZvcnQgYXR0ZW1wdGlu
-ZyB0byBjbGVhbi11cCBXPTEKPiA+ID4ga2VybmVsIGJ1aWxkcywgd2hpY2ggYXJlIGN1cnJlbnRs
-eSBvdmVyd2hlbG1pbmdseSByaWRkbGVkIHdpdGgKPiA+ID4gbmlnZ2x5IGxpdHRsZSB3YXJuaW5n
-cy4KPiA+IAo+ID4gTGVlLCBpdCdzIGEgYml0IG5vdmVsIHRvIGNjIGxpbnV4LWlpbyBvbiB0aGUg
-Y292ZXIgbGV0dGVyIGJ1dAo+ID4gbm9uZSBvZiB0aGUgYWN0dWFsIHBhdGNoZXMuLiAgT3IgbGVh
-c3Qgbm9uZSBvZiB0aGVtIHJlYWNoZWQKPiA+IG1lIG9yIGxvcmUua2VybmVsLm9yZwo+IAo+IExv
-b2tzIGxpa2Ugb25seSAxOCBvZiB0aGUgMjUgYWN0dWFsbHkgbWFkZSBpdCBvbnRvIHRoZSBsaXN0
-Lgo+IAo+IEhvdyBvZGQhCgpPdWNoISAgVGhhdCdzIHdoeSB0aGVuOgoKICA0LjMuMCBUZW1wb3Jh
-cnkgU3lzdGVtIFByb2JsZW0uICBUcnkgYWdhaW4gbGF0ZXIgKDEwKS4gcDE5c20xNDY2MzY3ZWRy
-LjU3IC0gZ3NtdHAKCj4gSG9sZCBvbiwgSSdsbCBzdWJtaXQgYSBbUkVTRU5EXS4KPiAKPiA+IEkn
-bSBzdXJlIHRoZXkgYXJlIGdyZWF0IDopCj4gCj4gTmF0dXJhbGx5IQo+IAoKLS0gCkxlZSBKb25l
-cyBb5p2O55C85pavXQpTZW5pb3IgVGVjaG5pY2FsIExlYWQgLSBEZXZlbG9wZXIgU2VydmljZXMK
-TGluYXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFybSBTb0NzCkZvbGxvdyBM
-aW5hcm86IEZhY2Vib29rIHwgVHdpdHRlciB8IEJsb2cKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On 3/23/21 12:16 PM, Thierry Reding wrote:
+> On Mon, Jan 11, 2021 at 03:00:01PM +0200, Mikko Perttunen wrote:
+>> Show the number of pending waiters in the debugfs status file.
+>> This is useful for testing to verify that waiters do not leak
+>> or accumulate incorrectly.
+>>
+>> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+>> ---
+>>   drivers/gpu/host1x/debug.c | 14 +++++++++++---
+>>   1 file changed, 11 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/host1x/debug.c b/drivers/gpu/host1x/debug.c
+>> index 1b4997bda1c7..8a14880c61bb 100644
+>> --- a/drivers/gpu/host1x/debug.c
+>> +++ b/drivers/gpu/host1x/debug.c
+>> @@ -69,6 +69,7 @@ static int show_channel(struct host1x_channel *ch, void *data, bool show_fifo)
+>>   
+>>   static void show_syncpts(struct host1x *m, struct output *o)
+>>   {
+>> +	struct list_head *pos;
+>>   	unsigned int i;
+>>   
+>>   	host1x_debug_output(o, "---- syncpts ----\n");
+>> @@ -76,12 +77,19 @@ static void show_syncpts(struct host1x *m, struct output *o)
+>>   	for (i = 0; i < host1x_syncpt_nb_pts(m); i++) {
+>>   		u32 max = host1x_syncpt_read_max(m->syncpt + i);
+>>   		u32 min = host1x_syncpt_load(m->syncpt + i);
+>> +		unsigned int waiters = 0;
+>>   
+>> -		if (!min && !max)
+>> +		spin_lock(&m->syncpt[i].intr.lock);
+>> +		list_for_each(pos, &m->syncpt[i].intr.wait_head)
+>> +			waiters++;
+>> +		spin_unlock(&m->syncpt[i].intr.lock);
+> 
+> Would it make sense to keep a running count so that we don't have to
+> compute it here?
+
+Considering this is just a debug facility, I think I prefer not adding a 
+new field just for it.
+
+> 
+>> +
+>> +		if (!min && !max && !waiters)
+>>   			continue;
+>>   
+>> -		host1x_debug_output(o, "id %u (%s) min %d max %d\n",
+>> -				    i, m->syncpt[i].name, min, max);
+>> +		host1x_debug_output(o,
+>> +				    "id %u (%s) min %d max %d (%d waiters)\n",
+>> +				    i, m->syncpt[i].name, min, max, waiters);
+> 
+> Or alternatively, would it be useful to collect a bit more information
+> about waiters so that when they leak we get a better understanding of
+> which ones leak?
+> 
+> It doesn't look like we currently have much information in struct
+> host1x_waitlist to identify waiters, but perhaps that can be extended?
+
+I added this patch mainly for use with integration tests, so they can 
+verify no waiters leaked in negative tests. I think let's put off adding 
+other information until there's some need for it.
+
+Mikko
+
+> 
+> Thierry
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
