@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5E634B6EC
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Mar 2021 12:58:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D4B34B6EF
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Mar 2021 12:58:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC456E084;
-	Sat, 27 Mar 2021 11:58:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A33796E098;
+	Sat, 27 Mar 2021 11:58:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCBFC6E084
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Mar 2021 11:58:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E61746E098
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Mar 2021 11:58:13 +0000 (UTC)
 From: Paul Cercueil <paul@crapouillou.net>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v4 2/3] drm/encoder: Add macro drmm_plain_encoder_alloc()
-Date: Sat, 27 Mar 2021 11:57:41 +0000
-Message-Id: <20210327115742.18986-3-paul@crapouillou.net>
+Subject: [PATCH v4 3/3] drm/ingenic: Register devm action to cleanup encoders
+Date: Sat, 27 Mar 2021 11:57:42 +0000
+Message-Id: <20210327115742.18986-4-paul@crapouillou.net>
 In-Reply-To: <20210327115742.18986-1-paul@crapouillou.net>
 References: <20210327115742.18986-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -37,54 +37,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
- Sam Ravnborg <sam@ravnborg.org>
+ Paul Cercueil <paul@crapouillou.net>, od@zcrc.me, stable@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This performs the same operation as drmm_encoder_alloc(), but
-only allocates and returns a struct drm_encoder instance.
+Since the encoders have been devm-allocated, they will be freed way
+before drm_mode_config_cleanup() is called. To avoid use-after-free
+conditions, we then must ensure that drm_encoder_cleanup() is called
+before the encoders are freed.
 
-v4: Rename macro drmm_plain_encoder_alloc() and move to
-    <drm/drm_encoder.h>. Since it's not "simple" anymore it
-    will now take funcs/name arguments as well.
+v2: Use the new __drmm_simple_encoder_alloc() function
 
+v3: Use the new drmm_plain_simple_encoder_alloc() macro
+
+v4: Use drmm_plain_encoder_alloc() macro
+
+Fixes: c369cb27c267 ("drm/ingenic: Support multiple panels/bridges")
+Cc: <stable@vger.kernel.org> # 5.8+
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- include/drm/drm_encoder.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
-index 5bf78b5bcb2b..6e91a0280f31 100644
---- a/include/drm/drm_encoder.h
-+++ b/include/drm/drm_encoder.h
-@@ -224,6 +224,24 @@ void *__drmm_encoder_alloc(struct drm_device *dev,
- 				      offsetof(type, member), funcs, \
- 				      encoder_type, name, ##__VA_ARGS__))
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index d60e1eefc9d1..29742ec5ab95 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -24,6 +24,7 @@
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_drv.h>
++#include <drm/drm_encoder.h>
+ #include <drm/drm_gem_cma_helper.h>
+ #include <drm/drm_fb_cma_helper.h>
+ #include <drm/drm_fb_helper.h>
+@@ -37,7 +38,6 @@
+ #include <drm/drm_plane.h>
+ #include <drm/drm_plane_helper.h>
+ #include <drm/drm_probe_helper.h>
+-#include <drm/drm_simple_kms_helper.h>
+ #include <drm/drm_vblank.h>
  
-+/**
-+ * drmm_plain_encoder_alloc - Allocate and initialize an encoder
-+ * @dev: drm device
-+ * @funcs: callbacks for this encoder (optional)
-+ * @encoder_type: user visible type of the encoder
-+ * @name: printf style format string for the encoder name, or NULL for default name
-+ *
-+ * This is a simplified version of drmm_encoder_alloc(), which only allocates
-+ * and returns a struct drm_encoder instance, with no subclassing.
-+ *
-+ * Returns:
-+ * Pointer to the new drm_encoder struct, or ERR_PTR on failure.
-+ */
-+#define drmm_plain_encoder_alloc(dev, funcs, encoder_type, name, ...) \
-+	((struct drm_encoder *) \
-+	 __drmm_encoder_alloc(dev, sizeof(struct drm_encoder), \
-+			      0, funcs, encoder_type, name, ##__VA_ARGS__))
-+
- /**
-  * drm_encoder_index - find the index of a registered encoder
-  * @encoder: encoder to find index for
+ struct ingenic_dma_hwdesc {
+@@ -1024,20 +1024,17 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 			bridge = devm_drm_panel_bridge_add_typed(dev, panel,
+ 								 DRM_MODE_CONNECTOR_DPI);
+ 
+-		encoder = devm_kzalloc(dev, sizeof(*encoder), GFP_KERNEL);
+-		if (!encoder)
+-			return -ENOMEM;
++		encoder = drmm_plain_encoder_alloc(drm, NULL, DRM_MODE_ENCODER_DPI, NULL);
++		if (IS_ERR(encoder)) {
++			ret = PTR_ERR(encoder);
++			dev_err(dev, "Failed to init encoder: %d\n", ret);
++			return ret;
++		}
+ 
+ 		encoder->possible_crtcs = 1;
+ 
+ 		drm_encoder_helper_add(encoder, &ingenic_drm_encoder_helper_funcs);
+ 
+-		ret = drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_DPI);
+-		if (ret) {
+-			dev_err(dev, "Failed to init encoder: %d\n", ret);
+-			return ret;
+-		}
+-
+ 		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
+ 		if (ret) {
+ 			dev_err(dev, "Unable to attach bridge\n");
 -- 
 2.30.2
 
