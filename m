@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 571F734B848
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Mar 2021 17:42:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F121934B9BA
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Mar 2021 23:05:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED9F76E243;
-	Sat, 27 Mar 2021 16:42:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 766726E029;
+	Sat, 27 Mar 2021 22:05:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
- [209.85.210.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEE1C6E243
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Mar 2021 16:42:43 +0000 (UTC)
-Received: by mail-ot1-f42.google.com with SMTP id
- y19-20020a0568301d93b02901b9f88a238eso8188796oti.11
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Mar 2021 09:42:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=4Adu3Op/lND4oC5P4MkNjHnwnlBxB8vPxviuUDes9aI=;
- b=DFxnIJwmyo0Rg48LHsoTFmJJJD/t1LdTb9g6GxptbFvfFcppi9F50FrB2ejEqTXrA2
- aQK4wb4x/fHlq47aSMlfOJVAQZ5rD2hCRwe8LQzur8NYEcFm9NzTdOfvwl4THZ0pIf6u
- ZTHiSpgy7snQG4AhdCpVbkgJWJGyqimBwvvCdN1ymU3XWJCWVq/5w8vcybL/Bvsr2OH1
- iLN/rwrZQkPLRz5M78EE3cEspCyQ/eHNC7s12gdfwn38WM3EWrgvzHaS4jE1YwYvb1A+
- pRj/SR2cm5jAM0YCC1bXYQDI/03u1O9RuVp457dsxqAW5C0Zo2QJouTNiQiLCQlyLbbR
- VAHQ==
-X-Gm-Message-State: AOAM533QYdrpi9dPwUzzbBwor5upT2998s4r6O9eH4G6Oi19jPC1sb35
- 4Lsv7TyLCvuJFvp8fAPjUw==
-X-Google-Smtp-Source: ABdhPJxeQIDE4oB/aMKotfQ5MCqdfzWm41e7k0pkVPSry+xOdIxVkeNOaaIsWRPXbRcaRGLKgHA6Iw==
-X-Received: by 2002:a9d:3a4a:: with SMTP id j68mr16230064otc.4.1616863362965; 
- Sat, 27 Mar 2021 09:42:42 -0700 (PDT)
-Received: from robh.at.kernel.org ([172.58.99.140])
- by smtp.gmail.com with ESMTPSA id w7sm2868319ote.52.2021.03.27.09.42.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 27 Mar 2021 09:42:42 -0700 (PDT)
-Received: (nullmailer pid 220138 invoked by uid 1000);
- Sat, 27 Mar 2021 16:42:39 -0000
-Date: Sat, 27 Mar 2021 10:42:39 -0600
-From: Rob Herring <robh@kernel.org>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [RFC PATCH 01/11] dt-bindings: drm/bridge: ti-sn65dsi8: Make
- enable GPIO optional
-Message-ID: <20210327164239.GA220109@robh.at.kernel.org>
-References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210322030128.2283-2-laurent.pinchart+renesas@ideasonboard.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 857B46E029
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Mar 2021 22:05:26 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id AC2276198F
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Mar 2021 22:05:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1616882723;
+ bh=Szsgub0sXiwhGY54B0h281Vqyo6/alFWhHvVRMh6Elw=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=QwASPKjL96Y83asQlfVv3c8bFVfXEkSRQJfk6KlMsRDF5+dWDul71/aPvCralnOyh
+ +YmNQoHdDk71r+b46731fPWGfNLow2mn9x56vUL1ttSa044N7v+HNaXzhR1BgkCpY4
+ mJi7ZYnleHMxwsQbDZrxOus2pvi8JqyUsO4mCGgLBVwA0+6OZ4AvnZaafy0nwI1jRE
+ aL6oBFecE7NWe0HjPu5OAtAbEiSngbWAysi5ub8Mq6FNaSlCNNUv++ZQdytcTzySkX
+ nTE3UJAqbEsXEC/mYDy+gXSavC5nHXjbPyu4BRj5NWnlTbMtyBvUqYYCbvesZ8iR5w
+ KjUMXjBlp8Qlg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id A072862AC8; Sat, 27 Mar 2021 22:05:23 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212259] Entire graphics stack locks up when running SteamVR and
+ sometimes Sway; is sometimes unrecoverable
+Date: Sat, 27 Mar 2021 22:05:23 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: happysmash27@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-212259-2300-dxdp5oyVYH@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212259-2300@https.bugzilla.kernel.org/>
+References: <bug-212259-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210322030128.2283-2-laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,28 +64,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-renesas-soc@vger.kernel.org,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 22 Mar 2021 05:01:18 +0200, Laurent Pinchart wrote:
-> The SN65DSI86 EN pin can be hardwired to a high level, or connected to a
-> global reset signal, not controllable by the kernel. Make it optional in
-> those cases.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml         | 1 -
->  1 file changed, 1 deletion(-)
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=212259
 
-Acked-by: Rob Herring <robh@kernel.org>
+--- Comment #3 from happysmash27@protonmail.com ---
+Created attachment 296093
+  --> https://bugzilla.kernel.org/attachment.cgi?id=296093&action=edit
+Full dmesg 2021-03-27
+
+It has happened again today. Attaching another log.
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
