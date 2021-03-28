@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46AE34BBF4
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Mar 2021 12:09:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E99B834BBF5
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Mar 2021 12:12:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E040089ED6;
-	Sun, 28 Mar 2021 10:09:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C51E56E0DD;
+	Sun, 28 Mar 2021 10:11:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DF1189ED6
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 10:09:29 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 5DCB561976
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 10:09:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B4F16E0DD
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 10:11:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 21F5E6196C
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 10:11:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616926169;
- bh=Q9c0VXiIlSOALJS5SOgkifzHKWtRLqPLleaeKGoHmJQ=;
+ s=k20201202; t=1616926316;
+ bh=+qqfBxjrzXQLMkXjKXE7+J5mXdVNTsGapDippYmQNy4=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=qSO4beZYzpPEgSGZHeo7jFILp8b5oXGYLEw9hxFWsGqwIjqM/nrcBdZI6E1CX2h1n
- LEgcDwbD6osgf85JqvI0rENfBbAvjvP2NVrFaqJVHTTRwAPpdRWHEoCeq1z+goMRZw
- t84m6mnt+5L78GJE9TIAB2XMhf3uSTnDAGZxsa1hxcsrKgdNDHYYKb2lrEF3prZ6NW
- AAFSACswYO0Iqg51NfMz3f6E/riwNNAvofL32kPBudNIxo7Rpsl555byj+lxrF4x2b
- paz8TQs6Ch1IOJwfs+nCTOeB1OvfnxC+xsWoAfd+Gon0z4E/xnOx6y3QXL4Oy1D5U7
- 0Y9fqW2ZCU2AA==
+ b=AwpAubrNY2g7WMMSIBxOsD/DizZXx84zKFR/UpEAkcI9ICUBtDk9SFKHLVf/xI8/A
+ d/JjmiHxX74zxqBfUeXOtc+zFQrGbddAA1to5gixzL7KDnNmrxW47ZfGPh6H3XgLxM
+ bWtQ8mgz/6jRSyWM0cIvOyTQz4XRjv4QWfbZEMhU7eLVFI/qK8Ggqsd82KqvQ9xVHz
+ XDfxboMOZG61mxu21+VbWD3lnuCgI7d04VuzPci4SP42DvXj2Rmvydbfpomqi1UiYG
+ xrhXzet5gwZ3a4sAIx8uhg+jMNzOe052Gg8DzJxiirqGXq2jPbJCurgYk2iCHA7Sti
+ h+uyUDO+u1aFQ==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 5AEE262AD2; Sun, 28 Mar 2021 10:09:29 +0000 (UTC)
+ id 1516D62AD2; Sun, 28 Mar 2021 10:11:56 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 212449] DDC requires amdgpu.dc=0, HDMI sound requires
  amdgpu.dc=1. Make them work together!
-Date: Sun, 28 Mar 2021 10:09:29 +0000
+Date: Sun, 28 Mar 2021 10:11:55 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,8 +45,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-212449-2300-urLNtkUl9f@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-212449-2300-wiL1pZROFO@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-212449-2300@https.bugzilla.kernel.org/>
 References: <bug-212449-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,10 +71,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=212449
 
---- Comment #9 from Vyacheslav Dikonov (sdiconov@mail.ru) ---
-Created attachment 296111
-  --> https://bugzilla.kernel.org/attachment.cgi?id=296111&action=edit
-Reference logs from a different computer attached to the same display
+--- Comment #10 from Vyacheslav Dikonov (sdiconov@mail.ru) ---
+Excuse me for mistypes in the attachment notes. DDC works ONLY with dc=0 and
+hw_i2c=0. Everything else leads to errors, Each file contains a correct
+description.
 
 -- 
 You may reply to this email to add a comment.
