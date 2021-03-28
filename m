@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CFAE34C01C
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 01:58:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D3034C01E
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 01:58:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AD2A6E3AC;
-	Sun, 28 Mar 2021 23:58:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 069FC6E3D6;
+	Sun, 28 Mar 2021 23:58:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
  [IPv6:2607:f8b0:4864:20::82a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FB496E3AC
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 23:58:07 +0000 (UTC)
-Received: by mail-qt1-x82a.google.com with SMTP id l13so8218153qtu.9
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 16:58:07 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2A86E3D6
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 23:58:12 +0000 (UTC)
+Received: by mail-qt1-x82a.google.com with SMTP id l6so26659qtq.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 16:58:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NJwGboF3RRjxp++ZERmPQjReWWVKr/czZXPuA+ZJx80=;
- b=YL9DmbE2fe0BApSWAt2uHCdURo+Rz+Rr5GPOuD10WlMJxvjxgDIyyDM3ifIcvvFf0U
- gcHFBmE54d+3KH4GKg8iBAbwJWZlANd7lr6vJAYD4G9J3iSs9fFEc0DzrVMnX38/kG6P
- RJbrTE5VSk49lSyEs8UvPXBlWiDPiTcK4eOBOcIgR1St56TAKdCSryZn0q84c3m+KGM7
- s8XD83myVeBcsZjrO6SlOUShzdK8/g4TPaF96Oa/YASCcUSk06hFuZSxlBgiMcaJpQKm
- i06egdkTzyqoTyu9lUskiJSdlxdgPxtUPgPXwD0kgeJVE3IOcizvkW/yV7TLUyM+fCMH
- j1Tg==
+ bh=EUGFgtZenGoQf8Uh4RGUdvjnZZYLeMJMHb15/4oeJgc=;
+ b=mj/G1xfMN+eBi/mLaJKBCfkPK76TC91NulrZ5Jz6MjHvD1+9uv4rw5JIHWY6jJMkPU
+ juBqy15jPxnjEZz88LM7f7n7mKB7TmDWozu6QfjYOf5cdeVB6jvj8YF2JK5SEbaWCtcr
+ SLVpipsP8ug8RvIfOCigIBCOOkbSMY0mM8tlHsQ75zbmLFit+2cyQzvlDBSCB3LGSGbV
+ pShlkMne+FQekElXhc22p72UjnAWEnoe2D3MPu8Z7RA503hwCfuXky3XJCDO45tC2vxK
+ Ir37Ajvmz19yu5bi6jM78kpp6GrDyAnXm5bDAKqUzMmt+jw56iKxC+d1WcuHS2QwjAoe
+ bCAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NJwGboF3RRjxp++ZERmPQjReWWVKr/czZXPuA+ZJx80=;
- b=dTGWOTO4moQ17jvDUD3ucm4MVybAVNuw5dQ3vEQ9mXz4m/U8kkEzy8IbzOTz2mvpnp
- 2epwpLAJ3Nx/OpCttDO7PB8IYzp1xqhoEKlX8aQgUTqfZOnpE0kB5fhKhlndKCoEmBMl
- oKSpscws3jHr7ZuFFKEo9cRNEhTq5kNx51ZVhYEoBeKaIEbp0Zht6M+ifsuwZhgERiWB
- 0dJ1S3paGLspd5/A0P/5fuhSXGCMFpt1AjSHaAL9IZO5T0gtZjjps0tgHSR7k6IBFV2z
- uZDRNRZWv2gB4beVDQ0WgfN5W94noCUvUvAgj+rpMD7/zbE9Djt4+fQQsPXxYnea6iqH
- 0COw==
-X-Gm-Message-State: AOAM533fZ7CDcUd4wl9wU6ASADk39lTgaqD29kxp1ydBjv7VtfvbfXGz
- EGHOcXyaC9P0b8cTZOikTjA=
-X-Google-Smtp-Source: ABdhPJx9IaqtHu2JrNlJIS8s9C3nSt+b7/qaYIDs+xEjbuoo0gr+h5DM6WDJ9l2kCetRDAOn+2QZpA==
-X-Received: by 2002:ac8:46cc:: with SMTP id h12mr21317176qto.105.1616975886810; 
- Sun, 28 Mar 2021 16:58:06 -0700 (PDT)
+ bh=EUGFgtZenGoQf8Uh4RGUdvjnZZYLeMJMHb15/4oeJgc=;
+ b=CwUhY1vE7YjW1IMKhM3uYR9Qz/aSH6YZiACZy9YajcrH/1nv7kaK2P2KjEeePBe58r
+ St41XRdb0n4tnmlXb25lfGx1XUi6gBPGZxAvrHqaxSo1lMpIUzqfNIWiCOyPpEyZnqaV
+ u/6y9SiFam8aDshjYHbdJvonDpGK7FQs6SM02kGe92zpjLy0z4QCvUkpsVOt2j+Wnu68
+ YTEgGRgijRk6QodUI0Ae6GcmjPh8ptarz+RX2mbiFaERxWHvGZ59jvAbqLxdXmf3mvD7
+ UMSjcaeA5R5NQBiDRJj0a33ChLM1IVmawTtyGFfKGWt+ClhXQQ9wjfaxyszZKNFbX18g
+ Ztrg==
+X-Gm-Message-State: AOAM532kBoF3MBar6LMtCgtMI6k7NStTYnZyF+IJCeb71ZSyl9bFo0ru
+ wuTKA9oKX43n0UyIl4fP4mg=
+X-Google-Smtp-Source: ABdhPJw5YfqSr8OAZoUA56+SYw5JOagX/iPu+fij/qaA6VDbAiygjX2++C/zuL+4UodiHI2nu1SuPA==
+X-Received: by 2002:ac8:4799:: with SMTP id k25mr1974600qtq.319.1616975891846; 
+ Sun, 28 Mar 2021 16:58:11 -0700 (PDT)
 Received: from localhost.localdomain ([156.146.58.24])
- by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.58.02
+ by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.58.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Mar 2021 16:58:06 -0700 (PDT)
+ Sun, 28 Mar 2021 16:58:11 -0700 (PDT)
 From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To: dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org, hch@lst.de,
  iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
  dave.jiang@intel.com, dan.j.williams@intel.com
-Subject: [PATCH 26/30] dw-axi-dmac-platform.c: Few typos fixed
-Date: Mon, 29 Mar 2021 05:23:22 +0530
-Message-Id: <01f2fed34eca736091a46dfee38381882e5dc5e9.1616971780.git.unixbhaskar@gmail.com>
+Subject: [PATCH 27/30] dpaa2-qdma.c: Fix a typo
+Date: Mon, 29 Mar 2021 05:23:23 +0530
+Message-Id: <75bdf547b024ece2e35f6e83e51101109ae46803.1616971780.git.unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <cover.1616971780.git.unixbhaskar@gmail.com>
 References: <cover.1616971780.git.unixbhaskar@gmail.com>
@@ -75,49 +75,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-s/configurarion/configuration/
-s/inerrupts/interrupts/
-s/chanels/channels/  ....two different places.
-s/Synopsys/Synopsis/
+s/contoller/controller/
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/dma/sh/shdmac.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c b/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
-index d9e4ac3edb4e..ef4da10361a7 100644
---- a/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
-+++ b/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
-@@ -35,7 +35,7 @@
+diff --git a/drivers/dma/sh/shdmac.c b/drivers/dma/sh/shdmac.c
+index 5aafe548ca5f..7b51b15b45b1 100644
+--- a/drivers/dma/sh/shdmac.c
++++ b/drivers/dma/sh/shdmac.c
+@@ -319,7 +319,7 @@ static void sh_dmae_setup_xfer(struct shdma_chan *schan,
+ }
+
  /*
-  * The set of bus widths supported by the DMA controller. DW AXI DMAC supports
-  * master data bus width up to 512 bits (for both AXI master interfaces), but
-- * it depends on IP block configurarion.
-+ * it depends on IP block configuration.
+- * Find a slave channel configuration from the contoller list by either a slave
++ * Find a slave channel configuration from the controller list by either a slave
+  * ID in the non-DT case, or by a MID/RID value in the DT case
   */
- #define AXI_DMA_BUSWIDTHS		  \
- 	(DMA_SLAVE_BUSWIDTH_1_BYTE	| \
-@@ -1056,10 +1056,10 @@ static irqreturn_t dw_axi_dma_interrupt(int irq, void *dev_id)
-
- 	u32 status, i;
-
--	/* Disable DMAC inerrupts. We'll enable them after processing chanels */
-+	/* Disable DMAC interrupts. We'll enable them after processing channels */
- 	axi_dma_irq_disable(chip);
-
--	/* Poll, clear and process every chanel interrupt status */
-+	/* Poll, clear and process every channel interrupt status */
- 	for (i = 0; i < dw->hdata->nr_channels; i++) {
- 		chan = &dw->chan[i];
- 		status = axi_chan_irq_read(chan);
-@@ -1511,5 +1511,5 @@ static struct platform_driver dw_driver = {
- module_platform_driver(dw_driver);
-
- MODULE_LICENSE("GPL v2");
--MODULE_DESCRIPTION("Synopsys DesignWare AXI DMA Controller platform driver");
-+MODULE_DESCRIPTION("Synopsis DesignWare AXI DMA Controller platform driver");
- MODULE_AUTHOR("Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>");
+ static const struct sh_dmae_slave_config *dmae_find_slave(
 --
 2.26.3
 
