@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F1934C009
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 01:57:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA4A434C00A
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 01:57:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E10E38997A;
-	Sun, 28 Mar 2021 23:57:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34EAD89A91;
+	Sun, 28 Mar 2021 23:57:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
- [IPv6:2607:f8b0:4864:20::833])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 533FF8997A
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 23:57:37 +0000 (UTC)
-Received: by mail-qt1-x833.google.com with SMTP id f12so8253149qtq.4
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 16:57:37 -0700 (PDT)
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38DD989A91
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 23:57:42 +0000 (UTC)
+Received: by mail-qk1-x731.google.com with SMTP id 7so10924391qka.7
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 16:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qTMepEQ2KULfrsHgV8Kxlgt84PsBxxGqM80tVNIqbWY=;
- b=bTEbIGlULsXvf6mp9eD0MKL9UGtjeyV3vz6uIDnSq3FIpNNN4nSxkCxJXDeGfDDYyB
- zrGFOLTVdImkvTyvLeq0/4E+jnMEn98Q26GKTp+Nz0mhhF+ZDnkEgHrk7CFt7Ca0UvL4
- zn/PcJ5S81UeZvLDHEV66orBfcuymqrZb2/bTljWCMBn9pDs5sHfT9lWNzoSKvdiRlgf
- XdUsJFchXNreOvNlDTRTJnKriv/0ujteXmBg14gklE8iTN8dRgUSPOi0bMkwDOBHnpR4
- zgdlEoqgFMO6iS16vaq1e+iDX2yJvKTuHCAjQVE2Bd5zNUG+/3CwHCC8hFaVUgmb1NiM
- gWYw==
+ bh=LY04BDMd0/4O0qv+wuAgYKhd3ly3Ph1K7x5mf2r/G+0=;
+ b=a+EXa39bteLFKTrEHlbm1+MouCIyb9cV+yaNKyv8dIyxqTAhvd31XrjXWbvHHzVduL
+ 1m4DojoIjOfiyRN7xcr0QpSrR6ePbNm3KqRQY1gbCFcbd22bLf2BWnHwe8lfTEqTjY7R
+ M98mtiq0Pq4n7XXjDGYxi4qsrFmCNnBlY+2L6xSLFCm2xU4u2hVKUVCMMgz+W48T3z+F
+ Be8AcFVNT/rv2XLUJvW++tnlcFMq9Mx/WmUVOYgxFXIoTtuxIjemHAh4IiTbpweWxeP6
+ Pt8RHzRZ4DYYvL/cvUU4JdOTyLGN/JBiDRnApwCKetCmX6P86BiK0xXGUEADFFqiSdgJ
+ skQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qTMepEQ2KULfrsHgV8Kxlgt84PsBxxGqM80tVNIqbWY=;
- b=VfWbndNgl1IOJxATiR3M2fH0bac92n9sxVGZ4/XAW2NqP2+szZqkd6tMZo+8+fRdAv
- AclXl1vPFOvXlM4FkiHYtf9EG0v7sH7Pd8ab5rvmr8j/PNQCF5X5yjSLtvmPUrtwUKuD
- Q+SSEJSjSYNShQf+NcSLWjPjpzF2Lnn5f3NffYQcYLHhRZyWoFIMFX/tgi/w+rId2BKD
- MgF+xzWB2SBd+Nek4rAcdLTfZkWj0K40zTzgHtgZskfVnyo5EF8rV7NDCwOhTjOnV7Rw
- xL1Lrb1+p9wdgeZabI3bNxBhZwxvjiqcv2DvdU/4x+i7QVofLnCRgWbkEUQsq0qF4zqz
- ww4g==
-X-Gm-Message-State: AOAM532DJylCARRz8b7twTvxlPQxN1qsEbmBAT1DJzwpsEpubtf7OtaQ
- HVAExXq77GE5M0lFWBtKhc8=
-X-Google-Smtp-Source: ABdhPJwRTC1BpC2ZmqFvyCckRvvuwnANkqHAZvJtuc4Mu8nM99Nfdg+GTNYLo2psV/k5ZUFbmcYhiA==
-X-Received: by 2002:ac8:dcc:: with SMTP id t12mr13997202qti.219.1616975856552; 
- Sun, 28 Mar 2021 16:57:36 -0700 (PDT)
+ bh=LY04BDMd0/4O0qv+wuAgYKhd3ly3Ph1K7x5mf2r/G+0=;
+ b=BQ4v7OJMqSkE1Q0eQqpRi19LF0/MVJU3wDeCBReosjwZlNZtcuwy9bWFeD5aWui0B9
+ NKMqwgnJX27N5SlG9Kvbas7u3tQ9wB9l2hf0z7Y7+8FL3T/HdSgWPM3oM4a9UZ5hMrmu
+ cEEkgKbJTjrDB0VGl2EtTR2jecENOtlSZaIR0tprcqDK7Rmt3HXM/M3BANnQhRA/MSZ+
+ jN+/wAz/zpIM+LafTiiwNmQwpLW3jP8QYjuyBKIq0BKKeG3zZbUAYtnIcAuCTXtEOaIB
+ IihPFm6QjONiLqgjUujnyBWOjdNCAqjhTRhYJsWRYDnlids2P97zEd2QOBcTRqRdTmR+
+ d5Cg==
+X-Gm-Message-State: AOAM530m9wgwqH1mKaApT2M9ICvdYsT7sIeC8Msnjp2y0Y2hrtGI/ooZ
+ 6aKbPXe4g9ucN3n+XBaWCqw=
+X-Google-Smtp-Source: ABdhPJz881qq4XaeZFjTiwc+P8rV7shOVJ9Q+7jnFQ8clBo7myE8qUn50lhxUxxhgg0PUTo5fJ3Apw==
+X-Received: by 2002:a05:620a:110a:: with SMTP id
+ o10mr23879687qkk.281.1616975861492; 
+ Sun, 28 Mar 2021 16:57:41 -0700 (PDT)
 Received: from localhost.localdomain ([156.146.58.24])
- by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.57.32
+ by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.57.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Mar 2021 16:57:36 -0700 (PDT)
+ Sun, 28 Mar 2021 16:57:40 -0700 (PDT)
 From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To: dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org, hch@lst.de,
  iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
  dave.jiang@intel.com, dan.j.williams@intel.com
-Subject: [PATCH 20/30] at_hdmac.c: Quite a few spello fixes
-Date: Mon, 29 Mar 2021 05:23:16 +0530
-Message-Id: <d4e6597ed691d7faf4b35ca75e392706bdb16d1d.1616971780.git.unixbhaskar@gmail.com>
+Subject: [PATCH 21/30] owl-dma.c: Fix a typo
+Date: Mon, 29 Mar 2021 05:23:17 +0530
+Message-Id: <2e2a9f4d62fe36079229480bf6f65cea0f5be494.1616971780.git.unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <cover.1616971780.git.unixbhaskar@gmail.com>
 References: <cover.1616971780.git.unixbhaskar@gmail.com>
@@ -75,80 +76,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-s/tranfers/transfers/
-s/maxium/maximum/
-s/previouly/previously/
-s/broked/broken/
-s/embedds/embeds/ .... three different places.
+s/Eventhough/"Even though"/
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- drivers/dma/at_hdmac.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/dma/owl-dma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma/at_hdmac.c b/drivers/dma/at_hdmac.c
-index 30ae36124b1d..02c09532a9e4 100644
---- a/drivers/dma/at_hdmac.c
-+++ b/drivers/dma/at_hdmac.c
-@@ -374,11 +374,11 @@ static int atc_get_bytes_left(struct dma_chan *chan, dma_cookie_t cookie)
- 		 * a second time. If the two consecutive read values of the DSCR
- 		 * are the same then we assume both refers to the very same
- 		 * child descriptor as well as the CTRLA value read inbetween
--		 * does. For cyclic tranfers, the assumption is that a full loop
-+		 * does. For cyclic transfers, the assumption is that a full loop
- 		 * is "not so fast".
- 		 * If the two DSCR values are different, we read again the CTRLA
- 		 * then the DSCR till two consecutive read values from DSCR are
--		 * equal or till the maxium trials is reach.
-+		 * equal or till the maximum trials is reach.
- 		 * This algorithm is very unlikely not to find a stable value for
- 		 * DSCR.
- 		 */
-@@ -403,7 +403,7 @@ static int atc_get_bytes_left(struct dma_chan *chan, dma_cookie_t cookie)
-
- 			/*
- 			 * DSCR has changed inside the DMA controller, so the
--			 * previouly read value of CTRLA may refer to an already
-+			 * previously read value of CTRLA may refer to an already
- 			 * processed descriptor hence could be outdated.
- 			 * We need to update ctrla to match the current
- 			 * descriptor.
-@@ -564,7 +564,7 @@ static void atc_handle_error(struct at_dma_chan *atchan)
- 	spin_lock_irqsave(&atchan->lock, flags);
- 	/*
- 	 * The descriptor currently at the head of the active list is
--	 * broked. Since we don't have any way to report errors, we'll
-+	 * broken. Since we don't have any way to report errors, we'll
- 	 * just have to scream loudly and try to carry on.
- 	 */
- 	bad_desc = atc_first_active(atchan);
-@@ -870,7 +870,7 @@ atc_prep_dma_memcpy(struct dma_chan *chan, dma_addr_t dest, dma_addr_t src,
- 		atc_desc_chain(&first, &prev, desc);
+diff --git a/drivers/dma/owl-dma.c b/drivers/dma/owl-dma.c
+index 1f0bbaed4643..3c7283afa443 100644
+--- a/drivers/dma/owl-dma.c
++++ b/drivers/dma/owl-dma.c
+@@ -1155,7 +1155,7 @@ static int owl_dma_probe(struct platform_device *pdev)
  	}
 
--	/* First descriptor of the chain embedds additional information */
-+	/* First descriptor of the chain embeds additional information */
- 	first->txd.cookie = -EBUSY;
- 	first->total_len = len;
-
-@@ -1199,7 +1199,7 @@ atc_prep_slave_sg(struct dma_chan *chan, struct scatterlist *sgl,
- 	/* set end-of-link to the last link descriptor of list*/
- 	set_desc_eol(prev);
-
--	/* First descriptor of the chain embedds additional information */
-+	/* First descriptor of the chain embeds additional information */
- 	first->txd.cookie = -EBUSY;
- 	first->total_len = total_len;
-
-@@ -1358,7 +1358,7 @@ atc_prep_dma_cyclic(struct dma_chan *chan, dma_addr_t buf_addr, size_t buf_len,
- 	/* lets make a cyclic list */
- 	prev->lli.dscr = first->txd.phys;
-
--	/* First descriptor of the chain embedds additional information */
-+	/* First descriptor of the chain embeds additional information */
- 	first->txd.cookie = -EBUSY;
- 	first->total_len = buf_len;
-
+ 	/*
+-	 * Eventhough the DMA controller is capable of generating 4
++	 * Even though the DMA controller is capable of generating 4
+ 	 * IRQ's for DMA priority feature, we only use 1 IRQ for
+ 	 * simplification.
+ 	 */
 --
 2.26.3
 
