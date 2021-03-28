@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A8934C01B
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 01:58:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CFAE34C01C
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 01:58:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76C6F6E24D;
-	Sun, 28 Mar 2021 23:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AD2A6E3AC;
+	Sun, 28 Mar 2021 23:58:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
- [IPv6:2607:f8b0:4864:20::833])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CBB36E24D
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 23:58:02 +0000 (UTC)
-Received: by mail-qt1-x833.google.com with SMTP id l13so8218071qtu.9
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 16:58:02 -0700 (PDT)
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
+ [IPv6:2607:f8b0:4864:20::82a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FB496E3AC
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 23:58:07 +0000 (UTC)
+Received: by mail-qt1-x82a.google.com with SMTP id l13so8218153qtu.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 16:58:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bpe0M5+HDAqDdeQIOejQbDfFbOvYGihGTywPqCQfPxk=;
- b=UBnTpPl9V62AUBrqC/YSqABPupQ76JLXTf9wdWJSwN8Y02M91Cv2rn4ZwjhokBjvOT
- caKPPonpNMbkYJsmubQ2Bumfsz0OvmkkTWS8FwgdpAJJ2UjLRJp7acfTyFudWVBAqVM4
- mAaT3aHaultxmZCgXXXV5OvJ6J1msraQIsZAdfJkw4uSiaZABZyAHr7r8flbrOwvpPZH
- zBFD5EMOq2xPgbxunhlKskRUqPhi8QLQoyZ1kqDj7sVSl05HXPEVHwZylycvJDJMix34
- BhEq84yLvrSkLfYTrEw/MPY6YGk4Ihk/VSSgfbjYkcNwFP0GEpF+EGDzHiMvb4HSukdQ
- PlRA==
+ bh=NJwGboF3RRjxp++ZERmPQjReWWVKr/czZXPuA+ZJx80=;
+ b=YL9DmbE2fe0BApSWAt2uHCdURo+Rz+Rr5GPOuD10WlMJxvjxgDIyyDM3ifIcvvFf0U
+ gcHFBmE54d+3KH4GKg8iBAbwJWZlANd7lr6vJAYD4G9J3iSs9fFEc0DzrVMnX38/kG6P
+ RJbrTE5VSk49lSyEs8UvPXBlWiDPiTcK4eOBOcIgR1St56TAKdCSryZn0q84c3m+KGM7
+ s8XD83myVeBcsZjrO6SlOUShzdK8/g4TPaF96Oa/YASCcUSk06hFuZSxlBgiMcaJpQKm
+ i06egdkTzyqoTyu9lUskiJSdlxdgPxtUPgPXwD0kgeJVE3IOcizvkW/yV7TLUyM+fCMH
+ j1Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bpe0M5+HDAqDdeQIOejQbDfFbOvYGihGTywPqCQfPxk=;
- b=PHCyz3TItr5JT93DmwGKOCK2Mw/ue5n4GePA8ZvyKiYvpq/BZifh8pdScSr3yo9YcB
- K20R4OVBKfKeBSKNNd2eZS4G4bPm+Nn06CYTYZGCHFo+HksoltwtsYO6cqlsuVkHvAHN
- 0Xo0QS4L8PxtdBnb18u2I3ITqzm9PVb5abnBUyWIHdJYQShcqJAMG8Em4xbVIb+gOsi1
- fqaoHjzoQOHpN7/kqfeA4a2479YqwEkGnWU6edDtDSPBdEFUy4rTbr91IkcdrFFnetKq
- pyUZ13P9lQw7YHy4xipir2IXR6ZXuweN/c3Ti/Bf9ce1E9vMAx2CrT3TGH1nuD2i3eRj
- HcGQ==
-X-Gm-Message-State: AOAM531E+xYjzipzJjx9GTIlSApuiX+fltLkcyMIXsHjZXGOEfmAe9YA
- FgNDaTWmKeE+yLY7TASNm+M=
-X-Google-Smtp-Source: ABdhPJz4aA7ldRQgsCMEBAdvXkEvBGcKpJz3Kr32GBN9DAQyr64A5Qqw5tpT7IRp1HeHqf9g6ttT3w==
-X-Received: by 2002:ac8:698f:: with SMTP id o15mr21281625qtq.39.1616975881895; 
- Sun, 28 Mar 2021 16:58:01 -0700 (PDT)
+ bh=NJwGboF3RRjxp++ZERmPQjReWWVKr/czZXPuA+ZJx80=;
+ b=dTGWOTO4moQ17jvDUD3ucm4MVybAVNuw5dQ3vEQ9mXz4m/U8kkEzy8IbzOTz2mvpnp
+ 2epwpLAJ3Nx/OpCttDO7PB8IYzp1xqhoEKlX8aQgUTqfZOnpE0kB5fhKhlndKCoEmBMl
+ oKSpscws3jHr7ZuFFKEo9cRNEhTq5kNx51ZVhYEoBeKaIEbp0Zht6M+ifsuwZhgERiWB
+ 0dJ1S3paGLspd5/A0P/5fuhSXGCMFpt1AjSHaAL9IZO5T0gtZjjps0tgHSR7k6IBFV2z
+ uZDRNRZWv2gB4beVDQ0WgfN5W94noCUvUvAgj+rpMD7/zbE9Djt4+fQQsPXxYnea6iqH
+ 0COw==
+X-Gm-Message-State: AOAM533fZ7CDcUd4wl9wU6ASADk39lTgaqD29kxp1ydBjv7VtfvbfXGz
+ EGHOcXyaC9P0b8cTZOikTjA=
+X-Google-Smtp-Source: ABdhPJx9IaqtHu2JrNlJIS8s9C3nSt+b7/qaYIDs+xEjbuoo0gr+h5DM6WDJ9l2kCetRDAOn+2QZpA==
+X-Received: by 2002:ac8:46cc:: with SMTP id h12mr21317176qto.105.1616975886810; 
+ Sun, 28 Mar 2021 16:58:06 -0700 (PDT)
 Received: from localhost.localdomain ([156.146.58.24])
- by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.57.57
+ by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.58.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Mar 2021 16:58:01 -0700 (PDT)
+ Sun, 28 Mar 2021 16:58:06 -0700 (PDT)
 From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To: dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org, hch@lst.de,
  iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
  dave.jiang@intel.com, dan.j.williams@intel.com
-Subject: [PATCH 25/30] ste_dma40.c: Few spello fixes
-Date: Mon, 29 Mar 2021 05:23:21 +0530
-Message-Id: <ef2c19d475895f8a627335e37560a18d28c062e9.1616971780.git.unixbhaskar@gmail.com>
+Subject: [PATCH 26/30] dw-axi-dmac-platform.c: Few typos fixed
+Date: Mon, 29 Mar 2021 05:23:22 +0530
+Message-Id: <01f2fed34eca736091a46dfee38381882e5dc5e9.1616971780.git.unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <cover.1616971780.git.unixbhaskar@gmail.com>
 References: <cover.1616971780.git.unixbhaskar@gmail.com>
@@ -75,66 +75,49 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-s/ealier/earlier/
-s/orignal/original/
-s/manouver/maneuver/
-s/transfer/transfer/
-s/succees/success/
+s/configurarion/configuration/
+s/inerrupts/interrupts/
+s/chanels/channels/  ....two different places.
+s/Synopsys/Synopsis/
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- drivers/dma/ste_dma40.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/dma/ste_dma40.c b/drivers/dma/ste_dma40.c
-index 265d7c07b348..39fa2fb74057 100644
---- a/drivers/dma/ste_dma40.c
-+++ b/drivers/dma/ste_dma40.c
-@@ -155,7 +155,7 @@ static __maybe_unused u32 d40_backup_regs[] = {
-
+diff --git a/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c b/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
+index d9e4ac3edb4e..ef4da10361a7 100644
+--- a/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
++++ b/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
+@@ -35,7 +35,7 @@
  /*
-  * since 9540 and 8540 has the same HW revision
-- * use v4a for 9540 or ealier
-+ * use v4a for 9540 or earlier
-  * use v4b for 8540 or later
-  * HW revision:
-  * DB8500ed has revision 0
-@@ -382,7 +382,7 @@ struct d40_desc {
-  *
-  * @base: The virtual address of LCLA. 18 bit aligned.
-  * @dma_addr: DMA address, if mapped
-- * @base_unaligned: The orignal kmalloc pointer, if kmalloc is used.
-+ * @base_unaligned: The original kmalloc pointer, if kmalloc is used.
-  * This pointer is only there for clean-up on error.
-  * @pages: The number of pages needed for all physical channels.
-  * Only used later for clean-up on error
-@@ -1630,7 +1630,7 @@ static void dma_tasklet(struct tasklet_struct *t)
+  * The set of bus widths supported by the DMA controller. DW AXI DMAC supports
+  * master data bus width up to 512 bits (for both AXI master interfaces), but
+- * it depends on IP block configurarion.
++ * it depends on IP block configuration.
+  */
+ #define AXI_DMA_BUSWIDTHS		  \
+ 	(DMA_SLAVE_BUSWIDTH_1_BYTE	| \
+@@ -1056,10 +1056,10 @@ static irqreturn_t dw_axi_dma_interrupt(int irq, void *dev_id)
 
- 	return;
-  check_pending_tx:
--	/* Rescue manouver if receiving double interrupts */
-+	/* Rescue maneuver if receiving double interrupts */
- 	if (d40c->pending_tx > 0)
- 		d40c->pending_tx--;
- 	spin_unlock_irqrestore(&d40c->lock, flags);
-@@ -1970,7 +1970,7 @@ static int d40_config_memcpy(struct d40_chan *d40c)
- 		   dma_has_cap(DMA_SLAVE, cap)) {
- 		d40c->dma_cfg = dma40_memcpy_conf_phy;
+ 	u32 status, i;
 
--		/* Generate interrrupt at end of transfer or relink. */
-+		/* Generate interrupt at end of transfer or relink. */
- 		d40c->dst_def_cfg |= BIT(D40_SREG_CFG_TIM_POS);
+-	/* Disable DMAC inerrupts. We'll enable them after processing chanels */
++	/* Disable DMAC interrupts. We'll enable them after processing channels */
+ 	axi_dma_irq_disable(chip);
 
- 		/* Generate interrupt on error. */
-@@ -3415,7 +3415,7 @@ static int __init d40_lcla_allocate(struct d40_base *base)
- 		base->lcla_pool.base = (void *)page_list[i];
- 	} else {
- 		/*
--		 * After many attempts and no succees with finding the correct
-+		 * After many attempts and no success with finding the correct
- 		 * alignment, try with allocating a big buffer.
- 		 */
- 		dev_warn(base->dev,
+-	/* Poll, clear and process every chanel interrupt status */
++	/* Poll, clear and process every channel interrupt status */
+ 	for (i = 0; i < dw->hdata->nr_channels; i++) {
+ 		chan = &dw->chan[i];
+ 		status = axi_chan_irq_read(chan);
+@@ -1511,5 +1511,5 @@ static struct platform_driver dw_driver = {
+ module_platform_driver(dw_driver);
+
+ MODULE_LICENSE("GPL v2");
+-MODULE_DESCRIPTION("Synopsys DesignWare AXI DMA Controller platform driver");
++MODULE_DESCRIPTION("Synopsis DesignWare AXI DMA Controller platform driver");
+ MODULE_AUTHOR("Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>");
 --
 2.26.3
 
