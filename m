@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C626934BD15
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Mar 2021 17:55:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4898D34BD1C
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Mar 2021 17:59:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF87B6E09A;
-	Sun, 28 Mar 2021 15:55:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD84E898E8;
+	Sun, 28 Mar 2021 15:59:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20DDD6E09A
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 15:55:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id B28CE61949
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 15:55:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43B9E898E8
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 15:59:18 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 192B261958
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 15:59:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616946912;
- bh=LME70X4F356A3bNdNMxSz6hxJR9ablNupbs8Ymp89Q0=;
+ s=k20201202; t=1616947158;
+ bh=RcKUqkTNDHAbM+I0gijilDsWTsTwM1SXbXJcDeuhMys=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=V7LFgKNwn2fdbngQ0q91F9Kj9s7C1OVv0PY2Qj6Zt2zALzkQOaIskIDRvwDSfTyCg
- iBU2fgdg56Qly42WpqxZx7bHU49oSfnAilFhL8pI0LGj+wt9eiAbnbfuv2NOTgWh4/
- y+oFg8Y0hqKORz7ysdFwCU9th/YDzI+b+JMbPLV7fzuZZvFv3An3mrKNM+vJSubMFY
- qvLDGmiQkeMqcwIsSFC7szM3mRefXVu1vlddu9uUBSTFWQIFNVRC09+vVxrEgU+W6G
- VdQo1P13sQixfv74d2Tclx3eNKvr6fMwi/WKhq4NrvsKvpqEvAswPIyMuQS6OnKq5k
- LYu0qtRVtIxHA==
+ b=JpgeAPHidM6cqEgc5YJgwrvzIDhZZiCHw7tNL2AbNM1ogxs8oNOpj2bE+piaiYJHw
+ aEQQxZpggz8il76aVRLVO94XTSAhTo62Z2JI+qF+GJ/ytsDKZHmEFTQ1xFEDYGXIlD
+ bDcBXzTSpjBwDUtRRXObyzM2WXsRrDRp8rhZznbT1Cp3JAbzPr3TtEhGzdSpWW6gsJ
+ Nfx2pBGQIVMudPfjXS8Wib5HWlJxlod8w6/eQM/+B8ku/kWGT+mz/lgRM/QQpceoLn
+ GURYcyZ1Nv54+YupSlEs1ct4CO7HhJuWR+P35ic8pdpHHuzzkZLT23iZPpUxj94Oye
+ 2l1DRgn2C4IBA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id AFC8262AC4; Sun, 28 Mar 2021 15:55:12 +0000 (UTC)
+ id 0D51C62AC4; Sun, 28 Mar 2021 15:59:18 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 212467] AMDGPU -- amdgpu: Unsupported power profile mode 0 on
  RENOIR
-Date: Sun, 28 Mar 2021 15:55:12 +0000
+Date: Sun, 28 Mar 2021 15:59:17 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,8 +45,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-212467-2300-IEFkmXsufl@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-212467-2300-bQu8xqjeVS@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-212467-2300@https.bugzilla.kernel.org/>
 References: <bug-212467-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,10 +71,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=212467
 
---- Comment #1 from Bogdan (bogdan.pylypenko107@gmail.com) ---
-Created attachment 296123
-  --> https://bugzilla.kernel.org/attachment.cgi?id=296123&action=edit
-kernel config
+--- Comment #2 from Bogdan (bogdan.pylypenko107@gmail.com) ---
+My VGA adapter is:
+
+05:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI]
+Renoir (rev c7)
+
+Which integrated into CPU - AMD Ryzen 4600H.
 
 -- 
 You may reply to this email to add a comment.
