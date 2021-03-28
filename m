@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0948434BBDB
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Mar 2021 12:03:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F91E34BBDC
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Mar 2021 12:03:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E16646E0AA;
-	Sun, 28 Mar 2021 10:03:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F3AD6E0C8;
+	Sun, 28 Mar 2021 10:03:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DC926E0AA
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 10:03:03 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 49C2F6197C
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 10:03:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C7876E0C8
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 10:03:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 1C4876197C
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 10:03:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616925783;
- bh=5FzhJiPNKCIJ5BIA184aoJwJ0oOpwi7UbbFmNJ+EDD0=;
+ s=k20201202; t=1616925823;
+ bh=kYgSB6oCVnOeM9yB9ZT2eLzjmKkK6B5KTm9piCWKC50=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=o1sux3elfFJpYq9/P8ZDX5FBAXLEvu1RzqDu4NC2s8JTRyBGti9F0rgjX5ATzkRxL
- 13rV1Tsljx38LonRenpp7WRT+pvZe02lsvD/zZhX2qu+JSVOnLROJ0w550/yfVAiHu
- qaKa3OcnIb3RdsL6WPtyZsfctbVcdDunfR2YWQYoQhGppMVdGDItjt+tD89RuxzVwF
- yGjv5q5U3d7fLDf0fXfNeBb9IN5v2j3q+eZevpflYfQ7+h///Cl28kZimduXYNm8Hu
- hkROH3o8j5repnw+PyKMH9C/K8/Oieg2LzKJgWZtE9NhuF/iLwbTCaaAc76f2bgFVa
- TjyXho9p+h27w==
+ b=rjqSX2LW+wAG1iqQP/K5u+PZIt16eFEMVXj7brdlFC2R0ITRFINvZAMePgu6UC3XQ
+ sOeHpCR2ax19vbgmuJssvxTgfoMCsvd4TskGMkitos1uOsd/NgkCTXKGa3jUo06h3e
+ s4HPx4TyonkRVO212zO0NOAwFaTaSgefxsqO/DOLf82knRLrkCHw4XOeb0uSHtleYF
+ ZqxMdbleYVxgKlga7s0v8e3QYdhJOkhIYyKrsd2sX6z9HIN63x1x4T+SE1PhiwSnmt
+ FvCkwaTolICeI49oMahaPd2NnF0aD8Ya9HHmHuJb4GBwKubCaJc8usGXnymcThoJu+
+ u4jf488L3maBg==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 460E462AD2; Sun, 28 Mar 2021 10:03:03 +0000 (UTC)
+ id 18F5F62AD2; Sun, 28 Mar 2021 10:03:43 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 212449] DDC requires amdgpu.dc=0, HDMI sound requires
  amdgpu.dc=1. Make them work together!
-Date: Sun, 28 Mar 2021 10:03:03 +0000
+Date: Sun, 28 Mar 2021 10:03:42 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -46,7 +46,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-212449-2300-tThQndJebq@https.bugzilla.kernel.org/>
+Message-ID: <bug-212449-2300-rB7XgKmdjF@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-212449-2300@https.bugzilla.kernel.org/>
 References: <bug-212449-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,10 +71,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=212449
 
---- Comment #4 from Vyacheslav Dikonov (sdiconov@mail.ru) ---
-Created attachment 296105
-  --> https://bugzilla.kernel.org/attachment.cgi?id=296105&action=edit
-dc=1, hw_i2c=0, DDC fails
+--- Comment #5 from Vyacheslav Dikonov (sdiconov@mail.ru) ---
+Created attachment 296107
+  --> https://bugzilla.kernel.org/attachment.cgi?id=296107&action=edit
+dc=0, hw_i2c=1, DDC fails
 
 -- 
 You may reply to this email to add a comment.
