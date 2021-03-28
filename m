@@ -2,69 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7795E34BC94
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Mar 2021 16:29:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 180D934BCDC
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Mar 2021 17:24:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA4789000;
-	Sun, 28 Mar 2021 14:29:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E2186E0B8;
+	Sun, 28 Mar 2021 15:24:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CA2489000
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 14:29:27 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id 12so4199332lfq.13
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 07:29:27 -0700 (PDT)
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ED496E0B8
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 15:24:28 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id ha17so4828147pjb.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 08:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=IsKo3ur/ivZot/K5mrttiGwIcumMVaW3XKn+jy1hv30=;
- b=SU2gnbVnnPvPEDC+3BJOocb6N8yC9dwkxT1eOUCnPwHiuGQ+7C77B0cbNORpbNlxnI
- 6wz+8SLseEjW8way9wM39KbT/gJ6LR95TK6aJCgv0fCHLPHFaXTPA4rYys0Tq5CfpfLW
- XpNRLWOVPiNZc09zkD+LLr7JOChZl1kEyaqP2iN8a8oWdfmbLaVrukcJhHtQViXBexKH
- 4iVaqKSk9MoTN/NrZPu8W+fTKJ5/fUQmbIShEveTqLNDBbbJI19b597sgepJ+eQEIk2R
- S4BjtzTIaWIY1VvOh2J/0uWbmSu05rNmekaiX/g6rbVBPYvT4YmcsDyad+jyqUhzwE5M
- Sg+A==
+ h=from:to:cc:subject:date:message-id;
+ bh=bcFi1iGmwKHNoPhG76n+6y15gxw1bFR2T0H0Ryydu4g=;
+ b=cS+oJEWoKDFrHeBwzi8cuZDmnY2J6PKxEgjMPSLfLCovaqRVfg/RlLYvLabnfIxZtd
+ JG9pyy+CufFMBmxXM7bMY0NdGv7QbdNW+zDxrGpvZpzjBxes57qstKv96AczvacJCfr4
+ FHHHRS4rTb3gMxzI1keklb44RsSORDWJh/1CfFakUI+MNgtqfviddMuMMPR2/iRwbz98
+ OEiwoZjP6UJTE5A2DHKX9es2RTVm76nt5XvF/uoQyNzyT++2JOgSN79GC139bqV+/49m
+ ZPRMZxv6/PqbLBZZT/fC5hMhC4Wt5wTvXuWF5MC6z5QTFppN0cB1XtTxdXx6L+A7wTkk
+ zoaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IsKo3ur/ivZot/K5mrttiGwIcumMVaW3XKn+jy1hv30=;
- b=gB7rmHgYuDufP6T8eV9jBOaAFncnVWT/qloC3On/6z0J71uJQr7++QwtyChB+aAt4w
- WopnBdSiMGA0aKX8Ax6WJJeA/3lAeAZDjCHx9+M4OYLJSUlRitmnVvDnaxFj3IiZN12u
- PY10vqnaaMHlgSEjvi9vBK7wExt0uDUNzgWqDG4DPSOnqLw1Q8OHPcHZPobAh37cKKkQ
- x2+1ZaCjeG25jq/fjZuJnZZ8eqoFnsUDRHwPUw6yuSADE0H9UHEuEEJk5GVU670R8tZ+
- w3fb6c/VrC872/bcGoxJvsMNOfg8bWcmpElDDk5D24LC4zjyyCE+74ppedH4R1FwAeWW
- hNkA==
-X-Gm-Message-State: AOAM533+ouScxz0A7mdXpe9Z+6O4GdCaL9yWsJZ5Yj+jbamIMYOCCZuR
- rl7UQ27u01/iuA/6VUtqtFI=
-X-Google-Smtp-Source: ABdhPJyxZRrAJ+QYJSIsy+j/rSicPrQ1Jk5lniSiceyjqz4qa2RJvMiYC4je1i1lYRDQPZiX9hTr0Q==
-X-Received: by 2002:ac2:51ac:: with SMTP id f12mr13335137lfk.605.1616941765861; 
- Sun, 28 Mar 2021 07:29:25 -0700 (PDT)
-Received: from ?IPv6:2a00:1370:814d:b259:a10:76ff:fe69:21b6?
- ([2a00:1370:814d:b259:a10:76ff:fe69:21b6])
- by smtp.googlemail.com with ESMTPSA id b7sm1499196lfa.18.2021.03.28.07.29.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 28 Mar 2021 07:29:25 -0700 (PDT)
-Subject: Re: [PATCH 6/9] drm/tegra: gem: Add a clarifying comment
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20210323155437.513497-1-thierry.reding@gmail.com>
- <20210323155437.513497-7-thierry.reding@gmail.com>
- <21d2e691-6404-503b-422a-be97a7b9d1b4@gmail.com>
- <YFtUalHlk9YiH03n@orome.fritz.box>
- <c231415d-bb4c-6e8a-d384-4ded8f4d27d1@gmail.com>
- <YFtr6f3N3o11DfBc@orome.fritz.box>
- <eeea04f2-86d5-6f24-3831-9c67bfd59436@gmail.com>
- <YF4N5YJ5e9nyEXzg@orome.fritz.box>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <fbb80ce4-5986-b8c0-14be-9ba17f5682cf@gmail.com>
-Date: Sun, 28 Mar 2021 17:29:23 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <YF4N5YJ5e9nyEXzg@orome.fritz.box>
-Content-Language: en-US
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=bcFi1iGmwKHNoPhG76n+6y15gxw1bFR2T0H0Ryydu4g=;
+ b=kc4V/zSyobsM3HEt//poLL1pyyYxIIbVIYfVQ7nKOQ4Oi6MTBplNy3jc67oJo5Z3JE
+ iZCsjc09To/hFJqPObwwmLLHghp2EnKjDr8F9ij7XGJLeZbZ5xZa2ApKkfJC2Hd3GZ1/
+ Ic+CQkHHcUYz9dyuyjBMYUhR4jr95qlnXRpefOZ5VlP9drvD5nyE126wgw8ORjt3Cxav
+ XWJzwrd9Fmq0DnisMyATKUZEfU45thFbIrHtRrnCSkap2fo68XLtrwEUsgKvsl/KNCXj
+ GvJ9KU/Jr7TQ51Sp9x6GqWt1Dr5oCfiy92GgdItz+scA9ed4Q4aodllFdsoOuHt3KiGG
+ 8XUQ==
+X-Gm-Message-State: AOAM533G9/T7pPQCHjMkrxKf/I9MO0IND0zBJutMAGqkO21tySF8wkBl
+ 9ITkcIG0QDY1BVrqvbvF6j8=
+X-Google-Smtp-Source: ABdhPJzXLhCwJ8T+0fxwcBGD30FMrxrK3LLyg8zFFPCLzqrzoXwIk6aZzVTX4GZhNREvwe7MChb+fw==
+X-Received: by 2002:a17:90a:9903:: with SMTP id
+ b3mr22663191pjp.59.1616945067526; 
+ Sun, 28 Mar 2021 08:24:27 -0700 (PDT)
+Received: from localhost.localdomain (1-171-1-114.dynamic-ip.hinet.net.
+ [1.171.1.114])
+ by smtp.gmail.com with ESMTPSA id j188sm14651174pfd.64.2021.03.28.08.24.24
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 28 Mar 2021 08:24:26 -0700 (PDT)
+From: cy_huang <u0084500@gmail.com>
+To: lee.jones@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
+ daniel.thompson@linaro.org, jingoohan1@gmail.com, b.zolnierkie@samsung.com
+Subject: [PATCH v6 1/4] mfd: rt4831: Adds support for Richtek RT4831
+Date: Sun, 28 Mar 2021 23:24:16 +0800
+Message-Id: <1616945059-8718-1-git-send-email-u0084500@gmail.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,111 +64,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikko Perttunen <cyndis@kapsi.fi>, David Airlie <airlied@linux.ie>,
- James Jones <jajones@nvidia.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: ChiYuan Huang <cy_huang@richtek.com>, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjYuMDMuMjAyMSAxOTozNywgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBPbiBXZWQsIE1h
-ciAyNCwgMjAyMSBhdCAwNzo1MDowMVBNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+
-IDI0LjAzLjIwMjEgMTk6NDIsIFRoaWVycnkgUmVkaW5nINC/0LjRiNC10YI6Cj4+PiBPbiBXZWQs
-IE1hciAyNCwgMjAyMSBhdCAwNjo0NTozMFBNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6
-Cj4+Pj4gMjQuMDMuMjAyMSAxODowMiwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPj4+Pj4g
-T24gV2VkLCBNYXIgMjQsIDIwMjEgYXQgMDU6NDE6MDhQTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
-IHdyb3RlOgo+Pj4+Pj4gMjMuMDMuMjAyMSAxODo1NCwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXR
-gjoKPj4+Pj4+PiBGcm9tOiBUaGllcnJ5IFJlZGluZyA8dHJlZGluZ0BudmlkaWEuY29tPgo+Pj4+
-Pj4+Cj4+Pj4+Pj4gQ2xhcmlmeSB3aGVuIGEgZml4ZWQgSU9WIGFkZHJlc3MgY2FuIGJlIHVzZWQg
-YW5kIHdoZW4gYSBidWZmZXIgaGFzIHRvCj4+Pj4+Pj4gYmUgbWFwcGVkIGJlZm9yZSB0aGUgSU9W
-QSBjYW4gYmUgdXNlZC4KPj4+Pj4+Pgo+Pj4+Pj4+IFNpZ25lZC1vZmYtYnk6IFRoaWVycnkgUmVk
-aW5nIDx0cmVkaW5nQG52aWRpYS5jb20+Cj4+Pj4+Pj4gLS0tCj4+Pj4+Pj4gIGRyaXZlcnMvZ3B1
-L2RybS90ZWdyYS9wbGFuZS5jIHwgOCArKysrKysrKwo+Pj4+Pj4+ICAxIGZpbGUgY2hhbmdlZCwg
-OCBpbnNlcnRpb25zKCspCj4+Pj4+Pj4KPj4+Pj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL3RlZ3JhL3BsYW5lLmMgYi9kcml2ZXJzL2dwdS9kcm0vdGVncmEvcGxhbmUuYwo+Pj4+Pj4+
-IGluZGV4IDE5ZTg4NDdhMTY0Yi4uNzkzZGE1ZDY3NWQyIDEwMDY0NAo+Pj4+Pj4+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS90ZWdyYS9wbGFuZS5jCj4+Pj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L3RlZ3JhL3BsYW5lLmMKPj4+Pj4+PiBAQCAtMTE5LDYgKzExOSwxNCBAQCBzdGF0aWMgaW50IHRl
-Z3JhX2RjX3BpbihzdHJ1Y3QgdGVncmFfZGMgKmRjLCBzdHJ1Y3QgdGVncmFfcGxhbmVfc3RhdGUg
-KnN0YXRlKQo+Pj4+Pj4+ICAJCWRtYV9hZGRyX3QgcGh5c19hZGRyLCAqcGh5czsKPj4+Pj4+PiAg
-CQlzdHJ1Y3Qgc2dfdGFibGUgKnNndDsKPj4+Pj4+PiAgCj4+Pj4+Pj4gKwkJLyoKPj4+Pj4+PiAr
-CQkgKiBJZiB3ZSdyZSBub3QgYXR0YWNoZWQgdG8gYSBkb21haW4sIHdlIGFscmVhZHkgc3RvcmVk
-IHRoZQo+Pj4+Pj4+ICsJCSAqIHBoeXNpY2FsIGFkZHJlc3Mgd2hlbiB0aGUgYnVmZmVyIHdhcyBh
-bGxvY2F0ZWQuIElmIHdlJ3JlCj4+Pj4+Pj4gKwkJICogcGFydCBvZiBhIGdyb3VwIHRoYXQncyBz
-aGFyZWQgYmV0d2VlbiBhbGwgZGlzcGxheQo+Pj4+Pj4+ICsJCSAqIGNvbnRyb2xsZXJzLCB3ZSd2
-ZSBhbHNvIGFscmVhZHkgbWFwcGVkIHRoZSBmcmFtZWJ1ZmZlcgo+Pj4+Pj4+ICsJCSAqIHRocm91
-Z2ggdGhlIFNNTVUuIEluIGJvdGggY2FzZXMgd2UgY2FuIHNob3J0LWNpcmN1aXQgdGhlCj4+Pj4+
-Pj4gKwkJICogY29kZSBiZWxvdyBhbmQgcmV0cmlldmUgdGhlIHN0b3JlZCBJT1YgYWRkcmVzcy4K
-Pj4+Pj4+PiArCQkgKi8KPj4+Pj4+PiAgCQlpZiAoIWRvbWFpbiB8fCBkYy0+Y2xpZW50Lmdyb3Vw
-KQo+Pj4+Pj4+ICAJCQlwaHlzID0gJnBoeXNfYWRkcjsKPj4+Pj4+PiAgCQllbHNlCj4+Pj4+Pj4K
-Pj4+Pj4+Cj4+Pj4+PiBUaGlzIGNvbW1lbnQgaXMgY29ycmVjdCwgYnV0IHRoZSBsb2dpYyBmZWVs
-cyBhIGJpdCBsYW1lIGJlY2F1c2UgaXQKPj4+Pj4+IHNob3VsZCBiZSB3YXN0ZWZ1bCB0byByZS1t
-YXAgRE1BIG9uIGVhY2ggRkIgZmxpcC4gUGVyc29uYWxseSBJIGRvbid0Cj4+Pj4+PiBjYXJlIG11
-Y2ggYWJvdXQgdGhpcyBzaW5jZSBvbGRlciBUZWdyYXMgdXNlIHBpbm5lZCBidWZmZXJzIGJ5IGRl
-ZmF1bHQsCj4+Pj4+PiBidXQgdGhpcyBzaG91bGRuJ3QgYmUgZ29vZCBmb3IgVDEyNCsgdXNlcnMu
-Cj4+Pj4+Cj4+Pj4+IEknbSBub3QgdGVycmlibHkgdGhyaWxsZWQgYnkgdGhpcyBlaXRoZXIsIGJ1
-dCBpdCdzIHRoZSBvbmx5IHdheSB0byBkbwo+Pj4+PiB0aGlzIHdoZW4gdXNpbmcgdGhlIERNQSBB
-UEkgYmVjYXVzZSB3ZSBkb24ndCBrbm93IGF0IGFsbG9jYXRpb24gdGltZSAob3IKPj4+Pj4gaW1w
-b3J0IHRpbWUgZm9yIHRoYXQgbWF0dGVyKSB3aGljaCBvZiB0aGUgKHVwIHRvKSA0IGRpc3BsYXkg
-Y29udHJvbGxlcnMKPj4+Pj4gYSBmcmFtZWJ1ZmZlciB3aWxsIGJlIHNob3duIG9uLiB0ZWdyYV9k
-Y19waW4oKSBpcyB0aGUgZWFybGllc3Qgd2hlcmUKPj4+Pj4gdGhpcyBpcyBrbm93biBhbmQgd29y
-c3QgY2FzZSB0aGF0J3MgY2FsbGVkIG9uY2UgcGVyIGZsaXAuCj4+Pj4+Cj4+Pj4+IFdoZW4gdGhl
-IElPTU1VIEFQSSBpcyB1c2VkIGV4cGxpY2l0bHksIHdlIGFsd2F5cyBtYXAgZnJhbWVidWZmZXJz
-IGludG8KPj4+Pj4gdGhlIElPTU1VIGRvbWFpbiBzaGFyZWQgYnkgYWxsIGRpc3BsYXkgY29udHJv
-bGxlcnMgYXQgYWxsb2NhdGlvbiBvcgo+Pj4+PiBpbXBvcnQgdGltZSBhbmQgdGhlbiB3ZSBkb24n
-dCBuZWVkIHRvIHBpbiBhdCBmbGlwIHRpbWUgYW55bW9yZS4KPj4+Pj4KPj4+Pj4gSSBkbyBoYXZl
-IGEgd29yay1pbi1wcm9ncmVzcyBwYXRjaCBzb21ld2hlcmUgdGhhdCBjcmVhdGVzIGEgbWFwcGlu
-Zwo+Pj4+PiBjYWNoZSB0byBtaXRpZ2F0ZSB0aGlzIHByb2JsZW0gdG8gc29tZSBkZWdyZWUuIEkg
-bmVlZCB0byBkaWcgdGhhdCB1cCBhbmQKPj4+Pj4gZG8gYSBmZXcgbWVhc3VyZW1lbnRzIGJlY2F1
-c2UgSSB2YWd1ZWx5IHJlY2FsbCB0aGlzIHNwZWVkaW5nIHVwIGZsaXBzIGJ5Cj4+Pj4+IHF1aXRl
-IGEgYml0ICh3ZWxsLCBleGNlcHQgZm9yIHRoZSB2ZXJ5IGZpcnN0IG1hcHBpbmcsIG9idmlvdXNs
-eSkuCj4+Pj4+Cj4+Pj4+PiBQZXJoYXBzIGR1bWIgYnVmZmVycyBzaG91bGQgYmUgcGlubmVkIHRv
-IGRpc3BsYXkgYnkgZGVmYXVsdCBhbmQgdGhlbiB3ZQo+Pj4+Pj4gc2hvdWxkIGV4dGVuZCB0aGUg
-VGVncmEgVUFQSSB0byBzdXBwb3J0IEJPIG1hcHBpbmcgdG8gZGlzcGxheSBjbGllbnQoPykuCj4+
-Pj4+Cj4+Pj4+IFRoYXQgd291bGQga2luZCBvZiBkZWZlYXQgdGhlIHB1cnBvc2Ugb2YgYSBnZW5l
-cmljIEtNUyBVQVBJLgo+Pj4+Cj4+Pj4gQ291bGRuJ3QgdGhlIEJPcyBiZSBtYXBwZWQgd2hlbiBG
-QiBpcyBjcmVhdGVkLCBpLmUuIGJ5IHRlZ3JhX2ZiX2NyZWF0ZT8KPj4+Cj4+PiBJIHN1cHBvc2Ug
-dGhhdCB3b3VsZCBiZSBwb3NzaWJsZS4gSG93ZXZlciwgdGVncmFfZmJfY3JlYXRlKCkgZG9lc24n
-dAo+Pj4ga25vdyBhIHRoaW5nIGFib3V0IGRpc3BsYXkgY29udHJvbGxlcnMsIHNvIHdlJ2QgaGF2
-ZSB0byBhZGQgZXh0cmEgY29kZQo+Pj4gdG8gaXQgdG8gaXRlcmF0ZSBvdmVyIGFsbCBkaXNwbGF5
-IGNvbnRyb2xsZXJzIGFuZCBkbyBhIGRtYV9tYXBfc2coKSBvZgo+Pj4gdGhlIEdFTSBvYmplY3Qg
-Zm9yIGVhY2ggb2YgdGhlbS4KPj4+Cj4+PiBJdCdzIGFsc28gc29tZXdoYXQgd2FzdGVmdWwgYmVj
-YXVzZSBub3cgd2UgZ2V0IGEgbWFwcGluZyBmb3IgZWFjaAo+Pj4gZnJhbWVidWZmZXIgZm9yIGVh
-Y2ggZGlzcGxheSBjb250cm9sbGVyLiBTbyBpZiB5b3UndmUgZ290LCBzYXksIGEgZm91cgo+Pj4g
-VUhEIHNjcmVlbiBzZXR1cCAod2hpY2ggaXMgc29tZXRoaW5nIHRoYXQgVGVncmExOTQgc3VwcG9y
-dHMpLCB5b3UgY291bGQKPj4+IGVuZCB1cCB3aXRoIDggVUhEIGZyYW1lYnVmZmVycyAodHdvIGZv
-ciBlYWNoIGRpc3BsYXksIGZvciBkb3VibGUtCj4+PiBidWZmZXJpbmcpIGF0IDMyIE1pQiBlYWNo
-IGZvciBhIHdob3BwaW5nIDI1NiBNaUIgb2YgbWVtb3J5IHRoYXQgbmVlZHMgdG8KPj4+IGJlIG1h
-cHBlZCBmb3IgZWFjaCBvZiB0aGUgZm91ciBkaXNwbGF5IGNvbnRyb2xsZXJzLiBUaGF0IDEgR2lC
-IHdvcnRoIG9mCj4+PiBwYWdlIHRhYmxlIHVwZGF0ZXMsIHdoZXJlYXMgeW91IHJlYWxseSBvbmx5
-IG5lZWQgb25lIGZvdXJ0aCBvZiB0aGF0Lgo+Pj4KPj4+IEdyYW50ZWQsIHRoaXMgd2lsbCBtYWtl
-IGZsaXBwaW5nIGEgYml0IGZhc3RlciwgYW5kIElPVkEgc3BhY2UgaXNuJ3QKPj4+IHJlYWxseSBh
-IHByb2JsZW0gb24gVGVncmExOTQuIEl0IHdvdWxkIHN0aWxsIHdhc3RlIGEgYml0IG9mIFJBTSBm
-b3IgYWxsCj4+PiB0aG9zZSBwYWdlIHRhYmxlIGVudHJpZXMgdGhhdCB3ZSBkb24ndCByZWFsbHkg
-bmVlZCwgdGhvdWdoLgo+Pj4KPj4+IEEgbWFwcGluZyBjYWNoZSBzZWVtcyBsaWtlIGEgbXVjaCBi
-ZXR0ZXIgY29tcHJvbWlzZSBiZWNhdXNlIHRoZSBjYWNoZQo+Pj4gbG9va3VwIHNob3VsZCBiZSBx
-dWl0ZSBmYXN0IGNvbXBhcmVkIHRvIGEgbWFwcGluZyBvcGVyYXRpb24gYW5kIHdlIHdhc3RlCj4+
-PiBqdXN0IGEgY291cGxlIGRvemVuIGJ5dGVzIHBlciBtYXBwaW5nIHBlcmhhcHMgYXMgb3Bwb3Nl
-ZCB0byBhIGZldwo+Pj4gbWVnYWJ5dGVzIGZvciB0aGUgZ3JhdHVpdG91cywgcHJlZW1wdGl2ZSBt
-YXBwaW5ncy4KPj4KPj4gSXNuJ3QgaXQgcmVhbGx5IHBvc3NpYmxlIHRvIHB1dCBkaXNwbGF5cyBp
-bnRvIHRoZSBzYW1lIElPTU1VIGdyb3VwIG9uCj4+IFQxOTQ/IEl0IGRvZXNuJ3QgbWFrZSBtdWNo
-IHNlbnNlIHRvIGhhdmUgdGhlbSBpbiBhIHNlcGFyYXRlIGdyb3VwcyBvbiBMaW51eC4KPiAKPiBJ
-dCBpcyBwb3NzaWJsZSBhbmQgaW4gZmFjdCB0aGF0J3Mgd2hhdCdzIGFscmVhZHkgaGFwcGVuaW5n
-LiBIb3dldmVyLCB0aGUKPiBwcm9ibGVtIGlzbid0IHRoYXQgdGhlc2UgZGV2aWNlcyBhcmUgbm90
-IGluIHRoZSBzYW1lIGdyb3VwLCB0aGUgcHJvYmxlbQo+IGlzIHRoYXQgdGhlIERNQSBBUEkgZG9l
-c24ndCBrbm93IGFueXRoaW5nIGFib3V0IGdyb3Vwcy4gSXQgd29ya3Mgb24KPiBzdHJ1Y3QgZGV2
-aWNlIGFuZCBpZiB5b3UndmUgZ290IERNQSBBUEkgZGVidWdnaW5nIGVuYWJsZWQgaXQgbWF5IGV2
-ZW4KPiBmbGFnIGluY29ycmVjdCB1c2FnZSBhcyBlcnJvcnMuCj4gCj4gU28gZnJvbSBhIERNQSBB
-UEkgcG9pbnQgb2YgdmlldywgaWYgYSBkZXZpY2Ugd2FudHMgdG8gdXNlIGEgYnVmZmVyLCB0aGF0
-Cj4gYnVmZmVyIGZpcnN0IGhhcyB0byBiZSBtYXBwZWQgZm9yIHRoYXQgZGV2aWNlLCBldmVuIGlm
-IGl0IHdhcyBhbHJlYWR5Cj4gbWFwcGVkIGZvciBhIGRpZmZlcmVudCBkZXZpY2UgdGhhdCBoYXBw
-ZW5zIHRvIGJlIGluIHRoZSBzYW1lIElPTU1VIGdyb3VwCj4gYW5kIGhlbmNlIHNoYXJlIGFuIElP
-TU1VIGRvbWFpbi4KClRoaXMgc291bmRzIHRvIG1lIGxpa2Ugc29tZXRoaW5nIHdoaWNoIG5lZWRz
-IHRvIGJlIGFkZHJlc3NlZCBmaXJzdCwgaS5lLgp0byBtYWtlIERNQSBBUEkgYXdhcmUgdGhhdCBp
-dCdzIG9rYXkgdG8gcmUtdXNlIG1hcHBpbmdzIGJ5IHNpYmxpbmcKZGV2aWNlcyB3aXRoaW4gdGhl
-IHNhbWUgSU9NTVUgZ3JvdXAuIEFsdGhvdWdoLCBJIGFzc3VtZSB0aGF0IHlvdSBhbHJlYWR5CmNv
-bnNpZGVyZWQgdGhpcyB2YXJpYW50LCBkaWRuJ3QgeW91PwpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+From: ChiYuan Huang <cy_huang@richtek.com>
+
+This adds support Richtek RT4831 core. It includes four channel WLED driver
+and Display Bias Voltage outputs.
+
+Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+---
+The RT4831 regulator patches are already on main stream, and can be referred to
+9351ab8b0cb6 regulator: rt4831: Adds support for Richtek RT4831 DSV regulator
+934b05e81862 regulator: rt4831: Adds DT binding document for Richtek RT4831 DSV regulator
+
+since v6
+- Respin the date from 2020 to 2021.
+- Rmove the shutdown routine.
+- Change the macro OF_MFD_CELL to MFD_CELL_OF.
+
+
+since v5
+- Rename file name from rt4831-core.c to rt4831.c
+- Change RICHTEK_VID to RICHTEK_VENDOR_ID.
+- Change gpio_desc nameing from 'enable' to 'enable_gpio' in probe.
+- Change variable 'val' to the meaningful name 'chip_id'.
+- Refine the error log when vendor id is not matched.
+- Remove of_match_ptr.
+
+since v2
+- Refine Kconfig descriptions.
+- Add copyright.
+- Refine error logs in probe.
+- Refine comment lines in remove and shutdown.
+---
+ drivers/mfd/Kconfig  |  10 +++++
+ drivers/mfd/Makefile |   1 +
+ drivers/mfd/rt4831.c | 115 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 126 insertions(+)
+ create mode 100644 drivers/mfd/rt4831.c
+
+diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+index b74efa4..3f43834 100644
+--- a/drivers/mfd/Kconfig
++++ b/drivers/mfd/Kconfig
+@@ -1065,6 +1065,16 @@ config MFD_RDC321X
+ 	  southbridge which provides access to GPIOs and Watchdog using the
+ 	  southbridge PCI device configuration space.
+ 
++config MFD_RT4831
++	tristate "Richtek RT4831 four channel WLED and Display Bias Voltage"
++	depends on I2C
++	select MFD_CORE
++	select REGMAP_I2C
++	help
++	  This enables support for the Richtek RT4831 that includes 4 channel
++	  WLED driving and Display Bias Voltage. It's commonly used to provide
++	  power to the LCD display and LCD backlight.
++
+ config MFD_RT5033
+ 	tristate "Richtek RT5033 Power Management IC"
+ 	depends on I2C
+diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+index 834f546..5986914 100644
+--- a/drivers/mfd/Makefile
++++ b/drivers/mfd/Makefile
+@@ -235,6 +235,7 @@ obj-$(CONFIG_MFD_MENF21BMC)	+= menf21bmc.o
+ obj-$(CONFIG_MFD_HI6421_PMIC)	+= hi6421-pmic-core.o
+ obj-$(CONFIG_MFD_HI655X_PMIC)   += hi655x-pmic.o
+ obj-$(CONFIG_MFD_DLN2)		+= dln2.o
++obj-$(CONFIG_MFD_RT4831)	+= rt4831.o
+ obj-$(CONFIG_MFD_RT5033)	+= rt5033.o
+ obj-$(CONFIG_MFD_SKY81452)	+= sky81452.o
+ 
+diff --git a/drivers/mfd/rt4831.c b/drivers/mfd/rt4831.c
+new file mode 100644
+index 00000000..b169781
+--- /dev/null
++++ b/drivers/mfd/rt4831.c
+@@ -0,0 +1,115 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright (c) 2021 Richtek Technology Corp.
++ *
++ * Author: ChiYuan Huang <cy_huang@richtek.com>
++ */
++
++#include <linux/gpio/consumer.h>
++#include <linux/i2c.h>
++#include <linux/kernel.h>
++#include <linux/mfd/core.h>
++#include <linux/module.h>
++#include <linux/regmap.h>
++
++#define RT4831_REG_REVISION	0x01
++#define RT4831_REG_ENABLE	0x08
++#define RT4831_REG_I2CPROT	0x15
++
++#define RICHTEK_VENDOR_ID	0x03
++#define RT4831_VID_MASK		GENMASK(1, 0)
++#define RT4831_RESET_MASK	BIT(7)
++#define RT4831_I2CSAFETMR_MASK	BIT(0)
++
++static const struct mfd_cell rt4831_subdevs[] = {
++	MFD_CELL_OF("rt4831-backlight", NULL, NULL, 0, 0, "richtek,rt4831-backlight"),
++	MFD_CELL_NAME("rt4831-regulator")
++};
++
++static bool rt4831_is_accessible_reg(struct device *dev, unsigned int reg)
++{
++	if (reg >= RT4831_REG_REVISION && reg <= RT4831_REG_I2CPROT)
++		return true;
++	return false;
++}
++
++static const struct regmap_config rt4831_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.max_register = RT4831_REG_I2CPROT,
++
++	.readable_reg = rt4831_is_accessible_reg,
++	.writeable_reg = rt4831_is_accessible_reg,
++};
++
++static int rt4831_probe(struct i2c_client *client)
++{
++	struct gpio_desc *enable_gpio;
++	struct regmap *regmap;
++	unsigned int chip_id;
++	int ret;
++
++	enable_gpio = devm_gpiod_get_optional(&client->dev, "enable", GPIOD_OUT_HIGH);
++	if (IS_ERR(enable_gpio)) {
++		dev_err(&client->dev, "Failed to get 'enable' GPIO\n");
++		return PTR_ERR(enable_gpio);
++	}
++
++	regmap = devm_regmap_init_i2c(client, &rt4831_regmap_config);
++	if (IS_ERR(regmap)) {
++		dev_err(&client->dev, "Failed to initialize regmap\n");
++		return PTR_ERR(regmap);
++	}
++
++	ret = regmap_read(regmap, RT4831_REG_REVISION, &chip_id);
++	if (ret) {
++		dev_err(&client->dev, "Failed to get H/W revision\n");
++		return ret;
++	}
++
++	if ((chip_id & RT4831_VID_MASK) != RICHTEK_VENDOR_ID) {
++		dev_err(&client->dev, "Chip vendor ID 0x%02x not matched\n", chip_id);
++		return -ENODEV;
++	}
++
++	/*
++	 * Used to prevent the abnormal shutdown.
++	 * If SCL/SDA both keep low for one second to reset HW.
++	 */
++	ret = regmap_update_bits(regmap, RT4831_REG_I2CPROT, RT4831_I2CSAFETMR_MASK,
++				 RT4831_I2CSAFETMR_MASK);
++	if (ret) {
++		dev_err(&client->dev, "Failed to enable I2C safety timer\n");
++		return ret;
++	}
++
++	return devm_mfd_add_devices(&client->dev, PLATFORM_DEVID_AUTO, rt4831_subdevs,
++				    ARRAY_SIZE(rt4831_subdevs), NULL, 0, NULL);
++}
++
++static int rt4831_remove(struct i2c_client *client)
++{
++	struct regmap *regmap = dev_get_regmap(&client->dev, NULL);
++
++	/* Disable WLED and DSV outputs */
++	return regmap_update_bits(regmap, RT4831_REG_ENABLE, RT4831_RESET_MASK, RT4831_RESET_MASK);
++}
++
++static const struct of_device_id __maybe_unused rt4831_of_match[] = {
++	{ .compatible = "richtek,rt4831", },
++	{}
++};
++MODULE_DEVICE_TABLE(of, rt4831_of_match);
++
++static struct i2c_driver rt4831_driver = {
++	.driver = {
++		.name = "rt4831",
++		.of_match_table = rt4831_of_match,
++	},
++	.probe_new = rt4831_probe,
++	.remove = rt4831_remove,
++};
++module_i2c_driver(rt4831_driver);
++
++MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
++MODULE_LICENSE("GPL v2");
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
