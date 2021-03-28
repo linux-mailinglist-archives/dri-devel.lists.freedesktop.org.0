@@ -1,55 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203BE34BF60
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Mar 2021 23:36:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACCFB34BF86
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 00:01:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B45F89F07;
-	Sun, 28 Mar 2021 21:36:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D7536E103;
+	Sun, 28 Mar 2021 22:01:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B459489F07
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 21:36:01 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 85DE16194B
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 21:36:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616967361;
- bh=C2PMd+rGwSoJtFgzkWTQE1FM7AoMAFq4UI56r3JCO8A=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=PF7rKcbitxZt4pgZS/1xMIhzfJUTEOrFEvbd5WkP/JHBlHD2qr5eiyJ3s0y1rFdtC
- 3iFuapW3kAZIKaga9CGYvV9ukyd8H1wAVSghJgT+1kMPfe6Q0RN5HS9F91X0weGRSG
- CBnDlRFi222DGH6Iqr2AeXw9rsKbe7mubXAPZEjktugvZ54wN9Sv5SimtVkwCjP8IF
- GJv8qOZk9RFvPpxJwn6LGP7dgMhUqqp/pN++dGAnq4b7PM7CALmekbMGUWqPeUEHgU
- voWkzyWhJnzuZuC55l0oEPL/CVgZa89sGHIb0WIBk9ilKrC0Y1TjoFJEfmKZgBDXq/
- 4gOH68pIuMYZQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 7375162AC4; Sun, 28 Mar 2021 21:36:01 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212469] plymouth animation freezes during shutdown
-Date: Sun, 28 Mar 2021 21:36:01 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: amirgi73@criptext.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc attachments.created
-Message-ID: <bug-212469-2300-0biqMAMUX2@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212469-2300@https.bugzilla.kernel.org/>
-References: <bug-212469-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F351C6E05C;
+ Sun, 28 Mar 2021 22:01:23 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4F7qRM31Fyz9sRf;
+ Mon, 29 Mar 2021 09:01:18 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1616968881;
+ bh=5HhQHmCdYgsPA8RXY8VYh1EyFWPd5mOOiVguF7B+feg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=kd3Gu2MbJnjuLrePT/Dbc+t+TFMjNcfw8hENvAuymA+KFzIUMx0BqPRZZWRdMB10a
+ 5ncEz6+Exr2VdJ/UBV6lqZMubK+0V+uo7vyZEtgxS55Kq8UCjfukUXO3vdhHBy7rqJ
+ OiE47UGHnsF60GQ/lfdNuxE5m+7fv1TxnGShi0Z4vCpN05HB02mX2QHjsC6rH0//dQ
+ amNX4zSyfwkUlUoqZ/ci0ICJJEQ5498SI9xJyOGVXArACZw2FkBlvTL+98YmnWtlNn
+ Qtt+ySEp+KbyOgtsQ6TANXYcbk0NvnXDGlaDVMGNoHg/IJUi4gMSKhZMnd5Ywza5Br
+ NmuTU/8Ez5V+g==
+Date: Mon, 29 Mar 2021 09:01:17 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: linux-next: build warning after merge of the drm-intel-fixes tree
+Message-ID: <20210329090117.6b224931@canb.auug.org.au>
+In-Reply-To: <20210326195838.5ad4973b@canb.auug.org.au>
+References: <20210326195838.5ad4973b@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,32 +52,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0069269327=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=212469
+--===============0069269327==
+Content-Type: multipart/signed; boundary="Sig_//QsD_AfuZfie_FBZKD_mLXq";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Amir (amirgi73@criptext.com) changed:
+--Sig_//QsD_AfuZfie_FBZKD_mLXq
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |amirgi73@criptext.com
+Hi all,
 
---- Comment #1 from Amir (amirgi73@criptext.com) ---
-Created attachment 296127
-  --> https://bugzilla.kernel.org/attachment.cgi?id=296127&action=edit
-cat /etc/X11/xorg.conf.d/20-intel.conf
+On Fri, 26 Mar 2021 19:58:38 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
+wrote:
+>
+> After merging the drm-intel-fixes tree, today's linux-next build
+> (htmldocs) produced this warning:
+>=20
+> Documentation/gpu/i915:22: /drivers/gpu/drm/i915/intel_runtime_pm.c:423: =
+WARNING: Inline strong start-string without end-string.
+>=20
+> Introduced by commit
+>=20
+>   8840e3bd981f ("drm/i915: Fix the GT fence revocation runtime PM logic")
 
-I use a xorg.conf for my intel GPU. thought it might help reproducing the bug.
+This warning now exists in Linus' tree.
 
--- 
-You may reply to this email to add a comment.
+--=20
+Cheers,
+Stephen Rothwell
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+--Sig_//QsD_AfuZfie_FBZKD_mLXq
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmBg/K0ACgkQAVBC80lX
+0GyYwggAj9F/JN4TaL4WF+9DYWxOQ/V8lMzzerBR+N65DxX/5p01HhKhdU/sJUVS
+wbrnNAJViURVtHEpnl28m9jSBgdXVnoCBgt/kMQCtIv+vGREZ9isJ2T0KOw11F2I
+1OeHLooITppCjoFM7Kngnt4yJXWXirSSQk68DD+TWyRAgHDPec7rv+3562nBcfny
+F643OjjAHwkC2AbofvDk/FrlbNR9+3oTYP4FpVna8HNmOgWvYIPEcWZB+maFJwgt
+xPLR5ryD4ReYvIvSILrfo2syTRR0mj11eyiKlH3cDp0FFRfqqOpolKtSc4N3q9eE
+j9CqoH1WiURuS0+Z+C3SAj8jSBXD/w==
+=pIB0
+-----END PGP SIGNATURE-----
+
+--Sig_//QsD_AfuZfie_FBZKD_mLXq--
+
+--===============0069269327==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0069269327==--
