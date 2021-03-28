@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ECFF34BFE3
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 01:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7C434BFE6
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 01:56:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87B106E174;
-	Sun, 28 Mar 2021 23:56:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF7C66E17A;
+	Sun, 28 Mar 2021 23:56:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
- [IPv6:2607:f8b0:4864:20::735])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10A6B6E174
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 23:56:33 +0000 (UTC)
-Received: by mail-qk1-x735.google.com with SMTP id g20so10955581qkk.1
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 16:56:32 -0700 (PDT)
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 239C96E17A
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 23:56:38 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id c3so10929885qkc.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 16:56:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0BnZu67viS33aGYohPjcgklvkVxQfW/8GD9rnxEtwd4=;
- b=DZtvetYyyMD2lBKzbBM4H/FNDCw5hl88bdIconXcj2qDm/jFPH8aghuq5QsYihTAkF
- e50DD81/iTN58j6xxgKz550PmMPq8BQ9hEfPPph+WIdC73rdzg8dJ+UXCMCfg/eL6rpL
- bpYG8Qer1UHLBNEjXOk5LiOfjLy04zj5RiWzpfm0AGaIiSGGdOOUyINW+fPqgXEZLBWI
- ZJCp/duHr3bDu8WGMaUyF5991YwUfo18A+oY2EylsV72rLburV0Y8KLkYvuhvMNXoarO
- w5WASyKO9yq4Ox1RbNmZX7VpJeVNZW6LB+RXDNbwuj6DZyPA6KZYbK1dc6YXhqfBkLPO
- QxGQ==
+ bh=h2CB+oDzRlKTXsQgvZVkoJMCXZMGg7B/MCg4u+Njtv4=;
+ b=DU3fOkSXckynV4e9icZMhz7PfRsCbCFt8b1N3nx+vNJ0YQAtxeW+KmaA1o2ylavs+P
+ G9TimVl49iLForzkyymJxqn2b28D4EzXm+ZI4/+f1dCXrwhbTbfRDX5G0QL1ER3Fhh0x
+ dpDIUd6cWj4XZo/T3/DIaUMXfwdvNDgHGrHnl2tCzUbRq0Jfg/A1B6xXt+lUOwYkWcpB
+ T868H80uh8Oet/UF1dj/OlPzy7hR3Ne9fF8ulO7aD4HXzCovy4cvZLjyK5mn8psXkAyf
+ Suwp4AtV5/4hhTchePwPzbFsv8AI9iWSj9p3cyHx4hXz3hJw06YVnKG5SESwuZzZ6r74
+ UuHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0BnZu67viS33aGYohPjcgklvkVxQfW/8GD9rnxEtwd4=;
- b=A8onv9R2Dg7hPCatdK7BA9rdDXwiPgEDwdUDZnuFW8Ip72pKy++DTJb/E9vZdoZL7P
- 9Ab7z53r4sPXAOGYFtxf6Hht74pQtujhCzG2hffShtNsZVQxZg+Iwr/zka3hvN/4Kjht
- WXXgIRznfXHNLurOmzFA7RAvZ9m5GNMIw8wjWQ8Pq92/a3djHj50YOY6UZvaA7ipekyh
- 1UU77dqurEA7t3rSGaZ/ASNnOXgIKvknN7+zu30FYkGmf/sOPeVX9Pulpcs29CPhC/dJ
- vpgAE+X46qbAfdnktjBLsTyn5HmwWQ1XkrdluVW4zW10fdJHA1bYcfKpPuMKAmpojCM0
- 7MVA==
-X-Gm-Message-State: AOAM533TFQuaFVcx2lS3yBsYu96pbC+ofdpShEutcU2ybtiIUC9c1AyH
- E1uttxdbfkYtxMHyrlwNdps=
-X-Google-Smtp-Source: ABdhPJyLnsSA7aDZpYL8OgcC6cA3c2KI3g1ctb8AbY5iG8YBuQoLtMdy1CH0E4ijQxDfED6WKrLV5g==
-X-Received: by 2002:a05:620a:31a:: with SMTP id
- s26mr23221107qkm.355.1616975792270; 
- Sun, 28 Mar 2021 16:56:32 -0700 (PDT)
+ bh=h2CB+oDzRlKTXsQgvZVkoJMCXZMGg7B/MCg4u+Njtv4=;
+ b=jKC1Ikxt/1b0juVPBk1xdsLf8WEHlSVsZuVkSg4+6z7sC2EmI6ygVa+jLsJ9qG5goq
+ cZkYqegSa4otjF/TolOp605HuYZ6aCQ706pZuuZhym9BWAtjPoK+U28wnuZluPyKAzhm
+ NR4wcofxAJtftkDZL7MRS0zk1IZQBGyd6zlUcalf4fiFyDP0U/CXjqCwfQHTxfyUSjqU
+ ZDZJPOhRFEqfZjiViKpKP2y/jNowdRtwvDePJ7SU0YdYdWdAt3B0L3gOfDiEWtGHQ9FO
+ ihT7jf2gZ0DFWKamt1yTX+UA+4rNzxVV1sbDNRMuU2gxJbWuYsbjvG7mLQwC/45+dhoM
+ X8cQ==
+X-Gm-Message-State: AOAM532fg3kjexSXztEmsn8IERYLkVODJGV4PG2p5A1Xq78eykp4Ibj0
+ /Er/qF0YZEgg5AaKkJHHQY4=
+X-Google-Smtp-Source: ABdhPJxvo48SXWkMjNKknPMovLJbk743rE6Sor3y7HvVUau8ciblHI5RRV983LICXWJpgrB6vyRknw==
+X-Received: by 2002:a37:9f4e:: with SMTP id i75mr23450908qke.283.1616975797420; 
+ Sun, 28 Mar 2021 16:56:37 -0700 (PDT)
 Received: from localhost.localdomain ([156.146.58.24])
- by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.56.27
+ by smtp.gmail.com with ESMTPSA id y19sm12153061qky.111.2021.03.28.16.56.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Mar 2021 16:56:31 -0700 (PDT)
+ Sun, 28 Mar 2021 16:56:36 -0700 (PDT)
 From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To: dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org, hch@lst.de,
  iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
  dave.jiang@intel.com, dan.j.williams@intel.com
-Subject: [PATCH 07/30] iop-adma.c: Few typos fixed
-Date: Mon, 29 Mar 2021 05:23:03 +0530
-Message-Id: <a5e2587318ef5fc4e140caf86cfd89ff01027c72.1616971780.git.unixbhaskar@gmail.com>
+Subject: [PATCH 08/30] mv_xor.c: Fix a typo
+Date: Mon, 29 Mar 2021 05:23:04 +0530
+Message-Id: <46df86afac6c221e7eda9586db1233750c1c5477.1616971780.git.unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <cover.1616971780.git.unixbhaskar@gmail.com>
 References: <cover.1616971780.git.unixbhaskar@gmail.com>
@@ -76,46 +75,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-s/asynchrounous/asynchronous/
-s/depedency/dependency/
 s/capabilites/capabilities/
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- drivers/dma/iop-adma.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/dma/mv_xor.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma/iop-adma.c b/drivers/dma/iop-adma.c
-index 310b899d581f..81f32dc964e2 100644
---- a/drivers/dma/iop-adma.c
-+++ b/drivers/dma/iop-adma.c
-@@ -5,7 +5,7 @@
-  */
-
- /*
-- * This driver supports the asynchrounous DMA copy and RAID engines available
-+ * This driver supports the asynchronous DMA copy and RAID engines available
-  * on the Intel Xscale(R) family of I/O Processors (IOP 32x, 33x, 134x)
-  */
-
-@@ -243,7 +243,7 @@ static void iop_adma_tasklet(struct tasklet_struct *t)
- 	struct iop_adma_chan *iop_chan = from_tasklet(iop_chan, t,
- 						      irq_tasklet);
-
--	/* lockdep will flag depedency submissions as potentially
-+	/* lockdep will flag dependency submissions as potentially
- 	 * recursive locking, this is not the case as a dependency
- 	 * submission will never recurse a channels submit routine.
- 	 * There are checks in async_tx.c to prevent this.
-@@ -1302,7 +1302,7 @@ static int iop_adma_probe(struct platform_device *pdev)
-
- 	adev->id = plat_data->hw_id;
+diff --git a/drivers/dma/mv_xor.c b/drivers/dma/mv_xor.c
+index 23b232b57518..a43388b6a30d 100644
+--- a/drivers/dma/mv_xor.c
++++ b/drivers/dma/mv_xor.c
+@@ -1074,7 +1074,7 @@ mv_xor_channel_add(struct mv_xor_device *xordev,
+ 	if (!mv_chan->dma_desc_pool_virt)
+ 		return ERR_PTR(-ENOMEM);
 
 -	/* discover transaction capabilites from the platform data */
 +	/* discover transaction capabilities from the platform data */
- 	dma_dev->cap_mask = plat_data->cap_mask;
+ 	dma_dev->cap_mask = cap_mask;
 
- 	adev->pdev = pdev;
+ 	INIT_LIST_HEAD(&dma_dev->channels);
 --
 2.26.3
 
