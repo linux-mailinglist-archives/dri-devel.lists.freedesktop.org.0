@@ -2,90 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85BB334C5FB
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 10:06:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 708A534C5FE
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 10:07:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D28E6E209;
-	Mon, 29 Mar 2021 08:06:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 980466E30C;
+	Mon, 29 Mar 2021 08:07:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2080.outbound.protection.outlook.com [40.107.94.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB9B06E209;
- Mon, 29 Mar 2021 08:06:34 +0000 (UTC)
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr130055.outbound.protection.outlook.com [40.107.13.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2C276E30C
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 08:07:02 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oIIaLE4Wu6oRZ350ZFy5TMuNksTljCHBikPSZb9V1lpQebGGY79H/3K02PqWydHz7QMANTespx3hvnP05RuxZOoamuDu21qyzrpFTlvwNnCY69LUymDDrZc6I6GHX79a07egqS0DylBzgOFp/wzyPRr6xVEnL6/YO0zH5ejkUNRpyXh1Ulxns2XaLDs1iGZsw8KSXWj771Kbakgj1hf8l1Ed1rvDVSxwYVAZnzPjmr+9grHYq6/4uES7TQNolbYVQctqsp4bcDTBAvqHJBKEnS2+becezah1cwx7XEWxEQXdaci662OXGX2S+/plfVlDuSdtxtbDA1JjAoOt6vXiOg==
+ b=VI0UiQL3I9SmvQ4lSKEX//iM8djEOC07+9RbG/uE333Ib7dpevE66QNvJsuHAiY73zH2zsBnIt8bV5hohKxXVQ7ngJRDxvGs0OqcHhjIEGisx2ZUrQNAOjMKZldLPpmxMVMrT5W6hz0CwHI7JebwVarY/+HrmUQEBKvzCdoo1T/IXa2iVITXK8ydEQ3xtBhYBByTQJeVwNTVItBmP1y1pks/EGfYeGXwB4ril0/5WXozAkaCjywsoanW/QlX15G+dApXV9yODHvXLYXTjWKtrP5PNy4I42BvALH8DL+ky3cl7mh9tHrqWPJSwF+VYDhmYxKb0ifXDnYU88lmayaUww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mC94VzzSggFllqcwT5KsRJ6BKNCloh6wYrVoo8AuEME=;
- b=jpm4BEVjrrNHCqHjy2VvnwYZzsgCFHi3jqp0J8vbRgKuIoQtQXYZnWYFmaGlW5hoKeWFmCYaRu3/lVSWlEown0f2kh8BceX8bEKobkIaQB9SVcyL3c03ogqbejfB+mGKaGE6oPLfyrgcMzTYAFZY5EGrmpu9ubTN/7AakRl5kFAGxpn37lATNk7BnW8Q9N0gBieXG/ptsJnlx2v6MO5WQGrtBVHTimiCY0Ke0HvACA6K4+VbjkXMI9IGU/icrRqJZmFpL0ixH8hUnink9HKJF1wAK+G8ze7INoJi92Y83y9BWX0GttGwg3IjNOg3TnkM5IlKU3lmKAEqpuzy3e+TFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.ie smtp.mailfrom=amd.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=amd.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=lxStv94V1h6TVSaHw5iOj59M0yvBlnJ03ZWBlYgSLaA=;
+ b=gCFfI2NSpRj7ycOU0e91u9GPvTzf1EQVvNcyLz9PdagQvI+9gVJq9hVcbC4X/gIe3eo+KzCxTNEzd59XC3ZybZHOedYYgL30BjVav0mjeJ66tsY3opKmRm0TufmwAZ4X5ZcSZKKtHwJ/ja0ZffMPMn2tmiFfZazda4eGjbnxv/RTyk4JIk6JXpIV+MKppiA8CkS1s762f8qs+HeXiC1FUDCTr0SaVCi+Q0OB8C3OgEPwi/mtuKwJtrqMfMxv/MLrXUNVIqga+crnmqovIZmr8tvwUPmNVQ9wX51ALheRdTc8evhWzhonkOyS4NY3cssXDG599l+KXMaacJtAWXQyfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mC94VzzSggFllqcwT5KsRJ6BKNCloh6wYrVoo8AuEME=;
- b=4oQEvWoW0NkXnxtH34TCHBqD1pRe1sQ1JkWcIlk0/1OPHCQF607x7SQs0yPaKYrHyrWTGPDJQvFm6re4YdIi9wflwVZ5UJlHgGA8HVawZo5zVN4JOvTeznPr6G6wjnBTo6s3ACTrxledslU7t44/eL3o2ii2fgp9/12zjXequic=
-Received: from MWHPR22CA0024.namprd22.prod.outlook.com (2603:10b6:300:ef::34)
- by BN6PR12MB1217.namprd12.prod.outlook.com (2603:10b6:404:20::15)
+ bh=lxStv94V1h6TVSaHw5iOj59M0yvBlnJ03ZWBlYgSLaA=;
+ b=pZydxSUEblXWChNDqxKieJLXERJLPT0b68gA6KrQ78zPZdDqfMxNEwDxwc9O7NAuBGF+TdHkg8asCq6g7kus5wXaJWL9FF4Gr+Xsn2jLUJ0x4i6ZdUjgdIDVYlhxjwtf70XGNvgmsose3+8vh687uvqnNsd4egfTnE2yYtUn2p8=
+Authentication-Results: toradex.com; dkim=none (message not signed)
+ header.d=none;toradex.com; dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
+ by VI1PR04MB3136.eurprd04.prod.outlook.com (2603:10a6:802:10::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.30; Mon, 29 Mar
- 2021 08:06:32 +0000
-Received: from CO1NAM11FT019.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:ef:cafe::30) by MWHPR22CA0024.outlook.office365.com
- (2603:10b6:300:ef::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.25 via Frontend
- Transport; Mon, 29 Mar 2021 08:06:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; linux.ie; dkim=none (message not signed)
- header.d=none;linux.ie; dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT019.mail.protection.outlook.com (10.13.175.57) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3955.18 via Frontend Transport; Mon, 29 Mar 2021 08:06:31 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 29 Mar
- 2021 03:06:30 -0500
-Received: from HPG8.amd.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2106.2 via Frontend
- Transport; Mon, 29 Mar 2021 03:06:26 -0500
-From: Louis Li <Ching-shih.Li@amd.com>
-To: 
-Subject: [PATCH] drm/amd/display: dual cursors are seen if scaling is enabled
-Date: Mon, 29 Mar 2021 15:54:10 +0800
-Message-ID: <20210329075411.501760-1-Ching-shih.Li@amd.com>
-X-Mailer: git-send-email 2.27.0
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.24; Mon, 29 Mar
+ 2021 08:07:00 +0000
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::3ce1:4759:5c33:514c]) by VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::3ce1:4759:5c33:514c%5]) with mapi id 15.20.3977.033; Mon, 29 Mar 2021
+ 08:07:00 +0000
+Message-ID: <4576b09da247aa5fd3b2642b1a2420827d1c04be.camel@nxp.com>
+Subject: Re: [PATCH v6 00/14] Add some DRM bridge drivers support for
+ i.MX8qm/qxp SoCs
+From: Liu Ying <victor.liu@nxp.com>
+To: Marcel Ziswiler <marcel.ziswiler@toradex.com>, 
+ "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>
+Date: Mon, 29 Mar 2021 16:05:19 +0800
+In-Reply-To: <3043284c440c703ab3c4deaf77b6e81670d571e2.camel@toradex.com>
+References: <1615952569-4711-1-git-send-email-victor.liu@nxp.com>
+ <42710b2d8b474cae5d4d8a1408eaa1cd98b7c2e0.camel@toradex.com>
+ <ecb5dc8a52509eed4cf7fa3e9aa235673399f083.camel@nxp.com>
+ <3043284c440c703ab3c4deaf77b6e81670d571e2.camel@toradex.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
+X-Originating-IP: [119.31.174.66]
+X-ClientProxiedBy: MA1PR01CA0163.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:71::33) To VI1PR04MB3983.eurprd04.prod.outlook.com
+ (2603:10a6:803:4c::16)
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from blueberry (119.31.174.66) by
+ MA1PR01CA0163.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:71::33) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3977.25 via Frontend Transport; Mon, 29 Mar 2021 08:06:52 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b0cc45b1-32fe-41c4-ded3-08d8f2899033
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1217:
-X-Microsoft-Antispam-PRVS: <BN6PR12MB121733D7DD076B8FF780B825AA7E9@BN6PR12MB1217.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: d9414b24-5f1d-413a-e3fd-08d8f289a093
+X-MS-TrafficTypeDiagnostic: VI1PR04MB3136:
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR04MB313661509E1CEF6F121C5784987E9@VI1PR04MB3136.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gKBNU6q0QusGufjVCCblV6vqxBUjaMcT0bRurDgbFbMouiqF6b0drsF1c6VEw7crn31WWOS6fmqI55wk5KrafYZ58TYRUWJG7oZAMVBZiDn256kwpd+EXvSeT/DLSpO9/ba2DvXXxOkJS+EKPPjetNXxNIA9yKjL7yUS/NKrDkgr8WMxqz1LBAXKySJ05R/3dx0q4sqRmq4PcLJfhOY/02Wv88kDU7xIVtndc38DfJI1JI+mZGpkSmaUFWjLuRtZlPNlJmrGIYueYEl6HrQrr6SC3GzzLoKm4YL77+Qd2btg7VEEpFV7nufTmbb2SApzJToOwDyxZBLV+mQLo7zIUUXfUtaeefV/ctAlgmNGRz5UXV2tDnAjrshOnc8PCj1A58ckJ1GR1+kyBtQP26muM7Rp1YImamgnT5pBYYxKRJ0S+O3HdhB2AdP1iysZBQCQX+xTS3Jaxj/25qabazb5SsMFA24v0/95uugjzzZJ2n7NrfJA8Ems3JuGEwD/HAeCBRUnVEGmPE0MkP+ElCCEacVF89NpjLB6Z45LcVcmfb5H5LRPnFMDe1E50gmhDT5sep3n8O4u3LREMGYe6xjPxt7HhAprkhMAdQrpeMK6KBwoLtesK3EOSua2rHsXiSXFKKIEAMpRsc6AnHcoGZ4u2D+Xyebs0HeEHoYicKRbrs75eBu/0uQPjmOpT2aggAf+LAXt7Q9026U/zAkXO0qGow==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(396003)(136003)(346002)(36840700001)(46966006)(70206006)(70586007)(478600001)(82310400003)(2906002)(82740400003)(81166007)(356005)(5660300002)(2616005)(83380400001)(186003)(109986005)(26005)(8936002)(4326008)(336012)(8676002)(6666004)(316002)(7696005)(426003)(47076005)(36860700001)(54906003)(36756003)(86362001)(1076003)(266003)(36900700001);
+X-Microsoft-Antispam-Message-Info: 16nKpXTFEsBuaf6f5avJHDwZbux/cVAAiYZH9fufZj0ZbnXCwB+cI7xnXZeL7mXnDk+aC2r5Gdz5uL/+Om8ynwI62qQGTgeHxmWhyqAzzLloLRhS3dM5hxHf9GHQ83ED3KRqfaTCc8FEH0UAezkpaj3AXF9b1+9pwz4PfgDtTAJnySC5ulNF7peHnclaHXvnJWiE3naSvdZrvNAsiCBfbeEdkSNZl4WGXUR0lTxzBlT2J+pmuZYvd+TL6VaVnXaFbtm4DeXn93FDcuCvFkziiyWy7p71SSsVY9In20yX83nOefskYXqfWDCsfqf2lwSg5CPLc3KZxv8h2h8bJKryTz8IuzzSdvD9jMYh60AifiM9G8us5DcRcitmAven8nWYoCgupmLt+ydEzWe/PyO3R3d4uzx/T7GyqnIsXeTP6BBFoa4IY7u3vtucxkFOCzd0DBMCImlo+OtDtbIGDJPe/XNe26jGZwbn7e/1EjVLcx2NelR7+DHc4dfiC9fNGUxdoxcDNdQ9WSjkoChQWYdKGjeNwQxIbarv0RmaDFynfCHwngYcKR8QsChTTuOIZrn4eNcDnDzSp64brRmVOqn1G2rokaUGO4EPxX7f9hrTYsVA+8H7FIK6VuS7b3YDjXd4R4oHJ0bzO/fnsWEXhQwl6oHVy1iYOTMpNdDzdBHzC6orKKYjlGlIu9Fp6qnxkgETVPoj1AVNwbRnzg/bDKSRMAxm2F7f9QCfMxmaMzrUznY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(6029001)(4636009)(396003)(136003)(39860400002)(376002)(366004)(346002)(966005)(36756003)(2906002)(478600001)(7416002)(6486002)(45080400002)(66946007)(66476007)(66556008)(956004)(6496006)(2616005)(52116002)(8936002)(4326008)(83380400001)(316002)(5660300002)(6666004)(16526019)(110136005)(38100700001)(26005)(86362001)(186003)(54906003)(8676002);
  DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2021 08:06:31.4995 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0cc45b1-32fe-41c4-ded3-08d8f2899033
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT019.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1217
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VVh3Q2l3ZXJpWUJhcTd5cjI5UDZmcXFRbFkxbTJIYnhtOGt6TG5qZSt3WDhl?=
+ =?utf-8?B?Q2RYdmFXV3hLRVRkU014d2J5azNKcU5iVGYwaFFaVWpzQlk1SnFGNG1Gb3E2?=
+ =?utf-8?B?MWlnckhLS1dQanFVUVkwQm9ZQ2N5cWw2NVEwY3hyQVBrTDMwZkdWdFV1UDRU?=
+ =?utf-8?B?UFZUSHo1R1ZvM2NnMEVPV2pJQXdDRGxBbXh4T244VG9ha0FDcG5aK3loV0R6?=
+ =?utf-8?B?a0YwL1h0YU1pcHphZFliOXdRcmNzUnpJN0NEcWlmZ29YdHgrNEpRNnE1WS81?=
+ =?utf-8?B?RmdQVWY3bUpwRUk4UXErRExoSHNPZ2ZwOEFyLzlGYWpTdzBRekZOQlF3Ui8x?=
+ =?utf-8?B?VFZjb3U0cS9DYnZoNTU0NGlhNlUrZmUvK3BCMGlzU3F6dGJQOW90aVd6WHJY?=
+ =?utf-8?B?b3JpeEJhRVZWOFloZktVTU1LQUtuelhMNi9aVEk4NnRwREN4TndXVldHMGZV?=
+ =?utf-8?B?Nnh4aGJscmJ3NlNaZEhsNjNCcDgzL2oyVWlOZDlNMnJ5NUovU1l4MGRuRjVM?=
+ =?utf-8?B?K1BNSnFZQnNVQWJVNk5mRCtEUmdWR05reUlXZEpEUHBreUw0Z2RCNm1NbTlF?=
+ =?utf-8?B?OVY1aEtFQWpEdmVPU0s0SkZnSnZHRm9VeDdPNXRTTmZoR0l3Vkh4VFFidGpU?=
+ =?utf-8?B?aDcwOE1ROVg3cG9JRElmc3h3aGRNZ3YzL2ZOeGpNSEtiYlVrbHQwVWhDSEF4?=
+ =?utf-8?B?ekdDekZXWkJ6MU1DVzFOWkJTRU9hWXFlZi8xbGM5d2phajJtdG83QnY3eWF3?=
+ =?utf-8?B?RnRmV01SSk5SNzA1SXFRakgyY0d0TERJeTNKR3R2VVEvKytZNVBGdHRtWWh6?=
+ =?utf-8?B?bTNvbUc3R2IzTzVLbm5OTml2eUpDU2ZCNlFUd25oSjZkMHdoSnU4WEVuYWJM?=
+ =?utf-8?B?d1RwRklOSDlLTkJWc0ZmQWUyMnBUWm83TFVKMm9MZzJ3dFNZUDVHTnhXL005?=
+ =?utf-8?B?RkErZUlvRnVTcUtsK29mYUI1Zkdyd2NwR2YvTldqN0lVTndNaGZJeHh3U2c0?=
+ =?utf-8?B?YTZWcEpSZldHZHVvc2JNbGtTYTd3ZGRkV2NadFNYK0JuRXUyVFhzS0NzaExt?=
+ =?utf-8?B?VEpFc0trSEVBSGxmSDQydGpqbHpDY2RmdjJZeWw3MlJIbzdJR1cwYWJWM1cz?=
+ =?utf-8?B?d1FpanR1bWNKcndNVWhPcTZsTHBUTXpwbHFzczRRQ1lBTHk4TGc2cDQ1M1Vi?=
+ =?utf-8?B?Mk1PcFVzWG0rRFVSeS9wU0xWd01zV0FjeXhiRmhwcExqQmhSNWdQYlFXU21S?=
+ =?utf-8?B?YWJCbitYQk85STBPamVVZ0RkSG9icmZDRkpMZjRlbkhBUW94Z1hPSzFnSXJZ?=
+ =?utf-8?B?VW9qSG10TVVoaENXQ1NHZlFtWE5xQ2FPVlo0Wko1bWdJQ3VwV0xsS1ZMWlNi?=
+ =?utf-8?B?bkpTR3ZDOWVaQmhWTHcvamZWWjh3WExiMVVCdEdUakVldlo2WndWbkp3c080?=
+ =?utf-8?B?Wk80d0xNQW1NUmxZc0RpMi9mMnFkbFZLR1o1b29Ea1JWdnJUaDU2OGh6TFVT?=
+ =?utf-8?B?bUt2ZHRsdWJPeWRVaWxGd0VaTnVzUTZKL1I5NW5nK1NXbzJFL2crajZ5ZlRO?=
+ =?utf-8?B?MXNXR2VtT1QzVys0QlZwbTViRXFzeC83dUl6aFVOeWlqREI0VWFwWDRzMDZs?=
+ =?utf-8?B?alZ3T1NXbjhxeks3VGdsT0dac3R5VTZWMFJKNSs2MHIrZlY0bE1MODBpek0y?=
+ =?utf-8?B?TURJQVY0M0F2NzREQVlSaG1tVU9mWUlCVU5rZHhjRi91NGNOaVFwN0J4Z09Y?=
+ =?utf-8?Q?AEo2oFaA1hN/CmnBaVZcsPq69SwNkHvmsDyxurg?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9414b24-5f1d-413a-e3fd-08d8f289a093
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2021 08:07:00.2266 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vyrlyqdujPTxYHYw6rhkMGahKbt5gpLpM6xIddDNqvrqxFHfGcCOrUymRw+/xczZK7lCB1qfbG7CywDWGO8Wvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB3136
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,106 +133,229 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "David \(ChunMing\) Zhou" <David1.Zhou@amd.com>,
- Leo Li <sunpeng.li@amd.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, ching-li@amd.com, Nicholas
- Kazlauskas <Nicholas.Kazlauskas@amd.com>, David Airlie <airlied@linux.ie>,
- Ikshwaku Chauhan <ikshwaku.chauhan@amd.corp-partner.google.com>,
- hersen wu <hersenxs.wu@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?St=C3=A9phane=20Marchesin?= <marcheu@chromium.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Louis Li <Ching-shih.Li@amd.com>
+Cc: Dong Aisheng <aisheng.dong@nxp.com>,
+ "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "robert.foss@linaro.org" <robert.foss@linaro.org>,
+ "kishon@ti.com" <kishon@ti.com>, "a.hajda@samsung.com" <a.hajda@samsung.com>,
+ "vkoul@kernel.org" <vkoul@kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "lee.jones@linaro.org" <lee.jones@linaro.org>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "linux-imx@nxp.com" <linux-imx@nxp.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Why]
-This issue is found when scaling is not equal to one from src to dest.
-When issue happens, there are offsets in both axis x and y between
-two cursors. Users cannot control APP under such a condition.
+Hi Marcel,
 
-[How]
-For dual cursors, cursor should be disabled if there is a visible pipe
-on top of the current pipe at the current cursor position.
-For offsets between two cursors, need translate cursor position from
-stream space to plane space with scaling into consideration.
+On Mon, 2021-03-29 at 00:49 +0000, Marcel Ziswiler wrote:
+> Hi Liu
+> 
+> On Tue, 2021-03-23 at 17:09 +0800, Liu Ying wrote:
+> > On Tue, 2021-03-23 at 01:03 +0000, Marcel Ziswiler wrote:
+> > > Hi Liu
+> > > 
+> > > Some further discrepancy with them binding examples:
+> > > 
+> > > arch/arm64/boot/dts/freescale/imx8qxp.dtsi:335.9-36: Warning (reg_format): /dpu@56180000:reg: property has
+> > > invalid length (8 bytes) (#address-cells == 2, #size-cells == 2)
+> > > arch/arm64/boot/dts/freescale/imx8qxp.dtsi:508.9-35: Warning (reg_format): /syscon@56221000:reg: property has
+> > > invalid length (8 bytes) (#address-cells == 2, #size-cells == 2)
+> > > arch/arm64/boot/dts/freescale/imx8qxp.dtsi:601.9-34: Warning (reg_format): /phy@56228300:reg: property has
+> > > invalid length (8 bytes) (#address-cells == 2, #size-cells == 2)
+> > > arch/arm64/boot/dts/freescale/imx8qxp.dtsi:613.9-36: Warning (reg_format): /pixel-combiner@56020000:reg:
+> > > property has invalid length (8 bytes) (#address-cells == 2, #size-cells == 2)
+> > > 
+> > > And with that I am unable to bring it up:
+> > > 
+> > > [    1.714498] imx8qxp-ldb 5622100000001000.syscon:ldb: [drm:ldb_init_helper] *ERROR* failed to get regmap: -
+> > > 12
+> > > [    1.724441] imx8qxp-ldb: probe of 5622100000001000.syscon:ldb failed with error -12
+> > > [    1.734983] imx8qxp-pixel-combiner 5602000000010000.pixel-combiner: invalid resource
+> > > [    1.742830] imx8qxp-pixel-combiner: probe of 5602000000010000.pixel-combiner failed with error -22
+> > > [    1.754040] imx8qxp-display-pixel-link dc0-pixel-link0: [drm:imx8qxp_pixel_link_bridge_probe] *ERROR*
+> > > failed
+> > > to get pixel link node alias id: -19
+> > > [    1.769626] imx8qxp-pxl2dpi 5622100000001000.syscon:pxl2dpi: [drm:imx8qxp_pxl2dpi_bridge_probe] *ERROR*
+> > > failed to get regmap: -12
+> > > [    1.781397] imx8qxp-pxl2dpi: probe of 5622100000001000.syscon:pxl2dpi failed with error -12
+> > > [    1.840547] imx8qxp-lpcg-clk 59580000.clock-controller: deferred probe timeout, ignoring dependency
+> > > [    1.840571] imx8qxp-lpcg-clk: probe of 59580000.clock-controller failed with error -110
+> > > 
+> > > Any suggestions welcome. Thanks!
+> > 
+> > Please reference the patch set I shared in my last reply and see how it
+> > goes.  Thanks.
+> 
+> Thank you very much. After a little bit of fiddling I can confirm that this also works fine on a Toradex
+> Colibri iMX8X [1] with either a Capacitive Touch Display 10.1" LVDS which has a Logic Technologies LT170410-
+> 2WHC [2] single-channel panel inside or a dual-channel LG LP156WF1 full HD panel.
 
-Tested-by: Louis Li <Ching-shih.Li@amd.com>
-Signed-off-by: Louis Li <Ching-shih.Li@amd.com>
-Change-Id: Ic19e4f3b9225736f037f5ade10b68e8afe5f9ab7
----
- .../amd/display/dc/dcn10/dcn10_hw_sequencer.c | 40 ++++++++++++++-----
- 1 file changed, 30 insertions(+), 10 deletions(-)
+Thanks a lot for your testing!
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-index 83212ea40077..1ce5e58e3a9e 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-@@ -2999,6 +2999,10 @@ static bool dcn10_can_pipe_disable_cursor(struct pipe_ctx *pipe_ctx)
- 	const struct rect *r1 = &pipe_ctx->plane_res.scl_data.recout, *r2;
- 	int r1_r = r1->x + r1->width, r1_b = r1->y + r1->height, r2_r, r2_b;
- 
-+	struct dc_cursor_position pos_cpy = pipe_ctx->stream->cursor_position;
-+	int cp_x = pos_cpy.x;
-+	int cp_y = pos_cpy.y;
-+
- 	/**
- 	 * Disable the cursor if there's another pipe above this with a
- 	 * plane that contains this pipe's viewport to prevent double cursor
-@@ -3013,7 +3017,8 @@ static bool dcn10_can_pipe_disable_cursor(struct pipe_ctx *pipe_ctx)
- 		r2_r = r2->x + r2->width;
- 		r2_b = r2->y + r2->height;
- 
--		if (r1->x >= r2->x && r1->y >= r2->y && r1_r <= r2_r && r1_b <= r2_b)
-+		if ((cp_x >= r1->x && cp_y >= r1->y && cp_x <= r1_r && cp_y <= r1_b)
-+		   && (cp_x >= r2->x && cp_y >= r2->y && cp_x <= r2_r && cp_y <= r2_b))
- 			return true;
- 	}
- 
-@@ -3034,15 +3039,30 @@ static void dcn10_set_cursor_position(struct pipe_ctx *pipe_ctx)
- 		.rotation = pipe_ctx->plane_state->rotation,
- 		.mirror = pipe_ctx->plane_state->horizontal_mirror
- 	};
--	uint32_t x_plane = pipe_ctx->plane_state->dst_rect.x;
--	uint32_t y_plane = pipe_ctx->plane_state->dst_rect.y;
--	uint32_t x_offset = min(x_plane, pos_cpy.x);
--	uint32_t y_offset = min(y_plane, pos_cpy.y);
--
--	pos_cpy.x -= x_offset;
--	pos_cpy.y -= y_offset;
--	pos_cpy.x_hotspot += (x_plane - x_offset);
--	pos_cpy.y_hotspot += (y_plane - y_offset);
-+
-+	int x_plane = pipe_ctx->plane_state->dst_rect.x;
-+	int y_plane = pipe_ctx->plane_state->dst_rect.y;
-+	int x_pos = pos_cpy.x;
-+	int y_pos = pos_cpy.y;
-+
-+	// translate cursor from stream space to plane space
-+	x_pos = (x_pos - x_plane) * pipe_ctx->plane_state->src_rect.width /
-+			pipe_ctx->plane_state->dst_rect.width;
-+	y_pos = (y_pos - y_plane) * pipe_ctx->plane_state->src_rect.height /
-+			pipe_ctx->plane_state->dst_rect.height;
-+
-+	if (x_pos < 0) {
-+		pos_cpy.x_hotspot -= x_pos;
-+		x_pos = 0;
-+	}
-+
-+	if (y_pos < 0) {
-+		pos_cpy.y_hotspot -= y_pos;
-+		y_pos = 0;
-+	}
-+
-+	pos_cpy.x = (uint32_t)x_pos;
-+	pos_cpy.y = (uint32_t)y_pos;
- 
- 	if (pipe_ctx->plane_state->address.type
- 			== PLN_ADDR_TYPE_VIDEO_PROGRESSIVE)
--- 
-2.27.0
+Glad to know that the two LVDS panels work on Toradex Colibri iMX8X.
+
+> 
+> During boot I noticed quite some clocking/power domain related messages:
+> 
+> [    0.537965] gpt0_clk: failed to attached the power domain -2
+> 
+> [    0.562372] dc1_disp0_clk: failed to attached the power domain -2
+> [    0.562800] dc1_disp0_clk: failed to get clock parent -22
+> [    0.562858] dc1_disp0_clk: failed to get clock rate -22
+> 
+> [    0.563059] dc1_disp1_clk: failed to attached the power domain -2
+> [    0.563463] dc1_disp1_clk: failed to get clock parent -22
+> [    0.563514] dc1_disp1_clk: failed to get clock rate -22
+> 
+> [    0.563773] dc1_pll0_clk: failed to attached the power domain -2
+> [    0.564174] dc1_pll0_clk: failed to get clock rate -22
+> 
+> [    0.564413] dc1_pll1_clk: failed to attached the power domain -2
+> [    0.564838] dc1_pll1_clk: failed to get clock rate -22
+> 
+> [    0.565099] dc1_bypass0_clk: failed to attached the power domain -2
+> [    0.565516] dc1_bypass0_clk: failed to get clock rate -22
+> 
+> [    0.565755] dc1_bypass1_clk: failed to attached the power domain -2
+> [    0.566159] dc1_bypass1_clk: failed to get clock rate -22
+> 
+> [    0.574493] lvds0_i2c0_clk: failed to attached the power domain -2
+> [    0.574894] lvds0_i2c0_clk: failed to get clock rate -22
+> 
+> [    0.575134] lvds0_i2c1_clk: failed to attached the power domain -2
+> [    0.575526] lvds0_i2c1_clk: failed to get clock rate -22
+> 
+> [    0.575785] lvds0_pwm0_clk: failed to attached the power domain -2
+> [    0.576189] lvds0_pwm0_clk: failed to get clock rate -22
+> 
+> [    0.576417] lvds1_i2c0_clk: failed to attached the power domain -2
+> [    0.576854] lvds1_i2c0_clk: failed to get clock rate -22
+> 
+> [    0.577129] lvds1_i2c1_clk: failed to attached the power domain -2
+> [    0.577554] lvds1_i2c1_clk: failed to get clock rate -22
+> 
+> [    0.577787] lvds1_pwm0_clk: failed to attached the power domain -2
+> [    0.578198] lvds1_pwm0_clk: failed to get clock rate -22
+> 
+> [    0.578464] mipi_csi0_core_clk: failed to attached the power domain -2
+> 
+> [    0.579104] mipi_csi0_esc_clk: failed to attached the power domain -2
+> 
+> [    0.579738] mipi_csi0_i2c0_clk: failed to attached the power domain -2
+> 
+> [    0.580368] mipi_csi0_pwm0_clk: failed to attached the power domain -2
+> 
+> And the following repeats a couple dozens of times:
+> 
+> [    4.391495] dc1_disp0_clk: failed to get clock parent -22
+> [    4.398532] dc1_disp1_clk: failed to get clock parent -22
+
+As I mentioned before, there will be logs like 'dc1_disp0_clk: failed
+to get clock parent -22' on i.MX8qxp and i.MX8qm/qxp specific clocks
+are not split yet. DC1 and LVDS0/1 are i.MX8qm specific. So, once they
+are split up, I assume there won't be those logs any more.
+
+If you don't apply the below two patches for i.MX8qm, then dc1 and
+lvds0/1 relevant logs won't come.  That doesn't impact the i.MX8qxp
+displays.
+
+clk: imx: clk-imx8qxp: Add I2C and PWM SCU clocks in LVDS0/1 subsystems
+clk: imx: clk-imx8qxp: Add some clocks for i.MX8qm DC1 subsystem
+
+
+The latest Shawn's for-next branch also generates the gpt and mipi_csi
+relevant logs on my i.MX8qxp MEK board like below.  So, they are not
+related to my patch set.
+
+dmesg | grep clk
+[    1.091534] gpt0_clk: failed to attached the power domain -2
+[    1.133131] mipi_csi0_core_clk: failed to attached the power domain
+-2
+[    1.139849] mipi_csi0_esc_clk: failed to attached the power domain
+-2
+[    1.146441] mipi_csi0_i2c0_clk: failed to attached the power domain
+-2
+[    1.153312] mipi_csi0_pwm0_clk: failed to attached the power domain
+-2
+
+On my i.MX8qm MEK board, the latest Shawn's for-next branch behaves
+like this:
+dmesg | grep clk
+[    0.222517] a35_clk: failed to get clock rate -22
+[    0.225331] gpt0_clk: failed to attached the power domain -2
+[    0.232859] pwm_clk: failed to attached the power domain -2
+[    0.233085] pwm_clk: failed to get clock rate -22
+[    0.233158] lcd_clk: failed to attached the power domain -2
+[    0.233382] lcd_clk: failed to get clock rate -22
+[    0.246576] mipi_csi0_core_clk: failed to attached the power domain
+-2
+[    0.246899] mipi_csi0_esc_clk: failed to attached the power domain
+-2
+[    0.247218] mipi_csi0_i2c0_clk: failed to attached the power domain
+-2
+[    0.247515] mipi_csi0_pwm0_clk: failed to attached the power domain
+-2
+[    1.510195] imx8qxp-lpcg-clk 5a4a0000.clock-controller: deferred
+probe timeout, ignoring dependency
+[    1.521361] imx8qxp-lpcg-clk: probe of 5a4a0000.clock-controller
+failed with error -110
+
+@Aisheng, it looks like we'd better to suppress those warning logs soon
+by splitting i.MX8qm/qxp specific clocks up?
+
+
+> And finally it spits the following:
+> 
+> [    4.670303] imx8qxp-lpcg-clk 59580000.clock-controller: deferred probe timeout, ignoring dependency
+> [    4.679629] imx8qxp-lpcg-clk: probe of 59580000.clock-controller failed with error -110
+
+I don't see this on my i.MX8qxp MEK board. It looks like it's related
+to the 'dsp_lpcg: clock-controller@59580000' node in
+imx8-ss-audio.dtsi. Does this reproduce with Shawn's for-next
+branch(without my patch set) for you?
+
+> 
+> Despite those messages the displays do work fine once booted.
+> 
+> I am currently running this with SCFW, SECO, TF-A and U-Boot based off NXP's latest downstream BSP 5.4.70-
+> 2.3.0. Not sure whether or not especially the used SCFW version could cause some issues. What SCFW are you
+> using?
+> 
+> Full boot logs may be found here [3].
+> 
+> You may add the following to the whole series.
+> 
+> Tested-by: Marcel Ziswiler <marcel.ziswiler@toradex.com> # Colibri iMX8X, LT170410-2WHC, LP156WF1
+
+Thanks for your tag.
+
+> 
+> Thanks again and just let us know if we may test anything else for you.
+
+Maybe, any Toradex i.MX8qm board with LVDS display, please?
+
+Regards,
+Liu Ying
+
+> 
+> [1] commit ba5a5615d54f ("arm64: dts: freescale: add initial support for colibri imx8x")
+> [2] commit 5728fe7fa539 ("drm/panel: simple: add display timings for logic technologies displays")
+> [3] https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fshare.toradex.com%2Fs30wwspcr9iwyrg&amp;data=04%7C01%7Cvictor.liu%40nxp.com%7Ca51f827482704468d27208d8f24c75dd%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637525757505899800%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=VziEUvn3pnk7QvgIl58CuM8VHMqm6Y5xOuod4ali1Zk%3D&amp;reserved=0
+> 
+> > Liu Ying
+> 
+> Cheers
+> 
+> Marcel
 
 _______________________________________________
 dri-devel mailing list
