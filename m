@@ -1,34 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB1F934D411
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 17:37:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 722E234D412
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 17:37:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE8296E491;
-	Mon, 29 Mar 2021 15:37:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88FBD6E492;
+	Mon, 29 Mar 2021 15:37:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 710E06E48D
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 15:36:55 +0000 (UTC)
-Received: from guri.fritz.box (unknown
- [IPv6:2a02:810a:880:f54:85ba:22ea:8b43:4375])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: dafna)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D4AD81F45548;
- Mon, 29 Mar 2021 16:36:53 +0100 (BST)
-From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] drm/mediatek: in struct mtk_hdmi,
- replace conn field with curr_conn ptr
-Date: Mon, 29 Mar 2021 17:36:32 +0200
-Message-Id: <20210329153632.17559-4-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210329153632.17559-1-dafna.hirschfeld@collabora.com>
-References: <20210329153632.17559-1-dafna.hirschfeld@collabora.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EC926E497
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 15:37:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 5006A61969
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 15:37:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617032224;
+ bh=YKJecHSYmByFe1kFkZi0sSJLuMkDEZxtIzbxphtZrT4=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=cd9rp2zIvOQF4wZnk8iGsuY5P6PevUBSwyt+dvm5ukR9MM3h8wwYxVlOz48yEww6x
+ CiWtnFGHgDmXUu3bClSaKSbo0n3EYtuRzGQ+/Uhem7u11PnIRBZuB/yj3tTta3M0Ve
+ MS9/xkOOJo6AjvNUyEqDLc7ouDBmnBnAzzMQr9fVckm68vurf6gi8nh4IPUizBhjAD
+ 0K1xsD5lee/hDarBBV3ZJTpAglhqb0AnsBzglKUtZKqa40nywLC1o2V5Ch3RESm59r
+ oAB+/WvHANFF3su953so6pyO1VF+jDFR4IHxegqHZolTRNi1uHp9ZL/vmpvAJhn6tt
+ hG5+hjF9Jk08g==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 3BFFA62AB1; Mon, 29 Mar 2021 15:37:04 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212469] plymouth animation freezes during shutdown
+Date: Mon, 29 Mar 2021 15:37:04 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: amirgi73@criptext.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-212469-2300-f2yC9mgxWZ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212469-2300@https.bugzilla.kernel.org/>
+References: <bug-212469-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,95 +63,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, dafna.hirschfeld@collabora.com, airlied@linux.ie,
- dafna3@gmail.com, laurent.pinchart@ideasonboard.com,
- enric.balletbo@collabora.com, kernel@collabora.com
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mtk_hdmi does not support creating a bridge with a connector.
-Therefore the field 'conn' should be removed from the mtk_hdmi struct.
-It is replaced with a pointer curr_conn that points to the current
-connector which can be access through the global state.
+https://bugzilla.kernel.org/show_bug.cgi?id=212469
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+Amir (amirgi73@criptext.com) changed:
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 1eeb211b1536..0d95d2cfe3de 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -153,7 +153,7 @@ struct mtk_hdmi_conf {
- struct mtk_hdmi {
- 	struct drm_bridge bridge;
- 	struct drm_bridge *next_bridge;
--	struct drm_connector conn;
-+	struct drm_connector *curr_conn;/* current connector (only valid when 'enabled') */
- 	struct device *dev;
- 	const struct mtk_hdmi_conf *conf;
- 	struct phy *phy;
-@@ -969,7 +969,7 @@ static int mtk_hdmi_setup_avi_infoframe(struct mtk_hdmi *hdmi,
- 	ssize_t err;
- 
- 	err = drm_hdmi_avi_infoframe_from_display_mode(&frame,
--						       &hdmi->conn, mode);
-+						       hdmi->curr_conn, mode);
- 	if (err < 0) {
- 		dev_err(hdmi->dev,
- 			"Failed to get AVI infoframe from mode: %zd\n", err);
-@@ -1049,7 +1049,7 @@ static int mtk_hdmi_setup_vendor_specific_infoframe(struct mtk_hdmi *hdmi,
- 	ssize_t err;
- 
- 	err = drm_hdmi_vendor_infoframe_from_display_mode(&frame,
--							  &hdmi->conn, mode);
-+							  hdmi->curr_conn, mode);
- 	if (err) {
- 		dev_err(hdmi->dev,
- 			"Failed to get vendor infoframe from mode: %zd\n", err);
-@@ -1322,6 +1322,8 @@ static void mtk_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
- 	clk_disable_unprepare(hdmi->clk[MTK_HDMI_CLK_HDMI_PIXEL]);
- 	clk_disable_unprepare(hdmi->clk[MTK_HDMI_CLK_HDMI_PLL]);
- 
-+	hdmi->curr_conn = NULL;
-+
- 	hdmi->enabled = false;
- }
- 
-@@ -1385,8 +1387,13 @@ static void mtk_hdmi_send_infoframe(struct mtk_hdmi *hdmi,
- static void mtk_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
- 					  struct drm_bridge_state *old_state)
- {
-+	struct drm_atomic_state *state = old_state->base.state;
- 	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
- 
-+	/* Retrieve the connector through the atomic state. */
-+	hdmi->curr_conn = drm_atomic_get_new_connector_for_encoder(state,
-+								   bridge->encoder);
-+
- 	mtk_hdmi_output_set_display_mode(hdmi, &hdmi->mode);
- 	clk_prepare_enable(hdmi->clk[MTK_HDMI_CLK_HDMI_PLL]);
- 	clk_prepare_enable(hdmi->clk[MTK_HDMI_CLK_HDMI_PIXEL]);
-@@ -1625,8 +1632,10 @@ static int mtk_hdmi_audio_get_eld(struct device *dev, void *data, uint8_t *buf,
- {
- 	struct mtk_hdmi *hdmi = dev_get_drvdata(dev);
- 
--	memcpy(buf, hdmi->conn.eld, min(sizeof(hdmi->conn.eld), len));
--
-+	if (hdmi->enabled)
-+		memcpy(buf, hdmi->curr_conn->eld, min(sizeof(hdmi->curr_conn->eld), len));
-+	else
-+		memset(buf, 0, len);
- 	return 0;
- }
- 
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|5.11.6                      |5.11.10
+
 -- 
-2.17.1
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
