@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D015134D169
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 15:38:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8931034D16B
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 15:38:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BBDC6E42C;
-	Mon, 29 Mar 2021 13:38:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A4746E428;
+	Mon, 29 Mar 2021 13:38:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 631FA6E430;
- Mon, 29 Mar 2021 13:38:03 +0000 (UTC)
-IronPort-SDR: uMbKuH4dOeuOzwFLH2X/4FL6Ut7Vw7i6Hz06D5nF2aBUU2vtbi6rfgQLC/besdm0Nc0follrFW
- q6g4MpZ+N0UQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9938"; a="191016660"
-X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; d="scan'208";a="191016660"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2021 06:38:02 -0700
-IronPort-SDR: g/JJ/awsaAxD3OqvAkIfwo6bsQ2nVFd2cwN02+UYQ1jPxW5s7AQSbxwGoYc+MGodI9IXkYjic9
- LQIwOkvO+4EA==
-X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; d="scan'208";a="376430586"
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78E0F6E41D;
+ Mon, 29 Mar 2021 13:38:09 +0000 (UTC)
+IronPort-SDR: Eusxct+IsLRqXbWqwHZH+rBz4HKu+jbasnrjCCZscnp+DE3GzQFKzHDzg2M+7ttCWLgLWSR4bW
+ 8JOiIb2QZpJg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9938"; a="276713446"
+X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; d="scan'208";a="276713446"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2021 06:38:08 -0700
+IronPort-SDR: f0AXu7mP1Q90eswyM7FEME3raPoojqwPGmVFhLqatNxa7KrbPGOxha1pBcpHkmtaGWzbPB86wq
+ YruYZoDL0ycQ==
+X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; d="scan'208";a="526960120"
 Received: from auchter-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.56.199])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2021 06:38:00 -0700
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2021 06:38:06 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 6/8] drm/edid: use the new displayid iterator for tile info
-Date: Mon, 29 Mar 2021 16:37:20 +0300
-Message-Id: <fa4b5c790b5bdd82063545a6f209f8e9d78a63a7.1617024940.git.jani.nikula@intel.com>
+Subject: [PATCH v2 7/8] drm/displayid: allow data blocks with 0 payload length
+Date: Mon, 29 Mar 2021 16:37:21 +0300
+Message-Id: <d562dff99ba7c92accb654a99b433bed471e8507.1617024940.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617024940.git.jani.nikula@intel.com>
 References: <cover.1617024940.git.jani.nikula@intel.com>
@@ -48,80 +48,39 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TmVhdGx5IHJlZHVjZSBkaXNwbGF5aWQgYm9pbGVycGxhdGUgaW4gY29kZS4gUmVtb3ZlIGV4Y2Vz
-c2l2ZSBkZWJ1Zwpsb2dnaW5nIHdoaWxlIGF0IGl0LCBubyBvdGhlciBmdW5jdGlvbmFsIGNoYW5n
-ZXMuCgpUaGUgb2xkIGRpc3BsYXlpZCBpdGVyYXRvciBiZWNvbWVzIHVudXNlZDsgcmVtb3ZlIGl0
-IGFzIHdlbGwgYXMgbWFrZQpkcm1fZmluZF9kaXNwbGF5aWRfZXh0ZW5zaW9uKCkgc3RhdGljLgoK
-UmV2aWV3ZWQtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5j
-b20+ClNpZ25lZC1vZmYtYnk6IEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+Ci0t
-LQogZHJpdmVycy9ncHUvZHJtL2RybV9kaXNwbGF5aWQuYyB8ICA2ICsrKy0tLQogZHJpdmVycy9n
-cHUvZHJtL2RybV9lZGlkLmMgICAgICB8IDM3ICsrKysrKystLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLQogaW5jbHVkZS9kcm0vZHJtX2Rpc3BsYXlpZC5oICAgICB8IDEyIC0tLS0tLS0tLS0tCiAz
-IGZpbGVzIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDQ1IGRlbGV0aW9ucygtKQoKZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZGlzcGxheWlkLmMgYi9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2Rpc3BsYXlpZC5jCmluZGV4IDViODA5YmI5ZmVjYy4uOTAyZmY2MTE0YjY4IDEwMDY0NAot
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rpc3BsYXlpZC5jCisrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9kcm1fZGlzcGxheWlkLmMKQEAgLTMzLDkgKzMzLDkgQEAgc3RhdGljIGludCB2YWxpZGF0ZV9k
-aXNwbGF5aWQoY29uc3QgdTggKmRpc3BsYXlpZCwgaW50IGxlbmd0aCwgaW50IGlkeCkKIAlyZXR1
-cm4gMDsKIH0KIAotY29uc3QgdTggKmRybV9maW5kX2Rpc3BsYXlpZF9leHRlbnNpb24oY29uc3Qg
-c3RydWN0IGVkaWQgKmVkaWQsCi0JCQkJICAgICAgIGludCAqbGVuZ3RoLCBpbnQgKmlkeCwKLQkJ
-CQkgICAgICAgaW50ICpleHRfaW5kZXgpCitzdGF0aWMgY29uc3QgdTggKmRybV9maW5kX2Rpc3Bs
-YXlpZF9leHRlbnNpb24oY29uc3Qgc3RydWN0IGVkaWQgKmVkaWQsCisJCQkJCSAgICAgIGludCAq
-bGVuZ3RoLCBpbnQgKmlkeCwKKwkJCQkJICAgICAgaW50ICpleHRfaW5kZXgpCiB7CiAJY29uc3Qg
-dTggKmRpc3BsYXlpZCA9IGRybV9maW5kX2VkaWRfZXh0ZW5zaW9uKGVkaWQsIERJU1BMQVlJRF9F
-WFQsIGV4dF9pbmRleCk7CiAJY29uc3Qgc3RydWN0IGRpc3BsYXlpZF9oZHIgKmJhc2U7CmRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-ZWRpZC5jCmluZGV4IDQ1MjZlMjU1N2RjYS4uODFkNWYyNTI0MjQ2IDEwMDY0NAotLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwpA
-QCAtNTk2OSw0MyArNTk2OSwyMCBAQCBzdGF0aWMgdm9pZCBkcm1fcGFyc2VfdGlsZWRfYmxvY2so
-c3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwKIAl9CiB9CiAKLXN0YXRpYyB2b2lkIGRy
-bV9kaXNwbGF5aWRfcGFyc2VfdGlsZWQoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwK
-LQkJCQkgICAgICBjb25zdCB1OCAqZGlzcGxheWlkLCBpbnQgbGVuZ3RoLCBpbnQgaWR4KQotewot
-CWNvbnN0IHN0cnVjdCBkaXNwbGF5aWRfYmxvY2sgKmJsb2NrOwotCi0JaWR4ICs9IHNpemVvZihz
-dHJ1Y3QgZGlzcGxheWlkX2hkcik7Ci0JZm9yX2VhY2hfZGlzcGxheWlkX2RiKGRpc3BsYXlpZCwg
-YmxvY2ssIGlkeCwgbGVuZ3RoKSB7Ci0JCURSTV9ERUJVR19LTVMoImJsb2NrIGlkIDB4JXgsIHJl
-diAlZCwgbGVuICVkXG4iLAotCQkJICAgICAgYmxvY2stPnRhZywgYmxvY2stPnJldiwgYmxvY2st
-Pm51bV9ieXRlcyk7Ci0KLQkJc3dpdGNoIChibG9jay0+dGFnKSB7Ci0JCWNhc2UgREFUQV9CTE9D
-S19USUxFRF9ESVNQTEFZOgotCQkJZHJtX3BhcnNlX3RpbGVkX2Jsb2NrKGNvbm5lY3RvciwgYmxv
-Y2spOwotCQkJYnJlYWs7Ci0JCWRlZmF1bHQ6Ci0JCQlEUk1fREVCVUdfS01TKCJmb3VuZCBEaXNw
-bGF5SUQgdGFnIDB4JXgsIHVuaGFuZGxlZFxuIiwgYmxvY2stPnRhZyk7Ci0JCQlicmVhazsKLQkJ
-fQotCX0KLX0KLQogdm9pZCBkcm1fdXBkYXRlX3RpbGVfaW5mbyhzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
-ciAqY29ubmVjdG9yLAogCQkJICBjb25zdCBzdHJ1Y3QgZWRpZCAqZWRpZCkKIHsKLQljb25zdCB2
-b2lkICpkaXNwbGF5aWQgPSBOVUxMOwotCWludCBleHRfaW5kZXggPSAwOwotCWludCBsZW5ndGgs
-IGlkeDsKKwljb25zdCBzdHJ1Y3QgZGlzcGxheWlkX2Jsb2NrICpibG9jazsKKwlzdHJ1Y3QgZGlz
-cGxheWlkX2l0ZXIgaXRlcjsKIAogCWNvbm5lY3Rvci0+aGFzX3RpbGUgPSBmYWxzZTsKLQlmb3Ig
-KDs7KSB7Ci0JCWRpc3BsYXlpZCA9IGRybV9maW5kX2Rpc3BsYXlpZF9leHRlbnNpb24oZWRpZCwg
-Jmxlbmd0aCwgJmlkeCwKLQkJCQkJCQkgJmV4dF9pbmRleCk7Ci0JCWlmICghZGlzcGxheWlkKQot
-CQkJYnJlYWs7CiAKLQkJZHJtX2Rpc3BsYXlpZF9wYXJzZV90aWxlZChjb25uZWN0b3IsIGRpc3Bs
-YXlpZCwgbGVuZ3RoLCBpZHgpOworCWRpc3BsYXlpZF9pdGVyX2VkaWRfYmVnaW4oZWRpZCwgJml0
-ZXIpOworCWRpc3BsYXlpZF9pdGVyX2Zvcl9lYWNoKGJsb2NrLCAmaXRlcikgeworCQlpZiAoYmxv
-Y2stPnRhZyA9PSBEQVRBX0JMT0NLX1RJTEVEX0RJU1BMQVkpCisJCQlkcm1fcGFyc2VfdGlsZWRf
-YmxvY2soY29ubmVjdG9yLCBibG9jayk7CiAJfQorCWRpc3BsYXlpZF9pdGVyX2VuZCgmaXRlcik7
-CiAKIAlpZiAoIWNvbm5lY3Rvci0+aGFzX3RpbGUgJiYgY29ubmVjdG9yLT50aWxlX2dyb3VwKSB7
-CiAJCWRybV9tb2RlX3B1dF90aWxlX2dyb3VwKGNvbm5lY3Rvci0+ZGV2LCBjb25uZWN0b3ItPnRp
-bGVfZ3JvdXApOwpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2Rpc3BsYXlpZC5oIGIvaW5j
-bHVkZS9kcm0vZHJtX2Rpc3BsYXlpZC5oCmluZGV4IDI3ZTA2Yzk4ZGIxNy4uMTBlZTg2M2YxNzM0
-IDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS9kcm1fZGlzcGxheWlkLmgKKysrIGIvaW5jbHVkZS9k
-cm0vZHJtX2Rpc3BsYXlpZC5oCkBAIC05NiwxOCArOTYsNiBAQCBzdHJ1Y3QgZGlzcGxheWlkX2Rl
-dGFpbGVkX3RpbWluZ19ibG9jayB7CiAJc3RydWN0IGRpc3BsYXlpZF9kZXRhaWxlZF90aW1pbmdz
-XzEgdGltaW5nc1tdOwogfTsKIAotI2RlZmluZSBmb3JfZWFjaF9kaXNwbGF5aWRfZGIoZGlzcGxh
-eWlkLCBibG9jaywgaWR4LCBsZW5ndGgpIFwKLQlmb3IgKChibG9jaykgPSAoY29uc3Qgc3RydWN0
-IGRpc3BsYXlpZF9ibG9jayAqKSYoZGlzcGxheWlkKVtpZHhdOyBcCi0JICAgICAoaWR4KSArIHNp
-emVvZihzdHJ1Y3QgZGlzcGxheWlkX2Jsb2NrKSA8PSAobGVuZ3RoKSAmJiBcCi0JICAgICAoaWR4
-KSArIHNpemVvZihzdHJ1Y3QgZGlzcGxheWlkX2Jsb2NrKSArIChibG9jayktPm51bV9ieXRlcyA8
-PSAobGVuZ3RoKSAmJiBcCi0JICAgICAoYmxvY2spLT5udW1fYnl0ZXMgPiAwOyBcCi0JICAgICAo
-aWR4KSArPSBzaXplb2Yoc3RydWN0IGRpc3BsYXlpZF9ibG9jaykgKyAoYmxvY2spLT5udW1fYnl0
-ZXMsIFwKLQkgICAgIChibG9jaykgPSAoY29uc3Qgc3RydWN0IGRpc3BsYXlpZF9ibG9jayAqKSYo
-ZGlzcGxheWlkKVtpZHhdKQotCi1jb25zdCB1OCAqZHJtX2ZpbmRfZGlzcGxheWlkX2V4dGVuc2lv
-bihjb25zdCBzdHJ1Y3QgZWRpZCAqZWRpZCwKLQkJCQkgICAgICAgaW50ICpsZW5ndGgsIGludCAq
-aWR4LAotCQkJCSAgICAgICBpbnQgKmV4dF9pbmRleCk7Ci0KIC8qIERpc3BsYXlJRCBpdGVyYXRp
-b24gKi8KIHN0cnVjdCBkaXNwbGF5aWRfaXRlciB7CiAJY29uc3Qgc3RydWN0IGVkaWQgKmVkaWQ7
-Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+The DisplayID specifications explicitly call out 0 as a valid payload
+length for data blocks. The mere presence of a data block, or the
+information coded in the block specific data (bits 7:3 in offset 1), may
+be enough to convey the necessary information.
+
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/drm_displayid.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_displayid.c b/drivers/gpu/drm/drm_displayid.c
+index 902ff6114b68..e0b9e58a9dc8 100644
+--- a/drivers/gpu/drm/drm_displayid.c
++++ b/drivers/gpu/drm/drm_displayid.c
+@@ -77,8 +77,7 @@ displayid_iter_block(const struct displayid_iter *iter)
+ 	block = (const struct displayid_block *)&iter->section[iter->idx];
+ 
+ 	if (iter->idx + sizeof(*block) <= iter->length &&
+-	    iter->idx + sizeof(*block) + block->num_bytes <= iter->length &&
+-	    block->num_bytes > 0)
++	    iter->idx + sizeof(*block) + block->num_bytes <= iter->length)
+ 		return block;
+ 
+ 	return NULL;
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
