@@ -1,33 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D446A34CCD8
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 11:17:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86CE734CDEC
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 12:26:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE40389811;
-	Mon, 29 Mar 2021 09:17:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 349A789C48;
+	Mon, 29 Mar 2021 10:26:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CAB689811
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 09:17:30 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 860C4B3C6;
- Mon, 29 Mar 2021 09:17:28 +0000 (UTC)
-Subject: Re: [PATCH V3] drm/ast: Disable fast reset after DRAM initial
-To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <HK2PR06MB330087DBCD724A93EBACC17C8CA10@HK2PR06MB3300.apcprd06.prod.outlook.com>
- <20210319092340.140267-1-kuohsiang_chou@aspeedtech.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <b0e960ee-b987-69f7-13fd-0270c347ad5e@suse.de>
-Date: Mon, 29 Mar 2021 11:17:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F94289C48
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 10:26:35 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id b7so18622590ejv.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 03:26:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=1PyRrHa88gP4fv3wzdBtGmE3s8qTaZ8kXi0Y5jLPfiM=;
+ b=pOayFRW2XXssf7jvduFdDt/MTNW5dPU7zDIMbPZv7keXD0uhfdyiSib33dcSnA8Hu3
+ Nd+m1hKYpbHlPA5PItXcCpemOcZIuqTUxD4CLZmQHKfuDrLWJpKcSE99/2WKCXx/WHae
+ hBbdV4k3P9g5FmFGcS75iT5ULopTuJoESaOqijBnXYZRXgmLARrGmpyT/E0jqh/UtuFZ
+ cH4x1wJBN7UMJBHfhKKRX49gL9a3nTG/jXjigM2MFXILb4enVacil07wnTKeex7niRpe
+ Y2b24ft5kDHQLN5jVRiGZ11LtjeRRJ9Zfvat/PCZQWtGgC29mPTZJST1VdOER7CBbxRr
+ zA3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1PyRrHa88gP4fv3wzdBtGmE3s8qTaZ8kXi0Y5jLPfiM=;
+ b=CDcgiuFfEXJoM262++WNn0Q4GxpaIgj3HC0Jb3rRbxQgQbXeh82SO772RvM51kFcCL
+ zitVf88p/EXmWhPMGsjYipVK+lvb/28TIJW4gMxR7jJBfXVJ1j3QWIOEruuYUIHK7OXd
+ IrPrH793MWBpN38+H8XAsojNXx5s63vWBBw6GL2yh8nHz4XIoVsO5RJyXMT1JeMcuK77
+ ioUCoqOlmWNd1coRkOsNHCSDKYKQBAGwLOoLuChyqYRmnVULsRCuzwuZ9qFq30gw/iv0
+ icXGy3QG1Ft+AuJooq+7vLnoLVZ7UiiQo/crW5C4RQalZauBHlbsaRsjcCHq7oPzhh2g
+ MN7A==
+X-Gm-Message-State: AOAM533AuFwSNmDaFh/PvtJY+C8eyPnNmcNKSvE/9GTOR/8z0Ka7aI/u
+ fFj+80bPeZ0syTtoa6FukxWhZQ==
+X-Google-Smtp-Source: ABdhPJwEpp/sTgjo1+tUndCYaoZ9JuP+Qb7/WRdkeCt0wFxr5qiwBvoIfCh+KQZ/+TzyZd8kqkweMA==
+X-Received: by 2002:a17:906:3949:: with SMTP id
+ g9mr27002955eje.7.1617013593990; 
+ Mon, 29 Mar 2021 03:26:33 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id bx2sm8795750edb.80.2021.03.29.03.26.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Mar 2021 03:26:33 -0700 (PDT)
+Date: Mon, 29 Mar 2021 11:26:31 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: cy_huang <u0084500@gmail.com>
+Subject: Re: [PATCH v6 4/4] backlight: rt4831: Adds support for Richtek
+ RT4831 backlight
+Message-ID: <20210329102631.sh5ttefjvfsfg6tk@maple.lan>
+References: <1616945059-8718-1-git-send-email-u0084500@gmail.com>
+ <1616945059-8718-4-git-send-email-u0084500@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210319092340.140267-1-kuohsiang_chou@aspeedtech.com>
+Content-Disposition: inline
+In-Reply-To: <1616945059-8718-4-git-send-email-u0084500@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,277 +70,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, jenmin_yuan@aspeedtech.com, tommy_huang@aspeedtech.com,
- arc_sung@aspeedtech.com, airlied@redhat.com
-Content-Type: multipart/mixed; boundary="===============0505584215=="
+Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
+ lgirdwood@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, ChiYuan Huang <cy_huang@richtek.com>,
+ broonie@kernel.org, lee.jones@linaro.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0505584215==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="yk9xlNx6TU4Iu7vesAK8wsRioi6pXzEAq"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---yk9xlNx6TU4Iu7vesAK8wsRioi6pXzEAq
-Content-Type: multipart/mixed; boundary="msd3iyUwJkOq6UTHwOp6BWT39SVHcClwd";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: airlied@linux.ie, tommy_huang@aspeedtech.com, jenmin_yuan@aspeedtech.com,
- airlied@redhat.com, arc_sung@aspeedtech.com
-Message-ID: <b0e960ee-b987-69f7-13fd-0270c347ad5e@suse.de>
-Subject: Re: [PATCH V3] drm/ast: Disable fast reset after DRAM initial
-References: <HK2PR06MB330087DBCD724A93EBACC17C8CA10@HK2PR06MB3300.apcprd06.prod.outlook.com>
- <20210319092340.140267-1-kuohsiang_chou@aspeedtech.com>
-In-Reply-To: <20210319092340.140267-1-kuohsiang_chou@aspeedtech.com>
-
---msd3iyUwJkOq6UTHwOp6BWT39SVHcClwd
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-I cannot apply this patch. The error is shown below. Which tree do you=20
-use? Can you please move to drm-misc-next?
-
-Applying: drm/ast: Disable fast reset after DRAM initial
-error: sha1 information is lacking or useless=20
-(drivers/gpu/drm/ast/ast_drv.h).
-error: could not build fake ancestor
-Patch failed at 0001 drm/ast: Disable fast reset after DRAM initial
-hint: Use 'git am --show-current-patch=3Ddiff' to see the failed patch
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
-dim: ERROR: git apply-mbox failed
-
-Best regards
-Thomas
-
-
-Am 19.03.21 um 10:23 schrieb KuoHsiang Chou:
-> [Bug][AST2500]
->=20
-> V1:
-> When AST2500 acts as stand-alone VGA so that DRAM and DVO initializatio=
-n
-> have to be achieved by VGA driver with P2A (PCI to AHB) enabling.
-> However, HW suggests disable Fast reset mode after DRAM initializaton,
-> because fast reset mode is mainly designed for ARM ICE debugger.
-> Once Fast reset is checked as enabling, WDT (Watch Dog Timer) should be=
-
-> first enabled to avoid system deadlock before disable fast reset mode.
->=20
-> V2:
-> Use to_pci_dev() to get revision of PCI configuration.
->=20
-> V3:
-> If SCU00 is not unlocked, just enter its password again.
-> It is unnecessary to clear AHB lock condition and restore WDT default
-> setting again, before Fast-reset clearing.
->=20
-> Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+On Sun, Mar 28, 2021 at 11:24:19PM +0800, cy_huang wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> Adds support for Richtek RT4831 backlight.
+> 
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
 > ---
->   drivers/gpu/drm/ast/ast_drv.h  |  1 +
->   drivers/gpu/drm/ast/ast_main.c |  5 +++
->   drivers/gpu/drm/ast/ast_post.c | 68 +++++++++++++++++++++------------=
--
->   3 files changed, 48 insertions(+), 26 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_dr=
-v.h
-> index da6dfb677540..a2cf5fef2399 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.h
-> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -320,6 +320,7 @@ bool ast_is_vga_enabled(struct drm_device *dev);
->   void ast_post_gpu(struct drm_device *dev);
->   u32 ast_mindwm(struct ast_private *ast, u32 r);
->   void ast_moutdwm(struct ast_private *ast, u32 r, u32 v);
-> +void ast_patch_ahb_2500(struct ast_private *ast);
->   /* ast dp501 */
->   void ast_set_dp501_video_output(struct drm_device *dev, u8 mode);
->   bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_m=
-ain.c
-> index 3775fe26f792..0e4dfcc25623 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -69,6 +69,7 @@ static void ast_detect_config_mode(struct drm_device =
-*dev, u32 *scu_rev)
->   {
->   	struct device_node *np =3D dev->pdev->dev.of_node;
->   	struct ast_private *ast =3D to_ast_private(dev);
-> +	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
->   	uint32_t data, jregd0, jregd1;
->=20
->   	/* Defaults */
-> @@ -96,6 +97,10 @@ static void ast_detect_config_mode(struct drm_device=
- *dev, u32 *scu_rev)
->   	jregd0 =3D ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff)=
-;
->   	jregd1 =3D ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff)=
-;
->   	if (!(jregd0 & 0x80) || !(jregd1 & 0x10)) {
-> +		/* Patch AST2500 */
-> +		if (((pdev->revision & 0xF0) =3D=3D 0x40) && ((jregd0 & 0xC0) =3D=3D=
- 0))
-> +			ast_patch_ahb_2500(ast);
-> +
->   		/* Double check it's actually working */
->   		data =3D ast_read32(ast, 0xf004);
->   		if (data !=3D 0xFFFFFFFF) {
-> diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_p=
-ost.c
-> index 8902c2f84bf9..4f194c5fd2c2 100644
-> --- a/drivers/gpu/drm/ast/ast_post.c
-> +++ b/drivers/gpu/drm/ast/ast_post.c
-> @@ -2026,6 +2026,30 @@ static bool ast_dram_init_2500(struct ast_privat=
-e *ast)
->   	return true;
->   }
->=20
-> +void ast_patch_ahb_2500(struct ast_private *ast)
-> +{
-> +	u32	data;
-> +
-> +	/* Clear bus lock condition */
-> +	ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
-> +	ast_moutdwm(ast, 0x1e600084, 0x00010000);
-> +	ast_moutdwm(ast, 0x1e600088, 0x00000000);
-> +	ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
-> +	data =3D ast_mindwm(ast, 0x1e6e2070);
-> +	if (data & 0x08000000) {					/* check fast reset */
-> +
-> +		ast_moutdwm(ast, 0x1E785004, 0x00000010);
-> +		ast_moutdwm(ast, 0x1E785008, 0x00004755);
-> +		ast_moutdwm(ast, 0x1E78500c, 0x00000033);
-> +		udelay(1000);
-> +	}
-> +	do {
-> +		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
-> +		data =3D ast_mindwm(ast, 0x1e6e2000);
-> +	}	while (data !=3D 1);
-> +	ast_moutdwm(ast, 0x1e6e207c, 0x08000000);	/* clear fast reset */
-> +}
-> +
->   void ast_post_chip_2500(struct drm_device *dev)
->   {
->   	struct ast_private *ast =3D to_ast_private(dev);
-> @@ -2033,39 +2057,31 @@ void ast_post_chip_2500(struct drm_device *dev)=
+> since v6
+> - Fix Kconfig typo.
+> - Remove internal mutex lock.
+> - Add the prefix for max brightness.
+> - rename init_device_properties to parse_backlight_properties.
+> - Remove some warning message if default value is adopted.
+> - Add backlight property scale to LINEAR mapping.
+> - Fix regmap get to check NULL not IS_ERR.
+> ---
+>  drivers/video/backlight/Kconfig            |   8 ++
+>  drivers/video/backlight/Makefile           |   1 +
+>  drivers/video/backlight/rt4831-backlight.c | 203 +++++++++++++++++++++++++++++
+>  3 files changed, 212 insertions(+)
+>  create mode 100644 drivers/video/backlight/rt4831-backlight.c
+> 
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index d83c87b..de96441 100644
+> --- a/drivers/video/backlight/Kconfig
+> +++ b/drivers/video/backlight/Kconfig
+> @@ -289,6 +289,14 @@ config BACKLIGHT_QCOM_WLED
+>  	  If you have the Qualcomm PMIC, say Y to enable a driver for the
+>  	  WLED block. Currently it supports PM8941 and PMI8998.
+>  
+> +config BACKLIGHT_RT4831
+> +	tristate "Richtek RT4831 Backlight Driver"
+> +	depends on MFD_RT4831
+> +	help
+> +	  This enables support for Richtek RT4831 Backlight driver.
+> +	  It's common used to drive the display WLED. There're four channels
 
->   	u8 reg;
->=20
->   	reg =3D ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
-> -	if ((reg & 0x80) =3D=3D 0) {/* vga only */
-> +	if ((reg & 0xC0) =3D=3D 0) {/* vga only */
->   		/* Clear bus lock condition */
-> -		ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
-> -		ast_moutdwm(ast, 0x1e600084, 0x00010000);
-> -		ast_moutdwm(ast, 0x1e600088, 0x00000000);
-> -		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
-> -		ast_write32(ast, 0xf004, 0x1e6e0000);
-> -		ast_write32(ast, 0xf000, 0x1);
-> -		ast_write32(ast, 0x12000, 0x1688a8a8);
-> -		while (ast_read32(ast, 0x12000) !=3D 0x1)
-> -			;
-> -
-> -		ast_write32(ast, 0x10000, 0xfc600309);
-> -		while (ast_read32(ast, 0x10000) !=3D 0x1)
-> -			;
-> +		ast_patch_ahb_2500(ast);
-> +
-> +		/* Disable watchdog */
-> +		ast_moutdwm(ast, 0x1E78502C, 0x00000000);
-> +		ast_moutdwm(ast, 0x1E78504C, 0x00000000);
-> +		/* Reset USB port */
-> +		ast_moutdwm(ast, 0x1E6E2090, 0x20000000);
-> +		ast_moutdwm(ast, 0x1E6E2094, 0x00004000);
-> +		if (ast_mindwm(ast, 0x1E6E2070) & 0x00800000) {
-> +			ast_moutdwm(ast, 0x1E6E207C, 0x00800000);
-> +			mdelay(100);
-> +			ast_moutdwm(ast, 0x1E6E2070, 0x00800000);
-> +		}
-> +		/* Modify eSPI reset pin */
-> +		temp =3D ast_mindwm(ast, 0x1E6E2070);
-> +		if (temp & 0x02000000)
-> +			ast_moutdwm(ast, 0x1E6E207C, 0x00004000);
->=20
->   		/* Slow down CPU/AHB CLK in VGA only mode */
->   		temp =3D ast_read32(ast, 0x12008);
->   		temp |=3D 0x73;
->   		ast_write32(ast, 0x12008, temp);
->=20
-> -		/* Reset USB port to patch USB unknown device issue */
-> -		ast_moutdwm(ast, 0x1e6e2090, 0x20000000);
-> -		temp  =3D ast_mindwm(ast, 0x1e6e2094);
-> -		temp |=3D 0x00004000;
-> -		ast_moutdwm(ast, 0x1e6e2094, temp);
-> -		temp  =3D ast_mindwm(ast, 0x1e6e2070);
-> -		if (temp & 0x00800000) {
-> -			ast_moutdwm(ast, 0x1e6e207c, 0x00800000);
-> -			mdelay(100);
-> -			ast_moutdwm(ast, 0x1e6e2070, 0x00800000);
-> -		}
-> -
->   		if (!ast_dram_init_2500(ast))
->   			drm_err(dev, "DRAM init failed !\n");
->=20
-> --
-> 2.18.4
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+Nitpicking but I was expecting the original typo be converted to
+"commonly".
 
 
---msd3iyUwJkOq6UTHwOp6BWT39SVHcClwd--
+With that addressed:
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
---yk9xlNx6TU4Iu7vesAK8wsRioi6pXzEAq
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmBhmycFAwAAAAAACgkQlh/E3EQov+Ap
-Uw/+Ku+I5ZMkf134wcXjzEfhhRPZFnF/t0syp/H2xkjFh/7h1cv54OuvcZCKwBPNd9Aq15fCxnrt
-guVDXe/8LUjFL4AGcUdtPIKisAcZE1no7Jrx9Q3BKRR6xmis2hnrtrInpRpUbHp8bVXds6z3zZQY
-BlC+pRp10VMzB23ONztINU67/50fwcSAqozoVsY1kKOV314IM+N00qgVCvK/lEKjd/2CQo4+pVKx
-DXqgxhjXIxonTUpFMnKhUzu9waEFy+pzA8SeJDhyJ2HdkL9vC5c2czuitCF/MI03Ug0BYwbY9YwE
-MtdSc6lrHbc6P0DL/S1FMBv+exMc4HMAtXJwPCS5TeMZGhYCX4fFK0Ex8g9rDeF7Dk8ypCSR8B9d
-DR5N7IlMdUMIsuFEGP/WpJUykLyc0fmpTbPv5Z8EdlKIeg1dKQbxKBOgkDC4UNdQ8wB0Tl/p0fH4
-puaYRXm6G7W2MMsJ4f4oFOMfoO8dXozUO8aHbK6DIOGZoeqK/KklfolpGD0TE7oYE2dSKlFXijAh
-PwyAOWOLXHBFf2/ZaMCzmNPLhBH/5ofcuKq1HAVdkeaf+c4jLRNpvxmwp8ekTlt30x9Ss9nZb6cJ
-G+c9RGWAbTPaTbJMmQmDcFOPgt3hwRX0GTbUYKV+3hZC8GJ2CY6jMASiqxt2AzQ6z432h3ojLWpc
-pIw=
-=u8gq
------END PGP SIGNATURE-----
-
---yk9xlNx6TU4Iu7vesAK8wsRioi6pXzEAq--
-
---===============0505584215==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Daniel.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0505584215==--
