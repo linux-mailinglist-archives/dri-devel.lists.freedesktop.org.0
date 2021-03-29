@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8931034D16B
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 15:38:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DECA34D16C
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 15:38:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A4746E428;
-	Mon, 29 Mar 2021 13:38:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 986886E42F;
+	Mon, 29 Mar 2021 13:38:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78E0F6E41D;
- Mon, 29 Mar 2021 13:38:09 +0000 (UTC)
-IronPort-SDR: Eusxct+IsLRqXbWqwHZH+rBz4HKu+jbasnrjCCZscnp+DE3GzQFKzHDzg2M+7ttCWLgLWSR4bW
- 8JOiIb2QZpJg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9938"; a="276713446"
-X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; d="scan'208";a="276713446"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2021 06:38:08 -0700
-IronPort-SDR: f0AXu7mP1Q90eswyM7FEME3raPoojqwPGmVFhLqatNxa7KrbPGOxha1pBcpHkmtaGWzbPB86wq
- YruYZoDL0ycQ==
-X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; d="scan'208";a="526960120"
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02D436E42F;
+ Mon, 29 Mar 2021 13:38:14 +0000 (UTC)
+IronPort-SDR: wqt1S17Vp9GAq5qq3afPUQ4QH9M/UoBMooRxKkpgzbeNdzbGAJWLCgTP5D/0xE5KyiKMn/txbd
+ NRITKTKXB9qw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9938"; a="170950606"
+X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; d="scan'208";a="170950606"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2021 06:38:14 -0700
+IronPort-SDR: u7dgALWr2MsT+Onkue5apwYcOrLTd4ln2mYT0NQ8KkYVcd6d3WxxpBd39kbKwwTmMS32jOIoyV
+ F92YW002hJ/Q==
+X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; d="scan'208";a="444782447"
 Received: from auchter-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.56.199])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2021 06:38:06 -0700
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2021 06:38:12 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 7/8] drm/displayid: allow data blocks with 0 payload length
-Date: Mon, 29 Mar 2021 16:37:21 +0300
-Message-Id: <d562dff99ba7c92accb654a99b433bed471e8507.1617024940.git.jani.nikula@intel.com>
+Subject: [PATCH v2 8/8] drm/displayid: rename displayid_hdr to displayid_header
+Date: Mon, 29 Mar 2021 16:37:22 +0300
+Message-Id: <ce083bd2789c7e22a91710726162287db88e3f6c.1617024940.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617024940.git.jani.nikula@intel.com>
 References: <cover.1617024940.git.jani.nikula@intel.com>
@@ -53,30 +53,70 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DisplayID specifications explicitly call out 0 as a valid payload
-length for data blocks. The mere presence of a data block, or the
-information coded in the block specific data (bits 7:3 in offset 1), may
-be enough to convey the necessary information.
+Avoid any confusion with High Dynamic Range. No functional changes.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_displayid.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/drm_displayid.c | 10 +++++-----
+ include/drm/drm_displayid.h     |  2 +-
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_displayid.c b/drivers/gpu/drm/drm_displayid.c
-index 902ff6114b68..e0b9e58a9dc8 100644
+index e0b9e58a9dc8..32da557b960f 100644
 --- a/drivers/gpu/drm/drm_displayid.c
 +++ b/drivers/gpu/drm/drm_displayid.c
-@@ -77,8 +77,7 @@ displayid_iter_block(const struct displayid_iter *iter)
- 	block = (const struct displayid_block *)&iter->section[iter->idx];
+@@ -11,9 +11,9 @@ static int validate_displayid(const u8 *displayid, int length, int idx)
+ {
+ 	int i, dispid_length;
+ 	u8 csum = 0;
+-	const struct displayid_hdr *base;
++	const struct displayid_header *base;
  
- 	if (iter->idx + sizeof(*block) <= iter->length &&
--	    iter->idx + sizeof(*block) + block->num_bytes <= iter->length &&
--	    block->num_bytes > 0)
-+	    iter->idx + sizeof(*block) + block->num_bytes <= iter->length)
- 		return block;
+-	base = (const struct displayid_hdr *)&displayid[idx];
++	base = (const struct displayid_header *)&displayid[idx];
  
- 	return NULL;
+ 	DRM_DEBUG_KMS("base revision 0x%x, length %d, %d %d\n",
+ 		      base->rev, base->bytes, base->prod_id, base->ext_count);
+@@ -38,7 +38,7 @@ static const u8 *drm_find_displayid_extension(const struct edid *edid,
+ 					      int *ext_index)
+ {
+ 	const u8 *displayid = drm_find_edid_extension(edid, DISPLAYID_EXT, ext_index);
+-	const struct displayid_hdr *base;
++	const struct displayid_header *base;
+ 	int ret;
+ 
+ 	if (!displayid)
+@@ -52,7 +52,7 @@ static const u8 *drm_find_displayid_extension(const struct edid *edid,
+ 	if (ret)
+ 		return NULL;
+ 
+-	base = (const struct displayid_hdr *)&displayid[*idx];
++	base = (const struct displayid_header *)&displayid[*idx];
+ 	*length = *idx + sizeof(*base) + base->bytes;
+ 
+ 	return displayid;
+@@ -118,7 +118,7 @@ __displayid_iter_next(struct displayid_iter *iter)
+ 			return NULL;
+ 		}
+ 
+-		iter->idx += sizeof(struct displayid_hdr);
++		iter->idx += sizeof(struct displayid_header);
+ 
+ 		block = displayid_iter_block(iter);
+ 		if (block)
+diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
+index 10ee863f1734..ec64d141f578 100644
+--- a/include/drm/drm_displayid.h
++++ b/include/drm/drm_displayid.h
+@@ -56,7 +56,7 @@ struct edid;
+ #define PRODUCT_TYPE_REPEATER 5
+ #define PRODUCT_TYPE_DIRECT_DRIVE 6
+ 
+-struct displayid_hdr {
++struct displayid_header {
+ 	u8 rev;
+ 	u8 bytes;
+ 	u8 prod_id;
 -- 
 2.20.1
 
