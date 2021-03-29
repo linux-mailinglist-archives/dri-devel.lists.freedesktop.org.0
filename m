@@ -1,39 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84FC34C1E0
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 04:14:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 371FC34C359
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 07:55:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EB4F6E123;
-	Mon, 29 Mar 2021 02:14:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB27C6E20A;
+	Mon, 29 Mar 2021 05:55:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99DB46E123
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 02:14:06 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4F7x2z4SZnz9sVw;
- Mon, 29 Mar 2021 13:14:02 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1616984044;
- bh=k9kCaTFSgKm9tQfT1MUAvppABz0an6Oi0rH94pjamiI=;
- h=Date:From:To:Cc:Subject:From;
- b=e276cr5qjXA0c5ua2WQptS3A/LM1/RIIee8HExUKua5b4/5qcrHxazaWH2xSDtRbp
- J8xVr13wVSFG2W5nEEvFDCuef8o9beM8sCAK0ZUrqODYyNd7q8qIvG0CIcYdvoQwRy
- jcyVKfe4fVqg2uzs5uvu+sGdIB1moRqSUY5BSiRNB8EiuaJFThpkpgz+P4CZaAbgpE
- i52wiQLa4m2spLGhCg82cuNdzcz/Xezbt66WRaVU/ZK+K7BBB1oPKHblworrwrKR87
- +CVCtYhFJCXvQg68ENM2wRVjR7bU8bcK7u+/cFk6sA10ENnaqjOuWlj/0lx/pC4fAI
- xuMrJwBjHMCGQ==
-Date: Mon, 29 Mar 2021 13:14:01 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm tree with Linus' tree
-Message-ID: <20210329131401.15724766@canb.auug.org.au>
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com
+ [IPv6:2607:f8b0:4864:20::831])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C7196E20A
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 05:55:27 +0000 (UTC)
+Received: by mail-qt1-x831.google.com with SMTP id i19so8577923qtv.7
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Mar 2021 22:55:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3sxooqOLO1y1jfA0hH8Tp6Do4156/VwnStLOftkWolU=;
+ b=Vlx9D3rNBdfV9Twbtu5elSlHPfi5IXXOKF2jGRNyYsk0o4ecYOB2cj/naEcloSDf8R
+ alIWlT36rpUX2jLbRw5jNyCb0r3zkvxNLxY/oU79NVWrIxn4iLG00+Wq2kw7CnCQbDa3
+ Vq5XIMiUAeKSjU0zJhBu0ZfLTacA025RRUEJktbgtvUYntzC2tJxy9ud0yj4A992QfYd
+ E65g7Sytx2VJjQoKcE9L8l3CpsnFO1Ta+UbOF/MzqyHx2L5IPQLP80F+olm2Uu7Gxp2I
+ iEptFFxpwRV3Tm3xQzYlhgiHlGq+3tuOwAAYp16fwL5O+70slP3kGBQQx1aeNOGA+OU6
+ i2Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=3sxooqOLO1y1jfA0hH8Tp6Do4156/VwnStLOftkWolU=;
+ b=naeokmB5H8uuktf5ht4TBeJwlBHk+AySJOfUtDi+p3/QLoO2dsB87zkXJ3KoCVYXmD
+ AbX2ek60qQf2QE1d9dARFdvv5R/Kzt2LaMDCZHeN66r7DAT2/zYgdNIqb1kB/dqG34Bd
+ cwj2ooOXfaDJP+QRZvviQLvFSuDbpi/GsnleprNLiapHCMIWPDJENaTWC8g0X/QElt/6
+ mqX0/PZ5E21Jz5SYWLRjwzOPOo+f0Da+mdrC8IT8sPit17i5GR1aSRn/hOzH7rr7iIFh
+ it5nFE5518YaYddXseh77S1h4rry3xwEEg10Qij2lu7jjKC9YOgSttFbC5dba+2ftIel
+ oP5w==
+X-Gm-Message-State: AOAM532RQsohMHbMZaGDTLOEgcmjgLII4Z6F8uGFCYxp4uDRwVWaA9AH
+ VwLYBnNvJeZ9JewaKGTIl9g=
+X-Google-Smtp-Source: ABdhPJyjMO9PATIBVElUDbHpz1rS/mlZe2xmTsSLkRGrzA/ytq1vxJ2tRlhHienza2FDGcd8/6DVxQ==
+X-Received: by 2002:ac8:6f2e:: with SMTP id i14mr21073963qtv.25.1616997326394; 
+ Sun, 28 Mar 2021 22:55:26 -0700 (PDT)
+Received: from Gentoo ([156.146.37.195])
+ by smtp.gmail.com with ESMTPSA id f9sm10448869qto.46.2021.03.28.22.55.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 28 Mar 2021 22:55:25 -0700 (PDT)
+Date: Mon, 29 Mar 2021 11:25:11 +0530
+From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 00/30] DMA: Mundane typo fixes
+Message-ID: <YGFrvwX8QngvwPbA@Gentoo>
+Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+ Christoph Hellwig <hch@lst.de>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
+ dave.jiang@intel.com, dan.j.williams@intel.com,
+ rdunlap@infradead.org, linux-kernel@vger.kernel.org
+References: <cover.1616971780.git.unixbhaskar@gmail.com>
+ <20210329052910.GB26495@lst.de>
 MIME-Version: 1.0
+In-Reply-To: <20210329052910.GB26495@lst.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,103 +74,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- shaoyunl <shaoyun.liu@amd.com>
-Content-Type: multipart/mixed; boundary="===============1999954314=="
+Cc: dave.jiang@intel.com, Linus Torvalds <torvalds@linux-foundation.org>,
+ rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ dmaengine@vger.kernel.org, dan.j.williams@intel.com,
+ linuxppc-dev@lists.ozlabs.org
+Content-Type: multipart/mixed; boundary="===============1774441107=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1999954314==
-Content-Type: multipart/signed; boundary="Sig_/g_NQGzQ9qT.S6dVnkopD=ch";
- protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/g_NQGzQ9qT.S6dVnkopD=ch
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+--===============1774441107==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="sWMMWipitTWX5OoP"
+Content-Disposition: inline
 
-Hi all,
 
-Today's linux-next merge of the drm tree got a conflict in:
+--sWMMWipitTWX5OoP
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
 
-  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+On 07:29 Mon 29 Mar 2021, Christoph Hellwig wrote:
+>I really don't think these typo patchbomb are that useful.  I'm all
+>for fixing typos when working with a subsystem, but I'm not sure these
+>patchbombs help anything.
+>
+I am sure you are holding the wrong end of the wand and grossly failing to
+understand.
 
-between commits:
+Anyway, I hope I give a heads up ...find "your way" to fix those damn
+thing...it's glaring....
 
-  9adb125dde69 ("drm/amdgpu: re-enable suspend phase 2 for S0ix")
-  4021229e32bd ("drm/amdgpu/swsmu: skip gfx cgpg on s0ix suspend")
-  9bb735abcbd8 ("drm/amdgpu: update comments about s0ix suspend/resume")
+>On Mon, Mar 29, 2021 at 05:22:56AM +0530, Bhaskar Chowdhury wrote:
+>> This patch series fixes some trivial and rudimentary spellings in the COMMENT
+>> sections.
+>>
+>> Bhaskar Chowdhury (30):
+>>   acpi-dma.c: Fix couple of typos
+>>   altera-msgdma.c: Couple of typos fixed
+>>   amba-pl08x.c: Fixed couple of typos
+>>   bcm-sba-raid.c: Few typos fixed
+>>   bcm2835-dma.c: Fix a typo
+>>   idma64.c: Fix couple of typos
+>>   iop-adma.c: Few typos fixed
+>>   mv_xor.c: Fix a typo
+>>   mv_xor.h: Fixed a typo
+>>   mv_xor_v2.c: Fix a typo
+>>   nbpfaxi.c: Fixed a typo
+>>   of-dma.c: Fixed a typo
+>>   s3c24xx-dma.c: Fix a typo
+>>   Revert "s3c24xx-dma.c: Fix a typo"
+>>   s3c24xx-dma.c: Few typos fixed
+>>   st_fdma.h: Fix couple of typos
+>>   ste_dma40_ll.h: Fix a typo
+>>   tegra20-apb-dma.c: Fixed a typo
+>>   xgene-dma.c: Few spello fixes
+>>   at_hdmac.c: Quite a few spello fixes
+>>   owl-dma.c: Fix a typo
+>>   at_hdmac_regs.h: Couple of typo fixes
+>>   dma-jz4780.c: Fix a typo
+>>   Kconfig: Change Synopsys to Synopsis
+>>   ste_dma40.c: Few spello fixes
+>>   dw-axi-dmac-platform.c: Few typos fixed
+>>   dpaa2-qdma.c: Fix a typo
+>>   usb-dmac.c: Fix a typo
+>>   edma.c: Fix a typo
+>>   xilinx_dma.c: Fix a typo
+>>
+>>  drivers/dma/Kconfig                            |  8 ++++----
+>>  drivers/dma/acpi-dma.c                         |  4 ++--
+>>  drivers/dma/altera-msgdma.c                    |  4 ++--
+>>  drivers/dma/amba-pl08x.c                       |  4 ++--
+>>  drivers/dma/at_hdmac.c                         | 14 +++++++-------
+>>  drivers/dma/at_hdmac_regs.h                    |  4 ++--
+>>  drivers/dma/bcm-sba-raid.c                     |  8 ++++----
+>>  drivers/dma/bcm2835-dma.c                      |  2 +-
+>>  drivers/dma/dma-jz4780.c                       |  2 +-
+>>  drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c |  8 ++++----
+>>  drivers/dma/idma64.c                           |  4 ++--
+>>  drivers/dma/iop-adma.c                         |  6 +++---
+>>  drivers/dma/mv_xor.c                           |  2 +-
+>>  drivers/dma/mv_xor.h                           |  2 +-
+>>  drivers/dma/mv_xor_v2.c                        |  2 +-
+>>  drivers/dma/nbpfaxi.c                          |  2 +-
+>>  drivers/dma/of-dma.c                           |  2 +-
+>>  drivers/dma/owl-dma.c                          |  2 +-
+>>  drivers/dma/s3c24xx-dma.c                      |  6 +++---
+>>  drivers/dma/sh/shdmac.c                        |  2 +-
+>>  drivers/dma/sh/usb-dmac.c                      |  2 +-
+>>  drivers/dma/st_fdma.h                          |  4 ++--
+>>  drivers/dma/ste_dma40.c                        | 10 +++++-----
+>>  drivers/dma/ste_dma40_ll.h                     |  2 +-
+>>  drivers/dma/tegra20-apb-dma.c                  |  2 +-
+>>  drivers/dma/ti/edma.c                          |  2 +-
+>>  drivers/dma/xgene-dma.c                        |  6 +++---
+>>  drivers/dma/xilinx/xilinx_dma.c                |  2 +-
+>>  28 files changed, 59 insertions(+), 59 deletions(-)
+>>
+>> --
+>> 2.26.3
+>---end quoted text---
 
-from Linus' tree and commit:
-
-  e3c1b0712fdb ("drm/amdgpu: Reset the devices in the XGMI hive duirng prob=
-e")
-
-from the drm tree.
-
-I fixed it up (I think - see below) and can carry the fix as necessary.
-This is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 8a5a8ff5d362,0f82c5d21237..000000000000
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@@ -2743,16 -2712,15 +2720,25 @@@ static int amdgpu_device_ip_suspend_pha
-  			continue;
-  		}
- =20
- +		/* skip suspend of gfx and psp for S0ix
- +		 * gfx is in gfxoff state, so on resume it will exit gfxoff just
- +		 * like at runtime. PSP is also part of the always on hardware
- +		 * so no need to suspend it.
- +		 */
- +		if (adev->in_s0ix &&
- +		    (adev->ip_blocks[i].version->type =3D=3D AMD_IP_BLOCK_TYPE_PSP ||
- +		     adev->ip_blocks[i].version->type =3D=3D AMD_IP_BLOCK_TYPE_GFX))
- +			continue;
- +
-+ 		/* skip unnecessary suspend if we do not initialize them yet */
-+ 		if (adev->gmc.xgmi.pending_reset &&
-+ 		    !(adev->ip_blocks[i].version->type =3D=3D AMD_IP_BLOCK_TYPE_GMC ||
-+ 		      adev->ip_blocks[i].version->type =3D=3D AMD_IP_BLOCK_TYPE_SMC ||
-+ 		      adev->ip_blocks[i].version->type =3D=3D AMD_IP_BLOCK_TYPE_COMMON =
-||
-+ 		      adev->ip_blocks[i].version->type =3D=3D AMD_IP_BLOCK_TYPE_IH)) {
-+ 			adev->ip_blocks[i].status.hw =3D false;
-+ 			continue;
-+ 		}
-  		/* XXX handle errors */
-  		r =3D adev->ip_blocks[i].version->funcs->suspend(adev);
-  		/* XXX handle errors */
-
---Sig_/g_NQGzQ9qT.S6dVnkopD=ch
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--sWMMWipitTWX5OoP
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmBhN+kACgkQAVBC80lX
-0GyIHwf/WDrD2AvhZk2+xd2OuiACRlE6HXHMppYBDQyq7alR4iWQDeunMCdWjBzX
-0QzyE03CWLgiZkJu/RfNkrYej0oNilYuI+zVCuNfb6yAZjfbjg/7oDbI1GaV/aEh
-+1RmtZehAyfFG/qWNllHTBpl8cv/RaVeotbLrOwNzToZbVj7hmwSn4JlpEQ/QxB7
-AxvlCb73O3aCtFFcE5xJDjiaU0w4Bc0emgmC3dt3biOX0K+2M4FHGQqBJn9W2ro8
-bzlYEFxz4Fps2fs+hMRWSPs09pbBak4PfFMD9+S7qcWsszywYj8wLX6NuiA+jTfk
-dfE3mOW7Li0ybRZX17B/4gQtfNIRWg==
-=7sDt
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAmBha78ACgkQsjqdtxFL
+KRU5tAgAr1C5zvxnwKv4KhR9L2TClLDXSTaUY3OV1okoqlPp80479+s9NxY1Mdfb
+/dcKAncDa4LJOBe3vtl6RUzicAL+qMybaswSz7tR+hJjZRreWTpKOpeb/4CVZ2oS
+4MHOO6L8fKBFSQtnFKWj0MeNdZzoi+EIxEUKEu3IVZ8LY3Du4rLiiCElBKkxabcV
+v/N/kB9dvtqfHpGvire1GfBXJJGdWfWazs0+72IN4OSQacYtAcjgwALObuOP2Zmc
+hwsQgJQHEoKr2U1dmFaHlOvnU+qNmOmci4hkdVeF5sD7gFFomwXA3xW9USoMo9W1
+1cnEvFduJrGuL/e8jV3xI7KwNQVoUg==
+=XlPQ
 -----END PGP SIGNATURE-----
 
---Sig_/g_NQGzQ9qT.S6dVnkopD=ch--
+--sWMMWipitTWX5OoP--
 
---===============1999954314==
+--===============1774441107==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -153,4 +203,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1999954314==--
+--===============1774441107==--
