@@ -2,36 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97EA734D3C3
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 17:27:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA9834D3D9
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 17:28:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6593E89C7F;
-	Mon, 29 Mar 2021 15:27:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48F5889FD4;
+	Mon, 29 Mar 2021 15:28:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 45B6489C7F
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 15:27:38 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 69EBC142F
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 08:27:37 -0700 (PDT)
-Received: from [10.99.99.12] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 28D983F694
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 08:27:37 -0700 (PDT)
-Subject: Re: [PATCH] drm/komeda: Fix off-by-1 when with readback conn due to
- rounding
-To: dri-devel@lists.freedesktop.org
-References: <20210311120846.23543-1-carsten.haitzler@foss.arm.com>
- <20210312105521.dg6zcuf5gikfz5zm@DESKTOP-E1NTVVP.localdomain>
-From: Carsten Haitzler <carsten.haitzler@foss.arm.com>
-Organization: Arm Ltd.
-Message-ID: <4cb0df03-e038-0613-5d83-5992618e876e@foss.arm.com>
-Date: Mon, 29 Mar 2021 16:27:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2B2189FD4;
+ Mon, 29 Mar 2021 15:28:24 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ 91-20020a9d08640000b0290237d9c40382so12607474oty.12; 
+ Mon, 29 Mar 2021 08:28:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sL+u4G7CrcA6Z+TYaOSWP3JFMaDkhckMWoxhAu6f8eY=;
+ b=G0/S0pMQjOWbDYVq3Eg2hpnVRgtSNFukbo80ggQSwyQO7G1V8RbEcV+ahVZmJl0M1X
+ 2keMHJsikzpjqQOsPFfwkdfoj7JS5vsEAlxWjJ3wy9BYG6k1wUmREvnuJQwEKYVclXis
+ hhmQDwPw8dLrI5+VBEgi8u/bjutQHVIsAxfAgdm8sCD+vIxy38vVI6Cn5U5WwqIeUPZM
+ VxwPyq9TLmOo9ZwKZr3VH33nd1EVOp9eMaaZYEqP6IrY1CjUHKmnunTBOsFw6WS9At/Q
+ CH77zcFrcp4g0kViyGgxFD4Ja5OEarHddizi/5+3kjbeYbd18V5ahKoKu0sZ6TVLKFR3
+ sqUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sL+u4G7CrcA6Z+TYaOSWP3JFMaDkhckMWoxhAu6f8eY=;
+ b=lKFHIKxSCgAFi447ZaUPXNt+9nnaEAhE5RyXZBjJz219PYpKWVq3b6976QIzYs1793
+ LUW2Ke0GlGRfSttdcIGkIrTOy7UfOVM6TBxp6iLEBSlKJgshd3wtyuO6KeVDEq9q9g4h
+ uk/NAfCgJwUtydOdWxFakhsg1XIv1m/WW7Kw4eWrDeSHXa3bcvAg2qpsTTo37B4vCljz
+ G36286Du/6YwOIYYfj+Yc4g1az3ecX3+7oZayqzugB27xdj9cg18ykC0ZLXkg0e+SIRA
+ 0fJ6aYJv0y1UTCFNI+TCFZ/H3HrPcXPTySXE+fK880QraFrJkfq+1TpTKBxqMfwK3dq5
+ OFTA==
+X-Gm-Message-State: AOAM531Y52CLMR6SlhiZ7xOlPjGddf7ZUS/DE0u4Ev2lvTUNC9VwEQG3
+ n03AHXgppF6C78yJ4hAvUOIBsCDPZV93WqUYIv8=
+X-Google-Smtp-Source: ABdhPJw14WGwRwjI3JS9f/hgxbza0cAEMKGAJ1wRfH1tTSrMO2vp3Xb4f94nKSRpGzGiFNuddd5MLmhatevZH6uQA5A=
+X-Received: by 2002:a9d:d89:: with SMTP id 9mr23556338ots.23.1617031704134;
+ Mon, 29 Mar 2021 08:28:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210312105521.dg6zcuf5gikfz5zm@DESKTOP-E1NTVVP.localdomain>
-Content-Language: en-US
+References: <20210317151348.11331-1-wse@tuxedocomputers.com>
+ <CADnq5_OpJ-2jR4D8xwH93PZKoMWXx8C2yGTkqt7KRrVgph-KvA@mail.gmail.com>
+ <53b26416-31d0-6efd-04e9-2a9f34e525b7@amd.com>
+In-Reply-To: <53b26416-31d0-6efd-04e9-2a9f34e525b7@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 29 Mar 2021 11:28:13 -0400
+Message-ID: <CADnq5_NwuTv5pWiOk_bYdemm+aPi_SNZTYzMLO3ewma-Bkwhkg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Try YCbCr420 color when YCbCr444 fails
+To: Harry Wentland <harry.wentland@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,124 +63,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Werner Sembach <wse@tuxedocomputers.com>, Dave Airlie <airlied@linux.ie>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, "for 3.8" <stable@vger.kernel.org>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/12/21 10:55 AM, Brian Starkey wrote:
-> (Adding back James again - did you use get_maintainer.pl?)
-> 
-> On Thu, Mar 11, 2021 at 12:08:46PM +0000, carsten.haitzler@foss.arm.com wrote:
->> From: Carsten Haitzler <carsten.haitzler@arm.com>
->>
->> When setting up a readback connector that writes data back to memory
->> rather than to an actual output device (HDMI etc.), rounding was set
->> to round. As the DPU uses a higher internal number of bits when generating
->> a color value, this round-down back to 8bit ended up with everything
->> being off-by one. e.g. #fefefe became #ffffff. This sets
-> 
-> Perhaps overly pedantic, but now we've tracked down what was actually
-> happening I think we can be more precise here. Not _everything_ is
-> off-by-one, it's just rounding in the standard sense - if the most
+Applied.  Thanks!
 
-Well a very large number of pixels were off-by-1 ... I guess it's an 
-exaggeration but a "vast number of pixels were off by 1". I guess I was 
-just using common terms like "everything is expensive here" doesn't 
-actually mean absolutely everything but a very vast number of things. 
-You know what I mean. :) The comment as a whole describing rounding 
-policies should provide more details. I just write the log as a "when 
-spelunking through history, this log will give me some broader insight 
-into what this change is without being war and peace and If I want to 
-see more and this commit is interesting to my spelunking efforts, I'll 
-git log -U to read that".
+Alex
 
-> significant bit-to-be-discarded is set, the value is rounded up to
-> minimise the absolute error introduced by bit-depth reduction.
-> 
->> rounding to "round-down" so things end up correct by turning on the LW_TRC
->> round down flag.
-> 
-> Can we call it "truncate" rather than round down? I think it makes
-> "TRC" a bit more understandable.
-
-That's the official name from the docs though (TRC)... makes it easier 
-to match to them... So I think you can argue this both ways. The comment 
-where it's used though does make it clear...
-
->>
->> Signed-off-by: Carsten Haitzler <carsten.haitzler@arm.com>
->> ---
->>   drivers/gpu/drm/arm/display/komeda/d71/d71_component.c | 7 ++++++-
->>   drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h      | 1 +
->>   2 files changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
->> index 8a02ade369db..e97acc5519d1 100644
->> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
->> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
->> @@ -468,7 +468,12 @@ static void d71_wb_layer_update(struct komeda_component *c,
->>   	struct komeda_layer_state *st = to_layer_st(state);
->>   	struct drm_connector_state *conn_st = state->wb_conn->state;
->>   	struct komeda_fb *kfb = to_kfb(conn_st->writeback_job->fb);
->> -	u32 ctrl = L_EN | LW_OFM, mask = L_EN | LW_OFM | LW_TBU_EN;
->> +	/* LW_TRC sets rounding to truncate not round which is needed for
->> +	 * the output of writeback to match the input in the most common
->> +	 * use cases like RGB888 -> RGB888, so set this bit by default
->> +	 */
-> 
-> Hm, not sure why this file uses "net/" style comments, but as you
-> said, this is in-keeping with the rest of the file, so meh :-)
-
-Yup. Just stick to "follow the style there" unless there is seemingly a 
-good reason that what is there is horribly "broken" and needs fixing up.
-
->> +	u32 ctrl = LW_TRC | L_EN | LW_OFM;
->> +	u32 mask = LW_TRC | L_EN | LW_OFM | LW_TBU_EN;
-> 
-> If you were aiming for matching register order, this should be:
-> 
->      L_EN | LW_TRC | LW_OFM | LW_TBU_EN
-> 
-> 
-> I think it'd be nice to have the exact behaviour in the commit
-> message, but either way this seems OK as a pragmatic fix so:
-
-git log -U ? :)
-
-> Reviewed-by: Brian Starkey <brian.starkey@arm.com>
-> 
-> Thanks,
-> -Brian
-> 
->>   	u32 __iomem *reg = c->reg;
->>   
->>   	d71_layer_update_fb(c, kfb, st->addr);
->> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h b/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h
->> index e80172a0b320..a8036689d721 100644
->> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h
->> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h
->> @@ -321,6 +321,7 @@
->>   #define LAYER_WR_FORMAT		0x0D8
->>   
->>   /* Layer_WR control bits */
->> +#define LW_TRC			BIT(1)
->>   #define LW_OFM			BIT(4)
->>   #define LW_LALPHA(x)		(((x) & 0xFF) << 8)
->>   #define LW_A_WCACHE(x)		(((x) & 0xF) << 28)
->> -- 
->> 2.30.0
->>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
-
+On Fri, Mar 26, 2021 at 10:59 AM Harry Wentland <harry.wentland@amd.com> wrote:
+>
+>
+>
+> On 2021-03-24 4:23 p.m., Alex Deucher wrote:
+> > On Wed, Mar 17, 2021 at 11:25 AM Werner Sembach <wse@tuxedocomputers.com> wrote:
+> >>
+> >> When encoder validation of a display mode fails, retry with less bandwidth
+> >> heavy YCbCr420 color mode, if available. This enables some HDMI 1.4 setups
+> >> to support 4k60Hz output, which previously failed silently.
+> >>
+> >> On some setups, while the monitor and the gpu support display modes with
+> >> pixel clocks of up to 600MHz, the link encoder might not. This prevents
+> >> YCbCr444 and RGB encoding for 4k60Hz, but YCbCr420 encoding might still be
+> >> possible. However, which color mode is used is decided before the link
+> >> encoder capabilities are checked. This patch fixes the problem by retrying
+> >> to find a display mode with YCbCr420 enforced and using it, if it is
+> >> valid.
+> >>
+> >> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> >> Cc: <stable@vger.kernel.org>
+> >
+> >
+> > This seems reasonable to me.  Harry, Leo, Any objections?
+> >
+>
+> Looks good to me.
+>
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+>
+> Harry
+>
+> > Alex
+> >
+> >> ---
+> >>
+> >>  From c9398160caf4ff20e63b8ba3a4366d6ef95c4ac3 Mon Sep 17 00:00:00 2001
+> >> From: Werner Sembach <wse@tuxedocomputers.com>
+> >> Date: Wed, 17 Mar 2021 12:52:22 +0100
+> >> Subject: [PATCH] Retry forcing YCbCr420 color on failed encoder validation
+> >>
+> >> ---
+> >>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 9 +++++++++
+> >>   1 file changed, 9 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >> index 961abf1cf040..2d16389b5f1e 100644
+> >> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >> @@ -5727,6 +5727,15 @@ create_validate_stream_for_sink(struct amdgpu_dm_connector *aconnector,
+> >>
+> >>          } while (stream == NULL && requested_bpc >= 6);
+> >>
+> >> +       if (dc_result == DC_FAIL_ENC_VALIDATE && !aconnector->force_yuv420_output) {
+> >> +               DRM_DEBUG_KMS("Retry forcing YCbCr420 encoding\n");
+> >> +
+> >> +               aconnector->force_yuv420_output = true;
+> >> +               stream = create_validate_stream_for_sink(aconnector, drm_mode,
+> >> +                                               dm_state, old_stream);
+> >> +               aconnector->force_yuv420_output = false;
+> >> +       }
+> >> +
+> >>          return stream;
+> >>   }
+> >>
+> >> --
+> >> 2.25.1
+> >>
+> >> _______________________________________________
+> >> dri-devel mailing list
+> >> dri-devel@lists.freedesktop.org
+> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
