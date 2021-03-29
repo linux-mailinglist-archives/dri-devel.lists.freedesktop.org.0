@@ -2,25 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0AFF34D384
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 17:15:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7736A34D39A
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 17:21:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D29E76E461;
-	Mon, 29 Mar 2021 15:15:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AA428940F;
+	Mon, 29 Mar 2021 15:21:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C01C46E039
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 15:15:44 +0000 (UTC)
-Date: Mon, 29 Mar 2021 16:15:28 +0100
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A0B58940F
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 15:21:21 +0000 (UTC)
+Date: Mon, 29 Mar 2021 16:21:07 +0100
 From: Paul Cercueil <paul@crapouillou.net>
 Subject: Re: [PATCH] drm: DON'T require each CRTC to have a unique primary
  plane
-To: Maxime Ripard <maxime@cerno.tech>
-Message-Id: <S1LQQQ.K5HO8ISMBGA02@crapouillou.net>
-In-Reply-To: <20210329140731.tvkfxic4fu47v3rz@gilmour>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Message-Id: <7BLQQQ.ZY1PEPCLZS2L2@crapouillou.net>
+In-Reply-To: <20210329173541.00b301ea@eldfell>
 References: <20210327112214.10252-1-paul@crapouillou.net>
- <20210329140731.tvkfxic4fu47v3rz@gilmour>
+ <1J_tcDPSAZW23jPO8ApyzgINcVRRWcNyFP0LvrSFVIMbZB9lH6lCWvh2ByU9rNt6bj6xpgRgv8n0hBKhXAvXNfLBGfTIsvbhYuHW3IIDd7Y=@emersion.fr>
+ <24LMQQ.CRNKYEI6GB2T1@crapouillou.net> <20210329111533.47e44f72@eldfell>
+ <C4BQQQ.FDNJ4NAK9OAD3@crapouillou.net> <20210329173541.00b301ea@eldfell>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -34,44 +36,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, od@zcrc.me,
- stable@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, od@zcrc.me, stable@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
 
-Le lun. 29 mars 2021 =E0 16:07, Maxime Ripard <maxime@cerno.tech> a =
+
+Le lun. 29 mars 2021 =E0 17:35, Pekka Paalanen <ppaalanen@gmail.com> a =
 
 =E9crit :
-> On Sat, Mar 27, 2021 at 11:22:14AM +0000, Paul Cercueil wrote:
->>  The ingenic-drm driver has two mutually exclusive primary planes
->>  already; so the fact that a CRTC must have one and only one primary
->>  plane is an invalid assumption.
+> On Mon, 29 Mar 2021 12:41:00 +0100
+> Paul Cercueil <paul@crapouillou.net> wrote:
 > =
 
-> I mean, no? It's been documented for a while that a CRTC should only
-> have a single primary, so I'd say that the invalid assumption was that
-> it was possible to have multiple primary planes for a CRTC.
+>>  Hi,
+>> =
 
-Documented where?
+>>  Le lun. 29 mars 2021 =E0 11:15, Pekka Paalanen <ppaalanen@gmail.com> =
 
-I did read the doc of "enum drm_plane_type" in <drm/drm_plane.h>, and =
+>> a
+>>  =E9crit :
+>>  > On Sat, 27 Mar 2021 11:26:26 +0000
+>>  > Paul Cercueil <paul@crapouillou.net> wrote:
+>>  >
+>>  >>  It has two mutually exclusive background planes (same Z level) =
 
-the DRM_PLANE_TYPE_PRIMARY describes my two planes, so I went with that.
+>> + one
+>>  >>  overlay plane.
+>>  >
+>>  > What's the difference between the two background planes?
+>>  >
+>>  > How will generic userspace know to pick the "right" one?
+>> =
+
+>>  First primary plane cannot scale, supports RGB and C8. Second =
+
+>> primary
+>>  plane goes through the IPU, and as such can scale and convert pixel
+>>  formats; it supports RGB, non-planar YUV, and multi-planar YUV.
+>> =
+
+>>  Right now the userspace apps we have will simply pick the first one
+>>  that fits the bill.
+> =
+
+> What would be the downside of exposing just one "virtual" primary
+> plane, and then have the driver pick one of the two hardware planes as
+> appropriate per modeset?
+
+The IPU plane is in a different driver, so all the callbacks are =
+
+different. That sounds like it would be a mess.
 
 -Paul
 
-> Since it looks like you have two mutually exclusive planes, just =
-
-> expose
-> one and be done with it?
+> Thanks,
+> pq
 > =
 
-> Maxime
+>>  >>  Le sam. 27 mars 2021 =E0 11:24, Simon Ser <contact@emersion.fr> a
+>>  >> =E9crit
+>>  >>  :
+>>  >>  > On Saturday, March 27th, 2021 at 12:22 PM, Paul Cercueil
+>>  >>  > <paul@crapouillou.net> wrote:
+>>  >>  >
+>>  >>  >>  The ingenic-drm driver has two mutually exclusive primary =
+
+>> planes
+>>  >>  >>  already; so the fact that a CRTC must have one and only one
+>>  >> primary
+>>  >>  >>  plane is an invalid assumption.
+>>  >>  >
+>>  >>  > Why does this driver expose two primary planes, if it only =
+
+>> has a
+>>  >>  > single
+>>  >>  > CRTC?
+>>  >>
+>>  >>
+>>  >>  _______________________________________________
+>>  >>  dri-devel mailing list
+>>  >>  dri-devel@lists.freedesktop.org
+>>  >>  https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>  >
+>> =
+
+>> =
+
+> =
+
 
 
 _______________________________________________
