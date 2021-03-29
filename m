@@ -2,26 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C495E34D4A9
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 18:15:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76BD734D4B3
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 18:18:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF25E6E44C;
-	Mon, 29 Mar 2021 16:15:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3692E6E448;
+	Mon, 29 Mar 2021 16:18:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BF416E44C
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 16:15:55 +0000 (UTC)
-Date: Mon, 29 Mar 2021 17:15:37 +0100
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v4 2/3] drm/encoder: Add macro drmm_plain_encoder_alloc()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Message-Id: <1UNQQQ.C8BL9EPXOLHR2@crapouillou.net>
-In-Reply-To: <YF+6HY9dQbUBbXXG@pendragon.ideasonboard.com>
-References: <20210327115742.18986-1-paul@crapouillou.net>
- <20210327115742.18986-3-paul@crapouillou.net>
- <YF+6HY9dQbUBbXXG@pendragon.ideasonboard.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E7366E448
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 16:18:19 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A92E06196E
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 16:18:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617034698;
+ bh=g+KluKB8J7DldbUMXc360cZ2gLPYH64Rs8T0Q973c4I=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=rkSS3PoK+z4fEREe+CoYCingZyivZDsBHNbwPlFWBfPdMrt4Wt+zyS0PB/B2OASft
+ G79ZHSSLVeV608NosAI5ZvXt+Ii+uXVp48O7e7S6USRvhyHpSgg5E2UCOxtO8r71Ij
+ zzNChtAVev9Kel8Ho5KPcqAQHKJAnrxW70r27OpKxP/BQ80/UPJNkivj1/oy1mDCmu
+ uedhsqvFsWBPC2N9dGPVvJ5sNALsTiBAeezUCb0vgnt3Fw1AtWg0Ipya7mDRW4VGU9
+ YbZimZtgj+IKi6BPVysKGCJ+f9TKR+prb7xUfxxaO0EpAHAF/xmXEQbEa52fsQlZ6c
+ /GOwQRix4h1Zw==
+Received: by mail-ej1-f48.google.com with SMTP id a7so20387495ejs.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 09:18:18 -0700 (PDT)
+X-Gm-Message-State: AOAM533VDhCkgtCq57dRkvoNKC4RyipwHsVmio/tXLVvoMUwrjnZE0JW
+ c2BR76xC8vP+NVA24vKGXA5FGUwvVumlYoq/FQ==
+X-Google-Smtp-Source: ABdhPJzW5H3Lz87UAaUdYwZ6+LCv3qjBvbr2LYXfYPYVmXRCOrWSVgwuKYSAM/RT4dWSLTowm0pFAOoA7i5p2TsOxgA=
+X-Received: by 2002:a17:906:7c4:: with SMTP id
+ m4mr29562982ejc.63.1617034697158; 
+ Mon, 29 Mar 2021 09:18:17 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210313094331.26374-1-chunkuang.hu@kernel.org>
+In-Reply-To: <20210313094331.26374-1-chunkuang.hu@kernel.org>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 30 Mar 2021 00:18:05 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-6i-D5Ou+Bme-ipvodmqU8Ybsot4yNhKgqr4G-=Ptr9A@mail.gmail.com>
+Message-ID: <CAAOTY_-6i-D5Ou+Bme-ipvodmqU8Ybsot4yNhKgqr4G-=Ptr9A@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: crtc: Make config-updating atomic
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -34,100 +53,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- linux-mips@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>, od@zcrc.me,
- dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Le dim. 28 mars 2021 =E0 1:05, Laurent Pinchart =
-
-<laurent.pinchart@ideasonboard.com> a =E9crit :
-> Hi Paul,
-> =
-
-> Thank you for the patch.
-> =
-
-> On Sat, Mar 27, 2021 at 11:57:41AM +0000, Paul Cercueil wrote:
->>  This performs the same operation as drmm_encoder_alloc(), but
->>  only allocates and returns a struct drm_encoder instance.
->> =
-
->>  v4: Rename macro drmm_plain_encoder_alloc() and move to
->>      <drm/drm_encoder.h>. Since it's not "simple" anymore it
->>      will now take funcs/name arguments as well.
->> =
-
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> =
-
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Patchset applied to drm-misc-next.
-
-Thanks!
-
--Paul
-
->>  ---
->>   include/drm/drm_encoder.h | 18 ++++++++++++++++++
->>   1 file changed, 18 insertions(+)
->> =
-
->>  diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
->>  index 5bf78b5bcb2b..6e91a0280f31 100644
->>  --- a/include/drm/drm_encoder.h
->>  +++ b/include/drm/drm_encoder.h
->>  @@ -224,6 +224,24 @@ void *__drmm_encoder_alloc(struct drm_device =
-
->> *dev,
->>   				      offsetof(type, member), funcs, \
->>   				      encoder_type, name, ##__VA_ARGS__))
->> =
-
->>  +/**
->>  + * drmm_plain_encoder_alloc - Allocate and initialize an encoder
->>  + * @dev: drm device
->>  + * @funcs: callbacks for this encoder (optional)
->>  + * @encoder_type: user visible type of the encoder
->>  + * @name: printf style format string for the encoder name, or NULL =
-
->> for default name
->>  + *
->>  + * This is a simplified version of drmm_encoder_alloc(), which =
-
->> only allocates
->>  + * and returns a struct drm_encoder instance, with no subclassing.
->>  + *
->>  + * Returns:
->>  + * Pointer to the new drm_encoder struct, or ERR_PTR on failure.
->>  + */
->>  +#define drmm_plain_encoder_alloc(dev, funcs, encoder_type, name, =
-
->> ...) \
->>  +	((struct drm_encoder *) \
->>  +	 __drmm_encoder_alloc(dev, sizeof(struct drm_encoder), \
->>  +			      0, funcs, encoder_type, name, ##__VA_ARGS__))
->>  +
->>   /**
->>    * drm_encoder_index - find the index of a registered encoder
->>    * @encoder: encoder to find index for
-> =
-
-> --
-> Regards,
-> =
-
-> Laurent Pinchart
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QXBwbGllZCB0byBtZWRpYXRlay1kcm0tbmV4dCBbMV0uCgpbMV0gaHR0cHM6Ly9naXQua2VybmVs
+Lm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvY2h1bmt1YW5nLmh1L2xpbnV4LmdpdC9sb2cv
+P2g9bWVkaWF0ZWstZHJtLW5leHQKClJlZ2FyZHMsCkNodW4tS3VhbmcuCgpDaHVuLUt1YW5nIEh1
+IDxjaHVua3VhbmcuaHVAa2VybmVsLm9yZz4g5pa8IDIwMjHlubQz5pyIMTPml6Ug6YCx5YWtIOS4
+i+WNiDU6NDPlr6vpgZPvvJoKPgo+IFdoaWxlIHVwZGF0aW5nIGNvbmZpZywgdGhlIGlycSB3b3Vs
+ZCBvY2N1ciBhbmQgZ2V0IHRoZSBwYXJ0aWFsCj4gY29uZmlnLCBzbyB1c2UgdmFyaWFibGUgY29u
+ZmlnX3VwZGF0aW5nIHRvIG1ha2UgdXBkYXRpbmcgYXRvbWljLgo+Cj4gU2lnbmVkLW9mZi1ieTog
+Q2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+Cj4gLS0tCj4gIGRyaXZlcnMv
+Z3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYyB8IDE5ICsrKysrKysrKysrKy0tLS0tLS0K
+PiAgMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pCj4KPiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0Yy5jIGIvZHJp
+dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0Yy5jCj4gaW5kZXggOGIwZGU5MDE1NmM2
+Li44NzBmNjYyMTA4NDggMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19kcm1fY3J0Yy5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0
+Yy5jCj4gQEAgLTYxLDYgKzYxLDcgQEAgc3RydWN0IG10a19kcm1fY3J0YyB7Cj4KPiAgICAgICAg
+IC8qIGxvY2sgZm9yIGRpc3BsYXkgaGFyZHdhcmUgYWNjZXNzICovCj4gICAgICAgICBzdHJ1Y3Qg
+bXV0ZXggICAgICAgICAgICAgICAgICAgIGh3X2xvY2s7Cj4gKyAgICAgICBib29sICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIGNvbmZpZ191cGRhdGluZzsKPiAgfTsKPgo+ICBzdHJ1Y3QgbXRr
+X2NydGNfc3RhdGUgewo+IEBAIC05Nyw3ICs5OCw3IEBAIHN0YXRpYyB2b2lkIG10a19kcm1fY3J0
+Y19maW5pc2hfcGFnZV9mbGlwKHN0cnVjdCBtdGtfZHJtX2NydGMgKm10a19jcnRjKQo+ICBzdGF0
+aWMgdm9pZCBtdGtfZHJtX2ZpbmlzaF9wYWdlX2ZsaXAoc3RydWN0IG10a19kcm1fY3J0YyAqbXRr
+X2NydGMpCj4gIHsKPiAgICAgICAgIGRybV9jcnRjX2hhbmRsZV92YmxhbmsoJm10a19jcnRjLT5i
+YXNlKTsKPiAtICAgICAgIGlmIChtdGtfY3J0Yy0+cGVuZGluZ19uZWVkc192YmxhbmspIHsKPiAr
+ICAgICAgIGlmICghbXRrX2NydGMtPmNvbmZpZ191cGRhdGluZyAmJiBtdGtfY3J0Yy0+cGVuZGlu
+Z19uZWVkc192YmxhbmspIHsKPiAgICAgICAgICAgICAgICAgbXRrX2RybV9jcnRjX2ZpbmlzaF9w
+YWdlX2ZsaXAobXRrX2NydGMpOwo+ICAgICAgICAgICAgICAgICBtdGtfY3J0Yy0+cGVuZGluZ19u
+ZWVkc192YmxhbmsgPSBmYWxzZTsKPiAgICAgICAgIH0KPiBAQCAtNDI1LDcgKzQyNiw4IEBAIHN0
+YXRpYyB2b2lkIG10a19jcnRjX2RkcF9jb25maWcoc3RydWN0IGRybV9jcnRjICpjcnRjLAo+ICAg
+ICAgICAgfQo+ICB9Cj4KPiAtc3RhdGljIHZvaWQgbXRrX2RybV9jcnRjX2h3X2NvbmZpZyhzdHJ1
+Y3QgbXRrX2RybV9jcnRjICptdGtfY3J0YykKPiArc3RhdGljIHZvaWQgbXRrX2RybV9jcnRjX3Vw
+ZGF0ZV9jb25maWcoc3RydWN0IG10a19kcm1fY3J0YyAqbXRrX2NydGMsCj4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgYm9vbCBuZWVkc192YmxhbmspCj4gIHsKPiAgI2lm
+IElTX1JFQUNIQUJMRShDT05GSUdfTVRLX0NNRFEpCj4gICAgICAgICBzdHJ1Y3QgY21kcV9wa3Qg
+KmNtZHFfaGFuZGxlOwo+IEBAIC00MzYsNiArNDM4LDEwIEBAIHN0YXRpYyB2b2lkIG10a19kcm1f
+Y3J0Y19od19jb25maWcoc3RydWN0IG10a19kcm1fY3J0YyAqbXRrX2NydGMpCj4gICAgICAgICBp
+bnQgaTsKPgo+ICAgICAgICAgbXV0ZXhfbG9jaygmbXRrX2NydGMtPmh3X2xvY2spOwo+ICsgICAg
+ICAgbXRrX2NydGMtPmNvbmZpZ191cGRhdGluZyA9IHRydWU7Cj4gKyAgICAgICBpZiAobmVlZHNf
+dmJsYW5rKQo+ICsgICAgICAgICAgICAgICBtdGtfY3J0Yy0+cGVuZGluZ19uZWVkc192Ymxhbmsg
+PSB0cnVlOwo+ICsKPiAgICAgICAgIGZvciAoaSA9IDA7IGkgPCBtdGtfY3J0Yy0+bGF5ZXJfbnI7
+IGkrKykgewo+ICAgICAgICAgICAgICAgICBzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSA9ICZtdGtf
+Y3J0Yy0+cGxhbmVzW2ldOwo+ICAgICAgICAgICAgICAgICBzdHJ1Y3QgbXRrX3BsYW5lX3N0YXRl
+ICpwbGFuZV9zdGF0ZTsKPiBAQCAtNDcyLDYgKzQ3OCw3IEBAIHN0YXRpYyB2b2lkIG10a19kcm1f
+Y3J0Y19od19jb25maWcoc3RydWN0IG10a19kcm1fY3J0YyAqbXRrX2NydGMpCj4gICAgICAgICAg
+ICAgICAgIGNtZHFfcGt0X2ZsdXNoX2FzeW5jKGNtZHFfaGFuZGxlLCBkZHBfY21kcV9jYiwgY21k
+cV9oYW5kbGUpOwo+ICAgICAgICAgfQo+ICAjZW5kaWYKPiArICAgICAgIG10a19jcnRjLT5jb25m
+aWdfdXBkYXRpbmcgPSBmYWxzZTsKPiAgICAgICAgIG11dGV4X3VubG9jaygmbXRrX2NydGMtPmh3
+X2xvY2spOwo+ICB9Cj4KPiBAQCAtNTMyLDcgKzUzOSw3IEBAIHZvaWQgbXRrX2RybV9jcnRjX2Fz
+eW5jX3VwZGF0ZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMsIHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5l
+LAo+ICAgICAgICAgICAgICAgICByZXR1cm47Cj4KPiAgICAgICAgIHBsYW5lX2hlbHBlcl9mdW5j
+cy0+YXRvbWljX3VwZGF0ZShwbGFuZSwgbmV3X3N0YXRlKTsKPiAtICAgICAgIG10a19kcm1fY3J0
+Y19od19jb25maWcobXRrX2NydGMpOwo+ICsgICAgICAgbXRrX2RybV9jcnRjX3VwZGF0ZV9jb25m
+aWcobXRrX2NydGMsIGZhbHNlKTsKPiAgfQo+Cj4gIHN0YXRpYyB2b2lkIG10a19kcm1fY3J0Y19h
+dG9taWNfZW5hYmxlKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKPiBAQCAtNTgyLDcgKzU4OSw3IEBA
+IHN0YXRpYyB2b2lkIG10a19kcm1fY3J0Y19hdG9taWNfZGlzYWJsZShzdHJ1Y3QgZHJtX2NydGMg
+KmNydGMsCj4gICAgICAgICB9Cj4gICAgICAgICBtdGtfY3J0Yy0+cGVuZGluZ19wbGFuZXMgPSB0
+cnVlOwo+Cj4gLSAgICAgICBtdGtfZHJtX2NydGNfaHdfY29uZmlnKG10a19jcnRjKTsKPiArICAg
+ICAgIG10a19kcm1fY3J0Y191cGRhdGVfY29uZmlnKG10a19jcnRjLCBmYWxzZSk7Cj4gICAgICAg
+ICAvKiBXYWl0IGZvciBwbGFuZXMgdG8gYmUgZGlzYWJsZWQgKi8KPiAgICAgICAgIGRybV9jcnRj
+X3dhaXRfb25lX3ZibGFuayhjcnRjKTsKPgo+IEBAIC02MTgsMTQgKzYyNSwxMiBAQCBzdGF0aWMg
+dm9pZCBtdGtfZHJtX2NydGNfYXRvbWljX2ZsdXNoKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKPiAg
+ICAgICAgIHN0cnVjdCBtdGtfZHJtX2NydGMgKm10a19jcnRjID0gdG9fbXRrX2NydGMoY3J0Yyk7
+Cj4gICAgICAgICBpbnQgaTsKPgo+IC0gICAgICAgaWYgKG10a19jcnRjLT5ldmVudCkKPiAtICAg
+ICAgICAgICAgICAgbXRrX2NydGMtPnBlbmRpbmdfbmVlZHNfdmJsYW5rID0gdHJ1ZTsKPiAgICAg
+ICAgIGlmIChjcnRjLT5zdGF0ZS0+Y29sb3JfbWdtdF9jaGFuZ2VkKQo+ICAgICAgICAgICAgICAg
+ICBmb3IgKGkgPSAwOyBpIDwgbXRrX2NydGMtPmRkcF9jb21wX25yOyBpKyspIHsKPiAgICAgICAg
+ICAgICAgICAgICAgICAgICBtdGtfZGRwX2dhbW1hX3NldChtdGtfY3J0Yy0+ZGRwX2NvbXBbaV0s
+IGNydGMtPnN0YXRlKTsKPiAgICAgICAgICAgICAgICAgICAgICAgICBtdGtfZGRwX2N0bV9zZXQo
+bXRrX2NydGMtPmRkcF9jb21wW2ldLCBjcnRjLT5zdGF0ZSk7Cj4gICAgICAgICAgICAgICAgIH0K
+PiAtICAgICAgIG10a19kcm1fY3J0Y19od19jb25maWcobXRrX2NydGMpOwo+ICsgICAgICAgbXRr
+X2RybV9jcnRjX3VwZGF0ZV9jb25maWcobXRrX2NydGMsICEhbXRrX2NydGMtPmV2ZW50KTsKPiAg
+fQo+Cj4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2NydGNfZnVuY3MgbXRrX2NydGNfZnVuY3Mg
+PSB7Cj4gLS0KPiAyLjE3LjEKPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
