@@ -1,63 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C41234D503
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 18:25:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5656534D5E6
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 19:18:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 359326E48B;
-	Mon, 29 Mar 2021 16:25:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E88146E457;
+	Mon, 29 Mar 2021 17:17:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
- [IPv6:2607:f8b0:4864:20::836])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 400076E44B
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 16:25:39 +0000 (UTC)
-Received: by mail-qt1-x836.google.com with SMTP id l6so1513334qtq.2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 09:25:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com
+ [IPv6:2607:f8b0:4864:20::c29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 741D46E457;
+ Mon, 29 Mar 2021 17:17:56 +0000 (UTC)
+Received: by mail-oo1-xc29.google.com with SMTP id
+ j10-20020a4ad18a0000b02901b677a0ba98so3141922oor.1; 
+ Mon, 29 Mar 2021 10:17:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jztd5AwJm/fvH4fWUcE2uu3MOmcPF16IqdUeZ0+QaXA=;
- b=KajWM90pu4syudeTTfZfPIslohQWrOxBbIFjv7IgjSIugY8agIwogQVVr+5ynnJDmh
- W8H74erJgaG1nfF8YWmLAzwAVoIdAOGgPFUmabr1o5Z6g2BzKM7BM3ymZ0JD/QoOgvI8
- f/6dhynoxw3VHSmbj60YkJB/e3ok7pwDEWJCU=
+ :cc; bh=21iR4YsIMqr0GJilRg5APx1zgMQO9nbylZqGVp4FhgQ=;
+ b=G62xhjcd8O7u1LvlgBxy6yH1+Hf/COQ05QMGWpusToI5ltmuRZ82DJYQ36s/9jJy+R
+ y350WAuxaFigQJ5h65ShC/myVMsa5x7as7FUuWTNFPzcUEgQkhuKJP/2ONUt74yUW9id
+ TxauZMRy7BTibjqXc606L7OeT6e4/P/QYtLNOCau4QHUxhuyt0u69JV1E/25ZJNnJ2SQ
+ qFz0Jzmq9LS8EEiQwlO8flvoB1e2OTv4yDXtNqiB+07JDBJEVqAcGcaHiBC7X+T02Ggi
+ 399eRSnkcec3FBynLEQE5QmwuNSSFhFHMR5qX76CPuM7BH39ohEGBR7OaznKT2dwA8jo
+ QVUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=jztd5AwJm/fvH4fWUcE2uu3MOmcPF16IqdUeZ0+QaXA=;
- b=JG5O2BKuJdmq0fyHakn3Beq72W32dct+0rr/HASusjC/CiM9qI2BA8c/EUS6yK4Tnd
- Rd23FMMh2xwnJ9iASD884R8JW3oooW6SSuQe8vgAgWhZgVj50ahuN88kUELqu0Y3EhUZ
- J+pjIwKc8MpU76Aa6H6pTYcE7ZVenGrCoWIkzWXdQ83aQPp9vjAcNvZQNx2n9kuUBA0C
- ttdxSjzUV76e7XAloF+g9NLoPm1lmMDNhvWHez3MBK2lo+dFYrG1SPAT0ZHZY2pRyhVY
- 3WtS7RZuk5JObfZBhB28E6MbXDtsZMJRrXzR+Xdc5gu6g5mTOpZxYHZRvl2lhDPrjbT+
- tsyw==
-X-Gm-Message-State: AOAM532CO8sbPXbSd6z+GXG+0jDTiU9/YEB4L7Z6WH8gmDY8b01v3eeV
- m4m3cxK7+pPlfUpBkrJr3o0ivcCiYgad+g==
-X-Google-Smtp-Source: ABdhPJxI7rWdwI/sch8tZWal1gcSrjfr0EynnLYIPvU0pkAm4xooILpnWXcnjY3/jAxa6agcjCCFUg==
-X-Received: by 2002:ac8:5716:: with SMTP id 22mr24029942qtw.212.1617035138224; 
- Mon, 29 Mar 2021 09:25:38 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com.
- [209.85.219.178])
- by smtp.gmail.com with ESMTPSA id r35sm11270755qtd.95.2021.03.29.09.25.36
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Mar 2021 09:25:37 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id i144so14374277ybg.1
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 09:25:36 -0700 (PDT)
-X-Received: by 2002:a25:3741:: with SMTP id e62mr36095324yba.343.1617035136321; 
- Mon, 29 Mar 2021 09:25:36 -0700 (PDT)
+ bh=21iR4YsIMqr0GJilRg5APx1zgMQO9nbylZqGVp4FhgQ=;
+ b=H5eEa3Q1cCP3MdYPMWtAD8A0Q8dmiI9S/eWV8WySzx23mItlL8xfKRSX4itxXXCTZm
+ b+XGrHzrDvzqjR/KVRVf0UdFDgH11IPfFQ8xkJ0FHbNe1WygGRuqgJlKTWULSH1bVBgp
+ p1HI7egihMu+lm4Kv1I1n/EzgJ98VlP6occsaSwT3WBiTwh7tnQPHjhHffi9XxlB86NW
+ Fcs6g9Vs91QwDCPuKHmHnjSk1N4ornON5055ORwMFYrl/lvaHtFXyvYVqH09elHKQp0z
+ 0V8XqaI4dFK+PpBUzZCIZGsZlYlvlX66H2o0UHlVOQp9kqWZ5yzDNFUvLzwxc0yyO5am
+ b9VQ==
+X-Gm-Message-State: AOAM532WgYKt2G6mnRdxQOWqwD/zcTkfjhSXhggXCO+6sEMUAoHa1pcs
+ WaSSaKbM4ZhvTKMpCi7WANV1UXDyOgn3eX5A1sw=
+X-Google-Smtp-Source: ABdhPJz31x+IdZoMp9o42AxozLWzh9nLHiQ08ST/eyJ5NMSXmjVZL40w9dma34cMez1jrfhkMtr5jGnNVYBdLIa3Gk0=
+X-Received: by 2002:a4a:8845:: with SMTP id e5mr22025923ooi.90.1617038275723; 
+ Mon, 29 Mar 2021 10:17:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210316140707.RFC.1.I3a21995726282f1e9fcb70da5eb96f19ed96634f@changeid>
- <20210326000907.GA1965415@robh.at.kernel.org>
-In-Reply-To: <20210326000907.GA1965415@robh.at.kernel.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 29 Mar 2021 09:25:24 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XqG8oH5HCttKSNYJV2eHwLxq-tm1C+UFLn+cAHUrBaHg@mail.gmail.com>
-Message-ID: <CAD=FV=XqG8oH5HCttKSNYJV2eHwLxq-tm1C+UFLn+cAHUrBaHg@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] dt-bindings: display: simple: Add the panel on
- sc7180-trogdor-pompom
-To: Rob Herring <robh@kernel.org>
+References: <20210327072807.1486517-1-wanjiabing@vivo.com>
+In-Reply-To: <20210327072807.1486517-1-wanjiabing@vivo.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 29 Mar 2021 13:17:44 -0400
+Message-ID: <CADnq5_PSnvFAcUt7T9q=L8v6sFGnLM72cot=Lq_+cs8cNHK5sg@mail.gmail.com>
+Subject: Re: [PATCH] amd: display: dc: struct dc_state is declared twice
+To: Wan Jiabing <wanjiabing@vivo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,98 +61,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Nicolas Boichat <drinkcat@chromium.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Andy Gross <agross@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Steev Klimaszewski <steev@kali.org>,
- Stephen Boyd <swboyd@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- LKML <linux-kernel@vger.kernel.org>
+Cc: Krunoslav Kovac <Krunoslav.Kovac@amd.com>, Jacky Liao <ziyu.liao@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ David Airlie <airlied@linux.ie>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ kael_w@yeah.net, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Thu, Mar 25, 2021 at 5:09 PM Rob Herring <robh@kernel.org> wrote:
+On Sat, Mar 27, 2021 at 3:28 AM Wan Jiabing <wanjiabing@vivo.com> wrote:
 >
-> On Tue, Mar 16, 2021 at 02:08:19PM -0700, Douglas Anderson wrote:
-> > The sc7180-trogdor-pompom board might be attached to any number of a
-> > pile of eDP panels. At the moment I'm told that the list might include:
-> > - KD KD116N21-30NV-A010
-> > - KD KD116N09-30NH-A016
-> > - Starry 2081116HHD028001-51D
-> > - Sharp LQ116M1JW10
-> >
-> > It should be noted that while the EDID programmed in the first 3
-> > panels indicates that they should run with exactly the same timing (to
-> > keep things simple), the 4th panel not only needs different timing but
-> > has a different resolution.
-> >
-> > As is true in general with eDP panels, we can figure out which panel
-> > we have and all the info needed to drive its pixel clock by reading
-> > the EDID. However, we can do this only after we've powered the panel
-> > on. Powering on the panels requires following the timing diagram in
-> > each panel's datasheet which specifies delays between certain
-> > actions. This means that, while we can be quite dynamic about handling
-> > things we can't just totally skip out on describing the panel like we
-> > could do if it was connected to an external-facing DP port.
+> struct dc_state has been declared at 273rd line.
+> Remove the duplicate.
+> Delete duplicate blank lines.
+
+Can you split these into separate patches?
+
+Alex
+
 >
-> Is this a 'standard' eDP connector? AFAICT, there does seem to be
-> such a thing.
-
-To answer this one: there's not any "standard" physical plug as far as
-I can tell. There's a connector on the board side for the LCD that has
-a whole hodgepodge of signals on it. Maybe USB for a camera. Some
-power signals. Maybe a PWM for a backlight. Maybe some DMIC signals.
-eDP signals which might be anywhere from 1 to 4 lanes. HPD (which is
-really a "panel ready" signal for eDP). The size / style of connector
-and the exact set of signals (and their ordering) is board specific.
-You then get a board-specific cable that splits things out. Some might
-go to a camera/MIC sub board. Some go to the panel and hook onto a
-panel-specific connector which has pin count and orderings defined by
-that panel. :-P
-
-
-> I've said in the past I'd be okay with a edp-connector
-> node. If that needs just the "HPD absent delay" property, I think that
-> would be okay. It's just a never ending stream of new properties with
-> each new panel that I don't want to see.
-
-Thinking about this we'd need at least one other property right now
-which is an enable delay. Specifically at least one panel I've
-supported recently lied about HPD for a short period after bootup.
-Specifically see commit 667d73d72f31 ("drm: panel: simple: Delay HPD
-checking on boe_nv133fhm_n61 for 15 ms"). ...and, of course, the
-existing power supply / enable signals that "simple-panel" already
-has.
-
-Also: if we weren't going to add the other delay properties in the
-device tree, we'd have to add the code right away that used the EDID
-to set other delays. That wouldn't be the end of the world, but it
-would be code to write.
-
-
-One last thought to add: I've looked at ~10 panels specs recently.
-Though they are all a little different from each other, I will say
-that almost every one of them seems to have the exact same timing
-diagram in it just with different numbers filled in. To me that backs
-up the idea that you can/should do the power sequence with a fairly
-standard (parameterized) driver. I can't link the datasheets I have
-but searching for "edp panel datasheet" finds me this random
-datasheet:
-
-https://www.data-modul.com/sites/default/files/products/NV156QUM-N72_specification_12039472.pdf
-
-See "8.0 POWER SEQUENCE" in that document. All the panels have a
-nearly identical diagram with different numbers filled in. You can
-kinda tell it was copied from some other panel since some numbers
-(like T4) aren't even defined.
-
--Doug
+> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+> ---
+>  drivers/gpu/drm/amd/display/dc/dc.h | 10 ----------
+>  1 file changed, 10 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+> index 18ed0d3f247e..dc667298ab5b 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dc.h
+> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
+> @@ -234,7 +234,6 @@ struct dc_static_screen_params {
+>         unsigned int num_frames;
+>  };
+>
+> -
+>  /* Surface update type is used by dc_update_surfaces_and_stream
+>   * The update type is determined at the very beginning of the function based
+>   * on parameters passed in and decides how much programming (or updating) is
+> @@ -272,7 +271,6 @@ struct dc;
+>  struct dc_plane_state;
+>  struct dc_state;
+>
+> -
+>  struct dc_cap_funcs {
+>         bool (*get_dcc_compression_cap)(const struct dc *dc,
+>                         const struct dc_dcc_surface_param *input,
+> @@ -281,7 +279,6 @@ struct dc_cap_funcs {
+>
+>  struct link_training_settings;
+>
+> -
+>  /* Structure to hold configuration flags set by dm at dc creation. */
+>  struct dc_config {
+>         bool gpu_vm_support;
+> @@ -581,7 +578,6 @@ struct dc_bounding_box_overrides {
+>         int min_dcfclk_mhz;
+>  };
+>
+> -struct dc_state;
+>  struct resource_pool;
+>  struct dce_hwseq;
+>  struct gpu_info_soc_bounding_box_v1_0;
+> @@ -757,7 +753,6 @@ enum dc_transfer_func_predefined {
+>         TRANSFER_FUNCTION_GAMMA26
+>  };
+>
+> -
+>  struct dc_transfer_func {
+>         struct kref refcount;
+>         enum dc_transfer_func_type type;
+> @@ -770,7 +765,6 @@ struct dc_transfer_func {
+>         };
+>  };
+>
+> -
+>  union dc_3dlut_state {
+>         struct {
+>                 uint32_t initialized:1;         /*if 3dlut is went through color module for initialization */
+> @@ -784,7 +778,6 @@ union dc_3dlut_state {
+>         uint32_t raw;
+>  };
+>
+> -
+>  struct dc_3dlut {
+>         struct kref refcount;
+>         struct tetrahedral_params lut_3d;
+> @@ -1014,7 +1007,6 @@ enum dc_status dc_validate_global_state(
+>                 struct dc_state *new_ctx,
+>                 bool fast_validate);
+>
+> -
+>  void dc_resource_state_construct(
+>                 const struct dc *dc,
+>                 struct dc_state *dst_ctx);
+> @@ -1167,7 +1159,6 @@ struct dc_container_id {
+>         unsigned short productCode;
+>  };
+>
+> -
+>  struct dc_sink_dsc_caps {
+>         // 'true' if these are virtual DPCD's DSC caps (immediately upstream of sink in MST topology),
+>         // 'false' if they are sink's DSC caps
+> @@ -1229,7 +1220,6 @@ struct dc_cursor {
+>         struct dc_cursor_attributes attributes;
+>  };
+>
+> -
+>  /*******************************************************************************
+>   * Interrupt interfaces
+>   ******************************************************************************/
+> --
+> 2.25.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
