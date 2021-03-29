@@ -2,60 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB0534C71E
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 10:15:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3773034CCC0
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 11:10:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 958B06E3F7;
-	Mon, 29 Mar 2021 08:15:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C3116E247;
+	Mon, 29 Mar 2021 09:09:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F1CA6E314
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 08:15:39 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id m12so17108463lfq.10
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 01:15:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=zBv0H2aHUbMd9Rp97TANmEJVCBnTx2DEtozoJt1A8Hw=;
- b=gqg3KfnxyAcBj5KVMSHNHSQk4DvXTHeH0jrYz+9wzgYu/WHvEzXx44yKBgixeoXyZ9
- Zjsb50FuF6UyrMxrJdyCOnc7rKLTEHh8u3+jbQhHdbm1WbwNR9p9r62CVLzntuS8jK2i
- rzo5Es377XuBH66gjk7Py5O4N9VV34mK3pvLQikNI4U2MFNiV8guQoBbXo5R1HsW6zVV
- MXBTsfj3mh3P2IxcvZp/RTmefhT1BxBHB4uVSq4oU5e0jgJPugUNBC+fHJqFkoYvVkPW
- cixTqFezaTagg/OoELfAKOFUERhoF4BG1uQUPzMbq/skSmqTvtf2b/DZDHucMxDfIvt6
- SpZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=zBv0H2aHUbMd9Rp97TANmEJVCBnTx2DEtozoJt1A8Hw=;
- b=g9Be7Dsv94hRCjfAf3dYvbU64chKk8lxiTZ12ew8v7as+oSGaA8kjM0va4Wyn1pKeo
- cqSdYOJLAfUTAOR9WMLpozXjLgcoeSBZaakkwv3G7pIjaP5IGSv3/SkdfMAgE7Xe/46Q
- VcOlvy4BMlez3+Qku2w5QMQBHNY28rCy0qcJPUmaARjN1NN0ZMjMshbKfiX5N4LhHW0U
- 750xSmcS6f1SoUuiYeYdQRFFqPg8B2vHf/KCdpTdaEOXbju9KdidPHLatQRXJhvNAikw
- mQ8ExIL3wd3LLUylTD5/oZV+V1q+qCndkZzOSy5Z/rihOW9SMxeKkAyQtzmCWKX9Ldqd
- VMlA==
-X-Gm-Message-State: AOAM533Su210Hw8GFi9mOxWadUUn4uZJZtLTuOtM2memdaGuzE0CFluv
- 35+ozjB2Gf0+2hRtn2dqSk0=
-X-Google-Smtp-Source: ABdhPJzxgGD/4gmDa6/iAxicckA149Q3A/tIhIR7r08sRje8rOLmys2iDv4Z15DavZDyNBP+8/aMgA==
-X-Received: by 2002:ac2:4316:: with SMTP id l22mr16161690lfh.338.1617005737725; 
- Mon, 29 Mar 2021 01:15:37 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id n8sm1665977lfu.172.2021.03.29.01.15.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Mar 2021 01:15:37 -0700 (PDT)
-Date: Mon, 29 Mar 2021 11:15:33 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH] drm: DON'T require each CRTC to have a unique primary
- plane
-Message-ID: <20210329111533.47e44f72@eldfell>
-In-Reply-To: <24LMQQ.CRNKYEI6GB2T1@crapouillou.net>
-References: <20210327112214.10252-1-paul@crapouillou.net>
- <1J_tcDPSAZW23jPO8ApyzgINcVRRWcNyFP0LvrSFVIMbZB9lH6lCWvh2ByU9rNt6bj6xpgRgv8n0hBKhXAvXNfLBGfTIsvbhYuHW3IIDd7Y=@emersion.fr>
- <24LMQQ.CRNKYEI6GB2T1@crapouillou.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2046E247;
+ Mon, 29 Mar 2021 09:09:55 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by srv6.fidu.org (Postfix) with ESMTP id CD847C800A0;
+ Mon, 29 Mar 2021 11:09:53 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
+Received: from srv6.fidu.org ([127.0.0.1])
+ by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id ki6XT0AJc8FW; Mon, 29 Mar 2021 11:09:53 +0200 (CEST)
+Received: from [IPv6:2003:e3:7f0c:2000:5d6d:82a3:925f:9a84]
+ (p200300E37f0C20005D6D82a3925F9A84.dip0.t-ipconnect.de
+ [IPv6:2003:e3:7f0c:2000:5d6d:82a3:925f:9a84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by srv6.fidu.org (Postfix) with ESMTPSA id 8F59FC8009C;
+ Mon, 29 Mar 2021 11:09:53 +0200 (CEST)
+Subject: Re: Color mode exposed to user space?
+To: Pekka Paalanen <ppaalanen@gmail.com>, Alex Deucher <alexdeucher@gmail.com>
+References: <e557c681-4218-dbe3-4e92-f6eaf352b614@tuxedocomputers.com>
+ <CADnq5_N9AqX=Lx=yVKCFQahREFT6SCER17KMbZyw-iQ2wnTVqA@mail.gmail.com>
+ <20210329110926.2a479842@eldfell>
+From: Werner Sembach <wse@tuxedocomputers.com>
+Message-ID: <91a4f611-d6d3-3eda-7d65-b70fe8f0c575@tuxedocomputers.com>
+Date: Mon, 29 Mar 2021 11:09:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
+In-Reply-To: <20210329110926.2a479842@eldfell>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,88 +52,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, od@zcrc.me, stable@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: multipart/mixed; boundary="===============1207165472=="
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1207165472==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/VjwGWdRbYYmHwPtJmbJ.naq"; protocol="application/pgp-signature"
 
---Sig_/VjwGWdRbYYmHwPtJmbJ.naq
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> On Thu, 25 Mar 2021 12:12:09 -0400
+> Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+>> + dri-devel
+>>
+>> I don't think it's currently exposed anywhere.
+>>
+>> Alex
+>>
+>> On Wed, Mar 24, 2021 at 5:11 AM Werner Sembach <wse@tuxedocomputers.com> wrote:
+>>> Hello,
+>>>
+>>> is the information which color mode is currently in used for a display (RGB, YCbCr444, or YCbCr420) exposed to user space somewhere?
+>>>
+>>> If no: Where would be the best place to put code to expose it to sysfs?
+> Hi,
+>
+> a very good question. Wayland compositors implementing color management
+> will be interested to know this, and even better, to explicitly control
+> this.
+>
+> See e.g. Color Calibration Auditing System notes in
+> https://gitlab.freedesktop.org/wayland/weston/-/issues/467 .
+>
+>
+> Thanks,
+> pq
 
-On Sat, 27 Mar 2021 11:26:26 +0000
-Paul Cercueil <paul@crapouillou.net> wrote:
+@Alex Deucher thanks for the info.
 
-> It has two mutually exclusive background planes (same Z level) + one=20
-> overlay plane.
-
-What's the difference between the two background planes?
-
-How will generic userspace know to pick the "right" one?
-
-
-Thanks,
-pq
-
-> Le sam. 27 mars 2021 =C3=A0 11:24, Simon Ser <contact@emersion.fr> a =C3=
-=A9crit=20
-> :
-> > On Saturday, March 27th, 2021 at 12:22 PM, Paul Cercueil=20
-> > <paul@crapouillou.net> wrote:
-> >  =20
-> >>  The ingenic-drm driver has two mutually exclusive primary planes
-> >>  already; so the fact that a CRTC must have one and only one primary
-> >>  plane is an invalid assumption. =20
-> >=20
-> > Why does this driver expose two primary planes, if it only has a=20
-> > single
-> > CRTC? =20
->=20
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-
---Sig_/VjwGWdRbYYmHwPtJmbJ.naq
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmBhjKUACgkQI1/ltBGq
-qqf4zQ/8CTYQltHBAYzKNRwXrfze1iZznMXlxhTX0k079z6Vx/dqAUtOXtF5lU69
-QIcj/I5rzbdgNFYg/PZv1txTlTJp12GrdynXWxEgvD9ovZhRG3cpqKHABkmPB3LO
-s5mfv++oIP5go+xOjGn8BRtzmuOB93u3yORJYeJv2yu0KkBMtXJ9/O0z4DEoSPfH
-lZgd50KlOG9pLwJNsxNEkHahrfam20UcCA//kR8GFBMp/QfjLcuExcAj1sef3IP4
-awHTaBcP3SxyKzjMrqBPipzxAZENjWXQNHv0SETNj8FftIhSEcxSmAyqtDMbY2kf
-B5xJfzplu88D5op7zO/IvjILey1eikJFKbp950TDvmjsDHCqHWcDzSXWXOZeNyOx
-Bh0xwk+i0qcFLI19IGdJUGuFsyxewKpnr3OSp7KZ7mqa5VLX8leVodRpX6cA2/9x
-C8ozpYeoAMESD5hraGlXPu5AYqFuMK394QhawcePltUQuzi23XcZdIxuE15h+B9d
-VkpVIZ5xc83WUI6tW7oGjDzAC0IFcKP3XvtKFXoQfA2r5AnhMh8ZCAQkOzn1Yy25
-CKFTZWhkfdZOWv/mudRPz65OrCy1F/JX+MdS8xTM8sFyLLYMyHgj7mffcxr+F5S6
-nkg4lHFo9Z+icZiJiN/RprnkqwEocgqQx+/p3uZNeUOmsrcuiqA=
-=Dre6
------END PGP SIGNATURE-----
-
---Sig_/VjwGWdRbYYmHwPtJmbJ.naq--
-
---===============1207165472==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+@pq Related bugtracker tickets for reference:
+https://gitlab.freedesktop.org/drm/amd/-/issues/476
+https://gitlab.freedesktop.org/drm/amd/-/issues/1541
+https://gitlab.freedesktop.org/drm/amd/-/issues/1548
+I'm coding something up for the last one atm.
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1207165472==--
