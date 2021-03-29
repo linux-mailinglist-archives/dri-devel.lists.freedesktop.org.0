@@ -2,54 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0645434D3F9
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 17:32:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44AA634D403
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 17:35:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21D7D6E47A;
-	Mon, 29 Mar 2021 15:32:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DACB289E26;
+	Mon, 29 Mar 2021 15:35:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7950789C85
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 15:32:52 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- k14-20020a9d7dce0000b02901b866632f29so12681267otn.1
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 08:32:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=J0PX3YGiA1lRp5I9tvaB7FhBfF0VCV3+C5FuFXW+3N8=;
- b=R7qAXPo48MkDyupC5FF0SAnrIPYqalufQi9jEF/AyiXeGdwtpjQKC2IISZQTDm0Ljy
- 18iydmPuOnu4AqvRU50XKLjmTke58w2qa/CvRl56PD5Ip2u56geTp4QOPM0QDP9EFAbh
- DuKRql5xpAoKDSIwtkKbW4LnwQFO6UhJVqAa27TGm+ZokArrK8RIqyXIUtU/Wn8pTU1I
- BtU8omQwOIzfYpnhggk3SEr2k6QV9MTpNWvFN+eNLhgMfu153v9z9LQVSUPwT5guljTk
- PDQa+NKbRwzKA3wDy6tk9zegryjuiaUfn51ag1I8Ky+QCyDiRUIarOPV7aoFwhbXdeD/
- ECwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=J0PX3YGiA1lRp5I9tvaB7FhBfF0VCV3+C5FuFXW+3N8=;
- b=LI6shSFv8saP9QmSSIBfHOvXKg0Ynxwl8L9vqNHz5Cw4tIaRZNu0HMlaeMYpusq0TT
- SojZqOaiQicx+DbE020k9IAMMhMF5fAA/E06d4K8VgtJGWNMYBgk2cH0Fkb23BXBl/s0
- 1t553GNYWoRMMGbVXAfNDUGVcWCeGm9KyQTDJ9fgHNZG86ZISQOI6YXZxRlSPLV9Ib/I
- 6Q8rLqsQBcEQYnjOfMD0jadn8B8vDASStwMInx0Tc1hw2dfe6RnZYAHu4t6gRhEAYRWl
- cw53+Qy9V1G9aJQMbXVTw3Jf39izjS2wu1Ejg1stUfzgavW9l3VZfYe2yXUAKqZQU5D7
- lx8Q==
-X-Gm-Message-State: AOAM530QQnqFxxS0ZpduZ3Z0iV0dwueM0xp9XTKeK2zFpvXjxPd/K/w9
- wqKBV+z9cT7v6ZVxtlBdHuTWLJDuBXsQD5yTKdg=
-X-Google-Smtp-Source: ABdhPJxOsimt6cr4luFOFVZJ1XwLCVtQsyBX4tfE7t6HW5CPDFCtTqM68H6vH2Q/ipFoOCqxTayhzNmhx7KLfgaHZbk=
-X-Received: by 2002:a05:6830:408f:: with SMTP id
- x15mr23976678ott.132.1617031971817; 
- Mon, 29 Mar 2021 08:32:51 -0700 (PDT)
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
+ [64.147.123.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0883D6E483
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 15:35:48 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 4A48B1805;
+ Mon, 29 Mar 2021 11:35:46 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Mon, 29 Mar 2021 11:35:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=kofpni9LHJyfoAVFAxd5HEtYVIK
+ sHiMa+Wxaf55fK4g=; b=Y9U9r2ccQLGi5aSRjxH4q2VCLeY7mIPjZ4EqeF8/UMj
+ elrNFA7cmpMF3a5zFI8DCLMV7E0QHX7v8/+4T3ojuSGTjI7RJKeENtqIuNo7qLmb
+ gV/pA6CLwxNA1JSM2LT1BHDYmjqtVrDctqsBlVexpEGLqPRvti2KLAUw7Y9A8SfA
+ qVvNSNPPW0afmOQ0gQXOyZdi02cutmCucV5w3BMjwCPTy1cjkaC5fOt/+A69x0Ev
+ DpAVfeyPNcrDPjS1TtBHqBt5N1a6tVL2yBbb0PyZ9wLSei1CK/jiSQYOcfjOiVGV
+ Sy90QNTUQEmsIOTlygTzfhYxO78fG63ciJ3KVXWGTBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=kofpni
+ 9LHJyfoAVFAxd5HEtYVIKsHiMa+Wxaf55fK4g=; b=BgaYflm3a8yffYmMloF7VQ
+ aRh2XmhOHawWxMWdvEZjQ9p31sbIiakSqKyeaRmp387QCbo/4EBxQMzbjmtiRmXq
+ OKFUmKLqmEloSQbdqkP14xdWgi9rD54RyjssdyJjcW3DWub1xWqvwVR/A4lh307a
+ 5BU3hMv08x6o7W5PX9oNUdIHkZYRTdJu3xd6wFuZiTnu1f6kq5KxYZNhlhCMKbUs
+ WzNmxlTemQtFDCh8mXqaAZfC8ez5NtZNUGsomahzANjzJgKPcL+asFS7dsTqnMgq
+ 3UMs0COQSD4TtThgqx+y+/vwWFQzzIgqNXH4zUrGozHlyZgecR68vhSSAAQK7G9Q
+ ==
+X-ME-Sender: <xms:0PNhYKRmLIQ5Z-18l3qbTJEdlWye460xvVlgpdTev4lRyze22at9Dw>
+ <xme:0PNhYPuMxGq1koGV-6iPFOQALNHYQNgV6It92F_v2_x_MdHjx2R_NbeThATVp17wD
+ dWFuAFKp8nuP_QYYSE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudehkedgledvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepjeeuieelleeivedvhfdvjeetledvtefhleejjeeiueejjeeileevudeftddv
+ ledtnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdeike
+ drjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+ mhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:0PNhYEt-4k6Vvv9BrsB4f9K5OwOuPNaWY-aMVcJwQCeNbZyRd3jqHg>
+ <xmx:0PNhYNwUtky4AC7qacLTCrU17duhRjfwFoTqE8IaNiTQE5LjW7ohlA>
+ <xmx:0PNhYCiTE1K-F5deCIymelW503ZEiNncitzAUP6r7kPDze5QaHBXcg>
+ <xmx:0fNhYC0RsgjHQRZO9o9qwmKsQGCZYnmHCwxUSM1p20loH74EFB42BA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 16348108006C;
+ Mon, 29 Mar 2021 11:35:43 -0400 (EDT)
+Date: Mon, 29 Mar 2021 17:35:41 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH] drm: DON'T require each CRTC to have a unique primary
+ plane
+Message-ID: <20210329153541.a3yil2aqsrtf2nlj@gilmour>
+References: <20210327112214.10252-1-paul@crapouillou.net>
+ <20210329140731.tvkfxic4fu47v3rz@gilmour>
+ <S1LQQQ.K5HO8ISMBGA02@crapouillou.net>
 MIME-Version: 1.0
-References: <20210328053504.164301-1-diego.viola@gmail.com>
-In-Reply-To: <20210328053504.164301-1-diego.viola@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 29 Mar 2021 11:32:41 -0400
-Message-ID: <CADnq5_OTU-zVsKTOmxGMEhvTWrGUAVoqhFoQvjg-4ryQmi5xew@mail.gmail.com>
-Subject: Re: [TRIVIAL] drm/amd/display: fix typo: liason -> liaison
-To: Diego Viola <diego.viola@gmail.com>
+In-Reply-To: <S1LQQQ.K5HO8ISMBGA02@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,46 +81,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
- Jiri Kosina <trivial@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, od@zcrc.me,
+ stable@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0954690270=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
 
-Alex
+--===============0954690270==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ox5m2kdae4pdeh7p"
+Content-Disposition: inline
 
-On Sun, Mar 28, 2021 at 1:35 AM Diego Viola <diego.viola@gmail.com> wrote:
->
-> Signed-off-by: Diego Viola <diego.viola@gmail.com>
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 573cf17262da..1b4b4f508662 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -121,7 +121,7 @@ MODULE_FIRMWARE(FIRMWARE_NAVI12_DMCU);
->   * DOC: overview
->   *
->   * The AMDgpu display manager, **amdgpu_dm** (or even simpler,
-> - * **dm**) sits between DRM and DC. It acts as a liason, converting DRM
-> + * **dm**) sits between DRM and DC. It acts as a liaison, converting DRM
->   * requests into DC requests, and DC responses into DRM responses.
->   *
->   * The root control structure is &struct amdgpu_display_manager.
-> --
-> 2.31.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--ox5m2kdae4pdeh7p
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Mar 29, 2021 at 04:15:28PM +0100, Paul Cercueil wrote:
+> Hi Maxime,
+>=20
+> Le lun. 29 mars 2021 =E0 16:07, Maxime Ripard <maxime@cerno.tech> a =E9cr=
+it :
+> > On Sat, Mar 27, 2021 at 11:22:14AM +0000, Paul Cercueil wrote:
+> > >  The ingenic-drm driver has two mutually exclusive primary planes
+> > >  already; so the fact that a CRTC must have one and only one primary
+> > >  plane is an invalid assumption.
+> >=20
+> > I mean, no? It's been documented for a while that a CRTC should only
+> > have a single primary, so I'd say that the invalid assumption was that
+> > it was possible to have multiple primary planes for a CRTC.
+>=20
+> Documented where?
+>=20
+> I did read the doc of "enum drm_plane_type" in <drm/drm_plane.h>, and the
+> DRM_PLANE_TYPE_PRIMARY describes my two planes, so I went with that.
+
+At least since 4.9, this was in the documentation generated for DRM:
+https://elixir.bootlin.com/linux/v4.9.263/source/drivers/gpu/drm/drm_plane.=
+c#L43
+
+Maxime
+
+--ox5m2kdae4pdeh7p
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYGHzzQAKCRDj7w1vZxhR
+xSgcAQDa8LPGxsVyYp+FHXSppe9HTW99P41ux9jSeGDbunQB9AD+LqQ/2UIcPOcb
+uFrNSAR7loZGx5J70GpTipxYKy6/FgQ=
+=OPxg
+-----END PGP SIGNATURE-----
+
+--ox5m2kdae4pdeh7p--
+
+--===============0954690270==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0954690270==--
