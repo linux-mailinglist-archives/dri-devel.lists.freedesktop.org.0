@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C55034C39C
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 08:12:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C410534C39D
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 08:12:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D59189D53;
-	Mon, 29 Mar 2021 06:12:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09DBA89D64;
+	Mon, 29 Mar 2021 06:12:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-eopbgr60053.outbound.protection.outlook.com [40.107.6.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA3AE89CD9
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 06:12:23 +0000 (UTC)
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr10077.outbound.protection.outlook.com [40.107.1.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5039489D64
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 06:12:29 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TBKyoVuVtxIhGGhw9z9SAt0xwiC5v//k3dhuxa01qmf9y6g2fb3ljxD6dWCT23tQ5QGdPjzMiufEKMhHsXkQOyuoUsKYr2HQth8YkS7rlv2nVLhrGJ9d3+upsS3kdZu7BuFQjnPz6XHkzVar+8YjMsFTDiPD50B9Pn44BAfVfp8mmMd8Ab9daJhZE87b0CrJPI3yebgDMvDVJCEH1km/Rsq8jqLWk0uwfcJT8NJpdfd5cfJdEUqijxjwjB7rtWIla07ttY+Ig0gyRHvG+GSubsVbA2cxBEJzSiNy5mtcWBl5ojW+QyaSuzLMs491k+vKTsMJWThvf1lesV/6OTNgvQ==
+ b=bZLBpZc8nbJJn9uCjJQkim0IMHMO2pVJPs3GBlTv3ChPdYMj+ua55+7zfCRgzxPBSGcQ3kp951BVAEr2nZSaaznJEOMH3X9CLstBXaLziwhl5IT8Q4XALOoNZkv3jjJJ6cfTVXgFvuVchF+eKBMowAuxmvvV3hibgi0jfsptjkuOoNzqDuesf5MSD6s6igtyOoxLhSba5x0Ds6BnYbV3bIw15Y+xD2YGajqxm1P2BFX+DH1AzkfZtnCKigy3u5moFlwdTsvP4Atxi8Hrgi8M2wce7DgxRlSi3cL5Gta0mftPc/1vBy3NAArOjiw2VUFWyXBB47evbU68Hj4n8Y90ZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i1SdpSbeU8nzRUbkekxIqNFm2D4JCyYwdXObiI3Wiik=;
- b=UYvfzN+Np3IAb3FMfzkvW3RO3nFg/hz1dSnDd3MGV38vWfloc6lga7f0Nep+CWcsdhFirREEfcDkxIeeLSAufRVrTFo8wekBLqjHGYfTTzOxdDtWfSR2v81eM3ox3EsQegAiI/6ndapyDoXc/Hx+xYAUeHMGFX2el/ZI4ztiCfWZt9l0UiBuyZqcipMYhUiP01bWFUarefla9IOEfXicQX7ePVL7y0E3bMi8rZyJXcSA04taBIv+ZOaRiyVglG7n+MnDl/Ny3Oz2AJtZcWvNklAon4SXSYV2ZlLPfLrD41ByJdaQr189tfeKVjFli+qLYTPhx11OdZuSe8c5R141qA==
+ bh=9zsZx1of93nrbNmXb2S9C4Sx1ATMh7hYRPS71v10IRA=;
+ b=evqfcIE5kcPPmeY7Oo1ws8020ZkuWaa1FrIDKsOCFYvq1RqMwdMJBP9B8WxjivezK4ngyyZ6K/JWv8nkKq3JLVqghKerYRoiYjt3DvJdlibTRL92RW8wzFJe/Hw644Ume+jGWi5rvgZ3z6gAizPV9RWb2t7OLBES5npNFzbTkvpHPkKYaGAHEJP3mfGdj2pWCleKB6OJR4HUXD8qo7F2ac/xsi+S5nDt+r4ovNEVgQNQY+CDKb2wGVsm0BrnotG+fTgxZPgRJXeX/FKNMD6L+to9N2Y8X6ixMfEDdmHZVGT8YsULBpCRpe97+65i+gA0g6w4tF2EVIGtq41G+N0PLQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i1SdpSbeU8nzRUbkekxIqNFm2D4JCyYwdXObiI3Wiik=;
- b=rzyru5vnDck2kFnSOjvBN7jNNG8bVAHvMm+e/RzyKEPpLjLmv2aKrY/PkCTNZoZkJh9P41kvWwQ/EN1YQudzAWt79kn1pObf22aPbw2uuFt8z1ggaTU0LwPvzrGhe8MI881WLrOg8NB23kTQI3Tcx1IVALG5MJ0yXeMP9mB/Moc=
+ bh=9zsZx1of93nrbNmXb2S9C4Sx1ATMh7hYRPS71v10IRA=;
+ b=CT+9Kbgh7M+1K6lS94Yg7uc1Nvfe+AgCIMeg5qzGxJMQZny5+K0zX8We49ptPnpeMt0nyNF076H5LOS46T4hs3ao4l3U9O3oKqDcNcvmG39/89k19AlZGtRPmE5mZ/9G3CRsaORug4GgEOv5WPJrA6GWODHdvgJLOm4S2ROXSGI=
 Authentication-Results: lists.infradead.org; dkim=none (message not signed)
  header.d=none;lists.infradead.org; dmarc=none action=none
  header.from=nxp.com;
@@ -34,18 +34,18 @@ Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
  by VI1PR04MB4895.eurprd04.prod.outlook.com (2603:10a6:803:56::28)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.30; Mon, 29 Mar
- 2021 06:12:21 +0000
+ 2021 06:12:26 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::3ce1:4759:5c33:514c]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::3ce1:4759:5c33:514c%5]) with mapi id 15.20.3977.033; Mon, 29 Mar 2021
- 06:12:21 +0000
+ 06:12:26 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v9 3/6] dt-bindings: display: imx: Add i.MX8qxp/qm DPR channel
- binding
-Date: Mon, 29 Mar 2021 13:57:23 +0800
-Message-Id: <1616997446-8783-4-git-send-email-victor.liu@nxp.com>
+Subject: [PATCH v9 4/6] drm/atomic: Avoid unused-but-set-variable warning on
+ for_each_old_plane_in_state
+Date: Mon, 29 Mar 2021 13:57:24 +0800
+Message-Id: <1616997446-8783-5-git-send-email-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1616997446-8783-1-git-send-email-victor.liu@nxp.com>
 References: <1616997446-8783-1-git-send-email-victor.liu@nxp.com>
@@ -58,54 +58,54 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (119.31.174.66) by
  HKAPR03CA0027.apcprd03.prod.outlook.com (2603:1096:203:c9::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.3999.14 via Frontend Transport; Mon, 29 Mar 2021 06:12:16 +0000
+ 15.20.3999.14 via Frontend Transport; Mon, 29 Mar 2021 06:12:21 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 92f96654-01ff-4dbe-e6d9-08d8f2799cf7
+X-MS-Office365-Filtering-Correlation-Id: c69f9759-bac0-4069-d096-08d8f279a01a
 X-MS-TrafficTypeDiagnostic: VI1PR04MB4895:
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB4895D0FC89D6E5CB065B9589987E9@VI1PR04MB4895.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Microsoft-Antispam-PRVS: <VI1PR04MB4895566D1C52A388F9D7DFD5987E9@VI1PR04MB4895.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:47;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8vJ50iWWblGfKaYA8KXnkTTnEUkllghR4D0YHHMVpee/O5/ngvXqAw8v68VdpkxbzJBUCwCgLsIWo42aosKPf9X0wfSvT4VeRgloJyV+oa22/cv6dbIylX2J87K4HDznIXVBx+FHIj2fH5X4AZUC9oyWQAGVr+tFXYE0k7of5lWm+IeVGrjlL3EZV7il8p4bfayiyTHJNbYJsOQYgFntz7C71bXLAFwEh/0DrmyHfetoxHXylXLM3ccWE1/sySZct7IpTsdDMdRiuwro1NdsXw2yDvXGislOu5PJ+OhRBenNrfoRE4Sk81veXF1Dsp9UIivGvDqlNHwyF4Q0tBjmjhN2NCxTjJUmVNuooY99LgCFPCJLsmI9Mj4gx7bezjyI1vDSJmKw0qnOURScRHgU8nSxF++86jX/auyCQxIxvH21bygDwqBeEld75JIIONnIhOgNL0ddlk4IANu91+FMLbwC0Cy2Jr0d/4ezx/IVPtPfidX5gTKeiQNV1SGCP4bpPu3mWew1V7v+763o4w+HOkwRLLaNhnxivxKO3C2IM3NE8229cqwccOSNQr1O9uC3zvXPSRPsw7TCi14Eu24JEi4/QkLNsmYoyMIVVBlP3UFVUb7I3H3bQ3oZStxDfeRvSKBNdfDm3Jmk7pEG1OJOB6SVQFJ73cpqp7MN1iY74VNl+bCevp2xQ4r9ftB8cnNhaTObhnngvbSH6hHkN7xtSsaidNqYN4V3MtyL0KqERdpFjyeeAGIQWYKzwtpXKdcO0j3958+rMWafFE1CYTQ4ig==
+X-Microsoft-Antispam-Message-Info: legrROUFaSSefg+MQu0zRQLfCRXFYSRkawhq/GMTcur3AWLLnPfJ6pnCvFmmf8YxHiRgLk9JtJwtAF0ljz6jotbkx/KwR3420n3xm8XMrG9Q+tS8QDpw45rQNMuJgSLao3xij2SwyuWzDWg/FcSsNs8/pjpx7JtBMqTGcBBsCgb1xZ0U4ziEuuX/glv8FVAO4dPHsV6r8II2PWiRGx9K1SfbJA+qc23vS1aBI5HR4eqHE0+IgQKKAwQp+sLToLxiJXEoK5ipSQpYV1Bdg1GymSX9zxg7AJKVnNAaLwy9MkbYfa6r8l54cPKMxoRS9l1CHrszXQg0e6D51JqlJf08nvug/MQp3QZf0vYIt/Xq3HTWcYBiWr6GzwFhWnMz2TfZj8n/YXOnw5n66WG2NE6o6XVgHBKxE0s+gnRzadyclj2GrA7EbfoAJgSojAAGUPeopoKGYSPG16J3UrNdf+HzvKlW7HaGUCmHe4pTKpqgrprR53L0wmRvOSHuNy0VOBck7QwWZxDbDjtHML2TxaTOYxyhYOIMH4GwgiyiaytLPWJyTcKWv8RbCqNenC82UZ0meXtIIoKLAarqSFdZ5X70yys7XlaKl7kZWAQBDfD1dDKzJG2m6GiKqrV7jT7G5t1vTeYR/S1sSwWgFwNpNffNkg5CMe30xS82JmLkzL0apDwdo4JfYx5y5aDGExmHcPfb
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(136003)(346002)(366004)(39860400002)(396003)(26005)(36756003)(6666004)(16526019)(186003)(8676002)(8936002)(6512007)(6486002)(83380400001)(52116002)(6506007)(66476007)(66556008)(86362001)(316002)(5660300002)(966005)(2906002)(66946007)(2616005)(478600001)(69590400012)(38100700001)(4326008)(7416002)(956004);
+ SFS:(4636009)(376002)(136003)(346002)(366004)(39860400002)(396003)(26005)(36756003)(16526019)(186003)(8676002)(8936002)(6512007)(6486002)(83380400001)(52116002)(6506007)(66476007)(66556008)(86362001)(316002)(5660300002)(2906002)(66946007)(2616005)(478600001)(69590400012)(38100700001)(4326008)(7416002)(956004);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?B7PbiEUpS+QaY1FnhW5kBoeoo32HFEO60d6nK5ne/5CrACXFeEIesQrCHiEb?=
- =?us-ascii?Q?KqPTpABp7KaKVwCkEHkCG4W5+TudLbpwU5PNzbuXm3F0+u0/IO3JU+ViEmkJ?=
- =?us-ascii?Q?ImBxT/Ovb6Dw0Rwwtc3W4z7C2fnESOSjPQBA+UpbBXUpYR966uBzPcA4XbZ4?=
- =?us-ascii?Q?Onsvj4jNx3mEnO6H8ytIxFeNYhT6Y9HvaZTq7wmDjWtMiTExjwyWoLbpXWDX?=
- =?us-ascii?Q?XFDq0eFLtElF9Q+ekspHNXQ/SyqZN7ST8pNDgea8P6WsQalb7msI7OAehfqG?=
- =?us-ascii?Q?WhDC3gBS3alCQIm0ZpYRCY3hjl+O39ugUkYiNE212psN/kk/+BbumU3e5H/x?=
- =?us-ascii?Q?ylaOBbyVKhqUTYN9noa/6R/Xt0OCGIuDbyHNoA3Ht8+E7HGjVXfgohhuKAal?=
- =?us-ascii?Q?NgQ/pKp+eZXgpSrbTv6V/1Fdudhw5OgynJLM3ZR0JddkqdRij9DLln/A2rpM?=
- =?us-ascii?Q?MhJi+o2tJKXwATD6RXYktGhgM7X+EEP3/c1JW39ClYsXWpwz9zE2pxFCjZu+?=
- =?us-ascii?Q?jatqaJunK8CDO57AXWHRwn9md58w94f3d2CjVIdCAuV/rFOD2LYV9jJB/4JD?=
- =?us-ascii?Q?uJoH680UN1dSrta0uKFPeVaouN5T++YuCofxWx2eHCc18WQeXHde/M5IEDrN?=
- =?us-ascii?Q?kSJvR0IJzZ1wsR81DQOHz+wHoXOLO+UzzJmb2cghDc68sOWRUcpY9ap9emwg?=
- =?us-ascii?Q?IfZp2X3GfwHxM91R+41mzRwDYR4w8gFKVIsESBfiQt4fwYTPRYIp9gWCeMVw?=
- =?us-ascii?Q?O+RWLoG5BUlSLeUeUiSOi9JfgxgYHrI8kuKpYPACqOULYxML3tPrSFSaYOUl?=
- =?us-ascii?Q?/ci7qUr9re6aSKdLRLVCDz0H85NPBAiUAXyv9KRibXVQpE/wm5JLFUO7Lz13?=
- =?us-ascii?Q?+MCbxuI3IQTdNKOhNviZ9Gj6jXd5lMKN7Lep+jgTGTBsbs/+QXuC/hGU9YxT?=
- =?us-ascii?Q?VYmGP7Wp3Dy2iCDmovO1GxnIzljkBF6ygZgpAppDT5nH+Etv7V8CeaFwVGgD?=
- =?us-ascii?Q?VcZhn/Xx7NOslVISc3+KawG6FDxBOCppAqwX52rGzZxMJ5HO7YbbiHtm3+iC?=
- =?us-ascii?Q?0F9eQjKy+iaW2wPLoLpBG3y9nPWDL/k7P3y8e8s9axLSfSc+gdFw2dC+TgpJ?=
- =?us-ascii?Q?bgIsQuAQEOI/zwZgAC8EalcxwTKvc3S5TjNr8WCphmlUlsf5EDhMa7mr8bv8?=
- =?us-ascii?Q?ja0rs9VDIvvM4WKSWwmRzp0VsnXqEOFHQzzeflbW0yVleCXu2/7/To22NcgQ?=
- =?us-ascii?Q?gT2F7vDQrNR7VVXCvu7nukJDdUXYBaIEZoa2ZT6+ydfGwmqRy1msdrzigMVB?=
- =?us-ascii?Q?Mh1iyVGtpN2MXWMl4a92wnlM?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?ebUx3eUmAimcMmXFxCiVHq5Qw7/B6wiy2a2hiN4W5guFCOQvDiJZx+haiV5Y?=
+ =?us-ascii?Q?APz+PWF6/Mzi8A5CMcGgAoLOaSfc5/jSEZUugGIYP6MzNWG1uStp55vJJuQv?=
+ =?us-ascii?Q?zoBLy6p7/l1P0od7/78ZLYDm7rNx+MPOg+JO2UFCUUSfHOK0b0oG8GwuZdrU?=
+ =?us-ascii?Q?VnqbSRouVpa+Yj+NOmLViWBDFk8ZssMDNg0rYglHnAdBxUeQArPrF5JpeEX9?=
+ =?us-ascii?Q?HDTGE+dU8Bdk5MI0jcAbojCnZ3j1ls9GuZC1nkAKOL4U8SReCnAzcZGCTa4b?=
+ =?us-ascii?Q?5dBOLL01tEDX0Naj+dzCqPhYDkRILJEJMZjB1/8aSwmUIXQOANl7S5lKOa1g?=
+ =?us-ascii?Q?XU5jpZFRR7Y7YP++UoXPl2Bl6YjYLdrCMps7+ycnXkIgvtY5FUuukgMwsWCa?=
+ =?us-ascii?Q?WkgBAA6IsKO/683CVd8SGE6aAcvXkMjVDSQuPJPetj6WXw4XlLJW5Odpga/l?=
+ =?us-ascii?Q?+uCyt2LTiuo3VGJaQLdnTI8bSt/VCdybljTEGO6olrX1CKRQaAGehQ+RpJH2?=
+ =?us-ascii?Q?NGGkg43Kxg4ePJOriTpSuJkNbaUQz9qETM7nMJYp+qY40n07dk0v2CtVKHgS?=
+ =?us-ascii?Q?hac17B45ujM7RIVML7Mjs+U4syuqIN+JZo2y3GVm5ZDfQTciZVjtuNbxE7GL?=
+ =?us-ascii?Q?RBmxYIlG4Rox9tLwBH6bbalva2K7WmLeT/JFgrZv6ZHoAo/Pqq4IdnokrLDU?=
+ =?us-ascii?Q?XNRuW1xoUltQLDVB7EUmHGWvcGzzfemVU9T4yOClkxjd9etLcUA4zg51ncDF?=
+ =?us-ascii?Q?6+o1MQnTLt2I2EnipMz9qQeZg0z3Bw6QAwwC9YCAoCUqG0+hi6aEVV0c5wZZ?=
+ =?us-ascii?Q?ATQnTWhlcE55DhxQZ5rkXOMEP+IHxhTIteDOWsGHBUQjSnrWE0g2FZbQaC5H?=
+ =?us-ascii?Q?fn+JfS1DtdHaN95SMgz07nxSY63DarAI7+S6Uno0orhpdPoB+Q8NbzD28JSM?=
+ =?us-ascii?Q?7TgJHKJ//923vIMCs4/eJsAPmvrITT4k/8s883z1YA6j3LtaYYx3VzaPspum?=
+ =?us-ascii?Q?JAISINQutDfvtDWdZItw60Kf6MxghoJq1zLv+XtQ9dcDZ8x16DY2ArtZFH+G?=
+ =?us-ascii?Q?VM/LiRwjK4jDq8D7PgiMKfoNkGIpA2r3oQdfIlwzlUeIKfVzZmHq/hF3c2jb?=
+ =?us-ascii?Q?oc6Bwh0eYM8/mYhgyBhbtZtoM9muE43Rz+tJVBa6Scm5fFYk78tyfDTdqIo0?=
+ =?us-ascii?Q?ddWyGRoOKyaYhBzKon0Wdq9GEgMZr1xBSJV54e+ExRapnpWX7niY3qp498PK?=
+ =?us-ascii?Q?bXSKWY5c+v9Sq7bLntFTSHDaZZk/KzM0yZbi3VhIyrbSL8u4acFIkTAX3jWG?=
+ =?us-ascii?Q?tDaVZGGqthLMFmWTMWbJ5h/K?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92f96654-01ff-4dbe-e6d9-08d8f2799cf7
+X-MS-Exchange-CrossTenant-Network-Message-Id: c69f9759-bac0-4069-d096-08d8f279a01a
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2021 06:12:21.2941 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2021 06:12:26.5820 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9Uz5R3M9nQsXw+zRM5Cd1TYrpho05TSMR8n9qKPl9L4Z3CjkMWyKHpAS28Wb3kVP+bOpKwfVqzwVjHctwMkCtw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: VBCSpGsRkSBERTdNiPKIlhQJfUQHY/0slXYRydT6bi3KwqvGhMn6yOEQDLtrBgingX2hgmQlIYCT2yvTy1DP1A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4895
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -128,17 +128,14 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds bindings for i.MX8qxp/qm Display Prefetch Resolve Channel.
+Artificially use 'plane' and 'old_plane_state' to avoid 'not used' warning.
+The precedent has already been set by other macros in the same file.
 
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
 v8->v9:
-* Reference 'interrupts-extended' schema instead of 'interrupts' to require
-  an additional interrupt(r_rtram_stall) because the reference manual does
-  mention it, though the driver doesn't get/use it for now.
-  Reference 'interrupt-names' schema to define the two interrupt names -
-  'dpr_wrap' and 'r_rtram_stall'.
-* Drop Rob's R-b tag, as review is needed.
+* No change.
 
 v7->v8:
 * No change.
@@ -147,131 +144,39 @@ v6->v7:
 * No change.
 
 v5->v6:
-* No change.
+* Fix commit message typo - s/Artifically/Artificially/
 
 v4->v5:
 * No change.
 
 v3->v4:
-* Improve compatible property by using enum instead of oneOf+const. (Rob)
-* Add Rob's R-b tag.
+* Add Daniel's A-b tag.
 
 v2->v3:
-* No change.
+* Add a missing blank line.
 
 v1->v2:
-* Use new dt binding way to add clocks in the example.
+* No change.
 
- .../bindings/display/imx/fsl,imx8qxp-dprc.yaml     | 100 +++++++++++++++++++++
- 1 file changed, 100 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml
+ include/drm/drm_atomic.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml
-new file mode 100644
-index 00000000..bd94254
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml
-@@ -0,0 +1,100 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dprc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+index ac5a28e..76d8dee 100644
+--- a/include/drm/drm_atomic.h
++++ b/include/drm/drm_atomic.h
+@@ -912,7 +912,10 @@ void drm_state_dump(struct drm_device *dev, struct drm_printer *p);
+ 	     (__i)++)							\
+ 		for_each_if ((__state)->planes[__i].ptr &&		\
+ 			     ((plane) = (__state)->planes[__i].ptr,	\
+-			      (old_plane_state) = (__state)->planes[__i].old_state, 1))
++			      (void)(plane) /* Only to avoid unused-but-set-variable warning */, \
++			      (old_plane_state) = (__state)->planes[__i].old_state, \
++			      (void)(old_plane_state) /* Only to avoid unused-but-set-variable warning */, 1))
 +
-+title: Freescale i.MX8qm/qxp Display Prefetch Resolve Channel
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+description: |
-+  The i.MX8qm/qxp Display Prefetch Resolve Channel(DPRC) is an engine which
-+  fetches display data before the display pipeline needs the data to drive
-+  pixels in the active display region.  This data is transformed, or resolved,
-+  from a variety of tiled buffer formats into linear format, if needed.
-+  The DPR works with a double bank memory structure.  This memory structure is
-+  implemented in the Resolve Tile Memory(RTRAM) and the banks are referred to
-+  as A and B.  Each bank is either 4 or 8 lines high depending on the source
-+  frame buffer format.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - fsl,imx8qxp-dpr-channel
-+      - fsl,imx8qm-dpr-channel
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts-extended:
-+    items:
-+      - description: DPR wrap interrupt
-+      - description: |
-+          'r_rtram_stall' interrupt which indicates relevant i.MX8qm/qxp
-+          Prefetch Resolve Gasket(PRG) or PRGs are forcing an underflow
-+          condition in the RTRAM.
-+
-+  interrupt-names:
-+    items:
-+      - const: dpr_wrap
-+      - const: r_rtram_stall
-+
-+  clocks:
-+    items:
-+      - description: apb clock
-+      - description: b clock
-+      - description: rtram clock
-+
-+  clock-names:
-+    items:
-+      - const: apb
-+      - const: b
-+      - const: rtram
-+
-+  fsl,sc-resource:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: The SCU resource ID associated with this DPRC instance.
-+
-+  fsl,prgs:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    description: |
-+      List of phandle which points to PRG or PRGs associated with
-+      this DPRC instance.
-+
-+  power-domains:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts-extended
-+  - interrupt-names
-+  - clocks
-+  - clock-names
-+  - fsl,sc-resource
-+  - fsl,prgs
-+  - power-domains
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/imx8-lpcg.h>
-+    #include <dt-bindings/firmware/imx/rsrc.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    dpr-channel@56100000 {
-+        compatible = "fsl,imx8qxp-dpr-channel";
-+        reg = <0x56100000 0x10000>;
-+        interrupts-extended = <&gic GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>,
-+                              <&dc0_irqsteer 324>;
-+        interrupt-names = "dpr_wrap", "r_rtram_stall";
-+        clocks = <&dc0_dpr1_lpcg IMX_LPCG_CLK_4>,
-+                 <&dc0_dpr1_lpcg IMX_LPCG_CLK_5>,
-+                 <&dc0_rtram1_lpcg IMX_LPCG_CLK_0>;
-+        clock-names = "apb", "b", "rtram";
-+        fsl,sc-resource = <IMX_SC_R_DC_0_VIDEO0>;
-+        fsl,prgs = <&dc0_prg4>, <&dc0_prg5>;
-+        power-domains = <&pd IMX_SC_R_DC_0>;
-+    };
+ /**
+  * for_each_new_plane_in_state - iterate over all planes in an atomic update
+  * @__state: &struct drm_atomic_state pointer
 -- 
 2.7.4
 
