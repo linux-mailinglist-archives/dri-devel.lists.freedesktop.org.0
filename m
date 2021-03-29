@@ -2,56 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA66A34D685
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 20:02:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BEB434D68D
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 20:04:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA8AC89CDF;
-	Mon, 29 Mar 2021 18:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AE766E4A2;
+	Mon, 29 Mar 2021 18:04:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com
- [IPv6:2607:f8b0:4864:20::d36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9328789CDF
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 18:02:45 +0000 (UTC)
-Received: by mail-io1-xd36.google.com with SMTP id e8so13691285iok.5
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 11:02:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Au5y7OoRawkUEJFPbHpW7802nDwRo0nj5nxIyw0Dfa8=;
- b=Zyv3esmbX3USPfY9NAG7q5qJ25C5cUmKUK84xtlRwZWvmEl9I9Vqc5cxJLsk1TUGi2
- MHGmzk+I9z1q7ecO1VPAa36DUoII1M34Y5/YSt73CTOgG2rthe8T+jq+pM+TT+wZ/ouH
- wMDgcJ7f8eOshtxjUXzmZ8WIqfIJyGirgIKQ66p9iWswBXj2B+Cdaff6XyJ3OyCeiqR/
- R1CRqn/hHZAOAEOFQoDV936hEf9CcA2fqSS7viWb85sEjL1LveJTJQkbxoO10OIgo98T
- oJOqBG0G/D261zEsXroGXVguWv00cRCPbeGpnOpJtvg4yLd69XejIXoU5GJNJxjD64P/
- VA6g==
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDF336E4A1;
+ Mon, 29 Mar 2021 18:04:02 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id bx7so15198242edb.12;
+ Mon, 29 Mar 2021 11:04:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=91f+t4KKqAvvbgMruzc8afBLkhYSXYPNhwopXJ4FvVA=;
+ b=p6FRuPHxYfTgUMm71UKWithIReDTZW6SeruOWNV5sOveBvkwcHbRXfHKWUKErqFjv4
+ VnseLfIZ+uJXbhBFCOgoZiIF2USLUIHX8guz67aa7SeGe11LtVAGOftJ8rpQYzABxZv0
+ NBGKe3elev+KxtqxnS/kfj6uTohaKbXdcMYSJgcmQP/m93VQC0iZ5hAhIGx0Vm3NOhd/
+ fz6BPNiXsw7YJn8r+AIL+RtgZ1wnaaiCC4DYk44V8NMxun+pnLMhD/XuSL9iBWztZI3T
+ dFVtrMO23I9KORs2uL48iAYqFmQXkBmVF0QeRvWJntphdGHVrrY0CyCA0WqebLbC+C2w
+ k8cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Au5y7OoRawkUEJFPbHpW7802nDwRo0nj5nxIyw0Dfa8=;
- b=BxZUf9XU0bSJ48aSVDzJNUdrZx1jKeAozH1Rcj2ngCdvowStWYs8VEWk5T84WOf0Xb
- kEWhPfbGWMy86G7N5qvOp60HDw40xvnfyX+ghqyEIl4jzliNdCk9nQXi1VYNPmERR+Rs
- xGT/rbrNd0Nqxascv76z1vUiYzJvmPNayx9IOXcreSkcH1+V1wMbrxkmyWDeI0w0LB0S
- WeAaP19si5/0LssEDvYA0tE5RZT+28ShGBRLY3XxBEcyDLXk4s1UMDW8tkEu81tFRALF
- yoH4qONM5iIKPbs+DeDerXnHbhneo+vT40d9F/yVl1YqUTdIZasVNE8FyzEhVWW7/3ZA
- k8Dg==
-X-Gm-Message-State: AOAM530AugmwYVf7Gv1CA0DemslyFEFsD2o3OPW2c4UORaL9rjP3trup
- gj90vV0z4sLsRZNV+FZbz1J5UDKYzFMhpZ2z4t+WHg==
-X-Google-Smtp-Source: ABdhPJxZkJRqw/QeGv+RrSKRBGLc4oFkV6J1+/TGuuqVGXQHnaoEB7kMLbeNK26s3AKHKzDMmyeObLY3VW0lugoGEc8=
-X-Received: by 2002:a05:6602:1c9:: with SMTP id
- w9mr20873871iot.201.1617040964939; 
- Mon, 29 Mar 2021 11:02:44 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=91f+t4KKqAvvbgMruzc8afBLkhYSXYPNhwopXJ4FvVA=;
+ b=gBR1TfI3OgWeYYe+TaVAw+wK6jWDM0bXSuVJMMVTf8p1o5NyK7du5lTyNTSDIVfiM7
+ N5thgCqVvB4NxgojCxUS/SOCaWJNtpl41YHPNRU6aerwK+WhIDWI2JzniI0SNrsGMXOi
+ cLc8H4ytObgGUku9lx+X1Mku3VquP4e9Bk9yrKv5QMIBdTX6WOf7iQEY+PJTpLzbwAuN
+ Z5leIj3emIO/faSln9cFYq7joEP1G6f21UC8in2JW01vXllSekCNH2cLIkS+wQUPth8r
+ 6hMh8j27K0zUj+aHtzDKE0Yy8Bzt9ZfqI5FZqNvswqpdun5X4pqmJW0a9eWymvAfawOI
+ +42g==
+X-Gm-Message-State: AOAM5337gXrIPx1hgEo7rTG8Xbm6KbHNbRMbpw0s1x3L+zeE9fsNLGEb
+ cKaSOjHmQCh+/7iNmbhA9xo=
+X-Google-Smtp-Source: ABdhPJySGC280M1HDveYNoXLySwn5Qy7wl8t1bmn1rG2whFdiva4yYtWd0vkZ3aI0+Zv6ITZX6kE+Q==
+X-Received: by 2002:aa7:db53:: with SMTP id n19mr30446881edt.330.1617041041521; 
+ Mon, 29 Mar 2021 11:04:01 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:8415:4d1c:ad0a:e8fd?
+ ([2a02:908:1252:fb60:8415:4d1c:ad0a:e8fd])
+ by smtp.gmail.com with ESMTPSA id cf4sm9446313edb.19.2021.03.29.11.04.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 29 Mar 2021 11:04:01 -0700 (PDT)
+Subject: Re: [PATCH] drm/amdgpu: fix an underflow on non-4KB-page systems
+To: =?UTF-8?B?WOKEuSBSdW95YW8=?= <xry111@mengyan1223.wang>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20210329175348.26859-1-xry111@mengyan1223.wang>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <d192e2a8-8baf-0a8c-93a9-9abbad992c7d@gmail.com>
+Date: Mon, 29 Mar 2021 20:04:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <cover.1616135353.git.xji@analogixsemi.com>
- <189a637c87827f78c433a053e3c2129ebec73188.1616135353.git.xji@analogixsemi.com>
- <CAMavQKLN04F2rzu7J121N4GvQKh7kq9yXGk+fBSUjsC2nbiSiA@mail.gmail.com>
- <20210329102710.GA1930154@anxtwsw-Precision-3640-Tower>
-In-Reply-To: <20210329102710.GA1930154@anxtwsw-Precision-3640-Tower>
-From: Sean Paul <sean@poorly.run>
-Date: Mon, 29 Mar 2021 14:02:08 -0400
-Message-ID: <CAMavQKJHakp0ZfHFEy77r8wHY+3uaP-6Ab2ren6vA46njpjx3g@mail.gmail.com>
-Subject: Re: [PATCH v6 4/5] drm/bridge: anx7625: add HDCP support
-To: Xin Ji <xji@analogixsemi.com>
+In-Reply-To: <20210329175348.26859-1-xry111@mengyan1223.wang>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,82 +72,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Sam Ravnborg <sam@ravnborg.org>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Zhen Li <zhenli@analogixsemi.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
- Foss <robert.foss@linaro.org>, Vasily Khoruzhick <anarsoul@gmail.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, Torsten Duwe <duwe@lst.de>,
- Sheng Pan <span@analogixsemi.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Bernie Liang <bliang@analogixsemi.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Dan_Hor=c3=a1k?= <dan@danny.cz>, dri-devel@lists.freedesktop.org,
+ stable@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 29, 2021 at 6:27 AM Xin Ji <xji@analogixsemi.com> wrote:
->
-> On Thu, Mar 25, 2021 at 02:19:23PM -0400, Sean Paul wrote:
-> > On Fri, Mar 19, 2021 at 2:35 AM Xin Ji <xji@analogixsemi.com> wrote:
-> > >
-> > > Add HDCP feature, enable HDCP function through chip internal key
-> > > and downstream's capability.
-> > >
-> > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > > ---
-
-/snip
-
-> > >  static void anx7625_dp_start(struct anx7625_data *ctx)
-> > >  {
-> > >         int ret;
-> > > @@ -643,6 +787,9 @@ static void anx7625_dp_start(struct anx7625_data *ctx)
-> > >                 return;
-> > >         }
-> > >
-> > > +       /* HDCP config */
-> > > +       anx7625_hdcp_setting(ctx);
-> >
-> > You should really use the "Content Protection" property to
-> > enable/disable HDCP instead of force-enabling it at all times.
-> >
-> > Sean
-> Hi Sean, it's hard to implement "Content Protection" property, we have
-> implemented HDCP in firmware, it is not compatible with it. We don't
-> have interface to get Downstream Cert.
-> Thanks,
-> Xin
-
-Hi Xin,
-I'm sorry, I don't understand what you mean when you say you don't
-have an interface to get Downstream Cert.
-
-The Content Protection property is just a means through which
-userspace can turn on and turn off HDCP when it needs. As far as I can
-tell, your patch turns on HDCP when the display is enabled and leaves
-it on until it is disabled. This is undesirable since it forces HDCP
-on the user.
-
-Is it impossible to enable/disable HDCP outside of display
-enable/disable on your hardware?
-
-Thanks,
-
-Sean
-
-> >
-> > > +
-> > >         if (ctx->pdata.is_dpi)
-> > >                 ret = anx7625_dpi_config(ctx);
-> > >         else
-
-/snip
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMjkuMDMuMjEgdW0gMTk6NTMgc2NocmllYiBY4oS5IFJ1b3lhbzoKPiBJZiB0aGUgaW5pdGlh
+bCB2YWx1ZSBvZiBgbnVtX2VudGlyZXNgIChjYWxjdWxhdGVkIGF0IGxpbmUgMTY1NCkgaXMgbm90
+Cj4gYW4gaW50ZWdyYWwgbXVsdGlwbGUgb2YgYEFNREdQVV9HUFVfUEFHRVNfSU5fQ1BVX1BBR0Vg
+LCBpbiBsaW5lIDE2ODEgYQo+IHZhbHVlIGdyZWF0ZXIgdGhhbiB0aGUgaW5pdGlhbCB2YWx1ZSB3
+aWxsIGJlIGFzc2lnbmVkIHRvIGl0LiAgVGhhdCBjYXVzZXMKPiBgc3RhcnQgPiBsYXN0ICsgMWAg
+YWZ0ZXIgbGluZSAxNzA4LiAgVGhlbiBpbiB0aGUgbmV4dCBpdGVyYXRpb24gYW4KPiB1bmRlcmZs
+b3cgaGFwcGVucyBhdCBsaW5lIDE2NTQuICBJdCBjYXVzZXMgbWVzc2FnZQo+Cj4gICAgICAqRVJS
+T1IqIENvdWxkbid0IHVwZGF0ZSBCT19WQSAoLTEyKQo+Cj4gcHJpbnRlZCBpbiBrZXJuZWwgbG9n
+LCBhbmQgR1BVIGhhbmdpbmcuCj4KPiBGb3J0aWZ5IHRoZSBjcml0ZXJpYSBvZiB0aGUgbG9vcCB0
+byBmaXggdGhpcyBpc3N1ZS4KCk5BSyB0aGUgdmFsdWUgb2YgbnVtX2VudHJpZXMgbXVzdCBhbHdh
+eXMgYmUgYSBtdWx0aXBsZSBvZiAKQU1ER1BVX0dQVV9QQUdFU19JTl9DUFVfUEFHRSBvciBvdGhl
+cndpc2Ugd2UgY29ycnVwdCB0aGUgcGFnZSB0YWJsZXMuCgpIb3cgZG8geW91IHRyaWdnZXIgdGhh
+dD8KCkNocmlzdGlhbi4KCj4KPiBCdWdMaW5rOiBodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5v
+cmcvZHJtL2FtZC8tL2lzc3Vlcy8xNTQ5Cj4gRml4ZXM6IGEzOWYyYThkNzA2NiAoImRybS9hbWRn
+cHU6IG51a2UgYW1kZ3B1X3ZtX2JvX3NwbGl0X21hcHBpbmcgdjIiKQo+IFJlcG9ydGVkLWJ5OiBY
+aSBSdW95YW8gPHhyeTExMUBtZW5neWFuMTIyMy53YW5nPgo+IFJlcG9ydGVkLWJ5OiBEYW4gSG9y
+w6FrIDxkYW5AZGFubnkuY3o+Cj4gQ2M6IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmcKPiBTaWduZWQt
+b2ZmLWJ5OiBYaSBSdW95YW8gPHhyeTExMUBtZW5neWFuMTIyMy53YW5nPgo+IC0tLQo+ICAgZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZtLmMgfCAyICstCj4gICAxIGZpbGUgY2hh
+bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdm0uYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1kZ3B1L2FtZGdwdV92bS5jCj4gaW5kZXggYWQ5MWMwYzNjNDIzLi5jZWUwY2M5YzgwODUgMTAw
+NjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZtLmMKPiArKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdm0uYwo+IEBAIC0xNzA3LDcgKzE3
+MDcsNyBAQCBzdGF0aWMgaW50IGFtZGdwdV92bV9ib191cGRhdGVfbWFwcGluZyhzdHJ1Y3QgYW1k
+Z3B1X2RldmljZSAqYWRldiwKPiAgIAkJfQo+ICAgCQlzdGFydCA9IHRtcDsKPiAgIAo+IC0JfSB3
+aGlsZSAodW5saWtlbHkoc3RhcnQgIT0gbGFzdCArIDEpKTsKPiArCX0gd2hpbGUgKHVubGlrZWx5
+KHN0YXJ0IDwgbGFzdCArIDEpKTsKPiAgIAo+ICAgCXIgPSB2bS0+dXBkYXRlX2Z1bmNzLT5jb21t
+aXQoJnBhcmFtcywgZmVuY2UpOwo+ICAgCj4KPiBiYXNlLWNvbW1pdDogYTVlMTNjNmRmMGU0MTcw
+MmQyYjJjNzdjOGFkNDE2NzdlYmIwNjViMwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
