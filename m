@@ -1,29 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7736A34D39A
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 17:21:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97EA734D3C3
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 17:27:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AA428940F;
-	Mon, 29 Mar 2021 15:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6593E89C7F;
+	Mon, 29 Mar 2021 15:27:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A0B58940F
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 15:21:21 +0000 (UTC)
-Date: Mon, 29 Mar 2021 16:21:07 +0100
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH] drm: DON'T require each CRTC to have a unique primary
- plane
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Message-Id: <7BLQQQ.ZY1PEPCLZS2L2@crapouillou.net>
-In-Reply-To: <20210329173541.00b301ea@eldfell>
-References: <20210327112214.10252-1-paul@crapouillou.net>
- <1J_tcDPSAZW23jPO8ApyzgINcVRRWcNyFP0LvrSFVIMbZB9lH6lCWvh2ByU9rNt6bj6xpgRgv8n0hBKhXAvXNfLBGfTIsvbhYuHW3IIDd7Y=@emersion.fr>
- <24LMQQ.CRNKYEI6GB2T1@crapouillou.net> <20210329111533.47e44f72@eldfell>
- <C4BQQQ.FDNJ4NAK9OAD3@crapouillou.net> <20210329173541.00b301ea@eldfell>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 45B6489C7F
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 15:27:38 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 69EBC142F
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 08:27:37 -0700 (PDT)
+Received: from [10.99.99.12] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 28D983F694
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 08:27:37 -0700 (PDT)
+Subject: Re: [PATCH] drm/komeda: Fix off-by-1 when with readback conn due to
+ rounding
+To: dri-devel@lists.freedesktop.org
+References: <20210311120846.23543-1-carsten.haitzler@foss.arm.com>
+ <20210312105521.dg6zcuf5gikfz5zm@DESKTOP-E1NTVVP.localdomain>
+From: Carsten Haitzler <carsten.haitzler@foss.arm.com>
+Organization: Arm Ltd.
+Message-ID: <4cb0df03-e038-0613-5d83-5992618e876e@foss.arm.com>
+Date: Mon, 29 Mar 2021 16:27:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <20210312105521.dg6zcuf5gikfz5zm@DESKTOP-E1NTVVP.localdomain>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,100 +44,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, od@zcrc.me, stable@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 3/12/21 10:55 AM, Brian Starkey wrote:
+> (Adding back James again - did you use get_maintainer.pl?)
+> 
+> On Thu, Mar 11, 2021 at 12:08:46PM +0000, carsten.haitzler@foss.arm.com wrote:
+>> From: Carsten Haitzler <carsten.haitzler@arm.com>
+>>
+>> When setting up a readback connector that writes data back to memory
+>> rather than to an actual output device (HDMI etc.), rounding was set
+>> to round. As the DPU uses a higher internal number of bits when generating
+>> a color value, this round-down back to 8bit ended up with everything
+>> being off-by one. e.g. #fefefe became #ffffff. This sets
+> 
+> Perhaps overly pedantic, but now we've tracked down what was actually
+> happening I think we can be more precise here. Not _everything_ is
+> off-by-one, it's just rounding in the standard sense - if the most
 
+Well a very large number of pixels were off-by-1 ... I guess it's an 
+exaggeration but a "vast number of pixels were off by 1". I guess I was 
+just using common terms like "everything is expensive here" doesn't 
+actually mean absolutely everything but a very vast number of things. 
+You know what I mean. :) The comment as a whole describing rounding 
+policies should provide more details. I just write the log as a "when 
+spelunking through history, this log will give me some broader insight 
+into what this change is without being war and peace and If I want to 
+see more and this commit is interesting to my spelunking efforts, I'll 
+git log -U to read that".
 
-Le lun. 29 mars 2021 =E0 17:35, Pekka Paalanen <ppaalanen@gmail.com> a =
+> significant bit-to-be-discarded is set, the value is rounded up to
+> minimise the absolute error introduced by bit-depth reduction.
+> 
+>> rounding to "round-down" so things end up correct by turning on the LW_TRC
+>> round down flag.
+> 
+> Can we call it "truncate" rather than round down? I think it makes
+> "TRC" a bit more understandable.
 
-=E9crit :
-> On Mon, 29 Mar 2021 12:41:00 +0100
-> Paul Cercueil <paul@crapouillou.net> wrote:
-> =
+That's the official name from the docs though (TRC)... makes it easier 
+to match to them... So I think you can argue this both ways. The comment 
+where it's used though does make it clear...
 
->>  Hi,
->> =
+>>
+>> Signed-off-by: Carsten Haitzler <carsten.haitzler@arm.com>
+>> ---
+>>   drivers/gpu/drm/arm/display/komeda/d71/d71_component.c | 7 ++++++-
+>>   drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h      | 1 +
+>>   2 files changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
+>> index 8a02ade369db..e97acc5519d1 100644
+>> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
+>> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
+>> @@ -468,7 +468,12 @@ static void d71_wb_layer_update(struct komeda_component *c,
+>>   	struct komeda_layer_state *st = to_layer_st(state);
+>>   	struct drm_connector_state *conn_st = state->wb_conn->state;
+>>   	struct komeda_fb *kfb = to_kfb(conn_st->writeback_job->fb);
+>> -	u32 ctrl = L_EN | LW_OFM, mask = L_EN | LW_OFM | LW_TBU_EN;
+>> +	/* LW_TRC sets rounding to truncate not round which is needed for
+>> +	 * the output of writeback to match the input in the most common
+>> +	 * use cases like RGB888 -> RGB888, so set this bit by default
+>> +	 */
+> 
+> Hm, not sure why this file uses "net/" style comments, but as you
+> said, this is in-keeping with the rest of the file, so meh :-)
 
->>  Le lun. 29 mars 2021 =E0 11:15, Pekka Paalanen <ppaalanen@gmail.com> =
+Yup. Just stick to "follow the style there" unless there is seemingly a 
+good reason that what is there is horribly "broken" and needs fixing up.
 
->> a
->>  =E9crit :
->>  > On Sat, 27 Mar 2021 11:26:26 +0000
->>  > Paul Cercueil <paul@crapouillou.net> wrote:
->>  >
->>  >>  It has two mutually exclusive background planes (same Z level) =
+>> +	u32 ctrl = LW_TRC | L_EN | LW_OFM;
+>> +	u32 mask = LW_TRC | L_EN | LW_OFM | LW_TBU_EN;
+> 
+> If you were aiming for matching register order, this should be:
+> 
+>      L_EN | LW_TRC | LW_OFM | LW_TBU_EN
+> 
+> 
+> I think it'd be nice to have the exact behaviour in the commit
+> message, but either way this seems OK as a pragmatic fix so:
 
->> + one
->>  >>  overlay plane.
->>  >
->>  > What's the difference between the two background planes?
->>  >
->>  > How will generic userspace know to pick the "right" one?
->> =
+git log -U ? :)
 
->>  First primary plane cannot scale, supports RGB and C8. Second =
-
->> primary
->>  plane goes through the IPU, and as such can scale and convert pixel
->>  formats; it supports RGB, non-planar YUV, and multi-planar YUV.
->> =
-
->>  Right now the userspace apps we have will simply pick the first one
->>  that fits the bill.
-> =
-
-> What would be the downside of exposing just one "virtual" primary
-> plane, and then have the driver pick one of the two hardware planes as
-> appropriate per modeset?
-
-The IPU plane is in a different driver, so all the callbacks are =
-
-different. That sounds like it would be a mess.
-
--Paul
-
+> Reviewed-by: Brian Starkey <brian.starkey@arm.com>
+> 
 > Thanks,
-> pq
-> =
-
->>  >>  Le sam. 27 mars 2021 =E0 11:24, Simon Ser <contact@emersion.fr> a
->>  >> =E9crit
->>  >>  :
->>  >>  > On Saturday, March 27th, 2021 at 12:22 PM, Paul Cercueil
->>  >>  > <paul@crapouillou.net> wrote:
->>  >>  >
->>  >>  >>  The ingenic-drm driver has two mutually exclusive primary =
-
->> planes
->>  >>  >>  already; so the fact that a CRTC must have one and only one
->>  >> primary
->>  >>  >>  plane is an invalid assumption.
->>  >>  >
->>  >>  > Why does this driver expose two primary planes, if it only =
-
->> has a
->>  >>  > single
->>  >>  > CRTC?
->>  >>
->>  >>
->>  >>  _______________________________________________
->>  >>  dri-devel mailing list
->>  >>  dri-devel@lists.freedesktop.org
->>  >>  https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>  >
->> =
-
->> =
-
-> =
-
-
+> -Brian
+> 
+>>   	u32 __iomem *reg = c->reg;
+>>   
+>>   	d71_layer_update_fb(c, kfb, st->addr);
+>> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h b/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h
+>> index e80172a0b320..a8036689d721 100644
+>> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h
+>> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h
+>> @@ -321,6 +321,7 @@
+>>   #define LAYER_WR_FORMAT		0x0D8
+>>   
+>>   /* Layer_WR control bits */
+>> +#define LW_TRC			BIT(1)
+>>   #define LW_OFM			BIT(4)
+>>   #define LW_LALPHA(x)		(((x) & 0xFF) << 8)
+>>   #define LW_A_WCACHE(x)		(((x) & 0xF) << 28)
+>> -- 
+>> 2.30.0
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
 
 _______________________________________________
 dri-devel mailing list
