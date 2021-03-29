@@ -2,15 +2,15 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 066BE34D177
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 15:39:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77CA034D175
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 15:39:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D028E6E43B;
-	Mon, 29 Mar 2021 13:39:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 659506E43A;
+	Mon, 29 Mar 2021 13:39:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 949F06E437
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9654C6E43B
  for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 13:39:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -18,23 +18,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=f9Inzt/UTHwcOAChqdBpMG3c7gbBJxghJWvMshOIwhc=; b=TEPxHAumcI31jCdHBuLNxHA20d
- qXPFOZ8vcutiX28Ly8/7oo818uNyoARdAaOTkiPznkmK6ei+Dq+i3c9C1levuGE0UM+2x8uz0etqL
- GrwTp3s4eLMVLnmjvzoEoL5Iy2x2616FxqIEU9iyZZRdEBaMmBUxLJYKKkXHwsYnTt2e8hyEhVXxn
- x6YhneFD5tWWz2DCGg49ndgaJw32ZLKxnTQm6BVCJni0RHwHPWCZWIDQJpa0HzTUDoRSiNJvJUfnp
- AKBEDRPIC2pwVSLd9mMuE+e1jKvqQEFBKM+m7y5KoynQNRZyAZ+FtKyg/Tw6wafo0WOILiBDDaJuq
- 1ZrgV44g==;
+ bh=oUjncLS3gCDXw94Lt9M8obnU5O3nF6FFg8UrSvy5aXQ=; b=LLmlqY86bAg2E4m26vBnTc2Xu7
+ 8ZGSuQWmUJZb+Y3WWZ5TvKk7OSznG1o4uLe4wtFuCfozO1puu6GRxqrzEBfYolvxRLVvriB8RMMV1
+ FtYce984kN0eO81+9pCz1g7Q9GZmZko/wYq+ec3rT3U93xCb6qdN+TCPKMCXqSH0fWIko34kZMr7q
+ ZcC/42t+XUQCnC2kfnP7z+dfsuH+UEOozytq8ZZINROuiE0sHTpIXyDSg+cnEaPdzgvCLs7tAQa7v
+ GjZVl6CeL3Yc631ezY/LYI1pm3Jl2JGTXzlvkIyfRox6gcCZJbp+smrgvOTg1zyl1tdOaXz872lqQ
+ H6kJe34Q==;
 Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
  helo=toshino.localdomain)
  by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
- id 1lQs6n-0000Yj-HR; Mon, 29 Mar 2021 16:39:09 +0300
+ id 1lQs6n-0000Yj-J7; Mon, 29 Mar 2021 16:39:09 +0300
 From: Mikko Perttunen <mperttunen@nvidia.com>
 To: thierry.reding@gmail.com,
 	jonathanh@nvidia.com
-Subject: [PATCH v6 04/10] gpu: host1x: Remove cancelled waiters immediately
-Date: Mon, 29 Mar 2021 16:38:30 +0300
-Message-Id: <20210329133836.2115236-5-mperttunen@nvidia.com>
+Subject: [PATCH v6 05/10] gpu: host1x: Use HW-equivalent syncpoint expiration
+ check
+Date: Mon, 29 Mar 2021 16:38:31 +0300
+Message-Id: <20210329133836.2115236-6-mperttunen@nvidia.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210329133836.2115236-1-mperttunen@nvidia.com>
 References: <20210329133836.2115236-1-mperttunen@nvidia.com>
@@ -61,95 +62,88 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Before this patch, cancelled waiters would only be cleaned up
-once their threshold value was reached. Make host1x_intr_put_ref
-process the cancellation immediately to fix this.
+Make syncpoint expiration checks always use the same logic used by
+the hardware. This ensures that there are no race conditions that
+could occur because of the hardware triggering a syncpoint interrupt
+and then the driver disagreeing.
+
+One situation where this could occur is if a job incremented a
+syncpoint too many times -- then the hardware would trigger an
+interrupt, but the driver would assume that a syncpoint value
+greater than the syncpoint's max value is in the future, and not
+clean up the job.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
-v6:
-* Call schedule instead of cpu_relax while waiting for pending
-  interrupt processing
-v5:
-* Add parameter to flush, i.e. wait for all pending waiters to
-  complete before returning. The reason this is not always true
-  is that the pending waiter might be the place that is calling
-  the put_ref.
----
- drivers/gpu/host1x/intr.c   | 23 +++++++++++++++++------
- drivers/gpu/host1x/intr.h   |  4 +++-
- drivers/gpu/host1x/syncpt.c |  2 +-
- 3 files changed, 21 insertions(+), 8 deletions(-)
+ drivers/gpu/host1x/syncpt.c | 51 ++-----------------------------------
+ 1 file changed, 2 insertions(+), 49 deletions(-)
 
-diff --git a/drivers/gpu/host1x/intr.c b/drivers/gpu/host1x/intr.c
-index 9245add23b5d..69b0e8e41466 100644
---- a/drivers/gpu/host1x/intr.c
-+++ b/drivers/gpu/host1x/intr.c
-@@ -242,18 +242,29 @@ int host1x_intr_add_action(struct host1x *host, struct host1x_syncpt *syncpt,
- 	return 0;
- }
- 
--void host1x_intr_put_ref(struct host1x *host, unsigned int id, void *ref)
-+void host1x_intr_put_ref(struct host1x *host, unsigned int id, void *ref,
-+			 bool flush)
- {
- 	struct host1x_waitlist *waiter = ref;
- 	struct host1x_syncpt *syncpt;
- 
--	while (atomic_cmpxchg(&waiter->state, WLS_PENDING, WLS_CANCELLED) ==
--	       WLS_REMOVED)
--		schedule();
-+	atomic_cmpxchg(&waiter->state, WLS_PENDING, WLS_CANCELLED);
- 
- 	syncpt = host->syncpt + id;
--	(void)process_wait_list(host, syncpt,
--				host1x_syncpt_load(host->syncpt + id));
-+
-+	spin_lock(&syncpt->intr.lock);
-+	if (atomic_cmpxchg(&waiter->state, WLS_CANCELLED, WLS_HANDLED) ==
-+	    WLS_CANCELLED) {
-+		list_del(&waiter->list);
-+		kref_put(&waiter->refcount, waiter_release);
-+	}
-+	spin_unlock(&syncpt->intr.lock);
-+
-+	if (flush) {
-+		/* Wait until any concurrently executing handler has finished. */
-+		while (atomic_read(&waiter->state) != WLS_HANDLED)
-+			schedule();
-+	}
- 
- 	kref_put(&waiter->refcount, waiter_release);
- }
-diff --git a/drivers/gpu/host1x/intr.h b/drivers/gpu/host1x/intr.h
-index aac38194398f..6ea55e615e3a 100644
---- a/drivers/gpu/host1x/intr.h
-+++ b/drivers/gpu/host1x/intr.h
-@@ -74,8 +74,10 @@ int host1x_intr_add_action(struct host1x *host, struct host1x_syncpt *syncpt,
-  * Unreference an action submitted to host1x_intr_add_action().
-  * You must call this if you passed non-NULL as ref.
-  * @ref the ref returned from host1x_intr_add_action()
-+ * @flush wait until any pending handlers have completed before returning.
-  */
--void host1x_intr_put_ref(struct host1x *host, unsigned int id, void *ref);
-+void host1x_intr_put_ref(struct host1x *host, unsigned int id, void *ref,
-+			 bool flush);
- 
- /* Initialize host1x sync point interrupt */
- int host1x_intr_init(struct host1x *host, unsigned int irq_sync);
 diff --git a/drivers/gpu/host1x/syncpt.c b/drivers/gpu/host1x/syncpt.c
-index 9a113016d482..f061dfd5bbc7 100644
+index f061dfd5bbc7..8da4bbce8b9d 100644
 --- a/drivers/gpu/host1x/syncpt.c
 +++ b/drivers/gpu/host1x/syncpt.c
-@@ -308,7 +308,7 @@ int host1x_syncpt_wait(struct host1x_syncpt *sp, u32 thresh, long timeout,
- 		}
- 	}
+@@ -321,59 +321,12 @@ EXPORT_SYMBOL(host1x_syncpt_wait);
+ bool host1x_syncpt_is_expired(struct host1x_syncpt *sp, u32 thresh)
+ {
+ 	u32 current_val;
+-	u32 future_val;
  
--	host1x_intr_put_ref(sp->host, sp->id, ref);
-+	host1x_intr_put_ref(sp->host, sp->id, ref, true);
+ 	smp_rmb();
  
- done:
- 	return err;
+ 	current_val = (u32)atomic_read(&sp->min_val);
+-	future_val = (u32)atomic_read(&sp->max_val);
+-
+-	/* Note the use of unsigned arithmetic here (mod 1<<32).
+-	 *
+-	 * c = current_val = min_val	= the current value of the syncpoint.
+-	 * t = thresh			= the value we are checking
+-	 * f = future_val  = max_val	= the value c will reach when all
+-	 *				  outstanding increments have completed.
+-	 *
+-	 * Note that c always chases f until it reaches f.
+-	 *
+-	 * Dtf = (f - t)
+-	 * Dtc = (c - t)
+-	 *
+-	 *  Consider all cases:
+-	 *
+-	 *	A) .....c..t..f.....	Dtf < Dtc	need to wait
+-	 *	B) .....c.....f..t..	Dtf > Dtc	expired
+-	 *	C) ..t..c.....f.....	Dtf > Dtc	expired	   (Dct very large)
+-	 *
+-	 *  Any case where f==c: always expired (for any t).	Dtf == Dcf
+-	 *  Any case where t==c: always expired (for any f).	Dtf >= Dtc (because Dtc==0)
+-	 *  Any case where t==f!=c: always wait.		Dtf <  Dtc (because Dtf==0,
+-	 *							Dtc!=0)
+-	 *
+-	 *  Other cases:
+-	 *
+-	 *	A) .....t..f..c.....	Dtf < Dtc	need to wait
+-	 *	A) .....f..c..t.....	Dtf < Dtc	need to wait
+-	 *	A) .....f..t..c.....	Dtf > Dtc	expired
+-	 *
+-	 *   So:
+-	 *	   Dtf >= Dtc implies EXPIRED	(return true)
+-	 *	   Dtf <  Dtc implies WAIT	(return false)
+-	 *
+-	 * Note: If t is expired then we *cannot* wait on it. We would wait
+-	 * forever (hang the system).
+-	 *
+-	 * Note: do NOT get clever and remove the -thresh from both sides. It
+-	 * is NOT the same.
+-	 *
+-	 * If future valueis zero, we have a client managed sync point. In that
+-	 * case we do a direct comparison.
+-	 */
+-	if (!host1x_syncpt_client_managed(sp))
+-		return future_val - thresh >= current_val - thresh;
+-	else
+-		return (s32)(current_val - thresh) >= 0;
++
++	return ((current_val - thresh) & 0x80000000U) == 0U;
+ }
+ 
+ int host1x_syncpt_init(struct host1x *host)
 -- 
 2.30.1
 
