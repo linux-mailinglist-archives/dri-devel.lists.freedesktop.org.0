@@ -2,57 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E5A34D19C
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 15:47:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E4434D217
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Mar 2021 16:07:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4D9D6E446;
-	Mon, 29 Mar 2021 13:47:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 808F089D4B;
+	Mon, 29 Mar 2021 14:07:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D0D76E446
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 13:47:02 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id n138so18551535lfa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 06:47:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=/ZN6EMo52SbaQUsmKOCXmommiFRM5AB/xm3XewoiYhs=;
- b=Oeqyc89nK7UnF76eztri1XWlbwhf1LqxwgbhcM9yI/hhu1u6x6zmnZ4pTQEh4Qu2QJ
- VNe4qmDHvddpFurC0edRtdwKXXnwyISy/lF1QI7mFWAy/E37nYjRYOPWuiPKV+RAHjs9
- wpTNLXkRf1R/HBh4B9dzflVKia/LBF9qvfntHXLyz7z0WG4fkYZA3xYtavUP0DlbuN0j
- Sud0yBuNt5IzQyVcmvG8eKp8BBZqfJBWM+IGLDkp6rYJJAaCSum1c5CRx401QsOrYyaZ
- JTkWUShzmUjF1/Kdpb3yn1B906vNJ1Az8ghhJ3J8tlifMW+DDmFlIOzNEEptZQdFLI8l
- vZOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/ZN6EMo52SbaQUsmKOCXmommiFRM5AB/xm3XewoiYhs=;
- b=Js4RwVFwrmrow0rC0CiaDSoq/Ic9XrUM6e0qJT5pF1o3F/gfgrx7L1npStYrbjO570
- /IW9GfI3xH3+mO0bKMAF2L2WP3xhS6e6Ttp61V0ajEq2pAn54Xa3adOmtabNKnE+AXj6
- bwGSDLb51TdCzFQz017SmjHSmihvIfLhr55G+4xK9jUqktpM8jNPIoKV+UyluTAX1xKm
- tCPUt8XApjBaF3oK8S+mRdqo+60pw9EC2mYFpfIyAHCK4zxpj6x8qdj6rh85p/++I/xT
- RslORQlTC45MPgCZSCK9SvD6mgSGPWJT4CP6vzb+8Xw3flnyUmRNch49vBSqDjzffJXS
- dFGQ==
-X-Gm-Message-State: AOAM53340fHdj7X8q6fjmI8B3zyUddpWIHI1ZAf2kilZt27TfuC0u4P8
- vMR1RUG4Zx80NmKgYArqznIHjAmm9x+pDzS3QTQ=
-X-Google-Smtp-Source: ABdhPJwlTFxxxoL8t/ryBWeJEvoDMU/sXt5+NYDNZCURvjifVPNLUJdBS/C8njMLX/RRBW8oiED2xNB9qFYS5yRZUdo=
-X-Received: by 2002:a05:6512:1192:: with SMTP id
- g18mr15585545lfr.408.1617025620636; 
- Mon, 29 Mar 2021 06:47:00 -0700 (PDT)
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
+ [64.147.123.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD56589D4B
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 14:07:37 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 6EC9617A9;
+ Mon, 29 Mar 2021 10:07:36 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Mon, 29 Mar 2021 10:07:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=e7OaR4l6KaD5n4UnPI6CYcLv6KC
+ 5usIANcXzbQv2syo=; b=KlqRsgIWH3+HiU/khNzVntBtxW9EA3p05bUPkxuIQ4H
+ qZTJBUZCqbcKZp6ttzcIpQtqJYySw2pNqIpbxMaTwNDgFSAnL1YHj0ibd8jVLHS6
+ EVvhFDkhGC09JLeB5GyMMckHBGR5dqyrTQ7eLmiCV9zbdeucF2qAjjKwpd4KKWUf
+ dc6hyODv6Q559NCemcPrTuvd71gSPeW+IPdudib/xsBJC+Wzf/Q8WTNf7zkTlhDm
+ e1cIaIZ6rdpBnZ0BnlZr0X+lBmFDP1JjETerPjTKdi42rR0TWn/U99zi71wanCb2
+ VLoi7AVYJSBD1xoyi0pyHfktrGT5XoCvn2Q01//B0Wg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=e7OaR4
+ l6KaD5n4UnPI6CYcLv6KC5usIANcXzbQv2syo=; b=wfY+dSbW3LRSqqUWUj9SC0
+ mQIHzNv1HgLEvMVHr8kAIFUUEGUHUdDu2Esj3AYnRJ05bNBJTy3zv1NGhMd3cLNd
+ Pxyx2vsoykz2atgka1Nz1Ic3MlHDXdRzJNCup0elQFzwzc56EcKn1eM1UaT3IrvY
+ 0bWfXl9/tQt9iWcTwdkQsgIwKqqLeudWMIwxLTnjdfx1qWA0+EzH/SgWDz6GXXIj
+ 56g4jgrkDps9OA+o0dpQ/e3Af1ECLL7+U5pEocY/GRIZCiq++pIjFoHm1CUdXVip
+ lmuTnL0Bt510CwD80aW/iFAruvCqkW71YmPnvHjqxRwAlD/7YYViGbwK2jWGWETw
+ ==
+X-ME-Sender: <xms:Jt9hYKgZTUNE4_NhoNprUdiL5PwGafHrQQjt8M2WAOJ6m6Yo4GtIKw>
+ <xme:Jt9hYLD4tot5cHC_7tDDijvvMqGWYr3nXao2bWZP6QjAa1rNJvM2_Flsi8BpGd3KK
+ SavGQrqIbYzU7fre4o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudehkedgjeegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:Jt9hYCFb9rnpmhX2nzZhKRqUF3LZOf8_2GXhU0CCobBBH-lWU_4Bbw>
+ <xmx:Jt9hYDTfE2ndM76EphWv3SL_ri8o46Q6CxlPiz2RosrU9JMalIH4VQ>
+ <xmx:Jt9hYHyFMrCjq0GKxcCAs3YdguVcmZEfc3zYtkQMgyqVUupYkRjIMg>
+ <xmx:KN9hYOwOkIllRqQyNky0O3BczfasznFyR7zHRzFlfHsn476192vfUw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id AD5741080067;
+ Mon, 29 Mar 2021 10:07:33 -0400 (EDT)
+Date: Mon, 29 Mar 2021 16:07:31 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH] drm: DON'T require each CRTC to have a unique primary
+ plane
+Message-ID: <20210329140731.tvkfxic4fu47v3rz@gilmour>
+References: <20210327112214.10252-1-paul@crapouillou.net>
 MIME-Version: 1.0
-References: <1616945059-8718-1-git-send-email-u0084500@gmail.com>
- <1616945059-8718-4-git-send-email-u0084500@gmail.com>
- <20210329102631.sh5ttefjvfsfg6tk@maple.lan>
-In-Reply-To: <20210329102631.sh5ttefjvfsfg6tk@maple.lan>
-From: ChiYuan Huang <u0084500@gmail.com>
-Date: Mon, 29 Mar 2021 21:46:48 +0800
-Message-ID: <CADiBU3-2LvLzUZA08EKvzZ7qG8xKPbzbbFzTE3H-Z_8DMP=5OA@mail.gmail.com>
-Subject: Re: [PATCH v6 4/4] backlight: rt4831: Adds support for Richtek RT4831
- backlight
-To: Daniel Thompson <daniel.thompson@linaro.org>
+In-Reply-To: <20210327112214.10252-1-paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,49 +78,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
- lgirdwood@gmail.com, dri-devel@lists.freedesktop.org,
- lkml <linux-kernel@vger.kernel.org>, ChiYuan Huang <cy_huang@richtek.com>,
- Mark Brown <broonie@kernel.org>, Lee Jones <lee.jones@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, od@zcrc.me,
+ stable@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1285373158=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIERhbmllbDoKCkRhbmllbCBUaG9tcHNvbiA8ZGFuaWVsLnRob21wc29uQGxpbmFyby5vcmc+
-IOaWvCAyMDIx5bm0M+aciDI55pelIOmAseS4gCDkuIvljYg2OjI25a+r6YGT77yaCj4KPiBPbiBT
-dW4sIE1hciAyOCwgMjAyMSBhdCAxMToyNDoxOVBNICswODAwLCBjeV9odWFuZyB3cm90ZToKPiA+
-IEZyb206IENoaVl1YW4gSHVhbmcgPGN5X2h1YW5nQHJpY2h0ZWsuY29tPgo+ID4KPiA+IEFkZHMg
-c3VwcG9ydCBmb3IgUmljaHRlayBSVDQ4MzEgYmFja2xpZ2h0Lgo+ID4KPiA+IFNpZ25lZC1vZmYt
-Ynk6IENoaVl1YW4gSHVhbmcgPGN5X2h1YW5nQHJpY2h0ZWsuY29tPgo+ID4gLS0tCj4gPiBzaW5j
-ZSB2Ngo+ID4gLSBGaXggS2NvbmZpZyB0eXBvLgo+ID4gLSBSZW1vdmUgaW50ZXJuYWwgbXV0ZXgg
-bG9jay4KPiA+IC0gQWRkIHRoZSBwcmVmaXggZm9yIG1heCBicmlnaHRuZXNzLgo+ID4gLSByZW5h
-bWUgaW5pdF9kZXZpY2VfcHJvcGVydGllcyB0byBwYXJzZV9iYWNrbGlnaHRfcHJvcGVydGllcy4K
-PiA+IC0gUmVtb3ZlIHNvbWUgd2FybmluZyBtZXNzYWdlIGlmIGRlZmF1bHQgdmFsdWUgaXMgYWRv
-cHRlZC4KPiA+IC0gQWRkIGJhY2tsaWdodCBwcm9wZXJ0eSBzY2FsZSB0byBMSU5FQVIgbWFwcGlu
-Zy4KPiA+IC0gRml4IHJlZ21hcCBnZXQgdG8gY2hlY2sgTlVMTCBub3QgSVNfRVJSLgo+ID4gLS0t
-Cj4gPiAgZHJpdmVycy92aWRlby9iYWNrbGlnaHQvS2NvbmZpZyAgICAgICAgICAgIHwgICA4ICsr
-Cj4gPiAgZHJpdmVycy92aWRlby9iYWNrbGlnaHQvTWFrZWZpbGUgICAgICAgICAgIHwgICAxICsK
-PiA+ICBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9ydDQ4MzEtYmFja2xpZ2h0LmMgfCAyMDMgKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysKPiA+ICAzIGZpbGVzIGNoYW5nZWQsIDIxMiBpbnNl
-cnRpb25zKCspCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvdmlkZW8vYmFja2xpZ2h0
-L3J0NDgzMS1iYWNrbGlnaHQuYwo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2Jh
-Y2tsaWdodC9LY29uZmlnIGIvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvS2NvbmZpZwo+ID4gaW5k
-ZXggZDgzYzg3Yi4uZGU5NjQ0MSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvdmlkZW8vYmFja2xp
-Z2h0L0tjb25maWcKPiA+ICsrKyBiL2RyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L0tjb25maWcKPiA+
-IEBAIC0yODksNiArMjg5LDE0IEBAIGNvbmZpZyBCQUNLTElHSFRfUUNPTV9XTEVECj4gPiAgICAg
-ICAgIElmIHlvdSBoYXZlIHRoZSBRdWFsY29tbSBQTUlDLCBzYXkgWSB0byBlbmFibGUgYSBkcml2
-ZXIgZm9yIHRoZQo+ID4gICAgICAgICBXTEVEIGJsb2NrLiBDdXJyZW50bHkgaXQgc3VwcG9ydHMg
-UE04OTQxIGFuZCBQTUk4OTk4Lgo+ID4KPiA+ICtjb25maWcgQkFDS0xJR0hUX1JUNDgzMQo+ID4g
-KyAgICAgdHJpc3RhdGUgIlJpY2h0ZWsgUlQ0ODMxIEJhY2tsaWdodCBEcml2ZXIiCj4gPiArICAg
-ICBkZXBlbmRzIG9uIE1GRF9SVDQ4MzEKPiA+ICsgICAgIGhlbHAKPiA+ICsgICAgICAgVGhpcyBl
-bmFibGVzIHN1cHBvcnQgZm9yIFJpY2h0ZWsgUlQ0ODMxIEJhY2tsaWdodCBkcml2ZXIuCj4gPiAr
-ICAgICAgIEl0J3MgY29tbW9uIHVzZWQgdG8gZHJpdmUgdGhlIGRpc3BsYXkgV0xFRC4gVGhlcmUn
-cmUgZm91ciBjaGFubmVscwo+Cj4gTml0cGlja2luZyBidXQgSSB3YXMgZXhwZWN0aW5nIHRoZSBv
-cmlnaW5hbCB0eXBvIGJlIGNvbnZlcnRlZCB0bwo+ICJjb21tb25seSIuCj4KT0ssIEknbGwgY29y
-cmVjdCB0aGlzIHR5cG8gaW4gdjcgbmV4dC4KQW5kIHdpbGwgbWVyZ2UgdGhlIHJldmlld2VkLWJ5
-IGxpbmUuClRoeC4KPgo+IFdpdGggdGhhdCBhZGRyZXNzZWQ6Cj4gUmV2aWV3ZWQtYnk6IERhbmll
-bCBUaG9tcHNvbiA8ZGFuaWVsLnRob21wc29uQGxpbmFyby5vcmc+Cj4KPgo+IERhbmllbC4KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+
+--===============1285373158==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ma4fyhct6ctei5gf"
+Content-Disposition: inline
+
+
+--ma4fyhct6ctei5gf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Sat, Mar 27, 2021 at 11:22:14AM +0000, Paul Cercueil wrote:
+> The ingenic-drm driver has two mutually exclusive primary planes
+> already; so the fact that a CRTC must have one and only one primary
+> plane is an invalid assumption.
+
+I mean, no? It's been documented for a while that a CRTC should only
+have a single primary, so I'd say that the invalid assumption was that
+it was possible to have multiple primary planes for a CRTC.
+
+Since it looks like you have two mutually exclusive planes, just expose
+one and be done with it?
+
+Maxime
+
+--ma4fyhct6ctei5gf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYGHfIwAKCRDj7w1vZxhR
+xUSDAPsGqc5zzSnYZCfcmnojYZS7LuvWh9Kha68wIFR3M6Oh3QEAqnn4XrHQSQK6
+VUKwLex2PKocNX/KvUrb6Mi0W++SgQo=
+=PloT
+-----END PGP SIGNATURE-----
+
+--ma4fyhct6ctei5gf--
+
+--===============1285373158==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1285373158==--
