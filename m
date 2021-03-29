@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C9434DA75
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 00:23:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC5834DA77
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 00:24:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1554089F35;
-	Mon, 29 Mar 2021 22:23:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD0C26E527;
+	Mon, 29 Mar 2021 22:24:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B74B889CCB;
- Mon, 29 Mar 2021 22:23:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DD3C4619AE;
- Mon, 29 Mar 2021 22:23:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 726E66E525;
+ Mon, 29 Mar 2021 22:24:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6DFC1619D0;
+ Mon, 29 Mar 2021 22:24:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617056633;
- bh=GS92hXOMUUDtBq+XPn3kdrxtR4lqy7ReZeG0ShyCS3A=;
+ s=k20201202; t=1617056648;
+ bh=mtXCzZmAxSn69gCVvkhOZSDQfn1Lh6acPo4rUD0TvsE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WdWANwpNN66085Tqc7YnWTwjJfuvl1Wl6DyXCsp8phqlCVCgHoNoF1Txg8lYrbphw
- WmVSWHpvtDOFN68+MaI+UsRN3Wes69+ID9l/Ji9AO1fjVjBEYgbfMcAX+WwTyr2Fdz
- aqu2YdM3q00K3Yc/bK9wMEX6eUKDfWQthzyV+z9lUzTbknH9FxEMOJALe0vRFMtOpE
- QwS40DCm/3cpt9QnWuQrmMSK1e7uHb7gJIYYj5+lqnOD5eoqB4wrfA7JSBkLhhKshN
- Sk46K6rKqqc6t8GHpa4zumdDy8qK0Y2ToBxQtrP5vc/c45mzTpKVnkIjOxSpovVFU/
- XMT+9kzZEnoDQ==
+ b=P/3t1W65WuQzB70KHWJGJMonD+RjdsJ2iVQ9l0BD05MU9HUnx0ZrY3dhM49t8qbf9
+ p8YQQRiK5E/Kub/KHgWp3fUsgDPNY9dkROOasHPgzfNlC7DSqJMcDjzthjVJCGhgOP
+ zBl3wCt9ljbtwBjjpIBP8byeV2fh9fhGcGRXgHCQabQ2eDuUuK+jdoc6Y8IIO/Wg4i
+ t3OOTjTV0Kt9+nMlpaY8qbLvbJSEBhNUS8BOSTtGbIAsT9lBr0bYuKFUcqWyj1Emeq
+ BddQgOgSCJQ2xbyyMwKBilqTXQ4eWWrQ9eB830PW8dalmi1N6hCHlXq86X8UgXdqe1
+ 4IbDxj61K0FGQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 06/12] drm/msm: Ratelimit invalid-fence message
-Date: Mon, 29 Mar 2021 18:23:39 -0400
-Message-Id: <20210329222345.2383777-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 05/10] drm/msm: Ratelimit invalid-fence message
+Date: Mon, 29 Mar 2021 18:23:56 -0400
+Message-Id: <20210329222401.2383930-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210329222345.2383777-1-sashal@kernel.org>
-References: <20210329222345.2383777-1-sashal@kernel.org>
+In-Reply-To: <20210329222401.2383930-1-sashal@kernel.org>
+References: <20210329222401.2383930-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -73,7 +73,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
-index a2f89bac9c16..4c0ac0360b93 100644
+index a9b9b1c95a2e..9dbd17be51f7 100644
 --- a/drivers/gpu/drm/msm/msm_fence.c
 +++ b/drivers/gpu/drm/msm/msm_fence.c
 @@ -56,7 +56,7 @@ int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
