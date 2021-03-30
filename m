@@ -1,67 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E917C34DD9B
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 03:35:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2CC834DDCC
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 03:52:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0363E6E7EF;
-	Tue, 30 Mar 2021 01:35:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37DB06E802;
+	Tue, 30 Mar 2021 01:52:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0B0C6E7EF
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 01:35:33 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id d12so206289lfv.11
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 18:35:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Hiy6UNJN0YHXvtXf2RTNPSnxeoyRk4X1aAuheB2Dr5E=;
- b=NNoMRRGPR1bwyY57kZds3PVVU7DWmnxGAm5leFcAhOOItqurIcvgpKwUukrlcZMxSu
- lQ0RohRRqjw83qVZNasMp6fqQHz/JuxOwsHwGwkbGhl37Bki4wid39TZPJWXi5vwvpsJ
- dPotnYsE470awS14ywhPHGpfDEETBQ03luxZ1YF5ebuFQ1RAbk3T92dXQg2UUDKzmXSn
- 7HUyLCEtuZ5CtCmVIzRTKNvMnVXqb/K9T0fDLO7ozyBHkEaaN5c/NyKRX+DuvzHLtZ1A
- 1mPo0/nw9Q5lBDJ/vnuuL/06Jokw8Zzm4EVwZ4xm0XLke8UgXzx5OxUJ/nKUUlRqJ38z
- hIog==
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 547B26E7FA
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 01:52:04 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ il9-20020a17090b1649b0290114bcb0d6c2so8652939pjb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 18:52:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=+Cpe14PwtL8vIUpx0dzGsw3Ka3M5f1GgIApZ0rRvA/g=;
+ b=oIp3r0zJ4FEkjG/TIz3OMayXIb3PX9+/n1mCnMVGrWZSbWvbO5suX5t3s3oJMBAefp
+ kGfwCG0FpEIFzFWq+aF80ldxe8US/FdLKz/DnS+P7Cl0rdlML39ht1/w31VYPGa+6naq
+ WRUkqdlp81lqC1baoM8Qe5Ey4jfwxQUYRdWSI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Hiy6UNJN0YHXvtXf2RTNPSnxeoyRk4X1aAuheB2Dr5E=;
- b=NsAwb8Jum1vKxL+gJ5L//4XJaqLEXmWYbKYmZSLfjXPmUkSXK3b7citfn+rUXSJGbM
- 8423oxTFQUWaA1xNKyfA7Fe4s0NC+hGNf10koO/6dOvE4JggLb1KUcS7uiMSGiF5Irm9
- YncpV6dHLQABafMnaOmJHy/iDs96trxPeQEptUBheHmMLy6uWKCKCTWOjtx9oirH03B2
- VvHeoFFm8m5TTwoOYjdR4SF7CrpV/nHSuC5bduvUU51OXtZU3+LPBQQl2DJvnLbscjpf
- 995vX3AlBOu1PJZDy5StYHufdcVRwlOexm31kgbSNzFeKJA63U3EC3gqa13gW9cFmp8q
- e9qA==
-X-Gm-Message-State: AOAM533tYmbl47ZK5zGpoBCqFL3ZtqixqKzAtqXlkRIq85tkH33807M9
- j4QOSmQkiAdVJYwBQPzdsPhKSw3EfRk=
-X-Google-Smtp-Source: ABdhPJwHUzCipo12Iw72jKeuOGOEqVdvUWcRYdHnQK67ozW++GZK5/RCTHnrODKJpBEab6+58NOu1Q==
-X-Received: by 2002:ac2:41c4:: with SMTP id d4mr17436725lfi.334.1617068131820; 
- Mon, 29 Mar 2021 18:35:31 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-193-98.dynamic.spd-mgts.ru.
- [109.252.193.98])
- by smtp.googlemail.com with ESMTPSA id j27sm2011190lfp.186.2021.03.29.18.35.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Mar 2021 18:35:31 -0700 (PDT)
-Subject: Re: [PATCH v6 04/10] gpu: host1x: Remove cancelled waiters immediately
-To: Mikko Perttunen <cyndis@kapsi.fi>, Mikko Perttunen
- <mperttunen@nvidia.com>, thierry.reding@gmail.com, jonathanh@nvidia.com
-References: <20210329133836.2115236-1-mperttunen@nvidia.com>
- <20210329133836.2115236-5-mperttunen@nvidia.com>
- <85ddc9a2-1355-1e3b-f164-f907c7fdb67c@gmail.com>
- <2b4342c4-ad68-5118-2887-351a62dee400@kapsi.fi>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <5cc4657d-e365-5b56-8108-7bf97b63c26b@gmail.com>
-Date: Tue, 30 Mar 2021 04:35:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=+Cpe14PwtL8vIUpx0dzGsw3Ka3M5f1GgIApZ0rRvA/g=;
+ b=B565SM7rqOgrBCzzBMul/FPnUSHi+c0usYJXLDDYp8J6DwItXcytLePnUigwQfy1ms
+ yvn09BKoL0LnOFnRLTg9hbf0+CUOMgIH3ysFdJMJ7YBzdgBHcSAbkO3MBA2Y5q1yx4Wg
+ 7uuMT26onzZQPU1FSWqAj74ialCGLz6OpzWyjl1eVYcPUTxBxRQ5dSV1W/6xUhQ9+gxo
+ d70iuDkjtDJ3fU8PRzNSNgYVBGDh4e/txCG+C951s7+CcXwMMkTBlTq6uScZRCWlC3Up
+ 3HhPeyewKtH9AJ7eelZ4uK0LtEqEODVnsv6acB+jQKfCjGqGfB7RWjUQPnI3X6ImMAHG
+ rF+A==
+X-Gm-Message-State: AOAM533cwTjdXJ9BrE+6cIjIJxGtgimdXDweDO74nNbYQB9Q7SEeP99o
+ UX/KOE4y0DhJ41BojkrMadtPwDk3ELretg==
+X-Google-Smtp-Source: ABdhPJyvaXWUQUyIW3y2W3D2lyK/Nk8RADybL4nEpzcpJxiDOoLQLbonvJydNGKL5kjDt5jh0FqtLA==
+X-Received: by 2002:a17:902:eac5:b029:e6:34e2:8378 with SMTP id
+ p5-20020a170902eac5b02900e634e28378mr30720652pld.35.1617069123644; 
+ Mon, 29 Mar 2021 18:52:03 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:201:4091:2b37:966b:1fca])
+ by smtp.gmail.com with ESMTPSA id bg16sm893875pjb.43.2021.03.29.18.52.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Mar 2021 18:52:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2b4342c4-ad68-5118-2887-351a62dee400@kapsi.fi>
-Content-Language: en-US
+In-Reply-To: <20210219120032.260676-10-maxime@cerno.tech>
+References: <20210219120032.260676-1-maxime@cerno.tech>
+ <20210219120032.260676-10-maxime@cerno.tech>
+Subject: Re: [PATCH v3 10/11] drm: Use state helper instead of the plane state
+ pointer
+From: Stephen Boyd <swboyd@chromium.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Date: Mon, 29 Mar 2021 18:52:01 -0700
+Message-ID: <161706912161.3012082.17313817257247946143@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,82 +68,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MzAuMDMuMjAyMSAwMDozNiwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gT24gMy8yOS8y
-MSAxMToyNyBQTSwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+PiAyOS4wMy4yMDIxIDE2OjM4LCBN
-aWtrbyBQZXJ0dHVuZW4g0L/QuNGI0LXRgjoKPj4+IEJlZm9yZSB0aGlzIHBhdGNoLCBjYW5jZWxs
-ZWQgd2FpdGVycyB3b3VsZCBvbmx5IGJlIGNsZWFuZWQgdXAKPj4+IG9uY2UgdGhlaXIgdGhyZXNo
-b2xkIHZhbHVlIHdhcyByZWFjaGVkLiBNYWtlIGhvc3QxeF9pbnRyX3B1dF9yZWYKPj4+IHByb2Nl
-c3MgdGhlIGNhbmNlbGxhdGlvbiBpbW1lZGlhdGVseSB0byBmaXggdGhpcy4KPj4+Cj4+PiBTaWdu
-ZWQtb2ZmLWJ5OiBNaWtrbyBQZXJ0dHVuZW4gPG1wZXJ0dHVuZW5AbnZpZGlhLmNvbT4KPj4+IC0t
-LQo+Pj4gdjY6Cj4+PiAqIENhbGwgc2NoZWR1bGUgaW5zdGVhZCBvZiBjcHVfcmVsYXggd2hpbGUg
-d2FpdGluZyBmb3IgcGVuZGluZwo+Pj4gwqDCoCBpbnRlcnJ1cHQgcHJvY2Vzc2luZwo+Pj4gdjU6
-Cj4+PiAqIEFkZCBwYXJhbWV0ZXIgdG8gZmx1c2gsIGkuZS4gd2FpdCBmb3IgYWxsIHBlbmRpbmcg
-d2FpdGVycyB0bwo+Pj4gwqDCoCBjb21wbGV0ZSBiZWZvcmUgcmV0dXJuaW5nLiBUaGUgcmVhc29u
-IHRoaXMgaXMgbm90IGFsd2F5cyB0cnVlCj4+PiDCoMKgIGlzIHRoYXQgdGhlIHBlbmRpbmcgd2Fp
-dGVyIG1pZ2h0IGJlIHRoZSBwbGFjZSB0aGF0IGlzIGNhbGxpbmcKPj4+IMKgwqAgdGhlIHB1dF9y
-ZWYuCj4+PiAtLS0KPj4+IMKgIGRyaXZlcnMvZ3B1L2hvc3QxeC9pbnRyLmPCoMKgIHwgMjMgKysr
-KysrKysrKysrKysrKystLS0tLS0KPj4+IMKgIGRyaXZlcnMvZ3B1L2hvc3QxeC9pbnRyLmjCoMKg
-IHzCoCA0ICsrKy0KPj4+IMKgIGRyaXZlcnMvZ3B1L2hvc3QxeC9zeW5jcHQuYyB8wqAgMiArLQo+
-Pj4gwqAgMyBmaWxlcyBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQo+
-Pj4KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9ob3N0MXgvaW50ci5jIGIvZHJpdmVycy9n
-cHUvaG9zdDF4L2ludHIuYwo+Pj4gaW5kZXggOTI0NWFkZDIzYjVkLi42OWIwZThlNDE0NjYgMTAw
-NjQ0Cj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9ob3N0MXgvaW50ci5jCj4+PiArKysgYi9kcml2ZXJz
-L2dwdS9ob3N0MXgvaW50ci5jCj4+PiBAQCAtMjQyLDE4ICsyNDIsMjkgQEAgaW50IGhvc3QxeF9p
-bnRyX2FkZF9hY3Rpb24oc3RydWN0IGhvc3QxeCAqaG9zdCwKPj4+IHN0cnVjdCBob3N0MXhfc3lu
-Y3B0ICpzeW5jcHQsCj4+PiDCoMKgwqDCoMKgIHJldHVybiAwOwo+Pj4gwqAgfQo+Pj4gwqAgLXZv
-aWQgaG9zdDF4X2ludHJfcHV0X3JlZihzdHJ1Y3QgaG9zdDF4ICpob3N0LCB1bnNpZ25lZCBpbnQg
-aWQsCj4+PiB2b2lkICpyZWYpCj4+PiArdm9pZCBob3N0MXhfaW50cl9wdXRfcmVmKHN0cnVjdCBo
-b3N0MXggKmhvc3QsIHVuc2lnbmVkIGludCBpZCwgdm9pZAo+Pj4gKnJlZiwKPj4+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgYm9vbCBmbHVzaCkKPj4+IMKgIHsKPj4+IMKgwqDCoMKgwqAgc3Ry
-dWN0IGhvc3QxeF93YWl0bGlzdCAqd2FpdGVyID0gcmVmOwo+Pj4gwqDCoMKgwqDCoCBzdHJ1Y3Qg
-aG9zdDF4X3N5bmNwdCAqc3luY3B0Owo+Pj4gwqAgLcKgwqDCoCB3aGlsZSAoYXRvbWljX2NtcHhj
-aGcoJndhaXRlci0+c3RhdGUsIFdMU19QRU5ESU5HLAo+Pj4gV0xTX0NBTkNFTExFRCkgPT0KPj4+
-IC3CoMKgwqDCoMKgwqDCoMKgwqDCoCBXTFNfUkVNT1ZFRCkKPj4+IC3CoMKgwqDCoMKgwqDCoCBz
-Y2hlZHVsZSgpOwo+Pj4gK8KgwqDCoCBhdG9taWNfY21weGNoZygmd2FpdGVyLT5zdGF0ZSwgV0xT
-X1BFTkRJTkcsIFdMU19DQU5DRUxMRUQpOwo+Pj4gwqAgwqDCoMKgwqDCoCBzeW5jcHQgPSBob3N0
-LT5zeW5jcHQgKyBpZDsKPj4+IC3CoMKgwqAgKHZvaWQpcHJvY2Vzc193YWl0X2xpc3QoaG9zdCwg
-c3luY3B0LAo+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBob3N0MXhfc3luY3B0
-X2xvYWQoaG9zdC0+c3luY3B0ICsgaWQpKTsKPj4+ICsKPj4+ICvCoMKgwqAgc3Bpbl9sb2NrKCZz
-eW5jcHQtPmludHIubG9jayk7Cj4+PiArwqDCoMKgIGlmIChhdG9taWNfY21weGNoZygmd2FpdGVy
-LT5zdGF0ZSwgV0xTX0NBTkNFTExFRCwgV0xTX0hBTkRMRUQpID09Cj4+PiArwqDCoMKgwqDCoMKg
-wqAgV0xTX0NBTkNFTExFRCkgewo+Pj4gK8KgwqDCoMKgwqDCoMKgIGxpc3RfZGVsKCZ3YWl0ZXIt
-Pmxpc3QpOwo+Pj4gK8KgwqDCoMKgwqDCoMKgIGtyZWZfcHV0KCZ3YWl0ZXItPnJlZmNvdW50LCB3
-YWl0ZXJfcmVsZWFzZSk7Cj4+PiArwqDCoMKgIH0KPj4+ICvCoMKgwqAgc3Bpbl91bmxvY2soJnN5
-bmNwdC0+aW50ci5sb2NrKTsKPj4KPj4gTG9va3MgbGlrZSB3ZSBuZWVkIHRvIHVzZSBJUlEtc2Fm
-ZSB2ZXJzaW9uIG9mIHRoZSBsb2NraW5nIGhlcmUgaW4gb3JkZXIKPj4gbm90IHRvIHJhY2Ugd2l0
-aCB0aGUgaW50ZXJydXB0IGhhbmRsZXIoPyksIHByZXZlbnRpbmcgbG9ja3VwLgo+IAo+IFRoZSBw
-b3RlbnRpYWwgY29udGVudGlvbiBpcyB3aXRoIHRoZSBzeW5jcHRfdGhyZXNoX3dvcmsgc2NoZWR1
-bGVkIHdvcmssCj4gYW5kIG5vdCB0aGUgYWN0dWFsIGludGVycnVwdCBoYW5kbGVyLCBzbyB0aGVy
-ZSBpcyBubyBpc3N1ZS4KCkkgc2VlIG5vdywgdGhhbmtzLgoKPj4gQnV0IHdoYXQgcmVhbCBidWcg
-aXMgZml4ZWQgYnkgdGhpcyBwYXRjaD8gSWYgbm8gcmVhbCBwcm9ibGVtIGlzIGZpeGVkLAo+PiB0
-aGVuIG1heWJlIHdpbGwgYmUgYmV0dGVyIHRvIGRlZmVyIHRvdWNoaW5nIHRoaXMgY29kZSB0aWxs
-IHdlIHdpbGwganVzdAo+PiByZXBsYWNlIGl0IGFsbCB3aXRoIGEgcHJvcGVyIGRtYS1mZW5jZSBo
-YW5kbGVycz8KPj4KPiAKPiBJdCBpbXByb3ZlcyB0aGluZ3MgaW4gdGhhdCB3ZSB3b24ndCBsaXR0
-ZXIgdGhlIHdhaXRlciBkYXRhIHN0cnVjdHVyZXMKPiB3aXRoIHVuYm91bmRlZCB3YWl0ZXIgZW50
-cmllcyB3aGVuIHdhaXRzIGFyZSBjYW5jZWxsZWQuIEFsc28sIEkgcHJlZmVyCj4gd29ya2luZyBp
-biBzdGVwcyB3aGVuIHBvc3NpYmxlIC0gbmV4dCBpcyB3cml0aW5nIGRtYV9mZW5jZXMgb24gdG9w
-IG9mCj4gdGhpcyAod2hpY2ggaXMgYWxyZWFkeSBkb25lKSBhbmQgdGhlbiBldmVudHVhbGx5IHBo
-YXNpbmcvcmVmYWN0b3JpbmcKPiBjb2RlIGZyb20gaW50ci5jIHRvIGZlbmNlLmMgc28gZXZlbnR1
-YWxseSBvbmx5IGRtYV9mZW5jZXMgcmVtYWluLiBJbiBteQo+IGV4cGVyaWVuY2UgdGhhdCB3b3Jr
-cyBiZXR0ZXIgdGhhbiBiaWcgcmV3cml0ZXMuCgpTbyB0aGlzIGNoYW5nZSBpcyBhIGNsZWFudXAg
-YW5kIG5vdCBhIGJ1Z2ZpeCwgd2hpY2ggd2Fzbid0IGNsZWFyIGZyb20KdGhlIGNvbW1pdCBkZXNj
-cmlwdGlvbi4gSW4gbXkgZXhwZXJpZW5jZSBpdCB1c3VhbGx5IHRlbmRzIHRvIGhlbHAgd2l0aCBh
-CnJldmlldyBpZiBjb21taXQgbWVzc2FnZSBleHBsaWNpdGx5IHN0YXRlcyB3aGV0aGVyIGl0IGlz
-IGEgbWlub3IgY2xlYW51cApvciBhIGNyaXRpY2FsIGJ1Z2ZpeC4KClRoZSBzbWFsbCBjbGVhbnVw
-cyBzaG91bGQgYmUgb2theS4gSXQgY291bGQgYmUgYmV0dGVyIGlmIHlvdSBjb3VsZApleHBsaWNp
-dGx5IHNlcGFyYXRlIHRoZSBmaXhlcyBmcm9tIGNsZWFudXBzIHNpbmNlIHRoZXJlIGlzIGEgYmV0
-dGVyCmNoYW5jZSB0aGF0IGZpeGVzIHdpbGwgYmUgcGlja2VkIHVwIGltbWVkaWF0ZWx5LgoKSSdk
-IGFsc28gc3VnZ2VzdCB0byB0cnkgdG8gZ3JvdXAgdGhlIGNsZWFudXAgY2hhbmdlcyB3aXRoIHRo
-ZSBuZXcKZmVhdHVyZXMgdGhhdCBiZW5lZml0IGZyb20gdGhlbSwgd2hlcmUgcG9zc2libGUuIFRo
-aXMgc2hvdWxkIG1ha2UKcGF0Y2hlcyB0byBsb29rIG1vcmUgbG9naWNhbCwgbm90IGxpa2UgaXQn
-cyBzb21lIHJhbmRvbSBjaGFuZ2UsIGhlbHBpbmcKd2l0aCBhIHJldmlldy4KCkknbGwgdHJ5IHRv
-IGdpdmUgYSB0ZXN0IHRvIHRoaXMgc2VyaWVzIGxhdGVyIHRvZGF5LgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Trimming Cc list way down, sorry if that's too much.
+
+Quoting Maxime Ripard (2021-02-19 04:00:30)
+> Many drivers reference the plane->state pointer in order to get the
+> current plane state in their atomic_update or atomic_disable hooks,
+> which would be the new plane state in the global atomic state since
+> _swap_state happened when those hooks are run.
+
+Does this mean drm_atomic_helper_swap_state()?
+
+> 
+> Use the drm_atomic_get_new_plane_state helper to get that state to make it
+> more obvious.
+> 
+> This was made using the coccinelle script below:
+> 
+> @ plane_atomic_func @
+> identifier helpers;
+> identifier func;
+> @@
+> 
+> (
+>  static const struct drm_plane_helper_funcs helpers = {
+>         ...,
+>         .atomic_disable = func,
+>         ...,
+>  };
+> |
+>  static const struct drm_plane_helper_funcs helpers = {
+>         ...,
+>         .atomic_update = func,
+>         ...,
+>  };
+> )
+> 
+> @ adds_new_state @
+> identifier plane_atomic_func.func;
+> identifier plane, state;
+> identifier new_state;
+> @@
+> 
+>  func(struct drm_plane *plane, struct drm_atomic_state *state)
+>  {
+>         ...
+> -       struct drm_plane_state *new_state = plane->state;
+> +       struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state, plane);
+>         ...
+>  }
+> 
+> @ include depends on adds_new_state @
+> @@
+> 
+>  #include <drm/drm_atomic.h>
+> 
+> @ no_include depends on !include && adds_new_state @
+> @@
+> 
+> + #include <drm/drm_atomic.h>
+>   #include <drm/...>
+> 
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c       | 3 ++-
+>  drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c      | 4 +++-
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c      | 3 ++-
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 31071f9e21d7..e8ce72fe54a4 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -1244,7 +1244,8 @@ static void dpu_plane_atomic_update(struct drm_plane *plane,
+>                                 struct drm_atomic_state *state)
+>  {
+>         struct dpu_plane *pdpu = to_dpu_plane(plane);
+> -       struct drm_plane_state *new_state = plane->state;
+> +       struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+> +                                                                          plane);
+>  
+>         pdpu->is_error = false;
+>  
+
+This is oopsing for me. It turns out that 'new_state' is NULL. According
+to the comments drm_atomic_get_new_plane_state() can return NULL if the
+plane isn't part of the global state. I haven't looked much further but
+wanted to report it here in case that type of return value makes sense.
+
+If I revert this patch from linux-next my display works and doesn't
+crash the system. Or I can check for NULL in the if below and it also
+works.
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index df7f3d3afd8b..f31b89531f6a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -1251,7 +1251,7 @@ static void dpu_plane_atomic_update(struct drm_plane *plane,
+ 
+ 	DPU_DEBUG_PLANE(pdpu, "\n");
+ 
+-	if (!new_state->visible) {
++	if (new_state && !new_state->visible) {
+ 		_dpu_plane_atomic_disable(plane);
+ 	} else {
+ 		dpu_plane_sspp_atomic_update(plane);
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
