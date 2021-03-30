@@ -1,45 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7AF134DF25
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 05:20:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 809F934DF22
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 05:19:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7A3B6E841;
-	Tue, 30 Mar 2021 03:20:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B7676E83E;
+	Tue, 30 Mar 2021 03:19:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B727C6E83B
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 03:20:14 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 61137292;
- Tue, 30 Mar 2021 05:20:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1617074412;
- bh=0NCp+oS2yKHTWjY6V/e8YEJ2x/cpePCidqcLVOSx/Ug=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X1cIigPh06lUcidHJUmLtkjbiPA3sgVfOJIsKTGjPeVnum59B5AGGaHhOEKGZ1hjX
- 2r0IwKTffjqKZv695+SZwMqd4a/1lAzurdBWno5ODxg1DOUhIIpcoBf5hovxv1y6gG
- nApwpOspq0zFAYQkJLdymwm+g1WqxUGUJnK4u/Z8=
-Date: Tue, 30 Mar 2021 06:19:28 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH 3/3] drm/bridge: ti-sn65dsi86: Properly get the EDID, but
- only if refclk
-Message-ID: <YGKYwJf/7kWlaoDD@pendragon.ideasonboard.com>
-References: <20210304155144.1.Ic9c04f960190faad5290738b2a35d73661862735@changeid>
- <20210304155144.3.I60a7fb23ce4589006bc95c64ab8d15c74b876e68@changeid>
- <YE0ru4JpXfX/4Awe@pendragon.ideasonboard.com>
- <CAD=FV=UY_S8jPkXwK6AGs99XrE=pno2sCgLE7qcPWfmoyYVXiw@mail.gmail.com>
- <YFEnKgwEOWdeQBK6@pendragon.ideasonboard.com>
- <CAD=FV=W5fpyEf4AqJ+dZ7i_rD_PE40MyNsYNydhPi4BHkEfQcQ@mail.gmail.com>
- <CAD=FV=UOk-PUREc-UOPqUDuhPAEUsBfx0LOAQHd9KkLAhpr7Tg@mail.gmail.com>
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EB7A6E83B
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 03:19:38 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ 68-20020a9d0f4a0000b02901b663e6258dso14258898ott.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 20:19:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=vWMcwuXDEaOZKZXHrlr3QkkmeaCK7d19Zw1sSbsXamU=;
+ b=iIcw4Em6TJlBVVKIcfj5QDSHtwSU2JpH4Flqmgc65pLlbwZ1TPgxQYivXJ5GAajbjB
+ NwQflMsCdsCURjEqoYdLIgTnlp6EkYiJhvfbWmSrZCl7AkP/+89j18Dx9gb5E7sIXxJd
+ pa8/j9YQM/4VuGDDWUFNiPLlL/SblndGa1OMdekP3rMNTOqLQF/yVe0G+/M9X2UwIpVq
+ GhwI2rbGbvlU869yveYuM0AsDqynrQtAX4u0799JkPhQTPs4iD4bcAqObzgaQOhZM04d
+ r9PP1TXpxSaLTe9RqenPlyhng9vmq67/SreMOBfXm9TD2/JYjHXFnjh19Bwfoy+a3I+6
+ /cSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=vWMcwuXDEaOZKZXHrlr3QkkmeaCK7d19Zw1sSbsXamU=;
+ b=eYyZLCg3dZ4XpUItKMGK7VLkSMfAxZ4s0YHaIAImYgTieYtP2kGPN6tBhviJb+098I
+ j40mxpmviD3xSgaFp8K6afkQW38+J28l7IDx8lg/ImHpUxDpp7Msx2mOIEzcF7bGNjVC
+ MeMWIqTWWe3suGr309hg+WyxXaiRO0QOVZpw4buH1F+A0Qer8YUartdM2tj1xzYJTXPl
+ pt3pBxOdrWfogJjdewKwrVZyop94fdnJPMius/7MPemwncnZWLMWvYByU2jbjKpkreig
+ DZg1ldJueJk0E++p+EhHlle0Pc8MK6kscXKFDzWJkcJASpBd8DuNAsT4lrA6CGH4Pom6
+ D6Ww==
+X-Gm-Message-State: AOAM533ekp0XqVwnxmapoO+s8lKKAdPFB1RwOEw81SK2NPQDME6+MfeB
+ V4P2oKPWxY+gOfSTnY/iYLB44g==
+X-Google-Smtp-Source: ABdhPJwy+FkuqOTsb99byi8EQNHEvnvxx2x9E+x/5qazQK1aiu8eRuAU9E7X3yQdMjNMqdnnVzmdpw==
+X-Received: by 2002:a05:6830:243c:: with SMTP id
+ k28mr24450959ots.306.1617074377672; 
+ Mon, 29 Mar 2021 20:19:37 -0700 (PDT)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id v23sm4975200ots.63.2021.03.29.20.19.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Mar 2021 20:19:37 -0700 (PDT)
+Date: Mon, 29 Mar 2021 22:19:35 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v4 3/4] drm/msm: add compatibles for sm8150/sm8250 display
+Message-ID: <YGKYx1AcjSBIUwqr@builder.lan>
+References: <20210329120051.3401567-1-dmitry.baryshkov@linaro.org>
+ <20210329120051.3401567-4-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAD=FV=UOk-PUREc-UOPqUDuhPAEUsBfx0LOAQHd9KkLAhpr7Tg@mail.gmail.com>
+In-Reply-To: <20210329120051.3401567-4-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,154 +70,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Andy Gross <agross@kernel.org>, dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
+On Mon 29 Mar 07:00 CDT 2021, Dmitry Baryshkov wrote:
 
-On Mon, Mar 29, 2021 at 07:57:05PM -0700, Doug Anderson wrote:
-> On Tue, Mar 16, 2021 at 5:44 PM Doug Anderson wrote:
-> > On Tue, Mar 16, 2021 at 2:46 PM Laurent Pinchart wrote:
-> > > On Mon, Mar 15, 2021 at 09:25:37AM -0700, Doug Anderson wrote:
-> > > > On Sat, Mar 13, 2021 at 1:17 PM Laurent Pinchart wrote:
-> > > > > On Thu, Mar 04, 2021 at 03:52:01PM -0800, Douglas Anderson wrote:
-> > > > > > In commit 58074b08c04a ("drm/bridge: ti-sn65dsi86: Read EDID blob over
-> > > > > > DDC") we attempted to make the ti-sn65dsi86 bridge properly read the
-> > > > > > EDID from the panel. That commit kinda worked but it had some serious
-> > > > > > problems.
-> > > > > >
-> > > > > > The problems all stem from the fact that userspace wants to be able to
-> > > > > > read the EDID before it explicitly enables the panel. For eDP panels,
-> > > > > > though, we don't actually power the panel up until the pre-enable
-> > > > > > stage and the pre-enable call happens right before the enable call
-> > > > > > with no way to interject in-between. For eDP panels, you can't read
-> > > > > > the EDID until you power the panel. The result was that
-> > > > > > ti_sn_bridge_connector_get_modes() was always failing to read the EDID
-> > > > > > (falling back to what drm_panel_get_modes() returned) until _after_
-> > > > > > the EDID was needed.
-> > > > > >
-> > > > > > To make it concrete, on my system I saw this happen:
-> > > > > > 1. We'd attach the bridge.
-> > > > > > 2. Userspace would ask for the EDID (several times). We'd try but fail
-> > > > > >    to read the EDID over and over again and fall back to the hardcoded
-> > > > > >    modes.
-> > > > > > 3. Userspace would decide on a mode based only on the hardcoded modes.
-> > > > > > 4. Userspace would ask to turn the panel on.
-> > > > > > 5. Userspace would (eventually) check the modes again (in Chrome OS
-> > > > > >    this happens on the handoff from the boot splash screen to the
-> > > > > >    browser). Now we'd read them properly and, if they were different,
-> > > > > >    userspace would request to change the mode.
-> > > > > >
-> > > > > > The fact that userspace would always end up using the hardcoded modes
-> > > > > > at first significantly decreases the benefit of the EDID
-> > > > > > reading. Also: if the modes were even a tiny bit different we'd end up
-> > > > > > doing a wasteful modeset and at boot.
-> > > > >
-> > > > > s/and at/at/ ?
-> > > >
-> > > > Sure, I can correct if/when I respin or it can be corrected when landed.
-> > > >
-> > > > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > > > index 491c9c4f32d1..af3fb4657af6 100644
-> > > > > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > > > @@ -16,6 +16,7 @@
-> > > > > >  #include <linux/pm_runtime.h>
-> > > > > >  #include <linux/regmap.h>
-> > > > > >  #include <linux/regulator/consumer.h>
-> > > > > > +#include <linux/workqueue.h>
-> > > > > >
-> > > > > >  #include <asm/unaligned.h>
-> > > > > >
-> > > > > > @@ -130,6 +131,12 @@
-> > > > > >   * @ln_assign:    Value to program to the LN_ASSIGN register.
-> > > > > >   * @ln_polrs:     Value for the 4-bit LN_POLRS field of SN_ENH_FRAME_REG.
-> > > > > >   *
-> > > > > > + * @pre_enabled_early: If true we did an early pre_enable at attach.
-> > > > > > + * @pre_enable_timeout_work: Delayed work to undo the pre_enable from attach
-> > > > > > + *                           if a normal pre_enable never came.
-> > > > >
-> > > > > Could we simplify this by using the runtime PM autosuspend feature ? The
-> > > > > configuration of the bridge would be moved from pre_enable to the PM
-> > > > > runtime resume handler, the clk_disable_unprepare() call moved from
-> > > > > post_disable to the runtime suspend handler, and the work queue replaced
-> > > > > by usage of pm_runtime_put_autosuspend().
-> > > >
-> > > > It's an interesting idea but I don't think I can make it work, at
-> > > > least not in a generic enough way. Specifically we can also use this
-> > > > bridge chip as a generic GPIO provider in Linux. When someone asks us
-> > > > to read a GPIO then we have to power the bridge on
-> > > > (pm_runtime_get_sync()) and when someone asks us to configure a GPIO
-> > > > as an output then we actually leave the bridge powered until they stop
-> > > > requesting it as an output. At the moment the only user of this
-> > > > functionality (that I know of) is for the HPD pin on trogdor boards
-> > > > (long story about why we don't use the dedicated HPD) but the API
-> > > > supports using these GPIOs for anything and I've tested that it works.
-> > > > It wouldn't be great to have to keep the panel on in order to access
-> > > > the GPIOs.
-> > >
-> > > The issue you're trying to fix doesn't seem specific to this bridge, so
-> > > handling it in the bridge driver bothers me :-S Is there any way we
-> > > could handle this in the DRM core ? I don't want to see similar
-> > > implementations duplicated in all HDMI/DP bridges.
-> >
-> > Yes, it is true that this problem could affect other drivers.  ...and
-> > in full disclosure I think there are other similar workarounds already
-> > present. I haven't personally worked on those chips, but in
-> > ps8640_bridge_get_edid() there is a somewhat similar workaround to
-> > chain a pre-enable (though maybe it's not quite as optimized?). I'm
-> > told that maybe something had to be handled for anx7625 (in
-> > anx7625_get_edid()?) but that definitely doesn't look at all like it's
-> > doing a pre-enable, so maybe things for that bridge just work
-> > differently.
-> >
-> > One thing that makes me hesitant about trying to moving this to the
-> > core is that even in sn65dsi86 there is a case where it won't work. As
-> > I mentioned in the patch I'm not aware of anyone using it in
-> > production, but if someone was using the MIPI clock as input to the
-> > bridge chip instead of a fixed "refclk" then trying to get the EDID
-> > after just "pre-enable" falls over.  Said another way: I can say that
-> > with this particular bridge chip, if you're using a fixed refclk, you
-> > can read the EDID after the pre-enable. I don't know if that's always
-> > true with all other bridge chips.
-> >
-> > So I guess in summary: I think I could put my code in the core, but I
-> > don't _think_ I can just make it automatically enabled.
-> >
-> > * In sn65dsi I'd have to only enable it if we have a fixed refclk.
-> >
-> > * Maybe in ps8640 I could just always enable it and replace the
-> > existing code? I'd have to find someone to test.
-> >
-> > * In anx7625 things look totally different.
-> >
-> > Can you give me any advice on how you'd like me to proceed?
+> From: Jonathan Marek <jonathan@marek.ca>
 > 
-> OK, I've got something that maybe looks better. You can tell me what
-> you think [1]. I did manage to use PM Runtime to avoid some of the
-> complexity and I put that usage in simple-panel. We'll see if I get
-> yelled at for adding more to simple-panel. ;-P
+> The driver already has support for sm8150/sm8250, but the compatibles were
+> never added.
 > 
-> [1] https://lore.kernel.org/dri-devel/20210330025345.3980086-1-dianders@chromium.org/
+> Also inverse the non-mdp4 condition in add_display_components() to avoid
+> having to check every new compatible in the condition.
+> 
+> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Nice :-)
+Rob, will you pick patch 2 and 3 for 5.13?
 
-I'm unfortunately afraid I'm quite busy these days. Could you ping me in
-a few weeks if I haven't reviewed the series ?
+I've picked patch 1 and would like to pick patch 4 through my tree...
 
--- 
 Regards,
+Bjorn
 
-Laurent Pinchart
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 2 ++
+>  drivers/gpu/drm/msm/msm_drv.c           | 6 +++---
+>  2 files changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 5a8e3e1fc48c..fff12a4c8bfc 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -1219,6 +1219,8 @@ static const struct dev_pm_ops dpu_pm_ops = {
+>  static const struct of_device_id dpu_dt_match[] = {
+>  	{ .compatible = "qcom,sdm845-dpu", },
+>  	{ .compatible = "qcom,sc7180-dpu", },
+> +	{ .compatible = "qcom,sm8150-dpu", },
+> +	{ .compatible = "qcom,sm8250-dpu", },
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(of, dpu_dt_match);
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 94525ac76d4e..928f13d4bfbc 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -1185,9 +1185,7 @@ static int add_display_components(struct device *dev,
+>  	 * Populate the children devices, find the MDP5/DPU node, and then add
+>  	 * the interfaces to our components list.
+>  	 */
+> -	if (of_device_is_compatible(dev->of_node, "qcom,mdss") ||
+> -	    of_device_is_compatible(dev->of_node, "qcom,sdm845-mdss") ||
+> -	    of_device_is_compatible(dev->of_node, "qcom,sc7180-mdss")) {
+> +	if (!of_device_is_compatible(dev->of_node, "qcom,mdp4")) {
+>  		ret = of_platform_populate(dev->of_node, NULL, NULL, dev);
+>  		if (ret) {
+>  			DRM_DEV_ERROR(dev, "failed to populate children devices\n");
+> @@ -1320,6 +1318,8 @@ static const struct of_device_id dt_match[] = {
+>  	{ .compatible = "qcom,mdss", .data = (void *)KMS_MDP5 },
+>  	{ .compatible = "qcom,sdm845-mdss", .data = (void *)KMS_DPU },
+>  	{ .compatible = "qcom,sc7180-mdss", .data = (void *)KMS_DPU },
+> +	{ .compatible = "qcom,sm8150-mdss", .data = (void *)KMS_DPU },
+> +	{ .compatible = "qcom,sm8250-mdss", .data = (void *)KMS_DPU },
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(of, dt_match);
+> -- 
+> 2.30.2
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
