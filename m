@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F7D34E3DB
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 11:03:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B67634E3DE
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 11:06:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C72196E87B;
-	Tue, 30 Mar 2021 09:03:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F8F46E882;
+	Tue, 30 Mar 2021 09:05:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1621E6E87B
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 09:03:46 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id E887A61959
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 09:03:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA82C6E882
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 09:05:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 8CD6261994
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 09:05:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617095025;
- bh=P4yUyPtlF1T7EyPUT6VFrKL29QlCZU9qmWkWJBI2DaQ=;
+ s=k20201202; t=1617095156;
+ bh=d34TnPrs2PjMrZNCdUC8Yne0mSi/8m9E1KBDzPOd5uE=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=EaflAFAwKBDadkN264rBcC9D8EO5ppmdWWnbR5kdkDpeF86HbdTfWUZzpwoMXvMex
- wYASBEdgeIoGLHL2Kf0xCnvwc0nQZUL6BAMzNYq5o7JZR2PbQs44YenvZUiUkekPif
- BPFHRBHhbY9Fpw2IJrI/1s638yOAFDO+mFX/5TXKOrwFBtco4HGQrv4MsnEeRc6oYi
- M2N93yjant7OvyWi+ugaKC85f2U0mmQt2JvOrnfystUG1HDXa13n/0PNxC9fotDakU
- w+3pZ3TQlHpmGSXJ5ptQ0lN8E+2o5ooIQbR+PIbOgSIFfdwSALXchkCWNHN39UkXT6
- +P7RoCsnLntbg==
+ b=FQnQm7hAD7XPx2H5dSU80GsfabIQKo7Xom1zoGLYsCI+mGbUeKQ0rRj3tborjFDRU
+ 9NZ7aiBLWFNQ7nNJjYKXzfdZCdwL751T1/gfzuvlisANrN5a/dhVqgA8knMPcIDRPA
+ 0WVq0peSdSHfDhYYBcQyY3pGtOlIGUJJ/YpzYy6p+ORUZiJWgtAZ+OtIP9BogMKGDh
+ Oj1dwmSNaRg3OW2zrN0Y1XW9wTAP2FPC7/wOhg9yfuOGN0hSnkfZb0uFVNTzRy6zp9
+ XsBIn/PkJw5UI08jOXDCDQE2INw3yTqphwpOacCnVxUJCBhJBauRISLxauW0tHtVbQ
+ lW19R7aKcp4Ug==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id E2CE362AB9; Tue, 30 Mar 2021 09:03:45 +0000 (UTC)
+ id 85BD462AB9; Tue, 30 Mar 2021 09:05:56 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211875] CPU frequency scaling lost after "WARNING: CPU: 2 PID:
  2358578 at smu8_send_msg_to_smc_with_parameter+0xfe/0x140 [amdgpu]"
-Date: Tue, 30 Mar 2021 09:03:45 +0000
+Date: Tue, 30 Mar 2021 09:05:56 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -46,7 +46,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-211875-2300-RkT1exR0Ax@https.bugzilla.kernel.org/>
+Message-ID: <bug-211875-2300-bybu6yQVAC@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211875-2300@https.bugzilla.kernel.org/>
 References: <bug-211875-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -75,18 +75,13 @@ Erhard F. (erhard_f@mailbox.org) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
- Attachment #295381|0                           |1
+ Attachment #295573|0                           |1
         is obsolete|                            |
 
---- Comment #6 from Erhard F. (erhard_f@mailbox.org) ---
-Created attachment 296145
-  --> https://bugzilla.kernel.org/attachment.cgi?id=296145&action=edit
-dmesg (kernel 5.12-rc5, A10-9700E)
-
-Gave kernel 5.12-rc5 a try but the issue stays.
-
-Looks like I really need to find an older kernel where this does not happen and
-start a bisect from there. This will take some time...
+--- Comment #7 from Erhard F. (erhard_f@mailbox.org) ---
+Created attachment 296147
+  --> https://bugzilla.kernel.org/attachment.cgi?id=296147&action=edit
+kernel .config (kernel 5.12-rc5, A10-9700E)
 
 -- 
 You may reply to this email to add a comment.
