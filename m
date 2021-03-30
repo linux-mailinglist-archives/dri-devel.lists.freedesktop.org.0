@@ -1,44 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16ABD34ECA2
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 17:35:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DDA134EC9E
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 17:35:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 282946E92A;
-	Tue, 30 Mar 2021 15:35:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ADB26E926;
+	Tue, 30 Mar 2021 15:35:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mengyan1223.wang (mengyan1223.wang [89.208.246.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92ED16E928;
- Tue, 30 Mar 2021 15:35:46 +0000 (UTC)
-Received: from xry111-X57S1.. (unknown
- [IPv6:240e:35a:1037:8a00:70b2:e35d:833c:af3e])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-384) server-digest SHA384)
- (Client did not present a certificate)
- (Authenticated sender: xry111@mengyan1223.wang)
- by mengyan1223.wang (Postfix) with ESMTPSA id 7A01465C16;
- Tue, 30 Mar 2021 11:35:30 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mengyan1223.wang;
- s=mail; t=1617118546;
- bh=6hwekqUNLmFAHbwCnBsnIYIhL6K9vbJddnyV52qZ7VU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IBlcto603Rok3cEFYhm+DEkFAOXJLWxwbTWKUvDacKdmmlPPi99UjPLQpwNY9uELa
- rQoqFqjkzJQNlD8EHsHyT1kLO64kI6myoGEWZ9K/ukUGdUKFnXPXxoPpWO9cCKD/W2
- PcTT5e87isMm+fGzRrdVUmRUoIUa8pOpYrNFSn6DGvCqPjgGl5eog21zKpi0qDk/u/
- d92bwRKT9QiO/Tw+MotqRjLAoJcXj7BNM4ZYHjZBx8fyYGeDS7p2PWkHDUT572wT8I
- 0IqM09myjwXWy4fz4pUxmdjIb5vwDbRRuCaarJXDD68/Ys599aePbmJ6ezPEwU6y+j
- rgXaZ19r+Syzg==
-From: =?UTF-8?q?X=E2=84=B9=20Ruoyao?= <xry111@mengyan1223.wang>
-To: amd-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/amdgpu: check alignment on CPU page for bo map
-Date: Tue, 30 Mar 2021 23:33:34 +0800
-Message-Id: <20210330153334.44570-3-xry111@mengyan1223.wang>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210330153334.44570-1-xry111@mengyan1223.wang>
-References: <20210330153334.44570-1-xry111@mengyan1223.wang>
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4D66E925;
+ Tue, 30 Mar 2021 15:35:34 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id DD75223A6;
+ Tue, 30 Mar 2021 11:35:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Tue, 30 Mar 2021 11:35:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=FtYc42a6moG7QOyHDjvIAF34l5j
+ YgoXhjKeBBMCpSAY=; b=pkLri1415Rs9PAS8cVC5uxc9wKysAoRoiGCxU30K16z
+ KbTcy8MwEaYglaAR9p2G1F5+WkVDhdvnSHQyAJUtrh4I3JGMs5EfYu9tinq3SP0Z
+ iwSMHPPZYwbD83DL63ca605FGHlyJ6fLtgFiHPCK/3sdvVrdE3oY8Hubch4IwRoU
+ qC9ykOslhnA6sDqsHTPNeBPyeo3exCEze56tmYPz0z3SepF9T0+axzoyvlCTU47j
+ qp8WLcTIXrF+dgY3lKR3naQiPfec343KOn5lJmFpsHFGd7h1WVdJb+AkpgMdLez+
+ NMte+nHG9ufc3z5vyfKynqOAOVjEiZ1Rm+Fh+yyrLig==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=FtYc42
+ a6moG7QOyHDjvIAF34l5jYgoXhjKeBBMCpSAY=; b=jW5b26byLCV+AjIt/u+F15
+ ZRpj0bqnKrUjnNGB4MI2KPYNNlngsRHZ/pWfvq/zgcepIQG8w8NCyKi+LpkDkTu6
+ eNrR3quV6sGek9Rq9DR3n/OS9tqVUXlK+o6xAsbshSKXkHCt7tvc3UMDyLvy2l2s
+ +nrYoflD4HJBor+0pbvlLuZykeWwJsXPs/LxCVSeBdw/euHytiDqvlujEJ1Vxm6s
+ 8b7BPDL+OfPjFL+07GZR32A8SwUw09jWAb9LHKUNqg5OVLA80jVvDah4QDOxT4Ho
+ JYVLXcrqlgODDnhCu91oiIh6cW+AoaTFNJY3ZZm2Y0huMJt6FG+SFvgyDNlpr0Sg
+ ==
+X-ME-Sender: <xms:QUVjYAd1SfHuwoVOJUc6SubhtvxHUlddWymUgbDwPD8XlERIDespYw>
+ <xme:QUVjYCM61feyDIQU8vnKKeGRUeEgXSUgM3NaAff8FiREQr0GFyTFxJvbOMjdanPTA
+ QUnWvEp-fNlhnwgKT8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeitddgleduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:QUVjYBiLqQEDRU58uZ8DHqiCT1LmioKoO_by12zvb99ZjKnLtqfnWg>
+ <xmx:QUVjYF81K1fwXSkYuT7zCIgHflJM6YgRoJE2FsiP6Ly6XkPbFPArJA>
+ <xmx:QUVjYMvXMMGAGLGYi7hJGPdaPaVnmvJ6owO8QnnkU3oEFxDkP9YSWg>
+ <xmx:Q0VjYAgqKil7BAqk7OdU4rtMyTzYd2mUQaId-_h1jRM1axCPRhaXaw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7C1E11080057;
+ Tue, 30 Mar 2021 11:35:29 -0400 (EDT)
+Date: Tue, 30 Mar 2021 17:35:27 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v3 10/11] drm: Use state helper instead of the plane
+ state pointer
+Message-ID: <20210330153527.gw33t4o2b35wwzbg@gilmour>
+References: <20210219120032.260676-1-maxime@cerno.tech>
+ <20210219120032.260676-10-maxime@cerno.tech>
+ <161706912161.3012082.17313817257247946143@swboyd.mtv.corp.google.com>
 MIME-Version: 1.0
+In-Reply-To: <161706912161.3012082.17313817257247946143@swboyd.mtv.corp.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,56 +80,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Dan=20Hor=C3=A1k?= <dan@danny.cz>,
- Huacai Chen <chenhuacai@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- =?UTF-8?q?X=E2=84=B9=20Ruoyao?= <xry111@mengyan1223.wang>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, freedreno@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0227614882=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The page table of AMDGPU requires an alignment to CPU page so we should
-check ioctl parameters for it.  Return -EINVAL if some parameter is
-unaligned to CPU page, instead of corrupt the page table sliently.
 
-Signed-off-by: Xi Ruoyao <xry111@mengyan1223.wang>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+--===============0227614882==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="yzekckmcck6rsmon"
+Content-Disposition: inline
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index dc4d6ae71476..a01c158bc29f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -2198,8 +2198,8 @@ int amdgpu_vm_bo_map(struct amdgpu_device *adev,
- 	uint64_t eaddr;
- 
- 	/* validate the parameters */
--	if (saddr & AMDGPU_GPU_PAGE_MASK || offset & AMDGPU_GPU_PAGE_MASK ||
--	    size == 0 || size & AMDGPU_GPU_PAGE_MASK)
-+	if (saddr & ~PAGE_MASK || offset & ~PAGE_MASK ||
-+	    size == 0 || size & ~PAGE_MASK)
- 		return -EINVAL;
- 
- 	/* make sure object fit at this offset */
-@@ -2264,8 +2264,8 @@ int amdgpu_vm_bo_replace_map(struct amdgpu_device *adev,
- 	int r;
- 
- 	/* validate the parameters */
--	if (saddr & AMDGPU_GPU_PAGE_MASK || offset & AMDGPU_GPU_PAGE_MASK ||
--	    size == 0 || size & AMDGPU_GPU_PAGE_MASK)
-+	if (saddr & ~PAGE_MASK || offset & ~PAGE_MASK ||
-+	    size == 0 || size & ~PAGE_MASK)
- 		return -EINVAL;
- 
- 	/* make sure object fit at this offset */
--- 
-2.31.1
+
+--yzekckmcck6rsmon
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Stephen,
+
+On Mon, Mar 29, 2021 at 06:52:01PM -0700, Stephen Boyd wrote:
+> Trimming Cc list way down, sorry if that's too much.
+>=20
+> Quoting Maxime Ripard (2021-02-19 04:00:30)
+> > Many drivers reference the plane->state pointer in order to get the
+> > current plane state in their atomic_update or atomic_disable hooks,
+> > which would be the new plane state in the global atomic state since
+> > _swap_state happened when those hooks are run.
+>=20
+> Does this mean drm_atomic_helper_swap_state()?
+
+Yep. Previous to that call in drm_atomic_helper_commit, plane->state is
+the state currently programmed in the hardware, so the old state (that's
+the case you have with atomic_check for example)
+
+Once drm_atomic_helper_swap_state has run, plane->state is now the state
+that needs to be programmed into the hardware, so the new state.
+
+> > Use the drm_atomic_get_new_plane_state helper to get that state to make=
+ it
+> > more obvious.
+> >=20
+> > This was made using the coccinelle script below:
+> >=20
+> > @ plane_atomic_func @
+> > identifier helpers;
+> > identifier func;
+> > @@
+> >=20
+> > (
+> >  static const struct drm_plane_helper_funcs helpers =3D {
+> >         ...,
+> >         .atomic_disable =3D func,
+> >         ...,
+> >  };
+> > |
+> >  static const struct drm_plane_helper_funcs helpers =3D {
+> >         ...,
+> >         .atomic_update =3D func,
+> >         ...,
+> >  };
+> > )
+> >=20
+> > @ adds_new_state @
+> > identifier plane_atomic_func.func;
+> > identifier plane, state;
+> > identifier new_state;
+> > @@
+> >=20
+> >  func(struct drm_plane *plane, struct drm_atomic_state *state)
+> >  {
+> >         ...
+> > -       struct drm_plane_state *new_state =3D plane->state;
+> > +       struct drm_plane_state *new_state =3D drm_atomic_get_new_plane_=
+state(state, plane);
+> >         ...
+> >  }
+> >=20
+> > @ include depends on adds_new_state @
+> > @@
+> >=20
+> >  #include <drm/drm_atomic.h>
+> >=20
+> > @ no_include depends on !include && adds_new_state @
+> > @@
+> >=20
+> > + #include <drm/drm_atomic.h>
+> >   #include <drm/...>
+> >=20
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c       | 3 ++-
+> >  drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c      | 4 +++-
+> >  drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c      | 3 ++-
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/dr=
+m/msm/disp/dpu1/dpu_plane.c
+> > index 31071f9e21d7..e8ce72fe54a4 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > @@ -1244,7 +1244,8 @@ static void dpu_plane_atomic_update(struct drm_pl=
+ane *plane,
+> >                                 struct drm_atomic_state *state)
+> >  {
+> >         struct dpu_plane *pdpu =3D to_dpu_plane(plane);
+> > -       struct drm_plane_state *new_state =3D plane->state;
+> > +       struct drm_plane_state *new_state =3D drm_atomic_get_new_plane_=
+state(state,
+> > +                                                                      =
+    plane);
+> > =20
+> >         pdpu->is_error =3D false;
+> > =20
+>=20
+> This is oopsing for me. It turns out that 'new_state' is NULL. According
+> to the comments drm_atomic_get_new_plane_state() can return NULL if the
+> plane isn't part of the global state. I haven't looked much further but
+> wanted to report it here in case that type of return value makes sense.
+
+Yeah, it can return NULL, but in this case I'm not really sure how we
+could end up with a plane_state that isn't in the global state, but
+somehow with the associated plane atomic_update call being run :/
+
+Maxime
+
+--yzekckmcck6rsmon
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYGNFPwAKCRDj7w1vZxhR
+xT66AQCBwUC3/zX2ho+dPE63dTDnJVeTqhxvdKRAtI6bFvZwdAD5Ad+Acvl+oElk
+wpeNhdIrOTyHieNNht1KzaQ5EkO4fwU=
+=Elec
+-----END PGP SIGNATURE-----
+
+--yzekckmcck6rsmon--
+
+--===============0227614882==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0227614882==--
