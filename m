@@ -1,39 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D1234EA1B
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 16:16:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E742C34E3A4
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 10:58:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51A9A6E907;
-	Tue, 30 Mar 2021 14:16:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB9526E87C;
+	Tue, 30 Mar 2021 08:58:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 866966E87C;
- Tue, 30 Mar 2021 08:41:38 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1617093697; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jiLzz+FDg8IDgOr7Ru1IW7IRXYaqlH8yrJkDxBSOd+M=;
- b=SwyQOSqvaO5avOz2XsxkAeyYpWcAxuEpeTup5y2W/3hjoJIa9VL+ySLWFEDXOGMXYYzaNj
- yfuPCkvCrHUDqDn4OiHjX+VW5qEwgFf/bjJtmVzQs0eem+tKxgSvbAVrRlz0EIt6ankmR8
- 9g4gU0a0vUOWreF+dSJDr1Ih1BW0A9I=
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id F0DDEB1C1;
- Tue, 30 Mar 2021 08:41:36 +0000 (UTC)
-Date: Tue, 30 Mar 2021 10:41:34 +0200
-From: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH 06/11] cgroup: fix -Wzero-length-bounds warnings
-Message-ID: <YGLkPjSBdgpriC0E@blackbook>
-References: <20210322160253.4032422-1-arnd@kernel.org>
- <20210322160253.4032422-7-arnd@kernel.org>
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA2326E87C
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 08:58:11 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 56E105C0099;
+ Tue, 30 Mar 2021 04:58:09 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Tue, 30 Mar 2021 04:58:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=a9UqojEtfp6yjahhezHn9vr25p8
+ yj9GDDG7ODVtC6I0=; b=WtfHkpZyPzyMd0dVBsb9mqlCMlAxyAtoKwsiNhK8TGS
+ tf9ePR4gW5Xx8QgO85s2TBB+Y8fzAnQjCaISxLfqzpAzIGb5IYyKPeBD30m666zR
+ fEZQOSv/L29ChvpO0tcFV+Ff4K87kvX0AdGLJ3Gws36a7G6gyYCXT9Mh47/KBkWC
+ VsZ2EmYZ8V6APBOfHTIJNME9kAWJvYdxBVCmuqgU0I9A5aO9StupxHxTljBQW7lu
+ 2PqqBEucYrTXQRBQtbYGotEoSslmpyuHfbih4nrX2VqmWt78xeSbgCN8O3NyJAZR
+ CvnVG8kg37Wg4g3TVgvrw36RjgyqorcwPGhNfLCim5g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=a9Uqoj
+ Etfp6yjahhezHn9vr25p8yj9GDDG7ODVtC6I0=; b=rA8Hd/3tXkTxm2w74mS3U2
+ tW4ltNxfBHIU4xWJrHtto2AhWj1AKZAcIjqCVBdXEYp9hO4DSALl9SkImscLFDiB
+ Hm8sQcpBcOQh+1HoHNom6rGlzTS0nNLFRy5mQmxwwOiPO/DgjjhWh6yjvDpU/Eks
+ ERNeItDbdUsKEy12e/i1xgMXwwjDISJ5lIwIa7mcQ1FOoQK9gimsSY+uSBo3O1gE
+ QFZ+YUQgT6GgK7xx0vXX5zXpe1R3bIWK7SeOKlkgoqSGqlHFX5usmGV3Rw5Pbm3U
+ Voqf03UvN+r3dWOO5krsZwaKv62tkt29jd0lhaykNhEYATRy2sh1SqhOiAYek0lQ
+ ==
+X-ME-Sender: <xms:HuhiYGcm2dg7Ss83h7B3L7_GsHBotYlyjTvpk6_S4Lh-9xUlCFfCjA>
+ <xme:HuhiYAMA4G2YSELbbXvH_cngEIW4Fgz_MUYzTEEVt32vJph0LvCyOs6hG8craklbo
+ Wf6AfgvwdYZurCKnEQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeitddgtdelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesghdtre
+ ertddtvdenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrgigihhmvgestggv
+ rhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeelkeeghefhuddtleejgfeljeffhe
+ ffgfeijefhgfeufefhtdevteegheeiheegudenucfkphepledtrdekledrieekrdejieen
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigih
+ hmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:HuhiYHgLh5zqLGvk12bax2XlxJFnS5RW7Et5D7z1zU8n7DamjJ7Y4w>
+ <xmx:HuhiYD8eUeGobVF-nRJbekXroiDZkh65FfWV0VUfCMv2FjoG6Mz02w>
+ <xmx:HuhiYCs_DpHoPwuhfdYcFSu6o7A0gw6hppsVG5r9Jgd2krNUvBRYrQ>
+ <xmx:IehiYL7mEx9QUhYw1iuEpwzcfcdwQ5cxo5MW8V4zZgddM8U2KXsRFg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9FCDF1080054;
+ Tue, 30 Mar 2021 04:58:06 -0400 (EDT)
+Date: Tue, 30 Mar 2021 10:58:03 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] dt-bindings: bcm2711-hdmi: Fix broken schema
+Message-ID: <20210330085803.vcsdz43uinhodwn2@gilmour>
+References: <20210218152837.1080819-1-maxime@cerno.tech>
+ <20210223212624.GA89721@robh.at.kernel.org>
+ <CAL_JsqKtGz3mtzc1KTASVtAcc7PSV7Z8Y-n8JjOzxua8EpQ5ZQ@mail.gmail.com>
+ <20210327100026.53cc228c@canb.auug.org.au>
 MIME-Version: 1.0
-In-Reply-To: <20210322160253.4032422-7-arnd@kernel.org>
-X-Mailman-Approved-At: Tue, 30 Mar 2021 14:16:14 +0000
+In-Reply-To: <20210327100026.53cc228c@canb.auug.org.au>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,76 +80,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexei Starovoitov <ast@kernel.org>, dri-devel@lists.freedesktop.org,
- Zefan Li <lizefan.x@bytedance.com>, Cong Wang <xiyou.wangcong@gmail.com>,
- Christian Brauner <christian.brauner@ubuntu.com>, Odin Ugedal <odin@uged.al>,
- linux-scsi@vger.kernel.org, x86@kernel.org,
- James Smart <james.smart@broadcom.com>, tboot-devel@lists.sourceforge.net,
- Kalle Valo <kvalo@codeaurora.org>, Andrii Nakryiko <andriin@fb.com>,
- ath11k@lists.infradead.org, Serge Hallyn <serge@hallyn.com>,
- Arnd Bergmann <arnd@arndb.de>, "James E.J. Bottomley" <jejb@linux.ibm.com>,
- Ning Sun <ning.sun@intel.com>, Anders Larsen <al@alarsen.net>,
- Bhaskar Chowdhury <unixbhaskar@gmail.com>, cgroups@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Martin Sebor <msebor@gcc.gnu.org>,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
- Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
- Simon Kelley <simon@thekelleys.org.uk>, intel-gfx@lists.freedesktop.org,
- Roman Gushchin <guro@fb.com>
-Content-Type: multipart/mixed; boundary="===============0053195811=="
+Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1926780092=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0053195811==
+--===============1926780092==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Gbn4BprmVLVWv2rO"
+	protocol="application/pgp-signature"; boundary="6ofgt3x6th5xd6lz"
 Content-Disposition: inline
 
 
---Gbn4BprmVLVWv2rO
-Content-Type: text/plain; charset=iso-8859-1
+--6ofgt3x6th5xd6lz
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 22, 2021 at 05:02:44PM +0100, Arnd Bergmann <arnd@kernel.org> w=
-rote:
-> I'm not sure what is expected to happen for such a configuration,
-> presumably these functions are never calls in that case.
-Yes, the functions you patched would only be called from subsystems or
-there should be no way to obtain a struct cgroup_subsys reference
-anyway (hence it's ok to always branch as if ss=3D=3DNULL).
+Hi Stephen,
 
-I'd prefer a variant that wouldn't compile the affected codepaths when
-there are no subsystems registered, however, I couldn't come up with a
-way how to do it without some preprocessor ugliness.
+On Sat, Mar 27, 2021 at 10:00:26AM +1100, Stephen Rothwell wrote:
+> Hi Rob,
+>=20
+> On Fri, 26 Mar 2021 15:01:34 -0600 Rob Herring <robh+dt@kernel.org> wrote:
+> >
+> > On Tue, Feb 23, 2021 at 2:26 PM Rob Herring <robh@kernel.org> wrote:
+> > >
+> > > On Thu, 18 Feb 2021 16:28:37 +0100, Maxime Ripard wrote: =20
+> > > > For some reason, unevaluatedProperties doesn't work and
+> > > > additionalProperties is required. Fix it by switching to
+> > > > additionalProperties.
+> > > >
+> > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > > ---
+> > > >  .../devicetree/bindings/display/brcm,bcm2711-hdmi.yaml          | =
+2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > =20
+> > >
+> > > Applied, thanks! =20
+> >=20
+> > Something weird is going on with this fix. linux-next doesn't end up
+> > with the change even though 5.12-rc2 has it. I suspect it's because
+> > the original commit is in 2 branches (drm-misc-next and
+> > drm-misc-fixes), but the fix was applied by me. I'm not sure how
+> > linux-next didn't have a manual merge for this.
+>=20
+> I think it goes like this:
+>=20
+> Commit a99163e9e708 ("Merge drm/drm-next into drm-misc-next") was merged
+> into v5.12-rc1-dontuse and had "additionalProperties: false" and is the
+> common base for all later changes to this file.
+>=20
+> Commit 6ff92deff711 ("dt-binding: display: bcm2711-hdmi: Add CEC and
+> hotplug interrupts") changes to "unevaluatedProperties: false" and is
+> merged into v5.12-rc1-dontuse.
+>=20
+> Commit a3cb15cda1b8 ("dt-bindings: bcm2711-hdmi: Fix broken schema")
+> changes to "additionalProperties: false" and is merged into v5.12-rc2.
+>=20
+> Commit e7cbc68a28e1 ("dt-binding: display: bcm2711-hdmi: Add
+> CEC and hotplug interrupts") changes (from a99163e9e708) to
+> "unevaluatedProperties: false" in the drm-misc and then drm trees.
+>=20
+> When I come to merge the drm tree into linux-next, the merge base is
+> v5.12-rc3 and the only change to this file since v5.12-rc3 is in the
+> drm tree ...
+>=20
+> Another way to look at it is that one one side of my merge, the line
+> goes from "additionalProperties: false" to "unevaluatedProperties:
+> false" and back to "additionalProperties: false" (so no net change)
+> and on the other side if my merge the line changes to
+> "unevaluatedProperties: false".
 
-Reviewed-by: Michal Koutn=FD <mkoutny@suse.com>
+So I guess the easiest fix for this would be to merge it through
+DRM-misc? Or should we just wait until all the branches gets merged in
+Linus' tree?
 
---Gbn4BprmVLVWv2rO
+Maxime
+
+
+--6ofgt3x6th5xd6lz
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEEoQaUCWq8F2Id1tNia1+riC5qSgFAmBi5DcACgkQia1+riC5
-qSjuqxAAkm/zoS+xvdcQUERzkcuVxIruGtTqOse/NCPQQR9aGuJl6iybyjQw7D+r
-63+BYz7+BdP8zDg+NSTO354Yt0vsWFtCvuZBBabO91wCheLRPaZhHnGByJa0fXyM
-SKC2VSvFHKKiFuCG7mG7/WfDQxTGSaUL2jiFXlA5HAV5dKfkia/Jpuf+KtIy5nBR
-g8g4f44M2wW/TCoBzd5Elt5Cpx6fU2aKuJRCRCE04ts4CQy06/lLcc9H0N7bvgHj
-0oxkHbAjXeEnylnni4pfpmJpInUT2kOZuCjSF/WPw2XeLs00AnBnNB3lDP9Pe2qo
-ippcDc3AFqYMqewKnnxDWoTI3lyMTm8r0yzrDdwpb9Zv28bOCAYiwyoIsFV7+kdN
-C7DnhiL6d+UgKIzCqRuTPXnluthvSmHGzeblqF1vOAaWOFif4CcRmUtsR7v3EyZN
-5aiUTGqVtoKr/pcBNnRU1e2w7ulYpq5sbL/8f9HtnKsZ8MZlLdhdcDoSLjOkuohK
-OlQgS6p+2otxwk3xft0CdFPPHAFb5/WM6IyKdewFGuY0fohxczWJCRI92x94cfe9
-p0JSNLl19JjdM8loYpmBRcmlkoBH+MtkdZiR68b5yX5wcXypubmZPZ9o8ZzQqx1j
-ZX1/nhuyDl6KHuGW7gJXx8FhCLd6nPyKYVu4wbay23oLzdL/1sk=
-=nVTO
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYGLoGwAKCRDj7w1vZxhR
+xcmwAP47LiptNIhBUxMg2mEFfPxgin3nCI19w3bKeljN5QSI3AEA2f6cuaCWbJb6
+sJC+UEFraFFiisWPpQdnuO+KFCvnJww=
+=dKbm
 -----END PGP SIGNATURE-----
 
---Gbn4BprmVLVWv2rO--
+--6ofgt3x6th5xd6lz--
 
---===============0053195811==
+--===============1926780092==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -126,4 +186,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0053195811==--
+--===============1926780092==--
