@@ -2,51 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0413D34E5BE
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 12:48:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94DB634E5E0
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 12:57:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5EF56E8A1;
-	Tue, 30 Mar 2021 10:48:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4BC56E8A5;
+	Tue, 30 Mar 2021 10:56:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
- [IPv6:2607:f8b0:4864:20::d30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 729C06E8A1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 10:48:51 +0000 (UTC)
-Received: by mail-io1-xd30.google.com with SMTP id k8so15889647iop.12
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 03:48:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rP4kknX4xAvleYYg0u92Em0z72hot5F8BzD9RddRRUk=;
- b=EbUxrwGTbHNhFj3dhzWvOVejXKYejKx9ObBGEO2MgczgMKQnT+vXFQRfGg8vrNb/79
- KL/A0537a2GEjEYCAl7GY3oVE68vAS1j+oDWC6SotMtY9X5GCV/J4ATA4Uek1T+EnTTF
- /S+nYVBYnx+p8PzqDMOT6+sZ1DJeuObbYabHA=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3542F6E8A6
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 10:56:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617101815;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rYqzNHiuAl/aoLjb89NUxhkCMXfILPBrl172tqHnnHE=;
+ b=CNfyjNv8F23LnMAJNDnUNFKhwn/+7qb3AMe4+LBSVke3MjdtxoflURxkmkRK1pxz29h/wa
+ vnfIkHKNay0CZroZ6iXTvyo6Xn63R2rHoOCxuLAkmRYilhPRBTOBrNjn4OI/wGtZljeK1R
+ LcBsMTqOVdAh6cAaCzlQRs3q0Qh8TMU=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-465-cn1si3qlPz-QrtUbvPqfFg-1; Tue, 30 Mar 2021 06:56:53 -0400
+X-MC-Unique: cn1si3qlPz-QrtUbvPqfFg-1
+Received: by mail-ej1-f72.google.com with SMTP id p11so3586654eju.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 03:56:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rP4kknX4xAvleYYg0u92Em0z72hot5F8BzD9RddRRUk=;
- b=FJksVnpgN5MsIXpErPbUK8kBavCE3mXusj38toM2EBPCAjKAvj7a2Yu7nom2bWLA+H
- aX44SlL+S35AECul9651GWF9VPTpbFBvsWHbIG59jSwgPA4hlvobyNeAxVqHQRmLnaCl
- AOFHhFs17WYJuVSapli2X8ApdIHxmyQKSOM2WOn5VAiUHTzibt01iU6Fz91L1+ucGYqF
- 1ZHL8CDLTVFQPIRHBySGYs6RACLHECySBfFJuNjkmmq76Njf7n/ksfP6wlvVmgNqvygI
- wKz02LJiB37ZKAtV+FG3I6o/YIBVUuEiVE0wMiDDyENBpN5hfjjw40LuLTpHWz2xfT+9
- /sZg==
-X-Gm-Message-State: AOAM533JtNmzAq5Oz4KJ3edJ2/47vadOuGKoDBqAaJ0G59OgLCA5+otM
- oVsfqNQBKT9/0Y5IRCA412v/Jrp7xUvT9BewWbpgIQ==
-X-Google-Smtp-Source: ABdhPJw/U5SlztC8bxQ7GW+0c8uKyz5qnR7FWLJK/549d5I/fXM+w1ZQvMlnX4P6c7fKXRSF8zGbDwvXCWFsbPHN0hA=
-X-Received: by 2002:a05:6638:2bb:: with SMTP id
- d27mr28069519jaq.98.1617101330606; 
- Tue, 30 Mar 2021 03:48:50 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rYqzNHiuAl/aoLjb89NUxhkCMXfILPBrl172tqHnnHE=;
+ b=tLTsUFy75MDDPVg+a6knwpE7eRibK0n/uIrd9iLT6qPhUa5F3Qcxh9UW6nlIlluBtg
+ fVuVtnqzHX//89bY7VC+3u/9eSX5BnL1o3Yh9g9G+NRV/dwYPjLTyzdXALqRM4u4inKC
+ gqlvnqLEm16/l5Izn2VkS/L1i/l19t+SUR/uRszbP67nRmrUxubwvnT2LVc/N7LOpsdt
+ R6fkTF0Ybz4r/j68IemlSzMHsyBjs7zIxdYI3dLzj7YOlohhKZKFUP9G+BLC74/Sqf2Q
+ KGLx5SDk77FDC93D65PV3Ypy5SHA261aHifSdqdyQEsqyPh2uKoYNOQQK9RY8gL8qEdp
+ dQGQ==
+X-Gm-Message-State: AOAM532z0hA6s8gLzNCTPsTLkyP2S69xd2FKL3rcHi2o9huaUgqTmfbs
+ CJ4BTmP97tDHi2v8AkU8oc4ptnzo7xR1WQWC39Cqo6A2Dxhu33uD0wySx37WX0L7GP9kthnQHQK
+ OmLh8bg0zhYRVsmHYVuhXtK81WvyG
+X-Received: by 2002:a05:6402:270e:: with SMTP id
+ y14mr32945896edd.283.1617101812771; 
+ Tue, 30 Mar 2021 03:56:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxk85EwNcCIjfgTHncBkIRpyvOFJP73cc6LgtyJnG141Ecwyc7yx0+jNJ7jYIvKmaPJ/RYKmg==
+X-Received: by 2002:a05:6402:270e:: with SMTP id
+ y14mr32945855edd.283.1617101812562; 
+ Tue, 30 Mar 2021 03:56:52 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+ by smtp.gmail.com with ESMTPSA id gq9sm5631143ejb.62.2021.03.30.03.56.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Mar 2021 03:56:52 -0700 (PDT)
+Subject: Re: [PATCH 11/11] [RFC] drm/i915/dp: fix array overflow warning
+To: Arnd Bergmann <arnd@kernel.org>, linux-kernel@vger.kernel.org,
+ Martin Sebor <msebor@gcc.gnu.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, imre.deak@intel.com
+References: <20210322160253.4032422-1-arnd@kernel.org>
+ <20210322160253.4032422-12-arnd@kernel.org>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <949db606-ac48-69ae-b0f7-b1cba6fc2d7f@redhat.com>
+Date: Tue, 30 Mar 2021 12:56:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210203110717.686204-1-enric.balletbo@collabora.com>
- <8c8309fb-babe-3ed4-d2a1-111fbab91e9f@collabora.com>
-In-Reply-To: <8c8309fb-babe-3ed4-d2a1-111fbab91e9f@collabora.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Tue, 30 Mar 2021 18:48:24 +0800
-Message-ID: <CAJMQK-hNwBm8r9GokjjbapyS+1MwtfL_DJda9q4xjK2Ud6SvvA@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: Add missing MODULE_DEVICE_TABLE()
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+In-Reply-To: <20210322160253.4032422-12-arnd@kernel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,136 +90,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Nicolas Boichat <drinkcat@chromium.org>, David Airlie <airlied@linux.ie>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Collabora Kernel ML <kernel@collabora.com>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org, linux-scsi@vger.kernel.org,
+ Animesh Manna <animesh.manna@intel.com>, x86@kernel.org,
+ James Smart <james.smart@broadcom.com>, tboot-devel@lists.sourceforge.net,
+ Uma Shankar <uma.shankar@intel.com>, Kalle Valo <kvalo@codeaurora.org>,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>, ath11k@lists.infradead.org,
+ Serge Hallyn <serge@hallyn.com>, Arnd Bergmann <arnd@arndb.de>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, Ning Sun <ning.sun@intel.com>,
+ Anders Larsen <al@alarsen.net>, Sean Paul <seanpaul@chromium.org>,
+ cgroups@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ Manasi Navare <manasi.d.navare@intel.com>,
+ linux-security-module@vger.kernel.org, Tejun Heo <tj@kernel.org>,
+ Simon Kelley <simon@thekelleys.org.uk>, intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 30, 2021 at 5:43 PM Enric Balletbo i Serra
-<enric.balletbo@collabora.com> wrote:
->
-> Hi,
->
-> On 3/2/21 12:07, Enric Balletbo i Serra wrote:
-> > From: Boris Brezillon <boris.brezillon@collabora.com>
-> >
-> > This patch adds the missing MODULE_DEVICE_TABLE definitions on different
-> > Mediatek drivers which generates correct modalias for automatic loading
-> > when these drivers are compiled as an external module.
-> >
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-
-Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
-
->
-> A gentle ping for someone to review this patchset :-)
->
-> Thanks,
->   Enric
->
-> > ---
-> >
-> >  drivers/gpu/drm/mediatek/mtk_cec.c      | 2 ++
-> >  drivers/gpu/drm/mediatek/mtk_dpi.c      | 1 +
-> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c  | 1 +
-> >  drivers/gpu/drm/mediatek/mtk_dsi.c      | 1 +
-> >  drivers/gpu/drm/mediatek/mtk_hdmi.c     | 1 +
-> >  drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c | 1 +
-> >  6 files changed, 7 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_cec.c b/drivers/gpu/drm/mediatek/mtk_cec.c
-> > index cb29b649fcdb..3b86e626e459 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_cec.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_cec.c
-> > @@ -7,6 +7,7 @@
-> >  #include <linux/delay.h>
-> >  #include <linux/io.h>
-> >  #include <linux/interrupt.h>
-> > +#include <linux/module.h>
-> >  #include <linux/mod_devicetable.h>
-> >  #include <linux/platform_device.h>
-> >
-> > @@ -247,6 +248,7 @@ static const struct of_device_id mtk_cec_of_ids[] = {
-> >       { .compatible = "mediatek,mt8173-cec", },
-> >       {}
-> >  };
-> > +MODULE_DEVICE_TABLE(of, mtk_cec_of_ids);
-> >
-> >  struct platform_driver mtk_cec_driver = {
-> >       .probe = mtk_cec_probe,
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > index 52f11a63a330..2680370652fd 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > @@ -822,6 +822,7 @@ static const struct of_device_id mtk_dpi_of_ids[] = {
-> >       },
-> >       { },
-> >  };
-> > +MODULE_DEVICE_TABLE(of, mtk_dpi_of_ids);
-> >
-> >  struct platform_driver mtk_dpi_driver = {
-> >       .probe = mtk_dpi_probe,
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> > index 5f49a809689b..e4645c8ae1c0 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> > @@ -470,6 +470,7 @@ static const struct of_device_id mtk_drm_of_ids[] = {
-> >         .data = &mt8183_mmsys_driver_data},
-> >       { }
-> >  };
-> > +MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
-> >
-> >  static int mtk_drm_probe(struct platform_device *pdev)
-> >  {
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > index 0527480c07be..c71ce62d1bec 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > @@ -1193,6 +1193,7 @@ static const struct of_device_id mtk_dsi_of_match[] = {
-> >         .data = &mt8183_dsi_driver_data },
-> >       { },
-> >  };
-> > +MODULE_DEVICE_TABLE(of, mtk_dsi_of_match);
-> >
-> >  struct platform_driver mtk_dsi_driver = {
-> >       .probe = mtk_dsi_probe,
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> > index 8ee55f9e2954..b4696a9d73f7 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> > @@ -1818,6 +1818,7 @@ static const struct of_device_id mtk_drm_hdmi_of_ids[] = {
-> >       },
-> >       {}
-> >  };
-> > +MODULE_DEVICE_TABLE(of, mtk_drm_hdmi_of_ids);
-> >
-> >  static struct platform_driver mtk_hdmi_driver = {
-> >       .probe = mtk_drm_hdmi_probe,
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c b/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c
-> > index 62dbad5675bb..6207eac88550 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c
-> > @@ -335,6 +335,7 @@ static const struct of_device_id mtk_hdmi_ddc_match[] = {
-> >       { .compatible = "mediatek,mt8173-hdmi-ddc", },
-> >       {},
-> >  };
-> > +MODULE_DEVICE_TABLE(of, mtk_hdmi_ddc_match);
-> >
-> >  struct platform_driver mtk_hdmi_ddc_driver = {
-> >       .probe = mtk_hdmi_ddc_probe,
-> >
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpPbiAzLzIyLzIxIDU6MDIgUE0sIEFybmQgQmVyZ21hbm4gd3JvdGU6Cj4gRnJvbTogQXJu
+ZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4KPiAKPiBnY2MtMTEgd2FybnMgdGhhdCBpbnRlbF9k
+cF9jaGVja19tc3Rfc3RhdHVzKCkgaGFzIGEgbG9jYWwgYXJyYXkgb2YKPiBmb3VydGVlbiBieXRl
+cyBhbmQgcGFzc2VzIHRoZSBsYXN0IGZvdXIgYnl0ZXMgaW50byBhIGZ1bmN0aW9uIHRoYXQKPiBl
+eHBlY3RzIGEgc2l4LWJ5dGUgYXJyYXk6Cj4gCj4gZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
+eS9pbnRlbF9kcC5jOiBJbiBmdW5jdGlvbiDigJhpbnRlbF9kcF9jaGVja19tc3Rfc3RhdHVz4oCZ
+Ogo+IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYzo0NTU2OjIyOiBlcnJv
+cjog4oCYZHJtX2RwX2NoYW5uZWxfZXFfb2vigJkgcmVhZGluZyA2IGJ5dGVzIGZyb20gYSByZWdp
+b24gb2Ygc2l6ZSA0IFstV2Vycm9yPXN0cmluZ29wLW92ZXJyZWFkXQo+ICA0NTU2IHwgICAgICAg
+ICAgICAgICAgICAgICAhZHJtX2RwX2NoYW5uZWxfZXFfb2soJmVzaVsxMF0sIGludGVsX2RwLT5s
+YW5lX2NvdW50KSkgewo+ICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgo+IGRyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYzo0NTU2OjIyOiBub3RlOiByZWZlcmVuY2luZyBhcmd1
+bWVudCAxIG9mIHR5cGUg4oCYY29uc3QgdTggKuKAmSB7YWthIOKAmGNvbnN0IHVuc2lnbmVkIGNo
+YXIgKuKAmX0KPiBJbiBmaWxlIGluY2x1ZGVkIGZyb20gZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
+cGxheS9pbnRlbF9kcC5jOjM4Ogo+IGluY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaDoxNDU5OjY6
+IG5vdGU6IGluIGEgY2FsbCB0byBmdW5jdGlvbiDigJhkcm1fZHBfY2hhbm5lbF9lcV9va+KAmQo+
+ICAxNDU5IHwgYm9vbCBkcm1fZHBfY2hhbm5lbF9lcV9vayhjb25zdCB1OCBsaW5rX3N0YXR1c1tE
+UF9MSU5LX1NUQVRVU19TSVpFXSwKPiAgICAgICB8ICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn4K
+PiAKPiBDbGVhcmx5IHNvbWV0aGluZyBpcyB3cm9uZyBoZXJlLCBidXQgSSBjYW4ndCBxdWl0ZSBm
+aWd1cmUgb3V0IHdoYXQuCj4gQ2hhbmdpbmcgdGhlIGFycmF5IHNpemUgdG8gMTYgYnl0ZXMgYXZv
+aWRzIHRoZSB3YXJuaW5nLCBidXQgaXMKPiBwcm9iYWJseSB0aGUgd3Jvbmcgc29sdXRpb24gaGVy
+ZS4KClRoZSBkcm0gZGlzcGxheXBvcnQtaGVscGVycyBpbmRlZWQgZXhwZWN0IGEgNiBieXRlcyBi
+dWZmZXIsIGJ1dCB0aGV5CnVzdWFsbHkgb25seSBjb25zdW1lIDQgYnl0ZXMuCgpJIGRvbid0IHRo
+aW5rIHRoYXQgY2hhbmdpbmcgdGhlIERQX0RQUlhfRVNJX0xFTiBpcyBhIGdvb2QgZml4IGhlcmUs
+CnNpbmNlIGl0IGlzIHVzZWQgaW4gbXVsdGlwbGUgcGxhY2VzLCBidXQgdGhlIGVzaSBhcnJheSBh
+bHJlYWR5IGdldHMKemVyby1lZCBvdXQgYnkgaXRzIGluaXRpYWxpemVyLCBzbyB3ZSBjYW4ganVz
+dCBwYXNzIDIgZXh0cmEgMCBieXRlcwp0byBnaXZlIGRybV9kcF9jaGFubmVsX2VxX29rKCkgY2Fs
+bCB0aGUgNiBieXRlIGJ1ZmZlciBpdHMgcHJvdG90eXBlCnNwZWNpZmllcyBieSBkb2luZyB0aGlz
+OgoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyBi
+L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwppbmRleCA4OTc3MTFkOWQ3
+ZDMuLjE0Nzk2MmQ0YWQwNiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
+eS9pbnRlbF9kcC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAu
+YwpAQCAtNDUzOCw3ICs0NTM4LDExIEBAIGludGVsX2RwX2NoZWNrX21zdF9zdGF0dXMoc3RydWN0
+IGludGVsX2RwICppbnRlbF9kcCkKIAlkcm1fV0FSTl9PTl9PTkNFKCZpOTE1LT5kcm0sIGludGVs
+X2RwLT5hY3RpdmVfbXN0X2xpbmtzIDwgMCk7CiAKIAlmb3IgKDs7KSB7Ci0JCXU4IGVzaVtEUF9E
+UFJYX0VTSV9MRU5dID0ge307CisJCS8qCisJCSAqIGRybV9kcF9jaGFubmVsX2VxX29rKCkgZXhw
+ZWN0cyBhIDYgYnl0ZSBsYXJnZSBidWZmZXIsIGJ1dAorCQkgKiB0aGUgRVNJIGluZm8gb25seSBj
+b250YWlucyA0IGJ5dGVzLCBwYXNzIDIgZXh0cmEgMCBieXRlcy4KKwkJICovCisJCXU4IGVzaVtE
+UF9EUFJYX0VTSV9MRU4gKyAyXSA9IHt9OwogCQlib29sIGhhbmRsZWQ7CiAJCWludCByZXRyeTsK
+IAoKU28gaTkxNSBkZXZzLCB3b3VsZCBzdWNoIGEgZml4IGJlIGFjY2VwdGFibGUgPwoKUmVnYXJk
+cywKCkhhbnMKCgoKCgoKPiAKPiBTaWduZWQtb2ZmLWJ5OiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFy
+bmRiLmRlPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMg
+fCAyICstCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+
+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKPiBpbmRleCA4YzEyZDUz
+NzU2MDcuLjgzMGUyNTE1ZjExOSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9k
+aXNwbGF5L2ludGVsX2RwLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
+dGVsX2RwLmMKPiBAQCAtNjUsNyArNjUsNyBAQAo+ICAjaW5jbHVkZSAiaW50ZWxfdmRzYy5oIgo+
+ICAjaW5jbHVkZSAiaW50ZWxfdnJyLmgiCj4gIAo+IC0jZGVmaW5lIERQX0RQUlhfRVNJX0xFTiAx
+NAo+ICsjZGVmaW5lIERQX0RQUlhfRVNJX0xFTiAxNgo+ICAKPiAgLyogRFAgRFNDIHRocm91Z2hw
+dXQgdmFsdWVzIHVzZWQgZm9yIHNsaWNlIGNvdW50IGNhbGN1bGF0aW9ucyBLUGl4ZWxzL3MgKi8K
+PiAgI2RlZmluZSBEUF9EU0NfUEVBS19QSVhFTF9SQVRFCQkJMjcyMDAwMAo+IAoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
