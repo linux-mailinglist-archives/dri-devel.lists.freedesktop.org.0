@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B06F34E4F2
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 11:59:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 693B434E50B
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 12:05:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C8736E894;
-	Tue, 30 Mar 2021 09:59:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D566B6E899;
+	Tue, 30 Mar 2021 10:05:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67E606E894
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 09:59:31 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id bt4so7467152pjb.5
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 02:59:31 -0700 (PDT)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7CF56E899
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 10:05:21 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id v23so5898715ple.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 03:05:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1Tqq1ERBW5zif4DNt5ta5Mo7lvwdJfWKWYNfSiz2UEg=;
- b=R/FpcwVRjlPsCiozgycU+lXamNKchtJDBTnLnutcTgg82NqmIiPrXJo6tBPHPV5fnp
- bIN7Mf2xdXg3rH9Cw8wwdtOOIgGUWQt8HZBPhvWoUGx11NsIudRKFTQj9voi/wq8m1BK
- ZYTGteV9ZlrTYsKvdBPHwpJbOYiUnI0ugee7GwUThH7zBAxITaIwEDJKb2vWbMusQxNs
- c79WmsnRkXsdCto/gftvRzt+r9jdxS3fBKi1MvKhTQSojZ8QRiSksMn859DAY1lh4C6P
- HXnKA9iqki0sIxtIGGIPdiQWEnPgG5KueZgwhJEvggIblEaHhWlSxZZxt+9dDRvHNNDi
- v3kw==
+ :cc; bh=tS1uhWIe/TEg11FeZtjuul/9EnB/YPwQB5kwRzF6Kkg=;
+ b=BNIlFcHcQ56OWXrqMMS4DcWAQfSI3YSiUUW266M2va/uUY4Gh/0/fFMm9kWrNeo5bf
+ rAJD6xswYN54xQIDiyUNEtY5o16h8jcRfqPMYVVVWOA+Ly2NjOdBgq+X5f8s5G2WgeLp
+ Kw3KcOYoJktJ/8zM4W1XVmBy2bmFAOCgGuoUfsqrOwkjN9eZsqdsKD3cSSw8Y5J7FN7W
+ ej1i1cfffC2H8eaLVzWj1zHmGFv5+EXMjCTAv2hx1wufA0abSTCJuHEQbJnZW4WYq6pB
+ pBYa5ADeezBCb7GE/qUYENefL2SjOTPuMK2N2OOQlHZe+QThQPe7UMCCgy200llASUEI
+ Na9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=1Tqq1ERBW5zif4DNt5ta5Mo7lvwdJfWKWYNfSiz2UEg=;
- b=lpZcWRC3RvTQ1uAx6vFuTv3OOKBoP7pB1jVGnxwg/ceuihe62qEOM16bIwJzZmtGh3
- wC/o3XjlkWwFin8Fb86QFoxbQdTWm1QLlpz4Bvj4kuFcAfHuQUSQt7gBQUWQRYo0X/Qe
- 3JQZUjkKtk1OBUdCN4xCdR+Uo84BJ0vOHlivXAjQKrHcUZzYIhM4aaQUo3f76CU/2br7
- aWeqoaB9FMebLaFDfHNWc3JeSUFKvRa2ey51k5Yq672HxfMEChVNF/ulV594MXjaPZyh
- EhS91PQCgyyMtKlRF59Yxrd2Yd3PdVzHnJrPWK1tJTzHIoMoF3hTZQvHapmB1WQc5ASq
- JASA==
-X-Gm-Message-State: AOAM533AN6b+dsFOlowitZurejfk62y0a3UY3RPo6cxbvAY+ckp2/xuz
- VY88kSXnNQ25+xskcblRSUBQ/zdqEPxzeWO8iv2zYg==
-X-Google-Smtp-Source: ABdhPJz083eFE1y0mwa7+SGFcHH2WhLmPzMliwzsjMhLx85SNcmbx7WGT+YL62qKsp24XayKEST3gP2E0dzA17eRAP4=
-X-Received: by 2002:a17:902:e752:b029:e6:822c:355c with SMTP id
- p18-20020a170902e752b02900e6822c355cmr32634633plf.69.1617098370785; Tue, 30
- Mar 2021 02:59:30 -0700 (PDT)
+ bh=tS1uhWIe/TEg11FeZtjuul/9EnB/YPwQB5kwRzF6Kkg=;
+ b=b6NlsjM/nT6cXpWQzqrC4ORXQhcQa6OS2IOBuds+1MpylKlfkAr6G0DDPvqC+AsV3B
+ Qo4RTgxmYEZpw6993RcNE05ZAemTv7HeIb9zTEdc/nB6zuYQiorQGJ1NFIJc5OY0d2np
+ V66Dmhvodf9kKkO4yzie4DM2aHZKks4EPw0YmaipVwfhkONbZnObvUO3KeEARas838sC
+ ZMZD5xF0tbi8EZ3LFvk+fqUDF4m7rcdlX/tGseUeJq5sSIImJsACQXoX2g1/aDzmobGV
+ juLUNMEQI0EN+iWG1YpEIFx1L0klFRSNoIRTAsP4upr34l1EV/h43sy3Gi3qbnj0TndP
+ ottA==
+X-Gm-Message-State: AOAM533KlGRImlkBCLcIUfWp8QEImuqY8aWgXeMuQr/YzDCQqlJjmX1o
+ wiEG5DE7fLD0SPYRYA/JXgfuqlt9RQywUfrYk0Vf6A==
+X-Google-Smtp-Source: ABdhPJwttdbQgWbQqKewGqf82CaKDeAXOp4eqCQsHTq++cvvYV+9J1PWyEEO3AJFEuacxioJYvp3w9Hf+/G4qKJlhG8=
+X-Received: by 2002:a17:90a:4a8f:: with SMTP id
+ f15mr3636664pjh.19.1617098721401; 
+ Tue, 30 Mar 2021 03:05:21 -0700 (PDT)
 MIME-Version: 1.0
 References: <1615952569-4711-1-git-send-email-victor.liu@nxp.com>
- <1615952569-4711-13-git-send-email-victor.liu@nxp.com>
-In-Reply-To: <1615952569-4711-13-git-send-email-victor.liu@nxp.com>
+ <1615952569-4711-14-git-send-email-victor.liu@nxp.com>
+In-Reply-To: <1615952569-4711-14-git-send-email-victor.liu@nxp.com>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 30 Mar 2021 11:59:19 +0200
-Message-ID: <CAG3jFyv-_WzReTAhq-2EkSWev2YdZo6KiHwzXdaQLmNAHXnCrQ@mail.gmail.com>
-Subject: Re: [PATCH v6 12/14] drm/bridge: imx: Add LDB support for i.MX8qxp
+Date: Tue, 30 Mar 2021 12:05:10 +0200
+Message-ID: <CAG3jFystgcgm3PDx_1gTbOg0awnON-f6ihNWBbX8s-ck1Tp70A@mail.gmail.com>
+Subject: Re: [PATCH v6 13/14] drm/bridge: imx: Add LDB support for i.MX8qm
 To: Liu Ying <victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,22 +83,19 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hey Liu,
 
-checkpatch --strict lists some nits and a warning. I think the kconfig
-warning can be ignored. With the rest fixed, feel free to add my r-b.
-
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+checkpatch --strict lists some nits for this patch with those and the
+below warning fixed, feel free to add my r-b.
 
 On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 >
-> This patch adds a drm bridge driver for i.MX8qxp LVDS display bridge(LDB)
+> This patch adds a drm bridge driver for i.MX8qm LVDS display bridge(LDB)
 > which is officially named as pixel mapper.  The LDB has two channels.
-> Each of them supports up to 24bpp parallel input color format and can map
-> the input to VESA or JEIDA standards.  The two channels cannot be used
-> simultaneously, that is to say, the user should pick one of them to use.
-> Two LDB channels from two LDB instances can work together in LDB split
-> mode to support a dual link LVDS display.  The channel indexes have to be
-> different.  Channel0 outputs odd pixels and channel1 outputs even pixels.
-> This patch supports the LDB single mode and split mode.
+> Each of them supports up to 30bpp parallel input color format and can
+> map the input to VESA or JEIDA standards.  The two channels can be used
+> simultaneously, either in dual mode or split mode.  In dual mode, the
+> two channels output identical data.  In split mode, channel0 outputs
+> odd pixels and channel1 outputs even pixels.  This patch supports the
+> LDB single mode and split mode.
 >
 > Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > ---
@@ -112,7 +109,7 @@ On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 >
 > v4->v5:
 > * Link with the imx-ldb-helper object. (Robert)
-> * Correspondingly, rename 'imx8qxp-ldb.c' to 'imx8qxp-ldb-drv.c'.
+> * Correspondingly, rename 'imx8qm-ldb.c' to 'imx8qm-ldb-drv.c'.
 >
 > v3->v4:
 > * No change.
@@ -121,54 +118,50 @@ On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 > * No change.
 >
 > v1->v2:
-> * Drop unnecessary DT validation.
-> * Use of_graph_get_endpoint_by_regs() and of_graph_get_remote_endpoint() to
->   get the input remote endpoint in imx8qxp_ldb_set_di_id().
-> * Avoid using companion_port OF node after putting it in
->   imx8qxp_ldb_parse_dt_companion().
-> * Mention i.MX8qxp LDB official name 'pixel mapper' in the bridge driver
+> * Drop unnecessary check for maximum available LDB channels.
+> * Mention i.MX8qm LDB official name 'pixel mapper' in the bridge driver
 >   and Kconfig help message.
 >
->  drivers/gpu/drm/bridge/imx/Kconfig           |   9 +
->  drivers/gpu/drm/bridge/imx/Makefile          |   3 +
->  drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c | 720 +++++++++++++++++++++++++++
->  3 files changed, 732 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c
+>  drivers/gpu/drm/bridge/imx/Kconfig          |   9 +
+>  drivers/gpu/drm/bridge/imx/Makefile         |   3 +
+>  drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c | 586 ++++++++++++++++++++++++++++
+>  3 files changed, 598 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c
 >
 > diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-> index 1ea1ce7..94f8db4d 100644
+> index 94f8db4d..3a8683f 100644
 > --- a/drivers/gpu/drm/bridge/imx/Kconfig
 > +++ b/drivers/gpu/drm/bridge/imx/Kconfig
 > @@ -1,3 +1,12 @@
-> +config DRM_IMX8QXP_LDB
-> +       tristate "Freescale i.MX8QXP LVDS display bridge"
+> +config DRM_IMX8QM_LDB
+> +       tristate "Freescale i.MX8QM LVDS display bridge"
 > +       depends on OF
 > +       depends on COMMON_CLK
 > +       select DRM_KMS_HELPER
 > +       help
 > +         Choose this to enable the internal LVDS Display Bridge(LDB) found in
-> +         Freescale i.MX8qxp processor.  Official name of LDB is pixel mapper.
+> +         Freescale i.MX8qm processor.  Official name of LDB is pixel mapper.
 > +
->  config DRM_IMX8QXP_PIXEL_COMBINER
->         tristate "Freescale i.MX8QM/QXP pixel combiner"
+>  config DRM_IMX8QXP_LDB
+>         tristate "Freescale i.MX8QXP LVDS display bridge"
 >         depends on OF
 > diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
-> index e74dd64..96d5d1e 100644
+> index 96d5d1e..aa90ec8 100644
 > --- a/drivers/gpu/drm/bridge/imx/Makefile
 > +++ b/drivers/gpu/drm/bridge/imx/Makefile
 > @@ -1,3 +1,6 @@
-> +imx8qxp-ldb-objs := imx-ldb-helper.o imx8qxp-ldb-drv.o
-> +obj-$(CONFIG_DRM_IMX8QXP_LDB) += imx8qxp-ldb.o
+> +imx8qm-ldb-objs := imx-ldb-helper.o imx8qm-ldb-drv.o
+> +obj-$(CONFIG_DRM_IMX8QM_LDB) += imx8qm-ldb.o
 > +
->  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
->  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) += imx8qxp-pixel-link.o
->  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI) += imx8qxp-pxl2dpi.o
-> diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c
+>  imx8qxp-ldb-objs := imx-ldb-helper.o imx8qxp-ldb-drv.o
+>  obj-$(CONFIG_DRM_IMX8QXP_LDB) += imx8qxp-ldb.o
+>
+> diff --git a/drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c b/drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c
 > new file mode 100644
-> index 00000000..d7f59c1
+> index 00000000..6c92636
 > --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c
-> @@ -0,0 +1,720 @@
+> +++ b/drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c
+> @@ -0,0 +1,586 @@
 > +// SPDX-License-Identifier: GPL-2.0+
 > +
 > +/*
@@ -194,70 +187,67 @@ On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 > +
 > +#include "imx-ldb-helper.h"
 > +
-> +#define  LDB_CH_SEL            (1 << 28)
+> +#define  LDB_CH0_10BIT_EN              (1 << 22)
+> +#define  LDB_CH1_10BIT_EN              (1 << 23)
+> +#define  LDB_CH0_DATA_WIDTH_24BIT      (1 << 24)
+> +#define  LDB_CH1_DATA_WIDTH_24BIT      (1 << 26)
+> +#define  LDB_CH0_DATA_WIDTH_30BIT      (2 << 24)
+> +#define  LDB_CH1_DATA_WIDTH_30BIT      (2 << 26)
 > +
-> +#define SS_CTRL                        0x20
-> +#define  CH_HSYNC_M(id)                BIT(0 + ((id) * 2))
-> +#define  CH_VSYNC_M(id)                BIT(1 + ((id) * 2))
-> +#define  CH_PHSYNC(id)         BIT(0 + ((id) * 2))
-> +#define  CH_PVSYNC(id)         BIT(1 + ((id) * 2))
+> +#define SS_CTRL                                0x20
+> +#define  CH_HSYNC_M(id)                        BIT(0 + ((id) * 2))
+> +#define  CH_VSYNC_M(id)                        BIT(1 + ((id) * 2))
+> +#define  CH_PHSYNC(id)                 BIT(0 + ((id) * 2))
+> +#define  CH_PVSYNC(id)                 BIT(1 + ((id) * 2))
 > +
-> +#define DRIVER_NAME            "imx8qxp-ldb"
+> +#define DRIVER_NAME                    "imx8qm-ldb"
 > +
-> +struct imx8qxp_ldb_channel {
+> +struct imx8qm_ldb_channel {
 > +       struct ldb_channel base;
 > +       struct phy *phy;
-> +       unsigned int di_id;
 > +};
 > +
-> +struct imx8qxp_ldb {
+> +struct imx8qm_ldb {
 > +       struct ldb base;
 > +       struct device *dev;
-> +       struct imx8qxp_ldb_channel channel[MAX_LDB_CHAN_NUM];
+> +       struct imx8qm_ldb_channel channel[MAX_LDB_CHAN_NUM];
 > +       struct clk *clk_pixel;
 > +       struct clk *clk_bypass;
-> +       struct drm_bridge *companion;
 > +       int active_chno;
 > +};
 > +
-> +static inline struct imx8qxp_ldb_channel *
-> +base_to_imx8qxp_ldb_channel(struct ldb_channel *base)
+> +static inline struct imx8qm_ldb_channel *
+> +base_to_imx8qm_ldb_channel(struct ldb_channel *base)
 > +{
-> +       return container_of(base, struct imx8qxp_ldb_channel, base);
+> +       return container_of(base, struct imx8qm_ldb_channel, base);
 > +}
 > +
-> +static inline struct imx8qxp_ldb *base_to_imx8qxp_ldb(struct ldb *base)
+> +static inline struct imx8qm_ldb *base_to_imx8qm_ldb(struct ldb *base)
 > +{
-> +       return container_of(base, struct imx8qxp_ldb, base);
+> +       return container_of(base, struct imx8qm_ldb, base);
 > +}
 > +
-> +static void imx8qxp_ldb_set_phy_cfg(struct imx8qxp_ldb *imx8qxp_ldb,
-> +                                   unsigned long di_clk, bool is_split,
-> +                                   struct phy_configure_opts_lvds *phy_cfg)
+> +static void imx8qm_ldb_set_phy_cfg(struct imx8qm_ldb *imx8qm_ldb,
+> +                                  unsigned long di_clk,
+> +                                  bool is_split, bool is_slave,
+> +                                  struct phy_configure_opts_lvds *phy_cfg)
 > +{
 > +       phy_cfg->bits_per_lane_and_dclk_cycle = 7;
 > +       phy_cfg->lanes = 4;
-> +
-> +       if (is_split) {
-> +               phy_cfg->differential_clk_rate = di_clk / 2;
-> +               phy_cfg->is_slave = !imx8qxp_ldb->companion;
-> +       } else {
-> +               phy_cfg->differential_clk_rate = di_clk;
-> +               phy_cfg->is_slave = false;
-> +       }
+> +       phy_cfg->differential_clk_rate = is_split ? di_clk / 2 : di_clk;
+> +       phy_cfg->is_slave = is_slave;
 > +}
 > +
-> +static int imx8qxp_ldb_bridge_atomic_check(struct drm_bridge *bridge,
-> +                                  struct drm_bridge_state *bridge_state,
-> +                                  struct drm_crtc_state *crtc_state,
-> +                                  struct drm_connector_state *conn_state)
+> +static int imx8qm_ldb_bridge_atomic_check(struct drm_bridge *bridge,
+> +                                         struct drm_bridge_state *bridge_state,
+> +                                         struct drm_crtc_state *crtc_state,
+> +                                         struct drm_connector_state *conn_state)
 > +{
 > +       struct ldb_channel *ldb_ch = bridge->driver_private;
 > +       struct ldb *ldb = ldb_ch->ldb;
-> +       struct imx8qxp_ldb_channel *imx8qxp_ldb_ch =
-> +                                       base_to_imx8qxp_ldb_channel(ldb_ch);
-> +       struct imx8qxp_ldb *imx8qxp_ldb = base_to_imx8qxp_ldb(ldb);
-> +       struct drm_bridge *companion = imx8qxp_ldb->companion;
+> +       struct imx8qm_ldb_channel *imx8qm_ldb_ch =
+> +                                       base_to_imx8qm_ldb_channel(ldb_ch);
+> +       struct imx8qm_ldb *imx8qm_ldb = base_to_imx8qm_ldb(ldb);
 > +       struct drm_display_mode *adj = &crtc_state->adjusted_mode;
 > +       unsigned long di_clk = adj->clock * 1000;
 > +       bool is_split = ldb_channel_is_split_link(ldb_ch);
@@ -270,37 +260,41 @@ On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 > +       if (ret)
 > +               return ret;
 > +
-> +       imx8qxp_ldb_set_phy_cfg(imx8qxp_ldb, di_clk, is_split, phy_cfg);
-> +       ret = phy_validate(imx8qxp_ldb_ch->phy, PHY_MODE_LVDS, 0, &opts);
+> +       imx8qm_ldb_set_phy_cfg(imx8qm_ldb, di_clk, is_split, false, phy_cfg);
+> +       ret = phy_validate(imx8qm_ldb_ch->phy, PHY_MODE_LVDS, 0, &opts);
 > +       if (ret < 0) {
-> +               DRM_DEV_DEBUG_DRIVER(imx8qxp_ldb->dev,
+> +               DRM_DEV_DEBUG_DRIVER(imx8qm_ldb->dev,
 > +                                    "failed to validate PHY: %d\n", ret);
 > +               return ret;
 > +       }
 > +
-> +       if (is_split && companion) {
-> +               ret = companion->funcs->atomic_check(companion,
-> +                                       bridge_state, crtc_state, conn_state);
-> +               if (ret)
+> +       if (is_split) {
+> +               imx8qm_ldb_ch =
+> +                       &imx8qm_ldb->channel[imx8qm_ldb->active_chno ^ 1];
+> +               imx8qm_ldb_set_phy_cfg(imx8qm_ldb, di_clk, is_split, true,
+> +                                                                       phy_cfg);
+> +               ret = phy_validate(imx8qm_ldb_ch->phy, PHY_MODE_LVDS, 0, &opts);
+> +               if (ret < 0) {
+> +                       DRM_DEV_DEBUG_DRIVER(imx8qm_ldb->dev,
+> +                               "failed to validate slave PHY: %d\n", ret);
 > +                       return ret;
+> +               }
 > +       }
 > +
 > +       return ret;
 > +}
 > +
 > +static void
-> +imx8qxp_ldb_bridge_mode_set(struct drm_bridge *bridge,
-> +                           const struct drm_display_mode *mode,
-> +                           const struct drm_display_mode *adjusted_mode)
+> +imx8qm_ldb_bridge_mode_set(struct drm_bridge *bridge,
+> +                          const struct drm_display_mode *mode,
+> +                          const struct drm_display_mode *adjusted_mode)
 > +{
 > +       struct ldb_channel *ldb_ch = bridge->driver_private;
-> +       struct ldb_channel *companion_ldb_ch;
 > +       struct ldb *ldb = ldb_ch->ldb;
-> +       struct imx8qxp_ldb_channel *imx8qxp_ldb_ch =
-> +                                       base_to_imx8qxp_ldb_channel(ldb_ch);
-> +       struct imx8qxp_ldb *imx8qxp_ldb = base_to_imx8qxp_ldb(ldb);
-> +       struct drm_bridge *companion = imx8qxp_ldb->companion;
-> +       struct device *dev = imx8qxp_ldb->dev;
+> +       struct imx8qm_ldb_channel *imx8qm_ldb_ch =
+> +                                       base_to_imx8qm_ldb_channel(ldb_ch);
+> +       struct imx8qm_ldb *imx8qm_ldb = base_to_imx8qm_ldb(ldb);
+> +       struct device *dev = imx8qm_ldb->dev;
 > +       unsigned long di_clk = adjusted_mode->clock * 1000;
 > +       bool is_split = ldb_channel_is_split_link(ldb_ch);
 > +       union phy_configure_opts opts = { };
@@ -312,46 +306,46 @@ On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 > +       if (ret < 0)
 > +               DRM_DEV_ERROR(dev, "failed to get runtime PM sync: %d\n", ret);
 > +
-> +       ret = phy_init(imx8qxp_ldb_ch->phy);
+> +       ret = phy_init(imx8qm_ldb_ch->phy);
 > +       if (ret < 0)
 > +               DRM_DEV_ERROR(dev, "failed to initialize PHY: %d\n", ret);
 > +
-> +       ret = phy_set_mode(imx8qxp_ldb_ch->phy, PHY_MODE_LVDS);
-> +       if (ret < 0)
-> +               DRM_DEV_ERROR(dev, "failed to set PHY mode: %d\n", ret);
+> +       clk_set_rate(imx8qm_ldb->clk_bypass, di_clk);
+> +       clk_set_rate(imx8qm_ldb->clk_pixel, di_clk);
 > +
-> +       if (is_split && companion) {
-> +               companion_ldb_ch = bridge_to_ldb_ch(companion);
-> +
-> +               companion_ldb_ch->in_bus_format = ldb_ch->in_bus_format;
-> +               companion_ldb_ch->out_bus_format = ldb_ch->out_bus_format;
-> +       }
-> +
-> +       clk_set_rate(imx8qxp_ldb->clk_bypass, di_clk);
-> +       clk_set_rate(imx8qxp_ldb->clk_pixel, di_clk);
-> +
-> +       imx8qxp_ldb_set_phy_cfg(imx8qxp_ldb, di_clk, is_split, phy_cfg);
-> +       ret = phy_configure(imx8qxp_ldb_ch->phy, &opts);
+> +       imx8qm_ldb_set_phy_cfg(imx8qm_ldb, di_clk, is_split, false, phy_cfg);
+> +       ret = phy_configure(imx8qm_ldb_ch->phy, &opts);
 > +       if (ret < 0)
 > +               DRM_DEV_ERROR(dev, "failed to configure PHY: %d\n", ret);
 > +
-> +       if (chno == 0)
-> +               ldb->ldb_ctrl &= ~LDB_CH_SEL;
-> +       else
-> +               ldb->ldb_ctrl |= LDB_CH_SEL;
+> +       if (is_split) {
+> +               imx8qm_ldb_ch =
+> +                       &imx8qm_ldb->channel[imx8qm_ldb->active_chno ^ 1];
+> +               imx8qm_ldb_set_phy_cfg(imx8qm_ldb, di_clk, is_split, true,
+> +                                                                       phy_cfg);
+> +               ret = phy_configure(imx8qm_ldb_ch->phy, &opts);
+> +               if (ret < 0)
+> +                       DRM_DEV_ERROR(dev, "failed to configure slave PHY: %d\n",
+> +                                                                       ret);
+> +       }
 > +
 > +       /* input VSYNC signal from pixel link is active low */
-> +       if (imx8qxp_ldb_ch->di_id == 0)
+> +       if (ldb_ch->chno == 0 || is_split)
 > +               ldb->ldb_ctrl |= LDB_DI0_VS_POL_ACT_LOW;
-> +       else
+> +       if (ldb_ch->chno == 1 || is_split)
 > +               ldb->ldb_ctrl |= LDB_DI1_VS_POL_ACT_LOW;
 > +
-> +       /*
-> +        * For split mode, settle input VSYNC signal polarity and
-> +        * channel selection down early.
-> +        */
-> +       if (is_split)
-> +               regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
+> +       switch (ldb_ch->out_bus_format) {
+> +       case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
+> +               break;
+> +       case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
+> +       case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
+> +               if (ldb_ch->chno == 0 || is_split)
+> +                       ldb->ldb_ctrl |= LDB_CH0_DATA_WIDTH_24BIT;
+> +               if (ldb_ch->chno == 1 || is_split)
+> +                       ldb->ldb_ctrl |= LDB_CH1_DATA_WIDTH_24BIT;
+> +               break;
+> +       }
 > +
 > +       ldb_bridge_mode_set_helper(bridge, mode, adjusted_mode);
 > +
@@ -366,111 +360,108 @@ On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 > +       else if (adjusted_mode->flags & DRM_MODE_FLAG_PHSYNC)
 > +               regmap_update_bits(ldb->regmap, SS_CTRL,
 > +                                  CH_HSYNC_M(chno), CH_PHSYNC(chno));
-> +
-> +       if (is_split && companion)
-> +               companion->funcs->mode_set(companion, mode, adjusted_mode);
 > +}
 > +
 > +static void
-> +imx8qxp_ldb_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-> +                                    struct drm_bridge_state *old_bridge_state)
+> +imx8qm_ldb_bridge_atomic_enable(struct drm_bridge *bridge,
+> +                               struct drm_bridge_state *old_bridge_state)
 > +{
 > +       struct ldb_channel *ldb_ch = bridge->driver_private;
 > +       struct ldb *ldb = ldb_ch->ldb;
-> +       struct imx8qxp_ldb *imx8qxp_ldb = base_to_imx8qxp_ldb(ldb);
-> +       struct drm_bridge *companion = imx8qxp_ldb->companion;
+> +       struct imx8qm_ldb_channel *imx8qm_ldb_ch =
+> +                                       base_to_imx8qm_ldb_channel(ldb_ch);
+> +       struct imx8qm_ldb *imx8qm_ldb = base_to_imx8qm_ldb(ldb);
+> +       struct device *dev = imx8qm_ldb->dev;
 > +       bool is_split = ldb_channel_is_split_link(ldb_ch);
+> +       int ret;
 > +
-> +       clk_prepare_enable(imx8qxp_ldb->clk_pixel);
-> +       clk_prepare_enable(imx8qxp_ldb->clk_bypass);
+> +       clk_prepare_enable(imx8qm_ldb->clk_pixel);
+> +       clk_prepare_enable(imx8qm_ldb->clk_bypass);
 > +
-> +       if (is_split && companion)
-> +               companion->funcs->atomic_pre_enable(companion, old_bridge_state);
+> +       /* both DI0 and DI1 connect with pixel link, so ok to use DI0 only */
+> +       if (ldb_ch->chno == 0 || is_split) {
+> +               ldb->ldb_ctrl &= ~LDB_CH0_MODE_EN_MASK;
+> +               ldb->ldb_ctrl |= LDB_CH0_MODE_EN_TO_DI0;
+> +       }
+> +       if (ldb_ch->chno == 1 || is_split) {
+> +               ldb->ldb_ctrl &= ~LDB_CH1_MODE_EN_MASK;
+> +               ldb->ldb_ctrl |= LDB_CH1_MODE_EN_TO_DI0;
+> +       }
+> +
+> +       if (is_split) {
+> +               ret = phy_power_on(imx8qm_ldb->channel[0].phy);
+> +               if (ret)
+> +                       DRM_DEV_ERROR(dev,
+> +                                     "failed to power on channel0 PHY: %d\n",
+> +                                     ret);
+> +
+> +               ret = phy_power_on(imx8qm_ldb->channel[1].phy);
+> +               if (ret)
+> +                       DRM_DEV_ERROR(dev,
+> +                                     "failed to power on channel1 PHY: %d\n",
+> +                                     ret);
+> +       } else {
+> +               ret = phy_power_on(imx8qm_ldb_ch->phy);
+> +               if (ret)
+> +                       DRM_DEV_ERROR(dev, "failed to power on PHY: %d\n", ret);
+> +       }
+> +
+> +       ldb_bridge_enable_helper(bridge);
 > +}
 > +
 > +static void
-> +imx8qxp_ldb_bridge_atomic_enable(struct drm_bridge *bridge,
+> +imx8qm_ldb_bridge_atomic_disable(struct drm_bridge *bridge,
 > +                                struct drm_bridge_state *old_bridge_state)
 > +{
 > +       struct ldb_channel *ldb_ch = bridge->driver_private;
 > +       struct ldb *ldb = ldb_ch->ldb;
-> +       struct imx8qxp_ldb_channel *imx8qxp_ldb_ch =
-> +                                       base_to_imx8qxp_ldb_channel(ldb_ch);
-> +       struct imx8qxp_ldb *imx8qxp_ldb = base_to_imx8qxp_ldb(ldb);
-> +       struct drm_bridge *companion = imx8qxp_ldb->companion;
-> +       struct device *dev = imx8qxp_ldb->dev;
+> +       struct imx8qm_ldb_channel *imx8qm_ldb_ch =
+> +                                       base_to_imx8qm_ldb_channel(ldb_ch);
+> +       struct imx8qm_ldb *imx8qm_ldb = base_to_imx8qm_ldb(ldb);
+> +       struct device *dev = imx8qm_ldb->dev;
 > +       bool is_split = ldb_channel_is_split_link(ldb_ch);
 > +       int ret;
-> +
-> +       if (ldb_ch->chno == 0 || is_split) {
-> +               ldb->ldb_ctrl &= ~LDB_CH0_MODE_EN_MASK;
-> +               ldb->ldb_ctrl |= imx8qxp_ldb_ch->di_id == 0 ?
-> +                               LDB_CH0_MODE_EN_TO_DI0 : LDB_CH0_MODE_EN_TO_DI1;
-> +       }
-> +       if (ldb_ch->chno == 1 || is_split) {
-> +               ldb->ldb_ctrl &= ~LDB_CH1_MODE_EN_MASK;
-> +               ldb->ldb_ctrl |= imx8qxp_ldb_ch->di_id == 0 ?
-> +                               LDB_CH1_MODE_EN_TO_DI0 : LDB_CH1_MODE_EN_TO_DI1;
-> +       }
-> +
-> +       ldb_bridge_enable_helper(bridge);
-> +
-> +       ret = phy_power_on(imx8qxp_ldb_ch->phy);
-> +       if (ret)
-> +               DRM_DEV_ERROR(dev, "failed to power on PHY: %d\n", ret);
-> +
-> +       if (is_split && companion)
-> +               companion->funcs->atomic_enable(companion, old_bridge_state);
-> +}
-> +
-> +static void
-> +imx8qxp_ldb_bridge_atomic_disable(struct drm_bridge *bridge,
-> +                                 struct drm_bridge_state *old_bridge_state)
-> +{
-> +       struct ldb_channel *ldb_ch = bridge->driver_private;
-> +       struct ldb *ldb = ldb_ch->ldb;
-> +       struct imx8qxp_ldb_channel *imx8qxp_ldb_ch =
-> +                                       base_to_imx8qxp_ldb_channel(ldb_ch);
-> +       struct imx8qxp_ldb *imx8qxp_ldb = base_to_imx8qxp_ldb(ldb);
-> +       struct drm_bridge *companion = imx8qxp_ldb->companion;
-> +       struct device *dev = imx8qxp_ldb->dev;
-> +       bool is_split = ldb_channel_is_split_link(ldb_ch);
-> +       int ret;
-> +
-> +       ret = phy_power_off(imx8qxp_ldb_ch->phy);
-> +       if (ret)
-> +               DRM_DEV_ERROR(dev, "failed to power off PHY: %d\n", ret);
-> +
-> +       ret = phy_exit(imx8qxp_ldb_ch->phy);
-> +       if (ret < 0)
-> +               DRM_DEV_ERROR(dev, "failed to teardown PHY: %d\n", ret);
 > +
 > +       ldb_bridge_disable_helper(bridge);
 > +
-> +       clk_disable_unprepare(imx8qxp_ldb->clk_bypass);
-> +       clk_disable_unprepare(imx8qxp_ldb->clk_pixel);
+> +       if (is_split) {
+> +               ret = phy_power_off(imx8qm_ldb->channel[0].phy);
+> +               if (ret)
+> +                       DRM_DEV_ERROR(dev,
+> +                                     "failed to power off channel0 PHY: %d\n",
+> +                                     ret);
+> +               ret = phy_power_off(imx8qm_ldb->channel[1].phy);
+> +               if (ret)
+> +                       DRM_DEV_ERROR(dev,
+> +                                     "failed to power off channel1 PHY: %d\n",
+> +                                     ret);
+> +       } else {
+> +               ret = phy_power_off(imx8qm_ldb_ch->phy);
+> +               if (ret)
+> +                       DRM_DEV_ERROR(dev, "failed to power off PHY: %d\n", ret);
+> +       }
 > +
-> +       if (is_split && companion)
-> +               companion->funcs->atomic_disable(companion, old_bridge_state);
+> +       clk_disable_unprepare(imx8qm_ldb->clk_bypass);
+> +       clk_disable_unprepare(imx8qm_ldb->clk_pixel);
 > +
 > +       ret = pm_runtime_put(dev);
 > +       if (ret < 0)
 > +               DRM_DEV_ERROR(dev, "failed to put runtime PM: %d\n", ret);
 > +}
 > +
-> +static const u32 imx8qxp_ldb_bus_output_fmts[] = {
+> +static const u32 imx8qm_ldb_bus_output_fmts[] = {
 > +       MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
 > +       MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
 > +       MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
 > +       MEDIA_BUS_FMT_FIXED,
 > +};
 > +
-> +static bool imx8qxp_ldb_bus_output_fmt_supported(u32 fmt)
+> +static bool imx8qm_ldb_bus_output_fmt_supported(u32 fmt)
 > +{
 > +       int i;
 > +
-> +       for (i = 0; i < ARRAY_SIZE(imx8qxp_ldb_bus_output_fmts); i++) {
-> +               if (imx8qxp_ldb_bus_output_fmts[i] == fmt)
+> +       for (i = 0; i < ARRAY_SIZE(imx8qm_ldb_bus_output_fmts); i++) {
+> +               if (imx8qm_ldb_bus_output_fmts[i] == fmt)
 > +                       return true;
 > +       }
 > +
@@ -478,7 +469,7 @@ On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 > +}
 > +
 > +static u32 *
-> +imx8qxp_ldb_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+> +imx8qm_ldb_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
 > +                                       struct drm_bridge_state *bridge_state,
 > +                                       struct drm_crtc_state *crtc_state,
 > +                                       struct drm_connector_state *conn_state,
@@ -489,7 +480,7 @@ On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 > +       const struct drm_format_info *finfo;
 > +       u32 *input_fmts;
 > +
-> +       if (!imx8qxp_ldb_bus_output_fmt_supported(output_fmt))
+> +       if (!imx8qm_ldb_bus_output_fmt_supported(output_fmt))
 > +               return NULL;
 > +
 > +       *num_input_fmts = 1;
@@ -504,24 +495,24 @@ On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 > +
 > +               /*
 > +                * Look at the first bus format to determine input format.
-> +                * Default to MEDIA_BUS_FMT_RGB888_1X24, if no match.
+> +                * Default to MEDIA_BUS_FMT_RGB888_1X36_CPADLO, if no match.
 > +                */
 > +               if (di->num_bus_formats) {
 > +                       finfo = drm_format_info(di->bus_formats[0]);
 > +
 > +                       input_fmts[0] = finfo->depth == 18 ?
-> +                                       MEDIA_BUS_FMT_RGB666_1X24_CPADHI :
-> +                                       MEDIA_BUS_FMT_RGB888_1X24;
+> +                                       MEDIA_BUS_FMT_RGB666_1X36_CPADLO :
+> +                                       MEDIA_BUS_FMT_RGB888_1X36_CPADLO;
 > +               } else {
-> +                       input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
+> +                       input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X36_CPADLO;
 > +               }
 > +               break;
 > +       case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-> +               input_fmts[0] = MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
+> +               input_fmts[0] = MEDIA_BUS_FMT_RGB666_1X36_CPADLO;
 > +               break;
 > +       case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
 > +       case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-> +               input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
+> +               input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X36_CPADLO;
 > +               break;
 > +       default:
 > +               kfree(input_fmts);
@@ -533,26 +524,26 @@ On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 > +}
 > +
 > +static u32 *
-> +imx8qxp_ldb_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+> +imx8qm_ldb_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
 > +                                       struct drm_bridge_state *bridge_state,
 > +                                       struct drm_crtc_state *crtc_state,
 > +                                       struct drm_connector_state *conn_state,
 > +                                       unsigned int *num_output_fmts)
 > +{
-> +       *num_output_fmts = ARRAY_SIZE(imx8qxp_ldb_bus_output_fmts);
-> +       return kmemdup(imx8qxp_ldb_bus_output_fmts,
-> +                       sizeof(imx8qxp_ldb_bus_output_fmts), GFP_KERNEL);
+> +       *num_output_fmts = ARRAY_SIZE(imx8qm_ldb_bus_output_fmts);
+> +       return kmemdup(imx8qm_ldb_bus_output_fmts,
+> +                       sizeof(imx8qm_ldb_bus_output_fmts), GFP_KERNEL);
 > +}
 > +
 > +static enum drm_mode_status
-> +imx8qxp_ldb_bridge_mode_valid(struct drm_bridge *bridge,
-> +                             const struct drm_display_info *info,
-> +                             const struct drm_display_mode *mode)
+> +imx8qm_ldb_bridge_mode_valid(struct drm_bridge *bridge,
+> +                            const struct drm_display_info *info,
+> +                            const struct drm_display_mode *mode)
 > +{
 > +       struct ldb_channel *ldb_ch = bridge->driver_private;
 > +       bool is_single = ldb_channel_is_single_link(ldb_ch);
 > +
-> +       if (mode->clock > 170000)
+> +       if (mode->clock > 300000)
 > +               return MODE_CLOCK_HIGH;
 > +
 > +       if (mode->clock > 150000 && is_single)
@@ -561,227 +552,92 @@ On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 > +       return MODE_OK;
 > +}
 > +
-> +static const struct drm_bridge_funcs imx8qxp_ldb_bridge_funcs = {
+> +static const struct drm_bridge_funcs imx8qm_ldb_bridge_funcs = {
 > +       .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
 > +       .atomic_destroy_state   = drm_atomic_helper_bridge_destroy_state,
 > +       .atomic_reset           = drm_atomic_helper_bridge_reset,
-> +       .mode_valid             = imx8qxp_ldb_bridge_mode_valid,
+> +       .mode_valid             = imx8qm_ldb_bridge_mode_valid,
 > +       .attach                 = ldb_bridge_attach_helper,
-> +       .atomic_check           = imx8qxp_ldb_bridge_atomic_check,
-> +       .mode_set               = imx8qxp_ldb_bridge_mode_set,
-> +       .atomic_pre_enable      = imx8qxp_ldb_bridge_atomic_pre_enable,
-> +       .atomic_enable          = imx8qxp_ldb_bridge_atomic_enable,
-> +       .atomic_disable         = imx8qxp_ldb_bridge_atomic_disable,
+> +       .atomic_check           = imx8qm_ldb_bridge_atomic_check,
+> +       .mode_set               = imx8qm_ldb_bridge_mode_set,
+> +       .atomic_enable          = imx8qm_ldb_bridge_atomic_enable,
+> +       .atomic_disable         = imx8qm_ldb_bridge_atomic_disable,
 > +       .atomic_get_input_bus_fmts =
-> +                       imx8qxp_ldb_bridge_atomic_get_input_bus_fmts,
+> +                       imx8qm_ldb_bridge_atomic_get_input_bus_fmts,
 > +       .atomic_get_output_bus_fmts =
-> +                       imx8qxp_ldb_bridge_atomic_get_output_bus_fmts,
+> +                       imx8qm_ldb_bridge_atomic_get_output_bus_fmts,
 > +};
 > +
-> +static int imx8qxp_ldb_set_di_id(struct imx8qxp_ldb *imx8qxp_ldb)
+> +static int imx8qm_ldb_get_phy(struct imx8qm_ldb *imx8qm_ldb)
 > +{
-> +       struct imx8qxp_ldb_channel *imx8qxp_ldb_ch =
-> +                        &imx8qxp_ldb->channel[imx8qxp_ldb->active_chno];
-> +       struct ldb_channel *ldb_ch = &imx8qxp_ldb_ch->base;
-> +       struct device_node *ep, *remote;
-> +       struct device *dev = imx8qxp_ldb->dev;
-> +       struct of_endpoint endpoint;
-> +       int ret;
+> +       struct imx8qm_ldb_channel *imx8qm_ldb_ch;
+> +       struct ldb_channel *ldb_ch;
+> +       struct device *dev = imx8qm_ldb->dev;
+> +       int i, ret;
 > +
-> +       ep = of_graph_get_endpoint_by_regs(ldb_ch->np, 0, -1);
-> +       if (!ep) {
-> +               DRM_DEV_ERROR(dev, "failed to get port0 endpoint\n");
-> +               return -EINVAL;
+> +       for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
+> +               imx8qm_ldb_ch = &imx8qm_ldb->channel[i];
+> +               ldb_ch = &imx8qm_ldb_ch->base;
+> +
+> +               if (!ldb_ch->is_available)
+> +                       continue;
+> +
+> +               imx8qm_ldb_ch->phy = devm_of_phy_get(dev, ldb_ch->np,
+> +                                                               "lvds_phy");
+> +               if (IS_ERR(imx8qm_ldb_ch->phy)) {
+> +                       ret = PTR_ERR(imx8qm_ldb_ch->phy);
+> +                       if (ret != -EPROBE_DEFER)
+> +                               DRM_DEV_ERROR(dev,
+> +                                       "failed to get channel%d PHY: %d\n",
+> +                                                               i, ret);
+> +                       return ret;
+> +               }
 > +       }
-> +
-> +       remote = of_graph_get_remote_endpoint(ep);
-> +       of_node_put(ep);
-> +       if (!remote) {
-> +               DRM_DEV_ERROR(dev, "failed to get port0 remote endpoint\n");
-> +               return -EINVAL;
-> +       }
-> +
-> +       ret = of_graph_parse_endpoint(remote, &endpoint);
-> +       of_node_put(remote);
-> +       if (ret) {
-> +               DRM_DEV_ERROR(dev, "failed to parse port0 remote endpoint: %d\n",
-> +                                                                       ret);
-> +               return ret;
-> +       }
-> +
-> +       imx8qxp_ldb_ch->di_id = endpoint.id;
 > +
 > +       return 0;
 > +}
 > +
-> +static int
-> +imx8qxp_ldb_check_chno_and_dual_link(struct ldb_channel *ldb_ch, int link)
-> +{
-> +       if ((link == DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS && ldb_ch->chno != 0) ||
-> +           (link == DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS && ldb_ch->chno != 1))
-> +               return -EINVAL;
-> +
-> +       return 0;
-> +}
-> +
-> +static int imx8qxp_ldb_parse_dt_companion(struct imx8qxp_ldb *imx8qxp_ldb)
-> +{
-> +       struct imx8qxp_ldb_channel *imx8qxp_ldb_ch =
-> +                        &imx8qxp_ldb->channel[imx8qxp_ldb->active_chno];
-> +       struct ldb_channel *ldb_ch = &imx8qxp_ldb_ch->base;
-> +       struct ldb_channel *companion_ldb_ch;
-> +       struct device_node *companion;
-> +       struct device_node *child;
-> +       struct device_node *companion_port = NULL;
-> +       struct device_node *port1, *port2;
-> +       struct device *dev = imx8qxp_ldb->dev;
-> +       const struct of_device_id *match;
-> +       u32 i;
-> +       int dual_link;
-> +       int ret;
-> +
-> +       /* Locate the companion LDB for dual-link operation, if any. */
-> +       companion = of_parse_phandle(dev->of_node, "fsl,companion-ldb", 0);
-> +       if (!companion)
-> +               return 0;
-> +
-> +       if (!of_device_is_available(companion)) {
-> +               DRM_DEV_ERROR(dev, "companion LDB is not available\n");
-> +               ret = -ENODEV;
-> +               goto out;
-> +       }
-> +
-> +       /*
-> +        * Sanity check: the companion bridge must have the same compatible
-> +        * string.
-> +        */
-> +       match = of_match_device(dev->driver->of_match_table, dev);
-> +       if (!of_device_is_compatible(companion, match->compatible)) {
-> +               DRM_DEV_ERROR(dev, "companion LDB is incompatible\n");
-> +               ret = -ENXIO;
-> +               goto out;
-> +       }
-> +
-> +       for_each_available_child_of_node(companion, child) {
-> +               ret = of_property_read_u32(child, "reg", &i);
-> +               if (ret || i > MAX_LDB_CHAN_NUM - 1) {
-> +                       DRM_DEV_ERROR(dev,
-> +                                     "invalid channel node address: %u\n", i);
-> +                       ret = -EINVAL;
-> +                       of_node_put(child);
-> +                       goto out;
-> +               }
-> +
-> +               /*
-> +                * Channel numbers have to be different, because channel0
-> +                * transmits odd pixels and channel1 transmits even pixels.
-> +                */
-> +               if (i == (ldb_ch->chno ^ 0x1)) {
-> +                       companion_port = child;
-> +                       break;
-> +               }
-> +       }
-> +
-> +       if (companion_port == NULL) {
-> +               DRM_DEV_ERROR(dev,
-> +                             "failed to find companion LDB channel port\n");
-> +               ret = -EINVAL;
-> +               goto out;
-> +       }
-> +
-> +       /*
-> +        * We need to work out if the sink is expecting us to function in
-> +        * dual-link mode.  We do this by looking at the DT port nodes we are
-> +        * connected to.  If they are marked as expecting odd pixels and
-> +        * even pixels than we need to enable LDB split mode.
-> +        */
-> +       port1 = of_graph_get_port_by_id(ldb_ch->np, 1);
-> +       port2 = of_graph_get_port_by_id(companion_port, 1);
-> +       dual_link = drm_of_lvds_get_dual_link_pixel_order(port1, port2);
-> +       of_node_put(port1);
-> +       of_node_put(port2);
-> +
-> +       switch (dual_link) {
-> +       case DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS:
-> +               ldb_ch->link_type = LDB_CH_DUAL_LINK_ODD_EVEN_PIXELS;
-> +               break;
-> +       case DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS:
-> +               ldb_ch->link_type = LDB_CH_DUAL_LINK_EVEN_ODD_PIXELS;
-> +               break;
-> +       default:
-> +               ret = dual_link;
-> +               DRM_DEV_ERROR(dev,
-> +                             "failed to get dual link pixel order: %d\n", ret);
-> +               goto out;
-> +       }
-> +
-> +       ret = imx8qxp_ldb_check_chno_and_dual_link(ldb_ch, dual_link);
-> +       if (ret < 0) {
-> +               DRM_DEV_ERROR(dev,
-> +                             "unmatched channel number(%u) vs dual link(%d)\n",
-> +                                                       ldb_ch->chno, dual_link);
-> +               goto out;
-> +       }
-> +
-> +       imx8qxp_ldb->companion = of_drm_find_bridge(companion_port);
-> +       if (!imx8qxp_ldb->companion) {
-> +               ret = -EPROBE_DEFER;
-> +               DRM_DEV_DEBUG_DRIVER(dev,
-> +                      "failed to find bridge for companion bridge: %d\n", ret);
-> +               goto out;
-> +       }
-> +
-> +       DRM_DEV_DEBUG_DRIVER(dev,
-> +               "dual-link configuration detected (companion bridge %pOF)\n",
-> +                                                               companion);
-> +
-> +       companion_ldb_ch = bridge_to_ldb_ch(imx8qxp_ldb->companion);
-> +       companion_ldb_ch->link_type = ldb_ch->link_type;
-> +out:
-> +       of_node_put(companion_port);
-> +       of_node_put(companion);
-> +       return ret;
-> +}
-> +
-> +static int imx8qxp_ldb_probe(struct platform_device *pdev)
+> +static int imx8qm_ldb_probe(struct platform_device *pdev)
 > +{
 > +       struct device *dev = &pdev->dev;
-> +       struct imx8qxp_ldb *imx8qxp_ldb;
-> +       struct imx8qxp_ldb_channel *imx8qxp_ldb_ch;
+> +       struct imx8qm_ldb *imx8qm_ldb;
+> +       struct imx8qm_ldb_channel *imx8qm_ldb_ch;
 > +       struct ldb *ldb;
 > +       struct ldb_channel *ldb_ch;
+> +       struct device_node *port1, *port2;
+> +       int pixel_order;
 > +       int ret, i;
 > +
-> +       imx8qxp_ldb = devm_kzalloc(dev, sizeof(*imx8qxp_ldb), GFP_KERNEL);
-> +       if (!imx8qxp_ldb)
+> +       imx8qm_ldb = devm_kzalloc(dev, sizeof(*imx8qm_ldb), GFP_KERNEL);
+> +       if (!imx8qm_ldb)
 > +               return -ENOMEM;
 > +
-> +       imx8qxp_ldb->clk_pixel = devm_clk_get(dev, "pixel");
-> +       if (IS_ERR(imx8qxp_ldb->clk_pixel)) {
-> +               ret = PTR_ERR(imx8qxp_ldb->clk_pixel);
+> +       imx8qm_ldb->clk_pixel = devm_clk_get(dev, "pixel");
+> +       if (IS_ERR(imx8qm_ldb->clk_pixel)) {
+> +               ret = PTR_ERR(imx8qm_ldb->clk_pixel);
 > +               if (ret != -EPROBE_DEFER)
 > +                       DRM_DEV_ERROR(dev,
 > +                                     "failed to get pixel clock: %d\n", ret);
 > +               return ret;
 > +       }
 > +
-> +       imx8qxp_ldb->clk_bypass = devm_clk_get(dev, "bypass");
-> +       if (IS_ERR(imx8qxp_ldb->clk_bypass)) {
-> +               ret = PTR_ERR(imx8qxp_ldb->clk_bypass);
+> +       imx8qm_ldb->clk_bypass = devm_clk_get(dev, "bypass");
+> +       if (IS_ERR(imx8qm_ldb->clk_bypass)) {
+> +               ret = PTR_ERR(imx8qm_ldb->clk_bypass);
 > +               if (ret != -EPROBE_DEFER)
 > +                       DRM_DEV_ERROR(dev,
 > +                                     "failed to get bypass clock: %d\n", ret);
 > +               return ret;
 > +       }
 > +
-> +       imx8qxp_ldb->dev = dev;
+> +       imx8qm_ldb->dev = dev;
 > +
-> +       ldb = &imx8qxp_ldb->base;
+> +       ldb = &imx8qm_ldb->base;
 > +       ldb->dev = dev;
 > +       ldb->ctrl_reg = 0xe0;
 > +
 > +       for (i = 0; i < MAX_LDB_CHAN_NUM; i++)
-> +               ldb->channel[i] = &imx8qxp_ldb->channel[i].base;
+> +               ldb->channel[i] = &imx8qm_ldb->channel[i].base;
 > +
 > +       ret = ldb_init_helper(ldb);
 > +       if (ret)
@@ -790,55 +646,58 @@ On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 > +       if (ldb->available_ch_cnt == 0) {
 > +               DRM_DEV_DEBUG_DRIVER(dev, "no available channel\n");
 > +               return 0;
-> +       } else if (ldb->available_ch_cnt > 1) {
-> +               DRM_DEV_ERROR(dev, "invalid available channel number(%u)\n",
-> +                                                       ldb->available_ch_cnt);
-> +               return -ENOTSUPP;
 > +       }
 > +
-> +       for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
-> +               imx8qxp_ldb_ch = &imx8qxp_ldb->channel[i];
-> +               ldb_ch = &imx8qxp_ldb_ch->base;
+> +       if (ldb->available_ch_cnt == 2) {
+> +               port1 = of_graph_get_port_by_id(ldb->channel[0]->np, 1);
+> +               port2 = of_graph_get_port_by_id(ldb->channel[1]->np, 1);
+> +               pixel_order =
+> +                       drm_of_lvds_get_dual_link_pixel_order(port1, port2);
+> +               of_node_put(port1);
+> +               of_node_put(port2);
 > +
-> +               if (ldb_ch->is_available) {
-> +                       imx8qxp_ldb->active_chno = ldb_ch->chno;
-> +                       break;
+> +               if (pixel_order != DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS) {
+> +                       DRM_DEV_ERROR(dev, "invalid dual link pixel order: %d\n",
+> +                                                               pixel_order);
+> +                       return -EINVAL;
+> +               }
+> +
+> +               imx8qm_ldb->active_chno = 0;
+> +               imx8qm_ldb_ch = &imx8qm_ldb->channel[0];
+> +               ldb_ch = &imx8qm_ldb_ch->base;
+> +               ldb_ch->link_type = pixel_order;
+> +       } else {
+> +               for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
+> +                       imx8qm_ldb_ch = &imx8qm_ldb->channel[i];
+> +                       ldb_ch = &imx8qm_ldb_ch->base;
+> +
+> +                       if (ldb_ch->is_available) {
+> +                               imx8qm_ldb->active_chno = ldb_ch->chno;
+> +                               break;
+> +                       }
 > +               }
 > +       }
 > +
-> +       imx8qxp_ldb_ch->phy = devm_of_phy_get(dev, ldb_ch->np, "lvds_phy");
-> +       if (IS_ERR(imx8qxp_ldb_ch->phy)) {
-> +               ret = PTR_ERR(imx8qxp_ldb_ch->phy);
-> +               if (ret != -EPROBE_DEFER)
-> +                       DRM_DEV_ERROR(dev, "failed to get channel%d PHY: %d\n",
-> +                                               imx8qxp_ldb->active_chno, ret);
+> +       ret = imx8qm_ldb_get_phy(imx8qm_ldb);
+> +       if (ret)
 > +               return ret;
-> +       }
 > +
 > +       ret = ldb_find_next_bridge_helper(ldb);
 > +       if (ret)
 > +               return ret;
 > +
-> +       ret = imx8qxp_ldb_set_di_id(imx8qxp_ldb);
-> +       if (ret)
-> +               return ret;
-> +
-> +       ret = imx8qxp_ldb_parse_dt_companion(imx8qxp_ldb);
-> +       if (ret)
-> +               return ret;
-> +
-> +       platform_set_drvdata(pdev, imx8qxp_ldb);
+> +       platform_set_drvdata(pdev, imx8qm_ldb);
 > +       pm_runtime_enable(dev);
 > +
-> +       ldb_add_bridge_helper(ldb, &imx8qxp_ldb_bridge_funcs);
+> +       ldb_add_bridge_helper(ldb, &imx8qm_ldb_bridge_funcs);
 > +
 > +       return ret;
 > +}
 > +
-> +static int imx8qxp_ldb_remove(struct platform_device *pdev)
+> +static int imx8qm_ldb_remove(struct platform_device *pdev)
 > +{
-> +       struct imx8qxp_ldb *imx8qxp_ldb = platform_get_drvdata(pdev);
-> +       struct ldb *ldb = &imx8qxp_ldb->base;
+> +       struct imx8qm_ldb *imx8qm_ldb = platform_get_drvdata(pdev);
+> +       struct ldb *ldb = &imx8qm_ldb->base;
 > +
 > +       ldb_remove_bridge_helper(ldb);
 > +
@@ -847,15 +706,15 @@ On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 > +       return 0;
 > +}
 > +
-> +static int __maybe_unused imx8qxp_ldb_runtime_suspend(struct device *dev)
+> +static int __maybe_unused imx8qm_ldb_runtime_suspend(struct device *dev)
 > +{
 > +       return 0;
 > +}
 > +
-> +static int __maybe_unused imx8qxp_ldb_runtime_resume(struct device *dev)
+> +static int __maybe_unused imx8qm_ldb_runtime_resume(struct device *dev)
 > +{
-> +       struct imx8qxp_ldb *imx8qxp_ldb = dev_get_drvdata(dev);
-> +       struct ldb *ldb = &imx8qxp_ldb->base;
+> +       struct imx8qm_ldb *imx8qm_ldb = dev_get_drvdata(dev);
+> +       struct ldb *ldb = &imx8qm_ldb->base;
 > +
 > +       /* disable LDB by resetting the control register to POR default */
 > +       regmap_write(ldb->regmap, ldb->ctrl_reg, 0);
@@ -863,29 +722,29 @@ On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 > +       return 0;
 > +}
 > +
-> +static const struct dev_pm_ops imx8qxp_ldb_pm_ops = {
-> +       SET_RUNTIME_PM_OPS(imx8qxp_ldb_runtime_suspend,
-> +                          imx8qxp_ldb_runtime_resume, NULL)
+> +static const struct dev_pm_ops imx8qm_ldb_pm_ops = {
+> +       SET_RUNTIME_PM_OPS(imx8qm_ldb_runtime_suspend,
+> +                          imx8qm_ldb_runtime_resume, NULL)
 > +};
 > +
-> +static const struct of_device_id imx8qxp_ldb_dt_ids[] = {
-> +       { .compatible = "fsl,imx8qxp-ldb" },
+> +static const struct of_device_id imx8qm_ldb_dt_ids[] = {
+> +       { .compatible = "fsl,imx8qm-ldb" },
 > +       { /* sentinel */ }
 > +};
-> +MODULE_DEVICE_TABLE(of, imx8qxp_ldb_dt_ids);
+> +MODULE_DEVICE_TABLE(of, imx8qm_ldb_dt_ids);
 > +
-> +static struct platform_driver imx8qxp_ldb_driver = {
-> +       .probe  = imx8qxp_ldb_probe,
-> +       .remove = imx8qxp_ldb_remove,
+> +static struct platform_driver imx8qm_ldb_driver = {
+> +       .probe  = imx8qm_ldb_probe,
+> +       .remove = imx8qm_ldb_remove,
 > +       .driver = {
-> +               .pm = &imx8qxp_ldb_pm_ops,
+> +               .pm = &imx8qm_ldb_pm_ops,
 > +               .name = DRIVER_NAME,
-> +               .of_match_table = imx8qxp_ldb_dt_ids,
+> +               .of_match_table = imx8qm_ldb_dt_ids,
 > +       },
 > +};
-> +module_platform_driver(imx8qxp_ldb_driver);
+> +module_platform_driver(imx8qm_ldb_driver);
 > +
-> +MODULE_DESCRIPTION("i.MX8QXP LVDS Display Bridge(LDB)/Pixel Mapper bridge driver");
+> +MODULE_DESCRIPTION("i.MX8QM LVDS Display Bridge(LDB)/Pixel Mapper bridge driver");
 > +MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
 > +MODULE_LICENSE("GPL v2");
 > +MODULE_ALIAS("platform:" DRIVER_NAME);
