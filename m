@@ -2,61 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA9234F149
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 20:56:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C3734F195
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 21:29:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D272E6E952;
-	Tue, 30 Mar 2021 18:56:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B80AB6E09C;
+	Tue, 30 Mar 2021 19:29:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
- [IPv6:2607:f8b0:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CF6989DFE
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 18:56:18 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id y2so6637489plg.5
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 11:56:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=A1Cm9DKwzI8CvORdDIEy1/TIc9c8R+sdsGDmBgQsdac=;
- b=bmpKFJU8/TpETST1kxi1bOPIfxziXa9chsB5tnTM+0YDM/puKEhUGNgzKasiHR/al8
- f6JJuCL4TJ5Uc823xq+xSgwBzRniXNw7aCv2lWnJF02QEKfZMNPLcSMK7E1SbJqmvsC/
- 075H8wWeQG61RXZBG1R7XQ1jPgXIChh6ZKIHw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=A1Cm9DKwzI8CvORdDIEy1/TIc9c8R+sdsGDmBgQsdac=;
- b=Q9fbHyVtwHxObOJSv3JpJfcYaND27O2zzBJlfEvf7DZhaV5SA4Cp5wVP8V9ctwJXpx
- FF9A43V81l1MOy6ViWR48/4W6AI5hmeLcuWXD4wDSL5Fym0sR2Eo3si1SAlA1ZUM22Li
- XDpQg3UzT4efXxzZMldXgDUUEoDW5pVkBkr4LMOWt5xvVJjqiErMjlNK3lZ0V9x+eI1F
- Y+q+G2Ao+r85bTPBSFJY3nm39ur1pHik2O6KtlrWyfOYB4/rmBylM6euH0kZKLvnbTtb
- LqKCOd0lpT2u/P6gcRUzhNNEiHeHQfRIkhpkKezVhV1WyyyojZGB5pFGXV1p6kByVI1J
- p5Ng==
-X-Gm-Message-State: AOAM532zFNX2gKMxyNTrSGkTRxUUYMIeI4ljvDnmVRvwkjlASlsnhXv4
- UOonPsCREJd3Zqbmb2wo/xqgPIMw2gMLvg==
-X-Google-Smtp-Source: ABdhPJx6ssFA3V35D5q1Icohe6M7TsyX+5kBYa9lFs9XO/Eaik1VuChmrs8OYk5LP8unOTL2xOnZqg==
-X-Received: by 2002:a17:90a:a618:: with SMTP id
- c24mr5718708pjq.108.1617130577746; 
- Tue, 30 Mar 2021 11:56:17 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:201:c8c2:b814:df0f:253f])
- by smtp.gmail.com with ESMTPSA id x4sm20545016pfn.134.2021.03.30.11.56.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Mar 2021 11:56:17 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ADA96E09C
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 19:29:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 64AF76199A
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 19:28:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617132539;
+ bh=4U99FbRAgIWybn1btupFzxxTcFinmlX5TO5/iUe/7iU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=eWtCktk5MYO8DiA1DKZlQFB1GCFrS95MebNK+pEPeGGBZVbdFakm9hHqEkQiteFBH
+ HKZCDj20lv9FjwIPFwH3H3AhIwDdvflGvwThwycvi1+hO6DWt8sFVapb+fx9+D5l0o
+ pJvUHr58a8dwDgjYQ7IAPxcGbnJQmrVW+NdUnRRVjv5J9M9sTC6oQPLzQ1ZlWXf61V
+ YkErw6fnuUb1cXw9ntmNnQQG9sbSENyNVZJcIyTwv6jLhl0D7lvIpKODQWTX1nxDIP
+ 93OpAp08mHxeOMFHxZGorOBkluRGEE9Vdst+j5BXDJrvZY7g1LHNqgV1+SEEfDEn7N
+ 0jEFegbYbUtbg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 541FF62AB7; Tue, 30 Mar 2021 19:28:59 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211425] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
+ more than 20secs aborting
+Date: Tue, 30 Mar 2021 19:28:58 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: icedragon.aw@web.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-211425-2300-Gsa5rX3I9f@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211425-2300@https.bugzilla.kernel.org/>
+References: <bug-211425-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20210330153527.gw33t4o2b35wwzbg@gilmour>
-References: <20210219120032.260676-1-maxime@cerno.tech>
- <20210219120032.260676-10-maxime@cerno.tech>
- <161706912161.3012082.17313817257247946143@swboyd.mtv.corp.google.com>
- <20210330153527.gw33t4o2b35wwzbg@gilmour>
-Subject: Re: [PATCH v3 10/11] drm: Use state helper instead of the plane state
- pointer
-From: Stephen Boyd <swboyd@chromium.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Date: Tue, 30 Mar 2021 11:56:15 -0700
-Message-ID: <161713057558.2260335.5422873422021430866@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,39 +64,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Maxime Ripard (2021-03-30 08:35:27)
-> Hi Stephen,
-> 
-> On Mon, Mar 29, 2021 at 06:52:01PM -0700, Stephen Boyd wrote:
-> > Trimming Cc list way down, sorry if that's too much.
-> > 
-> > Quoting Maxime Ripard (2021-02-19 04:00:30)
-> > > Many drivers reference the plane->state pointer in order to get the
-> > > current plane state in their atomic_update or atomic_disable hooks,
-> > > which would be the new plane state in the global atomic state since
-> > > _swap_state happened when those hooks are run.
-> > 
-> > Does this mean drm_atomic_helper_swap_state()?
-> 
-> Yep. Previous to that call in drm_atomic_helper_commit, plane->state is
-> the state currently programmed in the hardware, so the old state (that's
-> the case you have with atomic_check for example)
-> 
-> Once drm_atomic_helper_swap_state has run, plane->state is now the state
-> that needs to be programmed into the hardware, so the new state.
+https://bugzilla.kernel.org/show_bug.cgi?id=211425
 
-Ok, and I suppose that is called by drm_atomic_helper_commit()? So
-presumably a modeset is causing this? I get the NULL pointer around the
-time we switch from the splash screen to the login screen. I think
-there's a modeset during that transition.
+Andreas (icedragon.aw@web.de) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|5.11.5                      |5.11.11
+
+--- Comment #13 from Andreas (icedragon.aw@web.de) ---
+I have make a comparison with a second full AMD System:
+A) Ryzen 7 PRO 4750G APU (with build in Vega20) - Renoir
+B) Ryzen Threadripper 1900X with dedicated Vega64 GPU
+Both systems have installed the same OS (Kubuntu 20.10 with latest updates),
+same Xorg configuration (because both have a Vega-GPU), same User IO (monitor,
+keyboard and mouse) and running with the same mainline Kernel 5.11.11 (similar
+.config file).
+
+- Only my System A) is reproducible infected with the atombios errors (see
+comments above) and with the two times monitor blackout of each 20sec - after
+triggering the issue with simple putting the monitor off and on again (after
+waiting some seconds).
+
+- Because both systems have a vega gpu and using the same driver - it seem to
+be a Renoir APU only problem.
+
+- I also observed, that the issue can not be triggered (or is very hard to
+reproduce) during the sddm login screen! It seems to be, that only a regular
+KDE user or root session (inclusive the lock screen from a session) is affected
+by the issue.
+-> What is the difference? The usage of opengl or other 3d accelerations? I'm
+also tested with switching the rendering during a session, but I could not
+observe any difference whatever I used (opengl 2.0, 3.2 or xrendering).
+
+From now I'll only update the bug header for the latest tested (released)
+kernel version/subversion.
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
