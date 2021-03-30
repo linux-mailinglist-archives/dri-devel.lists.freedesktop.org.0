@@ -2,56 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B67634E3DE
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 11:06:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC5F34E478
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 11:32:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F8F46E882;
-	Tue, 30 Mar 2021 09:05:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FFF3896A3;
+	Tue, 30 Mar 2021 09:32:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA82C6E882
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 09:05:56 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 8CD6261994
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 09:05:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617095156;
- bh=d34TnPrs2PjMrZNCdUC8Yne0mSi/8m9E1KBDzPOd5uE=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=FQnQm7hAD7XPx2H5dSU80GsfabIQKo7Xom1zoGLYsCI+mGbUeKQ0rRj3tborjFDRU
- 9NZ7aiBLWFNQ7nNJjYKXzfdZCdwL751T1/gfzuvlisANrN5a/dhVqgA8knMPcIDRPA
- 0WVq0peSdSHfDhYYBcQyY3pGtOlIGUJJ/YpzYy6p+ORUZiJWgtAZ+OtIP9BogMKGDh
- Oj1dwmSNaRg3OW2zrN0Y1XW9wTAP2FPC7/wOhg9yfuOGN0hSnkfZb0uFVNTzRy6zp9
- XsBIn/PkJw5UI08jOXDCDQE2INw3yTqphwpOacCnVxUJCBhJBauRISLxauW0tHtVbQ
- lW19R7aKcp4Ug==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 85BD462AB9; Tue, 30 Mar 2021 09:05:56 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211875] CPU frequency scaling lost after "WARNING: CPU: 2 PID:
- 2358578 at smu8_send_msg_to_smc_with_parameter+0xfe/0x140 [amdgpu]"
-Date: Tue, 30 Mar 2021 09:05:56 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: erhard_f@mailbox.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-211875-2300-bybu6yQVAC@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211875-2300@https.bugzilla.kernel.org/>
-References: <bug-211875-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A4D0896A3
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 09:32:38 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12U9P4US039750;
+ Tue, 30 Mar 2021 09:32:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=TDzD339C56AHZiyJWUKFr5El3afRZqtMVI9Adnr4nr4=;
+ b=jZkkr52Z36UfEYWvyGmSsvrRt5rmqs5qp3yf2WiuUuzdLbU6T32wAfIYQNR1EVSLbv/2
+ Z4ogJWRNKo8aProN0HGAvxH1baqOv8S5Swr6OljzPZZhDA+z+yvTJZ9BtLtXnE1o+XLi
+ vFubwU+rNTCoJPNdsGp18FU6/FWD8WcAmf33eODAT0yR9KDBdI03kh+A4COK7MrgJGLn
+ 8xZwg4PZ9rEOB+do8q3ghQu3mcTNef9qIo27PDGr4JcnFyu+NdbKVBuDM93qCk4onsrB
+ U1uPwrRNMSmnK/YdigsnWneZ1Wzp0dJTPZEquG+Thd33oQzdpw01Wv1QAd7Ps8OwbGBI aQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 37hv4r6ft7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 30 Mar 2021 09:32:25 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12U9Omuj182967;
+ Tue, 30 Mar 2021 09:32:23 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 37jekyakwd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 30 Mar 2021 09:32:23 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 12U9WEg0024085;
+ Tue, 30 Mar 2021 09:32:14 GMT
+Received: from mwanda (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 30 Mar 2021 02:32:13 -0700
+Date: Tue, 30 Mar 2021 12:31:52 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Hyun Kwon <hyun.kwon@xilinx.com>
+Subject: [PATCH] drm: xlnx: zynqmp: fix a memset in zynqmp_dp_train()
+Message-ID: <YGLwCBMotnrKZu6P@mwanda>
 MIME-Version: 1.0
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9938
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ malwarescore=0 mlxscore=0
+ phishscore=0 suspectscore=0 mlxlogscore=999 adultscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
+ definitions=main-2103300066
+X-Proofpoint-ORIG-GUID: Ygtur3zAVSgOkfx3TG4zPL78zXtoTfGC
+X-Proofpoint-GUID: Ygtur3zAVSgOkfx3TG4zPL78zXtoTfGC
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9938
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 phishscore=0
+ adultscore=0 mlxlogscore=999 malwarescore=0 spamscore=0 suspectscore=0
+ clxscore=1011 bulkscore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
+ definitions=main-2103300066
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,30 +78,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ Michal Simek <michal.simek@xilinx.com>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=211875
+The dp->train_set[] for this driver is only two characters, not four so
+this memsets too much.  Fortunately, this ends up corrupting a struct
+hole and not anything important.
 
-Erhard F. (erhard_f@mailbox.org) changed:
+Fixes: d76271d22694 ("drm: xlnx: DRM/KMS driver for Xilinx ZynqMP DisplayPort Subsystem")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/gpu/drm/xlnx/zynqmp_dp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #295573|0                           |1
-        is obsolete|                            |
-
---- Comment #7 from Erhard F. (erhard_f@mailbox.org) ---
-Created attachment 296147
-  --> https://bugzilla.kernel.org/attachment.cgi?id=296147&action=edit
-kernel .config (kernel 5.12-rc5, A10-9700E)
-
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+index 99158ee67d02..59d1fb017da0 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+@@ -866,7 +866,7 @@ static int zynqmp_dp_train(struct zynqmp_dp *dp)
+ 		return ret;
+ 
+ 	zynqmp_dp_write(dp, ZYNQMP_DP_SCRAMBLING_DISABLE, 1);
+-	memset(dp->train_set, 0, 4);
++	memset(dp->train_set, 0, sizeof(dp->train_set));
+ 	ret = zynqmp_dp_link_train_cr(dp);
+ 	if (ret)
+ 		return ret;
 -- 
-You may reply to this email to add a comment.
+2.30.2
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
