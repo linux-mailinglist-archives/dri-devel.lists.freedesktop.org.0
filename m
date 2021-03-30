@@ -2,30 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E7634E618
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 13:09:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1374234E619
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 13:09:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A18676E8AB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE53A6E8AA;
 	Tue, 30 Mar 2021 11:09:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 502E46E8AA
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F10A36E8AA
  for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 11:09:11 +0000 (UTC)
 Received: from guri.fritz.box (unknown
  [IPv6:2a02:810a:880:f54:2d37:13aa:2f32:9c00])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: dafna)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CC72D1F4520F;
- Tue, 30 Mar 2021 12:09:09 +0100 (BST)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 4EF281F452F2;
+ Tue, 30 Mar 2021 12:09:10 +0100 (BST)
 From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 To: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/2] drm/mediatek: Don't support hdmi connector creation
-Date: Tue, 30 Mar 2021 13:09:00 +0200
-Message-Id: <20210330110902.14178-1-dafna.hirschfeld@collabora.com>
+Subject: [PATCH v3 1/2] drm/mediatek: Switch the hdmi bridge ops to the atomic
+ versions
+Date: Tue, 30 Mar 2021 13:09:01 +0200
+Message-Id: <20210330110902.14178-2-dafna.hirschfeld@collabora.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210330110902.14178-1-dafna.hirschfeld@collabora.com>
+References: <20210330110902.14178-1-dafna.hirschfeld@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,31 +49,86 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-commit f01195148967 ("drm/mediatek: mtk_dpi: Create connector for bridges")
-broke the display support for elm device since mtk_dpi calls
-drm_bridge_attach with the flag DRM_BRIDGE_ATTACH_NO_CONNECTOR
-while mtk_hdmi does not yet support this flag.
+The bridge operation '.enable' and the audio cb '.get_eld'
+access hdmi->conn. In the future we will want to support
+the flag DRM_BRIDGE_ATTACH_NO_CONNECTOR and then we will
+not have direct access to the connector.
+The atomic version '.atomic_enable' allows accessing the
+current connector from the state.
+This patch switches the bridge to the atomic version to
+prepare access to the connector in later patches.
 
-These three patches fix that by adding support for DRM_BRIDGE_ATTACH_NO_CONNECTOR
-in mtk_hdmi bridge attachment.
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-changes since v2:
-1. squash patch 3 with patch 2 to not break bisection
-2. remove the funtion mtk_hdmi_get_edid and inline its code in mtk_hdmi_bridge_get_edid
-3. small aligment
-
-changes since v1:
-1. split the first patch - now the first patch only moves the bridge ops to the atomic API
-while the replacement of the field 'conn' with the field '*curr_conn' is done in a new third patch.
-2. in the function 'get_eld' use the current conn only if 'enabled = true'.
-
-Dafna Hirschfeld (2):
-  drm/mediatek: Switch the hdmi bridge ops to the atomic versions
-  drm/mediatek: Don't support hdmi connector creation
-
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 174 ++++++++++++----------------
- 1 file changed, 71 insertions(+), 103 deletions(-)
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+index 8ee55f9e2954..f2c810b767ef 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+@@ -1357,7 +1357,8 @@ static bool mtk_hdmi_bridge_mode_fixup(struct drm_bridge *bridge,
+ 	return true;
+ }
+ 
+-static void mtk_hdmi_bridge_disable(struct drm_bridge *bridge)
++static void mtk_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
++					   struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
+ 
+@@ -1371,7 +1372,8 @@ static void mtk_hdmi_bridge_disable(struct drm_bridge *bridge)
+ 	hdmi->enabled = false;
+ }
+ 
+-static void mtk_hdmi_bridge_post_disable(struct drm_bridge *bridge)
++static void mtk_hdmi_bridge_atomic_post_disable(struct drm_bridge *bridge,
++						struct drm_bridge_state *old_state)
+ {
+ 	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
+ 
+@@ -1406,7 +1408,8 @@ static void mtk_hdmi_bridge_mode_set(struct drm_bridge *bridge,
+ 	drm_mode_copy(&hdmi->mode, adjusted_mode);
+ }
+ 
+-static void mtk_hdmi_bridge_pre_enable(struct drm_bridge *bridge)
++static void mtk_hdmi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
++					      struct drm_bridge_state *old_state)
+ {
+ 	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
+ 
+@@ -1426,7 +1429,8 @@ static void mtk_hdmi_send_infoframe(struct mtk_hdmi *hdmi,
+ 		mtk_hdmi_setup_vendor_specific_infoframe(hdmi, mode);
+ }
+ 
+-static void mtk_hdmi_bridge_enable(struct drm_bridge *bridge)
++static void mtk_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
++					  struct drm_bridge_state *old_state)
+ {
+ 	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
+ 
+@@ -1440,13 +1444,16 @@ static void mtk_hdmi_bridge_enable(struct drm_bridge *bridge)
+ }
+ 
+ static const struct drm_bridge_funcs mtk_hdmi_bridge_funcs = {
++	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
++	.atomic_reset = drm_atomic_helper_bridge_reset,
+ 	.attach = mtk_hdmi_bridge_attach,
+ 	.mode_fixup = mtk_hdmi_bridge_mode_fixup,
+-	.disable = mtk_hdmi_bridge_disable,
+-	.post_disable = mtk_hdmi_bridge_post_disable,
++	.atomic_disable = mtk_hdmi_bridge_atomic_disable,
++	.atomic_post_disable = mtk_hdmi_bridge_atomic_post_disable,
+ 	.mode_set = mtk_hdmi_bridge_mode_set,
+-	.pre_enable = mtk_hdmi_bridge_pre_enable,
+-	.enable = mtk_hdmi_bridge_enable,
++	.atomic_pre_enable = mtk_hdmi_bridge_atomic_pre_enable,
++	.atomic_enable = mtk_hdmi_bridge_atomic_enable,
+ };
+ 
+ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
 -- 
 2.17.1
 
