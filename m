@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CD0C34E4D0
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 11:54:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B06F34E4F2
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 11:59:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6A5E6E892;
-	Tue, 30 Mar 2021 09:54:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C8736E894;
+	Tue, 30 Mar 2021 09:59:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
- [IPv6:2607:f8b0:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1471E6E892
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 09:54:52 +0000 (UTC)
-Received: by mail-pf1-x436.google.com with SMTP id c204so11808176pfc.4
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 02:54:52 -0700 (PDT)
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67E606E894
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 09:59:31 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id bt4so7467152pjb.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 02:59:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uKnmfRJzGmpHij9OjXp/+pldlJw2MpuaAC/mHxvBXyU=;
- b=i6PaUXVNLfM6UzGmBZKH2kkMx0+1/axJCQK4vlMup8H9ZuhKFBQwfxb+H3KOqIAuJ9
- hLBxR9IveT7Ig6P/XJl1dVZEdbIuR15r514bOEac5cDwDp/wOHfobMJJ2PfbohvkMoeN
- pO0fnHBJkwXFxzvbczCjNg5zEoBotkiuN1r0qNVGN/e1J/bLcn3zwvC1JGdIZCbBewnP
- 8Hnp6EbUUepuzugzjABIiV0lVd9OGrJ6zHeJvorQPt7Hj1+Z5WUcFYSQ8w+pS4YN5eK0
- TAkSgDmJxo6JtX+Zr7v4W9BROyEenUIH5A9mWlJliVaS+EtVIbFhzf9sbAaDPl98R3YQ
- Jv7g==
+ :cc; bh=1Tqq1ERBW5zif4DNt5ta5Mo7lvwdJfWKWYNfSiz2UEg=;
+ b=R/FpcwVRjlPsCiozgycU+lXamNKchtJDBTnLnutcTgg82NqmIiPrXJo6tBPHPV5fnp
+ bIN7Mf2xdXg3rH9Cw8wwdtOOIgGUWQt8HZBPhvWoUGx11NsIudRKFTQj9voi/wq8m1BK
+ ZYTGteV9ZlrTYsKvdBPHwpJbOYiUnI0ugee7GwUThH7zBAxITaIwEDJKb2vWbMusQxNs
+ c79WmsnRkXsdCto/gftvRzt+r9jdxS3fBKi1MvKhTQSojZ8QRiSksMn859DAY1lh4C6P
+ HXnKA9iqki0sIxtIGGIPdiQWEnPgG5KueZgwhJEvggIblEaHhWlSxZZxt+9dDRvHNNDi
+ v3kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=uKnmfRJzGmpHij9OjXp/+pldlJw2MpuaAC/mHxvBXyU=;
- b=m7Iz47on7SiFQf3dmi6fe2rpfNlR8ReyRqbrxk6ghNCTl1o/9onaF4LaQOSveE/Zaw
- F7Gw0BIEpszEZuPLR1ACLWgwPNFss/SbejhYnTxVYYprvJazsIus/4yuSM+u+vcFvRpC
- 97/yPr1ZeQGsjRusYEX/Hw3BvosZX03OeDqtw3PVCIL0qWgwOi/chUUPk1exwsYfrf1I
- XGFwwl4LLpx6cI0idvSxiMNpQ6JFAiLguRTY0DrZHJtRfeBxnCosdg2FRaIFuHnQ99fl
- m4BiBvyA39xjUnhRABW+y9rTdhovUflZvaBE6Whlr9B+jOONEo/0X8k54rA4EjMBZyi/
- POug==
-X-Gm-Message-State: AOAM532plqoLoWiLDvxpVVvvrjoZ00HI4nDbXR3m34d7faS0PtgFchr8
- BBjQNRlsYPo7a4AmSBcKbsW7g4C9R4GDf+eJtnImcg==
-X-Google-Smtp-Source: ABdhPJy+sF0AFhkeUUE71yZ5Vv/0O2C3KdJkp9j8lrAei/FtGJI84s6ef0YWQ8zy0qb/KqnBI1efcwu75mP8vV2xkZE=
-X-Received: by 2002:a65:5c42:: with SMTP id v2mr28258073pgr.339.1617098091252; 
- Tue, 30 Mar 2021 02:54:51 -0700 (PDT)
+ bh=1Tqq1ERBW5zif4DNt5ta5Mo7lvwdJfWKWYNfSiz2UEg=;
+ b=lpZcWRC3RvTQ1uAx6vFuTv3OOKBoP7pB1jVGnxwg/ceuihe62qEOM16bIwJzZmtGh3
+ wC/o3XjlkWwFin8Fb86QFoxbQdTWm1QLlpz4Bvj4kuFcAfHuQUSQt7gBQUWQRYo0X/Qe
+ 3JQZUjkKtk1OBUdCN4xCdR+Uo84BJ0vOHlivXAjQKrHcUZzYIhM4aaQUo3f76CU/2br7
+ aWeqoaB9FMebLaFDfHNWc3JeSUFKvRa2ey51k5Yq672HxfMEChVNF/ulV594MXjaPZyh
+ EhS91PQCgyyMtKlRF59Yxrd2Yd3PdVzHnJrPWK1tJTzHIoMoF3hTZQvHapmB1WQc5ASq
+ JASA==
+X-Gm-Message-State: AOAM533AN6b+dsFOlowitZurejfk62y0a3UY3RPo6cxbvAY+ckp2/xuz
+ VY88kSXnNQ25+xskcblRSUBQ/zdqEPxzeWO8iv2zYg==
+X-Google-Smtp-Source: ABdhPJz083eFE1y0mwa7+SGFcHH2WhLmPzMliwzsjMhLx85SNcmbx7WGT+YL62qKsp24XayKEST3gP2E0dzA17eRAP4=
+X-Received: by 2002:a17:902:e752:b029:e6:822c:355c with SMTP id
+ p18-20020a170902e752b02900e6822c355cmr32634633plf.69.1617098370785; Tue, 30
+ Mar 2021 02:59:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <1615952569-4711-1-git-send-email-victor.liu@nxp.com>
  <1615952569-4711-13-git-send-email-victor.liu@nxp.com>
 In-Reply-To: <1615952569-4711-13-git-send-email-victor.liu@nxp.com>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 30 Mar 2021 11:54:40 +0200
-Message-ID: <CAG3jFytpciiAGKnUyb6H-GoLYks9RRxHm3cRaH_PN_zhxZDUjQ@mail.gmail.com>
+Date: Tue, 30 Mar 2021 11:59:19 +0200
+Message-ID: <CAG3jFyv-_WzReTAhq-2EkSWev2YdZo6KiHwzXdaQLmNAHXnCrQ@mail.gmail.com>
 Subject: Re: [PATCH v6 12/14] drm/bridge: imx: Add LDB support for i.MX8qxp
 To: Liu Ying <victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,8 +83,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hey Liu,
 
-checkpatch --strict lists some nit and a warning. With those fixed
-feel free to add my r-b.
+checkpatch --strict lists some nits and a warning. I think the kconfig
+warning can be ignored. With the rest fixed, feel free to add my r-b.
+
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
 
 On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 >
@@ -792,12 +795,103 @@ On Wed, 17 Mar 2021 at 04:57, Liu Ying <victor.liu@nxp.com> wrote:
 > +                                                       ldb->available_ch_cnt);
 > +               return -ENOTSUPP;
 > +       }
-
-WARNING: ENOTSUPP is not a SUSV4 error code, prefer EOPNOTSUPP
-#683: FILE: drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c:625:
-+        return -ENOTSUPP;
-
-Maybe -EINVAL is a better return value.
+> +
+> +       for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
+> +               imx8qxp_ldb_ch = &imx8qxp_ldb->channel[i];
+> +               ldb_ch = &imx8qxp_ldb_ch->base;
+> +
+> +               if (ldb_ch->is_available) {
+> +                       imx8qxp_ldb->active_chno = ldb_ch->chno;
+> +                       break;
+> +               }
+> +       }
+> +
+> +       imx8qxp_ldb_ch->phy = devm_of_phy_get(dev, ldb_ch->np, "lvds_phy");
+> +       if (IS_ERR(imx8qxp_ldb_ch->phy)) {
+> +               ret = PTR_ERR(imx8qxp_ldb_ch->phy);
+> +               if (ret != -EPROBE_DEFER)
+> +                       DRM_DEV_ERROR(dev, "failed to get channel%d PHY: %d\n",
+> +                                               imx8qxp_ldb->active_chno, ret);
+> +               return ret;
+> +       }
+> +
+> +       ret = ldb_find_next_bridge_helper(ldb);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret = imx8qxp_ldb_set_di_id(imx8qxp_ldb);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret = imx8qxp_ldb_parse_dt_companion(imx8qxp_ldb);
+> +       if (ret)
+> +               return ret;
+> +
+> +       platform_set_drvdata(pdev, imx8qxp_ldb);
+> +       pm_runtime_enable(dev);
+> +
+> +       ldb_add_bridge_helper(ldb, &imx8qxp_ldb_bridge_funcs);
+> +
+> +       return ret;
+> +}
+> +
+> +static int imx8qxp_ldb_remove(struct platform_device *pdev)
+> +{
+> +       struct imx8qxp_ldb *imx8qxp_ldb = platform_get_drvdata(pdev);
+> +       struct ldb *ldb = &imx8qxp_ldb->base;
+> +
+> +       ldb_remove_bridge_helper(ldb);
+> +
+> +       pm_runtime_disable(&pdev->dev);
+> +
+> +       return 0;
+> +}
+> +
+> +static int __maybe_unused imx8qxp_ldb_runtime_suspend(struct device *dev)
+> +{
+> +       return 0;
+> +}
+> +
+> +static int __maybe_unused imx8qxp_ldb_runtime_resume(struct device *dev)
+> +{
+> +       struct imx8qxp_ldb *imx8qxp_ldb = dev_get_drvdata(dev);
+> +       struct ldb *ldb = &imx8qxp_ldb->base;
+> +
+> +       /* disable LDB by resetting the control register to POR default */
+> +       regmap_write(ldb->regmap, ldb->ctrl_reg, 0);
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct dev_pm_ops imx8qxp_ldb_pm_ops = {
+> +       SET_RUNTIME_PM_OPS(imx8qxp_ldb_runtime_suspend,
+> +                          imx8qxp_ldb_runtime_resume, NULL)
+> +};
+> +
+> +static const struct of_device_id imx8qxp_ldb_dt_ids[] = {
+> +       { .compatible = "fsl,imx8qxp-ldb" },
+> +       { /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, imx8qxp_ldb_dt_ids);
+> +
+> +static struct platform_driver imx8qxp_ldb_driver = {
+> +       .probe  = imx8qxp_ldb_probe,
+> +       .remove = imx8qxp_ldb_remove,
+> +       .driver = {
+> +               .pm = &imx8qxp_ldb_pm_ops,
+> +               .name = DRIVER_NAME,
+> +               .of_match_table = imx8qxp_ldb_dt_ids,
+> +       },
+> +};
+> +module_platform_driver(imx8qxp_ldb_driver);
+> +
+> +MODULE_DESCRIPTION("i.MX8QXP LVDS Display Bridge(LDB)/Pixel Mapper bridge driver");
+> +MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
+> +MODULE_LICENSE("GPL v2");
+> +MODULE_ALIAS("platform:" DRIVER_NAME);
+> --
+> 2.7.4
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
