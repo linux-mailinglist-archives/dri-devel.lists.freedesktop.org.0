@@ -2,111 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA34834F113
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 20:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C613034F139
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 20:49:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDCF06E94E;
-	Tue, 30 Mar 2021 18:38:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 552936E953;
+	Tue, 30 Mar 2021 18:49:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2087.outbound.protection.outlook.com [40.107.93.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7170A6E94E;
- Tue, 30 Mar 2021 18:38:36 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2077.outbound.protection.outlook.com [40.107.243.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 323226E952;
+ Tue, 30 Mar 2021 18:49:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UNo0Strg9fTbQd8Qy2+Hm8bG0EZFw2TwiNPTegUS+56QbQHp4MFJi0Gc/iOs5HKJxW/XY8p0ZSmy5hASt/DTKeB+7ijRhNANftcxEO3kYHZQYDXMH3yPQol0f/QVXh1YFjmP5LgzbWFG+UoYDIx/oKZEDflhFw7ROKqIdhStNqDFnr6Cq4psC4fFYzp2779B7wGrX+eJLsuqwV34W12RELgAC0HmFCfi+9ZUmuGbF57hzQk62yOpNRT9rqR4Z68y9ZsheWBNTnedyhjELZ7LoI1EiluOARhI1XSyUZCNnxnYoYBDrUKwSc+TlZgsOmXh+EKRVHHVFRvQPDUv9QcZPg==
+ b=L+U6drQHtbMEQ/HJI4BC0BhJQa3j/EFrQVkH+sXvVWIh4JvLsp40Rsd3L3Jew9nGVsz3BGNESdeCfbzz/dubPTXuMelUTi+MlcZUizcVWyBgis1BeS5vdjx1oLFS23P9T0uERX6JEwd6Czp4wbf3QmF6qT4pElFvfKortS0JrHFHJ+Tmb/yPj+8JiP5tOALvQzpYvmrSVECqfoFjvHBPZ8mHHlxrDjh2VIADFW7+cua5ejRHQ2Wp5JTvaE7b5hcbTw3duttOK0UH9nmF1YtSL+zgcS1gspilxqc7/1aA3s/hGCAc/a9c5ZQAuNrGRcIvMnVtrbpfz3Gf8FOYXuJCiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TuCMyZBdqpWAU6luauy2Z+zV56bne3oILQlDe1P51Lk=;
- b=QzyFEW3ikycacjHQQKJ7v/0VIaWH4ing8ApuIMPeKFHwdYbGji8vVWeOu//ObcP0nCGxgr67XhzUwCiBVxJp1LARjdN3xNhoXhTc1LEcCrtJQ8aN2AqRHcjQ6d3dhFMRy0SNvSeElBe0i2s979szQYj4q2fsXK26nZoA3uCtUYnbtp9mCYWaGBhpXNhbZ6MYuj5l3fsUBnE/JDjg1bCyuBTdfIWBasfC2Eds2Iq66X78C3pQ+KiS6KOorYviFOh4QmfythboSbzDwwHoEzykRjgRfSd0UezB8MWiPK+pNt1ZbGHkjyrrfgNjkKLzTgNPKVSv8xng8hPQH7s9VTspZQ==
+ bh=5udlLvxI3MP/gf/TKC3f2iE+jHjQJnkwGLN47dqGSaM=;
+ b=WX0vugPxKz4Grbj/msRtAEH2lwYCPGgOw0t1f/2gF2PgOCft+0PpI7iqcr1GEC92z2lX1TJlwT71xYsUMHqyJB5fzvuZvtYALJu6uFa2rCTcj4Hkf+wb0Q2ooUnEkrHRWFdEUHA0R6w8cEX/jEzyHNVHhb1ptpzxITt/Dn9X/gs5f7uvz+Xf+JJ7xdygWmrMXZTwlhbcq/Q7yBtvIN/DSFn4QDMfr6tFMIaxJBrPZyxgvn5zoRu7bYhJy90mFERapF49KwgieIDEQPjZquE1hs3k54qEGGozIu1SzhajUCzvDOmpAJFvTVsFn9byn5BMo1G6TeB/es2GlmgCE4e7Bg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TuCMyZBdqpWAU6luauy2Z+zV56bne3oILQlDe1P51Lk=;
- b=q9KyWBXXoHjxbJdgfdGp2myJLij4S0IEZ111V9yaCVuH5tEr6f3Y31045DkoOHLgPJfbmvcyjUROk0HFtEg79d/jedlnNZJTQu9Qdr7vOF+tlfmPtf+/mwLutde58kRKm/eUVGgwAbZdB2N5QeYKDkdgO9S8zVc/esOqPlceAuPwOjVLIeYlj+AqdEf1lyOCGLQsV+aHD9maHjHq7QDPFalJX6pyAzWORYfeHhYyrKRiZowW6DzRt7Rz3S37CviwS2LOMU6Mp8a+Imwnjq5w5F+OykgrQi95XA5pkExgVusOpUQECrOet5mOwMiscGrqNNM8ry2tdt9iCUASokmE5A==
+ bh=5udlLvxI3MP/gf/TKC3f2iE+jHjQJnkwGLN47dqGSaM=;
+ b=Q+DqdgUUJ9U/gOeoJSFLB0wMV3W3Ah4PeVzXwbJql1/BpW2yWWZuLzJkVSp7O8jBrqG6HIcb0M6DEhOtWM7jKgjPdh3gv8DeB9wDjzVjhGJOg1MpGYNGbbTFossFbjrBlQ1WPDGdh0oQteE7xDmaVKj6Y8R82z9Hf1WBKPuJTXZfUXoytGifStP+NirsFdoYznFzK8yjVC98biyX6peWOOKx15XGdsV38mZwmd2QBYSkpsV5spLLPjErxSusswRHnV+vz+5leQOe24HPoa3uwiozwES71Pgnypxh28sL+XqZEtI4ISInB+HhppTI+vdJcy9zalzYHjGq6t0smcr1Nw==
 Authentication-Results: nvidia.com; dkim=none (message not signed)
  header.d=none;nvidia.com; dmarc=none action=none header.from=nvidia.com;
 Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR12MB1146.namprd12.prod.outlook.com (2603:10b6:3:73::13) with
+ by DM5PR1201MB0202.namprd12.prod.outlook.com (2603:10b6:4:4d::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.24; Tue, 30 Mar
- 2021 18:38:35 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.25; Tue, 30 Mar
+ 2021 18:49:05 +0000
 Received: from DM6PR12MB3834.namprd12.prod.outlook.com
  ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
  ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3977.033; Tue, 30 Mar 2021
- 18:38:35 +0000
-Date: Tue, 30 Mar 2021 15:38:33 -0300
+ 18:49:05 +0000
+Date: Tue, 30 Mar 2021 15:49:03 -0300
 From: Jason Gunthorpe <jgg@nvidia.com>
 To: Alistair Popple <apopple@nvidia.com>
-Subject: Re: [PATCH v7 1/8] mm: Remove special swap entry functions
-Message-ID: <20210330183833.GY2356281@nvidia.com>
+Subject: Re: [PATCH v7 3/8] mm/rmap: Split try_to_munlock from try_to_unmap
+Message-ID: <20210330184903.GZ2356281@nvidia.com>
 References: <20210326000805.2518-1-apopple@nvidia.com>
- <20210326000805.2518-2-apopple@nvidia.com>
+ <20210326000805.2518-4-apopple@nvidia.com>
 Content-Disposition: inline
-In-Reply-To: <20210326000805.2518-2-apopple@nvidia.com>
+In-Reply-To: <20210326000805.2518-4-apopple@nvidia.com>
 X-Originating-IP: [142.162.115.133]
-X-ClientProxiedBy: MN2PR15CA0029.namprd15.prod.outlook.com
- (2603:10b6:208:1b4::42) To DM6PR12MB3834.namprd12.prod.outlook.com
+X-ClientProxiedBy: BLAPR03CA0001.namprd03.prod.outlook.com
+ (2603:10b6:208:32b::6) To DM6PR12MB3834.namprd12.prod.outlook.com
  (2603:10b6:5:14a::12)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from mlx.ziepe.ca (142.162.115.133) by
- MN2PR15CA0029.namprd15.prod.outlook.com (2603:10b6:208:1b4::42) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.25 via Frontend
- Transport; Tue, 30 Mar 2021 18:38:34 +0000
+ BLAPR03CA0001.namprd03.prod.outlook.com (2603:10b6:208:32b::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3977.25 via Frontend Transport; Tue, 30 Mar 2021 18:49:05 +0000
 Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1lRJG5-00603f-AZ; Tue, 30 Mar 2021 15:38:33 -0300
+ <jgg@nvidia.com>)	id 1lRJQF-0060Fl-7p; Tue, 30 Mar 2021 15:49:03 -0300
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 32a4e87c-61b3-441e-aac1-08d8f3ab0667
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1146:
+X-MS-Office365-Filtering-Correlation-Id: bc46dc5e-64cc-437c-a3f7-08d8f3ac7e4d
+X-MS-TrafficTypeDiagnostic: DM5PR1201MB0202:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB114698102F6C1613A421FFBEC27D9@DM5PR12MB1146.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:983;
+X-Microsoft-Antispam-PRVS: <DM5PR1201MB0202AE498E86E7219E1202A6C27D9@DM5PR1201MB0202.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8R1SOc6pTQIyXL3Kkdoo4oORpLhiqyEL3KCdVG0rPeyFlwUcm9I0CNL4fophcOce/x7sI3m5J9zmMiTpET/9qJSDkTGANlD9Z06vBr4e+19Elx8myI/ylq5PJCJqY9AGPMMnbvNfS0JpItESJyJskCXQnH1K+NdGnLLmQs772z3kLJJRYFZb/4gAf0UkVTMC5xHowjw0dfRbTmNuBr0MIt6xwiUt5M4j0dGhWiC0fMwVAoxVW5B6Znj1FTQjUdjCvtlZZdnVHSN1XF+zFDzgUEwYeKbt+k/RnYc6KAW0JkstqH1V/vd/oS2MekpvQC6USnd/cLUS3bUI3t4LnsAKqbMuw+N3VeY5Mpu56f6h+1jIvFovO/iHuxIkl8x9W4Db3z2uNhlUTrmZo2GGm1aCITXvW1+gvPi6YnxjigBk/JRPGH9Yy+wXjVPewrMW7IOlX2I8aaLqpbWm/xwafp7nWb1NAppVpQ6A5rFEjEU8cudYi83HI7p5qJuWQLBJax1BxkcK2BQ6GlK8CzX4F7Aw9r9LFDLA57PbXIji/UERggJLnuJm6Kzcemzo0Hl243tMW0M2qsutEiPHJTy139ggdXiyAMNqjVb0yh/bxjCBK0JCfD9w4iG4eZdVYfaVU5E7ALLDvDCIzUh5CNyNmmEXjQ==
+X-Microsoft-Antispam-Message-Info: XJyR4MJv/43JkMYSUrm56Jv9u4vd0aIPwBRDnCLdDsdGUJP0oC+EKRbwxp04/HcQyAM1nWtxKcD2u0Rah41MxXDWZSine6PnNv0FM8rz4o9v+6fhdGppWuejrRxhbgl/MfXEhCaA0QZDZ0NdUZUKyeYjq3lWK/D/pFumJ+dLFSy5n6fCG5MxCweh7pBC3WMppRsAr5duv9fdEkKs4yv1jNnsA9g3M3e/7Fh+eEcffwaLHwDU+u3jEFm2Qg+j3NT6ai0sRT1QKsyDS/9ylxq1/64OFq8GGVh9dwnQbwrBnuSGfB4jLEv30FFg/EDelD4ykvJgy9fxcfU2LB3D+V7/zy9b43QXEMJOtMCaAgMxxMyaWEQm8NnTQ5lnYjI3JKJm/xKM48xXKzqMmrP7i5s7W82Ipd/KqL/lBWziycyMPWaE1Ae/hLNLS4q8mkbSj93dXj+cjzyjK3LHE6T83C9U+RrfuBDrXdRkE4NO5fFKixycxGVrzf6yPGoU56qQySjEJ5iB2UxXFA8zvRLm4u3QL/6tCNNGKlfPLgpVUcsvpVgFroFKXRi+I1NVUp4WuDZT9z8Mu2fVPPf8lV5RNpqoYFJKUs6ubXnVpaxCYv2hUpW252WYRL8p52J29YnJl9OMO20EJ5ID2VWWTNY3xmvrCssD2qTbP+VrkSNq8SSBH8Q=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR12MB3834.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(136003)(396003)(39860400002)(346002)(6636002)(4326008)(8936002)(316002)(37006003)(426003)(38100700001)(26005)(7416002)(2616005)(2906002)(86362001)(33656002)(186003)(6862004)(8676002)(5660300002)(478600001)(9746002)(83380400001)(66476007)(1076003)(66946007)(66556008)(9786002)(36756003);
+ SFS:(4636009)(136003)(39860400002)(376002)(346002)(366004)(396003)(33656002)(7416002)(86362001)(316002)(9746002)(8676002)(2906002)(8936002)(9786002)(6636002)(478600001)(36756003)(426003)(5660300002)(38100700001)(1076003)(6862004)(2616005)(83380400001)(66556008)(37006003)(66476007)(186003)(66946007)(26005)(4326008);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?XNX6OCrXp6kRxpWvW5eh21NJaLfIv6bh/9tLftc22MGSE2lcAGbacYr+P5vX?=
- =?us-ascii?Q?Vz6qva8qewoWKI69P1sE8tvU+75rXr1MNrO63vEKhFVSp26Gkjz/DfggdwNh?=
- =?us-ascii?Q?B8djyQ0f6NREuMOoUDf7feLHTpzVCaL7+Pe5KIwqjuH4RplNovf7zRY4Oqjb?=
- =?us-ascii?Q?GZjbWhIQiyPqazExzHW7j1SyrwIiKaBCXAFM2V+8WnomB3E6E/fezyo7wrFo?=
- =?us-ascii?Q?yjdF7rpO4naO7/IMPppIu/Lr9gWWyzS7inAO/3Bu5BFq5rooxbrsUu/P86cx?=
- =?us-ascii?Q?QblmAIP2i1gyDK+UUNawLF+Yv/BeypczW1stJobEY+zSzreakBdWOwfwyHT0?=
- =?us-ascii?Q?AJRCo9WJUAhgU5vacLAi/b22ywuaGqP8TJZOox1KtM/xvS2OR2XnYD17lmij?=
- =?us-ascii?Q?8UMtzA7HMhF+8mWKXJjRWWiHHvKY/nYfPR0DYjpvsfP+UiUImiPSzemXXZdo?=
- =?us-ascii?Q?ILgjuT2+H4vrzEeKsyqi11p2HYtae4cKivmqfSSKVoVKJYT0Pw1ia5/H9429?=
- =?us-ascii?Q?pFb+5CqJlVFE6i7Exh9kZCzl4XZUDASCnnrtFiPZ5QebgdiN6ru/zBLke9X1?=
- =?us-ascii?Q?OYX406YRS6wgXo6gt/saSrOnBy34HKbmqPYY4FB3LzGj5PL2kclab26tEbQ1?=
- =?us-ascii?Q?Kicd7kjnYmVeCIUwhtvMihObfdaswboFWELbbwFjSNUgSxq5kZgiqh2n+kui?=
- =?us-ascii?Q?H8b2Ff5WA3/8CkMbdrLXEPNZtagHyWhihQWeun1px0htQxjUz1hh4EMHR1mu?=
- =?us-ascii?Q?Uj+nV9vhhVF4qt88+peAg2JprUHul3lYAWOSAX6yx0Io4dcLM+dWpXkz5Zo/?=
- =?us-ascii?Q?qYnRXL+OnU/lFhaqzYo/xjnISOFw6VVTb3esFCkTc9ef8njZzcfwc6bwiazX?=
- =?us-ascii?Q?tPFUGjnd0AZHz4gG5P3tpAcugbJXxRpxprqmSV3nrkuqEcJmp4ndzOfr4S+t?=
- =?us-ascii?Q?GXXSt6uw/CQ8b8Wm75X34cPto2lX1x4C5SbLwrY4jQDCxv9L2uNH+TLIGwgU?=
- =?us-ascii?Q?oGrYQg4DEXyalPlNqeVIO6ws4rL1wnZIxpxEko7ZLCb58nj9n2ceYEyEqjfE?=
- =?us-ascii?Q?M/wD/F3DZ5GYwwDtZvJy3J5hqbwak+nK9pWaobOeZ7d0qSRYt+kf4fR95aks?=
- =?us-ascii?Q?q1Yc+ssFw1TgF0AFn95yJNH/YsMOg01WpvVDSXNJdd8pPT0CfKlMBJ5OkXa3?=
- =?us-ascii?Q?BOzNgszQKb0IvWujSiDBV9AYigB2VDmQMtpfC+ZZhem/ZmppXz7OYZyp+vKm?=
- =?us-ascii?Q?ktKfdqGxdv57+mXbdHjpjU2JGAaf+T7Jj5RiRjkF+/lY120h94xEp0ig3CH9?=
- =?us-ascii?Q?FiyMKhX9bpHa5F5QHFnBtqwPFndp2ogYl9PCEd5NT7nDQg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?wCbIMzJSgjSgNyBI/DcLzb2kD/Wr0yvpM5L+NHvfR9gn3ajdDqgtqigzmd+z?=
+ =?us-ascii?Q?qUwQpm5TKdc54g/mWN+aZXFohgvdMSUJ8YsEd/oKyKuOJvOW1MMQqC+asH4b?=
+ =?us-ascii?Q?IwOCMPTVP4PT6OzTTzsGgIOxw6zsoISMu0/vfy75hbJ+HC/0V/k7IJqnDHUg?=
+ =?us-ascii?Q?PW9PrykxgnpUbHY/MIoIx3z2y6W0OMlt72l2cvDTHnY/duQwzTN6XJRoRULS?=
+ =?us-ascii?Q?a7AxDNX+a9TSW+o+tPhNwkYM1oqRyXfoZl2QmCkb342xdjIdtDd6MZHdGl3R?=
+ =?us-ascii?Q?iVM9FNs5rkV6aRLgQ5MrjU8i4ckehjHAJdpowYazigC3Je5SJPp6GTap3iiv?=
+ =?us-ascii?Q?QAx1h8OEIGMk4Zczh/JTzVp/hP1XuulasLyUjVLMMCw775Pnw9Yb+WDAhhgM?=
+ =?us-ascii?Q?vx8J8Cg1YW5LeT54C+nLPTpWoWG2TIrCrVRCw1903enbi+hhk15TjVHllMlD?=
+ =?us-ascii?Q?QMvfPjzQM2SQRIqBfZViy48a+V9lRQd3mA+HLuotyp/GobR1PSiw1N3AUqrh?=
+ =?us-ascii?Q?Ey0c1ZGG2TOjYyzDbwtVEsHNSRdHY9ml7cexyZXOlN8wZ093DBYbLkJPajMk?=
+ =?us-ascii?Q?UDVu9dN7aI00QvucN9u62Y/Xg8+ksABbiiRBGSJJ0Jy8sNZizp0347Hk0EZN?=
+ =?us-ascii?Q?w39165XXB0jYRmfURTETNvqcIU5D0i+aYwZOEgc4UoiU91SrpiomcuvfpWqr?=
+ =?us-ascii?Q?y32Po9LA/XA9E9JQ+JvXWYDAYBwB75rf+HhlK5I6rs5AEdbffXZK1rnmHA+D?=
+ =?us-ascii?Q?3ACFYWVs0a0CStrCArb9UyromsEtDGRy/LmBT6Z7ZOF5+2kFS+p2VTOMVmeK?=
+ =?us-ascii?Q?OK/CxPq40FvB4DFStQrX8Q3VJLZfM3G2YNsaMSdERA+lP1fE2pvTxje0qJ3R?=
+ =?us-ascii?Q?0+wiuvO5saEA9klSPqQOuiMyCnoGwvb6U8NTCkFUvFo/l41ZB2HWprn5QRJQ?=
+ =?us-ascii?Q?FoOlERgWdMKgVKMBLKvcTGee59FCFcEoXuHPr94JgIF6O0jzinFepoZPcrR8?=
+ =?us-ascii?Q?K1PSJllC2anyCaClwE3Au8FEi0M5z4iscMQBd9+BrdOB7LlWduZhL6rcPXcZ?=
+ =?us-ascii?Q?pwvQ1QMWczZLQ1Z3y0PvuEYUAdjTr1G+kjIAalVOJiDm9ZtfJPurBDj/z8b4?=
+ =?us-ascii?Q?woqbpuIu3goRty1XooBtuT0XjydXLuIeBB9HQOGiSXN2n2cNv4n0EHQtCgin?=
+ =?us-ascii?Q?LCy1MqMxj0CklN5Z7eCfxYgTQB7kgzYhH3q5JMwxzeeOuoFxi4g1PHaO6sUy?=
+ =?us-ascii?Q?BJHlMs4mQ2Vy7PF6Tv/cz5u/OiYwN7fmNfdVHbSCXB8k9xrS5bZX9JNSD7yj?=
+ =?us-ascii?Q?FY6LWHWTp8ao++JP+jKWEw/yG1X7dZIDREZaslWBORqoyw=3D=3D?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32a4e87c-61b3-441e-aac1-08d8f3ab0667
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc46dc5e-64cc-437c-a3f7-08d8f3ac7e4d
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2021 18:38:34.9916 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2021 18:49:05.8343 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kYf6o5sVypw6ti1rPFoDYSXxQPWwJcSJ/1cyPfXTeLoE1tVPba5q0RQIPX+QRFkl
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1146
+X-MS-Exchange-CrossTenant-UserPrincipalName: w+aDCrGDzh211idVdYY+Q5UWcUbAllLwASWx4KxgVAI518B8dRkEQ2MouwyvEb91
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0202
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,152 +128,67 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 26, 2021 at 11:07:58AM +1100, Alistair Popple wrote:
-> Remove multiple similar inline functions for dealing with different
-> types of special swap entries.
-> 
-> Both migration and device private swap entries use the swap offset to
-> store a pfn. Instead of multiple inline functions to obtain a struct
-> page for each swap entry type use a common function
-> pfn_swap_entry_to_page(). Also open-code the various entry_to_pfn()
-> functions as this results is shorter code that is easier to understand.
-> 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> Reviewed-by: Ralph Campbell <rcampbell@nvidia.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> 
-> ---
-> 
-> v7:
-> * Reworded commit message to include pfn_swap_entry_to_page()
-> * Added Christoph's Reviewed-by
-> 
-> v6:
-> * Removed redundant compound_page() call from inside PageLocked()
-> * Fixed a minor build issue for s390 reported by kernel test bot
-> 
-> v4:
-> * Added pfn_swap_entry_to_page()
-> * Reinstated check that migration entries point to locked pages
-> * Removed #define swapcache_prepare which isn't needed for CONFIG_SWAP=0
->   builds
-> ---
->  arch/s390/mm/pgtable.c  |  2 +-
->  fs/proc/task_mmu.c      | 23 +++++---------
->  include/linux/swap.h    |  4 +--
->  include/linux/swapops.h | 69 ++++++++++++++---------------------------
->  mm/hmm.c                |  5 ++-
->  mm/huge_memory.c        |  4 +--
->  mm/memcontrol.c         |  2 +-
->  mm/memory.c             | 10 +++---
->  mm/migrate.c            |  6 ++--
->  mm/page_vma_mapped.c    |  6 ++--
->  10 files changed, 50 insertions(+), 81 deletions(-)
+On Fri, Mar 26, 2021 at 11:08:00AM +1100, Alistair Popple wrote:
 
-Looks good
+> +static bool try_to_munlock_one(struct page *page, struct vm_area_struct *vma,
+> +		     unsigned long address, void *arg)
+> +{
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Is this function name right?
 
-> diff --git a/mm/hmm.c b/mm/hmm.c
-> index 943cb2ba4442..3b2dda71d0ed 100644
-> --- a/mm/hmm.c
-> +++ b/mm/hmm.c
-> @@ -214,7 +214,7 @@ static inline bool hmm_is_device_private_entry(struct hmm_range *range,
->  		swp_entry_t entry)
+> +	struct page_vma_mapped_walk pvmw = {
+> +		.page = page,
+> +		.vma = vma,
+> +		.address = address,
+> +	};
+> +
+> +	/* munlock has nothing to gain from examining un-locked vmas */
+> +	if (!(vma->vm_flags & VM_LOCKED))
+> +		return true;
+> +
+> +	while (page_vma_mapped_walk(&pvmw)) {
+> +		/* PTE-mapped THP are never mlocked */
+> +		if (!PageTransCompound(page)) {
+> +			/*
+> +			 * Holding pte lock, we do *not* need
+> +			 * mmap_lock here
+> +			 */
+> +			mlock_vma_page(page);
+
+Because the only action this function seems to take is to call
+*mlock*_vma_page()
+
+> +		}
+> +		page_vma_mapped_walk_done(&pvmw);
+> +
+> +		/* found a mlocked page, no point continuing munlock check */
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>  /**
+>   * try_to_munlock - try to munlock a page
+>   * @page: the page to be munlocked
+> @@ -1796,8 +1821,7 @@ bool try_to_unmap(struct page *page, enum ttu_flags flags)
+>  void try_to_munlock(struct page *page)
 >  {
->  	return is_device_private_entry(entry) &&
-> -		device_private_entry_to_page(entry)->pgmap->owner ==
-> +		pfn_swap_entry_to_page(entry)->pgmap->owner ==
->  		range->dev_private_owner;
->  }
->  
-> @@ -257,8 +257,7 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
->  			cpu_flags = HMM_PFN_VALID;
->  			if (is_write_device_private_entry(entry))
->  				cpu_flags |= HMM_PFN_WRITE;
-> -			*hmm_pfn = device_private_entry_to_pfn(entry) |
-> -					cpu_flags;
-> +			*hmm_pfn = swp_offset(entry) | cpu_flags;
 
-Though swp_offset() seems poor here
+But this is also called try_to_munlock ??
 
-Something like this seems nicer, maybe as an additional patch in this
-series?
+/**
+ * try_to_munlock - try to munlock a page
+ * @page: the page to be munlocked
+ *
+ * Called from munlock code.  Checks all of the VMAs mapping the page
+ * to make sure nobody else has this page mlocked. The page will be
+ * returned with PG_mlocked cleared if no other vmas have it mlocked.
+ */
 
-diff --git a/mm/hmm.c b/mm/hmm.c
-index 943cb2ba444232..c06cbc4e3981b7 100644
---- a/mm/hmm.c
-+++ b/mm/hmm.c
-@@ -210,14 +210,6 @@ int hmm_vma_handle_pmd(struct mm_walk *walk, unsigned long addr,
- 		unsigned long end, unsigned long hmm_pfns[], pmd_t pmd);
- #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
- 
--static inline bool hmm_is_device_private_entry(struct hmm_range *range,
--		swp_entry_t entry)
--{
--	return is_device_private_entry(entry) &&
--		device_private_entry_to_page(entry)->pgmap->owner ==
--		range->dev_private_owner;
--}
--
- static inline unsigned long pte_to_hmm_pfn_flags(struct hmm_range *range,
- 						 pte_t pte)
- {
-@@ -226,6 +218,32 @@ static inline unsigned long pte_to_hmm_pfn_flags(struct hmm_range *range,
- 	return pte_write(pte) ? (HMM_PFN_VALID | HMM_PFN_WRITE) : HMM_PFN_VALID;
- }
- 
-+static bool hmm_pte_handle_device_private(struct hmm_range *range, pte_t pte,
-+					  unsigned long *hmm_pfn)
-+{
-+	swp_entry_t entry = pte_to_swp_entry(pte);
-+	struct page *device_page;
-+	unsigned long cpu_flags;
-+
-+	if (is_device_private_entry(entry))
-+		return false;
-+
-+	/*
-+	 * If the device private page matches the device the caller understands
-+	 * then return the private pfn directly. The caller must know what to do
-+	 * with it.
-+	 */
-+	device_page = pfn_swap_entry_to_page(entry);
-+	if (device_page->pgmap->owner != range->dev_private_owner)
-+		return false;
-+
-+	cpu_flags = HMM_PFN_VALID;
-+	if (is_write_device_private_entry(entry))
-+		cpu_flags |= HMM_PFN_WRITE;
-+	*hmm_pfn = page_to_pfn(device_page) | cpu_flags;
-+	return true;
-+}
-+
- static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
- 			      unsigned long end, pmd_t *pmdp, pte_t *ptep,
- 			      unsigned long *hmm_pfn)
-@@ -247,20 +265,8 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
- 	}
- 
- 	if (!pte_present(pte)) {
--		swp_entry_t entry = pte_to_swp_entry(pte);
--
--		/*
--		 * Never fault in device private pages, but just report
--		 * the PFN even if not present.
--		 */
--		if (hmm_is_device_private_entry(range, entry)) {
--			cpu_flags = HMM_PFN_VALID;
--			if (is_write_device_private_entry(entry))
--				cpu_flags |= HMM_PFN_WRITE;
--			*hmm_pfn = device_private_entry_to_pfn(entry) |
--					cpu_flags;
-+		if (hmm_pte_handle_device_private(range, pte, hmm_pfn))
- 			return 0;
--		}
- 
- 		required_fault =
- 			hmm_pte_need_fault(hmm_vma_walk, pfn_req_flags, 0);
+So what clears PG_mlocked on this call path?
+
+Something needs attention here..
 
 Jason
 _______________________________________________
