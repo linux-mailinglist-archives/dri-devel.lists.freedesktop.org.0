@@ -1,56 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3676A34E641
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 13:19:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B7D234E670
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 13:43:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27E4E6E8B1;
-	Tue, 30 Mar 2021 11:19:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E672A6E8AD;
+	Tue, 30 Mar 2021 11:43:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 027AC6E8AC
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 11:19:42 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id s11so5870483pfm.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 04:19:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nEiq5VYqidlia0rfaVKXey2aQI1J0UOeUfwbZ7SzFqw=;
- b=qIay2yJaGw8H+hG15KImlYeu0r6L9MLLcQDEnZF2qFdTW2zSpQ40IXg+/vxlnJQz4o
- TKzi5YqlKrIHttRWaLvFbdM20gKQ/igZVcwm8SFzdsf0/GzVTOyvvDeB6kqpBolWhn33
- iI+TCXiaVJhMe/oW7DCLEON36LzdAAwFwyEShryYOFQyky1isZ0YY5RVfN5W3oiAYvwy
- 8+KnWX/nQwEbJaqACWTSuM18VOAT1ks9X9zr7SchWYDgwTLwBD/knap1CJ7Ca9tlGG8b
- sFpNlx44sNZxtyb4faahEv9qJLV1qWz1e1po03itPLigsO5ao0DVK7AqSPfVLMue7R6H
- nwTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nEiq5VYqidlia0rfaVKXey2aQI1J0UOeUfwbZ7SzFqw=;
- b=RmmYewwbH4psKYpbenjJmBG0UJ3cP7pWPxoSpuYLY3CSsLvYT0o1p8lZwvP5T87yAl
- t9Ie3uEymwweW0jpZjomHG6K5dxLIXtc/VoMOOVHw2c5XSmXV9Wqeg+l4ZEKjzB1d33Z
- UB9/bzmoRsKmUv5lcAEIY6sRuElzVlmJy5TDt2e8Lw/t3zA8Fxc7vcevVPFUYBZVCmsj
- GWvxyf4yYdPAv4lb7R3urcG9h/pb74tvqrLMlyc8S6m75dELfgANdqGbgyUIyFKCPfxc
- A1q6qd4DQiIcnE2hJxNTGkziD52OoVsrZ2VPLaqQcfR96e5ZrEw6KiALhYjaE1/YFHV3
- h1Eg==
-X-Gm-Message-State: AOAM530qZBWnTbPJXGrmihFuzu76v5yvzg3WiMSJF4vQYHgu0JWd4M/y
- dH6mxpLEhdh2ZNNLEKErPE+biH8cRXCl9tPH7G//DA==
-X-Google-Smtp-Source: ABdhPJxq5q/aaT+6jdvgQQdbDwMNlvYfZjAmKD/2J/yR3c6DqBDMvry2T/Awy6EWGZ+THIsQHdyfhPbS801PyKVA3nE=
-X-Received: by 2002:a05:6a00:b54:b029:207:2a04:7b05 with SMTP id
- p20-20020a056a000b54b02902072a047b05mr29651828pfo.12.1617103182535; Tue, 30
- Mar 2021 04:19:42 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F071F6E8AD
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 11:43:38 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0F0231FB;
+ Tue, 30 Mar 2021 04:43:38 -0700 (PDT)
+Received: from [10.57.27.121] (unknown [10.57.27.121])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6DF003F694;
+ Tue, 30 Mar 2021 04:43:36 -0700 (PDT)
+Subject: Re: [PATCH 24/30] Kconfig: Change Synopsys to Synopsis
+To: Bhaskar Chowdhury <unixbhaskar@gmail.com>, dmaengine@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hch@lst.de,
+ iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
+ dave.jiang@intel.com, dan.j.williams@intel.com
+References: <cover.1616971780.git.unixbhaskar@gmail.com>
+ <1262e9e62498f961e5172205e66a9ef7c6f0f69d.1616971780.git.unixbhaskar@gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <8f80fb1b-b2d0-b66a-24b0-bd92dc6cd4b6@arm.com>
+Date: Tue, 30 Mar 2021 12:43:31 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210326203807.105754-1-lyude@redhat.com>
- <20210326203807.105754-21-lyude@redhat.com>
-In-Reply-To: <20210326203807.105754-21-lyude@redhat.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 30 Mar 2021 13:19:31 +0200
-Message-ID: <CAG3jFyvEvb=YWopYUmi1bf=fe3ZX7VmtvnnmT5dHcNjLhHvsQg@mail.gmail.com>
-Subject: Re: [PATCH v2 20/20] drm/dp_mst: Convert drm_dp_mst_topology.c to
- drm_err()/drm_dbg*()
-To: Lyude Paul <lyude@redhat.com>
+In-Reply-To: <1262e9e62498f961e5172205e66a9ef7c6f0f69d.1616971780.git.unixbhaskar@gmail.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,74 +45,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
- amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="us-ascii"
+Cc: rdunlap@infradead.org, linux-kernel@vger.kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Lyude,
+On 2021-03-29 00:53, Bhaskar Chowdhury wrote:
+> s/Synopsys/Synopsis/  .....two different places.
 
-This patch looks good, but I have one question below. With it
-addressed, feel free to add my r-b.
+Erm, that is definitely not a typo... :/
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> ..and for some unknown reason it introduce a empty line deleted and added
+> back.
 
->
-> -static bool drm_dp_sideband_parse_req(struct drm_dp_sideband_msg_rx *raw,
-> +static bool drm_dp_sideband_parse_req(const struct drm_dp_mst_topology_mgr *mgr,
-> +                                     struct drm_dp_sideband_msg_rx *raw,
->                                       struct drm_dp_sideband_msg_req_body *msg)
->  {
->         memset(msg, 0, sizeof(*msg));
-> @@ -1117,12 +1125,12 @@ static bool drm_dp_sideband_parse_req(struct drm_dp_sideband_msg_rx *raw,
->
->         switch (msg->req_type) {
->         case DP_CONNECTION_STATUS_NOTIFY:
-> -               return drm_dp_sideband_parse_connection_status_notify(raw, msg);
-> +               return drm_dp_sideband_parse_connection_status_notify(mgr, raw, msg);
->         case DP_RESOURCE_STATUS_NOTIFY:
-> -               return drm_dp_sideband_parse_resource_status_notify(raw, msg);
-> +               return drm_dp_sideband_parse_resource_status_notify(mgr, raw, msg);
->         default:
-> -               DRM_ERROR("Got unknown request 0x%02x (%s)\n", msg->req_type,
-> -                         drm_dp_mst_req_type_str(msg->req_type));
-> +               drm_err(mgr->dev, "Got unknown request 0x%02x (%s)\n",
-> +                       msg->req_type, drm_dp_mst_req_type_str(msg->req_type));
->                 return false;
->         }
->  }
->
+Presumably your editor is configured to trim trailing whitespace on save.
 
-.. snip ..
+Furthermore, there are several instances in the other patches where your 
+"corrections" are grammatically incorrect, I'm not sure what the deal is 
+with patch #14, and you've also used the wrong subsystem name (it should 
+be "dmaengine"). It's great to want to clean things up, but please pay a 
+bit of care and attention to what you're actually doing.
 
-> @@ -4118,12 +4121,12 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
->
->         INIT_LIST_HEAD(&up_req->next);
->
-> -       drm_dp_sideband_parse_req(&mgr->up_req_recv, &up_req->msg);
-> +       drm_dp_sideband_parse_req(mgr, &mgr->up_req_recv, &up_req->msg);
+Robin.
 
-drm_dp_sideband_parse_req() is only called here, and the function
-arguments could probably stand to have `&mgr->up_req_recv` removed
-(here and in the func. declaration) since the same data structure is
-accessible through the `mgr` pointer inside of
-drm_dp_sideband_parse_req(). I guess this is a matter of taste, so
-feel free to do what you want with this.
-
->
->         if (up_req->msg.req_type != DP_CONNECTION_STATUS_NOTIFY &&
->             up_req->msg.req_type != DP_RESOURCE_STATUS_NOTIFY) {
-> -               DRM_DEBUG_KMS("Received unknown up req type, ignoring: %x\n",
-> -                             up_req->msg.req_type);
-> +               drm_dbg_kms(mgr->dev, "Received unknown up req type, ignoring: %x\n",
-> +                           up_req->msg.req_type);
->                 kfree(up_req);
->                 goto out;
->         }
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> ---
+>   drivers/dma/Kconfig | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/dma/Kconfig b/drivers/dma/Kconfig
+> index 0c2827fd8c19..30e8cc26f43b 100644
+> --- a/drivers/dma/Kconfig
+> +++ b/drivers/dma/Kconfig
+> @@ -170,15 +170,15 @@ config DMA_SUN6I
+>   	  Support for the DMA engine first found in Allwinner A31 SoCs.
+> 
+>   config DW_AXI_DMAC
+> -	tristate "Synopsys DesignWare AXI DMA support"
+> +	tristate "Synopsis DesignWare AXI DMA support"
+>   	depends on OF || COMPILE_TEST
+>   	depends on HAS_IOMEM
+>   	select DMA_ENGINE
+>   	select DMA_VIRTUAL_CHANNELS
+>   	help
+> -	  Enable support for Synopsys DesignWare AXI DMA controller.
+> +	  Enable support for Synopsis DesignWare AXI DMA controller.
+>   	  NOTE: This driver wasn't tested on 64 bit platform because
+> -	  of lack 64 bit platform with Synopsys DW AXI DMAC.
+> +	  of lack 64 bit platform with Synopsis DW AXI DMAC.
+> 
+>   config EP93XX_DMA
+>   	bool "Cirrus Logic EP93xx DMA support"
+> @@ -394,7 +394,7 @@ config MOXART_DMA
+>   	select DMA_VIRTUAL_CHANNELS
+>   	help
+>   	  Enable support for the MOXA ART SoC DMA controller.
+> -
+> +
+>   	  Say Y here if you enabled MMP ADMA, otherwise say N.
+> 
+>   config MPC512X_DMA
+> --
+> 2.26.3
+> 
+> _______________________________________________
+> iommu mailing list
+> iommu@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
