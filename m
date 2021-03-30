@@ -1,62 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAD534DD92
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 03:31:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0F834DD96
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 03:34:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E587D6E7F1;
-	Tue, 30 Mar 2021 01:31:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7A4E6E7F5;
+	Tue, 30 Mar 2021 01:34:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F33516E7EF
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 01:31:49 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id g10so5303579plt.8
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 18:31:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=VqsB/KspzBLfleMt3X13JmN72hr7Ivn8/G3NW35scDU=;
- b=oRBLwNnRiMTNEnj51Rq5J4ROOQVEMOXQc65rWkdsGb61Eb9XiBO4U7R1oLHxuk76VD
- FyfJin7DBYDeLTSb9LU1SeGd6S74jUTts+u9bUreWZZ35CKoPhBAcb6P0SNGXH3k5YD/
- bOK85QLLJDWXsqtcSwXKaBRpouNUpmItdFAHg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=VqsB/KspzBLfleMt3X13JmN72hr7Ivn8/G3NW35scDU=;
- b=dxRsG23p9u+lvn9tYU1rdmz3RuzP6eH1VFignqtOUBHo8zdo8ALkfdgKckSIgPgX1p
- mKm9ayfLRIN5BXT2O0Q/qolaN67AKGEEd9l3a8WJjPr3Zx/6LLOYpdkOwXr9cejtHyHr
- EEbCqHIiA3uhJkW2cGzXhI6HN1VsjvN9fjOq2dVtmVF7kvB1XdP89Uc91JJoqdFPVV9T
- 0XTNNCwMTSzqCj+K64kGJUBqlo+apprM9D3DPuEHhOZ0ehBAoAaFQj9GsXx9RRxFtBip
- l2pBXDm8XiM5k1Hv3jpvXtZOD8QNFn3tbDcmNXBtnMY6+WEHGUZbX5e0vktt06Ct5jeY
- wdcQ==
-X-Gm-Message-State: AOAM533oCIONX5EjoiCpZRAzsQcMG6JPAOtKeq8ZbQS7i0vRWwwsA7p1
- YaBYoXk5yIge3owPW4ijNSQgOg==
-X-Google-Smtp-Source: ABdhPJzTWrDchk39egDoT3Ebv23CG0wZ+YVzjMmD32zht97vToqfNhx8RT3pByjL1TOX4a53kpISlA==
-X-Received: by 2002:a17:903:22c2:b029:e7:1f02:434c with SMTP id
- y2-20020a17090322c2b02900e71f02434cmr19483596plg.73.1617067909560; 
- Mon, 29 Mar 2021 18:31:49 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:201:4091:2b37:966b:1fca])
- by smtp.gmail.com with ESMTPSA id k5sm18792164pfg.215.2021.03.29.18.31.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Mar 2021 18:31:49 -0700 (PDT)
+Received: from m176151.mail.qiye.163.com (m176151.mail.qiye.163.com
+ [59.111.176.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA1676E7F5;
+ Tue, 30 Mar 2021 01:34:26 +0000 (UTC)
+Received: from vivo.com (wm-11.qy.internal [127.0.0.1])
+ by m176151.mail.qiye.163.com (Hmail) with ESMTP id A2C0C481FE3;
+ Tue, 30 Mar 2021 09:34:22 +0800 (CST)
+Message-ID: <ADoALwDyDqqKqolXZoBMHqqQ.3.1617068062644.Hmail.wanjiabing@vivo.com>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gYW1kOiBkaXNwbGF5OiBkYzogc3RydWN0IGRjX3N0YXRlIGlzIGRlY2xhcmVkIHR3aWNl?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
+X-Originating-IP: 36.152.145.182
+In-Reply-To: <CADnq5_PSnvFAcUt7T9q=L8v6sFGnLM72cot=Lq_+cs8cNHK5sg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210327110305.3289784-1-dmitry.baryshkov@linaro.org>
-References: <20210327110305.3289784-1-dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v3 00/25] drm/msm/dsi: refactor MSM DSI PHY/PLL drivers
-From: Stephen Boyd <swboyd@chromium.org>
-To: Abhinav Kumar <abhinavk@codeaurora.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jonathan Marek <jonathan@marek.ca>,
- Michael Turquette <mturquette@baylibre.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-Date: Mon, 29 Mar 2021 18:31:47 -0700
-Message-ID: <161706790759.3012082.10513147344813330034@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Received: from wanjiabing@vivo.com( [36.152.145.182) ] by ajax-webmail (
+ [127.0.0.1] ) ; Tue, 30 Mar 2021 09:34:22 +0800 (GMT+08:00)
+From: =?UTF-8?B?5LiH5a625YW1?= <wanjiabing@vivo.com>
+Date: Tue, 30 Mar 2021 09:34:22 +0800 (GMT+08:00)
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+ oVCBIfWUFZTU9LSUtNHkhLT0oeVkpNSkxLTUNLTUlNQkNVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+ FZT0tIVUpKS0hKTFVLWQY+
+X-HM-Sender-Digest: e1kJHlYWEh9ZQU1JT09DTUlKS01PN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
+ WUc6PxQ6Nww*Aj8KCjAKFBcjIRQ5NjMKCipVSFVKTUpMS01DS01IS01JVTMWGhIXVQwaFRESGhkS
+ FRw7DRINFFUYFBZFWVdZEgtZQVlITVVKTklVSk9OVUpDSVlXWQgBWUFDTklCNwY+
+X-HM-Tid: 0a7880c477d393b5kuwsa2c0c481fe3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,56 +47,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-clk@vger.kernel.org
+Cc: Krunoslav Kovac <Krunoslav.Kovac@amd.com>, Jacky Liao <ziyu.liao@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ David Airlie <airlied@linux.ie>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ kael_w@yeah.net, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2021-03-27 04:02:40)
-> Restructure MSM DSI PHY drivers. What started as an attempt to grok the
-> overcomplicated PHY drivers, has lead up to the idea of merging PHY and
-> PLL code, reducing abstractions, code duplication, dropping dead code,
-> etc.
-> 
-> The patches were mainly tested on RB5 (sm8250, 7nm) and DB410c (apq8016,
-> 28nm-lp) and lightly tested on RB3 (sdm845, 10nm).
-> 
-> The patch 'clk: fixed: add devm helper for clk_hw_register_fixed_factor()'
-> is already a part of mainline as of 5.12-rc1, but is included here for
-> completeness to fix compilation issues (as msm-next is based on 5.11-rc5).
-> 
-> Changes since v2:
->  - Drop the 'stop setting clock parents manually' patch for now together
->    with the dtsi changes. Unlike the rest of patchset it provides
->    functional changes and might require additional discussion.
->    The patchset will be resubmitted later.
-> 
-> Changes since v1:
->  - Rebase on top of msm/msm-next
->  - Reorder patches to follow logical sequence
->  - Add sc7180 clocks assignment
->  - Drop sm8250 clocks assignment, as respective file is not updated in
->    msm/msm-next
-> 
-> Changes since RFC:
->  - Reorder patches to move global clock patches in the beginning and
->    dtsi patches where they are required.
->  - remove msm_dsi_phy_set_src_pll() and guess src_pll_id using PHY usecase.
-> 
-> The following changes since commit 627dc55c273dab308303a5217bd3e767d7083ddb:
-> 
->   drm/msm/disp/dpu1: icc path needs to be set before dpu runtime resume (2021-03-22 18:52:34 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://git.linaro.org/people/dmitry.baryshkov/kernel.git dsi-phy-3
+ 
+>On Sat, Mar 27, 2021 at 3:28 AM Wan Jiabing <wanjiabing@vivo.com> wrote:
+>>
+>> struct dc_state has been declared at 273rd line.
+>> Remove the duplicate.
+>> Delete duplicate blank lines.
+>
+>Can you split these into separate patches?
+>
+>Alex
 
-I tested this on sc7180 lazor and the display comes up
+OK. But in fact, what I did  is simple.
+The most important thing is removing the duplicate
+struct dc_state declaration at 585th line.
+Others are all deleting duplicate blank lines.
 
-Tested-by: Stephen Boyd <swboyd@chromium.org>
+So maybe I should send two patchs, one is removing
+duplicate declaration, the other is deleting blank lines?
+
+>>
+>> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+>> ---
+>>  drivers/gpu/drm/amd/display/dc/dc.h | 10 ----------
+>>  1 file changed, 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+>> index 18ed0d3f247e..dc667298ab5b 100644
+>> --- a/drivers/gpu/drm/amd/display/dc/dc.h
+>> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
+>> @@ -234,7 +234,6 @@ struct dc_static_screen_params {
+>>         unsigned int num_frames;
+>>  };
+>>
+>> -
+>>  /* Surface update type is used by dc_update_surfaces_and_stream
+>>   * The update type is determined at the very beginning of the function based
+>>   * on parameters passed in and decides how much programming (or updating) is
+>> @@ -272,7 +271,6 @@ struct dc;
+>>  struct dc_plane_state;
+>>  struct dc_state;
+>>
+>> -
+>>  struct dc_cap_funcs {
+>>         bool (*get_dcc_compression_cap)(const struct dc *dc,
+>>                         const struct dc_dcc_surface_param *input,
+>> @@ -281,7 +279,6 @@ struct dc_cap_funcs {
+>>
+>>  struct link_training_settings;
+>>
+>> -
+>>  /* Structure to hold configuration flags set by dm at dc creation. */
+>>  struct dc_config {
+>>         bool gpu_vm_support;
+>> @@ -581,7 +578,6 @@ struct dc_bounding_box_overrides {
+>>         int min_dcfclk_mhz;
+>>  };
+>>
+>> -struct dc_state;
+
+Removing the duplicate is here.
+And others are all deleting duplicate blank line.
+
+I think they are in the same file. I want to remove the declaration first.
+By the way, I deleted the blank line.
+
+Yours,
+Wan Jiabing
+
+>>  struct resource_pool;
+>>  struct dce_hwseq;
+>>  struct gpu_info_soc_bounding_box_v1_0;
+>> @@ -757,7 +753,6 @@ enum dc_transfer_func_predefined {
+>>         TRANSFER_FUNCTION_GAMMA26
+>>  };
+>>
+>> -
+>>  struct dc_transfer_func {
+>>         struct kref refcount;
+>>         enum dc_transfer_func_type type;
+>> @@ -770,7 +765,6 @@ struct dc_transfer_func {
+>>         };
+>>  };
+>>
+>> -
+>>  union dc_3dlut_state {
+>>         struct {
+>>                 uint32_t initialized:1;         /*if 3dlut is went through color module for initialization */
+>> @@ -784,7 +778,6 @@ union dc_3dlut_state {
+>>         uint32_t raw;
+>>  };
+>>
+>> -
+>>  struct dc_3dlut {
+>>         struct kref refcount;
+>>         struct tetrahedral_params lut_3d;
+>> @@ -1014,7 +1007,6 @@ enum dc_status dc_validate_global_state(
+>>                 struct dc_state *new_ctx,
+>>                 bool fast_validate);
+>>
+>> -
+>>  void dc_resource_state_construct(
+>>                 const struct dc *dc,
+>>                 struct dc_state *dst_ctx);
+>> @@ -1167,7 +1159,6 @@ struct dc_container_id {
+>>         unsigned short productCode;
+>>  };
+>>
+>> -
+>>  struct dc_sink_dsc_caps {
+>>         // 'true' if these are virtual DPCD's DSC caps (immediately upstream of sink in MST topology),
+>>         // 'false' if they are sink's DSC caps
+>> @@ -1229,7 +1220,6 @@ struct dc_cursor {
+>>         struct dc_cursor_attributes attributes;
+>>  };
+>>
+>> -
+>>  /*******************************************************************************
+>>   * Interrupt interfaces
+>>   ******************************************************************************/
+>> --
+>> 2.25.1
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
