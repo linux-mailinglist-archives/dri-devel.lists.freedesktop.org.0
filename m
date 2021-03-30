@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDCE834E2EB
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 10:15:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB3A34F632
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 03:25:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D12F6E875;
-	Tue, 30 Mar 2021 08:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 269EA6E09F;
+	Wed, 31 Mar 2021 01:25:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
- [IPv6:2607:f8b0:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B5E96E875
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 08:15:13 +0000 (UTC)
-Received: by mail-pf1-x42f.google.com with SMTP id s11so5570659pfm.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 01:15:12 -0700 (PDT)
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86E756E0FF
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 01:25:00 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id v10so8027043pfn.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 18:25:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3gDOC0Z8XAHbqFwCKdnmHJhX1d7vqsYcID7spPCLu5I=;
- b=pGCNEDaTrN3AHSTGljZgtNy5UYQtAcSOIdS0yv7w1jopGUUYzsIS6WjcT/JHAd2GOV
- YwV/D9YJNr6dany6dy6hcm1wLekHfBihFXlCdsrdDEXQG6AJ3exPJPPT+SMA4t6yGX4T
- s+fbUUhfsoFRmnMM8jFcYatzrYqEdP3+kAMFjI9vwtLxMYLfKQ0yHzkmcIKGDO54jzSz
- Na7+EujqqnAXCbwkPG2YYjxJ6dzn+d36xycvEGF/St3VleFR1EJlIhW35rFKLbS9gnjN
- gutr+YWB77FVgmpasJyJLu4QIFrfXOmdAEE8Rj89MHzBIjXzpfd9xnj7AgduAtnC/55/
- XQEA==
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0k9lXRJTS1Wy+xaZrJOGXgNw1l0SEWX+Tl4Aywnp+T4=;
+ b=jPaKtFx3zVY3hunovhRFR7mAKTjxioFYYJz8ouQey1m/QZHIbE8r0UmNMsV/8iGYfc
+ 0/FuXL7+dB1kML92yA39BODXyPt2DfhzshN2EOrBODRpeCa/eaeaOA1MjIEK+DxkDfVZ
+ 1xPMp0c9VTla0hrve04OkC0s7rFbkWfQ8AUeh3L1QfJg2EcG7xMs1/8ctsxoWJDQg46A
+ 217zPVR2nZ3z3Hqn/iUWe4RELzzTuWBl/KK/wSrZNEddi+Gt+oGtLW/dPrbC/SuClDXn
+ dGPq+SwFU4SArs4y/+YB1eeFHMqFjTa51Hc/gOnQ82W6L8Lqn5900PJjV969wvSfmJDE
+ tqkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3gDOC0Z8XAHbqFwCKdnmHJhX1d7vqsYcID7spPCLu5I=;
- b=rw9XPZLqCmpgPovql/7VpW7nFNapHi7JvOnsU14LkmrbCGcl+gNtgZJMuzQRFRU4tx
- DbwEIDJpzzwCwxjCdcceBcG7tmZT3gwXHf5DcjVel3CPADiifKgPWsHFRCc0FPUH5Oo2
- Fxib7y7FIwRiG2f4DGfpUxRD9s2KZ76cSBC9nasUnPLvkuvGv6WJrcjrAXtWxd/YoFBp
- V2YisALiaCuvDRslPuvfkPRDzhYzKq4s88OEUfX+60fVnsAHBhZ4cb8G5HyjxxPwmhTi
- VeAHfnjg82K2/B3YcaKFWjsLcgNRe26y+qzeC/xCOHil+/tQYhr06QuKT+59GiRBgdj6
- M6Gw==
-X-Gm-Message-State: AOAM531BDjFtWVXq/l2IMVapucDUDgv3FA868VpOZuA1sTMxRKimd81K
- PVtKP6D5MxTKB5BBpA+7sC4=
-X-Google-Smtp-Source: ABdhPJxg6ZAutLMLoP1f0Pv7BdtYsOfweV3TfVh6CMeUI036JsmhfN+aCX8NawWvcWOk66blgOnprg==
-X-Received: by 2002:a62:dd8e:0:b029:20a:309:2fcd with SMTP id
- w136-20020a62dd8e0000b029020a03092fcdmr28785940pff.35.1617092112627; 
- Tue, 30 Mar 2021 01:15:12 -0700 (PDT)
-Received: from localhost.localdomain ([103.220.76.197])
- by smtp.gmail.com with ESMTPSA id f20sm19496672pfa.10.2021.03.30.01.15.08
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0k9lXRJTS1Wy+xaZrJOGXgNw1l0SEWX+Tl4Aywnp+T4=;
+ b=VbnLo9cchWPO4PH+0YgOrJObcYICKaID2MBE5rd7jgdkPuRAvo54qNl2+NgK97EMOM
+ wLWQM70yLZTT4UQ7cniwvV0vSdTteLOIAcTVDGoSUL1TVk6TxqHOCj2wl254pUUW7u5K
+ EVBC3kgrLVUif8ZAWqufhemELhmTWxIWqYWaDHtgiPHR/QUK/q8KI9xE+lq+GrOLqgoC
+ 68e4GuP5ggZ8uc1RdEzlktofqN6LTQLYvTs0O9RVvJAtyv4GUmspVkv4GymfiyXxy0fT
+ w+Ns596lzmmKTvivqplI0VlgtN7wyCKZXsLcMZapSk/foRo5eXtQe4dMSQar01RpfsfO
+ 1r9w==
+X-Gm-Message-State: AOAM533mJ7fg+ofa8zNWZhtRxK4M+YA242dBpPOqn7cGtCervDgpmVWN
+ OhQ3hFvbmj0dCh8Al6CC45U=
+X-Google-Smtp-Source: ABdhPJzJpXSDBGi7T4t0K1MYRPr9nB4Lvl1izl8/SJM3atEN25F66hzr5wrgQrrWu330B2dCQ9DbaQ==
+X-Received: by 2002:a63:175c:: with SMTP id 28mr826053pgx.376.1617153900123;
+ Tue, 30 Mar 2021 18:25:00 -0700 (PDT)
+Received: from localhost ([103.220.76.197])
+ by smtp.gmail.com with ESMTPSA id 11sm236828pfn.146.2021.03.30.18.24.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Mar 2021 01:15:12 -0700 (PDT)
-From: Carlis <zhangxuezhi3@gmail.com>
-To: david@lechnology.com, zhangxuezhi1@yulong.com, airlied@linux.ie,
- daniel@ffwll.ch, robh+dt@kernel.org
-Subject: [PATCH v3 1/1] dt-bindings: display: sitronix,
- st7789v-dbi: Add Waveshare 2inch LCD module
-Date: Tue, 30 Mar 2021 08:15:05 +0000
-Message-Id: <20210330081505.116351-1-zhangxuezhi3@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ Tue, 30 Mar 2021 18:24:59 -0700 (PDT)
+Date: Tue, 30 Mar 2021 16:18:29 +0800
+From: carlis <zhangxuezhi3@gmail.com>
+To: David Lechner <david@lechnology.com>
+Subject: Re: [PATCH v3 0/1] drm/tiny: add support for Waveshare 2inch LCD
+ module
+Message-ID: <20210330161829.00002263@gmail.com>
+In-Reply-To: <ee78a788-3a69-164d-95da-6482e05f8603@lechnology.com>
+References: <20210330080846.116223-1-zhangxuezhi3@gmail.com>
+ <ee78a788-3a69-164d-95da-6482e05f8603@lechnology.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,107 +68,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kraxel@redhat.com, tzimmermann@suse.de,
+ zhangxuezhi1@yulong.com, sam@ravnborg.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Xuezhi Zhang" <zhangxuezhi1@yulong.com>
+On Tue, 30 Mar 2021 09:17:19 -0500
+David Lechner <david@lechnology.com> wrote:
 
-Document support for the Waveshare 2inch LCD module display, which is a
-240x320 2" TFT display driven by a Sitronix ST7789V TFT Controller.
-
-Signed-off-by: Xuezhi Zhang <zhangxuezhi1@yulong.com>
----
-v2:change compatible name.
-v3:change auther name.
----
- .../display/sitronix,st7789v-dbi.yaml         | 72 +++++++++++++++++++
- 1 file changed, 72 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/sitronix,st7789v-dbi.yaml
-
-diff --git a/Documentation/devicetree/bindings/display/sitronix,st7789v-dbi.yaml b/Documentation/devicetree/bindings/display/sitronix,st7789v-dbi.yaml
-new file mode 100644
-index 000000000000..6abf82966230
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/sitronix,st7789v-dbi.yaml
-@@ -0,0 +1,72 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/sitronix,st7789v-dbi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Sitronix ST7789V Display Panels Device Tree Bindings
-+
-+maintainers:
-+  - Carlis <zhangxuezhi1@yulong.com>
-+
-+description:
-+  This binding is for display panels using a Sitronix ST7789V
-+  controller in SPI mode.
-+
-+allOf:
-+  - $ref: panel/panel-common.yaml#
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - description:
-+          Waveshare 2" 240x320 Color TFT LCD
-+        items:
-+          - enum:
-+              - waveshare,ws2inch
-+          - const: sitronix,st7789v-dbi
-+
-+  spi-max-frequency:
-+    maximum: 32000000
-+
-+  dc-gpios:
-+    maxItems: 1
-+    description: Display data/command selection (D/CX)
-+
-+  backlight: true
-+  reg: true
-+  reset-gpios: true
-+  rotation: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - dc-gpios
-+  - reset-gpios
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    backlight: backlight {
-+            compatible = "gpio-backlight";
-+            gpios = <&gpio 18 GPIO_ACTIVE_HIGH>;
-+    };
-+
-+    spi {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            display@0{
-+                    compatible = "waveshare,ws2inch", "sitronix,st7789v-dbi";
-+                    reg = <0>;
-+                    spi-max-frequency = <32000000>;
-+                    dc-gpios = <&gpio 25 GPIO_ACTIVE_HIGH>;
-+                    reset-gpios = <&gpio 27 GPIO_ACTIVE_HIGH>;
-+                    rotation = <270>;
-+            };
-+    };
-+
-+...
--- 
-2.25.1
+> On 3/30/21 3:08 AM, Carlis wrote:
+> > From: Xuezhi Zhang <zhangxuezhi1@yulong.com>
+> > 
+> > This adds a new module for the ST7789V controller with parameters
+> > for the Waveshare 2inch LCD module.
+> > 
+> > Signed-off-by: Xuezhi Zhang <zhangxuezhi1@yulong.com>
+> > ---
+> > v2:change compatible value.
+> > v3:change author name.
+> > ---
+> >   MAINTAINERS                    |   8 +
+> >   drivers/gpu/drm/tiny/Kconfig   |  14 ++
+> >   drivers/gpu/drm/tiny/Makefile  |   1 +
+> >   drivers/gpu/drm/tiny/st7789v.c | 269
+> > +++++++++++++++++++++++++++++++++ 4 files changed, 292 insertions(+)
+> >   create mode 100644 drivers/gpu/drm/tiny/st7789v.c
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index d92f85ca831d..df25e8e0deb1 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -5769,6 +5769,14 @@ T:	git
+> > git://anongit.freedesktop.org/drm/drm-misc F:
+> > Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+> > F:	drivers/gpu/drm/tiny/st7735r.c 
+> > +DRM DRIVER FOR SITRONIX ST7789V PANELS
+> > +M:	David Lechner <david@lechnology.com>  
+> 
+OK, i will remove this in the next patch.
+> I should not be added here. I don't have one of these displays.
+> 
+> > +M:	Xuezhi Zhang <zhangxuezhi1@yulong.com>
+> > +S:	Maintained
+> > +T:	git git://anongit.freedesktop.org/drm/drm-misc
+> > +F:
+> > Documentation/devicetree/bindings/display/sitronix,st7789v-dbi.yaml
+> > +F:	drivers/gpu/drm/tiny/st7789v.c +
+> >   DRM DRIVER FOR SONY ACX424AKP PANELS
+> >   M:	Linus Walleij <linus.walleij@linaro.org>
+> >   S:	Maintained  
+thanks,
+Xuezhi Zhang
 
 _______________________________________________
 dri-devel mailing list
