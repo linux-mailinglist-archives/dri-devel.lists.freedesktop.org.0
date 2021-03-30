@@ -2,61 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 007DA34EABC
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 16:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1EA734EAC3
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 16:45:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0A7D890BF;
-	Tue, 30 Mar 2021 14:43:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6B816E914;
+	Tue, 30 Mar 2021 14:44:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1583 seconds by postgrey-1.36 at gabe;
- Tue, 30 Mar 2021 14:43:53 UTC
-Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20EA2890BF
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 14:43:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=BGekwmLjbpJ6llGafJ1MR1U01x6za5TZhvCUhXNQRb8=; b=nUqOk/2T7FeVnpuqEnmymnf9VQ
- 51QPbC2KbOJdgErze6bDp63f3vDVzcXz0kGuE2ivxcBoLaqN+VwWafE1v1182KSXOPnEKW6HRb+j6
- MxeD8LcqH7XIoBXfoG1AUugOghiAdTbwfyuapFvr3CmvPc/jmwJKhWevcxQCuw+geFzIY++sPzA/g
- BsvQiU1918+f6By7Z0kpdrDfq3LtIri1U2yfUTgEwMA3hIyUVfpJvizbZGzRVFJLRPCjRkSWyVCEq
- QeWbU0su1un0hkrowQ+mBfLP+tAlO+onvmZM4N1ph6HrhnEprp+Nst8Fa/IApOAn4mWRFb0jgNCeu
- 5dhMhFAw==;
-Received: from 108-198-5-147.lightspeed.okcbok.sbcglobal.net
- ([108.198.5.147]:60752 helo=[192.168.0.134])
- by vern.gendns.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
- (envelope-from <david@lechnology.com>)
- id 1lRFBJ-00068A-Lq; Tue, 30 Mar 2021 10:17:21 -0400
-Subject: Re: [PATCH v3 0/1] drm/tiny: add support for Waveshare 2inch LCD
- module
-To: Carlis <zhangxuezhi3@gmail.com>, airlied@linux.ie, daniel@ffwll.ch,
- zhangxuezhi1@yulong.com
-References: <20210330080846.116223-1-zhangxuezhi3@gmail.com>
-From: David Lechner <david@lechnology.com>
-Message-ID: <ee78a788-3a69-164d-95da-6482e05f8603@lechnology.com>
-Date: Tue, 30 Mar 2021 09:17:19 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 846E16E909;
+ Tue, 30 Mar 2021 14:44:56 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1617115495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=llTp9KMmNhLgpFrt/A/4gk0SgpNaUf1ZpYpNvho6oEk=;
+ b=iKbol1UC2cYC03I2rvUtoSu92j1pz2tv1L6/9iiw7cxLhRzh90EQvV5vkd5t59I4w79b5z
+ //6Ea77uYBp+fXZGWtXmCr26hrFxJVsTlICwAL4byi52zB9FKuPbHVzN1zqRgW2z3Slp3o
+ 4tg7hayC693qItZd+Jni902Xu3F2GZQ=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id EC1C6B315;
+ Tue, 30 Mar 2021 14:44:54 +0000 (UTC)
+Date: Tue, 30 Mar 2021 16:44:52 +0200
+From: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH 06/11] cgroup: fix -Wzero-length-bounds warnings
+Message-ID: <YGM5ZJlK1V7ex9xR@blackbook>
+References: <20210322160253.4032422-1-arnd@kernel.org>
+ <20210322160253.4032422-7-arnd@kernel.org>
+ <YGLkPjSBdgpriC0E@blackbook>
+ <CAK8P3a3nUCGwPpE+E820DniY8Haz1Xx72pA38P6s5MWsbi0iAQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210330080846.116223-1-zhangxuezhi3@gmail.com>
-Content-Language: en-US
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - vern.gendns.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lechnology.com
-X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id:
- davidmain+lechnology.com/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+In-Reply-To: <CAK8P3a3nUCGwPpE+E820DniY8Haz1Xx72pA38P6s5MWsbi0iAQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,54 +47,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, sam@ravnborg.org, kraxel@redhat.com,
- tzimmermann@suse.de, linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Alexei Starovoitov <ast@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Zefan Li <lizefan.x@bytedance.com>, Cong Wang <xiyou.wangcong@gmail.com>,
+ Christian Brauner <christian.brauner@ubuntu.com>, Odin Ugedal <odin@uged.al>,
+ linux-scsi <linux-scsi@vger.kernel.org>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ James Smart <james.smart@broadcom.com>, tboot-devel@lists.sourceforge.net,
+ Kalle Valo <kvalo@codeaurora.org>, Andrii Nakryiko <andriin@fb.com>,
+ ath11k@lists.infradead.org, Serge Hallyn <serge@hallyn.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, Ning Sun <ning.sun@intel.com>,
+ Anders Larsen <al@alarsen.net>, Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+ Cgroups <cgroups@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Martin Sebor <msebor@gcc.gnu.org>, Networking <netdev@vger.kernel.org>,
+ linux-wireless <linux-wireless@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ LSM List <linux-security-module@vger.kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
+ Simon Kelley <simon@thekelleys.org.uk>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, Roman Gushchin <guro@fb.com>
+Content-Type: multipart/mixed; boundary="===============0595611906=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/30/21 3:08 AM, Carlis wrote:
-> From: Xuezhi Zhang <zhangxuezhi1@yulong.com>
-> 
-> This adds a new module for the ST7789V controller with parameters for
-> the Waveshare 2inch LCD module.
-> 
-> Signed-off-by: Xuezhi Zhang <zhangxuezhi1@yulong.com>
-> ---
-> v2:change compatible value.
-> v3:change author name.
-> ---
->   MAINTAINERS                    |   8 +
->   drivers/gpu/drm/tiny/Kconfig   |  14 ++
->   drivers/gpu/drm/tiny/Makefile  |   1 +
->   drivers/gpu/drm/tiny/st7789v.c | 269 +++++++++++++++++++++++++++++++++
->   4 files changed, 292 insertions(+)
->   create mode 100644 drivers/gpu/drm/tiny/st7789v.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d92f85ca831d..df25e8e0deb1 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5769,6 +5769,14 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
->   F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
->   F:	drivers/gpu/drm/tiny/st7735r.c
->   
-> +DRM DRIVER FOR SITRONIX ST7789V PANELS
-> +M:	David Lechner <david@lechnology.com>
 
-I should not be added here. I don't have one of these displays.
+--===============0595611906==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="9pRQkLwCQMovNrXD"
+Content-Disposition: inline
 
-> +M:	Xuezhi Zhang <zhangxuezhi1@yulong.com>
-> +S:	Maintained
-> +T:	git git://anongit.freedesktop.org/drm/drm-misc
-> +F:	Documentation/devicetree/bindings/display/sitronix,st7789v-dbi.yaml
-> +F:	drivers/gpu/drm/tiny/st7789v.c
-> +
->   DRM DRIVER FOR SONY ACX424AKP PANELS
->   M:	Linus Walleij <linus.walleij@linaro.org>
->   S:	Maintained
+
+--9pRQkLwCQMovNrXD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Mar 30, 2021 at 11:00:36AM +0200, Arnd Bergmann <arnd@kernel.org> wrote:
+> Would it be possible to enclose most or all of kernel/cgroup/cgroup.c
+> in an #ifdef CGROUP_SUBSYS_COUNT block?
+Even without any controllers, there can still be named hierarchies (v1)
+or the default hierarchy (v2) (for instance) for process tracking
+purposes. So only parts of kernel/cgroup/cgroup.c could be ifdef'd.
+
+Beware that CGROUP_SUBSYS_COUNT is not known at preprocessing stage (you
+could have a macro alternative though).
+
+> I didn't try that myself, but this might be a way to guarantee that
+> there cannot be any callers (it would cause a link error).
+Such a guarantee would be nicer, I agree. I tried a bit but anandoned it
+when I saw macros proliferate (which I found less readable than your
+current variant). But YMMV.
+
+Michal
+
+--9pRQkLwCQMovNrXD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEEoQaUCWq8F2Id1tNia1+riC5qSgFAmBjOV4ACgkQia1+riC5
+qSgZNQ/9FFBZs5QQqEUHmbWyF9O2R2bGF8WCBz56zh+F2OZf+/GK7z4OGhkKUlEa
+1lPOUoibt4aZZhWD30RcfB3i3qJ8VqY3wqwnS6W9uN9+sU22sgsx/elCqiua3EnM
+4tGDRcLBfSuktgPo1T0oNvGGbFnFJ0kUenLZ6mVkWlSTzx8kp/B8h4S5LkYmRIov
+fVmHURht22FPiA8wwlUb9LAp8ONF+68t6BtMWNmZbqmJ17qHSnLyQQUiHIHytASt
+xgaQCJU8/nrtv2xPfp66aCQLO12b6OxpjPoRxo1hj9IP5HZPukzNDat/VaWyh0iE
+t9GO85K0PVqcuvJpymes0yRT6RvEwlqEna0T+qbh+qih4S3+xRm/Js5IV5m8KfIc
+wWUve4llNT1jq6zzgn28FkXe9coH7ybpwBaWeAdwEM3Wl9GvXimKwIQqg+3ZDnm4
+CbDVh6scYVu3kFYHVy6ld5+fG2GWEKvNL+9AVH+wsXUb6OXtyOtxD3FWyiVVYBkl
+Q4N0KWETd67BNb2NklxTkeC4hYusuHeFvxa9Ki6K6zbdxDxVwdcTWpWFVkTDs45S
+sEVkmsPU9pLu5vm5o9kBCmr6q1lW6yzudcxBvcvcHXGQnkfcmDCo+C3OEwKzKUeh
+8+BhDV9zMpKBpJfuPiI8UNIt8sI7YeTpjdk14YjWYQTgZCHc7WU=
+=iFNx
+-----END PGP SIGNATURE-----
+
+--9pRQkLwCQMovNrXD--
+
+--===============0595611906==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0595611906==--
