@@ -2,67 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B471534DEE9
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 04:57:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B8734DF03
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 05:10:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7E746E830;
-	Tue, 30 Mar 2021 02:57:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83E4D6E831;
+	Tue, 30 Mar 2021 03:10:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
- [IPv6:2607:f8b0:4864:20::829])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F5A86E830
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 02:57:20 +0000 (UTC)
-Received: by mail-qt1-x829.google.com with SMTP id u8so10900555qtq.12
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 19:57:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cxay6FlHRSJBcHnRsAPE6LIZ5EwuFLA1D75XOP/1yw8=;
- b=Rxyfz1b9FAnZKOn9WInbM1Q9jzMo0+uNBQs9kvY8UIXW/wmArOJB+2SssyFq+lD9Cl
- OOgZezFD8udfExokzGwpTwuXrLEyI33lrZ+u0SU1gjYN4Npju1XSWspYQ+Gh8Zfl0Cjk
- cC36+I7Hayxwa0DT+Qk8lZ0JrIQFOGxZ+kJQs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cxay6FlHRSJBcHnRsAPE6LIZ5EwuFLA1D75XOP/1yw8=;
- b=eRYTp70qy6N9MNUjJz+vwYWRSvzTritCNWOqCLHt2X1xi4b7Pb3KI+fS1CDxifstOV
- BbhiGDTKzzxBgDDRjdMZO0Xj4SO7jz09Rm5c4gNwXSFPb9TAU+SANiH9lBGutX9lTe0V
- bPpgd0NL/q/QoIDs5WEBGWZCjl1HY1M0laz5oNNmA9GeJKyEczXwxqxgXYtQt0lC1eys
- PhhXEz9z4uWXnPlNZlb8YGnXYnCx2N/UmpknJhzyzeQ7Qw9FyiYJGyOZe4P4dVquPeaS
- uPi4mlMghuV/YfYex1iLEoNzMIib+Wl/X4IOxvAAs7GVWFmBIApjkMohNKQp/LvmdRcj
- WWmg==
-X-Gm-Message-State: AOAM533qsmgjfl9XG1E9G8B6jeCLG9q5ms8+1DcAHPuhBhnUdIXDvRau
- mjhOpYp1uqDyP3CH53RM5tBUgLxZ1avdcQ==
-X-Google-Smtp-Source: ABdhPJw5WgHeDqXEY7FaMCli5/rKFKC/Hp9kheA8Jj8X/ns/0JUTqOs8WyqrIyekOcX/pwOP6fzHcQ==
-X-Received: by 2002:ac8:4718:: with SMTP id f24mr25754452qtp.270.1617073038986; 
- Mon, 29 Mar 2021 19:57:18 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com.
- [209.85.219.178])
- by smtp.gmail.com with ESMTPSA id o21sm12270726qtp.72.2021.03.29.19.57.17
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Mar 2021 19:57:17 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id a143so15857934ybg.7
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 19:57:17 -0700 (PDT)
-X-Received: by 2002:a25:74ca:: with SMTP id
- p193mr20204173ybc.405.1617073036989; 
- Mon, 29 Mar 2021 19:57:16 -0700 (PDT)
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 265446E831
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 03:10:03 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1617073805; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=4HpahDicqHsMNC5MQZ/HngbfLPfoCkT5YuapJzaEP1A=;
+ b=scIFzcIzaujt3FrYDU7evYayiVzlm4sYjd501Hm/Biad2crOaeaMv2LnsmxptG/VuY/Y/Jnv
+ Q/+vXIC6sNYmJAwFbscv3EtCCkThdy+sUbwGTrQzbL5qkEPxfXOuRSb7tMEZqbm2PM/UF9E6
+ l1yqKh92GaVHL2VGupjxvDaR/ow=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 60629681197975f05e4faff0 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 30 Mar 2021 03:09:53
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 21453C433ED; Tue, 30 Mar 2021 03:09:53 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id BBDDAC433C6;
+ Tue, 30 Mar 2021 03:09:50 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210304155144.1.Ic9c04f960190faad5290738b2a35d73661862735@changeid>
- <20210304155144.3.I60a7fb23ce4589006bc95c64ab8d15c74b876e68@changeid>
- <YE0ru4JpXfX/4Awe@pendragon.ideasonboard.com>
- <CAD=FV=UY_S8jPkXwK6AGs99XrE=pno2sCgLE7qcPWfmoyYVXiw@mail.gmail.com>
- <YFEnKgwEOWdeQBK6@pendragon.ideasonboard.com>
- <CAD=FV=W5fpyEf4AqJ+dZ7i_rD_PE40MyNsYNydhPi4BHkEfQcQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=W5fpyEf4AqJ+dZ7i_rD_PE40MyNsYNydhPi4BHkEfQcQ@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 29 Mar 2021 19:57:05 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UOk-PUREc-UOPqUDuhPAEUsBfx0LOAQHd9KkLAhpr7Tg@mail.gmail.com>
-Message-ID: <CAD=FV=UOk-PUREc-UOPqUDuhPAEUsBfx0LOAQHd9KkLAhpr7Tg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/bridge: ti-sn65dsi86: Properly get the EDID, but
- only if refclk
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Mon, 29 Mar 2021 20:09:50 -0700
+From: abhinavk@codeaurora.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v3 18/25] drm/msm/dsi: make save_state/restore_state
+ callbacks accept msm_dsi_phy
+In-Reply-To: <20210327110305.3289784-19-dmitry.baryshkov@linaro.org>
+References: <20210327110305.3289784-1-dmitry.baryshkov@linaro.org>
+ <20210327110305.3289784-19-dmitry.baryshkov@linaro.org>
+Message-ID: <ea0174c65ac5d66d379ef25e392fc33f@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,150 +64,484 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
+ linux-clk@vger.kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 2021-03-27 04:02, Dmitry Baryshkov wrote:
+> Make save_state/restore callbacks accept struct msm_dsi_phy rather than
+> struct msm_dsi_pll. This moves them to struct msm_dsi_phy_ops, allowing
+> us to drop struct msm_dsi_pll_ops.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c         | 12 +++----
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h         | 11 +++---
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c    | 22 +++++-------
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c    | 24 ++++++-------
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c    | 34 ++++++++-----------
+>  .../gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c   | 18 +++++-----
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     | 22 +++++-------
+>  7 files changed, 60 insertions(+), 83 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> index 176930800082..f21f3babec68 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> @@ -858,9 +858,9 @@ int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy 
+> *phy,
+> 
+>  void msm_dsi_phy_save_state(struct msm_dsi_phy *phy)
+>  {
+> -	if (phy->cfg->pll_ops.save_state) {
+> -		phy->cfg->pll_ops.save_state(phy->pll);
+> -		phy->pll->state_saved = true;
+> +	if (phy->cfg->ops.save_state) {
+> +		phy->cfg->ops.save_state(phy);
+> +		phy->state_saved = true;
+>  	}
+>  }
+> 
+> @@ -868,12 +868,12 @@ int msm_dsi_phy_restore_state(struct msm_dsi_phy 
+> *phy)
+>  {
+>  	int ret;
+> 
+> -	if (phy->cfg->pll_ops.restore_state && phy->pll->state_saved) {
+> -		ret = phy->cfg->pll_ops.restore_state(phy->pll);
+> +	if (phy->cfg->ops.restore_state && phy->state_saved) {
+> +		ret = phy->cfg->ops.restore_state(phy);
+>  		if (ret)
+>  			return ret;
+> 
+> -		phy->pll->state_saved = false;
+> +		phy->state_saved = false;
+>  	}
+> 
+>  	return 0;
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> index b477d21804c8..fa09f4c2c071 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> @@ -17,7 +17,6 @@
+>  struct msm_dsi_pll {
+>  	struct clk_hw	clk_hw;
+>  	bool		pll_on;
+> -	bool		state_saved;
+> 
+>  	const struct msm_dsi_phy_cfg *cfg;
+>  };
+> @@ -29,17 +28,13 @@ struct msm_dsi_phy_ops {
+>  	int (*enable)(struct msm_dsi_phy *phy, int src_pll_id,
+>  			struct msm_dsi_phy_clk_request *clk_req);
+>  	void (*disable)(struct msm_dsi_phy *phy);
+> -};
+> -
+> -struct msm_dsi_pll_ops {
+> -	void (*save_state)(struct msm_dsi_pll *pll);
+> -	int (*restore_state)(struct msm_dsi_pll *pll);
+> +	void (*save_state)(struct msm_dsi_phy *phy);
+> +	int (*restore_state)(struct msm_dsi_phy *phy);
+I think that naming these save_pll_state/restore_pll_state would be more 
+appropriate.
+>  };
+> 
+>  struct msm_dsi_phy_cfg {
+>  	struct dsi_reg_config reg_cfg;
+>  	struct msm_dsi_phy_ops ops;
+> -	const struct msm_dsi_pll_ops pll_ops;
+> 
+>  	unsigned long	min_pll_rate;
+>  	unsigned long	max_pll_rate;
+> @@ -115,6 +110,8 @@ struct msm_dsi_phy {
+>  	struct msm_dsi_pll *pll;
+> 
+>  	struct clk_hw_onecell_data *provided_clocks;
+> +
+> +	bool state_saved;
+>  };
+> 
+>  /*
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
+> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
+> index bfb96d87d1d7..25fd4d860c4d 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
+> @@ -518,9 +518,9 @@ static const struct clk_ops 
+> clk_ops_dsi_pll_10nm_vco = {
+>   * PLL Callbacks
+>   */
+> 
+> -static void dsi_pll_10nm_save_state(struct msm_dsi_pll *pll)
+> +static void dsi_10nm_save_state(struct msm_dsi_phy *phy)
+>  {
+> -	struct dsi_pll_10nm *pll_10nm = to_pll_10nm(pll);
+> +	struct dsi_pll_10nm *pll_10nm = to_pll_10nm(phy->pll);
+>  	struct pll_10nm_cached_state *cached = &pll_10nm->cached_state;
+>  	void __iomem *phy_base = pll_10nm->phy_cmn_mmio;
+>  	u32 cmn_clk_cfg0, cmn_clk_cfg1;
+> @@ -541,9 +541,9 @@ static void dsi_pll_10nm_save_state(struct 
+> msm_dsi_pll *pll)
+>  	    cached->pix_clk_div, cached->pll_mux);
+>  }
+> 
+> -static int dsi_pll_10nm_restore_state(struct msm_dsi_pll *pll)
+> +static int dsi_10nm_restore_state(struct msm_dsi_phy *phy)
+>  {
+> -	struct dsi_pll_10nm *pll_10nm = to_pll_10nm(pll);
+> +	struct dsi_pll_10nm *pll_10nm = to_pll_10nm(phy->pll);
+>  	struct pll_10nm_cached_state *cached = &pll_10nm->cached_state;
+>  	void __iomem *phy_base = pll_10nm->phy_cmn_mmio;
+>  	u32 val;
+> @@ -562,7 +562,7 @@ static int dsi_pll_10nm_restore_state(struct
+> msm_dsi_pll *pll)
+>  	val |= cached->pll_mux;
+>  	pll_write(phy_base + REG_DSI_10nm_PHY_CMN_CLK_CFG1, val);
+> 
+> -	ret = dsi_pll_10nm_vco_set_rate(&pll->clk_hw,
+> pll_10nm->vco_current_rate, pll_10nm->vco_ref_clk_rate);
+> +	ret = dsi_pll_10nm_vco_set_rate(&phy->pll->clk_hw,
+> pll_10nm->vco_current_rate, pll_10nm->vco_ref_clk_rate);
+>  	if (ret) {
+>  		DRM_DEV_ERROR(&pll_10nm->pdev->dev,
+>  			"restore vco rate failed. ret=%d\n", ret);
+> @@ -1005,10 +1005,8 @@ const struct msm_dsi_phy_cfg dsi_phy_10nm_cfgs = 
+> {
+>  		.enable = dsi_10nm_phy_enable,
+>  		.disable = dsi_10nm_phy_disable,
+>  		.pll_init = dsi_pll_10nm_init,
+> -	},
+> -	.pll_ops = {
+> -		.save_state = dsi_pll_10nm_save_state,
+> -		.restore_state = dsi_pll_10nm_restore_state,
+> +		.save_state = dsi_10nm_save_state,
+> +		.restore_state = dsi_10nm_restore_state,
+>  	},
+>  	.min_pll_rate = 1000000000UL,
+>  	.max_pll_rate = 3500000000UL,
+> @@ -1029,10 +1027,8 @@ const struct msm_dsi_phy_cfg 
+> dsi_phy_10nm_8998_cfgs = {
+>  		.enable = dsi_10nm_phy_enable,
+>  		.disable = dsi_10nm_phy_disable,
+>  		.pll_init = dsi_pll_10nm_init,
+> -	},
+> -	.pll_ops = {
+> -		.save_state = dsi_pll_10nm_save_state,
+> -		.restore_state = dsi_pll_10nm_restore_state,
+> +		.save_state = dsi_10nm_save_state,
+> +		.restore_state = dsi_10nm_restore_state,
+>  	},
+>  	.min_pll_rate = 1000000000UL,
+>  	.max_pll_rate = 3500000000UL,
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
+> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
+> index 91c5bb2fd169..c7c462bfe96d 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
+> @@ -795,9 +795,9 @@ static const struct clk_ops 
+> clk_ops_dsi_pll_14nm_postdiv = {
+>   * PLL Callbacks
+>   */
+> 
+> -static void dsi_pll_14nm_save_state(struct msm_dsi_pll *pll)
+> +static void dsi_14nm_save_state(struct msm_dsi_phy *phy)
+>  {
+> -	struct dsi_pll_14nm *pll_14nm = to_pll_14nm(pll);
+> +	struct dsi_pll_14nm *pll_14nm = to_pll_14nm(phy->pll);
+>  	struct pll_14nm_cached_state *cached_state = &pll_14nm->cached_state;
+>  	void __iomem *cmn_base = pll_14nm->phy_cmn_mmio;
+>  	u32 data;
+> @@ -810,18 +810,18 @@ static void dsi_pll_14nm_save_state(struct
+> msm_dsi_pll *pll)
+>  	DBG("DSI%d PLL save state %x %x", pll_14nm->id,
+>  	    cached_state->n1postdiv, cached_state->n2postdiv);
+> 
+> -	cached_state->vco_rate = clk_hw_get_rate(&pll->clk_hw);
+> +	cached_state->vco_rate = clk_hw_get_rate(&phy->pll->clk_hw);
+>  }
+> 
+> -static int dsi_pll_14nm_restore_state(struct msm_dsi_pll *pll)
+> +static int dsi_14nm_restore_state(struct msm_dsi_phy *phy)
+>  {
+> -	struct dsi_pll_14nm *pll_14nm = to_pll_14nm(pll);
+> +	struct dsi_pll_14nm *pll_14nm = to_pll_14nm(phy->pll);
+>  	struct pll_14nm_cached_state *cached_state = &pll_14nm->cached_state;
+>  	void __iomem *cmn_base = pll_14nm->phy_cmn_mmio;
+>  	u32 data;
+>  	int ret;
+> 
+> -	ret = dsi_pll_14nm_vco_set_rate(&pll->clk_hw,
+> +	ret = dsi_pll_14nm_vco_set_rate(&phy->pll->clk_hw,
+>  					cached_state->vco_rate, 0);
+>  	if (ret) {
+>  		DRM_DEV_ERROR(&pll_14nm->pdev->dev,
+> @@ -1166,10 +1166,8 @@ const struct msm_dsi_phy_cfg dsi_phy_14nm_cfgs = 
+> {
+>  		.enable = dsi_14nm_phy_enable,
+>  		.disable = dsi_14nm_phy_disable,
+>  		.pll_init = dsi_pll_14nm_init,
+> -	},
+> -	.pll_ops = {
+> -		.save_state = dsi_pll_14nm_save_state,
+> -		.restore_state = dsi_pll_14nm_restore_state,
+> +		.save_state = dsi_14nm_save_state,
+Similarly even for the respective PLL API names, 
+dsi_14nm_pll_save_state/dsi_14nm_pll_restore_state will be better.
+> +		.restore_state = dsi_14nm_restore_state,
+>  	},
+>  	.min_pll_rate = VCO_MIN_RATE,
+>  	.max_pll_rate = VCO_MAX_RATE,
+> @@ -1190,10 +1188,8 @@ const struct msm_dsi_phy_cfg 
+> dsi_phy_14nm_660_cfgs = {
+>  		.enable = dsi_14nm_phy_enable,
+>  		.disable = dsi_14nm_phy_disable,
+>  		.pll_init = dsi_pll_14nm_init,
+> -	},
+> -	.pll_ops = {
+> -		.save_state = dsi_pll_14nm_save_state,
+> -		.restore_state = dsi_pll_14nm_restore_state,
+> +		.save_state = dsi_14nm_save_state,
+> +		.restore_state = dsi_14nm_restore_state,
+>  	},
+>  	.min_pll_rate = VCO_MIN_RATE,
+>  	.max_pll_rate = VCO_MAX_RATE,
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> index 20b31398b540..bfd110eb25fc 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> @@ -470,9 +470,9 @@ static const struct clk_ops 
+> clk_ops_dsi_pll_28nm_vco_lp = {
+>   * PLL Callbacks
+>   */
+> 
+> -static void dsi_pll_28nm_save_state(struct msm_dsi_pll *pll)
+> +static void dsi_28nm_save_state(struct msm_dsi_phy *phy)
+>  {
+> -	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(pll);
+> +	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(phy->pll);
+>  	struct pll_28nm_cached_state *cached_state = &pll_28nm->cached_state;
+>  	void __iomem *base = pll_28nm->mmio;
+> 
+> @@ -481,20 +481,20 @@ static void dsi_pll_28nm_save_state(struct
+> msm_dsi_pll *pll)
+>  	cached_state->postdiv1 =
+>  			pll_read(base + REG_DSI_28nm_PHY_PLL_POSTDIV1_CFG);
+>  	cached_state->byte_mux = pll_read(base + 
+> REG_DSI_28nm_PHY_PLL_VREG_CFG);
+> -	if (dsi_pll_28nm_clk_is_enabled(&pll->clk_hw))
+> -		cached_state->vco_rate = clk_hw_get_rate(&pll->clk_hw);
+> +	if (dsi_pll_28nm_clk_is_enabled(&phy->pll->clk_hw))
+> +		cached_state->vco_rate = clk_hw_get_rate(&phy->pll->clk_hw);
+>  	else
+>  		cached_state->vco_rate = 0;
+>  }
+> 
+> -static int dsi_pll_28nm_restore_state(struct msm_dsi_pll *pll)
+> +static int dsi_28nm_restore_state(struct msm_dsi_phy *phy)
+>  {
+> -	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(pll);
+> +	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(phy->pll);
+>  	struct pll_28nm_cached_state *cached_state = &pll_28nm->cached_state;
+>  	void __iomem *base = pll_28nm->mmio;
+>  	int ret;
+> 
+> -	ret = dsi_pll_28nm_clk_set_rate(&pll->clk_hw,
+> +	ret = dsi_pll_28nm_clk_set_rate(&phy->pll->clk_hw,
+>  					cached_state->vco_rate, 0);
+>  	if (ret) {
+>  		DRM_DEV_ERROR(&pll_28nm->pdev->dev,
+> @@ -527,7 +527,7 @@ static int pll_28nm_register(struct dsi_pll_28nm
+> *pll_28nm, struct clk_hw **prov
+> 
+>  	DBG("%d", pll_28nm->id);
+> 
+> -	if (pll_28nm->base.cfg->type == MSM_DSI_PHY_28NM_LP)
+> +	if (pll_28nm->base.cfg->quirks & DSI_PHY_28NM_QUIRK_PHY_LP)
+>  		vco_init.ops = &clk_ops_dsi_pll_28nm_vco_lp;
+>  	else
+>  		vco_init.ops = &clk_ops_dsi_pll_28nm_vco_hpm;
+> @@ -783,10 +783,8 @@ const struct msm_dsi_phy_cfg dsi_phy_28nm_hpm_cfgs 
+> = {
+>  		.enable = dsi_28nm_phy_enable,
+>  		.disable = dsi_28nm_phy_disable,
+>  		.pll_init = dsi_pll_28nm_init,
+> -	},
+> -	.pll_ops = {
+> -		.save_state = dsi_pll_28nm_save_state,
+> -		.restore_state = dsi_pll_28nm_restore_state,
+> +		.save_state = dsi_28nm_save_state,
+> +		.restore_state = dsi_28nm_restore_state,
+>  	},
+>  	.min_pll_rate = VCO_MIN_RATE,
+>  	.max_pll_rate = VCO_MAX_RATE,
+> @@ -807,10 +805,8 @@ const struct msm_dsi_phy_cfg 
+> dsi_phy_28nm_hpm_famb_cfgs = {
+>  		.enable = dsi_28nm_phy_enable,
+>  		.disable = dsi_28nm_phy_disable,
+>  		.pll_init = dsi_pll_28nm_init,
+> -	},
+> -	.pll_ops = {
+> -		.save_state = dsi_pll_28nm_save_state,
+> -		.restore_state = dsi_pll_28nm_restore_state,
+> +		.save_state = dsi_28nm_save_state,
+> +		.restore_state = dsi_28nm_restore_state,
+>  	},
+>  	.min_pll_rate = VCO_MIN_RATE,
+>  	.max_pll_rate = VCO_MAX_RATE,
+> @@ -831,10 +827,8 @@ const struct msm_dsi_phy_cfg dsi_phy_28nm_lp_cfgs 
+> = {
+>  		.enable = dsi_28nm_phy_enable,
+>  		.disable = dsi_28nm_phy_disable,
+>  		.pll_init = dsi_pll_28nm_init,
+> -	},
+> -	.pll_ops = {
+> -		.save_state = dsi_pll_28nm_save_state,
+> -		.restore_state = dsi_pll_28nm_restore_state,
+> +		.save_state = dsi_28nm_save_state,
+> +		.restore_state = dsi_28nm_restore_state,
+>  	},
+>  	.min_pll_rate = VCO_MIN_RATE,
+>  	.max_pll_rate = VCO_MAX_RATE,
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
+> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
+> index 952444e3e8f0..c71c5f07666d 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
+> @@ -334,9 +334,9 @@ static const struct clk_ops clk_bytediv_ops = {
+>  /*
+>   * PLL Callbacks
+>   */
+> -static void dsi_pll_28nm_save_state(struct msm_dsi_pll *pll)
+> +static void dsi_28nm_save_state(struct msm_dsi_phy *phy)
+>  {
+> -	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(pll);
+> +	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(phy->pll);
+>  	struct pll_28nm_cached_state *cached_state = &pll_28nm->cached_state;
+>  	void __iomem *base = pll_28nm->mmio;
+> 
+> @@ -347,17 +347,17 @@ static void dsi_pll_28nm_save_state(struct
+> msm_dsi_pll *pll)
+>  	cached_state->postdiv1 =
+>  			pll_read(base + REG_DSI_28nm_8960_PHY_PLL_CTRL_8);
+> 
+> -	cached_state->vco_rate = clk_hw_get_rate(&pll->clk_hw);
+> +	cached_state->vco_rate = clk_hw_get_rate(&phy->pll->clk_hw);
+>  }
+> 
+> -static int dsi_pll_28nm_restore_state(struct msm_dsi_pll *pll)
+> +static int dsi_28nm_restore_state(struct msm_dsi_phy *phy)
+>  {
+> -	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(pll);
+> +	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(phy->pll);
+>  	struct pll_28nm_cached_state *cached_state = &pll_28nm->cached_state;
+>  	void __iomem *base = pll_28nm->mmio;
+>  	int ret;
+> 
+> -	ret = dsi_pll_28nm_clk_set_rate(&pll->clk_hw,
+> +	ret = dsi_pll_28nm_clk_set_rate(&phy->pll->clk_hw,
+>  					cached_state->vco_rate, 0);
+>  	if (ret) {
+>  		DRM_DEV_ERROR(&pll_28nm->pdev->dev,
+> @@ -662,10 +662,8 @@ const struct msm_dsi_phy_cfg 
+> dsi_phy_28nm_8960_cfgs = {
+>  		.enable = dsi_28nm_phy_enable,
+>  		.disable = dsi_28nm_phy_disable,
+>  		.pll_init = dsi_pll_28nm_8960_init,
+> -	},
+> -	.pll_ops = {
+> -		.save_state = dsi_pll_28nm_save_state,
+> -		.restore_state = dsi_pll_28nm_restore_state,
+> +		.save_state = dsi_28nm_save_state,
+> +		.restore_state = dsi_28nm_restore_state,
+>  	},
+>  	.min_pll_rate = VCO_MIN_RATE,
+>  	.max_pll_rate = VCO_MAX_RATE,
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> index f760904efac9..015e099d7b7f 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> @@ -543,9 +543,9 @@ static const struct clk_ops clk_ops_dsi_pll_7nm_vco 
+> = {
+>   * PLL Callbacks
+>   */
+> 
+> -static void dsi_pll_7nm_save_state(struct msm_dsi_pll *pll)
+> +static void dsi_7nm_save_state(struct msm_dsi_phy *phy)
+>  {
+> -	struct dsi_pll_7nm *pll_7nm = to_pll_7nm(pll);
+> +	struct dsi_pll_7nm *pll_7nm = to_pll_7nm(phy->pll);
+>  	struct pll_7nm_cached_state *cached = &pll_7nm->cached_state;
+>  	void __iomem *phy_base = pll_7nm->phy_cmn_mmio;
+>  	u32 cmn_clk_cfg0, cmn_clk_cfg1;
+> @@ -566,9 +566,9 @@ static void dsi_pll_7nm_save_state(struct 
+> msm_dsi_pll *pll)
+>  	    cached->pix_clk_div, cached->pll_mux);
+>  }
+> 
+> -static int dsi_pll_7nm_restore_state(struct msm_dsi_pll *pll)
+> +static int dsi_7nm_restore_state(struct msm_dsi_phy *phy)
+>  {
+> -	struct dsi_pll_7nm *pll_7nm = to_pll_7nm(pll);
+> +	struct dsi_pll_7nm *pll_7nm = to_pll_7nm(phy->pll);
+>  	struct pll_7nm_cached_state *cached = &pll_7nm->cached_state;
+>  	void __iomem *phy_base = pll_7nm->phy_cmn_mmio;
+>  	u32 val;
+> @@ -587,7 +587,7 @@ static int dsi_pll_7nm_restore_state(struct
+> msm_dsi_pll *pll)
+>  	val |= cached->pll_mux;
+>  	pll_write(phy_base + REG_DSI_7nm_PHY_CMN_CLK_CFG1, val);
+> 
+> -	ret = dsi_pll_7nm_vco_set_rate(&pll->clk_hw,
+> pll_7nm->vco_current_rate, pll_7nm->vco_ref_clk_rate);
+> +	ret = dsi_pll_7nm_vco_set_rate(&phy->pll->clk_hw,
+> pll_7nm->vco_current_rate, pll_7nm->vco_ref_clk_rate);
 
-On Tue, Mar 16, 2021 at 5:44 PM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Tue, Mar 16, 2021 at 2:46 PM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> >
-> > Hi Doug,
-> >
-> > On Mon, Mar 15, 2021 at 09:25:37AM -0700, Doug Anderson wrote:
-> > > On Sat, Mar 13, 2021 at 1:17 PM Laurent Pinchart wrote:
-> > > > On Thu, Mar 04, 2021 at 03:52:01PM -0800, Douglas Anderson wrote:
-> > > > > In commit 58074b08c04a ("drm/bridge: ti-sn65dsi86: Read EDID blob over
-> > > > > DDC") we attempted to make the ti-sn65dsi86 bridge properly read the
-> > > > > EDID from the panel. That commit kinda worked but it had some serious
-> > > > > problems.
-> > > > >
-> > > > > The problems all stem from the fact that userspace wants to be able to
-> > > > > read the EDID before it explicitly enables the panel. For eDP panels,
-> > > > > though, we don't actually power the panel up until the pre-enable
-> > > > > stage and the pre-enable call happens right before the enable call
-> > > > > with no way to interject in-between. For eDP panels, you can't read
-> > > > > the EDID until you power the panel. The result was that
-> > > > > ti_sn_bridge_connector_get_modes() was always failing to read the EDID
-> > > > > (falling back to what drm_panel_get_modes() returned) until _after_
-> > > > > the EDID was needed.
-> > > > >
-> > > > > To make it concrete, on my system I saw this happen:
-> > > > > 1. We'd attach the bridge.
-> > > > > 2. Userspace would ask for the EDID (several times). We'd try but fail
-> > > > >    to read the EDID over and over again and fall back to the hardcoded
-> > > > >    modes.
-> > > > > 3. Userspace would decide on a mode based only on the hardcoded modes.
-> > > > > 4. Userspace would ask to turn the panel on.
-> > > > > 5. Userspace would (eventually) check the modes again (in Chrome OS
-> > > > >    this happens on the handoff from the boot splash screen to the
-> > > > >    browser). Now we'd read them properly and, if they were different,
-> > > > >    userspace would request to change the mode.
-> > > > >
-> > > > > The fact that userspace would always end up using the hardcoded modes
-> > > > > at first significantly decreases the benefit of the EDID
-> > > > > reading. Also: if the modes were even a tiny bit different we'd end up
-> > > > > doing a wasteful modeset and at boot.
-> > > >
-> > > > s/and at/at/ ?
-> > >
-> > > Sure, I can correct if/when I respin or it can be corrected when landed.
-> > >
-> > > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > > index 491c9c4f32d1..af3fb4657af6 100644
-> > > > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > > @@ -16,6 +16,7 @@
-> > > > >  #include <linux/pm_runtime.h>
-> > > > >  #include <linux/regmap.h>
-> > > > >  #include <linux/regulator/consumer.h>
-> > > > > +#include <linux/workqueue.h>
-> > > > >
-> > > > >  #include <asm/unaligned.h>
-> > > > >
-> > > > > @@ -130,6 +131,12 @@
-> > > > >   * @ln_assign:    Value to program to the LN_ASSIGN register.
-> > > > >   * @ln_polrs:     Value for the 4-bit LN_POLRS field of SN_ENH_FRAME_REG.
-> > > > >   *
-> > > > > + * @pre_enabled_early: If true we did an early pre_enable at attach.
-> > > > > + * @pre_enable_timeout_work: Delayed work to undo the pre_enable from attach
-> > > > > + *                           if a normal pre_enable never came.
-> > > >
-> > > > Could we simplify this by using the runtime PM autosuspend feature ? The
-> > > > configuration of the bridge would be moved from pre_enable to the PM
-> > > > runtime resume handler, the clk_disable_unprepare() call moved from
-> > > > post_disable to the runtime suspend handler, and the work queue replaced
-> > > > by usage of pm_runtime_put_autosuspend().
-> > >
-> > > It's an interesting idea but I don't think I can make it work, at
-> > > least not in a generic enough way. Specifically we can also use this
-> > > bridge chip as a generic GPIO provider in Linux. When someone asks us
-> > > to read a GPIO then we have to power the bridge on
-> > > (pm_runtime_get_sync()) and when someone asks us to configure a GPIO
-> > > as an output then we actually leave the bridge powered until they stop
-> > > requesting it as an output. At the moment the only user of this
-> > > functionality (that I know of) is for the HPD pin on trogdor boards
-> > > (long story about why we don't use the dedicated HPD) but the API
-> > > supports using these GPIOs for anything and I've tested that it works.
-> > > It wouldn't be great to have to keep the panel on in order to access
-> > > the GPIOs.
-> >
-> > The issue you're trying to fix doesn't seem specific to this bridge, so
-> > handling it in the bridge driver bothers me :-S Is there any way we
-> > could handle this in the DRM core ? I don't want to see similar
-> > implementations duplicated in all HDMI/DP bridges.
->
-> Yes, it is true that this problem could affect other drivers.  ...and
-> in full disclosure I think there are other similar workarounds already
-> present. I haven't personally worked on those chips, but in
-> ps8640_bridge_get_edid() there is a somewhat similar workaround to
-> chain a pre-enable (though maybe it's not quite as optimized?). I'm
-> told that maybe something had to be handled for anx7625 (in
-> anx7625_get_edid()?) but that definitely doesn't look at all like it's
-> doing a pre-enable, so maybe things for that bridge just work
-> differently.
->
-> One thing that makes me hesitant about trying to moving this to the
-> core is that even in sn65dsi86 there is a case where it won't work. As
-> I mentioned in the patch I'm not aware of anyone using it in
-> production, but if someone was using the MIPI clock as input to the
-> bridge chip instead of a fixed "refclk" then trying to get the EDID
-> after just "pre-enable" falls over.  Said another way: I can say that
-> with this particular bridge chip, if you're using a fixed refclk, you
-> can read the EDID after the pre-enable. I don't know if that's always
-> true with all other bridge chips.
->
-> So I guess in summary: I think I could put my code in the core, but I
-> don't _think_ I can just make it automatically enabled.
->
-> * In sn65dsi I'd have to only enable it if we have a fixed refclk.
->
-> * Maybe in ps8640 I could just always enable it and replace the
-> existing code? I'd have to find someone to test.
->
-> * In anx7625 things look totally different.
->
-> Can you give me any advice on how you'd like me to proceed?
+Can you double check the char length on this line? Wouldnt this exceed 
+100chars?
+similarly other dsi_pll_**_vco_set_rates might too
 
-OK, I've got something that maybe looks better. You can tell me what
-you think [1]. I did manage to use PM Runtime to avoid some of the
-complexity and I put that usage in simple-panel. We'll see if I get
-yelled at for adding more to simple-panel. ;-P
-
-[1] https://lore.kernel.org/dri-devel/20210330025345.3980086-1-dianders@chromium.org/
+>  	if (ret) {
+>  		DRM_DEV_ERROR(&pll_7nm->pdev->dev,
+>  			"restore vco rate failed. ret=%d\n", ret);
+> @@ -1038,10 +1038,8 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs = 
+> {
+>  		.enable = dsi_7nm_phy_enable,
+>  		.disable = dsi_7nm_phy_disable,
+>  		.pll_init = dsi_pll_7nm_init,
+> -	},
+> -	.pll_ops = {
+> -		.save_state = dsi_pll_7nm_save_state,
+> -		.restore_state = dsi_pll_7nm_restore_state,
+> +		.save_state = dsi_7nm_save_state,
+> +		.restore_state = dsi_7nm_restore_state,
+>  	},
+>  	.min_pll_rate = 600000000UL,
+>  	.max_pll_rate = (5000000000ULL < ULONG_MAX) ? 5000000000ULL : 
+> ULONG_MAX,
+> @@ -1063,10 +1061,8 @@ const struct msm_dsi_phy_cfg 
+> dsi_phy_7nm_8150_cfgs = {
+>  		.enable = dsi_7nm_phy_enable,
+>  		.disable = dsi_7nm_phy_disable,
+>  		.pll_init = dsi_pll_7nm_init,
+> -	},
+> -	.pll_ops = {
+> -		.save_state = dsi_pll_7nm_save_state,
+> -		.restore_state = dsi_pll_7nm_restore_state,
+> +		.save_state = dsi_7nm_save_state,
+> +		.restore_state = dsi_7nm_restore_state,
+>  	},
+>  	.min_pll_rate = 1000000000UL,
+>  	.max_pll_rate = 3500000000UL,
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
