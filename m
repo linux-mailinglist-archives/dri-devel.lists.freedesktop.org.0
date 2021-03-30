@@ -2,38 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF7C34E931
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 15:35:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE8934E96F
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 15:42:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 603496E8F8;
-	Tue, 30 Mar 2021 13:35:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE6C6E8FC;
+	Tue, 30 Mar 2021 13:42:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A31D6E8F8
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 13:35:24 +0000 (UTC)
-Received: from [IPv6:2a02:810a:880:f54:2d37:13aa:2f32:9c00] (unknown
- [IPv6:2a02:810a:880:f54:2d37:13aa:2f32:9c00])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: dafna)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 45ED91F454B8;
- Tue, 30 Mar 2021 14:35:22 +0100 (BST)
-Subject: Re: [PATCH v5 1/2] dt-bindings: usb: add analogix,anx7688.yaml
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20210305124351.15079-1-dafna.hirschfeld@collabora.com>
- <20210305124351.15079-2-dafna.hirschfeld@collabora.com>
- <YEJBgEPO4J5+/HhD@pendragon.ideasonboard.com>
- <35f505ee-d939-4b42-490b-321b961bdec3@collabora.com>
- <YEJL+T7IaW8Asq1Q@pendragon.ideasonboard.com>
-From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <7729b82c-ff87-8d05-366c-4c0a6b85a8f2@collabora.com>
-Date: Tue, 30 Mar 2021 15:35:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 694186E8FC
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 13:42:17 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id 12so13467133lfq.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 06:42:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZUMoknbPtGCjNsarO28SYUnnTxBAnYqBqTqunIBdgbw=;
+ b=tX2LZg0PB9Z/kEpIM0Kk0zmVCBx+NxEOiGOpH6wNy5G4g5sBraaZX4CizQt3ai+Uno
+ /8+wlWEg5pghDek42OJQgVxoqpZLRB0RE81BCIOa+pi0bT/gPNLB+kDtNVxg1Ao5lyAe
+ xuaPrsC2IGmgNw10FH7EvRnS/UBisZPITJ7ly4/DnUy7A4YwXyHc0jHVeDrKPcLS85YU
+ tFxUUaEg78L3UI5O+KZFFX7kQVk+R37LNn+tBvE9B+ld//xxUPNEdkOxAtJL42eSlcsE
+ DDwtSlacX8SqWCOSIWz4GAp6Li2SBpF7zQ+DziMmSqhl/ZP9otXa0iZ+jxK59J7cB+Di
+ DPnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZUMoknbPtGCjNsarO28SYUnnTxBAnYqBqTqunIBdgbw=;
+ b=tuYn84lcBn4r3tp8U2d3bI8N0dxiNOVUdk5wZM02Qf9sY7xJhLiN1+xo1h2Qzg8lMK
+ sImmHIDO+QH5Nypd+fsAslNFKGggkxzaUIAcq9nP7nKNM247sPDW3YSAGfzY5/SjO5rS
+ NZQyExjy54WVL16a+q4Vakc1CWdJEiksemRncP/MZ8TitSvfgpgp9PdzrRvDX5qEvAI4
+ 0WOPMohWZGmIv19H9Uf3IXayNDnTEO44GA5lV87KyWsfYkltPOtviuHyOoU+Dwdm0Lk7
+ cwt60sQR3U9cVqT3LFwBMdT7w7AQB3EpgwVHZFUwzcvjc0RyjaOBQkA0z5woVf2dOagG
+ riMQ==
+X-Gm-Message-State: AOAM530oipbvAaHf0vUR8/jZVhOfQNUUFpPeF/NS/aLu+/6/qZZc1Svq
+ Ix1VDEvubyzChkIOwo3lHnDxQQ==
+X-Google-Smtp-Source: ABdhPJzdIMZHimD5rDdU1R3s0RTyzlHeWZaaeQ7vJlHF4gX+pdEVurphgym2MGL6WZ00G+4UydTn2w==
+X-Received: by 2002:a19:85c5:: with SMTP id
+ h188mr19204103lfd.273.1617111735712; 
+ Tue, 30 Mar 2021 06:42:15 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id x16sm164838lfe.197.2021.03.30.06.42.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Mar 2021 06:42:15 -0700 (PDT)
+Subject: Re: [Freedreno] [PATCH v3 24/25] drm/msm/dsi: inline
+ msm_dsi_phy_set_src_pll
+To: abhinavk@codeaurora.org
+References: <20210327110305.3289784-1-dmitry.baryshkov@linaro.org>
+ <20210327110305.3289784-25-dmitry.baryshkov@linaro.org>
+ <bec91de2af142b171bfcedd33dbf4dcf@codeaurora.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <da07dd46-9c94-ec95-5d47-4476849f0156@linaro.org>
+Date: Tue, 30 Mar 2021 16:42:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <YEJL+T7IaW8Asq1Q@pendragon.ideasonboard.com>
-Content-Language: en-US
+In-Reply-To: <bec91de2af142b171bfcedd33dbf4dcf@codeaurora.org>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,289 +73,241 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: megous@megous.com, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
- linux-usb@vger.kernel.org, narmstrong@baylibre.com, airlied@linux.ie,
- enric.balletbo@collabora.com, jonas@kwiboo.se, dri-devel@lists.freedesktop.org,
- a.hajda@samsung.com, drinkcat@chromium.org, hsinyi@chromium.org,
- chunkuang.hu@kernel.org, robh+dt@kernel.org, kernel@collabora.com,
- dafna3@gmail.com
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
+ linux-clk@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 05.03.21 16:19, Laurent Pinchart wrote:
-> Hi Dafna,
-> 
-> On Fri, Mar 05, 2021 at 04:14:03PM +0100, Dafna Hirschfeld wrote:
->> On 05.03.21 15:34, Laurent Pinchart wrote:
->>> On Fri, Mar 05, 2021 at 01:43:50PM +0100, Dafna Hirschfeld wrote:
->>>> ANX7688 is a USB Type-C port controller with a MUX. It converts HDMI 2.0 to
->>>> DisplayPort 1.3 Ultra-HDi (4096x2160p60).
->>>> The integrated crosspoint switch (the MUX) supports USB 3.1 data transfer
->>>> along with the DisplayPort Alternate Mode signaling over USB Type-C.
->>>> Additionally, an on-chip microcontroller (OCM) is available to manage the
->>>> signal switching, Channel Configuration (CC) detection, USB Power
->>>> Delivery (USB-PD), Vendor Defined Message (VDM) protocol support and other
->>>> functions as defined in the USB TypeC and USB Power Delivery
->>>> specifications.
->>>>
->>>> ANX7688 is found on Acer Chromebook R13 (elm) and on
->>>> Pine64 PinePhone.
->>>>
->>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>>> ---
->>>>    .../bindings/usb/analogix,anx7688.yaml        | 177 ++++++++++++++++++
->>>>    1 file changed, 177 insertions(+)
->>>>    create mode 100644 Documentation/devicetree/bindings/usb/analogix,anx7688.yaml
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/usb/analogix,anx7688.yaml b/Documentation/devicetree/bindings/usb/analogix,anx7688.yaml
->>>> new file mode 100644
->>>> index 000000000000..6c4dd6b4b28b
->>>> --- /dev/null
->>>> +++ b/Documentation/devicetree/bindings/usb/analogix,anx7688.yaml
->>>> @@ -0,0 +1,177 @@
->>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>> +%YAML 1.2
->>>> +---
->>>> +$id: http://devicetree.org/schemas/usb/analogix,anx7688.yaml#
->>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>> +
->>>> +title: Analogix ANX7688 Type-C Port Controller with HDMI to DP conversion
->>>> +
->>>> +maintainers:
->>>> +  - Nicolas Boichat <drinkcat@chromium.org>
->>>> +  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
->>>> +
->>>> +description: |
->>>> +  ANX7688 is a USB Type-C port controller with a MUX. It converts HDMI 2.0 to
->>>> +  DisplayPort 1.3 Ultra-HDi (4096x2160p60).
->>>> +  The integrated crosspoint switch (the MUX) supports USB 3.1 data transfer along with
->>>> +  the DisplayPort Alternate Mode signaling over USB Type-C. Additionally,
->>>> +  an on-chip microcontroller (OCM) is available to manage the signal switching,
->>>> +  Channel Configuration (CC) detection, USB Power Delivery (USB-PD), Vendor
->>>> +  Defined Message (VDM) protocol support and other functions as defined in the
->>>> +  USB TypeC and USB Power Delivery specifications.
->>>> +
->>>> +
->>>
->>> Extra blank line ?
->>>
->>>> +properties:
->>>> +  compatible:
->>>> +    const: analogix,anx7688
->>>> +
->>>> +  reg:
->>>> +    maxItems: 1
->>>> +
->>>> +  avdd33-supply:
->>>> +    description: 3.3V Analog core supply voltage.
->>>> +
->>>> +  dvdd18-supply:
->>>> +    description: 1.8V Digital I/O supply voltage.
->>>> +
->>>> +  avdd18-supply:
->>>> +    description: 1.8V Analog core power supply voltage.
->>>> +
->>>> +  avdd10-supply:
->>>> +    description: 1.0V Analog core power supply voltage.
->>>> +
->>>> +  dvdd10-supply:
->>>> +    description: 1.0V Digital core supply voltage.
->>>> +
->>>
->>> That's lots of supplies. If there's a reasonable chance that some of
->>> them will always be driven by the same regulator (especially if the
->>> ANX7688 documentation requires that), then they could be grouped. For
->>> instance dvdd18-supply and avdd18-supply could be grouped into
->>> vdd18-supply. It would still allow us to extend the bindings in a
->>> backward compatible way later if a system uses different regulators. You
->>> have more information about the hardware than I do, so it's your call.
-
-Can you explain what do you mean by 'grouped' ?
-Do you mean that instead of having two properties dvdd18-supply and avdd18-supply
-I have only one property vdd18-supply?
-
->>>
->>>> +  hdmi5v-supply:
->>>> +    description: 5V power supply for the HDMI.
->>>> +
->>>> +  hdmi_vt-supply:
->>>> +    description: Termination voltage for HDMI input.
->>>
->>> Maybe hdmi-vt-supply ?
->>>
->>>> +
->>>> +  clocks:
->>>> +    description: The input clock specifier.
->>>> +    maxItems: 1
->>>
->>> How about
->>>
->>>       items:
->>>         - description: The input clock specifier.
->>>
->>>> +
->>>> +  clock-names:
->>>> +    items:
->>>> +      - const: xtal
->>>> +
->>>> +  hpd-gpios:
->>>> +    description: |
->>>> +      In USB Type-C applications, DP_HPD has no use. In standard DisplayPort
->>>> +      applications, DP_HPD is used as DP hot-plug.
->>>> +    maxItems: 1
->>>> +
->>>> +  enable-gpios:
->>>> +    description: Chip power down control. No internal pull-down or pull-up resistor.
->>>> +    maxItems: 1
->>>> +
->>>> +  reset-gpios:
->>>> +    description: Reset input signal. Active low.
->>>> +    maxItems: 1
->>>> +
->>>> +  vbus-det-gpios:
->>>> +    description: |
->>>> +      An input gpio for VBUS detection and high voltage detection,
->>>> +      external resistance divide VBUS voltage to 1/8.
->>>> +    maxItems: 1
->>>> +
->>>> +  interrupts:
->>>> +    description: |
->>>> +      The interrupt notifies 4 possible events - TCPC ALERT int, PD int, DP int, HDMI int.
->>>> +    maxItems: 1
->>>> +
->>>> +  cabledet-gpios:
->>>> +    description: An output gpio, indicates by the device that a cable is plugged.
->>>> +    maxItems: 1
->>>> +
->>>> +  vbus-ctrl-gpios:
->>>> +    description:
->>>> +      External VBUS power path. Enable VBUS source and disable VBUS sink or vice versa.
->>>> +    maxItems: 1
->>>> +
->>>> +  vconn-en1-gpios:
->>>> +    description: Controls the VCONN switch on the CC1 pin.
->>>> +    maxItems: 1
->>>> +
->>>> +  vconn-en2-gpios:
->>>> +    description: Controls the VCONN switch on the CC2 pin.
->>>> +    maxItems: 1
->>>> +
->>>> +  ports:
->>>> +    $ref: /schemas/graph.yaml#/properties/ports
->>>> +
->>>> +    properties:
->>>> +      port@0:
->>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>> +        description: Video port for HDMI input.
->>>> +
->>>> +      port@1:
->>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>> +        description: USB port for the USB3 input.
->>>> +
->>>> +      port@2:
->>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>> +        description: USB Type-c connector, see connector/usb-connector.yaml.
->>>> +
->>>> +    required:
->>>> +      - port@0
->>>
->>> As all the ports exist at the hardware level, should they always be
->>> present ? The endpoints are optional of course, in case a port isn't
->>> connected on a particular system.
->>>
->>>> +
->>>> +required:
->>>> +  - compatible
->>>> +  - reg
->>>
->>> Shouldn't clocks and regulators be also required ?
->>
->> hmm, theoretically yes. Practically, in the case of Acer R13 (mediatek elm) device,
->> the ANX7688 is powered up and controlled by the Embedded Controller. The kernel only
->> needs to read few registers from that device for the drm bridge driver.
->> (also mentioned that in the cover letter).
-> 
-> This may not be a popular opinion, but if the ANX7688 is fully
-> controlled by the EC, I wonder if we shouldn't have an "EC DRM bridge"
-> driver that would interrogate the EC instead :-)
-
-But the driver in patch 2/2 do access the anx7688 device with I2C.
-It does interrogate the EC.
-
-> 
-> Is there a risk of bus conflicts if the EC and the main SoC try to
-> access the ANX7688 over I2C at the same time ?
-
-The SoC access the anx7688 though something called 'i2c-tunnel' (see google,cros-ec-i2c-tunnel.yaml)
-So the I2C tunnels though the EC (I don't know how this is really implemented to be honest).
-
-
-Thanks,
-Dafna
-
-> 
->>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>
->>>> +
->>>> +additionalProperties: false
->>>> +
->>>> +examples:
->>>> +  - |
->>>> +    #include <dt-bindings/gpio/gpio.h>
->>>> +    #include <dt-bindings/interrupt-controller/irq.h>
->>>> +
->>>> +    i2c0 {
->>>> +        #address-cells = <1>;
->>>> +        #size-cells = <0>;
->>>> +
->>>> +        anx7688: anx7688@2c {
->>>> +            compatible = "analogix,anx7688";
->>>> +            reg = <0x2c>;
->>>> +            avdd33-supply = <&reg_dcdc1>;
->>>> +            dvdd18-supply = <&reg_ldo_io1>;
->>>> +            avdd18-supply = <&reg_ldo_io1>;
->>>> +            avdd10-supply = <&reg_anx1v0>;
->>>> +            dvdd10-supply = <&reg_anx1v0>;
->>>> +            hdmi_vt-supply = <&reg_dldo1>;
->>>> +            enable-gpios = <&pio 3 10 GPIO_ACTIVE_LOW>; /* PD10 */
->>>> +            reset-gpios = <&pio 3 6 GPIO_ACTIVE_HIGH>; /* PD6 */
->>>> +            interrupt-parent = <&r_pio>;
->>>> +            interrupts = <0 11 IRQ_TYPE_EDGE_FALLING>; /* PL11 */
->>>> +            cabledet-gpios = <&r_pio 0 8 GPIO_ACTIVE_HIGH>; /* PL8 */
->>>> +            vconn-en1-gpios = <&pio 3 9 GPIO_ACTIVE_LOW>; /* PD9 */
->>>> +            vconn-en2-gpios = <&pio 3 9 GPIO_ACTIVE_LOW>; /* PD9 */
->>>> +            ports {
->>>> +                #address-cells = <1>;
->>>> +                #size-cells = <0>;
->>>> +
->>>> +                port@0 {
->>>> +                    reg = <0>;
->>>> +                    anx7688_in0: endpoint {
->>>> +                        remote-endpoint = <&hdmi0_out>;
->>>> +                    };
->>>> +                };
->>>> +
->>>> +                port@1 {
->>>> +                    reg = <1>;
->>>> +                    anx7688_in1: endpoint {
->>>> +                        remote-endpoint = <&usbdrd_phy_ss>;
->>>> +                    };
->>>> +                };
->>>> +                port@2 {
->>>> +                    reg = <2>;
->>>> +                    anx7688_out: endpoint {
->>>> +                        remote-endpoint = <&typec_connector>;
->>>> +                    };
->>>> +                };
->>>> +            };
->>>> +        };
->>>> +    };
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMzAvMDMvMjAyMSAwNjozNCwgYWJoaW5hdmtAY29kZWF1cm9yYS5vcmcgd3JvdGU6Cj4gT24g
+MjAyMS0wMy0yNyAwNDowMywgRG1pdHJ5IEJhcnlzaGtvdiB3cm90ZToKPj4gVGhlIHNyY190cnV0
+aHRhYmxlIGNvbmZpZyBpcyBub3QgdXNlZCBmb3Igc29tZSBvZiBwaHlzLCB3aGljaCB1c2Ugb3Ro
+ZXIKPj4gbWVhbnMgb2YgY29uZmlndXJpbmcgdGhlIG1hc3Rlci9zbGF2ZSB1c2VjYXNlcy4gSW5s
+aW5lIHRoaXMgZnVuY3Rpb24KPj4gd2l0aCB0aGUgZ29hbCBvZiByZW1vdmluZyBzcmNfcGxsX2lk
+IGFyZ3VtZW50IGluIHRoZSBuZXh0IGNvbW1pdC4KPj4KPj4gU2lnbmVkLW9mZi1ieTogRG1pdHJ5
+IEJhcnlzaGtvdiA8ZG1pdHJ5LmJhcnlzaGtvdkBsaW5hcm8ub3JnPgo+PiAtLS0KPj4gwqBkcml2
+ZXJzL2dwdS9kcm0vbXNtL2RzaS9waHkvZHNpX3BoeS5jwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAx
+NyAtLS0tLS0tLS0tLS0tLS0tLQo+PiDCoGRyaXZlcnMvZ3B1L2RybS9tc20vZHNpL3BoeS9kc2lf
+cGh5LmjCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgOCAtLS0tLS0tLQo+PiDCoGRyaXZlcnMvZ3B1
+L2RybS9tc20vZHNpL3BoeS9kc2lfcGh5XzEwbm0uY8KgwqDCoMKgwqAgfMKgIDIgLS0KPj4gwqBk
+cml2ZXJzL2dwdS9kcm0vbXNtL2RzaS9waHkvZHNpX3BoeV8xNG5tLmPCoMKgwqDCoMKgIHwgMTMg
+KysrKysrKy0tLS0tLQo+PiDCoGRyaXZlcnMvZ3B1L2RybS9tc20vZHNpL3BoeS9kc2lfcGh5XzIw
+bm0uY8KgwqDCoMKgwqAgfCAxMSArKysrKysrLS0tLQo+PiDCoGRyaXZlcnMvZ3B1L2RybS9tc20v
+ZHNpL3BoeS9kc2lfcGh5XzI4bm0uY8KgwqDCoMKgwqAgfCAxMyArKysrKysrLS0tLS0tCj4+IMKg
+ZHJpdmVycy9ncHUvZHJtL21zbS9kc2kvcGh5L2RzaV9waHlfMjhubV84OTYwLmMgfMKgIDEgLQo+
+PiDCoGRyaXZlcnMvZ3B1L2RybS9tc20vZHNpL3BoeS9kc2lfcGh5XzdubS5jwqDCoMKgwqDCoMKg
+IHzCoCAyIC0tCj4+IMKgOCBmaWxlcyBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspLCA0NiBkZWxl
+dGlvbnMoLSkKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZHNpL3BoeS9k
+c2lfcGh5LmMKPj4gYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2RzaS9waHkvZHNpX3BoeS5jCj4+IGlu
+ZGV4IDc0Y2MxMWM4NGQ3MS4uNTZmNTEzNGUzOTMzIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vbXNtL2RzaS9waHkvZHNpX3BoeS5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tc20v
+ZHNpL3BoeS9kc2lfcGh5LmMKPj4gQEAgLTQ2MSwyMyArNDYxLDYgQEAgaW50IG1zbV9kc2lfZHBo
+eV90aW1pbmdfY2FsY192NChzdHJ1Y3QKPj4gbXNtX2RzaV9kcGh5X3RpbWluZyAqdGltaW5nLAo+
+PiDCoMKgwqDCoCByZXR1cm4gMDsKPj4gwqB9Cj4+Cj4+IC12b2lkIG1zbV9kc2lfcGh5X3NldF9z
+cmNfcGxsKHN0cnVjdCBtc21fZHNpX3BoeSAqcGh5LCBpbnQgcGxsX2lkLCB1MzIgCj4+IHJlZywK
+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1MzIgYml0X21hc2spCj4+IC17Cj4+
+IC3CoMKgwqAgaW50IHBoeV9pZCA9IHBoeS0+aWQ7Cj4+IC3CoMKgwqAgdTMyIHZhbDsKPj4gLQo+
+PiAtwqDCoMKgIGlmICgocGh5X2lkID49IERTSV9NQVgpIHx8IChwbGxfaWQgPj0gRFNJX01BWCkp
+Cj4+IC3CoMKgwqDCoMKgwqDCoCByZXR1cm47Cj4+IC0KPj4gLcKgwqDCoCB2YWwgPSBkc2lfcGh5
+X3JlYWQocGh5LT5iYXNlICsgcmVnKTsKPj4gLQo+PiAtwqDCoMKgIGlmIChwaHktPmNmZy0+c3Jj
+X3BsbF90cnV0aHRhYmxlW3BoeV9pZF1bcGxsX2lkXSkKPj4gLcKgwqDCoMKgwqDCoMKgIGRzaV9w
+aHlfd3JpdGUocGh5LT5iYXNlICsgcmVnLCB2YWwgfCBiaXRfbWFzayk7Cj4+IC3CoMKgwqAgZWxz
+ZQo+PiAtwqDCoMKgwqDCoMKgwqAgZHNpX3BoeV93cml0ZShwaHktPmJhc2UgKyByZWcsIHZhbCAm
+ICh+Yml0X21hc2spKTsKPj4gLX0KPj4gLQo+PiDCoHN0YXRpYyBpbnQgZHNpX3BoeV9yZWd1bGF0
+b3JfaW5pdChzdHJ1Y3QgbXNtX2RzaV9waHkgKnBoeSkKPj4gwqB7Cj4+IMKgwqDCoMKgIHN0cnVj
+dCByZWd1bGF0b3JfYnVsa19kYXRhICpzID0gcGh5LT5zdXBwbGllczsKPj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9tc20vZHNpL3BoeS9kc2lfcGh5LmgKPj4gYi9kcml2ZXJzL2dwdS9k
+cm0vbXNtL2RzaS9waHkvZHNpX3BoeS5oCj4+IGluZGV4IDhlODI4YzVjYThmNC4uM2IyMDdjZjlm
+NmI0IDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2RzaS9waHkvZHNpX3BoeS5o
+Cj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vZHNpL3BoeS9kc2lfcGh5LmgKPj4gQEAgLTMz
+LDEyICszMyw2IEBAIHN0cnVjdCBtc21fZHNpX3BoeV9jZmcgewo+PiDCoMKgwqDCoCB1bnNpZ25l
+ZCBsb25nwqDCoMKgIG1pbl9wbGxfcmF0ZTsKPj4gwqDCoMKgwqAgdW5zaWduZWQgbG9uZ8KgwqDC
+oCBtYXhfcGxsX3JhdGU7Cj4+Cj4+IC3CoMKgwqAgLyoKPj4gLcKgwqDCoMKgICogRWFjaCBjZWxs
+IHtwaHlfaWQsIHBsbF9pZH0gb2YgdGhlIHRydXRoIHRhYmxlIGluZGljYXRlcwo+PiAtwqDCoMKg
+wqAgKiBpZiB0aGUgc291cmNlIFBMTCBzZWxlY3Rpb24gYml0IHNob3VsZCBiZSBzZXQgZm9yIGVh
+Y2ggUEhZLgo+PiAtwqDCoMKgwqAgKiBGaWxsIGRlZmF1bHQgSC9XIHZhbHVlcyBpbiBpbGxlZ2Fs
+IGNlbGxzLCBlZy4gY2VsbCB7MCwgMX0uCj4+IC3CoMKgwqDCoCAqLwo+PiAtwqDCoMKgIGJvb2wg
+c3JjX3BsbF90cnV0aHRhYmxlW0RTSV9NQVhdW0RTSV9NQVhdOwo+PiDCoMKgwqDCoCBjb25zdCBy
+ZXNvdXJjZV9zaXplX3QgaW9fc3RhcnRbRFNJX01BWF07Cj4+IMKgwqDCoMKgIGNvbnN0IGludCBu
+dW1fZHNpX3BoeTsKPj4gwqDCoMKgwqAgY29uc3QgaW50IHF1aXJrczsKPj4gQEAgLTEyMSw3ICsx
+MTUsNSBAQCBpbnQgbXNtX2RzaV9kcGh5X3RpbWluZ19jYWxjX3YzKHN0cnVjdAo+PiBtc21fZHNp
+X2RwaHlfdGltaW5nICp0aW1pbmcsCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHN0cnVjdCBtc21fZHNpX3BoeV9jbGtfcmVxdWVzdCAqY2xrX3JlcSk7Cj4+IMKgaW50IG1zbV9k
+c2lfZHBoeV90aW1pbmdfY2FsY192NChzdHJ1Y3QgbXNtX2RzaV9kcGh5X3RpbWluZyAqdGltaW5n
+LAo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgbXNtX2RzaV9waHlf
+Y2xrX3JlcXVlc3QgKmNsa19yZXEpOwo+PiAtdm9pZCBtc21fZHNpX3BoeV9zZXRfc3JjX3BsbChz
+dHJ1Y3QgbXNtX2RzaV9waHkgKnBoeSwgaW50IHBsbF9pZCwgdTMyIAo+PiByZWcsCj4+IC3CoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdTMyIGJpdF9tYXNrKTsKPj4KPj4gwqAjZW5kaWYg
+LyogX19EU0lfUEhZX0hfXyAqLwo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9k
+c2kvcGh5L2RzaV9waHlfMTBubS5jCj4+IGIvZHJpdmVycy9ncHUvZHJtL21zbS9kc2kvcGh5L2Rz
+aV9waHlfMTBubS5jCj4+IGluZGV4IDFmYmI1NGY0ZGY5OC4uMDQ1MzVjY2QxMWVmIDEwMDY0NAo+
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2RzaS9waHkvZHNpX3BoeV8xMG5tLmMKPj4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL21zbS9kc2kvcGh5L2RzaV9waHlfMTBubS5jCj4+IEBAIC05MTks
+NyArOTE5LDYgQEAgc3RhdGljIHZvaWQgZHNpXzEwbm1fcGh5X2Rpc2FibGUoc3RydWN0IAo+PiBt
+c21fZHNpX3BoeSAqcGh5KQo+PiDCoH0KPj4KPj4gwqBjb25zdCBzdHJ1Y3QgbXNtX2RzaV9waHlf
+Y2ZnIGRzaV9waHlfMTBubV9jZmdzID0gewo+PiAtwqDCoMKgIC5zcmNfcGxsX3RydXRodGFibGUg
+PSB7IHtmYWxzZSwgZmFsc2V9LCB7dHJ1ZSwgZmFsc2V9IH0sCj4+IMKgwqDCoMKgIC5oYXNfcGh5
+X2xhbmUgPSB0cnVlLAo+PiDCoMKgwqDCoCAucmVnX2NmZyA9IHsKPj4gwqDCoMKgwqDCoMKgwqDC
+oCAubnVtID0gMSwKPj4gQEAgLTk0MSw3ICs5NDAsNiBAQCBjb25zdCBzdHJ1Y3QgbXNtX2RzaV9w
+aHlfY2ZnIGRzaV9waHlfMTBubV9jZmdzID0gewo+PiDCoH07Cj4+Cj4+IMKgY29uc3Qgc3RydWN0
+IG1zbV9kc2lfcGh5X2NmZyBkc2lfcGh5XzEwbm1fODk5OF9jZmdzID0gewo+PiAtwqDCoMKgIC5z
+cmNfcGxsX3RydXRodGFibGUgPSB7IHtmYWxzZSwgZmFsc2V9LCB7dHJ1ZSwgZmFsc2V9IH0sCj4+
+IMKgwqDCoMKgIC5oYXNfcGh5X2xhbmUgPSB0cnVlLAo+PiDCoMKgwqDCoCAucmVnX2NmZyA9IHsK
+Pj4gwqDCoMKgwqDCoMKgwqDCoCAubnVtID0gMSwKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9tc20vZHNpL3BoeS9kc2lfcGh5XzE0bm0uYwo+PiBiL2RyaXZlcnMvZ3B1L2RybS9tc20v
+ZHNpL3BoeS9kc2lfcGh5XzE0bm0uYwo+PiBpbmRleCBkMDhhZDBjNjMyYjQuLjdhODdiZWQ3MWUz
+NiAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21zbS9kc2kvcGh5L2RzaV9waHlfMTRu
+bS5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vZHNpL3BoeS9kc2lfcGh5XzE0bm0uYwo+
+PiBAQCAtOTQ3LDYgKzk0Nyw3IEBAIHN0YXRpYyBpbnQgZHNpXzE0bm1fcGh5X2VuYWJsZShzdHJ1
+Y3QgbXNtX2RzaV9waHkKPj4gKnBoeSwgaW50IHNyY19wbGxfaWQsCj4+IMKgwqDCoMKgIGludCBy
+ZXQ7Cj4+IMKgwqDCoMKgIHZvaWQgX19pb21lbSAqYmFzZSA9IHBoeS0+YmFzZTsKPj4gwqDCoMKg
+wqAgdm9pZCBfX2lvbWVtICpsYW5lX2Jhc2UgPSBwaHktPmxhbmVfYmFzZTsKPj4gK8KgwqDCoCB1
+MzIgZ2xibF90ZXN0X2N0cmw7Cj4+Cj4+IMKgwqDCoMKgIGlmIChtc21fZHNpX2RwaHlfdGltaW5n
+X2NhbGNfdjIodGltaW5nLCBjbGtfcmVxKSkgewo+PiDCoMKgwqDCoMKgwqDCoMKgIERSTV9ERVZf
+RVJST1IoJnBoeS0+cGRldi0+ZGV2LAo+PiBAQCAtOTk0LDEwICs5OTUsMTIgQEAgc3RhdGljIGlu
+dCBkc2lfMTRubV9waHlfZW5hYmxlKHN0cnVjdAo+PiBtc21fZHNpX3BoeSAqcGh5LCBpbnQgc3Jj
+X3BsbF9pZCwKPj4gwqDCoMKgwqAgdWRlbGF5KDEwMCk7Cj4+IMKgwqDCoMKgIGRzaV9waHlfd3Jp
+dGUoYmFzZSArIFJFR19EU0lfMTRubV9QSFlfQ01OX0NUUkxfMSwgMHgwMCk7Cj4+Cj4+IC3CoMKg
+wqAgbXNtX2RzaV9waHlfc2V0X3NyY19wbGwocGh5LCBzcmNfcGxsX2lkLAo+PiAtwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIFJFR19EU0lfMTRubV9QSFlfQ01OX0dMQkxfVEVTVF9DVFJM
+LAo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIERTSV8xNG5tX1BIWV9DTU5fR0xC
+TF9URVNUX0NUUkxfQklUQ0xLX0hTX1NFTCk7Cj4+IC0KPj4gK8KgwqDCoCBnbGJsX3Rlc3RfY3Ry
+bCA9IGRzaV9waHlfcmVhZChiYXNlICsgCj4+IFJFR19EU0lfMTRubV9QSFlfQ01OX0dMQkxfVEVT
+VF9DVFJMKTsKPj4gK8KgwqDCoCBpZiAocGh5LT5pZCA9PSBEU0lfMSAmJiBzcmNfcGxsX2lkID09
+IERTSV8wKQo+PiArwqDCoMKgwqDCoMKgwqAgZ2xibF90ZXN0X2N0cmwgfD0gRFNJXzE0bm1fUEhZ
+X0NNTl9HTEJMX1RFU1RfQ1RSTF9CSVRDTEtfSFNfU0VMOwo+PiArwqDCoMKgIGVsc2UKPj4gK8Kg
+wqDCoMKgwqDCoMKgIGdsYmxfdGVzdF9jdHJsICY9IAo+PiB+RFNJXzE0bm1fUEhZX0NNTl9HTEJM
+X1RFU1RfQ1RSTF9CSVRDTEtfSFNfU0VMOwo+PiArwqDCoMKgIGRzaV9waHlfd3JpdGUoYmFzZSAr
+IFJFR19EU0lfMTRubV9QSFlfQ01OX0dMQkxfVEVTVF9DVFJMLCAKPj4gZ2xibF90ZXN0X2N0cmwp
+Owo+PiDCoMKgwqDCoCByZXQgPSBkc2lfMTRubV9zZXRfdXNlY2FzZShwaHkpOwo+PiDCoMKgwqDC
+oCBpZiAocmV0KSB7Cj4+IMKgwqDCoMKgwqDCoMKgwqAgRFJNX0RFVl9FUlJPUigmcGh5LT5wZGV2
+LT5kZXYsICIlczogc2V0IHBsbCB1c2VjYXNlIGZhaWxlZCwgCj4+ICVkXG4iLAo+PiBAQCAtMTAy
+MSw3ICsxMDI0LDYgQEAgc3RhdGljIHZvaWQgZHNpXzE0bm1fcGh5X2Rpc2FibGUoc3RydWN0IAo+
+PiBtc21fZHNpX3BoeSAqcGh5KQo+PiDCoH0KPj4KPj4gwqBjb25zdCBzdHJ1Y3QgbXNtX2RzaV9w
+aHlfY2ZnIGRzaV9waHlfMTRubV9jZmdzID0gewo+PiAtwqDCoMKgIC5zcmNfcGxsX3RydXRodGFi
+bGUgPSB7IHtmYWxzZSwgZmFsc2V9LCB7dHJ1ZSwgZmFsc2V9IH0sCj4+IMKgwqDCoMKgIC5oYXNf
+cGh5X2xhbmUgPSB0cnVlLAo+PiDCoMKgwqDCoCAucmVnX2NmZyA9IHsKPj4gwqDCoMKgwqDCoMKg
+wqDCoCAubnVtID0gMSwKPj4gQEAgLTEwNDMsNyArMTA0NSw2IEBAIGNvbnN0IHN0cnVjdCBtc21f
+ZHNpX3BoeV9jZmcgZHNpX3BoeV8xNG5tX2NmZ3MgPSB7Cj4+IMKgfTsKPj4KPj4gwqBjb25zdCBz
+dHJ1Y3QgbXNtX2RzaV9waHlfY2ZnIGRzaV9waHlfMTRubV82NjBfY2ZncyA9IHsKPj4gLcKgwqDC
+oCAuc3JjX3BsbF90cnV0aHRhYmxlID0geyB7ZmFsc2UsIGZhbHNlfSwge3RydWUsIGZhbHNlfSB9
+LAo+PiDCoMKgwqDCoCAuaGFzX3BoeV9sYW5lID0gdHJ1ZSwKPj4gwqDCoMKgwqAgLnJlZ19jZmcg
+PSB7Cj4+IMKgwqDCoMKgwqDCoMKgwqAgLm51bSA9IDEsCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vbXNtL2RzaS9waHkvZHNpX3BoeV8yMG5tLmMKPj4gYi9kcml2ZXJzL2dwdS9kcm0v
+bXNtL2RzaS9waHkvZHNpX3BoeV8yMG5tLmMKPj4gaW5kZXggNWU3M2Y4MTFkNjQ1Li5mNWI4OGM4
+NWE4ZmMgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZHNpL3BoeS9kc2lfcGh5
+XzIwbm0uYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2RzaS9waHkvZHNpX3BoeV8yMG5t
+LmMKPj4gQEAgLTcwLDYgKzcwLDcgQEAgc3RhdGljIGludCBkc2lfMjBubV9waHlfZW5hYmxlKHN0
+cnVjdCBtc21fZHNpX3BoeQo+PiAqcGh5LCBpbnQgc3JjX3BsbF9pZCwKPj4gwqDCoMKgwqAgaW50
+IGk7Cj4+IMKgwqDCoMKgIHZvaWQgX19pb21lbSAqYmFzZSA9IHBoeS0+YmFzZTsKPj4gwqDCoMKg
+wqAgdTMyIGNmZ180WzRdID0gezB4MjAsIDB4NDAsIDB4MjAsIDB4MDB9Owo+PiArwqDCoMKgIHUz
+MiB2YWw7Cj4+Cj4+IMKgwqDCoMKgIERCRygiIik7Cj4+Cj4+IEBAIC04Myw5ICs4NCwxMiBAQCBz
+dGF0aWMgaW50IGRzaV8yMG5tX3BoeV9lbmFibGUoc3RydWN0IG1zbV9kc2lfcGh5Cj4+ICpwaHks
+IGludCBzcmNfcGxsX2lkLAo+Pgo+PiDCoMKgwqDCoCBkc2lfcGh5X3dyaXRlKGJhc2UgKyBSRUdf
+RFNJXzIwbm1fUEhZX1NUUkVOR1RIXzAsIDB4ZmYpOwo+Pgo+PiAtwqDCoMKgIG1zbV9kc2lfcGh5
+X3NldF9zcmNfcGxsKHBoeSwgc3JjX3BsbF9pZCwKPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBSRUdfRFNJXzIwbm1fUEhZX0dMQkxfVEVTVF9DVFJMLAo+PiAtwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIERTSV8yMG5tX1BIWV9HTEJMX1RFU1RfQ1RSTF9CSVRDTEtfSFNf
+U0VMKTsKPj4gK8KgwqDCoCB2YWwgPSBkc2lfcGh5X3JlYWQoYmFzZSArIFJFR19EU0lfMjBubV9Q
+SFlfR0xCTF9URVNUX0NUUkwpOwo+PiArwqDCoMKgIGlmIChzcmNfcGxsX2lkID09IERTSV8xKQo+
+PiArwqDCoMKgwqDCoMKgwqAgdmFsIHw9IERTSV8yMG5tX1BIWV9HTEJMX1RFU1RfQ1RSTF9CSVRD
+TEtfSFNfU0VMOwo+PiArwqDCoMKgIGVsc2UKPj4gK8KgwqDCoMKgwqDCoMKgIHZhbCAmPSB+RFNJ
+XzIwbm1fUEhZX0dMQkxfVEVTVF9DVFJMX0JJVENMS19IU19TRUw7Cj4+ICvCoMKgwqAgZHNpX3Bo
+eV93cml0ZShiYXNlICsgUkVHX0RTSV8yMG5tX1BIWV9HTEJMX1RFU1RfQ1RSTCwgdmFsKTsKPj4K
+Pj4gwqDCoMKgwqAgZm9yIChpID0gMDsgaSA8IDQ7IGkrKykgewo+PiDCoMKgwqDCoMKgwqDCoMKg
+IGRzaV9waHlfd3JpdGUoYmFzZSArIFJFR19EU0lfMjBubV9QSFlfTE5fQ0ZHXzMoaSksCj4+IEBA
+IC0xMjUsNyArMTI5LDYgQEAgc3RhdGljIHZvaWQgZHNpXzIwbm1fcGh5X2Rpc2FibGUoc3RydWN0
+IAo+PiBtc21fZHNpX3BoeSAqcGh5KQo+PiDCoH0KPj4KPj4gwqBjb25zdCBzdHJ1Y3QgbXNtX2Rz
+aV9waHlfY2ZnIGRzaV9waHlfMjBubV9jZmdzID0gewo+PiAtwqDCoMKgIC5zcmNfcGxsX3RydXRo
+dGFibGUgPSB7IHtmYWxzZSwgdHJ1ZX0sIHtmYWxzZSwgdHJ1ZX0gfSwKPj4gwqDCoMKgwqAgLmhh
+c19waHlfcmVndWxhdG9yID0gdHJ1ZSwKPj4gwqDCoMKgwqAgLnJlZ19jZmcgPSB7Cj4+IMKgwqDC
+oMKgwqDCoMKgwqAgLm51bSA9IDIsCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXNt
+L2RzaS9waHkvZHNpX3BoeV8yOG5tLmMKPj4gYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2RzaS9waHkv
+ZHNpX3BoeV8yOG5tLmMKPj4gaW5kZXggMGJjZWEzZjNlY2EzLi45ZjgzYWI5MGQwOTMgMTAwNjQ0
+Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZHNpL3BoeS9kc2lfcGh5XzI4bm0uYwo+PiAr
+KysgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2RzaS9waHkvZHNpX3BoeV8yOG5tLmMKPj4gQEAgLTcw
+NCw2ICs3MDQsNyBAQCBzdGF0aWMgaW50IGRzaV8yOG5tX3BoeV9lbmFibGUoc3RydWN0IG1zbV9k
+c2lfcGh5Cj4+ICpwaHksIGludCBzcmNfcGxsX2lkLAo+PiDCoMKgwqDCoCBzdHJ1Y3QgbXNtX2Rz
+aV9kcGh5X3RpbWluZyAqdGltaW5nID0gJnBoeS0+dGltaW5nOwo+PiDCoMKgwqDCoCBpbnQgaTsK
+Pj4gwqDCoMKgwqAgdm9pZCBfX2lvbWVtICpiYXNlID0gcGh5LT5iYXNlOwo+PiArwqDCoMKgIHUz
+MiB2YWw7Cj4+Cj4+IMKgwqDCoMKgIERCRygiIik7Cj4+Cj4+IEBAIC03NDMsOSArNzQ0LDEyIEBA
+IHN0YXRpYyBpbnQgZHNpXzI4bm1fcGh5X2VuYWJsZShzdHJ1Y3QgbXNtX2RzaV9waHkKPj4gKnBo
+eSwgaW50IHNyY19wbGxfaWQsCj4+Cj4+IMKgwqDCoMKgIGRzaV9waHlfd3JpdGUoYmFzZSArIFJF
+R19EU0lfMjhubV9QSFlfQ1RSTF8wLCAweDVmKTsKPj4KPj4gLcKgwqDCoCBtc21fZHNpX3BoeV9z
+ZXRfc3JjX3BsbChwaHksIHNyY19wbGxfaWQsCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgUkVHX0RTSV8yOG5tX1BIWV9HTEJMX1RFU1RfQ1RSTCwKPj4gLcKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBEU0lfMjhubV9QSFlfR0xCTF9URVNUX0NUUkxfQklUQ0xLX0hTX1NF
+TCk7Cj4+ICvCoMKgwqAgdmFsID0gZHNpX3BoeV9yZWFkKGJhc2UgKyBSRUdfRFNJXzI4bm1fUEhZ
+X0dMQkxfVEVTVF9DVFJMKTsKPj4gK8KgwqDCoCBpZiAocGh5LT5pZCA9PSBEU0lfMSAmJiBzcmNf
+cGxsX2lkID09IERTSV8wKQo+PiArwqDCoMKgwqDCoMKgwqAgdmFsICY9IH5EU0lfMjhubV9QSFlf
+R0xCTF9URVNUX0NUUkxfQklUQ0xLX0hTX1NFTDsKPj4gK8KgwqDCoCBlbHNlCj4+ICvCoMKgwqDC
+oMKgwqDCoCB2YWwgfD0gRFNJXzI4bm1fUEhZX0dMQkxfVEVTVF9DVFJMX0JJVENMS19IU19TRUw7
+Cj4+ICvCoMKgwqAgZHNpX3BoeV93cml0ZShiYXNlICsgUkVHX0RTSV8yOG5tX1BIWV9HTEJMX1RF
+U1RfQ1RSTCwgdmFsKTsKPj4KPj4gwqDCoMKgwqAgcmV0dXJuIDA7Cj4+IMKgfQo+PiBAQCAtNzYz
+LDcgKzc2Nyw2IEBAIHN0YXRpYyB2b2lkIGRzaV8yOG5tX3BoeV9kaXNhYmxlKHN0cnVjdCAKPj4g
+bXNtX2RzaV9waHkgKnBoeSkKPj4gwqB9Cj4+Cj4+IMKgY29uc3Qgc3RydWN0IG1zbV9kc2lfcGh5
+X2NmZyBkc2lfcGh5XzI4bm1faHBtX2NmZ3MgPSB7Cj4+IC3CoMKgwqAgLnNyY19wbGxfdHJ1dGh0
+YWJsZSA9IHsge3RydWUsIHRydWV9LCB7ZmFsc2UsIHRydWV9IH0sCj4+IMKgwqDCoMKgIC5oYXNf
+cGh5X3JlZ3VsYXRvciA9IHRydWUsCj4+IMKgwqDCoMKgIC5yZWdfY2ZnID0gewo+PiDCoMKgwqDC
+oMKgwqDCoMKgIC5udW0gPSAxLAo+PiBAQCAtNzg1LDcgKzc4OCw2IEBAIGNvbnN0IHN0cnVjdCBt
+c21fZHNpX3BoeV9jZmcgZHNpX3BoeV8yOG5tX2hwbV9jZmdzIAo+PiA9IHsKPj4gwqB9Owo+Pgo+
+PiDCoGNvbnN0IHN0cnVjdCBtc21fZHNpX3BoeV9jZmcgZHNpX3BoeV8yOG5tX2hwbV9mYW1iX2Nm
+Z3MgPSB7Cj4+IC3CoMKgwqAgLnNyY19wbGxfdHJ1dGh0YWJsZSA9IHsge3RydWUsIHRydWV9LCB7
+ZmFsc2UsIHRydWV9IH0sCj4+IMKgwqDCoMKgIC5oYXNfcGh5X3JlZ3VsYXRvciA9IHRydWUsCj4+
+IMKgwqDCoMKgIC5yZWdfY2ZnID0gewo+PiDCoMKgwqDCoMKgwqDCoMKgIC5udW0gPSAxLAo+PiBA
+QCAtODA3LDcgKzgwOSw2IEBAIGNvbnN0IHN0cnVjdCBtc21fZHNpX3BoeV9jZmcgCj4+IGRzaV9w
+aHlfMjhubV9ocG1fZmFtYl9jZmdzID0gewo+PiDCoH07Cj4+Cj4+IMKgY29uc3Qgc3RydWN0IG1z
+bV9kc2lfcGh5X2NmZyBkc2lfcGh5XzI4bm1fbHBfY2ZncyA9IHsKPj4gLcKgwqDCoCAuc3JjX3Bs
+bF90cnV0aHRhYmxlID0geyB7dHJ1ZSwgdHJ1ZX0sIHt0cnVlLCB0cnVlfSB9LAo+PiDCoMKgwqDC
+oCAuaGFzX3BoeV9yZWd1bGF0b3IgPSB0cnVlLAo+PiDCoMKgwqDCoCAucmVnX2NmZyA9IHsKPj4g
+wqDCoMKgwqDCoMKgwqDCoCAubnVtID0gMSwKPiAKPiBUaGUgc3JjX3BsbF90cnV0aHRhYmxlIGZv
+ciBkc2lfcGh5XzI4bm1fbHBfY2ZncyBoYXMgYWxsIGVudHJpZXMgYXMgdHJ1ZSwgCj4gd2hpbGUg
+dGhlIG90aGVyCj4gMjhubV8qKipfY2ZncyBkb250LiBTbyB3b3VsZG50IHRoaXMgYmVsb3cgbG9n
+aWMgZW5kIHVwIGJyZWFraW5nIAo+IGRzaV9waHlfMjhubV9scF9jZmdzPwoKMjhubV9scCBoYXMg
+anVzdCBvbmUgUEhZLCBzbyBzZWNvbmQgaGFsZiBvZiB0aGUgdGFibGUgZG9lcyBub3QgbWFrZSAK
+c2Vuc2UgYXQgYWxsLgoKQW5kIGl0IGlzIGV4YWN0bHkgb25lIG9mIHRoZSByZWFzb25zIHRvIGdl
+dCByaWQgb2YgaXQ6IGl0IG1pZ2h0IGJlIAptaXNsZWFkaW5nLgoKQWxzbyBjb25zaWRlciB0aGUg
+WzBdWzFdIHRhYmxlIGVudHJ5LCB3aGljaCBpcyBhbHNvIGRlY2xhcmVkLCBidXQgaXQgaXMgCm5v
+dCB1c2FibGUuCgo+IAo+PiArwqDCoMKgIGlmIChwaHktPmlkID09IERTSV8xICYmIHNyY19wbGxf
+aWQgPT0gRFNJXzApCj4+ICvCoMKgwqDCoMKgwqDCoCB2YWwgJj0gfkRTSV8yOG5tX1BIWV9HTEJM
+X1RFU1RfQ1RSTF9CSVRDTEtfSFNfU0VMOwo+PiArwqDCoMKgIGVsc2UKPj4gK8KgwqDCoMKgwqDC
+oMKgIHZhbCB8PSBEU0lfMjhubV9QSFlfR0xCTF9URVNUX0NUUkxfQklUQ0xLX0hTX1NFTDsKPj4g
+K8KgwqDCoCBkc2lfcGh5X3dyaXRlKGJhc2UgKyBSRUdfRFNJXzI4bm1fUEhZX0dMQkxfVEVTVF9D
+VFJMLCB2YWwpOwo+IAo+IElmIHNvLCBJIHRoaW5rIHdlIGNhbiBsZWF2ZSBpdCBpbiBjZmcgaXRz
+ZWxmIHNpbmNlIHRoZSAyOG5tIHBoeSBkcml2ZXIgCj4gaXMgY29tbW9uIGFuZCBpcyBtYW5hZ2Vk
+Cj4gdXNpbmcgZGlmZmVyZW50IGNvbmZpZyB0byBkaWZmZXJlbnRpYXRlIHRoZSBocG0sIGxwIGFu
+ZCBocG5fZmFtYiB2YXJpYW50cy4KCkknZCBwcmVmZXIgdG8gZHJvcCBpdCBmcm9tIGFsbCB0aGUg
+ZHJpdmVycywgdG8gaGF2ZSBmZXdlciAnZGVjbGFyZWQgYnV0IAp1bnVzZWQnIGNhc2VzL2RhdGEu
+Cgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9kc2kvcGh5L2RzaV9waHlfMjhu
+bV84OTYwLmMKPj4gYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2RzaS9waHkvZHNpX3BoeV8yOG5tXzg5
+NjAuYwo+PiBpbmRleCA5ZGRkMGFkY2NjZTMuLmQyYmZlNDNjOWVmMSAxMDA2NDQKPj4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL21zbS9kc2kvcGh5L2RzaV9waHlfMjhubV84OTYwLmMKPj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL21zbS9kc2kvcGh5L2RzaV9waHlfMjhubV84OTYwLmMKPj4gQEAgLTY0
+Miw3ICs2NDIsNiBAQCBzdGF0aWMgdm9pZCBkc2lfMjhubV9waHlfZGlzYWJsZShzdHJ1Y3QgCj4+
+IG1zbV9kc2lfcGh5ICpwaHkpCj4+IMKgfQo+Pgo+PiDCoGNvbnN0IHN0cnVjdCBtc21fZHNpX3Bo
+eV9jZmcgZHNpX3BoeV8yOG5tXzg5NjBfY2ZncyA9IHsKPj4gLcKgwqDCoCAuc3JjX3BsbF90cnV0
+aHRhYmxlID0geyB7dHJ1ZSwgdHJ1ZX0sIHtmYWxzZSwgdHJ1ZX0gfSwKPj4gwqDCoMKgwqAgLmhh
+c19waHlfcmVndWxhdG9yID0gdHJ1ZSwKPj4gwqDCoMKgwqAgLnJlZ19jZmcgPSB7Cj4+IMKgwqDC
+oMKgwqDCoMKgwqAgLm51bSA9IDEsCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXNt
+L2RzaS9waHkvZHNpX3BoeV83bm0uYwo+PiBiL2RyaXZlcnMvZ3B1L2RybS9tc20vZHNpL3BoeS9k
+c2lfcGh5XzdubS5jCj4+IGluZGV4IGNlNmFlMmZiYTk5My4uNjE5OTk4NTA2Yjc4IDEwMDY0NAo+
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2RzaS9waHkvZHNpX3BoeV83bm0uYwo+PiArKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vbXNtL2RzaS9waHkvZHNpX3BoeV83bm0uYwo+PiBAQCAtOTU1LDcg
+Kzk1NSw2IEBAIHN0YXRpYyB2b2lkIGRzaV83bm1fcGh5X2Rpc2FibGUoc3RydWN0IG1zbV9kc2lf
+cGh5IAo+PiAqcGh5KQo+PiDCoH0KPj4KPj4gwqBjb25zdCBzdHJ1Y3QgbXNtX2RzaV9waHlfY2Zn
+IGRzaV9waHlfN25tX2NmZ3MgPSB7Cj4+IC3CoMKgwqAgLnNyY19wbGxfdHJ1dGh0YWJsZSA9IHsg
+e2ZhbHNlLCBmYWxzZX0sIHt0cnVlLCBmYWxzZX0gfSwKPj4gwqDCoMKgwqAgLmhhc19waHlfbGFu
+ZSA9IHRydWUsCj4+IMKgwqDCoMKgIC5yZWdfY2ZnID0gewo+PiDCoMKgwqDCoMKgwqDCoMKgIC5u
+dW0gPSAxLAo+PiBAQCAtOTc4LDcgKzk3Nyw2IEBAIGNvbnN0IHN0cnVjdCBtc21fZHNpX3BoeV9j
+ZmcgZHNpX3BoeV83bm1fY2ZncyA9IHsKPj4gwqB9Owo+Pgo+PiDCoGNvbnN0IHN0cnVjdCBtc21f
+ZHNpX3BoeV9jZmcgZHNpX3BoeV83bm1fODE1MF9jZmdzID0gewo+PiAtwqDCoMKgIC5zcmNfcGxs
+X3RydXRodGFibGUgPSB7IHtmYWxzZSwgZmFsc2V9LCB7dHJ1ZSwgZmFsc2V9IH0sCj4+IMKgwqDC
+oMKgIC5oYXNfcGh5X2xhbmUgPSB0cnVlLAo+PiDCoMKgwqDCoCAucmVnX2NmZyA9IHsKPj4gwqDC
+oMKgwqDCoMKgwqDCoCAubnVtID0gMSwKCgotLSAKV2l0aCBiZXN0IHdpc2hlcwpEbWl0cnkKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
