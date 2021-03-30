@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AED934DEC5
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 04:54:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB5434DEC9
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 04:54:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12D156E827;
-	Tue, 30 Mar 2021 02:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A70F6E82E;
+	Tue, 30 Mar 2021 02:54:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4C526E823
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 02:54:16 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id y32so9531241pga.11
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 19:54:16 -0700 (PDT)
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2E0B6E82C
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 02:54:18 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id v23so5391212ple.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 19:54:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BEKsKLyxs1+v0ZxDrM7HVhKxECDMgvUxXPP2eTukK2o=;
- b=Uw2K3tYxkMnEPqt9yGgUQVzYBYDnNm7MC9I+61puu5TEYXLVh24tHZAbiDeW4v1ABO
- lGkIdnuwHF0cQokbjkRoWcjmjEpKlc+ph12Sbqo9gTn+ejwL7NFFjLPfpJMnv4EcGtdv
- 3qKfSmbEv4ZtmHx9pqTWLHJJl9zjCYxw5Y7Io=
+ bh=kdhUcLdKGZws4bIuWNvM669I98WfYUeDRQetYvWjfOc=;
+ b=LDZDXTvfo3j5zkAAyZvvJ/TwJjrnnhB8tUjrsrG4YoMmDxgEqWxtMmOOU845+GlpgF
+ Y5/H79kEPuVKJcsebB97HKStI3DjVZ8RrcyJewIbVWJwaUqfsfLHVU/SFTqNsSNZJ4Yn
+ QmvAj2FIF9WmWGMPOXaIO86aY+8+ydg3ggjVE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BEKsKLyxs1+v0ZxDrM7HVhKxECDMgvUxXPP2eTukK2o=;
- b=q7JAjpWW8P5Ev7ko7ilu9e9bZD+BrIDV4Hcc5ifhQxLfkUKfHQjn1XZaiNQJWuQINo
- o4nj+el0UjcDK+kiRYOU3qLyeg8HPm+tPeixssD2Gz+lftrpd6D9idJXjHcS4eZJolJS
- 4XiNhHPSY3/dfXoHQBF+LBk7yt9rc7VnyMfxP3hNO+ByP9nodl+yaoFZxbFOp4ZsDgWF
- u3wpqXofqdNKo6lNJzHf09NJ+LAa7laMGILkFH/G9T+VDwq+cjGS/1xBe4U1vOUXkiwZ
- z7g1uTMoXDrUxVqJpLyB/YfyXyqtYxdkr22DaWF+Ddtomh/Knv/ThLzBgyNe5pTiw9Y5
- MDbA==
-X-Gm-Message-State: AOAM531U9BSHflhJgxQGuINMyRY17rGAFSqmSTbaK9NLK0MCvzRtU0A/
- 1Cww+U3lcWl8zLI1xARqI8X7rg==
-X-Google-Smtp-Source: ABdhPJzP+ZMH9J8DCQEoQQe/Ka+R8gqStepZzM0+mhog7QnppOBoLReWVZeyJe79x2EaqFdRcRVrZA==
-X-Received: by 2002:a05:6a00:1585:b029:203:6bc9:3ca6 with SMTP id
- u5-20020a056a001585b02902036bc93ca6mr27842566pfk.79.1617072856430; 
- Mon, 29 Mar 2021 19:54:16 -0700 (PDT)
+ bh=kdhUcLdKGZws4bIuWNvM669I98WfYUeDRQetYvWjfOc=;
+ b=KH0CLF4rcXFA8oCNmuheDBqDk0VZF5LZzAuTCMXQlaG+1cZNZktDvZ0UCbYGQbGD0f
+ yDARg21x+b2DgDrvTpnSS0io4L9tmvFKhF20/MwgnLcbg0y08G2igXC9rRxqH5EtBqlg
+ qN4GuVq+nKCcVbirr0w61X+wPP9B0BPoVIzETJwlo0cNURMskjFXCqGuFy7ml4GYRn5A
+ 2gP/GmkZ9TdsN15C3k7YJLJtm0cUy68CZg33dXbOupckdfB8PVlnPrAivTbXTQtvjZ2W
+ KJO9uvmL1NkpAmGyytH9Q6LuzxZlaoc8DjfHjKzOcT+LSZ5+t/EdV32UX5NIlqVQfjJg
+ 8QXw==
+X-Gm-Message-State: AOAM532SSXOVh3pwE5wSneya/ebbYqqVOjCZCG5fW3pbOmEM2V5EkBC3
+ 9PEbVHU15aVFNLE1HrqsocRKEA==
+X-Google-Smtp-Source: ABdhPJyRbP9Dg9rng94Tm6dgBkHfUuioCdrW0smh7o8Ei4c+MuOLyUrICxVQG1NgRYkZK5JqSBmmvg==
+X-Received: by 2002:a17:902:ed84:b029:e7:1f2b:1eb4 with SMTP id
+ e4-20020a170902ed84b02900e71f2b1eb4mr19897667plj.74.1617072858078; 
+ Mon, 29 Mar 2021 19:54:18 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:f599:1ca7:742d:6b50])
- by smtp.gmail.com with ESMTPSA id t17sm19152706pgk.25.2021.03.29.19.54.14
+ by smtp.gmail.com with ESMTPSA id t17sm19152706pgk.25.2021.03.29.19.54.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Mar 2021 19:54:16 -0700 (PDT)
+ Mon, 29 Mar 2021 19:54:17 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
  Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v2 09/14] drm/edid: Use the cached EDID in drm_get_edid() if
- eDP
-Date: Mon, 29 Mar 2021 19:53:40 -0700
-Message-Id: <20210329195255.v2.9.Ia7e9bb7cf6c51d960b9455fb0fa447cc68ece99d@changeid>
+Subject: [PATCH v2 10/14] drm/bridge: ti-sn65dsi86: Stop caching the EDID
+ ourselves
+Date: Mon, 29 Mar 2021 19:53:41 -0700
+Message-Id: <20210329195255.v2.10.Ida6151df6bfc71df77afee1d72bb7eb0a443f327@changeid>
 X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
 In-Reply-To: <20210330025345.3980086-1-dianders@chromium.org>
 References: <20210330025345.3980086-1-dianders@chromium.org>
@@ -70,95 +70,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- Steev Klimaszewski <steev@kali.org>, Stephen Boyd <swboyd@chromium.org>,
+Cc: robdclark@chromium.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>, Steev Klimaszewski <steev@kali.org>,
+ Stephen Boyd <swboyd@chromium.org>,
  Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Robert Foss <robert.foss@linaro.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Each time we call drm_get_edid() we:
-1. Go out to the bus and ask for the EDID.
-2. Cache the EDID.
-
-We can improve this to actually use the cached EDID so that if
-drm_get_edid() is called multiple times then we don't need to go out
-to the bus over and over again.
-
-In normal DP/HDMI cases reading the EDID over and over again isn't
-_that_ expensive so, presumably, this wasn't that critical in the
-past. However for eDP going out to the bus can be expensive. This is
-because eDP panels might be powered off before the EDID was requested
-so we need to do power sequencing in addition to the transfer.
-
-In theory we should be able to cache the EDID for all types of
-displays. There is already code throwing the cache away when we detect
-that a display was unplugged. However, it can be noted that it's
-_extra_ safe to cache the EDID for eDP since eDP isn't a hot-pluggable
-interface. If we get the EDID once then we've got the EDID and we
-should never need to read it again. For now we'll only use the cache
-for eDP both because it's more important and extra safe.
+Now that we have the patch ("drm/edid: Use the cached EDID in
+drm_get_edid() if eDP") we no longer need to maintain our own
+cache. Drop this code.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
 (no changes since v1)
 
- drivers/gpu/drm/drm_edid.c | 32 ++++++++++++++++++++++++++++----
- 1 file changed, 28 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 22 +++++++++-------------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index c2bbe7bee7b6..fcbf468d73c9 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -2049,15 +2049,39 @@ struct edid *drm_get_edid(struct drm_connector *connector,
- 			  struct i2c_adapter *adapter)
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index 9577ebd58c4c..c0398daaa4a6 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -121,7 +121,6 @@
+  * @debugfs:      Used for managing our debugfs.
+  * @host_node:    Remote DSI node.
+  * @dsi:          Our MIPI DSI source.
+- * @edid:         Detected EDID of eDP panel.
+  * @refclk:       Our reference clock.
+  * @panel:        Our panel.
+  * @enable_gpio:  The GPIO we toggle to enable the bridge.
+@@ -147,7 +146,6 @@ struct ti_sn_bridge {
+ 	struct drm_bridge		bridge;
+ 	struct drm_connector		connector;
+ 	struct dentry			*debugfs;
+-	struct edid			*edid;
+ 	struct device_node		*host_node;
+ 	struct mipi_dsi_device		*dsi;
+ 	struct clk			*refclk;
+@@ -269,17 +267,17 @@ connector_to_ti_sn_bridge(struct drm_connector *connector)
+ static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
  {
- 	struct edid *edid;
-+	size_t old_edid_size;
-+	const struct edid *old_edid;
+ 	struct ti_sn_bridge *pdata = connector_to_ti_sn_bridge(connector);
+-	struct edid *edid = pdata->edid;
+-	int num;
++	struct edid *edid;
++	int num = 0;
  
- 	if (connector->force == DRM_FORCE_OFF)
- 		return NULL;
+-	if (!edid) {
+-		pm_runtime_get_sync(pdata->dev);
+-		edid = pdata->edid = drm_get_edid(connector, &pdata->aux.ddc);
+-		pm_runtime_put(pdata->dev);
+-	}
++	pm_runtime_get_sync(pdata->dev);
++	edid = drm_get_edid(connector, &pdata->aux.ddc);
++	pm_runtime_put(pdata->dev);
  
--	if (connector->force == DRM_FORCE_UNSPECIFIED && !drm_probe_ddc(adapter))
--		return NULL;
-+	if (connector->connector_type == DRM_MODE_CONNECTOR_eDP &&
-+	    connector->edid_blob_ptr) {
-+		/*
-+		 * eDP devices are non-removable, or at least not something
-+		 * that's expected to be hot-pluggable. We can freely use
-+		 * the cached EDID.
-+		 *
-+		 * NOTE: technically we could probably even use the cached
-+		 * EDID even for non-eDP because the cached EDID should be
-+		 * cleared if we ever notice a display is not connected, but
-+		 * we'll use an abundance of caution and only do it for eDP.
-+		 * It's more important for eDP anyway because the EDID may not
-+		 * always be readable, like when the panel is powered down.
-+		 */
-+		old_edid = (const struct edid *)connector->edid_blob_ptr->data;
-+		old_edid_size = ksize(old_edid);
-+		edid = kmalloc(old_edid_size, GFP_KERNEL);
-+		if (edid)
-+			memcpy(edid, old_edid, old_edid_size);
-+	} else {
-+		if (connector->force == DRM_FORCE_UNSPECIFIED && !drm_probe_ddc(adapter))
-+			return NULL;
-+
-+		edid = drm_do_get_edid(connector, drm_do_probe_ddc_edid, adapter);
-+		drm_connector_update_edid_property(connector, edid);
-+	}
+-	if (edid && drm_edid_is_valid(edid)) {
+-		num = drm_add_edid_modes(connector, edid);
++	if (edid) {
++		if (drm_edid_is_valid(edid))
++			num = drm_add_edid_modes(connector, edid);
++		kfree(edid);
+ 		if (num)
+ 			return num;
+ 	}
+@@ -1308,8 +1306,6 @@ static int ti_sn_bridge_remove(struct i2c_client *client)
+ 	if (!pdata)
+ 		return -EINVAL;
  
--	edid = drm_do_get_edid(connector, drm_do_probe_ddc_edid, adapter);
--	drm_connector_update_edid_property(connector, edid);
- 	return edid;
- }
- EXPORT_SYMBOL(drm_get_edid);
+-	kfree(pdata->edid);
+-
+ 	ti_sn_debugfs_remove(pdata);
+ 
+ 	drm_bridge_remove(&pdata->bridge);
 -- 
 2.31.0.291.g576ba9dcdaf-goog
 
