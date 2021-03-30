@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5755234E7C3
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 14:47:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A06C34E7CE
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 14:48:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFAFB89561;
-	Tue, 30 Mar 2021 12:46:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAC0589F6B;
+	Tue, 30 Mar 2021 12:48:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DF7C89561;
- Tue, 30 Mar 2021 12:46:57 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C3199619B1;
- Tue, 30 Mar 2021 12:46:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0541A6E8CD;
+ Tue, 30 Mar 2021 12:48:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F1D46192C;
+ Tue, 30 Mar 2021 12:48:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617108417;
- bh=Gp7K5d/9JkaqMV3qnVlhi8uY18tBiGcqTqq9JQwzkk4=;
+ s=k20201202; t=1617108529;
+ bh=CwVLHzAbIRGNmseGymZZt8ntYfUkMAx0Rqzxp8d9noQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bpwoXfzSTI3OVxxT2qtuhI8DBVsGK1w2yo1XJO96Mcl6Cf7j98u0D7WhigRHOVp76
- jDVKAszVft1N//apcCn6FfTFty159qo7bzFF1FayYDictlQn2pRCLv717rqFyesXh6
- g/qwrAId2++/WokGRt8nGZEDGbvdPTeM6c+yqRQokfC3Qr+akdDdbTY7EJdRxABvTD
- 356fURN2pLtcawXNYFkMj/4iVtdUrMed1IC/yAYXh7FliEQtMGcEDxYEIh/YHATK5l
- 0cbhI80eGEGy6vBu0Pz0nymgiC2g+OQuCq7/dYQEV4VJ4nIDFcytvB+5jrYD5CldVL
- VUbbcLl88d4eQ==
-Date: Tue, 30 Mar 2021 13:46:51 +0100
+ b=pUD7C5DybyqHBKMsmQEivGH1hWwGa3N5OI6xd0qkt45xHAkRAjS5eAJuXzsJ2ZUeM
+ 1k8Lwt7u1XxXRUk+MdsVDvU1bcxY/2HJn97Ks1yj4DVG89JSTfQbMclWyrEVDHm0IO
+ pEDTRRc99XbGsioMmRpeBMSqjSSQpm/HZwhe42CZnA6SwVo+4AtsPgEUQ1xNb2lmfl
+ 2FE8hJuJOxfsW78UaDpQTyuEZxpOndqdfZ+em1/Qt+6iZJJiqlsOtgOBqxNmZy8BZT
+ 14MeYEp9Teh87QbVXWBczJ7QWpGAx1XLwx0jiXFF/WOrHYVo4TBskmtFxafXnp9va5
+ MiPidn4q2sDgg==
+Date: Tue, 30 Mar 2021 13:48:43 +0100
 From: Will Deacon <will@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 08/18] iommu/fsl_pamu: merge pamu_set_liodn and map_liodn
-Message-ID: <20210330124651.GH5908@willie-the-truck>
+Subject: Re: [PATCH 09/18] iommu/fsl_pamu: merge handle_attach_device into
+ fsl_pamu_attach_device
+Message-ID: <20210330124843.GI5908@willie-the-truck>
 References: <20210316153825.135976-1-hch@lst.de>
- <20210316153825.135976-9-hch@lst.de>
+ <20210316153825.135976-10-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210316153825.135976-9-hch@lst.de>
+In-Reply-To: <20210316153825.135976-10-hch@lst.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,90 +61,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 16, 2021 at 04:38:14PM +0100, Christoph Hellwig wrote:
-> Merge the two fuctions that configure the ppaace into a single coherent
-> function.  I somehow doubt we need the two pamu_config_ppaace calls,
-> but keep the existing behavior just to be on the safe side.
+On Tue, Mar 16, 2021 at 04:38:15PM +0100, Christoph Hellwig wrote:
+> No good reason to split this functionality over two functions.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > Acked-by: Li Yang <leoyang.li@nxp.com>
 > ---
->  drivers/iommu/fsl_pamu_domain.c | 65 +++++++++------------------------
->  1 file changed, 17 insertions(+), 48 deletions(-)
-> 
-> diff --git a/drivers/iommu/fsl_pamu_domain.c b/drivers/iommu/fsl_pamu_domain.c
-> index 40eff4b7bc5d42..4a4944332674f7 100644
-> --- a/drivers/iommu/fsl_pamu_domain.c
-> +++ b/drivers/iommu/fsl_pamu_domain.c
-> @@ -54,25 +54,6 @@ static int __init iommu_init_mempool(void)
->  	return 0;
->  }
->  
-> -/* Map the DMA window corresponding to the LIODN */
-> -static int map_liodn(int liodn, struct fsl_dma_domain *dma_domain)
-> -{
-> -	int ret;
-> -	struct iommu_domain_geometry *geom = &dma_domain->iommu_domain.geometry;
-> -	unsigned long flags;
-> -
-> -	spin_lock_irqsave(&iommu_lock, flags);
-> -	ret = pamu_config_ppaace(liodn, geom->aperture_start,
-> -				 geom->aperture_end - 1, ~(u32)0,
-> -				 0, dma_domain->snoop_id, dma_domain->stash_id,
-> -				 PAACE_AP_PERMS_QUERY | PAACE_AP_PERMS_UPDATE);
-> -	spin_unlock_irqrestore(&iommu_lock, flags);
-> -	if (ret)
-> -		pr_debug("PAACE configuration failed for liodn %d\n", liodn);
-> -
-> -	return ret;
-> -}
-> -
->  static int update_liodn_stash(int liodn, struct fsl_dma_domain *dma_domain,
->  			      u32 val)
->  {
-> @@ -94,11 +75,11 @@ static int update_liodn_stash(int liodn, struct fsl_dma_domain *dma_domain,
->  }
->  
->  /* Set the geometry parameters for a LIODN */
-> -static int pamu_set_liodn(int liodn, struct device *dev,
-> -			  struct fsl_dma_domain *dma_domain,
-> -			  struct iommu_domain_geometry *geom_attr)
-> +static int pamu_set_liodn(struct fsl_dma_domain *dma_domain, struct device *dev,
-> +			  int liodn)
->  {
-> -	phys_addr_t window_addr, window_size;
-> +	struct iommu_domain *domain = &dma_domain->iommu_domain;
-> +	struct iommu_domain_geometry *geom = &domain->geometry;
->  	u32 omi_index = ~(u32)0;
->  	unsigned long flags;
->  	int ret;
-> @@ -110,22 +91,25 @@ static int pamu_set_liodn(int liodn, struct device *dev,
->  	 */
->  	get_ome_index(&omi_index, dev);
->  
-> -	window_addr = geom_attr->aperture_start;
-> -	window_size = geom_attr->aperture_end + 1;
-> -
->  	spin_lock_irqsave(&iommu_lock, flags);
->  	ret = pamu_disable_liodn(liodn);
-> -	if (!ret)
-> -		ret = pamu_config_ppaace(liodn, window_addr, window_size, omi_index,
-> -					 0, dma_domain->snoop_id,
-> -					 dma_domain->stash_id, 0);
-> +	if (ret)
-> +		goto out_unlock;
-> +	ret = pamu_config_ppaace(liodn, geom->aperture_start,
-> +				 geom->aperture_end - 1, omi_index, 0,
-> +				 dma_domain->snoop_id, dma_domain->stash_id, 0);
-> +	if (ret)
-> +		goto out_unlock;
-> +	ret = pamu_config_ppaace(liodn, geom->aperture_start,
-> +				 geom->aperture_end - 1, ~(u32)0,
-> +				 0, dma_domain->snoop_id, dma_domain->stash_id,
-> +				 PAACE_AP_PERMS_QUERY | PAACE_AP_PERMS_UPDATE);
+>  drivers/iommu/fsl_pamu_domain.c | 59 +++++++++++----------------------
+>  1 file changed, 20 insertions(+), 39 deletions(-)
 
-There's more '+1' / '-1' confusion here with aperture_end which I'm not
-managing to follow. What am I missing?
+Acked-by: Will Deacon <will@kernel.org>
 
 Will
 _______________________________________________
