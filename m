@@ -1,55 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 550A734E77D
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 14:28:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D57834E799
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 14:40:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 590EB6E8C3;
-	Tue, 30 Mar 2021 12:28:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E57A26E8C6;
+	Tue, 30 Mar 2021 12:40:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9363D6E8C3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 12:28:36 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id m11so12022143pfc.11
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 05:28:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IXjGJYvp1d8au32yFxCGotjMu9HBkbqiOe4sexuagQo=;
- b=iaN9HDr71t+QPQQC534P0Ba2BvWhpV+qgLi7Lm/o8yRETG6VPM6ZEbkF6lEcij2GII
- glH2ZcF3+KHBEwApB2Tq4bKc+SE04Y2Cu8W2ksQbv+/Mof24joh+Fbt/Y8JmnS05J9QL
- SebnIsCQ96gyHGUgoUFCgdAvD2W88OVJZQV49jErfUalHGZF2i69WBxQisf0D9DVcXtO
- QwIBJrC0pgUK34HE1szXraIWcPN+s8ydg8AD+FSI6Xo//whuFOxAQfIstpmiTuf46zAZ
- z/AX7j5olPXEv4RWdlvmD2rHQiZ+kX6o8yfLBGs0oMSr++vXRs4Z2a0oDG6/R8UI+3WX
- diRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IXjGJYvp1d8au32yFxCGotjMu9HBkbqiOe4sexuagQo=;
- b=iHPR49W2lGWPFlfk4CqPR/cu5g7M6gHK8/eyPB4s+0hTPQ2Lk+t+Sc8mI/pSPtpgum
- LG1w6Lhq1NcagTH5emKIx7lemF8h9jEmOdzDoUyJLZKkTocCbay5/aPfu8aEZM0C/5IF
- V2IKw0mPAzTby6SOsO9uHvvVg3vLpSFDrrgbW4FqzU8UZumwUquvX29U7FyCAgZOr/pa
- jrUGuHunVDvibslPxttwDqTan/9mIHAE7Rpl4pTfVVNXauEJo1B7F78lLick49qANaBz
- dLJC2O6c4T/eSIIUMcltiSR3Uld3TmifzbUAHhvPHS2H8LMnZ/T03Hlg6Ct4jpkf6Ac+
- kbHw==
-X-Gm-Message-State: AOAM532LpU9Mnuj5qPxhIqkmAo50Q1H/ZmWfqrKJxCkBcv1ZIw9OVXlo
- enU6SUv0ePo18fsF8LWAwwgasvdU2v0nqCZ/tLpuGg==
-X-Google-Smtp-Source: ABdhPJzY8NPW4hQ2rTr2caC6fl4FjBuyq0XxvAiGOdcIekcjTHh7D16wpUZAqzEeHOhC5FlVWD+tNJzhH3ZjiAYiAVE=
-X-Received: by 2002:aa7:980a:0:b029:20c:5402:5de9 with SMTP id
- e10-20020aa7980a0000b029020c54025de9mr29840612pfl.18.1617107316080; Tue, 30
- Mar 2021 05:28:36 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 800C76E8C4;
+ Tue, 30 Mar 2021 12:40:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E982E60232;
+ Tue, 30 Mar 2021 12:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617108015;
+ bh=IX2YifXUPutEwODCiJ5FkZ7svmqC2sPBx3924aa48Yg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nWgQteGwA5KJlS2JEm1DqLRTwpQa9MxXWOIN5GJCMFtjX0INuGG/yNdjsVWCFpiYJ
+ oxPSJpF11duop8M2scavelMol6/AT8NTEQVpD99bNW9C8YnpWrW5SilD7uovqWEsBw
+ 9NXGPUDX+nSIkkaLAjXvH1N0TCwIw2ZKe5EClUtTpNYe36xPYxZpRn+GOishndd0RZ
+ XkYFeNPS5aTR5cbmGiWYvlLf/h/vfoDZLBLAT/a/UKQp/8Kfhx8IIcqRyN0qW/Vx0V
+ DJqO0c48Fq0jOR6T0u+2L2HLBIx3MQrqTW4L44QcFkRIAs0f/QJTlssAZuY9kevdw9
+ EsfSKgPiTPvmQ==
+Date: Tue, 30 Mar 2021 13:40:09 +0100
+From: Will Deacon <will@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 06/18] iommu/fsl_pamu: remove ->domain_window_enable
+Message-ID: <20210330124009.GF5908@willie-the-truck>
+References: <20210316153825.135976-1-hch@lst.de>
+ <20210316153825.135976-7-hch@lst.de>
 MIME-Version: 1.0
-References: <20210330115200.26006-1-dafna.hirschfeld@collabora.com>
-In-Reply-To: <20210330115200.26006-1-dafna.hirschfeld@collabora.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 30 Mar 2021 14:28:24 +0200
-Message-ID: <CAG3jFyu+qUVMPsjYLcLRaWaS+PMw5LNufgHGwSCv7nGhGfACiQ@mail.gmail.com>
-Subject: Re: [PATCH] drm: bridge: rename the function drm_bridge_hpd_notify to
- drm_bridge_hpd_cb
-To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Content-Disposition: inline
+In-Reply-To: <20210316153825.135976-7-hch@lst.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,205 +47,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dafna3@gmail.com,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- enric.balletbo@collabora.com, kernel@collabora.com
+Cc: freedreno@lists.freedesktop.org, kvm@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, Joerg Roedel <joro@8bytes.org>,
+ linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ Li Yang <leoyang.li@nxp.com>, iommu@lists.linux-foundation.org,
+ netdev@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org,
+ David Woodhouse <dwmw2@infradead.org>, linux-arm-kernel@lists.infradead.org,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Dafna,
-
-Thanks for submitting a cleanup patch, it is much appreciated. It
-looks good to me, feel free to add my r-b.
-
-I'm not going to merge this right away, but will let this patch soak
-for a while to let other people have a look at it.
-
-On Tue, 30 Mar 2021 at 13:52, Dafna Hirschfeld
-<dafna.hirschfeld@collabora.com> wrote:
->
-> drm_bridge_funcs has a function called 'hpd_notify'.
-> The function drm_bridge_hpd_notify does not call
-> 'hpd_notify' but it calls 'hpd_cb'. This is rather
-> confusing. Rename the function to fix this confusion.
->
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+On Tue, Mar 16, 2021 at 04:38:12PM +0100, Christoph Hellwig wrote:
+> The only thing that fsl_pamu_window_enable does for the current caller
+> is to fill in the prot value in the only dma_window structure, and to
+> propagate a few values from the iommu_domain_geometry struture into the
+> dma_window.  Remove the dma_window entirely, hardcode the prot value and
+> otherwise use the iommu_domain_geometry structure instead.
+> 
+> Remove the now unused ->domain_window_enable iommu method.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Acked-by: Li Yang <leoyang.li@nxp.com>
 > ---
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c        | 2 +-
->  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 4 ++--
->  drivers/gpu/drm/bridge/display-connector.c          | 2 +-
->  drivers/gpu/drm/bridge/lontium-lt9611uxc.c          | 8 ++++----
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c           | 2 +-
->  drivers/gpu/drm/bridge/ti-tpd12s015.c               | 2 +-
->  drivers/gpu/drm/drm_bridge.c                        | 8 ++++----
->  include/drm/drm_bridge.h                            | 8 ++++----
->  8 files changed, 18 insertions(+), 18 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> index 76555ae64e9c..748f82910f4f 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -449,7 +449,7 @@ static void adv7511_hpd_work(struct work_struct *work)
->                                 cec_phys_addr_invalidate(adv7511->cec_adap);
->                         drm_kms_helper_hotplug_event(adv7511->connector.dev);
->                 } else {
-> -                       drm_bridge_hpd_notify(&adv7511->bridge, status);
-> +                       drm_bridge_hpd_cb(&adv7511->bridge, status);
->                 }
->         }
+>  drivers/iommu/fsl_pamu_domain.c     | 182 +++-------------------------
+>  drivers/iommu/fsl_pamu_domain.h     |  17 ---
+>  drivers/iommu/iommu.c               |  11 --
+>  drivers/soc/fsl/qbman/qman_portal.c |   7 --
+>  include/linux/iommu.h               |  17 ---
+>  5 files changed, 14 insertions(+), 220 deletions(-)
+> 
+> diff --git a/drivers/iommu/fsl_pamu_domain.c b/drivers/iommu/fsl_pamu_domain.c
+> index e6bdd38fc18409..fd2bc88b690465 100644
+> --- a/drivers/iommu/fsl_pamu_domain.c
+> +++ b/drivers/iommu/fsl_pamu_domain.c
+> @@ -54,34 +54,18 @@ static int __init iommu_init_mempool(void)
+>  	return 0;
 >  }
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> index d0c65610ebb5..682da288ff6d 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> @@ -794,7 +794,7 @@ static void cdns_mhdp_fw_cb(const struct firmware *fw, void *context)
->                 if (mhdp->connector.dev)
->                         drm_kms_helper_hotplug_event(mhdp->bridge.dev);
->                 else
-> -                       drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
-> +                       drm_bridge_hpd_cb(&mhdp->bridge, cdns_mhdp_detect(mhdp));
->         }
->  }
->
-> @@ -2314,7 +2314,7 @@ static irqreturn_t cdns_mhdp_irq_handler(int irq, void *data)
->                         else
->                                 drm_kms_helper_hotplug_event(mhdp->bridge.dev);
->                 } else {
-> -                       drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
-> +                       drm_bridge_hpd_cb(&mhdp->bridge, cdns_mhdp_detect(mhdp));
->                 }
->         }
->
-> diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-> index 05eb759da6fc..8ccd69d7fe34 100644
-> --- a/drivers/gpu/drm/bridge/display-connector.c
-> +++ b/drivers/gpu/drm/bridge/display-connector.c
-> @@ -98,7 +98,7 @@ static irqreturn_t display_connector_hpd_irq(int irq, void *arg)
->         struct display_connector *conn = arg;
->         struct drm_bridge *bridge = &conn->bridge;
->
-> -       drm_bridge_hpd_notify(bridge, display_connector_detect(bridge));
-> +       drm_bridge_hpd_cb(bridge, display_connector_detect(bridge));
->
->         return IRQ_HANDLED;
->  }
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> index fee27952ec6d..58f61b5da605 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> @@ -175,10 +175,10 @@ static void lt9611uxc_hpd_work(struct work_struct *work)
->                 connected = lt9611uxc->hdmi_connected;
->                 mutex_unlock(&lt9611uxc->ocm_lock);
->
-> -               drm_bridge_hpd_notify(&lt9611uxc->bridge,
-> -                                     connected ?
-> -                                     connector_status_connected :
-> -                                     connector_status_disconnected);
-> +               drm_bridge_hpd_cb(&lt9611uxc->bridge,
-> +                                 connected ?
-> +                                 connector_status_connected :
-> +                                 connector_status_disconnected);
->         }
->  }
->
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index dda4fa9a1a08..984ab5c4bc71 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -3026,7 +3026,7 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
->
->                 if (hdmi->bridge.dev) {
->                         drm_helper_hpd_irq_event(hdmi->bridge.dev);
-> -                       drm_bridge_hpd_notify(&hdmi->bridge, status);
-> +                       drm_bridge_hpd_cb(&hdmi->bridge, status);
->                 }
->         }
->
-> diff --git a/drivers/gpu/drm/bridge/ti-tpd12s015.c b/drivers/gpu/drm/bridge/ti-tpd12s015.c
-> index e0e015243a60..2f079b6f51bc 100644
-> --- a/drivers/gpu/drm/bridge/ti-tpd12s015.c
-> +++ b/drivers/gpu/drm/bridge/ti-tpd12s015.c
-> @@ -103,7 +103,7 @@ static irqreturn_t tpd12s015_hpd_isr(int irq, void *data)
->         struct tpd12s015_device *tpd = data;
->         struct drm_bridge *bridge = &tpd->bridge;
->
-> -       drm_bridge_hpd_notify(bridge, tpd12s015_detect(bridge));
-> +       drm_bridge_hpd_cb(bridge, tpd12s015_detect(bridge));
->
->         return IRQ_HANDLED;
->  }
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 64f0effb52ac..653761a0d5f9 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -1173,7 +1173,7 @@ void drm_bridge_hpd_disable(struct drm_bridge *bridge)
->  EXPORT_SYMBOL_GPL(drm_bridge_hpd_disable);
->
->  /**
-> - * drm_bridge_hpd_notify - notify hot plug detection events
-> + * drm_bridge_hpd_cb - notify hot plug detection events
->   * @bridge: bridge control structure
->   * @status: output connection status
->   *
-> @@ -1183,15 +1183,15 @@ EXPORT_SYMBOL_GPL(drm_bridge_hpd_disable);
->   *
->   * This function shall be called in a context that can sleep.
->   */
-> -void drm_bridge_hpd_notify(struct drm_bridge *bridge,
-> -                          enum drm_connector_status status)
-> +void drm_bridge_hpd_cb(struct drm_bridge *bridge,
-> +                      enum drm_connector_status status)
+>  
+> -static phys_addr_t get_phys_addr(struct fsl_dma_domain *dma_domain, dma_addr_t iova)
+> -{
+> -	struct dma_window *win_ptr = &dma_domain->win_arr[0];
+> -	struct iommu_domain_geometry *geom;
+> -
+> -	geom = &dma_domain->iommu_domain.geometry;
+> -
+> -	if (win_ptr->valid)
+> -		return win_ptr->paddr + (iova & (win_ptr->size - 1));
+> -
+> -	return 0;
+> -}
+> -
+>  /* Map the DMA window corresponding to the LIODN */
+>  static int map_liodn(int liodn, struct fsl_dma_domain *dma_domain)
 >  {
->         mutex_lock(&bridge->hpd_mutex);
->         if (bridge->hpd_cb)
->                 bridge->hpd_cb(bridge->hpd_data, status);
->         mutex_unlock(&bridge->hpd_mutex);
->  }
-> -EXPORT_SYMBOL_GPL(drm_bridge_hpd_notify);
-> +EXPORT_SYMBOL_GPL(drm_bridge_hpd_cb);
->
->  #ifdef CONFIG_OF
->  /**
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 2195daa289d2..ab54715eda8b 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -605,7 +605,7 @@ struct drm_bridge_funcs {
->          * @hpd_enable:
->          *
->          * Enable hot plug detection. From now on the bridge shall call
-> -        * drm_bridge_hpd_notify() each time a change is detected in the output
-> +        * drm_bridge_hpd_cb() each time a change is detected in the output
->          * connection status, until hot plug detection gets disabled with
->          * @hpd_disable.
->          *
-> @@ -620,7 +620,7 @@ struct drm_bridge_funcs {
->          * @hpd_disable:
->          *
->          * Disable hot plug detection. Once this function returns the bridge
-> -        * shall not call drm_bridge_hpd_notify() when a change in the output
-> +        * shall not call drm_bridge_hpd_cb() when a change in the output
->          * connection status occurs.
->          *
->          * This callback is optional and shall only be implemented by bridges
-> @@ -878,8 +878,8 @@ void drm_bridge_hpd_enable(struct drm_bridge *bridge,
->                                       enum drm_connector_status status),
->                            void *data);
->  void drm_bridge_hpd_disable(struct drm_bridge *bridge);
-> -void drm_bridge_hpd_notify(struct drm_bridge *bridge,
-> -                          enum drm_connector_status status);
-> +void drm_bridge_hpd_cb(struct drm_bridge *bridge,
-> +                      enum drm_connector_status status);
->
->  #ifdef CONFIG_DRM_PANEL_BRIDGE
->  struct drm_bridge *drm_panel_bridge_add(struct drm_panel *panel);
-> --
-> 2.17.1
->
+>  	int ret;
+> -	struct dma_window *wnd = &dma_domain->win_arr[0];
+> -	phys_addr_t wnd_addr = dma_domain->iommu_domain.geometry.aperture_start;
+> +	struct iommu_domain_geometry *geom = &dma_domain->iommu_domain.geometry;
+>  	unsigned long flags;
+>  
+>  	spin_lock_irqsave(&iommu_lock, flags);
+> -	ret = pamu_config_ppaace(liodn, wnd_addr,
+> -				 wnd->size,
+> -				 ~(u32)0,
+> -				 wnd->paddr >> PAMU_PAGE_SHIFT,
+> -				 dma_domain->snoop_id, dma_domain->stash_id,
+> -				 wnd->prot);
+> +	ret = pamu_config_ppaace(liodn, geom->aperture_start,
+> +				 geom->aperture_end - 1, ~(u32)0,
+
+You're passing 'geom->aperture_end - 1' as the size here, but the old code
+seemed to _add_ 1:
+
+> -static int fsl_pamu_window_enable(struct iommu_domain *domain, u32 wnd_nr,
+> -				  phys_addr_t paddr, u64 size, int prot)
+> -{
+> -	struct fsl_dma_domain *dma_domain = to_fsl_dma_domain(domain);
+> -	struct dma_window *wnd;
+> -	int pamu_prot = 0;
+> -	int ret;
+> -	unsigned long flags;
+> -	u64 win_size;
+> -
+> -	if (prot & IOMMU_READ)
+> -		pamu_prot |= PAACE_AP_PERMS_QUERY;
+> -	if (prot & IOMMU_WRITE)
+> -		pamu_prot |= PAACE_AP_PERMS_UPDATE;
+> -
+> -	spin_lock_irqsave(&dma_domain->domain_lock, flags);
+> -	if (wnd_nr > 0) {
+> -		pr_debug("Invalid window index\n");
+> -		spin_unlock_irqrestore(&dma_domain->domain_lock, flags);
+> -		return -EINVAL;
+> -	}
+> -
+> -	win_size = (domain->geometry.aperture_end + 1) >> ilog2(1);
+
+here ^^ when calculating the exclusive upper bound. In other words, I think
+'1ULL << 36' used to get passed to pamu_config_ppaace(). Is that an
+intentional change?
+
+Will
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
