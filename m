@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB5434DEC9
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 04:54:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5631334DEC6
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Mar 2021 04:54:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A70F6E82E;
-	Tue, 30 Mar 2021 02:54:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71AFA6E829;
+	Tue, 30 Mar 2021 02:54:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
- [IPv6:2607:f8b0:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2E0B6E82C
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 02:54:18 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id v23so5391212ple.9
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 19:54:18 -0700 (PDT)
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36FB36E82D
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Mar 2021 02:54:20 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id s21so6996736pjq.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Mar 2021 19:54:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kdhUcLdKGZws4bIuWNvM669I98WfYUeDRQetYvWjfOc=;
- b=LDZDXTvfo3j5zkAAyZvvJ/TwJjrnnhB8tUjrsrG4YoMmDxgEqWxtMmOOU845+GlpgF
- Y5/H79kEPuVKJcsebB97HKStI3DjVZ8RrcyJewIbVWJwaUqfsfLHVU/SFTqNsSNZJ4Yn
- QmvAj2FIF9WmWGMPOXaIO86aY+8+ydg3ggjVE=
+ bh=JAIxLRBaavWcAcK9SSbll47MTaBI4ukNSin+ics3K28=;
+ b=al+6PytDBZ2jbp7v2fVxXLPHoZdiwhHJtJHRMEn4787KijhZrKruMEs3D2NL9JnRVY
+ +RT/KeOGEVqPY4nECULrGBkmmyDt8T/xSfiTy1izZson6ZGCZxAQqAGa+rQAUhsBhXCm
+ HGy0YLGpp7Bap63ecOQ/LYjXZIYA47UvFYZxE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kdhUcLdKGZws4bIuWNvM669I98WfYUeDRQetYvWjfOc=;
- b=KH0CLF4rcXFA8oCNmuheDBqDk0VZF5LZzAuTCMXQlaG+1cZNZktDvZ0UCbYGQbGD0f
- yDARg21x+b2DgDrvTpnSS0io4L9tmvFKhF20/MwgnLcbg0y08G2igXC9rRxqH5EtBqlg
- qN4GuVq+nKCcVbirr0w61X+wPP9B0BPoVIzETJwlo0cNURMskjFXCqGuFy7ml4GYRn5A
- 2gP/GmkZ9TdsN15C3k7YJLJtm0cUy68CZg33dXbOupckdfB8PVlnPrAivTbXTQtvjZ2W
- KJO9uvmL1NkpAmGyytH9Q6LuzxZlaoc8DjfHjKzOcT+LSZ5+t/EdV32UX5NIlqVQfjJg
- 8QXw==
-X-Gm-Message-State: AOAM532SSXOVh3pwE5wSneya/ebbYqqVOjCZCG5fW3pbOmEM2V5EkBC3
- 9PEbVHU15aVFNLE1HrqsocRKEA==
-X-Google-Smtp-Source: ABdhPJyRbP9Dg9rng94Tm6dgBkHfUuioCdrW0smh7o8Ei4c+MuOLyUrICxVQG1NgRYkZK5JqSBmmvg==
-X-Received: by 2002:a17:902:ed84:b029:e7:1f2b:1eb4 with SMTP id
- e4-20020a170902ed84b02900e71f2b1eb4mr19897667plj.74.1617072858078; 
- Mon, 29 Mar 2021 19:54:18 -0700 (PDT)
+ bh=JAIxLRBaavWcAcK9SSbll47MTaBI4ukNSin+ics3K28=;
+ b=RuRDSFppkBcf7vha2B+BiKkKaWTYpvtlMHofE4dMf741kGaDmkHE5KYGhMFqfSQH6W
+ E6VpWSYCXf6RwR5j2IDqV49WAxdRCyPeAS+RZFRGShUJmmb6VcK9mLwupb1hNbCVGakR
+ iEK62FI/yFMxS+9QQTUTlk0tjh5OeIeZTNrZm+s4u/yXrGmCQgLrNqlUxmktUloymW1G
+ oNXANBHqZ3JiCvv8lIMu62axwpKfWUdKBOPAbufNVC1DgvudOnSE3HEnvhdacWAM2Fl3
+ 0eLhj2UO0+Z+JXr0BTaeqaEm82+8NeenbxlURWvKi573StiaulCg55Yx7Y9mkQwZMLpE
+ NMiQ==
+X-Gm-Message-State: AOAM530xJMmNbIB8piOL/dox/R5ojU04BJXaSgEn1jGrFHPvYLjtnmdQ
+ sozHvuP/5iPRjIs3FQzZ3iRLdQ==
+X-Google-Smtp-Source: ABdhPJxTC0xfEa3OIjJ6J8E3qWj+ePa35e+igWNb4t2QmRZmmmta+5oUiZgXYVhSNZvV/6N3FWSh0A==
+X-Received: by 2002:a17:902:56c:b029:e7:1052:a7c6 with SMTP id
+ 99-20020a170902056cb02900e71052a7c6mr30855319plf.75.1617072859762; 
+ Mon, 29 Mar 2021 19:54:19 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:f599:1ca7:742d:6b50])
- by smtp.gmail.com with ESMTPSA id t17sm19152706pgk.25.2021.03.29.19.54.16
+ by smtp.gmail.com with ESMTPSA id t17sm19152706pgk.25.2021.03.29.19.54.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Mar 2021 19:54:17 -0700 (PDT)
+ Mon, 29 Mar 2021 19:54:19 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
  Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v2 10/14] drm/bridge: ti-sn65dsi86: Stop caching the EDID
- ourselves
-Date: Mon, 29 Mar 2021 19:53:41 -0700
-Message-Id: <20210329195255.v2.10.Ida6151df6bfc71df77afee1d72bb7eb0a443f327@changeid>
+Subject: [PATCH v2 11/14] drm/bridge: ti-sn65dsi86: Power things properly for
+ reading the EDID
+Date: Mon, 29 Mar 2021 19:53:42 -0700
+Message-Id: <20210329195255.v2.11.Ied721dc895156046ac523baa55a71da241cd09c7@changeid>
 X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
 In-Reply-To: <20210330025345.3980086-1-dianders@chromium.org>
 References: <20210330025345.3980086-1-dianders@chromium.org>
@@ -82,74 +82,130 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have the patch ("drm/edid: Use the cached EDID in
-drm_get_edid() if eDP") we no longer need to maintain our own
-cache. Drop this code.
+eDP panels won't provide their EDID unless they're powered on. Let's
+chain a power-on before we read the EDID. This roughly matches what
+was done in 'parade-ps8640.c'.
 
+NOTE: The old code attempted to call pm_runtime_get_sync() before
+reading the EDID. While that was enough to power the bridge chip on,
+it wasn't enough to talk to the panel for two reasons:
+1. Since we never ran the bridge chip's pre-enable then we never set
+   the bit to ignore HPD. This meant the bridge chip didn't even _try_
+   to go out on the bus and communicate with the panel.
+2. Even if we fixed things to ignore HPD, the EDID still wouldn't read
+   if the panel wasn't on.
+
+One thing that's a bit odd here is taking advantage of the EDID that
+the core might have cached for us. See the patch ("drm/edid: Use the
+cached EDID in drm_get_edid() if eDP"). We manage to get at the cache
+by:
+- Instantly failing aux transfers if we're not powered.
+- If the first read of the EDID fails we try again after powering.
+
+Fixes: 58074b08c04a ("drm/bridge: ti-sn65dsi86: Read EDID blob over DDC")
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
+Depending on what people think of the other patches in this series,
+some of this could change.
+- If everyone loves the "runtime PM" in the panel driver then we
+  could, in theory, put the pre-enable chaining straight in the "aux
+  transfer" function.
+- If everyone hates the EDID cache moving to the core then we can
+  avoid some of the awkward flow of things and keep the EDID cache in
+  the sn65dsi86 driver.
 
 (no changes since v1)
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 22 +++++++++-------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 39 +++++++++++++++++++++++++--
+ 1 file changed, 37 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 9577ebd58c4c..c0398daaa4a6 100644
+index c0398daaa4a6..673c9f1c2d8e 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -121,7 +121,6 @@
-  * @debugfs:      Used for managing our debugfs.
-  * @host_node:    Remote DSI node.
-  * @dsi:          Our MIPI DSI source.
-- * @edid:         Detected EDID of eDP panel.
-  * @refclk:       Our reference clock.
-  * @panel:        Our panel.
-  * @enable_gpio:  The GPIO we toggle to enable the bridge.
-@@ -147,7 +146,6 @@ struct ti_sn_bridge {
- 	struct drm_bridge		bridge;
- 	struct drm_connector		connector;
- 	struct dentry			*debugfs;
--	struct edid			*edid;
- 	struct device_node		*host_node;
- 	struct mipi_dsi_device		*dsi;
- 	struct clk			*refclk;
-@@ -269,17 +267,17 @@ connector_to_ti_sn_bridge(struct drm_connector *connector)
- static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
+@@ -128,6 +128,7 @@
+  * @dp_lanes:     Count of dp_lanes we're using.
+  * @ln_assign:    Value to program to the LN_ASSIGN register.
+  * @ln_polrs:     Value for the 4-bit LN_POLRS field of SN_ENH_FRAME_REG.
++ * @pre_enabled:  If true then pre_enable() has run.
+  *
+  * @gchip:        If we expose our GPIOs, this is used.
+  * @gchip_output: A cache of whether we've set GPIOs to output.  This
+@@ -155,6 +156,7 @@ struct ti_sn_bridge {
+ 	int				dp_lanes;
+ 	u8				ln_assign;
+ 	u8				ln_polrs;
++	bool				pre_enabled;
+ 
+ #if defined(CONFIG_OF_GPIO)
+ 	struct gpio_chip		gchip;
+@@ -268,11 +270,33 @@ static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
  {
  	struct ti_sn_bridge *pdata = connector_to_ti_sn_bridge(connector);
--	struct edid *edid = pdata->edid;
--	int num;
-+	struct edid *edid;
-+	int num = 0;
+ 	struct edid *edid;
++	bool was_enabled;
+ 	int num = 0;
  
--	if (!edid) {
--		pm_runtime_get_sync(pdata->dev);
--		edid = pdata->edid = drm_get_edid(connector, &pdata->aux.ddc);
--		pm_runtime_put(pdata->dev);
--	}
-+	pm_runtime_get_sync(pdata->dev);
-+	edid = drm_get_edid(connector, &pdata->aux.ddc);
-+	pm_runtime_put(pdata->dev);
+-	pm_runtime_get_sync(pdata->dev);
++	/*
++	 * Try to get the EDID first without anything special. There are
++	 * three things that could happen with this call.
++	 * a) It might just return from its cache.
++	 * b) It might try to initiate an AUX transfer which might work.
++	 * c) It might try to initiate an AUX transfer which might fail because
++	 *    we're not powered up.
++	 *
++	 * If we get a failure we'll assume case c) and try again. NOTE: we
++	 * don't want to power up every time because that's slow and we don't
++	 * have visibility into whether the data has already been cached.
++	 */
+ 	edid = drm_get_edid(connector, &pdata->aux.ddc);
+-	pm_runtime_put(pdata->dev);
++	if (!edid) {
++		was_enabled = pdata->pre_enabled;
++
++		if (!was_enabled)
++			drm_bridge_chain_pre_enable(&pdata->bridge);
++
++		edid = drm_get_edid(connector, &pdata->aux.ddc);
++
++		if (!was_enabled)
++			drm_bridge_chain_post_disable(&pdata->bridge);
++	}
  
--	if (edid && drm_edid_is_valid(edid)) {
--		num = drm_add_edid_modes(connector, edid);
-+	if (edid) {
-+		if (drm_edid_is_valid(edid))
-+			num = drm_add_edid_modes(connector, edid);
-+		kfree(edid);
- 		if (num)
- 			return num;
- 	}
-@@ -1308,8 +1306,6 @@ static int ti_sn_bridge_remove(struct i2c_client *client)
- 	if (!pdata)
+ 	if (edid) {
+ 		if (drm_edid_is_valid(edid))
+@@ -852,12 +876,16 @@ static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
+ 			   HPD_DISABLE);
+ 
+ 	drm_panel_prepare(pdata->panel);
++
++	pdata->pre_enabled = true;
+ }
+ 
+ static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
+ {
+ 	struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
+ 
++	pdata->pre_enabled = false;
++
+ 	drm_panel_unprepare(pdata->panel);
+ 
+ 	clk_disable_unprepare(pdata->refclk);
+@@ -891,6 +919,13 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
+ 	int ret;
+ 	u8 addr_len[SN_AUX_LENGTH_REG + 1 - SN_AUX_ADDR_19_16_REG];
+ 
++	/*
++	 * Things just won't work if the panel isn't powered. Return failure
++	 * right away.
++	 */
++	if (!pdata->pre_enabled)
++		return -EIO;
++
+ 	if (len > SN_AUX_MAX_PAYLOAD_BYTES)
  		return -EINVAL;
  
--	kfree(pdata->edid);
--
- 	ti_sn_debugfs_remove(pdata);
- 
- 	drm_bridge_remove(&pdata->bridge);
 -- 
 2.31.0.291.g576ba9dcdaf-goog
 
