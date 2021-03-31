@@ -1,40 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF573500F3
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 15:09:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE14F350557
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 19:22:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFFE36E1E6;
-	Wed, 31 Mar 2021 13:09:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B77A6EB26;
+	Wed, 31 Mar 2021 17:22:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1C50C6E1E6;
- Wed, 31 Mar 2021 13:09:44 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 55658D6E;
- Wed, 31 Mar 2021 06:09:44 -0700 (PDT)
-Received: from [10.57.24.208] (unknown [10.57.24.208])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3D9523F694;
- Wed, 31 Mar 2021 06:09:42 -0700 (PDT)
-Subject: Re: [PATCH 16/18] iommu: remove DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE
-To: Will Deacon <will@kernel.org>
-References: <20210316153825.135976-1-hch@lst.de>
- <20210316153825.135976-17-hch@lst.de>
- <20210330131149.GP5908@willie-the-truck>
- <a6952aa7-4d7e-54f0-339e-e15f88596dcc@arm.com>
- <20210330135801.GA6187@willie-the-truck>
- <578d6aa5-4239-f5d7-2e9f-686b18e52bba@arm.com>
- <20210331114947.GA7626@willie-the-truck>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <ef895942-e115-7878-ab86-37e8a1614df5@arm.com>
-Date: Wed, 31 Mar 2021 14:09:37 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+Received: from mail-m121143.qiye.163.com (mail-m121143.qiye.163.com
+ [115.236.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08A4E6EA9B
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 13:21:12 +0000 (UTC)
+Received: from ubuntu.localdomain (unknown [36.152.145.181])
+ by mail-m121143.qiye.163.com (Hmail) with ESMTPA id 251AD5402E5;
+ Wed, 31 Mar 2021 21:11:52 +0800 (CST)
+From: Bernard Zhao <bernard@vivo.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Luben Tuikov <luben.tuikov@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Deepak R Varma <mh12gx2825@gmail.com>, Evan Quan <evan.quan@amd.com>,
+ Likun Gao <Likun.Gao@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] amd/amdgpu: code refactoring to clean code style a bit
+Date: Wed, 31 Mar 2021 06:11:36 -0700
+Message-Id: <20210331131143.60652-1-bernard@vivo.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-In-Reply-To: <20210331114947.GA7626@willie-the-truck>
-Content-Language: en-GB
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+ oVCBIfWUFZT05MHxgaGEgYTE8ZVkpNSkxKQk1ISklOTU1VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+ FZT0tIVUpKS0hKTFVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OjY6Nxw6SD8IPDUyTigMNBcK
+ M1ZPCR1VSlVKTUpMSkJNSEpJQ05NVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlITVVK
+ TklVSk9OVUpDSllXWQgBWUFNSUxONwY+
+X-HM-Tid: 0a78886967bfb038kuuu251ad5402e5
+X-Mailman-Approved-At: Wed, 31 Mar 2021 17:21:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,106 +49,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- linux-arm-msm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, Li Yang <leoyang.li@nxp.com>,
- iommu@lists.linux-foundation.org, Christoph Hellwig <hch@lst.de>,
- netdev@vger.kernel.org, virtualization@lists.linux-foundation.org,
- freedreno@lists.freedesktop.org, David Woodhouse <dwmw2@infradead.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: opensource.kernel@vivo.com, Bernard Zhao <bernard@vivo.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-03-31 12:49, Will Deacon wrote:
-> On Tue, Mar 30, 2021 at 05:28:19PM +0100, Robin Murphy wrote:
->> On 2021-03-30 14:58, Will Deacon wrote:
->>> On Tue, Mar 30, 2021 at 02:19:38PM +0100, Robin Murphy wrote:
->>>> On 2021-03-30 14:11, Will Deacon wrote:
->>>>> On Tue, Mar 16, 2021 at 04:38:22PM +0100, Christoph Hellwig wrote:
->>>>>> From: Robin Murphy <robin.murphy@arm.com>
->>>>>>
->>>>>> Instead make the global iommu_dma_strict paramete in iommu.c canonical by
->>>>>> exporting helpers to get and set it and use those directly in the drivers.
->>>>>>
->>>>>> This make sure that the iommu.strict parameter also works for the AMD and
->>>>>> Intel IOMMU drivers on x86.  As those default to lazy flushing a new
->>>>>> IOMMU_CMD_LINE_STRICT is used to turn the value into a tristate to
->>>>>> represent the default if not overriden by an explicit parameter.
->>>>>>
->>>>>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>.
->>>>>> [ported on top of the other iommu_attr changes and added a few small
->>>>>>     missing bits]
->>>>>> Signed-off-by: Christoph Hellwig <hch@lst.de>
->>>>>> ---
->>>>>>     drivers/iommu/amd/iommu.c                   | 23 +-------
->>>>>>     drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 50 +---------------
->>>>>>     drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  1 -
->>>>>>     drivers/iommu/arm/arm-smmu/arm-smmu.c       | 27 +--------
->>>>>>     drivers/iommu/dma-iommu.c                   |  9 +--
->>>>>>     drivers/iommu/intel/iommu.c                 | 64 ++++-----------------
->>>>>>     drivers/iommu/iommu.c                       | 27 ++++++---
->>>>>>     include/linux/iommu.h                       |  4 +-
->>>>>>     8 files changed, 40 insertions(+), 165 deletions(-)
->>>>>
->>>>> I really like this cleanup, but I can't help wonder if it's going in the
->>>>> wrong direction. With SoCs often having multiple IOMMU instances and a
->>>>> distinction between "trusted" and "untrusted" devices, then having the
->>>>> flush-queue enabled on a per-IOMMU or per-domain basis doesn't sound
->>>>> unreasonable to me, but this change makes it a global property.
->>>>
->>>> The intent here was just to streamline the existing behaviour of stuffing a
->>>> global property into a domain attribute then pulling it out again in the
->>>> illusion that it was in any way per-domain. We're still checking
->>>> dev_is_untrusted() before making an actual decision, and it's not like we
->>>> can't add more factors at that point if we want to.
->>>
->>> Like I say, the cleanup is great. I'm just wondering whether there's a
->>> better way to express the complicated logic to decide whether or not to use
->>> the flush queue than what we end up with:
->>>
->>> 	if (!cookie->fq_domain && (!dev || !dev_is_untrusted(dev)) &&
->>> 	    domain->ops->flush_iotlb_all && !iommu_get_dma_strict())
->>>
->>> which is mixing up globals, device properties and domain properties. The
->>> result is that the driver code ends up just using the global to determine
->>> whether or not to pass IO_PGTABLE_QUIRK_NON_STRICT to the page-table code,
->>> which is a departure from the current way of doing things.
->>
->> But previously, SMMU only ever saw the global policy piped through the
->> domain attribute by iommu_group_alloc_default_domain(), so there's no
->> functional change there.
-> 
-> For DMA domains sure, but I don't think that's the case for unmanaged
-> domains such as those used by VFIO.
+Fix checkpatch.pl warning:
+Too many leading tabs - consider code refactoring
+WARNING: Too many leading tabs - consider code refactoring
++                                               for (j = 0; j < profile->ucLeakageBinNum; j++) {
 
-Eh? This is only relevant to DMA domains anyway. Flush queues are part 
-of the IOVA allocator that VFIO doesn't even use. It's always been the 
-case that unmanaged domains only use strict invalidation.
+WARNING: Too many leading tabs - consider code refactoring
++                                                       if (vbios_voltage_id <= leakage_bin[j]) {
 
->> Obviously some of the above checks could be factored out into some kind of
->> iommu_use_flush_queue() helper that IOMMU drivers can also call if they need
->> to keep in sync. Or maybe we just allow iommu-dma to set
->> IO_PGTABLE_QUIRK_NON_STRICT directly via iommu_set_pgtable_quirks() if we're
->> treating that as a generic thing now.
-> 
-> I think a helper that takes a domain would be a good starting point.
+WARNING: Too many leading tabs - consider code refactoring
++                                               for (j = 0; j < profile->ucLeakageBinNum; j++) {
 
-You mean device, right? The one condition we currently have is at the 
-device level, and there's really nothing inherent to the domain itself 
-that matters (since the type is implicitly IOMMU_DOMAIN_DMA to even care 
-about this).
+WARNING: Too many leading tabs - consider code refactoring
++                                                       if (vbios_voltage_id <= leakage_bin[j]) {
 
-Another idea that's just come to mind is now that IOMMU_DOMAIN_DMA has a 
-standard meaning, maybe we could split out a separate 
-IOMMU_DOMAIN_DMA_STRICT type such that it can all propagate from 
-iommu_get_def_domain_type()? That feels like it might be quite 
-promising, but I'd still do it as an improvement on top of this patch, 
-since it's beyond just cleaning up the abuse of domain attributes to 
-pass a command-line option around.
+Signed-off-by: Bernard Zhao <bernard@vivo.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c | 84 ++++++++------------
+ 1 file changed, 35 insertions(+), 49 deletions(-)
 
-Robin.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
+index 86add0f4ea4d..9968ff8ddc9c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
+@@ -1283,65 +1283,51 @@ int amdgpu_atombios_get_leakage_vddc_based_on_leakage_params(struct amdgpu_devic
+ 	profile = (ATOM_ASIC_PROFILING_INFO_V2_1 *)
+ 		(adev->mode_info.atom_context->bios + data_offset);
+ 
+-	switch (frev) {
+-	case 1:
++	if ((frev != 2) || (crev != 1)) {
++		DRM_ERROR("Unknown table version %d, %d\n", frev, crev);
+ 		return -EINVAL;
+-	case 2:
+-		switch (crev) {
+-		case 1:
+-			if (size < sizeof(ATOM_ASIC_PROFILING_INFO_V2_1))
+-				return -EINVAL;
+-			leakage_bin = (u16 *)
+-				(adev->mode_info.atom_context->bios + data_offset +
+-				 le16_to_cpu(profile->usLeakageBinArrayOffset));
+-			vddc_id_buf = (u16 *)
+-				(adev->mode_info.atom_context->bios + data_offset +
+-				 le16_to_cpu(profile->usElbVDDC_IdArrayOffset));
+-			vddc_buf = (u16 *)
+-				(adev->mode_info.atom_context->bios + data_offset +
+-				 le16_to_cpu(profile->usElbVDDC_LevelArrayOffset));
+-			vddci_id_buf = (u16 *)
+-				(adev->mode_info.atom_context->bios + data_offset +
+-				 le16_to_cpu(profile->usElbVDDCI_IdArrayOffset));
+-			vddci_buf = (u16 *)
+-				(adev->mode_info.atom_context->bios + data_offset +
+-				 le16_to_cpu(profile->usElbVDDCI_LevelArrayOffset));
+-
+-			if (profile->ucElbVDDC_Num > 0) {
+-				for (i = 0; i < profile->ucElbVDDC_Num; i++) {
+-					if (vddc_id_buf[i] == virtual_voltage_id) {
+-						for (j = 0; j < profile->ucLeakageBinNum; j++) {
+-							if (vbios_voltage_id <= leakage_bin[j]) {
+-								*vddc = vddc_buf[j * profile->ucElbVDDC_Num + i];
+-								break;
+-							}
+-						}
++	}
++
++	if (size < sizeof(ATOM_ASIC_PROFILING_INFO_V2_1))
++		return -EINVAL;
++
++	leakage_bin = (u16 *)(adev->mode_info.atom_context->bios + data_offset +
++		 le16_to_cpu(profile->usLeakageBinArrayOffset));
++	vddc_id_buf = (u16 *)(adev->mode_info.atom_context->bios + data_offset +
++		 le16_to_cpu(profile->usElbVDDC_IdArrayOffset));
++	vddc_buf = (u16 *)(adev->mode_info.atom_context->bios + data_offset +
++		 le16_to_cpu(profile->usElbVDDC_LevelArrayOffset));
++	vddci_id_buf = (u16 *)(adev->mode_info.atom_context->bios + data_offset +
++		 le16_to_cpu(profile->usElbVDDCI_IdArrayOffset));
++	vddci_buf = (u16 *)(adev->mode_info.atom_context->bios + data_offset +
++		 le16_to_cpu(profile->usElbVDDCI_LevelArrayOffset));
++
++	if (profile->ucElbVDDC_Num > 0) {
++		for (i = 0; i < profile->ucElbVDDC_Num; i++) {
++			if (vddc_id_buf[i] == virtual_voltage_id) {
++				for (j = 0; j < profile->ucLeakageBinNum; j++) {
++					if (vbios_voltage_id <= leakage_bin[j]) {
++						*vddc = vddc_buf[j * profile->ucElbVDDC_Num + i];
+ 						break;
+ 					}
+ 				}
++				break;
+ 			}
+-			if (profile->ucElbVDDCI_Num > 0) {
+-				for (i = 0; i < profile->ucElbVDDCI_Num; i++) {
+-					if (vddci_id_buf[i] == virtual_voltage_id) {
+-						for (j = 0; j < profile->ucLeakageBinNum; j++) {
+-							if (vbios_voltage_id <= leakage_bin[j]) {
+-								*vddci = vddci_buf[j * profile->ucElbVDDCI_Num + i];
+-								break;
+-							}
+-						}
++		}
++	}
++
++	if (profile->ucElbVDDCI_Num > 0) {
++		for (i = 0; i < profile->ucElbVDDCI_Num; i++) {
++			if (vddci_id_buf[i] == virtual_voltage_id) {
++				for (j = 0; j < profile->ucLeakageBinNum; j++) {
++					if (vbios_voltage_id <= leakage_bin[j]) {
++						*vddci = vddci_buf[j * profile->ucElbVDDCI_Num + i];
+ 						break;
+ 					}
+ 				}
++				break;
+ 			}
+-			break;
+-		default:
+-			DRM_ERROR("Unknown table version %d, %d\n", frev, crev);
+-			return -EINVAL;
+ 		}
+-		break;
+-	default:
+-		DRM_ERROR("Unknown table version %d, %d\n", frev, crev);
+-		return -EINVAL;
+ 	}
+ 
+ 	return 0;
+-- 
+2.31.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
