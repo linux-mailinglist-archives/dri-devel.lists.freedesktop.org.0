@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A3234FF97
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 13:38:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEACF34FFA9
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 13:45:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5476A89D60;
-	Wed, 31 Mar 2021 11:38:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC1B76E12E;
+	Wed, 31 Mar 2021 11:45:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5570989D60;
- Wed, 31 Mar 2021 11:38:19 +0000 (UTC)
-IronPort-SDR: GxLYqGEqZb9d/7QnHZvSsdfUzucSDt/0PcOE9+d/jaNO2JO9Fw+V76OJgGO0vUMpnnbyaFxUfZ
- HH1lO3lhRdNg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9939"; a="212224310"
-X-IronPort-AV: E=Sophos;i="5.81,293,1610438400"; d="scan'208";a="212224310"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2021 04:38:18 -0700
-IronPort-SDR: 5e/Azto5zXXn9RrTJ2BnMMvtfa53eJPVg+FJCtiWymLseEphBPjfyxwDh2X7F5lw3N48MQr3Y3
- 5h+ZTurhSVwg==
-X-IronPort-AV: E=Sophos;i="5.81,293,1610438400"; d="scan'208";a="418634746"
-Received: from ebilea-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.249.32.112])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2021 04:38:15 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Nautiyal\, Ankit K" <ankit.k.nautiyal@intel.com>,
- Anshuman Gupta <anshuman.gupta@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v2 1/2] drm/i915/hdcp: Add DP HDCP2.2 timeout
- to read entire msg
-In-Reply-To: <c9d95f02-3a2b-4a01-6b19-2ce3c051ec9d@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210324113012.7564-1-anshuman.gupta@intel.com>
- <20210324113012.7564-2-anshuman.gupta@intel.com>
- <c9d95f02-3a2b-4a01-6b19-2ce3c051ec9d@intel.com>
-Date: Wed, 31 Mar 2021 14:38:12 +0300
-Message-ID: <877dlno8nv.fsf@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29CF76E12E
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 11:45:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 19A17619A7
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 11:45:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617191135;
+ bh=cDe4OjB/cbS5HTDVYg7h362Cs5BammVyqKu/0uQ+P0o=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=mAEcUxi/xVimrj34vKUlkJ3sjV4d9uFeZs6mqnlgjWKUrPwthX1uuv76oSEVgueBm
+ LwjNPYS89rUv3i6mriw8OqOXHj27wNIxPky4orockzFmdDPtpzDvgBufSaTMCvw9AQ
+ 7of0JfiUi7MRxhv9EmJ16/UfvbsS2fPs71WJfRoVI99f7R1UIIy0WJJyV1lB1tunw/
+ lYRt0uvUEUXr75VAWHS5QlZNTICVNgXvwW69auH9ofwzmKyHM84vs1IbchOA/X4oSK
+ 9ZVmHSvsX/2zg8KfSHnkEp9K1B2ZS6VvvagBw31h0EHjH+if9LLtW61XeGFJ3KHgRi
+ SO4DqXSEcnlKw==
+Received: by mail-ej1-f53.google.com with SMTP id e14so29552019ejz.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 04:45:35 -0700 (PDT)
+X-Gm-Message-State: AOAM532peAGO9EcBUceK9B5YQ0H8ZG862vvDEvK/k3k8fJPTu0e9ishM
+ OjM/3Tk87wQ28TAlz4tRhF7/Ep0vTE2HQA3jLQ==
+X-Google-Smtp-Source: ABdhPJxeQ0vEWM2/DbBY7gb7TVueFOpb1LFucBbuIOFcN1gdvrRTfseG6I5VwDo3lUEIJVM37SyMy5PkEVwJAuvfn5s=
+X-Received: by 2002:a17:907:629c:: with SMTP id
+ nd28mr3099988ejc.267.1617191133354; 
+ Wed, 31 Mar 2021 04:45:33 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210203110717.686204-1-enric.balletbo@collabora.com>
+ <8c8309fb-babe-3ed4-d2a1-111fbab91e9f@collabora.com>
+In-Reply-To: <8c8309fb-babe-3ed4-d2a1-111fbab91e9f@collabora.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 31 Mar 2021 19:45:22 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9O2v10eac9KCDqBNCwRymX_1sr38gVJsZeBpd2mESvvA@mail.gmail.com>
+Message-ID: <CAAOTY_9O2v10eac9KCDqBNCwRymX_1sr38gVJsZeBpd2mESvvA@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: Add missing MODULE_DEVICE_TABLE()
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,165 +54,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: maarten.lankhorst@intel.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Nicolas Boichat <drinkcat@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Collabora Kernel ML <kernel@collabora.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 25 Mar 2021, "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com> wrote:
-> LGTM.
->
-> Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-
-Both patches pushed to drm-intel-next with Maxime's irc ack.
-
-BR,
-Jani.
-
-
->
-> On 3/24/2021 5:00 PM, Anshuman Gupta wrote:
->> As documented in HDCP 2.2 DP Errata spec transmitter should abort the
->> authentication protocol in case transmitter has not received the
->> entire {AKE_Send_Cert, AKE_Send_H_prime, AKE_Send_Paring_Info} msg
->> within {110,7,5} miliseconds.
->>
->> Adding above msg timeout values and aborting the HDCP authentication
->> in case it timedout to read entire msg.
->>
->> https://www.digital-cp.com/sites/default/files/HDCP%202_2_DisplayPort_Errata_v3_0.pdf
->>
->> v2:
->> - Removed redundant variable msg_can_timedout. [Ankit]
->>
->> Cc: Ramalingam C <ramalingam.c@intel.com>
->> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
->> ---
->>   drivers/gpu/drm/i915/display/intel_dp_hdcp.c | 45 ++++++++++++++------
->>   include/drm/drm_hdcp.h                       |  3 ++
->>   2 files changed, 35 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
->> index 40c516e90193..8bad4b3d34dd 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
->> +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
->> @@ -294,37 +294,39 @@ struct hdcp2_dp_msg_data {
->>   	bool msg_detectable;
->>   	u32 timeout;
->>   	u32 timeout2; /* Added for non_paired situation */
->> +	/* Timeout to read entire msg */
->> +	u32 msg_read_timeout;
->>   };
->>   
->>   static const struct hdcp2_dp_msg_data hdcp2_dp_msg_data[] = {
->> -	{ HDCP_2_2_AKE_INIT, DP_HDCP_2_2_AKE_INIT_OFFSET, false, 0, 0 },
->> +	{ HDCP_2_2_AKE_INIT, DP_HDCP_2_2_AKE_INIT_OFFSET, false, 0, 0, 0},
->>   	{ HDCP_2_2_AKE_SEND_CERT, DP_HDCP_2_2_AKE_SEND_CERT_OFFSET,
->> -	  false, HDCP_2_2_CERT_TIMEOUT_MS, 0 },
->> +	  false, HDCP_2_2_CERT_TIMEOUT_MS, 0, HDCP_2_2_DP_CERT_READ_TIMEOUT_MS},
->>   	{ HDCP_2_2_AKE_NO_STORED_KM, DP_HDCP_2_2_AKE_NO_STORED_KM_OFFSET,
->> -	  false, 0, 0 },
->> +	  false, 0, 0, 0 },
->>   	{ HDCP_2_2_AKE_STORED_KM, DP_HDCP_2_2_AKE_STORED_KM_OFFSET,
->> -	  false, 0, 0 },
->> +	  false, 0, 0, 0 },
->>   	{ HDCP_2_2_AKE_SEND_HPRIME, DP_HDCP_2_2_AKE_SEND_HPRIME_OFFSET,
->>   	  true, HDCP_2_2_HPRIME_PAIRED_TIMEOUT_MS,
->> -	  HDCP_2_2_HPRIME_NO_PAIRED_TIMEOUT_MS },
->> +	  HDCP_2_2_HPRIME_NO_PAIRED_TIMEOUT_MS, HDCP_2_2_DP_HPRIME_READ_TIMEOUT_MS},
->>   	{ HDCP_2_2_AKE_SEND_PAIRING_INFO,
->>   	  DP_HDCP_2_2_AKE_SEND_PAIRING_INFO_OFFSET, true,
->> -	  HDCP_2_2_PAIRING_TIMEOUT_MS, 0 },
->> -	{ HDCP_2_2_LC_INIT, DP_HDCP_2_2_LC_INIT_OFFSET, false, 0, 0 },
->> +	  HDCP_2_2_PAIRING_TIMEOUT_MS, 0, HDCP_2_2_DP_PAIRING_READ_TIMEOUT_MS },
->> +	{ HDCP_2_2_LC_INIT, DP_HDCP_2_2_LC_INIT_OFFSET, false, 0, 0, 0 },
->>   	{ HDCP_2_2_LC_SEND_LPRIME, DP_HDCP_2_2_LC_SEND_LPRIME_OFFSET,
->> -	  false, HDCP_2_2_DP_LPRIME_TIMEOUT_MS, 0 },
->> +	  false, HDCP_2_2_DP_LPRIME_TIMEOUT_MS, 0, 0 },
->>   	{ HDCP_2_2_SKE_SEND_EKS, DP_HDCP_2_2_SKE_SEND_EKS_OFFSET, false,
->> -	  0, 0 },
->> +	  0, 0, 0 },
->>   	{ HDCP_2_2_REP_SEND_RECVID_LIST,
->>   	  DP_HDCP_2_2_REP_SEND_RECVID_LIST_OFFSET, true,
->> -	  HDCP_2_2_RECVID_LIST_TIMEOUT_MS, 0 },
->> +	  HDCP_2_2_RECVID_LIST_TIMEOUT_MS, 0, 0 },
->>   	{ HDCP_2_2_REP_SEND_ACK, DP_HDCP_2_2_REP_SEND_ACK_OFFSET, false,
->> -	  0, 0 },
->> +	  0, 0, 0 },
->>   	{ HDCP_2_2_REP_STREAM_MANAGE,
->>   	  DP_HDCP_2_2_REP_STREAM_MANAGE_OFFSET, false,
->> -	  0, 0 },
->> +	  0, 0, 0},
->>   	{ HDCP_2_2_REP_STREAM_READY, DP_HDCP_2_2_REP_STREAM_READY_OFFSET,
->> -	  false, HDCP_2_2_STREAM_READY_TIMEOUT_MS, 0 },
->> +	  false, HDCP_2_2_STREAM_READY_TIMEOUT_MS, 0, 0 },
->>   /* local define to shovel this through the write_2_2 interface */
->>   #define HDCP_2_2_ERRATA_DP_STREAM_TYPE	50
->>   	{ HDCP_2_2_ERRATA_DP_STREAM_TYPE,
->> @@ -513,6 +515,8 @@ int intel_dp_hdcp2_read_msg(struct intel_digital_port *dig_port,
->>   	u8 *byte = buf;
->>   	ssize_t ret, bytes_to_recv, len;
->>   	const struct hdcp2_dp_msg_data *hdcp2_msg_data;
->> +	ktime_t msg_end;
->> +	bool msg_expired;
->>   
->>   	hdcp2_msg_data = get_hdcp2_dp_msg_data(msg_id);
->>   	if (!hdcp2_msg_data)
->> @@ -539,6 +543,11 @@ int intel_dp_hdcp2_read_msg(struct intel_digital_port *dig_port,
->>   		len = bytes_to_recv > DP_AUX_MAX_PAYLOAD_BYTES ?
->>   		      DP_AUX_MAX_PAYLOAD_BYTES : bytes_to_recv;
->>   
->> +		/* Entire msg read timeout since initiate of msg read */
->> +		if (bytes_to_recv == size - 1 && hdcp2_msg_data->msg_read_timeout > 0)
->> +			msg_end = ktime_add_ms(ktime_get_raw(),
->> +					       hdcp2_msg_data->msg_read_timeout);
->> +
->>   		ret = drm_dp_dpcd_read(&dig_port->dp.aux, offset,
->>   				       (void *)byte, len);
->>   		if (ret < 0) {
->> @@ -551,6 +560,16 @@ int intel_dp_hdcp2_read_msg(struct intel_digital_port *dig_port,
->>   		byte += ret;
->>   		offset += ret;
->>   	}
->> +
->> +	if (hdcp2_msg_data->msg_read_timeout > 0) {
->> +		msg_expired = ktime_after(ktime_get_raw(), msg_end);
->> +		if (msg_expired) {
->> +			drm_dbg_kms(&i915->drm, "msg_id %d, entire msg read timeout(mSec): %d\n",
->> +				    msg_id, hdcp2_msg_data->msg_read_timeout);
->> +			return -ETIMEDOUT;
->> +		}
->> +	}
->> +
->>   	byte = buf;
->>   	*byte = msg_id;
->>   
->> diff --git a/include/drm/drm_hdcp.h b/include/drm/drm_hdcp.h
->> index ac22c246542a..2b165a0f434f 100644
->> --- a/include/drm/drm_hdcp.h
->> +++ b/include/drm/drm_hdcp.h
->> @@ -224,9 +224,12 @@ struct hdcp2_rep_stream_ready {
->>   
->>   /* HDCP2.2 TIMEOUTs in mSec */
->>   #define HDCP_2_2_CERT_TIMEOUT_MS		100
->> +#define HDCP_2_2_DP_CERT_READ_TIMEOUT_MS	110
->>   #define HDCP_2_2_HPRIME_NO_PAIRED_TIMEOUT_MS	1000
->>   #define HDCP_2_2_HPRIME_PAIRED_TIMEOUT_MS	200
->> +#define HDCP_2_2_DP_HPRIME_READ_TIMEOUT_MS	7
->>   #define HDCP_2_2_PAIRING_TIMEOUT_MS		200
->> +#define HDCP_2_2_DP_PAIRING_READ_TIMEOUT_MS	5
->>   #define	HDCP_2_2_HDMI_LPRIME_TIMEOUT_MS		20
->>   #define HDCP_2_2_DP_LPRIME_TIMEOUT_MS		7
->>   #define HDCP_2_2_RECVID_LIST_TIMEOUT_MS		3000
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEVucmljOgoKRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8ZW5yaWMuYmFsbGV0Ym9AY29sbGFi
+b3JhLmNvbT4g5pa8IDIwMjHlubQz5pyIMzDml6Ug6YCx5LqMIOS4i+WNiDU6NDPlr6vpgZPvvJoK
+Pgo+IEhpLAo+Cj4gT24gMy8yLzIxIDEyOjA3LCBFbnJpYyBCYWxsZXRibyBpIFNlcnJhIHdyb3Rl
+Ogo+ID4gRnJvbTogQm9yaXMgQnJlemlsbG9uIDxib3Jpcy5icmV6aWxsb25AY29sbGFib3JhLmNv
+bT4KPiA+Cj4gPiBUaGlzIHBhdGNoIGFkZHMgdGhlIG1pc3NpbmcgTU9EVUxFX0RFVklDRV9UQUJM
+RSBkZWZpbml0aW9ucyBvbiBkaWZmZXJlbnQKPiA+IE1lZGlhdGVrIGRyaXZlcnMgd2hpY2ggZ2Vu
+ZXJhdGVzIGNvcnJlY3QgbW9kYWxpYXMgZm9yIGF1dG9tYXRpYyBsb2FkaW5nCj4gPiB3aGVuIHRo
+ZXNlIGRyaXZlcnMgYXJlIGNvbXBpbGVkIGFzIGFuIGV4dGVybmFsIG1vZHVsZS4KPiA+Cj4gPiBT
+aWduZWQtb2ZmLWJ5OiBCb3JpcyBCcmV6aWxsb24gPGJvcmlzLmJyZXppbGxvbkBjb2xsYWJvcmEu
+Y29tPgo+ID4gU2lnbmVkLW9mZi1ieTogRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8ZW5yaWMuYmFs
+bGV0Ym9AY29sbGFib3JhLmNvbT4KPgo+IEEgZ2VudGxlIHBpbmcgZm9yIHNvbWVvbmUgdG8gcmV2
+aWV3IHRoaXMgcGF0Y2hzZXQgOi0pCj4KCkFwcGxpZWQgdG8gbWVkaWF0ZWstZHJtLW5leHQgWzFd
+LCB0aGFua3MuCgpbMV0gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5l
+bC9naXQvY2h1bmt1YW5nLmh1L2xpbnV4LmdpdC9sb2cvP2g9bWVkaWF0ZWstZHJtLW5leHQKClJl
+Z2FyZHMsCkNodW4tS3VhbmcuCgo+IFRoYW5rcywKPiAgIEVucmljCj4KPiA+IC0tLQo+ID4KPiA+
+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2NlYy5jICAgICAgfCAyICsrCj4gPiAgZHJp
+dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcGkuYyAgICAgIHwgMSArCj4gPiAgZHJpdmVycy9n
+cHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMgIHwgMSArCj4gPiAgZHJpdmVycy9ncHUvZHJt
+L21lZGlhdGVrL210a19kc2kuYyAgICAgIHwgMSArCj4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlh
+dGVrL210a19oZG1pLmMgICAgIHwgMSArCj4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19oZG1pX2RkYy5jIHwgMSArCj4gPiAgNiBmaWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKykK
+PiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19jZWMuYyBi
+L2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfY2VjLmMKPiA+IGluZGV4IGNiMjliNjQ5ZmNk
+Yi4uM2I4NmU2MjZlNDU5IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
+L210a19jZWMuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19jZWMuYwo+
+ID4gQEAgLTcsNiArNyw3IEBACj4gPiAgI2luY2x1ZGUgPGxpbnV4L2RlbGF5Lmg+Cj4gPiAgI2lu
+Y2x1ZGUgPGxpbnV4L2lvLmg+Cj4gPiAgI2luY2x1ZGUgPGxpbnV4L2ludGVycnVwdC5oPgo+ID4g
+KyNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4KPiA+ICAjaW5jbHVkZSA8bGludXgvbW9kX2Rldmlj
+ZXRhYmxlLmg+Cj4gPiAgI2luY2x1ZGUgPGxpbnV4L3BsYXRmb3JtX2RldmljZS5oPgo+ID4KPiA+
+IEBAIC0yNDcsNiArMjQ4LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgbXRr
+X2NlY19vZl9pZHNbXSA9IHsKPiA+ICAgICAgIHsgLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4
+MTczLWNlYyIsIH0sCj4gPiAgICAgICB7fQo+ID4gIH07Cj4gPiArTU9EVUxFX0RFVklDRV9UQUJM
+RShvZiwgbXRrX2NlY19vZl9pZHMpOwo+ID4KPiA+ICBzdHJ1Y3QgcGxhdGZvcm1fZHJpdmVyIG10
+a19jZWNfZHJpdmVyID0gewo+ID4gICAgICAgLnByb2JlID0gbXRrX2NlY19wcm9iZSwKPiA+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwaS5jIGIvZHJpdmVycy9n
+cHUvZHJtL21lZGlhdGVrL210a19kcGkuYwo+ID4gaW5kZXggNTJmMTFhNjNhMzMwLi4yNjgwMzcw
+NjUyZmQgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwaS5j
+Cj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwaS5jCj4gPiBAQCAtODIy
+LDYgKzgyMiw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIG10a19kcGlfb2Zf
+aWRzW10gPSB7Cj4gPiAgICAgICB9LAo+ID4gICAgICAgeyB9LAo+ID4gIH07Cj4gPiArTU9EVUxF
+X0RFVklDRV9UQUJMRShvZiwgbXRrX2RwaV9vZl9pZHMpOwo+ID4KPiA+ICBzdHJ1Y3QgcGxhdGZv
+cm1fZHJpdmVyIG10a19kcGlfZHJpdmVyID0gewo+ID4gICAgICAgLnByb2JlID0gbXRrX2RwaV9w
+cm9iZSwKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9k
+cnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jCj4gPiBpbmRleCA1
+ZjQ5YTgwOTY4OWIuLmU0NjQ1YzhhZTFjMCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvbXRrX2RybV9kcnYuYwo+ID4gQEAgLTQ3MCw2ICs0NzAsNyBAQCBzdGF0aWMgY29uc3Qgc3Ry
+dWN0IG9mX2RldmljZV9pZCBtdGtfZHJtX29mX2lkc1tdID0gewo+ID4gICAgICAgICAuZGF0YSA9
+ICZtdDgxODNfbW1zeXNfZHJpdmVyX2RhdGF9LAo+ID4gICAgICAgeyB9Cj4gPiAgfTsKPiA+ICtN
+T0RVTEVfREVWSUNFX1RBQkxFKG9mLCBtdGtfZHJtX29mX2lkcyk7Cj4gPgo+ID4gIHN0YXRpYyBp
+bnQgbXRrX2RybV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ID4gIHsKPiA+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jIGIvZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYwo+ID4gaW5kZXggMDUyNzQ4MGMwN2JlLi5jNzFj
+ZTYyZDFiZWMgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rz
+aS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jCj4gPiBAQCAt
+MTE5Myw2ICsxMTkzLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgbXRrX2Rz
+aV9vZl9tYXRjaFtdID0gewo+ID4gICAgICAgICAuZGF0YSA9ICZtdDgxODNfZHNpX2RyaXZlcl9k
+YXRhIH0sCj4gPiAgICAgICB7IH0sCj4gPiAgfTsKPiA+ICtNT0RVTEVfREVWSUNFX1RBQkxFKG9m
+LCBtdGtfZHNpX29mX21hdGNoKTsKPiA+Cj4gPiAgc3RydWN0IHBsYXRmb3JtX2RyaXZlciBtdGtf
+ZHNpX2RyaXZlciA9IHsKPiA+ICAgICAgIC5wcm9iZSA9IG10a19kc2lfcHJvYmUsCj4gPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19oZG1pLmMgYi9kcml2ZXJzL2dw
+dS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWkuYwo+ID4gaW5kZXggOGVlNTVmOWUyOTU0Li5iNDY5NmE5
+ZDczZjcgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWku
+Ywo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19oZG1pLmMKPiA+IEBAIC0x
+ODE4LDYgKzE4MTgsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBtdGtfZHJt
+X2hkbWlfb2ZfaWRzW10gPSB7Cj4gPiAgICAgICB9LAo+ID4gICAgICAge30KPiA+ICB9Owo+ID4g
+K01PRFVMRV9ERVZJQ0VfVEFCTEUob2YsIG10a19kcm1faGRtaV9vZl9pZHMpOwo+ID4KPiA+ICBz
+dGF0aWMgc3RydWN0IHBsYXRmb3JtX2RyaXZlciBtdGtfaGRtaV9kcml2ZXIgPSB7Cj4gPiAgICAg
+ICAucHJvYmUgPSBtdGtfZHJtX2hkbWlfcHJvYmUsCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL21lZGlhdGVrL210a19oZG1pX2RkYy5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
+L210a19oZG1pX2RkYy5jCj4gPiBpbmRleCA2MmRiYWQ1Njc1YmIuLjYyMDdlYWM4ODU1MCAxMDA2
+NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaV9kZGMuYwo+ID4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19oZG1pX2RkYy5jCj4gPiBAQCAtMzM1
+LDYgKzMzNSw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIG10a19oZG1pX2Rk
+Y19tYXRjaFtdID0gewo+ID4gICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxNzMt
+aGRtaS1kZGMiLCB9LAo+ID4gICAgICAge30sCj4gPiAgfTsKPiA+ICtNT0RVTEVfREVWSUNFX1RB
+QkxFKG9mLCBtdGtfaGRtaV9kZGNfbWF0Y2gpOwo+ID4KPiA+ICBzdHJ1Y3QgcGxhdGZvcm1fZHJp
+dmVyIG10a19oZG1pX2RkY19kcml2ZXIgPSB7Cj4gPiAgICAgICAucHJvYmUgPSBtdGtfaGRtaV9k
+ZGNfcHJvYmUsCj4gPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
