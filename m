@@ -1,59 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60DE234FE61
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 12:57:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC0834FE66
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 12:57:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2171F6EA46;
-	Wed, 31 Mar 2021 10:57:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 715216EA52;
+	Wed, 31 Mar 2021 10:57:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 483336E1EE
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 10:57:38 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id w28so7526979lfn.2
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0381B6E1A3
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 10:57:39 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id o10so28471505lfb.9
  for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 03:57:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8MkWJRDgLEB9kWyZ5s8Q9VLg7igUl49cjQjKv9VhOQs=;
- b=T2l1mkshCl6YEr2sg1PpgXbvvm/1CotkrF/GcTGYx7oF8cy3+4seZQ7q+wc3xZmSgg
- O57t6sdxREYa5YWhKrfD2ZxjaF/BBfa51oC9m9HXrwZfBaKaHH3p93e+F3jHQiKp4WJS
- sEIrO8xpUNxiYnzaZ52ZRZHSaG2jHw2r+xMzTHMeC4UEr8sIGCijKNwQPaFNyiJheU/Y
- wBaOCSJlnyoP9HW7F2L5eCzOwLx1bIDeNJvL4djxZBN4AomdnakpYFv1ZHfSDy7mPssz
- 8M+BZvmQjysRNTSOMsvPcQRO/V5mFfk18EYIMHpFx4NfBIWPcaZNFP//z4fmkA3cA1VO
- YeQw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Y1u3qI91niStgKbW+WBtzClbJFp3L1syvepMyAqokcs=;
+ b=K6LTjhrenDqyIdIUPPp1YHKyaN4YhM1dbepoy7YLo0scME9jbZ+wQlMhx+dRGbtyIb
+ rn7jp2woz9YglWY/x3BpkmoGS7UcXAXHCCTEIBTtDzpVZYQmKwL38+al3kzNTagV4yjh
+ Uuz8+DzOt6VY9axa9x0wN4CkUD0vBmroUiqm5Jaok3t8eFJ6iySpXyKxHDMPPtJtje1L
+ FtnZfNCWUlahfgd89f4IuXuvyjIzcSqH5lTD9fR5GxYJeeNv2r+9oNDm3q6ZaVjwF+si
+ paXskREcH2t+lSSLP5MobghwphANhKhhZM1NorG9GkonDiAN604k0oVynfOCQP2dH6/F
+ +fww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8MkWJRDgLEB9kWyZ5s8Q9VLg7igUl49cjQjKv9VhOQs=;
- b=SSDxxxKDnMSEI9A+KEfNyZApZdavW4vJK3ONaSqhTd4lzwbvJIr5UZbsKAsmhDjQy4
- bHqR97d6sqvQ5Q2pTfsX/XvPQNBwQgNSDpvqrRU10OFS/WDhczunJtcx7B3/mu48jq9N
- emJq5a+EanUQuOC1PYH/ukIO9bdBY07QyK3yUUprg2IT2fSe0GqcLtu34crufe4q7Q1c
- O5JUVIPzwAQhod53m3k0wrfBN2gAevWZlnZdVS25Je2R5PqbfnoMH01/5hqpRLSOzsm9
- JVvtbacQPHI03yUb/RVcgthIBTiE42DIzVE9Syz+Ce85AvhU0yIuo2f7y7YVIXmnos1M
- 5V3g==
-X-Gm-Message-State: AOAM5304Me3SsRP185J/Sg9GurNpK1w55LoZVVGy/roD/hur8EYJj2zy
- k8qtwN3kORCr5EU5lYtj4GfbZg==
-X-Google-Smtp-Source: ABdhPJzinUMr68L3H0gNll59ZE9d2mkq7SzhhgLoSGMm3q7hf8wIK1TFkvYKx2COry8hY5RNKVo9Bw==
-X-Received: by 2002:ac2:4e43:: with SMTP id f3mr1830598lfr.206.1617188256679; 
- Wed, 31 Mar 2021 03:57:36 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Y1u3qI91niStgKbW+WBtzClbJFp3L1syvepMyAqokcs=;
+ b=VEzytrVv7b0puX8u4ONU0ct0TNdZeWEvvpD4PmdQb+8FqsKynF2G/jc/oGGV5sfrye
+ O9Qlv9BU+DjAHOlY6UdQBDz0eWPvCNTpl7mKdfk+rpGFAKjpe9REJLGGN9kO+rKRuvU/
+ B5hkB82pJLiIKnuiKr2d7bL89uEdTTbwK+JQfJoNBaY/PeKuBKc6Fo7Tt1JxOGYaiMXG
+ lknW8w3JEpvyr7u28/0X5Gg9HM7FvbzSD4w8/Gh7eHnhq5FR+rAR17M21jj/Xbp1diio
+ pZPGv44D+uF7E0tLk3ASjaWLLwhqZoMldnzDHfuijJmLYl0lhvOrGINLgOpiRhSZWF1B
+ vBwA==
+X-Gm-Message-State: AOAM530L3sOn/2Cv+ZBUiK/Js5/MzpcV5ZBsaDK/go0hVM7PCIKz8Dn2
+ JLp+6EVLSkvRCu6hiFEUf9UJjbU+DpdHkw==
+X-Google-Smtp-Source: ABdhPJw+e6U8PmbzHAo1cvC6WZ26mkuLIlfkspnFHFdkIZbIQm2Awy3Zr3l9C8JAtWInd/sKvzz+yQ==
+X-Received: by 2002:a05:6512:a82:: with SMTP id
+ m2mr1920945lfu.259.1617188257411; 
+ Wed, 31 Mar 2021 03:57:37 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id h3sm184359ljc.67.2021.03.31.03.57.35
+ by smtp.gmail.com with ESMTPSA id h3sm184359ljc.67.2021.03.31.03.57.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Mar 2021 03:57:36 -0700 (PDT)
+ Wed, 31 Mar 2021 03:57:37 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <abhinavk@codeaurora.org>,
  Jonathan Marek <jonathan@marek.ca>,
  Michael Turquette <mturquette@baylibre.com>
-Subject: [PATCH v4 00/24] drm/msm/dsi: refactor MSM DSI PHY/PLL drivers
-Date: Wed, 31 Mar 2021 13:57:11 +0300
-Message-Id: <20210331105735.3690009-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 01/24] clk: mux: provide devm_clk_hw_register_mux()
+Date: Wed, 31 Mar 2021 13:57:12 +0300
+Message-Id: <20210331105735.3690009-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210331105735.3690009-1-dmitry.baryshkov@linaro.org>
+References: <20210331105735.3690009-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,44 +78,103 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Restructure MSM DSI PHY drivers. What started as an attempt to grok the
-overcomplicated PHY drivers, has lead up to the idea of merging PHY and
-PLL code, reducing abstractions, code duplication, dropping dead code,
-etc.
+Add devm_clk_hw_register_mux() - devres-managed version of
+clk_hw_register_mux().
 
-The patches were mainly tested on RB5 (sm8250, 7nm) and DB410c (apq8016,
-28nm-lp) and lightly tested on RB3 (sdm845, 10nm).
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+Acked-by: Stephen Boyd <sboyd@kernel.org>
+---
+ drivers/clk/clk-mux.c        | 35 +++++++++++++++++++++++++++++++++++
+ include/linux/clk-provider.h | 13 +++++++++++++
+ 2 files changed, 48 insertions(+)
 
-This patchet depends on the patch "clk: fixed: add devm helper for
-clk_hw_register_fixed_factor()", which was merged in 5.12-rc1:
-https://lore.kernel.org/r/20210211052206.2955988-4-daniel@0x0f.com
-
-
-Changes since v3:
- - Rename save_state/restore_state functions/callbacks
- - Still mention DSI_1 when determining settings for slave PHYs in 14nm
-   and 28nm drivers.
- - Stop including the external dependency merged upstream long ago. It
-   is properly mentioned in the patchset description.
-
-Changes since v2:
- - Drop the 'stop setting clock parents manually' patch for now together
-   with the dtsi changes. Unlike the rest of patchset it provides
-   functional changes and might require additional discussion.
-   The patchset will be resubmitted later.
-
-Changes since v1:
- - Rebase on top of msm/msm-next
- - Reorder patches to follow logical sequence
- - Add sc7180 clocks assignment
- - Drop sm8250 clocks assignment, as respective file is not updated in
-   msm/msm-next
-
-Changes since RFC:
- - Reorder patches to move global clock patches in the beginning and
-   dtsi patches where they are required.
- - remove msm_dsi_phy_set_src_pll() and guess src_pll_id using PHY usecase.
-
+diff --git a/drivers/clk/clk-mux.c b/drivers/clk/clk-mux.c
+index e54e79714818..20582aae7a35 100644
+--- a/drivers/clk/clk-mux.c
++++ b/drivers/clk/clk-mux.c
+@@ -8,6 +8,7 @@
+  */
+ 
+ #include <linux/clk-provider.h>
++#include <linux/device.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
+ #include <linux/io.h>
+@@ -206,6 +207,40 @@ struct clk_hw *__clk_hw_register_mux(struct device *dev, struct device_node *np,
+ }
+ EXPORT_SYMBOL_GPL(__clk_hw_register_mux);
+ 
++static void devm_clk_hw_release_mux(struct device *dev, void *res)
++{
++	clk_hw_unregister_mux(*(struct clk_hw **)res);
++}
++
++struct clk_hw *__devm_clk_hw_register_mux(struct device *dev, struct device_node *np,
++		const char *name, u8 num_parents,
++		const char * const *parent_names,
++		const struct clk_hw **parent_hws,
++		const struct clk_parent_data *parent_data,
++		unsigned long flags, void __iomem *reg, u8 shift, u32 mask,
++		u8 clk_mux_flags, u32 *table, spinlock_t *lock)
++{
++	struct clk_hw **ptr, *hw;
++
++	ptr = devres_alloc(devm_clk_hw_release_mux, sizeof(*ptr), GFP_KERNEL);
++	if (!ptr)
++		return ERR_PTR(-ENOMEM);
++
++	hw = __clk_hw_register_mux(dev, np, name, num_parents, parent_names, parent_hws,
++				       parent_data, flags, reg, shift, mask,
++				       clk_mux_flags, table, lock);
++
++	if (!IS_ERR(hw)) {
++		*ptr = hw;
++		devres_add(dev, ptr);
++	} else {
++		devres_free(ptr);
++	}
++
++	return hw;
++}
++EXPORT_SYMBOL_GPL(__devm_clk_hw_register_mux);
++
+ struct clk *clk_register_mux_table(struct device *dev, const char *name,
+ 		const char * const *parent_names, u8 num_parents,
+ 		unsigned long flags, void __iomem *reg, u8 shift, u32 mask,
+diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
+index e4316890661a..9cf7ecc62f7c 100644
+--- a/include/linux/clk-provider.h
++++ b/include/linux/clk-provider.h
+@@ -868,6 +868,13 @@ struct clk_hw *__clk_hw_register_mux(struct device *dev, struct device_node *np,
+ 		const struct clk_parent_data *parent_data,
+ 		unsigned long flags, void __iomem *reg, u8 shift, u32 mask,
+ 		u8 clk_mux_flags, u32 *table, spinlock_t *lock);
++struct clk_hw *__devm_clk_hw_register_mux(struct device *dev, struct device_node *np,
++		const char *name, u8 num_parents,
++		const char * const *parent_names,
++		const struct clk_hw **parent_hws,
++		const struct clk_parent_data *parent_data,
++		unsigned long flags, void __iomem *reg, u8 shift, u32 mask,
++		u8 clk_mux_flags, u32 *table, spinlock_t *lock);
+ struct clk *clk_register_mux_table(struct device *dev, const char *name,
+ 		const char * const *parent_names, u8 num_parents,
+ 		unsigned long flags, void __iomem *reg, u8 shift, u32 mask,
+@@ -902,6 +909,12 @@ struct clk *clk_register_mux_table(struct device *dev, const char *name,
+ 	__clk_hw_register_mux((dev), NULL, (name), (num_parents), NULL, NULL, \
+ 			      (parent_data), (flags), (reg), (shift),	      \
+ 			      BIT((width)) - 1, (clk_mux_flags), NULL, (lock))
++#define devm_clk_hw_register_mux(dev, name, parent_names, num_parents, flags, reg, \
++			    shift, width, clk_mux_flags, lock)		      \
++	__devm_clk_hw_register_mux((dev), NULL, (name), (num_parents),	      \
++			      (parent_names), NULL, NULL, (flags), (reg),     \
++			      (shift), BIT((width)) - 1, (clk_mux_flags),     \
++			      NULL, (lock))
+ 
+ int clk_mux_val_to_index(struct clk_hw *hw, u32 *table, unsigned int flags,
+ 			 unsigned int val);
+-- 
+2.30.2
 
 _______________________________________________
 dri-devel mailing list
