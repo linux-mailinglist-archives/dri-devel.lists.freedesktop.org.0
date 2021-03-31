@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9D643501CF
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 16:02:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44180350242
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 16:32:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 985436EAA5;
-	Wed, 31 Mar 2021 14:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4AF6EAAD;
+	Wed, 31 Mar 2021 14:32:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23C4E6EAA5
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 14:02:26 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id u10so23996653lju.7
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 07:02:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MuZeoVHEvpr+twaPQswyeU0R2hfnHxepbRcYA7KH75o=;
- b=l2L1151wnl4+sV7aqaC0RpYZ079X1QdGAxyQCBF1iuFD7wABWyAUSHIto1S6x+Wo2f
- jhdUJCof/A4cyK5X1JqLk2kJRYHYt9cWaasAfERA2gpRvfvxL0yo/d8mamjt7+WVUEi6
- XLstzAle4OxKEzzYhB+4xIpBQhT620M7p6lO9aILLRyMqZIuBC9KVR4P7R7hAqXlVkCd
- GwkSNnDzCUMJRaP0YPlh78rEjATEpy4b8ykGhenOQGgvzQ1FFrRBA5idJNbTEkl2sIZ8
- xO4nEIK7CWmmi1iX/DzFy0qHrpHOGAgKHPVqUFFGn3lg4BkEaEePuvZCnTbHe6Lrd57k
- o8TA==
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
+ [IPv6:2607:f8b0:4864:20::834])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5479E6E1F8
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 14:32:28 +0000 (UTC)
+Received: by mail-qt1-x834.google.com with SMTP id c6so14601583qtc.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 07:32:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=i5wECuC5weZgjdPi3xLPpPAVwy9+CVkNbVRnPB22rV4=;
+ b=Cb1kQzuwRvV8yJG2PLXhPjMlw/q8NuMLEfvdtsAcm9Hb41ToBl/n+b4hL0HBxKy2i/
+ leYphrDJFXbTdKb8aRPx+K+wqzaQBnHyonEd1P1gmCBoIUhXmpdP/cI9wzWFC9LwNxHR
+ 7eLWNY4hAwXmzzSt0QeXdkggESIdeZ5jlp/wQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MuZeoVHEvpr+twaPQswyeU0R2hfnHxepbRcYA7KH75o=;
- b=sQt0Z6ZMDHrB7zkIcEZuhAG1Ck1Fs4DNkFajLzxpRi3ykpkLaZMViRKNWC51FCg8lF
- rLL35fm6o6SBSnB2cPPUlsh2mxg8XCbnjj415m7WQGkrFLiOlWe81Rrk13Cb6jqn/fki
- NTrlxxFqYKQicmFjPAPQU7p9DisH3giEGBqfgpMJNUfvaY52SRWSq4GgOKIK9KDz5IL6
- MJfcW7IExCmC3Tx1LbVmiln/+78CFpvc6GM97065WcmjlWc0prkXO9XtAbgnkfIrwsoa
- jgokGY2vZKlY+urkd3M5Z+2sKTDyyXhmKK6idwPWctOIeUI/bSZ+Mbu1nBBhkQAf5+2k
- ugIw==
-X-Gm-Message-State: AOAM533bHaO9Y3f0jarxDBLN3rPF61XcNFWpw3gf4mrMDi0LWZMk8PYa
- C7oYhiVjVY+s4fix+BFoZzbHBA==
-X-Google-Smtp-Source: ABdhPJy8Mbo2B65joihqEln2ts8luLCR7ANP31lGLObFfH8jrCzNlaIxSnlSSk2VBmLQqc2BJBl2lA==
-X-Received: by 2002:a2e:320c:: with SMTP id y12mr2250115ljy.360.1617199344558; 
- Wed, 31 Mar 2021 07:02:24 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id r123sm245033lff.27.2021.03.31.07.02.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Mar 2021 07:02:24 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Jonathan Marek <jonathan@marek.ca>
-Subject: [PATCH] drm/msm: a6xx: fix version check for the A650 SQE microcode
-Date: Wed, 31 Mar 2021 17:02:23 +0300
-Message-Id: <20210331140223.3771449-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=i5wECuC5weZgjdPi3xLPpPAVwy9+CVkNbVRnPB22rV4=;
+ b=SrzMqZoyzeXCJFM8kdoyqnTuNKNAi+7Y8TgJUHOCsFMQxputW3N9GWdD9p+H7qXjxl
+ JTQTJ/30uVHOKaNqw4O6hYK4skTKTnbGoKf0oYTHvLe3Xgyosgroj3NaOnIEPukfFLFy
+ yPk9KQWoDPayaLqO2gfTOjR3gHaxwqzNw9T09XBvzZL3vfjZ0CdAmifXFs3TL4IsZuCF
+ hff2tT/4rHqrkiC4ELMrMBSbpQ9+1qlLWHS8Kh44ff2MAsxIPjeUUktr3ByDYADyukkq
+ xoXlNeT3UIFfio1znJt9btsZiI7jfPFoH3fSTTkKCGhF4HqKEn3hJSF5jOR/Kq3GLDdp
+ sWdA==
+X-Gm-Message-State: AOAM533eiOYRpZMSxndPIkZFngdkNxRbY2FZcxwBhbPkEk4k9gU2cwuU
+ kEGSMFY3y5c0e8nEXkaRnJ7vyTqzUXbWiA==
+X-Google-Smtp-Source: ABdhPJwtSImpe2tupnIW5Bx6qwZyRR1/XyJKRIcrwykvS2g/RHJ6Erhtkk0wJfZ1i9A3olRB1JopVg==
+X-Received: by 2002:ac8:43cb:: with SMTP id w11mr2755404qtn.84.1617201147674; 
+ Wed, 31 Mar 2021 07:32:27 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
+ [209.85.219.182])
+ by smtp.gmail.com with ESMTPSA id y14sm1393001qtw.70.2021.03.31.07.32.27
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 31 Mar 2021 07:32:27 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id v107so16376574ybi.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 07:32:27 -0700 (PDT)
+X-Received: by 2002:a25:4092:: with SMTP id n140mr5092311yba.276.1617201144211; 
+ Wed, 31 Mar 2021 07:32:24 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210330025345.3980086-1-dianders@chromium.org>
+ <CGME20210330025443eucas1p1e53f4fb8623c3dc2ae8ce514e3009bc5@eucas1p1.samsung.com>
+ <20210329195255.v2.10.Ida6151df6bfc71df77afee1d72bb7eb0a443f327@changeid>
+ <26d73f36-e150-57ec-d957-4b7bda6b366e@samsung.com>
+In-Reply-To: <26d73f36-e150-57ec-d957-4b7bda6b366e@samsung.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 31 Mar 2021 07:32:12 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=W6SABggAaBbw9LXdf5sHOGGQzZJp8YFmYcWG1yf1rW5w@mail.gmail.com>
+Message-ID: <CAD=FV=W6SABggAaBbw9LXdf5sHOGGQzZJp8YFmYcWG1yf1rW5w@mail.gmail.com>
+Subject: Re: [PATCH v2 10/14] drm/bridge: ti-sn65dsi86: Stop caching the EDID
+ ourselves
+To: Andrzej Hajda <a.hajda@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,57 +72,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Jordan Crouse <jcrouse@codeaurora.org>,
- freedreno@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Steev Klimaszewski <steev@kali.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I suppose the microcode version check for a650 is incorrect. It checks
-for the version 1.95, while the firmware released have major version of 0:
-0.91 (vulnerable), 0.99 (fixing the issue).
+Hi,
 
-Lower version requirements to accept firmware 0.99.
+On Wed, Mar 31, 2021 at 3:12 AM Andrzej Hajda <a.hajda@samsung.com> wrote:
+>
+>
+> W dniu 30.03.2021 o 04:53, Douglas Anderson pisze:
+> > Now that we have the patch ("drm/edid: Use the cached EDID in
+> > drm_get_edid() if eDP") we no longer need to maintain our own
+> > cache. Drop this code.
+> >
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
 
-Fixes: 8490f02a3ca4 ("drm/msm: a6xx: Make sure the SQE microcode is safe")
-Cc: Akhil P Oommen <akhilpo@codeaurora.org>
-Cc: Jordan Crouse <jcrouse@codeaurora.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Note that unless the advice given to me changes, I'm dropping
+${SUBJECT} patch on the next spin and putting the EDID cache back in
+the bridge driver. See:
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index cb2df8736ca8..896b47dc9c85 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -567,17 +567,17 @@ static bool a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
- 	}  else {
- 		/*
- 		 * a650 tier targets don't need whereami but still need to be
--		 * equal to or newer than 1.95 for other security fixes
-+		 * equal to or newer than 0.95 for other security fixes
- 		 */
- 		if (adreno_is_a650(adreno_gpu)) {
--			if ((buf[0] & 0xfff) >= 0x195) {
-+			if ((buf[0] & 0xfff) >= 0x095) {
- 				ret = true;
- 				goto out;
- 			}
- 
- 			DRM_DEV_ERROR(&gpu->pdev->dev,
- 				"a650 SQE ucode is too old. Have version %x need at least %x\n",
--				buf[0] & 0xfff, 0x195);
-+				buf[0] & 0xfff, 0x095);
- 		}
- 
- 		/*
--- 
-2.30.2
+https://lore.kernel.org/r/YGMvO3PNDCiBmqov@intel.com/
 
+
+-Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
