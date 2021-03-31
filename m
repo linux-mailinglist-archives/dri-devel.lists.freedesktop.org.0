@@ -1,36 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B579350423
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 18:08:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98845350467
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 18:23:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 441556EAF0;
-	Wed, 31 Mar 2021 16:08:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C51189E39;
+	Wed, 31 Mar 2021 16:23:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D5E146E214;
- Wed, 31 Mar 2021 16:08:04 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D11FD6E;
- Wed, 31 Mar 2021 09:08:04 -0700 (PDT)
-Received: from [10.57.24.208] (unknown [10.57.24.208])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3FF463F792;
- Wed, 31 Mar 2021 09:08:02 -0700 (PDT)
-Subject: Re: [PATCH 16/18] iommu: remove DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE
-To: Christoph Hellwig <hch@lst.de>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Li Yang <leoyang.li@nxp.com>
-References: <20210316153825.135976-1-hch@lst.de>
- <20210316153825.135976-17-hch@lst.de>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <163376d7-ab23-a470-5bba-7fcd8ae95a4e@arm.com>
-Date: Wed, 31 Mar 2021 17:07:56 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8968089E39;
+ Wed, 31 Mar 2021 16:23:13 +0000 (UTC)
+IronPort-SDR: QKg+cLdV0gUsewBmofMkRFnrRFQwP4pRIDmfEMRSvZYT/qacJdyaUOm7J7aNwUYIWoZrE6NSyu
+ 7q92c9opkz+Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9940"; a="188784590"
+X-IronPort-AV: E=Sophos;i="5.81,293,1610438400"; d="scan'208";a="188784590"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2021 09:23:10 -0700
+IronPort-SDR: wVH/A0xE3uAr7fDTMQfJ/UZWQDcrRlh+3keSMqAYcDVx4v2B1Dhy6EzZCEnljP4DQfLzB9gfmy
+ jpETtFLg4o7g==
+X-IronPort-AV: E=Sophos;i="5.81,293,1610438400"; d="scan'208";a="418747920"
+Received: from ebilea-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.249.32.112])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2021 09:23:06 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/8] drm/edid: overhaul displayid iterator
+In-Reply-To: <cover.1617024940.git.jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1617024940.git.jani.nikula@intel.com>
+Date: Wed, 31 Mar 2021 19:23:03 +0300
+Message-ID: <87y2e3mgwo.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210316153825.135976-17-hch@lst.de>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,94 +47,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- linux-arm-msm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- iommu@lists.linux-foundation.org, netdev@vger.kernel.org,
- freedreno@lists.freedesktop.org, David Woodhouse <dwmw2@infradead.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-03-16 15:38, Christoph Hellwig wrote:
-[...]
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> index f1e38526d5bd40..996dfdf9d375dd 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> @@ -2017,7 +2017,7 @@ static int arm_smmu_domain_finalise(struct iommu_domain *domain,
->   		.iommu_dev	= smmu->dev,
->   	};
->   
-> -	if (smmu_domain->non_strict)
-> +	if (!iommu_get_dma_strict())
+On Mon, 29 Mar 2021, Jani Nikula <jani.nikula@intel.com> wrote:
+> v2 of [1], addressing Ville's review comments, and adding a couple of
+> extra patches on top.
+>
+> BR,
+> Jani.
+>
+> [1] https://patchwork.freedesktop.org/series/87802/
 
-As Will raised, this also needs to be checking "domain->type == 
-IOMMU_DOMAIN_DMA" to maintain equivalent behaviour to the attribute code 
-below.
+Pushed to drm-misc-next, with Ville's review and Maxime's IRC nod of
+approval. Thanks. :)
 
->   		pgtbl_cfg.quirks |= IO_PGTABLE_QUIRK_NON_STRICT;
->   
->   	pgtbl_ops = alloc_io_pgtable_ops(fmt, &pgtbl_cfg, smmu_domain);
-> @@ -2449,52 +2449,6 @@ static struct iommu_group *arm_smmu_device_group(struct device *dev)
->   	return group;
->   }
->   
-> -static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
-> -				    enum iommu_attr attr, void *data)
-> -{
-> -	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
-> -
-> -	switch (domain->type) {
-> -	case IOMMU_DOMAIN_DMA:
-> -		switch (attr) {
-> -		case DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE:
-> -			*(int *)data = smmu_domain->non_strict;
-> -			return 0;
-> -		default:
-> -			return -ENODEV;
-> -		}
-> -		break;
-> -	default:
-> -		return -EINVAL;
-> -	}
-> -}
-[...]
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> index f985817c967a25..edb1de479dd1a7 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> @@ -668,7 +668,6 @@ struct arm_smmu_domain {
->   	struct mutex			init_mutex; /* Protects smmu pointer */
->   
->   	struct io_pgtable_ops		*pgtbl_ops;
-> -	bool				non_strict;
->   	atomic_t			nr_ats_masters;
->   
->   	enum arm_smmu_domain_stage	stage;
-> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> index 0aa6d667274970..3dde22b1f8ffb0 100644
-> --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> @@ -761,6 +761,9 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
->   		.iommu_dev	= smmu->dev,
->   	};
->   
-> +	if (!iommu_get_dma_strict())
+BR,
+Jani.
 
-Ditto here.
+>
+>
+> Jani Nikula (8):
+>   drm/edid: make a number of functions, parameters and variables const
+>   drm/displayid: add separate drm_displayid.c
+>   drm/displayid: add new displayid section/block iterators
+>   drm/edid: use the new displayid iterator for detailed modes
+>   drm/edid: use the new displayid iterator for finding CEA extension
+>   drm/edid: use the new displayid iterator for tile info
+>   drm/displayid: allow data blocks with 0 payload length
+>   drm/displayid: rename displayid_hdr to displayid_header
+>
+>  drivers/gpu/drm/Makefile        |   2 +-
+>  drivers/gpu/drm/drm_displayid.c | 132 ++++++++++++++++++++++++
+>  drivers/gpu/drm/drm_edid.c      | 171 +++++++-------------------------
+>  include/drm/drm_displayid.h     |  30 ++++--
+>  include/drm/drm_edid.h          |   3 +
+>  5 files changed, 196 insertions(+), 142 deletions(-)
+>  create mode 100644 drivers/gpu/drm/drm_displayid.c
 
-Sorry for not spotting that sooner :(
-
-Robin.
-
-> +		pgtbl_cfg.quirks |= IO_PGTABLE_QUIRK_NON_STRICT;
-> +
->   	if (smmu->impl && smmu->impl->init_context) {
->   		ret = smmu->impl->init_context(smmu_domain, &pgtbl_cfg, dev);
->   		if (ret)
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
