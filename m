@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECFCF34FFB0
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 13:48:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8750934FFB2
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 13:49:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD87F6E1D7;
-	Wed, 31 Mar 2021 11:48:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 929CF6EA6A;
+	Wed, 31 Mar 2021 11:49:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64B186E1D7
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 11:48:41 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id u21so29562743ejo.13
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 04:48:41 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0841B6EA6A
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 11:49:23 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id o16so19416476wrn.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 04:49:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=c6e+fjeESzbScUMz2dNT4nSsDG75G+9lkHHAjRtdllg=;
- b=SAkZkigSCgUz6MpZPDokWoOllrR5dc5CWxYtK9xLMMghjtXZWhXGNJc3ANR9tCFCtW
- 7uj9Rpp0CLrRZP+D5eaVtGVGBo7LkDZrwjQpFENLAcyd7z3xXaPiPuizuxa/kjeb3X5N
- r3h+A+jGJkGmWpi3ZxRbywhcycb0JhIwHWw1nGrTm1x0kV+MvQRMQgxe/0y1kZh0mTDj
- IkywrewDSptl0yyuhfBsCPU3m1vHIWaWZXkwW7gOU+Vl63KAB8ht7dBPiK4aPJ1ZzMjx
- GgXGi/kcEQl9VQJ3MBfRonGGitURSM1g1ZhtVf0a9JdwhcYVc5LeCaaTNIzQkaUIbQNM
- slVQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MxJTD5mQDwNagQLECc0eo1ZB/OdesKUiap5HG3t0c0w=;
+ b=aFRvUOJQXiZNkOwVZDJf7Rfv+v4MCVlV6VzzxdgzVO9Kk59Z7LZqsIITcweLjKB8jy
+ ksAoaMPN4S18qCBQ13453x89rMeKw2HhTUfKQKvK3J0e6OVyqP2o03oNQlmpFS56Zapn
+ Og+1dS76e8+m3GIAbP00ddTMZaGp3NPkxq1cV5MOOI9vr86pDIq/5HQv6HgDnXOkLf07
+ d5BdmDgiVzcMBrDLVzqPEEYvb/VzEflAOJCUmKuRsIkqjx55M+11pcD41TTapPsIaZWp
+ oaONmf/681vSNaof2DOALa1SoUpK7zYnX5gIuatG3rX0zetrk/kQzb7UrfzFQPWoGnT2
+ GEbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=c6e+fjeESzbScUMz2dNT4nSsDG75G+9lkHHAjRtdllg=;
- b=REyYXr/rwsm8HJu42t10rK1xV3xT73SJ7eLOUkAzslDnXQJgssCKN2gF1lwz+bIKEX
- /Bvc1rYlz6hcC0F+3OwqK/HZJ9lSIRARB5LWsDaLMwLkk2LCOTKyo2prUL5AjBl8lQ7o
- Dny+2rWMxjPIziCysLSKhVmikMsVBiQ8z64BPPptcxUY2LCl8MT4/0QMVsbelHyDuYhr
- UoaqDaGH1lPIt7eQU8m3kMiMgutviMeQwUJ3m+pc9PsaKXlUqZp4SUXk3scxbhBqWbxY
- EE7Oauc8eWLNs1HfROpibIGUy5NXh2DXHt0RA7Ku94t7QoCatI8bQTzoVgwen22K/sy9
- 0CDw==
-X-Gm-Message-State: AOAM533Uu/rPQuq76LJ6rEZFLB4JSET4kSFPanHSyQKhYRVVVCIq1HB6
- dUyKP9wDPz4K6HATlJqrqxJZAEBYGaJvYVh9jqs=
-X-Google-Smtp-Source: ABdhPJzamtdkHoAj4ITXbQ3SwDzraofMUy9Mm57Qc47jw3Cy7KoUesNg8NSpTY1F9oYoEfaayePgxUxHlOSfZLfOLQc=
-X-Received: by 2002:a17:906:d9c9:: with SMTP id
- qk9mr3008487ejb.504.1617191320025; 
- Wed, 31 Mar 2021 04:48:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210331112137.368641-1-adrien.grassein@gmail.com>
- <20210331112137.368641-2-adrien.grassein@gmail.com>
- <20210331113554.GM2088@kadam>
-In-Reply-To: <20210331113554.GM2088@kadam>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MxJTD5mQDwNagQLECc0eo1ZB/OdesKUiap5HG3t0c0w=;
+ b=XV4QvW3S/1DpmotnFNnwZBHd3LMsQrE+Cz0TVh9q8fJotkNmoc0d3io5wWAa3ghBud
+ L5+6HW+UWT9l6u9G62fEikCVetIXlGjFonNHzU6WfvxZfK3JqMDB+RXXliXU8eP1PSNK
+ nVaeq37TG9z1xtPuehwtqqy14Rw3+5Vm85jdOl+U4zwCG89t+xJdO0FRhnRhLrBly0ui
+ qo0evkGu6e8+RztK/D/lQNtV7GzapMdrqejO95QFb0jhhcKPYn4tcSaPtM2TWnvZVGx1
+ DOlkFecKnnKbnjLcjc6sX4Pn2KbC9EuLP6BWbJtPXne2bcnDJcOr9n7zPHgH7GLvDhG9
+ pDqw==
+X-Gm-Message-State: AOAM530PpHb5DJHp4hFiwaEL5TZOIEjRIMSWtoGFwrkJi/EEbZa+pdfF
+ +MaVw0cNEaglab9kugOFfm0=
+X-Google-Smtp-Source: ABdhPJxeEsvvQJA7PZQi1GkPR1zdriu1jAqF8pNt5Agun39lOC7QrTU1wewmr2H5V+MTiFUcCF1OSA==
+X-Received: by 2002:a5d:6443:: with SMTP id d3mr3243878wrw.292.1617191362697; 
+ Wed, 31 Mar 2021 04:49:22 -0700 (PDT)
+Received: from localhost.localdomain
+ (2a01cb0008bd27007d57ea0d08d946c1.ipv6.abo.wanadoo.fr.
+ [2a01:cb00:8bd:2700:7d57:ea0d:8d9:46c1])
+ by smtp.gmail.com with ESMTPSA id o8sm3622299wmr.28.2021.03.31.04.49.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 31 Mar 2021 04:49:22 -0700 (PDT)
 From: Adrien Grassein <adrien.grassein@gmail.com>
-Date: Wed, 31 Mar 2021 13:48:29 +0200
-Message-ID: <CABkfQAHh5Ee1HcHAyLwG-iOf2q8uo69wHM8UbG6ouiRegyfn7w@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] drm/bridge: lt8912b: Fix issues found during
- static analysis
-To: Dan Carpenter <dan.carpenter@oracle.com>
+To: 
+Subject: [PATCH v4 0/1] Fixes 30e2ae943c26 "drm/bridge: Introduce LT8912B DSI
+ to HDMI"
+Date: Wed, 31 Mar 2021 13:49:18 +0200
+Message-Id: <20210331114919.370053-1-adrien.grassein@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,25 +67,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org, dan.carpenter@oracle.com,
+ Adrien Grassein <adrien.grassein@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TGUgbWVyLiAzMSBtYXJzIDIwMjEgw6AgMTM6MzYsIERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50
-ZXJAb3JhY2xlLmNvbT4gYSDDqWNyaXQgOgo+Cj4gT24gV2VkLCBNYXIgMzEsIDIwMjEgYXQgMDE6
-MjE6MzdQTSArMDIwMCwgQWRyaWVuIEdyYXNzZWluIHdyb3RlOgo+ID4gLSAgICAgbHQtPmRhdGFf
-bGFuZXMgPSBvZl9wcm9wZXJ0eV9jb3VudF91MzJfZWxlbXMoZW5kcG9pbnQsICJkYXRhLWxhbmVz
-Iik7Cj4gPiArICAgICBkYXRhX2xhbmVzID0gb2ZfcHJvcGVydHlfY291bnRfdTMyX2VsZW1zKGVu
-ZHBvaW50LCAiZGF0YS1sYW5lcyIpOwo+ID4gICAgICAgb2Zfbm9kZV9wdXQoZW5kcG9pbnQpOwo+
-ID4gKyAgICAgaWYgKGRhdGFfbGFuZXMgPCAwKSB7Cj4gPiArICAgICAgICAgICAgIGRldl9lcnIo
-bHQtPmRldiwgIiVzOiBCYWQgZGF0YS1sYW5lcyBwcm9wZXJ0eVxuIiwgX19mdW5jX18pOwo+ID4g
-KyAgICAgICAgICAgICByZXR1cm4gbHQtPmRhdGFfbGFuZXM7Cj4KPiBUaGlzIG5lZWRzIHRvIGJl
-ICJyZXR1cm4gZGF0YV9sYW5lczsiCj4KPiA+ICsgICAgIH0KPiA+ICsgICAgIGx0LT5kYXRhX2xh
-bmVzID0gZGF0YV9sYW5lczsKPgo+IEkgcmVhbGx5IGJlbGlldmUgdGhhdCB2NCB3aWxsIGJlIHRo
-ZSBwZXJmZWN0IHZlcnNpb24gdGhvdWdoLi4uICA6KQo+CkFoYWgsIG1heWJlLCBsZXQncyBzZWUg
-Xl4uCgo+IHJlZ2FyZHMsCj4gZGFuIGNhcnBlbnRlcgo+Cl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi,
+
+This patch fixes issues found by a static checker.
+
+Thanks,
+
+Adrien Grassein (1):
+  drm/bridge: lt8912b: Fix issues found during static analysis
+
+ drivers/gpu/drm/bridge/lontium-lt8912b.c | 27 +++++++++++++++---------
+ 1 file changed, 17 insertions(+), 10 deletions(-)
+
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
