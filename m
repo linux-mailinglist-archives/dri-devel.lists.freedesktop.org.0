@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC3034FE41
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 12:43:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60DE234FE61
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 12:57:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6EAE6EA40;
-	Wed, 31 Mar 2021 10:43:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2171F6EA46;
+	Wed, 31 Mar 2021 10:57:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17FD56E1B4
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 10:43:17 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id v4so19134936wrp.13
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 03:43:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=nFoCdtwrOTcJ2rvAhQk4vH/3/OsTVjD6V/wOxsMaduc=;
- b=oKokIEMW8Tfkxj1Vfj26NDbPuKmx70LxEaZhMvM09OA8GK5EcwSkloy32yHYBAQfN8
- V7n63TuyoZLIwWetHpMGxgf5dJPgZYDyziaaKtFD7mY5sPHjfTEGwuDLdilQQAUoVd7w
- SU+dHvEq25TYvcR6+mQR8Y4FNRLF7vAnadRgrYN/Lq5lEV8tFbZzxh2SvZ4u4Z1HQKIK
- l86xDzJjY62pAXXdnC4F8d21lWQ1r2aVTs/myq+wALwgyGiL5f0iV/0leX5ELPN6tc4O
- lY1r0Utaotn1zzM0OcmuC6ePIy8aoydXw8zIszPGOk1U/Pxz9/xptFnSh/anoeIMeIP4
- LCpg==
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 483336E1EE
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 10:57:38 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id w28so7526979lfn.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 03:57:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8MkWJRDgLEB9kWyZ5s8Q9VLg7igUl49cjQjKv9VhOQs=;
+ b=T2l1mkshCl6YEr2sg1PpgXbvvm/1CotkrF/GcTGYx7oF8cy3+4seZQ7q+wc3xZmSgg
+ O57t6sdxREYa5YWhKrfD2ZxjaF/BBfa51oC9m9HXrwZfBaKaHH3p93e+F3jHQiKp4WJS
+ sEIrO8xpUNxiYnzaZ52ZRZHSaG2jHw2r+xMzTHMeC4UEr8sIGCijKNwQPaFNyiJheU/Y
+ wBaOCSJlnyoP9HW7F2L5eCzOwLx1bIDeNJvL4djxZBN4AomdnakpYFv1ZHfSDy7mPssz
+ 8M+BZvmQjysRNTSOMsvPcQRO/V5mFfk18EYIMHpFx4NfBIWPcaZNFP//z4fmkA3cA1VO
+ YeQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nFoCdtwrOTcJ2rvAhQk4vH/3/OsTVjD6V/wOxsMaduc=;
- b=qHLoxOIbOyEpO53cBTRZV1GGNjBhuGMXLTACBHuHvz5Qn9kF3SIaPD9uriQTIownfL
- TStdELNGwumpYPyDbVnkwDV5ulGUmgMfOtasZcq89Ot3MSVx5sxeeel0GJaDC9Gx7IIC
- juO0FFzzPzRJDnDkutUZeOMx5abgvxyJ36BjaDW9jQtojDlDyBw8p88tEWqGp32yjsMn
- uupYIiQslxEEFnjI6E7sx/hK4izvKXKMlAjQwGX9RlkYC3acvy+3+DcOko1qg1UGmdVE
- QeIWe6nZ5K6OJ4ppN+T1IFVpTWpyGo69EZvjqAXx8TRa/rVFEDC+IH+sfPRc5EKBhj0I
- TOaA==
-X-Gm-Message-State: AOAM533BIkiYO3x9EhAF0HRa5lb8lAVcBew40SQz+zeKwArhQQpjbA0m
- bcmdiEKpShypYaEw5S0sI1Y=
-X-Google-Smtp-Source: ABdhPJzJmZRdiGisssi8AN3d5xNQz8cJrxinH2DYgeAeZ+hHCcmvons+BUOF/3G4aVcttvO8BEzFXQ==
-X-Received: by 2002:a5d:5083:: with SMTP id a3mr2987340wrt.38.1617187395723;
- Wed, 31 Mar 2021 03:43:15 -0700 (PDT)
-Received: from localhost.localdomain
- (2a01cb0008bd27007d57ea0d08d946c1.ipv6.abo.wanadoo.fr.
- [2a01:cb00:8bd:2700:7d57:ea0d:8d9:46c1])
- by smtp.gmail.com with ESMTPSA id l8sm3780872wrx.83.2021.03.31.03.43.15
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8MkWJRDgLEB9kWyZ5s8Q9VLg7igUl49cjQjKv9VhOQs=;
+ b=SSDxxxKDnMSEI9A+KEfNyZApZdavW4vJK3ONaSqhTd4lzwbvJIr5UZbsKAsmhDjQy4
+ bHqR97d6sqvQ5Q2pTfsX/XvPQNBwQgNSDpvqrRU10OFS/WDhczunJtcx7B3/mu48jq9N
+ emJq5a+EanUQuOC1PYH/ukIO9bdBY07QyK3yUUprg2IT2fSe0GqcLtu34crufe4q7Q1c
+ O5JUVIPzwAQhod53m3k0wrfBN2gAevWZlnZdVS25Je2R5PqbfnoMH01/5hqpRLSOzsm9
+ JVvtbacQPHI03yUb/RVcgthIBTiE42DIzVE9Syz+Ce85AvhU0yIuo2f7y7YVIXmnos1M
+ 5V3g==
+X-Gm-Message-State: AOAM5304Me3SsRP185J/Sg9GurNpK1w55LoZVVGy/roD/hur8EYJj2zy
+ k8qtwN3kORCr5EU5lYtj4GfbZg==
+X-Google-Smtp-Source: ABdhPJzinUMr68L3H0gNll59ZE9d2mkq7SzhhgLoSGMm3q7hf8wIK1TFkvYKx2COry8hY5RNKVo9Bw==
+X-Received: by 2002:ac2:4e43:: with SMTP id f3mr1830598lfr.206.1617188256679; 
+ Wed, 31 Mar 2021 03:57:36 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id h3sm184359ljc.67.2021.03.31.03.57.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Mar 2021 03:43:15 -0700 (PDT)
-From: Adrien Grassein <adrien.grassein@gmail.com>
-To: 
-Subject: [PATCH v2 1/1] drm/bridge: lt8912b: Fix issues found during static
- analysis
-Date: Wed, 31 Mar 2021 12:43:12 +0200
-Message-Id: <20210331104312.328820-2-adrien.grassein@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210331104312.328820-1-adrien.grassein@gmail.com>
-References: <20210331104312.328820-1-adrien.grassein@gmail.com>
+ Wed, 31 Mar 2021 03:57:36 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>,
+ Michael Turquette <mturquette@baylibre.com>
+Subject: [PATCH v4 00/24] drm/msm/dsi: refactor MSM DSI PHY/PLL drivers
+Date: Wed, 31 Mar 2021 13:57:11 +0300
+Message-Id: <20210331105735.3690009-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,81 +67,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, dan.carpenter@oracle.com,
- Adrien Grassein <adrien.grassein@gmail.com>
+Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ freedreno@lists.freedesktop.org, linux-clk@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some issues where found during static analysis of this driver.
+Restructure MSM DSI PHY drivers. What started as an attempt to grok the
+overcomplicated PHY drivers, has lead up to the idea of merging PHY and
+PLL code, reducing abstractions, code duplication, dropping dead code,
+etc.
 
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Suggested-by: Dan Carpenter  <dan.carpenter@oracle.com>
-Signed-off-by: Adrien Grassein <adrien.grassein@gmail.com>
----
- drivers/gpu/drm/bridge/lontium-lt8912b.c | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+The patches were mainly tested on RB5 (sm8250, 7nm) and DB410c (apq8016,
+28nm-lp) and lightly tested on RB3 (sdm845, 10nm).
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-index 61491615bad0..dc903f793dbc 100644
---- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-@@ -622,6 +622,7 @@ static int lt8912_parse_dt(struct lt8912 *lt)
- 	struct gpio_desc *gp_reset;
- 	struct device *dev = lt->dev;
- 	int ret = 0;
-+	int data_lanes;
- 	struct device_node *port_node;
- 	struct device_node *endpoint;
- 
-@@ -635,13 +636,16 @@ static int lt8912_parse_dt(struct lt8912 *lt)
- 	lt->gp_reset = gp_reset;
- 
- 	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
--	if (IS_ERR(endpoint)) {
--		ret = PTR_ERR(endpoint);
--		goto end;
--	}
-+	if (!endpoint)
-+		return -ENODEV;
- 
--	lt->data_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-+	data_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
- 	of_node_put(endpoint);
-+	if (data_lanes < 0) {
-+		dev_err(lt->dev, "%s: Bad data-lanes property\n", __func__);
-+		return lt->data_lanes;
-+	}
-+	lt->data_lanes = data_lanes;
- 
- 	lt->host_node = of_graph_get_remote_node(dev->of_node, 0, -1);
- 	if (!lt->host_node) {
-@@ -658,16 +662,18 @@ static int lt8912_parse_dt(struct lt8912 *lt)
- 	}
- 
- 	lt->hdmi_port = of_drm_find_bridge(port_node);
--	if (IS_ERR(lt->hdmi_port)) {
-+	if (!lt->hdmi_port) {
- 		dev_err(lt->dev, "%s: Failed to get hdmi port\n", __func__);
--		ret = PTR_ERR(lt->hdmi_port);
--		of_node_put(lt->host_node);
--		goto end;
-+		ret = -ENODEV;
-+		of_node_put(port_node);
-+		goto err_free_host_node;
- 	}
- 
- 	if (!of_device_is_compatible(port_node, "hdmi-connector")) {
- 		dev_err(lt->dev, "%s: Failed to get hdmi port\n", __func__);
-+		of_node_put(port_node);
- 		ret = -EINVAL;
-+		goto err_free_host_node;
- 	}
- 
- 	of_node_put(port_node);
--- 
-2.25.1
+This patchet depends on the patch "clk: fixed: add devm helper for
+clk_hw_register_fixed_factor()", which was merged in 5.12-rc1:
+https://lore.kernel.org/r/20210211052206.2955988-4-daniel@0x0f.com
+
+
+Changes since v3:
+ - Rename save_state/restore_state functions/callbacks
+ - Still mention DSI_1 when determining settings for slave PHYs in 14nm
+   and 28nm drivers.
+ - Stop including the external dependency merged upstream long ago. It
+   is properly mentioned in the patchset description.
+
+Changes since v2:
+ - Drop the 'stop setting clock parents manually' patch for now together
+   with the dtsi changes. Unlike the rest of patchset it provides
+   functional changes and might require additional discussion.
+   The patchset will be resubmitted later.
+
+Changes since v1:
+ - Rebase on top of msm/msm-next
+ - Reorder patches to follow logical sequence
+ - Add sc7180 clocks assignment
+ - Drop sm8250 clocks assignment, as respective file is not updated in
+   msm/msm-next
+
+Changes since RFC:
+ - Reorder patches to move global clock patches in the beginning and
+   dtsi patches where they are required.
+ - remove msm_dsi_phy_set_src_pll() and guess src_pll_id using PHY usecase.
+
 
 _______________________________________________
 dri-devel mailing list
