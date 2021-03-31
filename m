@@ -1,56 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9333834FDD6
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 12:12:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDCF234FDE9
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 12:19:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CAA66EA38;
-	Wed, 31 Mar 2021 10:12:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6FB96EA41;
+	Wed, 31 Mar 2021 10:19:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 784B96EA38
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 10:12:48 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 3725B61981
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 10:12:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617185568;
- bh=LXsj9fOhGMgw9uN1LxYCsmv25ZVCFujJdq+eEDt3Zwg=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=b0wIaTAYMyg0mt+qVSslz1K/apGhHxmGY+86xP3dYgDdV/f60Po6koLdzsaYsGou0
- oCB6KEkEMUcfQ1JEY8S2N89BsWWwgkzYbIsrtyiQ6mxTiPcx113sq9SO/ZmdkkE360
- 66cCXHONZrucBiAmdK6xRG1nCEHkvSrqYa8HDOUJgI0LVH+XK3XrtK4fNaY3DiPZ2B
- I/ZWXpTs0kKQs3B16OUX6NQJL4nVUyaJ4jO4PCYNoQgMJeDOpXqccXS92UDE5YNodv
- 5qgviyq3ElJPGfNU4EAhWNS0Jd7oeftNfL66QvEgWE0yVuRDT9yMnzFkvZgjGtHdAB
- rJJ88VImrJ9Qg==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 29AEE62AC0; Wed, 31 Mar 2021 10:12:48 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211501] Kernel freeze when waking monitor from blanking / DPMS
- (AMDGPU / DC)
-Date: Wed, 31 Mar 2021 10:12:47 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: honza.klos@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-211501-2300-zoPqnpXhzS@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211501-2300@https.bugzilla.kernel.org/>
-References: <bug-211501-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 431D46EA3F;
+ Wed, 31 Mar 2021 10:18:59 +0000 (UTC)
+IronPort-SDR: DmR3bRjAvosPEQPQjGNkAg+jHRVzD0bvsqnqJxNVokqNgxgUiHAG1XtTdi976CQrLz4WFD2/sT
+ tvtPfMqMnUzA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9939"; a="179513098"
+X-IronPort-AV: E=Sophos;i="5.81,293,1610438400"; d="scan'208";a="179513098"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2021 03:18:58 -0700
+IronPort-SDR: nPc79oCqF14vZIrI0lHZKX9CilJjpjC4uRpu3LS8zVcSAvg9QQ3/s+JcRaHPQW61vIBkEyRk82
+ rTcFY48cqEeg==
+X-IronPort-AV: E=Sophos;i="5.81,293,1610438400"; d="scan'208";a="418602187"
+Received: from jlowe-mobl.ger.corp.intel.com (HELO localhost.localdomain)
+ ([10.213.201.218])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2021 03:18:57 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/pmu: Check actual RC6 status
+Date: Wed, 31 Mar 2021 11:18:50 +0100
+Message-Id: <20210331101850.2582027-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,30 +45,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Eero T Tamminen <eero.t.tamminen@intel.com>,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=211501
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Jan Klos (honza.klos@gmail.com) changed:
+RC6 support cannot be simply established by looking at the static device
+HAS_RC6() flag. There are cases which disable RC6 at driver load time so
+use the status of those check when deciding whether to enumerate the rc6
+counter.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |honza.klos@gmail.com
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Reported-by: Eero T Tamminen <eero.t.tamminen@intel.com>
+---
+ drivers/gpu/drm/i915/i915_pmu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
---- Comment #5 from Jan Klos (honza.klos@gmail.com) ---
-I have the same/similar problem with my 2 monitors - but only when waking them
-from sleep. However, switching to terminal (ctrl+alt+fX) allows me to regain
-display output in both monitors, after that I can switch back to X and
-everything works - until the sleep timer turns the monitors off again.
-
+diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+index 41651ac255fa..a75cd1db320b 100644
+--- a/drivers/gpu/drm/i915/i915_pmu.c
++++ b/drivers/gpu/drm/i915/i915_pmu.c
+@@ -476,6 +476,8 @@ engine_event_status(struct intel_engine_cs *engine,
+ static int
+ config_status(struct drm_i915_private *i915, u64 config)
+ {
++	struct intel_gt *gt = &i915->gt;
++
+ 	switch (config) {
+ 	case I915_PMU_ACTUAL_FREQUENCY:
+ 		if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
+@@ -489,7 +491,7 @@ config_status(struct drm_i915_private *i915, u64 config)
+ 	case I915_PMU_INTERRUPTS:
+ 		break;
+ 	case I915_PMU_RC6_RESIDENCY:
+-		if (!HAS_RC6(i915))
++		if (!gt->rc6.supported)
+ 			return -ENODEV;
+ 		break;
+ 	case I915_PMU_SOFTWARE_GT_AWAKE_TIME:
 -- 
-You may reply to this email to add a comment.
+2.27.0
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
