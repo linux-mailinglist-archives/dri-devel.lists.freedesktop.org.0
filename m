@@ -2,62 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0FA734FFB3
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 13:49:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B7A34FFB8
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 13:49:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F20B6EA6C;
-	Wed, 31 Mar 2021 11:49:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B1546EA70;
+	Wed, 31 Mar 2021 11:49:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96E3E6EA6C
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 11:49:24 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- u5-20020a7bcb050000b029010e9316b9d5so1000958wmj.2
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 04:49:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cIhKyg4y3+sWX6etXiqAF9daZ8GeE0mE/r/SI1B0IPk=;
- b=mc1na+I6cW6s6q9O2oBVieuWwcWsX7bZvdYOognY6UDFWWkmWjdVSk3HRGA8YXg6ha
- jTUsxrackTDvOn2gCKwvvWb36LMF387w8OGr3tNj/7SaKRMgNTE8VXOK9kAIiiP6p3Ez
- qDaaMKr+f7eFsSsfY+MfCF+a6vAM9kBIEmDSZDWcpOd5GystnA8cWNLgDVMRSZEwvqh4
- rR1f2DrEfL8ei1y6d+Kz14E7UwgLgbCZpsZPyH/UNcN2XwBjGihcJi0dw7UjsvyxsLev
- zhIkAuQ8JORQQmnmk80KUyt/GHLaRmrklDEMgcvjrnfJK8L3qtHcCWEeRrIsNM6WYkBm
- 6hUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=cIhKyg4y3+sWX6etXiqAF9daZ8GeE0mE/r/SI1B0IPk=;
- b=iDEvJJUUFc35z6Sk/ehxXV7Sl/l24H/qF3JDN4COdAwf/wJ2ajgZD5HzWNJmwkwNG0
- O/LbNwGJ/2hDPYnRpwZnkBf1I63bhLoePkGN08fRBkV8SWLP8PDcQroWbCJmMLUQmhwC
- 02YnykoTwnwT3Ez/0cfjsotI/4g4rGuDO8SgIb3aeALaw5VMmgW/2Lq1jkdSv8MoeX6a
- nqnCcRDik10UCB1w/fvVM9ovPHLb/3caInemBFJCHO7TzvPAH3BJNc4t4/NoOu6x2/5P
- 7nxQyUBb4fri+GJVF6Zf+owllsFL+YHvNtoPPPzm2AOo0iQF93oxe5OEebeVPOhSDEkz
- FADA==
-X-Gm-Message-State: AOAM531ipZ72MW2Yp/UKTaxVeubwiW2N5FCE7J8/IDqnMzXzsqHO7CRZ
- 7wxQpxCxk8gjwHPsOwVk7wA=
-X-Google-Smtp-Source: ABdhPJwFaB8wK/DSY9bfywKBREVmWYIhxhB1WROGgxRxsgNKVhNNuiKjjXTCF4aj66u5CJQaEQKbMg==
-X-Received: by 2002:a1c:e244:: with SMTP id z65mr2871823wmg.130.1617191363272; 
- Wed, 31 Mar 2021 04:49:23 -0700 (PDT)
-Received: from localhost.localdomain
- (2a01cb0008bd27007d57ea0d08d946c1.ipv6.abo.wanadoo.fr.
- [2a01:cb00:8bd:2700:7d57:ea0d:8d9:46c1])
- by smtp.gmail.com with ESMTPSA id o8sm3622299wmr.28.2021.03.31.04.49.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Mar 2021 04:49:22 -0700 (PDT)
-From: Adrien Grassein <adrien.grassein@gmail.com>
-To: 
-Subject: [PATCH v4 1/1] drm/bridge: lt8912b: Fix issues found during static
- analysis
-Date: Wed, 31 Mar 2021 13:49:19 +0200
-Message-Id: <20210331114919.370053-2-adrien.grassein@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210331114919.370053-1-adrien.grassein@gmail.com>
-References: <20210331114919.370053-1-adrien.grassein@gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15BE56EA70;
+ Wed, 31 Mar 2021 11:49:54 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EC88860249;
+ Wed, 31 Mar 2021 11:49:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617191393;
+ bh=9Tvk8pMagcUqHlxEfpmAq3P1z5xVSb6AxBC9iuF3UAo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kMlovUr/+JWR2ZHUYmDPMJ2ndHmdrz5lm7unGTt4nXLsAYiYuNHKr5e0oMkxx6fDz
+ QR2rHHP5l9HS5rEud3McAg/yhn1jEjy25vdtAyZhr/OaEDrBLA51RShgMt6ADFGgKk
+ uQaFZLkdzt19pPW2qgqzcDG9l8DRiLheZZlrvUgMDXhydKLRJqDVIU4Tnw+ks2cwPl
+ dKj97SK7OA1MiDUHwOiBDXkDUo1pSJ37y/5yx0ulUHqGh/GEBy/gsrfNl6Wm5GhbkI
+ DEukmD+vjCBTbLqtDliJ10g6+dV8RwrdEMhaaSt1c6K7yQWHZYOPwwIVQ8ExC6hyFf
+ jZwkG9F4BmZKw==
+Date: Wed, 31 Mar 2021 12:49:47 +0100
+From: Will Deacon <will@kernel.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 16/18] iommu: remove DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE
+Message-ID: <20210331114947.GA7626@willie-the-truck>
+References: <20210316153825.135976-1-hch@lst.de>
+ <20210316153825.135976-17-hch@lst.de>
+ <20210330131149.GP5908@willie-the-truck>
+ <a6952aa7-4d7e-54f0-339e-e15f88596dcc@arm.com>
+ <20210330135801.GA6187@willie-the-truck>
+ <578d6aa5-4239-f5d7-2e9f-686b18e52bba@arm.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <578d6aa5-4239-f5d7-2e9f-686b18e52bba@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,88 +51,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, dan.carpenter@oracle.com,
- Adrien Grassein <adrien.grassein@gmail.com>
+Cc: freedreno@lists.freedesktop.org, kvm@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, Joerg Roedel <joro@8bytes.org>,
+ linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ Li Yang <leoyang.li@nxp.com>, iommu@lists.linux-foundation.org,
+ netdev@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org,
+ David Woodhouse <dwmw2@infradead.org>, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org, Lu Baolu <baolu.lu@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some issues where found during static analysis of this driver.
+On Tue, Mar 30, 2021 at 05:28:19PM +0100, Robin Murphy wrote:
+> On 2021-03-30 14:58, Will Deacon wrote:
+> > On Tue, Mar 30, 2021 at 02:19:38PM +0100, Robin Murphy wrote:
+> > > On 2021-03-30 14:11, Will Deacon wrote:
+> > > > On Tue, Mar 16, 2021 at 04:38:22PM +0100, Christoph Hellwig wrote:
+> > > > > From: Robin Murphy <robin.murphy@arm.com>
+> > > > > 
+> > > > > Instead make the global iommu_dma_strict paramete in iommu.c canonical by
+> > > > > exporting helpers to get and set it and use those directly in the drivers.
+> > > > > 
+> > > > > This make sure that the iommu.strict parameter also works for the AMD and
+> > > > > Intel IOMMU drivers on x86.  As those default to lazy flushing a new
+> > > > > IOMMU_CMD_LINE_STRICT is used to turn the value into a tristate to
+> > > > > represent the default if not overriden by an explicit parameter.
+> > > > > 
+> > > > > Signed-off-by: Robin Murphy <robin.murphy@arm.com>.
+> > > > > [ported on top of the other iommu_attr changes and added a few small
+> > > > >    missing bits]
+> > > > > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > > > > ---
+> > > > >    drivers/iommu/amd/iommu.c                   | 23 +-------
+> > > > >    drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 50 +---------------
+> > > > >    drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  1 -
+> > > > >    drivers/iommu/arm/arm-smmu/arm-smmu.c       | 27 +--------
+> > > > >    drivers/iommu/dma-iommu.c                   |  9 +--
+> > > > >    drivers/iommu/intel/iommu.c                 | 64 ++++-----------------
+> > > > >    drivers/iommu/iommu.c                       | 27 ++++++---
+> > > > >    include/linux/iommu.h                       |  4 +-
+> > > > >    8 files changed, 40 insertions(+), 165 deletions(-)
+> > > > 
+> > > > I really like this cleanup, but I can't help wonder if it's going in the
+> > > > wrong direction. With SoCs often having multiple IOMMU instances and a
+> > > > distinction between "trusted" and "untrusted" devices, then having the
+> > > > flush-queue enabled on a per-IOMMU or per-domain basis doesn't sound
+> > > > unreasonable to me, but this change makes it a global property.
+> > > 
+> > > The intent here was just to streamline the existing behaviour of stuffing a
+> > > global property into a domain attribute then pulling it out again in the
+> > > illusion that it was in any way per-domain. We're still checking
+> > > dev_is_untrusted() before making an actual decision, and it's not like we
+> > > can't add more factors at that point if we want to.
+> > 
+> > Like I say, the cleanup is great. I'm just wondering whether there's a
+> > better way to express the complicated logic to decide whether or not to use
+> > the flush queue than what we end up with:
+> > 
+> > 	if (!cookie->fq_domain && (!dev || !dev_is_untrusted(dev)) &&
+> > 	    domain->ops->flush_iotlb_all && !iommu_get_dma_strict())
+> > 
+> > which is mixing up globals, device properties and domain properties. The
+> > result is that the driver code ends up just using the global to determine
+> > whether or not to pass IO_PGTABLE_QUIRK_NON_STRICT to the page-table code,
+> > which is a departure from the current way of doing things.
+> 
+> But previously, SMMU only ever saw the global policy piped through the
+> domain attribute by iommu_group_alloc_default_domain(), so there's no
+> functional change there.
 
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Suggested-by: Dan Carpenter  <dan.carpenter@oracle.com>
-Signed-off-by: Adrien Grassein <adrien.grassein@gmail.com>
----
- drivers/gpu/drm/bridge/lontium-lt8912b.c | 27 +++++++++++++++---------
- 1 file changed, 17 insertions(+), 10 deletions(-)
+For DMA domains sure, but I don't think that's the case for unmanaged
+domains such as those used by VFIO.
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-index 61491615bad0..4c8d79142262 100644
---- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-@@ -621,7 +621,8 @@ static int lt8912_parse_dt(struct lt8912 *lt)
- {
- 	struct gpio_desc *gp_reset;
- 	struct device *dev = lt->dev;
--	int ret = 0;
-+	int ret;
-+	int data_lanes;
- 	struct device_node *port_node;
- 	struct device_node *endpoint;
- 
-@@ -635,13 +636,16 @@ static int lt8912_parse_dt(struct lt8912 *lt)
- 	lt->gp_reset = gp_reset;
- 
- 	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
--	if (IS_ERR(endpoint)) {
--		ret = PTR_ERR(endpoint);
--		goto end;
--	}
-+	if (!endpoint)
-+		return -ENODEV;
- 
--	lt->data_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-+	data_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
- 	of_node_put(endpoint);
-+	if (data_lanes < 0) {
-+		dev_err(lt->dev, "%s: Bad data-lanes property\n", __func__);
-+		return data_lanes;
-+	}
-+	lt->data_lanes = data_lanes;
- 
- 	lt->host_node = of_graph_get_remote_node(dev->of_node, 0, -1);
- 	if (!lt->host_node) {
-@@ -658,19 +662,22 @@ static int lt8912_parse_dt(struct lt8912 *lt)
- 	}
- 
- 	lt->hdmi_port = of_drm_find_bridge(port_node);
--	if (IS_ERR(lt->hdmi_port)) {
-+	if (!lt->hdmi_port) {
- 		dev_err(lt->dev, "%s: Failed to get hdmi port\n", __func__);
--		ret = PTR_ERR(lt->hdmi_port);
--		of_node_put(lt->host_node);
--		goto end;
-+		ret = -ENODEV;
-+		of_node_put(port_node);
-+		goto err_free_host_node;
- 	}
- 
- 	if (!of_device_is_compatible(port_node, "hdmi-connector")) {
- 		dev_err(lt->dev, "%s: Failed to get hdmi port\n", __func__);
-+		of_node_put(port_node);
- 		ret = -EINVAL;
-+		goto err_free_host_node;
- 	}
- 
- 	of_node_put(port_node);
-+	return 0;
- 
- end:
- 	return ret;
--- 
-2.25.1
+> Obviously some of the above checks could be factored out into some kind of
+> iommu_use_flush_queue() helper that IOMMU drivers can also call if they need
+> to keep in sync. Or maybe we just allow iommu-dma to set
+> IO_PGTABLE_QUIRK_NON_STRICT directly via iommu_set_pgtable_quirks() if we're
+> treating that as a generic thing now.
 
+I think a helper that takes a domain would be a good starting point.
+
+Will
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
