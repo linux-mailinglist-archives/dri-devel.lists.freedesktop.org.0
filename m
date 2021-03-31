@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DEA34FC8A
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 11:21:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A28A34FD73
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 11:52:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9277D6EA29;
-	Wed, 31 Mar 2021 09:21:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1C116EA36;
+	Wed, 31 Mar 2021 09:52:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C79E06EA29
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 09:21:54 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id w28so7154121lfn.2
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 02:21:54 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54E5A6EA2F
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 09:47:49 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id d12so7163129lfv.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 02:47:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vUjyc3xXiJdN12ytcqNiLj3Q/IlSW2k3hPYEoIQm8U4=;
- b=oIDD7GJOK1v5Ph94mTXWRwMYzOo5yvq6FObaVCTOqx80gwjtSc2qkpo0w1re2tTXaE
- GB3TNcUKVpv9jyvVWPuOG0jHRy+XVzVwzLGgEmLqf07wqzVHMox6LI8+KYa0Zoi3gGU6
- jh5JmTgQuKxXLnqqDLJVQCC6FwSXFwToOEJrxYR3euuFobSbk1cCg4YPcgC8aW6iXeP+
- ixDBc+DhsZQsKxScPLS00MIVxbGsEAh9bLql7Hd2NyEagctvNNAO+Lx416J1JZwht/aO
- TOhtqe2ywbEHZHX8zd+AWUWpdDJUKPHfsRhwA2aKS2SprOH4TVi73Rw7mCgiMBNIJ8x1
- 2jCg==
+ :cc; bh=0unaRfiyT1LbBh6ChP6CrOOetYHaeLxugR50R2Kvl04=;
+ b=DAdAqTm8Lx8G67/iAEXLRHZJS0qz0lZhiSc1HBDrwOcfbZpaf3fFHQfni/Yt0bOdaS
+ y2zM3BjOtYizcLnQE/eq4upxopseWphnTTF4kpZsVBUAr3pNuaMXKEDuYwwXUhQdj0dJ
+ dFX4+nCICaVAptxj8Ns2H/HgQHS2IkAhXpMo+O/XKh26PXVWdodgZ5ivtt/w4x0iyElJ
+ JmPXaHkDO8TcGtEN+ULor7F+EJnIyrfcP1OZYSMiSo8KN3c4HopnMmC9zXDXMAqnBN3l
+ g4uglUlEot9vHBUx5EcrPIZEBQZ4US+nGtRuOV++D0iMmN/VY2Lfc3UrOV9QePYCM6Le
+ alYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=vUjyc3xXiJdN12ytcqNiLj3Q/IlSW2k3hPYEoIQm8U4=;
- b=D6l0aX/ty6waJzk4Us0R68y8y4Mt9dIzvJxsBFW2xfsPBh/I6SkRYaxA9I09OzCoh+
- tJj5UhhhXQ93Pu3F7wjlGtxbZGeh4CikREtEgH94+Qi10KxJr5sC8zDTSfsNTO0GtBJH
- GO23P4e9OzjGPnqUGk9i5pAIBIuQbp4q0QbIePAtYPpye1OtXM4LBYZTE4qAIZQ19CdI
- rfl1+mgyrNmMmC0nNqkynN1H4BBTzDUAftnoTADSAQrQNLyJkEzEoAEWlx2WHLYNWO3E
- OLYY+Orj/a2ppdUP4BZFnHWl2WeM9Xt96YduKKVQHLozbjFvmN7uFcmtagdOmLl43Y6c
- UFpQ==
-X-Gm-Message-State: AOAM531r86OMRP/YUgO7RzT9bBATCzSfxyEqsj/LZrDEJsb7FDTa40na
- uHuHb0a9jRoi9yVLXpvXE6Znv87OfI2wLnkjiYU=
-X-Google-Smtp-Source: ABdhPJzqWRFQgcCYgnez5bC6B4CEdX1S9te5rIix8zkHNmuEyL3CUo/bb8uK9kIpS2i43KUnJoPqNxsyv+x9Zaa9ON8=
-X-Received: by 2002:a05:6512:2097:: with SMTP id
- t23mr1590447lfr.21.1617182512960; 
- Wed, 31 Mar 2021 02:21:52 -0700 (PDT)
+ bh=0unaRfiyT1LbBh6ChP6CrOOetYHaeLxugR50R2Kvl04=;
+ b=siKg6nuwCiZ4xuBoWX0AfW1y2N5a3FJxUvl3N5aIo3k5A2Sh4MznUeMTe/iVrypwFe
+ tdQyMb+Imq+0B4Luc+NrstIl5zk/FRv6iJkhcDOkE4eo440U4HhZjcPw79pnMXPG3gAw
+ sJ3AHetoBSwKaOkwzThNwLVYuCHTpTMOpp2SCXuTqu8d+pkHkgFwUZGjmtanPmZrOSTc
+ 3QhQVYldGGGqHREW4T2Xl1gjf2XWhazm9QeCjR0pX8ME6lOh+8NhZqJZvBXwqY7bkMgI
+ Pwn6rqg6YK0isMW350ccYYwcZqDtOhIj7wL9GwFFcZOPlGOzP0rYG8pPmGtrW7HciNCw
+ fxdA==
+X-Gm-Message-State: AOAM530yDvjm/pIVBsYvOcZdASqC+Kaokzk3HjQwuTVDzMuAkk8dMNC+
+ FvI95mUhGV//OFU3GgvRqim3K4wXSch6eVIX2gY=
+X-Google-Smtp-Source: ABdhPJwPLv+friSL13xpKxUAsXliyGudmZF2repeHJHTzl3np+OTJS+a803NK68QoDwuXArQ24P3H7wlbmmlQ6fMpCQ=
+X-Received: by 2002:ac2:46d5:: with SMTP id p21mr1870835lfo.295.1617184067426; 
+ Wed, 31 Mar 2021 02:47:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210222132822.7830-1-kevin3.tang@gmail.com>
- <20210222132822.7830-5-kevin3.tang@gmail.com>
- <20210324111019.og6d3w47swjim2mq@gilmour>
-In-Reply-To: <20210324111019.og6d3w47swjim2mq@gilmour>
+ <20210222132822.7830-7-kevin3.tang@gmail.com>
+ <20210324112745.n76qhrbhzyfunmkd@gilmour>
+In-Reply-To: <20210324112745.n76qhrbhzyfunmkd@gilmour>
 From: Kevin Tang <kevin3.tang@gmail.com>
-Date: Wed, 31 Mar 2021 09:21:19 +0800
-Message-ID: <CAFPSGXZ3DjKt87Kc=wc9YKVzTjkQ38Ok6HnHm+VEdqXyHv54Eg@mail.gmail.com>
-Subject: Re: [PATCH v4 4/6] drm/sprd: add Unisoc's drm display controller
- driver
+Date: Wed, 31 Mar 2021 09:47:12 +0800
+Message-ID: <CAFPSGXYK0Hi2-eYkukO2pNhHrJVZ=f79sj_hjXnGBZ_meVmkFg@mail.gmail.com>
+Subject: Re: [PATCH v4 6/6] drm/sprd: add Unisoc's drm mipi dsi&dphy driver
 To: Maxime Ripard <maxime@cerno.tech>
+X-Mailman-Approved-At: Wed, 31 Mar 2021 09:52:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,2396 +69,8150 @@ Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
  ML dri-devel <dri-devel@lists.freedesktop.org>,
  Rob Herring <robh+dt@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
  Sean Paul <sean@poorly.run>
-Content-Type: multipart/mixed; boundary="===============1812744219=="
+Content-Type: multipart/mixed; boundary="===============0292807693=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1812744219==
-Content-Type: multipart/alternative; boundary="00000000000038d8ce05bed1a53d"
+--===============0292807693==
+Content-Type: multipart/alternative; boundary="000000000000e01de405bed201ac"
 
---00000000000038d8ce05bed1a53d
+--000000000000e01de405bed201ac
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi Maxime,
 
 Maxime Ripard <maxime@cerno.tech> =E4=BA=8E2021=E5=B9=B43=E6=9C=8824=E6=97=
-=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=887:10=E5=86=99=E9=81=93=EF=BC=9A
+=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=887:27=E5=86=99=E9=81=93=EF=BC=9A
 
-> Hi,
->
-> On Mon, Feb 22, 2021 at 09:28:20PM +0800, Kevin Tang wrote:
-> > Adds DPU(Display Processor Unit) support for the Unisoc's display
-> subsystem.
-> > It's support multi planes, scaler, rotation, PQ(Picture Quality) and
-> more.
+> On Mon, Feb 22, 2021 at 09:28:22PM +0800, Kevin Tang wrote:
+> > Adds dsi host controller support for the Unisoc's display subsystem.
+> > Adds dsi phy support for the Unisoc's display subsystem.
+> > Only MIPI DSI Displays supported, DP/TV/HMDI will be support
+> > in the feature.
 > >
-> > Cc: Orson Zhai <orsonzhai@gmail.com>
-> > Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-> > Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
+> > v1:
+> >   - Remove dphy and dsi graph binding, merge the dphy driver into the
+> dsi.
 > >
 > > v2:
 > >   - Use drm_xxx to replace all DRM_XXX.
-> >   - Use kzalloc to replace devm_kzalloc for sprd_dpu structure init.
-> >
-> > v3:
-> >   - Remove dpu_layer stuff layer and commit layers by aotmic_update
+> >   - Use kzalloc to replace devm_kzalloc for sprd_dsi structure init.
 > >
 > > v4:
-> >   - Use drmm_helpers to allocate crtc and planes.
-> >   - Move rotation enum definitions to crtc layer reg bitfields.
-> >   - Move allocate crtc and planes to bind funtion.
+> >   - Use drmm_helpers to allocate encoder.
+> >   - Move allocate encoder and connector to bind funtion.
 >
-> There's a number of checkpatch warnings, make sure to fix them
+> You're missing your Signed-off-by
+>
+> And there's a bunch of errors warnings and (important) checks reported
+> by checkpatch --strict that you should fix.
 >
 Thks, it's will be fixed on patch v5.
 
 >
 > > ---
-> >  drivers/gpu/drm/sprd/Kconfig    |   1 +
-> >  drivers/gpu/drm/sprd/Makefile   |   4 +-
-> >  drivers/gpu/drm/sprd/sprd_dpu.c | 964 ++++++++++++++++++++++++++++++++
-> >  drivers/gpu/drm/sprd/sprd_dpu.h | 109 ++++
-> >  drivers/gpu/drm/sprd/sprd_drm.c |   1 +
-> >  drivers/gpu/drm/sprd/sprd_drm.h |   2 +
-> >  6 files changed, 1079 insertions(+), 2 deletions(-)
-> >  create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.c
-> >  create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.h
+> >  drivers/gpu/drm/sprd/Makefile          |    7 +-
+> >  drivers/gpu/drm/sprd/dw_dsi_ctrl.c     |  794 +++++++++++++
+> >  drivers/gpu/drm/sprd/dw_dsi_ctrl.h     | 1475 ++++++++++++++++++++++++
+> >  drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.c |  157 +++
+> >  drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.h |   26 +
+> >  drivers/gpu/drm/sprd/megacores_pll.c   |  317 +++++
+> >  drivers/gpu/drm/sprd/megacores_pll.h   |  146 +++
+> >  drivers/gpu/drm/sprd/sprd_drm.c        |    1 +
+> >  drivers/gpu/drm/sprd/sprd_drm.h        |    1 +
+> >  drivers/gpu/drm/sprd/sprd_dsi.c        | 1132 ++++++++++++++++++
+> >  drivers/gpu/drm/sprd/sprd_dsi.h        |  104 ++
+> >  11 files changed, 4158 insertions(+), 2 deletions(-)
+> >  create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl.c
+> >  create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl.h
+> >  create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.c
+> >  create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.h
+> >  create mode 100644 drivers/gpu/drm/sprd/megacores_pll.c
+> >  create mode 100644 drivers/gpu/drm/sprd/megacores_pll.h
+> >  create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.c
+> >  create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.h
 > >
-> > diff --git a/drivers/gpu/drm/sprd/Kconfig b/drivers/gpu/drm/sprd/Kconfi=
-g
-> > index 6e80cc9f3..9b4ef9aea 100644
-> > --- a/drivers/gpu/drm/sprd/Kconfig
-> > +++ b/drivers/gpu/drm/sprd/Kconfig
-> > @@ -3,6 +3,7 @@ config DRM_SPRD
-> >       depends on ARCH_SPRD || COMPILE_TEST
-> >       depends on DRM && OF
-> >       select DRM_KMS_HELPER
-> > +     select VIDEOMODE_HELPERS
-> >       select DRM_GEM_CMA_HELPER
-> >       select DRM_KMS_CMA_HELPER
-> >       select DRM_MIPI_DSI
 > > diff --git a/drivers/gpu/drm/sprd/Makefile
 > b/drivers/gpu/drm/sprd/Makefile
-> > index 86d95d93a..6c25bfa99 100644
+> > index 6c25bfa99..d49f4977b 100644
 > > --- a/drivers/gpu/drm/sprd/Makefile
 > > +++ b/drivers/gpu/drm/sprd/Makefile
-> > @@ -1,5 +1,5 @@
+> > @@ -1,5 +1,8 @@
 > >  # SPDX-License-Identifier: GPL-2.0
 > >
-> > -subdir-ccflags-y +=3D -I$(srctree)/$(src)
-> > +obj-y :=3D sprd_drm.o \
-> > +     sprd_dpu.o
-> >
-> > -obj-y :=3D sprd_drm.o
-> > diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c
-> b/drivers/gpu/drm/sprd/sprd_dpu.c
+> >  obj-y :=3D sprd_drm.o \
+> > -     sprd_dpu.o
+> > -
+> > +     sprd_dpu.o \
+> > +     sprd_dsi.o \
+> > +     dw_dsi_ctrl.o \
+> > +     dw_dsi_ctrl_ppi.o \
+>
+> So it's a designware IP? There's a driver for it already that seems
+> fairly similar:
+> drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+>
+Our dw dsi controller is not a standard synopsys ip, we have updated a lot
+on the basic ip version,
+the entire control register is different, i have cc to drm/bridge reviewers
+and maintainers.
+
+>
+> > +     megacores_pll.o
+> > diff --git a/drivers/gpu/drm/sprd/dw_dsi_ctrl.c
+> b/drivers/gpu/drm/sprd/dw_dsi_ctrl.c
 > > new file mode 100644
-> > index 000000000..75b7e40d9
+> > index 000000000..1034aba4a
 > > --- /dev/null
-> > +++ b/drivers/gpu/drm/sprd/sprd_dpu.c
-> > @@ -0,0 +1,964 @@
+> > +++ b/drivers/gpu/drm/sprd/dw_dsi_ctrl.c
+> > @@ -0,0 +1,794 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (C) 2020 Unisoc Inc.
+> > + */
+> > +
+> > +#include <linux/io.h>
+> > +#include <linux/init.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/module.h>
+> > +
+> > +#include "dw_dsi_ctrl.h"
+> > +
+> > +/*
+> > + * Modify power status of DSI Host core
+> > + */
+> > +void dsi_power_enable(struct dsi_context *ctx, int enable)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     writel(enable, &reg->SOFT_RESET);
+> > +}
+> > +/*
+> > + * Enable/disable DPI video mode
+> > + */
+> > +void dsi_video_mode(struct dsi_context *ctx)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     writel(0, &reg->DSI_MODE_CFG);
+> > +}
+> > +/*
+> > + * Enable command mode (Generic interface)
+> > + */
+> > +void dsi_cmd_mode(struct dsi_context *ctx)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     writel(1, &reg->DSI_MODE_CFG);
+> > +}
+> > +
+> > +bool dsi_is_cmd_mode(struct dsi_context *ctx)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     return readl(&reg->DSI_MODE_CFG);
+> > +}
+> > +/*
+> > + * Configure the read back virtual channel for the generic interface
+> > + */
+> > +void dsi_rx_vcid(struct dsi_context *ctx, u8 vc)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x1C virtual_channel_id;
+> > +
+> > +     virtual_channel_id.val =3D readl(&reg->VIRTUAL_CHANNEL_ID);
+> > +     virtual_channel_id.bits.gen_rx_vcid =3D vc;
+> > +
+> > +     writel(virtual_channel_id.val, &reg->VIRTUAL_CHANNEL_ID);
+> > +}
+> > +/*
+> > + * Write the DPI video virtual channel destination
+> > + */
+> > +void dsi_video_vcid(struct dsi_context *ctx, u8 vc)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x1C virtual_channel_id;
+> > +
+> > +     virtual_channel_id.val =3D readl(&reg->VIRTUAL_CHANNEL_ID);
+> > +     virtual_channel_id.bits.video_pkt_vcid =3D vc;
+> > +
+> > +     writel(virtual_channel_id.val, &reg->VIRTUAL_CHANNEL_ID);
+> > +}
+> > +/*
+> > + * Set DPI video mode type (burst/non-burst - with sync pulses or
+> events)
+> > + */
+> > +void dsi_dpi_video_burst_mode(struct dsi_context *ctx, int mode)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x38 vid_mode_cfg;
+> > +
+> > +     vid_mode_cfg.val =3D readl(&reg->VID_MODE_CFG);
+> > +     vid_mode_cfg.bits.vid_mode_type =3D mode;
+> > +
+> > +     writel(vid_mode_cfg.val, &reg->VID_MODE_CFG);
+> > +}
+> > +/*
+> > + * Set DPI video color coding
+> > + */
+> > +void dsi_dpi_color_coding(struct dsi_context *ctx, int coding)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x20 dpi_video_format;
+> > +
+> > +     dpi_video_format.val =3D readl(&reg->DPI_VIDEO_FORMAT);
+> > +     dpi_video_format.bits.dpi_video_mode_format =3D coding;
+> > +
+> > +     writel(dpi_video_format.val, &reg->DPI_VIDEO_FORMAT);
+> > +}
+> > +/*
+> > + * Configure the Horizontal Line time
+> > + * param "byte_cycle" taken to transmit the total of the horizontal li=
+ne
+> > + */
+> > +void dsi_dpi_hline_time(struct dsi_context *ctx, u16 byte_cycle)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x2C video_line_time;
+> > +
+> > +     video_line_time.val =3D readl(&reg->VIDEO_LINE_TIME);
+> > +     video_line_time.bits.video_line_time =3D byte_cycle;
+> > +
+> > +     writel(video_line_time.val, &reg->VIDEO_LINE_TIME);
+> > +}
+> > +/*
+> > + * Configure the Horizontal back porch time
+> > + * param "byte_cycle" taken to transmit the horizontal back porch
+> > + */
+> > +void dsi_dpi_hbp_time(struct dsi_context *ctx, u16 byte_cycle)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x28 video_line_hblk_time;
+> > +
+> > +     video_line_hblk_time.val =3D readl(&reg->VIDEO_LINE_HBLK_TIME);
+> > +     video_line_hblk_time.bits.video_line_hbp_time =3D byte_cycle;
+> > +
+> > +     writel(video_line_hblk_time.val, &reg->VIDEO_LINE_HBLK_TIME);
+> > +}
+> > +/*
+> > + * Configure the Horizontal sync time,
+> > + * param "byte_cycle" taken to transmit the horizontal sync
+> > + */
+> > +void dsi_dpi_hsync_time(struct dsi_context *ctx, u16 byte_cycle)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x28 video_line_hblk_time;
+> > +
+> > +     video_line_hblk_time.val =3D readl(&reg->VIDEO_LINE_HBLK_TIME);
+> > +     video_line_hblk_time.bits.video_line_hsa_time =3D byte_cycle;
+> > +
+> > +     writel(video_line_hblk_time.val, &reg->VIDEO_LINE_HBLK_TIME);
+> > +}
+> > +/*
+> > + * Configure the vertical active lines of the video stream
+> > + */
+> > +void dsi_dpi_vact(struct dsi_context *ctx, u16 lines)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x34 video_active_lines;
+> > +
+> > +     video_active_lines.val =3D readl(&reg->VIDEO_VACTIVE_LINES);
+> > +     video_active_lines.bits.vactive_lines =3D lines;
+> > +
+> > +     writel(video_active_lines.val, &reg->VIDEO_VACTIVE_LINES);
+> > +}
+> > +
+> > +void dsi_dpi_vfp(struct dsi_context *ctx, u16 lines)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x30 video_vblk_lines;
+> > +
+> > +     video_vblk_lines.val =3D readl(&reg->VIDEO_VBLK_LINES);
+> > +     video_vblk_lines.bits.vfp_lines =3D lines;
+> > +
+> > +     writel(video_vblk_lines.val, &reg->VIDEO_VBLK_LINES);
+> > +}
+> > +
+> > +void dsi_dpi_vbp(struct dsi_context *ctx, u16 lines)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x30 video_vblk_lines;
+> > +
+> > +     video_vblk_lines.val =3D readl(&reg->VIDEO_VBLK_LINES);
+> > +     video_vblk_lines.bits.vbp_lines =3D lines;
+> > +
+> > +     writel(video_vblk_lines.val, &reg->VIDEO_VBLK_LINES);
+> > +}
+> > +
+> > +void dsi_dpi_vsync(struct dsi_context *ctx, u16 lines)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x30 video_vblk_lines;
+> > +
+> > +     video_vblk_lines.val =3D readl(&reg->VIDEO_VBLK_LINES);
+> > +     video_vblk_lines.bits.vsa_lines =3D lines;
+> > +
+> > +     writel(video_vblk_lines.val, &reg->VIDEO_VBLK_LINES);
+> > +}
+> > +
+> > +void dsi_dpi_hporch_lp_en(struct dsi_context *ctx, int enable)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x38 vid_mode_cfg;
+> > +
+> > +     vid_mode_cfg.val =3D readl(&reg->VID_MODE_CFG);
+> > +
+> > +     vid_mode_cfg.bits.lp_hfp_en =3D enable;
+> > +     vid_mode_cfg.bits.lp_hbp_en =3D enable;
+> > +
+> > +     writel(vid_mode_cfg.val, &reg->VID_MODE_CFG);
+> > +}
+> > +/*
+> > + * Enable return to low power mode inside vertical active lines period=
+s
+> when
+> > + * timing allows
+> > + */
+> > +void dsi_dpi_vporch_lp_en(struct dsi_context *ctx, int enable)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x38 vid_mode_cfg;
+> > +
+> > +     vid_mode_cfg.val =3D readl(&reg->VID_MODE_CFG);
+> > +
+> > +     vid_mode_cfg.bits.lp_vact_en =3D enable;
+> > +     vid_mode_cfg.bits.lp_vfp_en =3D enable;
+> > +     vid_mode_cfg.bits.lp_vbp_en =3D enable;
+> > +     vid_mode_cfg.bits.lp_vsa_en =3D enable;
+> > +
+> > +     writel(vid_mode_cfg.val, &reg->VID_MODE_CFG);
+> > +}
+> > +/*
+> > + * Enable FRAME BTA ACK
+> > + */
+> > +void dsi_dpi_frame_ack_en(struct dsi_context *ctx, int enable)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x38 vid_mode_cfg;
+> > +
+> > +     vid_mode_cfg.val =3D readl(&reg->VID_MODE_CFG);
+> > +     vid_mode_cfg.bits.frame_bta_ack_en =3D enable;
+> > +
+> > +     writel(vid_mode_cfg.val, &reg->VID_MODE_CFG);
+> > +}
+> > +/*
+> > + * Write no of chunks to core - taken into consideration only when
+> multi packet
+> > + * is enabled
+> > + */
+> > +void dsi_dpi_chunk_num(struct dsi_context *ctx, u16 num)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x24 video_pkt_config;
+> > +
+> > +     video_pkt_config.val =3D readl(&reg->VIDEO_PKT_CONFIG);
+> > +     video_pkt_config.bits.video_line_chunk_num =3D num;
+> > +
+> > +     writel(video_pkt_config.val, &reg->VIDEO_PKT_CONFIG);
+> > +}
+> > +/*
+> > + * Write the null packet size - will only be taken into account when
+> null
+> > + * packets are enabled.
+> > + */
+> > +void dsi_dpi_null_packet_size(struct dsi_context *ctx, u16 size)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xC0 video_nullpkt_size;
+> > +
+> > +     video_nullpkt_size.val =3D readl(&reg->VIDEO_NULLPKT_SIZE);
+> > +     video_nullpkt_size.bits.video_nullpkt_size =3D size;
+> > +
+> > +     writel(video_nullpkt_size.val, &reg->VIDEO_NULLPKT_SIZE);
+> > +}
+> > +/*
+> > + * Write video packet size. obligatory for sending video
+> > + */
+> > +void dsi_dpi_video_packet_size(struct dsi_context *ctx, u16 size)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x24 video_pkt_config;
+> > +
+> > +     video_pkt_config.val =3D readl(&reg->VIDEO_PKT_CONFIG);
+> > +     video_pkt_config.bits.video_pkt_size =3D size;
+> > +
+> > +     writel(video_pkt_config.val, &reg->VIDEO_PKT_CONFIG);
+> > +}
+> > +/*
+> > + * Specifiy the size of the packet memory write start/continue
+> > + */
+> > +void dsi_edpi_max_pkt_size(struct dsi_context *ctx, u16 size)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xC4 dcs_wm_pkt_size;
+> > +
+> > +     dcs_wm_pkt_size.val =3D readl(&reg->DCS_WM_PKT_SIZE);
+> > +     dcs_wm_pkt_size.bits.dcs_wm_pkt_size =3D size;
+> > +
+> > +     writel(dcs_wm_pkt_size.val, &reg->DCS_WM_PKT_SIZE);
+> > +}
+> > +/*
+> > + * Enable tear effect acknowledge
+> > + */
+> > +void dsi_tear_effect_ack_en(struct dsi_context *ctx, int enable)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x68 cmd_mode_cfg;
+> > +
+> > +     cmd_mode_cfg.val =3D readl(&reg->CMD_MODE_CFG);
+> > +     cmd_mode_cfg.bits.tear_fx_en =3D enable;
+> > +
+> > +     writel(cmd_mode_cfg.val, &reg->CMD_MODE_CFG);
+> > +}
+> > +/*
+> > + * Set DCS command packet transmission to transmission type
+> > + */
+> > +void dsi_cmd_mode_lp_cmd_en(struct dsi_context *ctx, int enable)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x68 cmd_mode_cfg;
+> > +
+> > +     cmd_mode_cfg.val =3D readl(&reg->CMD_MODE_CFG);
+> > +
+> > +     cmd_mode_cfg.bits.gen_sw_0p_tx =3D enable;
+> > +     cmd_mode_cfg.bits.gen_sw_1p_tx =3D enable;
+> > +     cmd_mode_cfg.bits.gen_sw_2p_tx =3D enable;
+> > +     cmd_mode_cfg.bits.gen_lw_tx =3D enable;
+> > +     cmd_mode_cfg.bits.dcs_sw_0p_tx =3D enable;
+> > +     cmd_mode_cfg.bits.dcs_sw_1p_tx =3D enable;
+> > +     cmd_mode_cfg.bits.dcs_lw_tx =3D enable;
+> > +     cmd_mode_cfg.bits.max_rd_pkt_size =3D enable;
+> > +
+> > +     cmd_mode_cfg.bits.gen_sr_0p_tx =3D enable;
+> > +     cmd_mode_cfg.bits.gen_sr_1p_tx =3D enable;
+> > +     cmd_mode_cfg.bits.gen_sr_2p_tx =3D enable;
+> > +     cmd_mode_cfg.bits.dcs_sr_0p_tx =3D enable;
+> > +
+> > +     writel(cmd_mode_cfg.val, &reg->CMD_MODE_CFG);
+> > +}
+> > +/*
+> > + * Set DCS read command packet transmission to transmission type
+> > + */
+> > +void dsi_video_mode_lp_cmd_en(struct dsi_context *ctx, int enable)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x38 vid_mode_cfg;
+> > +
+> > +     vid_mode_cfg.val =3D readl(&reg->VID_MODE_CFG);
+> > +     vid_mode_cfg.bits.lp_cmd_en =3D enable;
+> > +
+> > +     writel(vid_mode_cfg.val, &reg->VID_MODE_CFG);
+> > +}
+> > +
+> > +/*
+> > + * Write command header in the generic interface (which also sends DCS
+> commands) as a subset
+> > + */
+> > +void dsi_set_packet_header(struct dsi_context *ctx,
+> > +                                u8 vc,
+> > +                                u8 type,
+> > +                                u8 wc_lsb,
+> > +                                u8 wc_msb)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x6C gen_hdr;
+> > +
+> > +     gen_hdr.bits.gen_dt =3D type;
+> > +     gen_hdr.bits.gen_vc =3D vc;
+> > +     gen_hdr.bits.gen_wc_lsbyte =3D wc_lsb;
+> > +     gen_hdr.bits.gen_wc_msbyte =3D wc_msb;
+> > +
+> > +     writel(gen_hdr.val, &reg->GEN_HDR);
+> > +}
+> > +/*
+> > + * Write the payload of the long packet commands
+> > + */
+> > +void dsi_set_packet_payload(struct dsi_context *ctx, u32 payload)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     writel(payload, &reg->GEN_PLD_DATA);
+> > +}
+> > +/*
+> > + * Read the payload of the long packet commands
+> > + */
+> > +u32 dsi_get_rx_payload(struct dsi_context *ctx)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     return readl(&reg->GEN_PLD_DATA);
+> > +}
+> > +
+> > +/*
+> > + * Enable Bus Turn-around request
+> > + */
+> > +void dsi_bta_en(struct dsi_context *ctx, int enable)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     writel(enable, &reg->TA_EN);
+> > +}
+> > +/*
+> > + * Enable EOTp reception
+> > + */
+> > +void dsi_eotp_rx_en(struct dsi_context *ctx, int enable)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xBC eotp_en;
+> > +
+> > +     eotp_en.val =3D readl(&reg->EOTP_EN);
+> > +     eotp_en.bits.rx_eotp_en =3D enable;
+> > +
+> > +     writel(eotp_en.val, &reg->EOTP_EN);
+> > +}
+> > +/*
+> > + * Enable EOTp transmission
+> > + */
+> > +void dsi_eotp_tx_en(struct dsi_context *ctx, int enable)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xBC eotp_en;
+> > +
+> > +     eotp_en.val =3D readl(&reg->EOTP_EN);
+> > +     eotp_en.bits.tx_eotp_en =3D enable;
+> > +
+> > +     writel(eotp_en.val, &reg->EOTP_EN);
+> > +}
+> > +/*
+> > + * Enable ECC reception, error correction and reporting
+> > + */
+> > +void dsi_ecc_rx_en(struct dsi_context *ctx, int enable)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xB4 rx_pkt_check_config;
+> > +
+> > +     rx_pkt_check_config.val =3D readl(&reg->RX_PKT_CHECK_CONFIG);
+> > +     rx_pkt_check_config.bits.rx_pkt_ecc_en =3D enable;
+> > +
+> > +     writel(rx_pkt_check_config.val, &reg->RX_PKT_CHECK_CONFIG);
+> > +}
+> > +/*
+> > + * Enable CRC reception, error reporting
+> > + */
+> > +void dsi_crc_rx_en(struct dsi_context *ctx, int enable)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xB4 rx_pkt_check_config;
+> > +
+> > +     rx_pkt_check_config.val =3D readl(&reg->RX_PKT_CHECK_CONFIG);
+> > +     rx_pkt_check_config.bits.rx_pkt_crc_en =3D enable;
+> > +
+> > +     writel(rx_pkt_check_config.val, &reg->RX_PKT_CHECK_CONFIG);
+> > +}
+> > +/*
+> > + * Get status of read command
+> > + */
+> > +bool dsi_is_bta_returned(struct dsi_context *ctx)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x98 cmd_mode_status;
+> > +
+> > +     cmd_mode_status.val =3D readl(&reg->CMD_MODE_STATUS);
+> > +
+> > +     return cmd_mode_status.bits.gen_cmd_rdcmd_done;
+> > +}
+> > +/*
+> > + * Get the FULL status of generic read payload fifo
+> > + */
+> > +bool dsi_is_rx_payload_fifo_full(struct dsi_context *ctx)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x98 cmd_mode_status;
+> > +
+> > +     cmd_mode_status.val =3D readl(&reg->CMD_MODE_STATUS);
+> > +
+> > +     return cmd_mode_status.bits.gen_cmd_rdata_fifo_full;
+> > +}
+> > +/*
+> > + * Get the EMPTY status of generic read payload fifo
+> > + */
+> > +bool dsi_is_rx_payload_fifo_empty(struct dsi_context *ctx)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x98 cmd_mode_status;
+> > +
+> > +     cmd_mode_status.val =3D readl(&reg->CMD_MODE_STATUS);
+> > +
+> > +     return cmd_mode_status.bits.gen_cmd_rdata_fifo_empty;
+> > +}
+> > +/*
+> > + * Get the FULL status of generic write payload fifo
+> > + */
+> > +bool dsi_is_tx_payload_fifo_full(struct dsi_context *ctx)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x98 cmd_mode_status;
+> > +
+> > +     cmd_mode_status.val =3D readl(&reg->CMD_MODE_STATUS);
+> > +
+> > +     return cmd_mode_status.bits.gen_cmd_wdata_fifo_full;
+> > +}
+> > +/*
+> > + * Get the EMPTY status of generic write payload fifo
+> > + */
+> > +bool dsi_is_tx_payload_fifo_empty(struct dsi_context *ctx)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x98 cmd_mode_status;
+> > +
+> > +     cmd_mode_status.val =3D readl(&reg->CMD_MODE_STATUS);
+> > +
+> > +     return cmd_mode_status.bits.gen_cmd_wdata_fifo_empty;
+> > +}
+> > +/*
+> > + * Get the EMPTY status of generic command fifo
+> > + */
+> > +bool dsi_is_tx_cmd_fifo_empty(struct dsi_context *ctx)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x98 cmd_mode_status;
+> > +
+> > +     cmd_mode_status.val =3D readl(&reg->CMD_MODE_STATUS);
+> > +
+> > +     return cmd_mode_status.bits.gen_cmd_cmd_fifo_empty;
+> > +}
+> > +/*
+> > + * DPI interface signal delay config
+> > + * param byte_cycle period for waiting after controller receiving HSYN=
+C
+> from
+> > + * DPI interface to start read pixel data from memory.
+> > + */
+> > +void dsi_dpi_sig_delay(struct dsi_context *ctx, u16 byte_cycle)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xD0 video_sig_delay_config;
+> > +
+> > +     video_sig_delay_config.val =3D readl(&reg->VIDEO_SIG_DELAY_CONFIG=
+);
+> > +     video_sig_delay_config.bits.video_sig_delay =3D byte_cycle;
+> > +
+> > +     writel(video_sig_delay_config.val, &reg->VIDEO_SIG_DELAY_CONFIG);
+> > +}
+> > +/*
+> > + * Configure how many cycles of byte clock would the PHY module take
+> > + * to switch data lane from high speed to low power
+> > + */
+> > +void dsi_datalane_hs2lp_config(struct dsi_context *ctx, u16 byte_cycle=
+)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xAC phy_datalane_time_config;
+> > +
+> > +     phy_datalane_time_config.val =3D
+> readl(&reg->PHY_DATALANE_TIME_CONFIG);
+> > +     phy_datalane_time_config.bits.phy_datalane_hs_to_lp_time =3D
+> byte_cycle;
+> > +
+> > +     writel(phy_datalane_time_config.val,
+> &reg->PHY_DATALANE_TIME_CONFIG);
+> > +}
+> > +/*
+> > + * Configure how many cycles of byte clock would the PHY module take
+> > + * to switch the data lane from to low power high speed
+> > + */
+> > +void dsi_datalane_lp2hs_config(struct dsi_context *ctx, u16 byte_cycle=
+)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xAC phy_datalane_time_config;
+> > +
+> > +     phy_datalane_time_config.val =3D
+> readl(&reg->PHY_DATALANE_TIME_CONFIG);
+> > +     phy_datalane_time_config.bits.phy_datalane_lp_to_hs_time =3D
+> byte_cycle;
+> > +
+> > +     writel(phy_datalane_time_config.val,
+> &reg->PHY_DATALANE_TIME_CONFIG);
+> > +}
+> > +/*
+> > + * Configure how many cycles of byte clock would the PHY module take
+> > + * to switch clock lane from high speed to low power
+> > + */
+> > +void dsi_clklane_hs2lp_config(struct dsi_context *ctx, u16 byte_cycle)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xA8 phy_clklane_time_config;
+> > +
+> > +     phy_clklane_time_config.val =3D readl(&reg->PHY_CLKLANE_TIME_CONF=
+IG);
+> > +     phy_clklane_time_config.bits.phy_clklane_hs_to_lp_time =3D
+> byte_cycle;
+> > +
+> > +     writel(phy_clklane_time_config.val, &reg->PHY_CLKLANE_TIME_CONFIG=
+);
+> > +}
+> > +/*
+> > + * Configure how many cycles of byte clock would the PHY module take
+> > + * to switch clock lane from to low power high speed
+> > + */
+> > +void dsi_clklane_lp2hs_config(struct dsi_context *ctx, u16 byte_cycle)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xA8 phy_clklane_time_config;
+> > +
+> > +     phy_clklane_time_config.val =3D readl(&reg->PHY_CLKLANE_TIME_CONF=
+IG);
+> > +     phy_clklane_time_config.bits.phy_clklane_lp_to_hs_time =3D
+> byte_cycle;
+> > +
+> > +     writel(phy_clklane_time_config.val, &reg->PHY_CLKLANE_TIME_CONFIG=
+);
+> > +}
+> > +/*
+> > + * Configure how many cycles of byte clock would the PHY module take
+> > + * to turn the bus around to start receiving
+> > + */
+> > +void dsi_max_read_time(struct dsi_context *ctx, u16 byte_cycle)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     writel(byte_cycle, &reg->MAX_READ_TIME);
+> > +}
+> > +/*
+> > + * Enable the automatic mechanism to stop providing clock in the clock
+> > + * lane when time allows
+> > + */
+> > +void dsi_nc_clk_en(struct dsi_context *ctx, int enable)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x74 phy_clk_lane_lp_ctrl;
+> > +
+> > +     phy_clk_lane_lp_ctrl.val =3D readl(&reg->PHY_CLK_LANE_LP_CTRL);
+> > +     phy_clk_lane_lp_ctrl.bits.auto_clklane_ctrl_en =3D enable;
+> > +
+> > +     writel(phy_clk_lane_lp_ctrl.val, &reg->PHY_CLK_LANE_LP_CTRL);
+> > +}
+> > +/*
+> > + * Write transmission escape timeout
+> > + * a safe guard so that the state machine would reset if transmission
+> > + * takes too long
+> > + */
+> > +void dsi_tx_escape_division(struct dsi_context *ctx, u8 div)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     writel(div, &reg->TX_ESC_CLK_CONFIG);
+> > +}
+> > +/*
+> > + * Configure timeout divisions (so they would have more clock ticks)
+> > + * div no of hs cycles before transiting back to LP in
+> > + *  (lane_clk / div)
+> > + */
+> > +void dsi_timeout_clock_division(struct dsi_context *ctx, u8 div)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     writel(div, &reg->TIMEOUT_CNT_CLK_CONFIG);
+> > +}
+> > +/*
+> > + * Configure the Low power receive time out
+> > + */
+> > +void dsi_lp_rx_timeout(struct dsi_context *ctx, u16 byte_cycle)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     writel(byte_cycle, &reg->LRX_H_TO_CONFIG);
+> > +}
+> > +/*
+> > + * Configure a high speed transmission time out
+> > + */
+> > +void dsi_hs_tx_timeout(struct dsi_context *ctx, u16 byte_cycle)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     writel(byte_cycle, &reg->HTX_TO_CONFIG);
+> > +}
+> > +/*
+> > + * Get the error 0 interrupt register status
+> > + */
+> > +u32 dsi_int0_status(struct dsi_context *ctx)
+> > +{
+> > +     struct sprd_dsi *dsi =3D container_of(ctx, struct sprd_dsi, ctx);
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x08 protocol_int_sts;
+> > +
+> > +     protocol_int_sts.val =3D readl(&reg->PROTOCOL_INT_STS);
+> > +     writel(protocol_int_sts.val, &reg->PROTOCOL_INT_CLR);
+> > +
+> > +     if (protocol_int_sts.bits.dphy_errors_0)
+> > +             drm_err(dsi->drm, "dphy_err: escape entry error\n");
+> > +
+> > +     if (protocol_int_sts.bits.dphy_errors_1)
+> > +             drm_err(dsi->drm, "dphy_err: lp data transmission sync
+> error\n");
+> > +
+> > +     if (protocol_int_sts.bits.dphy_errors_2)
+> > +             drm_err(dsi->drm, "dphy_err: control error\n");
+> > +
+> > +     if (protocol_int_sts.bits.dphy_errors_3)
+> > +             drm_err(dsi->drm, "dphy_err: LP0 contention error\n");
+> > +
+> > +     if (protocol_int_sts.bits.dphy_errors_4)
+> > +             drm_err(dsi->drm, "dphy_err: LP1 contention error\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_0)
+> > +             drm_err(dsi->drm, "ack_err: SoT error\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_1)
+> > +             drm_err(dsi->drm, "ack_err: SoT Sync error\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_2)
+> > +             drm_err(dsi->drm, "ack_err: EoT Sync error\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_3)
+> > +             drm_err(dsi->drm, "ack_err: Escape Mode Entry Command
+> error\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_4)
+> > +             drm_err(dsi->drm, "ack_err: LP Transmit Sync error\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_5)
+> > +             drm_err(dsi->drm, "ack_err: Peripheral Timeout error\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_6)
+> > +             drm_err(dsi->drm, "ack_err: False Control error\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_7)
+> > +             drm_err(dsi->drm, "ack_err: reserved (specific to
+> device)\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_8)
+> > +             drm_err(dsi->drm, "ack_err: ECC error, single-bit
+> (corrected)\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_9)
+> > +             drm_err(dsi->drm, "ack_err: ECC error, multi-bit (not
+> corrected)\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_10)
+> > +             drm_err(dsi->drm, "ack_err: checksum error (long packet
+> only)\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_11)
+> > +             drm_err(dsi->drm, "ack_err: not recognized DSI data
+> type\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_12)
+> > +             drm_err(dsi->drm, "ack_err: DSI VC ID Invalid\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_13)
+> > +             drm_err(dsi->drm, "ack_err: invalid transmission
+> length\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_14)
+> > +             drm_err(dsi->drm, "ack_err: reserved (specific to
+> device)\n");
+> > +
+> > +     if (protocol_int_sts.bits.ack_with_err_15)
+> > +             drm_err(dsi->drm, "ack_err: DSI protocol violation\n");
+> > +
+> > +     return 0;
+> > +}
+> > +/*
+> > + * Get the error 1 interrupt register status
+> > + */
+> > +u32 dsi_int1_status(struct dsi_context *ctx)
+> > +{
+> > +     struct sprd_dsi *dsi =3D container_of(ctx, struct sprd_dsi, ctx);
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x10 internal_int_sts;
+> > +     u32 status =3D 0;
+> > +
+> > +     internal_int_sts.val =3D readl(&reg->INTERNAL_INT_STS);
+> > +     writel(internal_int_sts.val, &reg->INTERNAL_INT_CLR);
+> > +
+> > +     if (internal_int_sts.bits.receive_pkt_size_err)
+> > +             drm_err(dsi->drm, "receive packet size error\n");
+> > +
+> > +     if (internal_int_sts.bits.eotp_not_receive_err)
+> > +             drm_err(dsi->drm, "EoTp packet is not received\n");
+> > +
+> > +     if (internal_int_sts.bits.gen_cmd_cmd_fifo_wr_err)
+> > +             drm_err(dsi->drm, "cmd header-fifo is full\n");
+> > +
+> > +     if (internal_int_sts.bits.gen_cmd_rdata_fifo_rd_err)
+> > +             drm_err(dsi->drm, "cmd read-payload-fifo is empty\n");
+> > +
+> > +     if (internal_int_sts.bits.gen_cmd_rdata_fifo_wr_err)
+> > +             drm_err(dsi->drm, "cmd read-payload-fifo is full\n");
+> > +
+> > +     if (internal_int_sts.bits.gen_cmd_wdata_fifo_wr_err)
+> > +             drm_err(dsi->drm, "cmd write-payload-fifo is full\n");
+> > +
+> > +     if (internal_int_sts.bits.gen_cmd_wdata_fifo_rd_err)
+> > +             drm_err(dsi->drm, "cmd write-payload-fifo is empty\n");
+> > +
+> > +     if (internal_int_sts.bits.dpi_pix_fifo_wr_err) {
+> > +             drm_err(dsi->drm, "DPI pixel-fifo is full\n");
+> > +             status |=3D DSI_INT_STS_NEED_SOFT_RESET;
+> > +     }
+> > +
+> > +     if (internal_int_sts.bits.ecc_single_err)
+> > +             drm_err(dsi->drm, "ECC single error in a received
+> packet\n");
+> > +
+> > +     if (internal_int_sts.bits.ecc_multi_err)
+> > +             drm_err(dsi->drm, "ECC multiple error in a received
+> packet\n");
+> > +
+> > +     if (internal_int_sts.bits.crc_err)
+> > +             drm_err(dsi->drm, "CRC error in the received packet
+> payload\n");
+> > +
+> > +     if (internal_int_sts.bits.hs_tx_timeout)
+> > +             drm_err(dsi->drm, "high-speed transmission timeout\n");
+> > +
+> > +     if (internal_int_sts.bits.lp_rx_timeout)
+> > +             drm_err(dsi->drm, "low-power reception timeout\n");
+> > +
+> > +     return status;
+> > +}
+> > +/*
+> > + * Configure MASK (hiding) of interrupts coming from error 0 source
+> > + */
+> > +void dsi_int0_mask(struct dsi_context *ctx, u32 mask)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     writel(mask, &reg->MASK_PROTOCOL_INT);
+> > +}
+> > +/*
+> > + * Configure MASK (hiding) of interrupts coming from error 1 source
+> > + */
+> > +void dsi_int1_mask(struct dsi_context *ctx, u32 mask)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     writel(mask, &reg->MASK_INTERNAL_INT);
+> > +}
+> > diff --git a/drivers/gpu/drm/sprd/dw_dsi_ctrl.h
+> b/drivers/gpu/drm/sprd/dw_dsi_ctrl.h
+> > new file mode 100644
+> > index 000000000..ffba62130
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/sprd/dw_dsi_ctrl.h
+> > @@ -0,0 +1,1475 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2020 Unisoc Inc.
+> > + */
+> > +
+> > +#ifndef _DW_DSI_CTRL_H_
+> > +#define _DW_DSI_CTRL_H_
+> > +
+> > +#include <asm/types.h>
+> > +
+> > +#include "sprd_dsi.h"
+> > +
+> > +struct dsi_reg {
+> > +     union _0x00 {
+> > +             u32 val;
+> > +             struct _DSI_VERSION {
+> > +             u32 dsi_version: 16;
+> > +             u32 reserved: 16;
+> > +             } bits;
+> > +     } DSI_VERSION;
+> > +
+> > +     union _0x04 {
+> > +             u32 val;
+> > +             struct _SOFT_RESET {
+> > +             /*
+> > +              * This bit configures the core either to work normal or =
+to
+> > +              * reset. It's default value is 0. After the core configu=
+r-
+> > +              * ation, to enable the mipi_dsi_host, set this register
+> to 1.
+> > +              * 1: power up     0: reset core
+> > +              */
+> > +             u32 dsi_soft_reset: 1;
+> > +
+> > +             u32 reserved: 31;
+> > +             } bits;
+> > +     } SOFT_RESET;
+> > +
+> > +     union _0x08 {
+> > +             u32 val;
+> > +             struct _PROTOCOL_INT_STS {
+> > +             /* ErrEsc escape entry error from Lane 0 */
+> > +             u32 dphy_errors_0: 1;
+> > +
+> > +             /* ErrSyncEsc low-power data transmission synchronization
+> > +              * error from Lane 0
+> > +              */
+> > +             u32 dphy_errors_1: 1;
+> > +
+> > +             /* ErrControl error from Lane 0 */
+> > +             u32 dphy_errors_2: 1;
+> > +
+> > +             /* ErrContentionLP0 LP0 contention error from Lane 0 */
+> > +             u32 dphy_errors_3: 1;
+> > +
+> > +             /* ErrContentionLP1 LP1 contention error from Lane 0 */
+> > +             u32 dphy_errors_4: 1;
+> > +
+> > +             /* debug mode protocol errors */
+> > +             u32 protocol_debug_err: 11;
+> > +
+> > +             /* SoT error from the Acknowledge error report */
+> > +             u32 ack_with_err_0: 1;
+> > +
+> > +             /* SoT Sync error from the Acknowledge error report */
+> > +             u32 ack_with_err_1: 1;
+> > +
+> > +             /* EoT Sync error from the Acknowledge error report */
+> > +             u32 ack_with_err_2: 1;
+> > +
+> > +             /* Escape Mode Entry Command error from the Acknowledge
+> > +              * error report
+> > +              */
+> > +             u32 ack_with_err_3: 1;
+> > +
+> > +             /* LP Transmit Sync error from the Acknowledge error
+> report */
+> > +             u32 ack_with_err_4: 1;
+> > +
+> > +             /* Peripheral Timeout error from the Acknowledge error
+> report */
+> > +             u32 ack_with_err_5: 1;
+> > +
+> > +             /* False Control error from the Acknowledge error report =
+*/
+> > +             u32 ack_with_err_6: 1;
+> > +
+> > +             /* reserved (specific to device) from the Acknowledge err=
+or
+> > +              * report
+> > +              */
+> > +             u32 ack_with_err_7: 1;
+> > +
+> > +             /* ECC error, single-bit (detected and corrected) from th=
+e
+> > +              * Acknowledge error report
+> > +              */
+> > +             u32 ack_with_err_8: 1;
+> > +
+> > +             /* ECC error, multi-bit (detected, not corrected) from th=
+e
+> > +              * Acknowledge error report
+> > +              */
+> > +             u32 ack_with_err_9: 1;
+> > +
+> > +             /* checksum error (long packet only) from the Acknowledge
+> > +              * error report
+> > +              */
+> > +             u32 ack_with_err_10: 1;
+> > +
+> > +             /* not recognized DSI data type from the Acknowledge erro=
+r
+> > +              * report
+> > +              */
+> > +             u32 ack_with_err_11: 1;
+> > +
+> > +             /* DSI VC ID Invalid from the Acknowledge error report */
+> > +             u32 ack_with_err_12: 1;
+> > +
+> > +             /* invalid transmission length from the Acknowledge error
+> > +              * report
+> > +              */
+> > +             u32 ack_with_err_13: 1;
+> > +
+> > +             /* reserved (specific to device) from the Acknowledge err=
+or
+> > +              * report
+> > +              */
+> > +             u32 ack_with_err_14: 1;
+> > +
+> > +             /* DSI protocol violation from the Acknowledge error
+> report */
+> > +             u32 ack_with_err_15: 1;
+> > +
+> > +             } bits;
+> > +     } PROTOCOL_INT_STS;
+> > +
+> > +     union _0x0C {
+> > +             u32 val;
+> > +             struct _MASK_PROTOCOL_INT {
+> > +             u32 mask_dphy_errors_0: 1;
+> > +             u32 mask_dphy_errors_1: 1;
+> > +             u32 mask_dphy_errors_2: 1;
+> > +             u32 mask_dphy_errors_3: 1;
+> > +             u32 mask_dphy_errors_4: 1;
+> > +             u32 mask_protocol_debug_err: 11;
+> > +             u32 mask_ack_with_err_0: 1;
+> > +             u32 mask_ack_with_err_1: 1;
+> > +             u32 mask_ack_with_err_2: 1;
+> > +             u32 mask_ack_with_err_3: 1;
+> > +             u32 mask_ack_with_err_4: 1;
+> > +             u32 mask_ack_with_err_5: 1;
+> > +             u32 mask_ack_with_err_6: 1;
+> > +             u32 mask_ack_with_err_7: 1;
+> > +             u32 mask_ack_with_err_8: 1;
+> > +             u32 mask_ack_with_err_9: 1;
+> > +             u32 mask_ack_with_err_10: 1;
+> > +             u32 mask_ack_with_err_11: 1;
+> > +             u32 mask_ack_with_err_12: 1;
+> > +             u32 mask_ack_with_err_13: 1;
+> > +             u32 mask_ack_with_err_14: 1;
+> > +             u32 mask_ack_with_err_15: 1;
+> > +             } bits;
+> > +     } MASK_PROTOCOL_INT;
+> > +
+> > +     union _0x10 {
+> > +             u32 val;
+> > +             struct _INTERNAL_INT_STS {
+> > +             /* This bit indicates that the packet size error is
+> detected
+> > +              * during the packet reception.
+> > +              */
+> > +             u32 receive_pkt_size_err: 1;
+> > +
+> > +             /* This bit indicates that the EoTp packet is not receive=
+d
+> at
+> > +              * the end of the incoming peripheral transmission
+> > +              */
+> > +             u32 eotp_not_receive_err: 1;
+> > +
+> > +             /* This bit indicates that the system tried to write a
+> command
+> > +              * through the Generic interface and the FIFO is full.
+> There-
+> > +              * fore, the command is not written.
+> > +              */
+> > +             u32 gen_cmd_cmd_fifo_wr_err: 1;
+> > +
+> > +             /* This bit indicates that during a DCS read data, the
+> payload
+> > +              * FIFO becomes empty and the data sent to the interface =
+is
+> > +              * corrupted.
+> > +              */
+> > +             u32 gen_cmd_rdata_fifo_rd_err: 1;
+> > +
+> > +             /* This bit indicates that during a generic interface
+> packet
+> > +              * read back, the payload FIFO becomes full and the
+> received
+> > +              * data is corrupted.
+> > +              */
+> > +             u32 gen_cmd_rdata_fifo_wr_err: 1;
+> > +
+> > +             /* This bit indicates that the system tried to write a
+> payload
+> > +              * data through the Generic interface and the FIFO is ful=
+l.
+> > +              * Therefore, the payload is not written.
+> > +              */
+> > +             u32 gen_cmd_wdata_fifo_wr_err: 1;
+> > +
+> > +             /* This bit indicates that during a Generic interface
+> packet
+> > +              * build, the payload FIFO becomes empty and corrupt data
+> is
+> > +              * sent.
+> > +              */
+> > +             u32 gen_cmd_wdata_fifo_rd_err: 1;
+> > +
+> > +             /* This bit indicates that during a DPI pixel line storag=
+e,
+> > +              * the payload FIFO becomes full and the data stored is
+> > +              * corrupted.
+> > +              */
+> > +             u32 dpi_pix_fifo_wr_err: 1;
+> > +
+> > +             /* internal debug error */
+> > +             u32 internal_debug_err: 19;
+> > +
+> > +             /* This bit indicates that the ECC single error is detect=
+ed
+> > +              * and corrected in a received packet.
+> > +              */
+> > +             u32 ecc_single_err: 1;
+> > +
+> > +             /* This bit indicates that the ECC multiple error is
+> detected
+> > +              * in a received packet.
+> > +              */
+> > +             u32 ecc_multi_err: 1;
+> > +
+> > +             /* This bit indicates that the CRC error is detected in t=
+he
+> > +              * received packet payload.
+> > +              */
+> > +             u32 crc_err: 1;
+> > +
+> > +             /* This bit indicates that the high-speed transmission
+> timeout
+> > +              * counter reached the end and contention is detected.
+> > +              */
+> > +             u32 hs_tx_timeout: 1;
+> > +
+> > +             /* This bit indicates that the low-power reception timeou=
+t
+> > +              * counter reached the end and contention is detected.
+> > +              */
+> > +             u32 lp_rx_timeout: 1;
+> > +
+> > +             } bits;
+> > +     } INTERNAL_INT_STS;
+> > +
+> > +     union _0x14 {
+> > +             u32 val;
+> > +             struct _MASK_INTERNAL_INT {
+> > +             u32 mask_receive_pkt_size_err: 1;
+> > +             u32 mask_eopt_not_receive_err: 1;
+> > +             u32 mask_gen_cmd_cmd_fifo_wr_err: 1;
+> > +             u32 mask_gen_cmd_rdata_fifo_rd_err: 1;
+> > +             u32 mask_gen_cmd_rdata_fifo_wr_err: 1;
+> > +             u32 mask_gen_cmd_wdata_fifo_wr_err: 1;
+> > +             u32 mask_gen_cmd_wdata_fifo_rd_err: 1;
+> > +             u32 mask_dpi_pix_fifo_wr_err: 1;
+> > +             u32 mask_internal_debug_err: 19;
+> > +             u32 mask_ecc_single_err: 1;
+> > +             u32 mask_ecc_multi_err: 1;
+> > +             u32 mask_crc_err: 1;
+> > +             u32 mask_hs_tx_timeout: 1;
+> > +             u32 mask_lp_rx_timeout: 1;
+> > +             } bits;
+> > +     } MASK_INTERNAL_INT;
+> > +
+> > +     union _0x18 {
+> > +             u32 val;
+> > +             struct _DSI_MODE_CFG {
+> > +             /* This bit configures the operation mode
+> > +              * 0: Video mode ;   1: Command mode
+> > +              */
+> > +             u32 cmd_video_mode: 1;
+> > +
+> > +             u32 reserved: 31;
+> > +
+> > +             } bits;
+> > +     } DSI_MODE_CFG;
+> > +
+> > +     union _0x1C {
+> > +             u32 val;
+> > +             struct _VIRTUAL_CHANNEL_ID {
+> > +             /* This field indicates the Generic interface read-back
+> > +              * virtual channel identification
+> > +              */
+> > +             u32 gen_rx_vcid: 2;
+> > +
+> > +             /* This field configures the DPI virtual channel id that
+> > +              * is indexed to the VIDEO mode packets
+> > +              */
+> > +             u32 video_pkt_vcid: 2;
+> > +
+> > +             u32 reserved: 28;
+> > +
+> > +             } bits;
+> > +     } VIRTUAL_CHANNEL_ID;
+> > +
+> > +     union _0x20 {
+> > +             u32 val;
+> > +             struct _DPI_VIDEO_FORMAT {
+> > +             /*
+> > +              * This field configures the DPI color coding as follows:
+> > +              * 0000: 16-bit configuration 1
+> > +              * 0001: 16-bit configuration 2
+> > +              * 0010: 16-bit configuration 3
+> > +              * 0011: 18-bit configuration 1
+> > +              * 0100: 18-bit configuration 2
+> > +              * 0101: 24-bit
+> > +              * 0110: 20-bit YCbCr 4:2:2 loosely packed
+> > +              * 0111: 24-bit YCbCr 4:2:2
+> > +              * 1000: 16-bit YCbCr 4:2:2
+> > +              * 1001: 30-bit
+> > +              * 1010: 36-bit
+> > +              * 1011: 12-bit YCbCr 4:2:0
+> > +              * 1100: Compression Display Stream
+> > +              * 1101-1111: 12-bit YCbCr 4:2:0
+> > +              */
+> > +             u32 dpi_video_mode_format: 6;
+> > +
+> > +             /* When set to 1, this bit activates loosely packed
+> > +              * variant to 18-bit configurations
+> > +              */
+> > +             u32 loosely18_en: 1;
+> > +
+> > +             u32 reserved: 25;
+> > +
+> > +             } bits;
+> > +     } DPI_VIDEO_FORMAT;
+> > +
+> > +     union _0x24 {
+> > +             u32 val;
+> > +             struct _VIDEO_PKT_CONFIG {
+> > +             /*
+> > +              * This field configures the number of pixels in a single
+> > +              * video packet. For 18-bit not loosely packed data types=
+,
+> > +              * this number must be a multiple of 4. For YCbCr data
+> > +              * types, it must be a multiple of 2, as described in the
+> > +              * DSI specification.
+> > +              */
+> > +             u32 video_pkt_size: 16;
+> > +
+> > +             /*
+> > +              * This register configures the number of chunks to be
+> > +              * transmitted during a Line period (a chunk consists of
+> > +              * a video packet and a null packet). If set to 0 or 1,
+> > +              * the video line is transmitted in a single packet. If
+> > +              * set to 1, the packet is part of a chunk, so a null
+> packet
+> > +              * follows it if vid_null_size > 0. Otherwise, multiple
+> chunks
+> > +              * are used to transmit each video line.
+> > +              */
+> > +             u32 video_line_chunk_num: 16;
+> > +
+> > +             } bits;
+> > +     } VIDEO_PKT_CONFIG;
+> > +
+> > +     union _0x28 {
+> > +             u32 val;
+> > +             struct _VIDEO_LINE_HBLK_TIME {
+> > +             /* This field configures the Horizontal Back Porch period
+> > +              * in lane byte clock cycles
+> > +              */
+> > +             u32 video_line_hbp_time: 16;
+> > +
+> > +             /* This field configures the Horizontal Synchronism Activ=
+e
+> > +              * period in lane byte clock cycles
+> > +              */
+> > +             u32 video_line_hsa_time: 16;
+> > +
+> > +             } bits;
+> > +     } VIDEO_LINE_HBLK_TIME;
+> > +
+> > +     union _0x2C {
+> > +             u32 val;
+> > +             struct _VIDEO_LINE_TIME {
+> > +             /* This field configures the size of the total line time
+> > +              * (HSA+HBP+HACT+HFP) counted in lane byte clock cycles
+> > +              */
+> > +             u32 video_line_time: 16;
+> > +
+> > +             u32 reserved: 16;
+> > +
+> > +             } bits;
+> > +     } VIDEO_LINE_TIME;
+> > +
+> > +     union _0x30 {
+> > +             u32 val;
+> > +             struct _VIDEO_VBLK_LINES {
+> > +             /* This field configures the Vertical Front Porch period
+> > +              * measured in number of horizontal lines
+> > +              */
+> > +             u32 vfp_lines: 10;
+> > +
+> > +             /* This field configures the Vertical Back Porch period
+> > +              * measured in number of horizontal lines
+> > +              */
+> > +             u32 vbp_lines: 10;
+> > +
+> > +             /* This field configures the Vertical Synchronism Active
+> > +              * period measured in number of horizontal lines
+> > +              */
+> > +             u32 vsa_lines: 10;
+> > +
+> > +             u32 reserved: 2;
+> > +
+> > +             } bits;
+> > +     } VIDEO_VBLK_LINES;
+> > +
+> > +     union _0x34 {
+> > +             u32 val;
+> > +             struct _VIDEO_VACTIVE_LINES {
+> > +             /* This field configures the Vertical Active period
+> measured
+> > +              * in number of horizontal lines
+> > +              */
+> > +             u32 vactive_lines: 14;
+> > +
+> > +             u32 reserved: 18;
+> > +
+> > +             } bits;
+> > +     } VIDEO_VACTIVE_LINES;
+> > +
+> > +     union _0x38 {
+> > +             u32 val;
+> > +             struct _VID_MODE_CFG {
+> > +             /*
+> > +              * This field indicates the video mode transmission type =
+as
+> > +              * follows:
+> > +              * 00: Non-burst with sync pulses
+> > +              * 01: Non-burst with sync events
+> > +              * 10 and 11: Burst mode
+> > +              */
+> > +             u32 vid_mode_type: 2;
+> > +
+> > +             u32 reserved_0: 6;
+> > +
+> > +             /* When set to 1, this bit enables the return to low-powe=
+r
+> > +              * inside the VSA period when timing allows.
+> > +              */
+> > +             u32 lp_vsa_en: 1;
+> > +
+> > +             /* When set to 1, this bit enables the return to low-powe=
+r
+> > +              * inside the VBP period when timing allows.
+> > +              */
+> > +             u32 lp_vbp_en: 1;
+> > +
+> > +             /* When set to 1, this bit enables the return to low-powe=
+r
+> > +              * inside the VFP period when timing allows.
+> > +              */
+> > +             u32 lp_vfp_en: 1;
+> > +
+> > +             /* When set to 1, this bit enables the return to low-powe=
+r
+> > +              * inside the VACT period when timing allows.
+> > +              */
+> > +             u32 lp_vact_en: 1;
+> > +
+> > +             /* When set to 1, this bit enables the return to low-powe=
+r
+> > +              * inside the HBP period when timing allows.
+> > +              */
+> > +             u32 lp_hbp_en: 1;
+> > +
+> > +             /* When set to 1, this bit enables the return to low-powe=
+r
+> > +              * inside the HFP period when timing allows.
+> > +              */
+> > +             u32 lp_hfp_en: 1;
+> > +
+> > +             /* When set to 1, this bit enables the request for an ack=
+-
+> > +              * nowledge response at the end of a frame.
+> > +              */
+> > +             u32 frame_bta_ack_en: 1;
+> > +
+> > +             /* When set to 1, this bit enables the command transmissi=
+on
+> > +              * only in low-power mode.
+> > +              */
+> > +             u32 lp_cmd_en: 1;
+> > +
+> > +             u32 reserved_1: 16;
+> > +
+> > +             } bits;
+> > +     } VID_MODE_CFG;
+> > +
+> > +     union _0x3C {
+> > +             u32 val;
+> > +             struct _SDF_MODE_CONFIG {
+> > +             /*
+> > +              * This field defines the 3D mode on/off & display
+> orientation:
+> > +              * 00: 3D mode off (2D mode on)
+> > +              * 01: 3D mode on, portrait orientation
+> > +              * 10: 3D mode on, landscape orientation
+> > +              * 11: Reserved
+> > +              */
+> > +             u32 rf_3d_mode: 2;
+> > +
+> > +             /*
+> > +              * This field defines the 3D image format:
+> > +              * 00: Line (alternating lines of left and right data)
+> > +              * 01: Frame (alternating frames of left and right data)
+> > +              * 10: Pixel (alternating pixels of left and right data)
+> > +              * 11: Reserved
+> > +              */
+> > +             u32 rf_3d_format: 2;
+> > +
+> > +             /*
+> > +              * This field defines whether there is a second VSYNC pul=
+se
+> > +              * between Left and Right Images, when 3D Image Format is
+> > +              * Frame-based:
+> > +              * 0: No sync pulses between left and right data
+> > +              * 1: Sync pulse (HSYNC, VSYNC, blanking) between left an=
+d
+> > +              *    right data
+> > +              */
+> > +             u32 second_vsync_en: 1;
+> > +
+> > +             /*
+> > +              * This bit defines the left or right order:
+> > +              * 0: Left eye data is sent first, and then the right eye
+> data
+> > +              *    is sent.
+> > +              * 1: Right eye data is sent first, and then the left eye
+> data
+> > +              *    is sent.
+> > +              */
+> > +             u32 left_right_order: 1;
+> > +
+> > +             u32 reserved_0: 2;
+> > +
+> > +             /*
+> > +              * When set, causes the next VSS packet to include 3D
+> control
+> > +              * payload in every VSS packet.
+> > +              */
+> > +             u32 rf_3d_payload_en: 1;
+> > +
+> > +             u32 reserved_1: 23;
+> > +
+> > +             } bits;
+> > +     } SDF_MODE_CONFIG;
+> > +
+> > +     union _0x40 {
+> > +             u32 val;
+> > +             struct _TIMEOUT_CNT_CLK_CONFIG {
+> > +             /*
+> > +              * This field indicates the division factor for the Time
+> Out
+> > +              * clock used as the timing unit in the configuration of
+> HS to
+> > +              * LP and LP to HS transition error.
+> > +              */
+> > +             u32 timeout_cnt_clk_config: 16;
+> > +
+> > +             u32 reserved: 16;
+> > +
+> > +             } bits;
+> > +     } TIMEOUT_CNT_CLK_CONFIG;
+> > +
+> > +     union _0x44 {
+> > +             u32 val;
+> > +             struct _HTX_TO_CONFIG {
+> > +             /*
+> > +              * This field configures the timeout counter that trigger=
+s
+> > +              * a high speed transmission timeout contention detection
+> > +              * (measured in TO_CLK_DIVISION cycles).
+> > +              *
+> > +              * If using the non-burst mode and there is no sufficient
+> > +              * time to switch from HS to LP and back in the period
+> which
+> > +              * is from one line data finishing to the next line sync
+> > +              * start, the DSI link returns the LP state once per fram=
+e,
+> > +              * then you should configure the TO_CLK_DIVISION and
+> > +              * hstx_to_cnt to be in accordance with:
+> > +              * hstx_to_cnt * lanebyteclkperiod * TO_CLK_DIVISION >=3D=
+ the
+> > +              * time of one FRAME data transmission * (1 + 10%)
+> > +              *
+> > +              * In burst mode, RGB pixel packets are time-compressed,
+> > +              * leaving more time during a scan line. Therefore, if in
+> > +              * burst mode and there is sufficient time to switch from
+> HS
+> > +              * to LP and back in the period of time from one line dat=
+a
+> > +              * finishing to the next line sync start, the DSI link ca=
+n
+> > +              * return LP mode and back in this time interval to save
+> power.
+> > +              * For this, configure the TO_CLK_DIVISION and hstx_to_cn=
+t
+> > +              * to be in accordance with:
+> > +              * hstx_to_cnt * lanebyteclkperiod * TO_CLK_DIVISION >=3D=
+ the
+> > +              * time of one LINE data transmission * (1 + 10%)
+> > +              */
+> > +             u32 htx_to_cnt_limit: 32;
+> > +             } bits;
+> > +     } HTX_TO_CONFIG;
+> > +
+> > +     union _0x48 {
+> > +             u32 val;
+> > +             struct _LRX_H_TO_CONFIG {
+> > +             /*
+> > +              * This field configures the timeout counter that trigger=
+s
+> > +              * a low-power reception timeout contention detection
+> (measured
+> > +              * in TO_CLK_DIVISION cycles).
+> > +              */
+> > +             u32 lrx_h_to_cnt_limit: 32;
+> > +             } bits;
+> > +     } LRX_H_TO_CONFIG;
+> > +
+> > +     union _0x4C {
+> > +             u32 val;
+> > +             struct _RD_PRESP_TO_CONFIG {
+> > +             /*
+> > +              * This field sets a period for which the DWC_mipi_dsi_ho=
+st
+> > +              * keeps the link still, after sending a low-power read
+> oper-
+> > +              * ation. This period is measured in cycles of lanebytecl=
+k.
+> > +              * The counting starts when the D-PHY enters the Stop sta=
+te
+> > +              * and causes no interrupts.
+> > +              */
+> > +             u32 lprd_presp_to_cnt_limit: 16;
+> > +
+> > +             /*
+> > +              * This field sets a period for which the DWC_mipi_dsi_ho=
+st
+> > +              * keeps the link still, after sending a high-speed read
+> oper-
+> > +              * ation. This period is measured in cycles of lanebytecl=
+k.
+> > +              * The counting starts when the D-PHY enters the Stop sta=
+te
+> > +              * and causes no interrupts.
+> > +              */
+> > +             u32 hsrd_presp_to_cnt_limit: 16;
+> > +
+> > +             } bits;
+> > +     } RD_PRESP_TO_CONFIG;
+> > +
+> > +     union _0x50 {
+> > +             u32 val;
+> > +             struct _HSWR_PRESP_TO_CONFIG {
+> > +             /*
+> > +              * This field sets a period for which the DWC_mipi_dsi_ho=
+st
+> > +              * keeps the link inactive after sending a high-speed wri=
+te
+> > +              * operation. This period is measured in cycles of
+> lanebyteclk.
+> > +              * The counting starts when the D-PHY enters the Stop sta=
+te
+> > +              * and causes no interrupts.
+> > +              */
+> > +             u32 hswr_presp_to_cnt_limit: 16;
+> > +
+> > +             u32 reserved_0: 8;
+> > +
+> > +             /*
+> > +              * When set to 1, this bit ensures that the peripheral
+> response
+> > +              * timeout caused by hs_wr_to_cnt is used only once per
+> eDPI
+> > +              * frame, when both the following conditions are met:
+> > +              * dpivsync_edpiwms has risen and fallen.
+> > +              * Packets originated from eDPI have been transmitted and
+> its
+> > +              * FIFO is empty again In this scenario no non-eDPI
+> requests
+> > +              * are sent to the D-PHY, even if there is traffic from
+> generic
+> > +              * or DBI ready to be sent, making it return to stop stat=
+e.
+> > +              * When it does so, PRESP_TO counter is activated and onl=
+y
+> when
+> > +              * it finishes does the controller send any other traffic
+> that
+> > +              * is ready.
+> > +              */
+> > +             u32 hswr_presp_to_mode: 1;
+> > +
+> > +             u32 reserved_1: 7;
+> > +
+> > +             } bits;
+> > +     } HSWR_PRESP_TO_CONFIG;
+> > +
+> > +     union _0x54 {
+> > +             u32 val;
+> > +             struct _LPWR_PRESP_TO_CONFIG {
+> > +             /*
+> > +              * This field sets a period for which the DWC_mipi_dsi_ho=
+st
+> > +              * keeps the link still, after sending a low-power write
+> oper-
+> > +              * ation. This period is measured in cycles of lanebytecl=
+k.
+> > +              * The counting starts when the D-PHY enters the Stop sta=
+te
+> > +              * and causes no interrupts.
+> > +              */
+> > +             u32 lpwr_presp_to_cnt_limit: 16;
+> > +
+> > +             u32 reserved: 16;
+> > +
+> > +             } bits;
+> > +     } LPWR_PRESP_TO_CONFIG;
+> > +
+> > +     union _0x58 {
+> > +             u32 val;
+> > +             struct _BTA_PRESP_TO_CONFIG {
+> > +             /*
+> > +              * This field sets a period for which the DWC_mipi_dsi_ho=
+st
+> > +              * keeps the link still, after completing a Bus
+> Turn-Around.
+> > +              * This period is measured in cycles of lanebyteclk. The
+> > +              * counting starts when the D-PHY enters the Stop state a=
+nd
+> > +              * causes no interrupts.
+> > +              */
+> > +             u32 bta_presp_to_cnt_limit: 16;
+> > +
+> > +             u32 reserved: 16;
+> > +
+> > +             } bits;
+> > +     } BTA_PRESP_TO_CONFIG;
+> > +
+> > +     union _0x5C {
+> > +             u32 val;
+> > +             struct _TX_ESC_CLK_CONFIG {
+> > +             /*
+> > +              * This field indicates the division factor for the TX
+> Escape
+> > +              * clock source (lanebyteclk). The values 0 and 1 stop th=
+e
+> > +              * TX_ESC clock generation.
+> > +              */
+> > +             u32 tx_esc_clk_config: 16;
+> > +
+> > +             u32 reserved: 16;
+> > +
+> > +             } bits;
+> > +     } TX_ESC_CLK_CONFIG;
+> > +
+> > +     union _0x60 {
+> > +             u32 val;
+> > +             struct _VACT_CMD_TRANS_LIMIT {
+> > +             /*
+> > +              * This field is used for the transmission of commands in
+> > +              * low-power mode. It defines the size, in bytes, of the
+> > +              * largest packet that can fit in a line during the VACT
+> > +              * region.
+> > +              */
+> > +             u32 vact_cmd_trans_limit: 8;
+> > +
+> > +             u32 reserved: 24;
+> > +
+> > +             } bits;
+> > +     } VACT_CMD_TRANS_LIMIT;
+> > +
+> > +     union _0x64 {
+> > +             u32 val;
+> > +             struct _VBLK_CMD_TRANS_LIMIT {
+> > +             /*
+> > +              * This field is used for the transmission of commands in
+> > +              * low-power mode. It defines the size, in bytes, of the
+> > +              * largest packet that can fit in a line during the VSA,
+> VBP,
+> > +              * and VFP regions.
+> > +              */
+> > +             u32 vblk_cmd_trans_limit: 8;
+> > +
+> > +             u32 reserved: 24;
+> > +
+> > +             } bits;
+> > +     } VBLK_CMD_TRANS_LIMIT;
+> > +
+> > +     union _0x68 {
+> > +             u32 val;
+> > +             struct _CMD_MODE_CFG {
+> > +             /*
+> > +              * When set to 1, this bit enables the tearing effect
+> > +              * acknowledge request.
+> > +              */
+> > +             u32 tear_fx_en: 1;
+> > +
+> > +             /*
+> > +              * When set to 1, this bit enables the acknowledge reques=
+t
+> > +              * after each packet transmission.
+> > +              */
+> > +             u32 ack_rqst_en: 1;
+> > +
+> > +             u32 reserved_0: 3;
+> > +
+> > +             u32 pps_tx: 1;
+> > +             u32 exq_tx: 1;
+> > +             u32 cmc_tx: 1;
+> > +
+> > +             /*
+> > +              * This bit configures the Generic short write packet wit=
+h
+> > +              * zero parameter command transmission type:
+> > +              * 0: High-speed 1: Low-power
+> > +              */
+> > +             u32 gen_sw_0p_tx: 1;
+> > +
+> > +             /*
+> > +              * This bit configures the Generic short write packet wit=
+h
+> > +              * one parameter command transmission type:
+> > +              * 0: High-speed 1: Low-power
+> > +              */
+> > +             u32 gen_sw_1p_tx: 1;
+> > +
+> > +             /*
+> > +              * This bit configures the Generic short write packet wit=
+h
+> > +              * two parameters command transmission type:
+> > +              * 0: High-speed 1: Low-power
+> > +              */
+> > +             u32 gen_sw_2p_tx: 1;
+> > +
+> > +             /*
+> > +              * This bit configures the Generic short read packet with
+> > +              * zero parameter command transmission type:
+> > +              * 0: High-speed 1: Low-power
+> > +              */
+> > +             u32 gen_sr_0p_tx: 1;
+> > +
+> > +             /*
+> > +              * This bit configures the Generic short read packet with
+> > +              * one parameter command transmission type:
+> > +              * 0: High-speed 1: Low-power
+> > +              */
+> > +             u32 gen_sr_1p_tx: 1;
+> > +
+> > +             /*
+> > +              * This bit configures the Generic short read packet with
+> > +              * two parameters command transmission type:
+> > +              * 0: High-speed 1: Low-power
+> > +              */
+> > +             u32 gen_sr_2p_tx: 1;
+> > +
+> > +             /*
+> > +              * This bit configures the Generic long write packet
+> command
+> > +              * transmission type:
+> > +              * 0: High-speed 1: Low-power
+> > +              */
+> > +             u32 gen_lw_tx: 1;
+> > +
+> > +             u32 reserved_1: 1;
+> > +
+> > +             /*
+> > +              * This bit configures the DCS short write packet with ze=
+ro
+> > +              * parameter command transmission type:
+> > +              * 0: High-speed 1: Low-power
+> > +              */
+> > +             u32 dcs_sw_0p_tx: 1;
+> > +
+> > +             /*
+> > +              * This bit configures the DCS short write packet with on=
+e
+> > +              * parameter command transmission type:
+> > +              * 0: High-speed 1: Low-power
+> > +              */
+> > +             u32 dcs_sw_1p_tx: 1;
+> > +
+> > +             /*
+> > +              * This bit configures the DCS short read packet with zer=
+o
+> > +              * parameter command transmission type:
+> > +              * 0: High-speed 1: Low-power
+> > +              */
+> > +             u32 dcs_sr_0p_tx: 1;
+> > +
+> > +             /*
+> > +              * This bit configures the DCS long write packet command
+> > +              * transmission type:
+> > +              * 0: High-speed 1: Low-power
+> > +              */
+> > +             u32 dcs_lw_tx: 1;
+> > +
+> > +             u32 reserved_2: 4;
+> > +
+> > +             /*
+> > +              * This bit configures the maximum read packet size comma=
+nd
+> > +              * transmission type:
+> > +              * 0: High-speed 1: Low-power
+> > +              */
+> > +             u32 max_rd_pkt_size: 1;
+> > +
+> > +             u32 reserved_3: 7;
+> > +
+> > +             } bits;
+> > +     } CMD_MODE_CFG;
+> > +
+> > +     union _0x6C {
+> > +             u32 val;
+> > +             struct _GEN_HDR {
+> > +             /*
+> > +              * This field configures the packet data type of the head=
+er
+> > +              * packet.
+> > +              */
+> > +             u32 gen_dt: 6;
+> > +
+> > +             /*
+> > +              * This field configures the virtual channel id of the
+> header
+> > +              * packet.
+> > +              */
+> > +             u32 gen_vc: 2;
+> > +
+> > +             /*
+> > +              * This field configures the least significant byte of th=
+e
+> > +              * header packet's Word count for long packets or data 0
+> for
+> > +              * short packets.
+> > +              */
+> > +             u32 gen_wc_lsbyte: 8;
+> > +
+> > +             /*
+> > +              * This field configures the most significant byte of the
+> > +              * header packet's word count for long packets or data 1
+> for
+> > +              * short packets.
+> > +              */
+> > +             u32 gen_wc_msbyte: 8;
+> > +
+> > +             u32 reserved: 8;
+> > +
+> > +             } bits;
+> > +     } GEN_HDR;
+> > +
+> > +     union _0x70 {
+> > +             u32 val;
+> > +             struct _GEN_PLD_DATA {
+> > +             /* This field indicates byte 1 of the packet payload. */
+> > +             u32 gen_pld_b1: 8;
+> > +
+> > +             /* This field indicates byte 2 of the packet payload. */
+> > +             u32 gen_pld_b2: 8;
+> > +
+> > +             /* This field indicates byte 3 of the packet payload. */
+> > +             u32 gen_pld_b3: 8;
+> > +
+> > +             /* This field indicates byte 4 of the packet payload. */
+> > +             u32 gen_pld_b4: 8;
+> > +
+> > +             } bits;
+> > +     } GEN_PLD_DATA;
+> > +
+> > +     union _0x74 {
+> > +             u32 val;
+> > +             struct _PHY_CLK_LANE_LP_CTRL {
+> > +             /* This bit controls the D-PHY PPI txrequestclkhs signal =
+*/
+> > +             u32 phy_clklane_tx_req_hs: 1;
+> > +
+> > +             /* This bit enables the automatic mechanism to stop
+> providing
+> > +              * clock in the clock lane when time allows.
+> > +              */
+> > +             u32 auto_clklane_ctrl_en: 1;
+> > +
+> > +             u32 reserved: 30;
+> > +             } bits;
+> > +     } PHY_CLK_LANE_LP_CTRL;
+> > +
+> > +     union _0x78 {
+> > +             u32 val;
+> > +             struct _PHY_INTERFACE_CTRL {
+> > +             /* When set to 0, this bit places the D-PHY macro in powe=
+r-
+> > +              * down state.
+> > +              */
+> > +             u32 rf_phy_shutdown: 1;
+> > +
+> > +             /* When set to 0, this bit places the digital section of
+> the
+> > +              * D-PHY in the reset state.
+> > +              */
+> > +             u32 rf_phy_reset_n: 1;
+> > +
+> > +             /* When set to 1, this bit enables the D-PHY Clock Lane
+> > +              * module.
+> > +              */
+> > +             u32 rf_phy_clk_en: 1;
+> > +
+> > +             /* When the D-PHY is in ULPS, this bit enables the D-PHY
+> PLL. */
+> > +             u32 rf_phy_force_pll: 1;
+> > +
+> > +             /* ULPS mode Request on clock lane */
+> > +             u32 rf_phy_clk_txrequlps: 1;
+> > +
+> > +             /* ULPS mode Exit on clock lane */
+> > +             u32 rf_phy_clk_txexitulps: 1;
+> > +
+> > +             /* ULPS mode Request on all active data lanes */
+> > +             u32 rf_phy_data_txrequlps: 1;
+> > +
+> > +             /* ULPS mode Exit on all active data lanes */
+> > +             u32 rf_phy_data_txexitulps: 1;
+> > +
+> > +             u32 reserved: 24;
+> > +             } bits;
+> > +     } PHY_INTERFACE_CTRL;
+> > +
+> > +     union _0x7C {
+> > +             u32 val;
+> > +             struct _PHY_TX_TRIGGERS {
+> > +             /* This field controls the trigger transmissions. */
+> > +             u32 phy_tx_triggers: 4;
+> > +
+> > +             u32 reserved: 28;
+> > +             } bits;
+> > +     } PHY_TX_TRIGGERS;
+> > +
+> > +     union _0x80 {
+> > +             u32 val;
+> > +             struct _DESKEW_START {
+> > +             u32 deskew_start: 1;
+> > +             u32 reserved: 31;
+> > +             } bits;
+> > +     } DESKEW_START;
+> > +
+> > +     union _0x84 {
+> > +             u32 val;
+> > +             struct _DESKEW_MODE {
+> > +             u32 deskew_mode: 2;
+> > +             u32 reserved: 30;
+> > +             } bits;
+> > +     } DESKEW_MODE;
+> > +
+> > +     union _0x88 {
+> > +             u32 val;
+> > +             struct _DESKEW_TIME {
+> > +             u32 deskew_time: 32;
+> > +             } bits;
+> > +     } DESKEW_TIME;
+> > +
+> > +     union _0x8C {
+> > +             u32 val;
+> > +             struct _DESKEW_PERIOD {
+> > +             u32 deskew_period: 32;
+> > +             } bits;
+> > +     } DESKEW_PERIOD;
+> > +
+> > +     union _0x90 {
+> > +             u32 val;
+> > +             struct _DESKEW_BUSY {
+> > +             u32 deskew_busy: 1;
+> > +             u32 reserved: 31;
+> > +             } bits;
+> > +     } DESKEW_BUSY;
+> > +
+> > +     union _0x94 {
+> > +             u32 val;
+> > +             struct _DESKEW_LANE_MASK {
+> > +             u32 deskew_lane0_mask: 1;
+> > +             u32 deskew_lane1_mask: 1;
+> > +             u32 deskew_lane2_mask: 1;
+> > +             u32 deskew_lane3_mask: 1;
+> > +             u32 reserved: 28;
+> > +             } bits;
+> > +     } DESKEW_LANE_MASK;
+> > +
+> > +     union _0x98 {
+> > +             u32 val;
+> > +             struct _CMD_MODE_STATUS {
+> > +             /*
+> > +              * This bit is set when a read command is issued and
+> cleared
+> > +              * when the entire response is stored in the FIFO.
+> > +              * Value after reset: 0x0
+> > +              *
+> > +              * NOTE:
+> > +              * For mipi-dsi-r1p0 IP, this bit is set immediately when
+> > +              *     the read cmd is set to the GEN_HDR register.
+> > +              *
+> > +              * For dsi-ctrl-r1p0 IP, this bit is set only after the
+> read
+> > +              *     cmd was actually sent out from the controller.
+> > +              */
+> > +             u32 gen_cmd_rdcmd_ongoing: 1;
+> > +
+> > +             /*
+> > +              * This bit indicates the empty status of the generic rea=
+d
+> > +              * payload FIFO.
+> > +              * Value after reset: 0x1
+> > +              */
+> > +             u32 gen_cmd_rdata_fifo_empty: 1;
+> > +
+> > +             /*
+> > +              * This bit indicates the full status of the generic read
+> > +              * payload FIFO.
+> > +              * Value after reset: 0x0
+> > +              */
+> > +             u32 gen_cmd_rdata_fifo_full: 1;
+> > +
+> > +             /*
+> > +              * This bit indicates the empty status of the generic wri=
+te
+> > +              * payload FIFO.
+> > +              * Value after reset: 0x1
+> > +              */
+> > +             u32 gen_cmd_wdata_fifo_empty: 1;
+> > +
+> > +             /*
+> > +              * This bit indicates the full status of the generic writ=
+e
+> > +              * payload FIFO.
+> > +              * Value after reset: 0x0
+> > +              */
+> > +             u32 gen_cmd_wdata_fifo_full: 1;
+> > +
+> > +             /*
+> > +              * This bit indicates the empty status of the generic
+> > +              * command FIFO.
+> > +              * Value after reset: 0x1
+> > +              */
+> > +             u32 gen_cmd_cmd_fifo_empty: 1;
+> > +
+> > +             /*
+> > +              * This bit indicates the full status of the generic
+> > +              * command FIFO.
+> > +              * Value after reset: 0x0
+> > +              */
+> > +             u32 gen_cmd_cmd_fifo_full: 1;
+> > +
+> > +             /*
+> > +              * This bit is set when the entire response of read is
+> > +              * stored in the rx payload FIFO. And it will be cleared
+> > +              * automaticlly after read this bit each time.
+> > +              * Value after reset: 0x0
+> > +              *
+> > +              * NOTE: this bit is just supported for dsi-ctrl-r1p0 IP
+> > +              */
+> > +             u32 gen_cmd_rdcmd_done: 1;
+> > +
+> > +             u32 reserved : 24;
+> > +
+> > +             } bits;
+> > +     } CMD_MODE_STATUS;
+> > +
+> > +     union _0x9C {
+> > +             u32 val;
+> > +             struct _PHY_STATUS {
+> > +             /* the status of phydirection D-PHY signal */
+> > +             u32 phy_direction: 1;
+> > +
+> > +             /* the status of phylock D-PHY signal */
+> > +             u32 phy_lock: 1;
+> > +
+> > +             /* the status of rxulpsesc0lane D-PHY signal */
+> > +             u32 phy_rxulpsesc0lane: 1;
+> > +
+> > +             /* the status of phystopstateclklane D-PHY signal */
+> > +             u32 phy_stopstateclklane: 1;
+> > +
+> > +             /* the status of phystopstate0lane D-PHY signal */
+> > +             u32 phy_stopstate0lane: 1;
+> > +
+> > +             /* the status of phystopstate1lane D-PHY signal */
+> > +             u32 phy_stopstate1lane: 1;
+> > +
+> > +             /* the status of phystopstate2lane D-PHY signal */
+> > +             u32 phy_stopstate2lane: 1;
+> > +
+> > +             /* the status of phystopstate3lane D-PHY signal */
+> > +             u32 phy_stopstate3lane: 1;
+> > +
+> > +             /* the status of phyulpsactivenotclk D-PHY signal */
+> > +             u32 phy_ulpsactivenotclk: 1;
+> > +
+> > +             /* the status of ulpsactivenot0lane D-PHY signal */
+> > +             u32 phy_ulpsactivenot0lane: 1;
+> > +
+> > +             /* the status of ulpsactivenot1lane D-PHY signal */
+> > +             u32 phy_ulpsactivenot1lane: 1;
+> > +
+> > +             /* the status of ulpsactivenot2lane D-PHY signal */
+> > +             u32 phy_ulpsactivenot2lane: 1;
+> > +
+> > +             /* the status of ulpsactivenot3lane D-PHY signal */
+> > +             u32 phy_ulpsactivenot3lane: 1;
+> > +
+> > +             u32 reserved: 19;
+> > +
+> > +             } bits;
+> > +     } PHY_STATUS;
+> > +
+> > +     union _0xA0 {
+> > +             u32 val;
+> > +             struct _PHY_MIN_STOP_TIME {
+> > +             /* This field configures the minimum wait period to reque=
+st
+> > +              * a high-speed transmission after the Stop state.
+> > +              */
+> > +             u32 phy_min_stop_time: 8;
+> > +
+> > +             u32 reserved: 24;
+> > +             } bits;
+> > +     } PHY_MIN_STOP_TIME;
+> > +
+> > +     union _0xA4 {
+> > +             u32 val;
+> > +             struct _PHY_LANE_NUM_CONFIG {
+> > +             /*
+> > +              * This field configures the number of active data lanes:
+> > +              * 00: One data lane (lane 0)
+> > +              * 01: Two data lanes (lanes 0 and 1)
+> > +              * 10: Three data lanes (lanes 0, 1, and 2)
+> > +              * 11: Four data lanes (lanes 0, 1, 2, and 3)
+> > +              */
+> > +             u32 phy_lane_num: 2;
+> > +
+> > +             u32 reserved: 30;
+> > +
+> > +             } bits;
+> > +     } PHY_LANE_NUM_CONFIG;
+> > +
+> > +     union _0xA8 {
+> > +             u32 val;
+> > +             struct _PHY_CLKLANE_TIME_CONFIG {
+> > +             /*
+> > +              * This field configures the maximum time that the D-PHY
+> > +              * clock lane takes to go from low-power to high-speed
+> > +              * transmission measured in lane byte clock cycles.
+> > +              */
+> > +             u32 phy_clklane_lp_to_hs_time: 16;
+> > +
+> > +             /*
+> > +              * This field configures the maximum time that the D-PHY
+> > +              * clock lane takes to go from high-speed to low-power
+> > +              * transmission measured in lane byte clock cycles.
+> > +              */
+> > +             u32 phy_clklane_hs_to_lp_time: 16;
+> > +
+> > +             } bits;
+> > +     } PHY_CLKLANE_TIME_CONFIG;
+> > +
+> > +     union _0xAC {
+> > +             u32 val;
+> > +             struct _PHY_DATALANE_TIME_CONFIG {
+> > +             /*
+> > +              * This field configures the maximum time that the D-PHY
+> data
+> > +              * lanes take to go from low-power to high-speed
+> transmission
+> > +              * measured in lane byte clock cycles.
+> > +              */
+> > +             u32 phy_datalane_lp_to_hs_time: 16;
+> > +
+> > +             /*
+> > +              * This field configures the maximum time that the D-PHY
+> data
+> > +              * lanes take to go from high-speed to low-power
+> transmission
+> > +              * measured in lane byte clock cycles.
+> > +              */
+> > +             u32 phy_datalane_hs_to_lp_time: 16;
+> > +
+> > +             } bits;
+> > +     } PHY_DATALANE_TIME_CONFIG;
+> > +
+> > +     union _0xB0 {
+> > +             u32 val;
+> > +             struct _MAX_READ_TIME {
+> > +             /*
+> > +              * This field configures the maximum time required to
+> perform
+> > +              * a read command in lane byte clock cycles. This registe=
+r
+> can
+> > +              * only be modified when no read command is in progress.
+> > +              */
+> > +             u32 max_rd_time: 16;
+> > +
+> > +             u32 reserved: 16;
+> > +
+> > +             } bits;
+> > +     } MAX_READ_TIME;
+> > +
+> > +     union _0xB4 {
+> > +             u32 val;
+> > +             struct _RX_PKT_CHECK_CONFIG {
+> > +             /* When set to 1, this bit enables the ECC reception, err=
+or
+> > +              * correction, and reporting.
+> > +              */
+> > +             u32 rx_pkt_ecc_en: 1;
+> > +
+> > +             /* When set to 1, this bit enables the CRC reception and
+> error
+> > +              * reporting.
+> > +              */
+> > +             u32 rx_pkt_crc_en: 1;
+> > +
+> > +             u32 reserved: 30;
+> > +
+> > +             } bits;
+> > +     } RX_PKT_CHECK_CONFIG;
+> > +
+> > +     union _0xB8 {
+> > +             u32 val;
+> > +             struct _TA_EN {
+> > +             /* When set to 1, this bit enables the Bus Turn-Around
+> (BTA)
+> > +              * request.
+> > +              */
+> > +             u32 ta_en: 1;
+> > +
+> > +             u32 reserved: 31;
+> > +
+> > +             } bits;
+> > +     } TA_EN;
+> > +
+> > +     union _0xBC {
+> > +             u32 val;
+> > +             struct _EOTP_EN {
+> > +             /* When set to 1, this bit enables the EoTp transmission =
+*/
+> > +             u32 tx_eotp_en: 1;
+> > +
+> > +             /* When set to 1, this bit enables the EoTp reception. */
+> > +             u32 rx_eotp_en: 1;
+> > +
+> > +             u32 reserved: 30;
+> > +
+> > +             } bits;
+> > +     } EOTP_EN;
+> > +
+> > +     union _0xC0 {
+> > +             u32 val;
+> > +             struct _VIDEO_NULLPKT_SIZE {
+> > +             /*
+> > +              * This register configures the number of bytes inside a
+> null
+> > +              * packet. Setting it to 0 disables the null packets.
+> > +              */
+> > +             u32 video_nullpkt_size: 13;
+> > +
+> > +             u32 reserved: 19;
+> > +
+> > +             } bits;
+> > +     } VIDEO_NULLPKT_SIZE;
+> > +
+> > +     union _0xC4 {
+> > +             u32 val;
+> > +             struct _DCS_WM_PKT_SIZE {
+> > +             /*
+> > +              * This field configures the maximum allowed size for an
+> eDPI
+> > +              * write memory command, measured in pixels. Automatic
+> parti-
+> > +              * tioning of data obtained from eDPI is permanently
+> enabled.
+> > +              */
+> > +             u32 dcs_wm_pkt_size: 16;
+> > +
+> > +             u32 reserved: 16;
+> > +             } bits;
+> > +     } DCS_WM_PKT_SIZE;
+> > +
+> > +     union _0xC8 {
+> > +             u32 val;
+> > +             struct _PROTOCOL_INT_CLR {
+> > +             u32 clr_dphy_errors_0: 1;
+> > +             u32 clr_dphy_errors_1: 1;
+> > +             u32 clr_dphy_errors_2: 1;
+> > +             u32 clr_dphy_errors_3: 1;
+> > +             u32 clr_dphy_errors_4: 1;
+> > +             u32 clr_protocol_debug_err: 11;
+> > +             u32 clr_ack_with_err_0: 1;
+> > +             u32 clr_ack_with_err_1: 1;
+> > +             u32 clr_ack_with_err_2: 1;
+> > +             u32 clr_ack_with_err_3: 1;
+> > +             u32 clr_ack_with_err_4: 1;
+> > +             u32 clr_ack_with_err_5: 1;
+> > +             u32 clr_ack_with_err_6: 1;
+> > +             u32 clr_ack_with_err_7: 1;
+> > +             u32 clr_ack_with_err_8: 1;
+> > +             u32 clr_ack_with_err_9: 1;
+> > +             u32 clr_ack_with_err_10: 1;
+> > +             u32 clr_ack_with_err_11: 1;
+> > +             u32 clr_ack_with_err_12: 1;
+> > +             u32 clr_ack_with_err_13: 1;
+> > +             u32 clr_ack_with_err_14: 1;
+> > +             u32 clr_ack_with_err_15: 1;
+> > +             } bits;
+> > +     } PROTOCOL_INT_CLR;
+> > +
+> > +     union _0xCC {
+> > +             u32 val;
+> > +             struct _INTERNAL_INT_CLR {
+> > +             u32 clr_receive_pkt_size_err: 1;
+> > +             u32 clr_eopt_not_receive_err: 1;
+> > +             u32 clr_gen_cmd_cmd_fifo_wr_err: 1;
+> > +             u32 clr_gen_cmd_rdata_fifo_rd_err: 1;
+> > +             u32 clr_gen_cmd_rdata_fifo_wr_err: 1;
+> > +             u32 clr_gen_cmd_wdata_fifo_wr_err: 1;
+> > +             u32 clr_gen_cmd_wdata_fifo_rd_err: 1;
+> > +             u32 clr_dpi_pix_fifo_wr_err: 1;
+> > +             u32 clr_internal_debug_err: 19;
+> > +             u32 clr_ecc_single_err: 1;
+> > +             u32 clr_ecc_multi_err: 1;
+> > +             u32 clr_crc_err: 1;
+> > +             u32 clr_hs_tx_timeout: 1;
+> > +             u32 clr_lp_rx_timeout: 1;
+> > +             } bits;
+> > +     } INTERNAL_INT_CLR;
+> > +
+> > +     union _0xD0 {
+> > +             u32 val;
+> > +             struct _VIDEO_SIG_DELAY_CONFIG {
+> > +
+> > +             /*
+> > +              * DPI interface signal delay to be used in clk lanebyte
+> > +              * domain for control logic to read video data from pixel
+> > +              * memory in mannal mode, measured in clk_lanebyte cycles
+> > +              */
+> > +             u32 video_sig_delay: 24;
+> > +
+> > +             /*
+> > +              * 1'b1: mannal mode
+> > +              *       dsi controller will use video_sig_delay value as
+> > +              *       the delay for the packet handle logic to read
+> video
+> > +              *       data from pixel memory.
+> > +              *
+> > +              * 1'b0: auto mode
+> > +              *       dsi controller will auto calculate the delay for
+> > +              *       the packet handle logic to read video data from
+> > +              *       pixel memory.
+> > +              */
+> > +             u32 video_sig_delay_mode: 1;
+> > +
+> > +             u32 reserved: 7;
+> > +             } bits;
+> > +     } VIDEO_SIG_DELAY_CONFIG;
+> > +
+> > +     u32 reservedD4_EC[7];
+> > +
+> > +     union _0xF0 {
+> > +             u32 val;
+> > +             struct _PHY_TST_CTRL0 {
+> > +             /* PHY test interface clear (active high) */
+> > +             u32 phy_testclr: 1;
+> > +
+> > +             /* This bit is used to clock the TESTDIN bus into the
+> D-PHY */
+> > +             u32 phy_testclk: 1;
+> > +
+> > +             u32 reserved: 30;
+> > +             } bits;
+> > +     } PHY_TST_CTRL0;
+> > +
+> > +     union _0xF4 {
+> > +             u32 val;
+> > +             struct _PHY_TST_CTRL1 {
+> > +             /* PHY test interface input 8-bit data bus for internal
+> > +              * register programming and test functionalities access.
+> > +              */
+> > +             u32 phy_testdin: 8;
+> > +
+> > +             /* PHY output 8-bit data bus for read-back and internal
+> > +              * probing functionalities.
+> > +              */
+> > +             u32 phy_testdout: 8;
+> > +
+> > +             /*
+> > +              * PHY test interface operation selector:
+> > +              * 1: The address write operation is set on the falling
+> edge
+> > +              *    of the testclk signal.
+> > +              * 0: The data write operation is set on the rising edge =
+of
+> > +              *    the testclk signal.
+> > +              */
+> > +             u32 phy_testen: 1;
+> > +
+> > +             u32 reserved: 15;
+> > +             } bits;
+> > +     } PHY_TST_CTRL1;
+> > +
+> > +     u32 reservedF8_1FC[66];
+> > +
+> > +     union _0x200 {
+> > +             u32 val;
+> > +             struct _INT_PLL_STS {
+> > +             u32 int_pll_sts: 1;
+> > +             u32 reserved: 31;
+> > +             } bits;
+> > +     } INT_PLL_STS;
+> > +
+> > +     union _0x204 {
+> > +             u32 val;
+> > +             struct _INT_PLL_MSK {
+> > +             u32 int_pll_msk: 1;
+> > +             u32 reserved: 31;
+> > +             } bits;
+> > +     } INT_PLL_MSK;
+> > +
+> > +     union _0x208 {
+> > +             u32 val;
+> > +             struct _INT_PLL_CLR {
+> > +             u32 int_pll_clr: 1;
+> > +             u32 reserved: 31;
+> > +             } bits;
+> > +     } INT_PLL_CLR;
+> > +
+> > +};
+> > +
+> > +void dsi_power_enable(struct dsi_context *ctx, int enable);
+> > +void dsi_video_mode(struct dsi_context *ctx);
+> > +void dsi_cmd_mode(struct dsi_context *ctx);
+> > +bool dsi_is_cmd_mode(struct dsi_context *ctx);
+> > +void dsi_rx_vcid(struct dsi_context *ctx, u8 vc);
+> > +void dsi_video_vcid(struct dsi_context *ctx, u8 vc);
+> > +void dsi_dpi_video_burst_mode(struct dsi_context *ctx, int mode);
+> > +void dsi_dpi_color_coding(struct dsi_context *ctx, int coding);
+> > +void dsi_dpi_sig_delay(struct dsi_context *ctx, u16 byte_cycle);
+> > +void dsi_dpi_hline_time(struct dsi_context *ctx, u16 byte_cycle);
+> > +void dsi_dpi_hsync_time(struct dsi_context *ctx, u16 byte_cycle);
+> > +void dsi_dpi_hbp_time(struct dsi_context *ctx, u16 byte_cycle);
+> > +void dsi_dpi_vact(struct dsi_context *ctx, u16 lines);
+> > +void dsi_dpi_vfp(struct dsi_context *ctx, u16 lines);
+> > +void dsi_dpi_vbp(struct dsi_context *ctx, u16 lines);
+> > +void dsi_dpi_vsync(struct dsi_context *ctx, u16 lines);
+> > +void dsi_dpi_hporch_lp_en(struct dsi_context *ctx, int enable);
+> > +void dsi_dpi_vporch_lp_en(struct dsi_context *ctx, int enable);
+> > +void dsi_dpi_frame_ack_en(struct dsi_context *ctx, int enable);
+> > +void dsi_dpi_chunk_num(struct dsi_context *ctx, u16 no);
+> > +void dsi_dpi_null_packet_size(struct dsi_context *ctx, u16 size);
+> > +void dsi_dpi_video_packet_size(struct dsi_context *ctx, u16 size);
+> > +void dsi_edpi_max_pkt_size(struct dsi_context *ctx, u16 size);
+> > +void dsi_tear_effect_ack_en(struct dsi_context *ctx, int enable);
+> > +void dsi_cmd_mode_lp_cmd_en(struct dsi_context *ctx, int enable);
+> > +void dsi_video_mode_lp_cmd_en(struct dsi_context *ctx, int enable);
+> > +void dsi_set_packet_header(struct dsi_context *ctx, u8 vc, u8 type,
+> > +                                             u8 wc_lsb, u8 wc_msb);
+> > +void dsi_set_packet_payload(struct dsi_context *ctx, u32 payload);
+> > +u32 dsi_get_rx_payload(struct dsi_context *ctx);
+> > +void dsi_bta_en(struct dsi_context *ctx, int enable);
+> > +void dsi_eotp_rx_en(struct dsi_context *ctx, int enable);
+> > +void dsi_eotp_tx_en(struct dsi_context *ctx, int enable);
+> > +void dsi_ecc_rx_en(struct dsi_context *ctx, int enable);
+> > +void dsi_crc_rx_en(struct dsi_context *ctx, int enable);
+> > +bool dsi_is_bta_returned(struct dsi_context *ctx);
+> > +bool dsi_is_rx_payload_fifo_full(struct dsi_context *ctx);
+> > +bool dsi_is_rx_payload_fifo_empty(struct dsi_context *ctx);
+> > +bool dsi_is_tx_payload_fifo_full(struct dsi_context *ctx);
+> > +bool dsi_is_tx_payload_fifo_empty(struct dsi_context *ctx);
+> > +bool dsi_is_tx_cmd_fifo_empty(struct dsi_context *ctx);
+> > +void dsi_datalane_hs2lp_config(struct dsi_context *ctx, u16 byte_cycle=
+);
+> > +void dsi_datalane_lp2hs_config(struct dsi_context *ctx, u16 byte_cycle=
+);
+> > +void dsi_clklane_hs2lp_config(struct dsi_context *ctx, u16 byte_cycle)=
+;
+> > +void dsi_clklane_lp2hs_config(struct dsi_context *ctx, u16 byte_cycle)=
+;
+> > +void dsi_max_read_time(struct dsi_context *ctx, u16 byte_cycle);
+> > +void dsi_nc_clk_en(struct dsi_context *ctx, int enable);
+> > +void dsi_tx_escape_division(struct dsi_context *ctx, u8 div);
+> > +void dsi_timeout_clock_division(struct dsi_context *ctx, u8 div);
+> > +void dsi_lp_rx_timeout(struct dsi_context *ctx, u16 count);
+> > +void dsi_hs_tx_timeout(struct dsi_context *ctx, u16 count);
+> > +u32 dsi_int0_status(struct dsi_context *ctx);
+> > +u32 dsi_int1_status(struct dsi_context *ctx);
+> > +void dsi_int0_mask(struct dsi_context *ctx, u32 mask);
+> > +void dsi_int1_mask(struct dsi_context *ctx, u32 mask);
+> > +
+> > +#endif /* _DW_DSI_CTRL_H_ */
+> > diff --git a/drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.c
+> b/drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.c
+> > new file mode 100644
+> > index 000000000..6e28d7cf6
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.c
+> > @@ -0,0 +1,157 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (C) 2020 Unisoc Inc.
+> > + */
+> > +
+> > +#include <linux/io.h>
+> > +#include <linux/init.h>
+> > +#include <linux/module.h>
+> > +
+> > +#include "dw_dsi_ctrl.h"
+> > +#include "dw_dsi_ctrl_ppi.h"
+> > +
+> > +/*
+> > + * Reset D-PHY module
+> > + */
+> > +void dsi_phy_rstz(struct dsi_context *ctx, int level)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x78 phy_interface_ctrl;
+> > +
+> > +     phy_interface_ctrl.val =3D readl(&reg->PHY_INTERFACE_CTRL);
+> > +     phy_interface_ctrl.bits.rf_phy_reset_n =3D level;
+> > +
+> > +     writel(phy_interface_ctrl.val, &reg->PHY_INTERFACE_CTRL);
+> > +}
+> > +
+> > +/*
+> > + * Power up/down D-PHY module
+> > + */
+> > +void dsi_phy_shutdownz(struct dsi_context *ctx, int level)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x78 phy_interface_ctrl;
+> > +
+> > +     phy_interface_ctrl.val =3D readl(&reg->PHY_INTERFACE_CTRL);
+> > +     phy_interface_ctrl.bits.rf_phy_shutdown =3D level;
+> > +
+> > +     writel(phy_interface_ctrl.val, &reg->PHY_INTERFACE_CTRL);
+> > +}
+> > +
+> > +/*
+> > + * Configure minimum wait period for HS transmission request after a
+> stop state
+> > + */
+> > +void dsi_phy_stop_wait_time(struct dsi_context *ctx, u8 byte_cycle)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     writel(byte_cycle, &reg->PHY_MIN_STOP_TIME);
+> > +}
+> > +
+> > +/*
+> > + * Set number of active lanes
+> > + */
+> > +void dsi_phy_datalane_en(struct dsi_context *ctx)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +
+> > +     writel(ctx->lanes - 1, &reg->PHY_LANE_NUM_CONFIG);
+> > +}
+> > +
+> > +/*
+> > + * Enable clock lane module
+> > + */
+> > +void dsi_phy_clklane_en(struct dsi_context *ctx, int en)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x78 phy_interface_ctrl;
+> > +
+> > +     phy_interface_ctrl.val =3D readl(&reg->PHY_INTERFACE_CTRL);
+> > +     phy_interface_ctrl.bits.rf_phy_clk_en =3D en;
+> > +
+> > +     writel(phy_interface_ctrl.val, &reg->PHY_INTERFACE_CTRL);
+> > +}
+> > +
+> > +/*
+> > + * Request the PHY module to start transmission of high speed clock.
+> > + * This causes the clock lane to start transmitting DDR clock on the
+> > + * lane interconnect.
+> > + */
+> > +void dsi_phy_clk_hs_rqst(struct dsi_context *ctx, int enable)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x74 phy_clk_lane_lp_ctrl;
+> > +
+> > +     phy_clk_lane_lp_ctrl.val =3D readl(&reg->PHY_CLK_LANE_LP_CTRL);
+> > +     phy_clk_lane_lp_ctrl.bits.auto_clklane_ctrl_en =3D 0;
+> > +     phy_clk_lane_lp_ctrl.bits.phy_clklane_tx_req_hs =3D enable;
+> > +
+> > +     writel(phy_clk_lane_lp_ctrl.val, &reg->PHY_CLK_LANE_LP_CTRL);
+> > +}
+> > +
+> > +/*
+> > + * Get D-PHY PPI status
+> > + */
+> > +u8 dsi_phy_is_pll_locked(struct dsi_context *ctx)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0x9C phy_status;
+> > +
+> > +     phy_status.val =3D readl(&reg->PHY_STATUS);
+> > +
+> > +     return phy_status.bits.phy_lock;
+> > +}
+> > +
+> > +void dsi_phy_test_clk(struct dsi_context *ctx, u8 value)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xF0 phy_tst_ctrl0;
+> > +
+> > +     phy_tst_ctrl0.val =3D readl(&reg->PHY_TST_CTRL0);
+> > +     phy_tst_ctrl0.bits.phy_testclk =3D value;
+> > +
+> > +     writel(phy_tst_ctrl0.val, &reg->PHY_TST_CTRL0);
+> > +}
+> > +
+> > +void dsi_phy_test_clr(struct dsi_context *ctx, u8 value)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xF0 phy_tst_ctrl0;
+> > +
+> > +     phy_tst_ctrl0.val =3D readl(&reg->PHY_TST_CTRL0);
+> > +     phy_tst_ctrl0.bits.phy_testclr =3D value;
+> > +
+> > +     writel(phy_tst_ctrl0.val, &reg->PHY_TST_CTRL0);
+> > +}
+> > +
+> > +void dsi_phy_test_en(struct dsi_context *ctx, u8 value)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xF4 phy_tst_ctrl1;
+> > +
+> > +     phy_tst_ctrl1.val =3D readl(&reg->PHY_TST_CTRL1);
+> > +     phy_tst_ctrl1.bits.phy_testen =3D value;
+> > +
+> > +     writel(phy_tst_ctrl1.val, &reg->PHY_TST_CTRL1);
+> > +}
+> > +
+> > +u8 dsi_phy_test_dout(struct dsi_context *ctx)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xF4 phy_tst_ctrl1;
+> > +
+> > +     phy_tst_ctrl1.val =3D readl(&reg->PHY_TST_CTRL1);
+> > +
+> > +     return phy_tst_ctrl1.bits.phy_testdout;
+> > +}
+> > +
+> > +void dsi_phy_test_din(struct dsi_context *ctx, u8 data)
+> > +{
+> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
+> > +     union _0xF4 phy_tst_ctrl1;
+> > +
+> > +     phy_tst_ctrl1.val =3D readl(&reg->PHY_TST_CTRL1);
+> > +     phy_tst_ctrl1.bits.phy_testdin =3D data;
+> > +
+> > +     writel(phy_tst_ctrl1.val, &reg->PHY_TST_CTRL1);
+> > +}
+> > diff --git a/drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.h
+> b/drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.h
+> > new file mode 100644
+> > index 000000000..d87fb7579
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.h
+> > @@ -0,0 +1,26 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2020 Unisoc Inc.
+> > + */
+> > +
+> > +#ifndef _DW_DSI_CTRL_PPI_H_
+> > +#define _DW_DSI_CTRL_PPI_H_
+> > +
+> > +#include "sprd_dsi.h"
+> > +
+> > +void dsi_phy_rstz(struct dsi_context *ctx, int level);
+> > +void dsi_phy_shutdownz(struct dsi_context *ctx, int level);
+> > +void dsi_phy_force_pll(struct dsi_context *ctx, int force);
+> > +void dsi_phy_stop_wait_time(struct dsi_context *ctx, u8 byte_clk);
+> > +void dsi_phy_datalane_en(struct dsi_context *ctx);
+> > +void dsi_phy_clklane_en(struct dsi_context *ctx, int en);
+> > +void dsi_phy_clk_hs_rqst(struct dsi_context *ctx, int en);
+> > +u8 dsi_phy_is_pll_locked(struct dsi_context *ctx);
+> > +void dsi_phy_test_clk(struct dsi_context *ctx, u8 level);
+> > +void dsi_phy_test_clr(struct dsi_context *ctx, u8 level);
+> > +void dsi_phy_test_en(struct dsi_context *ctx, u8 level);
+> > +u8 dsi_phy_test_dout(struct dsi_context *ctx);
+> > +void dsi_phy_test_din(struct dsi_context *ctx, u8 data);
+> > +void dsi_phy_bist_en(struct dsi_context *ctx, int en);
+> > +
+> > +#endif /* _DW_DSI_CTRL_PPI_H_ */
+> > \ No newline at end of file
+> > diff --git a/drivers/gpu/drm/sprd/megacores_pll.c
+> b/drivers/gpu/drm/sprd/megacores_pll.c
+> > new file mode 100644
+> > index 000000000..03c1f0f00
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/sprd/megacores_pll.c
+> > @@ -0,0 +1,317 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (C) 2020 Unisoc Inc.
+> > + */
+> > +
+> > +#include <asm/div64.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/init.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/regmap.h>
+> > +#include <linux/string.h>
+> > +
+> > +#include "megacores_pll.h"
+> > +
+> > +#define L                                            0
+> > +#define H                                            1
+> > +#define CLK                                          0
+> > +#define DATA                                 1
+> > +#define INFINITY                             0xffffffff
+> > +#define MIN_OUTPUT_FREQ                      (100)
+> > +
+> > +#define AVERAGE(a, b) (min(a, b) + abs((b) - (a)) / 2)
+> > +
+> > +/* sharkle */
+> > +#define VCO_BAND_LOW 750
+> > +#define VCO_BAND_MID 1100
+> > +#define VCO_BAND_HIGH        1500
+> > +#define PHY_REF_CLK  26000
+> > +
+> > +static int dphy_calc_pll_param(struct dphy_pll *pll)
+> > +{
+> > +     const u32 khz =3D 1000;
+> > +     const u32 mhz =3D 1000000;
+> > +     const unsigned long long factor =3D 100;
+> > +     unsigned long long tmp;
+> > +     int i;
+> > +
+> > +     pll->potential_fvco =3D pll->freq / khz;
+> > +     pll->ref_clk =3D PHY_REF_CLK / khz;
+> > +
+> > +     for (i =3D 0; i < 4; ++i) {
+> > +             if (pll->potential_fvco >=3D VCO_BAND_LOW &&
+> > +                     pll->potential_fvco <=3D VCO_BAND_HIGH) {
+> > +                     pll->fvco =3D pll->potential_fvco;
+> > +                     pll->out_sel =3D BIT(i);
+> > +                     break;
+> > +             }
+> > +             pll->potential_fvco <<=3D 1;
+> > +     }
+> > +     if (pll->fvco =3D=3D 0)
+> > +             return -EINVAL;
+> > +
+> > +     if (pll->fvco >=3D VCO_BAND_LOW && pll->fvco <=3D VCO_BAND_MID) {
+> > +             /* vco band control */
+> > +             pll->vco_band =3D 0x0;
+> > +             /* low pass filter control */
+> > +             pll->lpf_sel =3D 1;
+> > +     } else if (pll->fvco > VCO_BAND_MID && pll->fvco <=3D VCO_BAND_HI=
+GH)
+> {
+> > +             pll->vco_band =3D 0x1;
+> > +             pll->lpf_sel =3D 0;
+> > +     } else
+> > +             return -EINVAL;
+> > +
+> > +     pll->nint =3D pll->fvco / pll->ref_clk;
+> > +     tmp =3D pll->fvco * factor * mhz;
+> > +     do_div(tmp, pll->ref_clk);
+> > +     tmp =3D tmp - pll->nint * factor * mhz;
+> > +     tmp *=3D BIT(20);
+> > +     do_div(tmp, 100000000);
+> > +     pll->kint =3D (u32)tmp;
+> > +     pll->refin =3D 3; /* pre-divider bypass */
+> > +     pll->sdm_en =3D true; /* use fraction N PLL */
+> > +     pll->fdk_s =3D 0x1; /* fraction */
+> > +     pll->cp_s =3D 0x0;
+> > +     pll->det_delay =3D 0x1;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void dphy_set_pll_reg(struct dphy_pll *pll, struct regmap
+> *regmap)
+> > +{
+> > +     struct pll_reg *reg =3D &pll->reg;
+> > +     u8 *val;
+> > +     int i;
+> > +
+> > +     u8 reg_addr[] =3D {
+> > +             0x03, 0x04, 0x06, 0x08, 0x09,
+> > +             0x0a, 0x0b, 0x0e, 0x0f
+> > +     };
+> > +
+> > +     reg->_03.bits.prbs_bist =3D 1;
+> > +     reg->_03.bits.en_lp_treot =3D true;
+> > +     reg->_03.bits.lpf_sel =3D pll->lpf_sel;
+> > +     reg->_03.bits.txfifo_bypass =3D 0;
+> > +     reg->_04.bits.div =3D pll->div;
+> > +     reg->_04.bits.masterof8lane =3D 1;
+> > +     reg->_04.bits.cp_s =3D pll->cp_s;
+> > +     reg->_04.bits.fdk_s =3D pll->fdk_s;
+> > +     reg->_06.bits.nint =3D pll->nint;
+> > +     reg->_08.bits.vco_band =3D pll->vco_band;
+> > +     reg->_08.bits.sdm_en =3D pll->sdm_en;
+> > +     reg->_08.bits.refin =3D pll->refin;
+> > +     reg->_09.bits.kint_h =3D pll->kint >> 12;
+> > +     reg->_0a.bits.kint_m =3D (pll->kint >> 4) & 0xff;
+> > +     reg->_0b.bits.out_sel =3D pll->out_sel;
+> > +     reg->_0b.bits.kint_l =3D pll->kint & 0xf;
+> > +     reg->_0e.bits.pll_pu_byp =3D 0;
+> > +     reg->_0e.bits.pll_pu =3D 0;
+> > +     reg->_0e.bits.stopstate_sel =3D 1;
+> > +     reg->_0f.bits.det_delay =3D pll->det_delay;
+> > +
+> > +     val =3D (u8 *)&reg;
+> > +
+> > +     for (i =3D 0; i < sizeof(reg_addr); ++i) {
+> > +             regmap_write(regmap, reg_addr[i], val[i]);
+> > +             DRM_DEBUG("%02x: %02x\n", reg_addr[i], val[i]);
+> > +     }
+> > +}
+> > +
+> > +int dphy_pll_config(struct dsi_context *ctx)
+> > +{
+> > +     struct sprd_dsi *dsi =3D container_of(ctx, struct sprd_dsi, ctx);
+> > +     struct regmap *regmap =3D ctx->regmap;
+> > +     struct dphy_pll *pll =3D ctx->pll;
+> > +     int ret;
+> > +
+> > +     pll->freq =3D ctx->byte_clk * 8;
+> > +
+> > +     /* FREQ =3D 26M * (NINT + KINT / 2^20) / out_sel */
+> > +     ret =3D dphy_calc_pll_param(pll);
+> > +     if (ret) {
+> > +             drm_err(dsi->drm, "failed to calculate dphy pll
+> parameters\n");
+> > +             return ret;
+> > +     }
+> > +     dphy_set_pll_reg(pll, regmap);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void dphy_set_timing_reg(struct regmap *regmap, int type, u8
+> val[])
+> > +{
+> > +     switch (type) {
+> > +     case REQUEST_TIME:
+> > +             regmap_write(regmap, 0x31, val[CLK]);
+> > +             regmap_write(regmap, 0x41, val[DATA]);
+> > +             regmap_write(regmap, 0x51, val[DATA]);
+> > +             regmap_write(regmap, 0x61, val[DATA]);
+> > +             regmap_write(regmap, 0x71, val[DATA]);
+> > +
+> > +             regmap_write(regmap, 0x90, val[CLK]);
+> > +             regmap_write(regmap, 0xa0, val[DATA]);
+> > +             regmap_write(regmap, 0xb0, val[DATA]);
+> > +             regmap_write(regmap, 0xc0, val[DATA]);
+> > +             regmap_write(regmap, 0xd0, val[DATA]);
+> > +             break;
+> > +     case PREPARE_TIME:
+> > +             regmap_write(regmap, 0x32, val[CLK]);
+> > +             regmap_write(regmap, 0x42, val[DATA]);
+> > +             regmap_write(regmap, 0x52, val[DATA]);
+> > +             regmap_write(regmap, 0x62, val[DATA]);
+> > +             regmap_write(regmap, 0x72, val[DATA]);
+> > +
+> > +             regmap_write(regmap, 0x91, val[CLK]);
+> > +             regmap_write(regmap, 0xa1, val[DATA]);
+> > +             regmap_write(regmap, 0xb1, val[DATA]);
+> > +             regmap_write(regmap, 0xc1, val[DATA]);
+> > +             regmap_write(regmap, 0xd1, val[DATA]);
+> > +             break;
+> > +     case ZERO_TIME:
+> > +             regmap_write(regmap, 0x33, val[CLK]);
+> > +             regmap_write(regmap, 0x43, val[DATA]);
+> > +             regmap_write(regmap, 0x53, val[DATA]);
+> > +             regmap_write(regmap, 0x63, val[DATA]);
+> > +             regmap_write(regmap, 0x73, val[DATA]);
+> > +
+> > +             regmap_write(regmap, 0x92, val[CLK]);
+> > +             regmap_write(regmap, 0xa2, val[DATA]);
+> > +             regmap_write(regmap, 0xb2, val[DATA]);
+> > +             regmap_write(regmap, 0xc2, val[DATA]);
+> > +             regmap_write(regmap, 0xd2, val[DATA]);
+> > +             break;
+> > +     case TRAIL_TIME:
+> > +             regmap_write(regmap, 0x34, val[CLK]);
+> > +             regmap_write(regmap, 0x44, val[DATA]);
+> > +             regmap_write(regmap, 0x54, val[DATA]);
+> > +             regmap_write(regmap, 0x64, val[DATA]);
+> > +             regmap_write(regmap, 0x74, val[DATA]);
+> > +
+> > +             regmap_write(regmap, 0x93, val[CLK]);
+> > +             regmap_write(regmap, 0xa3, val[DATA]);
+> > +             regmap_write(regmap, 0xb3, val[DATA]);
+> > +             regmap_write(regmap, 0xc3, val[DATA]);
+> > +             regmap_write(regmap, 0xd3, val[DATA]);
+> > +             break;
+> > +     case EXIT_TIME:
+> > +             regmap_write(regmap, 0x36, val[CLK]);
+> > +             regmap_write(regmap, 0x46, val[DATA]);
+> > +             regmap_write(regmap, 0x56, val[DATA]);
+> > +             regmap_write(regmap, 0x66, val[DATA]);
+> > +             regmap_write(regmap, 0x76, val[DATA]);
+> > +
+> > +             regmap_write(regmap, 0x95, val[CLK]);
+> > +             regmap_write(regmap, 0xA5, val[DATA]);
+> > +             regmap_write(regmap, 0xB5, val[DATA]);
+> > +             regmap_write(regmap, 0xc5, val[DATA]);
+> > +             regmap_write(regmap, 0xd5, val[DATA]);
+> > +             break;
+> > +     case CLKPOST_TIME:
+> > +             regmap_write(regmap, 0x35, val[CLK]);
+> > +             regmap_write(regmap, 0x94, val[CLK]);
+> > +             break;
+> > +
+> > +     /* the following just use default value */
+> > +     case SETTLE_TIME:
+> > +     case TA_GET:
+> > +     case TA_GO:
+> > +     case TA_SURE:
+> > +             break;
+> > +     default:
+> > +             break;
+> > +     }
+> > +}
+> > +
+> > +void dphy_timing_config(struct dsi_context *ctx)
+> > +{
+> > +     struct regmap *regmap =3D ctx->regmap;
+> > +     struct dphy_pll *pll =3D ctx->pll;
+> > +     const u32 factor =3D 2;
+> > +     const u32 scale =3D 100;
+> > +     u32 t_ui, t_byteck, t_half_byteck;
+> > +     u32 range[2], constant;
+> > +     u8 val[2];
+> > +     u32 tmp =3D 0;
+> > +
+> > +     /* t_ui: 1 ui, byteck: 8 ui, half byteck: 4 ui */
+> > +     t_ui =3D 1000 * scale / (pll->freq / 1000);
+> > +     t_byteck =3D t_ui << 3;
+> > +     t_half_byteck =3D t_ui << 2;
+> > +     constant =3D t_ui << 1;
+> > +
+> > +     /* REQUEST_TIME: HS T-LPX: LP-01
+> > +      * For T-LPX, mipi spec defined min value is 50ns,
+> > +      * but maybe it shouldn't be too small, because BTA,
+> > +      * LP-10, LP-00, LP-01, all of this is related to T-LPX.
+> > +      */
+> > +     range[L] =3D 50 * scale;
+> > +     range[H] =3D INFINITY;
+> > +     val[CLK] =3D DIV_ROUND_UP(range[L] * (factor << 1), t_byteck) - 2=
+;
+> > +     val[DATA] =3D val[CLK];
+> > +     dphy_set_timing_reg(regmap, REQUEST_TIME, val);
+> > +
+> > +     /* PREPARE_TIME: HS sequence: LP-00 */
+> > +     range[L] =3D 38 * scale;
+> > +     range[H] =3D 95 * scale;
+> > +     tmp =3D AVERAGE(range[L], range[H]);
+> > +     val[CLK] =3D DIV_ROUND_UP(AVERAGE(range[L], range[H]),
+> > +                     t_half_byteck) - 1;
+> > +     range[L] =3D 40 * scale + 4 * t_ui;
+> > +     range[H] =3D 85 * scale + 6 * t_ui;
+> > +     tmp |=3D AVERAGE(range[L], range[H]) << 16;
+> > +     val[DATA] =3D DIV_ROUND_UP(AVERAGE(range[L], range[H]),
+> > +                     t_half_byteck) - 1;
+> > +     dphy_set_timing_reg(regmap, PREPARE_TIME, val);
+> > +
+> > +     /* ZERO_TIME: HS-ZERO */
+> > +     range[L] =3D 300 * scale;
+> > +     range[H] =3D INFINITY;
+> > +     val[CLK] =3D DIV_ROUND_UP(range[L] * factor + (tmp & 0xffff)
+> > +                     - 525 * t_byteck / 100, t_byteck) - 2;
+> > +     range[L] =3D 145 * scale + 10 * t_ui;
+> > +     val[DATA] =3D DIV_ROUND_UP(range[L] * factor
+> > +                     + ((tmp >> 16) & 0xffff) - 525 * t_byteck / 100,
+> > +                     t_byteck) - 2;
+> > +     dphy_set_timing_reg(regmap, ZERO_TIME, val);
+> > +
+> > +     /* TRAIL_TIME: HS-TRAIL */
+> > +     range[L] =3D 60 * scale;
+> > +     range[H] =3D INFINITY;
+> > +     val[CLK] =3D DIV_ROUND_UP(range[L] * factor - constant,
+> t_half_byteck);
+> > +     range[L] =3D max(8 * t_ui, 60 * scale + 4 * t_ui);
+> > +     val[DATA] =3D DIV_ROUND_UP(range[L] * 3 / 2 - constant,
+> t_half_byteck) - 2;
+> > +     dphy_set_timing_reg(regmap, TRAIL_TIME, val);
+> > +
+> > +     /* EXIT_TIME: */
+> > +     range[L] =3D 100 * scale;
+> > +     range[H] =3D INFINITY;
+> > +     val[CLK] =3D DIV_ROUND_UP(range[L] * factor, t_byteck) - 2;
+> > +     val[DATA] =3D val[CLK];
+> > +     dphy_set_timing_reg(regmap, EXIT_TIME, val);
+> > +
+> > +     /* CLKPOST_TIME: */
+> > +     range[L] =3D 60 * scale + 52 * t_ui;
+> > +     range[H] =3D INFINITY;
+> > +     val[CLK] =3D DIV_ROUND_UP(range[L] * factor, t_byteck) - 2;
+> > +     val[DATA] =3D val[CLK];
+> > +     dphy_set_timing_reg(regmap, CLKPOST_TIME, val);
+> > +
+> > +     /* SETTLE_TIME:
+> > +      * This time is used for receiver. So for transmitter,
+> > +      * it can be ignored.
+> > +      */
+> > +
+> > +     /* TA_GO:
+> > +      * transmitter drives bridge state(LP-00) before releasing contro=
+l,
+> > +      * reg 0x1f default value: 0x04, which is good.
+> > +      */
+> > +
+> > +     /* TA_SURE:
+> > +      * After LP-10 state and before bridge state(LP-00),
+> > +      * reg 0x20 default value: 0x01, which is good.
+> > +      */
+> > +
+> > +     /* TA_GET:
+> > +      * receiver drives Bridge state(LP-00) before releasing control
+> > +      * reg 0x21 default value: 0x03, which is good.
+> > +      */
+> > +}
+> > diff --git a/drivers/gpu/drm/sprd/megacores_pll.h
+> b/drivers/gpu/drm/sprd/megacores_pll.h
+> > new file mode 100644
+> > index 000000000..750dbbc09
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/sprd/megacores_pll.h
+> > @@ -0,0 +1,146 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2020 Unisoc Inc.
+> > + */
+> > +
+> > +#ifndef _MEGACORES_PLL_H_
+> > +#define _MEGACORES_PLL_H_
+> > +
+> > +#include "sprd_dsi.h"
+> > +
+> > +enum PLL_TIMING {
+> > +     NONE,
+> > +     REQUEST_TIME,
+> > +     PREPARE_TIME,
+> > +     SETTLE_TIME,
+> > +     ZERO_TIME,
+> > +     TRAIL_TIME,
+> > +     EXIT_TIME,
+> > +     CLKPOST_TIME,
+> > +     TA_GET,
+> > +     TA_GO,
+> > +     TA_SURE,
+> > +     TA_WAIT,
+> > +};
+> > +
+> > +struct pll_reg {
+> > +     union __reg_03__ {
+> > +             struct __03 {
+> > +                     u8 prbs_bist: 1;
+> > +                     u8 en_lp_treot: 1;
+> > +                     u8 lpf_sel: 4;
+> > +                     u8 txfifo_bypass: 1;
+> > +                     u8 freq_hopping: 1;
+> > +             } bits;
+> > +             u8 val;
+> > +     } _03;
+> > +     union __reg_04__ {
+> > +             struct __04 {
+> > +                     u8 div: 3;
+> > +                     u8 masterof8lane: 1;
+> > +                     u8 hop_trig: 1;
+> > +                     u8 cp_s: 2;
+> > +                     u8 fdk_s: 1;
+> > +             } bits;
+> > +             u8 val;
+> > +     } _04;
+> > +     union __reg_06__ {
+> > +             struct __06 {
+> > +                     u8 nint: 7;
+> > +                     u8 mod_en: 1;
+> > +             } bits;
+> > +             u8 val;
+> > +     } _06;
+> > +     union __reg_07__ {
+> > +             struct __07 {
+> > +                     u8 kdelta_h: 8;
+> > +             } bits;
+> > +             u8 val;
+> > +     } _07;
+> > +     union __reg_08__ {
+> > +             struct __08 {
+> > +                     u8 vco_band: 1;
+> > +                     u8 sdm_en: 1;
+> > +                     u8 refin: 2;
+> > +                     u8 kdelta_l: 4;
+> > +             } bits;
+> > +             u8 val;
+> > +     } _08;
+> > +     union __reg_09__ {
+> > +             struct __09 {
+> > +                     u8 kint_h: 8;
+> > +             } bits;
+> > +             u8 val;
+> > +     } _09;
+> > +     union __reg_0a__ {
+> > +             struct __0a {
+> > +                     u8 kint_m: 8;
+> > +             } bits;
+> > +             u8 val;
+> > +     } _0a;
+> > +     union __reg_0b__ {
+> > +             struct __0b {
+> > +                     u8 out_sel: 4;
+> > +                     u8 kint_l: 4;
+> > +             } bits;
+> > +             u8 val;
+> > +     } _0b;
+> > +     union __reg_0c__ {
+> > +             struct __0c {
+> > +                     u8 kstep_h: 8;
+> > +             } bits;
+> > +             u8 val;
+> > +     } _0c;
+> > +     union __reg_0d__ {
+> > +             struct __0d {
+> > +                     u8 kstep_m: 8;
+> > +             } bits;
+> > +             u8 val;
+> > +     } _0d;
+> > +     union __reg_0e__ {
+> > +             struct __0e {
+> > +                     u8 pll_pu_byp: 1;
+> > +                     u8 pll_pu: 1;
+> > +                     u8 hsbist_len: 2;
+> > +                     u8 stopstate_sel: 1;
+> > +                     u8 kstep_l: 3;
+> > +             } bits;
+> > +             u8 val;
+> > +     } _0e;
+> > +     union __reg_0f__ {
+> > +             struct __0f {
+> > +                     u8 det_delay:2;
+> > +                     u8 kdelta: 4;
+> > +                     u8 ldo0p4:2;
+> > +             } bits;
+> > +             u8 val;
+> > +     } _0f;
+> > +};
+> > +
+> > +struct dphy_pll {
+> > +     u8 refin; /* Pre-divider control signal */
+> > +     u8 cp_s; /* 00: SDM_EN=3D1, 10: SDM_EN=3D0 */
+> > +     u8 fdk_s; /* PLL mode control: integer or fraction */
+> > +     u8 sdm_en;
+> > +     u8 div;
+> > +     u8 int_n; /* integer N PLL */
+> > +     u32 ref_clk; /* dphy reference clock, unit: MHz */
+> > +     u32 freq; /* panel config, unit: KHz */
+> > +     u32 fvco;
+> > +     u32 potential_fvco;
+> > +     u32 nint; /* sigma delta modulator NINT control */
+> > +     u32 kint; /* sigma delta modulator KINT control */
+> > +     u8 lpf_sel; /* low pass filter control */
+> > +     u8 out_sel; /* post divider control */
+> > +     u8 vco_band; /* vco range */
+> > +     u8 det_delay;
+> > +
+> > +     struct pll_reg reg;
+> > +};
+> > +
+> > +struct dsi_context;
+> > +
+> > +int dphy_pll_config(struct dsi_context *ctx);
+> > +void dphy_timing_config(struct dsi_context *ctx);
+> > +
+> > +#endif /* _MEGACORES_PLL_H_ */
+> > \ No newline at end of file
+> > diff --git a/drivers/gpu/drm/sprd/sprd_drm.c
+> b/drivers/gpu/drm/sprd/sprd_drm.c
+> > index c626c6caf..1613b5db3 100644
+> > --- a/drivers/gpu/drm/sprd/sprd_drm.c
+> > +++ b/drivers/gpu/drm/sprd/sprd_drm.c
+> > @@ -192,6 +192,7 @@ static struct platform_driver sprd_drm_driver =3D {
+> >  static struct platform_driver *sprd_drm_drivers[]  =3D {
+> >       &sprd_drm_driver,
+> >       &sprd_dpu_driver,
+> > +     &sprd_dsi_driver,
+> >  };
+> >
+> >  static int __init sprd_drm_init(void)
+> > diff --git a/drivers/gpu/drm/sprd/sprd_drm.h
+> b/drivers/gpu/drm/sprd/sprd_drm.h
+> > index 85d4a8b9f..95d1b972f 100644
+> > --- a/drivers/gpu/drm/sprd/sprd_drm.h
+> > +++ b/drivers/gpu/drm/sprd/sprd_drm.h
+> > @@ -14,5 +14,6 @@ struct sprd_drm {
+> >  };
+> >
+> >  extern struct platform_driver sprd_dpu_driver;
+> > +extern struct platform_driver sprd_dsi_driver;
+> >
+> >  #endif /* _SPRD_DRM_H_ */
+> > diff --git a/drivers/gpu/drm/sprd/sprd_dsi.c
+> b/drivers/gpu/drm/sprd/sprd_dsi.c
+> > new file mode 100644
+> > index 000000000..d892b1934
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/sprd/sprd_dsi.c
+> > @@ -0,0 +1,1132 @@
 > > +// SPDX-License-Identifier: GPL-2.0
 > > +/*
 > > + * Copyright (C) 2020 Unisoc Inc.
 > > + */
 > > +
 > > +#include <linux/component.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/dma-buf.h>
-> > +#include <linux/io.h>
 > > +#include <linux/module.h>
-> > +#include <linux/of.h>
 > > +#include <linux/of_address.h>
 > > +#include <linux/of_device.h>
 > > +#include <linux/of_irq.h>
-> > +#include <linux/wait.h>
-> > +#include <linux/workqueue.h>
+> > +#include <linux/of_graph.h>
+> > +#include <video/mipi_display.h>
 > > +
 > > +#include <drm/drm_atomic_helper.h>
 > > +#include <drm/drm_crtc_helper.h>
-> > +#include <drm/drm_fb_cma_helper.h>
-> > +#include <drm/drm_gem_cma_helper.h>
-> > +#include <drm/drm_gem_framebuffer_helper.h>
-> > +#include <drm/drm_plane_helper.h>
+> > +#include <drm/drm_of.h>
+> > +#include <drm/drm_probe_helper.h>
 > > +
 > > +#include "sprd_drm.h"
 > > +#include "sprd_dpu.h"
+> > +#include "sprd_dsi.h"
+> > +#include "dw_dsi_ctrl.h"
+> > +#include "dw_dsi_ctrl_ppi.h"
 > > +
-> > +/* Global control registers */
-> > +#define REG_DPU_CTRL 0x04
-> > +#define REG_DPU_CFG0 0x08
-> > +#define REG_PANEL_SIZE       0x20
-> > +#define REG_BLEND_SIZE       0x24
-> > +#define REG_BG_COLOR 0x2C
+> > +#define encoder_to_dsi(encoder) \
+> > +     container_of(encoder, struct sprd_dsi, encoder)
+> > +#define host_to_dsi(host) \
+> > +     container_of(host, struct sprd_dsi, host)
+> > +#define connector_to_dsi(connector) \
+> > +     container_of(connector, struct sprd_dsi, connector)
 > > +
-> > +/* Layer0 control registers */
-> > +#define REG_LAY_BASE_ADDR0   0x30
-> > +#define REG_LAY_BASE_ADDR1   0x34
-> > +#define REG_LAY_BASE_ADDR2   0x38
-> > +#define REG_LAY_CTRL         0x40
-> > +#define REG_LAY_SIZE         0x44
-> > +#define REG_LAY_PITCH                0x48
-> > +#define REG_LAY_POS          0x4C
-> > +#define REG_LAY_ALPHA                0x50
-> > +#define REG_LAY_CROP_START   0x5C
-> > +
-> > +/* Interrupt control registers */
-> > +#define REG_DPU_INT_EN               0x1E0
-> > +#define REG_DPU_INT_CLR              0x1E4
-> > +#define REG_DPU_INT_STS              0x1E8
-> > +
-> > +/* DPI control registers */
-> > +#define REG_DPI_CTRL         0x1F0
-> > +#define REG_DPI_H_TIMING     0x1F4
-> > +#define REG_DPI_V_TIMING     0x1F8
-> > +
-> > +/* MMU control registers */
-> > +#define REG_MMU_EN                   0x800
-> > +#define REG_MMU_VPN_RANGE            0x80C
-> > +#define REG_MMU_VAOR_ADDR_RD         0x818
-> > +#define REG_MMU_VAOR_ADDR_WR         0x81C
-> > +#define REG_MMU_INV_ADDR_RD          0x820
-> > +#define REG_MMU_INV_ADDR_WR          0x824
-> > +#define REG_MMU_PPN1                 0x83C
-> > +#define REG_MMU_RANGE1                       0x840
-> > +#define REG_MMU_PPN2                 0x844
-> > +#define REG_MMU_RANGE2                       0x848
-> > +
-> > +/* Global control bits */
-> > +#define BIT_DPU_RUN                  BIT(0)
-> > +#define BIT_DPU_STOP                 BIT(1)
-> > +#define BIT_DPU_REG_UPDATE           BIT(2)
-> > +#define BIT_DPU_IF_EDPI                      BIT(0)
-> > +
-> > +/* Layer control bits */
-> > +#define BIT_DPU_LAY_EN                               BIT(0)
-> > +#define BIT_DPU_LAY_LAYER_ALPHA                      (0x01 << 2)
-> > +#define BIT_DPU_LAY_COMBO_ALPHA                      (0x02 << 2)
-> > +#define BIT_DPU_LAY_FORMAT_YUV422_2PLANE             (0x00 << 4)
-> > +#define BIT_DPU_LAY_FORMAT_YUV420_2PLANE             (0x01 << 4)
-> > +#define BIT_DPU_LAY_FORMAT_YUV420_3PLANE             (0x02 << 4)
-> > +#define BIT_DPU_LAY_FORMAT_ARGB8888                  (0x03 << 4)
-> > +#define BIT_DPU_LAY_FORMAT_RGB565                    (0x04 << 4)
-> > +#define BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3             (0x00 << 8)
-> > +#define BIT_DPU_LAY_DATA_ENDIAN_B3B2B1B0             (0x01 << 8)
-> > +#define BIT_DPU_LAY_NO_SWITCH                        (0x00 << 10)
-> > +#define BIT_DPU_LAY_RB_OR_UV_SWITCH          (0x01 << 10)
-> > +#define BIT_DPU_LAY_MODE_BLEND_NORMAL                (0x00 << 16)
-> > +#define BIT_DPU_LAY_MODE_BLEND_PREMULT               (0x01 << 16)
-> > +#define BIT_DPU_LAY_ROTATION_0               (0x00 << 20)
-> > +#define BIT_DPU_LAY_ROTATION_90              (0x01 << 20)
-> > +#define BIT_DPU_LAY_ROTATION_180     (0x02 << 20)
-> > +#define BIT_DPU_LAY_ROTATION_270     (0x03 << 20)
-> > +#define BIT_DPU_LAY_ROTATION_0_M     (0x04 << 20)
-> > +#define BIT_DPU_LAY_ROTATION_90_M    (0x05 << 20)
-> > +#define BIT_DPU_LAY_ROTATION_180_M   (0x06 << 20)
-> > +#define BIT_DPU_LAY_ROTATION_270_M   (0x07 << 20)
-> > +
-> > +/* Interrupt control & status bits */
-> > +#define BIT_DPU_INT_DONE             BIT(0)
-> > +#define BIT_DPU_INT_TE                       BIT(1)
-> > +#define BIT_DPU_INT_ERR                      BIT(2)
-> > +#define BIT_DPU_INT_UPDATE_DONE              BIT(4)
-> > +#define BIT_DPU_INT_VSYNC            BIT(5)
-> > +#define BIT_DPU_INT_MMU_VAOR_RD              BIT(16)
-> > +#define BIT_DPU_INT_MMU_VAOR_WR              BIT(17)
-> > +#define BIT_DPU_INT_MMU_INV_RD               BIT(18)
-> > +#define BIT_DPU_INT_MMU_INV_WR               BIT(19)
-> > +
-> > +/* DPI control bits */
-> > +#define BIT_DPU_EDPI_TE_EN           BIT(8)
-> > +#define BIT_DPU_EDPI_FROM_EXTERNAL_PAD       BIT(10)
-> > +#define BIT_DPU_DPI_HALT_EN          BIT(16)
-> > +
-> > +static const u32 primary_fmts[] =3D {
-> > +     DRM_FORMAT_XRGB8888,
-> > +     DRM_FORMAT_XBGR8888,
-> > +     DRM_FORMAT_ARGB8888,
-> > +     DRM_FORMAT_ABGR8888,
-> > +     DRM_FORMAT_RGBA8888,
-> > +     DRM_FORMAT_BGRA8888,
-> > +     DRM_FORMAT_RGBX8888,
-> > +     DRM_FORMAT_RGB565,
-> > +     DRM_FORMAT_BGR565,
-> > +     DRM_FORMAT_NV12,
-> > +     DRM_FORMAT_NV21,
-> > +     DRM_FORMAT_NV16,
-> > +     DRM_FORMAT_NV61,
-> > +     DRM_FORMAT_YUV420,
-> > +     DRM_FORMAT_YVU420,
-> > +};
-> > +
-> > +struct sprd_plane {
-> > +     struct drm_plane base;
-> > +     u32 index;
-> > +};
-> > +
-> > +static inline struct sprd_plane *to_sprd_plane(struct drm_plane *plane=
-)
+> > +static int regmap_tst_io_write(void *context, u32 reg, u32 val)
 > > +{
-> > +     return container_of(plane, struct sprd_plane, base);
-> > +}
+> > +     struct sprd_dsi *dsi =3D context;
+> > +     struct dsi_context *ctx =3D &dsi->ctx;
 > > +
-> > +static u32 check_mmu_isr(struct sprd_dpu *dpu, u32 reg_val)
-> > +{
-> > +     struct dpu_context *ctx =3D &dpu->ctx;
-> > +     u32 mmu_mask =3D BIT_DPU_INT_MMU_VAOR_RD |
-> > +                     BIT_DPU_INT_MMU_VAOR_WR |
-> > +                     BIT_DPU_INT_MMU_INV_RD |
-> > +                     BIT_DPU_INT_MMU_INV_WR;
-> > +     u32 val =3D reg_val & mmu_mask;
-> > +     int i;
-> > +
-> > +     if (val) {
-> > +             drm_err(dpu->drm, "--- iommu interrupt err: 0x%04x ---\n"=
-,
-> val);
-> > +
-> > +             if (val & BIT_DPU_INT_MMU_INV_RD)
-> > +                     drm_err(dpu->drm, "iommu invalid read error, addr=
-:
-> 0x%08x\n",
-> > +                             readl(ctx->base + REG_MMU_INV_ADDR_RD));
-> > +             if (val & BIT_DPU_INT_MMU_INV_WR)
-> > +                     drm_err(dpu->drm, "iommu invalid write error,
-> addr: 0x%08x\n",
-> > +                             readl(ctx->base + REG_MMU_INV_ADDR_WR));
-> > +             if (val & BIT_DPU_INT_MMU_VAOR_RD)
-> > +                     drm_err(dpu->drm, "iommu va out of range read
-> error, addr: 0x%08x\n",
-> > +                             readl(ctx->base + REG_MMU_VAOR_ADDR_RD));
-> > +             if (val & BIT_DPU_INT_MMU_VAOR_WR)
-> > +                     drm_err(dpu->drm, "iommu va out of range write
-> error, addr: 0x%08x\n",
-> > +                             readl(ctx->base + REG_MMU_VAOR_ADDR_WR));
->
-> Is that the IOMMU page fault interrupt? I would expect it to be in the
-> iommu driver.
-
-Our iommu driver is indeed an separate driver, and also in upstreaming,
-but iommu fault interrupts reporting by display controller, not iommu
- itself,
-if use iommu_set_fault_handler() to hook in our reporting function, there
-must be cross-module access to h/w registers.
-
-
-> > +             for (i =3D 0; i < 8; i++) {
-
-> +                     reg_val =3D layer_reg_rd(ctx, REG_LAY_CTRL, i);
-> > +                     if (reg_val & 0x1)
-> > +                             drm_info(dpu->drm, "layer%d: 0x%08x 0x%08=
-x
-> 0x%08x ctrl: 0x%08x\n", i,
-> > +                                     layer_reg_rd(ctx,
-> REG_LAY_BASE_ADDR0, i),
-> > +                                     layer_reg_rd(ctx,
-> REG_LAY_BASE_ADDR1, i),
-> > +                                     layer_reg_rd(ctx,
-> REG_LAY_BASE_ADDR2, i),
-> > +                                     layer_reg_rd(ctx, REG_LAY_CTRL,
-> i));
-> > +             }
-> > +     }
-> > +
-> > +     return val;
-> > +}
-> > +
-> > +static int dpu_wait_stop_done(struct sprd_dpu *dpu)
-> > +{
-> > +     struct dpu_context *ctx =3D &dpu->ctx;
-> > +     int rc;
-> > +
-> > +     if (ctx->stopped)
-> > +             return 0;
-> > +
-> > +     rc =3D wait_event_interruptible_timeout(ctx->wait_queue,
-> ctx->evt_stop,
-> > +                                            msecs_to_jiffies(500));
-> > +     ctx->evt_stop =3D false;
-> > +
-> > +     ctx->stopped =3D true;
-> > +
-> > +     if (!rc) {
-> > +             drm_err(dpu->drm, "dpu wait for stop done time out!\n");
-> > +             return -ETIMEDOUT;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int dpu_wait_update_done(struct sprd_dpu *dpu)
-> > +{
-> > +     struct dpu_context *ctx =3D &dpu->ctx;
-> > +     int rc;
-> > +
-> > +     ctx->evt_update =3D false;
-> > +
-> > +     rc =3D wait_event_interruptible_timeout(ctx->wait_queue,
-> ctx->evt_update,
-> > +                                            msecs_to_jiffies(500));
-> > +
-> > +     if (!rc) {
-> > +             drm_err(dpu->drm, "dpu wait for reg update done time
-> out!\n");
-> > +             return -ETIMEDOUT;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static u32 drm_format_to_dpu(struct drm_framebuffer *fb)
-> > +{
-> > +     u32 format =3D 0;
-> > +
-> > +     switch (fb->format->format) {
-> > +     case DRM_FORMAT_BGRA8888:
-> > +             /* BGRA8888 -> ARGB8888 */
-> > +             format |=3D BIT_DPU_LAY_DATA_ENDIAN_B3B2B1B0;
-> > +             format |=3D BIT_DPU_LAY_FORMAT_ARGB8888;
-> > +             break;
-> > +     case DRM_FORMAT_RGBX8888:
-> > +     case DRM_FORMAT_RGBA8888:
-> > +             /* RGBA8888 -> ABGR8888 */
-> > +             format |=3D BIT_DPU_LAY_DATA_ENDIAN_B3B2B1B0;
-> > +             /* fallthrough */
-> > +     case DRM_FORMAT_ABGR8888:
-> > +             /* RB switch */
-> > +             format |=3D BIT_DPU_LAY_RB_OR_UV_SWITCH;
-> > +             /* fallthrough */
-> > +     case DRM_FORMAT_ARGB8888:
-> > +             format |=3D BIT_DPU_LAY_FORMAT_ARGB8888;
-> > +             break;
-> > +     case DRM_FORMAT_XBGR8888:
-> > +             /* RB switch */
-> > +             format |=3D BIT_DPU_LAY_RB_OR_UV_SWITCH;
-> > +             /* fallthrough */
-> > +     case DRM_FORMAT_XRGB8888:
-> > +             format |=3D BIT_DPU_LAY_FORMAT_ARGB8888;
-> > +             break;
-> > +     case DRM_FORMAT_BGR565:
-> > +             /* RB switch */
-> > +             format |=3D BIT_DPU_LAY_RB_OR_UV_SWITCH;
-> > +             /* fallthrough */
-> > +     case DRM_FORMAT_RGB565:
-> > +             format |=3D BIT_DPU_LAY_FORMAT_RGB565;
-> > +             break;
-> > +     case DRM_FORMAT_NV12:
-> > +             /* 2-Lane: Yuv420 */
-> > +             format |=3D BIT_DPU_LAY_FORMAT_YUV420_2PLANE;
-> > +             /* Y endian */
-> > +             format |=3D BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3;
-> > +             /* UV endian */
-> > +             format |=3D BIT_DPU_LAY_NO_SWITCH;
-> > +             break;
-> > +     case DRM_FORMAT_NV21:
-> > +             /* 2-Lane: Yuv420 */
-> > +             format |=3D BIT_DPU_LAY_FORMAT_YUV420_2PLANE;
-> > +             /* Y endian */
-> > +             format |=3D BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3;
-> > +             /* UV endian */
-> > +             format |=3D BIT_DPU_LAY_RB_OR_UV_SWITCH;
-> > +             break;
-> > +     case DRM_FORMAT_NV16:
-> > +             /* 2-Lane: Yuv422 */
-> > +             format |=3D BIT_DPU_LAY_FORMAT_YUV422_2PLANE;
-> > +             /* Y endian */
-> > +             format |=3D BIT_DPU_LAY_DATA_ENDIAN_B3B2B1B0;
-> > +             /* UV endian */
-> > +             format |=3D BIT_DPU_LAY_RB_OR_UV_SWITCH;
-> > +             break;
-> > +     case DRM_FORMAT_NV61:
-> > +             /* 2-Lane: Yuv422 */
-> > +             format |=3D BIT_DPU_LAY_FORMAT_YUV422_2PLANE;
-> > +             /* Y endian */
-> > +             format |=3D BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3;
-> > +             /* UV endian */
-> > +             format |=3D BIT_DPU_LAY_NO_SWITCH;
-> > +             break;
-> > +     case DRM_FORMAT_YUV420:
-> > +             format |=3D BIT_DPU_LAY_FORMAT_YUV420_3PLANE;
-> > +             /* Y endian */
-> > +             format |=3D BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3;
-> > +             /* UV endian */
-> > +             format |=3D BIT_DPU_LAY_NO_SWITCH;
-> > +             break;
-> > +     case DRM_FORMAT_YVU420:
-> > +             format |=3D BIT_DPU_LAY_FORMAT_YUV420_3PLANE;
-> > +             /* Y endian */
-> > +             format |=3D BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3;
-> > +             /* UV endian */
-> > +             format |=3D BIT_DPU_LAY_RB_OR_UV_SWITCH;
-> > +             break;
-> > +     default:
-> > +             break;
-> > +     }
-> > +
-> > +     return format;
-> > +}
-> > +
-> > +static u32 drm_rotation_to_dpu(struct drm_plane_state *state)
-> > +{
-> > +     u32 rotation =3D 0;
-> > +
-> > +     switch (state->rotation) {
-> > +     default:
-> > +     case DRM_MODE_ROTATE_0:
-> > +             rotation =3D BIT_DPU_LAY_ROTATION_0;
-> > +             break;
-> > +     case DRM_MODE_ROTATE_90:
-> > +             rotation =3D BIT_DPU_LAY_ROTATION_90;
-> > +             break;
-> > +     case DRM_MODE_ROTATE_180:
-> > +             rotation =3D BIT_DPU_LAY_ROTATION_180;
-> > +             break;
-> > +     case DRM_MODE_ROTATE_270:
-> > +             rotation =3D BIT_DPU_LAY_ROTATION_270;
-> > +             break;
-> > +     case DRM_MODE_REFLECT_Y:
-> > +             rotation =3D BIT_DPU_LAY_ROTATION_180_M;
-> > +             break;
-> > +     case (DRM_MODE_REFLECT_Y | DRM_MODE_ROTATE_90):
-> > +             rotation =3D BIT_DPU_LAY_ROTATION_90_M;
-> > +             break;
-> > +     case DRM_MODE_REFLECT_X:
-> > +             rotation =3D BIT_DPU_LAY_ROTATION_0_M;
-> > +             break;
-> > +     case (DRM_MODE_REFLECT_X | DRM_MODE_ROTATE_90):
-> > +             rotation =3D BIT_DPU_LAY_ROTATION_270_M;
-> > +             break;
-> > +     }
-> > +
-> > +     return rotation;
-> > +}
-> > +
-> > +static u32 drm_blend_to_dpu(struct drm_plane_state *state)
-> > +{
-> > +     u32 blend =3D 0;
-> > +
-> > +     switch (state->pixel_blend_mode) {
-> > +     case DRM_MODE_BLEND_COVERAGE:
-> > +             /* alpha mode select - combo alpha */
-> > +             blend |=3D BIT_DPU_LAY_COMBO_ALPHA;
-> > +             /* Normal mode */
-> > +             blend |=3D BIT_DPU_LAY_MODE_BLEND_NORMAL;
-> > +             break;
-> > +     case DRM_MODE_BLEND_PREMULTI:
-> > +             /* alpha mode select - combo alpha */
-> > +             blend |=3D BIT_DPU_LAY_COMBO_ALPHA;
-> > +             /* Pre-mult mode */
-> > +             blend |=3D BIT_DPU_LAY_MODE_BLEND_PREMULT;
-> > +             break;
-> > +     case DRM_MODE_BLEND_PIXEL_NONE:
-> > +     default:
-> > +             /* don't do blending, maybe RGBX */
-> > +             /* alpha mode select - layer alpha */
-> > +             blend |=3D BIT_DPU_LAY_LAYER_ALPHA;
-> > +             break;
-> > +     }
-> > +
-> > +     return blend;
-> > +}
-> > +
-> > +static void sprd_dpu_layer(struct sprd_dpu *dpu, struct sprd_plane
-> *plane,
-> > +                     struct drm_plane_state *state)
-> > +{
-> > +     struct dpu_context *ctx =3D &dpu->ctx;
-> > +     struct drm_gem_cma_object *cma_obj;
-> > +     const struct drm_format_info *info;
-> > +     struct drm_framebuffer *fb =3D state->fb;
-> > +     u32 addr, size, offset, pitch, blend, format, rotation;
-> > +     u32 src_x =3D state->src_x >> 16;
-> > +     u32 src_y =3D state->src_y >> 16;
-> > +     u32 src_w =3D state->src_w >> 16;
-> > +     u32 src_h =3D state->src_h >> 16;
-> > +     u32 dst_x =3D state->crtc_x;
-> > +     u32 dst_y =3D state->crtc_y;
-> > +     u32 alpha =3D state->alpha;
-> > +     int i;
-> > +
-> > +     offset =3D (dst_x & 0xffff) | (dst_y << 16);
-> > +     size =3D (src_w & 0xffff) | (src_h << 16);
-> > +
-> > +     for (i =3D 0; i < fb->format->num_planes; i++) {
-> > +             cma_obj =3D drm_fb_cma_get_gem_obj(fb, i);
-> > +             addr =3D cma_obj->paddr + fb->offsets[i];
-> > +
-> > +             if (i =3D=3D 0)
-> > +                     layer_reg_wr(ctx, REG_LAY_BASE_ADDR0, addr,
-> plane->index);
-> > +             else if (i =3D=3D 1)
-> > +                     layer_reg_wr(ctx, REG_LAY_BASE_ADDR1, addr,
-> plane->index);
-> > +             else
-> > +                     layer_reg_wr(ctx, REG_LAY_BASE_ADDR2, addr,
-> plane->index);
-> > +     }
-> > +
-> > +     info =3D drm_format_info(fb->format->format);
-> > +     if (fb->format->num_planes =3D=3D 3) {
-> > +             /* UV pitch is 1/2 of Y pitch */
-> > +             pitch =3D (fb->pitches[0] / info->cpp[0]) |
-> > +                             (fb->pitches[0] / info->cpp[0] << 15);
-> > +     } else {
-> > +             pitch =3D fb->pitches[0] / info->cpp[0];
-> > +     }
-> > +
-> > +     layer_reg_wr(ctx, REG_LAY_POS, offset, plane->index);
-> > +     layer_reg_wr(ctx, REG_LAY_SIZE, size, plane->index);
-> > +     layer_reg_wr(ctx, REG_LAY_CROP_START,
-> > +                     src_y << 16 | src_x, plane->index);
-> > +     layer_reg_wr(ctx, REG_LAY_ALPHA, alpha, plane->index);
-> > +     layer_reg_wr(ctx, REG_LAY_PITCH, pitch, plane->index);
-> > +
-> > +     format =3D drm_format_to_dpu(fb);
-> > +     blend =3D drm_blend_to_dpu(state);
-> > +     rotation =3D drm_rotation_to_dpu(state);
-> > +
-> > +     layer_reg_wr(ctx, REG_LAY_CTRL, BIT_DPU_LAY_EN |
-> > +                             format |
-> > +                             blend |
-> > +                             rotation,
-> > +                             plane->index);
-> > +}
-> > +
-> > +static void sprd_dpu_flip(struct sprd_dpu *dpu)
-> > +{
-> > +     struct dpu_context *ctx =3D &dpu->ctx;
-> > +     u32 reg_val;
-> > +
-> > +     /*
-> > +      * Make sure the dpu is in stop status. DPU has no shadow
-> > +      * registers in EDPI mode. So the config registers can only be
-> > +      * updated in the rising edge of DPU_RUN bit.
-> > +      */
-> > +     if (ctx->if_type =3D=3D SPRD_DPU_IF_EDPI)
-> > +             dpu_wait_stop_done(dpu);
-> > +
-> > +     /* update trigger and wait */
-> > +     if (ctx->if_type =3D=3D SPRD_DPU_IF_DPI) {
-> > +             if (!ctx->stopped) {
-> > +                     dpu_reg_set(ctx, REG_DPU_CTRL, BIT_DPU_REG_UPDATE=
-);
-> > +                     dpu_wait_update_done(dpu);
-> > +             }
-> > +
-> > +             dpu_reg_set(ctx, REG_DPU_INT_EN, BIT_DPU_INT_ERR);
-> > +     } else if (ctx->if_type =3D=3D SPRD_DPU_IF_EDPI) {
-> > +             dpu_reg_set(ctx, REG_DPU_CTRL, BIT_DPU_RUN);
-> > +
-> > +             ctx->stopped =3D false;
-> > +     }
-> > +
-> > +     /*
-> > +      * If the following interrupt was disabled in isr,
-> > +      * re-enable it.
-> > +      */
-> > +     reg_val =3D BIT_DPU_INT_MMU_VAOR_RD |
-> > +               BIT_DPU_INT_MMU_VAOR_WR |
-> > +               BIT_DPU_INT_MMU_INV_RD |
-> > +               BIT_DPU_INT_MMU_INV_WR;
-> > +     dpu_reg_set(ctx, REG_DPU_INT_EN, reg_val);
-> > +}
-> > +
-> > +static void sprd_dpu_init(struct sprd_dpu *dpu)
-> > +{
-> > +     struct dpu_context *ctx =3D &dpu->ctx;
-> > +     u32 size;
-> > +
-> > +     writel(0x00, ctx->base + REG_BG_COLOR);
-> > +
-> > +     size =3D (ctx->vm.vactive << 16) | ctx->vm.hactive;
-> > +     writel(size, ctx->base + REG_PANEL_SIZE);
-> > +     writel(size, ctx->base + REG_BLEND_SIZE);
-> > +
-> > +     writel(0x00, ctx->base + REG_MMU_EN);
-> > +     writel(0x00, ctx->base + REG_MMU_PPN1);
-> > +     writel(0xffff, ctx->base + REG_MMU_RANGE1);
-> > +     writel(0x00, ctx->base + REG_MMU_PPN2);
-> > +     writel(0xffff, ctx->base + REG_MMU_RANGE2);
-> > +     writel(0x1ffff, ctx->base + REG_MMU_VPN_RANGE);
-> > +}
-> > +
-> > +static void sprd_dpu_fini(struct sprd_dpu *dpu)
-> > +{
-> > +     struct dpu_context *ctx =3D &dpu->ctx;
-> > +
-> > +     writel(0x00, ctx->base + REG_DPU_INT_EN);
-> > +     writel(0xff, ctx->base + REG_DPU_INT_CLR);
-> > +}
-> > +
-> > +static void sprd_dpi_init(struct sprd_dpu *dpu)
-> > +{
-> > +     struct dpu_context *ctx =3D &dpu->ctx;
-> > +     u32 int_mask =3D 0;
-> > +     u32 reg_val;
-> > +
-> > +     if (ctx->if_type =3D=3D SPRD_DPU_IF_DPI) {
-> > +             /* use dpi as interface */
-> > +             dpu_reg_clr(ctx, REG_DPU_CFG0, BIT_DPU_IF_EDPI);
-> > +             /* disable Halt function for SPRD DSI */
-> > +             dpu_reg_clr(ctx, REG_DPI_CTRL, BIT_DPU_DPI_HALT_EN);
-> > +             /* select te from external pad */
-> > +             dpu_reg_set(ctx, REG_DPI_CTRL,
-> BIT_DPU_EDPI_FROM_EXTERNAL_PAD);
-> > +
-> > +             /* set dpi timing */
-> > +             reg_val =3D ctx->vm.hsync_len << 0 |
-> > +                       ctx->vm.hback_porch << 8 |
-> > +                       ctx->vm.hfront_porch << 20;
-> > +             writel(reg_val, ctx->base + REG_DPI_H_TIMING);
-> > +
-> > +             reg_val =3D ctx->vm.vsync_len << 0 |
-> > +                       ctx->vm.vback_porch << 8 |
-> > +                       ctx->vm.vfront_porch << 20;
-> > +             writel(reg_val, ctx->base + REG_DPI_V_TIMING);
-> > +
-> > +             if (ctx->vm.vsync_len + ctx->vm.vback_porch < 32)
-> > +                     drm_warn(dpu->drm, "Warning: (vsync + vbp) < 32, =
-"
-> > +                             "underflow risk!\n");
->
-> I don't think a warning is appropriate here. Maybe we should just
-> outright reject any mode that uses it?
->
- This issue has been fixed on the new soc, maybe I should remove it.
-
->
-> > +             /* enable dpu update done INT */
-> > +             int_mask |=3D BIT_DPU_INT_UPDATE_DONE;
-> > +             /* enable dpu done INT */
-> > +             int_mask |=3D BIT_DPU_INT_DONE;
-> > +             /* enable dpu dpi vsync */
-> > +             int_mask |=3D BIT_DPU_INT_VSYNC;
-> > +             /* enable dpu TE INT */
-> > +             int_mask |=3D BIT_DPU_INT_TE;
-> > +             /* enable underflow err INT */
-> > +             int_mask |=3D BIT_DPU_INT_ERR;
-> > +     } else if (ctx->if_type =3D=3D SPRD_DPU_IF_EDPI) {
-> > +             /* use edpi as interface */
-> > +             dpu_reg_set(ctx, REG_DPU_CFG0, BIT_DPU_IF_EDPI);
-> > +             /* use external te */
-> > +             dpu_reg_set(ctx, REG_DPI_CTRL,
-> BIT_DPU_EDPI_FROM_EXTERNAL_PAD);
-> > +             /* enable te */
-> > +             dpu_reg_set(ctx, REG_DPI_CTRL, BIT_DPU_EDPI_TE_EN);
-> > +
-> > +             /* enable stop done INT */
-> > +             int_mask |=3D BIT_DPU_INT_DONE;
-> > +             /* enable TE INT */
-> > +             int_mask |=3D BIT_DPU_INT_TE;
-> > +     }
-> > +
-> > +     /* enable iommu va out of range read error INT */
-> > +     int_mask |=3D BIT_DPU_INT_MMU_VAOR_RD;
-> > +     /* enable iommu va out of range write error INT */
-> > +     int_mask |=3D BIT_DPU_INT_MMU_VAOR_WR;
-> > +     /* enable iommu invalid read error INT */
-> > +     int_mask |=3D BIT_DPU_INT_MMU_INV_RD;
-> > +     /* enable iommu invalid write error INT */
-> > +     int_mask |=3D BIT_DPU_INT_MMU_INV_WR;
-> > +
-> > +     writel(int_mask, ctx->base + REG_DPU_INT_EN);
-> > +}
-> > +
-> > +void sprd_dpu_run(struct sprd_dpu *dpu)
-> > +{
-> > +     struct dpu_context *ctx =3D &dpu->ctx;
-> > +
-> > +     dpu_reg_set(ctx, REG_DPU_CTRL, BIT_DPU_RUN);
-> > +
-> > +     ctx->stopped =3D false;
-> > +}
-> > +
-> > +void sprd_dpu_stop(struct sprd_dpu *dpu)
-> > +{
-> > +     struct dpu_context *ctx =3D &dpu->ctx;
-> > +
-> > +     if (ctx->if_type =3D=3D SPRD_DPU_IF_DPI)
-> > +             dpu_reg_set(ctx, REG_DPU_CTRL, BIT_DPU_STOP);
-> > +
-> > +     dpu_wait_stop_done(dpu);
-> > +}
-> > +
-> > +static int sprd_plane_atomic_check(struct drm_plane *plane,
-> > +                               struct drm_plane_state *state)
-> > +{
-> > +     struct drm_framebuffer *fb =3D state->fb;
-> > +     struct drm_crtc_state *crtc_state;
-> > +     u32 fmt;
-> > +
-> > +     if (!fb || !state->crtc)
-> > +             return 0;
-> > +
-> > +     fmt =3D drm_format_to_dpu(fb);
-> > +     if (!fmt)
+> > +     if (val > 0xff || reg > 0xff)
 > > +             return -EINVAL;
 > > +
-> > +     crtc_state =3D drm_atomic_get_crtc_state(state->state, state->crt=
-c);
-> > +     if (IS_ERR(crtc_state))
-> > +             return PTR_ERR(crtc_state);
+> > +     drm_dbg(dsi->drm, "reg =3D 0x%02x, val =3D 0x%02x\n", reg, val);
 > > +
-> > +     return drm_atomic_helper_check_plane_state(state, crtc_state,
+> > +     dsi_phy_test_en(ctx, 1);
+> > +     dsi_phy_test_din(ctx, reg);
+> > +     dsi_phy_test_clk(ctx, 1);
+> > +     dsi_phy_test_clk(ctx, 0);
+> > +     dsi_phy_test_en(ctx, 0);
+> > +     dsi_phy_test_din(ctx, val);
+> > +     dsi_phy_test_clk(ctx, 1);
+> > +     dsi_phy_test_clk(ctx, 0);
 > > +
->  DRM_PLANE_HELPER_NO_SCALING,
-> > +
->  DRM_PLANE_HELPER_NO_SCALING,
-> > +                                               true, true);
+> > +     return 0;
 > > +}
 > > +
-> > +static void sprd_plane_atomic_update(struct drm_plane *drm_plane,
-> > +                                 struct drm_plane_state *old_state)
+> > +static int regmap_tst_io_read(void *context, u32 reg, u32 *val)
 > > +{
-> > +     struct drm_plane_state *state =3D drm_plane->state;
-> > +     struct sprd_plane *plane =3D to_sprd_plane(drm_plane);
-> > +     struct sprd_dpu *dpu =3D to_sprd_crtc(state->crtc);
+> > +     struct sprd_dsi *dsi =3D context;
+> > +     struct dsi_context *ctx =3D &dsi->ctx;
+> > +     int ret;
 > > +
-> > +     /* start configure dpu layers */
-> > +     sprd_dpu_layer(dpu, plane, state);
+> > +     if (reg > 0xff)
+> > +             return -EINVAL;
+> > +
+> > +     dsi_phy_test_en(ctx, 1);
+> > +     dsi_phy_test_din(ctx, reg);
+> > +     dsi_phy_test_clk(ctx, 1);
+> > +     dsi_phy_test_clk(ctx, 0);
+> > +     dsi_phy_test_en(ctx, 0);
+> > +
+> > +     udelay(1);
+> > +
+> > +     ret =3D dsi_phy_test_dout(ctx);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     *val =3D ret;
+> > +
+> > +     drm_dbg(dsi->drm, "reg =3D 0x%02x, val =3D 0x%02x\n", reg, *val);
+> > +     return 0;
 > > +}
 > > +
-> > +static void sprd_plane_atomic_disable(struct drm_plane *drm_plane,
-> > +                                  struct drm_plane_state *old_state)
-> > +{
-> > +     struct sprd_plane *plane =3D to_sprd_plane(drm_plane);
-> > +     struct sprd_dpu *dpu =3D to_sprd_crtc(old_state->crtc);
-> > +
-> > +     layer_reg_wr(&dpu->ctx, REG_LAY_CTRL, 0x00, plane->index);
-> > +}
-> > +
-> > +static void sprd_plane_create_properties(struct sprd_plane *plane, int
-> index)
-> > +{
-> > +     unsigned int supported_modes =3D BIT(DRM_MODE_BLEND_PIXEL_NONE) |
-> > +                                    BIT(DRM_MODE_BLEND_PREMULTI) |
-> > +                                    BIT(DRM_MODE_BLEND_COVERAGE);
-> > +
-> > +     /* create rotation property */
-> > +     drm_plane_create_rotation_property(&plane->base,
-> > +                                        DRM_MODE_ROTATE_0,
-> > +                                        DRM_MODE_ROTATE_MASK |
-> > +                                        DRM_MODE_REFLECT_MASK);
-> > +
-> > +     /* create alpha property */
-> > +     drm_plane_create_alpha_property(&plane->base);
-> > +
-> > +     /* create blend mode property */
-> > +     drm_plane_create_blend_mode_property(&plane->base,
-> supported_modes);
-> > +
-> > +     /* create zpos property */
-> > +     drm_plane_create_zpos_immutable_property(&plane->base, index);
-> > +}
-> > +
-> > +static const struct drm_plane_helper_funcs sprd_plane_helper_funcs =3D=
- {
-> > +     .atomic_check =3D sprd_plane_atomic_check,
-> > +     .atomic_update =3D sprd_plane_atomic_update,
-> > +     .atomic_disable =3D sprd_plane_atomic_disable,
+> > +static struct regmap_bus regmap_tst_io =3D {
+> > +     .reg_write =3D regmap_tst_io_write,
+> > +     .reg_read =3D regmap_tst_io_read,
 > > +};
 > > +
-> > +static const struct drm_plane_funcs sprd_plane_funcs =3D {
-> > +     .update_plane =3D drm_atomic_helper_update_plane,
-> > +     .disable_plane  =3D drm_atomic_helper_disable_plane,
-> > +     .destroy =3D drm_plane_cleanup,
-> > +     .reset =3D drm_atomic_helper_plane_reset,
-> > +     .atomic_duplicate_state =3D drm_atomic_helper_plane_duplicate_sta=
-te,
-> > +     .atomic_destroy_state =3D drm_atomic_helper_plane_destroy_state,
+> > +static const struct regmap_config byte_config =3D {
+> > +     .reg_bits =3D 8,
+> > +     .val_bits =3D 8,
 > > +};
 > > +
-> > +static struct sprd_plane *sprd_plane_init(struct drm_device *drm)
+> > +static int dphy_wait_pll_locked(struct dsi_context *ctx)
 > > +{
-> > +     struct sprd_plane *plane, *primary;
+> > +     struct sprd_dsi *dsi =3D container_of(ctx, struct sprd_dsi, ctx);
 > > +     int i;
 > > +
-> > +     for (i =3D 0; i < 6; i++) {
-> > +             plane =3D drmm_universal_plane_alloc(drm, struct sprd_pla=
-ne,
-> base,
-> > +                                            1, &sprd_plane_funcs,
-> > +                                            primary_fmts,
-> ARRAY_SIZE(primary_fmts),
-> > +                                            NULL,
-> DRM_PLANE_TYPE_PRIMARY, NULL);
-> > +             if (IS_ERR(plane)) {
-> > +                     drm_err(drm, "fail to init primary plane\n");
-> > +                     return plane;
-> > +             }
-> > +
-> > +             drm_plane_helper_add(&plane->base,
-> &sprd_plane_helper_funcs);
-> > +
-> > +             sprd_plane_create_properties(plane, i);
-> > +
-> > +             plane->index =3D i;
-> > +             if (i =3D=3D 0)
-> > +                     primary =3D plane;
+> > +     for (i =3D 0; i < 50000; i++) {
+> > +             if (dsi_phy_is_pll_locked(ctx))
+> > +                     return 0;
+> > +             udelay(3);
 > > +     }
 > > +
-> > +     return primary;
+> > +     drm_err(dsi->drm, "dphy pll can not be locked\n");
+> > +     return -ETIMEDOUT;
 > > +}
 > > +
-> > +static enum drm_mode_status sprd_crtc_mode_valid(struct drm_crtc *crtc=
-,
-> > +                                     const struct drm_display_mode
-> *mode)
+> > +static int dsi_wait_tx_payload_fifo_empty(struct dsi_context *ctx)
 > > +{
-> > +     struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);
+> > +     int i;
 > > +
-> > +     drm_dbg(dpu->drm, "%s() mode: "DRM_MODE_FMT"\n", __func__,
-> DRM_MODE_ARG(mode));
-> > +
-> > +     if (mode->type & DRM_MODE_TYPE_PREFERRED) {
-> > +             drm_display_mode_to_videomode(mode, &dpu->ctx.vm);
->
-> You don't seem to use that anywhere else? And that's a bit fragile,
-> nothing really guarantees that it's the mode you're going to use, and
-> even then it can be adjusted.
->
- drm_mode convert to video_mode is been use in "sprd_dpu_init" and
-"sprd_dpi_init "
- Preferred mode should be fixed mode, we generally don=E2=80=99t adjust it.
-
->
-> > +
-> > +             if ((mode->hdisplay =3D=3D mode->htotal) ||
-> > +                 (mode->vdisplay =3D=3D mode->vtotal))
-> > +                     dpu->ctx.if_type =3D SPRD_DPU_IF_EDPI;
-> > +             else
-> > +                     dpu->ctx.if_type =3D SPRD_DPU_IF_DPI;
->
-> From an API PoV, you would want that to be in atomic_check. However, I'm
-> not even sure what it's doing in the first place?
->
-dpi interface mode: DPI(dsi video mode panel) and EDPI(dsi cmd mode panel)
-dpi interface mode has been used on crtc atomic_enable foo, so we need
-check dpi interface
-mode before atomic_enable.
-
-Must be put it in atomic_check? Here is the dpi interface mode selection,
-maybe here is better?
-
->
+> > +     for (i =3D 0; i < 5000; i++) {
+> > +             if (dsi_is_tx_payload_fifo_empty(ctx))
+> > +                     return 0;
+> > +             udelay(1);
 > > +     }
 > > +
-> > +     return MODE_OK;
+> > +     return -ETIMEDOUT;
 > > +}
 > > +
-> > +static void sprd_crtc_atomic_enable(struct drm_crtc *crtc,
-> > +                                struct drm_atomic_state *state)
+> > +static int dsi_wait_tx_cmd_fifo_empty(struct dsi_context *ctx)
 > > +{
-> > +     struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);
+> > +     int i;
 > > +
-> > +     sprd_dpu_init(dpu);
-> > +
-> > +     sprd_dpi_init(dpu);
-> > +
-> > +     enable_irq(dpu->ctx.irq);
->
-> Shouldn't this be in enable_vblank? And I would assume that you would
-> have the interrupts enabled all the time, but disabled in your device?
->
-It seems better to put in enable_vblank, i will try and test it... Thks
-
-  And I would assume that you would
-have the interrupts enabled all the time, but disabled in your device?
-[kevin]I don=E2=80=99t quite understand this, can you help me explain it in
-detail?
-
->
-> > +     drm_crtc_vblank_on(&dpu->base);
-> > +}
-> > +
-> > +static void sprd_crtc_atomic_disable(struct drm_crtc *crtc,
-> > +                                 struct drm_atomic_state *state)
-> > +{
-> > +     struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);
-> > +     struct drm_device *drm =3D dpu->base.dev;
-> > +
-> > +     drm_crtc_vblank_off(&dpu->base);
-> > +
-> > +     disable_irq(dpu->ctx.irq);
-> > +
-> > +     sprd_dpu_fini(dpu);
-> > +
-> > +     spin_lock_irq(&drm->event_lock);
-> > +     if (crtc->state->event) {
-> > +             drm_crtc_send_vblank_event(crtc, crtc->state->event);
-> > +             crtc->state->event =3D NULL;
-> > +     }
-> > +     spin_unlock_irq(&drm->event_lock);
-> > +}
-> > +
-> > +static int sprd_crtc_atomic_check(struct drm_crtc *crtc,
-> > +                              struct drm_atomic_state *state)
-> > +{
-> > +     drm_dbg(crtc->dev, "%s()\n", __func__);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void sprd_crtc_atomic_flush(struct drm_crtc *crtc,
-> > +                               struct drm_atomic_state *state)
-> > +
-> > +{
-> > +     struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);
-> > +     struct drm_device *drm =3D dpu->base.dev;
-> > +
-> > +     sprd_dpu_flip(dpu);
-> > +
-> > +     spin_lock_irq(&drm->event_lock);
-> > +     if (crtc->state->event) {
-> > +             drm_crtc_send_vblank_event(crtc, crtc->state->event);
-> > +             crtc->state->event =3D NULL;
-> > +     }
-> > +     spin_unlock_irq(&drm->event_lock);
-> > +}
-> > +
-> > +static int sprd_crtc_enable_vblank(struct drm_crtc *crtc)
-> > +{
-> > +     struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);
-> > +
-> > +     dpu_reg_set(&dpu->ctx, REG_DPU_INT_EN, BIT_DPU_INT_VSYNC);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void sprd_crtc_disable_vblank(struct drm_crtc *crtc)
-> > +{
-> > +     struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);
-> > +
-> > +     dpu_reg_clr(&dpu->ctx, REG_DPU_INT_EN, BIT_DPU_INT_VSYNC);
-> > +}
-> > +
-> > +static const struct drm_crtc_helper_funcs sprd_crtc_helper_funcs =3D {
-> > +     .mode_valid     =3D sprd_crtc_mode_valid,
-> > +     .atomic_check   =3D sprd_crtc_atomic_check,
-> > +     .atomic_flush   =3D sprd_crtc_atomic_flush,
-> > +     .atomic_enable  =3D sprd_crtc_atomic_enable,
-> > +     .atomic_disable =3D sprd_crtc_atomic_disable,
-> > +};
-> > +
-> > +static const struct drm_crtc_funcs sprd_crtc_funcs =3D {
-> > +     .destroy        =3D drm_crtc_cleanup,
-> > +     .set_config     =3D drm_atomic_helper_set_config,
-> > +     .page_flip      =3D drm_atomic_helper_page_flip,
-> > +     .reset          =3D drm_atomic_helper_crtc_reset,
-> > +     .atomic_duplicate_state =3D drm_atomic_helper_crtc_duplicate_stat=
-e,
-> > +     .atomic_destroy_state   =3D drm_atomic_helper_crtc_destroy_state,
-> > +     .enable_vblank  =3D sprd_crtc_enable_vblank,
-> > +     .disable_vblank =3D sprd_crtc_disable_vblank,
-> > +};
-> > +
-> > +static struct sprd_dpu *sprd_crtc_init(struct drm_device *drm,
-> > +                      struct drm_plane *primary)
-> > +{
-> > +     struct device_node *port;
-> > +     struct sprd_dpu *dpu;
-> > +
-> > +     /*
-> > +      * set crtc port so that drm_of_find_possible_crtcs call works
-> > +      */
-> > +     port =3D of_parse_phandle(drm->dev->of_node, "ports", 0);
-> > +     if (!port) {
-> > +             drm_err(drm, "find 'ports' phandle of %s failed\n",
-> > +                       drm->dev->of_node->full_name);
-> > +             return ERR_PTR(-EINVAL);
-> > +     }
-> > +     of_node_put(port);
->
-> The YAML binding should already make sure that your binding is sane, and
-> if you still get a DT that doesn't follow it, you have a whole lot of
-> other issues than whether ports is there :)
->
-> > +     dpu =3D drmm_crtc_alloc_with_planes(drm, struct sprd_dpu, base,
-> > +                                     primary, NULL,
-> > +                                     &sprd_crtc_funcs, NULL);
-> > +     if (IS_ERR(dpu)) {
-> > +             drm_err(drm, "failed to init crtc.\n");
-> > +             return dpu;
+> > +     for (i =3D 0; i < 5000; i++) {
+> > +             if (dsi_is_tx_cmd_fifo_empty(ctx))
+> > +                     return 0;
+> > +             udelay(1);
 > > +     }
 > > +
-> > +     dpu->base.port =3D port;
+> > +     return -ETIMEDOUT;
+> > +}
+> > +
+> > +static int dsi_wait_rd_resp_completed(struct dsi_context *ctx)
+> > +{
+> > +     int i;
+> > +
+> > +     for (i =3D 0; i < 10000; i++) {
+> > +             if (dsi_is_bta_returned(ctx))
+> > +                     return 0;
+> > +             udelay(10);
+> > +     }
+> > +
+> > +     return -ETIMEDOUT;
+> > +}
+> > +
+> > +static u16 calc_bytes_per_pixel_x100(int coding)
+> > +{
+> > +     u16 Bpp_x100;
+> > +
+> > +     switch (coding) {
+> > +     case COLOR_CODE_16BIT_CONFIG1:
+> > +     case COLOR_CODE_16BIT_CONFIG2:
+> > +     case COLOR_CODE_16BIT_CONFIG3:
+> > +             Bpp_x100 =3D 200;
+> > +             break;
+> > +     case COLOR_CODE_18BIT_CONFIG1:
+> > +     case COLOR_CODE_18BIT_CONFIG2:
+> > +             Bpp_x100 =3D 225;
+> > +             break;
+> > +     case COLOR_CODE_24BIT:
+> > +             Bpp_x100 =3D 300;
+> > +             break;
+> > +     case COLOR_CODE_COMPRESSTION:
+> > +             Bpp_x100 =3D 100;
+> > +             break;
+> > +     case COLOR_CODE_20BIT_YCC422_LOOSELY:
+> > +             Bpp_x100 =3D 250;
+> > +             break;
+> > +     case COLOR_CODE_24BIT_YCC422:
+> > +             Bpp_x100 =3D 300;
+> > +             break;
+> > +     case COLOR_CODE_16BIT_YCC422:
+> > +             Bpp_x100 =3D 200;
+> > +             break;
+> > +     case COLOR_CODE_30BIT:
+> > +             Bpp_x100 =3D 375;
+> > +             break;
+> > +     case COLOR_CODE_36BIT:
+> > +             Bpp_x100 =3D 450;
+> > +             break;
+> > +     case COLOR_CODE_12BIT_YCC420:
+> > +             Bpp_x100 =3D 150;
+> > +             break;
+> > +     default:
+> > +             DRM_ERROR("invalid color coding");
+> > +             Bpp_x100 =3D 0;
+> > +             break;
+> > +     }
+> > +
+> > +     return Bpp_x100;
+> > +}
+> > +
+> > +static u8 calc_video_size_step(int coding)
+> > +{
+> > +     u8 video_size_step;
+> > +
+> > +     switch (coding) {
+> > +     case COLOR_CODE_16BIT_CONFIG1:
+> > +     case COLOR_CODE_16BIT_CONFIG2:
+> > +     case COLOR_CODE_16BIT_CONFIG3:
+> > +     case COLOR_CODE_18BIT_CONFIG1:
+> > +     case COLOR_CODE_18BIT_CONFIG2:
+> > +     case COLOR_CODE_24BIT:
+> > +     case COLOR_CODE_COMPRESSTION:
+> > +             return video_size_step =3D 1;
+> > +     case COLOR_CODE_20BIT_YCC422_LOOSELY:
+> > +     case COLOR_CODE_24BIT_YCC422:
+> > +     case COLOR_CODE_16BIT_YCC422:
+> > +     case COLOR_CODE_30BIT:
+> > +     case COLOR_CODE_36BIT:
+> > +     case COLOR_CODE_12BIT_YCC420:
+> > +             return video_size_step =3D 2;
+> > +     default:
+> > +             DRM_ERROR("invalid color coding");
+> > +             return 0;
+> > +     }
+> > +}
+> > +
+> > +static u16 round_video_size(int coding, u16 video_size)
+> > +{
+> > +     switch (coding) {
+> > +     case COLOR_CODE_16BIT_YCC422:
+> > +     case COLOR_CODE_24BIT_YCC422:
+> > +     case COLOR_CODE_20BIT_YCC422_LOOSELY:
+> > +     case COLOR_CODE_12BIT_YCC420:
+> > +             /* round up active H pixels to a multiple of 2 */
+> > +             if ((video_size % 2) !=3D 0)
+> > +                     video_size +=3D 1;
+> > +             break;
+> > +     default:
+> > +             break;
+> > +     }
+> > +
+> > +     return video_size;
+> > +}
+> > +
+> > +#define SPRD_MIPI_DSI_FMT_DSC 0xff
+> > +static u32 fmt_to_coding(u32 fmt)
+> > +{
+> > +     switch (fmt) {
+> > +     case MIPI_DSI_FMT_RGB565:
+> > +             return COLOR_CODE_16BIT_CONFIG1;
+> > +     case MIPI_DSI_FMT_RGB666:
+> > +     case MIPI_DSI_FMT_RGB666_PACKED:
+> > +             return COLOR_CODE_18BIT_CONFIG1;
+> > +     case MIPI_DSI_FMT_RGB888:
+> > +             return COLOR_CODE_24BIT;
+> > +     case SPRD_MIPI_DSI_FMT_DSC:
+> > +             return COLOR_CODE_COMPRESSTION;
+> > +     default:
+> > +             DRM_ERROR("Unsupported format (%d)\n", fmt);
+> > +             return COLOR_CODE_24BIT;
+> > +     }
+> > +}
+> > +
+> > +#define ns_to_cycle(ns, byte_clk) \
+> > +     DIV_ROUND_UP((ns) * (byte_clk), 1000000)
+> > +
+> > +static void sprd_dsi_init(struct dsi_context *ctx)
+> > +{
+> > +     u16 data_hs2lp, data_lp2hs, clk_hs2lp, clk_lp2hs;
+> > +     u16 max_rd_time;
+> > +     int div;
+> > +
+> > +     dsi_power_enable(ctx, 0);
+> > +     dsi_int0_mask(ctx, 0xffffffff);
+> > +     dsi_int1_mask(ctx, 0xffffffff);
+> > +     dsi_cmd_mode(ctx);
+> > +     dsi_eotp_rx_en(ctx, 0);
+> > +     dsi_eotp_tx_en(ctx, 0);
+> > +     dsi_ecc_rx_en(ctx, 1);
+> > +     dsi_crc_rx_en(ctx, 1);
+> > +     dsi_bta_en(ctx, 1);
+> > +     dsi_video_vcid(ctx, 0);
+> > +     dsi_rx_vcid(ctx, 0);
+> > +
+> > +     div =3D DIV_ROUND_UP(ctx->byte_clk, ctx->esc_clk);
+> > +     dsi_tx_escape_division(ctx, div);
+> > +
+> > +     max_rd_time =3D ns_to_cycle(ctx->max_rd_time, ctx->byte_clk);
+> > +     dsi_max_read_time(ctx, max_rd_time);
+> > +
+> > +     data_hs2lp =3D ns_to_cycle(ctx->data_hs2lp, ctx->byte_clk);
+> > +     data_lp2hs =3D ns_to_cycle(ctx->data_lp2hs, ctx->byte_clk);
+> > +     clk_hs2lp =3D ns_to_cycle(ctx->clk_hs2lp, ctx->byte_clk);
+> > +     clk_lp2hs =3D ns_to_cycle(ctx->clk_lp2hs, ctx->byte_clk);
+> > +     dsi_datalane_hs2lp_config(ctx, data_hs2lp);
+> > +     dsi_datalane_lp2hs_config(ctx, data_lp2hs);
+> > +     dsi_clklane_hs2lp_config(ctx, clk_hs2lp);
+> > +     dsi_clklane_lp2hs_config(ctx, clk_lp2hs);
+> > +
+> > +     dsi_power_enable(ctx, 1);
+> > +}
+> > +
+> > +/*
+> > + * Free up resources and shutdown host controller and PHY
+> > + */
+> > +static void sprd_dsi_fini(struct dsi_context *ctx)
+> > +{
+> > +     dsi_int0_mask(ctx, 0xffffffff);
+> > +     dsi_int1_mask(ctx, 0xffffffff);
+> > +     dsi_power_enable(ctx, 0);
+> > +}
+> > +
+> > +/*
+> > + * If not in burst mode, it will compute the video and null packet siz=
+es
+> > + * according to necessity.
+> > + * Configure timers for data lanes and/or clock lane to return to LP
+> when
+> > + * bandwidth is not filled by data.
+> > + */
+> > +static int sprd_dsi_dpi_video(struct dsi_context *ctx)
+> > +{
+> > +     struct sprd_dsi *dsi =3D container_of(ctx, struct sprd_dsi, ctx);
+> > +     struct videomode *vm =3D &ctx->vm;
 >
-> But you're still referencing it here, while you called of_node_put on it
-> already? You should only call it once you're done with it.
->
-> I'm not really sure why you would need drm_of_find_possible_crtcs to
-> work then if you don't follow the OF-Graph bindings.
-
-My reference here is:
-https://elixir.bootlin.com/linux/v4.14.228/source/drivers/gpu/drm/hisilicon=
-/kirin/kirin_drm_ade.c#L593
-
-It=E2=80=99s been a long time, I don=E2=80=99t remember the specific reason=
-, i will recheck
-it.
-
+> Strictly speaking, there's nothing that guarantees that the preferred
+> mode is the one you're going to use there. You should use the mode that
+> is given to you through the connector state.
 >
 > Maxime
 >
 
---00000000000038d8ce05bed1a53d
+--000000000000e01de405bed201ac
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi Maxime,</div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">Maxime Ripard &lt;maxime@cerno.tech&gt; =E4=
-=BA=8E2021=E5=B9=B43=E6=9C=8824=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=
-=887:10=E5=86=99=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">Hi,<br>
-<br>
-On Mon, Feb 22, 2021 at 09:28:20PM +0800, Kevin Tang wrote:<br>
-&gt; Adds DPU(Display Processor Unit) support for the Unisoc&#39;s display =
-subsystem.<br>
-&gt; It&#39;s support multi planes, scaler, rotation, PQ(Picture Quality) a=
-nd more.<br>
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Maxime,</div><br><div class=3D"gmail_q=
+uote"><div dir=3D"ltr" class=3D"gmail_attr">Maxime Ripard &lt;maxime@cerno.=
+tech&gt; =E4=BA=8E2021=E5=B9=B43=E6=9C=8824=E6=97=A5=E5=91=A8=E4=B8=89 =E4=
+=B8=8B=E5=8D=887:27=E5=86=99=E9=81=93=EF=BC=9A<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">On Mon, Feb 22, 2021 at 09:28:22PM +0800, =
+Kevin Tang wrote:<br>
+&gt; Adds dsi host controller support for the Unisoc&#39;s display subsyste=
+m.<br>
+&gt; Adds dsi phy support for the Unisoc&#39;s display subsystem.<br>
+&gt; Only MIPI DSI Displays supported, DP/TV/HMDI will be support<br>
+&gt; in the feature.<br>
 &gt; <br>
-&gt; Cc: Orson Zhai &lt;<a href=3D"mailto:orsonzhai@gmail.com" target=3D"_b=
-lank">orsonzhai@gmail.com</a>&gt;<br>
-&gt; Cc: Chunyan Zhang &lt;<a href=3D"mailto:zhang.lyra@gmail.com" target=
-=3D"_blank">zhang.lyra@gmail.com</a>&gt;<br>
-&gt; Signed-off-by: Kevin Tang &lt;<a href=3D"mailto:kevin.tang@unisoc.com"=
- target=3D"_blank">kevin.tang@unisoc.com</a>&gt;<br>
+&gt; v1:<br>
+&gt;=C2=A0 =C2=A0- Remove dphy and dsi graph binding, merge the dphy driver=
+ into the dsi.<br>
 &gt; <br>
 &gt; v2:<br>
 &gt;=C2=A0 =C2=A0- Use drm_xxx to replace all DRM_XXX.<br>
-&gt;=C2=A0 =C2=A0- Use kzalloc to replace devm_kzalloc for sprd_dpu structu=
+&gt;=C2=A0 =C2=A0- Use kzalloc to replace devm_kzalloc for sprd_dsi structu=
 re init.<br>
 &gt; <br>
-&gt; v3:<br>
-&gt;=C2=A0 =C2=A0- Remove dpu_layer stuff layer and commit layers by aotmic=
-_update<br>
-&gt; <br>
 &gt; v4:<br>
-&gt;=C2=A0 =C2=A0- Use drmm_helpers to allocate crtc and planes.<br>
-&gt;=C2=A0 =C2=A0- Move rotation enum definitions to crtc layer reg bitfiel=
-ds.<br>
-&gt;=C2=A0 =C2=A0- Move allocate crtc and planes to bind funtion.<br>
+&gt;=C2=A0 =C2=A0- Use drmm_helpers to allocate encoder.<br>
+&gt;=C2=A0 =C2=A0- Move allocate encoder and connector to bind funtion.<br>
 <br>
-There&#39;s a number of checkpatch warnings, make sure to fix them<br></blo=
-ckquote><div>
-
-Thks, it&#39;s will be fixed on patch v5.=C2=A0
-
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+You&#39;re missing your Signed-off-by<br>
+<br>
+And there&#39;s a bunch of errors warnings and (important) checks reported<=
+br>
+by checkpatch --strict that you should fix.<br></blockquote><div>Thks, it&#=
+39;s will be fixed on patch v5.=C2=A0</div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">
 <br>
 &gt; ---<br>
-&gt;=C2=A0 drivers/gpu/drm/sprd/Kconfig=C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
-&gt;=C2=A0 drivers/gpu/drm/sprd/Makefile=C2=A0 =C2=A0|=C2=A0 =C2=A04 +-<br>
-&gt;=C2=A0 drivers/gpu/drm/sprd/sprd_dpu.c | 964 ++++++++++++++++++++++++++=
-++++++<br>
-&gt;=C2=A0 drivers/gpu/drm/sprd/sprd_dpu.h | 109 ++++<br>
-&gt;=C2=A0 drivers/gpu/drm/sprd/sprd_drm.c |=C2=A0 =C2=A01 +<br>
-&gt;=C2=A0 drivers/gpu/drm/sprd/sprd_drm.h |=C2=A0 =C2=A02 +<br>
-&gt;=C2=A0 6 files changed, 1079 insertions(+), 2 deletions(-)<br>
-&gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.c<br>
-&gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.h<br>
+&gt;=C2=A0 drivers/gpu/drm/sprd/Makefile=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+|=C2=A0 =C2=A0 7 +-<br>
+&gt;=C2=A0 drivers/gpu/drm/sprd/dw_dsi_ctrl.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 79=
+4 +++++++++++++<br>
+&gt;=C2=A0 drivers/gpu/drm/sprd/dw_dsi_ctrl.h=C2=A0 =C2=A0 =C2=A0| 1475 +++=
++++++++++++++++++++++<br>
+&gt;=C2=A0 drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.c |=C2=A0 157 +++<br>
+&gt;=C2=A0 drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.h |=C2=A0 =C2=A026 +<br>
+&gt;=C2=A0 drivers/gpu/drm/sprd/megacores_pll.c=C2=A0 =C2=A0|=C2=A0 317 +++=
+++<br>
+&gt;=C2=A0 drivers/gpu/drm/sprd/megacores_pll.h=C2=A0 =C2=A0|=C2=A0 146 +++=
+<br>
+&gt;=C2=A0 drivers/gpu/drm/sprd/sprd_drm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A0 1 +<br>
+&gt;=C2=A0 drivers/gpu/drm/sprd/sprd_drm.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A0 1 +<br>
+&gt;=C2=A0 drivers/gpu/drm/sprd/sprd_dsi.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 113=
+2 ++++++++++++++++++<br>
+&gt;=C2=A0 drivers/gpu/drm/sprd/sprd_dsi.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 104 ++<br>
+&gt;=C2=A0 11 files changed, 4158 insertions(+), 2 deletions(-)<br>
+&gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl.c<br>
+&gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl.h<br>
+&gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.c<br>
+&gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.h<br>
+&gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/megacores_pll.c<br>
+&gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/megacores_pll.h<br>
+&gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.c<br>
+&gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.h<br>
 &gt; <br>
-&gt; diff --git a/drivers/gpu/drm/sprd/Kconfig b/drivers/gpu/drm/sprd/Kconf=
-ig<br>
-&gt; index 6e80cc9f3..9b4ef9aea 100644<br>
-&gt; --- a/drivers/gpu/drm/sprd/Kconfig<br>
-&gt; +++ b/drivers/gpu/drm/sprd/Kconfig<br>
-&gt; @@ -3,6 +3,7 @@ config DRM_SPRD<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0depends on ARCH_SPRD || COMPILE_TEST<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0depends on DRM &amp;&amp; OF<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0select DRM_KMS_HELPER<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0select VIDEOMODE_HELPERS<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0select DRM_GEM_CMA_HELPER<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0select DRM_KMS_CMA_HELPER<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0select DRM_MIPI_DSI<br>
 &gt; diff --git a/drivers/gpu/drm/sprd/Makefile b/drivers/gpu/drm/sprd/Make=
 file<br>
-&gt; index 86d95d93a..6c25bfa99 100644<br>
+&gt; index 6c25bfa99..d49f4977b 100644<br>
 &gt; --- a/drivers/gpu/drm/sprd/Makefile<br>
 &gt; +++ b/drivers/gpu/drm/sprd/Makefile<br>
-&gt; @@ -1,5 +1,5 @@<br>
+&gt; @@ -1,5 +1,8 @@<br>
 &gt;=C2=A0 # SPDX-License-Identifier: GPL-2.0<br>
 &gt;=C2=A0 <br>
-&gt; -subdir-ccflags-y +=3D -I$(srctree)/$(src)<br>
-&gt; +obj-y :=3D sprd_drm.o \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0sprd_dpu.o<br>
-&gt;=C2=A0 <br>
-&gt; -obj-y :=3D sprd_drm.o<br>
-&gt; diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sp=
-rd_dpu.c<br>
+&gt;=C2=A0 obj-y :=3D sprd_drm.o \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0sprd_dpu.o<br>
+&gt; -<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0sprd_dpu.o \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0sprd_dsi.o \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dw_dsi_ctrl.o \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dw_dsi_ctrl_ppi.o \<br>
+<br>
+So it&#39;s a designware IP? There&#39;s a driver for it already that seems=
+<br>
+fairly similar:<br>
+drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c<br></blockquote><div><div><sp=
+an class=3D"gmail-il">Our dw</span>=C2=A0dsi controller is not a standard s=
+ynopsys ip, we have updated a lot on the basic ip version,</div><div>the en=
+tire control register is different, i have cc to drm/bridge reviewers and m=
+aintainers.</div></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0megacores_pll.o<br>
+&gt; diff --git a/drivers/gpu/drm/sprd/dw_dsi_ctrl.c b/drivers/gpu/drm/sprd=
+/dw_dsi_ctrl.c<br>
 &gt; new file mode 100644<br>
-&gt; index 000000000..75b7e40d9<br>
+&gt; index 000000000..1034aba4a<br>
 &gt; --- /dev/null<br>
-&gt; +++ b/drivers/gpu/drm/sprd/sprd_dpu.c<br>
-&gt; @@ -0,0 +1,964 @@<br>
+&gt; +++ b/drivers/gpu/drm/sprd/dw_dsi_ctrl.c<br>
+&gt; @@ -0,0 +1,794 @@<br>
+&gt; +// SPDX-License-Identifier: GPL-2.0<br>
+&gt; +/*<br>
+&gt; + * Copyright (C) 2020 Unisoc Inc.<br>
+&gt; + */<br>
+&gt; +<br>
+&gt; +#include &lt;linux/io.h&gt;<br>
+&gt; +#include &lt;linux/init.h&gt;<br>
+&gt; +#include &lt;linux/delay.h&gt;<br>
+&gt; +#include &lt;linux/module.h&gt;<br>
+&gt; +<br>
+&gt; +#include &quot;dw_dsi_ctrl.h&quot;<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * Modify power status of DSI Host core<br>
+&gt; + */<br>
+&gt; +void dsi_power_enable(struct dsi_context *ctx, int enable)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(enable, &amp;reg-&gt;SOFT_RESET);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Enable/disable DPI video mode<br>
+&gt; + */<br>
+&gt; +void dsi_video_mode(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(0, &amp;reg-&gt;DSI_MODE_CFG);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Enable command mode (Generic interface)<br>
+&gt; + */<br>
+&gt; +void dsi_cmd_mode(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(1, &amp;reg-&gt;DSI_MODE_CFG);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +bool dsi_is_cmd_mode(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return readl(&amp;reg-&gt;DSI_MODE_CFG);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Configure the read back virtual channel for the generic interface<=
+br>
+&gt; + */<br>
+&gt; +void dsi_rx_vcid(struct dsi_context *ctx, u8 vc)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x1C virtual_channel_id;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0virtual_channel_id.val =3D readl(&amp;reg-&gt;VIR=
+TUAL_CHANNEL_ID);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0virtual_channel_id.bits.gen_rx_vcid =3D vc;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(virtual_channel_id.val, &amp;reg-&gt;VIRTU=
+AL_CHANNEL_ID);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Write the DPI video virtual channel destination<br>
+&gt; + */<br>
+&gt; +void dsi_video_vcid(struct dsi_context *ctx, u8 vc)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x1C virtual_channel_id;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0virtual_channel_id.val =3D readl(&amp;reg-&gt;VIR=
+TUAL_CHANNEL_ID);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0virtual_channel_id.bits.video_pkt_vcid =3D vc;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(virtual_channel_id.val, &amp;reg-&gt;VIRTU=
+AL_CHANNEL_ID);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Set DPI video mode type (burst/non-burst - with sync pulses or eve=
+nts)<br>
+&gt; + */<br>
+&gt; +void dsi_dpi_video_burst_mode(struct dsi_context *ctx, int mode)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x38 vid_mode_cfg;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0vid_mode_cfg.val =3D readl(&amp;reg-&gt;VID_MODE_=
+CFG);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0vid_mode_cfg.bits.vid_mode_type =3D mode;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(vid_mode_cfg.val, &amp;reg-&gt;VID_MODE_CF=
+G);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Set DPI video color coding<br>
+&gt; + */<br>
+&gt; +void dsi_dpi_color_coding(struct dsi_context *ctx, int coding)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x20 dpi_video_format;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dpi_video_format.val =3D readl(&amp;reg-&gt;DPI_V=
+IDEO_FORMAT);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dpi_video_format.bits.dpi_video_mode_format =3D c=
+oding;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(dpi_video_format.val, &amp;reg-&gt;DPI_VID=
+EO_FORMAT);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Configure the Horizontal Line time<br>
+&gt; + * param &quot;byte_cycle&quot; taken to transmit the total of the ho=
+rizontal line<br>
+&gt; + */<br>
+&gt; +void dsi_dpi_hline_time(struct dsi_context *ctx, u16 byte_cycle)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x2C video_line_time;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_line_time.val =3D readl(&amp;reg-&gt;VIDEO_=
+LINE_TIME);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_line_time.bits.video_line_time =3D byte_cyc=
+le;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(video_line_time.val, &amp;reg-&gt;VIDEO_LI=
+NE_TIME);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Configure the Horizontal back porch time<br>
+&gt; + * param &quot;byte_cycle&quot; taken to transmit the horizontal back=
+ porch<br>
+&gt; + */<br>
+&gt; +void dsi_dpi_hbp_time(struct dsi_context *ctx, u16 byte_cycle)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x28 video_line_hblk_time;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_line_hblk_time.val =3D readl(&amp;reg-&gt;V=
+IDEO_LINE_HBLK_TIME);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_line_hblk_time.bits.video_line_hbp_time =3D=
+ byte_cycle;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(video_line_hblk_time.val, &amp;reg-&gt;VID=
+EO_LINE_HBLK_TIME);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Configure the Horizontal sync time,<br>
+&gt; + * param &quot;byte_cycle&quot; taken to transmit the horizontal sync=
+<br>
+&gt; + */<br>
+&gt; +void dsi_dpi_hsync_time(struct dsi_context *ctx, u16 byte_cycle)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x28 video_line_hblk_time;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_line_hblk_time.val =3D readl(&amp;reg-&gt;V=
+IDEO_LINE_HBLK_TIME);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_line_hblk_time.bits.video_line_hsa_time =3D=
+ byte_cycle;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(video_line_hblk_time.val, &amp;reg-&gt;VID=
+EO_LINE_HBLK_TIME);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Configure the vertical active lines of the video stream<br>
+&gt; + */<br>
+&gt; +void dsi_dpi_vact(struct dsi_context *ctx, u16 lines)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x34 video_active_lines;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_active_lines.val =3D readl(&amp;reg-&gt;VID=
+EO_VACTIVE_LINES);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_active_lines.bits.vactive_lines =3D lines;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(video_active_lines.val, &amp;reg-&gt;VIDEO=
+_VACTIVE_LINES);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +void dsi_dpi_vfp(struct dsi_context *ctx, u16 lines)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x30 video_vblk_lines;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_vblk_lines.val =3D readl(&amp;reg-&gt;VIDEO=
+_VBLK_LINES);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_vblk_lines.bits.vfp_lines =3D lines;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(video_vblk_lines.val, &amp;reg-&gt;VIDEO_V=
+BLK_LINES);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +void dsi_dpi_vbp(struct dsi_context *ctx, u16 lines)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x30 video_vblk_lines;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_vblk_lines.val =3D readl(&amp;reg-&gt;VIDEO=
+_VBLK_LINES);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_vblk_lines.bits.vbp_lines =3D lines;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(video_vblk_lines.val, &amp;reg-&gt;VIDEO_V=
+BLK_LINES);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +void dsi_dpi_vsync(struct dsi_context *ctx, u16 lines)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x30 video_vblk_lines;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_vblk_lines.val =3D readl(&amp;reg-&gt;VIDEO=
+_VBLK_LINES);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_vblk_lines.bits.vsa_lines =3D lines;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(video_vblk_lines.val, &amp;reg-&gt;VIDEO_V=
+BLK_LINES);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +void dsi_dpi_hporch_lp_en(struct dsi_context *ctx, int enable)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x38 vid_mode_cfg;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0vid_mode_cfg.val =3D readl(&amp;reg-&gt;VID_MODE_=
+CFG);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0vid_mode_cfg.bits.lp_hfp_en =3D enable;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0vid_mode_cfg.bits.lp_hbp_en =3D enable;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(vid_mode_cfg.val, &amp;reg-&gt;VID_MODE_CF=
+G);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Enable return to low power mode inside vertical active lines perio=
+ds when<br>
+&gt; + * timing allows<br>
+&gt; + */<br>
+&gt; +void dsi_dpi_vporch_lp_en(struct dsi_context *ctx, int enable)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x38 vid_mode_cfg;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0vid_mode_cfg.val =3D readl(&amp;reg-&gt;VID_MODE_=
+CFG);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0vid_mode_cfg.bits.lp_vact_en =3D enable;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0vid_mode_cfg.bits.lp_vfp_en =3D enable;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0vid_mode_cfg.bits.lp_vbp_en =3D enable;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0vid_mode_cfg.bits.lp_vsa_en =3D enable;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(vid_mode_cfg.val, &amp;reg-&gt;VID_MODE_CF=
+G);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Enable FRAME BTA ACK<br>
+&gt; + */<br>
+&gt; +void dsi_dpi_frame_ack_en(struct dsi_context *ctx, int enable)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x38 vid_mode_cfg;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0vid_mode_cfg.val =3D readl(&amp;reg-&gt;VID_MODE_=
+CFG);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0vid_mode_cfg.bits.frame_bta_ack_en =3D enable;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(vid_mode_cfg.val, &amp;reg-&gt;VID_MODE_CF=
+G);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Write no of chunks to core - taken into consideration only when mu=
+lti packet<br>
+&gt; + * is enabled<br>
+&gt; + */<br>
+&gt; +void dsi_dpi_chunk_num(struct dsi_context *ctx, u16 num)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x24 video_pkt_config;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_pkt_config.val =3D readl(&amp;reg-&gt;VIDEO=
+_PKT_CONFIG);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_pkt_config.bits.video_line_chunk_num =3D nu=
+m;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(video_pkt_config.val, &amp;reg-&gt;VIDEO_P=
+KT_CONFIG);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Write the null packet size - will only be taken into account when =
+null<br>
+&gt; + * packets are enabled.<br>
+&gt; + */<br>
+&gt; +void dsi_dpi_null_packet_size(struct dsi_context *ctx, u16 size)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xC0 video_nullpkt_size;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_nullpkt_size.val =3D readl(&amp;reg-&gt;VID=
+EO_NULLPKT_SIZE);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_nullpkt_size.bits.video_nullpkt_size =3D si=
+ze;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(video_nullpkt_size.val, &amp;reg-&gt;VIDEO=
+_NULLPKT_SIZE);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Write video packet size. obligatory for sending video<br>
+&gt; + */<br>
+&gt; +void dsi_dpi_video_packet_size(struct dsi_context *ctx, u16 size)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x24 video_pkt_config;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_pkt_config.val =3D readl(&amp;reg-&gt;VIDEO=
+_PKT_CONFIG);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_pkt_config.bits.video_pkt_size =3D size;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(video_pkt_config.val, &amp;reg-&gt;VIDEO_P=
+KT_CONFIG);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Specifiy the size of the packet memory write start/continue<br>
+&gt; + */<br>
+&gt; +void dsi_edpi_max_pkt_size(struct dsi_context *ctx, u16 size)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xC4 dcs_wm_pkt_size;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dcs_wm_pkt_size.val =3D readl(&amp;reg-&gt;DCS_WM=
+_PKT_SIZE);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dcs_wm_pkt_size.bits.dcs_wm_pkt_size =3D size;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(dcs_wm_pkt_size.val, &amp;reg-&gt;DCS_WM_P=
+KT_SIZE);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Enable tear effect acknowledge<br>
+&gt; + */<br>
+&gt; +void dsi_tear_effect_ack_en(struct dsi_context *ctx, int enable)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x68 cmd_mode_cfg;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_cfg.val =3D readl(&amp;reg-&gt;CMD_MODE_=
+CFG);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_cfg.bits.tear_fx_en =3D enable;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(cmd_mode_cfg.val, &amp;reg-&gt;CMD_MODE_CF=
+G);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Set DCS command packet transmission to transmission type<br>
+&gt; + */<br>
+&gt; +void dsi_cmd_mode_lp_cmd_en(struct dsi_context *ctx, int enable)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x68 cmd_mode_cfg;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_cfg.val =3D readl(&amp;reg-&gt;CMD_MODE_=
+CFG);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_cfg.bits.gen_sw_0p_tx =3D enable;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_cfg.bits.gen_sw_1p_tx =3D enable;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_cfg.bits.gen_sw_2p_tx =3D enable;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_cfg.bits.gen_lw_tx =3D enable;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_cfg.bits.dcs_sw_0p_tx =3D enable;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_cfg.bits.dcs_sw_1p_tx =3D enable;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_cfg.bits.dcs_lw_tx =3D enable;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_cfg.bits.max_rd_pkt_size =3D enable;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_cfg.bits.gen_sr_0p_tx =3D enable;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_cfg.bits.gen_sr_1p_tx =3D enable;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_cfg.bits.gen_sr_2p_tx =3D enable;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_cfg.bits.dcs_sr_0p_tx =3D enable;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(cmd_mode_cfg.val, &amp;reg-&gt;CMD_MODE_CF=
+G);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Set DCS read command packet transmission to transmission type<br>
+&gt; + */<br>
+&gt; +void dsi_video_mode_lp_cmd_en(struct dsi_context *ctx, int enable)<br=
+>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x38 vid_mode_cfg;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0vid_mode_cfg.val =3D readl(&amp;reg-&gt;VID_MODE_=
+CFG);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0vid_mode_cfg.bits.lp_cmd_en =3D enable;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(vid_mode_cfg.val, &amp;reg-&gt;VID_MODE_CF=
+G);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * Write command header in the generic interface (which also sends DC=
+S commands) as a subset<br>
+&gt; + */<br>
+&gt; +void dsi_set_packet_header(struct dsi_context *ctx,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 u8 vc,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 u8 type,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 u8 wc_lsb,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 u8 wc_msb)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x6C gen_hdr;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0gen_hdr.bits.gen_dt =3D type;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0gen_hdr.bits.gen_vc =3D vc;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0gen_hdr.bits.gen_wc_lsbyte =3D wc_lsb;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0gen_hdr.bits.gen_wc_msbyte =3D wc_msb;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(gen_hdr.val, &amp;reg-&gt;GEN_HDR);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Write the payload of the long packet commands<br>
+&gt; + */<br>
+&gt; +void dsi_set_packet_payload(struct dsi_context *ctx, u32 payload)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(payload, &amp;reg-&gt;GEN_PLD_DATA);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Read the payload of the long packet commands<br>
+&gt; + */<br>
+&gt; +u32 dsi_get_rx_payload(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return readl(&amp;reg-&gt;GEN_PLD_DATA);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * Enable Bus Turn-around request<br>
+&gt; + */<br>
+&gt; +void dsi_bta_en(struct dsi_context *ctx, int enable)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(enable, &amp;reg-&gt;TA_EN);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Enable EOTp reception<br>
+&gt; + */<br>
+&gt; +void dsi_eotp_rx_en(struct dsi_context *ctx, int enable)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xBC eotp_en;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0eotp_en.val =3D readl(&amp;reg-&gt;EOTP_EN);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0eotp_en.bits.rx_eotp_en =3D enable;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(eotp_en.val, &amp;reg-&gt;EOTP_EN);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Enable EOTp transmission<br>
+&gt; + */<br>
+&gt; +void dsi_eotp_tx_en(struct dsi_context *ctx, int enable)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xBC eotp_en;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0eotp_en.val =3D readl(&amp;reg-&gt;EOTP_EN);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0eotp_en.bits.tx_eotp_en =3D enable;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(eotp_en.val, &amp;reg-&gt;EOTP_EN);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Enable ECC reception, error correction and reporting<br>
+&gt; + */<br>
+&gt; +void dsi_ecc_rx_en(struct dsi_context *ctx, int enable)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xB4 rx_pkt_check_config;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0rx_pkt_check_config.val =3D readl(&amp;reg-&gt;RX=
+_PKT_CHECK_CONFIG);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0rx_pkt_check_config.bits.rx_pkt_ecc_en =3D enable=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(rx_pkt_check_config.val, &amp;reg-&gt;RX_P=
+KT_CHECK_CONFIG);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Enable CRC reception, error reporting<br>
+&gt; + */<br>
+&gt; +void dsi_crc_rx_en(struct dsi_context *ctx, int enable)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xB4 rx_pkt_check_config;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0rx_pkt_check_config.val =3D readl(&amp;reg-&gt;RX=
+_PKT_CHECK_CONFIG);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0rx_pkt_check_config.bits.rx_pkt_crc_en =3D enable=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(rx_pkt_check_config.val, &amp;reg-&gt;RX_P=
+KT_CHECK_CONFIG);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Get status of read command<br>
+&gt; + */<br>
+&gt; +bool dsi_is_bta_returned(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x98 cmd_mode_status;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_status.val =3D readl(&amp;reg-&gt;CMD_MO=
+DE_STATUS);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return cmd_mode_status.bits.gen_cmd_rdcmd_done;<b=
+r>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Get the FULL status of generic read payload fifo<br>
+&gt; + */<br>
+&gt; +bool dsi_is_rx_payload_fifo_full(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x98 cmd_mode_status;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_status.val =3D readl(&amp;reg-&gt;CMD_MO=
+DE_STATUS);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return cmd_mode_status.bits.gen_cmd_rdata_fifo_fu=
+ll;<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Get the EMPTY status of generic read payload fifo<br>
+&gt; + */<br>
+&gt; +bool dsi_is_rx_payload_fifo_empty(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x98 cmd_mode_status;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_status.val =3D readl(&amp;reg-&gt;CMD_MO=
+DE_STATUS);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return cmd_mode_status.bits.gen_cmd_rdata_fifo_em=
+pty;<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Get the FULL status of generic write payload fifo<br>
+&gt; + */<br>
+&gt; +bool dsi_is_tx_payload_fifo_full(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x98 cmd_mode_status;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_status.val =3D readl(&amp;reg-&gt;CMD_MO=
+DE_STATUS);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return cmd_mode_status.bits.gen_cmd_wdata_fifo_fu=
+ll;<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Get the EMPTY status of generic write payload fifo<br>
+&gt; + */<br>
+&gt; +bool dsi_is_tx_payload_fifo_empty(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x98 cmd_mode_status;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_status.val =3D readl(&amp;reg-&gt;CMD_MO=
+DE_STATUS);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return cmd_mode_status.bits.gen_cmd_wdata_fifo_em=
+pty;<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Get the EMPTY status of generic command fifo<br>
+&gt; + */<br>
+&gt; +bool dsi_is_tx_cmd_fifo_empty(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x98 cmd_mode_status;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0cmd_mode_status.val =3D readl(&amp;reg-&gt;CMD_MO=
+DE_STATUS);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return cmd_mode_status.bits.gen_cmd_cmd_fifo_empt=
+y;<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * DPI interface signal delay config<br>
+&gt; + * param byte_cycle period for waiting after controller receiving HSY=
+NC from<br>
+&gt; + * DPI interface to start read pixel data from memory.<br>
+&gt; + */<br>
+&gt; +void dsi_dpi_sig_delay(struct dsi_context *ctx, u16 byte_cycle)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xD0 video_sig_delay_config;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_sig_delay_config.val =3D readl(&amp;reg-&gt=
+;VIDEO_SIG_DELAY_CONFIG);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0video_sig_delay_config.bits.video_sig_delay =3D b=
+yte_cycle;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(video_sig_delay_config.val, &amp;reg-&gt;V=
+IDEO_SIG_DELAY_CONFIG);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Configure how many cycles of byte clock would the PHY module take<=
+br>
+&gt; + * to switch data lane from high speed to low power<br>
+&gt; + */<br>
+&gt; +void dsi_datalane_hs2lp_config(struct dsi_context *ctx, u16 byte_cycl=
+e)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xAC phy_datalane_time_config;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_datalane_time_config.val =3D readl(&amp;reg-&=
+gt;PHY_DATALANE_TIME_CONFIG);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_datalane_time_config.bits.phy_datalane_hs_to_=
+lp_time =3D byte_cycle;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(phy_datalane_time_config.val, &amp;reg-&gt=
+;PHY_DATALANE_TIME_CONFIG);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Configure how many cycles of byte clock would the PHY module take<=
+br>
+&gt; + * to switch the data lane from to low power high speed<br>
+&gt; + */<br>
+&gt; +void dsi_datalane_lp2hs_config(struct dsi_context *ctx, u16 byte_cycl=
+e)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xAC phy_datalane_time_config;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_datalane_time_config.val =3D readl(&amp;reg-&=
+gt;PHY_DATALANE_TIME_CONFIG);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_datalane_time_config.bits.phy_datalane_lp_to_=
+hs_time =3D byte_cycle;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(phy_datalane_time_config.val, &amp;reg-&gt=
+;PHY_DATALANE_TIME_CONFIG);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Configure how many cycles of byte clock would the PHY module take<=
+br>
+&gt; + * to switch clock lane from high speed to low power<br>
+&gt; + */<br>
+&gt; +void dsi_clklane_hs2lp_config(struct dsi_context *ctx, u16 byte_cycle=
+)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xA8 phy_clklane_time_config;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_clklane_time_config.val =3D readl(&amp;reg-&g=
+t;PHY_CLKLANE_TIME_CONFIG);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_clklane_time_config.bits.phy_clklane_hs_to_lp=
+_time =3D byte_cycle;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(phy_clklane_time_config.val, &amp;reg-&gt;=
+PHY_CLKLANE_TIME_CONFIG);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Configure how many cycles of byte clock would the PHY module take<=
+br>
+&gt; + * to switch clock lane from to low power high speed<br>
+&gt; + */<br>
+&gt; +void dsi_clklane_lp2hs_config(struct dsi_context *ctx, u16 byte_cycle=
+)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xA8 phy_clklane_time_config;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_clklane_time_config.val =3D readl(&amp;reg-&g=
+t;PHY_CLKLANE_TIME_CONFIG);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_clklane_time_config.bits.phy_clklane_lp_to_hs=
+_time =3D byte_cycle;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(phy_clklane_time_config.val, &amp;reg-&gt;=
+PHY_CLKLANE_TIME_CONFIG);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Configure how many cycles of byte clock would the PHY module take<=
+br>
+&gt; + * to turn the bus around to start receiving<br>
+&gt; + */<br>
+&gt; +void dsi_max_read_time(struct dsi_context *ctx, u16 byte_cycle)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(byte_cycle, &amp;reg-&gt;MAX_READ_TIME);<b=
+r>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Enable the automatic mechanism to stop providing clock in the cloc=
+k<br>
+&gt; + * lane when time allows<br>
+&gt; + */<br>
+&gt; +void dsi_nc_clk_en(struct dsi_context *ctx, int enable)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x74 phy_clk_lane_lp_ctrl;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_clk_lane_lp_ctrl.val =3D readl(&amp;reg-&gt;P=
+HY_CLK_LANE_LP_CTRL);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_clk_lane_lp_ctrl.bits.auto_clklane_ctrl_en =
+=3D enable;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(phy_clk_lane_lp_ctrl.val, &amp;reg-&gt;PHY=
+_CLK_LANE_LP_CTRL);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Write transmission escape timeout<br>
+&gt; + * a safe guard so that the state machine would reset if transmission=
+<br>
+&gt; + * takes too long<br>
+&gt; + */<br>
+&gt; +void dsi_tx_escape_division(struct dsi_context *ctx, u8 div)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(div, &amp;reg-&gt;TX_ESC_CLK_CONFIG);<br>
+&gt; +}<br>
+&gt; +/* <br>
+&gt; + * Configure timeout divisions (so they would have more clock ticks)<=
+br>
+&gt; + * div no of hs cycles before transiting back to LP in<br>
+&gt; + *=C2=A0 (lane_clk / div)<br>
+&gt; + */<br>
+&gt; +void dsi_timeout_clock_division(struct dsi_context *ctx, u8 div)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(div, &amp;reg-&gt;TIMEOUT_CNT_CLK_CONFIG);=
+<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Configure the Low power receive time out<br>
+&gt; + */<br>
+&gt; +void dsi_lp_rx_timeout(struct dsi_context *ctx, u16 byte_cycle)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(byte_cycle, &amp;reg-&gt;LRX_H_TO_CONFIG);=
+<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Configure a high speed transmission time out<br>
+&gt; + */<br>
+&gt; +void dsi_hs_tx_timeout(struct dsi_context *ctx, u16 byte_cycle)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(byte_cycle, &amp;reg-&gt;HTX_TO_CONFIG);<b=
+r>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Get the error 0 interrupt register status<br>
+&gt; + */<br>
+&gt; +u32 dsi_int0_status(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dsi *dsi =3D container_of(ctx, struct=
+ sprd_dsi, ctx);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x08 protocol_int_sts;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0protocol_int_sts.val =3D readl(&amp;reg-&gt;PROTO=
+COL_INT_STS);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(protocol_int_sts.val, &amp;reg-&gt;PROTOCO=
+L_INT_CLR);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.dphy_errors_0)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;dphy_err: escape entry error\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.dphy_errors_1)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;dphy_err: lp data transmission sync error\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.dphy_errors_2)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;dphy_err: control error\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.dphy_errors_3)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;dphy_err: LP0 contention error\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.dphy_errors_4)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;dphy_err: LP1 contention error\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_0)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: SoT error\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_1)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: SoT Sync error\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_2)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: EoT Sync error\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_3)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: Escape Mode Entry Command error\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_4)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: LP Transmit Sync error\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_5)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: Peripheral Timeout error\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_6)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: False Control error\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_7)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: reserved (specific to device)\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_8)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: ECC error, single-bit (corrected)\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_9)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: ECC error, multi-bit (not corrected)\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_10)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: checksum error (long packet only)\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_11)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: not recognized DSI data type\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_12)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: DSI VC ID Invalid\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_13)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: invalid transmission length\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_14)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: reserved (specific to device)\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (protocol_int_sts.bits.ack_with_err_15)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ack_err: DSI protocol violation\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return 0;<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Get the error 1 interrupt register status<br>
+&gt; + */<br>
+&gt; +u32 dsi_int1_status(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dsi *dsi =3D container_of(ctx, struct=
+ sprd_dsi, ctx);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x10 internal_int_sts;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u32 status =3D 0;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0internal_int_sts.val =3D readl(&amp;reg-&gt;INTER=
+NAL_INT_STS);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(internal_int_sts.val, &amp;reg-&gt;INTERNA=
+L_INT_CLR);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (internal_int_sts.bits.receive_pkt_size_err)<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;receive packet size error\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (internal_int_sts.bits.eotp_not_receive_err)<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;EoTp packet is not received\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (internal_int_sts.bits.gen_cmd_cmd_fifo_wr_err=
+)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;cmd header-fifo is full\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (internal_int_sts.bits.gen_cmd_rdata_fifo_rd_e=
+rr)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;cmd read-payload-fifo is empty\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (internal_int_sts.bits.gen_cmd_rdata_fifo_wr_e=
+rr)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;cmd read-payload-fifo is full\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (internal_int_sts.bits.gen_cmd_wdata_fifo_wr_e=
+rr)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;cmd write-payload-fifo is full\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (internal_int_sts.bits.gen_cmd_wdata_fifo_rd_e=
+rr)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;cmd write-payload-fifo is empty\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (internal_int_sts.bits.dpi_pix_fifo_wr_err) {<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;DPI pixel-fifo is full\n&quot;);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0status |=3D DSI_INT_S=
+TS_NEED_SOFT_RESET;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (internal_int_sts.bits.ecc_single_err)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ECC single error in a received packet\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (internal_int_sts.bits.ecc_multi_err)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;ECC multiple error in a received packet\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (internal_int_sts.bits.crc_err)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;CRC error in the received packet payload\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (internal_int_sts.bits.hs_tx_timeout)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;high-speed transmission timeout\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (internal_int_sts.bits.lp_rx_timeout)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;low-power reception timeout\n&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return status;<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Configure MASK (hiding) of interrupts coming from error 0 source<b=
+r>
+&gt; + */<br>
+&gt; +void dsi_int0_mask(struct dsi_context *ctx, u32 mask)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(mask, &amp;reg-&gt;MASK_PROTOCOL_INT);<br>
+&gt; +}<br>
+&gt; +/*<br>
+&gt; + * Configure MASK (hiding) of interrupts coming from error 1 source<b=
+r>
+&gt; + */<br>
+&gt; +void dsi_int1_mask(struct dsi_context *ctx, u32 mask)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(mask, &amp;reg-&gt;MASK_INTERNAL_INT);<br>
+&gt; +}<br>
+&gt; diff --git a/drivers/gpu/drm/sprd/dw_dsi_ctrl.h b/drivers/gpu/drm/sprd=
+/dw_dsi_ctrl.h<br>
+&gt; new file mode 100644<br>
+&gt; index 000000000..ffba62130<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/drivers/gpu/drm/sprd/dw_dsi_ctrl.h<br>
+&gt; @@ -0,0 +1,1475 @@<br>
+&gt; +/* SPDX-License-Identifier: GPL-2.0 */<br>
+&gt; +/*<br>
+&gt; + * Copyright (C) 2020 Unisoc Inc.<br>
+&gt; + */<br>
+&gt; +<br>
+&gt; +#ifndef _DW_DSI_CTRL_H_<br>
+&gt; +#define _DW_DSI_CTRL_H_<br>
+&gt; +<br>
+&gt; +#include &lt;asm/types.h&gt;<br>
+&gt; +<br>
+&gt; +#include &quot;sprd_dsi.h&quot;<br>
+&gt; +<br>
+&gt; +struct dsi_reg {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x00 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _DSI_VERSION {=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 dsi_version: 16;<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 16;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} DSI_VERSION;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x04 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _SOFT_RESET {<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit configure=
+s the core either to work normal or to<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * reset. It&#39;s de=
+fault value is 0. After the core configur-<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * ation, to enable t=
+he mipi_dsi_host, set this register to 1.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 1: power up=C2=A0 =
+=C2=A0 =C2=A00: reset core<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 dsi_soft_reset: 1=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 31;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} SOFT_RESET;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x08 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _PROTOCOL_INT_=
+STS {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* ErrEsc escape entr=
+y error from Lane 0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 dphy_errors_0: 1;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* ErrSyncEsc low-pow=
+er data transmission synchronization<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * error from Lane 0<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 dphy_errors_1: 1;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* ErrControl error f=
+rom Lane 0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 dphy_errors_2: 1;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* ErrContentionLP0 L=
+P0 contention error from Lane 0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 dphy_errors_3: 1;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* ErrContentionLP1 L=
+P1 contention error from Lane 0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 dphy_errors_4: 1;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* debug mode protoco=
+l errors */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 protocol_debug_er=
+r: 11;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* SoT error from the=
+ Acknowledge error report */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_0: 1=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* SoT Sync error fro=
+m the Acknowledge error report */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_1: 1=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* EoT Sync error fro=
+m the Acknowledge error report */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_2: 1=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Escape Mode Entry =
+Command error from the Acknowledge<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * error report<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_3: 1=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* LP Transmit Sync e=
+rror from the Acknowledge error report */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_4: 1=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Peripheral Timeout=
+ error from the Acknowledge error report */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_5: 1=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* False Control erro=
+r from the Acknowledge error report */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_6: 1=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* reserved (specific=
+ to device) from the Acknowledge error<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * report<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_7: 1=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* ECC error, single-=
+bit (detected and corrected) from the<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Acknowledge error =
+report<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_8: 1=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* ECC error, multi-b=
+it (detected, not corrected) from the<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Acknowledge error =
+report<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_9: 1=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* checksum error (lo=
+ng packet only) from the Acknowledge<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * error report<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_10: =
+1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* not recognized DSI=
+ data type from the Acknowledge error<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * report<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_11: =
+1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* DSI VC ID Invalid =
+from the Acknowledge error report */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_12: =
+1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* invalid transmissi=
+on length from the Acknowledge error<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * report<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_13: =
+1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* reserved (specific=
+ to device) from the Acknowledge error<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * report<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_14: =
+1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* DSI protocol viola=
+tion from the Acknowledge error report */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_with_err_15: =
+1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} PROTOCOL_INT_STS;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x0C {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _MASK_PROTOCOL=
+_INT {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_dphy_errors_=
+0: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_dphy_errors_=
+1: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_dphy_errors_=
+2: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_dphy_errors_=
+3: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_dphy_errors_=
+4: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_protocol_deb=
+ug_err: 11;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_0: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_1: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_2: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_3: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_4: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_5: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_6: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_7: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_8: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_9: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_10: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_11: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_12: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_13: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_14: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ack_with_err=
+_15: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} MASK_PROTOCOL_INT;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x10 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _INTERNAL_INT_=
+STS {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit indicates=
+ that the packet size error is detected<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * during the packet =
+reception.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 receive_pkt_size_=
+err: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit indicates=
+ that the EoTp packet is not received at<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * the end of the inc=
+oming peripheral transmission<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 eotp_not_receive_=
+err: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit indicates=
+ that the system tried to write a command<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * through the Generi=
+c interface and the FIFO is full. There-<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * fore, the command =
+is not written.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_cmd_cmd_fifo_=
+wr_err: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit indicates=
+ that during a DCS read data, the payload<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * FIFO becomes empty=
+ and the data sent to the interface is<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * corrupted.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_cmd_rdata_fif=
+o_rd_err: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit indicates=
+ that during a generic interface packet<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * read back, the pay=
+load FIFO becomes full and the received<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * data is corrupted.=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_cmd_rdata_fif=
+o_wr_err: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit indicates=
+ that the system tried to write a payload<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * data through the G=
+eneric interface and the FIFO is full.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Therefore, the pay=
+load is not written.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_cmd_wdata_fif=
+o_wr_err: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit indicates=
+ that during a Generic interface packet<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * build, the payload=
+ FIFO becomes empty and corrupt data is<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * sent.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_cmd_wdata_fif=
+o_rd_err: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit indicates=
+ that during a DPI pixel line storage,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * the payload FIFO b=
+ecomes full and the data stored is<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * corrupted.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 dpi_pix_fifo_wr_e=
+rr: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* internal debug err=
+or */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 internal_debug_er=
+r: 19;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit indicates=
+ that the ECC single error is detected<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * and corrected in a=
+ received packet.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ecc_single_err: 1=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit indicates=
+ that the ECC multiple error is detected<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * in a received pack=
+et.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ecc_multi_err: 1;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit indicates=
+ that the CRC error is detected in the<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * received packet pa=
+yload.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 crc_err: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit indicates=
+ that the high-speed transmission timeout<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * counter reached th=
+e end and contention is detected.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 hs_tx_timeout: 1;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit indicates=
+ that the low-power reception timeout<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * counter reached th=
+e end and contention is detected.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 lp_rx_timeout: 1;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} INTERNAL_INT_STS;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x14 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _MASK_INTERNAL=
+_INT {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_receive_pkt_=
+size_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_eopt_not_rec=
+eive_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_gen_cmd_cmd_=
+fifo_wr_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_gen_cmd_rdat=
+a_fifo_rd_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_gen_cmd_rdat=
+a_fifo_wr_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_gen_cmd_wdat=
+a_fifo_wr_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_gen_cmd_wdat=
+a_fifo_rd_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_dpi_pix_fifo=
+_wr_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_internal_deb=
+ug_err: 19;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ecc_single_e=
+rr: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_ecc_multi_er=
+r: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_crc_err: 1;<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_hs_tx_timeou=
+t: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 mask_lp_rx_timeou=
+t: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} MASK_INTERNAL_INT;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x18 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _DSI_MODE_CFG =
+{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit configure=
+s the operation mode<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: Video mode ;=C2=
+=A0 =C2=A01: Command mode<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 cmd_video_mode: 1=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 31;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} DSI_MODE_CFG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x1C {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _VIRTUAL_CHANN=
+EL_ID {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This field indicat=
+es the Generic interface read-back<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * virtual channel id=
+entification<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_rx_vcid: 2;<b=
+r>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This field configu=
+res the DPI virtual channel id that<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * is indexed to the =
+VIDEO mode packets<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 video_pkt_vcid: 2=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 28;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} VIRTUAL_CHANNEL_ID;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x20 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _DPI_VIDEO_FOR=
+MAT {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field configu=
+res the DPI color coding as follows:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0000: 16-bit confi=
+guration 1<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0001: 16-bit confi=
+guration 2<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0010: 16-bit confi=
+guration 3<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0011: 18-bit confi=
+guration 1<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0100: 18-bit confi=
+guration 2<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0101: 24-bit<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0110: 20-bit YCbCr=
+ 4:2:2 loosely packed<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0111: 24-bit YCbCr=
+ 4:2:2<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 1000: 16-bit YCbCr=
+ 4:2:2<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 1001: 30-bit<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 1010: 36-bit<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 1011: 12-bit YCbCr=
+ 4:2:0<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 1100: Compression =
+Display Stream<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 1101-1111: 12-bit =
+YCbCr 4:2:0<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 dpi_video_mode_fo=
+rmat: 6;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 1, thi=
+s bit activates loosely packed<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * variant to 18-bit =
+configurations<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 loosely18_en: 1;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 25;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} DPI_VIDEO_FORMAT;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x24 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _VIDEO_PKT_CON=
+FIG {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field configu=
+res the number of pixels in a single<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * video packet. For =
+18-bit not loosely packed data types,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * this number must b=
+e a multiple of 4. For YCbCr data<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * types, it must be =
+a multiple of 2, as described in the<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * DSI specification.=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 video_pkt_size: 1=
+6;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This register conf=
+igures the number of chunks to be<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * transmitted during=
+ a Line period (a chunk consists of<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * a video packet and=
+ a null packet). If set to 0 or 1,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * the video line is =
+transmitted in a single packet. If<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * set to 1, the pack=
+et is part of a chunk, so a null packet<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * follows it if vid_=
+null_size &gt; 0. Otherwise, multiple chunks<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * are used to transm=
+it each video line.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 video_line_chunk_=
+num: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} VIDEO_PKT_CONFIG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x28 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _VIDEO_LINE_HB=
+LK_TIME {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This field configu=
+res the Horizontal Back Porch period<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * in lane byte clock=
+ cycles<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 video_line_hbp_ti=
+me: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This field configu=
+res the Horizontal Synchronism Active<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * period in lane byt=
+e clock cycles<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 video_line_hsa_ti=
+me: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} VIDEO_LINE_HBLK_TIME;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x2C {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _VIDEO_LINE_TI=
+ME {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This field configu=
+res the size of the total line time<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * (HSA+HBP+HACT+HFP)=
+ counted in lane byte clock cycles<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 video_line_time: =
+16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} VIDEO_LINE_TIME;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x30 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _VIDEO_VBLK_LI=
+NES {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This field configu=
+res the Vertical Front Porch period<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * measured in number=
+ of horizontal lines<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 vfp_lines: 10;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This field configu=
+res the Vertical Back Porch period<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * measured in number=
+ of horizontal lines<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 vbp_lines: 10;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This field configu=
+res the Vertical Synchronism Active<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * period measured in=
+ number of horizontal lines<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 vsa_lines: 10;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 2;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} VIDEO_VBLK_LINES;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x34 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _VIDEO_VACTIVE=
+_LINES {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This field configu=
+res the Vertical Active period measured<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * in number of horiz=
+ontal lines<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 vactive_lines: 14=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 18;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} VIDEO_VACTIVE_LINES;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x38 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _VID_MODE_CFG =
+{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field indicat=
+es the video mode transmission type as<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * follows:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 00: Non-burst with=
+ sync pulses<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 01: Non-burst with=
+ sync events<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 10 and 11: Burst m=
+ode<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 vid_mode_type: 2;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved_0: 6;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 1, thi=
+s bit enables the return to low-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * inside the VSA per=
+iod when timing allows.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 lp_vsa_en: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 1, thi=
+s bit enables the return to low-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * inside the VBP per=
+iod when timing allows.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 lp_vbp_en: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 1, thi=
+s bit enables the return to low-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * inside the VFP per=
+iod when timing allows.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 lp_vfp_en: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 1, thi=
+s bit enables the return to low-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * inside the VACT pe=
+riod when timing allows.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 lp_vact_en: 1;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 1, thi=
+s bit enables the return to low-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * inside the HBP per=
+iod when timing allows.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 lp_hbp_en: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 1, thi=
+s bit enables the return to low-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * inside the HFP per=
+iod when timing allows.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 lp_hfp_en: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 1, thi=
+s bit enables the request for an ack-<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * nowledge response =
+at the end of a frame.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 frame_bta_ack_en:=
+ 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 1, thi=
+s bit enables the command transmission<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * only in low-power =
+mode.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 lp_cmd_en: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved_1: 16;<b=
+r>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} VID_MODE_CFG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x3C {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _SDF_MODE_CONF=
+IG {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field defines=
+ the 3D mode on/off &amp; display orientation:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 00: 3D mode off (2=
+D mode on)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 01: 3D mode on, po=
+rtrait orientation<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 10: 3D mode on, la=
+ndscape orientation<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 11: Reserved<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 rf_3d_mode: 2;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field defines=
+ the 3D image format:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 00: Line (alternat=
+ing lines of left and right data)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 01: Frame (alterna=
+ting frames of left and right data)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 10: Pixel (alterna=
+ting pixels of left and right data)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 11: Reserved<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 rf_3d_format: 2;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field defines=
+ whether there is a second VSYNC pulse<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * between Left and R=
+ight Images, when 3D Image Format is<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Frame-based:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: No sync pulses =
+between left and right data<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 1: Sync pulse (HSY=
+NC, VSYNC, blanking) between left and<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *=C2=A0 =C2=A0 right=
+ data<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 second_vsync_en: =
+1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit defines t=
+he left or right order:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: Left eye data i=
+s sent first, and then the right eye data<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *=C2=A0 =C2=A0 is se=
+nt.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 1: Right eye data =
+is sent first, and then the left eye data<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *=C2=A0 =C2=A0 is se=
+nt.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 left_right_order:=
+ 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved_0: 2;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * When set, causes t=
+he next VSS packet to include 3D control<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * payload in every V=
+SS packet.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 rf_3d_payload_en:=
+ 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved_1: 23;<b=
+r>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} SDF_MODE_CONFIG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x40 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _TIMEOUT_CNT_C=
+LK_CONFIG {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field indicat=
+es the division factor for the Time Out<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * clock used as the =
+timing unit in the configuration of HS to<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * LP and LP to HS tr=
+ansition error.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 timeout_cnt_clk_c=
+onfig: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} TIMEOUT_CNT_CLK_CONFIG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x44 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _HTX_TO_CONFIG=
+ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field configu=
+res the timeout counter that triggers<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * a high speed trans=
+mission timeout contention detection<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * (measured in TO_CL=
+K_DIVISION cycles).<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * If using the non-b=
+urst mode and there is no sufficient<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * time to switch fro=
+m HS to LP and back in the period which<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * is from one line d=
+ata finishing to the next line sync<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * start, the DSI lin=
+k returns the LP state once per frame,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * then you should co=
+nfigure the TO_CLK_DIVISION and<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * hstx_to_cnt to be =
+in accordance with:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * hstx_to_cnt * lane=
+byteclkperiod * TO_CLK_DIVISION &gt;=3D the<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * time of one FRAME =
+data transmission * (1 + 10%)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * In burst mode, RGB=
+ pixel packets are time-compressed,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * leaving more time =
+during a scan line. Therefore, if in<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * burst mode and the=
+re is sufficient time to switch from HS<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * to LP and back in =
+the period of time from one line data<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * finishing to the n=
+ext line sync start, the DSI link can<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * return LP mode and=
+ back in this time interval to save power.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * For this, configur=
+e the TO_CLK_DIVISION and hstx_to_cnt<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * to be in accordanc=
+e with:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * hstx_to_cnt * lane=
+byteclkperiod * TO_CLK_DIVISION &gt;=3D the<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * time of one LINE d=
+ata transmission * (1 + 10%)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 htx_to_cnt_limit:=
+ 32;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} HTX_TO_CONFIG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x48 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _LRX_H_TO_CONF=
+IG {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field configu=
+res the timeout counter that triggers<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * a low-power recept=
+ion timeout contention detection (measured<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * in TO_CLK_DIVISION=
+ cycles).<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 lrx_h_to_cnt_limi=
+t: 32;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} LRX_H_TO_CONFIG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x4C {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _RD_PRESP_TO_C=
+ONFIG {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field sets a =
+period for which the DWC_mipi_dsi_host<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * keeps the link sti=
+ll, after sending a low-power read oper-<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * ation. This period=
+ is measured in cycles of lanebyteclk.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * The counting start=
+s when the D-PHY enters the Stop state<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * and causes no inte=
+rrupts.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 lprd_presp_to_cnt=
+_limit: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field sets a =
+period for which the DWC_mipi_dsi_host<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * keeps the link sti=
+ll, after sending a high-speed read oper-<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * ation. This period=
+ is measured in cycles of lanebyteclk.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * The counting start=
+s when the D-PHY enters the Stop state<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * and causes no inte=
+rrupts.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 hsrd_presp_to_cnt=
+_limit: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} RD_PRESP_TO_CONFIG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x50 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _HSWR_PRESP_TO=
+_CONFIG {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field sets a =
+period for which the DWC_mipi_dsi_host<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * keeps the link ina=
+ctive after sending a high-speed write<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * operation. This pe=
+riod is measured in cycles of lanebyteclk.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * The counting start=
+s when the D-PHY enters the Stop state<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * and causes no inte=
+rrupts.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 hswr_presp_to_cnt=
+_limit: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved_0: 8;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * When set to 1, thi=
+s bit ensures that the peripheral response<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * timeout caused by =
+hs_wr_to_cnt is used only once per eDPI<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * frame, when both t=
+he following conditions are met:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * dpivsync_edpiwms h=
+as risen and fallen.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Packets originated=
+ from eDPI have been transmitted and its<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * FIFO is empty agai=
+n In this scenario no non-eDPI requests<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * are sent to the D-=
+PHY, even if there is traffic from generic<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * or DBI ready to be=
+ sent, making it return to stop state.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * When it does so, P=
+RESP_TO counter is activated and only when<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * it finishes does t=
+he controller send any other traffic that<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * is ready.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 hswr_presp_to_mod=
+e: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved_1: 7;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} HSWR_PRESP_TO_CONFIG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x54 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _LPWR_PRESP_TO=
+_CONFIG {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field sets a =
+period for which the DWC_mipi_dsi_host<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * keeps the link sti=
+ll, after sending a low-power write oper-<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * ation. This period=
+ is measured in cycles of lanebyteclk.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * The counting start=
+s when the D-PHY enters the Stop state<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * and causes no inte=
+rrupts.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 lpwr_presp_to_cnt=
+_limit: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} LPWR_PRESP_TO_CONFIG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x58 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _BTA_PRESP_TO_=
+CONFIG {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field sets a =
+period for which the DWC_mipi_dsi_host<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * keeps the link sti=
+ll, after completing a Bus Turn-Around.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This period is mea=
+sured in cycles of lanebyteclk. The<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * counting starts wh=
+en the D-PHY enters the Stop state and<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * causes no interrup=
+ts.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 bta_presp_to_cnt_=
+limit: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} BTA_PRESP_TO_CONFIG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x5C {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _TX_ESC_CLK_CO=
+NFIG {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field indicat=
+es the division factor for the TX Escape<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * clock source (lane=
+byteclk). The values 0 and 1 stop the<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * TX_ESC clock gener=
+ation.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 tx_esc_clk_config=
+: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} TX_ESC_CLK_CONFIG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x60 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _VACT_CMD_TRAN=
+S_LIMIT {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field is used=
+ for the transmission of commands in<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * low-power mode. It=
+ defines the size, in bytes, of the<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * largest packet tha=
+t can fit in a line during the VACT<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * region.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 vact_cmd_trans_li=
+mit: 8;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 24;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} VACT_CMD_TRANS_LIMIT;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x64 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _VBLK_CMD_TRAN=
+S_LIMIT {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field is used=
+ for the transmission of commands in<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * low-power mode. It=
+ defines the size, in bytes, of the<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * largest packet tha=
+t can fit in a line during the VSA, VBP,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * and VFP regions.<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 vblk_cmd_trans_li=
+mit: 8;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 24;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} VBLK_CMD_TRANS_LIMIT;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x68 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _CMD_MODE_CFG =
+{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * When set to 1, thi=
+s bit enables the tearing effect<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * acknowledge reques=
+t.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 tear_fx_en: 1;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * When set to 1, thi=
+s bit enables the acknowledge request<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * after each packet =
+transmission.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ack_rqst_en: 1;<b=
+r>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved_0: 3;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 pps_tx: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 exq_tx: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 cmc_tx: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit configure=
+s the Generic short write packet with<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * zero parameter com=
+mand transmission type:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: High-speed 1: L=
+ow-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_sw_0p_tx: 1;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit configure=
+s the Generic short write packet with<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * one parameter comm=
+and transmission type:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: High-speed 1: L=
+ow-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_sw_1p_tx: 1;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit configure=
+s the Generic short write packet with<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * two parameters com=
+mand transmission type:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: High-speed 1: L=
+ow-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_sw_2p_tx: 1;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit configure=
+s the Generic short read packet with<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * zero parameter com=
+mand transmission type:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: High-speed 1: L=
+ow-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_sr_0p_tx: 1;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit configure=
+s the Generic short read packet with<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * one parameter comm=
+and transmission type:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: High-speed 1: L=
+ow-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_sr_1p_tx: 1;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit configure=
+s the Generic short read packet with<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * two parameters com=
+mand transmission type:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: High-speed 1: L=
+ow-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_sr_2p_tx: 1;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit configure=
+s the Generic long write packet command<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * transmission type:=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: High-speed 1: L=
+ow-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_lw_tx: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved_1: 1;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit configure=
+s the DCS short write packet with zero<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * parameter command =
+transmission type:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: High-speed 1: L=
+ow-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 dcs_sw_0p_tx: 1;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit configure=
+s the DCS short write packet with one<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * parameter command =
+transmission type:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: High-speed 1: L=
+ow-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 dcs_sw_1p_tx: 1;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit configure=
+s the DCS short read packet with zero<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * parameter command =
+transmission type:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: High-speed 1: L=
+ow-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 dcs_sr_0p_tx: 1;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit configure=
+s the DCS long write packet command<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * transmission type:=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: High-speed 1: L=
+ow-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 dcs_lw_tx: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved_2: 4;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit configure=
+s the maximum read packet size command<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * transmission type:=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: High-speed 1: L=
+ow-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 max_rd_pkt_size: =
+1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved_3: 7;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} CMD_MODE_CFG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x6C {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _GEN_HDR {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field configu=
+res the packet data type of the header<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * packet.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_dt: 6;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field configu=
+res the virtual channel id of the header<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * packet.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_vc: 2;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field configu=
+res the least significant byte of the<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * header packet&#39;=
+s Word count for long packets or data 0 for<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * short packets.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_wc_lsbyte: 8;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field configu=
+res the most significant byte of the<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * header packet&#39;=
+s word count for long packets or data 1 for<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * short packets.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_wc_msbyte: 8;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 8;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} GEN_HDR;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x70 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _GEN_PLD_DATA =
+{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This field indicat=
+es byte 1 of the packet payload. */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_pld_b1: 8;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This field indicat=
+es byte 2 of the packet payload. */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_pld_b2: 8;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This field indicat=
+es byte 3 of the packet payload. */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_pld_b3: 8;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This field indicat=
+es byte 4 of the packet payload. */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_pld_b4: 8;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} GEN_PLD_DATA;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x74 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _PHY_CLK_LANE_=
+LP_CTRL {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit controls =
+the D-PHY PPI txrequestclkhs signal */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_clklane_tx_re=
+q_hs: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit enables t=
+he automatic mechanism to stop providing<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * clock in the clock=
+ lane when time allows.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 auto_clklane_ctrl=
+_en: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 30;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} PHY_CLK_LANE_LP_CTRL;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x78 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _PHY_INTERFACE=
+_CTRL {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 0, thi=
+s bit places the D-PHY macro in power-<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * down state.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 rf_phy_shutdown: =
+1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 0, thi=
+s bit places the digital section of the<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * D-PHY in the reset=
+ state.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 rf_phy_reset_n: 1=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 1, thi=
+s bit enables the D-PHY Clock Lane<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * module.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 rf_phy_clk_en: 1;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When the D-PHY is =
+in ULPS, this bit enables the D-PHY PLL. */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 rf_phy_force_pll:=
+ 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* ULPS mode Request =
+on clock lane */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 rf_phy_clk_txrequ=
+lps: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* ULPS mode Exit on =
+clock lane */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 rf_phy_clk_txexit=
+ulps: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* ULPS mode Request =
+on all active data lanes */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 rf_phy_data_txreq=
+ulps: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* ULPS mode Exit on =
+all active data lanes */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 rf_phy_data_txexi=
+tulps: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 24;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} PHY_INTERFACE_CTRL;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x7C {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _PHY_TX_TRIGGE=
+RS {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This field control=
+s the trigger transmissions. */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_tx_triggers: =
+4;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 28;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} PHY_TX_TRIGGERS;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x80 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _DESKEW_START =
+{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 deskew_start: 1;<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 31;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} DESKEW_START;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x84 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _DESKEW_MODE {=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 deskew_mode: 2;<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 30;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} DESKEW_MODE;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x88 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _DESKEW_TIME {=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 deskew_time: 32;<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} DESKEW_TIME;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x8C {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _DESKEW_PERIOD=
+ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 deskew_period: 32=
+;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} DESKEW_PERIOD;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x90 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _DESKEW_BUSY {=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 deskew_busy: 1;<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 31;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} DESKEW_BUSY;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x94 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _DESKEW_LANE_M=
+ASK {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 deskew_lane0_mask=
+: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 deskew_lane1_mask=
+: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 deskew_lane2_mask=
+: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 deskew_lane3_mask=
+: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 28;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} DESKEW_LANE_MASK;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x98 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _CMD_MODE_STAT=
+US {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit is set wh=
+en a read command is issued and cleared<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * when the entire re=
+sponse is stored in the FIFO.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Value after reset:=
+ 0x0<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * NOTE:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * For mipi-dsi-r1p0 =
+IP, this bit is set immediately when<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *=C2=A0 =C2=A0 =C2=
+=A0the read cmd is set to the GEN_HDR register.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * For dsi-ctrl-r1p0 =
+IP, this bit is set only after the read<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *=C2=A0 =C2=A0 =C2=
+=A0cmd was actually sent out from the controller.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_cmd_rdcmd_ong=
+oing: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit indicates=
+ the empty status of the generic read<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * payload FIFO.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Value after reset:=
+ 0x1<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_cmd_rdata_fif=
+o_empty: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit indicates=
+ the full status of the generic read<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * payload FIFO.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Value after reset:=
+ 0x0<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_cmd_rdata_fif=
+o_full: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit indicates=
+ the empty status of the generic write<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * payload FIFO.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Value after reset:=
+ 0x1<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_cmd_wdata_fif=
+o_empty: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit indicates=
+ the full status of the generic write<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * payload FIFO.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Value after reset:=
+ 0x0<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_cmd_wdata_fif=
+o_full: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit indicates=
+ the empty status of the generic<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * command FIFO.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Value after reset:=
+ 0x1<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_cmd_cmd_fifo_=
+empty: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit indicates=
+ the full status of the generic<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * command FIFO.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Value after reset:=
+ 0x0<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_cmd_cmd_fifo_=
+full: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This bit is set wh=
+en the entire response of read is<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * stored in the rx p=
+ayload FIFO. And it will be cleared<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * automaticlly after=
+ read this bit each time.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Value after reset:=
+ 0x0<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * NOTE: this bit is =
+just supported for dsi-ctrl-r1p0 IP<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 gen_cmd_rdcmd_don=
+e: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved : 24;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} CMD_MODE_STATUS;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x9C {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _PHY_STATUS {<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* the status of phyd=
+irection D-PHY signal */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_direction: 1;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* the status of phyl=
+ock D-PHY signal */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_lock: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* the status of rxul=
+psesc0lane D-PHY signal */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_rxulpsesc0lan=
+e: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* the status of phys=
+topstateclklane D-PHY signal */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_stopstateclkl=
+ane: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* the status of phys=
+topstate0lane D-PHY signal */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_stopstate0lan=
+e: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* the status of phys=
+topstate1lane D-PHY signal */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_stopstate1lan=
+e: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* the status of phys=
+topstate2lane D-PHY signal */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_stopstate2lan=
+e: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* the status of phys=
+topstate3lane D-PHY signal */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_stopstate3lan=
+e: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* the status of phyu=
+lpsactivenotclk D-PHY signal */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_ulpsactivenot=
+clk: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* the status of ulps=
+activenot0lane D-PHY signal */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_ulpsactivenot=
+0lane: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* the status of ulps=
+activenot1lane D-PHY signal */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_ulpsactivenot=
+1lane: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* the status of ulps=
+activenot2lane D-PHY signal */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_ulpsactivenot=
+2lane: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* the status of ulps=
+activenot3lane D-PHY signal */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_ulpsactivenot=
+3lane: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 19;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} PHY_STATUS;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xA0 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _PHY_MIN_STOP_=
+TIME {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This field configu=
+res the minimum wait period to request<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * a high-speed trans=
+mission after the Stop state.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_min_stop_time=
+: 8;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 24;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} PHY_MIN_STOP_TIME;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xA4 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _PHY_LANE_NUM_=
+CONFIG {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field configu=
+res the number of active data lanes:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 00: One data lane =
+(lane 0)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 01: Two data lanes=
+ (lanes 0 and 1)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 10: Three data lan=
+es (lanes 0, 1, and 2)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 11: Four data lane=
+s (lanes 0, 1, 2, and 3)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_lane_num: 2;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 30;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} PHY_LANE_NUM_CONFIG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xA8 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _PHY_CLKLANE_T=
+IME_CONFIG {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field configu=
+res the maximum time that the D-PHY<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * clock lane takes t=
+o go from low-power to high-speed<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * transmission measu=
+red in lane byte clock cycles.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_clklane_lp_to=
+_hs_time: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field configu=
+res the maximum time that the D-PHY<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * clock lane takes t=
+o go from high-speed to low-power<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * transmission measu=
+red in lane byte clock cycles.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_clklane_hs_to=
+_lp_time: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} PHY_CLKLANE_TIME_CONFIG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xAC {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _PHY_DATALANE_=
+TIME_CONFIG {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field configu=
+res the maximum time that the D-PHY data<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * lanes take to go f=
+rom low-power to high-speed transmission<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * measured in lane b=
+yte clock cycles.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_datalane_lp_t=
+o_hs_time: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field configu=
+res the maximum time that the D-PHY data<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * lanes take to go f=
+rom high-speed to low-power transmission<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * measured in lane b=
+yte clock cycles.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_datalane_hs_t=
+o_lp_time: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} PHY_DATALANE_TIME_CONFIG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xB0 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _MAX_READ_TIME=
+ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field configu=
+res the maximum time required to perform<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * a read command in =
+lane byte clock cycles. This register can<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * only be modified w=
+hen no read command is in progress.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 max_rd_time: 16;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} MAX_READ_TIME;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xB4 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _RX_PKT_CHECK_=
+CONFIG {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 1, thi=
+s bit enables the ECC reception, error<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * correction, and re=
+porting.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 rx_pkt_ecc_en: 1;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 1, thi=
+s bit enables the CRC reception and error<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * reporting.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 rx_pkt_crc_en: 1;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 30;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} RX_PKT_CHECK_CONFIG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xB8 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _TA_EN {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 1, thi=
+s bit enables the Bus Turn-Around (BTA)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * request.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 ta_en: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 31;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} TA_EN;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xBC {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _EOTP_EN {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 1, thi=
+s bit enables the EoTp transmission */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 tx_eotp_en: 1;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* When set to 1, thi=
+s bit enables the EoTp reception. */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 rx_eotp_en: 1;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 30;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} EOTP_EN;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xC0 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _VIDEO_NULLPKT=
+_SIZE {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This register conf=
+igures the number of bytes inside a null<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * packet. Setting it=
+ to 0 disables the null packets.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 video_nullpkt_siz=
+e: 13;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 19;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} VIDEO_NULLPKT_SIZE;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xC4 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _DCS_WM_PKT_SI=
+ZE {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * This field configu=
+res the maximum allowed size for an eDPI<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * write memory comma=
+nd, measured in pixels. Automatic parti-<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * tioning of data ob=
+tained from eDPI is permanently enabled.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 dcs_wm_pkt_size: =
+16;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 16;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} DCS_WM_PKT_SIZE;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xC8 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _PROTOCOL_INT_=
+CLR {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_dphy_errors_0=
+: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_dphy_errors_1=
+: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_dphy_errors_2=
+: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_dphy_errors_3=
+: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_dphy_errors_4=
+: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_protocol_debu=
+g_err: 11;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+0: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+1: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+2: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+3: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+4: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+5: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+6: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+7: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+8: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+9: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+10: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+11: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+12: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+13: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+14: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ack_with_err_=
+15: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} PROTOCOL_INT_CLR;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xCC {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _INTERNAL_INT_=
+CLR {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_receive_pkt_s=
+ize_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_eopt_not_rece=
+ive_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_gen_cmd_cmd_f=
+ifo_wr_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_gen_cmd_rdata=
+_fifo_rd_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_gen_cmd_rdata=
+_fifo_wr_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_gen_cmd_wdata=
+_fifo_wr_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_gen_cmd_wdata=
+_fifo_rd_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_dpi_pix_fifo_=
+wr_err: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_internal_debu=
+g_err: 19;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ecc_single_er=
+r: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_ecc_multi_err=
+: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_crc_err: 1;<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_hs_tx_timeout=
+: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clr_lp_rx_timeout=
+: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} INTERNAL_INT_CLR;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xD0 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _VIDEO_SIG_DEL=
+AY_CONFIG {<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * DPI interface sign=
+al delay to be used in clk lanebyte<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * domain for control=
+ logic to read video data from pixel<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * memory in mannal m=
+ode, measured in clk_lanebyte cycles<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 video_sig_delay: =
+24;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 1&#39;b1: mannal m=
+ode<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0dsi controller will use video_sig_delay value as<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0the delay for the packet handle logic to read video<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0data from pixel memory.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 1&#39;b0: auto mod=
+e<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0dsi controller will auto calculate the delay for<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0the packet handle logic to read video data from<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0pixel memory.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 video_sig_delay_m=
+ode: 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 7;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} VIDEO_SIG_DELAY_CONFIG;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u32 reservedD4_EC[7];<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xF0 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _PHY_TST_CTRL0=
+ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* PHY test interface=
+ clear (active high) */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_testclr: 1;<b=
+r>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit is used t=
+o clock the TESTDIN bus into the D-PHY */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_testclk: 1;<b=
+r>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 30;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} PHY_TST_CTRL0;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xF4 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _PHY_TST_CTRL1=
+ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* PHY test interface=
+ input 8-bit data bus for internal<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * register programmi=
+ng and test functionalities access.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_testdin: 8;<b=
+r>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* PHY output 8-bit d=
+ata bus for read-back and internal<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * probing functional=
+ities.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_testdout: 8;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * PHY test interface=
+ operation selector:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 1: The address wri=
+te operation is set on the falling edge<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *=C2=A0 =C2=A0 of th=
+e testclk signal.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * 0: The data write =
+operation is set on the rising edge of<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *=C2=A0 =C2=A0 the t=
+estclk signal.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 phy_testen: 1;<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 15;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} PHY_TST_CTRL1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u32 reservedF8_1FC[66];<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x200 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _INT_PLL_STS {=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 int_pll_sts: 1;<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 31;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} INT_PLL_STS;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x204 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _INT_PLL_MSK {=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 int_pll_msk: 1;<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 31;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} INT_PLL_MSK;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x208 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _INT_PLL_CLR {=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 int_pll_clr: 1;<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reserved: 31;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} INT_PLL_CLR;<br>
+&gt; +<br>
+&gt; +};<br>
+&gt; +<br>
+&gt; +void dsi_power_enable(struct dsi_context *ctx, int enable);<br>
+&gt; +void dsi_video_mode(struct dsi_context *ctx);<br>
+&gt; +void dsi_cmd_mode(struct dsi_context *ctx);<br>
+&gt; +bool dsi_is_cmd_mode(struct dsi_context *ctx);<br>
+&gt; +void dsi_rx_vcid(struct dsi_context *ctx, u8 vc);<br>
+&gt; +void dsi_video_vcid(struct dsi_context *ctx, u8 vc);<br>
+&gt; +void dsi_dpi_video_burst_mode(struct dsi_context *ctx, int mode);<br>
+&gt; +void dsi_dpi_color_coding(struct dsi_context *ctx, int coding);<br>
+&gt; +void dsi_dpi_sig_delay(struct dsi_context *ctx, u16 byte_cycle);<br>
+&gt; +void dsi_dpi_hline_time(struct dsi_context *ctx, u16 byte_cycle);<br>
+&gt; +void dsi_dpi_hsync_time(struct dsi_context *ctx, u16 byte_cycle);<br>
+&gt; +void dsi_dpi_hbp_time(struct dsi_context *ctx, u16 byte_cycle);<br>
+&gt; +void dsi_dpi_vact(struct dsi_context *ctx, u16 lines);<br>
+&gt; +void dsi_dpi_vfp(struct dsi_context *ctx, u16 lines);<br>
+&gt; +void dsi_dpi_vbp(struct dsi_context *ctx, u16 lines);<br>
+&gt; +void dsi_dpi_vsync(struct dsi_context *ctx, u16 lines);<br>
+&gt; +void dsi_dpi_hporch_lp_en(struct dsi_context *ctx, int enable);<br>
+&gt; +void dsi_dpi_vporch_lp_en(struct dsi_context *ctx, int enable);<br>
+&gt; +void dsi_dpi_frame_ack_en(struct dsi_context *ctx, int enable);<br>
+&gt; +void dsi_dpi_chunk_num(struct dsi_context *ctx, u16 no);<br>
+&gt; +void dsi_dpi_null_packet_size(struct dsi_context *ctx, u16 size);<br>
+&gt; +void dsi_dpi_video_packet_size(struct dsi_context *ctx, u16 size);<br=
+>
+&gt; +void dsi_edpi_max_pkt_size(struct dsi_context *ctx, u16 size);<br>
+&gt; +void dsi_tear_effect_ack_en(struct dsi_context *ctx, int enable);<br>
+&gt; +void dsi_cmd_mode_lp_cmd_en(struct dsi_context *ctx, int enable);<br>
+&gt; +void dsi_video_mode_lp_cmd_en(struct dsi_context *ctx, int enable);<b=
+r>
+&gt; +void dsi_set_packet_header(struct dsi_context *ctx, u8 vc, u8 type,<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0u8 wc_lsb, u8 wc_msb);<br>
+&gt; +void dsi_set_packet_payload(struct dsi_context *ctx, u32 payload);<br=
+>
+&gt; +u32 dsi_get_rx_payload(struct dsi_context *ctx);<br>
+&gt; +void dsi_bta_en(struct dsi_context *ctx, int enable);<br>
+&gt; +void dsi_eotp_rx_en(struct dsi_context *ctx, int enable);<br>
+&gt; +void dsi_eotp_tx_en(struct dsi_context *ctx, int enable);<br>
+&gt; +void dsi_ecc_rx_en(struct dsi_context *ctx, int enable);<br>
+&gt; +void dsi_crc_rx_en(struct dsi_context *ctx, int enable);<br>
+&gt; +bool dsi_is_bta_returned(struct dsi_context *ctx);<br>
+&gt; +bool dsi_is_rx_payload_fifo_full(struct dsi_context *ctx);<br>
+&gt; +bool dsi_is_rx_payload_fifo_empty(struct dsi_context *ctx);<br>
+&gt; +bool dsi_is_tx_payload_fifo_full(struct dsi_context *ctx);<br>
+&gt; +bool dsi_is_tx_payload_fifo_empty(struct dsi_context *ctx);<br>
+&gt; +bool dsi_is_tx_cmd_fifo_empty(struct dsi_context *ctx);<br>
+&gt; +void dsi_datalane_hs2lp_config(struct dsi_context *ctx, u16 byte_cycl=
+e);<br>
+&gt; +void dsi_datalane_lp2hs_config(struct dsi_context *ctx, u16 byte_cycl=
+e);<br>
+&gt; +void dsi_clklane_hs2lp_config(struct dsi_context *ctx, u16 byte_cycle=
+);<br>
+&gt; +void dsi_clklane_lp2hs_config(struct dsi_context *ctx, u16 byte_cycle=
+);<br>
+&gt; +void dsi_max_read_time(struct dsi_context *ctx, u16 byte_cycle);<br>
+&gt; +void dsi_nc_clk_en(struct dsi_context *ctx, int enable);<br>
+&gt; +void dsi_tx_escape_division(struct dsi_context *ctx, u8 div);<br>
+&gt; +void dsi_timeout_clock_division(struct dsi_context *ctx, u8 div);<br>
+&gt; +void dsi_lp_rx_timeout(struct dsi_context *ctx, u16 count);<br>
+&gt; +void dsi_hs_tx_timeout(struct dsi_context *ctx, u16 count);<br>
+&gt; +u32 dsi_int0_status(struct dsi_context *ctx);<br>
+&gt; +u32 dsi_int1_status(struct dsi_context *ctx);<br>
+&gt; +void dsi_int0_mask(struct dsi_context *ctx, u32 mask);<br>
+&gt; +void dsi_int1_mask(struct dsi_context *ctx, u32 mask);<br>
+&gt; +<br>
+&gt; +#endif /* _DW_DSI_CTRL_H_ */<br>
+&gt; diff --git a/drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.c b/drivers/gpu/drm/=
+sprd/dw_dsi_ctrl_ppi.c<br>
+&gt; new file mode 100644<br>
+&gt; index 000000000..6e28d7cf6<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.c<br>
+&gt; @@ -0,0 +1,157 @@<br>
+&gt; +// SPDX-License-Identifier: GPL-2.0<br>
+&gt; +/*<br>
+&gt; + * Copyright (C) 2020 Unisoc Inc.<br>
+&gt; + */<br>
+&gt; +<br>
+&gt; +#include &lt;linux/io.h&gt;<br>
+&gt; +#include &lt;linux/init.h&gt;<br>
+&gt; +#include &lt;linux/module.h&gt;<br>
+&gt; +<br>
+&gt; +#include &quot;dw_dsi_ctrl.h&quot;<br>
+&gt; +#include &quot;dw_dsi_ctrl_ppi.h&quot;<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * Reset D-PHY module<br>
+&gt; + */<br>
+&gt; +void dsi_phy_rstz(struct dsi_context *ctx, int level)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x78 phy_interface_ctrl;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_interface_ctrl.val =3D readl(&amp;reg-&gt;PHY=
+_INTERFACE_CTRL);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_interface_ctrl.bits.rf_phy_reset_n =3D level;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(phy_interface_ctrl.val, &amp;reg-&gt;PHY_I=
+NTERFACE_CTRL);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * Power up/down D-PHY module<br>
+&gt; + */<br>
+&gt; +void dsi_phy_shutdownz(struct dsi_context *ctx, int level)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x78 phy_interface_ctrl;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_interface_ctrl.val =3D readl(&amp;reg-&gt;PHY=
+_INTERFACE_CTRL);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_interface_ctrl.bits.rf_phy_shutdown =3D level=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(phy_interface_ctrl.val, &amp;reg-&gt;PHY_I=
+NTERFACE_CTRL);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * Configure minimum wait period for HS transmission request after a =
+stop state<br>
+&gt; + */<br>
+&gt; +void dsi_phy_stop_wait_time(struct dsi_context *ctx, u8 byte_cycle)<b=
+r>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(byte_cycle, &amp;reg-&gt;PHY_MIN_STOP_TIME=
+);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * Set number of active lanes<br>
+&gt; + */<br>
+&gt; +void dsi_phy_datalane_en(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(ctx-&gt;lanes - 1, &amp;reg-&gt;PHY_LANE_N=
+UM_CONFIG);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * Enable clock lane module<br>
+&gt; + */<br>
+&gt; +void dsi_phy_clklane_en(struct dsi_context *ctx, int en)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x78 phy_interface_ctrl;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_interface_ctrl.val =3D readl(&amp;reg-&gt;PHY=
+_INTERFACE_CTRL);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_interface_ctrl.bits.rf_phy_clk_en =3D en;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(phy_interface_ctrl.val, &amp;reg-&gt;PHY_I=
+NTERFACE_CTRL);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * Request the PHY module to start transmission of high speed clock.<=
+br>
+&gt; + * This causes the clock lane to start transmitting DDR clock on the<=
+br>
+&gt; + * lane interconnect.<br>
+&gt; + */<br>
+&gt; +void dsi_phy_clk_hs_rqst(struct dsi_context *ctx, int enable)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x74 phy_clk_lane_lp_ctrl;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_clk_lane_lp_ctrl.val =3D readl(&amp;reg-&gt;P=
+HY_CLK_LANE_LP_CTRL);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_clk_lane_lp_ctrl.bits.auto_clklane_ctrl_en =
+=3D 0;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_clk_lane_lp_ctrl.bits.phy_clklane_tx_req_hs =
+=3D enable;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(phy_clk_lane_lp_ctrl.val, &amp;reg-&gt;PHY=
+_CLK_LANE_LP_CTRL);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * Get D-PHY PPI status<br>
+&gt; + */<br>
+&gt; +u8 dsi_phy_is_pll_locked(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0x9C phy_status;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_status.val =3D readl(&amp;reg-&gt;PHY_STATUS)=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return phy_status.bits.phy_lock;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +void dsi_phy_test_clk(struct dsi_context *ctx, u8 value)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xF0 phy_tst_ctrl0;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_tst_ctrl0.val =3D readl(&amp;reg-&gt;PHY_TST_=
+CTRL0);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_tst_ctrl0.bits.phy_testclk =3D value;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(phy_tst_ctrl0.val, &amp;reg-&gt;PHY_TST_CT=
+RL0);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +void dsi_phy_test_clr(struct dsi_context *ctx, u8 value)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xF0 phy_tst_ctrl0;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_tst_ctrl0.val =3D readl(&amp;reg-&gt;PHY_TST_=
+CTRL0);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_tst_ctrl0.bits.phy_testclr =3D value;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(phy_tst_ctrl0.val, &amp;reg-&gt;PHY_TST_CT=
+RL0);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +void dsi_phy_test_en(struct dsi_context *ctx, u8 value)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xF4 phy_tst_ctrl1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_tst_ctrl1.val =3D readl(&amp;reg-&gt;PHY_TST_=
+CTRL1);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_tst_ctrl1.bits.phy_testen =3D value;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(phy_tst_ctrl1.val, &amp;reg-&gt;PHY_TST_CT=
+RL1);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +u8 dsi_phy_test_dout(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xF4 phy_tst_ctrl1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_tst_ctrl1.val =3D readl(&amp;reg-&gt;PHY_TST_=
+CTRL1);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return phy_tst_ctrl1.bits.phy_testdout;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +void dsi_phy_test_din(struct dsi_context *ctx, u8 data)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_reg *reg =3D (struct dsi_reg *)ctx-&gt=
+;base;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union _0xF4 phy_tst_ctrl1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_tst_ctrl1.val =3D readl(&amp;reg-&gt;PHY_TST_=
+CTRL1);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy_tst_ctrl1.bits.phy_testdin =3D data;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0writel(phy_tst_ctrl1.val, &amp;reg-&gt;PHY_TST_CT=
+RL1);<br>
+&gt; +}<br>
+&gt; diff --git a/drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.h b/drivers/gpu/drm/=
+sprd/dw_dsi_ctrl_ppi.h<br>
+&gt; new file mode 100644<br>
+&gt; index 000000000..d87fb7579<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.h<br>
+&gt; @@ -0,0 +1,26 @@<br>
+&gt; +/* SPDX-License-Identifier: GPL-2.0 */<br>
+&gt; +/*<br>
+&gt; + * Copyright (C) 2020 Unisoc Inc.<br>
+&gt; + */<br>
+&gt; +<br>
+&gt; +#ifndef _DW_DSI_CTRL_PPI_H_<br>
+&gt; +#define _DW_DSI_CTRL_PPI_H_<br>
+&gt; +<br>
+&gt; +#include &quot;sprd_dsi.h&quot;<br>
+&gt; +<br>
+&gt; +void dsi_phy_rstz(struct dsi_context *ctx, int level);<br>
+&gt; +void dsi_phy_shutdownz(struct dsi_context *ctx, int level);<br>
+&gt; +void dsi_phy_force_pll(struct dsi_context *ctx, int force);<br>
+&gt; +void dsi_phy_stop_wait_time(struct dsi_context *ctx, u8 byte_clk);<br=
+>
+&gt; +void dsi_phy_datalane_en(struct dsi_context *ctx);<br>
+&gt; +void dsi_phy_clklane_en(struct dsi_context *ctx, int en);<br>
+&gt; +void dsi_phy_clk_hs_rqst(struct dsi_context *ctx, int en);<br>
+&gt; +u8 dsi_phy_is_pll_locked(struct dsi_context *ctx);<br>
+&gt; +void dsi_phy_test_clk(struct dsi_context *ctx, u8 level);<br>
+&gt; +void dsi_phy_test_clr(struct dsi_context *ctx, u8 level);<br>
+&gt; +void dsi_phy_test_en(struct dsi_context *ctx, u8 level);<br>
+&gt; +u8 dsi_phy_test_dout(struct dsi_context *ctx);<br>
+&gt; +void dsi_phy_test_din(struct dsi_context *ctx, u8 data);<br>
+&gt; +void dsi_phy_bist_en(struct dsi_context *ctx, int en);<br>
+&gt; +<br>
+&gt; +#endif /* _DW_DSI_CTRL_PPI_H_ */<br>
+&gt; \ No newline at end of file<br>
+&gt; diff --git a/drivers/gpu/drm/sprd/megacores_pll.c b/drivers/gpu/drm/sp=
+rd/megacores_pll.c<br>
+&gt; new file mode 100644<br>
+&gt; index 000000000..03c1f0f00<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/drivers/gpu/drm/sprd/megacores_pll.c<br>
+&gt; @@ -0,0 +1,317 @@<br>
+&gt; +// SPDX-License-Identifier: GPL-2.0<br>
+&gt; +/*<br>
+&gt; + * Copyright (C) 2020 Unisoc Inc.<br>
+&gt; + */<br>
+&gt; +<br>
+&gt; +#include &lt;asm/div64.h&gt;<br>
+&gt; +#include &lt;linux/delay.h&gt;<br>
+&gt; +#include &lt;linux/init.h&gt;<br>
+&gt; +#include &lt;linux/kernel.h&gt;<br>
+&gt; +#include &lt;linux/regmap.h&gt;<br>
+&gt; +#include &lt;linux/string.h&gt;<br>
+&gt; +<br>
+&gt; +#include &quot;megacores_pll.h&quot;<br>
+&gt; +<br>
+&gt; +#define L=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 0<br>
+&gt; +#define H=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 1<br>
+&gt; +#define CLK=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 0<br>
+&gt; +#define DATA=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A01<br>
+&gt; +#define INFINITY=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00xffffffff<br>
+&gt; +#define MIN_OUTPUT_FREQ=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (100)<br>
+&gt; +<br>
+&gt; +#define AVERAGE(a, b) (min(a, b) + abs((b) - (a)) / 2)<br>
+&gt; +<br>
+&gt; +/* sharkle */<br>
+&gt; +#define VCO_BAND_LOW 750<br>
+&gt; +#define VCO_BAND_MID 1100<br>
+&gt; +#define VCO_BAND_HIGH=C2=A0 =C2=A0 =C2=A0 =C2=A0 1500<br>
+&gt; +#define PHY_REF_CLK=C2=A0 26000<br>
+&gt; +<br>
+&gt; +static int dphy_calc_pll_param(struct dphy_pll *pll)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0const u32 khz =3D 1000;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0const u32 mhz =3D 1000000;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0const unsigned long long factor =3D 100;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0unsigned long long tmp;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0int i;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0pll-&gt;potential_fvco =3D pll-&gt;freq / khz;<br=
+>
+&gt; +=C2=A0 =C2=A0 =C2=A0pll-&gt;ref_clk =3D PHY_REF_CLK / khz;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; 4; ++i) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (pll-&gt;potential=
+_fvco &gt;=3D VCO_BAND_LOW &amp;&amp;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0pll-&gt;potential_fvco &lt;=3D VCO_BAND_HIGH) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0pll-&gt;fvco =3D pll-&gt;potential_fvco;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0pll-&gt;out_sel =3D BIT(i);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pll-&gt;potential_fvc=
+o &lt;&lt;=3D 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (pll-&gt;fvco =3D=3D 0)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (pll-&gt;fvco &gt;=3D VCO_BAND_LOW &amp;&amp; =
+pll-&gt;fvco &lt;=3D VCO_BAND_MID) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* vco band control *=
+/<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pll-&gt;vco_band =3D =
+0x0;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* low pass filter co=
+ntrol */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pll-&gt;lpf_sel =3D 1=
+;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} else if (pll-&gt;fvco &gt; VCO_BAND_MID &amp;&a=
+mp; pll-&gt;fvco &lt;=3D VCO_BAND_HIGH) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pll-&gt;vco_band =3D =
+0x1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pll-&gt;lpf_sel =3D 0=
+;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} else<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0pll-&gt;nint =3D pll-&gt;fvco / pll-&gt;ref_clk;<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0tmp =3D pll-&gt;fvco * factor * mhz;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0do_div(tmp, pll-&gt;ref_clk);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0tmp =3D tmp - pll-&gt;nint * factor * mhz;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0tmp *=3D BIT(20);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0do_div(tmp, 100000000);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0pll-&gt;kint =3D (u32)tmp;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0pll-&gt;refin =3D 3; /* pre-divider bypass */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0pll-&gt;sdm_en =3D true; /* use fraction N PLL */=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0pll-&gt;fdk_s =3D 0x1; /* fraction */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0pll-&gt;cp_s =3D 0x0;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0pll-&gt;det_delay =3D 0x1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return 0;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static void dphy_set_pll_reg(struct dphy_pll *pll, struct regmap *reg=
+map)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct pll_reg *reg =3D &amp;pll-&gt;reg;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u8 *val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0int i;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u8 reg_addr[] =3D {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x03, 0x04, 0x06, 0x0=
+8, 0x09,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x0a, 0x0b, 0x0e, 0x0=
+f<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0};<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_03.bits.prbs_bist =3D 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_03.bits.en_lp_treot =3D true;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_03.bits.lpf_sel =3D pll-&gt;lpf_sel;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_03.bits.txfifo_bypass =3D 0;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_04.bits.div =3D pll-&gt;div;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_04.bits.masterof8lane =3D 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_04.bits.cp_s =3D pll-&gt;cp_s;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_04.bits.fdk_s =3D pll-&gt;fdk_s;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_06.bits.nint =3D pll-&gt;nint;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_08.bits.vco_band =3D pll-&gt;vco_band;<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_08.bits.sdm_en =3D pll-&gt;sdm_en;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_08.bits.refin =3D pll-&gt;refin;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_09.bits.kint_h =3D pll-&gt;kint &gt;&gt;=
+ 12;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_0a.bits.kint_m =3D (pll-&gt;kint &gt;&gt=
+; 4) &amp; 0xff;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_0b.bits.out_sel =3D pll-&gt;out_sel;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_0b.bits.kint_l =3D pll-&gt;kint &amp; 0x=
+f;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_0e.bits.pll_pu_byp =3D 0;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_0e.bits.pll_pu =3D 0;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_0e.bits.stopstate_sel =3D 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0reg-&gt;_0f.bits.det_delay =3D pll-&gt;det_delay;=
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0val =3D (u8 *)&amp;reg;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; sizeof(reg_addr); ++i) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+reg_addr[i], val[i]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_DEBUG(&quot;%02x:=
+ %02x\n&quot;, reg_addr[i], val[i]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +int dphy_pll_config(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dsi *dsi =3D container_of(ctx, struct=
+ sprd_dsi, ctx);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct regmap *regmap =3D ctx-&gt;regmap;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dphy_pll *pll =3D ctx-&gt;pll;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0int ret;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0pll-&gt;freq =3D ctx-&gt;byte_clk * 8;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0/* FREQ =3D 26M * (NINT + KINT / 2^20) / out_sel =
+*/<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0ret =3D dphy_calc_pll_param(pll);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (ret) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, =
+&quot;failed to calculate dphy pll parameters\n&quot;);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dphy_set_pll_reg(pll, regmap);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return 0;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static void dphy_set_timing_reg(struct regmap *regmap, int type, u8 v=
+al[])<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0switch (type) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case REQUEST_TIME:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x31, val[CLK]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x41, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x51, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x61, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x71, val[DATA]);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x90, val[CLK]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xa0, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xb0, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xc0, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xd0, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case PREPARE_TIME:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x32, val[CLK]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x42, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x52, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x62, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x72, val[DATA]);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x91, val[CLK]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xa1, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xb1, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xc1, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xd1, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case ZERO_TIME:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x33, val[CLK]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x43, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x53, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x63, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x73, val[DATA]);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x92, val[CLK]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xa2, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xb2, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xc2, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xd2, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case TRAIL_TIME:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x34, val[CLK]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x44, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x54, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x64, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x74, val[DATA]);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x93, val[CLK]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xa3, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xb3, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xc3, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xd3, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case EXIT_TIME:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x36, val[CLK]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x46, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x56, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x66, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x76, val[DATA]);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x95, val[CLK]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xA5, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xB5, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xc5, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0xd5, val[DATA]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case CLKPOST_TIME:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x35, val[CLK]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0regmap_write(regmap, =
+0x94, val[CLK]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0/* the following just use default value */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case SETTLE_TIME:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case TA_GET:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case TA_GO:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case TA_SURE:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0default:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +void dphy_timing_config(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct regmap *regmap =3D ctx-&gt;regmap;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dphy_pll *pll =3D ctx-&gt;pll;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0const u32 factor =3D 2;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0const u32 scale =3D 100;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u32 t_ui, t_byteck, t_half_byteck;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u32 range[2], constant;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u8 val[2];<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u32 tmp =3D 0;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0/* t_ui: 1 ui, byteck: 8 ui, half byteck: 4 ui */=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0t_ui =3D 1000 * scale / (pll-&gt;freq / 1000);<br=
+>
+&gt; +=C2=A0 =C2=A0 =C2=A0t_byteck =3D t_ui &lt;&lt; 3;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0t_half_byteck =3D t_ui &lt;&lt; 2;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0constant =3D t_ui &lt;&lt; 1;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0/* REQUEST_TIME: HS T-LPX: LP-01<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 * For T-LPX, mipi spec defined min value is 50ns=
+,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 * but maybe it shouldn&#39;t be too small, becau=
+se BTA,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 * LP-10, LP-00, LP-01, all of this is related to=
+ T-LPX.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[L] =3D 50 * scale;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[H] =3D INFINITY;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0val[CLK] =3D DIV_ROUND_UP(range[L] * (factor &lt;=
+&lt; 1), t_byteck) - 2;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0val[DATA] =3D val[CLK];<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dphy_set_timing_reg(regmap, REQUEST_TIME, val);<b=
+r>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0/* PREPARE_TIME: HS sequence: LP-00 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[L] =3D 38 * scale;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[H] =3D 95 * scale;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0tmp =3D AVERAGE(range[L], range[H]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0val[CLK] =3D DIV_ROUND_UP(AVERAGE(range[L], range=
+[H]),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0t_half_byteck) - 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[L] =3D 40 * scale + 4 * t_ui;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[H] =3D 85 * scale + 6 * t_ui;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0tmp |=3D AVERAGE(range[L], range[H]) &lt;&lt; 16;=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0val[DATA] =3D DIV_ROUND_UP(AVERAGE(range[L], rang=
+e[H]),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0t_half_byteck) - 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dphy_set_timing_reg(regmap, PREPARE_TIME, val);<b=
+r>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0/* ZERO_TIME: HS-ZERO */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[L] =3D 300 * scale;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[H] =3D INFINITY;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0val[CLK] =3D DIV_ROUND_UP(range[L] * factor + (tm=
+p &amp; 0xffff)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0- 525 * t_byteck / 100, t_byteck) - 2;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[L] =3D 145 * scale + 10 * t_ui;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0val[DATA] =3D DIV_ROUND_UP(range[L] * factor<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0+ ((tmp &gt;&gt; 16) &amp; 0xffff) - 525 * t_byteck / 100,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0t_byteck) - 2;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dphy_set_timing_reg(regmap, ZERO_TIME, val);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0/* TRAIL_TIME: HS-TRAIL */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[L] =3D 60 * scale;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[H] =3D INFINITY;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0val[CLK] =3D DIV_ROUND_UP(range[L] * factor - con=
+stant, t_half_byteck);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[L] =3D max(8 * t_ui, 60 * scale + 4 * t_ui)=
+;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0val[DATA] =3D DIV_ROUND_UP(range[L] * 3 / 2 - con=
+stant, t_half_byteck) - 2;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dphy_set_timing_reg(regmap, TRAIL_TIME, val);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0/* EXIT_TIME: */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[L] =3D 100 * scale;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[H] =3D INFINITY;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0val[CLK] =3D DIV_ROUND_UP(range[L] * factor, t_by=
+teck) - 2;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0val[DATA] =3D val[CLK];<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dphy_set_timing_reg(regmap, EXIT_TIME, val);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0/* CLKPOST_TIME: */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[L] =3D 60 * scale + 52 * t_ui;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0range[H] =3D INFINITY;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0val[CLK] =3D DIV_ROUND_UP(range[L] * factor, t_by=
+teck) - 2;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0val[DATA] =3D val[CLK];<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dphy_set_timing_reg(regmap, CLKPOST_TIME, val);<b=
+r>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0/* SETTLE_TIME:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 * This time is used for receiver. So for transmi=
+tter,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 * it can be ignored.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0/* TA_GO:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 * transmitter drives bridge state(LP-00) before =
+releasing control,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 * reg 0x1f default value: 0x04, which is good.<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0/* TA_SURE:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 * After LP-10 state and before bridge state(LP-0=
+0),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 * reg 0x20 default value: 0x01, which is good.<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0/* TA_GET:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 * receiver drives Bridge state(LP-00) before rel=
+easing control<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 * reg 0x21 default value: 0x03, which is good.<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +}<br>
+&gt; diff --git a/drivers/gpu/drm/sprd/megacores_pll.h b/drivers/gpu/drm/sp=
+rd/megacores_pll.h<br>
+&gt; new file mode 100644<br>
+&gt; index 000000000..750dbbc09<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/drivers/gpu/drm/sprd/megacores_pll.h<br>
+&gt; @@ -0,0 +1,146 @@<br>
+&gt; +/* SPDX-License-Identifier: GPL-2.0 */<br>
+&gt; +/*<br>
+&gt; + * Copyright (C) 2020 Unisoc Inc.<br>
+&gt; + */<br>
+&gt; +<br>
+&gt; +#ifndef _MEGACORES_PLL_H_<br>
+&gt; +#define _MEGACORES_PLL_H_<br>
+&gt; +<br>
+&gt; +#include &quot;sprd_dsi.h&quot;<br>
+&gt; +<br>
+&gt; +enum PLL_TIMING {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0NONE,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0REQUEST_TIME,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0PREPARE_TIME,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0SETTLE_TIME,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0ZERO_TIME,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0TRAIL_TIME,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0EXIT_TIME,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0CLKPOST_TIME,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0TA_GET,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0TA_GO,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0TA_SURE,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0TA_WAIT,<br>
+&gt; +};<br>
+&gt; +<br>
+&gt; +struct pll_reg {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union __reg_03__ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct __03 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 prbs_bist: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 en_lp_treot: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 lpf_sel: 4;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 txfifo_bypass: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 freq_hopping: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} _03;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union __reg_04__ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct __04 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 div: 3;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 masterof8lane: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 hop_trig: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 cp_s: 2;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 fdk_s: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} _04;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union __reg_06__ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct __06 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 nint: 7;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 mod_en: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} _06;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union __reg_07__ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct __07 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 kdelta_h: 8;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} _07;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union __reg_08__ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct __08 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 vco_band: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 sdm_en: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 refin: 2;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 kdelta_l: 4;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} _08;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union __reg_09__ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct __09 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 kint_h: 8;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} _09;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union __reg_0a__ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct __0a {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 kint_m: 8;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} _0a;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union __reg_0b__ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct __0b {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 out_sel: 4;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 kint_l: 4;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} _0b;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union __reg_0c__ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct __0c {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 kstep_h: 8;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} _0c;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union __reg_0d__ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct __0d {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 kstep_m: 8;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} _0d;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union __reg_0e__ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct __0e {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 pll_pu_byp: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 pll_pu: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 hsbist_len: 2;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 stopstate_sel: 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 kstep_l: 3;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} _0e;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0union __reg_0f__ {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct __0f {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 det_delay:2;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 kdelta: 4;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0u8 ldo0p4:2;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} bits;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 val;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0} _0f;<br>
+&gt; +};<br>
+&gt; +<br>
+&gt; +struct dphy_pll {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u8 refin; /* Pre-divider control signal */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u8 cp_s; /* 00: SDM_EN=3D1, 10: SDM_EN=3D0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u8 fdk_s; /* PLL mode control: integer or fractio=
+n */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u8 sdm_en;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u8 div;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u8 int_n; /* integer N PLL */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u32 ref_clk; /* dphy reference clock, unit: MHz *=
+/<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u32 freq; /* panel config, unit: KHz */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u32 fvco;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u32 potential_fvco;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u32 nint; /* sigma delta modulator NINT control *=
+/<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u32 kint; /* sigma delta modulator KINT control *=
+/<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u8 lpf_sel; /* low pass filter control */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u8 out_sel; /* post divider control */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u8 vco_band; /* vco range */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u8 det_delay;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct pll_reg reg;<br>
+&gt; +};<br>
+&gt; +<br>
+&gt; +struct dsi_context;<br>
+&gt; +<br>
+&gt; +int dphy_pll_config(struct dsi_context *ctx);<br>
+&gt; +void dphy_timing_config(struct dsi_context *ctx);<br>
+&gt; +<br>
+&gt; +#endif /* _MEGACORES_PLL_H_ */<br>
+&gt; \ No newline at end of file<br>
+&gt; diff --git a/drivers/gpu/drm/sprd/sprd_drm.c b/drivers/gpu/drm/sprd/sp=
+rd_drm.c<br>
+&gt; index c626c6caf..1613b5db3 100644<br>
+&gt; --- a/drivers/gpu/drm/sprd/sprd_drm.c<br>
+&gt; +++ b/drivers/gpu/drm/sprd/sprd_drm.c<br>
+&gt; @@ -192,6 +192,7 @@ static struct platform_driver sprd_drm_driver =3D =
+{<br>
+&gt;=C2=A0 static struct platform_driver *sprd_drm_drivers[]=C2=A0 =3D {<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;sprd_drm_driver,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;sprd_dpu_driver,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0&amp;sprd_dsi_driver,<br>
+&gt;=C2=A0 };<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 static int __init sprd_drm_init(void)<br>
+&gt; diff --git a/drivers/gpu/drm/sprd/sprd_drm.h b/drivers/gpu/drm/sprd/sp=
+rd_drm.h<br>
+&gt; index 85d4a8b9f..95d1b972f 100644<br>
+&gt; --- a/drivers/gpu/drm/sprd/sprd_drm.h<br>
+&gt; +++ b/drivers/gpu/drm/sprd/sprd_drm.h<br>
+&gt; @@ -14,5 +14,6 @@ struct sprd_drm {<br>
+&gt;=C2=A0 };<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 extern struct platform_driver sprd_dpu_driver;<br>
+&gt; +extern struct platform_driver sprd_dsi_driver;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 #endif /* _SPRD_DRM_H_ */<br>
+&gt; diff --git a/drivers/gpu/drm/sprd/sprd_dsi.c b/drivers/gpu/drm/sprd/sp=
+rd_dsi.c<br>
+&gt; new file mode 100644<br>
+&gt; index 000000000..d892b1934<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/drivers/gpu/drm/sprd/sprd_dsi.c<br>
+&gt; @@ -0,0 +1,1132 @@<br>
 &gt; +// SPDX-License-Identifier: GPL-2.0<br>
 &gt; +/*<br>
 &gt; + * Copyright (C) 2020 Unisoc Inc.<br>
 &gt; + */<br>
 &gt; +<br>
 &gt; +#include &lt;linux/component.h&gt;<br>
-&gt; +#include &lt;linux/delay.h&gt;<br>
-&gt; +#include &lt;linux/dma-buf.h&gt;<br>
-&gt; +#include &lt;linux/io.h&gt;<br>
 &gt; +#include &lt;linux/module.h&gt;<br>
-&gt; +#include &lt;linux/of.h&gt;<br>
 &gt; +#include &lt;linux/of_address.h&gt;<br>
 &gt; +#include &lt;linux/of_device.h&gt;<br>
 &gt; +#include &lt;linux/of_irq.h&gt;<br>
-&gt; +#include &lt;linux/wait.h&gt;<br>
-&gt; +#include &lt;linux/workqueue.h&gt;<br>
+&gt; +#include &lt;linux/of_graph.h&gt;<br>
+&gt; +#include &lt;video/mipi_display.h&gt;<br>
 &gt; +<br>
 &gt; +#include &lt;drm/drm_atomic_helper.h&gt;<br>
 &gt; +#include &lt;drm/drm_crtc_helper.h&gt;<br>
-&gt; +#include &lt;drm/drm_fb_cma_helper.h&gt;<br>
-&gt; +#include &lt;drm/drm_gem_cma_helper.h&gt;<br>
-&gt; +#include &lt;drm/drm_gem_framebuffer_helper.h&gt;<br>
-&gt; +#include &lt;drm/drm_plane_helper.h&gt;<br>
+&gt; +#include &lt;drm/drm_of.h&gt;<br>
+&gt; +#include &lt;drm/drm_probe_helper.h&gt;<br>
 &gt; +<br>
 &gt; +#include &quot;sprd_drm.h&quot;<br>
 &gt; +#include &quot;sprd_dpu.h&quot;<br>
+&gt; +#include &quot;sprd_dsi.h&quot;<br>
+&gt; +#include &quot;dw_dsi_ctrl.h&quot;<br>
+&gt; +#include &quot;dw_dsi_ctrl_ppi.h&quot;<br>
 &gt; +<br>
-&gt; +/* Global control registers */<br>
-&gt; +#define REG_DPU_CTRL 0x04<br>
-&gt; +#define REG_DPU_CFG0 0x08<br>
-&gt; +#define REG_PANEL_SIZE=C2=A0 =C2=A0 =C2=A0 =C2=A00x20<br>
-&gt; +#define REG_BLEND_SIZE=C2=A0 =C2=A0 =C2=A0 =C2=A00x24<br>
-&gt; +#define REG_BG_COLOR 0x2C<br>
-&gt; +<br>
-&gt; +/* Layer0 control registers */<br>
-&gt; +#define REG_LAY_BASE_ADDR0=C2=A0 =C2=A00x30<br>
-&gt; +#define REG_LAY_BASE_ADDR1=C2=A0 =C2=A00x34<br>
-&gt; +#define REG_LAY_BASE_ADDR2=C2=A0 =C2=A00x38<br>
-&gt; +#define REG_LAY_CTRL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x40<br>
-&gt; +#define REG_LAY_SIZE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x44<br>
-&gt; +#define REG_LAY_PITCH=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 0x48<br>
-&gt; +#define REG_LAY_POS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x4C<br>
-&gt; +#define REG_LAY_ALPHA=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 0x50<br>
-&gt; +#define REG_LAY_CROP_START=C2=A0 =C2=A00x5C<br>
-&gt; +<br>
-&gt; +/* Interrupt control registers */<br>
-&gt; +#define REG_DPU_INT_EN=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A00x1E0<br>
-&gt; +#define REG_DPU_INT_CLR=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 0x1E4<br>
-&gt; +#define REG_DPU_INT_STS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 0x1E8<br>
-&gt; +<br>
-&gt; +/* DPI control registers */<br>
-&gt; +#define REG_DPI_CTRL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x1F0<br>
-&gt; +#define REG_DPI_H_TIMING=C2=A0 =C2=A0 =C2=A00x1F4<br>
-&gt; +#define REG_DPI_V_TIMING=C2=A0 =C2=A0 =C2=A00x1F8<br>
-&gt; +<br>
-&gt; +/* MMU control registers */<br>
-&gt; +#define REG_MMU_EN=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A00x800<br>
-&gt; +#define REG_MMU_VPN_RANGE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x=
-80C<br>
-&gt; +#define REG_MMU_VAOR_ADDR_RD=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x818<b=
+&gt; +#define encoder_to_dsi(encoder) \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0container_of(encoder, struct sprd_dsi, encoder)<b=
 r>
-&gt; +#define REG_MMU_VAOR_ADDR_WR=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x81C<b=
-r>
-&gt; +#define REG_MMU_INV_ADDR_RD=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x820<b=
-r>
-&gt; +#define REG_MMU_INV_ADDR_WR=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x824<b=
-r>
-&gt; +#define REG_MMU_PPN1=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A00x83C<br>
-&gt; +#define REG_MMU_RANGE1=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x840<br>
-&gt; +#define REG_MMU_PPN2=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A00x844<br>
-&gt; +#define REG_MMU_RANGE2=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x848<br>
+&gt; +#define host_to_dsi(host) \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0container_of(host, struct sprd_dsi, host)<br>
+&gt; +#define connector_to_dsi(connector) \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0container_of(connector, struct sprd_dsi, connecto=
+r)<br>
 &gt; +<br>
-&gt; +/* Global control bits */<br>
-&gt; +#define BIT_DPU_RUN=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 BIT(0)<br>
-&gt; +#define BIT_DPU_STOP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0BIT(1)<br>
-&gt; +#define BIT_DPU_REG_UPDATE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0BI=
-T(2)<br>
-&gt; +#define BIT_DPU_IF_EDPI=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 BIT(0)<br>
-&gt; +<br>
-&gt; +/* Layer control bits */<br>
-&gt; +#define BIT_DPU_LAY_EN=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0BIT(0)<br=
->
-&gt; +#define BIT_DPU_LAY_LAYER_ALPHA=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (0x01 &lt;&lt; 2)<br>
-&gt; +#define BIT_DPU_LAY_COMBO_ALPHA=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (0x02 &lt;&lt; 2)<br>
-&gt; +#define BIT_DPU_LAY_FORMAT_YUV422_2PLANE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0(0x00 &lt;&lt; 4)<br>
-&gt; +#define BIT_DPU_LAY_FORMAT_YUV420_2PLANE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0(0x01 &lt;&lt; 4)<br>
-&gt; +#define BIT_DPU_LAY_FORMAT_YUV420_3PLANE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0(0x02 &lt;&lt; 4)<br>
-&gt; +#define BIT_DPU_LAY_FORMAT_ARGB8888=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 (0x03 &lt;&lt; 4)<br>
-&gt; +#define BIT_DPU_LAY_FORMAT_RGB565=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (0x04 &lt;&lt; 4)<br>
-&gt; +#define BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0(0x00 &lt;&lt; 8)<br>
-&gt; +#define BIT_DPU_LAY_DATA_ENDIAN_B3B2B1B0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0(0x01 &lt;&lt; 8)<br>
-&gt; +#define BIT_DPU_LAY_NO_SWITCH=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (0x00 &lt;&lt; 10)<br>
-&gt; +#define BIT_DPU_LAY_RB_OR_UV_SWITCH=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- (0x01 &lt;&lt; 10)<br>
-&gt; +#define BIT_DPU_LAY_MODE_BLEND_NORMAL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 (0x00 &lt;&lt; 16)<br>
-&gt; +#define BIT_DPU_LAY_MODE_BLEND_PREMULT=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0(0x01 &lt;&lt; 16)<br>
-&gt; +#define BIT_DPU_LAY_ROTATION_0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0(0x00 &lt;&lt; 20)<br>
-&gt; +#define BIT_DPU_LAY_ROTATION_90=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 (0x01 &lt;&lt; 20)<br>
-&gt; +#define BIT_DPU_LAY_ROTATION_180=C2=A0 =C2=A0 =C2=A0(0x02 &lt;&lt; 20=
-)<br>
-&gt; +#define BIT_DPU_LAY_ROTATION_270=C2=A0 =C2=A0 =C2=A0(0x03 &lt;&lt; 20=
-)<br>
-&gt; +#define BIT_DPU_LAY_ROTATION_0_M=C2=A0 =C2=A0 =C2=A0(0x04 &lt;&lt; 20=
-)<br>
-&gt; +#define BIT_DPU_LAY_ROTATION_90_M=C2=A0 =C2=A0 (0x05 &lt;&lt; 20)<br>
-&gt; +#define BIT_DPU_LAY_ROTATION_180_M=C2=A0 =C2=A0(0x06 &lt;&lt; 20)<br>
-&gt; +#define BIT_DPU_LAY_ROTATION_270_M=C2=A0 =C2=A0(0x07 &lt;&lt; 20)<br>
-&gt; +<br>
-&gt; +/* Interrupt control &amp; status bits */<br>
-&gt; +#define BIT_DPU_INT_DONE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0BIT(0)<br>
-&gt; +#define BIT_DPU_INT_TE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0BIT(1)<br>
-&gt; +#define BIT_DPU_INT_ERR=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 BIT(2)<br>
-&gt; +#define BIT_DPU_INT_UPDATE_DONE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 BIT(4)<br>
-&gt; +#define BIT_DPU_INT_VSYNC=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 BI=
-T(5)<br>
-&gt; +#define BIT_DPU_INT_MMU_VAOR_RD=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 BIT(16)<br>
-&gt; +#define BIT_DPU_INT_MMU_VAOR_WR=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 BIT(17)<br>
-&gt; +#define BIT_DPU_INT_MMU_INV_RD=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0BIT(18)<br>
-&gt; +#define BIT_DPU_INT_MMU_INV_WR=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0BIT(19)<br>
-&gt; +<br>
-&gt; +/* DPI control bits */<br>
-&gt; +#define BIT_DPU_EDPI_TE_EN=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0BI=
-T(8)<br>
-&gt; +#define BIT_DPU_EDPI_FROM_EXTERNAL_PAD=C2=A0 =C2=A0 =C2=A0 =C2=A0BIT(=
-10)<br>
-&gt; +#define BIT_DPU_DPI_HALT_EN=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 BIT(16)=
-<br>
-&gt; +<br>
-&gt; +static const u32 primary_fmts[] =3D {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_XRGB8888,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_XBGR8888,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_ARGB8888,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_ABGR8888,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_RGBA8888,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_BGRA8888,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_RGBX8888,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_RGB565,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_BGR565,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_NV12,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_NV21,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_NV16,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_NV61,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_YUV420,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_YVU420,<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +struct sprd_plane {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct drm_plane base;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 index;<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +static inline struct sprd_plane *to_sprd_plane(struct drm_plane *plan=
-e)<br>
+&gt; +static int regmap_tst_io_write(void *context, u32 reg, u32 val)<br>
 &gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return container_of(plane, struct sprd_plane, bas=
-e);<br>
-&gt; +}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dsi *dsi =3D context;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_context *ctx =3D &amp;dsi-&gt;ctx;<br>
 &gt; +<br>
-&gt; +static u32 check_mmu_isr(struct sprd_dpu *dpu, u32 reg_val)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct dpu_context *ctx =3D &amp;dpu-&gt;ctx;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 mmu_mask =3D BIT_DPU_INT_MMU_VAOR_RD |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0BIT_DPU_INT_MMU_VAOR_WR |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0BIT_DPU_INT_MMU_INV_RD |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0BIT_DPU_INT_MMU_INV_WR;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 val =3D reg_val &amp; mmu_mask;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int i;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (val) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dpu-&gt;drm, =
-&quot;--- iommu interrupt err: 0x%04x ---\n&quot;, val);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (val &amp; BIT_DPU=
-_INT_MMU_INV_RD)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0drm_err(dpu-&gt;drm, &quot;iommu invalid read error, addr: 0x%08x\n&=
-quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0readl(ctx-&gt;base + REG_MMU_INV_ADDR_RD=
-));<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (val &amp; BIT_DPU=
-_INT_MMU_INV_WR)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0drm_err(dpu-&gt;drm, &quot;iommu invalid write error, addr: 0x%08x\n=
-&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0readl(ctx-&gt;base + REG_MMU_INV_ADDR_WR=
-));<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (val &amp; BIT_DPU=
-_INT_MMU_VAOR_RD)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0drm_err(dpu-&gt;drm, &quot;iommu va out of range read error, addr: 0=
-x%08x\n&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0readl(ctx-&gt;base + REG_MMU_VAOR_ADDR_R=
-D));<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (val &amp; BIT_DPU=
-_INT_MMU_VAOR_WR)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0drm_err(dpu-&gt;drm, &quot;iommu va out of range write error, addr: =
-0x%08x\n&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0readl(ctx-&gt;base + REG_MMU_VAOR_ADDR_W=
-R));<br>
-<br>
-Is that the IOMMU page fault interrupt? I would expect it to be in the iomm=
-u driver.</blockquote><div><span lang=3D"en">Our=C2=A0<span>iommu</span>=C2=
-=A0driver is indeed an separate driver,=C2=A0<span lang=3D"en">and also in =
-upstreaming,</span></span></div><div><span lang=3D"en"><span lang=3D"en">bu=
-t=C2=A0<span>iommu</span>=C2=A0fault interrupts reporting by display contro=
-ller, not=C2=A0<span>iommu</span>=C2=A0itself,</span></span></div><div><spa=
-n lang=3D"en"><span lang=3D"en">if use iommu_set_fault_handler() to hook in=
- our reporting function,=C2=A0<span lang=3D"en">there</span></span></span><=
-/div><div><span lang=3D"en"><span lang=3D"en"><span lang=3D"en">must be cro=
-ss-module access to h/w registers.</span></span></span></div><div><br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; =
-8; i++) {=C2=A0</blockquote><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0reg_val =3D layer_reg_rd(ctx, REG_LAY_CTRL, i);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0if (reg_val &amp; 0x1)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_info(dpu-&gt;drm, &quot;layer%d: 0x%=
-08x 0x%08x 0x%08x ctrl: 0x%08x\n&quot;, i,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0layer_reg_rd=
-(ctx, REG_LAY_BASE_ADDR0, i),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0layer_reg_rd=
-(ctx, REG_LAY_BASE_ADDR1, i),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0layer_reg_rd=
-(ctx, REG_LAY_BASE_ADDR2, i),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0layer_reg_rd=
-(ctx, REG_LAY_CTRL, i));<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return val;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static int dpu_wait_stop_done(struct sprd_dpu *dpu)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct dpu_context *ctx =3D &amp;dpu-&gt;ctx;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int rc;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (ctx-&gt;stopped)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0rc =3D wait_event_interruptible_timeout(ctx-&gt;w=
-ait_queue, ctx-&gt;evt_stop,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 msecs_to_jiffies(500));<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0ctx-&gt;evt_stop =3D false;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0ctx-&gt;stopped =3D true;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (!rc) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dpu-&gt;drm, =
-&quot;dpu wait for stop done time out!\n&quot;);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ETIMEDOUT;<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return 0;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static int dpu_wait_update_done(struct sprd_dpu *dpu)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct dpu_context *ctx =3D &amp;dpu-&gt;ctx;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int rc;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0ctx-&gt;evt_update =3D false;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0rc =3D wait_event_interruptible_timeout(ctx-&gt;w=
-ait_queue, ctx-&gt;evt_update,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 msecs_to_jiffies(500));<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (!rc) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dpu-&gt;drm, =
-&quot;dpu wait for reg update done time out!\n&quot;);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ETIMEDOUT;<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return 0;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static u32 drm_format_to_dpu(struct drm_framebuffer *fb)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 format =3D 0;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0switch (fb-&gt;format-&gt;format) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_FORMAT_BGRA8888:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* BGRA8888 -&gt; ARG=
-B8888 */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_DATA_ENDIAN_B3B2B1B0;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_FORMAT_ARGB8888;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_FORMAT_RGBX8888:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_FORMAT_RGBA8888:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* RGBA8888 -&gt; ABG=
-R8888 */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_DATA_ENDIAN_B3B2B1B0;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* fallthrough */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_FORMAT_ABGR8888:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* RB switch */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_RB_OR_UV_SWITCH;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* fallthrough */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_FORMAT_ARGB8888:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_FORMAT_ARGB8888;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_FORMAT_XBGR8888:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* RB switch */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_RB_OR_UV_SWITCH;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* fallthrough */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_FORMAT_XRGB8888:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_FORMAT_ARGB8888;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_FORMAT_BGR565:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* RB switch */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_RB_OR_UV_SWITCH;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* fallthrough */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_FORMAT_RGB565:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_FORMAT_RGB565;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_FORMAT_NV12:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* 2-Lane: Yuv420 */<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_FORMAT_YUV420_2PLANE;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Y endian */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_DATA_ENDIAN_B0B1B2B3;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* UV endian */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_NO_SWITCH;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_FORMAT_NV21:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* 2-Lane: Yuv420 */<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_FORMAT_YUV420_2PLANE;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Y endian */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_DATA_ENDIAN_B0B1B2B3;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* UV endian */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_RB_OR_UV_SWITCH;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_FORMAT_NV16:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* 2-Lane: Yuv422 */<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_FORMAT_YUV422_2PLANE;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Y endian */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_DATA_ENDIAN_B3B2B1B0;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* UV endian */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_RB_OR_UV_SWITCH;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_FORMAT_NV61:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* 2-Lane: Yuv422 */<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_FORMAT_YUV422_2PLANE;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Y endian */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_DATA_ENDIAN_B0B1B2B3;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* UV endian */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_NO_SWITCH;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_FORMAT_YUV420:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_FORMAT_YUV420_3PLANE;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Y endian */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_DATA_ENDIAN_B0B1B2B3;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* UV endian */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_NO_SWITCH;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_FORMAT_YVU420:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_FORMAT_YUV420_3PLANE;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Y endian */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_DATA_ENDIAN_B0B1B2B3;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* UV endian */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |=3D BIT_DPU_L=
-AY_RB_OR_UV_SWITCH;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0default:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return format;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static u32 drm_rotation_to_dpu(struct drm_plane_state *state)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 rotation =3D 0;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0switch (state-&gt;rotation) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0default:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_MODE_ROTATE_0:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rotation =3D BIT_DPU_=
-LAY_ROTATION_0;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_MODE_ROTATE_90:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rotation =3D BIT_DPU_=
-LAY_ROTATION_90;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_MODE_ROTATE_180:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rotation =3D BIT_DPU_=
-LAY_ROTATION_180;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_MODE_ROTATE_270:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rotation =3D BIT_DPU_=
-LAY_ROTATION_270;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_MODE_REFLECT_Y:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rotation =3D BIT_DPU_=
-LAY_ROTATION_180_M;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case (DRM_MODE_REFLECT_Y | DRM_MODE_ROTATE_90):<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rotation =3D BIT_DPU_=
-LAY_ROTATION_90_M;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_MODE_REFLECT_X:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rotation =3D BIT_DPU_=
-LAY_ROTATION_0_M;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case (DRM_MODE_REFLECT_X | DRM_MODE_ROTATE_90):<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rotation =3D BIT_DPU_=
-LAY_ROTATION_270_M;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return rotation;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static u32 drm_blend_to_dpu(struct drm_plane_state *state)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 blend =3D 0;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0switch (state-&gt;pixel_blend_mode) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_MODE_BLEND_COVERAGE:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* alpha mode select =
-- combo alpha */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0blend |=3D BIT_DPU_LA=
-Y_COMBO_ALPHA;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Normal mode */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0blend |=3D BIT_DPU_LA=
-Y_MODE_BLEND_NORMAL;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_MODE_BLEND_PREMULTI:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* alpha mode select =
-- combo alpha */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0blend |=3D BIT_DPU_LA=
-Y_COMBO_ALPHA;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Pre-mult mode */<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0blend |=3D BIT_DPU_LA=
-Y_MODE_BLEND_PREMULT;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DRM_MODE_BLEND_PIXEL_NONE:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0default:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* don&#39;t do blend=
-ing, maybe RGBX */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* alpha mode select =
-- layer alpha */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0blend |=3D BIT_DPU_LA=
-Y_LAYER_ALPHA;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return blend;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static void sprd_dpu_layer(struct sprd_dpu *dpu, struct sprd_plane *p=
-lane,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0struct drm_plane_state *state)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct dpu_context *ctx =3D &amp;dpu-&gt;ctx;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct drm_gem_cma_object *cma_obj;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0const struct drm_format_info *info;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct drm_framebuffer *fb =3D state-&gt;fb;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 addr, size, offset, pitch, blend, format, rot=
-ation;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 src_x =3D state-&gt;src_x &gt;&gt; 16;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 src_y =3D state-&gt;src_y &gt;&gt; 16;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 src_w =3D state-&gt;src_w &gt;&gt; 16;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 src_h =3D state-&gt;src_h &gt;&gt; 16;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 dst_x =3D state-&gt;crtc_x;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 dst_y =3D state-&gt;crtc_y;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 alpha =3D state-&gt;alpha;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int i;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0offset =3D (dst_x &amp; 0xffff) | (dst_y &lt;&lt;=
- 16);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0size =3D (src_w &amp; 0xffff) | (src_h &lt;&lt; 1=
-6);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; fb-&gt;format-&gt;num_planes=
-; i++) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cma_obj =3D drm_fb_cm=
-a_get_gem_obj(fb, i);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0addr =3D cma_obj-&gt;=
-paddr + fb-&gt;offsets[i];<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (i =3D=3D 0)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0layer_reg_wr(ctx, REG_LAY_BASE_ADDR0, addr, plane-&gt;index);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else if (i =3D=3D 1)<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0layer_reg_wr(ctx, REG_LAY_BASE_ADDR1, addr, plane-&gt;index);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0layer_reg_wr(ctx, REG_LAY_BASE_ADDR2, addr, plane-&gt;index);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0info =3D drm_format_info(fb-&gt;format-&gt;format=
-);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (fb-&gt;format-&gt;num_planes =3D=3D 3) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* UV pitch is 1/2 of=
- Y pitch */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pitch =3D (fb-&gt;pit=
-ches[0] / info-&gt;cpp[0]) |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(fb-&gt;pitches[0] / info-&gt;cpp[0] &lt=
-;&lt; 15);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0} else {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pitch =3D fb-&gt;pitc=
-hes[0] / info-&gt;cpp[0];<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0layer_reg_wr(ctx, REG_LAY_POS, offset, plane-&gt;=
-index);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0layer_reg_wr(ctx, REG_LAY_SIZE, size, plane-&gt;i=
-ndex);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0layer_reg_wr(ctx, REG_LAY_CROP_START,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0src_y &lt;&lt; 16 | src_x, plane-&gt;index);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0layer_reg_wr(ctx, REG_LAY_ALPHA, alpha, plane-&gt=
-;index);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0layer_reg_wr(ctx, REG_LAY_PITCH, pitch, plane-&gt=
-;index);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0format =3D drm_format_to_dpu(fb);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0blend =3D drm_blend_to_dpu(state);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0rotation =3D drm_rotation_to_dpu(state);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0layer_reg_wr(ctx, REG_LAY_CTRL, BIT_DPU_LAY_EN |<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0blend |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rotation,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0plane-&gt;index);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static void sprd_dpu_flip(struct sprd_dpu *dpu)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct dpu_context *ctx =3D &amp;dpu-&gt;ctx;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 reg_val;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * Make sure the dpu is in stop status. DPU has n=
-o shadow<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * registers in EDPI mode. So the config register=
-s can only be<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * updated in the rising edge of DPU_RUN bit.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (ctx-&gt;if_type =3D=3D SPRD_DPU_IF_EDPI)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dpu_wait_stop_done(dp=
-u);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* update trigger and wait */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (ctx-&gt;if_type =3D=3D SPRD_DPU_IF_DPI) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!ctx-&gt;stopped)=
- {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dpu_reg_set(ctx, REG_DPU_CTRL, BIT_DPU_REG_UPDATE);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dpu_wait_update_done(dpu);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dpu_reg_set(ctx, REG_=
-DPU_INT_EN, BIT_DPU_INT_ERR);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0} else if (ctx-&gt;if_type =3D=3D SPRD_DPU_IF_EDP=
-I) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dpu_reg_set(ctx, REG_=
-DPU_CTRL, BIT_DPU_RUN);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;stopped =3D f=
-alse;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * If the following interrupt was disabled in isr=
-,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * re-enable it.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0reg_val =3D BIT_DPU_INT_MMU_VAOR_RD |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0BIT_DPU_INT_MM=
-U_VAOR_WR |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0BIT_DPU_INT_MM=
-U_INV_RD |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0BIT_DPU_INT_MM=
-U_INV_WR;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0dpu_reg_set(ctx, REG_DPU_INT_EN, reg_val);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static void sprd_dpu_init(struct sprd_dpu *dpu)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct dpu_context *ctx =3D &amp;dpu-&gt;ctx;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 size;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0writel(0x00, ctx-&gt;base + REG_BG_COLOR);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0size =3D (ctx-&gt;vm.vactive &lt;&lt; 16) | ctx-&=
-gt;vm.hactive;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0writel(size, ctx-&gt;base + REG_PANEL_SIZE);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0writel(size, ctx-&gt;base + REG_BLEND_SIZE);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0writel(0x00, ctx-&gt;base + REG_MMU_EN);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0writel(0x00, ctx-&gt;base + REG_MMU_PPN1);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0writel(0xffff, ctx-&gt;base + REG_MMU_RANGE1);<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0writel(0x00, ctx-&gt;base + REG_MMU_PPN2);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0writel(0xffff, ctx-&gt;base + REG_MMU_RANGE2);<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0writel(0x1ffff, ctx-&gt;base + REG_MMU_VPN_RANGE)=
-;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static void sprd_dpu_fini(struct sprd_dpu *dpu)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct dpu_context *ctx =3D &amp;dpu-&gt;ctx;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0writel(0x00, ctx-&gt;base + REG_DPU_INT_EN);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0writel(0xff, ctx-&gt;base + REG_DPU_INT_CLR);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static void sprd_dpi_init(struct sprd_dpu *dpu)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct dpu_context *ctx =3D &amp;dpu-&gt;ctx;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 int_mask =3D 0;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 reg_val;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (ctx-&gt;if_type =3D=3D SPRD_DPU_IF_DPI) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* use dpi as interfa=
-ce */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dpu_reg_clr(ctx, REG_=
-DPU_CFG0, BIT_DPU_IF_EDPI);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* disable Halt funct=
-ion for SPRD DSI */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dpu_reg_clr(ctx, REG_=
-DPI_CTRL, BIT_DPU_DPI_HALT_EN);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* select te from ext=
-ernal pad */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dpu_reg_set(ctx, REG_=
-DPI_CTRL, BIT_DPU_EDPI_FROM_EXTERNAL_PAD);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* set dpi timing */<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0reg_val =3D ctx-&gt;v=
-m.hsync_len &lt;&lt; 0 |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0ctx-&gt;vm.hback_porch &lt;&lt; 8 |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0ctx-&gt;vm.hfront_porch &lt;&lt; 20;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0writel(reg_val, ctx-&=
-gt;base + REG_DPI_H_TIMING);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0reg_val =3D ctx-&gt;v=
-m.vsync_len &lt;&lt; 0 |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0ctx-&gt;vm.vback_porch &lt;&lt; 8 |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0ctx-&gt;vm.vfront_porch &lt;&lt; 20;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0writel(reg_val, ctx-&=
-gt;base + REG_DPI_V_TIMING);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ctx-&gt;vm.vsync_=
-len + ctx-&gt;vm.vback_porch &lt; 32)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0drm_warn(dpu-&gt;drm, &quot;Warning: (vsync + vbp) &lt; 32, &quot;<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;underflow risk!\n&quot;);<br>
-<br>
-I don&#39;t think a warning is appropriate here. Maybe we should just<br>
-outright reject any mode that uses it?<br></blockquote><div>=C2=A0This issu=
-e has been fixed on the new soc, maybe I should remove it.</div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* enable dpu update =
-done INT */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int_mask |=3D BIT_DPU=
-_INT_UPDATE_DONE;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* enable dpu done IN=
-T */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int_mask |=3D BIT_DPU=
-_INT_DONE;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* enable dpu dpi vsy=
-nc */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int_mask |=3D BIT_DPU=
-_INT_VSYNC;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* enable dpu TE INT =
-*/<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int_mask |=3D BIT_DPU=
-_INT_TE;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* enable underflow e=
-rr INT */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int_mask |=3D BIT_DPU=
-_INT_ERR;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0} else if (ctx-&gt;if_type =3D=3D SPRD_DPU_IF_EDP=
-I) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* use edpi as interf=
-ace */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dpu_reg_set(ctx, REG_=
-DPU_CFG0, BIT_DPU_IF_EDPI);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* use external te */=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dpu_reg_set(ctx, REG_=
-DPI_CTRL, BIT_DPU_EDPI_FROM_EXTERNAL_PAD);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* enable te */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dpu_reg_set(ctx, REG_=
-DPI_CTRL, BIT_DPU_EDPI_TE_EN);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* enable stop done I=
-NT */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int_mask |=3D BIT_DPU=
-_INT_DONE;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* enable TE INT */<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int_mask |=3D BIT_DPU=
-_INT_TE;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* enable iommu va out of range read error INT */=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int_mask |=3D BIT_DPU_INT_MMU_VAOR_RD;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* enable iommu va out of range write error INT *=
-/<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int_mask |=3D BIT_DPU_INT_MMU_VAOR_WR;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* enable iommu invalid read error INT */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int_mask |=3D BIT_DPU_INT_MMU_INV_RD;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* enable iommu invalid write error INT */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int_mask |=3D BIT_DPU_INT_MMU_INV_WR;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0writel(int_mask, ctx-&gt;base + REG_DPU_INT_EN);<=
-br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +void sprd_dpu_run(struct sprd_dpu *dpu)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct dpu_context *ctx =3D &amp;dpu-&gt;ctx;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0dpu_reg_set(ctx, REG_DPU_CTRL, BIT_DPU_RUN);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0ctx-&gt;stopped =3D false;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +void sprd_dpu_stop(struct sprd_dpu *dpu)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct dpu_context *ctx =3D &amp;dpu-&gt;ctx;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (ctx-&gt;if_type =3D=3D SPRD_DPU_IF_DPI)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dpu_reg_set(ctx, REG_=
-DPU_CTRL, BIT_DPU_STOP);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0dpu_wait_stop_done(dpu);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static int sprd_plane_atomic_check(struct drm_plane *plane,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_plane_state *state)<br=
->
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct drm_framebuffer *fb =3D state-&gt;fb;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct drm_crtc_state *crtc_state;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 fmt;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (!fb || !state-&gt;crtc)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0fmt =3D drm_format_to_dpu(fb);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (!fmt)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (val &gt; 0xff || reg &gt; 0xff)<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL;<br>
 &gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0crtc_state =3D drm_atomic_get_crtc_state(state-&g=
-t;state, state-&gt;crtc);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (IS_ERR(crtc_state))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return PTR_ERR(crtc_s=
-tate);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0drm_dbg(dsi-&gt;drm, &quot;reg =3D 0x%02x, val =
+=3D 0x%02x\n&quot;, reg, val);<br>
 &gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return drm_atomic_helper_check_plane_state(state,=
- crtc_state,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0DRM_PLANE_HELPER_NO_SCALING,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0DRM_PLANE_HELPER_NO_SCALING,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0true, true);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_phy_test_en(ctx, 1);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_phy_test_din(ctx, reg);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_phy_test_clk(ctx, 1);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_phy_test_clk(ctx, 0);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_phy_test_en(ctx, 0);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_phy_test_din(ctx, val);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_phy_test_clk(ctx, 1);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_phy_test_clk(ctx, 0);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return 0;<br>
 &gt; +}<br>
 &gt; +<br>
-&gt; +static void sprd_plane_atomic_update(struct drm_plane *drm_plane,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_plane_state *ol=
-d_state)<br>
+&gt; +static int regmap_tst_io_read(void *context, u32 reg, u32 *val)<br>
 &gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct drm_plane_state *state =3D drm_plane-&gt;s=
-tate;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_plane *plane =3D to_sprd_plane(drm_pl=
-ane);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dpu *dpu =3D to_sprd_crtc(state-&gt;c=
-rtc);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dsi *dsi =3D context;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dsi_context *ctx =3D &amp;dsi-&gt;ctx;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0int ret;<br>
 &gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* start configure dpu layers */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0sprd_dpu_layer(dpu, plane, state);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (reg &gt; 0xff)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_phy_test_en(ctx, 1);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_phy_test_din(ctx, reg);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_phy_test_clk(ctx, 1);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_phy_test_clk(ctx, 0);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_phy_test_en(ctx, 0);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0udelay(1);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0ret =3D dsi_phy_test_dout(ctx);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (ret &lt; 0)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0*val =3D ret;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0drm_dbg(dsi-&gt;drm, &quot;reg =3D 0x%02x, val =
+=3D 0x%02x\n&quot;, reg, *val);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return 0;<br>
 &gt; +}<br>
 &gt; +<br>
-&gt; +static void sprd_plane_atomic_disable(struct drm_plane *drm_plane,<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_plane_state *o=
-ld_state)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_plane *plane =3D to_sprd_plane(drm_pl=
-ane);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dpu *dpu =3D to_sprd_crtc(old_state-&=
-gt;crtc);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0layer_reg_wr(&amp;dpu-&gt;ctx, REG_LAY_CTRL, 0x00=
-, plane-&gt;index);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static void sprd_plane_create_properties(struct sprd_plane *plane, in=
-t index)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0unsigned int supported_modes =3D BIT(DRM_MODE_BLE=
-ND_PIXEL_NONE) |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 BIT(DRM_MODE_BLEND=
-_PREMULTI) |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 BIT(DRM_MODE_BLEND=
-_COVERAGE);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* create rotation property */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0drm_plane_create_rotation_property(&amp;plane-&gt=
-;base,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DRM_=
-MODE_ROTATE_0,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DRM_=
-MODE_ROTATE_MASK |<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DRM_=
-MODE_REFLECT_MASK);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* create alpha property */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0drm_plane_create_alpha_property(&amp;plane-&gt;ba=
-se);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* create blend mode property */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0drm_plane_create_blend_mode_property(&amp;plane-&=
-gt;base, supported_modes);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* create zpos property */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0drm_plane_create_zpos_immutable_property(&amp;pla=
-ne-&gt;base, index);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static const struct drm_plane_helper_funcs sprd_plane_helper_funcs =
-=3D {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.atomic_check =3D sprd_plane_atomic_check,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.atomic_update =3D sprd_plane_atomic_update,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.atomic_disable =3D sprd_plane_atomic_disable,<br=
->
+&gt; +static struct regmap_bus regmap_tst_io =3D {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0.reg_write =3D regmap_tst_io_write,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0.reg_read =3D regmap_tst_io_read,<br>
 &gt; +};<br>
 &gt; +<br>
-&gt; +static const struct drm_plane_funcs sprd_plane_funcs =3D {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.update_plane =3D drm_atomic_helper_update_plane,=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.disable_plane=C2=A0 =3D drm_atomic_helper_disabl=
-e_plane,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.destroy =3D drm_plane_cleanup,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.reset =3D drm_atomic_helper_plane_reset,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.atomic_duplicate_state =3D drm_atomic_helper_pla=
-ne_duplicate_state,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.atomic_destroy_state =3D drm_atomic_helper_plane=
-_destroy_state,<br>
+&gt; +static const struct regmap_config byte_config =3D {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0.reg_bits =3D 8,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0.val_bits =3D 8,<br>
 &gt; +};<br>
 &gt; +<br>
-&gt; +static struct sprd_plane *sprd_plane_init(struct drm_device *drm)<br>
+&gt; +static int dphy_wait_pll_locked(struct dsi_context *ctx)<br>
 &gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_plane *plane, *primary;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dsi *dsi =3D container_of(ctx, struct=
+ sprd_dsi, ctx);<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0int i;<br>
 &gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; 6; i++) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0plane =3D drmm_univer=
-sal_plane_alloc(drm, struct sprd_plane, base,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; 50000; i++) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dsi_phy_is_pll_lo=
+cked(ctx))<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 1, &amp;sprd_plane_funcs,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 primary_fmts, ARRAY_SIZE(primary_fmts),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 NULL, DRM_PLANE_TYPE_PRIMARY, NULL);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ERR(plane)) {<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0drm_err(drm, &quot;fail to init primary plane\n&quot;);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0return plane;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_plane_helper_add(=
-&amp;plane-&gt;base, &amp;sprd_plane_helper_funcs);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sprd_plane_create_pro=
-perties(plane, i);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0plane-&gt;index =3D i=
-;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (i =3D=3D 0)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0primary =3D plane;<br>
+ =C2=A0return 0;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0udelay(3);<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0}<br>
 &gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return primary;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0drm_err(dsi-&gt;drm, &quot;dphy pll can not be lo=
+cked\n&quot;);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return -ETIMEDOUT;<br>
 &gt; +}<br>
 &gt; +<br>
-&gt; +static enum drm_mode_status sprd_crtc_mode_valid(struct drm_crtc *crt=
-c,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const struct=
- drm_display_mode *mode)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0drm_dbg(dpu-&gt;drm, &quot;%s() mode: &quot;DRM_M=
-ODE_FMT&quot;\n&quot;, __func__, DRM_MODE_ARG(mode));<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (mode-&gt;type &amp; DRM_MODE_TYPE_PREFERRED) =
-{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_display_mode_to_v=
-ideomode(mode, &amp;dpu-&gt;ctx.vm);<br>
-<br>
-You don&#39;t seem to use that anywhere else? And that&#39;s a bit fragile,=
-<br>
-nothing really guarantees that it&#39;s the mode you&#39;re going to use, a=
-nd<br>
-even then it can be adjusted.<br></blockquote><div>=C2=A0drm_mode convert t=
-o video_mode is been use in &quot;sprd_dpu_init&quot; and &quot;sprd_dpi_in=
-it &quot;</div><div>=C2=A0Preferred mode should be fixed mode, we generally=
- don=E2=80=99t adjust it.</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">
-<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ((mode-&gt;hdispla=
-y =3D=3D mode-&gt;htotal) ||<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(mode-&=
-gt;vdisplay =3D=3D mode-&gt;vtotal))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dpu-&gt;ctx.if_type =3D SPRD_DPU_IF_EDPI;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0dpu-&gt;ctx.if_type =3D SPRD_DPU_IF_DPI;<br>
-<br>
-From an API PoV, you would want that to be in atomic_check. However, I&#39;=
-m<br>
-not even sure what it&#39;s doing in the first place?<br></blockquote><div>=
-dpi interface mode: DPI(dsi video mode panel) and=C2=A0<span>EDPI</span>(ds=
-i cmd mode panel)</div><div>dpi interface mode has been used on crtc atomic=
-_enable foo, so we need check dpi interface</div><div>mode before atomic_en=
-able.=C2=A0</div><div><br></div><div>Must be put it in atomic_check?=C2=A0H=
-ere is the dpi interface mode selection, maybe here is better?<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return MODE_OK;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static void sprd_crtc_atomic_enable(struct drm_crtc *crtc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_atomic_state *state)<=
-br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0sprd_dpu_init(dpu);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0sprd_dpi_init(dpu);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0enable_irq(dpu-&gt;ctx.irq);<br>
-<br>
-Shouldn&#39;t this be in enable_vblank? And I would assume that you would<b=
-r>
-have the interrupts enabled all the time, but disabled in your device?<br><=
-/blockquote><div>It seems better to put in enable_vblank, i will try and te=
-st it... Thks=C2=A0</div><div><br></div><div>=C2=A0 And I would assume that=
- you would<br>
-have the interrupts enabled all the time, but disabled in your device?</div=
-><div>[kevin]I don=E2=80=99t quite understand this, can you help me explain=
- it in detail?=C2=A0=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0drm_crtc_vblank_on(&amp;dpu-&gt;base);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static void sprd_crtc_atomic_disable(struct drm_crtc *crtc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_atomic_state *s=
-tate)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct drm_device *drm =3D dpu-&gt;<a href=3D"htt=
-p://base.dev" rel=3D"noreferrer" target=3D"_blank">base.dev</a>;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0drm_crtc_vblank_off(&amp;dpu-&gt;base);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0disable_irq(dpu-&gt;ctx.irq);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0sprd_dpu_fini(dpu);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0spin_lock_irq(&amp;drm-&gt;event_lock);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (crtc-&gt;state-&gt;event) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_crtc_send_vblank_=
-event(crtc, crtc-&gt;state-&gt;event);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0crtc-&gt;state-&gt;ev=
-ent =3D NULL;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0spin_unlock_irq(&amp;drm-&gt;event_lock);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static int sprd_crtc_atomic_check(struct drm_crtc *crtc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_atomic_state *state)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0drm_dbg(crtc-&gt;dev, &quot;%s()\n&quot;, __func_=
-_);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return 0;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static void sprd_crtc_atomic_flush(struct drm_crtc *crtc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_atomic_state *state)<b=
-r>
-&gt; +<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct drm_device *drm =3D dpu-&gt;<a href=3D"htt=
-p://base.dev" rel=3D"noreferrer" target=3D"_blank">base.dev</a>;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0sprd_dpu_flip(dpu);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0spin_lock_irq(&amp;drm-&gt;event_lock);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (crtc-&gt;state-&gt;event) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_crtc_send_vblank_=
-event(crtc, crtc-&gt;state-&gt;event);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0crtc-&gt;state-&gt;ev=
-ent =3D NULL;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0spin_unlock_irq(&amp;drm-&gt;event_lock);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static int sprd_crtc_enable_vblank(struct drm_crtc *crtc)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0dpu_reg_set(&amp;dpu-&gt;ctx, REG_DPU_INT_EN, BIT=
-_DPU_INT_VSYNC);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return 0;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static void sprd_crtc_disable_vblank(struct drm_crtc *crtc)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0dpu_reg_clr(&amp;dpu-&gt;ctx, REG_DPU_INT_EN, BIT=
-_DPU_INT_VSYNC);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static const struct drm_crtc_helper_funcs sprd_crtc_helper_funcs =3D =
-{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.mode_valid=C2=A0 =C2=A0 =C2=A0=3D sprd_crtc_mode=
-_valid,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.atomic_check=C2=A0 =C2=A0=3D sprd_crtc_atomic_ch=
-eck,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.atomic_flush=C2=A0 =C2=A0=3D sprd_crtc_atomic_fl=
-ush,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.atomic_enable=C2=A0 =3D sprd_crtc_atomic_enable,=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.atomic_disable =3D sprd_crtc_atomic_disable,<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +static const struct drm_crtc_funcs sprd_crtc_funcs =3D {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.destroy=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D drm_crtc_=
-cleanup,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.set_config=C2=A0 =C2=A0 =C2=A0=3D drm_atomic_hel=
-per_set_config,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.page_flip=C2=A0 =C2=A0 =C2=A0 =3D drm_atomic_hel=
-per_page_flip,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.reset=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D drm_=
-atomic_helper_crtc_reset,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.atomic_duplicate_state =3D drm_atomic_helper_crt=
-c_duplicate_state,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.atomic_destroy_state=C2=A0 =C2=A0=3D drm_atomic_=
-helper_crtc_destroy_state,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.enable_vblank=C2=A0 =3D sprd_crtc_enable_vblank,=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.disable_vblank =3D sprd_crtc_disable_vblank,<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +static struct sprd_dpu *sprd_crtc_init(struct drm_device *drm,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 struct drm_plane *primary)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct device_node *port;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dpu *dpu;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * set crtc port so that drm_of_find_possible_crt=
-cs call works<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0port =3D of_parse_phandle(drm-&gt;dev-&gt;of_node=
-, &quot;ports&quot;, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (!port) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(drm, &quot;fi=
-nd &#39;ports&#39; phandle of %s failed\n&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0drm-&gt;dev-&gt;of_node-&gt;full_name);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ERR_PTR(-EINVA=
-L);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0of_node_put(port);<br>
-<br>
-The YAML binding should already make sure that your binding is sane, and<br=
+&gt; +static int dsi_wait_tx_payload_fifo_empty(struct dsi_context *ctx)<br=
 >
-if you still get a DT that doesn&#39;t follow it, you have a whole lot of<b=
-r>
-other issues than whether ports is there :)<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0dpu =3D drmm_crtc_alloc_with_planes(drm, struct s=
-prd_dpu, base,<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0int i;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; 5000; i++) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dsi_is_tx_payload=
+_fifo_empty(ctx))<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0primary, NUL=
-L,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;sprd_cr=
-tc_funcs, NULL);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (IS_ERR(dpu)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(drm, &quot;fa=
-iled to init crtc.\n&quot;);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return dpu;<br>
+ =C2=A0return 0;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0udelay(1);<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0}<br>
 &gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0dpu-&gt;base.port =3D port;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return -ETIMEDOUT;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static int dsi_wait_tx_cmd_fifo_empty(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0int i;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; 5000; i++) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dsi_is_tx_cmd_fif=
+o_empty(ctx))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0return 0;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0udelay(1);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return -ETIMEDOUT;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static int dsi_wait_rd_resp_completed(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0int i;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; 10000; i++) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dsi_is_bta_return=
+ed(ctx))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0return 0;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0udelay(10);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return -ETIMEDOUT;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static u16 calc_bytes_per_pixel_x100(int coding)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u16 Bpp_x100;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0switch (coding) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_16BIT_CONFIG1:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_16BIT_CONFIG2:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_16BIT_CONFIG3:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Bpp_x100 =3D 200;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_18BIT_CONFIG1:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_18BIT_CONFIG2:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Bpp_x100 =3D 225;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_24BIT:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Bpp_x100 =3D 300;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_COMPRESSTION:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Bpp_x100 =3D 100;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_20BIT_YCC422_LOOSELY:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Bpp_x100 =3D 250;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_24BIT_YCC422:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Bpp_x100 =3D 300;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_16BIT_YCC422:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Bpp_x100 =3D 200;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_30BIT:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Bpp_x100 =3D 375;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_36BIT:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Bpp_x100 =3D 450;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_12BIT_YCC420:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Bpp_x100 =3D 150;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0default:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_ERROR(&quot;inval=
+id color coding&quot;);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Bpp_x100 =3D 0;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return Bpp_x100;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static u8 calc_video_size_step(int coding)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u8 video_size_step;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0switch (coding) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_16BIT_CONFIG1:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_16BIT_CONFIG2:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_16BIT_CONFIG3:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_18BIT_CONFIG1:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_18BIT_CONFIG2:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_24BIT:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_COMPRESSTION:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return video_size_ste=
+p =3D 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_20BIT_YCC422_LOOSELY:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_24BIT_YCC422:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_16BIT_YCC422:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_30BIT:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_36BIT:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_12BIT_YCC420:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return video_size_ste=
+p =3D 2;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0default:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_ERROR(&quot;inval=
+id color coding&quot;);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static u16 round_video_size(int coding, u16 video_size)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0switch (coding) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_16BIT_YCC422:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_24BIT_YCC422:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_20BIT_YCC422_LOOSELY:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case COLOR_CODE_12BIT_YCC420:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* round up active H =
+pixels to a multiple of 2 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ((video_size % 2) =
+!=3D 0)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0video_size +=3D 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0default:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0return video_size;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +#define SPRD_MIPI_DSI_FMT_DSC 0xff<br>
+&gt; +static u32 fmt_to_coding(u32 fmt)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0switch (fmt) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case MIPI_DSI_FMT_RGB565:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return COLOR_CODE_16B=
+IT_CONFIG1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case MIPI_DSI_FMT_RGB666:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case MIPI_DSI_FMT_RGB666_PACKED:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return COLOR_CODE_18B=
+IT_CONFIG1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case MIPI_DSI_FMT_RGB888:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return COLOR_CODE_24B=
+IT;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case SPRD_MIPI_DSI_FMT_DSC:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return COLOR_CODE_COM=
+PRESSTION;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0default:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_ERROR(&quot;Unsup=
+ported format (%d)\n&quot;, fmt);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return COLOR_CODE_24B=
+IT;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +#define ns_to_cycle(ns, byte_clk) \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0DIV_ROUND_UP((ns) * (byte_clk), 1000000)<br>
+&gt; +<br>
+&gt; +static void sprd_dsi_init(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u16 data_hs2lp, data_lp2hs, clk_hs2lp, clk_lp2hs;=
 <br>
-But you&#39;re still referencing it here, while you called of_node_put on i=
-t<br>
-already? You should only call it once you&#39;re done with it.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u16 max_rd_time;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0int div;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_power_enable(ctx, 0);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_int0_mask(ctx, 0xffffffff);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_int1_mask(ctx, 0xffffffff);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_cmd_mode(ctx);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_eotp_rx_en(ctx, 0);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_eotp_tx_en(ctx, 0);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_ecc_rx_en(ctx, 1);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_crc_rx_en(ctx, 1);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_bta_en(ctx, 1);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_video_vcid(ctx, 0);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_rx_vcid(ctx, 0);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0div =3D DIV_ROUND_UP(ctx-&gt;byte_clk, ctx-&gt;es=
+c_clk);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_tx_escape_division(ctx, div);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0max_rd_time =3D ns_to_cycle(ctx-&gt;max_rd_time, =
+ctx-&gt;byte_clk);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_max_read_time(ctx, max_rd_time);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0data_hs2lp =3D ns_to_cycle(ctx-&gt;data_hs2lp, ct=
+x-&gt;byte_clk);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0data_lp2hs =3D ns_to_cycle(ctx-&gt;data_lp2hs, ct=
+x-&gt;byte_clk);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0clk_hs2lp =3D ns_to_cycle(ctx-&gt;clk_hs2lp, ctx-=
+&gt;byte_clk);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0clk_lp2hs =3D ns_to_cycle(ctx-&gt;clk_lp2hs, ctx-=
+&gt;byte_clk);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_datalane_hs2lp_config(ctx, data_hs2lp);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_datalane_lp2hs_config(ctx, data_lp2hs);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_clklane_hs2lp_config(ctx, clk_hs2lp);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_clklane_lp2hs_config(ctx, clk_lp2hs);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_power_enable(ctx, 1);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * Free up resources and shutdown host controller and PHY<br>
+&gt; + */<br>
+&gt; +static void sprd_dsi_fini(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_int0_mask(ctx, 0xffffffff);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_int1_mask(ctx, 0xffffffff);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dsi_power_enable(ctx, 0);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * If not in burst mode, it will compute the video and null packet si=
+zes<br>
+&gt; + * according to necessity.<br>
+&gt; + * Configure timers for data lanes and/or clock lane to return to LP =
+when<br>
+&gt; + * bandwidth is not filled by data.<br>
+&gt; + */<br>
+&gt; +static int sprd_dsi_dpi_video(struct dsi_context *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_dsi *dsi =3D container_of(ctx, struct=
+ sprd_dsi, ctx);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct videomode *vm =3D &amp;ctx-&gt;vm;<br>
 <br>
-I&#39;m not really sure why you would need drm_of_find_possible_crtcs to<br=
->
-work then if you don&#39;t follow the OF-Graph bindings.</blockquote><div>M=
-y reference here is:</div><div><a href=3D"https://elixir.bootlin.com/linux/=
-v4.14.228/source/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c#L593" targ=
-et=3D"_blank">https://elixir.bootlin.com/linux/v4.14.228/source/drivers/gpu=
-/drm/hisilicon/kirin/kirin_drm_ade.c#L593</a></div><div><br></div><div>It=
-=E2=80=99s been a long time,=C2=A0I don=E2=80=99t remember the specific rea=
-son, i will recheck it.<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">
+Strictly speaking, there&#39;s nothing that guarantees that the preferred<b=
+r>
+mode is the one you&#39;re going to use there. You should use the mode that=
+<br>
+is given to you through the connector state.<br>
 <br>
 Maxime<br>
 </blockquote></div></div>
 
---00000000000038d8ce05bed1a53d--
+--000000000000e01de405bed201ac--
 
---===============1812744219==
+--===============0292807693==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -2470,4 +8223,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1812744219==--
+--===============0292807693==--
