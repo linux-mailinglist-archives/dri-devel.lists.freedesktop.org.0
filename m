@@ -1,126 +1,104 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639A43500A5
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 14:49:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1C2A3500BE
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 14:57:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B41F6EA94;
-	Wed, 31 Mar 2021 12:49:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE9D46EA93;
+	Wed, 31 Mar 2021 12:57:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2049.outbound.protection.outlook.com [40.107.92.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AF936EA96;
- Wed, 31 Mar 2021 12:49:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nXicXw2dE7aOFvhnhHxyK/o7tqoRY1tYQuikEU7dYpwFKd5OpXVSKgnLEJRXQG/ROJ+4hSfVyUlq5Lq94E2Ocw1zJQ5T12Rz7TONLDvE12I67avvOz/sTAjyv/SAGCz+hMIqV3q+fxtfPhZp3T5vbVq4iAyHe7jv2j4ppSPY5X1gpf1b5h/C8jRgAXPzGjBsazLo61OiDObUNczkzuBlgJwTQp3LsFI9selosEHGSmnrQujD6Fr06noPp7DlM8SPpZIBU6ry6L8VtnImwh+OUo5mRZZxfeo/U7UF7pzMwG525vNl3mn1+DI7lPNqevYD315QiBKIWeyXVoq6EefbHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ADZQ4L1VURUHXcWgsvnCnVwV36tOXvB3SMwGmClzsXs=;
- b=HLzlg62E2+lWvNcaznw73Bq2ne+JRJbZXxc39jAh9UMKaPqg0vnOrQT9cKsdhiyyUa7ltBS/+ht5QThFxmLhRXjhd4UjNFwLWCEXRyEH/lmr8tTXknJYkPaB+0B6WMqJNMjdcgNQ+M1m2aeeF07TsQhIRbHQqZ2TtgJvGnh+VMgDksfThYg+4/ow0lpYfpTO20jAZoElJU383ewBht3SMrbS2EInqLuNnAnk1nCtpq9Sbz3Cd3HlWbZykGQ0x+2wgJruLnfwPEAsXSLrfvXXoDsV5m51a8jGhbnT5gjYdNOfI5AzX8nwvVpAzzbL1/Fe9AK7NVzj5O+rA5sNyySxCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ADZQ4L1VURUHXcWgsvnCnVwV36tOXvB3SMwGmClzsXs=;
- b=Nh0kqhQvop1ZpFdUTaghFOh3an1TeZljmflUqr1uV1kwQye43DsDGHcI40qw/qLrNjjVoPikmhX8Yj1OV3hkI0ro8EkE/5AfdsPICT+RIspJxy3KFz7v6aU4t0TcX5gnjPQdL9CktzpLIBefV4eX+bOHffkg9XUAuWg3+9Q7VBQ=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4000.namprd12.prod.outlook.com (2603:10b6:208:16b::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.27; Wed, 31 Mar
- 2021 12:49:47 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3977.033; Wed, 31 Mar 2021
- 12:49:47 +0000
-Subject: Re: [PATCH 0/4] drm/amd/display: Base changes for isolating FPU
- operation in a single place
-To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Daniel Vetter <daniel@ffwll.ch>,
- Peter Zijlstra <peterz@infradead.org>, aric.cyr@amd.com
-References: <20210331122502.1031073-1-Rodrigo.Siqueira@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <85fd296d-e049-6a42-230e-17af9e1e8afb@amd.com>
-Date: Wed, 31 Mar 2021 14:49:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-In-Reply-To: <20210331122502.1031073-1-Rodrigo.Siqueira@amd.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:46d6:1b43:479c:c70b]
-X-ClientProxiedBy: AM4PR0701CA0035.eurprd07.prod.outlook.com
- (2603:10a6:200:42::45) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5C526EA93
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 12:57:35 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20210331125733euoutp015c07e73dc5e8607771a97c89fb4332de~xbrJyTEGE0147201472euoutp01T
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 12:57:33 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20210331125733euoutp015c07e73dc5e8607771a97c89fb4332de~xbrJyTEGE0147201472euoutp01T
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1617195453;
+ bh=E+50nPi92rcl3hljpyDUpd1FVTuCqD754gCHI9pihaM=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=YAv+jY7rZrD4EaHOCchxSEVJ6HYZVAydwQ/EYnYsEgJojrzSShQ48PMNVmHNzhJep
+ Q/88NxAzSGccT0vMscXSe63KipA6eEKcK+lvKHelha6XTnXHBrmD3R3nY6SBrYHw0n
+ rCTwYOxHW+OwkV7fLBHXrUH/7rBRNWG0G3oRbiNI=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20210331125733eucas1p1230face2263cc6d2af1f7259a5e3d380~xbrJcnxfq0319403194eucas1p1I;
+ Wed, 31 Mar 2021 12:57:33 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id F2.84.09444.DB174606; Wed, 31
+ Mar 2021 13:57:33 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210331125733eucas1p2b08ba4483bda84a25aab33fe61cb7078~xbrJC1w4q1235812358eucas1p2n;
+ Wed, 31 Mar 2021 12:57:33 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20210331125733eusmtrp12892e4a13d242ef921030c17fde7d04f~xbrJCQNmz2344623446eusmtrp1g;
+ Wed, 31 Mar 2021 12:57:33 +0000 (GMT)
+X-AuditID: cbfec7f4-dbdff700000024e4-9c-606471bd7d9e
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id CB.13.08705.CB174606; Wed, 31
+ Mar 2021 13:57:33 +0100 (BST)
+Received: from localhost (unknown [106.210.131.79]) by eusmtip1.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20210331125732eusmtip17632fa3c8a3c76e036f35a335df1b194~xbrIg1IW01007610076eusmtip1U;
+ Wed, 31 Mar 2021 12:57:32 +0000 (GMT)
+Message-ID: <ba8f5a59-e428-ab21-23b9-0a7e650f532c@samsung.com>
+Date: Wed, 31 Mar 2021 14:57:31 +0200
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:46d6:1b43:479c:c70b]
- (2a02:908:1252:fb60:46d6:1b43:479c:c70b) by
- AM4PR0701CA0035.eurprd07.prod.outlook.com (2603:10a6:200:42::45) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.8 via Frontend
- Transport; Wed, 31 Mar 2021 12:49:45 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 3ecdb9ee-5352-4b49-d1ab-08d8f4437704
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4000:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4000BE5D41A60C6ACF9B5E1D837C9@MN2PR12MB4000.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jwSeqDxpjUSr5RvQiF9me/BzS/xRs+BZjKKecategwsdPZ4VQSUfmf5+QtrxgFvgfgGJaS+xwEyPW0RpAr/b+13TwU5tTMyGW8l5vR+HfFEXeq3NNL94cBbshTyOt57BZjbuG7fmlKrnbdtZ/pds9OiAkR9v3PQo6UbWart2oYCVltRpFK50sQR5PlJMUdjQS4EnqbDwPSy+cLIvAr4V5TuvRPit7u34DW5uwsN6vd8KQzetJOdO3g/MBSPQXRBxZ6LSVa1nDsyF/QHNLvCBX8CRErFT9Qhr1Q3qlIZ5UTykVp3MAkCxtS0qPcfzUBkXnbyDFrdSPXrIJRncC25Y4Qn9MMFRlfmx1URxEFrcv4rP2iQk+lN10OfJEEryCA3p3i9x/Yl4Cd8ZFjN9iANi5x8H2fltDdX/uhW4Kuvcq3sPHKVhsmca5hXqkM+IDCwAHGo/pd0l924W/g0yJrRQJ7gMS0EG5vJxoAXa12oY/3E1VXfvVQOfqnNEDjvN2Zn3q9QvYXqzKSuq4/309QbMUXy/ETQnOGWO6RT2RYMnKx60jY2wMSQVLoi/zDQrrXGxMcHiYuJH91VB/KGXuGGj73paXHw16Mp1zrO9w1VjkqXizsQENrlov+puPsqHQnZYA9lBIEWBMDUrBGR7ZkdW7T6Y2kXu/kgyUC5IYMGGgeHnSi9a34v21KSY0CfmsD/xDnNp5YSEpwBGliNHugEMoiV0b8jHINpR2l4XZU3dDUI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(39860400002)(136003)(346002)(376002)(110136005)(66946007)(66476007)(186003)(2616005)(31696002)(8676002)(16526019)(8936002)(478600001)(2906002)(66556008)(86362001)(52116002)(6486002)(31686004)(5660300002)(6636002)(6666004)(38100700001)(4326008)(83380400001)(316002)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?QlJXekpXSi83U2pUK3VwbDRNTkR6NmtQckJNSTRGUTVad1JOeTcxdWp4N1BF?=
- =?utf-8?B?aUNGdjdmSnJ1N05pOTc4Rmg4T0FIam9EbDh5dmM1Q08wRndIR3E2YUN0QnNW?=
- =?utf-8?B?NGRMOXY3b0tmbGtSckJQOXllOWs1YXp5ZVhUUTFtZXBHVWp2WUVheENOSEdZ?=
- =?utf-8?B?RVppYUh0MmswTllhbThMQ3VRZHRpcFVYbEhEZTJ2dGFVb2NqdExURUFTNU9k?=
- =?utf-8?B?aWs3Q2J5bmFBTlpuRUVYaUNZZURyOURhSVRnUHRQZWRnS3RubXJ1aWowU3hr?=
- =?utf-8?B?cENpWkxiaWJiZHlSU1RyWUVwcnZKb2FxbTB1b0dWVitBdjJmZjlXczBaNTdm?=
- =?utf-8?B?YUk5VnBEaHkxcWNaNTVRd0Q0Wmx4ZEJqVFZoUm1EbDViWkp6ZFJOcFpEOXpO?=
- =?utf-8?B?bm1reGx3eWdnSk02YzNaUzJmY3hUSHNWa2cxUmliMTRvaVY0QjRTdUdDZjNY?=
- =?utf-8?B?MzYrb1dkWWZWUkVhK216aHVqMkNibDVWa1dCRlNUbFZvYkc1alBwZEd0dnBP?=
- =?utf-8?B?NnZ2QjE5T1Yzb2YrQ2lIcVBVV0dDRHBHZ3I3dVM3dkZHZzFzZ0FCYkVzUGNJ?=
- =?utf-8?B?RFJnUWVkMmI2clo0NmhJOG9DQzVXYkhWa3lyUGlCa21WSFRUNWt2VUNLLzVM?=
- =?utf-8?B?SHZFMWRBS3RsVWNrVjQrandVQ3NuUFVOdzZwdEhyRi91RmQrcWFGeDBVUWd5?=
- =?utf-8?B?YXBja25lSXR1VEVGUVE4WjdZQ3d3QVkybUZLZDlZSnk4UzN0cUNVM3Bod3Js?=
- =?utf-8?B?bkZIQkxBSG9WM0YzWGpOQyt5VjM0c1F3czZLQXBFd1ZpOTVIc1p6bGNXYVl1?=
- =?utf-8?B?L25nMDMzLys0ZjJQaFg2Z1V0ak1LdHFPbkRmeDVmZEpnTlNlSm9uM1ZNeDdR?=
- =?utf-8?B?SlpUUFkyZUFBRExwVmNOSkZIeWViZzg1Mk5BU1VSM1l1OVFObWVrUXdjeWdF?=
- =?utf-8?B?UnZncFRJdzh0SG84OVN2NSt4cTIza2NMUDMwQW1mTXh5b0d3aGhadE00UUhS?=
- =?utf-8?B?eFBZanZBNmprR055T1ZrUHpmMkR4L3AxYjIvcnJUTEpQLzR2dmV2azRROVhG?=
- =?utf-8?B?UDAvYkJ6bmtSVlY4L0Fla3pGWGZwWXhqcFcvZDBKczJGWWtQODgyUjBDWW1Z?=
- =?utf-8?B?L2VHQXFudGI5QW5xWS9iL0FwSWZrUVRFM28zdFJscmZtRlR2enA1WDZzWXlX?=
- =?utf-8?B?cVRWaDdDdTk3NTdsbnppeDUrTE1hRnlyWDhSckZLRWJVYzZwRm83QlVqRXUz?=
- =?utf-8?B?VlR5L1ljZGFBQlNPRTNiejBkS3FRc2hpNHZ1K3FMWTFwUDdJRy9VNEIyZG5I?=
- =?utf-8?B?dS9RTXQvc3I0NWNib2NGMHM3TTVQNE1xV2orZ2dOaHc4OWU0ZE1zTC9Pb24v?=
- =?utf-8?B?SjBEekZBM3pCeDNLenA5U2pIaXVNNXlIdjVCcHAyN2RqaExqc1JLM0NaN3BD?=
- =?utf-8?B?aHNrVXBhaDdiTkVxWDlDTTh2L05BRkxkTGlYTnZEa2lDZ2s0ZUFpWUNpYkFh?=
- =?utf-8?B?QUw2eG5ORnhjblA1KzlMTG1aQjBiSkVXVGJiK0xieGljTkhhZEVzRTc5Rzhw?=
- =?utf-8?B?TDdySHRqWWtmdTNKMEE2RTZMSDhKb29xN05BbEZ4cllEaktoWUp5TWRUYk92?=
- =?utf-8?B?UmNVYStvK0Y2Y1pYUkJ2WXFlZGZJd3lZVTRUY0FUcnFiV1VGc3RkeGZ0MFhV?=
- =?utf-8?B?a0lVaWRzYlZ1RWNJanRWUlpmRkFHeVpKUkZ6NEdUOXNDTlhpMHJscU5RRzhP?=
- =?utf-8?B?bFFZK0hPMFVXNlNvM0NDaVJqUVNBVWRFTFA3VmlvaDZSeEVKdCt0UlJYVzg0?=
- =?utf-8?B?eC9QbG1LM1BmRHRWMFpTMlNsTjc2R0FwWDZEWDdwcks2YTg2VnZGVVlVMXN5?=
- =?utf-8?Q?rkXjz1f/S+8Ne?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ecdb9ee-5352-4b49-d1ab-08d8f4437704
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2021 12:49:47.1564 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yCuf/OqrL0CqsTNQ/53ssjjAT/9o+eq71LLLC5hYMIiqOewAwm9G3qvEQN8GuQPw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0)
+ Gecko/20100101 Thunderbird/88.0
+Subject: Re: [PATCH v4 1/1] drm/bridge: lt8912b: Fix issues found during
+ static analysis
+Content-Language: en-GB
+To: Adrien Grassein <adrien.grassein@gmail.com>
+From: Andrzej Hajda <a.hajda@samsung.com>
+In-Reply-To: <20210331114919.370053-2-adrien.grassein@gmail.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpgleLIzCtJLcpLzFFi42LZduznOd29hSkJBn+7ZSwedF9ktHj9bzqL
+ xZWv79kcmD12zrrL7nG/+ziTx8ent1gCmKO4bFJSczLLUov07RK4Mt5fusdSMF2i4tabl8wN
+ jMuFuxg5OSQETCRWr1/N2sXIxSEksIJR4v3+D+wQzhdGiY6nW5ghnM+MEkfmd7DDtCzteMwI
+ YgsJLGeUuLGPBaLoBaPEls8fmUASvAJ2Ektu9bKB2CwCqhKb/mxlh4gLSpyc+YQFxBYVSJBY
+ dWM5WL2wQJTEwdb7YPXMAuISTV9WsoLYIgL6Euc6PrNCxG0lpm5aywxiswloSvzdfBOsnlPA
+ QWLTy2VMEDXyEs1bZ4NdLSGwlkPi1pZeZoirXSTWrmhmg7CFJV4d3wL1jYzE6ck9LBB2vcT9
+ FS1QzR2MEls37IRqtpa4c+4XUDMH0AZNifW79CHCjhJLHu1lBwlLCPBJ3HgrCHEDn8SkbdOZ
+ IcK8Eh1tQhDVihL3z26FGigusfTCV7YJjEqzkEJlFpLvZyH5ZhbC3gWMLKsYxVNLi3PTU4uN
+ 8lLL9YoTc4tL89L1kvNzNzECE8npf8e/7GBc/uqj3iFGJg7GQ4wSHMxKIrzCBxIThHhTEiur
+ Uovy44tKc1KLDzFKc7AoifMmbVkTLySQnliSmp2aWpBaBJNl4uCUamBaf0ZBT2Llh0Nqy1qV
+ doYzTyjx3z6h9NOWxm1lzt6TjNofTReKD413k0pPWtMiGbjtXdvuG+cbkzw5t0VZqYcm79kZ
+ bvPNQsNUeOWSjSIVwtZ7d02Sn2o5b71q0Wkv76Cf/mLm63PZrj65l6dp5rfSYj/3/OWvQgO2
+ TVzMNbM3YWXHT4eimoU/Lc7qLjm60dc3+mTcFM87oSeOvN0W9TN+ZuGkrXY+D+3L32w9kBSx
+ 7r3ZoS6zWQVN00qZI5Zc+1Kv/ZtpJYNQJ2Ng7nHFoJf2XI0l5QWiZUcT5iz5MrWuU+3kxh2B
+ DhczmJ5/fmfAk6bkOmuV2wquPSHPq17Ms4r7x8E7d0vL+ecbQ5SWTzyoxFKckWioxVxUnAgA
+ o4zbdZMDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCIsWRmVeSWpSXmKPExsVy+t/xu7p7C1MSDCYcZLJ40H2R0eL1v+ks
+ Fle+vmdzYPbYOesuu8f97uNMHh+f3mIJYI7SsynKLy1JVcjILy6xVYo2tDDSM7S00DMysdQz
+ NDaPtTIyVdK3s0lJzcksSy3St0vQy3h/6R5LwXSJiltvXjI3MC4X7mLk5JAQMJFY2vGYsYuR
+ i0NIYCmjxOv7f1kgEuISu+e/ZYawhSX+XOtigyh6xihx/fsrdpAEr4CdxJJbvWwgNouAqsSm
+ P1uh4oISJ2c+ARskKpAgcfbDPCYQW1ggSuJg632wemagBU1fVrKC2CIC+hLnOj6zQsRtJaZu
+ WssMsewko8T3yxfBEmwCmhJ/N98Ea+YUcJDY9HIZE0SDmUTX1i5GCFteonnrbOYJjEKzkNwx
+ C8m+WUhaZiFpWcDIsopRJLW0ODc9t9hQrzgxt7g0L10vOT93EyMwerYd+7l5B+O8Vx/1DjEy
+ cTAeYpTgYFYS4RU+kJggxJuSWFmVWpQfX1Sak1p8iNEUGBgTmaVEk/OB8ZtXEm9oZmBqaGJm
+ aWBqaWasJM67de6aeCGB9MSS1OzU1ILUIpg+Jg5OqQYmOY6bL4+lJ+iLSt9oT9MXZ/5ol7z7
+ hODO3XMUWIJ6D67Ye/dPpdbZtZFOy6QjX3R65/67+b22PMv94J4X6jtjWOd21r4z+tblP80v
+ 8gTzvS/SrX7bTR2nM87YwSvIxb7GOrTi3ofQKBf3Q1dlP3aJ8zPMlX503342577ehZt3iLre
+ sAx+0Fy8aeYL/syXJ70OH647kL/yx8r7J1Qy6kRmiPZYaVY5+O2rjln849BL1pZDR3avSU9h
+ 0f67zuI9p0XSV6cN0+u+VC54xnSpbHPS82JVdZ3A6onOefdXKU3R230/zuK7w5+jSrPXbYk5
+ eZelm43tNjMnx4mLW5aItXt3vQ/lUvh9pmrV1aX1CQV1SizFGYmGWsxFxYkACaMlBycDAAA=
+X-CMS-MailID: 20210331125733eucas1p2b08ba4483bda84a25aab33fe61cb7078
+X-Msg-Generator: CA
+X-RootMTR: 20210331114933eucas1p10c9dd909be58d7c78799c8a38c45ddba
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210331114933eucas1p10c9dd909be58d7c78799c8a38c45ddba
+References: <20210331114919.370053-1-adrien.grassein@gmail.com>
+ <CGME20210331114933eucas1p10c9dd909be58d7c78799c8a38c45ddba@eucas1p1.samsung.com>
+ <20210331114919.370053-2-adrien.grassein@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,125 +111,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: dan.carpenter@oracle.com, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rodrigo,
-
-I'm not so happy about the whole recursion thing, but I think that is 
-something which can be worked on later on.
-
-Apart from that the approach sounds solid to me.
-
-Regards,
-Christian.
-
-Am 31.03.21 um 14:24 schrieb Rodrigo Siqueira:
-> Hi,
->
-> In the display core, we utilize floats and doubles units for calculating
-> modesetting parameters. One side effect of our approach to use double-precision
-> is the fact that we spread multiple FPU access across our driver, which means
-> that we can accidentally clobber user space FPU state.
->
-> # Challenges
->
-> 1. Keep in mind that this FPU code is ingrained in our display driver and
-> performs several crucial tasks. Additionally, we already have multiple
-> architectures available in the kernel and a large set of users; in other words,
-> we prefer to avoid a radical approach that might break our user's system.
->
-> 2. We share our display code with Windows; thus, we need to maintain the
-> interoperability between these two systems.
->
-> 3. We need a mechanism for identifying which function uses FPU registers;
-> fortunately, Peter Zijlstra wrote a series a couple of months ago where he
-> introduced an FPU check for objtool. I used the following command for
-> identifying the potential FPU usage:
->
->   ./tools/objtool/objtool check -Ffa "drivers/gpu/drm/amd/display/dc/ANY_FILE.o"
->
-> 4. Since our code heavily relies on FPU and the fact that we spread
-> kernel_fpu_begin/end across multiple functions, we can have some complex
-> scenarios that will require code refactoring. However, we want to avoid
-> complicated changes since this is a formula to introduce regressions; we want
-> something that allows us to fix it in small, safe, and reliable steps.
->
-> # Our approach
->
-> For trying to solve this problem, we came up with the following strategy:
->
-> 1. Keep in mind that we are using kernel_fpu_begin/end spread in various areas
-> and sometimes across multiple functions. If we try to move some of the
-> functions to an isolated place, we can generate a situation where we can call
-> the FPU protection more than once, causing multiple warnings. We can deal with
-> this problem by adding a thin management layer around the kernel_fpu_begin/end
-> used inside the display.
->
-> 2. We will need a trace mechanism for this FPU management inside our display
-> code.
->
-> 3. After we get the thin layer that manages FPU, we can start to move each
-> function that uses FPU to the centralized place. Our DQE runs multiple tests in
-> different ASICs every week; we can take advantage of this to ensure that our
-> FPU patches work does not introduce any regression. The idea is to work on a
-> specific part of the code every week (e.g.,  week 1: DCN2, week 1: DCN2.1,
-> etc.).
->
-> 4. Finally, after we can isolate the FPU operations in a single place, we can
-> altogether remove the FPU flags from other files and eliminate an unnecessary
-> code introduced to deal with this problem.
->
-> # This series
->
-> To maintain the interoperability between multiple OSes, we already have a
-> define named DC_FP_START/END, which is a straightforward wrapper to
-> kernel_fpu_begin/end in the Linux side. In this series, I decided to expand the
-> scope of this DC_FP_* wrapper to trace FPU entrance and exit in the display
-> code, but I also add a mechanism for managing the entrance and exit of
-> kernel_fpu_begin/end. You can see the details on how I did that in the last two
-> patches.
->
-> I also isolate a simple function that requires FPU access to demonstrate my
-> strategy for isolating this FPU access in a single place. If this series gets
-> accepted, the following steps consist of moving all FPU functions weekly until
-> we isolate everything in the fpu_operation folder.
->
-> Best Regards
-> Rodrigo Siqueira
->
->
-> Rodrigo Siqueira (4):
->    drm/amd/display: Introduce FPU directory inside DC
->    drm/amd/display: Add FPU event trace
->    drm/amd/display: Add ref count control for FPU utilization
->    drm/amd/display: Add DC_FP helper to check FPU state
->
->   .../gpu/drm/amd/display/amdgpu_dm/Makefile    |   3 +-
->   .../amd/display/amdgpu_dm/amdgpu_dm_trace.h   |  24 ++++
->   .../gpu/drm/amd/display/amdgpu_dm/dc_fpu.c    | 111 ++++++++++++++++++
->   .../gpu/drm/amd/display/amdgpu_dm/dc_fpu.h    |  34 ++++++
->   drivers/gpu/drm/amd/display/dc/Makefile       |   1 +
->   drivers/gpu/drm/amd/display/dc/dc_trace.h     |   3 +
->   .../drm/amd/display/dc/dcn20/dcn20_resource.c |  41 +------
->   .../drm/amd/display/dc/dcn20/dcn20_resource.h |   2 -
->   .../drm/amd/display/dc/dcn21/dcn21_resource.c |   2 +
->   .../amd/display/dc/fpu_operations/Makefile    |  58 +++++++++
->   .../drm/amd/display/dc/fpu_operations/dcn2x.c | 106 +++++++++++++++++
->   .../drm/amd/display/dc/fpu_operations/dcn2x.h |  33 ++++++
->   drivers/gpu/drm/amd/display/dc/os_types.h     |   6 +-
->   13 files changed, 381 insertions(+), 43 deletions(-)
->   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c
->   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h
->   create mode 100644 drivers/gpu/drm/amd/display/dc/fpu_operations/Makefile
->   create mode 100644 drivers/gpu/drm/amd/display/dc/fpu_operations/dcn2x.c
->   create mode 100644 drivers/gpu/drm/amd/display/dc/fpu_operations/dcn2x.h
->
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+ClcgZG5pdSAzMS4wMy4yMDIxIG/CoDEzOjQ5LCBBZHJpZW4gR3Jhc3NlaW4gcGlzemU6Cj4gU29t
+ZSBpc3N1ZXMgd2hlcmUgZm91bmQgZHVyaW5nIHN0YXRpYyBhbmFseXNpcyBvZiB0aGlzIGRyaXZl
+ci4KCgpTdWJqZWN0IHNob3VsZCBkZXNjcmliZSB3aGF0IGhhcyBiZWVuIGZpeGVkLCBkZXNjcmlw
+dGlvbiB3aHkuIElmIHRoZXJlIAppcyBtdWx0aXBsZSBkaWZmZXJlbnQgaXNzdWVzIG1heWJlIHBh
+dGNoIHNwbGl0IHdvdWxkIGJlIGJldHRlci4KCgo+Cj4gUmVwb3J0ZWQtYnk6IERhbiBDYXJwZW50
+ZXIgPGRhbi5jYXJwZW50ZXJAb3JhY2xlLmNvbT4KPiBTdWdnZXN0ZWQtYnk6IERhbiBDYXJwZW50
+ZXIgIDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+Cj4gU2lnbmVkLW9mZi1ieTogQWRyaWVuIEdy
+YXNzZWluIDxhZHJpZW4uZ3Jhc3NlaW5AZ21haWwuY29tPgo+IC0tLQo+ICAgZHJpdmVycy9ncHUv
+ZHJtL2JyaWRnZS9sb250aXVtLWx0ODkxMmIuYyB8IDI3ICsrKysrKysrKysrKysrKy0tLS0tLS0t
+LQo+ICAgMSBmaWxlIGNoYW5nZWQsIDE3IGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQo+
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbG9udGl1bS1sdDg5MTJiLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2xvbnRpdW0tbHQ4OTEyYi5jCj4gaW5kZXggNjE0OTE2
+MTViYWQwLi40YzhkNzkxNDIyNjIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRn
+ZS9sb250aXVtLWx0ODkxMmIuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbG9udGl1
+bS1sdDg5MTJiLmMKPiBAQCAtNjIxLDcgKzYyMSw4IEBAIHN0YXRpYyBpbnQgbHQ4OTEyX3BhcnNl
+X2R0KHN0cnVjdCBsdDg5MTIgKmx0KQo+ICAgewo+ICAgCXN0cnVjdCBncGlvX2Rlc2MgKmdwX3Jl
+c2V0Owo+ICAgCXN0cnVjdCBkZXZpY2UgKmRldiA9IGx0LT5kZXY7Cj4gLQlpbnQgcmV0ID0gMDsK
+PiArCWludCByZXQ7Cj4gKwlpbnQgZGF0YV9sYW5lczsKPiAgIAlzdHJ1Y3QgZGV2aWNlX25vZGUg
+KnBvcnRfbm9kZTsKPiAgIAlzdHJ1Y3QgZGV2aWNlX25vZGUgKmVuZHBvaW50Owo+ICAgCj4gQEAg
+LTYzNSwxMyArNjM2LDE2IEBAIHN0YXRpYyBpbnQgbHQ4OTEyX3BhcnNlX2R0KHN0cnVjdCBsdDg5
+MTIgKmx0KQo+ICAgCWx0LT5ncF9yZXNldCA9IGdwX3Jlc2V0Owo+ICAgCj4gICAJZW5kcG9pbnQg
+PSBvZl9ncmFwaF9nZXRfZW5kcG9pbnRfYnlfcmVncyhkZXYtPm9mX25vZGUsIDAsIC0xKTsKPiAt
+CWlmIChJU19FUlIoZW5kcG9pbnQpKSB7Cj4gLQkJcmV0ID0gUFRSX0VSUihlbmRwb2ludCk7Cj4g
+LQkJZ290byBlbmQ7Cj4gLQl9Cj4gKwlpZiAoIWVuZHBvaW50KQo+ICsJCXJldHVybiAtRU5PREVW
+Owo+ICAgCj4gLQlsdC0+ZGF0YV9sYW5lcyA9IG9mX3Byb3BlcnR5X2NvdW50X3UzMl9lbGVtcyhl
+bmRwb2ludCwgImRhdGEtbGFuZXMiKTsKPiArCWRhdGFfbGFuZXMgPSBvZl9wcm9wZXJ0eV9jb3Vu
+dF91MzJfZWxlbXMoZW5kcG9pbnQsICJkYXRhLWxhbmVzIik7Cj4gICAJb2Zfbm9kZV9wdXQoZW5k
+cG9pbnQpOwo+ICsJaWYgKGRhdGFfbGFuZXMgPCAwKSB7Cj4gKwkJZGV2X2VycihsdC0+ZGV2LCAi
+JXM6IEJhZCBkYXRhLWxhbmVzIHByb3BlcnR5XG4iLCBfX2Z1bmNfXyk7Cj4gKwkJcmV0dXJuIGRh
+dGFfbGFuZXM7Cj4gKwl9Cj4gKwlsdC0+ZGF0YV9sYW5lcyA9IGRhdGFfbGFuZXM7Cj4gICAKPiAg
+IAlsdC0+aG9zdF9ub2RlID0gb2ZfZ3JhcGhfZ2V0X3JlbW90ZV9ub2RlKGRldi0+b2Zfbm9kZSwg
+MCwgLTEpOwo+ICAgCWlmICghbHQtPmhvc3Rfbm9kZSkgewo+IEBAIC02NTgsMTkgKzY2MiwyMiBA
+QCBzdGF0aWMgaW50IGx0ODkxMl9wYXJzZV9kdChzdHJ1Y3QgbHQ4OTEyICpsdCkKPiAgIAl9Cj4g
+ICAKPiAgIAlsdC0+aGRtaV9wb3J0ID0gb2ZfZHJtX2ZpbmRfYnJpZGdlKHBvcnRfbm9kZSk7Cj4g
+LQlpZiAoSVNfRVJSKGx0LT5oZG1pX3BvcnQpKSB7Cj4gKwlpZiAoIWx0LT5oZG1pX3BvcnQpIHsK
+PiAgIAkJZGV2X2VycihsdC0+ZGV2LCAiJXM6IEZhaWxlZCB0byBnZXQgaGRtaSBwb3J0XG4iLCBf
+X2Z1bmNfXyk7Cj4gLQkJcmV0ID0gUFRSX0VSUihsdC0+aGRtaV9wb3J0KTsKPiAtCQlvZl9ub2Rl
+X3B1dChsdC0+aG9zdF9ub2RlKTsKPiAtCQlnb3RvIGVuZDsKPiArCQlyZXQgPSAtRU5PREVWOwo+
+ICsJCW9mX25vZGVfcHV0KHBvcnRfbm9kZSk7Cj4gKwkJZ290byBlcnJfZnJlZV9ob3N0X25vZGU7
+Cj4gICAJfQo+ICAgCj4gICAJaWYgKCFvZl9kZXZpY2VfaXNfY29tcGF0aWJsZShwb3J0X25vZGUs
+ICJoZG1pLWNvbm5lY3RvciIpKSB7Cj4gICAJCWRldl9lcnIobHQtPmRldiwgIiVzOiBGYWlsZWQg
+dG8gZ2V0IGhkbWkgcG9ydFxuIiwgX19mdW5jX18pOwo+ICsJCW9mX25vZGVfcHV0KHBvcnRfbm9k
+ZSk7Cj4gICAJCXJldCA9IC1FSU5WQUw7Cj4gKwkJZ290byBlcnJfZnJlZV9ob3N0X25vZGU7CgpN
+YXliZSBiZXR0ZXIgd291bGQgYmUgdG8gcHV0IG9mX25vZGVfcHV0KHBvcnRfbm9kZSkgYWZ0ZXIg
+CmVycl9mcmVlX2hvc3Rfbm9kZSBsYWJlbCAtIG9mX25vZGVfcHV0KE5VTEwpIGRvZXMgbm90aGlu
+Zy4KCj4gICAJfQo+ICAgCj4gICAJb2Zfbm9kZV9wdXQocG9ydF9ub2RlKTsKPiArCXJldHVybiAw
+Owo+ICAgCj4gICBlbmQ6Cj4gICAJcmV0dXJuIHJldDsKClRoaXMgbGFiZWwgYW5kIGNvZGUgY2Fu
+IGJlIHJlbW92ZWQsIGFtIEkgcmlnaHQ/CgpBZnRlciByZWFkaW5nIHRoZSBib2R5IEkga25vdyB3
+aGF0IHRoZSBwYXRjaCBkb2VzLCBzbyBJIGNhbiBwcm9wb3NlIHRoZSAKc3ViamVjdCwgd2hhdCBh
+Ym91dCAiZml4IGluY29ycmVjdCBoYW5kbGluZyBvZiBvZl8qIHJldHVybiB2YWx1ZXMiLgoKQW5k
+IHBsZWFzZSBtYWtlIGRlc2NyaXB0aW9uIG1vcmUgZGVzY3JpcHRpdmUgOikKCldpdGggdGhhdCBm
+aXhlZCB5b3UgY2FuIGFkZCBteToKClJldmlld2VkLWJ5OiBBbmRyemVqIEhhamRhIDxhLmhhamRh
+QHNhbXN1bmcuY29tPgoKUmVnYXJkcwpBbmRyemVqCgoKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
