@@ -1,53 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13FCA35014E
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 15:35:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1CE35015A
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 15:37:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77F276E1D5;
-	Wed, 31 Mar 2021 13:35:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0779B6EA9E;
+	Wed, 31 Mar 2021 13:37:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
- [209.85.167.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23A436E1D5
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 13:35:29 +0000 (UTC)
-Received: by mail-oi1-f173.google.com with SMTP id v25so3393946oic.5
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 06:35:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=OO7ubuY6oTKvyUG1gEO7CnoaNU1mo7KyFjqzNQtFekg=;
- b=XepmK2ajxaKu/Uhrtugoern6u1Goud5AbCW/UXk8IBbWuE9rVetNb6LZwteIC1TWtC
- cBYo8ova+vLlsQG3XKdvtb1dVc9Qs+ifQvGssNZ5+2+L2yxLQuvoaSbXI2K4h29EvgfJ
- Qu3Hg7LFpFcgUz9lVwiYDxRKvRtnfXiFv/OFjQLoDzc2b8Dc2BmjWhy+ZyoUo99ZaG9/
- njUMcF4dXI+fwe9rrXqd6aXhB5vURnMGXW/9DMhxXKZiJtEyJPeNiPtfCugJPDDZ3btw
- wwgzY/TEX7LcgFHjpiQhZ4uxWw/FOj9Z5l+QvPNx1FMns7r5uVnpZ3Nvn8+ssY2eySNg
- cZnA==
-X-Gm-Message-State: AOAM531nBBuk1oW4P8bh+VvDazOI8PIZYNFD/6QazVzk/5CaCZcgUrc6
- xAjI47GqFCeZ6NkgdGNoxg==
-X-Google-Smtp-Source: ABdhPJzR60WxulAypcTek0JQWaHluHrpPJGXqUHdYhkTq5G28iPykqY6g8W79IHDsXKCTbhxKKVeKQ==
-X-Received: by 2002:aca:6543:: with SMTP id j3mr2341007oiw.158.1617197728353; 
- Wed, 31 Mar 2021 06:35:28 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id m127sm433005oib.32.2021.03.31.06.35.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Mar 2021 06:35:26 -0700 (PDT)
-Received: (nullmailer pid 2066047 invoked by uid 1000);
- Wed, 31 Mar 2021 13:35:25 -0000
-Date: Wed, 31 Mar 2021 08:35:25 -0500
-From: Rob Herring <robh@kernel.org>
-To: Carlis <zhangxuezhi3@gmail.com>
-Subject: Re: [PATCH v3 1/1] dt-bindings: display: sitronix, st7789v-dbi: Add
- Waveshare 2inch LCD module
-Message-ID: <20210331133525.GA2065994@robh.at.kernel.org>
-References: <20210330081505.116351-1-zhangxuezhi3@gmail.com>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E3B36EA9E;
+ Wed, 31 Mar 2021 13:37:39 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1lRb2O-0004hj-MQ; Wed, 31 Mar 2021 13:37:36 +0000
+From: Colin King <colin.king@canonical.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/amd/display: remove redundant initialization of
+ variable status
+Date: Wed, 31 Mar 2021 14:37:36 +0100
+Message-Id: <20210331133736.1420943-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210330081505.116351-1-zhangxuezhi3@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,31 +42,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, david@lechnology.com, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, zhangxuezhi1@yulong.com
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 30 Mar 2021 08:15:05 +0000, Carlis wrote:
-> From: "Xuezhi Zhang" <zhangxuezhi1@yulong.com>
-> 
-> Document support for the Waveshare 2inch LCD module display, which is a
-> 240x320 2" TFT display driven by a Sitronix ST7789V TFT Controller.
-> 
-> Signed-off-by: Xuezhi Zhang <zhangxuezhi1@yulong.com>
-> ---
-> v2:change compatible name.
-> v3:change auther name.
-> ---
->  .../display/sitronix,st7789v-dbi.yaml         | 72 +++++++++++++++++++
->  1 file changed, 72 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/sitronix,st7789v-dbi.yaml
-> 
+From: Colin Ian King <colin.king@canonical.com>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+The variable status is being initialized with a value that is
+never read and it is being updated later with a new value.
+The initialization is redundant and can be removed. Also clean
+up an indentation.
+
+Addresses-Coverity: ("Unused value")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+index b092627bd661..4c226db777dc 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+@@ -1729,12 +1729,11 @@ bool perform_link_training_with_retries(
+ 			dc_link_dp_perform_link_training_skip_aux(link, link_setting);
+ 			return true;
+ 		} else {
+-			enum link_training_result status = LINK_TRAINING_CR_FAIL_LANE0;
++			enum link_training_result status;
+ 
+-				status = dc_link_dp_perform_link_training(
+-										link,
+-										link_setting,
+-										skip_video_pattern);
++			status = dc_link_dp_perform_link_training(link,
++								  link_setting,
++								  skip_video_pattern);
+ 			if (status == LINK_TRAINING_SUCCESS)
+ 				return true;
+ 		}
+-- 
+2.30.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
