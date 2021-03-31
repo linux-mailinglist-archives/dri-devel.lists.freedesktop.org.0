@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5980D34FA74
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 09:40:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F2134FA84
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 09:41:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9373D6E9F9;
-	Wed, 31 Mar 2021 07:40:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11A496E9FA;
+	Wed, 31 Mar 2021 07:41:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 015C36E9F9
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 07:40:30 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 5675D619B9
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 07:40:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617176428;
- bh=yBtf1M4+E4t8it62ReV22lUO96kWxub8sugzbvvWWys=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=QEGrpWN4pWf8AHk0zqAI+uOGxHfYPASEMZBIzn+6pTO9ZuEMfdxqZSF3qjGQC/WwQ
- 4yc8s7852izqLmM8BXfGd2RNlEWzVoJjDK9IxRApTAXxdD8r+T+C2eA2Ht7delpj6b
- 8fj2DmVNyPS9+q2d4d+pM+zcX92BwuiYg4Aurdn7chTYUNSWrfdbMnC46N0fBx5MIN
- CBNQJL5F5xw5GnxpFIR7SsrCy0N159OupBENPBkpHonA75pOGBPRyDVgvY5L6eTlPs
- CPqeBD9nEnT7qN0HFSFpsX4Q+fwVwnkHDFA/o6me3WeRVIvynPB9VdFLMnhEgb8OQ3
- MJykZ8h3cvLLg==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 4AA5A62ABF; Wed, 31 Mar 2021 07:40:28 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211425] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
- more than 20secs aborting
-Date: Wed, 31 Mar 2021 07:40:27 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: icedragon.aw@web.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211425-2300-iGYfTJYUWy@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211425-2300@https.bugzilla.kernel.org/>
-References: <bug-211425-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14C1C6E9FA
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 07:41:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617176515;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FFrGhW64gARZeezTS1TDFmfI/cayC6jmuUvW0N7W42w=;
+ b=QuHvJUkwlmu5bUtw2QrnVSFpPHjDrQl1ZwQ7qWvvc+wZFzJ/SECYs/rNr+BxYmKNQGh1vG
+ OgdmNNyae/a3mgnQOLVjNgO+eH8AH+d/SePU9rN+N9u/piER/ESDqk9zfkUlipfwU4s0oG
+ 9mIrPnBKmGc6pjC/NmjgY2rIjUE70+g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-568-sD00I4yaNHOh8LI6y0C9lw-1; Wed, 31 Mar 2021 03:41:52 -0400
+X-MC-Unique: sD00I4yaNHOh8LI6y0C9lw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00C78107B82D;
+ Wed, 31 Mar 2021 07:41:52 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-142.ams2.redhat.com
+ [10.36.114.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C02575D9D0;
+ Wed, 31 Mar 2021 07:41:51 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id C4DE51800842; Wed, 31 Mar 2021 09:41:49 +0200 (CEST)
+Date: Wed, 31 Mar 2021 09:41:49 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH 1/2] drm/virtio: Create Dumb BOs as guest Blobs
+Message-ID: <20210331074149.jdvbdbvyilzfk6ua@sirius.home.kraxel.org>
+References: <20210331030439.1564032-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
+In-Reply-To: <20210331030439.1564032-1-vivek.kasireddy@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,24 +64,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=211425
+On Tue, Mar 30, 2021 at 08:04:38PM -0700, Vivek Kasireddy wrote:
+> If support for Blob resources is available, then dumb BOs created
+> by the driver can be considered as guest Blobs. And, for guest
+> Blobs, there is no need to do any transfers or flushes
 
---- Comment #15 from Andreas (icedragon.aw@web.de) ---
-I setup the automatic power management for the GPU/display down to 3 minutes.
-After the 3 minutes the desktop manager blanks the display. I pressed a key to
-wake up, but the monitor stays blank for the 2x20sec and I get the error
-message too.
+No.  VIRTGPU_BLOB_FLAG_USE_SHAREABLE means the host (aka device in
+virtio terms) *can* create a shared mapping.  So, the guest sends still
+needs to send transfer commands, and then the device can shortcut the
+transfer commands on the host side in case a shared mapping exists.
 
--- 
-You may reply to this email to add a comment.
+flush commands are still needed for dirty tracking.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+> but we do need to do set_scanout even if the FB has not changed as
+> part of plane updates.
+
+Sounds like you workaround host bugs.  This should not be needed with
+properly implemented flush.
+
+take care,
+  Gerd
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
