@@ -2,51 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F2134FA84
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 09:41:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C38934FAF9
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 10:00:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11A496E9FA;
-	Wed, 31 Mar 2021 07:41:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 218756EA19;
+	Wed, 31 Mar 2021 08:00:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14C1C6E9FA
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 07:41:56 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD8F86EA05
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 08:00:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617176515;
+ s=mimecast20190719; t=1617177603;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=FFrGhW64gARZeezTS1TDFmfI/cayC6jmuUvW0N7W42w=;
- b=QuHvJUkwlmu5bUtw2QrnVSFpPHjDrQl1ZwQ7qWvvc+wZFzJ/SECYs/rNr+BxYmKNQGh1vG
- OgdmNNyae/a3mgnQOLVjNgO+eH8AH+d/SePU9rN+N9u/piER/ESDqk9zfkUlipfwU4s0oG
- 9mIrPnBKmGc6pjC/NmjgY2rIjUE70+g=
+ bh=45sJ9S4Q1vaoHTtSVWh3T+mXLQSWcTe7LD2KDBkrHN4=;
+ b=e72PQYq4gE+/6z5mUgaMvufBOzNdixagFpv2Vr+55/RrcpWrgamLx7heYrOTU3ubHYZVNa
+ WtTdrYxMIQltHmKJ2b0442kjAwF32lL6encQASsIXoN4IhUtnufBg59dOArnpNGUzckL9Z
+ aBauf13xpB4SaSabgbMDDJ154r0Rc/E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-568-sD00I4yaNHOh8LI6y0C9lw-1; Wed, 31 Mar 2021 03:41:52 -0400
-X-MC-Unique: sD00I4yaNHOh8LI6y0C9lw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-370-j9qkkGViOdem8c0DW-I5GQ-1; Wed, 31 Mar 2021 04:00:02 -0400
+X-MC-Unique: j9qkkGViOdem8c0DW-I5GQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00C78107B82D;
- Wed, 31 Mar 2021 07:41:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2722D8030DD;
+ Wed, 31 Mar 2021 08:00:00 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-142.ams2.redhat.com
  [10.36.114.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C02575D9D0;
- Wed, 31 Mar 2021 07:41:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E2672179E6;
+ Wed, 31 Mar 2021 07:59:59 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C4DE51800842; Wed, 31 Mar 2021 09:41:49 +0200 (CEST)
-Date: Wed, 31 Mar 2021 09:41:49 +0200
+ id 507431800842; Wed, 31 Mar 2021 09:59:58 +0200 (CEST)
+Date: Wed, 31 Mar 2021 09:59:58 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH 1/2] drm/virtio: Create Dumb BOs as guest Blobs
-Message-ID: <20210331074149.jdvbdbvyilzfk6ua@sirius.home.kraxel.org>
+Subject: Re: [PATCH 2/2] drm/virtio: Include modifier as part of
+ set_scanout_blob
+Message-ID: <20210331075958.ax4rqedbebnoad6x@sirius.home.kraxel.org>
 References: <20210331030439.1564032-1-vivek.kasireddy@intel.com>
+ <20210331030439.1564032-2-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210331030439.1564032-1-vivek.kasireddy@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210331030439.1564032-2-vivek.kasireddy@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -64,29 +66,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, gurchetansingh@chromium.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 30, 2021 at 08:04:38PM -0700, Vivek Kasireddy wrote:
-> If support for Blob resources is available, then dumb BOs created
-> by the driver can be considered as guest Blobs. And, for guest
-> Blobs, there is no need to do any transfers or flushes
+  Hi,
 
-No.  VIRTGPU_BLOB_FLAG_USE_SHAREABLE means the host (aka device in
-virtio terms) *can* create a shared mapping.  So, the guest sends still
-needs to send transfer commands, and then the device can shortcut the
-transfer commands on the host side in case a shared mapping exists.
+> -#define MAX_INLINE_CMD_SIZE   96
+> +#define MAX_INLINE_CMD_SIZE   112
 
-flush commands are still needed for dirty tracking.
+Separate patch please.
 
-> but we do need to do set_scanout even if the FB has not changed as
-> part of plane updates.
+> --- a/include/uapi/linux/virtio_gpu.h
+> +++ b/include/uapi/linux/virtio_gpu.h
+> @@ -409,6 +409,7 @@ struct virtio_gpu_set_scanout_blob {
+>  	__le32 width;
+>  	__le32 height;
+>  	__le32 format;
+> +	__le64 modifier;
+>  	__le32 padding;
+>  	__le32 strides[4];
+>  	__le32 offsets[4];
 
-Sounds like you workaround host bugs.  This should not be needed with
-properly implemented flush.
+Nope.  This breaks the virtio protocol.
+
+We'll need a virtio feature flag to negotiate modifier support between
+guest and host.  When supported by both sides it can be used.  The new
+field should be appended, not inserted in the middle.  Or we create a
+new virtio_gpu_set_scanout_blob2 struct with new command for this.
+
+Also: I guess the device should provide a list of supported modifiers,
+maybe as capset?
+
+Note: I think it is already possible to create resources with modifiers
+when using virgl commands for that.  Allowing modifiers with virgl=off
+too makes sense given your use case, but we should not use diverging
+approaches for virgl=on vs. virgl=off.  Specifically I'm not sure
+virtio_gpu_set_scanout_blob is the right place, I think with virgl=on
+the modifier is linked to the resource not the scanout ...
+
+Cc'ing Gurchetan Singh for comments.
 
 take care,
   Gerd
