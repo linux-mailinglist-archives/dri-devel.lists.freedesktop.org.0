@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8750934FFB2
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 13:49:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0FA734FFB3
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 13:49:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 929CF6EA6A;
-	Wed, 31 Mar 2021 11:49:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F20B6EA6C;
+	Wed, 31 Mar 2021 11:49:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0841B6EA6A
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 11:49:23 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id o16so19416476wrn.0
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 04:49:23 -0700 (PDT)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96E3E6EA6C
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 11:49:24 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ u5-20020a7bcb050000b029010e9316b9d5so1000958wmj.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 04:49:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MxJTD5mQDwNagQLECc0eo1ZB/OdesKUiap5HG3t0c0w=;
- b=aFRvUOJQXiZNkOwVZDJf7Rfv+v4MCVlV6VzzxdgzVO9Kk59Z7LZqsIITcweLjKB8jy
- ksAoaMPN4S18qCBQ13453x89rMeKw2HhTUfKQKvK3J0e6OVyqP2o03oNQlmpFS56Zapn
- Og+1dS76e8+m3GIAbP00ddTMZaGp3NPkxq1cV5MOOI9vr86pDIq/5HQv6HgDnXOkLf07
- d5BdmDgiVzcMBrDLVzqPEEYvb/VzEflAOJCUmKuRsIkqjx55M+11pcD41TTapPsIaZWp
- oaONmf/681vSNaof2DOALa1SoUpK7zYnX5gIuatG3rX0zetrk/kQzb7UrfzFQPWoGnT2
- GEbA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=cIhKyg4y3+sWX6etXiqAF9daZ8GeE0mE/r/SI1B0IPk=;
+ b=mc1na+I6cW6s6q9O2oBVieuWwcWsX7bZvdYOognY6UDFWWkmWjdVSk3HRGA8YXg6ha
+ jTUsxrackTDvOn2gCKwvvWb36LMF387w8OGr3tNj/7SaKRMgNTE8VXOK9kAIiiP6p3Ez
+ qDaaMKr+f7eFsSsfY+MfCF+a6vAM9kBIEmDSZDWcpOd5GystnA8cWNLgDVMRSZEwvqh4
+ rR1f2DrEfL8ei1y6d+Kz14E7UwgLgbCZpsZPyH/UNcN2XwBjGihcJi0dw7UjsvyxsLev
+ zhIkAuQ8JORQQmnmk80KUyt/GHLaRmrklDEMgcvjrnfJK8L3qtHcCWEeRrIsNM6WYkBm
+ 6hUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MxJTD5mQDwNagQLECc0eo1ZB/OdesKUiap5HG3t0c0w=;
- b=XV4QvW3S/1DpmotnFNnwZBHd3LMsQrE+Cz0TVh9q8fJotkNmoc0d3io5wWAa3ghBud
- L5+6HW+UWT9l6u9G62fEikCVetIXlGjFonNHzU6WfvxZfK3JqMDB+RXXliXU8eP1PSNK
- nVaeq37TG9z1xtPuehwtqqy14Rw3+5Vm85jdOl+U4zwCG89t+xJdO0FRhnRhLrBly0ui
- qo0evkGu6e8+RztK/D/lQNtV7GzapMdrqejO95QFb0jhhcKPYn4tcSaPtM2TWnvZVGx1
- DOlkFecKnnKbnjLcjc6sX4Pn2KbC9EuLP6BWbJtPXne2bcnDJcOr9n7zPHgH7GLvDhG9
- pDqw==
-X-Gm-Message-State: AOAM530PpHb5DJHp4hFiwaEL5TZOIEjRIMSWtoGFwrkJi/EEbZa+pdfF
- +MaVw0cNEaglab9kugOFfm0=
-X-Google-Smtp-Source: ABdhPJxeEsvvQJA7PZQi1GkPR1zdriu1jAqF8pNt5Agun39lOC7QrTU1wewmr2H5V+MTiFUcCF1OSA==
-X-Received: by 2002:a5d:6443:: with SMTP id d3mr3243878wrw.292.1617191362697; 
- Wed, 31 Mar 2021 04:49:22 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=cIhKyg4y3+sWX6etXiqAF9daZ8GeE0mE/r/SI1B0IPk=;
+ b=iDEvJJUUFc35z6Sk/ehxXV7Sl/l24H/qF3JDN4COdAwf/wJ2ajgZD5HzWNJmwkwNG0
+ O/LbNwGJ/2hDPYnRpwZnkBf1I63bhLoePkGN08fRBkV8SWLP8PDcQroWbCJmMLUQmhwC
+ 02YnykoTwnwT3Ez/0cfjsotI/4g4rGuDO8SgIb3aeALaw5VMmgW/2Lq1jkdSv8MoeX6a
+ nqnCcRDik10UCB1w/fvVM9ovPHLb/3caInemBFJCHO7TzvPAH3BJNc4t4/NoOu6x2/5P
+ 7nxQyUBb4fri+GJVF6Zf+owllsFL+YHvNtoPPPzm2AOo0iQF93oxe5OEebeVPOhSDEkz
+ FADA==
+X-Gm-Message-State: AOAM531ipZ72MW2Yp/UKTaxVeubwiW2N5FCE7J8/IDqnMzXzsqHO7CRZ
+ 7wxQpxCxk8gjwHPsOwVk7wA=
+X-Google-Smtp-Source: ABdhPJwFaB8wK/DSY9bfywKBREVmWYIhxhB1WROGgxRxsgNKVhNNuiKjjXTCF4aj66u5CJQaEQKbMg==
+X-Received: by 2002:a1c:e244:: with SMTP id z65mr2871823wmg.130.1617191363272; 
+ Wed, 31 Mar 2021 04:49:23 -0700 (PDT)
 Received: from localhost.localdomain
  (2a01cb0008bd27007d57ea0d08d946c1.ipv6.abo.wanadoo.fr.
  [2a01:cb00:8bd:2700:7d57:ea0d:8d9:46c1])
@@ -49,11 +50,13 @@ Received: from localhost.localdomain
  Wed, 31 Mar 2021 04:49:22 -0700 (PDT)
 From: Adrien Grassein <adrien.grassein@gmail.com>
 To: 
-Subject: [PATCH v4 0/1] Fixes 30e2ae943c26 "drm/bridge: Introduce LT8912B DSI
- to HDMI"
-Date: Wed, 31 Mar 2021 13:49:18 +0200
-Message-Id: <20210331114919.370053-1-adrien.grassein@gmail.com>
+Subject: [PATCH v4 1/1] drm/bridge: lt8912b: Fix issues found during static
+ analysis
+Date: Wed, 31 Mar 2021 13:49:19 +0200
+Message-Id: <20210331114919.370053-2-adrien.grassein@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210331114919.370053-1-adrien.grassein@gmail.com>
+References: <20210331114919.370053-1-adrien.grassein@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,18 +77,78 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Some issues where found during static analysis of this driver.
 
-This patch fixes issues found by a static checker.
-
-Thanks,
-
-Adrien Grassein (1):
-  drm/bridge: lt8912b: Fix issues found during static analysis
-
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Suggested-by: Dan Carpenter  <dan.carpenter@oracle.com>
+Signed-off-by: Adrien Grassein <adrien.grassein@gmail.com>
+---
  drivers/gpu/drm/bridge/lontium-lt8912b.c | 27 +++++++++++++++---------
  1 file changed, 17 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+index 61491615bad0..4c8d79142262 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
++++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+@@ -621,7 +621,8 @@ static int lt8912_parse_dt(struct lt8912 *lt)
+ {
+ 	struct gpio_desc *gp_reset;
+ 	struct device *dev = lt->dev;
+-	int ret = 0;
++	int ret;
++	int data_lanes;
+ 	struct device_node *port_node;
+ 	struct device_node *endpoint;
+ 
+@@ -635,13 +636,16 @@ static int lt8912_parse_dt(struct lt8912 *lt)
+ 	lt->gp_reset = gp_reset;
+ 
+ 	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
+-	if (IS_ERR(endpoint)) {
+-		ret = PTR_ERR(endpoint);
+-		goto end;
+-	}
++	if (!endpoint)
++		return -ENODEV;
+ 
+-	lt->data_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
++	data_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
+ 	of_node_put(endpoint);
++	if (data_lanes < 0) {
++		dev_err(lt->dev, "%s: Bad data-lanes property\n", __func__);
++		return data_lanes;
++	}
++	lt->data_lanes = data_lanes;
+ 
+ 	lt->host_node = of_graph_get_remote_node(dev->of_node, 0, -1);
+ 	if (!lt->host_node) {
+@@ -658,19 +662,22 @@ static int lt8912_parse_dt(struct lt8912 *lt)
+ 	}
+ 
+ 	lt->hdmi_port = of_drm_find_bridge(port_node);
+-	if (IS_ERR(lt->hdmi_port)) {
++	if (!lt->hdmi_port) {
+ 		dev_err(lt->dev, "%s: Failed to get hdmi port\n", __func__);
+-		ret = PTR_ERR(lt->hdmi_port);
+-		of_node_put(lt->host_node);
+-		goto end;
++		ret = -ENODEV;
++		of_node_put(port_node);
++		goto err_free_host_node;
+ 	}
+ 
+ 	if (!of_device_is_compatible(port_node, "hdmi-connector")) {
+ 		dev_err(lt->dev, "%s: Failed to get hdmi port\n", __func__);
++		of_node_put(port_node);
+ 		ret = -EINVAL;
++		goto err_free_host_node;
+ 	}
+ 
+ 	of_node_put(port_node);
++	return 0;
+ 
+ end:
+ 	return ret;
 -- 
 2.25.1
 
