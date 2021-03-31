@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD692350614
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 20:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 239E4350626
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Mar 2021 20:19:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6BC56EB3B;
-	Wed, 31 Mar 2021 18:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F31C6EB39;
+	Wed, 31 Mar 2021 18:19:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8621B8910E
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 18:14:01 +0000 (UTC)
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 006356EB39
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Mar 2021 18:19:16 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1617214443; h=Message-ID: References: In-Reply-To: Subject:
+ s=smtp; t=1617214758; h=Message-ID: References: In-Reply-To: Subject:
  Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=YMhxZY7W3t6iLu5TG0E26xWh8c8s7meHig7plGBI7Bw=;
- b=xKj9MQlbNHUvjHm97XKjCcVfKCjTnG4rtBGO+pxHrRifyGIi9sD4INB/DrQVgQcTsl+Ep7Xr
- pd1GW1Nq6SZIAskTF9wEzN9vOSH4rPztzAw/DSdVzXmO1ClEZ2Dyg5ERsz+PaJTPAHyhd/gK
- IsgYuTIl5jpzeONwe9z2snpxCpY=
-X-Mailgun-Sending-Ip: 198.61.254.9
+ MIME-Version: Sender; bh=kF/20iZqiGx7wNR+fkuad3zo5/rtj1z2trqAMlWamaQ=;
+ b=YpmJ8Ru8RItL/VTt5xQBRE+bBK5buyLJff0RXUj2QFEgJEXrlDqjk64aqL+W4Wbm7EHCThFd
+ Xl7q0WhOKRRk3E5dkm8U4JJmJJUAkV67qnvQuDKKyYZ0x1mdd6iBJoJiRWbWXoDT3uUA6pSD
+ G7KUzczeO+261DobAIFCHCCM/YE=
+X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 6064bbdf8166b7eff7d5ed3d (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 31 Mar 2021 18:13:51
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 6064bd1e74f773a664202be3 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 31 Mar 2021 18:19:10
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id A3138C43465; Wed, 31 Mar 2021 18:13:50 +0000 (UTC)
+ id 8BDC7C43467; Wed, 31 Mar 2021 18:19:09 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -38,18 +38,18 @@ X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
 Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
  (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
  (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 7C857C433CA;
- Wed, 31 Mar 2021 18:13:48 +0000 (UTC)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 1D7C8C433CA;
+ Wed, 31 Mar 2021 18:19:07 +0000 (UTC)
 MIME-Version: 1.0
-Date: Wed, 31 Mar 2021 11:13:48 -0700
+Date: Wed, 31 Mar 2021 11:19:07 -0700
 From: abhinavk@codeaurora.org
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [Freedreno] [PATCH v4 24/24] drm/msm/dsi: stop passing src_pll_id
- to the phy_enable call
-In-Reply-To: <20210331105735.3690009-25-dmitry.baryshkov@linaro.org>
+Subject: Re: [Freedreno] [PATCH v4 23/24] drm/msm/dsi: inline
+ msm_dsi_phy_set_src_pll
+In-Reply-To: <20210331105735.3690009-24-dmitry.baryshkov@linaro.org>
 References: <20210331105735.3690009-1-dmitry.baryshkov@linaro.org>
- <20210331105735.3690009-25-dmitry.baryshkov@linaro.org>
-Message-ID: <2f8f4691e9710eabce79e3f238daa1f9@codeaurora.org>
+ <20210331105735.3690009-24-dmitry.baryshkov@linaro.org>
+Message-ID: <848e764a0b26be36ec110964bc2655d0@codeaurora.org>
 X-Sender: abhinavk@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,263 +75,291 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 2021-03-31 03:57, Dmitry Baryshkov wrote:
-> Phy driver already knows the source PLL id basing on the set usecase 
-> and
-> the current PLL id. Stop passing it to the phy_enable call. As a
-> reminder, dsi manager will always use DSI 0 as a clock master in a 
-> slave
-> mode, so PLL 0 is always a clocksource for DSI 0 and it is always a
-> clocksource for DSI 1 too unless DSI 1 is used in the standalone mode.
+> The src_truthtable config is not used for some of phys, which use other
+> means of configuring the master/slave usecases. Inline this function
+> with the goal of removing src_pll_id argument in the next commit.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > Tested-by: Stephen Boyd <swboyd@chromium.org> # on sc7180 lazor
 Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
 > ---
->  drivers/gpu/drm/msm/dsi/dsi.h                   |  2 +-
->  drivers/gpu/drm/msm/dsi/dsi_manager.c           | 11 +++++------
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c           |  4 ++--
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h           |  2 +-
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c      |  2 +-
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c      |  4 ++--
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c      |  4 ++--
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c      |  4 ++--
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c |  2 +-
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c       |  2 +-
->  10 files changed, 18 insertions(+), 19 deletions(-)
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c           | 17 -----------------
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h           |  8 --------
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c      |  2 --
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c      | 13 +++++++------
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c      | 11 +++++++----
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c      | 13 +++++++------
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c |  1 -
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c       |  2 --
+>  8 files changed, 21 insertions(+), 46 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h 
-> b/drivers/gpu/drm/msm/dsi/dsi.h
-> index 7f99e12efd52..7abfeab08165 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.h
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
-> @@ -162,7 +162,7 @@ struct msm_dsi_phy_clk_request {
-> 
->  void msm_dsi_phy_driver_register(void);
->  void msm_dsi_phy_driver_unregister(void);
-> -int msm_dsi_phy_enable(struct msm_dsi_phy *phy, int src_pll_id,
-> +int msm_dsi_phy_enable(struct msm_dsi_phy *phy,
->  			struct msm_dsi_phy_clk_request *clk_req);
->  void msm_dsi_phy_disable(struct msm_dsi_phy *phy);
->  void msm_dsi_phy_get_shared_timings(struct msm_dsi_phy *phy,
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> index e116e5ff5d24..cd016576e8c5 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> @@ -114,7 +114,7 @@ static int dsi_mgr_setup_components(int id)
->  	return ret;
->  }
-> 
-> -static int enable_phy(struct msm_dsi *msm_dsi, int src_pll_id,
-> +static int enable_phy(struct msm_dsi *msm_dsi,
->  		      struct msm_dsi_phy_shared_timings *shared_timings)
->  {
->  	struct msm_dsi_phy_clk_request clk_req;
-> @@ -123,7 +123,7 @@ static int enable_phy(struct msm_dsi *msm_dsi, int
-> src_pll_id,
-> 
->  	msm_dsi_host_get_phy_clk_req(msm_dsi->host, &clk_req, is_dual_dsi);
-> 
-> -	ret = msm_dsi_phy_enable(msm_dsi->phy, src_pll_id, &clk_req);
-> +	ret = msm_dsi_phy_enable(msm_dsi->phy, &clk_req);
->  	msm_dsi_phy_get_shared_timings(msm_dsi->phy, shared_timings);
-> 
->  	return ret;
-> @@ -136,7 +136,6 @@ dsi_mgr_phy_enable(int id,
->  	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
->  	struct msm_dsi *mdsi = dsi_mgr_get_dsi(DSI_CLOCK_MASTER);
->  	struct msm_dsi *sdsi = dsi_mgr_get_dsi(DSI_CLOCK_SLAVE);
-> -	int src_pll_id = IS_DUAL_DSI() ? DSI_CLOCK_MASTER : id;
->  	int ret;
-> 
->  	/* In case of dual DSI, some registers in PHY1 have been programmed
-> @@ -149,11 +148,11 @@ dsi_mgr_phy_enable(int id,
->  			msm_dsi_host_reset_phy(mdsi->host);
->  			msm_dsi_host_reset_phy(sdsi->host);
-> 
-> -			ret = enable_phy(mdsi, src_pll_id,
-> +			ret = enable_phy(mdsi,
->  					 &shared_timings[DSI_CLOCK_MASTER]);
->  			if (ret)
->  				return ret;
-> -			ret = enable_phy(sdsi, src_pll_id,
-> +			ret = enable_phy(sdsi,
->  					 &shared_timings[DSI_CLOCK_SLAVE]);
->  			if (ret) {
->  				msm_dsi_phy_disable(mdsi->phy);
-> @@ -162,7 +161,7 @@ dsi_mgr_phy_enable(int id,
->  		}
->  	} else {
->  		msm_dsi_host_reset_phy(msm_dsi->host);
-> -		ret = enable_phy(msm_dsi, src_pll_id, &shared_timings[id]);
-> +		ret = enable_phy(msm_dsi, &shared_timings[id]);
->  		if (ret)
->  			return ret;
->  	}
 > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
 > b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-> index 93e81bb78d26..f0a2ddf96a4b 100644
+> index 344887025720..93e81bb78d26 100644
 > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
 > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-> @@ -753,7 +753,7 @@ void __exit msm_dsi_phy_driver_unregister(void)
->  	platform_driver_unregister(&dsi_phy_platform_driver);
+> @@ -461,23 +461,6 @@ int msm_dsi_dphy_timing_calc_v4(struct
+> msm_dsi_dphy_timing *timing,
+>  	return 0;
 >  }
 > 
-> -int msm_dsi_phy_enable(struct msm_dsi_phy *phy, int src_pll_id,
-> +int msm_dsi_phy_enable(struct msm_dsi_phy *phy,
->  			struct msm_dsi_phy_clk_request *clk_req)
+> -void msm_dsi_phy_set_src_pll(struct msm_dsi_phy *phy, int pll_id, u32 
+> reg,
+> -				u32 bit_mask)
+> -{
+> -	int phy_id = phy->id;
+> -	u32 val;
+> -
+> -	if ((phy_id >= DSI_MAX) || (pll_id >= DSI_MAX))
+> -		return;
+> -
+> -	val = dsi_phy_read(phy->base + reg);
+> -
+> -	if (phy->cfg->src_pll_truthtable[phy_id][pll_id])
+> -		dsi_phy_write(phy->base + reg, val | bit_mask);
+> -	else
+> -		dsi_phy_write(phy->base + reg, val & (~bit_mask));
+> -}
+> -
+>  static int dsi_phy_regulator_init(struct msm_dsi_phy *phy)
 >  {
->  	struct device *dev = &phy->pdev->dev;
-> @@ -776,7 +776,7 @@ int msm_dsi_phy_enable(struct msm_dsi_phy *phy,
-> int src_pll_id,
->  		goto reg_en_fail;
->  	}
-> 
-> -	ret = phy->cfg->ops.enable(phy, src_pll_id, clk_req);
-> +	ret = phy->cfg->ops.enable(phy, clk_req);
->  	if (ret) {
->  		DRM_DEV_ERROR(dev, "%s: phy enable failed, %d\n", __func__, ret);
->  		goto phy_en_fail;
+>  	struct regulator_bulk_data *s = phy->supplies;
 > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
 > b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-> index 00ef01baaebd..94a77ac364d3 100644
+> index 7748f8b5ea53..00ef01baaebd 100644
 > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
 > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-> @@ -19,7 +19,7 @@
+> @@ -33,12 +33,6 @@ struct msm_dsi_phy_cfg {
+>  	unsigned long	min_pll_rate;
+>  	unsigned long	max_pll_rate;
 > 
->  struct msm_dsi_phy_ops {
->  	int (*pll_init)(struct msm_dsi_phy *phy);
-> -	int (*enable)(struct msm_dsi_phy *phy, int src_pll_id,
-> +	int (*enable)(struct msm_dsi_phy *phy,
->  			struct msm_dsi_phy_clk_request *clk_req);
->  	void (*disable)(struct msm_dsi_phy *phy);
->  	void (*save_pll_state)(struct msm_dsi_phy *phy);
+> -	/*
+> -	 * Each cell {phy_id, pll_id} of the truth table indicates
+> -	 * if the source PLL selection bit should be set for each PHY.
+> -	 * Fill default H/W values in illegal cells, eg. cell {0, 1}.
+> -	 */
+> -	bool src_pll_truthtable[DSI_MAX][DSI_MAX];
+>  	const resource_size_t io_start[DSI_MAX];
+>  	const int num_dsi_phy;
+>  	const int quirks;
+> @@ -121,7 +115,5 @@ int msm_dsi_dphy_timing_calc_v3(struct
+> msm_dsi_dphy_timing *timing,
+>  				struct msm_dsi_phy_clk_request *clk_req);
+>  int msm_dsi_dphy_timing_calc_v4(struct msm_dsi_dphy_timing *timing,
+>  				struct msm_dsi_phy_clk_request *clk_req);
+> -void msm_dsi_phy_set_src_pll(struct msm_dsi_phy *phy, int pll_id, u32 
+> reg,
+> -				u32 bit_mask);
+> 
+>  #endif /* __DSI_PHY_H__ */
 > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
 > b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-> index 64b8b0efc1a4..34bc93548fcf 100644
+> index 655996cf8688..64b8b0efc1a4 100644
 > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
 > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-> @@ -788,7 +788,7 @@ static void dsi_phy_hw_v3_0_lane_settings(struct
-> msm_dsi_phy *phy)
->  	}
+> @@ -921,7 +921,6 @@ static void dsi_10nm_phy_disable(struct msm_dsi_phy 
+> *phy)
 >  }
 > 
-> -static int dsi_10nm_phy_enable(struct msm_dsi_phy *phy, int 
-> src_pll_id,
-> +static int dsi_10nm_phy_enable(struct msm_dsi_phy *phy,
->  			       struct msm_dsi_phy_clk_request *clk_req)
->  {
->  	int ret;
+>  const struct msm_dsi_phy_cfg dsi_phy_10nm_cfgs = {
+> -	.src_pll_truthtable = { {false, false}, {true, false} },
+>  	.has_phy_lane = true,
+>  	.reg_cfg = {
+>  		.num = 1,
+> @@ -943,7 +942,6 @@ const struct msm_dsi_phy_cfg dsi_phy_10nm_cfgs = {
+>  };
+> 
+>  const struct msm_dsi_phy_cfg dsi_phy_10nm_8998_cfgs = {
+> -	.src_pll_truthtable = { {false, false}, {true, false} },
+>  	.has_phy_lane = true,
+>  	.reg_cfg = {
+>  		.num = 1,
 > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
 > b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-> index 9a2937589435..65d68eb9e3cb 100644
+> index 090d3e7a2212..9a2937589435 100644
 > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
 > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-> @@ -938,7 +938,7 @@ static void dsi_14nm_dphy_set_timing(struct
-> msm_dsi_phy *phy,
->  		      DSI_14nm_PHY_LN_TIMING_CTRL_11_TRIG3_CMD(0xa0));
->  }
-> 
-> -static int dsi_14nm_phy_enable(struct msm_dsi_phy *phy, int 
-> src_pll_id,
-> +static int dsi_14nm_phy_enable(struct msm_dsi_phy *phy,
->  			       struct msm_dsi_phy_clk_request *clk_req)
->  {
->  	struct msm_dsi_dphy_timing *timing = &phy->timing;
-> @@ -996,7 +996,7 @@ static int dsi_14nm_phy_enable(struct msm_dsi_phy
+> @@ -947,6 +947,7 @@ static int dsi_14nm_phy_enable(struct msm_dsi_phy
 > *phy, int src_pll_id,
+>  	int ret;
+>  	void __iomem *base = phy->base;
+>  	void __iomem *lane_base = phy->lane_base;
+> +	u32 glbl_test_ctrl;
+> 
+>  	if (msm_dsi_dphy_timing_calc_v2(timing, clk_req)) {
+>  		DRM_DEV_ERROR(&phy->pdev->dev,
+> @@ -994,10 +995,12 @@ static int dsi_14nm_phy_enable(struct
+> msm_dsi_phy *phy, int src_pll_id,
+>  	udelay(100);
 >  	dsi_phy_write(base + REG_DSI_14nm_PHY_CMN_CTRL_1, 0x00);
 > 
->  	glbl_test_ctrl = dsi_phy_read(base + 
+> -	msm_dsi_phy_set_src_pll(phy, src_pll_id,
+> -				REG_DSI_14nm_PHY_CMN_GLBL_TEST_CTRL,
+> -				DSI_14nm_PHY_CMN_GLBL_TEST_CTRL_BITCLK_HS_SEL);
+> -
+> +	glbl_test_ctrl = dsi_phy_read(base + 
 > REG_DSI_14nm_PHY_CMN_GLBL_TEST_CTRL);
-> -	if (phy->id == DSI_1 && src_pll_id == DSI_0)
-> +	if (phy->id == DSI_1 && phy->usecase == MSM_DSI_PHY_SLAVE)
->  		glbl_test_ctrl |= DSI_14nm_PHY_CMN_GLBL_TEST_CTRL_BITCLK_HS_SEL;
->  	else
->  		glbl_test_ctrl &= ~DSI_14nm_PHY_CMN_GLBL_TEST_CTRL_BITCLK_HS_SEL;
+> +	if (phy->id == DSI_1 && src_pll_id == DSI_0)
+> +		glbl_test_ctrl |= DSI_14nm_PHY_CMN_GLBL_TEST_CTRL_BITCLK_HS_SEL;
+> +	else
+> +		glbl_test_ctrl &= ~DSI_14nm_PHY_CMN_GLBL_TEST_CTRL_BITCLK_HS_SEL;
+> +	dsi_phy_write(base + REG_DSI_14nm_PHY_CMN_GLBL_TEST_CTRL, 
+> glbl_test_ctrl);
+>  	ret = dsi_14nm_set_usecase(phy);
+>  	if (ret) {
+>  		DRM_DEV_ERROR(&phy->pdev->dev, "%s: set pll usecase failed, %d\n",
+> @@ -1021,7 +1024,6 @@ static void dsi_14nm_phy_disable(struct 
+> msm_dsi_phy *phy)
+>  }
+> 
+>  const struct msm_dsi_phy_cfg dsi_phy_14nm_cfgs = {
+> -	.src_pll_truthtable = { {false, false}, {true, false} },
+>  	.has_phy_lane = true,
+>  	.reg_cfg = {
+>  		.num = 1,
+> @@ -1043,7 +1045,6 @@ const struct msm_dsi_phy_cfg dsi_phy_14nm_cfgs = 
+> {
+>  };
+> 
+>  const struct msm_dsi_phy_cfg dsi_phy_14nm_660_cfgs = {
+> -	.src_pll_truthtable = { {false, false}, {true, false} },
+>  	.has_phy_lane = true,
+>  	.reg_cfg = {
+>  		.num = 1,
 > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c
 > b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c
-> index f5b88c85a8fc..e96d789aea18 100644
+> index 5e73f811d645..f5b88c85a8fc 100644
 > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c
 > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c
-> @@ -63,7 +63,7 @@ static void dsi_20nm_phy_regulator_ctrl(struct
-> msm_dsi_phy *phy, bool enable)
->  	dsi_phy_write(base + REG_DSI_20nm_PHY_REGULATOR_CTRL_0, 0x03);
->  }
-> 
-> -static int dsi_20nm_phy_enable(struct msm_dsi_phy *phy, int 
-> src_pll_id,
-> +static int dsi_20nm_phy_enable(struct msm_dsi_phy *phy,
->  				struct msm_dsi_phy_clk_request *clk_req)
->  {
->  	struct msm_dsi_dphy_timing *timing = &phy->timing;
-> @@ -85,7 +85,7 @@ static int dsi_20nm_phy_enable(struct msm_dsi_phy
+> @@ -70,6 +70,7 @@ static int dsi_20nm_phy_enable(struct msm_dsi_phy
 > *phy, int src_pll_id,
+>  	int i;
+>  	void __iomem *base = phy->base;
+>  	u32 cfg_4[4] = {0x20, 0x40, 0x20, 0x00};
+> +	u32 val;
+> 
+>  	DBG("");
+> 
+> @@ -83,9 +84,12 @@ static int dsi_20nm_phy_enable(struct msm_dsi_phy
+> *phy, int src_pll_id,
+> 
 >  	dsi_phy_write(base + REG_DSI_20nm_PHY_STRENGTH_0, 0xff);
 > 
->  	val = dsi_phy_read(base + REG_DSI_20nm_PHY_GLBL_TEST_CTRL);
-> -	if (src_pll_id == DSI_1)
-> +	if (phy->id == DSI_1 && phy->usecase == MSM_DSI_PHY_STANDALONE)
->  		val |= DSI_20nm_PHY_GLBL_TEST_CTRL_BITCLK_HS_SEL;
->  	else
->  		val &= ~DSI_20nm_PHY_GLBL_TEST_CTRL_BITCLK_HS_SEL;
+> -	msm_dsi_phy_set_src_pll(phy, src_pll_id,
+> -				REG_DSI_20nm_PHY_GLBL_TEST_CTRL,
+> -				DSI_20nm_PHY_GLBL_TEST_CTRL_BITCLK_HS_SEL);
+> +	val = dsi_phy_read(base + REG_DSI_20nm_PHY_GLBL_TEST_CTRL);
+> +	if (src_pll_id == DSI_1)
+> +		val |= DSI_20nm_PHY_GLBL_TEST_CTRL_BITCLK_HS_SEL;
+> +	else
+> +		val &= ~DSI_20nm_PHY_GLBL_TEST_CTRL_BITCLK_HS_SEL;
+> +	dsi_phy_write(base + REG_DSI_20nm_PHY_GLBL_TEST_CTRL, val);
+> 
+>  	for (i = 0; i < 4; i++) {
+>  		dsi_phy_write(base + REG_DSI_20nm_PHY_LN_CFG_3(i),
+> @@ -125,7 +129,6 @@ static void dsi_20nm_phy_disable(struct msm_dsi_phy 
+> *phy)
+>  }
+> 
+>  const struct msm_dsi_phy_cfg dsi_phy_20nm_cfgs = {
+> -	.src_pll_truthtable = { {false, true}, {false, true} },
+>  	.has_phy_regulator = true,
+>  	.reg_cfg = {
+>  		.num = 2,
 > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
 > b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-> index 61f2f7f672ca..3304acda2165 100644
+> index e09fa80c413e..61f2f7f672ca 100644
 > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
 > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-> @@ -698,7 +698,7 @@ static void dsi_28nm_phy_regulator_ctrl(struct
-> msm_dsi_phy *phy, bool enable)
->  		dsi_28nm_phy_regulator_enable_dcdc(phy);
->  }
-> 
-> -static int dsi_28nm_phy_enable(struct msm_dsi_phy *phy, int 
-> src_pll_id,
-> +static int dsi_28nm_phy_enable(struct msm_dsi_phy *phy,
->  				struct msm_dsi_phy_clk_request *clk_req)
->  {
->  	struct msm_dsi_dphy_timing *timing = &phy->timing;
-> @@ -745,7 +745,7 @@ static int dsi_28nm_phy_enable(struct msm_dsi_phy
+> @@ -704,6 +704,7 @@ static int dsi_28nm_phy_enable(struct msm_dsi_phy
 > *phy, int src_pll_id,
+>  	struct msm_dsi_dphy_timing *timing = &phy->timing;
+>  	int i;
+>  	void __iomem *base = phy->base;
+> +	u32 val;
+> 
+>  	DBG("");
+> 
+> @@ -743,9 +744,12 @@ static int dsi_28nm_phy_enable(struct msm_dsi_phy
+> *phy, int src_pll_id,
+> 
 >  	dsi_phy_write(base + REG_DSI_28nm_PHY_CTRL_0, 0x5f);
 > 
->  	val = dsi_phy_read(base + REG_DSI_28nm_PHY_GLBL_TEST_CTRL);
-> -	if (phy->id == DSI_1 && src_pll_id == DSI_0)
-> +	if (phy->id == DSI_1 && phy->usecase == MSM_DSI_PHY_SLAVE)
->  		val &= ~DSI_28nm_PHY_GLBL_TEST_CTRL_BITCLK_HS_SEL;
->  	else
->  		val |= DSI_28nm_PHY_GLBL_TEST_CTRL_BITCLK_HS_SEL;
+> -	msm_dsi_phy_set_src_pll(phy, src_pll_id,
+> -				REG_DSI_28nm_PHY_GLBL_TEST_CTRL,
+> -				DSI_28nm_PHY_GLBL_TEST_CTRL_BITCLK_HS_SEL);
+> +	val = dsi_phy_read(base + REG_DSI_28nm_PHY_GLBL_TEST_CTRL);
+> +	if (phy->id == DSI_1 && src_pll_id == DSI_0)
+> +		val &= ~DSI_28nm_PHY_GLBL_TEST_CTRL_BITCLK_HS_SEL;
+> +	else
+> +		val |= DSI_28nm_PHY_GLBL_TEST_CTRL_BITCLK_HS_SEL;
+> +	dsi_phy_write(base + REG_DSI_28nm_PHY_GLBL_TEST_CTRL, val);
+> 
+>  	return 0;
+>  }
+> @@ -763,7 +767,6 @@ static void dsi_28nm_phy_disable(struct msm_dsi_phy 
+> *phy)
+>  }
+> 
+>  const struct msm_dsi_phy_cfg dsi_phy_28nm_hpm_cfgs = {
+> -	.src_pll_truthtable = { {true, true}, {false, true} },
+>  	.has_phy_regulator = true,
+>  	.reg_cfg = {
+>  		.num = 1,
+> @@ -785,7 +788,6 @@ const struct msm_dsi_phy_cfg dsi_phy_28nm_hpm_cfgs 
+> = {
+>  };
+> 
+>  const struct msm_dsi_phy_cfg dsi_phy_28nm_hpm_famb_cfgs = {
+> -	.src_pll_truthtable = { {true, true}, {false, true} },
+>  	.has_phy_regulator = true,
+>  	.reg_cfg = {
+>  		.num = 1,
+> @@ -807,7 +809,6 @@ const struct msm_dsi_phy_cfg 
+> dsi_phy_28nm_hpm_famb_cfgs = {
+>  };
+> 
+>  const struct msm_dsi_phy_cfg dsi_phy_28nm_lp_cfgs = {
+> -	.src_pll_truthtable = { {true, true}, {true, true} },
+>  	.has_phy_regulator = true,
+>  	.reg_cfg = {
+>  		.num = 1,
 > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
 > b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-> index 83e275ed7476..582b1428f971 100644
+> index 08bd93b719e0..83e275ed7476 100644
 > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
 > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-> @@ -585,7 +585,7 @@ static void dsi_28nm_phy_lane_config(struct
-> msm_dsi_phy *phy)
->  	dsi_phy_write(base + REG_DSI_28nm_8960_PHY_LNCK_TEST_STR1, 0x88);
+> @@ -642,7 +642,6 @@ static void dsi_28nm_phy_disable(struct msm_dsi_phy 
+> *phy)
 >  }
 > 
-> -static int dsi_28nm_phy_enable(struct msm_dsi_phy *phy, int 
-> src_pll_id,
-> +static int dsi_28nm_phy_enable(struct msm_dsi_phy *phy,
->  				struct msm_dsi_phy_clk_request *clk_req)
->  {
->  	struct msm_dsi_dphy_timing *timing = &phy->timing;
+>  const struct msm_dsi_phy_cfg dsi_phy_28nm_8960_cfgs = {
+> -	.src_pll_truthtable = { {true, true}, {false, true} },
+>  	.has_phy_regulator = true,
+>  	.reg_cfg = {
+>  		.num = 1,
 > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
 > b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> index dc28dd37c7f9..e76ce40a12ab 100644
+> index b079ecc63212..dc28dd37c7f9 100644
 > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
 > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> @@ -801,7 +801,7 @@ static void dsi_phy_hw_v4_0_lane_settings(struct
-> msm_dsi_phy *phy)
->  	}
+> @@ -957,7 +957,6 @@ static void dsi_7nm_phy_disable(struct msm_dsi_phy 
+> *phy)
 >  }
 > 
-> -static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy, int src_pll_id,
-> +static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy,
->  			      struct msm_dsi_phy_clk_request *clk_req)
->  {
->  	int ret;
+>  const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs = {
+> -	.src_pll_truthtable = { {false, false}, {true, false} },
+>  	.has_phy_lane = true,
+>  	.reg_cfg = {
+>  		.num = 1,
+> @@ -980,7 +979,6 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs = {
+>  };
+> 
+>  const struct msm_dsi_phy_cfg dsi_phy_7nm_8150_cfgs = {
+> -	.src_pll_truthtable = { {false, false}, {true, false} },
+>  	.has_phy_lane = true,
+>  	.reg_cfg = {
+>  		.num = 1,
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
