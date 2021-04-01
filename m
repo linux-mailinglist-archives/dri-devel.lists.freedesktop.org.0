@@ -1,71 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA17D351F44
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 21:07:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7911A351F6E
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 21:17:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8E886ECFE;
-	Thu,  1 Apr 2021 19:07:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB3986ED00;
+	Thu,  1 Apr 2021 19:17:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
- [IPv6:2607:f8b0:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2C316E02C
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 19:07:39 +0000 (UTC)
-Received: by mail-il1-x12d.google.com with SMTP id r17so2988530ilt.0
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 12:07:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cosmicpenguin-net.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=9C+FFwnBAe64h+qwHiP+qtCvnvucT5ifSE8KQCnxsp8=;
- b=C9EQAWrni2VVf/IH5dUSEExom9+aSu9C68jL+QiborrKED99S8W2GaA5rmp0M7mKXc
- nYsXjh/MsONwdIzQ+O/91MoLjiXhZqVewk0ZsaEza3Ne/fMLkwXQYk0jYzXkNkRxZJKo
- SX97pVO2pvswfSNL6cn46FCl4kpajC7RIaauZYUgWb+EzC1iJ2pUq2lOZ4p/ngHGhZOM
- +4JCAISPw204JloFi+N071TkD0FrYbWMMsiNkstYaEV9YTigdbk2TlCcBmeQs0JGzox0
- q5Fmw9eRVkAtGeSmsbov0DCU+o9I7CY8npufRTiVXbatHjx0l2f971lKkafrhMnhoAUf
- 2X1Q==
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D46626ED00
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 19:17:20 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id e18so2832234wrt.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 12:17:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=T/m4lKUAziO6UFKbfesqmH3d9/aSuNasUhAOfkJpO8Q=;
+ b=saxzqydCuD3aqJ+43IK8URq45YFeSOluDsZSS2mlKWPcw5qfmAYBgU+wR44Iz4RvHP
+ Bn3+MtAc6vJHf4cE/Oem1305wZfMrRpJQWITbuL3zt+F9fFBxe8ry5YtMgZnhPIzu7tY
+ cgQddlmfoIHUWcd+oW3R8ErpPKu0f/r5+NicEjajTCKAvKys7hLVEc9DeNGJpZkjd43x
+ tOOC6YrgGJYtglRy2JpTz//6GW6dSMt+hFKtzJD0vuGo7xq7f1LzVfg0Z4TYMDjEWa3I
+ +MA5kzX3WiyOUOC9untxEb/yMG0d/Nb8zoEOjvrym/i/kuKndPgRHgBwkiTnAk2+4hD3
+ DEWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=9C+FFwnBAe64h+qwHiP+qtCvnvucT5ifSE8KQCnxsp8=;
- b=WoqLnrW70gB8b7B3HdPqQG5tmw1aUAnhVnG/CQoEvqaeKt2lDZmtLM0f6Bgx1/6Y+X
- /orEENm9CCEY3Fldu4bAip2gRvufj/QlPPfnWYy1uqdweAZT7kvvhMcWopMGd+1jMuta
- glJ6tFSpEBPEgs7fUaUJSFE2otq0C9SyFOW2cBlUM9X0T5WUsLehP9QVM/P6u3TmuMW0
- hJ00vDl/ihWnvdAQ21yb6lPu4QsQ0s/rcGKtYgxYDDbz2uPSb6pJXB63+7xR2tx5Jq1h
- 9B9NsweNko0gF457oDWSAlXKyHQhg0CUZ4c/Dj2dsxy2P9uoBud4pO3lJnSELBunAIp2
- 0MiA==
-X-Gm-Message-State: AOAM530ril5FwdkXI+1iFNsX8BEcOqp77Er3Ys1f2nbMpX4nxaU9w4lI
- AIAmXM9OWeT3sRkxRzKZk7OkoQ==
-X-Google-Smtp-Source: ABdhPJxiRs/x+5B2W/f1zPuC9GKMaBC8DgCx8seLEH3tteQmxTEfXXxXlf1ZnjyW6A5osVZNP0AGkg==
-X-Received: by 2002:a92:d74c:: with SMTP id e12mr8081607ilq.13.1617304059115; 
- Thu, 01 Apr 2021 12:07:39 -0700 (PDT)
-Received: from cosmicpenguin.net (c-71-237-100-236.hsd1.co.comcast.net.
- [71.237.100.236])
- by smtp.gmail.com with ESMTPSA id k6sm2972150ili.12.2021.04.01.12.07.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Apr 2021 12:07:38 -0700 (PDT)
-Date: Thu, 1 Apr 2021 13:07:36 -0600
-From: Jordan Crouse <jordan@cosmicpenguin.net>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH] drm/msm: a6xx: fix version check for the A650 SQE
- microcode
-Message-ID: <20210401190736.7snhq4qqe2nvbdul@cosmicpenguin.net>
-Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org,
- Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Jordan Crouse <jcrouse@codeaurora.org>,
- freedreno@lists.freedesktop.org
-References: <20210331140223.3771449-1-dmitry.baryshkov@linaro.org>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=T/m4lKUAziO6UFKbfesqmH3d9/aSuNasUhAOfkJpO8Q=;
+ b=jlPTuXTncAHN8MDPWUvohQ3fBPJFB6ZgdR1XPxiBhU/tciLM+M7sRPypC+jbk97f72
+ meYAufq8XqGDBvLIxhkQigCccoGahXNRXtR4Lsnx9XOzGU5WkHov+eIDPJ2kLIQiuDzF
+ J46m4qMW77CEG5BqsGamwl4yg/E/om6dBK54FCUrh2dr1O8OOAntKXvk6KgXKOya3wE7
+ 0k2G5/zeViqdBIlj1v7CqXrnXkPGc10DiKa8rz2I6wfzghTwqd8jkQYX2JQbMOUqTgqg
+ Gvz3rGIyGSqaOBhRLaRZnk3s/rH70V9ykzS8GPhI86WFxVc7rn5HrWXx+BK5X9Yajxg6
+ yZTg==
+X-Gm-Message-State: AOAM532cP9U/GADlG6pczLs+midO02McLIsQIFjDplBRKH7XMZ4r6HxD
+ zKYa3ejJ9r5elUlxxoMeflMKRO0Yzcv00P8X9Hs=
+X-Google-Smtp-Source: ABdhPJxt8dStSHCHJlQD16rHwAORI2dmIgMlWsQFNDCTla2edhNZIvhMZpd6ied9uKU8Fe3XQvS85vw6pEe0XpWNQRU=
+X-Received: by 2002:a5d:6a4c:: with SMTP id t12mr11253245wrw.289.1617304639409; 
+ Thu, 01 Apr 2021 12:17:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210331140223.3771449-1-dmitry.baryshkov@linaro.org>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 2 Apr 2021 05:17:07 +1000
+Message-ID: <CAPM=9tzgCsiCMpLy2g3dZCg97PZ-4HKgLWtfj2ZRk8o5LhqLyg@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.12-rc6
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,70 +60,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jordan Crouse <jcrouse@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 31, 2021 at 05:02:23PM +0300, Dmitry Baryshkov wrote:
-> I suppose the microcode version check for a650 is incorrect. It checks
-> for the version 1.95, while the firmware released have major version of 0:
-> 0.91 (vulnerable), 0.99 (fixing the issue).
-> 
-> Lower version requirements to accept firmware 0.99.
-
-Ugh, my ugly.  .95 is the actual version that fixed it but since .99 is what is
-going into the l-f repo it is fine to use that as a baseline.
-
-Acked-by: Jordan Crouse <jordan@cosmicpenguin.net>
-
-
-> Fixes: 8490f02a3ca4 ("drm/msm: a6xx: Make sure the SQE microcode is safe")
-> Cc: Akhil P Oommen <akhilpo@codeaurora.org>
-> Cc: Jordan Crouse <jcrouse@codeaurora.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index cb2df8736ca8..896b47dc9c85 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -567,17 +567,17 @@ static bool a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
->  	}  else {
->  		/*
->  		 * a650 tier targets don't need whereami but still need to be
-> -		 * equal to or newer than 1.95 for other security fixes
-> +		 * equal to or newer than 0.95 for other security fixes
->  		 */
->  		if (adreno_is_a650(adreno_gpu)) {
-> -			if ((buf[0] & 0xfff) >= 0x195) {
-> +			if ((buf[0] & 0xfff) >= 0x095) {
->  				ret = true;
->  				goto out;
->  			}
->  
->  			DRM_DEV_ERROR(&gpu->pdev->dev,
->  				"a650 SQE ucode is too old. Have version %x need at least %x\n",
-> -				buf[0] & 0xfff, 0x195);
-> +				buf[0] & 0xfff, 0x095);
->  		}
->  
->  		/*
-> -- 
-> 2.30.2
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgTGludXMsCgpUaGluZ3MgaGF2ZSBzZXR0bGVkIGRvd24gaW4gdGltZSBmb3IgRWFzdGVyLCBh
+IHJhbmRvbSBzbWF0dGVyaW5nIG9mCnNtYWxsIGZpeGVzIGFjcm9zcyBhIGZldyBkcml2ZXJzLiBJ
+J20gZ3Vlc3NpbmcgdGhvdWdoIHRoZXJlIG1pZ2h0IGJlCnNvbWUgaTkxNSBhbmQgbWlzYyBmaXhl
+cyBvdXQgdGhlcmUgSSBoYXZlbid0IGdvdHRlbiB5ZXQsIGJ1dCBzaW5jZQp0b2RheSBpcyBhIHB1
+YmxpYyBob2xpZGF5IGhlcmUsIEknbSBzZW5kaW5nIHRoaXMgZWFybHkgc28gSSBjYW4gaGF2ZQp0
+aGUgZGF5IG9mZiwgSSdsbCBzZWUgaWYgbW9yZSByZXF1ZXN0cyBjb21lIGluIGFuZCBkZWNpZGUg
+d2hhdCB0byBkbwp3aXRoIHRoZW0gbGF0ZXIuCgpEYXZlLgoKZHJtLWZpeGVzLTIwMjEtMDQtMDI6
+CmRybSBmaXhlcyBmb3IgNS4xMi1yYzYKCmFtZGdwdToKLSBQb2xhcmlzIGlkbGUgcG93ZXIgZml4
+Ci0gVk0gZml4Ci0gVmFuZ29naCBTMyBmaXgKLSBGaXhlcyBmb3Igbm9uLTRLIHBhZ2Ugc2l6ZXMK
+CmFtZGtmZDoKLSBkcW0gZmVuY2UgbWVtb3J5IGNvcnJ1cHRpb24gZml4Cgp0ZWdyYToKLSBsb2Nr
+ZGVwIHdhcm5pbmcgZml4Ci0gcnVudGluZSBQTSByZWZlcmVuY2UgZml4Ci0gZGlzcGxheSBjb250
+cm9sbGVyIGZpeAotIFBMTCBGaXgKCmlteDoKLSBtZW1vcnkgbGVhayBpbiBlcnJvciBwYXRoIGZp
+eAotIExEQiBkcml2ZXIgY2hhbm5lbCByZWdpc3RyYXRpb24gZml4Ci0gb29iIGFycmF5IHdhcm5p
+bmcgaW4gTERCIGRyaXZlcgoKZXh5bm9zCi0gdW51c2VkIGhlYWRlciBmaWxlIHJlbW92YWwKVGhl
+IGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCBhNWUxM2M2ZGYwZTQxNzAyZDJiMmM3N2M4
+YWQ0MTY3N2ViYjA2NWIzOgoKICBMaW51eCA1LjEyLXJjNSAoMjAyMS0wMy0yOCAxNTo0ODoxNiAt
+MDcwMCkKCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0OgoKICBnaXQ6Ly9h
+bm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtIHRhZ3MvZHJtLWZpeGVzLTIwMjEtMDQtMDIK
+CmZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0byA2ZmRiOGU1YWJhNmEzM2ZlNWYxYTBiZDFi
+Y2YwY2YyODg0NDM3ZWFkOgoKICBNZXJnZSB0YWcgJ2lteC1kcm0tZml4ZXMtMjAyMS0wNC0wMScg
+b2YKZ2l0Oi8vZ2l0LnBlbmd1dHJvbml4LmRlL2dpdC9wemEvbGludXggaW50byBkcm0tZml4ZXMg
+KDIwMjEtMDQtMDIKMDQ6NTM6MTYgKzEwMDApCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCmRybSBmaXhlcyBmb3IgNS4xMi1y
+YzYKCmFtZGdwdToKLSBQb2xhcmlzIGlkbGUgcG93ZXIgZml4Ci0gVk0gZml4Ci0gVmFuZ29naCBT
+MyBmaXgKLSBGaXhlcyBmb3Igbm9uLTRLIHBhZ2Ugc2l6ZXMKCmFtZGtmZDoKLSBkcW0gZmVuY2Ug
+bWVtb3J5IGNvcnJ1cHRpb24gZml4Cgp0ZWdyYToKLSBsb2NrZGVwIHdhcm5pbmcgZml4Ci0gcnVu
+dGluZSBQTSByZWZlcmVuY2UgZml4Ci0gZGlzcGxheSBjb250cm9sbGVyIGZpeAotIFBMTCBGaXgK
+CmlteDoKLSBtZW1vcnkgbGVhayBpbiBlcnJvciBwYXRoIGZpeAotIExEQiBkcml2ZXIgY2hhbm5l
+bCByZWdpc3RyYXRpb24gZml4Ci0gb29iIGFycmF5IHdhcm5pbmcgaW4gTERCIGRyaXZlcgoKZXh5
+bm9zCi0gdW51c2VkIGhlYWRlciBmaWxlIHJlbW92YWwKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KQWxleCBEZXVjaGVyICgx
+KToKICAgICAgZHJtL2FtZGdwdS92YW5nb2doOiBkb24ndCBjaGVjayBmb3IgZHBtIGluIGlzX2Rw
+bV9ydW5uaW5nIHdoZW4gaW4gc3VzcGVuZAoKQXJuZCBCZXJnbWFubiAoMSk6CiAgICAgIGRybS9p
+bXg6IGlteC1sZGI6IGZpeCBvdXQgb2YgYm91bmRzIGFycmF5IGFjY2VzcyB3YXJuaW5nCgpEYXZl
+IEFpcmxpZSAoNCk6CiAgICAgIE1lcmdlIHRhZyAnZXh5bm9zLWRybS1maXhlcy1mb3ItdjUuMTIt
+cmM2JyBvZgpnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvZGFl
+aW5raS9kcm0tZXh5bm9zIGludG8KZHJtLWZpeGVzCiAgICAgIE1lcmdlIHRhZyAnYW1kLWRybS1m
+aXhlcy01LjEyLTIwMjEtMDMtMzEnIG9mCmh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9h
+Z2Q1Zi9saW51eCBpbnRvIGRybS1maXhlcwogICAgICBNZXJnZSB0YWcgJ2RybS90ZWdyYS9mb3It
+NS4xMi1yYzYnIG9mCnNzaDovL2dpdC5mcmVlZGVza3RvcC5vcmcvZ2l0L3RlZ3JhL2xpbnV4IGlu
+dG8gZHJtLWZpeGVzCiAgICAgIE1lcmdlIHRhZyAnaW14LWRybS1maXhlcy0yMDIxLTA0LTAxJyBv
+ZgpnaXQ6Ly9naXQucGVuZ3V0cm9uaXguZGUvZ2l0L3B6YS9saW51eCBpbnRvIGRybS1maXhlcwoK
+RG1pdHJ5IE9zaXBlbmtvICgxKToKICAgICAgZHJtL3RlZ3JhOiBkYzogRG9uJ3Qgc2V0IFBMTCBj
+bG9jayB0byAwSHoKCkV2YW4gUXVhbiAoMSk6CiAgICAgIGRybS9hbWQvcG06IG5vIG5lZWQgdG8g
+Zm9yY2UgTUNMSyB0byBoaWdoZXN0IHdoZW4gbm8gZGlzcGxheSBjb25uZWN0ZWQKCkh1YWNhaSBD
+aGVuICgxKToKICAgICAgZHJtL2FtZGdwdTogU2V0IGEgc3VpdGFibGUgZGV2X2luZm8uZ2FydF9w
+YWdlX3NpemUKCkxpdSBZaW5nICgxKToKICAgICAgZHJtL2lteDogaW14LWxkYjogUmVnaXN0ZXIg
+TERCIGNoYW5uZWwxIHdoZW4gaXQgaXMgdGhlIG9ubHkKY2hhbm5lbCB0byBiZSB1c2VkCgpNaWtr
+byBQZXJ0dHVuZW4gKDEpOgogICAgICBncHU6IGhvc3QxeDogVXNlIGRpZmZlcmVudCBsb2NrIGNs
+YXNzZXMgZm9yIGVhY2ggY2xpZW50CgpOaXJtb3kgRGFzICgxKToKICAgICAgZHJtL2FtZGdwdTog
+Zml4IG9mZnNldCBjYWxjdWxhdGlvbiBpbiBhbWRncHVfdm1fYm9fY2xlYXJfbWFwcGluZ3MoKQoK
+UGFuIEJpYW4gKDEpOgogICAgICBkcm0vaW14OiBmaXggbWVtb3J5IGxlYWsgd2hlbiBmYWlscyB0
+byBpbml0CgpRdSBIdWFuZyAoMSk6CiAgICAgIGRybS9hbWRrZmQ6IGRxbSBmZW5jZSBtZW1vcnkg
+Y29ycnVwdGlvbgoKVGhpZXJyeSBSZWRpbmcgKDIpOgogICAgICBkcm0vdGVncmE6IGRjOiBSZXN0
+b3JlIGNvdXBsaW5nIG9mIGRpc3BsYXkgY29udHJvbGxlcnMKICAgICAgZHJtL3RlZ3JhOiBzb3I6
+IEdyYWIgcnVudGltZSBQTSByZWZlcmVuY2UgYWNyb3NzIHJlc2V0CgpUaWFuIFRhbyAoMSk6CiAg
+ICAgIGRybS9leHlub3MvZGVjb241NDMzOiBSZW1vdmUgdGhlIHVudXNlZCBpbmNsdWRlIHN0YXRl
+bWVudHMKCljihLkgUnVveWFvICgxKToKICAgICAgZHJtL2FtZGdwdTogY2hlY2sgYWxpZ25tZW50
+IG9uIENQVSBwYWdlIGZvciBibyBtYXAKCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
+cHVfa21zLmMgICAgICAgICAgICB8ICA0ICstLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
+YW1kZ3B1X3ZtLmMgICAgICAgICAgICAgfCAxMCArKysrLS0tLQogZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRrZmQva2ZkX2RiZ2Rldi5jICAgICAgICAgICAgfCAgMiArLQogLi4uL2dwdS9kcm0vYW1k
+L2FtZGtmZC9rZmRfZGV2aWNlX3F1ZXVlX21hbmFnZXIuYyAgfCAgNiArKy0tLQogLi4uL2dwdS9k
+cm0vYW1kL2FtZGtmZC9rZmRfZGV2aWNlX3F1ZXVlX21hbmFnZXIuaCAgfCAgMiArLQogZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3BhY2tldF9tYW5hZ2VyLmMgICAgfCAgMiArLQogZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3BhY2tldF9tYW5hZ2VyX3Y5LmMgfCAgMiArLQog
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3BhY2tldF9tYW5hZ2VyX3ZpLmMgfCAgMiAr
+LQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3ByaXYuaCAgICAgICAgICAgICAgfCAg
+OCArKystLS0KIC4uLi9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3Ivc211N19od21nci5j
+ICAgIHwgIDMgKystCiBkcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3N3c211L3NtdTExL3ZhbmdvZ2hf
+cHB0LmMgICB8ICA1ICsrKysKIGRyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zNTQzM19kcm1f
+ZGVjb24uYyAgICAgIHwgIDEgLQogZHJpdmVycy9ncHUvZHJtL2lteC9pbXgtZHJtLWNvcmUuYyAg
+ICAgICAgICAgICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2lteC9pbXgtbGRiLmMgICAg
+ICAgICAgICAgICAgICAgICAgfCAxMiArKysrKysrKy0KIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9k
+Yy5jICAgICAgICAgICAgICAgICAgICAgICAgIHwgMzAgKysrKysrKysrKy0tLS0tLS0tLS0tLQog
+ZHJpdmVycy9ncHUvZHJtL3RlZ3JhL3Nvci5jICAgICAgICAgICAgICAgICAgICAgICAgfCAgNyAr
+KysrKwogZHJpdmVycy9ncHUvaG9zdDF4L2J1cy5jICAgICAgICAgICAgICAgICAgICAgICAgICAg
+fCAxMCArKysrKy0tLQogaW5jbHVkZS9saW51eC9ob3N0MXguaCAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgfCAgOSArKysrKystCiAxOCBmaWxlcyBjaGFuZ2VkLCA3MiBpbnNlcnRpb25zKCsp
+LCA0NSBkZWxldGlvbnMoLSkKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCg==
