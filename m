@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD7635147C
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 13:31:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B699351485
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 13:38:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 840B56EC8C;
-	Thu,  1 Apr 2021 11:31:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC276EC90;
+	Thu,  1 Apr 2021 11:38:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 156ED6EC8C
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 11:31:02 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id j9so1451113wrx.12
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 04:31:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RmCUCVmHXhAEWZpHKHZIBm85gA/CG8GyRdXnCPUjzCo=;
- b=jGyazi7HIUtCn2W+DJ7503kmaq4h7HBjWPn35RYKVX6ggzCh7J0kvnB7DUPCFKp+Q/
- yqgDoacsnkFMCLj66dgRPkBrNaryzBuQnEHMFe+F0fXiolCmzyZKsjb4WKCuC9ceyun7
- zUTSCD6t6oMzJcQ+LWKRmj/T50/zLu5nKr8Fb8mOIZy31ZHGwID+Dz005B0tNFFkMlhu
- AWvutWwxgXsjHoXdRYlbq1AniGwTLEPTyjF7Cn1jmSvqbM0Q8acsRgUqHpTekL3Yc2Bf
- ex/h4WYLXrzk2QZQ+jA2MHSiFIkJYiO5BROLQCJCCtGZcEf/OmbWA1fIg1AprKvMR6Uv
- 216w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RmCUCVmHXhAEWZpHKHZIBm85gA/CG8GyRdXnCPUjzCo=;
- b=FYCuo+R5oKQcNi/CCZuM3SMH++rX/+HbF4Vn1CIuq3l96AbiM+gIhqEMTW2uGYyREu
- vbTGUdEeZDActEg0/of27YGk8i7ezbkMz2t/yrsfV2obHi2yqB6yafeagEA8pyU/V3Du
- +KIa+HC9+EbVr7tbxuTdg6WNgC/J12H4Xkd1w4O7i/JaU4IamhOMs0yZF0ZCgL6e8gpJ
- WyPGcd92cH+aL4SMJanZu3WPzXIQ0OuS3wbg4mpYgLh273ldGW6JWF8PBUjSjg/6xXVw
- aaxnHr9M3O2kpM7XVF8d14HvAUxmVn/qrzPocm5Q0VtmyTk36fufyjReIp3BUP1Hs9/6
- bkvw==
-X-Gm-Message-State: AOAM533E097JBqaT+bE83wK+IT7C7inoB0/56jnVZrds9Ba533ODwFvv
- qewYTcNOsHCLkT/zAFj/ZQFOoVlju6HTlMr2wc8OkQ==
-X-Google-Smtp-Source: ABdhPJw5/vEcXCvt9DbgUyCBrwSD/gxNm+TrQO77R8+8xMUB5KFNm0+SR1gtYxNU6chJsxEu/w978jegdfu12vDR/nE=
-X-Received: by 2002:adf:d1cd:: with SMTP id b13mr9059823wrd.47.1617276660673; 
- Thu, 01 Apr 2021 04:31:00 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7F226E175;
+ Thu,  1 Apr 2021 11:38:19 +0000 (UTC)
+IronPort-SDR: dgpZbv4/eabFt+TEiC+tH/Qp0+M42DBnTHyRcCdxcHkajTgLE5TrGLvKjiGVoi48vpRrpYLrfi
+ g1YcViBLl4jQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9940"; a="277412152"
+X-IronPort-AV: E=Sophos;i="5.81,296,1610438400"; d="scan'208";a="277412152"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2021 04:38:19 -0700
+IronPort-SDR: cXAAwLBPety1yVNKU0RUlCjQl8np80M95+7XNmPmC4da4bm8MkM+tuUTcXLnpVJ2rlrnUCtnO0
+ kMtwtXvruMWg==
+X-IronPort-AV: E=Sophos;i="5.81,296,1610438400"; d="scan'208";a="455949863"
+Received: from shaneken-mobl.ger.corp.intel.com (HELO [10.213.202.146])
+ ([10.213.202.146])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2021 04:38:17 -0700
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/pmu: Check actual RC6 status
+To: "Tamminen, Eero T" <eero.t.tamminen@intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
+References: <20210331101850.2582027-1-tvrtko.ursulin@linux.intel.com>
+ <YGWQB+8gWgmZ/6Mg@intel.com>
+ <2c813fb2-6836-1888-f606-25ef1321a366@linux.intel.com>
+ <YGWYZffWGb6zPvzj@intel.com>
+ <a6d8cdfca6c642ef441c6ec104c8cf74b378bc02.camel@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <09ef3e30-4ca0-144f-af0a-358691f2fedb@linux.intel.com>
+Date: Thu, 1 Apr 2021 12:38:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210318092917.831995-1-maxime@cerno.tech>
- <20210318092917.831995-5-maxime@cerno.tech>
-In-Reply-To: <20210318092917.831995-5-maxime@cerno.tech>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 1 Apr 2021 12:30:45 +0100
-Message-ID: <CAPY8ntBNr6kTRJkaMNmZ+Z9St9oZ=M9qEAKovtKrCCB=wzBZLw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] drm/vc4: hdmi: Enable the scrambler
-To: Maxime Ripard <maxime@cerno.tech>
+In-Reply-To: <a6d8cdfca6c642ef441c6ec104c8cf74b378bc02.camel@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,180 +55,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>, David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Content-Type: text/plain; charset="us-ascii"
+Cc: "Intel-gfx@lists.freedesktop.org" <Intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
 
-On Thu, 18 Mar 2021 at 09:29, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> The HDMI controller on the BCM2711 includes a scrambler in order to
-> reach the modes that require it. Let's add the support for it.
+On 01/04/2021 11:24, Tamminen, Eero T wrote:
+> Hi,
+> 
+> On Thu, 2021-04-01 at 05:54 -0400, Rodrigo Vivi wrote:
+>> On Thu, Apr 01, 2021 at 10:38:11AM +0100, Tvrtko Ursulin wrote:
+> ...
+>>> I think it is possible to argue both ways.
+>>>
+>>> 1)
+>>> HAS_RC6 means hardware has RC6 so if we view PMU as very low level
+>>> we can
+>>> say always export it.
+>>>
+>>> If i915 had to turn it off (rc6->supported == false) due firmware or
+>>> GVT-g,
+>>> then we could say reporting zero RC6 is accurate in that sense. Only
+>>> the
+>>> reason "why it is zero" is missing for PMU users.
+>>>
+>>> 2)
+>>> Or if we go with this patch we could say that presence of the PMU
+>>> metric
+>>> means RC6 is active and enabled, while absence means it is either
+>>> not
+>>> supported due platform (or firmware) or how the platform is getting
+>>> used
+>>> (GVT-g).
+>>>
+>>
+>> yeap, these 2 cases described well my mental conflict...
+>>
+>>> So I think patch is a bit better. I don't see it is adding more
+>>> confusion.
+>>
+>> As I said on the other patch I have no strong position on which is
+>> better,
+>> but if you and Eero feel that this works better for the current case,
+>> let's do it...
+> 
+> IMHO seeing case 1) i.e. zero RC6 could be slightly better from user
+> point of view than not seeing RC6 at all, because:
+> 
+> A) user then knows that GPU is not entering RC6, and
+> 
+> B) then the question is why it's not going to RC6 => one can see from
+> sysfs that it has been disabled
+> 
+> 
+> Whereas in case 2), the question is why there's no RC6 info, and user
+> doesn't know whether GPU is suspended or not (i.e. why GPU power
+> consumption is higher than expected).  It would help if i-g-t could show
+> e.g. "RC6 OFF" in that case.
 
-Nit pick - it's as part of the HDMI2.0 spec.
+So many options.. :)
 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c      | 56 +++++++++++++++++++++++++++++
->  drivers/gpu/drm/vc4/vc4_hdmi_regs.h |  3 ++
->  2 files changed, 59 insertions(+)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 0924a1b9e186..530c83097b1a 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -35,6 +35,7 @@
->  #include <drm/drm_edid.h>
->  #include <drm/drm_probe_helper.h>
->  #include <drm/drm_simple_kms_helper.h>
-> +#include <drm/drm_scdc_helper.h>
->  #include <linux/clk.h>
->  #include <linux/component.h>
->  #include <linux/i2c.h>
-> @@ -76,6 +77,8 @@
->  #define VC5_HDMI_VERTB_VSPO_SHIFT              16
->  #define VC5_HDMI_VERTB_VSPO_MASK               VC4_MASK(29, 16)
->
-> +#define VC5_HDMI_SCRAMBLER_CTL_ENABLE          BIT(0)
-> +
->  #define VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE_SHIFT     8
->  #define VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE_MASK      VC4_MASK(10, 8)
->
-> @@ -457,6 +460,56 @@ static void vc4_hdmi_set_infoframes(struct drm_encoder *encoder)
->                 vc4_hdmi_set_audio_infoframe(encoder);
->  }
->
-> +static bool vc4_hdmi_supports_scrambling(struct drm_encoder *encoder,
-> +                                        struct drm_display_mode *mode)
-> +{
-> +       struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
-> +       struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-> +       struct drm_display_info *display = &vc4_hdmi->connector.display_info;
-> +
-> +       if (!vc4_encoder->hdmi_monitor)
-> +               return false;
-> +
-> +       if (!display->hdmi.scdc.supported ||
-> +           !display->hdmi.scdc.scrambling.supported)
-> +               return false;
-> +
+It can be handle on the "presentation" layer (intel_gpu_top). If we go 
+with this patch but different errnos it could indeed distinguish and 
+either not show RC6 or say "RC6 OFF".
 
-I think I made this comment last time, but possibly not very clearly.
+If we go with the other patch 
+(https://patchwork.freedesktop.org/patch/426589/?series=88580&rev=1) 
+then intel_gpu_top could really still do the same by looking at 
+/sys/class/drm/card0/power/rc6_enable.
 
-Up to this point in the function is whether the display/hdmi interface
-*supports* scrambling. The bit after is whether it is *required* to be
-enabled by the mode.
+So strictly no i915 patch is even needed to provide clarity in 
+intel_gpu_top.
 
-At the moment, if the display/interface supports scrambling but the
-mode doesn't need it, then the scrambling setup is never touched. That
-makes a few assumptions about the default settings.
-Boot with the firmware selecting 4k60 (ie scrambling on), but
-video=HDMI-1:1920x1080 in the kernel command line and you'll have a
-mess with scrambling enabled but not signalled.
+But still one of those two i915 patches is required to improve how 
+low-level Perf/PMU RC6 counter gets exposed (or not exposed). I don't 
+have a strong preference which one to take either. :)
 
-I'd be happier if the display/interface says scrambling is supported
-then we always call drm_scdc_set_high_tmds_clock_ratio,
-drm_scdc_set_scrambling and set the VC5_HDMI_SCRAMBLER_CTL_ENABLE
-register bit appropriately for the mode. Feel free to disagree with me
-though.
+Regards,
 
-  Dave
+Tvrtko
 
-> +       if ((mode->clock * 1000) < HDMI_14_MAX_TMDS_CLK)
-> +               return false;
-> +
-> +       return true;
-> +}
-> +
-> +static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder)
-> +{
-> +       struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
-> +       struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-> +
-> +       if (!vc4_hdmi_supports_scrambling(encoder, mode))
-> +               return;
-> +
-> +       drm_scdc_set_high_tmds_clock_ratio(vc4_hdmi->ddc, true);
-> +       drm_scdc_set_scrambling(vc4_hdmi->ddc, true);
-> +
-> +       HDMI_WRITE(HDMI_SCRAMBLER_CTL, HDMI_READ(HDMI_SCRAMBLER_CTL) |
-> +                  VC5_HDMI_SCRAMBLER_CTL_ENABLE);
-> +}
-> +
-> +static void vc4_hdmi_disable_scrambling(struct drm_encoder *encoder)
-> +{
-> +       struct drm_display_mode *mode = &encoder->crtc->mode;
-> +       struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-> +
-> +       if (!vc4_hdmi_supports_scrambling(encoder, mode))
-> +               return;
-> +
-> +       HDMI_WRITE(HDMI_SCRAMBLER_CTL, HDMI_READ(HDMI_SCRAMBLER_CTL) &
-> +                  ~VC5_HDMI_SCRAMBLER_CTL_ENABLE);
-> +
-> +       drm_scdc_set_scrambling(vc4_hdmi->ddc, false);
-> +       drm_scdc_set_high_tmds_clock_ratio(vc4_hdmi->ddc, false);
-> +}
-> +
->  static void vc4_hdmi_encoder_post_crtc_disable(struct drm_encoder *encoder,
->                                                struct drm_atomic_state *state)
->  {
-> @@ -469,6 +522,8 @@ static void vc4_hdmi_encoder_post_crtc_disable(struct drm_encoder *encoder,
->
->         HDMI_WRITE(HDMI_VID_CTL,
->                    HDMI_READ(HDMI_VID_CTL) | VC4_HD_VID_CTL_BLANKPIX);
-> +
-> +       vc4_hdmi_disable_scrambling(encoder);
->  }
->
->  static void vc4_hdmi_encoder_post_crtc_powerdown(struct drm_encoder *encoder,
-> @@ -919,6 +974,7 @@ static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder,
->         }
->
->         vc4_hdmi_recenter_fifo(vc4_hdmi);
-> +       vc4_hdmi_enable_scrambling(encoder);
->  }
->
->  static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-> index e1b58eac766f..19d2fdc446bc 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-> @@ -100,6 +100,7 @@ enum vc4_hdmi_field {
->         HDMI_RM_FORMAT,
->         HDMI_RM_OFFSET,
->         HDMI_SCHEDULER_CONTROL,
-> +       HDMI_SCRAMBLER_CTL,
->         HDMI_SW_RESET_CONTROL,
->         HDMI_TX_PHY_CHANNEL_SWAP,
->         HDMI_TX_PHY_CLK_DIV,
-> @@ -238,6 +239,7 @@ static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi0_fields[] = {
->         VC4_HDMI_REG(HDMI_GCP_CONFIG, 0x178),
->         VC4_HDMI_REG(HDMI_GCP_WORD_1, 0x17c),
->         VC4_HDMI_REG(HDMI_HOTPLUG, 0x1a8),
-> +       VC4_HDMI_REG(HDMI_SCRAMBLER_CTL, 0x1c4),
->
->         VC5_DVP_REG(HDMI_CLOCK_STOP, 0x0bc),
->         VC5_DVP_REG(HDMI_VEC_INTERFACE_XBAR, 0x0f0),
-> @@ -317,6 +319,7 @@ static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi1_fields[] = {
->         VC4_HDMI_REG(HDMI_GCP_CONFIG, 0x178),
->         VC4_HDMI_REG(HDMI_GCP_WORD_1, 0x17c),
->         VC4_HDMI_REG(HDMI_HOTPLUG, 0x1a8),
-> +       VC4_HDMI_REG(HDMI_SCRAMBLER_CTL, 0x1c4),
->
->         VC5_DVP_REG(HDMI_CLOCK_STOP, 0x0bc),
->         VC5_DVP_REG(HDMI_VEC_INTERFACE_XBAR, 0x0f0),
-> --
-> 2.30.2
->
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
