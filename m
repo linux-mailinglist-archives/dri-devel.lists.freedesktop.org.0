@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66ABA3514CF
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 14:34:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A8B3514E7
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 14:52:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EAF56E0CC;
-	Thu,  1 Apr 2021 12:34:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 781986E22B;
+	Thu,  1 Apr 2021 12:52:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F4736E0CC
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 12:33:59 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id v186so1418876pgv.7
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 05:33:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EsqA9Xv1llCUvLw8edrdaV5ZoeKuJnc13OOMvfzSgxY=;
- b=HvEMU+9tQn1GkFvgVgNpDGEMAtzN3iWIIpIqpjHnH3PuIQx/41BH4FPhlsrxmzJ7B8
- L2ALnq3tSypyjY5/I2dj+e7l2fmL2+pioKtbUoAHVuat+G7R/l0ATYHxFN3e0HYVKZ3N
- X1KRmPPuu+zjjTXiovmOa6heMHJcGPRPsUrrU/c+ic0Tew8Dk/4lDGWHd8bcswuBcB9K
- fG85AyStYAbSqXDb5FHrCg6IrLsMpA92c/Cj927Tkg/YZ3ETIp4iRUIQGTj1yiEllcW+
- fepykwK5q6/UsV9VB3RqNAxZZxkkNuKoyG9wmDf/2PiEeesDmmNmV4qw0GUKKYmnzISi
- 168g==
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBCA46E22B
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 12:52:15 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id w3so2716677ejc.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 05:52:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QNOeEbOGzk9qdmE0JGDABldw/AVbwKBdOFcs754WKaY=;
+ b=UUTfTu6N3+X2/z7jzSr7M+b89kxuBynDdUfPfuqCMpk6B4W6lCvS2r+LeUr4JhZknr
+ Agp8qzFou0mi+xUBYbqoIxUbQSvHGELVPWChHiHKEWP+J84GJN9QLTZuSChqR7YHUNhN
+ DL+KGorMZgQMZR7K0+0p8+pnrI7obAePKPNahRTjBT/OS8877ki9q4D6c1fAdwtQxIhz
+ FGZYcG8+aAGhNfda4oYchcgkE5AWD297RffT3w7inPRg8ahDrQYrT5GxLLr2hsu5G9Sv
+ 9y38V/IbGI5ZfQbHX4TwGnCaUstcffgMHyzT3fnmmOlpNNxXu0klBlIqAnOevwMjSswQ
+ OOiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EsqA9Xv1llCUvLw8edrdaV5ZoeKuJnc13OOMvfzSgxY=;
- b=dKdN+Q2GR7mYvdbc4wd8x+58+I/xVMsqin3JialsI6Mlxgs1jl8Bcbyp1/BgoTciRG
- 3KtEiiF4RLVrYOfbTueBb24dVYpHljOCzNXGmqdqZCU70BXM/PP83ohLNjlXHxeTzBtL
- 8LYeVIScuBzSweuwpX+mgCLBQNDiUIbN3JYp3zliYX++KFx/a0UZh5P61SprdXwAJaWN
- EGeNUMZjZwX6Jd/bv4hqme3rrIKf3wnIpkGTKG6zslGeckQ1hU0xwCjfmm8M/ji4yo1b
- n33r5awY9yRoukVGXt+EAQ09a3DTeclZ9fiw+wjK9njW2J2Z9JIRUM0lm0UVMppqQGPc
- P55w==
-X-Gm-Message-State: AOAM532MQ1hsMuXP27VikATZcYiPlZ5Jah+kXhY3kFbmbMJ5LtpVV7X6
- KESDyl29OoCmq2vZTtPsxeHkniN4SIoQOCqJxpL3hQ==
-X-Google-Smtp-Source: ABdhPJyaGyv5cIOFak7z5jWf50xKVPz9OGnuR20y6+iAsqhPnXNOISrhs8/7nH+WsYv0DxswgJgz0ro4GehSANLiKgw=
-X-Received: by 2002:a62:80cf:0:b029:1f3:1959:2e42 with SMTP id
- j198-20020a6280cf0000b02901f319592e42mr7324814pfd.39.1617280439001; Thu, 01
- Apr 2021 05:33:59 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QNOeEbOGzk9qdmE0JGDABldw/AVbwKBdOFcs754WKaY=;
+ b=PSgD7cLSDEVOkTstYKPHHn8E8esd3J8Fap5glt+FNPqbkuntIrw7do95NDUPub9pSL
+ opYnHOISAzBaQ2A3TKLhItSyEUVZuvXjbQUqvGaXtFAfxK0TnZhKa0v/+sumIMOF+SeZ
+ Dhbul4kJYK9o8acO+QyKCSbpjjE5tNwXqSjAji6Sd0iwQ7i7a27BNGwGu1MmUgg5977i
+ PnbcuJQQsTPZGUcFtKeFwEfo6VMi8cQiLVwW6V9DkzD225VZQEvsBSV0YM9teuxCbqjM
+ jX34yqJQozvZr/j7+9DNrfgy3NHwiRkJw19Zwyw0a9GoGo1LRUAsSIZoU6ZIyxVLuTz3
+ 41Ag==
+X-Gm-Message-State: AOAM532G+Q7QYobkoNBNM4snTv6gLH6Y0mGh6cWj09ih9nC3LtPnwHep
+ TIpz7KOdd1s2DSFbXPtZgFtj03HJnKc=
+X-Google-Smtp-Source: ABdhPJxOW4GoLvYWM24bea9peUTr69CtZaNAxj2wpEVKhjb4ebyvUEsW6CrEAvyq8QX6nFe9McP3xQ==
+X-Received: by 2002:a17:906:cb18:: with SMTP id
+ lk24mr8741330ejb.70.1617281534544; 
+ Thu, 01 Apr 2021 05:52:14 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:5e61:f097:a144:e23])
+ by smtp.gmail.com with ESMTPSA id o6sm3397882edw.24.2021.04.01.05.52.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Apr 2021 05:52:14 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/sched: add missing member documentation
+Date: Thu,  1 Apr 2021 14:52:13 +0200
+Message-Id: <20210401125213.138855-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <cover.1616135353.git.xji@analogixsemi.com>
- <4b09b40ce53c5b5fe7d2ba65a3c7a1b23f6eec04.1616135353.git.xji@analogixsemi.com>
- <YFc1ZlmSiNJOAoOl@pendragon.ideasonboard.com>
- <20210324075108.GA1466804@anxtwsw-Precision-3640-Tower>
-In-Reply-To: <20210324075108.GA1466804@anxtwsw-Precision-3640-Tower>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 1 Apr 2021 14:33:47 +0200
-Message-ID: <CAG3jFyt8EigCBkZHXgy1E-XcfpfdC5FEWW4Gb8bZqMT1tFW3ow@mail.gmail.com>
-Subject: Re: [PATCH v6 1/5] dt-bindings:drm/bridge:anx7625:add vendor define
- flags
-To: Xin Ji <xji@analogixsemi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,83 +67,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@google.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- =?UTF-8?Q?Ricardo_Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
- Mark Brown <broonie@kernel.org>, Zhen Li <zhenli@analogixsemi.com>,
- linux-kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- Bernie Liang <bliang@analogixsemi.com>, Sheng Pan <span@analogixsemi.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: sfr@canb.auug.org.au
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Xin,
-
-This series no longer applies to drm-misc/drm-misc-next, please rebase it.
-
-On Wed, 24 Mar 2021 at 08:52, Xin Ji <xji@analogixsemi.com> wrote:
->
-> On Sun, Mar 21, 2021 at 02:00:38PM +0200, Laurent Pinchart wrote:
-> > Hi Xin,
-> >
-> > Thank you for the patch.
-> >
-> > On Fri, Mar 19, 2021 at 02:32:39PM +0800, Xin Ji wrote:
-> > > Add 'bus-type' and 'data-lanes' define for port0. Define DP tx lane0,
-> > > lane1 swing register array define, and audio enable flag.
-> > >
-> > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > > ---
-> > >  .../display/bridge/analogix,anx7625.yaml      | 58 ++++++++++++++++++-
-> > >  1 file changed, 57 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > index c789784efe30..3f54d5876982 100644
-> > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > @@ -34,6 +34,26 @@ properties:
-> > >      description: used for reset chip control, RESET_N pin B7.
-> > >      maxItems: 1
-> > >
-> > > +  analogix,lane0-swing:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > +    minItems: 1
-> > > +    maxItems: 20
-> > > +    description:
-> > > +      an array of swing register setting for DP tx lane0 PHY, please don't
-> > > +      add this property, or contact vendor.
-> >
-> > DT properties need to be documented. Contacting the vendor doesn't count
-> > as documentation I'm afraid.
->
-> Hi Laurent Pinchart, thanks for your comment. For the DP phy swing
-> setting, it is hard to describe in here, needs to refer the anx7625
-> datasheet and programming guide. Basically, no need to change the DP phy
-> swing setting.
->
-
-Laurent is right. But if the value practically is a constant, you can
-move the swing register into the driver. It should still be documented
-as well as possible, but we can be a little bit more flexible.
-
-> > > @@ -73,6 +123,10 @@ examples:
-> > >              enable-gpios = <&pio 45 GPIO_ACTIVE_HIGH>;
-> > >              reset-gpios = <&pio 73 GPIO_ACTIVE_HIGH>;
-> > >
-> > > +            analogix,audio-enable;
-> > > +            analogix,lane0-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
-> > > +            analogix,lane1-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
-> > > +
-> > >              ports {
-> > >                  #address-cells = <1>;
-> > >                  #size-cells = <0>;
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SnVzdCBmaXggYSB3YXJuaW5nLgoKU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hy
+aXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpSZXBvcnRlZC1ieTogU3RlcGhlbiBSb3Rod2VsbCA8c2Zy
+QGNhbmIuYXV1Zy5vcmcuYXU+CkZpeGVzOiBmMmYxMmViOWMzMmIgKCJkcm0vc2NoZWR1bGVyOiBw
+cm92aWRlIHNjaGVkdWxlciBzY29yZSBleHRlcm5hbGx5IikKLS0tCiBpbmNsdWRlL2RybS9ncHVf
+c2NoZWR1bGVyLmggfCAxICsKIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQoKZGlmZiAt
+LWdpdCBhL2luY2x1ZGUvZHJtL2dwdV9zY2hlZHVsZXIuaCBiL2luY2x1ZGUvZHJtL2dwdV9zY2hl
+ZHVsZXIuaAppbmRleCAxYzgxNWUwYTE0ZWQuLmY4ODhiNWU5NTgzYSAxMDA2NDQKLS0tIGEvaW5j
+bHVkZS9kcm0vZ3B1X3NjaGVkdWxlci5oCisrKyBiL2luY2x1ZGUvZHJtL2dwdV9zY2hlZHVsZXIu
+aApAQCAtMjc3LDYgKzI3Nyw3IEBAIHN0cnVjdCBkcm1fc2NoZWRfYmFja2VuZF9vcHMgewogICog
+QGhhbmdfbGltaXQ6IG9uY2UgdGhlIGhhbmdzIGJ5IGEgam9iIGNyb3NzZXMgdGhpcyBsaW1pdCB0
+aGVuIGl0IGlzIG1hcmtlZAogICogICAgICAgICAgICAgIGd1aWx0eSBhbmQgaXQgd2lsbCBiZSBj
+b25zaWRlcmVkIGZvciBzY2hlZHVsaW5nIGZ1cnRoZXIuCiAgKiBAc2NvcmU6IHNjb3JlIHRvIGhl
+bHAgbG9hZGJhbGFuY2VyIHBpY2sgYSBpZGxlIHNjaGVkCisgKiBAX3Njb3JlOiBzY29yZSB1c2Vk
+IHdoZW4gdGhlIGRyaXZlciBkb2Vzbid0IHByb3ZpZGUgb25lCiAgKiBAcmVhZHk6IG1hcmtzIGlm
+IHRoZSB1bmRlcmx5aW5nIEhXIGlzIHJlYWR5IHRvIHdvcmsKICAqIEBmcmVlX2d1aWx0eTogQSBo
+aXQgdG8gdGltZSBvdXQgaGFuZGxlciB0byBmcmVlIHRoZSBndWlsdHkgam9iLgogICoKLS0gCjIu
+MjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
