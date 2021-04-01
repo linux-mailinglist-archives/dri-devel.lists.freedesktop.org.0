@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E0E0350D9E
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 06:23:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0DF9350DA2
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 06:23:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27AF86EC22;
-	Thu,  1 Apr 2021 04:22:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A13986EC25;
+	Thu,  1 Apr 2021 04:22:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2070.outbound.protection.outlook.com [40.107.220.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07D916EC1E;
- Thu,  1 Apr 2021 04:22:46 +0000 (UTC)
+ (mail-co1nam11on2064.outbound.protection.outlook.com [40.107.220.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A55F06EC25;
+ Thu,  1 Apr 2021 04:22:48 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aw6Wg/LF2Fd9ax1E/4lto9L5Jg0Rgld5hb5v/tEt/9+WJsQLxtzFZzROBULFQM9lV7pJQMtwOFry3ohnQu2MhU4QqdYCuIb0IqGYjRMxxx9FbNsTRJaJcZMtKLGD7G8yWoC3AAXsnUb7InB8hykAx4F6tbGa65f5xe8KZ+I4pMxMXA/d/Jdc1E/u82R4fMvUExs1Dldj1k51I0+71gUrgHr79abCekkj92VIZyGXDo/HnU/khy+VK2mWknkWBmo9r7RUwTjm/PtXhN2xaIBBufsEzqQDI3rFvSSlIB47L07+dliQ2Ufg6Ak1rrLyOAHoQxCX0JvOn7OHWjpyibxhkw==
+ b=QkFqf16pYbbJr0N7jEtjL4lynwQUYbc7spDBWWwENvGfG5wp+9t0DcmFU3RF/o2AFIIu/Xjmkt4fohGDU3O58wAT4pNi9RmcuSIQE+jsjIYLdFeWK2qrBl56RFGTo8pb3fe9ZpookYIHQjmZA3hYR436pzgvGHdTYcqdV2NVboKXCk2VXjjALlSf7+IPgnWjMOyJZ0b8onTj5+ZDl8TY3NSvHUx+TW6LWwWNO8QfriK3v9D78YYE/4ivyppqQoTaZyNx0F89phFLQlGLRsx9l3iaKZThPIiQ1aWc8QnDZqprCX9iEcpO90HvAEpAXQauk1AWa80EDbO8NX5QY1r2Nw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x9oLgY6c28l+da5qhncOoNKfqzhkjoftPp8iQSQLZGk=;
- b=PiwUG4ipAMe0V5IPATczwXgUhfY9FBEyuCV5Ya25QsXGeSYJhL27Dool5/ioUlKAUhczl/p6P8CwEDG/u/zyn4l4qYGPXjbX0hTCI7EnfCeoq6UEjDK6m1moaMVm2oY+cE5evWhmTb95IqCcQ+ifxD6eyP+1RHxTLqsWNVwyc21WZTZGIHYkhGyNzelWu//224oBG39MgoSF42siZAhVK20Rfiq3r22swZMSlZ8IEP4ne0AKRtyuJtyWYthe4Y7Z/AEmhG/uWkuCH811GR4DQs/aUV8afF0D27PT48GRhiZG96uDV0yPxFpVJYwiG9aKDThTMTyY88nN0UbPLkbTzw==
+ bh=FKBVB5COff4ImNkDKYwKVBir4Jn7sSym9up4EYrHSQI=;
+ b=KAbWhqxSSkT37EpvxqIdYkNNFgwqynvWp5e4WnqYmh+xi5w1sXlgp0Qo4B67ivuzMixGy/j6YlNdDS+VcPydCqe14my/BPD9mQ9+Vb2qbUghrpp4FfImUIK681CiGIsSXED0HFlg5blhDVsEpTd/bsK+OW5aVcT6BE3zC6Fu72ixZfRODYTbueDPQAP/DAVLr7B90DlU+snJwFPat9umS0r5XaoBKN6/wz5v65f5byJoW+tjyRREH//ayJGVg3zxodfTHV76vYsJeNkazRvg7r7EhOsRhkbJ5EHofhqwl8jLWP8Zb6O+2NocHcjfUAbEWklWCFXzqYMvckggjJEIOg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x9oLgY6c28l+da5qhncOoNKfqzhkjoftPp8iQSQLZGk=;
- b=pauVrrFJj93v4knIGPjdR0q/1UMp2AJSoo52khwsvI+mymlaTCPa80ZfGCqS8emPFEIf9bKxp/LUuf3U8Q3aJnkbBXCIh7Om6PRk1nS3sQRiSMaj8zOPOUQH31qFY2SbKfen7ypMtlB2dD4QnxHS10724/HCgma/kN+wGZ4jL/g=
+ bh=FKBVB5COff4ImNkDKYwKVBir4Jn7sSym9up4EYrHSQI=;
+ b=WtQDPTmNyww4BSF4YrDPjX+UvW4WeOIBDViMqqrx9XlN3VkTvy+Gd0UC0DnQSl9R4PmWz3bjHtAYsUJAwsO53XgtFS8+c8PK2HJXHKufzXJtmGodQcYrRK5Nm3XmMGZ9NJ4ZMEzHsb3rl3DzHSTp+6xao/LGyDLKOjcBYJeauuk=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -34,17 +34,17 @@ Received: from BL0PR12MB4948.namprd12.prod.outlook.com (2603:10b6:208:1cc::20)
  by BL0PR12MB4916.namprd12.prod.outlook.com (2603:10b6:208:1ce::8)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29; Thu, 1 Apr
- 2021 04:22:45 +0000
+ 2021 04:22:47 +0000
 Received: from BL0PR12MB4948.namprd12.prod.outlook.com
  ([fe80::70f5:99ed:65a1:c033]) by BL0PR12MB4948.namprd12.prod.outlook.com
  ([fe80::70f5:99ed:65a1:c033%7]) with mapi id 15.20.3933.039; Thu, 1 Apr 2021
- 04:22:45 +0000
+ 04:22:47 +0000
 From: Felix Kuehling <Felix.Kuehling@amd.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 04/34] drm/amdkfd: add svm ioctl GET_ATTR op
-Date: Thu,  1 Apr 2021 00:21:58 -0400
-Message-Id: <20210401042228.1423-5-Felix.Kuehling@amd.com>
+Subject: [PATCH 05/34] drm/amdgpu: add common HMM get pages function
+Date: Thu,  1 Apr 2021 00:21:59 -0400
+Message-Id: <20210401042228.1423-6-Felix.Kuehling@amd.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210401042228.1423-1-Felix.Kuehling@amd.com>
 References: <20210401042228.1423-1-Felix.Kuehling@amd.com>
@@ -59,50 +59,50 @@ Received: from Harpoon.amd.com (165.204.55.251) by
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.20.3977.32 via Frontend Transport; Thu, 1 Apr 2021 04:22:45 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 51a7f2f2-835b-491f-f2c8-08d8f4c5ccae
+X-MS-Office365-Filtering-Correlation-Id: 457fe4eb-ad88-4e13-b9c1-08d8f4c5cd27
 X-MS-TrafficTypeDiagnostic: BL0PR12MB4916:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB4916B6CD1919908D8FFB090B927B9@BL0PR12MB4916.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:626;
+X-Microsoft-Antispam-PRVS: <BL0PR12MB491657AE9124369E9D6B97E6927B9@BL0PR12MB4916.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zPaKfUfLN0TsJKlkjCZsBSHqlkZQXovHqVfXQDXmrU448MygL+As1dTKlbYzdv5h+T0f/QRcrAdAC+dZ/+8pl9mU6QjDoHKdoK3IZd9mYjY3qZwRv5TNl/Y68pUZ5PINBLk6HqCWqUfnLWrgq9seV6hi8jVDkez9xFxItDMe+ZLYcaDYXPr/XQlLp9Sm54xw5+Lbl1deG9YA2J0d1nrLEErI0evt2bMqNgjtkSQdeVqRfy4f2+oPaB8czQfujOEBGN5mV2etVblPoZWp73p3Dr3WqB1Agd8K3KIT/k5Kz9cmp8ibIY0ep5cWHoCOFYCXDgHSM6/WSCHBT0LE2juND6bNHyHDecjRI6185U7fh+WQdYcK9xZx1/CYp0wtLVAWQHh69ezB7xJLfzox/ESDGUaVaZq/ECZcu6SaC4xtlwX6VhYHeHLxMdHTDWJvgUCx+DE7XQfNaDxvA/OSGaVBeIBy9muaWOQei32jRz9vT/yPJQqNhEKqU6t8Rup1FMoltbj8Djjr5YFWskCAqm4EbBdNwKbDj90pqhyA9OOV/4IekMsJp5lSG0KmY1WmFuFHSSc3/isQwdqxYWt349oba0BjfAeY6fF+eVJ46eIvLQAZvf/61wat2k++2Eu0pBmXAzeaksS/OpO+g0Li77eYRceh1hsygL4YUtUzRWk5JuI=
+X-Microsoft-Antispam-Message-Info: dUvkJuLpoMy/2NTktnBVdJucLmzAOs7qSFP8aqw6cEmk0Ni3/zW/eLWoU3TjiDRmaLJOYtXkW6NjwpZ0TxkMYyBCqcRviPiP/Rcpn+2xFVJT7f9HUBPtTXiVbidIDZAnAH+DDIP/fRu3T9V5gwVmWe94nRf/kO3cNaCp+Fpsu5f5PnZXFh/sqOC5F8Br9SMxmi6xptV/SrljuB9Dyq1UB4nQDQ0zd54DWjyCjGdZY9r1X9EKKxQx8XkhAo06ZQadswVCJvhq/oLEIX4rXrORzoUmnGyG41anXoCcgbadRwbXoxwUakiDsSgicU3L/uJL+uLtBwb2bQrEDTE7H1W11k8krBcPrGPmjtkydaobWdaLYqBoslbFcT3IEMl+eygcf9RkLOGpL2L1AOd+m0Yr4PldQe5oNvB0UCc//mh0JOAq1TTmsd0zWAeZmy7cJkupehjT9u/mLRR8MZYppRSstgDdoDo+Hc0Kll6QiwyBC0AvtJAFGXn0tFWJrrVF4XPz7Gtp+NqdJI+F7Vlrx9XCEDHtxMHJj3Gu/+7peASp1mTbwwaFgZ7idu0XEkHUzmzIEczg8ZJyefdWnZKgeFjvd1xk+uhPUQEb4YFQvvWJDg3za4nCq/wA5LnvV9PVYHHFhDhT5y4ylIUEPD1JYTwPhaGF83VacE7Tvm0L9EK+u3U=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(376002)(136003)(396003)(39850400004)(5660300002)(478600001)(36756003)(16526019)(186003)(1076003)(316002)(6486002)(66946007)(54906003)(956004)(66556008)(26005)(83380400001)(8676002)(8936002)(450100002)(38100700001)(4326008)(52116002)(7696005)(2616005)(2906002)(66476007)(6666004)(86362001);
+ SFS:(4636009)(346002)(366004)(376002)(136003)(396003)(39850400004)(5660300002)(478600001)(36756003)(16526019)(186003)(1076003)(316002)(6486002)(66946007)(956004)(66556008)(26005)(83380400001)(8676002)(8936002)(450100002)(38100700001)(4326008)(52116002)(7696005)(2616005)(2906002)(66476007)(6666004)(86362001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?eUbtBGkbMDc0Mx2AlSxpMiqmiH4hMmKcFiPOIkvPQ6+dkqEViZokon5AEh+6?=
- =?us-ascii?Q?I7ipKhehbJlmRpXednzOS62OhQoJQwblW42WgZXrn0+HskWtqYqKNR3fBUFv?=
- =?us-ascii?Q?v+jIu8pk39uNST3vwbzaSPWuZpBHVCcgKvK+oArj21nEscUL6YI3PvnGw7rQ?=
- =?us-ascii?Q?eFfMK6fYFmqKh8exJFaxAyInQpGH/Yd5Ev0Ja2Oweiu8bAJn9pOKI1ztskh7?=
- =?us-ascii?Q?wehEgaZ7aIXAlkbv8D+0PiAcDz4q6Bb216KVJdBsywYlscKlaQtz0w41ga/c?=
- =?us-ascii?Q?SX08hpIR5mfUAyTMd712SPz5uDroIGq6f+qShT6rNF8AZlByX9x1gkNUJmmW?=
- =?us-ascii?Q?jaXGyea9sA7hNFbV9/t3I8XVEN3dH1YvkdjClGlZLoGLdFnzvXfSR/dMvZTu?=
- =?us-ascii?Q?7dpSOdjs+xtS9UEYHW3xxIPPUy4YnPuC+bm171pKqCEIe8awzxk0PkG/YEb/?=
- =?us-ascii?Q?BzdxMQsg1GQbZ2t7DKJiOwM35KKFvyscuPF7I08sslB/I/EjnPh04Wz81p1Q?=
- =?us-ascii?Q?qrSaUJa0V2DIK7msucEYN6CHAFSWoN+hL7bJtv0cDEQYJLVrwioP3Kex/PWK?=
- =?us-ascii?Q?pCHdemAIKXKPQigQb2C/nPjWrAKpvjhyv/JmWNs1ULjirFYR2VfuPZtqH6qZ?=
- =?us-ascii?Q?7UedUhZOtn2KOggdeEpZ/Yci3okdS4v7NQ67+X2g1jhDGUo43DQlu0J9AsGZ?=
- =?us-ascii?Q?qtGEN00kYnST57IYn8TONmoGHYgZ+4ri4tz6APP89HpX1h/qifTKjf9R1oVR?=
- =?us-ascii?Q?mRJt7Rr6hTl1o8gdYNq6NcxgKRavezrYK1uGnjrmbAKUD+d+9jP0HUKtlmus?=
- =?us-ascii?Q?i5P0c8wrKxN/FCZYcmdodw6cNV4erv3hjEunrI4vyGhJkkolc3OuBpROGetg?=
- =?us-ascii?Q?kIv3jvpjV4yFOU2jPEntr5zRLRjgtFkKFSU8NICIiYnMGEJlImvU/uH1h65F?=
- =?us-ascii?Q?uNNOPegFF0p8EtTciJsMKYztoCjUtOYW4zbFr6vX/4oQi0hltCidzb9ct4kh?=
- =?us-ascii?Q?4mN1T+IDXICHLBgd/5IDH6GxhGob5taa8k7YYT1AIhD3hWEz3CXM901VddwS?=
- =?us-ascii?Q?mtir0fS7GfYWqPToS1/LUmg7DOsNzG11XVAVyPi1V1dOHc0tJt02UyOwkmWv?=
- =?us-ascii?Q?SGUc2Wc+T2bZEJrXxUWW7dFu2A74ugcSxPYL/LvkVTP7lgbnERmRwhUiONR9?=
- =?us-ascii?Q?uo+TJNxiwNm0KBwxOEP5mjiac5Blc3+lHNy5KwM5xRDLj3+LdeA2sDCqpO80?=
- =?us-ascii?Q?fvNfLxl2SozJYSozlorIAPW9KWjgPFKUsR/nACIjdMuc1etOd/YVyxLGngmS?=
- =?us-ascii?Q?YUIW7SIoslGAqg2zgS/zbD/n?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Ipmn8TjwpfC/P+TMcEpKKB0XI8eN1P/wYN9HtbGOqXRyHQdpytylDUS56Tb8?=
+ =?us-ascii?Q?OcHeKde/9G9Sr/K3uP+vI0Uza7wev6YF+PD67HKHDu5APgEzOrJ6nZ/EobCE?=
+ =?us-ascii?Q?gPC7SC1K86LOVuf2bCv8Bu4qcPpmCvh37xO6E48zlU63rnYvsjI0Uxwta+s9?=
+ =?us-ascii?Q?MIY/FFV/TTp23JOXtzomojw2+JAUrO3p3TzZ4AthI0qaDTX2mqQbPG502APy?=
+ =?us-ascii?Q?7MLQD3I4pkKcLfM3YtBLoMATtWly4Iiz8lSxav/gPBNjntf7kMSBgdCCh9+x?=
+ =?us-ascii?Q?g9TIFpColZSzhwYz/KrHPNMQuwrFhWcnYanxUSqA8NBRR60q+hKTAc3OwDYt?=
+ =?us-ascii?Q?FUify215xdKKGN3Q09AIvWfEpjMUVjs8e98z0lJ7uJD2hiNG5jyJE+5aqLN4?=
+ =?us-ascii?Q?xwlg3geN8klQ7K7+l0fJZyX//qfwZo+Sjx3C+AK8pfyjBHOLu/Kl2zzJ6MgJ?=
+ =?us-ascii?Q?vX15tnIyq/QYzzM1huGPUyoejtS9NMVIH1ACXEPk7QaDaqX2SmryWszs1RGV?=
+ =?us-ascii?Q?20pzw8IYZLNsZAr9C3NRNEzBmGFS6d8LsvmoO3yhNWUkE0OPjUoVQhnn2kAM?=
+ =?us-ascii?Q?Ar3o4qP3v30bCKCnX3udd4h/Ljc5SrYfA6MEnZZOwGmpLPSkS/h27H0n8jiG?=
+ =?us-ascii?Q?mMe3kKx/elKKIU9ZlROywQO5cKEAHyMMm8mirbBSOwUQXQOzgdwCiC/XPpam?=
+ =?us-ascii?Q?IY712ZAGIWPKJC57YyfUpd80U00+URrMYjJGfGgqA/JDtBbSi2RAKSqdZNdc?=
+ =?us-ascii?Q?6vBs2CoF9zNvwEgr/u/5JukwVScmLJtTURoND34od3mPv7Xtn6KghvqIisZh?=
+ =?us-ascii?Q?kNqnkI5ohRjMKChiQJZiQQpk1EJJT6KRrnFDdiGmvBLsrUeKFDTXNbapeBNL?=
+ =?us-ascii?Q?motcXQyv/473uNBCiWGgUYFRmVUHXOoKl4M4V+tlL7tCWSvVhGpGJcAnciXi?=
+ =?us-ascii?Q?hZtFlAnC9xQyNs4qRiBecosOKe/7RCJJ/Jmmjg3wfHXFLaoSmphpQaLXLuT7?=
+ =?us-ascii?Q?M7wn3Q6xILu5BUR8cBJPEF0vqW3cm3G8Zups1tQo5Vs83D40hVoZs0qii4zo?=
+ =?us-ascii?Q?QMm6WhNS79Mr2WUPvPPlhq4XbJKWdY5e8LBIjARYSQr0Q/JAlgfxCBcSVbSz?=
+ =?us-ascii?Q?ZADAF091hEyk2qn2W16zmAZaYBkJgj4MOR14MxqABUbv1YxyjcjQMxYaG/RS?=
+ =?us-ascii?Q?xGQ5pfOgSHmirAlPlUY1ZuDqVWJfQ5rtQH2TDc/0C0KsKJyni5N9rWtZGpx3?=
+ =?us-ascii?Q?v/xfDHFiEGhrl9yTDW5MILCQzaDTrVkHCVUpCs+npCh3gIGNS1V1JNi7Vik/?=
+ =?us-ascii?Q?3kgxfY7DQ2jiMDroojsQDiWE?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51a7f2f2-835b-491f-f2c8-08d8f4c5ccae
+X-MS-Exchange-CrossTenant-Network-Message-Id: 457fe4eb-ad88-4e13-b9c1-08d8f4c5cd27
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2021 04:22:45.6082 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2021 04:22:46.5720 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wRTDYeOZdRBDYLKs0Mkx1WY+nIbltagyHntWc5Wa3+048nZCarqlAbwa2WNJRlb4UerOCTk7FwKSxyi6i8iAHQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 67FkDU/fIXIp2AgjjylGWDTt5N/OgPS6Ffod4/8BONjbJkkELhIfYtj5e2vpZ/YJhzURInaeWl7WPVRd+/cYHA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4916
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -116,7 +116,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, Philip Yang <Philip.Yang@amd.com>
+Cc: Philip Yang <Philip.Yang@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -124,198 +124,247 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Philip Yang <Philip.Yang@amd.com>
 
-Get the intersection of attributes over all memory in the given
-range
+Move the HMM get pages function from amdgpu_ttm and to amdgpu_mn. This
+common function will be used by new svm APIs.
 
 Signed-off-by: Philip Yang <Philip.Yang@amd.com>
-Signed-off-by: Alex Sierra <alex.sierra@amd.com>
 Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 164 +++++++++++++++++++++++++++
- 1 file changed, 164 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  | 83 +++++++++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mn.h  |  7 +++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 76 +++-------------------
+ 3 files changed, 100 insertions(+), 66 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-index 21e6a7959bc7..de62265adeaa 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-@@ -707,6 +707,167 @@ svm_range_set_attr(struct kfd_process *p, uint64_t start, uint64_t size,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+index 828b5167ff12..997da4237a10 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+@@ -155,3 +155,86 @@ void amdgpu_mn_unregister(struct amdgpu_bo *bo)
+ 	mmu_interval_notifier_remove(&bo->notifier);
+ 	bo->notifier.mm = NULL;
+ }
++
++int amdgpu_hmm_range_get_pages(struct mmu_interval_notifier *notifier,
++			       struct mm_struct *mm, struct page **pages,
++			       uint64_t start, uint64_t npages,
++			       struct hmm_range **phmm_range, bool readonly,
++			       bool mmap_locked)
++{
++	struct hmm_range *hmm_range;
++	unsigned long timeout;
++	unsigned long i;
++	unsigned long *pfns;
++	int r = 0;
++
++	hmm_range = kzalloc(sizeof(*hmm_range), GFP_KERNEL);
++	if (unlikely(!hmm_range))
++		return -ENOMEM;
++
++	pfns = kvmalloc_array(npages, sizeof(*pfns), GFP_KERNEL);
++	if (unlikely(!pfns)) {
++		r = -ENOMEM;
++		goto out_free_range;
++	}
++
++	hmm_range->notifier = notifier;
++	hmm_range->default_flags = HMM_PFN_REQ_FAULT;
++	if (!readonly)
++		hmm_range->default_flags |= HMM_PFN_REQ_WRITE;
++	hmm_range->hmm_pfns = pfns;
++	hmm_range->start = start;
++	hmm_range->end = start + npages * PAGE_SIZE;
++	timeout = jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
++
++retry:
++	hmm_range->notifier_seq = mmu_interval_read_begin(notifier);
++
++	if (likely(!mmap_locked))
++		mmap_read_lock(mm);
++
++	r = hmm_range_fault(hmm_range);
++
++	if (likely(!mmap_locked))
++		mmap_read_unlock(mm);
++	if (unlikely(r)) {
++		/*
++		 * FIXME: This timeout should encompass the retry from
++		 * mmu_interval_read_retry() as well.
++		 */
++		if (r == -EBUSY && !time_after(jiffies, timeout))
++			goto retry;
++		goto out_free_pfns;
++	}
++
++	/*
++	 * Due to default_flags, all pages are HMM_PFN_VALID or
++	 * hmm_range_fault() fails. FIXME: The pages cannot be touched outside
++	 * the notifier_lock, and mmu_interval_read_retry() must be done first.
++	 */
++	for (i = 0; pages && i < npages; i++)
++		pages[i] = hmm_pfn_to_page(pfns[i]);
++
++	*phmm_range = hmm_range;
++
++	return 0;
++
++out_free_pfns:
++	kvfree(pfns);
++out_free_range:
++	kfree(hmm_range);
++
++	return r;
++}
++
++int amdgpu_hmm_range_get_pages_done(struct hmm_range *hmm_range)
++{
++	int r;
++
++	r = mmu_interval_read_retry(hmm_range->notifier,
++				    hmm_range->notifier_seq);
++	kvfree(hmm_range->hmm_pfns);
++	kfree(hmm_range);
++
++	return r;
++}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.h
+index a292238f75eb..7f7d37a457c3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.h
+@@ -30,6 +30,13 @@
+ #include <linux/workqueue.h>
+ #include <linux/interval_tree.h>
+ 
++int amdgpu_hmm_range_get_pages(struct mmu_interval_notifier *notifier,
++			       struct mm_struct *mm, struct page **pages,
++			       uint64_t start, uint64_t npages,
++			       struct hmm_range **phmm_range, bool readonly,
++			       bool mmap_locked);
++int amdgpu_hmm_range_get_pages_done(struct hmm_range *hmm_range);
++
+ #if defined(CONFIG_HMM_MIRROR)
+ int amdgpu_mn_register(struct amdgpu_bo *bo, unsigned long addr);
+ void amdgpu_mn_unregister(struct amdgpu_bo *bo);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 41a4c456961c..a2585058e65d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -32,7 +32,6 @@
+ 
+ #include <linux/dma-mapping.h>
+ #include <linux/iommu.h>
+-#include <linux/hmm.h>
+ #include <linux/pagemap.h>
+ #include <linux/sched/task.h>
+ #include <linux/sched/mm.h>
+@@ -670,10 +669,8 @@ int amdgpu_ttm_tt_get_user_pages(struct amdgpu_bo *bo, struct page **pages)
+ 	struct amdgpu_ttm_tt *gtt = (void *)ttm;
+ 	unsigned long start = gtt->userptr;
+ 	struct vm_area_struct *vma;
+-	struct hmm_range *range;
+-	unsigned long timeout;
+ 	struct mm_struct *mm;
+-	unsigned long i;
++	bool readonly;
+ 	int r = 0;
+ 
+ 	mm = bo->notifier.mm;
+@@ -689,76 +686,26 @@ int amdgpu_ttm_tt_get_user_pages(struct amdgpu_bo *bo, struct page **pages)
+ 	if (!mmget_not_zero(mm)) /* Happens during process shutdown */
+ 		return -ESRCH;
+ 
+-	range = kzalloc(sizeof(*range), GFP_KERNEL);
+-	if (unlikely(!range)) {
+-		r = -ENOMEM;
+-		goto out;
+-	}
+-	range->notifier = &bo->notifier;
+-	range->start = bo->notifier.interval_tree.start;
+-	range->end = bo->notifier.interval_tree.last + 1;
+-	range->default_flags = HMM_PFN_REQ_FAULT;
+-	if (!amdgpu_ttm_tt_is_readonly(ttm))
+-		range->default_flags |= HMM_PFN_REQ_WRITE;
+-
+-	range->hmm_pfns = kvmalloc_array(ttm->num_pages,
+-					 sizeof(*range->hmm_pfns), GFP_KERNEL);
+-	if (unlikely(!range->hmm_pfns)) {
+-		r = -ENOMEM;
+-		goto out_free_ranges;
+-	}
+-
+ 	mmap_read_lock(mm);
+ 	vma = find_vma(mm, start);
++	mmap_read_unlock(mm);
+ 	if (unlikely(!vma || start < vma->vm_start)) {
+ 		r = -EFAULT;
+-		goto out_unlock;
++		goto out_putmm;
+ 	}
+ 	if (unlikely((gtt->userflags & AMDGPU_GEM_USERPTR_ANONONLY) &&
+ 		vma->vm_file)) {
+ 		r = -EPERM;
+-		goto out_unlock;
+-	}
+-	mmap_read_unlock(mm);
+-	timeout = jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
+-
+-retry:
+-	range->notifier_seq = mmu_interval_read_begin(&bo->notifier);
+-
+-	mmap_read_lock(mm);
+-	r = hmm_range_fault(range);
+-	mmap_read_unlock(mm);
+-	if (unlikely(r)) {
+-		/*
+-		 * FIXME: This timeout should encompass the retry from
+-		 * mmu_interval_read_retry() as well.
+-		 */
+-		if (r == -EBUSY && !time_after(jiffies, timeout))
+-			goto retry;
+-		goto out_free_pfns;
++		goto out_putmm;
+ 	}
+ 
+-	/*
+-	 * Due to default_flags, all pages are HMM_PFN_VALID or
+-	 * hmm_range_fault() fails. FIXME: The pages cannot be touched outside
+-	 * the notifier_lock, and mmu_interval_read_retry() must be done first.
+-	 */
+-	for (i = 0; i < ttm->num_pages; i++)
+-		pages[i] = hmm_pfn_to_page(range->hmm_pfns[i]);
+-
+-	gtt->range = range;
++	readonly = amdgpu_ttm_tt_is_readonly(ttm);
++	r = amdgpu_hmm_range_get_pages(&bo->notifier, mm, pages, start,
++				       ttm->num_pages, &gtt->range, readonly,
++				       false);
++out_putmm:
+ 	mmput(mm);
+ 
+-	return 0;
+-
+-out_unlock:
+-	mmap_read_unlock(mm);
+-out_free_pfns:
+-	kvfree(range->hmm_pfns);
+-out_free_ranges:
+-	kfree(range);
+-out:
+-	mmput(mm);
  	return r;
  }
  
-+static int
-+svm_range_get_attr(struct kfd_process *p, uint64_t start, uint64_t size,
-+		   uint32_t nattr, struct kfd_ioctl_svm_attribute *attrs)
-+{
-+	DECLARE_BITMAP(bitmap_access, MAX_GPU_INSTANCE);
-+	DECLARE_BITMAP(bitmap_aip, MAX_GPU_INSTANCE);
-+	bool get_preferred_loc = false;
-+	bool get_prefetch_loc = false;
-+	bool get_granularity = false;
-+	bool get_accessible = false;
-+	bool get_flags = false;
-+	uint64_t last = start + size - 1UL;
-+	struct mm_struct *mm = current->mm;
-+	uint8_t granularity = 0xff;
-+	struct interval_tree_node *node;
-+	struct svm_range_list *svms;
-+	struct svm_range *prange;
-+	uint32_t prefetch_loc = KFD_IOCTL_SVM_LOCATION_UNDEFINED;
-+	uint32_t location = KFD_IOCTL_SVM_LOCATION_UNDEFINED;
-+	uint32_t flags = 0xffffffff;
-+	int gpuidx;
-+	uint32_t i;
-+
-+	pr_debug("svms 0x%p [0x%llx 0x%llx] nattr 0x%x\n", &p->svms, start,
-+		 start + size - 1, nattr);
-+
-+	mmap_read_lock(mm);
-+	if (!svm_range_is_valid(mm, start, size)) {
-+		pr_debug("invalid range\n");
-+		mmap_read_unlock(mm);
-+		return -EINVAL;
-+	}
-+	mmap_read_unlock(mm);
-+
-+	for (i = 0; i < nattr; i++) {
-+		switch (attrs[i].type) {
-+		case KFD_IOCTL_SVM_ATTR_PREFERRED_LOC:
-+			get_preferred_loc = true;
-+			break;
-+		case KFD_IOCTL_SVM_ATTR_PREFETCH_LOC:
-+			get_prefetch_loc = true;
-+			break;
-+		case KFD_IOCTL_SVM_ATTR_ACCESS:
-+			get_accessible = true;
-+			break;
-+		case KFD_IOCTL_SVM_ATTR_SET_FLAGS:
-+			get_flags = true;
-+			break;
-+		case KFD_IOCTL_SVM_ATTR_GRANULARITY:
-+			get_granularity = true;
-+			break;
-+		case KFD_IOCTL_SVM_ATTR_CLR_FLAGS:
-+		case KFD_IOCTL_SVM_ATTR_ACCESS_IN_PLACE:
-+		case KFD_IOCTL_SVM_ATTR_NO_ACCESS:
-+			fallthrough;
-+		default:
-+			pr_debug("get invalid attr type 0x%x\n", attrs[i].type);
-+			return -EINVAL;
-+		}
-+	}
-+
-+	svms = &p->svms;
-+
-+	mutex_lock(&svms->lock);
-+
-+	node = interval_tree_iter_first(&svms->objects, start, last);
-+	if (!node) {
-+		pr_debug("range attrs not found return default values\n");
-+		svm_range_set_default_attributes(&location, &prefetch_loc,
-+						 &granularity, &flags);
-+		/* TODO: Automatically create SVM ranges and map them on
-+		 * GPU page faults
-+		if (p->xnack_enabled)
-+			bitmap_fill(bitmap_access, MAX_GPU_INSTANCE);
-+		 */
-+
-+		goto fill_values;
-+	}
-+	bitmap_fill(bitmap_access, MAX_GPU_INSTANCE);
-+	bitmap_fill(bitmap_aip, MAX_GPU_INSTANCE);
-+
-+	while (node) {
-+		struct interval_tree_node *next;
-+
-+		prange = container_of(node, struct svm_range, it_node);
-+		next = interval_tree_iter_next(node, start, last);
-+
-+		if (get_preferred_loc) {
-+			if (prange->preferred_loc ==
-+					KFD_IOCTL_SVM_LOCATION_UNDEFINED ||
-+			    (location != KFD_IOCTL_SVM_LOCATION_UNDEFINED &&
-+			     location != prange->preferred_loc)) {
-+				location = KFD_IOCTL_SVM_LOCATION_UNDEFINED;
-+				get_preferred_loc = false;
-+			} else {
-+				location = prange->preferred_loc;
-+			}
-+		}
-+		if (get_prefetch_loc) {
-+			if (prange->prefetch_loc ==
-+					KFD_IOCTL_SVM_LOCATION_UNDEFINED ||
-+			    (prefetch_loc != KFD_IOCTL_SVM_LOCATION_UNDEFINED &&
-+			     prefetch_loc != prange->prefetch_loc)) {
-+				prefetch_loc = KFD_IOCTL_SVM_LOCATION_UNDEFINED;
-+				get_prefetch_loc = false;
-+			} else {
-+				prefetch_loc = prange->prefetch_loc;
-+			}
-+		}
-+		if (get_accessible) {
-+			bitmap_and(bitmap_access, bitmap_access,
-+				   prange->bitmap_access, MAX_GPU_INSTANCE);
-+			bitmap_and(bitmap_aip, bitmap_aip,
-+				   prange->bitmap_aip, MAX_GPU_INSTANCE);
-+		}
-+		if (get_flags)
-+			flags &= prange->flags;
-+
-+		if (get_granularity && prange->granularity < granularity)
-+			granularity = prange->granularity;
-+
-+		node = next;
-+	}
-+fill_values:
-+	mutex_unlock(&svms->lock);
-+
-+	for (i = 0; i < nattr; i++) {
-+		switch (attrs[i].type) {
-+		case KFD_IOCTL_SVM_ATTR_PREFERRED_LOC:
-+			attrs[i].value = location;
-+			break;
-+		case KFD_IOCTL_SVM_ATTR_PREFETCH_LOC:
-+			attrs[i].value = prefetch_loc;
-+			break;
-+		case KFD_IOCTL_SVM_ATTR_ACCESS:
-+			gpuidx = kfd_process_gpuidx_from_gpuid(p,
-+							       attrs[i].value);
-+			if (gpuidx < 0) {
-+				pr_debug("invalid gpuid %x\n", attrs[i].value);
-+				return -EINVAL;
-+			}
-+			if (test_bit(gpuidx, bitmap_access))
-+				attrs[i].type = KFD_IOCTL_SVM_ATTR_ACCESS;
-+			else if (test_bit(gpuidx, bitmap_aip))
-+				attrs[i].type =
-+					KFD_IOCTL_SVM_ATTR_ACCESS_IN_PLACE;
-+			else
-+				attrs[i].type = KFD_IOCTL_SVM_ATTR_NO_ACCESS;
-+			break;
-+		case KFD_IOCTL_SVM_ATTR_SET_FLAGS:
-+			attrs[i].value = flags;
-+			break;
-+		case KFD_IOCTL_SVM_ATTR_GRANULARITY:
-+			attrs[i].value = (uint32_t)granularity;
-+			break;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- int
- svm_ioctl(struct kfd_process *p, enum kfd_ioctl_svm_op op, uint64_t start,
- 	  uint64_t size, uint32_t nattrs, struct kfd_ioctl_svm_attribute *attrs)
-@@ -720,6 +881,9 @@ svm_ioctl(struct kfd_process *p, enum kfd_ioctl_svm_op op, uint64_t start,
- 	case KFD_IOCTL_SVM_OP_SET_ATTR:
- 		r = svm_range_set_attr(p, start, size, nattrs, attrs);
- 		break;
-+	case KFD_IOCTL_SVM_OP_GET_ATTR:
-+		r = svm_range_get_attr(p, start, size, nattrs, attrs);
-+		break;
- 	default:
- 		r = EINVAL;
- 		break;
+@@ -787,10 +734,7 @@ bool amdgpu_ttm_tt_get_user_pages_done(struct ttm_tt *ttm)
+ 		 * FIXME: Must always hold notifier_lock for this, and must
+ 		 * not ignore the return code.
+ 		 */
+-		r = mmu_interval_read_retry(gtt->range->notifier,
+-					 gtt->range->notifier_seq);
+-		kvfree(gtt->range->hmm_pfns);
+-		kfree(gtt->range);
++		r = amdgpu_hmm_range_get_pages_done(gtt->range);
+ 		gtt->range = NULL;
+ 	}
+ 
 -- 
 2.31.1
 
