@@ -1,32 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29559351573
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 15:59:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A7C351595
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 16:15:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F070B6ECB5;
-	Thu,  1 Apr 2021 13:59:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 684946ECBD;
+	Thu,  1 Apr 2021 14:15:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 098976ECB5;
- Thu,  1 Apr 2021 13:59:22 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212])
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1lRxqy-0001rx-9N; Thu, 01 Apr 2021 13:59:20 +0000
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-From: Colin Ian King <colin.king@canonical.com>
-Subject: re: drm/i915/selftests: Prepare gtt tests for obj->mm.lock removal
-Message-ID: <5fac4ebb-e0aa-d628-1457-3feffea3b891@canonical.com>
-Date: Thu, 1 Apr 2021 14:59:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69B4C6ECBD
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 14:15:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ECD0D6135D
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 14:15:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617286553;
+ bh=pmDesK41LONSTi91JrhFXtlnAIl5KT6c5rqTOesiqVQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=VGrY4kmH8EHHTWyxrg3HcsoR66tE4YXh6S9mePCOdTaFF339+KqpEgYXhf0wXOpps
+ B4QzWM3g3xkRxjzJDVEe96uUqAjIBLZ5tTCEC2Q48OBh0o6zIDveZmFHWJp5aL6AdY
+ tUQHpe7f1aO216OG5hDM+3xRg28LePKijAGaX/xD+0Nb3ARQigDVOIpmIvQMcJfcLE
+ 53HIvikF41lx2C0zoGUeeACL2ZFDEUcAWjOAyVXJ9IAr33ErCZzD4lubqfuXVbpblN
+ ZirOsM4TCo0f35jW90aTokhU1P4OvSL6BUdYzpmKbM/MzzfZCpqirryqP2nVSEYJTz
+ YLcjoQtXBg0Sw==
+Received: by mail-ed1-f46.google.com with SMTP id bf3so2144907edb.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 07:15:52 -0700 (PDT)
+X-Gm-Message-State: AOAM532cBY8z1m06rmSRvkf5+2YESum7JjEQlWIZDypqeupoL50Lcv83
+ tUtxkm/10E1GVfLD+7T09YHUutMw180cozuYsg==
+X-Google-Smtp-Source: ABdhPJx/x1Pvir9uz6tNOKEPJelZRcuER41Ie69i0uJGB6GBrIi38rDSfnM6IWWeLRt5oSU65aB9EXkOeJfnHtfghlI=
+X-Received: by 2002:a05:6402:b48:: with SMTP id
+ bx8mr10450006edb.162.1617286551463; 
+ Thu, 01 Apr 2021 07:15:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-US
+References: <20210330110902.14178-1-dafna.hirschfeld@collabora.com>
+In-Reply-To: <20210330110902.14178-1-dafna.hirschfeld@collabora.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 1 Apr 2021 22:15:40 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9n-VVPPEfLag7uVuPG+iM_NWccWgbyC3Eo9+DGYyz=Gw@mail.gmail.com>
+Message-ID: <CAAOTY_9n-VVPPEfLag7uVuPG+iM_NWccWgbyC3Eo9+DGYyz=Gw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] drm/mediatek: Don't support hdmi connector creation
+To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,144 +53,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ dafna3@gmail.com, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Collabora Kernel ML <kernel@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-Static analysis with Coverity on Linux-next has detected a potential
-issue with the following commit:
-
-commit 480ae79537b28f30ef6e07b7de69a9ae2599daa7
-Author: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Date:   Tue Mar 23 16:50:49 2021 +0100
-
-    drm/i915/selftests: Prepare gtt tests for obj->mm.lock removal
-
-
-The analysis by Coverity is as follows:
-
-145 static int igt_ppgtt_alloc(void *arg)
-146 {
-147        struct drm_i915_private *dev_priv = arg;
-148        struct i915_ppgtt *ppgtt;
-   1. var_decl: Declaring variable ww without initializer.
-149        struct i915_gem_ww_ctx ww;
-150        u64 size, last, limit;
-151        int err = 0;
-152
-153        /* Allocate a ppggt and try to fill the entire range */
-154
-   2. Condition !(dev_priv->__info.ppgtt_type != INTEL_PPGTT_NONE),
-taking false branch.
-155        if (!HAS_PPGTT(dev_priv))
-156                return 0;
-157
-158        ppgtt = i915_ppgtt_create(&dev_priv->gt);
-   3. Condition IS_ERR(ppgtt), taking false branch.
-159        if (IS_ERR(ppgtt))
-160                return PTR_ERR(ppgtt);
-161
-   4. Condition !ppgtt->vm.allocate_va_range, taking true branch.
-162        if (!ppgtt->vm.allocate_va_range)
-   5. Jumping to label err_ppgtt_cleanup.
-163                goto err_ppgtt_cleanup;
-164
-165        /*
-166         * While we only allocate the page tables here and so we could
-167         * address a much larger GTT than we could actually fit into
-168         * RAM, a practical limit is the amount of physical pages in
-the system.
-169         * This should ensure that we do not run into the oomkiller
-during
-170         * the test and take down the machine wilfully.
-171         */
-172        limit = totalram_pages() << PAGE_SHIFT;
-173        limit = min(ppgtt->vm.total, limit);
-174
-175        i915_gem_ww_ctx_init(&ww, false);
-176retry:
-177        err = i915_vm_lock_objects(&ppgtt->vm, &ww);
-178        if (err)
-179                goto err_ppgtt_cleanup;
-180
-181        /* Check we can allocate the entire range */
-182        for (size = 4096; size <= limit; size <<= 2) {
-183                struct i915_vm_pt_stash stash = {};
-184
-185                err = i915_vm_alloc_pt_stash(&ppgtt->vm, &stash, size);
-186                if (err)
-187                        goto err_ppgtt_cleanup;
-188
-189                err = i915_vm_pin_pt_stash(&ppgtt->vm, &stash);
-190                if (err) {
-191                        i915_vm_free_pt_stash(&ppgtt->vm, &stash);
-192                        goto err_ppgtt_cleanup;
-193                }
-194
-195                ppgtt->vm.allocate_va_range(&ppgtt->vm, &stash, 0, size);
-196                cond_resched();
-197
-198                ppgtt->vm.clear_range(&ppgtt->vm, 0, size);
-199
-200                i915_vm_free_pt_stash(&ppgtt->vm, &stash);
-201        }
-202
-203        /* Check we can incrementally allocate the entire range */
-204        for (last = 0, size = 4096; size <= limit; last = size, size
-<<= 2) {
-205                struct i915_vm_pt_stash stash = {};
-206
-207                err = i915_vm_alloc_pt_stash(&ppgtt->vm, &stash, size
-- last);
-208                if (err)
-209                        goto err_ppgtt_cleanup;
-210
-211                err = i915_vm_pin_pt_stash(&ppgtt->vm, &stash);
-212                if (err) {
-213                        i915_vm_free_pt_stash(&ppgtt->vm, &stash);
-214                        goto err_ppgtt_cleanup;
-215                }
-216
-217                ppgtt->vm.allocate_va_range(&ppgtt->vm, &stash,
-218                                            last, size - last);
-219                cond_resched();
-220
-221                i915_vm_free_pt_stash(&ppgtt->vm, &stash);
-222        }
-223
-224 err_ppgtt_cleanup:
-   6. Condition err == -35, taking false branch.
-225        if (err == -EDEADLK) {
-226                err = i915_gem_ww_ctx_backoff(&ww);
-227                if (!err)
-228                        goto retry;
-229        }
-   7. uninit_use_in_call: Using uninitialized value ww.contended when
-calling i915_gem_ww_ctx_fini.
-   Uninitialized pointer read (UNINIT)
-   8. uninit_use_in_call: Using uninitialized value ww.ctx.acquired when
-calling i915_gem_ww_ctx_fini.
-230        i915_gem_ww_ctx_fini(&ww);
-231
-232        i915_vm_put(&ppgtt->vm);
-233        return err;
-234 }
-
-Coverity is reporting use of uninitialized values in (lines 230.  Not
-sure what the best fix is for this, so I'm reporting this as a potential
-issue.
-
-Colin
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIERhZm5hOgoKRGFmbmEgSGlyc2NoZmVsZCA8ZGFmbmEuaGlyc2NoZmVsZEBjb2xsYWJvcmEu
+Y29tPiDmlrwgMjAyMeW5tDPmnIgzMOaXpSDpgLHkuowg5LiL5Y2INzowOeWvq+mBk++8mgo+Cj4g
+Y29tbWl0IGYwMTE5NTE0ODk2NyAoImRybS9tZWRpYXRlazogbXRrX2RwaTogQ3JlYXRlIGNvbm5l
+Y3RvciBmb3IgYnJpZGdlcyIpCj4gYnJva2UgdGhlIGRpc3BsYXkgc3VwcG9ydCBmb3IgZWxtIGRl
+dmljZSBzaW5jZSBtdGtfZHBpIGNhbGxzCj4gZHJtX2JyaWRnZV9hdHRhY2ggd2l0aCB0aGUgZmxh
+ZyBEUk1fQlJJREdFX0FUVEFDSF9OT19DT05ORUNUT1IKPiB3aGlsZSBtdGtfaGRtaSBkb2VzIG5v
+dCB5ZXQgc3VwcG9ydCB0aGlzIGZsYWcuCgpGb3IgdGhpcyBzZXJpZXMsIGFwcGxpZWQgdG8gbWVk
+aWF0ZWstZHJtLW5leHQgWzFdLCB0aGFua3MuCgpbMV0gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9w
+dWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvY2h1bmt1YW5nLmh1L2xpbnV4LmdpdC9sb2cvP2g9bWVk
+aWF0ZWstZHJtLW5leHQKClJlZ2FyZHMsCkNodW4tS3VhbmcuCgo+Cj4gVGhlc2UgdGhyZWUgcGF0
+Y2hlcyBmaXggdGhhdCBieSBhZGRpbmcgc3VwcG9ydCBmb3IgRFJNX0JSSURHRV9BVFRBQ0hfTk9f
+Q09OTkVDVE9SCj4gaW4gbXRrX2hkbWkgYnJpZGdlIGF0dGFjaG1lbnQuCj4KPiBjaGFuZ2VzIHNp
+bmNlIHYyOgo+IDEuIHNxdWFzaCBwYXRjaCAzIHdpdGggcGF0Y2ggMiB0byBub3QgYnJlYWsgYmlz
+ZWN0aW9uCj4gMi4gcmVtb3ZlIHRoZSBmdW50aW9uIG10a19oZG1pX2dldF9lZGlkIGFuZCBpbmxp
+bmUgaXRzIGNvZGUgaW4gbXRrX2hkbWlfYnJpZGdlX2dldF9lZGlkCj4gMy4gc21hbGwgYWxpZ21l
+bnQKPgo+IGNoYW5nZXMgc2luY2UgdjE6Cj4gMS4gc3BsaXQgdGhlIGZpcnN0IHBhdGNoIC0gbm93
+IHRoZSBmaXJzdCBwYXRjaCBvbmx5IG1vdmVzIHRoZSBicmlkZ2Ugb3BzIHRvIHRoZSBhdG9taWMg
+QVBJCj4gd2hpbGUgdGhlIHJlcGxhY2VtZW50IG9mIHRoZSBmaWVsZCAnY29ubicgd2l0aCB0aGUg
+ZmllbGQgJypjdXJyX2Nvbm4nIGlzIGRvbmUgaW4gYSBuZXcgdGhpcmQgcGF0Y2guCj4gMi4gaW4g
+dGhlIGZ1bmN0aW9uICdnZXRfZWxkJyB1c2UgdGhlIGN1cnJlbnQgY29ubiBvbmx5IGlmICdlbmFi
+bGVkID0gdHJ1ZScuCj4KPiBEYWZuYSBIaXJzY2hmZWxkICgyKToKPiAgIGRybS9tZWRpYXRlazog
+U3dpdGNoIHRoZSBoZG1pIGJyaWRnZSBvcHMgdG8gdGhlIGF0b21pYyB2ZXJzaW9ucwo+ICAgZHJt
+L21lZGlhdGVrOiBEb24ndCBzdXBwb3J0IGhkbWkgY29ubmVjdG9yIGNyZWF0aW9uCj4KPiAgZHJp
+dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19oZG1pLmMgfCAxNzQgKysrKysrKysrKysrLS0tLS0t
+LS0tLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNzEgaW5zZXJ0aW9ucygrKSwgMTAzIGRlbGV0
+aW9ucygtKQo+Cj4gLS0KPiAyLjE3LjEKPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
