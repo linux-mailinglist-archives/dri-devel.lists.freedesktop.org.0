@@ -2,63 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77D135163E
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 17:35:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0392351644
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 17:40:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC5516E03A;
-	Thu,  1 Apr 2021 15:35:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D82DC6ECA5;
+	Thu,  1 Apr 2021 15:40:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com
- [IPv6:2607:f8b0:4864:20::830])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 617246E03A
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 15:35:03 +0000 (UTC)
-Received: by mail-qt1-x830.google.com with SMTP id 1so1790045qtb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 08:35:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SPcX6QtS7Ve6UUCNbDaDbB4vAvudpBUFG69ugXPs6T8=;
- b=AHguOOTFAO2NQe8XmSdmlyagtr/wB7GhsgTQRCF/4VWbWuMjMbDGipaw0RxlA0M6yR
- men4W9o7Z3lOPEhONt01til0PnMg/us3/Y7ioK47S+E3qh5tEsfAwsau3lssAXnET16Z
- y4UgVblAdat0wp63BW2m5H52N9VLE+J5QNlQ4=
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAEFC6ECA5
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 15:40:42 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id r12so3543102ejr.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 08:40:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sGjuP998sGbpCkvnhSfwleQK/z96z2z32YTuaQtQcg8=;
+ b=DM2EYw7uG0/0c897DXzDswcwOIRUm4RG+G3GJdufCxom7JCnxI5hOsTQwevTvsOx8Z
+ 4TwVeY6Zpr6Ud5tgjB4cBDvWv2nWEnysTfjHseXfay+d4NggOB7cUE4nNUhPPYxrraeh
+ 4v8NNc7/UR0z0tWZ0jfpjHBlBDPCfRtSkhLYx5QHbRWgIXEvccC7q3aCOZLXvZUyD5cN
+ OMujeCeF6BA+HKDRpb71AktE3vgVzlWsJejZQbYlvNxrm8tRyAE/ccPx2mBD7G8whTqF
+ Ef28YENX7a8AElFFfwROPntmtahmVJjLNsW+uepFNaliOZRQIeE198l6itz8+2IlR+z/
+ 2HeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SPcX6QtS7Ve6UUCNbDaDbB4vAvudpBUFG69ugXPs6T8=;
- b=BHueAbidQHh7cyC4ydypKi8+poXRVpskPdT1yM6QfyLppkCoyc9a2PzuEDiimnXnfv
- 8djhxaiqZMsD8dcGYQ9jRrb+JfCz0cBWL1xSdE/nsn4/cPyMDTHQa6H1a7ek3NbZAW8m
- +knUjtgCxgs2ZLuLGPBR9S3gxWDG813qZS3oBIjz69HQPhI6OzdHVgOj6gX5vFjIoVC+
- 91sw3pApYd2j4//pVc7Cr+vci3f/ao4a/YyNzD+wvJqEDWDF/UlU9iALrDK7JOkYYZC4
- XY9Xj6ZPNSCXA9TKcy63pLaWERBiNdtdfR6iklnvrkN4SyfDA4Mi1Rj0WEz3XpFrypPL
- wedw==
-X-Gm-Message-State: AOAM533NJekjjS8R6QdQQ3ZRF14Bd6pidgqJVWS/BQ0KrWb5mQGQtPdW
- bZokgErMb+H4+YSjlS8AdQvzbgH5cdRziA==
-X-Google-Smtp-Source: ABdhPJwcBv6lVhvV/EqbTXf2eBDIGoevYyWPU5Hd1T6LGAUZBxhCffNchzNt1uqfhJ3vnTq7yrXEUg==
-X-Received: by 2002:ac8:6c3b:: with SMTP id k27mr7595128qtu.354.1617291302358; 
- Thu, 01 Apr 2021 08:35:02 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
- [209.85.219.182])
- by smtp.gmail.com with ESMTPSA id x14sm1178779qkn.98.2021.04.01.08.35.01
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Apr 2021 08:35:01 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id m132so2226569ybf.2
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 08:35:01 -0700 (PDT)
-X-Received: by 2002:a25:74ca:: with SMTP id
- p193mr12383521ybc.405.1617291301361; 
- Thu, 01 Apr 2021 08:35:01 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sGjuP998sGbpCkvnhSfwleQK/z96z2z32YTuaQtQcg8=;
+ b=HCjWWwYLnKtgYmKI5sA4S1ypUxRYl2TP7m6k8LQpGx2YpT7y05USzY0UryutdmObUV
+ Q3AOP9TK0kNdmj1s8m7b2CoJIvZJ4PElk80N3GjFQ414Kix+ZbifpbCieby7qVmGU8Jb
+ 4Iwx+qOtt5exJbnXJ+lI9vcsV0jFtZGeOtdW0GNrvEZ5ola37KgGn+iHKnGy6UGkOUW/
+ lrXoPUgGSLxqRic4nQ1NS9GSi0EclzZwczOZKBGMFxYiG/XWpHwMEw9JjFPtAyRV3X6v
+ 11sDRLUa+ikiypRvNOGb5nG4TnnoJUiOejnOIFKHprPPtNlqUl7eLCXoGAaUP1Z3gdq6
+ pZuw==
+X-Gm-Message-State: AOAM532lkbH6FjIXgn0sEDtkAfZqyRsSgePMZ0bP0ga20VyDU7hKzzKj
+ 4dze80rzd2uoRvwb9XV8bB8=
+X-Google-Smtp-Source: ABdhPJzvPFLhV2u50rzysciS5TbF+EdLD0d8Cq8ltE0MVSk4bFZe8xOrJbu4MMJNmh3VuaX1KQcLNQ==
+X-Received: by 2002:a17:907:c08:: with SMTP id
+ ga8mr9630888ejc.376.1617291641331; 
+ Thu, 01 Apr 2021 08:40:41 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id k12sm3804814edr.60.2021.04.01.08.40.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Apr 2021 08:40:40 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH 1/2] gpu: host1x: Split up client initalization and
+ registration
+Date: Thu,  1 Apr 2021 17:41:04 +0200
+Message-Id: <20210401154105.3345412-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210331221630.488498-1-robdclark@gmail.com>
- <20210401012722.527712-1-robdclark@gmail.com>
- <20210401012722.527712-4-robdclark@gmail.com>
-In-Reply-To: <20210401012722.527712-4-robdclark@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 1 Apr 2021 08:34:50 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XQoauA5kzmmj5ask_sK19mJycYLJfAOeriXsr2pvxaFw@mail.gmail.com>
-Message-ID: <CAD=FV=XQoauA5kzmmj5ask_sK19mJycYLJfAOeriXsr2pvxaFw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] drm/msm: Fix debugfs deadlock
-To: Rob Clark <robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,37 +66,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- "Kristian H. Kristensen" <hoegsberg@google.com>, Sean Paul <sean@poorly.run>
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Thierry Reding <treding@nvidia.com>
 
-On Wed, Mar 31, 2021 at 6:24 PM Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> In normal cases the gem obj lock is acquired first before mm_lock.  The
-> exception is iterating the various object lists.  In the shrinker path,
-> deadlock is avoided by using msm_gem_trylock() and skipping over objects
-> that cannot be locked.  But for debugfs the straightforward thing is to
-> split things out into a separate list of all objects protected by it's
-> own lock.
->
-> Fixes: d984457b31c4 ("drm/msm: Add priv->mm_lock to protect active/inactive lists")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Tested-by: Douglas Anderson <dianders@chromium.org>
+In some cases we may need to initialize the host1x client first before
+registering it. This commit adds a new helper that will do nothing but
+the initialization of the data structure.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+At the same time, the initialization is removed from the registration
+function. Note, however, that for simplicity we explicitly initialize
+the client when the host1x_client_register() function is called, as
+opposed to the low-level __host1x_client_register() function. This
+allows existing callers to remain unchanged.
+
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/gpu/host1x/bus.c | 30 ++++++++++++++++++++++++------
+ include/linux/host1x.h   | 30 ++++++++++++++++++++++++------
+ 2 files changed, 48 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
+index 46f69c532b6b..218e3718fd68 100644
+--- a/drivers/gpu/host1x/bus.c
++++ b/drivers/gpu/host1x/bus.c
+@@ -735,6 +735,29 @@ void host1x_driver_unregister(struct host1x_driver *driver)
+ }
+ EXPORT_SYMBOL(host1x_driver_unregister);
+ 
++/**
++ * __host1x_client_init() - initialize a host1x client
++ * @client: host1x client
++ * @key: lock class key for the client-specific mutex
++ */
++void __host1x_client_init(struct host1x_client *client, struct lock_class_key *key)
++{
++	INIT_LIST_HEAD(&client->list);
++	__mutex_init(&client->lock, "host1x client lock", key);
++	client->usecount = 0;
++}
++EXPORT_SYMBOL(__host1x_client_init);
++
++/**
++ * host1x_client_exit() - uninitialize a host1x client
++ * @client: host1x client
++ */
++void host1x_client_exit(struct host1x_client *client)
++{
++	mutex_destroy(&client->lock);
++}
++EXPORT_SYMBOL(host1x_client_exit);
++
+ /**
+  * __host1x_client_register() - register a host1x client
+  * @client: host1x client
+@@ -747,16 +770,11 @@ EXPORT_SYMBOL(host1x_driver_unregister);
+  * device and call host1x_device_init(), which will in turn call each client's
+  * &host1x_client_ops.init implementation.
+  */
+-int __host1x_client_register(struct host1x_client *client,
+-			     struct lock_class_key *key)
++int __host1x_client_register(struct host1x_client *client)
+ {
+ 	struct host1x *host1x;
+ 	int err;
+ 
+-	INIT_LIST_HEAD(&client->list);
+-	__mutex_init(&client->lock, "host1x client lock", key);
+-	client->usecount = 0;
+-
+ 	mutex_lock(&devices_lock);
+ 
+ 	list_for_each_entry(host1x, &devices, list) {
+diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+index ef13bc69b493..7310ce9c70e0 100644
+--- a/include/linux/host1x.h
++++ b/include/linux/host1x.h
+@@ -349,12 +349,30 @@ static inline struct host1x_device *to_host1x_device(struct device *dev)
+ int host1x_device_init(struct host1x_device *device);
+ int host1x_device_exit(struct host1x_device *device);
+ 
+-int __host1x_client_register(struct host1x_client *client,
+-			     struct lock_class_key *key);
+-#define host1x_client_register(class) \
+-	({ \
+-		static struct lock_class_key __key; \
+-		__host1x_client_register(class, &__key); \
++void __host1x_client_init(struct host1x_client *client, struct lock_class_key *key);
++void host1x_client_exit(struct host1x_client *client);
++
++#define host1x_client_init(client)			\
++	({						\
++		static struct lock_class_key __key;	\
++		__host1x_client_init(client, &__key);	\
++	})
++
++int __host1x_client_register(struct host1x_client *client);
++
++/*
++ * Note that this wrapper calls __host1x_client_init() for compatibility
++ * with existing callers. Callers that want to separately initialize and
++ * register a host1x client must first initialize using either of the
++ * __host1x_client_init() or host1x_client_init() functions and then use
++ * the low-level __host1x_client_register() function to avoid the client
++ * getting reinitialized.
++ */
++#define host1x_client_register(client)			\
++	({						\
++		static struct lock_class_key __key;	\
++		__host1x_client_init(client, &__key);	\
++		__host1x_client_register(client);	\
+ 	})
+ 
+ int host1x_client_unregister(struct host1x_client *client);
+-- 
+2.30.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
