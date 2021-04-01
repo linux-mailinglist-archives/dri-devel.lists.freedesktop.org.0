@@ -2,54 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8940351631
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 17:29:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CF1935163A
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 17:34:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FD896E1D8;
-	Thu,  1 Apr 2021 15:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32B516E233;
+	Thu,  1 Apr 2021 15:34:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 456FA6E1D8
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 15:29:13 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id c16so2162264oib.3
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 08:29:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
+ [IPv6:2607:f8b0:4864:20::f35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 878E06E03A
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 15:34:42 +0000 (UTC)
+Received: by mail-qv1-xf35.google.com with SMTP id g8so1198537qvx.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 08:34:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+uDqLrqEwtbwuk+ipQ/4chsYUIiuhxorCkDeq2wHxEY=;
- b=TKNIlthVc1vJKhvutpzSSGqT9SRXbo0yFXQ7nkqP4dVMeopb1EkclvFcMlTSe4QBS1
- Le74aYL8mhGnFOJy5VVxLwNeaPRZlj9z6dsJlnTkW40zbHUhZxW3eE02b2miccszPvJq
- ZUCpihWDIp1B5QDkAV8eefPgdiJ1yHX1a44DnCy/BzrLJ17CJC0KfacNPVF53EdTqMHh
- zxhbWV/+G/9PjFGQFUeIpRrVyLzmfvaY5hJaEnNkTPzSf7oDm5Sjm/LfRfu9+3DVeJW+
- 5FPC95Q633HSUQp6PJw2olyq1Vruu3yqFtMBjjAVtFwFjGG6vq6F1xrqudYSc/IFllNj
- +uqw==
+ :cc; bh=bgQ3XZ5ITKRGojF0eSgHx7BZvQ88/ghBhXwnDbKAV2I=;
+ b=YhJ7jkjScY7JdQhF/7Tt22mZk21tl8MbMM81VDTVwMeS/bumy1w9WGLvBQENfwcpeB
+ 2ljIOmE/0b06jnmE6dkboTDAy94ze0X9i8gyWwaN4XMFw6NveMfupfnjzjWCFGiD4kIO
+ Z5Pg/KYuMKdSJP55scpo50bf+0976bJPooquI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+uDqLrqEwtbwuk+ipQ/4chsYUIiuhxorCkDeq2wHxEY=;
- b=QsEEjWYsOuwKZA9uRZ9wkvf/mqbh4apFkz4KFMrDougP/wTCfBKfNqBqCDLGGb0vlB
- lbtXAy4MYQ/22+i2hEZh4QHiywQLTRPlZQgV2JNqQy5uL4+AU9IDDsqfHBZ5rZP8hZBn
- O17PQ06Xy4RfnjG+zcTe5Mi5oGlu8n/NWknMQU5Un3yOT/Wq5P8V95VHlsNt5kyzC7+/
- 1RGGQBPeScT/7aGZtN1f2K+LfSFLU/RA0q1CcVKkmdA724erjBtTmCYDAcHX5R4SFK+I
- hRVJ4sao1/4PNnpR8o8mCpRR6E562AESlpQ9lHMdTsIbiS1xdrG4a1xtEoHCUCWXh7SF
- 6LwA==
-X-Gm-Message-State: AOAM53379xaKXqHcymlkr5WlmdAm0GyF+8LnMLrPvEJ+tG7Zwan7lu5g
- 20hlyW4rFVJ9nE5ZZr6Ba7wysKtdY1e16JWCinkmpPvznOg=
-X-Google-Smtp-Source: ABdhPJwSfFLWE+KW6cwxbF84QbObR7F8eHvmhnp7mNiDeN+wwBg7Cu2+7PtRtI+WgRWm/xKLosq6ryI8heqhhPqIRYA=
-X-Received: by 2002:a05:6808:68a:: with SMTP id
- k10mr6333886oig.120.1617290952660; 
- Thu, 01 Apr 2021 08:29:12 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=bgQ3XZ5ITKRGojF0eSgHx7BZvQ88/ghBhXwnDbKAV2I=;
+ b=uTb+/rMCzGBztwgV3VYib6BZvckKbKYqnJ1Jv0Np3VyiMOmGPKN3TpedPPf5KyqdQ6
+ 2TfKltVBgslOINhR8gDMPP20XEZW86I3yrAyRNAC9TqLTjAyZOn9/HuCygLfO5LPBiOI
+ OFJIINysFRufscuG7EK+SpOzN19QQSotDaLGXXgYuP/2SfxneZoXwrFmoqG3mimNhpHI
+ GQKphSQUNZnXPWUssE0Dqz/dti7aPSCCymIMRZTkMyPUEMRBHder/KFNhZYtYc/Mxys0
+ 5qxeY8keFh5dIA2MLZMgD63pAAWMEa3Om6v5G0Yh36EtcRuRNgvttkzygKWUi7jl+nmz
+ qXIg==
+X-Gm-Message-State: AOAM533YCTj20U6r5wXcDV3TX4c43uYGUb2Dwt0lHbHLDpide/mQ1lxH
+ TOjPdRRy6ccu2h1u2pFXFiAklhbn4g7uMg==
+X-Google-Smtp-Source: ABdhPJxHImRzUsaqs2Z9zp7NbStjLYGrIWz+EsBY4/YA+lrC6TkjKZWx1ysMMlWj7UuBHsxYN0UTbg==
+X-Received: by 2002:ad4:4aa8:: with SMTP id i8mr8913678qvx.22.1617291281146;
+ Thu, 01 Apr 2021 08:34:41 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com.
+ [209.85.219.169])
+ by smtp.gmail.com with ESMTPSA id f8sm4215895qkk.23.2021.04.01.08.34.40
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Apr 2021 08:34:40 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id 8so2172504ybc.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 08:34:40 -0700 (PDT)
+X-Received: by 2002:a5b:54a:: with SMTP id r10mr12794123ybp.476.1617291280047; 
+ Thu, 01 Apr 2021 08:34:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210401125213.138855-1-christian.koenig@amd.com>
-In-Reply-To: <20210401125213.138855-1-christian.koenig@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 1 Apr 2021 11:29:01 -0400
-Message-ID: <CADnq5_NMGj1e8-SkL1UhMYqqhrqUwzkJmrky-noNF6WKsC=+NQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/sched: add missing member documentation
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20210331221630.488498-1-robdclark@gmail.com>
+ <20210401012722.527712-1-robdclark@gmail.com>
+ <20210401012722.527712-2-robdclark@gmail.com>
+In-Reply-To: <20210401012722.527712-2-robdclark@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 1 Apr 2021 08:34:28 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V1QUHYw-QkZO-bn+sS_K=KYRe83DfSqVow2RGFXu6nqg@mail.gmail.com>
+Message-ID: <CAD=FV=V1QUHYw-QkZO-bn+sS_K=KYRe83DfSqVow2RGFXu6nqg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] drm/msm: Remove unused freed llist node
+To: Rob Clark <robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,36 +70,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBBcHIgMSwgMjAyMSBhdCA4OjUyIEFNIENocmlzdGlhbiBLw7ZuaWcKPGNrb2VuaWcu
-bGVpY2h0enVtZXJrZW5AZ21haWwuY29tPiB3cm90ZToKPgo+IEp1c3QgZml4IGEgd2FybmluZy4K
-Pgo+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1k
-LmNvbT4KPiBSZXBvcnRlZC1ieTogU3RlcGhlbiBSb3Rod2VsbCA8c2ZyQGNhbmIuYXV1Zy5vcmcu
-YXU+Cj4gRml4ZXM6IGYyZjEyZWI5YzMyYiAoImRybS9zY2hlZHVsZXI6IHByb3ZpZGUgc2NoZWR1
-bGVyIHNjb3JlIGV4dGVybmFsbHkiKQoKUmV2aWV3ZWQtYnk6IEFsZXggRGV1Y2hlciA8YWxleGFu
-ZGVyLmRldWNoZXJAYW1kLmNvbT4KCj4gLS0tCj4gIGluY2x1ZGUvZHJtL2dwdV9zY2hlZHVsZXIu
-aCB8IDEgKwo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKPgo+IGRpZmYgLS1naXQg
-YS9pbmNsdWRlL2RybS9ncHVfc2NoZWR1bGVyLmggYi9pbmNsdWRlL2RybS9ncHVfc2NoZWR1bGVy
-LmgKPiBpbmRleCAxYzgxNWUwYTE0ZWQuLmY4ODhiNWU5NTgzYSAxMDA2NDQKPiAtLS0gYS9pbmNs
-dWRlL2RybS9ncHVfc2NoZWR1bGVyLmgKPiArKysgYi9pbmNsdWRlL2RybS9ncHVfc2NoZWR1bGVy
-LmgKPiBAQCAtMjc3LDYgKzI3Nyw3IEBAIHN0cnVjdCBkcm1fc2NoZWRfYmFja2VuZF9vcHMgewo+
-ICAgKiBAaGFuZ19saW1pdDogb25jZSB0aGUgaGFuZ3MgYnkgYSBqb2IgY3Jvc3NlcyB0aGlzIGxp
-bWl0IHRoZW4gaXQgaXMgbWFya2VkCj4gICAqICAgICAgICAgICAgICBndWlsdHkgYW5kIGl0IHdp
-bGwgYmUgY29uc2lkZXJlZCBmb3Igc2NoZWR1bGluZyBmdXJ0aGVyLgo+ICAgKiBAc2NvcmU6IHNj
-b3JlIHRvIGhlbHAgbG9hZGJhbGFuY2VyIHBpY2sgYSBpZGxlIHNjaGVkCj4gKyAqIEBfc2NvcmU6
-IHNjb3JlIHVzZWQgd2hlbiB0aGUgZHJpdmVyIGRvZXNuJ3QgcHJvdmlkZSBvbmUKPiAgICogQHJl
-YWR5OiBtYXJrcyBpZiB0aGUgdW5kZXJseWluZyBIVyBpcyByZWFkeSB0byB3b3JrCj4gICAqIEBm
-cmVlX2d1aWx0eTogQSBoaXQgdG8gdGltZSBvdXQgaGFuZGxlciB0byBmcmVlIHRoZSBndWlsdHkg
-am9iLgo+ICAgKgo+IC0tCj4gMi4yNS4xCj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+Hi,
+
+On Wed, Mar 31, 2021 at 6:23 PM Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Unused since commit c951a9b284b9 ("drm/msm: Remove msm_gem_free_work")
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Tested-by: Douglas Anderson <dianders@chromium.org>
+> ---
+>  drivers/gpu/drm/msm/msm_gem.h | 2 --
+>  1 file changed, 2 deletions(-)
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
