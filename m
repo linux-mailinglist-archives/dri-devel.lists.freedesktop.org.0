@@ -2,50 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B862B3521CA
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 23:42:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 627F33521DB
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 23:45:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A353F6ED9C;
-	Thu,  1 Apr 2021 21:42:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 188176ECF2;
+	Thu,  1 Apr 2021 21:45:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2F486ED84;
- Thu,  1 Apr 2021 21:42:39 +0000 (UTC)
-IronPort-SDR: 6HUZ5VbNbHQAt3zXjHklm2gHXlSc42b53CVE0NeORMsfyUrYJo6r3Y7t4CyKNbB4uqQ272W6Le
- BM+nrRijMUjw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9941"; a="190105800"
-X-IronPort-AV: E=Sophos;i="5.81,296,1610438400"; d="scan'208";a="190105800"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2021 14:42:39 -0700
-IronPort-SDR: o3d/DUoF9LzhOTidnrLAjU24MXOKJUcrfv8km+FJG/hkSq+LUr4zq66niCenwopMeyO8+cYDe0
- BcUY1eVp/f2A==
-X-IronPort-AV: E=Sophos;i="5.81,296,1610438400"; d="scan'208";a="456162371"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO labuser-Z97X-UD5H)
- ([10.165.21.211])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2021 14:42:38 -0700
-Date: Thu, 1 Apr 2021 14:49:13 -0700
-From: "Navare, Manasi" <manasi.d.navare@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH] drm/atomic: Add the crtc to affected crtc only if
- uapi.enable = true
-Message-ID: <20210401214908.GA24310@labuser-Z97X-UD5H>
-References: <20210309111350.3be0543f@eldfell>
- <CAKMK7uEak_2YNDZpyho5bBhhYCvoXh6MoPNL6FmV9sU8oELGPA@mail.gmail.com>
- <20210318230126.GA1900@labuser-Z97X-UD5H>
- <YFS7mINBWsHiYIKm@intel.com>
- <20210319205413.GA6359@labuser-Z97X-UD5H>
- <YFUTyb6ofKRI12hO@intel.com>
- <20210319212624.GA6560@labuser-Z97X-UD5H>
- <YFUXX/pDcBheiNWL@intel.com>
- <20210325220127.GA28898@labuser-Z97X-UD5H>
- <YF4ImoReniVIz+TT@intel.com>
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 209086E0F8;
+ Thu,  1 Apr 2021 21:45:51 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id e18so3126952wrt.6;
+ Thu, 01 Apr 2021 14:45:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=03BQSw1CPJ8M8BexxEezvsYQZb8neb/x+xNYoF5ZH40=;
+ b=ZQE9ppnqnPtgf+sAq2hJfhtYScAce9TxQHQKT/zS+ZJEPvti7l/hx+rl3OZ3WasfBK
+ 6oDLe1zbgki31FRRjcQjewbh9fuIJjhm9vn4+uIFWT2x1Q+/GhsuCGKRDWWilUCkky/w
+ S0aWWRw5tcDMCIrbsqUh6KGQyHcnK3UqIC+KtmspbNtvjB8BDXnHP7UlUF1xp/x3Hyei
+ YlnDEi7NtkQQLX/seZWGHmxBmAXxIoA0e28iGhqFZ1yaX+4YG9+mQcoXE3IDyv9bXRCf
+ QAuYXfNWr3FxictHeiaXuiwRuyGFXgIwPKeGA2+uy+ASLf4mNdkIRNnKvoMRxWGfvOem
+ aVOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=03BQSw1CPJ8M8BexxEezvsYQZb8neb/x+xNYoF5ZH40=;
+ b=BcKLza5lZQ2CgE0Rnzhe2Yd5i5+dWfjZrAJtvLeeJspds/gap7UTdCDASDtOjd1TOj
+ vg1eus9dqcTqcAC5fEbPq6tqDNUIOYEHV1u7soiG9SuaHXE3v6tdWvvKvq7pcEeePC1/
+ Mzy7ZRLYxMRkIpDunmE9UuIddPnVJpVwCMhKCC9omvHaZs1AHSsDPkGC7asanXKYze83
+ NCONUtZE/txYPUTr/3+qops4M+yZBFPRkXOSFbO0LIgO1xAIjZFnA8s5BD8z5+ftyhDT
+ rW3hzlZf2vkFhIhD464sqt2510XPNgEsBtXR5Y4raJ/WyRzzPa8nqyPEPVhLiYJgq6PY
+ yCsQ==
+X-Gm-Message-State: AOAM531geMYLvdu4FqeJUHWe5MNxg1F5kf6bcepABsT0daArztIJcGRL
+ nD9jvjjX5JA2jv08/JxM4DovDTUOHHHaKA9hD2M=
+X-Google-Smtp-Source: ABdhPJzUeWySZlY1WQjmnPeq6ZDBrhIhZnvXb2NMfVpj2NVVCCfJYyU4oNRtui0xCS4hVixSPIhr3umD2Ql1iY7Q0X8=
+X-Received: by 2002:adf:b30f:: with SMTP id j15mr12078963wrd.132.1617313549709; 
+ Thu, 01 Apr 2021 14:45:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YF4ImoReniVIz+TT@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20210216200909.19039-1-jonathan@marek.ca>
+ <CAF6AEGv53nnzqMgTfSA6t2YpHx1dDW8UqnH9Gw0w3p8bf0mTLw@mail.gmail.com>
+ <775436ba-c94a-ab22-d65b-b2391047ec65@codeaurora.org>
+ <20210217190820.GA2229@jcrouse1-lnx.qualcomm.com>
+ <CAF6AEGsHws23ozeJ8G23LFQ8J=CVVrx5xvkSgBuE_uSwT4YurQ@mail.gmail.com>
+ <74d1277e-295f-0996-91c3-05cfce8d3a0e@marek.ca>
+ <e4b62857-bd4d-cca6-0d6b-b9cc960b52a2@codeaurora.org>
+ <CAF6AEGsWCrkOgMVxnx53k8b_o7xy3KWv9VaNRoY44+4GfXtWdg@mail.gmail.com>
+ <757b557a-b5f6-6018-caa4-34bffb1b60b7@codeaurora.org>
+ <CAF6AEGv-A5=4z7ZO-SytmivZTfKPYxhAjmRLVsQnrT7_pYCDtQ@mail.gmail.com>
+ <0f057c99-ec94-f3e3-796f-b73a609f735d@codeaurora.org>
+ <CAF6AEGvXYmcj0YuciZATveALJEP6DdFiwmtnYevrK2SEOJNZGg@mail.gmail.com>
+ <CAF6AEGs4sYOMgysg3FraKTDetqKTgMXT6RE700e-8uyE9Gs-9A@mail.gmail.com>
+ <CAA8EJpoL7Eox5WqnZQVvGF9M_4itA+2=U6QX=AreTk=AEfqyQg@mail.gmail.com>
+In-Reply-To: <CAA8EJpoL7Eox5WqnZQVvGF9M_4itA+2=U6QX=AreTk=AEfqyQg@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 1 Apr 2021 14:49:13 -0700
+Message-ID: <CAF6AEGu88VxfDYaMt1=FCYG0DVRfRT6=5QD78Qrk=S=M0gO+pw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/a6xx: fix for kernels without CONFIG_NVMEM
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,135 +73,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Stone <daniels@collabora.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 26, 2021 at 06:15:22PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Thu, Mar 25, 2021 at 03:01:29PM -0700, Navare, Manasi wrote:
-> > On Fri, Mar 19, 2021 at 11:27:59PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Fri, Mar 19, 2021 at 02:26:24PM -0700, Navare, Manasi wrote:
-> > > > On Fri, Mar 19, 2021 at 11:12:41PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > > > On Fri, Mar 19, 2021 at 01:54:13PM -0700, Navare, Manasi wrote:
-> > > > > > On Fri, Mar 19, 2021 at 04:56:24PM +0200, Ville Syrj=E4l=E4 wro=
-te:
-> > > > > > > On Thu, Mar 18, 2021 at 04:01:26PM -0700, Navare, Manasi wrot=
-e:
-> > > > > > > > So basically we see this warning only in case of bigjoiner =
-when
-> > > > > > > > drm_atomic_check gets called without setting the state->all=
-ow_modeset flag.
-> > > > > > > =
-
-> > > > > > > Considering the code is 'WARN(!state->allow_modeset, ...' that
-> > > > > > > fact should be rather obvious.
-> > > > > > > =
-
-> > > > > > > > =
-
-> > > > > > > > So do you think that in i915, in intel_atomic_check_bigjoin=
-er() we should only
-> > > > > > > > steal the crtc when allow_modeset flag is set in state?
-> > > > > > > =
-
-> > > > > > > No. If you fully read drm_atomic_check_only() you will observe
-> > > > > > > that it will reject any commit w/ allow_modeset=3D=3Dfalse wh=
-ich =
-
-> > > > > > > needs a modeset. And it does that before the WARN.
-> > > > > > > =
-
-> > > > > > > So you're barking up the wrong tree here. The problem I think
-> > > > > > > is that you're just computing requested_crtcs wrong.
-> > > > > > =
-
-> > > > > > So here in this case, requested CRTC =3D 0x1 since it requests =
-modeset on CRTC 0
-> > > > > > Now in teh atomic check, it steals the slave CRTC 1 and hence a=
-ffected CRTC comes out
-> > > > > > as 0x3 and hence the mismatch.
-> > > > > =
-
-> > > > > Hmm. How can it be 0x3 if we filtered out the uapi.enable=3D=3Dfa=
-lse case?
-> > > > > =
-
-> > > > =
-
-> > > > Yes if I add that condition like in this patch then it correctly ca=
-lculates
-> > > > the affected crtc bitmask as only 0x1 since it doesnt include the s=
-lave crtc.
-> > > > So with this patch, requested crtc =3D 0x 1, affected crtc =3D 0x1
-> > > > =
-
-> > > > If this looks good then this fixes our bigjoiner warnings.
-> > > > Does this patch look good to you as is then?
-> > > =
-
-> > > I think you still need to fix the requested_crtcs calculation.
-> > =
-
-> > We calculate requested crtc at the beginning :
-> > for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
-> >                 requested_crtc |=3D drm_crtc_mask(crtc);
-> > =
-
-> > Are you suggesting adding this to after:
-> >  if (config->funcs->atomic_check) {
-> >                 ret =3D config->funcs->atomic_check(state->dev, state);
-> > =
-
-> >                 if (ret) {
-> >                         DRM_DEBUG_ATOMIC("atomic driver check for %p fa=
-iled: %d\n",
-> >                                          state, ret);
-> >                         return ret;
-> >                 }
-> > 		requested_crtc |=3D drm_crtc_mask(crtc);    // Here it will have requ=
-ested crtc =3D 0x11
-> >         }
-> > =
-
-> > in this case here the state should already have master crtc 0 and slave=
- crtc 1
-> > and that requested crtc should already be 0x11
-> > =
-
-> > Then in that case we dont need any special check for calculating affect=
-ed crtc, that also will be 0x11
-> =
-
-> All I'm saying is that you're currently calculating requested_crtcs and
-> affected_crtcs differently. So I'm not at all surprised that they might
-> not match.
+On Thu, Apr 1, 2021 at 2:03 PM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Thu, 1 Apr 2021 at 23:09, Rob Clark <robdclark@gmail.com> wrote:
+> >
+> > On Mon, Feb 22, 2021 at 8:06 AM Rob Clark <robdclark@gmail.com> wrote:
+> > >
+> > > On Mon, Feb 22, 2021 at 7:45 AM Akhil P Oommen <akhilpo@codeaurora.org> wrote:
+> > > >
+> > > > On 2/19/2021 9:30 PM, Rob Clark wrote:
+> > > > > On Fri, Feb 19, 2021 at 2:44 AM Akhil P Oommen <akhilpo@codeaurora.org> wrote:
+> > > > >>
+> > > > >> On 2/18/2021 9:41 PM, Rob Clark wrote:
+> > > > >>> On Thu, Feb 18, 2021 at 4:28 AM Akhil P Oommen <akhilpo@codeaurora.org> wrote:
+> > > > >>>>
+> > > > >>>> On 2/18/2021 2:05 AM, Jonathan Marek wrote:
+> > > > >>>>> On 2/17/21 3:18 PM, Rob Clark wrote:
+> > > > >>>>>> On Wed, Feb 17, 2021 at 11:08 AM Jordan Crouse
+> > > > >>>>>> <jcrouse@codeaurora.org> wrote:
+> > > > >>>>>>>
+> > > > >>>>>>> On Wed, Feb 17, 2021 at 07:14:16PM +0530, Akhil P Oommen wrote:
+> > > > >>>>>>>> On 2/17/2021 8:36 AM, Rob Clark wrote:
+> > > > >>>>>>>>> On Tue, Feb 16, 2021 at 12:10 PM Jonathan Marek <jonathan@marek.ca>
+> > > > >>>>>>>>> wrote:
+> > > > >>>>>>>>>>
+> > > > >>>>>>>>>> Ignore nvmem_cell_get() EOPNOTSUPP error in the same way as a
+> > > > >>>>>>>>>> ENOENT error,
+> > > > >>>>>>>>>> to fix the case where the kernel was compiled without CONFIG_NVMEM.
+> > > > >>>>>>>>>>
+> > > > >>>>>>>>>> Fixes: fe7952c629da ("drm/msm: Add speed-bin support to a618 gpu")
+> > > > >>>>>>>>>> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> > > > >>>>>>>>>> ---
+> > > > >>>>>>>>>>     drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 6 +++---
+> > > > >>>>>>>>>>     1 file changed, 3 insertions(+), 3 deletions(-)
+> > > > >>>>>>>>>>
+> > > > >>>>>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > > >>>>>>>>>> b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > > >>>>>>>>>> index ba8e9d3cf0fe..7fe5d97606aa 100644
+> > > > >>>>>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > > >>>>>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > > >>>>>>>>>> @@ -1356,10 +1356,10 @@ static int a6xx_set_supported_hw(struct
+> > > > >>>>>>>>>> device *dev, struct a6xx_gpu *a6xx_gpu,
+> > > > >>>>>>>>>>
+> > > > >>>>>>>>>>            cell = nvmem_cell_get(dev, "speed_bin");
+> > > > >>>>>>>>>>            /*
+> > > > >>>>>>>>>> -        * -ENOENT means that the platform doesn't support
+> > > > >>>>>>>>>> speedbin which is
+> > > > >>>>>>>>>> -        * fine
+> > > > >>>>>>>>>> +        * -ENOENT means no speed bin in device tree,
+> > > > >>>>>>>>>> +        * -EOPNOTSUPP means kernel was built without CONFIG_NVMEM
+> > > > >>>>>>>>>
+> > > > >>>>>>>>> very minor nit, it would be nice to at least preserve the gist of the
+> > > > >>>>>>>>> "which is fine" (ie. some variation of "this is an optional thing and
+> > > > >>>>>>>>> things won't catch fire without it" ;-))
+> > > > >>>>>>>>>
+> > > > >>>>>>>>> (which is, I believe, is true, hopefully Akhil could confirm.. if not
+> > > > >>>>>>>>> we should have a harder dependency on CONFIG_NVMEM..)
+> > > > >>>>>>>> IIRC, if the gpu opp table in the DT uses the 'opp-supported-hw'
+> > > > >>>>>>>> property,
+> > > > >>>>>>>> we will see some error during boot up if we don't call
+> > > > >>>>>>>> dev_pm_opp_set_supported_hw(). So calling "nvmem_cell_get(dev,
+> > > > >>>>>>>> "speed_bin")"
+> > > > >>>>>>>> is a way to test this.
+> > > > >>>>>>>>
+> > > > >>>>>>>> If there is no other harm, we can put a hard dependency on
+> > > > >>>>>>>> CONFIG_NVMEM.
+> > > > >>>>>>>
+> > > > >>>>>>> I'm not sure if we want to go this far given the squishiness about
+> > > > >>>>>>> module
+> > > > >>>>>>> dependencies. As far as I know we are the only driver that uses this
+> > > > >>>>>>> seriously
+> > > > >>>>>>> on QCOM SoCs and this is only needed for certain targets. I don't
+> > > > >>>>>>> know if we
+> > > > >>>>>>> want to force every target to build NVMEM and QFPROM on our behalf.
+> > > > >>>>>>> But maybe
+> > > > >>>>>>> I'm just saying that because Kconfig dependencies tend to break my
+> > > > >>>>>>> brain (and
+> > > > >>>>>>> then Arnd has to send a patch to fix it).
+> > > > >>>>>>>
+> > > > >>>>>>
+> > > > >>>>>> Hmm, good point.. looks like CONFIG_NVMEM itself doesn't have any
+> > > > >>>>>> other dependencies, so I suppose it wouldn't be the end of the world
+> > > > >>>>>> to select that.. but I guess we don't want to require QFPROM
+> > > > >>>>>>
+> > > > >>>>>> I guess at the end of the day, what is the failure mode if you have a
+> > > > >>>>>> speed-bin device, but your kernel config misses QFPROM (and possibly
+> > > > >>>>>> NVMEM)?  If the result is just not having the highest clk rate(s)
+> > > > >>>>
+> > > > >>>> Atleast on sc7180's gpu, using an unsupported FMAX breaks gmu. It won't
+> > > > >>>> be very obvious what went wrong when this happens!
+> > > > >>>
+> > > > >>> Ugg, ok..
+> > > > >>>
+> > > > >>> I suppose we could select NVMEM, but not QFPROM, and then the case
+> > > > >>> where QFPROM is not enabled on platforms that have the speed-bin field
+> > > > >>> in DT will fail gracefully and all other platforms would continue on
+> > > > >>> happily?
+> > > > >>>
+> > > > >>> BR,
+> > > > >>> -R
+> > > > >>
+> > > > >> Sounds good to me.
+> > > > >>
+> > > > >
+> > > > > You probably should do a quick test with NVMEM enabled but QFPROM
+> > > > > disabled to confirm my theory, but I *think* that should work
+> > > > >
+> > > > > BR,
+> > > > > -R
+> > > > >
+> > > >
+> > > > I tried it on an sc7180 device. The suggested combo (CONFIG_NVMEM + no
+> > > > CONFIG_QCOM_QFPROM) makes the gpu probe fail with error "failed to read
+> > > > speed-bin. Some OPPs may not be supported by hardware". This is good
+> > > > enough clue for the developer that he should fix the broken speedbin
+> > > > detection.
+> > > >
+> > >
+> > > Ok, great.. then sounds like selecting NVMEM is a good approach
+> > >
+> >
+> > btw, did anyone ever send a patch to select NVMEM?  I'm not seeing one
+> > but I could be overlooking something
+>
+> Judging by the amount of issues surrounding speed-bin, I might have a
+> bold suggestion to revert these patches for now and get them once all
+> the issues are sorted, so that we'd have a single working commit
+> instead of scattered patch series breaking git bisect, having bad
+> side-effects on non-sc7180 platforms, etc.
 >
 
-I dont get your point yet.
-requested crtc is calculated before the atomic check call and we dont check=
- for crtc uapi.enable to be true.
-And hence requested crtc  =3D CRTC 0 =3D 0x2
-After I added the check in this patch where affected crtc will include only=
- the crtcs that have uapi.enable =3D true
-then  it perfectly matches the requested crtc and return 0x2 but without th=
-is check when the calculation of
-requested and affected crtc is the same is where we see the affected crtc =
-=3D CRTC 0 and 1 =3D 0x3
+We do really need some pre-merge CI like we have on the mesa side of
+things (and we at least have 845 devices in our CI farm, but it would
+be useful to add more generations)..  but other than the config issue,
+I *think* this fixes the last of the speedbin fallout?
 
-So when the calculation is different infcat we dont see the mismatch
+https://patchwork.freedesktop.org/patch/426538/?series=88558&rev=1
 
-What is your point here?
+Planning to include that in a -fixes pull req in the next day or two.
+(And please have a look at msm-next-staging and let me know if you see
+anything other fixes that would be good to get in, speedbin related or
+otherwise.)
 
-Manasi
-> -- =
-
-> Ville Syrj=E4l=E4
-> Intel
+BR,
+-R
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
