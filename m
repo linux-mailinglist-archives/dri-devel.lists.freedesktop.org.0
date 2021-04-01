@@ -1,56 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2CF2351563
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 15:53:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51BDA351565
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 15:54:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C893D6E0CF;
-	Thu,  1 Apr 2021 13:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97B656ECAF;
+	Thu,  1 Apr 2021 13:54:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 230D86E0CF
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 13:53:49 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id w10so1571514pgh.5
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 06:53:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yD5b/gzLfWxFprD6vkCUufgtg2euX6KlqW93zfrVx5U=;
- b=UjU4CBW9ynxiOtzRKTacMyLjU9ADrMWJ08Kvf5VBMhosAqV5BksTrv88PzwDEQ9+wt
- /3MjXN1s4o+4txzeTou50dTwf/DB6AtH02VQc3/RSTxcSKiFvF0nXmMnTAcmMKtCorGT
- iKMlGgMXRaRTlghAw8oIzMdtzqRC0eMiYrUMTGA84RINgqGxzhEqSPVmTkw1XTXeK8gh
- KK/YH81iiwfj8DFkjuG+wlZjnbJOqutOTWd0Jf/LyGqv8AarBIQ9rDv3/iz7CDK5zYCs
- 65AqRKAJ632pgvwGasbVuPF5iTEHcUlICPvzEAbiaszqe8u1Vdouxtrwt+5blClwGpSE
- AbCw==
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 776906ECAF
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 13:54:15 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id w3so3018722ejc.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 06:54:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LOK9JGxpfz4RuBUDiwNLJInvRHuhBZmvePhl1azYLI0=;
+ b=DX+6MFlWgqkTQffER2J5tPhBP3qGQY+W1B0ctAQVeyo2nysHq89JnDUpsXRQ3KcPz7
+ juEcxHHTiGN4TYYBggA34nounyBMaIERJNY02i2pUuJxr9smSDYJrIkfVLmNnzO3Ssar
+ 5AZTdyYKJGrnM1rJKcN3KMISJUvy/f+fN02TamyzUidc0vdh9VlAuls+C8zvpB4cSQ3q
+ xzA9r0Ch93LP/7zKRE8NRaDCjEAvndV3bsnfc/9yTgzKa8kIZbo/AxNKRetoL5bQCgG3
+ zqghYl4qPUELeh4bhDMM7PGGsH7+ow+i9AhFakv6wf9QuePPDJVpd/wkHRD7NTD2t9bH
+ C4Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yD5b/gzLfWxFprD6vkCUufgtg2euX6KlqW93zfrVx5U=;
- b=V4BvvpYE4IqlYyDq5A4I4jCaiyDXoBt78P1TU4dViDVW1sfWPZ9pTt6wfJGfu7uaOu
- kiaxacZQ5z0M7j/i9TEVl+w2KOP/QC40d+MOcmU9x3NJ0RVU7P6hlYJsAcFKemQLELpa
- VoLJ/DYPzTZ5kqeS1sMyC+6Gk5Fxox0cwW8Zw/FnOQUNx/Eu8dZ9LcSXUv+N6XO7m60d
- Yx+iaNxTxLQpWEP+79BpBTTsIhlVzMxmlAzsNVkFXWcb5Zd9IfUX//82ywJp3CRRhOLf
- 1XN7Sy+D0/IPPc+PxJlzPWJdHE3uWJc8UAdJyC3n9Z1sV+y0ityElHStZuciOu3ACvg0
- 4OaA==
-X-Gm-Message-State: AOAM530FLdEBuhU9qakkRjXwZ0V4DyyyYYe08RYVHbsiexIk29UnUJzs
- Pi9GF6fw0S6dP3vaWRchpfcmZ2Z7Jc5KXJjc350U0ej8VRBDxg==
-X-Google-Smtp-Source: ABdhPJy5DYOPKKnRX114DQl0YHOOuo+r3HgpopfnEbz9F1iol7spMs9Is0Zt6IXeGUVhI52/sDE8h3+deu5556yN03A=
-X-Received: by 2002:aa7:980a:0:b029:20c:5402:5de9 with SMTP id
- e10-20020aa7980a0000b029020c54025de9mr7703266pfl.18.1617285228504; Thu, 01
- Apr 2021 06:53:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LOK9JGxpfz4RuBUDiwNLJInvRHuhBZmvePhl1azYLI0=;
+ b=jAG4OIiT1zbZ1Sed15Csk7JlLp1hiuD86Ur1oDNve/0l/vXGQ1WJttKp2W5VVLnzeg
+ 3RLCLDNOM2yotSCXEwfZaKuoq5ZiRXgyC2eqUyoIDnxsr1zTn6hGQAclWUjTyxtT9uwN
+ JIsQIhBoPW8P1PVrwBybRLov67PpiB7WFsMRpARFJ/bAg1XJaOyaemOuLBwccmvOAu84
+ 7BmGOxbwsoFfskLiVckUOrS9Wc2WJ4SGOUUzUVj1A29fgG9aF/JkREgHuOYKs4zTuPYA
+ 9iHvfdiehmhHyNuMdmYaO+JR+c3Gsi+ensDxr5OGKeJSYXFGXLy+bbr6XzRs5DI4ih7f
+ dBAg==
+X-Gm-Message-State: AOAM533GrrCMIAZzzT8twDLdm24odccJ255sCap8xY2OkIyCNYqHCdCA
+ 2WTggoDVdPx/xg2WjrjM1sp9UmQvUyA=
+X-Google-Smtp-Source: ABdhPJxaoZHBvXwelwSKTuArnISi6oaNjwgg3oJHR4UIz6ae44Qtaffi3VZbb6RIQXNO6TCierCkkQ==
+X-Received: by 2002:a17:906:684b:: with SMTP id
+ a11mr8930453ejs.329.1617285254212; 
+ Thu, 01 Apr 2021 06:54:14 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:2629:95e5:2e77:4f00])
+ by smtp.gmail.com with ESMTPSA id r13sm3647992edy.3.2021.04.01.06.54.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Apr 2021 06:54:13 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: optimize the pool shrinker a bit
+Date: Thu,  1 Apr 2021 15:54:13 +0200
+Message-Id: <20210401135413.1416-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <cover.1616135353.git.xji@analogixsemi.com>
- <3e47928977e1386d78de7eb05be6a73d9ffaa616.1616135353.git.xji@analogixsemi.com>
-In-Reply-To: <3e47928977e1386d78de7eb05be6a73d9ffaa616.1616135353.git.xji@analogixsemi.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 1 Apr 2021 15:53:37 +0200
-Message-ID: <CAG3jFysh_Pg0pBaSN-mHNO01wMG5APkH9iJ63q_1tRgbtXUH-g@mail.gmail.com>
-Subject: Re: [PATCH v6 3/5] drm/bridge: anx7625: add MIPI DPI input feature
- support
-To: Xin Ji <xji@analogixsemi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,470 +67,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Sheng Pan <span@analogixsemi.com>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Bernie Liang <bliang@analogixsemi.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Zhen Li <zhenli@analogixsemi.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, Torsten Duwe <duwe@lst.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: daniel.vetter@ffwll.ch
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Xin,
-
-This patch looks good to me, feel free to add my r-b.
-
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-
-On Fri, 19 Mar 2021 at 07:34, Xin Ji <xji@analogixsemi.com> wrote:
->
-> Add MIPI rx DPI input support.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 245 ++++++++++++++++------
->  drivers/gpu/drm/bridge/analogix/anx7625.h |  18 +-
->  2 files changed, 203 insertions(+), 60 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 04536cc7afe7..8c514b46d361 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -150,18 +150,18 @@ static int anx7625_write_and(struct anx7625_data *ctx,
->         return anx7625_reg_write(ctx, client, offset, (val & (mask)));
->  }
->
-> -static int anx7625_write_and_or(struct anx7625_data *ctx,
-> -                               struct i2c_client *client,
-> -                               u8 offset, u8 and_mask, u8 or_mask)
-> +static int anx7625_config_bit_matrix(struct anx7625_data *ctx)
->  {
-> -       int val;
-> +       int i, ret;
->
-> -       val = anx7625_reg_read(ctx, client, offset);
-> -       if (val < 0)
-> -               return val;
-> +       ret = anx7625_write_or(ctx, ctx->i2c.tx_p2_client,
-> +                              AUDIO_CONTROL_REGISTER, 0x80);
-> +       for (i = 0; i < 13; i++)
-> +               ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> +                                        VIDEO_BIT_MATRIX_12 + i,
-> +                                        0x18 + i);
->
-> -       return anx7625_reg_write(ctx, client,
-> -                                offset, (val & and_mask) | (or_mask));
-> +       return ret;
->  }
->
->  static int anx7625_read_ctrl_status_p0(struct anx7625_data *ctx)
-> @@ -219,38 +219,6 @@ static int anx7625_video_mute_control(struct anx7625_data *ctx,
->         return ret;
->  }
->
-> -static int anx7625_config_audio_input(struct anx7625_data *ctx)
-> -{
-> -       struct device *dev = &ctx->client->dev;
-> -       int ret;
-> -
-> -       /* Channel num */
-> -       ret = anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> -                               AUDIO_CHANNEL_STATUS_6, I2S_CH_2 << 5);
-> -
-> -       /* FS */
-> -       ret |= anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
-> -                                   AUDIO_CHANNEL_STATUS_4,
-> -                                   0xf0, AUDIO_FS_48K);
-> -       /* Word length */
-> -       ret |= anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
-> -                                   AUDIO_CHANNEL_STATUS_5,
-> -                                   0xf0, AUDIO_W_LEN_24_24MAX);
-> -       /* I2S */
-> -       ret |= anx7625_write_or(ctx, ctx->i2c.tx_p2_client,
-> -                               AUDIO_CHANNEL_STATUS_6, I2S_SLAVE_MODE);
-> -       ret |= anx7625_write_and(ctx, ctx->i2c.tx_p2_client,
-> -                                AUDIO_CONTROL_REGISTER, ~TDM_TIMING_MODE);
-> -       /* Audio change flag */
-> -       ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
-> -                               AP_AV_STATUS, AP_AUDIO_CHG);
-> -
-> -       if (ret < 0)
-> -               DRM_DEV_ERROR(dev, "fail to config audio.\n");
-> -
-> -       return ret;
-> -}
-> -
->  /* Reduction of fraction a/b */
->  static void anx7625_reduction_of_a_fraction(unsigned long *a, unsigned long *b)
->  {
-> @@ -410,7 +378,7 @@ static int anx7625_dsi_video_timing_config(struct anx7625_data *ctx)
->         ret |= anx7625_write_and(ctx, ctx->i2c.rx_p1_client,
->                         MIPI_LANE_CTRL_0, 0xfc);
->         ret |= anx7625_write_or(ctx, ctx->i2c.rx_p1_client,
-> -                               MIPI_LANE_CTRL_0, 3);
-> +                               MIPI_LANE_CTRL_0, ctx->pdata.mipi_lanes - 1);
->
->         /* Htotal */
->         htotal = ctx->dt.hactive.min + ctx->dt.hfront_porch.min +
-> @@ -595,6 +563,76 @@ static int anx7625_dsi_config(struct anx7625_data *ctx)
->         return ret;
->  }
->
-> +static int anx7625_api_dpi_config(struct anx7625_data *ctx)
-> +{
-> +       struct device *dev = &ctx->client->dev;
-> +       u16 freq = ctx->dt.pixelclock.min / 1000;
-> +       int ret;
-> +
-> +       /* configure pixel clock */
-> +       ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +                               PIXEL_CLOCK_L, freq & 0xFF);
-> +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +                                PIXEL_CLOCK_H, (freq >> 8));
-> +
-> +       /* set DPI mode */
-> +       /* set to DPI PLL module sel */
-> +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
-> +                                MIPI_DIGITAL_PLL_9, 0x20);
-> +       /* power down MIPI */
-> +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
-> +                                MIPI_LANE_CTRL_10, 0x08);
-> +       /* enable DPI mode */
-> +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
-> +                                MIPI_DIGITAL_PLL_18, 0x1C);
-> +       /* set first edge */
-> +       ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> +                                VIDEO_CONTROL_0, 0x06);
-> +       if (ret < 0)
-> +               DRM_DEV_ERROR(dev, "IO error : dpi phy set failed.\n");
-> +
-> +       return ret;
-> +}
-> +
-> +static int anx7625_dpi_config(struct anx7625_data *ctx)
-> +{
-> +       struct device *dev = &ctx->client->dev;
-> +       int ret;
-> +
-> +       DRM_DEV_DEBUG_DRIVER(dev, "config dpi\n");
-> +
-> +       /* DSC disable */
-> +       ret = anx7625_write_and(ctx, ctx->i2c.rx_p0_client,
-> +                               R_DSC_CTRL_0, ~DSC_EN);
-> +       if (ret < 0) {
-> +               DRM_DEV_ERROR(dev, "IO error : disable dsc failed.\n");
-> +               return ret;
-> +       }
-> +
-> +       ret = anx7625_config_bit_matrix(ctx);
-> +       if (ret < 0) {
-> +               DRM_DEV_ERROR(dev, "config bit matrix failed.\n");
-> +               return ret;
-> +       }
-> +
-> +       ret = anx7625_api_dpi_config(ctx);
-> +       if (ret < 0) {
-> +               DRM_DEV_ERROR(dev, "mipi phy(dpi) setup failed.\n");
-> +               return ret;
-> +       }
-> +
-> +       /* set MIPI RX EN */
-> +       ret = anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
-> +                              AP_AV_STATUS, AP_MIPI_RX_EN);
-> +       /* clear mute flag */
-> +       ret |= anx7625_write_and(ctx, ctx->i2c.rx_p0_client,
-> +                                AP_AV_STATUS, (u8)~AP_MIPI_MUTE);
-> +       if (ret < 0)
-> +               DRM_DEV_ERROR(dev, "IO error : enable mipi rx failed.\n");
-> +
-> +       return ret;
-> +}
-> +
->  static void anx7625_dp_start(struct anx7625_data *ctx)
->  {
->         int ret;
-> @@ -605,9 +643,10 @@ static void anx7625_dp_start(struct anx7625_data *ctx)
->                 return;
->         }
->
-> -       anx7625_config_audio_input(ctx);
-> -
-> -       ret = anx7625_dsi_config(ctx);
-> +       if (ctx->pdata.is_dpi)
-> +               ret = anx7625_dpi_config(ctx);
-> +       else
-> +               ret = anx7625_dsi_config(ctx);
->
->         if (ret < 0)
->                 DRM_DEV_ERROR(dev, "MIPI phy setup error.\n");
-> @@ -1051,6 +1090,7 @@ static void anx7625_start_dp_work(struct anx7625_data *ctx)
->                 return;
->         }
->
-> +       ctx->hpd_status = 1;
->         ctx->hpd_high_cnt++;
->
->         /* Not support HDCP */
-> @@ -1060,8 +1100,10 @@ static void anx7625_start_dp_work(struct anx7625_data *ctx)
->         ret |= anx7625_write_or(ctx, ctx->i2c.rx_p1_client, 0xec, 0x10);
->         /* Interrupt for DRM */
->         ret |= anx7625_write_or(ctx, ctx->i2c.rx_p1_client, 0xff, 0x01);
-> -       if (ret < 0)
-> +       if (ret < 0) {
-> +               DRM_DEV_ERROR(dev, "fail to setting HDCP/auth\n");
->                 return;
-> +       }
->
->         ret = anx7625_reg_read(ctx, ctx->i2c.rx_p1_client, 0x86);
->         if (ret < 0)
-> @@ -1080,6 +1122,10 @@ static void anx7625_hpd_polling(struct anx7625_data *ctx)
->         int ret, val;
->         struct device *dev = &ctx->client->dev;
->
-> +       /* Interrupt mode, no need poll HPD status, just return */
-> +       if (ctx->pdata.intp_irq)
-> +               return;
-> +
->         if (atomic_read(&ctx->power_status) != 1) {
->                 DRM_DEV_DEBUG_DRIVER(dev, "No need to poling HPD status.\n");
->                 return;
-> @@ -1130,6 +1176,21 @@ static void anx7625_remove_edid(struct anx7625_data *ctx)
->         ctx->slimport_edid_p.edid_block_num = -1;
->  }
->
-> +static void anx7625_dp_adjust_swing(struct anx7625_data *ctx)
-> +{
-> +       int i;
-> +
-> +       for (i = 0; i < ctx->pdata.dp_lane0_swing_reg_cnt; i++)
-> +               anx7625_reg_write(ctx, ctx->i2c.tx_p1_client,
-> +                                 DP_TX_LANE0_SWING_REG0 + i,
-> +                                 ctx->pdata.lane0_reg_data[i] & 0xFF);
-> +
-> +       for (i = 0; i < ctx->pdata.dp_lane1_swing_reg_cnt; i++)
-> +               anx7625_reg_write(ctx, ctx->i2c.tx_p1_client,
-> +                                 DP_TX_LANE1_SWING_REG0 + i,
-> +                                 ctx->pdata.lane1_reg_data[i] & 0xFF);
-> +}
-> +
->  static void dp_hpd_change_handler(struct anx7625_data *ctx, bool on)
->  {
->         struct device *dev = &ctx->client->dev;
-> @@ -1145,9 +1206,8 @@ static void dp_hpd_change_handler(struct anx7625_data *ctx, bool on)
->         } else {
->                 DRM_DEV_DEBUG_DRIVER(dev, " HPD high\n");
->                 anx7625_start_dp_work(ctx);
-> +               anx7625_dp_adjust_swing(ctx);
->         }
-> -
-> -       ctx->hpd_status = 1;
->  }
->
->  static int anx7625_hpd_change_detect(struct anx7625_data *ctx)
-> @@ -1224,20 +1284,72 @@ static irqreturn_t anx7625_intr_hpd_isr(int irq, void *data)
->         return IRQ_HANDLED;
->  }
->
-> +static int anx7625_get_swing_setting(struct device *dev,
-> +                                    struct anx7625_platform_data *pdata)
-> +{
-> +       int num_regs;
-> +
-> +       if (of_get_property(dev->of_node,
-> +                           "analogix,lane0-swing", &num_regs)) {
-> +               if (num_regs > DP_TX_SWING_REG_CNT)
-> +                       num_regs = DP_TX_SWING_REG_CNT;
-> +
-> +               pdata->dp_lane0_swing_reg_cnt = num_regs;
-> +               of_property_read_u32_array(dev->of_node, "analogix,lane0-swing",
-> +                                          pdata->lane0_reg_data, num_regs);
-> +       }
-> +
-> +       if (of_get_property(dev->of_node,
-> +                           "analogix,lane1-swing", &num_regs)) {
-> +               if (num_regs > DP_TX_SWING_REG_CNT)
-> +                       num_regs = DP_TX_SWING_REG_CNT;
-> +
-> +               pdata->dp_lane1_swing_reg_cnt = num_regs;
-> +               of_property_read_u32_array(dev->of_node, "analogix,lane1-swing",
-> +                                          pdata->lane1_reg_data, num_regs);
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  static int anx7625_parse_dt(struct device *dev,
->                             struct anx7625_platform_data *pdata)
->  {
-> -       struct device_node *np = dev->of_node;
-> +       struct device_node *np = dev->of_node, *ep0;
->         struct drm_panel *panel;
->         int ret;
-> +       int bus_type, mipi_lanes;
->
-> +       anx7625_get_swing_setting(dev, pdata);
-> +
-> +       pdata->is_dpi = 1; /* default dpi mode */
->         pdata->mipi_host_node = of_graph_get_remote_node(np, 0, 0);
->         if (!pdata->mipi_host_node) {
->                 DRM_DEV_ERROR(dev, "fail to get internal panel.\n");
->                 return -ENODEV;
->         }
->
-> -       DRM_DEV_DEBUG_DRIVER(dev, "found dsi host node.\n");
-> +       bus_type = 5;
-> +       mipi_lanes = MAX_LANES_SUPPORT;
-> +       ep0 = of_graph_get_endpoint_by_regs(np, 0, 0);
-> +       if (ep0) {
-> +               if (of_property_read_u32(ep0, "bus-type", &bus_type))
-> +                       bus_type = 0;
-> +
-> +               mipi_lanes = of_property_count_u32_elems(ep0, "data-lanes");
-> +       }
-> +
-> +       if (bus_type == 5) /* bus type is Parallel(DSI) */
-> +               pdata->is_dpi = 0;
-> +
-> +       pdata->mipi_lanes = mipi_lanes;
-> +       if (pdata->mipi_lanes > MAX_LANES_SUPPORT || pdata->mipi_lanes <= 0)
-> +               pdata->mipi_lanes = MAX_LANES_SUPPORT;
-> +
-> +       if (pdata->is_dpi)
-> +               DRM_DEV_DEBUG_DRIVER(dev, "found MIPI DPI host node.\n");
-> +       else
-> +               DRM_DEV_DEBUG_DRIVER(dev, "found MIPI DSI host node.\n");
->
->         ret = drm_of_find_panel_or_bridge(np, 1, 0, &panel, NULL);
->         if (ret < 0) {
-> @@ -1300,9 +1412,13 @@ static enum drm_connector_status anx7625_sink_detect(struct anx7625_data *ctx)
->  {
->         struct device *dev = &ctx->client->dev;
->
-> -       DRM_DEV_DEBUG_DRIVER(dev, "sink detect, return connected\n");
-> +       DRM_DEV_DEBUG_DRIVER(dev, "sink detect\n");
-> +
-> +       if (ctx->pdata.panel_bridge)
-> +               return connector_status_connected;
->
-> -       return connector_status_connected;
-> +       return ctx->hpd_status ? connector_status_connected :
-> +                                    connector_status_disconnected;
->  }
->
->  static int anx7625_attach_dsi(struct anx7625_data *ctx)
-> @@ -1330,7 +1446,7 @@ static int anx7625_attach_dsi(struct anx7625_data *ctx)
->                 return -EINVAL;
->         }
->
-> -       dsi->lanes = 4;
-> +       dsi->lanes = ctx->pdata.mipi_lanes;
->         dsi->format = MIPI_DSI_FMT_RGB888;
->         dsi->mode_flags = MIPI_DSI_MODE_VIDEO   |
->                 MIPI_DSI_MODE_VIDEO_SYNC_PULSE  |
-> @@ -1376,10 +1492,12 @@ static int anx7625_bridge_attach(struct drm_bridge *bridge,
->                 return -ENODEV;
->         }
->
-> -       err = anx7625_attach_dsi(ctx);
-> -       if (err) {
-> -               DRM_DEV_ERROR(dev, "Fail to attach to dsi : %d\n", err);
-> -               return err;
-> +       if (!ctx->pdata.is_dpi) {
-> +               err = anx7625_attach_dsi(ctx);
-> +               if (err) {
-> +                       DRM_DEV_ERROR(dev, "Fail to attach to dsi : %d\n", err);
-> +                       return err;
-> +               }
->         }
->
->         if (ctx->pdata.panel_bridge) {
-> @@ -1478,6 +1596,10 @@ static bool anx7625_bridge_mode_fixup(struct drm_bridge *bridge,
->
->         DRM_DEV_DEBUG_DRIVER(dev, "drm mode fixup set\n");
->
-> +       /* No need fixup for external monitor */
-> +       if (!ctx->pdata.panel_bridge)
-> +               return true;
-> +
->         hsync = mode->hsync_end - mode->hsync_start;
->         hfp = mode->hsync_start - mode->hdisplay;
->         hbp = mode->htotal - mode->hsync_end;
-> @@ -1786,8 +1908,13 @@ static int anx7625_i2c_probe(struct i2c_client *client,
->
->         platform->bridge.funcs = &anx7625_bridge_funcs;
->         platform->bridge.of_node = client->dev.of_node;
-> -       platform->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_HPD;
-> -       platform->bridge.type = DRM_MODE_CONNECTOR_eDP;
-> +       platform->bridge.ops = DRM_BRIDGE_OP_EDID;
-> +       if (!platform->pdata.panel_bridge)
-> +               platform->bridge.ops |= DRM_BRIDGE_OP_HPD |
-> +                                       DRM_BRIDGE_OP_DETECT;
-> +       platform->bridge.type = platform->pdata.panel_bridge ?
-> +                                   DRM_MODE_CONNECTOR_eDP :
-> +                                   DRM_MODE_CONNECTOR_DisplayPort;
->         drm_bridge_add(&platform->bridge);
->
->         DRM_DEV_DEBUG_DRIVER(dev, "probe done\n");
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-> index 193ad86c5450..beee95da2155 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-> @@ -141,12 +141,20 @@
->  #define  HORIZONTAL_BACK_PORCH_H      0x22  /* Bit[7:4] are reserved */
->
->  /******** END of I2C Address 0x72 *********/
-> +
-> +/***************************************************************/
-> +/* Register definition of device address 0x7a */
-> +#define DP_TX_SWING_REG_CNT            0x14
-> +#define DP_TX_LANE0_SWING_REG0         0x00
-> +#define DP_TX_LANE1_SWING_REG0         0x14
-> +/******** END of I2C Address 0x7a *********/
-> +
->  /***************************************************************/
->  /* Register definition of device address 0x7e */
->devm_drm_panel_bridge_add
->  #define  I2C_ADDR_7E_FLASH_CONTROLLER  0x7E
->
-> -#define FLASH_LOAD_STA 0x05
-> +#define FLASH_LOAD_STA          0x05
->  #define FLASH_LOAD_STA_CHK     BIT(7)
->
->  #define  XTAL_FRQ_SEL    0x3F
-> @@ -347,11 +355,19 @@ struct s_edid_data {
->
->  /***************** Display End *****************/
->
-> +#define MAX_LANES_SUPPORT      4
-> +
->  struct anx7625_platform_data {
->         struct gpio_desc *gpio_p_on;
->         struct gpio_desc *gpio_reset;
->         struct drm_bridge *panel_bridge;
->         int intp_irq;
-> +       int is_dpi;
-> +       int mipi_lanes;
-> +       int dp_lane0_swing_reg_cnt;
-> +       int lane0_reg_data[DP_TX_SWING_REG_CNT];
-> +       int dp_lane1_swing_reg_cnt;
-> +       int lane1_reg_data[DP_TX_SWING_REG_CNT];
->         u32 low_power_mode;
->         struct device_node *mipi_host_node;
->  };
-> --
-> 2.25.1
->
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+U3dpdGNoIGJhY2sgdG8gdXNpbmcgYSBzcGlubG9jayBhZ2FpbiBieSBtb3ZpbmcgdGhlIElPTU1V
+IHVubWFwIG91dHNpZGUKb2YgdGhlIGxvY2tlZCByZWdpb24uCgpTaWduZWQtb2ZmLWJ5OiBDaHJp
+c3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Ci0tLQogZHJpdmVycy9ncHUv
+ZHJtL3R0bS90dG1fcG9vbC5jIHwgNDAgKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0t
+LQogaW5jbHVkZS9saW51eC9zaHJpbmtlci5oICAgICAgIHwgIDEgKwogbW0vdm1zY2FuLmMgICAg
+ICAgICAgICAgICAgICAgIHwgMTAgKysrKysrKysrCiAzIGZpbGVzIGNoYW5nZWQsIDI5IGluc2Vy
+dGlvbnMoKyksIDIyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90
+dG0vdHRtX3Bvb2wuYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bvb2wuYwppbmRleCBjYjM4
+YjFhMTdiMDkuLmE4YjRhYmU2ODdjZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90
+dG1fcG9vbC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bvb2wuYwpAQCAtNzAsNyAr
+NzAsNyBAQCBzdGF0aWMgc3RydWN0IHR0bV9wb29sX3R5cGUgZ2xvYmFsX3VuY2FjaGVkW01BWF9P
+UkRFUl07CiBzdGF0aWMgc3RydWN0IHR0bV9wb29sX3R5cGUgZ2xvYmFsX2RtYTMyX3dyaXRlX2Nv
+bWJpbmVkW01BWF9PUkRFUl07CiBzdGF0aWMgc3RydWN0IHR0bV9wb29sX3R5cGUgZ2xvYmFsX2Rt
+YTMyX3VuY2FjaGVkW01BWF9PUkRFUl07CiAKLXN0YXRpYyBzdHJ1Y3QgbXV0ZXggc2hyaW5rZXJf
+bG9jazsKK3N0YXRpYyBzcGlubG9ja190IHNocmlua2VyX2xvY2s7CiBzdGF0aWMgc3RydWN0IGxp
+c3RfaGVhZCBzaHJpbmtlcl9saXN0Owogc3RhdGljIHN0cnVjdCBzaHJpbmtlciBtbV9zaHJpbmtl
+cjsKIApAQCAtMjYzLDkgKzI2Myw5IEBAIHN0YXRpYyB2b2lkIHR0bV9wb29sX3R5cGVfaW5pdChz
+dHJ1Y3QgdHRtX3Bvb2xfdHlwZSAqcHQsIHN0cnVjdCB0dG1fcG9vbCAqcG9vbCwKIAlzcGluX2xv
+Y2tfaW5pdCgmcHQtPmxvY2spOwogCUlOSVRfTElTVF9IRUFEKCZwdC0+cGFnZXMpOwogCi0JbXV0
+ZXhfbG9jaygmc2hyaW5rZXJfbG9jayk7CisJc3Bpbl9sb2NrKCZzaHJpbmtlcl9sb2NrKTsKIAls
+aXN0X2FkZF90YWlsKCZwdC0+c2hyaW5rZXJfbGlzdCwgJnNocmlua2VyX2xpc3QpOwotCW11dGV4
+X3VubG9jaygmc2hyaW5rZXJfbG9jayk7CisJc3Bpbl91bmxvY2soJnNocmlua2VyX2xvY2spOwog
+fQogCiAvKiBSZW1vdmUgYSBwb29sX3R5cGUgZnJvbSB0aGUgZ2xvYmFsIHNocmlua2VyIGxpc3Qg
+YW5kIGZyZWUgYWxsIHBhZ2VzICovCkBAIC0yNzMsOSArMjczLDkgQEAgc3RhdGljIHZvaWQgdHRt
+X3Bvb2xfdHlwZV9maW5pKHN0cnVjdCB0dG1fcG9vbF90eXBlICpwdCkKIHsKIAlzdHJ1Y3QgcGFn
+ZSAqcDsKIAotCW11dGV4X2xvY2soJnNocmlua2VyX2xvY2spOworCXNwaW5fbG9jaygmc2hyaW5r
+ZXJfbG9jayk7CiAJbGlzdF9kZWwoJnB0LT5zaHJpbmtlcl9saXN0KTsKLQltdXRleF91bmxvY2so
+JnNocmlua2VyX2xvY2spOworCXNwaW5fdW5sb2NrKCZzaHJpbmtlcl9sb2NrKTsKIAogCXdoaWxl
+ICgocCA9IHR0bV9wb29sX3R5cGVfdGFrZShwdCkpKQogCQl0dG1fcG9vbF9mcmVlX3BhZ2UocHQt
+PnBvb2wsIHB0LT5jYWNoaW5nLCBwdC0+b3JkZXIsIHApOwpAQCAtMzEzLDI0ICszMTMsMTkgQEAg
+c3RhdGljIHN0cnVjdCB0dG1fcG9vbF90eXBlICp0dG1fcG9vbF9zZWxlY3RfdHlwZShzdHJ1Y3Qg
+dHRtX3Bvb2wgKnBvb2wsCiBzdGF0aWMgdW5zaWduZWQgaW50IHR0bV9wb29sX3Nocmluayh2b2lk
+KQogewogCXN0cnVjdCB0dG1fcG9vbF90eXBlICpwdDsKLQl1bnNpZ25lZCBpbnQgbnVtX2ZyZWVk
+OwogCXN0cnVjdCBwYWdlICpwOwogCi0JbXV0ZXhfbG9jaygmc2hyaW5rZXJfbG9jayk7CisJc3Bp
+bl9sb2NrKCZzaHJpbmtlcl9sb2NrKTsKIAlwdCA9IGxpc3RfZmlyc3RfZW50cnkoJnNocmlua2Vy
+X2xpc3QsIHR5cGVvZigqcHQpLCBzaHJpbmtlcl9saXN0KTsKKwlsaXN0X21vdmVfdGFpbCgmcHQt
+PnNocmlua2VyX2xpc3QsICZzaHJpbmtlcl9saXN0KTsKKwlzcGluX3VubG9jaygmc2hyaW5rZXJf
+bG9jayk7CiAKIAlwID0gdHRtX3Bvb2xfdHlwZV90YWtlKHB0KTsKLQlpZiAocCkgewotCQl0dG1f
+cG9vbF9mcmVlX3BhZ2UocHQtPnBvb2wsIHB0LT5jYWNoaW5nLCBwdC0+b3JkZXIsIHApOwotCQlu
+dW1fZnJlZWQgPSAxIDw8IHB0LT5vcmRlcjsKLQl9IGVsc2UgewotCQludW1fZnJlZWQgPSAwOwot
+CX0KLQotCWxpc3RfbW92ZV90YWlsKCZwdC0+c2hyaW5rZXJfbGlzdCwgJnNocmlua2VyX2xpc3Qp
+OwotCW11dGV4X3VubG9jaygmc2hyaW5rZXJfbG9jayk7CisJaWYgKCFwKQorCQlyZXR1cm4gMDsK
+IAotCXJldHVybiBudW1fZnJlZWQ7CisJdHRtX3Bvb2xfZnJlZV9wYWdlKHB0LT5wb29sLCBwdC0+
+Y2FjaGluZywgcHQtPm9yZGVyLCBwKTsKKwlyZXR1cm4gMSA8PCBwdC0+b3JkZXI7CiB9CiAKIC8q
+IFJldHVybiB0aGUgYWxsb2NhdGlvbiBvcmRlciBiYXNlZCBmb3IgYSBwYWdlICovCkBAIC01MzAs
+NiArNTI1LDcgQEAgdm9pZCB0dG1fcG9vbF9maW5pKHN0cnVjdCB0dG1fcG9vbCAqcG9vbCkKIAkJ
+CWZvciAoaiA9IDA7IGogPCBNQVhfT1JERVI7ICsraikKIAkJCQl0dG1fcG9vbF90eXBlX2Zpbmko
+JnBvb2wtPmNhY2hpbmdbaV0ub3JkZXJzW2pdKTsKIAl9CisJc3luY19zaHJpbmtlcnMoKTsKIH0K
+IAogLyogQXMgbG9uZyBhcyBwYWdlcyBhcmUgYXZhaWxhYmxlIG1ha2Ugc3VyZSB0byByZWxlYXNl
+IGF0IGxlYXN0IG9uZSAqLwpAQCAtNjA0LDcgKzYwMCw3IEBAIHN0YXRpYyBpbnQgdHRtX3Bvb2xf
+ZGVidWdmc19nbG9iYWxzX3Nob3coc3RydWN0IHNlcV9maWxlICptLCB2b2lkICpkYXRhKQogewog
+CXR0bV9wb29sX2RlYnVnZnNfaGVhZGVyKG0pOwogCi0JbXV0ZXhfbG9jaygmc2hyaW5rZXJfbG9j
+ayk7CisJc3Bpbl9sb2NrKCZzaHJpbmtlcl9sb2NrKTsKIAlzZXFfcHV0cyhtLCAid2NcdDoiKTsK
+IAl0dG1fcG9vbF9kZWJ1Z2ZzX29yZGVycyhnbG9iYWxfd3JpdGVfY29tYmluZWQsIG0pOwogCXNl
+cV9wdXRzKG0sICJ1Y1x0OiIpOwpAQCAtNjEzLDcgKzYwOSw3IEBAIHN0YXRpYyBpbnQgdHRtX3Bv
+b2xfZGVidWdmc19nbG9iYWxzX3Nob3coc3RydWN0IHNlcV9maWxlICptLCB2b2lkICpkYXRhKQog
+CXR0bV9wb29sX2RlYnVnZnNfb3JkZXJzKGdsb2JhbF9kbWEzMl93cml0ZV9jb21iaW5lZCwgbSk7
+CiAJc2VxX3B1dHMobSwgInVjIDMyXHQ6Iik7CiAJdHRtX3Bvb2xfZGVidWdmc19vcmRlcnMoZ2xv
+YmFsX2RtYTMyX3VuY2FjaGVkLCBtKTsKLQltdXRleF91bmxvY2soJnNocmlua2VyX2xvY2spOwor
+CXNwaW5fdW5sb2NrKCZzaHJpbmtlcl9sb2NrKTsKIAogCXR0bV9wb29sX2RlYnVnZnNfZm9vdGVy
+KG0pOwogCkBAIC02NDAsNyArNjM2LDcgQEAgaW50IHR0bV9wb29sX2RlYnVnZnMoc3RydWN0IHR0
+bV9wb29sICpwb29sLCBzdHJ1Y3Qgc2VxX2ZpbGUgKm0pCiAKIAl0dG1fcG9vbF9kZWJ1Z2ZzX2hl
+YWRlcihtKTsKIAotCW11dGV4X2xvY2soJnNocmlua2VyX2xvY2spOworCXNwaW5fbG9jaygmc2hy
+aW5rZXJfbG9jayk7CiAJZm9yIChpID0gMDsgaSA8IFRUTV9OVU1fQ0FDSElOR19UWVBFUzsgKytp
+KSB7CiAJCXNlcV9wdXRzKG0sICJETUEgIik7CiAJCXN3aXRjaCAoaSkgewpAQCAtNjU2LDcgKzY1
+Miw3IEBAIGludCB0dG1fcG9vbF9kZWJ1Z2ZzKHN0cnVjdCB0dG1fcG9vbCAqcG9vbCwgc3RydWN0
+IHNlcV9maWxlICptKQogCQl9CiAJCXR0bV9wb29sX2RlYnVnZnNfb3JkZXJzKHBvb2wtPmNhY2hp
+bmdbaV0ub3JkZXJzLCBtKTsKIAl9Ci0JbXV0ZXhfdW5sb2NrKCZzaHJpbmtlcl9sb2NrKTsKKwlz
+cGluX3VubG9jaygmc2hyaW5rZXJfbG9jayk7CiAKIAl0dG1fcG9vbF9kZWJ1Z2ZzX2Zvb3Rlciht
+KTsKIAlyZXR1cm4gMDsKQEAgLTY5Myw3ICs2ODksNyBAQCBpbnQgdHRtX3Bvb2xfbWdyX2luaXQo
+dW5zaWduZWQgbG9uZyBudW1fcGFnZXMpCiAJaWYgKCFwYWdlX3Bvb2xfc2l6ZSkKIAkJcGFnZV9w
+b29sX3NpemUgPSBudW1fcGFnZXM7CiAKLQltdXRleF9pbml0KCZzaHJpbmtlcl9sb2NrKTsKKwlz
+cGluX2xvY2tfaW5pdCgmc2hyaW5rZXJfbG9jayk7CiAJSU5JVF9MSVNUX0hFQUQoJnNocmlua2Vy
+X2xpc3QpOwogCiAJZm9yIChpID0gMDsgaSA8IE1BWF9PUkRFUjsgKytpKSB7CmRpZmYgLS1naXQg
+YS9pbmNsdWRlL2xpbnV4L3Nocmlua2VyLmggYi9pbmNsdWRlL2xpbnV4L3Nocmlua2VyLmgKaW5k
+ZXggMGY4MDEyMzY1MGUyLi42Yjc1ZGMzNzJmY2UgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvbGludXgv
+c2hyaW5rZXIuaAorKysgYi9pbmNsdWRlL2xpbnV4L3Nocmlua2VyLmgKQEAgLTkyLDQgKzkyLDUg
+QEAgZXh0ZXJuIHZvaWQgcmVnaXN0ZXJfc2hyaW5rZXJfcHJlcGFyZWQoc3RydWN0IHNocmlua2Vy
+ICpzaHJpbmtlcik7CiBleHRlcm4gaW50IHJlZ2lzdGVyX3Nocmlua2VyKHN0cnVjdCBzaHJpbmtl
+ciAqc2hyaW5rZXIpOwogZXh0ZXJuIHZvaWQgdW5yZWdpc3Rlcl9zaHJpbmtlcihzdHJ1Y3Qgc2hy
+aW5rZXIgKnNocmlua2VyKTsKIGV4dGVybiB2b2lkIGZyZWVfcHJlYWxsb2NlZF9zaHJpbmtlcihz
+dHJ1Y3Qgc2hyaW5rZXIgKnNocmlua2VyKTsKK2V4dGVybiB2b2lkIHN5bmNfc2hyaW5rZXJzKHZv
+aWQpOwogI2VuZGlmCmRpZmYgLS1naXQgYS9tbS92bXNjYW4uYyBiL21tL3Ztc2Nhbi5jCmluZGV4
+IDU2MmU4N2NiZDdhMS4uNDZjZDljMjE1ZDczIDEwMDY0NAotLS0gYS9tbS92bXNjYW4uYworKysg
+Yi9tbS92bXNjYW4uYwpAQCAtNDA4LDYgKzQwOCwxNiBAQCB2b2lkIHVucmVnaXN0ZXJfc2hyaW5r
+ZXIoc3RydWN0IHNocmlua2VyICpzaHJpbmtlcikKIH0KIEVYUE9SVF9TWU1CT0wodW5yZWdpc3Rl
+cl9zaHJpbmtlcik7CiAKKy8qKgorICogc3luY19zaHJpbmtlciAtIFdhaXQgZm9yIGFsbCBydW5u
+aW5nIHNocmlua2VycyB0byBjb21wbGV0ZS4KKyAqLwordm9pZCBzeW5jX3Nocmlua2Vycyh2b2lk
+KQoreworCWRvd25fd3JpdGUoJnNocmlua2VyX3J3c2VtKTsKKwl1cF93cml0ZSgmc2hyaW5rZXJf
+cndzZW0pOworfQorRVhQT1JUX1NZTUJPTChzeW5jX3Nocmlua2Vycyk7CisKICNkZWZpbmUgU0hS
+SU5LX0JBVENIIDEyOAogCiBzdGF0aWMgdW5zaWduZWQgbG9uZyBkb19zaHJpbmtfc2xhYihzdHJ1
+Y3Qgc2hyaW5rX2NvbnRyb2wgKnNocmlua2N0bCwKLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
