@@ -2,42 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 903A33527B2
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Apr 2021 11:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 148A63528BB
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Apr 2021 11:30:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C1246E198;
-	Fri,  2 Apr 2021 09:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE566E087;
+	Fri,  2 Apr 2021 09:30:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 059616E093
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Apr 2021 09:00:26 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E69632C1;
- Fri,  2 Apr 2021 11:00:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1617354024;
- bh=elTh91fHBqoRE3n15Vt6YQfqLzAPhdsnX4FGuvqKbJM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oWFPNwZpRW0+ESGW3PxJDKemt4sdh4C2jxyzELlrhmAyenar17Mj6v3OiAJ7L8+MS
- Cn415IdbXHMs57Nwqp7UyBPce4jNY+QIqHyATyPyPnQSbGMiGRz8GAHgEwVkG6tX/l
- LlGJEOhMI+/QDocY1j9CI6RYvLmbQqR+fNXvD2gM=
-Date: Fri, 2 Apr 2021 11:59:39 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Xin Ji <xji@analogixsemi.com>
-Subject: Re: [PATCH v6 4/5] drm/bridge: anx7625: add HDCP support
-Message-ID: <YGbc+1TynbHfX8Ml@pendragon.ideasonboard.com>
-References: <cover.1616135353.git.xji@analogixsemi.com>
- <189a637c87827f78c433a053e3c2129ebec73188.1616135353.git.xji@analogixsemi.com>
- <CAMavQKLN04F2rzu7J121N4GvQKh7kq9yXGk+fBSUjsC2nbiSiA@mail.gmail.com>
- <20210329102710.GA1930154@anxtwsw-Precision-3640-Tower>
- <CAMavQKJHakp0ZfHFEy77r8wHY+3uaP-6Ab2ren6vA46njpjx3g@mail.gmail.com>
- <20210402022708.GA2154388@anxtwsw-Precision-3640-Tower>
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
+ [IPv6:2607:f8b0:4864:20::d35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABE036ED01
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 19:21:13 +0000 (UTC)
+Received: by mail-io1-xd35.google.com with SMTP id e8so3284798iok.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 12:21:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=898Op6M40JinO4D3cznUkQtr1L0luSLau7chpWc5uKg=;
+ b=ZHtLYWtQ+FqDVYKZTHwxwCgUSMGSoQwWB3jcqgznkK+uvYCZl71pVwy5ATKWFW+awD
+ RSsxcenvm4NI2KyYWaJUIG6gvaMfET9w4iUr92BU7UnnqyKaC+Ju011n6FIZIKYDawUS
+ RfPx0iEgWjQkSsfvtpGU74dXu9GoGZoyW0RremDQPcGSRotsSgTYpyhipkTT3zuFwni9
+ sjiPRhgr49+7DQJBGGd7WW1reLrFWvr/qNBKcAA2mu09pJ2RM+Gdf2ROLzB5obPcnu9S
+ RvCPLxzmOd4AN2AX3Z8HVq/gV/3V7zY244fX74qyZGgWcN/dIAA+Fg3WJlQfpEJEuMwR
+ wlBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=898Op6M40JinO4D3cznUkQtr1L0luSLau7chpWc5uKg=;
+ b=IyFLMQkamjHVQblL07rIK7TyzbwTHa1l1/Nm2Giji8dgScZSuexWVRBBOtTPvt1jkN
+ U3ClPHJD9kjWyVl2BYu5FZncMGuXdUkenwHpVopPVqNdwroDimTp7ZAX/Gr3GFDBg6ck
+ MpF84DtV6E5EVSFnxgEf85u0hubehI8M6kIVz1blDIR5MfO8NhIBM3Yf1MmJnnX2opDL
+ eNYz49T4m77wxzQlPP+ViySpzPSVcePN9IZaVWiITosBX9uGCppM9rdDgzioMgl4R4cu
+ N1lQHTGtz8Bt+Se7WGJF68PQAVwByGDziezlii7uN3Agbu3VgXzM7/JTW5s0KOivsrf1
+ PAew==
+X-Gm-Message-State: AOAM533dYleTefnISHwzZfPKrtdMJ8NDbEzsCZN4S2hQzawPD/FmOQ+X
+ ZeYf8/3ZOH7t3hBoBRQKiL3IK/3dC7palm+s9Exu0Q==
+X-Google-Smtp-Source: ABdhPJxEg/kpAy++MLYpSkRG9zcOD0RT02x3wwPiTJxd0kzs4URGTpC5xS4fYjGbFYzdClWgvc/xicYjAnIIn52b/Ng=
+X-Received: by 2002:a05:6638:388e:: with SMTP id
+ b14mr9630881jav.62.1617304872817; 
+ Thu, 01 Apr 2021 12:21:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210402022708.GA2154388@anxtwsw-Precision-3640-Tower>
+References: <20210326000805.2518-1-apopple@nvidia.com>
+ <23784464.epyy5R1Yul@nvdebian>
+ <20210331115746.GA1463678@nvidia.com> <2557539.O4bb4zRkYN@nvdebian>
+In-Reply-To: <2557539.O4bb4zRkYN@nvdebian>
+From: Shakeel Butt <shakeelb@google.com>
+Date: Thu, 1 Apr 2021 12:21:01 -0700
+Message-ID: <CALvZod5a39kNUW3uj4z0+eYi_yfWLPEZ1BKdzbA42=E5TeEgHQ@mail.gmail.com>
+Subject: Re: [PATCH v7 3/8] mm/rmap: Split try_to_munlock from try_to_unmap
+To: Alistair Popple <apopple@nvidia.com>, Hugh Dickins <hughd@google.com>
+X-Mailman-Approved-At: Fri, 02 Apr 2021 09:30:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,96 +64,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Sam Ravnborg <sam@ravnborg.org>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Bernie Liang <bliang@analogixsemi.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
- Foss <robert.foss@linaro.org>, Vasily Khoruzhick <anarsoul@gmail.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, Torsten Duwe <duwe@lst.de>,
- Sheng Pan <span@analogixsemi.com>, Zhen Li <zhenli@analogixsemi.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sean Paul <sean@poorly.run>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: rcampbell@nvidia.com, Matthew Wilcox <willy@infradead.org>,
+ linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ kvm-ppc@vger.kernel.org, Christoph Hellwig <hch@infradead.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, bskeggs@redhat.com,
+ Jason Gunthorpe <jgg@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Xin,
+CC: Hugh Dickins
 
-On Fri, Apr 02, 2021 at 10:27:08AM +0800, Xin Ji wrote:
-> On Mon, Mar 29, 2021 at 02:02:08PM -0400, Sean Paul wrote:
-> > On Mon, Mar 29, 2021 at 6:27 AM Xin Ji <xji@analogixsemi.com> wrote:
-> > >
-> > > On Thu, Mar 25, 2021 at 02:19:23PM -0400, Sean Paul wrote:
-> > > > On Fri, Mar 19, 2021 at 2:35 AM Xin Ji <xji@analogixsemi.com> wrote:
-> > > > >
-> > > > > Add HDCP feature, enable HDCP function through chip internal key
-> > > > > and downstream's capability.
-> > > > >
-> > > > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > > > > ---
-> > 
-> > /snip
-> > 
-> > > > >  static void anx7625_dp_start(struct anx7625_data *ctx)
-> > > > >  {
-> > > > >         int ret;
-> > > > > @@ -643,6 +787,9 @@ static void anx7625_dp_start(struct anx7625_data *ctx)
-> > > > >                 return;
-> > > > >         }
-> > > > >
-> > > > > +       /* HDCP config */
-> > > > > +       anx7625_hdcp_setting(ctx);
-> > > >
-> > > > You should really use the "Content Protection" property to
-> > > > enable/disable HDCP instead of force-enabling it at all times.
-> > >
-> > > Hi Sean, it's hard to implement "Content Protection" property, we have
-> > > implemented HDCP in firmware, it is not compatible with it. We don't
-> > > have interface to get Downstream Cert.
-> > > Thanks,
-> > > Xin
-> > 
-> > Hi Xin,
-> > I'm sorry, I don't understand what you mean when you say you don't
-> > have an interface to get Downstream Cert.
-> > 
-> > The Content Protection property is just a means through which
-> > userspace can turn on and turn off HDCP when it needs. As far as I can
-> > tell, your patch turns on HDCP when the display is enabled and leaves
-> > it on until it is disabled. This is undesirable since it forces HDCP
-> > on the user.
-> > 
-> > Is it impossible to enable/disable HDCP outside of display
-> > enable/disable on your hardware?
+On Wed, Mar 31, 2021 at 9:37 PM Alistair Popple <apopple@nvidia.com> wrote:
 >
-> Hi Sean, I have commit a test patch on google review site, can you
-> please help to review it? I'll use Connector's ".atomic_check()"
-> interface to detect Content Protection property change.
-> (https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2674580)
+> On Wednesday, 31 March 2021 10:57:46 PM AEDT Jason Gunthorpe wrote:
+> > On Wed, Mar 31, 2021 at 03:15:47PM +1100, Alistair Popple wrote:
+> > > On Wednesday, 31 March 2021 2:56:38 PM AEDT John Hubbard wrote:
+> > > > On 3/30/21 3:56 PM, Alistair Popple wrote:
+> > > > ...
+> > > > >> +1 for renaming "munlock*" items to "mlock*", where applicable. good
+> > > grief.
+> > > > >
+> > > > > At least the situation was weird enough to prompt further
+> investigation :)
+> > > > >
+> > > > > Renaming to mlock* doesn't feel like the right solution to me either
+> > > though. I
+> > > > > am not sure if you saw me responding to myself earlier but I am
+> thinking
+> > > > > renaming try_to_munlock() -> page_mlocked() and try_to_munlock_one() -
+> >
+> > > > > page_mlock_one() might be better. Thoughts?
+> > > > >
+> > > >
+> > > > Quite confused by this naming idea. Because: try_to_munlock() returns
+> > > > void, so a boolean-style name such as "page_mlocked()" is already not a
+> > > > good fit.
+> > > >
+> > > > Even more important, though, is that try_to_munlock() is mlock-ing the
+> > > > page, right? Is there some subtle point I'm missing? It really is doing
+> > > > an mlock to the best of my knowledge here. Although the kerneldoc
+> > > > comment for try_to_munlock() seems questionable too:
+> > >
+> > > It's mlocking the page if it turns out it still needs to be locked after
+> > > unlocking it. But I don't think you're missing anything.
+> >
+> > It is really searching all VMA's to see if the VMA flag is set and if
+> > any are found then it mlocks the page.
+> >
+> > But presenting this rountine in its simplified form raises lots of
+> > questions:
+> >
+> >  - What locking is being used to read the VMA flag?
+> >  - Why do we need to manipulate global struct page flags under the
+> >    page table locks of a single VMA?
+>
+> I was wondering that and questioned it in an earlier version of this series. I
+> have done some digging and the commit log for b87537d9e2fe ("mm: rmap use pte
+> lock not mmap_sem to set PageMlocked") provides the original justification.
+>
+> It's fairly long so I won't quote it here but the summary seems to be that
+> among other things the combination of page lock and ptl makes this safe. I
+> have yet to verify if everything there still holds and is sensible, but the
+> last paragraph certainly is :-)
+>
+> "Stopped short of separating try_to_munlock_one() from try_to_munmap_one()
+> on this occasion, but that's probably the sensible next step - with a
+> rename, given that try_to_munlock()'s business is to try to set Mlocked."
+>
+> >  - Why do we need to check for huge pages inside the VMA loop, not
+> >    before going to the rmap? PageTransCompoundHead() is not sensitive to
+> >    the PTEs. (and what happens if the huge page breaks up concurrently?)
+> >  - Why do we clear the mlock bit then run around to try and set it?
+>
+> I don't have an answer for that as I'm not (yet) across all the mlock code
+> paths, but I'm hoping this patch at least won't change anything.
+>
 
-Please note that upstream review happens on mailing lists, not in
-gerrit. Internal reviews for Chrome OS development are certainly fine
-there, but that will not mean the patch will then be accepted upstream
-as-is, it will still need to go through the upstream review process,
-without any shortcut. I strongly recommend using an upstream-first
-strategy, with public review.
+It would be good to ask the person who has the most answers?
 
-> > > > > +
-> > > > >         if (ctx->pdata.is_dpi)
-> > > > >                 ret = anx7625_dpi_config(ctx);
-> > > > >         else
-> > 
-> > /snip
-
--- 
-Regards,
-
-Laurent Pinchart
+Hugh, the thread started at
+https://lore.kernel.org/dri-devel/20210326000805.2518-4-apopple@nvidia.com/
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
