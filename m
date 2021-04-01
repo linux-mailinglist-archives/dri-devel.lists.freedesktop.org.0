@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055A435215D
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 23:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC92352164
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 23:15:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E6556ED7D;
-	Thu,  1 Apr 2021 21:12:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA376ED8A;
+	Thu,  1 Apr 2021 21:15:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 884B66ED7D;
- Thu,  1 Apr 2021 21:12:14 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id
- c24-20020a9d6c980000b02902662e210895so2831303otr.9; 
- Thu, 01 Apr 2021 14:12:14 -0700 (PDT)
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
+ [IPv6:2607:f8b0:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EA076ED85;
+ Thu,  1 Apr 2021 21:15:40 +0000 (UTC)
+Received: by mail-ot1-x333.google.com with SMTP id
+ l12-20020a9d6a8c0000b0290238e0f9f0d8so3329222otq.8; 
+ Thu, 01 Apr 2021 14:15:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=M3/tEWKm2WNngayfE+mn8rCJF6DRzknNbizlXk5hWAQ=;
- b=quWAVivmqSnYqJErkZGmKg9qwlpZD3NQ8AWJiUrOuHYpbkMvu/Jndmq0HqRPwlxsz4
- Rt5IOu51LuPwwabACYkOb07TK/5OGUtYknO4J7ASyFgdWUwRbJOcbTjfR/Tjam+fg51V
- ftj5p6/qb9ztnkL0HTnkOa6dG3lKOa4BtQmgPW6OW0C1elEFHh827ChEOCIAZmAg8zqb
- 2L+Ee7xKZzvK4dHH8EQj5nuaUKzUBRhQYXmoDTdztd442mUBJ+KEfW1s16zQ8Kzo/Tbi
- JrYuOAv2X/vJuBBPS77iArRHAybNK+hRRZlvbW0fHhlApStKbUqEI51I5K6Xj0RdzX/N
- y4cg==
+ :cc:content-transfer-encoding;
+ bh=Mz7i+O/62DXgGIQyQsg18R3Fvz4BySpF9dt5BSlgKK8=;
+ b=EvINbiO5R9MEULvTambjfGRw/tggaCs6bGmgVlfnQ7EYfraVpcPhuVPvf15SpEqwIA
+ x2SM2sD8JrCgB8leKbD2u0UFdCNZGUD9dXtR+AMaVjMXv8SkVyAlcyxMzmV/dknauBVP
+ tUGfa3cSqdGoPDuTn7gXG9rQ1+8XPNYSyftQAebbFF3g0sdC2BFU1k8pz1SsAQYS095Q
+ c28dAsQnSKv/OVKqpUbboI6WP5Ye1fCtaNneik0QTYeKgAYF9x3hlKqUqw+fUyWF4upe
+ WG/QkSOq/qitsybcG/jGtGzOAOBzgZO0cHVj3WNmL3wZ5qxpw2CO5YnbE/KBi06evgBJ
+ 7W+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=M3/tEWKm2WNngayfE+mn8rCJF6DRzknNbizlXk5hWAQ=;
- b=nIEw2a1dfbh6DqRUV6WUv/97CHoxQLqjOP3jMDk6+5pv7qnqFUwZ/7lMtFruo3Bry/
- DT4N80qZS8b44OzsF4m8OJwNROD7A/EwBLrKcDS/LX0IFJFM1hhAOpUz7G8ag4fK6xB7
- dAKCVrqlKeeRHwQSj5Xf+0xfXDEncn8rtAnbnRRIaBB513zooNZprsrZ8cAFz6h9g1Lh
- Kx/ZCp4/GLrooXjYoHXqGIrAdgqYpKJmrhuBJNlnFIOZKpF87mwVveIHRLmeS5/Q0vpP
- gn8YRAyfDJx/Y2r014cNoDKZc/NsDVEi4UZW7J8rLM+wuioldtg01i4BxTtecBOckkXF
- 1nPg==
-X-Gm-Message-State: AOAM532/heJxl+6rwSWhNJy9yfODA1CjO+8ZgQYG7bQa90mwqZdYhyfR
- QJNpUUNwNQBmFgrKpaPA3W+o4wwqId48oi1LRxc=
-X-Google-Smtp-Source: ABdhPJwPQCH1cqO+Ky2uLyFBpFc2K35zocKbr6hWOWDYO5+4rEGoObsafNjofT3lm8rxgqts5uaXkx5PaX2npc5iF/Y=
-X-Received: by 2002:a9d:d89:: with SMTP id 9mr8496383ots.23.1617311533912;
- Thu, 01 Apr 2021 14:12:13 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Mz7i+O/62DXgGIQyQsg18R3Fvz4BySpF9dt5BSlgKK8=;
+ b=FIffOaz0qFkoeid8naBYzd+/pk8720Fbsm5NK3uwLk3El8j2f13xZUaP0sdvB2jiyI
+ 3UKAiwNqkkMRKZ0hCDTPDImFJcJ+nQHtCwts9uqznamivvntvKX/URhHQ3Jo1EMkJ3er
+ PrQ1p0FKgnbI0fBt+4nly6XJqsJnp2M1eX/AgPESD4q1mtJKJnIW9F8OfTfm61REnsbu
+ nT3SSvW/e4vg/O0VtEAR0Iyhm071YTthqdN9jHTwuLqbd773zzal6rFqREnEiADJVeSp
+ VvvjRNT38dewhqExC6q1Qz8Qbu+kNldG2bO0yl6EKQC4T8yfkpx1kHCP8Kx297Op7vHw
+ KI2A==
+X-Gm-Message-State: AOAM533RSyjPCdCHr1OAi24iReaxo3+deCI8A6IX1zFdktzIPqTFDr54
+ nPkmQlPdul3bbubq+zv/yeuiMdl0DDNzaHA/cKQ=
+X-Google-Smtp-Source: ABdhPJwIGFK9P8QDS7j0r2S0z8pKk2Wh3QtwP8CPlBpqBbniOgq3YXMIAV9/NOXJYPtybSuUj4XTX7uBFCk+yDYZcE8=
+X-Received: by 2002:a9d:d89:: with SMTP id 9mr8507614ots.23.1617311739900;
+ Thu, 01 Apr 2021 14:15:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210331131143.60652-1-bernard@vivo.com>
-In-Reply-To: <20210331131143.60652-1-bernard@vivo.com>
+References: <20201024004706.24518-1-linux@rasmusvillemoes.dk>
+ <d09f16d8-528e-2815-8f26-ab85c27b1fea@gmail.com>
+In-Reply-To: <d09f16d8-528e-2815-8f26-ab85c27b1fea@gmail.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 1 Apr 2021 17:12:02 -0400
-Message-ID: <CADnq5_Pc0iDmmuH5oTa0_T23EJGfhqf+zzedXL2n_QME5MrjQw@mail.gmail.com>
-Subject: Re: [PATCH] amd/amdgpu: code refactoring to clean code style a bit
-To: Bernard Zhao <bernard@vivo.com>
+Date: Thu, 1 Apr 2021 17:15:29 -0400
+Message-ID: <CADnq5_PLZoz0Ns0i8ur2i6YY1H==g+WRvFJZ6K3EDDvd9Qfmyw@mail.gmail.com>
+Subject: Re: [PATCH] drm/ttm: add __user annotation in radeon_ttm_vram_read
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,158 +63,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, Deepak R Varma <mh12gx2825@gmail.com>,
- David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Luben Tuikov <luben.tuikov@amd.com>,
+Cc: Alex Deucher <alexander.deucher@amd.com>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Likun Gao <Likun.Gao@amd.com>,
- Evan Quan <evan.quan@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This code has been dropped.
-
-Alex
-
-On Wed, Mar 31, 2021 at 9:36 AM Bernard Zhao <bernard@vivo.com> wrote:
->
-> Fix checkpatch.pl warning:
-> Too many leading tabs - consider code refactoring
-> WARNING: Too many leading tabs - consider code refactoring
-> +                                               for (j = 0; j < profile->ucLeakageBinNum; j++) {
->
-> WARNING: Too many leading tabs - consider code refactoring
-> +                                                       if (vbios_voltage_id <= leakage_bin[j]) {
->
-> WARNING: Too many leading tabs - consider code refactoring
-> +                                               for (j = 0; j < profile->ucLeakageBinNum; j++) {
->
-> WARNING: Too many leading tabs - consider code refactoring
-> +                                                       if (vbios_voltage_id <= leakage_bin[j]) {
->
-> Signed-off-by: Bernard Zhao <bernard@vivo.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c | 84 ++++++++------------
->  1 file changed, 35 insertions(+), 49 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-> index 86add0f4ea4d..9968ff8ddc9c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-> @@ -1283,65 +1283,51 @@ int amdgpu_atombios_get_leakage_vddc_based_on_leakage_params(struct amdgpu_devic
->         profile = (ATOM_ASIC_PROFILING_INFO_V2_1 *)
->                 (adev->mode_info.atom_context->bios + data_offset);
->
-> -       switch (frev) {
-> -       case 1:
-> +       if ((frev != 2) || (crev != 1)) {
-> +               DRM_ERROR("Unknown table version %d, %d\n", frev, crev);
->                 return -EINVAL;
-> -       case 2:
-> -               switch (crev) {
-> -               case 1:
-> -                       if (size < sizeof(ATOM_ASIC_PROFILING_INFO_V2_1))
-> -                               return -EINVAL;
-> -                       leakage_bin = (u16 *)
-> -                               (adev->mode_info.atom_context->bios + data_offset +
-> -                                le16_to_cpu(profile->usLeakageBinArrayOffset));
-> -                       vddc_id_buf = (u16 *)
-> -                               (adev->mode_info.atom_context->bios + data_offset +
-> -                                le16_to_cpu(profile->usElbVDDC_IdArrayOffset));
-> -                       vddc_buf = (u16 *)
-> -                               (adev->mode_info.atom_context->bios + data_offset +
-> -                                le16_to_cpu(profile->usElbVDDC_LevelArrayOffset));
-> -                       vddci_id_buf = (u16 *)
-> -                               (adev->mode_info.atom_context->bios + data_offset +
-> -                                le16_to_cpu(profile->usElbVDDCI_IdArrayOffset));
-> -                       vddci_buf = (u16 *)
-> -                               (adev->mode_info.atom_context->bios + data_offset +
-> -                                le16_to_cpu(profile->usElbVDDCI_LevelArrayOffset));
-> -
-> -                       if (profile->ucElbVDDC_Num > 0) {
-> -                               for (i = 0; i < profile->ucElbVDDC_Num; i++) {
-> -                                       if (vddc_id_buf[i] == virtual_voltage_id) {
-> -                                               for (j = 0; j < profile->ucLeakageBinNum; j++) {
-> -                                                       if (vbios_voltage_id <= leakage_bin[j]) {
-> -                                                               *vddc = vddc_buf[j * profile->ucElbVDDC_Num + i];
-> -                                                               break;
-> -                                                       }
-> -                                               }
-> +       }
-> +
-> +       if (size < sizeof(ATOM_ASIC_PROFILING_INFO_V2_1))
-> +               return -EINVAL;
-> +
-> +       leakage_bin = (u16 *)(adev->mode_info.atom_context->bios + data_offset +
-> +                le16_to_cpu(profile->usLeakageBinArrayOffset));
-> +       vddc_id_buf = (u16 *)(adev->mode_info.atom_context->bios + data_offset +
-> +                le16_to_cpu(profile->usElbVDDC_IdArrayOffset));
-> +       vddc_buf = (u16 *)(adev->mode_info.atom_context->bios + data_offset +
-> +                le16_to_cpu(profile->usElbVDDC_LevelArrayOffset));
-> +       vddci_id_buf = (u16 *)(adev->mode_info.atom_context->bios + data_offset +
-> +                le16_to_cpu(profile->usElbVDDCI_IdArrayOffset));
-> +       vddci_buf = (u16 *)(adev->mode_info.atom_context->bios + data_offset +
-> +                le16_to_cpu(profile->usElbVDDCI_LevelArrayOffset));
-> +
-> +       if (profile->ucElbVDDC_Num > 0) {
-> +               for (i = 0; i < profile->ucElbVDDC_Num; i++) {
-> +                       if (vddc_id_buf[i] == virtual_voltage_id) {
-> +                               for (j = 0; j < profile->ucLeakageBinNum; j++) {
-> +                                       if (vbios_voltage_id <= leakage_bin[j]) {
-> +                                               *vddc = vddc_buf[j * profile->ucElbVDDC_Num + i];
->                                                 break;
->                                         }
->                                 }
-> +                               break;
->                         }
-> -                       if (profile->ucElbVDDCI_Num > 0) {
-> -                               for (i = 0; i < profile->ucElbVDDCI_Num; i++) {
-> -                                       if (vddci_id_buf[i] == virtual_voltage_id) {
-> -                                               for (j = 0; j < profile->ucLeakageBinNum; j++) {
-> -                                                       if (vbios_voltage_id <= leakage_bin[j]) {
-> -                                                               *vddci = vddci_buf[j * profile->ucElbVDDCI_Num + i];
-> -                                                               break;
-> -                                                       }
-> -                                               }
-> +               }
-> +       }
-> +
-> +       if (profile->ucElbVDDCI_Num > 0) {
-> +               for (i = 0; i < profile->ucElbVDDCI_Num; i++) {
-> +                       if (vddci_id_buf[i] == virtual_voltage_id) {
-> +                               for (j = 0; j < profile->ucLeakageBinNum; j++) {
-> +                                       if (vbios_voltage_id <= leakage_bin[j]) {
-> +                                               *vddci = vddci_buf[j * profile->ucElbVDDCI_Num + i];
->                                                 break;
->                                         }
->                                 }
-> +                               break;
->                         }
-> -                       break;
-> -               default:
-> -                       DRM_ERROR("Unknown table version %d, %d\n", frev, crev);
-> -                       return -EINVAL;
->                 }
-> -               break;
-> -       default:
-> -               DRM_ERROR("Unknown table version %d, %d\n", frev, crev);
-> -               return -EINVAL;
->         }
->
->         return 0;
-> --
-> 2.31.0
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Q3VycmVudCBjb2RlIGFscmVhZHkgY29udGFpbnMgdGhlIGZpeC4KCkFsZXgKCgpPbiBUaHUsIEFw
+ciAxLCAyMDIxIGF0IDk6MDkgQU0gQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5sZWljaHR6dW1l
+cmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gQW0gMjQuMTAuMjAgdW0gMDI6NDcgc2NocmllYiBS
+YXNtdXMgVmlsbGVtb2VzOgo+ID4gS2VlcCBzcGFyc2UgaGFwcHkgYnkgcHJlc2VydmluZyB0aGUg
+X191c2VyIGFubm90YXRpb24gd2hlbiBjYXN0aW5nLgo+ID4KPiA+IFJlcG9ydGVkLWJ5OiBrZXJu
+ZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4KPiA+IFNpZ25lZC1vZmYtYnk6IFJhc211cyBW
+aWxsZW1vZXMgPGxpbnV4QHJhc211c3ZpbGxlbW9lcy5kaz4KPgo+IFJldmlld2VkLWJ5OiBDaHJp
+c3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4KPiBHb2luZyBvdmVyIG9s
+ZCBwYXRjaGVzIGFuZCBzdHVtYmxlZCBvdmVyIHRoYXQgb25jZS4KPgo+IEFsZXggZGlkIHlvdSBt
+aXNzZWQgdG8gcGljayBpdCB1cD8KPgo+IFJlZ2FyZHMsCj4gQ2hyaXN0aWFuLgo+Cj4gPiAtLS0K
+PiA+Cj4gPiBrZXJuZWwgdGVzdCByb2JvdCBoYXMgYWxyZWFkeSBzdGFydGVkIHNwYW1taW5nIG1l
+IGR1ZSB0byA5YzU3NDNkZmYuIElmCj4gPiBJIGRvbid0IGZpeCB0aG9zZSB3YXJuaW5ncyBJJ2xs
+IGtlZXAgZ2V0dGluZyB0aG9zZSBlbWFpbHMgZm9yCj4gPiBtb250aHMsIHNvIGxldCBtZSBkbyB0
+aGUgZWFzeSBvbmVzLgo+ID4KPiA+Cj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9u
+X3R0bS5jIHwgMiArLQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVs
+ZXRpb24oLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRl
+b25fdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYwo+ID4gaW5kZXgg
+MzYxNTBiN2YzMWE5MGFhMWVlY2UuLmVjZmU4OGIwYTM1ZDhmMzE3NzEyIDEwMDY0NAo+ID4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKPiA+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCj4gPiBAQCAtMTAwNSw3ICsxMDA1LDcgQEAgc3Rh
+dGljIHNzaXplX3QgcmFkZW9uX3R0bV92cmFtX3JlYWQoc3RydWN0IGZpbGUgKmYsIGNoYXIgX191
+c2VyICpidWYsCj4gPiAgICAgICAgICAgICAgIHZhbHVlID0gUlJFRzMyKFJBREVPTl9NTV9EQVRB
+KTsKPiA+ICAgICAgICAgICAgICAgc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmcmRldi0+bW1pb19p
+ZHhfbG9jaywgZmxhZ3MpOwo+ID4KPiA+IC0gICAgICAgICAgICAgciA9IHB1dF91c2VyKHZhbHVl
+LCAodWludDMyX3QgKilidWYpOwo+ID4gKyAgICAgICAgICAgICByID0gcHV0X3VzZXIodmFsdWUs
+ICh1aW50MzJfdCBfX3VzZXIgKilidWYpOwo+ID4gICAgICAgICAgICAgICBpZiAocikKPiA+ICAg
+ICAgICAgICAgICAgICAgICAgICByZXR1cm4gcjsKPiA+Cj4KPiBfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGFtZC1nZnggbWFpbGluZyBsaXN0Cj4gYW1k
+LWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2FtZC1nZngKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
