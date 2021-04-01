@@ -1,37 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCF86350F7A
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 08:54:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BEA350FF6
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 09:19:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0239A6E075;
-	Thu,  1 Apr 2021 06:54:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 657F36EC72;
+	Thu,  1 Apr 2021 07:19:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A950D6E075
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 06:54:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 038B661057;
- Thu,  1 Apr 2021 06:54:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1617260074;
- bh=olBbX+eEb1nBYZbDd0ck5A12mgL8uVtqeDAVawW24dQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Sc1VRMiQyANJhKGyqJErYjYUOSRK1lkiI9lw0K9FTavjnfuy1uzHTRrEVy9ULzQ8s
- nWSBhJvWwfa2oAH8glI+AxZ7UtgSS5n+aHny8NhuSW4QQ0iaoycw+OvekaV6K3+KFA
- Zpag93h+B/WpiFCFRzWt8RXH9IrGJTEFUWbsbjB4=
-Date: Thu, 1 Apr 2021 08:54:31 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Hassan Shahbazi <h.shahbazi.git@gmail.com>
-Subject: Re: [PATCH] fix NULL pointer deference crash
-Message-ID: <YGVuJ1R02GdYdM5p@kroah.com>
-References: <20210331163425.8092-1-h.shahbazi.git@gmail.com>
- <YGSyFgeNd7gfsbR6@kroah.com>
- <20210401062154.5evjajj64r4tjseh@gentoo>
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75B8E6EC72
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 07:19:41 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4F9vh86P9vz9sVt;
+ Thu,  1 Apr 2021 18:19:36 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1617261579;
+ bh=2/EUPL3rwrP2ZNa91wW4p5emzJueDGRU/eFifvPQ69Q=;
+ h=Date:From:To:Cc:Subject:From;
+ b=ATWdnMpSXQmokcmm4NKtG93jQfUzaWDDRIeOV2HMcJrFA9XRbwrdHqgSBAHUvkPzK
+ GrDautztnurIuO/YCbIaPN23qMUqNNGOKFSO/Sbm3gdBc5Th7Idrwkhq4d5UprlJMb
+ cNeYE7JmxM7x1bcla1b6mnnWSHaTWmFzNt1JwVzkB1ZmI6aZPBCPhCRLK9MFG335jv
+ nh+SF1tAhC++Lbe2vcmdaplhSIz+R9clvTXQZlXWnxeaEq5rXMKlX+EoXvJwd3tfNA
+ wpqoEugjpfVKoNJoXBSPHYBKUciSo9mRVeMIlRZaApT6NQTiUzH4HyHM2jUp6zv5yh
+ /KXm4zZGhCXhQ==
+Date: Thu, 1 Apr 2021 18:19:33 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build warning after merge of the drm tree
+Message-ID: <20210401181933.08472e2d@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210401062154.5evjajj64r4tjseh@gentoo>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,60 +46,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, daniel.vetter@ffwll.ch,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jirislaby@kernel.org, yepeilin.cs@gmail.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0158046774=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 01, 2021 at 09:21:54AM +0300, Hassan Shahbazi wrote:
-> On Wed, Mar 31, 2021 at 07:32:06PM +0200, Greg KH wrote:
-> > On Wed, Mar 31, 2021 at 07:34:29PM +0300, Hassan Shahbazi wrote:
-> > > The patch has fixed a NULL pointer deference crash in hiding the cursor. It 
-> > > is verified by syzbot patch tester.
-> > > 
-> > > Reported by: syzbot
-> > > https://syzkaller.appspot.com/bug?id=defb47bf56e1c14d5687280c7bb91ce7b608b94b
-> > > 
-> > > Signed-off-by: Hassan Shahbazi <h.shahbazi.git@gmail.com>
-> > > ---
-> > >  drivers/video/fbdev/core/fbcon.c | 5 +++--
-> > >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> > > index 44a5cd2f54cc..ee252d1c43c6 100644
-> > > --- a/drivers/video/fbdev/core/fbcon.c
-> > > +++ b/drivers/video/fbdev/core/fbcon.c
-> > > @@ -1333,8 +1333,9 @@ static void fbcon_cursor(struct vc_data *vc, int mode)
-> > >  
-> > >  	ops->cursor_flash = (mode == CM_ERASE) ? 0 : 1;
-> > >  
-> > > -	ops->cursor(vc, info, mode, get_color(vc, info, c, 1),
-> > > -		    get_color(vc, info, c, 0));
-> > > +	if (ops && ops->cursor)
-> > 
-> > As ops obviously is not NULL here (you just used it on the line above),
-> > why are you checking it again?
-> 
-> Yes, that's right. I will remove that check and will submit a new patch.
-> 
-> 
-> > And what makes curser be NULL here?  How can that happen?
-> 
-> Honestly, I don't know. I reproduced the crash on my local, followed the
-> stack trace, and then changed the line to avoid the crash. If you think this
-> patch is not the best solution, I can drop it and investigate more to find
-> the root cause.
+--===============0158046774==
+Content-Type: multipart/signed; boundary="Sig_/cAk.5IP+iQqeCBvFKkw2UWy";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Finding the root cause would be good to do here, so that we can
-potentially fix that if it is needed.
+--Sig_/cAk.5IP+iQqeCBvFKkw2UWy
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
+Hi all,
 
-greg k-h
+After merging the drm tree, today's linux-next build (htmldocs) produced
+this warning:
+
+drivers/gpu/drm/i915/gem/i915_gem_shrinker.c:102: warning: Function paramet=
+er or member 'ww' not described in 'i915_gem_shrink'
+
+Introduced by commit
+
+  cf41a8f1dc1e ("drm/i915: Finally remove obj->mm.lock.")
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/cAk.5IP+iQqeCBvFKkw2UWy
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmBldAUACgkQAVBC80lX
+0GyelQf/fO9p5D16nYuhlyV7PcSrHJfWc6YGZSpwkcCzDsvcfXQMkgZhH37uYniD
+G0qKlmnmGv6+gok0+wjJJNlf2rOK8vgiE0NHeOENMCU7JY3oHfuFkd6zCVG+IbyB
+zD4ZgLwAp6NCTMpbTAIu6fNwCJYgpLBKE7H+dZhz/JSSn/qI6IPvV+CO/Wo0nTB9
+nW0x7oxCaB9HRh7lYqUn2G3TuRMhTOR/beqAuhf2UDx54fu9cRBanckCA1afogQQ
+BQAUkyGj178otbGS0lCZZNAwSPRdX+YnI5dyOppQFwaIeUb9acHY7Kxj0rwLdaW6
+XT4FiFkjyD2HFRt0zreaYlEjQ9j7rA==
+=gAer
+-----END PGP SIGNATURE-----
+
+--Sig_/cAk.5IP+iQqeCBvFKkw2UWy--
+
+--===============0158046774==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0158046774==--
