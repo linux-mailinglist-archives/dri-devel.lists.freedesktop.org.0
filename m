@@ -2,45 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C41003511DA
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 11:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735FF3511F9
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 11:25:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1D4E6E104;
-	Thu,  1 Apr 2021 09:22:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC5996EC7F;
+	Thu,  1 Apr 2021 09:25:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85C2F6E104
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 09:22:38 +0000 (UTC)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <pza@pengutronix.de>)
- id 1lRtXA-00045i-GU; Thu, 01 Apr 2021 11:22:36 +0200
-Received: from pza by dude02.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <pza@pengutronix.de>)
- id 1lRtX9-0003Xz-DJ; Thu, 01 Apr 2021 11:22:35 +0200
-Date: Thu, 1 Apr 2021 11:22:35 +0200
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [GIT PULL] drm/imx: fixes for v5.12
-Message-ID: <20210401092235.GA13586@pengutronix.de>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A117A6E3AA;
+ Thu,  1 Apr 2021 09:25:44 +0000 (UTC)
+IronPort-SDR: nc7gzgDgaE3oJ1xQdVVrTvomoB47kNm6QxdtD3cB0+K7wVpzTsZrFjiO3UDMB8YFkWJsmDhuT7
+ 8JIf4CN1qDHw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9940"; a="179735902"
+X-IronPort-AV: E=Sophos;i="5.81,296,1610438400"; d="scan'208";a="179735902"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2021 02:25:43 -0700
+IronPort-SDR: rKOci5kcALQY+8rFb4D8ZydtHeBIf62uHmMHKyuZSqI7LwOb9CYZYpi3CDbN7hzoHxAtpeTh8z
+ NDkUb4QcEqRw==
+X-IronPort-AV: E=Sophos;i="5.81,296,1610438400"; d="scan'208";a="610849035"
+Received: from chinchil-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.212.231.48])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2021 02:25:41 -0700
+Date: Thu, 1 Apr 2021 05:25:39 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/pmu: Do not report 100% RC6 if not
+ supported
+Message-ID: <YGWRk7CkotrB4XMG@intel.com>
+References: <20210330150637.2547762-1-tvrtko.ursulin@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 11:10:50 up 119 days, 21:26, 115 users,  load average: 0.18, 0.61,
- 2.47
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: pza@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <20210330150637.2547762-1-tvrtko.ursulin@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,51 +48,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, kernel@pengutronix.de
+Cc: Intel-gfx@lists.freedesktop.org,
+ Eero T Tamminen <eero.t.tamminen@intel.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On Tue, Mar 30, 2021 at 04:06:37PM +0100, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> 
+> We use GT parked status to estimate RC6 while not in use, however if RC6
+> is not supported to start with that does not work very well and produces a
+> false 100% RC6 readout.
 
-this PR includes a regression fix for the imx-ldb driver, which fails to
-register channel 1 if channel 0 is disabled since v5.12-rc2.
-Also, there's an imx-ldb build warning fix for W=1 builds and a fix for
-a memory leak in the imx-drm-core bind error path.
+oh! I had missed this one...
 
-The following changes since commit a38fd8748464831584a19438cbb3082b5a2dab15:
+> 
+> Fix by not advancing the estimated RC6 counter when feature is not
+> supported.
 
-  Linux 5.12-rc2 (2021-03-05 17:33:41 -0800)
+either this or the other proposal, consider both as
 
-are available in the Git repository at:
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-  git://git.pengutronix.de/git/pza/linux.git tags/imx-drm-fixes-2021-04-01
+I prefer this, but I don't have strong opinions on which one.
+you (or Eero) pick one...
 
-for you to fetch changes up to 33ce7f2f95cabb5834cf0906308a5cb6103976da:
-
-  drm/imx: imx-ldb: fix out of bounds array access warning (2021-03-25 07:48:34 +0100)
-
-----------------------------------------------------------------
-drm/imx: imx-drm-core and imx-ldb fixes
-
-Fix a memory leak in an error path during DRM device initialization,
-fix the LDB driver to register channel 1 even if channel 0 is unused,
-and fix an out of bounds array access warning in the LDB driver.
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      drm/imx: imx-ldb: fix out of bounds array access warning
-
-Liu Ying (1):
-      drm/imx: imx-ldb: Register LDB channel1 when it is the only channel to be used
-
-Pan Bian (1):
-      drm/imx: fix memory leak when fails to init
-
- drivers/gpu/drm/imx/imx-drm-core.c |  2 +-
- drivers/gpu/drm/imx/imx-ldb.c      | 12 +++++++++++-
- 2 files changed, 12 insertions(+), 2 deletions(-)
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Fixes: 1fe699e30113 ("drm/i915/pmu: Fix sleep under atomic in RC6 readout")
+> Reported-by: Eero T Tamminen <eero.t.tamminen@intel.com>
+> ---
+>  drivers/gpu/drm/i915/i915_pmu.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+> index 41651ac255fa..02fe0d22c470 100644
+> --- a/drivers/gpu/drm/i915/i915_pmu.c
+> +++ b/drivers/gpu/drm/i915/i915_pmu.c
+> @@ -191,7 +191,10 @@ static u64 get_rc6(struct intel_gt *gt)
+>  		 * on top of the last known real value, as the approximated RC6
+>  		 * counter value.
+>  		 */
+> -		val = ktime_since_raw(pmu->sleep_last);
+> +		if (gt->rc6.supported)
+> +			val = ktime_since_raw(pmu->sleep_last);
+> +		else
+> +			val = 0;
+>  		val += pmu->sample[__I915_SAMPLE_RC6].cur;
+>  	}
+>  
+> -- 
+> 2.27.0
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
