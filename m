@@ -2,110 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0B635144C
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 13:12:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6938351455
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 13:12:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D87D6E3EE;
-	Thu,  1 Apr 2021 11:12:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1029B6EC86;
+	Thu,  1 Apr 2021 11:12:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0AE56E3EE
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 11:12:20 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20210401111218euoutp026ad466ae052c275040acb225687b8fe9~xt4imRCs-1550315503euoutp02z
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 11:12:18 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20210401111218euoutp026ad466ae052c275040acb225687b8fe9~xt4imRCs-1550315503euoutp02z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1617275538;
- bh=ujfA3T71LRzofJpX5nYviui2I10BsQ52TNd3YI/L44I=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=cbK1AoK+dEdTOaKLIIx+Fg2gvM/SuDY5wedSI0utAFOZsslM/IiuOb6RkQknjga+E
- ZWPr9jxzyA3khdMCH7QvNow580GNUJ2lGYu9F29U4TxK+7zStsuoHlCzHf7NLsA7VE
- Xcn3n6YKk88e9Yuy7f8/aNSYQsacAMq2RQ4Rj3sE=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20210401111218eucas1p1abf78e42c1ecf30d21dca2bf232b8aff~xt4iJm-av2891828918eucas1p19;
- Thu,  1 Apr 2021 11:12:18 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id ED.88.09444.29AA5606; Thu,  1
- Apr 2021 12:12:18 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20210401111217eucas1p216733507e975578557232025c4fa881f~xt4hoGdvr0076600766eucas1p2d;
- Thu,  1 Apr 2021 11:12:17 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210401111217eusmtrp2e40bf6ebeb51d772d28a5fb3a9e7e99b~xt4hnHSLO1222412224eusmtrp2N;
- Thu,  1 Apr 2021 11:12:17 +0000 (GMT)
-X-AuditID: cbfec7f4-dd5ff700000024e4-26-6065aa927376
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id A3.31.08696.19AA5606; Thu,  1
- Apr 2021 12:12:17 +0100 (BST)
-Received: from localhost (unknown [106.210.131.79]) by eusmtip2.samsung.com
- (KnoxPortal) with ESMTPA id
- 20210401111215eusmtip2407c059f426bfe1f62567d5bbd68732f~xt4fyNxD90635106351eusmtip21;
- Thu,  1 Apr 2021 11:12:15 +0000 (GMT)
-Message-ID: <b3c08808-204c-6a3c-3e58-a2766985b5ef@samsung.com>
-Date: Thu, 1 Apr 2021 13:12:15 +0200
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CD0B6EC86
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 11:12:46 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ n11-20020a05600c4f8bb029010e5cf86347so3679134wmq.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 04:12:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bXbJ5DVv2ODi8qpZUW8ef/S0ZUd7MAex4+fYcH80Zr8=;
+ b=FIGZavp1CZK2CtsIWpLlPGkPNG15SKTaRhWJJQ8SRAGa8ilx6wu99bqVTW2KeV6/zy
+ CRI3ohmcip534C4spGMgwqNkzqLB2bweBIYmpxW3RD8i06YNcw0K6kdVT6j1cvhcAZmE
+ o5KyYAeTmJTDFr4CCtk4puhVkcGBa55qBMiJ9HMnhvkvu9eHe+DE1fULow7KQEq7PIuQ
+ U9hHQgkKKPLqUt2PYrTK+qgpDgIfF2GX8mwv2mfD4YZXa0716mzwxXWLzJAzdyt8oPF4
+ oTJjkDSTlwuiQ4D86KvImST55DWNgPjXZ2dNo+aMZRfVEdik+8V/oF4vAouroYydj9ab
+ Axaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bXbJ5DVv2ODi8qpZUW8ef/S0ZUd7MAex4+fYcH80Zr8=;
+ b=qdLvIeaQN0gnjNCzDRrJX8U0Ky189oCiirQwzMMT6J3UBvTF8aRdei2MW5aQ1Ov/ex
+ jBK7zAAoIjkTU3MexEQnE4ikSTo4dHR4ccPj4f5MEA0HSuJnhSxER1Ri4gnV9IRJpe7L
+ iiTuCYVA/U6gpenutP6Hz2FgcOAWKh0ywkd8StzC1UWU3tVQ3BRfulfTRYyMYBrvPN7I
+ xw8OP5Bi6m2BebRi8BIjlP6qe/P1XZAtX0XXurbueRCHZYKOxgC0GyrXbJWKf/kpraZo
+ CZA0eCvAqWH8TIKO65A3bXUCDsSxs3ZNui3JuB+9ai3ARfrAYv2SQ6EfH5dcV+RKUFs0
+ d13g==
+X-Gm-Message-State: AOAM532QifBg/zOWKNysXfqD5JH3dSX6Y7/eW4u48MrLzOoINDl7+VuV
+ 35GNn7bzG7e53LEyTuG5NYbHItaTyp/1C6YMD7YrJg==
+X-Google-Smtp-Source: ABdhPJyjb05J1rTLABe89usXn2ya30FR6tIhTRkUiE/gzAaNbgdY+LcSjxUoSEMWsvqRUT0vzSaFnpAGX1asKs9R/1E=
+X-Received: by 2002:a05:600c:247:: with SMTP id
+ 7mr7554587wmj.116.1617275564700; 
+ Thu, 01 Apr 2021 04:12:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0)
- Gecko/20100101 Thunderbird/88.0
-Subject: Re: [PATCH v2 11/14] drm/bridge: ti-sn65dsi86: Power things
- properly for reading the EDID
-Content-Language: en-GB
-To: Doug Anderson <dianders@chromium.org>
-From: Andrzej Hajda <a.hajda@samsung.com>
-In-Reply-To: <CAD=FV=XJ5qtMDn5B431ObPS0JU3-P3755N7jzLZbbcc6XpqYtg@mail.gmail.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFKsWRmVeSWpSXmKPExsWy7djPc7qTVqUmGKx8xGHRe+4kk8Xp/e9Y
- LM4uO8hmceXrezaLq99fMlucfHOVxaJz4hJ2i4n7z7JbXN41h83iUF+0xbWfj5ktPs16yGyx
- 4udWRov2LhuLn9fbmC2O33nK5CDg8f5GK7vH7IaLLB6zO2ayeize85LJY86iG8weJyZcYvK4
- c20Pm8f2bw9YPe53H2fyWDLtKpvHgd7JLB6fN8kF8ERx2aSk5mSWpRbp2yVwZXz4up+14Llu
- xZRNW9kaGLeqdDFyckgImEgcbtjKBmILCaxglNi+PxvC/sIo8eCkThcjF5D9mVFiascZdpiG
- z3P/s0EkljNKLLr3gwXCecEo0TVjCtgoXgE7ie8Xp4HZLAIqEtf+9LJAxAUlTs58AmaLCiRI
- rLqxnAnEFhZIkXi96SQziM0sIC7R9GUlK4gtIqAp8azhJTPIAmaBbywSv2/9BDuDDSjxd/NN
- sAWcAoESE34+YYNolpdo3jobrEFC4BynxMruf0AJDiDHReLXRzOIF4QlXh3fAvWOjMT/nfOZ
- IOx6ifsrWqB6Oxgltm7YyQyRsJa4c+4X2BxmoMXrd+lDhB0lpr1Zxggxnk/ixltBiBP4JCZt
- m84MEeaV6GgTgqhWlLh/divUQHGJpRe+sk1gVJqFFCqzkHw/C8kzsxD2LmBkWcUonlpanJue
- WmyUl1quV5yYW1yal66XnJ+7iRGYHE//O/5lB+PyVx/1DjEycTAeYpTgYFYS4RU+kJggxJuS
- WFmVWpQfX1Sak1p8iFGag0VJnDdpy5p4IYH0xJLU7NTUgtQimCwTB6dUA1N6kPDzfvlj3IoS
- W0/qqPy0kmG5pxu2h/Ho7Iqk3o0GzztvH1w9KWCqQ/nlBjfJoxxy1cYTr5yTvbo3dv1xx4/s
- 5n9Z9H8+vcR1uHPzum0BP24INx9X2WX8pd5mmRb3d4Pof01frmtPdWqwD0sNjTlw8pGNdcOV
- 6OpW7dsXU4u/Vfqe51ZccyXwz+O8+waap5Nkw/ROfHJxvCLzIb6zJjrq8N/ykPoKHanQEqsa
- Bt9W5n1rbybrGJRuKf6R8fiiU5ryE/0n4ctuPbts52Mv8m5ljNanPYyrj8ktzIycGZbTt/pG
- WbSg80Hjt9U9iS8vtHgdqWOPXazbt4+7a96e3Oqd4bbH74SduP1a9N90biWW4oxEQy3mouJE
- AEReEpb9AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpgleLIzCtJLcpLzFFi42I5/e/4Pd2Jq1ITDL5vULboPXeSyeL0/ncs
- FmeXHWSzuPL1PZvF1e8vmS1OvrnKYtE5cQm7xcT9Z9ktLu+aw2ZxqC/a4trPx8wWn2Y9ZLZY
- 8XMro0V7l43Fz+ttzBbH7zxlchDweH+jld1jdsNFFo/ZHTNZPRbvecnkMWfRDWaPExMuMXnc
- ubaHzWP7twesHve7jzN5LJl2lc3jQO9kFo/Pm+QCeKL0bIryS0tSFTLyi0tslaINLYz0DC0t
- 9IxMLPUMjc1jrYxMlfTtbFJSczLLUov07RL0Mj583c9a8Fy3YsqmrWwNjFtVuhg5OSQETCQ+
- z/3P1sXIxSEksJRR4n7PGzaIhLjE7vlvmSFsYYk/17qgip4xSpxb8gEswStgJ/H94jSwBhYB
- FYlrf3pZIOKCEidnPgGzRQUSJM5+mMcEYgsLpEg0flzJCGIzAy1o+rKSFcQWEdCUeNbwkhlk
- AbPAHxaJjz1zWSC23WCSeHigHWwDG1DV3803wWxOgUCJCT+fsEFMMpPo2toFNVVeonnrbOYJ
- jEKzkBwyC8nCWUhaZiFpWcDIsopRJLW0ODc9t9hIrzgxt7g0L10vOT93EyMwKWw79nPLDsaV
- rz7qHWJk4mA8xCjBwawkwit8IDFBiDclsbIqtSg/vqg0J7X4EKMpMDQmMkuJJucD01JeSbyh
- mYGpoYmZpYGppZmxkjivyZE18UIC6YklqdmpqQWpRTB9TBycUg1Muw7MDWHmnMp60PZqztHk
- bbMYTFpVQrTi10krqzYGbPkfzlr9q9RjStXsazWP/DfX3jQQ2lLbmhdUfyV20vbyFpMXCTNb
- Uk2Xemis2WV2Y0GzVFhNyr/Z/3zMmZfsa7JosOc8cPP5fpX22eaL+yL7dW7MWsuXo37/bYHK
- Ib7XDwvXBvR4/eB0Prb3lOHTMjWLj7UJp4zk1FKEHAzDt//fd2KabuzeLbquvD27D5q8Upvy
- dALrheUVZjYhNg7fOneeWLKvuXOeje+x1bYMFjtmif1/o7mp/HPzaRGXutU325+uSVJU8TRw
- 27k25Wnb7kVtjHYXuyTfPg+4VmEh3RIz//rpQOWU6nquXf0Rj6YqsRRnJBpqMRcVJwIAeo73
- ipMDAAA=
-X-CMS-MailID: 20210401111217eucas1p216733507e975578557232025c4fa881f
-X-Msg-Generator: CA
-X-RootMTR: 20210330025435eucas1p12b96966451ee0691f6d5d99b64ac2c8b
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20210330025435eucas1p12b96966451ee0691f6d5d99b64ac2c8b
-References: <20210330025345.3980086-1-dianders@chromium.org>
- <CGME20210330025435eucas1p12b96966451ee0691f6d5d99b64ac2c8b@eucas1p1.samsung.com>
- <20210329195255.v2.11.Ied721dc895156046ac523baa55a71da241cd09c7@changeid>
- <8887ded7-d1ab-844c-e3a3-f39f6ef6264a@samsung.com>
- <CAD=FV=XJ5qtMDn5B431ObPS0JU3-P3755N7jzLZbbcc6XpqYtg@mail.gmail.com>
+References: <20210318092917.831995-1-maxime@cerno.tech>
+ <20210318092917.831995-4-maxime@cerno.tech>
+In-Reply-To: <20210318092917.831995-4-maxime@cerno.tech>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 1 Apr 2021 12:12:29 +0100
+Message-ID: <CAPY8ntCOtqFoMe7XoxUgoZDed08ZYGeFxfyPZCYdQSR+Vr0fEw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] drm/vc4: hdmi: Check and warn if we can't reach
+ 4kp60 frequencies
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,124 +65,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- Steev Klimaszewski <steev@kali.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- Robert Foss <robert.foss@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tim Gover <tim.gover@raspberrypi.com>, David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ClcgZG5pdSAzMS4wMy4yMDIxIG/CoDE2OjQ4LCBEb3VnIEFuZGVyc29uIHBpc3plOgo+IEhpLAo+
-Cj4gT24gV2VkLCBNYXIgMzEsIDIwMjEgYXQgNDowOCBBTSBBbmRyemVqIEhhamRhIDxhLmhhamRh
-QHNhbXN1bmcuY29tPiB3cm90ZToKPj4KPj4gVyBkbml1IDMwLjAzLjIwMjEgbyAwNDo1MywgRG91
-Z2xhcyBBbmRlcnNvbiBwaXN6ZToKPj4+IGVEUCBwYW5lbHMgd29uJ3QgcHJvdmlkZSB0aGVpciBF
-RElEIHVubGVzcyB0aGV5J3JlIHBvd2VyZWQgb24uIExldCdzCj4+PiBjaGFpbiBhIHBvd2VyLW9u
-IGJlZm9yZSB3ZSByZWFkIHRoZSBFRElELiBUaGlzIHJvdWdobHkgbWF0Y2hlcyB3aGF0Cj4+PiB3
-YXMgZG9uZSBpbiAncGFyYWRlLXBzODY0MC5jJy4KPj4+Cj4+PiBOT1RFOiBUaGUgb2xkIGNvZGUg
-YXR0ZW1wdGVkIHRvIGNhbGwgcG1fcnVudGltZV9nZXRfc3luYygpIGJlZm9yZQo+Pj4gcmVhZGlu
-ZyB0aGUgRURJRC4gV2hpbGUgdGhhdCB3YXMgZW5vdWdoIHRvIHBvd2VyIHRoZSBicmlkZ2UgY2hp
-cCBvbiwKPj4+IGl0IHdhc24ndCBlbm91Z2ggdG8gdGFsayB0byB0aGUgcGFuZWwgZm9yIHR3byBy
-ZWFzb25zOgo+Pj4gMS4gU2luY2Ugd2UgbmV2ZXIgcmFuIHRoZSBicmlkZ2UgY2hpcCdzIHByZS1l
-bmFibGUgdGhlbiB3ZSBuZXZlciBzZXQKPj4+ICAgICAgdGhlIGJpdCB0byBpZ25vcmUgSFBELiBU
-aGlzIG1lYW50IHRoZSBicmlkZ2UgY2hpcCBkaWRuJ3QgZXZlbiBfdHJ5Xwo+Pj4gICAgICB0byBn
-byBvdXQgb24gdGhlIGJ1cyBhbmQgY29tbXVuaWNhdGUgd2l0aCB0aGUgcGFuZWwuCj4+PiAyLiBF
-dmVuIGlmIHdlIGZpeGVkIHRoaW5ncyB0byBpZ25vcmUgSFBELCB0aGUgRURJRCBzdGlsbCB3b3Vs
-ZG4ndCByZWFkCj4+PiAgICAgIGlmIHRoZSBwYW5lbCB3YXNuJ3Qgb24uCj4+Pgo+Pj4gT25lIHRo
-aW5nIHRoYXQncyBhIGJpdCBvZGQgaGVyZSBpcyB0YWtpbmcgYWR2YW50YWdlIG9mIHRoZSBFRElE
-IHRoYXQKPj4+IHRoZSBjb3JlIG1pZ2h0IGhhdmUgY2FjaGVkIGZvciB1cy4gU2VlIHRoZSBwYXRj
-aCAoImRybS9lZGlkOiBVc2UgdGhlCj4+PiBjYWNoZWQgRURJRCBpbiBkcm1fZ2V0X2VkaWQoKSBp
-ZiBlRFAiKS4gV2UgbWFuYWdlIHRvIGdldCBhdCB0aGUgY2FjaGUKPj4+IGJ5Ogo+Pj4gLSBJbnN0
-YW50bHkgZmFpbGluZyBhdXggdHJhbnNmZXJzIGlmIHdlJ3JlIG5vdCBwb3dlcmVkLgo+Pj4gLSBJ
-ZiB0aGUgZmlyc3QgcmVhZCBvZiB0aGUgRURJRCBmYWlscyB3ZSB0cnkgYWdhaW4gYWZ0ZXIgcG93
-ZXJpbmcuCj4+Pgo+Pj4gRml4ZXM6IDU4MDc0YjA4YzA0YSAoImRybS9icmlkZ2U6IHRpLXNuNjVk
-c2k4NjogUmVhZCBFRElEIGJsb2Igb3ZlciBEREMiKQo+Pj4gU2lnbmVkLW9mZi1ieTogRG91Z2xh
-cyBBbmRlcnNvbiA8ZGlhbmRlcnNAY2hyb21pdW0ub3JnPgo+Pj4gLS0tCj4+PiBEZXBlbmRpbmcg
-b24gd2hhdCBwZW9wbGUgdGhpbmsgb2YgdGhlIG90aGVyIHBhdGNoZXMgaW4gdGhpcyBzZXJpZXMs
-Cj4+PiBzb21lIG9mIHRoaXMgY291bGQgY2hhbmdlLgo+Pj4gLSBJZiBldmVyeW9uZSBsb3ZlcyB0
-aGUgInJ1bnRpbWUgUE0iIGluIHRoZSBwYW5lbCBkcml2ZXIgdGhlbiB3ZQo+Pj4gICAgIGNvdWxk
-LCBpbiB0aGVvcnksIHB1dCB0aGUgcHJlLWVuYWJsZSBjaGFpbmluZyBzdHJhaWdodCBpbiB0aGUg
-ImF1eAo+Pj4gICAgIHRyYW5zZmVyIiBmdW5jdGlvbi4KPj4+IC0gSWYgZXZlcnlvbmUgaGF0ZXMg
-dGhlIEVESUQgY2FjaGUgbW92aW5nIHRvIHRoZSBjb3JlIHRoZW4gd2UgY2FuCj4+PiAgICAgYXZv
-aWQgc29tZSBvZiB0aGUgYXdrd2FyZCBmbG93IG9mIHRoaW5ncyBhbmQga2VlcCB0aGUgRURJRCBj
-YWNoZSBpbgo+Pj4gICAgIHRoZSBzbjY1ZHNpODYgZHJpdmVyLgo+Pgo+PiBJIHdvbmRlciBpZiB0
-aGlzIHNob3VsZG4ndCBiZSBzb2x2ZWQgaW4gdGhlIGNvcmUgLSBpZSBjYWxsZXIgb2YKPj4gZ2V0
-X21vZGVzIGNhbGxiYWNrIHNob3VsZCBiZSByZXNwb25zaWJsZSBmb3IgcG93ZXJpbmcgdXAgdGhl
-IHBpcGVsaW5lLAo+PiBvdGhlcndpc2Ugd2UgbmVlZCB0byByZXBlYXQgdGhpcyBzdHVmZiBpbiBl
-dmVyeSBicmlkZ2UvcGFuZWwgZHJpdmVyLgo+Pgo+PiBBbnkgdGhvdWdodHM/Cj4gWWVhaCwgSSBk
-aWQgbG9vayBhdCB0aGlzIGEgbGl0dGxlIGJpdC4gUHJlc3VtYWJseSBpdCB3b3VsZCBvbmx5IG1h
-a2UKPiBzZW5zZSB0byBkbyBpdCBmb3IgZURQIGNvbm5lY3Rpb25zIHNpbmNlOgo+Cj4gYSkgVGhl
-IGNvbmNlcHQgb2YgcmVhZGluZyBhbiBFRElEIGRvZXNuJ3QgbWFrZSBzZW5zZSBmb3IgdGhpbmdz
-IGxpa2UgTUlQSS4KCkkgZ3Vlc3MgeW91IG1lYW4gTUlQSSBEU0ksIGFuZCB5ZXMgSSBhZ3JlZSwg
-bW9yZSBnZW5lcmFsbHkgaXQgdXN1YWxseSghKSAKZG9lc24ndCBtYWtlIHNlbnNlIGZvciBhbnkg
-c2V0dXAgd2l0aCBmaXhlZCBkaXNwbGF5IHBhbmVsLgoKT24gdGhlIG90aGVyIGhhbmQgdGhlcmUg
-YXJlIERTSS9IRE1JIG9yIERTSS9EUCBhZGFwdGVycyB3aGljaCB1c3VhbGx5IApoYXZlIEVESUQg
-cmVhZGluZyBsb2dpYy4KCkFuZCB0aGUgY29uY2VwdCBtYWtlcyBzZW5zZSBmb3IgbW9zdCBjb25u
-ZWN0b3JzIGFjY2VwdGluZyBleHRlcm5hbCAKZGlzcGxheXM6IEhETUksIERQLCBNSEwsIFZHQS4u
-LgoKPgo+IGIpIEZvciBzb21ldGhpbmcgd2l0aCBhbiBleHRlcm5hbCBjb25uZWN0b3IgKERQIGFu
-ZCBIRE1JKSB5b3UgZG9uJ3QKPiBldmVuIGtub3cgdGhleSdyZSBpbnNlcnRlZCB1bmxlc3MgdGhl
-IEVESUQgaXMgcmVhZHkgdG8gcmVhZCAodGhlc2UKPiBkZXZpY2VzIGFyZSwgZXNzZW50aWFsbHks
-IGFsd2F5cyBwb3dlcmVkKS4KClVzdWFsbHkgdGhlcmUgYXJlIHR3byBlbGVtZW50cyB3aGljaCBh
-cmUgbm90IHRoZSBzYW1lOgoKMS4gSG90UGx1ZyBzaWduYWwvd2lyZS4KCjIuIEVESUQgcmVhZGlu
-ZyBsb2dpYy4KClRoZSBsb2dpYyByZXNwb25zaWJsZSBmb3IgcmVhZGluZyBFRElEIG5lZWRzIHRv
-IGJlIGVuYWJsZWQgb25seSBmb3IgdGltZSAKcmVxdWlyZWQgZm9yIEVESUQgcmVhZGluZyA6KSBT
-byBpdCdzIHBvd2VyIHN0YXRlIG9mdGVuIG11c3QgYmUgCmNvbnRyb2xsZWQgZXhwbGljaXRseSBi
-eSB0aGUgYnJpZGdlIGRyaXZlci4gU28gZXZlbiBpZiBpbiBtYW55IGNhc2VzIApwcmVfZW5hYmxl
-IHBvd2VycyBvbiB0aGUgbG9naWMgZm9yIEVESUQgcmVhZGluZyBpdCBkb2VzIG5vdCBtYWtlIGl0
-IHRoZSAKcnVsZSwgc28gSSBtdXN0IHN0ZXAgYmFjayBmcm9tIG15IGNsYWltIHRoYXQgaXQgaXMg
-dXAgdG8gY2FsbGVyIDopCgoKPgo+IFNvIEkgc3RhcnRlZCBvZmYgdHJ5aW5nIHRvIGRvIHRoaXMg
-aW4gdGhlIGNvcmUgZm9yIGVEUCwgYnV0IHRoZW4gaXQKPiB3YXNuJ3QgY29tcGxldGVseSBjbGVh
-ciBob3cgdG8gd3JpdGUgdGhpcyBjb2RlIGluIGEgd2F5IHRoYXQgd2FzIHN1cGVyCj4gZ2VuZXJp
-Yy4gU3BlY2lmaWNhbGx5Ogo+Cj4gMS4gSSBkb24ndCB0aGluayBpdCdzIGEgMTAwJSBndWFyYW50
-ZWUgdGhhdCBldmVyeXRoaW5nIGlzIHBvd2VyZWQgb24KPiBpbiBwcmUtZW5hYmxlIGFuZCBwb3dl
-cmVkIG9mZiBpbiBwb3N0LWRpc2FibGUuIEluIHRoaXMgYnJpZGdlIGNoaXAKPiBpdCdzIHRydWUs
-IGJ1dCBtYXliZSBub3QgZXZlcnkgZURQIGRyaXZlcj8gV291bGQgeW91IHdhbnQgbWUgdG8ganVz
-dAo+IGFzc3VtZSB0aGlzLCBvciBhZGQgYSBmbGFnPwoKT2ssIHByZV9lbmFibGUgc2hvdWxkIHBv
-d2VyIG9uIHRoZSBjaGlwLCBidXQgZm9yIHBlcmZvcm1pbmcgCmluaXRpYWxpemF0aW9uIG9mIHZp
-ZGVvIHRyYW5zcG9ydCBsYXllci4gQXNzdW1wdGlvbiBpdCB3aWxsIHBvd2VyIG9uIApFRElEIGxv
-Z2ljIGlzIGluY29ycmVjdCwgc28gbXkgY2xhaW0gc2VlbXMgd3JvbmcsIGJ1dCBhbHNvIHRoaXMg
-cGF0Y2ggCmxvb2tzIGluY29ycmVjdCA6KQoKSW4gZ2VuZXJhbCBvbmx5IGRldmljZSBjb250YWlu
-aW5nIEVESUQgbG9naWMga25vd3MgaG93IHRvIHBvd2VyIGl0IHVwLgoKU2luY2UgSSBkbyBub3Qg
-a25vdyB5b3VyIHBhcnRpY3VsYXIgY2FzZSBJIGNhbiBwcm9wb3NlIGZldyBwb3NzaWJsZSB3YXlz
-IAp0byBpbnZlc3RpZ2F0ZToKCi0gY2FsbCBicmlkZ2UubmV4dC0+Z2V0X21vZGVzIC0geW91IGxl
-YXZlIHJlc3BvbnNpYmlsaXR5IGZvciBwb3dlcmluZyB1cCAKdG8gdGhlIGRvd25zdHJlYW0gZGV2
-aWNlLgoKLSBkZGMgZHJpdmVyIG9uIGkyYyByZXF1ZXN0IHNob3VsZCBwb3dlciB1cCB0aGUgcGFu
-ZWwgLSBzZWVtcyBhbHNvIGNvcnJlY3QsCgoKUmVnYXJkcwoKQW5kcnplagoKCj4KPiAyLiBJdCB3
-YXNuJ3QgdG90YWxseSBjbGVhciB0byBtZSB3aGljaCBzdGF0ZSB0byB1c2UgZm9yIHRlbGxpbmcg
-aWYgdGhlCj4gYnJpZGdlIGhhZCBhbHJlYWR5IGJlZW4gcHJlLWVuYWJsZWQgc28gSSBjb3VsZCBh
-dm9pZCBkb3VibGUtY2FsbGluZwo+IGl0LiBJIGNvdWxkIGRpZyBtb3JlIGlmIG5lZWQgYmUgYnV0
-IEkgc3BlbnQgYSBiaXQgb2YgdGltZSBsb29raW5nIGFuZAo+IHdhcyBjb21pbmcgdXAgZW1wdHku
-IElmIHlvdSBoYXZlIGFkdmljZSBJJ2QgYXBwcmVjaWF0ZSBpdCwgdGhvdWdoLgo+Cj4gMy4gSXQg
-d2Fzbid0IGNsZWFyIHRvIG1lIGlmIEkgc2hvdWxkIGJlIHVzaW5nIHRoZSBhdG9taWMgdmVyc2lv
-bgo+IChkcm1fYXRvbWljX2JyaWRnZV9jaGFpbl9wcmVfZW5hYmxlKSBpZiBJIHB1dCB0aGlzIGlu
-IHRoZSBjb3JlIGFuZCBob3cKPiBleGFjdGx5IHRvIGRvIHRoaXMsIHRob3VnaCBJIGFtIGEgc2Vs
-Zi1hZG1pdHRlZCBEUk0gbm9vYi4gSSBjYW4gZG8KPiBtb3JlIGRpZ2dpbmcgaWYgbmVlZCBiZS4g
-QWdhaW4sIGFkdmljZSBpcyBhcHByZWNpYXRlZC4KPgo+IDQuIFNpbmNlIEkgZ290IGZlZWRiYWNr
-IHRoYXQgdGhlIEVESUQgY2FjaGluZyBiZWxvbmdzIGluIHRoZSBkcml2ZXIsCj4gbm90IGluIHRo
-ZSBjb3JlIFsxXSB0aGVuIHdlIG1pZ2h0IGVuZCB1cCBwb3dlcmluZyB0aGluZ3MgdXAKPiBwb2lu
-dGxlc3NseSBzaW5jZSB0aGUgY29yZSB3b3VsZG4ndCBrbm93IGlmIHRoZSBkcml2ZXIgd2FzIGdv
-aW5nIHRvCj4gcmV0dXJuIHRoZSBjYWNoZSBvciBub3QuCj4KPiBHaXZlbiB0aGF0IHRoaXMgcGF0
-Y2ggaXNuJ3QgdG9vIG11Y2ggY29kZSBhbmQgbm90IHRvbyBjb21wbGljYXRlZCAoYW5kCj4gd2ls
-bCBiZSBldmVuIGxlc3MgY29tcGxpY2F0ZWQgaWYgSSBtb3ZlIHRoZSBFRElEIGNhY2hpbmcgYmFj
-ayBpbnRvIHRoZQo+IGRyaXZlciksIG1heWJlIHdlIGNhbiBsYW5kIGl0IGFuZCBpZiB3ZSBzZWUg
-dGhlIHBhdHRlcm4gcmVwZWF0IGEgYnVuY2gKPiBtb3JlIHRpbWVzIHRoZW4gdGhpbmsgYWJvdXQg
-bW92aW5nIGl0IHRvIHRoZSBjb3JlPwo+Cj4KPiBbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcv
-ZHJpLWRldmVsL1lHTXZPM1BORENpQm1xb3ZAaW50ZWwuY29tLwo+Cj4gLURvdWcKPiBfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9wcm90
-ZWN0Mi5maXJlZXllLmNvbS92MS91cmw/az1lMTMzZGQ3Ni1iZWE4ZTQ3YS1lMTMyNTYzOS0wMDBi
-YWJmZjM1NjMtYzZiMDc3Nzk0NTA0MjZkNSZxPTEmZT1mZDEyYWIwYS0xODU4LTRkMDktYTNiNi0w
-ZmYxMzM2ZmMyYmEmdT1odHRwcyUzQSUyRiUyRmxpc3RzLmZyZWVkZXNrdG9wLm9yZyUyRm1haWxt
-YW4lMkZsaXN0aW5mbyUyRmRyaS1kZXZlbAo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+Hi Maxime
+
+On Thu, 18 Mar 2021 at 09:29, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> In order to reach the frequencies needed to output at 594MHz, the
+> firmware needs to be configured with the appropriate parameters in the
+> config.txt file (enable_hdmi_4kp60 and force_turbo).
+>
+> Let's detect it at bind time, warn the user if we can't, and filter out
+> the relevant modes.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+> ---
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 26 ++++++++++++++++++++++++++
+>  drivers/gpu/drm/vc4/vc4_hdmi.h |  8 ++++++++
+>  2 files changed, 34 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index eaee853bb404..0924a1b9e186 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -210,6 +210,18 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
+>         ret = drm_add_edid_modes(connector, edid);
+>         kfree(edid);
+>
+> +       if (vc4_hdmi->disable_4kp60) {
+> +               struct drm_device *drm = connector->dev;
+> +               struct drm_display_mode *mode;
+> +
+> +               list_for_each_entry(mode, &connector->probed_modes, head) {
+> +                       if ((mode->clock * 1000) > HDMI_14_MAX_TMDS_CLK) {
+> +                               drm_warn_once(drm, "The core clock cannot reach frequencies high enough to support 4k @ 60Hz.");
+> +                               drm_warn_once(drm, "Please change your config.txt file to add hdmi_enable_4kp60.");
+> +                       }
+> +               }
+> +       }
+> +
+>         return ret;
+>  }
+>
+> @@ -959,6 +971,9 @@ static int vc4_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+>         if (pixel_rate > vc4_hdmi->variant->max_pixel_clock)
+>                 return -EINVAL;
+>
+> +       if (vc4_hdmi->disable_4kp60 && (pixel_rate > HDMI_14_MAX_TMDS_CLK))
+> +               return -EINVAL;
+> +
+>         vc4_state->pixel_rate = pixel_rate;
+>
+>         return 0;
+> @@ -978,6 +993,9 @@ vc4_hdmi_encoder_mode_valid(struct drm_encoder *encoder,
+>         if ((mode->clock * 1000) > vc4_hdmi->variant->max_pixel_clock)
+>                 return MODE_CLOCK_HIGH;
+>
+> +       if (vc4_hdmi->disable_4kp60 && ((mode->clock * 1000) > HDMI_14_MAX_TMDS_CLK))
+> +               return MODE_CLOCK_HIGH;
+> +
+>         return MODE_OK;
+>  }
+>
+> @@ -1992,6 +2010,14 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+>         vc4_hdmi->disable_wifi_frequencies =
+>                 of_property_read_bool(dev->of_node, "wifi-2.4ghz-coexistence");
+>
+> +       if (variant->max_pixel_clock == 600000000) {
+> +               struct vc4_dev *vc4 = to_vc4_dev(drm);
+> +               long max_rate = clk_round_rate(vc4->hvs->core_clk, 550000000);
+> +
+> +               if (max_rate < 550000000)
+> +                       vc4_hdmi->disable_4kp60 = true;
+> +       }
+> +
+>         if (vc4_hdmi->variant->reset)
+>                 vc4_hdmi->variant->reset(vc4_hdmi);
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> index 3cebd1fd00fc..3cd021136402 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> @@ -154,6 +154,14 @@ struct vc4_hdmi {
+>          */
+>         bool disable_wifi_frequencies;
+>
+> +       /*
+> +        * Even if HDMI0 on the RPi4 can output modes requiring a pixel
+> +        * rate higher than 297MHz, it needs some adjustments in the
+> +        * config.txt file to be able to do so and thus won't always be
+> +        * available.
+> +        */
+> +       bool disable_4kp60;
+> +
+>         struct cec_adapter *cec_adap;
+>         struct cec_msg cec_rx_msg;
+>         bool cec_tx_ok;
+> --
+> 2.30.2
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
