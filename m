@@ -1,47 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B9373514CC
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 14:32:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66ABA3514CF
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Apr 2021 14:34:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5466C6E02A;
-	Thu,  1 Apr 2021 12:32:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EAF56E0CC;
+	Thu,  1 Apr 2021 12:34:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09BDE6E02A;
- Thu,  1 Apr 2021 12:32:23 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id 8740CC800B5;
- Thu,  1 Apr 2021 14:32:20 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
- by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id lvO4sv4hQovF; Thu,  1 Apr 2021 14:32:14 +0200 (CEST)
-Received: from [IPv6:2003:e3:7f0c:2000:d739:3a07:1878:3326]
- (p200300E37F0C2000d7393a0718783326.dip0.t-ipconnect.de
- [IPv6:2003:e3:7f0c:2000:d739:3a07:1878:3326])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPSA id 3867FC800A7;
- Thu,  1 Apr 2021 14:32:14 +0200 (CEST)
-Subject: Re: [PATCH] drm/amd/display: Try YCbCr420 color when YCbCr444 fails
-To: Alex Deucher <alexdeucher@gmail.com>,
- Harry Wentland <harry.wentland@amd.com>
-References: <20210317151348.11331-1-wse@tuxedocomputers.com>
- <CADnq5_OpJ-2jR4D8xwH93PZKoMWXx8C2yGTkqt7KRrVgph-KvA@mail.gmail.com>
- <53b26416-31d0-6efd-04e9-2a9f34e525b7@amd.com>
- <CADnq5_NwuTv5pWiOk_bYdemm+aPi_SNZTYzMLO3ewma-Bkwhkg@mail.gmail.com>
-From: Werner Sembach <wse@tuxedocomputers.com>
-Message-ID: <b9d15c48-5175-3ca4-c9cf-142c95a3fbee@tuxedocomputers.com>
-Date: Thu, 1 Apr 2021 14:32:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F4736E0CC
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Apr 2021 12:33:59 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id v186so1418876pgv.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Apr 2021 05:33:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EsqA9Xv1llCUvLw8edrdaV5ZoeKuJnc13OOMvfzSgxY=;
+ b=HvEMU+9tQn1GkFvgVgNpDGEMAtzN3iWIIpIqpjHnH3PuIQx/41BH4FPhlsrxmzJ7B8
+ L2ALnq3tSypyjY5/I2dj+e7l2fmL2+pioKtbUoAHVuat+G7R/l0ATYHxFN3e0HYVKZ3N
+ X1KRmPPuu+zjjTXiovmOa6heMHJcGPRPsUrrU/c+ic0Tew8Dk/4lDGWHd8bcswuBcB9K
+ fG85AyStYAbSqXDb5FHrCg6IrLsMpA92c/Cj927Tkg/YZ3ETIp4iRUIQGTj1yiEllcW+
+ fepykwK5q6/UsV9VB3RqNAxZZxkkNuKoyG9wmDf/2PiEeesDmmNmV4qw0GUKKYmnzISi
+ 168g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EsqA9Xv1llCUvLw8edrdaV5ZoeKuJnc13OOMvfzSgxY=;
+ b=dKdN+Q2GR7mYvdbc4wd8x+58+I/xVMsqin3JialsI6Mlxgs1jl8Bcbyp1/BgoTciRG
+ 3KtEiiF4RLVrYOfbTueBb24dVYpHljOCzNXGmqdqZCU70BXM/PP83ohLNjlXHxeTzBtL
+ 8LYeVIScuBzSweuwpX+mgCLBQNDiUIbN3JYp3zliYX++KFx/a0UZh5P61SprdXwAJaWN
+ EGeNUMZjZwX6Jd/bv4hqme3rrIKf3wnIpkGTKG6zslGeckQ1hU0xwCjfmm8M/ji4yo1b
+ n33r5awY9yRoukVGXt+EAQ09a3DTeclZ9fiw+wjK9njW2J2Z9JIRUM0lm0UVMppqQGPc
+ P55w==
+X-Gm-Message-State: AOAM532MQ1hsMuXP27VikATZcYiPlZ5Jah+kXhY3kFbmbMJ5LtpVV7X6
+ KESDyl29OoCmq2vZTtPsxeHkniN4SIoQOCqJxpL3hQ==
+X-Google-Smtp-Source: ABdhPJyaGyv5cIOFak7z5jWf50xKVPz9OGnuR20y6+iAsqhPnXNOISrhs8/7nH+WsYv0DxswgJgz0ro4GehSANLiKgw=
+X-Received: by 2002:a62:80cf:0:b029:1f3:1959:2e42 with SMTP id
+ j198-20020a6280cf0000b02901f319592e42mr7324814pfd.39.1617280439001; Thu, 01
+ Apr 2021 05:33:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CADnq5_NwuTv5pWiOk_bYdemm+aPi_SNZTYzMLO3ewma-Bkwhkg@mail.gmail.com>
-Content-Language: en-US
+References: <cover.1616135353.git.xji@analogixsemi.com>
+ <4b09b40ce53c5b5fe7d2ba65a3c7a1b23f6eec04.1616135353.git.xji@analogixsemi.com>
+ <YFc1ZlmSiNJOAoOl@pendragon.ideasonboard.com>
+ <20210324075108.GA1466804@anxtwsw-Precision-3640-Tower>
+In-Reply-To: <20210324075108.GA1466804@anxtwsw-Precision-3640-Tower>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Thu, 1 Apr 2021 14:33:47 +0200
+Message-ID: <CAG3jFyt8EigCBkZHXgy1E-XcfpfdC5FEWW4Gb8bZqMT1tFW3ow@mail.gmail.com>
+Subject: Re: [PATCH v6 1/5] dt-bindings:drm/bridge:anx7625:add vendor define
+ flags
+To: Xin Ji <xji@analogixsemi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,96 +65,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, "for 3.8" <stable@vger.kernel.org>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: Nicolas Boichat <drinkcat@google.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ =?UTF-8?Q?Ricardo_Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
+ Mark Brown <broonie@kernel.org>, Zhen Li <zhenli@analogixsemi.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Bernie Liang <bliang@analogixsemi.com>, Sheng Pan <span@analogixsemi.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 29.03.21 um 17:28 schrieb Alex Deucher:
-> Applied.  Thanks!
+Hey Xin,
+
+This series no longer applies to drm-misc/drm-misc-next, please rebase it.
+
+On Wed, 24 Mar 2021 at 08:52, Xin Ji <xji@analogixsemi.com> wrote:
 >
-> Alex
-Nice to hear that ^^
-
-One quick question: Here do I find the amd-gfx dev branch?
-
-Kind regards,
-
-Werner Sembach
+> On Sun, Mar 21, 2021 at 02:00:38PM +0200, Laurent Pinchart wrote:
+> > Hi Xin,
+> >
+> > Thank you for the patch.
+> >
+> > On Fri, Mar 19, 2021 at 02:32:39PM +0800, Xin Ji wrote:
+> > > Add 'bus-type' and 'data-lanes' define for port0. Define DP tx lane0,
+> > > lane1 swing register array define, and audio enable flag.
+> > >
+> > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> > > ---
+> > >  .../display/bridge/analogix,anx7625.yaml      | 58 ++++++++++++++++++-
+> > >  1 file changed, 57 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > index c789784efe30..3f54d5876982 100644
+> > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > @@ -34,6 +34,26 @@ properties:
+> > >      description: used for reset chip control, RESET_N pin B7.
+> > >      maxItems: 1
+> > >
+> > > +  analogix,lane0-swing:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> > > +    minItems: 1
+> > > +    maxItems: 20
+> > > +    description:
+> > > +      an array of swing register setting for DP tx lane0 PHY, please don't
+> > > +      add this property, or contact vendor.
+> >
+> > DT properties need to be documented. Contacting the vendor doesn't count
+> > as documentation I'm afraid.
 >
-> On Fri, Mar 26, 2021 at 10:59 AM Harry Wentland <harry.wentland@amd.com> wrote:
->>
->>
->> On 2021-03-24 4:23 p.m., Alex Deucher wrote:
->>> On Wed, Mar 17, 2021 at 11:25 AM Werner Sembach <wse@tuxedocomputers.com> wrote:
->>>> When encoder validation of a display mode fails, retry with less bandwidth
->>>> heavy YCbCr420 color mode, if available. This enables some HDMI 1.4 setups
->>>> to support 4k60Hz output, which previously failed silently.
->>>>
->>>> On some setups, while the monitor and the gpu support display modes with
->>>> pixel clocks of up to 600MHz, the link encoder might not. This prevents
->>>> YCbCr444 and RGB encoding for 4k60Hz, but YCbCr420 encoding might still be
->>>> possible. However, which color mode is used is decided before the link
->>>> encoder capabilities are checked. This patch fixes the problem by retrying
->>>> to find a display mode with YCbCr420 enforced and using it, if it is
->>>> valid.
->>>>
->>>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
->>>> Cc: <stable@vger.kernel.org>
->>>
->>> This seems reasonable to me.  Harry, Leo, Any objections?
->>>
->> Looks good to me.
->>
->> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
->>
->> Harry
->>
->>> Alex
->>>
->>>> ---
->>>>
->>>>  From c9398160caf4ff20e63b8ba3a4366d6ef95c4ac3 Mon Sep 17 00:00:00 2001
->>>> From: Werner Sembach <wse@tuxedocomputers.com>
->>>> Date: Wed, 17 Mar 2021 12:52:22 +0100
->>>> Subject: [PATCH] Retry forcing YCbCr420 color on failed encoder validation
->>>>
->>>> ---
->>>>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 9 +++++++++
->>>>   1 file changed, 9 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->>>> index 961abf1cf040..2d16389b5f1e 100644
->>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->>>> @@ -5727,6 +5727,15 @@ create_validate_stream_for_sink(struct amdgpu_dm_connector *aconnector,
->>>>
->>>>          } while (stream == NULL && requested_bpc >= 6);
->>>>
->>>> +       if (dc_result == DC_FAIL_ENC_VALIDATE && !aconnector->force_yuv420_output) {
->>>> +               DRM_DEBUG_KMS("Retry forcing YCbCr420 encoding\n");
->>>> +
->>>> +               aconnector->force_yuv420_output = true;
->>>> +               stream = create_validate_stream_for_sink(aconnector, drm_mode,
->>>> +                                               dm_state, old_stream);
->>>> +               aconnector->force_yuv420_output = false;
->>>> +       }
->>>> +
->>>>          return stream;
->>>>   }
->>>>
->>>> --
->>>> 2.25.1
->>>>
->>>> _______________________________________________
->>>> dri-devel mailing list
->>>> dri-devel@lists.freedesktop.org
->>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel>
+> Hi Laurent Pinchart, thanks for your comment. For the DP phy swing
+> setting, it is hard to describe in here, needs to refer the anx7625
+> datasheet and programming guide. Basically, no need to change the DP phy
+> swing setting.
+>
+
+Laurent is right. But if the value practically is a constant, you can
+move the swing register into the driver. It should still be documented
+as well as possible, but we can be a little bit more flexible.
+
+> > > @@ -73,6 +123,10 @@ examples:
+> > >              enable-gpios = <&pio 45 GPIO_ACTIVE_HIGH>;
+> > >              reset-gpios = <&pio 73 GPIO_ACTIVE_HIGH>;
+> > >
+> > > +            analogix,audio-enable;
+> > > +            analogix,lane0-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
+> > > +            analogix,lane1-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
+> > > +
+> > >              ports {
+> > >                  #address-cells = <1>;
+> > >                  #size-cells = <0>;
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
