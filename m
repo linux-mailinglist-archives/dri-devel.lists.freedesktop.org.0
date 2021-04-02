@@ -1,35 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C375C352BD3
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Apr 2021 17:37:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D8B352BE2
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Apr 2021 17:57:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D81756E0BC;
-	Fri,  2 Apr 2021 15:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A02D06EE87;
+	Fri,  2 Apr 2021 15:57:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 823FB6E0BC
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Apr 2021 15:37:28 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F7DC61057;
- Fri,  2 Apr 2021 15:37:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1617377846;
- bh=ioyAbsNNoGGXzGD1/C5Xleu3NV1KP8ccBCEkZhjdmsM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UkgsOfG2RhojvrNREIt+ny4CmVkZ60qQovPx1i42hvMZsTYtJHpufv9bVEL9KjskX
- oDOEU4K1q3ilfG9DXHWwRUiJXQCDltpvmgeiXJUqBVOhZEfChN0ZW6898cNZc0VuaR
- BEevPTWBaTjWDCf3gV1bLL3HR0Kjmf+BJDi1GCKs=
-Date: Fri, 2 Apr 2021 17:37:23 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Phillip Potter <phil@philpotter.co.uk>
-Subject: Re: [PATCH] zero-fill colormap in drivers/video/fbdev/core/fbcmap.c
-Message-ID: <YGc6M4jao4ZbCqzJ@kroah.com>
-References: <20210331220719.1499743-1-phil@philpotter.co.uk>
+X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
+ Fri, 02 Apr 2021 15:57:47 UTC
+Received: from mail2-relais-roc.national.inria.fr
+ (mail2-relais-roc.national.inria.fr [192.134.164.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D52226EE87;
+ Fri,  2 Apr 2021 15:57:47 +0000 (UTC)
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3Am6V0WqgAzrOpcSIAmTFZxFo41HBQX9F13DAb?=
+ =?us-ascii?q?vn1ZSRFFG/GwvcaogfgdyFvVhToXRXEumdyaUZPwI0/035hz/IUXIPOGVA7ppG?=
+ =?us-ascii?q?OnIOhZnO7f6hfnHDDz8fMY6LxpdLJwBMa1IV9xi8v75wfQKadC/PCs9qe0ieDC?=
+ =?us-ascii?q?i0p8VA0CUcFdxipaKiLeKE15QwFaGYE0faD22uNrryetEE56Uu2VHX8ANtKzwe?=
+ =?us-ascii?q?HjsZL9fFo7AAQ64xOFljOi5NfBYmSl9zM/dx8K/rs462jClGXCh5mLl/2g0BfT?=
+ =?us-ascii?q?2yvywv1t6aPc4+BODsCNlcQZQw+E4mzEWK1bV6SGrHQppoiUmS8XuePRqBQtNd?=
+ =?us-ascii?q?kb0R3sV1yyyCGD5yDQlBwp7GLvzkLdoXbuptH4SzI3EKN69OZkWyqcwUwmod16?=
+ =?us-ascii?q?zeZ3z3uU3qAnai/orWDQ4MXJSgEvtmfcmwterccjy0ZwFac/RdZq3Pci1XIQKr?=
+ =?us-ascii?q?lFPA+S0vFcLNVT?=
+X-IronPort-AV: E=Sophos;i="5.81,300,1610406000"; d="scan'208";a="501378969"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+ by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Apr 2021 17:50:22 +0200
+Date: Fri, 2 Apr 2021 17:50:21 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Lijo Lazar <lijo.lazar@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
+ Feifei Xu <Feifei.Xu@amd.com>
+Subject: [PATCH] drm/amdgpu: fix semicolon.cocci warnings
+Message-ID: <alpine.DEB.2.22.394.2104021748300.2855@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210331220719.1499743-1-phil@philpotter.co.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,33 +49,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mchehab+huawei@kernel.org, daniel.vetter@ffwll.ch,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org,
+ =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 31, 2021 at 11:07:19PM +0100, Phillip Potter wrote:
-> Use kzalloc() rather than kmalloc() for the dynamically allocated parts
-> of the colormap in fb_alloc_cmap_gfp, to prevent a leak of random kernel
-> data to userspace under certain circumstances.
-> 
-> Fixes a KMSAN-found infoleak bug reported by syzbot at:
-> https://syzkaller.appspot.com/bug?id=741578659feabd108ad9e06696f0c1f2e69c4b6e
-> 
-> Reported-by: syzbot+47fa9c9c648b765305b9@syzkaller.appspotmail.com
-> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> ---
->  drivers/video/fbdev/core/fbcmap.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+From: kernel test robot <lkp@intel.com>
 
-Daniel, want me to take this?
+Remove unneeded semicolon.
 
-thanks,
+Generated by: scripts/coccinelle/misc/semicolon.cocci
 
-greg k-h
+Fixes: 37439a51ff17 ("drm/amdgpu: Add mode2 reset support for aldebaran")
+CC: Lijo Lazar <lijo.lazar@amd.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Julia Lawall <julia.lawall@inria.fr>
+---
+
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next-5.13
+head:   ef95d2a98d642a537190d73c45ae3c308afee890
+commit: 37439a51ff171f938f886d6078802926fb27ccf8 [100/149] drm/amdgpu: Add mode2 reset support for aldebaran
+:::::: branch date: 14 hours ago
+:::::: commit date: 4 days ago
+
+ aldebaran.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/gpu/drm/amd/amdgpu/aldebaran.c
++++ b/drivers/gpu/drm/amd/amdgpu/aldebaran.c
+@@ -227,7 +227,7 @@ static int aldebaran_mode2_restore_ip(st
+ 			break;
+ 		default:
+ 			break;
+-		};
++		}
+ 	}
+
+ 	/* Reinit NBIF block */
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
