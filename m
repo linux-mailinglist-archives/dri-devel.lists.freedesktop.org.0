@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D443528BC
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Apr 2021 11:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E4F83528BF
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Apr 2021 11:30:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDA906E088;
-	Fri,  2 Apr 2021 09:30:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A2746EE42;
+	Fri,  2 Apr 2021 09:30:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2057.outbound.protection.outlook.com [40.107.92.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE3536EE40
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Apr 2021 09:17:46 +0000 (UTC)
+ (mail-bn7nam10on2055.outbound.protection.outlook.com [40.107.92.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29DCA6EE40
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Apr 2021 09:18:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k/MFUz3oPXfDmsUlNNE4c4nPEnLTppk9Ja/y7nn7ysHeKgnb1/I6B00BuEyLNDdOpDoWNwAShuttsAQi9ayOTbxwAk7c9Alo2/oYSih+Q2iP3+d7mv7qJU3+1Pg9XUeWUzIHMfRR18IdYUYFsUF0og7IOEk54db5+WhbeJElmdnmFLRrHJqyM/xq5WxAvz4tTRDmfreNQ38RIuIOKWEV1lT8ntH6CcbLPdiODGGYQGDCxX/ZAvmKvWuH/5SMWqtoweK6r9RhVcrfDkE3fGfEDTTPswtitngqYerrAoNV3GdTKfWvj4KyRRd0ns3LcqbzFggESM9X+EEsV1z/4EzeLw==
+ b=QTAshxxfY3Ioed/xARTtZRyEAv3zI+ifmnAhqMSZtAjUWmqVt4aAX4jxugbds232XKz1HcPBlZFUQV4lU6iCRLNSVdYLILhMwYh9AoghR7cgMrI4FvTFcIYbGFgT2cxIY+3HlgvvzcyRXDXUKuPMKfnJibS+JpBoLhh/JdZgX8NaDBxBOoHvDYDOiGD+IReLXNYfsN8XnAAqWd2ZllwB4qM4euRbtEqPqhK621p/Nw2vWDDVUPBuO5uznXxiZyGm/51dwpF/eged9GrTFT2Opamac8PDGcBg3Pk2I5Wa8z7bVKTianBpBNr6hvimI4Y73RU/rqY/gsAwTDz3W3If9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0OA3EMeQtE3ViCLwk/i1eGuR66thZKoQTKtaiTEE4W8=;
- b=Qk0CruArQPznk+C3d+yEUkuohMlLJv9NIzqsKuHurbttuAtlZ0SF7Y6MVO+sk3d07fpRLjWgiSPc/5loXlWWfiXci4AGT0vUPXNmGSU6PiIjfcnudU4gwY8K2ffesIGMz2eAzMPRgXWfHhPEIXCc0j1Ax4yZQNgc+Ybm8KYuI2b65bh8vSr9LSvl645sBSYg0+P9yD4P587QL7KaA83t1zDQobVZgdU4Fiv2W+yPdEbuueY4IV7hcJhwSZh6xvOCeq6ylsKSnc9g1IRJiiBi6kRSSv6tJeND8aKj07ulD0P0kUUFgGFH6NtX120YXygZDj9bT0gmEmNYG4KWcGR/VA==
+ bh=HSG16FGYCEn7frSXGp5wcQSDZauhGuvbz2pwvlyI9zY=;
+ b=moawFm2ay00Q1zvyYWsZhYkvsNnvQcFa+UQclXkV2AxwFkCHswTA6rMs7r3vOKWVZxRFrdwmmRsoXRLmVostWyzYSrXmwmTORyfD1TC7PaE5H3+FSOPvj+lQIBLmTG0wbcWMVzsDTRLQYHYe6gx+OcRk7GtJClckOEePhYLjq9wyQhQcncwhkXVJtbLDWaTo27490WIf3saCNakOL+K72H7SHy521d3lVbWAq6uhji6J3gvzEwmHplh+9hxgco+D6NpF+3Nc0Jmi1e0DrVhjdfmbv3Vmhw82oSeiFjhbYaVOow90M04+R3VuBbWRc0Dr0s1ehQAugY/7vHlu/8kmCw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=kernel.org smtp.mailfrom=xilinx.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
@@ -27,35 +27,35 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0OA3EMeQtE3ViCLwk/i1eGuR66thZKoQTKtaiTEE4W8=;
- b=M6YURlEbh5L2IltZq88U75UePRW2RO/eGiJxwnbLoTMI+5Kd3MYeh7qBu+EEQhJiZv4fB6u5Oehz6zW6wTrkTAbqQ2WgAO/XjpPixPuNiFVbnPAsppQSsjlsCp1uksdJttbSJKWYRzuiJ7f0dFkwNa71pHvKu7Uza8YoocXpdZw=
-Received: from SN1PR12CA0069.namprd12.prod.outlook.com (2603:10b6:802:20::40)
- by CY4PR0201MB3553.namprd02.prod.outlook.com (2603:10b6:910:8e::24)
+ bh=HSG16FGYCEn7frSXGp5wcQSDZauhGuvbz2pwvlyI9zY=;
+ b=Lp5+skYfC2XzhYCpmZRSley9IQofyHu4ajjckfYPqGkwFOY2VLijkp+Co42qVGpk+b+eVBr6bjqKhxW3oC/rIwmQwDLY121jRdVtkLlmUIduFcDqCqsuzwLQGM88bBK3n0q0iQh+KQMn8M3XlWsLu7EoFMDCZ2nlzdi+tP0DlQ8=
+Received: from CY4PR04CA0040.namprd04.prod.outlook.com (2603:10b6:903:c6::26)
+ by BN7PR02MB4065.namprd02.prod.outlook.com (2603:10b6:406:fe::27)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.33; Fri, 2 Apr
- 2021 09:17:43 +0000
-Received: from SN1NAM02FT041.eop-nam02.prod.protection.outlook.com
- (2603:10b6:802:20:cafe::e5) by SN1PR12CA0069.outlook.office365.com
- (2603:10b6:802:20::40) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.29 via Frontend
- Transport; Fri, 2 Apr 2021 09:17:42 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.28; Fri, 2 Apr
+ 2021 09:18:22 +0000
+Received: from CY1NAM02FT050.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:903:c6:cafe::23) by CY4PR04CA0040.outlook.office365.com
+ (2603:10b6:903:c6::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.26 via Frontend
+ Transport; Fri, 2 Apr 2021 09:18:21 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  smtp.mailfrom=xilinx.com; kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=pass action=none header.from=xilinx.com;
 Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- SN1NAM02FT041.mail.protection.outlook.com (10.152.72.217) with Microsoft SMTP
+ client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
+Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
+ CY1NAM02FT050.mail.protection.outlook.com (10.152.75.65) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3999.28 via Frontend Transport; Fri, 2 Apr 2021 09:17:42 +0000
+ 15.20.3999.28 via Frontend Transport; Fri, 2 Apr 2021 09:18:21 +0000
 Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Fri, 2 Apr 2021 02:17:36 -0700
+ 15.1.2106.2; Fri, 2 Apr 2021 02:17:40 -0700
 Received: from smtp.xilinx.com (172.19.127.96) by
  xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2106.2 via Frontend Transport; Fri, 2 Apr 2021 02:17:36 -0700
+ 15.1.2106.2 via Frontend Transport; Fri, 2 Apr 2021 02:17:40 -0700
 Envelope-to: git@xilinx.com, mdf@kernel.org, trix@redhat.com,
  robh+dt@kernel.org, sumit.semwal@linaro.org,
  christian.koenig@amd.com, linux-fpga@vger.kernel.org,
@@ -65,7 +65,7 @@ Envelope-to: git@xilinx.com, mdf@kernel.org, trix@redhat.com,
 Received: from [10.140.6.60] (port=55560 helo=xhdnavam40.xilinx.com)
  by smtp.xilinx.com with esmtp (Exim 4.90)
  (envelope-from <nava.manne@xilinx.com>)
- id 1lSFvq-0005T9-VT; Fri, 02 Apr 2021 02:17:35 -0700
+ id 1lSFvu-0005T9-Vz; Fri, 02 Apr 2021 02:17:39 -0700
 From: Nava kishore Manne <nava.manne@xilinx.com>
 To: <mdf@kernel.org>, <trix@redhat.com>, <robh+dt@kernel.org>,
  <michal.simek@xilinx.com>, <sumit.semwal@linaro.org>,
@@ -74,38 +74,38 @@ To: <mdf@kernel.org>, <trix@redhat.com>, <robh+dt@kernel.org>,
  <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
  <git@xilinx.com>
-Subject: [PATCH RFC 2/3] fpga: support loading from a pre-allocated buffer
-Date: Fri, 2 Apr 2021 14:39:32 +0530
-Message-ID: <20210402090933.32276-3-nava.manne@xilinx.com>
+Subject: [PATCH RFC 3/3] fpga: zynqmp: Use the scatterlist interface
+Date: Fri, 2 Apr 2021 14:39:33 +0530
+Message-ID: <20210402090933.32276-4-nava.manne@xilinx.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210402090933.32276-1-nava.manne@xilinx.com>
 References: <20210402090933.32276-1-nava.manne@xilinx.com>
 MIME-Version: 1.0
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cebefaa1-d417-42b4-037c-08d8f5b82ba7
-X-MS-TrafficTypeDiagnostic: CY4PR0201MB3553:
-X-Microsoft-Antispam-PRVS: <CY4PR0201MB3553FCD9E024B8D32905A5E4C27A9@CY4PR0201MB3553.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 699600dd-5eef-4dec-17fc-08d8f5b842f4
+X-MS-TrafficTypeDiagnostic: BN7PR02MB4065:
+X-Microsoft-Antispam-PRVS: <BN7PR02MB40658FE68691540BE8584334C27A9@BN7PR02MB4065.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Oob-TLC-OOBClassifiers: OLM:411;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FEQnJOKG5mmZFp8INBRmHVLzSdK2LY9Vc9XIwSgQ6NbIBVOfGcCu8NI2NKEXXehjmr8K65XvkTScoht4lkkuROq3HfHHOy7+HpPPwaIhO3wH6iyWdh65eddPDtX8x+BpUFQQEGD14ub+un3PHh2iDnAGiYo1rlfeFD1Kisk0o72X2Hj2MFqawRCPT8KaGnE7giQ4PuELqqQy6Tcc4Fzbx3g/YyFeLK0Mlnx72Abz/W1nbFwThFybgfPdZgmRVV+TWG68lEheNj2e8QLZE8wj0Q45/hiOuQQfjOzYghmILWD++LscB8mLi5lqo+PL/RZIlNHyFgB6RX/I6o/pGLDOxrhXRefzRMsyus1huJKI3pqM8bIPTm8enrnf3lQGpYutbBCuw8WF2Dezjz2n4ZjCIU809AEUx0Wn5mILjQSamCjfdKhfSLk3GemPj+Nqq757zkzgTe1dJCX+zJxVDfFOSDSNxQDyxmYOV4aTpGwa/uj3+umjVFTK61C2YesmdhG6m5hCHTDuCR1UBv/xfUforSjOx9rsLyhjSgkZv9B+gguie2V9vN7IGEeLC7bY4sWaJearI3A3SPHHqepzacs04VwRj1Mc4Ra7YnmxzxJ+gGgJSwkuRf99mBOpiUIZoqsrYDSX0NN1zqqnMZaUrKdfq/PtifA/QTlR0lNigOHWsDzOhw/crjvHXI4pvFVRWu7MaRULuchzBAfNjS7I9/riefy13ZUmr7CEe1/3cruL9jU8ayC4n7Ly1ne8Tv/+xdGv
+X-Microsoft-Antispam-Message-Info: Q+3cuuQ5FwBsI38HD7PyC16LojWg0cPR9kKbaoUPy85TpM29LI6KQLf6t8DavxR7pRFpF9ECy7LYlYiA5lgY47g8DnNPRgHAuiXfLoAHHEP7MLSZvJYd6dAAht4+tdKl1XMCDOA4zYOZvWLvEx+NZ2vKrTaeWDAE9poUNjYDgMtZmV14BN5TT3uivIk3fWdbxy2Hpm+flk+YnHo2xwDDfUvgNrsrcHf1qWIDd5HP/KuU7g99yx2I/yGBDEB3RSmQH4BJxuTqayfAGpl9YEQcnZn319OenMU7geeDP202lGqWF0ZVrUp7cmbPDF1pfVT5fg+sEjxNUU+of0ryqSVQpOZAWOLK2K9vDHRzS8O6KhG0L8fEiktID0Fuh6xOhtjf2nKYiy8+txtfPzFxVk7r8TQnX4Cuqp4b5QiIEuAyvL5Eriml2OmGNJUTZ6yBKYKpsnkzlmigHOZA8Fh59efYEdL66z7ekFDz3aAp0fAbBM62KqqlUSz/u1BByBIRhsEG5y2auePYSDe6e3J3no42XihrT/2Qhr0IX0HzgjNGnCFAXyFTzlg8tP9Xty25QIGWsFW0iAB+ByDVS1eLsTGub47pVEc+ZvnHTjzDeQrktG1jGJGxXpVGlIao9t+BXwv/oFMhR5fXt6IZbt7eJOynrXSWlbj+lrWLpPoDWSGHFG3SkTyDFAQM7X7sbI+5DgbKfeDei21/5P4tOE/yTbmTHpiqeGryMPXEAipFme18J/m8sn3ntwQY9ZHE6jGMlEoi
 X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
  PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(376002)(396003)(136003)(39860400002)(346002)(36840700001)(46966006)(8676002)(47076005)(36860700001)(1076003)(4326008)(9786002)(82310400003)(336012)(7636003)(8936002)(36906005)(26005)(6636002)(7416002)(186003)(921005)(83380400001)(2616005)(6666004)(478600001)(2906002)(5660300002)(356005)(316002)(36756003)(7696005)(82740400003)(107886003)(70586007)(426003)(110136005)(70206006)(102446001)(83996005)(2101003);
+ SFS:(4636009)(39860400002)(346002)(376002)(136003)(396003)(36840700001)(46966006)(47076005)(336012)(36906005)(6666004)(7416002)(9786002)(316002)(426003)(2906002)(1076003)(110136005)(5660300002)(82310400003)(83380400001)(356005)(7636003)(36756003)(478600001)(26005)(186003)(107886003)(8936002)(4326008)(7696005)(6636002)(8676002)(70586007)(70206006)(921005)(82740400003)(36860700001)(2616005)(102446001)(2101003)(83996005);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2021 09:17:42.7268 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cebefaa1-d417-42b4-037c-08d8f5b82ba7
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2021 09:18:21.8366 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 699600dd-5eef-4dec-17fc-08d8f5b842f4
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT041.eop-nam02.prod.protection.outlook.com
+ Helo=[xsj-pvapexch02.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT050.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0201MB3553
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR02MB4065
 X-Mailman-Approved-At: Fri, 02 Apr 2021 09:30:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -125,256 +125,69 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some systems are memory constrained but they need to load very
-large Configuration files. The FPGA subsystem allows drivers to
-request this Configuration image be loaded from the filesystem,
-but this requires that the entire configuration data be loaded
-into kernel memory first before it's provided to the driver.
-This can lead to a situation where we map the configuration
-data twice, once to load the configuration data into kernel
-memory and once to copy the configuration data into the final
-resting place which is nothing but a dma-able continuous buffer.
-
-This creates needless memory pressure and delays due to multiple
-copies. Let's add a dmabuf handling support to the fpga manager
-framework that allows drivers to load the Configuration data
-directly from a pre-allocated buffer. This skips the intermediate
-step of allocating a buffer in kernel memory to hold the
-Configuration data.
+Allows drivers to request the Configuration image
+be loaded from dma-able continuous buffer to avoid
+needless memory pressure and delays due to multiple
+copies.
 
 Signed-off-by: Nava kishore Manne <nava.manne@xilinx.com>
 ---
- drivers/fpga/fpga-mgr.c       | 126 +++++++++++++++++++++++++++++++++-
- drivers/fpga/of-fpga-region.c |   3 +
- include/linux/fpga/fpga-mgr.h |   6 +-
- 3 files changed, 132 insertions(+), 3 deletions(-)
+ drivers/fpga/zynqmp-fpga.c | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-diff --git a/drivers/fpga/fpga-mgr.c b/drivers/fpga/fpga-mgr.c
-index b85bc47c91a9..13faed61af62 100644
---- a/drivers/fpga/fpga-mgr.c
-+++ b/drivers/fpga/fpga-mgr.c
-@@ -8,6 +8,8 @@
-  * With code from the mailing list:
-  * Copyright (C) 2013 Xilinx, Inc.
-  */
-+#include <linux/dma-buf.h>
-+#include <linux/dma-map-ops.h>
- #include <linux/firmware.h>
- #include <linux/fpga/fpga-mgr.h>
- #include <linux/idr.h>
-@@ -306,6 +308,51 @@ static int fpga_mgr_buf_load(struct fpga_manager *mgr,
- 	return rc;
+diff --git a/drivers/fpga/zynqmp-fpga.c b/drivers/fpga/zynqmp-fpga.c
+index 125743c9797f..3bb6bd520d71 100644
+--- a/drivers/fpga/zynqmp-fpga.c
++++ b/drivers/fpga/zynqmp-fpga.c
+@@ -66,6 +66,40 @@ static int zynqmp_fpga_ops_write(struct fpga_manager *mgr,
+ 	return ret;
  }
  
-+/**
-+ * fpga_mgr_buf_load - load fpga from image in dma buffer
-+ * @mgr:        fpga manager
-+ * @info:       fpga image info
-+ *
-+ * Step the low level fpga manager through the device-specific steps of getting
-+ * an FPGA ready to be configured, writing the image to it, then doing whatever
-+ * post-configuration steps necessary.  This code assumes the caller got the
-+ * mgr pointer from of_fpga_mgr_get() and checked that it is not an error code.
-+ *
-+ * Return: 0 on success, negative error code otherwise.
-+ */
-+static int fpga_dmabuf_load(struct fpga_manager *mgr,
-+			    struct fpga_image_info *info)
++static unsigned long zynqmp_fpga_get_contiguous_size(struct sg_table *sgt)
 +{
-+	struct dma_buf_attachment *attach;
-+	struct sg_table *sgt;
-+	int ret;
++	dma_addr_t expected = sg_dma_address(sgt->sgl);
++	unsigned long size = 0;
++	struct scatterlist *s;
++	unsigned int i;
 +
-+	/* create attachment for dmabuf with the user device */
-+	attach = dma_buf_attach(mgr->dmabuf, &mgr->dev);
-+	if (IS_ERR(attach)) {
-+		pr_err("failed to attach dmabuf\n");
-+		ret = PTR_ERR(attach);
-+		goto fail_put;
++	for_each_sg(sgt->sgl, s, sgt->nents, i) {
++		if (sg_dma_address(s) != expected)
++			break;
++		expected = sg_dma_address(s) + sg_dma_len(s);
++		size += sg_dma_len(s);
 +	}
 +
-+	sgt = dma_buf_map_attachment(attach, DMA_BIDIRECTIONAL);
-+	if (IS_ERR(sgt)) {
-+		ret = PTR_ERR(sgt);
-+		goto fail_detach;
-+	}
-+
-+	info->sgt = sgt;
-+	ret = fpga_mgr_buf_load_sg(mgr, info, info->sgt);
-+	dma_buf_unmap_attachment(attach, sgt, DMA_BIDIRECTIONAL);
-+
-+fail_detach:
-+	dma_buf_detach(mgr->dmabuf, attach);
-+fail_put:
-+	dma_buf_put(mgr->dmabuf);
-+
-+	return ret;
++	return size;
 +}
 +
- /**
-  * fpga_mgr_firmware_load - request firmware and load to fpga
-  * @mgr:	fpga manager
-@@ -358,6 +405,8 @@ static int fpga_mgr_firmware_load(struct fpga_manager *mgr,
-  */
- int fpga_mgr_load(struct fpga_manager *mgr, struct fpga_image_info *info)
++static int zynqmp_fpga_ops_write_sg(struct fpga_manager *mgr,
++				    struct sg_table *sgt)
++{
++	struct zynqmp_fpga_priv *priv;
++	unsigned long contig_size;
++	dma_addr_t dma_addr;
++	u32 eemi_flags = 0;
++
++	priv = mgr->priv;
++	dma_addr = sg_dma_address(sgt->sgl);
++	contig_size = zynqmp_fpga_get_contiguous_size(sgt);
++	if (priv->flags & FPGA_MGR_PARTIAL_RECONFIG)
++		eemi_flags |= XILINX_ZYNQMP_PM_FPGA_PARTIAL;
++
++	return zynqmp_pm_fpga_load(dma_addr, contig_size, eemi_flags);
++}
++
+ static int zynqmp_fpga_ops_write_complete(struct fpga_manager *mgr,
+ 					  struct fpga_image_info *info)
  {
-+	if (info->flags & FPGA_MGR_CONFIG_DMA_BUF)
-+		return fpga_dmabuf_load(mgr, info);
- 	if (info->sgt)
- 		return fpga_mgr_buf_load_sg(mgr, info, info->sgt);
- 	if (info->buf && info->count)
-@@ -549,6 +598,62 @@ void fpga_mgr_unlock(struct fpga_manager *mgr)
- }
- EXPORT_SYMBOL_GPL(fpga_mgr_unlock);
+@@ -87,6 +121,7 @@ static const struct fpga_manager_ops zynqmp_fpga_ops = {
+ 	.state = zynqmp_fpga_ops_state,
+ 	.write_init = zynqmp_fpga_ops_write_init,
+ 	.write = zynqmp_fpga_ops_write,
++	.write_sg = zynqmp_fpga_ops_write_sg,
+ 	.write_complete = zynqmp_fpga_ops_write_complete,
+ };
  
-+static int fpga_dmabuf_fd_get(struct file *file, char __user *argp)
-+{
-+	struct fpga_manager *mgr =  (struct fpga_manager *)(file->private_data);
-+	int buffd;
-+
-+	if (copy_from_user(&buffd, argp, sizeof(buffd)))
-+		return -EFAULT;
-+
-+	mgr->dmabuf = dma_buf_get(buffd);
-+	if (IS_ERR_OR_NULL(mgr->dmabuf))
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int fpga_device_open(struct inode *inode, struct file *file)
-+{
-+	struct miscdevice *miscdev = file->private_data;
-+	struct fpga_manager *mgr = container_of(miscdev,
-+						struct fpga_manager, miscdev);
-+
-+	file->private_data = mgr;
-+
-+	return 0;
-+}
-+
-+static int fpga_device_release(struct inode *inode, struct file *file)
-+{
-+	return 0;
-+}
-+
-+static long fpga_device_ioctl(struct file *file, unsigned int cmd,
-+			      unsigned long arg)
-+{
-+	char __user *argp = (char __user *)arg;
-+	int err;
-+
-+	switch (cmd) {
-+	case FPGA_IOCTL_LOAD_DMA_BUFF:
-+		err = fpga_dmabuf_fd_get(file, argp);
-+		break;
-+	default:
-+		err = -ENOTTY;
-+	}
-+
-+	return err;
-+}
-+
-+static const struct file_operations fpga_fops = {
-+	.owner		= THIS_MODULE,
-+	.open		= fpga_device_open,
-+	.release	= fpga_device_release,
-+	.unlocked_ioctl	= fpga_device_ioctl,
-+	.compat_ioctl	= fpga_device_ioctl,
-+};
-+
- /**
-  * fpga_mgr_create - create and initialize a FPGA manager struct
-  * @dev:	fpga manager device from pdev
-@@ -569,8 +674,7 @@ struct fpga_manager *fpga_mgr_create(struct device *dev, const char *name,
- 	int id, ret;
- 
- 	if (!mops || !mops->write_complete || !mops->state ||
--	    !mops->write_init || (!mops->write && !mops->write_sg) ||
--	    (mops->write && mops->write_sg)) {
-+	    !mops->write_init || (!mops->write && !mops->write_sg)) {
- 		dev_err(dev, "Attempt to register without fpga_manager_ops\n");
- 		return NULL;
- 	}
-@@ -601,10 +705,28 @@ struct fpga_manager *fpga_mgr_create(struct device *dev, const char *name,
- 	mgr->dev.of_node = dev->of_node;
- 	mgr->dev.id = id;
- 
-+	/* Make device dma capable by inheriting from parent's */
-+	set_dma_ops(&mgr->dev, get_dma_ops(dev));
-+	ret = dma_coerce_mask_and_coherent(&mgr->dev, dma_get_mask(dev));
-+	if (ret) {
-+		dev_warn(dev,
-+			 "Failed to set DMA mask %llx.Trying to continue.%x\n",
-+			 dma_get_mask(dev), ret);
-+	}
-+
- 	ret = dev_set_name(&mgr->dev, "fpga%d", id);
- 	if (ret)
- 		goto error_device;
- 
-+	mgr->miscdev.minor = MISC_DYNAMIC_MINOR;
-+	mgr->miscdev.name = kobject_name(&mgr->dev.kobj);
-+	mgr->miscdev.fops = &fpga_fops;
-+	ret = misc_register(&mgr->miscdev);
-+	if (ret) {
-+		pr_err("fpga: failed to register misc device.\n");
-+		goto error_device;
-+	}
-+
- 	return mgr;
- 
- error_device:
-diff --git a/drivers/fpga/of-fpga-region.c b/drivers/fpga/of-fpga-region.c
-index 35fc2f3d4bd8..698e3e42ccba 100644
---- a/drivers/fpga/of-fpga-region.c
-+++ b/drivers/fpga/of-fpga-region.c
-@@ -229,6 +229,9 @@ static struct fpga_image_info *of_fpga_region_parse_ov(
- 	if (of_property_read_bool(overlay, "encrypted-fpga-config"))
- 		info->flags |= FPGA_MGR_ENCRYPTED_BITSTREAM;
- 
-+	if (of_property_read_bool(overlay, "fpga-config-from-dmabuf"))
-+		info->flags |= FPGA_MGR_CONFIG_DMA_BUF;
-+
- 	if (!of_property_read_string(overlay, "firmware-name",
- 				     &firmware_name)) {
- 		info->firmware_name = devm_kstrdup(dev, firmware_name,
-diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.h
-index 2bc3030a69e5..6208c22f7bed 100644
---- a/include/linux/fpga/fpga-mgr.h
-+++ b/include/linux/fpga/fpga-mgr.h
-@@ -9,6 +9,7 @@
- #define _LINUX_FPGA_MGR_H
- 
- #include <linux/mutex.h>
-+#include <linux/miscdevice.h>
- #include <linux/platform_device.h>
- 
- struct fpga_manager;
-@@ -73,7 +74,7 @@ enum fpga_mgr_states {
- #define FPGA_MGR_ENCRYPTED_BITSTREAM	BIT(2)
- #define FPGA_MGR_BITSTREAM_LSB_FIRST	BIT(3)
- #define FPGA_MGR_COMPRESSED_BITSTREAM	BIT(4)
--
-+#define FPGA_MGR_CONFIG_DMA_BUF		BIT(5)
- /**
-  * struct fpga_image_info - information specific to a FPGA image
-  * @flags: boolean flags as defined above
-@@ -167,6 +168,8 @@ struct fpga_compat_id {
- struct fpga_manager {
- 	const char *name;
- 	struct device dev;
-+	struct miscdevice miscdev;
-+	struct dma_buf *dmabuf;
- 	struct mutex ref_mutex;
- 	enum fpga_mgr_states state;
- 	struct fpga_compat_id *compat_id;
-@@ -204,4 +207,5 @@ struct fpga_manager *devm_fpga_mgr_create(struct device *dev, const char *name,
- 					  const struct fpga_manager_ops *mops,
- 					  void *priv);
- 
-+#define FPGA_IOCTL_LOAD_DMA_BUFF	_IOWR('R', 1, __u32)
- #endif /*_LINUX_FPGA_MGR_H */
 -- 
 2.18.0
 
