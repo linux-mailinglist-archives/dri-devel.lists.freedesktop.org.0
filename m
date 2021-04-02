@@ -2,51 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1CA352DAD
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Apr 2021 18:25:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BE3353065
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Apr 2021 22:49:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CCC46E134;
-	Fri,  2 Apr 2021 16:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E9D66E02E;
+	Fri,  2 Apr 2021 20:49:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 245166E134;
- Fri,  2 Apr 2021 16:25:17 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- j20-20020a05600c1914b029010f31e15a7fso4550624wmq.1; 
- Fri, 02 Apr 2021 09:25:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=A6UBEPWH4Pqrp2yST70F67kTWsb725VGtDiuWhpkKMw=;
- b=keH4UX76ym1k1mU0mAqLHL5lniAYVj7KiwGNCrIZvZTpexqtCX9yTpiJ6Vsq++zCSK
- P4iWzfEpHvAMSGJZ83ONXLCDrd8kiFJ6YNM3YmtQBWtRn7ZYQ0u8Ia+fx9iZSnKNplfM
- Q0RNbk75OHcRoLn+fIOjymjP3BA/f53A5FMdNSdjDuLShBf4bXG4RFY0qMHhWmU+G9Kl
- U46Lolp3xKVPFMG00ylJ4Dkah8fq3DNdRZRCOfD93ywCsolGi/YOcggdEsTb7luG9aqT
- uaPDMnlUU5y7dXps7XTlHkYkdkNVQ6PdMGs4D7ASP8dU2Pnl/M32sCDZGmmblne37z4j
- eoWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=A6UBEPWH4Pqrp2yST70F67kTWsb725VGtDiuWhpkKMw=;
- b=eqg9u8AOzu6nHZy2+R7yHLgxV0oPdV23Mjbzw0+2wKZ3msXmE79i/JJmk9XS68sNyI
- mij+PADTqFj+yIeD3FHgWcbdJrtCj7zM2OEQ0RMeIJUJ38ISyRpYv6Ac3sC0dTew0B6t
- PoVmF1hCkDE6buFQsmIR7OaWu7hYD1d0c+hAGdOfwPye5O+FBV7aEvgb4bYa0QF/FbtB
- k4nhrthOfqfTeOC4XgWfpld9JL7tzLYPqFFQhIrcE5vNVyMOAqTy3o5X9b8xONyLm1ZH
- M0yhlR/2gLtBNQ0pKFsjPr4VKJnkPI9T3Gy+xfCTwcIar0RHZseElKBxifjAnkmXMWBu
- QApA==
-X-Gm-Message-State: AOAM532ybIfZQMN1XdOtbQbxcpSLQLnx2SD7tt8Dme6jGuZ6qctjoaqJ
- Vy4+3OxOCMPGlpUIKl4qWnstC4s7PPY1WdHnD/s=
-X-Google-Smtp-Source: ABdhPJykiFcugV/Elu5oRMaSCU6UPriPtZJa6ZQZm88VODiQYXJOAjvy5GOxJP1dAfIM/3htKwFDSc43vb3sCN2fRxc=
-X-Received: by 2002:a1c:66c4:: with SMTP id
- a187mr13590583wmc.164.1617380715718; 
- Fri, 02 Apr 2021 09:25:15 -0700 (PDT)
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com
+ (mail-oln040092004026.outbound.protection.outlook.com [40.92.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AECFC6E02E
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Apr 2021 20:49:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UMBuK0k2/oE+HG5lIAjP8MUOP1j7Oq+Nup9k8vwJsSOGX+VBCdiKbo80P6AbLpwnxP96PGZKWQwQRcFZtsBa9cCRm4zFjc56uZH/+sdg6LbO2AUBeHgakXb4ZxcS/kWYgoSP2LUoclXmdGpxX+IWcElcsPoxUGEykgVRA83p5hjUq+rU2FfZjP6AEl4v1IiwJLlJFdQm95kvSyeSSOtDgMK6JFJ6T1PnxyYsDBcPQydTS+eJWR4J1ipJBQ1d14AI/rjXz9F45IwT0YHeTf2sJathU+9A//wvAM2iNHX7vzu44uZecaHijF3l4clv8WHBhuH7IBpwBaDxCiYoyveByg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H5nBNd3schQmRkdVrTibEgBAhHZn3ONbFAlsSax6fDc=;
+ b=EBboxH7B5GIF19Vb4qscmxwfFmwFZxQNL/dggTW09TbUiaZy1SnFDwuO6UVMHRp41JPfDY8hlHlfrSA+gUvq5LErJASdh3PBq+EbLCIbx8ui8T0zhz0nv2KzilDlRVkE/UgPRNBihdvSkWgVTKiyPL1TPzs5+Mu/qkMhuEyTRMmK9OsP0vGa6w6K6nmkWqHDw3k2Wc7C334k0zIX/PeOn/LvEY9p2tIrDFPoVA8RZJCcVTsu4I8dR82n/NnET1u4wbVVWlIgdUInvrb7MPQ4f2j4PeTBCB/hJ6uSho3Cl4kufdMW8TUo1NvGcUi4vA95sHayfEXSYr8eUim9g7j/Ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H5nBNd3schQmRkdVrTibEgBAhHZn3ONbFAlsSax6fDc=;
+ b=XCNAoy4/20HjU3Fai/AuRFFZUqyIfMxgCvKyDbXUfP1I8P5Mffuutmoglc8si0LY3D8+nPujCQuLUYy5F3riGhIM4Vucsb3u0Eo3LtVKl3H1/nbrAe9h5czwJ/q9tcjQQErhn9p2Jo6q7iPlsw1S4euYb66YwalYuzmn1+FJN23SCVjliYkTRKhlMa8zcrZc9jJXlNMIxQHULXjrHiOrrGA55q4IjFQPm6JNdFmTw8Vfiv6JRkMiC7BaoKGM/DgEW9z8e8QtFymAZoHoppJ7csnyE2Ut2GowCoUyXhVaHK67QF+BmHGoapHgMcC4RggAUjacLKVDzpe8ZdJXtL/sYQ==
+Received: from CY1NAM02FT020.eop-nam02.prod.protection.outlook.com
+ (10.152.74.53) by CY1NAM02HT204.eop-nam02.prod.protection.outlook.com
+ (10.152.74.199) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.28; Fri, 2 Apr
+ 2021 20:49:02 +0000
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com
+ (2a01:111:e400:7e45::40) by CY1NAM02FT020.mail.protection.outlook.com
+ (2a01:111:e400:7e45::447) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.28 via Frontend
+ Transport; Fri, 2 Apr 2021 20:49:02 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:C132EAC26613CE7886395F93CEAF35CB944898C706BBFD9D5F63F81039279864;
+ UpperCasedChecksum:B004829F87F8F7BFB58995F6EDABE1A4BD757B7584C378056483ABC613D025EF;
+ SizeAsReceived:7397; Count:45
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::fc38:a692:c2c8:f63e]) by SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::fc38:a692:c2c8:f63e%7]) with mapi id 15.20.3999.028; Fri, 2 Apr 2021
+ 20:49:02 +0000
+From: Chris Morgan <macromorgan@hotmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/panel: add rotation support for Elida KD35T133 panels
+Date: Fri,  2 Apr 2021 15:48:47 -0500
+Message-ID: <SN6PR06MB534253E1CFDEA6917230F57BA57A9@SN6PR06MB5342.namprd06.prod.outlook.com>
+X-Mailer: git-send-email 2.25.1
+X-TMN: [axftsuFgielMLV3Llf8lmo5tSLFhLf3P]
+X-ClientProxiedBy: SA9PR03CA0006.namprd03.prod.outlook.com
+ (2603:10b6:806:20::11) To SN6PR06MB5342.namprd06.prod.outlook.com
+ (2603:10b6:805:f9::31)
+X-Microsoft-Original-Message-ID: <20210402204847.7574-1-macromorgan@hotmail.com>
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 2 Apr 2021 09:28:42 -0700
-Message-ID: <CAF6AEGsMj7Nv3vVaVWMxPy8Y=Z_SnZmVKhKgKDxDYTr9rGN_+w@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-fixes-2021-04-02 for v5.12-rc6
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from wintermute.localdomain (76.183.134.35) by
+ SA9PR03CA0006.namprd03.prod.outlook.com (2603:10b6:806:20::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3999.26 via Frontend Transport; Fri, 2 Apr 2021 20:49:01 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 45
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 7e90fe2a-fd46-4818-9ff5-08d8f618bf4c
+X-MS-Exchange-SLBlob-MailProps: zswcL9HXbeVlDLV/zsHYmi+MJQR7rtsP0P0rhSxWxDb0V13G81HTHqN4kttWK91TYYDSpAj7NTuioiwV49CVaT0+kTaU3g3ywuyt7iCa5J+fHNIouKkz8t/NQFwK2icyuWNHGypLOxOt1Yq+gzJ7n5vqz46Yax4+8762YP/Jw2HxFFxhfH5tRxIFknD0JkG3zdb5v0y0BggKc4KkSNNSc2w2w3NBh9z5YrCiZ1BBGJ+C8XivmDF53iXJ4B8wSvGRPkwBqa6In40nIzFKjj4wEldsEMJ1nDztwhlxHgL9j7+YDV9hTF0TTC2HPuin8dZzlEftk/OQGrqme0Wh8KOkCpBk3uYehyBqAxVDYYbBZZhPNbo43Zu06RoxZQxXE5K0MdTP6A9T7T1IkQ7EG0h0eZA94fEppb5184NQ5KALUywDxwvNqz6vGQp5fI1ITl3nLvjZEftCizTdMofyycwsOzqYSpS7G0jeAtSSJAfIDJu7uR4Se5UNuSpX+uYczFnJtOxrtwP2Smg6M3V8GipgzN+eEv/oZ0jXAZayh/cEn/K5A/vMMw/L8bfSfPyzqMfObTG34jkyjxJ5vS21LrKI4/FKbT/BZVTMQ8EvEelpe2xZPtNYEmb+TRNWqA4Dp/bQpoCbhC6a8DqG4TqfOV5ilhP+6K42Sm7qveHtTGgLBUkx/YnlEhfmV6QoTg//0h5ty+aa7O85QjiJ9pDgRLZNQ9F/6KONRVelAk5HjHJMDGH6xgxzo+KHncoY97Odvj1q
+X-MS-TrafficTypeDiagnostic: CY1NAM02HT204:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PwOiKSq1h9XODOk2IBMris1DTmRTeX1uA4kwHArlAQgRwVs8rhEZcv8CKlgaZROZMjifC3kor7NI+hMi35SeHA1ktyuxi34pcTMLPHAkONM1okCe42o4aiTqTlPZpVEAALO+SlIbfrG57r8fw4R++p/AmU4xE+sKqfqX2cRX81ymGIY82LrMfNwZk6vm06MGC6VOgL0eCLkek13S6mz3M0qbvJ+tWWOiGRYxHTYu9aMKBIcGF9xyogyaM6eb4M004a/9i/ml0Qg8r2bBSDb04wcAqe7x5LDrPCsfq0/ybI4glF2lCwKtFCgmjKU1RR/Ark++wn3eV+bjfoanSiyqH1I2vd4zR6Y8WiwfQ5zDdIktOPj+nzupbZZWXdTbPID6cyaZf8VQ/L2OWhQVnxOyAA==
+X-MS-Exchange-AntiSpam-MessageData: 7JXHOLy33QRAw4B2QJ9G0FBosE4A+zZl1kgX+uuo2ZuXfQDhWQbJFD/CxrI/AQwY0GJo5vY/8+HFU4BQ28wpCrmPX/YGLs4Df3MV3GDLoYFieIr5tCUWTT1Hseb+ndDDYciVDrqm+fBhcJ7Pwg+VhQ==
+X-OriginatorOrg: hotmail.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e90fe2a-fd46-4818-9ff5-08d8f618bf4c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2021 20:49:02.5641 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT020.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1NAM02HT204
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,55 +92,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Cc: airlied@linux.ie, thierry.reding@gmail.com, sam@ravnborg.org,
+ Chris Morgan <macromorgan@hotmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Daniel,
+Update the panel to allow setting the rotation value in device tree.
+Tested on an Odroid Go Advance, where the panel is by default rotated 270
+degrees.
 
-A couple more small fixes for v5.12
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+---
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-The following changes since commit 627dc55c273dab308303a5217bd3e767d7083ddb:
+diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+index bc36aa3c1123..d8534406d1ef 100644
+--- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
++++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+@@ -42,6 +42,7 @@ struct kd35t133 {
+ 	struct gpio_desc *reset_gpio;
+ 	struct regulator *vdd;
+ 	struct regulator *iovcc;
++	enum drm_panel_orientation orientation;
+ 	bool prepared;
+ };
+ 
+@@ -216,6 +217,7 @@ static int kd35t133_get_modes(struct drm_panel *panel,
+ 	connector->display_info.width_mm = mode->width_mm;
+ 	connector->display_info.height_mm = mode->height_mm;
+ 	drm_mode_probed_add(connector, mode);
++	drm_connector_set_panel_orientation(connector, ctx->orientation);
+ 
+ 	return 1;
+ }
+@@ -258,6 +260,12 @@ static int kd35t133_probe(struct mipi_dsi_device *dsi)
+ 		return ret;
+ 	}
+ 
++	ret = of_drm_get_panel_orientation(dev->of_node, &ctx->orientation);
++	if (ret < 0) {
++		dev_err(dev, "%pOF: failed to get orientation %d\n", dev->of_node, ret);
++		return ret;
++	}
++
+ 	mipi_dsi_set_drvdata(dsi, ctx);
+ 
+ 	ctx->dev = dev;
+-- 
+2.25.1
 
-  drm/msm/disp/dpu1: icc path needs to be set before dpu runtime
-resume (2021-03-22 18:52:34 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/msm.git drm-msm-fixes-2021-04-02
-
-for you to fetch changes up to 12aca1ce9ee33af3751aec5e55a5900747cbdd4b:
-
-  drm/msm/disp/dpu1: program 3d_merge only if block is attached
-(2021-04-02 08:23:41 -0700)
-
-----------------------------------------------------------------
-Dmitry Baryshkov (1):
-      drm/msm: a6xx: fix version check for the A650 SQE microcode
-
-John Stultz (1):
-      drm/msm: Fix removal of valid error case when checking speed_bin
-
-Kalyan Thota (1):
-      drm/msm/disp/dpu1: program 3d_merge only if block is attached
-
-Rob Clark (1):
-      drm/msm: Fix a5xx/a6xx timestamps
-
-Stephen Boyd (1):
-      drm/msm: Set drvdata to NULL when msm_drm_init() fails
-
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c      |  4 ++--
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 18 ++++++++++++------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c |  4 +++-
- drivers/gpu/drm/msm/msm_drv.c              |  1 +
- 4 files changed, 18 insertions(+), 9 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
