@@ -1,63 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 713743527A7
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Apr 2021 10:57:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 903A33527B2
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Apr 2021 11:00:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE666EE38;
-	Fri,  2 Apr 2021 08:57:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C1246E198;
+	Fri,  2 Apr 2021 09:00:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E68816EE38
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Apr 2021 08:57:03 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id 12so2200645wmf.5
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Apr 2021 01:57:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=S7ce0Vxpg2sR3Lixx6Rl5vj4I10NemweROF9R1wsVX4=;
- b=YsObxn3+33f0x47mw+a2YdWHzIAq5V3WcbiNe7j7zNPdwdnowgW+oxga2m7hqNvI+B
- 7rU41kLGQlBEYigBn89HOt0+v80Cmajma8pI6iY347QTK9XQdFbKIoDO/vrvQoJLpHqO
- obXkXNg6VuOLbLbqHSaOpl1pdPXVN8P2YmOQysruh8fNhO/vCv3HnxA5xiu0NPu9/aG/
- fMD1paRHHJg4uHgZj2hvLNSlbizzZpRH2Ec+uz6klP56c4BzTIwQCvlYOAkgC7s7xoRd
- mlLBMWwaqxEOMZ+lH6qZVGj74qd9ehpoTcmROC5A968tecDYHLrm+ea8CwkghCMr10AT
- 8f0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=S7ce0Vxpg2sR3Lixx6Rl5vj4I10NemweROF9R1wsVX4=;
- b=PzcgRxvCaQwy2Htmv4Oq2vuNi+TXYdVli3bPMcKn2GcdqJsQwj14Xc0lC5slwWPO+2
- hFrSKAd8yBk1IdIxeGrlLJlOj6dWBdne1cMDszB/YApL0Cu9XHvHqMha7T24mDvX21MG
- pUJdeZ8vc9B7rhWZhLabsGeUr/iUJZxiBVGVKGjsJ113CzgffaGy+rY6vYxZgZHr4cPi
- 7Nkg4uiftzH1VNuCr0zB6wJFBpi+Uj+laLoWYgpzKqEUFIQU4jE5t0YVCzCpNOuL3aLP
- /j9/iGe5F8dU1za/B7Y+RtkZKx6nvXbNU3uMC2j3T26NM3f3R2aBJFOCgSeU+gKv1h1i
- zQ/A==
-X-Gm-Message-State: AOAM533Vr8S6BEWa2TkHDQEwSOfeKb2drLEa3+s0xf8sXL1LrZqv+MIU
- Yxva8D48UmlnhgFw+SPXuF3JoE54JGf5Q8Q/O4c=
-X-Google-Smtp-Source: ABdhPJyubigy03RcapzbnkfaAKQTZy3/TqkRV465izj294G5yfa90DXKok09jfrNBuiR9P3XMwdkZw==
-X-Received: by 2002:a1c:3d46:: with SMTP id k67mr11724458wma.188.1617353822549; 
- Fri, 02 Apr 2021 01:57:02 -0700 (PDT)
-Received: from equinox
- (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa.
- [2001:8b0:dfde:e1a0::2])
- by smtp.gmail.com with ESMTPSA id h8sm13874239wrt.94.2021.04.02.01.57.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Apr 2021 01:57:02 -0700 (PDT)
-Date: Fri, 2 Apr 2021 09:57:00 +0100
-From: Phillip Potter <phil@philpotter.co.uk>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH] zero-fill colormap in drivers/video/fbdev/core/fbcmap.c
-Message-ID: <YGbcXMfP5pbCkG/9@equinox>
-References: <20210331220719.1499743-1-phil@philpotter.co.uk>
- <CAMuHMdVh9JPZKphSi5+KR+BMJL7cQpVifrPBzhR3ees8QBhBXw@mail.gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 059616E093
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Apr 2021 09:00:26 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E69632C1;
+ Fri,  2 Apr 2021 11:00:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1617354024;
+ bh=elTh91fHBqoRE3n15Vt6YQfqLzAPhdsnX4FGuvqKbJM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oWFPNwZpRW0+ESGW3PxJDKemt4sdh4C2jxyzELlrhmAyenar17Mj6v3OiAJ7L8+MS
+ Cn415IdbXHMs57Nwqp7UyBPce4jNY+QIqHyATyPyPnQSbGMiGRz8GAHgEwVkG6tX/l
+ LlGJEOhMI+/QDocY1j9CI6RYvLmbQqR+fNXvD2gM=
+Date: Fri, 2 Apr 2021 11:59:39 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Xin Ji <xji@analogixsemi.com>
+Subject: Re: [PATCH v6 4/5] drm/bridge: anx7625: add HDCP support
+Message-ID: <YGbc+1TynbHfX8Ml@pendragon.ideasonboard.com>
+References: <cover.1616135353.git.xji@analogixsemi.com>
+ <189a637c87827f78c433a053e3c2129ebec73188.1616135353.git.xji@analogixsemi.com>
+ <CAMavQKLN04F2rzu7J121N4GvQKh7kq9yXGk+fBSUjsC2nbiSiA@mail.gmail.com>
+ <20210329102710.GA1930154@anxtwsw-Precision-3640-Tower>
+ <CAMavQKJHakp0ZfHFEy77r8wHY+3uaP-6Ab2ren6vA46njpjx3g@mail.gmail.com>
+ <20210402022708.GA2154388@anxtwsw-Precision-3640-Tower>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVh9JPZKphSi5+KR+BMJL7cQpVifrPBzhR3ees8QBhBXw@mail.gmail.com>
+In-Reply-To: <20210402022708.GA2154388@anxtwsw-Precision-3640-Tower>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,47 +50,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Sam Ravnborg <sam@ravnborg.org>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Bernie Liang <bliang@analogixsemi.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
+ Foss <robert.foss@linaro.org>, Vasily Khoruzhick <anarsoul@gmail.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Torsten Duwe <duwe@lst.de>,
+ Sheng Pan <span@analogixsemi.com>, Zhen Li <zhenli@analogixsemi.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Sean Paul <sean@poorly.run>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 01, 2021 at 11:55:50AM +0200, Geert Uytterhoeven wrote:
-> On Thu, Apr 1, 2021 at 12:09 AM Phillip Potter <phil@philpotter.co.uk> wrote:
-> > Use kzalloc() rather than kmalloc() for the dynamically allocated parts
-> > of the colormap in fb_alloc_cmap_gfp, to prevent a leak of random kernel
-> > data to userspace under certain circumstances.
-> >
-> > Fixes a KMSAN-found infoleak bug reported by syzbot at:
-> > https://syzkaller.appspot.com/bug?id=741578659feabd108ad9e06696f0c1f2e69c4b6e
-> >
-> > Reported-by: syzbot+47fa9c9c648b765305b9@syzkaller.appspotmail.com
-> > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+Hi Xin,
 
-Dear Geert
+On Fri, Apr 02, 2021 at 10:27:08AM +0800, Xin Ji wrote:
+> On Mon, Mar 29, 2021 at 02:02:08PM -0400, Sean Paul wrote:
+> > On Mon, Mar 29, 2021 at 6:27 AM Xin Ji <xji@analogixsemi.com> wrote:
+> > >
+> > > On Thu, Mar 25, 2021 at 02:19:23PM -0400, Sean Paul wrote:
+> > > > On Fri, Mar 19, 2021 at 2:35 AM Xin Ji <xji@analogixsemi.com> wrote:
+> > > > >
+> > > > > Add HDCP feature, enable HDCP function through chip internal key
+> > > > > and downstream's capability.
+> > > > >
+> > > > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> > > > > ---
+> > 
+> > /snip
+> > 
+> > > > >  static void anx7625_dp_start(struct anx7625_data *ctx)
+> > > > >  {
+> > > > >         int ret;
+> > > > > @@ -643,6 +787,9 @@ static void anx7625_dp_start(struct anx7625_data *ctx)
+> > > > >                 return;
+> > > > >         }
+> > > > >
+> > > > > +       /* HDCP config */
+> > > > > +       anx7625_hdcp_setting(ctx);
+> > > >
+> > > > You should really use the "Content Protection" property to
+> > > > enable/disable HDCP instead of force-enabling it at all times.
+> > >
+> > > Hi Sean, it's hard to implement "Content Protection" property, we have
+> > > implemented HDCP in firmware, it is not compatible with it. We don't
+> > > have interface to get Downstream Cert.
+> > > Thanks,
+> > > Xin
+> > 
+> > Hi Xin,
+> > I'm sorry, I don't understand what you mean when you say you don't
+> > have an interface to get Downstream Cert.
+> > 
+> > The Content Protection property is just a means through which
+> > userspace can turn on and turn off HDCP when it needs. As far as I can
+> > tell, your patch turns on HDCP when the display is enabled and leaves
+> > it on until it is disabled. This is undesirable since it forces HDCP
+> > on the user.
+> > 
+> > Is it impossible to enable/disable HDCP outside of display
+> > enable/disable on your hardware?
+>
+> Hi Sean, I have commit a test patch on google review site, can you
+> please help to review it? I'll use Connector's ".atomic_check()"
+> interface to detect Content Protection property change.
+> (https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2674580)
 
-Thank you for your review :-)
+Please note that upstream review happens on mailing lists, not in
+gerrit. Internal reviews for Chrome OS development are certainly fine
+there, but that will not mean the patch will then be accepted upstream
+as-is, it will still need to go through the upstream review process,
+without any shortcut. I strongly recommend using an upstream-first
+strategy, with public review.
 
+> > > > > +
+> > > > >         if (ctx->pdata.is_dpi)
+> > > > >                 ret = anx7625_dpi_config(ctx);
+> > > > >         else
+> > 
+> > /snip
+
+-- 
 Regards,
-Phil
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
