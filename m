@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF8635310E
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Apr 2021 00:29:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5FE735310F
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Apr 2021 00:29:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 144406F39D;
-	Fri,  2 Apr 2021 22:29:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 428956F39F;
+	Fri,  2 Apr 2021 22:29:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
  [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 958BB6F3A0
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Apr 2021 22:29:33 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id g15so4380448pfq.3
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Apr 2021 15:29:33 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B512D6F39D
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Apr 2021 22:29:34 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id q5so4354903pfh.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Apr 2021 15:29:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6G7mQknm6wjoWphPZSZUuxY9hNho1AQ+iay1c8iYnQ4=;
- b=Y/riba2ZyERhmbUbp0nZgFQrpTe0WmQx/lQQLmVwpGVfRsd43VoIWOsO4jZfN5IS2V
- J78oY0zNvSXmoIpHmCZfKN8ypiUOWVjANqbOkrxwOs7ZO3WCI5ocdcARKy0Fhbx60QpO
- hgJxkCCRgFoVxizvJyry96LBAyaFNIDg6TkSg=
+ bh=LM7RMNcQZM8p5h41F/TtPYKzf6ZXd9Mgd1LpZEG6inw=;
+ b=PlyqJUC50sx5zn0/47YDciZkbiyJ8LRzKp3zJwBVfKGSe+VkeZYyiodikasjHz8fsh
+ M0mBw/L2StCjYLMNqS4c/zI1Ft92EESt5SGVyWw8A17Ctf1b8SwaTEuWZyPL91cniBKF
+ WL2GOJnfjKAQYgR5Dq+tSNuWcyZvd8NjSb6ZA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6G7mQknm6wjoWphPZSZUuxY9hNho1AQ+iay1c8iYnQ4=;
- b=kC5s8+BoA2YHO+DvNNe+fDQEMZY/DTu3YN4QyugQaQDhF4vpaL3z31G6rFBFismi3S
- wBbcK+oFaiW1kgNFfYLKuaGtTWB2kiwE7l+Dw3YBIB6mjd3OCgDaSQ6ELnxYdfsv5Vcm
- vgYV5j7Vg0crxOCyqBglVpDL/ClUuZzgE9MenAwAdtfWOsTwtBGFycUmW4ntXh6jQ/6S
- nE03w2OMWlAUVvUcUsRTRvkULiuDHoFfXKq4sLA707AuIf1JXyWbe/+6Lsluc9gEeBp8
- +csqSjTMfaYPXrBylujVkvJ/7PGVN/2rbtc1RIxg32YnTOn+1hJnbcznKaz1OzCQrNyK
- J4Sw==
-X-Gm-Message-State: AOAM5326KTsz3ZfI/hLRMvNEubjcAN2cr7KaOFFKc4ijqekatFvMAOXL
- 5reaq3D/mWR+7woFJM72lMEAwg==
-X-Google-Smtp-Source: ABdhPJz4NdL95sgVBazICIqKq0ekk4Cx/rwWSUaLe9Uv1pcNYM9TEmiPwe664DKuaS1enCO1P/h+RQ==
-X-Received: by 2002:a63:1d18:: with SMTP id d24mr13864452pgd.402.1617402573324; 
- Fri, 02 Apr 2021 15:29:33 -0700 (PDT)
+ bh=LM7RMNcQZM8p5h41F/TtPYKzf6ZXd9Mgd1LpZEG6inw=;
+ b=PzJdiqvibdNEHDFdBhzTCtqM3ckrI3S/M8MG/hz7wEpdGxAC5fd+UffuxOdKtGsp37
+ Tptql7c6z3LqZtIuvdfpiMWxrqNyvprYEvpRq137rqhMj7n9edPjxXVlsr8IIiP2olaz
+ m8wnsz5uf01GSyzr4rwjq7gDbe3+yG23fXiOzrvsibnvUT8rf4jMyt1ve+UJ+uRP/c+O
+ 8FwWTd7CrtVKy0hZ0BAUcQoaQESP/8ignCxxYWVFbaa9W1xOP3G0JTZM9IVME3gW6ylM
+ SeRrSZZwkG5o5Pk69GcWExjVMUQoqr3ZJTPaS92FRY5cnILUAsLYLS8cuznGMK6/Rneg
+ H7iA==
+X-Gm-Message-State: AOAM533gvBTSWFz4DGLp5GZDODK8xoqz28ZOvB1lGhlrMUIETH0gp2M0
+ CZfcyzTZJLd3h1a+AlYiNHQprQ==
+X-Google-Smtp-Source: ABdhPJxWGKyCxGLU83T7rVZlMq20Szif/yIsu/zpitphqaDLhG+i5KKTABmUjLOvxO8CvTXttJ+ZAg==
+X-Received: by 2002:a62:7b0b:0:b029:1ef:1999:1d57 with SMTP id
+ w11-20020a627b0b0000b02901ef19991d57mr13977185pfc.19.1617402574407; 
+ Fri, 02 Apr 2021 15:29:34 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:6c58:fab2:c5e2:f2d7])
- by smtp.gmail.com with ESMTPSA id t16sm9233094pfc.204.2021.04.02.15.29.32
+ by smtp.gmail.com with ESMTPSA id t16sm9233094pfc.204.2021.04.02.15.29.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Apr 2021 15:29:33 -0700 (PDT)
+ Fri, 02 Apr 2021 15:29:34 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
  Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v3 06/12] drm/bridge: ti-sn65dsi86: Get rid of the useless
- detect() function
-Date: Fri,  2 Apr 2021 15:28:40 -0700
-Message-Id: <20210402152701.v3.6.I826adf4faeb7f39f560b387f6b380e639c6986c8@changeid>
+Subject: [PATCH v3 07/12] drm/bridge: ti-sn65dsi86: Remove extra call:
+ drm_connector_update_edid_property()
+Date: Fri,  2 Apr 2021 15:28:41 -0700
+Message-Id: <20210402152701.v3.7.Ic14a7ab8035df89e19a25ad4fbf2004f9673f167@changeid>
 X-Mailer: git-send-email 2.31.0.208.g409f899ff0-goog
 In-Reply-To: <20210402222846.2461042-1-dianders@chromium.org>
 References: <20210402222846.2461042-1-dianders@chromium.org>
@@ -81,8 +82,10 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If we just leave the detect() function as NULL then the upper layers
-assume we're always connected. There's no reason for a stub.
+As of commit 5186421cbfe2 ("drm: Introduce epoch counter to
+drm_connector") the drm_get_edid() function calls
+drm_connector_update_edid_property() for us. There's no reason for us
+to call it again.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
@@ -90,34 +93,38 @@ Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
 
 (no changes since v1)
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 12 ------------
- 1 file changed, 12 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index e30460002c48..51db30d573c1 100644
+index 51db30d573c1..6390bc58f29a 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -306,20 +306,8 @@ static struct drm_connector_helper_funcs ti_sn_bridge_connector_helper_funcs = {
- 	.mode_valid = ti_sn_bridge_connector_mode_valid,
- };
+@@ -270,7 +270,7 @@ static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
+ {
+ 	struct ti_sn_bridge *pdata = connector_to_ti_sn_bridge(connector);
+ 	struct edid *edid = pdata->edid;
+-	int num, ret;
++	int num;
  
--static enum drm_connector_status
--ti_sn_bridge_connector_detect(struct drm_connector *connector, bool force)
--{
--	/**
--	 * TODO: Currently if drm_panel is present, then always
--	 * return the status as connected. Need to add support to detect
--	 * device state for hot pluggable scenarios.
--	 */
--	return connector_status_connected;
--}
--
- static const struct drm_connector_funcs ti_sn_bridge_connector_funcs = {
- 	.fill_modes = drm_helper_probe_single_connector_modes,
--	.detect = ti_sn_bridge_connector_detect,
- 	.destroy = drm_connector_cleanup,
- 	.reset = drm_atomic_helper_connector_reset,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+ 	if (!edid) {
+ 		pm_runtime_get_sync(pdata->dev);
+@@ -279,12 +279,9 @@ static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
+ 	}
+ 
+ 	if (edid && drm_edid_is_valid(edid)) {
+-		ret = drm_connector_update_edid_property(connector, edid);
+-		if (!ret) {
+-			num = drm_add_edid_modes(connector, edid);
+-			if (num)
+-				return num;
+-		}
++		num = drm_add_edid_modes(connector, edid);
++		if (num)
++			return num;
+ 	}
+ 
+ 	return drm_panel_get_modes(pdata->panel, connector);
 -- 
 2.31.0.208.g409f899ff0-goog
 
