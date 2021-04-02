@@ -1,85 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01513353066
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Apr 2021 22:50:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7316B35309A
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Apr 2021 23:08:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 293C26E156;
-	Fri,  2 Apr 2021 20:50:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A7016E106;
+	Fri,  2 Apr 2021 21:08:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
- (mail-oln040092003032.outbound.protection.outlook.com [40.92.3.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DCC56E156
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Apr 2021 20:50:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cVkw7gtbehQXGAXlE6ale4EoF8Vk6FKjBcqGnZ0241eaWpdga/BT+aC2OsI/Z3UiPTxg8dZTcXnrexBtGIETob1WK0Y+BXG7jpm8c20lLEO/DoHpiM8cEJv2CwZA+Xm5/FDgw1X8EkmnTdxitMXN13VsnnRJD4F6uHyJPnPsaI+kFbE5VshcO2d6185vNs8WbM2Gfb2hTo2RuIfMUeoUiD5zr+Ur7fK6JY1QU/SQtaFF+EXDLWq05XxrKNkWwk4i6evgIfs1Yy3ddFGWiz2NTxsE8XMtEJx3wkUUJFu3uO6onKkNmga7sehyrUBDzgWYpUeuPv8BPt9MhizghHQoGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gxPKqX2q56Td1F0jieF0fOU/SVIfxFdtsHyNpi9j7R8=;
- b=IowOMVEom17OFUl6ME4weRml6vrMLjOrsxuwJxeWcWKAlQpOLTtLEQ7csLRtg3qKmIAuUsbgmjmZYvPQiY2yDJdlXAXXs9bdiilOKoNCcpJbm6tLiybjxDhS3hYnAu2+qQxdCRrOlVzMIMb0TKb1N5u+eE8i20csuSlLyG9/3BssXwURKTARg2lRW/D4TlFYVDZ86ZYftffceLo8XrBrSlAFfp5QOwqSzjOVYsm9fQBp0qUbB60/x6d7zsP48HNA8h4kDCywZKOx+KuQnolIQiTguCoJrX8UZ7YVi5XyAgp02iCpj0kgsz3MHfZygwgriTpafHbzlEIgA6W50GzoYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gxPKqX2q56Td1F0jieF0fOU/SVIfxFdtsHyNpi9j7R8=;
- b=PZPf/cm0MsuqOBrGgTd1KU1H6P88ynmhN8VzOHLPg5j0q3jLXFRpt+8qrWmNlVuSy1OH5L0Kgh8hpA94nwFIb7HptgPYwaaL1Nv/sWFDqK7yBMwfHrkwM7CGLDJnTbalWi7eKG7nujyAnuPeaRSz8SBFe10nLSiMGXHK2vZIF6uY/BGKDpm0TRcMIsBji0rWtVdLTKoPjp3Fr6o6GDE8Jy4H2tr5Vz+ehdxN7LzH3SinmGrZB3Q+XA3gHYXi1QP8bi4laif/yzONqHWXkloB7fIqYbHg4vc548kQIiZQfAA5YkEs0y2Q6G9LXq+pSyhRagQ16xgoMQH1dZSPCd4tow==
-Received: from CY1NAM02FT020.eop-nam02.prod.protection.outlook.com
- (10.152.74.60) by CY1NAM02HT175.eop-nam02.prod.protection.outlook.com
- (10.152.74.205) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.28; Fri, 2 Apr
- 2021 20:50:20 +0000
-Received: from SN6PR06MB5342.namprd06.prod.outlook.com
- (2a01:111:e400:7e45::40) by CY1NAM02FT020.mail.protection.outlook.com
- (2a01:111:e400:7e45::447) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.28 via Frontend
- Transport; Fri, 2 Apr 2021 20:50:20 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:B63F7051D85A659BBB34C5A13F3D46CBEF48BF98F5F4B8131085D4BD8A0E7C8C;
- UpperCasedChecksum:81D9C832570E64C20AC8015C4FDFF559317FA634895AAB28256FF018068BCBC9;
- SizeAsReceived:7395; Count:45
-Received: from SN6PR06MB5342.namprd06.prod.outlook.com
- ([fe80::fc38:a692:c2c8:f63e]) by SN6PR06MB5342.namprd06.prod.outlook.com
- ([fe80::fc38:a692:c2c8:f63e%7]) with mapi id 15.20.3999.028; Fri, 2 Apr 2021
- 20:50:20 +0000
-From: Chris Morgan <macromorgan@hotmail.com>
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CEA76E106;
+ Fri,  2 Apr 2021 21:08:54 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id x26so4314645pfn.0;
+ Fri, 02 Apr 2021 14:08:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oLTaIOrTqKkHo1IVoAW0mlBLXAv0Dz4mdCieecndjsM=;
+ b=BmzNKXNDZ+83eZJE6CsakJeweXzOjOa/saT/0iK9Ie2/xNwYKrnMJ3Kvjb92zN/n6V
+ Ov+Am9UjRtmEiqZPkk57Fncbo2td+exEkQew4QK/avg06ketApNWrol8B0Fda6Gthkjl
+ 5lXJacDda4uQ94Ix51VolNJ8AWz89tBVlzUwy8+NM+xD2yfiQo7MbBx/avM2/bNad/Vv
+ tCKNPhn6sZj48gTv/Y2H0O7hB2ZwhJdVeVB525lfj17YzPwVLIlB3dN1D2Kmcw1QjaLE
+ Ds3VZklM2+bBqSEK29lEL9cZmc+XmIisBovnDW4zN8gdnWhuPK4LOYeA6JMZA3oUMJfX
+ dHiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oLTaIOrTqKkHo1IVoAW0mlBLXAv0Dz4mdCieecndjsM=;
+ b=RrUj7QKJiMAPFXKEf7RIsrTF71BELEdmBEz+swtwWF4mijQzU2UGa5L4LJaJbmCBQP
+ mYYJCNaj2VZAKP+upowqZe1S2BhXc9myBIoyxXTld+af6d3RicWij7LrbxQGYnHQ2awi
+ NQBwpXPMaVoTYrMqHvD8mx8/Tzn1eMfE34GLHMMbzuVJA3cqt0JOvs5ZWq8gOHBn+fdK
+ GZJC6P9PComR38/1E2Xa9Yq8tUEesetm11aBH8g0Jpd6XtzQMSRw7ynyB5bCZ+Nwz4VR
+ FA8wa6UT+yaAs9NNVPsZvDipTd8fjL3p/+4oqML4ELo/IqhX9eD5mSMXfe2HUTDHebPB
+ 9/Lg==
+X-Gm-Message-State: AOAM533tRoq4FvVEPLKBCFr5udkuJ4Me/YMMOiDDTWp7R+7muYbnVG6c
+ hKTSdv+7hpMo35hFR+m3oLQS/70bT0oeTQ==
+X-Google-Smtp-Source: ABdhPJxo1Mqx1ORQ+Y7GCG6EwpiBGuCpyJRRZzg0IklZb2e0zjRvQIJ4O9B2QGQmOuNDBxNPp5z3dw==
+X-Received: by 2002:a65:56cc:: with SMTP id w12mr13328411pgs.354.1617397732734; 
+ Fri, 02 Apr 2021 14:08:52 -0700 (PDT)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+ by smtp.gmail.com with ESMTPSA id z14sm2811696pfn.48.2021.04.02.14.08.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Apr 2021 14:08:51 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/panel: correct typo in comments for Elida KD35T133
-Date: Fri,  2 Apr 2021 15:50:06 -0500
-Message-ID: <SN6PR06MB53426AB6E7F572EBF2EE29A5A57A9@SN6PR06MB5342.namprd06.prod.outlook.com>
-X-Mailer: git-send-email 2.25.1
-X-TMN: [mcObe7290I2eaaPjTzv6MMVuDXENTIEz]
-X-ClientProxiedBy: SA9PR11CA0027.namprd11.prod.outlook.com
- (2603:10b6:806:6e::32) To SN6PR06MB5342.namprd06.prod.outlook.com
- (2603:10b6:805:f9::31)
-X-Microsoft-Original-Message-ID: <20210402205006.7678-1-macromorgan@hotmail.com>
+Subject: [PATCH v2] drm/msm: Drop mm_lock in scan loop
+Date: Fri,  2 Apr 2021 14:12:26 -0700
+Message-Id: <20210402211226.875726-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from wintermute.localdomain (76.183.134.35) by
- SA9PR11CA0027.namprd11.prod.outlook.com (2603:10b6:806:6e::32) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3999.29 via Frontend Transport; Fri, 2 Apr 2021 20:50:20 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 45
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: cf31d381-e6dc-45bf-ac90-08d8f618eddf
-X-MS-Exchange-SLBlob-MailProps: zswcL9HXbeVlDLV/zsHYmi+MJQR7rtsPqx/WaZy8ffWz+ufsPoN6+rvVdIvqx75zdKBYF3XjaZiStU/wOPYxkuunuTIF0S53I0nrztSF20+dNh4Tz04iC6Fowp0rG+nkA+el09/HqtiDROLJTz9WTX4V7BQlgtcLETBW0EhQcuO4cXM4fXrQuoD39AHeHEW9yzT/yRU9YRxqyIAx01XUipiXSvyfbQwMgb6jZTpE/GwIaj91PT0EmN1CSq65dr2H33p8SaGw9ytYD3d/81qwU/tbdQ1YaknRcqgcghHAu889G/xV3xOzbUFzbsIUXkXEjN8CBjUj4Gm5//hhn+Cm1ehnU9IarYzh/TiNf5WnzCKx769ltavjgsQ+FtYi6Bd2gzcShD1ty5LSSe48rKUCrC8tL94kKkCaTshEb0fv0Lc/mFfMPdv+FWdvnaa8Zc4x1Nthhb8qMVOKNV8V/YHtY/6TbPfSEQPT2F8eOYtDT2K6H6/eudspKiJ3LgQqP8uCoMRyjBjDvUpSEUpabeHztvbQ9S5YLY+8hXJ5jwe2rKj8CIlaGM9V0AmaNjdR4r/L1LyHo7F2EmQsFtDLShOlYW3xHUbCTk2vR5zr9qHHKAp1X29FCTp963xwwffExtnaUwX0A2eMapAQmkWhksREaqKy9UnUC+gaHZfEViHQyLw95zduKfdx8oiGdUFmDzhiAmZg4nYbu0DasIpz4ejzwvga+PWqC7CN3HTVkY6nW2RwPcFE8Uy+AnEbApfe5h+L
-X-MS-TrafficTypeDiagnostic: CY1NAM02HT175:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yk0IsaQP0wP6NVx/1pXCBc2phcJZxASnA+FMz8MEqqMDk+xpj1cjImZxCwddx7HwuH6i8pf5vpFU///qcm4SdcDauuqN+JEIAyggN1egcyuc6Oy2pERwvHF4TuO4YTEP8w10/o0XjwK1C7o0EG6vAG80RaBGd7gOv5xnNEKXeyGpbdkXLwt1y7URHYKxGPhQRRI/NJIHb8Sffeu8KHq0RLSCnHWltVnedbf24mxDIHp6hiYi9n34aSO5UKEK9He5aPD+oFO2wDilWGKpyTJWpinDz8Tas0Q2XX7EWia+9Amz2V9owXdTYx6nYtUj6qHIFjkj62jhyyB/B/HDN28/TNKS4jbZHNfm2KvjFuKeYpl6D2ZjL5K6gd2VPcO9TEjaIr9ekXomq2zmXma7PamBpA==
-X-MS-Exchange-AntiSpam-MessageData: cL0X2dOToboPW6eJ46ABYHRDojsFcYD/t4/RPOJCGeB67VUah+EG6uhG5HvNteiygvegpYyFDhZpr5+xIvY8bGI+1FdFj7zkS5bmw80iF/2MPnA8RpxqOdAWibgVeNVcMrPJv2FB42cSDuZ3T5Z7RA==
-X-OriginatorOrg: hotmail.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf31d381-e6dc-45bf-ac90-08d8f618eddf
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2021 20:50:20.6596 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT020.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1NAM02HT175
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,34 +64,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, thierry.reding@gmail.com, sam@ravnborg.org,
- Chris Morgan <macromorgan@hotmail.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the comments to state this is a 3.5" display and not a 5.5" display.
+From: Rob Clark <robdclark@chromium.org>
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+lock_stat + mmm_donut[1] say that this reduces contention on mm_lock
+significantly (~350x lower waittime-max, and ~100x lower waittime-avg)
+
+[1] https://chromium.googlesource.com/chromiumos/platform/microbenchmarks/+/refs/heads/main/mmm_donut.py
+
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/panel/panel-elida-kd35t133.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/msm_drv.h          |  3 +-
+ drivers/gpu/drm/msm/msm_gem.c          |  2 +-
+ drivers/gpu/drm/msm/msm_gem_shrinker.c | 48 ++++++++++++++++++++++----
+ 3 files changed, 45 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-index d8534406d1ef..bce84d2e6ada 100644
---- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-+++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Elida kd35t133 5.5" MIPI-DSI panel driver
-+ * Elida kd35t133 3.5" MIPI-DSI panel driver
-  * Copyright (C) 2020 Theobroma Systems Design und Consulting GmbH
-  *
-  * based on
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index c84e6f84cb6d..d8d64d34e6e3 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -184,7 +184,8 @@ struct msm_drm_private {
+ 	/**
+ 	 * Lists of inactive GEM objects.  Every bo is either in one of the
+ 	 * inactive lists (depending on whether or not it is shrinkable) or
+-	 * gpu->active_list (for the gpu it is active on[1])
++	 * gpu->active_list (for the gpu it is active on[1]), or transiently
++	 * on a temporary list as the shrinker is running.
+ 	 *
+ 	 * These lists are protected by mm_lock (which should be acquired
+ 	 * before per GEM object lock).  One should *not* hold mm_lock in
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index 2ecf7f1cef25..75cea5b801da 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -719,7 +719,7 @@ void msm_gem_purge(struct drm_gem_object *obj)
+ 	put_iova_vmas(obj);
+ 
+ 	msm_obj->madv = __MSM_MADV_PURGED;
+-	mark_unpurgable(msm_obj);
++	update_inactive(msm_obj);
+ 
+ 	drm_vma_node_unmap(&obj->vma_node, dev->anon_inode->i_mapping);
+ 	drm_gem_free_mmap_offset(obj);
+diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+index f3e948af01c5..33a49641ef30 100644
+--- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
++++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+@@ -22,26 +22,62 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
+ {
+ 	struct msm_drm_private *priv =
+ 		container_of(shrinker, struct msm_drm_private, shrinker);
+-	struct msm_gem_object *msm_obj;
++	struct list_head still_in_list;
+ 	unsigned long freed = 0;
+ 
++	INIT_LIST_HEAD(&still_in_list);
++
+ 	mutex_lock(&priv->mm_lock);
+ 
+-	list_for_each_entry(msm_obj, &priv->inactive_dontneed, mm_list) {
+-		if (freed >= sc->nr_to_scan)
++	while (freed < sc->nr_to_scan) {
++		struct msm_gem_object *msm_obj = list_first_entry_or_null(
++				&priv->inactive_dontneed, typeof(*msm_obj), mm_list);
++
++		if (!msm_obj)
+ 			break;
+-		/* Use trylock, because we cannot block on a obj that
+-		 * might be trying to acquire mm_lock
++
++		list_move_tail(&msm_obj->mm_list, &still_in_list);
++
++		/*
++		 * If it is in the process of being freed, msm_gem_free_object
++		 * can be blocked on mm_lock waiting to remove it.  So just
++		 * skip it.
+ 		 */
+-		if (!msm_gem_trylock(&msm_obj->base))
++		if (!kref_get_unless_zero(&msm_obj->base.refcount))
+ 			continue;
++
++		/*
++		 * Now that we own a reference, we can drop mm_lock for the
++		 * rest of the loop body, to reduce contention with the
++		 * retire_submit path (which could make more objects purgable)
++		 */
++
++		mutex_unlock(&priv->mm_lock);
++
++		/*
++		 * Note that this still needs to be trylock, since we can
++		 * hit shrinker in response to trying to get backing pages
++		 * for this obj (ie. while it's lock is already held)
++		 */
++		if (!msm_gem_trylock(&msm_obj->base))
++			goto tail;
++
+ 		if (is_purgeable(msm_obj)) {
++			/*
++			 * This will move the obj out of still_in_list to
++			 * the purged list
++			 */
+ 			msm_gem_purge(&msm_obj->base);
+ 			freed += msm_obj->base.size >> PAGE_SHIFT;
+ 		}
+ 		msm_gem_unlock(&msm_obj->base);
++
++tail:
++		drm_gem_object_put(&msm_obj->base);
++		mutex_lock(&priv->mm_lock);
+ 	}
+ 
++	list_splice_tail(&still_in_list, &priv->inactive_dontneed);
+ 	mutex_unlock(&priv->mm_lock);
+ 
+ 	if (freed > 0) {
 -- 
-2.25.1
+2.30.2
 
 _______________________________________________
 dri-devel mailing list
