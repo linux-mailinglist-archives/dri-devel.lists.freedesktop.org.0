@@ -1,64 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C40353113
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Apr 2021 00:29:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A93C7353229
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Apr 2021 05:09:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9022A6F3A5;
-	Fri,  2 Apr 2021 22:29:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD1246E123;
+	Sat,  3 Apr 2021 03:08:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 590FC6F3A5
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Apr 2021 22:29:40 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- gv19-20020a17090b11d3b029014c516f4eb5so1349058pjb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Apr 2021 15:29:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Bd7ZOcdLbggTkWq/b11t2tsonPi+tFBvbqHGCQY6R64=;
- b=Y82Ifp58mbKXik+k+22lEwNmBxDnbi4EdOcUxNE4tS1v8FtKxAXjDKfbiCg1WQ1fwo
- 9m5VHOYO2zt2rDjV9NpyYNB5AaUcnKTAozlTmgHodqHfwDOnGzuV6pogLfdcuiiaB8C+
- GfUTEIrZj4D0dVJE4meMDZmr4ij2391fcpK9o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Bd7ZOcdLbggTkWq/b11t2tsonPi+tFBvbqHGCQY6R64=;
- b=koHLs/edxbcfuwW2nbV9f7SSA0rb8lMINCHrFtB4pKYsjILELvyMmzuFtftJhtkCtl
- zGfYNFoS2AtMSVmxEQD5vp09TMkb3MpeE7ZIoPG22l53PWaIxZzZyc8MxB/6v/Yds9Gi
- WBj2R7pEYWC9fhE0MvyYrZpiqGAbVL5zqYBY2VkBMRf6iVMCbQ4ENKTsz8zB+46vLVET
- sr0D239LC8o7/fzX+Z+Cka1ddqutMm8QezQwzeqW3Ct1XC3jQdU24uqaRkyToG0NYO3r
- YWjDMj3qGYRv9DQxDovWPiSkyZy2AIcwPRKRQn4p7JhkjZ3B8KTLWFsTJ3E/7Ta3XLeU
- 7Qeg==
-X-Gm-Message-State: AOAM530Q1uIZsNek7oVFHXdM5wiokIn0QccupQWjW4F7vM6CMxx58j/L
- xz9CjnyPYwUIpsNMz2ZfGFbFPA==
-X-Google-Smtp-Source: ABdhPJxIVU3dtJ6L+VxCnlaevQ2t7j0kZEkmzIZuSwfT1L7CjV9b4QC3Izww+hVdZMWB+Q+O6j29oA==
-X-Received: by 2002:a17:902:e051:b029:e7:37d9:f32e with SMTP id
- x17-20020a170902e051b02900e737d9f32emr14488918plx.78.1617402579937; 
- Fri, 02 Apr 2021 15:29:39 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:201:6c58:fab2:c5e2:f2d7])
- by smtp.gmail.com with ESMTPSA id t16sm9233094pfc.204.2021.04.02.15.29.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Apr 2021 15:29:39 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v3 12/12] drm/panel: panel-simple: Use runtime pm to avoid
- excessive unprepare / prepare
-Date: Fri,  2 Apr 2021 15:28:46 -0700
-Message-Id: <20210402152701.v3.12.I9e8bd33b49c496745bfac58ea9ab418bd3b6f5ce@changeid>
-X-Mailer: git-send-email 2.31.0.208.g409f899ff0-goog
-In-Reply-To: <20210402222846.2461042-1-dianders@chromium.org>
-References: <20210402222846.2461042-1-dianders@chromium.org>
+Received: from m15111.mail.126.com (m15111.mail.126.com [220.181.15.111])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 481EA6E123;
+ Sat,  3 Apr 2021 03:08:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=Subject:From:Message-ID:Date:MIME-Version; bh=npPuA
+ oSHJ12C8q4RfTIeClZRkN48yLfxbOXi4nk/2T8=; b=b1RauecGKSp2+F9juS+bm
+ MStTXI3umQ4PohRorcxs5gNSwk6mUmwiLGYEA6yJ6V1fI0He8GQVO35zmqQJ+hKJ
+ 7zzCsnlvIYiKoWMGSHniZgiaUUjsb9PX46zt24MTmIsv0iCpezmf4U7FP4s182K3
+ iXg0vCun4/iFvQ9tUl/roI=
+Received: from [172.20.20.87] (unknown [182.150.46.145])
+ by smtp1 (Coremail) with SMTP id C8mowAD3eVgz3GdghU75Pw--.23075S2;
+ Sat, 03 Apr 2021 11:08:37 +0800 (CST)
+Subject: Re: [PATCH] drm/amdgpu: Fix a potential sdma invalid access
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+ sumit.semwal@linaro.org, airlied@redhat.com, ray.huang@amd.com,
+ Mihir.Patel@amd.com, nirmoy.aiemd@gmail.com
+References: <1617333527-89782-1-git-send-email-jinsdb@126.com>
+ <9b876791-7fa4-46da-7aec-1d1bfde83f4e@amd.com>
+From: Qu Huang <jinsdb@126.com>
+Message-ID: <5ccca988-fd60-f63e-850c-9b615a17b856@126.com>
+Date: Sat, 3 Apr 2021 11:08:35 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
+In-Reply-To: <9b876791-7fa4-46da-7aec-1d1bfde83f4e@amd.com>
+X-CM-TRANSID: C8mowAD3eVgz3GdghU75Pw--.23075S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWFW5CrWkXw43Zry8Cw1Utrb_yoWruF4fpF
+ yrJay7uF4Fvr1UJrZrZFs8X3s5tr93A3WUKr45tr13X3W3Grn8XF18JrWj9FnrZr40qa17
+ tr4kK3ySqr1jgaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07b138nUUUUU=
+X-Originating-IP: [182.150.46.145]
+X-CM-SenderInfo: pmlq2vbe6rjloofrz/1tbirxVpDlpEAEd32wAAso
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,293 +54,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- Steev Klimaszewski <steev@kali.org>, Stephen Boyd <swboyd@chromium.org>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unpreparing and re-preparing a panel can be a really heavy
-operation. Panels datasheets often specify something on the order of
-500ms as the delay you should insert after turning off the panel
-before turning it on again. In addition, turning on a panel can have
-delays on the order of 100ms - 200ms before the panel will assert HPD
-(AKA "panel ready"). The above means that we should avoid turning a
-panel off if we're going to turn it on again shortly.
-
-The above becomes a problem when we want to read the EDID of a
-panel. The way that ordering works is that userspace wants to read the
-EDID of the panel _before_ fully enabling it so that it can set the
-initial mode correctly. However, we can't read the EDID until we power
-it up. This leads to code that does this dance (like
-ps8640_bridge_get_edid()):
-
-1. When userspace requests EDID / the panel modes (through an ioctl),
-   we power on the panel just enough to read the EDID and then power
-   it off.
-2. Userspace then turns the panel on.
-
-There's likely not much time between step #1 and #2 and so we want to
-avoid powering the panel off and on again between those two steps.
-
-Let's use Runtime PM to help us. We'll move the existing prepare() and
-unprepare() to be runtime resume() and runtime suspend(). Now when we
-want to prepare() or unprepare() we just increment or decrement the
-refcount. We'll default to a 1 second autosuspend delay which seems
-sane given the typical delays we see for panels.
-
-A few notes:
-- It seems the existing unprepare() and prepare() are defined to be
-  no-ops if called extra times. We'll preserve that behavior.
-- This is a slight change in the ABI of simple panel. If something was
-  absolutely relying on the unprepare() to happen instantly that
-  simply won't be the case anymore. I'm not aware of anyone relying on
-  that behavior, but if there is someone then we'll need to figure out
-  how to enable (or disable) this new delayed behavior selectively.
-- In order for this to work we now have a hard dependency on
-  "PM". From memory this is a legit thing to assume these days and we
-  don't have to find some fallback to keep working if someone wants to
-  build their system without "PM".
-
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-
-(no changes since v1)
-
- drivers/gpu/drm/panel/Kconfig        |  1 +
- drivers/gpu/drm/panel/panel-simple.c | 93 +++++++++++++++++++++-------
- 2 files changed, 73 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 4894913936e9..ef87d92cdf49 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -80,6 +80,7 @@ config DRM_PANEL_SIMPLE
- 	tristate "support for simple panels"
- 	depends on OF
- 	depends on BACKLIGHT_CLASS_DEVICE
-+	depends on PM
- 	select VIDEOMODE_HELPERS
- 	help
- 	  DRM panel driver for dumb panels that need at most a regulator and
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index be312b5c04dd..6b22872b3281 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -27,6 +27,7 @@
- #include <linux/module.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
- #include <linux/regulator/consumer.h>
- 
- #include <video/display_timing.h>
-@@ -175,6 +176,8 @@ struct panel_simple {
- 	bool enabled;
- 	bool no_hpd;
- 
-+	bool prepared;
-+
- 	ktime_t prepared_time;
- 	ktime_t unprepared_time;
- 
-@@ -334,19 +337,31 @@ static int panel_simple_disable(struct drm_panel *panel)
- 	return 0;
- }
- 
-+static int panel_simple_suspend(struct device *dev)
-+{
-+	struct panel_simple *p = dev_get_drvdata(dev);
-+
-+	gpiod_set_value_cansleep(p->enable_gpio, 0);
-+	regulator_disable(p->supply);
-+	p->unprepared_time = ktime_get();
-+
-+	return 0;
-+}
-+
- static int panel_simple_unprepare(struct drm_panel *panel)
- {
- 	struct panel_simple *p = to_panel_simple(panel);
-+	int ret;
- 
--	if (p->prepared_time == 0)
-+	/* Unpreparing when already unprepared is a no-op */
-+	if (!p->prepared)
- 		return 0;
- 
--	gpiod_set_value_cansleep(p->enable_gpio, 0);
--
--	regulator_disable(p->supply);
--
--	p->prepared_time = 0;
--	p->unprepared_time = ktime_get();
-+	pm_runtime_mark_last_busy(panel->dev);
-+	ret = pm_runtime_put_autosuspend(panel->dev);
-+	if (ret < 0)
-+		return ret;
-+	p->prepared = false;
- 
- 	return 0;
- }
-@@ -376,22 +391,19 @@ static int panel_simple_get_hpd_gpio(struct device *dev,
- 	return 0;
- }
- 
--static int panel_simple_prepare_once(struct drm_panel *panel)
-+static int panel_simple_prepare_once(struct panel_simple *p)
- {
--	struct panel_simple *p = to_panel_simple(panel);
-+	struct device *dev = p->base.dev;
- 	unsigned int delay;
- 	int err;
- 	int hpd_asserted;
- 	unsigned long hpd_wait_us;
- 
--	if (p->prepared_time != 0)
--		return 0;
--
- 	panel_simple_wait(p->unprepared_time, p->desc->delay.unprepare);
- 
- 	err = regulator_enable(p->supply);
- 	if (err < 0) {
--		dev_err(panel->dev, "failed to enable supply: %d\n", err);
-+		dev_err(dev, "failed to enable supply: %d\n", err);
- 		return err;
- 	}
- 
-@@ -405,7 +417,7 @@ static int panel_simple_prepare_once(struct drm_panel *panel)
- 
- 	if (p->hpd_gpio) {
- 		if (IS_ERR(p->hpd_gpio)) {
--			err = panel_simple_get_hpd_gpio(panel->dev, p, false);
-+			err = panel_simple_get_hpd_gpio(dev, p, false);
- 			if (err)
- 				goto error;
- 		}
-@@ -423,7 +435,7 @@ static int panel_simple_prepare_once(struct drm_panel *panel)
- 
- 		if (err) {
- 			if (err != -ETIMEDOUT)
--				dev_err(panel->dev,
-+				dev_err(dev,
- 					"error waiting for hpd GPIO: %d\n", err);
- 			goto error;
- 		}
-@@ -447,25 +459,46 @@ static int panel_simple_prepare_once(struct drm_panel *panel)
-  */
- #define MAX_PANEL_PREPARE_TRIES		5
- 
--static int panel_simple_prepare(struct drm_panel *panel)
-+static int panel_simple_resume(struct device *dev)
- {
-+	struct panel_simple *p = dev_get_drvdata(dev);
- 	int ret;
- 	int try;
- 
- 	for (try = 0; try < MAX_PANEL_PREPARE_TRIES; try++) {
--		ret = panel_simple_prepare_once(panel);
-+		ret = panel_simple_prepare_once(p);
- 		if (ret != -ETIMEDOUT)
- 			break;
- 	}
- 
- 	if (ret == -ETIMEDOUT)
--		dev_err(panel->dev, "Prepare timeout after %d tries\n", try);
-+		dev_err(dev, "Prepare timeout after %d tries\n", try);
- 	else if (try)
--		dev_warn(panel->dev, "Prepare needed %d retries\n", try);
-+		dev_warn(dev, "Prepare needed %d retries\n", try);
- 
- 	return ret;
- }
- 
-+static int panel_simple_prepare(struct drm_panel *panel)
-+{
-+	struct panel_simple *p = to_panel_simple(panel);
-+	int ret;
-+
-+	/* Preparing when already prepared is a no-op */
-+	if (p->prepared)
-+		return 0;
-+
-+	ret = pm_runtime_get_sync(panel->dev);
-+	if (ret < 0) {
-+		pm_runtime_put_autosuspend(panel->dev);
-+		return ret;
-+	}
-+
-+	p->prepared = true;
-+
-+	return 0;
-+}
-+
- static int panel_simple_enable(struct drm_panel *panel)
- {
- 	struct panel_simple *p = to_panel_simple(panel);
-@@ -748,6 +781,18 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 		break;
- 	}
- 
-+	dev_set_drvdata(dev, panel);
-+
-+	/*
-+	 * We use runtime PM for prepare / unprepare since those power the panel
-+	 * on and off and those can be very slow operations. This is important
-+	 * to optimize powering the panel on briefly to read the EDID before
-+	 * fully enabling the panel.
-+	 */
-+	pm_runtime_enable(dev);
-+	pm_runtime_set_autosuspend_delay(dev, 1000);
-+	pm_runtime_use_autosuspend(dev);
-+
- 	drm_panel_init(&panel->base, dev, &panel_simple_funcs, connector_type);
- 
- 	err = drm_panel_of_backlight(&panel->base);
-@@ -756,8 +801,6 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 
- 	drm_panel_add(&panel->base);
- 
--	dev_set_drvdata(dev, panel);
--
- 	return 0;
- 
- free_ddc:
-@@ -4603,10 +4646,17 @@ static void panel_simple_platform_shutdown(struct platform_device *pdev)
- 	panel_simple_shutdown(&pdev->dev);
- }
- 
-+static const struct dev_pm_ops panel_simple_pm_ops = {
-+	SET_RUNTIME_PM_OPS(panel_simple_suspend, panel_simple_resume, NULL)
-+	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-+				pm_runtime_force_resume)
-+};
-+
- static struct platform_driver panel_simple_platform_driver = {
- 	.driver = {
- 		.name = "panel-simple",
- 		.of_match_table = platform_of_match,
-+		.pm = &panel_simple_pm_ops,
- 	},
- 	.probe = panel_simple_platform_probe,
- 	.remove = panel_simple_platform_remove,
-@@ -4901,6 +4951,7 @@ static struct mipi_dsi_driver panel_simple_dsi_driver = {
- 	.driver = {
- 		.name = "panel-simple-dsi",
- 		.of_match_table = dsi_of_match,
-+		.pm = &panel_simple_pm_ops,
- 	},
- 	.probe = panel_simple_dsi_probe,
- 	.remove = panel_simple_dsi_remove,
--- 
-2.31.0.208.g409f899ff0-goog
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQ2hyaXN0aWFuLAoKT24gMjAyMS80LzMgMDoyNSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToK
+PiBIaSBRdSwKPiAKPiBBbSAwMi4wNC4yMSB1bSAwNToxOCBzY2hyaWViIFF1IEh1YW5nOgo+PiBC
+ZWZvcmUgZG1hX3Jlc3ZfbG9jayhiby0+YmFzZS5yZXN2LCBOVUxMKSBpbiBhbWRncHVfYm9fcmVs
+ZWFzZV9ub3RpZnkoKSwKPj4gdGhlIGJvLT5iYXNlLnJlc3YgbG9jayBtYXkgYmUgaGVsZCBieSB0
+dG1fbWVtX2V2aWN0X2ZpcnN0KCksCj4gCj4gVGhhdCBjYW4ndCBoYXBwZW4gc2luY2Ugd2hlbiBi
+b19yZWxlYXNlX25vdGlmeSBpcyBjYWxsZWQgdGhlIEJPIGhhcyBub3QgCj4gbW9yZSByZWZlcmVu
+Y2VzIGFuZCBpcyB0aGVyZWZvcmUgZGVsZXRlZC4KPiAKPiBBbmQgd2UgbmV2ZXIgZXZpY3QgYSBk
+ZWxldGVkIEJPLCB3ZSBqdXN0IHdhaXQgZm9yIGl0IHRvIGJlY29tZSBpZGxlLgoKWWVzLCB0aGUg
+Ym8gcmVmZXJlbmNlIGNvdW50ZXIgcmV0dXJuIHRvIHplcm8gd2lsbCBlbnRlciAKdHRtX2JvX3Jl
+bGVhc2UoKSxidXQgbm90aWZ5IGJvIHJlbGVhc2UgKGNhbGwgYW1kZ3B1X2JvX3JlbGVhc2Vfbm90
+aWZ5KCkpIApmaXJzdCBoYXBwZW4sIGFuZCB0aGVuIHRlc3QgaWYgYSByZXNlcnZhdGlvbiBvYmpl
+Y3QncyBmZW5jZXMgaGF2ZSBiZWVuIApzaWduYWxlZCwgYW5kIHRoZW4gbWFyayBibyBhcyBkZWxl
+dGVkIGFuZCByZW1vdmUgYm8gZnJvbSB0aGUgTFJVIGxpc3QuCgpXaGVuIHR0bV9ib19yZWxlYXNl
+KCkgYW5kIHR0bV9tZW1fZXZpY3RfZmlyc3QoKSBpcyBjb25jdXJyZW50LAp0aGUgQm8gaGFzIG5v
+dCBiZWVuIHJlbW92ZWQgZnJvbSB0aGUgTFJVIGxpc3QgYW5kIGlzIG5vdCBtYXJrZWQgYXMgCmRl
+bGV0ZWQsIHRoaXMgd2lsbCBoYXBwZW4uCgpBcyBhIHRlc3QsIHdoZW4gd2UgdXNlIENQVSBtZW1z
+ZXQgaW5zdGVhZCBvZiBTRE1BIGZpbGwgaW4gCmFtZGdwdV9ib19yZWxlYXNlX25vdGlmeSgpLCB0
+aGUgcmVzdWx0IGlzIHBhZ2UgZmF1bHQ6CgpQSUQ6IDU0OTAgICBUQVNLOiBmZmZmOGU4MTM2ZTA0
+MTAwICBDUFU6IDQgICBDT01NQU5EOiAiZ2VtbVBlcmYiCiAgIzAgW2ZmZmY4ZTc5ZWFhMTc5NzBd
+IG1hY2hpbmVfa2V4ZWMgYXQgZmZmZmZmZmZiMjg2Mzc4NAogICMxIFtmZmZmOGU3OWVhYTE3OWQw
+XSBfX2NyYXNoX2tleGVjIGF0IGZmZmZmZmZmYjI5MWNlOTIKICAjMiBbZmZmZjhlNzllYWExN2Fh
+MF0gY3Jhc2hfa2V4ZWMgYXQgZmZmZmZmZmZiMjkxY2Y4MAogICMzIFtmZmZmOGU3OWVhYTE3YWI4
+XSBvb3BzX2VuZCBhdCBmZmZmZmZmZmIyZjZjNzY4CiAgIzQgW2ZmZmY4ZTc5ZWFhMTdhZTBdIG5v
+X2NvbnRleHQgYXQgZmZmZmZmZmZiMmY1YWFhNgogICM1IFtmZmZmOGU3OWVhYTE3YjMwXSBfX2Jh
+ZF9hcmVhX25vc2VtYXBob3JlIGF0IGZmZmZmZmZmYjJmNWFiM2QKICAjNiBbZmZmZjhlNzllYWEx
+N2I4MF0gYmFkX2FyZWFfbm9zZW1hcGhvcmUgYXQgZmZmZmZmZmZiMmY1YWNhZQogICM3IFtmZmZm
+OGU3OWVhYTE3YjkwXSBfX2RvX3BhZ2VfZmF1bHQgYXQgZmZmZmZmZmZiMmY2ZjZjMAogICM4IFtm
+ZmZmOGU3OWVhYTE3YzAwXSBkb19wYWdlX2ZhdWx0IGF0IGZmZmZmZmZmYjJmNmY5MjUKICAjOSBb
+ZmZmZjhlNzllYWExN2MzMF0gcGFnZV9mYXVsdCBhdCBmZmZmZmZmZmIyZjZiNzU4CiAgICAgW2V4
+Y2VwdGlvbiBSSVA6IG1lbXNldCszMV0KICAgICBSSVA6IGZmZmZmZmZmYjJiODY2OGYgIFJTUDog
+ZmZmZjhlNzllYWExN2NlOCAgUkZMQUdTOiAwMDAxMGExNwogICAgIFJBWDogYmViZWJlYmViZWJl
+YmViZSAgUkJYOiBmZmZmOGU3NDdiZmYxMGMwICBSQ1g6IDAwMDAwNjBiMDAyMDAwMDAKICAgICBS
+RFg6IDAwMDAwMDAwMDAwMDAwMDAgIFJTSTogMDAwMDAwMDAwMDAwMDBiZSAgUkRJOiBmZmZmYWI4
+MDdmMDAwMDAwCiAgICAgUkJQOiBmZmZmOGU3OWVhYTE3ZDEwICAgUjg6IGZmZmY4ZTc5ZWFhMTQw
+MDAgICBSOTogZmZmZmFiN2M4MDAwMDAwMAogICAgIFIxMDogMDAwMDAwMDAwMDAwYmNiYSAgUjEx
+OiAwMDAwMDAwMDAwMDAwMWJhICBSMTI6IGZmZmY4ZTc5ZWJhYTQwNTAKICAgICBSMTM6IGZmZmZh
+YjdjODAwMDAwMDAgIFIxNDogMDAwMDAwMDAwMDAyMjYwMCAgUjE1OiBmZmZmOGU4MTM2ZTA0MTAw
+CiAgICAgT1JJR19SQVg6IGZmZmZmZmZmZmZmZmZmZmYgIENTOiAwMDEwICBTUzogMDAxOAojMTAg
+W2ZmZmY4ZTc5ZWFhMTdjZThdIGFtZGdwdV9ib19yZWxlYXNlX25vdGlmeSBhdCBmZmZmZmZmZmMw
+OTJmMmQxIFthbWRncHVdCiMxMSBbZmZmZjhlNzllYWExN2QxOF0gdHRtX2JvX3JlbGVhc2UgYXQg
+ZmZmZmZmZmZjMDhmMzlkZCBbYW1kdHRtXQojMTIgW2ZmZmY4ZTc5ZWFhMTdkNThdIGFtZHR0bV9i
+b19wdXQgYXQgZmZmZmZmZmZjMDhmM2M4YyBbYW1kdHRtXQojMTMgW2ZmZmY4ZTc5ZWFhMTdkNjhd
+IGFtZHR0bV9ib192bV9jbG9zZSBhdCBmZmZmZmZmZmMwOGY3YWM5IFthbWR0dG1dCiMxNCBbZmZm
+ZjhlNzllYWExN2Q4MF0gcmVtb3ZlX3ZtYSBhdCBmZmZmZmZmZmIyOWVmMTE1CiMxNSBbZmZmZjhl
+NzllYWExN2RhMF0gZXhpdF9tbWFwIGF0IGZmZmZmZmZmYjI5ZjJjNjQKIzE2IFtmZmZmOGU3OWVh
+YTE3ZTU4XSBtbXB1dCBhdCBmZmZmZmZmZmIyODk0MGM3CiMxNyBbZmZmZjhlNzllYWExN2U3OF0g
+ZG9fZXhpdCBhdCBmZmZmZmZmZmIyODlkYzk1CiMxOCBbZmZmZjhlNzllYWExN2YxMF0gZG9fZ3Jv
+dXBfZXhpdCBhdCBmZmZmZmZmZmIyODllNGNmCiMxOSBbZmZmZjhlNzllYWExN2Y0MF0gc3lzX2V4
+aXRfZ3JvdXAgYXQgZmZmZmZmZmZiMjg5ZTU0NAojMjAgW2ZmZmY4ZTc5ZWFhMTdmNTBdIHN5c3Rl
+bV9jYWxsX2Zhc3RwYXRoIGF0IGZmZmZmZmZmYjJmNzRkZGIKClJlZ2FyZHMsClF1LgoKCj4gCj4g
+UmVnYXJkcywKPiBDaHJpc3RpYW4uCj4gCj4+IGFuZCB0aGUgVlJBTSBtZW0gd2lsbCBiZSBldmlj
+dGVkLCBtZW0gcmVnaW9uIHdhcyByZXBsYWNlZAo+PiBieSBHdHQgbWVtIHJlZ2lvbi4gYW1kZ3B1
+X2JvX3JlbGVhc2Vfbm90aWZ5KCkgd2lsbCB0aGVuCj4+IGhvbGQgdGhlIGJvLT5iYXNlLnJlc3Yg
+bG9jaywgYW5kIFNETUEgd2lsbCBnZXQgYW4gaW52YWxpZAo+PiBhZGRyZXNzIGluIGFtZGdwdV9m
+aWxsX2J1ZmZlcigpLCByZXN1bHRpbmcgaW4gYSBWTUZBVUxUCj4+IG9yIG1lbW9yeSBjb3JydXB0
+aW9uLgo+Pgo+PiBUbyBhdm9pZCBpdCwgd2UgaGF2ZSB0byBob2xkIGJvLT5iYXNlLnJlc3YgbG9j
+ayBmaXJzdCwgYW5kCj4+IGNoZWNrIHdoZXRoZXIgdGhlIG1lbS5tZW1fdHlwZSBpcyBUVE1fUExf
+VlJBTS4KPj4KPj4gU2lnbmVkLW9mZi1ieTogUXUgSHVhbmcgPGppbnNkYkAxMjYuY29tPgo+PiAt
+LS0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X29iamVjdC5jIHwgOCAr
+KysrKystLQo+PiDCoCAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9u
+cygtKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
+X29iamVjdC5jIAo+PiBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9vYmplY3Qu
+Ywo+PiBpbmRleCA0YjI5YjgyLi44MDE4NTc0IDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9hbWRncHVfb2JqZWN0LmMKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYW1kZ3B1X29iamVjdC5jCj4+IEBAIC0xMzAwLDEyICsxMzAwLDE2IEBAIHZvaWQg
+YW1kZ3B1X2JvX3JlbGVhc2Vfbm90aWZ5KHN0cnVjdCAKPj4gdHRtX2J1ZmZlcl9vYmplY3QgKmJv
+KQo+PiDCoMKgwqDCoMKgIGlmIChiby0+YmFzZS5yZXN2ID09ICZiby0+YmFzZS5fcmVzdikKPj4g
+wqDCoMKgwqDCoMKgwqDCoMKgIGFtZGdwdV9hbWRrZmRfcmVtb3ZlX2ZlbmNlX29uX3B0X3BkX2Jv
+cyhhYm8pOwo+Pgo+PiAtwqDCoMKgIGlmIChiby0+bWVtLm1lbV90eXBlICE9IFRUTV9QTF9WUkFN
+IHx8ICFiby0+bWVtLm1tX25vZGUgfHwKPj4gLcKgwqDCoMKgwqDCoMKgICEoYWJvLT5mbGFncyAm
+IEFNREdQVV9HRU1fQ1JFQVRFX1ZSQU1fV0lQRV9PTl9SRUxFQVNFKSkKPj4gK8KgwqDCoCBpZiAo
+IShhYm8tPmZsYWdzICYgQU1ER1BVX0dFTV9DUkVBVEVfVlJBTV9XSVBFX09OX1JFTEVBU0UpKQo+
+PiDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuOwo+Pgo+PiDCoMKgwqDCoMKgIGRtYV9yZXN2X2xv
+Y2soYm8tPmJhc2UucmVzdiwgTlVMTCk7Cj4+Cj4+ICvCoMKgwqAgaWYgKGJvLT5tZW0ubWVtX3R5
+cGUgIT0gVFRNX1BMX1ZSQU0gfHwgIWJvLT5tZW0ubW1fbm9kZSkgewo+PiArwqDCoMKgwqDCoMKg
+wqAgZG1hX3Jlc3ZfdW5sb2NrKGJvLT5iYXNlLnJlc3YpOwo+PiArwqDCoMKgwqDCoMKgwqAgcmV0
+dXJuOwo+PiArwqDCoMKgIH0KPj4gKwo+PiDCoMKgwqDCoMKgIHIgPSBhbWRncHVfZmlsbF9idWZm
+ZXIoYWJvLCBBTURHUFVfUE9JU09OLCBiby0+YmFzZS5yZXN2LCAmZmVuY2UpOwo+PiDCoMKgwqDC
+oMKgIGlmICghV0FSTl9PTihyKSkgewo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgYW1kZ3B1X2JvX2Zl
+bmNlKGFibywgZmVuY2UsIGZhbHNlKTsKPj4gLS0gCj4+IDEuOC4zLjEKPj4KCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
