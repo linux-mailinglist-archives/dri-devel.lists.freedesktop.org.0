@@ -2,41 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDF635378F
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Apr 2021 10:56:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7FF35382C
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Apr 2021 15:10:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD3976E48D;
-	Sun,  4 Apr 2021 08:56:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92BB86E4A1;
+	Sun,  4 Apr 2021 13:10:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m12-16.163.com (m12-16.163.com [220.181.12.16])
- by gabe.freedesktop.org (Postfix) with SMTP id DD7FB6E489
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Apr 2021 08:43:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=G2cUs
- f+10M+0+o9ghzxvUiWetFHccy0hk0bp1FYd8Zk=; b=D7XQKFkv0Z54cdkqJx9S/
- VkuKKxNOvHHQwDqAD7z7QMdF1TtWJvrSUVyuHjYWtLiNGtoMuiTyIdtl/DOaxLZt
- oOKwiS2I2yCsObgUtATMOpe/e6x8JXY8qQvw6O2WHUG68+cC4zKvwp8t4unbe7bk
- yIO52f4SqcGyuFCcU9ajfU=
-Received: from localhost.localdomain (unknown [120.229.91.194])
- by smtp12 (Coremail) with SMTP id EMCowAAXHMSle2lgLIHajw--.20565S2;
- Sun, 04 Apr 2021 16:41:12 +0800 (CST)
-From: Carlis <llyz108@163.com>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm/i915/sysfs: convert snprintf to sysfs_emit
-Date: Sun,  4 Apr 2021 08:41:03 +0000
-Message-Id: <20210404084103.528211-1-llyz108@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96EED6E4A1
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Apr 2021 13:10:12 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ q6-20020a17090a4306b02900c42a012202so4595878pjg.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Apr 2021 06:10:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=/of33qOjnEhY45uD1x/HAVtGTCodSVzYWgcg1uH37ss=;
+ b=GGjHQuQk821BGc1xUvWgR8KKM5g2fcrC/69hMeb1RKziiCL4ZqJRmR4Ejp9HkTNgZQ
+ gOylSgwjogyoTqDp/AikdqkE2Mdy9PENS9XNYzjMBZZ9MqISpkyH65IJGhK5UFn7Sdwz
+ iRzC3syWjwCPACuni5MBx4XkozafIm1rHqyUGr2dQ0aHu7I8EMAkxI+P6dpuP86I1Djw
+ 6rX6JXOhGP4xrpoHLbfjMSfHa9sawrvXIMOsm2zmCUxv/wohrhYTvJQGGdfW39mf8B0V
+ JumKVd5NGIJQ0In0TgE53C/z/s/ccYRRzSXHH7JoHtfQfGaxyn8k2gLNgOFjQ6CVpm/g
+ PeTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=/of33qOjnEhY45uD1x/HAVtGTCodSVzYWgcg1uH37ss=;
+ b=E+qP06ckhAcPjmxe7ljDXg/NnUxIYMr+QV0YVSWNlps368IZ39P/FKp6TqZMqnPPV0
+ yWFg+WoS2b4wgw734U+J+BMuTmbshY3/76iEivMl9PAxVsDv/fOAyrJnrsE4xhfmJu21
+ jMeuS7msY+t7p7ywfaWhlpymZU0S7cDYnBbLwnZiBGIlU0nyWcGuQJpm/cDg9O6CRlSv
+ CpaUaXP80so0P72ZsQU2txY29fUmWY6qP2z+aRWCXjwne2BqOupyX0Y2AUuMfVUYRjx7
+ 2OC+TDjweLrx4qty/eb9qrEU4WIFy1xuhnrosh+O5aWXioj1LsSFcAEB/QA7x0YwuXD+
+ ZCtg==
+X-Gm-Message-State: AOAM532P1wUh8IFkBDM6BhJhwg2f4PXow1keCVD6IEGM2t6Y8nwNl9OC
+ +3FaUoTRKl+zbH+Pwz9Z97s=
+X-Google-Smtp-Source: ABdhPJxdUlBgl/WGy0d+ibbRpFm4MOUmQ8jTnB5/7hGYLMKMlRY+EI4M9/dsO2Jrkg2gM5pg25I9FA==
+X-Received: by 2002:a17:902:7585:b029:e6:cc10:61fe with SMTP id
+ j5-20020a1709027585b02900e6cc1061femr20072418pll.23.1617541812110; 
+ Sun, 04 Apr 2021 06:10:12 -0700 (PDT)
+Received: from adolin ([49.207.202.237])
+ by smtp.gmail.com with ESMTPSA id i7sm12581945pgq.16.2021.04.04.06.10.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 04 Apr 2021 06:10:11 -0700 (PDT)
+Date: Sun, 4 Apr 2021 18:40:06 +0530
+From: Sumera Priyadarsini <sylphrenadin@gmail.com>
+To: melissa.srw@gmail.com
+Subject: [PATCH V3 0/2] Add virtual hardware module
+Message-ID: <cover.1617539357.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
-X-CM-TRANSID: EMCowAAXHMSle2lgLIHajw--.20565S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3GrW8KF4kKFyrXryfCw48Zwb_yoWxWF18pF
- 43J3WYvr48Grn2qa13AF4q9a4av3ZF9a47W3ykGwn5urnrArWDtFyDAayjkrWrGrZ2kr93
- JF1qkFy7uw4jvr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j2byZUUUUU=
-X-Originating-IP: [120.229.91.194]
-X-CM-SenderInfo: xoo16iiqy6il2tof0z/1tbi2AJqhVr7tgSMuAAAsS
-X-Mailman-Approved-At: Sun, 04 Apr 2021 08:56:04 +0000
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,167 +65,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xuezhi Zhang <zhangxuezhi1@yulong.com>, intel-gfx@lists.freedesktop.org,
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xuezhi Zhang <zhangxuezhi1@yulong.com>
+This patchset adds support for emulating virtual hardware with VKMS.
+The virtual hardware mode can be enabled by using the following command
+while loading the module:
+        sudo modprobe vkms enable_virtual_hw=1
 
-Fix the following coccicheck warning:
-drivers/gpu/drm/i915//i915_sysfs.c:266:8-16: 
-WARNING: use scnprintf or sprintf
-drivers/gpu/drm/i915//i915_sysfs.c:285:8-16: 
-WARNING: use scnprintf or sprintf
-drivers/gpu/drm/i915//i915_sysfs.c:276:8-16: 
-WARNING: use scnprintf or sprintf
-drivers/gpu/drm/i915//i915_sysfs.c:335:8-16: 
-WARNING: use scnprintf or sprintf
-drivers/gpu/drm/i915//i915_sysfs.c:390:8-16: 
-WARNING: use scnprintf or sprintf
-drivers/gpu/drm/i915//i915_sysfs.c:465:8-16: 
-WARNING: use scnprintf or sprintf
-drivers/gpu/drm/i915//i915_sysfs.c:107:8-16: 
-WARNING: use scnprintf or sprintf
-drivers/gpu/drm/i915//i915_sysfs.c:75:8-16: 
-WARNING: use scnprintf or sprintf
-drivers/gpu/drm/i915//i915_sysfs.c:83:8-16: 
-WARNING: use scnprintf or sprintf
-drivers/gpu/drm/i915//i915_sysfs.c:91:8-16: 
-WARNING: use scnprintf or sprintf
-drivers/gpu/drm/i915//i915_sysfs.c:99:8-16: 
-WARNING: use scnprintf or sprintf
-drivers/gpu/drm/i915//i915_sysfs.c:326:8-16: 
-WARNING: use scnprintf or sprintf
+The first patch is prep work for adding virtual_hw mode and refactors
+the plane composition in vkms by adding a helper function vkms_composer_common()
+which can be used for both vblank mode and virtual mode.
 
-Signed-off-by: Xuezhi Zhang <zhangxuezhi1@yulong.com>
----
- drivers/gpu/drm/i915/i915_sysfs.c | 30 ++++++++++++------------------
- 1 file changed, 12 insertions(+), 18 deletions(-)
+The second patch adds virtual hardware support as a module option. The
+second patch adds new atomic helper functions for the virtual mode
+and modifies the existing atomic helpers for usage by the vblank mode
+This gives us two sets of drm_crtc_helper_funcs struct for both modes,
+making the code flow cleaner and easier to debug.
 
-diff --git a/drivers/gpu/drm/i915/i915_sysfs.c b/drivers/gpu/drm/i915/i915_sysfs.c
-index 45d32ef42787..4c6b5d52b5ca 100644
---- a/drivers/gpu/drm/i915/i915_sysfs.c
-+++ b/drivers/gpu/drm/i915/i915_sysfs.c
-@@ -72,7 +72,7 @@ show_rc6_mask(struct device *kdev, struct device_attribute *attr, char *buf)
- 	if (HAS_RC6pp(dev_priv))
- 		mask |= BIT(2);
- 
--	return snprintf(buf, PAGE_SIZE, "%x\n", mask);
-+	return sysfs_emit(buf, "%x\n", mask);
- }
- 
- static ssize_t
-@@ -80,7 +80,7 @@ show_rc6_ms(struct device *kdev, struct device_attribute *attr, char *buf)
- {
- 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
- 	u32 rc6_residency = calc_residency(dev_priv, GEN6_GT_GFX_RC6);
--	return snprintf(buf, PAGE_SIZE, "%u\n", rc6_residency);
-+	return sysfs_emit(buf, "%u\n", rc6_residency);
- }
- 
- static ssize_t
-@@ -88,7 +88,7 @@ show_rc6p_ms(struct device *kdev, struct device_attribute *attr, char *buf)
- {
- 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
- 	u32 rc6p_residency = calc_residency(dev_priv, GEN6_GT_GFX_RC6p);
--	return snprintf(buf, PAGE_SIZE, "%u\n", rc6p_residency);
-+	return sysfs_emit(buf, "%u\n", rc6p_residency);
- }
- 
- static ssize_t
-@@ -96,7 +96,7 @@ show_rc6pp_ms(struct device *kdev, struct device_attribute *attr, char *buf)
- {
- 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
- 	u32 rc6pp_residency = calc_residency(dev_priv, GEN6_GT_GFX_RC6pp);
--	return snprintf(buf, PAGE_SIZE, "%u\n", rc6pp_residency);
-+	return sysfs_emit(buf, "%u\n", rc6pp_residency);
- }
- 
- static ssize_t
-@@ -104,7 +104,7 @@ show_media_rc6_ms(struct device *kdev, struct device_attribute *attr, char *buf)
- {
- 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
- 	u32 rc6_residency = calc_residency(dev_priv, VLV_GT_MEDIA_RC6);
--	return snprintf(buf, PAGE_SIZE, "%u\n", rc6_residency);
-+	return sysfs_emit(buf, "%u\n", rc6_residency);
- }
- 
- static DEVICE_ATTR(rc6_enable, S_IRUGO, show_rc6_mask, NULL);
-@@ -263,8 +263,7 @@ static ssize_t gt_act_freq_mhz_show(struct device *kdev,
- 	struct drm_i915_private *i915 = kdev_minor_to_i915(kdev);
- 	struct intel_rps *rps = &i915->gt.rps;
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n",
--			intel_rps_read_actual_frequency(rps));
-+	return sysfs_emit(buf, "%d\n", intel_rps_read_actual_frequency(rps));
- }
- 
- static ssize_t gt_cur_freq_mhz_show(struct device *kdev,
-@@ -273,8 +272,7 @@ static ssize_t gt_cur_freq_mhz_show(struct device *kdev,
- 	struct drm_i915_private *i915 = kdev_minor_to_i915(kdev);
- 	struct intel_rps *rps = &i915->gt.rps;
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n",
--			intel_gpu_freq(rps, rps->cur_freq));
-+	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->cur_freq));
- }
- 
- static ssize_t gt_boost_freq_mhz_show(struct device *kdev, struct device_attribute *attr, char *buf)
-@@ -282,8 +280,7 @@ static ssize_t gt_boost_freq_mhz_show(struct device *kdev, struct device_attribu
- 	struct drm_i915_private *i915 = kdev_minor_to_i915(kdev);
- 	struct intel_rps *rps = &i915->gt.rps;
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n",
--			intel_gpu_freq(rps, rps->boost_freq));
-+	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->boost_freq));
- }
- 
- static ssize_t gt_boost_freq_mhz_store(struct device *kdev,
-@@ -323,8 +320,7 @@ static ssize_t vlv_rpe_freq_mhz_show(struct device *kdev,
- 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
- 	struct intel_rps *rps = &dev_priv->gt.rps;
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n",
--			intel_gpu_freq(rps, rps->efficient_freq));
-+	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->efficient_freq));
- }
- 
- static ssize_t gt_max_freq_mhz_show(struct device *kdev, struct device_attribute *attr, char *buf)
-@@ -332,8 +328,7 @@ static ssize_t gt_max_freq_mhz_show(struct device *kdev, struct device_attribute
- 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
- 	struct intel_rps *rps = &dev_priv->gt.rps;
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n",
--			intel_gpu_freq(rps, rps->max_freq_softlimit));
-+	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->max_freq_softlimit));
- }
- 
- static ssize_t gt_max_freq_mhz_store(struct device *kdev,
-@@ -387,8 +382,7 @@ static ssize_t gt_min_freq_mhz_show(struct device *kdev, struct device_attribute
- 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
- 	struct intel_rps *rps = &dev_priv->gt.rps;
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n",
--			intel_gpu_freq(rps, rps->min_freq_softlimit));
-+	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->min_freq_softlimit));
- }
- 
- static ssize_t gt_min_freq_mhz_store(struct device *kdev,
-@@ -462,7 +456,7 @@ static ssize_t gt_rp_mhz_show(struct device *kdev, struct device_attribute *attr
- 	else
- 		BUG();
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n", val);
-+	return sysfs_emit(buf, "%d\n", val);
- }
- 
- static const struct attribute * const gen6_attrs[] = {
+This patchset has been tested with the igt tests, kms_writeback, kms_atomic,
+kms_lease, kms_flip, kms_pipe_get_crc and preserves results except for
+subtests related to crc reads and skips tests that rely on vertical
+blanking. This patchset must be tested after incorporating the
+igt-tests patch: https://lists.freedesktop.org/archives/igt-dev/2021-February/029355.html 
+
+Sumera Priyadarsini (2):
+  drm/vkms: Refactor vkms_composer_worker() to prep for virtual_hw mode
+  drm/vkms: Add support for virtual hardware mode
+
+ drivers/gpu/drm/vkms/vkms_composer.c | 88 +++++++++++++++++-----------
+ drivers/gpu/drm/vkms/vkms_crtc.c     | 51 +++++++++++-----
+ drivers/gpu/drm/vkms/vkms_drv.c      | 18 ++++--
+ drivers/gpu/drm/vkms/vkms_drv.h      |  4 ++
+ 4 files changed, 109 insertions(+), 52 deletions(-)
+
 -- 
 2.25.1
-
 
 _______________________________________________
 dri-devel mailing list
