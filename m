@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8A235378D
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Apr 2021 10:56:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBDF635378F
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Apr 2021 10:56:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E16C46E489;
-	Sun,  4 Apr 2021 08:56:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD3976E48D;
+	Sun,  4 Apr 2021 08:56:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m12-11.163.com (m12-11.163.com [220.181.12.11])
- by gabe.freedesktop.org (Postfix) with SMTP id A0BCE6E40A
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Apr 2021 06:54:30 +0000 (UTC)
+Received: from m12-16.163.com (m12-16.163.com [220.181.12.16])
+ by gabe.freedesktop.org (Postfix) with SMTP id DD7FB6E489
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Apr 2021 08:43:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=AHwtR
- 8305fQpcuQ/FtJPgoUprNZ88/9HAjWuMMB8cG4=; b=SER48+H2GExFyKt4dM82Z
- xuKb1AJ/PyWJkXq+G5DAnNsVEi0sM9T3HWh7P6RUEWp2KgP0ZaIWpi8QiQHoBys7
- PR8btPdpB0j9T3T+xqCLAv3oLQHRBa8RM51jKI6ZUkasIZK927F0kNaZU85TTm7h
- F104aMiuAWehbRATC46JR0=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=G2cUs
+ f+10M+0+o9ghzxvUiWetFHccy0hk0bp1FYd8Zk=; b=D7XQKFkv0Z54cdkqJx9S/
+ VkuKKxNOvHHQwDqAD7z7QMdF1TtWJvrSUVyuHjYWtLiNGtoMuiTyIdtl/DOaxLZt
+ oOKwiS2I2yCsObgUtATMOpe/e6x8JXY8qQvw6O2WHUG68+cC4zKvwp8t4unbe7bk
+ yIO52f4SqcGyuFCcU9ajfU=
 Received: from localhost.localdomain (unknown [120.229.91.194])
- by smtp7 (Coremail) with SMTP id C8CowAAXA4sqYmlg8jdKVg--.27965S2;
- Sun, 04 Apr 2021 14:52:28 +0800 (CST)
+ by smtp12 (Coremail) with SMTP id EMCowAAXHMSle2lgLIHajw--.20565S2;
+ Sun, 04 Apr 2021 16:41:12 +0800 (CST)
 From: Carlis <llyz108@163.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, tzimmermann@suse.de
-Subject: [PATCH] drm: sysfs: convert sysfs snprintf to sysfs_emit
-Date: Sun,  4 Apr 2021 06:52:19 +0000
-Message-Id: <20210404065219.188967-1-llyz108@163.com>
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/i915/sysfs: convert snprintf to sysfs_emit
+Date: Sun,  4 Apr 2021 08:41:03 +0000
+Message-Id: <20210404084103.528211-1-llyz108@163.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-CM-TRANSID: C8CowAAXA4sqYmlg8jdKVg--.27965S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tr4DKrWkKr1fXrykAr47Arb_yoW8XrW3pF
- W3JrW8ZrWkKan0y3W3AF1UuFyfZasFqayxJrWkG3sxua1rArWDGF95AayjqFyUJrWkCr1S
- gF92krW5ua18Cr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j2YLkUUUUU=
+X-CM-TRANSID: EMCowAAXHMSle2lgLIHajw--.20565S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3GrW8KF4kKFyrXryfCw48Zwb_yoWxWF18pF
+ 43J3WYvr48Grn2qa13AF4q9a4av3ZF9a47W3ykGwn5urnrArWDtFyDAayjkrWrGrZ2kr93
+ JF1qkFy7uw4jvr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j2byZUUUUU=
 X-Originating-IP: [120.229.91.194]
-X-CM-SenderInfo: xoo16iiqy6il2tof0z/1tbi2QpqhVr7uVZafAAAsU
+X-CM-SenderInfo: xoo16iiqy6il2tof0z/1tbi2AJqhVr7tgSMuAAAsS
 X-Mailman-Approved-At: Sun, 04 Apr 2021 08:56:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,8 +49,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhangxuezhi1@yulong.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Xuezhi Zhang <zhangxuezhi1@yulong.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -59,51 +59,157 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 From: Xuezhi Zhang <zhangxuezhi1@yulong.com>
 
 Fix the following coccicheck warning:
-drivers/gpu/drm/drm_sysfs.c:172:8-16: 
+drivers/gpu/drm/i915//i915_sysfs.c:266:8-16: 
 WARNING: use scnprintf or sprintf
-drivers/gpu/drm/drm_sysfs.c:185:8-16: 
+drivers/gpu/drm/i915//i915_sysfs.c:285:8-16: 
 WARNING: use scnprintf or sprintf
-drivers/gpu/drm/drm_sysfs.c:159:8-16: 
+drivers/gpu/drm/i915//i915_sysfs.c:276:8-16: 
+WARNING: use scnprintf or sprintf
+drivers/gpu/drm/i915//i915_sysfs.c:335:8-16: 
+WARNING: use scnprintf or sprintf
+drivers/gpu/drm/i915//i915_sysfs.c:390:8-16: 
+WARNING: use scnprintf or sprintf
+drivers/gpu/drm/i915//i915_sysfs.c:465:8-16: 
+WARNING: use scnprintf or sprintf
+drivers/gpu/drm/i915//i915_sysfs.c:107:8-16: 
+WARNING: use scnprintf or sprintf
+drivers/gpu/drm/i915//i915_sysfs.c:75:8-16: 
+WARNING: use scnprintf or sprintf
+drivers/gpu/drm/i915//i915_sysfs.c:83:8-16: 
+WARNING: use scnprintf or sprintf
+drivers/gpu/drm/i915//i915_sysfs.c:91:8-16: 
+WARNING: use scnprintf or sprintf
+drivers/gpu/drm/i915//i915_sysfs.c:99:8-16: 
+WARNING: use scnprintf or sprintf
+drivers/gpu/drm/i915//i915_sysfs.c:326:8-16: 
 WARNING: use scnprintf or sprintf
 
 Signed-off-by: Xuezhi Zhang <zhangxuezhi1@yulong.com>
 ---
- drivers/gpu/drm/drm_sysfs.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/i915_sysfs.c | 30 ++++++++++++------------------
+ 1 file changed, 12 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index f0336c804..13142fd9d 100644
---- a/drivers/gpu/drm/drm_sysfs.c
-+++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -156,7 +156,7 @@ static ssize_t status_show(struct device *device,
+diff --git a/drivers/gpu/drm/i915/i915_sysfs.c b/drivers/gpu/drm/i915/i915_sysfs.c
+index 45d32ef42787..4c6b5d52b5ca 100644
+--- a/drivers/gpu/drm/i915/i915_sysfs.c
++++ b/drivers/gpu/drm/i915/i915_sysfs.c
+@@ -72,7 +72,7 @@ show_rc6_mask(struct device *kdev, struct device_attribute *attr, char *buf)
+ 	if (HAS_RC6pp(dev_priv))
+ 		mask |= BIT(2);
  
- 	status = READ_ONCE(connector->status);
- 
--	return snprintf(buf, PAGE_SIZE, "%s\n",
-+	return sysfs_emit(buf, "%s\n",
- 			drm_get_connector_status_name(status));
+-	return snprintf(buf, PAGE_SIZE, "%x\n", mask);
++	return sysfs_emit(buf, "%x\n", mask);
  }
  
-@@ -169,7 +169,7 @@ static ssize_t dpms_show(struct device *device,
- 
- 	dpms = READ_ONCE(connector->dpms);
- 
--	return snprintf(buf, PAGE_SIZE, "%s\n",
-+	return sysfs_emit(buf, "%s\n",
- 			drm_get_dpms_name(dpms));
+ static ssize_t
+@@ -80,7 +80,7 @@ show_rc6_ms(struct device *kdev, struct device_attribute *attr, char *buf)
+ {
+ 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
+ 	u32 rc6_residency = calc_residency(dev_priv, GEN6_GT_GFX_RC6);
+-	return snprintf(buf, PAGE_SIZE, "%u\n", rc6_residency);
++	return sysfs_emit(buf, "%u\n", rc6_residency);
  }
  
-@@ -182,7 +182,7 @@ static ssize_t enabled_show(struct device *device,
- 
- 	enabled = READ_ONCE(connector->encoder);
- 
--	return snprintf(buf, PAGE_SIZE, enabled ? "enabled\n" : "disabled\n");
-+	return sysfs_emit(buf, enabled ? "enabled\n" : "disabled\n");
+ static ssize_t
+@@ -88,7 +88,7 @@ show_rc6p_ms(struct device *kdev, struct device_attribute *attr, char *buf)
+ {
+ 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
+ 	u32 rc6p_residency = calc_residency(dev_priv, GEN6_GT_GFX_RC6p);
+-	return snprintf(buf, PAGE_SIZE, "%u\n", rc6p_residency);
++	return sysfs_emit(buf, "%u\n", rc6p_residency);
  }
  
- static ssize_t edid_show(struct file *filp, struct kobject *kobj,
+ static ssize_t
+@@ -96,7 +96,7 @@ show_rc6pp_ms(struct device *kdev, struct device_attribute *attr, char *buf)
+ {
+ 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
+ 	u32 rc6pp_residency = calc_residency(dev_priv, GEN6_GT_GFX_RC6pp);
+-	return snprintf(buf, PAGE_SIZE, "%u\n", rc6pp_residency);
++	return sysfs_emit(buf, "%u\n", rc6pp_residency);
+ }
+ 
+ static ssize_t
+@@ -104,7 +104,7 @@ show_media_rc6_ms(struct device *kdev, struct device_attribute *attr, char *buf)
+ {
+ 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
+ 	u32 rc6_residency = calc_residency(dev_priv, VLV_GT_MEDIA_RC6);
+-	return snprintf(buf, PAGE_SIZE, "%u\n", rc6_residency);
++	return sysfs_emit(buf, "%u\n", rc6_residency);
+ }
+ 
+ static DEVICE_ATTR(rc6_enable, S_IRUGO, show_rc6_mask, NULL);
+@@ -263,8 +263,7 @@ static ssize_t gt_act_freq_mhz_show(struct device *kdev,
+ 	struct drm_i915_private *i915 = kdev_minor_to_i915(kdev);
+ 	struct intel_rps *rps = &i915->gt.rps;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n",
+-			intel_rps_read_actual_frequency(rps));
++	return sysfs_emit(buf, "%d\n", intel_rps_read_actual_frequency(rps));
+ }
+ 
+ static ssize_t gt_cur_freq_mhz_show(struct device *kdev,
+@@ -273,8 +272,7 @@ static ssize_t gt_cur_freq_mhz_show(struct device *kdev,
+ 	struct drm_i915_private *i915 = kdev_minor_to_i915(kdev);
+ 	struct intel_rps *rps = &i915->gt.rps;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n",
+-			intel_gpu_freq(rps, rps->cur_freq));
++	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->cur_freq));
+ }
+ 
+ static ssize_t gt_boost_freq_mhz_show(struct device *kdev, struct device_attribute *attr, char *buf)
+@@ -282,8 +280,7 @@ static ssize_t gt_boost_freq_mhz_show(struct device *kdev, struct device_attribu
+ 	struct drm_i915_private *i915 = kdev_minor_to_i915(kdev);
+ 	struct intel_rps *rps = &i915->gt.rps;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n",
+-			intel_gpu_freq(rps, rps->boost_freq));
++	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->boost_freq));
+ }
+ 
+ static ssize_t gt_boost_freq_mhz_store(struct device *kdev,
+@@ -323,8 +320,7 @@ static ssize_t vlv_rpe_freq_mhz_show(struct device *kdev,
+ 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
+ 	struct intel_rps *rps = &dev_priv->gt.rps;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n",
+-			intel_gpu_freq(rps, rps->efficient_freq));
++	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->efficient_freq));
+ }
+ 
+ static ssize_t gt_max_freq_mhz_show(struct device *kdev, struct device_attribute *attr, char *buf)
+@@ -332,8 +328,7 @@ static ssize_t gt_max_freq_mhz_show(struct device *kdev, struct device_attribute
+ 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
+ 	struct intel_rps *rps = &dev_priv->gt.rps;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n",
+-			intel_gpu_freq(rps, rps->max_freq_softlimit));
++	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->max_freq_softlimit));
+ }
+ 
+ static ssize_t gt_max_freq_mhz_store(struct device *kdev,
+@@ -387,8 +382,7 @@ static ssize_t gt_min_freq_mhz_show(struct device *kdev, struct device_attribute
+ 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
+ 	struct intel_rps *rps = &dev_priv->gt.rps;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n",
+-			intel_gpu_freq(rps, rps->min_freq_softlimit));
++	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->min_freq_softlimit));
+ }
+ 
+ static ssize_t gt_min_freq_mhz_store(struct device *kdev,
+@@ -462,7 +456,7 @@ static ssize_t gt_rp_mhz_show(struct device *kdev, struct device_attribute *attr
+ 	else
+ 		BUG();
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", val);
++	return sysfs_emit(buf, "%d\n", val);
+ }
+ 
+ static const struct attribute * const gen6_attrs[] = {
 -- 
 2.25.1
+
 
 _______________________________________________
 dri-devel mailing list
