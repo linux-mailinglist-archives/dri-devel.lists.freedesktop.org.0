@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E2435443F
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Apr 2021 18:04:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0751354461
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Apr 2021 18:05:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7597489E57;
-	Mon,  5 Apr 2021 16:04:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9201189E0C;
+	Mon,  5 Apr 2021 16:05:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACC6B89E3B
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Apr 2021 16:04:45 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DC338613B9;
- Mon,  5 Apr 2021 16:04:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE6E989E0C
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Apr 2021 16:05:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E9530613E2;
+ Mon,  5 Apr 2021 16:05:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617638685;
- bh=q7xyZUfwCU2D1sJbvvZmR2nVWY2GtVYXQ5zaDiwPpuE=;
+ s=k20201202; t=1617638704;
+ bh=lxjiYfaOWr/v12SmQ8SF17LZ0TNM0xbnrmvM/grhm1U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SCbV5rN2P7jhrSzNfDdkmeh77L4yWL8oGJYxFn/zHUw88TXtiYx2gGW6BCoONDp5/
- zT81OSirQIkAzu0kFCNTRGPixiBRdyA4aka1SKRccMpfb/btLkasNZ+2MbMcct/rAl
- puuu6ktOIk1nQ06u7e2VND9qVfV443wPEKIkJz27R7+qBjPMY4MI/Ktt/uqiRmhmAT
- 7yxnmdNUTQc3p4hMmq8OmiPqlE9HoPaO+1Yh73yxMH9IfUJ1r2OzEU7FdENfaIAamG
- NtYRJymAqxciZANwedjZ2WSCCOYLQckILN28KViVcmIjSyFic2vwKnC30XzMWaBDDQ
- wBqf8FxREicyA==
+ b=BcDELE8HpoGyHiSucGgMAlf88HUb2u2YJdi0uDwSHm1uDKkS8OfJqK4XMfRZFYHjt
+ CWpPwzdYtRIAGIxwOVf38ssEmUBpL9BSYqdo4hNBQas4ZniqX9Pq1X2j4yy8CIB5V0
+ 34HkBdp3/dn9cjaOaCOChZ4SE5CdzXJ6Gkk5/BpnK48I8tPsfQlnqdxe7ZVSU947/G
+ jeA4bpc8wyVyjXTIsm6ZtwgVmewTmwXfUZVOEJOKTZW3h3XAVCD8Xg5FRXkfjZfEaz
+ EU/WpvT/xkJxDVKNPf8nPTFwi0SVZ56SpfBB7ApDyfm0kPFN8KIvFTgDMWHE+tU+HO
+ aqaesVJ1I68dQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 11/22] gpu: host1x: Use different lock classes
- for each client
-Date: Mon,  5 Apr 2021 12:04:20 -0400
-Message-Id: <20210405160432.268374-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 04/13] drm/imx: imx-ldb: fix out of bounds array
+ access warning
+Date: Mon,  5 Apr 2021 12:04:49 -0400
+Message-Id: <20210405160459.268794-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210405160432.268374-1-sashal@kernel.org>
-References: <20210405160432.268374-1-sashal@kernel.org>
+In-Reply-To: <20210405160459.268794-1-sashal@kernel.org>
+References: <20210405160459.268794-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -49,90 +49,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org,
- Thierry Reding <treding@nvidia.com>, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Sasha Levin <sashal@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mikko Perttunen <mperttunen@nvidia.com>
+From: Arnd Bergmann <arnd@arndb.de>
 
-[ Upstream commit a24f98176d1efae2c37d3438c57a624d530d9c33 ]
+[ Upstream commit 33ce7f2f95cabb5834cf0906308a5cb6103976da ]
 
-To avoid false lockdep warnings, give each client lock a different
-lock class, passed from the initialization site by macro.
+When CONFIG_OF is disabled, building with 'make W=1' produces warnings
+about out of bounds array access:
 
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+drivers/gpu/drm/imx/imx-ldb.c: In function 'imx_ldb_set_clock.constprop':
+drivers/gpu/drm/imx/imx-ldb.c:186:8: error: array subscript -22 is below array bounds of 'struct clk *[4]' [-Werror=array-bounds]
+
+Add an error check before the index is used, which helps with the
+warning, as well as any possible other error condition that may be
+triggered at runtime.
+
+The warning could be fixed by adding a Kconfig depedency on CONFIG_OF,
+but Liu Ying points out that the driver may hit the out-of-bounds
+problem at runtime anyway.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Reviewed-by: Liu Ying <victor.liu@nxp.com>
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/host1x/bus.c | 10 ++++++----
- include/linux/host1x.h   |  9 ++++++++-
- 2 files changed, 14 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/imx/imx-ldb.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index e201f62d62c0..9e2cb6968819 100644
---- a/drivers/gpu/host1x/bus.c
-+++ b/drivers/gpu/host1x/bus.c
-@@ -704,8 +704,9 @@ void host1x_driver_unregister(struct host1x_driver *driver)
- EXPORT_SYMBOL(host1x_driver_unregister);
+diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
+index d6629fc869f3..116473c2360a 100644
+--- a/drivers/gpu/drm/imx/imx-ldb.c
++++ b/drivers/gpu/drm/imx/imx-ldb.c
+@@ -197,6 +197,11 @@ static void imx_ldb_encoder_enable(struct drm_encoder *encoder)
+ 	int dual = ldb->ldb_ctrl & LDB_SPLIT_MODE_EN;
+ 	int mux = drm_of_encoder_active_port_id(imx_ldb_ch->child, encoder);
  
- /**
-- * host1x_client_register() - register a host1x client
-+ * __host1x_client_register() - register a host1x client
-  * @client: host1x client
-+ * @key: lock class key for the client-specific mutex
-  *
-  * Registers a host1x client with each host1x controller instance. Note that
-  * each client will only match their parent host1x controller and will only be
-@@ -714,13 +715,14 @@ EXPORT_SYMBOL(host1x_driver_unregister);
-  * device and call host1x_device_init(), which will in turn call each client's
-  * &host1x_client_ops.init implementation.
-  */
--int host1x_client_register(struct host1x_client *client)
-+int __host1x_client_register(struct host1x_client *client,
-+			     struct lock_class_key *key)
- {
- 	struct host1x *host1x;
- 	int err;
- 
- 	INIT_LIST_HEAD(&client->list);
--	mutex_init(&client->lock);
-+	__mutex_init(&client->lock, "host1x client lock", key);
- 	client->usecount = 0;
- 
- 	mutex_lock(&devices_lock);
-@@ -741,7 +743,7 @@ int host1x_client_register(struct host1x_client *client)
- 
- 	return 0;
- }
--EXPORT_SYMBOL(host1x_client_register);
-+EXPORT_SYMBOL(__host1x_client_register);
- 
- /**
-  * host1x_client_unregister() - unregister a host1x client
-diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-index ce59a6a6a008..9eb77c87a83b 100644
---- a/include/linux/host1x.h
-+++ b/include/linux/host1x.h
-@@ -320,7 +320,14 @@ static inline struct host1x_device *to_host1x_device(struct device *dev)
- int host1x_device_init(struct host1x_device *device);
- int host1x_device_exit(struct host1x_device *device);
- 
--int host1x_client_register(struct host1x_client *client);
-+int __host1x_client_register(struct host1x_client *client,
-+			     struct lock_class_key *key);
-+#define host1x_client_register(class) \
-+	({ \
-+		static struct lock_class_key __key; \
-+		__host1x_client_register(class, &__key); \
-+	})
++	if (mux < 0 || mux >= ARRAY_SIZE(ldb->clk_sel)) {
++		dev_warn(ldb->dev, "%s: invalid mux %d\n", __func__, mux);
++		return;
++	}
 +
- int host1x_client_unregister(struct host1x_client *client);
+ 	drm_panel_prepare(imx_ldb_ch->panel);
  
- int host1x_client_suspend(struct host1x_client *client);
+ 	if (dual) {
+@@ -255,6 +260,11 @@ imx_ldb_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 	int mux = drm_of_encoder_active_port_id(imx_ldb_ch->child, encoder);
+ 	u32 bus_format = imx_ldb_ch->bus_format;
+ 
++	if (mux < 0 || mux >= ARRAY_SIZE(ldb->clk_sel)) {
++		dev_warn(ldb->dev, "%s: invalid mux %d\n", __func__, mux);
++		return;
++	}
++
+ 	if (mode->clock > 170000) {
+ 		dev_warn(ldb->dev,
+ 			 "%s: mode exceeds 170 MHz pixel clock\n", __func__);
 -- 
 2.30.2
 
