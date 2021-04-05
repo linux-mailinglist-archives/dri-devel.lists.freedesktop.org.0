@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F3B35463D
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Apr 2021 19:42:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 079C135496B
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 01:47:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FAAB89F2A;
-	Mon,  5 Apr 2021 17:42:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A3C489DFC;
+	Mon,  5 Apr 2021 23:47:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 319A889F1B;
- Mon,  5 Apr 2021 17:42:22 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id w10so3081486pgh.5;
- Mon, 05 Apr 2021 10:42:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7MWEztFYREaj4EaJg4EzCQLWGTSCEwCslvK3LYOeVzE=;
- b=HRjGZS1QILkvNMmvQmZn3S40Na/kBwIbA6WVXDpnPh/VerF7PjPRJvpl7/XN6W4A6M
- a6HWcvDmChgM4WL36FgQdBqTKbrpTyboqYE4Xmyqz2Pn6p/U2nwbYpYx4imr9/9Vt9Jo
- zGbSNQyGZlO4ootd5yQAv1i/dW4Z6+ljPnr9sODOK3Mw/0gywldqHIhPcpIMg74ctZA5
- SMR/IzvOskt2Jmcru/JsesJCc+kr7QGaxjRDXPGDMqcdYYygeTWfjbQtl/44xeaUv4mr
- yPI8790q3HzS5SHk29h+3MdFMPyGngH1C+67AN53DJzLb9x14igyzbSZX+k6UQ+hRhbT
- Ha5w==
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86CBA89DFC
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Apr 2021 23:47:20 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id v15so19835780lfq.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Apr 2021 16:47:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=divuDw1Bw8vhpwH95l0qBbQqrq0Vszv0MvP4vrcJ4Ls=;
+ b=gSKPkIsuOq8K0ubM4PFzOl0cKa3i6ofssIuICWFCADkUVBA0hdosmO0zrJ/TuIJ8Lv
+ wB4vT1MQx9gf7NR5C2CS+sTXf/FVIruuDvuzYbTDdFNkGfvhgujb3hFO0cOeXts/z9XH
+ 3Ez28GKdecrdgxl/1WqvAIJECXV8S3cKvKbBZkbgz0bACo7k4V9VqaVRPJ0XMIiYvXoM
+ cL75+WU55CualEfw6cKLEmmKjdbTL0lTrf00MHPNj/GGPt+PptbIvSR3iQV6HrYJjpeO
+ x5W6FVzpUX2d1BRcbsYpL3mZys598WzdoHcwwP/m8bSFm60z7qv2ELgXBs9TVi5Fuyvu
+ s6Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7MWEztFYREaj4EaJg4EzCQLWGTSCEwCslvK3LYOeVzE=;
- b=lZFldc5Aefj9CoA8jyzqj0GopxE1hH75X/2ep9JnXibtzKAjmayyecMRlFAYFYH03Y
- DHu3kxaIPFRYmX/Bs1MwVQxlEu0asdhpLKYdMeXUfElqMq2eDHg1kvYwGHco+zmpWQby
- DAz6lJDNtPKVIW44dpGrSRZxqnTDjCjJHLaUma8fiT525GK9UvIln7C9EVpopsBozwuH
- 5xHjqiNTY6YFNaaFpSgHpvAwAz0mcxlU6MbFhy5NGEH+xXBc5Hl5dLPAam9jczaQMXiX
- YWSzpXpIgrkKstlAfQK4AtzH5vgLwACgufQ1tFu0QZVmHIE5Ba+fBmSrr73nVITGYgt7
- yb5Q==
-X-Gm-Message-State: AOAM532+spSALexkuRZnOEZCWAs2sxTTxU4vIDtyhyC832A3ZcgyN/8Z
- ZTtN/xdBxD558ZtSXC18oT8+ve43wgrh9A==
-X-Google-Smtp-Source: ABdhPJxibT+j7asrrFr4/LyBfYOx3cjIw334LA6mEIfzkJ/SSj8fWZ8XoVuGuulT8c8TGoH9q2eLPg==
-X-Received: by 2002:a65:68d3:: with SMTP id k19mr23989185pgt.44.1617644541208; 
- Mon, 05 Apr 2021 10:42:21 -0700 (PDT)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- b7sm2441194pgs.62.2021.04.05.10.42.19
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=divuDw1Bw8vhpwH95l0qBbQqrq0Vszv0MvP4vrcJ4Ls=;
+ b=iDwNVnguJG4mpBtc/pcKaPq3XfHNw+Oj4V82hXZ2SXbpNEA1kEWEL5vf+LlRII1QUT
+ H2mM1mnY2D1bCFxDegf2h98zFZQcDgNYmSOOrN90gYQFSBFIrOHxSdcf02fmpyzmcRoq
+ GCMJthCnMwrQ4zF+5hODwl7K01Nm2DEk9h8sDg8cypP4/09z0OQZHrM14DmnB6nPJ8ok
+ 7NdCrz2RcEP98ruAFyDiIccLuZRn5vN7aRvbSRDPsDiw7XWs+t7Hbo4QJ0jm6GbO8KQ3
+ 49e7LWjSpA9l4fo9VxzI6/SiM0Gq/D1st74EKzf+WEhNUZqjmA3wTKMz3fNijj+X4uGr
+ mJNg==
+X-Gm-Message-State: AOAM532zHpT527HliaR4Ke7nA47+FhlKEme/Qn7VHawUmmQyz/wkLiNQ
+ prGy2ExFrZnIS0K6IP55ErLLlw==
+X-Google-Smtp-Source: ABdhPJz5ltIW539VopoXIo575cP8e+bzvyS7myP90bj6YwbFgtnQtxwrT9uK4ez9mllrZhFvpM116g==
+X-Received: by 2002:a19:4850:: with SMTP id v77mr19172791lfa.6.1617666438832; 
+ Mon, 05 Apr 2021 16:47:18 -0700 (PDT)
+Received: from localhost.localdomain
+ (c-14cb225c.014-348-6c756e10.bbcust.telenor.se. [92.34.203.20])
+ by smtp.gmail.com with ESMTPSA id d27sm1941930lfm.203.2021.04.05.16.47.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Apr 2021 10:42:19 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 8/8] drm/msm: Support evicting GEM objects to swap
-Date: Mon,  5 Apr 2021 10:45:31 -0700
-Message-Id: <20210405174532.1441497-9-robdclark@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210405174532.1441497-1-robdclark@gmail.com>
-References: <20210405174532.1441497-1-robdclark@gmail.com>
+ Mon, 05 Apr 2021 16:47:18 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/panel: Add DT bindings for Samsung LMS397KF04
+Date: Tue,  6 Apr 2021 01:47:12 +0200
+Message-Id: <20210405234713.3190693-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,157 +66,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>
+Cc: devicetree@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+This adds device tree bindings for the Samsung LMS397KF04
+RGB DPI display panel.
 
-Now that tracking is wired up for potentially evictable GEM objects,
-wire up shrinker and the remaining GEM bits for unpinning backing pages
-of inactive objects.
-
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Cc: devicetree@vger.kernel.org
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/gpu/drm/msm/msm_gem.c          | 23 ++++++++++++++++
- drivers/gpu/drm/msm/msm_gem_shrinker.c | 37 +++++++++++++++++++++++++-
- drivers/gpu/drm/msm/msm_gpu_trace.h    | 13 +++++++++
- 3 files changed, 72 insertions(+), 1 deletion(-)
+ .../display/panel/samsung,lms397kf04.yaml     | 74 +++++++++++++++++++
+ 1 file changed, 74 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.yaml
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 163a1d30b5c9..2b731cf42294 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -759,6 +759,29 @@ void msm_gem_purge(struct drm_gem_object *obj)
- 			0, (loff_t)-1);
- }
- 
-+/**
-+ * Unpin the backing pages and make them available to be swapped out.
-+ */
-+void msm_gem_evict(struct drm_gem_object *obj)
-+{
-+	struct drm_device *dev = obj->dev;
-+	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.yaml b/Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.yaml
+new file mode 100644
+index 000000000000..4cb75a5f2e3a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.yaml
+@@ -0,0 +1,74 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/samsung,lms397kf04.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	GEM_WARN_ON(!msm_gem_is_locked(obj));
-+	GEM_WARN_ON(is_unevictable(msm_obj));
-+	GEM_WARN_ON(!msm_obj->evictable);
-+	GEM_WARN_ON(msm_obj->active_count);
++title: Samsung LMS397KF04 display panel
 +
-+	/* Get rid of any iommu mapping(s): */
-+	put_iova_spaces(obj, false);
++description: The datasheet claims this is based around a display controller
++  named DB7430 with a separate backlight controller.
 +
-+	drm_vma_node_unmap(&obj->vma_node, dev->anon_inode->i_mapping);
++maintainers:
++  - Linus Walleij <linus.walleij@linaro.org>
 +
-+	put_pages(obj);
++allOf:
++  - $ref: panel-common.yaml#
 +
-+	update_inactive(msm_obj);
-+}
++properties:
++  compatible:
++    const: samsung,lms397kf04
 +
- void msm_gem_vunmap(struct drm_gem_object *obj)
- {
- 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
-diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-index 38bf919f8508..52828028b9d4 100644
---- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
-+++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-@@ -9,12 +9,26 @@
- #include "msm_gpu.h"
- #include "msm_gpu_trace.h"
- 
-+bool enable_swap = true;
-+MODULE_PARM_DESC(enable_swap, "Enable swappable GEM buffers");
-+module_param(enable_swap, bool, 0600);
++  reg: true
 +
-+static bool can_swap(void)
-+{
-+	return enable_swap && get_nr_swap_pages() > 0;
-+}
++  reset-gpios: true
 +
- static unsigned long
- msm_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
- {
- 	struct msm_drm_private *priv =
- 		container_of(shrinker, struct msm_drm_private, shrinker);
--	return priv->shrinkable_count;
-+	unsigned count = priv->shrinkable_count;
++  vci-supply:
++    description: regulator that supplies the VCI analog voltage
++      usually around 3.0 V
 +
-+	if (can_swap())
-+		count += priv->evictable_count;
++  vccio-supply:
++    description: regulator that supplies the VCCIO voltage usually
++      around 1.8 V
 +
-+	return count;
- }
- 
- static bool
-@@ -32,6 +46,17 @@ purge(struct msm_gem_object *msm_obj)
- 	return true;
- }
- 
-+static bool
-+evict(struct msm_gem_object *msm_obj)
-+{
-+	if (is_unevictable(msm_obj))
-+		return false;
++  backlight: true
 +
-+	msm_gem_evict(&msm_obj->base);
++  spi-max-frequency:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: inherited as a SPI client node, the datasheet specifies
++      maximum 300 ns minimum cycle which gives around 3 MHz max frequency
++    maximum: 3000000
 +
-+	return true;
-+}
++  port: true
 +
- static unsigned long
- scan(struct msm_drm_private *priv, unsigned nr_to_scan, struct list_head *list,
- 		bool (*shrink)(struct msm_gem_object *msm_obj))
-@@ -104,6 +129,16 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
- 	if (freed > 0)
- 		trace_msm_gem_purge(freed << PAGE_SHIFT);
- 
-+	if (can_swap() && freed < sc->nr_to_scan) {
-+		int evicted = scan(priv, sc->nr_to_scan - freed,
-+				&priv->inactive_willneed, evict);
++required:
++  - compatible
++  - reg
 +
-+		if (evicted > 0)
-+			trace_msm_gem_evict(evicted << PAGE_SHIFT);
++additionalProperties: false
 +
-+		freed += evicted;
-+	}
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
 +
- 	return (freed > 0) ? freed : SHRINK_STOP;
- }
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu_trace.h b/drivers/gpu/drm/msm/msm_gpu_trace.h
-index 03e0c2536b94..ca0b08d7875b 100644
---- a/drivers/gpu/drm/msm/msm_gpu_trace.h
-+++ b/drivers/gpu/drm/msm/msm_gpu_trace.h
-@@ -128,6 +128,19 @@ TRACE_EVENT(msm_gem_purge,
- );
- 
- 
-+TRACE_EVENT(msm_gem_evict,
-+		TP_PROTO(u32 bytes),
-+		TP_ARGS(bytes),
-+		TP_STRUCT__entry(
-+			__field(u32, bytes)
-+			),
-+		TP_fast_assign(
-+			__entry->bytes = bytes;
-+			),
-+		TP_printk("Evicting %u bytes", __entry->bytes)
-+);
++    spi {
++      #address-cells = <1>;
++      #size-cells = <0>;
++      panel@0 {
++        compatible = "samsung,lms397kf04";
++        spi-max-frequency = <3000000>;
++        reg = <0>;
++        vci-supply = <&lcd_3v0_reg>;
++        vccio-supply = <&lcd_1v8_reg>;
++        reset-gpios = <&gpio 1 GPIO_ACTIVE_LOW>;
++        backlight = <&ktd259>;
 +
++        port {
++          panel_in: endpoint {
++            remote-endpoint = <&display_out>;
++          };
++        };
++      };
++    };
 +
- TRACE_EVENT(msm_gem_purge_vmaps,
- 		TP_PROTO(u32 unmapped),
- 		TP_ARGS(unmapped),
++...
 -- 
-2.30.2
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
