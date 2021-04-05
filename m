@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64D5353A74
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Apr 2021 02:59:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 415BE353A7A
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Apr 2021 03:02:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F5CD6E0E9;
-	Mon,  5 Apr 2021 00:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 686B76E0F6;
+	Mon,  5 Apr 2021 01:02:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FE0B6E0E9
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Apr 2021 00:59:32 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19F296E0F6
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Apr 2021 01:02:40 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B06C1D40;
- Mon,  5 Apr 2021 02:59:30 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5C176D40;
+ Mon,  5 Apr 2021 03:02:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1617584370;
- bh=vfFmpNJF/fiC2qTs4S5P4oYV9/Rjj51A1zCLqAj61Ag=;
+ s=mail; t=1617584558;
+ bh=AsoTXFXT2zaL9LAuSDVassxui4zcCoDxrBQBdABNuM8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=c/cYoodP20+9+bb1rkYiNbOu6k4O/M5qnuNWvP5kmaoV0Qlw0rnIk7Cok/O/4KeQy
- KmkFAXeegKyc61qJNvIxWff6v2sPnFezEVIO+2JsReAcatNQoRt1H224cBjGwhM0tx
- HKe+SQDQW2SAo3aQOlV7SwL2UljxxB7t1fNHwr1k=
-Date: Mon, 5 Apr 2021 03:58:46 +0300
+ b=gr3iAtXMHz2GgqWqgLbtWhVNA3vV3gS19AZS2Hcr4VcCdVp8EleOKr2Dr3p6tc/Bs
+ EkQ67pH/UgMj/2JNUBJuGtucpiLPRZ6sXuWOLxmUkbyfYQTP4kyKwOKW1loOPSFRZi
+ yL9mhjRFHNrRV8GAcI3P4QSLu8gzPf02cA0S1XZQ=
+Date: Mon, 5 Apr 2021 04:01:53 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v3 06/12] drm/bridge: ti-sn65dsi86: Get rid of the
- useless detect() function
-Message-ID: <YGpgxss706zm/+By@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 07/12] drm/bridge: ti-sn65dsi86: Remove extra call:
+ drm_connector_update_edid_property()
+Message-ID: <YGphgcESWsozCi1y@pendragon.ideasonboard.com>
 References: <20210402222846.2461042-1-dianders@chromium.org>
- <20210402152701.v3.6.I826adf4faeb7f39f560b387f6b380e639c6986c8@changeid>
+ <20210402152701.v3.7.Ic14a7ab8035df89e19a25ad4fbf2004f9673f167@changeid>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210402152701.v3.6.I826adf4faeb7f39f560b387f6b380e639c6986c8@changeid>
+In-Reply-To: <20210402152701.v3.7.Ic14a7ab8035df89e19a25ad4fbf2004f9673f167@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,47 +65,56 @@ Hi Doug,
 
 Thank you for the patch.
 
-On Fri, Apr 02, 2021 at 03:28:40PM -0700, Douglas Anderson wrote:
-> If we just leave the detect() function as NULL then the upper layers
-> assume we're always connected. There's no reason for a stub.
+On Fri, Apr 02, 2021 at 03:28:41PM -0700, Douglas Anderson wrote:
+> As of commit 5186421cbfe2 ("drm: Introduce epoch counter to
+> drm_connector") the drm_get_edid() function calls
+> drm_connector_update_edid_property() for us. There's no reason for us
+> to call it again.
 > 
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+This looks like a widespread issue, would you be able to send a patch to
+address all the other drivers ?
+
 > ---
 > 
 > (no changes since v1)
 > 
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 12 ------------
->  1 file changed, 12 deletions(-)
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index e30460002c48..51db30d573c1 100644
+> index 51db30d573c1..6390bc58f29a 100644
 > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -306,20 +306,8 @@ static struct drm_connector_helper_funcs ti_sn_bridge_connector_helper_funcs = {
->  	.mode_valid = ti_sn_bridge_connector_mode_valid,
->  };
+> @@ -270,7 +270,7 @@ static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
+>  {
+>  	struct ti_sn_bridge *pdata = connector_to_ti_sn_bridge(connector);
+>  	struct edid *edid = pdata->edid;
+> -	int num, ret;
+> +	int num;
 >  
-> -static enum drm_connector_status
-> -ti_sn_bridge_connector_detect(struct drm_connector *connector, bool force)
-> -{
-> -	/**
-> -	 * TODO: Currently if drm_panel is present, then always
-> -	 * return the status as connected. Need to add support to detect
-> -	 * device state for hot pluggable scenarios.
-> -	 */
-> -	return connector_status_connected;
-> -}
-> -
->  static const struct drm_connector_funcs ti_sn_bridge_connector_funcs = {
->  	.fill_modes = drm_helper_probe_single_connector_modes,
-> -	.detect = ti_sn_bridge_connector_detect,
->  	.destroy = drm_connector_cleanup,
->  	.reset = drm_atomic_helper_connector_reset,
->  	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+>  	if (!edid) {
+>  		pm_runtime_get_sync(pdata->dev);
+> @@ -279,12 +279,9 @@ static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
+>  	}
+>  
+>  	if (edid && drm_edid_is_valid(edid)) {
+> -		ret = drm_connector_update_edid_property(connector, edid);
+> -		if (!ret) {
+> -			num = drm_add_edid_modes(connector, edid);
+> -			if (num)
+> -				return num;
+> -		}
+> +		num = drm_add_edid_modes(connector, edid);
+> +		if (num)
+> +			return num;
+>  	}
+>  
+>  	return drm_panel_get_modes(pdata->panel, connector);
 
 -- 
 Regards,
