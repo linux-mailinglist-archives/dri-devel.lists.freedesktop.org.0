@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2AA354620
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Apr 2021 19:42:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 631E1354622
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Apr 2021 19:42:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB79189E52;
-	Mon,  5 Apr 2021 17:42:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 231F789EA9;
+	Mon,  5 Apr 2021 17:42:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E98589E52;
- Mon,  5 Apr 2021 17:42:08 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- x21-20020a17090a5315b029012c4a622e4aso6221145pjh.2; 
- Mon, 05 Apr 2021 10:42:08 -0700 (PDT)
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F3C689EA3;
+ Mon,  5 Apr 2021 17:42:10 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id x126so3618727pfc.13;
+ Mon, 05 Apr 2021 10:42:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zBaXsiA2oySpJPeze7wcHI2Mi9Lcz4C4TmcNMn/xtO0=;
- b=uyJQWPueiEltFhEvEjzWwifN3QRFcQlsspa6NenC8r9nT5T9uoPwQEutg98y6hu+Uo
- VNI6dFxAqMx8SIXZ6NAqnVcIhuDEyUPv37+CRfOfbaE47cUV361W4q/f3NmtmdDGj6sz
- Q0SMFX1bZm8EqRpQpyvro7gXmVKQ5SvLKOSgTzrA7gXNUilf4NqydojM4RwOFIh6PpQM
- uOXX4Ftx836e/6eZdAzctmaQkkIZ4JpX7NmmPoCmBdz5l61oEuAOe+kKx6XV0uGZInJ9
- ZdKqXOi4Vo4n7y8RBl5meClP4yjZjg6S9BHjtAwourLAULV5pWz6wwR66La+ZJXRTQP7
- oLmA==
+ bh=KzM5ykbDnSnt9IUX0aCvytu48YxBoDL+JwZURK1Yqus=;
+ b=Z0xSUkgI/WnrPAodBPqs+x45wcrk9D0f0oyWOT/WBVmpPS2gFwzXSmuqpv9fgM+CCK
+ bOBmmjpJteJ4x2fRDhs/jGyki8WpaRuMhQV5O2QwlCyETHmPgm/q6NaaM7t5nUl5oFP9
+ QyEzWAsMLPd3i36askiG7v8AbWGkTHS16PKij6lgBQN6yXcLlcHnYZcZ5zGTucCKqtfq
+ brZLla4UxnvNcmosZ1INhprIw8wlgvprJyzwcSWJdbushazMjhtWxHrlwZ1h4yrP12XX
+ XNsOcF2N74c7FeyccETZN8JespLGqUPuPjE/K9I3Olf8fqEXlQQHi9SIYRFCYTWhbWuC
+ GZgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zBaXsiA2oySpJPeze7wcHI2Mi9Lcz4C4TmcNMn/xtO0=;
- b=ONDnB8mIwmTiDQiKTdAihkDIKiw62fsTI/bP64R0XPuy/aBK2Igo8bQ8jESOwnm6Mo
- 5MLwFs6fu1osTaQTajmnQP8djS4Z8UNXwNIooKZ99UBsIpwPq5e74LJV9jv1OFXJiGzA
- sL5oAse7RBByu5HR6Wj0QktCF53mRHO+o+GdWomhZpzQV8ctkpBhzo4l7Fvh4AXTA48Z
- QBa/NuCLsU8nUdwgd6C2iL9hfAKoNtjIXfdrxl53fnPDt25+HKWx/PBETmQMOSasF6rH
- JjlylAeMj5Uj6tmUpnSEaXEqke0axV7b6Cvg8jxv1EjTUfOlW5SWzM/lIOACpmjCzV5l
- 3xpA==
-X-Gm-Message-State: AOAM532oQ6keNMM0FTZGbLGLhrobsbnOkmZNWVAWzu8TKq9Hu1BKf2nw
- TsY7VlWBiB1d3dqSXdbQ58FYbbNABK14WA==
-X-Google-Smtp-Source: ABdhPJwcR3M+lNIiugmaI3FIWyaKHmXcTa2wHQNoSe+k8kDZvIMsaKZHBNGk0/pKEKZomkqJaqRxsg==
-X-Received: by 2002:a17:90a:b794:: with SMTP id
- m20mr255489pjr.152.1617644527380; 
- Mon, 05 Apr 2021 10:42:07 -0700 (PDT)
+ bh=KzM5ykbDnSnt9IUX0aCvytu48YxBoDL+JwZURK1Yqus=;
+ b=ERIao5sRH5N81JCeAtpJI/3FSzZ8zGqk0tocLbfnsUECGxfr0eiDCVDEWk4UkLRu+b
+ aCSX9tOyfKbWee+MPbDzgaKsGI0o/+gLs/CSKBGCsHuorqxu+3MK5kXAYIcS6KfMJmBj
+ 1Gzhlcu/8CkFi3bsuH/hnDIEDH49qNQZtcbT5eksoMbrhTWqMNGAG0OeozK7d3jQiKoQ
+ TPlmb4KVc+F2flTqftZtKyc3tSRiIkG6ahnUMEmibvF1n1pFCwHR2wfLMjS9dKmFsf2Z
+ W4i+SAxLi1GxWe77Y21P7hodJWqD/QZpoWrXiDaEtOFHhp6boUsjq8RwqJAIjckWJWSu
+ nQHA==
+X-Gm-Message-State: AOAM530zr0NzuAiPkz6WhgWgD6ulzR50aS/Qa8AIQuZOOPnTklKAguxh
+ gmJFwk+iVu5Uvm7R9V+xf+/4/X5yHRO5Rw==
+X-Google-Smtp-Source: ABdhPJzQJZ7Z8aP6IlzpwDtucp4npu08KOLRLatwk+FA1xci/wuxVncqz9GxQBRoFBJhqtMILWq4pA==
+X-Received: by 2002:a65:5b47:: with SMTP id y7mr24029635pgr.119.1617644529404; 
+ Mon, 05 Apr 2021 10:42:09 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- a144sm16268582pfd.200.2021.04.05.10.42.06
+ b84sm16959829pfb.162.2021.04.05.10.42.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Apr 2021 10:42:06 -0700 (PDT)
+ Mon, 05 Apr 2021 10:42:08 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/8] drm/msm: Reorganize msm_gem_shrinker_scan()
-Date: Mon,  5 Apr 2021 10:45:25 -0700
-Message-Id: <20210405174532.1441497-3-robdclark@gmail.com>
+Subject: [PATCH 3/8] drm/msm: Clear msm_obj->sgt in put_pages()
+Date: Mon,  5 Apr 2021 10:45:26 -0700
+Message-Id: <20210405174532.1441497-4-robdclark@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210405174532.1441497-1-robdclark@gmail.com>
 References: <20210405174532.1441497-1-robdclark@gmail.com>
@@ -82,167 +80,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-So we don't have to duplicate the boilerplate for eviction.
-
-This also lets us re-use the main scan loop for vmap shrinker.
+Currently this doesn't matter since we keep the pages pinned until the
+object is destroyed.  But when we start unpinning pages to allow objects
+to be evicted to swap, it will.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gem_shrinker.c | 94 +++++++++++++-------------
- 1 file changed, 46 insertions(+), 48 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-index 33a49641ef30..38bf919f8508 100644
---- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
-+++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-@@ -17,21 +17,35 @@ msm_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
- 	return priv->shrinkable_count;
- }
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index d5abe8aa9978..71530a89b675 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -162,6 +162,7 @@ static void put_pages(struct drm_gem_object *obj)
  
-+static bool
-+purge(struct msm_gem_object *msm_obj)
-+{
-+	if (!is_purgeable(msm_obj))
-+		return false;
-+
-+	/*
-+	 * This will move the obj out of still_in_list to
-+	 * the purged list
-+	 */
-+	msm_gem_purge(&msm_obj->base);
-+
-+	return true;
-+}
-+
- static unsigned long
--msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
-+scan(struct msm_drm_private *priv, unsigned nr_to_scan, struct list_head *list,
-+		bool (*shrink)(struct msm_gem_object *msm_obj))
- {
--	struct msm_drm_private *priv =
--		container_of(shrinker, struct msm_drm_private, shrinker);
-+	unsigned freed = 0;
- 	struct list_head still_in_list;
--	unsigned long freed = 0;
+ 			sg_free_table(msm_obj->sgt);
+ 			kfree(msm_obj->sgt);
++			msm_obj->sgt = NULL;
+ 		}
  
- 	INIT_LIST_HEAD(&still_in_list);
- 
- 	mutex_lock(&priv->mm_lock);
- 
--	while (freed < sc->nr_to_scan) {
-+	while (freed < nr_to_scan) {
- 		struct msm_gem_object *msm_obj = list_first_entry_or_null(
--				&priv->inactive_dontneed, typeof(*msm_obj), mm_list);
-+				list, typeof(*msm_obj), mm_list);
- 
- 		if (!msm_obj)
- 			break;
-@@ -62,14 +76,9 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
- 		if (!msm_gem_trylock(&msm_obj->base))
- 			goto tail;
- 
--		if (is_purgeable(msm_obj)) {
--			/*
--			 * This will move the obj out of still_in_list to
--			 * the purged list
--			 */
--			msm_gem_purge(&msm_obj->base);
-+		if (shrink(msm_obj))
- 			freed += msm_obj->base.size >> PAGE_SHIFT;
--		}
-+
- 		msm_gem_unlock(&msm_obj->base);
- 
- tail:
-@@ -77,16 +86,25 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
- 		mutex_lock(&priv->mm_lock);
- 	}
- 
--	list_splice_tail(&still_in_list, &priv->inactive_dontneed);
-+	list_splice_tail(&still_in_list, list);
- 	mutex_unlock(&priv->mm_lock);
- 
--	if (freed > 0) {
-+	return freed;
-+}
-+
-+static unsigned long
-+msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
-+{
-+	struct msm_drm_private *priv =
-+		container_of(shrinker, struct msm_drm_private, shrinker);
-+	unsigned long freed;
-+
-+	freed = scan(priv, sc->nr_to_scan, &priv->inactive_dontneed, purge);
-+
-+	if (freed > 0)
- 		trace_msm_gem_purge(freed << PAGE_SHIFT);
--	} else {
--		return SHRINK_STOP;
--	}
- 
--	return freed;
-+	return (freed > 0) ? freed : SHRINK_STOP;
- }
- 
- /* since we don't know any better, lets bail after a few
-@@ -95,29 +113,15 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
-  */
- static const int vmap_shrink_limit = 15;
- 
--static unsigned
--vmap_shrink(struct list_head *mm_list)
-+static bool
-+vmap_shrink(struct msm_gem_object *msm_obj)
- {
--	struct msm_gem_object *msm_obj;
--	unsigned unmapped = 0;
-+	if (!is_vunmapable(msm_obj))
-+		return false;
- 
--	list_for_each_entry(msm_obj, mm_list, mm_list) {
--		/* Use trylock, because we cannot block on a obj that
--		 * might be trying to acquire mm_lock
--		 */
--		if (!msm_gem_trylock(&msm_obj->base))
--			continue;
--		if (is_vunmapable(msm_obj)) {
--			msm_gem_vunmap(&msm_obj->base);
--			unmapped++;
--		}
--		msm_gem_unlock(&msm_obj->base);
-+	msm_gem_vunmap(&msm_obj->base);
- 
--		if (++unmapped >= vmap_shrink_limit)
--			break;
--	}
--
--	return unmapped;
-+	return true;
- }
- 
- static int
-@@ -133,17 +137,11 @@ msm_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr)
- 	};
- 	unsigned idx, unmapped = 0;
- 
--	mutex_lock(&priv->mm_lock);
--
--	for (idx = 0; mm_lists[idx]; idx++) {
--		unmapped += vmap_shrink(mm_lists[idx]);
--
--		if (unmapped >= vmap_shrink_limit)
--			break;
-+	for (idx = 0; mm_lists[idx] && unmapped < vmap_shrink_limit; idx++) {
-+		unmapped += scan(priv, vmap_shrink_limit - unmapped,
-+				mm_lists[idx], vmap_shrink);
- 	}
- 
--	mutex_unlock(&priv->mm_lock);
--
- 	*(unsigned long *)ptr += unmapped;
- 
- 	if (unmapped > 0)
+ 		if (use_pages(obj))
 -- 
 2.30.2
 
