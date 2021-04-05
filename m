@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C6435447C
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Apr 2021 18:05:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 625E2354483
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Apr 2021 18:05:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCD5789F6E;
-	Mon,  5 Apr 2021 16:05:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9794F89F8E;
+	Mon,  5 Apr 2021 16:05:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C7F789F6E
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Apr 2021 16:05:36 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 96208613C0;
- Mon,  5 Apr 2021 16:05:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C13289F8E
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Apr 2021 16:05:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 47512613D8;
+ Mon,  5 Apr 2021 16:05:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617638736;
- bh=NP6z82y8UYkzlwGvlhVl2v3BmtjsrN94IHTrZKg4lEo=;
+ s=k20201202; t=1617638740;
+ bh=Nw8MRyPv6hItzUsKE/Wox9Bq6mnbMARlYufUwDjARLk=;
  h=From:To:Cc:Subject:Date:From;
- b=ZROe7LlMT6MwG4TlmQ3u5PADCm06R8hE0h/sr5t47+A+VoLa7potm6dEn1DmFiBaK
- 7ER8hOdup7kX924bF3biHP+KLYZxNAgq8zD4/1fyliZhcwnnofodZZ/tSvYjINEC3f
- OooUGOsX/Teit31yixeEqkZROriMZUfTULH4QXCqWPuC6d2YGZcB87aiLbTjHCJtX4
- eqtVCb0OBCmtg9ftXtCX/SuGWLdRGLUvAru2RoTcvmbLlq/nEi/KcBwQxu8rqmWE07
- gEk0nOOkM33/WMC3BzK0t/9R4Lqoq2kGu0ibha6D4nX5sSK0P/bQbGcJFtrt5hZkAb
- Q0RQSy00hM4rQ==
+ b=bs0O0CAk53M/qSeZGiM7AwMDewkCdl0vBh0LS8bqAedJ6MfX9IJ1AhOe6A2GIYWq0
+ 0+ykWcgnPGQMm27T8u7fGbbTsaN4iwlqt9YmniWLppEG83m1Uhy/2l2vK5JtYmT0sd
+ XdmimLgtTjzTdK3n8dRzYp3xZnjv6nlFk9oHHvQjpQdhddKifFHrg+5CW2+x2OfSI9
+ BglkEDX0tGfI8/hzhOFyD0NBON7F3VVJ0ASIauu2pG8G4gZhroG58EfR/okI96VqiU
+ EZxl7Yq2yJ/6tJbLm9ThOaZG8qJ/Wqb81BhhsvshdV0HGSR8X+hu49s0ZNiciDZfH2
+ 0W1bjUUV7Jv6A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 1/2] drm/imx: imx-ldb: fix out of bounds array
- access warning
-Date: Mon,  5 Apr 2021 12:05:33 -0400
-Message-Id: <20210405160534.269237-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4] drm/imx: imx-ldb: fix out of bounds array access
+ warning
+Date: Mon,  5 Apr 2021 12:05:37 -0400
+Message-Id: <20210405160538.269310-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 X-stable: review
@@ -82,12 +82,12 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 10 insertions(+)
 
 diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
-index 2df407b2b0da..3a9d06de81b4 100644
+index b9dc2ef64ed8..74585ba16501 100644
 --- a/drivers/gpu/drm/imx/imx-ldb.c
 +++ b/drivers/gpu/drm/imx/imx-ldb.c
-@@ -212,6 +212,11 @@ static void imx_ldb_encoder_enable(struct drm_encoder *encoder)
+@@ -217,6 +217,11 @@ static void imx_ldb_encoder_commit(struct drm_encoder *encoder)
  	int dual = ldb->ldb_ctrl & LDB_SPLIT_MODE_EN;
- 	int mux = drm_of_encoder_active_port_id(imx_ldb_ch->child, encoder);
+ 	int mux = imx_drm_encoder_get_mux_id(imx_ldb_ch->child, encoder);
  
 +	if (mux < 0 || mux >= ARRAY_SIZE(ldb->clk_sel)) {
 +		dev_warn(ldb->dev, "%s: invalid mux %d\n", __func__, mux);
@@ -97,9 +97,9 @@ index 2df407b2b0da..3a9d06de81b4 100644
  	drm_panel_prepare(imx_ldb_ch->panel);
  
  	if (dual) {
-@@ -270,6 +275,11 @@ imx_ldb_encoder_atomic_mode_set(struct drm_encoder *encoder,
- 	int mux = drm_of_encoder_active_port_id(imx_ldb_ch->child, encoder);
- 	u32 bus_format = imx_ldb_ch->bus_format;
+@@ -267,6 +272,11 @@ static void imx_ldb_encoder_mode_set(struct drm_encoder *encoder,
+ 	unsigned long di_clk = mode->clock * 1000;
+ 	int mux = imx_drm_encoder_get_mux_id(imx_ldb_ch->child, encoder);
  
 +	if (mux < 0 || mux >= ARRAY_SIZE(ldb->clk_sel)) {
 +		dev_warn(ldb->dev, "%s: invalid mux %d\n", __func__, mux);
