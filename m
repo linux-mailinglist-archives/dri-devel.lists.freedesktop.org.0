@@ -1,59 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C61FE35427D
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Apr 2021 15:52:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C42E4354407
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Apr 2021 18:04:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C31EE89F8B;
-	Mon,  5 Apr 2021 13:52:30 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A306B89F8B
- for <dri-devel@freedesktop.org>; Mon,  5 Apr 2021 13:52:29 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1617630749; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=H28FowE+VN045m1cjTuZx7Sk8ESzNankokLUFPEa7M4=;
- b=PQqKdyGZy2zlFYC4XCBBcc387RepuV7mlz0UUefl1we4epx62IUEyyTqrUdwluaMi+KY65eq
- FczFbi1u2wNfeiKxy4ulUh8Il/Qvdl27CA+0UfZyktUFNPbD6HSm7b8z+y1AaVSKsHEI44VP
- vbDNoI5JX1jaIrnDpC8URGsNC6E=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 606b14f08166b7eff7b1b6f3 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 05 Apr 2021 13:47:28
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 709D2C43464; Mon,  5 Apr 2021 13:47:27 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 35A4AC43461;
- Mon,  5 Apr 2021 13:47:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 35A4AC43461
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-To: freedreno@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/msm: Select CONFIG_NVMEM
-Date: Mon,  5 Apr 2021 19:17:13 +0530
-Message-Id: <1617630433-36506-2-git-send-email-akhilpo@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1617630433-36506-1-git-send-email-akhilpo@codeaurora.org>
-References: <1617630433-36506-1-git-send-email-akhilpo@codeaurora.org>
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB69B89DA7;
+	Mon,  5 Apr 2021 16:04:15 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1136B89DA7
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Apr 2021 16:04:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 01731613C1;
+ Mon,  5 Apr 2021 16:04:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617638652;
+ bh=lcU4DKczLEKRUAQnyQb4jFFbgCf8JhMH6o2UIlf5vnM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ktC8spTjkb6atPqDSbEfYN/sLHct7nzgSELLXo14Dmu5nzUaxbSuzKxCAb4d7O31e
+ zPgZdfdo3CFTbniaimnhhNsgnUjdle87Z//iezSxzQhO73BEbkVY7aLJLg8k9zWRY9
+ FgS9qV6LBPkLnXQT/ok3D5xsU77+NP8CQjwrtHF/7GQoOA0Ni0K63de18NidgTz2M/
+ 3vjuI0T3LRKDNShqiBStZUYI3ZWK02FNvWgsDIErMdTPnF9oD9Aqyrhz0TKsLvM86X
+ 2dFsLsvPRIBQjdPny5RvpRtolmKIvCLmKLbvC3OC6vPdRzU4JiM5wj6uAdT+8p5VCy
+ /eeKtu4f7Sr3A==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.11 05/22] drm/imx: imx-ldb: fix out of bounds array
+ access warning
+Date: Mon,  5 Apr 2021 12:03:48 -0400
+Message-Id: <20210405160406.268132-5-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210405160406.268132-1-sashal@kernel.org>
+References: <20210405160406.268132-1-sashal@kernel.org>
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,37 +49,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dianders@chromium.org, jonathan@marek.ca, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, jordan@cosmicpenguin.net,
- dri-devel@freedesktop.org
-MIME-Version: 1.0
+Cc: Sasha Levin <sashal@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The speedbin support requires nvmem driver api. So lets explicitly
-enable CONFIG_NVMEM to have this support.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+[ Upstream commit 33ce7f2f95cabb5834cf0906308a5cb6103976da ]
+
+When CONFIG_OF is disabled, building with 'make W=1' produces warnings
+about out of bounds array access:
+
+drivers/gpu/drm/imx/imx-ldb.c: In function 'imx_ldb_set_clock.constprop':
+drivers/gpu/drm/imx/imx-ldb.c:186:8: error: array subscript -22 is below array bounds of 'struct clk *[4]' [-Werror=array-bounds]
+
+Add an error check before the index is used, which helps with the
+warning, as well as any possible other error condition that may be
+triggered at runtime.
+
+The warning could be fixed by adding a Kconfig depedency on CONFIG_OF,
+but Liu Ying points out that the driver may hit the out-of-bounds
+problem at runtime anyway.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Reviewed-by: Liu Ying <victor.liu@nxp.com>
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/imx/imx-ldb.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
-index dabb4a1..d12fa35 100644
---- a/drivers/gpu/drm/msm/Kconfig
-+++ b/drivers/gpu/drm/msm/Kconfig
-@@ -20,6 +20,7 @@ config DRM_MSM
- 	select SND_SOC_HDMI_CODEC if SND_SOC
- 	select SYNC_FILE
- 	select PM_OPP
-+	select NVMEM
- 	help
- 	  DRM/KMS driver for MSM/snapdragon.
+diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
+index 41e2978cb1eb..75036aaa0c63 100644
+--- a/drivers/gpu/drm/imx/imx-ldb.c
++++ b/drivers/gpu/drm/imx/imx-ldb.c
+@@ -190,6 +190,11 @@ static void imx_ldb_encoder_enable(struct drm_encoder *encoder)
+ 	int dual = ldb->ldb_ctrl & LDB_SPLIT_MODE_EN;
+ 	int mux = drm_of_encoder_active_port_id(imx_ldb_ch->child, encoder);
  
++	if (mux < 0 || mux >= ARRAY_SIZE(ldb->clk_sel)) {
++		dev_warn(ldb->dev, "%s: invalid mux %d\n", __func__, mux);
++		return;
++	}
++
+ 	drm_panel_prepare(imx_ldb_ch->panel);
+ 
+ 	if (dual) {
+@@ -248,6 +253,11 @@ imx_ldb_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 	int mux = drm_of_encoder_active_port_id(imx_ldb_ch->child, encoder);
+ 	u32 bus_format = imx_ldb_ch->bus_format;
+ 
++	if (mux < 0 || mux >= ARRAY_SIZE(ldb->clk_sel)) {
++		dev_warn(ldb->dev, "%s: invalid mux %d\n", __func__, mux);
++		return;
++	}
++
+ 	if (mode->clock > 170000) {
+ 		dev_warn(ldb->dev,
+ 			 "%s: mode exceeds 170 MHz pixel clock\n", __func__);
 -- 
-2.7.4
+2.30.2
 
 _______________________________________________
 dri-devel mailing list
