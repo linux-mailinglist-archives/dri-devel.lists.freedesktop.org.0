@@ -2,38 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70BE354470
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Apr 2021 18:05:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C6435447C
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Apr 2021 18:05:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2D6A89F6B;
-	Mon,  5 Apr 2021 16:05:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCD5789F6E;
+	Mon,  5 Apr 2021 16:05:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B76DF89F6B
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Apr 2021 16:05:31 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C7C04613FC;
- Mon,  5 Apr 2021 16:05:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C7F789F6E
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Apr 2021 16:05:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 96208613C0;
+ Mon,  5 Apr 2021 16:05:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617638731;
- bh=ryiPGxLXDF1h365Dz+7XDWnLjwXbgkY02hs5TSBDcUQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=azARNxsNgdOH9QAcqqvRpilBirLTriSphf47HkLk0aeRax/19h1XkekMXqWWkpY5F
- 1SKfRS5D5ImVK09+FB4/bCx+uh4lG3XCN6r3fbv/vRn3WGFty/bGzvfjszaHGFlzMX
- vr+jJzf0kP3O9t8o/+0pj/FTU5NoUpKTFJLmWMdfS9++fEpzzmrDZH7N/1X8q3MoP5
- isFaGhL+Qosqy3DZDy08T1LTi7VfxxjGdT6B98CH1wtlyaedJ7WQf22hauaaQTVsc7
- ah/GVjDamqa4Z9I3IZn/fRin8bayjHMwfggEVeU5txyyb23mX+3+nuG7exD4QaLf7K
- OBHYIGoz1Q60g==
+ s=k20201202; t=1617638736;
+ bh=NP6z82y8UYkzlwGvlhVl2v3BmtjsrN94IHTrZKg4lEo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ZROe7LlMT6MwG4TlmQ3u5PADCm06R8hE0h/sr5t47+A+VoLa7potm6dEn1DmFiBaK
+ 7ER8hOdup7kX924bF3biHP+KLYZxNAgq8zD4/1fyliZhcwnnofodZZ/tSvYjINEC3f
+ OooUGOsX/Teit31yixeEqkZROriMZUfTULH4QXCqWPuC6d2YGZcB87aiLbTjHCJtX4
+ eqtVCb0OBCmtg9ftXtCX/SuGWLdRGLUvAru2RoTcvmbLlq/nEi/KcBwQxu8rqmWE07
+ gEk0nOOkM33/WMC3BzK0t/9R4Lqoq2kGu0ibha6D4nX5sSK0P/bQbGcJFtrt5hZkAb
+ Q0RQSy00hM4rQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 3/5] drm/imx: imx-ldb: fix out of bounds array
+Subject: [PATCH AUTOSEL 4.9 1/2] drm/imx: imx-ldb: fix out of bounds array
  access warning
-Date: Mon,  5 Apr 2021 12:05:24 -0400
-Message-Id: <20210405160526.269140-3-sashal@kernel.org>
+Date: Mon,  5 Apr 2021 12:05:33 -0400
+Message-Id: <20210405160534.269237-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210405160526.269140-1-sashal@kernel.org>
-References: <20210405160526.269140-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -84,10 +82,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 10 insertions(+)
 
 diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
-index d38648a7ef2d..d88ac6f2222a 100644
+index 2df407b2b0da..3a9d06de81b4 100644
 --- a/drivers/gpu/drm/imx/imx-ldb.c
 +++ b/drivers/gpu/drm/imx/imx-ldb.c
-@@ -206,6 +206,11 @@ static void imx_ldb_encoder_enable(struct drm_encoder *encoder)
+@@ -212,6 +212,11 @@ static void imx_ldb_encoder_enable(struct drm_encoder *encoder)
  	int dual = ldb->ldb_ctrl & LDB_SPLIT_MODE_EN;
  	int mux = drm_of_encoder_active_port_id(imx_ldb_ch->child, encoder);
  
@@ -99,7 +97,7 @@ index d38648a7ef2d..d88ac6f2222a 100644
  	drm_panel_prepare(imx_ldb_ch->panel);
  
  	if (dual) {
-@@ -264,6 +269,11 @@ imx_ldb_encoder_atomic_mode_set(struct drm_encoder *encoder,
+@@ -270,6 +275,11 @@ imx_ldb_encoder_atomic_mode_set(struct drm_encoder *encoder,
  	int mux = drm_of_encoder_active_port_id(imx_ldb_ch->child, encoder);
  	u32 bus_format = imx_ldb_ch->bus_format;
  
