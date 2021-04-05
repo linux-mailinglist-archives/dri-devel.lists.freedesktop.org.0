@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0751354461
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Apr 2021 18:05:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37026354462
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Apr 2021 18:05:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9201189E0C;
-	Mon,  5 Apr 2021 16:05:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FD0489E38;
+	Mon,  5 Apr 2021 16:05:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE6E989E0C
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Apr 2021 16:05:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E9530613E2;
- Mon,  5 Apr 2021 16:05:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2347089E38
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Apr 2021 16:05:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 537BE613DD;
+ Mon,  5 Apr 2021 16:05:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617638704;
- bh=lxjiYfaOWr/v12SmQ8SF17LZ0TNM0xbnrmvM/grhm1U=;
+ s=k20201202; t=1617638707;
+ bh=TXztknuaVtG48pbylDS46y44Jtupw/59hlWRCyx51hY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BcDELE8HpoGyHiSucGgMAlf88HUb2u2YJdi0uDwSHm1uDKkS8OfJqK4XMfRZFYHjt
- CWpPwzdYtRIAGIxwOVf38ssEmUBpL9BSYqdo4hNBQas4ZniqX9Pq1X2j4yy8CIB5V0
- 34HkBdp3/dn9cjaOaCOChZ4SE5CdzXJ6Gkk5/BpnK48I8tPsfQlnqdxe7ZVSU947/G
- jeA4bpc8wyVyjXTIsm6ZtwgVmewTmwXfUZVOEJOKTZW3h3XAVCD8Xg5FRXkfjZfEaz
- EU/WpvT/xkJxDVKNPf8nPTFwi0SVZ56SpfBB7ApDyfm0kPFN8KIvFTgDMWHE+tU+HO
- aqaesVJ1I68dQ==
+ b=UUw65nq7Hp/s18tzK8lPtvr0Hj/PvKfDKgH93SB0R74MI4d5BrM+jBo/aYIHsPuDd
+ tXedsl28xxVrs3j+Xg9RTZFdnQmBD5OBcr9EKwt+lMdNWgRlmi5XRg3An5Tg3Nrzsq
+ mBbCacDxUlz0qlMggsI9NvrJMJk6pgLrQK8fX6KJ64a/oCqPSjOXuidVa9XlQ28kQD
+ hLFOf2EPeiJpLpPGXBFVyDTTEdz7Jk0qRPZxsIQLb+N6u1t0SXOJ4UPBkW3RNOaSwD
+ K/U8Fcg71EfNgtt8oy5dYqaJQBx5cmTkhVzTEmqygfZv3WEqt1IJC1GlVNestLA879
+ I/Ll457UOduoA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 04/13] drm/imx: imx-ldb: fix out of bounds array
- access warning
-Date: Mon,  5 Apr 2021 12:04:49 -0400
-Message-Id: <20210405160459.268794-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 06/13] drm/tegra: dc: Don't set PLL clock to 0Hz
+Date: Mon,  5 Apr 2021 12:04:51 -0400
+Message-Id: <20210405160459.268794-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210405160459.268794-1-sashal@kernel.org>
 References: <20210405160459.268794-1-sashal@kernel.org>
@@ -49,68 +48,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org,
+ Dmitry Osipenko <digetx@gmail.com>, Thierry Reding <treding@nvidia.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Dmitry Osipenko <digetx@gmail.com>
 
-[ Upstream commit 33ce7f2f95cabb5834cf0906308a5cb6103976da ]
+[ Upstream commit f8fb97c915954fc6de6513cdf277103b5c6df7b3 ]
 
-When CONFIG_OF is disabled, building with 'make W=1' produces warnings
-about out of bounds array access:
+RGB output doesn't allow to change parent clock rate of the display and
+PCLK rate is set to 0Hz in this case. The tegra_dc_commit_state() shall
+not set the display clock to 0Hz since this change propagates to the
+parent clock. The DISP clock is defined as a NODIV clock by the tegra-clk
+driver and all NODIV clocks use the CLK_SET_RATE_PARENT flag.
 
-drivers/gpu/drm/imx/imx-ldb.c: In function 'imx_ldb_set_clock.constprop':
-drivers/gpu/drm/imx/imx-ldb.c:186:8: error: array subscript -22 is below array bounds of 'struct clk *[4]' [-Werror=array-bounds]
+This bug stayed unnoticed because by default PLLP is used as the parent
+clock for the display controller and PLLP silently skips the erroneous 0Hz
+rate changes because it always has active child clocks that don't permit
+rate changes. The PLLP isn't acceptable for some devices that we want to
+upstream (like Samsung Galaxy Tab and ASUS TF700T) due to a display panel
+clock rate requirements that can't be fulfilled by using PLLP and then the
+bug pops up in this case since parent clock is set to 0Hz, killing the
+display output.
 
-Add an error check before the index is used, which helps with the
-warning, as well as any possible other error condition that may be
-triggered at runtime.
+Don't touch DC clock if pclk=0 in order to fix the problem.
 
-The warning could be fixed by adding a Kconfig depedency on CONFIG_OF,
-but Liu Ying points out that the driver may hit the out-of-bounds
-problem at runtime anyway.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Reviewed-by: Liu Ying <victor.liu@nxp.com>
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/imx/imx-ldb.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/tegra/dc.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
-index d6629fc869f3..116473c2360a 100644
---- a/drivers/gpu/drm/imx/imx-ldb.c
-+++ b/drivers/gpu/drm/imx/imx-ldb.c
-@@ -197,6 +197,11 @@ static void imx_ldb_encoder_enable(struct drm_encoder *encoder)
- 	int dual = ldb->ldb_ctrl & LDB_SPLIT_MODE_EN;
- 	int mux = drm_of_encoder_active_port_id(imx_ldb_ch->child, encoder);
- 
-+	if (mux < 0 || mux >= ARRAY_SIZE(ldb->clk_sel)) {
-+		dev_warn(ldb->dev, "%s: invalid mux %d\n", __func__, mux);
-+		return;
-+	}
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index fbf57bc3cdab..617cbe468aec 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -1667,6 +1667,11 @@ static void tegra_dc_commit_state(struct tegra_dc *dc,
+ 			dev_err(dc->dev,
+ 				"failed to set clock rate to %lu Hz\n",
+ 				state->pclk);
 +
- 	drm_panel_prepare(imx_ldb_ch->panel);
++		err = clk_set_rate(dc->clk, state->pclk);
++		if (err < 0)
++			dev_err(dc->dev, "failed to set clock %pC to %lu Hz: %d\n",
++				dc->clk, state->pclk, err);
+ 	}
  
- 	if (dual) {
-@@ -255,6 +260,11 @@ imx_ldb_encoder_atomic_mode_set(struct drm_encoder *encoder,
- 	int mux = drm_of_encoder_active_port_id(imx_ldb_ch->child, encoder);
- 	u32 bus_format = imx_ldb_ch->bus_format;
+ 	DRM_DEBUG_KMS("rate: %lu, div: %u\n", clk_get_rate(dc->clk),
+@@ -1677,11 +1682,6 @@ static void tegra_dc_commit_state(struct tegra_dc *dc,
+ 		value = SHIFT_CLK_DIVIDER(state->div) | PIXEL_CLK_DIVIDER_PCD1;
+ 		tegra_dc_writel(dc, value, DC_DISP_DISP_CLOCK_CONTROL);
+ 	}
+-
+-	err = clk_set_rate(dc->clk, state->pclk);
+-	if (err < 0)
+-		dev_err(dc->dev, "failed to set clock %pC to %lu Hz: %d\n",
+-			dc->clk, state->pclk, err);
+ }
  
-+	if (mux < 0 || mux >= ARRAY_SIZE(ldb->clk_sel)) {
-+		dev_warn(ldb->dev, "%s: invalid mux %d\n", __func__, mux);
-+		return;
-+	}
-+
- 	if (mode->clock > 170000) {
- 		dev_warn(ldb->dev,
- 			 "%s: mode exceeds 170 MHz pixel clock\n", __func__);
+ static void tegra_dc_stop(struct tegra_dc *dc)
 -- 
 2.30.2
 
