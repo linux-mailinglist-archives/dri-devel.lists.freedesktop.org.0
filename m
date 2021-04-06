@@ -2,34 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C74355C31
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 21:33:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3697E355C46
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 21:38:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 566BD890B1;
-	Tue,  6 Apr 2021 19:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 598316E8A3;
+	Tue,  6 Apr 2021 19:38:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C57916E88B
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Apr 2021 19:21:42 +0000 (UTC)
-Received: from localhost.localdomain (unknown
- [IPv6:2804:431:e7dc:9ef6:7b41:f88b:5bc5:8ea5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: leandrohrb)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 856061F44BA6;
- Tue,  6 Apr 2021 20:21:39 +0100 (BST)
-From: Leandro Ribeiro <leandro.ribeiro@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/doc: emphasize difference between plane formats and
- IN_FORMATS blob
-Date: Tue,  6 Apr 2021 16:21:18 -0300
-Message-Id: <20210406192118.12313-3-leandro.ribeiro@collabora.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210406192118.12313-1-leandro.ribeiro@collabora.com>
-References: <20210406192118.12313-1-leandro.ribeiro@collabora.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 863B06E8A3
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Apr 2021 19:38:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617737892;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mJhQUKqEV20liVnsgwrQmVyuB9gKm/Ks+xvFCx56LWo=;
+ b=IsmWkyrFdqgIp635jhPURHVjUnh67zM4d2jBkwDQKrwS3vN310A1RCSQ8SQIzeag0AYngB
+ /QBJQaEuzzwNTLIVhNLbiFABgRV+mfnw4U/MgtVWLsjcOmAm7cPK+4Lvj770wvI/ax7ifS
+ bC9WpmW/rBBqBUafmQvvOcBek0aPMy0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-597-y4Zh0538PROB9k8ijir18w-1; Tue, 06 Apr 2021 15:38:10 -0400
+X-MC-Unique: y4Zh0538PROB9k8ijir18w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 466FC108BD06;
+ Tue,  6 Apr 2021 19:38:08 +0000 (UTC)
+Received: from omen (ovpn-112-85.phx2.redhat.com [10.3.112.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5FD7A19D61;
+ Tue,  6 Apr 2021 19:38:06 +0000 (UTC)
+Date: Tue, 6 Apr 2021 13:38:05 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 1/2] vfio/pci: remove vfio_pci_nvlink2
+Message-ID: <20210406133805.715120bd@omen>
+In-Reply-To: <20210326061311.1497642-2-hch@lst.de>
+References: <20210326061311.1497642-1-hch@lst.de>
+ <20210326061311.1497642-2-hch@lst.de>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 06 Apr 2021 19:33:23 +0000
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,60 +58,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, pekka.paalanen@collabora.co.uk, kernel@collabora.com
+Cc: Jason Gunthorpe <jgg@nvidia.com>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Michael Ellerman <mpe@ellerman.id.au>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Paul Mackerras <paulus@samba.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-api@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Emphasize how userspace should use the plane format list
-(format_type_ptr) and the IN_FORMATS blob property.
+On Fri, 26 Mar 2021 07:13:10 +0100
+Christoph Hellwig <hch@lst.de> wrote:
 
-Formats exposed in the plane format list (format_type_ptr) do not
-require modifiers, and formats that are present in the IN_FORMATS blob
-property support modifiers.
+> This driver never had any open userspace (which for VFIO would include
+> VM kernel drivers) that use it, and thus should never have been added
+> by our normal userspace ABI rules.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  drivers/vfio/pci/Kconfig            |   6 -
+>  drivers/vfio/pci/Makefile           |   1 -
+>  drivers/vfio/pci/vfio_pci.c         |  18 -
+>  drivers/vfio/pci/vfio_pci_nvlink2.c | 490 ----------------------------
+>  drivers/vfio/pci/vfio_pci_private.h |  14 -
+>  include/uapi/linux/vfio.h           |  38 +--
+>  6 files changed, 4 insertions(+), 563 deletions(-)
+>  delete mode 100644 drivers/vfio/pci/vfio_pci_nvlink2.c
 
-Note that these are not disjoint sets. If a format supports modifiers
-but the driver can also handle it without a modifier, it should be
-present in both the IN_FORMATS blob property and the plane format list.
+Hearing no objections, applied to vfio next branch for v5.13.  Thanks,
 
-Signed-off-by: Leandro Ribeiro <leandro.ribeiro@collabora.com>
----
- drivers/gpu/drm/drm_plane.c | 4 ++++
- include/uapi/drm/drm_mode.h | 3 +++
- 2 files changed, 7 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index 0dd43882fe7c..b48d9bd81a59 100644
---- a/drivers/gpu/drm/drm_plane.c
-+++ b/drivers/gpu/drm/drm_plane.c
-@@ -128,6 +128,10 @@
-  *     pairs supported by this plane. The blob is a struct
-  *     drm_format_modifier_blob. Without this property the plane doesn't
-  *     support buffers with modifiers. Userspace cannot change this property.
-+ *
-+ *     To find out the list of buffer formats which are supported without a
-+ *     modifier, userspace should not look at this blob property, but at the
-+ *     formats list of the plane: &drm_mode_get_plane.format_type_ptr.
-  */
- 
- static unsigned int drm_num_planes(struct drm_device *dev)
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 96fc9a6da608..4293800ec095 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -340,6 +340,9 @@ struct drm_mode_get_plane {
- 	/**
- 	 * @format_type_ptr: Pointer to ``__u32`` array of formats that are
- 	 * supported by the plane. These formats do not require modifiers.
-+	 *
-+	 * To find out the list of formats that support modifiers, userspace
-+	 * must use the plane IN_FORMATS blob property.
- 	 */
- 	__u64 format_type_ptr;
- };
--- 
-2.31.1
+Alex
 
 _______________________________________________
 dri-devel mailing list
