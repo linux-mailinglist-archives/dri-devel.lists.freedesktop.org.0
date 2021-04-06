@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964F1355038
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 11:39:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA0135503F
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 11:40:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2010789D89;
-	Tue,  6 Apr 2021 09:38:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 852FC6E3A0;
+	Tue,  6 Apr 2021 09:40:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC4DE89C86;
- Tue,  6 Apr 2021 09:38:56 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id p4so5466869edr.2;
- Tue, 06 Apr 2021 02:38:56 -0700 (PDT)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 858456E303;
+ Tue,  6 Apr 2021 09:40:52 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id u17so14590713ejk.2;
+ Tue, 06 Apr 2021 02:40:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=hP5/K4t58eWlJt8iuevjnlK+siZ6xV6KElv5odqgEXY=;
- b=TBWgEU+yETPxOKPyhaziABO7+vb32Rv9BZj44eAQyayK2pfoUdlZhxm1JeO7eBZ55N
- nkF4iGrMQwXFqDrSE85EQMp87S89UN+TbfTj2x6W1gljAxScdcn0PvTFZD4L/KJgnJwk
- 02ta9uZCJaU3+QzMWCimnBemk37wc3G+qFTuaCuv5hM4uxkgYcsmr7G8FwgfWXMavpfj
- ZymtEpBhJ8mArhu7DsMh9ZECkcNUzDYLwHx0JVnG0fhqvpcLhCeNDnTeuJXaeiQXXmdd
- g9xjGHjMwkroTPYtH8W7khd6a4qQiA+9l+J1d2VaGJoqQgg8DsFRj1LB+dFFc0N229qk
- GzEQ==
+ bh=Qv8/NoE0gH0Ie38Ao1tiKbwF5qpGXp4+TwD7tcNLlDk=;
+ b=f1jd2LPKnMNmNdUMNqnLnaEdySAXIKnTnMSuPX1c18HBVMF9/2TdJgAOJc9Imu+TQC
+ SYiEBzAXfoH0gWnryh6ZmQBEOm5jN9LoQu7oe7zJv0l4gr4z0KXVEU8xZpaFng0JYkoH
+ 50wdnyNozYUWHVxyrpHMg+Fm9nbOQwrx7uOGpNV2bOpsmip+AIe0pTgv1vEkKSr9/bXW
+ gT3QEcpb2fjm4drIfyFhhU7Klvl5VM/WmsRNik5kWHPdX/Uu3cYulwQecijTElmO7Tjz
+ reban6cGEnTAvLQGDOU0gCspgHOVV4mHUsB8Lm9k2FxEDDUnYO2BEQE3eFin9fwES4br
+ JZEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=hP5/K4t58eWlJt8iuevjnlK+siZ6xV6KElv5odqgEXY=;
- b=jlszdvmYRbdW3ESc0KStqTXDOvtShPuXF5Bmo5PrsfL6h807zdFDsp2roK4PvuO4iG
- 0del5ZFJ3hAG6nhEEkpcSLQN/tkXZAk6zH7JVga0o21i24GEfnI918Dt5qqjG2xJdt1n
- Ey6zl8pEH8SkevoC3bXBx773/YZovl76vPfEo6fMEDsumq8FNq3CtIdmJOeMks+phurp
- MXvyWh2LpEEa9Xc18Ugo024z+Il/Bqa8r+LFaUItnq+OU7lR7KHp/w/j/OpyLT+SZoMR
- Pya1jCE5MtsXWlh17fAHBpQb3FIaCpb77errviBape62rY3C96QzQJ37HhrHdKFITnMT
- mp5A==
-X-Gm-Message-State: AOAM533p9XJ68bChSyDEpusO1FTAfzeYLOTSeIfmzH4KwqmWC01jQYZ4
- X1gRBdgwf2dEBitqAkKZo77jg9vBOEI=
-X-Google-Smtp-Source: ABdhPJxq13EnNVT0KcClGYM8+3Zv1Qt8+XiMrTPmYiZyR3vabeRfcFHF4sjMCLSqdfHAdjwdPeraAw==
-X-Received: by 2002:aa7:c342:: with SMTP id j2mr37571314edr.8.1617701935487;
- Tue, 06 Apr 2021 02:38:55 -0700 (PDT)
+ bh=Qv8/NoE0gH0Ie38Ao1tiKbwF5qpGXp4+TwD7tcNLlDk=;
+ b=YE4+VB58QoXb3PCFr//mQT5BmwR8t/esdQaQgkOz0paBTRkjCzCqu5ZD009r3sw+JJ
+ GXel7C81oSLrdkLtXpOGy+7uNdDsmsExb6uhL6OHewjNToyvndPqrFmGOTXqGzw4Xxoe
+ zIGXud+ri1fYjXtSs2PJs3fMy5YQAnCLLKx8Hx+JOc+EyZONr2qIySpCL9IeMxyVWX/o
+ nJ93F2BgGsC70iGUxdj39BpIo9z1AI3fQsFN2iQzXvMHo53KftPB7A/K5cfVg68s1RUh
+ o4AlurWtaVUX7JN5vTog9zHaGwOcMqlQK17beomEwlLDWfNGgzGpgfezLRdj8tmEbMUx
+ NgZg==
+X-Gm-Message-State: AOAM531OtVaRT8vHoxvkvkSRxRa6HXqLEUnA6OUKr0W4TNNphJN4WJ0Y
+ a0T/lO+dvSjl+JZ8dvUyO37hfaS4ZiA=
+X-Google-Smtp-Source: ABdhPJwPRSQUzP/k6wQIwBikmFcUlHpvtzRXJo/D7k2kIRPqHlPFGDuSa2TzkKldEK9JO9bGsR6MtA==
+X-Received: by 2002:a17:906:a155:: with SMTP id
+ bu21mr32997069ejb.400.1617702051154; 
+ Tue, 06 Apr 2021 02:40:51 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:8475:9991:cfb3:4162?
  ([2a02:908:1252:fb60:8475:9991:cfb3:4162])
- by smtp.gmail.com with ESMTPSA id t12sm5459893ejb.76.2021.04.06.02.38.54
+ by smtp.gmail.com with ESMTPSA id s9sm12814982edd.16.2021.04.06.02.40.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Apr 2021 02:38:55 -0700 (PDT)
-Subject: Re: [PATCH 4/8] drm/radeon: Implement mmap as GEM object function
+ Tue, 06 Apr 2021 02:40:50 -0700 (PDT)
+Subject: Re: [PATCH 8/8] drm/ttm: Remove ttm_bo_mmap() and friends
 To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com,
  christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
  bskeggs@redhat.com, ray.huang@amd.com, linux-graphics-maintainer@vmware.com,
@@ -55,14 +56,14 @@ To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com,
  sam@ravnborg.org, emil.velikov@collabora.com, Felix.Kuehling@amd.com,
  nirmoy.das@amd.com
 References: <20210406090903.7019-1-tzimmermann@suse.de>
- <20210406090903.7019-5-tzimmermann@suse.de>
+ <20210406090903.7019-9-tzimmermann@suse.de>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <40a9f066-d486-0d31-6226-98b3470838e6@gmail.com>
-Date: Tue, 6 Apr 2021 11:38:53 +0200
+Message-ID: <3f7966b8-3d34-40ee-6002-e033c82624b4@gmail.com>
+Date: Tue, 6 Apr 2021 11:40:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210406090903.7019-5-tzimmermann@suse.de>
+In-Reply-To: <20210406090903.7019-9-tzimmermann@suse.de>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,241 +79,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 06.04.21 um 11:08 schrieb Thomas Zimmermann:
-> Moving the driver-specific mmap code into a GEM object function allows
-> for using DRM helpers for various mmap callbacks.
->
-> This change also allows to support prime-based mmap via DRM's helper
-> drm_gem_prime_mmap().
->
-> Permission checks are implemented by drm_gem_mmap(), with an additional
-> check for radeon_ttm_tt_has_userptr() in the GEM object function. The
-> function radeon_verify_access() is now unused and has thus been removed.
->
-> As a side effect, amdgpu_ttm_vm_ops and amdgpu_ttm_fault() are now
-> implemented in amdgpu's GEM code.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/radeon/radeon_drv.c |  3 +-
->   drivers/gpu/drm/radeon/radeon_gem.c | 52 +++++++++++++++++++++++
->   drivers/gpu/drm/radeon/radeon_ttm.c | 65 -----------------------------
->   drivers/gpu/drm/radeon/radeon_ttm.h |  1 -
->   4 files changed, 54 insertions(+), 67 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
-> index efeb115ae70e..4039b6d71aa2 100644
-> --- a/drivers/gpu/drm/radeon/radeon_drv.c
-> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
-> @@ -557,7 +557,7 @@ static const struct file_operations radeon_driver_kms_fops = {
->   	.open = drm_open,
->   	.release = drm_release,
->   	.unlocked_ioctl = radeon_drm_ioctl,
-> -	.mmap = radeon_mmap,
-> +	.mmap = drm_gem_mmap,
->   	.poll = drm_poll,
->   	.read = drm_read,
->   #ifdef CONFIG_COMPAT
-> @@ -632,6 +632,7 @@ static const struct drm_driver kms_driver = {
->   	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
->   	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
->   	.gem_prime_import_sg_table = radeon_gem_prime_import_sg_table,
-> +	.gem_prime_mmap = drm_gem_prime_mmap,
->   
->   	.name = DRIVER_NAME,
->   	.desc = DRIVER_DESC,
-> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-> index 05ea2f39f626..71e8737bce01 100644
-> --- a/drivers/gpu/drm/radeon/radeon_gem.c
-> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
-> @@ -44,6 +44,42 @@ void radeon_gem_prime_unpin(struct drm_gem_object *obj);
->   
->   const struct drm_gem_object_funcs radeon_gem_object_funcs;
->   
-> +static vm_fault_t radeon_ttm_fault(struct vm_fault *vmf)
-
-Please name this radeon_gem_fault or radeon_gem_object_fault.
-
-Apart from that looks good to me.
-
-Christian.
-
-> +{
-> +	struct ttm_buffer_object *bo = vmf->vma->vm_private_data;
-> +	struct radeon_device *rdev = radeon_get_rdev(bo->bdev);
-> +	vm_fault_t ret;
-> +
-> +	down_read(&rdev->pm.mclk_lock);
-> +
-> +	ret = ttm_bo_vm_reserve(bo, vmf);
-> +	if (ret)
-> +		goto unlock_mclk;
-> +
-> +	ret = radeon_bo_fault_reserve_notify(bo);
-> +	if (ret)
-> +		goto unlock_resv;
-> +
-> +	ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
-> +				       TTM_BO_VM_NUM_PREFAULT, 1);
-> +	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
-> +		goto unlock_mclk;
-> +
-> +unlock_resv:
-> +	dma_resv_unlock(bo->base.resv);
-> +
-> +unlock_mclk:
-> +	up_read(&rdev->pm.mclk_lock);
-> +	return ret;
-> +}
-> +
-> +static const struct vm_operations_struct radeon_ttm_vm_ops = {
-> +	.fault = radeon_ttm_fault,
-> +	.open = ttm_bo_vm_open,
-> +	.close = ttm_bo_vm_close,
-> +	.access = ttm_bo_vm_access
-> +};
-> +
->   static void radeon_gem_object_free(struct drm_gem_object *gobj)
->   {
->   	struct radeon_bo *robj = gem_to_radeon_bo(gobj);
-> @@ -226,6 +262,20 @@ static int radeon_gem_handle_lockup(struct radeon_device *rdev, int r)
->   	return r;
->   }
->   
-> +static int radeon_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-> +{
-> +	struct radeon_bo *bo = gem_to_radeon_bo(obj);
-> +	struct radeon_device *rdev = radeon_get_rdev(bo->tbo.bdev);
-> +
-> +	if (!rdev)
-> +		return -EINVAL;
-> +
-> +	if (radeon_ttm_tt_has_userptr(rdev, bo->tbo.ttm))
-> +		return -EPERM;
-> +
-> +	return drm_gem_ttm_mmap(obj, vma);
-> +}
-> +
->   const struct drm_gem_object_funcs radeon_gem_object_funcs = {
->   	.free = radeon_gem_object_free,
->   	.open = radeon_gem_object_open,
-> @@ -236,6 +286,8 @@ const struct drm_gem_object_funcs radeon_gem_object_funcs = {
->   	.get_sg_table = radeon_gem_prime_get_sg_table,
->   	.vmap = drm_gem_ttm_vmap,
->   	.vunmap = drm_gem_ttm_vunmap,
-> +	.mmap = radeon_gem_object_mmap,
-> +	.vm_ops = &radeon_ttm_vm_ops,
->   };
->   
->   /*
-> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-> index 476ce9c24b9f..a5ce43a909a2 100644
-> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> @@ -136,17 +136,6 @@ static void radeon_evict_flags(struct ttm_buffer_object *bo,
->   	*placement = rbo->placement;
->   }
->   
-> -static int radeon_verify_access(struct ttm_buffer_object *bo, struct file *filp)
-> -{
-> -	struct radeon_bo *rbo = container_of(bo, struct radeon_bo, tbo);
-> -	struct radeon_device *rdev = radeon_get_rdev(bo->bdev);
-> -
-> -	if (radeon_ttm_tt_has_userptr(rdev, bo->ttm))
-> -		return -EPERM;
-> -	return drm_vma_node_verify_access(&rbo->tbo.base.vma_node,
-> -					  filp->private_data);
-> -}
-> -
->   static int radeon_move_blit(struct ttm_buffer_object *bo,
->   			bool evict,
->   			struct ttm_resource *new_mem,
-> @@ -704,7 +693,6 @@ static struct ttm_device_funcs radeon_bo_driver = {
->   	.eviction_valuable = ttm_bo_eviction_valuable,
->   	.evict_flags = &radeon_evict_flags,
->   	.move = &radeon_bo_move,
-> -	.verify_access = &radeon_verify_access,
->   	.delete_mem_notify = &radeon_bo_delete_mem_notify,
->   	.io_mem_reserve = &radeon_ttm_io_mem_reserve,
->   };
-> @@ -801,59 +789,6 @@ void radeon_ttm_set_active_vram_size(struct radeon_device *rdev, u64 size)
->   	man->size = size >> PAGE_SHIFT;
->   }
->   
-> -static vm_fault_t radeon_ttm_fault(struct vm_fault *vmf)
-> -{
-> -	struct ttm_buffer_object *bo = vmf->vma->vm_private_data;
-> -	struct radeon_device *rdev = radeon_get_rdev(bo->bdev);
-> -	vm_fault_t ret;
-> -
-> -	down_read(&rdev->pm.mclk_lock);
-> -
-> -	ret = ttm_bo_vm_reserve(bo, vmf);
-> -	if (ret)
-> -		goto unlock_mclk;
-> -
-> -	ret = radeon_bo_fault_reserve_notify(bo);
-> -	if (ret)
-> -		goto unlock_resv;
-> -
-> -	ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
-> -				       TTM_BO_VM_NUM_PREFAULT, 1);
-> -	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
-> -		goto unlock_mclk;
-> -
-> -unlock_resv:
-> -	dma_resv_unlock(bo->base.resv);
-> -
-> -unlock_mclk:
-> -	up_read(&rdev->pm.mclk_lock);
-> -	return ret;
-> -}
-> -
-> -static const struct vm_operations_struct radeon_ttm_vm_ops = {
-> -	.fault = radeon_ttm_fault,
-> -	.open = ttm_bo_vm_open,
-> -	.close = ttm_bo_vm_close,
-> -	.access = ttm_bo_vm_access
-> -};
-> -
-> -int radeon_mmap(struct file *filp, struct vm_area_struct *vma)
-> -{
-> -	int r;
-> -	struct drm_file *file_priv = filp->private_data;
-> -	struct radeon_device *rdev = file_priv->minor->dev->dev_private;
-> -
-> -	if (rdev == NULL)
-> -		return -EINVAL;
-> -
-> -	r = ttm_bo_mmap(filp, vma, &rdev->mman.bdev);
-> -	if (unlikely(r != 0))
-> -		return r;
-> -
-> -	vma->vm_ops = &radeon_ttm_vm_ops;
-> -	return 0;
-> -}
-> -
->   #if defined(CONFIG_DEBUG_FS)
->   
->   static int radeon_mm_vram_dump_table_show(struct seq_file *m, void *unused)
-> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.h b/drivers/gpu/drm/radeon/radeon_ttm.h
-> index 4d7b90ee2774..91ea7141bc81 100644
-> --- a/drivers/gpu/drm/radeon/radeon_ttm.h
-> +++ b/drivers/gpu/drm/radeon/radeon_ttm.h
-> @@ -32,6 +32,5 @@ struct radeon_device;
->   
->   int radeon_ttm_init(struct radeon_device *rdev);
->   void radeon_ttm_fini(struct radeon_device *rdev);
-> -int radeon_mmap(struct file *filp, struct vm_area_struct *vma);
->   
->   #endif				/* __RADEON_TTM_H__ */
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMDYuMDQuMjEgdW0gMTE6MDkgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoKPiBUaGUgZnVu
+Y3Rpb24gdHRtX2JvX21tYXAgaXMgdW51c2VkLiBSZW1vdmUgaXQgYW5kIGl0J3MgaGVscGVyczsg
+aW5jbHVkaW5nCj4gdGhlIHZlcmlmeV9hY2Nlc3MgY2FsbGJhY2sgaW4gc3RydWN0IHR0bV9kZXZp
+Y2VfZnVuY3MuCj4KPiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1h
+bm5Ac3VzZS5kZT4KClJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29l
+bmlnQGFtZC5jb20+Cgo+IC0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdm0uYyB8
+IDUzIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ICAgaW5jbHVkZS9kcm0vdHRt
+L3R0bV9ib19hcGkuaCAgICB8IDEzIC0tLS0tLS0tCj4gICBpbmNsdWRlL2RybS90dG0vdHRtX2Rl
+dmljZS5oICAgIHwgMTUgLS0tLS0tLS0tLQo+ICAgMyBmaWxlcyBjaGFuZ2VkLCA4MSBkZWxldGlv
+bnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192bS5jIGIv
+ZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdm0uYwo+IGluZGV4IGJmNGEyMTNiYzY2Yy4uNmNk
+MzUyMzk5OTQxIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMK
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192bS5jCj4gQEAgLTUwOCwzMCArNTA4
+LDYgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCB2bV9vcGVyYXRpb25zX3N0cnVjdCB0dG1fYm9fdm1f
+b3BzID0gewo+ICAgCS5hY2Nlc3MgPSB0dG1fYm9fdm1fYWNjZXNzLAo+ICAgfTsKPiAgIAo+IC1z
+dGF0aWMgc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICp0dG1fYm9fdm1fbG9va3VwKHN0cnVjdCB0
+dG1fZGV2aWNlICpiZGV2LAo+IC0JCQkJCQkgIHVuc2lnbmVkIGxvbmcgb2Zmc2V0LAo+IC0JCQkJ
+CQkgIHVuc2lnbmVkIGxvbmcgcGFnZXMpCj4gLXsKPiAtCXN0cnVjdCBkcm1fdm1hX29mZnNldF9u
+b2RlICpub2RlOwo+IC0Jc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibyA9IE5VTEw7Cj4gLQo+
+IC0JZHJtX3ZtYV9vZmZzZXRfbG9ja19sb29rdXAoYmRldi0+dm1hX21hbmFnZXIpOwo+IC0KPiAt
+CW5vZGUgPSBkcm1fdm1hX29mZnNldF9sb29rdXBfbG9ja2VkKGJkZXYtPnZtYV9tYW5hZ2VyLCBv
+ZmZzZXQsIHBhZ2VzKTsKPiAtCWlmIChsaWtlbHkobm9kZSkpIHsKPiAtCQlibyA9IGNvbnRhaW5l
+cl9vZihub2RlLCBzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QsCj4gLQkJCQkgIGJhc2Uudm1hX25v
+ZGUpOwo+IC0JCWJvID0gdHRtX2JvX2dldF91bmxlc3NfemVybyhibyk7Cj4gLQl9Cj4gLQo+IC0J
+ZHJtX3ZtYV9vZmZzZXRfdW5sb2NrX2xvb2t1cChiZGV2LT52bWFfbWFuYWdlcik7Cj4gLQo+IC0J
+aWYgKCFibykKPiAtCQlwcl9lcnIoIkNvdWxkIG5vdCBmaW5kIGJ1ZmZlciBvYmplY3QgdG8gbWFw
+XG4iKTsKPiAtCj4gLQlyZXR1cm4gYm87Cj4gLX0KPiAtCj4gICBzdGF0aWMgdm9pZCB0dG1fYm9f
+bW1hcF92bWFfc2V0dXAoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywgc3RydWN0IHZtX2Fy
+ZWFfc3RydWN0ICp2bWEpCj4gICB7Cj4gICAJLyoKPiBAQCAtNTU5LDM1ICs1MzUsNiBAQCBzdGF0
+aWMgdm9pZCB0dG1fYm9fbW1hcF92bWFfc2V0dXAoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpi
+bywgc3RydWN0IHZtX2FyZWFfcwo+ICAgCXZtYS0+dm1fZmxhZ3MgfD0gVk1fSU8gfCBWTV9ET05U
+RVhQQU5EIHwgVk1fRE9OVERVTVA7Cj4gICB9Cj4gICAKPiAtaW50IHR0bV9ib19tbWFwKHN0cnVj
+dCBmaWxlICpmaWxwLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSwKPiAtCQlzdHJ1Y3QgdHRt
+X2RldmljZSAqYmRldikKPiAtewo+IC0Jc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibzsKPiAt
+CWludCByZXQ7Cj4gLQo+IC0JaWYgKHVubGlrZWx5KHZtYS0+dm1fcGdvZmYgPCBEUk1fRklMRV9Q
+QUdFX09GRlNFVF9TVEFSVCkpCj4gLQkJcmV0dXJuIC1FSU5WQUw7Cj4gLQo+IC0JYm8gPSB0dG1f
+Ym9fdm1fbG9va3VwKGJkZXYsIHZtYS0+dm1fcGdvZmYsIHZtYV9wYWdlcyh2bWEpKTsKPiAtCWlm
+ICh1bmxpa2VseSghYm8pKQo+IC0JCXJldHVybiAtRUlOVkFMOwo+IC0KPiAtCWlmICh1bmxpa2Vs
+eSghYm8tPmJkZXYtPmZ1bmNzLT52ZXJpZnlfYWNjZXNzKSkgewo+IC0JCXJldCA9IC1FUEVSTTsK
+PiAtCQlnb3RvIG91dF91bnJlZjsKPiAtCX0KPiAtCXJldCA9IGJvLT5iZGV2LT5mdW5jcy0+dmVy
+aWZ5X2FjY2VzcyhibywgZmlscCk7Cj4gLQlpZiAodW5saWtlbHkocmV0ICE9IDApKQo+IC0JCWdv
+dG8gb3V0X3VucmVmOwo+IC0KPiAtCXR0bV9ib19tbWFwX3ZtYV9zZXR1cChibywgdm1hKTsKPiAt
+CXJldHVybiAwOwo+IC1vdXRfdW5yZWY6Cj4gLQl0dG1fYm9fcHV0KGJvKTsKPiAtCXJldHVybiBy
+ZXQ7Cj4gLX0KPiAtRVhQT1JUX1NZTUJPTCh0dG1fYm9fbW1hcCk7Cj4gLQo+ICAgaW50IHR0bV9i
+b19tbWFwX29iaihzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSwgc3RydWN0IHR0bV9idWZmZXJf
+b2JqZWN0ICpibykKPiAgIHsKPiAgIAl0dG1fYm9fZ2V0KGJvKTsKPiBkaWZmIC0tZ2l0IGEvaW5j
+bHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaCBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgK
+PiBpbmRleCAyMTU1ZTJlMzhhZWMuLjZlMzU2ODBhYzAxYiAxMDA2NDQKPiAtLS0gYS9pbmNsdWRl
+L2RybS90dG0vdHRtX2JvX2FwaS5oCj4gKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGku
+aAo+IEBAIC01MjIsMTkgKzUyMiw2IEBAIHZvaWQgdHRtX2JvX3Z1bm1hcChzdHJ1Y3QgdHRtX2J1
+ZmZlcl9vYmplY3QgKmJvLCBzdHJ1Y3QgZG1hX2J1Zl9tYXAgKm1hcCk7Cj4gICAgKi8KPiAgIGlu
+dCB0dG1fYm9fbW1hcF9vYmooc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsIHN0cnVjdCB0dG1f
+YnVmZmVyX29iamVjdCAqYm8pOwo+ICAgCj4gLS8qKgo+IC0gKiB0dG1fYm9fbW1hcCAtIG1tYXAg
+b3V0IG9mIHRoZSB0dG0gZGV2aWNlIGFkZHJlc3Mgc3BhY2UuCj4gLSAqCj4gLSAqIEBmaWxwOiAg
+ICAgIGZpbHAgYXMgaW5wdXQgZnJvbSB0aGUgbW1hcCBtZXRob2QuCj4gLSAqIEB2bWE6ICAgICAg
+IHZtYSBhcyBpbnB1dCBmcm9tIHRoZSBtbWFwIG1ldGhvZC4KPiAtICogQGJkZXY6ICAgICAgUG9p
+bnRlciB0byB0aGUgdHRtX2RldmljZSB3aXRoIHRoZSBhZGRyZXNzIHNwYWNlIG1hbmFnZXIuCj4g
+LSAqCj4gLSAqIFRoaXMgZnVuY3Rpb24gaXMgaW50ZW5kZWQgdG8gYmUgY2FsbGVkIGJ5IHRoZSBk
+ZXZpY2UgbW1hcCBtZXRob2QuCj4gLSAqIGlmIHRoZSBkZXZpY2UgYWRkcmVzcyBzcGFjZSBpcyB0
+byBiZSBiYWNrZWQgYnkgdGhlIGJvIG1hbmFnZXIuCj4gLSAqLwo+IC1pbnQgdHRtX2JvX21tYXAo
+c3RydWN0IGZpbGUgKmZpbHAsIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLAo+IC0JCXN0cnVj
+dCB0dG1fZGV2aWNlICpiZGV2KTsKPiAtCj4gICAvKioKPiAgICAqIHR0bV9ib19pbwo+ICAgICoK
+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9kZXZpY2UuaCBiL2luY2x1ZGUvZHJt
+L3R0bS90dG1fZGV2aWNlLmgKPiBpbmRleCA3YzhmODdiZDUyZDMuLmNkNTkyZjhlOTQxYiAxMDA2
+NDQKPiAtLS0gYS9pbmNsdWRlL2RybS90dG0vdHRtX2RldmljZS5oCj4gKysrIGIvaW5jbHVkZS9k
+cm0vdHRtL3R0bV9kZXZpY2UuaAo+IEBAIC0xNjEsMjEgKzE2MSw2IEBAIHN0cnVjdCB0dG1fZGV2
+aWNlX2Z1bmNzIHsKPiAgIAkJICAgIHN0cnVjdCB0dG1fcmVzb3VyY2UgKm5ld19tZW0sCj4gICAJ
+CSAgICBzdHJ1Y3QgdHRtX3BsYWNlICpob3ApOwo+ICAgCj4gLQkvKioKPiAtCSAqIHN0cnVjdCB0
+dG1fYm9fZHJpdmVyX21lbWJlciB2ZXJpZnlfYWNjZXNzCj4gLQkgKgo+IC0JICogQGJvOiBQb2lu
+dGVyIHRvIGEgYnVmZmVyIG9iamVjdC4KPiAtCSAqIEBmaWxwOiBQb2ludGVyIHRvIGEgc3RydWN0
+IGZpbGUgdHJ5aW5nIHRvIGFjY2VzcyB0aGUgb2JqZWN0Lgo+IC0JICoKPiAtCSAqIENhbGxlZCBm
+cm9tIHRoZSBtYXAgLyB3cml0ZSAvIHJlYWQgbWV0aG9kcyB0byB2ZXJpZnkgdGhhdCB0aGUKPiAt
+CSAqIGNhbGxlciBpcyBwZXJtaXR0ZWQgdG8gYWNjZXNzIHRoZSBidWZmZXIgb2JqZWN0Lgo+IC0J
+ICogVGhpcyBtZW1iZXIgbWF5IGJlIHNldCB0byBOVUxMLCB3aGljaCB3aWxsIHJlZnVzZSB0aGlz
+IGtpbmQgb2YKPiAtCSAqIGFjY2VzcyBmb3IgYWxsIGJ1ZmZlciBvYmplY3RzLgo+IC0JICogVGhp
+cyBmdW5jdGlvbiBzaG91bGQgcmV0dXJuIDAgaWYgYWNjZXNzIGlzIGdyYW50ZWQsIC1FUEVSTSBv
+dGhlcndpc2UuCj4gLQkgKi8KPiAtCWludCAoKnZlcmlmeV9hY2Nlc3MpKHN0cnVjdCB0dG1fYnVm
+ZmVyX29iamVjdCAqYm8sCj4gLQkJCSAgICAgc3RydWN0IGZpbGUgKmZpbHApOwo+IC0KPiAgIAkv
+KioKPiAgIAkgKiBIb29rIHRvIG5vdGlmeSBkcml2ZXIgYWJvdXQgYSByZXNvdXJjZSBkZWxldGUu
+Cj4gICAJICovCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
