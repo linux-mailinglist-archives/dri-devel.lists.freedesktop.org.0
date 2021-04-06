@@ -2,55 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFFDC354E26
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 09:51:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C698354EAD
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 10:30:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3B556E0AF;
-	Tue,  6 Apr 2021 07:51:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8D8C6E7D1;
+	Tue,  6 Apr 2021 08:29:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3270C6E0AF
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Apr 2021 07:51:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 3CAC5613C4
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Apr 2021 07:51:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617695508;
- bh=pawKX3D1vC6Xp4cgvWZ1Tmsok4+NDebnCQ9nxuUvywo=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=KsYA0QNCkBwt41y6gp1FwP8TJ1Gauc79L1RUSyxnA1z2hdJsTKx69ftl4X7bIpi85
- 2tALWCXQNLEBudMZat5vchNURZU25n78i2pBJC8DaRWvc5Atw822jdOKBdcoCeoJ18
- 4rrzpg1QN0gnJsFx8JQ7nrmdGvG9CDVT1n8vx01rYiXE1Iz/33On3pYOVaDzEzOuwV
- TNHnhCx8ZbopWawFGpWxU3bfMV4GPgguQj8u4JTJlsW7OzN1tzk8GjcsxBGGf0HbFX
- kRxEyzrhlp0C5MMs9t3I3Wh8MeFBre/5hShcZ9HhvSTHgi4jP8dHICYOfU0PYF8A4r
- TRooZTxWYMbEQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 37CC8610F9; Tue,  6 Apr 2021 07:51:48 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 200695] Blank screen on RX 580 with amdgpu.dc=1 enabled (no
- displays detected)
-Date: Tue, 06 Apr 2021 07:51:47 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: farshad@7d.nz
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-200695-2300-ByE30rYTqw@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-200695-2300@https.bugzilla.kernel.org/>
-References: <bug-200695-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC2A889F2D;
+ Tue,  6 Apr 2021 08:29:45 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 6199FB089;
+ Tue,  6 Apr 2021 08:29:44 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, bskeggs@redhat.com, kraxel@redhat.com
+Subject: [PATCH 0/4] drm: Generic dumb_map_offset for TTM-based drivers
+Date: Tue,  6 Apr 2021 10:29:38 +0200
+Message-Id: <20210406082942.24049-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,44 +36,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: nouveau@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=200695
+The implementation of drm_driver.dumb_map_offset is the same for several
+TTM-based drivers. Provide a common function in GEM-TTM helpers.
 
-farshad (farshad@7d.nz) changed:
+Thomas Zimmermann (4):
+  drm/gem-ttm-helper: Provide helper for struct
+    drm_driver.dumb_map_offset
+  drm/vram-helper: Use drm_gem_ttm_dumb_map_offset()
+  drm/nouveau: Use drm_gem_ttm_dumb_map_offset()
+  drm/qxl: Use drm_gem_ttm_dumb_map_offset()
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |farshad@7d.nz
+ drivers/gpu/drm/drm_gem_ttm_helper.c      | 33 ++++++++++++++++
+ drivers/gpu/drm/drm_gem_vram_helper.c     | 48 -----------------------
+ drivers/gpu/drm/nouveau/nouveau_display.c | 18 ---------
+ drivers/gpu/drm/nouveau/nouveau_display.h |  2 -
+ drivers/gpu/drm/nouveau/nouveau_drm.c     |  3 +-
+ drivers/gpu/drm/qxl/qxl_drv.c             |  3 +-
+ drivers/gpu/drm/qxl/qxl_drv.h             |  3 --
+ drivers/gpu/drm/qxl/qxl_dumb.c            | 17 --------
+ drivers/gpu/drm/qxl/qxl_ioctl.c           |  4 +-
+ drivers/gpu/drm/qxl/qxl_object.h          |  5 ---
+ include/drm/drm_gem_ttm_helper.h          |  5 ++-
+ include/drm/drm_gem_vram_helper.h         |  7 +---
+ 12 files changed, 45 insertions(+), 103 deletions(-)
 
---- Comment #49 from farshad (farshad@7d.nz) ---
-Had the same problem 
-on a Dell Latitude 5410 
-with a Lexa Radeon E9171 MCM
-and linux kernel 4.19.0.13 (Debian Buster),
+--
+2.30.2
 
-Read it's still and issue with 4.20-rc5
-
-*Now operational with a kernel 5.11*
-default options.
-
-The Lexa serie is in the RX540, RX550 550X et RX550X range,
-(sold 80$ en 2017)
-
-DRM was loading followed by 
-ACPI error, field tmpb at bot offset exceed size of target buffer...
-method parse/execution failed SB.PCIO.GFX0.ATRM, AE_AML_BUFFER_LIMIT
-Error message was :
-Error DC : number of connector is zero
-
--- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
