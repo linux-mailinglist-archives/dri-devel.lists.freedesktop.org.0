@@ -2,32 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23D4354F8E
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 11:09:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD8BF354FFA
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 11:33:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C8A56E808;
-	Tue,  6 Apr 2021 09:09:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6D4289DB7;
+	Tue,  6 Apr 2021 09:33:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 476506E7EA;
- Tue,  6 Apr 2021 09:09:11 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C99A7B2FA;
- Tue,  6 Apr 2021 09:09:09 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
- daniel@ffwll.ch, bskeggs@redhat.com, ray.huang@amd.com,
- linux-graphics-maintainer@vmware.com, sroland@vmware.com, zackr@vmware.com,
- shashank.sharma@amd.com, sam@ravnborg.org, emil.velikov@collabora.com,
- Felix.Kuehling@amd.com, nirmoy.das@amd.com
-Subject: [PATCH 8/8] drm/ttm: Remove ttm_bo_mmap() and friends
-Date: Tue,  6 Apr 2021 11:09:03 +0200
-Message-Id: <20210406090903.7019-9-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210406090903.7019-1-tzimmermann@suse.de>
-References: <20210406090903.7019-1-tzimmermann@suse.de>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF8A289DB7;
+ Tue,  6 Apr 2021 09:33:37 +0000 (UTC)
+IronPort-SDR: 3vfA3i00V9cDqgzBaNdvQG0LUR85ffYTaaoKEhhrth14WGkJxr33M+hbPwe3QwUuWMHX6rkww0
+ YP5G9LqFktng==
+X-IronPort-AV: E=McAfee;i="6000,8403,9945"; a="257016056"
+X-IronPort-AV: E=Sophos;i="5.81,309,1610438400"; d="scan'208";a="257016056"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Apr 2021 02:33:34 -0700
+IronPort-SDR: yNx+NRizR5mkR8GcZPzlI8J7Pj0MjByUv03J9PMpLpN8+8z9CtxNE4aHX/zeWYKFAFUMA0T4x4
+ hC15JwVa90TA==
+X-IronPort-AV: E=Sophos;i="5.81,309,1610438400"; d="scan'208";a="457817452"
+Received: from oowomilo-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.249.33.55])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Apr 2021 02:33:03 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH] pwm: Rename pwm_get_state() to better reflect its semantic
+In-Reply-To: <20210406073036.26857-1-u.kleine-koenig@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210406073036.26857-1-u.kleine-koenig@pengutronix.de>
+Date: Tue, 06 Apr 2021 12:32:58 +0300
+Message-ID: <87tuojlpv9.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,148 +48,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ linux-clk@vger.kernel.org, Alexandre Torgue <alexandre.torgue@st.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Chen-Yu Tsai <wens@csie.org>, linux-stm32@st-md-mailman.stormreply.com,
+ linux-rockchip@lists.infradead.org,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-input@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-pwm@vger.kernel.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Mark Brown <broonie@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Fabrice Gasnier <fabrice.gasnier@st.com>, linux-arm-kernel@lists.infradead.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Stephen Boyd <sboyd@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, linux-kernel@vger.kernel.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Claudiu Beznea <claudiu.beznea@microchip.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function ttm_bo_mmap is unused. Remove it and it's helpers; including
-the verify_access callback in struct ttm_device_funcs.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/ttm/ttm_bo_vm.c | 53 ---------------------------------
- include/drm/ttm/ttm_bo_api.h    | 13 --------
- include/drm/ttm/ttm_device.h    | 15 ----------
- 3 files changed, 81 deletions(-)
-
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-index bf4a213bc66c..6cd352399941 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-@@ -508,30 +508,6 @@ static const struct vm_operations_struct ttm_bo_vm_ops = {
- 	.access = ttm_bo_vm_access,
- };
- 
--static struct ttm_buffer_object *ttm_bo_vm_lookup(struct ttm_device *bdev,
--						  unsigned long offset,
--						  unsigned long pages)
--{
--	struct drm_vma_offset_node *node;
--	struct ttm_buffer_object *bo = NULL;
--
--	drm_vma_offset_lock_lookup(bdev->vma_manager);
--
--	node = drm_vma_offset_lookup_locked(bdev->vma_manager, offset, pages);
--	if (likely(node)) {
--		bo = container_of(node, struct ttm_buffer_object,
--				  base.vma_node);
--		bo = ttm_bo_get_unless_zero(bo);
--	}
--
--	drm_vma_offset_unlock_lookup(bdev->vma_manager);
--
--	if (!bo)
--		pr_err("Could not find buffer object to map\n");
--
--	return bo;
--}
--
- static void ttm_bo_mmap_vma_setup(struct ttm_buffer_object *bo, struct vm_area_struct *vma)
- {
- 	/*
-@@ -559,35 +535,6 @@ static void ttm_bo_mmap_vma_setup(struct ttm_buffer_object *bo, struct vm_area_s
- 	vma->vm_flags |= VM_IO | VM_DONTEXPAND | VM_DONTDUMP;
- }
- 
--int ttm_bo_mmap(struct file *filp, struct vm_area_struct *vma,
--		struct ttm_device *bdev)
--{
--	struct ttm_buffer_object *bo;
--	int ret;
--
--	if (unlikely(vma->vm_pgoff < DRM_FILE_PAGE_OFFSET_START))
--		return -EINVAL;
--
--	bo = ttm_bo_vm_lookup(bdev, vma->vm_pgoff, vma_pages(vma));
--	if (unlikely(!bo))
--		return -EINVAL;
--
--	if (unlikely(!bo->bdev->funcs->verify_access)) {
--		ret = -EPERM;
--		goto out_unref;
--	}
--	ret = bo->bdev->funcs->verify_access(bo, filp);
--	if (unlikely(ret != 0))
--		goto out_unref;
--
--	ttm_bo_mmap_vma_setup(bo, vma);
--	return 0;
--out_unref:
--	ttm_bo_put(bo);
--	return ret;
--}
--EXPORT_SYMBOL(ttm_bo_mmap);
--
- int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_object *bo)
- {
- 	ttm_bo_get(bo);
-diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-index 2155e2e38aec..6e35680ac01b 100644
---- a/include/drm/ttm/ttm_bo_api.h
-+++ b/include/drm/ttm/ttm_bo_api.h
-@@ -522,19 +522,6 @@ void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct dma_buf_map *map);
-  */
- int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_object *bo);
- 
--/**
-- * ttm_bo_mmap - mmap out of the ttm device address space.
-- *
-- * @filp:      filp as input from the mmap method.
-- * @vma:       vma as input from the mmap method.
-- * @bdev:      Pointer to the ttm_device with the address space manager.
-- *
-- * This function is intended to be called by the device mmap method.
-- * if the device address space is to be backed by the bo manager.
-- */
--int ttm_bo_mmap(struct file *filp, struct vm_area_struct *vma,
--		struct ttm_device *bdev);
--
- /**
-  * ttm_bo_io
-  *
-diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
-index 7c8f87bd52d3..cd592f8e941b 100644
---- a/include/drm/ttm/ttm_device.h
-+++ b/include/drm/ttm/ttm_device.h
-@@ -161,21 +161,6 @@ struct ttm_device_funcs {
- 		    struct ttm_resource *new_mem,
- 		    struct ttm_place *hop);
- 
--	/**
--	 * struct ttm_bo_driver_member verify_access
--	 *
--	 * @bo: Pointer to a buffer object.
--	 * @filp: Pointer to a struct file trying to access the object.
--	 *
--	 * Called from the map / write / read methods to verify that the
--	 * caller is permitted to access the buffer object.
--	 * This member may be set to NULL, which will refuse this kind of
--	 * access for all buffer objects.
--	 * This function should return 0 if access is granted, -EPERM otherwise.
--	 */
--	int (*verify_access)(struct ttm_buffer_object *bo,
--			     struct file *filp);
--
- 	/**
- 	 * Hook to notify driver about a resource delete.
- 	 */
--- 
-2.30.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAwNiBBcHIgMjAyMSwgVXdlIEtsZWluZS1Lw7ZuaWcgPHUua2xlaW5lLWtvZW5pZ0Bw
+ZW5ndXRyb25peC5kZT4gd3JvdGU6Cj4gR2l2ZW4gdGhhdCBsb3dsZXZlbCBkcml2ZXJzIHVzdWFs
+bHkgY2Fubm90IGltcGxlbWVudCBleGFjdGx5IHdoYXQgYQo+IGNvbnN1bWVyIHJlcXVlc3RzIHdp
+dGggcHdtX2FwcGx5X3N0YXRlKCkgdGhlcmUgaXMgc29tZSByb3VuZGluZyBpbnZvbHZlZC4KPgo+
+IHB3bV9nZXRfc3RhdGUoKSB0cmFkaXRpb25hbGx5IHJldHVybmVkIHRoZSBzZXR0aW5nIHRoYXQg
+d2FzIHJlcXVlc3RlZCBtb3N0Cj4gcmVjZW50bHkgYnkgdGhlIGNvbnN1bWVyIChvcHBvc2VkIHRv
+IHdoYXQgd2FzIGFjdHVhbGx5IGltcGxlbWVudGVkIGluCj4gaGFyZHdhcmUgaW4gcmVwbHkgdG8g
+dGhlIGxhc3QgcmVxdWVzdCkuIFRvIG1ha2UgdGhpcyBzZW1hbnRpYyBvYnZpb3VzCj4gcmVuYW1l
+IHRoZSBmdW5jdGlvbi4KPgo+IFNpZ25lZC1vZmYtYnk6IFV3ZSBLbGVpbmUtS8O2bmlnIDx1Lmts
+ZWluZS1rb2VuaWdAcGVuZ3V0cm9uaXguZGU+Cj4gLS0tCgo+ICBkcml2ZXJzL2dwdS9kcm0vaTkx
+NS9kaXNwbGF5L2ludGVsX3BhbmVsLmMgfCAgNCArLS0KCkFja2VkLWJ5OiBKYW5pIE5pa3VsYSA8
+amFuaS5uaWt1bGFAaW50ZWwuY29tPgoKCi0tIApKYW5pIE5pa3VsYSwgSW50ZWwgT3BlbiBTb3Vy
+Y2UgR3JhcGhpY3MgQ2VudGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbAo=
