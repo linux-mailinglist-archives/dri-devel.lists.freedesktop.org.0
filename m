@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35301354EAC
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 10:30:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45ECB354EAE
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 10:30:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A77CF6E7F5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 013F06E7E6;
 	Tue,  6 Apr 2021 08:29:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD98A6E5CD;
- Tue,  6 Apr 2021 08:29:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 170CD89F2D;
+ Tue,  6 Apr 2021 08:29:47 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 504EAB0BF;
+ by mx2.suse.de (Postfix) with ESMTP id A7C12B134;
  Tue,  6 Apr 2021 08:29:45 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com, bskeggs@redhat.com, kraxel@redhat.com
-Subject: [PATCH 3/4] drm/nouveau: Use drm_gem_ttm_dumb_map_offset()
-Date: Tue,  6 Apr 2021 10:29:41 +0200
-Message-Id: <20210406082942.24049-4-tzimmermann@suse.de>
+Subject: [PATCH 4/4] drm/qxl: Use drm_gem_ttm_dumb_map_offset()
+Date: Tue,  6 Apr 2021 10:29:42 +0200
+Message-Id: <20210406082942.24049-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210406082942.24049-1-tzimmermann@suse.de>
 References: <20210406082942.24049-1-tzimmermann@suse.de>
@@ -46,76 +46,109 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Nouveau now uses drm_gem_ttm_dumb_map_offset() to implement
-struct drm_driver.dumb_map_offset.
+Qxl now uses drm_gem_ttm_dumb_map_offset() to implement struct
+drm_driver.dumb_map_offset.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/nouveau/nouveau_display.c | 18 ------------------
- drivers/gpu/drm/nouveau/nouveau_display.h |  2 --
- drivers/gpu/drm/nouveau/nouveau_drm.c     |  3 ++-
- 3 files changed, 2 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/qxl/qxl_drv.c    |  3 ++-
+ drivers/gpu/drm/qxl/qxl_drv.h    |  3 ---
+ drivers/gpu/drm/qxl/qxl_dumb.c   | 17 -----------------
+ drivers/gpu/drm/qxl/qxl_ioctl.c  |  4 ++--
+ drivers/gpu/drm/qxl/qxl_object.h |  5 -----
+ 5 files changed, 4 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
-index dac02c7be54d..14101bd2a0ff 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-@@ -838,21 +838,3 @@ nouveau_display_dumb_create(struct drm_file *file_priv, struct drm_device *dev,
- 	drm_gem_object_put(&bo->bo.base);
- 	return ret;
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
+index 1864467f1063..db92eec07d96 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.c
++++ b/drivers/gpu/drm/qxl/qxl_drv.c
+@@ -37,6 +37,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_file.h>
++#include <drm/drm_gem_ttm_helper.h>
+ #include <drm/drm_modeset_helper.h>
+ #include <drm/drm_prime.h>
+ #include <drm/drm_probe_helper.h>
+@@ -271,7 +272,7 @@ static struct drm_driver qxl_driver = {
+ 	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+ 
+ 	.dumb_create = qxl_mode_dumb_create,
+-	.dumb_map_offset = qxl_mode_dumb_mmap,
++	.dumb_map_offset = drm_gem_ttm_dumb_map_offset,
+ #if defined(CONFIG_DEBUG_FS)
+ 	.debugfs_init = qxl_debugfs_init,
+ #endif
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
+index 6dd57cfb2e7c..20a0f3ab84ad 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.h
++++ b/drivers/gpu/drm/qxl/qxl_drv.h
+@@ -330,9 +330,6 @@ void qxl_bo_force_delete(struct qxl_device *qdev);
+ int qxl_mode_dumb_create(struct drm_file *file_priv,
+ 			 struct drm_device *dev,
+ 			 struct drm_mode_create_dumb *args);
+-int qxl_mode_dumb_mmap(struct drm_file *filp,
+-		       struct drm_device *dev,
+-		       uint32_t handle, uint64_t *offset_p);
+ 
+ /* qxl ttm */
+ int qxl_ttm_init(struct qxl_device *qdev);
+diff --git a/drivers/gpu/drm/qxl/qxl_dumb.c b/drivers/gpu/drm/qxl/qxl_dumb.c
+index 48a58ba1db96..a635d9fdf8ac 100644
+--- a/drivers/gpu/drm/qxl/qxl_dumb.c
++++ b/drivers/gpu/drm/qxl/qxl_dumb.c
+@@ -69,20 +69,3 @@ int qxl_mode_dumb_create(struct drm_file *file_priv,
+ 	args->handle = handle;
+ 	return 0;
  }
 -
--int
--nouveau_display_dumb_map_offset(struct drm_file *file_priv,
--				struct drm_device *dev,
--				uint32_t handle, uint64_t *poffset)
+-int qxl_mode_dumb_mmap(struct drm_file *file_priv,
+-		       struct drm_device *dev,
+-		       uint32_t handle, uint64_t *offset_p)
 -{
--	struct drm_gem_object *gem;
+-	struct drm_gem_object *gobj;
+-	struct qxl_bo *qobj;
 -
--	gem = drm_gem_object_lookup(file_priv, handle);
--	if (gem) {
--		struct nouveau_bo *bo = nouveau_gem_object(gem);
--		*poffset = drm_vma_node_offset_addr(&bo->bo.base.vma_node);
--		drm_gem_object_put(gem);
--		return 0;
--	}
--
--	return -ENOENT;
+-	BUG_ON(!offset_p);
+-	gobj = drm_gem_object_lookup(file_priv, handle);
+-	if (gobj == NULL)
+-		return -ENOENT;
+-	qobj = gem_to_qxl_bo(gobj);
+-	*offset_p = qxl_bo_mmap_offset(qobj);
+-	drm_gem_object_put(gobj);
+-	return 0;
 -}
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.h b/drivers/gpu/drm/nouveau/nouveau_display.h
-index 616c43427059..2ab2ddb1eadf 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.h
-@@ -58,8 +58,6 @@ bool nouveau_display_scanoutpos(struct drm_crtc *crtc,
+diff --git a/drivers/gpu/drm/qxl/qxl_ioctl.c b/drivers/gpu/drm/qxl/qxl_ioctl.c
+index b6075f452b9e..38aabcbe2238 100644
+--- a/drivers/gpu/drm/qxl/qxl_ioctl.c
++++ b/drivers/gpu/drm/qxl/qxl_ioctl.c
+@@ -67,8 +67,8 @@ static int qxl_map_ioctl(struct drm_device *dev, void *data,
+ 	struct qxl_device *qdev = to_qxl(dev);
+ 	struct drm_qxl_map *qxl_map = data;
  
- int  nouveau_display_dumb_create(struct drm_file *, struct drm_device *,
- 				 struct drm_mode_create_dumb *args);
--int  nouveau_display_dumb_map_offset(struct drm_file *, struct drm_device *,
--				     u32 handle, u64 *offset);
+-	return qxl_mode_dumb_mmap(file_priv, &qdev->ddev, qxl_map->handle,
+-				  &qxl_map->offset);
++	return drm_gem_ttm_dumb_map_offset(file_priv, &qdev->ddev, qxl_map->handle,
++					   &qxl_map->offset);
+ }
  
- void nouveau_hdmi_mode_set(struct drm_encoder *, struct drm_display_mode *);
+ struct qxl_reloc_info {
+diff --git a/drivers/gpu/drm/qxl/qxl_object.h b/drivers/gpu/drm/qxl/qxl_object.h
+index ee9c29de4d3d..cee4b52b75dd 100644
+--- a/drivers/gpu/drm/qxl/qxl_object.h
++++ b/drivers/gpu/drm/qxl/qxl_object.h
+@@ -53,11 +53,6 @@ static inline unsigned long qxl_bo_size(struct qxl_bo *bo)
+ 	return bo->tbo.base.size;
+ }
  
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 885815ea917f..9766218a99ca 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -31,6 +31,7 @@
- #include <linux/mmu_notifier.h>
- 
- #include <drm/drm_crtc_helper.h>
-+#include <drm/drm_gem_ttm_helper.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_vblank.h>
- 
-@@ -1212,7 +1213,7 @@ driver_stub = {
- 	.gem_prime_import_sg_table = nouveau_gem_prime_import_sg_table,
- 
- 	.dumb_create = nouveau_display_dumb_create,
--	.dumb_map_offset = nouveau_display_dumb_map_offset,
-+	.dumb_map_offset = drm_gem_ttm_dumb_map_offset,
- 
- 	.name = DRIVER_NAME,
- 	.desc = DRIVER_DESC,
+-static inline u64 qxl_bo_mmap_offset(struct qxl_bo *bo)
+-{
+-	return drm_vma_node_offset_addr(&bo->tbo.base.vma_node);
+-}
+-
+ extern int qxl_bo_create(struct qxl_device *qdev,
+ 			 unsigned long size,
+ 			 bool kernel, bool pinned, u32 domain,
 -- 
 2.30.2
 
