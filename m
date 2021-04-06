@@ -1,63 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E347835605D
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 02:34:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 506213563DA
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 08:23:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68AC36E03C;
-	Wed,  7 Apr 2021 00:34:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94C126E06B;
+	Wed,  7 Apr 2021 06:23:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2E776E03C
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Apr 2021 00:34:18 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id r8so8077639lfp.10
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Apr 2021 17:34:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=acgMnWshKo2qHEqQO12CZW0f1ufeHa9EX/5nU3oUNsQ=;
- b=lcv4aqeZyGO/ZZI05AYasNM4ItGj5gFvBl3zYHle1z4O2Pv0P5oPG6WoGdMjC8qdf+
- nLCIdEXIGf7Ta03j928FfLJSJ144+YgBOyTWluyNZi1F/LplPZGbt8abDhv0B2nmkLv8
- SimmsLx68Tk5ymhn123aRy6y+0pLFWNIVCB3A=
+X-Greylist: delayed 360 seconds by postgrey-1.36 at gabe;
+ Tue, 06 Apr 2021 23:41:25 UTC
+Received: from mta-p6.oit.umn.edu (mta-p6.oit.umn.edu [134.84.196.206])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52EA16E029
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Apr 2021 23:41:25 +0000 (UTC)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-p6.oit.umn.edu (Postfix) with ESMTP id 4FFP5m4ZlVz9vBth
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Apr 2021 23:35:24 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p6.oit.umn.edu ([127.0.0.1])
+ by localhost (mta-p6.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id te5MddeWZ8z4 for <dri-devel@lists.freedesktop.org>;
+ Tue,  6 Apr 2021 18:35:24 -0500 (CDT)
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mta-p6.oit.umn.edu (Postfix) with ESMTPS id 4FFP5m2x0sz9vBtf
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Apr 2021 18:35:23 -0500 (CDT)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p6.oit.umn.edu 4FFP5m2x0sz9vBtf
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p6.oit.umn.edu 4FFP5m2x0sz9vBtf
+Received: by mail-il1-f198.google.com with SMTP id f14so12654837ilr.21
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Apr 2021 16:35:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JFBsXOVlHHjdSzZeWJyJvvBdMued/K0xOEkGtWU402Q=;
+ b=jw0JK6OAT3hKXrthWczTi8kJcQy2JrposNHUiEHoienPromNuX/6FDiFYTdHNKtFwO
+ IuZ1sVYvgK7ysivr4tQcIvOpxT7R2k45lK8OCc1Kq8CiYi2aqfag7FK2nQ/TATZkvFuB
+ TyRJms8yqv928MC35tBPy00HM3O8AbwScP0OAiPv3R/yaKb9ExXiFxZRlvTb7qEVsNgq
+ 2vo9FwBN7/Osc73xCQYo+aMRBo5xhEvh/pyaCrGz/Iyslz5Gg+mo4bdedc6aC536kvr6
+ XoZ8Wb1OkX+FJVOAWs1phd/Tj0byJiuyLKvd8rdWz1RRJpcMfhM9BZsYZjXbsdD8EPx2
+ eHhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=acgMnWshKo2qHEqQO12CZW0f1ufeHa9EX/5nU3oUNsQ=;
- b=FyrumdwwyH+I8tI7OUEQn3D3n92ZMgVvfbjpC4LjmE8IjIDju4GElbBgeD/mTmEDMx
- A3uZVCEeUtbLaYaM7Ts2uY79Mq+b3zWu7/b5uJcTlqx0aTvCtki1aJEr1LnMitcCDSad
- Cb8zXiyUgmwNi9mwJarK0V6E1j4q+42EXbuWVFo8HSLRV1DGnoaax6V1AkETuJU6i1iu
- MjmTDK/WB79pJTfUUNo6RuKQ2ffFe+gcUcoFtbVy9d47rRL9PQE2bIiLERbJFmckrQRI
- F2yxbaFxqyc+Cbr8gR652/hgcUaj3he/iC1fHp3wIm40TrbGxq7Bn6/nzB3NoLqI6iHH
- xpqg==
-X-Gm-Message-State: AOAM531r1mL1eMQ7tg4C6i+gsNhNszP6PGbomVdNlhU2xSDCSzDmfJTn
- gQHOjhmXFn8RqmE4Fu1+DEyxD9t3af49Asy/
-X-Google-Smtp-Source: ABdhPJzFKA40C/kIkwYOijrSVNOt71RLl/8GAkXICy8Vz3EIdh4hFbA3ZXwCspIgSu/0rolpCuKyJw==
-X-Received: by 2002:a05:6512:38d2:: with SMTP id
- p18mr569459lft.323.1617755656873; 
- Tue, 06 Apr 2021 17:34:16 -0700 (PDT)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com.
- [209.85.167.54])
- by smtp.gmail.com with ESMTPSA id t17sm2367739lfe.30.2021.04.06.17.34.16
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Apr 2021 17:34:16 -0700 (PDT)
-Received: by mail-lf1-f54.google.com with SMTP id b4so25602148lfi.6
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Apr 2021 17:34:16 -0700 (PDT)
-X-Received: by 2002:ac2:568b:: with SMTP id 11mr555845lfr.509.1617755655784;
- Tue, 06 Apr 2021 17:34:15 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JFBsXOVlHHjdSzZeWJyJvvBdMued/K0xOEkGtWU402Q=;
+ b=mdY9bhQJpf/yEaeOtbfBHTcBXcgpZocrySuf68LZ22vCFrgFOMCLau/0oPhA9+JX6W
+ e9Epf91UHQj0vgejaAlZh+zgdDDW0r51PQlJsdNe4O37ZfYifGOBoKZjDW83ZzHV97lf
+ pxEOPTUkvlqt/+npMACR5Yd5wlErE4Lm8rZrqvgkxHU9uDFBSUfeHzGEldNQqCIQrXwo
+ XdFBAiarIRfvrSBQycgste60qZAJassRcdf1M7z1+9iAenJQTqvJ3527NHcXs1f3SHpz
+ 3PnjcaQgNNG8H3xnmwrVPLQrQvpcr//p4vcOH3sawwn5ViWnCwUZ1paH2IWA6oXkGj4J
+ oAsw==
+X-Gm-Message-State: AOAM530rGKhoAmOHTW63VWReOEjm36ScaS/qfq8R80KfLaCHP/6gF+Ns
+ MssfSIio+RZrkiBaI3vrzXR1VlOOPiEb7lPV57upBRBqzSEEQeXVpWtL2B2kBZaSGotEBtAv8QI
+ 4cfN9Eb16LXM2yWgjbbnWBrDFIOwcwqNx
+X-Received: by 2002:a05:6e02:1a24:: with SMTP id
+ g4mr541658ile.56.1617752123132; 
+ Tue, 06 Apr 2021 16:35:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzaO3ytfZodkyajwuLbl1Y4fWouzIS2WVmGek9UP7t+cDJ+s7ZY5VtwQFZ3Q8QArUTuCz1zEw==
+X-Received: by 2002:a05:6e02:1a24:: with SMTP id
+ g4mr541645ile.56.1617752122966; 
+ Tue, 06 Apr 2021 16:35:22 -0700 (PDT)
+Received: from syssec1.cs.umn.edu ([2607:ea00:101:3c74:6ecd:6512:5d03:eeb6])
+ by smtp.googlemail.com with ESMTPSA id
+ h128sm14399373ioa.32.2021.04.06.16.35.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Apr 2021 16:35:22 -0700 (PDT)
+From: Aditya Pakki <pakki001@umn.edu>
+To: pakki001@umn.edu
+Subject: [PATCH] video: fbdev: sm501fb:  Fix deallocation of buffers order
+Date: Tue,  6 Apr 2021 18:35:17 -0500
+Message-Id: <20210406233519.2205389-1-pakki001@umn.edu>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210401065324.vb44nfodohcgrdex@sirius.home.kraxel.org>
- <20210406203625.1727955-1-vivek.kasireddy@intel.com>
-In-Reply-To: <20210406203625.1727955-1-vivek.kasireddy@intel.com>
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Tue, 6 Apr 2021 17:34:03 -0700
-X-Gmail-Original-Message-ID: <CAAfnVB=NUjUUUcABQhR3AhQPtdDu9uHZCsi+9Q90babp2AfOpg@mail.gmail.com>
-Message-ID: <CAAfnVB=NUjUUUcABQhR3AhQPtdDu9uHZCsi+9Q90babp2AfOpg@mail.gmail.com>
-Subject: Re: [PATCH] drm/virtio: Create Dumb BOs as guest Blobs (v2)
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+X-Mailman-Approved-At: Wed, 07 Apr 2021 06:23:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,234 +88,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0995844294=="
+Cc: linux-fbdev@vger.kernel.org, kjlu@umn.edu,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0995844294==
-Content-Type: multipart/alternative; boundary="00000000000032d32505bf571711"
+The resource release in sm501fb_remove() is not in the inverse order of
+sm501fb_probe(), for the buffers. Release the info object after
+deallocating the buffers.
 
---00000000000032d32505bf571711
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Aditya Pakki <pakki001@umn.edu>
+---
+ drivers/video/fbdev/sm501fb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Tue, Apr 6, 2021 at 1:47 PM Vivek Kasireddy <vivek.kasireddy@intel.com>
-wrote:
-
-> If support for Blob resources is available, then dumb BOs created
-> by the driver can be considered as guest Blobs.
->
-> v2: Don't skip transfer and flush commands as part of plane update
-> as the device may have created a shared mapping. (Gerd)
->
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_gem.c    | 8 ++++++++
->  drivers/gpu/drm/virtio/virtgpu_object.c | 3 +++
->  2 files changed, 11 insertions(+)
->
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c
-> b/drivers/gpu/drm/virtio/virtgpu_gem.c
-> index 8502400b2f9c..5f49fb1cce65 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_gem.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
-> @@ -64,6 +64,7 @@ int virtio_gpu_mode_dumb_create(struct drm_file
-> *file_priv,
->  {
->         struct drm_gem_object *gobj;
->         struct virtio_gpu_object_params params = { 0 };
-> +       struct virtio_gpu_device *vgdev = dev->dev_private;
->         int ret;
->         uint32_t pitch;
->
-> @@ -79,6 +80,13 @@ int virtio_gpu_mode_dumb_create(struct drm_file
-> *file_priv,
->         params.height = args->height;
->         params.size = args->size;
->         params.dumb = true;
-> +
-> +       if (vgdev->has_resource_blob) {
-> +               params.blob_mem = VIRTGPU_BLOB_MEM_GUEST;
-> +               params.blob_flags = VIRTGPU_BLOB_FLAG_USE_SHAREABLE;
->
-
-This creates some log spam with crosvm + virgl_3d + vanilla linux, since
-transfers don't work for guest blobs.  Two options:
-
-a) Add vgdev->has_virgl_3d check and don't create a guest blob in that case.
-b) The interactions between TRANSFER_TO_HOST_2D and VIRTGPU_BLOB_MEM_GUEST
-are a bit under-defined in the spec.  Though since you don't have a host
-side resource, you can safely skip the transfer and crosvm can be modified
-to do the right thing in case of RESOURCE_FLUSH.
-
-It makes a ton of sense to have a explicit udmabuf-like flag
-("BLOB_FLAG_CREATE_GUEST_HANDLE" or "BLOB_FLAG_HANDLE_FROM_GUEST" -- want
-to host OS agnostic -- any other ideas?), especially with 3d mode.  For
-now, implicit udmabuf + dumb should be fine since the QEMU patches have
-been floating around for a while and should land soon for future use cases.
-
-
-
-> +               params.blob = true;
-> +       }
->
-
-
-
-> +
->         ret = virtio_gpu_gem_create(file_priv, dev, &params, &gobj,
->                                     &args->handle);
->         if (ret)
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c
-> b/drivers/gpu/drm/virtio/virtgpu_object.c
-> index 4ff1ec28e630..f648b0e24447 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-> @@ -254,6 +254,9 @@ int virtio_gpu_object_create(struct virtio_gpu_device
-> *vgdev,
->         }
->
->         if (params->blob) {
-> +               if (params->blob_mem == VIRTGPU_BLOB_MEM_GUEST)
-> +                       bo->guest_blob = true;
-> +
->                 virtio_gpu_cmd_resource_create_blob(vgdev, bo, params,
->                                                     ents, nents);
->         } else if (params->virgl) {
-> --
-> 2.26.2
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
-
---00000000000032d32505bf571711
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Apr 6, 2021 at 1:47 PM Vivek =
-Kasireddy &lt;<a href=3D"mailto:vivek.kasireddy@intel.com" target=3D"_blank=
-">vivek.kasireddy@intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">If support for Blob resources is available, then=
- dumb BOs created<br>
-by the driver can be considered as guest Blobs.<br>
-<br>
-v2: Don&#39;t skip transfer and flush commands as part of plane update<br>
-as the device may have created a shared mapping. (Gerd)<br>
-<br>
-Cc: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank=
-">kraxel@redhat.com</a>&gt;<br>
-Signed-off-by: Vivek Kasireddy &lt;<a href=3D"mailto:vivek.kasireddy@intel.=
-com" target=3D"_blank">vivek.kasireddy@intel.com</a>&gt;<br>
----<br>
-=C2=A0drivers/gpu/drm/virtio/virtgpu_gem.c=C2=A0 =C2=A0 | 8 ++++++++<br>
-=C2=A0drivers/gpu/drm/virtio/virtgpu_object.c | 3 +++<br>
-=C2=A02 files changed, 11 insertions(+)<br>
-<br>
-diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/=
-virtgpu_gem.c<br>
-index 8502400b2f9c..5f49fb1cce65 100644<br>
---- a/drivers/gpu/drm/virtio/virtgpu_gem.c<br>
-+++ b/drivers/gpu/drm/virtio/virtgpu_gem.c<br>
-@@ -64,6 +64,7 @@ int virtio_gpu_mode_dumb_create(struct drm_file *file_pri=
-v,<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_gem_object *gobj;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct virtio_gpu_object_params params =3D { 0 =
-};<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct virtio_gpu_device *vgdev =3D dev-&gt;dev=
-_private;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t pitch;<br>
-<br>
-@@ -79,6 +80,13 @@ int virtio_gpu_mode_dumb_create(struct drm_file *file_pr=
-iv,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 params.height =3D args-&gt;height;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 params.size =3D args-&gt;size;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 params.dumb =3D true;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (vgdev-&gt;has_resource_blob) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0params.blob_mem =3D=
- VIRTGPU_BLOB_MEM_GUEST;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0params.blob_flags =
-=3D VIRTGPU_BLOB_FLAG_USE_SHAREABLE;<br></blockquote><div><br></div><div>Th=
-is creates some log spam with crosvm=C2=A0+ virgl_3d + vanilla linux, since=
- transfers don&#39;t work for guest blobs.=C2=A0 Two options:</div><div><br=
-></div><div>a) Add vgdev-&gt;has_virgl_3d check and don&#39;t create a gues=
-t blob in that case.</div><div>b) The interactions between TRANSFER_TO_HOST=
-_2D and VIRTGPU_BLOB_MEM_GUEST are a bit under-defined in the spec.=C2=A0 T=
-hough since you don&#39;t have a host side resource, you can safely skip th=
-e transfer and crosvm can be modified to do the right thing in case of RESO=
-URCE_FLUSH.=C2=A0=C2=A0</div><div><br></div><div>It makes a ton of sense to=
- have a explicit udmabuf-like flag (&quot;BLOB_FLAG_CREATE_GUEST_HANDLE&quo=
-t; or &quot;BLOB_FLAG_HANDLE_FROM_GUEST&quot; -- want to host OS agnostic -=
-- any other ideas?), especially with 3d mode.=C2=A0 For now, implicit udmab=
-uf + dumb should be fine since the QEMU patches have been floating around f=
-or a while and should land soon for future use cases.<br></div><div><br></d=
-iv><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0params.blob =3D tru=
-e;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br></blockquote><div><br></div><div>=C2=A0</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D virtio_gpu_gem_create(file_priv, dev, &=
-amp;params, &amp;gobj,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;args-&gt;handle);=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret)<br>
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virt=
-io/virtgpu_object.c<br>
-index 4ff1ec28e630..f648b0e24447 100644<br>
---- a/drivers/gpu/drm/virtio/virtgpu_object.c<br>
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c<br>
-@@ -254,6 +254,9 @@ int virtio_gpu_object_create(struct virtio_gpu_device *=
-vgdev,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (params-&gt;blob) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (params-&gt;blob=
-_mem =3D=3D VIRTGPU_BLOB_MEM_GUEST)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0bo-&gt;guest_blob =3D true;<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 virtio_gpu_cmd_reso=
-urce_create_blob(vgdev, bo, params,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ents, nents);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (params-&gt;virgl) {<br>
--- <br>
-2.26.2<br>
-<br>
-_______________________________________________<br>
-dri-devel mailing list<br>
-<a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_blank">dri-de=
-vel@lists.freedesktop.org</a><br>
-<a href=3D"https://lists.freedesktop.org/mailman/listinfo/dri-devel" rel=3D=
-"noreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/listin=
-fo/dri-devel</a><br>
-</blockquote></div></div>
-
---00000000000032d32505bf571711--
-
---===============0995844294==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/video/fbdev/sm501fb.c b/drivers/video/fbdev/sm501fb.c
+index 6a52eba64559..4c32c9e88850 100644
+--- a/drivers/video/fbdev/sm501fb.c
++++ b/drivers/video/fbdev/sm501fb.c
+@@ -2060,11 +2060,11 @@ static int sm501fb_remove(struct platform_device *pdev)
+ 		unregister_framebuffer(fbinfo_pnl);
+ 
+ 	sm501fb_stop(info);
+-	kfree(info);
+ 
+ 	framebuffer_release(fbinfo_pnl);
+ 	framebuffer_release(fbinfo_crt);
+ 
++	kfree(info);
+ 	return 0;
+ }
+ 
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0995844294==--
